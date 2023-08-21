@@ -1,31 +1,38 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C5FA4A31
-	for <linux-sunxi@lists.linux.dev>; Mon, 21 Aug 2023 15:47:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 232DEC433C7;
-	Mon, 21 Aug 2023 15:47:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1692632861;
-	bh=OdLn/5VwnPYcOVsCm+SxsCuQhbrbLAaRF11wH0pSOb0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=s8fNMQA1Zn7WVe+BgPARVdchTxIZUalr5+U+um1aPXWS+g2QJrjG/cSgcnKkH6nad
-	 Ao1kq5R5JP3ezKEMdOXe26B+4Mc3xUPExkE43BUDSPa0KlY4mGJDjdwiJ4MypcCQqe
-	 pVel4Pm45bgEf+jrZy+zlJklXuvseyMMR6nthiYRiQZRcVZFXf3zEAmFHH592Z4b/3
-	 YSlpmd8X9eM57Bn93I7P6j8rzwKt287aP8GJ96LZp9IM8s75CXQtN2kIemw+K5m5eB
-	 SVLNvWi7r4Y6JpJjj+O4u2d6cIFfhyuorRdJWxDxzy3iM3Gyq7EnNrDQzeuN1gqygi
-	 HTXykkslXktjA==
-Received: (nullmailer pid 1722819 invoked by uid 1000);
-	Mon, 21 Aug 2023 15:47:39 -0000
-Date: Mon, 21 Aug 2023 10:47:39 -0500
-From: Rob Herring <robh@kernel.org>
-To: Maksim Kiselev <bigunclemax@gmail.com>
-Cc: linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Maxime Ripard <mripard@kernel.org>, alsa-devel@alsa-project.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v1 2/5] ASoC: dt-bindings: Add schema for
- "allwinner,sun20i-d1-codec-analog"
-Message-ID: <20230821154739.GA1720453-robh@kernel.org>
-References: <20230805180506.718364-1-bigunclemax@gmail.com>
- <20230805180506.718364-3-bigunclemax@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 933BA8BE2
+	for <linux-sunxi@lists.linux.dev>; Mon, 21 Aug 2023 16:14:09 +0000 (UTC)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+	id 1B1061C0004; Mon, 21 Aug 2023 18:08:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+	t=1692634105;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=G3h+5K3nJFrTdEYrbKtvLLhmyVimLfcmMypOuvflm9I=;
+	b=G0rEhsFGBHKL2nFBgNm+Rf8na9z+iQKQRMHPuzcaTtc2Khb7ceMeRn8flR9cImjCxb1Gl/
+	AjZtb/QrqwzsonZ8PGWu5e/1T6FL8oQZFhFjdK2beISHkLub19hFD0o/hydgMYgqX6HqbS
+	yHdpl9SYYeYl6QXgLtnkA6cAPfUlCic=
+Date: Mon, 21 Aug 2023 18:08:17 +0200
+From: Pavel Machek <pavel@ucw.cz>
+To: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+Cc: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Kees Cook <keescook@chromium.org>, Tony Luck <tony.luck@intel.com>,
+	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org,
+	Jarrah Gosbell <kernel@undef.tools>,
+	Arnaud Ferraris <arnaud.ferraris@collabora.com>
+Subject: Re: [PATCH] arm64: dts: pinephone: Add pstore support for PinePhone
+ A64
+Message-ID: <20230821160817.GA2227@bug>
+References: <20230724213457.24593-1-andrej.skvortzov@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -34,19 +41,52 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230805180506.718364-3-bigunclemax@gmail.com>
+In-Reply-To: <20230724213457.24593-1-andrej.skvortzov@gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 
-On Sat, Aug 05, 2023 at 09:05:02PM +0300, Maksim Kiselev wrote:
-> Add a DT schema to describe the analog part of the Allwinner D1/T113s
-> internal audio codec.
+Hi!
+
+> This patch reserves some memory in the DTS and sets up a
+> pstore device tree node to enable pstore support.
 > 
-> Signed-off-by: Maksim Kiselev <bigunclemax@gmail.com>
+> Signed-off-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+> 
+> Gbp-Pq: Topic pinephone
+> Gbp-Pq: Name 0161-arm64-dts-pinephone-Add-pstore-support-for-PinePhone.patch
 > ---
->  .../allwinner,sun20i-d1-codec-analog.yaml     | 33 +++++++++++++++++++
->  1 file changed, 33 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/sound/allwinner,sun20i-d1-codec-analog.yaml
+>  .../boot/dts/allwinner/sun50i-a64-pinephone.dtsi | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> index 87847116ab6d..84f9410b0b70 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> @@ -19,6 +19,22 @@ aliases {
+>  		serial0 = &uart0;
+>  	};
+>  
+> +	reserved-memory {
+> +		#address-cells = <1>;
+> +		#size-cells = <1>;
+> +		ranges;
+> +
+> +		pstore_mem: ramoops@61000000 {
+> +			compatible = "ramoops";
+> +			reg = <0x61000000 0x100000>;
+> +			record-size = <0x20000>;
+> +			console-size = <0x20000>;
+> +			ftrace-size = <0x20000>;
+> +			pmsg-size = <0x20000>;
+> +			ecc-size = <16>;
+> +		};
+> +	};
 
-Looks the same as allwinner,sun8i-a23-codec-analog.yaml. Why can't you 
-use that?
+dts is supposed to be for hardware description, but this is really policy decision.
 
-Rob
+Should we have something like "any dram is suitable for pstore"....?
+
+Best regards,
+										Pavel
+-- 
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
