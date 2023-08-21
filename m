@@ -1,15 +1,15 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9941C1112
-	for <linux-sunxi@lists.linux.dev>; Mon, 21 Aug 2023 03:18:04 +0000 (UTC)
-Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.54])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4RTcyk6d6XzNmyS;
-	Mon, 21 Aug 2023 11:14:22 +0800 (CST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E39A9136F
+	for <linux-sunxi@lists.linux.dev>; Mon, 21 Aug 2023 03:18:05 +0000 (UTC)
+Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.56])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4RTcyb5stCztRjV;
+	Mon, 21 Aug 2023 11:14:15 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by kwepemi500012.china.huawei.com
  (7.221.188.12) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Mon, 21 Aug
- 2023 11:17:55 +0800
+ 2023 11:17:56 +0800
 From: Li Zetao <lizetao1@huawei.com>
 To: <miquel.raynal@bootlin.com>
 CC: <alexandre.torgue@foss.st.com>, <angelogioacchino.delregno@collabora.com>,
@@ -26,9 +26,9 @@ CC: <alexandre.torgue@foss.st.com>, <angelogioacchino.delregno@collabora.com>,
 	<samuel@sholland.org>, <stefan@agner.ch>, <tudor.ambarus@linaro.org>,
 	<u.kleine-koenig@pengutronix.de>, <vigneshr@ti.com>, <vz@mleia.com>,
 	<wens@csie.org>, <yangyingliang@huawei.com>
-Subject: [PATCH -next v3 02/12] mtd: rawnand: arasan: Use helper function devm_clk_get_enabled()
-Date: Mon, 21 Aug 2023 11:17:27 +0800
-Message-ID: <20230821031737.1973183-3-lizetao1@huawei.com>
+Subject: [PATCH -next v3 03/12] mtd: rawnand: fsmc: Use helper function devm_clk_get_enabled()
+Date: Mon, 21 Aug 2023 11:17:28 +0800
+Message-ID: <20230821031737.1973183-4-lizetao1@huawei.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230821031737.1973183-1-lizetao1@huawei.com>
 References: <20230818101004.4f2cd343@xps-13>
@@ -50,85 +50,70 @@ Since commit 7ef9651e9792 ("clk: Provide new devm_clk helpers for prepared
 and enabled clocks"), devm_clk_get() and clk_prepare_enable() can now be
 replaced by devm_clk_get_enabled() when driver enables (and possibly
 prepares) the clocks for the whole lifetime of the device. Moreover, it is
-no longer necessary to unprepare and disable the clocks explicitly, so drop
-the label "disable_bus_clk" and "disable_controller_clk".
+no longer necessary to unprepare and disable the clocks explicitly. The
+label "disable_clk" no longer makes sense, rename it to "disable_fsmc".
 
 Reviewed-by: Miquel Raynal <miquel.raynal@bootlin.com>
 Signed-off-by: Li Zetao <lizetao1@huawei.com>
 ---
 v2 -> v3: Modify the syntax error in the commit message.
-v2: https://lore.kernel.org/all/20230818074642.308166-3-lizetao1@huawei.com/
-v1 -> v2: Modify commit message.
-v1: https://lore.kernel.org/all/20230817024509.3951629-3-lizetao1@huawei.com/
+v2: https://lore.kernel.org/all/20230818074642.308166-4-lizetao1@huawei.com/
+v1 -> v2: Modify commit message and rename the label "disable_clk" to "disable_fsmc"
+v1: https://lore.kernel.org/all/20230817024509.3951629-4-lizetao1@huawei.com/
 
- drivers/mtd/nand/raw/arasan-nand-controller.c | 29 ++++---------------
- 1 file changed, 5 insertions(+), 24 deletions(-)
+ drivers/mtd/nand/raw/fsmc_nand.c | 12 +++---------
+ 1 file changed, 3 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/mtd/nand/raw/arasan-nand-controller.c b/drivers/mtd/nand/raw/arasan-nand-controller.c
-index 906eef70cb6d..4621ec549cc7 100644
---- a/drivers/mtd/nand/raw/arasan-nand-controller.c
-+++ b/drivers/mtd/nand/raw/arasan-nand-controller.c
-@@ -1440,45 +1440,29 @@ static int anfc_probe(struct platform_device *pdev)
+diff --git a/drivers/mtd/nand/raw/fsmc_nand.c b/drivers/mtd/nand/raw/fsmc_nand.c
+index 7b4742420dfc..7d587284c9a5 100644
+--- a/drivers/mtd/nand/raw/fsmc_nand.c
++++ b/drivers/mtd/nand/raw/fsmc_nand.c
+@@ -1066,16 +1066,12 @@ static int __init fsmc_nand_probe(struct platform_device *pdev)
+ 	host->regs_va = base + FSMC_NOR_REG_SIZE +
+ 		(host->bank * FSMC_NAND_BANK_SZ);
  
- 	anfc_reset(nfc);
+-	host->clk = devm_clk_get(&pdev->dev, NULL);
++	host->clk = devm_clk_get_enabled(&pdev->dev, NULL);
+ 	if (IS_ERR(host->clk)) {
+ 		dev_err(&pdev->dev, "failed to fetch block clock\n");
+ 		return PTR_ERR(host->clk);
+ 	}
  
--	nfc->controller_clk = devm_clk_get(&pdev->dev, "controller");
-+	nfc->controller_clk = devm_clk_get_enabled(&pdev->dev, "controller");
- 	if (IS_ERR(nfc->controller_clk))
- 		return PTR_ERR(nfc->controller_clk);
- 
--	nfc->bus_clk = devm_clk_get(&pdev->dev, "bus");
-+	nfc->bus_clk = devm_clk_get_enabled(&pdev->dev, "bus");
- 	if (IS_ERR(nfc->bus_clk))
- 		return PTR_ERR(nfc->bus_clk);
- 
--	ret = clk_prepare_enable(nfc->controller_clk);
+-	ret = clk_prepare_enable(host->clk);
 -	if (ret)
 -		return ret;
 -
--	ret = clk_prepare_enable(nfc->bus_clk);
--	if (ret)
--		goto disable_controller_clk;
--
- 	ret = dma_set_mask(&pdev->dev, DMA_BIT_MASK(64));
- 	if (ret)
--		goto disable_bus_clk;
-+		return ret;
+ 	/*
+ 	 * This device ID is actually a common AMBA ID as used on the
+ 	 * AMBA PrimeCell bus. However it is not a PrimeCell.
+@@ -1111,7 +1107,7 @@ static int __init fsmc_nand_probe(struct platform_device *pdev)
+ 		if (!host->read_dma_chan) {
+ 			dev_err(&pdev->dev, "Unable to get read dma channel\n");
+ 			ret = -ENODEV;
+-			goto disable_clk;
++			goto disable_fsmc;
+ 		}
+ 		host->write_dma_chan = dma_request_channel(mask, filter, NULL);
+ 		if (!host->write_dma_chan) {
+@@ -1155,9 +1151,8 @@ static int __init fsmc_nand_probe(struct platform_device *pdev)
+ release_dma_read_chan:
+ 	if (host->mode == USE_DMA_ACCESS)
+ 		dma_release_channel(host->read_dma_chan);
+-disable_clk:
++disable_fsmc:
+ 	fsmc_nand_disable(host);
+-	clk_disable_unprepare(host->clk);
  
- 	ret = anfc_parse_cs(nfc);
- 	if (ret)
--		goto disable_bus_clk;
-+		return ret;
- 
- 	ret = anfc_chips_init(nfc);
- 	if (ret)
--		goto disable_bus_clk;
-+		return ret;
- 
- 	platform_set_drvdata(pdev, nfc);
- 
- 	return 0;
--
--disable_bus_clk:
--	clk_disable_unprepare(nfc->bus_clk);
--
--disable_controller_clk:
--	clk_disable_unprepare(nfc->controller_clk);
--
--	return ret;
+ 	return ret;
+ }
+@@ -1182,7 +1177,6 @@ static void fsmc_nand_remove(struct platform_device *pdev)
+ 			dma_release_channel(host->write_dma_chan);
+ 			dma_release_channel(host->read_dma_chan);
+ 		}
+-		clk_disable_unprepare(host->clk);
+ 	}
  }
  
- static void anfc_remove(struct platform_device *pdev)
-@@ -1486,9 +1470,6 @@ static void anfc_remove(struct platform_device *pdev)
- 	struct arasan_nfc *nfc = platform_get_drvdata(pdev);
- 
- 	anfc_chips_cleanup(nfc);
--
--	clk_disable_unprepare(nfc->bus_clk);
--	clk_disable_unprepare(nfc->controller_clk);
- }
- 
- static const struct of_device_id anfc_ids[] = {
 -- 
 2.34.1
 
