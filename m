@@ -1,87 +1,95 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D83B2018C;
-	Tue, 22 Aug 2023 21:00:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF9C1C433C8;
-	Tue, 22 Aug 2023 21:00:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58A1D2019C
+	for <linux-sunxi@lists.linux.dev>; Tue, 22 Aug 2023 22:31:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3BDAC433C7
+	for <linux-sunxi@lists.linux.dev>; Tue, 22 Aug 2023 22:31:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1692738036;
-	bh=Bfl9Q+5PUYbGX93gC/p5dsy9+HHVDK69a8BX8HMEtCU=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=GZpOGvaIQjPh2lkGmj4jrgl7PGiUtpu6L07cneYELTEjIgB8Hz1gzNwk2c9ObPAmq
-	 viXdFFEbVNOD43Gz6sCjHQZxQg2e7OAsXHdD+UyK/NKk2j7zavpWtjgyY3YFxBAuUD
-	 C5fTdTtWEBm/Czz5ibqpn8wVDDdGM4w+3QQD9eLk02gSAZZ/ZASO+1gq+pRPVfL/g6
-	 0CJ6lGLxQyjRE+GQwlQ81qbXHjZLqOlRNZzGVBv0zyniq/nrtBm6+rbslW53DAMctp
-	 K1pnfey+QNClhJ3zugG68htX/BGAUZW0g8Wva8QEjsr86rP7rP3X/BOzWOYRu6JmnN
-	 IIym9YlDIldXQ==
-Message-ID: <cb4f740cd5bcb6c9b19ce970d8573388.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1692743491;
+	bh=c+z7Y44NmFLsYnIuor2AQkl3u9PUP11lx1AoXxt7Aw0=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=nS7aLPz6XlfCfDidZdEnCtvI4nk3gcO/5OpKzg5muURwot9sVMGoPMJUWOQd0T24Z
+	 84JE7PTqbNKUXryr3fjjR4JRK6m8cHWmNi14o+EX+ZA3YttQLosTcTsEw8AR0Spc1m
+	 uRSXN4Z7Lw1GPvwT/dvMc1UsX9MGYu1v12BoSShD7ht0x6+ir8JA4SrFW2/X213D55
+	 qix4skVmgE8T3UBmzqiBQ8sYKpUjTdm7RKfcs0CiiXnmsCIyGzQ1goz+7Frseydur/
+	 NNqhKzuT41T0ZCFBw7qAiP7H1SAsltJXGF4bKDZ9V11R6hCjhU0dUMp+gH+cmKosDN
+	 GrlhOhdwuOI/A==
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2bcb89b476bso47294551fa.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 22 Aug 2023 15:31:31 -0700 (PDT)
+X-Gm-Message-State: AOJu0Ywu7Hn3sBR4+6zdEpv5xDTY9rsAjy3yyrcn7Y6uqq7mq3xhMw1b
+	RKvc0dBw29FLbvYNe8PrCdbpZEc6lnlCt4pV4A==
+X-Google-Smtp-Source: AGHT+IFe521jhURKdbA7Y+o7DBBih8popF4ErXWCXScc9IMyiU+HU6o3tc/tpyLacfb62wdw0QFMTW5RLTmaYXsFchM=
+X-Received: by 2002:a2e:380a:0:b0:2b6:d13a:8e34 with SMTP id
+ f10-20020a2e380a000000b002b6d13a8e34mr7897705lja.46.1692743469060; Tue, 22
+ Aug 2023 15:31:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+References: <20230803-dt-header-cleanups-for-soc-v2-0-d8de2cc88bff@kernel.org>
+ <20230803-dt-header-cleanups-for-soc-v2-21-d8de2cc88bff@kernel.org> <5696647.DvuYhMxLoT@jernej-laptop>
+In-Reply-To: <5696647.DvuYhMxLoT@jernej-laptop>
+From: Rob Herring <robh@kernel.org>
+Date: Tue, 22 Aug 2023 17:30:55 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+Ssha5KdBdJ+7c3cxuy+VqWRUjSa=YM78gKi5mZAwvgQ@mail.gmail.com>
+Message-ID: <CAL_Jsq+Ssha5KdBdJ+7c3cxuy+VqWRUjSa=YM78gKi5mZAwvgQ@mail.gmail.com>
+Subject: Re: [PATCH v2 21/23] soc: sunxi: Explicitly include correct DT includes
+To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
+List-Id: <soc.lore.kernel.org>
+Cc: soc@kernel.org, Patrice Chotard <patrice.chotard@foss.st.com>, 
+	Tsahee Zidenberg <tsahee@annapurnalabs.com>, Antoine Tenart <atenart@kernel.org>, 
+	Jisheng Zhang <jszhang@kernel.org>, 
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Andrew Lunn <andrew@lunn.ch>, 
+	Gregory Clement <gregory.clement@bootlin.com>, Jean-Marie Verdun <verdun@hpe.com>, 
+	Nick Hawkins <nick.hawkins@hpe.com>, Lubomir Rintel <lkundrak@v3.sk>, 
+	Linus Walleij <linus.walleij@linaro.org>, Avi Fishman <avifishman70@gmail.com>, 
+	Tomer Maimon <tmaimon77@gmail.com>, Tali Perry <tali.perry1@gmail.com>, 
+	Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>, 
+	Benjamin Fair <benjaminfair@google.com>, Daniel Mack <daniel@zonque.org>, 
+	Haojian Zhuang <haojian.zhuang@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>, 
+	Heiko Stuebner <heiko@sntech.de>, Liviu Dudau <liviu.dudau@arm.com>, 
+	Sudeep Holla <sudeep.holla@arm.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Viresh Kumar <vireshk@kernel.org>, Shiraz Has him <shiraz.linux.kernel@gmail.com>, 
+	Stuart Yoder <stuyoder@gmail.com>, Laurentiu Tudor <laurentiu.tudor@nxp.com>, 
+	Jay Fang <f.fangjian@huawei.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Samuel Holland <samuel@sholland.org>, Cristian Marussi <cristian.marussi@arm.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, Dinh Nguyen <dinguyen@kernel.org>, 
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Michal Simek <michal.simek@amd.com>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>, 
+	Ulf Hansson <ulf.hansson@linaro.org>, Li Yang <leoyang.li@nxp.com>, 
+	Qiang Zhao <qiang.zhao@nxp.com>, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org, 
+	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, 
+	linux-tegra@vger.kernel.org, linux-aspeed@lists.ozlabs.org, 
+	linux-pm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20230817203019.never.795-kees@kernel.org>
-References: <20230817203019.never.795-kees@kernel.org>
-Subject: Re: [PATCH] clk: Annotate struct clk_hw_onecell_data with __counted_by
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: Kees Cook <keescook@chromium.org>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>, Taichi Sugaya <sugaya.taichi@socionext.com>, Takao Orito <orito.takao@socionext.com>, Qin Jian <qinjian@cqplus1.com>, Andrew Lunn <andrew@lunn.ch>, Gregory Clement <gregory.clement@bootlin.com>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, Sergio Paracuellos <sergio.paracuellos@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Samuel Holland <samuel@sholland.org>, Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-aspe
- ed@lists.ozlabs.org, linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev, linux-phy@lists.infradead.org, Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org, llvm@lists.linux.dev, linux-hardening@vger.kernel.org
-To: Kees Cook <keescook@chromium.org>, Michael Turquette <mturquette@baylibre.com>
-Date: Tue, 22 Aug 2023 14:00:34 -0700
-User-Agent: alot/0.10
 
-Quoting Kees Cook (2023-08-17 13:30:22)
-> Prepare for the coming implementation by GCC and Clang of the __counted_by
-> attribute. Flexible array members annotated with __counted_by can have
-> their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
-> (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
-> functions).
->=20
-> As found with Coccinelle[1], add __counted_by for struct clk_hw_onecell_d=
-ata.
-> Additionally, since the element count member must be set before accessing
-> the annotated flexible array member, move its initialization earlier.
->=20
-> [1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/c=
-ounted_by.cocci
->=20
-> Cc: Michael Turquette <mturquette@baylibre.com>
-> Cc: Stephen Boyd <sboyd@kernel.org>
-> Cc: Joel Stanley <joel@jms.id.au>
-> Cc: Andrew Jeffery <andrew@aj.id.au>
-> Cc: Taichi Sugaya <sugaya.taichi@socionext.com>
-> Cc: Takao Orito <orito.takao@socionext.com>
-> Cc: Qin Jian <qinjian@cqplus1.com>
-> Cc: Andrew Lunn <andrew@lunn.ch>
-> Cc: Gregory Clement <gregory.clement@bootlin.com>
-> Cc: Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>
-> Cc: Andy Gross <agross@kernel.org>
-> Cc: Bjorn Andersson <andersson@kernel.org>
-> Cc: Konrad Dybcio <konrad.dybcio@linaro.org>
-> Cc: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-> Cc: Matthias Brugger <matthias.bgg@gmail.com>
-> Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Chen-Yu Tsai <wens@csie.org>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Samuel Holland <samuel@sholland.org>
-> Cc: Vinod Koul <vkoul@kernel.org>
-> Cc: Kishon Vijay Abraham I <kishon@kernel.org>
-> Cc: linux-clk@vger.kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-aspeed@lists.ozlabs.org
-> Cc: linux-arm-msm@vger.kernel.org
-> Cc: linux-mediatek@lists.infradead.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-sunxi@lists.linux.dev
-> Cc: linux-phy@lists.infradead.org
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
+On Sun, Aug 6, 2023 at 6:42=E2=80=AFAM Jernej =C5=A0krabec <jernej.skrabec@=
+gmail.com> wrote:
+>
+> Dne petek, 04. avgust 2023 ob 00:43:01 CEST je Rob Herring napisal(a):
+> > The DT of_device.h and of_platform.h date back to the separate
+> > of_platform_bus_type before it as merged into the regular platform bus.
+> > As part of that merge prepping Arm DT support 13 years ago, they
+> > "temporarily" include each other. They also include platform_device.h
+> > and of.h. As a result, there's a pretty much random mix of those includ=
+e
+> > files used throughout the tree. In order to detangle these headers and
+> > replace the implicit includes with struct declarations, users need to
+> > explicitly include the correct includes.
+> >
+> > Signed-off-by: Rob Herring <robh@kernel.org>
+>
+> Applied to sunxi tree, thanks!
 
-Applied to clk-next
+Did you really? Doesn't look like this is in linux-next.
+
+Rob
