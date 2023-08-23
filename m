@@ -1,205 +1,115 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92FC0BA34
-	for <linux-sunxi@lists.linux.dev>; Wed, 23 Aug 2023 11:49:37 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6885F1042;
-	Wed, 23 Aug 2023 04:50:11 -0700 (PDT)
-Received: from [10.57.34.103] (unknown [10.57.34.103])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AD2403F64C;
-	Wed, 23 Aug 2023 04:49:26 -0700 (PDT)
-Message-ID: <0fdf4f0b-64e4-9831-36b8-a00d4cbd131a@arm.com>
-Date: Wed, 23 Aug 2023 12:49:20 +0100
+Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68C34C127
+	for <linux-sunxi@lists.linux.dev>; Wed, 23 Aug 2023 12:31:58 +0000 (UTC)
+Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-56cae50792fso556702eaf.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 23 Aug 2023 05:31:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692793917; x=1693398717;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3ApOaAU2C11Pn2qOxjg2kIqTJJ7VnWEqUmde/1TenZQ=;
+        b=dg1/pzIeL/s80BeEUQmEqEiiiM4ocb0DcN64me3OEXEjzkzNREsV6BHEvkYbU5zHoS
+         gsDyySUKXGlhFfKe2Lrp736N4581ELm8qHivGf2idtJAYckJYewLJfCKZTu6d51DWpXr
+         icFCSMKfmgcm5BcuKqEdgcLSqrSewy+UsKjmUscCwu728WwGiD2v34AFmLwAg+vLZAh2
+         wHK9zddokX7U0k+G86rs+tIS5Lqb5dzaiYGU17px22Pl6Ki+4KRNQG/j2hF+AIDaf+zn
+         IFdLV677nGBfczoDIU6o4M7xkUe6PyGpQTdoq2tMzzFXOsANCMcCGL2LLIhIOSeEfEDi
+         PbFw==
+X-Gm-Message-State: AOJu0Ywp6ib2rnnC/hjULyOJtdCxzwkbIxPKU/rFn3ONUnli42GjJh5S
+	JnYyvLTjLuPecvSE23PZlzGefnIlFOi8rj6Nlwg=
+X-Google-Smtp-Source: AGHT+IHhMwKmKIBwwvi/YmGkSAgu5efCUMytt4QejM22SViosU4j5VAi4fORzp0+24y420UMM8bLIkI7yh9A1hX+wbo=
+X-Received: by 2002:a4a:e741:0:b0:56e:94ed:c098 with SMTP id
+ n1-20020a4ae741000000b0056e94edc098mr12003584oov.0.1692793917062; Wed, 23 Aug
+ 2023 05:31:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v5 1/3] dt-bindings: pwm: Add binding for Allwinner
- D1/T113-S3/R329 PWM controller
-To: =?UTF-8?B?0JDQu9C10LrRgdCw0L3QtNGAINCo0YPQsdC40L0=?=
- <privatesub2@gmail.com>
-Cc: linux-kernel@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-riscv@lists.infradead.org
-References: <20230814133238.741950-1-privatesub2@gmail.com>
- <20230814133238.741950-2-privatesub2@gmail.com>
- <20230822104854.1fa5f1aa@donnerap.manchester.arm.com>
- <CAF4idNneb1=40mQC=593Tmy8_OUAGiL4ROjK2XyL2BA35vM_WA@mail.gmail.com>
-Content-Language: en-US
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <CAF4idNneb1=40mQC=593Tmy8_OUAGiL4ROjK2XyL2BA35vM_WA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230714175008.4064592-1-robh@kernel.org> <CAJZ5v0i-OByOSjpxrj5d9S9QHRySK-MEUo+bK_J_4ihsCBmnSg@mail.gmail.com>
+ <CAL_JsqLy22S5bTFu-ZKXhSMtMPPq9z1Gdb5kJMVmhui55miDsQ@mail.gmail.com>
+ <CAJZ5v0hM63nVphwkYK1bL4uf_dXSew2+LBuG9kuhvvLdrhLxAw@mail.gmail.com> <CAL_JsqJGoDPLKgu8awJfuWpqzg8HOuruDa1z4s-Swb7Cm5OaJw@mail.gmail.com>
+In-Reply-To: <CAL_JsqJGoDPLKgu8awJfuWpqzg8HOuruDa1z4s-Swb7Cm5OaJw@mail.gmail.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Wed, 23 Aug 2023 14:31:44 +0200
+Message-ID: <CAJZ5v0j2psZUYF1gYTK3G=+MdrLOg1QhOxENhSvWbvGcjzLizg@mail.gmail.com>
+Subject: Re: [PATCH] thermal: Explicitly include correct DT includes
+To: Rob Herring <robh@kernel.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Guillaume La Roque <glaroque@baylibre.com>, 
+	Daniel Lezcano <daniel.lezcano@linaro.org>, Amit Kucheria <amitk@kernel.org>, 
+	Zhang Rui <rui.zhang@intel.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Markus Mayer <mmayer@broadcom.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	NXP Linux Team <linux-imx@nxp.com>, Andy Gross <agross@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Thara Gopinath <thara.gopinath@gmail.com>, 
+	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+	Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Orson Zhai <orsonzhai@gmail.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, devicetree@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Wed, Aug 23, 2023 at 12:38=E2=80=AFAM Rob Herring <robh@kernel.org> wrot=
+e:
+>
+> On Thu, Jul 20, 2023 at 1:50=E2=80=AFPM Rafael J. Wysocki <rafael@kernel.=
+org> wrote:
+> >
+> > On Fri, Jul 14, 2023 at 9:53=E2=80=AFPM Rob Herring <robh@kernel.org> w=
+rote:
+> > >
+> > > On Fri, Jul 14, 2023 at 12:54=E2=80=AFPM Rafael J. Wysocki <rafael@ke=
+rnel.org> wrote:
+> > > >
+> > > > On Fri, Jul 14, 2023 at 7:51=E2=80=AFPM Rob Herring <robh@kernel.or=
+g> wrote:
+> > > > >
+> > > > > The DT of_device.h and of_platform.h date back to the separate
+> > > > > of_platform_bus_type before it as merged into the regular platfor=
+m bus.
+> > > > > As part of that merge prepping Arm DT support 13 years ago, they
+> > > > > "temporarily" include each other. They also include platform_devi=
+ce.h
+> > > > > and of.h. As a result, there's a pretty much random mix of those =
+include
+> > > > > files used throughout the tree. In order to detangle these header=
+s and
+> > > > > replace the implicit includes with struct declarations, users nee=
+d to
+> > > > > explicitly include the correct includes.
+> > > > >
+> > > > > Signed-off-by: Rob Herring <robh@kernel.org>
+> > > >
+> > > > Acked-by: Rafael J. Wysocki <rafael@kernel.org>
+> > > >
+> > > > or please let me know if you want me to pick this up.
+> > >
+> > > Single patch in your subsystem with no dependencies. Please pick it u=
+p.
+> >
+> > Done, thanks!
+>
+> I'm not seeing this in linux-next.
 
-On 23/08/2023 07:57, Александр Шубин wrote:
-> Hi Andre,
-> 
-> вт, 22 авг. 2023 г. в 12:49, Andre Przywara <andre.przywara@arm.com>:
->>
->> On Mon, 14 Aug 2023 16:32:16 +0300
->> Aleksandr Shubin <privatesub2@gmail.com> wrote:
->>
->> Hi Aleksandr,
->>
->>> Allwinner's D1, T113-S3 and R329 SoCs have a new pwm
->>> controller witch is different from the previous pwm-sun4i.
->>>
->>> The D1 and T113 are identical in terms of peripherals,
->>> they differ only in the architecture of the CPU core, and
->>> even share the majority of their DT. Because of that,
->>> using the same compatible makes sense.
->>> The R329 is a different SoC though, and should have
->>> a different compatible string added, especially as there
->>> is a difference in the number of channels.
->>>
->>> D1 and T113s SoCs have one PWM controller with 8 channels.
->>> R329 SoC has two PWM controllers in both power domains, one of
->>> them has 9 channels (CPUX one) and the other has 6 (CPUS one).
->>>
->>> Add a device tree binding for them.
->>>
->>> Signed-off-by: Aleksandr Shubin <privatesub2@gmail.com>
->>> ---
->>>   .../bindings/pwm/allwinner,sun20i-pwm.yaml    | 85 +++++++++++++++++++
->>>   1 file changed, 85 insertions(+)
->>>   create mode 100644 Documentation/devicetree/bindings/pwm/allwinner,sun20i-pwm.yaml
->>>
->>> diff --git a/Documentation/devicetree/bindings/pwm/allwinner,sun20i-pwm.yaml b/Documentation/devicetree/bindings/pwm/allwinner,sun20i-pwm.yaml
->>> new file mode 100644
->>> index 000000000000..9512d4bed322
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/pwm/allwinner,sun20i-pwm.yaml
->>> @@ -0,0 +1,85 @@
->>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>> +%YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/pwm/allwinner,sun20i-pwm.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: Allwinner D1, T113-S3 and R329 PWM
->>> +
->>> +maintainers:
->>> +  - Aleksandr Shubin <privatesub2@gmail.com>
->>> +
->>> +properties:
->>> +  compatible:
->>> +    oneOf:
->>> +      - const: allwinner,sun20i-d1-pwm
->>> +      - items:
->>> +          - const: allwinner,sun20i-r329-pwm
->>> +          - const: allwinner,sun20i-d1-pwm
->>> +
->>> +  reg:
->>> +    maxItems: 1
->>> +
->>> +  "#pwm-cells":
->>> +    const: 3
->>> +
->>> +  clocks:
->>> +    items:
->>> +      - description: 24 MHz oscillator
->>> +      - description: Bus Clock
->>
->> The manual tells me that the new PWMs can also use APB0 as the
->> input clock, which (finally!) allows PWM frequencies above 24 MHz.
->> So we should have an explicit reference to that clock - even if the bus
->> clock happens to be gated version of APB0.
-> 
-> Should I change it to something like this:
->      pwm: pwm@2000c00 {
->        compatible = "allwinner,sun20i-d1-pwm";
->        reg = <0x02000c00 0x400>;
->        clocks = <&ccu CLK_BUS_PWM>, <&dcxo>, <&ccu CLK_APB0>;
->        clock-names = "bus", "hosc", "apb0";
->        resets = <&ccu RST_BUS_PWM>;
->        #pwm-cells = <0x3>;
->      };
+f6a756e8fb12 thermal: Explicitly include correct DT includes
 
-Yes, that is what I had in mind!
-It shouldn't be too hard to add support for this in the driver as well.
-
-Thanks!
-Andre
-
-> 
->>
->> Cheers,
->> Andre
->>
->>> +
->>> +  clock-names:
->>> +    items:
->>> +      - const: hosc
->>> +      - const: bus
->>> +
->>> +  resets:
->>> +    maxItems: 1
->>> +
->>> +  allwinner,pwm-channels:
->>> +    $ref: /schemas/types.yaml#/definitions/uint32
->>> +    description: The number of PWM channels configured for this instance
->>> +    enum: [6, 9]
->>> +
->>> +allOf:
->>> +  - $ref: pwm.yaml#
->>> +
->>> +  - if:
->>> +      properties:
->>> +        compatible:
->>> +          contains:
->>> +            const: allwinner,sun20i-r329-pwm
->>> +
->>> +    then:
->>> +      required:
->>> +        - allwinner,pwm-channels
->>> +
->>> +    else:
->>> +      properties:
->>> +        allwinner,pwm-channels: false
->>> +
->>> +unevaluatedProperties: false
->>> +
->>> +required:
->>> +  - compatible
->>> +  - reg
->>> +  - "#pwm-cells"
->>> +  - clocks
->>> +  - clock-names
->>> +  - resets
->>> +
->>> +examples:
->>> +  - |
->>> +    #include <dt-bindings/clock/sun20i-d1-ccu.h>
->>> +    #include <dt-bindings/reset/sun20i-d1-ccu.h>
->>> +
->>> +    pwm: pwm@2000c00 {
->>> +      compatible = "allwinner,sun20i-d1-pwm";
->>> +      reg = <0x02000c00 0x400>;
->>> +      clocks = <&dcxo>, <&ccu CLK_BUS_PWM>;
->>> +      clock-names = "hosc", "bus";
->>> +      resets = <&ccu RST_BUS_PWM>;
->>> +      #pwm-cells = <0x3>;
->>> +    };
->>> +
->>> +...
->>
-> 
-> Cheers,
-> Aleksandr
-> 
+It's there in my linux-next branch (and in my thermal branch) and it
+should be there in linux-next too.
