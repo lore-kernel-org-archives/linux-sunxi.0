@@ -1,43 +1,43 @@
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7C7D200A9
-	for <linux-sunxi@lists.linux.dev>; Wed, 23 Aug 2023 21:26:05 +0000 (UTC)
-Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-3a88e1a5286so134293b6e.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 23 Aug 2023 14:26:05 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94F84200A6
+	for <linux-sunxi@lists.linux.dev>; Wed, 23 Aug 2023 21:26:07 +0000 (UTC)
+Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-3a5a7e7cd61so165234b6e.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 23 Aug 2023 14:26:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692825965; x=1693430765;
+        d=gmail.com; s=20221208; t=1692825966; x=1693430766;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PsnfB6igmvyfdO874DjSX4Ed+SZpuHTROoxrDZZ1WTU=;
-        b=mtyq3Tr5JuVhF2NGnGE3GgbIMP0hi09mfv5fTqjet3vk4ouy2DFHTILWF++F8C5FIW
-         GmFiAQLUT9n9qyozHZNZnwWtykPniXz0eupSTUQAS7ixRafibiU7+oC97tYDzh4ekrBQ
-         vyvEr0HE5tY8cYJ3sZWKJOTkpOs/bi/x8cFUrbQWOHr+dMOGsnK+U1ISSAC5huvkeO8p
-         JHOtcWrwz7gC1W37gk5ZI055nvehXmj0QrC31SJIVLGUMzp7b7UlRi1Z0eMWsyEm0XsE
-         4W9Xe8TvoTjt9IeK99p4ZAwtv5UTqrF2RFzk1g3o20mGeex7b0CrkNvwNBZRGdiKcnHl
-         cLww==
+        bh=LUbFm+fOmzrazp9sKgGhqqbV60lKK8Psc75Jfutf4LY=;
+        b=Hb/j/w9DqSkKcyLd9rKgOvHuEs2VTClPtpSA3sdjYKd3es6CSjdm8MGQDYwd2HQQGV
+         mkvPYdUAyX0vYFn+zjbu+e6fLyIU3nI++ryzDjPDqGV9spoCVLZ4dBdnu9++nfCJIOSj
+         rBX9tyqTz55UK9UFRqghGhZ1tY+3DwMJ1K249ijppg/DVGqgnRKk8llKkxdIp6/7TXEK
+         TOTrjA/w7g9PjTmK2cLtm/03t/DJfR2Umq6e8AEIf9BICobuguWYbL2IemfpVbfe3phc
+         ATU1yzR8XXmoV+huT1YrbSZi3Fv8ydr5OsKZroOETZ/96Y/QIq/Rvbk+/3TE82Af+7a5
+         LrSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692825965; x=1693430765;
+        d=1e100.net; s=20221208; t=1692825966; x=1693430766;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PsnfB6igmvyfdO874DjSX4Ed+SZpuHTROoxrDZZ1WTU=;
-        b=FIEU08oBjga6O7eLIkkYEUNSHTxe3eFiN1o7MEuBe74HpvPP9dv5Hgzx1ROrgRPwzY
-         r5UvPLjYyFNpmam5qGdf2bpXMjHyBUwYNu/fD+UZv3DSa8ZEpG/KUVdpKBqhyjMGcRSk
-         hLRcUoQMp9OmWFjze/HRd2wih7jQ9Z2rJ6116HdCKj19cMsVIgchNZ49txQL5XzfM8mO
-         E4+P8P/DJWqVkWDc/DG/OMK5o1zn1sYUZK5W8FvkJwMrGiy7/mMCM9d70M58ub2EoIUy
-         SaDCHAGPCzx21WbmpHrK1Inx53+bJzA3/Z+cL/hnrbbsj8RRUWB3jdBjIeMQnj59CJBH
-         EC1w==
-X-Gm-Message-State: AOJu0Yw/ZQCZwOsnYKxQqfMcJGOsi03tcICWUXLBqzeYtV9RYKKFiH4r
-	lTVXxPKFhLPBoqL4BnNiPNUBSzPquZYKLA==
-X-Google-Smtp-Source: AGHT+IHHbeCzCfqeEkofU4A2PRzYKfZNQvQiEpNoNmmQaEX8uUW2G6tE5V/nWzoJlZDBmgDWdrF8yw==
-X-Received: by 2002:a05:6808:1822:b0:3a0:3773:f294 with SMTP id bh34-20020a056808182200b003a03773f294mr21653465oib.8.1692825964773;
-        Wed, 23 Aug 2023 14:26:04 -0700 (PDT)
+        bh=LUbFm+fOmzrazp9sKgGhqqbV60lKK8Psc75Jfutf4LY=;
+        b=JsVPy1cFln5xZrpqFmJW9EKSv0pECsZUDj/PK5uOmg3lMLX1w8ScNR/rDwUQvoEPBO
+         y3msN39cqc3ctQ1bMvFKBTfLi5FIXn6vOX7BwhMXDVvXZ794+9eouWh4NbidohC/wr9R
+         sQaGuJSVLCPz2+tByk6F20bhVwExmC0q3qOd1WAU9AM7C89x3gkKOb+VMFw1jXbzAcCy
+         jdXQw19A/YWNBwjcOXED17G2fGZmjHlnQH2pqZyijUe8x2vtYWtnpXbk+5JhUjMBDhl4
+         sf7Ugm425oK5rcwt67PE9SPmGrCoQdZ7S1fR8Lu5tf20Uzhaq1eFpS1AJuv0NPVw00Dc
+         lETA==
+X-Gm-Message-State: AOJu0YzcbtEv2JskFPlX1uZbY5k7IvqNaDXZi54v9BIZZLRV1gfOlXJx
+	vMR72H/f7R3SfHQLUfxCJfiBhSMbF0e/sw==
+X-Google-Smtp-Source: AGHT+IHVRJKoTFQ8uIPo98eSBe+TlfALpm8H98CvemrVDCQWd4sAnPjYgvc1qscn7NGAuINEQEsBPA==
+X-Received: by 2002:a05:6808:1882:b0:3a7:46c4:e8cd with SMTP id bi2-20020a056808188200b003a746c4e8cdmr9304735oib.12.1692825966291;
+        Wed, 23 Aug 2023 14:26:06 -0700 (PDT)
 Received: from localhost.localdomain ([75.28.21.198])
-        by smtp.gmail.com with ESMTPSA id d26-20020a05680808fa00b003a1d29f0549sm771127oic.15.2023.08.23.14.26.04
+        by smtp.gmail.com with ESMTPSA id d26-20020a05680808fa00b003a1d29f0549sm771127oic.15.2023.08.23.14.26.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Aug 2023 14:26:04 -0700 (PDT)
+        Wed, 23 Aug 2023 14:26:06 -0700 (PDT)
 From: Chris Morgan <macroalpha82@gmail.com>
 To: linux-sunxi@lists.linux.dev
 Cc: devicetree@vger.kernel.org,
@@ -58,9 +58,9 @@ Cc: devicetree@vger.kernel.org,
 	krzysztof.kozlowski+dt@linaro.org,
 	robh+dt@kernel.org,
 	Chris Morgan <macromorgan@hotmail.com>
-Subject: [PATCH V3 4/8] dt-bindings: usb: Add V3s compatible string for EHCI
-Date: Wed, 23 Aug 2023 16:25:50 -0500
-Message-Id: <20230823212554.378403-5-macroalpha82@gmail.com>
+Subject: [PATCH V3 6/8] ARM: dts: sun8i: v3s: add EHCI and OHCI to v3s dts
+Date: Wed, 23 Aug 2023 16:25:52 -0500
+Message-Id: <20230823212554.378403-7-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230823212554.378403-1-macroalpha82@gmail.com>
 References: <20230823212554.378403-1-macroalpha82@gmail.com>
@@ -74,27 +74,44 @@ Content-Transfer-Encoding: 8bit
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-The Allwinner V3s uses a generic EHCI and OHCI for USB host
-communication and the MUSB controller for OTG mode. Add compatible
-strings for the EHCI node.
+Add the EHCI and OHCI controller to the Allwinner v3s to support using
+USB in host mode.
 
 Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 ---
- Documentation/devicetree/bindings/usb/generic-ehci.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/usb/generic-ehci.yaml b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
-index b956bb5fada7..f37191f21501 100644
---- a/Documentation/devicetree/bindings/usb/generic-ehci.yaml
-+++ b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
-@@ -38,6 +38,7 @@ properties:
-               - allwinner,sun8i-a83t-ehci
-               - allwinner,sun8i-h3-ehci
-               - allwinner,sun8i-r40-ehci
-+              - allwinner,sun8i-v3s-ehci
-               - allwinner,sun9i-a80-ehci
-               - allwinner,sun20i-d1-ehci
-               - aspeed,ast2400-ehci
+diff --git a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi b/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
+index c87476ea31e2..eb63dd274305 100644
+--- a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
++++ b/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
+@@ -319,6 +319,25 @@ usbphy: phy@1c19400 {
+ 			#phy-cells = <1>;
+ 		};
+ 
++		ehci: usb@1c1a000 {
++			compatible = "allwinner,sun8i-v3s-ehci", "generic-ehci";
++			reg = <0x01c1a000 0x100>;
++			interrupts = <GIC_SPI 72 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_EHCI0>, <&ccu CLK_BUS_OHCI0>;
++			resets = <&ccu RST_BUS_EHCI0>, <&ccu RST_BUS_OHCI0>;
++			status = "disabled";
++		};
++
++		ohci: usb@1c1a400 {
++			compatible = "allwinner,sun8i-v3s-ohci", "generic-ohci";
++			reg = <0x01c1a400 0x100>;
++			interrupts = <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_EHCI0>, <&ccu CLK_BUS_OHCI0>,
++				 <&ccu CLK_USB_OHCI0>;
++			resets = <&ccu RST_BUS_EHCI0>, <&ccu RST_BUS_OHCI0>;
++			status = "disabled";
++		};
++
+ 		ccu: clock@1c20000 {
+ 			compatible = "allwinner,sun8i-v3s-ccu";
+ 			reg = <0x01c20000 0x400>;
 -- 
 2.34.1
 
