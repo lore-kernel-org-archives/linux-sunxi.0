@@ -1,96 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 610BEC139
-	for <linux-sunxi@lists.linux.dev>; Wed, 23 Aug 2023 17:04:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8682DC433C7;
-	Wed, 23 Aug 2023 17:04:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1692810298;
-	bh=GXvD77XTaP2qkGbTvhgKUp5FtOuSXwU1zkqXZiEQM1s=;
-	h=From:To:Cc:Subject:Date:From;
-	b=WE09yDkO6iIhcAp2WHThhSYB7H8IMd2eQfdEw2iUhuhdQpqr+S/kXh5PPm3ZdY/5Y
-	 WzCxFD2LInrIallH95GeSk+cFXoMCumMaADMYe1ZhgeKfzNSZvHXm0lT8LkamMC2pF
-	 HEkIO1R0EzdQeO4zFh6vFPbvILJCqDnY3JtjRcCmwBsorE8ot1RJl8Yn4Cys43DloO
-	 pManHR3Tz2dpEX/TZq5ArSESreRJkTk6VLXK3q52ytqLWX6UYXrlBwUuZtDzt80Rse
-	 6Rx4+s1kqLwidpB/kgjrAwTLa7oSSfzKklCIaR2LTmMB7lw8tNPmNGCOLbyuqkMLvD
-	 ZB1aSsWoYOwGQ==
-Received: (nullmailer pid 2491505 invoked by uid 1000);
-	Wed, 23 Aug 2023 17:04:56 -0000
-From: Rob Herring <robh@kernel.org>
-To: Ulf Hansson <ulf.hansson@linaro.org>, Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>
-Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: [PATCH v2] genpd: Explicitly include correct DT includes
-Date: Wed, 23 Aug 2023 12:04:37 -0500
-Message-Id: <20230823170438.2489746-1-robh@kernel.org>
-X-Mailer: git-send-email 2.40.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70226156E6
+	for <linux-sunxi@lists.linux.dev>; Wed, 23 Aug 2023 19:11:16 +0000 (UTC)
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2b9d07a8d84so93531761fa.3
+        for <linux-sunxi@lists.linux.dev>; Wed, 23 Aug 2023 12:11:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692817874; x=1693422674;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=z/z++L67LsgS5CeBHRbV3vQihN14HaxRSYn9ahWfvaI=;
+        b=j5NWQxKgKxiyKasFqwOGDRncYcWX5tb0apAk/rligFF/9nY20cTHqm7QfzSbRog0Iv
+         0zbr1xpLQEWG8tXsZL9ShwNI1thvgYstvYrUA3N0ykI4dn9niP6hJEqHDPaior3M107f
+         da4TUZIyTOvU6BPFriAjPDBO72Q6UOnYo5ewB4aba1BgpTPSFm2HU7jvv7v1dfSb03DJ
+         OXfluvr5aF8yRJOTsdTm/PR65j/oe851GBxxk6YleLdenxTv7EmHcj5qY6ADMzNQc7f3
+         zeG86A0qlUwhgdbKVfM7B0SvA7rueFk3uffJeE/i/mxGUK8SDkOCy7I4sNO+GbH8xdhr
+         grGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692817874; x=1693422674;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=z/z++L67LsgS5CeBHRbV3vQihN14HaxRSYn9ahWfvaI=;
+        b=NxetlOSpvekDzXu7tEWqaE90Xe6jzF3TiBZyIAKnCEqIcH1wX//Iw62Tkduhgul2MB
+         iG/LR9Tl/UdYvm526c5txVmuqgd87cqjXUNLHQH7arhc42IwXQIzfFp/j1xokS4qMTr+
+         a6qR6VCpszcEIXRip9Ogqa1LxWtgscn9n72TzKJ5ZOg33wJosIE/CFLMJbFddKadv8DO
+         rqZ+c744Fe3mlHVfiljkfXslMyB2pVQYS6lAG7g/MD1O8FviDUr7O+3vYZtgfC+bGkQl
+         AAJQRi4YGr9N88DUU2RQVdr5gIL3R9PaM07GGD5l8J+zG6rAHNhj6WO00Gu5uKP/MxW2
+         aMVA==
+X-Gm-Message-State: AOJu0Yypa8Ju4Ls7BnZNm1bad0VBOsMd5cBkfK9rTToOn0dmzbxYPRpM
+	6sYlh0ascgWt33oKQLgKtSU=
+X-Google-Smtp-Source: AGHT+IFTKofw15kfmJaES5wnAO8K/GJ/mqB+Un+40kpOipUOrSBoQbYDlcpIRBkEZyL3pswrSrTZ0Q==
+X-Received: by 2002:a2e:9104:0:b0:2ba:5ca7:2311 with SMTP id m4-20020a2e9104000000b002ba5ca72311mr10376164ljg.41.1692817873870;
+        Wed, 23 Aug 2023 12:11:13 -0700 (PDT)
+Received: from jernej-laptop.localnet (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
+        by smtp.gmail.com with ESMTPSA id rv6-20020a17090710c600b0099cc3c7ace2sm10189735ejb.140.2023.08.23.12.11.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Aug 2023 12:11:13 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Ulf Hansson <ulf.hansson@linaro.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ Rob Herring <robh@kernel.org>
+Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2] genpd: Explicitly include correct DT includes
+Date: Wed, 23 Aug 2023 21:11:10 +0200
+Message-ID: <12268735.O9o76ZdvQC@jernej-laptop>
+In-Reply-To: <20230823170438.2489746-1-robh@kernel.org>
+References: <20230823170438.2489746-1-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-The DT of_device.h and of_platform.h date back to the separate
-of_platform_bus_type before it was merged into the regular platform bus.
-As part of that merge prepping Arm DT support 13 years ago, they
-"temporarily" include each other. They also include platform_device.h
-and of.h. As a result, there's a pretty much random mix of those include
-files used throughout the tree. In order to detangle these headers and
-replace the implicit includes with struct declarations, users need to
-explicitly include the correct includes.
+Dne sreda, 23. avgust 2023 ob 19:04:37 CEST je Rob Herring napisal(a):
+> The DT of_device.h and of_platform.h date back to the separate
+> of_platform_bus_type before it was merged into the regular platform bus.
+> As part of that merge prepping Arm DT support 13 years ago, they
+> "temporarily" include each other. They also include platform_device.h
+> and of.h. As a result, there's a pretty much random mix of those include
+> files used throughout the tree. In order to detangle these headers and
+> replace the implicit includes with struct declarations, users need to
+> explicitly include the correct includes.
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+> v2: Previously sent for drivers/soc/. Gathered up files which got moved
+>     to genpd to new patch.
+> ---
+>  drivers/genpd/mediatek/mtk-pm-domains.c | 2 +-
+>  drivers/genpd/mediatek/mtk-scpsys.c     | 2 +-
+>  drivers/genpd/sunxi/sun20i-ppu.c        | 2 +-
 
-Signed-off-by: Rob Herring <robh@kernel.org>
----
-v2: Previously sent for drivers/soc/. Gathered up files which got moved
-    to genpd to new patch.
----
- drivers/genpd/mediatek/mtk-pm-domains.c | 2 +-
- drivers/genpd/mediatek/mtk-scpsys.c     | 2 +-
- drivers/genpd/sunxi/sun20i-ppu.c        | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+for sun20i-ppu:
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-diff --git a/drivers/genpd/mediatek/mtk-pm-domains.c b/drivers/genpd/mediatek/mtk-pm-domains.c
-index 354249cc1b12..ee962804b830 100644
---- a/drivers/genpd/mediatek/mtk-pm-domains.c
-+++ b/drivers/genpd/mediatek/mtk-pm-domains.c
-@@ -8,8 +8,8 @@
- #include <linux/io.h>
- #include <linux/iopoll.h>
- #include <linux/mfd/syscon.h>
-+#include <linux/of.h>
- #include <linux/of_clk.h>
--#include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/pm_domain.h>
- #include <linux/regmap.h>
-diff --git a/drivers/genpd/mediatek/mtk-scpsys.c b/drivers/genpd/mediatek/mtk-scpsys.c
-index 7a668888111c..b374d01fdac7 100644
---- a/drivers/genpd/mediatek/mtk-scpsys.c
-+++ b/drivers/genpd/mediatek/mtk-scpsys.c
-@@ -7,7 +7,7 @@
- #include <linux/io.h>
- #include <linux/iopoll.h>
- #include <linux/mfd/syscon.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/pm_domain.h>
- #include <linux/regulator/consumer.h>
-diff --git a/drivers/genpd/sunxi/sun20i-ppu.c b/drivers/genpd/sunxi/sun20i-ppu.c
-index 98cb41d36560..8700f9dd5f75 100644
---- a/drivers/genpd/sunxi/sun20i-ppu.c
-+++ b/drivers/genpd/sunxi/sun20i-ppu.c
-@@ -5,7 +5,7 @@
- #include <linux/io.h>
- #include <linux/iopoll.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/pm_domain.h>
- #include <linux/reset.h>
--- 
-2.40.1
+Best regards,
+Jernej
+
 
