@@ -1,416 +1,124 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11olkn2073.outbound.protection.outlook.com [40.92.19.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CEC3C2E6
-	for <linux-sunxi@lists.linux.dev>; Wed, 23 Aug 2023 20:00:27 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HiiRX6ITBoAb0TmKnkGHVCWiF4ToglmuoDXXG9qiPCd69IaDCeP0A6UFBxojvnW3+1ck1JqPiHGxzNRDpwKBFWj+7/m019Oh3mMeMmAk2C08aNmfgkDzMVmZUa1vQ66vpNYNaX6VFBDGfCPzYmHv2DPYe6tqL/hK4Ns3Uj1/8X9OeR1LFzO54GwIpbBQ0p/V6TYrogBvUrjYzxAgnkfj5GIh5Oz+fpr2qmVa6tQvm9jTRU/gjhpSS8fANwbBmWZRIBIT24500JV5Rj7NOF21r3kA+Y0OfS5v0pR6AWtcRR4ra+427yqpWrFWP3QnRW9kG6Cr/BvY1bhUFHpcZ4ugkQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wNp4Lq4SarILEd05oddlBMkSo+BV/4+bHTZbF9976W4=;
- b=kkPQa3xfibf9/VHKoApcfqsZb7J9bCxo65O1ikXYaFOXfCPTWxgMZarTpSz6Hg4+M9yBCamEjQ+xO3eVb4Rnjklk6GHIdySC9oNmr16UUmJQbBFT3YQk+GHxTWYGxTH+eMTizTYwK35vp4JsblVNP5/tvmqRyZ8KYvz/WnZe0+ULCGtM836lhvUh9+GGd04wktIpe1pjNxqy0yaB2prkDyVrjJoeVsbADAHcRhAKS2UNyRMsN6Qb9JDfSdV1yJZV3gtZThOA51ijL9JuPscTZhV1XmuGepByIqCEtff0qmX8aZ+zt0M+8jmeKNKrvQbzAKoVc/9kCxayyddLHyU2lw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wNp4Lq4SarILEd05oddlBMkSo+BV/4+bHTZbF9976W4=;
- b=hHq7njgAk9RLyiZEljsN7lS8P9S8V3TmGmRGFDtN+wqVzPOQ7v0r1KEZEDmiJ8zCsVkMaVRUGPFD1xz9bi+BvyErszy/nz+TrH333EPKWoP1s7bRZ7m6B7EWUIFSGw5Kyl93wLyF9C2W4k+8k/Vi3wT+58zP1Sll7c3/rTq1K7G0I0sy71lEXrkuvH5maL7VhSzWub8eOLHQ2FQUmZIr6+4B7LeAE1AribA4XywmtjGpqQbu1OedJIliWCdxDVEA25BJ0bh/XghTytXgwX31ppmoxpRyoy+jcZxNx71kPvh/UnmbtDE2CG29W0m3GW4Z2G6nnGF/KQexYF1ha1aSUA==
-Received: from SN6PR06MB5342.namprd06.prod.outlook.com (2603:10b6:805:f9::31)
- by LV8PR06MB9546.namprd06.prod.outlook.com (2603:10b6:408:18f::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.24; Wed, 23 Aug
- 2023 20:00:22 +0000
-Received: from SN6PR06MB5342.namprd06.prod.outlook.com
- ([fe80::20a7:a1ca:1ef2:ec9f]) by SN6PR06MB5342.namprd06.prod.outlook.com
- ([fe80::20a7:a1ca:1ef2:ec9f%4]) with mapi id 15.20.6699.022; Wed, 23 Aug 2023
- 20:00:21 +0000
-Date: Wed, 23 Aug 2023 15:00:17 -0500
-From: Chris Morgan <macromorgan@hotmail.com>
-To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, Chris Morgan <macroalpha82@gmail.com>,
-	devicetree@vger.kernel.org, mripard@kernel.org, me@crly.cz,
-	uwu@icenowy.me, samuel@sholland.org, wens@csie.org,
-	conor+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	robh+dt@kernel.org
-Subject: Re: [PATCH V2 4/4] ARM: dts: sunxi: add support for Anbernic RG-Nano
-Message-ID:
- <SN6PR06MB5342A90C12C2F1BB07F9A9E4A51CA@SN6PR06MB5342.namprd06.prod.outlook.com>
-References: <20230819032105.67978-1-macroalpha82@gmail.com>
- <20230819032105.67978-5-macroalpha82@gmail.com>
- <3244887.aeNJFYEL58@jernej-laptop>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3244887.aeNJFYEL58@jernej-laptop>
-X-TMN: [/VBRwMli3ujCdNDtYmClX1JLBABvthdx]
-X-ClientProxiedBy: SA9PR13CA0100.namprd13.prod.outlook.com
- (2603:10b6:806:24::15) To SN6PR06MB5342.namprd06.prod.outlook.com
- (2603:10b6:805:f9::31)
-X-Microsoft-Original-Message-ID: <ZOZlUZhvBz83/IHF@wintermute.localhost.fail>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2654E399
+	for <linux-sunxi@lists.linux.dev>; Wed, 23 Aug 2023 21:26:02 +0000 (UTC)
+Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-56e0d6651fbso147409eaf.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 23 Aug 2023 14:26:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692825962; x=1693430762;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=aIyoSTL/FB8MNetWSTC9cFmRk++muUZvuEzBZZ3bfQE=;
+        b=IbCU8zu8skSH60X4KflpBU/30wLKqAi7RNSp/db9+k0pSBLiUmiYm4tSJiF3f/a7dL
+         Jh1tJiqjbgiACxhoNigbVsFr9EFyhSzjSYKQdinJHeA4fnHrABvn79GUy0DpokqP+CwY
+         f1UUFeuPmuwXjuJsp6KO9KF9reqgOeV5jbJz178jnmNOWfwKX4cQAth9yBrYsydjyNaa
+         QkhjOLvkpHPSy4l7PoYbQeH+AJAd19TZEnRNcF6TSiB1VOS4LDuP+9RqjgfUbD/cGlY9
+         u3V2b5WH9sb16y5HR3uvIG0yhpglVVD4Cy2N96AO2mUvw5/WugYEZWvPpuu0OUWAO6pR
+         +dWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692825962; x=1693430762;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aIyoSTL/FB8MNetWSTC9cFmRk++muUZvuEzBZZ3bfQE=;
+        b=bkFmMZ5H4WSqKjMSgDnx5IjmlL3k4443wlZddJGkI/3u4VXKnZtlYRV9OG7ai3gu/7
+         RZYOKLs/mdsDg3nM+ki1m45+cY/l4aaZ40QLB2JG8p4y+/Xw/8nYDj4WNJ3+vFtjZ6eV
+         dsHTiYFZxZGme/HC9mmooyF86VOmaib70/MQ1VHBog+IA+2YbhR0ylXt+ZavxzygFiTA
+         ISsxq1bwevnztLU8ChKpypNh+7LmdlSXIkTqY69N74P3sN6jvbAzU9+et7DshDtfoenH
+         DmDdwBi7RS7ybBjJ52BGY/iEDzbVSPJXWSNDlpo6R2lBexXgUwGvERlMgFlCThznv5xj
+         PL3w==
+X-Gm-Message-State: AOJu0YwIzx/cXZXGI/4/dHwR5tzr+rO6q3xhTDLmZbWAggkWItqrhBOn
+	4c5ayJILWjYEHQM4vB+91C1K9tLSfKfFNA==
+X-Google-Smtp-Source: AGHT+IFDFTHyHKCkPJKv5SFjaBP2aiyq/lVoCKS3QgpI2XUR0Bcas9p9OpMCMj1bdxLLP4YCFVlt2g==
+X-Received: by 2002:a05:6808:23c1:b0:3a7:7b7e:f309 with SMTP id bq1-20020a05680823c100b003a77b7ef309mr9401723oib.10.1692825961715;
+        Wed, 23 Aug 2023 14:26:01 -0700 (PDT)
+Received: from localhost.localdomain ([75.28.21.198])
+        by smtp.gmail.com with ESMTPSA id d26-20020a05680808fa00b003a1d29f0549sm771127oic.15.2023.08.23.14.26.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Aug 2023 14:26:01 -0700 (PDT)
+From: Chris Morgan <macroalpha82@gmail.com>
+To: linux-sunxi@lists.linux.dev
+Cc: devicetree@vger.kernel.org,
+	mripard@kernel.org,
+	jagan@edgeble.ai,
+	heiko@sntech.de,
+	uwu@icenowy.me,
+	andre.przywara@arm.com,
+	daniel@ffwll.ch,
+	airlied@gmail.com,
+	sam@ravnborg.org,
+	neil.armstrong@linaro.org,
+	noralf@tronnes.org,
+	samuel@sholland.org,
+	jernej.skrabec@gmail.com,
+	wens@csie.org,
+	conor+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	robh+dt@kernel.org,
+	Chris Morgan <macromorgan@hotmail.com>
+Subject: [PATCH V3 0/8] Add Anbernic RG-Nano
+Date: Wed, 23 Aug 2023 16:25:46 -0500
+Message-Id: <20230823212554.378403-1-macroalpha82@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN6PR06MB5342:EE_|LV8PR06MB9546:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3f8fec03-9011-4b3a-1c2b-08dba4139457
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	GKEwXO811M8F3CLsZJhQLcgvmCxNOxijxdxrKe9KnUxf+FE2UBDpZLx8gnxZZt+l0VFi37Ld0fw7t41hxy1AsprTdkYncv2vOeGtPcBkFJ7HzAXFthv3tz0u+RuYmnwRxpYGmjFUbrcYIZk/mF/H+lL46vHilZ3RvT1u6yqIhre94fme1JLM/FGfHusFMVio8hK50wpOU32o1U0v9f6tsODwRLW6r8ZVNDjDfy/1xUSq2omE3X8m9YFyPkxrjkLJQqF7ksjdk0zRp9cB3dgFyniycWQhGtsmsjDJumTdfUcxkHy9PpPpkztLSEr5ejCMiK20o8M90rIDo/rTeBCPfewyeyaUDZHt5AE13XRyAHbSIJIU3+0cDqkS+mWN+MKbQJIGUjHtC29N78cUUXKGZZFiVPgV0b7JRIRg8aR+mPfPe96oLzJIAaNxG8BExtI32dypFB0PLRhGUPybkKKHBrGhYZjYdKazau2GB9guKkATOUuMaKwZZgoj0TknlcTHFvDjb+2O6G0lnMh/5/I/+wa402xCRGNXAwJABF0f25sWMh88h67CR/QEfTwaDa42
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RE10cGpjOWx1VFdONEhFcUF6N05zZFB4V0VqbnJ5RmxoeWRsdEZsallOYVBv?=
- =?utf-8?B?NUY3SjJxN0NjVnplRHE3QllQNTlXdHMyZE5lWlpXYlpuSFpoUGVSZEpWL0dN?=
- =?utf-8?B?amswSm5GZjhCU3NWVExsNkppWFVYYS8zQnp4WjdBdERHVEo4a0tkSVlIbVox?=
- =?utf-8?B?T2N3SkhONkd0V09heE9VeUlkTG9VMWlMUHRjNWVnYzlBczc0Y0tBRXp6bnBQ?=
- =?utf-8?B?SWo2ZTNDRGcxRW8vSW14cW1JQXE1ODNoa3I5TWRLMHJHTCtRbXJTNytpMjhw?=
- =?utf-8?B?SVQ0QXh4VDlQa09kSmZVdDVqMnhhTFVGNmVaVGZVd095aVNrdjV6bDdESEFw?=
- =?utf-8?B?VitZYjBuamNWRXdPdCtYNHBNMnM3Q0N0ZFR5MXlGeDRqcnFEWjVQb0lPekJt?=
- =?utf-8?B?SVM1bXVkY2F2TDgrQmFHdlhaT2hIZUZZNVMwVjIyVlpRNDdHT3I2T1c2QllJ?=
- =?utf-8?B?aWNqYnFndjJ2bDRPWks0Wk8vd2loWDFQc3NHSW9aTGRna1dNdFpIa1IzNVkw?=
- =?utf-8?B?dHRrTTdiWStoN251TzdPZ3JzWTlTMWxSMGx5TVNPVGk0eEhwZ0ZDcTFKUUNi?=
- =?utf-8?B?TXRZVld1S1k4OUtzZVpsT3E5dHh5RUwybGlSTHdPUVJLWlN0SVVINjhUNUJY?=
- =?utf-8?B?K2QxVmw1WGdQTXhvTEN3VjNVVVZGbDM4eWEyNENmOFYyREZNRWpXTGVFRDJj?=
- =?utf-8?B?SzZXQ1NXRzFFYWNWUUcvbmJUdWlOQjRDaVJnOFkvZjdpSzRMb21vVVZVbi94?=
- =?utf-8?B?THRsS2dUNjlnY29odW5OQStQU0oxVTNpdHI4ZTFFQm5RQUM2TUhxTGd6WE04?=
- =?utf-8?B?Nm55MUlFR1ZvbWJMZlV2MC9Ub1gyS0JVUSs1Q083NmpFYjBZMWpFSXZLbTU0?=
- =?utf-8?B?QkV4dTBIU3VFYTlzL1MrbXRyTkp3T3hUL2tFbUk2cHdsSkcvSTdES0YySlNM?=
- =?utf-8?B?RFBDcDZJVEpIbmxpU2FaZzBFSDNjLzlRYXE4TXY3M3hNY1Z4VCtVRFY4Njdy?=
- =?utf-8?B?NWl3b0JOdEs2Ymw2bmZRMkRyaC9TeFNycFBRRXVSWDlrR3NmcVNmUlhmZ2Fh?=
- =?utf-8?B?SERPTkt4emxmaFlsM09JVHYrU2ltN3N4V05HeE82RFhIMUxscnUyMmh5VkZS?=
- =?utf-8?B?UWcxZ3IvbmRyaU83ZlVCMWR3UXFoenNZak1TcDJISEtwU3pHY2tjRmtWcFM0?=
- =?utf-8?B?anJaNGFReGtWUm5YWHI0R2c1OGY1LytsbUlOZFo0R1oyWlBVSHB3VDVQRXFq?=
- =?utf-8?B?ekdvbXNLaEpzb0JqYWlFRjd4NXJBSFkvVTdwS1VIREQ0NDR5ejVDVjhjcTho?=
- =?utf-8?B?VkhUbkJkWmdwM2Q4czN0SmJMUWZoUW5yZTB2WUNlSWFkeU1TK2xab2loOHlN?=
- =?utf-8?B?ajhmWWZWajkvcElrOUVIM1ZTVHY4OXZ2em1CYi9HTFpiY1l3U2xNS2tGQnFX?=
- =?utf-8?B?akZwTkcycjlGRWtHeWpJbEJUYmF6WHp3b1hKdlo0NCtKZ3FqMUc4TlVTWWFP?=
- =?utf-8?B?RlJERGRrUHZ1STl4NC9PSEhJaXFsWW94QkNYSW5uU3dnN2hRMWVTVjgzZEFk?=
- =?utf-8?B?SXdJVElqU20wc2NSVDJTT1F5cHZqdW1Vcm1TSGlDVjJqTi9veGZQQjBmQ0x3?=
- =?utf-8?Q?XtWQRJn/2oMyEEsv+6ZeIOKZDuS3dV09Ji+ClbiLSL74=3D?=
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-89723.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3f8fec03-9011-4b3a-1c2b-08dba4139457
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR06MB5342.namprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2023 20:00:21.1191
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR06MB9546
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 23, 2023 at 09:32:10PM +0200, Jernej Škrabec wrote:
-> Dne sobota, 19. avgust 2023 ob 05:21:05 CEST je Chris Morgan napisal(a):
-> > From: Chris Morgan <macromorgan@hotmail.com>
-> > 
-> > The Anbernic RG-Nano is a small portable game device based on the
-> > Allwinner V3s SoC. It has GPIO buttons on the face and side for
-> > input, a single mono speaker, a 240x240 SPI controlled display, a USB-C
-> > OTG port, an SD card slot for booting, and 64MB of RAM included in the
-> > SoC.
-> > 
-> > The SPI display is currently unsupported, as it will either require
-> > a new tinydrm driver or changes to the staging fbtft driver to support.
-> > I plan on working on a tinydrm driver to properly support it. 
-> 
-> Remove above text. It doesn't belong to DT commit message, but you can put it 
-> in cover letter or commit comment.
+From: Chris Morgan <macromorgan@hotmail.com>
 
-Understood. It's also moot, as I figured out the panel and have it
-working with a driver that's already in upstream.
+Add support for the Anbernic RG-Nano handheld gaming device
 
-I'll submit v3 soon, since I think the last few bugs got worked out.
-Pushing these changes upstream got some additional eyes which I needed
-for the last bits.
+Changes since V2:
+ - Add display support.
+ - Add USB host support.
+ - Removed CPU frequency and voltage parameters, as CPU regulator may
+   be tied into additional areas that need further testing.
+ - Added regulator names back, as they appear to have been accidentally
+   dropped in v2.
+ - Updated notes to denote all hardware tested and working.
 
-Thank you.
+Changes since V1:
+ - Added additional pwm pin configs to sun8i-v3s.dtsi and removed
+   default config for pwm0 in lieu of defining it for each board.
+ - Noted in patch notes that additional hardware of UART debug port,
+   USB port (in gadget mode) also work, and that USB host mode does
+   not work.
+ - Identified GPIO responsible for enabling external speaker amplifier
+   and defined it, allowing onboard audio to work.
+ - Removed ac_power_supply node.
+ - Set regulator min and max values to the same value as defined in the
+   schematics.
+ - Removed definition for reg_ldo1. This regulator is hardware
+   configured so the value did not affect anything, however the driver
+   must be updated to support the correct value of 3.3v in this case.
+ - Removed usb0_id_det-gpios as I cannot confirm these are correct.
 
-> 
-> Best regards,
-> Jernej
-> 
-> > The USB-C
-> > port currently only works as a peripheral port, however in the BSP
-> > kernel it also works in host mode allowing included USB-C headphones
-> > with a built-in DAC to work.
-> > 
-> > Working:
-> > - SDMMC
-> > - UART (for debugging)
-> > - Buttons
-> > - Charging/battery/PMIC
-> > - Speaker
-> > - USB Gadget
-> > 
-> > Not working:
-> > - Display
-> > - USB Host
-> > 
-> > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> > ---
-> >  arch/arm/boot/dts/allwinner/Makefile          |   1 +
-> >  .../allwinner/sun8i-v3s-anbernic-rg-nano.dts  | 219 ++++++++++++++++++
-> >  2 files changed, 220 insertions(+)
-> >  create mode 100644
-> > arch/arm/boot/dts/allwinner/sun8i-v3s-anbernic-rg-nano.dts
-> > 
-> > diff --git a/arch/arm/boot/dts/allwinner/Makefile
-> > b/arch/arm/boot/dts/allwinner/Makefile index 589a1ce1120a..2be83a1edcbb
-> > 100644
-> > --- a/arch/arm/boot/dts/allwinner/Makefile
-> > +++ b/arch/arm/boot/dts/allwinner/Makefile
-> > @@ -237,6 +237,7 @@ dtb-$(CONFIG_MACH_SUN8I) += \
-> >  	sun8i-t113s-mangopi-mq-r-t113.dtb \
-> >  	sun8i-t3-cqa3t-bv3.dtb \
-> >  	sun8i-v3-sl631-imx179.dtb \
-> > +	sun8i-v3s-anbernic-rg-nano.dtb \
-> >  	sun8i-v3s-licheepi-zero.dtb \
-> >  	sun8i-v3s-licheepi-zero-dock.dtb \
-> >  	sun8i-v40-bananapi-m2-berry.dtb
-> > diff --git a/arch/arm/boot/dts/allwinner/sun8i-v3s-anbernic-rg-nano.dts
-> > b/arch/arm/boot/dts/allwinner/sun8i-v3s-anbernic-rg-nano.dts new file mode
-> > 100644
-> > index 000000000000..c49b5431d04e
-> > --- /dev/null
-> > +++ b/arch/arm/boot/dts/allwinner/sun8i-v3s-anbernic-rg-nano.dts
-> > @@ -0,0 +1,219 @@
-> > +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> > +
-> > +/dts-v1/;
-> > +#include <dt-bindings/input/linux-event-codes.h>
-> > +#include "sun8i-v3s.dtsi"
-> > +#include "sunxi-common-regulators.dtsi"
-> > +
-> > +/ {
-> > +	model = "Anbernic RG Nano";
-> > +	compatible = "anbernic,rg-nano", "allwinner,sun8i-v3s";
-> > +
-> > +	aliases {
-> > +		serial0 = &uart0;
-> > +	};
-> > +
-> > +	backlight: backlight {
-> > +		compatible = "pwm-backlight";
-> > +		pwms = <&pwm 0 40000 1>;
-> > +		brightness-levels = <0 1 2 3 8 14 21 32 46 60 80 100>;
-> > +		default-brightness-level = <11>;
-> > +		power-supply = <&reg_vcc5v0>;
-> > +	};
-> > +
-> > +	chosen {
-> > +		stdout-path = "serial0:115200n8";
-> > +	};
-> > +
-> > +	gpio_keys: gpio-keys {
-> > +		compatible = "gpio-keys";
-> > +
-> > +		button-a {
-> > +			gpios = <&gpio_expander 12 (GPIO_ACTIVE_LOW | 
-> GPIO_PULL_UP)>;
-> > +			label = "BTN-A";
-> > +			linux,code = <BTN_EAST>;
-> > +		};
-> > +
-> > +		button-b {
-> > +			gpios = <&gpio_expander 14 (GPIO_ACTIVE_LOW | 
-> GPIO_PULL_UP)>;
-> > +			label = "BTN-B";
-> > +			linux,code = <BTN_SOUTH>;
-> > +		};
-> > +
-> > +		button-down {
-> > +			gpios = <&gpio_expander 1 (GPIO_ACTIVE_LOW | 
-> GPIO_PULL_UP)>;
-> > +			label = "DPAD-DOWN";
-> > +			linux,code = <BTN_DPAD_DOWN>;
-> > +		};
-> > +
-> > +		button-left {
-> > +			gpios = <&gpio_expander 4 (GPIO_ACTIVE_LOW | 
-> GPIO_PULL_UP)>;
-> > +			label = "DPAD-LEFT";
-> > +			linux,code = <BTN_DPAD_LEFT>;
-> > +		};
-> > +
-> > +		button-right {
-> > +			gpios = <&gpio_expander 0 (GPIO_ACTIVE_LOW | 
-> GPIO_PULL_UP)>;
-> > +			label = "DPAD-RIGHT";
-> > +			linux,code = <BTN_DPAD_RIGHT>;
-> > +		};
-> > +
-> > +		button-se {
-> > +			gpios = <&gpio_expander 7 (GPIO_ACTIVE_LOW | 
-> GPIO_PULL_UP)>;
-> > +			label = "BTN-SELECT";
-> > +			linux,code = <BTN_SELECT>;
-> > +		};
-> > +
-> > +		button-st {
-> > +			gpios = <&gpio_expander 6 (GPIO_ACTIVE_LOW | 
-> GPIO_PULL_UP)>;
-> > +			label = "BTN-START";
-> > +			linux,code = <BTN_START>;
-> > +		};
-> > +
-> > +		button-tl {
-> > +			gpios = <&gpio_expander 2 (GPIO_ACTIVE_LOW | 
-> GPIO_PULL_UP)>;
-> > +			label = "BTN-L";
-> > +			linux,code = <BTN_TL>;
-> > +		};
-> > +
-> > +		button-tr {
-> > +			gpios = <&gpio_expander 15 (GPIO_ACTIVE_LOW | 
-> GPIO_PULL_UP)>;
-> > +			label = "BTN-R";
-> > +			linux,code = <BTN_TR>;
-> > +		};
-> > +
-> > +		button-up {
-> > +			gpios = <&gpio_expander 3 (GPIO_ACTIVE_LOW | 
-> GPIO_PULL_UP)>;
-> > +			label = "DPAD-UP";
-> > +			linux,code = <BTN_DPAD_UP>;
-> > +		};
-> > +
-> > +		button-x {
-> > +			gpios = <&gpio_expander 11 (GPIO_ACTIVE_LOW | 
-> GPIO_PULL_UP)>;
-> > +			label = "BTN-X";
-> > +			linux,code = <BTN_NORTH>;
-> > +		};
-> > +
-> > +		button-y {
-> > +			gpios = <&gpio_expander 13 (GPIO_ACTIVE_LOW | 
-> GPIO_PULL_UP)>;
-> > +			label = "BTN-Y";
-> > +			linux,code = <BTN_WEST>;
-> > +		};
-> > +	};
-> > +};
-> > +
-> > +&codec {
-> > +	allwinner,audio-routing = "Speaker", "HP",
-> > +				  "MIC1", "Mic",
-> > +				  "Mic", "HBIAS";
-> > +	allwinner,pa-gpios = <&pio 5 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-> > +	status = "okay";
-> > +};
-> > +
-> > +&cpu0 {
-> > +	clock-frequency = <1296000>;
-> > +	clock-latency = <244144>;
-> > +	operating-points = <
-> > +			/* kHz    uV */
-> > +			1296000 1200000
-> > +			1008000 1200000
-> > +			864000  1200000
-> > +			720000  1100000
-> > +			480000  1000000>;
-> > +};
-> > +
-> > +&i2c0 {
-> > +	status = "okay";
-> > +
-> > +	gpio_expander: gpio@20 {
-> > +		compatible = "nxp,pcal6416";
-> > +		reg = <0x20>;
-> > +		gpio-controller;
-> > +		#gpio-cells = <2>;
-> > +		#interrupt-cells = <2>;
-> > +		interrupt-controller;
-> > +		interrupt-parent = <&pio>;
-> > +		interrupts = <1 3 IRQ_TYPE_EDGE_BOTH>;
-> > +		vcc-supply = <&reg_vcc3v3>;
-> > +	};
-> > +
-> > +	axp209: pmic@34 {
-> > +		reg = <0x34>;
-> > +		interrupt-parent = <&pio>;
-> > +		interrupts = <1 5 IRQ_TYPE_EDGE_FALLING>;
-> > +	};
-> > +
-> > +	pcf8563: rtc@51 {
-> > +		compatible = "nxp,pcf8563";
-> > +		reg = <0x51>;
-> > +	};
-> > +};
-> > +
-> > +#include "axp209.dtsi"
-> > +
-> > +&battery_power_supply {
-> > +	status = "okay";
-> > +};
-> > +
-> > +&mmc0 {
-> > +	broken-cd;
-> > +	bus-width = <4>;
-> > +	disable-wp;
-> > +	vmmc-supply = <&reg_vcc3v3>;
-> > +	vqmmc-supply = <&reg_vcc3v3>;
-> > +	status = "okay";
-> > +};
-> > +
-> > +&pio {
-> > +	vcc-pb-supply = <&reg_vcc3v3>;
-> > +	vcc-pc-supply = <&reg_vcc3v3>;
-> > +	vcc-pf-supply = <&reg_vcc3v3>;
-> > +	vcc-pg-supply = <&reg_vcc3v3>;
-> > +};
-> > +
-> > +&pwm {
-> > +	pinctrl-0 = <&pwm0_pins>;
-> > +	pinctrl-names = "default";
-> > +	status = "okay";
-> > +};
-> > +
-> > +&reg_dcdc2 {
-> > +	regulator-always-on;
-> > +	regulator-max-microvolt = <1250000>;
-> > +	regulator-min-microvolt = <1250000>;
-> > +};
-> > +
-> > +&reg_dcdc3 {
-> > +	regulator-always-on;
-> > +	regulator-max-microvolt = <3300000>;
-> > +	regulator-min-microvolt = <3300000>;
-> > +};
-> > +
-> > +&reg_ldo2 {
-> > +	regulator-always-on;
-> > +	regulator-max-microvolt = <3000000>;
-> > +	regulator-min-microvolt = <3000000>;
-> > +};
-> > +
-> > +&spi0 {
-> > +	status = "okay";
-> > +};
-> > +
-> > +&uart0 {
-> > +	pinctrl-0 = <&uart0_pb_pins>;
-> > +	pinctrl-names = "default";
-> > +	status = "okay";
-> > +};
-> > +
-> > +&usb_otg {
-> > +	dr_mode = "otg";
-> > +	status = "okay";
-> > +};
-> > +
-> > +&usb_power_supply {
-> > +	status = "okay";
-> > +};
-> > +
-> > +&usbphy {
-> > +	status = "okay";
-> > +};
-> 
-> 
-> 
-> 
+Chris Morgan (8):
+  dt-bindings: vendor-prefixes: document Saef Technology
+  dt-bindings: display: panel: mipi-dbi-spi: add Saef SF-TC154B
+  arm: dts: sun8i: V3s: Add pinctrl for pwm
+  dt-bindings: usb: Add V3s compatible string for EHCI
+  dt-bindings: usb: Add V3s compatible string for OHCI
+  ARM: dts: sun8i: v3s: add EHCI and OHCI to v3s dts
+  dt-bindings: arm: sunxi: add Anbernic RG-Nano
+  ARM: dts: sunxi: add support for Anbernic RG-Nano
+
+ .../devicetree/bindings/arm/sunxi.yaml        |   5 +
+ .../display/panel/panel-mipi-dbi-spi.yaml     |   1 +
+ .../devicetree/bindings/usb/generic-ehci.yaml |   1 +
+ .../devicetree/bindings/usb/generic-ohci.yaml |   1 +
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ arch/arm/boot/dts/allwinner/Makefile          |   1 +
+ .../allwinner/sun8i-v3s-anbernic-rg-nano.dts  | 275 ++++++++++++++++++
+ arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi    |  31 ++
+ 8 files changed, 317 insertions(+)
+ create mode 100644 arch/arm/boot/dts/allwinner/sun8i-v3s-anbernic-rg-nano.dts
+
+-- 
+2.34.1
+
