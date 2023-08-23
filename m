@@ -1,82 +1,62 @@
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C29947B
-	for <linux-sunxi@lists.linux.dev>; Wed, 23 Aug 2023 08:52:04 +0000 (UTC)
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2bcb0b973a5so56344841fa.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 23 Aug 2023 01:52:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43A14883A
+	for <linux-sunxi@lists.linux.dev>; Wed, 23 Aug 2023 08:52:44 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-99bc9e3cbf1so1103083066b.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 23 Aug 2023 01:52:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692780723; x=1693385523;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=S71Z3v1GQlAhT0GgnhlVdV4En9/oMRjgvUgf9fiW+Sw=;
-        b=ib27ZO4E07FOfYBGN14Puwk9lz2/GWy4Wvey+Tlrr7cVpa3c84dBMsQaSDoRPPhvVm
-         mIQ9rw9dk/YIGQif9ketvd7SnBTYEEN+aOapjlfjfW2QHjD1+MSlhvypLHHoRpEqnLe5
-         A7etlYUsIYLfNXR0VkQgb0x0DlSlvk8bVnPGIJsXeG3oFkoQZzzF35Y3g/FQMmGT9R2f
-         U3uL5D9hQcblL0w8l1uHAhZW7wMLGKyc8L+61xzNulm2KMS/iJcig9Q7JG9PqJZrjgog
-         82eUzCO4H6xn36SCYguYgyf251UvMgE005JIaeoFHVbCce7MDlXIMtB+i0LwT3mwpdY7
-         qZsg==
+        d=linaro.org; s=google; t=1692780762; x=1693385562;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=aMAzBQ2JWtyTS8mD8e3Fxmu2d91tt0ITlswZAkxTIh4=;
+        b=OxEp5de1cW3arQOc7FTUhnrwD2M3065uhbMylGGIzlaSBIYnfSpA2ScRQUycl3Fn2I
+         6HQpegZ5L6O93HqxZhbsUxzYXnwfwPusJEGQqvIt+JzP/r9Wl3gCKmrQMqUK6kLf3iwP
+         02Df7eU/vgdF4o97ikufrsUegyIy3efwxfLmZ0a1j3QZWMpNOnoBOG+RcljTrKWtyy3i
+         P6sfFz+3NjFugVMhVprxslhMJXJt20YozDgBAmr37O8iVlowk5LSPo3f3pLZw3ke6qmI
+         Vn3ctXAiQKF8eawIwY5SOok00/fIvlpDXFETu2pLpx6jJKE+wSA3CE+Q4auY6vkqU3nP
+         Ymwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692780723; x=1693385523;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=S71Z3v1GQlAhT0GgnhlVdV4En9/oMRjgvUgf9fiW+Sw=;
-        b=j4Mdj82s0OHIB7L5U29irHMT9aBf/wmZTXgJeWtOBk+I+fZWjRtyAcEzg9lC2GtQ5W
-         2aVny4BzMZblbWeXO7YT5FYZx3k9Z1G58bsZ78vR0kaNHazFRKEn+afiVnfKFTqIVryK
-         vi9ZUbwilGwJx8UBwxwQ+0lgg7OtA6S6zlCNXiJD/DxF8He2vuDXRmF+Nh0DfaDzzBIt
-         9mF94wbxH3b79kK4GSW0BgDz95sWcmd6W3z0DaqgpQtGECTyjJRM5s1y1uXeUC5Ylzhy
-         eznR5sBfvkVE1q6m23woK75RvIwD4sxR38/6q6QzSSVsuAinTfvnddoacUulv+CYZeCO
-         01LQ==
-X-Gm-Message-State: AOJu0YyNglk1LWMHkhFtxwKlc/9cELoVc1xaWaEHgxnruvq+SgtDadGg
-	XhzywtZ/PfngpBBcM7ZY3kHqlg==
-X-Google-Smtp-Source: AGHT+IG3y2We8LvW8xzNm5Xdrybkzoznuv7gHdEdg9zgd8UZXnFHJjxnBaAgk/U/actn9j4zztQjyA==
-X-Received: by 2002:a05:6512:318a:b0:4fe:1d88:2c61 with SMTP id i10-20020a056512318a00b004fe1d882c61mr10615468lfe.32.1692780722664;
-        Wed, 23 Aug 2023 01:52:02 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1692780762; x=1693385562;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aMAzBQ2JWtyTS8mD8e3Fxmu2d91tt0ITlswZAkxTIh4=;
+        b=U55XEJekUqAUPs+g/gu1A4HPTKl4g69oPV7rHnTo7ZZQnRienW8abBi8f2iSK4vpnU
+         ngF68JmnL+AxZvBvYX0NUzxH8JBhvThM5nBmgC2tCQRd1c0x8gNxCjnsSiFcDFTIbf6v
+         jL9WfdMhREBUljmiuEeRkvBVmgN7eWvlBQ41QqzkqA/yqIJbN6vpuIVYUOVOIppzNNDQ
+         FX5V9yWREUf4zjD66cDOynvNu/3++saHzyjRgc+x2YkiuNHY0AqZgMpne6e+PCSRPVSx
+         w15D/S2acUakBVYwi+L9tb9UPf2oxA1AfnhY8eHur8UADFbvMg+DoqjGuWpMQcs8JW3n
+         n1Tw==
+X-Gm-Message-State: AOJu0YytmbnCoQpspC4oP8UDMdwF3TEYQ2WA2V+qaYCRrQjmB0CRJY3Z
+	S82kxWd6Em0P3w/AMbcl+p+7yQ==
+X-Google-Smtp-Source: AGHT+IEZWFRQo+JFnpF1qlyr688eDH49YjAZuwvCYmHF+GBS3mKDm8CMK03WV266B3Bq58Lqb+bM7g==
+X-Received: by 2002:a17:906:28c:b0:99d:fcb7:60db with SMTP id 12-20020a170906028c00b0099dfcb760dbmr14077749ejf.16.1692780762254;
+        Wed, 23 Aug 2023 01:52:42 -0700 (PDT)
 Received: from krzk-bin.. ([77.252.47.198])
-        by smtp.gmail.com with ESMTPSA id s19-20020aa7c553000000b0051bed21a635sm9090986edr.74.2023.08.23.01.52.00
+        by smtp.gmail.com with ESMTPSA id l9-20020a1709066b8900b009a168ab6ee2sm8665633ejr.164.2023.08.23.01.52.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Aug 2023 01:52:02 -0700 (PDT)
+        Wed, 23 Aug 2023 01:52:41 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Arnd Bergmann <arnd@arndb.de>,
-	Olof Johansson <olof@lixom.net>,
-	arm@kernel.org,
-	soc@kernel.org,
-	Rob Herring <robh+dt@kernel.org>,
+To: Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Conor Dooley <conor+dt@kernel.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
 	devicetree@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-renesas-soc@vger.kernel.org
+	linux-kernel@vger.kernel.org
 Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 2/2] arm64: dts: use capital "OR" for multiple licenses in SPDX
-Date: Wed, 23 Aug 2023 10:51:46 +0200
-Message-Id: <20230823085146.113562-2-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH] riscv: dts: use capital "OR" for multiple licenses in SPDX
+Date: Wed, 23 Aug 2023 10:52:38 +0200
+Message-Id: <20230823085238.113642-1-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230823085146.113562-1-krzysztof.kozlowski@linaro.org>
-References: <20230823085146.113562-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -96,426 +76,162 @@ Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Rebased on next-20230822, so might not apply cleanly.  What does not
 apply, can be skipped and I will fix it after next RC.
 ---
- arch/arm64/boot/dts/allwinner/sun50i-a100-allwinner-perf1.dts  | 2 +-
- arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi                 | 2 +-
- arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64-model-b.dts   | 2 +-
- arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi   | 2 +-
- arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts   | 2 +-
- arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts         | 2 +-
- arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts   | 2 +-
- arch/arm64/boot/dts/arm/corstone1000-fvp.dts                   | 2 +-
- arch/arm64/boot/dts/arm/corstone1000-mps3.dts                  | 2 +-
- arch/arm64/boot/dts/arm/corstone1000.dtsi                      | 2 +-
- arch/arm64/boot/dts/broadcom/stingray/bcm958802a802x.dts       | 2 +-
- arch/arm64/boot/dts/broadcom/stingray/stingray-board-base.dtsi | 2 +-
- arch/arm64/boot/dts/broadcom/stingray/stingray-pcie.dtsi       | 2 +-
- arch/arm64/boot/dts/broadcom/stingray/stingray-usb.dtsi        | 2 +-
- arch/arm64/boot/dts/freescale/imx8mm-emcon-avari.dts           | 2 +-
- arch/arm64/boot/dts/freescale/imx8mm-emcon-avari.dtsi          | 2 +-
- arch/arm64/boot/dts/freescale/imx8mm-emcon.dtsi                | 2 +-
- arch/arm64/boot/dts/renesas/r8a77980a.dtsi                     | 2 +-
- arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi           | 2 +-
- arch/arm64/boot/dts/renesas/r8a779f0-spider.dts                | 2 +-
- arch/arm64/boot/dts/renesas/r8a779f0.dtsi                      | 2 +-
- arch/arm64/boot/dts/renesas/r8a779m0.dtsi                      | 2 +-
- arch/arm64/boot/dts/renesas/r8a779m1-salvator-xs.dts           | 2 +-
- arch/arm64/boot/dts/renesas/r8a779m1-ulcb-kf.dts               | 2 +-
- arch/arm64/boot/dts/renesas/r8a779m1-ulcb.dts                  | 2 +-
- arch/arm64/boot/dts/renesas/r8a779m1.dtsi                      | 2 +-
- arch/arm64/boot/dts/renesas/r8a779m2.dtsi                      | 2 +-
- arch/arm64/boot/dts/renesas/r8a779m3-salvator-xs.dts           | 2 +-
- arch/arm64/boot/dts/renesas/r8a779m3-ulcb-kf.dts               | 2 +-
- arch/arm64/boot/dts/renesas/r8a779m3-ulcb.dts                  | 2 +-
- arch/arm64/boot/dts/renesas/r8a779m3.dtsi                      | 2 +-
- arch/arm64/boot/dts/renesas/r8a779m4.dtsi                      | 2 +-
- arch/arm64/boot/dts/renesas/r8a779m5-salvator-xs.dts           | 2 +-
- arch/arm64/boot/dts/renesas/r8a779m5.dtsi                      | 2 +-
- arch/arm64/boot/dts/renesas/r8a779m6.dtsi                      | 2 +-
- arch/arm64/boot/dts/renesas/r8a779m7.dtsi                      | 2 +-
- arch/arm64/boot/dts/renesas/r8a779m8.dtsi                      | 2 +-
- arch/arm64/boot/dts/renesas/r8a779mb.dtsi                      | 2 +-
- 38 files changed, 38 insertions(+), 38 deletions(-)
+ arch/riscv/boot/dts/allwinner/sun20i-common-regulators.dtsi     | 2 +-
+ arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezha-stu.dts  | 2 +-
+ .../boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-480p.dts    | 2 +-
+ .../boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-720p.dts    | 2 +-
+ arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel.dtsi | 2 +-
+ arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-dock.dts      | 2 +-
+ arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv.dts           | 2 +-
+ arch/riscv/boot/dts/allwinner/sun20i-d1-mangopi-mq-pro.dts      | 2 +-
+ arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts               | 2 +-
+ arch/riscv/boot/dts/allwinner/sun20i-d1.dtsi                    | 2 +-
+ arch/riscv/boot/dts/allwinner/sun20i-d1s-mangopi-mq.dts         | 2 +-
+ arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi                   | 2 +-
+ arch/riscv/boot/dts/allwinner/sunxi-d1-t113.dtsi                | 2 +-
+ arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi               | 2 +-
+ 14 files changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a100-allwinner-perf1.dts b/arch/arm64/boot/dts/allwinner/sun50i-a100-allwinner-perf1.dts
-index d34c2bb1079f..f5c5c1464482 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a100-allwinner-perf1.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a100-allwinner-perf1.dts
+diff --git a/arch/riscv/boot/dts/allwinner/sun20i-common-regulators.dtsi b/arch/riscv/boot/dts/allwinner/sun20i-common-regulators.dtsi
+index 9b03fca2444c..ed7b12e65a10 100644
+--- a/arch/riscv/boot/dts/allwinner/sun20i-common-regulators.dtsi
++++ b/arch/riscv/boot/dts/allwinner/sun20i-common-regulators.dtsi
 @@ -1,4 +1,4 @@
 -// SPDX-License-Identifier: (GPL-2.0+ or MIT)
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
- /*
-  * Copyright (c) 2020 Yangtao Li <frank@allwinnertech.com>
-  */
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
-index 97e3e6907acd..a3dccf193765 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
+ // Copyright (C) 2021-2022 Samuel Holland <samuel@sholland.org>
+ 
+ / {
+diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezha-stu.dts b/arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezha-stu.dts
+index 8785de3c9224..3a2c3281eb88 100644
+--- a/arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezha-stu.dts
++++ b/arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezha-stu.dts
 @@ -1,4 +1,4 @@
 -// SPDX-License-Identifier: (GPL-2.0+ or MIT)
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
- /*
-  * Copyright (c) 2020 Yangtao Li <frank@allwinnertech.com>
-  */
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64-model-b.dts b/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64-model-b.dts
-index 686f58e77004..b710f1a0f53a 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64-model-b.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64-model-b.dts
+ // Copyright (C) 2022 Samuel Holland <samuel@sholland.org>
+ 
+ #include <dt-bindings/gpio/gpio.h>
+diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-480p.dts b/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-480p.dts
+index 4df8ffb71561..711450ffb602 100644
+--- a/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-480p.dts
++++ b/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-480p.dts
 @@ -1,4 +1,4 @@
 -// SPDX-License-Identifier: (GPL-2.0+ or MIT)
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
- /*
-  * Copyright (C) 2019 Corentin LABBE <clabbe@baylibre.com>
-  */
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi
-index 8788c129b288..15290e6892fc 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi
+ // Copyright (C) 2022 Samuel Holland <samuel@sholland.org>
+ 
+ #include "sun20i-d1-lichee-rv-86-panel.dtsi"
+diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-720p.dts b/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-720p.dts
+index 1874fc05359f..b217799e6166 100644
+--- a/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-720p.dts
++++ b/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-720p.dts
 @@ -1,4 +1,4 @@
 -// SPDX-License-Identifier: (GPL-2.0+ or MIT)
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
- /*
-  * Copyright (C) 2020 Arm Ltd.
-  *
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-index d6e732b12c52..d83852e72f06 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
+ // Copyright (C) 2022 Samuel Holland <samuel@sholland.org>
+ 
+ #include "sun20i-d1-lichee-rv-86-panel.dtsi"
+diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel.dtsi b/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel.dtsi
+index 6cc7dd0c1ae2..10116fb3935a 100644
+--- a/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel.dtsi
++++ b/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel.dtsi
 @@ -1,4 +1,4 @@
 -// SPDX-License-Identifier: (GPL-2.0+ or MIT)
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
- /*
-  * Copyright (C) 2020 Arm Ltd.
-  */
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts
-index 07424c28b696..959b6fd18483 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts
+ // Copyright (C) 2022 Samuel Holland <samuel@sholland.org>
+ 
+ #include "sun20i-d1-lichee-rv.dts"
+diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-dock.dts b/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-dock.dts
+index 52b91e1affed..08cf716328a0 100644
+--- a/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-dock.dts
++++ b/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-dock.dts
 @@ -1,4 +1,4 @@
 -// SPDX-License-Identifier: (GPL-2.0+ or MIT)
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
- /*
-  * Copyright (C) 2021 Arm Ltd.
-  */
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
-index 96a685172811..00fe28caac93 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
+ // Copyright (C) 2022 Jisheng Zhang <jszhang@kernel.org>
+ // Copyright (C) 2022 Samuel Holland <samuel@sholland.org>
+ 
+diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv.dts b/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv.dts
+index d60a0562a8b1..204da82a5dc6 100644
+--- a/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv.dts
++++ b/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv.dts
 @@ -1,4 +1,4 @@
 -// SPDX-License-Identifier: (GPL-2.0+ or MIT)
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+ // Copyright (C) 2022 Jisheng Zhang <jszhang@kernel.org>
+ // Copyright (C) 2022 Samuel Holland <samuel@sholland.org>
+ 
+diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1-mangopi-mq-pro.dts b/arch/riscv/boot/dts/allwinner/sun20i-d1-mangopi-mq-pro.dts
+index f2e07043afb3..e2bb6bc16c13 100644
+--- a/arch/riscv/boot/dts/allwinner/sun20i-d1-mangopi-mq-pro.dts
++++ b/arch/riscv/boot/dts/allwinner/sun20i-d1-mangopi-mq-pro.dts
+@@ -1,4 +1,4 @@
+-// SPDX-License-Identifier: (GPL-2.0+ or MIT)
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+ // Copyright (C) 2022 Samuel Holland <samuel@sholland.org>
+ 
+ #include <dt-bindings/gpio/gpio.h>
+diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts b/arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts
+index 4ed33c1e7c9c..8dbe717c79ce 100644
+--- a/arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts
++++ b/arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts
+@@ -1,4 +1,4 @@
+-// SPDX-License-Identifier: (GPL-2.0+ or MIT)
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+ // Copyright (C) 2021-2022 Samuel Holland <samuel@sholland.org>
+ 
  /*
-  * Copyright (C) 2023 Arm Ltd.
-  */
-diff --git a/arch/arm64/boot/dts/arm/corstone1000-fvp.dts b/arch/arm64/boot/dts/arm/corstone1000-fvp.dts
-index 26b0f1b3cea6..901a7fc83307 100644
---- a/arch/arm64/boot/dts/arm/corstone1000-fvp.dts
-+++ b/arch/arm64/boot/dts/arm/corstone1000-fvp.dts
+diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1.dtsi b/arch/riscv/boot/dts/allwinner/sun20i-d1.dtsi
+index 97e7cbb32597..b18f368e06e0 100644
+--- a/arch/riscv/boot/dts/allwinner/sun20i-d1.dtsi
++++ b/arch/riscv/boot/dts/allwinner/sun20i-d1.dtsi
 @@ -1,4 +1,4 @@
--// SPDX-License-Identifier: GPL-2.0 or MIT
-+// SPDX-License-Identifier: GPL-2.0 OR MIT
- /*
-  * Copyright (c) 2022, Arm Limited. All rights reserved.
-  * Copyright (c) 2022, Linaro Limited. All rights reserved.
-diff --git a/arch/arm64/boot/dts/arm/corstone1000-mps3.dts b/arch/arm64/boot/dts/arm/corstone1000-mps3.dts
-index e3146747c2d9..10d265be0c02 100644
---- a/arch/arm64/boot/dts/arm/corstone1000-mps3.dts
-+++ b/arch/arm64/boot/dts/arm/corstone1000-mps3.dts
+-// SPDX-License-Identifier: (GPL-2.0+ or MIT)
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+ // Copyright (C) 2021-2022 Samuel Holland <samuel@sholland.org>
+ 
+ #include "sun20i-d1s.dtsi"
+diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1s-mangopi-mq.dts b/arch/riscv/boot/dts/allwinner/sun20i-d1s-mangopi-mq.dts
+index e6d924f671fd..1a7d6ef33f17 100644
+--- a/arch/riscv/boot/dts/allwinner/sun20i-d1s-mangopi-mq.dts
++++ b/arch/riscv/boot/dts/allwinner/sun20i-d1s-mangopi-mq.dts
 @@ -1,4 +1,4 @@
--// SPDX-License-Identifier: GPL-2.0 or MIT
-+// SPDX-License-Identifier: GPL-2.0 OR MIT
- /*
-  * Copyright (c) 2022, Arm Limited. All rights reserved.
-  * Copyright (c) 2022, Linaro Limited. All rights reserved.
-diff --git a/arch/arm64/boot/dts/arm/corstone1000.dtsi b/arch/arm64/boot/dts/arm/corstone1000.dtsi
-index 34bc336ba8d1..6ad7829f9e28 100644
---- a/arch/arm64/boot/dts/arm/corstone1000.dtsi
-+++ b/arch/arm64/boot/dts/arm/corstone1000.dtsi
+-// SPDX-License-Identifier: (GPL-2.0+ or MIT)
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+ // Copyright (C) 2022 Samuel Holland <samuel@sholland.org>
+ 
+ #include <dt-bindings/gpio/gpio.h>
+diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+index 8275630af977..450387265469 100644
+--- a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
++++ b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
 @@ -1,4 +1,4 @@
--// SPDX-License-Identifier: GPL-2.0 or MIT
-+// SPDX-License-Identifier: GPL-2.0 OR MIT
- /*
-  * Copyright (c) 2022, Arm Limited. All rights reserved.
-  * Copyright (c) 2022, Linaro Limited. All rights reserved.
-diff --git a/arch/arm64/boot/dts/broadcom/stingray/bcm958802a802x.dts b/arch/arm64/boot/dts/broadcom/stingray/bcm958802a802x.dts
-index a41facd7d79b..66471a25e4ac 100644
---- a/arch/arm64/boot/dts/broadcom/stingray/bcm958802a802x.dts
-+++ b/arch/arm64/boot/dts/broadcom/stingray/bcm958802a802x.dts
+-// SPDX-License-Identifier: (GPL-2.0+ or MIT)
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+ // Copyright (C) 2021-2022 Samuel Holland <samuel@sholland.org>
+ 
+ #define SOC_PERIPHERAL_IRQ(nr)	(nr + 16)
+diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1-t113.dtsi b/arch/riscv/boot/dts/allwinner/sunxi-d1-t113.dtsi
+index b7156123df54..3b077dc086ab 100644
+--- a/arch/riscv/boot/dts/allwinner/sunxi-d1-t113.dtsi
++++ b/arch/riscv/boot/dts/allwinner/sunxi-d1-t113.dtsi
 @@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0 or BSD-3-Clause)
-+// SPDX-License-Identifier: (GPL-2.0 OR BSD-3-Clause)
- /*
-  *Copyright(c) 2018 Broadcom
-  */
-diff --git a/arch/arm64/boot/dts/broadcom/stingray/stingray-board-base.dtsi b/arch/arm64/boot/dts/broadcom/stingray/stingray-board-base.dtsi
-index 82a24711d0d8..cdd709491f01 100644
---- a/arch/arm64/boot/dts/broadcom/stingray/stingray-board-base.dtsi
-+++ b/arch/arm64/boot/dts/broadcom/stingray/stingray-board-base.dtsi
+-// SPDX-License-Identifier: (GPL-2.0+ or MIT)
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+ // Copyright (C) 2021-2022 Samuel Holland <samuel@sholland.org>
+ 
+ / {
+diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+index 822f022eec2d..5a9d7f5a75b4 100644
+--- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
++++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
 @@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0 or BSD-3-Clause)
-+// SPDX-License-Identifier: (GPL-2.0 OR BSD-3-Clause)
- /*
-  *  Copyright(c) 2016-2018 Broadcom
-  */
-diff --git a/arch/arm64/boot/dts/broadcom/stingray/stingray-pcie.dtsi b/arch/arm64/boot/dts/broadcom/stingray/stingray-pcie.dtsi
-index 33a472ab17e8..663e51756746 100644
---- a/arch/arm64/boot/dts/broadcom/stingray/stingray-pcie.dtsi
-+++ b/arch/arm64/boot/dts/broadcom/stingray/stingray-pcie.dtsi
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0 or BSD-3-Clause)
-+// SPDX-License-Identifier: (GPL-2.0 OR BSD-3-Clause)
- /*
-  *Copyright(c) 2018 Broadcom
-  */
-diff --git a/arch/arm64/boot/dts/broadcom/stingray/stingray-usb.dtsi b/arch/arm64/boot/dts/broadcom/stingray/stingray-usb.dtsi
-index 5401a646c840..ac4f7b8f9273 100644
---- a/arch/arm64/boot/dts/broadcom/stingray/stingray-usb.dtsi
-+++ b/arch/arm64/boot/dts/broadcom/stingray/stingray-usb.dtsi
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0 or BSD-3-Clause)
-+// SPDX-License-Identifier: (GPL-2.0 OR BSD-3-Clause)
- /*
-  *Copyright(c) 2018 Broadcom
-  */
-diff --git a/arch/arm64/boot/dts/freescale/imx8mm-emcon-avari.dts b/arch/arm64/boot/dts/freescale/imx8mm-emcon-avari.dts
-index b2e8967e9687..c8ff70212602 100644
---- a/arch/arm64/boot/dts/freescale/imx8mm-emcon-avari.dts
-+++ b/arch/arm64/boot/dts/freescale/imx8mm-emcon-avari.dts
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0 or MIT)
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
- //
- // Copyright (c) 2021 emtrion GmbH
- // Author: Frank Erdrich <frank.erdrich@emtrion.com>
-diff --git a/arch/arm64/boot/dts/freescale/imx8mm-emcon-avari.dtsi b/arch/arm64/boot/dts/freescale/imx8mm-emcon-avari.dtsi
-index 5028f232b6bd..d897a8527335 100644
---- a/arch/arm64/boot/dts/freescale/imx8mm-emcon-avari.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8mm-emcon-avari.dtsi
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0 or MIT)
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
- //
- // Copyright (C) 2021 emtrion GmbH
- // Author: Frank Erdrich <frank.erdrich@emtrion.com>
-diff --git a/arch/arm64/boot/dts/freescale/imx8mm-emcon.dtsi b/arch/arm64/boot/dts/freescale/imx8mm-emcon.dtsi
-index 40e18edbaadd..af7dc8d1f5f1 100644
---- a/arch/arm64/boot/dts/freescale/imx8mm-emcon.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8mm-emcon.dtsi
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0 or MIT)
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
- //
- // Copyright 2018 NXP
- // Copyright (C) 2021 emtrion GmbH
-diff --git a/arch/arm64/boot/dts/renesas/r8a77980a.dtsi b/arch/arm64/boot/dts/renesas/r8a77980a.dtsi
-index 25b2d27b6167..83f5e21111c9 100644
---- a/arch/arm64/boot/dts/renesas/r8a77980a.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77980a.dtsi
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0 or MIT)
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
- /*
-  * Device Tree Source for the R-Car V3H2 (R8A77980A) SoC
-  *
-diff --git a/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi b/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
-index 76a94812875e..5cbde8e8fcd5 100644
---- a/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0 or MIT)
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
- /*
-  * Device Tree Source for the Spider CPU board
-  *
-diff --git a/arch/arm64/boot/dts/renesas/r8a779f0-spider.dts b/arch/arm64/boot/dts/renesas/r8a779f0-spider.dts
-index 7aac3f4d319c..f139cc4feb37 100644
---- a/arch/arm64/boot/dts/renesas/r8a779f0-spider.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a779f0-spider.dts
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0 or MIT)
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
- /*
-  * Device Tree Source for the Spider CPU and BreakOut boards
-  *
-diff --git a/arch/arm64/boot/dts/renesas/r8a779f0.dtsi b/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
-index 0059c9c580f3..ecdd5a523fa3 100644
---- a/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0 or MIT)
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
- /*
-  * Device Tree Source for the R-Car S4-8 (R8A779F0) SoC
-  *
-diff --git a/arch/arm64/boot/dts/renesas/r8a779m0.dtsi b/arch/arm64/boot/dts/renesas/r8a779m0.dtsi
-index 6fb1979cc041..38978360e722 100644
---- a/arch/arm64/boot/dts/renesas/r8a779m0.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779m0.dtsi
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0 or MIT)
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
- /*
-  * Device Tree Source for the R-Car H3e (R8A779M0) SoC
-  *
-diff --git a/arch/arm64/boot/dts/renesas/r8a779m1-salvator-xs.dts b/arch/arm64/boot/dts/renesas/r8a779m1-salvator-xs.dts
-index 084b75b04680..74b0ac04ffe1 100644
---- a/arch/arm64/boot/dts/renesas/r8a779m1-salvator-xs.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a779m1-salvator-xs.dts
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0 or MIT)
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
- /*
-  * Device Tree Source for the Salvator-X 2nd version board with R-Car H3e-2G
-  *
-diff --git a/arch/arm64/boot/dts/renesas/r8a779m1-ulcb-kf.dts b/arch/arm64/boot/dts/renesas/r8a779m1-ulcb-kf.dts
-index 0baebc5c58b0..d2089e1d7100 100644
---- a/arch/arm64/boot/dts/renesas/r8a779m1-ulcb-kf.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a779m1-ulcb-kf.dts
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0 or MIT)
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
- /*
-  * Device Tree Source for the H3ULCB Kingfisher board with R-Car H3e-2G
-  *
-diff --git a/arch/arm64/boot/dts/renesas/r8a779m1-ulcb.dts b/arch/arm64/boot/dts/renesas/r8a779m1-ulcb.dts
-index e294b6bda28c..705ea047ef62 100644
---- a/arch/arm64/boot/dts/renesas/r8a779m1-ulcb.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a779m1-ulcb.dts
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0 or MIT)
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
- /*
-  * Device Tree Source for the H3ULCB (R-Car Starter Kit Premier) with R-Car H3e-2G
-  *
-diff --git a/arch/arm64/boot/dts/renesas/r8a779m1.dtsi b/arch/arm64/boot/dts/renesas/r8a779m1.dtsi
-index 1064a87a0c77..be0219defe3a 100644
---- a/arch/arm64/boot/dts/renesas/r8a779m1.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779m1.dtsi
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0 or MIT)
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
- /*
-  * Device Tree Source for the R-Car H3e-2G (R8A779M1) SoC
-  *
-diff --git a/arch/arm64/boot/dts/renesas/r8a779m2.dtsi b/arch/arm64/boot/dts/renesas/r8a779m2.dtsi
-index 324627340b86..bced12764c69 100644
---- a/arch/arm64/boot/dts/renesas/r8a779m2.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779m2.dtsi
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0 or MIT)
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
- /*
-  * Device Tree Source for the R-Car M3e (R8A779M2) SoC
-  *
-diff --git a/arch/arm64/boot/dts/renesas/r8a779m3-salvator-xs.dts b/arch/arm64/boot/dts/renesas/r8a779m3-salvator-xs.dts
-index 4ab26fd7233d..e53a6e88ccfa 100644
---- a/arch/arm64/boot/dts/renesas/r8a779m3-salvator-xs.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a779m3-salvator-xs.dts
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0 or MIT)
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
- /*
-  * Device Tree Source for the Salvator-X 2nd version board with R-Car M3e-2G
-  *
-diff --git a/arch/arm64/boot/dts/renesas/r8a779m3-ulcb-kf.dts b/arch/arm64/boot/dts/renesas/r8a779m3-ulcb-kf.dts
-index 6bacee1d2ef5..587e8764bcd2 100644
---- a/arch/arm64/boot/dts/renesas/r8a779m3-ulcb-kf.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a779m3-ulcb-kf.dts
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0 or MIT)
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
- /*
-  * Device Tree Source for the M3ULCB Kingfisher board with R-Car M3e-2G
-  *
-diff --git a/arch/arm64/boot/dts/renesas/r8a779m3-ulcb.dts b/arch/arm64/boot/dts/renesas/r8a779m3-ulcb.dts
-index 8f215a0b771b..413f000b4630 100644
---- a/arch/arm64/boot/dts/renesas/r8a779m3-ulcb.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a779m3-ulcb.dts
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0 or MIT)
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
- /*
-  * Device Tree Source for the M3ULCB (R-Car Starter Kit Pro) with R-Car M3e-2G
-  *
-diff --git a/arch/arm64/boot/dts/renesas/r8a779m3.dtsi b/arch/arm64/boot/dts/renesas/r8a779m3.dtsi
-index 7fdbdd97ed4b..ffde141137df 100644
---- a/arch/arm64/boot/dts/renesas/r8a779m3.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779m3.dtsi
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0 or MIT)
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
- /*
-  * Device Tree Source for the R-Car M3e-2G (R8A779M3) SoC
-  *
-diff --git a/arch/arm64/boot/dts/renesas/r8a779m4.dtsi b/arch/arm64/boot/dts/renesas/r8a779m4.dtsi
-index d7fbb6c05502..ae8486056962 100644
---- a/arch/arm64/boot/dts/renesas/r8a779m4.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779m4.dtsi
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0 or MIT)
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
- /*
-  * Device Tree Source for the R-Car M3Ne (R8A779M4) SoC
-  *
-diff --git a/arch/arm64/boot/dts/renesas/r8a779m5-salvator-xs.dts b/arch/arm64/boot/dts/renesas/r8a779m5-salvator-xs.dts
-index c0341a88d641..6efc23171a66 100644
---- a/arch/arm64/boot/dts/renesas/r8a779m5-salvator-xs.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a779m5-salvator-xs.dts
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0 or MIT)
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
- /*
-  * Device Tree Source for the Salvator-X 2nd version board with R-Car M3Ne-2G
-  *
-diff --git a/arch/arm64/boot/dts/renesas/r8a779m5.dtsi b/arch/arm64/boot/dts/renesas/r8a779m5.dtsi
-index df51e0ff5986..aded03ad31a1 100644
---- a/arch/arm64/boot/dts/renesas/r8a779m5.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779m5.dtsi
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0 or MIT)
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
- /*
-  * Device Tree Source for the R-Car M3Ne-2G (R8A779M5) SoC
-  *
-diff --git a/arch/arm64/boot/dts/renesas/r8a779m6.dtsi b/arch/arm64/boot/dts/renesas/r8a779m6.dtsi
-index afe3cabfb898..94d6a6cf503e 100644
---- a/arch/arm64/boot/dts/renesas/r8a779m6.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779m6.dtsi
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0 or MIT)
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
- /*
-  * Device Tree Source for the R-Car E3e (R8A779M6) SoC
-  *
-diff --git a/arch/arm64/boot/dts/renesas/r8a779m7.dtsi b/arch/arm64/boot/dts/renesas/r8a779m7.dtsi
-index 4958babc52fd..0580fa614034 100644
---- a/arch/arm64/boot/dts/renesas/r8a779m7.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779m7.dtsi
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0 or MIT)
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
- /*
-  * Device Tree Source for the R-Car D3e (R8A779M7) SoC
-  *
-diff --git a/arch/arm64/boot/dts/renesas/r8a779m8.dtsi b/arch/arm64/boot/dts/renesas/r8a779m8.dtsi
-index 750bd8ccdb7f..dfccc080fb3e 100644
---- a/arch/arm64/boot/dts/renesas/r8a779m8.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779m8.dtsi
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0 or MIT)
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
- /*
-  * Device Tree Source for the R-Car H3Ne (R8A779M8) SoC
-  *
-diff --git a/arch/arm64/boot/dts/renesas/r8a779mb.dtsi b/arch/arm64/boot/dts/renesas/r8a779mb.dtsi
-index 40d1dce2f350..181b737c91cd 100644
---- a/arch/arm64/boot/dts/renesas/r8a779mb.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779mb.dtsi
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0 or MIT)
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
- /*
-  * Device Tree Source for the R-Car H3Ne-1.7G (R8A779MB) SoC
-  *
+-// SPDX-License-Identifier: (GPL-2.0+ or MIT)
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+ // Copyright (C) 2021-2022 Samuel Holland <samuel@sholland.org>
+ 
+ #include <dt-bindings/clock/sun6i-rtc.h>
 -- 
 2.34.1
 
