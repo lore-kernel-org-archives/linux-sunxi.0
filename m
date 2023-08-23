@@ -1,64 +1,68 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 558E3156E6
-	for <linux-sunxi@lists.linux.dev>; Wed, 23 Aug 2023 19:36:56 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2b9f0b7af65so91678951fa.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 23 Aug 2023 12:36:55 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4FF8156E6
+	for <linux-sunxi@lists.linux.dev>; Wed, 23 Aug 2023 19:38:34 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-52a1ce529fdso2737957a12.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 23 Aug 2023 12:38:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692819414; x=1693424214;
+        d=gmail.com; s=20221208; t=1692819512; x=1693424312;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7XseqOE+hrW2j1mbiFEeFoJsIauOkD7dow7NanYEiT8=;
-        b=Kft/HoItEBfX/gA5eGlgeAkK7GnSL6fuOyiIN1iL/tsUG4Q/3M1VEkLwg4UTHuglGE
-         x3wnrm+/yrsVs0RuFq5y8SsyTt9CduXxGmM2kkq41TC++M2w0mtXmUZ0RlhRLMLdDwyF
-         OcAnRIMTRex0rHE5IKq35VzvjzOD2boCrTenHGv5WO2E1fMZNJcvVIWyQb/H+JCRUN3C
-         jei7nMhB/7+t+5Sn9vvne0uztfOfdHqaqIXFyVV2SVwBNDkigi5qhWZCCTMO1ExetObK
-         KYYTf0w7NITLBszeBLnbsaLwJ8FlxsYUA+bmyMY2UySxaTBBQjMxpercv/15ucIugMUR
-         Ti3w==
+        bh=kq991UMi93SvxAEUlvpzQ8KPcTTrf/+SzjBMpbrDAuE=;
+        b=Wi/qhG6tPD4aWWf+ZXe8rkuem6kdG8gD3XJH5h/9Q+DmrtHZPSf0w1DeTPdaNtd7vZ
+         kxoELZxqfqIqjZ63H5NRWGbTHyKL70hXrbYdPRzh7lWIUZseVn+Z8L7SdXTHPNilv9SV
+         F1wVUc0wM/8uZvHtpYDOtlwByenL7mRYl0Iq2KChl9QWNe9KJ7TKQP5ItAGabc19l35v
+         64Y7C59BgZ3qNoQ2xeQuXhH6I+O6LdQerNOhDJaM7aLM28yCTyHLqxero3os0niycdBH
+         IMdclBCkum9s7XXkRec6UQHUgjMyHY1WUf0HBxJgwEe7uofCrk28EcHEBbyMV1Tm0sBM
+         hmCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692819414; x=1693424214;
+        d=1e100.net; s=20221208; t=1692819512; x=1693424312;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=7XseqOE+hrW2j1mbiFEeFoJsIauOkD7dow7NanYEiT8=;
-        b=fgurU0bPK6KB3trJdvQ2oM3kFME1nH16pNtHVsDTHng0VGsdcw+C1PMiYv3knqTRpe
-         NEvKS39l6rU2L4NyUNZhyqd3FIra/3gOstgTHdmPr7vao3yyNmiVqJecVUIZ+2/WrL1G
-         eHiT/9+upHI9p/GVZ828HuqualT6rZVT/wMjvCkBVDdzYskIdcKhMVKJbHQxKrD06z4v
-         EW1kcrDnUQCezWbSca1CiSYh3RdlvjM/xAa3rziJNboUoInuUIK6IjFxUFQySMTrI1CV
-         0KYpHx3Y1At2okD+4HUBl3ZwHhKH/cHeUPr3KGKabutPQcQgimRFsR6Qs8SfHy1FCDQl
-         /f3w==
-X-Gm-Message-State: AOJu0Yxy8BxW+lDKUNk6XjTC/LQ2umiaL7gXXb8Zf+adJBwzQqaaa1Bl
-	zDhH/wU7Gbiciw6rg8GYFyw=
-X-Google-Smtp-Source: AGHT+IEag43atiZQRGzFMqHQ4Knh0z6BzGKYlRrJOybchcj/oRn0svYRxmL4xbMLG9fqUNS87csexQ==
-X-Received: by 2002:a2e:a201:0:b0:2b5:9d78:213e with SMTP id h1-20020a2ea201000000b002b59d78213emr9825308ljm.22.1692819413752;
-        Wed, 23 Aug 2023 12:36:53 -0700 (PDT)
+        bh=kq991UMi93SvxAEUlvpzQ8KPcTTrf/+SzjBMpbrDAuE=;
+        b=Yt9YJ7y0/USpKKzMm35Ix/x72UomiGc0B4cfplc9Du3Zo40pqlwl0ee/IpB6L8KG3Y
+         KBsPrBt8DpahDd8AZ6bzQwrqZ6J8cmYu5XaYJmGWmQuc/hJx7vWNeF2XpeCEm7rltwhB
+         snoyNUhvIw6YvJrABCVvvnFejslJs0K9u30UFaeh3fRaO4ZAE4hx76dQcZ6/3vwLZbf6
+         FVSQEfmrOpi9tsg49I1Rhbhp9NRtTNu9w6zzoBuqoHcHdkoUoRcF574RY7GVKPjo3utX
+         KGVPpn3zcC/quk8uUgYkv+AouG4YnOEZ7VPeDVOLmTNqVniOXtcF3v20PgtZuGLfmm9a
+         pk6w==
+X-Gm-Message-State: AOJu0YzR0gXIV/mMw+gjvMYYjwtslrpZhY51E46eVUd5tOfPvlVtUSYG
+	06Uu3GFYk6mCGrutNfN5xXY=
+X-Google-Smtp-Source: AGHT+IHrbQ2XxSa298zOaPbVbfJsz7qc/J48gWuoAjGfAFXCtqqRiorEHwQ6qYK0J9IOBFeBLKh62A==
+X-Received: by 2002:a05:6402:3447:b0:523:1004:1ca0 with SMTP id l7-20020a056402344700b0052310041ca0mr12620485edc.5.1692819512408;
+        Wed, 23 Aug 2023 12:38:32 -0700 (PDT)
 Received: from jernej-laptop.localnet (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
-        by smtp.gmail.com with ESMTPSA id y6-20020a170906070600b0099cadcf13cesm10074851ejb.66.2023.08.23.12.36.52
+        by smtp.gmail.com with ESMTPSA id l23-20020aa7c3d7000000b0052a023e9b5dsm7182303edr.47.2023.08.23.12.38.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Aug 2023 12:36:53 -0700 (PDT)
+        Wed, 23 Aug 2023 12:38:31 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Rob Herring <robh+dt@kernel.org>,
+To: Vasily Khoruzhick <anarsoul@gmail.com>,
+ Yangtao Li <tiny.windzz@gmail.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Amit Kucheria <amitk@kernel.org>,
+ Zhang Rui <rui.zhang@intel.com>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>, Kees Cook <keescook@chromium.org>,
- Tony Luck <tony.luck@intel.com>,
- "Guilherme G. Piccoli" <gpiccoli@igalia.com>, devicetree@vger.kernel.org,
+ Samuel Holland <samuel@sholland.org>,
+ Martin Botka <martin.botka@somainline.org>
+Cc: linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
- Jarrah Gosbell <kernel@undef.tools>,
- Arnaud Ferraris <arnaud.ferraris@collabora.com>, Pavel Machek <pavel@ucw.cz>,
- Andrey Skvortsov <andrej.skvortzov@gmail.com>
-Cc: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+ linux-kernel@vger.kernel.org, Andre Przywara <andre.przywara@arm.com>,
+ Alan Ma <tech@biqu3d.com>, Luke Harrison <bttuniversity@biqu3d.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Martin Botka <martin@biqu3d.com>, Martin Botka <martin.botka@somainline.org>
 Subject:
- Re: [PATCH v2] arm64: dts: pinephone: Add pstore support for PinePhone A64
-Date: Wed, 23 Aug 2023 21:36:51 +0200
-Message-ID: <2235209.iZASKD2KPV@jernej-laptop>
-In-Reply-To: <20230822092358.309835-1-andrej.skvortzov@gmail.com>
+ Re: [PATCH v2 2/3] thermal: sun8i: Add support for H616 THS controller
+Date: Wed, 23 Aug 2023 21:38:30 +0200
+Message-ID: <21986607.EfDdHjke4D@jernej-laptop>
+In-Reply-To: <20230821-ths-h616-v2-2-cda60d556798@somainline.org>
 References:
- <20230821160817.GA2227@bug>
- <20230822092358.309835-1-andrej.skvortzov@gmail.com>
+ <20230821-ths-h616-v2-0-cda60d556798@somainline.org>
+ <20230821-ths-h616-v2-2-cda60d556798@somainline.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -68,70 +72,128 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Hi Andrey,
-
-send new revision as standalone e-mail, not as reply to old discussion.
-
-Dne torek, 22. avgust 2023 ob 11:23:58 CEST je Andrey Skvortsov napisal(a):
-> This patch reserves some memory in the DTS and sets up a
-> pstore device tree node to enable pstore support.
+Dne ponedeljek, 21. avgust 2023 ob 16:03:47 CEST je Martin Botka napisal(a):
+> Add support for the thermal sensor found in H616 SoC
+> which slightly resembles the H6 thermal sensor
+> controller with few changes like 4 sensors.
 > 
-> In general any DRAM address, that isn't overwritten during a boot is
-> suitable for pstore.
+> Signed-off-by: Martin Botka <martin.botka@somainline.org>
+> ---
+>  drivers/thermal/sun8i_thermal.c | 74
+> +++++++++++++++++++++++++++++++++++++++++ 1 file changed, 74 insertions(+)
 > 
-> Range from 0x40000000 - 0x50000000 is heavily used by u-boot for
-> internal use and to load kernel, fdt, fdto, scripts, pxefile and ramdisk
-> later in the boot process. Ramdisk start address is 0x4FF00000,
-> initramfs for kernel with some hacking features and debug info enabled
-> can take more than 100Mb and final address will be around 0x58000000.
-> Address 0x61000000 will most likely not overlap with that.
+> diff --git a/drivers/thermal/sun8i_thermal.c
+> b/drivers/thermal/sun8i_thermal.c index 195f3c5d0b38..cf96ab6a445b 100644
+> --- a/drivers/thermal/sun8i_thermal.c
+> +++ b/drivers/thermal/sun8i_thermal.c
+> @@ -278,6 +278,66 @@ static int sun50i_h6_ths_calibrate(struct ths_device
+> *tmdev, return 0;
+>  }
+> 
+> +static int sun50i_h616_ths_calibrate(struct ths_device *tmdev,
+> +				     u16 *caldata, int callen)
+> +{
+> +	struct device *dev = tmdev->dev;
+> +	int i, ft_temp;
+> +
+> +	if (!caldata[0])
+> +		return -EINVAL;
+> +
+> +	/*
+> +	 * h616 efuse THS calibration data layout:
+> +	 *
+> +	 * 0      11  16     27   32     43   48    57
+> +	 * +----------+-----------+-----------+-----------+
+> +	 * |  temp |  |sensor0|   |sensor1|   |sensor2|   |
+> +	 * +----------+-----------+-----------+-----------+
+> +	 *                      ^           ^           ^
+> +	 *                      |           |           |
+> +	 *                      |           |           sensor3[11:8]
+> +	 *                      |           sensor3[7:4]
+> +	 *                      sensor3[3:0]
+> +	 *
+> +	 * The calibration data on the H616 is the ambient temperature and
+> +	 * sensor values that are filled during the factory test stage.
+> +	 *
+> +	 * The unit of stored FT temperature is 0.1 degree celsius.
+> +	 */
+> +	ft_temp = caldata[0] & FT_TEMP_MASK;
+> +
+> +	for (i = 0; i < tmdev->chip->sensor_num; i++) {
+> +		int delta, cdata, offset, reg;
+> +
+> +		if (i == 3)
+> +			reg = (caldata[1] >> 12)
+> +			      | ((caldata[2] >> 12) << 4)
+> +			      | ((caldata[3] >> 12) << 8);
+> +		else
+> +			reg = (int)caldata[i + 1] & TEMP_CALIB_MASK;
+> +
+> +		int sensor_temp = tmdev->chip->calc_temp(tmdev, i, reg);
 
-There are other bootloaders as U-Boot, especially on PinePhone. Are you sure 
-it works there too? What about U-Boot configuration, will those addresses still 
-be used if configuration is changed?
+Variable declaration should be done at the beginning of code block.
 
 Best regards,
 Jernej
 
-> 
-> Signed-off-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-> ---
-> 
-> Changes in v2:
->  - Update commit description with information about why this base address is
-> used.
-> 
->  .../boot/dts/allwinner/sun50i-a64-pinephone.dtsi | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-> b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi index
-> 87847116ab6d..84f9410b0b70 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-> @@ -19,6 +19,22 @@ aliases {
->  		serial0 = &uart0;
->  	};
-> 
-> +	reserved-memory {
-> +		#address-cells = <1>;
-> +		#size-cells = <1>;
-> +		ranges;
 > +
-> +		pstore_mem: ramoops@61000000 {
-> +			compatible = "ramoops";
-> +			reg = <0x61000000 0x100000>;
-> +			record-size = <0x20000>;
-> +			console-size = <0x20000>;
-> +			ftrace-size = <0x20000>;
-> +			pmsg-size = <0x20000>;
-> +			ecc-size = <16>;
-> +		};
-> +	};
+> +		delta = (sensor_temp - ft_temp * 100) * 10;
+> +		delta /= tmdev->chip->scale;
+> +		cdata = CALIBRATE_DEFAULT - delta;
+> +		if (cdata & ~TEMP_CALIB_MASK) {
+> +			dev_warn(dev, "sensor%d is not calibrated.
+\n", i);
 > +
->  	backlight: backlight {
->  		compatible = "pwm-backlight";
->  		pwms = <&r_pwm 0 50000 PWM_POLARITY_INVERTED>;
+> +			continue;
+> +		}
+> +
+> +		offset = (i % 2) * 16;
+> +		regmap_update_bits(tmdev->regmap,
+> +				   SUN50I_H6_THS_TEMP_CALIB + (i / 
+2 * 4),
+> +				   TEMP_CALIB_MASK << offset,
+> +				   cdata << offset);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static int sun8i_ths_calibrate(struct ths_device *tmdev)
+>  {
+>  	struct nvmem_cell *calcell;
+> @@ -608,6 +668,19 @@ static const struct ths_thermal_chip sun50i_h6_ths = {
+>  	.calc_temp = sun8i_ths_calc_temp,
+>  };
+> 
+> +static const struct ths_thermal_chip sun50i_h616_ths = {
+> +	.sensor_num = 4,
+> +	.has_bus_clk_reset = true,
+> +	.ft_deviation = 8000,
+> +	.offset = 263655,
+> +	.scale = 810,
+> +	.temp_data_base = SUN50I_H6_THS_TEMP_DATA,
+> +	.calibrate = sun50i_h616_ths_calibrate,
+> +	.init = sun50i_h6_thermal_init,
+> +	.irq_ack = sun50i_h6_irq_ack,
+> +	.calc_temp = sun8i_ths_calc_temp,
+> +};
+> +
+>  static const struct of_device_id of_ths_match[] = {
+>  	{ .compatible = "allwinner,sun8i-a83t-ths", .data = 
+&sun8i_a83t_ths },
+>  	{ .compatible = "allwinner,sun8i-h3-ths", .data = &sun8i_h3_ths },
+> @@ -616,6 +689,7 @@ static const struct of_device_id of_ths_match[] = {
+>  	{ .compatible = "allwinner,sun50i-a100-ths", .data = 
+&sun50i_a100_ths },
+>  	{ .compatible = "allwinner,sun50i-h5-ths", .data = &sun50i_h5_ths 
+},
+>  	{ .compatible = "allwinner,sun50i-h6-ths", .data = &sun50i_h6_ths 
+},
+> +	{ .compatible = "allwinner,sun50i-h616-ths", .data = 
+&sun50i_h616_ths },
+>  	{ /* sentinel */ },
+>  };
+>  MODULE_DEVICE_TABLE(of, of_ths_match);
 
 
 
