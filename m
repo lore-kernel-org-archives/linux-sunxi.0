@@ -1,237 +1,116 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43A14883A
-	for <linux-sunxi@lists.linux.dev>; Wed, 23 Aug 2023 08:52:44 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-99bc9e3cbf1so1103083066b.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 23 Aug 2023 01:52:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692780762; x=1693385562;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=aMAzBQ2JWtyTS8mD8e3Fxmu2d91tt0ITlswZAkxTIh4=;
-        b=OxEp5de1cW3arQOc7FTUhnrwD2M3065uhbMylGGIzlaSBIYnfSpA2ScRQUycl3Fn2I
-         6HQpegZ5L6O93HqxZhbsUxzYXnwfwPusJEGQqvIt+JzP/r9Wl3gCKmrQMqUK6kLf3iwP
-         02Df7eU/vgdF4o97ikufrsUegyIy3efwxfLmZ0a1j3QZWMpNOnoBOG+RcljTrKWtyy3i
-         P6sfFz+3NjFugVMhVprxslhMJXJt20YozDgBAmr37O8iVlowk5LSPo3f3pLZw3ke6qmI
-         Vn3ctXAiQKF8eawIwY5SOok00/fIvlpDXFETu2pLpx6jJKE+wSA3CE+Q4auY6vkqU3nP
-         Ymwg==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FF1E947B
+	for <linux-sunxi@lists.linux.dev>; Wed, 23 Aug 2023 09:01:23 +0000 (UTC)
+Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-44d4a307d30so1064709137.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 23 Aug 2023 02:01:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692780762; x=1693385562;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aMAzBQ2JWtyTS8mD8e3Fxmu2d91tt0ITlswZAkxTIh4=;
-        b=U55XEJekUqAUPs+g/gu1A4HPTKl4g69oPV7rHnTo7ZZQnRienW8abBi8f2iSK4vpnU
-         ngF68JmnL+AxZvBvYX0NUzxH8JBhvThM5nBmgC2tCQRd1c0x8gNxCjnsSiFcDFTIbf6v
-         jL9WfdMhREBUljmiuEeRkvBVmgN7eWvlBQ41QqzkqA/yqIJbN6vpuIVYUOVOIppzNNDQ
-         FX5V9yWREUf4zjD66cDOynvNu/3++saHzyjRgc+x2YkiuNHY0AqZgMpne6e+PCSRPVSx
-         w15D/S2acUakBVYwi+L9tb9UPf2oxA1AfnhY8eHur8UADFbvMg+DoqjGuWpMQcs8JW3n
-         n1Tw==
-X-Gm-Message-State: AOJu0YytmbnCoQpspC4oP8UDMdwF3TEYQ2WA2V+qaYCRrQjmB0CRJY3Z
-	S82kxWd6Em0P3w/AMbcl+p+7yQ==
-X-Google-Smtp-Source: AGHT+IEZWFRQo+JFnpF1qlyr688eDH49YjAZuwvCYmHF+GBS3mKDm8CMK03WV266B3Bq58Lqb+bM7g==
-X-Received: by 2002:a17:906:28c:b0:99d:fcb7:60db with SMTP id 12-20020a170906028c00b0099dfcb760dbmr14077749ejf.16.1692780762254;
-        Wed, 23 Aug 2023 01:52:42 -0700 (PDT)
-Received: from krzk-bin.. ([77.252.47.198])
-        by smtp.gmail.com with ESMTPSA id l9-20020a1709066b8900b009a168ab6ee2sm8665633ejr.164.2023.08.23.01.52.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Aug 2023 01:52:41 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	devicetree@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH] riscv: dts: use capital "OR" for multiple licenses in SPDX
-Date: Wed, 23 Aug 2023 10:52:38 +0200
-Message-Id: <20230823085238.113642-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20221208; t=1692781282; x=1693386082;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DtV842noA4k0ZIyALimzf7oD/qGOzDsyzAeC5Bbahhw=;
+        b=fBOGXZnmW/Kj23Nmx2cQzT32KSnzn9aRoSakEpir4GBoECR+jx+WUnxz06F7S6kqf7
+         ObAC1kd54n/7v+wWW6ckNf/RW9lR0nXY5Wj77r4ZxbfTSX8r6Josg1x58RuehZHCV3W+
+         oaaEmPRD0TiqICdbjf8ui88vIgXu4ad/RXKV0DRIGWqGqVszrs/UZaEDFLJ5/Ij4N8VB
+         pR3HHx8GFL1+ja7Hi4J8CDRbUdyiHt9bw6AP9gMcDmhqb4pQQ7mmIbqLnHzhj32LSpUP
+         n6o0hjkWECUYjl9ptCpVf3aJWckRuVV1+YwLdv8JY9Vpg1Zqsji3LGc/XASPADtj9a0C
+         P41w==
+X-Gm-Message-State: AOJu0YzAVmZySjlX9aWoTGN/rrSKGx4kewTwmT3adU1/UBohtN7kov+X
+	vodjnfrGkNOEBLuGp/UCmWIrhgIKCijb3w==
+X-Google-Smtp-Source: AGHT+IGTwnWIXWVMzNIJRx0KGkRc/UAwfavcdw9AFzgV3ZZCBHx6kiiR6so+O4sQClEv1OomuVzHVQ==
+X-Received: by 2002:a67:eb06:0:b0:44d:5298:5bfc with SMTP id a6-20020a67eb06000000b0044d52985bfcmr5382604vso.17.1692781281852;
+        Wed, 23 Aug 2023 02:01:21 -0700 (PDT)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
+        by smtp.gmail.com with ESMTPSA id o62-20020a25d741000000b00d746487d6f7sm2324910ybg.35.2023.08.23.02.01.20
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Aug 2023 02:01:20 -0700 (PDT)
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-d746d030a86so4196174276.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 23 Aug 2023 02:01:20 -0700 (PDT)
+X-Received: by 2002:a25:cad7:0:b0:d12:46b1:4459 with SMTP id
+ a206-20020a25cad7000000b00d1246b14459mr12184522ybg.6.1692781280284; Wed, 23
+ Aug 2023 02:01:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230823085146.113562-1-krzysztof.kozlowski@linaro.org> <20230823085146.113562-2-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230823085146.113562-2-krzysztof.kozlowski@linaro.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 23 Aug 2023 11:01:08 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU7Gk5jTkD_hc_BAK0caQjzTBWrXedV+5rYrMRiZF1EAw@mail.gmail.com>
+Message-ID: <CAMuHMdU7Gk5jTkD_hc_BAK0caQjzTBWrXedV+5rYrMRiZF1EAw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] arm64: dts: use capital "OR" for multiple licenses in SPDX
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>, arm@kernel.org, soc@kernel.org, 
+	Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@arm.com>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Documentation/process/license-rules.rst and checkpatch expect the SPDX
-identifier syntax for multiple licenses to use capital "OR".  Correct it
-to keep consistent format and avoid copy-paste issues.
+On Wed, Aug 23, 2023 at 10:52=E2=80=AFAM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+> Documentation/process/license-rules.rst and checkpatch expect the SPDX
+> identifier syntax for multiple licenses to use capital "OR".  Correct it
+> to keep consistent format and avoid copy-paste issues.
+>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
----
+>  arch/arm64/boot/dts/renesas/r8a77980a.dtsi                     | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi           | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779f0-spider.dts                | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779f0.dtsi                      | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779m0.dtsi                      | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779m1-salvator-xs.dts           | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779m1-ulcb-kf.dts               | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779m1-ulcb.dts                  | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779m1.dtsi                      | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779m2.dtsi                      | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779m3-salvator-xs.dts           | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779m3-ulcb-kf.dts               | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779m3-ulcb.dts                  | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779m3.dtsi                      | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779m4.dtsi                      | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779m5-salvator-xs.dts           | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779m5.dtsi                      | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779m6.dtsi                      | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779m7.dtsi                      | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779m8.dtsi                      | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779mb.dtsi                      | 2 +-
 
-Rebased on next-20230822, so might not apply cleanly.  What does not
-apply, can be skipped and I will fix it after next RC.
----
- arch/riscv/boot/dts/allwinner/sun20i-common-regulators.dtsi     | 2 +-
- arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezha-stu.dts  | 2 +-
- .../boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-480p.dts    | 2 +-
- .../boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-720p.dts    | 2 +-
- arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel.dtsi | 2 +-
- arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-dock.dts      | 2 +-
- arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv.dts           | 2 +-
- arch/riscv/boot/dts/allwinner/sun20i-d1-mangopi-mq-pro.dts      | 2 +-
- arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts               | 2 +-
- arch/riscv/boot/dts/allwinner/sun20i-d1.dtsi                    | 2 +-
- arch/riscv/boot/dts/allwinner/sun20i-d1s-mangopi-mq.dts         | 2 +-
- arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi                   | 2 +-
- arch/riscv/boot/dts/allwinner/sunxi-d1-t113.dtsi                | 2 +-
- arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi               | 2 +-
- 14 files changed, 14 insertions(+), 14 deletions(-)
+Mea culpa
 
-diff --git a/arch/riscv/boot/dts/allwinner/sun20i-common-regulators.dtsi b/arch/riscv/boot/dts/allwinner/sun20i-common-regulators.dtsi
-index 9b03fca2444c..ed7b12e65a10 100644
---- a/arch/riscv/boot/dts/allwinner/sun20i-common-regulators.dtsi
-+++ b/arch/riscv/boot/dts/allwinner/sun20i-common-regulators.dtsi
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0+ or MIT)
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
- // Copyright (C) 2021-2022 Samuel Holland <samuel@sholland.org>
- 
- / {
-diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezha-stu.dts b/arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezha-stu.dts
-index 8785de3c9224..3a2c3281eb88 100644
---- a/arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezha-stu.dts
-+++ b/arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezha-stu.dts
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0+ or MIT)
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
- // Copyright (C) 2022 Samuel Holland <samuel@sholland.org>
- 
- #include <dt-bindings/gpio/gpio.h>
-diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-480p.dts b/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-480p.dts
-index 4df8ffb71561..711450ffb602 100644
---- a/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-480p.dts
-+++ b/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-480p.dts
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0+ or MIT)
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
- // Copyright (C) 2022 Samuel Holland <samuel@sholland.org>
- 
- #include "sun20i-d1-lichee-rv-86-panel.dtsi"
-diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-720p.dts b/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-720p.dts
-index 1874fc05359f..b217799e6166 100644
---- a/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-720p.dts
-+++ b/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-720p.dts
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0+ or MIT)
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
- // Copyright (C) 2022 Samuel Holland <samuel@sholland.org>
- 
- #include "sun20i-d1-lichee-rv-86-panel.dtsi"
-diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel.dtsi b/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel.dtsi
-index 6cc7dd0c1ae2..10116fb3935a 100644
---- a/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel.dtsi
-+++ b/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel.dtsi
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0+ or MIT)
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
- // Copyright (C) 2022 Samuel Holland <samuel@sholland.org>
- 
- #include "sun20i-d1-lichee-rv.dts"
-diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-dock.dts b/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-dock.dts
-index 52b91e1affed..08cf716328a0 100644
---- a/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-dock.dts
-+++ b/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-dock.dts
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0+ or MIT)
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
- // Copyright (C) 2022 Jisheng Zhang <jszhang@kernel.org>
- // Copyright (C) 2022 Samuel Holland <samuel@sholland.org>
- 
-diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv.dts b/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv.dts
-index d60a0562a8b1..204da82a5dc6 100644
---- a/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv.dts
-+++ b/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv.dts
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0+ or MIT)
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
- // Copyright (C) 2022 Jisheng Zhang <jszhang@kernel.org>
- // Copyright (C) 2022 Samuel Holland <samuel@sholland.org>
- 
-diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1-mangopi-mq-pro.dts b/arch/riscv/boot/dts/allwinner/sun20i-d1-mangopi-mq-pro.dts
-index f2e07043afb3..e2bb6bc16c13 100644
---- a/arch/riscv/boot/dts/allwinner/sun20i-d1-mangopi-mq-pro.dts
-+++ b/arch/riscv/boot/dts/allwinner/sun20i-d1-mangopi-mq-pro.dts
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0+ or MIT)
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
- // Copyright (C) 2022 Samuel Holland <samuel@sholland.org>
- 
- #include <dt-bindings/gpio/gpio.h>
-diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts b/arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts
-index 4ed33c1e7c9c..8dbe717c79ce 100644
---- a/arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts
-+++ b/arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0+ or MIT)
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
- // Copyright (C) 2021-2022 Samuel Holland <samuel@sholland.org>
- 
- /*
-diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1.dtsi b/arch/riscv/boot/dts/allwinner/sun20i-d1.dtsi
-index 97e7cbb32597..b18f368e06e0 100644
---- a/arch/riscv/boot/dts/allwinner/sun20i-d1.dtsi
-+++ b/arch/riscv/boot/dts/allwinner/sun20i-d1.dtsi
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0+ or MIT)
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
- // Copyright (C) 2021-2022 Samuel Holland <samuel@sholland.org>
- 
- #include "sun20i-d1s.dtsi"
-diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1s-mangopi-mq.dts b/arch/riscv/boot/dts/allwinner/sun20i-d1s-mangopi-mq.dts
-index e6d924f671fd..1a7d6ef33f17 100644
---- a/arch/riscv/boot/dts/allwinner/sun20i-d1s-mangopi-mq.dts
-+++ b/arch/riscv/boot/dts/allwinner/sun20i-d1s-mangopi-mq.dts
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0+ or MIT)
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
- // Copyright (C) 2022 Samuel Holland <samuel@sholland.org>
- 
- #include <dt-bindings/gpio/gpio.h>
-diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
-index 8275630af977..450387265469 100644
---- a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
-+++ b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0+ or MIT)
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
- // Copyright (C) 2021-2022 Samuel Holland <samuel@sholland.org>
- 
- #define SOC_PERIPHERAL_IRQ(nr)	(nr + 16)
-diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1-t113.dtsi b/arch/riscv/boot/dts/allwinner/sunxi-d1-t113.dtsi
-index b7156123df54..3b077dc086ab 100644
---- a/arch/riscv/boot/dts/allwinner/sunxi-d1-t113.dtsi
-+++ b/arch/riscv/boot/dts/allwinner/sunxi-d1-t113.dtsi
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0+ or MIT)
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
- // Copyright (C) 2021-2022 Samuel Holland <samuel@sholland.org>
- 
- / {
-diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-index 822f022eec2d..5a9d7f5a75b4 100644
---- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-+++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0+ or MIT)
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
- // Copyright (C) 2021-2022 Samuel Holland <samuel@sholland.org>
- 
- #include <dt-bindings/clock/sun6i-rtc.h>
--- 
-2.34.1
+Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
