@@ -1,112 +1,129 @@
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1230324550
-	for <linux-sunxi@lists.linux.dev>; Thu, 24 Aug 2023 11:41:23 +0000 (UTC)
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2b9c907bc68so109344961fa.2
-        for <linux-sunxi@lists.linux.dev>; Thu, 24 Aug 2023 04:41:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692877282; x=1693482082;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lYEBuXLu4uE2kJ2ozzMWwnVNoOekh2iwP5U6RNf7wSQ=;
-        b=IKtvF8nmYy3jZ7/tJ1ocNP83YPhmUOfU1ukKLrZoQ6NlIktkzevrCQrmnmiW4x0qzW
-         HBI4kVl2oTb/QFXqzblfGXbqZ9nkrWF3UbKlS7ie5LUa3Ewrwlmib/AGoAa+uXp/sq9L
-         zpWyllOijHQbzEjlhrDvRBGgNtKdereRvqMDxclED6/MvyPD+YZX6RGlcnALjWO44THx
-         1DjSTu8htrFdTfgfjsHEpiwzll6TF1HKu5m6j7ZbCYBz3WXvGtXvNWf1g2FVfPbFoazR
-         WGvenfJw+bnejp3NWw5nt6qPME6QQLaj0sszl3S1ryTnnViYmWGUSB3OK2e3HnZ62lFg
-         056g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692877282; x=1693482082;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lYEBuXLu4uE2kJ2ozzMWwnVNoOekh2iwP5U6RNf7wSQ=;
-        b=dq47lCyntx1cf2nEXD+OEoFnH3lnpCz8OlXIfnPZMzl8xTZtCnGpAvZaT/BQiw5mqS
-         7z3W/N3JKWBncdPf5/9r0058iSvxFGGQ3eUqOHlW1pc3tytcTMVsmkYvIMCOWKRzgISk
-         aHYNg5Z1LQZE1ilHw50FD30Jd7+6h8L3NxcO6Nv99zbBRzgXTmtgPB/W1Nu0ogQWTD3W
-         uqW5Pk35taT6l6tZJAGp/g2rKpBslTgdS0phKInlLqoh8d5UacMwiIvmR8wVWz9FtBwp
-         iBh5cAtdhm4PmBgwSV8qB8eapGNs64BtUJuq9DwDxU9HgiS9FYkkwOd3x5hazKaOfVZA
-         uN5g==
-X-Gm-Message-State: AOJu0Yw3CNPYTJYZh5a00lSuSXqIN4Diuh+pHKszohqHfiwBdarzPjX+
-	iI7BcgLn7c7hM3f3m1rtOA==
-X-Google-Smtp-Source: AGHT+IGosD9atNDiPZaywzwFkj+U9Wv2BBqLfQ1/+Gnx3OMtc/Isue8TDcEuNM0sXvJzNSBzWrxEzA==
-X-Received: by 2002:a2e:9e09:0:b0:2b6:dac0:affe with SMTP id e9-20020a2e9e09000000b002b6dac0affemr11525371ljk.31.1692877281745;
-        Thu, 24 Aug 2023 04:41:21 -0700 (PDT)
-Received: from localhost.localdomain (mail.pulsar-telecom.ru. [94.181.180.60])
-        by smtp.gmail.com with ESMTPSA id o17-20020a2e0c51000000b002ba053e1f9bsm534568ljd.35.2023.08.24.04.41.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Aug 2023 04:41:21 -0700 (PDT)
-From: Aleksandr Shubin <privatesub2@gmail.com>
-To: linux-kernel@vger.kernel.org
-Cc: Aleksandr Shubin <privatesub2@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-pwm@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-riscv@lists.infradead.org
-Subject: [PATCH v6 3/3] riscv: dts: allwinner: d1: Add pwm node
-Date: Thu, 24 Aug 2023 14:40:27 +0300
-Message-Id: <20230824114038.891493-4-privatesub2@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230824114038.891493-1-privatesub2@gmail.com>
-References: <20230824114038.891493-1-privatesub2@gmail.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7F2C28904
+	for <linux-sunxi@lists.linux.dev>; Thu, 24 Aug 2023 13:51:35 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4FA2E1007;
+	Thu, 24 Aug 2023 06:52:09 -0700 (PDT)
+Received: from slackpad.lan (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BB0603F762;
+	Thu, 24 Aug 2023 06:51:26 -0700 (PDT)
+Date: Thu, 24 Aug 2023 14:50:25 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+Cc: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Kees
+ Cook <keescook@chromium.org>, Tony Luck <tony.luck@intel.com>, "Guilherme
+ G. Piccoli" <gpiccoli@igalia.com>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, Jarrah
+ Gosbell <kernel@undef.tools>, Arnaud Ferraris
+ <arnaud.ferraris@collabora.com>, Pavel Machek <pavel@ucw.cz>
+Subject: Re: [PATCH v2] arm64: dts: pinephone: Add pstore support for
+ PinePhone A64
+Message-ID: <20230824144952.5b908649@slackpad.lan>
+In-Reply-To: <2235209.iZASKD2KPV@jernej-laptop>
+References: <20230821160817.GA2227@bug>
+	<20230822092358.309835-1-andrej.skvortzov@gmail.com>
+	<2235209.iZASKD2KPV@jernej-laptop>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-D1 and T113s contain a pwm controller with 8 channels.
-This controller is supported by the sun20i-pwm driver.
+On Wed, 23 Aug 2023 21:36:51 +0200
+Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
 
-Add a device tree node for it.
 
-Signed-off-by: Aleksandr Shubin <privatesub2@gmail.com>
----
- arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Hi Andrey,
 
-diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-index 922e8e0e2c09..c4ce13ab9512 100644
---- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-+++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-@@ -127,6 +127,18 @@ uart3_pb_pins: uart3-pb-pins {
- 			};
- 		};
- 
-+		pwm: pwm@2000c00 {
-+			compatible = "allwinner,sun20i-d1-pwm";
-+			reg = <0x02000c00 0x400>;
-+			clocks = <&ccu CLK_BUS_PWM>,
-+				 <&dcxo>,
-+				 <&ccu CLK_APB0>;
-+			clock-names = "bus", "hosc", "apb0";
-+			resets = <&ccu RST_BUS_PWM>;
-+			status = "disabled";
-+			#pwm-cells = <0x3>;
-+		};
-+
- 		ccu: clock-controller@2001000 {
- 			compatible = "allwinner,sun20i-d1-ccu";
- 			reg = <0x2001000 0x1000>;
--- 
-2.25.1
+> send new revision as standalone e-mail, not as reply to old discussion.
+>=20
+> Dne torek, 22. avgust 2023 ob 11:23:58 CEST je Andrey Skvortsov napisal(a=
+):
+> > This patch reserves some memory in the DTS and sets up a
+> > pstore device tree node to enable pstore support.
+> >=20
+> > In general any DRAM address, that isn't overwritten during a boot is
+> > suitable for pstore.
+> >=20
+> > Range from 0x40000000 - 0x50000000 is heavily used by u-boot for
+> > internal use and to load kernel, fdt, fdto, scripts, pxefile and ramdisk
+> > later in the boot process. Ramdisk start address is 0x4FF00000,
+> > initramfs for kernel with some hacking features and debug info enabled
+> > can take more than 100Mb and final address will be around 0x58000000.
+> > Address 0x61000000 will most likely not overlap with that. =20
+>=20
+> There are other bootloaders as U-Boot, especially on PinePhone. Are you s=
+ure=20
+> it works there too? What about U-Boot configuration, will those addresses=
+ still=20
+> be used if configuration is changed?
+
+Also going along with what Pavel said (that's it more a policy
+decision, not a device property), I feel like this node should be added
+by the bootloader then. And indeed U-Boot has support for that already.
+=46rom skimming over the code in cmd/pstore.c: if you enable
+CONFIG_CMD_PSTORE and set CONFIG_CMD_PSTORE_MEM_ADDR to your chosen
+address, then the U-Boot code will insert a reserved memory node on the
+fly. Would that solve your problem?
+
+Cheers,
+Andre
+
+> Best regards,
+> Jernej
+>=20
+> >=20
+> > Signed-off-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+> > ---
+> >=20
+> > Changes in v2:
+> >  - Update commit description with information about why this base addre=
+ss is
+> > used.
+> >=20
+> >  .../boot/dts/allwinner/sun50i-a64-pinephone.dtsi | 16 ++++++++++++++++
+> >  1 file changed, 16 insertions(+)
+> >=20
+> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> > b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi index
+> > 87847116ab6d..84f9410b0b70 100644
+> > --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> > @@ -19,6 +19,22 @@ aliases {
+> >  		serial0 =3D &uart0;
+> >  	};
+> >=20
+> > +	reserved-memory {
+> > +		#address-cells =3D <1>;
+> > +		#size-cells =3D <1>;
+> > +		ranges;
+> > +
+> > +		pstore_mem: ramoops@61000000 {
+> > +			compatible =3D "ramoops";
+> > +			reg =3D <0x61000000 0x100000>;
+> > +			record-size =3D <0x20000>;
+> > +			console-size =3D <0x20000>;
+> > +			ftrace-size =3D <0x20000>;
+> > +			pmsg-size =3D <0x20000>;
+> > +			ecc-size =3D <16>;
+> > +		};
+> > +	};
+> > +
+> >  	backlight: backlight {
+> >  		compatible =3D "pwm-backlight";
+> >  		pwms =3D <&r_pwm 0 50000 PWM_POLARITY_INVERTED>; =20
+>=20
+>=20
+>=20
+>=20
+>=20
 
