@@ -1,110 +1,285 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay07.th.seeweb.it (relay07.th.seeweb.it [5.144.164.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1E6F125B4
-	for <linux-sunxi@lists.linux.dev>; Thu, 24 Aug 2023 15:22:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84BDCC433C8;
-	Thu, 24 Aug 2023 15:22:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1692890544;
-	bh=7JhRfbopQaOogreIPejQDXFlXIIj835fOjpo1rdhrvg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=n3NuT2Sbufm+uP2yyu+PPTDUn34OSdOVe8nkOHpirnCm6/0YbnURhuhRLmOt2Gt+j
-	 ycLCBMdw5pDc6LV79meDuu3xh4ZJT5A5UnSXBTamhD3xIt+ZOhRjhinu9Pqk5KbsfN
-	 RftNgaypVKIbi2YMaP0ZP7bfyz+M4dGlZZ0DeLLcuL0ToeDrIyqQsI2h2NMj0aDuWO
-	 s4fBq1WLpK96X+Y007SJXDNIjc0DzcTeZKMIzuKSlv2O0Eaa+38paaaOgbZI0AUQan
-	 yL+QVCbYKB2iZh/jTVHTwxAWAwkcq/fH76vh5Poafc4BCdDlePj80kdWjRcEdt77nY
-	 LQO0QWhKZxpJQ==
-Date: Thu, 24 Aug 2023 16:22:18 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Chris Morgan <macroalpha82@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
-	mripard@kernel.org, jagan@edgeble.ai, heiko@sntech.de,
-	uwu@icenowy.me, andre.przywara@arm.com, daniel@ffwll.ch,
-	airlied@gmail.com, sam@ravnborg.org, neil.armstrong@linaro.org,
-	noralf@tronnes.org, samuel@sholland.org, jernej.skrabec@gmail.com,
-	wens@csie.org, conor+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-	Chris Morgan <macromorgan@hotmail.com>
-Subject: Re: [PATCH V3 2/8] dt-bindings: display: panel: mipi-dbi-spi: add
- Saef SF-TC154B
-Message-ID: <20230824-science-praising-2ca38dba9af0@spud>
-References: <20230823212554.378403-1-macroalpha82@gmail.com>
- <20230823212554.378403-3-macroalpha82@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 496227F
+	for <linux-sunxi@lists.linux.dev>; Thu, 24 Aug 2023 20:48:36 +0000 (UTC)
+Received: from [192.168.2.144] (bband-dyn198.178-41-58.t-com.sk [178.41.58.198])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by m-r2.th.seeweb.it (Postfix) with ESMTPSA id B66B73F291;
+	Thu, 24 Aug 2023 22:48:26 +0200 (CEST)
+Date: Thu, 24 Aug 2023 22:48:20 +0200
+From: Martin Botka <martin.botka@somainline.org>
+Subject: Re: [PATCH v4 4/4] arm64: dts: allwinner: h616: Add BigTreeTech Pi
+ support
+To: Jernej =?iso-8859-2?q?=A9krabec?= <jernej.skrabec@gmail.com>
+Cc: Martin Botka <martin.botka1@gmail.com>, Martin Botka <martin@biqu3d.com>,
+	Konrad Dybcio <konrad.dybcio@somainline.org>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@somainline.org>, Marijn Suijten
+	<marijn.suijten@somainline.org>, Jami Kettunen
+	<jamipkettunen@somainline.org>, Paul Bouchara <paul.bouchara@somainline.org>,
+	Andre Przywara <andre.przywara@arm.com>, Martin Botka <martin@biqu3d.com>,
+	Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+	Ludwig Kormann <ludwig.kormann@ict42.de>, Andrew Lunn <andrew@lunn.ch>,
+	Icenowy Zheng <uwu@icenowy.me>, Heiko Stuebner <heiko@sntech.de>, Shawn Guo
+	<shawnguo@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Chris Morgan
+	<macromorgan@hotmail.com>, Jagan Teki <jagan@edgeble.ai>, Maxime Ripard
+	<mripard@kernel.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Message-Id: <KSXWZR.LZT0IYKM7IPF@somainline.org>
+In-Reply-To: <ZBNDZR.IENEPBA0KL4D2@somainline.org>
+References: <20230807145349.2220490-1-martin@biqu3d.com>
+	<10318766.nUPlyArG6x@jernej-laptop> <168CZR.KVQVUV8KXJ5Y1@somainline.org>
+	<9148039.CDJkKcVGEf@jernej-laptop> <ZBNDZR.IENEPBA0KL4D2@somainline.org>
+X-Mailer: geary/43.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="hkp6JIsJttgpt6Su"
-Content-Disposition: inline
-In-Reply-To: <20230823212554.378403-3-macroalpha82@gmail.com>
-
-
---hkp6JIsJttgpt6Su
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=iso-8859-2; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 23, 2023 at 04:25:48PM -0500, Chris Morgan wrote:
-> From: Chris Morgan <macromorgan@hotmail.com>
+
+
+On Mon, Aug 14 2023 at 12:47:59 PM +02:00:00, Martin Botka=20
+<martin.botka@somainline.org> wrote:
 >=20
-> The Saef SF-TC154B is a 1.54 inch 240x240 square panel with a MIPI DBI
-> compatible interface. The panel is used on the Anbernic RG-Nano
-> handheld gaming device.
 >=20
-> The initialization of the panel requires a firmware binary which can
-> be made with the mipi-dbi-cmd[1] tool. The command sequence needed
-> can be found in both source[2] and binary form[3].
+> On Mon, Aug 14 2023 at 12:26:07 PM +02:00:00, Jernej =A9krabec=20
+> <jernej.skrabec@gmail.com> wrote:
+>> Dne nedelja, 13. avgust 2023 ob 18:22:49 CEST je Martin Botka=20
+>> =7Fnapisal(a):
+>>>  On Sun, Aug 13 2023 at 05:55:35 PM +02:00:00, Jernej =A9krabec
+>>>=20
+>>>  <jernej.skrabec@gmail.com> wrote:
+>>>  > Dne ponedeljek, 07. avgust 2023 ob 16:53:24 CEST je Martin Botka
+>>>  >
+>>>  > napisal(a):
+>>>  >>  The BigTreeTech Pi is an H616 based board based on CB1.
+>>>  >>  Just in Rpi format board.
+>>>  >>
+>>>  >>  It features the same internals as BTT CB1 but adds:
+>>>  >>      - Fan port
+>>>  >>      - IR receiver
+>>>  >>      - ADXL345 Accelerometer connector via SPI
+>>>  >>      - 24V DC power supply via terminal plugs
+>>>  >>      - USB to CAN module connector (The actual USB to CAN=20
+>>> =7F=7Fhappens on
+>>>  >>
+>>>  >> the
+>>>  >>
+>>>  >>  external module)
+>>>  >>
+>>>  >>  List of currently working things is same as BTT CB1 but also:
+>>>  >>      - IR receiver
+>>>  >>      - ADXL345 connector
+>>>  >>
+>>>  >>  Signed-off-by: Martin Botka <martin@biqu3d.com>
+>>>  >>  Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+>>>  >>  ---
+>>>  >>
+>>>  >>  Changes in V2:
+>>>  >>      - Add UART alongside aliases and chosen for it
+>>>  >>      - Add model string
+>>>  >>      - Enable IR receiver
+>>>  >>      - Enable SPI0 for ADXL345 connector
+>>>  >>
+>>>  >>  Changes in V3:
+>>>  >>      - Add missing semicolons
+>>>  >>      - Add pinctrl for SPI0
+>>>  >>
+>>>  >>   arch/arm64/boot/dts/allwinner/Makefile        |  1 +
+>>>  >>   .../allwinner/sun50i-h616-bigtreetech-pi.dts  | 70
+>>>  >>
+>>>  >> +++++++++++++++++++
+>>>  >>
+>>>  >>   2 files changed, 71 insertions(+)
+>>>  >>   create mode 100644
+>>>  >>
+>>>  >>  arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts
+>>>  >>
+>>>  >>  diff --git a/arch/arm64/boot/dts/allwinner/Makefile
+>>>  >>  b/arch/arm64/boot/dts/allwinner/Makefile index
+>>>  >>
+>>>  >> 7b386428510b..0b6232a7f328
+>>>  >>
+>>>  >>  100644
+>>>  >>  --- a/arch/arm64/boot/dts/allwinner/Makefile
+>>>  >>  +++ b/arch/arm64/boot/dts/allwinner/Makefile
+>>>  >>  @@ -39,5 +39,6 @@ dtb-$(CONFIG_ARCH_SUNXI) +=3D
+>>>  >>
+>>>  >> sun50i-h6-pine-h64-model-b.dtb
+>>>  >>
+>>>  >>  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-tanix-tx6.dtb
+>>>  >>
+>>>  >>   dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-tanix-tx6-mini.dtb
+>>>  >>   dtb-$(CONFIG_ARCH_SUNXI) +=3D=20
+>>> =7F=7Fsun50i-h616-bigtreetech-cb1-manta.dtb
+>>>  >>
+>>>  >>  +dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h616-bigtreetech-pi.dtb
+>>>  >>
+>>>  >>   dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h616-orangepi-zero2.dtb
+>>>  >>   dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h616-x96-mate.dtb
+>>>  >>
+>>>  >>  diff --git
+>>>  >>
+>>>  >> a/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts
+>>>  >>
+>>>  >>  b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts=20
+>>> =7F=7Fnew
+>>>  >>
+>>>  >> file
+>>>  >>
+>>>  >>  mode 100644
+>>>  >>  index 000000000000..b0d0386e8f13
+>>>  >>  --- /dev/null
+>>>  >>  +++=20
+>>> =7F=7Fb/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts
+>>>  >>  @@ -0,0 +1,70 @@
+>>>  >>  +// SPDX-License-Identifier: (GPL-2.0+ or MIT)
+>>>  >>  +/*
+>>>  >>  + * Copyright (C) 2023 Martin Botka <martin@biqu3d.com>.
+>>>  >>  + */
+>>>  >>  +
+>>>  >>  +/dts-v1/;
+>>>  >>  +
+>>>  >>  +#include "sun50i-h616-bigtreetech-cb1.dtsi"
+>>>  >>  +
+>>>  >>  +/ {
+>>>  >>  +	model =3D "BigTreeTech Pi";
+>>>  >>  +	compatible =3D "bigtreetech,pi", "allwinner,sun50i-h616";
+>>>  >>  +
+>>>  >>  +	aliases {
+>>>  >>  +		serial0 =3D &uart0;
+>>>  >>  +	};
+>>>  >>  +
+>>>  >>  +	chosen {
+>>>  >>  +		stdout-path =3D "serial0:115200n8";
+>>>  >>  +	};
+>>>  >>  +};
+>>>  >>  +
+>>>  >>  +&ehci0 {
+>>>  >>  +	status =3D "okay";
+>>>  >>  +};
+>>>  >>  +
+>>>  >>  +&ehci1 {
+>>>  >>  +	status =3D "okay";
+>>>  >>  +};
+>>>  >>  +
+>>>  >>  +&ehci2 {
+>>>  >>  +	status =3D "okay";
+>>>  >>  +};
+>>>  >>  +
+>>>  >>  +&ehci3 {
+>>>  >>  +	status =3D "okay";
+>>>  >>  +};
+>>>  >>  +
+>>>  >>  +&ir {
+>>>  >>  +	status =3D "okay";
+>>>  >>  +};
+>>>  >>  +
+>>>  >>  +&ohci0 {
+>>>  >>  +	status =3D "okay";
+>>>  >>  +};
+>>>  >>  +
+>>>  >>  +&ohci1 {
+>>>  >>  +	status =3D "okay";
+>>>  >>  +};
+>>>  >>  +
+>>>  >>  +&ohci2 {
+>>>  >>  +	status =3D "okay";
+>>>  >>  +};
+>>>  >>  +
+>>>  >>  +&ohci3 {
+>>>  >>  +	status =3D "okay";
+>>>  >>  +};
+>>>  >>  +
+>>>  >>  +&spi0 {
+>>>  >>  +	/* SPI connection for onboard connector for ADXL345=20
+>>> =7F=7Faccelerometer
+>>>  >
+>>>  > */
+>>>  >
+>>>  >>  +	status =3D "okay";
+>>>  >>  +	pinctrl-names =3D "default";
+>>>  >>  +	pinctrl-0 =3D <&spi0_pins>, <&spi0_cs0_pin>;
+>>>  >
+>>>  > Driver and compatible for ADXL345 already exists, why don't you=20
+>>> =7F=7Fadd
+>>>  > child node
+>>>  > for it?
+>>>  >
+>>>  > Best regards,
+>>>  > Jernej
+>>>=20
+>>>  Ah. So the ADXL345 actually wont be driven by kernel.
+>>=20
+>> DT is hardware description, it's not concerned what is done on=20
+>> =7Fsoftware side,
+>> either kernel or user space.
+> Im aware. But this is not a device that is on the board. Its simply a=20
+> connector for the device.
+> Like Rpi has connectors for camera module :)
+>>=20
+>>>  The SPI connection is enabled so that klipper (3d printer=20
+>>> firmware) =7F=7Fcan
+>>>  be told to look for ADXL345 at this SPI and use it on its own.
+>>>=20
+>>>  Klipper will initialize and communicate with the ADXL on its own.
+>>=20
+>> What do you mean by firmware? User space app? In this case I suppose=20
+>> =7Fyou'll use
+>> direct SPI commands from user space? AFAIK that's less and less=20
+>> =7Fsupported by
+>> kernel (in contrast to I2C).
+> Firmware as in 3d printer firmware. Klipper runs on the board (CB1 or=20
+> BTT Pi) and is indeed an userspace app.
+> And indeed uses direct SPI commands to the device.
 >=20
-> [1]: https://github.com/notro/panel-mipi-dbi
-> [2]: https://github.com/macromorgan/panel-mipi-dbi-firmware/raw/main/saef=
-%2Csftc154b.txt
-> [3]: https://github.com/macromorgan/panel-mipi-dbi-firmware/raw/main/saef=
-%2Csftc154b.bin
+> The reason for this is the flexibility.
+> If Klipper read the values from kernel or well from the files the=20
+> ADXL driver would create
+> then it would be unable to communicate with ADXL that is on toolhead=20
+> board. Or would have to have
+> direct initialization either way for those. Thus it just controls the=20
+> ADXL itself :)
 >=20
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-
-Thanks,
-Conor.
-
-> ---
->  .../devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml    | 1 +
->  1 file changed, 1 insertion(+)
+> I understand that this may be bit confusing. If there is still=20
+> something not clear im more then happy to explain in
+> full detail how the userspace and 3D printer communicate :)
 >=20
-> diff --git a/Documentation/devicetree/bindings/display/panel/panel-mipi-d=
-bi-spi.yaml b/Documentation/devicetree/bindings/display/panel/panel-mipi-db=
-i-spi.yaml
-> index 2f0238b770eb..04cc5bfce051 100644
-> --- a/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.=
-yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.=
-yaml
-> @@ -66,6 +66,7 @@ properties:
->    compatible:
->      items:
->        - enum:
-> +          - saef,sftc154b
->            - sainsmart18
->            - shineworld,lh133k
->        - const: panel-mipi-dbi-spi
-> --=20
-> 2.34.1
+> Cheers,
+> Martin.
+Hello,
+Jernej any comments on this ?
+I would like to resolve this conversation :)
+We do have a bunch of time before the new cycle but never hurts to get=20
+it figured out ahead of time :)
+
+Cheers,
+Martin
+>>=20
+>> Best regards,
+>> Jernej
+>>=20
+>>>=20
+>>>  >>  +};
+>>>  >>  +
+>>>  >>  +&uart0 {
+>>>  >>  +	pinctrl-names =3D "default";
+>>>  >>  +	pinctrl-0 =3D <&uart0_ph_pins>;
+>>>  >>  +	status =3D "okay";
+>>>  >>  +};
+>>=20
+>>=20
+>>=20
+>>=20
 >=20
 
---hkp6JIsJttgpt6Su
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZOd1qgAKCRB4tDGHoIJi
-0onQAQD0bPdGB277UvE6qnuZ1eoDAZM5HYcYryvPZvD0E9gR0wEAzyZZRS6I7sdi
-1XjrHct/ffNuU8lGxuFOam88vyQjBAI=
-=I1BL
------END PGP SIGNATURE-----
-
---hkp6JIsJttgpt6Su--
