@@ -1,129 +1,188 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7F2C28904
-	for <linux-sunxi@lists.linux.dev>; Thu, 24 Aug 2023 13:51:35 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4FA2E1007;
-	Thu, 24 Aug 2023 06:52:09 -0700 (PDT)
-Received: from slackpad.lan (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BB0603F762;
-	Thu, 24 Aug 2023 06:51:26 -0700 (PDT)
-Date: Thu, 24 Aug 2023 14:50:25 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-Cc: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Kees
- Cook <keescook@chromium.org>, Tony Luck <tony.luck@intel.com>, "Guilherme
- G. Piccoli" <gpiccoli@igalia.com>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, Jarrah
- Gosbell <kernel@undef.tools>, Arnaud Ferraris
- <arnaud.ferraris@collabora.com>, Pavel Machek <pavel@ucw.cz>
-Subject: Re: [PATCH v2] arm64: dts: pinephone: Add pstore support for
- PinePhone A64
-Message-ID: <20230824144952.5b908649@slackpad.lan>
-In-Reply-To: <2235209.iZASKD2KPV@jernej-laptop>
-References: <20230821160817.GA2227@bug>
-	<20230822092358.309835-1-andrej.skvortzov@gmail.com>
-	<2235209.iZASKD2KPV@jernej-laptop>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CA2610979
+	for <linux-sunxi@lists.linux.dev>; Thu, 24 Aug 2023 15:14:55 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1bba48b0bd2so36635ad.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 24 Aug 2023 08:14:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1692890094; x=1693494894;
+        h=in-reply-to:from:references:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=xeoREDi87qhgqAYwYKZFrkSdNflmLAYQQn6Ow2PRP08=;
+        b=VzgquVNQdLAczHQ8H5ogaaMuhlvSwAOF52QL39Bn4kgRX9mzsfKOmCqiWCjJM37FfQ
+         5uJvw1FkYXJTtGihmsRNs7IPq0i+Y/mkfaOdNsE9bsg7ZclZMbKshUFDbJbKr/djBXLf
+         a6UFibbNlyz4vJVLtLCDjRlWmD15Akubxzg/o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692890094; x=1693494894;
+        h=in-reply-to:from:references:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xeoREDi87qhgqAYwYKZFrkSdNflmLAYQQn6Ow2PRP08=;
+        b=dkDFd4zOSsbZrVLuB7SrWdke0SFgT96mME9mbK29f7hIJhIUABJJq9VpFrNBFqkY1N
+         pbP6oB2dEnBgVHfwkcT2oj3zcGhIJwXGVurIqJh2kCweTlIEvPAEGDJoaN/91t83XFIc
+         8qYZI3u55rg8mS2usfHPgMOK2cfJIpPN6ufK0ddyDYLQ0F74oQX5zf0RyTiN0W9ae+Tx
+         kd5JB/1LLXWUt9BtZojkbmrRM2XS3D0CwkJTSJqFSma6Or7QtoPcodiamcJTaeNTzkH9
+         oe8u2lccOTx2fQY2BSxzOlK0OpRbpXQOsaHnyY3BSDVh876COUu50GhgWhMhZEOuxM8H
+         s2eg==
+X-Gm-Message-State: AOJu0YxSBahV64s3EwH0B3uMJi7CHVjdw//fHsO5C0/kU5Z7LsOXrK4q
+	6TDKmnG/OSBEBEcSkBDc9WImog==
+X-Google-Smtp-Source: AGHT+IEmG0qS8YD8HwIzxoN2jsbWhzUl/ddm2TQpdM3bt6mabg76JdKZjr04P9MElK9tkVAgGzg7Ig==
+X-Received: by 2002:a17:902:b907:b0:1bd:d566:cd92 with SMTP id bf7-20020a170902b90700b001bdd566cd92mr11549805plb.63.1692890094397;
+        Thu, 24 Aug 2023 08:14:54 -0700 (PDT)
+Received: from [192.168.1.3] (ip72-194-116-95.oc.oc.cox.net. [72.194.116.95])
+        by smtp.gmail.com with ESMTPSA id iw17-20020a170903045100b001c06dcd453csm7927652plb.236.2023.08.24.08.14.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 24 Aug 2023 08:14:52 -0700 (PDT)
+Message-ID: <49a96ba0-7062-cb6b-544c-dad23a9be50e@broadcom.com>
+Date: Thu, 24 Aug 2023 08:14:49 -0700
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 2/2] arm64: dts: use capital "OR" for multiple licenses in
+ SPDX
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
+ arm@kernel.org, soc@kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@arm.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, Ray Jui <rjui@broadcom.com>,
+ Scott Branden <sbranden@broadcom.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-renesas-soc@vger.kernel.org
+References: <20230823085146.113562-1-krzysztof.kozlowski@linaro.org>
+ <20230823085146.113562-2-krzysztof.kozlowski@linaro.org>
+From: Florian Fainelli <florian.fainelli@broadcom.com>
+In-Reply-To: <20230823085146.113562-2-krzysztof.kozlowski@linaro.org>
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+	boundary="000000000000c0b04e0603acb0ab"
 
-On Wed, 23 Aug 2023 21:36:51 +0200
-Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
+--000000000000c0b04e0603acb0ab
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-Hi Andrey,
 
-> send new revision as standalone e-mail, not as reply to old discussion.
->=20
-> Dne torek, 22. avgust 2023 ob 11:23:58 CEST je Andrey Skvortsov napisal(a=
-):
-> > This patch reserves some memory in the DTS and sets up a
-> > pstore device tree node to enable pstore support.
-> >=20
-> > In general any DRAM address, that isn't overwritten during a boot is
-> > suitable for pstore.
-> >=20
-> > Range from 0x40000000 - 0x50000000 is heavily used by u-boot for
-> > internal use and to load kernel, fdt, fdto, scripts, pxefile and ramdisk
-> > later in the boot process. Ramdisk start address is 0x4FF00000,
-> > initramfs for kernel with some hacking features and debug info enabled
-> > can take more than 100Mb and final address will be around 0x58000000.
-> > Address 0x61000000 will most likely not overlap with that. =20
->=20
-> There are other bootloaders as U-Boot, especially on PinePhone. Are you s=
-ure=20
-> it works there too? What about U-Boot configuration, will those addresses=
- still=20
-> be used if configuration is changed?
+On 8/23/2023 1:51 AM, Krzysztof Kozlowski wrote:
+> Documentation/process/license-rules.rst and checkpatch expect the SPDX
+> identifier syntax for multiple licenses to use capital "OR".  Correct it
+> to keep consistent format and avoid copy-paste issues.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+> ---
+> 
+> Rebased on next-20230822, so might not apply cleanly.  What does not
+> apply, can be skipped and I will fix it after next RC.
+> ---
 
-Also going along with what Pavel said (that's it more a policy
-decision, not a device property), I feel like this node should be added
-by the bootloader then. And indeed U-Boot has support for that already.
-=46rom skimming over the code in cmd/pstore.c: if you enable
-CONFIG_CMD_PSTORE and set CONFIG_CMD_PSTORE_MEM_ADDR to your chosen
-address, then the U-Boot code will insert a reserved memory node on the
-fly. Would that solve your problem?
+>   arch/arm64/boot/dts/broadcom/stingray/bcm958802a802x.dts       | 2 +-
+>   arch/arm64/boot/dts/broadcom/stingray/stingray-board-base.dtsi | 2 +-
+>   arch/arm64/boot/dts/broadcom/stingray/stingray-pcie.dtsi       | 2 +-
+>   arch/arm64/boot/dts/broadcom/stingray/stingray-usb.dtsi        | 2 +-
 
-Cheers,
-Andre
+Acked-by: Florian Fainelli <florian.fainelli@broadcom.com> # Broadcom
+-- 
+Florian
 
-> Best regards,
-> Jernej
->=20
-> >=20
-> > Signed-off-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-> > ---
-> >=20
-> > Changes in v2:
-> >  - Update commit description with information about why this base addre=
-ss is
-> > used.
-> >=20
-> >  .../boot/dts/allwinner/sun50i-a64-pinephone.dtsi | 16 ++++++++++++++++
-> >  1 file changed, 16 insertions(+)
-> >=20
-> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-> > b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi index
-> > 87847116ab6d..84f9410b0b70 100644
-> > --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-> > @@ -19,6 +19,22 @@ aliases {
-> >  		serial0 =3D &uart0;
-> >  	};
-> >=20
-> > +	reserved-memory {
-> > +		#address-cells =3D <1>;
-> > +		#size-cells =3D <1>;
-> > +		ranges;
-> > +
-> > +		pstore_mem: ramoops@61000000 {
-> > +			compatible =3D "ramoops";
-> > +			reg =3D <0x61000000 0x100000>;
-> > +			record-size =3D <0x20000>;
-> > +			console-size =3D <0x20000>;
-> > +			ftrace-size =3D <0x20000>;
-> > +			pmsg-size =3D <0x20000>;
-> > +			ecc-size =3D <16>;
-> > +		};
-> > +	};
-> > +
-> >  	backlight: backlight {
-> >  		compatible =3D "pwm-backlight";
-> >  		pwms =3D <&r_pwm 0 50000 PWM_POLARITY_INVERTED>; =20
->=20
->=20
->=20
->=20
->=20
+--000000000000c0b04e0603acb0ab
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
 
+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
+riBJ/K1AFUjRAjFhGV64l++td7dkmnq/X8ET75ti+w1s4FRpFqkD2m7pg5NxdsZphYIXAgMBAAGj
+QjBAMA4GA1UdDwEB/wQEAwIBBjAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBSP8Et/qC5FJK5N
+UPpjmove4t0bvDANBgkqhkiG9w0BAQsFAAOCAQEAS0DbwFCq/sgM7/eWVEVJu5YACUGssxOGhigH
+M8pr5nS5ugAtrqQK0/Xx8Q+Kv3NnSoPHRHt44K9ubG8DKY4zOUXDjuS5V2yq/BKW7FPGLeQkbLmU
+Y/vcU2hnVj6DuM81IcPJaP7O2sJTqsyQiunwXUaMld16WCgaLx3ezQA3QY/tRG3XUyiXfvNnBB4V
+14qWtNPeTCekTBtzc3b0F5nCH3oO4y0IrQocLP88q1UOD5F+NuvDV0m+4S4tfGCLw0FREyOdzvcy
+a5QBqJnnLDMfOjsl0oZAzjsshnjJYS8Uuu7bVW/fhO4FCU29KNhyztNiUGUe65KXgzHZs7XKR1g/
+XzCCBVgwggRAoAMCAQICDBP8P9hKRVySg3Qv5DANBgkqhkiG9w0BAQsFADBbMQswCQYDVQQGEwJC
+RTEZMBcGA1UEChMQR2xvYmFsU2lnbiBudi1zYTExMC8GA1UEAxMoR2xvYmFsU2lnbiBHQ0MgUjMg
+UGVyc29uYWxTaWduIDIgQ0EgMjAyMDAeFw0yMjA5MTAxMjE4MTFaFw0yNTA5MTAxMjE4MTFaMIGW
+MQswCQYDVQQGEwJJTjESMBAGA1UECBMJS2FybmF0YWthMRIwEAYDVQQHEwlCYW5nYWxvcmUxFjAU
+BgNVBAoTDUJyb2FkY29tIEluYy4xGTAXBgNVBAMTEEZsb3JpYW4gRmFpbmVsbGkxLDAqBgkqhkiG
+9w0BCQEWHWZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tMIIBIjANBgkqhkiG9w0BAQEFAAOC
+AQ8AMIIBCgKCAQEA+oi3jMmHltY4LMUy8Up5+1zjd1iSgUBXhwCJLj1GJQF+GwP8InemBbk5rjlC
+UwbQDeIlOfb8xGqHoQFGSW8p9V1XUw+cthISLkycex0AJ09ufePshLZygRLREU0H4ecNPMejxCte
+KdtB4COST4uhBkUCo9BSy1gkl8DJ8j/BQ1KNUx6oYe0CntRag+EnHv9TM9BeXBBLfmMRnWNhvOSk
+nSmRX0J3d9/G2A3FIC6WY2XnLW7eAZCQPa1Tz3n2B5BGOxwqhwKLGLNu2SRCPHwOdD6e0drURF7/
+Vax85/EqkVnFNlfxtZhS0ugx5gn2pta7bTdBm1IG4TX+A3B1G57rVwIDAQABo4IB3jCCAdowDgYD
+VR0PAQH/BAQDAgWgMIGjBggrBgEFBQcBAQSBljCBkzBOBggrBgEFBQcwAoZCaHR0cDovL3NlY3Vy
+ZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3J0MEEG
+CCsGAQUFBzABhjVodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3IzcGVyc29uYWxzaWdu
+MmNhMjAyMDBNBgNVHSAERjBEMEIGCisGAQQBoDIBKAowNDAyBggrBgEFBQcCARYmaHR0cHM6Ly93
+d3cuZ2xvYmFsc2lnbi5jb20vcmVwb3NpdG9yeS8wCQYDVR0TBAIwADBJBgNVHR8EQjBAMD6gPKA6
+hjhodHRwOi8vY3JsLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwLmNy
+bDAoBgNVHREEITAfgR1mbG9yaWFuLmZhaW5lbGxpQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggr
+BgEFBQcDBDAfBgNVHSMEGDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQUUwwfJ6/F
+KL0fRdVROal/Lp4lAF0wDQYJKoZIhvcNAQELBQADggEBAKBgfteDc1mChZjKBY4xAplC6uXGyBrZ
+kNGap1mHJ+JngGzZCz+dDiHRQKGpXLxkHX0BvEDZLW6LGOJ83ImrW38YMOo3ZYnCYNHA9qDOakiw
+2s1RH00JOkO5SkYdwCHj4DB9B7KEnLatJtD8MBorvt+QxTuSh4ze96Jz3kEIoHMvwGFkgObWblsc
+3/YcLBmCgaWpZ3Ksev1vJPr5n8riG3/N4on8gO5qinmmr9Y7vGeuf5dmZrYMbnb+yCBalkUmZQwY
+NxADYvcRBA0ySL6sZpj8BIIhWiXiuusuBmt2Mak2eEv0xDbovE6Z6hYyl/ZnRadbgK/ClgbY3w+O
+AfUXEZ0xggJtMIICaQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52
+LXNhMTEwLwYDVQQDEyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwT
+/D/YSkVckoN0L+QwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEID9G9+8r+6fVs05i
+U+2aC9Ri8SOJmWPGjR6EpUTre7yBMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcN
+AQkFMQ8XDTIzMDgyNDE1MTQ1NFowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZI
+AWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEH
+MAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQDfcgUrm8+A9/nJXK8/zA+9ZZJ+iVse5IiM
+TtQwgVkGWFVN/fY6hXZ2IZxLkJzq8S1tYJUnwP+yPvxUTjcvTV9TS7jk6TAJD9/0deDN3K9AI1kA
+aHWzDlSuGJA6pCnmUJkY/1DtrcktVWypWhrPymYouIiRtaX+VH1cn6JPau5Co399kvncd7aMAcpW
+SqdegCRmW+MGU/3MjS72R6JGNCWQWU1NQLHMNUArlJbV6MeikTj4O8jMsAqK2nW9Pyh76TtI9RxQ
+s88X85FIwnZah394fl9DC13I20KWEGgu44B4vc0yeo4TPLwSYij+AWe7idmwGX7K3oN8MPGFnyqU
+5Vuj
+--000000000000c0b04e0603acb0ab--
