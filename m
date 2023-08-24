@@ -1,100 +1,126 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB3FC17F2
-	for <linux-sunxi@lists.linux.dev>; Thu, 24 Aug 2023 07:03:09 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-99df431d4bfso832357066b.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 24 Aug 2023 00:03:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE5CBCA78
+	for <linux-sunxi@lists.linux.dev>; Thu, 24 Aug 2023 09:12:27 +0000 (UTC)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-58fb73e26a6so54746107b3.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 24 Aug 2023 02:12:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692860588; x=1693465388;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=P45nAftBMkI9aO/uXRibti5ezjszBIQ2T+bQqiHAg7Y=;
-        b=J/3793hrGTYLIQrFLs/3h4rLwByn+HYPUKOvdOVBZlRd49ONEBMKcLI2nh5WpE7pOo
-         UsO/Bvg2lPXd1bP9iKhA5AWiUX6XfhUQ9I7QIgiG0uwfzuW8NctmXlwOh/F8qgAiJyKH
-         nQpgGOy6tYTYHe06Z8P5v1zwdNuegaggmRC4G0ZkHv8NM7TXLgDRQzWq1L81IEoj6HgL
-         p8VZmyGRCuFgu7t3pVqyL6T8NSQ95KBB+hbbbBjBHx2wMwnztJGjGSXdwmyfvG7r9p7E
-         d2nJS14n/zfM5s3aoHnG3GMK8MrT1Gfh+3NFsWKnF7uuIFix3AXhtQkqZPYGyZN571kZ
-         ZrFg==
+        d=linaro.org; s=google; t=1692868346; x=1693473146;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=8QWfWxMile/WgNFhvo8ZVwxIXeay3uNKMaVUJZ+Cgck=;
+        b=uAMAMZb+Pl3xrF//1gf2QoomFCCwtreyRs4xAteq5++ErX/Jag+1pyV60vqF13g6qc
+         EWQYleaROyiNyiEmpy54E9f7zGOrUG370OYBBm53fN4GEz471yoC/pFSQ4b14keMgBFm
+         7ng6XIVQDxokSMklzIx+h8oZmarkKwbhTXrdGoqOePObuS5InclzCeCyXR6taZUn2/wm
+         U8QcZHCo3Fu9mOTcf8df+zbEUZ95ISfluXVW/6MIO2ViQ1iN12idqCJ7OBm8cAynaU/6
+         8Rsxe2AbXcTdn7pUXHPXDkQsstCnPF7swZ8nB3HO7IXLrfEtfHeOeBuSelO97JOAqEdm
+         5Qsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692860588; x=1693465388;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=P45nAftBMkI9aO/uXRibti5ezjszBIQ2T+bQqiHAg7Y=;
-        b=Z7BnsR59ZZb3YRINqGyVYXtkJzmAwWzeYCIu+7YeFHEGlrgznAAFfg53R8nguwVR+q
-         qB8pgnnrM5KGZdIVlgtmeddBq/zVV6EFOJdplOpjVlKSy02iC1qZoLcJGK/yyzIaLC6U
-         U7pykR4I2QTKEYuPVyUKr6UdP7Gk0OWKCDSLhZaZHLt1E5rEW+oDqAPUN4L3k4klUj39
-         4Mow1bpNFz14IMhRn7oDXaZK1iH09TI2WkjQjif3eIhMGiE42OtuLSMTzVpViWNBOt4p
-         L5xeUmOo65QuCWdbA0aV5OZgF4kBU+SUwldXTMej4jSrjA72RMrnunDRwAsCJZmYKR31
-         2Pmw==
-X-Gm-Message-State: AOJu0YwJdAT1ZAEErkd8cUwo0gszWwKmM7y3A8lZLHZgyLsIPhD2gwaf
-	NpBnjjafS3NeQDz9085orT8yCg==
-X-Google-Smtp-Source: AGHT+IG9k8iOK1esFA6zAJ01EbUnrxPhvANPyRf1UsmBAx7WseNQfibQsTJkl94LBBFoLMX8n0VUjQ==
-X-Received: by 2002:a17:907:2c54:b0:9a2:1e03:1572 with SMTP id hf20-20020a1709072c5400b009a21e031572mr305572ejc.19.1692860587958;
-        Thu, 24 Aug 2023 00:03:07 -0700 (PDT)
-Received: from [192.168.0.22] ([77.252.47.198])
-        by smtp.gmail.com with ESMTPSA id c8-20020a170906528800b009887f4e0291sm10559750ejm.27.2023.08.24.00.03.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Aug 2023 00:03:07 -0700 (PDT)
-Message-ID: <413bb886-a734-e607-8dd3-79ee501416b2@linaro.org>
-Date: Thu, 24 Aug 2023 09:03:05 +0200
+        d=1e100.net; s=20221208; t=1692868346; x=1693473146;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8QWfWxMile/WgNFhvo8ZVwxIXeay3uNKMaVUJZ+Cgck=;
+        b=gWiXETPCi19W1u65Bvdp36yg5bEx9/tQWFKyA0BijUIgmvgqQkzBeyK3/Yr4vXc7vA
+         0haiECp7/0lJZj8XYdy5vKcdXN8s9gHwFk8nNKvJvT7zj45TPGMt+ngb6g1bxvmLy1c6
+         LacN3IkZklZXyhtwujV5WQQ5u/nkxyLSwBFYOS/AOq8ejMfM4lpZF/1WqBzs3/LUyiF4
+         rrD+TnoUd09s2+PDvnQ+gItnV6lLsdIV3o2VWKAicdv3w/Kf3jf7+C1fGa5mnPuu45kz
+         9L8pYRNvU3vSENDgp9JuY1whPKVYBt2LXKtgQcLBi20XL/p7DVW73Tn95F3qD3LKoMz9
+         UuPA==
+X-Gm-Message-State: AOJu0YwcInUVVSI5cDSgvehVtpFYuzlasyBzE7cOSXNGWACTC7UnfiLH
+	vuzRFUt20myLnlldTlmDf/bZYYjdF/MyiJIx+m4TCA==
+X-Google-Smtp-Source: AGHT+IG3MvSq6xCe2a9q8hrZuopq70FerXK1DSmW4enmcJthTLxeat5RRxOKu4JoydhBbHioOu9VOWz1zigWQTudXgY=
+X-Received: by 2002:a0d:d713:0:b0:56d:d58:82b7 with SMTP id
+ z19-20020a0dd713000000b0056d0d5882b7mr16106989ywd.23.1692868346583; Thu, 24
+ Aug 2023 02:12:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH v1 2/5] ASoC: dt-bindings: Add schema for
- "allwinner,sun20i-d1-codec-analog"
-Content-Language: en-US
-To: Maxim Kiselev <bigunclemax@gmail.com>, Rob Herring <robh@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Maxime Ripard <mripard@kernel.org>, alsa-devel@alsa-project.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org
-References: <20230805180506.718364-1-bigunclemax@gmail.com>
- <20230805180506.718364-3-bigunclemax@gmail.com>
- <20230821154739.GA1720453-robh@kernel.org>
- <CALHCpMjoxV+sUh6KSVXfEcWgc_ETBHWo2a7xHMT-nKS2xBYOvQ@mail.gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CALHCpMjoxV+sUh6KSVXfEcWgc_ETBHWo2a7xHMT-nKS2xBYOvQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20230823170438.2489746-1-robh@kernel.org>
+In-Reply-To: <20230823170438.2489746-1-robh@kernel.org>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Thu, 24 Aug 2023 11:11:49 +0200
+Message-ID: <CAPDyKFrO5B-WoWgKYbogTwUEwCqm_0A_NEn0XV8hdQtpOkE0yQ@mail.gmail.com>
+Subject: Re: [PATCH v2] genpd: Explicitly include correct DT includes
+To: Rob Herring <robh@kernel.org>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, linux-pm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On 23/08/2023 18:13, Maxim Kiselev wrote:
-> пн, 21 авг. 2023 г. в 19:47, Rob Herring <robh@kernel.org>:
->>
->> On Sat, Aug 05, 2023 at 09:05:02PM +0300, Maksim Kiselev wrote:
->>> Add a DT schema to describe the analog part of the Allwinner D1/T113s
->>> internal audio codec.
->>>
->>> Signed-off-by: Maksim Kiselev <bigunclemax@gmail.com>
->>> ---
->>>  .../allwinner,sun20i-d1-codec-analog.yaml     | 33 +++++++++++++++++++
->>>  1 file changed, 33 insertions(+)
->>>  create mode 100644 Documentation/devicetree/bindings/sound/allwinner,sun20i-d1-codec-analog.yaml
->>
->> Looks the same as allwinner,sun8i-a23-codec-analog.yaml. Why can't you
->> use that?
->>
-> Hmm. You're right. But let me explain my decision :)
-> When I added a new file, I assumed that since this is a separate driver,
-> then the binding should be in a separate file.
+On Wed, 23 Aug 2023 at 19:05, Rob Herring <robh@kernel.org> wrote:
+>
+> The DT of_device.h and of_platform.h date back to the separate
+> of_platform_bus_type before it was merged into the regular platform bus.
+> As part of that merge prepping Arm DT support 13 years ago, they
+> "temporarily" include each other. They also include platform_device.h
+> and of.h. As a result, there's a pretty much random mix of those include
+> files used throughout the tree. In order to detangle these headers and
+> replace the implicit includes with struct declarations, users need to
+> explicitly include the correct includes.
+>
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-Driver architecture of one give OS does not matter for the bindings.
+Applied for next, thanks!
 
-Best regards,
-Krzysztof
+Kind regards
+Uffe
 
+> ---
+> v2: Previously sent for drivers/soc/. Gathered up files which got moved
+>     to genpd to new patch.
+> ---
+>  drivers/genpd/mediatek/mtk-pm-domains.c | 2 +-
+>  drivers/genpd/mediatek/mtk-scpsys.c     | 2 +-
+>  drivers/genpd/sunxi/sun20i-ppu.c        | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/genpd/mediatek/mtk-pm-domains.c b/drivers/genpd/mediatek/mtk-pm-domains.c
+> index 354249cc1b12..ee962804b830 100644
+> --- a/drivers/genpd/mediatek/mtk-pm-domains.c
+> +++ b/drivers/genpd/mediatek/mtk-pm-domains.c
+> @@ -8,8 +8,8 @@
+>  #include <linux/io.h>
+>  #include <linux/iopoll.h>
+>  #include <linux/mfd/syscon.h>
+> +#include <linux/of.h>
+>  #include <linux/of_clk.h>
+> -#include <linux/of_device.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_domain.h>
+>  #include <linux/regmap.h>
+> diff --git a/drivers/genpd/mediatek/mtk-scpsys.c b/drivers/genpd/mediatek/mtk-scpsys.c
+> index 7a668888111c..b374d01fdac7 100644
+> --- a/drivers/genpd/mediatek/mtk-scpsys.c
+> +++ b/drivers/genpd/mediatek/mtk-scpsys.c
+> @@ -7,7 +7,7 @@
+>  #include <linux/io.h>
+>  #include <linux/iopoll.h>
+>  #include <linux/mfd/syscon.h>
+> -#include <linux/of_device.h>
+> +#include <linux/of.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_domain.h>
+>  #include <linux/regulator/consumer.h>
+> diff --git a/drivers/genpd/sunxi/sun20i-ppu.c b/drivers/genpd/sunxi/sun20i-ppu.c
+> index 98cb41d36560..8700f9dd5f75 100644
+> --- a/drivers/genpd/sunxi/sun20i-ppu.c
+> +++ b/drivers/genpd/sunxi/sun20i-ppu.c
+> @@ -5,7 +5,7 @@
+>  #include <linux/io.h>
+>  #include <linux/iopoll.h>
+>  #include <linux/module.h>
+> -#include <linux/of_device.h>
+> +#include <linux/of.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_domain.h>
+>  #include <linux/reset.h>
+> --
+> 2.40.1
+>
