@@ -1,110 +1,100 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 778F324521
-	for <linux-sunxi@lists.linux.dev>; Thu, 24 Aug 2023 03:41:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1692848505;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CH6mXKRKMtD7TEsSEIJfvoLTAwKYFLojoxw+I3lfT8w=;
-	b=I4kDFujAOgWWAOl0aUYsz5otZMn5Bz4nKwZZ1ysZ3QZDYN4aESBvifOmT2ecq345K2Jw3N
-	0QhzFTWfH85QV2HV6MEkDNBk/50VH7m80QmTkYJXprdvrgpCTo8Kv5/bHTku6asZSU5w1c
-	eweqoLnMePh71KUIs7LhK+iYjk7VSRY=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-191-frYCPT_8MRCqktxmLrTu6Q-1; Wed, 23 Aug 2023 23:41:43 -0400
-X-MC-Unique: frYCPT_8MRCqktxmLrTu6Q-1
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-41087c90290so63833001cf.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 23 Aug 2023 20:41:43 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB3FC17F2
+	for <linux-sunxi@lists.linux.dev>; Thu, 24 Aug 2023 07:03:09 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-99df431d4bfso832357066b.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 24 Aug 2023 00:03:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1692860588; x=1693465388;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=P45nAftBMkI9aO/uXRibti5ezjszBIQ2T+bQqiHAg7Y=;
+        b=J/3793hrGTYLIQrFLs/3h4rLwByn+HYPUKOvdOVBZlRd49ONEBMKcLI2nh5WpE7pOo
+         UsO/Bvg2lPXd1bP9iKhA5AWiUX6XfhUQ9I7QIgiG0uwfzuW8NctmXlwOh/F8qgAiJyKH
+         nQpgGOy6tYTYHe06Z8P5v1zwdNuegaggmRC4G0ZkHv8NM7TXLgDRQzWq1L81IEoj6HgL
+         p8VZmyGRCuFgu7t3pVqyL6T8NSQ95KBB+hbbbBjBHx2wMwnztJGjGSXdwmyfvG7r9p7E
+         d2nJS14n/zfM5s3aoHnG3GMK8MrT1Gfh+3NFsWKnF7uuIFix3AXhtQkqZPYGyZN571kZ
+         ZrFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692848503; x=1693453303;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CH6mXKRKMtD7TEsSEIJfvoLTAwKYFLojoxw+I3lfT8w=;
-        b=T1uEQAkADOKJVBXUP2XBJcrGWIRY4f2Km7HWMevCPlo9KRcDz4pd4BNiZ4skDHC03O
-         1VXR7+4h+GgFds1cfoCpGyAoh2d1+jkbq95gc7xqGJlXN+S6X/zmC721UQRRgILXlJK+
-         09+WPQottf0a+D9h58ADZAYCgOdhoSwnaTYWMay4lGY3d+fjQVARBFjRzeb9KIWBxyPu
-         HUWvRDbJCtumZ1kMGbY+tvKe40gUN7g39zAl8hS3vNGc3nMfsExl/YQ3jetq1fyRDE8n
-         uhtNX+K5A0OKJgMUIj1RyOv+5kTICAhWI/L1os+AxoutJvofCiJdByvVb/CFMGmrca/l
-         TSdQ==
-X-Gm-Message-State: AOJu0YwAjtQRW3nXjEbDO3LnR+fo6odQIyn0U+ADoIfDcjy6ZWzPos0h
-	lbGgpdVN5LIH30KeaEx2Ul63O2au2bD1C6PE05eTOuojFtAMcme9V7kPfEx2vMNEgp9tA8jWQkM
-	Ebhhuj1rqQzlyBto25WtHgkE=
-X-Received: by 2002:a05:622a:1a19:b0:410:8551:2608 with SMTP id f25-20020a05622a1a1900b0041085512608mr13211939qtb.58.1692848503533;
-        Wed, 23 Aug 2023 20:41:43 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFHjWv1CiL8QEOPMtXQgjOpwEGJSl7biyyoMP2HI5INen9hHlXD9XV1I7hmZP4s4Z/4tJVc6A==
-X-Received: by 2002:a05:622a:1a19:b0:410:8551:2608 with SMTP id f25-20020a05622a1a1900b0041085512608mr13211932qtb.58.1692848503326;
-        Wed, 23 Aug 2023 20:41:43 -0700 (PDT)
-Received: from localhost (ip98-179-76-75.ph.ph.cox.net. [98.179.76.75])
-        by smtp.gmail.com with ESMTPSA id s26-20020a0cb31a000000b006375f9fd170sm5116337qve.34.2023.08.23.20.41.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Aug 2023 20:41:42 -0700 (PDT)
-Date: Wed, 23 Aug 2023 20:41:41 -0700
-From: Jerry Snitselaar <jsnitsel@redhat.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Andy Gross <agross@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Bjorn Andersson <andersson@kernel.org>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Gerald Schaefer <gerald.schaefer@linux.ibm.com>, 
-	Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>, 
-	Kevin Tian <kevin.tian@intel.com>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, linux-arm-kernel@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
-	Russell King <linux@armlinux.org.uk>, linuxppc-dev@lists.ozlabs.org, 
-	Matthias Brugger <matthias.bgg@gmail.com>, Matthew Rosato <mjrosato@linux.ibm.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	Orson Zhai <orsonzhai@gmail.com>, Rob Clark <robdclark@gmail.com>, 
-	Robin Murphy <robin.murphy@arm.com>, Samuel Holland <samuel@sholland.org>, 
-	Thierry Reding <thierry.reding@gmail.com>, Krishna Reddy <vdumpa@nvidia.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Will Deacon <will@kernel.org>, Yong Wu <yong.wu@mediatek.com>, 
-	Chunyan Zhang <zhang.lyra@gmail.com>, Lu Baolu <baolu.lu@linux.intel.com>, 
-	Dmitry Osipenko <digetx@gmail.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Nicolin Chen <nicolinc@nvidia.com>, Niklas Schnelle <schnelle@linux.ibm.com>, 
-	Steven Price <steven.price@arm.com>, Thierry Reding <treding@nvidia.com>
-Subject: Re: [PATCH v7 01/24] iommu: Add iommu_ops->identity_domain
-Message-ID: <r362pqn2venwjut7ernpzbxnc72kvknshxeobrvkvp7p5m554e@7jnu4wja663k>
-References: <0-v7-de04a3217c48+15055-iommu_all_defdom_jgg@nvidia.com>
- <1-v7-de04a3217c48+15055-iommu_all_defdom_jgg@nvidia.com>
+        d=1e100.net; s=20221208; t=1692860588; x=1693465388;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=P45nAftBMkI9aO/uXRibti5ezjszBIQ2T+bQqiHAg7Y=;
+        b=Z7BnsR59ZZb3YRINqGyVYXtkJzmAwWzeYCIu+7YeFHEGlrgznAAFfg53R8nguwVR+q
+         qB8pgnnrM5KGZdIVlgtmeddBq/zVV6EFOJdplOpjVlKSy02iC1qZoLcJGK/yyzIaLC6U
+         U7pykR4I2QTKEYuPVyUKr6UdP7Gk0OWKCDSLhZaZHLt1E5rEW+oDqAPUN4L3k4klUj39
+         4Mow1bpNFz14IMhRn7oDXaZK1iH09TI2WkjQjif3eIhMGiE42OtuLSMTzVpViWNBOt4p
+         L5xeUmOo65QuCWdbA0aV5OZgF4kBU+SUwldXTMej4jSrjA72RMrnunDRwAsCJZmYKR31
+         2Pmw==
+X-Gm-Message-State: AOJu0YwJdAT1ZAEErkd8cUwo0gszWwKmM7y3A8lZLHZgyLsIPhD2gwaf
+	NpBnjjafS3NeQDz9085orT8yCg==
+X-Google-Smtp-Source: AGHT+IG9k8iOK1esFA6zAJ01EbUnrxPhvANPyRf1UsmBAx7WseNQfibQsTJkl94LBBFoLMX8n0VUjQ==
+X-Received: by 2002:a17:907:2c54:b0:9a2:1e03:1572 with SMTP id hf20-20020a1709072c5400b009a21e031572mr305572ejc.19.1692860587958;
+        Thu, 24 Aug 2023 00:03:07 -0700 (PDT)
+Received: from [192.168.0.22] ([77.252.47.198])
+        by smtp.gmail.com with ESMTPSA id c8-20020a170906528800b009887f4e0291sm10559750ejm.27.2023.08.24.00.03.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 24 Aug 2023 00:03:07 -0700 (PDT)
+Message-ID: <413bb886-a734-e607-8dd3-79ee501416b2@linaro.org>
+Date: Thu, 24 Aug 2023 09:03:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <1-v7-de04a3217c48+15055-iommu_all_defdom_jgg@nvidia.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH v1 2/5] ASoC: dt-bindings: Add schema for
+ "allwinner,sun20i-d1-codec-analog"
+Content-Language: en-US
+To: Maxim Kiselev <bigunclemax@gmail.com>, Rob Herring <robh@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Maxime Ripard <mripard@kernel.org>, alsa-devel@alsa-project.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org
+References: <20230805180506.718364-1-bigunclemax@gmail.com>
+ <20230805180506.718364-3-bigunclemax@gmail.com>
+ <20230821154739.GA1720453-robh@kernel.org>
+ <CALHCpMjoxV+sUh6KSVXfEcWgc_ETBHWo2a7xHMT-nKS2xBYOvQ@mail.gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CALHCpMjoxV+sUh6KSVXfEcWgc_ETBHWo2a7xHMT-nKS2xBYOvQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 23, 2023 at 01:47:15PM -0300, Jason Gunthorpe wrote:
-> This allows a driver to set a global static to an IDENTITY domain and
-> the core code will automatically use it whenever an IDENTITY domain
-> is requested.
-> 
-> By making it always available it means the IDENTITY can be used in error
-> handling paths to force the iommu driver into a known state. Devices
-> implementing global static identity domains should avoid failing their
-> attach_dev ops.
-> 
-> To make global static domains simpler allow drivers to omit their free
-> function and update the iommufd selftest.
-> 
-> Convert rockchip to use the new mechanism.
-> 
-> Tested-by: Steven Price <steven.price@arm.com>
-> Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> Tested-by: Nicolin Chen <nicolinc@nvidia.com>
-> Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+On 23/08/2023 18:13, Maxim Kiselev wrote:
+> пн, 21 авг. 2023 г. в 19:47, Rob Herring <robh@kernel.org>:
+>>
+>> On Sat, Aug 05, 2023 at 09:05:02PM +0300, Maksim Kiselev wrote:
+>>> Add a DT schema to describe the analog part of the Allwinner D1/T113s
+>>> internal audio codec.
+>>>
+>>> Signed-off-by: Maksim Kiselev <bigunclemax@gmail.com>
+>>> ---
+>>>  .../allwinner,sun20i-d1-codec-analog.yaml     | 33 +++++++++++++++++++
+>>>  1 file changed, 33 insertions(+)
+>>>  create mode 100644 Documentation/devicetree/bindings/sound/allwinner,sun20i-d1-codec-analog.yaml
+>>
+>> Looks the same as allwinner,sun8i-a23-codec-analog.yaml. Why can't you
+>> use that?
+>>
+> Hmm. You're right. But let me explain my decision :)
+> When I added a new file, I assumed that since this is a separate driver,
+> then the binding should be in a separate file.
 
+Driver architecture of one give OS does not matter for the bindings.
 
-Reviewed-by: Jerry Snitselaar <jsnitsel@redhat.com>
+Best regards,
+Krzysztof
 
