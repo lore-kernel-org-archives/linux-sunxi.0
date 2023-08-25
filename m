@@ -1,184 +1,181 @@
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02olkn2032.outbound.protection.outlook.com [40.92.44.32])
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2080.outbound.protection.outlook.com [40.107.100.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF4152571
-	for <linux-sunxi@lists.linux.dev>; Fri, 25 Aug 2023 15:58:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B197F107A8;
+	Fri, 25 Aug 2023 17:40:16 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=of8CbPhzmoHrfvbZqkSXw/mKU3CKO9PXpXSdoO/pFEeVYFChc/xsGFequcXJ84BPZo2LxT0egyk7yHHp4uqTnEyiXGHDEgreCVOqiUpgOfiqK7Ch6IyDUIURLcBetB0vVkoCNW+fWX7uuDwR5bZF+kXlUTO+S77kunoDOVB0eutjUGKtMb1BnuSMihUuBcFN7TEbRqI3aBfosHaCQ9kHEkzau4vEmJEGAP02ZYM1rXEj0b3UQoB4m8pi9InIZOcrV4RzPW7IadpCkiIW3LqNM2nSPrxFWmj6fklZWOOY1TPST5+lVyFlQQeT82t+f+a4P5iQ3DBwn7dZSPCogD7NSg==
+ b=earOp9wCjbvXhNpxjZk6iiF1c5jKGxaHfnVf0WMl1z1Xaxeq27UJk8/RlIaGp0FYbWFN3iFZ0CPvBVTJBGB2SzYSP5AaGgHwpBCbpwtwR0Ep8I7xcg7b1iXrj/H8qFhJVOzdLT+YsigkHD5Sm9LMG6nWZyXNR7ck2Ht05IZVeTZ+z8ngPGO3iNzdIADnU54tTXThbLxcZoc8Qk6HaSYKYbjQ7IF2fN6JmM+Cwa3VZzcTJjhPBQJCJGAmRBWg9Dydgs+QWeQOcSDbBIykWrZ4DONfg+BIm37LRjwOBx7LB10RVBILNnPFEoMc2qcRRys5l9Ye3irQ5DeGzW5UBJw/nQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=brncIlW6JYhMOPQSBLPg9Jq95vO2hb0QYyGuSVM8bX0=;
- b=kuH+CDSX4BNA/lgGsyEBLpXhymOBCljP8SBoTjMLPbt8cIR9eoYUKxfCHzQQPFoTYLnRUt9hcePwzRfo3zfbY78MI26B6Ipsow01ssmjCOKmXn4a1azzdMBjjX/QqxQvJcytkSgAwrxeBUAZEXgqbADVUhcL4h0sz4trA0+Pi9Yv4hpYJb3PRehewBQGx+8Yqu6E2DEKgq2mQ7s9bHat9/ibJvfnhXrwH34t7wk+s1dXF/d/+bc5850Nve5qUwe9t1cJBinLxp95PDXjbnehztyAqkvjN1iNz/J/waS5g7V8zNG2SwbNvEllYEDkASIWoZFnyglZctFPoBH+l5PFqw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
+ bh=OimMWhjF3ieb++tVHK4fhFxIVzoG4uTQFZmSsIrjuv8=;
+ b=P9hdq7UEBhwu9Va4C1XThgQhBmo8qzUkf2+BalVJ8QvMcy5Lu1kRfFWwlVCcic9/GflR5XCnAAaBlPvuSjZQ9A/pIwjrpr3wxK0UPtZBXWHUmyy6vU79fUWgJNyH7Fe90V3x6b9WghR3vXRoJkKhhnmF/rVh0/ZQAm8lBQYGDw7u6snPfdOc1HsQJbQIuJCyDlH9CnE9UA5DVRklrYDWPJdeOPV6Jv7q46rztsnE06x4FZxJetVWRhc45HDIAAUdzqYli9wiSy4JDzPNYg92P87m57uH7CoP/jqU3cKlh7116WL5avy3ROqEDcnbkZopSOJ0lg0MfcunjqKOA1Yxrw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=brncIlW6JYhMOPQSBLPg9Jq95vO2hb0QYyGuSVM8bX0=;
- b=LtqT/chZ5tYf7hpGkTQ5oOmKace/Li1RPZXF2YekNb1TODHLSCnOKpWni3jH4PENHgyxrl/rJ6clDUtluvrCYxibk7g6WoOOANqm4U0VvK70d50WzMcamUcmYuBjIkxuSOH3iKjJ/84NGnnOOAo8O1htgm8linieP4QUnMtueg2vPrKnrsVxR8wJSrLpiL7j7QETgE7Yfh0iB3xoDhUGodHFu3iHmn7JGmWiW1TbJLF5Vi9XRMxURP8hmR4qjTzSYPMjNHQgc9u3GvCGq5EcMBIWuwp9daDYnf7YECQnXEx8YjUIc9bGoFSzR9V0jePtnhzV1TkOFczULoXnzApRVw==
-Received: from SN6PR06MB5342.namprd06.prod.outlook.com (2603:10b6:805:f9::31)
- by SN7PR06MB7152.namprd06.prod.outlook.com (2603:10b6:806:108::14) with
+ bh=OimMWhjF3ieb++tVHK4fhFxIVzoG4uTQFZmSsIrjuv8=;
+ b=bOByqItZSNBSr5J9I12IpliLcN6gb8qorA3kBFiAdHzE7OmejI8GAaLgqMpisO9lg6S1gbz/Y1FwiB28/ezSKqAwapV8/t9zwSD1FkVfR/7p6ZUOk6r6wQEx6c6uj5aHQ00jjXMBiH8YVDn4ISH/5vDxNFfgTk9aRT1Wm6rzH1i+LUJfQc74+X56zsdS7ivUqxrCNpGJi9a7Wc0I1izxcrVoTMruHgHwQSOBEXlXU0C2HPAdDlC8S2B74Rem3rOwA3zkh5f7QU+ohyTKo68WtLu00gsJ/LXTJIUXKJhFQ/CbZOAdj7c8MJUHHKCOp8Me3MRvl7NBYo1dVlguWcnncA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by DM3PR12MB9326.namprd12.prod.outlook.com (2603:10b6:0:3d::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.27; Fri, 25 Aug
- 2023 15:58:05 +0000
-Received: from SN6PR06MB5342.namprd06.prod.outlook.com
- ([fe80::20a7:a1ca:1ef2:ec9f]) by SN6PR06MB5342.namprd06.prod.outlook.com
- ([fe80::20a7:a1ca:1ef2:ec9f%4]) with mapi id 15.20.6699.027; Fri, 25 Aug 2023
- 15:58:05 +0000
-Date: Fri, 25 Aug 2023 10:58:00 -0500
-From: Chris Morgan <macromorgan@hotmail.com>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Chris Morgan <macroalpha82@gmail.com>, linux-sunxi@lists.linux.dev,
-	devicetree@vger.kernel.org, mripard@kernel.org, jagan@edgeble.ai,
-	heiko@sntech.de, uwu@icenowy.me, daniel@ffwll.ch, airlied@gmail.com,
-	sam@ravnborg.org, neil.armstrong@linaro.org, noralf@tronnes.org,
-	samuel@sholland.org, jernej.skrabec@gmail.com, wens@csie.org,
-	conor+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	robh+dt@kernel.org
-Subject: Re: [PATCH V3 6/8] ARM: dts: sun8i: v3s: add EHCI and OHCI to v3s dts
-Message-ID:
- <SN6PR06MB53420D67BB7E11486388637EA5E3A@SN6PR06MB5342.namprd06.prod.outlook.com>
-References: <20230823212554.378403-1-macroalpha82@gmail.com>
- <20230823212554.378403-7-macroalpha82@gmail.com>
- <20230824222150.5a0d16e3@slackpad.lan>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.30; Fri, 25 Aug
+ 2023 17:40:13 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::5111:16e8:5afe:1da1]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::5111:16e8:5afe:1da1%6]) with mapi id 15.20.6699.032; Fri, 25 Aug 2023
+ 17:40:13 +0000
+Date: Fri, 25 Aug 2023 14:40:10 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Jerry Snitselaar <jsnitsel@redhat.com>
+Cc: Andy Gross <agross@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+	Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Joerg Roedel <joro@8bytes.org>, Kevin Tian <kevin.tian@intel.com>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+	linuxppc-dev@lists.ozlabs.org,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Matthew Rosato <mjrosato@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Orson Zhai <orsonzhai@gmail.com>, Rob Clark <robdclark@gmail.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Krishna Reddy <vdumpa@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
+	Will Deacon <will@kernel.org>, Yong Wu <yong.wu@mediatek.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Nicolin Chen <nicolinc@nvidia.com>,
+	Niklas Schnelle <schnelle@linux.ibm.com>,
+	Steven Price <steven.price@arm.com>,
+	Thierry Reding <treding@nvidia.com>
+Subject: Re: [PATCH v7 02/24] iommu: Add IOMMU_DOMAIN_PLATFORM
+Message-ID: <ZOjneiqLzRRD7ulL@nvidia.com>
+References: <0-v7-de04a3217c48+15055-iommu_all_defdom_jgg@nvidia.com>
+ <2-v7-de04a3217c48+15055-iommu_all_defdom_jgg@nvidia.com>
+ <hbmfqpq2oyjjz3loccfbslpalzhlsyr2w3bpx6qasq23kyrfso@e6kry74ifgnt>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230824222150.5a0d16e3@slackpad.lan>
-X-TMN: [Tw23LzFkVDhEdVAcj1MJbmginMfDFa+5]
-X-ClientProxiedBy: DS7PR03CA0043.namprd03.prod.outlook.com
- (2603:10b6:5:3b5::18) To SN6PR06MB5342.namprd06.prod.outlook.com
- (2603:10b6:805:f9::31)
-X-Microsoft-Original-Message-ID: <ZOjPiANPzjkEQ+qw@wintermute.localhost.fail>
+In-Reply-To: <hbmfqpq2oyjjz3loccfbslpalzhlsyr2w3bpx6qasq23kyrfso@e6kry74ifgnt>
+X-ClientProxiedBy: SJ0PR05CA0141.namprd05.prod.outlook.com
+ (2603:10b6:a03:33d::26) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN6PR06MB5342:EE_|SN7PR06MB7152:EE_
-X-MS-Office365-Filtering-Correlation-Id: d06df98f-189f-4c36-b77e-08dba5841126
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|DM3PR12MB9326:EE_
+X-MS-Office365-Filtering-Correlation-Id: 58786a3e-aa3c-45af-dcc2-08dba59255eb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	jh1GsE7va4xSJ+VpM/EO/gbRHojbdJDRXSleMo9a8kzUp9y4bd2gyOxaaXhLStW2Cakr12AjQjk3QXK/CNxNwkZS9dIHr3O4+/dzqj043iih153eaS1kWw2jYHwsHgR5hJAa5Qv7g617LT+HWfm/JZg95MtqFMqmxd9YHJg3+s+glUVhSn0HrnRhf7OppTTdlcgMIomyza0+5KrelJpqoeG9KGsttZ530I4eq6W4Y4+XK+vCC04EIbRdMFmB6/ithFYL1AddkcY3OYeVHAvY+bzwFwLTer/KNPJ9SStr3E+wWQ7JCaKEiIoPnh82rY89ZN9oJYzc3X+QWTAqcoiSjdgSHkXS08X8o/MSxk06AfKuybpIAVWoJsZYSzy8LNR9wf+yk2dm0tOmt5/hrCjY2aStJZEhhoAHKtApISZ2b63g6mPOiOm5YkZiSPkH45yg2rAZr+ecZJeIO7PN1R0OYqZEwej4tg+x1OLnSoQlSAM/aUmahOcNrqznUgL00AqwophruMbjXYflRrLYNti1l6ni9Vk5thyKo5um/eA823oIJTL42Bo1uj8NwJcG011+
+	a8Gnigr2aF9SIPJCrxuBJK0DSHHSWMBbcxYk0WxAHH+TojN1Gvlky7nyxLoGUigqZx+wWQse5Eif5ixtjUTWxNw9v/ugMBXUFH6ND0qCuEcW2sc66uhLKr000hB29sEehLToAiTtbrDLvgB9LLezXQAJkbL5mcBuM27vGR8hpiHLc0xvDiuDHbQYSI7vflacHe8ThaM5nwDXzuvuF0v37H66N+VRIK/vsAfKSXD8lxYEn44ZLMkfG5cafZvhqjDh5TwZWJrX6YLR4j8eo1w97hRkW3uLun6CdwqPZWly8fBhvcdHwHzkbI2xhH6fh+6t6nn8Jgk1IslBiooHII9xrzoe7VFEzSmUP8snbrSDrDeCLm+nEbgrpy/ux0jCvar5lsqaaqL/ZsmLDMAi5esuLJ+YFl8gBWqM03xfVSmmvT/XRvlwmnLSeuW0/Dfve/gJKJG0JxK+TK9yvPInRO4lg/2ANi2TvXQ9b+ktVpDKTiK9GdEK3Se3Qwcj17nXmn3FoOwl7gEY2mV0uGvJFo0op67WrPjfNH0/1nNJDMDfxlPJRGy7ebPGUaVIVjiOr5zN
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(136003)(376002)(396003)(366004)(346002)(1800799009)(186009)(451199024)(5660300002)(83380400001)(86362001)(6512007)(6506007)(26005)(2616005)(6486002)(38100700002)(107886003)(36756003)(66946007)(478600001)(54906003)(4326008)(8936002)(6916009)(8676002)(66476007)(316002)(66556008)(41300700001)(7406005)(7416002)(2906002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?wPmxocLcdtxXrI982J2kOVoCXEMGgyJLR/SsZyeMBpSvFTPHziPOHjFZCAsc?=
- =?us-ascii?Q?AG/vxmbKjZQltV8wFgeauettDs8r2s7kt3gOkpuh0amceHo+Of2Ibj8GhEDW?=
- =?us-ascii?Q?Ci/c+kf2WvZHiPR0ceSfWK4h7Zffq223yTLIf3NhOLlSbqzzPlXlv4osSokp?=
- =?us-ascii?Q?A+tew+WHTxAad7KOzCRt6nBseQpUWBbKky/MlS1f1Kw8rV1hePwlUwOj6Z4D?=
- =?us-ascii?Q?+60WsmZmix5CjdI3fUjSkNWghbD+ocZKDHU9VKY6mlUnZ1Yt9+JrRumQ/clP?=
- =?us-ascii?Q?hEy0CqOu2Rdk5ZCMGWFIb01YwRJt8aSjM2tKrVycLc/w5hljaXh64pajg+ls?=
- =?us-ascii?Q?3x3k60jmpcMLsCZ44aBQUOTmLwYQS2RQialIuCYtLrblGXlUj3wUKRXYy5Kc?=
- =?us-ascii?Q?DQt3YmGTlFZiqKEWBMJkI+P74E4AP0K3GOVQpdcJM9Ft5xRwQn8Is+z0usTz?=
- =?us-ascii?Q?Tpo16vB9cl7tdpjBVjwSJntigMISxo4XUXJaN8FSOvNQZQA9K6maPVOT2qgA?=
- =?us-ascii?Q?PB82G8x0BfwnfW4M1dAdlb83mMt2uV5wQYH0SNpTNrtBE4RK9o+sWXYLEbUm?=
- =?us-ascii?Q?JRjyyLG/HdPBcHOdCNxS4xMG9E1mbPAh3hQA+sZSGl3/wxeTGrAxBM8/jkWQ?=
- =?us-ascii?Q?9+c3JRFyc/CzXZXZ/OFMRlklnQjgi81eXRURA+AWnEhvyTCvGKZczv4mzPSe?=
- =?us-ascii?Q?Vs7AywP2E0yoZcJ5UpEubjd1iDcnxA8lMfy9DA6Mc4HZBsMFoTp6cx9v5vEG?=
- =?us-ascii?Q?/ne/Nse2/5HYbMgcajtbeewQ6ANQwCP22EAV21lu9lanrgYcBDsoChVsRqPe?=
- =?us-ascii?Q?ECpW0OpGP9Mn+ldcE4gRQD8Qr6FFzy8dLk+S8gg6XDIi2CrLn1F/27PqSTvP?=
- =?us-ascii?Q?hFfC5+jldLbfhymP0EtzcjZaxZAs8p69bC/zhULYKDqFisFo0r7nky1PnlNO?=
- =?us-ascii?Q?o4fl0dIGGVDvjhcpPZQEF9M9MqfzwAznXeh16U7X2AXc/+TJxcBmRogJEM3k?=
- =?us-ascii?Q?zzTc2cLZ5Kq9U9r8jK7Ceox+So0GJjs2qv1Ga0bVB45uscA/SF+PyndRAD6S?=
- =?us-ascii?Q?tW0rPrdqzWLM/qSxqTiZYsx7lsMEQCVIDPtS6J6cd0wcrKdYa+rdju+5Dqv6?=
- =?us-ascii?Q?FlH71/DwKMCCqwBD+jgKUuwMYrvJbq0gvCcKec7Qq/mSgt5p5paha0gV8he4?=
- =?us-ascii?Q?hlvhCq84oAtn+4+kjm+vD1M6VHLejMb/iXHvxrH/SFD6cdjMUc8CqQsxdCw?=
- =?us-ascii?Q?=3D?=
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-89723.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: d06df98f-189f-4c36-b77e-08dba5841126
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR06MB5342.namprd06.prod.outlook.com
+	=?us-ascii?Q?vvgV5ntNbJnFy5TerXzlekncoqxnviQO4r6DerMaR7/Xw8peRzERjkiAau8j?=
+ =?us-ascii?Q?YTRWOFswON+4fKllm1SrjUXZX4pLpQiXapVA3glR1/fM9N8Bj1qs4ffqBhZF?=
+ =?us-ascii?Q?XSwuk6COHMfBSoNhdw7hroan2o36kidxruhSGM28UFBsyWuy55LgWCOwPX9s?=
+ =?us-ascii?Q?BBOSbJhmmvE1NbFaSfZNsLzCzifVVKZRALPhkZCzZ6qOnJcjm9eQc+3A1oj9?=
+ =?us-ascii?Q?It52NOulwurqZfk23csGiIc3WYS2j3v9cHwU3QiNZeKRkab0bW1FucSMqdix?=
+ =?us-ascii?Q?m4Zmbg0GGSK9Nemgc24cZ1hNo46qrLpVVDep8FZxjdGf6VSXMhNV7Y/J3jy+?=
+ =?us-ascii?Q?t0hgqAp9Vlyp+nXc5OzPJpRymYwoNHD8RXhf13kaGDRnjlfZHb4nzAzZr4t/?=
+ =?us-ascii?Q?DhlcCY23vNG1SFcK5OkTVogVaTZgo7kS0dZhoBmXDwsHyfRxpLR0SsadzUTx?=
+ =?us-ascii?Q?7PVSKoMB9epwl9ji04a92GCaVxv1heeNbfUroQIrMyvPn5O9udlZYgb/pW8x?=
+ =?us-ascii?Q?pLHUV4daK2vjxfwRPldDcqlENxHVrqr9FoqRaGugEEHi0QQp7wqD/vfeooNh?=
+ =?us-ascii?Q?d6XrbBH5VDQKv22/hln8SQtf+SpAZE5APLoziCBPZ36ShGGmRY49X9g1axx4?=
+ =?us-ascii?Q?jP5RfcrqATYeFMvilpsdGZqVYZKU+cdHkJF5+T20kW9EPVoYA5jgi5Pa07Bx?=
+ =?us-ascii?Q?4GSxCVm2pDuffgCfh/AhO6RUke6ldQz/P5i4VM22WDrpXyb+lA0oLvsK+3U4?=
+ =?us-ascii?Q?T8i/9qMXqWfrBBdOV16xiOaSM0Q5odNsD9A8ufbUC6wAqwCiYjeZXd/E72ol?=
+ =?us-ascii?Q?Jnhn3TxxRQGeTosqkt0vaQlB9sqFQ3hPIyTHxG6RxHiIaqRTMWPhZ9rpXNQQ?=
+ =?us-ascii?Q?g7IgJjiu7byaYZj9M0VeTNCVLr/jMxgz8mg/KVTroZFQM/vAOcIA41pzQtei?=
+ =?us-ascii?Q?VDV+VEGmyTCCWwYBW3uYU6D8RV61C2Lv8MGFD9F/Dy2xSESbAKWkYhx1AD3J?=
+ =?us-ascii?Q?s2p3TQKoRpAOPHN6sOEReEi1BfCE78EeehELV/TdIVapsK96ovX/b7FCAPoY?=
+ =?us-ascii?Q?8OJVV0jevWjA0o84otiauvU0hOwsuxY02Lda3knBRrI/pbg1E/MV2uC0K95f?=
+ =?us-ascii?Q?Nk4A/jt1adEHhTvsEyNRoOgqVc7tlqQ2WeiDOheHJHJo+cPZ4yAbyOzwrA9/?=
+ =?us-ascii?Q?agi1uFJKwTzqUp7d1ACXHEzfdz0d7pnXhOon6p8qGMjwXHqjUF7xkNlTbFr+?=
+ =?us-ascii?Q?B+8/P53OdCSSRhwGvFg/zsLwnDpO14wHNsaJNwyGdCVDNShuv4/+rYLa6ouY?=
+ =?us-ascii?Q?2er0IWGnsD/PXHQSvYY8SYu0wRpmApig2zVHMVFtGiRx7lE/SBoqOPzJvuk3?=
+ =?us-ascii?Q?E0Q2Py+SENB8FMtyEFKrX4DzEZoTQEcN4ZBxMYyp4owAXD1222aCRO0cDaP/?=
+ =?us-ascii?Q?ZhDJ/4G6mdu9JakGiSYrFXVDQTNQMqW7BQEgDIySWAP8keEExA9/p1kxwW7M?=
+ =?us-ascii?Q?e/IoAeX2HuRg37EhGM+UiXcbLY9L1EXOueraZu/Jinq8K5h34zk+LqWcqnvs?=
+ =?us-ascii?Q?MD54E5k+9Lu2J+Rb5HHttaheDoy+0aXMw709c2md?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 58786a3e-aa3c-45af-dcc2-08dba59255eb
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2023 15:58:05.2241
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2023 17:40:13.0741
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR06MB7152
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: c/lHqPfLm8ZdGGXUSmMC6bjlG6PP0TtcgCXnvFIc/GCrpMVM1mXDhZvZRzMfHio0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR12MB9326
 
-On Thu, Aug 24, 2023 at 10:21:50PM +0100, Andre Przywara wrote:
-> On Wed, 23 Aug 2023 16:25:52 -0500
-> Chris Morgan <macroalpha82@gmail.com> wrote:
-> 
-> Hi Chris,
-> 
-> > From: Chris Morgan <macromorgan@hotmail.com>
-> > 
-> > Add the EHCI and OHCI controller to the Allwinner v3s to support using
-> > USB in host mode.
-> 
-> Alright, so was it really that easy? I was afraid we left out host mode
-> for a reason back then ....
+On Thu, Aug 24, 2023 at 06:51:48PM -0700, Jerry Snitselaar wrote:
 
-Can't speak to that, but it is working for me as both a host and a
-gadget.
+> > +	/*
+> > +	 * Allow legacy drivers to specify the domain that will be the default
+> > +	 * domain. This should always be either an IDENTITY or PLATFORM domain.
+> > +	 * Do not use in new drivers.
+> > +	 */
+> 
+> Would it be worthwhile to mention this in iommu.h for the iommu_ops default_domain?
 
-> 
-> > 
-> > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> > ---
-> >  arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi | 19 +++++++++++++++++++
-> >  1 file changed, 19 insertions(+)
-> > 
-> > diff --git a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi b/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
-> > index c87476ea31e2..eb63dd274305 100644
-> > --- a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
-> > +++ b/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
-> > @@ -319,6 +319,25 @@ usbphy: phy@1c19400 {
-> >  			#phy-cells = <1>;
-> >  		};
-> >  
-> > +		ehci: usb@1c1a000 {
-> > +			compatible = "allwinner,sun8i-v3s-ehci", "generic-ehci";
-> > +			reg = <0x01c1a000 0x100>;
-> > +			interrupts = <GIC_SPI 72 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&ccu CLK_BUS_EHCI0>, <&ccu CLK_BUS_OHCI0>;
-> > +			resets = <&ccu RST_BUS_EHCI0>, <&ccu RST_BUS_OHCI0>;
-> 
-> Please add the link the PHY here:
-> 			phys = <&usbphy 0>;
-> 			phy-names = "usb";
+I did this:
 
-usbphy 0 doesn't work, but if I do phys = <&usbphy 1>; for here and the
-OHCI node it does work. Is that expected/acceptable? By "doesn't work"
-I mean the device is always in HOST mode if I use 0 and switches
-correctly (the extcon shows HOST=0 when unplugged or plugged into my
-computer, and shows HOST=1 if I plug in a device which I assume is
-the desired behavior).
+diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+index 11d47f9ac9b345..7fa53d28feca87 100644
+--- a/drivers/iommu/iommu.c
++++ b/drivers/iommu/iommu.c
+@@ -1757,8 +1757,8 @@ iommu_group_alloc_default_domain(struct iommu_group *group, int req_type)
+ 
+        /*
+         * Allow legacy drivers to specify the domain that will be the default
+-        * domain. This should always be either an IDENTITY or PLATFORM domain.
+-        * Do not use in new drivers.
++        * domain. This should always be either an IDENTITY/BLOCKED/PLATFORM
++        * domain. Do not use in new drivers.
+         */
+        if (ops->default_domain) {
+                if (req_type)
+diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+index 7e9d94a56f473e..6f9e0aacc4431a 100644
+--- a/include/linux/iommu.h
++++ b/include/linux/iommu.h
+@@ -267,6 +267,8 @@ struct iommu_iotlb_gather {
+  * @blocked_domain: An always available, always attachable blocking
+  *                  translation.
+  * @default_domain: If not NULL this will always be set as the default domain.
++ *                  This should be an IDENTITY/BLOCKED/PLATFORM domain.
++ *                  Do not use in new drivers.
+  */
+ struct iommu_ops {
+        bool (*capable)(struct device *dev, enum iommu_cap);
 
-> 
-> > +			status = "disabled";
-> > +		};
-> > +
-> > +		ohci: usb@1c1a400 {
-> > +			compatible = "allwinner,sun8i-v3s-ohci", "generic-ohci";
-> > +			reg = <0x01c1a400 0x100>;
-> > +			interrupts = <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&ccu CLK_BUS_EHCI0>, <&ccu CLK_BUS_OHCI0>,
-> > +				 <&ccu CLK_USB_OHCI0>;
-> > +			resets = <&ccu RST_BUS_EHCI0>, <&ccu RST_BUS_OHCI0>;
-> 
-> ... and here.
-> 
-> That would be definitely the right thing to do, but please check
-> whether it still works, especially OTG operation.
-> 
-> The addresses, clocks, resets and interrupts match the manual.
-> 
-> Cheers,
-> Andre.
-> 
-> 
-> > +			status = "disabled";
-> > +		};
-> > +
-> >  		ccu: clock@1c20000 {
-> >  			compatible = "allwinner,sun8i-v3s-ccu";
-> >  			reg = <0x01c20000 0x400>;
-> 
-
-Thank you,
-Chris
+Thanks,
+Jason
