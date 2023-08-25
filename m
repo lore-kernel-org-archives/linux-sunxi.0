@@ -1,49 +1,49 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73BB219395
-	for <linux-sunxi@lists.linux.dev>; Fri, 25 Aug 2023 20:23:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A31F01803F
+	for <linux-sunxi@lists.linux.dev>; Fri, 25 Aug 2023 20:24:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1692995031;
+	s=mimecast20190719; t=1692995074;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=6UBqcsz+qyHMazVNsnwC+GgF7rp1trrk3H8y0CxPC4U=;
-	b=h/IiRGuHzZzKuF7AeqrNzrlcYnWBY9ijKnSCsySjI6ejiJL170XTlomgMvf1CPPZLXTPTI
-	kTmD/cltb3QDNugiaDR0gmcsCO6WVKHawqHnal+N0NHunjoJWbhdS+bYD8FLKWSnVpAqkA
-	EIAdceJGV461QgRB1yxUggtTeTYnntA=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=T9GaVO4jGruWR+C5Izp9D7v0Lmi9Kx5kTKgCOaeAvTc=;
+	b=NaFcTyN5fkzp392RI9XQScQEw8Z2+t8sQBntQK+r1+2bMVqgt31mtU71Bxzp2iJUKn06uV
+	eH2duvFbGAX7qfInz7tmbEK0OauFS4CEpOXgkPJ3BiAhCafrmWEyqiPpKaDJjvjg5DzQvs
+	o18R3PF0gOTHLBHk/pzzkxSBKcSZdRo=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-371-giJYVtSFNIi4hbIfwAaMHQ-1; Fri, 25 Aug 2023 16:23:50 -0400
-X-MC-Unique: giJYVtSFNIi4hbIfwAaMHQ-1
-Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-64a5f9a165aso15334206d6.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 25 Aug 2023 13:23:50 -0700 (PDT)
+ us-mta-591-0g58vhePNc6aSp5v0LI11Q-1; Fri, 25 Aug 2023 16:24:28 -0400
+X-MC-Unique: 0g58vhePNc6aSp5v0LI11Q-1
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-76d9b2b99fbso136725085a.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 25 Aug 2023 13:24:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692995029; x=1693599829;
+        d=1e100.net; s=20221208; t=1692995068; x=1693599868;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6UBqcsz+qyHMazVNsnwC+GgF7rp1trrk3H8y0CxPC4U=;
-        b=HJolvmMpWDn4WdG5NIB5o1zICOgz6mkMK5DQ6oaNdM5aBec5pMY7zrDJjmGJ/+02jE
-         i93H1Meqc8Eas6b2HosRFJREgeDoWkm5g3bWkLARzxK6GbjgPwQES3sUHFi1K+giN8/r
-         x+px06L62tk8xGiCLmdBaWS8ioVw52/T5JcL3tx+Z/h8MqnUTUvLf4waN96JAWwi9gkl
-         hF74WaZkeEaRc/SXQ/0MJSQXCLqMWWbdWQZo1Izwl+wgwADPCymJc3zhw6pcnXELj5PD
-         f7zrw7RKcF7fXQi8FgT0Iz9rOd2tvPygJ48ZvQbV2zqKPOtEUlwdHz8xVr8Tun0cMtlY
-         4f2w==
-X-Gm-Message-State: AOJu0YwTv6D76Wp0ouilIgiZPvRdXO/YrXaXWNtt8cZEGtDiAQIm9eEf
-	A26yFNf4EpbxGb6hRLBuR2agU4ZimILvWC/jhZUallrPeOSSLaKGOgwBH3pzytoAEGQLCQixqBq
-	E3lhwO5QuDGrCia7sWVAXSSk=
-X-Received: by 2002:a0c:9c06:0:b0:64f:3e2d:93db with SMTP id v6-20020a0c9c06000000b0064f3e2d93dbmr20305571qve.6.1692995029621;
-        Fri, 25 Aug 2023 13:23:49 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGhcq54IOGRl9sNdHkLdvPnzpjB/PihT5afG6dr52Z2uB4cbUOhKAsFPETyVjj3ta3v5KMJ7g==
-X-Received: by 2002:a0c:9c06:0:b0:64f:3e2d:93db with SMTP id v6-20020a0c9c06000000b0064f3e2d93dbmr20305555qve.6.1692995029386;
-        Fri, 25 Aug 2023 13:23:49 -0700 (PDT)
+        bh=T9GaVO4jGruWR+C5Izp9D7v0Lmi9Kx5kTKgCOaeAvTc=;
+        b=VZRYoLsbCK6hx6YKwq7KLsFUaiJHt79qTDSeqrB5R2TOwepAElLVSUVvl/jhXbNTy3
+         boj62lNqfQdTJvGRZ4ZJZw+QaB9kzG05vQX4et7QQLEogcoydx0zqbOxkTGyMIIr72uL
+         BNWFelM3GsrDvB8zt6AE2wIHvLERCk4azhrP/rwt5XSmK/Sc+aaYRZGTHa3+5PvlekXV
+         6X8n/3oDPOuj0nz0D7Xl9UApDfq3ctdVh7fcHdyOo2TFUQv32glvK9B7rHPTJWereS+d
+         MfOAM+AFaDXZrIVVIcKH/4AHrLGwjZMX0tuduJ3NNHTwoDo3TMsDz13ygqJ4lsDTgDhP
+         xDJQ==
+X-Gm-Message-State: AOJu0Yxi0PL256H4GY3Wndam9+nN23ooBdXhgElSPcDPhlzplsSADtrA
+	DVGEN/aUojOnQbGz25L1OgMeQy1Cyy19WXBvZCYZzHcRg9F6XKTVXX/7jFSLY0O92NqiIhOqpnY
+	oG4F45dsX48XeJUAxkdNoJRg=
+X-Received: by 2002:a05:620a:4009:b0:76e:eeaa:a079 with SMTP id h9-20020a05620a400900b0076eeeaaa079mr7880710qko.10.1692995067929;
+        Fri, 25 Aug 2023 13:24:27 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGLBKI1XGw7s6CbX7jhIzTvhmgnGyxca1Jm6YHCiJ3dxbM+m70gQmthLg44868T29Hr/JESWg==
+X-Received: by 2002:a05:620a:4009:b0:76e:eeaa:a079 with SMTP id h9-20020a05620a400900b0076eeeaaa079mr7880679qko.10.1692995067632;
+        Fri, 25 Aug 2023 13:24:27 -0700 (PDT)
 Received: from localhost (ip98-179-76-75.ph.ph.cox.net. [98.179.76.75])
-        by smtp.gmail.com with ESMTPSA id a6-20020a05620a124600b0076c72dad35dsm738410qkl.63.2023.08.25.13.23.48
+        by smtp.gmail.com with ESMTPSA id g7-20020a37e207000000b0075cd80fde9esm741104qki.89.2023.08.25.13.24.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Aug 2023 13:23:48 -0700 (PDT)
-Date: Fri, 25 Aug 2023 13:23:47 -0700
+        Fri, 25 Aug 2023 13:24:27 -0700 (PDT)
+Date: Fri, 25 Aug 2023 13:24:25 -0700
 From: Jerry Snitselaar <jsnitsel@redhat.com>
 To: Jason Gunthorpe <jgg@nvidia.com>
 Cc: Andy Gross <agross@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
@@ -68,76 +68,41 @@ Cc: Andy Gross <agross@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>,
 	Dmitry Osipenko <digetx@gmail.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
 	Nicolin Chen <nicolinc@nvidia.com>, Niklas Schnelle <schnelle@linux.ibm.com>, 
 	Steven Price <steven.price@arm.com>, Thierry Reding <treding@nvidia.com>
-Subject: Re: [PATCH v7 02/24] iommu: Add IOMMU_DOMAIN_PLATFORM
-Message-ID: <uwi23vasgop7nrnrvalquu6e4jepyiub7aopj7bcgiaw26zx2x@xslngjsllztb>
+Subject: Re: [PATCH v7 03/24] powerpc/iommu: Setup a default domain and
+ remove set_platform_dma_ops
+Message-ID: <zbmf64fbpp5zsolyqd74px3hpgvvorc3xal6pvaxdw3uoccb6c@epcqhetd6n6l>
 References: <0-v7-de04a3217c48+15055-iommu_all_defdom_jgg@nvidia.com>
- <2-v7-de04a3217c48+15055-iommu_all_defdom_jgg@nvidia.com>
- <hbmfqpq2oyjjz3loccfbslpalzhlsyr2w3bpx6qasq23kyrfso@e6kry74ifgnt>
- <ZOjneiqLzRRD7ulL@nvidia.com>
+ <3-v7-de04a3217c48+15055-iommu_all_defdom_jgg@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <ZOjneiqLzRRD7ulL@nvidia.com>
+In-Reply-To: <3-v7-de04a3217c48+15055-iommu_all_defdom_jgg@nvidia.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Fri, Aug 25, 2023 at 02:40:10PM -0300, Jason Gunthorpe wrote:
-> On Thu, Aug 24, 2023 at 06:51:48PM -0700, Jerry Snitselaar wrote:
+On Wed, Aug 23, 2023 at 01:47:17PM -0300, Jason Gunthorpe wrote:
+> POWER is using the set_platform_dma_ops() callback to hook up its private
+> dma_ops, but this is buired under some indirection and is weirdly
+> happening for a BLOCKED domain as well.
 > 
-> > > +	/*
-> > > +	 * Allow legacy drivers to specify the domain that will be the default
-> > > +	 * domain. This should always be either an IDENTITY or PLATFORM domain.
-> > > +	 * Do not use in new drivers.
-> > > +	 */
-> > 
-> > Would it be worthwhile to mention this in iommu.h for the iommu_ops default_domain?
+> For better documentation create a PLATFORM domain to manage the dma_ops,
+> since that is what it is for, and make the BLOCKED domain an alias for
+> it. BLOCKED is required for VFIO.
 > 
-> I did this:
+> Also removes the leaky allocation of the BLOCKED domain by using a global
+> static.
 > 
-> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-> index 11d47f9ac9b345..7fa53d28feca87 100644
-> --- a/drivers/iommu/iommu.c
-> +++ b/drivers/iommu/iommu.c
-> @@ -1757,8 +1757,8 @@ iommu_group_alloc_default_domain(struct iommu_group *group, int req_type)
->  
->         /*
->          * Allow legacy drivers to specify the domain that will be the default
-> -        * domain. This should always be either an IDENTITY or PLATFORM domain.
-> -        * Do not use in new drivers.
-> +        * domain. This should always be either an IDENTITY/BLOCKED/PLATFORM
-> +        * domain. Do not use in new drivers.
->          */
->         if (ops->default_domain) {
->                 if (req_type)
-> diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-> index 7e9d94a56f473e..6f9e0aacc4431a 100644
-> --- a/include/linux/iommu.h
-> +++ b/include/linux/iommu.h
-> @@ -267,6 +267,8 @@ struct iommu_iotlb_gather {
->   * @blocked_domain: An always available, always attachable blocking
->   *                  translation.
->   * @default_domain: If not NULL this will always be set as the default domain.
-> + *                  This should be an IDENTITY/BLOCKED/PLATFORM domain.
-> + *                  Do not use in new drivers.
->   */
->  struct iommu_ops {
->         bool (*capable)(struct device *dev, enum iommu_cap);
+> Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>  arch/powerpc/kernel/iommu.c | 38 +++++++++++++++++--------------------
+>  1 file changed, 17 insertions(+), 21 deletions(-)
 > 
-> Thanks,
-> Jason
-> 
-
-For all of 02/24
 
 Reviewed-by: Jerry Snitselaar <jsnitsel@redhat.com>
-
-> _______________________________________________
-> Linux-rockchip mailing list
-> Linux-rockchip@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-rockchip
 
