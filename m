@@ -1,49 +1,49 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E255198B4
-	for <linux-sunxi@lists.linux.dev>; Fri, 25 Aug 2023 22:12:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F2B4193B2
+	for <linux-sunxi@lists.linux.dev>; Fri, 25 Aug 2023 22:15:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1693001551;
+	s=mimecast20190719; t=1693001754;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=e+hge1oDtbK92kc9TmT9Xdf3z4r7E02Hg1hwzgG2crw=;
-	b=VwgihAGFyMDGzqNbg1jyR1TLaVjUlQ4T36BNI4LsrZNp6+7t3uH89NoVzPulaD+R5vPz+P
-	e8Cx0SmilW4NjizO8XYV5kG9okmbiWUYaOHaHe67/daX0GufIJgzXkPPyvQtMWx3Z7lsjq
-	bdYDVz5tcVLjZyyDl1woL45wy4ULX/8=
-Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
- [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=kso0bHAJbNi7PoOyIay86CVNgj3x+jo0WkAZo3ICUzc=;
+	b=ECrBm1rZAx8Mkra4HVL5KIGWcXWhQstzWamGdf9/HGLm2VPL3XHy0worrxHD/7YrHL6W3S
+	GPM8n41Nu9Zf3L8OU2nUBxlck3hUqwZ7qFzR9BQ2Yr9QkGVWv9TTv2EhEZlgk+KLf6PHaX
+	t8BP0h5L9wyCtYoLWz4sEBwePgsdKEA=
+Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
+ [209.85.161.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-347-V5tecJL7MzW2hVtw4Pv7Tw-1; Fri, 25 Aug 2023 18:12:30 -0400
-X-MC-Unique: V5tecJL7MzW2hVtw4Pv7Tw-1
-Received: by mail-yw1-f197.google.com with SMTP id 00721157ae682-59204757627so20884027b3.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 25 Aug 2023 15:12:30 -0700 (PDT)
+ us-mta-575-SJJkCsCcNOGE2_l8-Xu-rQ-1; Fri, 25 Aug 2023 18:15:51 -0400
+X-MC-Unique: SJJkCsCcNOGE2_l8-Xu-rQ-1
+Received: by mail-oo1-f72.google.com with SMTP id 006d021491bc7-5733fc73957so1283253eaf.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 25 Aug 2023 15:15:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693001549; x=1693606349;
+        d=1e100.net; s=20221208; t=1693001750; x=1693606550;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=e+hge1oDtbK92kc9TmT9Xdf3z4r7E02Hg1hwzgG2crw=;
-        b=CGQoJPkTNDnBwYN/R0nahfh/5B5JIOcLb2Z03CbpULMb0g8+D0dxUZ13a6NuPGLRY+
-         OSm38K80QUl/MRM5K1MXTpLdjlwLE1uzTikvuohWITRwAR2hzyp17uTYdRYMUZx1MN9P
-         RmYLgAMLDqLVOrm6uuQVjBIvtlX85dv8U5ID2EnuAbOYEmjtw8ZamWr7suAF6sRjbBQl
-         FOmfhKCcgenWYECJhZhXOYq9HrtOKcheEc78VxPlK24RGtkhWhXkqjKkpUXt11cqPkab
-         hd1WZnnfXXzi2gTAU9O37rjEoBQzj56qw9UlhxOhJm9ewUXQ4yvPHMQ1gegxUA86J8qd
-         fKPw==
-X-Gm-Message-State: AOJu0Yy0BunPELYzWC2T2DbnLDSjVIjC8yaYL8fnzVm5M17zXOs7vG2n
-	o0TDcP5zPUnFv2O4UaYVQuFzSQM6nJtIx/TGW0cMmLT4WTwi+y4y/YA2C/UCTgYdLQabskGole+
-	TpxH71+0Qwnas1VtwIw6DRnE=
-X-Received: by 2002:a0d:d713:0:b0:586:e50:fb50 with SMTP id z19-20020a0dd713000000b005860e50fb50mr19547759ywd.28.1693001549710;
-        Fri, 25 Aug 2023 15:12:29 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHqzLCDM3DmOkP06FXZ9bPHPMsAQN6X4+gYJTqa+W/zrzV0quaG3oT8K/t8CMwB/6vm0x/C6Q==
-X-Received: by 2002:a0d:d713:0:b0:586:e50:fb50 with SMTP id z19-20020a0dd713000000b005860e50fb50mr19547730ywd.28.1693001549499;
-        Fri, 25 Aug 2023 15:12:29 -0700 (PDT)
+        bh=kso0bHAJbNi7PoOyIay86CVNgj3x+jo0WkAZo3ICUzc=;
+        b=ljmrbALFiLC3OCQBZSe86qYCE0Oc/FDSKGzrJGeyjXpyDmOp4TM9b+6tEhpHV3JyeC
+         0NoTv+MFokmtv7ZUSVR2nJZunJ0T8lHIC3xM0isswjFSylZ1YpOut8Fz3Iiiyc+3IWdr
+         j9rFlaG/S8za8oHdmQHU0ybX3LXBl8+6fiNrNHZqOUghFt3MZ1JDCJXX4s1LDLleZ/aa
+         aUeI00PJiykvwjGSHZST8slIluSzJI233t/hOr0kII7zajl2Dht5vIkp4kAzA51YJn2Q
+         oYXeMJL3BbGhfJOcRS7e50rcSgHZFuNAlFgUPfvX9YjtNf3IVfj/eAaEC0fNvsUbD19e
+         ckiQ==
+X-Gm-Message-State: AOJu0YzMjrusGMEDAhV3V4zyDfuvjGqZKYZIJx3aFWrv4uwDfE+gugWa
+	SQL0DEBMLzJgb9AyBMjenNdk4tnpN0RrKwQ4bUGn4kMssKO6A09nmfCtjGmt8vPu0gZga6ifzJO
+	M9dj+jZVqS+WVq+2kYNPD8Uc=
+X-Received: by 2002:a05:6358:7e53:b0:139:d0bc:acfa with SMTP id p19-20020a0563587e5300b00139d0bcacfamr20095499rwm.23.1693001750543;
+        Fri, 25 Aug 2023 15:15:50 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFkY4Kv1xGxroqOwtsL16yLvAJMOO7lHXk5XmHI00VwDkZfKODP2FZnPBehYOmoTkQvGLsKdQ==
+X-Received: by 2002:a05:6358:7e53:b0:139:d0bc:acfa with SMTP id p19-20020a0563587e5300b00139d0bcacfamr20095448rwm.23.1693001750156;
+        Fri, 25 Aug 2023 15:15:50 -0700 (PDT)
 Received: from localhost (ip98-179-76-75.ph.ph.cox.net. [98.179.76.75])
-        by smtp.gmail.com with ESMTPSA id a9-20020a0ce349000000b006418c076f59sm817232qvm.100.2023.08.25.15.12.28
+        by smtp.gmail.com with ESMTPSA id v19-20020a0cdd93000000b0064f3b0d0143sm816749qvk.142.2023.08.25.15.15.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Aug 2023 15:12:28 -0700 (PDT)
-Date: Fri, 25 Aug 2023 15:12:27 -0700
+        Fri, 25 Aug 2023 15:15:49 -0700 (PDT)
+Date: Fri, 25 Aug 2023 15:15:48 -0700
 From: Jerry Snitselaar <jsnitsel@redhat.com>
 To: Jason Gunthorpe <jgg@nvidia.com>
 Cc: Andy Gross <agross@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
@@ -68,31 +68,42 @@ Cc: Andy Gross <agross@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>,
 	Dmitry Osipenko <digetx@gmail.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
 	Nicolin Chen <nicolinc@nvidia.com>, Niklas Schnelle <schnelle@linux.ibm.com>, 
 	Steven Price <steven.price@arm.com>, Thierry Reding <treding@nvidia.com>
-Subject: Re: [PATCH v7 05/24] iommu/fsl_pamu: Implement a PLATFORM domain
-Message-ID: <2sctnqicp6snn7g7xlis2nfa4owdfbfyp6wuxsi65m2jmxmylv@xxa2ppitoelx>
+Subject: Re: [PATCH v7 07/24] iommu/mtk_iommu_v1: Implement an IDENTITY domain
+Message-ID: <yentwv7rhnjolgvcdq23e2tizhpduwbpgaojrmaqnsuzvsrlsh@ey75l3ffixok>
 References: <0-v7-de04a3217c48+15055-iommu_all_defdom_jgg@nvidia.com>
- <5-v7-de04a3217c48+15055-iommu_all_defdom_jgg@nvidia.com>
+ <7-v7-de04a3217c48+15055-iommu_all_defdom_jgg@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <5-v7-de04a3217c48+15055-iommu_all_defdom_jgg@nvidia.com>
+In-Reply-To: <7-v7-de04a3217c48+15055-iommu_all_defdom_jgg@nvidia.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Wed, Aug 23, 2023 at 01:47:19PM -0300, Jason Gunthorpe wrote:
-> This driver is nonsensical. To not block migrating the core API away from
-> NULL default_domains give it a hacky of a PLATFORM domain that keeps it
-> working exactly as it always did.
+On Wed, Aug 23, 2023 at 01:47:21PM -0300, Jason Gunthorpe wrote:
+> What mtk does during mtk_iommu_v1_set_platform_dma() is actually putting
+> the iommu into identity mode. Make this available as a proper IDENTITY
+> domain.
 > 
-> Leave some comments around to warn away any future people looking at this.
+> The mtk_iommu_v1_def_domain_type() from
+> commit 8bbe13f52cb7 ("iommu/mediatek-v1: Add def_domain_type") explains
+> this was needed to allow probe_finalize() to be called, but now the
+> IDENTITY domain will do the same job so change the returned
+> def_domain_type.
 > 
-> Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
+> mkt_v1 is the only driver that returns IOMMU_DOMAIN_UNMANAGED from
+> def_domain_type().  This allows the next patch to enforce an IDENTITY
+> domain policy for this driver.
+> 
 > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>  drivers/iommu/mtk_iommu_v1.c | 21 +++++++++++++++++++--
+>  1 file changed, 19 insertions(+), 2 deletions(-)
+> 
 
 Reviewed-by: Jerry Snitselaar <jsnitsel@redhat.com>
 
