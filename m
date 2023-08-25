@@ -1,82 +1,43 @@
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55C32C2FA
-	for <linux-sunxi@lists.linux.dev>; Fri, 25 Aug 2023 10:36:49 +0000 (UTC)
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2bcda0aaf47so21141511fa.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 25 Aug 2023 03:36:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692959807; x=1693564607;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=DloYDrlAPjHBtQ5CqlfZMjNs6m1+SYJwj5cpl36zLwQ=;
-        b=ei79SIX8OFfQgxo70NKv/LkglmSZHnEB3gMhdUt8EpFFHExHms0MqZX1ac+SMwZD1U
-         jDHoU/7HNadcyAmE/xRRqT42o57CIB6P8qxbP/nHZ4Spxo9h9iuDpqWjsDcufi5POlDP
-         OhaqKO0HDbvpCTRvNOR8yp+aSNsKTIySgMwD7FIhwvTummnQ48tXlZu91ZewOX0groNY
-         f0M/q0bNwYwj/s8/GXKB6rXlCzu3MUfSer8fy7Syirov81P6OJOw1GFVwMhGkyiPr6jO
-         jqfXjlT32ZTTHfYmwrH2MJe6l+UGIpyCBv65TGOqZc0qv78SQSWKeh6mA+VyM5ZY7Iim
-         Vaag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692959807; x=1693564607;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DloYDrlAPjHBtQ5CqlfZMjNs6m1+SYJwj5cpl36zLwQ=;
-        b=C+xx797V9BQjcjJiwzUAyN+2/P63Xi4sWiGU7gtev6uYNQcQeNK/EoQ+gqtN/7OmRi
-         y2Bqrf/XOdwJj5CPq0M0AyLHNjLBMHEkJ1RO6ETurlNXJ4ynYQO60fGn9Zd3obux26UQ
-         W/PDQtl/KFQ1xssvO49mN1n8XG+aj3H/9vqPGGxGCqxp6oU/D+o8Mif6xw38IynXM5WI
-         IgAVhLch4GidxGYzRgiP0mHTdA9K6EoF4x6YvV0ZOs5AwW2ufOJoihOlvzcHwN9yCqC6
-         M9iiMhlspKTqGmERsS3kkWajHYx6NP103Bv5cVigKedUS3Np7g7X6XvsYLWVO5NbQrIJ
-         aMTg==
-X-Gm-Message-State: AOJu0Yxs3o6KOF+UR85tgE5Gd6PY+nlKWKMTnQaHFoF2q1ASC1l1LmuH
-	u99udxlNxh8c/LUD04yzGA8=
-X-Google-Smtp-Source: AGHT+IF9n8Ya5LmNToJAo6Vx7+DpINb1nRudSdPR/4QZCaOJMJvdIRV+oUODuETbBxY4P4S0F4qR4w==
-X-Received: by 2002:a05:6512:4026:b0:4ff:839b:5355 with SMTP id br38-20020a056512402600b004ff839b5355mr6638684lfb.18.1692959806741;
-        Fri, 25 Aug 2023 03:36:46 -0700 (PDT)
-Received: from localhost ([2a05:3580:f312:6c00:826c:ae47:61a7:8af8])
-        by smtp.gmail.com with ESMTPSA id w14-20020ac2598e000000b004ff929df69asm236545lfn.271.2023.08.25.03.36.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Aug 2023 03:36:45 -0700 (PDT)
-Date: Fri, 25 Aug 2023 13:36:44 +0300
-From: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Kees Cook <keescook@chromium.org>, Tony Luck <tony.luck@intel.com>,
-	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
-	Jarrah Gosbell <kernel@undef.tools>,
-	Arnaud Ferraris <arnaud.ferraris@collabora.com>,
-	Pavel Machek <pavel@ucw.cz>
-Subject: Re: [PATCH v2] arm64: dts: pinephone: Add pstore support for
- PinePhone A64
-Message-ID: <ZOiEPBtPpsygxRiM@skv.local>
-Mail-Followup-To: Andrey Skvortsov <andrej.skvortzov@gmail.com>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Kees Cook <keescook@chromium.org>, Tony Luck <tony.luck@intel.com>,
-	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
-	Jarrah Gosbell <kernel@undef.tools>,
-	Arnaud Ferraris <arnaud.ferraris@collabora.com>,
-	Pavel Machek <pavel@ucw.cz>
-References: <20230821160817.GA2227@bug>
- <20230822092358.309835-1-andrej.skvortzov@gmail.com>
- <2235209.iZASKD2KPV@jernej-laptop>
- <20230824144952.5b908649@slackpad.lan>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DACA3CA55
+	for <linux-sunxi@lists.linux.dev>; Fri, 25 Aug 2023 15:08:14 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4RXNcS5hXvz9sy4;
+	Fri, 25 Aug 2023 17:08:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+	s=MBO0001; t=1692976088;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AAEOctatpX3/10zBsdBfZLy0AhwYTDuyHJC0ob0juM4=;
+	b=IjIDPIFmVJawwxPDgRAAlZPbcizlZu2X0oO98CrY7GZLx1XpLW7KW6fiyGbFlWKGn7z8px
+	LF8Yv+5laH7ak4UBi6248gTuwquMwszkDWa9XJG1NkJ/LtaAKl9Mef8iOsLi42PFCY54hP
+	faju8xYIEdwPmuMm1IFQfz1a3knx/QWXtOScS4DmfAUPRhyrypK/LXCflX+Ed/vnSuT0p5
+	X6XBeKAXaruVsPIMxm0XyjGUgjuAJF9j+0rwkBdTo48ZmcyH1FgFET4bkJ3LLQYP8K903P
+	V2fUr/uVExTnT01W5FiGDxwPHaR81Xyo5OyQSHKqolrMV8L6F355X+Isvsk0sA==
+References: <20230825-pll-mipi_keep_rate-v1-0-35bc43570730@oltmanns.dev>
+ <zrjpbtf7qwaj2tjvfz2no534tmz5j4yudp45tung2w5x2zcl6y@bal3bclzze4e>
+From: Frank Oltmanns <frank@oltmanns.dev>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, David
+ Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Ondrej Jirman
+ <x@xnux.eu>, Icenowy Zheng <uwu@icenowy.me>, linux-clk@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, dri-devel@lists.freedesktop.org, Icenowy
+ Zheng <icenowy@aosc.io>
+Subject: Re: [PATCH 0/3] Make Allwinner A64's pll-mipi keep its rate when
+ parent rate changes
+In-reply-to: <zrjpbtf7qwaj2tjvfz2no534tmz5j4yudp45tung2w5x2zcl6y@bal3bclzze4e>
+Date: Fri, 25 Aug 2023 17:07:58 +0200
+Message-ID: <87ledzqhwx.fsf@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -84,96 +45,159 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230824144952.5b908649@slackpad.lan>
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 4RXNcS5hXvz9sy4
 
-Hi Andre,
+Thank you for your feedback, Maxime!
 
-On 23-08-24 14:50, Andre Przywara wrote:
-> On Wed, 23 Aug 2023 21:36:51 +0200
-> Jernej Škrabec <jernej.skrabec@gmail.com> wrote:
-> 
-> 
-> Hi Andrey,
-> 
-> > send new revision as standalone e-mail, not as reply to old discussion.
-> > 
-> > Dne torek, 22. avgust 2023 ob 11:23:58 CEST je Andrey Skvortsov napisal(a):
-> > > This patch reserves some memory in the DTS and sets up a
-> > > pstore device tree node to enable pstore support.
-> > > 
-> > > In general any DRAM address, that isn't overwritten during a boot is
-> > > suitable for pstore.
-> > > 
-> > > Range from 0x40000000 - 0x50000000 is heavily used by u-boot for
-> > > internal use and to load kernel, fdt, fdto, scripts, pxefile and ramdisk
-> > > later in the boot process. Ramdisk start address is 0x4FF00000,
-> > > initramfs for kernel with some hacking features and debug info enabled
-> > > can take more than 100Mb and final address will be around 0x58000000.
-> > > Address 0x61000000 will most likely not overlap with that.  
-> > 
-> > There are other bootloaders as U-Boot, especially on PinePhone. Are you sure 
-> > it works there too? What about U-Boot configuration, will those addresses still 
-> > be used if configuration is changed?
-> 
-> Also going along with what Pavel said (that's it more a policy
-> decision, not a device property), I feel like this node should be added
-> by the bootloader then. And indeed U-Boot has support for that already.
-> From skimming over the code in cmd/pstore.c: if you enable
-> CONFIG_CMD_PSTORE and set CONFIG_CMD_PSTORE_MEM_ADDR to your chosen
-> address, then the U-Boot code will insert a reserved memory node on the
-> fly. Would that solve your problem?
+On 2023-08-25 at 10:13:53 +0200, Maxime Ripard <mripard@kernel.org> wrote:
+> [[PGP Signed Part:Undecided]]
+> Hi,
 >
+> On Fri, Aug 25, 2023 at 07:36:36AM +0200, Frank Oltmanns wrote:
+>> I would like to make the Allwinner A64's pll-mipi to keep its rate when
+>> its parent's (pll-video0) rate changes. Keeping pll-mipi's rate is
+>> required, to let the A64 drive both an LCD and HDMI display at the same
+>> time, because both have pll-video0 as an ancestor.
+>>
+>> PATCH 1 adds this functionality as a feature into the clk framework (new
+>> flag: CLK_KEEP_RATE).
+>>
+>> Cores that use this flag, store a rate as req_rate when it or one of its
+>> descendants requests a new rate.
+>>
+>> That rate is then restored in the clk_change_rate recursion, which walks
+>> through the tree. It will reach the flagged core (e.g. pll-mipi) after
+>> the parent's rate (e.g. pll-video0) has already been set to the new
+>> rate. It will then call determine_rate (which requests the parent's
+>> current, i.e. new, rate) to determine a rate that is close to the
+>> flagged core's previous rate. Afterward it will re-calculate the rates
+>> for the flagged core's subtree.
+>
+> I don't think it's the right way forward. It makes the core logic more
+> complicated, for something that is redundant with the notifiers
+> mechanism that has been the go-to for that kind of things so far.
 
-I've tried pstore command in u-boot in the past to make sure it's
-working there as well. I didn't know, that it adds reserved-memory
-node as well. Thanks, Andre. That is very helpful.
+Yeah, that was my initial idea as well. But I couldn't get it to work.
+See details below.
 
-I've tried it again without patching a kernel as you
-suggested. Unfortunately it's not working on A64.
+Do you have an example of a clock that restores its previous rate after
+the parent rate has changed? I've looked left and right, but to me it
+seems that notifiers are mainly used for setting clocks into some kind
+of "safe mode" prior to the rate change. Examples:
 
-If there is no reserved-memory defined, u-boot adds a new one with
-following properties:
-    
-    reserved-memory {
-         #address-cells = <2>;
-         #size-cells = <2>;
-         ranges;
-    }
-    
+sunxi-ng:
+https://elixir.bootlin.com/linux/v6.4.11/source/drivers/clk/sunxi-ng/ccu_mu=
+x.c#L273
+https://elixir.bootlin.com/linux/v6.4.11/source/drivers/clk/sunxi-ng/ccu_co=
+mmon.c#L60
 
-But with these default address-cells and size-cells values, pstore
-isn't working on A64. Root node for A64 defines 'address-cells' and 'size-cells' as 1.
-    
-dtc complains if reserved-memory has different address-cells and
-size-cells.
+but also others:
+https://elixir.bootlin.com/linux/v6.4.11/source/drivers/clk/at91/clk-master=
+.c#L248
+https://elixir.bootlin.com/linux/v6.4.11/source/drivers/clk/meson/meson8b.c=
+#L3755
+https://elixir.bootlin.com/linux/v6.4.11/source/drivers/clk/qcom/clk-cpu-89=
+96.c#L546
 
-```
-     Warning (ranges_format): /reserved-memory:ranges: empty "ranges" property but its #address-cells (2) differs from / (1)
-```
+> It's not really obvious to me why the notifiers don't work there.
+>
+>> This work is inspired by an out-of-tree patchset [1] [2] [3].
+>> Unfortunately, the patchset uses clk_set_rate() in a notifier callback,
+>> which the following comment on clk_notifier_register() forbids: "The
+>> callbacks associated with the notifier must not re-enter into the clk
+>> framework by calling any top-level clk APIs." [4] Furthermore, that
+>> out-of-tree patchset no longer works with the current linux-next,
+>> because setting pll-mipi is now also resetting pll-video0 [5].
+>
+> Is it because of the "The callbacks associated with the notifier must
+> not re-enter into the clk framework by calling any top-level clk APIs."
+> comment?
 
-If empty reserved-memory is added to
-arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi in the kernel, then
-u-boot adds working pstore subnode.
+I don't think that's the reason. I'm fairly certain that the problem is,
+that pll-mipi tries to set the parent rate. Maybe it should check if the
+parent is locked, before determining a rate that requires the parent
+rate to change. =F0=9F=A4=94 Currently, it only calls clk_hw_can_set_rate_p=
+arent()
+which only checks the flag, but does not check if it is really possible
+to change the parent's rate.
 
-```
-       reserved-memory {
-               #address-cells = <1>;
-               #size-cells = <1>;
-               ranges;
+Regardless, please don't prematurely dismiss my proposal. It has the
+advantage that it is not specific for sunxi-ng, but could be used for
+other drivers as well. Maybe there other instances of exclusive locks
+today where the CLK_KEEP_RATE flag might work equally well. =F0=9F=A4=B7
 
-               /* bootloader will add new entries here
-                * for example, for pstore.
-                */
-       };
-```
+> If so, I think the thing we should emphasize is that it's about *any
+> top-level clk API*, as in clk_set_rate() or clk_set_parent().
+>
+> The issue is that any consumer-facing API is taking the clk_prepare lock
+> and thus we would have reentrancy. But we're a provider there, and none
+> of the clk_hw_* functions are taking that lock. Neither do our own functi=
+on.
+>
+> So we could call in that notifier our set_rate callback directly, or we
+> could create a clk_hw_set_rate() function.
+>
+> The first one will create cache issue between the actual rate that the
+> common clock framework is running and the one we actually enforced, but
+> we could create a function to flush the CCF cache.
+>
+> The second one is probably simpler.
 
-It looks like a bug in u-boot for me. IMHO, it should look at
-#address-cells/#size-cells of the root-node for default values. I have
-tried that and this way pstore is working without any changes to the
-kernel dts. What do you think? Should I submit fix to u-boot instead?
+I'm probably missing something, because I don't think this would work.
+For reference, this is our tree:
 
--- 
+    pll-video0
+       hdmi-phy-clk
+       hdmi
+       tcon1
+       pll-mipi
+          tcon0
+             tcon-data-clock
+
+When pll-video0's rate is changed (e.g. because a HDMI monitor is
+plugged in), the rates of the complete subtree for pll-video0 are
+recalculated, including tcon0 and tcon-data-clock. The rate of tcon0 is
+based on the rate that was recalculated for pll-mipi, which - in turn -
+was of course recalculated based on the pll-video0's new rate. These
+values are stored by the clk framework in a private struct. They are
+calculated before actually performing any rate changes.
+
+So, if a notifier sets pll-mipi's rate to something else than was
+previously recalculated, the clk framework would still try to set tcon0
+to the value that it previously calculated.
+
+So, we would have to recalculate pll-mipi's subtree after changing its
+rate (that's what PATCH 1 is doing).
+
+> Another option could be that we turn clk_set_rate_exclusive into
+> something more subtle that allows to change a parent rate as long as the
+> clock rate doesn't.
+
+I don't think this would work either. Only in rare circumstances
+pll-mipi can be set to the exact previous rate, normally it will be set
+to a rate that is close to it's previous rate.
+
+Note there is another option, we could analyze: pll-video0's
+RRE_RATE_CHANGE notifier could be used to set pll-mipi into a mode that
+lets it recalculate a rate that is close to the previous rate. A
+POST_RATE_CHANGE notifier could be used to switch it back to "normal"
+recalc mode. I don't know if pll-video0's notifier works or if we also
+need to be notified after pll-mipi has finished setting it's rate.
+However, this seems a little hacky and I haven't tried if it works at
+all. I prefer the current proposal (i.e. the CLK_KEEP_RATE flag).
+
 Best regards,
-Andrey Skvortsov
+  Frank
+
+> It would ease the requirement that
+> clk_set_rate_exclusive() has on a clock subtree (which I think prevents
+> its usage to some extent), but I have no issue on how that would work in
+> practice.
+>
+> So yeah, I think adding a clk_hw_set_rate() that would be callable from
+> a notifier is the right way forward there.
+>
+> Maxime
+>
+> [[End of PGP Signed Part]]
