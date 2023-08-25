@@ -1,30 +1,30 @@
 Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5771AEDE
-	for <linux-sunxi@lists.linux.dev>; Fri, 25 Aug 2023 05:37:22 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 187A2EDE
+	for <linux-sunxi@lists.linux.dev>; Fri, 25 Aug 2023 05:43:51 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4RX7xp0RX9z9sTD;
-	Fri, 25 Aug 2023 07:37:18 +0200 (CEST)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4RX7xd5McCz9sVh;
+	Fri, 25 Aug 2023 07:37:09 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1692941838;
+	s=MBO0001; t=1692941829;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Fhhg8LjnqWHw9jK4np+Et29xcmXmDbPkzHimy7iyMs8=;
-	b=ebGwYpuDh+GiyG7hTADoBJqYO+zffugm6GBX5ms5oDeRDFFhatpfK1WjHHI/O7DySOE/SV
-	OPc+jVtH83VHlVwdNOEktUwOc5oxIySE/PncphMlNuc7rYZ/kJvWxogAibz5kDlRiTpIxB
-	or4V6mGOqGispUJ+opF09xCB4wGmJvdcjXWCMSgwmCZV2F0l02hJwBMvYGqlbzELz1YD1j
-	WC+ipQq+Aa09SpSYYesN7Lbir0JlX9m6lGQ9LYf/3kX27bBe8d/6PasePjka/8q4YzNS1L
-	IAFxl9i2eszDItqIsPyEobdHOJbo51WiWPVG6rGSMzGYiLAWeWzu6rWOHV8UOQ==
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=raND4v3dGybD2pwR1R6rFbF7+8fbr2do4bPMeBjRsOY=;
+	b=Buplbt0gjtUak1iEx+X+aMeOErM/LZGyp2nUpGKci865AOTJ6lqtJ58vjPGvevC45XWDBv
+	7atvRWZhjKP38GAt9vSv3cARQbo48+a75Y0n0iR6Y71kj/i3fMGHSBijr71V5FSwER6GvI
+	UwGNeF8KZ92YOb+P3NBxXdGHp8ZlAcMpeI/GbzuF8YK/1R6+mTXYHcE9L3bz+Rn+D/5H5f
+	0/7bi9gVh3LCDvtTU/T1ZZbE2kFQTfkisvHrUtXLWJncLUFMgETTOjiXQnpjJeN9w4nW4o
+	0Dt+W74guViHZQ6eZnmcgArZrTUVGGVJVGfBQYFVvKHS7xj6lZ7WYHcLoWS9mA==
 From: Frank Oltmanns <frank@oltmanns.dev>
-Date: Fri, 25 Aug 2023 07:36:39 +0200
-Subject: [PATCH 3/3] drm/sun4i: tcon: parent keeps TCON0 clock stable on
- A64
+Subject: [PATCH 0/3] Make Allwinner A64's pll-mipi keep its rate when
+ parent rate changes
+Date: Fri, 25 Aug 2023 07:36:36 +0200
+Message-Id: <20230825-pll-mipi_keep_rate-v1-0-35bc43570730@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -33,9 +33,9 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230825-pll-mipi_keep_rate-v1-3-35bc43570730@oltmanns.dev>
-References: <20230825-pll-mipi_keep_rate-v1-0-35bc43570730@oltmanns.dev>
-In-Reply-To: <20230825-pll-mipi_keep_rate-v1-0-35bc43570730@oltmanns.dev>
+X-B4-Tracking: v=1; b=H4sIAOQ96GQC/x3MQQqAIBBA0avErBNMi6KrRIjYWENWohGBePek5
+ Vv8nyBiIIwwVgkCPhTpOguaugKz6XNFRksxCC4kH0TLvHPsIE9qR/Qq6BsZ11LzRXZ9ayyU0Ae
+ 09P7Tac75A+BiGU1kAAAA
 To: Michael Turquette <mturquette@baylibre.com>, 
  Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
  Jernej Skrabec <jernej.skrabec@gmail.com>, 
@@ -46,87 +46,82 @@ Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
  dri-devel@lists.freedesktop.org, Frank Oltmanns <frank@oltmanns.dev>, 
  Icenowy Zheng <icenowy@aosc.io>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2722; i=frank@oltmanns.dev;
- h=from:subject:message-id; bh=lixZnD4gOGvFFH/XF+fZYh5kfwu9gK3pt6KJB+wArKs=;
- b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBk6D3/wmL5lqS4EF2I27kUUUi4lKVb8k2n7bhOs
- wdLR8CjMcCJAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZOg9/wAKCRCaaaIIlErT
- x0SkC/0aYqpXgu3ZY91KIkiLXCz4UsarrkvPtOVd+1L6aFsZtAjj3keHKPSTlTp/AzMUebjwBKq
- mz5jj2e0H+Zimh0dIjIhDtXyvB2jK0e8Qt0nXvYGWWZVrIWRLddRhO0wSvTpmyNVNSI0CWkg9mm
- OYgOsktvuO7xHjbZ0IoAchGqTSYsassqtu9iH0ytXCy0U5W0iBPUgFlwWwnObB6DKlpgfxO6KE/
- +6HYOobUbyfhXMwoiLvwzxtIvPN950HDD6zGlxTv4oj1UIcHuzhDHboigzw5FVoO0fkxO1ozHGo
- 1k4eGBTpkjBZh3z3BlDP68XDAdre+ZqBO2th3oygehPbCqSjOh827NXeH24WtNYCm0r5WaIf5nL
- d0eFI75jEAFBukn+Uu0a/j40NAmL4up6Fj2iCC/ewsp5e/Xcox4M2neg35+P79AH+r6AWqzEdX/
- 6gfSv7KCF0vRwsl5UnDBG4fgHY2CfHZo46wmbMb3d5+CTarc3DQ/daL03nDN4x4lCwsvo=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2979; i=frank@oltmanns.dev;
+ h=from:subject:message-id; bh=JMuBxwJiUoYL4s/aSZd2Q/iqhb52ZQ6LgFc8dVJKLuk=;
+ b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBk6D3/HKxkcw/h/IrlclfYMC+/z+GqQTlVuhUqD
+ MptvmVeGQWJAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZOg9/wAKCRCaaaIIlErT
+ x8ztC/0ZU6MRcwRuNfK9kP6ePsAGRWZZmm956pntap0kH7VSYErzh7wAwehys3nBF54oR7os7xS
+ UZMfWbC1/uH3vjweHxUa0xWZ/RZnhbWKPYNSx1y3olhtr3+a5+vJo3jCr7uECQp3ez3cG+oclJj
+ FjQ2EPqe7V9vR2vlxSwU/cfJR9AsfQdB/DxpCvFngEBWqjxqBc3zvGzsI1CnrxE44gqE8LKpZUw
+ jSBz+6gmNMiwkzdayL40xU2+ltHqTw5Z4nbK2cjKGm1I53WhZc8MQ2FUiwY8V4dfCYsPntLDXsM
+ Eyk9OsGYa70V3FBBY9OJHXbgyBU+znhjRDRCC2KwXZ8noqUu2+tvzTE+wfKYCizMc/XwMdVHIG1
+ gFSKQ2dPnBNH9kJhwknWqKVhlDF6kBfNlmahf9gNTiJo/gIhypxiPy8JmA1gIAUwe0GxRPaS7IP
+ fTv2nVSj7YE+MreXv3mLY+/v8zZU6r0bGAjwqRtAmnysHnZVXf27Q8deGTngPPySCccvk=
 X-Developer-Key: i=frank@oltmanns.dev; a=openpgp;
  fpr=02FD257B7F90E6B9A5444F969A69A208944AD3C7
+X-Rspamd-Queue-Id: 4RX7xd5McCz9sVh
 
-From: Icenowy Zheng <icenowy@aosc.io>
+I would like to make the Allwinner A64's pll-mipi to keep its rate when
+its parent's (pll-video0) rate changes. Keeping pll-mipi's rate is
+required, to let the A64 drive both an LCD and HDMI display at the same
+time, because both have pll-video0 as an ancestor.
 
-As the clk framework keeps A64's TCON0 clock stable when HDMI changes
-its parent's clock, do not protect TCON0 clock on A64 in the TCON driver
-to allow PLL-Video0 to get changed by HDMI.
+PATCH 1 adds this functionality as a feature into the clk framework (new
+flag: CLK_KEEP_RATE).
 
-Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
+Cores that use this flag, store a rate as req_rate when it or one of its
+descendants requests a new rate.
+
+That rate is then restored in the clk_change_rate recursion, which walks
+through the tree. It will reach the flagged core (e.g. pll-mipi) after
+the parent's rate (e.g. pll-video0) has already been set to the new
+rate. It will then call determine_rate (which requests the parent's
+current, i.e. new, rate) to determine a rate that is close to the
+flagged core's previous rate. Afterward it will re-calculate the rates
+for the flagged core's subtree.
+
+PATCH 2 & 3 demonstrate how the new flag can be used for A64's pll-mipi.
+By setting this flag, it is no longer required to get an exclusive lock
+when setting tcon0's rate, because the rate will be restored when its
+parent's (pll-mipi) rate is restored.
+
+This work is inspired by an out-of-tree patchset [1] [2] [3].
+Unfortunately, the patchset uses clk_set_rate() in a notifier callback,
+which the following comment on clk_notifier_register() forbids: "The
+callbacks associated with the notifier must not re-enter into the clk
+framework by calling any top-level clk APIs." [4] Furthermore, that
+out-of-tree patchset no longer works with the current linux-next,
+because setting pll-mipi is now also resetting pll-video0 [5].
+
+Thank you for considering this contribution,
+  Frank
+
+[1] https://github.com/megous/linux/commit/4124e115de82797f604808aaa5caad4512a9a1ed
+[2] https://github.com/megous/linux/commit/edc93fd70ee759fd989664fcb85996cb48a006e6
+[3] https://github.com/megous/linux/commit/40f5fc5b08b21142931662147d039ec217c9ba2f
+[4] https://elixir.bootlin.com/linux/v6.4.11/source/drivers/clk/clk.c#L4578
+[5] https://lore.kernel.org/linux-kernel/20230807-pll-mipi_set_rate_parent-v6-0-f173239a4b59@oltmanns.dev/
+
 Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
 ---
- drivers/gpu/drm/sun4i/sun4i_tcon.c | 15 +++++++++++++--
- drivers/gpu/drm/sun4i/sun4i_tcon.h |  1 +
- 2 files changed, 14 insertions(+), 2 deletions(-)
+Frank Oltmanns (2):
+      clk: keep clock rate when parent rate changes
+      clk: sunxi-ng: a64: keep rate of pll-mipi stable across parent rate changes
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-index 6a52fb12cbfb..4439e62b7a34 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-@@ -108,9 +108,11 @@ static void sun4i_tcon_channel_set_status(struct sun4i_tcon *tcon, int channel,
- 
- 	if (enabled) {
- 		clk_prepare_enable(clk);
--		clk_rate_exclusive_get(clk);
-+		if (!tcon->quirks->rate_kept_by_parent)
-+			clk_rate_exclusive_get(clk);
- 	} else {
--		clk_rate_exclusive_put(clk);
-+		if (!tcon->quirks->rate_kept_by_parent)
-+			clk_rate_exclusive_put(clk);
- 		clk_disable_unprepare(clk);
- 	}
- }
-@@ -1505,6 +1507,14 @@ static const struct sun4i_tcon_quirks sun8i_a33_quirks = {
- 	.supports_lvds		= true,
- };
- 
-+static const struct sun4i_tcon_quirks sun50i_a64_lcd_quirks = {
-+	.supports_lvds		= true,
-+	.has_channel_0		= true,
-+	.rate_kept_by_parent	= true,
-+	.dclk_min_div		= 1,
-+	.setup_lvds_phy		= sun6i_tcon_setup_lvds_phy,
-+};
-+
- static const struct sun4i_tcon_quirks sun8i_a83t_lcd_quirks = {
- 	.supports_lvds		= true,
- 	.has_channel_0		= true,
-@@ -1563,6 +1573,7 @@ const struct of_device_id sun4i_tcon_of_table[] = {
- 	{ .compatible = "allwinner,sun9i-a80-tcon-tv", .data = &sun9i_a80_tcon_tv_quirks },
- 	{ .compatible = "allwinner,sun20i-d1-tcon-lcd", .data = &sun20i_d1_lcd_quirks },
- 	{ .compatible = "allwinner,sun20i-d1-tcon-tv", .data = &sun8i_r40_tv_quirks },
-+	{ .compatible = "allwinner,sun50i-a64-tcon-lcd", .data = &sun50i_a64_lcd_quirks },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, sun4i_tcon_of_table);
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.h b/drivers/gpu/drm/sun4i/sun4i_tcon.h
-index fa23aa23fe4a..c4ce7c29192e 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.h
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.h
-@@ -243,6 +243,7 @@ struct sun4i_tcon_quirks {
- 	bool    needs_edp_reset; /* a80 edp reset needed for tcon0 access */
- 	bool	supports_lvds;   /* Does the TCON support an LVDS output? */
- 	bool	polarity_in_ch0; /* some tcon1 channels have polarity bits in tcon0 pol register */
-+	bool	rate_kept_by_parent; /* Does parent keep TCON0 clock stable? */
- 	u8	dclk_min_div;	/* minimum divider for TCON0 DCLK */
- 
- 	/* callback to handle tcon muxing options */
+Icenowy Zheng (1):
+      drm/sun4i: tcon: parent keeps TCON0 clock stable on A64
 
+ drivers/clk/clk.c                     | 48 ++++++++++++++++++++++++++++++++++-
+ drivers/clk/sunxi-ng/ccu-sun50i-a64.c |  3 ++-
+ drivers/gpu/drm/sun4i/sun4i_tcon.c    | 15 +++++++++--
+ drivers/gpu/drm/sun4i/sun4i_tcon.h    |  1 +
+ include/linux/clk-provider.h          |  2 ++
+ 5 files changed, 65 insertions(+), 4 deletions(-)
+---
+base-commit: c539c5c0a7ccafe7169c02564cceeb50317b540b
+change-id: 20230824-pll-mipi_keep_rate-0a3a0d3574cf
+
+Best regards,
 -- 
-2.41.0
+Frank Oltmanns <frank@oltmanns.dev>
 
