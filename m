@@ -1,224 +1,132 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C550D642
-	for <linux-sunxi@lists.linux.dev>; Fri, 25 Aug 2023 01:51:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1692928312;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5771AEDE
+	for <linux-sunxi@lists.linux.dev>; Fri, 25 Aug 2023 05:37:22 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4RX7xp0RX9z9sTD;
+	Fri, 25 Aug 2023 07:37:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+	s=MBO0001; t=1692941838;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=DWLhpWKTuJ/+RpYHbnTOi50aZ6LnaGdh4R08Ifp1NrU=;
-	b=RqRT/ORQBbwwT6Ay4VCYEG5Un3Um36dcB7OOb44eagUoW8+Ba8Pwq5eVsRnzoYY7iotCYM
-	T+qsDQ5YmeGp9u4BF8TBxmedtSCOUejHPwaCphHuoOpqfS5soRw38UDLVTaWFLT9kSOrZ1
-	vDogYTMr4nMQkLN5fKoi20qULf2wQ5M=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-594-CobazRbOPOOuOgYE-qzDhw-1; Thu, 24 Aug 2023 21:51:51 -0400
-X-MC-Unique: CobazRbOPOOuOgYE-qzDhw-1
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-406afc93066so13863751cf.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 24 Aug 2023 18:51:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692928310; x=1693533110;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DWLhpWKTuJ/+RpYHbnTOi50aZ6LnaGdh4R08Ifp1NrU=;
-        b=WYfYxi5ulavrthe1snzcIOwOppc45GMT2F+Bf25gvYo0Icn0aki5BnpwddfASPGK5a
-         Pvk5PtbY6/6eyqykuecC8a2oqN5RHzH91Ld/6Kx5bj7HffvPTcJ4ykWJR1ary/B7jeRA
-         CXjgQYTinJYlIqQTdJYuHJ2t8hAg0k5TKhPuzac6nBqrcEcTJOMt+FozaL4InZNs6ObJ
-         3w/Rr01aT+l63XffKw6YiRgLj5xM+lyxHolgOpEHo7BtsEO8Q+QCg8kL/GXo5WCEAxbQ
-         BCyYv5m0nDK0Als/xxt1OgYq4N4/5TYe+5fg97iayBGxSC2phYHys8AzwDNIK2zH2MZP
-         J97A==
-X-Gm-Message-State: AOJu0YyykopyiNkLow3g/6sN5oi70rlCW23GJv7zR2IGQxw5BqGswL3A
-	03lT2R3o7cG3KySvHeV6idhG548MxfvHde8j7J8RB9Wr9jnpqRf/LNQBvTXT0d1hnPw6nJVH/tl
-	tKdlPjjnMr8pfVAHP/2IOa3U=
-X-Received: by 2002:ac8:59d6:0:b0:400:8613:5378 with SMTP id f22-20020ac859d6000000b0040086135378mr20752353qtf.20.1692928310642;
-        Thu, 24 Aug 2023 18:51:50 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHSb6TqK3YZra5FavtOfFBMuLIN1bj8qAZDBsTSTbyHb3Qk54OyKXOKpdirNK5+OZKcbYX2cg==
-X-Received: by 2002:ac8:59d6:0:b0:400:8613:5378 with SMTP id f22-20020ac859d6000000b0040086135378mr20752335qtf.20.1692928310369;
-        Thu, 24 Aug 2023 18:51:50 -0700 (PDT)
-Received: from localhost (ip98-179-76-75.ph.ph.cox.net. [98.179.76.75])
-        by smtp.gmail.com with ESMTPSA id i17-20020ac860d1000000b00405447ee5e8sm224859qtm.55.2023.08.24.18.51.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Aug 2023 18:51:49 -0700 (PDT)
-Date: Thu, 24 Aug 2023 18:51:48 -0700
-From: Jerry Snitselaar <jsnitsel@redhat.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Andy Gross <agross@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Bjorn Andersson <andersson@kernel.org>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Gerald Schaefer <gerald.schaefer@linux.ibm.com>, 
-	Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>, 
-	Kevin Tian <kevin.tian@intel.com>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, linux-arm-kernel@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
-	Russell King <linux@armlinux.org.uk>, linuxppc-dev@lists.ozlabs.org, 
-	Matthias Brugger <matthias.bgg@gmail.com>, Matthew Rosato <mjrosato@linux.ibm.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	Orson Zhai <orsonzhai@gmail.com>, Rob Clark <robdclark@gmail.com>, 
-	Robin Murphy <robin.murphy@arm.com>, Samuel Holland <samuel@sholland.org>, 
-	Thierry Reding <thierry.reding@gmail.com>, Krishna Reddy <vdumpa@nvidia.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Will Deacon <will@kernel.org>, Yong Wu <yong.wu@mediatek.com>, 
-	Chunyan Zhang <zhang.lyra@gmail.com>, Lu Baolu <baolu.lu@linux.intel.com>, 
-	Dmitry Osipenko <digetx@gmail.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Nicolin Chen <nicolinc@nvidia.com>, Niklas Schnelle <schnelle@linux.ibm.com>, 
-	Steven Price <steven.price@arm.com>, Thierry Reding <treding@nvidia.com>
-Subject: Re: [PATCH v7 02/24] iommu: Add IOMMU_DOMAIN_PLATFORM
-Message-ID: <hbmfqpq2oyjjz3loccfbslpalzhlsyr2w3bpx6qasq23kyrfso@e6kry74ifgnt>
-References: <0-v7-de04a3217c48+15055-iommu_all_defdom_jgg@nvidia.com>
- <2-v7-de04a3217c48+15055-iommu_all_defdom_jgg@nvidia.com>
+	bh=Fhhg8LjnqWHw9jK4np+Et29xcmXmDbPkzHimy7iyMs8=;
+	b=ebGwYpuDh+GiyG7hTADoBJqYO+zffugm6GBX5ms5oDeRDFFhatpfK1WjHHI/O7DySOE/SV
+	OPc+jVtH83VHlVwdNOEktUwOc5oxIySE/PncphMlNuc7rYZ/kJvWxogAibz5kDlRiTpIxB
+	or4V6mGOqGispUJ+opF09xCB4wGmJvdcjXWCMSgwmCZV2F0l02hJwBMvYGqlbzELz1YD1j
+	WC+ipQq+Aa09SpSYYesN7Lbir0JlX9m6lGQ9LYf/3kX27bBe8d/6PasePjka/8q4YzNS1L
+	IAFxl9i2eszDItqIsPyEobdHOJbo51WiWPVG6rGSMzGYiLAWeWzu6rWOHV8UOQ==
+From: Frank Oltmanns <frank@oltmanns.dev>
+Date: Fri, 25 Aug 2023 07:36:39 +0200
+Subject: [PATCH 3/3] drm/sun4i: tcon: parent keeps TCON0 clock stable on
+ A64
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <2-v7-de04a3217c48+15055-iommu_all_defdom_jgg@nvidia.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230825-pll-mipi_keep_rate-v1-3-35bc43570730@oltmanns.dev>
+References: <20230825-pll-mipi_keep_rate-v1-0-35bc43570730@oltmanns.dev>
+In-Reply-To: <20230825-pll-mipi_keep_rate-v1-0-35bc43570730@oltmanns.dev>
+To: Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Ondrej Jirman <x@xnux.eu>, Icenowy Zheng <uwu@icenowy.me>
+Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ dri-devel@lists.freedesktop.org, Frank Oltmanns <frank@oltmanns.dev>, 
+ Icenowy Zheng <icenowy@aosc.io>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2722; i=frank@oltmanns.dev;
+ h=from:subject:message-id; bh=lixZnD4gOGvFFH/XF+fZYh5kfwu9gK3pt6KJB+wArKs=;
+ b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBk6D3/wmL5lqS4EF2I27kUUUi4lKVb8k2n7bhOs
+ wdLR8CjMcCJAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZOg9/wAKCRCaaaIIlErT
+ x0SkC/0aYqpXgu3ZY91KIkiLXCz4UsarrkvPtOVd+1L6aFsZtAjj3keHKPSTlTp/AzMUebjwBKq
+ mz5jj2e0H+Zimh0dIjIhDtXyvB2jK0e8Qt0nXvYGWWZVrIWRLddRhO0wSvTpmyNVNSI0CWkg9mm
+ OYgOsktvuO7xHjbZ0IoAchGqTSYsassqtu9iH0ytXCy0U5W0iBPUgFlwWwnObB6DKlpgfxO6KE/
+ +6HYOobUbyfhXMwoiLvwzxtIvPN950HDD6zGlxTv4oj1UIcHuzhDHboigzw5FVoO0fkxO1ozHGo
+ 1k4eGBTpkjBZh3z3BlDP68XDAdre+ZqBO2th3oygehPbCqSjOh827NXeH24WtNYCm0r5WaIf5nL
+ d0eFI75jEAFBukn+Uu0a/j40NAmL4up6Fj2iCC/ewsp5e/Xcox4M2neg35+P79AH+r6AWqzEdX/
+ 6gfSv7KCF0vRwsl5UnDBG4fgHY2CfHZo46wmbMb3d5+CTarc3DQ/daL03nDN4x4lCwsvo=
+X-Developer-Key: i=frank@oltmanns.dev; a=openpgp;
+ fpr=02FD257B7F90E6B9A5444F969A69A208944AD3C7
 
-On Wed, Aug 23, 2023 at 01:47:16PM -0300, Jason Gunthorpe wrote:
-> This is used when the iommu driver is taking control of the dma_ops,
-> currently only on S390 and power spapr. It is designed to preserve the
-> original ops->detach_dev() semantic that these S390 was built around.
-> 
-> Provide an opaque domain type and a 'default_domain' ops value that allows
-> the driver to trivially force any single domain as the default domain.
-> 
-> Update iommufd selftest to use this instead of set_platform_dma_ops
-> 
-> Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
->  drivers/iommu/iommu.c            | 13 +++++++++++++
->  drivers/iommu/iommufd/selftest.c | 14 +++++---------
->  include/linux/iommu.h            |  6 ++++++
->  3 files changed, 24 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-> index 33bd1107090720..7cedb0640290c8 100644
-> --- a/drivers/iommu/iommu.c
-> +++ b/drivers/iommu/iommu.c
-> @@ -184,6 +184,8 @@ static const char *iommu_domain_type_str(unsigned int t)
->  	case IOMMU_DOMAIN_DMA:
->  	case IOMMU_DOMAIN_DMA_FQ:
->  		return "Translated";
-> +	case IOMMU_DOMAIN_PLATFORM:
-> +		return "Platform";
->  	default:
->  		return "Unknown";
->  	}
-> @@ -1752,6 +1754,17 @@ iommu_group_alloc_default_domain(struct iommu_group *group, int req_type)
->  
->  	lockdep_assert_held(&group->mutex);
->  
-> +	/*
-> +	 * Allow legacy drivers to specify the domain that will be the default
-> +	 * domain. This should always be either an IDENTITY or PLATFORM domain.
-> +	 * Do not use in new drivers.
-> +	 */
+From: Icenowy Zheng <icenowy@aosc.io>
 
-Would it be worthwhile to mention this in iommu.h for the iommu_ops default_domain?
+As the clk framework keeps A64's TCON0 clock stable when HDMI changes
+its parent's clock, do not protect TCON0 clock on A64 in the TCON driver
+to allow PLL-Video0 to get changed by HDMI.
 
-> +	if (bus->iommu_ops->default_domain) {
-> +		if (req_type)
-> +			return ERR_PTR(-EINVAL);
-> +		return bus->iommu_ops->default_domain;
-> +	}
-> +
->  	if (req_type)
->  		return __iommu_group_alloc_default_domain(bus, group, req_type);
->  
-> diff --git a/drivers/iommu/iommufd/selftest.c b/drivers/iommu/iommufd/selftest.c
-> index d48a202a7c3b81..fb981ba97c4e87 100644
-> --- a/drivers/iommu/iommufd/selftest.c
-> +++ b/drivers/iommu/iommufd/selftest.c
-> @@ -281,14 +281,6 @@ static bool mock_domain_capable(struct device *dev, enum iommu_cap cap)
->  	return cap == IOMMU_CAP_CACHE_COHERENCY;
->  }
->  
-> -static void mock_domain_set_plaform_dma_ops(struct device *dev)
-> -{
-> -	/*
-> -	 * mock doesn't setup default domains because we can't hook into the
-> -	 * normal probe path
-> -	 */
-> -}
-> -
->  static struct iommu_device mock_iommu_device = {
->  };
->  
-> @@ -298,12 +290,16 @@ static struct iommu_device *mock_probe_device(struct device *dev)
->  }
->  
->  static const struct iommu_ops mock_ops = {
-> +	/*
-> +	 * IOMMU_DOMAIN_BLOCKED cannot be returned from def_domain_type()
-> +	 * because it is zero.
-> +	 */
-> +	.default_domain = &mock_blocking_domain,
->  	.owner = THIS_MODULE,
->  	.pgsize_bitmap = MOCK_IO_PAGE_SIZE,
->  	.hw_info = mock_domain_hw_info,
->  	.domain_alloc = mock_domain_alloc,
->  	.capable = mock_domain_capable,
-> -	.set_platform_dma_ops = mock_domain_set_plaform_dma_ops,
->  	.device_group = generic_device_group,
->  	.probe_device = mock_probe_device,
->  	.default_domain_ops =
-> diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-> index d0920b2a9f1c0e..48a18b6e07abff 100644
-> --- a/include/linux/iommu.h
-> +++ b/include/linux/iommu.h
-> @@ -64,6 +64,7 @@ struct iommu_domain_geometry {
->  #define __IOMMU_DOMAIN_DMA_FQ	(1U << 3)  /* DMA-API uses flush queue    */
->  
->  #define __IOMMU_DOMAIN_SVA	(1U << 4)  /* Shared process address space */
-> +#define __IOMMU_DOMAIN_PLATFORM	(1U << 5)
->  
->  #define IOMMU_DOMAIN_ALLOC_FLAGS ~__IOMMU_DOMAIN_DMA_FQ
->  /*
-> @@ -81,6 +82,8 @@ struct iommu_domain_geometry {
->   *				  invalidation.
->   *	IOMMU_DOMAIN_SVA	- DMA addresses are shared process addresses
->   *				  represented by mm_struct's.
-> + *	IOMMU_DOMAIN_PLATFORM	- Legacy domain for drivers that do their own
-> + *				  dma_api stuff. Do not use in new drivers.
->   */
->  #define IOMMU_DOMAIN_BLOCKED	(0U)
->  #define IOMMU_DOMAIN_IDENTITY	(__IOMMU_DOMAIN_PT)
-> @@ -91,6 +94,7 @@ struct iommu_domain_geometry {
->  				 __IOMMU_DOMAIN_DMA_API |	\
->  				 __IOMMU_DOMAIN_DMA_FQ)
->  #define IOMMU_DOMAIN_SVA	(__IOMMU_DOMAIN_SVA)
-> +#define IOMMU_DOMAIN_PLATFORM	(__IOMMU_DOMAIN_PLATFORM)
->  
->  struct iommu_domain {
->  	unsigned type;
-> @@ -262,6 +266,7 @@ struct iommu_iotlb_gather {
->   * @owner: Driver module providing these ops
->   * @identity_domain: An always available, always attachable identity
->   *                   translation.
-> + * @default_domain: If not NULL this will always be set as the default domain.
->   */
->  struct iommu_ops {
->  	bool (*capable)(struct device *dev, enum iommu_cap);
-> @@ -297,6 +302,7 @@ struct iommu_ops {
->  	unsigned long pgsize_bitmap;
->  	struct module *owner;
->  	struct iommu_domain *identity_domain;
-> +	struct iommu_domain *default_domain;
->  };
->  
->  /**
-> -- 
-> 2.41.0
-> 
+Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
+Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+---
+ drivers/gpu/drm/sun4i/sun4i_tcon.c | 15 +++++++++++++--
+ drivers/gpu/drm/sun4i/sun4i_tcon.h |  1 +
+ 2 files changed, 14 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+index 6a52fb12cbfb..4439e62b7a34 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
++++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+@@ -108,9 +108,11 @@ static void sun4i_tcon_channel_set_status(struct sun4i_tcon *tcon, int channel,
+ 
+ 	if (enabled) {
+ 		clk_prepare_enable(clk);
+-		clk_rate_exclusive_get(clk);
++		if (!tcon->quirks->rate_kept_by_parent)
++			clk_rate_exclusive_get(clk);
+ 	} else {
+-		clk_rate_exclusive_put(clk);
++		if (!tcon->quirks->rate_kept_by_parent)
++			clk_rate_exclusive_put(clk);
+ 		clk_disable_unprepare(clk);
+ 	}
+ }
+@@ -1505,6 +1507,14 @@ static const struct sun4i_tcon_quirks sun8i_a33_quirks = {
+ 	.supports_lvds		= true,
+ };
+ 
++static const struct sun4i_tcon_quirks sun50i_a64_lcd_quirks = {
++	.supports_lvds		= true,
++	.has_channel_0		= true,
++	.rate_kept_by_parent	= true,
++	.dclk_min_div		= 1,
++	.setup_lvds_phy		= sun6i_tcon_setup_lvds_phy,
++};
++
+ static const struct sun4i_tcon_quirks sun8i_a83t_lcd_quirks = {
+ 	.supports_lvds		= true,
+ 	.has_channel_0		= true,
+@@ -1563,6 +1573,7 @@ const struct of_device_id sun4i_tcon_of_table[] = {
+ 	{ .compatible = "allwinner,sun9i-a80-tcon-tv", .data = &sun9i_a80_tcon_tv_quirks },
+ 	{ .compatible = "allwinner,sun20i-d1-tcon-lcd", .data = &sun20i_d1_lcd_quirks },
+ 	{ .compatible = "allwinner,sun20i-d1-tcon-tv", .data = &sun8i_r40_tv_quirks },
++	{ .compatible = "allwinner,sun50i-a64-tcon-lcd", .data = &sun50i_a64_lcd_quirks },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(of, sun4i_tcon_of_table);
+diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.h b/drivers/gpu/drm/sun4i/sun4i_tcon.h
+index fa23aa23fe4a..c4ce7c29192e 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_tcon.h
++++ b/drivers/gpu/drm/sun4i/sun4i_tcon.h
+@@ -243,6 +243,7 @@ struct sun4i_tcon_quirks {
+ 	bool    needs_edp_reset; /* a80 edp reset needed for tcon0 access */
+ 	bool	supports_lvds;   /* Does the TCON support an LVDS output? */
+ 	bool	polarity_in_ch0; /* some tcon1 channels have polarity bits in tcon0 pol register */
++	bool	rate_kept_by_parent; /* Does parent keep TCON0 clock stable? */
+ 	u8	dclk_min_div;	/* minimum divider for TCON0 DCLK */
+ 
+ 	/* callback to handle tcon muxing options */
+
+-- 
+2.41.0
 
