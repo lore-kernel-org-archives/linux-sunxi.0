@@ -1,479 +1,140 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11olkn2094.outbound.protection.outlook.com [40.92.19.94])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91874C2F7
-	for <linux-sunxi@lists.linux.dev>; Sat, 26 Aug 2023 10:03:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Date:Sender:Message-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Subject:Cc:To:From:Reply-To:Content-ID
-	:Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
-	Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=mH9fmWh29/vmpowLc2/1ix0vEBt12GIu8GqTHuO66+Q=; b=WEpZdoAQSWIC81TJerF787UzJ1
-	gJLWa4l1HvU9mpRnvXea/e64df/lXevKrHcAHbeVQ37D36sbPn6UHiRBD6XKS0ZAx/rxVmbnRATGM
-	fv89vWs0zRPK1iDt9/Xoh6zXUFQCWRzIhJ5WEApcS0FSTMFwMRF7aN2J5YBDj6IJis/Q2MVAoODG+
-	MVJxzcGdolayeTAaWE3dxsLp6kZ7C/3pEmnyq7SblH+ZfxUXfrFSaP4OXT/TmU3yxR2rY55sPMgFh
-	Z0mScnmG4xWkXEXnr/3lFRGI0QRex47+ZvbTrVoY/blbjM1AgrjDLmXWnuJdZKCbPFrCTyrB+vEkI
-	nsO3XvxA==;
-Received: from e0022681537dd.dyn.armlinux.org.uk ([fd8f:7570:feb6:1:222:68ff:fe15:37dd]:47342 helo=rmk-PC.armlinux.org.uk)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <rmk@armlinux.org.uk>)
-	id 1qZq82-00067I-2s;
-	Sat, 26 Aug 2023 11:02:50 +0100
-Received: from rmk by rmk-PC.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <rmk@rmk-PC.armlinux.org.uk>)
-	id 1qZq83-005tts-6K; Sat, 26 Aug 2023 11:02:51 +0100
-From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-To: Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	 Jose Abreu <joabreu@synopsys.com>
-Cc: Andrew Lunn <andrew@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Feiyang Chen <chenfeiyang@loongson.cn>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	netdev@vger.kernel.org,
-	Paolo Abeni <pabeni@redhat.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Emil Renner Berthing <kernel@esmil.dk>,
-	Samin Guo <samin.guo@starfivetech.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB51C7E
+	for <linux-sunxi@lists.linux.dev>; Sat, 26 Aug 2023 11:25:18 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ROVnb7i4Q6gIlTdeJS+Tm3TAh+THOVtcJ0fEygjB12OJ9HBPJYmsJlDtc3eVLvbifSCPiwAHebclPAMeYb3N+zun3iUtvKnUG0fE0c6TrSc7M+NzTKT7RB5kgTaLiz1D52lQnvLjpvqrcmdev7etVisB+22R6pcWCZRtSnqynUcvb4Q2D1IDguarD7Luo6spovdWra3oXzWJLiUayVrcy71kPlCXwrSBSKDu/FBFQmo1mILXxquUTGeFJ7jZ4VYhsjUFwlJSWdDsMM4a9+axEyfvI5QP+ZNrZKVgBk/uA+u0Ob+Tirr7KUjiDsBrcZBac+UaKXDmBXl8eUAtnf1UKg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LfBWcWVwTw1TvoG95OBJ2z/n1RzHQQNDC8yDsdwQ/3U=;
+ b=gebTyfTH0iWeh2CDGq4FhL/jqYKKxYLcy+KDjZhpAc2znrSDUsAuJ899N99lJXm+gf37DRgU6LNlxnK2bFMSChp3XqUKU/UiB9xd2gbdZFNyZTEpjfzpwX963RRBQlZtufWQqq3wskun5mGEx1Qrf2l/gu3kpV9Iq56HDQjuBtwu4hxknMZ8t/D8ppj/9JTu/T76lZFp7hCLrAQowwb1kCdORZlcCjABIEL/Exh01a81zlSG+OTU32+EGyPdEV922/5GnQC5Pilq57EEMXs7gvO6xBe2V5W6xEEUDwzEHSrrMmoSiuYvYAQLyQDgqI4gMepCR1XhFGYlAEGwYCSy9Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LfBWcWVwTw1TvoG95OBJ2z/n1RzHQQNDC8yDsdwQ/3U=;
+ b=THMcBHwZZ8/VPMfvCniAfsiD1aUoBh3dxZzNjYGddmrca8t9HYfxmJ+aUXvP1vtue6IUPihXLWou/rZcmFAqettX8Kl5jDntGd1q6Jicw8GJcNw1VI5TlOODtwt1TxhTgQmIDZjEiKQ0hCiDP575v5j+rziVI4ghfE63kqOplsOyyP6Rz9jppyCzvEddH2DrF22jt0cD5LLhyx/4UZlEcSLGhtwIvMdifmonWnNdmbGgYVppbygZku+O0T6qq8KcBhyIyNKyRdOE+1BF7JcTZaUYgUanwqboF+g0XKhRbX0+l+cpYTf5vynmv6GnuyBS+V61x9IGdOi2gfnq3UIV3w==
+Received: from IA1PR20MB4953.namprd20.prod.outlook.com (2603:10b6:208:3af::19)
+ by PH7PR20MB5395.namprd20.prod.outlook.com (2603:10b6:510:1ef::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.27; Sat, 26 Aug
+ 2023 11:25:15 +0000
+Received: from IA1PR20MB4953.namprd20.prod.outlook.com
+ ([fe80::cbad:4566:1f3e:4e1f]) by IA1PR20MB4953.namprd20.prod.outlook.com
+ ([fe80::cbad:4566:1f3e:4e1f%4]) with mapi id 15.20.6699.034; Sat, 26 Aug 2023
+ 11:25:15 +0000
+From: Inochi Amaoto <inochiama@outlook.com>
+To: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Inochi Amaoto <inochiama@outlook.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Wei Fu <wefu@redhat.com>,
+	Pei Chen <cp0613@linux.alibaba.com>,
+	Guo Ren <guoren@kernel.org>
+Cc: devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
-	linux-mediatek@lists.infradead.org
-Subject: [PATCH net-next] net: stmmac: clarify difference between "interface"
- and "phy_interface"
+	linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] riscv: dts: allwinner: d1: Add PMU event node
+Date: Sat, 26 Aug 2023 19:25:43 +0800
+Message-ID:
+ <IA1PR20MB4953161A592F3B8B00596FD0BBE2A@IA1PR20MB4953.namprd20.prod.outlook.com>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230826-reverse-unroll-a2e0b2365dc1@spud>
+References: <20230826-reverse-unroll-a2e0b2365dc1@spud>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN: [2jcQjahLILcT0ViS7npU9uFop2ri/cQ7UVu/v08QL0I=]
+X-ClientProxiedBy: SG2PR01CA0123.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:40::27) To IA1PR20MB4953.namprd20.prod.outlook.com
+ (2603:10b6:208:3af::19)
+X-Microsoft-Original-Message-ID:
+ <20230826112543.270446-1-inochiama@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <E1qZq83-005tts-6K@rmk-PC.armlinux.org.uk>
-Sender: Russell King <rmk@armlinux.org.uk>
-Date: Sat, 26 Aug 2023 11:02:51 +0100
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA1PR20MB4953:EE_|PH7PR20MB5395:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1883d9ca-b45e-444c-895e-08dba6271ec8
+X-MS-Exchange-SLBlob-MailProps:
+	0YULWdH+7mAieM4T+hjowknaCTQ/xRTmWMZFlVd1V0vzCap1iBna5aaTB8COFm0eYUvA18qzMeDpteHO1O3B5kN5y81hjE4w1zbK1pCWEAZoRrausXdbUQmZSQmZqqThr9urrdYQnAr5UoayA8aJs4i6qa4m/D1LrQsmZJGoBURTnmo7ZQFWZGqYsNuOoMmlyvCJs7VLvZtIGGZiN90T6OKxyF8bM1xoyvPn18jTKhdo5NvwcxHmz7mOOx4bPNR/qv4Z3UGdyg7AcWZSrZOmjIFNJ378/CSCxY6byngjopeSvD45WPg6DYed9x/36Ty8LKDb71TUh4I6FVIWN+KGKWi/K41tTD6MQlr4+BBj0y3YBuLL24Bgg919fbEVbdOZBXfijZ/xtbvaJv6vs8KAAtF1DfALmLKOgN6gr3H2Ob5Mm9viAB0R+LqPJMDX2efjh5VmRYOraeYt3x6Jvj/js7h1Q99GRGFWsvQWfmpJR9LDP0PUVRK8NE+c0J56efenlAbIi3Qi/UWQNh/dtoBmqrreylSRqGk3tZdefXx95KbPFz09tDcKW8XvLS2zdRm2FeNbcohHmrea5TVZpBDf3AQH1FAZDyipo+WhV3A8J04qlSbU6trf2fuqhfOETkDmlpXly1Ycq9sJMe43ICZdmK9MXGrKagvZAHzkO8d0soCzfAZBc1nhHqOpxdruPLL9HC4KPneHQSVGXuuxxFsW3rfG4pPzA5oTGnAnIZuVabGoucWW3Yvq/9gHuzfs5y/a0ENqD2kfpqPwDaz5DO80gt2N4lLYJBQe5HDFo420EVlLHkL41Bv5ngt5ggTv88qg/D/nAnVvqqzVfs0ABd32nlJA+G4A0X2kY/QDgMF/6o2kEcflyRlPPA==
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	uugqti4sDfZehgFJSlISRmo7aRccVutsSQvcbfjSiKgMnXF7RmWhwNax/NqoGU8W3JoiywRAfuV6Vmy9npf9UQGMYV03W6hKG1HH1FpXJ7QNOxqyaSrbu5ZkvoTfWTkUNiuvIvdWH/q3GejPpeFZ6kI6MmrP3pYjUrcD99Y2EeDhb68EKWAui4i43/JH/VqIQ3wckCwiHEtkq8QGfU1N/9iFpkEjo84WliZB3SOvra0GkUR78CgHs2mP6hsc+Uv86hRlMXpxpDZI3rtBEIqSJpQHMAsuTwrFRgEf67cjw4F9u2GPTd9v7F4Jv6Ae9A7TsWF7ugLnyOBcHt0O32+D8R15cSHzH3jdWtKHQ87OB+ZJSgg7oZq3UV1NidKGAejDLqL3Bog/6jtPl9VT6iDfkhBsYEr2MTpWbXSOh1sTNWs/RZiKdxdrdhWN8WULi6G6y2QkVAIRdiTsPz7ItO/+gDGGtbAcuYkP0AGKdm3D8TBMxuTNK3bfcKm/vDSWVL9wwWuuvpg2ZLLcyxeTp8pYOXhd2KKVmTqiXjwkEMLkt1ntmJM+9hu2kOfTJNQjexMXnp5JFQfqMf2WUvYDamBY62AEE1pskt076BAJGMDKobc=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?SSMGwxb8a/Lt5VnqqNFUOaYHBori5ZGrp/FTvSnKJx8USxmY0Fczyq3WwLP2?=
+ =?us-ascii?Q?Mmgkr0NGbohFgds0uyTy39vJhva0BhLDgS4uaqaGxYufQzRD+KaA80S8AwyZ?=
+ =?us-ascii?Q?g29U9oaJF/VRlhZMybkaWKO/VKv6agSfg05+0bJOPIYWzL1izQJ1W+IdIT1Q?=
+ =?us-ascii?Q?wI8CTYkdhU1CwD9jtQQCpum4LeGfZrumHSVcqQmuaUokwKljSnxYHvsfovJO?=
+ =?us-ascii?Q?by2Nb3pWySoqP0a2zk3MAXlrmWg9R8GsNZqmEA+nJBIupEiWP7MPoYu+pdax?=
+ =?us-ascii?Q?k05n/100FKkC39vN86SwMRVvwhqwyhz/4KxZ8BDb0XEcSmLC/Yv5K/UjaWHX?=
+ =?us-ascii?Q?v6f6I8Eb3jT9jVJEi3Ey5rd6yEa/GkR0jg0GE5zmzdguMf35lDZcdAw/qKUN?=
+ =?us-ascii?Q?quOsFNwjuoCu1n5n67J/LTKNnvpX4kikF2AiYaJvl20EF0i/u4NPkuAXMqnL?=
+ =?us-ascii?Q?snRbDDswCMoAJT8Q0bDe9BawCMW/yjdN4JPv0YuYcQpIE9P062PMCjjyVjR4?=
+ =?us-ascii?Q?RaD5YbP6EByLFUiQXv7nQSYpr/+Cnat7IA6YbRYSmRm53avdJACdlY4wE88e?=
+ =?us-ascii?Q?u3C8FWdVvL/Axg2mM1gxJ31czZHGYEtRZ4YS0YPYf4y5XEEDnW3KHoXRbCnF?=
+ =?us-ascii?Q?VxACfwBJscrAQ3CDlgEbfGGpgbrRaiHO/L+YGv1VVi3UdmxwGl5nP2J0/rad?=
+ =?us-ascii?Q?QaQehThkSI9fmc2GNSM8zNCU556XIs7odqKsDPsxvhELNSWQ+CiRpLGPbDlZ?=
+ =?us-ascii?Q?e2xzutHvbaMpbDk5Qi5NHDRsQE8aE+nyLPbYk/aNIHg3py+8Jq4bTBoZoMFW?=
+ =?us-ascii?Q?7NgAiNesfZbvrclYGNFiuQi0GF1CLeoxpaBYPkBzXn0nkJ8FO5nxkhcmlnmR?=
+ =?us-ascii?Q?sXJ62x5wtGZTNfVJJxsbwvAtGLqsU8GLA+O8JePsjkLyD/lvpe4ikv1NHz43?=
+ =?us-ascii?Q?+9suB86f+Ux4OPjCa5kVFfGBRHzViEVxw/rpzlyLVxrvhbVJ45UdHeGtLHqx?=
+ =?us-ascii?Q?Lw7X2O+5o9hXgLU614MfbpeQude3UAI1w009vrxKg1pIYF2foposQzRuisGE?=
+ =?us-ascii?Q?OfBEhYWCFQFfzoSG8LwhQzvb8s9zWog3oqgDjgfW09Tw20P2ajyj/hZIzo6q?=
+ =?us-ascii?Q?Fhm2bzxpGqeojz39hOQ5N8A/89T0nqmajgl4oien+kJw0YpdaqlpFkhoz8XS?=
+ =?us-ascii?Q?ZaAK5m85umbm+ts2+mGL+2S/CL8KqG3kW+y/Q8vHm4oqIwRd02RBl+RW1EY?=
+ =?us-ascii?Q?=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1883d9ca-b45e-444c-895e-08dba6271ec8
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR20MB4953.namprd20.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2023 11:25:15.6215
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR20MB5395
 
-Clarify the difference between "interface" and "phy_interface" in
-struct plat_stmmacenet_data, both by adding a comment, and also
-renaming "interface" to be "mac_interface". The difference between
-these are:
+The DT field of riscv,pmu for opensbi can be found on:
+https://github.com/riscv-software-src/opensbi/blob/master/docs/pmu_support.md
 
- MAC ----- optional PCS ----- SerDes ----- optional PHY ----- Media
-       ^                               ^
- mac_interface                   phy_interface
+The value can be found in the R1S0 version of C906 documentation:
+https://dl.linux-sunxi.org/D1/Xuantie_C906_R1S0_User_Manual.pdf
 
-Note that phylink currently only deals with phy_interface.
+The meaning of T-HEAD events can be found in this patch:
+https://lore.kernel.org/linux-perf-users/IA1PR20MB4953DD82D0116EC291C21777BBE2A@IA1PR20MB4953.namprd20.prod.outlook.com
 
-Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
----
+The patch above also provides documentation for T-HEAD events and a example
+that shows how to use perf with T-HEAD events.
 
-One last patch before Sunday - I would like to get this merged as it
-touches multiple stmmac platforms before any further are added.
-
-This patch merely renames the "plat_dat->interface" to "->mac_interface"
-but doesn't change which any code uses.
-
-All code which uses plat->interface (now plat->mac_interface) are
-determining the interface from the MAC side not the PHY side. These
-need a code review against the docs to check whether that is correct.
-Essentially, every .c file touched by this needs a code review. This
-code review should not affect whether this patch is merged.
-
- .../net/ethernet/stmicro/stmmac/dwmac-imx.c   | 14 ++++++-------
- .../ethernet/stmicro/stmmac/dwmac-ingenic.c   | 20 +++++++++----------
- .../ethernet/stmicro/stmmac/dwmac-loongson.c  |  2 +-
- .../ethernet/stmicro/stmmac/dwmac-lpc18xx.c   |  4 ++--
- .../ethernet/stmicro/stmmac/dwmac-mediatek.c  |  2 +-
- .../ethernet/stmicro/stmmac/dwmac-socfpga.c   |  2 +-
- .../ethernet/stmicro/stmmac/dwmac-starfive.c  |  4 ++--
- .../net/ethernet/stmicro/stmmac/dwmac-stm32.c |  8 ++++----
- .../net/ethernet/stmicro/stmmac/dwmac-sun8i.c |  6 +++---
- .../net/ethernet/stmicro/stmmac/stmmac_main.c |  6 ++++--
- .../ethernet/stmicro/stmmac/stmmac_platform.c |  6 +++---
- include/linux/stmmac.h                        | 15 +++++++++++++-
- 12 files changed, 52 insertions(+), 37 deletions(-)
-
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-imx.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-imx.c
-index 535856fffaea..df34e34cc14f 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-imx.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-imx.c
-@@ -70,7 +70,7 @@ static int imx8mp_set_intf_mode(struct plat_stmmacenet_data *plat_dat)
- 	struct imx_priv_data *dwmac = plat_dat->bsp_priv;
- 	int val;
- 
--	switch (plat_dat->interface) {
-+	switch (plat_dat->mac_interface) {
- 	case PHY_INTERFACE_MODE_MII:
- 		val = GPR_ENET_QOS_INTF_SEL_MII;
- 		break;
-@@ -87,7 +87,7 @@ static int imx8mp_set_intf_mode(struct plat_stmmacenet_data *plat_dat)
- 		break;
- 	default:
- 		pr_debug("imx dwmac doesn't support %d interface\n",
--			 plat_dat->interface);
-+			 plat_dat->mac_interface);
- 		return -EINVAL;
- 	}
- 
-@@ -110,7 +110,7 @@ static int imx93_set_intf_mode(struct plat_stmmacenet_data *plat_dat)
- 	struct imx_priv_data *dwmac = plat_dat->bsp_priv;
- 	int val;
- 
--	switch (plat_dat->interface) {
-+	switch (plat_dat->mac_interface) {
- 	case PHY_INTERFACE_MODE_MII:
- 		val = MX93_GPR_ENET_QOS_INTF_SEL_MII;
- 		break;
-@@ -125,7 +125,7 @@ static int imx93_set_intf_mode(struct plat_stmmacenet_data *plat_dat)
- 		break;
- 	default:
- 		dev_dbg(dwmac->dev, "imx dwmac doesn't support %d interface\n",
--			 plat_dat->interface);
-+			 plat_dat->mac_interface);
- 		return -EINVAL;
- 	}
- 
-@@ -192,8 +192,8 @@ static void imx_dwmac_fix_speed(void *priv, unsigned int speed, unsigned int mod
- 	plat_dat = dwmac->plat_dat;
- 
- 	if (dwmac->ops->mac_rgmii_txclk_auto_adj ||
--	    (plat_dat->interface == PHY_INTERFACE_MODE_RMII) ||
--	    (plat_dat->interface == PHY_INTERFACE_MODE_MII))
-+	    (plat_dat->mac_interface == PHY_INTERFACE_MODE_RMII) ||
-+	    (plat_dat->mac_interface == PHY_INTERFACE_MODE_MII))
- 		return;
- 
- 	switch (speed) {
-@@ -260,7 +260,7 @@ static int imx_dwmac_mx93_reset(void *priv, void __iomem *ioaddr)
- 	value |= DMA_BUS_MODE_SFT_RESET;
- 	writel(value, ioaddr + DMA_BUS_MODE);
- 
--	if (plat_dat->interface == PHY_INTERFACE_MODE_RMII) {
-+	if (plat_dat->mac_interface == PHY_INTERFACE_MODE_RMII) {
- 		usleep_range(100, 200);
- 		writel(RMII_RESET_SPEED, ioaddr + MAC_CTRL_REG);
- 	}
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-ingenic.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-ingenic.c
-index e22ef0d6bc73..0a20c3d24722 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-ingenic.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-ingenic.c
-@@ -89,7 +89,7 @@ static int jz4775_mac_set_mode(struct plat_stmmacenet_data *plat_dat)
- 	struct ingenic_mac *mac = plat_dat->bsp_priv;
- 	unsigned int val;
- 
--	switch (plat_dat->interface) {
-+	switch (plat_dat->mac_interface) {
- 	case PHY_INTERFACE_MODE_MII:
- 		val = FIELD_PREP(MACPHYC_TXCLK_SEL_MASK, MACPHYC_TXCLK_SEL_INPUT) |
- 			  FIELD_PREP(MACPHYC_PHY_INFT_MASK, MACPHYC_PHY_INFT_MII);
-@@ -118,7 +118,7 @@ static int jz4775_mac_set_mode(struct plat_stmmacenet_data *plat_dat)
- 		break;
- 
- 	default:
--		dev_err(mac->dev, "Unsupported interface %d", plat_dat->interface);
-+		dev_err(mac->dev, "Unsupported interface %d", plat_dat->mac_interface);
- 		return -EINVAL;
- 	}
- 
-@@ -130,13 +130,13 @@ static int x1000_mac_set_mode(struct plat_stmmacenet_data *plat_dat)
- {
- 	struct ingenic_mac *mac = plat_dat->bsp_priv;
- 
--	switch (plat_dat->interface) {
-+	switch (plat_dat->mac_interface) {
- 	case PHY_INTERFACE_MODE_RMII:
- 		dev_dbg(mac->dev, "MAC PHY Control Register: PHY_INTERFACE_MODE_RMII\n");
- 		break;
- 
- 	default:
--		dev_err(mac->dev, "Unsupported interface %d", plat_dat->interface);
-+		dev_err(mac->dev, "Unsupported interface %d", plat_dat->mac_interface);
- 		return -EINVAL;
- 	}
- 
-@@ -149,14 +149,14 @@ static int x1600_mac_set_mode(struct plat_stmmacenet_data *plat_dat)
- 	struct ingenic_mac *mac = plat_dat->bsp_priv;
- 	unsigned int val;
- 
--	switch (plat_dat->interface) {
-+	switch (plat_dat->mac_interface) {
- 	case PHY_INTERFACE_MODE_RMII:
- 		val = FIELD_PREP(MACPHYC_PHY_INFT_MASK, MACPHYC_PHY_INFT_RMII);
- 		dev_dbg(mac->dev, "MAC PHY Control Register: PHY_INTERFACE_MODE_RMII\n");
- 		break;
- 
- 	default:
--		dev_err(mac->dev, "Unsupported interface %d", plat_dat->interface);
-+		dev_err(mac->dev, "Unsupported interface %d", plat_dat->mac_interface);
- 		return -EINVAL;
- 	}
- 
-@@ -169,7 +169,7 @@ static int x1830_mac_set_mode(struct plat_stmmacenet_data *plat_dat)
- 	struct ingenic_mac *mac = plat_dat->bsp_priv;
- 	unsigned int val;
- 
--	switch (plat_dat->interface) {
-+	switch (plat_dat->mac_interface) {
- 	case PHY_INTERFACE_MODE_RMII:
- 		val = FIELD_PREP(MACPHYC_MODE_SEL_MASK, MACPHYC_MODE_SEL_RMII) |
- 			  FIELD_PREP(MACPHYC_PHY_INFT_MASK, MACPHYC_PHY_INFT_RMII);
-@@ -177,7 +177,7 @@ static int x1830_mac_set_mode(struct plat_stmmacenet_data *plat_dat)
- 		break;
- 
- 	default:
--		dev_err(mac->dev, "Unsupported interface %d", plat_dat->interface);
-+		dev_err(mac->dev, "Unsupported interface %d", plat_dat->mac_interface);
- 		return -EINVAL;
- 	}
- 
-@@ -190,7 +190,7 @@ static int x2000_mac_set_mode(struct plat_stmmacenet_data *plat_dat)
- 	struct ingenic_mac *mac = plat_dat->bsp_priv;
- 	unsigned int val;
- 
--	switch (plat_dat->interface) {
-+	switch (plat_dat->mac_interface) {
- 	case PHY_INTERFACE_MODE_RMII:
- 		val = FIELD_PREP(MACPHYC_TX_SEL_MASK, MACPHYC_TX_SEL_ORIGIN) |
- 			  FIELD_PREP(MACPHYC_RX_SEL_MASK, MACPHYC_RX_SEL_ORIGIN) |
-@@ -220,7 +220,7 @@ static int x2000_mac_set_mode(struct plat_stmmacenet_data *plat_dat)
- 		break;
- 
- 	default:
--		dev_err(mac->dev, "Unsupported interface %d", plat_dat->interface);
-+		dev_err(mac->dev, "Unsupported interface %d", plat_dat->mac_interface);
- 		return -EINVAL;
- 	}
- 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c
-index a25c187d3185..2cd6fce5c993 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c
-@@ -117,7 +117,7 @@ static int loongson_dwmac_probe(struct pci_dev *pdev, const struct pci_device_id
- 	}
- 
- 	plat->phy_interface = phy_mode;
--	plat->interface = PHY_INTERFACE_MODE_GMII;
-+	plat->mac_interface = PHY_INTERFACE_MODE_GMII;
- 
- 	pci_set_master(pdev);
- 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-lpc18xx.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-lpc18xx.c
-index 18e84ba693a6..d0aa674ce705 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-lpc18xx.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-lpc18xx.c
-@@ -50,9 +50,9 @@ static int lpc18xx_dwmac_probe(struct platform_device *pdev)
- 		goto err_remove_config_dt;
- 	}
- 
--	if (plat_dat->interface == PHY_INTERFACE_MODE_MII) {
-+	if (plat_dat->mac_interface == PHY_INTERFACE_MODE_MII) {
- 		ethmode = LPC18XX_CREG_CREG6_ETHMODE_MII;
--	} else if (plat_dat->interface == PHY_INTERFACE_MODE_RMII) {
-+	} else if (plat_dat->mac_interface == PHY_INTERFACE_MODE_RMII) {
- 		ethmode = LPC18XX_CREG_CREG6_ETHMODE_RMII;
- 	} else {
- 		dev_err(&pdev->dev, "Only MII and RMII mode supported\n");
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-mediatek.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-mediatek.c
-index 7580077383c0..cd796ec04132 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-mediatek.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-mediatek.c
-@@ -587,7 +587,7 @@ static int mediatek_dwmac_common_data(struct platform_device *pdev,
- {
- 	int i;
- 
--	plat->interface = priv_plat->phy_mode;
-+	plat->mac_interface = priv_plat->phy_mode;
- 	if (priv_plat->mac_wol)
- 		plat->flags |= STMMAC_FLAG_USE_PHY_WOL;
- 	else
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-socfpga.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-socfpga.c
-index 7db176e8691f..9bf102bbc6a0 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-socfpga.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-socfpga.c
-@@ -236,7 +236,7 @@ static int socfpga_get_plat_phymode(struct socfpga_dwmac *dwmac)
- 	struct net_device *ndev = dev_get_drvdata(dwmac->dev);
- 	struct stmmac_priv *priv = netdev_priv(ndev);
- 
--	return priv->plat->interface;
-+	return priv->plat->mac_interface;
- }
- 
- static void socfpga_sgmii_config(struct socfpga_dwmac *dwmac, bool enable)
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-starfive.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-starfive.c
-index 892612564694..9289bb87c3e3 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-starfive.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-starfive.c
-@@ -60,7 +60,7 @@ static int starfive_dwmac_set_mode(struct plat_stmmacenet_data *plat_dat)
- 	unsigned int mode;
- 	int err;
- 
--	switch (plat_dat->interface) {
-+	switch (plat_dat->mac_interface) {
- 	case PHY_INTERFACE_MODE_RMII:
- 		mode = STARFIVE_DWMAC_PHY_INFT_RMII;
- 		break;
-@@ -72,7 +72,7 @@ static int starfive_dwmac_set_mode(struct plat_stmmacenet_data *plat_dat)
- 
- 	default:
- 		dev_err(dwmac->dev, "unsupported interface %d\n",
--			plat_dat->interface);
-+			plat_dat->mac_interface);
- 		return -EINVAL;
- 	}
- 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-stm32.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-stm32.c
-index 3a09085819dc..26ea8c687881 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-stm32.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-stm32.c
-@@ -171,7 +171,7 @@ static int stm32mp1_set_mode(struct plat_stmmacenet_data *plat_dat)
- 
- 	clk_rate = clk_get_rate(dwmac->clk_eth_ck);
- 	dwmac->enable_eth_ck = false;
--	switch (plat_dat->interface) {
-+	switch (plat_dat->mac_interface) {
- 	case PHY_INTERFACE_MODE_MII:
- 		if (clk_rate == ETH_CK_F_25M && dwmac->ext_phyclk)
- 			dwmac->enable_eth_ck = true;
-@@ -210,7 +210,7 @@ static int stm32mp1_set_mode(struct plat_stmmacenet_data *plat_dat)
- 		break;
- 	default:
- 		pr_debug("SYSCFG init :  Do not manage %d interface\n",
--			 plat_dat->interface);
-+			 plat_dat->mac_interface);
- 		/* Do not manage others interfaces */
- 		return -EINVAL;
- 	}
-@@ -230,7 +230,7 @@ static int stm32mcu_set_mode(struct plat_stmmacenet_data *plat_dat)
- 	u32 reg = dwmac->mode_reg;
- 	int val;
- 
--	switch (plat_dat->interface) {
-+	switch (plat_dat->mac_interface) {
- 	case PHY_INTERFACE_MODE_MII:
- 		val = SYSCFG_MCU_ETH_SEL_MII;
- 		pr_debug("SYSCFG init : PHY_INTERFACE_MODE_MII\n");
-@@ -241,7 +241,7 @@ static int stm32mcu_set_mode(struct plat_stmmacenet_data *plat_dat)
- 		break;
- 	default:
- 		pr_debug("SYSCFG init :  Do not manage %d interface\n",
--			 plat_dat->interface);
-+			 plat_dat->mac_interface);
- 		/* Do not manage others interfaces */
- 		return -EINVAL;
- 	}
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-index c23420863a8d..01e77368eef1 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-@@ -1016,7 +1016,7 @@ static int sun8i_dwmac_set_syscon(struct device *dev,
- 	if (gmac->variant->support_rmii)
- 		reg &= ~SYSCON_RMII_EN;
- 
--	switch (plat->interface) {
-+	switch (plat->mac_interface) {
- 	case PHY_INTERFACE_MODE_MII:
- 		/* default */
- 		break;
-@@ -1031,7 +1031,7 @@ static int sun8i_dwmac_set_syscon(struct device *dev,
- 		break;
- 	default:
- 		dev_err(dev, "Unsupported interface mode: %s",
--			phy_modes(plat->interface));
-+			phy_modes(plat->mac_interface));
- 		return -EINVAL;
- 	}
- 
-@@ -1231,7 +1231,7 @@ static int sun8i_dwmac_probe(struct platform_device *pdev)
- 	/* platform data specifying hardware features and callbacks.
- 	 * hardware features were copied from Allwinner drivers.
- 	 */
--	plat_dat->interface = interface;
-+	plat_dat->mac_interface = interface;
- 	plat_dat->rx_coe = STMMAC_RX_COE_TYPE2;
- 	plat_dat->tx_coe = 1;
- 	plat_dat->flags |= STMMAC_FLAG_HAS_SUN8I;
-diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-index e52ae165c968..c92bab6e2341 100644
---- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-@@ -1119,7 +1119,7 @@ static const struct phylink_mac_ops stmmac_phylink_mac_ops = {
-  */
- static void stmmac_check_pcs_mode(struct stmmac_priv *priv)
- {
--	int interface = priv->plat->interface;
-+	int interface = priv->plat->mac_interface;
- 
- 	if (priv->dma_cap.pcs) {
- 		if ((interface == PHY_INTERFACE_MODE_RGMII) ||
-@@ -1214,7 +1214,9 @@ static int stmmac_phy_setup(struct stmmac_priv *priv)
- 		priv->phylink_config.ovr_an_inband =
- 			mdio_bus_data->xpcs_an_inband;
- 
--	/* Set the platform/firmware specified interface mode */
-+	/* Set the platform/firmware specified interface mode. Note, phylink
-+	 * deals with the PHY interface mode, not the MAC interface mode.
-+	 */
- 	__set_bit(mode, priv->phylink_config.supported_interfaces);
- 
- 	/* If we have an xpcs, it defines which PHY interfaces are supported. */
-diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
-index ff330423ee66..35f4b1484029 100644
---- a/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
-@@ -419,9 +419,9 @@ stmmac_probe_config_dt(struct platform_device *pdev, u8 *mac)
- 		return ERR_PTR(phy_mode);
- 
- 	plat->phy_interface = phy_mode;
--	plat->interface = stmmac_of_get_mac_mode(np);
--	if (plat->interface < 0)
--		plat->interface = plat->phy_interface;
-+	plat->mac_interface = stmmac_of_get_mac_mode(np);
-+	if (plat->mac_interface < 0)
-+		plat->mac_interface = plat->phy_interface;
- 
- 	/* Some wrapper drivers still rely on phy_node. Let's save it while
- 	 * they are not converted to phylink. */
-diff --git a/include/linux/stmmac.h b/include/linux/stmmac.h
-index b2ccd827bb80..ce89cc3e4913 100644
---- a/include/linux/stmmac.h
-+++ b/include/linux/stmmac.h
-@@ -223,7 +223,20 @@ struct dwmac4_addrs {
- struct plat_stmmacenet_data {
- 	int bus_id;
- 	int phy_addr;
--	int interface;
-+	/* MAC ----- optional PCS ----- SerDes ----- optional PHY ----- Media
-+	 *       ^                               ^
-+	 * mac_interface                   phy_interface
-+	 *
-+	 * mac_interface is the MAC-side interface, which may be the same
-+	 * as phy_interface if there is no intervening PCS. If there is a
-+	 * PCS, then mac_interface describes the interface mode between the
-+	 * MAC and PCS, and phy_interface describes the interface mode
-+	 * between the PCS and PHY.
-+	 */
-+	phy_interface_t mac_interface;
-+	/* phy_interface is the PHY-side interface - the interface used by
-+	 * an attached PHY.
-+	 */
- 	phy_interface_t phy_interface;
- 	struct stmmac_mdio_bus_data *mdio_bus_data;
- 	struct device_node *phy_node;
--- 
-2.30.2
-
+>On Sat, Aug 26, 2023 at 04:38:53PM +0800, Inochi Amaoto wrote:
+>> D1 has several pmu events supported by opensbi.
+>> These events can be used by perf for profiling.
+>>
+>> Signed-off-by: Inochi Amaoto <inochiama@outlook.com>
+>
+>Could you please include a link to some documentation as to where these
+>values came from? I know several people have had some trouble with
+>understanding the pmu DT stuff & having some documentation would make
+>this an in-tree end-to-end example.
+>
+>Thanks,
+>Conor.
+>
