@@ -1,183 +1,294 @@
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10olkn2094.outbound.protection.outlook.com [40.92.42.94])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBCDEC2F7
-	for <linux-sunxi@lists.linux.dev>; Sat, 26 Aug 2023 12:24:26 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nxndSCVBL05i5hQX1OtnoofX45CcIzFbegjHha4ZB4S5zZeKa1nxWw2xwyiiPcNEixx5+63WoN889bLt/oCjD3z1jcUNz59XUs5WW7YPA13plQd0YgtbGxgr4A/EX3yMid9KUWeMkuCoDmnLGgsVkHxuoH9r14dpotUpydiwpwauA7v0HOdAEtF5exSnbcAd14q17K3rK0aO1+uT/Ex+CGs0BKMeFQ9xl7DNleIjWRbVMEUjA85Y3ddyuMj0oMVQmB5RqXx6HelQw7ShNT2r9xKvPnsrTBlypYXvZXZS9cdS6T48CZFFPozQNqsNQB9sRmrcYWf94nKsR6Tfz0GJhQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GIJRodmgBKEzJIHdHkyHrQEpv3oeBkZ4tGbfkJI8AFQ=;
- b=TT2/Ng+8QwTpI07SR0ZsR41w/pseFNNx2YgnwbhsPhV4W7BKkkQSH/TxXejqjwjsQDvQUfdI74AMJaR3G9yTdtm5Xl+1ltCnWg1RpCa/6Y5HXBuXb6Wr9JDoARYlXr6gONWnh80ccCqj+YwL7hjR3zqfIMTffg/TcTY1NwqBJvrEkBXz2yOqvAl+GFLQ09KIPDaYz+yKDWWtQRWlji8/YaIG0KQTkVwMlgzj+W1td51fpxo1LTgiuupfkMI4JdpBvNnXIKnu12UuJcY9HZELx+JIcLmHa4ov4zfqZsFQUtPnNE7zfvKjtFfvSwt/6h21GfUVD6PhN3eqOJF3krVqqQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GIJRodmgBKEzJIHdHkyHrQEpv3oeBkZ4tGbfkJI8AFQ=;
- b=qcNmGn+0EQz4fCFheaVSNMTDz2XBeGyCYCXQexDY44DpmyWKPg6zYh30f1KAB20x3g3nBoL86eLThEsY8Ya9UdpElbySXvHcXJnMhQoGv5c8zKRgC+dej5WfaAgTDC8L7/L1R4+z3cPUwi4IAwxXxa0Ie/ltmMjLbxAdBSPOOUWY93inlyYYZjKKab2ISviKyJsB6WEDZrOIDnW9VvvavN/kp9kBNcgGp+t61sU2BnKtW1WUaSPbBglGXITjZDut8rwkt0hMg9aRtMgc9YXQ3jeNPJI98/SaGwXRoAY6yyCi1hBKivKgER1hU8/nNAzur2HP2Q5JqOUt2WQhdrRrBQ==
-Received: from IA1PR20MB4953.namprd20.prod.outlook.com (2603:10b6:208:3af::19)
- by MW3PR20MB3515.namprd20.prod.outlook.com (2603:10b6:303:2e::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.34; Sat, 26 Aug
- 2023 12:24:24 +0000
-Received: from IA1PR20MB4953.namprd20.prod.outlook.com
- ([fe80::cbad:4566:1f3e:4e1f]) by IA1PR20MB4953.namprd20.prod.outlook.com
- ([fe80::cbad:4566:1f3e:4e1f%4]) with mapi id 15.20.6699.034; Sat, 26 Aug 2023
- 12:24:24 +0000
-From: Inochi Amaoto <inochiama@outlook.com>
-To: Rob Herring <robh+dt@kernel.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01EA036A
+	for <linux-sunxi@lists.linux.dev>; Sun, 27 Aug 2023 01:50:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2A1EC433C8;
+	Sun, 27 Aug 2023 01:50:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1693101057;
+	bh=ZCVc6r7u+JhxCkLdGCWieqo8FnBkAYc1lRcRZGpjkUg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=F9RloBRehX/4Tfo7fxdp1fjNk5JCvXZxVh7cKaWoi9SGaDsCR0moFbRlZN8dfCulA
+	 mL4mVtZfXHtDOCmUmq8+aUm2OYQXLSU6Voi0tg/34IsaL7RvY/5LltTN/eNeoNkqrf
+	 CRt8zWqI8taHsWGYfmrVhpUFPAI1U58qlHAFg/nNQptxT3mAlwhjU1um3EGFCOkC8N
+	 BWv7YOCtq3SH0y8oMwho1oh3ic9oUtmiQibVvZuJY02Rpdw/SqmKIuYAQULMPvQsWe
+	 GhcqQcySL7SULLwVAznZvgY2YfQuPupHehOutz4wTcgJ0Yp9Eoe9hntt+Q/5G6Cfic
+	 GTdRoR3mlESaQ==
+Date: Sun, 27 Aug 2023 02:50:51 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Inochi Amaoto <inochiama@outlook.com>
+Cc: Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
 	Paul Walmsley <paul.walmsley@sifive.com>,
 	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Inochi Amaoto <inochiama@outlook.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Wei Fu <wefu@redhat.com>,
-	Pei Chen <cp0613@linux.alibaba.com>,
-	Guo Ren <guoren@kernel.org>
-Cc: devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] riscv: dts: allwinner: d1: Add PMU event node
-Date: Sat, 26 Aug 2023 20:25:04 +0800
-Message-ID:
- <IA1PR20MB49538F11DE1AF4A52B0F9F9ABBE2A@IA1PR20MB4953.namprd20.prod.outlook.com>
-X-Mailer: git-send-email 2.41.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TMN: [RYzYcXWKkeYnCjJlXZCx8/HAnwHN3S6TFjU8lyuOsPU=]
-X-ClientProxiedBy: SI1PR02CA0030.apcprd02.prod.outlook.com
- (2603:1096:4:1f4::8) To IA1PR20MB4953.namprd20.prod.outlook.com
- (2603:10b6:208:3af::19)
-X-Microsoft-Original-Message-ID:
- <20230826122504.294619-1-inochiama@outlook.com>
+	Albert Ou <aou@eecs.berkeley.edu>, Heiko Stuebner <heiko@sntech.de>,
+	Wei Fu <wefu@redhat.com>, Pei Chen <cp0613@linux.alibaba.com>,
+	Guo Ren <guoren@kernel.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] riscv: dts: allwinner: d1: Add PMU event node
+Message-ID: <20230827-cricket-ooze-0bf6b7399da9@spud>
+References: <IA1PR20MB49538F11DE1AF4A52B0F9F9ABBE2A@IA1PR20MB4953.namprd20.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA1PR20MB4953:EE_|MW3PR20MB3515:EE_
-X-MS-Office365-Filtering-Correlation-Id: fdfe73b8-18a7-4e8b-72b5-08dba62f61e2
-X-MS-Exchange-SLBlob-MailProps:
-	Om8TgR6f4EB/EQr+q11q+JsAPQ9zfesvHLrCWlIfvFrsW/v3HtS2Vcml9bmeeex43BWSzgefz4FDpGKn1WISdOA8QqXGeLicSY4GWDwIbtic1XNOEH9ioYsm1UYYzxM1ncbeAqSYnk2LtUkF2LGnr8WUraOmSp33V0XBs5t4j/Irbw1ZnBgxkXYJmRT2x5Z0svPyzbGZk5sELLO84VBjXeRGL57vbxbNLp+cwXlDvVQXovGejztHR8WYDYzuT1kZ9DlUFd8m5D7OPuXBZpw5Fkokb8PgSVqUNS6EF7q2m3LypMzW51uwI+2TJpYoAeP4E3wnDF8BcjlFupljrDWoG5Es9G0VJ+wZSdjTjj5Tj4Lyg9RjI6ujOQpQxiejb3p9h6rSnSPqY9PZogzEvVgGBVgmyvVfysMNpxLmQpYiRVHa+Pn2mrfI+b8GpY/RxvlCT5/W9uDCz8R/93Lx8HZcTmrmo2C8KRoBe9EC5hkIlCtUoOHwcuHeQdCJJCYM5wNw/mnJSU/+e+kzaQabLtXFidUikjvTSd5+gC72/VnlCH+OLVtjPiVjaNZ2rsmH2BedubCiWBK9sbcjYuL/CflhNqd6lwtR2EiOHHEr2X0DdZT6jrx3zzJ5y7Al+fkdVqXqJ0KMkA+1RObZUHt+vCl5+wvtdJUCakwcHc1QcBa1ma/81RpCrv5yQfRQPih7tRnY9T2GJJAB9r84bERCbCrlMHVO7ngW7tqq3tl2M1U7DfV8QXKX9nxOSqYGCkiR26MzqSQduyajbPCpu1gevcb7WBifODhh+d6rBIUQnoaQAY8LUZZaLEipe5DUW8adxl9KPkKTa9CfVU0pqXovaqNpwFY6NjKsw9aB
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	p1TnXLX3mcKIxRSyPxZBLsSMv601715C8okcYF5JM8cZpqVS/HmjxbUQMGdr6TrNg7WplE6mtce958Qa2jZMQlrEsJm9QPeuukQFJ44Uv/a4apBck5k1SPxSvpUV2jmAPShzH10CqLttl0aSg+/Le7srJCd0eH9bRMBVAVWRJx5HIgSMCCHlFg3rk8zmOX+8G6nZ3ObKVJW+cJBbqoXbeE+13hFyCPTyJnvzEJHZSjUTijrfP6Vmdhg0zn/znGgyuI/tgT/lkACPpvXreBt79rZhmzLYr/HN3DPkEqmhwie2gy2XdTBJAezUw8xWQp/BtVGfmpt3mGM2LmKn+DFLFKtMv1bzfnTW6hnik839BK4/+ZMLNsOLWiczt19WTs2Mz4syvZ7fgRnDiylpjrvKXKzZTJ1KPeBtZ0UtXpYygUMmNSSe1w6MUmaUcd5EXTElq+79dudvwhRCg4VIxcQQL4Ce7zcSNYhep3IL0H7YYHDcMmBqXwSb9mpXMrFR+pCTP389Dvga8E0It6+dVc+laV9wBBzoObbn+0FnVe2jlN9Y/lf1+XuLnPe4Ouje1XBGA/SbacZ1XffF0YDslPJLRTzqiwk8LYFT0tUrmptT8jQ=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?liEZ0vv8QXE2fF0Rxm1VA5PqePkHJT92qi/HaIwbq9KPYYk0x9p2/8v+GWFy?=
- =?us-ascii?Q?Dqcm3Tu+iG32Sbqf/oSoNiaYSW4eoaxRQo8eEimS4t3lAGtZwBGYfFeLOyFm?=
- =?us-ascii?Q?Ve5/S8N7OHBkkmoLIbJK/yml3iKRtThj3co7dIMiIJp4IUwpgleEnn4MVW3U?=
- =?us-ascii?Q?+tavILW5Yuv5xVuxKNlxa6zwcr5RKqOwLqhi83vTJlDEihT5DjlnZBJOmqu8?=
- =?us-ascii?Q?QhnIubrhADQlT5N7FcJ7mcwGHs/2wJ6gSunbgRsUD+DhKP7S3OtAMPoLrcQ9?=
- =?us-ascii?Q?RXl43b/7WDCNwUmv4fqd22IfTK/p6Nz/WebIVQSecgdVboznxNux5Gu4aEA4?=
- =?us-ascii?Q?8oDnnBY2t4sTe03ANSTV9KpYD48wV9xeHCEqc8ulBGoa6+TVlq1KQvAUQ0qM?=
- =?us-ascii?Q?oD6KYyPa61MAkf4AP7Xf4rsHGBRMgU8A4sJ6/QWB4C2u6CxXXaTmUiJ5kqfJ?=
- =?us-ascii?Q?sMF8fvq86Nwj8264CCjiE8UfMcV6FNuXq9dkxSI7dyIQufla+aoKGxR3tRzV?=
- =?us-ascii?Q?sRaU1nbp3dtRs2PS7RKQ2HosekLfMCz3HsHA3b8kyrUPvl5dmCgjDcIiqv/n?=
- =?us-ascii?Q?Al6WWC3HC3x+RDsd1yqvdaWM8YHfGB4Q/HVul3hYdpXDwyQ/pcsflIs6eJEs?=
- =?us-ascii?Q?OAFjNScl9srZRB14Su3F6zrHHXPO/lSnKM5+hUp4iZwCcR5btZDMMn15ctbU?=
- =?us-ascii?Q?wg12o4CmuhW8jw1wG67oJ7MescrYdPlSvWzCUWI7n9ETcgHXnD2M8j+IniWz?=
- =?us-ascii?Q?ppMwVWjlZhdKi9rH4DDRDoXqhYziHewQ/I1QMuCc5yGLykMSuMKnN+3esb+I?=
- =?us-ascii?Q?J77039unGKJw/V8i2iX8ABDxdCbgPYixZDPNXiJsRPMlRwfzUuLdAyhDVjaw?=
- =?us-ascii?Q?NzTudcSiRw5OzJhqjNNYWOnlUFKpabIJRN29n0ZbTCaskN8Z7AVLywhbIK3h?=
- =?us-ascii?Q?yU18b9efxSEYDryXKMIC/hjWlMlBAoY+Py5+qhEuhlSI14gtMhB2YhFPdFXU?=
- =?us-ascii?Q?3TD/SMUlyeUQBoqNskKWYAqqQAlX9/0RlaICPDNPGbI61URlNXhHkm2MvfgO?=
- =?us-ascii?Q?+9O+S2y04yue6UC7guES6OcY7ZX40Im5+KHzyjZ1l6xJpwk35Uj70qXwO0HJ?=
- =?us-ascii?Q?DbGinHDWNV0bEOMycQ3W89tq90Gic4VcKKIN2E7andj3L7wCS2DXghDMa7Kg?=
- =?us-ascii?Q?4YT0Q4NiFX5iMyeYCv9WMheau68rLkJbRN6oi9XmdtFC2lpEpU0uNh5BipM?=
- =?us-ascii?Q?=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fdfe73b8-18a7-4e8b-72b5-08dba62f61e2
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR20MB4953.namprd20.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2023 12:24:24.1044
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR20MB3515
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="atGRTUxlIzGLipnB"
+Content-Disposition: inline
+In-Reply-To: <IA1PR20MB49538F11DE1AF4A52B0F9F9ABBE2A@IA1PR20MB4953.namprd20.prod.outlook.com>
 
-D1 has several pmu events supported by opensbi.
-These events can be used by perf for profiling.
 
-The event value and mapping can be found in the R1S0 version of C906
-documentation:
-https://dl.linux-sunxi.org/D1/Xuantie_C906_R1S0_User_Manual.pdf
+--atGRTUxlIzGLipnB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Inochi Amaoto <inochiama@outlook.com>
----
-The meaning of T-HEAD events can be found in this pending patch:
-https://lore.kernel.org/linux-perf-users/IA1PR20MB4953DD82D0116EC291C21777BBE2A@IA1PR20MB4953.namprd20.prod.outlook.com
+On Sat, Aug 26, 2023 at 08:25:04PM +0800, Inochi Amaoto wrote:
+> D1 has several pmu events supported by opensbi.
+> These events can be used by perf for profiling.
+>=20
+> The event value and mapping can be found in the R1S0 version of C906
+> documentation:
+> https://dl.linux-sunxi.org/D1/Xuantie_C906_R1S0_User_Manual.pdf
 
-The patch above also provides a detailed example that shows how to setup
-environment and use perf with T-HEAD events.
----
- arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi | 40 +++++++++++++++++++
- 1 file changed, 40 insertions(+)
+Link: https://dl.linux-sunxi.org/D1/Xuantie_C906_R1S0_User_Manual.pdf
 
-diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
-index 8275630af977..d9031ccdec89 100644
---- a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
-+++ b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
-@@ -72,5 +72,45 @@ plic: interrupt-controller@10000000 {
- 			#address-cells = <0>;
- 			#interrupt-cells = <2>;
- 		};
-+
-+		pmu {
-+			compatible = "riscv,pmu";
-+			riscv,event-to-mhpmcounters =
-+				<0x00003 0x00003 0x00000008>,
-+				<0x00004 0x00004 0x00000010>,
-+				<0x00005 0x00005 0x00000200>,
-+				<0x00006 0x00006 0x00000100>,
-+				<0x10000 0x10000 0x00004000>,
-+				<0x10001 0x10001 0x00008000>,
-+				<0x10002 0x10002 0x00010000>,
-+				<0x10003 0x10003 0x00020000>,
-+				<0x10019 0x10019 0x00000040>,
-+				<0x10021 0x10021 0x00000020>;
-+			riscv,event-to-mhpmevent =
-+				<0x00003 0x00000000 0x00000001>,
-+				<0x00004 0x00000000 0x00000002>,
-+				<0x00005 0x00000000 0x00000007>,
-+				<0x00006 0x00000000 0x00000006>,
-+				<0x0000a 0x00000000 0x0000000b>,
-+				<0x10000 0x00000000 0x0000000c>,
-+				<0x10001 0x00000000 0x0000000d>,
-+				<0x10002 0x00000000 0x0000000e>,
-+				<0x10003 0x00000000 0x0000000f>,
-+				<0x10019 0x00000000 0x00000004>,
-+				<0x10021 0x00000000 0x00000003>;
-+			riscv,raw-event-to-mhpmcounters =
-+				<0x00000000 0x00000001 0xffffffff 0xffffffff 0x00000008>,
-+				<0x00000000 0x00000002 0xffffffff 0xffffffff 0x00000010>,
-+				<0x00000000 0x00000003 0xffffffff 0xffffffff 0x00000020>,
-+				<0x00000000 0x00000004 0xffffffff 0xffffffff 0x00000040>,
-+				<0x00000000 0x00000005 0xffffffff 0xffffffff 0x00000080>,
-+				<0x00000000 0x00000006 0xffffffff 0xffffffff 0x00000100>,
-+				<0x00000000 0x00000007 0xffffffff 0xffffffff 0x00000200>,
-+				<0x00000000 0x0000000b 0xffffffff 0xffffffff 0x00002000>,
-+				<0x00000000 0x0000000c 0xffffffff 0xffffffff 0x00004000>,
-+				<0x00000000 0x0000000d 0xffffffff 0xffffffff 0x00008000>,
-+				<0x00000000 0x0000000e 0xffffffff 0xffffffff 0x00010000>,
-+				<0x00000000 0x0000000f 0xffffffff 0xffffffff 0x00020000>;
-+		};
- 	};
- };
---
-2.41.0
+> Signed-off-by: Inochi Amaoto <inochiama@outlook.com>
+> ---
+> The meaning of T-HEAD events can be found in this pending patch:
+> https://lore.kernel.org/linux-perf-users/IA1PR20MB4953DD82D0116EC291C2177=
+7BBE2A@IA1PR20MB4953.namprd20.prod.outlook.com
+>=20
+> The patch above also provides a detailed example that shows how to setup
+> environment and use perf with T-HEAD events.
+> ---
 
+Firstly, you need to move the PMU node out of the soc bus:
+
+arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi:76.7-114.5: Warning (simple_b=
+us_reg): /soc/pmu: missing or empty reg/ranges property
+arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi:76.7-114.5: Warning (simple_b=
+us_reg): /soc/pmu: missing or empty reg/ranges property
+arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi:76.7-114.5: Warning (simple_b=
+us_reg): /soc/pmu: missing or empty reg/ranges property
+arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi:76.7-114.5: Warning (simple_b=
+us_reg): /soc/pmu: missing or empty reg/ranges property
+arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi:76.7-114.5: Warning (simple_b=
+us_reg): /soc/pmu: missing or empty reg/ranges property
+arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi:76.7-114.5: Warning (simple_b=
+us_reg): /soc/pmu: missing or empty reg/ranges property
+arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi:76.7-114.5: Warning (simple_b=
+us_reg): /soc/pmu: missing or empty reg/ranges property
+arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi:76.7-114.5: Warning (simple_b=
+us_reg): /soc/pmu: missing or empty reg/ranges property
+
+And secondly, and I dunno WTF the fix for this is, but what you've got
+here is completely invalid as per the binding...
+The fix for this might well be moving it out of the soc bus (I think I
+fixed the same errors in QEMU's pmu node), but it shows that you didn't
+actually test this :/ Please do so:
+
+/tmp/tmp.SOQ8Wz6Pug/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv.dtb: =
+soc: pmu: {'compatible': ['riscv,pmu'], 'riscv,event-to-mhpmcounters': [[3,=
+ 3, 8], [4, 4, 16], [5, 5, 512], [6, 6, 256], [65536, 65536, 16384], [65537=
+, 65537, 32768], [65538, 65538, 65536], [65539, 65539, 131072], [65561, 655=
+61, 64], [65569, 65569, 32]], 'riscv,event-to-mhpmevent': [[3, 0, 1], [4, 0=
+, 2], [5, 0, 7], [6, 0, 6], [10, 0, 11], [65536, 0, 12], [65537, 0, 13], [6=
+5538, 0, 14], [65539, 0, 15], [65561, 0, 4], [65569, 0, 3]], 'riscv,raw-eve=
+nt-to-mhpmcounters': [[0, 1, 4294967295, 4294967295, 8], [0, 2, 4294967295,=
+ 4294967295, 16], [0, 3, 4294967295, 4294967295, 32], [0, 4, 4294967295, 42=
+94967295, 64], [0, 5, 4294967295, 4294967295, 128], [0, 6, 4294967295, 4294=
+967295, 256], [0, 7, 4294967295, 4294967295, 512], [0, 11, 4294967295, 4294=
+967295, 8192], [0, 12, 4294967295, 4294967295, 16384], [0, 13, 4294967295, =
+4294967295, 32768], [0, 14, 4294967295, 4294967295, 65536], [0, 15, 4294967=
+295, 4294967295, 131072]]} should not be valid under {'type': 'object'}
+	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+/tmp/tmp.SOQ8Wz6Pug/arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezha-=
+stu.dtb: soc: pmu: {'compatible': ['riscv,pmu'], 'riscv,event-to-mhpmcounte=
+rs': [[3, 3, 8], [4, 4, 16], [5, 5, 512], [6, 6, 256], [65536, 65536, 16384=
+], [65537, 65537, 32768], [65538, 65538, 65536], [65539, 65539, 131072], [6=
+5561, 65561, 64], [65569, 65569, 32]], 'riscv,event-to-mhpmevent': [[3, 0, =
+1], [4, 0, 2], [5, 0, 7], [6, 0, 6], [10, 0, 11], [65536, 0, 12], [65537, 0=
+, 13], [65538, 0, 14], [65539, 0, 15], [65561, 0, 4], [65569, 0, 3]], 'risc=
+v,raw-event-to-mhpmcounters': [[0, 1, 4294967295, 4294967295, 8], [0, 2, 42=
+94967295, 4294967295, 16], [0, 3, 4294967295, 4294967295, 32], [0, 4, 42949=
+67295, 4294967295, 64], [0, 5, 4294967295, 4294967295, 128], [0, 6, 4294967=
+295, 4294967295, 256], [0, 7, 4294967295, 4294967295, 512], [0, 11, 4294967=
+295, 4294967295, 8192], [0, 12, 4294967295, 4294967295, 16384], [0, 13, 429=
+4967295, 4294967295, 32768], [0, 14, 4294967295, 4294967295, 65536], [0, 15=
+, 4294967295, 4294967295, 131072]]} should not be valid under {'type': 'obj=
+ect'}
+	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+/tmp/tmp.SOQ8Wz6Pug/arch/riscv/boot/dts/allwinner/sun20i-d1-mangopi-mq-pro.=
+dtb: soc: pmu: {'compatible': ['riscv,pmu'], 'riscv,event-to-mhpmcounters':=
+ [[3, 3, 8], [4, 4, 16], [5, 5, 512], [6, 6, 256], [65536, 65536, 16384], [=
+65537, 65537, 32768], [65538, 65538, 65536], [65539, 65539, 131072], [65561=
+, 65561, 64], [65569, 65569, 32]], 'riscv,event-to-mhpmevent': [[3, 0, 1], =
+[4, 0, 2], [5, 0, 7], [6, 0, 6], [10, 0, 11], [65536, 0, 12], [65537, 0, 13=
+], [65538, 0, 14], [65539, 0, 15], [65561, 0, 4], [65569, 0, 3]], 'riscv,ra=
+w-event-to-mhpmcounters': [[0, 1, 4294967295, 4294967295, 8], [0, 2, 429496=
+7295, 4294967295, 16], [0, 3, 4294967295, 4294967295, 32], [0, 4, 429496729=
+5, 4294967295, 64], [0, 5, 4294967295, 4294967295, 128], [0, 6, 4294967295,=
+ 4294967295, 256], [0, 7, 4294967295, 4294967295, 512], [0, 11, 4294967295,=
+ 4294967295, 8192], [0, 12, 4294967295, 4294967295, 16384], [0, 13, 4294967=
+295, 4294967295, 32768], [0, 14, 4294967295, 4294967295, 65536], [0, 15, 42=
+94967295, 4294967295, 131072]]} should not be valid under {'type': 'object'}
+	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+/tmp/tmp.SOQ8Wz6Pug/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-dock.=
+dtb: soc: pmu: {'compatible': ['riscv,pmu'], 'riscv,event-to-mhpmcounters':=
+ [[3, 3, 8], [4, 4, 16], [5, 5, 512], [6, 6, 256], [65536, 65536, 16384], [=
+65537, 65537, 32768], [65538, 65538, 65536], [65539, 65539, 131072], [65561=
+, 65561, 64], [65569, 65569, 32]], 'riscv,event-to-mhpmevent': [[3, 0, 1], =
+[4, 0, 2], [5, 0, 7], [6, 0, 6], [10, 0, 11], [65536, 0, 12], [65537, 0, 13=
+], [65538, 0, 14], [65539, 0, 15], [65561, 0, 4], [65569, 0, 3]], 'riscv,ra=
+w-event-to-mhpmcounters': [[0, 1, 4294967295, 4294967295, 8], [0, 2, 429496=
+7295, 4294967295, 16], [0, 3, 4294967295, 4294967295, 32], [0, 4, 429496729=
+5, 4294967295, 64], [0, 5, 4294967295, 4294967295, 128], [0, 6, 4294967295,=
+ 4294967295, 256], [0, 7, 4294967295, 4294967295, 512], [0, 11, 4294967295,=
+ 4294967295, 8192], [0, 12, 4294967295, 4294967295, 16384], [0, 13, 4294967=
+295, 4294967295, 32768], [0, 14, 4294967295, 4294967295, 65536], [0, 15, 42=
+94967295, 4294967295, 131072]]} should not be valid under {'type': 'object'}
+	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+/tmp/tmp.SOQ8Wz6Pug/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-pa=
+nel-720p.dtb: soc: pmu: {'compatible': ['riscv,pmu'], 'riscv,event-to-mhpmc=
+ounters': [[3, 3, 8], [4, 4, 16], [5, 5, 512], [6, 6, 256], [65536, 65536, =
+16384], [65537, 65537, 32768], [65538, 65538, 65536], [65539, 65539, 131072=
+], [65561, 65561, 64], [65569, 65569, 32]], 'riscv,event-to-mhpmevent': [[3=
+, 0, 1], [4, 0, 2], [5, 0, 7], [6, 0, 6], [10, 0, 11], [65536, 0, 12], [655=
+37, 0, 13], [65538, 0, 14], [65539, 0, 15], [65561, 0, 4], [65569, 0, 3]], =
+'riscv,raw-event-to-mhpmcounters': [[0, 1, 4294967295, 4294967295, 8], [0, =
+2, 4294967295, 4294967295, 16], [0, 3, 4294967295, 4294967295, 32], [0, 4, =
+4294967295, 4294967295, 64], [0, 5, 4294967295, 4294967295, 128], [0, 6, 42=
+94967295, 4294967295, 256], [0, 7, 4294967295, 4294967295, 512], [0, 11, 42=
+94967295, 4294967295, 8192], [0, 12, 4294967295, 4294967295, 16384], [0, 13=
+, 4294967295, 4294967295, 32768], [0, 14, 4294967295, 4294967295, 65536], [=
+0, 15, 4294967295, 4294967295, 131072]]} should not be valid under {'type':=
+ 'object'}
+	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+/tmp/tmp.SOQ8Wz6Pug/arch/riscv/boot/dts/allwinner/sun20i-d1s-mangopi-mq.dtb=
+: soc: pmu: {'compatible': ['riscv,pmu'], 'riscv,event-to-mhpmcounters': [[=
+3, 3, 8], [4, 4, 16], [5, 5, 512], [6, 6, 256], [65536, 65536, 16384], [655=
+37, 65537, 32768], [65538, 65538, 65536], [65539, 65539, 131072], [65561, 6=
+5561, 64], [65569, 65569, 32]], 'riscv,event-to-mhpmevent': [[3, 0, 1], [4,=
+ 0, 2], [5, 0, 7], [6, 0, 6], [10, 0, 11], [65536, 0, 12], [65537, 0, 13], =
+[65538, 0, 14], [65539, 0, 15], [65561, 0, 4], [65569, 0, 3]], 'riscv,raw-e=
+vent-to-mhpmcounters': [[0, 1, 4294967295, 4294967295, 8], [0, 2, 429496729=
+5, 4294967295, 16], [0, 3, 4294967295, 4294967295, 32], [0, 4, 4294967295, =
+4294967295, 64], [0, 5, 4294967295, 4294967295, 128], [0, 6, 4294967295, 42=
+94967295, 256], [0, 7, 4294967295, 4294967295, 512], [0, 11, 4294967295, 42=
+94967295, 8192], [0, 12, 4294967295, 4294967295, 16384], [0, 13, 4294967295=
+, 4294967295, 32768], [0, 14, 4294967295, 4294967295, 65536], [0, 15, 42949=
+67295, 4294967295, 131072]]} should not be valid under {'type': 'object'}
+	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+/tmp/tmp.SOQ8Wz6Pug/arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dtb: soc:=
+ pmu: {'compatible': ['riscv,pmu'], 'riscv,event-to-mhpmcounters': [[3, 3, =
+8], [4, 4, 16], [5, 5, 512], [6, 6, 256], [65536, 65536, 16384], [65537, 65=
+537, 32768], [65538, 65538, 65536], [65539, 65539, 131072], [65561, 65561, =
+64], [65569, 65569, 32]], 'riscv,event-to-mhpmevent': [[3, 0, 1], [4, 0, 2]=
+, [5, 0, 7], [6, 0, 6], [10, 0, 11], [65536, 0, 12], [65537, 0, 13], [65538=
+, 0, 14], [65539, 0, 15], [65561, 0, 4], [65569, 0, 3]], 'riscv,raw-event-t=
+o-mhpmcounters': [[0, 1, 4294967295, 4294967295, 8], [0, 2, 4294967295, 429=
+4967295, 16], [0, 3, 4294967295, 4294967295, 32], [0, 4, 4294967295, 429496=
+7295, 64], [0, 5, 4294967295, 4294967295, 128], [0, 6, 4294967295, 42949672=
+95, 256], [0, 7, 4294967295, 4294967295, 512], [0, 11, 4294967295, 42949672=
+95, 8192], [0, 12, 4294967295, 4294967295, 16384], [0, 13, 4294967295, 4294=
+967295, 32768], [0, 14, 4294967295, 4294967295, 65536], [0, 15, 4294967295,=
+ 4294967295, 131072]]} should not be valid under {'type': 'object'}
+	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+/tmp/tmp.SOQ8Wz6Pug/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-pa=
+nel-480p.dtb: soc: pmu: {'compatible': ['riscv,pmu'], 'riscv,event-to-mhpmc=
+ounters': [[3, 3, 8], [4, 4, 16], [5, 5, 512], [6, 6, 256], [65536, 65536, =
+16384], [65537, 65537, 32768], [65538, 65538, 65536], [65539, 65539, 131072=
+], [65561, 65561, 64], [65569, 65569, 32]], 'riscv,event-to-mhpmevent': [[3=
+, 0, 1], [4, 0, 2], [5, 0, 7], [6, 0, 6], [10, 0, 11], [65536, 0, 12], [655=
+37, 0, 13], [65538, 0, 14], [65539, 0, 15], [65561, 0, 4], [65569, 0, 3]], =
+'riscv,raw-event-to-mhpmcounters': [[0, 1, 4294967295, 4294967295, 8], [0, =
+2, 4294967295, 4294967295, 16], [0, 3, 4294967295, 4294967295, 32], [0, 4, =
+4294967295, 4294967295, 64], [0, 5, 4294967295, 4294967295, 128], [0, 6, 42=
+94967295, 4294967295, 256], [0, 7, 4294967295, 4294967295, 512], [0, 11, 42=
+94967295, 4294967295, 8192], [0, 12, 4294967295, 4294967295, 16384], [0, 13=
+, 4294967295, 4294967295, 32768], [0, 14, 4294967295, 4294967295, 65536], [=
+0, 15, 4294967295, 4294967295, 131072]]} should not be valid under {'type':=
+ 'object'}
+	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+
+Thanks,
+Conor.
+
+>  arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi | 40 +++++++++++++++++++
+>  1 file changed, 40 insertions(+)
+>=20
+> diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi b/arch/riscv/b=
+oot/dts/allwinner/sun20i-d1s.dtsi
+> index 8275630af977..d9031ccdec89 100644
+> --- a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> @@ -72,5 +72,45 @@ plic: interrupt-controller@10000000 {
+>  			#address-cells =3D <0>;
+>  			#interrupt-cells =3D <2>;
+>  		};
+> +
+> +		pmu {
+> +			compatible =3D "riscv,pmu";
+> +			riscv,event-to-mhpmcounters =3D
+> +				<0x00003 0x00003 0x00000008>,
+> +				<0x00004 0x00004 0x00000010>,
+> +				<0x00005 0x00005 0x00000200>,
+> +				<0x00006 0x00006 0x00000100>,
+> +				<0x10000 0x10000 0x00004000>,
+> +				<0x10001 0x10001 0x00008000>,
+> +				<0x10002 0x10002 0x00010000>,
+> +				<0x10003 0x10003 0x00020000>,
+> +				<0x10019 0x10019 0x00000040>,
+> +				<0x10021 0x10021 0x00000020>;
+> +			riscv,event-to-mhpmevent =3D
+> +				<0x00003 0x00000000 0x00000001>,
+> +				<0x00004 0x00000000 0x00000002>,
+> +				<0x00005 0x00000000 0x00000007>,
+> +				<0x00006 0x00000000 0x00000006>,
+> +				<0x0000a 0x00000000 0x0000000b>,
+> +				<0x10000 0x00000000 0x0000000c>,
+> +				<0x10001 0x00000000 0x0000000d>,
+> +				<0x10002 0x00000000 0x0000000e>,
+> +				<0x10003 0x00000000 0x0000000f>,
+> +				<0x10019 0x00000000 0x00000004>,
+> +				<0x10021 0x00000000 0x00000003>;
+> +			riscv,raw-event-to-mhpmcounters =3D
+> +				<0x00000000 0x00000001 0xffffffff 0xffffffff 0x00000008>,
+> +				<0x00000000 0x00000002 0xffffffff 0xffffffff 0x00000010>,
+> +				<0x00000000 0x00000003 0xffffffff 0xffffffff 0x00000020>,
+> +				<0x00000000 0x00000004 0xffffffff 0xffffffff 0x00000040>,
+> +				<0x00000000 0x00000005 0xffffffff 0xffffffff 0x00000080>,
+> +				<0x00000000 0x00000006 0xffffffff 0xffffffff 0x00000100>,
+> +				<0x00000000 0x00000007 0xffffffff 0xffffffff 0x00000200>,
+> +				<0x00000000 0x0000000b 0xffffffff 0xffffffff 0x00002000>,
+> +				<0x00000000 0x0000000c 0xffffffff 0xffffffff 0x00004000>,
+> +				<0x00000000 0x0000000d 0xffffffff 0xffffffff 0x00008000>,
+> +				<0x00000000 0x0000000e 0xffffffff 0xffffffff 0x00010000>,
+> +				<0x00000000 0x0000000f 0xffffffff 0xffffffff 0x00020000>;
+> +		};
+>  	};
+>  };
+> --
+> 2.41.0
+>=20
+
+--atGRTUxlIzGLipnB
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZOqr+wAKCRB4tDGHoIJi
+0oG1AQDlTw7tl1+4qmyrXx9JJNSL03Wrc1nEnVa0WuHKKgOyOgEA/rudVacHS53z
+9tfrPLqeMZpBZX4PJ6N0CZ2DRrpLDQQ=
+=uox5
+-----END PGP SIGNATURE-----
+
+--atGRTUxlIzGLipnB--
