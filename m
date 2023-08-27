@@ -1,35 +1,38 @@
-Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A9E10956
-	for <linux-sunxi@lists.linux.dev>; Sun, 27 Aug 2023 15:38:11 +0000 (UTC)
-From: Tobias Schramm <t.schramm@manjaro.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
-	t=1693150299;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85FB62F3A
+	for <linux-sunxi@lists.linux.dev>; Sun, 27 Aug 2023 22:17:11 +0000 (UTC)
+Received: from relay4-d.mail.gandi.net (unknown [217.70.183.196])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id 4A623CC186
+	for <linux-sunxi@lists.linux.dev>; Sun, 27 Aug 2023 22:17:04 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id DEE05E0002;
+	Sun, 27 Aug 2023 22:16:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1693174616;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hP3D0sv+Pnl8mmbV8npJb2MtmhDHanchUwfByKnsoeI=;
-	b=PBLpY3qvDytsg6qTLjboVR3FaL0LRQKH/KQkfFQTtpdpdfX0k3tVLS5j7qJLcAEumouwHc
-	RCvK7pZXnrrnFtiMBXOdd+QvaIrNAGKEkiAIa/f31v3OdA4xarGys8l+iI5D7S+mTVeNvb
-	iClKHjUlnqiSNjRi/aiSMgswo5sKZCwv91pFROySEmVTzZLOotFjaJLr5jWCtzsX58x2tv
-	rVhBUYQ0JLTw8Fe6+Klps4Oi5eNkQzHWtsXsPqNwOryrQVq1QrCkKtozjUp68FZ7H5k/9S
-	vzMCoOxjW5kzYtdUUjscNGzNcn+dfkY2KkLcAfjkpyeDG/TxQJAEaIQ5oo4xQw==
-To: Mark Brown <broonie@kernel.org>,
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=IEBggQJcGAS2ZTc+gnah+Y1oXvRlQWb/y/kodguClMc=;
+	b=Aa6BsT7BThDBVLPQsE4BoCEmWtZeyLWKR2IXiOyVlGRZ9GjobAqglzXF9I6NaC0LNQyuYn
+	NwU2gaJ+f0Y9iBOt6B1Fx3ZsNZ3n975TeuLkzUy62M6eT0y70lKObV9qViXtiWLWFhQnGa
+	nNfP5+z/k1iBMGM6YwglepBtLozr6dDI1SE7T7Q79zOVuSw6fYGIslo4uKqVxz6lYD7kTx
+	1zxG3cOkwXZoBmErMO43HsVYhnAdyBeyQh+AzbA74CiaP3KYqDf2KHy5l1easYKjQfCC+M
+	hVuthTm4BMrjDOg4LRDszeQLvK52tfxNjaOObqU+uFXPdivU+hMLHCg81t508Q==
+From: alexandre.belloni@bootlin.com
+To: Alessandro Zummo <a.zummo@towertech.it>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>
-Cc: linux-spi@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
+Cc: linux-rtc@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	Tobias Schramm <t.schramm@manjaro.org>
-Subject: [PATCH 2/2] spi: sun6i: fix race between DMA RX transfer completion and RX FIFO drain
-Date: Sun, 27 Aug 2023 17:25:58 +0200
-Message-ID: <20230827152558.5368-3-t.schramm@manjaro.org>
-In-Reply-To: <20230827152558.5368-1-t.schramm@manjaro.org>
-References: <20230827152558.5368-1-t.schramm@manjaro.org>
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/3] rtc: sun6i: remove unnecessary message
+Date: Mon, 28 Aug 2023 00:16:40 +0200
+Message-ID: <20230827221643.544259-1-alexandre.belloni@bootlin.com>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -37,110 +40,31 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=t.schramm@manjaro.org smtp.mailfrom=t.schramm@manjaro.org
+X-GND-Sasl: alexandre.belloni@bootlin.com
 
-Previously the transfer complete IRQ immediately drained to RX FIFO to
-read any data remaining in FIFO to the RX buffer. This behaviour is
-correct when dealing with SPI in interrupt mode. However in DMA mode the
-transfer complete interrupt still fires as soon as all bytes to be
-transferred have been stored in the FIFO. At that point data in the FIFO
-still needs to be picked up by the DMA engine. Thus the drain procedure
-and DMA engine end up racing to read from RX FIFO, corrupting any data
-read. Additionally the RX buffer pointer is never adjusted according to
-DMA progress in DMA mode, thus calling the RX FIFO drain procedure in DMA
-mode is a bug.
-Fix corruptions in DMA RX mode by draining RX FIFO only in interrupt mode.
-Also wait for completion of RX DMA when in DMA mode before returning to
-ensure all data has been copied to the supplied memory buffer.
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
 
-Signed-off-by: Tobias Schramm <t.schramm@manjaro.org>
+The core already print a message once the rtc is successfully registered,
+it is not necessary to print an other one.
+
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 ---
- drivers/spi/spi-sun6i.c | 29 ++++++++++++++++++++++++++++-
- 1 file changed, 28 insertions(+), 1 deletion(-)
+ drivers/rtc/rtc-sun6i.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/spi/spi-sun6i.c b/drivers/spi/spi-sun6i.c
-index 8fcb2696ec09..57c828e73c44 100644
---- a/drivers/spi/spi-sun6i.c
-+++ b/drivers/spi/spi-sun6i.c
-@@ -102,6 +102,7 @@ struct sun6i_spi {
- 	struct reset_control	*rstc;
+diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
+index 753a2d9c8a17..8e0c66906103 100644
+--- a/drivers/rtc/rtc-sun6i.c
++++ b/drivers/rtc/rtc-sun6i.c
+@@ -846,8 +846,6 @@ static int sun6i_rtc_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		return ret;
  
- 	struct completion	done;
-+	struct completion	dma_rx_done;
- 
- 	const u8		*tx_buf;
- 	u8			*rx_buf;
-@@ -196,6 +197,13 @@ static size_t sun6i_spi_max_transfer_size(struct spi_device *spi)
- 	return SUN6I_MAX_XFER_SIZE - 1;
+-	dev_info(&pdev->dev, "RTC enabled\n");
+-
+ 	return 0;
  }
  
-+static void sun6i_spi_dma_rx_cb(void *param)
-+{
-+	struct sun6i_spi *sspi = param;
-+
-+	complete(&sspi->dma_rx_done);
-+}
-+
- static int sun6i_spi_prepare_dma(struct sun6i_spi *sspi,
- 				 struct spi_transfer *tfr)
- {
-@@ -220,6 +228,8 @@ static int sun6i_spi_prepare_dma(struct sun6i_spi *sspi,
- 						 DMA_PREP_INTERRUPT);
- 		if (!rxdesc)
- 			return -EINVAL;
-+		rxdesc->callback_param = sspi;
-+		rxdesc->callback = sun6i_spi_dma_rx_cb;
- 	}
- 
- 	txdesc = NULL;
-@@ -275,6 +285,7 @@ static int sun6i_spi_transfer_one(struct spi_master *master,
- 		return -EINVAL;
- 
- 	reinit_completion(&sspi->done);
-+	reinit_completion(&sspi->dma_rx_done);
- 	sspi->tx_buf = tfr->tx_buf;
- 	sspi->rx_buf = tfr->rx_buf;
- 	sspi->len = tfr->len;
-@@ -459,6 +470,22 @@ static int sun6i_spi_transfer_one(struct spi_master *master,
- 	start = jiffies;
- 	timeout = wait_for_completion_timeout(&sspi->done,
- 					      msecs_to_jiffies(tx_time));
-+
-+	if (!use_dma) {
-+		sun6i_spi_drain_fifo(sspi);
-+	} else {
-+		if (timeout && rx_len) {
-+			/*
-+			 * Even though RX on the peripheral side has finished
-+			 * RX DMA might still be in flight
-+			 */
-+			timeout = wait_for_completion_timeout(&sspi->dma_rx_done,
-+							      timeout);
-+			if (!timeout)
-+				dev_warn(&master->dev, "RX DMA timeout\n");
-+		}
-+	}
-+
- 	end = jiffies;
- 	if (!timeout) {
- 		dev_warn(&master->dev,
-@@ -486,7 +513,6 @@ static irqreturn_t sun6i_spi_handler(int irq, void *dev_id)
- 	/* Transfer complete */
- 	if (status & SUN6I_INT_CTL_TC) {
- 		sun6i_spi_write(sspi, SUN6I_INT_STA_REG, SUN6I_INT_CTL_TC);
--		sun6i_spi_drain_fifo(sspi);
- 		complete(&sspi->done);
- 		return IRQ_HANDLED;
- 	}
-@@ -644,6 +670,7 @@ static int sun6i_spi_probe(struct platform_device *pdev)
- 	}
- 
- 	init_completion(&sspi->done);
-+	init_completion(&sspi->dma_rx_done);
- 
- 	sspi->rstc = devm_reset_control_get_exclusive(&pdev->dev, NULL);
- 	if (IS_ERR(sspi->rstc)) {
 -- 
-2.42.0
+2.41.0
 
