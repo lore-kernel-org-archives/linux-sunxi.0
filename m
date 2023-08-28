@@ -1,49 +1,49 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCD9910F4
-	for <linux-sunxi@lists.linux.dev>; Mon, 28 Aug 2023 20:53:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BD661110
+	for <linux-sunxi@lists.linux.dev>; Mon, 28 Aug 2023 20:58:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1693256000;
+	s=mimecast20190719; t=1693256315;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qzw/wSjdBQfPlF1y1vWCr8uR+Xbcc5Ojc8ATgenlbFw=;
-	b=MUGBkjX1SAoYiO57oNz+CgGXdx7TXHY4FdNbUtQjx+EMOHix5MUmwXOKax0jjVnQ4JVPQV
-	wm5+Qz4TeSV2ZSumGzyMj9R7WDhJKcAPAx4OW/cLWtIO4vgQ7lUY1/5XdCVB/eRMMp429U
-	MJIwc3e3KtYIwHQ0luGi7FgkJxVehO0=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=BkaTz3YQaxv4XNx1z6p3EOnPP86a0L+L06c9Q1h/cfg=;
+	b=YwyTtnesoTqWDIxeUTe+s9TIjKizXl9FLO7J1stvvXh7hlDgWm2BPbsJb+33U+trc5EtYV
+	0XR+I8p3e9nodMkuL/c3r76iXGYS27YskPuikB2rHd6Muzlurh6Os5CdVgSrXES/TTv3C4
+	WoaD5V+Wab+agO/lwTxWHrmBSiiVDz4=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-185-w-8X05wcOMudFu4zEZj3KA-1; Mon, 28 Aug 2023 16:53:19 -0400
-X-MC-Unique: w-8X05wcOMudFu4zEZj3KA-1
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-4108d23b401so40722361cf.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 28 Aug 2023 13:53:19 -0700 (PDT)
+ us-mta-541-VDLzOX8RNUWMwZJX0H8UvA-1; Mon, 28 Aug 2023 16:58:33 -0400
+X-MC-Unique: VDLzOX8RNUWMwZJX0H8UvA-1
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-41230af5721so6334131cf.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 28 Aug 2023 13:58:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693255999; x=1693860799;
+        d=1e100.net; s=20221208; t=1693256313; x=1693861113;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qzw/wSjdBQfPlF1y1vWCr8uR+Xbcc5Ojc8ATgenlbFw=;
-        b=CJyBT3Q3dLzcc2gbXEfYfaS9i0D4UNHSDarj6HZfaBui7NCNbN4t28QxuB/QsTF9aa
-         DqibfX9EMdMaH92dhtI5Vr3+5feExTpflkKCI9k+X28yaP6bQxotMYXFbICrTDdaAW2P
-         e72RTHbfkg3mhprRC6aSid9qPFg07ojzT2DzTv6svm31VdhU7JHP1HZvz2I44cIsPwJB
-         IYubH1j28bG7GVfoipY8PTY8qmruAwTijHQDafyMCQIjWCkLXx5jI60m5ad0VTyeSRhS
-         m2LgctAraWAhkSUwEJDGazUz2OkzzGc5nQ+GN3BphmHlB9NKxUankzDwXVk5BlrVH3LP
-         CdXQ==
-X-Gm-Message-State: AOJu0YxAGK/pICZ/N0n2JXVKZTgJFS/51gmE9L+KBMDX5nm25wtQ1x2c
-	yLtIDYqoyQ0RwMpbOpYvwElXjbLxm30C6xoQESEKp/FevZcbdEnc/CPOdTi8YGigYEWwHhsRdf1
-	gwZBiaxV3yxre85il8e8/9Fc=
-X-Received: by 2002:a05:622a:13cc:b0:407:fb08:c44c with SMTP id p12-20020a05622a13cc00b00407fb08c44cmr31265806qtk.47.1693255998872;
-        Mon, 28 Aug 2023 13:53:18 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG1P7U6WABsjNUNOIrt30Nh8s3ysfvweacBVh9WudC6nYyRn08u0phTJIzmGkwySv3sSUL+sw==
-X-Received: by 2002:a05:622a:13cc:b0:407:fb08:c44c with SMTP id p12-20020a05622a13cc00b00407fb08c44cmr31265764qtk.47.1693255998660;
-        Mon, 28 Aug 2023 13:53:18 -0700 (PDT)
+        bh=BkaTz3YQaxv4XNx1z6p3EOnPP86a0L+L06c9Q1h/cfg=;
+        b=Bli6eKQkspa4KqkM/Z/bhYG+Vx7KoZwsGatH3IjEsccj3av3M0rgUU6L8ZJJgXmRw8
+         fdPkbqlZjrTQKyXyqKRjHE4vY08NVfo5QMDyYyQGOHHleZWBEnHMTI2zHJZzcSqLKH4W
+         ade1DiLZ8BM9x7pa2zO1QyxTPjPZRcCfaRvm7/zMEf8RpBLZy1zJOkrvnfCrqg11iZz0
+         sbwLvOHfRN7AbV0/+gNKjo2Qnu5dUGHs3WNtGkol2nEITqBGUhdaFaWl0B+7qViXVnal
+         1ztGP9g5BqSLMfjbYugnVJ94dQBziSJdHgnZ1vyYvdywPRS66yB6gMrdUFSUX8AMWyx1
+         kXGg==
+X-Gm-Message-State: AOJu0Yx0wre9vfmMBoQt/BD8SUIAtbGqStZuiYwarUC6zk0qIua9giP/
+	DuHC/J//F7RspB7K3O7vUOGq7LOHHMTPDqmfmHVOthm3JPwR9cCAPKbiF8EZdALiFcRshL22TMR
+	JkwNt30ojrpgl5PsHx9NHmW8=
+X-Received: by 2002:a05:622a:12:b0:411:f7e6:3be5 with SMTP id x18-20020a05622a001200b00411f7e63be5mr18754129qtw.30.1693256313501;
+        Mon, 28 Aug 2023 13:58:33 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGqzxLWZK4Sb4/58FxlbaHsUgrMjm1Fc7pMUPbHePKpRNp9fWsIa9/KWnDi5jm+4pqQWfwb1w==
+X-Received: by 2002:a05:622a:12:b0:411:f7e6:3be5 with SMTP id x18-20020a05622a001200b00411f7e63be5mr18754084qtw.30.1693256313282;
+        Mon, 28 Aug 2023 13:58:33 -0700 (PDT)
 Received: from localhost (ip98-179-76-75.ph.ph.cox.net. [98.179.76.75])
-        by smtp.gmail.com with ESMTPSA id z21-20020ac84555000000b0040ff0590fd2sm2553633qtn.87.2023.08.28.13.53.17
+        by smtp.gmail.com with ESMTPSA id a11-20020a05620a102b00b0076cf49bcb50sm2613298qkk.37.2023.08.28.13.58.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Aug 2023 13:53:18 -0700 (PDT)
-Date: Mon, 28 Aug 2023 13:53:16 -0700
+        Mon, 28 Aug 2023 13:58:32 -0700 (PDT)
+Date: Mon, 28 Aug 2023 13:58:31 -0700
 From: Jerry Snitselaar <jsnitsel@redhat.com>
 To: Jason Gunthorpe <jgg@nvidia.com>
 Cc: Andy Gross <agross@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
@@ -68,37 +68,37 @@ Cc: Andy Gross <agross@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>,
 	Dmitry Osipenko <digetx@gmail.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
 	Nicolin Chen <nicolinc@nvidia.com>, Niklas Schnelle <schnelle@linux.ibm.com>, 
 	Steven Price <steven.price@arm.com>, Thierry Reding <treding@nvidia.com>
-Subject: Re: [PATCH v7 14/24] iommu/msm: Implement an IDENTITY domain
-Message-ID: <37fnmzxe5cqs57gei3i6irsnnybzkbkdjf3nhertw55bb4ke6w@un2o657nczbc>
+Subject: Re: [PATCH v7 15/24] iommu: Remove ops->set_platform_dma_ops()
+Message-ID: <6thxe2cqyfs6czmd63a7ompjpvkv2c2aestp7almmk725r5ivd@2lmwtzyfylmp>
 References: <0-v7-de04a3217c48+15055-iommu_all_defdom_jgg@nvidia.com>
- <14-v7-de04a3217c48+15055-iommu_all_defdom_jgg@nvidia.com>
+ <15-v7-de04a3217c48+15055-iommu_all_defdom_jgg@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <14-v7-de04a3217c48+15055-iommu_all_defdom_jgg@nvidia.com>
+In-Reply-To: <15-v7-de04a3217c48+15055-iommu_all_defdom_jgg@nvidia.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Wed, Aug 23, 2023 at 01:47:28PM -0300, Jason Gunthorpe wrote:
-> What msm does during msm_iommu_set_platform_dma() is actually putting the
-> iommu into identity mode.
+On Wed, Aug 23, 2023 at 01:47:29PM -0300, Jason Gunthorpe wrote:
+> All drivers are now using IDENTITY or PLATFORM domains for what this did,
+> we can remove it now. It is no longer possible to attach to a NULL domain.
 > 
-> Move to the new core support for ARM_DMA_USE_IOMMU by defining
-> ops->identity_domain.
-> 
-> This driver does not support IOMMU_DOMAIN_DMA, however it cannot be
-> compiled on ARM64 either. Most likely it is fine to support dma-iommu.c
-> 
+> Tested-by: Heiko Stuebner <heiko@sntech.de>
+> Tested-by: Niklas Schnelle <schnelle@linux.ibm.com>
+> Tested-by: Steven Price <steven.price@arm.com>
+> Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> Tested-by: Nicolin Chen <nicolinc@nvidia.com>
 > Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
 > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 > ---
->  drivers/iommu/msm_iommu.c | 23 +++++++++++++++++++----
->  1 file changed, 19 insertions(+), 4 deletions(-)
+>  drivers/iommu/iommu.c | 30 +++++-------------------------
+>  include/linux/iommu.h |  4 ----
+>  2 files changed, 5 insertions(+), 29 deletions(-)
 > 
 
 Reviewed-by: Jerry Snitselaar <jsnitsel@redhat.com>
