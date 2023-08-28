@@ -1,43 +1,43 @@
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9156D13FE2
-	for <linux-sunxi@lists.linux.dev>; Mon, 28 Aug 2023 18:19:53 +0000 (UTC)
-Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-6bd04558784so2755839a34.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 28 Aug 2023 11:19:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E92F912B86
+	for <linux-sunxi@lists.linux.dev>; Mon, 28 Aug 2023 18:19:54 +0000 (UTC)
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-1ccc0d2e697so2480425fac.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 28 Aug 2023 11:19:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693246792; x=1693851592;
+        d=gmail.com; s=20221208; t=1693246793; x=1693851593;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mWvCZrp4/FEw0GDbjcUcDY3MsF5cq9comcRM6woTDxA=;
-        b=erlZaRZMK8kEcD4c/XLvuMvgTKIPYYFL+n/1SqEWAGJnsOYnXL/DqNpiatZwPD307W
-         7YTzeKrfzLxa1hqP48dciKlwQOUBl6fYCj0mdRRSBZlwT8Rhw48807os4Y9YJFane4Rw
-         JEPqHeNoe1qtfmCc3MZ+Vuo9cULaXM0dJLM1AG5QkWE3vkl+EycjH/w7TNBZNBszt4JX
-         6gONvq88MQtVWJ7P3FvZx6AV11LEhqNFQdsCnmdIO3hpKuZX2zjyTihKHA13BIkPSAkP
-         CSiTHQBv6uel/nSkytWLeOmoVb0bATbATrymyq5dgysJp5AP6DBRESzaqyPGWsKkHf4F
-         EncA==
+        bh=sZxJ1X5IcmMP5uOQq7URUpycqeONLS78Y9FFjRdR0eo=;
+        b=MsReZev1CL1NMS9H/91NPZC1/RefUPc/o5YYPJDNmxvo8qqOfTpby1BQomvr9ZLRDx
+         8ukcf5F1/rlQ9diesnOA1QKLWvuaRIqNPfeJZFS3AWYZ5FQshoGRsUeesO2GX2+Q4gcQ
+         h2uNEtqPxYT+AFaOmQO9bYDY0v0AEnVpL9KTUZZ5d+sZnfYzZgK+L0UJtTLw1hWPfIhm
+         PKn+fYURKUl4eEjcjm8kkJnAWf/Gec5QRM0HVZumC6P0UK2/e2JndqcLVw+JU6QleBNQ
+         5YdC1yYS0g8v/SIB8GpuTHu41ljEjGX6/bcQzAJFb+sIL4f2TBf/qk1q3GV+fKKi3HZj
+         guUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693246792; x=1693851592;
+        d=1e100.net; s=20221208; t=1693246793; x=1693851593;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=mWvCZrp4/FEw0GDbjcUcDY3MsF5cq9comcRM6woTDxA=;
-        b=jV03ii50S8t9vDi+x3JpTwk2NAZInsT+FQ/kFo5Mv9EMQVJT8aONSFN9S1I3HPk1pf
-         bXo5W79BBehvYNR7K6nGL9aHUm68j8cthLMwVbUfrdqhHNmBkbthUUHb4i3n+0m9f0Bm
-         HBN1TPGY2OdGKNwUdE0q82kjHGbmaSbGxIuzi6BaJ+/uUsqNJai1XOQXfDs0RQgo0p4R
-         zbEoJBcNujQmP0QHrKNPjfJjnWVbVHeyg1zTvbrl5fMeGBL9EjdYWhKQ7u6ozilf9XTW
-         FSb6Uumq122cW9UeZpukLx0zWGm7dQRHMbmucozbTH6+u7UH06ddTPYr3Uwe7ATgKk8n
-         4zmg==
-X-Gm-Message-State: AOJu0YzEASblCUa5c8UBjPsfDP20XWkSjUlCaT1SINxhG05vC82KVv1o
-	2Fm4U5AVktHt42B/2irTS+9T4lg0oc+xgA==
-X-Google-Smtp-Source: AGHT+IFc+T2hlIrbwkSb4/jXdZGl1BxD5Z2RCXyWxdCKLRzfTd3kDk41JEc8GpmLp2f/pEQ7eD9lew==
-X-Received: by 2002:a05:6830:1e05:b0:6bb:1020:5303 with SMTP id s5-20020a0568301e0500b006bb10205303mr14843284otr.16.1693246792376;
-        Mon, 28 Aug 2023 11:19:52 -0700 (PDT)
+        bh=sZxJ1X5IcmMP5uOQq7URUpycqeONLS78Y9FFjRdR0eo=;
+        b=h5o2Tj4NBjEPenFKPdll8eWx5oI/hGYSYIXM/B5fD/wuU9Fxj45milJnjGThrmvXZX
+         p9A6e70m/e03kCRfZ7cNlPrZIgpezo7UTGN4FSu4CmImMobU64ZiegoS9sg5Mb+b6xSt
+         xtUcxdPT+igy9ClRtomuj4ce6kZKnlIEMO1fobtK4h7Swrzuv2SyqMJlfJVod2aCEuCR
+         4CmgYwB2iiWkpuEYW/kNtFgxwzO6kFXczsJKFrBnMsP41elgJ9N2yJRoR0iyemVdrT/K
+         jWz3DgIxeF42G2ZhlfO7aptK0t6zdpynzPkSvTwxeKUo4LiNIglbloJvSSiulkWaiCDX
+         ziAw==
+X-Gm-Message-State: AOJu0Yw+mmbujSypTaet89ZuQ5NMPaTP/nYdyUqcMgksuH9duH0j9DtV
+	S1xSpEuqJ+pksoOACCJ2gcyI6Dh8EloeeA==
+X-Google-Smtp-Source: AGHT+IHpyMtJZZ+pgUDS6XI+bfZY08aljsVIHgTn339V67ZHc7OjFKRRegIc9nH885S+kBWNeqr8ew==
+X-Received: by 2002:a05:6870:b6a6:b0:1c1:19ae:7b23 with SMTP id cy38-20020a056870b6a600b001c119ae7b23mr14675298oab.55.1693246793712;
+        Mon, 28 Aug 2023 11:19:53 -0700 (PDT)
 Received: from localhost.localdomain ([75.28.21.198])
-        by smtp.gmail.com with ESMTPSA id g10-20020a9d620a000000b006b99f66444bsm3695927otj.71.2023.08.28.11.19.51
+        by smtp.gmail.com with ESMTPSA id g10-20020a9d620a000000b006b99f66444bsm3695927otj.71.2023.08.28.11.19.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Aug 2023 11:19:52 -0700 (PDT)
+        Mon, 28 Aug 2023 11:19:53 -0700 (PDT)
 From: Chris Morgan <macroalpha82@gmail.com>
 To: linux-sunxi@lists.linux.dev
 Cc: devicetree@vger.kernel.org,
@@ -57,11 +57,10 @@ Cc: devicetree@vger.kernel.org,
 	samuel@sholland.org,
 	uwu@icenowy.me,
 	wens@csie.org,
-	Chris Morgan <macromorgan@hotmail.com>,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: [PATCH V4 1/8] dt-bindings: vendor-prefixes: document Saef Technology
-Date: Mon, 28 Aug 2023 13:19:34 -0500
-Message-Id: <20230828181941.1609894-2-macroalpha82@gmail.com>
+	Chris Morgan <macromorgan@hotmail.com>
+Subject: [PATCH V4 3/8] arm: dts: sun8i: V3s: Add pinctrl for pwm
+Date: Mon, 28 Aug 2023 13:19:36 -0500
+Message-Id: <20230828181941.1609894-4-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230828181941.1609894-1-macroalpha82@gmail.com>
 References: <20230828181941.1609894-1-macroalpha82@gmail.com>
@@ -75,27 +74,36 @@ Content-Transfer-Encoding: 8bit
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-Document Saef Technology (https://www.saefdisplay.com/).
+Add pinctrl nodes for pwm0 and pwm1.
 
 Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
 ---
- Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index af60bf1a6664..dda90f9d264b 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -1151,6 +1151,8 @@ patternProperties:
-     description: Shenzhen Roofull Technology Co, Ltd
-   "^roseapplepi,.*":
-     description: RoseapplePi.org
-+  "^saef,.*":
-+    description: Saef Technology Limited
-   "^samsung,.*":
-     description: Samsung Semiconductor
-   "^samtec,.*":
+diff --git a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi b/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
+index 3b9a282c2746..c87476ea31e2 100644
+--- a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
++++ b/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
+@@ -414,6 +414,18 @@ mmc1_pins: mmc1-pins {
+ 				bias-pull-up;
+ 			};
+ 
++			/omit-if-no-ref/
++			pwm0_pin: pwm0-pin {
++				pins = "PB4";
++				function = "pwm0";
++			};
++
++			/omit-if-no-ref/
++			pwm1_pin: pwm1-pin {
++				pins = "PB5";
++				function = "pwm1";
++			};
++
+ 			spi0_pins: spi0-pins {
+ 				pins = "PC0", "PC1", "PC2", "PC3";
+ 				function = "spi0";
 -- 
 2.34.1
 
