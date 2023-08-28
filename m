@@ -1,99 +1,140 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21B4B111E
-	for <linux-sunxi@lists.linux.dev>; Mon, 28 Aug 2023 21:31:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1693258313;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dVb5tmc8EbITtSkSc6gJJy1RyzNckSiwLu+iLvVILak=;
-	b=cnAcr7o5rP1q9MKsD+VtkwRBor2hYoTpsxruQbCd5Ka6XbwOZgKpxq4N1qZ1TDZogM/Zxo
-	gpV9hFM4qrou8E5J6OT+HyxuC7dRrfJSWnT1IcJTcpq95hHfl7j15EjEVEWu2klL/cDMzg
-	xv+eLRuPJaJ0u3TR2Lckpy65xwXXrd4=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-58-GlMYrX_VMKaCvzwhQdYoSw-1; Mon, 28 Aug 2023 17:31:52 -0400
-X-MC-Unique: GlMYrX_VMKaCvzwhQdYoSw-1
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-76f1e2d6ea4so11322585a.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 28 Aug 2023 14:31:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693258312; x=1693863112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dVb5tmc8EbITtSkSc6gJJy1RyzNckSiwLu+iLvVILak=;
-        b=h/Hcgh9uZaSLFSgWxUxJYUZbUBq3ZWho6gZfnwehaE3yW9V0KdLBANo9AFogT5Aiii
-         G1Qct0035+q5P3FYGwqbB04UY0yDQYq9qLGCSKzZ3s/Bn71AFBX/tYJk7jsT/mcDJozl
-         hbgR0f5fBPYG63QcGwjrMquurPrUJmWNDgg6UvfNGP8pRLOoDK8ovmjBHqx/iYjG80/N
-         brBBkBsNV6Tbw9pJ7BxMj8tE2yinMM6iCO9IbfVjzOqtLtTepk1PVkdJRRgFkrpekX87
-         cb4ZZsAQQqu/Oag77LfalG3M4UeLSv/x2QiZYE5tpgDsWzgVHakUV+XPy1fC3C22vvjr
-         c4gQ==
-X-Gm-Message-State: AOJu0Yx0KuB9NERwQU7qNO3yM43y6MgMufYiS3Ap80N+8SWApDh1Gp+J
-	nph1nx/ub6LIi06LEZwZpeyjtPb4wlrDa1EwsOFyd4uKMZRb5DLKHFHBNunlQtlgEgEyGLCJdzU
-	2hR9X3D1+rKKdDIIusg9LmXc=
-X-Received: by 2002:a05:620a:9c7:b0:766:fe28:35a3 with SMTP id y7-20020a05620a09c700b00766fe2835a3mr28616606qky.32.1693258312047;
-        Mon, 28 Aug 2023 14:31:52 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHuVcTMTBbnLPs86MnCDU8eGTgJIDkNhQ+SHq++g5N+BlxbjD8TqX467y2sj6EMGyNhF/9w9w==
-X-Received: by 2002:a05:620a:9c7:b0:766:fe28:35a3 with SMTP id y7-20020a05620a09c700b00766fe2835a3mr28616567qky.32.1693258311828;
-        Mon, 28 Aug 2023 14:31:51 -0700 (PDT)
-Received: from localhost (ip98-179-76-75.ph.ph.cox.net. [98.179.76.75])
-        by smtp.gmail.com with ESMTPSA id a12-20020a05620a124c00b0076f16a00693sm697233qkl.47.2023.08.28.14.31.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Aug 2023 14:31:51 -0700 (PDT)
-Date: Mon, 28 Aug 2023 14:31:49 -0700
-From: Jerry Snitselaar <jsnitsel@redhat.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Andy Gross <agross@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Bjorn Andersson <andersson@kernel.org>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Gerald Schaefer <gerald.schaefer@linux.ibm.com>, 
-	Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>, 
-	Kevin Tian <kevin.tian@intel.com>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, linux-arm-kernel@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
-	Russell King <linux@armlinux.org.uk>, linuxppc-dev@lists.ozlabs.org, 
-	Matthias Brugger <matthias.bgg@gmail.com>, Matthew Rosato <mjrosato@linux.ibm.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	Orson Zhai <orsonzhai@gmail.com>, Rob Clark <robdclark@gmail.com>, 
-	Robin Murphy <robin.murphy@arm.com>, Samuel Holland <samuel@sholland.org>, 
-	Thierry Reding <thierry.reding@gmail.com>, Krishna Reddy <vdumpa@nvidia.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Will Deacon <will@kernel.org>, Yong Wu <yong.wu@mediatek.com>, 
-	Chunyan Zhang <zhang.lyra@gmail.com>, Lu Baolu <baolu.lu@linux.intel.com>, 
-	Dmitry Osipenko <digetx@gmail.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Nicolin Chen <nicolinc@nvidia.com>, Niklas Schnelle <schnelle@linux.ibm.com>, 
-	Steven Price <steven.price@arm.com>, Thierry Reding <treding@nvidia.com>
-Subject: Re: [PATCH v7 21/24] iommu: Add __iommu_group_domain_alloc()
-Message-ID: <dwrebxdzqjhnryum3czsh6zroapbhpjre7untly3cvl2tn3nij@hpckzx65oxx6>
-References: <0-v7-de04a3217c48+15055-iommu_all_defdom_jgg@nvidia.com>
- <21-v7-de04a3217c48+15055-iommu_all_defdom_jgg@nvidia.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99DB710F4
+	for <linux-sunxi@lists.linux.dev>; Mon, 28 Aug 2023 21:33:41 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F05FB2F4;
+	Mon, 28 Aug 2023 14:34:14 -0700 (PDT)
+Received: from localhost.localdomain (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AB5F03F740;
+	Mon, 28 Aug 2023 14:33:33 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Lee Jones <lee@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>
+Cc: linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Shengyu Qu <wiagn233@outlook.com>,
+	Martin Botka <martin.botka1@gmail.com>,
+	Matthew Croughan <matthew.croughan@nix.how>
+Subject: [PATCH v2] mfd: axp20x: Generalise handling without interrupt
+Date: Mon, 28 Aug 2023 22:32:29 +0100
+Message-Id: <20230828213229.20332-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.35.8
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <21-v7-de04a3217c48+15055-iommu_all_defdom_jgg@nvidia.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 23, 2023 at 01:47:35PM -0300, Jason Gunthorpe wrote:
-> Allocate a domain from a group. Automatically obtains the iommu_ops to use
-> from the device list of the group. Convert the internal callers to use it.
-> 
-> Tested-by: Steven Price <steven.price@arm.com>
-> Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> Tested-by: Nicolin Chen <nicolinc@nvidia.com>
-> Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
+At the moment we allow the AXP15060 and the AXP806 PMICs to omit the
+interrupt line to the SoC, and we skip registering the PEK (power key)
+driver in this case, since that crashes when no IRQ is described in the
+DT node.
+The IRQ pin potentially not being connected to anything does affect more
+PMICs, though, and the PEK driver is not the only one requiring an
+interrupt: at least the AC power supply driver crashes in a similar
+fashion.
 
-Reviewed-by: Jerry Snitselaar <jsnitsel@redhat.com>
+Generalise the handling of AXP MFD devices when the platform tables
+describe no interrupt, by allowing each device to specify an alternative
+MFD list for this case. If no specific alternative is specified, we go
+with the safe default of "just the regulators", which matches the current
+situation.
+
+This enables new devices using the AXP313a PMIC, but not connecting the
+IRQ pin.
+
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+---
+Changelog v2 .. v1:
+- drop reordering approach, use separate cell lists
+
+ drivers/mfd/axp20x.c | 44 ++++++++++++++++++++++++--------------------
+ 1 file changed, 24 insertions(+), 20 deletions(-)
+
+diff --git a/drivers/mfd/axp20x.c b/drivers/mfd/axp20x.c
+index c03bc5cda080a..239e7f18956ae 100644
+--- a/drivers/mfd/axp20x.c
++++ b/drivers/mfd/axp20x.c
+@@ -1133,6 +1133,8 @@ int axp20x_match_device(struct axp20x_dev *axp20x)
+ 	struct device *dev = axp20x->dev;
+ 	const struct acpi_device_id *acpi_id;
+ 	const struct of_device_id *of_id;
++	const struct mfd_cell *cells_no_irq = NULL;
++	int nr_cells_no_irq = 0;
+ 
+ 	if (dev->of_node) {
+ 		of_id = of_match_device(dev->driver->of_match_table, dev);
+@@ -1207,14 +1209,15 @@ int axp20x_match_device(struct axp20x_dev *axp20x)
+ 		 * if there is no interrupt line.
+ 		 */
+ 		if (of_property_read_bool(axp20x->dev->of_node,
+-					  "x-powers,self-working-mode") &&
+-		    axp20x->irq > 0) {
++					  "x-powers,self-working-mode")) {
+ 			axp20x->nr_cells = ARRAY_SIZE(axp806_self_working_cells);
+ 			axp20x->cells = axp806_self_working_cells;
+ 		} else {
+ 			axp20x->nr_cells = ARRAY_SIZE(axp806_cells);
+ 			axp20x->cells = axp806_cells;
+ 		}
++		nr_cells_no_irq = ARRAY_SIZE(axp806_cells);
++		cells_no_irq = axp806_cells;
+ 		axp20x->regmap_cfg = &axp806_regmap_config;
+ 		axp20x->regmap_irq_chip = &axp806_regmap_irq_chip;
+ 		break;
+@@ -1238,24 +1241,8 @@ int axp20x_match_device(struct axp20x_dev *axp20x)
+ 		axp20x->regmap_irq_chip = &axp803_regmap_irq_chip;
+ 		break;
+ 	case AXP15060_ID:
+-		/*
+-		 * Don't register the power key part if there is no interrupt
+-		 * line.
+-		 *
+-		 * Since most use cases of AXP PMICs are Allwinner SOCs, board
+-		 * designers follow Allwinner's reference design and connects
+-		 * IRQ line to SOC, there's no need for those variants to deal
+-		 * with cases that IRQ isn't connected. However, AXP15660 is
+-		 * used by some other vendors' SOCs that didn't connect IRQ
+-		 * line, we need to deal with this case.
+-		 */
+-		if (axp20x->irq > 0) {
+-			axp20x->nr_cells = ARRAY_SIZE(axp15060_cells);
+-			axp20x->cells = axp15060_cells;
+-		} else {
+-			axp20x->nr_cells = ARRAY_SIZE(axp_regulator_only_cells);
+-			axp20x->cells = axp_regulator_only_cells;
+-		}
++		axp20x->nr_cells = ARRAY_SIZE(axp15060_cells);
++		axp20x->cells = axp15060_cells;
+ 		axp20x->regmap_cfg = &axp15060_regmap_config;
+ 		axp20x->regmap_irq_chip = &axp15060_regmap_irq_chip;
+ 		break;
+@@ -1263,6 +1250,23 @@ int axp20x_match_device(struct axp20x_dev *axp20x)
+ 		dev_err(dev, "unsupported AXP20X ID %lu\n", axp20x->variant);
+ 		return -EINVAL;
+ 	}
++
++	/*
++	 * Use an alternative cell array when no interrupt line is connected,
++	 * since IRQs are required by some drivers.
++	 * The default is the safe "regulator-only", as this works fine without
++	 * an interrupt specified.
++	 */
++	if (axp20x->irq <= 0) {
++		if (cells_no_irq) {
++			axp20x->nr_cells = nr_cells_no_irq;
++			axp20x->cells = cells_no_irq;
++		} else {
++			axp20x->nr_cells = ARRAY_SIZE(axp_regulator_only_cells);
++			axp20x->cells = axp_regulator_only_cells;
++		}
++	}
++
+ 	dev_info(dev, "AXP20x variant %s found\n",
+ 		 axp20x_model_names[axp20x->variant]);
+ 
+-- 
+2.35.8
 
