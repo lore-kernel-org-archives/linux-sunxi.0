@@ -1,247 +1,225 @@
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10olkn2089.outbound.protection.outlook.com [40.92.42.89])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25C7A11C9D
-	for <linux-sunxi@lists.linux.dev>; Mon, 28 Aug 2023 14:17:15 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4RZCLH3MqCz9scf;
-	Mon, 28 Aug 2023 16:17:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1693232231;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=s+8pHBapEaGXy1jvUtl21Qsxu+aNw3OPEPZ0IC0tfoU=;
-	b=KhQU8OSWRXoTxFuCN9bgCewsVz5vGYuF5TgU4KK0f6QdpC0tD/0Zeh3CgehSpAO7HpQdNP
-	FG62G59jyF1WWcPDprdzP9XkXI8VYyKV1zsRwG+JjDA0qRGMr+13zoffDYByQlinby7kNu
-	kDrzCtahTq4Du7tkBCwDVbWC56w7TbSscOymVeYii8G0QF3qGbbxIyA0Ha5jc3iFajYfpb
-	v6r+Zu/iPhopSb3cHyeWRYgC74qzjJpPJFjAmHuB06sIHe0us7z+G2RQ1hQmDbc4FXO+mh
-	gG1N92rlyJZat0jtul2Va4h7G2or2X255lmv6qSdDl+WyYPLts7O0P9OyRk0Dg==
-References: <20230825-pll-mipi_keep_rate-v1-0-35bc43570730@oltmanns.dev>
- <zrjpbtf7qwaj2tjvfz2no534tmz5j4yudp45tung2w5x2zcl6y@bal3bclzze4e>
- <87ledzqhwx.fsf@oltmanns.dev>
- <fd4beguej6ijxpo2hri56pes25re5gdwytxkbvllq4mskffolh@uyxe4j3eorq4>
-From: Frank Oltmanns <frank@oltmanns.dev>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Ondrej Jirman
- <x@xnux.eu>, Icenowy Zheng <uwu@icenowy.me>, linux-clk@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, dri-devel@lists.freedesktop.org, Icenowy
- Zheng <icenowy@aosc.io>
-Subject: Re: [PATCH 0/3] Make Allwinner A64's pll-mipi keep its rate when
- parent rate changes
-In-reply-to: <fd4beguej6ijxpo2hri56pes25re5gdwytxkbvllq4mskffolh@uyxe4j3eorq4>
-Date: Mon, 28 Aug 2023 16:17:08 +0200
-Message-ID: <87cyz7uu8r.fsf@oltmanns.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1690F46AB
+	for <linux-sunxi@lists.linux.dev>; Mon, 28 Aug 2023 15:17:43 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TGdwHulSKiawBiXJbdsoTC4DwdOYkgYDXznIcC7h4El7DpwUUWk/ldaEEccFJitTh58e/0zvxE994sXC0S/PnAIP8dNqVmeJ7dJa7i4k63aveccoB+DnCwHcAVEBMGAXWkofkVQSZlmwBfR2dM9Wx0HjvL54nX1kMeOp57uIhyZmfc7G9fdU4do03VlIVNFFlE8Td4cDMc0jX6Qf+tar02frsNG1JknGiJ8SSKaRgvYgxgnoGvCZnNL8Si0s/4JbJ/HsfMBt/g8mbCigcQ0PusGvPWg5AZrDZJTZG4vy9AeVDwenctPTsKQgQdjGTV2IXNWc3zIJwS1/q5aEI+C+QQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QmfODxk4lbXlExpOIS5sVR3J8iX+waRXmAPMWJqkLvo=;
+ b=NGS9SA1+P6rnkcSNvBUix+ah2VJhxtQ0XVtyC0ZJWXwpYiJkCTe+9hJo/iZgoNRoHpDEkeL5xMWZ0WaYeqxneNvaGWaMvat+yRmMyxq9c5U6bMT8pWtROND10CfpZ4kN6UTh+gc9I7s6sQsVF8kcFacTIfcCn9EkwgW35IVBm1m7HJUXdM+MoYdP9d3HO0bm1wc7BvLQ7v3lrgrrnxnJEoL05eiIj0J081e2e0E4POZPQoHTB5jL2JnJUdXSz4eHwNHMNwFeWPg/nKfT54Jjrr8IncdOg9CJ+/PVQJ1PM0ZBWlaHwfgfP4oL2dT+WXlAMrwJQkJwzIhz619cYDa/Dw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QmfODxk4lbXlExpOIS5sVR3J8iX+waRXmAPMWJqkLvo=;
+ b=Wv9LZSNBdglk29UAF+anT7bbftdUyXmB0OsNr6i0cQrgxyxCSWQf3N+cxoujkBhBLngYcqYVAPo+duJ4QMB5zGzb86LBbyGsRlbtchQYG8KegUVJEy09Se4pcJ710y3qlgLYol31HctyIuJkKOnXbr1QU1r5hQ9N1PvKMrlyDchSQA16wYi7bcy2eXX5Kt6d+QN1rWsojSYURcAOzz1mA5YYese0UBQOh76AtJoW3YrDyQa1GquNNArEpnm0aKwN+TDbKSDMueFAkz+2URD3F69+CrBDCP0k98uqB/RoYx958AUj3xVpHGUcwUw7MexqLYpa8ZLbD6wJc5xanwIrSA==
+Received: from SN6PR06MB5342.namprd06.prod.outlook.com (2603:10b6:805:f9::31)
+ by SJ0PR06MB7424.namprd06.prod.outlook.com (2603:10b6:a03:322::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.34; Mon, 28 Aug
+ 2023 15:17:41 +0000
+Received: from SN6PR06MB5342.namprd06.prod.outlook.com
+ ([fe80::c40c:bbc8:b103:459c]) by SN6PR06MB5342.namprd06.prod.outlook.com
+ ([fe80::c40c:bbc8:b103:459c%2]) with mapi id 15.20.6699.034; Mon, 28 Aug 2023
+ 15:17:41 +0000
+Date: Mon, 28 Aug 2023 10:17:33 -0500
+From: Chris Morgan <macromorgan@hotmail.com>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Chris Morgan <macroalpha82@gmail.com>, linux-sunxi@lists.linux.dev,
+	devicetree@vger.kernel.org, mripard@kernel.org, jagan@edgeble.ai,
+	heiko@sntech.de, uwu@icenowy.me, daniel@ffwll.ch, airlied@gmail.com,
+	sam@ravnborg.org, neil.armstrong@linaro.org, noralf@tronnes.org,
+	samuel@sholland.org, jernej.skrabec@gmail.com, wens@csie.org,
+	conor+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	robh+dt@kernel.org
+Subject: Re: [PATCH V3 6/8] ARM: dts: sun8i: v3s: add EHCI and OHCI to v3s dts
+Message-ID:
+ <SN6PR06MB534214EB4F1DC05495373034A5E0A@SN6PR06MB5342.namprd06.prod.outlook.com>
+References: <20230823212554.378403-1-macroalpha82@gmail.com>
+ <20230823212554.378403-7-macroalpha82@gmail.com>
+ <20230824222150.5a0d16e3@slackpad.lan>
+ <SN6PR06MB53420D67BB7E11486388637EA5E3A@SN6PR06MB5342.namprd06.prod.outlook.com>
+ <20230825225326.613d0052@slackpad.lan>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230825225326.613d0052@slackpad.lan>
+X-TMN: [gjwEzx6iX/WqaddH1AnXCny8Zn3SdHtj]
+X-ClientProxiedBy: SA9PR13CA0173.namprd13.prod.outlook.com
+ (2603:10b6:806:28::28) To SN6PR06MB5342.namprd06.prod.outlook.com
+ (2603:10b6:805:f9::31)
+X-Microsoft-Original-Message-ID: <ZOy6jbYcCCR3e50L@wintermute.localhost.fail>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN6PR06MB5342:EE_|SJ0PR06MB7424:EE_
+X-MS-Office365-Filtering-Correlation-Id: c8c298a4-2e9c-474e-b27f-08dba7d9eb91
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	bTC+FLlPdKN95hqTdEE35fzo/kWVKl+wfKYQTS+etXD6b5gzepHECqqgAHg8Rte+36s0o1flAUXFyZceFV0lgBco/HaHbjZENgxCQbLTYeR/Y8ExEl1A98/vQO7kAIab1r2OPzGk6VNa+Y1cc5aOTQCiTA9JF0o/45ilaKAv/5rCsdedwW/8QkiU0HFHsr4zB3jCG3vkOVCoQoGrXnomolEBI5TR4jx8ucPEy94EoQJ0Pr0MQaT+zHL6J4JZLvQYh12ROgTbmk4b14rO7nKOt4IR6cj2kjY7PxXRpGkxdZSAsDi7fVppYizW54tQt+BkX/tfo98bPQdFeVsI1LNXGbqo6apwdWN4pvjvMQnzYF35UX1F/IJvFnXQBEohiof8R/yx+indWmBuSYhxNJpLSng9k/cnJnn5cM6prXFeZD06wt6CEisKcD/brM4kNufnPUSpNCzZuxaAn/4EEV2JN9TAYtQ/jIR+KtVU7rXgxrSS6ZSkyW8zgtEz0YzliDm25Z7ZDQeg2gfXi48c/5/9gQR+hRaoB9y/5+uRaiLzF0eP2iRHMhQi5UV72+rdi9AB
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?lndK52HmRpkho9YYn6pG0Hr0erAhpNF4EbqvkeBkHn9AggnUEGdiD2oVK9gf?=
+ =?us-ascii?Q?j/stbgXS7ZmIX/Km+sGcA7PQEx9r2F4VAtzcOxStCr3a7fgDbavcgJWdjPlE?=
+ =?us-ascii?Q?1NcW52WJodPpnHG2pTZeOlnYA5WxS/fhjx9UNBjfemjsd5GLQu4DhvVsADR6?=
+ =?us-ascii?Q?F0DmMcoCrUJIzHNPiZHWyJGWnl8ydg6FH9wyVzgVI01VrbUsQsMqrak/Ww1p?=
+ =?us-ascii?Q?2Ohi4eeI8JHfR3laWl2c1xboXCynUcuf+67Mv4buX3PmoBdgFxVN4d75wNe5?=
+ =?us-ascii?Q?1fLFRH51hz/jXAEEN+Nq1Rd80144DOjyllqQKuw9GwELfMwB7NIWbH7UNbmC?=
+ =?us-ascii?Q?1W3Dx4X8OK3gBGS3c9QDiEdCtilQzDMzq82k5NxUrrVEC8kT3wkjS0aUOMN1?=
+ =?us-ascii?Q?ZMI6se2k367/GVmt1eu/DFh2Jvyi9y5BIYGf5HTDLByRMlm0XMOV+tmph1Ob?=
+ =?us-ascii?Q?//JqE7cZMd1iKLQY8czAecVyIRiNZP8FNfceHN9GHH1MQh1QGka5W9ut3rkB?=
+ =?us-ascii?Q?DWw0OPzw5t3QtkZ2iBAWketNzRLgDBKQWAlbLfc9EBOlGNzSYP4z/O86DdyK?=
+ =?us-ascii?Q?aYW+Od2lSejgr0qB/Vx7ks5xSBDU43PCXfxHwF9WfulyOnBU7VFomVKsQJsD?=
+ =?us-ascii?Q?5sh88xqhR14qdNPmTlOjeaBWU8c86BZ/5E1lrMvZ2RqsodGxHSvsaFmJQ8cg?=
+ =?us-ascii?Q?ilY9b47xE9YbIK24evrtkNOR2mmmr9I6GxX2PwgU4jjlCoCDKw8E73JILHCm?=
+ =?us-ascii?Q?L6gwPQ/JYpuX9AJ4gPyjTE+5iXDba+I2re9ChkGGc1aih1ynM4xiPzZhSpeK?=
+ =?us-ascii?Q?jzMElSQzPJo6qZe08pYvhJK1rkImtJsZTcwW32QtXAKyRiToEqgqANVHld+4?=
+ =?us-ascii?Q?DDo37HB3loWGu+HFLHgSori0OHiXzE7G67695/uLJ5mZSuFiW0GlHYvC6QQu?=
+ =?us-ascii?Q?pdo2kGOGqzk55PCLrvr64xX+WwGQ2V03d7AW8RUIvRB7/OzoxzmKI5tVGniR?=
+ =?us-ascii?Q?GwB/N97e1JCY4z9abkCnMLv/FGJ5gnSpj61e8Q/q4qotiyI54OG0yN7GtCy+?=
+ =?us-ascii?Q?tHWDki/JHh7NiYrw05MtYdjn4eA8uy1jfQg5/GSICbW0gBAdJ5cbv1zf/eD/?=
+ =?us-ascii?Q?a8XHKHxex8UoWg5nHg9x1NC5EAb+MuuyKIofuBJiliODOgqYjD+EZyXA4OjJ?=
+ =?us-ascii?Q?H0MGIx7ZebHoy3BgKWSayy0BIVo+hzk6SQeyk7j3mcnTxbtlWxrubjDBFHw?=
+ =?us-ascii?Q?=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-89723.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: c8c298a4-2e9c-474e-b27f-08dba7d9eb91
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR06MB5342.namprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2023 15:17:41.2578
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR06MB7424
 
+On Fri, Aug 25, 2023 at 10:53:26PM +0100, Andre Przywara wrote:
+> On Fri, 25 Aug 2023 10:58:00 -0500
+> Chris Morgan <macromorgan@hotmail.com> wrote:
+> 
+> Hi Chris,
+> 
+> > On Thu, Aug 24, 2023 at 10:21:50PM +0100, Andre Przywara wrote:
+> > > On Wed, 23 Aug 2023 16:25:52 -0500
+> > > Chris Morgan <macroalpha82@gmail.com> wrote:
+> > > 
+> > > Hi Chris,
+> > >   
+> > > > From: Chris Morgan <macromorgan@hotmail.com>
+> > > > 
+> > > > Add the EHCI and OHCI controller to the Allwinner v3s to support using
+> > > > USB in host mode.  
+> > > 
+> > > Alright, so was it really that easy? I was afraid we left out host mode
+> > > for a reason back then ....  
+> > 
+> > Can't speak to that, but it is working for me as both a host and a
+> > gadget.
+> > 
+> > >   
+> > > > 
+> > > > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> > > > ---
+> > > >  arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi | 19 +++++++++++++++++++
+> > > >  1 file changed, 19 insertions(+)
+> > > > 
+> > > > diff --git a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi b/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
+> > > > index c87476ea31e2..eb63dd274305 100644
+> > > > --- a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
+> > > > +++ b/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
+> > > > @@ -319,6 +319,25 @@ usbphy: phy@1c19400 {
+> > > >  			#phy-cells = <1>;
+> > > >  		};
+> > > >  
+> > > > +		ehci: usb@1c1a000 {
+> > > > +			compatible = "allwinner,sun8i-v3s-ehci", "generic-ehci";
+> > > > +			reg = <0x01c1a000 0x100>;
+> > > > +			interrupts = <GIC_SPI 72 IRQ_TYPE_LEVEL_HIGH>;
+> > > > +			clocks = <&ccu CLK_BUS_EHCI0>, <&ccu CLK_BUS_OHCI0>;
+> > > > +			resets = <&ccu RST_BUS_EHCI0>, <&ccu RST_BUS_OHCI0>;  
+> > > 
+> > > Please add the link the PHY here:
+> > > 			phys = <&usbphy 0>;
+> > > 			phy-names = "usb";  
+> > 
+> > usbphy 0 doesn't work, but if I do phys = <&usbphy 1>; for here and the
+> > OHCI node it does work. Is that expected/acceptable?
+> 
+> Well, that means it doesn't work, because the V3s has only one PHY, so
+> "1" is invalid, and will either be ignored or rejected (any hints in
+> dmesg?)
 
-On 2023-08-28 at 10:04:51 +0200, Maxime Ripard <mripard@kernel.org> wrote:
-> On Fri, Aug 25, 2023 at 05:07:58PM +0200, Frank Oltmanns wrote:
->> Thank you for your feedback, Maxime!
->>
->> On 2023-08-25 at 10:13:53 +0200, Maxime Ripard <mripard@kernel.org> wrot=
-e:
->> > [[PGP Signed Part:Undecided]]
->> > Hi,
->> >
->> > On Fri, Aug 25, 2023 at 07:36:36AM +0200, Frank Oltmanns wrote:
->> >> I would like to make the Allwinner A64's pll-mipi to keep its rate wh=
-en
->> >> its parent's (pll-video0) rate changes. Keeping pll-mipi's rate is
->> >> required, to let the A64 drive both an LCD and HDMI display at the sa=
-me
->> >> time, because both have pll-video0 as an ancestor.
->> >>
->> >> PATCH 1 adds this functionality as a feature into the clk framework (=
-new
->> >> flag: CLK_KEEP_RATE).
->> >>
->> >> Cores that use this flag, store a rate as req_rate when it or one of =
-its
->> >> descendants requests a new rate.
->> >>
->> >> That rate is then restored in the clk_change_rate recursion, which wa=
-lks
->> >> through the tree. It will reach the flagged core (e.g. pll-mipi) after
->> >> the parent's rate (e.g. pll-video0) has already been set to the new
->> >> rate. It will then call determine_rate (which requests the parent's
->> >> current, i.e. new, rate) to determine a rate that is close to the
->> >> flagged core's previous rate. Afterward it will re-calculate the rates
->> >> for the flagged core's subtree.
->> >
->> > I don't think it's the right way forward. It makes the core logic more
->> > complicated, for something that is redundant with the notifiers
->> > mechanism that has been the go-to for that kind of things so far.
->>
->> Yeah, that was my initial idea as well. But I couldn't get it to work.
->> See details below.
->>
->> Do you have an example of a clock that restores its previous rate after
->> the parent rate has changed? I've looked left and right, but to me it
->> seems that notifiers are mainly used for setting clocks into some kind
->> of "safe mode" prior to the rate change. Examples:
->>
->> sunxi-ng:
->> https://elixir.bootlin.com/linux/v6.4.11/source/drivers/clk/sunxi-ng/ccu=
-_mux.c#L273
->> https://elixir.bootlin.com/linux/v6.4.11/source/drivers/clk/sunxi-ng/ccu=
-_common.c#L60
->>
->> but also others:
->> https://elixir.bootlin.com/linux/v6.4.11/source/drivers/clk/at91/clk-mas=
-ter.c#L248
->> https://elixir.bootlin.com/linux/v6.4.11/source/drivers/clk/meson/meson8=
-b.c#L3755
->> https://elixir.bootlin.com/linux/v6.4.11/source/drivers/clk/qcom/clk-cpu=
--8996.c#L546
->
-> There's examples for phases and parents, but not for rates afaics. We
-> shouldn't behave any differently though.
->
->> > It's not really obvious to me why the notifiers don't work there.
->> >
->> >> This work is inspired by an out-of-tree patchset [1] [2] [3].
->> >> Unfortunately, the patchset uses clk_set_rate() in a notifier callbac=
-k,
->> >> which the following comment on clk_notifier_register() forbids: "The
->> >> callbacks associated with the notifier must not re-enter into the clk
->> >> framework by calling any top-level clk APIs." [4] Furthermore, that
->> >> out-of-tree patchset no longer works with the current linux-next,
->> >> because setting pll-mipi is now also resetting pll-video0 [5].
->> >
->> > Is it because of the "The callbacks associated with the notifier must
->> > not re-enter into the clk framework by calling any top-level clk APIs."
->> > comment?
->>
->> I don't think that's the reason.
->
-> I'm not sure I follow you there. How can we find a solution to a problem
-> you don't know about or can't know for sure?
+Nothing in dmesg that I can see.
 
-I was hoping that the discussion here would give me some clues (and it
-does). You have already explained, that the issue is the locks. I'm
-still confused why Icenowy's patches work. They use clk_set_rate() in a
-notifier callback and despite that they work (up until kernel 6.5). The
-only thing that has changed here (that I'm aware of), is that pll-mipi
-now sets the parent rate in clk-next.
+> 
+> > By "doesn't work"
+> > I mean the device is always in HOST mode if I use 0 and switches
+> > correctly (the extcon shows HOST=0 when unplugged or plugged into my
+> > computer, and shows HOST=1 if I plug in a device which I assume is
+> > the desired behavior).
+> 
+> You mean the latter part was with <usbphy 1>, and that's the same
+> behaviour as without the property?
+> That would mean that this part is still broken - I think somewhere in
+> the PHY driver. But this is a generic issue, and not specific to the
+> V3s, and your patch is just revealing it.
+> 
+> I will try to have a look in the next few days, to find the real
+> culprit.
 
->> I'm fairly certain that the problem is, that pll-mipi tries to set the
->> parent rate. Maybe it should check if the parent is locked, before
->> determining a rate that requires the parent rate to change. =F0=9F=A4=94
->
-> Why would the clock framework documentation mention an issue that only
-> arises with a single clock on a single SoC?
+Yep. <usbphy 0> means it stays in host mode; no phy or <usbphy 1> means
+it works in both. For now I'll set it to the proper usbphy 0 and note
+that for the moment otg doesn't work. Unlike the problem with the RTC
+regulator this doesn't really harm the overall experience; and for now
+anyone making custom firmware that relies on OTG can simply delete the
+phy property and it will work.
 
-No, sorry, that's not what I said or meant. I was wondering if
-ccu_nkm_determine_rate should check if the parent rate has no exclusive
-lock, before assuming it can change the parent rate, so that Icenowy's
-patches still work.
+V4 incoming soon. Thank you.
+Chris
 
-> That comment in the clock framework you linked to clearly stated that
-> you can't use a top-level clock function in a notifier, and that's
-> because of the locking.
-
-Yes, it does. And that's why I thought that calling clk_set_rate() in
-the notifier callback was never the right choice.
-
-> If it's not what you're trying to fix, then I'd really like to know what
-> issue you're trying to fix *in the framework* (so, not on the pll-mipi
-> clock, or the A64).
-
-I'm not trying to "fix" anything in the framework in the sense that the
-framework has a bug. I propose to add a new feature to the framework, so
-that I can extend pll-mipi, so that the A64 can drive both an LCD and
-HDMI at the same time.
-
->> Currently, it only calls clk_hw_can_set_rate_parent() which only
->> checks the flag, but does not check if it is really possible to change
->> the parent's rate.
->>
->> Regardless, please don't prematurely dismiss my proposal. It has the
->> advantage that it is not specific for sunxi-ng, but could be used for
->> other drivers as well.
->
-> Just like the two solutions I provided.
->
->> Maybe there other instances of exclusive locks today where the
->> CLK_KEEP_RATE flag might work equally well. =F0=9F=A4=B7
->
-> If exclusive locks work equally well, why would we need CLK_KEEP_RATE?
-
-As I wrote in my other mail. The word "keep" was apparently a bad
-choice. Maybe CLK_RESTORE_RATE_CLOSELY? The difference is that an
-exclusive lock prevents other clocks from changing the parent, whereas
-"CLK_KEEP_RATE" (sic) allows those changes to happen and deal with it by
-restoring the previous rate as closely as possible after the parent rate
-changed.
-
->> > If so, I think the thing we should emphasize is that it's about *any
->> > top-level clk API*, as in clk_set_rate() or clk_set_parent().
->> >
->> > The issue is that any consumer-facing API is taking the clk_prepare lo=
-ck
->> > and thus we would have reentrancy. But we're a provider there, and none
->> > of the clk_hw_* functions are taking that lock. Neither do our own fun=
-ction.
->> >
->> > So we could call in that notifier our set_rate callback directly, or we
->> > could create a clk_hw_set_rate() function.
->> >
->> > The first one will create cache issue between the actual rate that the
->> > common clock framework is running and the one we actually enforced, but
->> > we could create a function to flush the CCF cache.
->> >
->> > The second one is probably simpler.
->>
->> I'm probably missing something, because I don't think this would work.
->> For reference, this is our tree:
->>
->>     pll-video0
->>        hdmi-phy-clk
->>        hdmi
->>        tcon1
->>        pll-mipi
->>           tcon0
->>              tcon-data-clock
->>
->> When pll-video0's rate is changed (e.g. because a HDMI monitor is
->> plugged in), the rates of the complete subtree for pll-video0 are
->> recalculated, including tcon0 and tcon-data-clock. The rate of tcon0 is
->> based on the rate that was recalculated for pll-mipi, which - in turn -
->> was of course recalculated based on the pll-video0's new rate. These
->> values are stored by the clk framework in a private struct. They are
->> calculated before actually performing any rate changes.
->>
->> So, if a notifier sets pll-mipi's rate to something else than was
->> previously recalculated, the clk framework would still try to set tcon0
->> to the value that it previously calculated.
->>
->> So, we would have to recalculate pll-mipi's subtree after changing its
->> rate (that's what PATCH 1 is doing).
->
-> Then we should make that function I was telling you about deal with all
-> this.
-
-See my other mail. I mis-remembered. That is already available via the
-CLK_RECALC_NEW_RATES flag.
-
-Best regards,
-  Frank
-
->
-> Maxime
+> 
+> Cheers,
+> Andre
+> 
+> > > > +			status = "disabled";
+> > > > +		};
+> > > > +
+> > > > +		ohci: usb@1c1a400 {
+> > > > +			compatible = "allwinner,sun8i-v3s-ohci", "generic-ohci";
+> > > > +			reg = <0x01c1a400 0x100>;
+> > > > +			interrupts = <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>;
+> > > > +			clocks = <&ccu CLK_BUS_EHCI0>, <&ccu CLK_BUS_OHCI0>,
+> > > > +				 <&ccu CLK_USB_OHCI0>;
+> > > > +			resets = <&ccu RST_BUS_EHCI0>, <&ccu RST_BUS_OHCI0>;  
+> > > 
+> > > ... and here.
+> > > 
+> > > That would be definitely the right thing to do, but please check
+> > > whether it still works, especially OTG operation.
+> > > 
+> > > The addresses, clocks, resets and interrupts match the manual.
+> > > 
+> > > Cheers,
+> > > Andre.
+> > > 
+> > >   
+> > > > +			status = "disabled";
+> > > > +		};
+> > > > +
+> > > >  		ccu: clock@1c20000 {
+> > > >  			compatible = "allwinner,sun8i-v3s-ccu";
+> > > >  			reg = <0x01c20000 0x400>;  
+> > >   
+> > 
+> > Thank you,
+> > Chris
+> > 
+> 
