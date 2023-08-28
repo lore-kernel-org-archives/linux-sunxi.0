@@ -1,146 +1,199 @@
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10olkn2021.outbound.protection.outlook.com [40.92.42.21])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0B43EC2
-	for <linux-sunxi@lists.linux.dev>; Mon, 28 Aug 2023 06:58:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iV62ezMxa43yV6okziQyoPrsOndsonzwAEfP4D8SfBwePLtcF+D0Q8NJUaeqqpzH2yC+nb7k6PRoo+3tAlEi42Qf8CdisuIDVxNvHt5SeSQhK5BrdURituEfpf9HK+yzxqzzebKgDJWsQPOBV0IPN+dbcTuDBFkFAXZswBiNvmmpkDUeKRqvaw0VckmjcxTe+sHXvB1LJM0kCR3zoxk0RGIFuXWnLE+4+vm9WluT4q51JDhxKUOv5T2xAH5WlAByL/KX5O7XEA8rj74FsxGNftWpHCaDVKnj0wFZtBKrphOBNIS8J/P+V2HLLa3PQnWDSkJh25qku0jg8TwIYAT+Ng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4FVHtqkBHzIlIKUa3DuF+TkQXUSOeuxbJuRTtXXZDSI=;
- b=CQorUyJ93gJfTV9ZiUKb+ReBK+8SuTg6aTVf4drdzQalyJGGN6fcHI4gXyEIQImFBHHlmz9L9JKQQU+/gyZIixK3+BEexJHJRqCyQPvEwSAekAthaLUVNpU/WdYhBPK6uVPsdC4YeD8a+Vm6hNs1hbNy4WKRG64DDypbhzauflMcZX5vBDG7wxeuo1Oo6fQUssncEohJh5r9nWOU3bbfgFvcVakJHFlRTIE/JbckXCX7Pe+CzQiaPq6byJJV16Jzlc51yBV9QhX3c95/LA0sakmXHc3PrMKggETS7aeApQdpLs/uYd7ns5cqWaqftNzdfTkjHaPIH5Iri0HPyLxkjQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4FVHtqkBHzIlIKUa3DuF+TkQXUSOeuxbJuRTtXXZDSI=;
- b=nJE+MuQ+p2GDba9ugUWO2btZpW0gj8uDgLlu0ZaNhyaB7BTkfoRyhGOqEQ6M1VvpjzE9czU3mCCk3h+czfPf1kpPjSpoqhY7B53kQhS1mZUtZNFD0wcUXM/ssLiZ8reFmmoHCF2owXMUtSOm9DsoMnYflM8JDlLL0bwo14bWXXAOUHPrDgBzqG8R8ijv6KfxycopApCag1icfxy7f+RJRjrUVJaVPjvy/DPVdxui54uX6La8T0/D0tbYkoo3xQpgFEhcnzq2wwVuol05IGM2BHXI/8UGfE6SmnTxpduzRP+z+xO/a4W+ADhkoJPbc39anIcFUMWwvXgQynRDPp10mg==
-Received: from IA1PR20MB4953.namprd20.prod.outlook.com (2603:10b6:208:3af::19)
- by MN2PR20MB3286.namprd20.prod.outlook.com (2603:10b6:208:261::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.34; Mon, 28 Aug
- 2023 06:58:25 +0000
-Received: from IA1PR20MB4953.namprd20.prod.outlook.com
- ([fe80::cbad:4566:1f3e:4e1f]) by IA1PR20MB4953.namprd20.prod.outlook.com
- ([fe80::cbad:4566:1f3e:4e1f%4]) with mapi id 15.20.6699.034; Mon, 28 Aug 2023
- 06:58:25 +0000
-From: Inochi Amaoto <inochiama@outlook.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc: Rob Herring <robh+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Inochi Amaoto <inochiama@outlook.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Wei Fu <wefu@redhat.com>,
-	Pei Chen <cp0613@linux.alibaba.com>,
-	Wenhan Chen <chenwenhan.cwh@alibaba-inc.com>,
-	Guo Ren <guoren@kernel.org>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] riscv: dts: allwinner: d1: Add PMU event node
-Date: Mon, 28 Aug 2023 14:59:11 +0800
-Message-ID:
- <IA1PR20MB495363989FE43EB1FFBF8730BBE0A@IA1PR20MB4953.namprd20.prod.outlook.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <d3c9e032-e20f-97e1-2d08-9bd87691d43c@linaro.org>
-References: <d3c9e032-e20f-97e1-2d08-9bd87691d43c@linaro.org>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TMN: [ttbY3DnjeA1YYlOihILjSeKrknmd8iCxTHjGZ80jbX4=]
-X-ClientProxiedBy: TYBP286CA0015.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:404:ce::27) To IA1PR20MB4953.namprd20.prod.outlook.com
- (2603:10b6:208:3af::19)
-X-Microsoft-Original-Message-ID:
- <20230828065911.293188-1-inochiama@outlook.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C01133C0A
+	for <linux-sunxi@lists.linux.dev>; Mon, 28 Aug 2023 08:04:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A39C9C433C7;
+	Mon, 28 Aug 2023 08:04:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1693209894;
+	bh=21GDsKWpLyozjrrpuCacWmWY2wJcf8Nk1npOku7xMFw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZFMhvoAW56IXhXLpf2nwmmhjFpUMpVqp3hE4v1bjYw8J7bwUBzfE32nEMPoin5f8C
+	 7jawMFhFgIzRKFE+SoBCYDSEO54cWXpWLeYC4plGzrj5ZLStJM1TvoNAwGC/mX9GbK
+	 2Umi4UVrPyF1XlVRHpt2njOVxGFaoJ0kc21gpDzw7C/Zosil2sSiIPIW47Gs0VKz6A
+	 /AsCx3COVmrRGPR6X1FOmrw5z6J/nqW1GICnLD7PO3dOvpdWbLjoneI+V8nQwmSAsU
+	 OPMIfgbPl76xdGBr4AnDWf1uKfUgVqbhfVCPkWWB0d348v74kdsaub1pqHgfLbUSIf
+	 bYw8f3ekxXPGg==
+Date: Mon, 28 Aug 2023 10:04:51 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Frank Oltmanns <frank@oltmanns.dev>
+Cc: Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Ondrej Jirman <x@xnux.eu>, 
+	Icenowy Zheng <uwu@icenowy.me>, linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, dri-devel@lists.freedesktop.org, 
+	Icenowy Zheng <icenowy@aosc.io>
+Subject: Re: [PATCH 0/3] Make Allwinner A64's pll-mipi keep its rate when
+ parent rate changes
+Message-ID: <fd4beguej6ijxpo2hri56pes25re5gdwytxkbvllq4mskffolh@uyxe4j3eorq4>
+References: <20230825-pll-mipi_keep_rate-v1-0-35bc43570730@oltmanns.dev>
+ <zrjpbtf7qwaj2tjvfz2no534tmz5j4yudp45tung2w5x2zcl6y@bal3bclzze4e>
+ <87ledzqhwx.fsf@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA1PR20MB4953:EE_|MN2PR20MB3286:EE_
-X-MS-Office365-Filtering-Correlation-Id: 108adec9-5bae-4fac-ed67-08dba7942d1b
-X-MS-Exchange-SLBlob-MailProps:
-	Om8TgR6f4EA/I6Ph3LQop9pKneXMeAsHMmyRjz4iCzMxziTXWkA3b2h38ss/zBpNuGFZtJOxr9K0R2cn26z2pco8YuHihzcjiZ/+jyFtcfJx/1jfqZXZHoZBt2oeP++mYhsF+KXIOtFJd0ktWy7EwXhjn3YsORGjseMmgJ12Phd71GBrDs/ZQQnfKj0u3B42RoDx5cLtmCY2N5dlQUo4PDIUrPw1Lo5tUzAh+7wx+8hUBoy69vo3KjzItzcGWpTvqUjXMF0lfJ3fvS8hnZi2SNHGiIuwhjqfN25yJR8GyQtL8P2uxxYponiDEdchTdEXy6l7GXuw1bTFsh8QfSyn3Nxh2EuusnCZF9yRhkGAnXynq8SvifLb67/Ocoxg9C6D0FeYyfEvgMFB2YAcB6HKZxn1sqBvsStCllT4b/xwB4PbbjeNuXrxDUIMJ/i93DoGTdn6AB1GvMTmHWgSCFgBrLmx2/oOSXfclakEAnzKlg2ja35HdKR1B2c2659he+Ksv7/V4lgWnV8XYttZMdtCONoBltq3r53mreBKDBLcYsuw+8ix7lQoDueJEisgdUQlVznFWJK1C0bQap4quC9SWo7Bw7atVp/Bm29rY1QAE6TScwjOkRjKRgym7lguvKpAuFfbwPOSihbye3W5pNsoMwlNZpsOZQsdjKPrg/hdhXHTHkMMcEgvb4kz3AGjuNOFNk4rrFqLOdtWNxOMmeushC3uj+apULyJ4vBp8ty3qslLVy2oKnEc+MUhsT5/hYNmbiRHwQ1lk4IA4ft8rlkft2oIE8uWVGcTO0TZFc5mT0JMavnVW5gbFX2Cm/Vs2tux5k4AmwCdbFospqDJ7feCKVUqNy2Z3lHx
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	BCkuEMcffF6+CNW49w3rVDICYE8ysudolDWiVKKkYBFPjOuwa9egCVV5O/SkA+ue5Um78Wpo2zKtMdRSIvyY9eup5ohNA1MglOcefBAhsfnH5EFSEb5Gh2EG2srlA0QGCQE5aWPDFrBg5QASpcBiJMHnXIdwCwb1K+cQO3WDYtbA6JLSyX4ItOc3Js0RT5cJqhFvp0nPQltEkfQVIAlQZcl6bF73z0P/xNPxyGXP8LAb43r5XkO9Bb9IyR9QjpxDpAXiY9FxRcC59CGWB+QLpyMyaBJT6VRlxS0PZecPwXMO3bihA11smJjH2h546/LbWf5mVrBPvzm6KlD2TecTWHOanu30aVcpkGk9ecRkB49eK8/KA7rNq/fDAE7lyCp+BBOanDBfqiqIPT4v2GjtoK75opeFZZP2y3FY8shT1YUFmFFBtezBRn2oahmvDIiEFPYTNS1o3jyoMtvjlMXtjxSbwQPeM1GpmLwYc4WeWptRtVu7byaZYLOjyC0MzuwT1KylBag6U8f0ht+GgqHh8L82YhxIsvwoY9iRrQJaRvMLhJa0hFUQgcpB9XaknT5sQ7E5Bag3Y9pCFZ/9pzQYhREUjWyBB7aqtrNyJbq4vRA=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?q86PUECD/G4wgsdhzD/Dl0Z7jbyttsnfMNE9epwStbfsYbwvRUM7O1teN2pk?=
- =?us-ascii?Q?JBmaeCsq5t8JF2UptLmCq1CzRmXfyGE8fx50EH4jTc6/TucqklfFQUm4mO92?=
- =?us-ascii?Q?qRPmhvDB0zoKwNX+KblGs20s0UCYeSv0Y6+MoVOEpvHVq4r/jcgd5pPc44oj?=
- =?us-ascii?Q?lpcOKCQ2r3W90Ld0dn2SCW2RYBGFZEsMQM8clgrFngXe37KdP6h1f5gDFm22?=
- =?us-ascii?Q?YHilOy3CJTejnhv2Ox+2uM6pLW1F7+0LpcaGjlqYzzM+jaDlKCbqBYJLf/dD?=
- =?us-ascii?Q?8AJN97K1U7nUFpOfOT9pjexZ0+NPV9uoEr++1A5CyAE3Nl2668ofnzPrSfg7?=
- =?us-ascii?Q?f/mVaavsvRTb5WZe55h3ctBu5HzCFdVALRmWpQa4MOM6NfOxDEVxNZcyc+f6?=
- =?us-ascii?Q?PkkSqGGuv5hTQOLbcix8jTjAbzYgpbHa5/L+DfxCafwy2dSDeJ6aOYwA/v36?=
- =?us-ascii?Q?UW8nCWCkn/1cSE+Femeb7mHU4aAtLFuirJFRrJlo7v7HscUDVCguwafyhbL0?=
- =?us-ascii?Q?uVTft9ITORDAoY2Dwg68OmWvm0T3uIjSZ4PzVMU2ni27lrngiFpBBIsV9LG8?=
- =?us-ascii?Q?w2rGpfdVxYkGi1DXCtik0VdlYKhQhdTM12VBzEHUgG56CbkgK09VvP6c8bPm?=
- =?us-ascii?Q?SAWYIJ2XiOvmHKzcH8yH2VOaDeAMVICioxFtAMD+SzCKM++vgOeYpK7WmW54?=
- =?us-ascii?Q?pCuBiOsLCmDdEWM37PkaZL/uSByMbX+EoK4cPeqjOrpAKX6ioO62LZMPfURS?=
- =?us-ascii?Q?kVo3BfZWDtAXoq04AsEF0owve8GgJfKjsPzv+NHFx9PAsRN2uRGF5wO9lPXw?=
- =?us-ascii?Q?Ik5kNAOgDdiv8YCRMSufwUd1Xvoa5cgN5yFIXcXTigKJB92ico1MRaepSTdL?=
- =?us-ascii?Q?D+RHaMwc9iFp05s3OvJNnbpe+tNBJMDyCTlRgstl+W7pfsV8QnRfMopG/y0Y?=
- =?us-ascii?Q?GDr18pwCkt/1QAHminNctX5nmQPwHGWnnX75KckR16pJVTOCtAww8T02/t07?=
- =?us-ascii?Q?Bo2JOyBz4rgc1Si8x5hVwWCzZN4HmovJZYjbwchM/xRpYSKHwo8z76cgDjvr?=
- =?us-ascii?Q?VhVDVeNPh0CoPA2KXnx03Lx9Knkw41vfeA6MEUSJni5SPzRdOHYNv0nO10RZ?=
- =?us-ascii?Q?0wwl9GAQX9PxR6XvgBTK5oMnzG7QJY3sPed1mH/O9MnBlPjlNxBqss/JtFvw?=
- =?us-ascii?Q?bAfMGB3P7bcqPqE1kzBPu+R6tjric6ePfzCZrk5XeMzsVPDuIggKdx28FLQ?=
- =?us-ascii?Q?=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 108adec9-5bae-4fac-ed67-08dba7942d1b
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR20MB4953.namprd20.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2023 06:58:25.9168
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR20MB3286
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <87ledzqhwx.fsf@oltmanns.dev>
 
->On 28/08/2023 08:41, Inochi Amaoto wrote:
->>> On Mon, Aug 28, 2023 at 12:30:22PM +0800, Inochi Amaoto wrote:
->>>> D1 has several pmu events supported by opensbi.
->>>> These events can be used by perf for profiling.
->>>>
->>>> Signed-off-by: Inochi Amaoto <inochiama@outlook.com>
->>>> Link: https://dl.linux-sunxi.org/D1/Xuantie_C906_R1S0_User_Manual.pdf
->>>> Link: https://github.com/T-head-Semi/openc906/blob/main/C906_RTL_FACTORY/gen_rtl/pmu/rtl/aq_hpcp_top.v#L657
->>>> ---
->>>> changed from v3:
->>>> 1. remove wrong event mapping of 0x0000a
->>>> 2. add reference url of c906 events implementation (D1 only support events
->>>> described in R1S0 user manual, but event mapping is the same)
->>>
->>> Why'd you drop my ack? There's nothing here that'd invalidate it AFAICT.
->>> Acked-by: Conor Dooley <conor.dooley@microchip.com>
->>>
->>> Thanks,
->>> Conor.
->>
->> Sorry for this, I am not sure whether to preserve the ack.
->> Thank you for your ack again, and I will reserve this if no big change
->> happens.
->
->https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
->
->Best regards,
->Krzysztof
->
+On Fri, Aug 25, 2023 at 05:07:58PM +0200, Frank Oltmanns wrote:
+> Thank you for your feedback, Maxime!
+>=20
+> On 2023-08-25 at 10:13:53 +0200, Maxime Ripard <mripard@kernel.org> wrote:
+> > [[PGP Signed Part:Undecided]]
+> > Hi,
+> >
+> > On Fri, Aug 25, 2023 at 07:36:36AM +0200, Frank Oltmanns wrote:
+> >> I would like to make the Allwinner A64's pll-mipi to keep its rate when
+> >> its parent's (pll-video0) rate changes. Keeping pll-mipi's rate is
+> >> required, to let the A64 drive both an LCD and HDMI display at the same
+> >> time, because both have pll-video0 as an ancestor.
+> >>
+> >> PATCH 1 adds this functionality as a feature into the clk framework (n=
+ew
+> >> flag: CLK_KEEP_RATE).
+> >>
+> >> Cores that use this flag, store a rate as req_rate when it or one of i=
+ts
+> >> descendants requests a new rate.
+> >>
+> >> That rate is then restored in the clk_change_rate recursion, which wal=
+ks
+> >> through the tree. It will reach the flagged core (e.g. pll-mipi) after
+> >> the parent's rate (e.g. pll-video0) has already been set to the new
+> >> rate. It will then call determine_rate (which requests the parent's
+> >> current, i.e. new, rate) to determine a rate that is close to the
+> >> flagged core's previous rate. Afterward it will re-calculate the rates
+> >> for the flagged core's subtree.
+> >
+> > I don't think it's the right way forward. It makes the core logic more
+> > complicated, for something that is redundant with the notifiers
+> > mechanism that has been the go-to for that kind of things so far.
+>=20
+> Yeah, that was my initial idea as well. But I couldn't get it to work.
+> See details below.
+>=20
+> Do you have an example of a clock that restores its previous rate after
+> the parent rate has changed? I've looked left and right, but to me it
+> seems that notifiers are mainly used for setting clocks into some kind
+> of "safe mode" prior to the rate change. Examples:
+>=20
+> sunxi-ng:
+> https://elixir.bootlin.com/linux/v6.4.11/source/drivers/clk/sunxi-ng/ccu_=
+mux.c#L273
+> https://elixir.bootlin.com/linux/v6.4.11/source/drivers/clk/sunxi-ng/ccu_=
+common.c#L60
+>=20
+> but also others:
+> https://elixir.bootlin.com/linux/v6.4.11/source/drivers/clk/at91/clk-mast=
+er.c#L248
+> https://elixir.bootlin.com/linux/v6.4.11/source/drivers/clk/meson/meson8b=
+=2Ec#L3755
+> https://elixir.bootlin.com/linux/v6.4.11/source/drivers/clk/qcom/clk-cpu-=
+8996.c#L546
 
-Thanks. I will take care of this.
+There's examples for phases and parents, but not for rates afaics. We
+shouldn't behave any differently though.
+
+> > It's not really obvious to me why the notifiers don't work there.
+> >
+> >> This work is inspired by an out-of-tree patchset [1] [2] [3].
+> >> Unfortunately, the patchset uses clk_set_rate() in a notifier callback,
+> >> which the following comment on clk_notifier_register() forbids: "The
+> >> callbacks associated with the notifier must not re-enter into the clk
+> >> framework by calling any top-level clk APIs." [4] Furthermore, that
+> >> out-of-tree patchset no longer works with the current linux-next,
+> >> because setting pll-mipi is now also resetting pll-video0 [5].
+> >
+> > Is it because of the "The callbacks associated with the notifier must
+> > not re-enter into the clk framework by calling any top-level clk APIs."
+> > comment?
+>=20
+> I don't think that's the reason.
+
+I'm not sure I follow you there. How can we find a solution to a problem
+you don't know about or can't know for sure?
+
+> I'm fairly certain that the problem is, that pll-mipi tries to set the
+> parent rate. Maybe it should check if the parent is locked, before
+> determining a rate that requires the parent rate to change. =F0=9F=A4=94
+
+Why would the clock framework documentation mention an issue that only
+arises with a single clock on a single SoC?
+
+That comment in the clock framework you linked to clearly stated that
+you can't use a top-level clock function in a notifier, and that's
+because of the locking.
+
+If it's not what you're trying to fix, then I'd really like to know what
+issue you're trying to fix *in the framework* (so, not on the pll-mipi
+clock, or the A64).
+
+> Currently, it only calls clk_hw_can_set_rate_parent() which only
+> checks the flag, but does not check if it is really possible to change
+> the parent's rate.
+>=20
+> Regardless, please don't prematurely dismiss my proposal. It has the
+> advantage that it is not specific for sunxi-ng, but could be used for
+> other drivers as well.
+
+Just like the two solutions I provided.
+
+> Maybe there other instances of exclusive locks today where the
+> CLK_KEEP_RATE flag might work equally well. =F0=9F=A4=B7
+
+If exclusive locks work equally well, why would we need CLK_KEEP_RATE?
+
+> > If so, I think the thing we should emphasize is that it's about *any
+> > top-level clk API*, as in clk_set_rate() or clk_set_parent().
+> >
+> > The issue is that any consumer-facing API is taking the clk_prepare lock
+> > and thus we would have reentrancy. But we're a provider there, and none
+> > of the clk_hw_* functions are taking that lock. Neither do our own func=
+tion.
+> >
+> > So we could call in that notifier our set_rate callback directly, or we
+> > could create a clk_hw_set_rate() function.
+> >
+> > The first one will create cache issue between the actual rate that the
+> > common clock framework is running and the one we actually enforced, but
+> > we could create a function to flush the CCF cache.
+> >
+> > The second one is probably simpler.
+>=20
+> I'm probably missing something, because I don't think this would work.
+> For reference, this is our tree:
+>=20
+>     pll-video0
+>        hdmi-phy-clk
+>        hdmi
+>        tcon1
+>        pll-mipi
+>           tcon0
+>              tcon-data-clock
+>=20
+> When pll-video0's rate is changed (e.g. because a HDMI monitor is
+> plugged in), the rates of the complete subtree for pll-video0 are
+> recalculated, including tcon0 and tcon-data-clock. The rate of tcon0 is
+> based on the rate that was recalculated for pll-mipi, which - in turn -
+> was of course recalculated based on the pll-video0's new rate. These
+> values are stored by the clk framework in a private struct. They are
+> calculated before actually performing any rate changes.
+>=20
+> So, if a notifier sets pll-mipi's rate to something else than was
+> previously recalculated, the clk framework would still try to set tcon0
+> to the value that it previously calculated.
+>
+> So, we would have to recalculate pll-mipi's subtree after changing its
+> rate (that's what PATCH 1 is doing).
+
+Then we should make that function I was telling you about deal with all
+this.
+
+Maxime
