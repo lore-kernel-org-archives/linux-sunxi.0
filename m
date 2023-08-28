@@ -1,140 +1,55 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99DB710F4
-	for <linux-sunxi@lists.linux.dev>; Mon, 28 Aug 2023 21:33:41 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F05FB2F4;
-	Mon, 28 Aug 2023 14:34:14 -0700 (PDT)
-Received: from localhost.localdomain (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AB5F03F740;
-	Mon, 28 Aug 2023 14:33:33 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Lee Jones <lee@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>
-Cc: linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Shengyu Qu <wiagn233@outlook.com>,
-	Martin Botka <martin.botka1@gmail.com>,
-	Matthew Croughan <matthew.croughan@nix.how>
-Subject: [PATCH v2] mfd: axp20x: Generalise handling without interrupt
-Date: Mon, 28 Aug 2023 22:32:29 +0100
-Message-Id: <20230828213229.20332-1-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.35.8
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ED86111E
+	for <linux-sunxi@lists.linux.dev>; Mon, 28 Aug 2023 21:33:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1B98C433C8;
+	Mon, 28 Aug 2023 21:33:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1693258422;
+	bh=PFfXs8AC7VFN8eHd/c0BTyi5M+ho7s200lbxRDLF7pQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=c3AOaLriDRXg4VHGUdmWXhf57CjUv7S43GJKHJ34Cav9qcwP8AA/0bonF6fdXiigL
+	 WrUjSin0BCQZ954CcPJ26/IuOpM/BSeQjxOPuW1gSjwuDDIIwCHPcYVehwqKdUxuMe
+	 BA3JULesg7N5Gnm9MrOTI6cHk3kxMjSXsm897jWkX0Q6q+FIV3azRCqJBvsuuBQ7r+
+	 +Qwv4hz+gf1oQOCttDHPlxRi6PQup20zY1Qenkn5RvbDG35fNqREo6Ww4+iPCCXrYM
+	 r7SUK/cySQFNPsoHbcQF2k7Exd176QPw2RxcI3+dGGjpvHH/rLxevRG7lwx4YJD8Np
+	 rQmECXoVYhNwg==
+Received: (nullmailer pid 383048 invoked by uid 1000);
+	Mon, 28 Aug 2023 21:33:39 -0000
+Date: Mon, 28 Aug 2023 16:33:39 -0500
+From: Rob Herring <robh@kernel.org>
+To: Chris Morgan <macroalpha82@gmail.com>
+Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, airlied@gmail.com, andre.przywara@arm.com, conor+dt@kernel.org, daniel@ffwll.ch, heiko@sntech.de, jagan@edgeble.ai, jernej.skrabec@gmail.com, krzysztof.kozlowski+dt@linaro.org, mripard@kernel.org, neil.armstrong@linaro.org, noralf@tronnes.org, sam@ravnborg.org, samuel@sholland.org, uwu@icenowy.me, wens@csie.org, Chris Morgan <macromorgan@hotmail.com>, Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: [PATCH V4 4/8] dt-bindings: usb: Add V3s compatible string for
+ EHCI
+Message-ID: <20230828213339.GA380887-robh@kernel.org>
+References: <20230828181941.1609894-1-macroalpha82@gmail.com>
+ <20230828181941.1609894-5-macroalpha82@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230828181941.1609894-5-macroalpha82@gmail.com>
 
-At the moment we allow the AXP15060 and the AXP806 PMICs to omit the
-interrupt line to the SoC, and we skip registering the PEK (power key)
-driver in this case, since that crashes when no IRQ is described in the
-DT node.
-The IRQ pin potentially not being connected to anything does affect more
-PMICs, though, and the PEK driver is not the only one requiring an
-interrupt: at least the AC power supply driver crashes in a similar
-fashion.
+On Mon, Aug 28, 2023 at 01:19:37PM -0500, Chris Morgan wrote:
+> From: Chris Morgan <macromorgan@hotmail.com>
+> 
+> The Allwinner V3s uses a generic EHCI and OHCI for USB host
+> communication and the MUSB controller for OTG mode. Add compatible
+> strings for the EHCI node.
+> 
+> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> ---
+>  Documentation/devicetree/bindings/usb/generic-ehci.yaml | 1 +
+>  1 file changed, 1 insertion(+)
 
-Generalise the handling of AXP MFD devices when the platform tables
-describe no interrupt, by allowing each device to specify an alternative
-MFD list for this case. If no specific alternative is specified, we go
-with the safe default of "just the regulators", which matches the current
-situation.
+Normally, Greg would take this, but neither he nor linux-usb were Cc'ed. 
+Please use get_maintainer.pl.
 
-This enables new devices using the AXP313a PMIC, but not connecting the
-IRQ pin.
-
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
-Changelog v2 .. v1:
-- drop reordering approach, use separate cell lists
-
- drivers/mfd/axp20x.c | 44 ++++++++++++++++++++++++--------------------
- 1 file changed, 24 insertions(+), 20 deletions(-)
-
-diff --git a/drivers/mfd/axp20x.c b/drivers/mfd/axp20x.c
-index c03bc5cda080a..239e7f18956ae 100644
---- a/drivers/mfd/axp20x.c
-+++ b/drivers/mfd/axp20x.c
-@@ -1133,6 +1133,8 @@ int axp20x_match_device(struct axp20x_dev *axp20x)
- 	struct device *dev = axp20x->dev;
- 	const struct acpi_device_id *acpi_id;
- 	const struct of_device_id *of_id;
-+	const struct mfd_cell *cells_no_irq = NULL;
-+	int nr_cells_no_irq = 0;
- 
- 	if (dev->of_node) {
- 		of_id = of_match_device(dev->driver->of_match_table, dev);
-@@ -1207,14 +1209,15 @@ int axp20x_match_device(struct axp20x_dev *axp20x)
- 		 * if there is no interrupt line.
- 		 */
- 		if (of_property_read_bool(axp20x->dev->of_node,
--					  "x-powers,self-working-mode") &&
--		    axp20x->irq > 0) {
-+					  "x-powers,self-working-mode")) {
- 			axp20x->nr_cells = ARRAY_SIZE(axp806_self_working_cells);
- 			axp20x->cells = axp806_self_working_cells;
- 		} else {
- 			axp20x->nr_cells = ARRAY_SIZE(axp806_cells);
- 			axp20x->cells = axp806_cells;
- 		}
-+		nr_cells_no_irq = ARRAY_SIZE(axp806_cells);
-+		cells_no_irq = axp806_cells;
- 		axp20x->regmap_cfg = &axp806_regmap_config;
- 		axp20x->regmap_irq_chip = &axp806_regmap_irq_chip;
- 		break;
-@@ -1238,24 +1241,8 @@ int axp20x_match_device(struct axp20x_dev *axp20x)
- 		axp20x->regmap_irq_chip = &axp803_regmap_irq_chip;
- 		break;
- 	case AXP15060_ID:
--		/*
--		 * Don't register the power key part if there is no interrupt
--		 * line.
--		 *
--		 * Since most use cases of AXP PMICs are Allwinner SOCs, board
--		 * designers follow Allwinner's reference design and connects
--		 * IRQ line to SOC, there's no need for those variants to deal
--		 * with cases that IRQ isn't connected. However, AXP15660 is
--		 * used by some other vendors' SOCs that didn't connect IRQ
--		 * line, we need to deal with this case.
--		 */
--		if (axp20x->irq > 0) {
--			axp20x->nr_cells = ARRAY_SIZE(axp15060_cells);
--			axp20x->cells = axp15060_cells;
--		} else {
--			axp20x->nr_cells = ARRAY_SIZE(axp_regulator_only_cells);
--			axp20x->cells = axp_regulator_only_cells;
--		}
-+		axp20x->nr_cells = ARRAY_SIZE(axp15060_cells);
-+		axp20x->cells = axp15060_cells;
- 		axp20x->regmap_cfg = &axp15060_regmap_config;
- 		axp20x->regmap_irq_chip = &axp15060_regmap_irq_chip;
- 		break;
-@@ -1263,6 +1250,23 @@ int axp20x_match_device(struct axp20x_dev *axp20x)
- 		dev_err(dev, "unsupported AXP20X ID %lu\n", axp20x->variant);
- 		return -EINVAL;
- 	}
-+
-+	/*
-+	 * Use an alternative cell array when no interrupt line is connected,
-+	 * since IRQs are required by some drivers.
-+	 * The default is the safe "regulator-only", as this works fine without
-+	 * an interrupt specified.
-+	 */
-+	if (axp20x->irq <= 0) {
-+		if (cells_no_irq) {
-+			axp20x->nr_cells = nr_cells_no_irq;
-+			axp20x->cells = cells_no_irq;
-+		} else {
-+			axp20x->nr_cells = ARRAY_SIZE(axp_regulator_only_cells);
-+			axp20x->cells = axp_regulator_only_cells;
-+		}
-+	}
-+
- 	dev_info(dev, "AXP20x variant %s found\n",
- 		 axp20x_model_names[axp20x->variant]);
- 
--- 
-2.35.8
-
+Rob
