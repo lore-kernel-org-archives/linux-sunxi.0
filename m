@@ -1,91 +1,62 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18BDF28E7;
-	Tue, 29 Aug 2023 15:39:54 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 623062F4;
-	Tue, 29 Aug 2023 08:40:33 -0700 (PDT)
-Received: from [10.1.34.35] (010265703453.arm.com [10.1.34.35])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4671B3F738;
-	Tue, 29 Aug 2023 08:39:47 -0700 (PDT)
-Message-ID: <f2a46201-d807-d7af-bf84-8c99b33cd916@arm.com>
-Date: Tue, 29 Aug 2023 16:39:42 +0100
+Received: from out199-15.us.a.mail.aliyun.com (out199-15.us.a.mail.aliyun.com [47.90.199.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C4FB15A0
+	for <linux-sunxi@lists.linux.dev>; Thu, 31 Aug 2023 04:19:52 +0000 (UTC)
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046050;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0Vqwo882_1693455255;
+Received: from localhost(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0Vqwo882_1693455255)
+          by smtp.aliyun-inc.com;
+          Thu, 31 Aug 2023 12:14:16 +0800
+From: Yang Li <yang.lee@linux.alibaba.com>
+To: jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	wens@csie.org
+Cc: daniel.lezcano@linaro.org,
+	tglx@linutronix.de,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	Yang Li <yang.lee@linux.alibaba.com>
+Subject: [PATCH -next] clocksource/drivers/sun5i: Remove surplus dev_err() when using platform_get_irq()
+Date: Thu, 31 Aug 2023 12:14:14 +0800
+Message-Id: <20230831041414.66434-1-yang.lee@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH v11 5/6] iommu/dma: Allow a single FQ in addition to
- per-CPU FQs
-Content-Language: en-GB
-To: Niklas Schnelle <schnelle@linux.ibm.com>, Joerg Roedel <joro@8bytes.org>,
- Matthew Rosato <mjrosato@linux.ibm.com>, Will Deacon <will@kernel.org>,
- Wenjia Zhang <wenjia@linux.ibm.com>, Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Gerd Bayer <gbayer@linux.ibm.com>, Julian Ruess <julianr@linux.ibm.com>,
- Pierre Morel <pmorel@linux.ibm.com>, Alexandra Winter
- <wintera@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev
- <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- David Woodhouse <dwmw2@infradead.org>, Lu Baolu <baolu.lu@linux.intel.com>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Yong Wu <yong.wu@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
- Orson Zhai <orsonzhai@gmail.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Thierry Reding <thierry.reding@gmail.com>, Krishna Reddy
- <vdumpa@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20230717-dma_iommu-v11-0-a7a0b83c355c@linux.ibm.com>
- <20230717-dma_iommu-v11-5-a7a0b83c355c@linux.ibm.com>
- <9a466109-01c5-96b0-bf03-304123f435ee@arm.com>
- <b46210ce00b46ce42b8487e5670cc56b4458031f.camel@linux.ibm.com>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <b46210ce00b46ce42b8487e5670cc56b4458031f.camel@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 2023-08-23 15:21, Niklas Schnelle wrote:
-[...]
->>> +struct dma_iommu_options {
->>> +#define IOMMU_DMA_OPTS_PER_CPU_QUEUE	0L
->>
->> Nit: if the intent is to add more flags then that will no longer make
->> sense, and if not then we may as well just have a bool ;)
->>
->>> +#define IOMMU_DMA_OPTS_SINGLE_QUEUE	BIT(0)
-> 
-> My thinking was that the above two options are mutually exclusive with
-> per-CPU encoded as BIT(0) unset and single queue as set. Then other
-> options could still use the other bits. It's true though that the below
-> use of IOMMU_DMA_OPTS_PER_CPU_QUEUE is a nop so maybe just drop that?
-> Or we could use an enum even if I don't forsee more than these 2 queue
-> types.
+There is no need to call the dev_err() function directly to print a
+custom message when handling an error from either the platform_get_irq()
+or platform_get_irq_byname() functions as both are going to display an
+appropriate error message in case of a failure.
 
-My point was that the value 0 can only mean "all flags not set", so 
-while we can very much have the semantic of "single queue flag not set 
-means percpu queue", we cannot infer "0 means percpu queue" unless "all 
-flags" and "single queue flag" are the same thing. As soon as any 
-additional flag is defined, 0 then has a different meaning which may 
-well not even be a combination that's useful to put a specific name to.
+./drivers/clocksource/timer-sun5i.c:260:2-9: line 260 is redundant because platform_get_irq() already prints an error
 
-I'd like to hope it's sufficiently obvious from the implementation that 
-the opposite of a single queue is multiple queues, since contextually 
-this is already all happening in distinct paths from the case of no queue.
+Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+---
+ drivers/clocksource/timer-sun5i.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-Thanks,
-Robin.
+diff --git a/drivers/clocksource/timer-sun5i.c b/drivers/clocksource/timer-sun5i.c
+index 69fee3540d37..0d229a9058da 100644
+--- a/drivers/clocksource/timer-sun5i.c
++++ b/drivers/clocksource/timer-sun5i.c
+@@ -256,10 +256,8 @@ static int sun5i_timer_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	irq = platform_get_irq(pdev, 0);
+-	if (irq < 0) {
+-		dev_err(dev, "Can't get IRQ\n");
++	if (irq < 0)
+ 		return irq;
+-	}
+ 
+ 	clk = devm_clk_get_enabled(dev, NULL);
+ 	if (IS_ERR(clk)) {
+-- 
+2.20.1.7.g153144c
+
