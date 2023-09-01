@@ -1,22 +1,22 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E045EC131
-	for <linux-sunxi@lists.linux.dev>; Fri,  1 Sep 2023 16:25:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A9098C433CC;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6546BC154;
+	Fri,  1 Sep 2023 16:25:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B7CDFC43391;
 	Fri,  1 Sep 2023 16:25:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1693585515;
-	bh=U7IcSk/+Nrzcif5ILllS7Sx3cRSaNGCvHPdUJRmgY+w=;
+	bh=V8XH4cIvHWrSs/u5pfHFkWBm7960Sk/XsLtEUa1DSQA=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=tEnq995I/E3nhH0Vvgt1lnUVTT8v5KvhEBpPcEWSpW1hVSH7BoJ1M9We0E2xS8bUL
-	 /mRueoBjj1C2ldNAdN3yeOWC16n3vrrHHh45USxIddXNCaxarxcKVJbcp/nRvPkl1H
-	 l8ZjUIdp7ChBareTmPru39tCMSZYmqPWQcr3D2a1c9TtBAT+MGxyM/1Mds3P4kPlTI
-	 drL1mh/UkVCTkcXZntW6goWBhHIijQcwkn64ub07M8fXp70Hb+BJ24TzWup/BzyMi4
-	 OJfQyaQ+Bl/+HloCd/PBzOY1F/yp0H4sIFORWZRwX9miCS3apfUJEwq+qL3b0evo5Q
-	 dHGxPMpdc0Cug==
+	b=BzksYAGVttU96YQgR8k5uPURSLS9LxrDL3vCUmVWVd45VRtBL/9kKNPEEGelVZhxc
+	 Oc/b4siJEVLM1MxOshBWjoNsfwpV/l5oYYAlrdYh8JJWyRWPW55lIZtKj1rUPixmP5
+	 I3QIn7BAV56Jw4ujVvpUR+GqHQH9eU8LgHFpqAQaE1eK8kCFgQhtHk0hJH7B8A18Ci
+	 GqfEXh5Qx6Iw6MmoeBeILSTb9jQuOVFf8FUDPolZBe9kvmn8N7D6b0q6Dtuj8cKbPS
+	 GQIybfMcQcwTtqXXSwbdaiTR3re0BpZE9MKbAdCwWZeu5iafX9qtUdTXs61O4Md7MD
+	 pMwVI/9NU8lZQ==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 8E5CBE29F3D;
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id A1CF0E4509E;
 	Fri,  1 Sep 2023 16:25:15 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
@@ -26,41 +26,47 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v3] riscv: dts: allwinner: d1: Add CAN controller nodes
+Subject: Re: [PATCH v2 0/4] Add support for Allwinner D1 CAN controllers
 From: patchwork-bot+linux-riscv@kernel.org
 Message-Id: 
- <169358551557.8276.8875001900828239804.git-patchwork-notify@kernel.org>
+ <169358551565.8276.3801944999733958707.git-patchwork-notify@kernel.org>
 Date: Fri, 01 Sep 2023 16:25:15 +0000
-References: <20230807191952.2019208-1-contact@jookia.org>
-In-Reply-To: <20230807191952.2019208-1-contact@jookia.org>
+References: <20230721221552.1973203-2-contact@jookia.org>
+In-Reply-To: <20230721221552.1973203-2-contact@jookia.org>
 To: John Watts <contact@jookia.org>
 Cc: linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev,
- devicetree@vger.kernel.org, conor+dt@kernel.org, aou@eecs.berkeley.edu,
- samuel@sholland.org, linux-kernel@vger.kernel.org, jernej.skrabec@gmail.com,
- wens@csie.org, robh+dt@kernel.org, palmer@dabbelt.com,
- krzysztof.kozlowski+dt@linaro.org, paul.walmsley@sifive.com,
- bigunclemax@gmail.com, mkl@pengutronix.de,
- linux-arm-kernel@lists.infradead.org
+ wg@grandegger.com, mkl@pengutronix.de, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, wens@csie.org,
+ jernej.skrabec@gmail.com, samuel@sholland.org, paul.walmsley@sifive.com,
+ palmer@dabbelt.com, aou@eecs.berkeley.edu, linux-can@vger.kernel.org,
+ netdev@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 
 Hello:
 
-This patch was applied to riscv/linux.git (fixes)
-by Chen-Yu Tsai <wens@csie.org>:
+This series was applied to riscv/linux.git (fixes)
+by Marc Kleine-Budde <mkl@pengutronix.de>:
 
-On Tue,  8 Aug 2023 05:19:52 +1000 you wrote:
-> The Allwinner D1, T113 provide two CAN controllers that are variants
-> of the R40 controller.
+On Sat, 22 Jul 2023 08:15:49 +1000 you wrote:
+> This patch series adds support for the Allwinner D1 CAN controllers.
+> It requires adding a new device tree compatible and driver support to
+> work around some hardware quirks.
 > 
-> I have tested support for these controllers on two boards:
-> 
-> - A Lichee Panel RV 86 Panel running a D1 chip
-> - A Mango Pi MQ Dual running a T113-s3 chip
+> This has been tested on the Mango Pi MQ Dual running a T113 and a Lichee
+> Panel 86 running a D1.
 > 
 > [...]
 
 Here is the summary with links:
-  - [v3] riscv: dts: allwinner: d1: Add CAN controller nodes
-    https://git.kernel.org/riscv/c/f05af44f6913
+  - [v2,1/4] dt-bindings: net: can: Add support for Allwinner D1 CAN controller
+    (no matching commit)
+  - [v2,2/4] riscv: dts: allwinner: d1: Add CAN controller nodes
+    https://git.kernel.org/riscv/c/6ea1ad888f59
+  - [v2,3/4] can: sun4i_can: Add acceptance register quirk
+    (no matching commit)
+  - [v2,4/4] can: sun4i_can: Add support for the Allwinner D1
+    (no matching commit)
 
 You are awesome, thank you!
 -- 
