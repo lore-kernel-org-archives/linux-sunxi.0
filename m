@@ -1,26 +1,24 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C786179D8
-	for <linux-sunxi@lists.linux.dev>; Fri,  1 Sep 2023 07:31:57 +0000 (UTC)
-Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.55])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4RcTgQ5b68zNmvv;
-	Fri,  1 Sep 2023 15:09:54 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemi500008.china.huawei.com
- (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Fri, 1 Sep
- 2023 15:13:32 +0800
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-To: <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>, Thomas Gleixner
-	<tglx@linutronix.de>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
-	<jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Mans
- Rullgard <mans@mansr.com>, Maxime Ripard <mripard@kernel.org>
-CC: <ruanjinjie@huawei.com>
-Subject: [PATCH -next] clocksource/drivers/sun5i: Remove redundant dev_err() for platform_get_irq()
-Date: Fri, 1 Sep 2023 15:13:28 +0800
-Message-ID: <20230901071328.1322235-1-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B2E2C153
+	for <linux-sunxi@lists.linux.dev>; Fri,  1 Sep 2023 16:25:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 93AE4C433C9;
+	Fri,  1 Sep 2023 16:25:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1693585515;
+	bh=sHKOqNSdp4q7wIKiijKS4YQmgT1mGamM+gLYzuAIKt4=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=lyMZbDyjiAC9n4nQcawlnvJh/Y4UxIyNx5hbyU40khC7ww1Isrn9b0HqjFFyCSnuv
+	 kONl8Okhidd9vdCfJV9pFvQj/OlTnMjQPrR9c8FEVCO6vJExyFJyJ9JZPLmBDhjxgK
+	 ZrJYWLPlllbUCLSSllcHb5oyeAh2NUvTPE00Mg/iIwT74pQJTPCTRSxA99kde1SWsA
+	 UGDun1RUp9dSxyq+duIjemtcUhGw/y6gTZcyX3aQTRXyq0vvGRu2prJh+hhi6lHiYC
+	 /+ILX4aCoYI/2h00GBYFp1YT72Bfb/osua5wbHdi4WBaIRgMWef6Yv7IS0DBO+UwV1
+	 WjmcKg6aaIF9w==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 78818C595D2;
+	Fri,  1 Sep 2023 16:25:15 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -28,41 +26,53 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.90.53.73]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- kwepemi500008.china.huawei.com (7.221.188.139)
-X-CFilter-Loop: Reflected
+Subject: Re: [PATCH v9 0/4] Add support for Allwinner GPADC on D1/T113s/R329/T507
+ SoCs
+From: patchwork-bot+linux-riscv@kernel.org
+Message-Id: 
+ <169358551548.8276.916609345616924463.git-patchwork-notify@kernel.org>
+Date: Fri, 01 Sep 2023 16:25:15 +0000
+References: <20230715091816.3074375-1-bigunclemax@gmail.com>
+In-Reply-To: <20230715091816.3074375-1-bigunclemax@gmail.com>
+To: Maksim Kiselev <bigunclemax@gmail.com>
+Cc: linux-riscv@lists.infradead.org, linux-iio@vger.kernel.org,
+ jic23@kernel.org, lars@metafoo.de, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, wens@csie.org,
+ jernej.skrabec@gmail.com, samuel@sholland.org, paul.walmsley@sifive.com,
+ palmer@dabbelt.com, aou@eecs.berkeley.edu, p.zabel@pengutronix.de,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
 
-Since commit 7723f4c5ecdb ("driver core: platform: Add an error message
-to platform_get_irq*()") and commit 2043727c2882 ("driver core:
-platform: Make use of the helper function dev_err_probe()"), there is
-no need to call the dev_err() function directly to print a custom
-message when handling an error from platform_get_irq() function as it is
-going to display an appropriate error message in case of a failure.
+Hello:
 
-Fixes: 7e5bac610d2f ("clocksource/drivers/sun5i: Convert to platform device driver")
-Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
----
- drivers/clocksource/timer-sun5i.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+This series was applied to riscv/linux.git (fixes)
+by Jernej Skrabec <jernej.skrabec@gmail.com>:
 
-diff --git a/drivers/clocksource/timer-sun5i.c b/drivers/clocksource/timer-sun5i.c
-index 69fee3540d37..0d229a9058da 100644
---- a/drivers/clocksource/timer-sun5i.c
-+++ b/drivers/clocksource/timer-sun5i.c
-@@ -256,10 +256,8 @@ static int sun5i_timer_probe(struct platform_device *pdev)
- 	}
- 
- 	irq = platform_get_irq(pdev, 0);
--	if (irq < 0) {
--		dev_err(dev, "Can't get IRQ\n");
-+	if (irq < 0)
- 		return irq;
--	}
- 
- 	clk = devm_clk_get_enabled(dev, NULL);
- 	if (IS_ERR(clk)) {
+On Sat, 15 Jul 2023 12:18:12 +0300 you wrote:
+> This series adds support for general purpose ADC (GPADC) on new
+> Allwinner's SoCs, such as D1, T113s, T507 and R329. The implemented driver
+> provides basic functionality for getting ADC channels data.
+> 
+> Change History:
+> v9:
+> - Dropped fixes tag
+> - Reworded commits to remove 'This patch'
+> 
+> [...]
+
+Here is the summary with links:
+  - [v9,1/4] iio: adc: Kconfig change description for Allwinner GPADC
+    (no matching commit)
+  - [v9,2/4] iio: adc: Add Allwinner D1/T113s/R329/T507 SoCs GPADC
+    (no matching commit)
+  - [v9,3/4] dt-bindings: iio: adc: Add Allwinner D1/T113s/R329/T507 SoCs GPADC
+    (no matching commit)
+  - [v9,4/4] riscv: dts: allwinner: d1: Add GPADC node
+    https://git.kernel.org/riscv/c/d0d73ee5e98c
+
+You are awesome, thank you!
 -- 
-2.34.1
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
