@@ -1,39 +1,27 @@
-Received: from smtp.smtpout.orange.fr (smtp-28.smtpout.orange.fr [80.12.242.28])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92BBF7F
-	for <linux-sunxi@lists.linux.dev>; Sun,  3 Sep 2023 10:41:31 +0000 (UTC)
-Received: from pop-os.home ([86.243.2.178])
-	by smtp.orange.fr with ESMTPA
-	id ck4Sq0Dlhv5KTck4SqU8l5; Sun, 03 Sep 2023 12:11:16 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1693735876;
-	bh=pYSxdLERm6FegRN8OPQImJFFHzRLF2IYwebwjAKvv44=;
-	h=From:To:Cc:Subject:Date;
-	b=lU56k2SraqBFtjnPVVg8n3TRO2AETyZ8PZ4ZsOtXQ9jlEQ7NzBjETYeyloHBTlseE
-	 Kw1Q1aUFASROqv/CNJxZY4qi8A5BWp+GNcxWhqrNJXqLZASE1EfBe/7QSYUvaFVsz/
-	 jpAsIzyUJyCjmHrTJPjkqKgtG6F/F2TylX+QybouB+H9eAn0aiP6PbzqcpLE7SFDB+
-	 AgbHF0w9TmvoL3oEioO3Kaks6KPCK3Pjd/OEcmG82JMhxHo4zn1W5Qb2muC6FXOVQ9
-	 3w/FZx2yotk3MON9BzBkmLucNWX2oO/+aqs0XoIDWv2mKix7Qcca2ATgO9rHC2KgrB
-	 ueXdOyY9nKaYw==
-X-ME-Helo: pop-os.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sun, 03 Sep 2023 12:11:16 +0200
-X-ME-IP: 86.243.2.178
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	linux-phy@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH] phy: sun4i-usb: Fix a W=1 compilation failure
-Date: Sun,  3 Sep 2023 12:11:06 +0200
-Message-Id: <0bc81612171baaa6d5dff58c8e009debc03e1ba8.1693735840.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.34.1
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFB913D6A
+	for <linux-sunxi@lists.linux.dev>; Mon,  4 Sep 2023 00:00:11 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AF8CE165C;
+	Sun,  3 Sep 2023 17:00:43 -0700 (PDT)
+Received: from slackpad.lan (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 072F13F766;
+	Sun,  3 Sep 2023 17:00:03 -0700 (PDT)
+Date: Mon, 4 Sep 2023 00:58:55 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I
+ <kishon@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] phy: sun4i-usb: Fix a W=1 compilation failure
+Message-ID: <20230904005855.658819b3@slackpad.lan>
+In-Reply-To: <0bc81612171baaa6d5dff58c8e009debc03e1ba8.1693735840.git.christophe.jaillet@wanadoo.fr>
+References: <0bc81612171baaa6d5dff58c8e009debc03e1ba8.1693735840.git.christophe.jaillet@wanadoo.fr>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -41,40 +29,59 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-With gcc 12.3.0, when this file is built, we get errors such as:
+On Sun,  3 Sep 2023 12:11:06 +0200
+Christophe JAILLET <christophe.jaillet@wanadoo.fr> wrote:
 
-drivers/phy/allwinner/phy-sun4i-usb.c: In function ‘sun4i_usb_phy_probe’:
-drivers/phy/allwinner/phy-sun4i-usb.c:790:52: error: ‘_vbus’ directive output may be truncated writing 5 bytes into a region of size between 2 and 12 [-Werror=format-truncation=]
-  790 |                 snprintf(name, sizeof(name), "usb%d_vbus", i);
-      |                                                    ^~~~~
-drivers/phy/allwinner/phy-sun4i-usb.c:790:17: note: ‘snprintf’ output between 10 and 20 bytes into a destination of size 16
-  790 |                 snprintf(name, sizeof(name), "usb%d_vbus", i);
-      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> With gcc 12.3.0, when this file is built, we get errors such as:
+>=20
+> drivers/phy/allwinner/phy-sun4i-usb.c: In function =E2=80=98sun4i_usb_phy=
+_probe=E2=80=99:
+> drivers/phy/allwinner/phy-sun4i-usb.c:790:52: error: =E2=80=98_vbus=E2=80=
+=99 directive output may be truncated writing 5 bytes into a region of size=
+ between 2 and 12 [-Werror=3Dformat-truncation=3D]
+>   790 |                 snprintf(name, sizeof(name), "usb%d_vbus", i);
+>       |                                                    ^~~~~
+> drivers/phy/allwinner/phy-sun4i-usb.c:790:17: note: =E2=80=98snprintf=E2=
+=80=99 output between 10 and 20 bytes into a destination of size 16
+>   790 |                 snprintf(name, sizeof(name), "usb%d_vbus", i);
+>       |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>=20
+> Because of the possible value of 'i', this can't be an issue in real world
 
-Because of the possible value of 'i', this can't be an issue in real world
-application, but in order to have "make W=1" work correctly, give more
-space for 'name'.
+Would using "u8 i;" help? After all currently there are only 4 PHYs
+max, and in general this isn't expected to be more than a "handful", so
+8 bits should be plenty. An unsigned is better anyway.
+It leaves a bit of a bitter taste, though, as we shouldn't do this kind
+type tweaking, especially not to work around the compiler trying to be
+clever, but then not seeing the whole picture (that "i" is bounded by
+compile time constants not exceeding "4").
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
- drivers/phy/allwinner/phy-sun4i-usb.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Cheers,
+Andre
 
-diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c b/drivers/phy/allwinner/phy-sun4i-usb.c
-index ec551464dd4f..e53a9a9317bc 100644
---- a/drivers/phy/allwinner/phy-sun4i-usb.c
-+++ b/drivers/phy/allwinner/phy-sun4i-usb.c
-@@ -782,7 +782,7 @@ static int sun4i_usb_phy_probe(struct platform_device *pdev)
- 
- 	for (i = 0; i < data->cfg->num_phys; i++) {
- 		struct sun4i_usb_phy *phy = data->phys + i;
--		char name[16];
-+		char name[32];
- 
- 		if (data->cfg->missing_phys & BIT(i))
- 			continue;
--- 
-2.34.1
+> application, but in order to have "make W=3D1" work correctly, give more
+> space for 'name'.
+>=20
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> ---
+>  drivers/phy/allwinner/phy-sun4i-usb.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c b/drivers/phy/allwinne=
+r/phy-sun4i-usb.c
+> index ec551464dd4f..e53a9a9317bc 100644
+> --- a/drivers/phy/allwinner/phy-sun4i-usb.c
+> +++ b/drivers/phy/allwinner/phy-sun4i-usb.c
+> @@ -782,7 +782,7 @@ static int sun4i_usb_phy_probe(struct platform_device=
+ *pdev)
+> =20
+>  	for (i =3D 0; i < data->cfg->num_phys; i++) {
+>  		struct sun4i_usb_phy *phy =3D data->phys + i;
+> -		char name[16];
+> +		char name[32];
+> =20
+>  		if (data->cfg->missing_phys & BIT(i))
+>  			continue;
 
