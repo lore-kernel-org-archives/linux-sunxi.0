@@ -1,18 +1,17 @@
 Received: from relay06.th.seeweb.it (relay06.th.seeweb.it [5.144.164.167])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 179A6C14B
-	for <linux-sunxi@lists.linux.dev>; Mon,  4 Sep 2023 20:02:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69952C14B
+	for <linux-sunxi@lists.linux.dev>; Mon,  4 Sep 2023 20:06:46 +0000 (UTC)
 Received: from [192.168.2.144] (bband-dyn191.178-41-225.t-com.sk [178.41.225.191])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by m-r2.th.seeweb.it (Postfix) with ESMTPSA id B39993F289;
-	Mon,  4 Sep 2023 21:43:56 +0200 (CEST)
-Date: Mon, 04 Sep 2023 21:43:49 +0200
+	by m-r2.th.seeweb.it (Postfix) with ESMTPSA id C2BF03F261;
+	Mon,  4 Sep 2023 22:06:41 +0200 (CEST)
+Date: Mon, 04 Sep 2023 22:06:35 +0200
 From: Martin Botka <martin.botka@somainline.org>
-Subject: Re: [PATCH 5/6] arm64: dts: allwinner: h616: Add CPU Operating
- Performance Points table
+Subject: Re: [PATCH 3/6] dt-bindings: opp: Add compatible for H616
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc: Mark Rutland <mark.rutland@arm.com>, Lorenzo Pieralisi
 	<lpieralisi@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
@@ -29,11 +28,14 @@ Cc: Mark Rutland <mark.rutland@arm.com>, Lorenzo Pieralisi
 	<angelogioacchino.delregno@somainline.org>, Konrad Dybcio
 	<konrad.dybcio@somainline.org>, Rogerio Goncalves <rogerlz@gmail.com>,
 	Martin Botka <martin@biqu3d.com>
-Message-Id: <158H0S.OVEJGSQROBDV1@somainline.org>
-In-Reply-To: <a6c074ec-81d6-4fde-98c7-fc2750483514@linaro.org>
+Message-Id: <Z69H0S.FWOE3UYNRAYU3@somainline.org>
+In-Reply-To: <6e4cd0a1-43d0-e2e8-7281-e20ae653eae6@linaro.org>
 References: <20230904-cpufreq-h616-v1-0-b8842e525c43@somainline.org>
-	<20230904-cpufreq-h616-v1-5-b8842e525c43@somainline.org>
-	<a6c074ec-81d6-4fde-98c7-fc2750483514@linaro.org>
+	<20230904-cpufreq-h616-v1-3-b8842e525c43@somainline.org>
+	<f512f11a-6b66-5892-ad9e-cc45d4abc508@linaro.org>
+	<bda77747-aa97-0da9-fa73-cbb2dca48aeb@linaro.org>
+	<2C8H0S.90380B1U7TPP3@somainline.org>
+	<6e4cd0a1-43d0-e2e8-7281-e20ae653eae6@linaro.org>
 X-Mailer: geary/43.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -45,41 +47,71 @@ Content-Type: text/plain; charset=us-ascii; format=flowed
 
 
 
-On Mon, Sep 4 2023 at 09:33:33 PM +02:00:00, Krzysztof Kozlowski 
+On Mon, Sep 4 2023 at 09:53:05 PM +02:00:00, Krzysztof Kozlowski 
 <krzysztof.kozlowski@linaro.org> wrote:
-> On 04/09/2023 17:57, Martin Botka wrote:
->>  Add an Operating Performance Points table for the CPU cores to
->>  enable Dynamic Voltage & Frequency Scaling on the H616.
+> On 04/09/2023 21:48, Martin Botka wrote:
 >> 
+>> 
+>>  On Mon, Sep 4 2023 at 09:32:44 PM +02:00:00, Krzysztof Kozlowski
+>>  <krzysztof.kozlowski@linaro.org> wrote:
+>>>  On 04/09/2023 21:31, Krzysztof Kozlowski wrote:
+>>>>   On 04/09/2023 17:57, Martin Botka wrote:
+>>>>>   We need to add compatible for H616 to H6 cpufreq driver 
+>>>>> bindings.
+>>>> 
+>>>>   Please describe the hardware, not what is needed for drivers.
+>>>> 
+>>>>> 
+>>>>>   Also enable opp_supported_hw property that will be needed for 
+>>>>> H616.
+>>>>> 
+>>>>>   Signed-off-by: Martin Botka <martin.botka@somainline.org>
+>>>>>   ---
+>>>>>    .../bindings/opp/allwinner,sun50i-h6-operating-points.yaml
+>>>>>    | 6 +++++-
+>>>>>    1 file changed, 5 insertions(+), 1 deletion(-)
+>>>>> 
+>>>>>   diff --git
+>>>>>  
+>>>>> a/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
+>>>>>  
+>>>>> b/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
+>>>>>   index 51f62c3ae194..2fa1199f2d23 100644
+>>>>>   ---
+>>>>>  
+>>>>> a/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
+>>>>>   +++
+>>>>>  
+>>>>> b/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
+>>>>>   @@ -23,7 +23,10 @@ allOf:
+>>>>> 
+>>>>>    properties:
+>>>>>      compatible:
+>>>>>   -    const: allwinner,sun50i-h6-operating-points
+>>>>>   +    contains:
+>>>> 
+>>>>   This does not look like part of allOf, so contains is no correct
+>>>>  here.
+>>>>   This must be specific, so drop contains.
+>>> 
+>>>  BTW, I also do no see it used by the driver at all.
+>>  Function sun50i_cpufreq_get_efuse uses it. It checks for H6 
+>> compatible
+>>  and if that fails we check for H616 compatible.
 > 
-> ...
+> Such code does no scale. It also does not look reasonable - you cannot
+> have different compatible there. Device binds to h6 or h616, so you
+> cannot have OPP table from other devices.
 > 
->>  diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi 
->> b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
->>  index 063db9634e5f..78e79c591dba 100644
->>  --- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
->>  +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
->>  @@ -143,6 +143,10 @@ sid: efuse@3006000 {
->>   			ths_calibration: thermal-sensor-calibration@14 {
->>   				reg = <0x14 0x8>;
->>   			};
->>  +
->>  +			cpu_speed_grade: cpu_speed_grade@0 {
-> 
-> Underscores are no allowed in node names.
-> 
-> It does not look like you tested the DTS against bindings. Please run
-> `make dtbs_check W=1` (see
-> Documentation/devicetree/bindings/writing-schema.rst or
-> https://www.linaro.org/blog/tips-and-tricks-for-validating-devicetree-sources-with-the-devicetree-schema/
-> for instructions).
-I actually did. And did rerun it just now to check. No error or warning 
-was reported by dtbs_check W=1 for this.
-But I will correct it in V2 and look if my setup is doing something 
-wrong that its not reporting these issues.
+Heya. I checked how qcom nvmem driver does it. And yea this indeed does 
+not scale. matchlist should have SoC compatible and driver needs to 
+have single compatible. Thus also dropping this patch :)
+
+Will do in V2. Thanks Krzystof for pointing me to the right way of 
+doing it :)
+
 Cheers,
 Martin
-> 
 > Best regards,
 > Krzysztof
 > 
