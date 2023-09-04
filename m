@@ -1,17 +1,17 @@
-Received: from relay03.th.seeweb.it (relay03.th.seeweb.it [5.144.164.164])
+Received: from relay02.th.seeweb.it (relay02.th.seeweb.it [5.144.164.163])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0760C149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36842C2EE
 	for <linux-sunxi@lists.linux.dev>; Mon,  4 Sep 2023 16:06:41 +0000 (UTC)
 Received: from v0.lan (bband-dyn191.178-41-225.t-com.sk [178.41.225.191])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 493011FAFE;
-	Mon,  4 Sep 2023 17:57:06 +0200 (CEST)
+	by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 5B3FE201B0;
+	Mon,  4 Sep 2023 17:57:09 +0200 (CEST)
 From: Martin Botka <martin.botka@somainline.org>
-Date: Mon, 04 Sep 2023 17:57:02 +0200
-Subject: [PATCH 2/6] cpufreq: dt-platdev: Blocklist allwinner,h616 SoC
+Date: Mon, 04 Sep 2023 17:57:06 +0200
+Subject: [PATCH 6/6] arm64: dts: allwinner: h616: Add cooling cells
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -20,7 +20,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230904-cpufreq-h616-v1-2-b8842e525c43@somainline.org>
+Message-Id: <20230904-cpufreq-h616-v1-6-b8842e525c43@somainline.org>
 References: <20230904-cpufreq-h616-v1-0-b8842e525c43@somainline.org>
 In-Reply-To: <20230904-cpufreq-h616-v1-0-b8842e525c43@somainline.org>
 To: Mark Rutland <mark.rutland@arm.com>, 
@@ -42,33 +42,57 @@ Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  Rogerio Goncalves <rogerlz@gmail.com>, Martin Botka <martin@biqu3d.com>, 
  Martin Botka <martin.botka@somainline.org>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1693843024; l=763;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1693843024; l=1174;
  i=martin.botka@somainline.org; s=20230811; h=from:subject:message-id;
- bh=y6+Jp6XdKlMolFv5lUKbS3BMDgQUVTv9Ux9Y9Pn0TiI=;
- b=jYK1Ddg2mSPl2rn47FMupLfy4TQbq4y4Ff2LU45va19Z4Fmq+B+x7B57OviVOXwqZEwVGQpX+
- L7sv0XXIIk8D2MXSGs4p4If3SIc5J6qsYkfdvrBDMpnb7vKRS9UECKB
+ bh=qJv56yjDvCMxLlVKkO9qD49pos1hnuOnNYRbCB0UPg0=;
+ b=zMLqucwWJskJLNOgqJTLSKacT6rQBC1cwrFNHN3F2BAMkUGpUNzTlKyvratAfDhTp2hqBTdRU
+ xmbBKBWUWsrDX4Dj9koFphUDq/Thv1MDc4BtfGIm6hqMCQAin2R3D3B
 X-Developer-Key: i=martin.botka@somainline.org; a=ed25519;
  pk=aTCd3jmwU8GrJidWg3DSKLpdVMcpFzXzCSLXLR6NtWU=
 
-The AllWinner H616 uses H6 cpufreq driver.
-Add it to blocklist so its not created twice
+Add cooling cells so we enable passive cooling on CPU by regulating
+CPU voltage and frequency
 
 Signed-off-by: Martin Botka <martin.botka@somainline.org>
 ---
- drivers/cpufreq/cpufreq-dt-platdev.c | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/cpufreq/cpufreq-dt-platdev.c b/drivers/cpufreq/cpufreq-dt-platdev.c
-index e2b20080de3a..51818cef8979 100644
---- a/drivers/cpufreq/cpufreq-dt-platdev.c
-+++ b/drivers/cpufreq/cpufreq-dt-platdev.c
-@@ -104,6 +104,7 @@ static const struct of_device_id allowlist[] __initconst = {
-  */
- static const struct of_device_id blocklist[] __initconst = {
- 	{ .compatible = "allwinner,sun50i-h6", },
-+	{ .compatible = "allwinner,sun50i-h616", },
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+index 78e79c591dba..7dc4c95ea280 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+@@ -26,6 +26,7 @@ cpu0: cpu@0 {
+ 			reg = <0>;
+ 			enable-method = "psci";
+ 			clocks = <&ccu CLK_CPUX>;
++			#cooling-cells = <2>;
+ 		};
  
- 	{ .compatible = "apple,arm-platform", },
+ 		cpu1: cpu@1 {
+@@ -34,6 +35,7 @@ cpu1: cpu@1 {
+ 			reg = <1>;
+ 			enable-method = "psci";
+ 			clocks = <&ccu CLK_CPUX>;
++			#cooling-cells = <2>;
+ 		};
+ 
+ 		cpu2: cpu@2 {
+@@ -42,6 +44,7 @@ cpu2: cpu@2 {
+ 			reg = <2>;
+ 			enable-method = "psci";
+ 			clocks = <&ccu CLK_CPUX>;
++			#cooling-cells = <2>;
+ 		};
+ 
+ 		cpu3: cpu@3 {
+@@ -50,6 +53,7 @@ cpu3: cpu@3 {
+ 			reg = <3>;
+ 			enable-method = "psci";
+ 			clocks = <&ccu CLK_CPUX>;
++			#cooling-cells = <2>;
+ 		};
+ 	};
  
 
 -- 
