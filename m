@@ -1,107 +1,337 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay06.th.seeweb.it (relay06.th.seeweb.it [5.144.164.167])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92102C14B
-	for <linux-sunxi@lists.linux.dev>; Mon,  4 Sep 2023 19:33:37 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-529fb04a234so2325032a12.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 04 Sep 2023 12:33:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693856015; x=1694460815; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Fyqh9KieADPlDrhoiQmtiolrcxF+wgTTmnR9hQetGoE=;
-        b=OcN4viHJwxRM6G6cSVov5VwIxOpOXtMBpl4hMtm3mZLi+4BgcpQKqU3EQpDMFxzNmO
-         8WRppC8SiPq4QGW6h0gK3fKRJYC3HeUQYd5vc8eno5XPTKZcRkBZiTQFDsCamQoe5MBo
-         /DRDR3+hXvSCSPQmzEX0FgUt153BoinhnUMMeblffyHkg6sc/hFosXvI3Q6kyfdEf/dZ
-         GImKmnWfcANnDCkoLHz0P7b3NTPfL7kfcigG01FomBRo4BSXjLYkkHJ8RKofukmdGwCv
-         K9+zythrjHEiBlf8JiI3NbErvZsWNJ28O3ECptQUU6fi+jc6+B3qXMn3Z6vGlLOpcxno
-         AABg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693856015; x=1694460815;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Fyqh9KieADPlDrhoiQmtiolrcxF+wgTTmnR9hQetGoE=;
-        b=gMobJFmZUNWRkl1GScemcu3hrx4jr3gfMWUKMWu8e5F/xojhEBApcblb5oX70BchEe
-         72M4ARbefRBwyuHoZty3c8JHQ5JFDZlqZxCvbdqbojk0XloDnnlWO+nFqlL2mPnEC9G2
-         M6h7FipzRxonBBOvQD+qR+NUuV7I8xOUwJdHuuSf50jQTtnaumECPLmkCyEOZsrP7yDR
-         WL1d6hY/5Fc8JP1zO7EtgCsRDAm6Kl7qL5L2ag48Cc01YCDH4vNi7bmkZh9gaswBsUgL
-         Cpdasf0u4GHTXh7KVa2MzBm9Ijpf8YllKPhQqiAW4zzWHwfsTYAZxUXiA/cXmbmsxxcO
-         1xeQ==
-X-Gm-Message-State: AOJu0YwT1wqVJm8c3k+HHFQY+RwuYHRdhegaeNvU3mMlP36y6yEps5Ds
-	z2Zle+8baO84XsMTv9uPeEsi6A==
-X-Google-Smtp-Source: AGHT+IECh66OM0WQyvbaTq/MMccQJZK12gMVL5VRUK8NzO3Lt69so2ApRkT7/AI/iWf/W3rRE0Je4Q==
-X-Received: by 2002:aa7:c391:0:b0:524:9564:4fee with SMTP id k17-20020aa7c391000000b0052495644feemr7852456edq.10.1693856015578;
-        Mon, 04 Sep 2023 12:33:35 -0700 (PDT)
-Received: from [192.168.0.22] (77-252-46-238.static.ip.netia.com.pl. [77.252.46.238])
-        by smtp.gmail.com with ESMTPSA id w4-20020aa7da44000000b0052241b8fd0bsm6183170eds.29.2023.09.04.12.33.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Sep 2023 12:33:35 -0700 (PDT)
-Message-ID: <a6c074ec-81d6-4fde-98c7-fc2750483514@linaro.org>
-Date: Mon, 4 Sep 2023 21:33:33 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A99DC14B
+	for <linux-sunxi@lists.linux.dev>; Mon,  4 Sep 2023 19:37:19 +0000 (UTC)
+Received: from [192.168.2.144] (bband-dyn191.178-41-225.t-com.sk [178.41.225.191])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 0B72A3F294;
+	Mon,  4 Sep 2023 21:29:04 +0200 (CEST)
+Date: Mon, 04 Sep 2023 21:28:57 +0200
+From: Martin Botka <martin.botka@somainline.org>
+Subject: Re: [PATCH 4/6] cpufreq: sun50i: Add H616 support
+To: Mark Rutland <mark.rutland@arm.com>, Lorenzo Pieralisi
+	<lpieralisi@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>, Viresh Kumar
+	<viresh.kumar@linaro.org>, Yangtao Li <tiny.windzz@gmail.com>, Chen-Yu Tsai
+	<wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+	<samuel@sholland.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	devicetree@vger.kernel.org, Andre Przywara <andre.przywara@arm.com>, Alan Ma
+	<tech@biqu3d.com>, Luke Harrison <bttuniversity@biqu3d.com>, Marijn Suijten
+	<marijn.suijten@somainline.org>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@somainline.org>, Konrad Dybcio
+	<konrad.dybcio@somainline.org>, Rogerio Goncalves <rogerlz@gmail.com>,
+	Martin Botka <martin@biqu3d.com>
+Message-Id: <9G7H0S.VAAJCUTOCA353@somainline.org>
+In-Reply-To: <20230904-cpufreq-h616-v1-4-b8842e525c43@somainline.org>
+References: <20230904-cpufreq-h616-v1-0-b8842e525c43@somainline.org>
+	<20230904-cpufreq-h616-v1-4-b8842e525c43@somainline.org>
+X-Mailer: geary/43.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH 5/6] arm64: dts: allwinner: h616: Add CPU Operating
- Performance Points table
-Content-Language: en-US
-To: Martin Botka <martin.botka@somainline.org>,
- Mark Rutland <mark.rutland@arm.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Sudeep Holla <sudeep.holla@arm.com>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>,
- Yangtao Li <tiny.windzz@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-sunxi@lists.linux.dev,
- devicetree@vger.kernel.org, Andre Przywara <andre.przywara@arm.com>,
- Alan Ma <tech@biqu3d.com>, Luke Harrison <bttuniversity@biqu3d.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Rogerio Goncalves <rogerlz@gmail.com>, Martin Botka <martin@biqu3d.com>
-References: <20230904-cpufreq-h616-v1-0-b8842e525c43@somainline.org>
- <20230904-cpufreq-h616-v1-5-b8842e525c43@somainline.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230904-cpufreq-h616-v1-5-b8842e525c43@somainline.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
 
-On 04/09/2023 17:57, Martin Botka wrote:
-> Add an Operating Performance Points table for the CPU cores to
-> enable Dynamic Voltage & Frequency Scaling on the H616.
+
+
+On Mon, Sep 4 2023 at 05:57:04 PM +02:00:00, Martin Botka 
+<martin.botka@somainline.org> wrote:
+> AllWinner H616 SoC has few revisions that support different list
+> of uV and frequencies.
+> 
+> Some revisions have the same NVMEM value and thus we have to check
+> the SoC revision from SMCCC to differentiate between them.
+> 
+> Signed-off-by: Martin Botka <martin.botka@somainline.org>
+> ---
+>  drivers/cpufreq/sun50i-cpufreq-nvmem.c | 149 
+> ++++++++++++++++++++++++++++-----
+>  1 file changed, 126 insertions(+), 23 deletions(-)
+> 
+> diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c 
+> b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+> index 4321d7bbe769..19c126fb081e 100644
+> --- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+> +++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+> @@ -10,6 +10,7 @@
+> 
+>  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> 
+> +#include <linux/arm-smccc.h>
+>  #include <linux/cpu.h>
+>  #include <linux/module.h>
+>  #include <linux/nvmem-consumer.h>
+> @@ -23,20 +24,94 @@
+>  #define NVMEM_MASK	0x7
+>  #define NVMEM_SHIFT	5
+> 
+> +struct sunxi_cpufreq_soc_data {
+> +	int (*efuse_xlate)(u32 *versions, u32 *efuse, char *name, size_t 
+> len);
+> +	u8 ver_freq_limit;
+> +};
+> +
+>  static struct platform_device *cpufreq_dt_pdev, *sun50i_cpufreq_pdev;
+> 
+> +static int sun50i_h616_efuse_xlate(u32 *versions, u32 *efuse, char 
+> *name, size_t len)
+> +{
+> +	int value = 0;
+> +	u32 speedgrade = 0;
+> +	u32 i;
+> +	int ver_bits = arm_smccc_get_soc_id_revision();
+> +
+> +	if (len > 4) {
+> +		pr_err("Invalid nvmem cell length\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	for (i = 0; i < len; i++)
+> +		speedgrade |= (efuse[i] << (i * 8));
+> +
+> +	switch (speedgrade) {
+> +	case 0x2000:
+> +		value = 0;
+> +		break;
+> +	case 0x2400:
+> +	case 0x7400:
+> +	case 0x2c00:
+> +	case 0x7c00:
+> +		if (ver_bits <= 1) {
+> +			/* ic version A/B */
+> +			value = 1;
+> +		} else {
+> +			/* ic version C and later version */
+> +			value = 2;
+> +		}
+> +		break;
+> +	case 0x5000:
+> +	case 0x5400:
+> +	case 0x6000:
+> +		value = 3;
+> +		break;
+> +	case 0x5c00:
+> +		value = 4;
+> +		break;
+> +	case 0x5d00:
+> +	default:
+> +		value = 0;
+> +	}
+> +	*versions = (1 << value);
+> +	snprintf(name, MAX_NAME_LEN, "speed%d", value);
+> +	return 0;
+> +}
+> +
+> +static int sun50i_h6_efuse_xlate(u32 *versions, u32 *efuse, char 
+> *name, size_t len)
+> +{
+> +	int efuse_value = (*efuse >> NVMEM_SHIFT) & NVMEM_MASK;
+> +
+> +	/*
+> +	 * We treat unexpected efuse values as if the SoC was from
+> +	 * the slowest bin. Expected efuse values are 1-3, slowest
+> +	 * to fastest.
+> +	 */
+> +	if (efuse_value >= 1 && efuse_value <= 3)
+> +		*versions = efuse_value - 1;
+> +	else
+> +		*versions = 0;
+> +
+> +	snprintf(name, MAX_NAME_LEN, "speed%d", *versions);
+> +	return 0;
+> +}
+> +
+>  /**
+>   * sun50i_cpufreq_get_efuse() - Determine speed grade from efuse 
+> value
+> + * @soc_data: Struct containing soc specific data & functions
+>   * @versions: Set to the value parsed from efuse
+> + * @name: Set to the name of speed
+>   *
+>   * Returns 0 if success.
+>   */
+> -static int sun50i_cpufreq_get_efuse(u32 *versions)
+> +static int sun50i_cpufreq_get_efuse(const struct 
+> sunxi_cpufreq_soc_data *soc_data,
+> +				    u32 *versions, char *name)
+>  {
+>  	struct nvmem_cell *speedbin_nvmem;
+>  	struct device_node *np;
+>  	struct device *cpu_dev;
+> -	u32 *speedbin, efuse_value;
+> +	u32 *speedbin;
+>  	size_t len;
+>  	int ret;
+> 
+> @@ -48,9 +123,9 @@ static int sun50i_cpufreq_get_efuse(u32 *versions)
+>  	if (!np)
+>  		return -ENOENT;
+> 
+> -	ret = of_device_is_compatible(np,
+> -				      "allwinner,sun50i-h6-operating-points");
+> -	if (!ret) {
+> +	if (of_device_is_compatible(np, 
+> "allwinner,sun50i-h6-operating-points")) {
+> +	} else if (of_device_is_compatible(np, 
+> "allwinner,sun50i-h616-operating-points")) {
+> +	} else {
+>  		of_node_put(np);
+>  		return -ENOENT;
+>  	}
+> @@ -66,17 +141,9 @@ static int sun50i_cpufreq_get_efuse(u32 *versions)
+>  	if (IS_ERR(speedbin))
+>  		return PTR_ERR(speedbin);
+> 
+> -	efuse_value = (*speedbin >> NVMEM_SHIFT) & NVMEM_MASK;
+> -
+> -	/*
+> -	 * We treat unexpected efuse values as if the SoC was from
+> -	 * the slowest bin. Expected efuse values are 1-3, slowest
+> -	 * to fastest.
+> -	 */
+> -	if (efuse_value >= 1 && efuse_value <= 3)
+> -		*versions = efuse_value - 1;
+> -	else
+> -		*versions = 0;
+> +	ret = soc_data->efuse_xlate(versions, speedbin, name, len);
+> +	if (ret)
+> +		return ret;
+> 
+>  	kfree(speedbin);
+>  	return 0;
+> @@ -84,25 +151,30 @@ static int sun50i_cpufreq_get_efuse(u32 
+> *versions)
+> 
+>  static int sun50i_cpufreq_nvmem_probe(struct platform_device *pdev)
+>  {
+> +	const struct of_device_id *match;
+> +	const struct sunxi_cpufreq_soc_data *soc_data;
+>  	int *opp_tokens;
+>  	char name[MAX_NAME_LEN];
+>  	unsigned int cpu;
+> -	u32 speed = 0;
+> +	u32 version = 0;
+>  	int ret;
+> 
+> +	match = dev_get_platdata(&pdev->dev);
+> +	if (!match)
+> +		return -EINVAL;
+> +	soc_data = match->data;
+> +
+>  	opp_tokens = kcalloc(num_possible_cpus(), sizeof(*opp_tokens),
+>  			     GFP_KERNEL);
+>  	if (!opp_tokens)
+>  		return -ENOMEM;
+> 
+> -	ret = sun50i_cpufreq_get_efuse(&speed);
+> +	ret = sun50i_cpufreq_get_efuse(match->data, &version, name);
+>  	if (ret) {
+>  		kfree(opp_tokens);
+>  		return ret;
+>  	}
+> 
+> -	snprintf(name, MAX_NAME_LEN, "speed%d", speed);
+> -
+>  	for_each_possible_cpu(cpu) {
+>  		struct device *cpu_dev = get_cpu_device(cpu);
+> 
+> @@ -117,6 +189,16 @@ static int sun50i_cpufreq_nvmem_probe(struct 
+> platform_device *pdev)
+>  			pr_err("Failed to set prop name\n");
+>  			goto free_opp;
+>  		}
+> +
+> +		if (soc_data->ver_freq_limit) {
+> +			opp_tokens[cpu] = dev_pm_opp_set_supported_hw(cpu_dev,
+> +								  &version, 1);
+> +			if (opp_tokens[cpu] < 0) {
+> +				ret = opp_tokens[cpu];
+> +				pr_err("Failed to set hw\n");
+> +				goto free_opp;
+> +			}
+> +		}
+>  	}
+> 
+>  	cpufreq_dt_pdev = platform_device_register_simple("cpufreq-dt", -1,
+> @@ -132,6 +214,8 @@ static int sun50i_cpufreq_nvmem_probe(struct 
+> platform_device *pdev)
+>  free_opp:
+>  	for_each_possible_cpu(cpu)
+>  		dev_pm_opp_put_prop_name(opp_tokens[cpu]);
+> +		if (soc_data->ver_freq_limit)
+> +			dev_pm_opp_put_supported_hw(opp_tokens[cpu]);
+>  	kfree(opp_tokens);
+> 
+>  	return ret;
+> @@ -140,12 +224,21 @@ static int sun50i_cpufreq_nvmem_probe(struct 
+> platform_device *pdev)
+>  static int sun50i_cpufreq_nvmem_remove(struct platform_device *pdev)
+>  {
+>  	int *opp_tokens = platform_get_drvdata(pdev);
+> +	const struct of_device_id *match;
+> +	const struct sunxi_cpufreq_soc_data *soc_data;
+>  	unsigned int cpu;
+> 
+> +	match = dev_get_platdata(&pdev->dev);
+> +	if (!match)
+> +		return -EINVAL;
+> +	soc_data = match->data;
+> +
+>  	platform_device_unregister(cpufreq_dt_pdev);
+> 
+>  	for_each_possible_cpu(cpu)
+>  		dev_pm_opp_put_prop_name(opp_tokens[cpu]);
+> +		if (soc_data->ver_freq_limit)
+> +			dev_pm_opp_put_supported_hw(opp_tokens[cpu]);
+I completely overlooked this issue here. Clang didnt report a warning 
+here. I will fix it in both cases in V2 :) Sorry.
+> 
+>  	kfree(opp_tokens);
+> 
+> @@ -160,8 +253,18 @@ static struct platform_driver 
+> sun50i_cpufreq_driver = {
+>  	},
+>  };
+> 
+> +static const struct sunxi_cpufreq_soc_data sun50i_h616_data = {
+> +	.efuse_xlate = sun50i_h616_efuse_xlate,
+> +	.ver_freq_limit = true,
+> +};
+> +
+> +static const struct sunxi_cpufreq_soc_data sun50i_h6_data = {
+> +	.efuse_xlate = sun50i_h6_efuse_xlate,
+> +};
+> +
+>  static const struct of_device_id sun50i_cpufreq_match_list[] = {
+> -	{ .compatible = "allwinner,sun50i-h6" },
+> +	{ .compatible = "allwinner,sun50i-h6", .data = &sun50i_h6_data },
+> +	{ .compatible = "allwinner,sun50i-h616", .data = &sun50i_h616_data 
+> },
+>  	{}
+>  };
+>  MODULE_DEVICE_TABLE(of, sun50i_cpufreq_match_list);
+> @@ -197,8 +300,8 @@ static int __init sun50i_cpufreq_init(void)
+>  		return ret;
+> 
+>  	sun50i_cpufreq_pdev =
+> -		platform_device_register_simple("sun50i-cpufreq-nvmem",
+> -						-1, NULL, 0);
+> +		platform_device_register_data(NULL, "sun50i-cpufreq-nvmem",
+> +						-1, match, sizeof(*match));
+>  	ret = PTR_ERR_OR_ZERO(sun50i_cpufreq_pdev);
+>  	if (ret == 0)
+>  		return 0;
+> 
+> --
+> 2.42.0
 > 
 
-...
-
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> index 063db9634e5f..78e79c591dba 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> @@ -143,6 +143,10 @@ sid: efuse@3006000 {
->  			ths_calibration: thermal-sensor-calibration@14 {
->  				reg = <0x14 0x8>;
->  			};
-> +
-> +			cpu_speed_grade: cpu_speed_grade@0 {
-
-Underscores are no allowed in node names.
-
-It does not look like you tested the DTS against bindings. Please run
-`make dtbs_check W=1` (see
-Documentation/devicetree/bindings/writing-schema.rst or
-https://www.linaro.org/blog/tips-and-tricks-for-validating-devicetree-sources-with-the-devicetree-schema/
-for instructions).
-
-Best regards,
-Krzysztof
 
