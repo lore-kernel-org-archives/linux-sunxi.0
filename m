@@ -1,18 +1,17 @@
 Received: from relay03.th.seeweb.it (relay03.th.seeweb.it [5.144.164.164])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE109BE4F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0760C149
 	for <linux-sunxi@lists.linux.dev>; Mon,  4 Sep 2023 16:06:41 +0000 (UTC)
 Received: from v0.lan (bband-dyn191.178-41-225.t-com.sk [178.41.225.191])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by m-r1.th.seeweb.it (Postfix) with ESMTPSA id AAA411F8A1;
-	Mon,  4 Sep 2023 17:57:04 +0200 (CEST)
+	by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 493011FAFE;
+	Mon,  4 Sep 2023 17:57:06 +0200 (CEST)
 From: Martin Botka <martin.botka@somainline.org>
-Subject: [PATCH 0/6] cpufreq for H616
-Date: Mon, 04 Sep 2023 17:57:00 +0200
-Message-Id: <20230904-cpufreq-h616-v1-0-b8842e525c43@somainline.org>
+Date: Mon, 04 Sep 2023 17:57:02 +0200
+Subject: [PATCH 2/6] cpufreq: dt-platdev: Blocklist allwinner,h616 SoC
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -21,9 +20,9 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAEz+9WQC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI2MDCyMT3eSC0rSi1ELdDDNDM10DY3ODlDTTxNREYxMloJaCotS0zAqwcdG
- xtbUAEKOQaV4AAAA=
+Message-Id: <20230904-cpufreq-h616-v1-2-b8842e525c43@somainline.org>
+References: <20230904-cpufreq-h616-v1-0-b8842e525c43@somainline.org>
+In-Reply-To: <20230904-cpufreq-h616-v1-0-b8842e525c43@somainline.org>
 To: Mark Rutland <mark.rutland@arm.com>, 
  Lorenzo Pieralisi <lpieralisi@kernel.org>, 
  Sudeep Holla <sudeep.holla@arm.com>, 
@@ -43,56 +42,35 @@ Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  Rogerio Goncalves <rogerlz@gmail.com>, Martin Botka <martin@biqu3d.com>, 
  Martin Botka <martin.botka@somainline.org>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1693843024; l=1631;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1693843024; l=763;
  i=martin.botka@somainline.org; s=20230811; h=from:subject:message-id;
- bh=U/3GSrY/Da5OP4VIOMN9GgEPvGCUXEMC8rHSLoKA2Rw=;
- b=MtvEf/mtaOylRcOzTcUjowCffBGTFqT6Srlp77NJ9QYCFml/mSDTBkShMH7IpjvA6TZsxu7K+
- RVNodzZtuxfBZ3LhwAyAp68ANZQnuFvystXI1eMcjZPUvCL16DzlGJw
+ bh=y6+Jp6XdKlMolFv5lUKbS3BMDgQUVTv9Ux9Y9Pn0TiI=;
+ b=jYK1Ddg2mSPl2rn47FMupLfy4TQbq4y4Ff2LU45va19Z4Fmq+B+x7B57OviVOXwqZEwVGQpX+
+ L7sv0XXIIk8D2MXSGs4p4If3SIc5J6qsYkfdvrBDMpnb7vKRS9UECKB
 X-Developer-Key: i=martin.botka@somainline.org; a=ed25519;
  pk=aTCd3jmwU8GrJidWg3DSKLpdVMcpFzXzCSLXLR6NtWU=
 
-Hello,
-
-This patch series adds support for cpufreq on H616 SoC.
-
-H616 is bit interesting. It has SoC versions that have different
-frequencies and uV but some versions have the same version ID and
-we have to check the SoC revision to differentiate between them.
-
-This is done via SMCCC. Thus the exporting of the symbol.
-
-Please note that this series depends on my THS series which
-depends on my SID series.
-
-I also have not enabled the cpufreq on any devices to minimize
-the series dependencies and I did test it only on CB1 where
-it works.
-
-Cheers,
-Martin
+The AllWinner H616 uses H6 cpufreq driver.
+Add it to blocklist so its not created twice
 
 Signed-off-by: Martin Botka <martin.botka@somainline.org>
 ---
-Martin Botka (6):
-      firmware: smccc: Export revision soc_id function
-      cpufreq: dt-platdev: Blocklist allwinner,h616 SoC
-      dt-bindings: opp: Add compatible for H616
-      cpufreq: sun50i: Add H616 support
-      arm64: dts: allwinner: h616: Add CPU Operating Performance Points table
-      arm64: dts: allwinner: h616: Add cooling cells
+ drivers/cpufreq/cpufreq-dt-platdev.c | 1 +
+ 1 file changed, 1 insertion(+)
 
- .../opp/allwinner,sun50i-h6-operating-points.yaml  |   6 +-
- .../boot/dts/allwinner/sun50i-h616-cpu-opp.dtsi    | 129 ++++++++++++++++++
- arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi     |   8 ++
- drivers/cpufreq/cpufreq-dt-platdev.c               |   1 +
- drivers/cpufreq/sun50i-cpufreq-nvmem.c             | 149 +++++++++++++++++----
- drivers/firmware/smccc/smccc.c                     |   1 +
- 6 files changed, 270 insertions(+), 24 deletions(-)
----
-base-commit: a384547b9656aa2c98f643037b0e940476c41f51
-change-id: 20230824-cpufreq-h616-0370df5aea34
+diff --git a/drivers/cpufreq/cpufreq-dt-platdev.c b/drivers/cpufreq/cpufreq-dt-platdev.c
+index e2b20080de3a..51818cef8979 100644
+--- a/drivers/cpufreq/cpufreq-dt-platdev.c
++++ b/drivers/cpufreq/cpufreq-dt-platdev.c
+@@ -104,6 +104,7 @@ static const struct of_device_id allowlist[] __initconst = {
+  */
+ static const struct of_device_id blocklist[] __initconst = {
+ 	{ .compatible = "allwinner,sun50i-h6", },
++	{ .compatible = "allwinner,sun50i-h616", },
+ 
+ 	{ .compatible = "apple,arm-platform", },
+ 
 
-Best regards,
 -- 
-Martin Botka <martin.botka@somainline.org>
+2.42.0
 
