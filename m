@@ -1,45 +1,45 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA610C14B
-	for <linux-sunxi@lists.linux.dev>; Mon,  4 Sep 2023 19:31:38 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-99c3d3c3db9so271306466b.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 04 Sep 2023 12:31:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D749DC14B
+	for <linux-sunxi@lists.linux.dev>; Mon,  4 Sep 2023 19:32:48 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-9a648f9d8e3so213857966b.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 04 Sep 2023 12:32:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693855896; x=1694460696; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+        d=linaro.org; s=google; t=1693855967; x=1694460767; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=NJfzYAIKnwPTaNVAAkVDsZyLFKgbTLwbTGas3wSGj30=;
-        b=DjQY63OwURzhRSZD4O7nfl2OhqTGE7n26Mh8+TJsG4D0u9q2FFHWMB7Y2ktvcOd77T
-         8CQkkqO0qIzQkdNuGiBQ8WYzl7XR5NWWioRfVNi7+xMcm2vFML45aqSy6DN8vao4EGdA
-         BBgUZE2p9h4qSzLAQRQiFBqkpvAeA9nRwO813wV00UEyV4ftvmwiWr5fTKjUZD/fn+N9
-         rAgrE1iLuSrfmZFvtOHf3JA8tA79BZ1Q4jHRC4oDfTNft+mPWXcozlE/Sus9kTRKA/Rp
-         5dsfhv2x8HxG97LGnh9PIG8ApoUAGuZeN0Z9vTni+WnixtpN4Nq32j+sHlbB0KW8tlgQ
-         K6Yw==
+        bh=JZ6H5M4q548gV0CNQehrzM4g+Qp6ZkTiIwLgzPLmdrE=;
+        b=wjcz8S7DuF9ADn8AhAlqoEcMxXj1GZRXF+6b8kqy73htPjoIkGpn1ut05BAH+M88NG
+         q3S2t9gq2AdmGYKqFKkP/FMDn5dRd0stkpjdpopDf0CDVvw1JHKmQJ8K7WkA4AdEcoFw
+         YsXFJJrJU8XcI44W+sC/euCQ2FlkxWR1yytxVr941CUatnXP7P5MgWmTJ5c8SAo1PTWD
+         Sbcqf6MyP0fbjO8lWn66JPORW8opzAO/FKh9Xy9g3jj/DhdS4i7u5OMZddp+e1IVH5Ye
+         BYkHCEJhuiwfBN+Dl3u61E+O/EocrsE0o3RX0Ynlrcr6Um3TrJPtvZNSGdClAKLCcldp
+         xQ/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693855896; x=1694460696;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+        d=1e100.net; s=20221208; t=1693855967; x=1694460767;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NJfzYAIKnwPTaNVAAkVDsZyLFKgbTLwbTGas3wSGj30=;
-        b=Kwz1FiiGdP2PFYTb0HNjfPp/qUKyABo2Ly3xEL0LyVVj2nlTWqo5J3QzW/w03vlz+l
-         IwEHgLrQSzzHsxAn9LDp/K99nP7yYo3gnkEVCh9oJ9r5A+A5pMyaFsKrF+d/wNi/6Lnv
-         McYzo484No+PyHfPexB7sMExpcVzDqDkMoUb3IwxJZDp7qfVVLV+UvqkGGddmPXuKtHI
-         YTF6/J3P2tBfoOHy8CLt7VFOW7we/KOPzGHMiF8gef9wayhGn4WQfNC22Y9gbbhGJAVJ
-         h0mPjC+ENpaOiZ54P+gvTJFHJqDdDsZZTJ4+S3QvqyF3YMTZfnL4Y2BECNK3YZ3ybK53
-         tVjw==
-X-Gm-Message-State: AOJu0YxS4Q6WktQPsfn0+rxMJwByY4VuTgwIIWu1BtEgR1PlDipEsKDM
-	jrDnj+xBwMvfyYzHkY0e1l8UoA==
-X-Google-Smtp-Source: AGHT+IHXIXug6nzry8NP/bG9picjl2qkVPdjAfH7GKSh1orCmcs5A6HXOx/Za69iL81di4h4TtnnlQ==
-X-Received: by 2002:a17:906:109:b0:9a4:88af:b82 with SMTP id 9-20020a170906010900b009a488af0b82mr6112989eje.77.1693855896681;
-        Mon, 04 Sep 2023 12:31:36 -0700 (PDT)
+        bh=JZ6H5M4q548gV0CNQehrzM4g+Qp6ZkTiIwLgzPLmdrE=;
+        b=hxqx40LTXB4SdAObv6ESoVaHswved7zJSYjDKrGJXFhBL0HCHXJKZ7+YFcNXyALZ5g
+         WTxD2N/B1GTGXdFL4PcZOGUOYOmULOuHipQcomuPhBpXfKnxyOcAKwIcqCs80KOJKmPX
+         GWLAOlfSubV4Sxs1A5MQGii22a7s8kTFLjuvUIw5TaraoWtRro1QCquGvwXkCJRRwM7Q
+         p5wxyFk+gA87ofvoJowMkQwDsmhX/aXk3LnNyPXpn4R9Ld0RJLHwc1z4zey8922eP1vU
+         ibfYDaiBwEMT+MRoURKW3yQHKlgTbSVwdmuODG6tK6mQjsNkrAtfDR8dR7bR6/+c5xwb
+         nWgA==
+X-Gm-Message-State: AOJu0YwLKR6decoyZ3HngP9r399Ch7ETLCCosrrhFBmxHriDzpOIpFmw
+	LyYwPAQpTGdiv8ERu5EBHBCw2A==
+X-Google-Smtp-Source: AGHT+IH0xh+QO8RhaNAVW0WGOeQOxfC0ae3lGMMNGhE9JO1OTC8YPy5jmTHCLOWkkmmbswgc2wghsw==
+X-Received: by 2002:a17:907:b12:b0:9a1:aea2:d18d with SMTP id h18-20020a1709070b1200b009a1aea2d18dmr7710392ejl.48.1693855966844;
+        Mon, 04 Sep 2023 12:32:46 -0700 (PDT)
 Received: from [192.168.0.22] (77-252-46-238.static.ip.netia.com.pl. [77.252.46.238])
-        by smtp.gmail.com with ESMTPSA id mc24-20020a170906eb5800b009829d2e892csm6659123ejb.15.2023.09.04.12.31.35
+        by smtp.gmail.com with ESMTPSA id qc8-20020a170906d8a800b009a5f7fb51dcsm6480287ejb.42.2023.09.04.12.32.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Sep 2023 12:31:36 -0700 (PDT)
-Message-ID: <f512f11a-6b66-5892-ad9e-cc45d4abc508@linaro.org>
-Date: Mon, 4 Sep 2023 21:31:34 +0200
+        Mon, 04 Sep 2023 12:32:46 -0700 (PDT)
+Message-ID: <bda77747-aa97-0da9-fa73-cbb2dca48aeb@linaro.org>
+Date: Mon, 4 Sep 2023 21:32:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -50,6 +50,7 @@ User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.15.0
 Subject: Re: [PATCH 3/6] dt-bindings: opp: Add compatible for H616
 Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Martin Botka <martin.botka@somainline.org>,
  Mark Rutland <mark.rutland@arm.com>,
  Lorenzo Pieralisi <lpieralisi@kernel.org>,
@@ -70,53 +71,40 @@ Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  Rogerio Goncalves <rogerlz@gmail.com>, Martin Botka <martin@biqu3d.com>
 References: <20230904-cpufreq-h616-v1-0-b8842e525c43@somainline.org>
  <20230904-cpufreq-h616-v1-3-b8842e525c43@somainline.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230904-cpufreq-h616-v1-3-b8842e525c43@somainline.org>
+ <f512f11a-6b66-5892-ad9e-cc45d4abc508@linaro.org>
+In-Reply-To: <f512f11a-6b66-5892-ad9e-cc45d4abc508@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 04/09/2023 17:57, Martin Botka wrote:
-> We need to add compatible for H616 to H6 cpufreq driver bindings.
-
-Please describe the hardware, not what is needed for drivers.
-
+On 04/09/2023 21:31, Krzysztof Kozlowski wrote:
+> On 04/09/2023 17:57, Martin Botka wrote:
+>> We need to add compatible for H616 to H6 cpufreq driver bindings.
 > 
-> Also enable opp_supported_hw property that will be needed for H616.
+> Please describe the hardware, not what is needed for drivers.
 > 
-> Signed-off-by: Martin Botka <martin.botka@somainline.org>
-> ---
->  .../bindings/opp/allwinner,sun50i-h6-operating-points.yaml          | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
+>>
+>> Also enable opp_supported_hw property that will be needed for H616.
+>>
+>> Signed-off-by: Martin Botka <martin.botka@somainline.org>
+>> ---
+>>  .../bindings/opp/allwinner,sun50i-h6-operating-points.yaml          | 6 +++++-
+>>  1 file changed, 5 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml b/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
+>> index 51f62c3ae194..2fa1199f2d23 100644
+>> --- a/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
+>> +++ b/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
+>> @@ -23,7 +23,10 @@ allOf:
+>>  
+>>  properties:
+>>    compatible:
+>> -    const: allwinner,sun50i-h6-operating-points
+>> +    contains:
 > 
-> diff --git a/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml b/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
-> index 51f62c3ae194..2fa1199f2d23 100644
-> --- a/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
-> +++ b/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
-> @@ -23,7 +23,10 @@ allOf:
->  
->  properties:
->    compatible:
-> -    const: allwinner,sun50i-h6-operating-points
-> +    contains:
+> This does not look like part of allOf, so contains is no correct here.
+> This must be specific, so drop contains.
 
-This does not look like part of allOf, so contains is no correct here.
-This must be specific, so drop contains.
-
-> +      enum:
-> +        - allwinner,sun50i-h6-operating-points
-> +        - allwinner,sun50i-h616-operating-points
->  
->    nvmem-cells:
->      description: |
-> @@ -47,6 +50,7 @@ patternProperties:
->      properties:
->        opp-hz: true
->        clock-latency-ns: true
-> +      opp-supported-hw: true
-
-Why? It is already allowed. You should rather explain the values.
-
-> 
+BTW, I also do no see it used by the driver at all.
 
 Best regards,
 Krzysztof
