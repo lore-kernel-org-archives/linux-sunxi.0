@@ -1,17 +1,17 @@
-Received: from relay02.th.seeweb.it (relay02.th.seeweb.it [5.144.164.163])
+Received: from m-r1.th.seeweb.it (m-r1.th.seeweb.it [5.144.164.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36842C2EE
-	for <linux-sunxi@lists.linux.dev>; Mon,  4 Sep 2023 16:06:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB804C2DF
+	for <linux-sunxi@lists.linux.dev>; Mon,  4 Sep 2023 16:16:41 +0000 (UTC)
 Received: from v0.lan (bband-dyn191.178-41-225.t-com.sk [178.41.225.191])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 5B3FE201B0;
-	Mon,  4 Sep 2023 17:57:09 +0200 (CEST)
+	by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 0D0E21FBA5;
+	Mon,  4 Sep 2023 17:57:07 +0200 (CEST)
 From: Martin Botka <martin.botka@somainline.org>
-Date: Mon, 04 Sep 2023 17:57:06 +0200
-Subject: [PATCH 6/6] arm64: dts: allwinner: h616: Add cooling cells
+Date: Mon, 04 Sep 2023 17:57:03 +0200
+Subject: [PATCH 3/6] dt-bindings: opp: Add compatible for H616
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -20,7 +20,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230904-cpufreq-h616-v1-6-b8842e525c43@somainline.org>
+Message-Id: <20230904-cpufreq-h616-v1-3-b8842e525c43@somainline.org>
 References: <20230904-cpufreq-h616-v1-0-b8842e525c43@somainline.org>
 In-Reply-To: <20230904-cpufreq-h616-v1-0-b8842e525c43@somainline.org>
 To: Mark Rutland <mark.rutland@arm.com>, 
@@ -42,58 +42,47 @@ Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  Rogerio Goncalves <rogerlz@gmail.com>, Martin Botka <martin@biqu3d.com>, 
  Martin Botka <martin.botka@somainline.org>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1693843024; l=1174;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1693843024; l=1233;
  i=martin.botka@somainline.org; s=20230811; h=from:subject:message-id;
- bh=qJv56yjDvCMxLlVKkO9qD49pos1hnuOnNYRbCB0UPg0=;
- b=zMLqucwWJskJLNOgqJTLSKacT6rQBC1cwrFNHN3F2BAMkUGpUNzTlKyvratAfDhTp2hqBTdRU
- xmbBKBWUWsrDX4Dj9koFphUDq/Thv1MDc4BtfGIm6hqMCQAin2R3D3B
+ bh=vkpyJtpACo5loCh7uIWuezcAm00aYr/8qEBY1Y7a4p0=;
+ b=LsSyA8ltGbBj/87WeIZvhIIr7CW27Ba6QPMzBx6lX+DRdiVacfciJrzaKnjSiasT24rMfXkvF
+ kHkob6+ZQ/jBcRr0WKQr0aVbKXpqug9ql3yQNGreOaV45y6DciUQFZ/
 X-Developer-Key: i=martin.botka@somainline.org; a=ed25519;
  pk=aTCd3jmwU8GrJidWg3DSKLpdVMcpFzXzCSLXLR6NtWU=
 
-Add cooling cells so we enable passive cooling on CPU by regulating
-CPU voltage and frequency
+We need to add compatible for H616 to H6 cpufreq driver bindings.
+
+Also enable opp_supported_hw property that will be needed for H616.
 
 Signed-off-by: Martin Botka <martin.botka@somainline.org>
 ---
- arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi | 4 ++++
- 1 file changed, 4 insertions(+)
+ .../bindings/opp/allwinner,sun50i-h6-operating-points.yaml          | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-index 78e79c591dba..7dc4c95ea280 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-@@ -26,6 +26,7 @@ cpu0: cpu@0 {
- 			reg = <0>;
- 			enable-method = "psci";
- 			clocks = <&ccu CLK_CPUX>;
-+			#cooling-cells = <2>;
- 		};
+diff --git a/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml b/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
+index 51f62c3ae194..2fa1199f2d23 100644
+--- a/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
++++ b/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
+@@ -23,7 +23,10 @@ allOf:
  
- 		cpu1: cpu@1 {
-@@ -34,6 +35,7 @@ cpu1: cpu@1 {
- 			reg = <1>;
- 			enable-method = "psci";
- 			clocks = <&ccu CLK_CPUX>;
-+			#cooling-cells = <2>;
- 		};
+ properties:
+   compatible:
+-    const: allwinner,sun50i-h6-operating-points
++    contains:
++      enum:
++        - allwinner,sun50i-h6-operating-points
++        - allwinner,sun50i-h616-operating-points
  
- 		cpu2: cpu@2 {
-@@ -42,6 +44,7 @@ cpu2: cpu@2 {
- 			reg = <2>;
- 			enable-method = "psci";
- 			clocks = <&ccu CLK_CPUX>;
-+			#cooling-cells = <2>;
- 		};
+   nvmem-cells:
+     description: |
+@@ -47,6 +50,7 @@ patternProperties:
+     properties:
+       opp-hz: true
+       clock-latency-ns: true
++      opp-supported-hw: true
  
- 		cpu3: cpu@3 {
-@@ -50,6 +53,7 @@ cpu3: cpu@3 {
- 			reg = <3>;
- 			enable-method = "psci";
- 			clocks = <&ccu CLK_CPUX>;
-+			#cooling-cells = <2>;
- 		};
- 	};
- 
+     patternProperties:
+       "^opp-microvolt-speed[0-9]$": true
 
 -- 
 2.42.0
