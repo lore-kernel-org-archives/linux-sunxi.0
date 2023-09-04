@@ -1,96 +1,75 @@
-Received: from relay06.th.seeweb.it (relay06.th.seeweb.it [5.144.164.167])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8C3CC14B
-	for <linux-sunxi@lists.linux.dev>; Mon,  4 Sep 2023 20:07:19 +0000 (UTC)
-Received: from [192.168.2.144] (bband-dyn191.178-41-225.t-com.sk [178.41.225.191])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by m-r2.th.seeweb.it (Postfix) with ESMTPSA id C46983F291;
-	Mon,  4 Sep 2023 21:48:09 +0200 (CEST)
-Date: Mon, 04 Sep 2023 21:48:02 +0200
-From: Martin Botka <martin.botka@somainline.org>
-Subject: Re: [PATCH 3/6] dt-bindings: opp: Add compatible for H616
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7363C2E6
+	for <linux-sunxi@lists.linux.dev>; Mon,  4 Sep 2023 20:41:23 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1C0F6143D;
+	Mon,  4 Sep 2023 13:42:01 -0700 (PDT)
+Received: from slackpad.lan (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C52B33F793;
+	Mon,  4 Sep 2023 13:41:19 -0700 (PDT)
+Date: Mon, 4 Sep 2023 21:40:18 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Martin Botka <martin.botka@somainline.org>
 Cc: Mark Rutland <mark.rutland@arm.com>, Lorenzo Pieralisi
-	<lpieralisi@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>, Viresh Kumar
-	<viresh.kumar@linaro.org>, Yangtao Li <tiny.windzz@gmail.com>, Chen-Yu Tsai
-	<wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
-	<samuel@sholland.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	devicetree@vger.kernel.org, Andre Przywara <andre.przywara@arm.com>, Alan Ma
-	<tech@biqu3d.com>, Luke Harrison <bttuniversity@biqu3d.com>, Marijn Suijten
-	<marijn.suijten@somainline.org>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@somainline.org>, Konrad Dybcio
-	<konrad.dybcio@somainline.org>, Rogerio Goncalves <rogerlz@gmail.com>,
-	Martin Botka <martin@biqu3d.com>
-Message-Id: <2C8H0S.90380B1U7TPP3@somainline.org>
-In-Reply-To: <bda77747-aa97-0da9-fa73-cbb2dca48aeb@linaro.org>
+ <lpieralisi@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>, "Rafael J.
+ Wysocki" <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>,
+ Yangtao Li <tiny.windzz@gmail.com>, Chen-Yu Tsai <wens@csie.org>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, Alan Ma <tech@biqu3d.com>, Luke Harrison
+ <bttuniversity@biqu3d.com>, Marijn Suijten <marijn.suijten@somainline.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>, Rogerio Goncalves
+ <rogerlz@gmail.com>, Martin Botka <martin@biqu3d.com>
+Subject: Re: [PATCH 2/6] cpufreq: dt-platdev: Blocklist allwinner,h616 SoC
+Message-ID: <20230904214018.0a8f12e2@slackpad.lan>
+In-Reply-To: <20230904-cpufreq-h616-v1-2-b8842e525c43@somainline.org>
 References: <20230904-cpufreq-h616-v1-0-b8842e525c43@somainline.org>
-	<20230904-cpufreq-h616-v1-3-b8842e525c43@somainline.org>
-	<f512f11a-6b66-5892-ad9e-cc45d4abc508@linaro.org>
-	<bda77747-aa97-0da9-fa73-cbb2dca48aeb@linaro.org>
-X-Mailer: geary/43.0
+	<20230904-cpufreq-h616-v1-2-b8842e525c43@somainline.org>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Mon, 04 Sep 2023 17:57:02 +0200
+Martin Botka <martin.botka@somainline.org> wrote:
 
+> The AllWinner H616 uses H6 cpufreq driver.
+> Add it to blocklist so its not created twice
 
-On Mon, Sep 4 2023 at 09:32:44 PM +02:00:00, Krzysztof Kozlowski 
-<krzysztof.kozlowski@linaro.org> wrote:
-> On 04/09/2023 21:31, Krzysztof Kozlowski wrote:
->>  On 04/09/2023 17:57, Martin Botka wrote:
->>>  We need to add compatible for H616 to H6 cpufreq driver bindings.
->> 
->>  Please describe the hardware, not what is needed for drivers.
->> 
->>> 
->>>  Also enable opp_supported_hw property that will be needed for H616.
->>> 
->>>  Signed-off-by: Martin Botka <martin.botka@somainline.org>
->>>  ---
->>>   .../bindings/opp/allwinner,sun50i-h6-operating-points.yaml        
->>>   | 6 +++++-
->>>   1 file changed, 5 insertions(+), 1 deletion(-)
->>> 
->>>  diff --git 
->>> a/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml 
->>> b/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
->>>  index 51f62c3ae194..2fa1199f2d23 100644
->>>  --- 
->>> a/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
->>>  +++ 
->>> b/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
->>>  @@ -23,7 +23,10 @@ allOf:
->>> 
->>>   properties:
->>>     compatible:
->>>  -    const: allwinner,sun50i-h6-operating-points
->>>  +    contains:
->> 
->>  This does not look like part of allOf, so contains is no correct 
->> here.
->>  This must be specific, so drop contains.
-> 
-> BTW, I also do no see it used by the driver at all.
-Function sun50i_cpufreq_get_efuse uses it. It checks for H6 compatible 
-and if that fails we check for H616 compatible.
-Also im double checking for H6. Nice screwup on my side :)
+That looks alright, but I think needs to be squashed into the patch
+that enables the H616 driver operation, to avoid regressions during
+bisecting.
 
 Cheers,
-Martin
-> 
-> Best regards,
-> Krzysztof
-> 
+Andre
 
+> 
+> Signed-off-by: Martin Botka <martin.botka@somainline.org>
+> ---
+>  drivers/cpufreq/cpufreq-dt-platdev.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/cpufreq/cpufreq-dt-platdev.c b/drivers/cpufreq/cpufreq-dt-platdev.c
+> index e2b20080de3a..51818cef8979 100644
+> --- a/drivers/cpufreq/cpufreq-dt-platdev.c
+> +++ b/drivers/cpufreq/cpufreq-dt-platdev.c
+> @@ -104,6 +104,7 @@ static const struct of_device_id allowlist[] __initconst = {
+>   */
+>  static const struct of_device_id blocklist[] __initconst = {
+>  	{ .compatible = "allwinner,sun50i-h6", },
+> +	{ .compatible = "allwinner,sun50i-h616", },
+>  
+>  	{ .compatible = "apple,arm-platform", },
+>  
+> 
 
