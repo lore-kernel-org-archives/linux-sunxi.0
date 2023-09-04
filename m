@@ -1,108 +1,83 @@
-Received: from smtp.smtpout.orange.fr (smtp-19.smtpout.orange.fr [80.12.242.19])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F4271C02
-	for <linux-sunxi@lists.linux.dev>; Mon,  4 Sep 2023 18:27:53 +0000 (UTC)
-Received: from [192.168.1.18] ([86.243.2.178])
-	by smtp.orange.fr with ESMTPA
-	id dDpNqLclXewmQdDpNqCbJ0; Mon, 04 Sep 2023 19:57:37 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1693850257;
-	bh=nR71hbq/PjoQgx6c1QsB9ddoM6wjPhcwxem+IF/5MAs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=DAmM/NUC9xDbqtOy08KIXOcL8tmmpXv9w0aLhvdPCW/b3pVhHp9s92Gs39idwsLOO
-	 uUgQN9V6cvYbGFBLFo6PaXwsP00xKZF4t5QmeRhjGoDPX6dGmUOOKeiuNYI2jOxUOK
-	 wTiKH4H4u25rVSTHmdJQjIS0EnRDs6dqOklCrfNIQr50dp8JRVcYmbvu7dNhZh9N/0
-	 qzxO81ISdmp2bUVqs7gie3KaoNksdre5yy5anbMFHWB1nFVQaM38ZDT0xiIkuCq9gn
-	 TBUJGCnGh2i2fKUgx/Hlmc++hm5Nly5Wzr38Ua4mGwpGus3VaAGQw+vOuAvK+x+z64
-	 wfek9dll6yFog==
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Mon, 04 Sep 2023 19:57:37 +0200
-X-ME-IP: 86.243.2.178
-Message-ID: <858ca657-3845-f65e-b9d8-9d7700e4a069@wanadoo.fr>
-Date: Mon, 4 Sep 2023 19:57:33 +0200
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91891C2DA
+	for <linux-sunxi@lists.linux.dev>; Mon,  4 Sep 2023 18:52:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6041EC433C7;
+	Mon,  4 Sep 2023 18:52:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1693853539;
+	bh=O1MC3wFR2Sy6fvMGMKwaFVW+8rboa7AiTtU4zV8hHVg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=dXWBLYmfP6YG1YrnLK9lalz0EKyGqjAZTbzHa70LXySSbr4utgjJX3jDarlKAE6sj
+	 Ap/iyjCgv6KjWgWDbsB/fDIeaUMPKA4Pzh4j3xwjTBouJbcg5Qlt/95wBJi/DQDAX4
+	 h9zC7WWl9JcafOAKjWuPqYikFWTtjeUFUhSjVWQWeWO1olSCBn84tHAONT9Qi+MZe3
+	 Vue0vvOYhPWhiZ2R1OAkNaHb7YBoA5+/ZwW9YdSOkT03nkc0FiC36fuHI+7pSFLzPC
+	 ylB5GQgYdMPBJ0Lf9GygBZPvfaFd9GY7Jx11pBRD/xY19UkG8sYtUtsToDtdFmLO78
+	 U+qIE/pnwofag==
+From: Mark Brown <broonie@kernel.org>
+To: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Tobias Schramm <t.schramm@manjaro.org>
+Cc: linux-spi@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+In-Reply-To: <20230827152558.5368-1-t.schramm@manjaro.org>
+References: <20230827152558.5368-1-t.schramm@manjaro.org>
+Subject: Re: [PATCH 0/2] spi: sun6i: fix RX data corruption in DMA mode
+Message-Id: <169385353709.55844.16088323808280958557.b4-ty@kernel.org>
+Date: Mon, 04 Sep 2023 19:52:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] phy: sun4i-usb: Fix a W=1 compilation failure
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I
- <kishon@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-References: <0bc81612171baaa6d5dff58c8e009debc03e1ba8.1693735840.git.christophe.jaillet@wanadoo.fr>
- <20230904005855.658819b3@slackpad.lan>
-Content-Language: fr, en-GB
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20230904005855.658819b3@slackpad.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-034f2
 
-Le 04/09/2023 à 01:58, Andre Przywara a écrit :
-> On Sun,  3 Sep 2023 12:11:06 +0200
-> Christophe JAILLET <christophe.jaillet@wanadoo.fr> wrote:
+On Sun, 27 Aug 2023 17:25:56 +0200, Tobias Schramm wrote:
+> Hey folks,
 > 
->> With gcc 12.3.0, when this file is built, we get errors such as:
->>
->> drivers/phy/allwinner/phy-sun4i-usb.c: In function ‘sun4i_usb_phy_probe’:
->> drivers/phy/allwinner/phy-sun4i-usb.c:790:52: error: ‘_vbus’ directive output may be truncated writing 5 bytes into a region of size between 2 and 12 [-Werror=format-truncation=]
->>    790 |                 snprintf(name, sizeof(name), "usb%d_vbus", i);
->>        |                                                    ^~~~~
->> drivers/phy/allwinner/phy-sun4i-usb.c:790:17: note: ‘snprintf’ output between 10 and 20 bytes into a destination of size 16
->>    790 |                 snprintf(name, sizeof(name), "usb%d_vbus", i);
->>        |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>
->> Because of the possible value of 'i', this can't be an issue in real world
+> this set of patches fixes two bugs in the sun6i SPI driver that result in
+> corruption of received data in DMA RX mode.
 > 
-> Would using "u8 i;" help? After all currently there are only 4 PHYs
-> max, and in general this isn't expected to be more than a "handful", so
-> 8 bits should be plenty. An unsigned is better anyway.
-> It leaves a bit of a bitter taste, though, as we shouldn't do this kind
-> type tweaking, especially not to work around the compiler trying to be
-> clever, but then not seeing the whole picture (that "i" is bounded by
-> compile time constants not exceeding "4").
+> The first bug seems to be related to an incompatibility of the SPI RX FIFO
+> with wider than single byte read accesses during SPI transfers. I'm not
+> sure if this bug affects all types of SPI controllers found in Allwinner
+> SoCs supported by this driver. However reducing the access width should
+> always be safe. I've tested this change on a V3s SoC. Further testing to
+> narrow down the set of affected SoCs in the future would be welcome.
+> 
+> [...]
 
-data->cfg->num_phys is also an int, and having 'i' as an char is really 
-unusual.
+Applied to
 
-So, if changing the size of name (only to waste some stack in order to 
-silence a compiler warning) is not acceptable, I think that the best is 
-to leave things as-is.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
-CJ
+Thanks!
 
+[1/2] spi: sun6i: reduce DMA RX transfer width to single byte
+      commit: 171f8a49f212e87a8b04087568e1b3d132e36a18
+[2/2] spi: sun6i: fix race between DMA RX transfer completion and RX FIFO drain
+      commit: 1f11f4202caf5710204d334fe63392052783876d
 
-> 
-> Cheers,
-> Andre
-> 
->> application, but in order to have "make W=1" work correctly, give more
->> space for 'name'.
->>
->> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
->> ---
->>   drivers/phy/allwinner/phy-sun4i-usb.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c b/drivers/phy/allwinner/phy-sun4i-usb.c
->> index ec551464dd4f..e53a9a9317bc 100644
->> --- a/drivers/phy/allwinner/phy-sun4i-usb.c
->> +++ b/drivers/phy/allwinner/phy-sun4i-usb.c
->> @@ -782,7 +782,7 @@ static int sun4i_usb_phy_probe(struct platform_device *pdev)
->>   
->>   	for (i = 0; i < data->cfg->num_phys; i++) {
->>   		struct sun4i_usb_phy *phy = data->phys + i;
->> -		char name[16];
->> +		char name[32];
->>   
->>   		if (data->cfg->missing_phys & BIT(i))
->>   			continue;
-> 
-> 
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
