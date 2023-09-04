@@ -1,17 +1,18 @@
 Received: from relay01.th.seeweb.it (relay01.th.seeweb.it [5.144.164.162])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC954C2F2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9F78C2F1
 	for <linux-sunxi@lists.linux.dev>; Mon,  4 Sep 2023 16:16:41 +0000 (UTC)
 Received: from v0.lan (bband-dyn191.178-41-225.t-com.sk [178.41.225.191])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 7DE5B1F963;
-	Mon,  4 Sep 2023 17:57:05 +0200 (CEST)
+	by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 92F80200DC;
+	Mon,  4 Sep 2023 17:57:08 +0200 (CEST)
 From: Martin Botka <martin.botka@somainline.org>
-Date: Mon, 04 Sep 2023 17:57:01 +0200
-Subject: [PATCH 1/6] firmware: smccc: Export revision soc_id function
+Date: Mon, 04 Sep 2023 17:57:05 +0200
+Subject: [PATCH 5/6] arm64: dts: allwinner: h616: Add CPU Operating
+ Performance Points table
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -20,7 +21,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230904-cpufreq-h616-v1-1-b8842e525c43@somainline.org>
+Message-Id: <20230904-cpufreq-h616-v1-5-b8842e525c43@somainline.org>
 References: <20230904-cpufreq-h616-v1-0-b8842e525c43@somainline.org>
 In-Reply-To: <20230904-cpufreq-h616-v1-0-b8842e525c43@somainline.org>
 To: Mark Rutland <mark.rutland@arm.com>, 
@@ -42,34 +43,175 @@ Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  Rogerio Goncalves <rogerlz@gmail.com>, Martin Botka <martin@biqu3d.com>, 
  Martin Botka <martin.botka@somainline.org>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1693843024; l=650;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1693843024; l=4851;
  i=martin.botka@somainline.org; s=20230811; h=from:subject:message-id;
- bh=kr+kQu42jftnzRysfuRliIXntokD55LnjWm0KkOrQRY=;
- b=pAzHKAaWc3uxAZHLFKPmIIe/nbRnKh/YE++nWe15qMHVrrI0vNt1Ph6hE+aFzN+4S1wpRixuy
- C3B8nQmhvtKBDaa/gTX1xPTp4ZewRLtv2es7NWSHg0vT3FkLoNVVVaQ
+ bh=ZyTs95wiIyvmN1gbK2qSdTK4VyZDXqdQv5Y0SxAq2Rk=;
+ b=Pmytw8jIYJK6fsuUEfiSHlfEP7WedUyOYqucysSFK6q9uyb86M3hCB9byZG+4ySi6JIZ6Mv7Y
+ 3mP/BIvEH4zCImrvZJin4j5kU9yhS/7gi8UWRE9b3aNJqYNGB1/QKb7
 X-Developer-Key: i=martin.botka@somainline.org; a=ed25519;
  pk=aTCd3jmwU8GrJidWg3DSKLpdVMcpFzXzCSLXLR6NtWU=
 
-arm_smccc_get_soc_id_revision need to be exported so it can be used
-by sun50i cpufreq driver.
+Add an Operating Performance Points table for the CPU cores to
+enable Dynamic Voltage & Frequency Scaling on the H616.
+
+Also add the needed cpu_speed_grade nvmem cell.
 
 Signed-off-by: Martin Botka <martin.botka@somainline.org>
 ---
- drivers/firmware/smccc/smccc.c | 1 +
- 1 file changed, 1 insertion(+)
+ .../boot/dts/allwinner/sun50i-h616-cpu-opp.dtsi    | 129 +++++++++++++++++++++
+ arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi     |   4 +
+ 2 files changed, 133 insertions(+)
 
-diff --git a/drivers/firmware/smccc/smccc.c b/drivers/firmware/smccc/smccc.c
-index db818f9dcb8e..d670635914ec 100644
---- a/drivers/firmware/smccc/smccc.c
-+++ b/drivers/firmware/smccc/smccc.c
-@@ -69,6 +69,7 @@ s32 arm_smccc_get_soc_id_revision(void)
- {
- 	return smccc_soc_id_revision;
- }
-+EXPORT_SYMBOL_GPL(arm_smccc_get_soc_id_revision);
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-cpu-opp.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616-cpu-opp.dtsi
+new file mode 100644
+index 000000000000..4c7eaba511a9
+--- /dev/null
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-cpu-opp.dtsi
+@@ -0,0 +1,129 @@
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
++// Copyright (C) 2023 Martin Botka <martin@somainline.org>
++
++/ {
++	cpu_opp_table: cpu-opp-table {
++		compatible = "allwinner,sun50i-h616-operating-points";
++		nvmem-cells = <&cpu_speed_grade>;
++		opp-shared;
++
++		opp-480000000 {
++			opp-hz = /bits/ 64 <480000000>;
++			opp-microvolt-speed0 = <900000>;
++			opp-microvolt-speed1 = <900000>;
++			opp-microvolt-speed2 = <900000>;
++			opp-microvolt-speed3 = <900000>;
++			opp-microvolt-speed4 = <900000>;
++			clock-latency-ns = <244144>; /* 8 32k periods */
++			opp-supported-hw = <0x1f>;
++		};
++
++		opp-600000000 {
++			opp-hz = /bits/ 64 <600000000>;
++			opp-microvolt-speed1 = <900000>;
++			opp-microvolt-speed4 = <900000>;
++			clock-latency-ns = <244144>; /* 8 32k periods */
++			opp-supported-hw = <0x12>;
++		};
++
++		opp-720000000 {
++			opp-hz = /bits/ 64 <720000000>;
++			opp-microvolt-speed0 = <900000>;
++			opp-microvolt-speed2 = <900000>;
++			opp-microvolt-speed3 = <900000>;
++			clock-latency-ns = <244144>; /* 8 32k periods */
++			opp-supported-hw = <0xd>;
++		};
++
++		opp-792000000 {
++			opp-hz = /bits/ 64 <792000000>;
++			opp-microvolt-speed1 = <900000>;
++			opp-microvolt-speed4 = <940000>;
++			clock-latency-ns = <244144>; /* 8 32k periods */
++			opp-supported-hw = <0x12>;
++		};
++
++		opp-936000000 {
++			opp-hz = /bits/ 64 <936000000>;
++			opp-microvolt-speed0 = <900000>;
++			opp-microvolt-speed2 = <900000>;
++			opp-microvolt-speed3 = <900000>;
++			clock-latency-ns = <244144>; /* 8 32k periods */
++			opp-supported-hw = <0xd>;
++		};
++
++		opp-1008000000 {
++			opp-hz = /bits/ 64 <1008000000>;
++			opp-microvolt-speed0 = <950000>;
++			opp-microvolt-speed1 = <940000>;
++			opp-microvolt-speed2 = <950000>;
++			opp-microvolt-speed3 = <950000>;
++			opp-microvolt-speed4 = <1020000>;
++			clock-latency-ns = <244144>; /* 8 32k periods */
++			opp-supported-hw = <0x1f>;
++		};
++
++		opp-1104000000 {
++			opp-hz = /bits/ 64 <1104000000>;
++			opp-microvolt-speed0 = <1000000>;
++			opp-microvolt-speed2 = <1000000>;
++			opp-microvolt-speed3 = <1000000>;
++			clock-latency-ns = <244144>; /* 8 32k periods */
++			opp-supported-hw = <0xd>;
++		};
++
++		opp-1200000000 {
++			opp-hz = /bits/ 64 <1200000000>;
++			opp-microvolt-speed0 = <1050000>;
++			opp-microvolt-speed1 = <1020000>;
++			opp-microvolt-speed2 = <1050000>;
++			opp-microvolt-speed3 = <1050000>;
++			opp-microvolt-speed4 = <1100000>;
++			clock-latency-ns = <244144>; /* 8 32k periods */
++			opp-supported-hw = <0x1f>;
++		};
++
++		opp-1320000000 {
++			opp-hz = /bits/ 64 <1320000000>;
++			opp-microvolt-speed0 = <1100000>;
++			opp-microvolt-speed2 = <1100000>;
++			opp-microvolt-speed3 = <1100000>;
++			opp-microvolt-speed4 = <1100000>;
++			clock-latency-ns = <244144>; /* 8 32k periods */
++			opp-supported-hw = <0x1d>;
++		};
++
++		opp-1416000000 {
++			opp-hz = /bits/ 64 <1416000000>;
++			opp-microvolt-speed0 = <1100000>;
++			opp-microvolt-speed2 = <1100000>;
++			opp-microvolt-speed3 = <1100000>;
++			clock-latency-ns = <244144>; /* 8 32k periods */
++			opp-supported-hw = <0xd>;
++		};
++
++		opp-1512000000 {
++			opp-hz = /bits/ 64 <1512000000>;
++			opp-microvolt-speed1 = <1100000>;
++			opp-microvolt-speed3 = <1100000>;
++			clock-latency-ns = <244144>; /* 8 32k periods */
++			opp-supported-hw = <0xa>;
++		};
++	};
++};
++
++&cpu0 {
++	operating-points-v2 = <&cpu_opp_table>;
++};
++
++&cpu1 {
++	operating-points-v2 = <&cpu_opp_table>;
++};
++
++&cpu2 {
++	operating-points-v2 = <&cpu_opp_table>;
++};
++
++&cpu3 {
++	operating-points-v2 = <&cpu_opp_table>;
++};
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+index 063db9634e5f..78e79c591dba 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+@@ -143,6 +143,10 @@ sid: efuse@3006000 {
+ 			ths_calibration: thermal-sensor-calibration@14 {
+ 				reg = <0x14 0x8>;
+ 			};
++
++			cpu_speed_grade: cpu_speed_grade@0 {
++				reg = <0x0 2>;
++			};
+ 		};
  
- static int __init smccc_devices_init(void)
- {
+ 		watchdog: watchdog@30090a0 {
 
 -- 
 2.42.0
