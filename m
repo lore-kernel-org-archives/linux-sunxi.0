@@ -1,83 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91891C2DA
-	for <linux-sunxi@lists.linux.dev>; Mon,  4 Sep 2023 18:52:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6041EC433C7;
-	Mon,  4 Sep 2023 18:52:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1693853539;
-	bh=O1MC3wFR2Sy6fvMGMKwaFVW+8rboa7AiTtU4zV8hHVg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=dXWBLYmfP6YG1YrnLK9lalz0EKyGqjAZTbzHa70LXySSbr4utgjJX3jDarlKAE6sj
-	 Ap/iyjCgv6KjWgWDbsB/fDIeaUMPKA4Pzh4j3xwjTBouJbcg5Qlt/95wBJi/DQDAX4
-	 h9zC7WWl9JcafOAKjWuPqYikFWTtjeUFUhSjVWQWeWO1olSCBn84tHAONT9Qi+MZe3
-	 Vue0vvOYhPWhiZ2R1OAkNaHb7YBoA5+/ZwW9YdSOkT03nkc0FiC36fuHI+7pSFLzPC
-	 ylB5GQgYdMPBJ0Lf9GygBZPvfaFd9GY7Jx11pBRD/xY19UkG8sYtUtsToDtdFmLO78
-	 U+qIE/pnwofag==
-From: Mark Brown <broonie@kernel.org>
-To: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Tobias Schramm <t.schramm@manjaro.org>
-Cc: linux-spi@vger.kernel.org, linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-In-Reply-To: <20230827152558.5368-1-t.schramm@manjaro.org>
-References: <20230827152558.5368-1-t.schramm@manjaro.org>
-Subject: Re: [PATCH 0/2] spi: sun6i: fix RX data corruption in DMA mode
-Message-Id: <169385353709.55844.16088323808280958557.b4-ty@kernel.org>
-Date: Mon, 04 Sep 2023 19:52:17 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA610C14B
+	for <linux-sunxi@lists.linux.dev>; Mon,  4 Sep 2023 19:31:38 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-99c3d3c3db9so271306466b.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 04 Sep 2023 12:31:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1693855896; x=1694460696; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NJfzYAIKnwPTaNVAAkVDsZyLFKgbTLwbTGas3wSGj30=;
+        b=DjQY63OwURzhRSZD4O7nfl2OhqTGE7n26Mh8+TJsG4D0u9q2FFHWMB7Y2ktvcOd77T
+         8CQkkqO0qIzQkdNuGiBQ8WYzl7XR5NWWioRfVNi7+xMcm2vFML45aqSy6DN8vao4EGdA
+         BBgUZE2p9h4qSzLAQRQiFBqkpvAeA9nRwO813wV00UEyV4ftvmwiWr5fTKjUZD/fn+N9
+         rAgrE1iLuSrfmZFvtOHf3JA8tA79BZ1Q4jHRC4oDfTNft+mPWXcozlE/Sus9kTRKA/Rp
+         5dsfhv2x8HxG97LGnh9PIG8ApoUAGuZeN0Z9vTni+WnixtpN4Nq32j+sHlbB0KW8tlgQ
+         K6Yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693855896; x=1694460696;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NJfzYAIKnwPTaNVAAkVDsZyLFKgbTLwbTGas3wSGj30=;
+        b=Kwz1FiiGdP2PFYTb0HNjfPp/qUKyABo2Ly3xEL0LyVVj2nlTWqo5J3QzW/w03vlz+l
+         IwEHgLrQSzzHsxAn9LDp/K99nP7yYo3gnkEVCh9oJ9r5A+A5pMyaFsKrF+d/wNi/6Lnv
+         McYzo484No+PyHfPexB7sMExpcVzDqDkMoUb3IwxJZDp7qfVVLV+UvqkGGddmPXuKtHI
+         YTF6/J3P2tBfoOHy8CLt7VFOW7we/KOPzGHMiF8gef9wayhGn4WQfNC22Y9gbbhGJAVJ
+         h0mPjC+ENpaOiZ54P+gvTJFHJqDdDsZZTJ4+S3QvqyF3YMTZfnL4Y2BECNK3YZ3ybK53
+         tVjw==
+X-Gm-Message-State: AOJu0YxS4Q6WktQPsfn0+rxMJwByY4VuTgwIIWu1BtEgR1PlDipEsKDM
+	jrDnj+xBwMvfyYzHkY0e1l8UoA==
+X-Google-Smtp-Source: AGHT+IHXIXug6nzry8NP/bG9picjl2qkVPdjAfH7GKSh1orCmcs5A6HXOx/Za69iL81di4h4TtnnlQ==
+X-Received: by 2002:a17:906:109:b0:9a4:88af:b82 with SMTP id 9-20020a170906010900b009a488af0b82mr6112989eje.77.1693855896681;
+        Mon, 04 Sep 2023 12:31:36 -0700 (PDT)
+Received: from [192.168.0.22] (77-252-46-238.static.ip.netia.com.pl. [77.252.46.238])
+        by smtp.gmail.com with ESMTPSA id mc24-20020a170906eb5800b009829d2e892csm6659123ejb.15.2023.09.04.12.31.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Sep 2023 12:31:36 -0700 (PDT)
+Message-ID: <f512f11a-6b66-5892-ad9e-cc45d4abc508@linaro.org>
+Date: Mon, 4 Sep 2023 21:31:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH 3/6] dt-bindings: opp: Add compatible for H616
+Content-Language: en-US
+To: Martin Botka <martin.botka@somainline.org>,
+ Mark Rutland <mark.rutland@arm.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Sudeep Holla <sudeep.holla@arm.com>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>,
+ Yangtao Li <tiny.windzz@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, Andre Przywara <andre.przywara@arm.com>,
+ Alan Ma <tech@biqu3d.com>, Luke Harrison <bttuniversity@biqu3d.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Rogerio Goncalves <rogerlz@gmail.com>, Martin Botka <martin@biqu3d.com>
+References: <20230904-cpufreq-h616-v1-0-b8842e525c43@somainline.org>
+ <20230904-cpufreq-h616-v1-3-b8842e525c43@somainline.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230904-cpufreq-h616-v1-3-b8842e525c43@somainline.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-034f2
 
-On Sun, 27 Aug 2023 17:25:56 +0200, Tobias Schramm wrote:
-> Hey folks,
+On 04/09/2023 17:57, Martin Botka wrote:
+> We need to add compatible for H616 to H6 cpufreq driver bindings.
+
+Please describe the hardware, not what is needed for drivers.
+
 > 
-> this set of patches fixes two bugs in the sun6i SPI driver that result in
-> corruption of received data in DMA RX mode.
+> Also enable opp_supported_hw property that will be needed for H616.
 > 
-> The first bug seems to be related to an incompatibility of the SPI RX FIFO
-> with wider than single byte read accesses during SPI transfers. I'm not
-> sure if this bug affects all types of SPI controllers found in Allwinner
-> SoCs supported by this driver. However reducing the access width should
-> always be safe. I've tested this change on a V3s SoC. Further testing to
-> narrow down the set of affected SoCs in the future would be welcome.
+> Signed-off-by: Martin Botka <martin.botka@somainline.org>
+> ---
+>  .../bindings/opp/allwinner,sun50i-h6-operating-points.yaml          | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 > 
-> [...]
+> diff --git a/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml b/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
+> index 51f62c3ae194..2fa1199f2d23 100644
+> --- a/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
+> +++ b/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
+> @@ -23,7 +23,10 @@ allOf:
+>  
+>  properties:
+>    compatible:
+> -    const: allwinner,sun50i-h6-operating-points
+> +    contains:
 
-Applied to
+This does not look like part of allOf, so contains is no correct here.
+This must be specific, so drop contains.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+> +      enum:
+> +        - allwinner,sun50i-h6-operating-points
+> +        - allwinner,sun50i-h616-operating-points
+>  
+>    nvmem-cells:
+>      description: |
+> @@ -47,6 +50,7 @@ patternProperties:
+>      properties:
+>        opp-hz: true
+>        clock-latency-ns: true
+> +      opp-supported-hw: true
 
-Thanks!
+Why? It is already allowed. You should rather explain the values.
 
-[1/2] spi: sun6i: reduce DMA RX transfer width to single byte
-      commit: 171f8a49f212e87a8b04087568e1b3d132e36a18
-[2/2] spi: sun6i: fix race between DMA RX transfer completion and RX FIFO drain
-      commit: 1f11f4202caf5710204d334fe63392052783876d
+> 
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Best regards,
+Krzysztof
 
