@@ -1,98 +1,123 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41676BE6A
-	for <linux-sunxi@lists.linux.dev>; Mon,  4 Sep 2023 21:00:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DDF46138
+	for <linux-sunxi@lists.linux.dev>; Tue,  5 Sep 2023 09:46:18 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B9785143D;
-	Mon,  4 Sep 2023 14:00:52 -0700 (PDT)
-Received: from slackpad.lan (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 08FC33F793;
-	Mon,  4 Sep 2023 14:00:10 -0700 (PDT)
-Date: Mon, 4 Sep 2023 21:59:08 +0100
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 160B211FB;
+	Tue,  5 Sep 2023 02:46:50 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A8FD53F793;
+	Tue,  5 Sep 2023 02:46:10 -0700 (PDT)
+Date: Tue, 5 Sep 2023 10:46:08 +0100
 From: Andre Przywara <andre.przywara@arm.com>
-To: Chris Morgan <macroalpha82@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- airlied@gmail.com, conor+dt@kernel.org, daniel@ffwll.ch, heiko@sntech.de,
- jagan@edgeble.ai, jernej.skrabec@gmail.com,
- krzysztof.kozlowski+dt@linaro.org, mripard@kernel.org,
- neil.armstrong@linaro.org, noralf@tronnes.org, robh+dt@kernel.org,
- sam@ravnborg.org, samuel@sholland.org, uwu@icenowy.me, wens@csie.org, Chris
- Morgan <macromorgan@hotmail.com>
-Subject: Re: [PATCH V4 6/8] ARM: dts: sun8i: v3s: add EHCI and OHCI to v3s
- dts
-Message-ID: <20230904215908.563fa139@slackpad.lan>
-In-Reply-To: <20230828181941.1609894-7-macroalpha82@gmail.com>
-References: <20230828181941.1609894-1-macroalpha82@gmail.com>
-	<20230828181941.1609894-7-macroalpha82@gmail.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I
+ <kishon@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] phy: sun4i-usb: Fix a W=1 compilation failure
+Message-ID: <20230905104608.74490e60@donnerap.manchester.arm.com>
+In-Reply-To: <858ca657-3845-f65e-b9d8-9d7700e4a069@wanadoo.fr>
+References: <0bc81612171baaa6d5dff58c8e009debc03e1ba8.1693735840.git.christophe.jaillet@wanadoo.fr>
+	<20230904005855.658819b3@slackpad.lan>
+	<858ca657-3845-f65e-b9d8-9d7700e4a069@wanadoo.fr>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 28 Aug 2023 13:19:39 -0500
-Chris Morgan <macroalpha82@gmail.com> wrote:
+On Mon, 4 Sep 2023 19:57:33 +0200
+Christophe JAILLET <christophe.jaillet@wanadoo.fr> wrote:
 
 Hi,
 
-> From: Chris Morgan <macromorgan@hotmail.com>
-> 
-> Add the EHCI and OHCI controller to the Allwinner v3s to support using
-> USB in host mode.
-> 
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> Le 04/09/2023 =C3=A0 01:58, Andre Przywara a =C3=A9crit=C2=A0:
+> > On Sun,  3 Sep 2023 12:11:06 +0200
+> > Christophe JAILLET <christophe.jaillet@wanadoo.fr> wrote:
+> >  =20
+> >> With gcc 12.3.0, when this file is built, we get errors such as:
+> >>
+> >> drivers/phy/allwinner/phy-sun4i-usb.c: In function =E2=80=98sun4i_usb_=
+phy_probe=E2=80=99:
+> >> drivers/phy/allwinner/phy-sun4i-usb.c:790:52: error: =E2=80=98_vbus=E2=
+=80=99 directive output may be truncated writing 5 bytes into a region of s=
+ize between 2 and 12 [-Werror=3Dformat-truncation=3D]
+> >>    790 |                 snprintf(name, sizeof(name), "usb%d_vbus", i);
+> >>        |                                                    ^~~~~
+> >> drivers/phy/allwinner/phy-sun4i-usb.c:790:17: note: =E2=80=98snprintf=
+=E2=80=99 output between 10 and 20 bytes into a destination of size 16
+> >>    790 |                 snprintf(name, sizeof(name), "usb%d_vbus", i);
+> >>        |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >>
+> >> Because of the possible value of 'i', this can't be an issue in real w=
+orld =20
+> >=20
+> > Would using "u8 i;" help? After all currently there are only 4 PHYs
+> > max, and in general this isn't expected to be more than a "handful", so
+> > 8 bits should be plenty. An unsigned is better anyway.
+> > It leaves a bit of a bitter taste, though, as we shouldn't do this kind
+> > type tweaking, especially not to work around the compiler trying to be
+> > clever, but then not seeing the whole picture (that "i" is bounded by
+> > compile time constants not exceeding "4"). =20
+>=20
+> data->cfg->num_phys is also an int, and having 'i' as an char is really=20
+> unusual.
 
-Looks good now, and the PHY connection is correct, even though the
-current code is ... interesting in this regard. It looks like the
-problem is more with the sunxi MUSB glue driver, though. Anyway:
+So 'i' is just used as the phy index is this loop, nothing else in the
+function uses that. So we could just rename it to "idx" or even "phy_idx",
+then the u8 might look less odd?
 
-Addresses, IRQs, clocks and resets checked against the manual:
+> So, if changing the size of name (only to waste some stack in order to=20
+> silence a compiler warning) is not acceptable, I think that the best is=20
+> to leave things as-is.
 
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+But that's not really an option, is it? Since we normally don't tolerate
+warnings?
+
+And I am not against increasing the size, that's probably indeed the
+simplest solution, and given that it's indeed on the stack shouldn't
+affect much else. I just wanted to suggest an alternative, since the
+increased buffer size is not necessary.
 
 Cheers,
 Andre
 
-> ---
->  arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi | 23 ++++++++++++++++++++++
->  1 file changed, 23 insertions(+)
-> 
-> diff --git a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi b/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
-> index c87476ea31e2..e8a04476b776 100644
-> --- a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
-> +++ b/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
-> @@ -319,6 +319,29 @@ usbphy: phy@1c19400 {
->  			#phy-cells = <1>;
->  		};
->  
-> +		ehci: usb@1c1a000 {
-> +			compatible = "allwinner,sun8i-v3s-ehci", "generic-ehci";
-> +			reg = <0x01c1a000 0x100>;
-> +			interrupts = <GIC_SPI 72 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&ccu CLK_BUS_EHCI0>, <&ccu CLK_BUS_OHCI0>;
-> +			resets = <&ccu RST_BUS_EHCI0>, <&ccu RST_BUS_OHCI0>;
-> +			phys = <&usbphy 0>;
-> +			phy-names = "usb";
-> +			status = "disabled";
-> +		};
-> +
-> +		ohci: usb@1c1a400 {
-> +			compatible = "allwinner,sun8i-v3s-ohci", "generic-ohci";
-> +			reg = <0x01c1a400 0x100>;
-> +			interrupts = <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&ccu CLK_BUS_EHCI0>, <&ccu CLK_BUS_OHCI0>,
-> +				 <&ccu CLK_USB_OHCI0>;
-> +			resets = <&ccu RST_BUS_EHCI0>, <&ccu RST_BUS_OHCI0>;
-> +			phys = <&usbphy 0>;
-> +			phy-names = "usb";
-> +			status = "disabled";
-> +		};
-> +
->  		ccu: clock@1c20000 {
->  			compatible = "allwinner,sun8i-v3s-ccu";
->  			reg = <0x01c20000 0x400>;
+> >=20
+> > Cheers,
+> > Andre
+> >  =20
+> >> application, but in order to have "make W=3D1" work correctly, give mo=
+re
+> >> space for 'name'.
+> >>
+> >> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> >> ---
+> >>   drivers/phy/allwinner/phy-sun4i-usb.c | 2 +-
+> >>   1 file changed, 1 insertion(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c b/drivers/phy/allwi=
+nner/phy-sun4i-usb.c
+> >> index ec551464dd4f..e53a9a9317bc 100644
+> >> --- a/drivers/phy/allwinner/phy-sun4i-usb.c
+> >> +++ b/drivers/phy/allwinner/phy-sun4i-usb.c
+> >> @@ -782,7 +782,7 @@ static int sun4i_usb_phy_probe(struct platform_dev=
+ice *pdev)
+> >>  =20
+> >>   	for (i =3D 0; i < data->cfg->num_phys; i++) {
+> >>   		struct sun4i_usb_phy *phy =3D data->phys + i;
+> >> -		char name[16];
+> >> +		char name[32];
+> >>  =20
+> >>   		if (data->cfg->missing_phys & BIT(i))
+> >>   			continue; =20
+> >=20
+> >  =20
+>=20
 
