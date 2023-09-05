@@ -1,55 +1,57 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C34328C14
-	for <linux-sunxi@lists.linux.dev>; Tue,  5 Sep 2023 20:33:17 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-986d8332f50so461751466b.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 05 Sep 2023 13:33:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 305AA8C14
+	for <linux-sunxi@lists.linux.dev>; Tue,  5 Sep 2023 20:33:39 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-99bdcade7fbso424218666b.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 05 Sep 2023 13:33:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693945996; x=1694550796; darn=lists.linux.dev;
+        d=gmail.com; s=20221208; t=1693946018; x=1694550818; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kGd37heVkKpNeW2/JaXN+6U9D28h1iXnKKCdvuTuCX4=;
-        b=i7NIMK3FX+r9QTT7nsh0Jsyp4oJ3abhAtlji7BiWZFPBkkQdaVZA1yKfaZAL5V4468
-         zFWJQ1wpp6JYW0glEi9U9QQHS5m6Ga3kJJ/0qeKLTgAI789/jyL7PZXbWczKKJWT4xOk
-         lzKZNfLACiNP2XMdMyHPLvBma3sB8/sy9fi1okahTVlVlBAw0Vq9un4bvx4fwnpbRKzH
-         sYFm/Tdh4JbjWfh1o+K9yCp/jyHSNrLPp2aUHOOyKJxTJOVxJH+l/ZsTVtXvGNZWrcqK
-         iqph8NAW4oJwRNtxEhYWfTz+5AnxIOubPS0PwNIWHicosPXSOnVeeDuE08Het4C3T7jK
-         Enlw==
+        bh=+Y/qz5Q/D4Xh82fml9lf+22Tut8ew4AzgdNATkCb0mg=;
+        b=MGlcC8hl4JxJKOMp/Ylos0aq9nH87nmaob/tGMUSooznVOCbGbVe0u+/SxuWMEy3Bd
+         Z8oScI3O6wjxem3oeQPiiNiLWyj8k3n+n4ZNcJAWnXx9LWwgwgQ8YiIudesnvZnUnWCa
+         qe9nji8rNhqf7YqwwuCO03L0EhfskukvkzPwqpiOYBviovrIJVeIjWjK44CAWNWHSB1G
+         A7iVDYZVDxgDsgrhp1XiBXEqDPe58EE76izBCCGVjQbno5ipnTyJ9hpvdSR1SdHcki3y
+         +KqDNib/856WHRyrlHkxtc9BPljsZhmhb1XQQLMWSLzdWz7GI8T7mTQ8kCsb7gkDIT11
+         Wh0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693945996; x=1694550796;
+        d=1e100.net; s=20221208; t=1693946018; x=1694550818;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kGd37heVkKpNeW2/JaXN+6U9D28h1iXnKKCdvuTuCX4=;
-        b=V+5SUNNsupf298uITkKv4DTWTSMly6EGv+zKqT5ZsNee3BDDTI6IDwFsIumgJ2vC0w
-         VECFQuDiT7D4n8fVPNysLZNLt3NevajrBNoJyuiBHNna8QIqEeeM7E6sBiVJhqx0r2BA
-         +Wn2xCXO84JbuJTyzDHoHirIrYSW/Fb2cpw8O8ldc4C2VqXZf3qLhMNcuIP4Ot01veNG
-         WiWlPxXyyKE/+sln0jBdkWeZbhY18q+l1OEhed1qPfbRAtKY4cAl3l6XBLMil8++GyM9
-         KgjvXkRIifr+pB17gLCVnev5/pfTN6qbond3MdmB/ns7Z4T5DUt0lhLDd6nocAayw5tO
-         hV2A==
-X-Gm-Message-State: AOJu0YxCtQUhgmC8tTjUU3n/GCUL6uUl2H7cSSpNBzKakE7ejDKBASCf
-	cAdfE+Ap0ODuP0Uo0z6mHnKKvh4qaM0oJtr0
-X-Google-Smtp-Source: AGHT+IENZGk26Bm3PR5lydcBmGnBLfg4yzMPCxRYm/sOmVPlXgIH6rG0SRwq7IEeS0NdXyk/8TrfhA==
-X-Received: by 2002:a17:906:314f:b0:9a1:fc1e:19ac with SMTP id e15-20020a170906314f00b009a1fc1e19acmr714243eje.33.1693945995700;
-        Tue, 05 Sep 2023 13:33:15 -0700 (PDT)
+        bh=+Y/qz5Q/D4Xh82fml9lf+22Tut8ew4AzgdNATkCb0mg=;
+        b=cK6NPNzdqX4wKfpUIris6CiqWSfwEHAXS6Re8HLgEKKlIvH9ByX5h3onrZvvwR9uCK
+         9RLfx008yuA52lPB8qtubVb4QTfr1oLYKx1lMaEW3LrJ8d8sb8smu4dpTLTTgA4iUnND
+         0Vln/zMJcwHVi9hz2tA8ljqknOC7cwGo+FJglweMObOPpFVDTxfjwgujp3UXfMZXpdX4
+         NEk37hJkx0YJJAxmbE1eqsxa3jiw0k/FrkXhr7D7Hki8dYGQT1OTbb7BI40ubRV3AWEO
+         v+JlsmjiupuRyV18cAENIOJPXQ1Vf7Qjy96NH9vGY0Gpnfo2lTNK7Yo5Xm5nP43phAvM
+         0kZQ==
+X-Gm-Message-State: AOJu0YwMUMRniPa3W/zQCbEtAdw2eCPDPuUK5PlEcSxzhjjlp9HTdKFL
+	Ndn4xl94KxoB2kN/4hw9LVM=
+X-Google-Smtp-Source: AGHT+IF7LbRquDkm6YhWhL50x9Jtu4g7EmvWSZoEBIMpq9IJRoIB/RdOfSm3q6foUsGnO/tlDPbmiQ==
+X-Received: by 2002:a17:906:5a6c:b0:99d:dd43:d427 with SMTP id my44-20020a1709065a6c00b0099ddd43d427mr711749ejc.10.1693946017963;
+        Tue, 05 Sep 2023 13:33:37 -0700 (PDT)
 Received: from archlinux.localnet (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
-        by smtp.gmail.com with ESMTPSA id k23-20020a1709061c1700b00992b71d8f19sm7964262ejg.133.2023.09.05.13.33.14
+        by smtp.gmail.com with ESMTPSA id s23-20020a170906c31700b009934b1eb577sm8035258ejz.77.2023.09.05.13.33.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Sep 2023 13:33:15 -0700 (PDT)
+        Tue, 05 Sep 2023 13:33:37 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: samuel@sholland.org, wens@csie.org, Yang Li <yang.lee@linux.alibaba.com>
-Cc: daniel.lezcano@linaro.org, tglx@linutronix.de,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, Yang Li <yang.lee@linux.alibaba.com>
+To: linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>, Mans Rullgard <mans@mansr.com>,
+ Maxime Ripard <mripard@kernel.org>, Jinjie Ruan <ruanjinjie@huawei.com>
+Cc: ruanjinjie@huawei.com
 Subject:
- Re: [PATCH -next] clocksource/drivers/sun5i: Remove surplus dev_err() when
- using platform_get_irq()
-Date: Tue, 05 Sep 2023 22:33:14 +0200
-Message-ID: <8307837.NyiUUSuA9g@archlinux>
-In-Reply-To: <20230831041414.66434-1-yang.lee@linux.alibaba.com>
-References: <20230831041414.66434-1-yang.lee@linux.alibaba.com>
+ Re: [PATCH -next] clocksource/drivers/sun5i: Remove redundant dev_err() for
+ platform_get_irq()
+Date: Tue, 05 Sep 2023 22:33:36 +0200
+Message-ID: <3440176.QJadu78ljV@archlinux>
+In-Reply-To: <20230901071328.1322235-1-ruanjinjie@huawei.com>
+References: <20230901071328.1322235-1-ruanjinjie@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -59,21 +61,23 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-On Thursday, August 31, 2023 6:14:14 AM CEST Yang Li wrote:
-> There is no need to call the dev_err() function directly to print a
-> custom message when handling an error from either the platform_get_irq()
-> or platform_get_irq_byname() functions as both are going to display an
-> appropriate error message in case of a failure.
+On Friday, September 1, 2023 9:13:28 AM CEST Jinjie Ruan wrote:
+> Since commit 7723f4c5ecdb ("driver core: platform: Add an error message
+> to platform_get_irq*()") and commit 2043727c2882 ("driver core:
+> platform: Make use of the helper function dev_err_probe()"), there is
+> no need to call the dev_err() function directly to print a custom
+> message when handling an error from platform_get_irq() function as it is
+> going to display an appropriate error message in case of a failure.
 > 
-> ./drivers/clocksource/timer-sun5i.c:260:2-9: line 260 is redundant because
-> platform_get_irq() already prints an error
-> 
-> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+> Fixes: 7e5bac610d2f ("clocksource/drivers/sun5i: Convert to platform device
+> driver") Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+This was already submitted one day earlier:
+https://lore.kernel.org/all/20230831041414.66434-1-yang.lee@linux.alibaba.com/
 
 Best regards,
 Jernej
+
 > ---
 >  drivers/clocksource/timer-sun5i.c | 4 +---
 >  1 file changed, 1 insertion(+), 3 deletions(-)
