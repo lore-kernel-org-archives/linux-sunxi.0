@@ -1,143 +1,150 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CDA7FC0B
-	for <linux-sunxi@lists.linux.dev>; Tue,  5 Sep 2023 21:06:06 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-991c786369cso464242966b.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 05 Sep 2023 14:06:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693947965; x=1694552765; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9XU7m3iUIhB2czTwQI5E0tsG1IdXbWVa4A+CGA62kvw=;
-        b=CNDGYSwKyMbxxOi8g4Ej3IQa6HHvryDoSHtlbbw6rLbOftYYerXPJbsj8k1GaxLVig
-         cI6TwesS+ySvgb9bF0J1kfLDcfGzbSkWOrJaAclavmym3fXQeWhKgn8kMu0UD4pI8hS5
-         pOxY4EzL2CQBUhYZC2QT74AucJX7jupHJgEpGUCBeomy2XjgXqAXj1+GycklBAnXK0hr
-         U6eALnewXBlZkgJ4fhndmLwOa3Z1E68uWI72+rphuUZxT8xaeRkUgia5Sjdec2zllMaB
-         QuvBbR2ICmYYaucXObHN+eCZSp177M812HSgTZt2D0AfpHjJrPw4hiSPf8iojqA7opk0
-         gerw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693947965; x=1694552765;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9XU7m3iUIhB2czTwQI5E0tsG1IdXbWVa4A+CGA62kvw=;
-        b=MOMRNZCN1HNiuNIiC23C8iVwu265yeBSKKrh0v6KYvsd/N+Fv/AbY+VJsa27BQulmL
-         OMJVXPtDF6Wl9I3eHN6kk81CoDOB9uIfyeHTXsflI5A1NRMPGLrjx+gcrjTmNXBbxTMO
-         pHegbrIRd+K67c0LPYrOWRNqSBJQMtkVyDZ+yIe/SCByJvDVHRqvynkqo6lP4eWinizp
-         XEU/9VA0x4PyqsC9SNipvseGXJ16DTlCZR8r+DwXLS6E8ghrlclYxHRnjSbIBZCw7UNO
-         WebifyU1Z6y3pUvfc2C4GYtuHo8hh+10KY9IDE5KP8Q2/rtNDSczzpkV0VrPEvI8RTM9
-         1Low==
-X-Gm-Message-State: AOJu0YwPQaFd+QivLKf4bdQeq5cNHhf4bDDxcntr4Q5ergZjujCraIPj
-	QVWQCD0o9lMcY60t5YG1hfc=
-X-Google-Smtp-Source: AGHT+IGkmh9tp77O9jdKZ4K1pCktyBByW4OQ7/rwivCx3acTMVK4FoRmIlgULCUgqm2i5B0cQ60LGg==
-X-Received: by 2002:a17:907:762a:b0:9a1:bb8f:17d7 with SMTP id jy10-20020a170907762a00b009a1bb8f17d7mr692400ejc.12.1693947964868;
-        Tue, 05 Sep 2023 14:06:04 -0700 (PDT)
-Received: from jernej-laptop.localnet (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
-        by smtp.gmail.com with ESMTPSA id kt8-20020a170906aac800b0099df2ddfc37sm8025574ejb.165.2023.09.05.14.06.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Sep 2023 14:06:04 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
- Douglas Anderson <dianders@chromium.org>
-Cc: Douglas Anderson <dianders@chromium.org>, airlied@gmail.com,
- airlied@redhat.com, alain.volmat@foss.st.com, alexander.deucher@amd.com,
- alexandre.belloni@bootlin.com, alison.wang@nxp.com, bbrezillon@kernel.org,
- christian.koenig@amd.com, claudiu.beznea@microchip.com, daniel@ffwll.ch,
- drawat.floss@gmail.com, javierm@redhat.com, jfalempe@redhat.com,
- jstultz@google.com, kong.kongxinwei@hisilicon.com, kraxel@redhat.com,
- linus.walleij@linaro.org, linux-arm-kernel@lists.infradead.org,
- linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev, liviu.dudau@arm.com,
- nicolas.ferre@microchip.com, paul.kocialkowski@bootlin.com, sam@ravnborg.org,
- samuel@sholland.org, spice-devel@lists.freedesktop.org, stefan@agner.ch,
- suijingfeng@loongson.cn, sumit.semwal@linaro.org, tiantao6@hisilicon.com,
- tomi.valkeinen@ideasonboard.com, tzimmermann@suse.de,
- virtualization@lists.linux-foundation.org, wens@csie.org,
- xinliang.liu@linaro.org, yongqin.liu@linaro.org, zackr@vmware.com
-Subject:
- Re: [RFT PATCH 2/6] drm: Call drm_atomic_helper_shutdown() at shutdown time
- for misc drivers
-Date: Tue, 05 Sep 2023 23:06:00 +0200
-Message-ID: <5970528.lOV4Wx5bFT@jernej-laptop>
-In-Reply-To:
- <20230901163944.RFT.2.I9115e5d094a43e687978b0699cc1fe9f2a3452ea@changeid>
-References:
- <20230901234015.566018-1-dianders@chromium.org>
- <20230901163944.RFT.2.I9115e5d094a43e687978b0699cc1fe9f2a3452ea@changeid>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C364962B
+	for <linux-sunxi@lists.linux.dev>; Wed,  6 Sep 2023 00:51:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96924C433C8
+	for <linux-sunxi@lists.linux.dev>; Wed,  6 Sep 2023 00:51:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1693961467;
+	bh=LOkOYWgDpfMaKM7j4I5vUi6HfzRf1uXiYn5Gp+JhJpQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=L9WwUkhZH0udrang5lEoCi0RceXC8fGySw+ca+m9zeW98RbDllgO7iupNjB2o0B5B
+	 aGiwGYr19AKbj/4TGCg9+HFGYnibln30VNAPU211UHAMwH0SOW+DkP7xTcVgWyOBpw
+	 G585HAPi49WnN5OpHHFwEPxhSKclHdWMyuCmPG3WTxUrE4ZtnqbXsctIjWK/zuZwjv
+	 M8M2eS7fOal4CftuhgWiR0hT9J/jWXPxnuhoQ9ltVNxaaZJJAtN7wF9OdzLaPBog23
+	 5afycDar+wrubbKbG8Lk1GJCCvgVpoR0rGTYP/7RpCLST5W5uoudZPucw5CTPkP1+B
+	 FyvZf4Tp1iH7Q==
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-52c9be5e6f0so4084876a12.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 05 Sep 2023 17:51:07 -0700 (PDT)
+X-Gm-Message-State: AOJu0YxXEINAVLLY+LSS7kxBUtgkwsdY21riPoGiuCn0OhYOyctkCF0k
+	y29iL3gCK6Fbi+2BiRDVEO3Y43lsCMVEMreyJTI=
+X-Google-Smtp-Source: AGHT+IElTkbYyZUPYQR5VBzmrBOK5ldKYAEDs8YsLwAGbLGs88zIULj6n77vYmOOI8MWwsoyk9I/bmDTQ6RDTZ1WQsI=
+X-Received: by 2002:aa7:d843:0:b0:51e:ed6:df38 with SMTP id
+ f3-20020aa7d843000000b0051e0ed6df38mr950573eds.13.1693961465837; Tue, 05 Sep
+ 2023 17:51:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+References: <IA1PR20MB49534918FCA69399CE2E0C53BBE0A@IA1PR20MB4953.namprd20.prod.outlook.com>
+In-Reply-To: <IA1PR20MB49534918FCA69399CE2E0C53BBE0A@IA1PR20MB4953.namprd20.prod.outlook.com>
+From: Guo Ren <guoren@kernel.org>
+Date: Wed, 6 Sep 2023 08:50:54 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTRTwk6P+PnJcyQKVKADOAjHGmFxkS=axqg58hWvyu=wwA@mail.gmail.com>
+Message-ID: <CAJF2gTRTwk6P+PnJcyQKVKADOAjHGmFxkS=axqg58hWvyu=wwA@mail.gmail.com>
+Subject: Re: [PATCH v4] riscv: dts: allwinner: d1: Add PMU event node
+To: Inochi Amaoto <inochiama@outlook.com>
+Cc: Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Heiko Stuebner <heiko@sntech.de>, Wei Fu <wefu@redhat.com>, Pei Chen <cp0613@linux.alibaba.com>, 
+	Wenhan Chen <chenwenhan.cwh@alibaba-inc.com>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Dne sobota, 02. september 2023 ob 01:39:53 CEST je Douglas Anderson 
-napisal(a):
-> Based on grepping through the source code these drivers appear to be
-> missing a call to drm_atomic_helper_shutdown() at system shutdown
-> time. Among other things, this means that if a panel is in use that it
-> won't be cleanly powered off at system shutdown time.
-> 
-> The fact that we should call drm_atomic_helper_shutdown() in the case
-> of OS shutdown/restart comes straight out of the kernel doc "driver
-> instance overview" in drm_drv.c.
-> 
-> All of the drivers in this patch were fairly straightforward to fix
-> since they already had a call to drm_atomic_helper_shutdown() at
-> remove/unbind time but were just lacking one at system shutdown. The
-> only hitch is that some of these drivers use the component model to
-> register/unregister their DRM devices. The shutdown callback is part
-> of the original device. The typical solution here, based on how other
-> DRM drivers do this, is to keep track of whether the device is bound
-> based on drvdata. In most cases the drvdata is the drm_device, so we
-> can just make sure it is NULL when the device is not bound. In some
-> drivers, this required minor code changes. To make things simpler,
-> drm_atomic_helper_shutdown() has been modified to consider a NULL
-> drm_device as a noop in the patch ("drm/atomic-helper:
-> drm_atomic_helper_shutdown(NULL) should be a noop").
-> 
-> Suggested-by: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+On Mon, Aug 28, 2023 at 12:29=E2=80=AFPM Inochi Amaoto <inochiama@outlook.c=
+om> wrote:
+>
+> D1 has several pmu events supported by opensbi.
+> These events can be used by perf for profiling.
+>
+> Signed-off-by: Inochi Amaoto <inochiama@outlook.com>
+> Link: https://dl.linux-sunxi.org/D1/Xuantie_C906_R1S0_User_Manual.pdf
+> Link: https://github.com/T-head-Semi/openc906/blob/main/C906_RTL_FACTORY/=
+gen_rtl/pmu/rtl/aq_hpcp_top.v#L657
 > ---
-> This commit is only compile-time tested.
-> 
-> Note that checkpatch yells that "drivers/gpu/drm/tiny/cirrus.c" is
-> marked as 'obsolete', but it seems silly not to include the fix if
-> it's already been written. If someone wants me to take that out,
-> though, I can.
-> 
->  drivers/gpu/drm/arm/display/komeda/komeda_drv.c | 9 +++++++++
->  drivers/gpu/drm/arm/display/komeda/komeda_kms.c | 7 +++++++
->  drivers/gpu/drm/arm/display/komeda/komeda_kms.h | 1 +
->  drivers/gpu/drm/arm/hdlcd_drv.c                 | 6 ++++++
->  drivers/gpu/drm/arm/malidp_drv.c                | 6 ++++++
->  drivers/gpu/drm/ast/ast_drv.c                   | 6 ++++++
->  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c    | 6 ++++++
->  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c       | 8 ++++++++
->  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 6 ++++++
->  drivers/gpu/drm/hyperv/hyperv_drm_drv.c         | 6 ++++++
->  drivers/gpu/drm/logicvc/logicvc_drm.c           | 9 +++++++++
->  drivers/gpu/drm/loongson/lsdc_drv.c             | 6 ++++++
->  drivers/gpu/drm/mcde/mcde_drv.c                 | 9 +++++++++
->  drivers/gpu/drm/omapdrm/omap_drv.c              | 8 ++++++++
->  drivers/gpu/drm/qxl/qxl_drv.c                   | 7 +++++++
->  drivers/gpu/drm/sti/sti_drv.c                   | 7 +++++++
->  drivers/gpu/drm/sun4i/sun4i_drv.c               | 6 ++++++
+> changed from v3:
+> 1. remove wrong event mapping of 0x0000a
+> 2. add reference url of c906 events implementation (D1 only support event=
+s
+> described in R1S0 user manual, but event mapping is the same)
+>
+> changed from v2:
+> 1. move pmu node from /soc to / to avoid warnings when checking.
+>
+> The meaning of T-HEAD events can be found in this pending patch:
+> https://lore.kernel.org/linux-perf-users/IA1PR20MB4953DD82D0116EC291C2177=
+7BBE2A@IA1PR20MB4953.namprd20.prod.outlook.com
+>
+> The patch above also provides a example that shows how to setup
+> environment and use perf with T-HEAD events.
+> ---
+>  arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi | 39 +++++++++++++++++++
+>  1 file changed, 39 insertions(+)
+>
+> diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi b/arch/riscv/b=
+oot/dts/allwinner/sun20i-d1s.dtsi
+> index 8275630af977..53a984d78e3f 100644
+> --- a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> @@ -73,4 +73,43 @@ plic: interrupt-controller@10000000 {
+>                         #interrupt-cells =3D <2>;
+>                 };
+>         };
+> +
+> +       pmu {
+> +               compatible =3D "riscv,pmu";
+> +               riscv,event-to-mhpmcounters =3D
+> +                       <0x00003 0x00003 0x00000008>,
+> +                       <0x00004 0x00004 0x00000010>,
+> +                       <0x00005 0x00005 0x00000200>,
+> +                       <0x00006 0x00006 0x00000100>,
+> +                       <0x10000 0x10000 0x00004000>,
+> +                       <0x10001 0x10001 0x00008000>,
+> +                       <0x10002 0x10002 0x00010000>,
+> +                       <0x10003 0x10003 0x00020000>,
+> +                       <0x10019 0x10019 0x00000040>,
+> +                       <0x10021 0x10021 0x00000020>;
+> +               riscv,event-to-mhpmevent =3D
+> +                       <0x00003 0x00000000 0x00000001>,
+> +                       <0x00004 0x00000000 0x00000002>,
+> +                       <0x00005 0x00000000 0x00000007>,
+> +                       <0x00006 0x00000000 0x00000006>,
+> +                       <0x10000 0x00000000 0x0000000c>,
+> +                       <0x10001 0x00000000 0x0000000d>,
+> +                       <0x10002 0x00000000 0x0000000e>,
+> +                       <0x10003 0x00000000 0x0000000f>,
+> +                       <0x10019 0x00000000 0x00000004>,
+> +                       <0x10021 0x00000000 0x00000003>;
+> +               riscv,raw-event-to-mhpmcounters =3D
+> +                       <0x00000000 0x00000001 0xffffffff 0xffffffff 0x00=
+000008>,
+> +                       <0x00000000 0x00000002 0xffffffff 0xffffffff 0x00=
+000010>,
+> +                       <0x00000000 0x00000003 0xffffffff 0xffffffff 0x00=
+000020>,
+> +                       <0x00000000 0x00000004 0xffffffff 0xffffffff 0x00=
+000040>,
+> +                       <0x00000000 0x00000005 0xffffffff 0xffffffff 0x00=
+000080>,
+> +                       <0x00000000 0x00000006 0xffffffff 0xffffffff 0x00=
+000100>,
+> +                       <0x00000000 0x00000007 0xffffffff 0xffffffff 0x00=
+000200>,
+> +                       <0x00000000 0x0000000b 0xffffffff 0xffffffff 0x00=
+002000>,
+> +                       <0x00000000 0x0000000c 0xffffffff 0xffffffff 0x00=
+004000>,
+> +                       <0x00000000 0x0000000d 0xffffffff 0xffffffff 0x00=
+008000>,
+> +                       <0x00000000 0x0000000e 0xffffffff 0xffffffff 0x00=
+010000>,
+> +                       <0x00000000 0x0000000f 0xffffffff 0xffffffff 0x00=
+020000>;
+> +       };
+>  };
+> --
+> 2.42.0
+>
+Reviewed-by: Guo Ren <guoren@kernel.org>
 
-For sun4i:
-Tested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-
-Best regards,
-Jernej
-
->  drivers/gpu/drm/tiny/bochs.c                    | 6 ++++++
->  drivers/gpu/drm/tiny/cirrus.c                   | 6 ++++++
->  19 files changed, 125 insertions(+)
-
-
-
+--=20
+Best Regards
+ Guo Ren
