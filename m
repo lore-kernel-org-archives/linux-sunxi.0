@@ -1,492 +1,189 @@
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0C0012B76
-	for <linux-sunxi@lists.linux.dev>; Thu,  7 Sep 2023 15:48:31 +0000 (UTC)
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2bf5bf33bcdso11839851fa.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 07 Sep 2023 08:48:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694101709; x=1694706509; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fzE2NW/x+YNiqb7I85ED58UMROv30QgMqxZtkdTd0+U=;
-        b=VETapNBnbIgtYCt1MLhMSNopTJvbX2X9kYifg/FnyK9UvLZH73WWx3iBEmXY5ik35V
-         EdzqPdrA9ZVeQb6eYu/7UM88ejEWklmPjnVjVVgJQ1IQCDVkARCiY5yZ3zwyniSE4Bn0
-         Pqjn7GmgmhjjU0Gm/eUGvghsADnrmJ/0HuPqjhvXKI35BtVrjITK5aTlYgDOpT+8V8tW
-         pWw0gyEYlh6vunqbucTwwkulfJsz0ly9pPkdooOF/m+AEatw/LqaXdcyxWv8G+W3zFPY
-         xlZqAReRwRs4wFSKvInOvIfrn1v7JUlMbLCYdTiFCxy12vKaba9Y0g++/gAXPn88dHuU
-         JFHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1694101709; x=1694706509;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fzE2NW/x+YNiqb7I85ED58UMROv30QgMqxZtkdTd0+U=;
-        b=Bgj4bjQorIpE6e78K/cjsG8OcbnEbcc4PeXOeGzuNAlZ6zSGaD4/QHOswdcyDc4goQ
-         3FnaYyAMGwXPWimVCl18cWES2ffsMsW6z1o5cw1rUEM1h/dcVJY+MMBWSgDLtFLpjQ1h
-         QTwYbbybAW9KHmqEPRXWcelk+VVli9A7FI40J9dR9n2KyvuEAGHO6XXFZxkYlJiXdEVy
-         LPf69Qdf4IKiWPPuVoG1dQTSW57wh4bN1ihxhjZ2Dm3n+qP7t/Hca4icVZ1jYRknQQrZ
-         +/iKTQWPrds/fhTIkMruBoUMF52dcv7P6mDliMMgnP0ZRq4gpaQyzL7fGThVwqlTzHrw
-         Ck3g==
-X-Gm-Message-State: AOJu0YzoN+9SFrXzELZn41+hrdQQ4QADFWWJC/nSuyMBWlnkRtgvmUsS
-	xrUs4WxaCeqYrs5Lljgucv0=
-X-Google-Smtp-Source: AGHT+IGE0ZgaGx3rxqBvTKVfc1zwjejt0WfNTsMUzyhcB6JThFIl/xIDB8OmVWMGPSP8S3ATUkW9zQ==
-X-Received: by 2002:a2e:8805:0:b0:2bc:d33e:ccc5 with SMTP id x5-20020a2e8805000000b002bcd33eccc5mr5226697ljh.41.1694101709064;
-        Thu, 07 Sep 2023 08:48:29 -0700 (PDT)
-Received: from archlinux.localnet (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
-        by smtp.gmail.com with ESMTPSA id oz13-20020a170906cd0d00b00992f309cfe8sm10656956ejb.178.2023.09.07.08.48.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Sep 2023 08:48:28 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Chris Morgan <macroalpha82@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- airlied@gmail.com, andre.przywara@arm.com, conor+dt@kernel.org,
- daniel@ffwll.ch, heiko@sntech.de, jagan@edgeble.ai,
- krzysztof.kozlowski+dt@linaro.org, mripard@kernel.org,
- neil.armstrong@linaro.org, noralf@tronnes.org, robh+dt@kernel.org,
- sam@ravnborg.org, samuel@sholland.org, uwu@icenowy.me, wens@csie.org,
- Chris Morgan <macromorgan@hotmail.com>
-Subject: Re: [PATCH V4 8/8] ARM: dts: sunxi: add support for Anbernic RG-Nano
-Date: Thu, 07 Sep 2023 17:48:27 +0200
-Message-ID: <45790713.fMDQidcC6G@archlinux>
-In-Reply-To: <64f9eea7.ca0a0220.bbe66.12c3@mx.google.com>
-References:
- <20230828181941.1609894-1-macroalpha82@gmail.com>
- <5865585.MhkbZ0Pkbq@archlinux> <64f9eea7.ca0a0220.bbe66.12c3@mx.google.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1188D1426E
+	for <linux-sunxi@lists.linux.dev>; Thu,  7 Sep 2023 23:27:51 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 02945FEC;
+	Thu,  7 Sep 2023 16:28:29 -0700 (PDT)
+Received: from slackpad.lan (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 14B893F64C;
+	Thu,  7 Sep 2023 16:27:47 -0700 (PDT)
+Date: Fri, 8 Sep 2023 00:26:36 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Martin Botka <martin.botka@somainline.org>
+Cc: Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li
+ <tiny.windzz@gmail.com>, "Rafael J. Wysocki" <rafael@kernel.org>, Daniel
+ Lezcano <daniel.lezcano@linaro.org>, Amit Kucheria <amitk@kernel.org>,
+ Zhang Rui <rui.zhang@intel.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+ <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Alan Ma <tech@biqu3d.com>, Luke Harrison
+ <bttuniversity@biqu3d.com>, Marijn Suijten <marijn.suijten@somainline.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>, Martin Botka
+ <martin@biqu3d.com>
+Subject: Re: [PATCH v2 2/3] thermal: sun8i: Add support for H616 THS
+ controller
+Message-ID: <20230908002035.4a2d9be0@slackpad.lan>
+In-Reply-To: <20230821-ths-h616-v2-2-cda60d556798@somainline.org>
+References: <20230821-ths-h616-v2-0-cda60d556798@somainline.org>
+	<20230821-ths-h616-v2-2-cda60d556798@somainline.org>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thursday, September 7, 2023 5:39:17 PM CEST Chris Morgan wrote:
-> On Tue, Sep 05, 2023 at 10:32:33PM +0200, Jernej =C5=A0krabec wrote:
-> > On Monday, August 28, 2023 8:19:41 PM CEST Chris Morgan wrote:
-> > > From: Chris Morgan <macromorgan@hotmail.com>
-> > >=20
-> > > The Anbernic RG-Nano is a small portable game device based on the
-> > > Allwinner V3s SoC. It has GPIO buttons on the face and side for
-> > > input, a single mono speaker, a 240x240 SPI controlled display, a USB=
-=2DC
-> > > OTG port, an SD card slot for booting, and 64MB of RAM included in the
-> > > SoC.
-> > >=20
-> > > Working/Tested:
-> > > - SDMMC
-> > > - UART (for debugging)
-> > > - Buttons
-> > > - Charging/battery/PMIC
-> > > - Speaker
-> > > - RTC
-> > > - USB Host and Gadget*
-> > > - Display (at 60hz)
-> > >=20
-> > > *There is an issue with the usb_phy where it forces the device to host
-> > > mode. Until the phy driver is fixed this can be bypassed by either
-> > > removing the phy references from the ohci and ehci nodes or by setting
-> > > the usbphy on the ohci and ehci nodes to 1 (which is incorrect).
-> >=20
-> > DT is HW description, so driver independent and above comment should be
-> > removed from commit message.
-> >=20
-> > Otherwise:
-> > Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> >=20
-> > Best regards,
-> > Jernej
->=20
-> Should I resubmit with the text removed, or can it be edited before
-> being sent upstream?
+On Mon, 21 Aug 2023 16:03:47 +0200
+Martin Botka <martin.botka@somainline.org> wrote:
 
-It can be edited if nothing else pops up. In any case, it will be applied=20
-after 6.6-rc1 is released.
+Hi,
 
-Best regards,
-Jernej
+> Add support for the thermal sensor found in H616 SoC
+> which slightly resembles the H6 thermal sensor
+> controller with few changes like 4 sensors.
+> 
+> Signed-off-by: Martin Botka <martin.botka@somainline.org>
 
->=20
-> Thank you.
->=20
-> > > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> > > ---
-> > >=20
-> > >  arch/arm/boot/dts/allwinner/Makefile          |   1 +
-> > >  .../allwinner/sun8i-v3s-anbernic-rg-nano.dts  | 284 ++++++++++++++++=
-++
-> > >  2 files changed, 285 insertions(+)
-> > >  create mode 100644
-> > >=20
-> > > arch/arm/boot/dts/allwinner/sun8i-v3s-anbernic-rg-nano.dts
-> > >=20
-> > > diff --git a/arch/arm/boot/dts/allwinner/Makefile
-> > > b/arch/arm/boot/dts/allwinner/Makefile index 589a1ce1120a..2be83a1edc=
-bb
-> > > 100644
-> > > --- a/arch/arm/boot/dts/allwinner/Makefile
-> > > +++ b/arch/arm/boot/dts/allwinner/Makefile
-> > > @@ -237,6 +237,7 @@ dtb-$(CONFIG_MACH_SUN8I) +=3D \
-> > >=20
-> > >  	sun8i-t113s-mangopi-mq-r-t113.dtb \
-> > >  	sun8i-t3-cqa3t-bv3.dtb \
-> > >  	sun8i-v3-sl631-imx179.dtb \
-> > >=20
-> > > +	sun8i-v3s-anbernic-rg-nano.dtb \
-> > >=20
-> > >  	sun8i-v3s-licheepi-zero.dtb \
-> > >  	sun8i-v3s-licheepi-zero-dock.dtb \
-> > >  	sun8i-v40-bananapi-m2-berry.dtb
-> > >=20
-> > > diff --git a/arch/arm/boot/dts/allwinner/sun8i-v3s-anbernic-rg-nano.d=
-ts
-> > > b/arch/arm/boot/dts/allwinner/sun8i-v3s-anbernic-rg-nano.dts new file
-> > > mode
-> > > 100644
-> > > index 000000000000..bcccb0d3f9ce
-> > > --- /dev/null
-> > > +++ b/arch/arm/boot/dts/allwinner/sun8i-v3s-anbernic-rg-nano.dts
-> > > @@ -0,0 +1,284 @@
-> > > +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> > > +
-> > > +/dts-v1/;
-> > > +#include <dt-bindings/input/linux-event-codes.h>
-> > > +#include "sun8i-v3s.dtsi"
-> > > +#include "sunxi-common-regulators.dtsi"
-> > > +
-> > > +/ {
-> > > +	model =3D "Anbernic RG Nano";
-> > > +	compatible =3D "anbernic,rg-nano", "allwinner,sun8i-v3s";
-> > > +
-> > > +	aliases {
-> > > +		serial0 =3D &uart0;
-> > > +	};
-> > > +
-> > > +	backlight: backlight {
-> > > +		compatible =3D "pwm-backlight";
-> > > +		brightness-levels =3D <0 1 2 3 8 14 21 32 46 60 80 100>;
-> > > +		default-brightness-level =3D <11>;
-> > > +		power-supply =3D <&reg_vcc5v0>;
-> > > +		pwms =3D <&pwm 0 40000 1>;
-> > > +	};
-> > > +
-> > > +	chosen {
-> > > +		stdout-path =3D "serial0:115200n8";
-> > > +	};
-> > > +
-> > > +	gpio_keys: gpio-keys {
-> > > +		compatible =3D "gpio-keys";
-> > > +
-> > > +		button-a {
-> > > +			gpios =3D <&gpio_expander 12 (GPIO_ACTIVE_LOW=20
-|
-> >=20
-> > GPIO_PULL_UP)>;
-> >=20
-> > > +			label =3D "BTN-A";
-> > > +			linux,code =3D <BTN_EAST>;
-> > > +		};
-> > > +
-> > > +		button-b {
-> > > +			gpios =3D <&gpio_expander 14 (GPIO_ACTIVE_LOW=20
-|
-> >=20
-> > GPIO_PULL_UP)>;
-> >=20
-> > > +			label =3D "BTN-B";
-> > > +			linux,code =3D <BTN_SOUTH>;
-> > > +		};
-> > > +
-> > > +		button-down {
-> > > +			gpios =3D <&gpio_expander 1 (GPIO_ACTIVE_LOW |
-> >=20
-> > GPIO_PULL_UP)>;
-> >=20
-> > > +			label =3D "DPAD-DOWN";
-> > > +			linux,code =3D <BTN_DPAD_DOWN>;
-> > > +		};
-> > > +
-> > > +		button-left {
-> > > +			gpios =3D <&gpio_expander 4 (GPIO_ACTIVE_LOW |
-> >=20
-> > GPIO_PULL_UP)>;
-> >=20
-> > > +			label =3D "DPAD-LEFT";
-> > > +			linux,code =3D <BTN_DPAD_LEFT>;
-> > > +		};
-> > > +
-> > > +		button-right {
-> > > +			gpios =3D <&gpio_expander 0 (GPIO_ACTIVE_LOW |
-> >=20
-> > GPIO_PULL_UP)>;
-> >=20
-> > > +			label =3D "DPAD-RIGHT";
-> > > +			linux,code =3D <BTN_DPAD_RIGHT>;
-> > > +		};
-> > > +
-> > > +		button-se {
-> > > +			gpios =3D <&gpio_expander 7 (GPIO_ACTIVE_LOW |
-> >=20
-> > GPIO_PULL_UP)>;
-> >=20
-> > > +			label =3D "BTN-SELECT";
-> > > +			linux,code =3D <BTN_SELECT>;
-> > > +		};
-> > > +
-> > > +		button-st {
-> > > +			gpios =3D <&gpio_expander 6 (GPIO_ACTIVE_LOW |
-> >=20
-> > GPIO_PULL_UP)>;
-> >=20
-> > > +			label =3D "BTN-START";
-> > > +			linux,code =3D <BTN_START>;
-> > > +		};
-> > > +
-> > > +		button-tl {
-> > > +			gpios =3D <&gpio_expander 2 (GPIO_ACTIVE_LOW |
-> >=20
-> > GPIO_PULL_UP)>;
-> >=20
-> > > +			label =3D "BTN-L";
-> > > +			linux,code =3D <BTN_TL>;
-> > > +		};
-> > > +
-> > > +		button-tr {
-> > > +			gpios =3D <&gpio_expander 15 (GPIO_ACTIVE_LOW=20
-|
-> >=20
-> > GPIO_PULL_UP)>;
-> >=20
-> > > +			label =3D "BTN-R";
-> > > +			linux,code =3D <BTN_TR>;
-> > > +		};
-> > > +
-> > > +		button-up {
-> > > +			gpios =3D <&gpio_expander 3 (GPIO_ACTIVE_LOW |
-> >=20
-> > GPIO_PULL_UP)>;
-> >=20
-> > > +			label =3D "DPAD-UP";
-> > > +			linux,code =3D <BTN_DPAD_UP>;
-> > > +		};
-> > > +
-> > > +		button-x {
-> > > +			gpios =3D <&gpio_expander 11 (GPIO_ACTIVE_LOW=20
-|
-> >=20
-> > GPIO_PULL_UP)>;
-> >=20
-> > > +			label =3D "BTN-X";
-> > > +			linux,code =3D <BTN_NORTH>;
-> > > +		};
-> > > +
-> > > +		button-y {
-> > > +			gpios =3D <&gpio_expander 13 (GPIO_ACTIVE_LOW=20
-|
-> >=20
-> > GPIO_PULL_UP)>;
-> >=20
-> > > +			label =3D "BTN-Y";
-> > > +			linux,code =3D <BTN_WEST>;
-> > > +		};
-> > > +	};
-> > > +};
-> > > +
-> > > +&ccu {
-> > > +	clocks =3D <&osc24M>, <&osc32k>;
-> > > +};
-> > > +
-> > > +&codec {
-> > > +	allwinner,audio-routing =3D "Speaker", "HP",
-> > > +				  "MIC1", "Mic",
-> > > +				  "Mic", "HBIAS";
-> > > +	allwinner,pa-gpios =3D <&pio 5 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-> >=20
-> > /* PF6
-> >=20
-> > > */ +	status =3D "okay";
-> > > +};
-> > > +
-> > > +&ehci {
-> > > +	status =3D "okay";
-> > > +};
-> > > +
-> > > +&i2c0 {
-> > > +	status =3D "okay";
-> > > +
-> > > +	gpio_expander: gpio@20 {
-> > > +		compatible =3D "nxp,pcal6416";
-> > > +		reg =3D <0x20>;
-> > > +		gpio-controller;
-> > > +		#gpio-cells =3D <2>;
-> > > +		#interrupt-cells =3D <2>;
-> > > +		interrupt-controller;
-> > > +		interrupt-parent =3D <&pio>;
-> > > +		interrupts =3D <1 3 IRQ_TYPE_EDGE_BOTH>; /* PB3/EINT3 */
-> > > +		vcc-supply =3D <&reg_vcc3v3>;
-> > > +	};
-> > > +
-> > > +	axp209: pmic@34 {
-> > > +		reg =3D <0x34>;
-> > > +		interrupt-parent =3D <&pio>;
-> > > +		interrupts =3D <1 5 IRQ_TYPE_EDGE_FALLING>; /* PB5/EINT5
-> >=20
-> > */
-> >=20
-> > > +	};
-> > > +
-> > > +	pcf8563: rtc@51 {
-> > > +		compatible =3D "nxp,pcf8563";
-> > > +		reg =3D <0x51>;
-> > > +	};
-> > > +};
-> > > +
-> > > +#include "axp209.dtsi"
-> > > +
-> > > +&battery_power_supply {
-> > > +	status =3D "okay";
-> > > +};
-> > > +
-> > > +&mmc0 {
-> > > +	broken-cd;
-> > > +	bus-width =3D <4>;
-> > > +	disable-wp;
-> > > +	vmmc-supply =3D <&reg_vcc3v3>;
-> > > +	vqmmc-supply =3D <&reg_vcc3v3>;
-> > > +	status =3D "okay";
-> > > +};
-> > > +
-> > > +&ohci {
-> > > +	status =3D "okay";
-> > > +};
-> > > +
-> > > +&pio {
-> > > +	clocks =3D <&ccu CLK_BUS_PIO>, <&osc24M>, <&osc32k>;
-> > > +	vcc-pb-supply =3D <&reg_vcc3v3>;
-> > > +	vcc-pc-supply =3D <&reg_vcc3v3>;
-> > > +	vcc-pf-supply =3D <&reg_vcc3v3>;
-> > > +	vcc-pg-supply =3D <&reg_vcc3v3>;
-> > > +
-> > > +	spi0_no_miso_pins: spi0-no-miso-pins {
-> > > +		pins =3D "PC1", "PC2", "PC3";
-> > > +		function =3D "spi0";
-> > > +	};
-> > > +};
-> > > +
-> > > +&pwm {
-> > > +	pinctrl-0 =3D <&pwm0_pin>;
-> > > +	pinctrl-names =3D "default";
-> > > +	status =3D "okay";
-> > > +};
-> > > +
-> > > +/* DCDC2 wired into vdd-cpu, vdd-sys, and vdd-ephy. */
-> > > +&reg_dcdc2 {
-> > > +	regulator-always-on;
-> > > +	regulator-max-microvolt =3D <1250000>;
-> > > +	regulator-min-microvolt =3D <1250000>;
-> > > +	regulator-name =3D "vdd-cpu";
-> > > +};
-> > > +
-> > > +/* DCDC3 wired into every 3.3v input that isn't the RTC. */
-> > > +&reg_dcdc3 {
-> > > +	regulator-always-on;
-> > > +	regulator-max-microvolt =3D <3300000>;
-> > > +	regulator-min-microvolt =3D <3300000>;
-> > > +	regulator-name =3D "vcc-io";
-> > > +};
-> > > +
-> > > +/*
-> > > + * LDO1 wired into RTC, voltage is hard-wired at 3.3v and cannot be
-> > > + * software modified. Note that setting voltage here to 3.3v for
-> > > accuracy
-> > > + * sake causes an issue with the driver that causes it to fail to pr=
-obe
-> > > + * because of a voltage constraint in the driver.
-> > > + */
-> > > +&reg_ldo1 {
-> > > +	regulator-always-on;
-> > > +	regulator-name =3D "vcc-rtc";
-> > > +};
-> > > +
-> > > +/* LDO2 wired into VCC-PLL and audio codec. */
-> > > +&reg_ldo2 {
-> > > +	regulator-always-on;
-> > > +	regulator-max-microvolt =3D <3000000>;
-> > > +	regulator-min-microvolt =3D <3000000>;
-> > > +	regulator-name =3D "vcc-pll";
-> > > +};
-> > > +
-> > > +/* LDO3, LDO4, and LDO5 unused. */
-> > > +&reg_ldo3 {
-> > > +	status =3D "disabled";
-> > > +};
-> > > +
-> > > +&reg_ldo4 {
-> > > +	status =3D "disabled";
-> > > +};
-> > > +
-> > > +/* External RTC used instead, internal RTC runs fast. */
-> > > +&rtc {
-> > > +	status =3D "disabled";
-> > > +};
-> > > +
-> > > +&spi0 {
-> > > +	pinctrl-0 =3D <&spi0_no_miso_pins>;
-> > > +	pinctrl-names =3D "default";
-> > > +	status =3D "okay";
-> > > +
-> > > +	display@0 {
-> > > +		compatible =3D "saef,sftc154b", "panel-mipi-dbi-spi";
-> > > +		reg =3D <0>;
-> > > +		backlight =3D <&backlight>;
-> > > +		dc-gpios =3D <&pio 2 0 GPIO_ACTIVE_HIGH>; /* PC0 */
-> > > +		reset-gpios =3D <&pio 1 2 GPIO_ACTIVE_HIGH>; /* PB2 */
-> > > +		spi-max-frequency =3D <100000000>;
-> > > +
-> > > +		height-mm =3D <39>;
-> > > +		width-mm =3D <39>;
-> > > +
-> > > +		/* Set hb-porch to compensate for non-visible area */
-> > > +		panel-timing {
-> > > +			hactive =3D <240>;
-> > > +			vactive =3D <240>;
-> > > +			hback-porch =3D <80>;
-> > > +			vback-porch =3D <0>;
-> > > +			clock-frequency =3D <0>;
-> > > +			hfront-porch =3D <0>;
-> > > +			hsync-len =3D <0>;
-> > > +			vfront-porch =3D <0>;
-> > > +			vsync-len =3D <0>;
-> > > +		};
-> > > +	};
-> > > +};
-> > > +
-> > > +&uart0 {
-> > > +	pinctrl-0 =3D <&uart0_pb_pins>;
-> > > +	pinctrl-names =3D "default";
-> > > +	status =3D "okay";
-> > > +};
-> > > +
-> > > +&usb_otg {
-> > > +	dr_mode =3D "otg";
-> > > +	status =3D "okay";
-> > > +};
-> > > +
-> > > +&usb_power_supply {
-> > > +	status =3D "okay";
-> > > +};
-> > > +
-> > > +&usbphy {
-> > > +	usb0_id_det-gpios =3D <&pio 6 5 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /
-*
-> >=20
-> > PG5 */
-> >=20
-> > > +	status =3D "okay";
-> > > +};
+So this doesn't work on both my OrangePi Zero3 and my X96 Mate, the
+values reported are way too high. The kernel gets immediately upset
+about the alleged >200C, and demands immediate shutdown.
+Those are the values from hwmon on the X96 Mate:
+/sys/class/hwmon/hwmon0/name:gpu_thermal
+/sys/class/hwmon/hwmon0/temp1_input:220301
+/sys/class/hwmon/hwmon1/name:ve_thermal
+/sys/class/hwmon/hwmon1/temp1_input:219734
+/sys/class/hwmon/hwmon2/name:cpu_thermal
+/sys/class/hwmon/hwmon2/temp1_input:220868
+/sys/class/hwmon/hwmon3/name:ddr_thermal
+/sys/class/hwmon/hwmon3/temp1_input:221354
+The raw values ranged from 0x273 till 0x294, with various values in
+between. The reported temperatures on the OPi Zero3 were a bit lower,
+but still around 200C.
 
+The calibration data in the fuses seems to be meaningful, it says the
+raw values are 0xb0f, 0xb18, 0xb14, 0xb1d for the four sensors, at an
+ambient temperature of 27C. Those raw values would translate to about
+34C/42C, so not completely off the scale.
 
+This is as far as I dug today, maybe the sampling procedure is skewed,
+so the ADC returns wrong values? Or the calibration write to the THS is
+broken? Skipping that doesn't change the outcome significantly, though.
 
+Open to any ideas or debugging suggestions!
+
+Cheers,
+Andre
+
+> ---
+>  drivers/thermal/sun8i_thermal.c | 74 +++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 74 insertions(+)
+> 
+> diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_thermal.c
+> index 195f3c5d0b38..cf96ab6a445b 100644
+> --- a/drivers/thermal/sun8i_thermal.c
+> +++ b/drivers/thermal/sun8i_thermal.c
+> @@ -278,6 +278,66 @@ static int sun50i_h6_ths_calibrate(struct ths_device *tmdev,
+>  	return 0;
+>  }
+>  
+> +static int sun50i_h616_ths_calibrate(struct ths_device *tmdev,
+> +				     u16 *caldata, int callen)
+> +{
+> +	struct device *dev = tmdev->dev;
+> +	int i, ft_temp;
+> +
+> +	if (!caldata[0])
+> +		return -EINVAL;
+> +
+> +	/*
+> +	 * h616 efuse THS calibration data layout:
+> +	 *
+> +	 * 0      11  16     27   32     43   48    57
+> +	 * +----------+-----------+-----------+-----------+
+> +	 * |  temp |  |sensor0|   |sensor1|   |sensor2|   |
+> +	 * +----------+-----------+-----------+-----------+
+> +	 *                      ^           ^           ^
+> +	 *                      |           |           |
+> +	 *                      |           |           sensor3[11:8]
+> +	 *                      |           sensor3[7:4]
+> +	 *                      sensor3[3:0]
+> +	 *
+> +	 * The calibration data on the H616 is the ambient temperature and
+> +	 * sensor values that are filled during the factory test stage.
+> +	 *
+> +	 * The unit of stored FT temperature is 0.1 degree celsius.
+> +	 */
+> +	ft_temp = caldata[0] & FT_TEMP_MASK;
+> +
+> +	for (i = 0; i < tmdev->chip->sensor_num; i++) {
+> +		int delta, cdata, offset, reg;
+> +
+> +		if (i == 3)
+> +			reg = (caldata[1] >> 12)
+> +			      | ((caldata[2] >> 12) << 4)
+> +			      | ((caldata[3] >> 12) << 8);
+> +		else
+> +			reg = (int)caldata[i + 1] & TEMP_CALIB_MASK;
+> +
+> +		int sensor_temp = tmdev->chip->calc_temp(tmdev, i, reg);
+> +
+> +		delta = (sensor_temp - ft_temp * 100) * 10;
+> +		delta /= tmdev->chip->scale;
+> +		cdata = CALIBRATE_DEFAULT - delta;
+> +		if (cdata & ~TEMP_CALIB_MASK) {
+> +			dev_warn(dev, "sensor%d is not calibrated.\n", i);
+> +
+> +			continue;
+> +		}
+> +
+> +		offset = (i % 2) * 16;
+> +		regmap_update_bits(tmdev->regmap,
+> +				   SUN50I_H6_THS_TEMP_CALIB + (i / 2 * 4),
+> +				   TEMP_CALIB_MASK << offset,
+> +				   cdata << offset);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static int sun8i_ths_calibrate(struct ths_device *tmdev)
+>  {
+>  	struct nvmem_cell *calcell;
+> @@ -608,6 +668,19 @@ static const struct ths_thermal_chip sun50i_h6_ths = {
+>  	.calc_temp = sun8i_ths_calc_temp,
+>  };
+>  
+> +static const struct ths_thermal_chip sun50i_h616_ths = {
+> +	.sensor_num = 4,
+> +	.has_bus_clk_reset = true,
+> +	.ft_deviation = 8000,
+> +	.offset = 263655,
+> +	.scale = 810,
+> +	.temp_data_base = SUN50I_H6_THS_TEMP_DATA,
+> +	.calibrate = sun50i_h616_ths_calibrate,
+> +	.init = sun50i_h6_thermal_init,
+> +	.irq_ack = sun50i_h6_irq_ack,
+> +	.calc_temp = sun8i_ths_calc_temp,
+> +};
+> +
+>  static const struct of_device_id of_ths_match[] = {
+>  	{ .compatible = "allwinner,sun8i-a83t-ths", .data = &sun8i_a83t_ths },
+>  	{ .compatible = "allwinner,sun8i-h3-ths", .data = &sun8i_h3_ths },
+> @@ -616,6 +689,7 @@ static const struct of_device_id of_ths_match[] = {
+>  	{ .compatible = "allwinner,sun50i-a100-ths", .data = &sun50i_a100_ths },
+>  	{ .compatible = "allwinner,sun50i-h5-ths", .data = &sun50i_h5_ths },
+>  	{ .compatible = "allwinner,sun50i-h6-ths", .data = &sun50i_h6_ths },
+> +	{ .compatible = "allwinner,sun50i-h616-ths", .data = &sun50i_h616_ths },
+>  	{ /* sentinel */ },
+>  };
+>  MODULE_DEVICE_TABLE(of, of_ths_match);
+> 
 
