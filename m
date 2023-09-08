@@ -1,71 +1,137 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BF001849
-	for <linux-sunxi@lists.linux.dev>; Fri,  8 Sep 2023 09:32:40 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 70E84D75;
-	Fri,  8 Sep 2023 02:33:17 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0A8733F64C;
-	Fri,  8 Sep 2023 02:32:36 -0700 (PDT)
-Date: Fri, 8 Sep 2023 10:32:34 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Chris Morgan <macroalpha82@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- airlied@gmail.com, conor+dt@kernel.org, daniel@ffwll.ch, heiko@sntech.de,
- jagan@edgeble.ai, jernej.skrabec@gmail.com,
- krzysztof.kozlowski+dt@linaro.org, mripard@kernel.org,
- neil.armstrong@linaro.org, noralf@tronnes.org, robh+dt@kernel.org,
- sam@ravnborg.org, samuel@sholland.org, uwu@icenowy.me, wens@csie.org, Chris
- Morgan <macromorgan@hotmail.com>, Conor Dooley <conor.dooley@microchip.com>
-Subject: Re: [PATCH V4 4/8] dt-bindings: usb: Add V3s compatible string for
- EHCI
-Message-ID: <20230908103234.6a78275c@donnerap.manchester.arm.com>
-In-Reply-To: <20230828181941.1609894-5-macroalpha82@gmail.com>
-References: <20230828181941.1609894-1-macroalpha82@gmail.com>
-	<20230828181941.1609894-5-macroalpha82@gmail.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF0CB13AFA
+	for <linux-sunxi@lists.linux.dev>; Fri,  8 Sep 2023 18:13:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CC81C4339A;
+	Fri,  8 Sep 2023 18:13:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1694196810;
+	bh=ppRWJhM2IQNdnlit5qe6toabd0+zlRqLBqSc22ui1MM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=puEqh/YnAVlyl3rU3XPqALVlNl1jE1e5o4A54SjrzcJja0u1Ikuof7RxvebnlhNox
+	 Ekk8IyliGe4R8UNZOgUNnxmm1bLfzYgMQoojMgRCCDhrMJAZFSTcFdjCyDM8yTLn98
+	 dTVHk/DgAyxol7aKDFe5334EAFlMRgq/LhoDI45UI67oGs4rfiFBDLGfGB7oz0bcsL
+	 ypfk6KgDqHDpdtFXhw+3qjw0V/unYu1gyNXz0iKQT5LiQOifcj21HPxPrsR9Xog+AG
+	 MfEWdh++Yzt6BmK49jyZDpQNhXiIAqqGjeyOa0U1M6xdbU431O3WMADk887a2LWB+z
+	 hVBUzj+U2RFxQ==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Maksim Kiselev <bigunclemax@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	linux-spi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH AUTOSEL 6.5 01/45] spi: sun6i: add quirk for dual and quad SPI modes support
+Date: Fri,  8 Sep 2023 14:12:42 -0400
+Message-Id: <20230908181327.3459042-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.5.2
+Content-Transfer-Encoding: 8bit
 
-On Mon, 28 Aug 2023 13:19:37 -0500
-Chris Morgan <macroalpha82@gmail.com> wrote:
+From: Maksim Kiselev <bigunclemax@gmail.com>
 
-> From: Chris Morgan <macromorgan@hotmail.com>
-> 
-> The Allwinner V3s uses a generic EHCI and OHCI for USB host
-> communication and the MUSB controller for OTG mode. Add compatible
-> strings for the EHCI node.
-> 
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+[ Upstream commit 0605d9fb411f3337482976842a3901d6c125d298 ]
 
-That looks alright, but you can squash this and the next patch into one -
-but only in case you need to re-send anyway.
+New Allwinner's SPI controllers can support dual and quad SPI modes.
+To enable one of these modes, we should set the corresponding bit in
+the SUN6I_BURST_CTL_CNT_REG register. DRM (28 bits) for dual mode and
+Quad_EN (29 bits) for quad transmission.
 
-Cheers,
-Andre
+Signed-off-by: Maksim Kiselev <bigunclemax@gmail.com>
+Link: https://lore.kernel.org/r/20230624131632.2972546-2-bigunclemax@gmail.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/spi/spi-sun6i.c | 29 +++++++++++++++++++++++++----
+ 1 file changed, 25 insertions(+), 4 deletions(-)
 
-> ---
->  Documentation/devicetree/bindings/usb/generic-ehci.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/usb/generic-ehci.yaml b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
-> index b956bb5fada7..f37191f21501 100644
-> --- a/Documentation/devicetree/bindings/usb/generic-ehci.yaml
-> +++ b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
-> @@ -38,6 +38,7 @@ properties:
->                - allwinner,sun8i-a83t-ehci
->                - allwinner,sun8i-h3-ehci
->                - allwinner,sun8i-r40-ehci
-> +              - allwinner,sun8i-v3s-ehci
->                - allwinner,sun9i-a80-ehci
->                - allwinner,sun20i-d1-ehci
->                - aspeed,ast2400-ehci
+diff --git a/drivers/spi/spi-sun6i.c b/drivers/spi/spi-sun6i.c
+index 30d541612253e..cec2747235abf 100644
+--- a/drivers/spi/spi-sun6i.c
++++ b/drivers/spi/spi-sun6i.c
+@@ -83,6 +83,9 @@
+ #define SUN6I_XMIT_CNT_REG		0x34
+ 
+ #define SUN6I_BURST_CTL_CNT_REG		0x38
++#define SUN6I_BURST_CTL_CNT_STC_MASK		GENMASK(23, 0)
++#define SUN6I_BURST_CTL_CNT_DRM			BIT(28)
++#define SUN6I_BURST_CTL_CNT_QUAD_EN		BIT(29)
+ 
+ #define SUN6I_TXDATA_REG		0x200
+ #define SUN6I_RXDATA_REG		0x300
+@@ -90,6 +93,7 @@
+ struct sun6i_spi_cfg {
+ 	unsigned long		fifo_depth;
+ 	bool			has_clk_ctl;
++	u32			mode_bits;
+ };
+ 
+ struct sun6i_spi {
+@@ -266,7 +270,7 @@ static int sun6i_spi_transfer_one(struct spi_master *master,
+ 	unsigned int div, div_cdr1, div_cdr2, timeout;
+ 	unsigned int start, end, tx_time;
+ 	unsigned int trig_level;
+-	unsigned int tx_len = 0, rx_len = 0;
++	unsigned int tx_len = 0, rx_len = 0, nbits = 0;
+ 	bool use_dma;
+ 	int ret = 0;
+ 	u32 reg;
+@@ -418,13 +422,29 @@ static int sun6i_spi_transfer_one(struct spi_master *master,
+ 	sun6i_spi_write(sspi, SUN6I_GBL_CTL_REG, reg);
+ 
+ 	/* Setup the transfer now... */
+-	if (sspi->tx_buf)
++	if (sspi->tx_buf) {
+ 		tx_len = tfr->len;
++		nbits = tfr->tx_nbits;
++	} else if (tfr->rx_buf) {
++		nbits = tfr->rx_nbits;
++	}
++
++	switch (nbits) {
++	case SPI_NBITS_DUAL:
++		reg = SUN6I_BURST_CTL_CNT_DRM;
++		break;
++	case SPI_NBITS_QUAD:
++		reg = SUN6I_BURST_CTL_CNT_QUAD_EN;
++		break;
++	case SPI_NBITS_SINGLE:
++	default:
++		reg = FIELD_PREP(SUN6I_BURST_CTL_CNT_STC_MASK, tx_len);
++	}
+ 
+ 	/* Setup the counters */
++	sun6i_spi_write(sspi, SUN6I_BURST_CTL_CNT_REG, reg);
+ 	sun6i_spi_write(sspi, SUN6I_BURST_CNT_REG, tfr->len);
+ 	sun6i_spi_write(sspi, SUN6I_XMIT_CNT_REG, tx_len);
+-	sun6i_spi_write(sspi, SUN6I_BURST_CTL_CNT_REG, tx_len);
+ 
+ 	if (!use_dma) {
+ 		/* Fill the TX FIFO */
+@@ -623,7 +643,8 @@ static int sun6i_spi_probe(struct platform_device *pdev)
+ 	master->set_cs = sun6i_spi_set_cs;
+ 	master->transfer_one = sun6i_spi_transfer_one;
+ 	master->num_chipselect = 4;
+-	master->mode_bits = SPI_CPOL | SPI_CPHA | SPI_CS_HIGH | SPI_LSB_FIRST;
++	master->mode_bits = SPI_CPOL | SPI_CPHA | SPI_CS_HIGH | SPI_LSB_FIRST |
++			    sspi->cfg->mode_bits;
+ 	master->bits_per_word_mask = SPI_BPW_MASK(8);
+ 	master->dev.of_node = pdev->dev.of_node;
+ 	master->auto_runtime_pm = true;
+-- 
+2.40.1
 
