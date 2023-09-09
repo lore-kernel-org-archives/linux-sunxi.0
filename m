@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F0531101
-	for <linux-sunxi@lists.linux.dev>; Sat,  9 Sep 2023 01:13:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2E02C116A9;
-	Sat,  9 Sep 2023 01:13:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB71E7E5
+	for <linux-sunxi@lists.linux.dev>; Sat,  9 Sep 2023 01:13:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B340FC116A8;
+	Sat,  9 Sep 2023 01:13:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1694222008;
-	bh=fqhdzrto9/FhQBa1hvJ7yJQ8qfxkPxO6H3qH5NP3oi4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=feYv12X35bcsAxexSLjCLnX3ZeYd6/OquioW7nUzq5T7/K/fATNsPLCg9IRU52LjI
-	 NM0ogL4cA4Wf+6xBxsjmvyvB4+x1H63S1biOS8BCCf4epFxIpAIMXLZ7vtPH1VVwrV
-	 wc8vN8YvAcDp5wS4fI2tcHzN1ok3HbciXfKEmuv45eaMs8DRUeVDacnXYA8LL4ZTsT
-	 PFzGEi0NPOkIfQEM8VOJye0uY8xwEHqAyzbY9SpxQ3aEVfeAGgh1xB6B4go4o1YHqI
-	 BLmc4S+UNwP5h/Pf8E6VzH39C+L0LByQQVRRfAbc2FlmfpZUAn1wgm84GKiduXEUC1
-	 opmZBbOdv0PZg==
+	s=k20201202; t=1694222012;
+	bh=iTTYjwjlxm5QPY3nAKGxvPdYt+hzxdFG1uHTgR7R2Cc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=FqRIOydqO0xIOKGJ3dzDXGwROSYGM9FP1btTHNncZ+v4brqt8TC+zTZUvQnUZoniC
+	 gtolQMUu7GWvS0/xXM73RekxNGaRj+3jntRlbHpjBkvrKc1GwepvnkB51eFGZ29KDJ
+	 vX1roIZYuYaCCOTzzp/J7eIKEuaFPsf/Ijo03quxBKCdVi+bWfydQ7DyoSOjkitRP/
+	 cYSUmgLM3SscLKfRz9VjQ7YmX3L0D5IqanNky9JBMxUUKafB5mu+ohOlQ2YlfNMFUr
+	 n7p6Vl033AIQOd75er3doUK+DBIcwnpJinjE7VdMwdBsF7nBl2RsLB62UozwkBgqtL
+	 fCsvcz9gK8o4A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -30,12 +30,10 @@ Cc: Mark Brown <broonie@kernel.org>,
 	linux-pm@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.15 2/2] thermal/drivers/sun8i: Free calibration nvmem after reading it
-Date: Fri,  8 Sep 2023 21:13:22 -0400
-Message-Id: <20230909011322.3582088-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10] thermal/drivers/sun8i: Free calibration nvmem after reading it
+Date: Fri,  8 Sep 2023 21:13:28 -0400
+Message-Id: <20230909011328.3582165-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230909011322.3582088-1-sashal@kernel.org>
-References: <20230909011322.3582088-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -44,7 +42,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.131
+X-stable-base: Linux 5.10.194
 Content-Transfer-Encoding: 8bit
 
 From: Mark Brown <broonie@kernel.org>
@@ -69,10 +67,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_thermal.c
-index cd464db064142..c1650b20e4975 100644
+index e053b06280172..6a0e809174731 100644
 --- a/drivers/thermal/sun8i_thermal.c
 +++ b/drivers/thermal/sun8i_thermal.c
-@@ -286,7 +286,7 @@ static int sun8i_ths_calibrate(struct ths_device *tmdev)
+@@ -285,7 +285,7 @@ static int sun8i_ths_calibrate(struct ths_device *tmdev)
  	size_t callen;
  	int ret = 0;
  
@@ -81,7 +79,7 @@ index cd464db064142..c1650b20e4975 100644
  	if (IS_ERR(calcell)) {
  		if (PTR_ERR(calcell) == -EPROBE_DEFER)
  			return -EPROBE_DEFER;
-@@ -316,6 +316,8 @@ static int sun8i_ths_calibrate(struct ths_device *tmdev)
+@@ -315,6 +315,8 @@ static int sun8i_ths_calibrate(struct ths_device *tmdev)
  
  	kfree(caldata);
  out:
