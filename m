@@ -1,22 +1,22 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 969F4185D;
-	Mon, 11 Sep 2023 04:31:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 21BFEC433C9;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4838F20EB;
+	Mon, 11 Sep 2023 04:31:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4DDE8C43395;
 	Mon, 11 Sep 2023 04:31:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1694406700;
-	bh=HeAxVqUDbuPU8OlsjqH69CvpFFmY4UWq7/M/U9Q7wfg=;
+	bh=pbAerbSrA6wtl03zwwLTf0Gh4fXZYxeyY96kgyZ05tI=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=G85zgQQvJZg1Y5x8UnCyix+l2Yfn+Rogh9QvzeRm5oKG7U7YkZgrNdt1C3AgCbeIM
-	 amofs9m/cffOZH9wjwwpOTybDZQoulvVrk94Nr5MH4SxlxbPPM70twdmGJ6kdEdzhs
-	 k6WNSoqBV8upYywO+aAzkbPpmAnX2Rl84Y2IEbEyDo5lA3w0qTuvwNUESUvO7dcALV
-	 XFFWvb/BnzKJj6gWPjOKY4MrxcSqPBDAZCwcOnS4PypiYAY8rhtUBZXmyHUw7q6VFX
-	 KFKgpwDyWVJq3EX5QmmGA+GkOmL+KczLnAkLKnVQ987HqV1sDhgfou/6d7fGRPn6ng
-	 FkWiamQUpTQRw==
+	b=QIti3GvauOwy1aj9y3J9zF2jiDuygqmg43kCqbd3Kb3iSGIl+HvKtQm8IasA3LZiA
+	 vsoi333PTEwbjLgLuxGTK9Ofia/GO6zyz5Xem8A62jAXUwzwW0wOpTREiXh0+V6QmC
+	 zQ8q2/BqnZu3wZnsEWPxhLVrUwxNUHNYRXo7WS/Mc8P3GXG4ti/oPpVx/u9zDtQk0M
+	 nHTf+l5re0BnfXig+WBfRsimMgWur9LEyd13k3og7giF6esJxMfrFbyR6ocBf8ltzL
+	 /JivbD2fQyGr1NlX3mICqhzpPbEEXJJDhcwraJZP+bIXBtvPO/WVo+DgJ0fjy7CuJJ
+	 OOQ4GoF5EI1BQ==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 03727E1F67E;
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 2FA91E21EC2;
 	Mon, 11 Sep 2023 04:31:40 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
@@ -26,41 +26,41 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] mfd: Explicitly include correct DT includes
+Subject: Re: [PATCH] pwm: Explicitly include correct DT includes
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <169440670000.22573.14595180245385997034.git-patchwork-notify@kernel.org>
+ <169440670019.22573.2422972280084635660.git-patchwork-notify@kernel.org>
 Date: Mon, 11 Sep 2023 04:31:40 +0000
-References: <20230714174731.4059811-1-robh@kernel.org>
-In-Reply-To: <20230714174731.4059811-1-robh@kernel.org>
+References: <20230714174852.4062251-1-robh@kernel.org>
+In-Reply-To: <20230714174852.4062251-1-robh@kernel.org>
 To: Rob Herring <robh@kernel.org>
-Cc: linus.walleij@linaro.org, lee@kernel.org, thor.thayer@linux.intel.com,
- mani@kernel.org, cristian.ciocaltea@gmail.com, bleung@chromium.org,
- groeck@chromium.org, support.opensource@diasemi.com,
- ckeepax@opensource.cirrus.com, rf@opensource.cirrus.com,
- cw00.choi@samsung.com, krzysztof.kozlowski@linaro.org,
- matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
- tony@atomide.com, agross@kernel.org, andersson@kernel.org,
- konrad.dybcio@linaro.org, mazziesaccount@gmail.com, orsonzhai@gmail.com,
- baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com,
- fabrice.gasnier@foss.st.com, mcoquelin.stm32@gmail.com,
- alexandre.torgue@foss.st.com, wens@csie.org, jernej.skrabec@gmail.com,
- samuel@sholland.org, miquel.raynal@bootlin.com, richard@nod.at,
- vigneshr@ti.com, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- patches@opensource.cirrus.com, linux-actions@lists.infradead.org,
- chrome-platform@lists.linux.dev, alsa-devel@alsa-project.org,
- linux-mediatek@lists.infradead.org, linux-omap@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
- linux-mtd@lists.infradead.org
+Cc: thierry.reding@gmail.com, u.kleine-koenig@pengutronix.de,
+ marcan@marcan.st, sven@svenpeter.dev, alyssa@rosenzweig.io,
+ nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
+ claudiu.beznea@microchip.com, bleung@chromium.org, groeck@chromium.org,
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+ festevam@gmail.com, linux-imx@nxp.com, paul@crapouillou.net, vz@mleia.com,
+ neil.armstrong@linaro.org, khilman@baylibre.com, jbrunet@baylibre.com,
+ martin.blumenstingl@googlemail.com, conor.dooley@microchip.com,
+ daire.mcnamara@microchip.com, matthias.bgg@gmail.com,
+ angelogioacchino.delregno@collabora.com, palmer@dabbelt.com,
+ paul.walmsley@sifive.com, michael@walle.cc, orsonzhai@gmail.com,
+ baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com, wens@csie.org,
+ jernej.skrabec@gmail.com, samuel@sholland.org, hammerh0314@gmail.com,
+ jonathanh@nvidia.com, nobuhiro1.iwamatsu@toshiba.co.jp,
+ devicetree@vger.kernel.org, linux-pwm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, chrome-platform@lists.linux.dev,
+ linux-mips@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ linux-riscv@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org
 
 Hello:
 
 This patch was applied to chrome-platform/linux.git (for-kernelci)
-by Lee Jones <lee@kernel.org>:
+by Thierry Reding <thierry.reding@gmail.com>:
 
-On Fri, 14 Jul 2023 11:47:27 -0600 you wrote:
+On Fri, 14 Jul 2023 11:48:50 -0600 you wrote:
 > The DT of_device.h and of_platform.h date back to the separate
 > of_platform_bus_type before it as merged into the regular platform bus.
 > As part of that merge prepping Arm DT support 13 years ago, they
@@ -73,8 +73,8 @@ On Fri, 14 Jul 2023 11:47:27 -0600 you wrote:
 > [...]
 
 Here is the summary with links:
-  - mfd: Explicitly include correct DT includes
-    https://git.kernel.org/chrome-platform/c/dc0c386e09a7
+  - pwm: Explicitly include correct DT includes
+    https://git.kernel.org/chrome-platform/c/0a41b0c5d97a
 
 You are awesome, thank you!
 -- 
