@@ -1,56 +1,58 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CBF48F5F
-	for <linux-sunxi@lists.linux.dev>; Mon, 11 Sep 2023 17:14:13 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-502934c88b7so7454205e87.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 11 Sep 2023 10:14:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 146C2AD23;
+	Mon, 11 Sep 2023 18:46:23 +0000 (UTC)
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2bf5bf33bcdso74103391fa.0;
+        Mon, 11 Sep 2023 11:46:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694452452; x=1695057252; darn=lists.linux.dev;
+        d=gmail.com; s=20221208; t=1694457982; x=1695062782; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zHC159t7V9+jR5+JKKYFZcnb7vWoVrDrxr51MoqDMR0=;
-        b=gdMCf1l2Rpz5HUJGCcVhaKHh9B2XpmnueBOTJa4HTZ5UBeCVEXUlcUn+5agJAVZl7z
-         0vrrhpBG9zpPOqFgNkS3N6YLiK1Ax+k+UdftyEreprJj8nB0KUfk+rbJgl3WW5AlS5Bk
-         z6s35iTY7aj3Zl4d5aFFP/B2ejETbdYQLd40aYWq74OXc3qY7TGKYrKeBDW5x5+6EcRU
-         mzp3vydkk4dP4Vi+mRHq+679YBGuuma/qKqFN+RDE/gfCvoO0xFjgOuca1mqRuaZE+6K
-         vDTmwXi5/yl1CS8NYT76+SweRJNg69OorHDxhbQc5Y7BV2sStgCLNnIE6UV4Qitg5qsP
-         DFiQ==
+        bh=8TBr4EN5rldaZkHvkd2rnKKqYjv2Um5C+H0942voyCA=;
+        b=dBV9kVxFVSS5MxgZJUGZev2m8HjjCx7d7GoxX8/zbn4cJVCPbL1zLupgBLBCd5Xjcv
+         m9QeLcaMQ0vVsdHVQ+9NLxtRyWw0OvlTO0M94dmYEA02hx1P8I4ZifDGx4e0Z1Z8v3Mz
+         0tWNsPwGWpzbNy8gumcLeIz8A9xKHBjc6+ylxqFYP0d7v/VXy26iIk92e9O/xs3zx5D6
+         EhO3QqVvW+bfQfmHBb2r8eRNpgh/i1WANrNiCKUxaiC11trudiwB2ljknRMtiUcVzEOl
+         p4Hyq0pTijdKQUSJaoc6OS8w8NY9bLGlV1IjVsEHuPtpQOOY/IOkz6xaTOA+zMLaOOSL
+         fKqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694452452; x=1695057252;
+        d=1e100.net; s=20230601; t=1694457982; x=1695062782;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=zHC159t7V9+jR5+JKKYFZcnb7vWoVrDrxr51MoqDMR0=;
-        b=S++b61k0CUi3m4X80jg5vBFmbrCd+Hrwbuq0/XsQy3icTpm/NljQcGNCd4wZw5kMI0
-         6i1yNorpaYDlMF6A8M/2EUBkfYxCi7+Ix89tMK4WlElsKzY/7sBxmE9d8l0xoqFR2mdq
-         DdJhMxTaxiSeVDSZBMDMsasGb7AEHuD3jPNxutPskYmtYOQwNg/sr6m331ZgX3COgxhq
-         r/f8mhsajOHyjRBXzXBd/D3ItSXBdQ9fT/lyOgMQAFG92LYdhS7Hjc4/0EzP9pSbgrKx
-         PYQ30AHaRwSGfnWDOtREUr2GAqKIo+1sc4HcarwerYSxoRNmJKvry12mGI+280ORxuXH
-         q+YQ==
-X-Gm-Message-State: AOJu0Yzdw0U9YX0RG4QJdwyxCSB0ulpfH6kv/1Kmi36dHcUwLIZY1oNK
-	MrSpwzuenxyUFv6iY87Z3tE=
-X-Google-Smtp-Source: AGHT+IEwQdzEpm/rkWP0lYNwKEDMgXRO32q/LHTllN9ths+CuNHroYFDnlnZss50NYMaaERchNT6MA==
-X-Received: by 2002:a05:6512:3e0f:b0:4f8:4245:ed57 with SMTP id i15-20020a0565123e0f00b004f84245ed57mr10590985lfv.35.1694452451839;
-        Mon, 11 Sep 2023 10:14:11 -0700 (PDT)
+        bh=8TBr4EN5rldaZkHvkd2rnKKqYjv2Um5C+H0942voyCA=;
+        b=G0t/9IFHWwm4vJIpAnYqyesFQeNQf4H4bIOywb17sbE15jyCzL8A8db45ppbep3lAB
+         pauCDpN9aGcD+z3v6hju1NDnaAAVJlg0zsPAvuCjV0NVkn1R2ha5gtrl6sfN1w3a+cD+
+         U7GDBbT/FkBWXqNUCr09MjCbWX8AN99spk6Cg664iNwjwznuVwwIJGBFRTu5faJmfWtp
+         mAAj53MYUfl5b+6S+yc9jh3XlhN0zNsHYjQen6fn7qko1pT6qpmCml+DJD77sty4lGML
+         5oB/EUJG7vbytwBoBrexRJbGp6Z+YROSTigjKf0y8onvbuTDnqY/AjRRLI7dQDfG9mGh
+         L0KA==
+X-Gm-Message-State: AOJu0YyBLs4kg4UTAakESfQ4Hhk8nNRrcKW0UMhXvclBcFDZTDU3CJ2t
+	i3QVMS3EzcigLaajMN/6AUw=
+X-Google-Smtp-Source: AGHT+IEFtUwssM3Wz0EWQngKzY2DsMzQtci8zO+mdro+nrwGTnYM5m/LPUyRsxrerapH+WT+2kbMfQ==
+X-Received: by 2002:a2e:980e:0:b0:2bc:dd96:147d with SMTP id a14-20020a2e980e000000b002bcdd96147dmr9353782ljj.28.1694457981836;
+        Mon, 11 Sep 2023 11:46:21 -0700 (PDT)
 Received: from localhost.localdomain (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
-        by smtp.gmail.com with ESMTPSA id b9-20020a170906490900b00992f2befcbcsm5631012ejq.180.2023.09.11.10.14.10
+        by smtp.gmail.com with ESMTPSA id x16-20020a170906135000b009a9f00bdf8dsm5733764ejb.191.2023.09.11.11.46.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Sep 2023 10:14:11 -0700 (PDT)
+        Mon, 11 Sep 2023 11:46:21 -0700 (PDT)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org
-Cc: wens@csie.org,
+To: mripard@kernel.org,
+	paul.kocialkowski@bootlin.com
+Cc: mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	wens@csie.org,
 	samuel@sholland.org,
-	devicetree@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH] ARM: dts: sun8i-r40: Add interconnect to video-codec
-Date: Mon, 11 Sep 2023 19:14:07 +0200
-Message-ID: <20230911171407.1572030-1-jernej.skrabec@gmail.com>
+Subject: [PATCH] media: cedrus: Fix clock/reset sequence
+Date: Mon, 11 Sep 2023 20:46:12 +0200
+Message-ID: <20230911184612.1754373-1-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -60,27 +62,78 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Video codec needs interconnect, so driver knows that it needs to adjust
-DMA addresses.
+According to H6 user manual, resets should always be de-asserted before
+clocks are enabled. This is also consistent with vendor driver.
 
+Fixes: d5aecd289bab ("media: cedrus: Implement runtime PM")
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- arch/arm/boot/dts/allwinner/sun8i-r40.dtsi | 2 ++
- 1 file changed, 2 insertions(+)
+ .../staging/media/sunxi/cedrus/cedrus_hw.c    | 24 +++++++++----------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/arch/arm/boot/dts/allwinner/sun8i-r40.dtsi b/arch/arm/boot/dts/allwinner/sun8i-r40.dtsi
-index 4ef26d8f5340..a5b1f1e3900d 100644
---- a/arch/arm/boot/dts/allwinner/sun8i-r40.dtsi
-+++ b/arch/arm/boot/dts/allwinner/sun8i-r40.dtsi
-@@ -338,6 +338,8 @@ video-codec@1c0e000 {
- 			resets = <&ccu RST_BUS_VE>;
- 			interrupts = <GIC_SPI 53 IRQ_TYPE_LEVEL_HIGH>;
- 			allwinner,sram = <&ve_sram 1>;
-+			interconnects = <&mbus 4>;
-+			interconnect-names = "dma-mem";
- 		};
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+index b696bf884cbd..32af0e96e762 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+@@ -172,12 +172,12 @@ int cedrus_hw_suspend(struct device *device)
+ {
+ 	struct cedrus_dev *dev = dev_get_drvdata(device);
  
- 		mmc0: mmc@1c0f000 {
+-	reset_control_assert(dev->rstc);
+-
+ 	clk_disable_unprepare(dev->ram_clk);
+ 	clk_disable_unprepare(dev->mod_clk);
+ 	clk_disable_unprepare(dev->ahb_clk);
+ 
++	reset_control_assert(dev->rstc);
++
+ 	return 0;
+ }
+ 
+@@ -186,11 +186,18 @@ int cedrus_hw_resume(struct device *device)
+ 	struct cedrus_dev *dev = dev_get_drvdata(device);
+ 	int ret;
+ 
++	ret = reset_control_reset(dev->rstc);
++	if (ret) {
++		dev_err(dev->dev, "Failed to apply reset\n");
++
++		return ret;
++	}
++
+ 	ret = clk_prepare_enable(dev->ahb_clk);
+ 	if (ret) {
+ 		dev_err(dev->dev, "Failed to enable AHB clock\n");
+ 
+-		return ret;
++		goto err_rst;
+ 	}
+ 
+ 	ret = clk_prepare_enable(dev->mod_clk);
+@@ -207,21 +214,14 @@ int cedrus_hw_resume(struct device *device)
+ 		goto err_mod_clk;
+ 	}
+ 
+-	ret = reset_control_reset(dev->rstc);
+-	if (ret) {
+-		dev_err(dev->dev, "Failed to apply reset\n");
+-
+-		goto err_ram_clk;
+-	}
+-
+ 	return 0;
+ 
+-err_ram_clk:
+-	clk_disable_unprepare(dev->ram_clk);
+ err_mod_clk:
+ 	clk_disable_unprepare(dev->mod_clk);
+ err_ahb_clk:
+ 	clk_disable_unprepare(dev->ahb_clk);
++err_rst:
++	reset_control_assert(dev->rstc);
+ 
+ 	return ret;
+ }
 -- 
 2.42.0
 
