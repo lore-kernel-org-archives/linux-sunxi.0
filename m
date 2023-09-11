@@ -1,126 +1,86 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE4A8156D7
-	for <linux-sunxi@lists.linux.dev>; Mon, 11 Sep 2023 17:11:46 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qfkRH-0003Ky-31; Mon, 11 Sep 2023 19:11:07 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qfkRD-005bHv-Av; Mon, 11 Sep 2023 19:11:03 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qfkRC-000kQa-Gf; Mon, 11 Sep 2023 19:11:02 +0200
-Date: Mon, 11 Sep 2023 19:11:02 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Jisheng Zhang <jszhang@kernel.org>
-Cc: Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Jose Abreu <joabreu@synopsys.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, kernel@pengutronix.de
-Subject: [REGRESSION] [PATCH net-next v5 2/2] net: stmmac: use per-queue 64
- bit statistics where necessary
-Message-ID: <20230911171102.cwieugrpthm7ywbm@pengutronix.de>
-References: <20230717160630.1892-1-jszhang@kernel.org>
- <20230717160630.1892-3-jszhang@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CBF48F5F
+	for <linux-sunxi@lists.linux.dev>; Mon, 11 Sep 2023 17:14:13 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-502934c88b7so7454205e87.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 11 Sep 2023 10:14:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1694452452; x=1695057252; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zHC159t7V9+jR5+JKKYFZcnb7vWoVrDrxr51MoqDMR0=;
+        b=gdMCf1l2Rpz5HUJGCcVhaKHh9B2XpmnueBOTJa4HTZ5UBeCVEXUlcUn+5agJAVZl7z
+         0vrrhpBG9zpPOqFgNkS3N6YLiK1Ax+k+UdftyEreprJj8nB0KUfk+rbJgl3WW5AlS5Bk
+         z6s35iTY7aj3Zl4d5aFFP/B2ejETbdYQLd40aYWq74OXc3qY7TGKYrKeBDW5x5+6EcRU
+         mzp3vydkk4dP4Vi+mRHq+679YBGuuma/qKqFN+RDE/gfCvoO0xFjgOuca1mqRuaZE+6K
+         vDTmwXi5/yl1CS8NYT76+SweRJNg69OorHDxhbQc5Y7BV2sStgCLNnIE6UV4Qitg5qsP
+         DFiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694452452; x=1695057252;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zHC159t7V9+jR5+JKKYFZcnb7vWoVrDrxr51MoqDMR0=;
+        b=S++b61k0CUi3m4X80jg5vBFmbrCd+Hrwbuq0/XsQy3icTpm/NljQcGNCd4wZw5kMI0
+         6i1yNorpaYDlMF6A8M/2EUBkfYxCi7+Ix89tMK4WlElsKzY/7sBxmE9d8l0xoqFR2mdq
+         DdJhMxTaxiSeVDSZBMDMsasGb7AEHuD3jPNxutPskYmtYOQwNg/sr6m331ZgX3COgxhq
+         r/f8mhsajOHyjRBXzXBd/D3ItSXBdQ9fT/lyOgMQAFG92LYdhS7Hjc4/0EzP9pSbgrKx
+         PYQ30AHaRwSGfnWDOtREUr2GAqKIo+1sc4HcarwerYSxoRNmJKvry12mGI+280ORxuXH
+         q+YQ==
+X-Gm-Message-State: AOJu0Yzdw0U9YX0RG4QJdwyxCSB0ulpfH6kv/1Kmi36dHcUwLIZY1oNK
+	MrSpwzuenxyUFv6iY87Z3tE=
+X-Google-Smtp-Source: AGHT+IEwQdzEpm/rkWP0lYNwKEDMgXRO32q/LHTllN9ths+CuNHroYFDnlnZss50NYMaaERchNT6MA==
+X-Received: by 2002:a05:6512:3e0f:b0:4f8:4245:ed57 with SMTP id i15-20020a0565123e0f00b004f84245ed57mr10590985lfv.35.1694452451839;
+        Mon, 11 Sep 2023 10:14:11 -0700 (PDT)
+Received: from localhost.localdomain (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
+        by smtp.gmail.com with ESMTPSA id b9-20020a170906490900b00992f2befcbcsm5631012ejq.180.2023.09.11.10.14.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Sep 2023 10:14:11 -0700 (PDT)
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org
+Cc: wens@csie.org,
+	samuel@sholland.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH] ARM: dts: sun8i-r40: Add interconnect to video-codec
+Date: Mon, 11 Sep 2023 19:14:07 +0200
+Message-ID: <20230911171407.1572030-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="evb7p5evmmj2tflh"
-Content-Disposition: inline
-In-Reply-To: <20230717160630.1892-3-jszhang@kernel.org>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+Content-Transfer-Encoding: 8bit
 
+Video codec needs interconnect, so driver knows that it needs to adjust
+DMA addresses.
 
---evb7p5evmmj2tflh
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ arch/arm/boot/dts/allwinner/sun8i-r40.dtsi | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Hello,
+diff --git a/arch/arm/boot/dts/allwinner/sun8i-r40.dtsi b/arch/arm/boot/dts/allwinner/sun8i-r40.dtsi
+index 4ef26d8f5340..a5b1f1e3900d 100644
+--- a/arch/arm/boot/dts/allwinner/sun8i-r40.dtsi
++++ b/arch/arm/boot/dts/allwinner/sun8i-r40.dtsi
+@@ -338,6 +338,8 @@ video-codec@1c0e000 {
+ 			resets = <&ccu RST_BUS_VE>;
+ 			interrupts = <GIC_SPI 53 IRQ_TYPE_LEVEL_HIGH>;
+ 			allwinner,sram = <&ve_sram 1>;
++			interconnects = <&mbus 4>;
++			interconnect-names = "dma-mem";
+ 		};
+ 
+ 		mmc0: mmc@1c0f000 {
+-- 
+2.42.0
 
-this patch became commit 133466c3bbe171f826294161db203f7670bb30c8 and is
-part of v6.6-rc1.
-
-On my arm/stm32mp157 based machine using NFS root this commit makes the
-following appear in the kernel log:
-
-	INFO: trying to register non-static key.
-	The code is fine but needs lockdep annotation, or maybe
-	you didn't initialize this object before use?
-	turning off the locking correctness validator.
-	CPU: 0 PID: 1 Comm: swapper/0 Not tainted 6.5.0-rc1-00449-g133466c3bbe1-di=
-rty #21
-	Hardware name: STM32 (Device Tree Support)
-	 unwind_backtrace from show_stack+0x18/0x1c
-	 show_stack from dump_stack_lvl+0x60/0x90
-	 dump_stack_lvl from register_lock_class+0x98c/0x99c
-	 register_lock_class from __lock_acquire+0x74/0x293c
-	 __lock_acquire from lock_acquire+0x134/0x398
-	 lock_acquire from stmmac_get_stats64+0x2ac/0x2fc
-	 stmmac_get_stats64 from dev_get_stats+0x44/0x130
-	 dev_get_stats from rtnl_fill_stats+0x38/0x120
-	 rtnl_fill_stats from rtnl_fill_ifinfo+0x834/0x17f4
-	 rtnl_fill_ifinfo from rtmsg_ifinfo_build_skb+0xc0/0x144
-	 rtmsg_ifinfo_build_skb from rtmsg_ifinfo+0x50/0x88
-	 rtmsg_ifinfo from __dev_notify_flags+0xc0/0xec
-	 __dev_notify_flags from dev_change_flags+0x50/0x5c
-	 dev_change_flags from ip_auto_config+0x2f4/0x1260
-	 ip_auto_config from do_one_initcall+0x70/0x35c
-	 do_one_initcall from kernel_init_freeable+0x2ac/0x308
-	 kernel_init_freeable from kernel_init+0x1c/0x138
-	 kernel_init from ret_from_fork+0x14/0x2c
-	Exception stack(0xe0815fb0 to 0xe0815ff8)
-	5fa0:                                     00000000 00000000 00000000 00000=
-000
-	5fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000=
-000
-	5fe0: 00000000 00000000 00000000 00000000 00000013 00000000
-	dwc2 49000000.usb-otg: new device is high-speed
-
-I didn't try understand this problem, it's too close to quitting time
-:-)
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---evb7p5evmmj2tflh
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmT/SiUACgkQj4D7WH0S
-/k78iQf9FpYUT9EfyS7lnyhzUcBL/Xc3LHD8G07QANkglzeoMPSsfuql1xkWv+8r
-A+OuA6vE48ibhtXi1Pla+3q0omeModLRjte6BkAbQI8dDjetVvUXwOBak9TAaVOS
-b1xE9+nmR/xIGE8FOLiNQYqEmNTYN2cM8zxz1gj52zS0GdNe9Lc8f6Yl1Iv5lxo2
-xSwSpQgr1wCPP7Fd/Esdi54i3hzx4NbongmBjQPyUiU9Hq5Ej/GDE8F26xH5C1Vg
-B3mwCe5pdcUu5Z2u5RKfgTZYhjjRmSMT2LEsPklZ7XQGAjD8ab6lpwHRp6eMzuon
-53IvuCgXCMctliVXrpYu8vvrhljHtA==
-=2RjK
------END PGP SIGNATURE-----
-
---evb7p5evmmj2tflh--
