@@ -1,84 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C70441FDF;
-	Mon, 11 Sep 2023 04:49:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2E1D7C433C8;
-	Mon, 11 Sep 2023 04:49:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1694407740;
-	bh=jRbGX37pKE/flPAVK4KmRTNNYn+YjmtCaP+B5V/gVX0=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=hRTK/O7zd2EVcyRIHv/i0CAjz9UpjidahDXSIXk4ACb38jZ+6K0Q30pzOqZOLqypY
-	 C75nnrtT8Yv6GiMTvD61pKvkFLRfhtUBVWtZcBLARUs5c+zflqjKF2vVtznLpozQoM
-	 GCNDa18FhndrrkuE6m/0q7HCv7yOAC6mlWVm+BRnredL6UXg7U1td5nMObALXI8tDQ
-	 4sZzvZ12uCsLziIZXf9AsxgF8FMszCNitekMmUlSZhzGlOAtLbZ6bAuUGQovA8xlPE
-	 s6xIC6qIfoHYkDG9jnYDNje1UTc0fpBvjr9tsdVWGYlC4/aJBTcr3g4fKbEVro77gN
-	 eo2XoPvZ0aheA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 122E7E1F67E;
-	Mon, 11 Sep 2023 04:49:00 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C29BAC12F
+	for <linux-sunxi@lists.linux.dev>; Mon, 11 Sep 2023 09:47:37 +0000 (UTC)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+	id 109AC1C0004; Mon, 11 Sep 2023 11:47:30 +0200 (CEST)
+Date: Mon, 11 Sep 2023 11:47:29 +0200
+From: Pavel Machek <pavel@denx.de>
+To: Sasha Levin <sashal@kernel.org>
+Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	John Watts <contact@jookia.org>,
+	Marc Kleine-Budde <mkl@pengutronix.de>, wg@grandegger.com,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, wens@csie.org, jernej.skrabec@gmail.com,
+	samuel@sholland.org, linux-can@vger.kernel.org,
+	netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH AUTOSEL 6.1 10/26] can: sun4i_can: Add support for the
+ Allwinner D1
+Message-ID: <ZP7iMa8xv7RhxWU7@duo.ucw.cz>
+References: <20230908181806.3460164-1-sashal@kernel.org>
+ <20230908181806.3460164-10-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] mfd: Explicitly include correct DT includes
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <169440774007.22573.6670993122914766002.git-patchwork-notify@kernel.org>
-Date: Mon, 11 Sep 2023 04:49:00 +0000
-References: <20230714174731.4059811-1-robh@kernel.org>
-In-Reply-To: <20230714174731.4059811-1-robh@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Cc: linus.walleij@linaro.org, lee@kernel.org, thor.thayer@linux.intel.com,
- mani@kernel.org, cristian.ciocaltea@gmail.com, bleung@chromium.org,
- groeck@chromium.org, support.opensource@diasemi.com,
- ckeepax@opensource.cirrus.com, rf@opensource.cirrus.com,
- cw00.choi@samsung.com, krzysztof.kozlowski@linaro.org,
- matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
- tony@atomide.com, agross@kernel.org, andersson@kernel.org,
- konrad.dybcio@linaro.org, mazziesaccount@gmail.com, orsonzhai@gmail.com,
- baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com,
- fabrice.gasnier@foss.st.com, mcoquelin.stm32@gmail.com,
- alexandre.torgue@foss.st.com, wens@csie.org, jernej.skrabec@gmail.com,
- samuel@sholland.org, miquel.raynal@bootlin.com, richard@nod.at,
- vigneshr@ti.com, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- patches@opensource.cirrus.com, linux-actions@lists.infradead.org,
- chrome-platform@lists.linux.dev, alsa-devel@alsa-project.org,
- linux-mediatek@lists.infradead.org, linux-omap@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
- linux-mtd@lists.infradead.org
-
-Hello:
-
-This patch was applied to chrome-platform/linux.git (for-next)
-by Lee Jones <lee@kernel.org>:
-
-On Fri, 14 Jul 2023 11:47:27 -0600 you wrote:
-> The DT of_device.h and of_platform.h date back to the separate
-> of_platform_bus_type before it as merged into the regular platform bus.
-> As part of that merge prepping Arm DT support 13 years ago, they
-> "temporarily" include each other. They also include platform_device.h
-> and of.h. As a result, there's a pretty much random mix of those include
-> files used throughout the tree. In order to detangle these headers and
-> replace the implicit includes with struct declarations, users need to
-> explicitly include the correct includes.
-> 
-> [...]
-
-Here is the summary with links:
-  - mfd: Explicitly include correct DT includes
-    https://git.kernel.org/chrome-platform/c/dc0c386e09a7
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="W6zyC+oVbfVKM7Mx"
+Content-Disposition: inline
+In-Reply-To: <20230908181806.3460164-10-sashal@kernel.org>
 
 
+--W6zyC+oVbfVKM7Mx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi!
+
+> From: John Watts <contact@jookia.org>
+>=20
+> [ Upstream commit 8abb95250ae6af2d51993da8fcae18da2ce24cc4 ]
+>=20
+> The controllers present in the D1 are extremely similar to the R40
+> and require the same reset quirks, but An extra quirk is needed to support
+> receiving packets.
+
+Well, we are not adding the rest of support to 6.1, so we don't need
+this, either. It will be unused.
+
+BR,
+								Pavel
+
+> +++ b/drivers/net/can/Kconfig
+> @@ -174,10 +174,10 @@ config CAN_SLCAN
+> =20
+>  config CAN_SUN4I
+>  	tristate "Allwinner A10 CAN controller"
+> -	depends on MACH_SUN4I || MACH_SUN7I || COMPILE_TEST
+> +	depends on MACH_SUN4I || MACH_SUN7I || RISCV || COMPILE_TEST
+>  	help
+>  	  Say Y here if you want to use CAN controller found on Allwinner
+> -	  A10/A20 SoCs.
+> +	  A10/A20/D1 SoCs.
+> =20
+>  	  To compile this driver as a module, choose M here: the module will
+>  	  be called sun4i_can.
+> diff --git a/drivers/net/can/sun4i_can.c b/drivers/net/can/sun4i_can.c
+> index dd0c6cd76c5f5..c3a6b028ea4d6 100644
+> --- a/drivers/net/can/sun4i_can.c
+> +++ b/drivers/net/can/sun4i_can.c
+> @@ -91,6 +91,8 @@
+>  #define SUN4I_REG_BUF12_ADDR	0x0070	/* CAN Tx/Rx Buffer 12 */
+>  #define SUN4I_REG_ACPC_ADDR	0x0040	/* CAN Acceptance Code 0 */
+>  #define SUN4I_REG_ACPM_ADDR	0x0044	/* CAN Acceptance Mask 0 */
+> +#define SUN4I_REG_ACPC_ADDR_D1	0x0028	/* CAN Acceptance Code 0 on the D1=
+ */
+> +#define SUN4I_REG_ACPM_ADDR_D1	0x002C	/* CAN Acceptance Mask 0 on the D1=
+ */
+>  #define SUN4I_REG_RBUF_RBACK_START_ADDR	0x0180	/* CAN transmit buffer st=
+art */
+>  #define SUN4I_REG_RBUF_RBACK_END_ADDR	0x01b0	/* CAN transmit buffer end =
+*/
+> =20
+> @@ -779,6 +781,11 @@ static const struct sun4ican_quirks sun4ican_quirks_=
+r40 =3D {
+>  	.acp_offset =3D 0,
+>  };
+> =20
+> +static const struct sun4ican_quirks sun4ican_quirks_d1 =3D {
+> +	.has_reset =3D true,
+> +	.acp_offset =3D (SUN4I_REG_ACPC_ADDR_D1 - SUN4I_REG_ACPC_ADDR),
+> +};
+> +
+>  static const struct of_device_id sun4ican_of_match[] =3D {
+>  	{
+>  		.compatible =3D "allwinner,sun4i-a10-can",
+> @@ -789,6 +796,9 @@ static const struct of_device_id sun4ican_of_match[] =
+=3D {
+>  	}, {
+>  		.compatible =3D "allwinner,sun8i-r40-can",
+>  		.data =3D &sun4ican_quirks_r40
+> +	}, {
+> +		.compatible =3D "allwinner,sun20i-d1-can",
+> +		.data =3D &sun4ican_quirks_d1
+>  	}, {
+>  		/* sentinel */
+>  	},
+> @@ -915,4 +925,4 @@ module_platform_driver(sun4i_can_driver);
+>  MODULE_AUTHOR("Peter Chen <xingkongcp@gmail.com>");
+>  MODULE_AUTHOR("Gerhard Bertelsmann <info@gerhard-bertelsmann.de>");
+>  MODULE_LICENSE("Dual BSD/GPL");
+> -MODULE_DESCRIPTION("CAN driver for Allwinner SoCs (A10/A20)");
+> +MODULE_DESCRIPTION("CAN driver for Allwinner SoCs (A10/A20/D1)");
+
+--=20
+DENX Software Engineering GmbH,        Managing Director: Erika Unter
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+
+--W6zyC+oVbfVKM7Mx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZP7iMQAKCRAw5/Bqldv6
+8iNHAKCr9iGC2Pae585vS5gdFDGcVzZNgQCgouu4FKM/lvI8gqIRrcpjyUG7DsQ=
+=22Uz
+-----END PGP SIGNATURE-----
+
+--W6zyC+oVbfVKM7Mx--
