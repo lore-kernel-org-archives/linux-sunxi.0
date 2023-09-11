@@ -1,58 +1,56 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 146C2AD23;
-	Mon, 11 Sep 2023 18:46:23 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2bf5bf33bcdso74103391fa.0;
-        Mon, 11 Sep 2023 11:46:23 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D63CC13C;
+	Mon, 11 Sep 2023 19:02:27 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-99cce6f7de2so609695466b.3;
+        Mon, 11 Sep 2023 12:02:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694457982; x=1695062782; darn=lists.linux.dev;
+        d=gmail.com; s=20221208; t=1694458945; x=1695063745; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8TBr4EN5rldaZkHvkd2rnKKqYjv2Um5C+H0942voyCA=;
-        b=dBV9kVxFVSS5MxgZJUGZev2m8HjjCx7d7GoxX8/zbn4cJVCPbL1zLupgBLBCd5Xjcv
-         m9QeLcaMQ0vVsdHVQ+9NLxtRyWw0OvlTO0M94dmYEA02hx1P8I4ZifDGx4e0Z1Z8v3Mz
-         0tWNsPwGWpzbNy8gumcLeIz8A9xKHBjc6+ylxqFYP0d7v/VXy26iIk92e9O/xs3zx5D6
-         EhO3QqVvW+bfQfmHBb2r8eRNpgh/i1WANrNiCKUxaiC11trudiwB2ljknRMtiUcVzEOl
-         p4Hyq0pTijdKQUSJaoc6OS8w8NY9bLGlV1IjVsEHuPtpQOOY/IOkz6xaTOA+zMLaOOSL
-         fKqg==
+        bh=3y2BGukH6url/m3nyh3PLmZ/imBVQiEyAeDipRiBwe0=;
+        b=WZaoUIp1p2zZJMjiXH3HmSPSUGNkO4zTlppGqwwfneohDoIP7PV32HC898b+bEpt3+
+         heJVM3MwiqJXocCV0ftXvAaWgkJ/jlr0KRzW+j+aQHqTzmakgnBhFZpIFy7W5ZRVe7yh
+         fu0e/83H48m20wygnOwZzLsdmvww4j9ITZSPFdZ00f3A9OHe8JZNX860iZiO5d7JDOGM
+         UC9uSHdwtmUqeiAP/ClkvrFoxSLVGx96fBFGEv19lOoKN4n/pAfdoyJyrO8yaBSF4Do3
+         0AH31arXUehjb2u6g40Ry4MKmaK2dQa/lE8LTUceItGh0gbkyv16tiglm9QMamDSWeLr
+         1p1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694457982; x=1695062782;
+        d=1e100.net; s=20230601; t=1694458945; x=1695063745;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=8TBr4EN5rldaZkHvkd2rnKKqYjv2Um5C+H0942voyCA=;
-        b=G0t/9IFHWwm4vJIpAnYqyesFQeNQf4H4bIOywb17sbE15jyCzL8A8db45ppbep3lAB
-         pauCDpN9aGcD+z3v6hju1NDnaAAVJlg0zsPAvuCjV0NVkn1R2ha5gtrl6sfN1w3a+cD+
-         U7GDBbT/FkBWXqNUCr09MjCbWX8AN99spk6Cg664iNwjwznuVwwIJGBFRTu5faJmfWtp
-         mAAj53MYUfl5b+6S+yc9jh3XlhN0zNsHYjQen6fn7qko1pT6qpmCml+DJD77sty4lGML
-         5oB/EUJG7vbytwBoBrexRJbGp6Z+YROSTigjKf0y8onvbuTDnqY/AjRRLI7dQDfG9mGh
-         L0KA==
-X-Gm-Message-State: AOJu0YyBLs4kg4UTAakESfQ4Hhk8nNRrcKW0UMhXvclBcFDZTDU3CJ2t
-	i3QVMS3EzcigLaajMN/6AUw=
-X-Google-Smtp-Source: AGHT+IEFtUwssM3Wz0EWQngKzY2DsMzQtci8zO+mdro+nrwGTnYM5m/LPUyRsxrerapH+WT+2kbMfQ==
-X-Received: by 2002:a2e:980e:0:b0:2bc:dd96:147d with SMTP id a14-20020a2e980e000000b002bcdd96147dmr9353782ljj.28.1694457981836;
-        Mon, 11 Sep 2023 11:46:21 -0700 (PDT)
+        bh=3y2BGukH6url/m3nyh3PLmZ/imBVQiEyAeDipRiBwe0=;
+        b=lr2h74XNFswcGv2kDY0PCYkMOzAl1eGK8mRe73K9SyNQeq3rtR2U0DS4dSfX4IJWjY
+         HSaVCFPBiGB/eNDBDTmmR5QqoHPenGbLgCR9SfsktMndh8uNWu6ccObECq12FIXMr3F8
+         ehYqVFV943PxGmLnV+0TbUMlRcmAc9iZr4tGGL7ES1CNT2yN31Wda/1Uh2lOgYNE5Pxw
+         aYVGoaU1UMrNSfmJ2nfbsjgBIfDAEhUm0NKkyHMrMiXWEpBAFHDlklkEtDvar1ut7OIW
+         78biprDRCjyS40Zrcq9eHNjkshoZdds/dHnyt5LcjN3ebXw/hfVBe80nJXR4XdjCAl+F
+         7zdg==
+X-Gm-Message-State: AOJu0Yz3+sgO0Nbdmz58I2DSJzX6+oQzHmF8vnROm0vdlHtoQ0uxgHse
+	RRCOMRQ9b+D4i0EhVr2YbFQ=
+X-Google-Smtp-Source: AGHT+IFpgox4BFKnt0rNPbRceB2bQ3Z76YQCI6/Tvh13dhWuZo0yy8xGtqPL7TTMQCkN8A9GyXFFKg==
+X-Received: by 2002:a17:906:2189:b0:99b:de31:6666 with SMTP id 9-20020a170906218900b0099bde316666mr8837593eju.22.1694458945409;
+        Mon, 11 Sep 2023 12:02:25 -0700 (PDT)
 Received: from localhost.localdomain (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
-        by smtp.gmail.com with ESMTPSA id x16-20020a170906135000b009a9f00bdf8dsm5733764ejb.191.2023.09.11.11.46.20
+        by smtp.gmail.com with ESMTPSA id re1-20020a170906d8c100b00993a37aebc5sm5697324ejb.50.2023.09.11.12.02.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Sep 2023 11:46:21 -0700 (PDT)
+        Mon, 11 Sep 2023 12:02:25 -0700 (PDT)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: mripard@kernel.org,
-	paul.kocialkowski@bootlin.com
-Cc: mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	wens@csie.org,
+To: joro@8bytes.org,
+	will@kernel.org,
+	robin.murphy@arm.com
+Cc: wens@csie.org,
 	samuel@sholland.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
+	iommu@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH] media: cedrus: Fix clock/reset sequence
-Date: Mon, 11 Sep 2023 20:46:12 +0200
-Message-ID: <20230911184612.1754373-1-jernej.skrabec@gmail.com>
+Subject: [PATCH] iommu/sun50i: Allow page sizes between 4K and 1M
+Date: Mon, 11 Sep 2023 21:02:18 +0200
+Message-ID: <20230911190218.1758812-1-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -62,78 +60,118 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-According to H6 user manual, resets should always be de-asserted before
-clocks are enabled. This is also consistent with vendor driver.
+While peripheral supports only 4K page sizes, we can easily emulate
+support for bigger page sizes, up to 1M. This is done by making multiple
+entries in map function or clearing multiple entries in unmap.
 
-Fixes: d5aecd289bab ("media: cedrus: Implement runtime PM")
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- .../staging/media/sunxi/cedrus/cedrus_hw.c    | 24 +++++++++----------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ drivers/iommu/sun50i-iommu.c | 49 +++++++++++++++++++++++-------------
+ 1 file changed, 31 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-index b696bf884cbd..32af0e96e762 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-@@ -172,12 +172,12 @@ int cedrus_hw_suspend(struct device *device)
+diff --git a/drivers/iommu/sun50i-iommu.c b/drivers/iommu/sun50i-iommu.c
+index 74c5cb93e900..93077575d60f 100644
+--- a/drivers/iommu/sun50i-iommu.c
++++ b/drivers/iommu/sun50i-iommu.c
+@@ -95,6 +95,10 @@
+ 
+ #define SPAGE_SIZE			4096
+ 
++#define SUN50I_IOMMU_PGSIZES		(SZ_4K | SZ_8K | SZ_16K | SZ_32K | \
++					 SZ_64K | SZ_128K | SZ_256K | \
++					 SZ_512K | SZ_1M)
++
+ struct sun50i_iommu {
+ 	struct iommu_device iommu;
+ 
+@@ -593,10 +597,12 @@ static int sun50i_iommu_map(struct iommu_domain *domain, unsigned long iova,
  {
- 	struct cedrus_dev *dev = dev_get_drvdata(device);
+ 	struct sun50i_iommu_domain *sun50i_domain = to_sun50i_domain(domain);
+ 	struct sun50i_iommu *iommu = sun50i_domain->iommu;
+-	u32 pte_index;
++	u32 pte_index, pages, i;
+ 	u32 *page_table, *pte_addr;
+ 	int ret = 0;
  
--	reset_control_assert(dev->rstc);
--
- 	clk_disable_unprepare(dev->ram_clk);
- 	clk_disable_unprepare(dev->mod_clk);
- 	clk_disable_unprepare(dev->ahb_clk);
- 
-+	reset_control_assert(dev->rstc);
++	pages = size / SPAGE_SIZE;
 +
- 	return 0;
- }
- 
-@@ -186,11 +186,18 @@ int cedrus_hw_resume(struct device *device)
- 	struct cedrus_dev *dev = dev_get_drvdata(device);
- 	int ret;
- 
-+	ret = reset_control_reset(dev->rstc);
-+	if (ret) {
-+		dev_err(dev->dev, "Failed to apply reset\n");
-+
-+		return ret;
-+	}
-+
- 	ret = clk_prepare_enable(dev->ahb_clk);
- 	if (ret) {
- 		dev_err(dev->dev, "Failed to enable AHB clock\n");
- 
--		return ret;
-+		goto err_rst;
+ 	page_table = sun50i_dte_get_page_table(sun50i_domain, iova, gfp);
+ 	if (IS_ERR(page_table)) {
+ 		ret = PTR_ERR(page_table);
+@@ -604,18 +610,22 @@ static int sun50i_iommu_map(struct iommu_domain *domain, unsigned long iova,
  	}
  
- 	ret = clk_prepare_enable(dev->mod_clk);
-@@ -207,21 +214,14 @@ int cedrus_hw_resume(struct device *device)
- 		goto err_mod_clk;
+ 	pte_index = sun50i_iova_get_pte_index(iova);
+-	pte_addr = &page_table[pte_index];
+-	if (unlikely(sun50i_pte_is_page_valid(*pte_addr))) {
+-		phys_addr_t page_phys = sun50i_pte_get_page_address(*pte_addr);
+-		dev_err(iommu->dev,
+-			"iova %pad already mapped to %pa cannot remap to %pa prot: %#x\n",
+-			&iova, &page_phys, &paddr, prot);
+-		ret = -EBUSY;
+-		goto out;
++	for (i = 0; i < pages; i++) {
++		pte_addr = &page_table[pte_index + i];
++		if (unlikely(sun50i_pte_is_page_valid(*pte_addr))) {
++			phys_addr_t page_phys = sun50i_pte_get_page_address(*pte_addr);
++
++			dev_err(iommu->dev,
++				"iova %pad already mapped to %pa cannot remap to %pa prot: %#x\n",
++				&iova, &page_phys, &paddr, prot);
++			ret = -EBUSY;
++			goto out;
++		}
++		*pte_addr = sun50i_mk_pte(paddr, prot);
++		paddr += SPAGE_SIZE;
  	}
  
--	ret = reset_control_reset(dev->rstc);
--	if (ret) {
--		dev_err(dev->dev, "Failed to apply reset\n");
--
--		goto err_ram_clk;
--	}
--
- 	return 0;
+-	*pte_addr = sun50i_mk_pte(paddr, prot);
+-	sun50i_table_flush(sun50i_domain, pte_addr, 1);
++	sun50i_table_flush(sun50i_domain, &page_table[pte_index], pages);
  
--err_ram_clk:
--	clk_disable_unprepare(dev->ram_clk);
- err_mod_clk:
- 	clk_disable_unprepare(dev->mod_clk);
- err_ahb_clk:
- 	clk_disable_unprepare(dev->ahb_clk);
-+err_rst:
-+	reset_control_assert(dev->rstc);
- 
+ out:
  	return ret;
+@@ -626,8 +636,10 @@ static size_t sun50i_iommu_unmap(struct iommu_domain *domain, unsigned long iova
+ {
+ 	struct sun50i_iommu_domain *sun50i_domain = to_sun50i_domain(domain);
+ 	phys_addr_t pt_phys;
++	u32 dte, pages, i;
+ 	u32 *pte_addr;
+-	u32 dte;
++
++	pages = size / SPAGE_SIZE;
+ 
+ 	dte = sun50i_domain->dt[sun50i_iova_get_dte_index(iova)];
+ 	if (!sun50i_dte_is_pt_valid(dte))
+@@ -636,13 +648,14 @@ static size_t sun50i_iommu_unmap(struct iommu_domain *domain, unsigned long iova
+ 	pt_phys = sun50i_dte_get_pt_address(dte);
+ 	pte_addr = (u32 *)phys_to_virt(pt_phys) + sun50i_iova_get_pte_index(iova);
+ 
+-	if (!sun50i_pte_is_page_valid(*pte_addr))
+-		return 0;
++	for (i = 0; i < pages; i++)
++		if (!sun50i_pte_is_page_valid(pte_addr[i]))
++			return 0;
+ 
+-	memset(pte_addr, 0, sizeof(*pte_addr));
+-	sun50i_table_flush(sun50i_domain, pte_addr, 1);
++	memset(pte_addr, 0, sizeof(*pte_addr) * pages);
++	sun50i_table_flush(sun50i_domain, pte_addr, pages);
+ 
+-	return SZ_4K;
++	return size;
  }
+ 
+ static phys_addr_t sun50i_iommu_iova_to_phys(struct iommu_domain *domain,
+@@ -827,7 +840,7 @@ static int sun50i_iommu_of_xlate(struct device *dev,
+ }
+ 
+ static const struct iommu_ops sun50i_iommu_ops = {
+-	.pgsize_bitmap	= SZ_4K,
++	.pgsize_bitmap	= SUN50I_IOMMU_PGSIZES,
+ 	.device_group	= sun50i_iommu_device_group,
+ 	.domain_alloc	= sun50i_iommu_domain_alloc,
+ 	.of_xlate	= sun50i_iommu_of_xlate,
 -- 
 2.42.0
 
