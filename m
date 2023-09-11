@@ -1,199 +1,462 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A26FC2D9;
-	Mon, 11 Sep 2023 12:10:47 +0000 (UTC)
-Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38BBcf8k020281;
-	Mon, 11 Sep 2023 12:09:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=HGXHlyuW7tI3KkroRX3EwubPO1mf8HTAk2ndjhHoNFs=;
- b=PWIIEP2lmDUfa1mp9pmw/oaZwzdtcpnlqzQ75hk9+FpJGvJYDU60r9trS5Z/VtLyDHft
- 9WX+n5snuJJ5jbu5vUpOHlKrmCud7gkjCafXw2JlLlwDtpuM9LO25/9hM4ZNnK9/vKhf
- l1qU1LZtGDxzxdwXmQxEa86eJVFAmwBgVfDVbQFx2Nm1Almhe4faCXCK8QzNT1ejl8yF
- QR+nEvWye7K6HENvui0bkEIhPwedV8GX8xMoeAVJHxAzGF7xr7/nFp13TH8Xj3KOQHcr
- h7xH4BM63pjFCbfz/lLveE+A3kojVUwJbk8xCa7Q1WSyEsQ7FXyRLhW42+3i3S8xCX16 Ug== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3t1wuq0aj0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 11 Sep 2023 12:09:50 +0000
-Received: from m0353726.ppops.net (m0353726.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 38BBedp6028128;
-	Mon, 11 Sep 2023 12:07:02 GMT
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3t1wuq08ya-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 11 Sep 2023 12:07:02 +0000
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 38BBOZ8H002318;
-	Mon, 11 Sep 2023 12:06:36 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 3t158jsvr1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 11 Sep 2023 12:06:35 +0000
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 38BC6XqU66978064
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 11 Sep 2023 12:06:33 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E64F02004B;
-	Mon, 11 Sep 2023 12:06:32 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 1D9F220043;
-	Mon, 11 Sep 2023 12:06:30 +0000 (GMT)
-Received: from [9.171.58.134] (unknown [9.171.58.134])
-	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 11 Sep 2023 12:06:30 +0000 (GMT)
-Message-ID: <c5ac1459d2967c17e472d1c51d5017beb39e4714.camel@linux.ibm.com>
-Subject: Re: [PATCH v12 5/6] iommu/dma: Allow a single FQ in addition to
- per-CPU FQs
-From: Niklas Schnelle <schnelle@linux.ibm.com>
-To: Joerg Roedel <joro@8bytes.org>, Matthew Rosato <mjrosato@linux.ibm.com>,
-        Will Deacon <will@kernel.org>, Wenjia Zhang <wenjia@linux.ibm.com>,
-        Robin
- Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Gerd Bayer <gbayer@linux.ibm.com>, Julian Ruess <julianr@linux.ibm.com>,
-        Pierre Morel <pmorel@linux.ibm.com>,
-        Alexandra Winter
- <wintera@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik
- <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian
- Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle
- <svens@linux.ibm.com>,
-        Suravee Suthikulpanit
- <suravee.suthikulpanit@amd.com>,
-        Hector Martin <marcan@marcan.st>, Sven
- Peter <sven@svenpeter.dev>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        David
- Woodhouse <dwmw2@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>, Andy
- Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad
- Dybcio <konrad.dybcio@linaro.org>,
-        Yong Wu <yong.wu@mediatek.com>,
-        Matthias
- Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>,
-        Gerald Schaefer
- <gerald.schaefer@linux.ibm.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin
- Wang <baolin.wang@linux.alibaba.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Thierry Reding
- <thierry.reding@gmail.com>,
-        Krishna Reddy <vdumpa@nvidia.com>,
-        Jonathan
- Hunter <jonathanh@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        iommu@lists.linux.dev, asahi@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
-Date: Mon, 11 Sep 2023 14:06:29 +0200
-In-Reply-To: <20230825-dma_iommu-v12-5-4134455994a7@linux.ibm.com>
-References: <20230825-dma_iommu-v12-0-4134455994a7@linux.ibm.com>
-	 <20230825-dma_iommu-v12-5-4134455994a7@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 36tUcYWsI3-kwg7TjwTB82g2_ly-u1Zp
-X-Proofpoint-ORIG-GUID: CMa4t0Ot4oG8TuboxO12mxpMT2o-4HQO
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8946F9F4
+	for <linux-sunxi@lists.linux.dev>; Mon, 11 Sep 2023 13:35:33 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1c1e3a4a06fso30370865ad.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 11 Sep 2023 06:35:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694439333; x=1695044133;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FFSzuCGy52KzjM99XInUlC5S7QkdlRbmWeLPzdzNuao=;
+        b=gseZPj/Yn+LdIPQ8DZQtTu2pwG8yODp/28t2bzfbTT5JAs57ffePts31csBuNRpHKM
+         1EIazVIMweKVoGRzAC9eygQBvn8ehLk+p1LsJP+w1EEIgnCQQVLZAETm8PFH1A5X0wtv
+         l51ei4qr5GiHVeo4DVIOTFvRZKjWEtUOhXGvjgpZXmWbgqMHoMBMFc1eG/24PTyYqKxw
+         VWHY2pn1Mj0Dl0XhUB7409aq4r3jz2cVgw18wS+LGYRgzopI1DcC9N2OwBzNifK84GuX
+         DmLAhaM11Cz0tlhVLbvjGlVusnh+9OUhXpfXicM7Q7UBv9gyvx8fecs+sK/3H5N0tnxI
+         i9Pg==
+X-Gm-Message-State: AOJu0YyFstIjNo7eLHyLtfOW4XBx64kyvw0queIZyMZTZYYpWDOFOKSf
+	xLqdZevNztB0VN25FK2MDtAcK1Ekw59/wA==
+X-Google-Smtp-Source: AGHT+IFPEuKvCD3l0FOgTfy+yXj6Br/KRaqOeR34Lx2s5pBcsVrSPFtFZmBMqWXQQ8mGhTf+ZgMWiA==
+X-Received: by 2002:a17:902:ab15:b0:1c1:de3a:d3d7 with SMTP id ik21-20020a170902ab1500b001c1de3ad3d7mr7262210plb.68.1694439332582;
+        Mon, 11 Sep 2023 06:35:32 -0700 (PDT)
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com. [209.85.210.180])
+        by smtp.gmail.com with ESMTPSA id d7-20020a170902cec700b001c0a4146961sm6496491plg.19.2023.09.11.06.35.31
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Sep 2023 06:35:31 -0700 (PDT)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-68fb70fca9fso944247b3a.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 11 Sep 2023 06:35:31 -0700 (PDT)
+X-Received: by 2002:a05:6a20:f39d:b0:152:be08:b013 with SMTP id
+ qr29-20020a056a20f39d00b00152be08b013mr6911988pzb.42.1694439330890; Mon, 11
+ Sep 2023 06:35:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-11_06,2023-09-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 spamscore=0
- priorityscore=1501 clxscore=1011 impostorscore=0 suspectscore=0
- adultscore=0 phishscore=0 bulkscore=0 malwarescore=0 mlxlogscore=957
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2309110110
+References: <20230828181941.1609894-1-macroalpha82@gmail.com>
+ <20230828181941.1609894-9-macroalpha82@gmail.com> <20230911004909.6a40e1c0@slackpad.lan>
+In-Reply-To: <20230911004909.6a40e1c0@slackpad.lan>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Mon, 11 Sep 2023 21:35:19 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66qXS1Yn8fCd9kbgf9mrbpa8A4q=px+0jAX5Z567oYAsg@mail.gmail.com>
+Message-ID: <CAGb2v66qXS1Yn8fCd9kbgf9mrbpa8A4q=px+0jAX5Z567oYAsg@mail.gmail.com>
+Subject: Re: [PATCH V4 8/8] ARM: dts: sunxi: add support for Anbernic RG-Nano
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Chris Morgan <macroalpha82@gmail.com>, linux-sunxi@lists.linux.dev, 
+	devicetree@vger.kernel.org, airlied@gmail.com, conor+dt@kernel.org, 
+	daniel@ffwll.ch, heiko@sntech.de, jagan@edgeble.ai, jernej.skrabec@gmail.com, 
+	krzysztof.kozlowski+dt@linaro.org, mripard@kernel.org, 
+	neil.armstrong@linaro.org, noralf@tronnes.org, robh+dt@kernel.org, 
+	sam@ravnborg.org, samuel@sholland.org, uwu@icenowy.me, 
+	Chris Morgan <macromorgan@hotmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2023-08-25 at 12:11 +0200, Niklas Schnelle wrote:
-> In some virtualized environments, including s390 paged memory guests,
-> IOTLB flushes are used to update IOMMU shadow tables. Due to this, they
-> are much more expensive than in typical bare metal environments or
-> non-paged s390 guests. In addition they may parallelize poorly in
-> virtualized environments. This changes the trade off for flushing IOVAs
-> such that minimizing the number of IOTLB flushes trumps any benefit of
-> cheaper queuing operations or increased paralellism.
->=20
-> In this scenario per-CPU flush queues pose several problems. Firstly
-> per-CPU memory is often quite limited prohibiting larger queues.
-> Secondly collecting IOVAs per-CPU but flushing via a global timeout
-> reduces the number of IOVAs flushed for each timeout especially on s390
-> where PCI interrupts may not be bound to a specific CPU.
->=20
-> Let's introduce a single flush queue mode that reuses the same queue
-> logic but only allocates a single global queue. This mode is selected by
-> dma-iommu if a newly introduced .shadow_on_flush flag is set in struct
-> dev_iommu. As a first user the s390 IOMMU driver sets this flag during
-> probe_device. With the unchanged small FQ size and timeouts this setting
-> is worse than per-CPU queues but a follow up patch will make the FQ size
-> and timeout variable. Together this allows the common IOVA flushing code
-> to more closely resemble the global flush behavior used on s390's
-> previous internal DMA API implementation.
->=20
-> Link: https://lore.kernel.org/all/9a466109-01c5-96b0-bf03-304123f435ee@ar=
-m.com/
-> Acked-by: Robin Murphy <robin.murphy@arm.com>
-> Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com> #s390
-> Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
-> ---
->  drivers/iommu/dma-iommu.c  | 168 ++++++++++++++++++++++++++++++++++-----=
-------
->  drivers/iommu/s390-iommu.c |   3 +
->  include/linux/iommu.h      |   2 +
->  3 files changed, 134 insertions(+), 39 deletions(-)
->=20
->=20
----8<---
->=20=20
-> diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-> index 182cc4c71e62..c3687e066ed7 100644
-> --- a/include/linux/iommu.h
-> +++ b/include/linux/iommu.h
-> @@ -409,6 +409,7 @@ struct iommu_fault_param {
->   * @priv:	 IOMMU Driver private data
->   * @max_pasids:  number of PASIDs this device can consume
->   * @attach_deferred: the dma domain attachment is deferred
-> + * @shadow_on_flush: IOTLB flushes are used to sync shadow tables
->   *
->   * TODO: migrate other per device data pointers under iommu_dev_data, e.=
-g.
->   *	struct iommu_group	*iommu_group;
-> @@ -422,6 +423,7 @@ struct dev_iommu {
->  	void				*priv;
->  	u32				max_pasids;
->  	u32				attach_deferred:1;
-> +	u32				shadow_on_flush:1;
+On Mon, Sep 11, 2023 at 8:07=E2=80=AFAM Andre Przywara <andre.przywara@arm.=
+com> wrote:
+>
+> On Mon, 28 Aug 2023 13:19:41 -0500
+> Chris Morgan <macroalpha82@gmail.com> wrote:
+>
+> Hi Chris,
+>
+> thanks for the changes. As Samuel already pointed out, there is now a
+> problem with the RTC...
+>
+> > From: Chris Morgan <macromorgan@hotmail.com>
+> >
+> > The Anbernic RG-Nano is a small portable game device based on the
+> > Allwinner V3s SoC. It has GPIO buttons on the face and side for
+> > input, a single mono speaker, a 240x240 SPI controlled display, a USB-C
+> > OTG port, an SD card slot for booting, and 64MB of RAM included in the
+> > SoC.
+> >
+> > Working/Tested:
+> > - SDMMC
+> > - UART (for debugging)
+> > - Buttons
+> > - Charging/battery/PMIC
+> > - Speaker
+> > - RTC
+> > - USB Host and Gadget*
+> > - Display (at 60hz)
+> >
+> > *There is an issue with the usb_phy where it forces the device to host
+> > mode. Until the phy driver is fixed this can be bypassed by either
+> > removing the phy references from the ohci and ehci nodes or by setting
+> > the usbphy on the ohci and ehci nodes to 1 (which is incorrect).
+> >
+> > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> > ---
+> >  arch/arm/boot/dts/allwinner/Makefile          |   1 +
+> >  .../allwinner/sun8i-v3s-anbernic-rg-nano.dts  | 284 ++++++++++++++++++
+> >  2 files changed, 285 insertions(+)
+> >  create mode 100644 arch/arm/boot/dts/allwinner/sun8i-v3s-anbernic-rg-n=
+ano.dts
+> >
+> > diff --git a/arch/arm/boot/dts/allwinner/Makefile b/arch/arm/boot/dts/a=
+llwinner/Makefile
+> > index 589a1ce1120a..2be83a1edcbb 100644
+> > --- a/arch/arm/boot/dts/allwinner/Makefile
+> > +++ b/arch/arm/boot/dts/allwinner/Makefile
+> > @@ -237,6 +237,7 @@ dtb-$(CONFIG_MACH_SUN8I) +=3D \
+> >       sun8i-t113s-mangopi-mq-r-t113.dtb \
+> >       sun8i-t3-cqa3t-bv3.dtb \
+> >       sun8i-v3-sl631-imx179.dtb \
+> > +     sun8i-v3s-anbernic-rg-nano.dtb \
+> >       sun8i-v3s-licheepi-zero.dtb \
+> >       sun8i-v3s-licheepi-zero-dock.dtb \
+> >       sun8i-v40-bananapi-m2-berry.dtb
+> > diff --git a/arch/arm/boot/dts/allwinner/sun8i-v3s-anbernic-rg-nano.dts=
+ b/arch/arm/boot/dts/allwinner/sun8i-v3s-anbernic-rg-nano.dts
+> > new file mode 100644
+> > index 000000000000..bcccb0d3f9ce
+> > --- /dev/null
+> > +++ b/arch/arm/boot/dts/allwinner/sun8i-v3s-anbernic-rg-nano.dts
+> > @@ -0,0 +1,284 @@
+> > +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> > +
+> > +/dts-v1/;
+> > +#include <dt-bindings/input/linux-event-codes.h>
+> > +#include "sun8i-v3s.dtsi"
+> > +#include "sunxi-common-regulators.dtsi"
+> > +
+> > +/ {
+> > +     model =3D "Anbernic RG Nano";
+> > +     compatible =3D "anbernic,rg-nano", "allwinner,sun8i-v3s";
+> > +
+> > +     aliases {
+> > +             serial0 =3D &uart0;
+> > +     };
+> > +
+> > +     backlight: backlight {
+> > +             compatible =3D "pwm-backlight";
+> > +             brightness-levels =3D <0 1 2 3 8 14 21 32 46 60 80 100>;
+> > +             default-brightness-level =3D <11>;
+> > +             power-supply =3D <&reg_vcc5v0>;
+> > +             pwms =3D <&pwm 0 40000 1>;
+> > +     };
+> > +
+> > +     chosen {
+> > +             stdout-path =3D "serial0:115200n8";
+> > +     };
+> > +
+> > +     gpio_keys: gpio-keys {
+> > +             compatible =3D "gpio-keys";
+> > +
+> > +             button-a {
+> > +                     gpios =3D <&gpio_expander 12 (GPIO_ACTIVE_LOW | G=
+PIO_PULL_UP)>;
+> > +                     label =3D "BTN-A";
+> > +                     linux,code =3D <BTN_EAST>;
+> > +             };
+> > +
+> > +             button-b {
+> > +                     gpios =3D <&gpio_expander 14 (GPIO_ACTIVE_LOW | G=
+PIO_PULL_UP)>;
+> > +                     label =3D "BTN-B";
+> > +                     linux,code =3D <BTN_SOUTH>;
+> > +             };
+> > +
+> > +             button-down {
+> > +                     gpios =3D <&gpio_expander 1 (GPIO_ACTIVE_LOW | GP=
+IO_PULL_UP)>;
+> > +                     label =3D "DPAD-DOWN";
+> > +                     linux,code =3D <BTN_DPAD_DOWN>;
+> > +             };
+> > +
+> > +             button-left {
+> > +                     gpios =3D <&gpio_expander 4 (GPIO_ACTIVE_LOW | GP=
+IO_PULL_UP)>;
+> > +                     label =3D "DPAD-LEFT";
+> > +                     linux,code =3D <BTN_DPAD_LEFT>;
+> > +             };
+> > +
+> > +             button-right {
+> > +                     gpios =3D <&gpio_expander 0 (GPIO_ACTIVE_LOW | GP=
+IO_PULL_UP)>;
+> > +                     label =3D "DPAD-RIGHT";
+> > +                     linux,code =3D <BTN_DPAD_RIGHT>;
+> > +             };
+> > +
+> > +             button-se {
+> > +                     gpios =3D <&gpio_expander 7 (GPIO_ACTIVE_LOW | GP=
+IO_PULL_UP)>;
+> > +                     label =3D "BTN-SELECT";
+> > +                     linux,code =3D <BTN_SELECT>;
+> > +             };
+> > +
+> > +             button-st {
+> > +                     gpios =3D <&gpio_expander 6 (GPIO_ACTIVE_LOW | GP=
+IO_PULL_UP)>;
+> > +                     label =3D "BTN-START";
+> > +                     linux,code =3D <BTN_START>;
+> > +             };
+> > +
+> > +             button-tl {
+> > +                     gpios =3D <&gpio_expander 2 (GPIO_ACTIVE_LOW | GP=
+IO_PULL_UP)>;
+> > +                     label =3D "BTN-L";
+> > +                     linux,code =3D <BTN_TL>;
+> > +             };
+> > +
+> > +             button-tr {
+> > +                     gpios =3D <&gpio_expander 15 (GPIO_ACTIVE_LOW | G=
+PIO_PULL_UP)>;
+> > +                     label =3D "BTN-R";
+> > +                     linux,code =3D <BTN_TR>;
+> > +             };
+> > +
+> > +             button-up {
+> > +                     gpios =3D <&gpio_expander 3 (GPIO_ACTIVE_LOW | GP=
+IO_PULL_UP)>;
+> > +                     label =3D "DPAD-UP";
+> > +                     linux,code =3D <BTN_DPAD_UP>;
+> > +             };
+> > +
+> > +             button-x {
+> > +                     gpios =3D <&gpio_expander 11 (GPIO_ACTIVE_LOW | G=
+PIO_PULL_UP)>;
+> > +                     label =3D "BTN-X";
+> > +                     linux,code =3D <BTN_NORTH>;
+> > +             };
+> > +
+> > +             button-y {
+> > +                     gpios =3D <&gpio_expander 13 (GPIO_ACTIVE_LOW | G=
+PIO_PULL_UP)>;
+> > +                     label =3D "BTN-Y";
+> > +                     linux,code =3D <BTN_WEST>;
+> > +             };
+> > +     };
+> > +};
+> > +
+> > +&ccu {
+> > +     clocks =3D <&osc24M>, <&osc32k>;
+>
+> Samuel already pointed that out: please don't change that.
+>
+> > +};
+> > +
+> > +&codec {
+> > +     allwinner,audio-routing =3D "Speaker", "HP",
+> > +                               "MIC1", "Mic",
+> > +                               "Mic", "HBIAS";
+> > +     allwinner,pa-gpios =3D <&pio 5 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP=
+)>; /* PF6 */
+> > +     status =3D "okay";
+> > +};
+> > +
+> > +&ehci {
+> > +     status =3D "okay";
+> > +};
+> > +
+> > +&i2c0 {
+> > +     status =3D "okay";
+> > +
+> > +     gpio_expander: gpio@20 {
+> > +             compatible =3D "nxp,pcal6416";
+> > +             reg =3D <0x20>;
+> > +             gpio-controller;
+> > +             #gpio-cells =3D <2>;
+> > +             #interrupt-cells =3D <2>;
+> > +             interrupt-controller;
+> > +             interrupt-parent =3D <&pio>;
+> > +             interrupts =3D <1 3 IRQ_TYPE_EDGE_BOTH>; /* PB3/EINT3 */
+> > +             vcc-supply =3D <&reg_vcc3v3>;
+> > +     };
+> > +
+> > +     axp209: pmic@34 {
+> > +             reg =3D <0x34>;
+> > +             interrupt-parent =3D <&pio>;
+> > +             interrupts =3D <1 5 IRQ_TYPE_EDGE_FALLING>; /* PB5/EINT5 =
+*/
+> > +     };
+> > +
+> > +     pcf8563: rtc@51 {
+> > +             compatible =3D "nxp,pcf8563";
+> > +             reg =3D <0x51>;
+> > +     };
+> > +};
+> > +
+> > +#include "axp209.dtsi"
+> > +
+> > +&battery_power_supply {
+> > +     status =3D "okay";
+> > +};
+> > +
+> > +&mmc0 {
+> > +     broken-cd;
+> > +     bus-width =3D <4>;
+> > +     disable-wp;
+> > +     vmmc-supply =3D <&reg_vcc3v3>;
+> > +     vqmmc-supply =3D <&reg_vcc3v3>;
+> > +     status =3D "okay";
+> > +};
+> > +
+> > +&ohci {
+> > +     status =3D "okay";
+> > +};
+> > +
+> > +&pio {
+> > +     clocks =3D <&ccu CLK_BUS_PIO>, <&osc24M>, <&osc32k>;
+> > +     vcc-pb-supply =3D <&reg_vcc3v3>;
+> > +     vcc-pc-supply =3D <&reg_vcc3v3>;
+> > +     vcc-pf-supply =3D <&reg_vcc3v3>;
+> > +     vcc-pg-supply =3D <&reg_vcc3v3>;
+> > +
+> > +     spi0_no_miso_pins: spi0-no-miso-pins {
+> > +             pins =3D "PC1", "PC2", "PC3";
+> > +             function =3D "spi0";
+> > +     };
+> > +};
+> > +
+> > +&pwm {
+> > +     pinctrl-0 =3D <&pwm0_pin>;
+> > +     pinctrl-names =3D "default";
+> > +     status =3D "okay";
+> > +};
+> > +
+> > +/* DCDC2 wired into vdd-cpu, vdd-sys, and vdd-ephy. */
+> > +&reg_dcdc2 {
+> > +     regulator-always-on;
+> > +     regulator-max-microvolt =3D <1250000>;
+> > +     regulator-min-microvolt =3D <1250000>;
+> > +     regulator-name =3D "vdd-cpu";
+> > +};
+> > +
+> > +/* DCDC3 wired into every 3.3v input that isn't the RTC. */
+> > +&reg_dcdc3 {
+> > +     regulator-always-on;
+> > +     regulator-max-microvolt =3D <3300000>;
+> > +     regulator-min-microvolt =3D <3300000>;
+> > +     regulator-name =3D "vcc-io";
+> > +};
+> > +
+> > +/*
+> > + * LDO1 wired into RTC, voltage is hard-wired at 3.3v and cannot be
+> > + * software modified. Note that setting voltage here to 3.3v for accur=
+acy
+> > + * sake causes an issue with the driver that causes it to fail to prob=
+e
+> > + * because of a voltage constraint in the driver.
+> > + */
+> > +&reg_ldo1 {
+> > +     regulator-always-on;
+> > +     regulator-name =3D "vcc-rtc";
+> > +};
+> > +
+> > +/* LDO2 wired into VCC-PLL and audio codec. */
+> > +&reg_ldo2 {
+> > +     regulator-always-on;
+> > +     regulator-max-microvolt =3D <3000000>;
+> > +     regulator-min-microvolt =3D <3000000>;
+> > +     regulator-name =3D "vcc-pll";
+> > +};
+> > +
+> > +/* LDO3, LDO4, and LDO5 unused. */
+> > +&reg_ldo3 {
+> > +     status =3D "disabled";
+> > +};
+> > +
+> > +&reg_ldo4 {
+> > +     status =3D "disabled";
+> > +};
+> > +
+> > +/* External RTC used instead, internal RTC runs fast. */
+> > +&rtc {
+> > +     status =3D "disabled";
+>
+> So as Samuel mentioned, I don't think you should disable the RTC, even
+> if you have another RTC which provides more accurate time reading.
+> On most Allwinner chips the RTC provides more than just the actual
+> timekeeping functionality, as it also provides various derived clocks.
+>
+> So when you say the "internal RTC runs fast", that sounds like the
+> board does not actually connect an external 32K crystal to the
+> X32KIN/X32KOUT pins?
+> So what happens if you remove the clocks property from the RTC node?
+> If I read the code correctly, that should make the driver aware of the
+> lack of a crystal, which might improve things?
+> The manual seems to somewhat suggest that an external oscillator is
+> mandatory - and we modelled the sun8i-v3s.dtsi base after that. Though
+> I believe the RTC supports using the internal RC oscillator, and
+> omitting the "clocks" property should make the driver switch the RTC
+> over.
+>
+> This is at least my naive and quick interpretation of the code. I am
+> not an Allwinner RTC expert though, so happy to hear Samuel's opinion.
+>
+> Regarding multiple RTCs: I didn't find anything which assigns a
+> priority level to multiple RTCs in the system. What you can do on the
+> userland side is to have a udev rule that links the PCF device to
+> /dev/rtc, so that most tools would use that as a time source.
 
-This causes a merge conflict with a48ce36e2786f ("iommu: Prevent
-RESV_DIRECT devices from blocking domains"), The resolution is trivial
-though in that shadow_on_flush:1 can just be added after (or before)
-require_direct:1. @Joro do you want me to sent a version with this
-resolution regardless or will you resolve this when applying?
+You can add DT aliases to override the numbering, thus making an external
+one rtc0 and the internal one rtc1. See
+arch/arm/boot/dts/allwinner/sun6i-a31-hummingbird.dts for such an example.
 
->  };
->=20=20
->  int iommu_device_register(struct iommu_device *iommu,
->=20
+ChenYu
 
+> Cheers,
+> Andre
+>
+> > +};
+> > +
+> > +&spi0 {
+> > +     pinctrl-0 =3D <&spi0_no_miso_pins>;
+> > +     pinctrl-names =3D "default";
+> > +     status =3D "okay";
+> > +
+> > +     display@0 {
+> > +             compatible =3D "saef,sftc154b", "panel-mipi-dbi-spi";
+> > +             reg =3D <0>;
+> > +             backlight =3D <&backlight>;
+> > +             dc-gpios =3D <&pio 2 0 GPIO_ACTIVE_HIGH>; /* PC0 */
+> > +             reset-gpios =3D <&pio 1 2 GPIO_ACTIVE_HIGH>; /* PB2 */
+> > +             spi-max-frequency =3D <100000000>;
+> > +
+> > +             height-mm =3D <39>;
+> > +             width-mm =3D <39>;
+> > +
+> > +             /* Set hb-porch to compensate for non-visible area */
+> > +             panel-timing {
+> > +                     hactive =3D <240>;
+> > +                     vactive =3D <240>;
+> > +                     hback-porch =3D <80>;
+> > +                     vback-porch =3D <0>;
+> > +                     clock-frequency =3D <0>;
+> > +                     hfront-porch =3D <0>;
+> > +                     hsync-len =3D <0>;
+> > +                     vfront-porch =3D <0>;
+> > +                     vsync-len =3D <0>;
+> > +             };
+> > +     };
+> > +};
+> > +
+> > +&uart0 {
+> > +     pinctrl-0 =3D <&uart0_pb_pins>;
+> > +     pinctrl-names =3D "default";
+> > +     status =3D "okay";
+> > +};
+> > +
+> > +&usb_otg {
+> > +     dr_mode =3D "otg";
+> > +     status =3D "okay";
+> > +};
+> > +
+> > +&usb_power_supply {
+> > +     status =3D "okay";
+> > +};
+> > +
+> > +&usbphy {
+> > +     usb0_id_det-gpios =3D <&pio 6 5 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>=
+; /* PG5 */
+> > +     status =3D "okay";
+> > +};
+>
