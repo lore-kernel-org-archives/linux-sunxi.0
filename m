@@ -1,84 +1,47 @@
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0F82749F
-	for <linux-sunxi@lists.linux.dev>; Sat,  9 Sep 2023 20:42:28 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id 5BE205C00C1;
-	Sat,  9 Sep 2023 16:42:27 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Sat, 09 Sep 2023 16:42:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:sender:subject:subject:to:to; s=fm2; t=
-	1694292147; x=1694378547; bh=qyUkUjMrSyWBTwEeXGCCwy+n3GVh3Q45iIS
-	xQw+nVCg=; b=nUmZ1gXy0cvvPmFPtnXYxlMC2nv32IXRsHuLTXK+RTiwvJn3obu
-	hnRp27sJAfOFZg2EdaNsSMamDuZOfBjtERXgrcFVEB/8O9n94GG+msyaC2K6zh3r
-	l6JFxOQ7W6Xv778o8Rofz8nwOItHvCUbTiFPL78VHnfZAXj7rjblhMr79E9HNw5R
-	d48xJeKWrbkwYZ97udy2POPPE98A+yTCCyStxYUJMLHUHOPgmA7K3wF1kC21jTWn
-	R3EUBYV7anGOudg3MSzOMXUyP7AzxLHJ8D6JYHDw/u6eM+ma10nogMPH6Ru1twpH
-	V5VI01gopKb84mJDEXUj9erDHSUwGtjrS8w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1694292147; x=1694378547; bh=qyUkUjMrSyWBTwEeXGCCwy+n3GVh3Q45iIS
-	xQw+nVCg=; b=dOz2KCHuaJQ3lpSpwyLX8KxSmCVWEjdFnKk9a80aSTs25sNOtvH
-	V4FFoKh8f9ffLbmsGmimNWI3QnLvh8OYArgUA/Xuuez4o+gVNYKbPeW6Sq7KduLM
-	Q2h+Yl4Vyt19juDszW8D73/0MODuu/W9nY84rqie6KzHkuhxX27P8fZ8TtA6aWMU
-	EJo6ytc7scRpT4w/SMebk2CLsGBJf+EDpj/DvZalLyEYCPE0FBaeg+2FM3ft4HV9
-	oWv1FlylHVnvKb/UDXNjvFSFjezqnLFY7Hd/7zXg3G1BZCyIuzUXo2O0IZckMbwB
-	SgpI3y/P3ey1HAm+AUaWYbFW+S/Q+OJ7pcw==
-X-ME-Sender: <xms:stj8ZKgOR93F_72TGf0R-G_2B61GOqGBxtReW8efqyoPbiQKk0271A>
-    <xme:stj8ZLBJQon7wZ2rZPsd76OsfmV4rGSvStZklSwOIU2oMzqGGDT9V9bz2ZfYSDXgy
-    voGtjdqav-dxfn9yw>
-X-ME-Received: <xmr:stj8ZCHYDYVXa2k5MfGmM8OxaJCkuHaIBkLxDBBFp-OOrWLNfA1xIGyMnFcopAaoJGiphksvfJERvWkwQgyc-zgHQbXSwrzJb2DIsRCOO2qs9F-jgxWL-CPcow>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrudehledgudehudcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefkffggfgfuvfevfhfhjggtgfesthejredttdefjeenucfhrhhomhepufgr
-    mhhuvghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqne
-    cuggftrfgrthhtvghrnhepkeejleelfeeitdfhtdfgkeeghedufeduueegffdvhfdukeel
-    leeftdetjeehuddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
-    hfrhhomhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:stj8ZDQYYjjlfhlJLe4w702XqSBDjvdtOyyvpNDS5P3YAbF3stIA9g>
-    <xmx:stj8ZHzKtsfloPRbRy70P0mywLgTm3Qw4OJ-2ABepVDtnnwlEkwt6Q>
-    <xmx:stj8ZB479vUwRsjAlxQlBvcqe5zfNBgCRWJ6JMDtpljLveBfo-S15w>
-    <xmx:s9j8ZHkxRVqlTIzxlbNQojetnum6KR-Xzf9jib3DawRVIVOnWBO4gQ>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 9 Sep 2023 16:42:25 -0400 (EDT)
-Message-ID: <a2f25492-b7cd-e7b1-2c67-0189a38d879f@sholland.org>
-Date: Sat, 9 Sep 2023 15:42:24 -0500
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C630C188
+	for <linux-sunxi@lists.linux.dev>; Mon, 11 Sep 2023 00:07:04 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DEC72D75;
+	Sun, 10 Sep 2023 17:07:34 -0700 (PDT)
+Received: from slackpad.lan (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 67EBF3F67D;
+	Sun, 10 Sep 2023 17:06:55 -0700 (PDT)
+Date: Mon, 11 Sep 2023 01:05:42 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Chris Morgan <macroalpha82@gmail.com>
+Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+ airlied@gmail.com, conor+dt@kernel.org, daniel@ffwll.ch, heiko@sntech.de,
+ jagan@edgeble.ai, jernej.skrabec@gmail.com,
+ krzysztof.kozlowski+dt@linaro.org, mripard@kernel.org,
+ neil.armstrong@linaro.org, noralf@tronnes.org, robh+dt@kernel.org,
+ sam@ravnborg.org, samuel@sholland.org, uwu@icenowy.me, wens@csie.org, Chris
+ Morgan <macromorgan@hotmail.com>
+Subject: Re: [PATCH V4 8/8] ARM: dts: sunxi: add support for Anbernic
+ RG-Nano
+Message-ID: <20230911004909.6a40e1c0@slackpad.lan>
+In-Reply-To: <20230828181941.1609894-9-macroalpha82@gmail.com>
+References: <20230828181941.1609894-1-macroalpha82@gmail.com>
+	<20230828181941.1609894-9-macroalpha82@gmail.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH V4 8/8] ARM: dts: sunxi: add support for Anbernic RG-Nano
-Content-Language: en-US
-To: Chris Morgan <macroalpha82@gmail.com>, linux-sunxi@lists.linux.dev,
- jernej.skrabec@gmail.com
-Cc: devicetree@vger.kernel.org, airlied@gmail.com, andre.przywara@arm.com,
- conor+dt@kernel.org, daniel@ffwll.ch, heiko@sntech.de, jagan@edgeble.ai,
- krzysztof.kozlowski+dt@linaro.org, mripard@kernel.org,
- neil.armstrong@linaro.org, noralf@tronnes.org, robh+dt@kernel.org,
- sam@ravnborg.org, uwu@icenowy.me, wens@csie.org,
- Chris Morgan <macromorgan@hotmail.com>
-References: <20230828181941.1609894-1-macroalpha82@gmail.com>
- <20230828181941.1609894-9-macroalpha82@gmail.com>
-From: Samuel Holland <samuel@sholland.org>
-In-Reply-To: <20230828181941.1609894-9-macroalpha82@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 8/28/23 13:19, Chris Morgan wrote:
+On Mon, 28 Aug 2023 13:19:41 -0500
+Chris Morgan <macroalpha82@gmail.com> wrote:
+
+Hi Chris,
+
+thanks for the changes. As Samuel already pointed out, there is now a
+problem with the RTC...
+
 > From: Chris Morgan <macromorgan@hotmail.com>
 > 
 > The Anbernic RG-Nano is a small portable game device based on the
@@ -233,23 +196,10 @@ On 8/28/23 13:19, Chris Morgan wrote:
 > +
 > +&ccu {
 > +	clocks = <&osc24M>, <&osc32k>;
+
+Samuel already pointed that out: please don't change that.
+
 > +};
-
-This is not accurate. The CCU's 32 kHz clock comes from the internal
-RTC, whether you lie to the kernel about it or not. :)
-
-If the external 32 kHz crystal represented by &osc32k really exists,
-then I would expect the internal RTC to be accurate. At least the Linux
-driver tries to switch to the external crystal.
-
-If it's not using the external crystal... well, the V3s manual says
-"Note: Internal 32kHz is divided from OSC24MHz". And there's no integer
-factor of 24 MHz that gets you 32768 Hz, so that would explain the poor
-accuracy. Even in that case, if you can't use the RTC as an RTC, it
-should still be enabled in the DT, so the rest of the system can know
-the actual OSC32K/LOSC clock frequency. Userspace should be able to deal
-with the system having more than one RTC.
-
 > +
 > +&codec {
 > +	allwinner,audio-routing = "Speaker", "HP",
@@ -311,12 +261,6 @@ with the system having more than one RTC.
 > +
 > +&pio {
 > +	clocks = <&ccu CLK_BUS_PIO>, <&osc24M>, <&osc32k>;
-
-The same concern applies here.
-
-Regards,
-Samuel
-
 > +	vcc-pb-supply = <&reg_vcc3v3>;
 > +	vcc-pc-supply = <&reg_vcc3v3>;
 > +	vcc-pf-supply = <&reg_vcc3v3>;
@@ -381,6 +325,35 @@ Samuel
 > +/* External RTC used instead, internal RTC runs fast. */
 > +&rtc {
 > +	status = "disabled";
+
+So as Samuel mentioned, I don't think you should disable the RTC, even
+if you have another RTC which provides more accurate time reading.
+On most Allwinner chips the RTC provides more than just the actual
+timekeeping functionality, as it also provides various derived clocks.
+
+So when you say the "internal RTC runs fast", that sounds like the
+board does not actually connect an external 32K crystal to the
+X32KIN/X32KOUT pins?
+So what happens if you remove the clocks property from the RTC node?
+If I read the code correctly, that should make the driver aware of the
+lack of a crystal, which might improve things?
+The manual seems to somewhat suggest that an external oscillator is
+mandatory - and we modelled the sun8i-v3s.dtsi base after that. Though
+I believe the RTC supports using the internal RC oscillator, and
+omitting the "clocks" property should make the driver switch the RTC
+over.
+
+This is at least my naive and quick interpretation of the code. I am
+not an Allwinner RTC expert though, so happy to hear Samuel's opinion.
+
+Regarding multiple RTCs: I didn't find anything which assigns a
+priority level to multiple RTCs in the system. What you can do on the
+userland side is to have a udev rule that links the PCF device to
+/dev/rtc, so that most tools would use that as a time source.
+
+Cheers,
+Andre
+
 > +};
 > +
 > +&spi0 {
