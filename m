@@ -1,57 +1,131 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A3AC8F40;
-	Mon, 11 Sep 2023 22:00:27 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BA3971007;
-	Mon, 11 Sep 2023 15:01:03 -0700 (PDT)
-Received: from [10.57.0.19] (unknown [10.57.0.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2A98F3F5A1;
-	Mon, 11 Sep 2023 15:00:25 -0700 (PDT)
-Message-ID: <15a0de3a-086a-b30d-0512-02e3bbf69662@arm.com>
-Date: Mon, 11 Sep 2023 23:00:18 +0100
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AE59A928
+	for <linux-sunxi@lists.linux.dev>; Mon, 11 Sep 2023 23:51:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85B6DC116D3;
+	Mon, 11 Sep 2023 23:51:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1694476309;
+	bh=O51TPHPv0vx9Va2ahIAKgXHju3NJ2XLpNP3C/snr7LI=;
+	h=From:Date:Subject:To:Cc:From;
+	b=X4DmisIv6DcHzbP3vH5WlTFYs1wN8/p5DZnPcRWp/5s5FRFNUNTAyHNzT8mwNgzdd
+	 p2C8M+GIzcqnbNBrI/GCohmuPkkvEBSxtFQqjj+sPkAs66hTzu3saLBZgay7HqheNn
+	 7oQRuiHaMxJgSRJW/cwLylCnQDTu5/5Zcr+wBp+zG6Vorv+tjEk5xzcea6x7mUDhsb
+	 pp3whpY1kemWx0icdosrGg9RmxMKFmGK1CQVHzupxuDmfUGZTM6zRI8yR2Z1bPdDvw
+	 LxKe16n8GvCQ/M6/ydCmoZiM1O6gt+9ok9wiYk1/gsEUq59OBo9y/SFZf1qCBrKbnQ
+	 GtRMKLqAV5DZQ==
+From: Mark Brown <broonie@kernel.org>
+Date: Tue, 12 Sep 2023 00:51:31 +0100
+Subject: [PATCH v2] thermal/drivers/sun8i: Don't fail probe due to zone
+ registration failure
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH] iommu/sun50i: Allow page sizes between 4K and 1M
-Content-Language: en-GB
-To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
- joro@8bytes.org, will@kernel.org
-Cc: wens@csie.org, samuel@sholland.org, iommu@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20230911190218.1758812-1-jernej.skrabec@gmail.com>
- <40649946-739b-fec6-d743-f7828613fec5@arm.com> <5707055.DvuYhMxLoT@archlinux>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <5707055.DvuYhMxLoT@archlinux>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230912-thermal-sun8i-registration-v2-1-077230107768@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAAKo/2QC/42NQQ6CMBBFr0Jm7ZiWqqAr72FYlDLARGzNFImG9
+ O5WTuDy/fz//gqRhCnCpVhBaOHIwWcodwW40fqBkLvMUKrSqErXOI8kDzthfPmaUWjgOIud8wy
+ 73lhtTs7Z3kIWPIV6fm/yW5N5zNUgn+1r0b/0L+2iUaM7H1vdqkqZg7reSTxN+yADNCmlL+0zn
+ lDFAAAA
+To: Vasily Khoruzhick <anarsoul@gmail.com>, 
+ Yangtao Li <tiny.windzz@gmail.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Daniel Lezcano <daniel.lezcano@linaro.org>, 
+ Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+Cc: Hugh Dickins <hughd@google.com>, linux-pm@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
+X-Mailer: b4 0.13-dev-099c9
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2897; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=O51TPHPv0vx9Va2ahIAKgXHju3NJ2XLpNP3C/snr7LI=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBk/6gQEtpSKlDmTGduA8wY6QsbTwt1arXoB0wF0
+ 79/7Zyn05uJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZP+oEAAKCRAk1otyXVSH
+ 0BaVB/9WtYVIg1ZP3KyPiDQfBXZ3V7+rCO9TPW4BwQY/t5SItapzsT/Bex46sy1RyRGkRGjgIX9
+ rPl9HJ39X+fPoSnQgejUs87LZ9UdvNrop3BedW5GWdZ/HS5Apu2mc7P8T07j6Gc6zEJhdCR8SeE
+ kzC01H5zRq3swmUNuXm8fsm3pnaCjzob36wCl2l6DkPdJ/OrfqGUkT0gBNZdYnqbAq3WuOHteLE
+ uaA4gMphJbUCGZuIvn4uZtDMXBjc7FWLsxQJMP7z7DNMJGrXpKu5kce46Vxe/PITSvHo4dBvr2X
+ LEvJ/rRe0cDZiLipBNQ9YypCoJx9G1bII625iu3ut+zL8llZ
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On 2023-09-11 20:29, Jernej Škrabec wrote:
-> On Monday, September 11, 2023 9:06:12 PM CEST Robin Murphy wrote:
->> On 2023-09-11 20:02, Jernej Skrabec wrote:
->>> While peripheral supports only 4K page sizes, we can easily emulate
->>> support for bigger page sizes, up to 1M. This is done by making multiple
->>> entries in map function or clearing multiple entries in unmap.
->>
->> No, it's done by converting over to the {map,unmap}_pages ops. There's
->> no need to resurrect this horrible bodge.
-> 
-> Missed those, thanks! In any case, logic to implement those isn't that
-> different than here.
+Currently the sun8i thermal driver will fail to probe if any of the
+thermal zones it is registering fails to register with the thermal core.
+Since we currently do not define any trip points for the GPU thermal
+zones on at least A64 or H5 this means that we have no thermal support
+on these platforms:
 
-Indeed, if anything it should be even simpler since you don't need to 
-worry about specific sizes at all - any tricky boundary you don't want 
-to iterate through, just return short at that point and let the core 
-call you back again with the remainder.
+[    1.698703] thermal_sys: Failed to find 'trips' node
+[    1.698707] thermal_sys: Failed to find trip points for thermal-sensor id=1
 
-(In fact this reminds me one of the low-priority cleanup jobs 
-outstanding was to trivially convert all the remaining drivers and 
-retire the old interfaces altogether)
+even though the main CPU thermal zone on both SoCs is fully configured.
+This does not seem ideal, while we may not be able to use all the zones
+it seems better to have those zones which are usable be operational.
+Instead just carry on registering zones if we get any non-deferral
+error, allowing use of those zones which are usable.
 
-Cheers,
-Robin.
+This means that we also need to update the interrupt handler to not
+attempt to notify the core for events on zones which we have not
+registered, I didn't see an ability to mask individual interrupts and
+I would expect that interrupts would still be indicated in the ISR even
+if they were masked.
+
+Reviewed-by: Vasily Khoruzhick <anarsoul@gmail.com>
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+Changes in v2:
+- Rebase onto v6.6-rc1.
+- Link to v1: https://lore.kernel.org/r/20230718-thermal-sun8i-registration-v1-1-c95b1b070340@kernel.org
+---
+ drivers/thermal/sun8i_thermal.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_thermal.c
+index f989b55a8aa8..14ff0346584b 100644
+--- a/drivers/thermal/sun8i_thermal.c
++++ b/drivers/thermal/sun8i_thermal.c
+@@ -188,6 +188,9 @@ static irqreturn_t sun8i_irq_thread(int irq, void *data)
+ 	int i;
+ 
+ 	for_each_set_bit(i, &irq_bitmap, tmdev->chip->sensor_num) {
++		/* We allow some zones to not register. */
++		if (IS_ERR(tmdev->sensor[i].tzd))
++			continue;
+ 		thermal_zone_device_update(tmdev->sensor[i].tzd,
+ 					   THERMAL_EVENT_UNSPECIFIED);
+ 	}
+@@ -465,8 +468,17 @@ static int sun8i_ths_register(struct ths_device *tmdev)
+ 						      i,
+ 						      &tmdev->sensor[i],
+ 						      &ths_ops);
+-		if (IS_ERR(tmdev->sensor[i].tzd))
+-			return PTR_ERR(tmdev->sensor[i].tzd);
++
++		/*
++		 * If an individual zone fails to register for reasons
++		 * other than probe deferral (eg, a bad DT) then carry
++		 * on, other zones might register successfully.
++		 */
++		if (IS_ERR(tmdev->sensor[i].tzd)) {
++			if (PTR_ERR(tmdev->sensor[i].tzd) == -EPROBE_DEFER)
++				return PTR_ERR(tmdev->sensor[i].tzd);
++			continue;
++		}
+ 
+ 		devm_thermal_add_hwmon_sysfs(tmdev->dev, tmdev->sensor[i].tzd);
+ 	}
+
+---
+base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
+change-id: 20230718-thermal-sun8i-registration-df3a136ccafa
+
+Best regards,
+-- 
+Mark Brown <broonie@kernel.org>
+
