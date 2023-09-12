@@ -1,63 +1,66 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6C4D179A0
-	for <linux-sunxi@lists.linux.dev>; Tue, 12 Sep 2023 15:54:15 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5230a22cfd1so7429072a12.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 12 Sep 2023 08:54:15 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE33A179A0
+	for <linux-sunxi@lists.linux.dev>; Tue, 12 Sep 2023 15:54:33 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-9a9f139cd94so653086866b.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 12 Sep 2023 08:54:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694534054; x=1695138854; darn=lists.linux.dev;
+        d=gmail.com; s=20221208; t=1694534072; x=1695138872; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=naPTFvozAWXUQ+jkhhTxqmTnrRwIprjMkqTTFQTivH8=;
-        b=d8wZmwn/mtZ4AGIPIiL0EIdneO1bfmVYUJEGYgeekgpSjfVnM7jPqeEfs0YLZT+lth
-         2ftNkgeM1v+HQC3eYDchRf9IZbbS2VrIJzgYeGp2pEg4U/swU+3s+DNcwptMpee2nWHY
-         cYoZXVR0dAxKJicUEx4sma1VhwGWnxHzCMHinuMmSuymOlHrgVV2r0Y1KXqR3kbeVJWs
-         bpVOZegYfGPT3+N7OBNQLHY4e2MdzVr4rktwf7ZcN+Pz4qiCzKtGLnePMwkrx7Y2jk2h
-         8Jmd4Hmm9IqR0QXivVXHLzIFTGEsoXUWJDmvKkZeIYXr6xbn5L34LHoXJAxuoefy8pXw
-         4gLw==
+        bh=z8oHJ2ujiJlxAUemtJ2j3LYJnlvFVhGLWaN0VZa8yeI=;
+        b=B/aa3pT3OSqAL1r94OagLGIYuKKEI5EizAvW3ga/5tc+IlzxblH9w4z7VpZ2oXtJl/
+         VJ96GGXqPBRmOHtlIpFkT9WagVTuNbuMuv2FABB4mDWM7gsp3ERuGnxhDtBUdmJpVvbk
+         MSQC0kDEyHd3SbKN4YT/OD0VWeRa9wHvhReqjD5U/fGsgYZbxRHWSCDmaUeweVznFuxl
+         8D6YIgdmfKc8opRD5It6DtlhSxIm3Vh7sC3Y4Z/zIjO0h8Jbcl0OnhH3063UsskR2wae
+         fWu2Pr8Xlh5vAO0flaDcGMO7Ehgk0p0XDQmtDoxyDLVmvGXZHSLEBFy6wMESn1JrXaU8
+         o5fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694534054; x=1695138854;
+        d=1e100.net; s=20230601; t=1694534072; x=1695138872;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=naPTFvozAWXUQ+jkhhTxqmTnrRwIprjMkqTTFQTivH8=;
-        b=tixSEJlPUG3D0d25ZdslUvQCbsId4aDvkr9x8N8rq0ZLLGcxbvLDvus/OjIo7rbQGS
-         P3z/ZD6QRcbpnQpIg0ZmXOg/1YxYqjZ0AUkmG9tQyw4GU7s6vkf9KyAM3ydZx0Ec3EPl
-         wT+Ey3uQtO1rPwpHG9cK6lYeBf8mHGo5SV9+hkKF0NRCaFgtr9pcO9qiuzT7Kyv7oYjr
-         HdBpc1o3qiX5CJq0p0a1Cd2owsZV629vAQnlo5s19XIoooLOEesobYbjIgpo14bmjtd7
-         vYTtwLJp7Rd4+QLcODngxwEudEjBlN2AxFK2pVxiSZgaoSmdEMO8ySvshc2afQZH44jO
-         ePBA==
-X-Gm-Message-State: AOJu0Yyz203H8dcGFm4f4KzwqTFkudxrhL9pftRG5WKQppOgCpoox5gU
-	Uw3nvojviiq7nhqAdaa+Rfc=
-X-Google-Smtp-Source: AGHT+IGpuGAmmqRAkGB3XMTjinl3XRgL9kG9WDlXhj6mSNKbT2TUCt11mIr4e50oihi2f8L+s6Hu6A==
-X-Received: by 2002:a05:6402:1843:b0:527:251e:1be7 with SMTP id v3-20020a056402184300b00527251e1be7mr45463edy.11.1694534053828;
-        Tue, 12 Sep 2023 08:54:13 -0700 (PDT)
+        bh=z8oHJ2ujiJlxAUemtJ2j3LYJnlvFVhGLWaN0VZa8yeI=;
+        b=iFQD1QYLjJpTnugyWZsorRwYNAfTq2P7/PiI6vK5M0G5ZJouNMHqZxSGb51CGfHyup
+         kzSDsMRXQXHEvPbWW5suqzqeKJAtndmiLwRNaZMqKgjT9C8Za/tfcJtox4S2icCLR4Vt
+         p6Zt4t6aOeLY0OmSmzR0WbenhDsupkvGnDY4M2UGamV6NrSq6l/+HP7/+3CIoLYyJ3mp
+         D7zV9JnWuQlCibXl+t35LAwKrJRO7ytedpNw38rb54GrC/4qCufacoHa2dUkC64yKsf4
+         5dDIgYy6A4dITWALqxg2nvKXOvPyz/3LkB17iuyDl9OpnK3VslxUk77FNqbNNAqs9dti
+         MK/g==
+X-Gm-Message-State: AOJu0YwsdtE1vAqR2C01ArPh+qeKjlTPy+SByu0gewofnk1k6FDeMiIO
+	zBkrUADbZYZhLR5qKtbzlw6PUFO+HP1lr/Q7
+X-Google-Smtp-Source: AGHT+IEEM/bk4nQRqipf1BKh7nG712N1GnvGVrUcH4eqH2pGf0pFfIu2q7I8cr4PaxHXmrgjqYI4VA==
+X-Received: by 2002:a17:906:2101:b0:9a1:6318:4d39 with SMTP id 1-20020a170906210100b009a163184d39mr11291101ejt.29.1694534072102;
+        Tue, 12 Sep 2023 08:54:32 -0700 (PDT)
 Received: from jernej-laptop.localnet (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
-        by smtp.gmail.com with ESMTPSA id g2-20020a50ee02000000b0051e2670d599sm6134972eds.4.2023.09.12.08.54.12
+        by smtp.gmail.com with ESMTPSA id lf28-20020a170907175c00b0099bcf1c07c6sm7032766ejc.138.2023.09.12.08.54.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Sep 2023 08:54:13 -0700 (PDT)
+        Tue, 12 Sep 2023 08:54:31 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Rob Herring <robh+dt@kernel.org>,
+To: Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>,
  Martin Botka <martin.botka@somainline.org>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- Andre Przywara <andre.przywara@arm.com>, Alan Ma <tech@biqu3d.com>,
+Cc: Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, Andre Przywara <andre.przywara@arm.com>,
+ Alan Ma <tech@biqu3d.com>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Martin Botka <martin@biqu3d.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Rogerio Goncalves <rogerlz@gmail.com>,
  Martin Botka <martin.botka@somainline.org>
 Subject:
- Re: [PATCH v3 2/2] arm64: dts: allwinner: h616: Add SID controller node
-Date: Tue, 12 Sep 2023 17:54:12 +0200
-Message-ID: <3181319.5fSG56mABF@jernej-laptop>
-In-Reply-To: <20230912-sid-h616-v3-2-ee18e1c5bbb5@somainline.org>
+ Re: [PATCH v6 4/4] arm64: dts: allwinner: h616: Add BigTreeTech Pi support
+Date: Tue, 12 Sep 2023 17:54:30 +0200
+Message-ID: <1769061.VLH7GnMWUR@jernej-laptop>
+In-Reply-To: <20230912-b4-cb1-v6-4-bb11238f3a9c@somainline.org>
 References:
- <20230912-sid-h616-v3-0-ee18e1c5bbb5@somainline.org>
- <20230912-sid-h616-v3-2-ee18e1c5bbb5@somainline.org>
+ <20230912-b4-cb1-v6-0-bb11238f3a9c@somainline.org>
+ <20230912-b4-cb1-v6-4-bb11238f3a9c@somainline.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -67,10 +70,25 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne torek, 12. september 2023 ob 14:25:13 CEST je Martin Botka napisal(a):
-> Add node for the H616 SID controller
+Dne torek, 12. september 2023 ob 13:20:50 CEST je Martin Botka napisal(a):
+> From: Martin Botka <martin@biqu3d.com>
 > 
-> Signed-off-by: Martin Botka <martin.botka@somainline.org>
+> The BigTreeTech Pi is an H616 based board based on CB1.
+> Just in Rpi format board.
+> 
+> It features the same internals as BTT CB1 but adds:
+>     - Fan port
+>     - IR receiver
+>     - ADXL345 Accelerometer connector via SPI
+>     - 24V DC power supply via terminal plugs
+>     - USB to CAN module connector (External Module)
+> 
+> List of currently working things is same as BTT CB1 but also:
+>     - IR receiver
+>     - ADXL345 connector
+> 
+> Signed-off-by: Martin Botka <martin@biqu3d.com>
+> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 
 Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
@@ -78,29 +96,93 @@ Best regards,
 Jernej
 
 > ---
->  arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  arch/arm64/boot/dts/allwinner/Makefile             |  1 +
+>  .../dts/allwinner/sun50i-h616-bigtreetech-pi.dts   | 63
+> ++++++++++++++++++++++ 2 files changed, 64 insertions(+)
 > 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi index
-> 74aed0d232a9..d549d277d972 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> @@ -133,6 +133,13 @@ ccu: clock@3001000 {
->  			#reset-cells = <1>;
->  		};
-> 
-> +		sid: efuse@3006000 {
-> +			compatible = "allwinner,sun50i-h616-sid", 
-"allwinner,sun50i-a64-sid";
-> +			reg = <0x03006000 0x1000>;
-> +			#address-cells = <1>;
-> +			#size-cells = <1>;
-> +		};
+> diff --git a/arch/arm64/boot/dts/allwinner/Makefile
+> b/arch/arm64/boot/dts/allwinner/Makefile index 42e525b9d4b9..3aca6787a167
+> 100644
+> --- a/arch/arm64/boot/dts/allwinner/Makefile
+> +++ b/arch/arm64/boot/dts/allwinner/Makefile
+> @@ -39,6 +39,7 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-pine-h64-model-b.dtb
+> dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6-mini.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-bigtreetech-cb1-manta.dtb
+> +dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-bigtreetech-pi.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-orangepi-zero2.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-x96-mate.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero3.dtb
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts
+> b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts new file
+> mode 100644
+> index 000000000000..832f08b2b260
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts
+> @@ -0,0 +1,63 @@
+> +// SPDX-License-Identifier: (GPL-2.0+ or MIT)
+> +/*
+> + * Copyright (C) 2023 Martin Botka <martin@biqu3d.com>.
+> + */
 > +
->  		watchdog: watchdog@30090a0 {
->  			compatible = "allwinner,sun50i-h616-wdt",
->  				     "allwinner,sun6i-a31-wdt";
+> +/dts-v1/;
+> +
+> +#include "sun50i-h616-bigtreetech-cb1.dtsi"
+> +
+> +/ {
+> +	model = "BigTreeTech Pi";
+> +	compatible = "bigtreetech,pi", "allwinner,sun50i-h616";
+> +
+> +	aliases {
+> +		serial0 = &uart0;
+> +	};
+> +
+> +	chosen {
+> +		stdout-path = "serial0:115200n8";
+> +	};
+> +};
+> +
+> +&ehci0 {
+> +	status = "okay";
+> +};
+> +
+> +&ehci1 {
+> +	status = "okay";
+> +};
+> +
+> +&ehci2 {
+> +	status = "okay";
+> +};
+> +
+> +&ehci3 {
+> +	status = "okay";
+> +};
+> +
+> +&ir {
+> +	status = "okay";
+> +};
+> +
+> +&ohci0 {
+> +	status = "okay";
+> +};
+> +
+> +&ohci1 {
+> +	status = "okay";
+> +};
+> +
+> +&ohci2 {
+> +	status = "okay";
+> +};
+> +
+> +&ohci3 {
+> +	status = "okay";
+> +};
+> +
+> +&uart0 {
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&uart0_ph_pins>;
+> +	status = "okay";
+> +};
 
 
 
