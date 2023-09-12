@@ -1,21 +1,21 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32FC2E54B;
-	Tue, 12 Sep 2023 08:13:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6430DC433C8;
-	Tue, 12 Sep 2023 08:13:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47F5617EF;
+	Tue, 12 Sep 2023 08:35:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61821C433C9;
+	Tue, 12 Sep 2023 08:35:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1694506414;
-	bh=jHqmw/CsOsU8hNk9mweTs2csj+HphLKzucu7Buu5sxI=;
+	s=k20201202; t=1694507713;
+	bh=kNlewa3yEJmphIOpPB7B1g/AA9EWzeGvAITRxrDFzeY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZzJh6b1zv9eNjzwLoDxfeKqgfhaC2zPqE2YVgwpS+EPLXhMOTYpnm8uaZb15XZGYy
-	 HORZ/er9UZFVIyZxqyJN7CIXpJ6teIaDntYJnBa558fKiciv79efmyZbGsLw9nFFBK
-	 l6E183fn0AKqvW6k2Xxj06yRLFnK7Dnn5gmye4V/uR26B1brbLIX2jqJS9HgPlJltQ
-	 Tn4usyNqeEnB/Bh4xnEA7cZcVeVlFKlikAyQ1gs0ldpA9hU/VwEyJ+T+OH9Lw7FoqE
-	 r1HNnUJXPQATydpGf2xkLlC5W15/SyeQnpuLHFLBTKbYArVN2oBzP+G+j0yUAVV3iB
-	 xsX9fT8xv7Rlg==
-Date: Tue, 12 Sep 2023 16:01:35 +0800
+	b=nmKX93rdLncAS3a8Dk1FhPWhoocfn4ar1ps2ikGOwfciw1WvSW7sad6fCbg7Udkj6
+	 mDh/BkMpWlM/MJoNccj56NmfW5U/fgYCZUEcTENrTBgBtit4VzGzGUuIZ5v0z8ObHy
+	 Ghl5o7iMB3VZYL+ZLUryR4pWDYStnRfnD1TdHpNar+6RVcvwNE6otgpB8IRrX2ZZdU
+	 lkKXKg/KPrvq+URXpujmKkgsyF+TdMFBPWa2nmfOAbQhMmnIl7j8y7zzI8JGuc/Bys
+	 In2DcClRuRJWvu5AwhmjHWUWRgj063x1ORkXZ/4r5QI9idygD6anZdz4V8VW7OLSQa
+	 //7qtQWczNnQg==
+Date: Tue, 12 Sep 2023 16:23:16 +0800
 From: Jisheng Zhang <jszhang@kernel.org>
 To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 Cc: Giuseppe Cavallaro <peppe.cavallaro@st.com>,
@@ -33,7 +33,7 @@ Cc: Giuseppe Cavallaro <peppe.cavallaro@st.com>,
 	linux-sunxi@lists.linux.dev, kernel@pengutronix.de
 Subject: Re: [REGRESSION] [PATCH net-next v5 2/2] net: stmmac: use per-queue
  64 bit statistics where necessary
-Message-ID: <ZQAa3277GC4c9W1D@xhacker>
+Message-ID: <ZQAf9ArWfRkY/yPR@xhacker>
 References: <20230717160630.1892-1-jszhang@kernel.org>
  <20230717160630.1892-3-jszhang@kernel.org>
  <20230911171102.cwieugrpthm7ywbm@pengutronix.de>
@@ -62,6 +62,13 @@ On Mon, Sep 11, 2023 at 07:11:02PM +0200, Uwe Kleine-König wrote:
 > 	you didn't initialize this object before use?
 > 	turning off the locking correctness validator.
 > 	CPU: 0 PID: 1 Comm: swapper/0 Not tainted 6.5.0-rc1-00449-g133466c3bbe1-dirty #21
+
+Hi,
+
+Which kernel version are you using? The latest linus tree? But why here
+say 6.5.0-rc1?
+
+Thanks
 > 	Hardware name: STM32 (Device Tree Support)
 > 	 unwind_backtrace from show_stack+0x18/0x1c
 > 	 show_stack from dump_stack_lvl+0x60/0x90
@@ -89,8 +96,6 @@ On Mon, Sep 11, 2023 at 07:11:02PM +0200, Uwe Kleine-König wrote:
 > 
 > I didn't try understand this problem, it's too close to quitting time
 > :-)
-
-Thanks for the bug report, I'm checking the code.
 > 
 > Best regards
 > Uwe
