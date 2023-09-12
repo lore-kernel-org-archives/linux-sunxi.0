@@ -1,107 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47F5617EF;
-	Tue, 12 Sep 2023 08:35:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61821C433C9;
-	Tue, 12 Sep 2023 08:35:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1694507713;
-	bh=kNlewa3yEJmphIOpPB7B1g/AA9EWzeGvAITRxrDFzeY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nmKX93rdLncAS3a8Dk1FhPWhoocfn4ar1ps2ikGOwfciw1WvSW7sad6fCbg7Udkj6
-	 mDh/BkMpWlM/MJoNccj56NmfW5U/fgYCZUEcTENrTBgBtit4VzGzGUuIZ5v0z8ObHy
-	 Ghl5o7iMB3VZYL+ZLUryR4pWDYStnRfnD1TdHpNar+6RVcvwNE6otgpB8IRrX2ZZdU
-	 lkKXKg/KPrvq+URXpujmKkgsyF+TdMFBPWa2nmfOAbQhMmnIl7j8y7zzI8JGuc/Bys
-	 In2DcClRuRJWvu5AwhmjHWUWRgj063x1ORkXZ/4r5QI9idygD6anZdz4V8VW7OLSQa
-	 //7qtQWczNnQg==
-Date: Tue, 12 Sep 2023 16:23:16 +0800
-From: Jisheng Zhang <jszhang@kernel.org>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Jose Abreu <joabreu@synopsys.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, kernel@pengutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18E439449
+	for <linux-sunxi@lists.linux.dev>; Tue, 12 Sep 2023 09:07:12 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[IPv6:::1])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <l.stach@pengutronix.de>)
+	id 1qfzM4-0001U4-6D; Tue, 12 Sep 2023 11:06:46 +0200
+Message-ID: <99695befef06b025de2c457ea5f861aa81a0883c.camel@pengutronix.de>
 Subject: Re: [REGRESSION] [PATCH net-next v5 2/2] net: stmmac: use per-queue
  64 bit statistics where necessary
-Message-ID: <ZQAf9ArWfRkY/yPR@xhacker>
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Jisheng Zhang <jszhang@kernel.org>, Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?=
+	 <u.kleine-koenig@pengutronix.de>
+Cc: linux-kernel@vger.kernel.org, kernel@pengutronix.de, Samuel Holland
+ <samuel@sholland.org>, netdev@vger.kernel.org, 
+ linux-stm32@st-md-mailman.stormreply.com, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Chen-Yu Tsai <wens@csie.org>, Eric Dumazet <edumazet@google.com>, Jose
+ Abreu <joabreu@synopsys.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Jakub Kicinski <kuba@kernel.org>, Giuseppe Cavallaro
+ <peppe.cavallaro@st.com>, Paolo Abeni <pabeni@redhat.com>,
+ linux-sunxi@lists.linux.dev, "David S . Miller" <davem@davemloft.net>,
+ linux-arm-kernel@lists.infradead.org
+Date: Tue, 12 Sep 2023 11:04:16 +0200
+In-Reply-To: <ZQAa3277GC4c9W1D@xhacker>
 References: <20230717160630.1892-1-jszhang@kernel.org>
- <20230717160630.1892-3-jszhang@kernel.org>
- <20230911171102.cwieugrpthm7ywbm@pengutronix.de>
+	 <20230717160630.1892-3-jszhang@kernel.org>
+	 <20230911171102.cwieugrpthm7ywbm@pengutronix.de> <ZQAa3277GC4c9W1D@xhacker>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230911171102.cwieugrpthm7ywbm@pengutronix.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
-On Mon, Sep 11, 2023 at 07:11:02PM +0200, Uwe Kleine-König wrote:
-> Hello,
-> 
-> this patch became commit 133466c3bbe171f826294161db203f7670bb30c8 and is
-> part of v6.6-rc1.
-> 
-> On my arm/stm32mp157 based machine using NFS root this commit makes the
-> following appear in the kernel log:
-> 
-> 	INFO: trying to register non-static key.
-> 	The code is fine but needs lockdep annotation, or maybe
-> 	you didn't initialize this object before use?
-> 	turning off the locking correctness validator.
-> 	CPU: 0 PID: 1 Comm: swapper/0 Not tainted 6.5.0-rc1-00449-g133466c3bbe1-dirty #21
+Am Dienstag, dem 12.09.2023 um 16:01 +0800 schrieb Jisheng Zhang:
+> On Mon, Sep 11, 2023 at 07:11:02PM +0200, Uwe Kleine-K=C3=B6nig wrote:
+> > Hello,
+> >=20
+> > this patch became commit 133466c3bbe171f826294161db203f7670bb30c8 and i=
+s
+> > part of v6.6-rc1.
+> >=20
+> > On my arm/stm32mp157 based machine using NFS root this commit makes the
+> > following appear in the kernel log:
+> >=20
+> > 	INFO: trying to register non-static key.
+> > 	The code is fine but needs lockdep annotation, or maybe
+> > 	you didn't initialize this object before use?
+> > 	turning off the locking correctness validator.
+> > 	CPU: 0 PID: 1 Comm: swapper/0 Not tainted 6.5.0-rc1-00449-g133466c3bbe=
+1-dirty #21
+> > 	Hardware name: STM32 (Device Tree Support)
+> > 	 unwind_backtrace from show_stack+0x18/0x1c
+> > 	 show_stack from dump_stack_lvl+0x60/0x90
+> > 	 dump_stack_lvl from register_lock_class+0x98c/0x99c
+> > 	 register_lock_class from __lock_acquire+0x74/0x293c
+> > 	 __lock_acquire from lock_acquire+0x134/0x398
+> > 	 lock_acquire from stmmac_get_stats64+0x2ac/0x2fc
+> > 	 stmmac_get_stats64 from dev_get_stats+0x44/0x130
+> > 	 dev_get_stats from rtnl_fill_stats+0x38/0x120
+> > 	 rtnl_fill_stats from rtnl_fill_ifinfo+0x834/0x17f4
+> > 	 rtnl_fill_ifinfo from rtmsg_ifinfo_build_skb+0xc0/0x144
+> > 	 rtmsg_ifinfo_build_skb from rtmsg_ifinfo+0x50/0x88
+> > 	 rtmsg_ifinfo from __dev_notify_flags+0xc0/0xec
+> > 	 __dev_notify_flags from dev_change_flags+0x50/0x5c
+> > 	 dev_change_flags from ip_auto_config+0x2f4/0x1260
+> > 	 ip_auto_config from do_one_initcall+0x70/0x35c
+> > 	 do_one_initcall from kernel_init_freeable+0x2ac/0x308
+> > 	 kernel_init_freeable from kernel_init+0x1c/0x138
+> > 	 kernel_init from ret_from_fork+0x14/0x2c
+> > 	Exception stack(0xe0815fb0 to 0xe0815ff8)
+> > 	5fa0:                                     00000000 00000000 00000000 0=
+0000000
+> > 	5fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 0=
+0000000
+> > 	5fe0: 00000000 00000000 00000000 00000000 00000013 00000000
+> > 	dwc2 49000000.usb-otg: new device is high-speed
+> >=20
+> > I didn't try understand this problem, it's too close to quitting time
+> > :-)
+>=20
+> Thanks for the bug report, I'm checking the code.
 
-Hi,
+The newly added "struct u64_stats_sync syncp" uses a seqlock
+internally, which is broken into multiple words on 32bit machines, and
+needs to be initialized properly. You need to call u64_stats_init on
+syncp before first usage.
 
-Which kernel version are you using? The latest linus tree? But why here
-say 6.5.0-rc1?
+Regards,
+Lucas
 
-Thanks
-> 	Hardware name: STM32 (Device Tree Support)
-> 	 unwind_backtrace from show_stack+0x18/0x1c
-> 	 show_stack from dump_stack_lvl+0x60/0x90
-> 	 dump_stack_lvl from register_lock_class+0x98c/0x99c
-> 	 register_lock_class from __lock_acquire+0x74/0x293c
-> 	 __lock_acquire from lock_acquire+0x134/0x398
-> 	 lock_acquire from stmmac_get_stats64+0x2ac/0x2fc
-> 	 stmmac_get_stats64 from dev_get_stats+0x44/0x130
-> 	 dev_get_stats from rtnl_fill_stats+0x38/0x120
-> 	 rtnl_fill_stats from rtnl_fill_ifinfo+0x834/0x17f4
-> 	 rtnl_fill_ifinfo from rtmsg_ifinfo_build_skb+0xc0/0x144
-> 	 rtmsg_ifinfo_build_skb from rtmsg_ifinfo+0x50/0x88
-> 	 rtmsg_ifinfo from __dev_notify_flags+0xc0/0xec
-> 	 __dev_notify_flags from dev_change_flags+0x50/0x5c
-> 	 dev_change_flags from ip_auto_config+0x2f4/0x1260
-> 	 ip_auto_config from do_one_initcall+0x70/0x35c
-> 	 do_one_initcall from kernel_init_freeable+0x2ac/0x308
-> 	 kernel_init_freeable from kernel_init+0x1c/0x138
-> 	 kernel_init from ret_from_fork+0x14/0x2c
-> 	Exception stack(0xe0815fb0 to 0xe0815ff8)
-> 	5fa0:                                     00000000 00000000 00000000 00000000
-> 	5fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-> 	5fe0: 00000000 00000000 00000000 00000000 00000013 00000000
-> 	dwc2 49000000.usb-otg: new device is high-speed
-> 
-> I didn't try understand this problem, it's too close to quitting time
-> :-)
-> 
-> Best regards
-> Uwe
-> 
-> -- 
-> Pengutronix e.K.                           | Uwe Kleine-König            |
-> Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
+> >=20
+> > Best regards
+> > Uwe
+> >=20
+> > --=20
+> > Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig     =
+       |
+> > Industrial Linux Solutions                 | https://www.pengutronix.de=
+/ |
+>=20
+>=20
+>=20
 
