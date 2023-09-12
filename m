@@ -1,18 +1,18 @@
-Received: from relay07.th.seeweb.it (relay07.th.seeweb.it [5.144.164.168])
+Received: from relay08.th.seeweb.it (relay08.th.seeweb.it [5.144.164.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 893921DA34
-	for <linux-sunxi@lists.linux.dev>; Tue, 12 Sep 2023 12:32:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A5B9A952
+	for <linux-sunxi@lists.linux.dev>; Tue, 12 Sep 2023 13:42:20 +0000 (UTC)
 Received: from [192.168.2.137] (bband-dyn191.178-41-225.t-com.sk [178.41.225.191])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by m-r2.th.seeweb.it (Postfix) with ESMTPSA id D33E13F5B9;
-	Tue, 12 Sep 2023 14:25:16 +0200 (CEST)
+	by m-r2.th.seeweb.it (Postfix) with ESMTPSA id B79083E8D0;
+	Tue, 12 Sep 2023 14:25:15 +0200 (CEST)
 From: Martin Botka <martin.botka@somainline.org>
-Date: Tue, 12 Sep 2023 14:25:13 +0200
-Subject: [PATCH v3 2/2] arm64: dts: allwinner: h616: Add SID controller
- node
+Subject: [PATCH v3 0/2] Enable Security ID for H616
+Date: Tue, 12 Sep 2023 14:25:11 +0200
+Message-Id: <20230912-sid-h616-v3-0-ee18e1c5bbb5@somainline.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -21,9 +21,10 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230912-sid-h616-v3-2-ee18e1c5bbb5@somainline.org>
-References: <20230912-sid-h616-v3-0-ee18e1c5bbb5@somainline.org>
-In-Reply-To: <20230912-sid-h616-v3-0-ee18e1c5bbb5@somainline.org>
+X-B4-Tracking: v=1; b=H4sIAKdYAGUC/22MwQ7CIBAFf6XhLIYF2hVP/ofx0BbabqJgwBBN0
+ 3+X9tREj/PyZmaWXCSX2LmaWXSZEgVfQB0q1k+tHx0nW5hJIZU4AfBElk8NNFxhh6hcbWoEVu7
+ P6AZ6b6nrrfBE6RXiZytnWNc/kQxccAt26M2gsQNzSeHRkr+Td8cQR7aWstzbemfLYgvZIGrTa
+ Y3wYy/L8gX1EPOG4wAAAA==
 To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
  Rob Herring <robh+dt@kernel.org>, 
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
@@ -36,40 +37,53 @@ Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>, 
  Martin Botka <martin.botka@somainline.org>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1694521515; l=864;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1694521515; l=1292;
  i=martin.botka@somainline.org; s=20230811; h=from:subject:message-id;
- bh=ZkRao+SoGyLWR0re//2OndxkkGjlXhC9ot4zAnROi5I=;
- b=XrAr5Dq648hOA4X5B5E+GpIsCY3dbSG7kKzZxn5+eFGBJ06i8BZkVYBTB7ZNxYw5a3l9/uoxg
- nhUy0hjKKoyBIYjT+a/XbiD8lw1Eg61oXHapvFvRFoQt4npqjPcDPA5
+ bh=Q9HjgDMsh7vGJ2uw4LwtOwmK0z2XVC6Zo5SjT4BsHUM=;
+ b=ua942KJ1WpOC/r7v5x3PKT7CECoBAIxK7bH9aQVgI6j6iQAnA+vkNJy618Vcj4aqHy6Nn4ksF
+ M/pnUOefIwYAC1veyAOVIig4fZPClIMrynj6JusyIfE63qjQmWcZeGd
 X-Developer-Key: i=martin.botka@somainline.org; a=ed25519;
  pk=aTCd3jmwU8GrJidWg3DSKLpdVMcpFzXzCSLXLR6NtWU=
 
-Add node for the H616 SID controller
+Hello,
+
+This patch series enables Security ID (SID) support for AllWinner H616.
+
+SID support is an requirement for few things:
+    - Thermal sensors
+    - CPU Binning ID (cpufreq will use this)
+    - EPhy
+
+This patch series doesn't add support for the consumers.
+Those will come in the future via their own series.
+
+Cheers,
+Martin
 
 Signed-off-by: Martin Botka <martin.botka@somainline.org>
 ---
- arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi | 7 +++++++
- 1 file changed, 7 insertions(+)
+Changes in v3:
+- bindings: Make H616 compatible fallback for a64 using items and enum
+- Link to v2: https://lore.kernel.org/r/20230814-sid-h616-v2-0-0267749b4471@somainline.org
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-index 74aed0d232a9..d549d277d972 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-@@ -133,6 +133,13 @@ ccu: clock@3001000 {
- 			#reset-cells = <1>;
- 		};
- 
-+		sid: efuse@3006000 {
-+			compatible = "allwinner,sun50i-h616-sid", "allwinner,sun50i-a64-sid";
-+			reg = <0x03006000 0x1000>;
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+		};
-+
- 		watchdog: watchdog@30090a0 {
- 			compatible = "allwinner,sun50i-h616-wdt",
- 				     "allwinner,sun6i-a31-wdt";
+Changes in v2:
+- Drop driver changes
+- Use fallback compatible in DT
+- Link to v1: https://lore.kernel.org/r/20230811-sid-h616-v1-0-d1dfc9f47b19@somainline.org
 
+---
+Martin Botka (2):
+      dt-bindings: nvmem: SID: Add binding for H616 SID controller
+      arm64: dts: allwinner: h616: Add SID controller node
+
+ .../devicetree/bindings/nvmem/allwinner,sun4i-a10-sid.yaml         | 4 +++-
+ arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi                     | 7 +++++++
+ 2 files changed, 10 insertions(+), 1 deletion(-)
+---
+base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
+change-id: 20230811-sid-h616-37b773e59571
+
+Best regards,
 -- 
-2.42.0
+Martin Botka <martin.botka@somainline.org>
 
