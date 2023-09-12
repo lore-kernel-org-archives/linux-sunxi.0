@@ -1,18 +1,18 @@
-Received: from relay02.th.seeweb.it (relay02.th.seeweb.it [5.144.164.163])
+Received: from relay07.th.seeweb.it (relay07.th.seeweb.it [5.144.164.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82111947E
-	for <linux-sunxi@lists.linux.dev>; Tue, 12 Sep 2023 11:26:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 898B51DA35
+	for <linux-sunxi@lists.linux.dev>; Tue, 12 Sep 2023 12:32:19 +0000 (UTC)
 Received: from [192.168.2.137] (bband-dyn191.178-41-225.t-com.sk [178.41.225.191])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 86826200E3;
-	Tue, 12 Sep 2023 13:20:52 +0200 (CEST)
+	by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 4EEB13F5C7;
+	Tue, 12 Sep 2023 14:25:16 +0200 (CEST)
 From: Martin Botka <martin.botka@somainline.org>
-Subject: [PATCH v6 0/4] Add BigTreeTech CB1 SoM & Boards
-Date: Tue, 12 Sep 2023 13:20:46 +0200
-Message-Id: <20230912-b4-cb1-v6-0-bb11238f3a9c@somainline.org>
+Date: Tue, 12 Sep 2023 14:25:12 +0200
+Subject: [PATCH v3 1/2] dt-bindings: nvmem: SID: Add binding for H616 SID
+ controller
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -21,101 +21,52 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAI5JAGUC/2XMQQ7CIBCF4as0sxYDFAi68h6mi0Kn7SQKDRiia
- bi72K3L/+Xl2yFjIsxw7XZIWChTDC3MqQO/jmFBRlNrkFz23ArFnGLeCaacsJYL9LNBaOct4Uz
- vA7oPrVfKr5g+h1v0b/0jimacXaToNbdmQlS3HJ8jhQcFPMe0wFBr/QIokb3qoQAAAA==
-To: Rob Herring <robh+dt@kernel.org>, 
+Message-Id: <20230912-sid-h616-v3-1-ee18e1c5bbb5@somainline.org>
+References: <20230912-sid-h616-v3-0-ee18e1c5bbb5@somainline.org>
+In-Reply-To: <20230912-sid-h616-v3-0-ee18e1c5bbb5@somainline.org>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Rob Herring <robh+dt@kernel.org>, 
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
  Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
  Jernej Skrabec <jernej.skrabec@gmail.com>, 
  Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, Andre Przywara <andre.przywara@arm.com>, 
- Alan Ma <tech@biqu3d.com>, 
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Andre Przywara <andre.przywara@arm.com>, Alan Ma <tech@biqu3d.com>, 
  AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>, 
- Martin Botka <martin@biqu3d.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- Rogerio Goncalves <rogerlz@gmail.com>, 
  Martin Botka <martin.botka@somainline.org>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1694517652; l=2428;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1694521515; l=1027;
  i=martin.botka@somainline.org; s=20230811; h=from:subject:message-id;
- bh=leaBh3diZ3MZ30XqxJNPfTE1vSCVgVS4aD8h/WWeOlw=;
- b=sup0iEiznSkWwFYCxzgrHf/xKvcZUfMeJ10xErtkR00fZVsv+BMWVENrKWTycoUracW+PA+FC
- XS+7tZSl/Y8BP0SdPGZHIsUHtak2qfNAu+UPEgztLAjsT7davAiL+28
+ bh=1jMnpDdkp6KPQZuwmTj68b4NuaIjnRfs7Don6TWW4G4=;
+ b=J8dj4lQj/lhG/fni06UPK7S8zEi/zaAQ9NYDRQTk4/C+LRz45lqwR5Z19vprDG4pnuAcvKzpM
+ S6OeysOSUBDDHoowVtyio6W7rCmuYT8qxnJosQz8asVpIGIpUww7wee
 X-Developer-Key: i=martin.botka@somainline.org; a=ed25519;
  pk=aTCd3jmwU8GrJidWg3DSKLpdVMcpFzXzCSLXLR6NtWU=
 
-Hello,
-This series adds a vendor prefix for BigTreeTech and adds BigTreeTech CB1,
-Manta board and BigTreeTech Pi.
-
-CB1 is just an SoM thats based on AllWinner H616.
-BigTreeTech Manta boards are expander boards for CB1 and BigTreeTech Pi
-is an CB1 in Rpi style with few additional things like IR receiver and fan port
-on GPIO.
-
-This work started before I was hired by BigTreeTech and thus majority of the
-patches are from SoMainline email and few are from my work email.
-
-This series depends on commit https://lkml.org/lkml/2023/8/28/1073
-and https://lkml.org/lkml/2023/8/2/801
-
-Cheers,
-Martin
+Add binding for the SID controller found in H616 SoC
 
 Signed-off-by: Martin Botka <martin.botka@somainline.org>
 ---
-Changes in v6:
-- Remove SPI node from BTT Pi (To be used via overlays)
-- Rebase on top of 6.6-rc1
+ Documentation/devicetree/bindings/nvmem/allwinner,sun4i-a10-sid.yaml | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Changes in v5:
-- Removal of wifi node comments that were obvious from properties
+diff --git a/Documentation/devicetree/bindings/nvmem/allwinner,sun4i-a10-sid.yaml b/Documentation/devicetree/bindings/nvmem/allwinner,sun4i-a10-sid.yaml
+index 296001e7f498..0928ec408170 100644
+--- a/Documentation/devicetree/bindings/nvmem/allwinner,sun4i-a10-sid.yaml
++++ b/Documentation/devicetree/bindings/nvmem/allwinner,sun4i-a10-sid.yaml
+@@ -23,7 +23,9 @@ properties:
+       - const: allwinner,sun20i-d1-sid
+       - const: allwinner,sun50i-a64-sid
+       - items:
+-          - const: allwinner,sun50i-a100-sid
++          - enum:
++              - allwinner,sun50i-a100-sid
++              - allwinner,sun50i-h616-sid
+           - const: allwinner,sun50i-a64-sid
+       - const: allwinner,sun50i-h5-sid
+       - const: allwinner,sun50i-h6-sid
 
-Changes in v4:
-- Extend the range of vcc-dram to 1.5V (Max of 1.35V caused issues with booting up)
-
-Changes in v3:
-- Add missed semicolons
-- Move model string from dtsi to board dts
-- Add cb1 compatible to manta
-- Remove extra empty lines
-- Add pinctrl for SPI0
-
-Changes in v2:
-- Fix alphabetical order in vendor prefixes
-- Remove CB1 SoM from bindings (Its not standalone)
-- Fixed whitespace errors
-- Move UART into carrier boards and BTT Pi
-- Remove usb1-vbus regulator
-- Fix ranges and naming of AXP313A rails
-- Add comment why broken-cb in mmc0 is needed
-- Rename sdio_wifi to wifi
-- Add model string to BTT Pi
-- Enable IR receiver for BTT Pi
-- Enable SPI0
-
----
-Martin Botka (4):
-      dt-bindings: vendor-prefixes: Add BigTreeTech
-      dt-bindings: arm: sunxi: Add BigTreeTech boards
-      arm64: dts: allwinner: h616: Add BigTreeTech CB1 SoM & boards support
-      arm64: dts: allwinner: h616: Add BigTreeTech Pi support
-
- Documentation/devicetree/bindings/arm/sunxi.yaml   |  11 ++
- .../devicetree/bindings/vendor-prefixes.yaml       |   2 +
- arch/arm64/boot/dts/allwinner/Makefile             |   2 +
- .../sun50i-h616-bigtreetech-cb1-manta.dts          |  35 ++++++
- .../dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi | 138 +++++++++++++++++++++
- .../dts/allwinner/sun50i-h616-bigtreetech-pi.dts   |  63 ++++++++++
- 6 files changed, 251 insertions(+)
----
-base-commit: cc19c78b3b3f1af285182dd800a3def22227f9a2
-change-id: 20230814-b4-cb1-4b18801ecf6e
-
-Best regards,
 -- 
-Martin Botka <martin.botka@somainline.org>
+2.42.0
 
