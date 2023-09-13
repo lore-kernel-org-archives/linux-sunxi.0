@@ -1,225 +1,137 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB24427711
-	for <linux-sunxi@lists.linux.dev>; Wed, 13 Sep 2023 18:32:31 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-52a39a1c4d5so64055a12.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 13 Sep 2023 11:32:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1694629947; x=1695234747; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=z+kAAaz8DPw8hDMu58WJTq8XnZOBUPzC1oE9LVRkCzk=;
-        b=aq588QSvb24fEQxPndW8l21yWHmHKNX1eSlGC06RGhsDftWOeZTbHMDU+isLuUHZbB
-         c2vJmbDVauYdwku/Nx+GjnZS0jDzDzISTcg9eGa60D2H67MQ35L62kqzzRzPCFSuSvmx
-         lk3SdePGgVdHXcDd2dlW7pf05821IJBkd8o/0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694629947; x=1695234747;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=z+kAAaz8DPw8hDMu58WJTq8XnZOBUPzC1oE9LVRkCzk=;
-        b=piGsXeyfFRBtGoLfOg1cOjY+pdZwox7V47H3NbGKdW0oJG3IZc88WZAtECaJht5Daj
-         quCV+i15A+Pzzjrbm04jjIZzA5NUWijMLytSC81/zX7hyu6pJMO3fzJOsh1QGCnwC+vx
-         RrgJLZMtb+6XjUhd+c1VQzHRgs9ejT0tvbVOcpEiH1zjOUPB8krmCO+VQa7eQERX+voH
-         uoIK1gvjQ9bNyH1KiHAj1rWvvzsnCXK1q5cwkxar4TTb9uk9mH97iYPAN0XZd43s5+6M
-         QPgnq/adkG/XKWuPk86LTLbYmrMMW2yKGMauiP6svJePpBOQXfrql2fWDfNCwwWrKDM2
-         nRXg==
-X-Gm-Message-State: AOJu0YzfDTQDSFSoTgFxjEzfBqRwQGkjCSx2YLAIxDfnaJ9GXS9sU496
-	MgctFI9udyiVbGHPV1J5jq+1dH4SJseNMV9Wdl1aw/qV
-X-Google-Smtp-Source: AGHT+IEOmaii8y1xc0izQRFHiubDwsK7OJK8ViIv4GivChOQh5VWCwy3KoSYI3OX5AKErBk+tCYybw==
-X-Received: by 2002:a05:6402:1a58:b0:52b:d169:b377 with SMTP id bf24-20020a0564021a5800b0052bd169b377mr2664068edb.6.1694629947109;
-        Wed, 13 Sep 2023 11:32:27 -0700 (PDT)
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com. [209.85.208.41])
-        by smtp.gmail.com with ESMTPSA id ek10-20020a056402370a00b0052f3471ccf6sm5909656edb.6.2023.09.13.11.32.26
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Sep 2023 11:32:26 -0700 (PDT)
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-51e24210395so2412a12.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 13 Sep 2023 11:32:26 -0700 (PDT)
-X-Received: by 2002:a05:600c:1c24:b0:401:a494:2bbb with SMTP id
- j36-20020a05600c1c2400b00401a4942bbbmr161937wms.5.1694629925852; Wed, 13 Sep
- 2023 11:32:05 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 739A1200B8
+	for <linux-sunxi@lists.linux.dev>; Wed, 13 Sep 2023 20:12:50 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qgWDi-0001jv-1g; Wed, 13 Sep 2023 22:12:18 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qgWDd-0069Er-3M; Wed, 13 Sep 2023 22:12:13 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qgWDc-001Q1d-Pi; Wed, 13 Sep 2023 22:12:12 +0200
+Date: Wed, 13 Sep 2023 22:12:12 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Jisheng Zhang <jszhang@kernel.org>
+Cc: Johannes Berg <johannes@sipsolutions.net>,
+	Paolo Abeni <pabeni@redhat.com>, kernel@pengutronix.de,
+	Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+	Eric Dumazet <edumazet@google.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+	Chen-Yu Tsai <wens@csie.org>, linux-sunxi@lists.linux.dev,
+	"David S . Miller" <davem@davemloft.net>,
+	linux-arm-kernel@lists.infradead.org,
+	Lucas Stach <l.stach@pengutronix.de>
+Subject: Re: [REGRESSION] [PATCH net-next v5 2/2] net: stmmac: use per-queue
+ 64 bit statistics where necessary
+Message-ID: <20230913201212.eiedub5rsztuwaa7@pengutronix.de>
+References: <20230717160630.1892-1-jszhang@kernel.org>
+ <20230717160630.1892-3-jszhang@kernel.org>
+ <20230911171102.cwieugrpthm7ywbm@pengutronix.de>
+ <ZQAa3277GC4c9W1D@xhacker>
+ <99695befef06b025de2c457ea5f861aa81a0883c.camel@pengutronix.de>
+ <20230912092411.pprnpvrbxwz77x6a@pengutronix.de>
+ <2fcc9fb0e40ceff8ea4ae55cca3ce0aff75a20ca.camel@sipsolutions.net>
+ <ZQHIgmcnCNoZwtwu@xhacker>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230901234015.566018-1-dianders@chromium.org>
-In-Reply-To: <20230901234015.566018-1-dianders@chromium.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 13 Sep 2023 11:31:53 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=US2G_s8_UtaRMBDLgOJqJzDzxMpg0C0wJ3TabUsuZsGg@mail.gmail.com>
-Message-ID: <CAD=FV=US2G_s8_UtaRMBDLgOJqJzDzxMpg0C0wJ3TabUsuZsGg@mail.gmail.com>
-Subject: Re: [RFT PATCH 0/6] drm: drm-misc drivers call drm_atomic_helper_shutdown()
- at the right times
-To: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>
-Cc: airlied@gmail.com, airlied@redhat.com, alain.volmat@foss.st.com, 
-	alexander.deucher@amd.com, alexandre.belloni@bootlin.com, 
-	alexandre.torgue@foss.st.com, alison.wang@nxp.com, andrew@aj.id.au, 
-	bbrezillon@kernel.org, christian.koenig@amd.com, claudiu.beznea@microchip.com, 
-	daniel@ffwll.ch, drawat.floss@gmail.com, emma@anholt.net, hdegoede@redhat.com, 
-	javierm@redhat.com, jernej.skrabec@gmail.com, jfalempe@redhat.com, 
-	joel@jms.id.au, jstultz@google.com, jyri.sarha@iki.fi, 
-	kong.kongxinwei@hisilicon.com, kraxel@redhat.com, linus.walleij@linaro.org, 
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
-	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
-	liviu.dudau@arm.com, maarten.lankhorst@linux.intel.com, 
-	mcoquelin.stm32@gmail.com, nicolas.ferre@microchip.com, 
-	paul.kocialkowski@bootlin.com, philippe.cornu@foss.st.com, 
-	raphael.gallais-pou@foss.st.com, robh@kernel.org, sam@ravnborg.org, 
-	samuel@sholland.org, spice-devel@lists.freedesktop.org, stefan@agner.ch, 
-	steven.price@arm.com, suijingfeng@loongson.cn, sumit.semwal@linaro.org, 
-	tiantao6@hisilicon.com, tomi.valkeinen@ideasonboard.com, tzimmermann@suse.de, 
-	u.kleine-koenig@pengutronix.de, virtualization@lists.linux-foundation.org, 
-	wens@csie.org, xinliang.liu@linaro.org, yannick.fertre@foss.st.com, 
-	yongqin.liu@linaro.org, zackr@vmware.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="dpbv4jds3tisu2kp"
+Content-Disposition: inline
+In-Reply-To: <ZQHIgmcnCNoZwtwu@xhacker>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+
+
+--dpbv4jds3tisu2kp
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Hello,
 
-On Fri, Sep 1, 2023 at 4:40=E2=80=AFPM Douglas Anderson <dianders@chromium.=
-org> wrote:
->
->
-> NOTE: in order to avoid email sending limits on the cover letter, I've
-> split this patch series in two. Patches that target drm-misc and ones
-> that don't. The cover letter of the two is identical other than this note=
-.
->
-> This patch series came about after a _long_ discussion between me and
-> Maxime Ripard in response to a different patch I sent out [1]. As part
-> of that discussion, we realized that it would be good if DRM drivers
-> consistently called drm_atomic_helper_shutdown() properly at shutdown
-> and driver remove time as it's documented that they should do. The
-> eventual goal of this would be to enable removing some hacky code from
-> panel drivers where they had to hook into shutdown themselves because
-> the DRM driver wasn't calling them.
->
-> It turns out that quite a lot of drivers seemed to be missing
-> drm_atomic_helper_shutdown() in one or both places that it was
-> supposed to be. This patch series attempts to fix all the drivers that
-> I was able to identify.
->
-> NOTE: fixing this wasn't exactly cookie cutter. Each driver has its
-> own unique way of setting itself up and tearing itself down. Some
-> drivers also use the component model, which adds extra fun. I've made
-> my best guess at solving this and I've run a bunch of compile tests
-> (specifically, allmodconfig for amd64, arm64, and powerpc). That being
-> said, these code changes are not totally trivial and I've done zero
-> real testing on them. Making these patches was also a little mind
-> numbing and I'm certain my eyes glazed over at several points when
-> writing them. What I'm trying to say is to please double-check that I
-> didn't do anything too silly, like cast your driver's drvdata to the
-> wrong type. Even better, test these patches!
->
-> I've organized this series like this:
-> 1. One patch for all simple cases of just needing a call at shutdown
->    time for drivers that go through drm-misc.
-> 2. A separate patch for "drm/vc4", even though it goes through
->    drm-misc, since I wanted to leave an extra note for that one.
-> 3. Patches for drivers that just needed a call at shutdown time for
->    drivers that _don't_ go through drm-misc.
-> 4. Patches for the few drivers that had the call at shutdown time but
->    lacked it at remove time.
-> 5. One patch for all simple cases of needing a call at shutdown and
->    remove (or unbind) time for drivers that go through drm-misc.
-> 6. A separate patch for "drm/hisilicon/kirin", even though it goes
->    through drm-misc, since I wanted to leave an extra note for that
->    one.
-> 7. Patches for drivers that needed a call at shutdown and remove (or
->    unbind) time for drivers that _don't_ go through drm-misc.
->
-> I've labeled this patch series as RFT (request for testing) to help
-> call attention to the fact that I didn't personally test any of these
-> patches.
->
-> If you're a maintainer of one of these drivers and you think that the
-> patch for your driver looks fabulous, you've tested it, and you'd like
-> to land it right away then please do. For non-drm-misc drivers there
-> are no dependencies here. Some of the drm-misc drivers depend on the
-> first patch, AKA ("drm/atomic-helper: drm_atomic_helper_shutdown(NULL)
-> should be a noop"). I've tried to call this out but it also should be
-> obvious once you know to look for it.
->
-> I'd like to call out a few drivers that I _didn't_ fix in this series
-> and why. If any of these drivers should be fixed then please yell.
-> - DRM driers backed by usb_driver (like gud, gm12u320, udl): I didn't
-> add the call to drm_atomic_helper_shutdown() at shutdown time
-> because there's no ".shutdown" callback for them USB drivers. Given
-> that USB is hotpluggable, I'm assuming that they are robust against
-> this and the special shutdown callback isn't needed.
-> - ofdrm and simpledrm: These didn't have drm_atomic_helper_shutdown()
-> in either shutdown or remove, but I didn't add it. I think that's OK
-> since they're sorta special and not really directly controlling
-> hardware power sequencing.
-> - virtio, vkms, vmwgfx, xen: I believe these are all virtual (thus
-> they wouldn't directly drive a panel) and adding the shutdown
-> didn't look straightforward, so I skipped them.
->
-> I've let each patch in the series get CCed straight from
-> get_maintainer. That means not everyone will have received every patch
-> but everyone should be on the cover letter. I know some people dislike
-> this but when touching this many drivers there's not much
-> choice. dri-devel and lkml have been CCed and lore/lei exist, so
-> hopefully that's enough for folks. I'm happy to add people to the
-> whole series for future posts.
->
-> [1] https://lore.kernel.org/lkml/20230804140605.RFC.4.I930069a32baab6faf4=
-6d6b234f89613b5cec0f14@changeid
->
->
-> Douglas Anderson (6):
->   drm/atomic-helper: drm_atomic_helper_shutdown(NULL) should be a noop
->   drm: Call drm_atomic_helper_shutdown() at shutdown time for misc
->     drivers
->   drm/vc4: Call drm_atomic_helper_shutdown() at shutdown time
->   drm/ssd130x: Call drm_atomic_helper_shutdown() at remove time
->   drm: Call drm_atomic_helper_shutdown() at shutdown/remove time for
->     misc drivers
->   drm/hisilicon/kirin: Call drm_atomic_helper_shutdown() at
->     shutdown/unbind time
->
->  .../gpu/drm/arm/display/komeda/komeda_drv.c   |  9 +++++
->  .../gpu/drm/arm/display/komeda/komeda_kms.c   |  7 ++++
->  .../gpu/drm/arm/display/komeda/komeda_kms.h   |  1 +
->  drivers/gpu/drm/arm/hdlcd_drv.c               |  6 ++++
->  drivers/gpu/drm/arm/malidp_drv.c              |  6 ++++
->  drivers/gpu/drm/aspeed/aspeed_gfx_drv.c       |  7 ++++
->  drivers/gpu/drm/ast/ast_drv.c                 |  6 ++++
->  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c  |  6 ++++
->  drivers/gpu/drm/drm_atomic_helper.c           |  3 ++
->  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c     |  8 +++++
->  .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   |  6 ++++
->  .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c   |  9 +++++
->  drivers/gpu/drm/hyperv/hyperv_drm_drv.c       |  6 ++++
->  drivers/gpu/drm/logicvc/logicvc_drm.c         |  9 +++++
->  drivers/gpu/drm/loongson/lsdc_drv.c           |  6 ++++
->  drivers/gpu/drm/mcde/mcde_drv.c               |  9 +++++
->  drivers/gpu/drm/mgag200/mgag200_drv.c         |  8 +++++
->  drivers/gpu/drm/omapdrm/omap_drv.c            |  8 +++++
->  drivers/gpu/drm/pl111/pl111_drv.c             |  7 ++++
->  drivers/gpu/drm/qxl/qxl_drv.c                 |  7 ++++
->  drivers/gpu/drm/solomon/ssd130x.c             |  1 +
->  drivers/gpu/drm/sti/sti_drv.c                 |  7 ++++
->  drivers/gpu/drm/stm/drv.c                     |  7 ++++
->  drivers/gpu/drm/sun4i/sun4i_drv.c             |  6 ++++
->  drivers/gpu/drm/tilcdc/tilcdc_drv.c           | 11 +++++-
->  drivers/gpu/drm/tiny/bochs.c                  |  6 ++++
->  drivers/gpu/drm/tiny/cirrus.c                 |  6 ++++
->  drivers/gpu/drm/tve200/tve200_drv.c           |  7 ++++
->  drivers/gpu/drm/vboxvideo/vbox_drv.c          | 10 ++++++
->  drivers/gpu/drm/vc4/vc4_drv.c                 | 36 ++++++++++++-------
->  30 files changed, 217 insertions(+), 14 deletions(-)
+On Wed, Sep 13, 2023 at 10:34:42PM +0800, Jisheng Zhang wrote:
+> On Tue, Sep 12, 2023 at 11:30:14AM +0200, Johannes Berg wrote:
+> > On Tue, 2023-09-12 at 11:24 +0200, Uwe Kleine-K=F6nig wrote:
+> > > >=20
+> > > > The newly added "struct u64_stats_sync syncp" uses a seqlock
+> > > > internally, which is broken into multiple words on 32bit machines, =
+and
+> > > > needs to be initialized properly. You need to call u64_stats_init on
+> > > > syncp before first usage.
+> > >=20
+> > > This is done. The problematic thing is that in stmmac_open() ->
+> > > __stmmac_open() the syncp initialized before is overwritten by
+> > >=20
+> > > 	memcpy(&priv->dma_conf, dma_conf, sizeof(*dma_conf));
+>=20
+> Thank Johannes and Uwe for pointing out the issue.
+>=20
+> > >=20
+> > > Do I need to point out that this is ugly?
+> >=20
+> > I think it also leaks the (lockdep) state since it reinits the syncp
+> > (and a lot of other state) doing this. This is also called when the MTU
+> > changes.
+> >=20
+> > Also, I couldn't convince myself that it's even race-free? Even if it
+> > is, it's not really obvious, IMHO.
+> >=20
+> > So it seems to me that really this needs to be split into data that
+> > actually should be reinitialized, and data that shouldn't, or just not
+> > use memcpy() here but copy only the relevant state?
+>=20
+> Since we are in rc1, I need to fix the bug with as small changes as
+> possible. so another solution could be: replace rx/tx stats structure
+> with pointers, then setup pointers in the new allocated dma_conf with
+> the old one as current code did for dma_tx_size/dma_rx_size in
+> stmmac_setup_dma_desc():
+>=20
+> dma_conf->dma_tx_size =3D priv->dma_conf.dma_tx_size
+>=20
+> Is it acceptable?
 
-Just a heads up to keep folks in the loop: I've landed the first patch
-in the drm-misc series, AKA ("drm/atomic-helper:
-drm_atomic_helper_shutdown(NULL) should be a noop"), but I haven't
-landed any of the others yet. I'm going to give them another ~week
-just to be sure there are no objections.
+I wondered if you can just initialize the data directly in *priv, instead
+of setting up a local copy, initialize that one + copy it over?!
 
--Doug
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--dpbv4jds3tisu2kp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmUCF5sACgkQj4D7WH0S
+/k5YqAf/QoHjd1H4OMaQOFFZq5Z1GnCqzupN9tFvF4XnK2Y0RUzjcmrLVkjEZSvA
+GbuGtwdxWJr8ixqCzqbfibyZAY7i8nK6se1X4wOUikFWfsd4VVlMAvLwyvZDIeEM
+6EmLYW1jMo6O+PvxapPzIKtKkNuO51/BmZ1pLy40UKINT8txpwMrCLSvCJgGTbhr
+abaJvfJZS2Pel0QVCkYpm7dqX7pNPmLiNlDXwJwatnQrT2FmSxH1ftchDS3KE4Rl
+QSFlKi7cYMQydd8QZp3i4NzQ+xeTWL0WROSxm7p376NFUYItnDXIBmMw0MvkyL82
+XY/qJUJCraljLXTiRlSGhrHVHDMUqQ==
+=fL1E
+-----END PGP SIGNATURE-----
+
+--dpbv4jds3tisu2kp--
