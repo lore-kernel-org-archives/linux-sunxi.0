@@ -1,137 +1,167 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 739A1200B8
-	for <linux-sunxi@lists.linux.dev>; Wed, 13 Sep 2023 20:12:50 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qgWDi-0001jv-1g; Wed, 13 Sep 2023 22:12:18 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qgWDd-0069Er-3M; Wed, 13 Sep 2023 22:12:13 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qgWDc-001Q1d-Pi; Wed, 13 Sep 2023 22:12:12 +0200
-Date: Wed, 13 Sep 2023 22:12:12 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Jisheng Zhang <jszhang@kernel.org>
-Cc: Johannes Berg <johannes@sipsolutions.net>,
-	Paolo Abeni <pabeni@redhat.com>, kernel@pengutronix.de,
-	Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
-	Eric Dumazet <edumazet@google.com>,
-	Jose Abreu <joabreu@synopsys.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-	Chen-Yu Tsai <wens@csie.org>, linux-sunxi@lists.linux.dev,
-	"David S . Miller" <davem@davemloft.net>,
-	linux-arm-kernel@lists.infradead.org,
-	Lucas Stach <l.stach@pengutronix.de>
-Subject: Re: [REGRESSION] [PATCH net-next v5 2/2] net: stmmac: use per-queue
- 64 bit statistics where necessary
-Message-ID: <20230913201212.eiedub5rsztuwaa7@pengutronix.de>
-References: <20230717160630.1892-1-jszhang@kernel.org>
- <20230717160630.1892-3-jszhang@kernel.org>
- <20230911171102.cwieugrpthm7ywbm@pengutronix.de>
- <ZQAa3277GC4c9W1D@xhacker>
- <99695befef06b025de2c457ea5f861aa81a0883c.camel@pengutronix.de>
- <20230912092411.pprnpvrbxwz77x6a@pengutronix.de>
- <2fcc9fb0e40ceff8ea4ae55cca3ce0aff75a20ca.camel@sipsolutions.net>
- <ZQHIgmcnCNoZwtwu@xhacker>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A4D71DA42;
+	Wed, 13 Sep 2023 20:20:24 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9776D1FB;
+	Wed, 13 Sep 2023 13:21:00 -0700 (PDT)
+Received: from [10.57.93.239] (unknown [10.57.93.239])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E20A63F738;
+	Wed, 13 Sep 2023 13:20:21 -0700 (PDT)
+Message-ID: <157d5041-96ac-6bad-9137-19a78fbf3591@arm.com>
+Date: Wed, 13 Sep 2023 21:20:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="dpbv4jds3tisu2kp"
-Content-Disposition: inline
-In-Reply-To: <ZQHIgmcnCNoZwtwu@xhacker>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH] iommu/sun50i: Convert to map_pages/unmap_pages
+Content-Language: en-GB
+To: Jernej Skrabec <jernej.skrabec@gmail.com>, joro@8bytes.org,
+ will@kernel.org
+Cc: wens@csie.org, samuel@sholland.org, iommu@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20230912181941.2971036-1-jernej.skrabec@gmail.com>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20230912181941.2971036-1-jernej.skrabec@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 2023-09-12 19:19, Jernej Skrabec wrote:
+> Convert driver to use map_pages and unmap_pages. Since functions operate
+> on page table, extend them to be able to operate on whole table, not
+> just one entry.
+> 
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+> Hi!
+> 
+> I'm not sure if it makes sense to check validity of page table entry when
+> unmaping pages makes sense. What do you think?
 
---dpbv4jds3tisu2kp
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+As things currently stand it's largely a matter of opinion - some 
+drivers consider that unmapping something which hasn't been mapped is 
+nonsensical, and almost always represents the caller having gone wrong, 
+thus report it as an error; others take the view that as long as they 
+can achieve the requested end result, they're not going to think too 
+hard about how they got there. The same arguments apply to whether you'd 
+quietly replace an existing PTE or not when mapping, so I'd say the main 
+thing is to at least be self-consistent one way or the other.
 
-Hello,
+Cheers,
+Robin.
 
-On Wed, Sep 13, 2023 at 10:34:42PM +0800, Jisheng Zhang wrote:
-> On Tue, Sep 12, 2023 at 11:30:14AM +0200, Johannes Berg wrote:
-> > On Tue, 2023-09-12 at 11:24 +0200, Uwe Kleine-K=F6nig wrote:
-> > > >=20
-> > > > The newly added "struct u64_stats_sync syncp" uses a seqlock
-> > > > internally, which is broken into multiple words on 32bit machines, =
-and
-> > > > needs to be initialized properly. You need to call u64_stats_init on
-> > > > syncp before first usage.
-> > >=20
-> > > This is done. The problematic thing is that in stmmac_open() ->
-> > > __stmmac_open() the syncp initialized before is overwritten by
-> > >=20
-> > > 	memcpy(&priv->dma_conf, dma_conf, sizeof(*dma_conf));
->=20
-> Thank Johannes and Uwe for pointing out the issue.
->=20
-> > >=20
-> > > Do I need to point out that this is ugly?
-> >=20
-> > I think it also leaks the (lockdep) state since it reinits the syncp
-> > (and a lot of other state) doing this. This is also called when the MTU
-> > changes.
-> >=20
-> > Also, I couldn't convince myself that it's even race-free? Even if it
-> > is, it's not really obvious, IMHO.
-> >=20
-> > So it seems to me that really this needs to be split into data that
-> > actually should be reinitialized, and data that shouldn't, or just not
-> > use memcpy() here but copy only the relevant state?
->=20
-> Since we are in rc1, I need to fix the bug with as small changes as
-> possible. so another solution could be: replace rx/tx stats structure
-> with pointers, then setup pointers in the new allocated dma_conf with
-> the old one as current code did for dma_tx_size/dma_rx_size in
-> stmmac_setup_dma_desc():
->=20
-> dma_conf->dma_tx_size =3D priv->dma_conf.dma_tx_size
->=20
-> Is it acceptable?
-
-I wondered if you can just initialize the data directly in *priv, instead
-of setting up a local copy, initialize that one + copy it over?!
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---dpbv4jds3tisu2kp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmUCF5sACgkQj4D7WH0S
-/k5YqAf/QoHjd1H4OMaQOFFZq5Z1GnCqzupN9tFvF4XnK2Y0RUzjcmrLVkjEZSvA
-GbuGtwdxWJr8ixqCzqbfibyZAY7i8nK6se1X4wOUikFWfsd4VVlMAvLwyvZDIeEM
-6EmLYW1jMo6O+PvxapPzIKtKkNuO51/BmZ1pLy40UKINT8txpwMrCLSvCJgGTbhr
-abaJvfJZS2Pel0QVCkYpm7dqX7pNPmLiNlDXwJwatnQrT2FmSxH1ftchDS3KE4Rl
-QSFlKi7cYMQydd8QZp3i4NzQ+xeTWL0WROSxm7p376NFUYItnDXIBmMw0MvkyL82
-XY/qJUJCraljLXTiRlSGhrHVHDMUqQ==
-=fL1E
------END PGP SIGNATURE-----
-
---dpbv4jds3tisu2kp--
+> 
+> Best regards,
+> Jernej
+> 
+>   drivers/iommu/sun50i-iommu.c | 55 +++++++++++++++++++++---------------
+>   1 file changed, 33 insertions(+), 22 deletions(-)
+> 
+> diff --git a/drivers/iommu/sun50i-iommu.c b/drivers/iommu/sun50i-iommu.c
+> index 74c5cb93e900..be6102730a56 100644
+> --- a/drivers/iommu/sun50i-iommu.c
+> +++ b/drivers/iommu/sun50i-iommu.c
+> @@ -589,11 +589,12 @@ static u32 *sun50i_dte_get_page_table(struct sun50i_iommu_domain *sun50i_domain,
+>   }
+>   
+>   static int sun50i_iommu_map(struct iommu_domain *domain, unsigned long iova,
+> -			    phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
+> +			    phys_addr_t paddr, size_t pgsize, size_t pgcount,
+> +			    int prot, gfp_t gfp, size_t *mapped)
+>   {
+>   	struct sun50i_iommu_domain *sun50i_domain = to_sun50i_domain(domain);
+>   	struct sun50i_iommu *iommu = sun50i_domain->iommu;
+> -	u32 pte_index;
+> +	u32 pte_index, count, i;
+>   	u32 *page_table, *pte_addr;
+>   	int ret = 0;
+>   
+> @@ -604,45 +605,55 @@ static int sun50i_iommu_map(struct iommu_domain *domain, unsigned long iova,
+>   	}
+>   
+>   	pte_index = sun50i_iova_get_pte_index(iova);
+> -	pte_addr = &page_table[pte_index];
+> -	if (unlikely(sun50i_pte_is_page_valid(*pte_addr))) {
+> -		phys_addr_t page_phys = sun50i_pte_get_page_address(*pte_addr);
+> -		dev_err(iommu->dev,
+> -			"iova %pad already mapped to %pa cannot remap to %pa prot: %#x\n",
+> -			&iova, &page_phys, &paddr, prot);
+> -		ret = -EBUSY;
+> -		goto out;
+> +	count = min(pgcount, (size_t)NUM_PT_ENTRIES - pte_index);
+> +	for (i = 0; i < count; i++) {
+> +		pte_addr = &page_table[pte_index + i];
+> +		if (unlikely(sun50i_pte_is_page_valid(*pte_addr))) {
+> +			phys_addr_t page_phys = sun50i_pte_get_page_address(*pte_addr);
+> +
+> +			dev_err(iommu->dev,
+> +				"iova %pad already mapped to %pa cannot remap to %pa prot: %#x\n",
+> +				&iova, &page_phys, &paddr, prot);
+> +			ret = -EBUSY;
+> +			goto out;
+> +		}
+> +		*pte_addr = sun50i_mk_pte(paddr, prot);
+> +		paddr += SPAGE_SIZE;
+>   	}
+>   
+> -	*pte_addr = sun50i_mk_pte(paddr, prot);
+> -	sun50i_table_flush(sun50i_domain, pte_addr, 1);
+> +	sun50i_table_flush(sun50i_domain, &page_table[pte_index], i);
+> +	*mapped = i * SPAGE_SIZE;
+>   
+>   out:
+>   	return ret;
+>   }
+>   
+>   static size_t sun50i_iommu_unmap(struct iommu_domain *domain, unsigned long iova,
+> -				 size_t size, struct iommu_iotlb_gather *gather)
+> +				 size_t pgsize, size_t pgcount,
+> +				 struct iommu_iotlb_gather *gather)
+>   {
+>   	struct sun50i_iommu_domain *sun50i_domain = to_sun50i_domain(domain);
+> +	u32 dte, count, i, pte_index;
+>   	phys_addr_t pt_phys;
+>   	u32 *pte_addr;
+> -	u32 dte;
+>   
+>   	dte = sun50i_domain->dt[sun50i_iova_get_dte_index(iova)];
+>   	if (!sun50i_dte_is_pt_valid(dte))
+>   		return 0;
+>   
+>   	pt_phys = sun50i_dte_get_pt_address(dte);
+> -	pte_addr = (u32 *)phys_to_virt(pt_phys) + sun50i_iova_get_pte_index(iova);
+> +	pte_index = sun50i_iova_get_pte_index(iova);
+> +	pte_addr = (u32 *)phys_to_virt(pt_phys) + pte_index;
+>   
+> -	if (!sun50i_pte_is_page_valid(*pte_addr))
+> -		return 0;
+> +	count = min(pgcount, (size_t)NUM_PT_ENTRIES - pte_index);
+> +	for (i = 0; i < count; i++)
+> +		if (!sun50i_pte_is_page_valid(pte_addr[i]))
+> +			break;
+>   
+> -	memset(pte_addr, 0, sizeof(*pte_addr));
+> -	sun50i_table_flush(sun50i_domain, pte_addr, 1);
+> +	memset(pte_addr, 0, sizeof(*pte_addr) * i);
+> +	sun50i_table_flush(sun50i_domain, pte_addr, i);
+>   
+> -	return SZ_4K;
+> +	return i * SPAGE_SIZE;
+>   }
+>   
+>   static phys_addr_t sun50i_iommu_iova_to_phys(struct iommu_domain *domain,
+> @@ -838,8 +849,8 @@ static const struct iommu_ops sun50i_iommu_ops = {
+>   		.iotlb_sync_map = sun50i_iommu_iotlb_sync_map,
+>   		.iotlb_sync	= sun50i_iommu_iotlb_sync,
+>   		.iova_to_phys	= sun50i_iommu_iova_to_phys,
+> -		.map		= sun50i_iommu_map,
+> -		.unmap		= sun50i_iommu_unmap,
+> +		.map_pages	= sun50i_iommu_map,
+> +		.unmap_pages	= sun50i_iommu_unmap,
+>   		.free		= sun50i_iommu_domain_free,
+>   	}
+>   };
