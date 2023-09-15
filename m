@@ -1,68 +1,84 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E1D2101FC
-	for <linux-sunxi@lists.linux.dev>; Fri, 15 Sep 2023 12:33:45 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-401ec23be82so21713965e9.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 15 Sep 2023 05:33:45 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D05DA10954
+	for <linux-sunxi@lists.linux.dev>; Fri, 15 Sep 2023 13:14:46 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1c3f97f2239so18266475ad.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 15 Sep 2023 06:14:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694781224; x=1695386024; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RUflmh4qQ8B/WFQpBNSKOdW/4uwxczL/Xulw2wdH1lQ=;
-        b=CzZyP+oZQoMJx5eh0/WfQkiQBUXUoykE1GLWRwzhD9cWAZIHceWGkL/gT5g8FEup+b
-         q8PVCDhByaxrLOiXA/u3S4sAOtN5gu8vQkrbFG2PnNSY6kiPw77Lxx25FuEqeSyPB8uu
-         5q4RZI+d2q2gh9cGFjgN9ZV5Xe0A8jhwyIgp2JtJxjMJI5Ge2XKGL+cOLgf1QyAIm2Di
-         fF54BrKFHj29tC0wAmqQq9yTEQLjXNe1HMyGEeXAjiGjSuWty4VXXndQI+qYdTo04kMv
-         AK4Q6UEB4nqyrCfv3P0jdBJKsECuJmoSQIr5FulGG6qRMlgDL2ZMF0gkzBGEfSp0X82w
-         hMxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694781224; x=1695386024;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1694783686; x=1695388486; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RUflmh4qQ8B/WFQpBNSKOdW/4uwxczL/Xulw2wdH1lQ=;
-        b=ntL3hhv9g9hWUjwg4c0FCX17GNf75I4OEWqofPjDqkmUsSjx5zEvg7S9Peh6UeK3CJ
-         vWr9YMj8H7fGZ7moJkBmMcdQJaL+yzLVCyi0M3Dd8hQ8bwz1x4oCJV0agBLVnKuvZBOO
-         tMguaQWi8gZbGciPcOBjCyZfh/IDyuPTiTAqYuMY/DrPvGNEqsb4nusWdUod7RL4aLZO
-         I9YVViKe9DBSJn+ERj351jlxn9+5XkS43HhUoxQPKXEgo1XptOS3qXAzDU5jOsWJw5Up
-         +0nLfNSl6Fwh9j149MN7WiICM7xAbUr+YtcBZf0y4MPI5VLWNg80ot+8dIW8Gn1BRp9u
-         vfew==
-X-Gm-Message-State: AOJu0Yx4kZfxDvhMbZs4wbNQG7rMeoPD/WNf0pFFw4lTnWfmiumMMPxL
-	ITPJNt9BFIPVe/Vwoql7U4qHlg==
-X-Google-Smtp-Source: AGHT+IEXJxeuznECg/KVhjt1QvjvR2Tw2XeeiZ/7QRi2IaCLCcMSwSMos+je8/bQAc+71y5qesI2Uw==
-X-Received: by 2002:a05:600c:364f:b0:400:2dc5:2006 with SMTP id y15-20020a05600c364f00b004002dc52006mr1448236wmq.36.1694781223461;
-        Fri, 15 Sep 2023 05:33:43 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id x13-20020a1c7c0d000000b003fc0505be19sm4491795wmc.37.2023.09.15.05.33.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Sep 2023 05:33:43 -0700 (PDT)
-Date: Fri, 15 Sep 2023 15:33:40 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Ma Ke <make_ruc2021@163.com>
-Cc: mripard@kernel.org, paul.kocialkowski@bootlin.com, mchehab@kernel.org,
-	gregkh@linuxfoundation.org, wens@csie.org, jernej.skrabec@gmail.com,
-	samuel@sholland.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] media: cedrus: fix use after free bug in cedrus_remove
- due to race condition
-Message-ID: <6ccc8fb2-4bd9-4df5-afe2-17868c4023f6@kadam.mountain>
-References: <20230915114038.3407953-1-make_ruc2021@163.com>
+        bh=YeXQAgEvCG5lWU7YEjnooq5zm07TURELH4onh5xtUHg=;
+        b=JE6Ngh2GVJjn4kteJbUcqqHtCWTAx1eRuenMDoCYCFgWAozWwL2fXI9PTB7u8I+qjx
+         K2KEuKDVvojq1JOAMXwjSesiYRtHIkH8OMN5kCT/Sm2awVYUS6SEDsVAKw7VxXUyVq9A
+         hAZN101OaOOoa/gnirONz+YKDtXmZmH/q8+fyn+hiCymD19vmSwmpWsP2/XR6Un2S1iL
+         RSGzelcni6a9+JGIXGnAVFD5yd/D2fxgWBnUUxUhbLOUjShkq/j6Jttz/FB7Ylqe8eOh
+         xaXzbUb2acgPnc+ztRI5HSGIdg8MkcLAJm23ZH5j7fQY5/StYKN4ePrxvSN0rHpV7vkl
+         /wSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694783686; x=1695388486;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YeXQAgEvCG5lWU7YEjnooq5zm07TURELH4onh5xtUHg=;
+        b=bbtcE6tIv1UXzm0z3zVe+iYgyz7YvLmwiPMz9QBXllqhFkIb57/CUWOg7bwoByWGLc
+         jKewrNKZvWjzRudYeUgB7pH+GNexdxXW7gqxeIBWwIRrBVQiqwGER+v7E1fTYdWjOyJz
+         k31PD/KI9qyFrQH5oZSm2o6LDn0DFI1j5Kdn0ux9O8c3aLDNUDwokrUVZg2+sOjIBJmp
+         LCvC08p1xofElvKoU4oHksYKpQ7aPg5bFaLZg+IYavRZds1864/sACnu7ERfw/4PSc3F
+         Bkh/BSQXjWr+kJJknSmU0h/4Rb5UgiDwlGWmdl9ZYDGcokw3UlyzHIZJXaUuy60FmxJx
+         vtUQ==
+X-Gm-Message-State: AOJu0Yxq6T4tV0z7Fgkmc0rPIMoL/offKqcBM4fbyhp3ZOdZmYUXZexL
+	D4OM0f5f0w3+sF/QTCrMFoxEfkONOlPT1jhxuJM=
+X-Google-Smtp-Source: AGHT+IGwQdOfBBcGiIToYcNqwva/3tvlNZxrGwwaqB/mVbsMDwp6XECrBHtfCJ1OyOlS/idai/gsl5ynbq923kvw+3Y=
+X-Received: by 2002:a17:90b:88f:b0:271:9e59:df28 with SMTP id
+ bj15-20020a17090b088f00b002719e59df28mr1287536pjb.29.1694783686026; Fri, 15
+ Sep 2023 06:14:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230915114038.3407953-1-make_ruc2021@163.com>
+References: <20230911140959.2046340-1-longqi90@gmail.com> <f4f0ed21-1e3b-a7c5-79f8-3469c4cfc471@linaro.org>
+In-Reply-To: <f4f0ed21-1e3b-a7c5-79f8-3469c4cfc471@linaro.org>
+From: Zhang LongQi <longqi90@gmail.com>
+Date: Fri, 15 Sep 2023 21:14:34 +0800
+Message-ID: <CAC0WRTWr66kUnaTvdJXWP=hw1MmXB=5R+zqn0OgOqNqGr==BdQ@mail.gmail.com>
+Subject: Re: [PATCH] fixes the pin settings of two LEDs on board nanopi neo plus2
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, 
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, 
+	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>, 
+	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>, open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-No, the code is okay.  The works is created in probe() and canceled in
-remove().  You've added a new cancel in release() which is the wrong
-place.  probe() pairs with remove().  open() pairs with release().
+Thanks Krzysztof, I will modify and submit.
 
-regards,
-dan carpenter
+sorry for the previous email which is the html format.
 
+
+On Mon, Sep 11, 2023 at 10:42=E2=80=AFPM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> On 11/09/2023 16:09, longqi wrote:
+> > Signed-off-by: longqi <longqi90@gmail.com>
+>
+> Thank you for your patch. There is something to discuss/improve.
+>
+> Please use subject prefixes matching the subsystem. You can get them for
+> example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
+> your patch is touching.
+>
+> Your commit msg is missing. Please describe the bug or the problem thus
+> it will be obvious why this change is needed.
+>
+>
+> Best regards,
+> Krzysztof
+>
