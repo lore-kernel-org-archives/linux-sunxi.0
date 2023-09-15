@@ -1,160 +1,128 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A985010949
-	for <linux-sunxi@lists.linux.dev>; Fri, 15 Sep 2023 14:02:52 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
-	by gateway (Coremail) with SMTP id _____8BxnusKZARlRH4oAA--.10154S3;
-	Fri, 15 Sep 2023 22:02:50 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8Cxvdz9YwRl_WEHAA--.14359S3;
-	Fri, 15 Sep 2023 22:02:48 +0800 (CST)
-Message-ID: <743e062e-17e8-dec0-30ba-c7682ea3109e@loongson.cn>
-Date: Fri, 15 Sep 2023 22:02:36 +0800
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 625811B26D
+	for <linux-sunxi@lists.linux.dev>; Fri, 15 Sep 2023 20:13:03 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1c3d8fb23d9so21639095ad.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 15 Sep 2023 13:13:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1694808783; x=1695413583; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2M49lx0SrOSxw3SwYD5z4lDni11acdMA1KrbMre3cHA=;
+        b=SL6ylMHw7EmXHBjZDNnToIVCFHBt0B4NBfkgU0F2t/OEUI47NahHFjAK3DjiKLmfiV
+         8KrdLz9qHMNmfVQuMSYL2AMAfUAZ/QjUvS1uWW+Ul/viSwaTmchUPix2G9cPm6WxDMdw
+         hCGNhQlyt8JEQKBoPjyLhds22ZLCOOJ3iNJK4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694808783; x=1695413583;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2M49lx0SrOSxw3SwYD5z4lDni11acdMA1KrbMre3cHA=;
+        b=Va54v0Q5OhAD+CptyJ0HcnvEZn4woa5oWB5+w6vQ7qshzLjHdTrLoaM/8nguKh2Vrs
+         1BFH62lAsT/+FlS3m5fpag/ShxK7WE50wfk/87gNb19kxqr0x9ho+vH4cRVL/YtPzYbU
+         gFxL/miV0s6h6/xbzLj5REKF/yR0AFbzop1n+MTIUczrlk15ik0ird1t3DTbQB5Sra5Q
+         kek07u6uTuVc1zCWd9Bg9ASgEWOvk1sUkPMtqxjmqrxJjNFk6wWqZV+EPdL03Ki5BfhF
+         dJo2kUxc8K6iPdgvsuuTNvb2vkkRqD3TKI3pfUOPVEixYLW8Ecl9iR0B1OPtqCDSGZHM
+         PS6g==
+X-Gm-Message-State: AOJu0Yz9djdHMNZ3wnTgXiCGFtCYdIFuBSMoIq9AF3qTdchNQug+hqWV
+	woRuGUt6Sk2BK058txlti7gqQ4gZXHY1oNj7TRs=
+X-Google-Smtp-Source: AGHT+IHmJsBEHRSFwHd9H6oVJRsl62rZFBTkjbPN1AjmLjm/eZ5VnEB4AJ5MbrK8A+rBSdegqn0n2A==
+X-Received: by 2002:a17:902:db08:b0:1be:1fc:8ce0 with SMTP id m8-20020a170902db0800b001be01fc8ce0mr3734260plx.12.1694808782967;
+        Fri, 15 Sep 2023 13:13:02 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id iy13-20020a170903130d00b001bdd512df9csm218663plb.74.2023.09.15.13.13.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Sep 2023 13:13:02 -0700 (PDT)
+From: Kees Cook <keescook@chromium.org>
+To: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: Kees Cook <keescook@chromium.org>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Manuel Dipolt <mdipolt@robart.cc>,
+	linux-mtd@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Tom Rix <trix@redhat.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Rob Herring <robh@kernel.org>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Yangtao Li <frank.li@vivo.com>,
+	Li Zetao <lizetao1@huawei.com>,
+	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH] mtd: rawnand: sunxi: Annotate struct sunxi_nand_chip with __counted_by
+Date: Fri, 15 Sep 2023 13:13:01 -0700
+Message-Id: <20230915201300.never.057-kees@kernel.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [RFT PATCH 2/6] drm: Call drm_atomic_helper_shutdown() at
- shutdown time for misc drivers
-Content-Language: en-US
-To: Doug Anderson <dianders@chromium.org>
-Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
- airlied@gmail.com, airlied@redhat.com, alain.volmat@foss.st.com,
- alexander.deucher@amd.com, alexandre.belloni@bootlin.com,
- alison.wang@nxp.com, bbrezillon@kernel.org, christian.koenig@amd.com,
- claudiu.beznea@microchip.com, daniel@ffwll.ch, drawat.floss@gmail.com,
- javierm@redhat.com, jernej.skrabec@gmail.com, jfalempe@redhat.com,
- jstultz@google.com, kong.kongxinwei@hisilicon.com, kraxel@redhat.com,
- linus.walleij@linaro.org, linux-arm-kernel@lists.infradead.org,
- linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev, liviu.dudau@arm.com,
- nicolas.ferre@microchip.com, paul.kocialkowski@bootlin.com,
- sam@ravnborg.org, samuel@sholland.org, spice-devel@lists.freedesktop.org,
- stefan@agner.ch, sumit.semwal@linaro.org, tiantao6@hisilicon.com,
- tomi.valkeinen@ideasonboard.com, tzimmermann@suse.de,
- virtualization@lists.linux-foundation.org, wens@csie.org,
- xinliang.liu@linaro.org, yongqin.liu@linaro.org, zackr@vmware.com
-References: <20230901234015.566018-1-dianders@chromium.org>
- <20230901163944.RFT.2.I9115e5d094a43e687978b0699cc1fe9f2a3452ea@changeid>
- <e7d855b6-327e-8c0c-5913-75bba9b6cfcd@loongson.cn>
- <CAD=FV=XF65otS2S+6sg6qga6Le3xb1f5GC6R6qpf27zx49DQ6w@mail.gmail.com>
-From: suijingfeng <suijingfeng@loongson.cn>
-In-Reply-To: <CAD=FV=XF65otS2S+6sg6qga6Le3xb1f5GC6R6qpf27zx49DQ6w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1533; i=keescook@chromium.org;
+ h=from:subject:message-id; bh=9LgHW2ESmAWnpC8VkPKIjSNhD9+xewvO1BU6xLYCYys=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBlBLrN7bH2fSvx7Pk5xVsFyM9ZP63U7SCER0Gx/
+ 1a7bYV9DdCJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZQS6zQAKCRCJcvTf3G3A
+ JjKID/9gXg8w66qZfCGmvAX8Ub+SGXwCmA3YOfUDES+znbHz9/CripNvDDfLLhe5EVL5h3kJO6m
+ 35FkrSXVpHWljoV3QAOyH34CLD+X7WoBY2hQCne3oLauVtJFKYHDi+1xiM60MUD1cJm+7bbrPJR
+ Ywyhs6nkYn/yLxhuQB0Fg1lA7qfOoQSt/ZGI/pRPV9ehSOb6n0owmVEYm1v+VZjAxzACRWjjEzJ
+ +MmwR6qVCBlwlOD/h9f+V0KeODYE1O4HuqtBZSp8eTEEP1kjtc92Zh+EPRzpvDwywIzQFygFFgU
+ R5CTNEBEP+5eUFeKYDnan3QUhZzTJnNk5c9NXJ3lpIe9/q204g/M2+fpbPFY1UGEagTqKyI43tG
+ eh/NDIHf3zTaM5cZpHL++wvYoz1PzEpxmgQMhi/gkJKk8p9LixpYEHQx1WGSlvkbLs22CqHGZB0
+ +qB8wd1Rlxqkds0B9k3Nm73iul/qPyRkx82+hWrle4r77c4F0aMZyQJx1sSZXAL74oUSuZ2n14m
+ /04J/LRUq8a/BALl+3ZyJVurqFg5w7rtQEcqho0TVyRT8YEn9PvICX4HaJwQuPcfk7mY79YwlIv
+ qzUUZprHpLJZTbfjJvdTAgUje2fPni05Ab33Ntka+sBFJpOgRhy66zEWzU5ChzUyC4SK2vfYD4t
+ b0+mhO7 VDdYbzZw==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:AQAAf8Cxvdz9YwRl_WEHAA--.14359S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoWxZr4rGFWDKr43JrWxXr4DKFX_yoW5Kw4xpr
-	W5Zas0krs8JrsrArn2qr17Wa4Syw4Sy34fXrsrKr1Uurs0gFW2qF4Fqr15Cas8W397Kr42
-	yw42qwn8uFy5AacCm3ZEXasCq-sJn29KB7ZKAUJUUUjU529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUPab4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
-	xVWxJr0_GcWln4kS14v26r1q6r43M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12
-	xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q
-	6rW5McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr4
-	1lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7AKxVW8ZVWrXwCF04k20xvY0x0EwIxG
-	rwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUtVW8ZwC20s026c02F40E14
-	v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Wrv_Gr1UMIIY
-	rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Gr0_Xr1lIxAIcVC0I7IYx2IY6xkF7I0E14
-	v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWx
-	JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUShiSDU
-	UUU
 
-Hi,
+Prepare for the coming implementation by GCC and Clang of the __counted_by
+attribute. Flexible array members annotated with __counted_by can have
+their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
+(for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
+functions).
 
+As found with Coccinelle[1], add __counted_by for struct sunxi_nand_chip.
 
-On 2023/9/15 21:44, Doug Anderson wrote:
-> Hi,
->
-> On Fri, Sep 15, 2023 at 2:11 AM suijingfeng <suijingfeng@loongson.cn> wrote:
->> Hi,
->>
->>
->> On 2023/9/2 07:39, Douglas Anderson wrote:
->>> Based on grepping through the source code these drivers appear to be
->>> missing a call to drm_atomic_helper_shutdown() at system shutdown
->>> time. Among other things, this means that if a panel is in use that it
->>> won't be cleanly powered off at system shutdown time.
->>>
->>> The fact that we should call drm_atomic_helper_shutdown() in the case
->>> of OS shutdown/restart comes straight out of the kernel doc "driver
->>> instance overview" in drm_drv.c.
->>>
->>> All of the drivers in this patch were fairly straightforward to fix
->>> since they already had a call to drm_atomic_helper_shutdown() at
->>> remove/unbind time but were just lacking one at system shutdown. The
->>> only hitch is that some of these drivers use the component model to
->>> register/unregister their DRM devices. The shutdown callback is part
->>> of the original device. The typical solution here, based on how other
->>> DRM drivers do this, is to keep track of whether the device is bound
->>> based on drvdata. In most cases the drvdata is the drm_device, so we
->>> can just make sure it is NULL when the device is not bound. In some
->>> drivers, this required minor code changes. To make things simpler,
->>> drm_atomic_helper_shutdown() has been modified to consider a NULL
->>> drm_device as a noop in the patch ("drm/atomic-helper:
->>> drm_atomic_helper_shutdown(NULL) should be a noop").
->>>
->>> Suggested-by: Maxime Ripard <mripard@kernel.org>
->>> Signed-off-by: Douglas Anderson <dianders@chromium.org>
->>> ---
->>
->> I have just tested the whole series, thanks for the patch. For drm/loongson only:
->>
->>
->> Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
->> Tested-by: Sui Jingfeng <suijingfeng@loongson.cn>
-> Thanks!
->
->
->> By the way, I add 'pr_info("lsdc_pci_shutdown\n");' into the lsdc_pci_shutdown() function,
->> And seeing that lsdc_pci_shutdown() will be called when reboot and shutdown the machine.
->> I did not witness something weird happen at present. As you have said, this is useful for
->> drm panels drivers. But for the rest(drm/hibmc, drm/ast, drm/mgag200 and drm/loongson etc)
->> drivers, you didn't mention what's the benefit for those drivers.
-> I didn't mention it because I have no idea! I presume that for
-> non-drm_panel use cases it's not a huge deal, otherwise it wouldn't
-> have been missing from so many drivers. Thus, my "one sentence" reason
-> for the non-drm_panel case is just "we should do this because the
-> documentation of the API says we should", which is already in the
-> commit message. ;-)
->
+[1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
 
-OK, this sound fine.
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: Richard Weinberger <richard@nod.at>
+Cc: Vignesh Raghavendra <vigneshr@ti.com>
+Cc: Chen-Yu Tsai <wens@csie.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Samuel Holland <samuel@sholland.org>
+Cc: Manuel Dipolt <mdipolt@robart.cc>
+Cc: linux-mtd@lists.infradead.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-sunxi@lists.linux.dev
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+ drivers/mtd/nand/raw/sunxi_nand.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> If you have a specific other benefit you'd like me to list then I'm happy to.
-
-You should think about the answer of this question yourself.
-But I will not object if you can't find one. OK. :-)
-
->
->> Probably, you can
->> mention it with at least one sentence at the next version. I also prefer to alter the
->> lsdc_pci_shutdown() function as the following pattern:
->>
->>
->> static void lsdc_pci_shutdown(struct pci_dev *pdev)
->> {
->>
->>       struct drm_device *ddev = pci_get_drvdata(pdev);
->>
->>       drm_atomic_helper_shutdown(ddev);
->> }
-> I was hoping to land this patch without spinning it unless there's a
-> good reason. How strongly do you feel about needing to change the
-> above?
-
-
-Not very strong, this version looks just fine.
-I will not object if you keep it as is.
-But I will also hear what the others reviewers say.
-Thanks for the patch.
-
->
-> -Doug
+diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sunxi_nand.c
+index 9abf38049d35..4ec17c8bce5a 100644
+--- a/drivers/mtd/nand/raw/sunxi_nand.c
++++ b/drivers/mtd/nand/raw/sunxi_nand.c
+@@ -197,7 +197,7 @@ struct sunxi_nand_chip {
+ 	u32 timing_cfg;
+ 	u32 timing_ctl;
+ 	int nsels;
+-	struct sunxi_nand_chip_sel sels[];
++	struct sunxi_nand_chip_sel sels[] __counted_by(nsels);
+ };
+ 
+ static inline struct sunxi_nand_chip *to_sunxi_nand(struct nand_chip *nand)
+-- 
+2.34.1
 
