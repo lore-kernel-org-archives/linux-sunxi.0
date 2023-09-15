@@ -1,128 +1,158 @@
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E21F06AD7
-	for <linux-sunxi@lists.linux.dev>; Fri, 15 Sep 2023 09:21:30 +0000 (UTC)
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2bcde83ce9fso30212101fa.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 15 Sep 2023 02:21:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694769689; x=1695374489; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JuZx/GEW25gG646YvVI9ekfBTZl9JZLAF7Xs48rC/qQ=;
-        b=nvqHe6jn6hGyQ42gnHxa4Kep46xP1NS3IfcWk8+8ssKVTGOmNLqdxJSvNtahvO3awH
-         ESbCZSxFiTOr+PQAlKrxhNGrpOTiTQL8tWCz4Be1ddkWld40ng2va2aaBkR7pr9muaeB
-         wGuWEC6Ba+CcHqGSJ3ylSc0B8AAPDIaFFmYV+V/hc2kI0PCehvLDrwSlOR5yUDMJa38Z
-         Ppx+Dw0o0OSuWC5o0rLEmD4cbFDj/F25WcKnopl4IE+z1zLw6cjJc65ss8JPQq4BBa0E
-         m/ELJ4Fc36OkZFRUGvVMPSXC2yw24WWN4n4B3KZ3FI/r4Af8Gj3WsOjEMlO5RkGQtHi2
-         zVSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694769689; x=1695374489;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JuZx/GEW25gG646YvVI9ekfBTZl9JZLAF7Xs48rC/qQ=;
-        b=GZmQfJRrt8nJjNtroEoJhdk75hgs41vyvdh+nvnqClp4OsZz7JU2G+rzLXGxGZwwXd
-         KKNkLmuNjUZBXgDmqQ0J2Fwq3J4pFm9aOgSmZ62uyhcxYcL80BZQVQXvSo8bTVYbaA1R
-         KJ8mRzrWBIuowyCREp/nVeTmHnhsPzIP4fJQtPXOh2YmRJ9DWLpgv91ClYXb8CIiWWXU
-         d8yTzO89ABLx91GDZaAQ6N69G/HEeO73Ir/ilr2hnTyh9Dz4wEQB/Q6ItYIMu/TxrKt6
-         XF/DuW+nwTR00MezirlNvkesjLAKi3qKCFPtlU+uZatObmh03gJQ73i+SldEiJd9K8dc
-         GREA==
-X-Gm-Message-State: AOJu0Yxs1Pbn44j6AHCAziUnmATHXWmh0HNGA0ZNwj8Q1VR3MbvMoq3V
-	71ZO/VeQhH98eE/9BrLcz8M+EA==
-X-Google-Smtp-Source: AGHT+IEVb+rybmAw/IHW2BTXH8tfpMjLEmySPO9nsUGKFLlub7WqeGnWblxKCQk1yld1rt/N2pe2jA==
-X-Received: by 2002:a2e:93c2:0:b0:2bc:da4a:4649 with SMTP id p2-20020a2e93c2000000b002bcda4a4649mr1078194ljh.22.1694769689024;
-        Fri, 15 Sep 2023 02:21:29 -0700 (PDT)
-Received: from uffe-tuxpro14.. (h-94-254-63-18.NA.cust.bahnhof.se. [94.254.63.18])
-        by smtp.gmail.com with ESMTPSA id p8-20020a2e7408000000b002b9ec22d9fasm639376ljc.29.2023.09.15.02.21.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Sep 2023 02:21:28 -0700 (PDT)
-From: Ulf Hansson <ulf.hansson@linaro.org>
-To: Arnd Bergmann <arnd@arndb.de>,
-	Olof Johansson <olof@lixom.net>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>,
-	linux-pm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH v2 14/17] pmdomain: sunxi: Move Kconfig option to the pmdomain subsystem
-Date: Fri, 15 Sep 2023 11:20:00 +0200
-Message-Id: <20230915092003.658361-15-ulf.hansson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230915092003.658361-1-ulf.hansson@linaro.org>
-References: <20230915092003.658361-1-ulf.hansson@linaro.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AE6B63A5;
+	Fri, 15 Sep 2023 10:18:53 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (unknown [217.70.183.197])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id 5ADCCD1B74;
+	Fri, 15 Sep 2023 10:03:38 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 3A7961C0009;
+	Fri, 15 Sep 2023 10:03:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1694772210;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0RJaHCWox609H1viPdZua6BwY1o0hPjtbEeqoNA0ha8=;
+	b=eXSkWgBNTxWofIKNGKxhYddW9tYHgH3Wp9sQ3WMOAJKvh/dFQhFZqiIDlkln+hRu83l/ue
+	97J5B3RGkyDpxjiSLAvDGt6MygKC4qp+WGv0+fesqjQlsHkGvzhhsCJt6JYggG1fzrEgb4
+	VbPT8/jPnvPUDl3wFnTc9b0D2RwZ2nZkDuW36/cyWq3Zv4p62gexn0q74ZZTExxw6N8wBN
+	VAYsOU+TxH4ZojwVepCBGTrweACm2JpVvS3Yz5lR8w+EYx0dyDB0wMY62R28RUGxHVyfxN
+	JW3JF6Ei73lBpHsMoEGL1dXP4YN6AZRkQbJwcFlXPaS6RbGfnapBe6V6yGITuQ==
+Date: Fri, 15 Sep 2023 12:03:28 +0200
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: mripard@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
+	wens@csie.org, samuel@sholland.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: cedrus: Fix clock/reset sequence
+Message-ID: <ZQQr8LdOpALMIant@aptenodytes>
+References: <20230911184612.1754373-1-jernej.skrabec@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="U/o0wQSnyl6QuOjI"
+Content-Disposition: inline
+In-Reply-To: <20230911184612.1754373-1-jernej.skrabec@gmail.com>
+X-GND-Sasl: paul.kocialkowski@bootlin.com
 
-The Kconfig option belongs closer to the corresponding implementation,
-hence let's move it from the soc subsystem to the pmdomain subsystem.
 
-Cc: Chen-Yu Tsai <wens@csie.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Samuel Holland <samuel@sholland.org>
-Cc: <linux-sunxi@lists.linux.dev>
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
----
- drivers/pmdomain/Kconfig       |  1 +
- drivers/pmdomain/sunxi/Kconfig | 10 ++++++++++
- drivers/soc/sunxi/Kconfig      |  9 ---------
- 3 files changed, 11 insertions(+), 9 deletions(-)
- create mode 100644 drivers/pmdomain/sunxi/Kconfig
+--U/o0wQSnyl6QuOjI
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/pmdomain/Kconfig b/drivers/pmdomain/Kconfig
-index 2286c36076db..10c3bc2e2444 100644
---- a/drivers/pmdomain/Kconfig
-+++ b/drivers/pmdomain/Kconfig
-@@ -13,5 +13,6 @@ source "drivers/pmdomain/rockchip/Kconfig"
- source "drivers/pmdomain/samsung/Kconfig"
- source "drivers/pmdomain/st/Kconfig"
- source "drivers/pmdomain/starfive/Kconfig"
-+source "drivers/pmdomain/sunxi/Kconfig"
- 
- endmenu
-diff --git a/drivers/pmdomain/sunxi/Kconfig b/drivers/pmdomain/sunxi/Kconfig
-new file mode 100644
-index 000000000000..17781bf8d86d
---- /dev/null
-+++ b/drivers/pmdomain/sunxi/Kconfig
-@@ -0,0 +1,10 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+config SUN20I_PPU
-+	bool "Allwinner D1 PPU power domain driver"
-+	depends on ARCH_SUNXI || COMPILE_TEST
-+	depends on PM
-+	select PM_GENERIC_DOMAINS
-+	help
-+	  Say y to enable the PPU power domain driver. This saves power
-+	  when certain peripherals, such as the video engine, are idle.
-diff --git a/drivers/soc/sunxi/Kconfig b/drivers/soc/sunxi/Kconfig
-index c5070914fc6a..8aecbc9b1976 100644
---- a/drivers/soc/sunxi/Kconfig
-+++ b/drivers/soc/sunxi/Kconfig
-@@ -19,12 +19,3 @@ config SUNXI_SRAM
- 	  Say y here to enable the SRAM controller support. This
- 	  device is responsible on mapping the SRAM in the sunXi SoCs
- 	  whether to the CPU/DMA, or to the devices.
--
--config SUN20I_PPU
--	bool "Allwinner D1 PPU power domain driver"
--	depends on ARCH_SUNXI || COMPILE_TEST
--	depends on PM
--	select PM_GENERIC_DOMAINS
--	help
--	  Say y to enable the PPU power domain driver. This saves power
--	  when certain peripherals, such as the video engine, are idle.
--- 
-2.34.1
+Hi Jernej,
 
+On Mon 11 Sep 23, 20:46, Jernej Skrabec wrote:
+> According to H6 user manual, resets should always be de-asserted before
+> clocks are enabled. This is also consistent with vendor driver.
+
+You're right, thanks for the patch!
+
+Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+
+Cheers,
+
+Paul
+
+> Fixes: d5aecd289bab ("media: cedrus: Implement runtime PM")
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+>  .../staging/media/sunxi/cedrus/cedrus_hw.c    | 24 +++++++++----------
+>  1 file changed, 12 insertions(+), 12 deletions(-)
+>=20
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c b/drivers/sta=
+ging/media/sunxi/cedrus/cedrus_hw.c
+> index b696bf884cbd..32af0e96e762 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> @@ -172,12 +172,12 @@ int cedrus_hw_suspend(struct device *device)
+>  {
+>  	struct cedrus_dev *dev =3D dev_get_drvdata(device);
+> =20
+> -	reset_control_assert(dev->rstc);
+> -
+>  	clk_disable_unprepare(dev->ram_clk);
+>  	clk_disable_unprepare(dev->mod_clk);
+>  	clk_disable_unprepare(dev->ahb_clk);
+> =20
+> +	reset_control_assert(dev->rstc);
+> +
+>  	return 0;
+>  }
+> =20
+> @@ -186,11 +186,18 @@ int cedrus_hw_resume(struct device *device)
+>  	struct cedrus_dev *dev =3D dev_get_drvdata(device);
+>  	int ret;
+> =20
+> +	ret =3D reset_control_reset(dev->rstc);
+> +	if (ret) {
+> +		dev_err(dev->dev, "Failed to apply reset\n");
+> +
+> +		return ret;
+> +	}
+> +
+>  	ret =3D clk_prepare_enable(dev->ahb_clk);
+>  	if (ret) {
+>  		dev_err(dev->dev, "Failed to enable AHB clock\n");
+> =20
+> -		return ret;
+> +		goto err_rst;
+>  	}
+> =20
+>  	ret =3D clk_prepare_enable(dev->mod_clk);
+> @@ -207,21 +214,14 @@ int cedrus_hw_resume(struct device *device)
+>  		goto err_mod_clk;
+>  	}
+> =20
+> -	ret =3D reset_control_reset(dev->rstc);
+> -	if (ret) {
+> -		dev_err(dev->dev, "Failed to apply reset\n");
+> -
+> -		goto err_ram_clk;
+> -	}
+> -
+>  	return 0;
+> =20
+> -err_ram_clk:
+> -	clk_disable_unprepare(dev->ram_clk);
+>  err_mod_clk:
+>  	clk_disable_unprepare(dev->mod_clk);
+>  err_ahb_clk:
+>  	clk_disable_unprepare(dev->ahb_clk);
+> +err_rst:
+> +	reset_control_assert(dev->rstc);
+> =20
+>  	return ret;
+>  }
+> --=20
+> 2.42.0
+>=20
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--U/o0wQSnyl6QuOjI
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmUEK/AACgkQ3cLmz3+f
+v9E8hQf9GCb2ltMDDoEoNcg6RITV8kvOIFCVHC3ltcesf2VF+MAj+cVGmfAen28O
+r6UX5rQhptLslyX/0BJGnXhdek/fY+m/UpQuAvRSiML43HkSObcg0FU8hTnerJiF
+v5WXmxrKEmOUTNNRt/OSgbtyOlCm+8rHkvbh0NdHn9T+liNXm84TxCv9GISU+OEs
+8Eynlw/FOakPWImKlXBhxmhxDEs2YQYFN8f7UmjW9BDQkOFIO+kAWQX1/SwEM4ji
+tLB/kcx+vq7XG6yiLmGmfG3vabJD3BMFE9qla210IgJF6NhV+ZMfyYbGVBMm/KOo
+yvYTthou+syRnZfM3tQh519yYnXIbw==
+=bUDq
+-----END PGP SIGNATURE-----
+
+--U/o0wQSnyl6QuOjI--
