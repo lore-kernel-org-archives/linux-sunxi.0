@@ -1,124 +1,128 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C46E228FD
-	for <linux-sunxi@lists.linux.dev>; Fri, 15 Sep 2023 09:11:29 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
-	by gateway (Coremail) with SMTP id _____8Cx7+u+HwRll0koAA--.10662S3;
-	Fri, 15 Sep 2023 17:11:26 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8DxS9yvHwRlTucGAA--.13502S3;
-	Fri, 15 Sep 2023 17:11:24 +0800 (CST)
-Message-ID: <e7d855b6-327e-8c0c-5913-75bba9b6cfcd@loongson.cn>
-Date: Fri, 15 Sep 2023 17:11:11 +0800
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E21F06AD7
+	for <linux-sunxi@lists.linux.dev>; Fri, 15 Sep 2023 09:21:30 +0000 (UTC)
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2bcde83ce9fso30212101fa.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 15 Sep 2023 02:21:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1694769689; x=1695374489; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JuZx/GEW25gG646YvVI9ekfBTZl9JZLAF7Xs48rC/qQ=;
+        b=nvqHe6jn6hGyQ42gnHxa4Kep46xP1NS3IfcWk8+8ssKVTGOmNLqdxJSvNtahvO3awH
+         ESbCZSxFiTOr+PQAlKrxhNGrpOTiTQL8tWCz4Be1ddkWld40ng2va2aaBkR7pr9muaeB
+         wGuWEC6Ba+CcHqGSJ3ylSc0B8AAPDIaFFmYV+V/hc2kI0PCehvLDrwSlOR5yUDMJa38Z
+         Ppx+Dw0o0OSuWC5o0rLEmD4cbFDj/F25WcKnopl4IE+z1zLw6cjJc65ss8JPQq4BBa0E
+         m/ELJ4Fc36OkZFRUGvVMPSXC2yw24WWN4n4B3KZ3FI/r4Af8Gj3WsOjEMlO5RkGQtHi2
+         zVSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694769689; x=1695374489;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JuZx/GEW25gG646YvVI9ekfBTZl9JZLAF7Xs48rC/qQ=;
+        b=GZmQfJRrt8nJjNtroEoJhdk75hgs41vyvdh+nvnqClp4OsZz7JU2G+rzLXGxGZwwXd
+         KKNkLmuNjUZBXgDmqQ0J2Fwq3J4pFm9aOgSmZ62uyhcxYcL80BZQVQXvSo8bTVYbaA1R
+         KJ8mRzrWBIuowyCREp/nVeTmHnhsPzIP4fJQtPXOh2YmRJ9DWLpgv91ClYXb8CIiWWXU
+         d8yTzO89ABLx91GDZaAQ6N69G/HEeO73Ir/ilr2hnTyh9Dz4wEQB/Q6ItYIMu/TxrKt6
+         XF/DuW+nwTR00MezirlNvkesjLAKi3qKCFPtlU+uZatObmh03gJQ73i+SldEiJd9K8dc
+         GREA==
+X-Gm-Message-State: AOJu0Yxs1Pbn44j6AHCAziUnmATHXWmh0HNGA0ZNwj8Q1VR3MbvMoq3V
+	71ZO/VeQhH98eE/9BrLcz8M+EA==
+X-Google-Smtp-Source: AGHT+IEVb+rybmAw/IHW2BTXH8tfpMjLEmySPO9nsUGKFLlub7WqeGnWblxKCQk1yld1rt/N2pe2jA==
+X-Received: by 2002:a2e:93c2:0:b0:2bc:da4a:4649 with SMTP id p2-20020a2e93c2000000b002bcda4a4649mr1078194ljh.22.1694769689024;
+        Fri, 15 Sep 2023 02:21:29 -0700 (PDT)
+Received: from uffe-tuxpro14.. (h-94-254-63-18.NA.cust.bahnhof.se. [94.254.63.18])
+        by smtp.gmail.com with ESMTPSA id p8-20020a2e7408000000b002b9ec22d9fasm639376ljc.29.2023.09.15.02.21.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Sep 2023 02:21:28 -0700 (PDT)
+From: Ulf Hansson <ulf.hansson@linaro.org>
+To: Arnd Bergmann <arnd@arndb.de>,
+	Olof Johansson <olof@lixom.net>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>,
+	linux-pm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH v2 14/17] pmdomain: sunxi: Move Kconfig option to the pmdomain subsystem
+Date: Fri, 15 Sep 2023 11:20:00 +0200
+Message-Id: <20230915092003.658361-15-ulf.hansson@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230915092003.658361-1-ulf.hansson@linaro.org>
+References: <20230915092003.658361-1-ulf.hansson@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [RFT PATCH 2/6] drm: Call drm_atomic_helper_shutdown() at
- shutdown time for misc drivers
-To: Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>
-Cc: airlied@gmail.com, airlied@redhat.com, alain.volmat@foss.st.com,
- alexander.deucher@amd.com, alexandre.belloni@bootlin.com,
- alison.wang@nxp.com, bbrezillon@kernel.org, christian.koenig@amd.com,
- claudiu.beznea@microchip.com, daniel@ffwll.ch, drawat.floss@gmail.com,
- javierm@redhat.com, jernej.skrabec@gmail.com, jfalempe@redhat.com,
- jstultz@google.com, kong.kongxinwei@hisilicon.com, kraxel@redhat.com,
- linus.walleij@linaro.org, linux-arm-kernel@lists.infradead.org,
- linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev, liviu.dudau@arm.com,
- nicolas.ferre@microchip.com, paul.kocialkowski@bootlin.com,
- sam@ravnborg.org, samuel@sholland.org, spice-devel@lists.freedesktop.org,
- stefan@agner.ch, sumit.semwal@linaro.org, tiantao6@hisilicon.com,
- tomi.valkeinen@ideasonboard.com, tzimmermann@suse.de,
- virtualization@lists.linux-foundation.org, wens@csie.org,
- xinliang.liu@linaro.org, yongqin.liu@linaro.org, zackr@vmware.com
-References: <20230901234015.566018-1-dianders@chromium.org>
- <20230901163944.RFT.2.I9115e5d094a43e687978b0699cc1fe9f2a3452ea@changeid>
-Content-Language: en-US
-From: suijingfeng <suijingfeng@loongson.cn>
-In-Reply-To: <20230901163944.RFT.2.I9115e5d094a43e687978b0699cc1fe9f2a3452ea@changeid>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:AQAAf8DxS9yvHwRlTucGAA--.13502S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoW7Ar1kJFWfKr4kCrWDAFy3WrX_yoW5JF45pr
-	WfZ3s0yrs0qrsrtwn3Jw17Wa4fta1fA34aqrsrKw4ruws8GFWIqF4Fqr1Ygw4UW3yvgr47
-	tw4avw15C3W5A3XCm3ZEXasCq-sJn29KB7ZKAUJUUUU_529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUPSb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
-	xVW8Jr0_Cr1UM2kKe7AKxVWUtVW8ZwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
-	AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
-	tVWrXwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI4
-	8JMxk0xIA0c2IEe2xFo4CEbIxvr21lc7CjxVAaw2AFwI0_GFv_Wryl42xK82IYc2Ij64vI
-	r41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_Jw0_GFylx2IqxVAqx4xG67
-	AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26rWY6r4UJwCI
-	c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY1x0267
-	AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_
-	Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IUeIeH3
-	UUUUU==
 
-Hi,
+The Kconfig option belongs closer to the corresponding implementation,
+hence let's move it from the soc subsystem to the pmdomain subsystem.
 
+Cc: Chen-Yu Tsai <wens@csie.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Samuel Holland <samuel@sholland.org>
+Cc: <linux-sunxi@lists.linux.dev>
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
+---
+ drivers/pmdomain/Kconfig       |  1 +
+ drivers/pmdomain/sunxi/Kconfig | 10 ++++++++++
+ drivers/soc/sunxi/Kconfig      |  9 ---------
+ 3 files changed, 11 insertions(+), 9 deletions(-)
+ create mode 100644 drivers/pmdomain/sunxi/Kconfig
 
-On 2023/9/2 07:39, Douglas Anderson wrote:
-> Based on grepping through the source code these drivers appear to be
-> missing a call to drm_atomic_helper_shutdown() at system shutdown
-> time. Among other things, this means that if a panel is in use that it
-> won't be cleanly powered off at system shutdown time.
->
-> The fact that we should call drm_atomic_helper_shutdown() in the case
-> of OS shutdown/restart comes straight out of the kernel doc "driver
-> instance overview" in drm_drv.c.
->
-> All of the drivers in this patch were fairly straightforward to fix
-> since they already had a call to drm_atomic_helper_shutdown() at
-> remove/unbind time but were just lacking one at system shutdown. The
-> only hitch is that some of these drivers use the component model to
-> register/unregister their DRM devices. The shutdown callback is part
-> of the original device. The typical solution here, based on how other
-> DRM drivers do this, is to keep track of whether the device is bound
-> based on drvdata. In most cases the drvdata is the drm_device, so we
-> can just make sure it is NULL when the device is not bound. In some
-> drivers, this required minor code changes. To make things simpler,
-> drm_atomic_helper_shutdown() has been modified to consider a NULL
-> drm_device as a noop in the patch ("drm/atomic-helper:
-> drm_atomic_helper_shutdown(NULL) should be a noop").
->
-> Suggested-by: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> ---
-
-
-I have just tested the whole series, thanks for the patch. For drm/loongson only:
-
-
-Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
-Tested-by: Sui Jingfeng <suijingfeng@loongson.cn>
-
-
-
-By the way, I add 'pr_info("lsdc_pci_shutdown\n");' into the lsdc_pci_shutdown() function,
-And seeing that lsdc_pci_shutdown() will be called when reboot and shutdown the machine.
-I did not witness something weird happen at present. As you have said, this is useful for
-drm panels drivers. But for the rest(drm/hibmc, drm/ast, drm/mgag200 and drm/loongson etc)
-drivers, you didn't mention what's the benefit for those drivers. Probably, you can
-mention it with at least one sentence at the next version. I also prefer to alter the
-lsdc_pci_shutdown() function as the following pattern:
-
-
-static void lsdc_pci_shutdown(struct pci_dev *pdev)
-{
-
-     struct drm_device *ddev = pci_get_drvdata(pdev);
-
-     drm_atomic_helper_shutdown(ddev);
-}
-
+diff --git a/drivers/pmdomain/Kconfig b/drivers/pmdomain/Kconfig
+index 2286c36076db..10c3bc2e2444 100644
+--- a/drivers/pmdomain/Kconfig
++++ b/drivers/pmdomain/Kconfig
+@@ -13,5 +13,6 @@ source "drivers/pmdomain/rockchip/Kconfig"
+ source "drivers/pmdomain/samsung/Kconfig"
+ source "drivers/pmdomain/st/Kconfig"
+ source "drivers/pmdomain/starfive/Kconfig"
++source "drivers/pmdomain/sunxi/Kconfig"
+ 
+ endmenu
+diff --git a/drivers/pmdomain/sunxi/Kconfig b/drivers/pmdomain/sunxi/Kconfig
+new file mode 100644
+index 000000000000..17781bf8d86d
+--- /dev/null
++++ b/drivers/pmdomain/sunxi/Kconfig
+@@ -0,0 +1,10 @@
++# SPDX-License-Identifier: GPL-2.0-only
++
++config SUN20I_PPU
++	bool "Allwinner D1 PPU power domain driver"
++	depends on ARCH_SUNXI || COMPILE_TEST
++	depends on PM
++	select PM_GENERIC_DOMAINS
++	help
++	  Say y to enable the PPU power domain driver. This saves power
++	  when certain peripherals, such as the video engine, are idle.
+diff --git a/drivers/soc/sunxi/Kconfig b/drivers/soc/sunxi/Kconfig
+index c5070914fc6a..8aecbc9b1976 100644
+--- a/drivers/soc/sunxi/Kconfig
++++ b/drivers/soc/sunxi/Kconfig
+@@ -19,12 +19,3 @@ config SUNXI_SRAM
+ 	  Say y here to enable the SRAM controller support. This
+ 	  device is responsible on mapping the SRAM in the sunXi SoCs
+ 	  whether to the CPU/DMA, or to the devices.
+-
+-config SUN20I_PPU
+-	bool "Allwinner D1 PPU power domain driver"
+-	depends on ARCH_SUNXI || COMPILE_TEST
+-	depends on PM
+-	select PM_GENERIC_DOMAINS
+-	help
+-	  Say y to enable the PPU power domain driver. This saves power
+-	  when certain peripherals, such as the video engine, are idle.
+-- 
+2.34.1
 
