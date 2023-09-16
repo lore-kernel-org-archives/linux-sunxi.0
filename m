@@ -1,85 +1,103 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA710111A1;
-	Sat, 16 Sep 2023 09:14:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9CCAC433C7;
-	Sat, 16 Sep 2023 09:14:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7FFA14291;
+	Sat, 16 Sep 2023 15:47:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6142C433C8;
+	Sat, 16 Sep 2023 15:47:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1694855661;
-	bh=GdGIL53lm5iv/mox0ahLK0T+iKNQXpwOmFGuHh0bLKI=;
-	h=From:To:Cc:Subject:Date:From;
-	b=MXFjs8+pBJZdHwmuPF39Dgwiac3x3AZ6Ss001Xqa4bdVx5TwxJZjc+2e08dgidLqf
-	 a1ThGwqoJ6cAu9E0MeCHJLx4YOr4hm9Z4mcrWe/AUeICdzvrfMbZbi2UcDrqEh1tJu
-	 WK2k44+EDyhxS10IwH49j77ngj+JZcI23btS3KkdtAZqkUiiUMQxMS/U0aQ0eZ9YOd
-	 k1fEulNFIvO4rcGn6pWtQ7eDvtckKZ5CJIrZVrbRcmjwKpWfQ8W4iomNjJpwNeTJuf
-	 6gRJg40669dhp8j//RhdpTdWlIC4Q/Wrs9uP6kOb5PQrs2tS15Xl/YQFaiYnQp7g/i
-	 uoD7BOXntteuw==
-From: Conor Dooley <conor@kernel.org>
-To: linux-riscv@lists.infradead.org
-Cc: conor@kernel.org,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+	s=k20201202; t=1694879263;
+	bh=9yoeSuSu4c9avKuB9jsu8jsIQJYt6cBB3MWv0m0Z7y0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Qe8Sc6HLO2iQZ9PjqYe1yCCRQ1tpnCuR3MCfNQEU9aSMLnwJM9Hhl0/bONQXIPfd5
+	 WmLJsJ/tiCNRjsOKIFJrc2i9jLeX7G5SS1WMXuDoyRed0jMGkLFprFwDmwk4uSNBo5
+	 z6ceK18Ahw1+EMw+kgrsL+y+BNFk92hEn94HOTDhhQuHSpCT7W4z6fjg14rH6BVQ86
+	 yY2MiMDmDCOpc183NEO2j4DrbMiLlKzbh1njf4KTt+Ghvfo1kClALhuvrvFFubX7Gy
+	 8BQRvSt3QIWMEg4BoyZh+DRbmRrMUX95NQa6vByR7Blu7bKb6cIEV6V/g44xjWsCfk
+	 WKOnp3JIalObg==
+Date: Sat, 16 Sep 2023 17:47:37 +0200
+From: Simon Horman <horms@kernel.org>
+To: Jisheng Zhang <jszhang@kernel.org>
+Cc: Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	devicetree@vger.kernel.org,
+	Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v1] riscv: dts: allwinner: remove address-cells from intc node
-Date: Sat, 16 Sep 2023 10:14:00 +0100
-Message-Id: <20230916-saddling-dastardly-8cf6d1263c24@spud>
-X-Mailer: git-send-email 2.39.2
+	linux-stm32@st-md-mailman.stormreply.com, johannes@sipsolutions.net,
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH] net: stmmac: fix incorrect rxq|txq_stats reference
+Message-ID: <20230916154737.GG1125562@kernel.org>
+References: <20230915005316.592-1-jszhang@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1512; i=conor.dooley@microchip.com; h=from:subject:message-id; bh=UgmedOCSd3V8sGIbZthMv9VrCmYnN+opWlLsZB5DVno=; b=owGbwMvMwCFWscWwfUFT0iXG02pJDKmshVfr/vQqXF5o7fZG0oplI5uJspPEknN7nj39fsdMy ckhYXlFRykLgxgHg6yYIkvi7b4WqfV/XHY497yFmcPKBDKEgYtTACbizMbwT8U7bukPz22JO/Yt to7Y7bVftroz1N7/sa+Obo/PthIJK4b/NVf+PvkQ5LS8NWG25eMLWp3N3x9XHX96bs379guOHle SGQA=
-X-Developer-Key: i=conor.dooley@microchip.com; a=openpgp; fpr=F9ECA03CF54F12CD01F1655722E2C55B37CF380C
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230915005316.592-1-jszhang@kernel.org>
 
-From: Conor Dooley <conor.dooley@microchip.com>
+On Fri, Sep 15, 2023 at 08:53:16AM +0800, Jisheng Zhang wrote:
+> commit 133466c3bbe1 ("net: stmmac: use per-queue 64 bit statistics
+> where necessary") caused one regression as found by Uwe, the backtrace
+> looks like:
+> 
+> INFO: trying to register non-static key.
+> The code is fine but needs lockdep annotation, or maybe
+> you didn't initialize this object before use?
+> turning off the locking correctness validator.
+> CPU: 0 PID: 1 Comm: swapper/0 Not tainted 6.5.0-rc1-00449-g133466c3bbe1-dirty #21
+> Hardware name: STM32 (Device Tree Support)
+>  unwind_backtrace from show_stack+0x18/0x1c
+>  show_stack from dump_stack_lvl+0x60/0x90
+>  dump_stack_lvl from register_lock_class+0x98c/0x99c
+>  register_lock_class from __lock_acquire+0x74/0x293c
+>  __lock_acquire from lock_acquire+0x134/0x398
+>  lock_acquire from stmmac_get_stats64+0x2ac/0x2fc
+>  stmmac_get_stats64 from dev_get_stats+0x44/0x130
+>  dev_get_stats from rtnl_fill_stats+0x38/0x120
+>  rtnl_fill_stats from rtnl_fill_ifinfo+0x834/0x17f4
+>  rtnl_fill_ifinfo from rtmsg_ifinfo_build_skb+0xc0/0x144
+>  rtmsg_ifinfo_build_skb from rtmsg_ifinfo+0x50/0x88
+>  rtmsg_ifinfo from __dev_notify_flags+0xc0/0xec
+>  __dev_notify_flags from dev_change_flags+0x50/0x5c
+>  dev_change_flags from ip_auto_config+0x2f4/0x1260
+>  ip_auto_config from do_one_initcall+0x70/0x35c
+>  do_one_initcall from kernel_init_freeable+0x2ac/0x308
+>  kernel_init_freeable from kernel_init+0x1c/0x138
+>  kernel_init from ret_from_fork+0x14/0x2c
+> 
+> The reason is the rxq|txq_stats structures are not what expected
+> because stmmac_open() -> __stmmac_open() the structure is overwritten
+> by "memcpy(&priv->dma_conf, dma_conf, sizeof(*dma_conf));"
+> This causes the well initialized syncp member of rxq|txq_stats is
+> overwritten unexpectedly as pointed out by Johannes and Uwe.
+> 
+> Fix this issue by moving rxq|txq_stats back to stmmac_extra_stats. For
+> SMP cache friendly, we also mark stmmac_txq_stats and stmmac_rxq_stats
+> as ____cacheline_aligned_in_smp.
+> 
+> Fixes: 133466c3bbe1 ("net: stmmac: use per-queue 64 bit statistics where necessary")
+> Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
+> Reported-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-A recent submission [1] from Rob has added additionalProperties: false
-to the interrupt-controller child node of RISC-V cpus, highlighting that
-the D1 DT has been incorrectly using #address-cells since its
-introduction. It has no child nodes, so #address-cells is not needed.
-Remove it.
+Hi Jisheng Zhang,
 
-Fixes: 077e5f4f5528 ("riscv: dts: allwinner: Add the D1/D1s SoC devicetree")
-Link: https://patchwork.kernel.org/project/linux-riscv/patch/20230915201946.4184468-1-robh@kernel.org/ [1]
-Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
----
-CC: Rob Herring <robh+dt@kernel.org>
-CC: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-CC: Conor Dooley <conor+dt@kernel.org>
-CC: Chen-Yu Tsai <wens@csie.org>
-CC: Jernej Skrabec <jernej.skrabec@gmail.com>
-CC: Samuel Holland <samuel@sholland.org>
-CC: devicetree@vger.kernel.org
-CC: linux-riscv@lists.infradead.org
-CC: linux-sunxi@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
----
- arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi | 1 -
- 1 file changed, 1 deletion(-)
+as a fix for Networking code this should be based targeted at the net tree.
 
-diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
-index 8275630af977..b8684312593e 100644
---- a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
-+++ b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
-@@ -30,7 +30,6 @@ cpu0: cpu@0 {
- 			cpu0_intc: interrupt-controller {
- 				compatible = "riscv,cpu-intc";
- 				interrupt-controller;
--				#address-cells = <0>;
- 				#interrupt-cells = <1>;
- 			};
- 		};
+  Subject: [PATCH net] ...
+
+Unfortunately it doesn't apply cleanly against net.
+Please consider rebasing and reposting.
+
 -- 
-2.39.2
-
+pw-bot: changes-requested
