@@ -1,141 +1,132 @@
-Received: from omta34.uswest2.a.cloudfilter.net (omta34.uswest2.a.cloudfilter.net [35.89.44.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BBAC1B275
-	for <linux-sunxi@lists.linux.dev>; Fri, 15 Sep 2023 20:49:11 +0000 (UTC)
-Received: from eig-obgw-6004a.ext.cloudfilter.net ([10.0.30.197])
-	by cmsmtp with ESMTP
-	id hFjoqAFAoOzKlhFkVqIHjo; Fri, 15 Sep 2023 20:49:11 +0000
-Received: from gator4166.hostgator.com ([108.167.133.22])
-	by cmsmtp with ESMTPS
-	id hFkUqhrY6axkBhFkUqmA3X; Fri, 15 Sep 2023 20:49:10 +0000
-X-Authority-Analysis: v=2.4 cv=BumOfKb5 c=1 sm=1 tr=0 ts=6504c346
- a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=WzbPXH4gqzPVN0x6HrNMNA==:17
- a=OWjo9vPv0XrRhIrVQ50Ab3nP57M=:19 a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19
- a=IkcTkHD0fZMA:10 a=zNV7Rl7Rt7sA:10 a=wYkD_t78qR0A:10 a=NEAV23lmAAAA:8
- a=P-IC7800AAAA:8 a=sozttTNsAAAA:8 a=zu6OG0ZhAAAA:8 a=pGLkceISAAAA:8
- a=FlkJ-zHRAAAA:8 a=JfrnYn6hAAAA:8 a=cm27Pg_UAAAA:8 a=VwQbUJbxAAAA:8
- a=6jf_rtzPGzjKtfs0wCQA:9 a=QEXdDO2ut3YA:10 a=d3PnA9EDa4IxuAV0gXij:22
- a=aeg5Gbbo78KNqacMgKqU:22 a=pAN39diAhXWuPx0-Vjn3:22 a=rcJ5IfC3ewqtVv14NVGK:22
- a=1CNFftbPRP8L7MoqJWF3:22 a=xmb-EsYY8bH0VWELuYED:22 a=AjGcO6oz07-iQ99wixmX:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=CclFJTPt/kQYr7DtGTorOj0xv3gEfRWPWq0sGa9nXxU=; b=JfYzhAMbESaXEFIgyujVndTe2G
-	bR6japwiVCeKiPhHmpOiFA161I2Os9qCf5XyhjoKFsx6xN6vkJraT/QSZnk760duUDC9J8TSNSveU
-	yyxCw5AfmC4XiILekTv91ydYFlQI9uvYbNIIynvhjQ9UoftRO1LevL6OqeMZMUp9vMksQNaGm2AdB
-	WQxjTc7MST2NriLbt7fim+9tU7AsHPFLgOUzD/JZaQF96yYPX1vPw+FlvalvrtwhF8Le4Vq4KXEq6
-	qd1K6WeAu284dVHzFyAquroAqf6RBdnfZ7hsbAxhY6lGly7Yix580DQCw7KI79PFmlIbNg+vorlvQ
-	R/xSmPcQ==;
-Received: from 187-162-21-192.static.axtel.net ([187.162.21.192]:42002 helo=[192.168.15.8])
-	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.96)
-	(envelope-from <gustavo@embeddedor.com>)
-	id 1qhFkR-002eMw-2X;
-	Fri, 15 Sep 2023 15:49:07 -0500
-Message-ID: <4f318e62-b0e1-a1d2-9850-890b93a97bb3@embeddedor.com>
-Date: Fri, 15 Sep 2023 14:50:02 -0600
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 352422573;
+	Sat, 16 Sep 2023 08:10:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AE5EC433C8;
+	Sat, 16 Sep 2023 08:10:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1694851830;
+	bh=Vn2DREJrAn8aRUxiz3WQryX63T4UuS6DU0+Ekb7wTm4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=n/BOcYygBC0G4RcSGiatuCr/r8q4kLlIb9Oibd9j78tGln5AE7VUXlKzUGv3oZoNe
+	 yZkB2iu0/WGky4eM/U3qo0reTujDlH0LCjfJd6NKB1BztVhzQc/jTLP9JhYsCVNGB5
+	 xc4hpPrN4FPCFKfdktUEMdT46R/j6pjWt9Eisaw4JQOs3thUJmzZQY3nrgKSEzYShd
+	 AGDnPuV4q97Ka6oajzo+OnYG8rEjS/kKyl1ZvnR/ff6K7djRnbTC01GhRabGmls9I2
+	 ST6JK+dDTWDbGe6jr2DkerJrghE3QC2l+ErthmzjWKTak7ZhGHgAr479NyhLAZFLR8
+	 QctLBFjj0spCQ==
+From: Jisheng Zhang <jszhang@kernel.org>
+To: Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Emil Renner Berthing <kernel@esmil.dk>,
+	Samin Guo <samin.guo@starfivetech.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+	Russell King <linux@armlinux.org.uk>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: netdev@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-amlogic@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	linux-mediatek@lists.infradead.org
+Subject: [PATCH net-next v2 00/22] convert to devm_stmmac_probe_config_dt
+Date: Sat, 16 Sep 2023 15:58:06 +0800
+Message-Id: <20230916075829.1560-1-jszhang@kernel.org>
+X-Mailer: git-send-email 2.40.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] mtd: rawnand: sunxi: Annotate struct sunxi_nand_chip with
- __counted_by
-Content-Language: en-US
-To: Kees Cook <keescook@chromium.org>,
- Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: Richard Weinberger <richard@nod.at>, Vignesh Raghavendra
- <vigneshr@ti.com>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Manuel Dipolt <mdipolt@robart.cc>,
- linux-mtd@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Tom Rix <trix@redhat.com>,
- Heiko Stuebner <heiko@sntech.de>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Rob Herring <robh@kernel.org>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Yangtao Li <frank.li@vivo.com>, Li Zetao <lizetao1@huawei.com>,
- linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
- linux-hardening@vger.kernel.org
-References: <20230915201300.never.057-kees@kernel.org>
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <20230915201300.never.057-kees@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 187.162.21.192
-X-Source-L: No
-X-Exim-ID: 1qhFkR-002eMw-2X
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 187-162-21-192.static.axtel.net ([192.168.15.8]) [187.162.21.192]:42002
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 403
-X-Org: HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfKrSQBdWqIHsUE+dcfTuTAZwvF7cyd7avyzbdwiUKIFCJGmevQdIMw+B10y3/5Z5+4qKk4UW9GOwTLkkDOCRz5cZDm/IH83v2veSbJ+FXvPfwocze+ra
- 2MXeQisshplbCREG6Wg8Hhk+JiXlcxb2bNgcrs1LdHPR4IRNPBiEZOD8nqGxw3a9o/KJfxe6qWBbG61MuALtLZAa5WoStSp9ICU6YVgoDO9UrpbPPuLKY0mO
+Content-Transfer-Encoding: 8bit
 
+Russell pointed out there's a new devm_stmmac_probe_config_dt()
+helper now when reviewing my starfive gmac error handling patch[1].
+After greping the code, this nice helper was introduced by Bartosz in
+[2], I think it's time to convert all dwmac users to this helper and
+finally complete the TODO in [2] "but once all users of the old
+stmmac_pltfr_remove() are converted to the devres helper, it will be
+renamed back to stmmac_pltfr_remove() and the no_dt function removed."
 
+Link: https://lore.kernel.org/netdev/ZOtWmedBsa6wQQ6+@shell.armlinux.org.uk/ [1]
+Link: https://lore.kernel.org/all/20230623100417.93592-1-brgl@bgdev.pl/  [2]
 
-On 9/15/23 14:13, Kees Cook wrote:
-> Prepare for the coming implementation by GCC and Clang of the __counted_by
-> attribute. Flexible array members annotated with __counted_by can have
-> their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
-> (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
-> functions).
-> 
-> As found with Coccinelle[1], add __counted_by for struct sunxi_nand_chip.
-> 
-> [1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
-> 
-> Cc: Miquel Raynal <miquel.raynal@bootlin.com>
-> Cc: Richard Weinberger <richard@nod.at>
-> Cc: Vignesh Raghavendra <vigneshr@ti.com>
-> Cc: Chen-Yu Tsai <wens@csie.org>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Samuel Holland <samuel@sholland.org>
-> Cc: Manuel Dipolt <mdipolt@robart.cc>
-> Cc: linux-mtd@lists.infradead.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-sunxi@lists.linux.dev
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+Since v1:
+ - rebase on new net-next
+ - add make stmmac_{probe|remove}_config_dt static as suggested by Russell.
 
-Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+Jisheng Zhang (23):
+  net: stmmac: dwmac-anarion: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-dwc-qos-eth: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-generic: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-generic: use devm_stmmac_pltfr_probe()
+  net: stmmac: dwmac-imx: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-ingenic: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-intel-plat: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-ipq806x: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-lpc18xx: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-mediatek: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-meson: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-meson8b: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-rk: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-socfpga: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-starfive: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-sti: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-stm32: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-sun8i: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-sunxi: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-tegra: use devm_stmmac_probe_config_dt()
+  net: stmmac: dwmac-visconti: use devm_stmmac_probe_config_dt()
+  net: stmmac: rename stmmac_pltfr_remove_no_dt to stmmac_pltfr_remove
+  net: stmmac: make stmmac_{probe|remove}_config_dt static
 
-Thanks
+ .../ethernet/stmicro/stmmac/dwmac-anarion.c   | 10 +--
+ .../stmicro/stmmac/dwmac-dwc-qos-eth.c        | 15 +---
+ .../ethernet/stmicro/stmmac/dwmac-generic.c   | 15 +---
+ .../net/ethernet/stmicro/stmmac/dwmac-imx.c   | 13 ++--
+ .../ethernet/stmicro/stmmac/dwmac-ingenic.c   | 33 +++------
+ .../stmicro/stmmac/dwmac-intel-plat.c         | 25 +++----
+ .../ethernet/stmicro/stmmac/dwmac-ipq806x.c   | 27 +++----
+ .../ethernet/stmicro/stmmac/dwmac-lpc18xx.c   | 19 ++---
+ .../ethernet/stmicro/stmmac/dwmac-mediatek.c  |  6 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-meson.c | 25 ++-----
+ .../ethernet/stmicro/stmmac/dwmac-meson8b.c   | 53 +++++---------
+ .../net/ethernet/stmicro/stmmac/dwmac-rk.c    | 14 ++--
+ .../ethernet/stmicro/stmmac/dwmac-socfpga.c   | 16 ++---
+ .../ethernet/stmicro/stmmac/dwmac-starfive.c  | 10 +--
+ .../net/ethernet/stmicro/stmmac/dwmac-sti.c   | 14 ++--
+ .../net/ethernet/stmicro/stmmac/dwmac-stm32.c | 17 ++---
+ .../net/ethernet/stmicro/stmmac/dwmac-sun8i.c |  6 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-sunxi.c | 23 +++---
+ .../net/ethernet/stmicro/stmmac/dwmac-tegra.c | 10 ++-
+ .../ethernet/stmicro/stmmac/dwmac-visconti.c  | 18 ++---
+ .../ethernet/stmicro/stmmac/stmmac_platform.c | 70 ++++++-------------
+ .../ethernet/stmicro/stmmac/stmmac_platform.h |  5 --
+ 22 files changed, 127 insertions(+), 317 deletions(-)
+
 -- 
-Gustavo
+2.40.1
 
-> ---
->   drivers/mtd/nand/raw/sunxi_nand.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sunxi_nand.c
-> index 9abf38049d35..4ec17c8bce5a 100644
-> --- a/drivers/mtd/nand/raw/sunxi_nand.c
-> +++ b/drivers/mtd/nand/raw/sunxi_nand.c
-> @@ -197,7 +197,7 @@ struct sunxi_nand_chip {
->   	u32 timing_cfg;
->   	u32 timing_ctl;
->   	int nsels;
-> -	struct sunxi_nand_chip_sel sels[];
-> +	struct sunxi_nand_chip_sel sels[] __counted_by(nsels);
->   };
->   
->   static inline struct sunxi_nand_chip *to_sunxi_nand(struct nand_chip *nand)
