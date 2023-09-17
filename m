@@ -1,103 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7FFA14291;
-	Sat, 16 Sep 2023 15:47:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6142C433C8;
-	Sat, 16 Sep 2023 15:47:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1694879263;
-	bh=9yoeSuSu4c9avKuB9jsu8jsIQJYt6cBB3MWv0m0Z7y0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Qe8Sc6HLO2iQZ9PjqYe1yCCRQ1tpnCuR3MCfNQEU9aSMLnwJM9Hhl0/bONQXIPfd5
-	 WmLJsJ/tiCNRjsOKIFJrc2i9jLeX7G5SS1WMXuDoyRed0jMGkLFprFwDmwk4uSNBo5
-	 z6ceK18Ahw1+EMw+kgrsL+y+BNFk92hEn94HOTDhhQuHSpCT7W4z6fjg14rH6BVQ86
-	 yY2MiMDmDCOpc183NEO2j4DrbMiLlKzbh1njf4KTt+Ghvfo1kClALhuvrvFFubX7Gy
-	 8BQRvSt3QIWMEg4BoyZh+DRbmRrMUX95NQa6vByR7Blu7bKb6cIEV6V/g44xjWsCfk
-	 WKOnp3JIalObg==
-Date: Sat, 16 Sep 2023 17:47:37 +0200
-From: Simon Horman <horms@kernel.org>
-To: Jisheng Zhang <jszhang@kernel.org>
-Cc: Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Jose Abreu <joabreu@synopsys.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-stm32@st-md-mailman.stormreply.com, johannes@sipsolutions.net,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH] net: stmmac: fix incorrect rxq|txq_stats reference
-Message-ID: <20230916154737.GG1125562@kernel.org>
-References: <20230915005316.592-1-jszhang@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A9B83C15
+	for <linux-sunxi@lists.linux.dev>; Sun, 17 Sep 2023 14:42:19 +0000 (UTC)
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2bffc55af02so8130741fa.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 17 Sep 2023 07:42:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1694961737; x=1695566537; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=t8OnI6u0cEOFTJYu1llDUXyx2auo+am+q/WLsax6FAQ=;
+        b=IAUR4LAkg6CyMZgvmtIbzAV50oGpYkSzRnvc0whORYN+aCXPI4H8SUr/LPTzepgs3z
+         G84lp4uOl3VlVQTWtp3yBQuxNDt6epWCad8uEQ3ZMRNTBGNiRVAdk1Nec41cOVB4U+MK
+         U5rmVWLyGkpDpaJvs8YpHfalB31wV48R8GL+4e92iCo6j/FSHVMMbIxOhTv8WoZILH+j
+         i7ZPt/qUkV3txVCeFacSwRxj2Xe1zO2fAR1v5Zc0UQWDiBmcr9gArkOAp/yiwXOZqY4K
+         XbITNOkVV+mtN1fS6C5Rdg12d6LmJ3p691uEVOuNhgwKEEPbCwN5r9Xz7aU4lTwDJ1TM
+         7cpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694961737; x=1695566537;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=t8OnI6u0cEOFTJYu1llDUXyx2auo+am+q/WLsax6FAQ=;
+        b=NUi8Y2abxLHlhK81yQFgGC/9xm3hrepct+Qit7jZEJ0iZ4SaNUswpW51p1tkTa4UGW
+         +/iWJsqbMW9VbLcD6CiBr2Ox1iT1S2odUfdYezv8yG1TIn3Z3hKBeACHajB5z5d4S5xp
+         2XMP7dGPY7nVHvvOaprjB0Gypba/+sVvlRxniuWlNycCSPHylVux2yHykZ7L8hwiyg6Y
+         15xeYS7eCFgQY4AIk9/StYe/+4Gfe82JZWtCBlLqa/ZkgGrodFlCU4BqvYjnut7s1oC+
+         SaR0iZvc/SgNldGwtlrHpoE6o+7yDxMpHOxGVKBLYj2Mz00qrq2vMMKs1GlVSeYjdbeG
+         NQhQ==
+X-Gm-Message-State: AOJu0YxQ7e2afYClcdbpBso4+euOf1xFasLv2vM0YmHVk1NlOfVRO8kO
+	KigVlup0xMqi0cl0omtMfOE=
+X-Google-Smtp-Source: AGHT+IGCwEla40TgXmbfl+4SNqk+BjMa1n4H5XAPcLrxUPNV78F+jE9Mq3MjRLIpRqip9g6ySlXEyA==
+X-Received: by 2002:a05:651c:1245:b0:2c0:d44:6162 with SMTP id h5-20020a05651c124500b002c00d446162mr250029ljh.12.1694961736917;
+        Sun, 17 Sep 2023 07:42:16 -0700 (PDT)
+Received: from jernej-laptop.localnet (APN-123-246-155-gprs.simobil.net. [46.123.246.155])
+        by smtp.gmail.com with ESMTPSA id gz2-20020a170906f2c200b009ae05f9eab3sm624439ejb.65.2023.09.17.07.42.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Sep 2023 07:42:16 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Jose Abreu <joabreu@synopsys.com>, "David S . Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Vladimir Zapolskiy <vz@mleia.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Emil Renner Berthing <kernel@esmil.dk>,
+ Samin Guo <samin.guo@starfivetech.com>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+ Russell King <linux@armlinux.org.uk>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Jisheng Zhang <jszhang@kernel.org>
+Cc: netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+ linux-mediatek@lists.infradead.org
+Subject:
+ Re: [PATCH net-next v2 18/23] net: stmmac: dwmac-sun8i: use
+ devm_stmmac_probe_config_dt()
+Date: Sun, 17 Sep 2023 16:42:12 +0200
+Message-ID: <2701959.mvXUDI8C0e@jernej-laptop>
+In-Reply-To: <20230916075829.1560-19-jszhang@kernel.org>
+References:
+ <20230916075829.1560-1-jszhang@kernel.org>
+ <20230916075829.1560-19-jszhang@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230915005316.592-1-jszhang@kernel.org>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Fri, Sep 15, 2023 at 08:53:16AM +0800, Jisheng Zhang wrote:
-> commit 133466c3bbe1 ("net: stmmac: use per-queue 64 bit statistics
-> where necessary") caused one regression as found by Uwe, the backtrace
-> looks like:
+Dne sobota, 16. september 2023 ob 09:58:24 CEST je Jisheng Zhang napisal(a):
+> Simplify the driver's probe() function by using the devres
+> variant of stmmac_probe_config_dt().
 > 
-> INFO: trying to register non-static key.
-> The code is fine but needs lockdep annotation, or maybe
-> you didn't initialize this object before use?
-> turning off the locking correctness validator.
-> CPU: 0 PID: 1 Comm: swapper/0 Not tainted 6.5.0-rc1-00449-g133466c3bbe1-dirty #21
-> Hardware name: STM32 (Device Tree Support)
->  unwind_backtrace from show_stack+0x18/0x1c
->  show_stack from dump_stack_lvl+0x60/0x90
->  dump_stack_lvl from register_lock_class+0x98c/0x99c
->  register_lock_class from __lock_acquire+0x74/0x293c
->  __lock_acquire from lock_acquire+0x134/0x398
->  lock_acquire from stmmac_get_stats64+0x2ac/0x2fc
->  stmmac_get_stats64 from dev_get_stats+0x44/0x130
->  dev_get_stats from rtnl_fill_stats+0x38/0x120
->  rtnl_fill_stats from rtnl_fill_ifinfo+0x834/0x17f4
->  rtnl_fill_ifinfo from rtmsg_ifinfo_build_skb+0xc0/0x144
->  rtmsg_ifinfo_build_skb from rtmsg_ifinfo+0x50/0x88
->  rtmsg_ifinfo from __dev_notify_flags+0xc0/0xec
->  __dev_notify_flags from dev_change_flags+0x50/0x5c
->  dev_change_flags from ip_auto_config+0x2f4/0x1260
->  ip_auto_config from do_one_initcall+0x70/0x35c
->  do_one_initcall from kernel_init_freeable+0x2ac/0x308
->  kernel_init_freeable from kernel_init+0x1c/0x138
->  kernel_init from ret_from_fork+0x14/0x2c
+> The calling of stmmac_pltfr_remove() now needs to be switched to
+> stmmac_pltfr_remove_no_dt().
 > 
-> The reason is the rxq|txq_stats structures are not what expected
-> because stmmac_open() -> __stmmac_open() the structure is overwritten
-> by "memcpy(&priv->dma_conf, dma_conf, sizeof(*dma_conf));"
-> This causes the well initialized syncp member of rxq|txq_stats is
-> overwritten unexpectedly as pointed out by Johannes and Uwe.
-> 
-> Fix this issue by moving rxq|txq_stats back to stmmac_extra_stats. For
-> SMP cache friendly, we also mark stmmac_txq_stats and stmmac_rxq_stats
-> as ____cacheline_aligned_in_smp.
-> 
-> Fixes: 133466c3bbe1 ("net: stmmac: use per-queue 64 bit statistics where necessary")
 > Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
-> Reported-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-Hi Jisheng Zhang,
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-as a fix for Networking code this should be based targeted at the net tree.
+Best regards,
+Jernej
 
-  Subject: [PATCH net] ...
+> ---
+>  drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 8 +++-----
+>  1 file changed, 3 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+> b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c index
+> 01e77368eef1..63a7e5e53d7b 100644
+> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+> @@ -1224,7 +1224,7 @@ static int sun8i_dwmac_probe(struct platform_device
+> *pdev) if (ret)
+>  		return -EINVAL;
+> 
+> -	plat_dat = stmmac_probe_config_dt(pdev, stmmac_res.mac);
+> +	plat_dat = devm_stmmac_probe_config_dt(pdev, stmmac_res.mac);
+>  	if (IS_ERR(plat_dat))
+>  		return PTR_ERR(plat_dat);
+> 
+> @@ -1244,7 +1244,7 @@ static int sun8i_dwmac_probe(struct platform_device
+> *pdev)
+> 
+>  	ret = sun8i_dwmac_set_syscon(&pdev->dev, plat_dat);
+>  	if (ret)
+> -		goto dwmac_deconfig;
+> +		return ret;
+> 
+>  	ret = sun8i_dwmac_init(pdev, plat_dat->bsp_priv);
+>  	if (ret)
+> @@ -1295,8 +1295,6 @@ static int sun8i_dwmac_probe(struct platform_device
+> *pdev) sun8i_dwmac_exit(pdev, gmac);
+>  dwmac_syscon:
+>  	sun8i_dwmac_unset_syscon(gmac);
+> -dwmac_deconfig:
+> -	stmmac_remove_config_dt(pdev, plat_dat);
+> 
+>  	return ret;
+>  }
+> @@ -1314,7 +1312,7 @@ static void sun8i_dwmac_remove(struct platform_device
+> *pdev) clk_put(gmac->ephy_clk);
+>  	}
+> 
+> -	stmmac_pltfr_remove(pdev);
+> +	stmmac_pltfr_remove_no_dt(pdev);
+>  	sun8i_dwmac_unset_syscon(gmac);
+>  }
 
-Unfortunately it doesn't apply cleanly against net.
-Please consider rebasing and reposting.
 
--- 
-pw-bot: changes-requested
+
+
