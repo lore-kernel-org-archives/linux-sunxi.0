@@ -1,143 +1,149 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18B0F27ED2
-	for <linux-sunxi@lists.linux.dev>; Mon, 18 Sep 2023 19:51:56 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qiKHB-0003kL-K7; Mon, 18 Sep 2023 21:51:21 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qiKH7-007I8N-8m; Mon, 18 Sep 2023 21:51:17 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qiKH6-002mBz-U1; Mon, 18 Sep 2023 21:51:16 +0200
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>
-Cc: Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@aj.id.au>,
-	netdev@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org,
-	Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Doug Berger <opendmb@gmail.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	linux-amlogic@lists.infradead.org,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-sunxi@lists.linux.dev,
-	Iyappan Subramanian <iyappan@os.amperecomputing.com>,
-	Keyur Chudgar <keyur@os.amperecomputing.com>,
-	Quan Nguyen <quan@os.amperecomputing.com>
-Subject: [PATCH net-next 00/19] net: mdio: Convert to platform remove callback returning void
-Date: Mon, 18 Sep 2023 21:50:43 +0200
-Message-Id: <20230918195102.1302746-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.40.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 278BC1C0F
+	for <linux-sunxi@lists.linux.dev>; Mon, 18 Sep 2023 20:14:22 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-50098cc8967so7948647e87.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 18 Sep 2023 13:14:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1695068061; x=1695672861; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=M+e7RPlNIEbnCE6SNaWUDYK3xS0AglRAD4OXd3Ulb6s=;
+        b=L+Q/QtLn987379pXrnf4cQE6ZB+Eu0C5oe8zIk+gxHPdAEGro8ZojM0pb0cFdo0LYI
+         8mZO0gmo2QNPUcv1LqgqQ6QC/OFApMx7+8+ihdf8hMqWRVYg8XJ+9W+xjQSN67GkCcR/
+         5p8ZSVJojuODgktmsikDoixNVhhGfVBR6mDLPllqyIWSA2udRPWVcOBOyle+tIO/EhHu
+         nwPHgWllTYOF0Q830+nZnvOZw8pFxbSoW2j2uXwTBU4B4So5yZWZ85XANDBlCZuSVdpa
+         9i64dL3czV9vMN1te57fx5WnRoleH4mGJqyQUNDPCRBWjUUPRI6cC+c7ozgwo+ujX6W6
+         pLjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695068061; x=1695672861;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=M+e7RPlNIEbnCE6SNaWUDYK3xS0AglRAD4OXd3Ulb6s=;
+        b=EalF2hpIUHIprEUMYaP7cFBRd6TZWZEZNRs62sqyfCEKlpWAfNZl5tb+f6z+qc4BBV
+         Y+ivFwu3f/vYIiUqd+iW7v2Us3C4MqE75o2NVHsixLdeneiRAl8Vog8z+NSsNzmyJwnW
+         pOi9ibxmlDeE1+247bCaNA9/EhcAvtFwiN5jo/loS+3pUtI5WaBvXP2SNpeG5JKyWZcR
+         MxDNvd7jOhlsMlOlgWswAVgrt2M68GdKJWcgjx8Z54s5BtIcXK+sTG6xddO2YDtdLtN4
+         fQ8+dH4QgR4w4jBJ5W9os0+F6g9wkSfyAZLDCRGhxsQCB+lzmgNlXAzESpt56Xm9HslC
+         nGSQ==
+X-Gm-Message-State: AOJu0YxqwhncPnmV3YAThIyErA99KZ7twLfSmY8pV3WnXd3L4kHuv7xD
+	1wvOj+eKH8xuwo0Y6dcYjXo=
+X-Google-Smtp-Source: AGHT+IFn+LYvQSp5rZn6lhfAzGXnJK7HIJKtSCz+mspnLIkIgmBXG+lSxqLriZhpKyj97znopumt4A==
+X-Received: by 2002:a05:6512:33c8:b0:4fe:d0f:b4f7 with SMTP id d8-20020a05651233c800b004fe0d0fb4f7mr10927733lfg.65.1695068061007;
+        Mon, 18 Sep 2023 13:14:21 -0700 (PDT)
+Received: from mobilestation ([178.178.81.241])
+        by smtp.gmail.com with ESMTPSA id d33-20020a0565123d2100b0050317d2b0f3sm563142lfv.61.2023.09.18.13.14.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Sep 2023 13:14:20 -0700 (PDT)
+Date: Mon, 18 Sep 2023 23:14:06 +0300
+From: Serge Semin <fancer.lancer@gmail.com>
+To: Jisheng Zhang <jszhang@kernel.org>
+Cc: Giuseppe Cavallaro <peppe.cavallaro@st.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Jose Abreu <joabreu@synopsys.com>, 
+	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
+	Vladimir Zapolskiy <vz@mleia.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Emil Renner Berthing <kernel@esmil.dk>, 
+	Samin Guo <samin.guo@starfivetech.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Thierry Reding <thierry.reding@gmail.com>, Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, 
+	Russell King <linux@armlinux.org.uk>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH net-next v2 00/22] convert to devm_stmmac_probe_config_dt
+Message-ID: <nqa7g7x3alrcbnbgkyalg5h26na6rzwid3jxdqviisi2pnkdrn@b4qvgamj4urr>
+References: <20230916075829.1560-1-jszhang@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3333; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=ci0IQrSWXNAJYKg8fc1qgrDF2J0dg2FQPcKK5IFoxug=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlCKn/qrkWkMR4vATlu8+A8buQtn/uucJFCz2Je IMvpamj1JiJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZQip/wAKCRCPgPtYfRL+ TgI/CACwpYaVqL2xrOfAhNBLFfB1xVWtYI9VnYPr9stjtL6MTwB9J8cCGV9AZ3kzuvv+WH2Q4rZ 5FI4J3XS7U+/FYU0H3YQQc8TeWJY7Ox15+3DAeFd/J47vAxI040iarzF8Lk1UibG4xlKxeVr/74 7OMIbUZCi0mjPMQzdIUufaXP2vm7IHBsNE5VYDr7pvT1vJixcOEeTtR39oDZmpUGLmjXxJ4FFoZ 80e2dl5Wg/6Lwr0APE2IqAMytjXfRhdW1z8fS7axIlH1JcZePE2Vpwf3V62ohnleM1St4kJJ40I D0TiIGRs/l1V3FjneArpH8rCY8lPmB0ET/0iO0ny4VYL9Wy8
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230916075829.1560-1-jszhang@kernel.org>
 
-Hello,
+On Sat, Sep 16, 2023 at 03:58:06PM +0800, Jisheng Zhang wrote:
+> Russell pointed out there's a new devm_stmmac_probe_config_dt()
+> helper now when reviewing my starfive gmac error handling patch[1].
+> After greping the code, this nice helper was introduced by Bartosz in
+> [2], I think it's time to convert all dwmac users to this helper and
+> finally complete the TODO in [2] "but once all users of the old
+> stmmac_pltfr_remove() are converted to the devres helper, it will be
+> renamed back to stmmac_pltfr_remove() and the no_dt function removed."
+> 
+> Link: https://lore.kernel.org/netdev/ZOtWmedBsa6wQQ6+@shell.armlinux.org.uk/ [1]
+> Link: https://lore.kernel.org/all/20230623100417.93592-1-brgl@bgdev.pl/  [2]
 
-this series convert all platform drivers below drivers/net/mdio to
-use remove_new. The motivation is to get rid of an integer return code
-that is (mostly) ignored by the platform driver core and error prone on
-the driver side.
+I see the series is already merged in. In anyway here is my tag:
+Reviewed-by: Serge Semin <fancer.lancer@gmail.com>
 
-See commit 5c5a7680e67b ("platform: Provide a remove callback that
-returns no value") for an extended explanation and the eventual goal.
+Thanks for submitting the set.
 
-There are no interdependencies between the patches. As there are still
-quite a few drivers to convert, I'm happy about every patch that makes
-it in. So even if there is a merge conflict with one patch until you
-apply, please apply the remainder of this series anyhow.
+-Serge(y)
 
-Best regards
-Uwe
-
-Uwe Kleine-König (19):
-  net: mdio: aspeed: Convert to platform remove callback returning void
-  net: mdio: bcm-iproc: Convert to platform remove callback returning
-    void
-  net: mdio: bcm-unimac: Convert to platform remove callback returning
-    void
-  net: mdio: gpio: Convert to platform remove callback returning void
-  net: mdio: hisi-femac: Convert to platform remove callback returning
-    void
-  net: mdio: ipq4019: Convert to platform remove callback returning void
-  net: mdio: ipq8064: Convert to platform remove callback returning void
-  net: mdio: moxart: Convert to platform remove callback returning void
-  net: mdio: mscc-miim: Convert to platform remove callback returning
-    void
-  net: mdio: mux-bcm-iproc: Convert to platform remove callback
-    returning void
-  net: mdio: mux-bcm6368: Convert to platform remove callback returning
-    void
-  net: mdio: mux-gpio: Convert to platform remove callback returning
-    void
-  net: mdio: mux-meson-g12a: Convert to platform remove callback
-    returning void
-  net: mdio: mux-meson-gxl: Convert to platform remove callback
-    returning void
-  net: mdio: mux-mmioreg: Convert to platform remove callback returning
-    void
-  net: mdio: mux-multiplexer: Convert to platform remove callback
-    returning void
-  net: mdio: octeon: Convert to platform remove callback returning void
-  net: mdio: sun4i: Convert to platform remove callback returning void
-  net: mdio: xgene: Convert to platform remove callback returning void
-
- drivers/net/mdio/mdio-aspeed.c          | 6 ++----
- drivers/net/mdio/mdio-bcm-iproc.c       | 6 ++----
- drivers/net/mdio/mdio-bcm-unimac.c      | 6 ++----
- drivers/net/mdio/mdio-gpio.c            | 6 ++----
- drivers/net/mdio/mdio-hisi-femac.c      | 6 ++----
- drivers/net/mdio/mdio-ipq4019.c         | 6 ++----
- drivers/net/mdio/mdio-ipq8064.c         | 7 ++-----
- drivers/net/mdio/mdio-moxart.c          | 6 ++----
- drivers/net/mdio/mdio-mscc-miim.c       | 6 ++----
- drivers/net/mdio/mdio-mux-bcm-iproc.c   | 6 ++----
- drivers/net/mdio/mdio-mux-bcm6368.c     | 6 ++----
- drivers/net/mdio/mdio-mux-gpio.c        | 5 ++---
- drivers/net/mdio/mdio-mux-meson-g12a.c  | 6 ++----
- drivers/net/mdio/mdio-mux-meson-gxl.c   | 6 ++----
- drivers/net/mdio/mdio-mux-mmioreg.c     | 6 ++----
- drivers/net/mdio/mdio-mux-multiplexer.c | 6 ++----
- drivers/net/mdio/mdio-octeon.c          | 5 ++---
- drivers/net/mdio/mdio-sun4i.c           | 6 ++----
- drivers/net/mdio/mdio-xgene.c           | 6 ++----
- 19 files changed, 38 insertions(+), 75 deletions(-)
-
-base-commit: 7fc7222d9680366edeecc219c21ca96310bdbc10
--- 
-2.40.1
-
+> 
+> Since v1:
+>  - rebase on new net-next
+>  - add make stmmac_{probe|remove}_config_dt static as suggested by Russell.
+> 
+> Jisheng Zhang (23):
+>   net: stmmac: dwmac-anarion: use devm_stmmac_probe_config_dt()
+>   net: stmmac: dwmac-dwc-qos-eth: use devm_stmmac_probe_config_dt()
+>   net: stmmac: dwmac-generic: use devm_stmmac_probe_config_dt()
+>   net: stmmac: dwmac-generic: use devm_stmmac_pltfr_probe()
+>   net: stmmac: dwmac-imx: use devm_stmmac_probe_config_dt()
+>   net: stmmac: dwmac-ingenic: use devm_stmmac_probe_config_dt()
+>   net: stmmac: dwmac-intel-plat: use devm_stmmac_probe_config_dt()
+>   net: stmmac: dwmac-ipq806x: use devm_stmmac_probe_config_dt()
+>   net: stmmac: dwmac-lpc18xx: use devm_stmmac_probe_config_dt()
+>   net: stmmac: dwmac-mediatek: use devm_stmmac_probe_config_dt()
+>   net: stmmac: dwmac-meson: use devm_stmmac_probe_config_dt()
+>   net: stmmac: dwmac-meson8b: use devm_stmmac_probe_config_dt()
+>   net: stmmac: dwmac-rk: use devm_stmmac_probe_config_dt()
+>   net: stmmac: dwmac-socfpga: use devm_stmmac_probe_config_dt()
+>   net: stmmac: dwmac-starfive: use devm_stmmac_probe_config_dt()
+>   net: stmmac: dwmac-sti: use devm_stmmac_probe_config_dt()
+>   net: stmmac: dwmac-stm32: use devm_stmmac_probe_config_dt()
+>   net: stmmac: dwmac-sun8i: use devm_stmmac_probe_config_dt()
+>   net: stmmac: dwmac-sunxi: use devm_stmmac_probe_config_dt()
+>   net: stmmac: dwmac-tegra: use devm_stmmac_probe_config_dt()
+>   net: stmmac: dwmac-visconti: use devm_stmmac_probe_config_dt()
+>   net: stmmac: rename stmmac_pltfr_remove_no_dt to stmmac_pltfr_remove
+>   net: stmmac: make stmmac_{probe|remove}_config_dt static
+> 
+>  .../ethernet/stmicro/stmmac/dwmac-anarion.c   | 10 +--
+>  .../stmicro/stmmac/dwmac-dwc-qos-eth.c        | 15 +---
+>  .../ethernet/stmicro/stmmac/dwmac-generic.c   | 15 +---
+>  .../net/ethernet/stmicro/stmmac/dwmac-imx.c   | 13 ++--
+>  .../ethernet/stmicro/stmmac/dwmac-ingenic.c   | 33 +++------
+>  .../stmicro/stmmac/dwmac-intel-plat.c         | 25 +++----
+>  .../ethernet/stmicro/stmmac/dwmac-ipq806x.c   | 27 +++----
+>  .../ethernet/stmicro/stmmac/dwmac-lpc18xx.c   | 19 ++---
+>  .../ethernet/stmicro/stmmac/dwmac-mediatek.c  |  6 +-
+>  .../net/ethernet/stmicro/stmmac/dwmac-meson.c | 25 ++-----
+>  .../ethernet/stmicro/stmmac/dwmac-meson8b.c   | 53 +++++---------
+>  .../net/ethernet/stmicro/stmmac/dwmac-rk.c    | 14 ++--
+>  .../ethernet/stmicro/stmmac/dwmac-socfpga.c   | 16 ++---
+>  .../ethernet/stmicro/stmmac/dwmac-starfive.c  | 10 +--
+>  .../net/ethernet/stmicro/stmmac/dwmac-sti.c   | 14 ++--
+>  .../net/ethernet/stmicro/stmmac/dwmac-stm32.c | 17 ++---
+>  .../net/ethernet/stmicro/stmmac/dwmac-sun8i.c |  6 +-
+>  .../net/ethernet/stmicro/stmmac/dwmac-sunxi.c | 23 +++---
+>  .../net/ethernet/stmicro/stmmac/dwmac-tegra.c | 10 ++-
+>  .../ethernet/stmicro/stmmac/dwmac-visconti.c  | 18 ++---
+>  .../ethernet/stmicro/stmmac/stmmac_platform.c | 70 ++++++-------------
+>  .../ethernet/stmicro/stmmac/stmmac_platform.h |  5 --
+>  22 files changed, 127 insertions(+), 317 deletions(-)
+> 
+> -- 
+> 2.40.1
+> 
+> 
