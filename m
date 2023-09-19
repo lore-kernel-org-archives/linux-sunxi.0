@@ -1,86 +1,91 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C678328A4
-	for <linux-sunxi@lists.linux.dev>; Tue, 19 Sep 2023 07:31:18 +0000 (UTC)
-Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 57854FA2;
-	Tue, 19 Sep 2023 09:29:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1695108574;
-	bh=DQnS4aIKIh13ovdc7BzfWH9E6TxBe1gPiyTE4ZjyNYY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=BOesDxxoV/01VlAhluf7YLPC/1LY5v6DUSAmbryylQA/UVNncmcoPm89AX/9XYQ6d
-	 nW4D4fbSVh5QAPCRVAPFeL6NrYodQDHDg4hKu5ZyPB9+abblvv6BOZXW80KLAK5An8
-	 zKVe1L0FDrNX/uErlZKXCnkz1zj3Og7O87huezYg=
-Message-ID: <06ac6d3b-e82e-dd25-ab21-90db76f3a5fd@ideasonboard.com>
-Date: Tue, 19 Sep 2023 10:31:05 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C2A38BB2;
+	Tue, 19 Sep 2023 08:40:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 55EA9C433CA;
+	Tue, 19 Sep 2023 08:40:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1695112822;
+	bh=Omy2LUg3uWH1pkOVY4vjdkn5QW6igyJTSPgKd0JcqqA=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=NabwgZalixdVnMCJQGMY5fHyowm94ENXgA9GQpnn0eqYrBXHp6meiXaFdiCMtU6RL
+	 hawFjKZelXREnGLpBm4SZbXxfUQ2sMN6hUzm6VrVSLkhCTwAszul/hkmO1KbwZzuYj
+	 N1ElyvnGX0zBi5rKztKHmx84J+zdfVp7QtMPCuhxEInF7eREv0BIiKNXND1q4aWFrG
+	 1glOcYf/PvfxBSATEKH5el1w/fF5aWx/FIx47KIFLo4MBY/h43dQrmP/J08KFdOlRt
+	 3TT/pcuia0tmo4gvhDinLFfTAi9ZKKv1VYthquugVRHFLce5HLQjMz6cohfSdzvEk3
+	 cKrY0d1Omp21w==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 3955FE11F4A;
+	Tue, 19 Sep 2023 08:40:22 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [RFT PATCH 2/6] drm: Call drm_atomic_helper_shutdown() at
- shutdown time for misc drivers
-Content-Language: en-US
-To: Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>
-Cc: airlied@gmail.com, airlied@redhat.com, alain.volmat@foss.st.com,
- alexander.deucher@amd.com, alexandre.belloni@bootlin.com,
- alison.wang@nxp.com, bbrezillon@kernel.org, christian.koenig@amd.com,
- claudiu.beznea@microchip.com, daniel@ffwll.ch, drawat.floss@gmail.com,
- javierm@redhat.com, jernej.skrabec@gmail.com, jfalempe@redhat.com,
- jstultz@google.com, kong.kongxinwei@hisilicon.com, kraxel@redhat.com,
- linus.walleij@linaro.org, linux-arm-kernel@lists.infradead.org,
- linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev, liviu.dudau@arm.com,
- nicolas.ferre@microchip.com, paul.kocialkowski@bootlin.com,
- sam@ravnborg.org, samuel@sholland.org, spice-devel@lists.freedesktop.org,
- stefan@agner.ch, suijingfeng@loongson.cn, sumit.semwal@linaro.org,
- tiantao6@hisilicon.com, tzimmermann@suse.de,
- virtualization@lists.linux-foundation.org, wens@csie.org,
- xinliang.liu@linaro.org, yongqin.liu@linaro.org, zackr@vmware.com
-References: <20230901234015.566018-1-dianders@chromium.org>
- <20230901163944.RFT.2.I9115e5d094a43e687978b0699cc1fe9f2a3452ea@changeid>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20230901163944.RFT.2.I9115e5d094a43e687978b0699cc1fe9f2a3452ea@changeid>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2] net: stmmac: fix incorrect rxq|txq_stats reference
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <169511282223.26432.8274174696059034896.git-patchwork-notify@kernel.org>
+Date: Tue, 19 Sep 2023 08:40:22 +0000
+References: <20230917165328.3403-1-jszhang@kernel.org>
+In-Reply-To: <20230917165328.3403-1-jszhang@kernel.org>
+To: Jisheng Zhang <jszhang@kernel.org>
+Cc: peppe.cavallaro@st.com, alexandre.torgue@foss.st.com,
+ joabreu@synopsys.com, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, mcoquelin.stm32@gmail.com, wens@csie.org,
+ jernej.skrabec@gmail.com, samuel@sholland.org, netdev@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com,
+ johannes@sipsolutions.net, u.kleine-koenig@pengutronix.de
 
-On 02/09/2023 02:39, Douglas Anderson wrote:
-> Based on grepping through the source code these drivers appear to be
-> missing a call to drm_atomic_helper_shutdown() at system shutdown
-> time. Among other things, this means that if a panel is in use that it
-> won't be cleanly powered off at system shutdown time.
+Hello:
+
+This patch was applied to netdev/net.git (main)
+by Paolo Abeni <pabeni@redhat.com>:
+
+On Mon, 18 Sep 2023 00:53:28 +0800 you wrote:
+> commit 133466c3bbe1 ("net: stmmac: use per-queue 64 bit statistics
+> where necessary") caused one regression as found by Uwe, the backtrace
+> looks like:
 > 
-> The fact that we should call drm_atomic_helper_shutdown() in the case
-> of OS shutdown/restart comes straight out of the kernel doc "driver
-> instance overview" in drm_drv.c.
+> 	INFO: trying to register non-static key.
+> 	The code is fine but needs lockdep annotation, or maybe
+> 	you didn't initialize this object before use?
+> 	turning off the locking correctness validator.
+> 	CPU: 0 PID: 1 Comm: swapper/0 Not tainted 6.5.0-rc1-00449-g133466c3bbe1-dirty #21
+> 	Hardware name: STM32 (Device Tree Support)
+> 	 unwind_backtrace from show_stack+0x18/0x1c
+> 	 show_stack from dump_stack_lvl+0x60/0x90
+> 	 dump_stack_lvl from register_lock_class+0x98c/0x99c
+> 	 register_lock_class from __lock_acquire+0x74/0x293c
+> 	 __lock_acquire from lock_acquire+0x134/0x398
+> 	 lock_acquire from stmmac_get_stats64+0x2ac/0x2fc
+> 	 stmmac_get_stats64 from dev_get_stats+0x44/0x130
+> 	 dev_get_stats from rtnl_fill_stats+0x38/0x120
+> 	 rtnl_fill_stats from rtnl_fill_ifinfo+0x834/0x17f4
+> 	 rtnl_fill_ifinfo from rtmsg_ifinfo_build_skb+0xc0/0x144
+> 	 rtmsg_ifinfo_build_skb from rtmsg_ifinfo+0x50/0x88
+> 	 rtmsg_ifinfo from __dev_notify_flags+0xc0/0xec
+> 	 __dev_notify_flags from dev_change_flags+0x50/0x5c
+> 	 dev_change_flags from ip_auto_config+0x2f4/0x1260
+> 	 ip_auto_config from do_one_initcall+0x70/0x35c
+> 	 do_one_initcall from kernel_init_freeable+0x2ac/0x308
+> 	 kernel_init_freeable from kernel_init+0x1c/0x138
+> 	 kernel_init from ret_from_fork+0x14/0x2c
 > 
-> All of the drivers in this patch were fairly straightforward to fix
-> since they already had a call to drm_atomic_helper_shutdown() at
-> remove/unbind time but were just lacking one at system shutdown. The
-> only hitch is that some of these drivers use the component model to
-> register/unregister their DRM devices. The shutdown callback is part
-> of the original device. The typical solution here, based on how other
-> DRM drivers do this, is to keep track of whether the device is bound
-> based on drvdata. In most cases the drvdata is the drm_device, so we
-> can just make sure it is NULL when the device is not bound. In some
-> drivers, this required minor code changes. To make things simpler,
-> drm_atomic_helper_shutdown() has been modified to consider a NULL
-> drm_device as a noop in the patch ("drm/atomic-helper:
-> drm_atomic_helper_shutdown(NULL) should be a noop").
-> 
-> Suggested-by: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> [...]
 
-For omapdrm:
+Here is the summary with links:
+  - [v2] net: stmmac: fix incorrect rxq|txq_stats reference
+    https://git.kernel.org/netdev/net/c/8070274b472e
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Tested-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-  Tomi
 
