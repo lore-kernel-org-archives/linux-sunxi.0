@@ -1,34 +1,36 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D27B33990
-	for <linux-sunxi@lists.linux.dev>; Tue, 19 Sep 2023 12:13:17 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 887B61FB;
-	Tue, 19 Sep 2023 05:13:54 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 715A73F67D;
-	Tue, 19 Sep 2023 05:13:14 -0700 (PDT)
-Date: Tue, 19 Sep 2023 13:13:02 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
-Cc: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Claudiu Beznea <claudiu.beznea@microchip.com>,
- Peter Rosin <peda@axentia.se>, Sudeep Holla <sudeep.holla@arm.com>, Jesper
- Nilsson <jesper.nilsson@axis.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Paul Barker
- <paul.barker@sancloud.com>, Michal Simek <michal.simek@amd.com>, Heiko
- Stuebner <heiko@sntech.de>, Rob Herring <robh@kernel.org>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH] arm: dts: replace Bananapi with Banana Pi
-Message-ID: <20230919131302.26c30a31@donnerap.manchester.arm.com>
-In-Reply-To: <20230918074122.73265-1-arinc.unal@arinc9.com>
-References: <20230918074122.73265-1-arinc.unal@arinc9.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A9E95252
+	for <linux-sunxi@lists.linux.dev>; Tue, 19 Sep 2023 13:32:35 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qiapy-0005ED-K6; Tue, 19 Sep 2023 15:32:22 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qiapw-007T5R-NT; Tue, 19 Sep 2023 15:32:20 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qiapw-0030gO-CT; Tue, 19 Sep 2023 15:32:20 +0200
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Vinod Koul <vkoul@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	dmaengine@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	kernel@pengutronix.de
+Subject: [PATCH 45/59] dma: sun4i-dma: Convert to platform remove callback returning void
+Date: Tue, 19 Sep 2023 15:31:53 +0200
+Message-Id: <20230919133207.1400430-46-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230919133207.1400430-1-u.kleine-koenig@pengutronix.de>
+References: <20230919133207.1400430-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -36,59 +38,62 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1845; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=tdSrGzB1P3A08YWfYfl02UYCIKs62cLV6Iz/r1JsvCM=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlCaHjPLjFYT4hC+C8a2gKPED1g0kPoR7jQSlDn C5y+NPpRrOJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZQmh4wAKCRCPgPtYfRL+ TqZTCACwmoBJYTuOpE6rMjAY39Ol/EbQog2Gh/wBph6y0oQyt36ciOIOj0RPhqFlyo8j6T1mrYW zM0qHB1G9T1LmWvznb3w/OICbBw+mppPwSGUtt4AQ9YRkx2bGTMrrZJpaZYT4L0dI3Lv0powSBL E46buKhMdIcoglCp8wlzNZQ+hoq8vJLnUtiPtGiAv0bHHgYC2q1DbMSKGZUP6wxFoN411D0iKCc aXFXq/u2OCqdhDBZwFn/YpsgVA/47G7BvbIApMtaKsHJ+v2yDmBtHw/DdOYuZKFs1qar4A4IAIm oCIlR7MuVp1h4LEAwTI45p0iZI0PCsB1uB3YSBERALs4iLDc
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
-On Mon, 18 Sep 2023 10:41:22 +0300
-Ar=C4=B1n=C3=A7 =C3=9CNAL <arinc.unal@arinc9.com> wrote:
+The .remove() callback for a platform driver returns an int which makes
+many driver authors wrongly assume it's possible to do error handling by
+returning an error code. However the value returned is ignored (apart
+from emitting a warning) and this typically results in resource leaks.
+To improve here there is a quest to make the remove callback return
+void. In the first step of this quest all drivers are converted to
+.remove_new() which already returns void. Eventually after all drivers
+are converted, .remove_new() is renamed to .remove().
 
-Hi,
+Trivially convert this driver from always returning zero in the remove
+callback to the void returning variant.
 
-> The brand name is Banana Pi. Replace any mention of Bananapi with Banana
-> Pi.
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/dma/sun4i-dma.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-So in general this looks fine, and the comment change is surely a
-no-brainer. But I was wondering if changing the model name is something
-that should be done, as there might be someone relying on that?
-And if we go there: "git grep" finds a number of boards using "Bananapi",
-and some others with "BananaPi", so I guess those should be changed then
-as well?
-
-Cheers,
-Andre.
-
->=20
-> Signed-off-by: Ar=C4=B1n=C3=A7 =C3=9CNAL <arinc.unal@arinc9.com>
-> ---
->  arch/arm/boot/dts/allwinner/sunxi-bananapi-m2-plus-v1.2.dtsi | 2 +-
->  arch/arm/boot/dts/mediatek/mt7623n-bananapi-bpi-r2.dts       | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/arch/arm/boot/dts/allwinner/sunxi-bananapi-m2-plus-v1.2.dtsi=
- b/arch/arm/boot/dts/allwinner/sunxi-bananapi-m2-plus-v1.2.dtsi
-> index 235994a4a2eb..ef532494fc9d 100644
-> --- a/arch/arm/boot/dts/allwinner/sunxi-bananapi-m2-plus-v1.2.dtsi
-> +++ b/arch/arm/boot/dts/allwinner/sunxi-bananapi-m2-plus-v1.2.dtsi
-> @@ -7,7 +7,7 @@
-> =20
->  / {
->  	/*
-> -	 * Bananapi M2+ v1.2 uses a GPIO line to change the effective
-> +	 * Banana Pi BPI-M2+ v1.2 uses a GPIO line to change the effective
->  	 * resistance on the CPU regulator's feedback pin.
->  	 */
->  	reg_vdd_cpux: vdd-cpux {
-> diff --git a/arch/arm/boot/dts/mediatek/mt7623n-bananapi-bpi-r2.dts b/arc=
-h/arm/boot/dts/mediatek/mt7623n-bananapi-bpi-r2.dts
-> index a37f3fa223c7..7f0948074945 100644
-> --- a/arch/arm/boot/dts/mediatek/mt7623n-bananapi-bpi-r2.dts
-> +++ b/arch/arm/boot/dts/mediatek/mt7623n-bananapi-bpi-r2.dts
-> @@ -10,7 +10,7 @@
->  #include "mt6323.dtsi"
-> =20
->  / {
-> -	model =3D "Bananapi BPI-R2";
-> +	model =3D "Banana Pi BPI-R2";
->  	compatible =3D "bananapi,bpi-r2", "mediatek,mt7623";
-> =20
->  	aliases {
+diff --git a/drivers/dma/sun4i-dma.c b/drivers/dma/sun4i-dma.c
+index e86c8829513a..2e7f9b07fdd2 100644
+--- a/drivers/dma/sun4i-dma.c
++++ b/drivers/dma/sun4i-dma.c
+@@ -1271,7 +1271,7 @@ static int sun4i_dma_probe(struct platform_device *pdev)
+ 	return ret;
+ }
+ 
+-static int sun4i_dma_remove(struct platform_device *pdev)
++static void sun4i_dma_remove(struct platform_device *pdev)
+ {
+ 	struct sun4i_dma_dev *priv = platform_get_drvdata(pdev);
+ 
+@@ -1282,8 +1282,6 @@ static int sun4i_dma_remove(struct platform_device *pdev)
+ 	dma_async_device_unregister(&priv->slave);
+ 
+ 	clk_disable_unprepare(priv->clk);
+-
+-	return 0;
+ }
+ 
+ static const struct of_device_id sun4i_dma_match[] = {
+@@ -1294,7 +1292,7 @@ MODULE_DEVICE_TABLE(of, sun4i_dma_match);
+ 
+ static struct platform_driver sun4i_dma_driver = {
+ 	.probe	= sun4i_dma_probe,
+-	.remove	= sun4i_dma_remove,
++	.remove_new = sun4i_dma_remove,
+ 	.driver	= {
+ 		.name		= "sun4i-dma",
+ 		.of_match_table	= sun4i_dma_match,
+-- 
+2.40.1
 
