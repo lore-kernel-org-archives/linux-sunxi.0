@@ -1,127 +1,112 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7433E3717F
-	for <linux-sunxi@lists.linux.dev>; Tue, 19 Sep 2023 17:22:59 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-991c786369cso816837166b.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 19 Sep 2023 10:22:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695144178; x=1695748978; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HcXUnksJwhyRAlze+kKPMXIvfRdnYvFyu340idGgApY=;
-        b=chDiMzWerKLn6y7IBs82WIahG7FGXsmGuhMGmYxwAG1+VK7cAORWpy/Zb7TZfNJEYO
-         ppGIbq8E3nfkSJFpe/wMME3mKdYwik/ZrVtJq8kgeZu94CXI1hraFA03CoF3SIeZR/3O
-         ROGfOzm4xDr7mwIQjbfkyixpX0peSZpF7GOfJ9oANZrWK0vE9OZcYUvkE+YGqill03DE
-         7j8vCYns537mLEa/vjZaXl05gDRlRzI/NPW/C6Bi+Y2kGiCRDckzUXuh+d1a6Lii2HNn
-         KDENkTl25WY6+ohO6gaNBXqPHBRO1vikijywXdsA29Wi/Z1bKfIGnJfiquBMrYwDO0we
-         dAsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695144178; x=1695748978;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HcXUnksJwhyRAlze+kKPMXIvfRdnYvFyu340idGgApY=;
-        b=bkNONnVWP9Q+KzsOVOY9sBJxkWXcdphAB0mYhQb6JHv1KD7vofp0lHCzzFuLcJ61ga
-         CcU7wS10TKmNnnYrYyNix0cp/BhnJLWl1U+fupkC1MGo+/6ZgQ44Qx/x830cyO55HYRv
-         bwnMQKnz0kT6ISx5iJjc0GqTAEHAcgwzaxPyyz55jo6m9RlPUzki1iuT+Wd+eyH9iETp
-         xAhoEdqo8z0VnS28ujxITpyzRuNu/pz8Vc1Zn+mYRSmOuxoBd5eR1R9zDrqHzh1lP7Yh
-         izvcV7GeVwWMSeM68w6MNtxXgyk4Okg0VZeQfvzhD9To5EEgR1vViUyPyeLKxuXnNDJZ
-         eqYA==
-X-Gm-Message-State: AOJu0YygGOuGG+WachZo38xmiTRGcRDltonpXKmQ8u8PhWY/hHdQOm5D
-	+rokVqZvAZH3wnTO6wwtF/U=
-X-Google-Smtp-Source: AGHT+IF1Q4adU0rIcBVlI48STfiiF389ivz0W8cymo4KGMc3SHlL5K2MmpfuORVbO6ik0/JbKkDBjw==
-X-Received: by 2002:a17:906:1de:b0:9ae:3f3a:828d with SMTP id 30-20020a17090601de00b009ae3f3a828dmr53646ejj.21.1695144177494;
-        Tue, 19 Sep 2023 10:22:57 -0700 (PDT)
-Received: from jernej-laptop.localnet (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
-        by smtp.gmail.com with ESMTPSA id jp27-20020a170906f75b00b0099bd046170fsm8115171ejb.104.2023.09.19.10.22.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Sep 2023 10:22:57 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
- Uwe =?ISO-8859-1?Q?Kleine=2DK=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Russell King <linux@armlinux.org.uk>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject:
- Re: [PATCH net-next 18/19] net: mdio: sun4i: Convert to platform remove
- callback returning void
-Date: Tue, 19 Sep 2023 19:22:55 +0200
-Message-ID: <8276262.T7Z3S40VBb@jernej-laptop>
-In-Reply-To: <20230918195102.1302746-19-u.kleine-koenig@pengutronix.de>
-References:
- <20230918195102.1302746-1-u.kleine-koenig@pengutronix.de>
- <20230918195102.1302746-19-u.kleine-koenig@pengutronix.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A02C828E24
+	for <linux-sunxi@lists.linux.dev>; Tue, 19 Sep 2023 17:50:14 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qierC-0006bL-OO; Tue, 19 Sep 2023 19:49:54 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qierA-007VWy-SX; Tue, 19 Sep 2023 19:49:52 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qierA-0034Y3-Ic; Tue, 19 Sep 2023 19:49:52 +0200
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+	Mark Brown <broonie@kernel.org>,
+	Ido Schimmel <idosch@nvidia.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	linux-iio@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	kernel@pengutronix.de
+Subject: [PATCH 24/49] iio: adc: sun4i-gpadc-iio: Convert to platform remove callback returning void
+Date: Tue, 19 Sep 2023 19:49:06 +0200
+Message-Id: <20230919174931.1417681-25-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230919174931.1417681-1-u.kleine-koenig@pengutronix.de>
+References: <20230919174931.1417681-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2017; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=vKYM85Enz4pou5ekT5Ktb0dJDDb+Kt9AqUIC5ww0puw=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlCd8K0HyN/wX2GvrzR04r9GsHvAGR/PqKMmxWK HYc6NA8DLGJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZQnfCgAKCRCPgPtYfRL+ Tqf3CACFmE7ZSKV6Qeoh7ezG709dzwNKskftcv+6evfD/fT6Luyn3hbHUJYohe4o98YkpHIaU2V wNTc3vCY1oxxxzKuQapJ4g3+mcBzpvqEDHSS+9BrO4iAxFA2z1AuYCTQXAAoLBtMk6VThfqSwi6 L0bA9txo2JVp5gg30IhWaKExatCClBQPHJPuK7fBmkSPxD22OHJWNO4l2oQulFcKWNox/zAy12Z yS0VXaA9DmlpISdc93LiwvqV7tdJrM/Q6r9bRqyEw3akt+2vRy8GJ0M4n3s11nXfPTuZ6ZS96hj U2RCMSfBZW3WcCrhl/w5uemQXclI4SICL5ei3FmK25cEu+3B
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
-Dne ponedeljek, 18. september 2023 ob 21:51:01 CEST je Uwe Kleine-K=F6nig=20
-napisal(a):
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling by
-> returning an error code. However the value returned is ignored (apart
-> from emitting a warning) and this typically results in resource leaks.
-> To improve here there is a quest to make the remove callback return
-> void. In the first step of this quest all drivers are converted to
-> .remove_new() which already returns void. Eventually after all drivers
-> are converted, .remove_new() is renamed to .remove().
->=20
-> Trivially convert this driver from always returning zero in the remove
-> callback to the void returning variant.
->=20
-> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+The .remove() callback for a platform driver returns an int which makes
+many driver authors wrongly assume it's possible to do error handling by
+returning an error code. However the value returned is ignored (apart
+from emitting a warning) and this typically results in resource leaks.
+To improve here there is a quest to make the remove callback return
+void. In the first step of this quest all drivers are converted to
+.remove_new() which already returns void. Eventually after all drivers
+are converted, .remove_new() will be renamed to .remove().
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Trivially convert this driver from always returning zero in the remove
+callback to the void returning variant.
 
-Best regards,
-Jernej
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/iio/adc/sun4i-gpadc-iio.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-> ---
->  drivers/net/mdio/mdio-sun4i.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/net/mdio/mdio-sun4i.c b/drivers/net/mdio/mdio-sun4i.c
-> index f798de3276dc..4511bcc73b36 100644
-> --- a/drivers/net/mdio/mdio-sun4i.c
-> +++ b/drivers/net/mdio/mdio-sun4i.c
-> @@ -142,7 +142,7 @@ static int sun4i_mdio_probe(struct platform_device
-> *pdev) return ret;
->  }
->=20
-> -static int sun4i_mdio_remove(struct platform_device *pdev)
-> +static void sun4i_mdio_remove(struct platform_device *pdev)
->  {
->  	struct mii_bus *bus =3D platform_get_drvdata(pdev);
->  	struct sun4i_mdio_data *data =3D bus->priv;
-> @@ -151,8 +151,6 @@ static int sun4i_mdio_remove(struct platform_device
-> *pdev) if (data->regulator)
->  		regulator_disable(data->regulator);
->  	mdiobus_free(bus);
-> -
-> -	return 0;
->  }
->=20
->  static const struct of_device_id sun4i_mdio_dt_ids[] =3D {
-> @@ -166,7 +164,7 @@ MODULE_DEVICE_TABLE(of, sun4i_mdio_dt_ids);
->=20
->  static struct platform_driver sun4i_mdio_driver =3D {
->  	.probe =3D sun4i_mdio_probe,
-> -	.remove =3D sun4i_mdio_remove,
-> +	.remove_new =3D sun4i_mdio_remove,
->  	.driver =3D {
->  		.name =3D "sun4i-mdio",
->  		.of_match_table =3D sun4i_mdio_dt_ids,
-
-
-
+diff --git a/drivers/iio/adc/sun4i-gpadc-iio.c b/drivers/iio/adc/sun4i-gpadc-iio.c
+index 25bba96367a8..100ecced5fc1 100644
+--- a/drivers/iio/adc/sun4i-gpadc-iio.c
++++ b/drivers/iio/adc/sun4i-gpadc-iio.c
+@@ -669,7 +669,7 @@ static int sun4i_gpadc_probe(struct platform_device *pdev)
+ 	return ret;
+ }
+ 
+-static int sun4i_gpadc_remove(struct platform_device *pdev)
++static void sun4i_gpadc_remove(struct platform_device *pdev)
+ {
+ 	struct iio_dev *indio_dev = platform_get_drvdata(pdev);
+ 	struct sun4i_gpadc_iio *info = iio_priv(indio_dev);
+@@ -678,12 +678,10 @@ static int sun4i_gpadc_remove(struct platform_device *pdev)
+ 	pm_runtime_disable(&pdev->dev);
+ 
+ 	if (!IS_ENABLED(CONFIG_THERMAL_OF))
+-		return 0;
++		return;
+ 
+ 	if (!info->no_irq)
+ 		iio_map_array_unregister(indio_dev);
+-
+-	return 0;
+ }
+ 
+ static const struct platform_device_id sun4i_gpadc_id[] = {
+@@ -702,7 +700,7 @@ static struct platform_driver sun4i_gpadc_driver = {
+ 	},
+ 	.id_table = sun4i_gpadc_id,
+ 	.probe = sun4i_gpadc_probe,
+-	.remove = sun4i_gpadc_remove,
++	.remove_new = sun4i_gpadc_remove,
+ };
+ MODULE_DEVICE_TABLE(of, sun4i_gpadc_of_id);
+ 
+-- 
+2.40.1
 
