@@ -1,24 +1,32 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C2A38BB2;
-	Tue, 19 Sep 2023 08:40:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 55EA9C433CA;
-	Tue, 19 Sep 2023 08:40:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1695112822;
-	bh=Omy2LUg3uWH1pkOVY4vjdkn5QW6igyJTSPgKd0JcqqA=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=NabwgZalixdVnMCJQGMY5fHyowm94ENXgA9GQpnn0eqYrBXHp6meiXaFdiCMtU6RL
-	 hawFjKZelXREnGLpBm4SZbXxfUQ2sMN6hUzm6VrVSLkhCTwAszul/hkmO1KbwZzuYj
-	 N1ElyvnGX0zBi5rKztKHmx84J+zdfVp7QtMPCuhxEInF7eREv0BIiKNXND1q4aWFrG
-	 1glOcYf/PvfxBSATEKH5el1w/fF5aWx/FIx47KIFLo4MBY/h43dQrmP/J08KFdOlRt
-	 3TT/pcuia0tmo4gvhDinLFfTAi9ZKKv1VYthquugVRHFLce5HLQjMz6cohfSdzvEk3
-	 cKrY0d1Omp21w==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 3955FE11F4A;
-	Tue, 19 Sep 2023 08:40:22 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C734538C
+	for <linux-sunxi@lists.linux.dev>; Tue, 19 Sep 2023 10:39:21 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A241B1FB;
+	Tue, 19 Sep 2023 03:39:57 -0700 (PDT)
+Received: from donnerap.arm.com (donnerap.manchester.arm.com [10.32.101.50])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 52A253F67D;
+	Tue, 19 Sep 2023 03:39:18 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Lee Jones <lee@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: Icenowy Zheng <uwu@icenowy.me>,
+	Mark Brown <broonie@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Shengyu Qu <wiagn233@outlook.com>,
+	Martin Botka <martin.botka1@gmail.com>,
+	Matthew Croughan <matthew.croughan@nix.how>,
+	linux-sunxi@lists.linux.dev,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/2] mfd: axp20x: improve support without interrupts
+Date: Tue, 19 Sep 2023 11:39:11 +0100
+Message-Id: <20230919103913.463156-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -26,66 +34,58 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2] net: stmmac: fix incorrect rxq|txq_stats reference
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <169511282223.26432.8274174696059034896.git-patchwork-notify@kernel.org>
-Date: Tue, 19 Sep 2023 08:40:22 +0000
-References: <20230917165328.3403-1-jszhang@kernel.org>
-In-Reply-To: <20230917165328.3403-1-jszhang@kernel.org>
-To: Jisheng Zhang <jszhang@kernel.org>
-Cc: peppe.cavallaro@st.com, alexandre.torgue@foss.st.com,
- joabreu@synopsys.com, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, mcoquelin.stm32@gmail.com, wens@csie.org,
- jernej.skrabec@gmail.com, samuel@sholland.org, netdev@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com,
- johannes@sipsolutions.net, u.kleine-koenig@pengutronix.de
 
-Hello:
+This is a more of a re-send, rebased on top of v6.6-rc2, with the tags
+added, and adding back the binding patch, since this seems to have fallen
+through the cracks somehow.
+Changelog below.
+------------------------------
 
-This patch was applied to netdev/net.git (main)
-by Paolo Abeni <pabeni@redhat.com>:
+Every AXP PMIC we support sports an IRQ pin, that signals certain events
+to the SoC. For some of the chip's functionality an interrupt is crucial
+for operation (for instance a power key event), but for the basic
+regulator features for instance the interrupt does not add much.
 
-On Mon, 18 Sep 2023 00:53:28 +0800 you wrote:
-> commit 133466c3bbe1 ("net: stmmac: use per-queue 64 bit statistics
-> where necessary") caused one regression as found by Uwe, the backtrace
-> looks like:
-> 
-> 	INFO: trying to register non-static key.
-> 	The code is fine but needs lockdep annotation, or maybe
-> 	you didn't initialize this object before use?
-> 	turning off the locking correctness validator.
-> 	CPU: 0 PID: 1 Comm: swapper/0 Not tainted 6.5.0-rc1-00449-g133466c3bbe1-dirty #21
-> 	Hardware name: STM32 (Device Tree Support)
-> 	 unwind_backtrace from show_stack+0x18/0x1c
-> 	 show_stack from dump_stack_lvl+0x60/0x90
-> 	 dump_stack_lvl from register_lock_class+0x98c/0x99c
-> 	 register_lock_class from __lock_acquire+0x74/0x293c
-> 	 __lock_acquire from lock_acquire+0x134/0x398
-> 	 lock_acquire from stmmac_get_stats64+0x2ac/0x2fc
-> 	 stmmac_get_stats64 from dev_get_stats+0x44/0x130
-> 	 dev_get_stats from rtnl_fill_stats+0x38/0x120
-> 	 rtnl_fill_stats from rtnl_fill_ifinfo+0x834/0x17f4
-> 	 rtnl_fill_ifinfo from rtmsg_ifinfo_build_skb+0xc0/0x144
-> 	 rtmsg_ifinfo_build_skb from rtmsg_ifinfo+0x50/0x88
-> 	 rtmsg_ifinfo from __dev_notify_flags+0xc0/0xec
-> 	 __dev_notify_flags from dev_change_flags+0x50/0x5c
-> 	 dev_change_flags from ip_auto_config+0x2f4/0x1260
-> 	 ip_auto_config from do_one_initcall+0x70/0x35c
-> 	 do_one_initcall from kernel_init_freeable+0x2ac/0x308
-> 	 kernel_init_freeable from kernel_init+0x1c/0x138
-> 	 kernel_init from ret_from_fork+0x14/0x2c
-> 
-> [...]
+Recently we started seeing boards with smaller PMICs, that don't bother
+to connect the IRQ line to anything. So far we handled this as a special
+case for the AXP305, but there are more examples now that justify a more
+general solution.
 
-Here is the summary with links:
-  - [v2] net: stmmac: fix incorrect rxq|txq_stats reference
-    https://git.kernel.org/netdev/net/c/8070274b472e
+Patch 1/2 adds more PMICs to the list of chips for which the interrupts
+DT property is optional: this is needed to correctly describe some newer
+boards without the IRQ pin connected.
+Ideally we would make this optional for every PMIC, but it is unclear
+whether this is a good idea: many older the "bigger" PMICs have multiple
+MFD devices that require an interrupt, so not having interrupt
+functionality might not be feasible for their operation. Also so far all
+boards with those PMICs connect the IRQ pin, so there is no immediate
+need for such a relaxation.
 
-You are awesome, thank you!
+Patch 2/2 then generalises the "no interrupt specified" case in the MFD
+driver, as this was special cased for two PMIC models so far. This
+allows boards with an AXP313a to not specify an IRQ line: there are
+actually multiple boards relying on this out there.
+
+Cheers,
+Andre
+
+Changelog v3 ... v2:
+- rebased on top of v6.6-rc2
+- add back binding patch
+- tags added
+
+Changelog v2 ... v1:
+- drop reordering approach, use separate cell lists instead
+
+Andre Przywara (2):
+  dt-bindings: mfd: x-powers,axp152: make interrupt optional for more
+    chips
+  mfd: axp20x: Generalise handling without interrupt
+
+ .../bindings/mfd/x-powers,axp152.yaml         |  5 ++-
+ drivers/mfd/axp20x.c                          | 44 ++++++++++---------
+ 2 files changed, 28 insertions(+), 21 deletions(-)
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.25.1
 
