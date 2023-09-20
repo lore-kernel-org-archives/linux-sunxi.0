@@ -1,247 +1,178 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D16F15AE5
-	for <linux-sunxi@lists.linux.dev>; Wed, 20 Sep 2023 12:59:47 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qiwmz-000587-4p; Wed, 20 Sep 2023 14:58:45 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qiwmq-007gyN-0B; Wed, 20 Sep 2023 14:58:36 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qiwmp-003ICS-Ks; Wed, 20 Sep 2023 14:58:35 +0200
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Michael Hennerich <michael.hennerich@analog.com>,
-	linux-input@vger.kernel.org,
-	kernel@pengutronix.de,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	=?utf-8?b?am9ld3UgKOWQs+S7suaMryk=?= <joewu@msi.com>,
-	chrome-platform@lists.linux.dev,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Mattijs Korpershoek <mkorpershoek@baylibre.com>,
-	Jeff LaBundy <jeff@labundy.com>,
-	Rob Herring <robh@kernel.org>,
-	Siarhei Volkau <lis8215@gmail.com>,
-	Pavel Machek <pavel@ucw.cz>,
-	"Steven Rostedt (Google)" <rostedt@goodmis.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Kalle Valo <kvalo@kernel.org>,
-	Yangtao Li <frank.li@vivo.com>,
-	ye xingchen <ye.xingchen@zte.com.cn>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	Support Opensource <support.opensource@diasemi.com>,
-	Andrey Moiseev <o2g.org.ru@gmail.com>,
-	Lee Jones <lee@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	linux-arm-msm@vger.kernel.org,
-	Hans de Goede <hdegoede@redhat.com>,
-	Miloslav Trmac <mitr@volny.cz>,
-	patches@opensource.cirrus.com,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Liang He <windhl@126.com>,
-	Chen Jun <chenjun102@huawei.com>,
-	Ruan Jinjie <ruanjinjie@huawei.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-sunxi@lists.linux.dev,
-	Michal Simek <michal.simek@amd.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 00/52] input: Convert to platform remove callback returning void
-Date: Wed, 20 Sep 2023 14:57:37 +0200
-Message-Id: <20230920125829.1478827-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.40.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B7F429A1
+	for <linux-sunxi@lists.linux.dev>; Wed, 20 Sep 2023 14:35:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71722C433C7;
+	Wed, 20 Sep 2023 14:35:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1695220542;
+	bh=HFDW8UoD5QLd6nTbuqGijlmAZk0/AapjhKvVeBKKueU=;
+	h=From:Subject:Date:To:Cc:From;
+	b=G+iqEvtI91oD9Gvhu+88PxzS8E24ExbtGQ5fcakyWpDsmhiFwhb0RUSjNDOw8GBoY
+	 37EFpMiql+e16zqxJJuPvMkvRKCPmlolTlzAUSznrPjoiDaNbl/UnXmOH4aMFSed4Y
+	 CJUh5T/3jVp+BqdeOufDkILWisc2pHuCSHiFSskri3CxtYvRiT1/wRS7fBzCN9sLSp
+	 44pIHJyxK7DutAdStUiI75mJQy4B3LJwM3qgjwrfDA4aIAgKqHbitfqn0NAlVF18dF
+	 pI44W4LmbLZg9Bu4qdmblOSTDmWj7y/MxikAEim6JJbFxzfFV3fthz3V5KtLyn/nhu
+	 dui7/UIfveZjA==
+From: Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH RFC v2 00/37] drm/connector: Create HDMI Connector
+ infrastructure
+Date: Wed, 20 Sep 2023 16:35:15 +0200
+Message-Id: <20230920-kms-hdmi-connector-state-v2-0-17932daddd7d@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7964; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=rWdlzhLIsHdM03iIkzA+11kS9bDXeLiLuCT43NqOQEY=; b=owGbwMvMwMXY3/A7olbonx/jabUkhlSuN8ZmSTKloh8yuFfy5MV5+uWsEeuNnvFmY9DEnP0nc mxS2Ys6GY1ZGBi5GGTFFFnsG9dkWlXJRXau/XcZZhArE8gUBi5OAZhI9l32f+prjjenxj/xNLI/ fCZcNn9G469/HMsa190y6F523t9fXWCd7K3veRHzPn4uUmXpVu7IVMq7Z1gYIv12T02du9Hygtm x111E7772uLAgK2i+p4KXma7iPda+l2/SmvTeLQ06vuyleBS3hmnPkp/vlyf81g8qWyQ2Jf3I2a tuP0tlnjwV4ddmDFzW6MtRLFlc9HDu4oR5aYHXukvPsnU3rX50flr8LMH41Xl9VQezPB4c46xVl WzNb+/ZvIBjXZ9844U1y7xbuhZtMo0v51cqmqJ6XK0yULdrwd+NO6X7gp6cnWE2z+zOtizOedHn 6mvWfReo3inFY8jS1lP4KX9rgZ98eVBpuZ6M54SIWxsB
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIACMDC2UC/4WNQQqDMBBFryKz7pQkxsR2VSj0AN0WF6KjDmpSE
+ pEW8e4NXqDL/z/v/Q0iBaYI12yDQCtH9i4FdcqgGWrXE3KbMiihclFKjeMccWhnxsY7R83iA8a
+ lXgiNNLa0ZOxFWUj4O1DHn0P9gufjDlUqB46J+B53qzym/+ZVokChS1HotstNoW8jBUfT2Yceq
+ n3ff/7/jnPGAAAA
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, 
+ Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ Maxime Ripard <mripard@kernel.org>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5802; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=HFDW8UoD5QLd6nTbuqGijlmAZk0/AapjhKvVeBKKueU=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKnczBZcvZvWvvnx9OB3fnaN/W8nFaj9Oz5dIO7b2kjDS
+ baeucd2dJSyMIhxMciKKbLECJsviTs163UnG988mDmsTCBDGLg4BWAiPl8ZGe6lP2ufnP3PYeFl
+ tv7ZBlaV2b6t0usis3xFq2/JeNee9mT4H1tSKODo+Wy7bMD8ZXsip8zcqlN23W1leYiYb7r9yaQ
+ URgA=
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
-Hello,
+Hi,
 
-this series converts all platform drivers below drivers/input to use
-remove_new. The motivation is to get rid of an integer return code
-that is (mostly) ignored by the platform driver core and error prone on
-the driver side.
+Here's a series that creates a subclass of drm_connector specifically
+targeted at HDMI controllers.
 
-See commit 5c5a7680e67b ("platform: Provide a remove callback that
-returns no value") for an extended explanation and the eventual goal.
+The idea behind this series came from a recent discussion on IRC during
+which we discussed infoframes generation of i915 vs everything else. 
 
-There are no interdependencies between the patches. As there are still
-quite a few drivers to convert, I'm happy about every patch that makes
-it in. So even if there is a merge conflict with one patch until you
-apply or a subject prefix is suboptimal, please apply the remainder of
-this series anyhow.
+Infoframes generation code still requires some decent boilerplate, with
+each driver doing some variation of it.
 
-Best regards
-Uwe
+In parallel, while working on vc4, we ended up converting a lot of i915
+logic (mostly around format / bpc selection, and scrambler setup) to
+apply on top of a driver that relies only on helpers.
 
-Uwe Kleine-König (52):
-  input: adp5520-keys - Convert to platform remove callback returning
-    void
-  input: cros_ec_keyb - Convert to platform remove callback returning
-    void
-  input: ep93xx_keypad - Convert to platform remove callback returning
-    void
-  input: iqs62x-keys - Convert to platform remove callback returning
-    void
-  input: matrix_keypad - Convert to platform remove callback returning
-    void
-  input: omap-keypad - Convert to platform remove callback returning
-    void
-  input: omap4-keypad - Convert to platform remove callback returning
-    void
-  input: samsung-keypad - Convert to platform remove callback returning
-    void
-  input: sh_keysc - Convert to platform remove callback returning void
-  input: spear-keyboard - Convert to platform remove callback returning
-    void
-  input: stmpe-keypad - Convert to platform remove callback returning
-    void
-  input: 88pm80x_onkey - Convert to platform remove callback returning
-    void
-  input: da9052_onkey - Convert to platform remove callback returning
-    void
-  input: da9055_onkey - Convert to platform remove callback returning
-    void
-  input: ideapad_slidebar - Convert to platform remove callback
-    returning void
-  input: m68kspkr - Convert to platform remove callback returning void
-  input: max8997_haptic - Convert to platform remove callback returning
-    void
-  input: mc13783-pwrbutton - Convert to platform remove callback
-    returning void
-  input: palmas-pwrbutton - Convert to platform remove callback
-    returning void
-  input: pcap_keys - Convert to platform remove callback returning void
-  input: pcf50633-input - Convert to platform remove callback returning
-    void
-  input: pcspkr - Convert to platform remove callback returning void
-  input: pm8941-pwrkey - Convert to platform remove callback returning
-    void
-  input: soc_button_array - Convert to platform remove callback
-    returning void
-  input: sparcspkr - Convert to platform remove callback returning void
-  input: wistron_btns - Convert to platform remove callback returning
-    void
-  input: wm831x-on - Convert to platform remove callback returning void
-  input: navpoint - Convert to platform remove callback returning void
-  input: altera_ps2 - Convert to platform remove callback returning void
-  input: ams_delta_serio - Convert to platform remove callback returning
-    void
-  input: apbps2 - Convert to platform remove callback returning void
-  input: arc_ps2 - Convert to platform remove callback returning void
-  input: ct82c710 - Convert to platform remove callback returning void
-  drivers/input/serio/i8042-sparcio.h :: Convert to platform remove
-    callback returning void
-  input: i8042 - Convert to platform remove callback returning void
-  input: ioc3kbd - Convert to platform remove callback returning void
-  input: maceps2 - Convert to platform remove callback returning void
-  input: olpc_apsp - Convert to platform remove callback returning void
-  input: ps2-gpio - Convert to platform remove callback returning void
-  input: q40kbd - Convert to platform remove callback returning void
-  input: rpckbd - Convert to platform remove callback returning void
-  input: sun4i-ps2 - Convert to platform remove callback returning void
-  input: xilinx_ps2 - Convert to platform remove callback returning void
-  input: da9052_tsi - Convert to platform remove callback returning void
-  input: mainstone-wm97xx - Convert to platform remove callback
-    returning void
-  input: mc13783_ts - Convert to platform remove callback returning void
-  input: pcap_ts - Convert to platform remove callback returning void
-  input: stmpe-ts - Convert to platform remove callback returning void
-  input: sun4i-ts - Convert to platform remove callback returning void
-  input: ti_am335x_tsc - Convert to platform remove callback returning
-    void
-  input: wm831x-ts - Convert to platform remove callback returning void
-  input: wm97xx-core - Convert to platform remove callback returning
-    void
+While currently sitting in the vc4 driver, none of that logic actually
+relies on any driver or hardware-specific behaviour.
 
- drivers/input/keyboard/adp5520-keys.c        |  6 ++----
- drivers/input/keyboard/cros_ec_keyb.c        |  6 ++----
- drivers/input/keyboard/ep93xx_keypad.c       |  6 ++----
- drivers/input/keyboard/iqs62x-keys.c         |  6 ++----
- drivers/input/keyboard/matrix_keypad.c       |  6 ++----
- drivers/input/keyboard/omap-keypad.c         |  6 ++----
- drivers/input/keyboard/omap4-keypad.c        |  6 ++----
- drivers/input/keyboard/samsung-keypad.c      |  6 ++----
- drivers/input/keyboard/sh_keysc.c            |  6 ++----
- drivers/input/keyboard/spear-keyboard.c      |  6 ++----
- drivers/input/keyboard/stmpe-keypad.c        |  6 ++----
- drivers/input/misc/88pm80x_onkey.c           |  5 ++---
- drivers/input/misc/da9052_onkey.c            |  6 ++----
- drivers/input/misc/da9055_onkey.c            |  6 ++----
- drivers/input/misc/ideapad_slidebar.c        |  6 ++----
- drivers/input/misc/m68kspkr.c                |  6 ++----
- drivers/input/misc/max8997_haptic.c          |  6 ++----
- drivers/input/misc/mc13783-pwrbutton.c       |  6 ++----
- drivers/input/misc/palmas-pwrbutton.c        |  6 ++----
- drivers/input/misc/pcap_keys.c               |  6 ++----
- drivers/input/misc/pcf50633-input.c          |  6 ++----
- drivers/input/misc/pcspkr.c                  |  6 ++----
- drivers/input/misc/pm8941-pwrkey.c           |  6 ++----
- drivers/input/misc/soc_button_array.c        |  6 ++----
- drivers/input/misc/sparcspkr.c               | 12 ++++--------
- drivers/input/misc/wistron_btns.c            |  6 ++----
- drivers/input/misc/wm831x-on.c               |  6 ++----
- drivers/input/mouse/navpoint.c               |  6 ++----
- drivers/input/serio/altera_ps2.c             |  6 ++----
- drivers/input/serio/ams_delta_serio.c        |  6 ++----
- drivers/input/serio/apbps2.c                 |  6 ++----
- drivers/input/serio/arc_ps2.c                |  6 ++----
- drivers/input/serio/ct82c710.c               |  6 ++----
- drivers/input/serio/i8042-sparcio.h          |  6 ++----
- drivers/input/serio/i8042.c                  |  6 ++----
- drivers/input/serio/ioc3kbd.c                |  6 ++----
- drivers/input/serio/maceps2.c                |  6 ++----
- drivers/input/serio/olpc_apsp.c              |  6 ++----
- drivers/input/serio/ps2-gpio.c               |  5 ++---
- drivers/input/serio/q40kbd.c                 |  6 ++----
- drivers/input/serio/rpckbd.c                 |  6 ++----
- drivers/input/serio/sun4i-ps2.c              |  6 ++----
- drivers/input/serio/xilinx_ps2.c             |  6 ++----
- drivers/input/touchscreen/da9052_tsi.c       |  6 ++----
- drivers/input/touchscreen/mainstone-wm97xx.c |  6 ++----
- drivers/input/touchscreen/mc13783_ts.c       |  6 ++----
- drivers/input/touchscreen/pcap_ts.c          |  6 ++----
- drivers/input/touchscreen/stmpe-ts.c         |  6 ++----
- drivers/input/touchscreen/sun4i-ts.c         |  6 ++----
- drivers/input/touchscreen/ti_am335x_tsc.c    |  5 ++---
- drivers/input/touchscreen/wm831x-ts.c        |  6 ++----
- drivers/input/touchscreen/wm97xx-core.c      |  6 ++----
- 52 files changed, 106 insertions(+), 209 deletions(-)
+The only missing piece to make it shareable are a bunch of extra
+variables stored in a state (current bpc, format, RGB range selection,
+etc.).
 
-base-commit: 926f75c8a5ab70567eb4c2d82fbc96963313e564
+The initial implementation was relying on some generic subclass of
+drm_connector to address HDMI connectors, with a bunch of helpers that
+will take care of all the "HDMI Spec" related code. Scrambler setup is
+missing at the moment but can easily be plugged in.
+
+The feedback was that creating a connector subclass like was done for
+writeback would prevent the adoption of those helpers since it couldn't
+be used in all situations (like when the connector driver can implement
+multiple output) and required more churn to cast between the
+drm_connector and its subclass. The decision was thus to provide a set
+of helper and to store the required variables in drm_connector and
+drm_connector_state. This what has been implemented now.
+
+Hans Verkuil also expressed interest in implementing a mechanism in v4l2
+to retrieve infoframes from HDMI receiver and implementing an
+infoframe-decode tool.
+
+This series thus leverages the infoframe generation code to expose it
+through debugfs.
+
+This entire series is only build-tested at the moment. Let me know what
+you think,
+Maxime
+
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+Changes in v2:
+- Change from a subclass to a set of helpers for drm_connector and
+  drm_connector state
+- Don't assume that all drivers support RGB, YUV420 and YUV422 but make
+  them provide a bitfield instead.
+- Don't assume that all drivers support the Broadcast RGB property but
+  make them call the registration helper.
+- Document the Broacast RGB property
+- Convert the inno_hdmi and sun4i_hdmi driver.
+- Link to v1: https://lore.kernel.org/r/20230814-kms-hdmi-connector-state-v1-0-048054df3654@kernel.org
+
+---
+Maxime Ripard (37):
+      drm/connector: Introduce an HDMI connector
+      drm/connector: hdmi: Create a custom state
+      drm/connector: hdmi: Add Broadcast RGB property
+      drm/connector: hdmi: Add helper to get the RGB range
+      drm/connector: hdmi: Add output BPC to the connector state
+      drm/connector: hdmi: Add support for output format
+      drm/connector: hdmi: Add HDMI compute clock helper
+      drm/connector: hdmi: Calculate TMDS character rate
+      drm/connector: hdmi: Add custom hook to filter TMDS character rate
+      drm/connector: hdmi: Compute bpc and format automatically
+      drm/connector: hdmi: Add Infoframes generation
+      drm/connector: hdmi: Create Infoframe DebugFS entries
+      drm/vc4: hdmi: Create destroy state implementation
+      drm/vc4: hdmi: Switch to HDMI connector
+      drm/rockchip: inno_hdmi: Remove useless mode_fixup
+      drm/rockchip: inno_hdmi: Remove useless copy of drm_display_mode
+      drm/rockchip: inno_hdmi: Switch encoder hooks to atomic
+      drm/rockchip: inno_hdmi: Get rid of mode_set
+      drm/rockchip: inno_hdmi: no need to store vic
+      drm/rockchip: inno_hdmi: Remove unneeded has audio flag
+      drm/rockchip: inno_hdmi: Remove useless input format
+      drm/rockchip: inno_hdmi: Remove useless output format
+      drm/rockchip: inno_hdmi: Remove useless colorimetry
+      drm/rockchip: inno_hdmi: Remove useless enum
+      drm/rockchip: inno_hdmi: Remove tmds rate from structure
+      drm/rockchip: inno_hdmi: Remove useless coeff_csc matrix
+      drm/rockchip: inno_hdmi: Remove useless mode_valid
+      drm/rockchip: inno_hdmi: Move infoframe disable to separate function
+      drm/rockchip: inno_hdmi: Create mask retrieval functions
+      drm/rockchip: inno_hdmi: Switch to infoframe type
+      drm/rockchip: inno_hdmi: Remove unused drm device pointer
+      drm/rockchip: inno_hdmi: Switch to HDMI connector
+      drm/sun4i: hdmi: Convert encoder to atomic
+      drm/sun4i: hdmi: Move mode_set into enable
+      drm/sun4i: hdmi: Switch to container_of_const
+      drm/sun4i: hdmi: Consolidate atomic_check and mode_valid
+      drm/sun4i: hdmi: Switch to HDMI connector
+
+ Documentation/gpu/kms-properties.csv      |   1 -
+ drivers/gpu/drm/Kconfig                   |   1 +
+ drivers/gpu/drm/drm_atomic.c              |  10 +
+ drivers/gpu/drm/drm_atomic_state_helper.c | 634 ++++++++++++++++++++++++++++++
+ drivers/gpu/drm/drm_atomic_uapi.c         |   4 +
+ drivers/gpu/drm/drm_connector.c           | 196 +++++++++
+ drivers/gpu/drm/drm_debugfs.c             | 110 ++++++
+ drivers/gpu/drm/rockchip/inno_hdmi.c      | 409 +++++++------------
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c    | 203 +++++-----
+ drivers/gpu/drm/vc4/vc4_hdmi.c            | 624 ++++-------------------------
+ drivers/gpu/drm/vc4/vc4_hdmi.h            |  44 +--
+ drivers/gpu/drm/vc4/vc4_hdmi_phy.c        |   6 +-
+ include/drm/drm_atomic_state_helper.h     |  15 +
+ include/drm/drm_connector.h               | 245 ++++++++++++
+ 14 files changed, 1557 insertions(+), 945 deletions(-)
+---
+base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
+change-id: 20230814-kms-hdmi-connector-state-616787e67927
+
+Best regards,
 -- 
-2.40.1
+Maxime Ripard <mripard@kernel.org>
 
