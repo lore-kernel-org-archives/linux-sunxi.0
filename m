@@ -1,221 +1,526 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7A7629A1
-	for <linux-sunxi@lists.linux.dev>; Wed, 20 Sep 2023 14:37:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F12DC433B9;
-	Wed, 20 Sep 2023 14:37:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1695220646;
-	bh=3B4cKJeyaHEA4qnMRAdXt6vbTh9xnPoZLjBoO+s6BVk=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=JAbqgnUzDDNhJr4q840OWp8qI3jw3X1WWILJafsi2kFtKITNSaCpq9rjC+qwaxmWB
-	 NspkMEYNaqNpZQHOgneVbzA6s0oQc/aIlnFVdSU78Ki9uopM9kdBMR+UVZjG8cuebO
-	 4LeGsLskNcWdAdJwd/5rDjXeA5t+hG6bESzeEAGqkRkSt34zFZ+lKGs0fg9yYZRuWk
-	 cQ8uSlMPUgTni9sBhHQgZ3o8Fn2x4sBv6Gk7cuBK6lq+QHLWnQwhoO9r0eQLYFRcm6
-	 gunWxMKJQufjTqnxNx7RPXl11AwOTnDlpU2sodPlATZq72iAilnLzrDvm91JwnDU9Y
-	 fzZZo9LK1V0sA==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Wed, 20 Sep 2023 16:35:52 +0200
-Subject: [PATCH RFC v2 37/37] drm/sun4i: hdmi: Switch to HDMI connector
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03B7C339BB
+	for <linux-sunxi@lists.linux.dev>; Wed, 20 Sep 2023 15:59:33 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-50300141a64so61408e87.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 20 Sep 2023 08:59:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1695225572; x=1695830372; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=SrEwJJIRuSDwYs6rgAIDjXDEIrpiFTV5JGyIwxXdV5M=;
+        b=Un7NJEkn3icslgCCnIDPASP6cBMAZIb2TV9CM5ilpD83hRerANr9zgTUExubsXamJj
+         Z41SW5jXC/tR2TMfq4jY3qDcdnfhC9b9TiXjhD2gpW7Z8HWwKhJhGNBn9cBHyfsJ7v/p
+         BbLghy3HkNDKn/w83Glo+xN+eWS/zbTUpnC0EtFAVCHYFY8tnYg+vGIswCDnM/uJ1dLe
+         ErkLp0Xh6biMlQ/SULvuyVC9LWCwVMJxE7PVuXL9yqDbNqzeXlHefNWO6qmWimAJaGOM
+         T8yQL8X2doPzqsLHbV8a1dNy4VQyfM/knAsxQBXiOTWFoH2bcMjWV0bex6I6Wv58oAvi
+         9mJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695225572; x=1695830372;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SrEwJJIRuSDwYs6rgAIDjXDEIrpiFTV5JGyIwxXdV5M=;
+        b=OT6Huy507oBb8vNF0GkmaRt/yAvY0kJHzOxtEhxgqqDoS9ZhWoewUGn/JsB7a+IhVW
+         O7F/la8aWEx/N9j3mrtKYD9wamYBD+pBF6iHe84P0un5S2ackIyWmSv8jdQ//epHYMLq
+         J7tTOLZTQ8HQwfq03ldead8ZA7EZ76dw4h8vXBPDJc5YtBSoPZyEz+P+IUSiM18g9o1o
+         cvkp5J4KM5vSZFKaN3tIK0LcVV6dtgebJ8P/cNBuAlosJMQEV0mqg+c/7LBukQzZyJZY
+         hg/1YzDnOa7jOEvsVoIr09KvZLomWk8h+YW6EPSg7L+w3bq7C6o28eUrtd7sJZ/pCqGW
+         xCpw==
+X-Gm-Message-State: AOJu0YzNGq/9hGAoQbOLDCViyxwx4zPIsVSIq06lXt8fkiV+Tvmghmtt
+	5Pfuk2fhdbfoC37amVDTR4g=
+X-Google-Smtp-Source: AGHT+IEqriHEUwZkvtgRrDaK8dMC09gnBT1UWwuC9l/+0ZAQBxXqofrgQwH4UoXeu/bQ3RVSIZtAIA==
+X-Received: by 2002:a19:7714:0:b0:500:c765:bbe with SMTP id s20-20020a197714000000b00500c7650bbemr2560561lfc.0.1695225571535;
+        Wed, 20 Sep 2023 08:59:31 -0700 (PDT)
+Received: from [192.168.89.225] ([46.251.213.86])
+        by smtp.gmail.com with ESMTPSA id v17-20020a197411000000b005009dcb4503sm2730573lfe.249.2023.09.20.08.59.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Sep 2023 08:59:30 -0700 (PDT)
+Message-ID: <3bab30f0-3f8b-4140-b80e-6e9a8c011272@gmail.com>
+Date: Wed, 20 Sep 2023 21:59:35 +0600
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] pinctrl: sunxi: h616: add extra gpio banks
+Content-Language: en-US
+To: Andre Przywara <andre.przywara@arm.com>,
+ Linus Walleij <linus.walleij@linaro.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, linux-gpio@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20230916081615.4237-1-iuncuim@gmail.com>
+ <20230920101134.181709e9@donnerap.manchester.arm.com>
+From: Mikhail Kalashnikov <iuncuim@gmail.com>
+In-Reply-To: <20230920101134.181709e9@donnerap.manchester.arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230920-kms-hdmi-connector-state-v2-37-17932daddd7d@kernel.org>
-References: <20230920-kms-hdmi-connector-state-v2-0-17932daddd7d@kernel.org>
-In-Reply-To: <20230920-kms-hdmi-connector-state-v2-0-17932daddd7d@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, 
- Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- Maxime Ripard <mripard@kernel.org>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6185; i=mripard@kernel.org;
- h=from:subject:message-id; bh=3B4cKJeyaHEA4qnMRAdXt6vbTh9xnPoZLjBoO+s6BVk=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKnczNaMWjsSjrwX2fD68hfB4kk2V6ar/1+bHxM8xWhTQ
- lGMpO+ajlIWBjEuBlkxRZYYYfMlcadmve5k45sHM4eVCWQIAxenAEykxZqR4cHHWW2zF04uZel1
- Y3vs0Z6gukbzUY+jT9ocr92RfFse7mb47zVDkk1pWqOcaKa8SNLm6eW1KZnq/QFSstp97eHPm1O
- ZAQ==
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
-The new HDMI connector infrastructure allows to remove some boilerplate,
-especially to generate infoframes. Let's switch to it.
+Hi,
 
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
- drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 80 ++++++++++++++++++++++------------
- 1 file changed, 51 insertions(+), 29 deletions(-)
+Ohh, just now I understand that the changelog should be in the cover letter.
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-index b7cf369b1906..8a9106a39f23 100644
---- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-@@ -36,30 +36,24 @@
- #define drm_connector_to_sun4i_hdmi(c)		\
- 	container_of_const(c, struct sun4i_hdmi, connector)
- 
--static int sun4i_hdmi_setup_avi_infoframes(struct sun4i_hdmi *hdmi,
--					   struct drm_display_mode *mode)
-+static int sun4i_hdmi_write_infoframe(struct drm_connector *connector,
-+				      enum hdmi_infoframe_type type,
-+				      const u8 *buffer, size_t len)
- {
--	struct hdmi_avi_infoframe frame;
--	u8 buffer[17];
--	int i, ret;
-+	struct sun4i_hdmi *hdmi = drm_connector_to_sun4i_hdmi(connector);
-+	int i;
- 
--	ret = drm_hdmi_avi_infoframe_from_display_mode(&frame,
--						       &hdmi->connector, mode);
--	if (ret < 0) {
--		DRM_ERROR("Failed to get infoframes from mode\n");
--		return ret;
-+	if (type != HDMI_INFOFRAME_TYPE_AVI) {
-+		drm_err(connector->dev,
-+			"Unsupported infoframe type: %u\n", type);
-+		return 0;
- 	}
- 
--	ret = hdmi_avi_infoframe_pack(&frame, buffer, sizeof(buffer));
--	if (ret < 0) {
--		DRM_ERROR("Failed to pack infoframes\n");
--		return ret;
--	}
--
--	for (i = 0; i < sizeof(buffer); i++)
-+	for (i = 0; i < len; i++)
- 		writeb(buffer[i], hdmi->base + SUN4I_HDMI_AVI_INFOFRAME_REG(i));
- 
- 	return 0;
-+
- }
- 
- static void sun4i_hdmi_disable(struct drm_encoder *encoder,
-@@ -82,14 +76,18 @@ static void sun4i_hdmi_enable(struct drm_encoder *encoder,
- {
- 	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
- 	struct sun4i_hdmi *hdmi = drm_encoder_to_sun4i_hdmi(encoder);
--	struct drm_display_info *display = &hdmi->connector.display_info;
-+	struct drm_connector *connector = &hdmi->connector;
-+	struct drm_display_info *display = &connector->display_info;
-+	struct drm_connector_state *conn_state =
-+		drm_atomic_get_new_connector_state(state, connector);
-+	unsigned long long tmds_rate = conn_state->hdmi.tmds_char_rate;
- 	unsigned int x, y;
- 	u32 val = 0;
- 
- 	DRM_DEBUG_DRIVER("Enabling the HDMI Output\n");
- 
--	clk_set_rate(hdmi->mod_clk, mode->crtc_clock * 1000);
--	clk_set_rate(hdmi->tmds_clk, mode->crtc_clock * 1000);
-+	clk_set_rate(hdmi->mod_clk, tmds_rate);
-+	clk_set_rate(hdmi->tmds_clk, tmds_rate);
- 
- 	/* Set input sync enable */
- 	writel(SUN4I_HDMI_UNKNOWN_INPUT_SYNC,
-@@ -142,7 +140,8 @@ static void sun4i_hdmi_enable(struct drm_encoder *encoder,
- 
- 	clk_prepare_enable(hdmi->tmds_clk);
- 
--	sun4i_hdmi_setup_avi_infoframes(hdmi, mode);
-+	drm_atomic_helper_connector_hdmi_update_infoframes(connector, state);
-+
- 	val |= SUN4I_HDMI_PKT_CTRL_TYPE(0, SUN4I_HDMI_PKT_AVI);
- 	val |= SUN4I_HDMI_PKT_CTRL_TYPE(1, SUN4I_HDMI_PKT_END);
- 	writel(val, hdmi->base + SUN4I_HDMI_PKT_CTRL_REG(0));
-@@ -195,7 +194,7 @@ static int sun4i_hdmi_connector_atomic_check(struct drm_connector *connector,
- 	enum drm_mode_status status;
- 
- 	status = sun4i_hdmi_connector_clock_valid(connector, mode,
--						  mode->clock * 1000);
-+						  conn_state->hdmi.tmds_char_rate);
- 	if (status != MODE_OK)
- 		return -EINVAL;
- 
-@@ -206,8 +205,11 @@ static enum drm_mode_status
- sun4i_hdmi_connector_mode_valid(struct drm_connector *connector,
- 				struct drm_display_mode *mode)
- {
--	return sun4i_hdmi_connector_clock_valid(connector, mode,
--						mode->clock * 1000);
-+	unsigned long long rate =
-+		drm_connector_hdmi_compute_mode_clock(mode, 8,
-+						      HDMI_COLORSPACE_RGB);
-+
-+	return sun4i_hdmi_connector_clock_valid(connector, mode, rate);
- }
- 
- static int sun4i_hdmi_get_modes(struct drm_connector *connector)
-@@ -253,6 +255,11 @@ static struct i2c_adapter *sun4i_hdmi_get_ddc(struct device *dev)
- 	return ddc;
- }
- 
-+static const struct drm_connector_hdmi_funcs sun4i_hdmi_hdmi_connector_funcs = {
-+	.tmds_char_rate_valid	= sun4i_hdmi_connector_clock_valid,
-+	.write_infoframe	= sun4i_hdmi_write_infoframe,
-+};
-+
- static const struct drm_connector_helper_funcs sun4i_hdmi_connector_helper_funcs = {
- 	.atomic_check	= sun4i_hdmi_connector_atomic_check,
- 	.mode_valid	= sun4i_hdmi_connector_mode_valid,
-@@ -274,11 +281,17 @@ sun4i_hdmi_connector_detect(struct drm_connector *connector, bool force)
- 	return connector_status_connected;
- }
- 
-+static void sun4i_hdmi_connector_reset(struct drm_connector *connector)
-+{
-+	drm_atomic_helper_connector_reset(connector);
-+	__drm_atomic_helper_connector_hdmi_reset(connector, connector->state);
-+}
-+
- static const struct drm_connector_funcs sun4i_hdmi_connector_funcs = {
- 	.detect			= sun4i_hdmi_connector_detect,
- 	.fill_modes		= drm_helper_probe_single_connector_modes,
- 	.destroy		= drm_connector_cleanup,
--	.reset			= drm_atomic_helper_connector_reset,
-+	.reset			= sun4i_hdmi_connector_reset,
- 	.atomic_duplicate_state	= drm_atomic_helper_connector_duplicate_state,
- 	.atomic_destroy_state	= drm_atomic_helper_connector_destroy_state,
- };
-@@ -637,10 +650,19 @@ static int sun4i_hdmi_bind(struct device *dev, struct device *master,
- 
- 	drm_connector_helper_add(&hdmi->connector,
- 				 &sun4i_hdmi_connector_helper_funcs);
--	ret = drm_connector_init_with_ddc(drm, &hdmi->connector,
--					  &sun4i_hdmi_connector_funcs,
--					  DRM_MODE_CONNECTOR_HDMIA,
--					  hdmi->ddc_i2c);
-+	ret = drmm_connector_hdmi_init(drm, &hdmi->connector,
-+				       /*
-+					* NOTE: Those are likely to be
-+					* wrong, but I couldn't find the
-+					* actual ones in the BSP.
-+					*/
-+				       "AW", "HDMI",
-+				       &sun4i_hdmi_connector_funcs,
-+				       &sun4i_hdmi_hdmi_connector_funcs,
-+				       DRM_MODE_CONNECTOR_HDMIA,
-+				       hdmi->ddc_i2c,
-+				       BIT(HDMI_COLORSPACE_RGB),
-+				       8);
- 	if (ret) {
- 		dev_err(dev,
- 			"Couldn't initialise the HDMI connector\n");
+If it's critical, I can fix it in the next series.
 
--- 
-2.41.0
+Thanks
 
+On 20.09.2023 15:11, Andre Przywara wrote:
+> On Sat, 16 Sep 2023 11:16:15 +0300
+> Mikhail Kalashnikov <iuncuim@gmail.com> wrote:
+>
+> Hi,
+>
+>> From: iuncuim <iuncuim@gmail.com>
+>>
+>> Some SoCs from the H616 family (such as the T507) have the same die but
+>> more output pins that are used for additional peripherals. The T507 SoC
+>> don't have a built-in multiphy like the AC200 or AC300 connected to the
+>> bank A. With the T507 these pins can be freely used for any other application.
+>> This patch adds the missing muxes on banks A, D and E.
+>>
+>> Signed-off-by: Mikhail Kalashnikov <iuncuim@gmail.com>
+>>
+>> Changes from v2:
+>>   * replaced gpio alt functions from "h_i2s0" to "i2s0"
+>> https://lore.kernel.org/linux-sunxi/20230909094529.6083-1-iuncuim@gmail.com/
+>>
+>> Changes from v1:
+>>   * replaced gpio alt functions from "csi_mclk1" and "ncsi_fsin0" to "csi"
+>>   * fix file newline
+>> https://lore.kernel.org/linux-sunxi/20230819092609.8136-1-iuncuim@gmail.com/
+>>
+>> Thanks to Samuel and Andre for the review.
+> So any extra lines like the changelog belong below those three dashes
+> here. I hope this can be fixed by the maintainers before committing?
+>
+> I compared every pin and mux against the manual, and they match up.
+> Also I see all previous comments addressed, so the function names are now
+> in line with what we use elsewhere.
+>
+> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+>
+> Cheers,
+> Andre
+>
+>
+>> ---
+>>   drivers/pinctrl/sunxi/pinctrl-sun50i-h616.c | 380 +++++++++++++++++++-
+>>   1 file changed, 366 insertions(+), 14 deletions(-)
+>>
+>> diff --git a/drivers/pinctrl/sunxi/pinctrl-sun50i-h616.c b/drivers/pinctrl/sunxi/pinctrl-sun50i-h616.c
+>> index d6ca720ee..d62f92716 100644
+>> --- a/drivers/pinctrl/sunxi/pinctrl-sun50i-h616.c
+>> +++ b/drivers/pinctrl/sunxi/pinctrl-sun50i-h616.c
+>> @@ -16,33 +16,81 @@
+>>   #include "pinctrl-sunxi.h"
+>>   
+>>   static const struct sunxi_desc_pin h616_pins[] = {
+>> -	/* Internal connection to the AC200 part */
+>> +	/* Internally connected to the AC200 part in the H616 SoC */
+>>   	SUNXI_PIN(SUNXI_PINCTRL_PIN(A, 0),
+>> -		  SUNXI_FUNCTION(0x2, "emac1")),	/* ERXD1 */
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "emac1"),		/* ERXD1 */
+>> +		  SUNXI_FUNCTION(0x4, "i2c0"),		/* SCK */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 0, 0)),	/* PA_EINT0 */
+>>   	SUNXI_PIN(SUNXI_PINCTRL_PIN(A, 1),
+>> -		  SUNXI_FUNCTION(0x2, "emac1")),	/* ERXD0 */
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "emac1"),		/* ERXD0 */
+>> +		  SUNXI_FUNCTION(0x4, "i2c0"),		/* SDA */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 0, 1)),	/* PA_EINT1 */
+>>   	SUNXI_PIN(SUNXI_PINCTRL_PIN(A, 2),
+>> -		  SUNXI_FUNCTION(0x2, "emac1")),	/* ECRS_DV */
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "emac1"),		/* ECRS_DV */
+>> +		  SUNXI_FUNCTION(0x4, "i2c1"),		/* SCK */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 0, 2)),	/* PA_EINT2 */
+>>   	SUNXI_PIN(SUNXI_PINCTRL_PIN(A, 3),
+>> -		  SUNXI_FUNCTION(0x2, "emac1")),	/* ERXERR */
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "emac1"),		/* ERXERR */
+>> +		  SUNXI_FUNCTION(0x4, "i2c1"),		/* SDA */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 0, 3)),	/* PA_EINT3 */
+>>   	SUNXI_PIN(SUNXI_PINCTRL_PIN(A, 4),
+>> -		  SUNXI_FUNCTION(0x2, "emac1")),	/* ETXD1 */
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "emac1"),		/* ETXD1 */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 0, 4)),	/* PA_EINT4 */
+>>   	SUNXI_PIN(SUNXI_PINCTRL_PIN(A, 5),
+>> -		  SUNXI_FUNCTION(0x2, "emac1")),	/* ETXD0 */
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "emac1"),		/* ETXD0 */
+>> +		  SUNXI_FUNCTION(0x3, "i2s0"),		/* DOUT0 */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 0, 5)),	/* PA_EINT5 */
+>>   	SUNXI_PIN(SUNXI_PINCTRL_PIN(A, 6),
+>> -		  SUNXI_FUNCTION(0x2, "emac1")),	/* ETXCK */
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "emac1"),		/* ETXCK */
+>> +		  SUNXI_FUNCTION(0x3, "i2s0"),		/* MCLK */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 0, 6)),	/* PA_EINT6 */
+>>   	SUNXI_PIN(SUNXI_PINCTRL_PIN(A, 7),
+>> -		  SUNXI_FUNCTION(0x2, "emac1")),	/* ETXEN */
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "emac1"),		/* ETXEN */
+>> +		  SUNXI_FUNCTION(0x3, "i2s0"),		/* BCLK */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 0, 7)),	/* PA_EINT7 */
+>>   	SUNXI_PIN(SUNXI_PINCTRL_PIN(A, 8),
+>> -		  SUNXI_FUNCTION(0x2, "emac1")),	/* EMDC */
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "emac1"),		/* EMDC */
+>> +		  SUNXI_FUNCTION(0x3, "i2s0"),		/* LRCK */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 0, 8)),	/* PA_EINT8 */
+>>   	SUNXI_PIN(SUNXI_PINCTRL_PIN(A, 9),
+>> -		  SUNXI_FUNCTION(0x2, "emac1")),	/* EMDIO */
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "emac1"),		/* EMDIO */
+>> +		  SUNXI_FUNCTION(0x3, "i2s0"),		/* DIN0 */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 0, 9)),	/* PA_EINT9 */
+>>   	SUNXI_PIN(SUNXI_PINCTRL_PIN(A, 10),
+>> -		  SUNXI_FUNCTION(0x2, "i2c3")),		/* SCK */
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "i2c3"),		/* SCK */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 0, 10)),	/* PA_EINT10 */
+>>   	SUNXI_PIN(SUNXI_PINCTRL_PIN(A, 11),
+>> -		  SUNXI_FUNCTION(0x2, "i2c3")),		/* SDA */
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "i2c3"),		/* SDA */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 0, 11)),	/* PA_EINT11 */
+>>   	SUNXI_PIN(SUNXI_PINCTRL_PIN(A, 12),
+>> -		  SUNXI_FUNCTION(0x2, "pwm5")),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "pwm5"),
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 0, 12)),	/* PA_EINT12 */
+>>   	/* Hole */
+>>   	SUNXI_PIN(SUNXI_PINCTRL_PIN(C, 0),
+>>   		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> @@ -149,6 +197,310 @@ static const struct sunxi_desc_pin h616_pins[] = {
+>>   		  SUNXI_FUNCTION(0x4, "spi0"),		/* HOLD */
+>>   		  SUNXI_FUNCTION_IRQ_BANK(0x6, 1, 16)),	/* PC_EINT16 */
+>>   	/* Hole */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 0),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D0 */
+>> +		  SUNXI_FUNCTION(0x3, "lvds0"),		/* VP0 */
+>> +		  SUNXI_FUNCTION(0x4, "ts0"),		/* CLK */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 0)),	/* PD_EINT0 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 1),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D1 */
+>> +		  SUNXI_FUNCTION(0x3, "lvds0"),		/* VN0 */
+>> +		  SUNXI_FUNCTION(0x4, "ts0"),		/* ERR */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 1)),	/* PD_EINT1 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 2),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D2 */
+>> +		  SUNXI_FUNCTION(0x3, "lvds0"),		/* VP1 */
+>> +		  SUNXI_FUNCTION(0x4, "ts0"),		/* SYNC */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 2)),	/* PD_EINT2 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 3),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D3 */
+>> +		  SUNXI_FUNCTION(0x3, "lvds0"),		/* VN1 */
+>> +		  SUNXI_FUNCTION(0x4, "ts0"),		/* DVLD */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 3)),	/* PD_EINT3 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 4),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D4 */
+>> +		  SUNXI_FUNCTION(0x3, "lvds0"),		/* VP2 */
+>> +		  SUNXI_FUNCTION(0x4, "ts0"),		/* D0 */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 4)),	/* PD_EINT4 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 5),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D5 */
+>> +		  SUNXI_FUNCTION(0x3, "lvds0"),		/* VN2 */
+>> +		  SUNXI_FUNCTION(0x4, "ts0"),		/* D1 */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 5)),	/* PD_EINT5 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 6),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D6 */
+>> +		  SUNXI_FUNCTION(0x3, "lvds0"),		/* VPC */
+>> +		  SUNXI_FUNCTION(0x4, "ts0"),		/* D2 */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 6)),	/* PD_EINT6 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 7),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D7 */
+>> +		  SUNXI_FUNCTION(0x3, "lvds0"),		/* VNC */
+>> +		  SUNXI_FUNCTION(0x4, "ts0"),		/* D3 */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 7)),	/* PD_EINT7 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 8),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D8 */
+>> +		  SUNXI_FUNCTION(0x3, "lvds0"),		/* VP3 */
+>> +		  SUNXI_FUNCTION(0x4, "ts0"),		/* D4 */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 8)),	/* PD_EINT8 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 9),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D9 */
+>> +		  SUNXI_FUNCTION(0x3, "lvds0"),		/* VN3 */
+>> +		  SUNXI_FUNCTION(0x4, "ts0"), 		/* D5 */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 9)),	/* PD_EINT9 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 10),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D10 */
+>> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* VP0 */
+>> +		  SUNXI_FUNCTION(0x4, "ts0"), 		/* D6 */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 10)),	/* PD_EINT10 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 11),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D11 */
+>> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* VN0 */
+>> +		  SUNXI_FUNCTION(0x4, "ts0"), 		/* D7 */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 11)),	/* PD_EINT11 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 12),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D12 */
+>> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* VP1 */
+>> +		  SUNXI_FUNCTION(0x4, "sim"), 		/* VPPEN */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 12)),	/* PD_EINT12 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 13),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D13 */
+>> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* VN1 */
+>> +		  SUNXI_FUNCTION(0x4, "sim"),		/* VPPPP */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 13)),	/* PD_EINT13 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 14),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D14 */
+>> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* VP2 */
+>> +		  SUNXI_FUNCTION(0x4, "sim"),		/* PWREN */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 14)),	/* PD_EINT14 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 15),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D15 */
+>> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* VN2 */
+>> +		  SUNXI_FUNCTION(0x4, "sim"),		/* CLK */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 15)),	/* PD_EINT15 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 16),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D16 */
+>> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* VPC */
+>> +		  SUNXI_FUNCTION(0x4, "sim"),		/* DATA */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 16)),	/* PD_EINT16 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 17),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D17 */
+>> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* VNC */
+>> +		  SUNXI_FUNCTION(0x4, "sim"),		/* RST */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 17)),	/* PD_EINT17 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 18),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D18 */
+>> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* VP3 */
+>> +		  SUNXI_FUNCTION(0x4, "sim"),		/* DET */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 18)),	/* PD_EINT18 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 19),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D19 */
+>> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* VN3 */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 19)),	/* PD_EINT19 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 20),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D20 */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 20)),	/* PD_EINT20 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 21),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D21 */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 21)),	/* PD_EINT21 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 22),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D22 */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 22)),	/* PD_EINT22 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 23),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D23 */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 23)),	/* PD_EINT23 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 24),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "lcd0"),		/* CLK */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 24)),	/* PD_EINT24 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 25),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "lcd0"),		/* DE */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 25)),	/* PD_EINT25 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 26),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "lcd0"),		/* HSYNC */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 26)),	/* PD_EINT26 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 27),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "lcd0"),		/* VSYNC */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 27)),	/* PD_EINT27 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 28),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "pwm0"),
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 28)),	/* PD_EINT28 */
+>> +	/* Hole */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(E, 0),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "csi"),		/*  PCLK  */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 3, 0)),	/* PE_EINT0 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(E, 1),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "csi"),		/*  MCLK  */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 3, 1)),	/* PE_EINT1 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(E, 2),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "csi"),		/*  HSYNC  */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 3, 2)),	/* PE_EINT2 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(E, 3),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "csi"),		/*  VSYNC  */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 3, 3)),	/* PE_EINT3 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(E, 4),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "csi"),		/*  D0  */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 3, 4)),	/* PE_EINT4 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(E, 5),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "csi"),		/*  D1  */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 3, 5)),	/* PE_EINT5 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(E, 6),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "csi"),		/*  D2  */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 3, 6)),	/* PE_EINT6 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(E, 7),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "csi"),		/*  D3  */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 3, 7)),	/* PE_EINT7 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(E, 8),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "csi"),		/*  D4  */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 3, 8)),	/* PE_EINT8 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(E, 9),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "csi"),		/*  D5  */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 3, 9)),	/* PE_EINT9 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(E, 10),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "csi"),		/*  D6  */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 3, 10)),	/* PE_EINT10 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(E, 11),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "csi"),		/*  D7  */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 3, 11)),	/* PE_EINT11 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(E, 12),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "csi"),		/*  D8  */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 3, 12)),	/* PE_EINT12 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(E, 13),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "csi"),		/*  D9  */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 3, 13)),	/* PE_EINT13 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(E, 14),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "csi"),		/*  D10  */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 3, 14)),	/* PE_EINT14 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(E, 15),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "csi"),		/*  D11  */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 3, 15)),	/* PE_EINT15 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(E, 16),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "csi"),		/*  D12  */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 3, 16)),	/* PE_EINT16 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(E, 17),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "csi"),		/*  D13  */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 3, 17)),	/* PE_EINT17 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(E, 18),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "csi"),		/*  D14  */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 3, 18)),	/* PE_EINT18 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(E, 19),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "csi"),		/*  D15  */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 3, 19)),	/* PE_EINT19 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(E, 20),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "csi"),		/*  SCK  */
+>> +		  SUNXI_FUNCTION(0x5, "i2c2"),		/*  SCK  */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 3, 20)),	/* PE_EINT20 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(E, 21),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "csi"),		/*  SDA */
+>> +		  SUNXI_FUNCTION(0x5, "i2c2"),		/*  SDA  */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 3, 21)),	/* PE_EINT21 */
+>> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(E, 22),
+>> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>> +		  SUNXI_FUNCTION(0x2, "csi"),		/*  FSIN0 */
+>> +		  SUNXI_FUNCTION(0x4, "tcon0"),		/*  TRIG0  */
+>> +		  SUNXI_FUNCTION_IRQ_BANK(0x6, 3, 22)),	/* PE_EINT22 */
+>> +	/* Hole */
+>>   	SUNXI_PIN(SUNXI_PINCTRL_PIN(F, 0),
+>>   		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>>   		  SUNXI_FUNCTION(0x1, "gpio_out"),
