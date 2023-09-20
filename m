@@ -1,33 +1,37 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A04515AE6
-	for <linux-sunxi@lists.linux.dev>; Wed, 20 Sep 2023 12:58:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 877FA15AE5
+	for <linux-sunxi@lists.linux.dev>; Wed, 20 Sep 2023 12:59:04 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1qiwn1-0005cl-5S; Wed, 20 Sep 2023 14:58:47 +0200
+	id 1qiwn3-0005lr-7Q; Wed, 20 Sep 2023 14:58:49 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1qiwmz-007h0y-Cu; Wed, 20 Sep 2023 14:58:45 +0200
+	id 1qiwn0-007h1P-Ts; Wed, 20 Sep 2023 14:58:46 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1qiwmz-003IFB-3I; Wed, 20 Sep 2023 14:58:45 +0200
+	id 1qiwn0-003IFd-KN; Wed, 20 Sep 2023 14:58:46 +0200
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc: Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Jonathan Corbet <corbet@lwn.net>,
 	linux-input@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	kernel@pengutronix.de
-Subject: [PATCH 42/52] input: sun4i-ps2 - Convert to platform remove callback returning void
-Date: Wed, 20 Sep 2023 14:58:19 +0200
-Message-Id: <20230920125829.1478827-43-u.kleine-koenig@pengutronix.de>
+Subject: [PATCH 49/52] input: sun4i-ts - Convert to platform remove callback returning void
+Date: Wed, 20 Sep 2023 14:58:26 +0200
+Message-Id: <20230920125829.1478827-50-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230920125829.1478827-1-u.kleine-koenig@pengutronix.de>
 References: <20230920125829.1478827-1-u.kleine-koenig@pengutronix.de>
@@ -38,7 +42,7 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1857; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=9/tzG6hSPC1O7G4VLWSid0fAqDrsjXjJIrKCNtsf9XM=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlCuxjwrC0hABNvV8yIyxtcS5AEkzmBO4C+0b0H yKBlEGkQD6JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZQrsYwAKCRCPgPtYfRL+ TmzUB/sHyzeQmJlM6eoE28qcA8tKM2fHB6nWG7LueBBPhMWfRclE0VxCNVG7Rj15HnnF0jV8M8O RAWM/8orH1/vdA0dfXKLYTjrEndXdxzgj7zoxj0l/gQBBcPPwemuYsHXTs+hSXOoWwNq1N5WETu IajTpWmFGsUYnX76HxJaKmaVmSTcIez1HghHVmxJGc+3uvmZq55z2qBoU3EfcoR99cK5Ee/wazK L0PbyFEJu94SX21v3vbmC6XCNt/1dgdLTTf6Qt8aTJawt/7l1+XHjZAfsVg/7eaGMD8n2sH0m9i KoNmJqYJUyrNO5C/bpgnvi1bB7mSBhLvNPpyJGShJvNq9hHm
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1855; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=zF4xZu+hwVC6L9733M9plkhU8fvddRnK55gpTuc7Vgc=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlCuxrqjnosHJ8C+UWdQ9SSqEsDaJf8YeepCMl6 Dz31Yhm+9mJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZQrsawAKCRCPgPtYfRL+ TufgB/wIzdbOjhnYmod3UlF216YglsMYuG6yfO4qP6mOpAwxOZyb95LGe9Ues464HKE8BCR37M+ ag2d8E3T6NsfX8eTOwD8rqfEVGy1B+FaEAS0h8iI1dwzPqEGxQ7HnKCjHXCSeFSTi4gVBLLr+A1 ajAI65d5ZBm6RBKUxBmAj8rQQEXr4fcoMlNkOVzmkzGmmBfTjR95xplqAuF04h3CFU15MPmnLAQ EUaaGGLBTMpn7KrYt1MALqDqMp1UBGYgcaq0MeW+Lwuzzk4a/q5Mu2ShP906iZzX358k2ti4oMU 7CiBuWSz/bcWdFCsGrjQTKddfH6WmY28l0aPcK6PWyq1DaX9
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -60,40 +64,40 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/input/serio/sun4i-ps2.c | 6 ++----
+ drivers/input/touchscreen/sun4i-ts.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/input/serio/sun4i-ps2.c b/drivers/input/serio/sun4i-ps2.c
-index eb262640192e..aec66d9f5176 100644
---- a/drivers/input/serio/sun4i-ps2.c
-+++ b/drivers/input/serio/sun4i-ps2.c
-@@ -297,7 +297,7 @@ static int sun4i_ps2_probe(struct platform_device *pdev)
- 	return error;
+diff --git a/drivers/input/touchscreen/sun4i-ts.c b/drivers/input/touchscreen/sun4i-ts.c
+index bb3c6072fc82..92b2b840b4b7 100644
+--- a/drivers/input/touchscreen/sun4i-ts.c
++++ b/drivers/input/touchscreen/sun4i-ts.c
+@@ -375,7 +375,7 @@ static int sun4i_ts_probe(struct platform_device *pdev)
+ 	return 0;
  }
  
--static int sun4i_ps2_remove(struct platform_device *pdev)
-+static void sun4i_ps2_remove(struct platform_device *pdev)
+-static int sun4i_ts_remove(struct platform_device *pdev)
++static void sun4i_ts_remove(struct platform_device *pdev)
  {
- 	struct sun4i_ps2data *drvdata = platform_get_drvdata(pdev);
+ 	struct sun4i_ts_data *ts = platform_get_drvdata(pdev);
  
-@@ -311,8 +311,6 @@ static int sun4i_ps2_remove(struct platform_device *pdev)
- 	iounmap(drvdata->reg_base);
+@@ -385,8 +385,6 @@ static int sun4i_ts_remove(struct platform_device *pdev)
  
- 	kfree(drvdata);
+ 	/* Deactivate all IRQs */
+ 	writel(0, ts->base + TP_INT_FIFOC);
 -
 -	return 0;
  }
  
- static const struct of_device_id sun4i_ps2_match[] = {
-@@ -324,7 +322,7 @@ MODULE_DEVICE_TABLE(of, sun4i_ps2_match);
+ static const struct of_device_id sun4i_ts_of_match[] = {
+@@ -403,7 +401,7 @@ static struct platform_driver sun4i_ts_driver = {
+ 		.of_match_table = sun4i_ts_of_match,
+ 	},
+ 	.probe	= sun4i_ts_probe,
+-	.remove	= sun4i_ts_remove,
++	.remove_new = sun4i_ts_remove,
+ };
  
- static struct platform_driver sun4i_ps2_driver = {
- 	.probe		= sun4i_ps2_probe,
--	.remove		= sun4i_ps2_remove,
-+	.remove_new	= sun4i_ps2_remove,
- 	.driver = {
- 		.name = DRIVER_NAME,
- 		.of_match_table = sun4i_ps2_match,
+ module_platform_driver(sun4i_ts_driver);
 -- 
 2.40.1
 
