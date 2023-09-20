@@ -1,81 +1,216 @@
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D95D88C0A
-	for <linux-sunxi@lists.linux.dev>; Wed, 20 Sep 2023 07:56:02 +0000 (UTC)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-59e6ebdf949so9186317b3.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 20 Sep 2023 00:56:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1695196562; x=1695801362; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0W2F0GXbbtqn7CRR5nnsH3NJIOvd/wi06m4wX+wnCSk=;
-        b=gWU43+TRgjPARn5Pgc9NjpA9nOCGADxH2djWEjyuFi8kFZ5udDJ95KGurGTTqBeeCu
-         dT5sOAvSGt4BxuYj5vhN82heDatXUDTFWEys3nzKIb+23s1SqE8pCTGD321j8YakY/cN
-         DSf1VQGKuEHdHPKolnQuCHJ+hs6S6H2kQV0XcUfDC8gT+o8kYeGWmoZjkOb5xBrDu5ny
-         acq2cR3D9SMR2ldeFmd3k4Ohhv9xz0VJjNP6mAOXLt8loFQ3yTq5mK85gV2hnm5Ep/Se
-         65F+x1dWeGNMNgGyPQAmCquln9sAl7JmNHfkd2g8kVi3eW+zVSNaYjbSfVZbIfUJkzYs
-         OYEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695196562; x=1695801362;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0W2F0GXbbtqn7CRR5nnsH3NJIOvd/wi06m4wX+wnCSk=;
-        b=XNr3dR61FIONnF+Zyhdr3xQSGFNydvZFksExYVygd65IGHLKXVzucQa6yMiJjovUkw
-         gXeYomsSeZ0gFtfJCXeCt92ztu8sILAvtJtLhvY/4YJZkcOat3pmw/222iiJ+VOsBrL3
-         4WbYx3fVSHXa2061yp35qOxzBqiizRem9EYsztZLcnr43q04djcK6uN1tjo44wOQIlDL
-         Dai/EUkezSE8aWJexIYTblBZsgnA13O+5i1Sjexjbyz5SpaYKxSldKXn7sECJzvQT9d8
-         qebZj3pHH1BiZy+t3p6Wq+jMIKOrFTAR/E7Ke+pvzOAlAbqyClEgRz1chDExH0Qbg5MY
-         cRig==
-X-Gm-Message-State: AOJu0YwP56JHay0DBosWD2RnZA+6Jusn8Q6o3uzGuB+62E+Z3OCGAzUs
-	1Lr0nmw4YQFjBe7QAYSWJW7T0SFpbzOObuFNxa0iOg==
-X-Google-Smtp-Source: AGHT+IE8ZqLABHkmB1AmVdyVdn+zBjcBgUb4lYtT3ybz6pYiTkDfaC6C0g3wu5g0PMG3zmMsCIys38gLD8uinlOnnuw=
-X-Received: by 2002:a81:6dd1:0:b0:59b:cf74:ee8d with SMTP id
- i200-20020a816dd1000000b0059bcf74ee8dmr5249310ywc.10.1695196561782; Wed, 20
- Sep 2023 00:56:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85D6DF9EC
+	for <linux-sunxi@lists.linux.dev>; Wed, 20 Sep 2023 08:10:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 09E86C433CC;
+	Wed, 20 Sep 2023 08:10:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1695197434;
+	bh=5QGF9jO+picAJCyh1LF0QAqayO5CNA9tItx4EwVp9AY=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=I4QlK9RfxOewAnXIxhXN7ZZHSZ0ppyEkYpFPATCfuLcFbGBLrqm607DpaptjkvIpR
+	 xzCRKtSm835A3JX86ufWg4Gz0z8DCCYmxMzVryXJHDuw7qMYiyBCeXSljN7YPB8oJl
+	 qr6712Hy568JhFmGq2f1j3JWZXI523oEL2W3Tum6dvIgfFFNuG42zX5d3RILVFyEKH
+	 iWTIXiJ+UV1WX3Ocgk01l+fIl65vKF5FwzgAUG5FWnJRsEIoWYNMwzCqrzzUD+7rLV
+	 PAFU/WaNetScbMikq8K1GewRJomxnbCToX5roKcgJZdPe8BCRpAznbDf2DUlllDWNI
+	 zWRrgfc7Bzivw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id D8679C561EE;
+	Wed, 20 Sep 2023 08:10:33 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230916081615.4237-1-iuncuim@gmail.com>
-In-Reply-To: <20230916081615.4237-1-iuncuim@gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 20 Sep 2023 09:55:49 +0200
-Message-ID: <CACRpkdYPtxAZrf4=btbF53U3CGgSMOZ_39eJDWjBTwBU21XYaQ@mail.gmail.com>
-Subject: Re: [PATCH v3] pinctrl: sunxi: h616: add extra gpio banks
-To: Mikhail Kalashnikov <iuncuim@gmail.com>, Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Andre Przywara <andre.przywara@arm.com>, linux-gpio@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next 00/54] net: ethernet: Convert to platform remove
+ callback returning void
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <169519743387.8735.12103555736777221473.git-patchwork-notify@kernel.org>
+Date: Wed, 20 Sep 2023 08:10:33 +0000
+References: <20230918204227.1316886-1-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230918204227.1316886-1-u.kleine-koenig@pengutronix.de>
+To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=3Cu=2Ekleine-koenig=40pengutronix=2Ede=3E?=@ci.codeaurora.org
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, grygorii.strashko@ti.com, linux-omap@vger.kernel.org,
+ bagasdotme@gmail.com, yangyingliang@huawei.com, gerg@linux-m68k.org,
+ arnd@arndb.de, netdev@vger.kernel.org, kernel@pengutronix.de,
+ afaerber@suse.de, mani@kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-actions@lists.infradead.org, andreas@gaisler.com, wens@csie.org,
+ jernej.skrabec@gmail.com, samuel@sholland.org, linux-sunxi@lists.linux.dev,
+ joyce.ooi@intel.com, Shyam-sundar.S-k@amd.com, bhupesh.sharma@linaro.org,
+ elder@linaro.org, wei.fang@nxp.com, robh@kernel.org,
+ iyappan@os.amperecomputing.com, keyur@os.amperecomputing.com,
+ quan@os.amperecomputing.com, rauji.raut@gmail.com, heiko@sntech.de,
+ horms@kernel.org, linux-rockchip@lists.infradead.org, chris.snook@gmail.com,
+ justin.chen@broadcom.com, florian.fainelli@broadcom.com, rafal@milecki.pl,
+ bcm-kernel-feedback-list@broadcom.com, opendmb@gmail.com,
+ lizetao1@huawei.com, Steen.Hegelund@microchip.com, lukas.bulwahn@gmail.com,
+ nicolas.ferre@microchip.com, claudiu.beznea@tuxon.dev, linux@armlinux.org.uk,
+ mkl@pengutronix.de, hsweeten@visionengravers.com, ruanjinjie@huawei.com,
+ ulli.kroll@googlemail.com, linus.walleij@linaro.org, kvalo@kernel.org,
+ nhuck@google.com, gerhard@engleder-embedded.com,
+ maciej.fijalkowski@intel.com, alexanderduyck@fb.com, fercerpav@gmail.com,
+ saproj@gmail.com, vladimir.oltean@nxp.com, yisen.zhuang@huawei.com,
+ salil.mehta@huawei.com, tsbogend@alpha.franken.de, michal.kubiak@intel.com,
+ dougmill@linux.ibm.com, nathan@kernel.org, ruc_gongyuanjun@163.com,
+ zhangchangzhong@huawei.com, hauke@hauke-m.de, kgugala@antmicro.com,
+ mholenko@antmicro.com, gsomlo@gmail.com, joel@jms.id.au,
+ sebastian.hesselbarth@gmail.com, thomas.petazzoni@bootlin.com,
+ mw@semihalf.com, michael@walle.cc, andrew@lunn.ch,
+ rmk+kernel@armlinux.org.uk, krzysztof.kozlowski@linaro.org, nbd@nbd.name,
+ john@phrozen.org, sean.wang@mediatek.com, Mark-MC.Lee@mediatek.com,
+ lorenzo@kernel.org, matthias.bgg@gmail.com,
+ angelogioacchino.delregno@collabora.com, linux-mediatek@lists.infradead.org,
+ asmaa@nvidia.com, davthompson@nvidia.com, horatiu.vultur@microchip.com,
+ UNGLinuxDriver@microchip.com, lars.povlsen@microchip.com,
+ daniel.machon@microchip.com, shangxiaojing@huawei.com, linqiheng@huawei.com,
+ claudiu.manoil@nxp.com, alexandre.belloni@bootlin.com, YKarpov@ispras.ru,
+ vz@mleia.com, timur@kernel.org, s.shtylyov@omp.ru, geert+renesas@glider.be,
+ yoshihiro.shimoda.uh@renesas.com, wsa+renesas@sang-engineering.com,
+ biju.das.jz@bp.renesas.com, linux-renesas-soc@vger.kernel.org,
+ bh74.an@samsung.com, ralf@linux-mips.org, linux-mips@vger.kernel.org,
+ nico@fluxnic.net, steve.glendinning@shawell.net,
+ andriy.shevchenko@linux.intel.com, jaswinder.singh@linaro.org,
+ ilias.apalodimas@linaro.org, hayashi.kunihiko@socionext.com,
+ harshit.m.mogalapalli@oracle.com, wellslutw@gmail.com, f.fainelli@gmail.com,
+ tglx@linutronix.de, bigeasy@linutronix.de, shaozhengchao@huawei.com,
+ kevinbrace@bracecomputerlab.com, romieu@fr.zoreil.com, michal.simek@amd.com,
+ radhey.shyam.pandey@amd.com, harini.katakam@amd.com, xuhaoyue1@hisilicon.com,
+ huangjunxian6@hisilicon.com, dan.carpenter@linaro.org, khalasa@piap.pl
 
-On Sat, Sep 16, 2023 at 10:16=E2=80=AFAM Mikhail Kalashnikov <iuncuim@gmail=
-.com> wrote:
+Hello:
 
-> From: iuncuim <iuncuim@gmail.com>
->
-> Some SoCs from the H616 family (such as the T507) have the same die but
-> more output pins that are used for additional peripherals. The T507 SoC
-> don't have a built-in multiphy like the AC200 or AC300 connected to the
-> bank A. With the T507 these pins can be freely used for any other applica=
-tion.
-> This patch adds the missing muxes on banks A, D and E.
->
-> Signed-off-by: Mikhail Kalashnikov <iuncuim@gmail.com>
->
-> Changes from v2:
->  * replaced gpio alt functions from "h_i2s0" to "i2s0"
-> https://lore.kernel.org/linux-sunxi/20230909094529.6083-1-iuncuim@gmail.c=
-om/
+This series was applied to netdev/net-next.git (main)
+by David S. Miller <davem@davemloft.net>:
 
-No review on this yet, but I think Neil Armstrong is familiar with
-the AMLogic stuff so paging him!
+On Mon, 18 Sep 2023 22:41:32 +0200 you wrote:
+> Hello,
+> 
+> this series convert nearly all platform drivers below
+> drivers/net/ethernet to use remove_new. The motivation is to get rid of
+> an integer return code that is (mostly) ignored by the platform driver
+> core and error prone on the driver side.
+> 
+> [...]
 
-Yours,
-Linus Walleij
+Here is the summary with links:
+  - [net-next,01/54] net: ethernet: 8390: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/3c000faaaa65
+  - [net-next,02/54] net: ethernet: actions: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/d8c6b3fc918d
+  - [net-next,03/54] net: ethernet: aeroflex: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/a0fbde8f647b
+  - [net-next,04/54] net: ethernet: allwinner: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/9f07797c332e
+  - [net-next,05/54] net: ethernet: altera: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/d0b0245b84c9
+  - [net-next,06/54] net: ethernet: amd: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/9ecae52f7db4
+  - [net-next,07/54] net: ethernet: apm: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/61471264c018
+  - [net-next,08/54] net: ethernet: apple: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/e5d0a380b2b4
+  - [net-next,09/54] net: ethernet: arc: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/de0afa130ed6
+  - [net-next,10/54] net: ethernet: atheros: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/c6e817838902
+  - [net-next,11/54] net: ethernet: broadcom: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/d4295df3e043
+  - [net-next,12/54] net: ethernet: cadence: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/6b5940402f9c
+  - [net-next,13/54] net: ethernet: calxeda: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/ca76b17922e6
+  - [net-next,14/54] net: ethernet: cavium: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/de413f46a56e
+  - [net-next,15/54] net: ethernet: cirrus: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/8ca0ae6a2ec7
+  - [net-next,16/54] net: ethernet: cortina: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/1f69574b5cba
+  - [net-next,17/54] net: ethernet: davicom: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/ffb928290ba5
+  - [net-next,18/54] net: ethernet: dnet: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/5db6c1fed1f9
+  - [net-next,19/54] net: ethernet: engleder: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/d2e6c2ea996e
+  - [net-next,20/54] net: ethernet: ethoc: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/4cc08098d197
+  - [net-next,21/54] net: ethernet: faraday: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/dc715af33b42
+  - [net-next,22/54] net: ethernet: hisilicon: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/e5835a0a5119
+  - [net-next,23/54] net: ethernet: i825xx: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/e5a6d397ca2e
+  - [net-next,24/54] net: ethernet: ibm: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/ac35a3c4c8da
+  - [net-next,25/54] net: ethernet: korina: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/551598a120d1
+  - [net-next,26/54] net: ethernet: lantiq_etop: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/e791aa06a2dd
+  - [net-next,27/54] net: ethernet: lantiq_xrx200: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/adbb270655a1
+  - [net-next,28/54] net: ethernet: litex: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/36b80b8353af
+  - [net-next,29/54] net: ethernet: marvell: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/fee02f498c9a
+  - [net-next,30/54] net: ethernet: mediatek: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/5b6ce1734d9d
+  - [net-next,31/54] net: ethernet: mellanox: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/e184700959ec
+  - [net-next,32/54] net: ethernet: micrel: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/bae04ae2be07
+  - [net-next,33/54] net: ethernet: microchip: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/5253ae3a6223
+  - [net-next,34/54] net: ethernet: moxa:: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/253f9c47273d
+  - [net-next,35/54] net: ethernet: mscc: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/0eaca7a9e9d6
+  - [net-next,36/54] net: ethernet: natsemi: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/9f0243d9bcc4
+  - [net-next,37/54] net: ethernet: natsemi: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/b83fb509c758
+  - [net-next,38/54] net: ethernet: ni: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/0f09f4e7d401
+  - [net-next,39/54] net: ethernet: nxp: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/241882d79f99
+  - [net-next,40/54] net: ethernet: qualcomm: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/5180236592b9
+  - [net-next,41/54] net: ethernet: renesas: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/0b4f04e2f60b
+  - [net-next,42/54] net: ethernet: samsung: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/6e8b0ef7b389
+  - [net-next,43/54] net: ethernet: seeq: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/02c74030beff
+  - [net-next,44/54] net: ethernet: sgi: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/506a327ceaaa
+  - [net-next,45/54] net: ethernet: smsc: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/e8e2c863f941
+  - [net-next,46/54] net: ethernet: socionext: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/d3cd32451c7e
+  - [net-next,47/54] net: ethernet: sun: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/8f4e45a0135e
+  - [net-next,48/54] net: ethernet: sunplus: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/ede778ed3ea9
+  - [net-next,49/54] net: ethernet: ti: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/231ea972ccaf
+  - [net-next,50/54] net: ethernet: tundra: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/2f961952e19e
+  - [net-next,51/54] net: ethernet: via: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/70680f178280
+  - [net-next,52/54] net: ethernet: wiznet: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/46b5668494d0
+  - [net-next,53/54] net: ethernet: xilinx: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/2e0ec0afa902
+  - [net-next,54/54] net: ethernet: xscale: Convert to platform remove callback returning void
+    https://git.kernel.org/netdev/net-next/c/d74a5c154b6f
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
