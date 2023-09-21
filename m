@@ -1,192 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CBCE199CA
-	for <linux-sunxi@lists.linux.dev>; Thu, 21 Sep 2023 16:48:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A439C611A5;
-	Thu, 21 Sep 2023 16:48:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1695314908;
-	bh=ZbMXdzw0c6h6S382Eseu0JWC3SsTXULfTbe1Huhp5BM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=D2YWMMMQiBTC5mxrk+SG24U9NwIaq8dJU0Qw9abr55Q84220BN00grlowP+mIyJ9X
-	 Due81h4X6s9m6SpzErNcepsukUfq5XGjMjTYHIysoBms4ojX/ilMzZGW7t6tdLOH9g
-	 Q10WJPqeiYnEYz3xd0jJyE0qNhj9YJ3urQlGTvaqdFDOWz94iiDE/WRL9by3g/VgOb
-	 NK+SFUA4pA8acwVjMHwKK2hPAx1dn4GuI//4CZzzUM9MxuP8c3Ypp9lXqViDXp6SzB
-	 e6BsQW5Rqm4XNeo4k86JIqffTyyrZYc0GomPiLHiieFizLyldl4ngBJFXIoghmw/i5
-	 5k13QgGKHqYRA==
-Date: Thu, 21 Sep 2023 18:48:26 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>, 
-	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH RFC v2 00/37] drm/connector: Create HDMI Connector
- infrastructure
-Message-ID: <cbbovd3t7ssstvk22qmhwl7hgfo74jdwy77harjh3wwyaml3hh@qfsoqtqaw26x>
-References: <20230920-kms-hdmi-connector-state-v2-0-17932daddd7d@kernel.org>
- <f6bf0ef2-7a2a-4456-825f-a34ba8c8886f@xs4all.nl>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3B7350C8B
+	for <linux-sunxi@lists.linux.dev>; Thu, 21 Sep 2023 18:34:12 +0000 (UTC)
+Received: by mail-il1-f171.google.com with SMTP id e9e14a558f8ab-34fcd361e91so4087875ab.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 21 Sep 2023 11:34:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1695321252; x=1695926052; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5Xqa4yr7yrsXtE2ALcRd+e1TwnuQsGz/pquNeqyhBOM=;
+        b=Eoyy7air0nMwlueoy1VklOKsVRgZVU/OKXU8I6EIi5KqIALRVC36RZkAK4WmvrhIus
+         WTZXu4EDfO3ppYrs+bf3bWNyAb4U3qaUzF2IC/OV+2e+5Qh3plwnimwhuY+yLfiSN53Z
+         dtOiLr9bA6rhhUOx/yLR5LaeatUkqJ+Js4c0HtYlr0geXqyFi8poInSj1LIS6grg0SYL
+         yk6tc9XnvmCrzilon5IPQ+vjU0GganTitGMuwPiorRTgonAEaD05UeAgeW94kkSmRF6w
+         DNNQOYClRTEFu8nEJDq8u9LIDQv1H2NN3iHsrQxvlw1muSN7TKf3d99wnSW0DurlytLj
+         VRhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695321252; x=1695926052;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5Xqa4yr7yrsXtE2ALcRd+e1TwnuQsGz/pquNeqyhBOM=;
+        b=PdI0Q6QHYOKYu0lJkZ+dvSrau97t09voLmoMQf0euyPIcHRRoU+oV+yj75Y9+4XJs9
+         dzUxnQ4zlvJl49yQhFsh4k4M7lJp9ifw6uv7b4/LGwRCv26b3sRQsOvVgsrzJQSvyVXc
+         CgoM4ptAQr0AqazFbYNjITH0WNOSzpo1krdo00fViGScJgYahFQmKhLGtHslmbbTOCCL
+         wPPIhuInjV9Huz2Nx9GXvlUcqcZsmAvxHGpIbmZG5Yx2XJDwdLc64qXKozBsDxfrQk/b
+         vpSFAUB0WpaFOpRe9DBteHd8e3/YFi14hIFxTK0qEfbyAjvX/XMZh8q1RxD35BupaGLu
+         EaeQ==
+X-Gm-Message-State: AOJu0YzUQZAlqoH81bCWRs7zABrdIUvuzhpPRWYPgPHaHydIBwwTBgyU
+	1gKPINoBfCvDff/8whh02tA=
+X-Google-Smtp-Source: AGHT+IF8jE2OC20tnm/t8jgynrtyfubCOpBW9F5WUr3ayImBT5J2BIGinpNhl9W5IfM+N5gFPP4yTA==
+X-Received: by 2002:a92:c26f:0:b0:350:f510:3990 with SMTP id h15-20020a92c26f000000b00350f5103990mr7704043ild.2.1695321252010;
+        Thu, 21 Sep 2023 11:34:12 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id fs11-20020a05663865cb00b004313f22611csm498677jab.151.2023.09.21.11.34.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Sep 2023 11:34:10 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Thu, 21 Sep 2023 11:34:09 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Jisheng Zhang <jszhang@kernel.org>
+Cc: Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH net-next v5 2/2] net: stmmac: use per-queue 64 bit
+ statistics where necessary
+Message-ID: <11fce633-4699-470f-a2f3-94b99b3e6da6@roeck-us.net>
+References: <20230717160630.1892-1-jszhang@kernel.org>
+ <20230717160630.1892-3-jszhang@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="tqheb5u3s3lx5xmw"
-Content-Disposition: inline
-In-Reply-To: <f6bf0ef2-7a2a-4456-825f-a34ba8c8886f@xs4all.nl>
-
-
---tqheb5u3s3lx5xmw
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20230717160630.1892-3-jszhang@kernel.org>
 
-Hi Hans,
+Hi,
 
-On Thu, Sep 21, 2023 at 06:29:29PM +0200, Hans Verkuil wrote:
-> On 20/09/2023 16:35, Maxime Ripard wrote:
-> > Hi,
-> >=20
-> > Here's a series that creates a subclass of drm_connector specifically
-> > targeted at HDMI controllers.
-> >=20
-> > The idea behind this series came from a recent discussion on IRC during
-> > which we discussed infoframes generation of i915 vs everything else.=20
-> >=20
-> > Infoframes generation code still requires some decent boilerplate, with
-> > each driver doing some variation of it.
-> >=20
-> > In parallel, while working on vc4, we ended up converting a lot of i915
-> > logic (mostly around format / bpc selection, and scrambler setup) to
-> > apply on top of a driver that relies only on helpers.
-> >=20
-> > While currently sitting in the vc4 driver, none of that logic actually
-> > relies on any driver or hardware-specific behaviour.
-> >=20
-> > The only missing piece to make it shareable are a bunch of extra
-> > variables stored in a state (current bpc, format, RGB range selection,
-> > etc.).
-> >=20
-> > The initial implementation was relying on some generic subclass of
-> > drm_connector to address HDMI connectors, with a bunch of helpers that
-> > will take care of all the "HDMI Spec" related code. Scrambler setup is
-> > missing at the moment but can easily be plugged in.
-> >=20
-> > The feedback was that creating a connector subclass like was done for
-> > writeback would prevent the adoption of those helpers since it couldn't
-> > be used in all situations (like when the connector driver can implement
-> > multiple output) and required more churn to cast between the
-> > drm_connector and its subclass. The decision was thus to provide a set
-> > of helper and to store the required variables in drm_connector and
-> > drm_connector_state. This what has been implemented now.
-> >=20
-> > Hans Verkuil also expressed interest in implementing a mechanism in v4l2
-> > to retrieve infoframes from HDMI receiver and implementing an
-> > infoframe-decode tool.
->=20
-> I'd love to get started on that, but...
->=20
-> >=20
-> > This series thus leverages the infoframe generation code to expose it
-> > through debugfs.
-> >=20
-> > This entire series is only build-tested at the moment. Let me know what
-> > you think,
->=20
-> ...trying this series on my RPi4 gives me this during boot:
->=20
-> [    2.361239] vc4-drm gpu: bound fe400000.hvs (ops 0xffff800080cac6f8)
-> [    2.367834] Unable to handle kernel NULL pointer dereference at virtua=
-l address 0000000000000090
-> [    2.376748] Mem abort info:
-> [    2.379570]   ESR =3D 0x0000000096000044
-> [    2.383367]   EC =3D 0x25: DABT (current EL), IL =3D 32 bits
-> [    2.388748]   SET =3D 0, FnV =3D 0
-> [    2.391835]   EA =3D 0, S1PTW =3D 0
-> [    2.395011]   FSC =3D 0x04: level 0 translation fault
-> [    2.399951] Data abort info:
-> [    2.402864]   ISV =3D 0, ISS =3D 0x00000044, ISS2 =3D 0x00000000
-> [    2.408420]   CM =3D 0, WnR =3D 1, TnD =3D 0, TagAccess =3D 0
-> [    2.413536]   GCS =3D 0, Overlay =3D 0, DirtyBit =3D 0, Xs =3D 0
-> [    2.418916] [0000000000000090] user address but active_mm is swapper
-> [    2.425353] Internal error: Oops: 0000000096000044 [#1] PREEMPT SMP
-> [    2.431700] Modules linked in:
-> [    2.434791] CPU: 2 PID: 55 Comm: kworker/u8:3 Not tainted 6.6.0-rc1-hd=
-mi-dbg #245
-> [    2.442372] Hardware name: Raspberry Pi 4 Model B Rev 1.4 (DT)
-> [    2.448278] Workqueue: events_unbound deferred_probe_work_func
-> [    2.454193] pstate: 80000005 (Nzcv daif -PAN -UAO -TCO -DIT -SSBS BTYP=
-E=3D--)
-> [    2.461245] pc : drm_connector_attach_max_bpc_property+0x48/0x90
-> [    2.467332] lr : drm_connector_attach_max_bpc_property+0x3c/0x90
-> [    2.473415] sp : ffff800081d038b0
-> [    2.476766] x29: ffff800081d038b0 x28: 0000000000000000 x27: ffff00010=
-41968c0
-> [    2.483999] x26: 0000000000000000 x25: ffff00010339d558 x24: ffff00010=
-3399000
-> [    2.491231] x23: ffff800080caa3e8 x22: ffff800080e96a20 x21: 000000000=
-000000c
-> [    2.498463] x20: 000000000000000c x19: ffff00010339d558 x18: fffffffff=
-fffffff
-> [    2.505694] x17: ffff0001008e7650 x16: ffff800080d55500 x15: fffffffff=
-fffffff
-> [    2.512926] x14: ffff000105dda209 x13: 0000000000000006 x12: 000000000=
-0000001
-> [    2.520158] x11: 0101010101010101 x10: ffff00027effe219 x9 : 000000000=
-0000001
-> [    2.527389] x8 : ffff000105db8ad4 x7 : 00000000c0c0c0c0 x6 : 00000000c=
-0c0c0c0
-> [    2.534620] x5 : 0000000000000000 x4 : ffff00010339d728 x3 : ffff00010=
-339d728
-> [    2.541852] x2 : 000000000000000c x1 : 0000000000000000 x0 : 000000000=
-0000000
-> [    2.549083] Call trace:
-> [    2.551554]  drm_connector_attach_max_bpc_property+0x48/0x90
-> [    2.557285]  drmm_connector_hdmi_init+0x114/0x14c
-> [    2.562048]  vc4_hdmi_bind+0x320/0xa40
-> [    2.565842]  component_bind_all+0x114/0x23c
-> [    2.570077]  vc4_drm_bind+0x148/0x2c0
-> [    2.573784]  try_to_bring_up_aggregate_device+0x168/0x1d4
-> [    2.579253]  __component_add+0xa4/0x16c
-> [    2.583136]  component_add+0x14/0x20
-> [    2.586754]  vc4_hdmi_dev_probe+0x1c/0x28
-> [    2.590815]  platform_probe+0x68/0xc4
-> [    2.594522]  really_probe+0x148/0x2b0
-> [    2.598228]  __driver_probe_device+0x78/0x12c
-> [    2.602638]  driver_probe_device+0xd8/0x15c
-> [    2.606873]  __device_attach_driver+0xb8/0x134
-> [    2.611372]  bus_for_each_drv+0x80/0xdc
-> [    2.615254]  __device_attach+0x9c/0x188
-> [    2.619136]  device_initial_probe+0x14/0x20
-> [    2.623371]  bus_probe_device+0xac/0xb0
-> [    2.627253]  deferred_probe_work_func+0x88/0xc0
-> [    2.631839]  process_one_work+0x138/0x244
-> [    2.635899]  worker_thread+0x320/0x438
-> [    2.639692]  kthread+0x10c/0x110
-> [    2.642957]  ret_from_fork+0x10/0x20
-> [    2.646576] Code: 94005f8d 12001e94 f9427e61 52800000 (39024034)
-> [    2.652745] ---[ end trace 0000000000000000 ]---
+On Tue, Jul 18, 2023 at 12:06:30AM +0800, Jisheng Zhang wrote:
+> Currently, there are two major issues with stmmac driver statistics
+> First of all, statistics in stmmac_extra_stats, stmmac_rxq_stats
+> and stmmac_txq_stats are 32 bit variables on 32 bit platforms. This
+> can cause some stats to overflow after several minutes of
+> high traffic, for example rx_pkt_n, tx_pkt_n and so on.
+> 
+> Secondly, if HW supports multiqueues, there are frequent cacheline
+> ping pongs on some driver statistic vars, for example, normal_irq_n,
+> tx_pkt_n and so on. What's more, frequent cacheline ping pongs on
+> normal_irq_n happens in ISR, this makes the situation worse.
+> 
+> To improve the driver, we convert those statistics to 64 bit, implement
+> ndo_get_stats64 and update .get_ethtool_stats implementation
+> accordingly. We also use per-queue statistics where necessary to remove
+> the cacheline ping pongs as much as possible to make multiqueue
+> operations faster. Those statistics which are not possible to overflow
+> and not frequently updated are kept as is.
+> 
+> Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
 
-Well, I guess I'll have to start testing what I'm doing then :)
+Your patch results in lockdep splats. This is with the orangepi-pc
+emulation in qemu.
 
-Maxime
+[   11.126950] dwmac-sun8i 1c30000.ethernet eth0: PHY [mdio_mux-0.1:01] driver [Generic PHY] (irq=POLL)
+[   11.127912] dwmac-sun8i 1c30000.ethernet eth0: No Safety Features support found
+[   11.128294] dwmac-sun8i 1c30000.ethernet eth0: No MAC Management Counters available
+[   11.128511] dwmac-sun8i 1c30000.ethernet eth0: PTP not supported by HW
+[   11.138990] dwmac-sun8i 1c30000.ethernet eth0: configuring for phy/mii link mode
+[   11.144387] INFO: trying to register non-static key.
+[   11.144483] The code is fine but needs lockdep annotation, or maybe
+[   11.144568] you didn't initialize this object before use?
+[   11.144640] turning off the locking correctness validator.
+[   11.144845] CPU: 2 PID: 688 Comm: ip Tainted: G                 N 6.6.0-rc2 #1
+[   11.144956] Hardware name: Allwinner sun8i Family
+[   11.145137]  unwind_backtrace from show_stack+0x10/0x14
+[   11.145610]  show_stack from dump_stack_lvl+0x68/0x90
+[   11.145692]  dump_stack_lvl from register_lock_class+0x99c/0x9b0
+[   11.145779]  register_lock_class from __lock_acquire+0x6c/0x2244
+[   11.145861]  __lock_acquire from lock_acquire+0x11c/0x368
+[   11.145938]  lock_acquire from stmmac_get_stats64+0x350/0x374
+[   11.146021]  stmmac_get_stats64 from dev_get_stats+0x3c/0x160
+[   11.146101]  dev_get_stats from rtnl_fill_stats+0x30/0x118
+[   11.146179]  rtnl_fill_stats from rtnl_fill_ifinfo.constprop.0+0x82c/0x1770
+[   11.146273]  rtnl_fill_ifinfo.constprop.0 from rtmsg_ifinfo_build_skb+0xac/0x138
+[   11.146370]  rtmsg_ifinfo_build_skb from rtmsg_ifinfo+0x44/0x7c
+[   11.146452]  rtmsg_ifinfo from __dev_notify_flags+0xac/0xd8
+[   11.146531]  __dev_notify_flags from dev_change_flags+0x48/0x54
+[   11.146612]  dev_change_flags from do_setlink+0x244/0xe6c
+[   11.146689]  do_setlink from rtnl_newlink+0x514/0x838
+[   11.146761]  rtnl_newlink from rtnetlink_rcv_msg+0x170/0x5b0
+[   11.146841]  rtnetlink_rcv_msg from netlink_rcv_skb+0xb4/0x10c
+[   11.146925]  netlink_rcv_skb from netlink_unicast+0x190/0x254
+[   11.147006]  netlink_unicast from netlink_sendmsg+0x1dc/0x460
+[   11.147086]  netlink_sendmsg from ____sys_sendmsg+0xa0/0x2a0
+[   11.147168]  ____sys_sendmsg from ___sys_sendmsg+0x68/0x94
+[   11.147245]  ___sys_sendmsg from sys_sendmsg+0x4c/0x88
+[   11.147329]  sys_sendmsg from ret_fast_syscall+0x0/0x1c
+[   11.147439] Exception stack(0xf23edfa8 to 0xf23edff0)
+[   11.147558] dfa0:                   00000000 00000000 00000003 bef9a8d8 00000000 00000000
+[   11.147668] dfc0: 00000000 00000000 ffffffff 00000128 00000001 00000002 bef9af4a bef9af4d
+[   11.147769] dfe0: bef9a868 bef9a858 b6f9ddac b6f9d228
+[   11.150020] dwmac-sun8i 1c30000.ethernet eth0: Link is Up - 100Mbps/Full - flow control rx/tx
 
---tqheb5u3s3lx5xmw
-Content-Type: application/pgp-signature; name="signature.asc"
+My apologies for the noise if this has already been reported.
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZQxz2gAKCRDj7w1vZxhR
-xTmAAP9zoK2b+SdtpCJFGCX7o373ATzx/Z9LKZn8NsK54IxYDAEAqMqFpI0Xg1Kq
-iSTWfIp3pAvquRgXpVDtgkMv7+qbSAU=
-=vGpA
------END PGP SIGNATURE-----
-
---tqheb5u3s3lx5xmw--
+Guenter
