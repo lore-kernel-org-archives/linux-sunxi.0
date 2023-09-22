@@ -1,24 +1,24 @@
-Received: from out-228.mta0.migadu.com (out-228.mta0.migadu.com [91.218.175.228])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC73A19BA0
-	for <linux-sunxi@lists.linux.dev>; Thu, 21 Sep 2023 21:51:12 +0000 (UTC)
-Date: Fri, 22 Sep 2023 07:35:19 +1000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
-	t=1695333070;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QqdCzsBT+posAOrgjqZp1RU0wbImVm1bMLt0YyYT58w=;
-	b=jvHndayovKeUtX9KhNDnrwvpHYFAY3TGK25k0jym2yigvLtNswLLxKT6Iy0gnikZPeX0Ea
-	9E+iGa5XeByTvqs/zPZqR1u20L7keWeogvvrl433gR3hgExeYnV91T9Q1Wb9KDJ4Ic91lH
-	DRkHzMDCMUsHvHVQlZao+wq6tDL5sqbHKJOX/eVy2cbLpLzp/p7RhaKUdDs63DArSV80Nc
-	/0UlofEZsEnKUE79VvJQDZOheJCmXNIeKvtMomamt0kJgN1KUChQ1Cxln1n7tKHWhQb3o5
-	kUdDzQD+B+oIiLbouzSjs/cLjOvw7xVyOynXPFGXyMx4hAB2VRXRIh8v5sZTtg==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: John Watts <contact@jookia.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57B821FD2
+	for <linux-sunxi@lists.linux.dev>; Fri, 22 Sep 2023 06:47:27 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qjZwR-0004KT-P2; Fri, 22 Sep 2023 08:47:07 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qjZwN-0086Rh-Ok; Fri, 22 Sep 2023 08:47:03 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qjZwN-003oy9-DY; Fri, 22 Sep 2023 08:47:03 +0200
+Date: Fri, 22 Sep 2023 08:47:04 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: John Watts <contact@jookia.org>
 Cc: Aleksandr Shubin <privatesub2@gmail.com>, linux-kernel@vger.kernel.org,
 	Thierry Reding <thierry.reding@gmail.com>,
 	Rob Herring <robh+dt@kernel.org>,
@@ -36,44 +36,83 @@ Cc: Aleksandr Shubin <privatesub2@gmail.com>, linux-kernel@vger.kernel.org,
 	linux-riscv@lists.infradead.org
 Subject: Re: [PATCH v6 0/3] Add support for Allwinner PWM on D1/T113s/R329
  SoCs
-Message-ID: <ZQy3F_VtOL3XWcl0@titan>
+Message-ID: <20230922064704.hlytxjyjo4rekjux@pengutronix.de>
 References: <20230824114038.891493-1-privatesub2@gmail.com>
  <ZPfn-0OAL7-3DCmt@titan>
  <20230921212736.nw6ctlimtrxfksbu@pengutronix.de>
+ <ZQy3F_VtOL3XWcl0@titan>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="bww26scqrw5ezmb2"
+Content-Disposition: inline
+In-Reply-To: <ZQy3F_VtOL3XWcl0@titan>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+
+
+--bww26scqrw5ezmb2
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230921212736.nw6ctlimtrxfksbu@pengutronix.de>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 21, 2023 at 11:27:36PM +0200, Uwe Kleine-König wrote:
-> Hi John,
-> 
-> On Wed, Sep 06, 2023 at 12:46:19PM +1000, John Watts wrote:
-> > On Thu, Aug 24, 2023 at 02:40:24PM +0300, Aleksandr Shubin wrote:
-> > > This series adds support for PWM controller on new
-> > > Allwinner's SoCs, such as D1, T113s and R329. The implemented driver
-> > > provides basic functionality for control PWM channels.
-> > 
-> > I have tested this patch and earlier versions successfully on a Mango Pi MQ
-> > Dual and verified it outputs a PWM signal.
-> 
-> If you want that documented, the usual thing to do is to include a
-> Tested-by: tag in your reply.
+Hey John,
 
-That's a good idea! I'll take a closer look under a scope and against the data
-sheet and give another tested-by then when I can. I'm not sure how close that
-gets to a reviewed-by but I don't have the experience in driver development to
-know if something is off in the design.
+On Fri, Sep 22, 2023 at 07:35:19AM +1000, John Watts wrote:
+> On Thu, Sep 21, 2023 at 11:27:36PM +0200, Uwe Kleine-K=F6nig wrote:
+> > Hi John,
+> >=20
+> > On Wed, Sep 06, 2023 at 12:46:19PM +1000, John Watts wrote:
+> > > On Thu, Aug 24, 2023 at 02:40:24PM +0300, Aleksandr Shubin wrote:
+> > > > This series adds support for PWM controller on new
+> > > > Allwinner's SoCs, such as D1, T113s and R329. The implemented driver
+> > > > provides basic functionality for control PWM channels.
+> > >=20
+> > > I have tested this patch and earlier versions successfully on a Mango=
+ Pi MQ
+> > > Dual and verified it outputs a PWM signal.
+> >=20
+> > If you want that documented, the usual thing to do is to include a
+> > Tested-by: tag in your reply.
+>=20
+> That's a good idea! I'll take a closer look under a scope and against the=
+ data
+> sheet and give another tested-by then when I can. I'm not sure how close =
+that
+> gets to a reviewed-by but I don't have the experience in driver developme=
+nt to
+> know if something is off in the design.
 
-> 
-> Best regards
-> Uwe
+Tested-by has little to nothing to do with development or review. If you
+tested that patch and it worked for you, that's enough to give such a
+tag.
 
-John.
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--bww26scqrw5ezmb2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmUNOGcACgkQj4D7WH0S
+/k5rHwf/WlCqmSa7FGJOCv1iloPyW8uz1VP/sNtNI2shOtERwNwaZ4iocMFo/o8I
+LMITmzxh2ZgB34KBWh96Qy5i3BvvnU7Fzjy6t3OpR0+hjVCy7/LvgKtlA7q9VEb/
+tpenCJ38H4rWdTPUsX2OnWOeCfVIvc6Lh7HzUwX/01ekwVbni3MxczQ12CsV3/yC
+DIWTheVJrpQHYT9a7qNlzFDralW3MeJrthV04iWvoOpyLMvmx7d0vN5KwlWrMwb2
+bPqgcVOmHnUj3lYPjFVQh8cb4E4DGd0P1QNS8S4gfosRfcMkWq16ymwUVOgSB8+/
+w6DynP75YpVgCXDeg6SYfoL4HF1iTQ==
+=v75W
+-----END PGP SIGNATURE-----
+
+--bww26scqrw5ezmb2--
