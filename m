@@ -1,256 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-op-o10.zoho.com (sender4-op-o10.zoho.com [136.143.188.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7BB0208BF;
-	Sat, 23 Sep 2023 17:35:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6892C433C8;
-	Sat, 23 Sep 2023 17:35:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1695490555;
-	bh=ejyzahKJAJt9lCn+qnlEr4NX27qh7eXBTFD4U9A1SjU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=QeNSFcPUCH4xy1kS395jk0Cox1UddxCRcd2x2EjvDTmX1KYbrQuhpNkUBHZuAdGiq
-	 kV/zqk9FM6KQdGbKVVGecf20HtNQA4lrjEzI1IHuo241x/0RYTT5fXqOUMeOOazA9y
-	 F0FVmVyOTX6AAw2bUbxgcpC84d3pJKkcepeoFTgGlCP78lQyX+SvNtZtau22rCgC4/
-	 bwWPsiuKyaqhArk9vylBqt5J9Btdd1N/7augiDEwhu9H8ZC1G8uqJ49n70kE6lDL7s
-	 NcrYZc9Sw96xq7YYgbmFpI2BGcHBxNfFb6xFbzBBBhqVtPjvDzhKJcKO/ffOBuo3f5
-	 9fuEbW1t3hSNw==
-Date: Sat, 23 Sep 2023 18:35:24 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@pengutronix.de>
-Cc: Jiri Kosina <jikos@kernel.org>, Srinivas Pandruvada
- <srinivas.pandruvada@linux.intel.com>, Lars-Peter Clausen
- <lars@metafoo.de>, linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
- kernel@pengutronix.de, Linus Walleij <linus.walleij@linaro.org>,
- linux-arm-kernel@lists.infradead.org, Eugen Hristev
- <eugen.hristev@collabora.com>, Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea
- <claudiu.beznea@tuxon.dev>, Jinjie Ruan <ruanjinjie@huawei.com>, Rob
- Herring <robh@kernel.org>, Heiko Stuebner <heiko@sntech.de>, Yang Yingliang
- <yangyingliang@huawei.com>, Chen-Yu Tsai <wens@csie.org>, Aidan MacDonald
- <aidanmacdonald.0x0@gmail.com>, Andy Shevchenko
- <andy.shevchenko@gmail.com>, Ray Jui <rjui@broadcom.com>, Scott Branden
- <sbranden@broadcom.com>, Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Hartley Sweeten
- <hsweeten@visionengravers.com>, Alexander Sverdlin
- <alexander.sverdlin@gmail.com>, Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>,
- linux-samsung-soc@vger.kernel.org, Shawn Guo <shawnguo@kernel.org>, Sascha
- Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, NXP
- Linux Team <linux-imx@nxp.com>, Andreas Klinger <ak@it-klinger.de>, Cai
- Huoqing <cai.huoqing@linux.dev>, Haibo Chen <haibo.chen@nxp.com>, Neil
- Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>,
- Jerome Brunet <jbrunet@baylibre.com>, Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>, George Stark
- <gnstark@sberdevices.ru>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Nuno =?UTF-8?B?U8Oh?=
- <nuno.sa@analog.com>, linux-amlogic@lists.infradead.org, Saravanan Sekar
- <sravanhome@gmail.com>, Jiakai Luo <jkluo@hust.edu.cn>, Dongliang Mu
- <dzm91@hust.edu.cn>, Avi Fishman <avifishman70@gmail.com>, Tomer Maimon
- <tmaimon77@gmail.com>, Tali Perry <tali.perry1@gmail.com>, Patrick Venture
- <venture@google.com>, Nancy Yuen <yuenn@google.com>, Benjamin Fair
- <benjaminfair@google.com>, openbmc@lists.ozlabs.org, Andy Gross
- <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio
- <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org, Marek Vasut
- <marek.vasut@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Olivier Moysan
- <olivier.moysan@foss.st.com>, Fabrice Gasnier
- <fabrice.gasnier@foss.st.com>, Zhang Shurong <zhang_shurong@foxmail.com>,
- Yangtao Li <frank.li@vivo.com>, linux-stm32@st-md-mailman.stormreply.com,
- Sean Nyekjaer <sean@geanix.com>, Tom Rix <trix@redhat.com>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, "Rafael
- J. Wysocki" <rafael.j.wysocki@intel.com>, Damien Le Moal
- <damien.lemoal@opensource.wdc.com>, Mark Brown <broonie@kernel.org>, Ido
- Schimmel <idosch@nvidia.com>, Daniel Lezcano <daniel.lezcano@linaro.org>,
- linux-sunxi@lists.linux.dev, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Andreas Kemnade <andreas@kemnade.info>, Peter Rosin <peda@axentia.se>,
- Vladimir Zapolskiy <vz@mleia.com>, Kevin Tsai <ktsai@capellamicro.com>,
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
- chrome-platform@lists.linux.dev
-Subject: Re: [PATCH 00/49] iio: Convert to platform remove callback
- returning void
-Message-ID: <20230923183513.717f3014@jic23-huawei>
-In-Reply-To: <20230919174931.1417681-1-u.kleine-koenig@pengutronix.de>
-References: <20230919174931.1417681-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AB05CA66
+	for <linux-sunxi@lists.linux.dev>; Sat, 23 Sep 2023 23:23:06 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1695511359; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=GPbwmo3LHS3/4p7v+oTVutSHcIZoZ8ofPGscYYLfXdrAhASLk2MVzL8pz2tAFQoq6d/PqE8X6ybWdNm0iGc/P02DT1KtIoiZ73wxyGHmxBgSCxT3+nDHQLYiLmc97f3t29kGekkZCv/0x50VEo28bDspAeI+zmx9nUvHUBLsVdQ=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1695511359; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=a0N00YpArzAUih/1hspzwCWdnsiIjYr4OV1zuCg+2mA=; 
+	b=dEzPy81FY5P4r0zi821sZdoyYsPArcRr+j99udrqX57IEDogaBoiyDvzpKIWbDBkmAYlyE+W4I+bmWX4Fn9l2QWdctiPybVC771YKGM2L2WKIreisQZJOiwBdDgKEBN8hOzs+e85U0FqsEfnNUdheHJ8qVuCbBUXCizeBOxfxdM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=icenowy.me;
+	spf=pass  smtp.mailfrom=uwu@icenowy.me;
+	dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1695511359;
+	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+	bh=a0N00YpArzAUih/1hspzwCWdnsiIjYr4OV1zuCg+2mA=;
+	b=GSRul59W4h8hm3ZWCGQWJSBG9gHD2b4u4I5oIDu39qLCZjhokXQG4DT1qRzrCSkU
+	1TFMnc6RMTO7Brt60gt7Hvn2nkrhHYmNkKeGGWXyRc5sKTWUDBBK05tw0N0DHKr1lyS
+	ht/JQTEf5fAZV7ZwU0WVg6wsJw2WdeDNshgs2fV6/GNlgOVq1DN19WM2Fc2olAYBAVw
+	6jYFu+wT/PJmzycYAqzhgnluLTpOKZHZZLRep6H+lOUcT2Hhv1LphoKbYaK0oiEOVLc
+	CSql2T1lUmIn/EuzBKKc/Nnl099X84+s2f5vUyLtudZt7urvVFOeAbDegpvQ7+sKQ91
+	jD7rudimcw==
+Received: from edelgard.fodlan.icenowy.me (120.85.96.110 [120.85.96.110]) by mx.zohomail.com
+	with SMTPS id 1695511357624506.5964230801262; Sat, 23 Sep 2023 16:22:37 -0700 (PDT)
+Message-ID: <f3b8d0823150797bde975a09b1faf6d3826d1ea8.camel@icenowy.me>
+Subject: Re: [RFC v2 6/6] riscv: dts: thead: convert isa detection to new
+ properties
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Conor Dooley <conor@kernel.org>, linux-riscv@lists.infradead.org
+Cc: Conor Dooley <conor.dooley@microchip.com>, Rob Herring
+ <robh+dt@kernel.org>,  Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Chen-Yu Tsai
+ <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+ <samuel@sholland.org>, Daire McNamara <daire.mcnamara@microchip.com>, Geert
+ Uytterhoeven <geert+renesas@glider.be>, Magnus Damm
+ <magnus.damm@gmail.com>, Emil Renner Berthing <kernel@esmil.dk>, Jisheng
+ Zhang <jszhang@kernel.org>, Guo Ren <guoren@kernel.org>, Fu Wei
+ <wefu@redhat.com>,  Chen Wang <unicorn_wang@outlook.com>,
+ devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+ linux-renesas-soc@vger.kernel.org
+Date: Sun, 24 Sep 2023 07:22:30 +0800
+In-Reply-To: <20230922081351.30239-8-conor@kernel.org>
+References: <20230922081351.30239-2-conor@kernel.org>
+	 <20230922081351.30239-8-conor@kernel.org>
+Organization: Anthon Open-Source Community
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.44.4 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-ZohoMailClient: External
 
-On Tue, 19 Sep 2023 19:48:42 +0200
-Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de> wrote:
-
-> this series converts all platform drivers below drivers/iio to use
-> .remove_new(). The motivation is to get rid of an integer return code
-> that is (mostly) ignored by the platform driver core and error prone on
-> the driver side. As all platform drivers return zero unconditionally in t=
-heir
-> remove callback up to now, the conversions are "trivial".
->=20
-> See commit 5c5a7680e67b ("platform: Provide a remove callback that
-> returns no value") for an extended explanation and the eventual goal.
->=20
-> There are no interdependencies between the patches. As there are still
-> quite a few drivers to convert, I'm happy about every patch that makes
-> it in. So even if there is a merge conflict with one patch until you
-> apply or I picked a wrong subject prefix, please apply the remainder of
-> this series anyhow.
->=20
-Series applied to the togreg branch of iio.git and pushed out as testing=20
-to see if 0-day finds anything we are missing.
-
-I've picked up all tags give as of early today.
-
-Thanks,
-
-Jonathan
-
-> Best regards
-> Uwe
->=20
-> Uwe Kleine-K=C3=B6nig (49):
->   iio: accel: hid-sensor-accel-3d: Convert to platform remove callback
->     returning void
->   iio: adc: ab8500-gpadc: Convert to platform remove callback returning
->     void
->   iio: adc: at91-sama5d2: Convert to platform remove callback returning
->     void
->   iio: adc: at91: Convert to platform remove callback returning void
->   iio: adc: axp20x: Convert to platform remove callback returning void
->   iio: adc: bcm_iproc: Convert to platform remove callback returning
->     void
->   iio: adc: dln2: Convert to platform remove callback returning void
->   iio: adc: ep93xx: Convert to platform remove callback returning void
->   iio: adc: exynos: Convert to platform remove callback returning void
->   iio: adc: fsl-imx25-gcq: Convert to platform remove callback returning
->     void
->   iio: adc: hx711: Convert to platform remove callback returning void
->   iio: adc: imx8qxp: Convert to platform remove callback returning void
->   iio: adc: imx93: Convert to platform remove callback returning void
->   iio: adc: meson_saradc: Convert to platform remove callback returning
->     void
->   iio: adc: mp2629: Convert to platform remove callback returning void
->   iio: adc: mxs-lradc: Convert to platform remove callback returning
->     void
->   iio: adc: npcm: Convert to platform remove callback returning void
->   iio: adc: qcom-pm8xxx-xoadc: Convert to platform remove callback
->     returning void
->   iio: adc: rcar-gyroadc: Convert to platform remove callback returning
->     void
->   iio: adc: stm32-adc-core: Convert to platform remove callback
->     returning void
->   iio: adc: stm32-adc: Convert to platform remove callback returning
->     void
->   iio: adc: stm32-dfsdm-adc: Convert to platform remove callback
->     returning void
->   iio: adc: stm32-dfsdm-core: Convert to platform remove callback
->     returning void
->   iio: adc: sun4i-gpadc-iio: Convert to platform remove callback
->     returning void
->   iio: adc: ti_am335x_adc: Convert to platform remove callback returning
->     void
->   iio: adc: twl4030-madc: Convert to platform remove callback returning
->     void
->   iio: adc: twl6030-gpadc: Convert to platform remove callback returning
->     void
->   iio: adc: vf610_adc: Convert to platform remove callback returning
->     void
->   iio: dac: dpot-dac: Convert to platform remove callback returning void
->   iio: dac: lpc18xx_dac: Convert to platform remove callback returning
->     void
->   iio: dac: stm32-dac-core: Convert to platform remove callback
->     returning void
->   iio: dac: stm32-dac: Convert to platform remove callback returning
->     void
->   iio: dac: vf610: Convert to platform remove callback returning void
->   iio: gyro: hid-sensor-gyro-3d: Convert to platform remove callback
->     returning void
->   iio: humidity: hid-sensor-humidity: Convert to platform remove
->     callback returning void
->   iio: light: cm3605: Convert to platform remove callback returning void
->   iio: light: hid-sensor-als: Convert to platform remove callback
->     returning void
->   iio: light: hid-sensor-prox: Convert to platform remove callback
->     returning void
->   iio: light: lm3533-als: Convert to platform remove callback returning
->     void
->   iio: magnetometer: hid-sensor-magn-3d: Convert to platform remove
->     callback returning void
->   iio: orientation: hid-sensor-incl-3d: Convert to platform remove
->     callback returning void
->   iio: orientation: hid-sensor-rotation: Convert to platform remove
->     callback returning void
->   iio: position: hid-sensor-custom-intel-hinge: Convert to platform
->     remove callback returning void
->   iio: pressure: hid-sensor: Convert to platform remove callback
->     returning void
->   iio: proximity: cros_ec_mkbp: Convert to platform remove callback
->     returning void
->   iio: proximity: srf04: Convert to platform remove callback returning
->     void
->   iio: temperature: hid-sensor: Convert to platform remove callback
->     returning void
->   iio: trigger: iio-trig-interrupt: Convert to platform remove callback
->     returning void
->   iio: trigger: stm32-timer: Convert to platform remove callback
->     returning void
->=20
->  drivers/iio/accel/hid-sensor-accel-3d.c              | 6 ++----
->  drivers/iio/adc/ab8500-gpadc.c                       | 6 ++----
->  drivers/iio/adc/at91-sama5d2_adc.c                   | 6 ++----
->  drivers/iio/adc/at91_adc.c                           | 6 ++----
->  drivers/iio/adc/axp20x_adc.c                         | 6 ++----
->  drivers/iio/adc/bcm_iproc_adc.c                      | 6 ++----
->  drivers/iio/adc/dln2-adc.c                           | 5 ++---
->  drivers/iio/adc/ep93xx_adc.c                         | 6 ++----
->  drivers/iio/adc/exynos_adc.c                         | 6 ++----
->  drivers/iio/adc/fsl-imx25-gcq.c                      | 6 ++----
->  drivers/iio/adc/hx711.c                              | 6 ++----
->  drivers/iio/adc/imx8qxp-adc.c                        | 6 ++----
->  drivers/iio/adc/imx93_adc.c                          | 6 ++----
->  drivers/iio/adc/meson_saradc.c                       | 6 ++----
->  drivers/iio/adc/mp2629_adc.c                         | 6 ++----
->  drivers/iio/adc/mxs-lradc-adc.c                      | 6 ++----
->  drivers/iio/adc/npcm_adc.c                           | 6 ++----
->  drivers/iio/adc/qcom-pm8xxx-xoadc.c                  | 6 ++----
->  drivers/iio/adc/rcar-gyroadc.c                       | 6 ++----
->  drivers/iio/adc/stm32-adc-core.c                     | 6 ++----
->  drivers/iio/adc/stm32-adc.c                          | 6 ++----
->  drivers/iio/adc/stm32-dfsdm-adc.c                    | 6 ++----
->  drivers/iio/adc/stm32-dfsdm-core.c                   | 6 ++----
->  drivers/iio/adc/sun4i-gpadc-iio.c                    | 8 +++-----
->  drivers/iio/adc/ti_am335x_adc.c                      | 6 ++----
->  drivers/iio/adc/twl4030-madc.c                       | 6 ++----
->  drivers/iio/adc/twl6030-gpadc.c                      | 6 ++----
->  drivers/iio/adc/vf610_adc.c                          | 6 ++----
->  drivers/iio/dac/dpot-dac.c                           | 6 ++----
->  drivers/iio/dac/lpc18xx_dac.c                        | 6 ++----
->  drivers/iio/dac/stm32-dac-core.c                     | 6 ++----
->  drivers/iio/dac/stm32-dac.c                          | 6 ++----
->  drivers/iio/dac/vf610_dac.c                          | 6 ++----
->  drivers/iio/gyro/hid-sensor-gyro-3d.c                | 6 ++----
->  drivers/iio/humidity/hid-sensor-humidity.c           | 6 ++----
->  drivers/iio/light/cm3605.c                           | 6 ++----
->  drivers/iio/light/hid-sensor-als.c                   | 6 ++----
->  drivers/iio/light/hid-sensor-prox.c                  | 6 ++----
->  drivers/iio/light/lm3533-als.c                       | 6 ++----
->  drivers/iio/magnetometer/hid-sensor-magn-3d.c        | 6 ++----
->  drivers/iio/orientation/hid-sensor-incl-3d.c         | 6 ++----
->  drivers/iio/orientation/hid-sensor-rotation.c        | 6 ++----
->  drivers/iio/position/hid-sensor-custom-intel-hinge.c | 6 ++----
->  drivers/iio/pressure/hid-sensor-press.c              | 6 ++----
->  drivers/iio/proximity/cros_ec_mkbp_proximity.c       | 6 ++----
->  drivers/iio/proximity/srf04.c                        | 6 ++----
->  drivers/iio/temperature/hid-sensor-temperature.c     | 6 ++----
->  drivers/iio/trigger/iio-trig-interrupt.c             | 6 ++----
->  drivers/iio/trigger/stm32-timer-trigger.c            | 6 ++----
->  49 files changed, 99 insertions(+), 196 deletions(-)
->=20
->=20
-> base-commit: 29e400e3ea486bf942b214769fc9778098114113
+5ZyoIDIwMjMtMDktMjLmmJ/mnJ/kupTnmoQgMDk6MTMgKzAxMDDvvIxDb25vciBEb29sZXnlhpnp
+gZPvvJoKPiBGcm9tOiBDb25vciBEb29sZXkgPGNvbm9yLmRvb2xleUBtaWNyb2NoaXAuY29tPgo+
+IAo+IENvbnZlcnQgdGhlIHRoMTUyMCBkZXZpY2V0cmVlcyB0byB1c2UgdGhlIG5ldyBwcm9wZXJ0
+aWVzCj4gInJpc2N2LGlzYS1iYXNlIiAmICJyaXNjdixpc2EtZXh0ZW5zaW9ucyIuCj4gRm9yIGNv
+bXBhdGliaWxpdHkgd2l0aCBvdGhlciBwcm9qZWN0cywgInJpc2N2LGlzYSIgcmVtYWlucy4KPiAK
+PiBTaWduZWQtb2ZmLWJ5OiBDb25vciBEb29sZXkgPGNvbm9yLmRvb2xleUBtaWNyb2NoaXAuY29t
+Pgo+IC0tLQo+IMKgYXJjaC9yaXNjdi9ib290L2R0cy90aGVhZC90aDE1MjAuZHRzaSB8IDEyICsr
+KysrKysrKysrKwo+IMKgMSBmaWxlIGNoYW5nZWQsIDEyIGluc2VydGlvbnMoKykKPiAKPiBkaWZm
+IC0tZ2l0IGEvYXJjaC9yaXNjdi9ib290L2R0cy90aGVhZC90aDE1MjAuZHRzaQo+IGIvYXJjaC9y
+aXNjdi9ib290L2R0cy90aGVhZC90aDE1MjAuZHRzaQo+IGluZGV4IGNlNzA4MTgzYjZmNi4uNzIz
+ZjY1NDg3MjQ2IDEwMDY0NAo+IC0tLSBhL2FyY2gvcmlzY3YvYm9vdC9kdHMvdGhlYWQvdGgxNTIw
+LmR0c2kKPiArKysgYi9hcmNoL3Jpc2N2L2Jvb3QvZHRzL3RoZWFkL3RoMTUyMC5kdHNpCj4gQEAg
+LTIwLDYgKzIwLDkgQEAgYzkxMF8wOiBjcHVAMCB7Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgY29tcGF0aWJsZSA9ICJ0aGVhZCxjOTEwIiwgInJpc2N2
+IjsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBkZXZp
+Y2VfdHlwZSA9ICJjcHUiOwo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoHJpc2N2LGlzYSA9ICJydjY0aW1hZmRjIjsKPiArwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJpc2N2LGlzYS1iYXNlID0gInJ2NjRpIjsKPiAr
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJpc2N2LGlzYS1l
+eHRlbnNpb25zID0gImkiLCAibSIsICJhIiwgImYiLAo+ICJkIiwgImMiLCAiemljbnRyIiwgInpp
+Y3NyIiwKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICJ6aWZlbmNlaSIsICJ6
+aWhwbSI7CgpaZmggaXMgc3VwcG9ydGVkIGJ5IFQtSGVhZCBDOXh4IHdpdGggZmxvYXQgdG9vLgoK
+SW4gYWRkaXRpb24sIHNob3VsZCBYIGV4dGVuc2lvbnMgZ2V0IGxpc3RlZCBoZXJlPwoKPiDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZWcgPSA8MD47Cj4g
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaS1jYWNoZS1i
+bG9jay1zaXplID0gPDY0PjsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqBpLWNhY2hlLXNpemUgPSA8NjU1MzY+Owo+IEBAIC00MSw2ICs0NCw5IEBAIGM5
+MTBfMTogY3B1QDEgewo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoGNvbXBhdGlibGUgPSAidGhlYWQsYzkxMCIsICJyaXNjdiI7Cj4gwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZGV2aWNlX3R5cGUgPSAiY3B1IjsK
+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByaXNjdixp
+c2EgPSAicnY2NGltYWZkYyI7Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqByaXNjdixpc2EtYmFzZSA9ICJydjY0aSI7Cj4gK8KgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByaXNjdixpc2EtZXh0ZW5zaW9ucyA9ICJpIiwg
+Im0iLCAiYSIsICJmIiwKPiAiZCIsICJjIiwgInppY250ciIsICJ6aWNzciIsCj4gK8KgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAiemlmZW5jZWkiLCAiemlocG0iOwo+IMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJlZyA9IDwxPjsKPiDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpLWNhY2hlLWJsb2Nr
+LXNpemUgPSA8NjQ+Owo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoGktY2FjaGUtc2l6ZSA9IDw2NTUzNj47Cj4gQEAgLTYyLDYgKzY4LDkgQEAgYzkxMF8y
+OiBjcHVAMiB7Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgY29tcGF0aWJsZSA9ICJ0aGVhZCxjOTEwIiwgInJpc2N2IjsKPiDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBkZXZpY2VfdHlwZSA9ICJjcHUiOwo+IMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJpc2N2LGlzYSA9
+ICJydjY0aW1hZmRjIjsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoHJpc2N2LGlzYS1iYXNlID0gInJ2NjRpIjsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJpc2N2LGlzYS1leHRlbnNpb25zID0gImkiLCAibSIs
+ICJhIiwgImYiLAo+ICJkIiwgImMiLCAiemljbnRyIiwgInppY3NyIiwKPiArwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgICJ6aWZlbmNlaSIsICJ6aWhwbSI7Cj4gwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmVnID0gPDI+Owo+IMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGktY2FjaGUtYmxvY2stc2l6
+ZSA9IDw2ND47Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgaS1jYWNoZS1zaXplID0gPDY1NTM2PjsKPiBAQCAtODMsNiArOTIsOSBAQCBjOTEwXzM6IGNw
+dUAzIHsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBj
+b21wYXRpYmxlID0gInRoZWFkLGM5MTAiLCAicmlzY3YiOwo+IMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGRldmljZV90eXBlID0gImNwdSI7Cj4gwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmlzY3YsaXNhID0gInJ2
+NjRpbWFmZGMiOwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgcmlzY3YsaXNhLWJhc2UgPSAicnY2NGkiOwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgcmlzY3YsaXNhLWV4dGVuc2lvbnMgPSAiaSIsICJtIiwgImEi
+LCAiZiIsCj4gImQiLCAiYyIsICJ6aWNudHIiLCAiemljc3IiLAo+ICvCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgInppZmVuY2VpIiwgInppaHBtIjsKPiDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZWcgPSA8Mz47Cj4gwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaS1jYWNoZS1ibG9jay1zaXplID0g
+PDY0PjsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBp
+LWNhY2hlLXNpemUgPSA8NjU1MzY+OwoK
 
