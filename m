@@ -1,114 +1,156 @@
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66C64DF47
-	for <linux-sunxi@lists.linux.dev>; Sun, 24 Sep 2023 20:01:30 +0000 (UTC)
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2b95d5ee18dso86207261fa.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 24 Sep 2023 13:01:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCCB2DDD2
+	for <linux-sunxi@lists.linux.dev>; Sun, 24 Sep 2023 20:09:52 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-9ad8bba8125so674258566b.3
+        for <linux-sunxi@lists.linux.dev>; Sun, 24 Sep 2023 13:09:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695585688; x=1696190488; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1695586191; x=1696190991; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=r/sEzFSU1WeZTVMeaZJF4z8FtiU96nb3S95OQlSjSS0=;
-        b=Khdw4CLCVGzU/RGFMAvvjkl2LVxQd+S23axNGDA6QVpTSZltgiUcFQlzXJi0b/NuDw
-         yZ6xdaTiiZ6PExy7FiHwrr01dtoYZWST94VhCSTXQIpLC5XhdWxoJO4VQ5EYIjXQHxAG
-         OstFnMDShh8LDLns1m23rlxFcfThAnduNIHtgsWlBCBOjDH3Y2n+EBuAlxYFyUbFBDhp
-         QLjCB0ZQsSji1lEOHXYdZmv4BiIa113J+lCg8aAenFrfeBVaV+E5P3ULhq5pTTiIbDJf
-         PpNGEvqhEwx+yv5ux8uQtrw43/vnTHTMcZNkxGL4CjftETkA9hds4N4OWpJA69hxFHVM
-         XLtg==
+        bh=DxREjewkNFrWDAgPsnTZpMxgPvvi0KDP02tpQh/XKD0=;
+        b=Jo9JuASvEUjnm7JkhLTBh82g7nbQNY00cURTyDCVYlPAzrs7fSs1+HSYH+RMJAJB+i
+         +8S2N4qGslboTvH5munAboQD59xhN0zMxc7AWvPN6EZAut+N/rLt2oON+VaTGiwmDKB4
+         WcMQBsXIFDIpUwMbFkKi5VH5USMMp84HvSeLFkQAfO17JnAnTSNYdLi8z0nD/vWuHhIg
+         ZXkeEewA26ZQcEs9BcSROUmsYB1K5E+1Zk8fvww8osckENjsv74AFZ4mHZ0XAPmfMv36
+         RnpMukNjEr2Ou+4JJF2EuhCNg1KpEuBxON+r91aMLpIuky9KWW+yNRcP1PC3zV4u/8VI
+         H8Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695585688; x=1696190488;
+        d=1e100.net; s=20230601; t=1695586191; x=1696190991;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=r/sEzFSU1WeZTVMeaZJF4z8FtiU96nb3S95OQlSjSS0=;
-        b=IK9dKNRpI+K617NsAy2GuEGBRfZX3OGuOPR84sOyoGdne9JIjhzc67jAiuCKNz+TVK
-         Z5Nx+JsrEeT7hFfJ3cO/3oPlbs5BbCRmeSipfvRGAzam4MPAkdWo58n+3oDsf6+wjV62
-         TlmnPX6DcygwZ1blEYQvoKiiCi+TmbwkrXhKPk7Hf0E2uw7mqkqZ8YMIGlMVh/hANFUs
-         i1KhdVuYx0RKmqjK3e5Wr+L4RoXY0dRycgQTK7RQ8CZP9EzH1+oWz4PV1HxfEXcWxzsB
-         crrnncCigv69Vs1fCgG1Cugamf70Jk0EEVHujIgbH+VlCIaDbxjaFLEPoG0Nv4d1wuu4
-         Z+og==
-X-Gm-Message-State: AOJu0Yyt7qGeB5N9aPPLA00qTtg2RXE/vz0CQ26aXYJh6aMFkrcBacqh
-	23Y021sujTZcCFoZeYWlXs0=
-X-Google-Smtp-Source: AGHT+IHXra175J8cJCP1mYtvO6y1HC5Qd13x962DSEgj/v3iYxK9Qz6wXvUiRAobb0w7iX71A52zWA==
-X-Received: by 2002:a2e:b78f:0:b0:2bf:cf44:dde5 with SMTP id n15-20020a2eb78f000000b002bfcf44dde5mr4102294ljo.30.1695585688175;
-        Sun, 24 Sep 2023 13:01:28 -0700 (PDT)
+        bh=DxREjewkNFrWDAgPsnTZpMxgPvvi0KDP02tpQh/XKD0=;
+        b=vnc5aTsoTDhTZPSiwVF+fQ22LMpKhriHEF9vCw0Igw9Xvk7+uIskj7sk+wlPDOPs2v
+         qP2schBCJfoPPCwU+o9cUHMY9apn82FnTNlMWzzNMEp59JesdJJKtDfneMZZXn2ETRvk
+         nPytMsPyQ9Wb2iOC4bo92mHAlClvnEAGxHY2+MfCe1Ya9ER9c25/Mlrqlm5V0KVx/wnx
+         6bdXG31dac5CPhsHkIKh4/irELbv4uiMvoyTjxZvi76UV6ZRbKVH52T1nkQDku7vH3Tx
+         qi/IZ3MJ0ENXcOUWsm2vq3TW06S5HRfdv2t099yd67BLCwsgUDjAggdTzA0Ftq4GZk/r
+         ViZw==
+X-Gm-Message-State: AOJu0Yy3LfSdjf4trfqL3DkNSwrdl2duMi4fCLpXG6akTO31N7DUvXwk
+	pev5uo1OvP/YWy+wPJ6q/Cs=
+X-Google-Smtp-Source: AGHT+IFacAw8IlUF7W7gT0BHUL/iwLFqkcmREgIzUohJpb5r19xZXpCugD8qQ2/zyVfpFPTyuLkyFg==
+X-Received: by 2002:a17:907:7818:b0:9ae:654d:5105 with SMTP id la24-20020a170907781800b009ae654d5105mr4480937ejc.47.1695586190881;
+        Sun, 24 Sep 2023 13:09:50 -0700 (PDT)
 Received: from jernej-laptop.localnet (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
-        by smtp.gmail.com with ESMTPSA id l15-20020a1709067d4f00b009920a690cd9sm5340296ejp.59.2023.09.24.13.01.27
+        by smtp.gmail.com with ESMTPSA id la9-20020a170906ad8900b0098f33157e7dsm5342713ejb.82.2023.09.24.13.09.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Sep 2023 13:01:27 -0700 (PDT)
+        Sun, 24 Sep 2023 13:09:50 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] phy: sun4i-usb: Fix a W=1 compilation failure
-Date: Sun, 24 Sep 2023 22:01:26 +0200
-Message-ID: <3520089.iIbC2pHGDl@jernej-laptop>
+To: Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Inochi Amaoto <inochiama@outlook.com>, Heiko Stuebner <heiko@sntech.de>,
+ Wei Fu <wefu@redhat.com>, Pei Chen <cp0613@linux.alibaba.com>,
+ Wenhan Chen <chenwenhan.cwh@alibaba-inc.com>, Guo Ren <guoren@kernel.org>,
+ Inochi Amaoto <inochiama@outlook.com>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] riscv: dts: allwinner: d1: Add PMU event node
+Date: Sun, 24 Sep 2023 22:09:49 +0200
+Message-ID: <1770354.VLH7GnMWUR@jernej-laptop>
 In-Reply-To:
- <0bc81612171baaa6d5dff58c8e009debc03e1ba8.1693735840.git.christophe.jaillet@wanadoo.fr>
+ <IA1PR20MB49534918FCA69399CE2E0C53BBE0A@IA1PR20MB4953.namprd20.prod.outlook.com>
 References:
- <0bc81612171baaa6d5dff58c8e009debc03e1ba8.1693735840.git.christophe.jaillet@wanadoo.fr>
+ <IA1PR20MB49534918FCA69399CE2E0C53BBE0A@IA1PR20MB4953.namprd20.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Dne nedelja, 03. september 2023 ob 12:11:06 CEST je Christophe JAILLET napi=
-sal(a):
-> With gcc 12.3.0, when this file is built, we get errors such as:
->=20
-> drivers/phy/allwinner/phy-sun4i-usb.c: In function =E2=80=98sun4i_usb_phy=
-_probe=E2=80=99:
-> drivers/phy/allwinner/phy-sun4i-usb.c:790:52: error: =E2=80=98_vbus=E2=80=
-=99 directive output may be truncated writing 5 bytes into a region of size=
- between 2 and 12 [-Werror=3Dformat-truncation=3D]
->   790 |                 snprintf(name, sizeof(name), "usb%d_vbus", i);
->       |                                                    ^~~~~
-> drivers/phy/allwinner/phy-sun4i-usb.c:790:17: note: =E2=80=98snprintf=E2=
-=80=99 output between 10 and 20 bytes into a destination of size 16
->   790 |                 snprintf(name, sizeof(name), "usb%d_vbus", i);
->       |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->=20
-> Because of the possible value of 'i', this can't be an issue in real world
-> application, but in order to have "make W=3D1" work correctly, give more
-> space for 'name'.
->=20
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Dne ponedeljek, 28. avgust 2023 ob 06:30:22 CEST je Inochi Amaoto napisal(a):
+> D1 has several pmu events supported by opensbi.
+> These events can be used by perf for profiling.
+> 
+> Signed-off-by: Inochi Amaoto <inochiama@outlook.com>
+> Link: https://dl.linux-sunxi.org/D1/Xuantie_C906_R1S0_User_Manual.pdf
+> Link: https://github.com/T-head-Semi/openc906/blob/main/C906_RTL_FACTORY/gen_rtl/pmu/rtl/aq_hpcp_top.v#L657
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Applied, thanks!
 
 Best regards,
 Jernej
 
 > ---
->  drivers/phy/allwinner/phy-sun4i-usb.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c b/drivers/phy/allwinne=
-r/phy-sun4i-usb.c
-> index ec551464dd4f..e53a9a9317bc 100644
-> --- a/drivers/phy/allwinner/phy-sun4i-usb.c
-> +++ b/drivers/phy/allwinner/phy-sun4i-usb.c
-> @@ -782,7 +782,7 @@ static int sun4i_usb_phy_probe(struct platform_device=
- *pdev)
-> =20
->  	for (i =3D 0; i < data->cfg->num_phys; i++) {
->  		struct sun4i_usb_phy *phy =3D data->phys + i;
-> -		char name[16];
-> +		char name[32];
-> =20
->  		if (data->cfg->missing_phys & BIT(i))
->  			continue;
->=20
+> changed from v3:
+> 1. remove wrong event mapping of 0x0000a
+> 2. add reference url of c906 events implementation (D1 only support events
+> described in R1S0 user manual, but event mapping is the same)
+> 
+> changed from v2:
+> 1. move pmu node from /soc to / to avoid warnings when checking.
+> 
+> The meaning of T-HEAD events can be found in this pending patch:
+> https://lore.kernel.org/linux-perf-users/IA1PR20MB4953DD82D0116EC291C21777BBE2A@IA1PR20MB4953.namprd20.prod.outlook.com
+> 
+> The patch above also provides a example that shows how to setup
+> environment and use perf with T-HEAD events.
+> ---
+>  arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi | 39 +++++++++++++++++++
+>  1 file changed, 39 insertions(+)
+> 
+> diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> index 8275630af977..53a984d78e3f 100644
+> --- a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> @@ -73,4 +73,43 @@ plic: interrupt-controller@10000000 {
+>  			#interrupt-cells = <2>;
+>  		};
+>  	};
+> +
+> +	pmu {
+> +		compatible = "riscv,pmu";
+> +		riscv,event-to-mhpmcounters =
+> +			<0x00003 0x00003 0x00000008>,
+> +			<0x00004 0x00004 0x00000010>,
+> +			<0x00005 0x00005 0x00000200>,
+> +			<0x00006 0x00006 0x00000100>,
+> +			<0x10000 0x10000 0x00004000>,
+> +			<0x10001 0x10001 0x00008000>,
+> +			<0x10002 0x10002 0x00010000>,
+> +			<0x10003 0x10003 0x00020000>,
+> +			<0x10019 0x10019 0x00000040>,
+> +			<0x10021 0x10021 0x00000020>;
+> +		riscv,event-to-mhpmevent =
+> +			<0x00003 0x00000000 0x00000001>,
+> +			<0x00004 0x00000000 0x00000002>,
+> +			<0x00005 0x00000000 0x00000007>,
+> +			<0x00006 0x00000000 0x00000006>,
+> +			<0x10000 0x00000000 0x0000000c>,
+> +			<0x10001 0x00000000 0x0000000d>,
+> +			<0x10002 0x00000000 0x0000000e>,
+> +			<0x10003 0x00000000 0x0000000f>,
+> +			<0x10019 0x00000000 0x00000004>,
+> +			<0x10021 0x00000000 0x00000003>;
+> +		riscv,raw-event-to-mhpmcounters =
+> +			<0x00000000 0x00000001 0xffffffff 0xffffffff 0x00000008>,
+> +			<0x00000000 0x00000002 0xffffffff 0xffffffff 0x00000010>,
+> +			<0x00000000 0x00000003 0xffffffff 0xffffffff 0x00000020>,
+> +			<0x00000000 0x00000004 0xffffffff 0xffffffff 0x00000040>,
+> +			<0x00000000 0x00000005 0xffffffff 0xffffffff 0x00000080>,
+> +			<0x00000000 0x00000006 0xffffffff 0xffffffff 0x00000100>,
+> +			<0x00000000 0x00000007 0xffffffff 0xffffffff 0x00000200>,
+> +			<0x00000000 0x0000000b 0xffffffff 0xffffffff 0x00002000>,
+> +			<0x00000000 0x0000000c 0xffffffff 0xffffffff 0x00004000>,
+> +			<0x00000000 0x0000000d 0xffffffff 0xffffffff 0x00008000>,
+> +			<0x00000000 0x0000000e 0xffffffff 0xffffffff 0x00010000>,
+> +			<0x00000000 0x0000000f 0xffffffff 0xffffffff 0x00020000>;
+> +	};
+>  };
+> --
+> 2.42.0
+> 
+> 
 
 
 
