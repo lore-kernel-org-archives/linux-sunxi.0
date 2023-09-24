@@ -1,56 +1,56 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F0CD29E
-	for <linux-sunxi@lists.linux.dev>; Sun, 24 Sep 2023 19:30:07 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-9ad810be221so635393166b.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 24 Sep 2023 12:30:07 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C6B3D29E
+	for <linux-sunxi@lists.linux.dev>; Sun, 24 Sep 2023 19:30:24 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-530fa34ab80so14364827a12.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 24 Sep 2023 12:30:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695583806; x=1696188606; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1695583822; x=1696188622; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uegV/6/zQE8HABESltJplBPPeOrCrEYD8pBkTSK6Xc8=;
-        b=Zj3La0pgIjenFLOE/gite3sD8UjvfPrspuzr07WmFELiNLBJ1b//koBEug3jh24pOz
-         /9V1IrpNMibvHVpXDkbjNoBBtZDloFShu5LHgh3wXR0Z80Y5OS1Fhykq7XeQyV8EDBkv
-         kQaZtV3cYFKyj+8bdNx765J63n1LFRc7f+D02brRSODWwT1Jt9CuWdJu1UyJTPvw00vZ
-         V8c9NLWmZOJgrX3KHh0ce55oPI1HfH84R+Ocm/xShfOFhp2iapCqxZiruJ30cpsZ4Y0T
-         irb3fZZ9Va7JQCWhYDefyJToK3DASW9hqhL4MN4VbZNYblhLHR29Uc0gI4xe2a9qoXtB
-         m6LQ==
+        bh=vUUJIEhzOdAnkw/nl7YJGdSxrlSg4ACmgxiwTGYWC4I=;
+        b=Ie90EC5uYvonMASPGnc6e4eshfwD6OUeMsaLuRNUH3BwBUO3nXMJ9vAhG8QCm57nGW
+         /8HdQfBEjPiy3Gpt9bNrPOYWN7rSVB9Zun3IjwXIYyo2GfTy6JZolCUBYi2mUVmvaTBQ
+         3oH76DdpwHMMLSoQVo/8QSMU/VE9vYE+Pqiz4gr5nKh93CYXiL7497kFf9hCfFQYPhuT
+         HEQXu8v7tUFkbVeE8vhSo+HAfSQb6Cozd4YlTO6LKSX4xN94onllSAzpJx6bSAZipowp
+         fidlTSJPSRQux+V9a8tn2APe6KHtLNnTFSC/blnB3NWP1IvoK2BqITMdDW96bsnyXpO3
+         st9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695583806; x=1696188606;
+        d=1e100.net; s=20230601; t=1695583822; x=1696188622;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uegV/6/zQE8HABESltJplBPPeOrCrEYD8pBkTSK6Xc8=;
-        b=KhklSXQmI7HIQ1uAjTOmeWItD9zxdSfXGX4d3EPtfscFQJ/mg9auAQ5rKYeYOQ8k78
-         j0+g/X4J05bK8pVGtD2A11LYkS+Xgy98+JKV4HTkOF6MJoF4WpNjIZf1o2wFto7Ezlja
-         4342oSotVbgXa5R7LIopCjJ679f/6uJPCtHzOngqrCMx0CriFo9wDvHABPifrT/TLRic
-         XCnCY+IBldKqjpn4Ymc+HEUUylF4af8/3SipAlaOg/fm/j6OIr8V+jzuudlVmc5B1iFv
-         zgifvHvnTN4NTpgu35I8y0wQLtKm6wWG/k/OY0n5zgmkr888HucU9CfHvttgO+Rb3GuF
-         AsGA==
-X-Gm-Message-State: AOJu0YxN0N8dbXaxijUO/Ya8DNWk1JT6R2FdIhIWAlyDllkdiKim9nyQ
-	77nzxG9AHCQv9oyxOdQrGApBknIsUA/EWA==
-X-Google-Smtp-Source: AGHT+IH/R2d9hfkFWuD+vF1uvLthvReN7rN3+88k2WDRPwF9nKHjqkihElcmj4QlDO26v7lW1IpP/w==
-X-Received: by 2002:a17:906:20d4:b0:9a2:86b:bb18 with SMTP id c20-20020a17090620d400b009a2086bbb18mr3813711ejc.26.1695583806172;
-        Sun, 24 Sep 2023 12:30:06 -0700 (PDT)
+        bh=vUUJIEhzOdAnkw/nl7YJGdSxrlSg4ACmgxiwTGYWC4I=;
+        b=s7ZDMdqkVuLTZU2QbMmuDcQaKc45uBms9BvqoOAl989W3qEE5re6QgwEAYmBBBL/Zi
+         CpHPVqdI/Cj+V+uWEwGNcYv+6cZmTl2N2C22Jqhw8ywnEkLSoz2mfyzgKU1hSf1utSVr
+         tg8vMclGydqKVk4gl8NJMrKsGe503fNOdDKd+hvRGjMnefYACNebjVQgxIbpmeYS0xTW
+         XnHfMqmURjsdwo3Yiq84zFSP8gF6dRlGBUsx53XCTkI6tiQLXmRjNuyrGN/mLFuiApGs
+         6C/ryAEjzJ2eQC0Ysha//iiNqZeiInUSsgT1UA791EK2qmo7PQQ4/J0XyroXYfxuWFb8
+         7RyQ==
+X-Gm-Message-State: AOJu0YxTQWRTyWdFhF6fY8hDvHtGB9WbI52XhLsVBlz66D1yFjWRHROq
+	4LDxITdiFrmGuJ3c0/Xmi3/LrhU8IFCSNA==
+X-Google-Smtp-Source: AGHT+IEaddZTMihzpc2QHNrcIR7tIgm1yDtiU4v1jqmd8nqjC0yUWtZOi/JcMn+36BWmzLdGhlwYRA==
+X-Received: by 2002:a05:6402:291a:b0:533:dd4d:2941 with SMTP id ee26-20020a056402291a00b00533dd4d2941mr4899478edb.16.1695583822544;
+        Sun, 24 Sep 2023 12:30:22 -0700 (PDT)
 Received: from jernej-laptop.localnet (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
-        by smtp.gmail.com with ESMTPSA id e10-20020a1709061e8a00b009adc5802d08sm5289132ejj.190.2023.09.24.12.30.04
+        by smtp.gmail.com with ESMTPSA id n10-20020a056402514a00b0052333e5237esm4614742edd.88.2023.09.24.12.30.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Sep 2023 12:30:05 -0700 (PDT)
+        Sun, 24 Sep 2023 12:30:22 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: linux-sunxi@lists.linux.dev, Chris Morgan <macroalpha82@gmail.com>
 Cc: devicetree@vger.kernel.org, mripard@kernel.org, uwu@icenowy.me,
  samuel@sholland.org, wens@csie.org, conor+dt@kernel.org,
  krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
  andre.przywara@arm.com, Chris Morgan <macromorgan@hotmail.com>
-Subject: Re: [PATCH V5 1/4] arm: dts: sun8i: V3s: Add pinctrl for pwm
-Date: Sun, 24 Sep 2023 21:30:04 +0200
-Message-ID: <2697958.mvXUDI8C0e@jernej-laptop>
-In-Reply-To: <20230921135136.97491-2-macroalpha82@gmail.com>
+Subject: Re: [PATCH V5 2/4] ARM: dts: sun8i: v3s: add EHCI and OHCI to v3s dts
+Date: Sun, 24 Sep 2023 21:30:21 +0200
+Message-ID: <5711313.DvuYhMxLoT@jernej-laptop>
+In-Reply-To: <20230921135136.97491-3-macroalpha82@gmail.com>
 References:
  <20230921135136.97491-1-macroalpha82@gmail.com>
- <20230921135136.97491-2-macroalpha82@gmail.com>
+ <20230921135136.97491-3-macroalpha82@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -60,11 +60,12 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="UTF-8"
 
-Dne =C4=8Detrtek, 21. september 2023 ob 15:51:33 CEST je Chris Morgan napis=
+Dne =C4=8Detrtek, 21. september 2023 ob 15:51:34 CEST je Chris Morgan napis=
 al(a):
 > From: Chris Morgan <macromorgan@hotmail.com>
 >=20
-> Add pinctrl nodes for pwm0 and pwm1.
+> Add the EHCI and OHCI controller to the Allwinner v3s to support using
+> USB in host mode.
 >=20
 > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 > Reviewed-by: Andre Przywara <andre.przywara@arm.com>
@@ -75,33 +76,44 @@ Best regards,
 Jernej
 
 > ---
->  arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+>  arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi | 23 ++++++++++++++++++++++
+>  1 file changed, 23 insertions(+)
 >=20
 > diff --git a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi b/arch/arm/boot/d=
 ts/allwinner/sun8i-v3s.dtsi
-> index 3b9a282c2746..c87476ea31e2 100644
+> index c87476ea31e2..e8a04476b776 100644
 > --- a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
 > +++ b/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
-> @@ -414,6 +414,18 @@ mmc1_pins: mmc1-pins {
->  				bias-pull-up;
->  			};
+> @@ -319,6 +319,29 @@ usbphy: phy@1c19400 {
+>  			#phy-cells =3D <1>;
+>  		};
 > =20
-> +			/omit-if-no-ref/
-> +			pwm0_pin: pwm0-pin {
-> +				pins =3D "PB4";
-> +				function =3D "pwm0";
-> +			};
+> +		ehci: usb@1c1a000 {
+> +			compatible =3D "allwinner,sun8i-v3s-ehci", "generic-ehci";
+> +			reg =3D <0x01c1a000 0x100>;
+> +			interrupts =3D <GIC_SPI 72 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks =3D <&ccu CLK_BUS_EHCI0>, <&ccu CLK_BUS_OHCI0>;
+> +			resets =3D <&ccu RST_BUS_EHCI0>, <&ccu RST_BUS_OHCI0>;
+> +			phys =3D <&usbphy 0>;
+> +			phy-names =3D "usb";
+> +			status =3D "disabled";
+> +		};
 > +
-> +			/omit-if-no-ref/
-> +			pwm1_pin: pwm1-pin {
-> +				pins =3D "PB5";
-> +				function =3D "pwm1";
-> +			};
+> +		ohci: usb@1c1a400 {
+> +			compatible =3D "allwinner,sun8i-v3s-ohci", "generic-ohci";
+> +			reg =3D <0x01c1a400 0x100>;
+> +			interrupts =3D <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks =3D <&ccu CLK_BUS_EHCI0>, <&ccu CLK_BUS_OHCI0>,
+> +				 <&ccu CLK_USB_OHCI0>;
+> +			resets =3D <&ccu RST_BUS_EHCI0>, <&ccu RST_BUS_OHCI0>;
+> +			phys =3D <&usbphy 0>;
+> +			phy-names =3D "usb";
+> +			status =3D "disabled";
+> +		};
 > +
->  			spi0_pins: spi0-pins {
->  				pins =3D "PC0", "PC1", "PC2", "PC3";
->  				function =3D "spi0";
+>  		ccu: clock@1c20000 {
+>  			compatible =3D "allwinner,sun8i-v3s-ccu";
+>  			reg =3D <0x01c20000 0x400>;
 >=20
 
 
