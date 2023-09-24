@@ -1,62 +1,60 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8D8FDDC9
-	for <linux-sunxi@lists.linux.dev>; Sun, 24 Sep 2023 19:50:49 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-9adca291f99so623499466b.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 24 Sep 2023 12:50:49 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C531DF43
+	for <linux-sunxi@lists.linux.dev>; Sun, 24 Sep 2023 19:53:26 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2c108e106f0so83588431fa.1
+        for <linux-sunxi@lists.linux.dev>; Sun, 24 Sep 2023 12:53:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695585048; x=1696189848; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1695585204; x=1696190004; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=b0ZBqIoDYKMVCzgLuvboaux6shOrM5HIrW6ijoQ1dls=;
-        b=hwvNqAZ0ksmi4s9WzMV6Beixkjo7i0+Sgd0ughX0DvHl26xow16fXWc0/+FGGirJBY
-         aBxR26pjeEMQEI71+z9WFGqFLIdHeUyGiFqi3NszCaopR1V8NhR2eX8Y2bgKYoFpB6Sd
-         6bGer2+hrAXMyylzj3i3UcsRXKY7w+5ZFOum9SRVNJTkG5WhnFO1wZdnU09XWgFkisJ7
-         6JaiuBazaSmHJgqHBTRrIGsrz9m+zPshQ8gfD7VnYmlozKTgzORxBHwsY1Ye/z1s8Lfb
-         GL6Hd1TIGDJ1yIg+9w/itwOihqAj+bCzTOD5ZwVZ3CxbaEnlogpn0Z+DK9fnFwxN/Rpw
-         f5tQ==
+        bh=v0d3YVvRT9dZksB7Z0EZhHU3PKUHlJOKGLc8dKpN2qA=;
+        b=Y6qWcc9Xd3bYwZXmPmO1WYUXAEn+xS0r9XwFmuqJoup6TxVWtEM15rd3Xf8Fc0i43k
+         gue6YZlv7gmwYu020x2mzhnGp+DUNP8jUSy5j6DadcCzqHTvS6iVaQ0bwTmatTtwSvEP
+         4f63J3XpJXFhO1knSzvt8D2PdtqPl4zyANLN1S9l6nTItyATHSki42JsGLh17ASsgEnk
+         5gR16TA+stZiY3J3DfL8dkycYYzRvmuMy3Sk9TTxh+aBrU6oUiZAW7uwsUx4/BY7jXMN
+         IJtySMRfB0G5xtH23F5BWQSPl4BEShtbAAsXuCacibW4ed+o2RWdhexYCKCn0xyDXWAc
+         tIgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695585048; x=1696189848;
+        d=1e100.net; s=20230601; t=1695585204; x=1696190004;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=b0ZBqIoDYKMVCzgLuvboaux6shOrM5HIrW6ijoQ1dls=;
-        b=BIEkS1I2xStvOijZ0zE+PBS8HxfpzM/9RzjXMNCOfkS1W0sEuP772Z+lquQcDv96MH
-         Xj6gHN+LGMAL86uWJbOWp+r9EfQ2iwsXxfb7wz9LxHhbv7alIvj0oAWDyVh80A4758mo
-         zJSrrglUO/9WvtLRm1q2gC3c29s02Vc5gVfn7lWhRU0xLZ/E8GgU2Es4Uq3e7hNS0Qqb
-         l2jfJHGIUn5mKPn4MwnftC6pzdXlLCDOrjveC9dTLYff70hHPm8X7kyfJiNRB9ClfghM
-         8R8yc7PBqnEXuiSCUsyxyNAv+kpwe2Hpx2kzrYn2GtBiSMKTBwzuyzYviUA9XklGEpp3
-         RMEQ==
-X-Gm-Message-State: AOJu0YyIQycuVhQVyLkLE4DwKIw8ivqjF8mWimwHXieJkeAWiH821E+w
-	WIfmXuNHo8jzZ0fDFtTV/L8=
-X-Google-Smtp-Source: AGHT+IHLYgqMybMHGPeaqhZNmoe5ADooSVrZz1GsWPUqF2lfGpcVEHt34hg0NCrjDiXTINlAK7E+8g==
-X-Received: by 2002:a17:906:68c9:b0:9ae:7387:897b with SMTP id y9-20020a17090668c900b009ae7387897bmr3799726ejr.30.1695585048383;
-        Sun, 24 Sep 2023 12:50:48 -0700 (PDT)
+        bh=v0d3YVvRT9dZksB7Z0EZhHU3PKUHlJOKGLc8dKpN2qA=;
+        b=jvzKtH3CjUIm636zgqYWxskXaU385XpD89ct+iBcIuSR+hn4V5Ds34eZjxpqi+mSM5
+         krAqoOFMYo2xhtnGYroZU7ZSFDBw/iIhAWPK3vKuGOJyvDj+JWvBdNn5JbBsgqzBPnCs
+         DYSobeXkTkMospjIt84LYggUxXOfDq4FEQNVk6jjjm2BUls7aLnYfqsJQXiUBj31zEdd
+         +kjxh4ydx8anp3YbnLdAh8e8MAuAxP+AKZm3dlTWLvidbdi3rAGiLU5YbLwKakSZbkSF
+         RsP1PMlZmblTBbT4rVJ/9bJuIy+v5qjZx68gpBq2b+w/ZMTbDaJzjkwmAPtGtQYerOqu
+         L8Hw==
+X-Gm-Message-State: AOJu0Yz9DeCSCc9HeTZaECs7bOf7FUAfT0TFjNu0J1qUrPpOn2cF6ACf
+	0L3lCii8bGE3R8YZVTj/H7E=
+X-Google-Smtp-Source: AGHT+IGS18qcaUt/JSWnUE5QJPAZC0mw8nPR6JoiV75sIqS6/y3U/VEFHkRsM7E5MB6Xlp/hfv86mQ==
+X-Received: by 2002:a2e:994a:0:b0:2ba:34d0:fa5f with SMTP id r10-20020a2e994a000000b002ba34d0fa5fmr3887452ljj.37.1695585203989;
+        Sun, 24 Sep 2023 12:53:23 -0700 (PDT)
 Received: from jernej-laptop.localnet (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
-        by smtp.gmail.com with ESMTPSA id s2-20020a170906354200b0098ec690e6d7sm5338376eja.73.2023.09.24.12.50.47
+        by smtp.gmail.com with ESMTPSA id ce21-20020a170906b25500b009ad850d4760sm5285822ejb.219.2023.09.24.12.53.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Sep 2023 12:50:48 -0700 (PDT)
+        Sun, 24 Sep 2023 12:53:23 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Lee Jones <lee@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Rob Herring <robh+dt@kernel.org>,
+To: Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Andre Przywara <andre.przywara@arm.com>
-Cc: Icenowy Zheng <uwu@icenowy.me>, Mark Brown <broonie@kernel.org>,
- Samuel Holland <samuel@sholland.org>, Shengyu Qu <wiagn233@outlook.com>,
- Martin Botka <martin.botka1@gmail.com>,
- Matthew Croughan <matthew.croughan@nix.how>, linux-sunxi@lists.linux.dev,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+ Conor Dooley <conor+dt@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Subject:
- Re: [PATCH v3 1/2] dt-bindings: mfd: x-powers,axp152: make interrupt optional
- for more chips
-Date: Sun, 24 Sep 2023 21:50:46 +0200
-Message-ID: <2900712.e9J7NaK4W3@jernej-laptop>
-In-Reply-To: <20230919103913.463156-2-andre.przywara@arm.com>
-References:
- <20230919103913.463156-1-andre.przywara@arm.com>
- <20230919103913.463156-2-andre.przywara@arm.com>
+ Re: [PATCH] riscv: dts: use capital "OR" for multiple licenses in SPDX
+Date: Sun, 24 Sep 2023 21:53:22 +0200
+Message-ID: <3256759.44csPzL39Z@jernej-laptop>
+In-Reply-To: <20230823085238.113642-1-krzysztof.kozlowski@linaro.org>
+References: <20230823085238.113642-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -66,49 +64,180 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne torek, 19. september 2023 ob 12:39:12 CEST je Andre Przywara napisal(a):
-> All X-Powers PMICs described by this binding have an IRQ pin, and so
-> far (almost) all boards connected this to some NMI pin or GPIO on the SoC
-> they are connected to.
-> However we start to see boards that omit this connection, and technically
-> the IRQ pin is not essential to the basic PMIC operation.
+Dne sreda, 23. avgust 2023 ob 10:52:38 CEST je Krzysztof Kozlowski napisal(a):
+> Documentation/process/license-rules.rst and checkpatch expect the SPDX
+> identifier syntax for multiple licenses to use capital "OR".  Correct it
+> to keep consistent format and avoid copy-paste issues.
 > 
-> The existing Linux driver allows skipping the IRQ pin setup for two chips
-> already, so update the binding to also make the DT property optional for
-> the missing chip. And while we are at it, add the AXP313a to that list,
-> as they are actually boards out there not connecting the IRQ pin.
-> 
-> This allows to have DTs correctly describing those boards not wiring up
-> the interrupt.
-> 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Should I pick this patch through sunxi tree?
+Applied, thanks!
 
 Best regards,
 Jernej
 
-> ---
->  Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml b/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml
-> index 9ad55746133b5..06f1779835a1e 100644
-> --- a/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml
-> +++ b/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml
-> @@ -67,7 +67,10 @@ allOf:
->          properties:
->            compatible:
->              contains:
-> -              const: x-powers,axp305
-> +              enum:
-> +                - x-powers,axp15060
-> +                - x-powers,axp305
-> +                - x-powers,axp313a
+> ---
+> 
+> Rebased on next-20230822, so might not apply cleanly.  What does not
+> apply, can be skipped and I will fix it after next RC.
+> ---
+>  arch/riscv/boot/dts/allwinner/sun20i-common-regulators.dtsi     | 2 +-
+>  arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezha-stu.dts  | 2 +-
+>  .../boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-480p.dts    | 2 +-
+>  .../boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-720p.dts    | 2 +-
+>  arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel.dtsi | 2 +-
+>  arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-dock.dts      | 2 +-
+>  arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv.dts           | 2 +-
+>  arch/riscv/boot/dts/allwinner/sun20i-d1-mangopi-mq-pro.dts      | 2 +-
+>  arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts               | 2 +-
+>  arch/riscv/boot/dts/allwinner/sun20i-d1.dtsi                    | 2 +-
+>  arch/riscv/boot/dts/allwinner/sun20i-d1s-mangopi-mq.dts         | 2 +-
+>  arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi                   | 2 +-
+>  arch/riscv/boot/dts/allwinner/sunxi-d1-t113.dtsi                | 2 +-
+>  arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi               | 2 +-
+>  14 files changed, 14 insertions(+), 14 deletions(-)
+> 
+> diff --git a/arch/riscv/boot/dts/allwinner/sun20i-common-regulators.dtsi b/arch/riscv/boot/dts/allwinner/sun20i-common-regulators.dtsi
+> index 9b03fca2444c..ed7b12e65a10 100644
+> --- a/arch/riscv/boot/dts/allwinner/sun20i-common-regulators.dtsi
+> +++ b/arch/riscv/boot/dts/allwinner/sun20i-common-regulators.dtsi
+> @@ -1,4 +1,4 @@
+> -// SPDX-License-Identifier: (GPL-2.0+ or MIT)
+> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+>  // Copyright (C) 2021-2022 Samuel Holland <samuel@sholland.org>
 >  
->      then:
->        required:
+>  / {
+> diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezha-stu.dts b/arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezha-stu.dts
+> index 8785de3c9224..3a2c3281eb88 100644
+> --- a/arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezha-stu.dts
+> +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezha-stu.dts
+> @@ -1,4 +1,4 @@
+> -// SPDX-License-Identifier: (GPL-2.0+ or MIT)
+> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+>  // Copyright (C) 2022 Samuel Holland <samuel@sholland.org>
+>  
+>  #include <dt-bindings/gpio/gpio.h>
+> diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-480p.dts b/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-480p.dts
+> index 4df8ffb71561..711450ffb602 100644
+> --- a/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-480p.dts
+> +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-480p.dts
+> @@ -1,4 +1,4 @@
+> -// SPDX-License-Identifier: (GPL-2.0+ or MIT)
+> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+>  // Copyright (C) 2022 Samuel Holland <samuel@sholland.org>
+>  
+>  #include "sun20i-d1-lichee-rv-86-panel.dtsi"
+> diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-720p.dts b/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-720p.dts
+> index 1874fc05359f..b217799e6166 100644
+> --- a/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-720p.dts
+> +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-720p.dts
+> @@ -1,4 +1,4 @@
+> -// SPDX-License-Identifier: (GPL-2.0+ or MIT)
+> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+>  // Copyright (C) 2022 Samuel Holland <samuel@sholland.org>
+>  
+>  #include "sun20i-d1-lichee-rv-86-panel.dtsi"
+> diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel.dtsi b/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel.dtsi
+> index 6cc7dd0c1ae2..10116fb3935a 100644
+> --- a/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel.dtsi
+> +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel.dtsi
+> @@ -1,4 +1,4 @@
+> -// SPDX-License-Identifier: (GPL-2.0+ or MIT)
+> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+>  // Copyright (C) 2022 Samuel Holland <samuel@sholland.org>
+>  
+>  #include "sun20i-d1-lichee-rv.dts"
+> diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-dock.dts b/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-dock.dts
+> index 52b91e1affed..08cf716328a0 100644
+> --- a/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-dock.dts
+> +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-dock.dts
+> @@ -1,4 +1,4 @@
+> -// SPDX-License-Identifier: (GPL-2.0+ or MIT)
+> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+>  // Copyright (C) 2022 Jisheng Zhang <jszhang@kernel.org>
+>  // Copyright (C) 2022 Samuel Holland <samuel@sholland.org>
+>  
+> diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv.dts b/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv.dts
+> index d60a0562a8b1..204da82a5dc6 100644
+> --- a/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv.dts
+> +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv.dts
+> @@ -1,4 +1,4 @@
+> -// SPDX-License-Identifier: (GPL-2.0+ or MIT)
+> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+>  // Copyright (C) 2022 Jisheng Zhang <jszhang@kernel.org>
+>  // Copyright (C) 2022 Samuel Holland <samuel@sholland.org>
+>  
+> diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1-mangopi-mq-pro.dts b/arch/riscv/boot/dts/allwinner/sun20i-d1-mangopi-mq-pro.dts
+> index f2e07043afb3..e2bb6bc16c13 100644
+> --- a/arch/riscv/boot/dts/allwinner/sun20i-d1-mangopi-mq-pro.dts
+> +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1-mangopi-mq-pro.dts
+> @@ -1,4 +1,4 @@
+> -// SPDX-License-Identifier: (GPL-2.0+ or MIT)
+> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+>  // Copyright (C) 2022 Samuel Holland <samuel@sholland.org>
+>  
+>  #include <dt-bindings/gpio/gpio.h>
+> diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts b/arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts
+> index 4ed33c1e7c9c..8dbe717c79ce 100644
+> --- a/arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts
+> +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts
+> @@ -1,4 +1,4 @@
+> -// SPDX-License-Identifier: (GPL-2.0+ or MIT)
+> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+>  // Copyright (C) 2021-2022 Samuel Holland <samuel@sholland.org>
+>  
+>  /*
+> diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1.dtsi b/arch/riscv/boot/dts/allwinner/sun20i-d1.dtsi
+> index 97e7cbb32597..b18f368e06e0 100644
+> --- a/arch/riscv/boot/dts/allwinner/sun20i-d1.dtsi
+> +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1.dtsi
+> @@ -1,4 +1,4 @@
+> -// SPDX-License-Identifier: (GPL-2.0+ or MIT)
+> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+>  // Copyright (C) 2021-2022 Samuel Holland <samuel@sholland.org>
+>  
+>  #include "sun20i-d1s.dtsi"
+> diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1s-mangopi-mq.dts b/arch/riscv/boot/dts/allwinner/sun20i-d1s-mangopi-mq.dts
+> index e6d924f671fd..1a7d6ef33f17 100644
+> --- a/arch/riscv/boot/dts/allwinner/sun20i-d1s-mangopi-mq.dts
+> +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1s-mangopi-mq.dts
+> @@ -1,4 +1,4 @@
+> -// SPDX-License-Identifier: (GPL-2.0+ or MIT)
+> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+>  // Copyright (C) 2022 Samuel Holland <samuel@sholland.org>
+>  
+>  #include <dt-bindings/gpio/gpio.h>
+> diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> index 8275630af977..450387265469 100644
+> --- a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> @@ -1,4 +1,4 @@
+> -// SPDX-License-Identifier: (GPL-2.0+ or MIT)
+> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+>  // Copyright (C) 2021-2022 Samuel Holland <samuel@sholland.org>
+>  
+>  #define SOC_PERIPHERAL_IRQ(nr)	(nr + 16)
+> diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1-t113.dtsi b/arch/riscv/boot/dts/allwinner/sunxi-d1-t113.dtsi
+> index b7156123df54..3b077dc086ab 100644
+> --- a/arch/riscv/boot/dts/allwinner/sunxi-d1-t113.dtsi
+> +++ b/arch/riscv/boot/dts/allwinner/sunxi-d1-t113.dtsi
+> @@ -1,4 +1,4 @@
+> -// SPDX-License-Identifier: (GPL-2.0+ or MIT)
+> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+>  // Copyright (C) 2021-2022 Samuel Holland <samuel@sholland.org>
+>  
+>  / {
+> diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+> index 822f022eec2d..5a9d7f5a75b4 100644
+> --- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+> +++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+> @@ -1,4 +1,4 @@
+> -// SPDX-License-Identifier: (GPL-2.0+ or MIT)
+> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+>  // Copyright (C) 2021-2022 Samuel Holland <samuel@sholland.org>
+>  
+>  #include <dt-bindings/clock/sun6i-rtc.h>
 > 
 
 
