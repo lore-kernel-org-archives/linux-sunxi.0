@@ -1,133 +1,120 @@
-Received: from sender4-op-o10.zoho.com (sender4-op-o10.zoho.com [136.143.188.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AB05CA66
-	for <linux-sunxi@lists.linux.dev>; Sat, 23 Sep 2023 23:23:06 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1695511359; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=GPbwmo3LHS3/4p7v+oTVutSHcIZoZ8ofPGscYYLfXdrAhASLk2MVzL8pz2tAFQoq6d/PqE8X6ybWdNm0iGc/P02DT1KtIoiZ73wxyGHmxBgSCxT3+nDHQLYiLmc97f3t29kGekkZCv/0x50VEo28bDspAeI+zmx9nUvHUBLsVdQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1695511359; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=a0N00YpArzAUih/1hspzwCWdnsiIjYr4OV1zuCg+2mA=; 
-	b=dEzPy81FY5P4r0zi821sZdoyYsPArcRr+j99udrqX57IEDogaBoiyDvzpKIWbDBkmAYlyE+W4I+bmWX4Fn9l2QWdctiPybVC771YKGM2L2WKIreisQZJOiwBdDgKEBN8hOzs+e85U0FqsEfnNUdheHJ8qVuCbBUXCizeBOxfxdM=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=icenowy.me;
-	spf=pass  smtp.mailfrom=uwu@icenowy.me;
-	dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1695511359;
-	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
-	bh=a0N00YpArzAUih/1hspzwCWdnsiIjYr4OV1zuCg+2mA=;
-	b=GSRul59W4h8hm3ZWCGQWJSBG9gHD2b4u4I5oIDu39qLCZjhokXQG4DT1qRzrCSkU
-	1TFMnc6RMTO7Brt60gt7Hvn2nkrhHYmNkKeGGWXyRc5sKTWUDBBK05tw0N0DHKr1lyS
-	ht/JQTEf5fAZV7ZwU0WVg6wsJw2WdeDNshgs2fV6/GNlgOVq1DN19WM2Fc2olAYBAVw
-	6jYFu+wT/PJmzycYAqzhgnluLTpOKZHZZLRep6H+lOUcT2Hhv1LphoKbYaK0oiEOVLc
-	CSql2T1lUmIn/EuzBKKc/Nnl099X84+s2f5vUyLtudZt7urvVFOeAbDegpvQ7+sKQ91
-	jD7rudimcw==
-Received: from edelgard.fodlan.icenowy.me (120.85.96.110 [120.85.96.110]) by mx.zohomail.com
-	with SMTPS id 1695511357624506.5964230801262; Sat, 23 Sep 2023 16:22:37 -0700 (PDT)
-Message-ID: <f3b8d0823150797bde975a09b1faf6d3826d1ea8.camel@icenowy.me>
-Subject: Re: [RFC v2 6/6] riscv: dts: thead: convert isa detection to new
- properties
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Conor Dooley <conor@kernel.org>, linux-riscv@lists.infradead.org
-Cc: Conor Dooley <conor.dooley@microchip.com>, Rob Herring
- <robh+dt@kernel.org>,  Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Chen-Yu Tsai
- <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>, Daire McNamara <daire.mcnamara@microchip.com>, Geert
- Uytterhoeven <geert+renesas@glider.be>, Magnus Damm
- <magnus.damm@gmail.com>, Emil Renner Berthing <kernel@esmil.dk>, Jisheng
- Zhang <jszhang@kernel.org>, Guo Ren <guoren@kernel.org>, Fu Wei
- <wefu@redhat.com>,  Chen Wang <unicorn_wang@outlook.com>,
- devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev, 
- linux-renesas-soc@vger.kernel.org
-Date: Sun, 24 Sep 2023 07:22:30 +0800
-In-Reply-To: <20230922081351.30239-8-conor@kernel.org>
-References: <20230922081351.30239-2-conor@kernel.org>
-	 <20230922081351.30239-8-conor@kernel.org>
-Organization: Anthon Open-Source Community
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.44.4 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D7AB19B;
+	Sun, 24 Sep 2023 02:48:28 +0000 (UTC)
+Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3ab3aa9ae33so2943462b6e.2;
+        Sat, 23 Sep 2023 19:48:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1695523707; x=1696128507; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=ZqzUc5Ca0TLk51f9yoIdIBC/lxIeRKZcx3CKiVIdjzQ=;
+        b=AyiOHS5sg0aTfkjDcE13rWHFrlI3KgFUdnHav5fUO944rgsVxGlWS4SvZQpIB++QU4
+         S+o3dEx+spydV9n3xKBCqo0i+xJP8c6U4kgqlJpQaumuAJNoqQE5I0p8hq1uffjbvliJ
+         ufQ1p/STfamYcOBkSNde0UQ4Z3vmteTOTFpZvMx5sohUAe13wSo59WAnYiHO/b22dWn8
+         NfJTSBW8YIETVUJck5Ud9cFROHTVCA7HUYLM8ibWKtxA3ATDWu9sb7d0S5wjbvUjGtmy
+         /KUZlsHbgr8vznPvvmDmzFWLxlPaJ7kJo8B4rkCTYQnhbMarRLvwvEmSECzw0zh90gmF
+         lg8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695523707; x=1696128507;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZqzUc5Ca0TLk51f9yoIdIBC/lxIeRKZcx3CKiVIdjzQ=;
+        b=GQd95xTyIJtd++tecygeFLLVpRp4Dazz8K0tQHn8nZByGG8s3RvFeyRtvr9jeahsGZ
+         jUniA2vzyzBHK9cdB1cxJ9CiKqCTl4RQODV/Fx0NaK0leXdroxQdRczTbwWnpZsP/t38
+         u/lmEz27VotufJZyQ26leuXUonLops8yL43Yd2Li/HodhOD77rGx2im3bLArVuxPxa7m
+         GhleyJjanQiVG5gKqHSef4F6Fujk5IJMbIzq4L/OhnohY0FbKNbRRBdN/PfsXCdohGc0
+         EMaXVc+hJcgD1LO2cIyFXblG/TK4ZhF2kP8ByeYMgnbNe90EEdQem8m+5hXS/qRF53e1
+         j4FA==
+X-Gm-Message-State: AOJu0Yzt1PPaDZozFjq+8a7x/JgwXLaQP3p2S913vkWvxIqo6/S/pR7z
+	t/XMBsys2hKXqjxpzToBvwI=
+X-Google-Smtp-Source: AGHT+IFsJQ1vfOpuk2IaQRPrCUNaPYRrBLQFBvu86Kz8YHQlL7Jz8q3Be91hgZK6q2QTnHVxxVtMXg==
+X-Received: by 2002:a05:6808:15a5:b0:3ad:f86a:877b with SMTP id t37-20020a05680815a500b003adf86a877bmr5344294oiw.23.1695523707158;
+        Sat, 23 Sep 2023 19:48:27 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:3d36:f550:baf4:ae75])
+        by smtp.gmail.com with ESMTPSA id h1-20020a170902748100b001bbc8d65de0sm6050106pll.67.2023.09.23.19.48.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 23 Sep 2023 19:48:26 -0700 (PDT)
+Date: Sat, 23 Sep 2023 19:48:21 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Michael Hennerich <michael.hennerich@analog.com>,
+	linux-input@vger.kernel.org, kernel@pengutronix.de,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	joewu =?utf-8?B?KOWQs+S7suaMryk=?= <joewu@msi.com>,
+	chrome-platform@lists.linux.dev,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+	Jeff LaBundy <jeff@labundy.com>, Rob Herring <robh@kernel.org>,
+	Siarhei Volkau <lis8215@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+	"Steven Rostedt (Google)" <rostedt@goodmis.org>,
+	Paolo Abeni <pabeni@redhat.com>, Kalle Valo <kvalo@kernel.org>,
+	Yangtao Li <frank.li@vivo.com>,
+	ye xingchen <ye.xingchen@zte.com.cn>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	Support Opensource <support.opensource@diasemi.com>,
+	Andrey Moiseev <o2g.org.ru@gmail.com>, Lee Jones <lee@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	linux-arm-msm@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
+	Miloslav Trmac <mitr@volny.cz>, patches@opensource.cirrus.com,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Liang He <windhl@126.com>, Chen Jun <chenjun102@huawei.com>,
+	Ruan Jinjie <ruanjinjie@huawei.com>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev,
+	Michal Simek <michal.simek@amd.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH 00/52] input: Convert to platform remove callback
+ returning void
+Message-ID: <ZQ+jddG+UbuSD7pP@google.com>
+References: <20230920125829.1478827-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230920125829.1478827-1-u.kleine-koenig@pengutronix.de>
 
-5ZyoIDIwMjMtMDktMjLmmJ/mnJ/kupTnmoQgMDk6MTMgKzAxMDDvvIxDb25vciBEb29sZXnlhpnp
-gZPvvJoKPiBGcm9tOiBDb25vciBEb29sZXkgPGNvbm9yLmRvb2xleUBtaWNyb2NoaXAuY29tPgo+
-IAo+IENvbnZlcnQgdGhlIHRoMTUyMCBkZXZpY2V0cmVlcyB0byB1c2UgdGhlIG5ldyBwcm9wZXJ0
-aWVzCj4gInJpc2N2LGlzYS1iYXNlIiAmICJyaXNjdixpc2EtZXh0ZW5zaW9ucyIuCj4gRm9yIGNv
-bXBhdGliaWxpdHkgd2l0aCBvdGhlciBwcm9qZWN0cywgInJpc2N2LGlzYSIgcmVtYWlucy4KPiAK
-PiBTaWduZWQtb2ZmLWJ5OiBDb25vciBEb29sZXkgPGNvbm9yLmRvb2xleUBtaWNyb2NoaXAuY29t
-Pgo+IC0tLQo+IMKgYXJjaC9yaXNjdi9ib290L2R0cy90aGVhZC90aDE1MjAuZHRzaSB8IDEyICsr
-KysrKysrKysrKwo+IMKgMSBmaWxlIGNoYW5nZWQsIDEyIGluc2VydGlvbnMoKykKPiAKPiBkaWZm
-IC0tZ2l0IGEvYXJjaC9yaXNjdi9ib290L2R0cy90aGVhZC90aDE1MjAuZHRzaQo+IGIvYXJjaC9y
-aXNjdi9ib290L2R0cy90aGVhZC90aDE1MjAuZHRzaQo+IGluZGV4IGNlNzA4MTgzYjZmNi4uNzIz
-ZjY1NDg3MjQ2IDEwMDY0NAo+IC0tLSBhL2FyY2gvcmlzY3YvYm9vdC9kdHMvdGhlYWQvdGgxNTIw
-LmR0c2kKPiArKysgYi9hcmNoL3Jpc2N2L2Jvb3QvZHRzL3RoZWFkL3RoMTUyMC5kdHNpCj4gQEAg
-LTIwLDYgKzIwLDkgQEAgYzkxMF8wOiBjcHVAMCB7Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgY29tcGF0aWJsZSA9ICJ0aGVhZCxjOTEwIiwgInJpc2N2
-IjsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBkZXZp
-Y2VfdHlwZSA9ICJjcHUiOwo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoHJpc2N2LGlzYSA9ICJydjY0aW1hZmRjIjsKPiArwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJpc2N2LGlzYS1iYXNlID0gInJ2NjRpIjsKPiAr
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJpc2N2LGlzYS1l
-eHRlbnNpb25zID0gImkiLCAibSIsICJhIiwgImYiLAo+ICJkIiwgImMiLCAiemljbnRyIiwgInpp
-Y3NyIiwKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICJ6aWZlbmNlaSIsICJ6
-aWhwbSI7CgpaZmggaXMgc3VwcG9ydGVkIGJ5IFQtSGVhZCBDOXh4IHdpdGggZmxvYXQgdG9vLgoK
-SW4gYWRkaXRpb24sIHNob3VsZCBYIGV4dGVuc2lvbnMgZ2V0IGxpc3RlZCBoZXJlPwoKPiDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZWcgPSA8MD47Cj4g
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaS1jYWNoZS1i
-bG9jay1zaXplID0gPDY0PjsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqBpLWNhY2hlLXNpemUgPSA8NjU1MzY+Owo+IEBAIC00MSw2ICs0NCw5IEBAIGM5
-MTBfMTogY3B1QDEgewo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoGNvbXBhdGlibGUgPSAidGhlYWQsYzkxMCIsICJyaXNjdiI7Cj4gwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZGV2aWNlX3R5cGUgPSAiY3B1IjsK
-PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByaXNjdixp
-c2EgPSAicnY2NGltYWZkYyI7Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqByaXNjdixpc2EtYmFzZSA9ICJydjY0aSI7Cj4gK8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByaXNjdixpc2EtZXh0ZW5zaW9ucyA9ICJpIiwg
-Im0iLCAiYSIsICJmIiwKPiAiZCIsICJjIiwgInppY250ciIsICJ6aWNzciIsCj4gK8KgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAiemlmZW5jZWkiLCAiemlocG0iOwo+IMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJlZyA9IDwxPjsKPiDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpLWNhY2hlLWJsb2Nr
-LXNpemUgPSA8NjQ+Owo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoGktY2FjaGUtc2l6ZSA9IDw2NTUzNj47Cj4gQEAgLTYyLDYgKzY4LDkgQEAgYzkxMF8y
-OiBjcHVAMiB7Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgY29tcGF0aWJsZSA9ICJ0aGVhZCxjOTEwIiwgInJpc2N2IjsKPiDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBkZXZpY2VfdHlwZSA9ICJjcHUiOwo+IMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJpc2N2LGlzYSA9
-ICJydjY0aW1hZmRjIjsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoHJpc2N2LGlzYS1iYXNlID0gInJ2NjRpIjsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJpc2N2LGlzYS1leHRlbnNpb25zID0gImkiLCAibSIs
-ICJhIiwgImYiLAo+ICJkIiwgImMiLCAiemljbnRyIiwgInppY3NyIiwKPiArwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgICJ6aWZlbmNlaSIsICJ6aWhwbSI7Cj4gwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmVnID0gPDI+Owo+IMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGktY2FjaGUtYmxvY2stc2l6
-ZSA9IDw2ND47Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgaS1jYWNoZS1zaXplID0gPDY1NTM2PjsKPiBAQCAtODMsNiArOTIsOSBAQCBjOTEwXzM6IGNw
-dUAzIHsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBj
-b21wYXRpYmxlID0gInRoZWFkLGM5MTAiLCAicmlzY3YiOwo+IMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGRldmljZV90eXBlID0gImNwdSI7Cj4gwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmlzY3YsaXNhID0gInJ2
-NjRpbWFmZGMiOwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgcmlzY3YsaXNhLWJhc2UgPSAicnY2NGkiOwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgcmlzY3YsaXNhLWV4dGVuc2lvbnMgPSAiaSIsICJtIiwgImEi
-LCAiZiIsCj4gImQiLCAiYyIsICJ6aWNudHIiLCAiemljc3IiLAo+ICvCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgInppZmVuY2VpIiwgInppaHBtIjsKPiDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZWcgPSA8Mz47Cj4gwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaS1jYWNoZS1ibG9jay1zaXplID0g
-PDY0PjsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBp
-LWNhY2hlLXNpemUgPSA8NjU1MzY+OwoK
+On Wed, Sep 20, 2023 at 02:57:37PM +0200, Uwe Kleine-König wrote:
+> Hello,
+> 
+> this series converts all platform drivers below drivers/input to use
+> remove_new. The motivation is to get rid of an integer return code
+> that is (mostly) ignored by the platform driver core and error prone on
+> the driver side.
+> 
+> See commit 5c5a7680e67b ("platform: Provide a remove callback that
+> returns no value") for an extended explanation and the eventual goal.
+> 
+> There are no interdependencies between the patches. As there are still
+> quite a few drivers to convert, I'm happy about every patch that makes
+> it in. So even if there is a merge conflict with one patch until you
+> apply or a subject prefix is suboptimal, please apply the remainder of
+> this series anyhow.
 
+Applied the lot (fixing the i8042-sparcio patch subject), thank you!
+
+-- 
+Dmitry
