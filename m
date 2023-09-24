@@ -1,149 +1,104 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 358B1DDC4
-	for <linux-sunxi@lists.linux.dev>; Sun, 24 Sep 2023 18:48:32 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-405361bb93bso47703945e9.3
-        for <linux-sunxi@lists.linux.dev>; Sun, 24 Sep 2023 11:48:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93B3FD29E
+	for <linux-sunxi@lists.linux.dev>; Sun, 24 Sep 2023 19:26:14 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-99357737980so620130766b.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 24 Sep 2023 12:26:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1695581311; x=1696186111; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xnmXOA+QaS63l50OfXpIek29rfu95uFcEdyHDfaQmtw=;
-        b=EbQnaTOUUlmupcHzzS/jlWIBGFnLTT0IINZcLPHCr86pyH5eY3ysA2ZV7/3ZcBC58y
-         Kxv7ngzpEUPFYlx9GFPFRraLmbbMr940l71Agsy/NP6SHD2Spum6AsjDJsg2OWmEWUoE
-         1AD0fZx6dVsgijmo2BiYmRMpbMpzXnO6Utje2SfcPLv8HVW563U7dKgYd9vyx2J3GZ0o
-         KnYOPByYLFxd7DYyt9jXj0csvER2Tegm2RyFe2XygzsWYdWHBZm1hYwehNurr/EI5uT1
-         z48A8GIuOMxTYlZGGkILyf4s7sLEVipNSbbYdfwWYsXOOIV0Aul868yd15pkgECHdyyo
-         HGcA==
+        d=gmail.com; s=20230601; t=1695583573; x=1696188373; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mum4j91XFiU8Xtc7TFcTf1fNSOJNvZg3YC6vHA1cwnU=;
+        b=mTsEodrryWIjWWYkzHtHeoJ+Ar8dA1OZPlByRfTiHHL2gkO/3+GiE4Y9vgEWdSHvT1
+         Y51dyrMuRza6Q07eJqJ0o0RBWsylTBlyGdt6sBzqn59UrM8VLqBQ/oCsSEhd8JlKYSat
+         W2g/cwUwpUmfAtynNzLz9qQ41vFGPorTkQ0n7P12yoVa8emjF8ZFftPm4LFeGksBNkCL
+         ehNMvlvW3l/4stNWB8vyFcePnHyznMvxNGqgQkWeTLstYZja4OWaxmvT6iHmhR2QC7Ch
+         jxvXwm/Y8CQTDNWHK4Ky3LKRwR8/kpChxEm5XNwYkJORk6PJX+hNzklI8Kc+9V1EJVCO
+         9J+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695581311; x=1696186111;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xnmXOA+QaS63l50OfXpIek29rfu95uFcEdyHDfaQmtw=;
-        b=gPKUMiUYeDznTNDpxADEo4QnSZ1Vs6o5pv1fYWBt6ScHV9+oKtkfA4EbEbrak3iy9U
-         JVtXErv6oFVwS6IFqG/xbUGRQB830rFGC5Mv0Zs760a1se6fFt7cndCy9jnCFwJ1EFkc
-         fhgPrwNLJadUkYg5pqJS3vhIDUw6+6UDjNC64ofUsW8EaQKcQhxVC4Ps3pC3ZFsNJoQO
-         epuKPchojssyylT1uT2kx8YKMEb/XMRvTe4m0FkmbhGG2UZa21Ay12G6CofWecWTEdv0
-         KmCk8w8R2Hq6UeFHt4iLQ1V93Rc3fphzBhVwoexJFb2SSi8ul5NHZ+19AQI5ix/t0TRf
-         EQ4A==
-X-Gm-Message-State: AOJu0Yz51KVVV3RpJdj+AIL0MdMlWL6a5wmaGiH2KinZxP8604IHbcXW
-	Xpwa6fgSsQJdWhxP2jbzJlH77g==
-X-Google-Smtp-Source: AGHT+IHyH0HKd5TJnAMW3M3Xdk7i6R8SJsZpVD090tzbS9CszgulAe1FBk9IZWdv21USwgLraypf+g==
-X-Received: by 2002:a5d:68c6:0:b0:319:8bb3:ab83 with SMTP id p6-20020a5d68c6000000b003198bb3ab83mr4326273wrw.66.1695581311308;
-        Sun, 24 Sep 2023 11:48:31 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.100])
-        by smtp.gmail.com with ESMTPSA id h4-20020a056000000400b0031aef72a021sm9960058wrx.86.2023.09.24.11.48.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 24 Sep 2023 11:48:30 -0700 (PDT)
-Message-ID: <54d7a712-0b07-462a-8750-4b5b2f3150c4@linaro.org>
-Date: Sun, 24 Sep 2023 20:48:29 +0200
+        d=1e100.net; s=20230601; t=1695583573; x=1696188373;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mum4j91XFiU8Xtc7TFcTf1fNSOJNvZg3YC6vHA1cwnU=;
+        b=smsuYZFMozpk/nXl5l8twJFbHIrK7gG3GJuk2ToxnlppLXYEtDnkkRJD0MuAzm+7tu
+         QkmA4Mawf+SKXlsehMZtdYNt5Ma433w9J7pI0Vg6Y7FWtJ+2ekImkTMc1/lPKq+w2785
+         ujVfIejM8UWaYb+18oD+2D/b3m9lhXASAmXYoIy7d/PYc+JKFltdav1XQxlUOHaHt0pP
+         KYqA30QcqbcU3cqfwNEqybNX3sTF2WzZzt2VkwMD8coySXKxSVgnNcSlbwiEm8/yAsTI
+         TwBEyQKNU90OfwP2mS3HcnFOI5LSi16kJdYpavGWKGdG1s1PD+yeUcqubKfZBkQsPMrV
+         OGJw==
+X-Gm-Message-State: AOJu0YxByyIN+keZ8Sd1Pvet5Qy09Pw5ujGQmoOc1wzuX8KnO0hvEdsL
+	mAK7kJ5JWqXmsQkruxD/RPM=
+X-Google-Smtp-Source: AGHT+IHXITx2ykaLrpQKUUcUVgZplQwvgEedTJsw9ydWxvo2fANUWEHTFIz/szbg85S67tayV/onBg==
+X-Received: by 2002:a17:906:31ce:b0:9ae:6ffd:be12 with SMTP id f14-20020a17090631ce00b009ae6ffdbe12mr4738928ejf.76.1695583572612;
+        Sun, 24 Sep 2023 12:26:12 -0700 (PDT)
+Received: from localhost.localdomain (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
+        by smtp.gmail.com with ESMTPSA id z21-20020a1709063a1500b0099d0c0bb92bsm5317632eje.80.2023.09.24.12.26.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 24 Sep 2023 12:26:12 -0700 (PDT)
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: mripard@kernel.org,
+	wens@csie.org
+Cc: airlied@gmail.com,
+	daniel@ffwll.ch,
+	samuel@sholland.org,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH 0/7] drm/sun4i: dw-hdmi: Fix initialization & refactor
+Date: Sun, 24 Sep 2023 21:25:57 +0200
+Message-ID: <20230924192604.3262187-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] riscv: dts: use capital "OR" for multiple licenses in
- SPDX
-Content-Language: en-US
-To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Paul Walmsley
- <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20230823085238.113642-1-krzysztof.kozlowski@linaro.org>
- <5962565.lOV4Wx5bFT@jernej-laptop>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <5962565.lOV4Wx5bFT@jernej-laptop>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 23/08/2023 21:13, Jernej Škrabec wrote:
-> Dne sreda, 23. avgust 2023 ob 10:52:38 CEST je Krzysztof Kozlowski napisal(a):
->> Documentation/process/license-rules.rst and checkpatch expect the SPDX
->> identifier syntax for multiple licenses to use capital "OR".  Correct it
->> to keep consistent format and avoid copy-paste issues.
->>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->>
->> ---
->>
->> Rebased on next-20230822, so might not apply cleanly.  What does not
->> apply, can be skipped and I will fix it after next RC.
->> ---
->>  arch/riscv/boot/dts/allwinner/sun20i-common-regulators.dtsi     | 2 +-
->>  arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezha-stu.dts  | 2 +-
->>  .../boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-480p.dts    | 2 +-
->>  .../boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-720p.dts    | 2 +-
->>  arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel.dtsi | 2 +-
->>  arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-dock.dts      | 2 +-
->>  arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv.dts           | 2 +-
->>  arch/riscv/boot/dts/allwinner/sun20i-d1-mangopi-mq-pro.dts      | 2 +-
->>  arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts               | 2 +-
->>  arch/riscv/boot/dts/allwinner/sun20i-d1.dtsi                    | 2 +-
->>  arch/riscv/boot/dts/allwinner/sun20i-d1s-mangopi-mq.dts         | 2 +-
->>  arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi                   | 2 +-
->>  arch/riscv/boot/dts/allwinner/sunxi-d1-t113.dtsi                | 2 +-
->>  arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi               | 2 +-
-> 
-> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> 
-> sunxi DT changes are already closed for 6.5. I can take it after -rc1 for 6.6.
+Main goal of this series is to fix race condition between probing display
+connector driver and sun8i dw-hdmi platform driver. Sometimes, boards have
+ddc-en gpio specified in DT file. This is handled by display connector
+driver since commit 920169041baa ("drm/sun4i: dw-hdmi: Fix ddc-en GPIO
+consumer conflict"). However, because there is no link between it and
+sun8i dw-hdmi driver, probe order isn't determined. If display connector
+driver if probed afterwards, then sun8i dw-hdmi driver won't be able to
+read EDID and thus fall back to 1024x768. This can be easily solved by
+using bridges and linking them together. Coincidentally, switching to
+bridge model is also long term goal.
 
-Hmmmm and what is the status of taking it after rc1?
+I found out some other issues when working on them (missing phy deinit and
+memory corruption during executing fail path). Since there is now a bigger
+chance of deferring probe, it's also good to skip reporting deferred probe
+as error. This often confuses users when examining dmesg output, especially
+if there is no error code reported.
+
+I also throw 2 refactoring patches for a good measure.
+
+Please take a look.
 
 Best regards,
-Krzysztof
+Jernej
+
+Jernej Skrabec (7):
+  drm/sun4i: dw-hdmi: Deinit PHY in fail path
+  drm/sun4i: dw-hdmi: Remove double encoder cleanup
+  drm/sun4i: dw-hdmi: Switch to bridge functions
+  drm/sun4i: Don't show error for deferred probes.
+  drm/sun4i: dw-hdmi: Split driver registration
+  drm/sun4i: dw-hdmi: Make sun8i_hdmi_phy_get() more intuitive
+  drm/sun4i: dw-hdmi: check for phy device first
+
+ drivers/gpu/drm/sun4i/sun4i_drv.c      |   3 +-
+ drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c  | 191 ++++++++++++++++++-------
+ drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h  |   9 +-
+ drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c |  13 +-
+ 4 files changed, 151 insertions(+), 65 deletions(-)
+
+-- 
+2.42.0
 
