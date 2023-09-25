@@ -1,164 +1,88 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C15241BDEA;
-	Mon, 25 Sep 2023 16:19:10 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9199DDA7;
-	Mon, 25 Sep 2023 09:19:45 -0700 (PDT)
-Received: from [10.57.0.188] (unknown [10.57.0.188])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0EB443F59C;
-	Mon, 25 Sep 2023 09:19:05 -0700 (PDT)
-Message-ID: <3b116df9-cdaa-a6f8-6e5d-8865eefc31ce@arm.com>
-Date: Mon, 25 Sep 2023 17:19:01 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F21A51BDEA;
+	Mon, 25 Sep 2023 16:40:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695660050; x=1727196050;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=irBX2fasYwTUTHpDqrmJbVhDOEvr62Ct3dNu3hj8gtw=;
+  b=nP0qfWead+48oXKb1L8t3fC2aGYeIVoK7iUtseE7/H98vZ99uw3tZKvU
+   6T9YWGEquUR2BL+MV3fAXPxVS4mtr0o5pSJQTwDfzbQcaQEwNs50HUnBj
+   PH3amTDWa5zY1CWvVrIRf3ACPtfvu9IZFoiIt2qXV4cAUx6jcSHTANaz7
+   YHBhihDEYeb+XBf7YJ0eLg5nD02XtCX/F0kJmsXqekjG9hmYYTfhzytyK
+   cuyh7IhuflelExjqTh01sV9kyns9yRyy/zanaDivCph70f0U02VHKPUTA
+   HB+CxFw700spEt0dVFuadwR2coa59fIvEgrr56eQpVcsVH3nKNKTDn+Cl
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="378582737"
+X-IronPort-AV: E=Sophos;i="6.03,175,1694761200"; 
+   d="scan'208";a="378582737"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2023 09:40:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="751771015"
+X-IronPort-AV: E=Sophos;i="6.03,175,1694761200"; 
+   d="scan'208";a="751771015"
+Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
+  by fmsmga007.fm.intel.com with ESMTP; 25 Sep 2023 09:40:45 -0700
+Received: from kbuild by 32c80313467c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qkodU-0001o2-1r;
+	Mon, 25 Sep 2023 16:40:41 +0000
+Date: Tue, 26 Sep 2023 00:40:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>, mripard@kernel.org,
+	wens@csie.org
+Cc: oe-kbuild-all@lists.linux.dev, airlied@gmail.com, daniel@ffwll.ch,
+	samuel@sholland.org, dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: Re: [PATCH 5/7] drm/sun4i: dw-hdmi: Split driver registration
+Message-ID: <202309260027.aNIjQRBI-lkp@intel.com>
+References: <20230924192604.3262187-6-jernej.skrabec@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH] iommu/sun50i: Convert to map_pages/unmap_pages
-Content-Language: en-GB
-To: Jernej Skrabec <jernej.skrabec@gmail.com>, joro@8bytes.org,
- will@kernel.org
-Cc: wens@csie.org, samuel@sholland.org, iommu@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20230912181941.2971036-1-jernej.skrabec@gmail.com>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <20230912181941.2971036-1-jernej.skrabec@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230924192604.3262187-6-jernej.skrabec@gmail.com>
 
-On 2023-09-12 19:19, Jernej Skrabec wrote:
-> Convert driver to use map_pages and unmap_pages. Since functions operate
-> on page table, extend them to be able to operate on whole table, not
-> just one entry.
-> 
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> ---
-> Hi!
-> 
-> I'm not sure if it makes sense to check validity of page table entry when
-> unmaping pages makes sense. What do you think?
-> 
-> Best regards,
-> Jernej
-> 
->   drivers/iommu/sun50i-iommu.c | 55 +++++++++++++++++++++---------------
->   1 file changed, 33 insertions(+), 22 deletions(-)
-> 
-> diff --git a/drivers/iommu/sun50i-iommu.c b/drivers/iommu/sun50i-iommu.c
-> index 74c5cb93e900..be6102730a56 100644
-> --- a/drivers/iommu/sun50i-iommu.c
-> +++ b/drivers/iommu/sun50i-iommu.c
-> @@ -589,11 +589,12 @@ static u32 *sun50i_dte_get_page_table(struct sun50i_iommu_domain *sun50i_domain,
->   }
->   
->   static int sun50i_iommu_map(struct iommu_domain *domain, unsigned long iova,
-> -			    phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
-> +			    phys_addr_t paddr, size_t pgsize, size_t pgcount,
-> +			    int prot, gfp_t gfp, size_t *mapped)
->   {
->   	struct sun50i_iommu_domain *sun50i_domain = to_sun50i_domain(domain);
->   	struct sun50i_iommu *iommu = sun50i_domain->iommu;
-> -	u32 pte_index;
-> +	u32 pte_index, count, i;
->   	u32 *page_table, *pte_addr;
->   	int ret = 0;
->   
-> @@ -604,45 +605,55 @@ static int sun50i_iommu_map(struct iommu_domain *domain, unsigned long iova,
->   	}
->   
->   	pte_index = sun50i_iova_get_pte_index(iova);
-> -	pte_addr = &page_table[pte_index];
-> -	if (unlikely(sun50i_pte_is_page_valid(*pte_addr))) {
-> -		phys_addr_t page_phys = sun50i_pte_get_page_address(*pte_addr);
-> -		dev_err(iommu->dev,
-> -			"iova %pad already mapped to %pa cannot remap to %pa prot: %#x\n",
-> -			&iova, &page_phys, &paddr, prot);
-> -		ret = -EBUSY;
-> -		goto out;
-> +	count = min(pgcount, (size_t)NUM_PT_ENTRIES - pte_index);
-> +	for (i = 0; i < count; i++) {
-> +		pte_addr = &page_table[pte_index + i];
-> +		if (unlikely(sun50i_pte_is_page_valid(*pte_addr))) {
-> +			phys_addr_t page_phys = sun50i_pte_get_page_address(*pte_addr);
-> +
-> +			dev_err(iommu->dev,
-> +				"iova %pad already mapped to %pa cannot remap to %pa prot: %#x\n",
-> +				&iova, &page_phys, &paddr, prot);
-> +			ret = -EBUSY;
-> +			goto out;
-> +		}
-> +		*pte_addr = sun50i_mk_pte(paddr, prot);
-> +		paddr += SPAGE_SIZE;
->   	}
->   
-> -	*pte_addr = sun50i_mk_pte(paddr, prot);
-> -	sun50i_table_flush(sun50i_domain, pte_addr, 1);
-> +	sun50i_table_flush(sun50i_domain, &page_table[pte_index], i);
+Hi Jernej,
 
-I think you want the "out" label here, so that "mapped" is still updated 
-and the core knows how much to undo on failure. I guess one could argue 
-that the pagetables are already messed up if that happens, but it still 
-doesn't seem like a good reason to deliberately compound the problem by 
-leaving behind even more "unexpected" entries.
+kernel test robot noticed the following build errors:
 
-Thanks,
-Robin.
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.6-rc3 next-20230925]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> +	*mapped = i * SPAGE_SIZE;
->   
->   out:
->   	return ret;
->   }
->   
->   static size_t sun50i_iommu_unmap(struct iommu_domain *domain, unsigned long iova,
-> -				 size_t size, struct iommu_iotlb_gather *gather)
-> +				 size_t pgsize, size_t pgcount,
-> +				 struct iommu_iotlb_gather *gather)
->   {
->   	struct sun50i_iommu_domain *sun50i_domain = to_sun50i_domain(domain);
-> +	u32 dte, count, i, pte_index;
->   	phys_addr_t pt_phys;
->   	u32 *pte_addr;
-> -	u32 dte;
->   
->   	dte = sun50i_domain->dt[sun50i_iova_get_dte_index(iova)];
->   	if (!sun50i_dte_is_pt_valid(dte))
->   		return 0;
->   
->   	pt_phys = sun50i_dte_get_pt_address(dte);
-> -	pte_addr = (u32 *)phys_to_virt(pt_phys) + sun50i_iova_get_pte_index(iova);
-> +	pte_index = sun50i_iova_get_pte_index(iova);
-> +	pte_addr = (u32 *)phys_to_virt(pt_phys) + pte_index;
->   
-> -	if (!sun50i_pte_is_page_valid(*pte_addr))
-> -		return 0;
-> +	count = min(pgcount, (size_t)NUM_PT_ENTRIES - pte_index);
-> +	for (i = 0; i < count; i++)
-> +		if (!sun50i_pte_is_page_valid(pte_addr[i]))
-> +			break;
->   
-> -	memset(pte_addr, 0, sizeof(*pte_addr));
-> -	sun50i_table_flush(sun50i_domain, pte_addr, 1);
-> +	memset(pte_addr, 0, sizeof(*pte_addr) * i);
-> +	sun50i_table_flush(sun50i_domain, pte_addr, i);
->   
-> -	return SZ_4K;
-> +	return i * SPAGE_SIZE;
->   }
->   
->   static phys_addr_t sun50i_iommu_iova_to_phys(struct iommu_domain *domain,
-> @@ -838,8 +849,8 @@ static const struct iommu_ops sun50i_iommu_ops = {
->   		.iotlb_sync_map = sun50i_iommu_iotlb_sync_map,
->   		.iotlb_sync	= sun50i_iommu_iotlb_sync,
->   		.iova_to_phys	= sun50i_iommu_iova_to_phys,
-> -		.map		= sun50i_iommu_map,
-> -		.unmap		= sun50i_iommu_unmap,
-> +		.map_pages	= sun50i_iommu_map,
-> +		.unmap_pages	= sun50i_iommu_unmap,
->   		.free		= sun50i_iommu_domain_free,
->   	}
->   };
+url:    https://github.com/intel-lab-lkp/linux/commits/Jernej-Skrabec/drm-sun4i-dw-hdmi-Deinit-PHY-in-fail-path/20230925-032818
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230924192604.3262187-6-jernej.skrabec%40gmail.com
+patch subject: [PATCH 5/7] drm/sun4i: dw-hdmi: Split driver registration
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20230926/202309260027.aNIjQRBI-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230926/202309260027.aNIjQRBI-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309260027.aNIjQRBI-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   s390-linux-ld: drivers/gpu/drm/sun4i/sun8i_hdmi_phy.o: in function `sun8i_hdmi_phy_driver_init':
+>> sun8i_hdmi_phy.c:(.init.text+0x0): multiple definition of `init_module'; drivers/gpu/drm/sun4i/sun8i_dw_hdmi.o:sun8i_dw_hdmi.c:(.init.text+0x0): first defined here
+   s390-linux-ld: drivers/gpu/drm/sun4i/sun8i_hdmi_phy.o: in function `sun8i_hdmi_phy_driver_exit':
+>> sun8i_hdmi_phy.c:(.exit.text+0x0): multiple definition of `cleanup_module'; drivers/gpu/drm/sun4i/sun8i_dw_hdmi.o:sun8i_dw_hdmi.c:(.exit.text+0x0): first defined here
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
