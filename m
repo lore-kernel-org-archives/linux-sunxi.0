@@ -1,56 +1,56 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B07DB1EA87
-	for <linux-sunxi@lists.linux.dev>; Mon, 25 Sep 2023 15:07:50 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-9b275afb6abso600429666b.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 25 Sep 2023 08:07:50 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 853DC1C283
+	for <linux-sunxi@lists.linux.dev>; Mon, 25 Sep 2023 15:29:24 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-533c5d10dc7so4385610a12.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 25 Sep 2023 08:29:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695654469; x=1696259269; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1695655763; x=1696260563; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tEZ5TYqKj7Xpyqh7LsqYS+cjUynAUZpYFGDV9Q2kYbI=;
-        b=hzEiB7sYM9qhTSEpUWz/asZzXDMAMur5PwfPFR03jB1K98EgjQZh9thwfPs1UIuur9
-         X1SR1HqqyLArMPw1rznq09O+xDYECYmZhX1i8dsrksfaDXJc2eVCYqNWD/IUALOc1sck
-         stv3U9xp/jAYfrPguoiT4Yl/eY4VUcA3igCuKJvgLvICUELUdyX5Wi9iMa/pjAu9XYMM
-         DMx8gbVVRkJVF+R1JBYl5xZJZ96Gr3D94+l8CU2ZFfwVO0xLGvcTywKfDAtRB4NO7hzt
-         jin7KnGRHN9PXhR4eZ+FBzRVwwGG0wPbJhBDs4Bz94eTuZuNJAgrUq1B2yGn30vGJx7N
-         +uvA==
+        bh=zOrfKssBZ6tPiXkBwLOUz8n2rdUkUTBa6TNU5TWDfM0=;
+        b=fGwDZU8XbobyQj1niI/w7oesqHqrrZo9MyZVcBXTR8b+dW2ot+Beh0Hzku3HhPhIHH
+         lktl3aMFk7fMkhRoWpZZgxLexYoO1dXLL7ZuDcwT320ShItpA0I8Tryx5U/tK2ntC1Ho
+         zuy/K0fO9PPWrHHkvOzMPr0+JFgABhBsSK2qIsOA/0K7Sde73++3CYZW5UiKRKzENwYi
+         lVhWUYuOftnYqz0xqOg8l3S37FEZea5GQmVf4hK2dgmaypOSXBEiayXjng26bnCmvAJV
+         dmYpsO/yiHq115xehb+Hi14jefaZd7TuepayGwBcPKuTabrGCWIXQSh9IUlSDsV8syq/
+         4owQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695654469; x=1696259269;
+        d=1e100.net; s=20230601; t=1695655763; x=1696260563;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tEZ5TYqKj7Xpyqh7LsqYS+cjUynAUZpYFGDV9Q2kYbI=;
-        b=qxacThGT8qn1xHUEWPWUvvzNAEH1Xx06vqN44VzJbKEEeIClIYeu7j9AOxS7HZuuvj
-         0xqg6wOJ4TwKzP9xko99IVpwU/Itcq7oef7SIEo9gsuPLbBGZOzOhUPGXd1lR52tUQ8u
-         0HiuKsVGet8mdVdH3IMnR3yAK5lIhVMd5SvMQesGp9Y0JBuZqXsZznor5uEGT0N001tI
-         ASaZEKFdfAYo5xsrx3KbxGfAoyWjhnF085pF6ALQK2DYQy8XV6RBYQxM6qOYyuE+icZ+
-         jY5vHzs/Ztq66EhkddkIqwH7K1jXt+5DiurAZA47Q0CRZ8tI0gkVkFEq9OxOQKKhQaXl
-         cGwA==
-X-Gm-Message-State: AOJu0YwKc8zWqXZKFPC7Zs5/tkGlcQOmuySzcXTXwIO6bcMUDrPc+V18
-	ScPyLKlQQ8A9qF4+kmKz9+s=
-X-Google-Smtp-Source: AGHT+IHuvDsUyVa2O8phaopW7XqF8puZjg9QRjHcigLXniRoG9KatTQvuRnfy0vTM9Vw7eaMxEcKbQ==
-X-Received: by 2002:a17:907:7288:b0:9ae:50ec:bd81 with SMTP id dt8-20020a170907728800b009ae50ecbd81mr15679987ejc.21.1695654468639;
-        Mon, 25 Sep 2023 08:07:48 -0700 (PDT)
+        bh=zOrfKssBZ6tPiXkBwLOUz8n2rdUkUTBa6TNU5TWDfM0=;
+        b=KLvtDFi6l2AH1tg1Mx8vSXJ1a21lBpxUVEU5AdFkj/fxUP5qMBF2mdB8B/KxSF6MNV
+         +z2mwjI91eIRSJcO+KTUlSxvApNii5AjNKb72rQVCh5uNyaXypDS/zobErwhj8BlxWnx
+         IikCBJlTy87Akgw9JzI3o+NEgHQPiWEnRedflNzLLxL5vcyTsFDoKGl4a1s7je1S9VqO
+         BEObbBAPqW8I6P+MwcNVSQsmMjZyUMJ1V7SNpQNekWo6hNlAwvk+SPIepgNKnOWVAp1c
+         rBaZ4u02oKeuWw+r9gEl5GEut39UJodvSd0p46jjO8yESSD5BgwwAfWFKE9flmTRMBt4
+         jawg==
+X-Gm-Message-State: AOJu0YwgMP4brX4xfJa/f3JmwXlTP9qaYHM4PwxQUhmRQTS9lYbkeTIK
+	zw9DhLIjNn2STjXZGmGYazw=
+X-Google-Smtp-Source: AGHT+IHY89kh3JJby1pbvhe6WVwOjRasFpbMMz9jFOaCxEh+NVsguyRHHY9tQsRWFSkQWTar4MEUog==
+X-Received: by 2002:a17:906:8b:b0:9a2:474:4aa0 with SMTP id 11-20020a170906008b00b009a204744aa0mr6407443ejc.48.1695655762414;
+        Mon, 25 Sep 2023 08:29:22 -0700 (PDT)
 Received: from jernej-laptop.localnet (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
-        by smtp.gmail.com with ESMTPSA id s4-20020a170906168400b009ad829ed144sm6409010ejd.130.2023.09.25.08.07.47
+        by smtp.gmail.com with ESMTPSA id qw25-20020a1709066a1900b009b293d1f2eesm553884ejc.107.2023.09.25.08.29.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Sep 2023 08:07:48 -0700 (PDT)
+        Mon, 25 Sep 2023 08:29:21 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Maxime Ripard <mripard@kernel.org>
 Cc: wens@csie.org, airlied@gmail.com, daniel@ffwll.ch, samuel@sholland.org,
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/7] drm/sun4i: dw-hdmi: Split driver registration
-Date: Mon, 25 Sep 2023 17:07:45 +0200
-Message-ID: <3441738.QJadu78ljV@jernej-laptop>
-In-Reply-To: <rvqcfohw4i4y7amod3a5e4u4tkorqmaekvikyqg3fibvy53dsd@be4lk4ae35hq>
+Subject: Re: [PATCH 3/7] drm/sun4i: dw-hdmi: Switch to bridge functions
+Date: Mon, 25 Sep 2023 17:29:20 +0200
+Message-ID: <2167865.Icojqenx9y@jernej-laptop>
+In-Reply-To: <vdwkqq3jovlgr6xrprq4mpqv6ldkcklf2v5ffbcetgifwrnatu@4jfjk3f5qbnu>
 References:
  <20230924192604.3262187-1-jernej.skrabec@gmail.com>
- <20230924192604.3262187-6-jernej.skrabec@gmail.com>
- <rvqcfohw4i4y7amod3a5e4u4tkorqmaekvikyqg3fibvy53dsd@be4lk4ae35hq>
+ <20230924192604.3262187-4-jernej.skrabec@gmail.com>
+ <vdwkqq3jovlgr6xrprq4mpqv6ldkcklf2v5ffbcetgifwrnatu@4jfjk3f5qbnu>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -60,22 +60,213 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne ponedeljek, 25. september 2023 ob 09:47:15 CEST je Maxime Ripard napisal(a):
-> On Sun, Sep 24, 2023 at 09:26:02PM +0200, Jernej Skrabec wrote:
-> > There is no reason to register two drivers in same place. Using macro
-> > lowers amount of boilerplate code.
+Dne ponedeljek, 25. september 2023 ob 09:57:22 CEST je Maxime Ripard napisal(a):
+> Hi,
 > 
-> There's one actually: you can't have several module_init functions in
-> the some module, and both files are compiled into the same module.
+> On Sun, Sep 24, 2023 at 09:26:00PM +0200, Jernej Skrabec wrote:
+> > Since ddc-en property handling was moved from sun8i dw-hdmi driver to
+> > display connector driver, probe order of drivers determines if EDID is
+> > properly read at boot time or not.
+> > 
+> > In order to fix this, let's switch to bridge functions which allows us
+> > to build proper chain and defer execution until all drivers are probed.
+> > 
+> > Fixes: 920169041baa ("drm/sun4i: dw-hdmi: Fix ddc-en GPIO consumer conflict")
+> > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > ---
+> >  drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c | 114 +++++++++++++++++++++++++-
+> >  drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h |   5 ++
+> >  2 files changed, 117 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
+> > index 8f8d3bdba5ce..93831cdf1917 100644
+> > --- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
+> > +++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
+> > @@ -8,14 +8,82 @@
+> >  #include <linux/of.h>
+> >  #include <linux/platform_device.h>
+> >  
+> > +#include <drm/drm_atomic_state_helper.h>
+> > +#include <drm/drm_bridge_connector.h>
+> >  #include <drm/drm_managed.h>
+> >  #include <drm/drm_modeset_helper_vtables.h>
+> >  #include <drm/drm_of.h>
+> >  #include <drm/drm_simple_kms_helper.h>
+> >  
+> > +#include <media/cec-notifier.h>
+> > +
+> >  #include "sun8i_dw_hdmi.h"
+> >  #include "sun8i_tcon_top.h"
+> >  
+> > +#define bridge_to_sun8i_dw_hdmi(x) \
+> > +	container_of(x, struct sun8i_dw_hdmi, enc_bridge)
+> > +
+> > +static int sun8i_hdmi_enc_attach(struct drm_bridge *bridge,
+> > +				 enum drm_bridge_attach_flags flags)
+> > +{
+> > +	struct sun8i_dw_hdmi *hdmi = bridge_to_sun8i_dw_hdmi(bridge);
+> > +
+> > +	return drm_bridge_attach(&hdmi->encoder, hdmi->hdmi_bridge,
+> > +				 &hdmi->enc_bridge, flags);
+> > +}
+> > +
+> > +static void sun8i_hdmi_enc_detach(struct drm_bridge *bridge)
+> > +{
+> > +	struct sun8i_dw_hdmi *hdmi = bridge_to_sun8i_dw_hdmi(bridge);
+> > +
+> > +	cec_notifier_conn_unregister(hdmi->cec_notifier);
+> > +	hdmi->cec_notifier = NULL;
+> > +}
+> > +
+> > +static void sun8i_hdmi_enc_hpd_notify(struct drm_bridge *bridge,
+> > +				      enum drm_connector_status status)
+> > +{
+> > +	struct sun8i_dw_hdmi *hdmi = bridge_to_sun8i_dw_hdmi(bridge);
+> > +	struct edid *edid;
+> > +
+> > +	if (!hdmi->cec_notifier)
+> > +		return;
+> > +
+> > +	if (status == connector_status_connected) {
+> > +		edid = drm_bridge_get_edid(hdmi->hdmi_bridge, hdmi->connector);
+> > +		if (edid)
+> > +			cec_notifier_set_phys_addr_from_edid(hdmi->cec_notifier,
+> > +							     edid);
+> > +	} else {
+> > +		cec_notifier_phys_addr_invalidate(hdmi->cec_notifier);
+> > +	}
+> > +}
+> > +
+> > +static int sun8i_hdmi_enc_atomic_check(struct drm_bridge *bridge,
+> > +				       struct drm_bridge_state *bridge_state,
+> > +				       struct drm_crtc_state *crtc_state,
+> > +				       struct drm_connector_state *conn_state)
+> > +{
+> > +	struct drm_connector_state *old_conn_state =
+> > +		drm_atomic_get_old_connector_state(conn_state->state,
+> > +						   conn_state->connector);
+> > +
+> > +	if (!drm_connector_atomic_hdr_metadata_equal(old_conn_state, conn_state))
+> > +		crtc_state->mode_changed = true;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static const struct drm_bridge_funcs sun8i_hdmi_enc_bridge_funcs = {
+> > +	.attach = sun8i_hdmi_enc_attach,
+> > +	.detach = sun8i_hdmi_enc_detach,
+> > +	.hpd_notify = sun8i_hdmi_enc_hpd_notify,
+> > +	.atomic_check = sun8i_hdmi_enc_atomic_check,
+> > +	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+> > +	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+> > +	.atomic_reset = drm_atomic_helper_bridge_reset,
+> > +};
+> > +
+> >  static void sun8i_dw_hdmi_encoder_mode_set(struct drm_encoder *encoder,
+> >  					   struct drm_display_mode *mode,
+> >  					   struct drm_display_mode *adj_mode)
+> > @@ -99,6 +167,8 @@ static int sun8i_dw_hdmi_bind(struct device *dev, struct device *master,
+> >  {
+> >  	struct platform_device *pdev = to_platform_device(dev);
+> >  	struct dw_hdmi_plat_data *plat_data;
+> > +	struct cec_connector_info conn_info;
+> > +	struct drm_connector *connector;
+> >  	struct drm_device *drm = data;
+> >  	struct device_node *phy_node;
+> >  	struct drm_encoder *encoder;
+> > @@ -187,18 +257,57 @@ static int sun8i_dw_hdmi_bind(struct device *dev, struct device *master,
+> >  
+> >  	plat_data->mode_valid = hdmi->quirks->mode_valid;
+> >  	plat_data->use_drm_infoframe = hdmi->quirks->use_drm_infoframe;
+> > +	plat_data->output_port = 1;
+> >  	sun8i_hdmi_phy_set_ops(hdmi->phy, plat_data);
+> >  
+> >  	platform_set_drvdata(pdev, hdmi);
+> >  
+> > -	hdmi->hdmi = dw_hdmi_bind(pdev, encoder, plat_data);
+> > +	hdmi->hdmi = dw_hdmi_probe(pdev, plat_data);
+> >  	if (IS_ERR(hdmi->hdmi)) {
+> >  		ret = PTR_ERR(hdmi->hdmi);
+> >  		goto err_deinit_phy;
+> >  	}
+> >  
+> > +	hdmi->hdmi_bridge = of_drm_find_bridge(dev->of_node);
+> 
+> So you're also adding child bridge support? This should be mentioned in
+> the commit log.
+> 
+> > +	hdmi->enc_bridge.funcs = &sun8i_hdmi_enc_bridge_funcs;
+> > +	hdmi->enc_bridge.type = DRM_MODE_CONNECTOR_HDMIA;
+> > +	hdmi->enc_bridge.interlace_allowed = true;
+> > +
+> > +	drm_bridge_add(&hdmi->enc_bridge);
+> > +
+> > +	ret = drm_bridge_attach(encoder, &hdmi->enc_bridge, NULL,
+> > +				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+> > +	if (ret)
+> > +		goto err_remove_dw_hdmi;
+> > +
+> > +	connector = drm_bridge_connector_init(drm, encoder);
+> > +	if (IS_ERR(connector)) {
+> > +		dev_err(dev, "Unable to create HDMI bridge connector\n");
+> > +		ret = PTR_ERR(connector);
+> > +		goto err_remove_dw_hdmi;
+> > +	}
+> > +
+> > +	hdmi->connector = connector;
+> > +	drm_connector_attach_encoder(connector, encoder);
+> > +
+> > +	if (hdmi->quirks->use_drm_infoframe)
+> > +		drm_connector_attach_hdr_output_metadata_property(connector);
+> > +
+> > +	cec_fill_conn_info_from_drm(&conn_info, connector);
+> > +
+> > +	hdmi->cec_notifier = cec_notifier_conn_register(&pdev->dev, NULL,
+> > +							&conn_info);
+> > +	if (!hdmi->cec_notifier) {
+> > +		ret = -ENOMEM;
+> > +		goto err_remove_dw_hdmi;
+> > +	}
+> > +
+> >  	return 0;
+> 
+> Yeah, I'm not sure. We now have two different yet redundant set of
+> operations with no clear definition wrt what belongs where. I'm really
+> not impressed with the use of bridges for things that are clearly not
+> bridges.
 
-Yeah, I figured as much. However, I think code clean up is good enough reason
-to add hidden option in Kconfig and extra entry in Makefile (in v2).
+DRM bridges should be taken as more broad concept than just a physical
+bridge.
 
-Do you agree?
+> 
+> The "nothing happens until all drivers are loaded" argument is also
+> supposed to be covered by the component framework, so why do we even
+> have to use a bridge here?
+
+There is more than one reason:
+- Display connector driver, which sets ddc-en gpio, is purely bridge driver.
+- In long term, I plan to add format negotiation between display, dw-hdmi
+  and DE3 (I already have WIP code). This is already implemented in bridge
+  infrastructure.
+- There is a plan to remove connector handling from DW HDMI handling
+  and use display connector driver instead. This again involves bridges.
+  sun4i-drm and rockchip-drm are the only remaining drivers, which are
+  not yet converted.
+
+> 
+> You were saying that it's an issue of probe order going wrong, could you
+> explain a bit more what goes wrong so we can try to figure something out
+> that doesn't involve a bridge?
+
+Not sure how to make this clearer than in cover letter and this commit
+message. ddc-en pin is responsibility of display-connector driver (see
+commit mentioned in fixes tag), so it must probe before sun8i dw hdmi.
+
+Why are you so against bridges? As I explained above, format negotiation
+is really implemented only there, so they are needed at some point
+anyway.
 
 Best regards,
-Jernej 
-
-
+Jernej
 
 
