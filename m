@@ -1,151 +1,171 @@
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B05A0107B9
-	for <linux-sunxi@lists.linux.dev>; Tue, 26 Sep 2023 08:59:33 +0000 (UTC)
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2bb9a063f26so136236761fa.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 26 Sep 2023 01:59:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695718772; x=1696323572; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RDxyIanx1EgUP6RwXNa3/gfvrl1yPz037Py9AOoQmr8=;
-        b=ZGCdIoGunxJZJX+jGW0Yt7Pvrhfp0ReiZh85C1MXfH08Kiefv5KAzxmsAtBdOe+VGT
-         f1nq36emaLf0m4hWqW0lO83Oj1jUfyNuPUvyBgGLWmVxbeITBdlxDuwvrO09oNPKKp7X
-         bZrNQ22oqN95b64CwyW7jDgqHxF1UCJ0j8oj+yhPxHYVd6tHgIUJMoHXTuT7n252gts6
-         Y16iZYYjMVeDgypULG5GuKg+JQoglmlCw1AqrkggKI2iYMUyZ6nC3bL9dMdEF3eTzEnm
-         2ySChwV+y+7N6umEjj2sI6eBDSCrj0ZrQnu4LxdarI6JC7T6uff5QNmfJ39EnIz6/0FW
-         XI1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695718772; x=1696323572;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RDxyIanx1EgUP6RwXNa3/gfvrl1yPz037Py9AOoQmr8=;
-        b=HeNKwmSwmpjKpkAGQwlwtNsMkw64X9nntRmOjoUhP19arV5SIyZRqH1rlMtfXC48jK
-         rA4pHB2L2ioGkUVVrAC2RZn/E2SmKHMvAvuTCRzQfLOOJVVb6+kkHFx+fK7YRAQuoesn
-         Q5alaTIUae/Yn1cLgwEki0Wgs8eROmiN0z1JrLqXiv2yiAfk1r1UPLBzBcYYpY7JqOnS
-         1VvuN38Te+ChxNYpvynnMWLbSDom7IskYb0xhyNhThXFzRB1ILmi13zr0QGqMZcWW/9H
-         WQawAxeHamps2niiTPLIf1yhfhq+F1mxWUC71NqNTtYiVzaZ/1jU6homITAUcCCrIYUR
-         KbcQ==
-X-Gm-Message-State: AOJu0Yy7i4QQgIv+TRw4QADN3gNJsroOdasBu9d9B042RhYpfo8ghqNG
-	HVXG6MdddPRn2tjcAq1QTI8=
-X-Google-Smtp-Source: AGHT+IFcY99Qsw63+nqFSyAl4/ZRgH21dvMnWnaxUZA3NccBZXaLNtFD9rYkablw31Fpuvzev55HJA==
-X-Received: by 2002:a2e:964d:0:b0:2bf:f9b3:d335 with SMTP id z13-20020a2e964d000000b002bff9b3d335mr7914172ljh.15.1695718771564;
-        Tue, 26 Sep 2023 01:59:31 -0700 (PDT)
-Received: from mobilestation ([178.176.56.174])
-        by smtp.gmail.com with ESMTPSA id t6-20020a2e9c46000000b002bcda31af28sm2552580ljj.42.2023.09.26.01.59.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Sep 2023 01:59:31 -0700 (PDT)
-Date: Tue, 26 Sep 2023 11:59:28 +0300
-From: Serge Semin <fancer.lancer@gmail.com>
-To: Rob Herring <robh@kernel.org>
-Cc: Mark Brown <broonie@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Heiko Stuebner <heiko@sntech.de>, Maxime Ripard <mripard@kernel.org>, 
-	Chris Morgan <macromorgan@hotmail.com>, linux-spi@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-tegra@vger.kernel.org, linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH] spi: dt-bindings: Make "additionalProperties: true"
- explicit
-Message-ID: <666tt3bztep2zapk7o7h2psx32z53leitd4sm6xicxlhxhf4pv@vm6e32xszxq2>
-References: <20230925212614.1974243-1-robh@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C71E12B73;
+	Tue, 26 Sep 2023 09:15:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85849C433C7;
+	Tue, 26 Sep 2023 09:14:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1695719699;
+	bh=vB7h+RwIQEyHyA8z9mX6Uv3Ewigxx2fwQEemoQsoyjc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OeDAwLOqMtoG55ZOKPBUBsxnJl72Ss+YtwmT4mbtRZIrBpYZhO5WN+SJkYsZc+EX3
+	 VFv6nHtskokd873w3RS66Pme8sWt6a2acYYrH6n8ljTleT8s5N/nofWkPqjc3VM1w8
+	 V7ZD1HyMlkofAH5VdA09gA2PjSpr8wBvsp7L77oMwLskqqacZh4452xafdyS2/qVkc
+	 8iRJpE2FN3FEMhXjFqwuFDjPCUEQHZ2kpFDJnbMVWD0UA5SL54jqcTNGWC6PpHRSJX
+	 xKc5TwDtBrLdm3q7+dcaSPikS0a2LdYSoP9MBlB2zbblIOgbKY146OKKrtkneDHvPo
+	 VCLG5KvkVmosQ==
+Date: Tue, 26 Sep 2023 10:14:53 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Icenowy Zheng <uwu@icenowy.me>
+Cc: linux-riscv@lists.infradead.org,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Daire McNamara <daire.mcnamara@microchip.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Emil Renner Berthing <kernel@esmil.dk>,
+	Jisheng Zhang <jszhang@kernel.org>, Guo Ren <guoren@kernel.org>,
+	Fu Wei <wefu@redhat.com>, Chen Wang <unicorn_wang@outlook.com>,
+	devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [RFC v2 6/6] riscv: dts: thead: convert isa detection to new
+ properties
+Message-ID: <20230926-ramp-couch-431e9bb5d18b@spud>
+References: <20230922081351.30239-2-conor@kernel.org>
+ <20230922081351.30239-8-conor@kernel.org>
+ <f3b8d0823150797bde975a09b1faf6d3826d1ea8.camel@icenowy.me>
+ <20230925-semantic-euphemism-f0c7e85ac317@spud>
+ <c80bf6710d8cc7a1c0d49d52ad6410d04c6a0858.camel@icenowy.me>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="H7Qevf7mE+3lJqt1"
 Content-Disposition: inline
-In-Reply-To: <20230925212614.1974243-1-robh@kernel.org>
+In-Reply-To: <c80bf6710d8cc7a1c0d49d52ad6410d04c6a0858.camel@icenowy.me>
 
-On Mon, Sep 25, 2023 at 04:26:00PM -0500, Rob Herring wrote:
-> Make it explicit that child nodes have additional properties and the
-> child node schema is not complete. The complete schemas are applied
-> separately based the compatible strings.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
 
-For the DW APB/AHB SSI bindings:
-Acked-by: Serge Semin <fancer.lancer@gmail.com>
+--H7Qevf7mE+3lJqt1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--Serge(y)
+On Tue, Sep 26, 2023 at 11:15:27AM +0800, Icenowy Zheng wrote:
+> =E5=9C=A8 2023-09-25=E6=98=9F=E6=9C=9F=E4=B8=80=E7=9A=84 16:59 +0100=EF=
+=BC=8CConor Dooley=E5=86=99=E9=81=93=EF=BC=9A
+> > On Sun, Sep 24, 2023 at 07:22:30AM +0800, Icenowy Zheng wrote:
+> > > =E5=9C=A8 2023-09-22=E6=98=9F=E6=9C=9F=E4=BA=94=E7=9A=84 09:13 +0100=
+=EF=BC=8CConor Dooley=E5=86=99=E9=81=93=EF=BC=9A
+> > > > From: Conor Dooley <conor.dooley@microchip.com>
+> > > >=20
+> > > > Convert the th1520 devicetrees to use the new properties
+> > > > "riscv,isa-base" & "riscv,isa-extensions".
+> > > > For compatibility with other projects, "riscv,isa" remains.
+> > > >=20
+> > > > Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+> > > > ---
+> > > > =C2=A0arch/riscv/boot/dts/thead/th1520.dtsi | 12 ++++++++++++
+> > > > =C2=A01 file changed, 12 insertions(+)
+> > > >=20
+> > > > diff --git a/arch/riscv/boot/dts/thead/th1520.dtsi
+> > > > b/arch/riscv/boot/dts/thead/th1520.dtsi
+> > > > index ce708183b6f6..723f65487246 100644
+> > > > --- a/arch/riscv/boot/dts/thead/th1520.dtsi
+> > > > +++ b/arch/riscv/boot/dts/thead/th1520.dtsi
+> > > > @@ -20,6 +20,9 @@ c910_0: cpu@0 {
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0compatible =3D "thead,c910", "riscv";
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0device_type =3D "cpu";
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0riscv,isa =3D "rv64imafdc";
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ris=
+cv,isa-base =3D "rv64i";
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ris=
+cv,isa-extensions =3D "i", "m", "a",
+> > > > "f",
+> > > > "d", "c", "zicntr", "zicsr",
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "zifencei",
+> > > > "zihpm";
+> > >=20
+> > > Zfh is supported by T-Head C9xx with float too.
+> >=20
+> > You say xx, so just to be sure: Is it always supported, or only with
+> > some config for the IP (I wanna know if I need to look out for it
+> > while
+> > reviewing other SoCs etc)?
+>=20
+> I think it's grouped with FD.
+>=20
+> > Also, do you have a link to the documentation for it? English is the
+> > only relevant language I speak, so if the doc is in Chinese, I'll
+> > need
+> > some help!
+>=20
+> Sorry, but T-Head's official document [1] is only in Chinese. In
+> addition, in this document half-float is listed as a "T-Head
+> extension", but the encoding matches Zfh. See 15.6 Appendix B-6 Half
+> Float (15.6 =E9=99=84=E5=BD=95 B-6 =E6=B5=AE=E7=82=B9=E5=8D=8A=E7=B2=BE=
+=E5=BA=A6=E6=8C=87=E4=BB=A4=E6=9C=AF=E8=AF=AD) .
 
-> ---
->  .../devicetree/bindings/spi/allwinner,sun4i-a10-spi.yaml        | 2 ++
->  .../devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml        | 2 ++
->  Documentation/devicetree/bindings/spi/nvidia,tegra210-quad.yaml | 1 +
->  Documentation/devicetree/bindings/spi/rockchip-sfc.yaml         | 2 ++
->  Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml      | 2 ++
->  5 files changed, 9 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/spi/allwinner,sun4i-a10-spi.yaml b/Documentation/devicetree/bindings/spi/allwinner,sun4i-a10-spi.yaml
-> index a6f34bdd1d3c..e1ab3f523ad6 100644
-> --- a/Documentation/devicetree/bindings/spi/allwinner,sun4i-a10-spi.yaml
-> +++ b/Documentation/devicetree/bindings/spi/allwinner,sun4i-a10-spi.yaml
-> @@ -46,6 +46,8 @@ properties:
->  patternProperties:
->    "^.*@[0-9a-f]+":
->      type: object
-> +    additionalProperties: true
-> +
->      properties:
->        reg:
->          items:
-> diff --git a/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml b/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
-> index 28b8ace63044..3b47b68b92cb 100644
-> --- a/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
-> +++ b/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
-> @@ -68,6 +68,8 @@ properties:
->  patternProperties:
->    "^.*@[0-9a-f]+":
->      type: object
-> +    additionalProperties: true
-> +
->      properties:
->        reg:
->          items:
-> diff --git a/Documentation/devicetree/bindings/spi/nvidia,tegra210-quad.yaml b/Documentation/devicetree/bindings/spi/nvidia,tegra210-quad.yaml
-> index 9ae1611175f2..48e97e240265 100644
-> --- a/Documentation/devicetree/bindings/spi/nvidia,tegra210-quad.yaml
-> +++ b/Documentation/devicetree/bindings/spi/nvidia,tegra210-quad.yaml
-> @@ -50,6 +50,7 @@ properties:
->  patternProperties:
->    "@[0-9a-f]+$":
->      type: object
-> +    additionalProperties: true
->  
->      properties:
->        spi-rx-bus-width:
-> diff --git a/Documentation/devicetree/bindings/spi/rockchip-sfc.yaml b/Documentation/devicetree/bindings/spi/rockchip-sfc.yaml
-> index 339fb39529f3..ac1503de0478 100644
-> --- a/Documentation/devicetree/bindings/spi/rockchip-sfc.yaml
-> +++ b/Documentation/devicetree/bindings/spi/rockchip-sfc.yaml
-> @@ -47,6 +47,8 @@ properties:
->  patternProperties:
->    "^flash@[0-3]$":
->      type: object
-> +    additionalProperties: true
-> +
->      properties:
->        reg:
->          minimum: 0
-> diff --git a/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml b/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
-> index a47cb144b09f..6348a387a21c 100644
-> --- a/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
-> +++ b/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
-> @@ -160,6 +160,8 @@ properties:
->  patternProperties:
->    "^.*@[0-9a-f]+$":
->      type: object
-> +    additionalProperties: true
-> +
->      properties:
->        reg:
->          minimum: 0
-> -- 
-> 2.40.1
-> 
+Hmm, I'm not sure that I want to do this. Since it is only an "I think"
+and it's not *actually* advertised as being Zfh but apparently has
+matching encoding, I would rather someone who is capable of understanding
+that document submitted the patch.
+
+> [1]
+> https://github.com/T-head-Semi/openc910/blob/main/doc/%E7%8E%84%E9%93%81C=
+910%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C.pdf
+>=20
+> >=20
+> > > In addition, should X extensions get listed here?
+> >=20
+> > Yes, but someone who cares about documenting these extensions should
+> > do
+> > it ;)
+>=20
+> Well at least a bunch of Xthead's are now documented.
+
+I meant documented in the dt-binding, not documented in a pdf on GitHub.
+
+> Maybe they will get appended after this patchset get introduced.
+>=20
+> By the way, how to deal with the draft V of C9xx?
+
+Same deal, it'll have to be defined as a vendor extension in the
+dt-binding.
+
+Cheers,
+Conor.
+
+--H7Qevf7mE+3lJqt1
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZRKhDQAKCRB4tDGHoIJi
+0qTtAP4x++Jg7pM9GwGEgluyCfrCMdeE1MAS2B2Y3kcXvPex9gD7BHscbzSugnAf
+eBqMy9rEm4q+NNq2Q19snrpYWGeagQw=
+=BJRY
+-----END PGP SIGNATURE-----
+
+--H7Qevf7mE+3lJqt1--
