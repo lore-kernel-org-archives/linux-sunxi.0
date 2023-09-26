@@ -1,28 +1,52 @@
-Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C7C22AB41;
-	Tue, 26 Sep 2023 15:04:31 +0000 (UTC)
-Received: from 8bytes.org (pd9fe9df8.dip0.t-ipconnect.de [217.254.157.248])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id CA82A1A21CC;
-	Tue, 26 Sep 2023 17:04:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-	s=default; t=1695740670;
-	bh=o8oWUCyKGLr6aRpJEcyERxcIW3a0GD0rf9gmZgpvK2A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=6TpFhndRPNvIgt7yzA2/aJMoYkdnS16cebzf4UtP23CQlpQ+Gak1eYrm6l6OjKYEx
-	 6ov9MN4xTFyWr54bLnOpm430Hupplf8W0SxvaQlB6FgmJn2Bupf3Brid8BS/nZqAQO
-	 hvu4Svos9D+f462V9LsyrLj63TJ5HQrEH7+hL9EoBYr83zCI6QFPn3sNZtjggMsFkX
-	 51VP71UAzDGONwXr20Y36QdQJVa+iP+T27lz3G41fM7pXzHksLzD0rpLSvyCctLemD
-	 t/LuaiNXAWO/0BIuVB8b3mYUK3IzpvwsvgMpvM9qZ4RAN8ZffK3kqVvFnLVTK8C6cL
-	 klQPepXng8EOg==
-Date: Tue, 26 Sep 2023 17:04:28 +0200
-From: Joerg Roedel <joro@8bytes.org>
-To: Niklas Schnelle <schnelle@linux.ibm.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Matthew Rosato <mjrosato@linux.ibm.com>, Will Deacon <will@kernel.org>,
-	Wenjia Zhang <wenjia@linux.ibm.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B24F030D1D
+	for <linux-sunxi@lists.linux.dev>; Tue, 26 Sep 2023 16:08:35 +0000 (UTC)
+Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-493542a25dfso3108205e0c.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 26 Sep 2023 09:08:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1695744514; x=1696349314; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=6oDat+15Yv8jvHk03dbPKuk8zwd+AnRHF/euH49EJVQ=;
+        b=F+8ytQ4T4mrjhevvFxDynTYOXa3OJ4NpfISo4iKdfmWkSmy6bwI0o5U8bx58bD31WZ
+         S+s4oau84wS4FY5S4OrD1IxerH0G1SdviD3xGv3qJaUqs+4pUR1GXWCthlR0Jymtm8v6
+         JL4nqJPDDOzAVIocwhzTkK2dE0VWo8fWyUncYvmeWBZET6Vy9y8SIWzxCgCmR4MwHkPK
+         0Y53WeGuVLTvHs/JganVxNqaahMbAo2Cuby2jX+cgF7191DZEbYfMjXpGqgauMski/Zl
+         O/Rr3+dVuVCvBl2p/75rg4yEAWS5ML8V/KLpu2XS8p7KD5M/uRe4lVBPpUMdygC28JUa
+         00ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695744514; x=1696349314;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6oDat+15Yv8jvHk03dbPKuk8zwd+AnRHF/euH49EJVQ=;
+        b=isxVAq6+8b4gyXgXCx3C7b3UbA6xK2vUQivHcSD1iW/ip/MUVP2WVZE1AfFew9OZc4
+         lue8ukCy6FdQwC+HaP1kSz3ZiQdj587310yoZZtAB1FyGWUjJFhwrw2FcUccl34EBvQb
+         J/Ut/Y6n9KbvugHHs4Fzd4xX2MnM4E5gwdMSmjUSywmtodRX6Qc2KU1GcOjxGQRZ4D8c
+         uDqiINb94pRP3jdXgfYlqpG77I05w2SebN4NjgKBrvjBaFwbarka2R1kLeX2D4Y5EPyX
+         /DXkdbEqZbW7lgO6o1NFgqFKuHBbO412MmpCNljD6UR+20eW6g1D3nUzFaTpQBz4AKtH
+         jlZQ==
+X-Gm-Message-State: AOJu0YyqOkxQKqTlhECTT9I6ksGfUn0BrmYg8Jrno+i+y3LLgGWnWG15
+	GKaaNcyGG/rQlCCSQLQSbmb/dw==
+X-Google-Smtp-Source: AGHT+IFDQgBrhIPwgsFhbivVL+D36TCzBymyRjeSj3OWewpTHgWhOtDO4u30/jSZ3MjQP6HcqK5sVA==
+X-Received: by 2002:a1f:c582:0:b0:48f:9778:2b9f with SMTP id v124-20020a1fc582000000b0048f97782b9fmr6177336vkf.11.1695744514328;
+        Tue, 26 Sep 2023 09:08:34 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-68-26-201.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.26.201])
+        by smtp.gmail.com with ESMTPSA id d8-20020a0cb2c8000000b0065b13180892sm1817688qvf.16.2023.09.26.09.08.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Sep 2023 09:08:33 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1qlAbw-001Evg-HO;
+	Tue, 26 Sep 2023 13:08:32 -0300
+Date: Tue, 26 Sep 2023 13:08:32 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Joerg Roedel <joro@8bytes.org>
+Cc: Niklas Schnelle <schnelle@linux.ibm.com>,
+	Matthew Rosato <mjrosato@linux.ibm.com>,
+	Will Deacon <will@kernel.org>, Wenjia Zhang <wenjia@linux.ibm.com>,
 	Robin Murphy <robin.murphy@arm.com>,
 	Gerd Bayer <gbayer@linux.ibm.com>,
 	Julian Ruess <julianr@linux.ibm.com>,
@@ -60,8 +84,9 @@ Cc: Matthew Rosato <mjrosato@linux.ibm.com>, Will Deacon <will@kernel.org>,
 	linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
 Subject: Re: [PATCH v12 0/6] iommu/dma: s390 DMA API conversion and optimized
  IOTLB flushing
-Message-ID: <ZRLy_AaJiXxZ2AfK@8bytes.org>
+Message-ID: <20230926160832.GM13795@ziepe.ca>
 References: <20230825-dma_iommu-v12-0-4134455994a7@linux.ibm.com>
+ <ZRLy_AaJiXxZ2AfK@8bytes.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -70,24 +95,28 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230825-dma_iommu-v12-0-4134455994a7@linux.ibm.com>
+In-Reply-To: <ZRLy_AaJiXxZ2AfK@8bytes.org>
 
-Hi Niklas,
+On Tue, Sep 26, 2023 at 05:04:28PM +0200, Joerg Roedel wrote:
+> Hi Niklas,
+> 
+> On Fri, Aug 25, 2023 at 12:11:15PM +0200, Niklas Schnelle wrote:
+> > Niklas Schnelle (6):
+> >       iommu: Allow .iotlb_sync_map to fail and handle s390's -ENOMEM return
+> >       s390/pci: prepare is_passed_through() for dma-iommu
+> >       s390/pci: Use dma-iommu layer
+> >       iommu/s390: Disable deferred flush for ISM devices
+> >       iommu/dma: Allow a single FQ in addition to per-CPU FQs
+> >       iommu/dma: Use a large flush queue and timeout for shadow_on_flush
+> 
+> Turned out this series has non-trivial conflicts with Jasons
+> default-domain work so I had to remove it from the IOMMU tree for now.
+> Can you please rebase it to the latest iommu/core branch and re-send? I
+> will take it into the tree again then.
 
-On Fri, Aug 25, 2023 at 12:11:15PM +0200, Niklas Schnelle wrote:
-> Niklas Schnelle (6):
->       iommu: Allow .iotlb_sync_map to fail and handle s390's -ENOMEM return
->       s390/pci: prepare is_passed_through() for dma-iommu
->       s390/pci: Use dma-iommu layer
->       iommu/s390: Disable deferred flush for ISM devices
->       iommu/dma: Allow a single FQ in addition to per-CPU FQs
->       iommu/dma: Use a large flush queue and timeout for shadow_on_flush
-
-Turned out this series has non-trivial conflicts with Jasons
-default-domain work so I had to remove it from the IOMMU tree for now.
-Can you please rebase it to the latest iommu/core branch and re-send? I
-will take it into the tree again then.
+Niklas, I think you just 'take yours' to resolve this. All the
+IOMMU_DOMAIN_PLATFORM related and .default_domain = parts should be
+removed. Let me know if you need anything
 
 Thanks,
-
-	Joerg
+Jason
