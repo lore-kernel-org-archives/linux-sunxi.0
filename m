@@ -1,160 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C7C22AB41;
+	Tue, 26 Sep 2023 15:04:31 +0000 (UTC)
+Received: from 8bytes.org (pd9fe9df8.dip0.t-ipconnect.de [217.254.157.248])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22678286A9;
-	Tue, 26 Sep 2023 12:59:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E522BC433CA;
-	Tue, 26 Sep 2023 12:59:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1695733178;
-	bh=TLCs3n5dqhYri+xLFFn0lVxrMbmnBABrauc91osBr80=;
+	by mail.8bytes.org (Postfix) with ESMTPSA id CA82A1A21CC;
+	Tue, 26 Sep 2023 17:04:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
+	s=default; t=1695740670;
+	bh=o8oWUCyKGLr6aRpJEcyERxcIW3a0GD0rf9gmZgpvK2A=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tDgZ1AXh5tSnQkMwmmaCnqn5Rvz2rENT+ec1NjUFuAaNbmgX+GyHvU4VA6P3/7e2e
-	 mzgX3vFxRtOk+V9Zi2Bztld21I76DY2BwipbDIAGB1Y8VdRmW8hdDzoS+k/x3F8Hct
-	 niNCytjBZUrooSbnoJ0hwfQ1JjdlTKNXI0QV97f+USnImIKJgPwao+LRHMEDmcRoKv
-	 HzknT1JKeDkymq3M1ELizbz7/sRezbNc2Hfj75o4k9eAIlKye3dUdxRlqS5iq7kJFt
-	 0cAqNbCd8sJNM46cGca8koFuN4xUdJo++gH0eqDXn8SKopMi0KBWSBBNBzWvh+qcns
-	 99ms6z6ZKeeGA==
-Date: Tue, 26 Sep 2023 13:59:32 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Cc: Mark Brown <broonie@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	b=6TpFhndRPNvIgt7yzA2/aJMoYkdnS16cebzf4UtP23CQlpQ+Gak1eYrm6l6OjKYEx
+	 6ov9MN4xTFyWr54bLnOpm430Hupplf8W0SxvaQlB6FgmJn2Bupf3Brid8BS/nZqAQO
+	 hvu4Svos9D+f462V9LsyrLj63TJ5HQrEH7+hL9EoBYr83zCI6QFPn3sNZtjggMsFkX
+	 51VP71UAzDGONwXr20Y36QdQJVa+iP+T27lz3G41fM7pXzHksLzD0rpLSvyCctLemD
+	 t/LuaiNXAWO/0BIuVB8b3mYUK3IzpvwsvgMpvM9qZ4RAN8ZffK3kqVvFnLVTK8C6cL
+	 klQPepXng8EOg==
+Date: Tue, 26 Sep 2023 17:04:28 +0200
+From: Joerg Roedel <joro@8bytes.org>
+To: Niklas Schnelle <schnelle@linux.ibm.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Matthew Rosato <mjrosato@linux.ibm.com>, Will Deacon <will@kernel.org>,
+	Wenjia Zhang <wenjia@linux.ibm.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Gerd Bayer <gbayer@linux.ibm.com>,
+	Julian Ruess <julianr@linux.ibm.com>,
+	Pierre Morel <pmorel@linux.ibm.com>,
+	Alexandra Winter <wintera@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>, Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Yong Wu <yong.wu@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
 	Thierry Reding <thierry.reding@gmail.com>,
+	Krishna Reddy <vdumpa@nvidia.com>,
 	Jonathan Hunter <jonathanh@nvidia.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Serge Semin <fancer.lancer@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Chris Morgan <macromorgan@hotmail.com>, linux-spi@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-tegra@vger.kernel.org, linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH] spi: dt-bindings: Make "additionalProperties: true"
- explicit
-Message-ID: <20230926-swung-duplex-b01be7f91e58@spud>
-References: <20230925212614.1974243-1-robh@kernel.org>
+	Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	iommu@lists.linux.dev, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v12 0/6] iommu/dma: s390 DMA API conversion and optimized
+ IOTLB flushing
+Message-ID: <ZRLy_AaJiXxZ2AfK@8bytes.org>
+References: <20230825-dma_iommu-v12-0-4134455994a7@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="gCWkt9qgvYzcx0LY"
-Content-Disposition: inline
-In-Reply-To: <20230925212614.1974243-1-robh@kernel.org>
-
-
---gCWkt9qgvYzcx0LY
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20230825-dma_iommu-v12-0-4134455994a7@linux.ibm.com>
 
-On Mon, Sep 25, 2023 at 04:26:00PM -0500, Rob Herring wrote:
-> Make it explicit that child nodes have additional properties and the
-> child node schema is not complete. The complete schemas are applied
-> separately based the compatible strings.
->=20
-> Signed-off-by: Rob Herring <robh@kernel.org>
+Hi Niklas,
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+On Fri, Aug 25, 2023 at 12:11:15PM +0200, Niklas Schnelle wrote:
+> Niklas Schnelle (6):
+>       iommu: Allow .iotlb_sync_map to fail and handle s390's -ENOMEM return
+>       s390/pci: prepare is_passed_through() for dma-iommu
+>       s390/pci: Use dma-iommu layer
+>       iommu/s390: Disable deferred flush for ISM devices
+>       iommu/dma: Allow a single FQ in addition to per-CPU FQs
+>       iommu/dma: Use a large flush queue and timeout for shadow_on_flush
+
+Turned out this series has non-trivial conflicts with Jasons
+default-domain work so I had to remove it from the IOMMU tree for now.
+Can you please rebase it to the latest iommu/core branch and re-send? I
+will take it into the tree again then.
 
 Thanks,
-Conor.
 
-> ---
->  .../devicetree/bindings/spi/allwinner,sun4i-a10-spi.yaml        | 2 ++
->  .../devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml        | 2 ++
->  Documentation/devicetree/bindings/spi/nvidia,tegra210-quad.yaml | 1 +
->  Documentation/devicetree/bindings/spi/rockchip-sfc.yaml         | 2 ++
->  Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml      | 2 ++
->  5 files changed, 9 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/spi/allwinner,sun4i-a10-sp=
-i.yaml b/Documentation/devicetree/bindings/spi/allwinner,sun4i-a10-spi.yaml
-> index a6f34bdd1d3c..e1ab3f523ad6 100644
-> --- a/Documentation/devicetree/bindings/spi/allwinner,sun4i-a10-spi.yaml
-> +++ b/Documentation/devicetree/bindings/spi/allwinner,sun4i-a10-spi.yaml
-> @@ -46,6 +46,8 @@ properties:
->  patternProperties:
->    "^.*@[0-9a-f]+":
->      type: object
-> +    additionalProperties: true
-> +
->      properties:
->        reg:
->          items:
-> diff --git a/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-sp=
-i.yaml b/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
-> index 28b8ace63044..3b47b68b92cb 100644
-> --- a/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
-> +++ b/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
-> @@ -68,6 +68,8 @@ properties:
->  patternProperties:
->    "^.*@[0-9a-f]+":
->      type: object
-> +    additionalProperties: true
-> +
->      properties:
->        reg:
->          items:
-> diff --git a/Documentation/devicetree/bindings/spi/nvidia,tegra210-quad.y=
-aml b/Documentation/devicetree/bindings/spi/nvidia,tegra210-quad.yaml
-> index 9ae1611175f2..48e97e240265 100644
-> --- a/Documentation/devicetree/bindings/spi/nvidia,tegra210-quad.yaml
-> +++ b/Documentation/devicetree/bindings/spi/nvidia,tegra210-quad.yaml
-> @@ -50,6 +50,7 @@ properties:
->  patternProperties:
->    "@[0-9a-f]+$":
->      type: object
-> +    additionalProperties: true
-> =20
->      properties:
->        spi-rx-bus-width:
-> diff --git a/Documentation/devicetree/bindings/spi/rockchip-sfc.yaml b/Do=
-cumentation/devicetree/bindings/spi/rockchip-sfc.yaml
-> index 339fb39529f3..ac1503de0478 100644
-> --- a/Documentation/devicetree/bindings/spi/rockchip-sfc.yaml
-> +++ b/Documentation/devicetree/bindings/spi/rockchip-sfc.yaml
-> @@ -47,6 +47,8 @@ properties:
->  patternProperties:
->    "^flash@[0-3]$":
->      type: object
-> +    additionalProperties: true
-> +
->      properties:
->        reg:
->          minimum: 0
-> diff --git a/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml b=
-/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
-> index a47cb144b09f..6348a387a21c 100644
-> --- a/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
-> +++ b/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
-> @@ -160,6 +160,8 @@ properties:
->  patternProperties:
->    "^.*@[0-9a-f]+$":
->      type: object
-> +    additionalProperties: true
-> +
->      properties:
->        reg:
->          minimum: 0
-> --=20
-> 2.40.1
->=20
-
---gCWkt9qgvYzcx0LY
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZRLVtAAKCRB4tDGHoIJi
-0hR8AP9Ava8cYYj5GVL2Hut1w6uRkN/b4Faq6JdqruwkatygOAEAiy5idBiTw+di
-gDi3f58ACPRbv1uC/Zp+MwgXWqAZWgc=
-=hqIu
------END PGP SIGNATURE-----
-
---gCWkt9qgvYzcx0LY--
+	Joerg
