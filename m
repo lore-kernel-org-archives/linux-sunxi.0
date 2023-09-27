@@ -1,495 +1,202 @@
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11olkn2030.outbound.protection.outlook.com [40.92.18.30])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EF1C1F61C
-	for <linux-sunxi@lists.linux.dev>; Wed, 27 Sep 2023 14:14:10 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JW4NJnkEGUWyCi4oDGw+3u5yrIbu51wJ68N2aVsl/r3+x9krgE033cSS6wxTZJS2H3OWnq1PQ1rMsgTKtZ9rRcXjPJcdjhTATuAA0vxXe/5ADeWPOaqxb7m0vbEmcqSFtEYfei45gO3Rjcp4ZUt7QBLj/E8RVnoDjmI6uRVfuKOgKsz2ZGctts0PPWDN1JHqXJQZn5jxSY7VHC/0CgSr4qvx+z0BUECmgKGbcLEhiKctaCbHDGHmRqdz1yM7zbTWDF3tVx6pB8Zmi1bLzkJKnbmK5ChfOwsPOLzCYUC008ZKG9CnMEPLUz/IE3sSs5XJQIfiFvwarPvA/e+fYgVlSA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=txACqyjyLiM39nOulvXxAaAhOaS6bwpgA5IqItJYxis=;
- b=TiydQIDCmiQJ7ZfZXCRAlQSclPBTq0GqmytHq8JO/z/Tm/fkHE0/1A87YllrFhMaLvHFGU9zHQWVq1syobnUe7FML6e+dz5U+VdTF4v4s0pJ3SId10UgZZmo1E2xOAAAcnIR5GWDxXzt05mgv+xfij4NWHmFCqtkE9JIZkW5YEkH2Ccsr8SqDR5iBDSYXvipVoD60i5q3MRHhTUVMn+U+blcAb6jiHj1kxl4m+HZMeFH1E4Gx+y1Iqg9l1LOuz+BIsHiiXeX9WQ4XGpPxhTGM7AdnVblFjQJnpWpZGW2nceMPFHAXKRQRU6loMfZZV9NG1jEfwrKpPaxR8vQ2tuJeA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=txACqyjyLiM39nOulvXxAaAhOaS6bwpgA5IqItJYxis=;
- b=POOrh7lIlrcMlTwK3+Q6sVob8IDdYrtbHzc+ddg2C0kg6QoxmPMemvleOPBZpQPfXl0KM2ukvhmL+EzUzy+8AjhleZflYWAd4/ISfgCJvbbDBGaVggmltKYautQkb8F0e6y0B91rSAiOAVBeA02CzPRUt16ymYZE89eisaDIvdKi8pNDPB2GTO0075QlWEOu4U6C4lCk0JwvWAVkNSyKgptsvqIKAn/LBvGCzIf4oJNse4sUYrq81eKITBZpeqjvpE934lV1JlAAzbIKo4Z15E/F2fQuigmWLz0ntvX1diCoI1WLMnjt5VCGYSKdcHVdfiukm8S1Toz1sBc6qi5TpA==
-Received: from SN6PR06MB5342.namprd06.prod.outlook.com (2603:10b6:805:f9::31)
- by PH0PR06MB7965.namprd06.prod.outlook.com (2603:10b6:510:a6::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.21; Wed, 27 Sep
- 2023 14:14:07 +0000
-Received: from SN6PR06MB5342.namprd06.prod.outlook.com
- ([fe80::c40c:bbc8:b103:459c]) by SN6PR06MB5342.namprd06.prod.outlook.com
- ([fe80::c40c:bbc8:b103:459c%2]) with mapi id 15.20.6813.027; Wed, 27 Sep 2023
- 14:14:07 +0000
-Date: Wed, 27 Sep 2023 09:14:03 -0500
-From: Chris Morgan <macromorgan@hotmail.com>
-To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, Chris Morgan <macroalpha82@gmail.com>,
-	devicetree@vger.kernel.org, mripard@kernel.org, uwu@icenowy.me,
-	samuel@sholland.org, wens@csie.org, conor+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-	andre.przywara@arm.com
-Subject: Re: [PATCH V5 4/4] ARM: dts: sunxi: add support for Anbernic RG-Nano
-Message-ID:
- <SN6PR06MB5342313BDE341C6F17DB7557A5C2A@SN6PR06MB5342.namprd06.prod.outlook.com>
-References: <20230921135136.97491-1-macroalpha82@gmail.com>
- <4860683.31r3eYUQgx@jernej-laptop>
- <SN6PR06MB5342C836DCCD58AA47C7FE33A5FCA@SN6PR06MB5342.namprd06.prod.outlook.com>
- <9217807.rMLUfLXkoz@jernej-laptop>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <9217807.rMLUfLXkoz@jernej-laptop>
-X-TMN: [v36FSTXkmJ1mYssAJYsFz9AU9REMuJMM]
-X-ClientProxiedBy: DS7P222CA0020.NAMP222.PROD.OUTLOOK.COM (2603:10b6:8:2e::16)
- To SN6PR06MB5342.namprd06.prod.outlook.com (2603:10b6:805:f9::31)
-X-Microsoft-Original-Message-ID: <ZRQ4q914D8Scf0/6@wintermute.localhost.fail>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F9627464;
+	Wed, 27 Sep 2023 14:42:04 +0000 (UTC)
+Received: from pps.filterd (m0353722.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38REeoSf013717;
+	Wed, 27 Sep 2023 14:41:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=SA0vmiS/p2eSmGSBAdVBC3GbqSanJU141RtIeVTT6OM=;
+ b=TGpXx0Ln9HtdYNuFyOP8Hq5Zocf8QxQDnVI5kwwA4PAFAl/hhJowWiFhv3Xf2BfMbdC1
+ OOoI5mBUpLFB8uRUcmNYwei9TldVUR0ZNj2vjFMu89fbqX93HpnGRHiWYey5kr1N54tP
+ z3T4HZZeyqIn05a1apvR4Awqq6tuQ2Gbc/bGQ3HpAHVdOdzOvtoby2ytC07g7Wcy4S/U
+ 3MxjOkq/QtwX+TT7VLWTv6JJ9F8cVb4wPqewSJE6KwkVTwl9gptyoPjD12MltW03r2g4
+ 1MOtZHO0acF77JzuVw6YKJihtCL0WGNuuvZ4YEPscljp+MOj6IrXF2OMFxidjM9s8euj nA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3tcnh8sqcw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 27 Sep 2023 14:41:30 +0000
+Received: from m0353722.ppops.net (m0353722.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 38REfDmF017965;
+	Wed, 27 Sep 2023 14:41:17 GMT
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3tcnh8snj3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 27 Sep 2023 14:41:17 +0000
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 38RChTDb030454;
+	Wed, 27 Sep 2023 14:31:15 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 3tad21un14-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 27 Sep 2023 14:31:15 +0000
+Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
+	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 38REVCoW44892656
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 27 Sep 2023 14:31:12 GMT
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4205820043;
+	Wed, 27 Sep 2023 14:31:12 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 91F0E20040;
+	Wed, 27 Sep 2023 14:31:11 +0000 (GMT)
+Received: from [9.152.212.236] (unknown [9.152.212.236])
+	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 27 Sep 2023 14:31:11 +0000 (GMT)
+Message-ID: <6dab29f58ac1ccd58caaee031f98f4d0d382cbcd.camel@linux.ibm.com>
+Subject: Re: [PATCH v12 0/6] iommu/dma: s390 DMA API conversion and
+ optimized IOTLB flushing
+From: Niklas Schnelle <schnelle@linux.ibm.com>
+To: Joerg Roedel <joro@8bytes.org>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, Matthew Rosato <mjrosato@linux.ibm.com>,
+        Will Deacon <will@kernel.org>, Wenjia Zhang <wenjia@linux.ibm.com>,
+        Robin
+ Murphy <robin.murphy@arm.com>,
+        Gerd Bayer <gbayer@linux.ibm.com>,
+        Julian
+ Ruess <julianr@linux.ibm.com>,
+        Pierre Morel <pmorel@linux.ibm.com>,
+        Alexandra Winter <wintera@linux.ibm.com>,
+        Heiko Carstens
+ <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev
+ <agordeev@linux.ibm.com>,
+        Christian Borntraeger
+ <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Suravee
+ Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Hector Martin
+ <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+        Alyssa Rosenzweig
+ <alyssa@rosenzweig.io>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Lu Baolu
+ <baolu.lu@linux.intel.com>, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson
+ <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Yong Wu
+ <yong.wu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+        Orson Zhai
+ <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan
+ Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec
+ <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Thierry
+ Reding <thierry.reding@gmail.com>,
+        Krishna Reddy <vdumpa@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        iommu@lists.linux.dev, asahi@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
+Date: Wed, 27 Sep 2023 16:31:11 +0200
+In-Reply-To: <e1efbbd827e34800bd7fb0ea687645cc6c65e1ab.camel@linux.ibm.com>
+References: <20230825-dma_iommu-v12-0-4134455994a7@linux.ibm.com>
+	 <ZRLy_AaJiXxZ2AfK@8bytes.org> <20230926160832.GM13795@ziepe.ca>
+	 <cfc9e9128ed5571d2e36421e347301057662a09e.camel@linux.ibm.com>
+	 <ZRP8CiBui7suB5D6@8bytes.org>
+	 <b06a14de270a63050b0d027c24b333dba25001a4.camel@linux.ibm.com>
+	 <e1efbbd827e34800bd7fb0ea687645cc6c65e1ab.camel@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN6PR06MB5342:EE_|PH0PR06MB7965:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1121aab2-d2c7-4ce2-b6d5-08dbbf640292
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	KCa/qGVvqxfyxXEfEWjmwHQ2Vyf/r6QtT/qQbzhxoANW/fDNbRXOhTURGIJ0AitUfZQtWcMj8zmmclLSPHBPj+7YNu0hKvg/36CWLi+EUnH2c+G36k89FotyFSpZ7chcLdmURGgvUAtTWZgi3VErp3y8v5+5+aFX/iFX+mUcmIUrgnotCZfSj7k/74Aabg4CdlEsEPiwvBFsLf88Izq0waxjjhiZt3I4lzrzULBKS1qQI/qNyxpyN2AovcBKn8p+FfE223MQdayuLew4OuSSBVYTEqkVtrODmUGqBLWophsctZfC3r+XWdqQ0SP0nmQfwOwTUG4kFOYzlZ9TE0JqdItNHOrCtdUGo70SWfLb2dA9fznHOXaOHO97gnktPSTMSuybhVeTNSfdE7CallkEE4hh46mXRwAWyQe357vGtqqxeHHlvqq1mVYr/U00U6M4oQFF4s0FtgmeCOEO1vn9JP9TZ35KBd6clYHkFLgUenh4azMJaOmymYfvoxzQpD8RH4HElizA7zhC+nveA1akhElcWQoy/aH1/wEfKXHRYk0wu3Lu7X1pbC/13ClYIrmPQny2QqPKILOgpao3shSzn1D7TsCZB1ppvnVC0Jcb9/I=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?OFg2ZFpiUVl2a2NMSzN5QWVBeVJIb3ZpU080UmFuRTE4QjBGZUwybFFVaEV6?=
- =?utf-8?B?a2lCemVzNm54MDNMY3B4NHBoSFdSTHdlR2JVaWhWZU9EMUtFSVpDU0pOdExH?=
- =?utf-8?B?Yy9ITHZjdFBiUlcxTEZFdnN3dmRyTG05WVRjVzhDZXYxU2dhajNCLzViR2p0?=
- =?utf-8?B?RU5OQXVZOTc3TVhWZlZHb0RvdVVveUMraUVWTDZ3K1lLeWszVjhMa0VWRmJV?=
- =?utf-8?B?RWlqRkVoaWJEclFUT3ZweHJSTkh3V3FycUh1SFc3N3lHSHVlR3pCb1dDYnBS?=
- =?utf-8?B?dDNHSFN0a1hqeGFmQnlhaHBqUEdMY2NFNUEyM29wdkM3RXFiYzdRdEdRVEs0?=
- =?utf-8?B?U1Yxa3JaNks3SWtkVnNHLzd5MmQxZW1vNTM5b0tQZWRzYjJGS1FGRXhHMnM3?=
- =?utf-8?B?SnNxK09EOEFIRC9JVVJPQ0diOXFwY3hYblpMS2R2S0xYT3h0Y3pkK0JNUWJR?=
- =?utf-8?B?azR5U3czZGNHWVozZU9sL2M3cWUyY2hxK0lJdHd0K0hTL3RVSVZxQXZNNzVY?=
- =?utf-8?B?bVQ3YlROazFRNHlqT2s0WlFYUFZZenorSGF3Uy9LMEN6TFgyTnRDeGZTLzRn?=
- =?utf-8?B?b2pFNzJlYWNDaGN3UlZFamkzSTlhb2VCOVVPMTZhcGVsZ05mQjllOXFobUhq?=
- =?utf-8?B?eFlpOXhvNGZJZGxIcm1KUnQ2ZjNKeHdvTXVtb3ZMa2lQM1RNRjJicnZTQ3Z3?=
- =?utf-8?B?RENNaXZ4NEY4V1BQT09xYTNqbHc5Mmw3cnZnNFc5K1Z4QldsQzhqb1ppLzZF?=
- =?utf-8?B?ZHdhcWNYK3Z3eFR1ZllyWmY0SUErUGhZTWlJYXpLWTVKeER3Smc0b0ZRemd2?=
- =?utf-8?B?RHY3WERPVVlxSnRKNVg0NmxwSzduYURaWktIYzBCUE5hNEVMTzRDOXdUcGM3?=
- =?utf-8?B?amN4MmZvZWY2TEhLSW9SMDF4c2o0TFBrYjI3aFJGTDNYSjBFVW5SOTc3T2Z0?=
- =?utf-8?B?cFpBZnI2eElxV1NEcnA1eHN5MXQ5Q3lqNE5KbnFLWU5vY2VrRTlLT1FHQkph?=
- =?utf-8?B?VTdSTU9UVlBZT2Z4RVRycnRpU3o4a2dqS0dRNGZVQ3E4T05VVEZIYnE5eENs?=
- =?utf-8?B?MWpEOFJFejdGVkJ3aXV4eGJpYnp4RFhFczNxWGlyQXFCTUtIaGJyMHNJNEM0?=
- =?utf-8?B?QU9zL0NOcGRMdzFjdTVxY2kyWHhnd3h5UGZyb0pIYjl3anRLdHFZMWw2YVR2?=
- =?utf-8?B?N1hrRGR2ZS9SM09ZRzZTdTM3Zk1aMXZpOWNTbDcwckNibm5TNUpORERKUHR2?=
- =?utf-8?B?UUlDRG9NUGgyRVJOUGZrV0RucmxjajFNNDlsak9lcy9ndGE0Z1p5VUtoczI1?=
- =?utf-8?B?NThXcFQvQWNDWEJTd0hkTTgxRVRrN2VzSEpPa0lEVHFMR3h0VnVFNEpvY2Ry?=
- =?utf-8?B?bXcyLzBLdnBqeVdQcUZXT1N2NmxlOVdKZnA1VE1uOXYxT2czdm1MYnQwK2pp?=
- =?utf-8?B?dTI1NmZqRHpsNm1vMWNyQnpaK0dUUHFwZU1JclkxK3FCZkkzRkFBTi9HUGxq?=
- =?utf-8?B?ZkdlRC9tdEpOMHNsNjdtY0ZLeUVWNUlWRjBmVHFXNms5ZWhsanpoSjRGTmx4?=
- =?utf-8?B?SUY4MVdueDdZeGJVTnZ0WXNJZVlJQ2hIajdjL1FtTW13RVpTM0RmMGtzYzBB?=
- =?utf-8?Q?0ZdZ5JmDDSbVwS3qerUL2HtWyRohmBq6pt/HO9oy3OQg=3D?=
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-89723.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1121aab2-d2c7-4ce2-b6d5-08dbbf640292
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR06MB5342.namprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Sep 2023 14:14:06.9753
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR06MB7965
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 9DVW-bLHKWJTvCvlDlYeq4_osgrJTxpT
+X-Proofpoint-ORIG-GUID: HDx50Cd-5cLuaqZZQuVFQjoyrLSQCgHY
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-09-27_09,2023-09-27_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 suspectscore=0
+ clxscore=1015 bulkscore=0 lowpriorityscore=0 priorityscore=1501
+ impostorscore=0 adultscore=0 mlxscore=0 mlxlogscore=999 spamscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2309180000 definitions=main-2309270124
 
-On Mon, Sep 25, 2023 at 06:00:46PM +0200, Jernej Škrabec wrote:
-> Dne ponedeljek, 25. september 2023 ob 17:00:33 CEST je Chris Morgan napisal(a):
-> > On Sun, Sep 24, 2023 at 09:33:53PM +0200, Jernej Škrabec wrote:
-> > > Dne četrtek, 21. september 2023 ob 15:51:36 CEST je Chris Morgan napisal(a):
-> > > > From: Chris Morgan <macromorgan@hotmail.com>
-> > > > 
-> > > > The Anbernic RG-Nano is a small portable game device based on the
-> > > > Allwinner V3s SoC. It has GPIO buttons on the face and side for
-> > > > input, a single mono speaker, a 240x240 SPI controlled display, a USB-C
-> > > > OTG port, an SD card slot for booting, and 64MB of RAM included in the
-> > > > SoC. There does not appear to be a crystal feeding the internal RTC so
-> > > > it does not keep proper time (for me it ran 8 hours slow in a 24 hour
-> > > > period). External RTC works just fine.
-> > > > 
-> > > > Working/Tested:
-> > > > - SDMMC
-> > > > - UART (for debugging)
-> > > > - Buttons
-> > > > - Charging/battery/PMIC
-> > > > - Speaker
-> > > > - RTC (external RTC)
-> > > > - USB
-> > > > - Display
-> > > > 
-> > > > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> > > > ---
-> > > >  arch/arm/boot/dts/allwinner/Makefile          |   1 +
-> > > >  .../allwinner/sun8i-v3s-anbernic-rg-nano.dts  | 284 ++++++++++++++++++
-> > > >  2 files changed, 285 insertions(+)
-> > > >  create mode 100644 arch/arm/boot/dts/allwinner/sun8i-v3s-anbernic-rg-nano.dts
-> > > > 
-> > > > diff --git a/arch/arm/boot/dts/allwinner/Makefile b/arch/arm/boot/dts/allwinner/Makefile
-> > > > index eebb5a0c873a..2d26c3397f14 100644
-> > > > --- a/arch/arm/boot/dts/allwinner/Makefile
-> > > > +++ b/arch/arm/boot/dts/allwinner/Makefile
-> > > > @@ -256,6 +256,7 @@ dtb-$(CONFIG_MACH_SUN8I) += \
-> > > >  	sun8i-t113s-mangopi-mq-r-t113.dtb \
-> > > >  	sun8i-t3-cqa3t-bv3.dtb \
-> > > >  	sun8i-v3-sl631-imx179.dtb \
-> > > > +	sun8i-v3s-anbernic-rg-nano.dtb \
-> > > >  	sun8i-v3s-licheepi-zero.dtb \
-> > > >  	sun8i-v3s-licheepi-zero-dock.dtb \
-> > > >  	sun8i-v40-bananapi-m2-berry.dtb
-> > > > diff --git a/arch/arm/boot/dts/allwinner/sun8i-v3s-anbernic-rg-nano.dts b/arch/arm/boot/dts/allwinner/sun8i-v3s-anbernic-rg-nano.dts
-> > > > new file mode 100644
-> > > > index 000000000000..1a4429dc57b1
-> > > > --- /dev/null
-> > > > +++ b/arch/arm/boot/dts/allwinner/sun8i-v3s-anbernic-rg-nano.dts
-> > > > @@ -0,0 +1,284 @@
-> > > > +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> > > > +
-> > > > +/dts-v1/;
-> > > > +#include <dt-bindings/input/linux-event-codes.h>
-> > > > +#include "sun8i-v3s.dtsi"
-> > > > +#include "sunxi-common-regulators.dtsi"
-> > > > +
-> > > > +/ {
-> > > > +	model = "Anbernic RG Nano";
-> > > > +	compatible = "anbernic,rg-nano", "allwinner,sun8i-v3s";
-> > > > +
-> > > > +	aliases {
-> > > > +		rtc0 = &pcf8563;
-> > > > +		rtc1 = &rtc;
-> > > > +		serial0 = &uart0;
-> > > > +	};
-> > > > +
-> > > > +	backlight: backlight {
-> > > > +		compatible = "pwm-backlight";
-> > > > +		brightness-levels = <0 1 2 3 8 14 21 32 46 60 80 100>;
-> > > > +		default-brightness-level = <11>;
-> > > > +		power-supply = <&reg_vcc5v0>;
-> > > > +		pwms = <&pwm 0 40000 1>;
-> > > > +	};
-> > > > +
-> > > > +	chosen {
-> > > > +		stdout-path = "serial0:115200n8";
-> > > > +	};
-> > > > +
-> > > > +	gpio_keys: gpio-keys {
-> > > > +		compatible = "gpio-keys";
-> > > > +
-> > > > +		button-a {
-> > > > +			gpios = <&gpio_expander 12 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-> > > > +			label = "BTN-A";
-> > > > +			linux,code = <BTN_EAST>;
-> > > > +		};
-> > > > +
-> > > > +		button-b {
-> > > > +			gpios = <&gpio_expander 14 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-> > > > +			label = "BTN-B";
-> > > > +			linux,code = <BTN_SOUTH>;
-> > > > +		};
-> > > > +
-> > > > +		button-down {
-> > > > +			gpios = <&gpio_expander 1 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-> > > > +			label = "DPAD-DOWN";
-> > > > +			linux,code = <BTN_DPAD_DOWN>;
-> > > > +		};
-> > > > +
-> > > > +		button-left {
-> > > > +			gpios = <&gpio_expander 4 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-> > > > +			label = "DPAD-LEFT";
-> > > > +			linux,code = <BTN_DPAD_LEFT>;
-> > > > +		};
-> > > > +
-> > > > +		button-right {
-> > > > +			gpios = <&gpio_expander 0 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-> > > > +			label = "DPAD-RIGHT";
-> > > > +			linux,code = <BTN_DPAD_RIGHT>;
-> > > > +		};
-> > > > +
-> > > > +		button-se {
-> > > > +			gpios = <&gpio_expander 7 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-> > > > +			label = "BTN-SELECT";
-> > > > +			linux,code = <BTN_SELECT>;
-> > > > +		};
-> > > > +
-> > > > +		button-st {
-> > > > +			gpios = <&gpio_expander 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-> > > > +			label = "BTN-START";
-> > > > +			linux,code = <BTN_START>;
-> > > > +		};
-> > > > +
-> > > > +		button-tl {
-> > > > +			gpios = <&gpio_expander 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-> > > > +			label = "BTN-L";
-> > > > +			linux,code = <BTN_TL>;
-> > > > +		};
-> > > > +
-> > > > +		button-tr {
-> > > > +			gpios = <&gpio_expander 15 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-> > > > +			label = "BTN-R";
-> > > > +			linux,code = <BTN_TR>;
-> > > > +		};
-> > > > +
-> > > > +		button-up {
-> > > > +			gpios = <&gpio_expander 3 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-> > > > +			label = "DPAD-UP";
-> > > > +			linux,code = <BTN_DPAD_UP>;
-> > > > +		};
-> > > > +
-> > > > +		button-x {
-> > > > +			gpios = <&gpio_expander 11 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-> > > > +			label = "BTN-X";
-> > > > +			linux,code = <BTN_NORTH>;
-> > > > +		};
-> > > > +
-> > > > +		button-y {
-> > > > +			gpios = <&gpio_expander 13 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-> > > > +			label = "BTN-Y";
-> > > > +			linux,code = <BTN_WEST>;
-> > > > +		};
-> > > > +	};
-> > > > +};
-> > > > +
-> > > > +&codec {
-> > > > +	allwinner,audio-routing = "Speaker", "HP",
-> > > > +				  "MIC1", "Mic",
-> > > > +				  "Mic", "HBIAS";
-> > > > +	allwinner,pa-gpios = <&pio 5 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; /* PF6 */
-> > > > +	status = "okay";
-> > > > +};
-> > > > +
-> > > > +&ehci {
-> > > > +	status = "okay";
-> > > > +};
-> > > > +
-> > > > +&i2c0 {
-> > > > +	status = "okay";
-> > > > +
-> > > > +	gpio_expander: gpio@20 {
-> > > > +		compatible = "nxp,pcal6416";
-> > > > +		reg = <0x20>;
-> > > > +		gpio-controller;
-> > > > +		#gpio-cells = <2>;
-> > > > +		#interrupt-cells = <2>;
-> > > > +		interrupt-controller;
-> > > > +		interrupt-parent = <&pio>;
-> > > > +		interrupts = <1 3 IRQ_TYPE_EDGE_BOTH>; /* PB3/EINT3 */
-> > > > +		vcc-supply = <&reg_vcc3v3>;
-> > > > +	};
-> > > > +
-> > > > +	axp209: pmic@34 {
-> > > > +		reg = <0x34>;
-> > > > +		interrupt-parent = <&pio>;
-> > > > +		interrupts = <1 5 IRQ_TYPE_EDGE_FALLING>; /* PB5/EINT5 */
-> > > > +	};
-> > > > +
-> > > > +	pcf8563: rtc@51 {
-> > > > +		compatible = "nxp,pcf8563";
-> > > > +		reg = <0x51>;
-> > > > +	};
-> > > > +};
-> > > > +
-> > > > +#include "axp209.dtsi"
-> > > > +
-> > > > +&battery_power_supply {
-> > > > +	status = "okay";
-> > > > +};
-> > > > +
-> > > > +&mmc0 {
-> > > > +	broken-cd;
-> > > > +	bus-width = <4>;
-> > > > +	disable-wp;
-> > > > +	vmmc-supply = <&reg_vcc3v3>;
-> > > > +	vqmmc-supply = <&reg_vcc3v3>;
-> > > > +	status = "okay";
-> > > > +};
-> > > > +
-> > > > +&ohci {
-> > > > +	status = "okay";
-> > > > +};
-> > > > +
-> > > > +&pio {
-> > > > +	vcc-pb-supply = <&reg_vcc3v3>;
-> > > > +	vcc-pc-supply = <&reg_vcc3v3>;
-> > > > +	vcc-pf-supply = <&reg_vcc3v3>;
-> > > > +	vcc-pg-supply = <&reg_vcc3v3>;
-> > > > +
-> > > > +	spi0_no_miso_pins: spi0-no-miso-pins {
-> > > > +		pins = "PC1", "PC2", "PC3";
-> > > > +		function = "spi0";
-> > > > +	};
-> > > > +};
-> > > > +
-> > > > +&pwm {
-> > > > +	pinctrl-0 = <&pwm0_pin>;
-> > > > +	pinctrl-names = "default";
-> > > > +	status = "okay";
-> > > > +};
-> > > > +
-> > > > +/* DCDC2 wired into vdd-cpu, vdd-sys, and vdd-ephy. */
-> > > > +&reg_dcdc2 {
-> > > > +	regulator-always-on;
-> > > > +	regulator-max-microvolt = <1250000>;
-> > > > +	regulator-min-microvolt = <1250000>;
-> > > > +	regulator-name = "vdd-cpu";
-> > > > +};
-> > > > +
-> > > > +/* DCDC3 wired into every 3.3v input that isn't the RTC. */
-> > > > +&reg_dcdc3 {
-> > > > +	regulator-always-on;
-> > > > +	regulator-max-microvolt = <3300000>;
-> > > > +	regulator-min-microvolt = <3300000>;
-> > > > +	regulator-name = "vcc-io";
-> > > > +};
-> > > > +
-> > > > +/*
-> > > > + * LDO1 wired into RTC, voltage is hard-wired at 3.3v and cannot be
-> > > > + * software modified. Note that setting voltage here to 3.3v for accuracy
-> > > > + * sake causes an issue with the driver that causes it to fail to probe
-> > > > + * because of a voltage constraint in the driver.
-> > > > + */
-> > > 
-> > > Can you please remove any mention of drivers everywhere? DT is OS and 
-> > > thus driver independent.
-> > > 
-> > > Once fixed:
-> > > Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > 
-> > This note was added due to prior comments because in this very specific
-> > case we're working around a driver issue. Sadly if I accurately
-> > describe the hardware the PMIC and devices that depend on it will fail
-> > to probe (the hardware is 3.3v, but here it's set as 1.3v).
-> > 
-> > https://lore.kernel.org/linux-sunxi/20230629203410.660eb9a4@slackpad.lan/
-> 
-> Sorry, I should follow conversation more closely. Procedure in such cases
-> is to fix driver first and then submit proper DT file. While DT files
-> reside in Linux source, they are often used by diferent projects, like
-> U-Boot or FreeBSD, so we can't make hacks just because Linux driver doesn't
-> work.
+On Wed, 2023-09-27 at 15:20 +0200, Niklas Schnelle wrote:
+> On Wed, 2023-09-27 at 13:24 +0200, Niklas Schnelle wrote:
+> > On Wed, 2023-09-27 at 11:55 +0200, Joerg Roedel wrote:
+> > > Hi Niklas,
+> > >=20
+> > > On Wed, Sep 27, 2023 at 10:55:23AM +0200, Niklas Schnelle wrote:
+> > > > The problem is that something seems to  be broken in the iommu/core
+> > > > branch. Regardless of whether I have my DMA API conversion on top o=
+r
+> > > > with the base iommu/core branch I can not use ConnectX-4 VFs.
+> > >=20
+> > > Have you already tried to bisect the issue in the iommu/core branch?
+> > > The result might sched some light on the issue.
+> > >=20
+> > > Regards,
+> > >=20
+> > > 	Joerg
+> >=20
+> > Hi Joerg,
+> >=20
+> > Working on it, somehow I must have messed up earlier. It now looks like
+> > it might in fact be caused by my DMA API conversion rebase and the
+> > "s390/pci: Use dma-iommu layer" commit. Maybe there is some interaction
+> > with Jason's patches that I haven't thought about. So sorry for any
+> > wrong blame.
+> >=20
+> > Thanks,
+> > Niklas
+>=20
+> Hi,
+>=20
+> I tracked the problem=C2=A0down from mlx5_core's alloc_cmd_page() via
+> dma_alloc_coherent(), ops->alloc, iommu_dma_alloc_remap(), and
+> __iommu_dma_alloc_noncontiguous() to a failed iommu_dma_alloc_iova().
+> The allocation here is for 4K so nothing crazy.
+>=20
+> On second look I also noticed:
+>=20
+> nvme 2007:00:00.0: Using 42-bit DMA addresses
+>=20
+> for the NVMe that is working. The problem here seems to be that we set
+> iommu_dma_forcedac =3D true in s390_iommu_probe_finalize() because we
+> have currently have a reserved region over the first 4 GiB anyway so
+> will always use IOVAs larger than that. That however is too late since
+> iommu_dma_set_pci_32bit_workaround() is already checked in
+> __iommu_probe_device() which is called just before ops-
+> > probe_finalize(). So I moved setting iommu_dma_forcedac =3D true to
+> zpci_init_iommu() and that gets rid of the notice for the NVMe but I
+> still get a failure of iommu_dma_alloc_iova() in
+> __iommu_dma_alloc_noncontiguous(). So I'll keep digging.
+>=20
+> Thanks,
+> Niklas
 
-I'll drop all but the note that "LDO1 is wired into RTC and voltage is
-hard wired at 3.3v". That accurately describes the hardware, so will
-that work?
 
-> 
-> > 
-> > Thank you,
-> > Chris
-> > 
-> > > 
-> > > Best regards,
-> > > Jernej
-> > > 
-> > > > +&reg_ldo1 {
-> > > > +	regulator-always-on;
-> > > > +	regulator-name = "vcc-rtc";
-> > > > +};
-> > > > +
-> > > > +/* LDO2 wired into VCC-PLL and audio codec. */
-> > > > +&reg_ldo2 {
-> > > > +	regulator-always-on;
-> > > > +	regulator-max-microvolt = <3000000>;
-> > > > +	regulator-min-microvolt = <3000000>;
-> > > > +	regulator-name = "vcc-pll";
-> > > > +};
-> > > > +
-> > > > +/* LDO3, LDO4, and LDO5 unused. */
-> > > > +&reg_ldo3 {
-> > > > +	status = "disabled";
-> > > > +};
-> > > > +
-> > > > +&reg_ldo4 {
-> > > > +	status = "disabled";
-> > > > +};
-> > > > +
-> > > > +/*
-> > > > + * Force the driver to use internal oscillator by removing clocks
-> > > > + * property.
-> > > > + */
-> 
-> This should be reworded to avoid mentioning driver. Like: "RTC uses
-> internal oscillator".
-> 
-> Best regards,
-> Jernej
-> 
+Ok I think I got it and this doesn't seem strictly s390x specific but
+I'd think should happen with iommu.forcedac=3D1 everywhere.
 
-You got it.
+The reason iommu_dma_alloc_iova() fails seems to be that mlx5_core does
+dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64)) in=C2=A0
+mlx5_pci_init()->set_dma_caps() which happens after it already called
+mlx5_mdev_init()->mlx5_cmd_init()->alloc_cmd_page() so for the
+dma_alloc_coherent() in there the dev->coherent_dma_mask is still
+DMA_BIT_MASK(32) for which we can't find an IOVA because well we don't
+have IOVAs below 4 GiB. Not entirely sure what caused this not to be
+enforced before.
 
-> > > > +&rtc {
-> > > > +	/delete-property/ clocks;
-> > > > +};
-> > > > +
-> > > > +&spi0 {
-> > > > +	pinctrl-0 = <&spi0_no_miso_pins>;
-> > > > +	pinctrl-names = "default";
-> > > > +	status = "okay";
-> > > > +
-> > > > +	display@0 {
-> > > > +		compatible = "saef,sftc154b", "panel-mipi-dbi-spi";
-> > > > +		reg = <0>;
-> > > > +		backlight = <&backlight>;
-> > > > +		dc-gpios = <&pio 2 0 GPIO_ACTIVE_HIGH>; /* PC0 */
-> > > > +		reset-gpios = <&pio 1 2 GPIO_ACTIVE_HIGH>; /* PB2 */
-> > > > +		spi-max-frequency = <100000000>;
-> > > > +
-> > > > +		height-mm = <39>;
-> > > > +		width-mm = <39>;
-> > > > +
-> > > > +		/* Set hb-porch to compensate for non-visible area */
-> > > > +		panel-timing {
-> > > > +			hactive = <240>;
-> > > > +			vactive = <240>;
-> > > > +			hback-porch = <80>;
-> > > > +			vback-porch = <0>;
-> > > > +			clock-frequency = <0>;
-> > > > +			hfront-porch = <0>;
-> > > > +			hsync-len = <0>;
-> > > > +			vfront-porch = <0>;
-> > > > +			vsync-len = <0>;
-> > > > +		};
-> > > > +	};
-> > > > +};
-> > > > +
-> > > > +&uart0 {
-> > > > +	pinctrl-0 = <&uart0_pb_pins>;
-> > > > +	pinctrl-names = "default";
-> > > > +	status = "okay";
-> > > > +};
-> > > > +
-> > > > +&usb_otg {
-> > > > +	dr_mode = "otg";
-> > > > +	status = "okay";
-> > > > +};
-> > > > +
-> > > > +&usb_power_supply {
-> > > > +	status = "okay";
-> > > > +};
-> > > > +
-> > > > +&usbphy {
-> > > > +	usb0_id_det-gpios = <&pio 6 5 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PG5 */
-> > > > +	status = "okay";
-> > > > +};
-> > > > 
-> > > 
-> > > 
-> > > 
-> > > 
-> > 
-> 
-> 
-> 
-> 
-
-Thank you,
-Chris
+Thanks,
+Niklas
