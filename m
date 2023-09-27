@@ -1,89 +1,63 @@
-Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3294B26E33;
-	Wed, 27 Sep 2023 09:55:30 +0000 (UTC)
-Received: from 8bytes.org (pd9fe9df8.dip0.t-ipconnect.de [217.254.157.248])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id 4F8C51A2317;
-	Wed, 27 Sep 2023 11:55:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-	s=default; t=1695808524;
-	bh=BDI7NuvcdVt/emhHi62PabcawiLywtBEcxLt+G847YM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bJ/0NZxxI8l619eMViTN7wFColaAK2C1MPyqL9FW/o8oWbcGgurcTymg7qYfnv2Za
-	 8eFN6JofYvpBcVna5x6SdpHz5PZL8hmEwxDQgaep3/HiQgeUWy4U5YHirYA1sszR8J
-	 e7ewyfn2eCMIYpUr+BrGwz67R3IjLc410DYmaJiPyv+1Fc53ag6teNCgufMzfRTaYd
-	 X+RQSNMGK+8w3hxgWaYEpnjqVeyU+g+qhDc5yTY7Quvw9wkOxUIXHcLEN3aJmQIMvW
-	 2RoCQvwl2aQDtZF06zge3qV3VdPsrkOYdzHaaS7L2KgRXAKDke4iUYkX7n/e0UMIYo
-	 xLYhyuiRZPN8g==
-Date: Wed, 27 Sep 2023 11:55:22 +0200
-From: Joerg Roedel <joro@8bytes.org>
-To: Niklas Schnelle <schnelle@linux.ibm.com>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, Matthew Rosato <mjrosato@linux.ibm.com>,
-	Will Deacon <will@kernel.org>, Wenjia Zhang <wenjia@linux.ibm.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Gerd Bayer <gbayer@linux.ibm.com>,
-	Julian Ruess <julianr@linux.ibm.com>,
-	Pierre Morel <pmorel@linux.ibm.com>,
-	Alexandra Winter <wintera@linux.ibm.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>, Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Yong Wu <yong.wu@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Krishna Reddy <vdumpa@nvidia.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	iommu@lists.linux.dev, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v12 0/6] iommu/dma: s390 DMA API conversion and optimized
- IOTLB flushing
-Message-ID: <ZRP8CiBui7suB5D6@8bytes.org>
-References: <20230825-dma_iommu-v12-0-4134455994a7@linux.ibm.com>
- <ZRLy_AaJiXxZ2AfK@8bytes.org>
- <20230926160832.GM13795@ziepe.ca>
- <cfc9e9128ed5571d2e36421e347301057662a09e.camel@linux.ibm.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5513133F1
+	for <linux-sunxi@lists.linux.dev>; Wed, 27 Sep 2023 10:00:44 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 815C61FB;
+	Wed, 27 Sep 2023 03:01:21 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EB11B3F59C;
+	Wed, 27 Sep 2023 03:00:41 -0700 (PDT)
+Date: Wed, 27 Sep 2023 11:00:32 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Okhunjon Sobirjonov <okhunjon72@gmail.com>
+Cc: bigunclemax@gmail.com, cfsworks@gmail.com, jagan@amarulasolutions.com,
+ jernej.skrabec@gmail.com, linux-sunxi@lists.linux.dev, samuel@sholland.org,
+ u-boot@lists.denx.de, uwu@icenowy.me, Okhunjon Sobirjonov
+ <Okhunjon.Sobirjonov@Mec-electronics.com>
+Subject: Re: sunxi: introduce NCAT2 generation model
+Message-ID: <20230927110032.5b9a69e1@donnerap.manchester.arm.com>
+In-Reply-To: <20230927094252.61765-1-okhunjon72@gmail.com>
+References: <20230721134606.4505-9-andre.przywara@arm.com>
+	<20230927094252.61765-1-okhunjon72@gmail.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cfc9e9128ed5571d2e36421e347301057662a09e.camel@linux.ibm.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Niklas,
+On Wed, 27 Sep 2023 12:42:52 +0300
+Okhunjon Sobirjonov <okhunjon72@gmail.com> wrote:
 
-On Wed, Sep 27, 2023 at 10:55:23AM +0200, Niklas Schnelle wrote:
-> The problem is that something seems to  be broken in the iommu/core
-> branch. Regardless of whether I have my DMA API conversion on top or
-> with the base iommu/core branch I can not use ConnectX-4 VFs.
+Hi,
 
-Have you already tried to bisect the issue in the iommu/core branch?
-The result might sched some light on the issue.
+> When NCAT2 generation model's introduced for t113,
+> the modification in drivers/mmc/sunxi_mmc.c
+> > + IS_ENABLED(CONFIG_SUNXI_GEN_NCAT2)) && (sdc_no == 2))  
+> in struct mmc *sunxi_mmc_init(int sdc_no) seems to have
+> some negative side effects, meaning enabling 8-bit mode for MMC2.
 
-Regards,
+"Some negative side effects" sounds cute, but it actually breaks it ;-)
 
-	Joerg
+> Paticularly,  IS_ENABLED(CONFIG_SUNXI_GEN_NCAT2)
+> should not be used for D1/T113 
+> since there is not support for 8-bit mode for MMC2 yet.
+> Therefore, the solution would be to drop this particular
+> change entirely.
+
+So yeah, that line is just plain wrong, it seems like all the NCAT SoCs we
+have seen (D1/T113/R329) do no support 8-bit eMMC.
+
+So thanks for the heads up, I will remove that line from v2.
+
+> Signed-off-by: Okhunjon Sobirjonov <Okhunjon.Sobirjonov@Mec-electronics.com> 
+
+S-o-b:'s are only needed for actual patch submissions, not for comments on
+the list.
+
+Cheers,
+Andre
