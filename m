@@ -1,132 +1,77 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A800FEAEF;
-	Wed, 27 Sep 2023 09:26:27 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 01C3F1FB;
-	Wed, 27 Sep 2023 02:27:05 -0700 (PDT)
-Received: from [10.57.0.175] (unknown [10.57.0.175])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DE5E73F59C;
-	Wed, 27 Sep 2023 02:26:19 -0700 (PDT)
-Message-ID: <068aeebd-df24-5097-96e3-ebaaa7a763fd@arm.com>
-Date: Wed, 27 Sep 2023 10:26:14 +0100
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F93F1D69B
+	for <linux-sunxi@lists.linux.dev>; Wed, 27 Sep 2023 09:42:59 +0000 (UTC)
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2c1854bebf5so9845031fa.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 27 Sep 2023 02:42:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1695807777; x=1696412577; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fRpBAVPx7Mp9giQ9yk+YOFRSp8j4plIwxLPeBKKHrT0=;
+        b=XdSEbk/EiOxqY/eS7wgl2aLOy/XGM3mceSJ3akD3YiF/BpuF/sh1eGnT1IWKXWlLYT
+         g9ibYrLRGt5XNzEoQHME2tcQ2CNsPjvtyM93ZkduGr6HmrmNeLzS4jbVd1GnHdTHZRbG
+         BuzU2iaNgOUwI1tWNuU79ca96Lzoq9nPnb36mdwA+Oyht0s07+adMxPxn3wQCi2a75zz
+         mPIgcNpCIlqYPVnDhpHtdbA9Y//+DW3hLy/lQw7hlg8YAihmKDqBiDoEDeopa/EduHvl
+         JQpxFzZdj/h5sUNQQ+dGObDnNWse3n1rrDSd21eAEpgpt2dy3LYU5DYrYp39wFNFoZ8s
+         MB7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695807777; x=1696412577;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fRpBAVPx7Mp9giQ9yk+YOFRSp8j4plIwxLPeBKKHrT0=;
+        b=MwG8s0KCv+BZ9hZOrzR9dnF+RMwQq5OFtRADbISNKXavSMKCtmVI2J85kn+5NP59jX
+         NQ5fuFq9lhKNeaWko1gtEVGIJR/3iUsORnXddozxtLeBtrZUm7HHC/v7SRVKAhmT7JR8
+         SDN12IWf9uhW0R4kWq9AhOgtrEiSmA8+jHOoUSX4LB2Bf8w3Epyw7TYKyJrIsEkSykiv
+         r5NUJxxwMC1CJDc9O3LGTLiILq5hC8Wznw1ai3tvSMNr80dsrb/fyCqvv5q+sQ4VkDva
+         ZQ6wCh40G6gQh8w9CLcVyoLnQb+kOzidy9Q97wSvf5T8m8rrYNcnek22ZwtzUS1hd6Ai
+         qccQ==
+X-Gm-Message-State: AOJu0YxF6pdiXASbOX4ela4hg5dxv/DC0e1syI1r8UqtQakU6lDrq7Cl
+	Tpllixk+DypeoNYORXwpbVM=
+X-Google-Smtp-Source: AGHT+IEgr9ZrYR/8ZTlJcBC7u1IjWbhaIrfLEcObqVd1wG4lgdemJ1NL0FSL1kmEaSGPygpgmAk73w==
+X-Received: by 2002:a19:4319:0:b0:502:fdca:2eab with SMTP id q25-20020a194319000000b00502fdca2eabmr1064851lfa.37.1695807777209;
+        Wed, 27 Sep 2023 02:42:57 -0700 (PDT)
+Received: from okhunjon.localdomain ([94.158.55.47])
+        by smtp.gmail.com with ESMTPSA id i37-20020a0565123e2500b005044391b610sm1853823lfv.289.2023.09.27.02.42.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Sep 2023 02:42:56 -0700 (PDT)
+From: Okhunjon Sobirjonov <okhunjon72@gmail.com>
+To: andre.przywara@arm.com
+Cc: bigunclemax@gmail.com,
+	cfsworks@gmail.com,
+	jagan@amarulasolutions.com,
+	jernej.skrabec@gmail.com,
+	linux-sunxi@lists.linux.dev,
+	samuel@sholland.org,
+	u-boot@lists.denx.de,
+	uwu@icenowy.me,
+	Okhunjon Sobirjonov <Okhunjon.Sobirjonov@Mec-electronics.com>
+Subject: sunxi: introduce NCAT2 generation model
+Date: Wed, 27 Sep 2023 12:42:52 +0300
+Message-Id: <20230927094252.61765-1-okhunjon72@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230721134606.4505-9-andre.przywara@arm.com>
+References: <20230721134606.4505-9-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v12 0/6] iommu/dma: s390 DMA API conversion and optimized
- IOTLB flushing
-Content-Language: en-GB
-To: Niklas Schnelle <schnelle@linux.ibm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Joerg Roedel <joro@8bytes.org>
-Cc: Matthew Rosato <mjrosato@linux.ibm.com>, Will Deacon <will@kernel.org>,
- Wenjia Zhang <wenjia@linux.ibm.com>, Gerd Bayer <gbayer@linux.ibm.com>,
- Julian Ruess <julianr@linux.ibm.com>, Pierre Morel <pmorel@linux.ibm.com>,
- Alexandra Winter <wintera@linux.ibm.com>, Heiko Carstens
- <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- David Woodhouse <dwmw2@infradead.org>, Lu Baolu <baolu.lu@linux.intel.com>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Yong Wu <yong.wu@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
- Orson Zhai <orsonzhai@gmail.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Thierry Reding <thierry.reding@gmail.com>, Krishna Reddy
- <vdumpa@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20230825-dma_iommu-v12-0-4134455994a7@linux.ibm.com>
- <ZRLy_AaJiXxZ2AfK@8bytes.org> <20230926160832.GM13795@ziepe.ca>
- <cfc9e9128ed5571d2e36421e347301057662a09e.camel@linux.ibm.com>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <cfc9e9128ed5571d2e36421e347301057662a09e.camel@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 2023-09-27 09:55, Niklas Schnelle wrote:
-> On Tue, 2023-09-26 at 13:08 -0300, Jason Gunthorpe wrote:
->> On Tue, Sep 26, 2023 at 05:04:28PM +0200, Joerg Roedel wrote:
->>> Hi Niklas,
->>>
->>> On Fri, Aug 25, 2023 at 12:11:15PM +0200, Niklas Schnelle wrote:
->>>> Niklas Schnelle (6):
->>>>        iommu: Allow .iotlb_sync_map to fail and handle s390's -ENOMEM return
->>>>        s390/pci: prepare is_passed_through() for dma-iommu
->>>>        s390/pci: Use dma-iommu layer
->>>>        iommu/s390: Disable deferred flush for ISM devices
->>>>        iommu/dma: Allow a single FQ in addition to per-CPU FQs
->>>>        iommu/dma: Use a large flush queue and timeout for shadow_on_flush
->>>
->>> Turned out this series has non-trivial conflicts with Jasons
->>> default-domain work so I had to remove it from the IOMMU tree for now.
->>> Can you please rebase it to the latest iommu/core branch and re-send? I
->>> will take it into the tree again then.
->>
->> Niklas, I think you just 'take yours' to resolve this. All the
->> IOMMU_DOMAIN_PLATFORM related and .default_domain = parts should be
->> removed. Let me know if you need anything
->>
->> Thanks,
->> Jason
-> 
-> Hi Joerg, Hi Jason,
-> 
-> I've run into an unfortunate problem, not with the rebase itself but
-> with the iommu/core branch.
-> 
-> Jason is right, I basically need to just remove the platform ops and
-> .default_domain ops. This seems to work fine for an NVMe both in the
-> host and also when using the IOMMU with vfio-pci + KVM. I've already
-> pushed the result of that to my git.kernel.org:
-> https://git.kernel.org/pub/scm/linux/kernel/git/niks/linux.git/log/?h=b4/dma_iommu
-> 
-> The problem is that something seems to  be broken in the iommu/core
-> branch. Regardless of whether I have my DMA API conversion on top or
-> with the base iommu/core branch I can not use ConnectX-4 VFs.
-> 
-> # lspci
-> 111a:00:00.0 Ethernet controller: Mellanox Technologies MT27710 Family [ConnectX-4 Lx Virtual Function]
-> # dmesg | grep mlx
-> [    3.189749] mlx5_core 111a:00:00.0: mlx5_mdev_init:1802:(pid 464): Failed initializing cmdif SW structs, aborting
-> [    3.189783] mlx5_core: probe of 111a:00:00.0 failed with error -12
-> 
-> This same card works on v6.6-rc3 both with and without my DMA API
-> conversion patch series applied. Looking at mlx5_mdev_init() ->
-> mlx5_cmd_init(). The -ENOMEM seems to come from the following
-> dma_pool_create():
-> 
-> cmd->pool = dma_pool_create("mlx5_cmd", mlx5_core_dma_dev(dev), size, align, 0);
-> 
-> I'll try to debug this further but wanted to let you know already in
-> case you have some ideas.
+When NCAT2 generation model's introduced for t113,
+the modification in drivers/mmc/sunxi_mmc.c
+> + IS_ENABLED(CONFIG_SUNXI_GEN_NCAT2)) && (sdc_no == 2))
+in struct mmc *sunxi_mmc_init(int sdc_no) seems to have
+some negative side effects, meaning enabling 8-bit mode for MMC2.
+Paticularly,  IS_ENABLED(CONFIG_SUNXI_GEN_NCAT2)
+should not be used for D1/T113 
+since there is not support for 8-bit mode for MMC2 yet.
+Therefore, the solution would be to drop this particular
+change entirely.
 
-I could imagine that potentially something in the initial default domain 
-conversion somehow interferes with the DMA ops in a way that ends up 
-causing alloc_cmd_page() to fail (maybe calling zpci_dma_init_device() 
-at the wrong point, or too many times?). FWIW I see nothing that would 
-obviously affect dma_pool_create() itself.
-
-Robin.
-
-> Either way as it doesn't seem to be related
-> to the DMA API conversion I can sent that out again regardless if you
-> want, really don't want to miss another cycle.
-> 
-> Thanks,
-> Niklas
+Signed-off-by: Okhunjon Sobirjonov <Okhunjon.Sobirjonov@Mec-electronics.com> 
