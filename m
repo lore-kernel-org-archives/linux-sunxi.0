@@ -1,77 +1,89 @@
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3294B26E33;
+	Wed, 27 Sep 2023 09:55:30 +0000 (UTC)
+Received: from 8bytes.org (pd9fe9df8.dip0.t-ipconnect.de [217.254.157.248])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F93F1D69B
-	for <linux-sunxi@lists.linux.dev>; Wed, 27 Sep 2023 09:42:59 +0000 (UTC)
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2c1854bebf5so9845031fa.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 27 Sep 2023 02:42:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695807777; x=1696412577; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fRpBAVPx7Mp9giQ9yk+YOFRSp8j4plIwxLPeBKKHrT0=;
-        b=XdSEbk/EiOxqY/eS7wgl2aLOy/XGM3mceSJ3akD3YiF/BpuF/sh1eGnT1IWKXWlLYT
-         g9ibYrLRGt5XNzEoQHME2tcQ2CNsPjvtyM93ZkduGr6HmrmNeLzS4jbVd1GnHdTHZRbG
-         BuzU2iaNgOUwI1tWNuU79ca96Lzoq9nPnb36mdwA+Oyht0s07+adMxPxn3wQCi2a75zz
-         mPIgcNpCIlqYPVnDhpHtdbA9Y//+DW3hLy/lQw7hlg8YAihmKDqBiDoEDeopa/EduHvl
-         JQpxFzZdj/h5sUNQQ+dGObDnNWse3n1rrDSd21eAEpgpt2dy3LYU5DYrYp39wFNFoZ8s
-         MB7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695807777; x=1696412577;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fRpBAVPx7Mp9giQ9yk+YOFRSp8j4plIwxLPeBKKHrT0=;
-        b=MwG8s0KCv+BZ9hZOrzR9dnF+RMwQq5OFtRADbISNKXavSMKCtmVI2J85kn+5NP59jX
-         NQ5fuFq9lhKNeaWko1gtEVGIJR/3iUsORnXddozxtLeBtrZUm7HHC/v7SRVKAhmT7JR8
-         SDN12IWf9uhW0R4kWq9AhOgtrEiSmA8+jHOoUSX4LB2Bf8w3Epyw7TYKyJrIsEkSykiv
-         r5NUJxxwMC1CJDc9O3LGTLiILq5hC8Wznw1ai3tvSMNr80dsrb/fyCqvv5q+sQ4VkDva
-         ZQ6wCh40G6gQh8w9CLcVyoLnQb+kOzidy9Q97wSvf5T8m8rrYNcnek22ZwtzUS1hd6Ai
-         qccQ==
-X-Gm-Message-State: AOJu0YxF6pdiXASbOX4ela4hg5dxv/DC0e1syI1r8UqtQakU6lDrq7Cl
-	Tpllixk+DypeoNYORXwpbVM=
-X-Google-Smtp-Source: AGHT+IEgr9ZrYR/8ZTlJcBC7u1IjWbhaIrfLEcObqVd1wG4lgdemJ1NL0FSL1kmEaSGPygpgmAk73w==
-X-Received: by 2002:a19:4319:0:b0:502:fdca:2eab with SMTP id q25-20020a194319000000b00502fdca2eabmr1064851lfa.37.1695807777209;
-        Wed, 27 Sep 2023 02:42:57 -0700 (PDT)
-Received: from okhunjon.localdomain ([94.158.55.47])
-        by smtp.gmail.com with ESMTPSA id i37-20020a0565123e2500b005044391b610sm1853823lfv.289.2023.09.27.02.42.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Sep 2023 02:42:56 -0700 (PDT)
-From: Okhunjon Sobirjonov <okhunjon72@gmail.com>
-To: andre.przywara@arm.com
-Cc: bigunclemax@gmail.com,
-	cfsworks@gmail.com,
-	jagan@amarulasolutions.com,
-	jernej.skrabec@gmail.com,
-	linux-sunxi@lists.linux.dev,
-	samuel@sholland.org,
-	u-boot@lists.denx.de,
-	uwu@icenowy.me,
-	Okhunjon Sobirjonov <Okhunjon.Sobirjonov@Mec-electronics.com>
-Subject: sunxi: introduce NCAT2 generation model
-Date: Wed, 27 Sep 2023 12:42:52 +0300
-Message-Id: <20230927094252.61765-1-okhunjon72@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230721134606.4505-9-andre.przywara@arm.com>
-References: <20230721134606.4505-9-andre.przywara@arm.com>
+	by mail.8bytes.org (Postfix) with ESMTPSA id 4F8C51A2317;
+	Wed, 27 Sep 2023 11:55:23 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
+	s=default; t=1695808524;
+	bh=BDI7NuvcdVt/emhHi62PabcawiLywtBEcxLt+G847YM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bJ/0NZxxI8l619eMViTN7wFColaAK2C1MPyqL9FW/o8oWbcGgurcTymg7qYfnv2Za
+	 8eFN6JofYvpBcVna5x6SdpHz5PZL8hmEwxDQgaep3/HiQgeUWy4U5YHirYA1sszR8J
+	 e7ewyfn2eCMIYpUr+BrGwz67R3IjLc410DYmaJiPyv+1Fc53ag6teNCgufMzfRTaYd
+	 X+RQSNMGK+8w3hxgWaYEpnjqVeyU+g+qhDc5yTY7Quvw9wkOxUIXHcLEN3aJmQIMvW
+	 2RoCQvwl2aQDtZF06zge3qV3VdPsrkOYdzHaaS7L2KgRXAKDke4iUYkX7n/e0UMIYo
+	 xLYhyuiRZPN8g==
+Date: Wed, 27 Sep 2023 11:55:22 +0200
+From: Joerg Roedel <joro@8bytes.org>
+To: Niklas Schnelle <schnelle@linux.ibm.com>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, Matthew Rosato <mjrosato@linux.ibm.com>,
+	Will Deacon <will@kernel.org>, Wenjia Zhang <wenjia@linux.ibm.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Gerd Bayer <gbayer@linux.ibm.com>,
+	Julian Ruess <julianr@linux.ibm.com>,
+	Pierre Morel <pmorel@linux.ibm.com>,
+	Alexandra Winter <wintera@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>, Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Yong Wu <yong.wu@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Krishna Reddy <vdumpa@nvidia.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	iommu@lists.linux.dev, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v12 0/6] iommu/dma: s390 DMA API conversion and optimized
+ IOTLB flushing
+Message-ID: <ZRP8CiBui7suB5D6@8bytes.org>
+References: <20230825-dma_iommu-v12-0-4134455994a7@linux.ibm.com>
+ <ZRLy_AaJiXxZ2AfK@8bytes.org>
+ <20230926160832.GM13795@ziepe.ca>
+ <cfc9e9128ed5571d2e36421e347301057662a09e.camel@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cfc9e9128ed5571d2e36421e347301057662a09e.camel@linux.ibm.com>
 
-When NCAT2 generation model's introduced for t113,
-the modification in drivers/mmc/sunxi_mmc.c
-> + IS_ENABLED(CONFIG_SUNXI_GEN_NCAT2)) && (sdc_no == 2))
-in struct mmc *sunxi_mmc_init(int sdc_no) seems to have
-some negative side effects, meaning enabling 8-bit mode for MMC2.
-Paticularly,  IS_ENABLED(CONFIG_SUNXI_GEN_NCAT2)
-should not be used for D1/T113 
-since there is not support for 8-bit mode for MMC2 yet.
-Therefore, the solution would be to drop this particular
-change entirely.
+Hi Niklas,
 
-Signed-off-by: Okhunjon Sobirjonov <Okhunjon.Sobirjonov@Mec-electronics.com> 
+On Wed, Sep 27, 2023 at 10:55:23AM +0200, Niklas Schnelle wrote:
+> The problem is that something seems to  be broken in the iommu/core
+> branch. Regardless of whether I have my DMA API conversion on top or
+> with the base iommu/core branch I can not use ConnectX-4 VFs.
+
+Have you already tried to bisect the issue in the iommu/core branch?
+The result might sched some light on the issue.
+
+Regards,
+
+	Joerg
