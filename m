@@ -1,134 +1,67 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADE7530FAE;
-	Thu, 28 Sep 2023 07:49:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87A57C433C8;
-	Thu, 28 Sep 2023 07:49:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F9FE3AC3D;
+	Thu, 28 Sep 2023 13:46:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39D4DC433C8;
+	Thu, 28 Sep 2023 13:46:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1695887357;
-	bh=Gs6aFP7wkoeloUPjh3P+7ZqWXKrUV+lmRvPOXvjf8Ds=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=C07hz1x9ZBOot13NmBg/w+8/7UOMHZqam5kdmBhRs0FIMx+p817yeI0/AwYqADdFf
-	 LyROsByfc7udfgvzO+iVFxt40scEHqiTsEuBV2anPvz2pvOqA5rNaglngGFVYkDqNi
-	 8llzR1bKPikKnXdUU/UiExt0M1sNhonfI2Tg9VWZ4Ep2jjWHYlWMlubIYLpGAoPemh
-	 /llBuONh0YVRMZh24Aia4Qvo0KfHmtLVm+XDoqoKF4CTK02whHvixcoVQ+egWgMk7x
-	 FTO4SCB3n9ecoNHU2OdnjDnT9Gq59BrqP6Jgw3zOEG+2pLxraJj4zpxQ8BtWBKRvcG
-	 KuqZYg3uAID5g==
-Date: Thu, 28 Sep 2023 13:19:13 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Olivier Dautricourt <olivierdautricourt@gmail.com>,
-	Stefan Roese <sr@denx.de>, dmaengine@vger.kernel.org,
-	kernel@pengutronix.de, Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	Ludovic Desroches <ludovic.desroches@microchip.com>,
-	Tudor Ambarus <tudor.ambarus@linaro.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	linux-rpi-kernel@lists.infradead.org, Rob Herring <robh@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Paul Cercueil <paul@crapouillou.net>, linux-mips@vger.kernel.org,
-	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
-	Viresh Kumar <vireshk@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Li Yang <leoyang.li@nxp.com>, Zhang Wei <zw@zh-kernel.org>,
-	linuxppc-dev@lists.ozlabs.org, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Sean Wang <sean.wang@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-mediatek@lists.infradead.org,
-	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	linux-actions@lists.infradead.org,
-	ye xingchen <ye.xingchen@zte.com.cn>,
-	Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	linux-arm-msm@vger.kernel.org, Sinan Kaya <okaya@kernel.org>,
-	Green Wan <green.wan@sifive.com>, Kees Cook <keescook@chromium.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Pavel Machek <pavel@denx.de>,
-	Hien Huynh <hien.huynh.px@renesas.com>,
-	Yangtao Li <frank.li@vivo.com>,
-	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Patrice Chotard <patrice.chotard@foss.st.com>,
-	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
-	linux-sunxi@lists.linux.dev, Laxman Dewangan <ldewangan@nvidia.com>,
-	Jon Hunter <jonathanh@nvidia.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	linux-tegra@vger.kernel.org, Lizhi Hou <lizhi.hou@amd.com>,
-	Brian Xu <brian.xu@amd.com>,
-	Raj Kumar Rampelli <raj.kumar.rampelli@amd.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
-	Peter Korsgaard <peter@korsgaard.com>,
-	Liu Shixin <liushixin2@huawei.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Harini Katakam <harini.katakam@amd.com>,
-	Swati Agarwal <swati.agarwal@amd.com>
-Subject: Re: [PATCH 00/59] dma: Convert to platform remove callback returning
- void
-Message-ID: <ZRUv+WgkovPotwIr@matsya>
-References: <20230919133207.1400430-1-u.kleine-koenig@pengutronix.de>
+	s=k20201202; t=1695908816;
+	bh=2YzCsfGuDcZbmNxF5WFR5C/acVLmd3czOOew5lOaKXI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=F3fTfiijmvTNwSJoN0cRtKn6x3aVUf9jkb6SkGiaxnd36Hwziyc2mewjk1CSWjl98
+	 2xqfk8hbRCfGyfHgLOwXXZCu0/faKZW7oBk4Yf0uCghd02mW03BH5W0FNjbySPwUc3
+	 Kl7IIKb7fH2JYzk8kYT/8YJYs/IiUBjzd2Zzood7dy8pG5yP+N6X85wzFDOWVlbdHp
+	 QppAHqUrxLSj+PV0/rMJWugnBwrKrzT8eDxTME4RoILzWQPHkylmlHid8gHdYztMkq
+	 PQJZzADxr1H3jlLem28O3sv93EveD3UFk2xsMGVPsXu4hT8Xg9s03TWDMr9ue+XtDp
+	 1lsZOYM9oC7lw==
+From: Lee Jones <lee@kernel.org>
+To: Lee Jones <lee@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Andre Przywara <andre.przywara@arm.com>
+Cc: Icenowy Zheng <uwu@icenowy.me>, Mark Brown <broonie@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Shengyu Qu <wiagn233@outlook.com>, 
+ Martin Botka <martin.botka1@gmail.com>, 
+ Matthew Croughan <matthew.croughan@nix.how>, linux-sunxi@lists.linux.dev, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20230919103913.463156-2-andre.przywara@arm.com>
+References: <20230919103913.463156-1-andre.przywara@arm.com>
+ <20230919103913.463156-2-andre.przywara@arm.com>
+Subject: Re: (subset) [PATCH v3 1/2] dt-bindings: mfd: x-powers,axp152:
+ make interrupt optional for more chips
+Message-Id: <169590881296.1610191.10475308941086886340.b4-ty@kernel.org>
+Date: Thu, 28 Sep 2023 14:46:52 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230919133207.1400430-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: b4 0.12.2
 
-On 19-09-23, 15:31, Uwe Kleine-K�nig wrote:
-> Hello,
+On Tue, 19 Sep 2023 11:39:12 +0100, Andre Przywara wrote:
+> All X-Powers PMICs described by this binding have an IRQ pin, and so
+> far (almost) all boards connected this to some NMI pin or GPIO on the SoC
+> they are connected to.
+> However we start to see boards that omit this connection, and technically
+> the IRQ pin is not essential to the basic PMIC operation.
 > 
-> this series convert nearly all platform drivers below drivers/dma to use
-> .remove_new(). The motivation is to get rid of an integer return code
-> that is (mostly) ignored by the platform driver core and error prone on
-> the driver side.
+> The existing Linux driver allows skipping the IRQ pin setup for two chips
+> already, so update the binding to also make the DT property optional for
+> the missing chip. And while we are at it, add the AXP313a to that list,
+> as they are actually boards out there not connecting the IRQ pin.
+> 
+> [...]
 
-I have applied this, with change of subsystem to dmaengine: xxx
-> 
-> See commit 5c5a7680e67b ("platform: Provide a remove callback that
-> returns no value") for an extended explanation and the eventual goal.
-> 
-> There are 4 drivers I didn't convert in this series:
-> 
-> 	drivers/dma/milbeaut-hdmac.c
-> 	drivers/dma/milbeaut-xdmac.c
-> 	drivers/dma/uniphier-mdmac.c
-> 	drivers/dma/uniphier-xdmac.c
-> 
-> These all might return early in .remove() if dmaengine_terminate_sync()
-> fails. I only looked deeper into the first one, and this shows exactly
-> the error that is easy to make with .remove() returning an int: When
-> returning early from .remove(), some cleanup (here:
-> dma_async_device_unregister()) is skipped. So the dma device stays
-> known, but the device is still unregistered and the devm allocated stuff
-> (here e.g. *mdev) is freed. So it can probably easily happen, that
-> something tries to use the dma device and this will likely result in an
-> oops.
+Applied, thanks!
 
-We should convert these too, thanks for your work for the conversion
+[1/2] dt-bindings: mfd: x-powers,axp152: make interrupt optional for more chips
+      commit: cf71329eb3a37f90c8ddec0651dc7b3fa76036c1
 
--- 
-~Vinod
+--
+Lee Jones [李琼斯]
+
