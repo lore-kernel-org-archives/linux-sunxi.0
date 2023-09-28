@@ -1,91 +1,169 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB2653C6AC
-	for <linux-sunxi@lists.linux.dev>; Thu, 28 Sep 2023 16:59:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1695920340; x=1696525140; i=julian.ribbeck@gmx.de;
- bh=pgzYVMK04U11CH6h9Yble3k0HzNklkv+LW2WhvSCwtQ=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=f2lyhWCdspd+wKbQ75KGOgK9H2BAysh7G3H7H4q5NRsw1CDU59NrgcLOlyAuujx6cH2I7jSS+e5
- 48WASg0xe85trvfVvXAn2sSCq/G+xzSfWwjMNFl+D0wLAuTPnsZyWen0hsezQBx7oW4A23L98JoQi
- 5g6S9z1xG9B0PLKrHjk8nICYxEMPiZ0UussHPr3WtvBFSc4k+gfG399QM/j9x6Nicw/s9nUFeCWaa
- aIiL4sa7MClKDQPMNODqSz8IUcKXJZjaHk6t6pdXeyfcQf5iPmx7X0iBRIgF5UkwJkfqhYU8SF3KP
- XeqpuLXJ+wfXETjRSDSToPHmce9IV71/8jiQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from localhost.localdomain ([95.90.255.242]) by mail.gmx.net
- (mrgmx004 [212.227.17.190]) with ESMTPSA (Nemesis) id
- 1MgvvT-1rHODW3xNt-00hPZq; Thu, 28 Sep 2023 18:59:00 +0200
-From: Julian Ribbeck <julian.ribbeck@gmx.de>
-To: samuel@sholland.org
-Cc: conor+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	wens@csie.org,
-	jernej.skrabec@gmail.com,
-	julian.ribbeck@gmx.de,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	robh+dt@kernel.org
-Subject: [PATCH v3 2/2] dt-bindings: arm: sunxi: Add itead,iteaduino-plus-a20
-Date: Thu, 28 Sep 2023 18:57:02 +0200
-Message-ID: <20230928165803.30127-2-julian.ribbeck@gmx.de>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20230928165803.30127-1-julian.ribbeck@gmx.de>
-References: <9730f21c-fd8e-9583-98c7-e5d923269f79@sholland.org>
- <20230928165803.30127-1-julian.ribbeck@gmx.de>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EBE913AFB
+	for <linux-sunxi@lists.linux.dev>; Thu, 28 Sep 2023 17:18:46 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D9E5C1FB;
+	Thu, 28 Sep 2023 10:19:24 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D24003F5A1;
+	Thu, 28 Sep 2023 10:18:45 -0700 (PDT)
+Date: Thu, 28 Sep 2023 18:18:41 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: clbcjt@outlook.com
+Cc: u-boot@lists.denx.de, Icenowy Zheng <icenowy@aosc.io>,
+ "linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>
+Subject: Re: [PATCH] board: LicheePi_Zero: add emac support
+Message-ID: <20230928181841.567fde31@donnerap.manchester.arm.com>
+In-Reply-To: <PH0PR19MB54288958D7F6329111F426BDCCFEA@PH0PR19MB5428.namprd19.prod.outlook.com>
+References: <PH0PR19MB54288958D7F6329111F426BDCCFEA@PH0PR19MB5428.namprd19.prod.outlook.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:P+6Q2PWpdB5kQfCXWzv1Akg7Tgg17CXmpZMVE+xnoG+XKC+qYEi
- arn67oWwTWaLrbmV+qSM1U26dQhZ6tEXn2IjvF7izsPMlJp90eFa3U9e5ZJAEk+VgnG3TFq
- MjbYiExv0JQLwPVWANwRiAgH9NZ1mUwLkf8W7hiNIn0hOYpgqJDWLMvCGCH3Q3bd4V6oCiZ
- DPbZ9c5Cxhe96FPSsTlWg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:jrXD7kg4Rl4=;S7cWsOJDbzTL8AZvkaDGIhjFO8F
- tFNFLuD6f8DYj2qgfP007c09yMu8PnaJlGCiYtJCqdgZc0BqNxbt6aYQoj5IxhLWJDTUeWHj7
- Eqm8Dot5KEVyD1QkVUQMiJr6H6w3RqF5HjNy/B7MG0+3X1azI+nGi2yN2tdBxngXPjI4wWZ35
- CZhJIDQtyGE8mQWvwn2D8ns7lM7qVACqWxFW4dzs9uuRcc8HMJwD5DI3BYNdEYUOWlLfTSNdm
- 6Ax2GsKXazX789ncIkJjKJKSYTQaOyLikJ6lN3TqAa72FN5G+/CgZUkAQGEv+b2XzPPrIC6F4
- njn85hGp1Na8IwQ7jeW4AqyOaQXSdlpL3E5VmiX+rNB6Y5Ll0nPVOUY/LVfUIHKkFr7+w2sn8
- GMPeYZydMgtuA5VZqmwyvd5cs6B23gGyiN0itwcPlXNVgLlawss5qlc1jn/1MHKKQ5fftq9jn
- uyDGYQ0TF8GTdX09jrGPvOmzQ23j7FPpWv9g6rve5s6V59lYzn1xBR4zgjK/0vZ8fc77fA4C4
- 96d0zCYEAkQ1kEeoxm05m092ftSqi9vsT128Qn7c9LfXjmrd9z7TGN061RQZy1MwEIMKOobI5
- b353Eq7Iw8BzOHnzsafruZHk0qL6fbyLqEaMfTzzH+e3m6X8l6ulPm7qpo7W+2SGGw8XRM4kO
- /R4BgPcrzf/USwzroHzHOuIX78UjQj/Xif/pemb0kanZqx2nXBudESFZ6wX7fLj5J4nViJusx
- njWZyI/ynebBXwcYH0p9199+n94xaeWz9Ms7k3ao4CQ46Ytp7hjBymFE65avJF/SNPo/CWuWu
- e1s+1fc1GFxZkGx/zpjAc0xcCL3fxKhuLKl6IY2GJnoA7say/VzyF6R2lcod+i8g69xBt9z0c
- Yb0weX9jdO7fnnuSdwA9d+qj4PXh0we8A07TBuGOgz3z36hbWqfHIqtXI5LnfmDUOsyOgJQyh
- V6FiRQ==
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Add itead,iteaduino-plus-a20 bindings
+On Sat, 23 Sep 2023 16:53:49 +0800
+clbcjt@outlook.com wrote:
 
-Signed-off-by: Julian Ribbeck <julian.ribbeck@gmx.de>
-=2D--
- Documentation/devicetree/bindings/arm/sunxi.yaml | 5 +++++
- 1 file changed, 5 insertions(+)
+Hi,
 
-diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentat=
-ion/devicetree/bindings/arm/sunxi.yaml
-index e4dd678f4212..25251ce4b60d 100644
-=2D-- a/Documentation/devicetree/bindings/arm/sunxi.yaml
-+++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
-@@ -362,6 +362,11 @@ properties:
-           - const: itead,iteaduino-plus-a10
-           - const: allwinner,sun4i-a10
+thanks for sending a patch. Please make sure to CC: the respective
+maintainers, as listed by scripts/get_maintainer.pl.
 
-+      - description: Itead Iteaduino Plus A20
-+        items:
-+          - const: itead,iteaduino-plus-a20
-+          - const: allwinner,sun7i-a20
-+
-       - description: Jesurun Q5
-         items:
-           - const: jesurun,q5
-=2D-
-2.42.0
+First this needs some commit message, stating why this change is needed.
+
+Looking down, this actually looks like several patches:
+- one to add the clock gates and resets
+- one to add the compatible string to the sun8i-emac driver
+- one to introduce a defconfig for the LicheePi Zero docking board
+I dimly remember Icenowy once sending something for this before?
+
+
+> From: FH0 <clbcjt@outlook.com>
+
+Please use your real name here ...
+
+> Signed-off-by: FH0 <clbcjt@outlook.com>
+
+and in particular here.
+
+> ---
+>  arch/arm/dts/sun8i-v3s-licheepi-zero.dts | 6 ++++++
+>  configs/LicheePi_Zero_defconfig          | 4 +++-
+>  drivers/clk/sunxi/clk_v3s.c              | 6 ++++++
+>  drivers/net/sun8i_emac.c                 | 7 +++++++
+>  4 files changed, 22 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/arm/dts/sun8i-v3s-licheepi-zero.dts b/arch/arm/dts/sun8i-v3s-licheepi-zero.dts
+> index 2e4587d2..b3246b94 100644
+> --- a/arch/arm/dts/sun8i-v3s-licheepi-zero.dts
+> +++ b/arch/arm/dts/sun8i-v3s-licheepi-zero.dts
+> @@ -49,6 +49,7 @@
+>  	compatible = "licheepi,licheepi-zero", "allwinner,sun8i-v3s";
+>  
+>  	aliases {
+> +		ethernet0 = &emac;
+>  		serial0 = &uart0;
+>  	};
+>  
+> @@ -99,3 +100,8 @@
+>  	usb0_id_det-gpios = <&pio 5 6 GPIO_ACTIVE_HIGH>;
+>  	status = "okay";
+>  };
+> +
+> +&emac {
+> +	allwinner,leds-active-low;
+> +	status = "okay";
+> +};
+
+But the normal LicheePi Zero does not have an Ethernet jack, right? That's
+only on the "docking" board? And Ethernet is already described there, in
+sun8i-v3s-licheepi-zero-dock.dts.
+
+Also, in general: devicetree changes need to go through the Linux tree
+first - though this shouldn't be needed in this case.
+
+> diff --git a/configs/LicheePi_Zero_defconfig b/configs/LicheePi_Zero_defconfig
+> index 009384ea..779d5c9d 100644
+> --- a/configs/LicheePi_Zero_defconfig
+> +++ b/configs/LicheePi_Zero_defconfig
+> @@ -5,4 +5,6 @@ CONFIG_SPL=y
+>  CONFIG_MACH_SUN8I_V3S=y
+>  CONFIG_DRAM_CLK=360
+>  # CONFIG_HAS_ARMV7_SECURE_BASE is not set
+> -# CONFIG_NET is not set
+> +CONFIG_NET=y
+> +CONFIG_NET_RANDOM_ETHADDR=y
+
+Why is this? Is it that the V3s does not have a SID, so we don't have the
+ID registers to derive a MAC address? That would be a good thing to
+mention in the commit message.
+
+> +CONFIG_SUN8I_EMAC=y
+> diff --git a/drivers/clk/sunxi/clk_v3s.c b/drivers/clk/sunxi/clk_v3s.c
+> index 6524c135..680a43f2 100644
+> --- a/drivers/clk/sunxi/clk_v3s.c
+> +++ b/drivers/clk/sunxi/clk_v3s.c
+> @@ -37,6 +37,9 @@ static struct ccu_clk_gate v3s_gates[] = {
+>  
+>  	[CLK_DE]		= GATE(0x104, BIT(31)),
+>  	[CLK_TCON0]		= GATE(0x118, BIT(31)),
+> +
+> +	[CLK_BUS_EMAC]  = GATE(0x060, BIT(17)),
+> +	[CLK_BUS_EPHY]  = GATE(0x070, BIT(0)),
+
+Please align this with the rest of the definitions.
+
+>  };
+>  
+>  static struct ccu_reset v3s_resets[] = {
+> @@ -56,6 +59,9 @@ static struct ccu_reset v3s_resets[] = {
+>  	[RST_BUS_UART0]		= RESET(0x2d8, BIT(16)),
+>  	[RST_BUS_UART1]		= RESET(0x2d8, BIT(17)),
+>  	[RST_BUS_UART2]		= RESET(0x2d8, BIT(18)),
+> +
+> +	[RST_BUS_EMAC]		= RESET(0x2c0, BIT(17)),
+> +	[RST_BUS_EPHY]		= RESET(0x2c8, BIT(2)),
+
+Those two hunks (CLK + RST) should go into a separate patch.
+
+>  };
+>  
+>  const struct ccu_desc v3s_ccu_desc = {
+> diff --git a/drivers/net/sun8i_emac.c b/drivers/net/sun8i_emac.c
+> index 04c3274f..57e6857a 100644
+> --- a/drivers/net/sun8i_emac.c
+> +++ b/drivers/net/sun8i_emac.c
+> @@ -895,6 +895,11 @@ static const struct emac_variant emac_variant_h3 = {
+>  	.support_rmii		= true,
+>  };
+>  
+> +static const struct emac_variant emac_variant_v3s = {
+> +	.syscon_offset		= 0x30,
+> +	.soc_has_internal_phy	= true,
+> +};
+> +
+>  static const struct emac_variant emac_variant_r40 = {
+>  	.syscon_offset		= 0x164,
+>  };
+> @@ -914,6 +919,8 @@ static const struct udevice_id sun8i_emac_eth_ids[] = {
+>  	  .data = (ulong)&emac_variant_a83t },
+>  	{ .compatible = "allwinner,sun8i-h3-emac",
+>  	  .data = (ulong)&emac_variant_h3 },
+> +	{ .compatible = "allwinner,sun8i-v3s-emac",
+> +	  .data = (ulong)&emac_variant_v3s },
+
+The changes to this file would be another separate patch.
+
+Cheers,
+Andre
+
+>  	{ .compatible = "allwinner,sun8i-r40-gmac",
+>  	  .data = (ulong)&emac_variant_r40 },
+>  	{ .compatible = "allwinner,sun50i-a64-emac",
 
