@@ -1,259 +1,114 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1221168CE
-	for <linux-sunxi@lists.linux.dev>; Thu, 28 Sep 2023 21:56:43 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AFD64DA7;
-	Thu, 28 Sep 2023 14:57:21 -0700 (PDT)
-Received: from localhost.localdomain (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C93583F59C;
-	Thu, 28 Sep 2023 14:56:41 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jagan Teki <jagan@amarulasolutions.com>,
-	u-boot@lists.denx.de
-Cc: Samuel Holland <samuel@sholland.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Icenowy Zheng <uwu@icenowy.me>,
-	Maxim Kiselev <bigunclemax@gmail.com>,
-	Sam Edwards <cfsworks@gmail.com>,
-	Okhunjon Sobirjonov <okhunjon72@gmail.com>,
-	linux-sunxi@lists.linux.dev,
-	andre.przywara@arm.com,
-	andre.przywara@foss.arm.com
-Subject: [PATCH v2 22/22] sunxi: add MangoPi MQ-R board support
-Date: Thu, 28 Sep 2023 22:54:55 +0100
-Message-Id: <20230928215455.28094-23-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.35.8
-In-Reply-To: <20230928215455.28094-1-andre.przywara@arm.com>
-References: <20230928215455.28094-1-andre.przywara@arm.com>
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 037E7441B
+	for <linux-sunxi@lists.linux.dev>; Fri, 29 Sep 2023 08:57:47 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-9a58dbd5daeso1850076566b.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 29 Sep 2023 01:57:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1695977866; x=1696582666; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nsBQLJ6Ogoic+1/xmfT0u8ONBi3qeWxubxgbbL3TF8o=;
+        b=xm0rvKkchFu+6Jvaf2qXoBfOI3X7hrKlEbCcbcDKuSxmEkPfZX5z/s4mLTSoYiJLKz
+         WeZJsBtt/AUAzZrcTrxigmw3q4GkbOXM1PTxAHcgtKaKwfpxRG7RdKs++9XIgxBGNgU5
+         pUr+DfRKhePRrXPoz70cDb0Qiy5MViTdTGnLw2hNaBOrUdAWAJkdflWVLdx48W8w4PMP
+         9WaaNFJLbIHCwkcSwfrEnZt2bwDcmGoh0P8s5BvVLRLRP3LgbhjETjaT5uv1Daomyidv
+         bAbMD0LajjW+Bq6gH9GwxO/d13YjqYkK963Gjqawitkifdivoh/N1n1gPPf6lr32/Oki
+         PiGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695977866; x=1696582666;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nsBQLJ6Ogoic+1/xmfT0u8ONBi3qeWxubxgbbL3TF8o=;
+        b=iaAZXPmUkK9VPmAR/G9Yl6HmCW7TIvOb3c11vEs1IkeAsi3jDknXGkwQwfEsV2asw4
+         fc/go1ep2/c2gIfUOWGQysrrbitUo7pVSvt4RMRe6pEKnMYwGyQjwA/0GrzjtRDMkVBm
+         FEPz2zi0BucXIYyPQK6Qu3+kJPnSfGz+69O51CnIfZNisE5eNWzVxvsk6g2pFdapUDsb
+         xVluxwR0TPdSMbL4ytHlUxssXLa2w7YSfNV7cdWKD8aw42frHnV0r/2twJfqsiAUntat
+         LrUSySofV6B/2/Z4CgZGVYWMsMA2KsTl7EbZir8ym43XPacUOFwU/ZHuYLkcXKX1xN9M
+         U4yQ==
+X-Gm-Message-State: AOJu0YzINWIBBe2Snh6Q6ohzZzKZ12OvDMTsnLbSzCa9wH/7iF6XQZkz
+	cqIh21KW34kGq4cXC7ngltNTSQ==
+X-Google-Smtp-Source: AGHT+IEsrmtSBffKc4/0WejFkmq1arFW3oxGMi3C1GOThUgoHMTSmFySeXvpixD0/kTwmWhaMqbTUQ==
+X-Received: by 2002:a17:906:28e:b0:9b2:b749:ff93 with SMTP id 14-20020a170906028e00b009b2b749ff93mr2957352ejf.24.1695977866113;
+        Fri, 29 Sep 2023 01:57:46 -0700 (PDT)
+Received: from srini-hackbase.lan ([5.133.47.210])
+        by smtp.gmail.com with ESMTPSA id w27-20020a17090633db00b009a2235ed496sm12339806eja.141.2023.09.29.01.57.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Sep 2023 01:57:45 -0700 (PDT)
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+To: =?utf-8?q?Rafa=C5=82_Mi=C5=82ecki?= <zajec5@gmail.com>
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>, 
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
+ Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Claudiu Beznea <claudiu.beznea@microchip.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
+ Orson Zhai <orsonzhai@gmail.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Chunyan Zhang <zhang.lyra@gmail.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Vincent Shih <vincent.sunplus@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, 
+ Alessandro Zummo <a.zummo@towertech.it>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Evgeniy Polyakov <zbr@ioremap.net>, linux-mtd@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+ linux-rockchip@lists.infradead.org, 
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
+ linux-rtc@vger.kernel.org, Michael Walle <michael@walle.cc>, 
+ =?utf-8?q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>, 
+ Michal Simek <michal.simek@amd.com>
+In-Reply-To: <20230927204446.4231-1-zajec5@gmail.com>
+References: <20230927204446.4231-1-zajec5@gmail.com>
+Subject: Re: [PATCH V5] nvmem: add explicit config option to read old
+ syntax fixed OF cells
+Message-Id: <169597786418.99756.8731565742524355843.b4-ty@linaro.org>
+Date: Fri, 29 Sep 2023 09:57:44 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.12.2
 
-This copies the T113s specific DTs from the Linux kernel tree
-(v6.4-rc1), and adds a defconfig to get the board booted.
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- arch/arm/dts/Makefile                         |   2 +
- .../arm/dts/sun8i-t113s-mangopi-mq-r-t113.dts |  35 +++++
- arch/arm/dts/sunxi-d1s-t113-mangopi-mq-r.dtsi | 126 ++++++++++++++++++
- configs/mangopi_mq_r_defconfig                |  15 +++
- 4 files changed, 178 insertions(+)
- create mode 100644 arch/arm/dts/sun8i-t113s-mangopi-mq-r-t113.dts
- create mode 100644 arch/arm/dts/sunxi-d1s-t113-mangopi-mq-r.dtsi
- create mode 100644 configs/mangopi_mq_r_defconfig
+On Wed, 27 Sep 2023 22:44:46 +0200, Rafał Miłecki wrote:
+> Binding for fixed NVMEM cells defined directly as NVMEM device subnodes
+> has been deprecated. It has been replaced by the "fixed-layout" NVMEM
+> layout binding.
+> 
+> New syntax is meant to be clearer and should help avoiding imprecise
+> bindings.
+> 
+> [...]
 
-diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
-index bde2176ec7f..0919cea55ef 100644
---- a/arch/arm/dts/Makefile
-+++ b/arch/arm/dts/Makefile
-@@ -754,6 +754,8 @@ dtb-$(CONFIG_MACH_SUN8I_V3S) += \
- 	sun8i-s3-pinecube.dtb \
- 	sun8i-v3-sl631-imx179.dtb \
- 	sun8i-v3s-licheepi-zero.dtb
-+dtb-$(CONFIG_MACH_SUN8I_R528) += \
-+	sun8i-t113s-mangopi-mq-r-t113.dtb
- dtb-$(CONFIG_MACH_SUN50I_H5) += \
- 	sun50i-h5-bananapi-m2-plus.dtb \
- 	sun50i-h5-emlid-neutis-n5-devboard.dtb \
-diff --git a/arch/arm/dts/sun8i-t113s-mangopi-mq-r-t113.dts b/arch/arm/dts/sun8i-t113s-mangopi-mq-r-t113.dts
-new file mode 100644
-index 00000000000..8b3a7538381
---- /dev/null
-+++ b/arch/arm/dts/sun8i-t113s-mangopi-mq-r-t113.dts
-@@ -0,0 +1,35 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+// Copyright (C) 2022 Arm Ltd.
-+
-+#include <dt-bindings/interrupt-controller/irq.h>
-+
-+/dts-v1/;
-+
-+#include "sun8i-t113s.dtsi"
-+#include "sunxi-d1s-t113-mangopi-mq-r.dtsi"
-+
-+/ {
-+	model = "MangoPi MQ-R-T113";
-+	compatible = "widora,mangopi-mq-r-t113", "allwinner,sun8i-t113s";
-+
-+	aliases {
-+		ethernet0 = &rtl8189ftv;
-+	};
-+};
-+
-+&cpu0 {
-+	cpu-supply = <&reg_vcc_core>;
-+};
-+
-+&cpu1 {
-+	cpu-supply = <&reg_vcc_core>;
-+};
-+
-+&mmc1 {
-+	rtl8189ftv: wifi@1 {
-+		reg = <1>;
-+		interrupt-parent = <&pio>;
-+		interrupts = <6 10 IRQ_TYPE_LEVEL_LOW>; /* PG10 = WL_WAKE_AP */
-+		interrupt-names = "host-wake";
-+	};
-+};
-diff --git a/arch/arm/dts/sunxi-d1s-t113-mangopi-mq-r.dtsi b/arch/arm/dts/sunxi-d1s-t113-mangopi-mq-r.dtsi
-new file mode 100644
-index 00000000000..a415c4a78a7
---- /dev/null
-+++ b/arch/arm/dts/sunxi-d1s-t113-mangopi-mq-r.dtsi
-@@ -0,0 +1,126 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+// Copyright (C) 2022 Arm Ltd.
-+/*
-+ * Common peripherals and configurations for MangoPi MQ-R boards.
-+ */
-+
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/leds/common.h>
-+
-+/ {
-+	aliases {
-+		serial3 = &uart3;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial3:115200n8";
-+	};
-+
-+	leds {
-+		compatible = "gpio-leds";
-+
-+		led-0 {
-+			color = <LED_COLOR_ID_BLUE>;
-+			function = LED_FUNCTION_STATUS;
-+			gpios = <&pio 3 22 GPIO_ACTIVE_LOW>; /* PD22 */
-+		};
-+	};
-+
-+	/* board wide 5V supply directly from the USB-C socket */
-+	reg_vcc5v: regulator-5v {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc-5v";
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+		regulator-always-on;
-+	};
-+
-+	/* SY8008 DC/DC regulator on the board */
-+	reg_3v3: regulator-3v3 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc-3v3";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+		vin-supply = <&reg_vcc5v>;
-+	};
-+
-+	/* SY8008 DC/DC regulator on the board, also supplying VDD-SYS */
-+	reg_vcc_core: regulator-core {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc-core";
-+		regulator-min-microvolt = <880000>;
-+		regulator-max-microvolt = <880000>;
-+		vin-supply = <&reg_vcc5v>;
-+	};
-+
-+	/* XC6206 LDO on the board */
-+	reg_avdd2v8: regulator-avdd {
-+		compatible = "regulator-fixed";
-+		regulator-name = "avdd2v8";
-+		regulator-min-microvolt = <2800000>;
-+		regulator-max-microvolt = <2800000>;
-+		vin-supply = <&reg_3v3>;
-+	};
-+
-+	wifi_pwrseq: wifi-pwrseq {
-+		compatible = "mmc-pwrseq-simple";
-+		reset-gpios = <&pio 6 12 GPIO_ACTIVE_LOW>; /* PG12 */
-+	};
-+};
-+
-+&dcxo {
-+	clock-frequency = <24000000>;
-+};
-+
-+&ehci1 {
-+	status = "okay";
-+};
-+
-+&mmc0 {
-+	pinctrl-0 = <&mmc0_pins>;
-+	pinctrl-names = "default";
-+	vmmc-supply = <&reg_3v3>;
-+	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>;
-+	disable-wp;
-+	bus-width = <4>;
-+	status = "okay";
-+};
-+
-+&mmc1 {
-+	pinctrl-0 = <&mmc1_pins>;
-+	pinctrl-names = "default";
-+	vmmc-supply = <&reg_3v3>;
-+	non-removable;
-+	bus-width = <4>;
-+	mmc-pwrseq = <&wifi_pwrseq>;
-+	status = "okay";
-+};
-+
-+&ohci1 {
-+	status = "okay";
-+};
-+
-+&pio {
-+	vcc-pb-supply = <&reg_3v3>;
-+	vcc-pd-supply = <&reg_3v3>;
-+	vcc-pe-supply = <&reg_avdd2v8>;
-+	vcc-pf-supply = <&reg_3v3>;
-+	vcc-pg-supply = <&reg_3v3>;
-+};
-+
-+&uart3 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart3_pb_pins>;
-+	status = "okay";
-+};
-+
-+/* The USB-C socket has its CC pins pulled to GND, so is hardwired as a UFP. */
-+&usb_otg {
-+	dr_mode = "peripheral";
-+	status = "okay";
-+};
-+
-+&usbphy {
-+	usb1_vbus-supply = <&reg_vcc5v>;
-+	status = "okay";
-+};
-diff --git a/configs/mangopi_mq_r_defconfig b/configs/mangopi_mq_r_defconfig
-new file mode 100644
-index 00000000000..66ae639326f
---- /dev/null
-+++ b/configs/mangopi_mq_r_defconfig
-@@ -0,0 +1,15 @@
-+CONFIG_ARM=y
-+CONFIG_ARCH_SUNXI=y
-+CONFIG_DEFAULT_DEVICE_TREE="sun8i-t113s-mangopi-mq-r-t113"
-+CONFIG_SPL=y
-+CONFIG_MACH_SUN8I_R528=y
-+CONFIG_DRAM_CLK=792
-+CONFIG_DRAM_ZQ=8092667
-+CONFIG_SUNXI_MINIMUM_DRAM_MB=128
-+# CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
-+CONFIG_DRAM_SUNXI_ODT_EN=0
-+CONFIG_DRAM_SUNXI_TPR0=0x004a2195
-+CONFIG_DRAM_SUNXI_TPR11=0x340000
-+CONFIG_DRAM_SUNXI_TPR12=0x46
-+CONFIG_DRAM_SUNXI_TPR13=0x34000100
-+CONFIG_CONS_INDEX=4
+Applied, thanks!
+
+[1/1] nvmem: add explicit config option to read old syntax fixed OF cells
+      commit: ee73a9fae540adbb432bd2854a82409515c7c892
+
+Best regards,
 -- 
-2.35.8
+Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 
