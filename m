@@ -1,80 +1,76 @@
-Received: from out162-62-57-64.mail.qq.com (out162-62-57-64.mail.qq.com [162.62.57.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E325017C3
-	for <linux-sunxi@lists.linux.dev>; Mon,  2 Oct 2023 07:28:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1696231701;
-	bh=kX93wG8sDvK/NYNskFqLEmdWnX99G5sekJ2NkAtEEsY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=mBqnh9/7hFXq2bxaAkoIrf9piyz5MJMkqrgJ3C4/L2BNeE+D95PbSMNH8dxjy3R80
-	 ARTXkEYpPih04zbgigBhfntGehlwKpAtPL86b7YimM/AkpvvHgHRsQ0m4MQ0i5KfZ8
-	 nI8gjI+eoJEH/amKfmgOB4HBqnTkiWRUr66zeTFs=
-Received: from localhost ([124.78.196.55])
-	by newxmesmtplogicsvrszc5-0.qq.com (NewEsmtp) with SMTP
-	id 7CBA4A46; Mon, 02 Oct 2023 14:31:11 +0800
-X-QQ-mid: xmsmtpt1696228271topi6npl5
-Message-ID: <tencent_25938315DAA0CF57818CE1D5CFCCC4B02406@qq.com>
-X-QQ-XMAILINFO: OY0S8v5Ciex7OzVci6wQgTcll1R17sLVOkSa/oS4MllxcNQnLA9qrynZPm41Ce
-	 4U5e1tX7oL803Eg3UrVo65g/alL12hAVQYsfhfjnBKjw5sgI5/fZwiiJ+/L7ETlMzl4zhfHvLWlf
-	 /tYsmjBO0o1S4OuPAF/Yadm87s6ljOUsSKYixfvnUJ8mj6Q2XwiVstnaz9sAYogpDcHPtlwmtpWJ
-	 zZOTGx6Cc67qKe0Uy4/tfyvcf2QJW5P/jDqCtAzw+1/bCa6JS8GHmsA+hRYd7HTJoHdB+ta+I3Nv
-	 Ds7VTGg8YAMZu4eKsvw4lGX/HFM8sV5El54QhICD2v1bT7JL/Ieq/y1LH/Iwn5EnkOmKASfy4yEH
-	 At7N6lE+UgsuTMUa1k6YHgN95xnf/3makLJcvXJzW9N08Pjqeb+kjpCSHuGPFPqHPBRNQbl6yJJu
-	 hqr1mlWI6N23vE6FCRpqwqKfi2ZBUQ2vHoFjOK8H55K15jjTjPSsenqKoNa3+Wf/GsfdPDKWzO7A
-	 iWf7WTvubXAHojuEkYfrKqrxLzho+v1sHtSX+hluU5ODRmK7oNY/s74bqL4TBjgvvEZ3R6vKXnNa
-	 7P+bNe7tjMfsWcfJjkp8hsA5V4f98YHGlyZoV3gUbaZ2zOnFIHFuWPXD1pG/ILIVBb2s3hqJmn+p
-	 vK6RYqWs/JajWSCK/1cSsyM9zqDcWiLAHwgyMtsEUuuWzSLXlahlpw3x0lysbTIaPsBKEYFYfEpC
-	 34kFGzTtXPmGnPOF24NrAN7FSq8f3AQhNcWAC91PkdO1Em+lzj4Hx5gUo8q1G21Frfs0m1P5bOnj
-	 XliLkjRxzJyN+Bo95dVPgcTZUSMovoZsrU+qkeWuzcPG74b/CA//G8ppwQKDt3ZKB3YcqyIXN6Wg
-	 wG2ewY8rKV8ATEb8LJt20KiiR1ZsSCIga0c8RUf7JLG5puwLgc9aJMsMW2dWT8VxrAcUrTMZboX2
-	 qt3TwiQ2boZXyF9vR652Mmjykvqx7SKLtbIf1eCHsUSmK+0Ou/NMkhHv8W80P6yqiwgH4Qm6loJ0
-	 e8pxYPbA==
-X-QQ-XMRINFO: Nq+8W0+stu50PRdwbJxPCL0=
-From: Woody Zhang <woodylab@foxmail.com>
-To: Mark Brown <broonie@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: linux-spi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Woody Zhang <woodylab@foxmail.com>
-Subject: [PATCH 1/2] spi: sun6i: Fix memory leak on device removal
-Date: Mon,  2 Oct 2023 14:29:58 +0800
-X-OQ-MSGID: <20231002062957.1741396-2-woodylab@foxmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231002062957.1741396-1-woodylab@foxmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60379171A7
+	for <linux-sunxi@lists.linux.dev>; Mon,  2 Oct 2023 13:02:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F8D7C433C9;
+	Mon,  2 Oct 2023 13:02:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1696251743;
+	bh=tYgjzEelwToAG5hZdFfT9BvK6R9nIvBGWgQkejATYgg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=j0U7zCa4ZJKEgJHrs6JNk97vPL6vyZ0D9Bc6O7EqQeN/NuxT9QxNhPYZ6H99cH1Dw
+	 ZFBSGpoBq/gs7nhFgC8X+KxyCCfadab6VwUtORCTGHtQSnYOovyB7KljgDJnBhqfo4
+	 gV4vGWKbnU1k2EjogZsugUGFUpkVpg2Kvy6O3VRCUR2OFTYJ96KNoEyz5sAOe7/LBE
+	 ZkpxH1JwLYCodtwEYJcTt/0MCfP7Q079ZethW0vcHcxC6T0e7MwTl30i7sL+t0Nygp
+	 3vq7XMSoVWHI2+PDj3jfMpzwE5yWZlnehdghfuW0oHnbQKF9eSIZXhrDxoY11V5bKz
+	 rHG2+XMiEPrtg==
+Date: Mon, 2 Oct 2023 14:02:17 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Woody Zhang <woodylab@foxmail.com>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, linux-spi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] spi: sun4i: Fix memory leak on device removal
+Message-ID: <06646231-d67e-453a-a1a0-d2665c1f9421@sirena.org.uk>
 References: <20231002062957.1741396-1-woodylab@foxmail.com>
+ <tencent_E465261B2BB2C1EBAF5C19912B9F19B7E107@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="MmQt3Jv7+ExT5bXv"
+Content-Disposition: inline
+In-Reply-To: <tencent_E465261B2BB2C1EBAF5C19912B9F19B7E107@qq.com>
+X-Cookie: Postage will be paid by addressee.
 
-Call spi_master_put to free the spi_master structure on device removal
-and driver detachment.
 
-Signed-off-by: Woody Zhang <woodylab@foxmail.com>
----
- drivers/spi/spi-sun6i.c | 1 +
- 1 file changed, 1 insertion(+)
+--MmQt3Jv7+ExT5bXv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/drivers/spi/spi-sun6i.c b/drivers/spi/spi-sun6i.c
-index fddc63309773..33cec49d5538 100644
---- a/drivers/spi/spi-sun6i.c
-+++ b/drivers/spi/spi-sun6i.c
-@@ -774,6 +774,7 @@ static void sun6i_spi_remove(struct platform_device *pdev)
- 		dma_release_channel(master->dma_tx);
- 	if (master->dma_rx)
- 		dma_release_channel(master->dma_rx);
-+	spi_master_put(master);
- }
- 
- static const struct sun6i_spi_cfg sun6i_a31_spi_cfg = {
--- 
-2.39.2
+On Mon, Oct 02, 2023 at 02:29:59PM +0800, Woody Zhang wrote:
 
+> Call spi_master_put to free the spi_master structure on device removal
+> and driver detachment.
+
+>  static void sun4i_spi_remove(struct platform_device *pdev)
+>  {
+> +	struct spi_master *master = dev_get_drvdata(&pdev->dev);
+> +
+>  	pm_runtime_force_suspend(&pdev->dev);
+> +	spi_master_put(master);
+>  }
+
+This is just obviously buggy, it doesn't match the registration at all.
+
+--MmQt3Jv7+ExT5bXv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmUav1gACgkQJNaLcl1U
+h9COpQf/ZZ2D4twgg+aSv1ip9qVUzmoZwIO04bU7hbfXvyVqzX5DF5t0YiR9CNmt
+kk91dpgKCXMqyy2GrjKyA4nDVyhh/hJKRLzjfTe9UjkWOV9orLMRfjm3d7GfbS0b
+Gezpdi3vBYozHCnAVs1A2o7qrOIJp0KrN5/9dDUAplIFSEiS/viF81OWYdfiYw9v
+gLu5boQeqZUJEPcSaJyVQOkzsV1rS8vhEr1cybpgRcmdn33k/DDtA29qwZkgA7Ty
+gHXdCG1NXg4l6htjZAsqrzLznJ6WcRwh/VuL5zJIvpfDKeiLIMJhvkMsXWgX9/6l
+n/qIkaJnWhvyw01GBpHeRINw0HqKQg==
+=tS9I
+-----END PGP SIGNATURE-----
+
+--MmQt3Jv7+ExT5bXv--
