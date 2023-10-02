@@ -1,83 +1,68 @@
-Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E278117C3;
-	Mon,  2 Oct 2023 06:59:55 +0000 (UTC)
-Received: from 8bytes.org (pd9fe9df8.dip0.t-ipconnect.de [217.254.157.248])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from out203-205-221-205.mail.qq.com (out203-205-221-205.mail.qq.com [203.205.221.205])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id ECDA51A2626;
-	Mon,  2 Oct 2023 08:59:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-	s=default; t=1696229994;
-	bh=AIFVwF7V2yCwhyWe75DvT7fYSBhwm/fBmqB8nOMomrQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qpnLCwzk2x1keRMkLPeYurvT7r9OO8YOJ6/7Vx/qRYBDxYBtaFczM0bl0X3CwM+Z8
-	 JjZ2S2KL1yCjIcyOYKVBFX3TnYJH3DgXndhq33RdOr06+/f4P6g8ed5YusHJpPxKBf
-	 /cC8uVfAa/rk6Wr3PPtDNHTnxEpzpMy8C+fcOb8G29mwxCh4jTTbUwvHTKVDKKREHN
-	 XKS42S0qW6PWzXZYxLGalC73IDOoglQpj2vweIfb/B9jDLMPy04LKeueQ7Vtaof2m0
-	 /U/pjbpVoAN9ULRqOfwjMT62szxrFLqy3anLaW4GIZc388p9f5N34fWI0GM1KG2Gfs
-	 vlKBpUHgqfWmA==
-Date: Mon, 2 Oct 2023 08:59:52 +0200
-From: Joerg Roedel <joro@8bytes.org>
-To: Niklas Schnelle <schnelle@linux.ibm.com>
-Cc: Matthew Rosato <mjrosato@linux.ibm.com>, Will Deacon <will@kernel.org>,
-	Wenjia Zhang <wenjia@linux.ibm.com>,
-	Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Gerd Bayer <gbayer@linux.ibm.com>,
-	Julian Ruess <julianr@linux.ibm.com>,
-	Pierre Morel <pmorel@linux.ibm.com>,
-	Alexandra Winter <wintera@linux.ibm.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>, Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Yong Wu <yong.wu@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C677633
+	for <linux-sunxi@lists.linux.dev>; Mon,  2 Oct 2023 07:06:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+	s=s201512; t=1696230413;
+	bh=KbiIDVqYx/Hqu7Kevx/zAeGKtx3irkDPMTvz4wlChv4=;
+	h=From:To:Cc:Subject:Date;
+	b=ttcUC145LvmebblIZT/tEyXmv3JDtaE+fyK50esm0T5mQP0vByFDC2JBUgFY5V6KQ
+	 wuEwhdCiCy87hzqorg/UuD4/0k/CsWshgudfVAGz4Rq6Jhvzlyc41FAieHiTJdIXpI
+	 uz4wWCdqt2TARIN4+YVEug4lGUuFqHQeQ3/s1Pfo=
+Received: from localhost ([124.78.196.55])
+	by newxmesmtplogicsvrszb6-0.qq.com (NewEsmtp) with SMTP
+	id 7C122A29; Mon, 02 Oct 2023 14:31:01 +0800
+X-QQ-mid: xmsmtpt1696228261taj4szpb8
+Message-ID: <tencent_71C4303B139415DEE0FDD7940CD0D5C24C06@qq.com>
+X-QQ-XMAILINFO: M5WvXNp9ZPrQGtd5IHGbwdgtJZjE+w5pzFBDCvedbjBktYVltEqzVY05h5rmS+
+	 qH6SjIWcXI6XoALOYbOPYs0tmpW14SCV4ShX8Gafjqq4NUgJkj5/G0sr4helmMAN2Usx8ljvOqCY
+	 4zqF8VdzpaHAvMhgDUx7o/UKt4MtUI9+xt/xGJowUIVHdx9R1pnEZxaofUNOagqHCtrS+GziGh4y
+	 +gQNI5CvVyEFAGMQS7BdgVRczeAl6l70FG0E0kkQlA0QWAaEakoiWHw2Nb9sywvyZjsv9TUy2kJT
+	 PLGq90xID07ztU1CxahPHdV51Y0TRzV5xHX5L6OFi0S3WWyBZT9KIV9vSUBqBg2XRX/V/OST4SHt
+	 Ty+fU0HdIWk0KWJQetVL3eoH2Fg3AOKtbVdWZCXMRp1KFccLpSuCYH0mVr7a8cMxhXnDC3Vw23ZD
+	 MOX2EDYN7+xJu+Ovo3JB1D+CKkIPAzl8/C0IZJzLKP8ND3QJVqVCUPc/cO+7HRJtzpqo6eAEMENs
+	 GdSjycfHjuF4uFgQ5UxhMDqtkwJoPZnwUl7f5cB4bWSlXWXZtpCcqTC1PNNnnaX4KRKd671rzQL1
+	 9gQOzlPZ+g6nyh6L3gH0l/ss3di3kd6t3L9etwSVu1QR5ZyYsnBsno3div2ggWECuOPXVbH3LG1y
+	 1+gDaE+6S/PO+bNW1/rPffvWk0lyykPjjmECERU7bvVkOTBA5eO7apM9Q5xDJnZnYZcY35wQhffL
+	 M/yyfcFxsrvLibK56B1Gx/jS/F/ts3r/WaR2O9tVDNukgDYQVKgOkDb/Mjk0yStSLgPnSaB4Kggu
+	 npx35ejNFLTcGZ/Oy74OcPd0qdy0mZ7FL068/OsNJdkZY5J66RChhen45uRZzY9p0PTZbgPCpFVn
+	 +/Zyq57+e6tHfA9QvRM+ZIZazfNJi0BoqGtAaz8cCTy+nWZMDqYIcIWEjzw+JE5eT3OqkxoGnAVb
+	 s7yUHirftSzPA2ob70cWcsTNfNKqkN
+X-QQ-XMRINFO: Mp0Kj//9VHAxr69bL5MkOOs=
+From: Woody Zhang <woodylab@foxmail.com>
+To: Mark Brown <broonie@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Krishna Reddy <vdumpa@nvidia.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	iommu@lists.linux.dev, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v13 0/6] iommu/dma: s390 DMA API conversion and optimized
- IOTLB flushing
-Message-ID: <ZRpqaJEQLRDp5b1L@8bytes.org>
-References: <20230928-dma_iommu-v13-0-9e5fc4dacc36@linux.ibm.com>
+	Samuel Holland <samuel@sholland.org>
+Cc: linux-spi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Woody Zhang <woodylab@foxmail.com>
+Subject: [PATCH 0/2] spi: sunxi: Fix memory leak on device removal
+Date: Mon,  2 Oct 2023 14:29:57 +0800
+X-OQ-MSGID: <20231002062957.1741396-1-woodylab@foxmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230928-dma_iommu-v13-0-9e5fc4dacc36@linux.ibm.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Sep 28, 2023 at 04:31:34PM +0200, Niklas Schnelle wrote:
-> Niklas Schnelle (6):
->       iommu: Allow .iotlb_sync_map to fail and handle s390's -ENOMEM return
->       s390/pci: prepare is_passed_through() for dma-iommu
->       s390/pci: Use dma-iommu layer
->       iommu/s390: Disable deferred flush for ISM devices
->       iommu/dma: Allow a single FQ in addition to per-CPU FQs
->       iommu/dma: Use a large flush queue and timeout for shadow_on_flush
+Call spi_master_put to free the spi_master structure on device removal
+and driver detachment.
 
-Applied, thanks Niklas.
+Woody Zhang (2):
+  spi: sun6i: Fix memory leak on device removal
+  spi: sun4i: Fix memory leak on device removal
+
+ drivers/spi/spi-sun4i.c | 3 +++
+ drivers/spi/spi-sun6i.c | 1 +
+ 2 files changed, 4 insertions(+)
+
+-- 
+2.39.2
+
