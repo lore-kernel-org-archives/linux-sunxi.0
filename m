@@ -1,105 +1,83 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E278117C3;
+	Mon,  2 Oct 2023 06:59:55 +0000 (UTC)
+Received: from 8bytes.org (pd9fe9df8.dip0.t-ipconnect.de [217.254.157.248])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4344737D
-	for <linux-sunxi@lists.linux.dev>; Sun,  1 Oct 2023 02:20:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=64FZBFm9QXLeaiqRuEoVGaE58ddNALR1GNC50CVRTEA=; b=CVwbcSdZreAZxeCYkfLtCDY8pI
-	dUV/ED0NZY/U4uO/LCDVZeeZBAPyeBmZThaQTaoqVJYYYDxtK7k4zr0c8v0DjkxnB/FHQeDcR2Zbd
-	hAKXVaLAewCUo+wpwBvikRlHdTLnIH5jtiAbBP8YnAGq/bAfaU6vRE7i3mpfTSfCTenX7OH5M45Bv
-	lQj+I8psGj8qDu0nYvd3IG86sVl2Lkm6oLdovy00DvjD90Q9xou4c1/QmDGuxO0m27Pf+wrkYq1rQ
-	rIhlRm71YSCJK86DyB+eeEYKQbXN/lhD2nQjEhLxKPzV8AXYZmW1NOR6//oXyMvp6ZjQO5VacdQUL
-	PiVhqZIg==;
-Received: from [2603:3004:644:9100::a64a]
-	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1qmm4K-000iXd-6D; Sun, 01 Oct 2023 02:20:28 +0000
-Message-ID: <b66c04cb-9576-4b8b-9e5e-4e5b37c2c092@infradead.org>
-Date: Sat, 30 Sep 2023 19:20:21 -0700
+	by mail.8bytes.org (Postfix) with ESMTPSA id ECDA51A2626;
+	Mon,  2 Oct 2023 08:59:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
+	s=default; t=1696229994;
+	bh=AIFVwF7V2yCwhyWe75DvT7fYSBhwm/fBmqB8nOMomrQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qpnLCwzk2x1keRMkLPeYurvT7r9OO8YOJ6/7Vx/qRYBDxYBtaFczM0bl0X3CwM+Z8
+	 JjZ2S2KL1yCjIcyOYKVBFX3TnYJH3DgXndhq33RdOr06+/f4P6g8ed5YusHJpPxKBf
+	 /cC8uVfAa/rk6Wr3PPtDNHTnxEpzpMy8C+fcOb8G29mwxCh4jTTbUwvHTKVDKKREHN
+	 XKS42S0qW6PWzXZYxLGalC73IDOoglQpj2vweIfb/B9jDLMPy04LKeueQ7Vtaof2m0
+	 /U/pjbpVoAN9ULRqOfwjMT62szxrFLqy3anLaW4GIZc388p9f5N34fWI0GM1KG2Gfs
+	 vlKBpUHgqfWmA==
+Date: Mon, 2 Oct 2023 08:59:52 +0200
+From: Joerg Roedel <joro@8bytes.org>
+To: Niklas Schnelle <schnelle@linux.ibm.com>
+Cc: Matthew Rosato <mjrosato@linux.ibm.com>, Will Deacon <will@kernel.org>,
+	Wenjia Zhang <wenjia@linux.ibm.com>,
+	Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Gerd Bayer <gbayer@linux.ibm.com>,
+	Julian Ruess <julianr@linux.ibm.com>,
+	Pierre Morel <pmorel@linux.ibm.com>,
+	Alexandra Winter <wintera@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>, Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Yong Wu <yong.wu@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Krishna Reddy <vdumpa@nvidia.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	iommu@lists.linux.dev, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v13 0/6] iommu/dma: s390 DMA API conversion and optimized
+ IOTLB flushing
+Message-ID: <ZRpqaJEQLRDp5b1L@8bytes.org>
+References: <20230928-dma_iommu-v13-0-9e5fc4dacc36@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: sunxi: a83-mips-csi2: also select GENERIC_PHY
-Content-Language: en-US
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>,
- Arnd Bergmann <arnd@arndb.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-media@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>, linux-phy@lists.infradead.org
-References: <20230927040438.5589-1-rdunlap@infradead.org>
- <ZRQIfC67fDmOUBNY@kekkonen.localdomain>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <ZRQIfC67fDmOUBNY@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230928-dma_iommu-v13-0-9e5fc4dacc36@linux.ibm.com>
 
+On Thu, Sep 28, 2023 at 04:31:34PM +0200, Niklas Schnelle wrote:
+> Niklas Schnelle (6):
+>       iommu: Allow .iotlb_sync_map to fail and handle s390's -ENOMEM return
+>       s390/pci: prepare is_passed_through() for dma-iommu
+>       s390/pci: Use dma-iommu layer
+>       iommu/s390: Disable deferred flush for ISM devices
+>       iommu/dma: Allow a single FQ in addition to per-CPU FQs
+>       iommu/dma: Use a large flush queue and timeout for shadow_on_flush
 
-
-On 9/27/23 03:48, Sakari Ailus wrote:
-> Hi Randy,
-> 
-> Thanks for the patch.
-> 
-> On Tue, Sep 26, 2023 at 09:04:38PM -0700, Randy Dunlap wrote:
->> When selecting GENERIC_PHY_MIPI_DPHY, also select GENERIC_PHY to
->> prevent kconfig warnings:
->>
->> WARNING: unmet direct dependencies detected for GENERIC_PHY_MIPI_DPHY
->>   Depends on [n]: GENERIC_PHY [=n]
->>   Selected by [y]:
->>   - VIDEO_SUN8I_A83T_MIPI_CSI2 [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && MEDIA_PLATFORM_DRIVERS [=y] && V4L_PLATFORM_DRIVERS [=y] && VIDEO_DEV [=y] && (ARCH_SUNXI || COMPILE_TEST [=y]) && PM [=y] && COMMON_CLK [=y] && RESET_CONTROLLER [=y]
->>
->> Fixes: 94d7fd9692b5 ("media: sunxi: Depend on GENERIC_PHY_MIPI_DPHY")
->> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
->> Reported-by: kernel test robot <lkp@intel.com>
->> Closes: lore.kernel.org/r/ZQ/WS8HC1A3F0Qn8@rli9-mobl
->> Cc: Arnd Bergmann <arnd@arndb.de>
->> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
->> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
->> Cc: linux-media@vger.kernel.org
->> Cc: Chen-Yu Tsai <wens@csie.org>
->> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
->> Cc: Samuel Holland <samuel@sholland.org>
->> Cc: linux-arm-kernel@lists.infradead.org
->> Cc: linux-sunxi@lists.linux.dev
->> ---
->>  drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/Kconfig |    1 +
->>  1 file changed, 1 insertion(+)
->>
->> diff -- a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/Kconfig b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/Kconfig
->> --- a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/Kconfig
->> +++ b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/Kconfig
->> @@ -8,6 +8,7 @@ config VIDEO_SUN8I_A83T_MIPI_CSI2
->>  	select VIDEO_V4L2_SUBDEV_API
->>  	select V4L2_FWNODE
->>  	select REGMAP_MMIO
->> +	select GENERIC_PHY
-> 
-> Could GENERIC_PHY_MIPI_DPHY select GENERIC_PHY instead of depending it?
-
-Yes, I don't see why not.  Let's see what the PHY framework people have to say about it.
-
-Vinod, Kishon, do you see any reason that GENERIC_PHY_MIPI_DPHY could not select
-GENERIC_PHY instead of depending on it?
-
-
-> There seem to be a few other drivers that appear to have the same issue.
-
-Yes, I see 4 others that have the same issue.
-
->>  	select GENERIC_PHY_MIPI_DPHY
->>  	help
->>  	   Support for the Allwinner A83T MIPI CSI-2 controller and D-PHY.
-> 
-
-~Randy
-
+Applied, thanks Niklas.
