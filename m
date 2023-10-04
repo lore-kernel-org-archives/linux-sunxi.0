@@ -1,140 +1,150 @@
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B7CF1C13
-	for <linux-sunxi@lists.linux.dev>; Tue,  3 Oct 2023 08:34:21 +0000 (UTC)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-579de633419so7984587b3.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 03 Oct 2023 01:34:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1696322061; x=1696926861; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=bitTTBesOlX5jNs0WrntjlIVBf0r6k8vUqdJl07s2a4=;
-        b=HBfhD2hZxRrfu0LBgm1qnZyzNBS1mLwMImwRhRnIljQs8fBfCCtghgjPKlMl+j8e2H
-         wMTd4bQa+M3+DcCNjYrNA8oQJeKsJsWrFkspxxjGimgX9CJOM2Mu/RIJmeYyBJzw6xjM
-         RBTje4gcke0p5BB3woKQQEgyAzNDOdWFzk9dvUmIWTO+51SWnqaPwqfv5jmyLHkV+UPS
-         +gQFGORhVrSaruWZiR/ZgHJEtqLNLh8Mq0myWfphEmgDF3Pdd20+Y120qozv6hKMs4sf
-         9ebh0jPngyfCZ39jlrylqb1ct+YgieIlvtNENJ9EYkKMwc4W7/zktG+MQplJGGsysxgV
-         Vspw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696322061; x=1696926861;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bitTTBesOlX5jNs0WrntjlIVBf0r6k8vUqdJl07s2a4=;
-        b=qvkNvUc4qq/sQqtHl8rc5WeMHP4A9LJjCZGZ9Fnw9rGDi6lCrq6O4+1ZukLgg8+60I
-         JwQVhx01vXFYjw7Lu0eo7UVSvI/z/UerpjoDwzU/bt0kLi18LbVcSy7xHH2JrNSEg7MS
-         dpekuX9MQdKZVZqG7TkFCwkTC2L0o1N09WYj5In+gsbwfr+4w/RlwMZ3BSyXwYrUWMr6
-         vICBy6V0wvLuqsoQjjCWOwKV8V3lgxmN0aAMruZIQ3wO9LCsQxSr4gNjG2qoTzMyFEN3
-         kd2wVtqXmmOAzDv40XsMU4WIL0HAm/3+5cxt5t6mwPgwBPrhvg5bkRGbF7OidstfnRRX
-         9F1w==
-X-Gm-Message-State: AOJu0YxuucZVEwpxpDgfR1/zbJwOagD2Ji0hrmjbm/CP3zHsNgVgBjTO
-	hQrNkASGu8uvh56wU8ogg85IqDJ4rIgIhJ33yXBPbA==
-X-Google-Smtp-Source: AGHT+IFDzIQLW0laXGE7JKd6lbdhFAMnDeThlxxmtoO8UChMspJgCI8sx/aRikQspuJgbcSRJHW6nrx+DUBW3F7ngjs=
-X-Received: by 2002:a0d:f685:0:b0:59e:8f6d:92e with SMTP id
- g127-20020a0df685000000b0059e8f6d092emr14665847ywf.49.1696322060718; Tue, 03
- Oct 2023 01:34:20 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8039763C3;
+	Wed,  4 Oct 2023 08:55:37 +0000 (UTC)
+Received: from pps.filterd (m0353722.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3947iwHF012341;
+	Wed, 4 Oct 2023 08:55:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=G3eu+o+jYD03B/2vSJeSyHMaPAmhLz8sTDvwliqmwig=;
+ b=nrDyw1lemn6qjWyVMj3sPDfdFNS9l7wW/iKCjClC7OUsa6+ht2ViFRM8NGyb9gcdm2//
+ blnHtikqM0XjxwPNAT2iessUtljLlrysFBeKvvUUarAYKOMzkLKSWKCBLgxxglF3pTTy
+ FGjYxK8svlZEBvT3aB+ns6eDfy1v8+xdb/tusDYFgSjIWOZ0cWjVcu3fKofAfRjxubVJ
+ 3lIvgwdbeRqBOnJKkA3u2/M3L4WSD1qkXlS2xmjALMcSHdLiS12Q4YwDX/i+veXLzrt2
+ jh35/Bej0beB3jfo2p+W4AeivIvNZZAIbipIuNgSrwiItrO3JfM54xctCClt6bCrcFNB 9A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3th3f4aejd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 04 Oct 2023 08:55:07 +0000
+Received: from m0353722.ppops.net (m0353722.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 39480Iv9021327;
+	Wed, 4 Oct 2023 08:55:06 GMT
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3th3f4aehx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 04 Oct 2023 08:55:06 +0000
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3948oUL2025047;
+	Wed, 4 Oct 2023 08:55:05 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3texcyad4s-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 04 Oct 2023 08:55:04 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 3948t17r7471696
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 4 Oct 2023 08:55:01 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id AA9A62004B;
+	Wed,  4 Oct 2023 08:55:01 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E8AA820040;
+	Wed,  4 Oct 2023 08:54:58 +0000 (GMT)
+Received: from [9.171.77.142] (unknown [9.171.77.142])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Wed,  4 Oct 2023 08:54:58 +0000 (GMT)
+Message-ID: <dec2767815f6f765c452a025ccec1ce6d3635cdd.camel@linux.ibm.com>
+Subject: Re: [PATCH v13 0/6] iommu/dma: s390 DMA API conversion and
+ optimized IOTLB flushing
+From: Niklas Schnelle <schnelle@linux.ibm.com>
+To: Joerg Roedel <joro@8bytes.org>
+Cc: Matthew Rosato <mjrosato@linux.ibm.com>, Will Deacon <will@kernel.org>,
+        Wenjia Zhang <wenjia@linux.ibm.com>,
+        Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+        Gerd Bayer <gbayer@linux.ibm.com>,
+        Julian
+ Ruess <julianr@linux.ibm.com>,
+        Pierre Morel <pmorel@linux.ibm.com>,
+        Alexandra Winter <wintera@linux.ibm.com>,
+        Heiko Carstens
+ <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev
+ <agordeev@linux.ibm.com>,
+        Christian Borntraeger
+ <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Suravee
+ Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Hector Martin
+ <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+        Alyssa Rosenzweig
+ <alyssa@rosenzweig.io>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Lu Baolu
+ <baolu.lu@linux.intel.com>, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson
+ <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Yong Wu
+ <yong.wu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+        Orson Zhai
+ <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan
+ Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec
+ <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Thierry
+ Reding <thierry.reding@gmail.com>,
+        Krishna Reddy <vdumpa@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        iommu@lists.linux.dev, asahi@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
+Date: Wed, 04 Oct 2023 10:54:58 +0200
+In-Reply-To: <ZRpqaJEQLRDp5b1L@8bytes.org>
+References: <20230928-dma_iommu-v13-0-9e5fc4dacc36@linux.ibm.com>
+	 <ZRpqaJEQLRDp5b1L@8bytes.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <0-v8-81230027b2fa+9d-iommu_all_defdom_jgg@nvidia.com>
- <20-v8-81230027b2fa+9d-iommu_all_defdom_jgg@nvidia.com> <CAA8EJprz7VVmBG68U9zLuqPd0UdSRHYoLDJSP6tCj6H6qanuTQ@mail.gmail.com>
- <20231002230000.GA682044@nvidia.com>
-In-Reply-To: <20231002230000.GA682044@nvidia.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 3 Oct 2023 11:34:08 +0300
-Message-ID: <CAA8EJpr-CpgTVipd_t1uj7iHHq6__pj3mrm4Mn-pdZwhpS8aDA@mail.gmail.com>
-Subject: Re: [PATCH v8 20/24] iommu: Require a default_domain for all iommu drivers
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Rob Clark <robdclark@gmail.com>, Andy Gross <agross@kernel.org>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, Bjorn Andersson <andersson@kernel.org>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Joerg Roedel <joro@8bytes.org>, Kevin Tian <kevin.tian@intel.com>, 
-	Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, linux-arm-kernel@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org, 
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, Russell King <linux@armlinux.org.uk>, 
-	linuxppc-dev@lists.ozlabs.org, Matthias Brugger <matthias.bgg@gmail.com>, 
-	Matthew Rosato <mjrosato@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, Orson Zhai <orsonzhai@gmail.com>, 
-	Robin Murphy <robin.murphy@arm.com>, Samuel Holland <samuel@sholland.org>, 
-	Thierry Reding <thierry.reding@gmail.com>, Krishna Reddy <vdumpa@nvidia.com>, 
-	Chen-Yu Tsai <wens@csie.org>, Will Deacon <will@kernel.org>, Yong Wu <yong.wu@mediatek.com>, 
-	Chunyan Zhang <zhang.lyra@gmail.com>, Lu Baolu <baolu.lu@linux.intel.com>, 
-	Dmitry Osipenko <digetx@gmail.com>, Jerry Snitselaar <jsnitsel@redhat.com>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Nicolin Chen <nicolinc@nvidia.com>, 
-	Niklas Schnelle <schnelle@linux.ibm.com>, Steven Price <steven.price@arm.com>, 
-	Thierry Reding <treding@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: -eMPc60Y5y2woUrjzjpWax0AtUM-alm0
+X-Proofpoint-GUID: ubAyYZVvTV1Zj6WBmrCFf5U92Rsidz7u
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-04_01,2023-10-02_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
+ priorityscore=1501 spamscore=0 phishscore=0 mlxlogscore=501 mlxscore=0
+ adultscore=0 lowpriorityscore=0 malwarescore=0 suspectscore=0
+ impostorscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2309180000 definitions=main-2310040049
 
-On Tue, 3 Oct 2023 at 02:00, Jason Gunthorpe <jgg@nvidia.com> wrote:
->
-> On Tue, Oct 03, 2023 at 12:21:59AM +0300, Dmitry Baryshkov wrote:
-> > On Wed, 13 Sept 2023 at 16:45, Jason Gunthorpe <jgg@nvidia.com> wrote:
-> > >
-> > > At this point every iommu driver will cause a default_domain to be
-> > > selected, so we can finally remove this gap from the core code.
-> > >
-> > > The following table explains what each driver supports and what the
-> > > resulting default_domain will be:
-> > >
-> > >                                         ops->defaut_domain
-> > >                     IDENTITY   DMA  PLATFORM    v      ARM32          dma-iommu  ARCH
-> > > amd/iommu.c             Y       Y                       N/A             either
-> > > apple-dart.c            Y       Y                       N/A             either
-> > > arm-smmu.c              Y       Y                       IDENTITY        either
-> > > qcom_iommu.c            G       Y                       IDENTITY        either
-> > > arm-smmu-v3.c           Y       Y                       N/A             either
-> > > exynos-iommu.c          G       Y                       IDENTITY        either
-> > > fsl_pamu_domain.c                       Y       Y       N/A             N/A     PLATFORM
-> > > intel/iommu.c           Y       Y                       N/A             either
-> > > ipmmu-vmsa.c            G       Y                       IDENTITY        either
-> > > msm_iommu.c             G                               IDENTITY        N/A
-> >
-> > Unfortunately this patch breaks msm_iommu platforms. This driver
-> > doesn't select ARM_DMA_USE_IOMMU, so iommu_get_default_domain_type()
-> > returns 0, bus_iommu_probe() fails with -ENODEV.
-> > If I make MSM_IOMMU select ARM_DMA_USE_IOMMU, then GPU probing fails
-> > with -EBUSY.
->
-> Oh, OK.
->
-> Does this fix it?
+On Mon, 2023-10-02 at 08:59 +0200, Joerg Roedel wrote:
+> On Thu, Sep 28, 2023 at 04:31:34PM +0200, Niklas Schnelle wrote:
+> > Niklas Schnelle (6):
+> >       iommu: Allow .iotlb_sync_map to fail and handle s390's -ENOMEM re=
+turn
+> >       s390/pci: prepare is_passed_through() for dma-iommu
+> >       s390/pci: Use dma-iommu layer
+> >       iommu/s390: Disable deferred flush for ISM devices
+> >       iommu/dma: Allow a single FQ in addition to per-CPU FQs
+> >       iommu/dma: Use a large flush queue and timeout for shadow_on_flus=
+h
+>=20
+> Applied, thanks Niklas.
+>=20
 
-It indeed fixes the issue, so could you please post it, adding:
-Tested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Thank you Joerg. During some more testing I've found a minor issue
+where resetting the debug statistics still used the now obsolete
+counters that should have been removed. So I'll send a follow up patch,
+sorry for not noticing this sooner.
 
-> diff --git a/drivers/iommu/msm_iommu.c b/drivers/iommu/msm_iommu.c
-> index cdc7b730192a35..f7ef081c33dcb2 100644
-> --- a/drivers/iommu/msm_iommu.c
-> +++ b/drivers/iommu/msm_iommu.c
-> @@ -685,10 +685,16 @@ irqreturn_t msm_iommu_fault_handler(int irq, void *dev_id)
->         return 0;
->  }
->
-> +static int msm_iommu_def_domain_type(struct device *dev)
-> +{
-> +       return IOMMU_DOMAIN_IDENTITY;
-> +}
-> +
->  static struct iommu_ops msm_iommu_ops = {
->         .identity_domain = &msm_iommu_identity_domain,
->         .domain_alloc_paging = msm_iommu_domain_alloc_paging,
->         .probe_device = msm_iommu_probe_device,
-> +       .def_domain_type = msm_iommu_def_domain_type,
->         .device_group = generic_device_group,
->         .pgsize_bitmap = MSM_IOMMU_PGSIZES,
->         .of_xlate = qcom_iommu_of_xlate,
-
--- 
-With best wishes
-Dmitry
+Thanks,
+Niklas
