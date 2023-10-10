@@ -1,133 +1,77 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-m155101.qiye.163.com (mail-m155101.qiye.163.com [101.71.155.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0FA8374C6;
-	Mon,  9 Oct 2023 16:16:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eU2EVyLZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEAB7C433C8;
-	Mon,  9 Oct 2023 16:16:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1696868167;
-	bh=TUuYHkOnACwqBBmD9bJNqds06LCxmeRiTfbnAwarBgE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eU2EVyLZvP0ynT/R9wgeiq9r9+GUMtVerH0hdEET3jzhYlaDfeI/DmNIjffFhYsRs
-	 c29FAKVXTo9TBjOwydx+byNRi0CpoqNqEQBstZC0fL+OdsHQ0VTJ5+MPxrU6yvvTVy
-	 DoND44aejrDEG2pU1yl/Z8ziE5sQ5aEiecoNKpfebw63j/PKR8Q33OqJvLqSCn4z4I
-	 MVZTLvStj7UDzGDV1NwogxSnxHTBdZdxjx3QRb8z6zO/qAPz5CpvamzCPE4jCwqI5O
-	 0T0H0pFkF0YY7YDPpzIkOnLI+5ng5KYYqjwsziP55JOvz2EWx2Z8cZ0IbcWdtHuk+T
-	 TDEGHZ/bTsriQ==
-Date: Mon, 9 Oct 2023 17:16:00 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Conor Dooley <conor.dooley@microchip.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Chen-Yu Tsai <wens@csie.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44FFF2746F
+	for <linux-sunxi@lists.linux.dev>; Tue, 10 Oct 2023 15:48:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jmu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jmu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from Vostro-3710.lan (unknown [58.61.141.228])
+	by mail-m121145.qiye.163.com (Hmail) with ESMTPA id 5D8038000B0;
+	Tue, 10 Oct 2023 23:38:21 +0800 (CST)
+From: Chukun Pan <amadeus@jmu.edu.cn>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Samuel Holland <samuel@sholland.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Daire McNamara <daire.mcnamara@microchip.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Emil Renner Berthing <kernel@esmil.dk>,
-	Jisheng Zhang <jszhang@kernel.org>, Guo Ren <guoren@kernel.org>,
-	Fu Wei <wefu@redhat.com>, Chen Wang <unicorn_wang@outlook.com>,
-	devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 4/6] riscv: dts: renesas: convert isa detection to new
- properties
-Message-ID: <20231009-underpass-decorator-12e153d8f8e7@spud>
-References: <20231009-approve-verbalize-ce9324858e76@wendy>
- <20231009-smog-gag-3ba67e68126b@wendy>
- <CAMuHMdVc7VOvB86A7-TShhoqut6Y1ZvY0WSC8XpOEv8Bb2bA-Q@mail.gmail.com>
+	Chen-Yu Tsai <wens@csie.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Chukun Pan <amadeus@jmu.edu.cn>
+Subject: [PATCH 2/2] arm64: dts: allwinner: h616: update emac properties for Orange Pi Zero 3
+Date: Tue, 10 Oct 2023 23:38:12 +0800
+Message-Id: <20231010153812.2869633-2-amadeus@jmu.edu.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20231010153812.2869633-1-amadeus@jmu.edu.cn>
+References: <20231010153812.2869633-1-amadeus@jmu.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="qLX05ACkobQ/OGT+"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVc7VOvB86A7-TShhoqut6Y1ZvY0WSC8XpOEv8Bb2bA-Q@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZGUwfVkofTEgYQh5DTk4fH1UTARMWGhIXJBQOD1
+	lXWRgSC1lBWU5DVU1KVUpPSlVJSUNZV1kWGg8SFR0UWUFZT0tIVUpKS0hKQ1VKS0tVS1kG
+X-HM-Tid: 0a8b1a3d3885b03akuuu5d8038000b0
+X-HM-MType: 10
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MiI6SBw*STw8LhASFhkrExpJ
+	OhQaFBVVSlVKTUJNQk5JSEtJSU1PVTMWGhIXVRoWGh8eDgg7ERYOVR4fDlUYFUVZV1kSC1lBWU5D
+	VU1KVUpPSlVJSUNZV1kIAVlBSU5CTzcG
 
+Add the correct delay value to emac. Also add missing mdio
+properties for the YT8531 PHY (clock output required).
+With these changes, Ethernet now looks stable.
 
---qLX05ACkobQ/OGT+
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Chukun Pan <amadeus@jmu.edu.cn>
+---
+ arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-On Mon, Oct 09, 2023 at 02:15:47PM +0200, Geert Uytterhoeven wrote:
-> Hi Conor,
->=20
-> On Mon, Oct 9, 2023 at 11:44=E2=80=AFAM Conor Dooley <conor.dooley@microc=
-hip.com> wrote:
-> > Convert the RZ/Five devicetrees to use the new properties
-> > "riscv,isa-base" & "riscv,isa-extensions".
-> > For compatibility with other projects, "riscv,isa" remains.
-> >
-> > Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
->=20
-> Thanks for your patch!
->=20
-> > --- a/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
-> > +++ b/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
-> > @@ -24,6 +24,9 @@ cpu0: cpu@0 {
-> >                         reg =3D <0x0>;
-> >                         status =3D "okay";
-> >                         riscv,isa =3D "rv64imafdc";
-> > +                       riscv,isa-base =3D "rv64i";
-> > +                       riscv,isa-extensions =3D "i", "m", "a", "f", "d=
-", "c", "zicntr", "zicsr",
-> > +                                              "zifencei", "zihpm";
->=20
-> LGMT, so
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
->=20
-> I could not review the "zi*" parts, as the documentation that I have
-> does not mention these.
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
+index 00fe28caac93..02c7836b624a 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
+@@ -13,10 +13,14 @@ / {
+ };
+ 
+ &emac0 {
++	allwinner,rx-delay-ps = <1800>;
++	allwinner,tx-delay-ps = <700>;
+ 	phy-supply = <&reg_dldo1>;
+ };
+ 
+ &ext_rgmii_phy {
++	motorcomm,keep-pll-enabled;
++	motorcomm,auto-sleep-disabled;
+ 	motorcomm,clk-out-frequency-hz = <125000000>;
+ };
+ 
+-- 
+2.25.1
 
-These are effectively the assumptions that the kernel already makes, for
-things that used to be part of the base isa (or were assumed to be) that
-are now extensions in their own right.
-
-The Zihpm it'd be good if someone from the Renesas or Andes sides could
-confirm though.
-
-Cheers,
-Conor.
-
->=20
-> >                         mmu-type =3D "riscv,sv39";
-> >                         i-cache-size =3D <0x8000>;
-> >                         i-cache-line-size =3D <0x40>;
->=20
-> Gr{oetje,eeting}s,
->=20
->                         Geert
->=20
-> --=20
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
-8k.org
->=20
-> In personal conversations with technical people, I call myself a hacker. =
-But
-> when I'm talking to journalists I just say "programmer" or something like=
- that.
->                                 -- Linus Torvalds
-
---qLX05ACkobQ/OGT+
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZSQnQAAKCRB4tDGHoIJi
-0pk+AQCDTGDR196WU+S3VHp6GoZyYrKV0pxVwcmVbOTky5SKxAD/bz6cONYAr9SE
-2ryKqLVowNyGAA93Sr/qimPdZABBYgc=
-=nGga
------END PGP SIGNATURE-----
-
---qLX05ACkobQ/OGT+--
