@@ -1,83 +1,87 @@
-Received: from mail-m155101.qiye.163.com (mail-m155101.qiye.163.com [101.71.155.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1374927471
-	for <linux-sunxi@lists.linux.dev>; Tue, 10 Oct 2023 15:48:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jmu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jmu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from Vostro-3710.lan (unknown [58.61.141.228])
-	by mail-m121145.qiye.163.com (Hmail) with ESMTPA id 5E3D38000AE;
-	Tue, 10 Oct 2023 23:38:20 +0800 (CST)
-From: Chukun Pan <amadeus@jmu.edu.cn>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Samuel Holland <samuel@sholland.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Chukun Pan <amadeus@jmu.edu.cn>
-Subject: [PATCH 1/2] arm64: dts: allwinner: h616: move emac delay back to Orange Pi Zero 2 DT
-Date: Tue, 10 Oct 2023 23:38:11 +0800
-Message-Id: <20231010153812.2869633-1-amadeus@jmu.edu.cn>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5CC519BA7
+	for <linux-sunxi@lists.linux.dev>; Wed, 11 Oct 2023 09:03:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YRil8ZnS"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-32615eaa312so5978881f8f.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 11 Oct 2023 02:03:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1697015029; x=1697619829; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FBdHg52RbcScFIWBis5JPCbs4EFwutNb74y5hFI3muk=;
+        b=YRil8ZnSkHPfB1pju12YWE0fzwxuZ1sF5vWL3HNKPTKcNBebhHaWq3Y81oI1CJKRLn
+         GD0H+rjkTss3BcjJ8GHb8uqp005fXJsCv8oWGHkz0FB+t8MI0DvaYC5z7zXDslOMp363
+         bniy7ACDxiWNJjiZE4PKu9ng00kO2dc7fz7nbBJUYSXBHzRRlZng4Q2RoTEy3yUXXnaL
+         MDeErQzMHfHlZ8+pK50CaWaKjIUvLWuuY+3KFji8KeNwziNTZdasEFSAGyg/otbGnsn/
+         uNIHDq+1f+o6ChNlMjKfXCFm5vWWwScQYC/MqvuGJPajZcrvyRTWRNHN+xIgixUdi0js
+         Dwcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697015029; x=1697619829;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FBdHg52RbcScFIWBis5JPCbs4EFwutNb74y5hFI3muk=;
+        b=TrhmqbWDOUZDEE+5l4kTB0mNlWX8gaZNNmX3/LnZQn8TyUgg2s/JmKtLrL4Gu0iSpY
+         J7xdW2WUkDH9mVpozaEVOAS1hrrxnbJmShUV4qzXpGMzQkJ46kOx9eDFf/vUMDmJQYJo
+         s5/0OYLVWpmruEYrKngZVS9i5YU4sPBHI90TmGEFyFAOdORJsn2B/zr7prpCfSifVg64
+         DLKj69y8ArGhrrI1qPXO+jEDbEZdlztaoS6PjVInyx6quLwHfHz39jis16Tz2CQf1Y/L
+         Gu2VPh/RYGPsbtxsQJwaqjpOFjmggXOYKHkXGWNoi3OOgY3cPqfWkym0O9KxU9kXRrf+
+         7JoQ==
+X-Gm-Message-State: AOJu0Yxy/LAq4MtMf39DOVi10NuaEaGVG6t5setFXZzAE5ZLE6aNnyI9
+	iq3h/Omg4dVXUdcII9cu9RFd3g==
+X-Google-Smtp-Source: AGHT+IHhC+dSe6ZgkjkRRcDm2jaYQvv0w9SRi0lllA0IR+H8hw0N/vi7sDbjg6OeQmo/Z+HXKoyvuA==
+X-Received: by 2002:adf:cf0a:0:b0:321:6bed:1646 with SMTP id o10-20020adfcf0a000000b003216bed1646mr17841695wrj.14.1697015028906;
+        Wed, 11 Oct 2023 02:03:48 -0700 (PDT)
+Received: from ?IPV6:2a05:6e02:1041:c10:de95:eca9:6b1e:b330? ([2a05:6e02:1041:c10:de95:eca9:6b1e:b330])
+        by smtp.googlemail.com with ESMTPSA id d18-20020a5d5392000000b00326f5d0ce0asm14827181wrv.21.2023.10.11.02.03.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 Oct 2023 02:03:48 -0700 (PDT)
+Message-ID: <96da3e12-7d40-458e-9f65-05606dca201f@linaro.org>
+Date: Wed, 11 Oct 2023 11:03:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH -next] clocksource/drivers/sun5i: Remove surplus dev_err()
+ when using platform_get_irq()
+Content-Language: en-US
+To: Yang Li <yang.lee@linux.alibaba.com>, jernej.skrabec@gmail.com,
+ samuel@sholland.org, wens@csie.org
+Cc: tglx@linutronix.de, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+References: <20230831041414.66434-1-yang.lee@linux.alibaba.com>
+From: Daniel Lezcano <daniel.lezcano@linaro.org>
+In-Reply-To: <20230831041414.66434-1-yang.lee@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaTBlIVkgZHUtMTUgYHR5KGlUTARMWGhIXJBQOD1
-	lXWRgSC1lBWU5DVU1KVUpPSlVJSUNZV1kWGg8SFR0UWUFZT0tIVUpKS0hKQ1VKS0tVS1kG
-X-HM-Tid: 0a8b1a3d34a8b03akuuu5e3d38000ae
-X-HM-MType: 10
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NhQ6Tio4Azw*SRAJPCJCEz0B
-	TRkKFAtVSlVKTUJNQk5JSEtKSEpDVTMWGhIXVRoWGh8eDgg7ERYOVR4fDlUYFUVZV1kSC1lBWU5D
-	VU1KVUpPSlVJSUNZV1kIAVlBSUNDSzcG
 
-The current emac delay value is not suitable for Orange Pi
-Zero 3, move it back to Orange Pi Zero 2 DT.
+On 31/08/2023 06:14, Yang Li wrote:
+> There is no need to call the dev_err() function directly to print a
+> custom message when handling an error from either the platform_get_irq()
+> or platform_get_irq_byname() functions as both are going to display an
+> appropriate error message in case of a failure.
+> 
+> ./drivers/clocksource/timer-sun5i.c:260:2-9: line 260 is redundant because platform_get_irq() already prints an error
+> 
+> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+> ---
 
-Fixes: 322bf103204b ("arm64: dts: allwinner: h616: Split Orange Pi Zero 2 DT")
-Signed-off-by: Chukun Pan <amadeus@jmu.edu.cn>
----
- arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi | 2 --
- arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts | 2 ++
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Applied, thanks
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi
-index 15290e6892fc..02a4776c9f2b 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi
-@@ -70,8 +70,6 @@ &emac0 {
- 	pinctrl-0 = <&ext_rgmii_pins>;
- 	phy-mode = "rgmii";
- 	phy-handle = <&ext_rgmii_phy>;
--	allwinner,rx-delay-ps = <3100>;
--	allwinner,tx-delay-ps = <700>;
- 	status = "okay";
- };
- 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-index d83852e72f06..84daa309893b 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-@@ -13,6 +13,8 @@ / {
- };
- 
- &emac0 {
-+	allwinner,rx-delay-ps = <3100>;
-+	allwinner,tx-delay-ps = <700>;
- 	phy-supply = <&reg_dcdce>;
- };
- 
+
 -- 
-2.25.1
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
 
