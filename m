@@ -1,68 +1,66 @@
-Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3570537B
-	for <linux-sunxi@lists.linux.dev>; Thu, 12 Oct 2023 02:53:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-57bb0f5d00aso322613eaf.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 11 Oct 2023 19:53:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697079195; x=1697683995;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=o63NRkqQgQp5HjyonmkoKn7I3h3Gg+fPv/gJKTSgwVQ=;
-        b=oVNvuBtabD6Zq9zJAsqwvrlOz/po1Tvt1TgydyvVkizjdS9j0thdNM1NgLtFBVTKhf
-         4rLzypeNALzONDsQ7yJbBwJZWqgOhg4sZLc7TJxA8+nb8xxmePldvrQLj6AgdhJon+0U
-         wIFuqoKv5QX0PF5g5P0j/J1lvASlTRSPjvhMR5M0tauIF9YLybKhn+x/iCHuaPu2G01K
-         Pz2WOAIv/pw834dI2pFbaz88mNvmSdoNDo7WDCOvgdsAp/rv7YTQdkCT+RE0dL0NhTY3
-         NHUoO5emB9Rs4b1hz53Xjwlk2NAMQHs3SH/YcDe0IDAvTrzk/8b27gZ2Mc6oeSAmAl64
-         dE8A==
-X-Gm-Message-State: AOJu0YxShYOfZ+e8gP0wFfy8CEbrbD7brnk/TzCOhMmCPalbw9tneyPc
-	JgYDyW+5hnSLg0kGVbQUT6oSvEnIdmFM9Q==
-X-Google-Smtp-Source: AGHT+IHXict5BmyMjT273sTfEiSP2P4aEjZDFWfI6RKO0VdcghtCvSC6WHsr95j5zAJF8me76BMrUg==
-X-Received: by 2002:a05:6358:52c5:b0:135:85ec:a080 with SMTP id z5-20020a05635852c500b0013585eca080mr27769701rwz.32.1697079194991;
-        Wed, 11 Oct 2023 19:53:14 -0700 (PDT)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com. [209.85.216.49])
-        by smtp.gmail.com with ESMTPSA id e18-20020aa78c52000000b00686b649cdd0sm10787323pfd.86.2023.10.11.19.53.13
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Oct 2023 19:53:14 -0700 (PDT)
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-27cefb5ae1fso322802a91.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 11 Oct 2023 19:53:13 -0700 (PDT)
-X-Received: by 2002:a17:90b:ed7:b0:268:7ec:51ae with SMTP id
- gz23-20020a17090b0ed700b0026807ec51aemr19828705pjb.41.1697079193746; Wed, 11
- Oct 2023 19:53:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3181A63DC
+	for <linux-sunxi@lists.linux.dev>; Fri, 13 Oct 2023 10:43:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RE3JjP1/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2ECCC433C7;
+	Fri, 13 Oct 2023 10:43:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1697193823;
+	bh=VWAGS5bqi44dAk1bOrEDdGkpcvk+RhQ/wntAJMfz8+I=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=RE3JjP1/8H9sDG9/u6gs7yMJDy0tQPrWtPf/YiAAUbOktrbBKm+UHzTAwSHq3vbna
+	 GvvxvV4rRv/xMVoW1M5wqRX/8NMC40gKbJy2Nh7hVD84D9/h+lTD6DYwXZXJzy5oIv
+	 xTnFd32rr+ZmCKfAatVxH61tIs9QOq3F24xf2pdO+Yod64DC5SMNip5qirMBW+XCln
+	 BFw1U28P1ahuYvwD0bsSt3DnJrtN7ThUb06eOq5SdLJc4zlG27BH+Z638Dt40J7/FD
+	 DpFka2Vs8UQf/RVOs8YqisjsvakFREBDiN1M8TO/cphCVrUKoKZ4uqCbAUh6hZVxn9
+	 x7al7/jnVk0Jg==
+From: Vinod Koul <vkoul@kernel.org>
+To: Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org, 
+ linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev
+In-Reply-To: <0bc81612171baaa6d5dff58c8e009debc03e1ba8.1693735840.git.christophe.jaillet@wanadoo.fr>
+References: <0bc81612171baaa6d5dff58c8e009debc03e1ba8.1693735840.git.christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH] phy: sun4i-usb: Fix a W=1 compilation failure
+Message-Id: <169719382030.165658.16055633686751767855.b4-ty@kernel.org>
+Date: Fri, 13 Oct 2023 16:13:40 +0530
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230911171407.1572030-1-jernej.skrabec@gmail.com>
-In-Reply-To: <20230911171407.1572030-1-jernej.skrabec@gmail.com>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Wed, 11 Oct 2023 19:53:04 -0700
-X-Gmail-Original-Message-ID: <CAGb2v65BnLK2PWh_vnntCtQhCMrAu6segShTFzrfnZMp+VV5+Q@mail.gmail.com>
-Message-ID: <CAGb2v65BnLK2PWh_vnntCtQhCMrAu6segShTFzrfnZMp+VV5+Q@mail.gmail.com>
-Subject: Re: [PATCH] ARM: dts: sun8i-r40: Add interconnect to video-codec
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
-	samuel@sholland.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.12.3
 
-On Mon, Sep 11, 2023 at 10:14=E2=80=AFAM Jernej Skrabec
-<jernej.skrabec@gmail.com> wrote:
->
-> Video codec needs interconnect, so driver knows that it needs to adjust
-> DMA addresses.
->
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Reviewed-by: Chen-Yu Tsai <wens@csie.org>
+On Sun, 03 Sep 2023 12:11:06 +0200, Christophe JAILLET wrote:
+> With gcc 12.3.0, when this file is built, we get errors such as:
+> 
+> drivers/phy/allwinner/phy-sun4i-usb.c: In function ‘sun4i_usb_phy_probe’:
+> drivers/phy/allwinner/phy-sun4i-usb.c:790:52: error: ‘_vbus’ directive output may be truncated writing 5 bytes into a region of size between 2 and 12 [-Werror=format-truncation=]
+>   790 |                 snprintf(name, sizeof(name), "usb%d_vbus", i);
+>       |                                                    ^~~~~
+> drivers/phy/allwinner/phy-sun4i-usb.c:790:17: note: ‘snprintf’ output between 10 and 20 bytes into a destination of size 16
+>   790 |                 snprintf(name, sizeof(name), "usb%d_vbus", i);
+>       |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+> [...]
+
+Applied, thanks!
+
+[1/1] phy: sun4i-usb: Fix a W=1 compilation failure
+      commit: 9e34abc7abfac781df909891c8d53781f607105d
+
+Best regards,
+-- 
+~Vinod
+
+
