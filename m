@@ -1,64 +1,60 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91F96219F8
-	for <linux-sunxi@lists.linux.dev>; Fri, 13 Oct 2023 18:45:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 009382135B
+	for <linux-sunxi@lists.linux.dev>; Fri, 13 Oct 2023 19:18:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hce5p6+7"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4065f29e933so27734245e9.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 13 Oct 2023 11:45:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E0XMaFbE"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4064876e8b8so28109225e9.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 13 Oct 2023 12:18:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697222742; x=1697827542; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1697224682; x=1697829482; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nS/B/9nUlLmw6S4KsFUi4nqKiJBJFKciQh4FDxh+L/s=;
-        b=hce5p6+7dXXxoMMHa7aaeEq+ElJ3beBbWdeL/Fh9mbbMGj4gdUXniJn1QitH+axqce
-         UlrhB4LrTuYlYxd0XiHwe1mvvhOx9huFX0PCsgvSUVhaSZlod28z7MDBQWOjkgYyq+iP
-         bB039MGiCdiazip/l5PUVp09r1lpLzzJU0ihZq1C0EllosVsoi2Ha3Dte7LWuuuk7qwu
-         k68UhSPl63gbrXSp+TGwcAN4J+m1Ou0RggDE/ns+qcwf124SMR4HqQQcKZoge127TnVW
-         Zqj9EHIj/rmPHoRcrcMPylze+nlUy7vQ7rv0cXqsyp2Utpna5rnxul9V3qwW7ULWP7+j
-         snFA==
+        bh=Iit3JEMy1ldZPVE3Qn48s36Bx3IDXl6/hu1ThfQ0zpw=;
+        b=E0XMaFbEJ/niyN1js/AL83AJbcsSywI0B1HBZ8bFmlUDzI97kwFsVoePyqE5LtWZIm
+         U8S05TPcIvNRc6j7F9rrCHpQct9B0bauv/n3XWH6peagY1MjHrChMShAPVsbeEdaR92e
+         mP4GYsS8h8t07m+mEPKKn+i2fmSSRZ/EgSuXWzVWV4gMLlkN43/rMlgKlq+Iv8vsKqkj
+         o3doLtl+TeqaAmJZIX19seJsnS/hlCReTD13/M7FSuyFXwEZkjtoE/nKpg/SBFvUro/W
+         EyXC2KlT/w8QXXbwkLEImzjUO+ROgu5d/mxdSpMKkWBAlPaIlNAS3cUeuL0V34DeE7IT
+         76DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697222742; x=1697827542;
+        d=1e100.net; s=20230601; t=1697224682; x=1697829482;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=nS/B/9nUlLmw6S4KsFUi4nqKiJBJFKciQh4FDxh+L/s=;
-        b=S94GXTGVix27WQQv/zNXs3BOv02vvuwmjWchs9u6dmn2bM/vknedQRwqorBHz/aLyD
-         vroO5Dl0AFCqYxRJzGXj8mRmkjXs1EHNFeV9ShVx1WCO7MVhqnwBDEhtrRU7yBiplTX8
-         erTa8sMIZEP5lJkkAOL2nK+4+ogqHCFH9ZnPVh2LLMX2TLnjrjp5itqFOC3z5bFh4LEw
-         5tTKVvtuBtfbGPe67mxoY4vMYu2YbwAV7mKicHzWrVBx3pLsy+4mj7rjCANyCBVtJRgY
-         gZzKwC0kSrrAgeUs4mJXNdtHX/xJH3y5nt+2H1iyJifl7OfQotccqz8Dlrii+05SLgDM
-         6xOw==
-X-Gm-Message-State: AOJu0Yz6k9RvTB0OIN8nYfPE7X9akleAXJNJ7eUZg3nBo4cxt6QM5ner
-	R+SJ3K4nlvfWTsUW/0kapLQ=
-X-Google-Smtp-Source: AGHT+IHcbqPBjzX48zCFbc2YsOP+a2i9HmTRCmgyTQhV4W9XaKQNyEHu+7HzI1xt2rz8SXlqw5MDaQ==
-X-Received: by 2002:a7b:cb8c:0:b0:406:517f:ac71 with SMTP id m12-20020a7bcb8c000000b00406517fac71mr24094789wmi.29.1697222741548;
-        Fri, 13 Oct 2023 11:45:41 -0700 (PDT)
+        bh=Iit3JEMy1ldZPVE3Qn48s36Bx3IDXl6/hu1ThfQ0zpw=;
+        b=QFAeuKKUZESuSbw6TFMqIDcb0ilnXsvtTuU8/YUePxcBAH8cLWySlS5RjUa74h9h6z
+         0eicuzwE/Um53Nq/BHevPmEhqZ1wYSUdX9ZXy8izO8u2jYbeXeSDYh3amMDOWkpUKBq5
+         NLjMUIaQ/Sq5A+wXGMv+RsTrDRjGZahKT0rpV9EHjrLdSTLUOhKctFY/+TR4MKruGbLY
+         fXdM7kiPlBMQDH/Y9v4BA3q1968r+gJPrXS1YAHCBpuGtOXPMLKiHfwHtmpsL5BaWVJZ
+         RLuqsPpBicXtyvImaMmxeQCduSG/tV7qFpm6SF71nx8mQrlBvGK+T2xyHOwsQhNH2W8u
+         EC1A==
+X-Gm-Message-State: AOJu0Yx2ChFT44nD1U2+LiEp2/toyBxX4rC0bRbJJI+yAUcNHjszjq2T
+	E6KE7ys1f4h2bDt8KVvgtFU=
+X-Google-Smtp-Source: AGHT+IGZU15lurFpPHW0mP4UekjRaDRff8LahYeBpQhkcx13RIh2+RpNLvLGx5O1g30JEnlz3008Lw==
+X-Received: by 2002:a7b:c851:0:b0:406:5301:4320 with SMTP id c17-20020a7bc851000000b0040653014320mr24858359wml.16.1697224681750;
+        Fri, 13 Oct 2023 12:18:01 -0700 (PDT)
 Received: from jernej-laptop.localnet ([188.159.248.16])
-        by smtp.gmail.com with ESMTPSA id e16-20020a05600c4e5000b004068495910csm840969wmq.23.2023.10.13.11.45.39
+        by smtp.gmail.com with ESMTPSA id o22-20020a05600c4fd600b003fe2b081661sm929916wmq.30.2023.10.13.12.18.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Oct 2023 11:45:40 -0700 (PDT)
+        Fri, 13 Oct 2023 12:18:01 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Andre Przywara <andre.przywara@arm.com>, Chukun Pan <amadeus@jmu.edu.cn>
-Cc: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
- Rob Herring <robh+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- Chukun Pan <amadeus@jmu.edu.cn>
-Subject:
- Re: [PATCH 2/2] arm64: dts: allwinner: h616: update emac properties for
- Orange Pi Zero 3
-Date: Fri, 13 Oct 2023 20:45:38 +0200
-Message-ID: <3254946.aeNJFYEL58@jernej-laptop>
-In-Reply-To: <20231010153812.2869633-2-amadeus@jmu.edu.cn>
+To: conor@kernel.org, Julian Ribbeck <julian.ribbeck@gmx.de>
+Cc: conor+dt@kernel.org, devicetree@vger.kernel.org, julian.ribbeck@gmx.de,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, robh+dt@kernel.org, samuel@sholland.org,
+ wens@csie.org
+Subject: Re: [PATCH v4 1/2] ARM: dts: sun7i: Add Iteaduino Plus A20
+Date: Fri, 13 Oct 2023 21:18:00 +0200
+Message-ID: <2242644.iZASKD2KPV@jernej-laptop>
+In-Reply-To: <20231006090154.9289-1-julian.ribbeck@gmx.de>
 References:
- <20231010153812.2869633-1-amadeus@jmu.edu.cn>
- <20231010153812.2869633-2-amadeus@jmu.edu.cn>
+ <20230929-given-making-f3fac6afb176@spud>
+ <20231006090154.9289-1-julian.ribbeck@gmx.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -68,58 +64,171 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Hi!
+Dne petek, 06. oktober 2023 ob 11:01:30 CEST je Julian Ribbeck napisal(a):
+> Iteaduino Plus A20 is very similar to Iteaduino Plus A10. In fact it
+> shares the same breakout board and the Itead Core A20 on top of it, is
+> only adapted to support the dual-core A20.
+> 
+> This commits enables the following hardware:
+> 
+> * HDMI Video output
+> * USB
+> * SATA (untested due to lack of hardware I could attach)
+> * Ethernet
+> * MMC storage
+> * UART
+> * USB OTG (untested, because I don't own an USB OTG cable/device)
+> 
+> Signed-off-by: Julian Ribbeck <julian.ribbeck@gmx.de>
+> ---
+>  arch/arm/boot/dts/allwinner/Makefile          |   1 +
+>  .../sun7i-a20-itead-iteaduino-plus.dts        | 104 ++++++++++++++++++
+>  2 files changed, 105 insertions(+)
+>  create mode 100644 arch/arm/boot/dts/allwinner/sun7i-a20-itead-iteaduino-plus.dts
+> 
+> diff --git a/arch/arm/boot/dts/allwinner/Makefile b/arch/arm/boot/dts/allwinner/Makefile
+> index eebb5a0c873a..39af5ad94590 100644
+> --- a/arch/arm/boot/dts/allwinner/Makefile
+> +++ b/arch/arm/boot/dts/allwinner/Makefile
+> @@ -124,6 +124,7 @@ dtb-$(CONFIG_MACH_SUN7I) += \
+>  	sun7i-a20-haoyu-marsboard.dtb \
+>  	sun7i-a20-hummingbird.dtb \
+>  	sun7i-a20-itead-ibox.dtb \
+> +	sun7i-a20-itead-iteaduino-plus.dts \
 
-Dne torek, 10. oktober 2023 ob 17:38:12 CEST je Chukun Pan napisal(a):
-> Add the correct delay value to emac. Also add missing mdio
-> properties for the YT8531 PHY (clock output required).
-> With these changes, Ethernet now looks stable.
+This should be .dtb.
 
-This is also a fix, so it would also deserve Fixes tag. In fact, please merge
-previous and this patch into one. After all, you are fixing only one thing -
-ethernet on OrangePi Zero 3 board.
+Other than that:
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Can you also explain how did you figure out that additional PHY properties
-are needed? At first glance, based on description of motorcomm,keep-pll-enabled,
-it's not immediately clear why it should be needed. Same goes for second
-property.
+I'll fix it while applying.
 
-1800 ps delay basically means that rgmii is not correct type and rgmii-rxid
-should be used instead. Indeed, schematic confirms that's the case. With that,
-allwinner,rx-delay-ps can be 0 and thus ommited from DT file.
-
-Since there is many differences, I suggest that you remove whole emac0
-node from common DTSI file and put specific ones to each board. It will
-be less confusing that way.
+For future reference, please follow proper patch submission procedure:
+- each revision should be sent in separate thread
+- each new revision should contain changelog, either in cover letter (when
+there is more than one patch) or below --- line in each patch
+- compatible description patch comes before first usage (I'll invert order
+when applying)
 
 Best regards,
 Jernej
 
+>  	sun7i-a20-i12-tvbox.dtb \
+>  	sun7i-a20-icnova-a20-adb4006.dtb \
+>  	sun7i-a20-icnova-swac.dtb \
+> diff --git a/arch/arm/boot/dts/allwinner/sun7i-a20-itead-iteaduino-plus.dts b/arch/arm/boot/dts/allwinner/sun7i-a20-itead-iteaduino-plus.dts
+> new file mode 100644
+> index 000000000000..c9f9b0275381
+> --- /dev/null
+> +++ b/arch/arm/boot/dts/allwinner/sun7i-a20-itead-iteaduino-plus.dts
+> @@ -0,0 +1,104 @@
+> +// SPDX-License-Identifier: (GPL-2.0+ or MIT)
+> +
+> +/dts-v1/;
+> +#include "sun7i-a20.dtsi"
+> +#include "sunxi-itead-core-common.dtsi"
+> +
+> +/ {
+> +	model = "Itead Iteaduino Plus A20";
+> +	compatible = "itead,iteaduino-plus-a20", "allwinner,sun7i-a20";
+> +
+> +	hdmi-connector {
+> +		compatible = "hdmi-connector";
+> +		type = "a";
+> +
+> +		port {
+> +			hdmi_con_in: endpoint {
+> +				remote-endpoint = <&hdmi_out_con>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&ac_power_supply {
+> +	status = "okay";
+> +};
+> +
+> +&ahci {
+> +	target-supply = <&reg_ahci_5v>;
+> +	status = "okay";
+> +};
+> +
+> +&axp209 {
+> +	interrupt-parent = <&nmi_intc>;
+> +	interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
+> +};
+> +
+> +&battery_power_supply {
+> +	status = "okay";
+> +};
+> +
+> +&codec {
+> +	stauts = "okay";
+> +};
+> +
+> +&de {
+> +	status = "okay";
+> +};
+> +
+> +&emac {
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&emac_pa_pins>;
+> +	phy-handle = <&phy1>;
+> +	status = "okay";
+> +};
+> +
+> +&emac_sram {
+> +	status = "okay";
+> +};
+> +
+> +&hdmi {
+> +	status = "okay";
+> +};
+> +
+> +&hdmi_out {
+> +	hdmi_out_con: endpoint {
+> +		remote-endpoint = <&hdmi_con_in>;
+> +	};
+> +};
+> +
+> +&mdio {
+> +	status = "okay";
+> +
+> +	phy1: ethernet-phy@1 {
+> +		reg = <1>;
+> +	};
+> +};
+> +
+> +&mmc0 {
+> +	vmmc-supply = <&reg_vcc3v3>;
+> +	bus-width = <4>;
+> +	cd-gpios = <&pio 7 1 GPIO_ACTIVE_LOW>; /* PH1 */
+> +	status = "okay";
+> +};
+> +
+> +&otg_sram {
+> +	status = "okay";
+> +};
+> +
+> +&reg_ahci_5v {
+> +	status = "okay";
+> +};
+> +
+> +&reg_usb0_vbus {
+> +	status = "okay";
+> +};
+> +
+> +&usb_otg {
+> +	status = "okay";
+> +	dr_mode = "host";
+> +};
+> +
+> +&usbphy {
+> +	usb0_vbus-supply = <&reg_usb0_vbus>;
+> +};
+> --
+> 2.42.0
 > 
-> Signed-off-by: Chukun Pan <amadeus@jmu.edu.cn>
-> ---
->  arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
-> index 00fe28caac93..02c7836b624a 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
-> @@ -13,10 +13,14 @@ / {
->  };
->  
->  &emac0 {
-> +	allwinner,rx-delay-ps = <1800>;
-> +	allwinner,tx-delay-ps = <700>;
->  	phy-supply = <&reg_dldo1>;
->  };
->  
->  &ext_rgmii_phy {
-> +	motorcomm,keep-pll-enabled;
-> +	motorcomm,auto-sleep-disabled;
->  	motorcomm,clk-out-frequency-hz = <125000000>;
->  };
->  
 > 
 
 
