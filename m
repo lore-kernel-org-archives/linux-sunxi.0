@@ -1,121 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F69420B02
-	for <linux-sunxi@lists.linux.dev>; Fri, 13 Oct 2023 19:42:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 533ED250E1
+	for <linux-sunxi@lists.linux.dev>; Fri, 13 Oct 2023 19:50:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eieYSk+X"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58102C433C7;
-	Fri, 13 Oct 2023 19:42:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1697226128;
-	bh=yFjcgfyV87BKrvcHoDa+1ShbWAW68Ug14kruJEKcHPM=;
-	h=Date:From:List-Id:To:Cc:Subject:From;
-	b=eieYSk+Xxu7RVN4fIy437leAx7jmwvO1bjGm3FblMym8CcowHpdfhg6w3zAyvx5sW
-	 /3j5Yatp4Y5AWgi17RApBo5O8D6p6xfFJbI0tiLmGSlYZyBtaI5fbuE1qrotZYBSWb
-	 4/vP9NSQmaDVlEwWRZhiKBzg3VIUNf80AeyoeNZGRNKK0RWveioeI1LopDggbLCUjV
-	 Vw2SuZtZR/zzK1GxdkKG2aa3hS0QvX+YdyOnmIYPCgUzwCHFgL7UgaT7ggwx/Uf+TG
-	 wow1LL/ZSMeLUYbZlQXG4nTzIb+iD48aVEdSi89VXnJq8dO/07a5iJF5eCFUJEKXqD
-	 q1JaQ2xLdj86A==
-Date: Fri, 13 Oct 2023 21:42:03 +0200
-From: Jernej Skrabec <jernej@kernel.org>
-List-Id: <soc.lore.kernel.org>
-To: arm@kernel.org, soc@kernel.org
-Cc: wens@csie.org, samuel@sholland.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: [GIT PULL] Allwinner device tree changes for 6.7
-Message-ID: <20231013194203.GA2155816@jernej-laptop>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bwF/ln5P"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4064867903cso29057455e9.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 13 Oct 2023 12:50:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697226638; x=1697831438; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qx1cUFmw1hK7yZ7GcQrEKkBst8WaqJrLkeTkGMOaiTk=;
+        b=bwF/ln5PmiFevkxyxoabv0fuTEPPOh41XSfEAERlwUwMFfd07JlDp+SHK2f2IDh8xy
+         1BSiMfnpPgUglWmgnh7zyxBjKeu+MUHG7cAN/dIkkeROT3XEkNQdO3Gq9faHRR+qhTJu
+         iXRhWUo3KC/q/9We9S+qsUnrhl67VH22XGOky532q1eSnZt/2PidoqTuNlvTlHVus4s3
+         smzvyfJnjWVEgksjGFsvwzjQNQxJvULCBvTI1GMgJK5/l/9UGMEi83+JxWB2hxGECCab
+         fyc6+YaV+IQzDcN3H5R+7BcCAb0vahgUWvEwgXkFNjgEi17RRw+2YNNHZkN+G5ugOcvL
+         cXRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697226638; x=1697831438;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qx1cUFmw1hK7yZ7GcQrEKkBst8WaqJrLkeTkGMOaiTk=;
+        b=twd5+EQQvi+l10w0bYNFs9KBihUHpXksuVlXKkklrYJhcnA/VXSzi1vx+l+YDjnFIe
+         /EM2R7toGU8Q42rV+tb5KhwLkBGpWnT89/BTaXwIQ1IfHBc8EO45a6UmUaE69aQOpH+Q
+         7oJZGyVsyA08CAeC6nTuHcPljHaj72ZA1kJDU7vaySEbkYSltBtTxgR4NIe8nf2MTOvy
+         XIFRcCoJyIJrpokO64oNZ1SAACK4aCZbtJcYefldw6ltz7PXEcd+w21NXhx2piI5CTzL
+         bfusWBqO/1oZ00ZWlGyozbg6qaa9N6a4//T1C349L4Hm75NVjRdOHTmpFWrMOdJre8Uo
+         flvg==
+X-Gm-Message-State: AOJu0YzNyu5gGXzcmPv0GxfiIYvVsPPQ7x2Y98LtohaoFfBsvsr0OgqG
+	zxX1ReimE9R6kZpVwWaIAoI=
+X-Google-Smtp-Source: AGHT+IEDQAlSWc+A/u62V+MvHuimTiaN8lp/uhK9NO20sm2kLcoQiI7ALC/bz4SdK9FhClHxBkqvfQ==
+X-Received: by 2002:a05:6000:128b:b0:32d:9d92:481a with SMTP id f11-20020a056000128b00b0032d9d92481amr2005733wrx.39.1697226638285;
+        Fri, 13 Oct 2023 12:50:38 -0700 (PDT)
+Received: from jernej-laptop.localnet ([188.159.248.16])
+        by smtp.gmail.com with ESMTPSA id w16-20020adf8bd0000000b0032d81837433sm8698668wra.30.2023.10.13.12.50.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Oct 2023 12:50:37 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: wens@csie.org, airlied@gmail.com, daniel@ffwll.ch, samuel@sholland.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 5/7] drm/sun4i: dw-hdmi: Split driver registration
+Date: Fri, 13 Oct 2023 21:50:36 +0200
+Message-ID: <1773349.VLH7GnMWUR@jernej-laptop>
+In-Reply-To: <3cwcfx7fvtr75j6musdqttn6oto4wemsx7lh664gu3run6wxnz@5o5vao4wibm5>
+References:
+ <20230924192604.3262187-1-jernej.skrabec@gmail.com>
+ <3441738.QJadu78ljV@jernej-laptop>
+ <3cwcfx7fvtr75j6musdqttn6oto4wemsx7lh664gu3run6wxnz@5o5vao4wibm5>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-Hi!
+Dne =C4=8Detrtek, 05. oktober 2023 ob 10:43:14 CEST je Maxime Ripard napisa=
+l(a):
+> On Mon, Sep 25, 2023 at 05:07:45PM +0200, Jernej =C5=A0krabec wrote:
+> > Dne ponedeljek, 25. september 2023 ob 09:47:15 CEST je Maxime Ripard na=
+pisal(a):
+> > > On Sun, Sep 24, 2023 at 09:26:02PM +0200, Jernej Skrabec wrote:
+> > > > There is no reason to register two drivers in same place. Using mac=
+ro
+> > > > lowers amount of boilerplate code.
+> > >=20
+> > > There's one actually: you can't have several module_init functions in
+> > > the some module, and both files are compiled into the same module.
+> >=20
+> > Yeah, I figured as much. However, I think code clean up is good enough =
+reason
+> > to add hidden option in Kconfig and extra entry in Makefile (in v2).
+> >=20
+> > Do you agree?
+>=20
+> Yeah, I don't know. Adding more modules makes it more difficult to
+> handle (especially autoloading) without a clear argument why.
+> Module_init is simple enough as it is currently, maybe we should just
+> add a comment to make it clearer?
 
-Please pull following device tree changes for 6.7.
+I'll just drop this patch then. While I think autoloading works pretty good
+these days and cleaner code is nice, it can certainly cause some issues whi=
+le
+packaging.
 
 Best regards,
 Jernej
 
-The following changes since commit 0bb80ecc33a8fb5a682236443c1e740d5c917d1d:
 
-  Linux 6.6-rc1 (2023-09-10 16:28:41 -0700)
 
-are available in the Git repository at:
-
-  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-dt-for-6.7-1
-
-for you to fetch changes up to c3f7c14856ebbeb8e9e19439b9f5ec66f88744b9:
-
-  riscv: dts: allwinner: convert isa detection to new properties (2023-10-13 21:19:25 +0200)
-
-----------------------------------------------------------------
-- Added V3s nodes for PWM pinctrl, EHCI and OHCI
-- RISC-V DT cleanups
-- Added new ISA property and PMU node to Allwinner D1
-- Added interconnect to R40 video codec node
-- New boards: Anbernic RG-Nano, BigTreeTech Pi, BigTreeTech CB1 SOM
-
-----------------------------------------------------------------
-Chris Morgan (4):
-      arm: dts: sun8i: V3s: Add pinctrl for pwm
-      ARM: dts: sun8i: v3s: add EHCI and OHCI to v3s dts
-      dt-bindings: arm: sunxi: add Anbernic RG-Nano
-      ARM: dts: sunxi: add support for Anbernic RG-Nano
-
-Conor Dooley (2):
-      riscv: dts: allwinner: remove address-cells from intc node
-      riscv: dts: allwinner: convert isa detection to new properties
-
-Inochi Amaoto (1):
-      riscv: dts: allwinner: d1: Add PMU event node
-
-Jernej Skrabec (1):
-      ARM: dts: sun8i-r40: Add interconnect to video-codec
-
-Krzysztof Kozlowski (1):
-      riscv: dts: use capital "OR" for multiple licenses in SPDX
-
-Martin Botka (6):
-      dt-bindings: nvmem: SID: Add binding for H616 SID controller
-      arm64: dts: allwinner: h616: Add SID controller node
-      dt-bindings: vendor-prefixes: Add BigTreeTech
-      dt-bindings: arm: sunxi: Add BigTreeTech boards
-      arm64: dts: allwinner: h616: Add BigTreeTech CB1 SoM & boards support
-      arm64: dts: allwinner: h616: Add BigTreeTech Pi support
-
- Documentation/devicetree/bindings/arm/sunxi.yaml   |  16 ++
- .../bindings/nvmem/allwinner,sun4i-a10-sid.yaml    |   4 +-
- .../devicetree/bindings/vendor-prefixes.yaml       |   2 +
- arch/arm/boot/dts/allwinner/Makefile               |   1 +
- arch/arm/boot/dts/allwinner/sun8i-r40.dtsi         |   2 +
- .../dts/allwinner/sun8i-v3s-anbernic-rg-nano.dts   | 276 +++++++++++++++++++++
- arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi         |  35 +++
- arch/arm64/boot/dts/allwinner/Makefile             |   2 +
- .../sun50i-h616-bigtreetech-cb1-manta.dts          |  35 +++
- .../dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi | 138 +++++++++++
- .../dts/allwinner/sun50i-h616-bigtreetech-pi.dts   |  63 +++++
- arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi     |   7 +
- .../dts/allwinner/sun20i-common-regulators.dtsi    |   2 +-
- .../dts/allwinner/sun20i-d1-dongshan-nezha-stu.dts |   2 +-
- .../sun20i-d1-lichee-rv-86-panel-480p.dts          |   2 +-
- .../sun20i-d1-lichee-rv-86-panel-720p.dts          |   2 +-
- .../allwinner/sun20i-d1-lichee-rv-86-panel.dtsi    |   2 +-
- .../dts/allwinner/sun20i-d1-lichee-rv-dock.dts     |   2 +-
- .../boot/dts/allwinner/sun20i-d1-lichee-rv.dts     |   2 +-
- .../dts/allwinner/sun20i-d1-mangopi-mq-pro.dts     |   2 +-
- arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts  |   2 +-
- arch/riscv/boot/dts/allwinner/sun20i-d1.dtsi       |   2 +-
- .../boot/dts/allwinner/sun20i-d1s-mangopi-mq.dts   |   2 +-
- arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi      |  45 +++-
- arch/riscv/boot/dts/allwinner/sunxi-d1-t113.dtsi   |   2 +-
- arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi  |   2 +-
- 26 files changed, 636 insertions(+), 16 deletions(-)
- create mode 100644 arch/arm/boot/dts/allwinner/sun8i-v3s-anbernic-rg-nano.dts
- create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dts
- create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi
- create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts
