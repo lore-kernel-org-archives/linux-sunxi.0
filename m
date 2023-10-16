@@ -1,107 +1,116 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 064EC1802D
-	for <linux-sunxi@lists.linux.dev>; Mon, 16 Oct 2023 08:10:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="SB4NRqNH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1697443810; x=1728979810;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LxryxW2/hhg5ypvaW/Cj4cSwQFokyO6Tq8LSefAbk/k=;
-  b=SB4NRqNHDOXPNWyf2NMU60PEARFMFrY6geEGzQgtaPzLWFICDYOsMvTN
-   /kbAyQwhs97fTzleah7rD8NsNu6DK8npve2taHG3g/homfubE9KChKzt4
-   3ZTkdKuk5fcSN/xkL7cWpHVG6XqS/o8dMsU8OCvvEYhd1bgWaaGeK+V6A
-   b4Uovmyc03rwfBuIzsCrZeJQiL+IdMyghiI2S6/ZmPgcCtjEzqt4s03JO
-   u/lqg3JP2tyJN4xZi7Trblhd8ICQAkHeAd+bPHvk0St++DnLhfC/UeblG
-   jotzlSt/0zwwK7m32AirZQmRF6JQ9BOtwfYvt2PHXtWNw7GrHM1xSUKKV
-   w==;
-X-CSE-ConnectionGUID: koRSwWUXT4OxCfE2jy4xWw==
-X-CSE-MsgGUID: TT0ihY+ZRs62LenG9QLRYQ==
-X-ThreatScanner-Verdict: Negative
-X-IronPort-AV: E=Sophos;i="6.03,228,1694761200"; 
-   d="asc'?scan'208";a="10028472"
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa4.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 16 Oct 2023 01:10:03 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Mon, 16 Oct 2023 01:09:31 -0700
-Received: from wendy (10.10.85.11) by chn-vm-ex03.mchp-main.com (10.10.85.151)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
- Transport; Mon, 16 Oct 2023 01:09:27 -0700
-Date: Mon, 16 Oct 2023 09:09:06 +0100
-From: Conor Dooley <conor.dooley@microchip.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-CC: Conor Dooley <conor@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
-	<conor+dt@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>, "Palmer
- Dabbelt" <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Chen-Yu
- Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
- Holland <samuel@sholland.org>, Daire McNamara <daire.mcnamara@microchip.com>,
-	"Geert Uytterhoeven" <geert+renesas@glider.be>, Magnus Damm
-	<magnus.damm@gmail.com>, Emil Renner Berthing <kernel@esmil.dk>, Jisheng
- Zhang <jszhang@kernel.org>, Guo Ren <guoren@kernel.org>, Fu Wei
-	<wefu@redhat.com>, Chen Wang <unicorn_wang@outlook.com>,
-	<devicetree@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-	<linux-sunxi@lists.linux.dev>, <linux-renesas-soc@vger.kernel.org>
-Subject: Re: (subset) [PATCH v3 0/6] riscv,isa-extensions additions
-Message-ID: <20231016-veto-fascism-117d9d750db4@wendy>
-References: <20231009-approve-verbalize-ce9324858e76@wendy>
- <20231015-qualifier-campus-97bf09059d51@spud>
- <CAMuHMdUTiod7o9+DG70sNWr=GGFwBeCagj=OrRp0Dn_jPDbakw@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2D6A381BA
+	for <linux-sunxi@lists.linux.dev>; Mon, 16 Oct 2023 21:44:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-6c67060fdfbso3584084a34.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 16 Oct 2023 14:44:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697492679; x=1698097479;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gEGU67h2aLgP+jVHENE55AMROY3oIX9Sz/12+e/BNPI=;
+        b=xSn3bR9f9sL0lfslIC9/SS/FRmMM7RHmjtn/ZcMmg3rl2ER+HtVn7Hi4BEx/YzVv95
+         nPuKu0J2+2unWRcyVf0+o34H8jLOdoe7ok47JQenk70BKPfAe5tYC2psvQPYjmNlDwco
+         yHeXKMahfO8UwKIHMfe9CTEJVG6VBX2ZWl6jVf+jIvXCOxKacFXKCbqvaasURVapguF7
+         TKl5g+917IZrpXifIdRVPrW3ZrBt2Jk3AdIApyaoW3yT9Fd/HK7g9aJcJEbpj7fKySAZ
+         R/NlfE18/D1kLC3ye7Q/l/SDL45PGySfPJaBrwPr/AZeCioYOL91/NB8yHa8szC6k42I
+         x5vw==
+X-Gm-Message-State: AOJu0YxB53fEyyDKcRPwZCZ/5uRGGxeJ5rdm7YXx0heUytPK1jjDTZ36
+	aeuPZdke0G5+QcGxpmUVIQ==
+X-Google-Smtp-Source: AGHT+IHuNmP8V6sstTsEu3VVHzkFP0xhM7V0ZTHQhU/5l3uo4mYCmbaKF/vdgAVoy0+B7a5WdoyAzQ==
+X-Received: by 2002:a05:6830:3499:b0:6b9:a6ef:2709 with SMTP id c25-20020a056830349900b006b9a6ef2709mr740772otu.8.1697492678863;
+        Mon, 16 Oct 2023 14:44:38 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id k7-20020a9d4b87000000b006c21f11dcecsm28451otf.49.2023.10.16.14.44.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Oct 2023 14:44:38 -0700 (PDT)
+Received: (nullmailer pid 3823207 invoked by uid 1000);
+	Mon, 16 Oct 2023 21:44:35 -0000
+From: Rob Herring <robh@kernel.org>
+Subject: [PATCH net-next 0/8] dt-bindings: net: Child node schema cleanups
+Date: Mon, 16 Oct 2023 16:44:19 -0500
+Message-Id: <20231016-dt-net-cleanups-v1-0-a525a090b444@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="2aSpILo4o1Dz0BKi"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdUTiod7o9+DG70sNWr=GGFwBeCagj=OrRp0Dn_jPDbakw@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALOuLWUC/x2M0QpAQBAAf0X7bMvdSfgVeThnsaWluyMl/+54n
+ JqZGwJ5pgBtdoOnkwNvkkDlGbjFykzIY2LQhTaqUBWOEYUiupWsHHvAwRpt6qF0tqkhVbunia/
+ /2MFnCl0R+ud5AX4J6O5rAAAA
+To: "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Andrew Lunn <andrew@lunn.ch>, 
+	Florian Fainelli <f.fainelli@gmail.com>, Vladimir Oltean <olteanv@gmail.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Woojung Huh <woojung.huh@microchip.com>, UNGLinuxDriver@microchip.com, 
+	Linus Walleij <linus.walleij@linaro.org>, =?UTF-8?Q?Alvin_=C5=A0ipraga?= <alsi@bang-olufsen.dk>, 
+	=?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Maxime Ripard <mripard@kernel.org>, =?UTF-8?B?bsOnIMOcTkFM?= <arinc.unal@arinc9.com>, 
+	Landen Chao <Landen.Chao@mediatek.com>, DENG Qingfang <dqfext@gmail.com>, 
+	Sean Wang <sean.wang@mediatek.com>, Daniel Golle <daniel@makrotopia.org>, 
+	John Crispin <john@phrozen.org>, Gerhard Engleder <gerhard@engleder-embedded.com>, 
+	Heiner Kallweit <hkallweit1@gmail.com>, Sergey Shtylyov <s.shtylyov@omp.ru>, 
+	Sergei Shtylyov <sergei.shtylyov@gmail.com>, Justin Chen <justin.chen@broadcom.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Grygorii Strashko <grygorii.strashko@ti.com>, Sekhar Nori <nsekhar@ti.com>, 
+	Claudiu Manoil <claudiu.manoil@nxp.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Vladimir Oltean <vladimir.oltean@nxp.com>, netdev@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com
+X-Mailer: b4 0.13-dev
 
---2aSpILo4o1Dz0BKi
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This is a series of clean-ups related to ensuring that child node 
+schemas are constrained to not allow undefined properties. Typically, 
+that means just adding additionalProperties or unevaluatedProperties as 
+appropriate. The DSA/switch schemas turned out to be a bit more 
+involved, so there's some more fixes and a bit of restructuring in them.
 
-On Mon, Oct 16, 2023 at 09:23:23AM +0200, Geert Uytterhoeven wrote:
-> On Sun, Oct 15, 2023 at 2:22=E2=80=AFPM Conor Dooley <conor@kernel.org> w=
-rote:
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+Rob Herring (8):
+      dt-bindings: net: Add missing (unevaluated|additional)Properties on child node schemas
+      dt-bindings: net: renesas: Drop ethernet-phy node schema
+      dt-bindings: net: dsa/switch: Make 'ethernet-port' node addresses hex
+      dt-bindings: net: ethernet-switch: Add missing 'ethernet-ports' level
+      dt-bindings: net: ethernet-switch: Rename $defs "base" to 'ethernet-ports'
+      dt-bindings: net: mscc,vsc7514-switch: Clean-up example indentation
+      dt-bindings: net: mscc,vsc7514-switch: Simplify DSA and switch references
+      dt-bindings: net: dsa: Drop 'ethernet-ports' node properties
 
-> > The first 3 applied to riscv-dt-for-next, I expect the rest to go via
-> > their respective platform maintainers.
->=20
-> I sent my last soc PR for v6.7 last Friday, as per the soc deadline.
+ .../bindings/net/allwinner,sun8i-a83t-emac.yaml    |  2 +
+ .../devicetree/bindings/net/brcm,asp-v2.0.yaml     |  2 +-
+ .../devicetree/bindings/net/dsa/brcm,sf2.yaml      |  1 +
+ Documentation/devicetree/bindings/net/dsa/dsa.yaml | 11 +-----
+ .../bindings/net/dsa/mediatek,mt7530.yaml          |  8 ++--
+ .../bindings/net/dsa/microchip,lan937x.yaml        |  3 +-
+ .../devicetree/bindings/net/dsa/nxp,sja1105.yaml   |  4 +-
+ .../devicetree/bindings/net/dsa/qca8k.yaml         |  1 +
+ .../devicetree/bindings/net/dsa/realtek.yaml       |  2 +
+ .../bindings/net/dsa/renesas,rzn1-a5psw.yaml       | 10 +----
+ .../devicetree/bindings/net/engleder,tsnep.yaml    |  1 +
+ .../devicetree/bindings/net/ethernet-switch.yaml   | 14 ++++---
+ .../bindings/net/mscc,vsc7514-switch.yaml          | 46 +++++++++-------------
+ .../devicetree/bindings/net/nxp,tja11xx.yaml       |  1 +
+ .../devicetree/bindings/net/renesas,ether.yaml     |  3 +-
+ .../devicetree/bindings/net/renesas,etheravb.yaml  |  3 +-
+ .../devicetree/bindings/net/ti,cpsw-switch.yaml    |  2 +-
+ 17 files changed, 51 insertions(+), 63 deletions(-)
+---
+base-commit: 4d0515b235dec789578d135a5db586b25c5870cb
+change-id: 20231016-dt-net-cleanups-ba3238b4ca98
 
-I was going to send mine this afternoon :)
+Best regards,
+-- 
+Rob Herring <robh@kernel.org>
 
-> Feel free to take "[PATCH v3 4/6] riscv: dts: renesas: convert isa
-> detection to new properties" into your tree for v6, if that is still
-> possible (I have just provided my Acked-by). Otherwise, I can queue
-> it in renesas-devel for v6.8.
-
-I was expecting them to end up in v6.8 since it's pretty late & I don't
-really want to send a PR with stuff that hasn't been in linux-next.
-Queuing it renesas-devel sounds good to me, thanks!
-
---2aSpILo4o1Dz0BKi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZSzvnQAKCRB4tDGHoIJi
-0opqAQCkGEm9sza01pNYywi64GPOXXffC76mu2+pYDNRMvk1TQD9F9k8KyYRCpaM
-Dkz5LS8icM//L/crcLEMzZL4FaOsaw0=
-=Wny0
------END PGP SIGNATURE-----
-
---2aSpILo4o1Dz0BKi--
