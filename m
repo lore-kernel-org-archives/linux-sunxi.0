@@ -1,85 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from Atcsqr.andestech.com (60-248-80-70.hinet-ip.hinet.net [60.248.80.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4923C569F;
-	Sun, 15 Oct 2023 12:22:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KUUIcofa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35753C433C8;
-	Sun, 15 Oct 2023 12:22:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1697372571;
-	bh=Vq1x8fNAr/F5R14kzqqNRk9z6bIRBIK9ilwYC/Yu/n8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KUUIcofa5nhhHisGxJQ1HY7JhZZ8wEN/koWoaRST6AsmY13ju+N3Uih7pphdxf8Ck
-	 TfP3h7NaqakIsIVlHTC3Aw34UuX0iPjcL0Jw7c3sceNbf7qfUEOAH+3NHz5bAS2T8n
-	 1HYGpgModnd2INeLjnamqfCSqa+jhfmJ4khpqgWEQepmUjiOHlsUjGSl0p/+GvbIqk
-	 fLjfVlEKB+zrMui7gpV13nIlDPisHHFYZ2lTkkrCFLmLuZOvIn3ibiR52HXfATT3V1
-	 IyDF3p/GtG1qSC3/GEfiE/qoD0mzPDEGbedNFcgfyq3Jyxgj9AUl9OD+Hidw7pG07J
-	 Q2QkkavLa0bZA==
-From: Conor Dooley <conor@kernel.org>
-To: linux-riscv@lists.indradead.org,
-	Conor Dooley <conor.dooley@microchip.com>
-Cc: conor@kernel.org,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Daire McNamara <daire.mcnamara@microchip.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Emil Renner Berthing <kernel@esmil.dk>,
-	Jisheng Zhang <jszhang@kernel.org>,
-	Guo Ren <guoren@kernel.org>,
-	Fu Wei <wefu@redhat.com>,
-	Chen Wang <unicorn_wang@outlook.com>,
-	devicetree@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: (subset) [PATCH v3 0/6] riscv,isa-extensions additions
-Date: Sun, 15 Oct 2023 13:22:02 +0100
-Message-Id: <20231015-qualifier-campus-97bf09059d51@spud>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231009-approve-verbalize-ce9324858e76@wendy>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16A178460
+	for <linux-sunxi@lists.linux.dev>; Mon, 16 Oct 2023 06:27:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=andestech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=andestech.com
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from Atcsqr.andestech.com (localhost [127.0.0.2] (may be forged))
+	by Atcsqr.andestech.com with ESMTP id 39G6AtEV080723
+	for <linux-sunxi@lists.linux.dev>; Mon, 16 Oct 2023 14:10:55 +0800 (+08)
+	(envelope-from peterlin@andestech.com)
+Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
+	by Atcsqr.andestech.com with ESMTP id 39G69rND080135;
+	Mon, 16 Oct 2023 14:09:53 +0800 (+08)
+	(envelope-from peterlin@andestech.com)
+Received: from APC323 (10.0.12.98) by ATCPCS16.andestech.com (10.0.1.222) with
+ Microsoft SMTP Server id 14.3.498.0; Mon, 16 Oct 2023 14:09:53 +0800
+Date: Mon, 16 Oct 2023 14:09:46 +0800
+From: Yu-Chien Peter Lin <peterlin@andestech.com>
+To: Conor Dooley <conor.dooley@microchip.com>
+CC: <linux-riscv@lists.indradead.org>, <conor@kernel.org>,
+        Rob Herring
+	<robh+dt@kernel.org>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        "Paul Walmsley" <paul.walmsley@sifive.com>,
+        Palmer Dabbelt
+	<palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>, Chen-Yu Tsai
+	<wens@csie.org>,
+        "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+        Samuel Holland
+	<samuel@sholland.org>,
+        Daire McNamara <daire.mcnamara@microchip.com>,
+        Geert
+ Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "Emil Renner Berthing" <kernel@esmil.dk>,
+        Jisheng Zhang <jszhang@kernel.org>, Guo Ren <guoren@kernel.org>,
+        Fu Wei <wefu@redhat.com>, Chen Wang
+	<unicorn_wang@outlook.com>,
+        <devicetree@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        <linux-sunxi@lists.linux.dev>, <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v3 4/6] riscv: dts: renesas: convert isa detection to new
+ properties
+Message-ID: <ZSzTqgVNSD9Q7V6H@APC323>
 References: <20231009-approve-verbalize-ce9324858e76@wendy>
+ <20231009-smog-gag-3ba67e68126b@wendy>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=870; i=conor.dooley@microchip.com; h=from:subject:message-id; bh=JxLsg/nX2rHAa/nDvg2BonZ/j7ra8ax29aRGRmkFUGU=; b=owGbwMvMwCFWscWwfUFT0iXG02pJDKnaN9MXZh9OfZttW3bgD9O9h39Tj8kd+3X1nVVa3eZTJ Yyh/zXzOkpZGMQ4GGTFFFkSb/e1SK3/47LDuectzBxWJpAhDFycAjCRacwM/93VTu1Mu3pe8cfd nZ0eCnMezgzT645bJ35u6ZRQL6/Pi0IYGVbu/cq9Z+JE6QsdR6fxuVx5UaU/rTfZWmCVugDX7tA 3fOwA
-X-Developer-Key: i=conor.dooley@microchip.com; a=openpgp; fpr=F9ECA03CF54F12CD01F1655722E2C55B37CF380C
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20231009-smog-gag-3ba67e68126b@wendy>
+User-Agent: Mutt/2.2.10 (2023-03-25)
+X-Originating-IP: [10.0.12.98]
+X-DNSRBL: 
+X-SPAM-SOURCE-CHECK: pass
+X-MAIL:Atcsqr.andestech.com 39G6AtEV080723
 
-From: Conor Dooley <conor.dooley@microchip.com>
-
-On Mon, 09 Oct 2023 10:37:44 +0100, Conor Dooley wrote:
-> Now with the RFC tag dropped. There are no changes here from "RFC v2",
-> other than the addition of tags that were provided along the way. I have
-> not added "Zfh" to the T-Head based stuff, as I can't actually read the
-> documentation that would show that they're encoding-for-encoding
-> compatible with the standard extension, since it is apparently only in
-> Chinese.
+On Mon, Oct 09, 2023 at 10:37:48AM +0100, Conor Dooley wrote:
+> Convert the RZ/Five devicetrees to use the new properties
+> "riscv,isa-base" & "riscv,isa-extensions".
+> For compatibility with other projects, "riscv,isa" remains.
 > 
-> [...]
+> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  arch/riscv/boot/dts/renesas/r9a07g043f.dtsi | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi b/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
+> index b0796015e36b..eb301d8eb2b0 100644
+> --- a/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
+> +++ b/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
+> @@ -24,6 +24,9 @@ cpu0: cpu@0 {
+>  			reg = <0x0>;
+>  			status = "okay";
+>  			riscv,isa = "rv64imafdc";
+> +			riscv,isa-base = "rv64i";
+> +			riscv,isa-extensions = "i", "m", "a", "f", "d", "c", "zicntr", "zicsr",
+> +					       "zifencei", "zihpm";
 
-The first 3 applied to riscv-dt-for-next, I expect the rest to go via
-their respective platform maintainers.
+We do have zihpm, and OpenSBI can also probe its existence.
 
-[1/6] riscv: dts: microchip: convert isa detection to new properties
-      https://git.kernel.org/conor/c/561add0da6d3
-[2/6] riscv: dts: sifive: convert isa detection to new properties
-      https://git.kernel.org/conor/c/a54f42722e49
-[3/6] riscv: dts: starfive: convert isa detection to new properties
-      https://git.kernel.org/conor/c/81b5948cf1a7
+Boot HART ISA Extensions  : zihpm
+Boot HART MHPM Info       : 4 (0x00000078)
 
-Thanks,
-Conor.
+By the way, we will append "xandespmu" here.
+I hope this is an appropriate way to add a new custom extension.
+
+>  			mmu-type = "riscv,sv39";
+>  			i-cache-size = <0x8000>;
+>  			i-cache-line-size = <0x40>;
