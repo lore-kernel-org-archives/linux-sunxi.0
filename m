@@ -1,94 +1,56 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0ACD156F9
-	for <linux-sunxi@lists.linux.dev>; Tue, 17 Oct 2023 06:57:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arinc9.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arinc9.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arinc9.com header.i=@arinc9.com header.b="hDTZmwUO"
-Received: from relay8-d.mail.gandi.net (unknown [217.70.183.201])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id B4299CED47
-	for <linux-sunxi@lists.linux.dev>; Tue, 17 Oct 2023 06:47:32 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A1F391BF204;
-	Tue, 17 Oct 2023 06:47:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arinc9.com; s=gm1;
-	t=1697525245;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TBlwDvwhYGIsgSmVdpjhBCYAnjDFfdrZLN1FVn3zBd4=;
-	b=hDTZmwUOqR3/92Etf0bXfl43fFK80p7gU57teibZRMG3XQJzL2Z+8K+/Ukgq7h5FRA8rDh
-	zDJqbqGnwt5hy7hTdohCcLDh2ImDZKlR54he2ROqcwIz+88qV+IOJWg5deGItGS69hdgh8
-	LWE2aesfLwnLGpkk2cqpgzNnSzLorkjliDbVzgX12m2hW8Pd09/eRBIrCmhduTC+29PC7N
-	5fYA+wNhBGRCI1iqrh9C1Mg0F5TOUavuei+t7fiLMX2tgW+NbzUEScCPIFZYy7kb634Emg
-	ob8yPrlai9y7Kp4lsyDx+/lVQBnyItXeqH2sVBwcQd833rs6JxCgcNiM9/3pSQ==
-Message-ID: <18ff5bcc-35d8-4759-86d4-66fd9c702622@arinc9.com>
-Date: Tue, 17 Oct 2023 09:46:55 +0300
+Received: from isp-msaf1.u-netsurf.ne.jp (isp-msaf1.u-netsurf.ne.jp [202.233.11.26])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F287405D2
+	for <linux-sunxi@lists.linux.dev>; Tue, 17 Oct 2023 09:48:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mx5.nisiq.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mx5.nisiq.net
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from framboise.uaa.org.uk.uaa.org.uk (unknown [116.65.140.46])
+	by isp-msaf1.u-netsurf.ne.jp (Postfix) with ESMTPA id 4F73C2207D;
+	Tue, 17 Oct 2023 18:39:01 +0900 (JST)
+Date: Tue, 17 Oct 2023 18:38:58 +0900
+Message-ID: <87cyxdr3kd.wl-uaa@mx5.nisiq.net>
+From: SASANO Takayoshi <uaa@mx5.nisiq.net>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: SASANO Takayoshi <uaa@mx5.nisiq.net>,
+	"linux-sunxi@lists.linux.dev"
+ <linux-sunxi@lists.linux.dev>,
+	u-boot@lists.denx.de,
+	Simon Glass <sjg@chromium.org>
+Subject: Re: [PATCH RESEND] sunxi: add axp313a support
+In-Reply-To: <20230908102404.3f386a43@donnerap.manchester.arm.com>
+References: <875y4u9b3t.wl-uaa@mx5.nisiq.net>
+	<20230908102404.3f386a43@donnerap.manchester.arm.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/29.1 (x86_64-unknown-openbsd) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 7/8] dt-bindings: net: mscc,vsc7514-switch:
- Simplify DSA and switch references
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Andrew Lunn <andrew@lunn.ch>,
- Florian Fainelli <f.fainelli@gmail.com>, Vladimir Oltean
- <olteanv@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Woojung Huh <woojung.huh@microchip.com>, UNGLinuxDriver@microchip.com,
- Linus Walleij <linus.walleij@linaro.org>,
- =?UTF-8?Q?Alvin_=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
- =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Landen Chao <Landen.Chao@mediatek.com>, DENG Qingfang <dqfext@gmail.com>,
- Sean Wang <sean.wang@mediatek.com>, Daniel Golle <daniel@makrotopia.org>,
- John Crispin <john@phrozen.org>,
- Gerhard Engleder <gerhard@engleder-embedded.com>,
- Heiner Kallweit <hkallweit1@gmail.com>, Sergey Shtylyov <s.shtylyov@omp.ru>,
- Sergei Shtylyov <sergei.shtylyov@gmail.com>,
- Justin Chen <justin.chen@broadcom.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Grygorii Strashko <grygorii.strashko@ti.com>, Sekhar Nori <nsekhar@ti.com>,
- Claudiu Manoil <claudiu.manoil@nxp.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: Vladimir Oltean <vladimir.oltean@nxp.com>, netdev@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- bcm-kernel-feedback-list@broadcom.com
-References: <20231016-dt-net-cleanups-v1-0-a525a090b444@kernel.org>
- <20231016-dt-net-cleanups-v1-7-a525a090b444@kernel.org>
-From: =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
-In-Reply-To: <20231016-dt-net-cleanups-v1-7-a525a090b444@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: arinc.unal@arinc9.com
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 
-On 17.10.2023 00:44, Rob Herring wrote:
-> The mscc,vsc7514-switch schema doesn't add any custom port properties,
-> so it can just reference ethernet-switch.yaml#/$defs/base and
+Hello, sorry for late reply!
 
-This is ethernet-switch.yaml#/$defs/ethernet-ports now.
+> Anyway, my plan is to not add anything to the SPL code in its current
+> shape anymore, instead do some refactoring first, then have a much cleaner
+> and smaller patch with the AXP313a support. I am more than halfway through
+> with that, just stuck on some nasty preprocessor problem. I will post
+> something once that's ready, and will then CC: you, so you can add the
+> AXP313 parts on top, if you like.
 
-> dsa.yaml#/$defs/ethernet-ports instead of the base file and can skip
-> defining port nodes.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+Sounds good, current complicated PMIC should be cleaned I think.
+If a testing staff is needed, please tell me.
 
-Other than above:
+By the way, do you have any memory controller information
+when Allwinner H616 connects DDR4?
 
-Acked-by: Arınç ÜNAL <arinc.unal@arinc9.com>
+Simply adding AXP313a code make MangoPi MQ-Quad working,
+but OrangePi Zero3 requires setting up memory controller for DDR4.
 
-Arınç
+At least sunxi's binary blob (boot0) can do this, no source code.
+
+Best regards,
+-- 
+SASANO Takayoshi (JG1UAA) <uaa@mx5.nisiq.net>
