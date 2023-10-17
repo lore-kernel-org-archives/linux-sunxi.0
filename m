@@ -1,31 +1,31 @@
 Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2657F15AE7
-	for <linux-sunxi@lists.linux.dev>; Tue, 17 Oct 2023 06:30:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3561F5380
+	for <linux-sunxi@lists.linux.dev>; Tue, 17 Oct 2023 06:43:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arinc9.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arinc9.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arinc9.com header.i=@arinc9.com header.b="bcTdqH2i"
-Received: from relay6-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::226])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id AE723CE84A
-	for <linux-sunxi@lists.linux.dev>; Tue, 17 Oct 2023 06:25:56 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 6F323C0007;
-	Tue, 17 Oct 2023 06:25:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=arinc9.com header.i=@arinc9.com header.b="Qd/0lHbh"
+Received: from relay5-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::225])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id E85BFC8385
+	for <linux-sunxi@lists.linux.dev>; Tue, 17 Oct 2023 06:33:37 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 799091C000B;
+	Tue, 17 Oct 2023 06:33:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arinc9.com; s=gm1;
-	t=1697523949;
+	t=1697524409;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=itnPW5rRfzWD1R0hThVhfk8sAUkui3kg+yDMgRUM000=;
-	b=bcTdqH2iIG9E86n9wjdLB9+H1RfKLhSC1wgDOmxIwvCp3LLgzdRHfsygoJxwnDurJqvOhh
-	ci1qBi8NI2RV5PvEeN2ONy+TIog7sDsPSXcnKN5YYHcrBm4m9REvx7w+VjfEllLn+wKSWQ
-	QjmvEIYNxq3hfgCIDOmQdrYn3RT3WSCU+4rjZcDv7THt/gqvQWjtNNs3dyLBP1vwxlQfAw
-	6rlU8hfuB2xhGaSGRaCy8lv9kVlm6o7Y/m6ZoRnxy2dGqD1SFRJqwnm90FLarqbAnjqLg+
-	f74wTcSI+f+fB3yuMX78XBjEUUpgWQr2tgyFDrjskmejyDyL/8VnN1nLEreKeg==
-Message-ID: <735a683c-fdf2-42ab-b94b-efb32847979d@arinc9.com>
-Date: Tue, 17 Oct 2023 09:25:18 +0300
+	bh=1jTB9zIiEc1w3dV0yd0t5E2LOHf4j7ptaKP+lxDYNiM=;
+	b=Qd/0lHbhNuK7fblTuiGrURVXvxKS2T/mZ4P9pNOgwRehd0XPS6j8GTBXtCmSkwHFTRH5uh
+	TFSBaOBs34KcGlgQh0jquChihEJCQxmPXWD5xkpt4Kbm8LwK3w17203+13Pu0fj/SeDIie
+	wBaCqEaA/fZmWjPrhFjw7Xw/kH43bs6J21FNtCAN2xOz57VRYcDz/zkLCB7LhsQb5IPzU4
+	Rqa7TZQwak69zWYsoLvzFk9IPmDb8/Nymi0DLYx3sHgua0d2j/8TspJLbW42TRSxyYbNTx
+	q5dRuCeSRJYF16Khso1kzUwxTiBANNJVzaBYkleusWnGEcDtivf6gUM8mB7tqg==
+Message-ID: <7b9813ba-0ab8-4ded-bc86-0f9aae505be1@arinc9.com>
+Date: Tue, 17 Oct 2023 09:32:58 +0300
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -33,8 +33,8 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 3/8] dt-bindings: net: dsa/switch: Make
- 'ethernet-port' node addresses hex
+Subject: Re: [PATCH net-next 4/8] dt-bindings: net: ethernet-switch: Add
+ missing 'ethernet-ports' level
 Content-Language: en-US
 To: Rob Herring <robh@kernel.org>, "David S. Miller" <davem@davemloft.net>,
  Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
@@ -69,70 +69,28 @@ Cc: Vladimir Oltean <vladimir.oltean@nxp.com>, netdev@vger.kernel.org,
  linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
  bcm-kernel-feedback-list@broadcom.com
 References: <20231016-dt-net-cleanups-v1-0-a525a090b444@kernel.org>
- <20231016-dt-net-cleanups-v1-3-a525a090b444@kernel.org>
+ <20231016-dt-net-cleanups-v1-4-a525a090b444@kernel.org>
 From: =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
-In-Reply-To: <20231016-dt-net-cleanups-v1-3-a525a090b444@kernel.org>
+In-Reply-To: <20231016-dt-net-cleanups-v1-4-a525a090b444@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-Sasl: arinc.unal@arinc9.com
 
 On 17.10.2023 00:44, Rob Herring wrote:
-> 'ethernet-port' node unit-addresses should be in hexadecimal. Some
-> instances have it correct, but fix the ones that don't.
+> The '$defs/ethernet-ports' schema is referenced by schemas defining a
+> child node 'ethernet-ports', but this schema misses the
+> 'ethernet-ports' node. It would work if referring schemas made a
+> reference like this:
+> 
+> properties:
+>    ethernet-ports:
+>      $ref: ethernet-switch.yaml#/$defs/ethernet-ports
+> 
+> However, that would be different from how dsa.yaml works. For
+> consistency, align the schema definition with dsa.yaml and add the
+> missing level.
 > 
 > Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->   Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml         | 2 +-
->   Documentation/devicetree/bindings/net/dsa/dsa.yaml               | 2 +-
->   Documentation/devicetree/bindings/net/dsa/mediatek,mt7530.yaml   | 6 +++---
->   Documentation/devicetree/bindings/net/dsa/microchip,lan937x.yaml | 2 +-
->   Documentation/devicetree/bindings/net/dsa/nxp,sja1105.yaml       | 2 +-
->   Documentation/devicetree/bindings/net/ethernet-switch.yaml       | 4 ++--
->   Documentation/devicetree/bindings/net/ti,cpsw-switch.yaml        | 2 +-
->   7 files changed, 10 insertions(+), 10 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml b/Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml
-> index aa3162c74833..75d8138298fb 100644
-> --- a/Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml
-> +++ b/Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml
-> @@ -53,7 +53,7 @@ properties:
->           const: 0
->   
->       patternProperties:
-> -      "^port@[0-9]+$":
-> +      "^port@[0-9a-f]+$":
->           type: object
->   
->           $ref: ethernet-controller.yaml#
-> diff --git a/Documentation/devicetree/bindings/net/dsa/dsa.yaml b/Documentation/devicetree/bindings/net/dsa/dsa.yaml
-> index ec74a660beda..e6010821f86f 100644
-> --- a/Documentation/devicetree/bindings/net/dsa/dsa.yaml
-> +++ b/Documentation/devicetree/bindings/net/dsa/dsa.yaml
-> @@ -50,7 +50,7 @@ $defs:
->               const: 0
->   
->           patternProperties:
-> -          "^(ethernet-)?port@[0-9]+$":
-> +          "^(ethernet-)?port@[0-9a-f]+$":
->               description: Ethernet switch ports
->               $ref: dsa-port.yaml#
->               unevaluatedProperties: false
-> diff --git a/Documentation/devicetree/bindings/net/dsa/mediatek,mt7530.yaml b/Documentation/devicetree/bindings/net/dsa/mediatek,mt7530.yaml
-> index 20f7ba4e2203..5038818e9f2e 100644
-> --- a/Documentation/devicetree/bindings/net/dsa/mediatek,mt7530.yaml
-> +++ b/Documentation/devicetree/bindings/net/dsa/mediatek,mt7530.yaml
-> @@ -157,7 +157,7 @@ patternProperties:
->       additionalProperties: true
->   
->       patternProperties:
-> -      "^(ethernet-)?port@[0-9]+$":
-> +      "^(ethernet-)?port@[0-6]$":
-
-You also restrict the pattern depending on how many ports the switch has.
-Shouldn't this be a separate patch or, at the least, mentioned on the patch
-log?
-
-Regardless:
 
 Acked-by: Arınç ÜNAL <arinc.unal@arinc9.com>
 
