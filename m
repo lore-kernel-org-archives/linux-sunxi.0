@@ -1,15 +1,15 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01647369
-	for <linux-sunxi@lists.linux.dev>; Fri, 20 Oct 2023 00:27:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E519379
+	for <linux-sunxi@lists.linux.dev>; Fri, 20 Oct 2023 00:27:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2633C1480;
-	Thu, 19 Oct 2023 17:28:03 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E0FF72F4;
+	Thu, 19 Oct 2023 17:28:04 -0700 (PDT)
 Received: from localhost.localdomain (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BCA303F64C;
-	Thu, 19 Oct 2023 17:27:20 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 49AED3F64C;
+	Thu, 19 Oct 2023 17:27:22 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Jagan Teki <jagan@amarulasolutions.com>
 Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -19,9 +19,9 @@ Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Simon Glass <sjg@chromium.org>,
 	Tom Rini <trini@konsulko.com>,
 	Ludwig Kormann <ludwig.kormann@ict42.de>
-Subject: [PATCH 2/3] sunxi: dts: arm: update devicetree files from Linux-v6.6-rc6
-Date: Fri, 20 Oct 2023 01:26:07 +0100
-Message-Id: <20231020002608.18606-3-andre.przywara@arm.com>
+Subject: [PATCH 3/3] sunxi: dts: arm: add T113s/D1 DT files from Linux-v6.6-rc6
+Date: Fri, 20 Oct 2023 01:26:08 +0100
+Message-Id: <20231020002608.18606-4-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.35.8
 In-Reply-To: <20231020002608.18606-1-andre.przywara@arm.com>
 References: <20231020002608.18606-1-andre.przywara@arm.com>
@@ -33,193 +33,243 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Sync the devicetree files from the official Linux kernel tree, v6.6-rc6.
-This is covering Allwinner SoCs with 32-bit ARM cores, minus the T113s
-board and related .dtsi files, which come separately.
+This copies in some devicetree files from the official Linux kernel tree,
+v6.6-rc6. It covers a board with the Allwinner T113s SoC, which shares
+many devices with its RISC-V sibling, the Allwinner D1(s). This is the
+reason for the core .dtsi files landing in the arch/riscv directory.
 
-Only small changes: Bluetooth got enabled on the C.H.I.P., and a clock
-got renamed. More interesting is the addition of a board, for which
-U-Boot enablement patches are pending.
-
-As before, this omits the non-backwards compatible changes to the R_INTC
-controller, to remain compatible with older kernels.
+We are only adjusting the include path to accommodate for the differences
+in the U-Boot build system.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- arch/arm/dts/axp209.dtsi                      |   7 +
- arch/arm/dts/sun5i-r8-chip.dts                |   6 +
- arch/arm/dts/sun5i.dtsi                       |  11 +-
- arch/arm/dts/sun7i-a20-icnova-a20-adb4006.dts | 137 ++++++++++++++++++
- arch/arm/dts/sun7i-a20-icnova-a20.dtsi        |  62 ++++++++
- arch/arm/dts/sun8i-a23-a33.dtsi               |   2 +-
- arch/arm/dts/sun8i-a83t.dtsi                  |   2 +-
- arch/arm/dts/sun8i-v3s.dtsi                   |   2 +-
- 8 files changed, 225 insertions(+), 4 deletions(-)
- create mode 100644 arch/arm/dts/sun7i-a20-icnova-a20-adb4006.dts
- create mode 100644 arch/arm/dts/sun7i-a20-icnova-a20.dtsi
+ .../arm/dts/sun8i-t113s-mangopi-mq-r-t113.dts |  35 +
+ arch/arm/dts/sun8i-t113s.dtsi                 |  59 ++
+ arch/arm/dts/sunxi-d1s-t113-mangopi-mq-r.dtsi | 126 +++
+ arch/riscv/dts/sunxi-d1-t113.dtsi             |  15 +
+ arch/riscv/dts/sunxi-d1s-t113.dtsi            | 927 ++++++++++++++++++
+ include/dt-bindings/clock/sun20i-d1-ccu.h     | 158 +++
+ include/dt-bindings/clock/sun20i-d1-r-ccu.h   |  19 +
+ include/dt-bindings/reset/sun20i-d1-ccu.h     |  79 ++
+ include/dt-bindings/reset/sun20i-d1-r-ccu.h   |  16 +
+ 9 files changed, 1434 insertions(+)
+ create mode 100644 arch/arm/dts/sun8i-t113s-mangopi-mq-r-t113.dts
+ create mode 100644 arch/arm/dts/sun8i-t113s.dtsi
+ create mode 100644 arch/arm/dts/sunxi-d1s-t113-mangopi-mq-r.dtsi
+ create mode 100644 arch/riscv/dts/sunxi-d1-t113.dtsi
+ create mode 100644 arch/riscv/dts/sunxi-d1s-t113.dtsi
+ create mode 100644 include/dt-bindings/clock/sun20i-d1-ccu.h
+ create mode 100644 include/dt-bindings/clock/sun20i-d1-r-ccu.h
+ create mode 100644 include/dt-bindings/reset/sun20i-d1-ccu.h
+ create mode 100644 include/dt-bindings/reset/sun20i-d1-r-ccu.h
 
-diff --git a/arch/arm/dts/axp209.dtsi b/arch/arm/dts/axp209.dtsi
-index ca240cd6f6c..469d0f7d518 100644
---- a/arch/arm/dts/axp209.dtsi
-+++ b/arch/arm/dts/axp209.dtsi
-@@ -48,6 +48,13 @@
-  * http://dl.linux-sunxi.org/AXP/AXP209%20Datasheet%20v1.0_cn.pdf
-  */
- 
-+/ {
-+	pmic-temp {
-+		compatible = "iio-hwmon";
-+		io-channels = <&axp_adc 4>; /* Internal temperature */
-+	};
-+};
-+
- &axp209 {
- 	compatible = "x-powers,axp209";
- 	interrupt-controller;
-diff --git a/arch/arm/dts/sun5i-r8-chip.dts b/arch/arm/dts/sun5i-r8-chip.dts
-index fd37bd1f392..4192c23848c 100644
---- a/arch/arm/dts/sun5i-r8-chip.dts
-+++ b/arch/arm/dts/sun5i-r8-chip.dts
-@@ -255,6 +255,12 @@
- 	pinctrl-0 = <&uart3_pg_pins>,
- 		    <&uart3_cts_rts_pg_pins>;
- 	status = "okay";
-+
-+	bluetooth {
-+		compatible = "realtek,rtl8723bs-bt";
-+		device-wake-gpios = <&axp_gpio 3 GPIO_ACTIVE_HIGH>;
-+		host-wake-gpios = <&pio 1 3 GPIO_ACTIVE_HIGH>; /* PB3 */
-+	};
- };
- 
- &usb_otg {
-diff --git a/arch/arm/dts/sun5i.dtsi b/arch/arm/dts/sun5i.dtsi
-index 250d6b87ab4..d7c7b454a11 100644
---- a/arch/arm/dts/sun5i.dtsi
-+++ b/arch/arm/dts/sun5i.dtsi
-@@ -286,7 +286,7 @@
- 			clock-names = "ahb",
- 				      "tcon-ch0",
- 				      "tcon-ch1";
--			clock-output-names = "tcon-pixel-clock";
-+			clock-output-names = "tcon-data-clock";
- 			#clock-cells = <0>;
- 			status = "disabled";
- 
-@@ -517,6 +517,15 @@
- 				bias-pull-up;
- 			};
- 
-+			/omit-if-no-ref/
-+			mmc2_4bit_pe_pins: mmc2-4bit-pe-pins {
-+				pins = "PE4", "PE5", "PE6", "PE7",
-+				       "PE8", "PE9";
-+				function = "mmc2";
-+				drive-strength = <30>;
-+				bias-pull-up;
-+			};
-+
- 			mmc2_8bit_pins: mmc2-8bit-pins {
- 				pins = "PC6", "PC7", "PC8", "PC9",
- 				       "PC10", "PC11", "PC12", "PC13",
-diff --git a/arch/arm/dts/sun7i-a20-icnova-a20-adb4006.dts b/arch/arm/dts/sun7i-a20-icnova-a20-adb4006.dts
+diff --git a/arch/arm/dts/sun8i-t113s-mangopi-mq-r-t113.dts b/arch/arm/dts/sun8i-t113s-mangopi-mq-r-t113.dts
 new file mode 100644
-index 00000000000..577ead1d02a
+index 00000000000..8b3a7538381
 --- /dev/null
-+++ b/arch/arm/dts/sun7i-a20-icnova-a20-adb4006.dts
-@@ -0,0 +1,137 @@
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
-+// Copyright (C) 2023 In-Circuit GmbH
++++ b/arch/arm/dts/sun8i-t113s-mangopi-mq-r-t113.dts
+@@ -0,0 +1,35 @@
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
++// Copyright (C) 2022 Arm Ltd.
++
++#include <dt-bindings/interrupt-controller/irq.h>
 +
 +/dts-v1/;
 +
-+#include "sun7i-a20-icnova-a20.dtsi"
++#include "sun8i-t113s.dtsi"
++#include "sunxi-d1s-t113-mangopi-mq-r.dtsi"
++
++/ {
++	model = "MangoPi MQ-R-T113";
++	compatible = "widora,mangopi-mq-r-t113", "allwinner,sun8i-t113s";
++
++	aliases {
++		ethernet0 = &rtl8189ftv;
++	};
++};
++
++&cpu0 {
++	cpu-supply = <&reg_vcc_core>;
++};
++
++&cpu1 {
++	cpu-supply = <&reg_vcc_core>;
++};
++
++&mmc1 {
++	rtl8189ftv: wifi@1 {
++		reg = <1>;
++		interrupt-parent = <&pio>;
++		interrupts = <6 10 IRQ_TYPE_LEVEL_LOW>; /* PG10 = WL_WAKE_AP */
++		interrupt-names = "host-wake";
++	};
++};
+diff --git a/arch/arm/dts/sun8i-t113s.dtsi b/arch/arm/dts/sun8i-t113s.dtsi
+new file mode 100644
+index 00000000000..b94b69142af
+--- /dev/null
++++ b/arch/arm/dts/sun8i-t113s.dtsi
+@@ -0,0 +1,59 @@
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
++// Copyright (C) 2022 Arm Ltd.
++
++#define SOC_PERIPHERAL_IRQ(nr) GIC_SPI nr
++
++#include <dt-bindings/interrupt-controller/arm-gic.h>
++#include <../../riscv/dts/sunxi-d1s-t113.dtsi>
++#include <../../riscv/dts/sunxi-d1-t113.dtsi>
++
++/ {
++	interrupt-parent = <&gic>;
++
++	cpus {
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		cpu0: cpu@0 {
++			compatible = "arm,cortex-a7";
++			device_type = "cpu";
++			reg = <0>;
++			clocks = <&ccu CLK_CPUX>;
++			clock-names = "cpu";
++		};
++
++		cpu1: cpu@1 {
++			compatible = "arm,cortex-a7";
++			device_type = "cpu";
++			reg = <1>;
++			clocks = <&ccu CLK_CPUX>;
++			clock-names = "cpu";
++		};
++	};
++
++	gic: interrupt-controller@1c81000 {
++		compatible = "arm,gic-400";
++		reg = <0x03021000 0x1000>,
++		      <0x03022000 0x2000>,
++		      <0x03024000 0x2000>,
++		      <0x03026000 0x2000>;
++		interrupts = <GIC_PPI 9 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_HIGH)>;
++		interrupt-controller;
++		#interrupt-cells = <3>;
++	};
++
++	timer {
++		compatible = "arm,armv7-timer";
++		interrupts = <GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>,
++			     <GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>,
++			     <GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>,
++			     <GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>;
++	};
++
++	pmu {
++		compatible = "arm,cortex-a7-pmu";
++		interrupts = <GIC_SPI 172 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 173 IRQ_TYPE_LEVEL_HIGH>;
++		interrupt-affinity = <&cpu0>, <&cpu1>;
++	};
++};
+diff --git a/arch/arm/dts/sunxi-d1s-t113-mangopi-mq-r.dtsi b/arch/arm/dts/sunxi-d1s-t113-mangopi-mq-r.dtsi
+new file mode 100644
+index 00000000000..a415c4a78a7
+--- /dev/null
++++ b/arch/arm/dts/sunxi-d1s-t113-mangopi-mq-r.dtsi
+@@ -0,0 +1,126 @@
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
++// Copyright (C) 2022 Arm Ltd.
++/*
++ * Common peripherals and configurations for MangoPi MQ-R boards.
++ */
 +
 +#include <dt-bindings/gpio/gpio.h>
 +#include <dt-bindings/leds/common.h>
 +
 +/ {
-+	model = "In-Circuit ICnova A20 ADB4006";
-+	compatible = "incircuit,icnova-a20-adb4006", "incircuit,icnova-a20",
-+		     "allwinner,sun7i-a20";
-+
 +	aliases {
-+		serial0 = &uart0;
++		serial3 = &uart3;
 +	};
 +
 +	chosen {
-+		stdout-path = "serial0:115200n8";
-+	};
-+
-+	hdmi-connector {
-+		compatible = "hdmi-connector";
-+		type = "a";
-+
-+		port {
-+			hdmi_con_in: endpoint {
-+				remote-endpoint = <&hdmi_out_con>;
-+			};
-+		};
++		stdout-path = "serial3:115200n8";
 +	};
 +
 +	leds {
 +		compatible = "gpio-leds";
 +
 +		led-0 {
-+			function = LED_FUNCTION_POWER;
-+			color = <LED_COLOR_ID_YELLOW>;
-+			gpios = <&pio 7 21 GPIO_ACTIVE_HIGH>; /* PH21 */
-+			default-state = "on";
++			color = <LED_COLOR_ID_BLUE>;
++			function = LED_FUNCTION_STATUS;
++			gpios = <&pio 3 22 GPIO_ACTIVE_LOW>; /* PD22 */
 +		};
++	};
 +
-+		led-1 {
-+			function = LED_FUNCTION_HEARTBEAT;
-+			color = <LED_COLOR_ID_RED>;
-+			gpios = <&pio 7 20 GPIO_ACTIVE_HIGH>; /* PH20 */
-+			linux,default-trigger = "heartbeat";
-+		};
++	/* board wide 5V supply directly from the USB-C socket */
++	reg_vcc5v: regulator-5v {
++		compatible = "regulator-fixed";
++		regulator-name = "vcc-5v";
++		regulator-min-microvolt = <5000000>;
++		regulator-max-microvolt = <5000000>;
++		regulator-always-on;
++	};
++
++	/* SY8008 DC/DC regulator on the board */
++	reg_3v3: regulator-3v3 {
++		compatible = "regulator-fixed";
++		regulator-name = "vcc-3v3";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++		vin-supply = <&reg_vcc5v>;
++	};
++
++	/* SY8008 DC/DC regulator on the board, also supplying VDD-SYS */
++	reg_vcc_core: regulator-core {
++		compatible = "regulator-fixed";
++		regulator-name = "vcc-core";
++		regulator-min-microvolt = <880000>;
++		regulator-max-microvolt = <880000>;
++		vin-supply = <&reg_vcc5v>;
++	};
++
++	/* XC6206 LDO on the board */
++	reg_avdd2v8: regulator-avdd {
++		compatible = "regulator-fixed";
++		regulator-name = "avdd2v8";
++		regulator-min-microvolt = <2800000>;
++		regulator-max-microvolt = <2800000>;
++		vin-supply = <&reg_3v3>;
++	};
++
++	wifi_pwrseq: wifi-pwrseq {
++		compatible = "mmc-pwrseq-simple";
++		reset-gpios = <&pio 6 12 GPIO_ACTIVE_LOW>; /* PG12 */
 +	};
 +};
 +
-+&ahci {
-+	target-supply = <&reg_ahci_5v>;
-+	status = "okay";
-+};
-+
-+&codec {
-+	status = "okay";
-+};
-+
-+&de {
-+	status = "okay";
-+};
-+
-+&ehci0 {
-+	status = "okay";
++&dcxo {
++	clock-frequency = <24000000>;
 +};
 +
 +&ehci1 {
 +	status = "okay";
 +};
 +
-+&hdmi {
-+	status = "okay";
-+};
-+
-+&hdmi_out {
-+	hdmi_out_con: endpoint {
-+		remote-endpoint = <&hdmi_con_in>;
-+	};
-+};
-+
 +&mmc0 {
-+	vmmc-supply = <&reg_vcc3v3>;
++	pinctrl-0 = <&mmc0_pins>;
++	pinctrl-names = "default";
++	vmmc-supply = <&reg_3v3>;
++	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>;
++	disable-wp;
 +	bus-width = <4>;
-+	cd-gpios = <&pio 7 1 GPIO_ACTIVE_LOW>; /* PH1 */
 +	status = "okay";
 +};
 +
-+&ohci0 {
++&mmc1 {
++	pinctrl-0 = <&mmc1_pins>;
++	pinctrl-names = "default";
++	vmmc-supply = <&reg_3v3>;
++	non-removable;
++	bus-width = <4>;
++	mmc-pwrseq = <&wifi_pwrseq>;
 +	status = "okay";
 +};
 +
@@ -227,151 +277,1280 @@ index 00000000000..577ead1d02a
 +	status = "okay";
 +};
 +
-+&otg_sram {
-+	status = "okay";
++&pio {
++	vcc-pb-supply = <&reg_3v3>;
++	vcc-pd-supply = <&reg_3v3>;
++	vcc-pe-supply = <&reg_avdd2v8>;
++	vcc-pf-supply = <&reg_3v3>;
++	vcc-pg-supply = <&reg_3v3>;
 +};
 +
-+&reg_ahci_5v {
-+	status = "okay";
-+};
-+
-+&ac_power_supply {
-+	status = "okay";
-+};
-+
-+&reg_usb1_vbus {
-+	status = "okay";
-+};
-+
-+&reg_usb2_vbus {
-+	status = "okay";
-+};
-+
-+&uart0 {
++&uart3 {
 +	pinctrl-names = "default";
-+	pinctrl-0 = <&uart0_pb_pins>;
++	pinctrl-0 = <&uart3_pb_pins>;
 +	status = "okay";
 +};
 +
++/* The USB-C socket has its CC pins pulled to GND, so is hardwired as a UFP. */
 +&usb_otg {
-+	dr_mode = "otg";
++	dr_mode = "peripheral";
 +	status = "okay";
 +};
 +
 +&usbphy {
-+	usb0_id_det-gpios = <&pio 7 4 GPIO_ACTIVE_HIGH>; /* PH4 */
-+	usb0_vbus_det-gpios = <&pio 7 5 GPIO_ACTIVE_HIGH>; /* PH5 */
-+	usb1_vbus-supply = <&reg_usb1_vbus>;
-+	usb2_vbus-supply = <&reg_usb2_vbus>;
++	usb1_vbus-supply = <&reg_vcc5v>;
 +	status = "okay";
 +};
-diff --git a/arch/arm/dts/sun7i-a20-icnova-a20.dtsi b/arch/arm/dts/sun7i-a20-icnova-a20.dtsi
+diff --git a/arch/riscv/dts/sunxi-d1-t113.dtsi b/arch/riscv/dts/sunxi-d1-t113.dtsi
 new file mode 100644
-index 00000000000..46616c6bc89
+index 00000000000..b7156123df5
 --- /dev/null
-+++ b/arch/arm/dts/sun7i-a20-icnova-a20.dtsi
-@@ -0,0 +1,62 @@
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
-+// Copyright (C) 2023 In-Circuit GmbH
++++ b/arch/riscv/dts/sunxi-d1-t113.dtsi
+@@ -0,0 +1,15 @@
++// SPDX-License-Identifier: (GPL-2.0+ or MIT)
++// Copyright (C) 2021-2022 Samuel Holland <samuel@sholland.org>
 +
-+#include "sun7i-a20.dtsi"
-+#include "sunxi-common-regulators.dtsi"
++/ {
++	soc {
++		dsp_wdt: watchdog@1700400 {
++			compatible = "allwinner,sun20i-d1-wdt";
++			reg = <0x1700400 0x20>;
++			interrupts = <SOC_PERIPHERAL_IRQ(122) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&dcxo>, <&rtc CLK_OSC32K>;
++			clock-names = "hosc", "losc";
++			status = "reserved";
++		};
++	};
++};
+diff --git a/arch/riscv/dts/sunxi-d1s-t113.dtsi b/arch/riscv/dts/sunxi-d1s-t113.dtsi
+new file mode 100644
+index 00000000000..822f022eec2
+--- /dev/null
++++ b/arch/riscv/dts/sunxi-d1s-t113.dtsi
+@@ -0,0 +1,927 @@
++// SPDX-License-Identifier: (GPL-2.0+ or MIT)
++// Copyright (C) 2021-2022 Samuel Holland <samuel@sholland.org>
 +
++#include <dt-bindings/clock/sun6i-rtc.h>
++#include <dt-bindings/clock/sun8i-de2.h>
++#include <dt-bindings/clock/sun8i-tcon-top.h>
++#include <dt-bindings/clock/sun20i-d1-ccu.h>
++#include <dt-bindings/clock/sun20i-d1-r-ccu.h>
 +#include <dt-bindings/interrupt-controller/irq.h>
++#include <dt-bindings/reset/sun8i-de2.h>
++#include <dt-bindings/reset/sun20i-d1-ccu.h>
++#include <dt-bindings/reset/sun20i-d1-r-ccu.h>
 +
-+&cpu0 {
-+	cpu-supply = <&reg_dcdc2>;
-+};
++/ {
++	#address-cells = <1>;
++	#size-cells = <1>;
 +
-+&gmac {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&gmac_mii_pins>;
-+	phy-handle = <&phy1>;
-+	phy-mode = "mii";
-+	status = "okay";
-+};
++	dcxo: dcxo-clk {
++		compatible = "fixed-clock";
++		clock-output-names = "dcxo";
++		#clock-cells = <0>;
++	};
 +
-+&i2c0 {
-+	status = "okay";
++	de: display-engine {
++		compatible = "allwinner,sun20i-d1-display-engine";
++		allwinner,pipelines = <&mixer0>, <&mixer1>;
++		status = "disabled";
++	};
 +
-+	axp209: pmic@34 {
-+		reg = <0x34>;
-+		interrupt-parent = <&nmi_intc>;
-+		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
++	soc {
++		compatible = "simple-bus";
++		ranges;
++		dma-noncoherent;
++		#address-cells = <1>;
++		#size-cells = <1>;
++
++		pio: pinctrl@2000000 {
++			compatible = "allwinner,sun20i-d1-pinctrl";
++			reg = <0x2000000 0x800>;
++			interrupts = <SOC_PERIPHERAL_IRQ(69) IRQ_TYPE_LEVEL_HIGH>,
++				     <SOC_PERIPHERAL_IRQ(71) IRQ_TYPE_LEVEL_HIGH>,
++				     <SOC_PERIPHERAL_IRQ(73) IRQ_TYPE_LEVEL_HIGH>,
++				     <SOC_PERIPHERAL_IRQ(75) IRQ_TYPE_LEVEL_HIGH>,
++				     <SOC_PERIPHERAL_IRQ(77) IRQ_TYPE_LEVEL_HIGH>,
++				     <SOC_PERIPHERAL_IRQ(79) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_APB0>,
++				 <&dcxo>,
++				 <&rtc CLK_OSC32K>;
++			clock-names = "apb", "hosc", "losc";
++			gpio-controller;
++			interrupt-controller;
++			#gpio-cells = <3>;
++			#interrupt-cells = <3>;
++
++			/omit-if-no-ref/
++			can0_pins: can0-pins {
++				pins = "PB2", "PB3";
++				function = "can0";
++			};
++
++			/omit-if-no-ref/
++			can1_pins: can1-pins {
++				pins = "PB4", "PB5";
++				function = "can1";
++			};
++
++			/omit-if-no-ref/
++			clk_pg11_pin: clk-pg11-pin {
++				pins = "PG11";
++				function = "clk";
++			};
++
++			/omit-if-no-ref/
++			dsi_4lane_pins: dsi-4lane-pins {
++				pins = "PD0", "PD1", "PD2", "PD3", "PD4", "PD5",
++				       "PD6", "PD7", "PD8", "PD9";
++				drive-strength = <30>;
++				function = "dsi";
++			};
++
++			/omit-if-no-ref/
++			lcd_rgb666_pins: lcd-rgb666-pins {
++				pins = "PD0", "PD1", "PD2", "PD3", "PD4", "PD5",
++				       "PD6", "PD7", "PD8", "PD9", "PD10", "PD11",
++				       "PD12", "PD13", "PD14", "PD15", "PD16", "PD17",
++				       "PD18", "PD19", "PD20", "PD21";
++				function = "lcd0";
++			};
++
++			/omit-if-no-ref/
++			mmc0_pins: mmc0-pins {
++				pins = "PF0", "PF1", "PF2", "PF3", "PF4", "PF5";
++				function = "mmc0";
++			};
++
++			/omit-if-no-ref/
++			mmc1_pins: mmc1-pins {
++				pins = "PG0", "PG1", "PG2", "PG3", "PG4", "PG5";
++				function = "mmc1";
++			};
++
++			/omit-if-no-ref/
++			mmc2_pins: mmc2-pins {
++				pins = "PC2", "PC3", "PC4", "PC5", "PC6", "PC7";
++				function = "mmc2";
++			};
++
++			/omit-if-no-ref/
++			rgmii_pe_pins: rgmii-pe-pins {
++				pins = "PE0", "PE1", "PE2", "PE3", "PE4",
++				       "PE5", "PE6", "PE7", "PE8", "PE9",
++				       "PE11", "PE12", "PE13", "PE14", "PE15";
++				function = "emac";
++			};
++
++			/omit-if-no-ref/
++			rmii_pe_pins: rmii-pe-pins {
++				pins = "PE0", "PE1", "PE2", "PE3", "PE4",
++				       "PE5", "PE6", "PE7", "PE8", "PE9";
++				function = "emac";
++			};
++
++			/omit-if-no-ref/
++			spi0_pins: spi0-pins {
++				pins = "PC2", "PC3", "PC4", "PC5";
++				function = "spi0";
++			};
++
++			/omit-if-no-ref/
++			uart1_pg6_pins: uart1-pg6-pins {
++				pins = "PG6", "PG7";
++				function = "uart1";
++			};
++
++			/omit-if-no-ref/
++			uart1_pg8_rts_cts_pins: uart1-pg8-rts-cts-pins {
++				pins = "PG8", "PG9";
++				function = "uart1";
++			};
++
++			/omit-if-no-ref/
++			uart3_pb_pins: uart3-pb-pins {
++				pins = "PB6", "PB7";
++				function = "uart3";
++			};
++		};
++
++		ccu: clock-controller@2001000 {
++			compatible = "allwinner,sun20i-d1-ccu";
++			reg = <0x2001000 0x1000>;
++			clocks = <&dcxo>,
++				 <&rtc CLK_OSC32K>,
++				 <&rtc CLK_IOSC>;
++			clock-names = "hosc", "losc", "iosc";
++			#clock-cells = <1>;
++			#reset-cells = <1>;
++		};
++
++		gpadc: adc@2009000 {
++			compatible = "allwinner,sun20i-d1-gpadc";
++			reg = <0x2009000 0x400>;
++			clocks = <&ccu CLK_BUS_GPADC>;
++			resets = <&ccu RST_BUS_GPADC>;
++			interrupts = <SOC_PERIPHERAL_IRQ(57) IRQ_TYPE_LEVEL_HIGH>;
++			status = "disabled";
++			#io-channel-cells = <1>;
++		};
++
++		dmic: dmic@2031000 {
++			compatible = "allwinner,sun20i-d1-dmic",
++				     "allwinner,sun50i-h6-dmic";
++			reg = <0x2031000 0x400>;
++			interrupts = <SOC_PERIPHERAL_IRQ(24) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_DMIC>,
++				 <&ccu CLK_DMIC>;
++			clock-names = "bus", "mod";
++			resets = <&ccu RST_BUS_DMIC>;
++			dmas = <&dma 8>;
++			dma-names = "rx";
++			status = "disabled";
++			#sound-dai-cells = <0>;
++		};
++
++		i2s1: i2s@2033000 {
++			compatible = "allwinner,sun20i-d1-i2s",
++				     "allwinner,sun50i-r329-i2s";
++			reg = <0x2033000 0x1000>;
++			interrupts = <SOC_PERIPHERAL_IRQ(27) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_I2S1>,
++				 <&ccu CLK_I2S1>;
++			clock-names = "apb", "mod";
++			resets = <&ccu RST_BUS_I2S1>;
++			dmas = <&dma 4>, <&dma 4>;
++			dma-names = "rx", "tx";
++			status = "disabled";
++			#sound-dai-cells = <0>;
++		};
++
++		i2s2: i2s@2034000 {
++			compatible = "allwinner,sun20i-d1-i2s",
++				     "allwinner,sun50i-r329-i2s";
++			reg = <0x2034000 0x1000>;
++			interrupts = <SOC_PERIPHERAL_IRQ(28) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_I2S2>,
++				 <&ccu CLK_I2S2>;
++			clock-names = "apb", "mod";
++			resets = <&ccu RST_BUS_I2S2>;
++			dmas = <&dma 5>, <&dma 5>;
++			dma-names = "rx", "tx";
++			status = "disabled";
++			#sound-dai-cells = <0>;
++		};
++
++		timer: timer@2050000 {
++			compatible = "allwinner,sun20i-d1-timer",
++				     "allwinner,sun8i-a23-timer";
++			reg = <0x2050000 0xa0>;
++			interrupts = <SOC_PERIPHERAL_IRQ(59) IRQ_TYPE_LEVEL_HIGH>,
++				     <SOC_PERIPHERAL_IRQ(60) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&dcxo>;
++		};
++
++		wdt: watchdog@20500a0 {
++			compatible = "allwinner,sun20i-d1-wdt-reset",
++				     "allwinner,sun20i-d1-wdt";
++			reg = <0x20500a0 0x20>;
++			interrupts = <SOC_PERIPHERAL_IRQ(63) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&dcxo>, <&rtc CLK_OSC32K>;
++			clock-names = "hosc", "losc";
++			status = "reserved";
++		};
++
++		uart0: serial@2500000 {
++			compatible = "snps,dw-apb-uart";
++			reg = <0x2500000 0x400>;
++			reg-io-width = <4>;
++			reg-shift = <2>;
++			interrupts = <SOC_PERIPHERAL_IRQ(2) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_UART0>;
++			resets = <&ccu RST_BUS_UART0>;
++			dmas = <&dma 14>, <&dma 14>;
++			dma-names = "tx", "rx";
++			status = "disabled";
++		};
++
++		uart1: serial@2500400 {
++			compatible = "snps,dw-apb-uart";
++			reg = <0x2500400 0x400>;
++			reg-io-width = <4>;
++			reg-shift = <2>;
++			interrupts = <SOC_PERIPHERAL_IRQ(3) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_UART1>;
++			resets = <&ccu RST_BUS_UART1>;
++			dmas = <&dma 15>, <&dma 15>;
++			dma-names = "tx", "rx";
++			status = "disabled";
++		};
++
++		uart2: serial@2500800 {
++			compatible = "snps,dw-apb-uart";
++			reg = <0x2500800 0x400>;
++			reg-io-width = <4>;
++			reg-shift = <2>;
++			interrupts = <SOC_PERIPHERAL_IRQ(4) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_UART2>;
++			resets = <&ccu RST_BUS_UART2>;
++			dmas = <&dma 16>, <&dma 16>;
++			dma-names = "tx", "rx";
++			status = "disabled";
++		};
++
++		uart3: serial@2500c00 {
++			compatible = "snps,dw-apb-uart";
++			reg = <0x2500c00 0x400>;
++			reg-io-width = <4>;
++			reg-shift = <2>;
++			interrupts = <SOC_PERIPHERAL_IRQ(5) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_UART3>;
++			resets = <&ccu RST_BUS_UART3>;
++			dmas = <&dma 17>, <&dma 17>;
++			dma-names = "tx", "rx";
++			status = "disabled";
++		};
++
++		uart4: serial@2501000 {
++			compatible = "snps,dw-apb-uart";
++			reg = <0x2501000 0x400>;
++			reg-io-width = <4>;
++			reg-shift = <2>;
++			interrupts = <SOC_PERIPHERAL_IRQ(6) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_UART4>;
++			resets = <&ccu RST_BUS_UART4>;
++			dmas = <&dma 18>, <&dma 18>;
++			dma-names = "tx", "rx";
++			status = "disabled";
++		};
++
++		uart5: serial@2501400 {
++			compatible = "snps,dw-apb-uart";
++			reg = <0x2501400 0x400>;
++			reg-io-width = <4>;
++			reg-shift = <2>;
++			interrupts = <SOC_PERIPHERAL_IRQ(7) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_UART5>;
++			resets = <&ccu RST_BUS_UART5>;
++			dmas = <&dma 19>, <&dma 19>;
++			dma-names = "tx", "rx";
++			status = "disabled";
++		};
++
++		i2c0: i2c@2502000 {
++			compatible = "allwinner,sun20i-d1-i2c",
++				     "allwinner,sun8i-v536-i2c",
++				     "allwinner,sun6i-a31-i2c";
++			reg = <0x2502000 0x400>;
++			interrupts = <SOC_PERIPHERAL_IRQ(9) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_I2C0>;
++			resets = <&ccu RST_BUS_I2C0>;
++			dmas = <&dma 43>, <&dma 43>;
++			dma-names = "rx", "tx";
++			status = "disabled";
++			#address-cells = <1>;
++			#size-cells = <0>;
++		};
++
++		i2c1: i2c@2502400 {
++			compatible = "allwinner,sun20i-d1-i2c",
++				     "allwinner,sun8i-v536-i2c",
++				     "allwinner,sun6i-a31-i2c";
++			reg = <0x2502400 0x400>;
++			interrupts = <SOC_PERIPHERAL_IRQ(10) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_I2C1>;
++			resets = <&ccu RST_BUS_I2C1>;
++			dmas = <&dma 44>, <&dma 44>;
++			dma-names = "rx", "tx";
++			status = "disabled";
++			#address-cells = <1>;
++			#size-cells = <0>;
++		};
++
++		i2c2: i2c@2502800 {
++			compatible = "allwinner,sun20i-d1-i2c",
++				     "allwinner,sun8i-v536-i2c",
++				     "allwinner,sun6i-a31-i2c";
++			reg = <0x2502800 0x400>;
++			interrupts = <SOC_PERIPHERAL_IRQ(11) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_I2C2>;
++			resets = <&ccu RST_BUS_I2C2>;
++			dmas = <&dma 45>, <&dma 45>;
++			dma-names = "rx", "tx";
++			status = "disabled";
++			#address-cells = <1>;
++			#size-cells = <0>;
++		};
++
++		i2c3: i2c@2502c00 {
++			compatible = "allwinner,sun20i-d1-i2c",
++				     "allwinner,sun8i-v536-i2c",
++				     "allwinner,sun6i-a31-i2c";
++			reg = <0x2502c00 0x400>;
++			interrupts = <SOC_PERIPHERAL_IRQ(12) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_I2C3>;
++			resets = <&ccu RST_BUS_I2C3>;
++			dmas = <&dma 46>, <&dma 46>;
++			dma-names = "rx", "tx";
++			status = "disabled";
++			#address-cells = <1>;
++			#size-cells = <0>;
++		};
++
++		can0: can@2504000 {
++			compatible = "allwinner,sun20i-d1-can";
++			reg = <0x02504000 0x400>;
++			interrupts = <SOC_PERIPHERAL_IRQ(21) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_CAN0>;
++			resets = <&ccu RST_BUS_CAN0>;
++			pinctrl-names = "default";
++			pinctrl-0 = <&can0_pins>;
++			status = "disabled";
++		};
++
++		can1: can@2504400 {
++			compatible = "allwinner,sun20i-d1-can";
++			reg = <0x02504400 0x400>;
++			interrupts = <SOC_PERIPHERAL_IRQ(22) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_CAN1>;
++			resets = <&ccu RST_BUS_CAN1>;
++			pinctrl-names = "default";
++			pinctrl-0 = <&can1_pins>;
++			status = "disabled";
++		};
++
++		syscon: syscon@3000000 {
++			compatible = "allwinner,sun20i-d1-system-control";
++			reg = <0x3000000 0x1000>;
++			ranges;
++			#address-cells = <1>;
++			#size-cells = <1>;
++		};
++
++		dma: dma-controller@3002000 {
++			compatible = "allwinner,sun20i-d1-dma";
++			reg = <0x3002000 0x1000>;
++			interrupts = <SOC_PERIPHERAL_IRQ(50) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_DMA>, <&ccu CLK_MBUS_DMA>;
++			clock-names = "bus", "mbus";
++			resets = <&ccu RST_BUS_DMA>;
++			dma-channels = <16>;
++			dma-requests = <48>;
++			#dma-cells = <1>;
++		};
++
++		sid: efuse@3006000 {
++			compatible = "allwinner,sun20i-d1-sid";
++			reg = <0x3006000 0x1000>;
++			#address-cells = <1>;
++			#size-cells = <1>;
++		};
++
++		crypto: crypto@3040000 {
++			compatible = "allwinner,sun20i-d1-crypto";
++			reg = <0x3040000 0x800>;
++			interrupts = <SOC_PERIPHERAL_IRQ(52) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_CE>,
++				 <&ccu CLK_CE>,
++				 <&ccu CLK_MBUS_CE>,
++				 <&rtc CLK_IOSC>;
++			clock-names = "bus", "mod", "ram", "trng";
++			resets = <&ccu RST_BUS_CE>;
++		};
++
++		mbus: dram-controller@3102000 {
++			compatible = "allwinner,sun20i-d1-mbus";
++			reg = <0x3102000 0x1000>,
++			      <0x3103000 0x1000>;
++			reg-names = "mbus", "dram";
++			interrupts = <SOC_PERIPHERAL_IRQ(43) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_MBUS>,
++				 <&ccu CLK_DRAM>,
++				 <&ccu CLK_BUS_DRAM>;
++			clock-names = "mbus", "dram", "bus";
++			dma-ranges = <0 0x40000000 0x80000000>;
++			#address-cells = <1>;
++			#size-cells = <1>;
++			#interconnect-cells = <1>;
++		};
++
++		mmc0: mmc@4020000 {
++			compatible = "allwinner,sun20i-d1-mmc";
++			reg = <0x4020000 0x1000>;
++			interrupts = <SOC_PERIPHERAL_IRQ(40) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_MMC0>, <&ccu CLK_MMC0>;
++			clock-names = "ahb", "mmc";
++			resets = <&ccu RST_BUS_MMC0>;
++			reset-names = "ahb";
++			cap-sd-highspeed;
++			max-frequency = <150000000>;
++			no-mmc;
++			status = "disabled";
++			#address-cells = <1>;
++			#size-cells = <0>;
++		};
++
++		mmc1: mmc@4021000 {
++			compatible = "allwinner,sun20i-d1-mmc";
++			reg = <0x4021000 0x1000>;
++			interrupts = <SOC_PERIPHERAL_IRQ(41) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_MMC1>, <&ccu CLK_MMC1>;
++			clock-names = "ahb", "mmc";
++			resets = <&ccu RST_BUS_MMC1>;
++			reset-names = "ahb";
++			cap-sd-highspeed;
++			max-frequency = <150000000>;
++			no-mmc;
++			status = "disabled";
++			#address-cells = <1>;
++			#size-cells = <0>;
++		};
++
++		mmc2: mmc@4022000 {
++			compatible = "allwinner,sun20i-d1-emmc",
++				     "allwinner,sun50i-a100-emmc";
++			reg = <0x4022000 0x1000>;
++			interrupts = <SOC_PERIPHERAL_IRQ(42) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_MMC2>, <&ccu CLK_MMC2>;
++			clock-names = "ahb", "mmc";
++			resets = <&ccu RST_BUS_MMC2>;
++			reset-names = "ahb";
++			cap-mmc-highspeed;
++			max-frequency = <150000000>;
++			mmc-ddr-1_8v;
++			mmc-ddr-3_3v;
++			no-sd;
++			no-sdio;
++			status = "disabled";
++			#address-cells = <1>;
++			#size-cells = <0>;
++		};
++
++		spi0: spi@4025000 {
++			compatible = "allwinner,sun20i-d1-spi",
++				     "allwinner,sun50i-r329-spi";
++			reg = <0x04025000 0x1000>;
++			interrupts = <SOC_PERIPHERAL_IRQ(15) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_SPI0>, <&ccu CLK_SPI0>;
++			clock-names = "ahb", "mod";
++			dmas = <&dma 22>, <&dma 22>;
++			dma-names = "rx", "tx";
++			resets = <&ccu RST_BUS_SPI0>;
++			status = "disabled";
++			#address-cells = <1>;
++			#size-cells = <0>;
++		};
++
++		spi1: spi@4026000 {
++			compatible = "allwinner,sun20i-d1-spi-dbi",
++				     "allwinner,sun50i-r329-spi-dbi",
++				     "allwinner,sun50i-r329-spi";
++			reg = <0x04026000 0x1000>;
++			interrupts = <SOC_PERIPHERAL_IRQ(16) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_SPI1>, <&ccu CLK_SPI1>;
++			clock-names = "ahb", "mod";
++			dmas = <&dma 23>, <&dma 23>;
++			dma-names = "rx", "tx";
++			resets = <&ccu RST_BUS_SPI1>;
++			status = "disabled";
++			#address-cells = <1>;
++			#size-cells = <0>;
++		};
++
++		usb_otg: usb@4100000 {
++			compatible = "allwinner,sun20i-d1-musb",
++				     "allwinner,sun8i-a33-musb";
++			reg = <0x4100000 0x400>;
++			interrupts = <SOC_PERIPHERAL_IRQ(29) IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "mc";
++			clocks = <&ccu CLK_BUS_OTG>;
++			resets = <&ccu RST_BUS_OTG>;
++			extcon = <&usbphy 0>;
++			phys = <&usbphy 0>;
++			phy-names = "usb";
++			status = "disabled";
++		};
++
++		usbphy: phy@4100400 {
++			compatible = "allwinner,sun20i-d1-usb-phy";
++			reg = <0x4100400 0x100>,
++			      <0x4101800 0x100>,
++			      <0x4200800 0x100>;
++			reg-names = "phy_ctrl",
++				    "pmu0",
++				    "pmu1";
++			clocks = <&dcxo>,
++				 <&dcxo>;
++			clock-names = "usb0_phy",
++				      "usb1_phy";
++			resets = <&ccu RST_USB_PHY0>,
++				 <&ccu RST_USB_PHY1>;
++			reset-names = "usb0_reset",
++				      "usb1_reset";
++			status = "disabled";
++			#phy-cells = <1>;
++		};
++
++		ehci0: usb@4101000 {
++			compatible = "allwinner,sun20i-d1-ehci",
++				     "generic-ehci";
++			reg = <0x4101000 0x100>;
++			interrupts = <SOC_PERIPHERAL_IRQ(30) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_OHCI0>,
++				 <&ccu CLK_BUS_EHCI0>,
++				 <&ccu CLK_USB_OHCI0>;
++			resets = <&ccu RST_BUS_OHCI0>,
++				 <&ccu RST_BUS_EHCI0>;
++			phys = <&usbphy 0>;
++			phy-names = "usb";
++			status = "disabled";
++		};
++
++		ohci0: usb@4101400 {
++			compatible = "allwinner,sun20i-d1-ohci",
++				     "generic-ohci";
++			reg = <0x4101400 0x100>;
++			interrupts = <SOC_PERIPHERAL_IRQ(31) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_OHCI0>,
++				 <&ccu CLK_USB_OHCI0>;
++			resets = <&ccu RST_BUS_OHCI0>;
++			phys = <&usbphy 0>;
++			phy-names = "usb";
++			status = "disabled";
++		};
++
++		ehci1: usb@4200000 {
++			compatible = "allwinner,sun20i-d1-ehci",
++				     "generic-ehci";
++			reg = <0x4200000 0x100>;
++			interrupts = <SOC_PERIPHERAL_IRQ(33) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_OHCI1>,
++				 <&ccu CLK_BUS_EHCI1>,
++				 <&ccu CLK_USB_OHCI1>;
++			resets = <&ccu RST_BUS_OHCI1>,
++				 <&ccu RST_BUS_EHCI1>;
++			phys = <&usbphy 1>;
++			phy-names = "usb";
++			status = "disabled";
++		};
++
++		ohci1: usb@4200400 {
++			compatible = "allwinner,sun20i-d1-ohci",
++				     "generic-ohci";
++			reg = <0x4200400 0x100>;
++			interrupts = <SOC_PERIPHERAL_IRQ(34) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_OHCI1>,
++				 <&ccu CLK_USB_OHCI1>;
++			resets = <&ccu RST_BUS_OHCI1>;
++			phys = <&usbphy 1>;
++			phy-names = "usb";
++			status = "disabled";
++		};
++
++		emac: ethernet@4500000 {
++			compatible = "allwinner,sun20i-d1-emac",
++				     "allwinner,sun50i-a64-emac";
++			reg = <0x4500000 0x10000>;
++			interrupts = <SOC_PERIPHERAL_IRQ(46) IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "macirq";
++			clocks = <&ccu CLK_BUS_EMAC>;
++			clock-names = "stmmaceth";
++			resets = <&ccu RST_BUS_EMAC>;
++			reset-names = "stmmaceth";
++			syscon = <&syscon>;
++			status = "disabled";
++
++			mdio: mdio {
++				compatible = "snps,dwmac-mdio";
++				#address-cells = <1>;
++				#size-cells = <0>;
++			};
++		};
++
++		display_clocks: clock-controller@5000000 {
++			compatible = "allwinner,sun20i-d1-de2-clk",
++				     "allwinner,sun50i-h5-de2-clk";
++			reg = <0x5000000 0x10000>;
++			clocks = <&ccu CLK_BUS_DE>, <&ccu CLK_DE>;
++			clock-names = "bus", "mod";
++			resets = <&ccu RST_BUS_DE>;
++			#clock-cells = <1>;
++			#reset-cells = <1>;
++		};
++
++		mixer0: mixer@5100000 {
++			compatible = "allwinner,sun20i-d1-de2-mixer-0";
++			reg = <0x5100000 0x100000>;
++			clocks = <&display_clocks CLK_BUS_MIXER0>,
++				 <&display_clocks CLK_MIXER0>;
++			clock-names = "bus", "mod";
++			resets = <&display_clocks RST_MIXER0>;
++
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				mixer0_out: port@1 {
++					reg = <1>;
++
++					mixer0_out_tcon_top_mixer0: endpoint {
++						remote-endpoint = <&tcon_top_mixer0_in_mixer0>;
++					};
++				};
++			};
++		};
++
++		mixer1: mixer@5200000 {
++			compatible = "allwinner,sun20i-d1-de2-mixer-1";
++			reg = <0x5200000 0x100000>;
++			clocks = <&display_clocks CLK_BUS_MIXER1>,
++				 <&display_clocks CLK_MIXER1>;
++			clock-names = "bus", "mod";
++			resets = <&display_clocks RST_MIXER1>;
++
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				mixer1_out: port@1 {
++					reg = <1>;
++
++					mixer1_out_tcon_top_mixer1: endpoint {
++						remote-endpoint = <&tcon_top_mixer1_in_mixer1>;
++					};
++				};
++			};
++		};
++
++		dsi: dsi@5450000 {
++			compatible = "allwinner,sun20i-d1-mipi-dsi",
++				     "allwinner,sun50i-a100-mipi-dsi";
++			reg = <0x5450000 0x1000>;
++			interrupts = <SOC_PERIPHERAL_IRQ(92) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_MIPI_DSI>,
++				 <&tcon_top CLK_TCON_TOP_DSI>;
++			clock-names = "bus", "mod";
++			resets = <&ccu RST_BUS_MIPI_DSI>;
++			phys = <&dphy>;
++			phy-names = "dphy";
++			status = "disabled";
++
++			port {
++				dsi_in_tcon_lcd0: endpoint {
++					remote-endpoint = <&tcon_lcd0_out_dsi>;
++				};
++			};
++		};
++
++		dphy: phy@5451000 {
++			compatible = "allwinner,sun20i-d1-mipi-dphy",
++				     "allwinner,sun50i-a100-mipi-dphy";
++			reg = <0x5451000 0x1000>;
++			interrupts = <SOC_PERIPHERAL_IRQ(92) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_MIPI_DSI>,
++				 <&ccu CLK_MIPI_DSI>;
++			clock-names = "bus", "mod";
++			resets = <&ccu RST_BUS_MIPI_DSI>;
++			#phy-cells = <0>;
++		};
++
++		tcon_top: tcon-top@5460000 {
++			compatible = "allwinner,sun20i-d1-tcon-top";
++			reg = <0x5460000 0x1000>;
++			clocks = <&ccu CLK_BUS_DPSS_TOP>,
++				 <&ccu CLK_TCON_TV>,
++				 <&ccu CLK_TVE>,
++				 <&ccu CLK_TCON_LCD0>;
++			clock-names = "bus", "tcon-tv0", "tve0", "dsi";
++			clock-output-names = "tcon-top-tv0", "tcon-top-dsi";
++			resets = <&ccu RST_BUS_DPSS_TOP>;
++			#clock-cells = <1>;
++
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				tcon_top_mixer0_in: port@0 {
++					reg = <0>;
++
++					tcon_top_mixer0_in_mixer0: endpoint {
++						remote-endpoint = <&mixer0_out_tcon_top_mixer0>;
++					};
++				};
++
++				tcon_top_mixer0_out: port@1 {
++					reg = <1>;
++					#address-cells = <1>;
++					#size-cells = <0>;
++
++					tcon_top_mixer0_out_tcon_lcd0: endpoint@0 {
++						reg = <0>;
++						remote-endpoint = <&tcon_lcd0_in_tcon_top_mixer0>;
++					};
++
++					tcon_top_mixer0_out_tcon_tv0: endpoint@2 {
++						reg = <2>;
++						remote-endpoint = <&tcon_tv0_in_tcon_top_mixer0>;
++					};
++				};
++
++				tcon_top_mixer1_in: port@2 {
++					reg = <2>;
++					#address-cells = <1>;
++					#size-cells = <0>;
++
++					tcon_top_mixer1_in_mixer1: endpoint@1 {
++						reg = <1>;
++						remote-endpoint = <&mixer1_out_tcon_top_mixer1>;
++					};
++				};
++
++				tcon_top_mixer1_out: port@3 {
++					reg = <3>;
++					#address-cells = <1>;
++					#size-cells = <0>;
++
++					tcon_top_mixer1_out_tcon_lcd0: endpoint@0 {
++						reg = <0>;
++						remote-endpoint = <&tcon_lcd0_in_tcon_top_mixer1>;
++					};
++
++					tcon_top_mixer1_out_tcon_tv0: endpoint@2 {
++						reg = <2>;
++						remote-endpoint = <&tcon_tv0_in_tcon_top_mixer1>;
++					};
++				};
++
++				tcon_top_hdmi_in: port@4 {
++					reg = <4>;
++
++					tcon_top_hdmi_in_tcon_tv0: endpoint {
++						remote-endpoint = <&tcon_tv0_out_tcon_top_hdmi>;
++					};
++				};
++
++				tcon_top_hdmi_out: port@5 {
++					reg = <5>;
++				};
++			};
++		};
++
++		tcon_lcd0: lcd-controller@5461000 {
++			compatible = "allwinner,sun20i-d1-tcon-lcd";
++			reg = <0x5461000 0x1000>;
++			interrupts = <SOC_PERIPHERAL_IRQ(90) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_TCON_LCD0>,
++				 <&ccu CLK_TCON_LCD0>;
++			clock-names = "ahb", "tcon-ch0";
++			clock-output-names = "tcon-pixel-clock";
++			resets = <&ccu RST_BUS_TCON_LCD0>,
++				 <&ccu RST_BUS_LVDS0>;
++			reset-names = "lcd", "lvds";
++			#clock-cells = <0>;
++
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				tcon_lcd0_in: port@0 {
++					reg = <0>;
++					#address-cells = <1>;
++					#size-cells = <0>;
++
++					tcon_lcd0_in_tcon_top_mixer0: endpoint@0 {
++						reg = <0>;
++						remote-endpoint = <&tcon_top_mixer0_out_tcon_lcd0>;
++					};
++
++					tcon_lcd0_in_tcon_top_mixer1: endpoint@1 {
++						reg = <1>;
++						remote-endpoint = <&tcon_top_mixer1_out_tcon_lcd0>;
++					};
++				};
++
++				tcon_lcd0_out: port@1 {
++					reg = <1>;
++					#address-cells = <1>;
++					#size-cells = <0>;
++
++					tcon_lcd0_out_dsi: endpoint@1 {
++						reg = <1>;
++						remote-endpoint = <&dsi_in_tcon_lcd0>;
++					};
++				};
++			};
++		};
++
++		tcon_tv0: lcd-controller@5470000 {
++			compatible = "allwinner,sun20i-d1-tcon-tv";
++			reg = <0x5470000 0x1000>;
++			interrupts = <SOC_PERIPHERAL_IRQ(91) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_TCON_TV>,
++				 <&tcon_top CLK_TCON_TOP_TV0>;
++			clock-names = "ahb", "tcon-ch1";
++			resets = <&ccu RST_BUS_TCON_TV>;
++			reset-names = "lcd";
++
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				tcon_tv0_in: port@0 {
++					reg = <0>;
++					#address-cells = <1>;
++					#size-cells = <0>;
++
++					tcon_tv0_in_tcon_top_mixer0: endpoint@0 {
++						reg = <0>;
++						remote-endpoint = <&tcon_top_mixer0_out_tcon_tv0>;
++					};
++
++					tcon_tv0_in_tcon_top_mixer1: endpoint@1 {
++						reg = <1>;
++						remote-endpoint = <&tcon_top_mixer1_out_tcon_tv0>;
++					};
++				};
++
++				tcon_tv0_out: port@1 {
++					reg = <1>;
++
++					tcon_tv0_out_tcon_top_hdmi: endpoint {
++						remote-endpoint = <&tcon_top_hdmi_in_tcon_tv0>;
++					};
++				};
++			};
++		};
++
++		ppu: power-controller@7001000 {
++			compatible = "allwinner,sun20i-d1-ppu";
++			reg = <0x7001000 0x1000>;
++			clocks = <&r_ccu CLK_BUS_R_PPU>;
++			resets = <&r_ccu RST_BUS_R_PPU>;
++			#power-domain-cells = <1>;
++		};
++
++		r_ccu: clock-controller@7010000 {
++			compatible = "allwinner,sun20i-d1-r-ccu";
++			reg = <0x7010000 0x400>;
++			clocks = <&dcxo>,
++				 <&rtc CLK_OSC32K>,
++				 <&rtc CLK_IOSC>,
++				 <&ccu CLK_PLL_PERIPH0_DIV3>;
++			clock-names = "hosc", "losc", "iosc", "pll-periph";
++			#clock-cells = <1>;
++			#reset-cells = <1>;
++		};
++
++		rtc: rtc@7090000 {
++			compatible = "allwinner,sun20i-d1-rtc",
++				     "allwinner,sun50i-r329-rtc";
++			reg = <0x7090000 0x400>;
++			interrupts = <SOC_PERIPHERAL_IRQ(144) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&r_ccu CLK_BUS_R_RTC>,
++				 <&dcxo>,
++				 <&r_ccu CLK_R_AHB>;
++			clock-names = "bus", "hosc", "ahb";
++			#clock-cells = <1>;
++		};
 +	};
 +};
+diff --git a/include/dt-bindings/clock/sun20i-d1-ccu.h b/include/dt-bindings/clock/sun20i-d1-ccu.h
+new file mode 100644
+index 00000000000..fdbfb404f92
+--- /dev/null
++++ b/include/dt-bindings/clock/sun20i-d1-ccu.h
+@@ -0,0 +1,158 @@
++/* SPDX-License-Identifier: (GPL-2.0+ OR MIT) */
++/*
++ * Copyright (C) 2020 huangzhenwei@allwinnertech.com
++ * Copyright (C) 2021 Samuel Holland <samuel@sholland.org>
++ */
 +
-+&gmac_mdio {
-+	phy1: ethernet-phy@1 {
-+		reg = <1>;
-+	};
-+};
++#ifndef _DT_BINDINGS_CLK_SUN20I_D1_CCU_H_
++#define _DT_BINDINGS_CLK_SUN20I_D1_CCU_H_
 +
-+#include "axp209.dtsi"
++#define CLK_PLL_CPUX		0
++#define CLK_PLL_DDR0		1
++#define CLK_PLL_PERIPH0_4X	2
++#define CLK_PLL_PERIPH0_2X	3
++#define CLK_PLL_PERIPH0_800M	4
++#define CLK_PLL_PERIPH0		5
++#define CLK_PLL_PERIPH0_DIV3	6
++#define CLK_PLL_VIDEO0_4X	7
++#define CLK_PLL_VIDEO0_2X	8
++#define CLK_PLL_VIDEO0		9
++#define CLK_PLL_VIDEO1_4X	10
++#define CLK_PLL_VIDEO1_2X	11
++#define CLK_PLL_VIDEO1		12
++#define CLK_PLL_VE		13
++#define CLK_PLL_AUDIO0_4X	14
++#define CLK_PLL_AUDIO0_2X	15
++#define CLK_PLL_AUDIO0		16
++#define CLK_PLL_AUDIO1		17
++#define CLK_PLL_AUDIO1_DIV2	18
++#define CLK_PLL_AUDIO1_DIV5	19
++#define CLK_CPUX		20
++#define CLK_CPUX_AXI		21
++#define CLK_CPUX_APB		22
++#define CLK_PSI_AHB		23
++#define CLK_APB0		24
++#define CLK_APB1		25
++#define CLK_MBUS		26
++#define CLK_DE			27
++#define CLK_BUS_DE		28
++#define CLK_DI			29
++#define CLK_BUS_DI		30
++#define CLK_G2D			31
++#define CLK_BUS_G2D		32
++#define CLK_CE			33
++#define CLK_BUS_CE		34
++#define CLK_VE			35
++#define CLK_BUS_VE		36
++#define CLK_BUS_DMA		37
++#define CLK_BUS_MSGBOX0		38
++#define CLK_BUS_MSGBOX1		39
++#define CLK_BUS_MSGBOX2		40
++#define CLK_BUS_SPINLOCK	41
++#define CLK_BUS_HSTIMER		42
++#define CLK_AVS			43
++#define CLK_BUS_DBG		44
++#define CLK_BUS_PWM		45
++#define CLK_BUS_IOMMU		46
++#define CLK_DRAM		47
++#define CLK_MBUS_DMA		48
++#define CLK_MBUS_VE		49
++#define CLK_MBUS_CE		50
++#define CLK_MBUS_TVIN		51
++#define CLK_MBUS_CSI		52
++#define CLK_MBUS_G2D		53
++#define CLK_MBUS_RISCV		54
++#define CLK_BUS_DRAM		55
++#define CLK_MMC0		56
++#define CLK_MMC1		57
++#define CLK_MMC2		58
++#define CLK_BUS_MMC0		59
++#define CLK_BUS_MMC1		60
++#define CLK_BUS_MMC2		61
++#define CLK_BUS_UART0		62
++#define CLK_BUS_UART1		63
++#define CLK_BUS_UART2		64
++#define CLK_BUS_UART3		65
++#define CLK_BUS_UART4		66
++#define CLK_BUS_UART5		67
++#define CLK_BUS_I2C0		68
++#define CLK_BUS_I2C1		69
++#define CLK_BUS_I2C2		70
++#define CLK_BUS_I2C3		71
++#define CLK_SPI0		72
++#define CLK_SPI1		73
++#define CLK_BUS_SPI0		74
++#define CLK_BUS_SPI1		75
++#define CLK_EMAC_25M		76
++#define CLK_BUS_EMAC		77
++#define CLK_IR_TX		78
++#define CLK_BUS_IR_TX		79
++#define CLK_BUS_GPADC		80
++#define CLK_BUS_THS		81
++#define CLK_I2S0		82
++#define CLK_I2S1		83
++#define CLK_I2S2		84
++#define CLK_I2S2_ASRC		85
++#define CLK_BUS_I2S0		86
++#define CLK_BUS_I2S1		87
++#define CLK_BUS_I2S2		88
++#define CLK_SPDIF_TX		89
++#define CLK_SPDIF_RX		90
++#define CLK_BUS_SPDIF		91
++#define CLK_DMIC		92
++#define CLK_BUS_DMIC		93
++#define CLK_AUDIO_DAC		94
++#define CLK_AUDIO_ADC		95
++#define CLK_BUS_AUDIO		96
++#define CLK_USB_OHCI0		97
++#define CLK_USB_OHCI1		98
++#define CLK_BUS_OHCI0		99
++#define CLK_BUS_OHCI1		100
++#define CLK_BUS_EHCI0		101
++#define CLK_BUS_EHCI1		102
++#define CLK_BUS_OTG		103
++#define CLK_BUS_LRADC		104
++#define CLK_BUS_DPSS_TOP	105
++#define CLK_HDMI_24M		106
++#define CLK_HDMI_CEC_32K	107
++#define CLK_HDMI_CEC		108
++#define CLK_BUS_HDMI		109
++#define CLK_MIPI_DSI		110
++#define CLK_BUS_MIPI_DSI	111
++#define CLK_TCON_LCD0		112
++#define CLK_BUS_TCON_LCD0	113
++#define CLK_TCON_TV		114
++#define CLK_BUS_TCON_TV		115
++#define CLK_TVE			116
++#define CLK_BUS_TVE_TOP		117
++#define CLK_BUS_TVE		118
++#define CLK_TVD			119
++#define CLK_BUS_TVD_TOP		120
++#define CLK_BUS_TVD		121
++#define CLK_LEDC		122
++#define CLK_BUS_LEDC		123
++#define CLK_CSI_TOP		124
++#define CLK_CSI_MCLK		125
++#define CLK_BUS_CSI		126
++#define CLK_TPADC		127
++#define CLK_BUS_TPADC		128
++#define CLK_BUS_TZMA		129
++#define CLK_DSP			130
++#define CLK_BUS_DSP_CFG		131
++#define CLK_RISCV		132
++#define CLK_RISCV_AXI		133
++#define CLK_BUS_RISCV_CFG	134
++#define CLK_FANOUT_24M		135
++#define CLK_FANOUT_12M		136
++#define CLK_FANOUT_16M		137
++#define CLK_FANOUT_25M		138
++#define CLK_FANOUT_32K		139
++#define CLK_FANOUT_27M		140
++#define CLK_FANOUT_PCLK		141
++#define CLK_FANOUT0		142
++#define CLK_FANOUT1		143
++#define CLK_FANOUT2		144
++#define CLK_BUS_CAN0		145
++#define CLK_BUS_CAN1		146
 +
-+&reg_dcdc2 {
-+	regulator-always-on;
-+	regulator-min-microvolt = <1000000>;
-+	regulator-max-microvolt = <1400000>;
-+	regulator-name = "vdd-cpu";
-+};
++#endif /* _DT_BINDINGS_CLK_SUN20I_D1_CCU_H_ */
+diff --git a/include/dt-bindings/clock/sun20i-d1-r-ccu.h b/include/dt-bindings/clock/sun20i-d1-r-ccu.h
+new file mode 100644
+index 00000000000..f95c170711e
+--- /dev/null
++++ b/include/dt-bindings/clock/sun20i-d1-r-ccu.h
+@@ -0,0 +1,19 @@
++/* SPDX-License-Identifier: (GPL-2.0+ OR MIT) */
++/*
++ * Copyright (C) 2021 Samuel Holland <samuel@sholland.org>
++ */
 +
-+&reg_dcdc3 {
-+	regulator-always-on;
-+	regulator-min-microvolt = <1000000>;
-+	regulator-max-microvolt = <1400000>;
-+	regulator-name = "vdd-int-dll";
-+};
++#ifndef _DT_BINDINGS_CLK_SUN20I_D1_R_CCU_H_
++#define _DT_BINDINGS_CLK_SUN20I_D1_R_CCU_H_
 +
-+&reg_ldo1 {
-+	regulator-name = "vdd-rtc";
-+};
++#define CLK_R_AHB		0
 +
-+&reg_ldo2 {
-+	regulator-always-on;
-+	regulator-min-microvolt = <3000000>;
-+	regulator-max-microvolt = <3000000>;
-+	regulator-name = "avcc";
-+};
-diff --git a/arch/arm/dts/sun8i-a23-a33.dtsi b/arch/arm/dts/sun8i-a23-a33.dtsi
-index 84c6d9379a3..a0cac966af3 100644
---- a/arch/arm/dts/sun8i-a23-a33.dtsi
-+++ b/arch/arm/dts/sun8i-a23-a33.dtsi
-@@ -190,7 +190,7 @@
- 			clock-names = "ahb",
- 				      "tcon-ch0",
- 				      "lvds-alt";
--			clock-output-names = "tcon-pixel-clock";
-+			clock-output-names = "tcon-data-clock";
- 			#clock-cells = <0>;
- 			resets = <&ccu RST_BUS_LCD>,
- 				 <&ccu RST_BUS_LVDS>;
-diff --git a/arch/arm/dts/sun8i-a83t.dtsi b/arch/arm/dts/sun8i-a83t.dtsi
-index 9c07660080d..cc40622466a 100644
---- a/arch/arm/dts/sun8i-a83t.dtsi
-+++ b/arch/arm/dts/sun8i-a83t.dtsi
-@@ -456,7 +456,7 @@
- 			interrupts = <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&ccu CLK_BUS_TCON0>, <&ccu CLK_TCON0>;
- 			clock-names = "ahb", "tcon-ch0";
--			clock-output-names = "tcon-pixel-clock";
-+			clock-output-names = "tcon-data-clock";
- 			#clock-cells = <0>;
- 			resets = <&ccu RST_BUS_TCON0>, <&ccu RST_BUS_LVDS>;
- 			reset-names = "lcd", "lvds";
-diff --git a/arch/arm/dts/sun8i-v3s.dtsi b/arch/arm/dts/sun8i-v3s.dtsi
-index b001251644f..3b9a282c274 100644
---- a/arch/arm/dts/sun8i-v3s.dtsi
-+++ b/arch/arm/dts/sun8i-v3s.dtsi
-@@ -191,7 +191,7 @@
- 				 <&ccu CLK_TCON0>;
- 			clock-names = "ahb",
- 				      "tcon-ch0";
--			clock-output-names = "tcon-pixel-clock";
-+			clock-output-names = "tcon-data-clock";
- 			#clock-cells = <0>;
- 			resets = <&ccu RST_BUS_TCON0>;
- 			reset-names = "lcd";
++#define CLK_BUS_R_TIMER		2
++#define CLK_BUS_R_TWD		3
++#define CLK_BUS_R_PPU		4
++#define CLK_R_IR_RX		5
++#define CLK_BUS_R_IR_RX		6
++#define CLK_BUS_R_RTC		7
++#define CLK_BUS_R_CPUCFG	8
++
++#endif /* _DT_BINDINGS_CLK_SUN20I_D1_R_CCU_H_ */
+diff --git a/include/dt-bindings/reset/sun20i-d1-ccu.h b/include/dt-bindings/reset/sun20i-d1-ccu.h
+new file mode 100644
+index 00000000000..79e52aca591
+--- /dev/null
++++ b/include/dt-bindings/reset/sun20i-d1-ccu.h
+@@ -0,0 +1,79 @@
++/* SPDX-License-Identifier: (GPL-2.0+ OR MIT) */
++/*
++ * Copyright (c) 2020 huangzhenwei@allwinnertech.com
++ * Copyright (C) 2021 Samuel Holland <samuel@sholland.org>
++ */
++
++#ifndef _DT_BINDINGS_RST_SUN20I_D1_CCU_H_
++#define _DT_BINDINGS_RST_SUN20I_D1_CCU_H_
++
++#define RST_MBUS		0
++#define RST_BUS_DE		1
++#define RST_BUS_DI		2
++#define RST_BUS_G2D		3
++#define RST_BUS_CE		4
++#define RST_BUS_VE		5
++#define RST_BUS_DMA		6
++#define RST_BUS_MSGBOX0		7
++#define RST_BUS_MSGBOX1		8
++#define RST_BUS_MSGBOX2		9
++#define RST_BUS_SPINLOCK	10
++#define RST_BUS_HSTIMER		11
++#define RST_BUS_DBG		12
++#define RST_BUS_PWM		13
++#define RST_BUS_DRAM		14
++#define RST_BUS_MMC0		15
++#define RST_BUS_MMC1		16
++#define RST_BUS_MMC2		17
++#define RST_BUS_UART0		18
++#define RST_BUS_UART1		19
++#define RST_BUS_UART2		20
++#define RST_BUS_UART3		21
++#define RST_BUS_UART4		22
++#define RST_BUS_UART5		23
++#define RST_BUS_I2C0		24
++#define RST_BUS_I2C1		25
++#define RST_BUS_I2C2		26
++#define RST_BUS_I2C3		27
++#define RST_BUS_SPI0		28
++#define RST_BUS_SPI1		29
++#define RST_BUS_EMAC		30
++#define RST_BUS_IR_TX		31
++#define RST_BUS_GPADC		32
++#define RST_BUS_THS		33
++#define RST_BUS_I2S0		34
++#define RST_BUS_I2S1		35
++#define RST_BUS_I2S2		36
++#define RST_BUS_SPDIF		37
++#define RST_BUS_DMIC		38
++#define RST_BUS_AUDIO		39
++#define RST_USB_PHY0		40
++#define RST_USB_PHY1		41
++#define RST_BUS_OHCI0		42
++#define RST_BUS_OHCI1		43
++#define RST_BUS_EHCI0		44
++#define RST_BUS_EHCI1		45
++#define RST_BUS_OTG		46
++#define RST_BUS_LRADC		47
++#define RST_BUS_DPSS_TOP	48
++#define RST_BUS_HDMI_SUB	49
++#define RST_BUS_HDMI_MAIN	50
++#define RST_BUS_MIPI_DSI	51
++#define RST_BUS_TCON_LCD0	52
++#define RST_BUS_TCON_TV		53
++#define RST_BUS_LVDS0		54
++#define RST_BUS_TVE		55
++#define RST_BUS_TVE_TOP		56
++#define RST_BUS_TVD		57
++#define RST_BUS_TVD_TOP		58
++#define RST_BUS_LEDC		59
++#define RST_BUS_CSI		60
++#define RST_BUS_TPADC		61
++#define RST_DSP			62
++#define RST_BUS_DSP_CFG		63
++#define RST_BUS_DSP_DBG		64
++#define RST_BUS_RISCV_CFG	65
++#define RST_BUS_CAN0		66
++#define RST_BUS_CAN1		67
++
++#endif /* _DT_BINDINGS_RST_SUN20I_D1_CCU_H_ */
+diff --git a/include/dt-bindings/reset/sun20i-d1-r-ccu.h b/include/dt-bindings/reset/sun20i-d1-r-ccu.h
+new file mode 100644
+index 00000000000..e20babc990a
+--- /dev/null
++++ b/include/dt-bindings/reset/sun20i-d1-r-ccu.h
+@@ -0,0 +1,16 @@
++/* SPDX-License-Identifier: (GPL-2.0+ OR MIT) */
++/*
++ * Copyright (C) 2021 Samuel Holland <samuel@sholland.org>
++ */
++
++#ifndef _DT_BINDINGS_RST_SUN20I_D1_R_CCU_H_
++#define _DT_BINDINGS_RST_SUN20I_D1_R_CCU_H_
++
++#define RST_BUS_R_TIMER		0
++#define RST_BUS_R_TWD		1
++#define RST_BUS_R_PPU		2
++#define RST_BUS_R_IR_RX		3
++#define RST_BUS_R_RTC		4
++#define RST_BUS_R_CPUCFG	5
++
++#endif /* _DT_BINDINGS_RST_SUN20I_D1_R_CCU_H_ */
 -- 
 2.35.8
 
