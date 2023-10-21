@@ -1,29 +1,31 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2A23DDA4
-	for <linux-sunxi@lists.linux.dev>; Sat, 21 Oct 2023 21:20:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41BA314018
+	for <linux-sunxi@lists.linux.dev>; Sat, 21 Oct 2023 21:48:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 806FCC15;
-	Sat, 21 Oct 2023 14:20:57 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 214BBC15;
+	Sat, 21 Oct 2023 14:48:53 -0700 (PDT)
 Received: from slackpad.lan (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 432243F762;
-	Sat, 21 Oct 2023 14:20:15 -0700 (PDT)
-Date: Sat, 21 Oct 2023 22:19:11 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9A19A3F762;
+	Sat, 21 Oct 2023 14:48:10 -0700 (PDT)
+Date: Sat, 21 Oct 2023 22:47:07 +0100
 From: Andre Przywara <andre.przywara@arm.com>
 To: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-Cc: Jagan Teki <jagan@amarulasolutions.com>, Jaehoon Chung
- <jh80.chung@samsung.com>, Samuel Holland <samuel@sholland.org>, SASANO
- Takayoshi <uaa@mx5.nisiq.net>, Mikhail Kalashnikov <iuncuim@gmail.com>,
- Piotr Oniszczuk <piotr.oniszczuk@gmail.com>, u-boot@lists.denx.de,
- linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 1/3] sunxi: board: simplify early PMIC setup conditions
-Message-ID: <20231021221911.16a6a145@slackpad.lan>
-In-Reply-To: <1965267.usQuhbGJ8B@archlinux>
-References: <20231018155014.383566-1-andre.przywara@arm.com>
-	<20231018155014.383566-2-andre.przywara@arm.com>
-	<1965267.usQuhbGJ8B@archlinux>
+Cc: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>, Marc
+ Zyngier <maz@kernel.org>, Piotr Oniszczuk <piotr.oniszczuk@gmail.com>,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org
+Subject: Re: [PATCH 2/2] arm64: dts: allwinner: h616: add Orange Pi Zero 2W
+ support
+Message-ID: <20231021224707.0af92fa3@slackpad.lan>
+In-Reply-To: <7582185.EvYhyI6sBW@archlinux>
+References: <20231020145706.705420-1-andre.przywara@arm.com>
+	<20231020145706.705420-3-andre.przywara@arm.com>
+	<7582185.EvYhyI6sBW@archlinux>
 Organization: Arm Ltd.
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
@@ -35,134 +37,253 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, 21 Oct 2023 08:34:06 +0200
+On Sat, 21 Oct 2023 08:22:24 +0200
 Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
 
-> On Wednesday, October 18, 2023 5:50:12 PM CEST Andre Przywara wrote:
-> > So far we have a convoluted #ifdef mesh that guards the early AXP PMIC
-> > setup in board.c. That combination of &&, || and negations is very hard
-> > to read, maintain and especially to extend.
+Hi,
+
+> On Friday, October 20, 2023 4:57:06 PM CEST Andre Przywara wrote:
+> > The Orange Pi Zero 2W is a board based on the Allwinner H618 SoC.
+> > It uses the RaspberryPi Zero form factor, with an optional expansion
+> > board, connected via an FPC connector, to provide more connectors.
 > >=20
-> > Fortunately we have those same conditions already modelled in the
-> > Kconfig file, so they are actually redundant. On top of that the real
-> > reason we have those preprocessor guards in the first place is about the
-> > symbols that are *conditionally* defined: without #ifdefs the build
-> > would break because of them being undefined for many boards.
+> > The base board features:
+> > 	- Allwinner H618 SoC (quad Cortex-A53 cores, with 1MB L2 cache)
+> > 	- 1, 2 or 4GB of LPDDR4 DRAM
+> > 	- SD card socket
+> > 	- two USB-C sockets, one UFP, one DFP
+> > 	- HDMI connector
+> > 	- (yet unsupported) WiFi module
+> > 	- 16 MiB SPI flash
+> > 	- power supply via the UFP USB-C port
 > >=20
-> > To simplify this, just change the guards to actually look at the symbols
-> > needed, so CONFIG_AXP_xxx_VOLT instead of CONFIG_AXPyyy_POWER.
-> > This drastically improves the readability of this code, and makes adding
-> > PMIC support a pure Kconfig matter.
+> > The FPC connector provides access to two more USB host ports, Fast
+> > Ethernet, some GPIOs, Audio Line out and the IR receiver pin.
 > >=20
-> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > ---
-> >  board/sunxi/board.c   | 32 ++++++++++++++------------------
-> >  drivers/power/Kconfig |  2 +-
-> >  2 files changed, 15 insertions(+), 19 deletions(-)
-> >=20
-> > diff --git a/board/sunxi/board.c b/board/sunxi/board.c
-> > index ebaa9431984..65d79a02c25 100644
-> > --- a/board/sunxi/board.c
-> > +++ b/board/sunxi/board.c
-> > @@ -597,50 +597,46 @@ void sunxi_board_init(void)
-> >  		}
-> >  	}
-> >=20
-> > -#if defined CONFIG_AXP221_POWER || defined CONFIG_AXP809_POWER || \
-> > -	defined CONFIG_AXP818_POWER
-> > +#ifdef CONFIG_AXP_DCDC1_VOLT
-> >  	power_failed |=3D axp_set_dcdc1(CONFIG_AXP_DCDC1_VOLT);
-> > +	power_failed |=3D axp_set_dcdc5(CONFIG_AXP_DCDC5_VOLT);
-> >  #endif
-> > -#if !defined(CONFIG_AXP305_POWER)
-> > +#ifdef CONFIG_AXP_DCDC2_VOLT
-> >  	power_failed |=3D axp_set_dcdc2(CONFIG_AXP_DCDC2_VOLT);
-> >  	power_failed |=3D axp_set_dcdc3(CONFIG_AXP_DCDC3_VOLT);
-> >  #endif
-> > -#if !defined(CONFIG_AXP209_POWER) && !defined(CONFIG_AXP818_POWER)
-> > +#ifdef CONFIG_AXP_DCDC4_VOLT
-> >  	power_failed |=3D axp_set_dcdc4(CONFIG_AXP_DCDC4_VOLT);
-> >  #endif
-> > -#if defined CONFIG_AXP221_POWER || defined CONFIG_AXP809_POWER || \
-> > -	defined CONFIG_AXP818_POWER
-> > -	power_failed |=3D axp_set_dcdc5(CONFIG_AXP_DCDC5_VOLT);
-> > -#endif
-> >=20
-> > -#if defined CONFIG_AXP221_POWER || defined CONFIG_AXP809_POWER || \
-> > -	defined CONFIG_AXP818_POWER
-> > +#ifdef CONFIG_AXP_ALDO1_VOLT
-> >  	power_failed |=3D axp_set_aldo1(CONFIG_AXP_ALDO1_VOLT);
-> >  #endif
-> > -#if !defined(CONFIG_AXP305_POWER)
-> > +#ifdef CONFIG_AXP_ALDO2_VOLT
-> >  	power_failed |=3D axp_set_aldo2(CONFIG_AXP_ALDO2_VOLT);
-> >  #endif
-> > -#if !defined(CONFIG_AXP152_POWER) && !defined(CONFIG_AXP305_POWER)
-> > +#ifdef CONFIG_AXP_ALDO3_VOLT
-> >  	power_failed |=3D axp_set_aldo3(CONFIG_AXP_ALDO3_VOLT);
-> >  #endif
-> > -#ifdef CONFIG_AXP209_POWER
-> > +#ifdef CONFIG_AXP_ALDO4_VOLT
-> >  	power_failed |=3D axp_set_aldo4(CONFIG_AXP_ALDO4_VOLT);
-> >  #endif
-> >=20
-> > -#if defined(CONFIG_AXP221_POWER) || defined(CONFIG_AXP809_POWER) || \
-> > -	defined(CONFIG_AXP818_POWER)
-> > +#ifdef CONFIG_AXP_DLDO1_VOLT
-> >  	power_failed |=3D axp_set_dldo(1, CONFIG_AXP_DLDO1_VOLT);
-> >  	power_failed |=3D axp_set_dldo(2, CONFIG_AXP_DLDO2_VOLT);
-> > -#if !defined CONFIG_AXP809_POWER
-> > +#endif
-> > +#ifdef CONFIG_AXP_DLDO3_VOLT
-> >  	power_failed |=3D axp_set_dldo(3, CONFIG_AXP_DLDO3_VOLT);
-> >  	power_failed |=3D axp_set_dldo(4, CONFIG_AXP_DLDO4_VOLT);
-> >  #endif
-> > +#ifdef CONFIG_AXP_ELDO1_VOLT
-> >  	power_failed |=3D axp_set_eldo(1, CONFIG_AXP_ELDO1_VOLT);
-> >  	power_failed |=3D axp_set_eldo(2, CONFIG_AXP_ELDO2_VOLT);
-> >  	power_failed |=3D axp_set_eldo(3, CONFIG_AXP_ELDO3_VOLT);
-> >  #endif
-> >=20
-> > -#ifdef CONFIG_AXP818_POWER
-> > +#ifdef CONFIG_AXP_FLDO1_VOLT
-> >  	power_failed |=3D axp_set_fldo(1, CONFIG_AXP_FLDO1_VOLT);
-> >  	power_failed |=3D axp_set_fldo(2, CONFIG_AXP_FLDO2_VOLT);
-> >  	power_failed |=3D axp_set_fldo(3, CONFIG_AXP_FLDO3_VOLT);
-> > @@ -649,7 +645,7 @@ void sunxi_board_init(void)
-> >  #if defined CONFIG_AXP809_POWER || defined CONFIG_AXP818_POWER
-> >  	power_failed |=3D axp_set_sw(IS_ENABLED(CONFIG_AXP_SW_ON));
-> >  #endif
-> > -#endif
-> > +#endif	/* CONFIG_AXPxxx_POWER */
-> >  	printf("DRAM:");
-> >  	gd->ram_size =3D sunxi_dram_init();
-> >  	printf(" %d MiB\n", (int)(gd->ram_size >> 20));
-> > diff --git a/drivers/power/Kconfig b/drivers/power/Kconfig
-> > index 7f3b990d231..83cb31c937a 100644
-> > --- a/drivers/power/Kconfig
-> > +++ b/drivers/power/Kconfig
-> > @@ -180,7 +180,7 @@ config AXP_DCDC3_VOLT
-> >=20
-> >  config AXP_DCDC4_VOLT
-> >  	int "axp pmic dcdc4 voltage"
-> > -	depends on AXP152_POWER || AXP221_POWER || AXP809_POWER ||  =20
-> AXP818_POWER ||
-> > AXP305_POWER +	depends on AXP152_POWER || AXP221_POWER || AXP809_POWER =
- =20
-> ||
-> > AXP305_POWER default 1250 if AXP152_POWER
-> >  	default 1200 if MACH_SUN6I
-> >  	default 0 if MACH_SUN8I =20
+> > Signed-off-by: Andre Przywara <andre.przywara@arm.com> =20
 >=20
-> This patch is great, but this last change doesn't seem to be directly=20
-> connected?
+> I compared it to the schematic and all values looks good. Sadly, it misse=
+d=20
+> merge window.
 
-It is an existing bug: there is no axp_set_dcdc4() for the AXP818, but
-since the AXP818 is not included in the guards at the calling site
-in board.c above, we didn't notice.
-So without this change, all A83T boards (the only ones using AXP818)
-would fail compilation.
-I just forgot to mention it in the commit message, will add it.
+No worries, I wasn't expecting it to make it, just wanted to get this
+out to start the discussion and have something at a canonical place,
+since the first boards seem to arrive for people now.
 
-Cheers,
+> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+
+Thanks,
 Andre
+
+> Best regards,
+> Jernej
+>=20
+> > ---
+> >  .../allwinner/sun50i-h618-orangepi-zero2w.dts | 176 ++++++++++++++++++
+> >  1 file changed, 176 insertions(+)
+> >  create mode 100644
+> > arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts
+> >=20
+> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.=
+dts
+> > b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts new file
+> > mode 100644
+> > index 0000000000000..21ca1977055d9
+> > --- /dev/null
+> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts
+> > @@ -0,0 +1,176 @@
+> > +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> > +/*
+> > + * Copyright (C) 2023 Arm Ltd.
+> > + */
+> > +
+> > +/dts-v1/;
+> > +
+> > +#include "sun50i-h616.dtsi"
+> > +
+> > +#include <dt-bindings/gpio/gpio.h>
+> > +#include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +#include <dt-bindings/leds/common.h>
+> > +
+> > +/ {
+> > +	model =3D "OrangePi Zero 2W";
+> > +	compatible =3D "xunlong,orangepi-zero2w", "allwinner,sun50i-h618";
+> > +
+> > +	aliases {
+> > +		serial0 =3D &uart0;
+> > +	};
+> > +
+> > +	chosen {
+> > +		stdout-path =3D "serial0:115200n8";
+> > +	};
+> > +
+> > +	leds {
+> > +		compatible =3D "gpio-leds";
+> > +
+> > +		led-0 {
+> > +			function =3D LED_FUNCTION_STATUS;
+> > +			color =3D <LED_COLOR_ID_GREEN>;
+> > +			gpios =3D <&pio 2 13 GPIO_ACTIVE_HIGH>; /* PC13  =20
+> */
+> > +		};
+> > +	};
+> > +
+> > +	reg_vcc5v: vcc5v {
+> > +		/* board wide 5V supply directly from the USB-C socket  =20
+> */
+> > +		compatible =3D "regulator-fixed";
+> > +		regulator-name =3D "vcc-5v";
+> > +		regulator-min-microvolt =3D <5000000>;
+> > +		regulator-max-microvolt =3D <5000000>;
+> > +		regulator-always-on;
+> > +	};
+> > +
+> > +	reg_vcc3v3: vcc3v3 {
+> > +		/* SY8089 DC/DC converter */
+> > +		compatible =3D "regulator-fixed";
+> > +		regulator-name =3D "vcc-3v3";
+> > +		regulator-min-microvolt =3D <3300000>;
+> > +		regulator-max-microvolt =3D <3300000>;
+> > +		vin-supply =3D <&reg_vcc5v>;
+> > +		regulator-always-on;
+> > +	};
+> > +};
+> > +
+> > +&ehci1 {
+> > +	status =3D "okay";
+> > +};
+> > +
+> > +/* USB 2 & 3 are on the FPC connector (or the exansion board) */
+> > +
+> > +&mmc0 {
+> > +	cd-gpios =3D <&pio 5 6 GPIO_ACTIVE_LOW>;	/* PF6 */
+> > +	bus-width =3D <4>;
+> > +	vmmc-supply =3D <&reg_vcc3v3>;
+> > +	status =3D "okay";
+> > +};
+> > +
+> > +&ohci1 {
+> > +	status =3D "okay";
+> > +};
+> > +
+> > +&pio {
+> > +	vcc-pc-supply =3D <&reg_dldo1>;
+> > +	vcc-pf-supply =3D <&reg_dldo1>;	/* internally via VCC-IO */
+> > +	vcc-pg-supply =3D <&reg_aldo1>;
+> > +	vcc-ph-supply =3D <&reg_dldo1>;	/* internally via VCC-IO */
+> > +	vcc-pi-supply =3D <&reg_dldo1>;
+> > +};
+> > +
+> > +&r_i2c {
+> > +	status =3D "okay";
+> > +
+> > +	axp313: pmic@36 {
+> > +		compatible =3D "x-powers,axp313a";
+> > +		reg =3D <0x36>;
+> > +		#interrupt-cells =3D <1>;
+> > +		interrupt-controller;
+> > +		interrupt-parent =3D <&pio>;
+> > +		interrupts =3D <2 9 IRQ_TYPE_LEVEL_LOW>;	/* PC9 */
+> > +
+> > +		vin1-supply =3D <&reg_vcc5v>;
+> > +		vin2-supply =3D <&reg_vcc5v>;
+> > +		vin3-supply =3D <&reg_vcc5v>;
+> > +
+> > +		regulators {
+> > +			/* Supplies VCC-PLL and DRAM */
+> > +			reg_aldo1: aldo1 {
+> > +				regulator-always-on;
+> > +				regulator-min-microvolt =3D  =20
+> <1800000>;
+> > +				regulator-max-microvolt =3D  =20
+> <1800000>;
+> > +				regulator-name =3D "vcc1v8";
+> > +			};
+> > +
+> > +			/* Supplies VCC-IO, so needs to be always on.  =20
+> */
+> > +			reg_dldo1: dldo1 {
+> > +				regulator-always-on;
+> > +				regulator-min-microvolt =3D  =20
+> <3300000>;
+> > +				regulator-max-microvolt =3D  =20
+> <3300000>;
+> > +				regulator-name =3D "vcc3v3";
+> > +			};
+> > +
+> > +			reg_dcdc1: dcdc1 {
+> > +				regulator-always-on;
+> > +				regulator-min-microvolt =3D  =20
+> <810000>;
+> > +				regulator-max-microvolt =3D  =20
+> <990000>;
+> > +				regulator-name =3D "vdd-gpu-sys";
+> > +			};
+> > +
+> > +			reg_dcdc2: dcdc2 {
+> > +				regulator-always-on;
+> > +				regulator-min-microvolt =3D  =20
+> <810000>;
+> > +				regulator-max-microvolt =3D  =20
+> <1100000>;
+> > +				regulator-name =3D "vdd-cpu";
+> > +			};
+> > +
+> > +			reg_dcdc3: dcdc3 {
+> > +				regulator-always-on;
+> > +				regulator-min-microvolt =3D  =20
+> <1100000>;
+> > +				regulator-max-microvolt =3D  =20
+> <1100000>;
+> > +				regulator-name =3D "vdd-dram";
+> > +			};
+> > +		};
+> > +	};
+> > +};
+> > +
+> > +&spi0  {
+> > +	status =3D "okay";
+> > +	pinctrl-names =3D "default";
+> > +	pinctrl-0 =3D <&spi0_pins>, <&spi0_cs0_pin>;
+> > +
+> > +	flash@0 {
+> > +		#address-cells =3D <1>;
+> > +		#size-cells =3D <1>;
+> > +		compatible =3D "jedec,spi-nor";
+> > +		reg =3D <0>;
+> > +		spi-max-frequency =3D <40000000>;
+> > +	};
+> > +};
+> > +
+> > +&uart0 {
+> > +	pinctrl-names =3D "default";
+> > +	pinctrl-0 =3D <&uart0_ph_pins>;
+> > +	status =3D "okay";
+> > +};
+> > +
+> > +&usbotg {
+> > +	/*
+> > +	 * PHY0 pins are connected to a USB-C socket, but a role switch
+> > +	 * is not implemented: both CC pins are pulled to GND.
+> > +	 * The VBUS pins power the device, so a fixed peripheral mode
+> > +	 * is the best choice.
+> > +	 * The board can be powered via GPIOs, in this case port0 *can*
+> > +	 * act as a host (with a cable/adapter ignoring CC), as VBUS is
+> > +	 * then provided by the GPIOs. Any user of this setup would
+> > +	 * need to adjust the DT accordingly: dr_mode set to "host",
+> > +	 * enabling OHCI0 and EHCI0.
+> > +	 */
+> > +	dr_mode =3D "peripheral";
+> > +	status =3D "okay";
+> > +};
+> > +
+> > +&usbphy {
+> > +	usb1_vbus-supply =3D <&reg_vcc5v>;
+> > +	status =3D "okay";
+> > +}; =20
+>=20
+>=20
+>=20
+>=20
+>=20
+
