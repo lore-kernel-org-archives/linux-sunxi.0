@@ -1,176 +1,181 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E471C654
-	for <linux-sunxi@lists.linux.dev>; Sat, 21 Oct 2023 01:11:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E97B0143D;
-	Fri, 20 Oct 2023 18:12:17 -0700 (PDT)
-Received: from localhost.localdomain (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 12CAC3F64C;
-	Fri, 20 Oct 2023 18:11:35 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jagan Teki <jagan@amarulasolutions.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Gunjan Gupta <viraniac@gmail.com>,
-	u-boot@lists.denx.de,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH 4/4] sunxi: DRAM: H6: use proper MMIO accessors in mctl_set_addrmap()
-Date: Sat, 21 Oct 2023 02:10:25 +0100
-Message-Id: <20231021011025.568-5-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.35.8
-In-Reply-To: <20231021011025.568-1-andre.przywara@arm.com>
-References: <20231021011025.568-1-andre.przywara@arm.com>
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B7276110
+	for <linux-sunxi@lists.linux.dev>; Sat, 21 Oct 2023 04:34:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sholland.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sholland.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sholland.org header.i=@sholland.org header.b="YAXfwUxZ";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="nczTPYBe"
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.nyi.internal (Postfix) with ESMTP id 4DD2E5C010C;
+	Sat, 21 Oct 2023 00:34:38 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Sat, 21 Oct 2023 00:34:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:sender:subject:subject:to:to; s=fm1; t=
+	1697862878; x=1697949278; bh=76ObXIxf9p7pGRKRLLeIC7m0oYHSCFmbA83
+	uHdn/shg=; b=YAXfwUxZVQJcu6mDSx7QhmDC0Fh51s+PJbcjNaITUUb6WfjGKL3
+	AFe2H8IluDVFUmgqS4aX44VjKvYbRoqCGDIhyIS14G23GJZH5JA7HEfWdhP+wMKJ
+	xE72YURBk4fNLKkDZETuUy+KBw6O6YgRND7j1cVjxS+BDJSA4wlgJzbG6lyuhFQf
+	zRVtYyiZ4zTGz8kFjQYAHoR1Tjj8M9l1Ly1affYF2u3pVmvHLwXEy3sQVOJgUUrm
+	fqG9k1QJ6M2WPwmW2M6QWmhVEbd3uu0o3niEsvdtyj91zXrXqHaGBFQ1k5YNwUws
+	nGZyvLeWgiH3YClswre2T1VKuG95aK2qbOA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1697862878; x=1697949278; bh=76ObXIxf9p7pGRKRLLeIC7m0oYHSCFmbA83
+	uHdn/shg=; b=nczTPYBeN6X87Vkl4smnTWxWIQozBkvMFuHd4GUF+VC+gLWNjA6
+	E60qj5yTXJvXgwpeHowLHc2vBZ1neZyuX3nY4g8xpisaOkg3lciTyVQez8XImawZ
+	/gOI1XhSiieb3eddgHMJfypaF7Wza9EqlFcvZef6+XKfWif+3Py1Y4g/JyYOhn0s
+	fJQMFnlXyb69PY15p0/Sq1BcDkovQiVPkkQ8nz16df6N/ZuD1hPE8qplZkdip3sX
+	HUhTGwayuY/TaZfuAG1dH0ITl8ig7T+eLfD9gpjhnHoxXhPhpKhfpriBrXwCK988
+	7k/SMrI+bljZFt7v/aN+m+6UKocwe7KQZXw==
+X-ME-Sender: <xms:3FQzZYyfVnWReRlPzs6IS0bOZI7SbKReapzy5cmDwQ0Y2rligoXgSQ>
+    <xme:3FQzZcTSP45buf9BH50LMOsQ8D8rAl8M4ecclljYJoP-ADpXmekxPtMCsSvAxjBMD
+    MkGeOUZ0SrNyrR8kQ>
+X-ME-Received: <xmr:3FQzZaUtmSTOPcRqI5c5JamYJRI4Me5kM4-ugyPH0tjUW4FEKmAUktPJy0DZhDJ7yT8kn4FyekoInyn9qka7Kt4gSSw9utFZQ3NFv6KGL4LnzYj0Fa8_-oC_wA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrjeelgdekvdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefkffggfgfuvfevfhfhjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
+    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
+    ftrfgrthhtvghrnhepkeejleelfeeitdfhtdfgkeeghedufeduueegffdvhfdukeelleef
+    tdetjeehuddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:3FQzZWgZOqNe0VfifhpusiZ9tQrsCXrgH2jtMkgP8qaVhJtaW6il9g>
+    <xmx:3FQzZaAFtIqYZeFwrHIJthQIDy0ysXbJuFMnpBe019zgN9bwnSVj0Q>
+    <xmx:3FQzZXLBGjzLT7f3uvBQlEgRDKtOReFDF7hgOJ-NypLHIhrEGOz8eA>
+    <xmx:3lQzZW3JskPKypQR8cDTlds-BwNOgMIoMUS0Tm0z3J2DWTkuM4I7WQ>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 21 Oct 2023 00:34:35 -0400 (EDT)
+Message-ID: <a9afd926-32f5-de64-6714-341ffea3bfb2@sholland.org>
+Date: Fri, 20 Oct 2023 23:34:34 -0500
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH v2 11/22] pinctrl: sunxi: add Allwinner D1 pinctrl
+ description
+Content-Language: en-US
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, Icenowy Zheng
+ <uwu@icenowy.me>, Maxim Kiselev <bigunclemax@gmail.com>,
+ Sam Edwards <cfsworks@gmail.com>, Okhunjon Sobirjonov
+ <okhunjon72@gmail.com>, linux-sunxi@lists.linux.dev,
+ andre.przywara@foss.arm.com, Jagan Teki <jagan@amarulasolutions.com>,
+ u-boot@lists.denx.de
+References: <20230928215455.28094-1-andre.przywara@arm.com>
+ <20230928215455.28094-12-andre.przywara@arm.com>
+From: Samuel Holland <samuel@sholland.org>
+In-Reply-To: <20230928215455.28094-12-andre.przywara@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-For accessing MMIO registers, we must not rely on the compiler to
-realise every access to a struct which we made point to some MMIO base
-address. From a compiler's point of view, those writes could be
-considered pointless, since no code consumes them later on: the compiler
-would actually be free to optimise them away.
+Hi Andre,
 
-So we need at least the "volatile" attribute in the pointer declaration,
-but a better fix is of course to use the proper MMIO accessors (writel),
-as we do everywhere else.
-Since MMIO writes are already ordered within themselves (courtesy of the
-"device nGnRnE" memory attribures), and we don't do any DMA operation
-which would requrire synchronising with normal memory accesses, we can
-use the cheaper writel_relaxed() accessor, which have the additional
-advantange of saving one instruction, for each call.
+On 9/28/23 16:54, Andre Przywara wrote:
+> Apart from using the new pinctrl MMIO register layout, the Allwinner D1
+> and related SoCs still need to usual set of mux values hardcoded in
+> U-Boot's pinctrl driver.
+> Add the values we need so far to this list, so that DM based drivers
+> will just work without further ado.
+> 
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  drivers/pinctrl/sunxi/Kconfig         |  4 ++++
+>  drivers/pinctrl/sunxi/pinctrl-sunxi.c | 28 +++++++++++++++++++++++++++
+>  2 files changed, 32 insertions(+)
+> 
+> diff --git a/drivers/pinctrl/sunxi/Kconfig b/drivers/pinctrl/sunxi/Kconfig
+> index 77da90836b6..c8f937d91e9 100644
+> --- a/drivers/pinctrl/sunxi/Kconfig
+> +++ b/drivers/pinctrl/sunxi/Kconfig
+> @@ -124,4 +124,8 @@ config PINCTRL_SUN50I_H616_R
+>  	default MACH_SUN50I_H616
+>  	select PINCTRL_SUNXI
+>  
+> +config PINCTRL_SUN20I_D1
+> +	bool "Support for the Allwinner D1/R528 PIO"
+> +	select PINCTRL_SUNXI
+> +
+>  endif
+> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+> index fc80fe50b14..66876d9954a 100644
+> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+> @@ -748,6 +748,28 @@ static const struct sunxi_pinctrl_desc __maybe_unused sun50i_h616_r_pinctrl_desc
+>  	.num_banks	= 1,
+>  };
+>  
+> +static const struct sunxi_pinctrl_function sun20i_d1_pinctrl_functions[] = {
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- arch/arm/mach-sunxi/dram_sun50i_h6.c | 69 ++++++++++++++++------------
- 1 file changed, 39 insertions(+), 30 deletions(-)
+Please keep these sections (and the OF match data) sorted numerically.
 
-diff --git a/arch/arm/mach-sunxi/dram_sun50i_h6.c b/arch/arm/mach-sunxi/dram_sun50i_h6.c
-index 8e959f4c600..89e855c1a7d 100644
---- a/arch/arm/mach-sunxi/dram_sun50i_h6.c
-+++ b/arch/arm/mach-sunxi/dram_sun50i_h6.c
-@@ -192,77 +192,86 @@ static void mctl_set_addrmap(const struct dram_config *config)
- 
- 	/* Ranks */
- 	if (ranks == 2)
--		mctl_ctl->addrmap[0] = rows + cols - 3;
-+		writel_relaxed(rows + cols - 3, &mctl_ctl->addrmap[0]);
- 	else
--		mctl_ctl->addrmap[0] = 0x1F;
-+		writel_relaxed(0x1f, &mctl_ctl->addrmap[0]);
- 
- 	/* Banks, hardcoded to 8 banks now */
--	mctl_ctl->addrmap[1] = (cols - 2) | (cols - 2) << 8 | (cols - 2) << 16;
-+	writel_relaxed((cols - 2) | (cols - 2) << 8 | (cols - 2) << 16,
-+		       &mctl_ctl->addrmap[1]);
- 
- 	/* Columns */
--	mctl_ctl->addrmap[2] = 0;
-+	writel_relaxed(0, &mctl_ctl->addrmap[2]);
- 	switch (cols) {
- 	case 7:
--		mctl_ctl->addrmap[3] = 0x1F1F1F00;
--		mctl_ctl->addrmap[4] = 0x1F1F;
-+		writel_relaxed(0x1f1f1f00, &mctl_ctl->addrmap[3]);
-+		writel_relaxed(0x1f1f, &mctl_ctl->addrmap[4]);
- 		break;
- 	case 8:
--		mctl_ctl->addrmap[3] = 0x1F1F0000;
--		mctl_ctl->addrmap[4] = 0x1F1F;
-+		writel_relaxed(0x1f1f0000, &mctl_ctl->addrmap[3]);
-+		writel_relaxed(0x1f1f, &mctl_ctl->addrmap[4]);
- 		break;
- 	case 9:
--		mctl_ctl->addrmap[3] = 0x1F000000;
--		mctl_ctl->addrmap[4] = 0x1F1F;
-+		writel_relaxed(0x1f000000, &mctl_ctl->addrmap[3]);
-+		writel_relaxed(0x1f1f, &mctl_ctl->addrmap[4]);
- 		break;
- 	case 10:
--		mctl_ctl->addrmap[3] = 0;
--		mctl_ctl->addrmap[4] = 0x1F1F;
-+		writel_relaxed(0, &mctl_ctl->addrmap[3]);
-+		writel_relaxed(0x1f1f, &mctl_ctl->addrmap[4]);
- 		break;
- 	case 11:
--		mctl_ctl->addrmap[3] = 0;
--		mctl_ctl->addrmap[4] = 0x1F00;
-+		writel_relaxed(0, &mctl_ctl->addrmap[3]);
-+		writel_relaxed(0x1f00, &mctl_ctl->addrmap[4]);
- 		break;
- 	case 12:
--		mctl_ctl->addrmap[3] = 0;
--		mctl_ctl->addrmap[4] = 0;
-+		writel_relaxed(0, &mctl_ctl->addrmap[3]);
-+		writel_relaxed(0, &mctl_ctl->addrmap[4]);
- 		break;
- 	default:
- 		panic("Unsupported DRAM configuration: column number invalid\n");
- 	}
- 
- 	/* Rows */
--	mctl_ctl->addrmap[5] = (cols - 3) | ((cols - 3) << 8) | ((cols - 3) << 16) | ((cols - 3) << 24);
-+	writel_relaxed((cols - 3) | ((cols - 3) << 8) | ((cols - 3) << 16) | ((cols - 3) << 24),
-+		       &mctl_ctl->addrmap[5]);
- 	switch (rows) {
- 	case 13:
--		mctl_ctl->addrmap[6] = (cols - 3) | 0x0F0F0F00;
--		mctl_ctl->addrmap[7] = 0x0F0F;
-+		writel_relaxed((cols - 3) | 0x0f0f0f00, &mctl_ctl->addrmap[6]);
-+		writel_relaxed(0x0f0f, &mctl_ctl->addrmap[7]);
- 		break;
- 	case 14:
--		mctl_ctl->addrmap[6] = (cols - 3) | ((cols - 3) << 8) | 0x0F0F0000;
--		mctl_ctl->addrmap[7] = 0x0F0F;
-+		writel_relaxed((cols - 3) | ((cols - 3) << 8) | 0x0f0f0000,
-+			       &mctl_ctl->addrmap[6]);
-+		writel_relaxed(0x0f0f, &mctl_ctl->addrmap[7]);
- 		break;
- 	case 15:
--		mctl_ctl->addrmap[6] = (cols - 3) | ((cols - 3) << 8) | ((cols - 3) << 16) | 0x0F000000;
--		mctl_ctl->addrmap[7] = 0x0F0F;
-+		writel_relaxed((cols - 3) | ((cols - 3) << 8) | ((cols - 3) << 16) | 0x0f000000,
-+				&mctl_ctl->addrmap[6]);
-+		writel_relaxed(0x0f0f, &mctl_ctl->addrmap[7]);
- 		break;
- 	case 16:
--		mctl_ctl->addrmap[6] = (cols - 3) | ((cols - 3) << 8) | ((cols - 3) << 16) | ((cols - 3) << 24);
--		mctl_ctl->addrmap[7] = 0x0F0F;
-+		writel_relaxed((cols - 3) | ((cols - 3) << 8) | ((cols - 3) << 16) | ((cols - 3) << 24),
-+			       &mctl_ctl->addrmap[6]);
-+		writel_relaxed(0x0f0f, &mctl_ctl->addrmap[7]);
- 		break;
- 	case 17:
--		mctl_ctl->addrmap[6] = (cols - 3) | ((cols - 3) << 8) | ((cols - 3) << 16) | ((cols - 3) << 24);
--		mctl_ctl->addrmap[7] = (cols - 3) | 0x0F00;
-+		writel_relaxed((cols - 3) | ((cols - 3) << 8) | ((cols - 3) << 16) | ((cols - 3) << 24),
-+			       &mctl_ctl->addrmap[6]);
-+		writel_relaxed((cols - 3) | 0x0f00, &mctl_ctl->addrmap[7]);
- 		break;
- 	case 18:
--		mctl_ctl->addrmap[6] = (cols - 3) | ((cols - 3) << 8) | ((cols - 3) << 16) | ((cols - 3) << 24);
--		mctl_ctl->addrmap[7] = (cols - 3) | ((cols - 3) << 8);
-+		writel_relaxed((cols - 3) | ((cols - 3) << 8) | ((cols - 3) << 16) | ((cols - 3) << 24),
-+			       &mctl_ctl->addrmap[6]);
-+		writel_relaxed((cols - 3) | ((cols - 3) << 8),
-+			       &mctl_ctl->addrmap[7]);
- 		break;
- 	default:
- 		panic("Unsupported DRAM configuration: row number invalid\n");
- 	}
- 
- 	/* Bank groups, DDR4 only */
--	mctl_ctl->addrmap[8] = 0x3F3F;
-+	writel_relaxed(0x3f3f, &mctl_ctl->addrmap[8]);
-+	dsb();
- }
- 
- static void mctl_com_init(const struct dram_para *para,
--- 
-2.35.8
+> +	{ "emac",	8 },	/* PE0-PE15 */
+> +	{ "gpio_in",	0 },
+> +	{ "gpio_out",	1 },
+
+My local patch had a few more entries. Feel free to add them:
+
++       { "i2c0",       4 },    /* PB10-PB11 */
+
+> +	{ "mmc0",	2 },	/* PF0-PF5 */
+
++       { "mmc1",       2 },    /* PG0-PG5 */
+
+> +	{ "mmc2",	3 },	/* PC1-PC7 */
+
+Should be PC2-PC7. Everything else looks correct.
+
+> +	{ "spi0",	2 },	/* PC2-PC7 */
+> +#if IS_ENABLED(CONFIG_UART0_PORT_F)
+> +	{ "uart0",	3 },	/* PF2,PF4 */
+> +#else
+> +	{ "uart0",	6 },	/* PB0-PB1, PB8-PB9, PE2-PE3 */
+> +#endif
+
++       { "uart1",      2 },    /* PG6-PG7 */
++       { "uart2",      7 },    /* PB0-PB1 */
+
+Regards,
+Samuel
+
+> +	{ "uart3",	7 },	/* PB6-PB7 */
+> +};
+> +
+> +static const struct sunxi_pinctrl_desc __maybe_unused sun20i_d1_pinctrl_desc = {
+> +	.functions	= sun20i_d1_pinctrl_functions,
+> +	.num_functions	= ARRAY_SIZE(sun20i_d1_pinctrl_functions),
+> +	.first_bank	= SUNXI_GPIO_A,
+> +	.num_banks	= 7,
+> +};
+> +
+>  static const struct udevice_id sunxi_pinctrl_ids[] = {
+>  #ifdef CONFIG_PINCTRL_SUNIV_F1C100S
+>  	{
+> @@ -904,6 +926,12 @@ static const struct udevice_id sunxi_pinctrl_ids[] = {
+>  		.compatible = "allwinner,sun50i-h616-r-pinctrl",
+>  		.data = (ulong)&sun50i_h616_r_pinctrl_desc,
+>  	},
+> +#endif
+> +#ifdef CONFIG_PINCTRL_SUN20I_D1
+> +	{
+> +		.compatible = "allwinner,sun20i-d1-pinctrl",
+> +		.data = (ulong)&sun20i_d1_pinctrl_desc,
+> +	},
+>  #endif
+>  	{}
+>  };
 
