@@ -1,47 +1,47 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDD5C63D
-	for <linux-sunxi@lists.linux.dev>; Sat, 21 Oct 2023 06:34:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FBB3EC4
+	for <linux-sunxi@lists.linux.dev>; Sat, 21 Oct 2023 06:39:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k9qRre6m"
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2c5028e5b88so21969411fa.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 20 Oct 2023 23:34:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YTIQ9lab"
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2c4fdf94666so21084551fa.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 20 Oct 2023 23:39:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697870048; x=1698474848; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1697870390; x=1698475190; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XbC8h87UzfIRhyP1Qyy4557yzyg0hbjTmbjmrlFgJJI=;
-        b=k9qRre6mv5FmudR/e+xirgIUkloYdV8A7q3Mhh6g1EUF/+FUHJCmnZ+glbf+WbJl8w
-         y1m/ACzZBWBxpYFHhYFWowoJhGspeoWLq5tanR5wdEA0QPoLTAFvpXEeVKMZwIL9DBFE
-         QHfXS27kG6YUFMz8G8fOMrdWo/tXyFebMbqvDWQ+KmSFwLMwpPsM3KTBU76ROSt1JqmD
-         DN5qFjdMI8RDDKPdIT6UzsviXOrd2ubtHk6iab2xbWDukXGOV5Ojr5CmVHur2XsYbp+7
-         d2s+t4TtbcnRgrDbsu5WExZVkEJ0EayKC1GZIPDggTDyH+25Fv3zpb9DKV2nh1H1GjaA
-         P9Dw==
+        bh=WpgSrI/bnyxZPBU9bXOXVxk/tQKmTA1WhisoRQHwd1w=;
+        b=YTIQ9labMULy/Ml3GPtxqIt97A7FIy6xLZHV9E+bB7LAq4M/kA1ZKpIBhDvhsUPMj5
+         6ZF0gV+y4s/0Fbe85rptVUYFKeiYYoomcFisdAJwCTh9pJO/Rv3kuE72gZ4FuVPmcZju
+         f4CyPFtY2OWzHVkZRHLgJtXrfAr1RndHRZSDgyLprA+ZXNb+v4TixjFkcYMt/+2cHDDY
+         rJUcT5UdmOqvJ2JbbbWYnz0KEaVqCtGsQb62RSxvgmQomROU5Keq1WXCkW29wftQ3dUM
+         mv4om2Lp7ODtTywSHJKCbdb/2icKPo2L3u4ZWQy1CxnX9zF9lj4nTcEiiqTZLMp04qHn
+         FBSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697870048; x=1698474848;
+        d=1e100.net; s=20230601; t=1697870390; x=1698475190;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=XbC8h87UzfIRhyP1Qyy4557yzyg0hbjTmbjmrlFgJJI=;
-        b=Qp/B7L7/Vadr4+XGt6Hc2ehLzWNxS9UTTXAlIdVuTiepNv7dPIymkK6ktTZWy195eX
-         oAwNGcqdVUt8UTWrc0jwd0qdjVffoH2lxiJSLRKENGVpiLv8HrRzIJby3YC0MxenH4jf
-         ZmQtvz/emXiIzD/fQmFFUePT5BWu2l2MW5F1i7IkNr3bpGYF0Woj1IM4CF928t/uM6JC
-         TYzRkThmqyIzk0PJx65KhuyNGUOcr+9Pbd3QyAaat+ug649BNoKUVzKJ3yX8S2Jx6sxR
-         1A8kR4kYhYUmWAMxjIJqaYjGonZ6wAIajN0EeRUmznrEfyWyseoyDwGEqJkctou99FXU
-         MdDg==
-X-Gm-Message-State: AOJu0YxLPdLIUwdds6/rJJEWXGuLrDplhWlaGlYkAi8rpUOgnGfAjSaq
-	x3GbDzvcT/+XKDO1koT99to=
-X-Google-Smtp-Source: AGHT+IFehPW9UTf/d6o2gWO/RK9QDYe3YJqOmgQwojr59juPzciY/jFMsGBIp9X054loBe0wM/89/Q==
-X-Received: by 2002:a05:651c:b20:b0:2c5:2298:d44e with SMTP id b32-20020a05651c0b2000b002c52298d44emr3017644ljr.5.1697870047739;
-        Fri, 20 Oct 2023 23:34:07 -0700 (PDT)
+        bh=WpgSrI/bnyxZPBU9bXOXVxk/tQKmTA1WhisoRQHwd1w=;
+        b=PwKU+XmNuM2ZFZ9SULwD8JKTzQLOLi3bBUWLDOAlVPU3T11yDI5dF9lXYQ+ytlEbK7
+         PVUXRoaJ5Zur6M1GDzZrlmpTN9SGYLOCA86w9eWx1htn9C1FZn1xidpJFgYh3U6/Trc1
+         xFhFaqRtW4c3FLVaysVIynG4GPK4Thj2vjy9HJ8e9sliFWHLrlq+37cp5BFZ8YLOb4qM
+         qE8ZPpWYcQHP91eMvdQzCHzFU3s34EuQNZ6gQJ3llGGs/9OSExC9nBzTz9R/BffnqfKY
+         Rojbd+2U9RgvbbDnHlmhEWONhlJWPtC7QwufcNChszWsSldook/mFpF2wn3GRucp+3to
+         wZBA==
+X-Gm-Message-State: AOJu0YyWiE6xkYwWSpfuzcD/ns3l0mFS5roYc33El8OKLzolu7JyvRjs
+	+cn+oem1GSXKUiClOPlJQ9o=
+X-Google-Smtp-Source: AGHT+IH/r4dHnQjS3KaHYzJJ4CGbTZnd6HwFwbjqZnLijV6tj60xR7YF+a77rnh3+u9SpPSt6XYMuw==
+X-Received: by 2002:a2e:be1c:0:b0:2c0:20c4:925a with SMTP id z28-20020a2ebe1c000000b002c020c4925amr2918980ljq.26.1697870389727;
+        Fri, 20 Oct 2023 23:39:49 -0700 (PDT)
 Received: from archlinux.localnet (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
-        by smtp.gmail.com with ESMTPSA id j15-20020a05600c1c0f00b003fefb94ccc9sm3773524wms.11.2023.10.20.23.34.06
+        by smtp.gmail.com with ESMTPSA id dj18-20020a0560000b1200b0032d96dd703bsm3120985wrb.70.2023.10.20.23.39.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Oct 2023 23:34:07 -0700 (PDT)
+        Fri, 20 Oct 2023 23:39:49 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Jagan Teki <jagan@amarulasolutions.com>,
  Jaehoon Chung <jh80.chung@samsung.com>,
@@ -51,13 +51,13 @@ Cc: Samuel Holland <samuel@sholland.org>,
  Mikhail Kalashnikov <iuncuim@gmail.com>,
  Piotr Oniszczuk <piotr.oniszczuk@gmail.com>, u-boot@lists.denx.de,
  linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 1/3] sunxi: board: simplify early PMIC setup conditions
-Date: Sat, 21 Oct 2023 08:34:06 +0200
-Message-ID: <1965267.usQuhbGJ8B@archlinux>
-In-Reply-To: <20231018155014.383566-2-andre.przywara@arm.com>
+Subject: Re: [PATCH 2/3] power: pmic: sunxi: add AXP313 SPL driver
+Date: Sat, 21 Oct 2023 08:39:48 +0200
+Message-ID: <23260910.6Emhk5qWAg@archlinux>
+In-Reply-To: <20231018155014.383566-3-andre.przywara@arm.com>
 References:
  <20231018155014.383566-1-andre.przywara@arm.com>
- <20231018155014.383566-2-andre.przywara@arm.com>
+ <20231018155014.383566-3-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -67,126 +67,296 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-On Wednesday, October 18, 2023 5:50:12 PM CEST Andre Przywara wrote:
-> So far we have a convoluted #ifdef mesh that guards the early AXP PMIC
-> setup in board.c. That combination of &&, || and negations is very hard
-> to read, maintain and especially to extend.
+On Wednesday, October 18, 2023 5:50:13 PM CEST Andre Przywara wrote:
+> On boards using the AXP313 PMIC, the DRAM rail is often not setup
+> correctly at reset time, so we have to program the PMIC very early in
+> the SPL, before running the DRAM initialisation.
 > 
-> Fortunately we have those same conditions already modelled in the
-> Kconfig file, so they are actually redundant. On top of that the real
-> reason we have those preprocessor guards in the first place is about the
-> symbols that are *conditionally* defined: without #ifdefs the build
-> would break because of them being undefined for many boards.
-> 
-> To simplify this, just change the guards to actually look at the symbols
-> needed, so CONFIG_AXP_xxx_VOLT instead of CONFIG_AXPyyy_POWER.
-> This drastically improves the readability of this code, and makes adding
-> PMIC support a pure Kconfig matter.
+> Add a simple AXP313 PMIC driver that knows about DCDC2(CPU) and
+> DCDC3(DRAM), so that we can bump up the voltage before the DRAM init.
 > 
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 > ---
->  board/sunxi/board.c   | 32 ++++++++++++++------------------
->  drivers/power/Kconfig |  2 +-
->  2 files changed, 15 insertions(+), 19 deletions(-)
+>  arch/arm/mach-sunxi/pmic_bus.c |   3 +
+>  board/sunxi/board.c            |   3 +-
+>  drivers/power/Kconfig          |  17 ++++-
+>  drivers/power/Makefile         |   1 +
+>  drivers/power/axp313.c         | 134 +++++++++++++++++++++++++++++++++
+>  5 files changed, 155 insertions(+), 3 deletions(-)
+>  create mode 100644 drivers/power/axp313.c
 > 
+> diff --git a/arch/arm/mach-sunxi/pmic_bus.c b/arch/arm/mach-sunxi/pmic_bus.c
+> index c0908406370..8e7625fe057 100644
+> --- a/arch/arm/mach-sunxi/pmic_bus.c
+> +++ b/arch/arm/mach-sunxi/pmic_bus.c
+> @@ -22,6 +22,7 @@
+>  #define AXP209_I2C_ADDR			0x34
+> 
+>  #define AXP305_I2C_ADDR			0x36
+> +#define AXP313_I2C_ADDR			0x36
+> 
+>  #define AXP221_CHIP_ADDR		0x68
+> 
+> @@ -34,6 +35,8 @@ static int pmic_i2c_address(void)
+>  		return AXP152_I2C_ADDR;
+>  	if (IS_ENABLED(CONFIG_AXP305_POWER))
+>  		return AXP305_I2C_ADDR;
+> +	if (IS_ENABLED(CONFIG_AXP313_POWER))
+> +		return AXP313_I2C_ADDR;
+> 
+>  	/* Other AXP2xx and AXP8xx variants */
+>  	return AXP209_I2C_ADDR;
 > diff --git a/board/sunxi/board.c b/board/sunxi/board.c
-> index ebaa9431984..65d79a02c25 100644
+> index 65d79a02c25..39b0ad73a9c 100644
 > --- a/board/sunxi/board.c
 > +++ b/board/sunxi/board.c
-> @@ -597,50 +597,46 @@ void sunxi_board_init(void)
->  		}
->  	}
+> @@ -584,7 +584,8 @@ void sunxi_board_init(void)
 > 
-> -#if defined CONFIG_AXP221_POWER || defined CONFIG_AXP809_POWER || \
-> -	defined CONFIG_AXP818_POWER
-> +#ifdef CONFIG_AXP_DCDC1_VOLT
->  	power_failed |= axp_set_dcdc1(CONFIG_AXP_DCDC1_VOLT);
-> +	power_failed |= axp_set_dcdc5(CONFIG_AXP_DCDC5_VOLT);
->  #endif
-> -#if !defined(CONFIG_AXP305_POWER)
-> +#ifdef CONFIG_AXP_DCDC2_VOLT
->  	power_failed |= axp_set_dcdc2(CONFIG_AXP_DCDC2_VOLT);
->  	power_failed |= axp_set_dcdc3(CONFIG_AXP_DCDC3_VOLT);
->  #endif
-> -#if !defined(CONFIG_AXP209_POWER) && !defined(CONFIG_AXP818_POWER)
-> +#ifdef CONFIG_AXP_DCDC4_VOLT
->  	power_failed |= axp_set_dcdc4(CONFIG_AXP_DCDC4_VOLT);
->  #endif
-> -#if defined CONFIG_AXP221_POWER || defined CONFIG_AXP809_POWER || \
-> -	defined CONFIG_AXP818_POWER
-> -	power_failed |= axp_set_dcdc5(CONFIG_AXP_DCDC5_VOLT);
-> -#endif
+>  #if defined CONFIG_AXP152_POWER || defined CONFIG_AXP209_POWER || \
+>  	defined CONFIG_AXP221_POWER || defined CONFIG_AXP305_POWER || \
+> -	defined CONFIG_AXP809_POWER || defined CONFIG_AXP818_POWER
+> +	defined CONFIG_AXP809_POWER || defined CONFIG_AXP818_POWER || \
+> +	defined CONFIG_AXP313_POWER
+>  	power_failed = axp_init();
 > 
-> -#if defined CONFIG_AXP221_POWER || defined CONFIG_AXP809_POWER || \
-> -	defined CONFIG_AXP818_POWER
-> +#ifdef CONFIG_AXP_ALDO1_VOLT
->  	power_failed |= axp_set_aldo1(CONFIG_AXP_ALDO1_VOLT);
->  #endif
-> -#if !defined(CONFIG_AXP305_POWER)
-> +#ifdef CONFIG_AXP_ALDO2_VOLT
->  	power_failed |= axp_set_aldo2(CONFIG_AXP_ALDO2_VOLT);
->  #endif
-> -#if !defined(CONFIG_AXP152_POWER) && !defined(CONFIG_AXP305_POWER)
-> +#ifdef CONFIG_AXP_ALDO3_VOLT
->  	power_failed |= axp_set_aldo3(CONFIG_AXP_ALDO3_VOLT);
->  #endif
-> -#ifdef CONFIG_AXP209_POWER
-> +#ifdef CONFIG_AXP_ALDO4_VOLT
->  	power_failed |= axp_set_aldo4(CONFIG_AXP_ALDO4_VOLT);
->  #endif
-> 
-> -#if defined(CONFIG_AXP221_POWER) || defined(CONFIG_AXP809_POWER) || \
-> -	defined(CONFIG_AXP818_POWER)
-> +#ifdef CONFIG_AXP_DLDO1_VOLT
->  	power_failed |= axp_set_dldo(1, CONFIG_AXP_DLDO1_VOLT);
->  	power_failed |= axp_set_dldo(2, CONFIG_AXP_DLDO2_VOLT);
-> -#if !defined CONFIG_AXP809_POWER
-> +#endif
-> +#ifdef CONFIG_AXP_DLDO3_VOLT
->  	power_failed |= axp_set_dldo(3, CONFIG_AXP_DLDO3_VOLT);
->  	power_failed |= axp_set_dldo(4, CONFIG_AXP_DLDO4_VOLT);
->  #endif
-> +#ifdef CONFIG_AXP_ELDO1_VOLT
->  	power_failed |= axp_set_eldo(1, CONFIG_AXP_ELDO1_VOLT);
->  	power_failed |= axp_set_eldo(2, CONFIG_AXP_ELDO2_VOLT);
->  	power_failed |= axp_set_eldo(3, CONFIG_AXP_ELDO3_VOLT);
->  #endif
-> 
-> -#ifdef CONFIG_AXP818_POWER
-> +#ifdef CONFIG_AXP_FLDO1_VOLT
->  	power_failed |= axp_set_fldo(1, CONFIG_AXP_FLDO1_VOLT);
->  	power_failed |= axp_set_fldo(2, CONFIG_AXP_FLDO2_VOLT);
->  	power_failed |= axp_set_fldo(3, CONFIG_AXP_FLDO3_VOLT);
-> @@ -649,7 +645,7 @@ void sunxi_board_init(void)
->  #if defined CONFIG_AXP809_POWER || defined CONFIG_AXP818_POWER
->  	power_failed |= axp_set_sw(IS_ENABLED(CONFIG_AXP_SW_ON));
->  #endif
-> -#endif
-> +#endif	/* CONFIG_AXPxxx_POWER */
->  	printf("DRAM:");
->  	gd->ram_size = sunxi_dram_init();
->  	printf(" %d MiB\n", (int)(gd->ram_size >> 20));
+>  	if (IS_ENABLED(CONFIG_AXP_DISABLE_BOOT_ON_POWERON) && !
+power_failed) {
 > diff --git a/drivers/power/Kconfig b/drivers/power/Kconfig
-> index 7f3b990d231..83cb31c937a 100644
+> index 83cb31c937a..a9117d215eb 100644
 > --- a/drivers/power/Kconfig
 > +++ b/drivers/power/Kconfig
-> @@ -180,7 +180,7 @@ config AXP_DCDC3_VOLT
+> @@ -101,6 +101,15 @@ config AXP305_POWER
+>  	Select this to enable support for the axp305 pmic found on most
+>  	H616 boards.
 > 
->  config AXP_DCDC4_VOLT
->  	int "axp pmic dcdc4 voltage"
-> -	depends on AXP152_POWER || AXP221_POWER || AXP809_POWER || 
-AXP818_POWER ||
-> AXP305_POWER +	depends on AXP152_POWER || AXP221_POWER || AXP809_POWER 
-||
-> AXP305_POWER default 1250 if AXP152_POWER
->  	default 1200 if MACH_SUN6I
->  	default 0 if MACH_SUN8I
+> +config AXP313_POWER
+> +	bool "axp311 pmic support"
 
-This patch is great, but this last change doesn't seem to be directly 
-connected?
+Typo: axp311 -> axp313
+
+Other than that, it looks good. I can't test it since I don't have any 
+hardware with such PMIC.
+
+So FWIW:
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
+
+> +	depends on MACH_SUN50I_H616
+> +	select AXP_PMIC_BUS
+> +	select CMD_POWEROFF
+> +	---help---
+> +	Select this to enable support for the AXP313 PMIC found on some
+> +	H616 boards.
+> +
+>  config AXP809_POWER
+>  	bool "axp809 pmic support"
+>  	depends on MACH_SUN9I
+> @@ -143,9 +152,10 @@ config AXP_DCDC1_VOLT
+> 
+>  config AXP_DCDC2_VOLT
+>  	int "axp pmic dcdc2 voltage"
+> -	depends on AXP152_POWER || AXP209_POWER || AXP221_POWER || 
+AXP809_POWER ||
+> AXP818_POWER +	depends on AXP152_POWER || AXP209_POWER || AXP221_POWER 
+||
+> AXP809_POWER || AXP818_POWER || AXP313_POWER default 900 if AXP818_POWER
+>  	default 1400 if AXP152_POWER || AXP209_POWER
+> +	default 1000 if AXP313_POWER
+>  	default 1200 if MACH_SUN6I
+>  	default 1100 if MACH_SUN8I
+>  	default 0 if MACH_SUN9I
+> @@ -158,13 +168,15 @@ config AXP_DCDC2_VOLT
+>  	On A80 boards dcdc2 powers the GPU and can be left off.
+>  	On A83T boards dcdc2 is used for VDD-CPUA(cluster 0) and should be 
+0.9V.
+>  	On R40 boards dcdc2 is VDD-CPU and should be 1.1V
+> +	On boards using the AXP313 it's often VDD-CPU.
+> 
+>  config AXP_DCDC3_VOLT
+>  	int "axp pmic dcdc3 voltage"
+> -	depends on AXP152_POWER || AXP209_POWER || AXP221_POWER || 
+AXP809_POWER ||
+> AXP818_POWER +	depends on AXP152_POWER || AXP209_POWER || AXP221_POWER 
+||
+> AXP809_POWER || AXP818_POWER || AXP313_POWER default 900 if AXP809_POWER ||
+> AXP818_POWER
+>  	default 1500 if AXP152_POWER
+>  	default 1250 if AXP209_POWER
+> +	default 1100 if AXP313_POWER
+>  	default 1100 if MACH_SUN8I_R40
+>  	default 1200 if MACH_SUN6I || MACH_SUN8I
+>  	---help---
+> @@ -177,6 +189,7 @@ config AXP_DCDC3_VOLT
+>  	On A80 boards dcdc3 is used for VDD-CPUA(cluster 0) and should be 
+0.9V.
+>  	On A83T boards dcdc3 is used for VDD-CPUB(cluster 1) and should be 
+0.9V.
+>  	On R40 boards dcdc3 is VDD-SYS and VDD-GPU and should be 1.1V.
+> +	On boards using the AXP313 it's often VDD-DRAM and should be 1.1V 
+for
+> LPDDR4.
+> 
+>  config AXP_DCDC4_VOLT
+>  	int "axp pmic dcdc4 voltage"
+> diff --git a/drivers/power/Makefile b/drivers/power/Makefile
+> index ba64b2c5938..c7ee4595fc8 100644
+> --- a/drivers/power/Makefile
+> +++ b/drivers/power/Makefile
+> @@ -12,6 +12,7 @@ obj-$(CONFIG_AXP152_POWER)	+= axp152.o
+>  obj-$(CONFIG_AXP209_POWER)	+= axp209.o
+>  obj-$(CONFIG_AXP221_POWER)	+= axp221.o
+>  obj-$(CONFIG_AXP305_POWER)	+= axp305.o
+> +obj-$(CONFIG_AXP313_POWER)	+= axp313.o
+>  obj-$(CONFIG_AXP809_POWER)	+= axp809.o
+>  obj-$(CONFIG_AXP818_POWER)	+= axp818.o
+>  obj-$(CONFIG_EXYNOS_TMU)	+= exynos-tmu.o
+> diff --git a/drivers/power/axp313.c b/drivers/power/axp313.c
+> new file mode 100644
+> index 00000000000..bbc9e911115
+> --- /dev/null
+> +++ b/drivers/power/axp313.c
+> @@ -0,0 +1,134 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * AXP313(a) driver
+> + *
+> + * (C) Copyright 2023 Arm Ltd.
+> + *
+> + * Based on axp305.c
+> + * (C) Copyright 2020 Jernej Skrabec <jernej.skrabec@siol.net>
+> + * (C) Copyright 2014 Hans de Goede <hdegoede@redhat.com>
+> + * (C) Copyright 2013 Oliver Schinagl <oliver@schinagl.nl>
+> + */
+> +
+> +#include <common.h>
+> +#include <command.h>
+> +#include <errno.h>
+> +#include <asm/arch/pmic_bus.h>
+> +#include <axp_pmic.h>
+> +
+> +enum axp313_reg {
+> +	AXP313_CHIP_VERSION	= 0x03,
+> +	AXP313_OUTPUT_CTRL	= 0x10,
+> +	AXP313_DCDC1_CTRL	= 0x13,
+> +	AXP313_SHUTDOWN		= 0x1a,
+> +};
+> +
+> +#define AXP313_CHIP_VERSION_MASK	0xcf
+> +#define AXP313_CHIP_VERSION_AXP1530	0x48
+> +#define AXP313_CHIP_VERSION_AXP313A	0x4b
+> +#define AXP313_CHIP_VERSION_AXP313B	0x4c
+> +
+> +#define AXP313_DCDC_SPLIT_OFFSET	71
+> +#define AXP313_DCDC_SPLIT_MVOLT		1200
+> +
+> +#define AXP313_POWEROFF			BIT(7)
+> +
+> +static u8 mvolt_to_cfg(int mvolt, int min, int max, int div)
+> +{
+> +	if (mvolt < min)
+> +		mvolt = min;
+> +	else if (mvolt > max)
+> +		mvolt = max;
+> +
+> +	return (mvolt - min) / div;
+> +}
+> +
+> +static int axp_set_dcdc(int dcdc_num, unsigned int mvolt)
+> +{
+> +	int ret;
+> +	u8 cfg, enable_mask = 1U << (dcdc_num - 1);
+> +	int volt_reg = AXP313_DCDC1_CTRL + dcdc_num - 1;
+> +	int max_mV;
+> +
+> +	switch (dcdc_num) {
+> +	case 1:
+> +	case 2:
+> +		max_mV	= 1540;
+> +		break;
+> +	case 3:
+> +		/*
+> +		 * The manual defines a different split point, but tests
+> +		 * show that it's the same 1200mV as for DCDC1/2.
+> +		 */
+> +		max_mV	= 1840;
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (mvolt > AXP313_DCDC_SPLIT_MVOLT)
+> +		cfg = AXP313_DCDC_SPLIT_OFFSET + mvolt_to_cfg(mvolt,
+> +				AXP313_DCDC_SPLIT_MVOLT + 20, 
+max_mV, 20);
+> +	else
+> +		cfg = mvolt_to_cfg(mvolt, 500, AXP313_DCDC_SPLIT_MVOLT, 
+10);
+> +
+> +	if (mvolt == 0)
+> +		return pmic_bus_clrbits(AXP313_OUTPUT_CTRL, 
+enable_mask);
+> +
+> +	debug("DCDC%d: writing 0x%x to reg 0x%x\n", dcdc_num, cfg, 
+volt_reg);
+> +	ret = pmic_bus_write(volt_reg, cfg);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return pmic_bus_setbits(AXP313_OUTPUT_CTRL, enable_mask);
+> +}
+> +
+> +int axp_set_dcdc2(unsigned int mvolt)
+> +{
+> +	return axp_set_dcdc(2, mvolt);
+> +}
+> +
+> +int axp_set_dcdc3(unsigned int mvolt)
+> +{
+> +	return axp_set_dcdc(3, mvolt);
+> +}
+> +
+> +int axp_init(void)
+> +{
+> +	u8 axp_chip_id;
+> +	int ret;
+> +
+> +	ret = pmic_bus_init();
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = pmic_bus_read(AXP313_CHIP_VERSION, &axp_chip_id);
+> +	if (ret)
+> +		return ret;
+> +
+> +	axp_chip_id &= AXP313_CHIP_VERSION_MASK;
+> +	switch (axp_chip_id) {
+> +	case AXP313_CHIP_VERSION_AXP1530:
+> +	case AXP313_CHIP_VERSION_AXP313A:
+> +	case AXP313_CHIP_VERSION_AXP313B:
+> +		break;
+> +	default:
+> +		debug("unknown PMIC: 0x%x\n", axp_chip_id);
+> +		return -EINVAL;
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +#if !CONFIG_IS_ENABLED(ARM_PSCI_FW) &&
+> !IS_ENABLED(CONFIG_SYSRESET_CMD_POWEROFF) +int do_poweroff(struct cmd_tbl
+> *cmdtp, int flag, int argc, char *const argv[]) +{
+> +	pmic_bus_write(AXP313_SHUTDOWN, AXP313_POWEROFF);
+> +
+> +	/* infinite loop during shutdown */
+> +	while (1) {}
+> +
+> +	/* not reached */
+> +	return 0;
+> +}
+> +#endif
+
 
 
 
