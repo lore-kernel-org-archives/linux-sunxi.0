@@ -1,18 +1,18 @@
 Received: from Atcsqr.andestech.com (60-248-80-70.hinet-ip.hinet.net [60.248.80.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0B423A2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E631D307
 	for <linux-sunxi@lists.linux.dev>; Sun, 22 Oct 2023 15:23:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=andestech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=andestech.com
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
-	by Atcsqr.andestech.com with ESMTP id 39MFMYWu032724;
-	Sun, 22 Oct 2023 23:22:34 +0800 (+08)
+	by Atcsqr.andestech.com with ESMTP id 39MFMJVR032675;
+	Sun, 22 Oct 2023 23:22:19 +0800 (+08)
 	(envelope-from peterlin@andestech.com)
 Received: from swlinux02.andestech.com (10.0.15.183) by ATCPCS16.andestech.com
  (10.0.1.222) with Microsoft SMTP Server id 14.3.498.0; Sun, 22 Oct 2023
- 23:22:30 +0800
+ 23:22:15 +0800
 From: Yu Chien Peter Lin <peterlin@andestech.com>
 To: <acme@kernel.org>, <adrian.hunter@intel.com>, <ajones@ventanamicro.com>,
         <alexander.shishkin@linux.intel.com>, <andre.przywara@arm.com>,
@@ -36,9 +36,9 @@ To: <acme@kernel.org>, <adrian.hunter@intel.com>, <ajones@ventanamicro.com>,
         <sunilvl@ventanamicro.com>, <tglx@linutronix.de>,
         <tim609@andestech.com>, <uwu@icenowy.me>, <wens@csie.org>,
         <will@kernel.org>, <ycliang@andestech.com>
-Subject: [PATCH v3 04/13] dt-bindings: riscv: Add Andes interrupt controller compatible string
-Date: Sun, 22 Oct 2023 23:18:49 +0800
-Message-ID: <20231022151858.2479969-5-peterlin@andestech.com>
+Subject: [PATCH v3 01/13] riscv: errata: Rename defines for Andes
+Date: Sun, 22 Oct 2023 23:18:46 +0800
+Message-ID: <20231022151858.2479969-2-peterlin@andestech.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231022151858.2479969-1-peterlin@andestech.com>
 References: <20231022151858.2479969-1-peterlin@andestech.com>
@@ -53,49 +53,103 @@ Content-Type: text/plain
 X-Originating-IP: [10.0.15.183]
 X-DNSRBL: 
 X-SPAM-SOURCE-CHECK: pass
-X-MAIL:Atcsqr.andestech.com 39MFMYWu032724
+X-MAIL:Atcsqr.andestech.com 39MFMJVR032675
 
-Add "andestech,cpu-intc" compatible string which indicates that
-Andes specific local interrupt is supported on the core,
-e.g. AX45MP cores have 3 types of non-standard local interrupt
-can be handled in supervisor mode:
-
-- Slave port ECC error interrupt
-- Bus write transaction error interrupt
-- Performance monitor overflow interrupt
-
-These interrupts are enabled/disabled via a custom register
-SLIE instead of the standard interrupt enable register SIE.
+Using "ANDES" rather than "ANDESTECH" to unify the naming
+convention with directory, file names, Kconfig options
+and other definitions.
 
 Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
+Reviewed-by: Charles Ci-Jyun Wu <dminus@andestech.com>
+Reviewed-by: Leo Yu-Chi Liang <ycliang@andestech.com>
 ---
 Changes v1 -> v2:
-  - New patch
+  - No change
 Changes v2 -> v3:
-  - Updated commit message
-  - Fixed possible compatibles for Andes INTC
+  - Rewrote commit message (suggested by Conor)
 ---
- Documentation/devicetree/bindings/riscv/cpus.yaml | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ arch/riscv/errata/andes/errata.c       | 10 +++++-----
+ arch/riscv/include/asm/errata_list.h   |  4 ++--
+ arch/riscv/include/asm/vendorid_list.h |  2 +-
+ arch/riscv/kernel/alternative.c        |  2 +-
+ 4 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/riscv/cpus.yaml b/Documentation/devicetree/bindings/riscv/cpus.yaml
-index 97e8441eda1c..4c1bbcf07406 100644
---- a/Documentation/devicetree/bindings/riscv/cpus.yaml
-+++ b/Documentation/devicetree/bindings/riscv/cpus.yaml
-@@ -99,7 +99,12 @@ properties:
-         const: 1
+diff --git a/arch/riscv/errata/andes/errata.c b/arch/riscv/errata/andes/errata.c
+index 197db68cc8da..d2e1abcac967 100644
+--- a/arch/riscv/errata/andes/errata.c
++++ b/arch/riscv/errata/andes/errata.c
+@@ -18,9 +18,9 @@
+ #include <asm/sbi.h>
+ #include <asm/vendorid_list.h>
  
-       compatible:
--        const: riscv,cpu-intc
-+        oneOf:
-+          - items:
-+              - enum:
-+                  - andestech,cpu-intc
-+              - const: riscv,cpu-intc
-+          - const: riscv,cpu-intc
+-#define ANDESTECH_AX45MP_MARCHID	0x8000000000008a45UL
+-#define ANDESTECH_AX45MP_MIMPID		0x500UL
+-#define ANDESTECH_SBI_EXT_ANDES		0x0900031E
++#define ANDES_AX45MP_MARCHID		0x8000000000008a45UL
++#define ANDES_AX45MP_MIMPID		0x500UL
++#define ANDES_SBI_EXT_ANDES		0x0900031E
  
-       interrupt-controller: true
+ #define ANDES_SBI_EXT_IOCP_SW_WORKAROUND	1
  
+@@ -32,7 +32,7 @@ static long ax45mp_iocp_sw_workaround(void)
+ 	 * ANDES_SBI_EXT_IOCP_SW_WORKAROUND SBI EXT checks if the IOCP is missing and
+ 	 * cache is controllable only then CMO will be applied to the platform.
+ 	 */
+-	ret = sbi_ecall(ANDESTECH_SBI_EXT_ANDES, ANDES_SBI_EXT_IOCP_SW_WORKAROUND,
++	ret = sbi_ecall(ANDES_SBI_EXT_ANDES, ANDES_SBI_EXT_IOCP_SW_WORKAROUND,
+ 			0, 0, 0, 0, 0, 0);
+ 
+ 	return ret.error ? 0 : ret.value;
+@@ -43,7 +43,7 @@ static bool errata_probe_iocp(unsigned int stage, unsigned long arch_id, unsigne
+ 	if (!IS_ENABLED(CONFIG_ERRATA_ANDES_CMO))
+ 		return false;
+ 
+-	if (arch_id != ANDESTECH_AX45MP_MARCHID || impid != ANDESTECH_AX45MP_MIMPID)
++	if (arch_id != ANDES_AX45MP_MARCHID || impid != ANDES_AX45MP_MIMPID)
+ 		return false;
+ 
+ 	if (!ax45mp_iocp_sw_workaround())
+diff --git a/arch/riscv/include/asm/errata_list.h b/arch/riscv/include/asm/errata_list.h
+index b55b434f0059..c190393aa9db 100644
+--- a/arch/riscv/include/asm/errata_list.h
++++ b/arch/riscv/include/asm/errata_list.h
+@@ -12,8 +12,8 @@
+ #include <asm/vendorid_list.h>
+ 
+ #ifdef CONFIG_ERRATA_ANDES
+-#define ERRATA_ANDESTECH_NO_IOCP	0
+-#define ERRATA_ANDESTECH_NUMBER		1
++#define ERRATA_ANDES_NO_IOCP 0
++#define ERRATA_ANDES_NUMBER 1
+ #endif
+ 
+ #ifdef CONFIG_ERRATA_SIFIVE
+diff --git a/arch/riscv/include/asm/vendorid_list.h b/arch/riscv/include/asm/vendorid_list.h
+index e55407ace0c3..2f2bb0c84f9a 100644
+--- a/arch/riscv/include/asm/vendorid_list.h
++++ b/arch/riscv/include/asm/vendorid_list.h
+@@ -5,7 +5,7 @@
+ #ifndef ASM_VENDOR_LIST_H
+ #define ASM_VENDOR_LIST_H
+ 
+-#define ANDESTECH_VENDOR_ID	0x31e
++#define ANDES_VENDOR_ID		0x31e
+ #define SIFIVE_VENDOR_ID	0x489
+ #define THEAD_VENDOR_ID		0x5b7
+ 
+diff --git a/arch/riscv/kernel/alternative.c b/arch/riscv/kernel/alternative.c
+index 319a1da0358b..0128b161bfda 100644
+--- a/arch/riscv/kernel/alternative.c
++++ b/arch/riscv/kernel/alternative.c
+@@ -43,7 +43,7 @@ static void riscv_fill_cpu_mfr_info(struct cpu_manufacturer_info_t *cpu_mfr_info
+ 
+ 	switch (cpu_mfr_info->vendor_id) {
+ #ifdef CONFIG_ERRATA_ANDES
+-	case ANDESTECH_VENDOR_ID:
++	case ANDES_VENDOR_ID:
+ 		cpu_mfr_info->patch_func = andes_errata_patch_func;
+ 		break;
+ #endif
 -- 
 2.34.1
 
