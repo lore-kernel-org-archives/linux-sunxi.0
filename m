@@ -1,33 +1,47 @@
-Received: from mail-m49197.qiye.163.com (mail-m49197.qiye.163.com [45.254.49.197])
+Received: from Atcsqr.andestech.com (60-248-80-70.hinet-ip.hinet.net [60.248.80.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1617D23BE
-	for <linux-sunxi@lists.linux.dev>; Sun, 22 Oct 2023 11:18:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jmu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jmu.edu.cn
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0B423A2
+	for <linux-sunxi@lists.linux.dev>; Sun, 22 Oct 2023 15:23:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=andestech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=andestech.com
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from Vostro-3710.lan (unknown [58.61.140.248])
-	by mail-m121145.qiye.163.com (Hmail) with ESMTPA id A9001800084;
-	Sun, 22 Oct 2023 19:08:15 +0800 (CST)
-From: Chukun Pan <amadeus@jmu.edu.cn>
-To: jernej.skrabec@gmail.com
-Cc: andre.przywara@arm.com,
-	conor+dt@kernel.org,
-	robh+dt@kernel.org,
-	samuel@sholland.org,
-	wens@csie.org,
-	devicetree@vger.kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	Chukun Pan <amadeus@jmu.edu.cn>
-Subject: Re: [PATCH 2/2] arm64: dts: allwinner: h616: update emac properties for Orange Pi Zero 3
-Date: Sun, 22 Oct 2023 19:08:11 +0800
-Message-Id: <20231022110811.1109389-1-amadeus@jmu.edu.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <3254946.aeNJFYEL58@jernej-laptop>
-References: <3254946.aeNJFYEL58@jernej-laptop>
+Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
+	by Atcsqr.andestech.com with ESMTP id 39MFMYWu032724;
+	Sun, 22 Oct 2023 23:22:34 +0800 (+08)
+	(envelope-from peterlin@andestech.com)
+Received: from swlinux02.andestech.com (10.0.15.183) by ATCPCS16.andestech.com
+ (10.0.1.222) with Microsoft SMTP Server id 14.3.498.0; Sun, 22 Oct 2023
+ 23:22:30 +0800
+From: Yu Chien Peter Lin <peterlin@andestech.com>
+To: <acme@kernel.org>, <adrian.hunter@intel.com>, <ajones@ventanamicro.com>,
+        <alexander.shishkin@linux.intel.com>, <andre.przywara@arm.com>,
+        <anup@brainfault.org>, <aou@eecs.berkeley.edu>,
+        <atishp@atishpatra.org>, <conor+dt@kernel.org>,
+        <conor.dooley@microchip.com>, <conor@kernel.org>,
+        <devicetree@vger.kernel.org>, <dminus@andestech.com>,
+        <evan@rivosinc.com>, <geert+renesas@glider.be>, <guoren@kernel.org>,
+        <heiko@sntech.de>, <irogers@google.com>, <jernej.skrabec@gmail.com>,
+        <jolsa@kernel.org>, <jszhang@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <linux-perf-users@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        <linux-sunxi@lists.linux.dev>, <locus84@andestech.com>,
+        <magnus.damm@gmail.com>, <mark.rutland@arm.com>, <mingo@redhat.com>,
+        <n.shubin@yadro.com>, <namhyung@kernel.org>, <palmer@dabbelt.com>,
+        <paul.walmsley@sifive.com>, <peterlin@andestech.com>,
+        <peterz@infradead.org>, <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        <rdunlap@infradead.org>, <robh+dt@kernel.org>, <samuel@sholland.org>,
+        <sunilvl@ventanamicro.com>, <tglx@linutronix.de>,
+        <tim609@andestech.com>, <uwu@icenowy.me>, <wens@csie.org>,
+        <will@kernel.org>, <ycliang@andestech.com>
+Subject: [PATCH v3 04/13] dt-bindings: riscv: Add Andes interrupt controller compatible string
+Date: Sun, 22 Oct 2023 23:18:49 +0800
+Message-ID: <20231022151858.2479969-5-peterlin@andestech.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231022151858.2479969-1-peterlin@andestech.com>
+References: <20231022151858.2479969-1-peterlin@andestech.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -35,35 +49,53 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaGBpOVk9KTEkaHUJDHkJPHlUTARMWGhIXJBQOD1
-	lXWRgSC1lBWU5DVU1KVUpPS1VJT0NZV1kWGg8SFR0UWUFZT0tIVUpKS0hKQ1VKS0tVS1kG
-X-HM-Tid: 0a8b57124132b03akuuua9001800084
-X-HM-MType: 10
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PyI6PCo4MTw6UUIxNjcvPC4f
-	KQgKChVVSlVKTUJMQkxJQ0JNTUhLVTMWGhIXVRoWGh8eDgg7ERYOVR4fDlUYFUVZV1kSC1lBWU5D
-	VU1KVUpPS1VJT0NZV1kIAVlBSUlJQzcG
+Content-Type: text/plain
+X-Originating-IP: [10.0.15.183]
+X-DNSRBL: 
+X-SPAM-SOURCE-CHECK: pass
+X-MAIL:Atcsqr.andestech.com 39MFMYWu032724
 
-> Can you also explain how did you figure out that additional PHY properties
-> are needed? At first glance, based on description of motorcomm,keep-pll-enabled,
-> it's not immediately clear why it should be needed. Same goes for second
-> property.
+Add "andestech,cpu-intc" compatible string which indicates that
+Andes specific local interrupt is supported on the core,
+e.g. AX45MP cores have 3 types of non-standard local interrupt
+can be handled in supervisor mode:
 
-This is based on a search for
-'motorcomm,clk-out-frequency-hz = <125000000>' in the kernel.
-Refer to device tree of other devices with the same properties.
-After a simple short test, it seems that it is unnecessary.
-I will delete these two properties in patch v2.
+- Slave port ECC error interrupt
+- Bus write transaction error interrupt
+- Performance monitor overflow interrupt
 
-> 1800 ps delay basically means that rgmii is not correct type and rgmii-rxid
-> should be used instead. Indeed, schematic confirms that's the case. With that,
-> allwinner,rx-delay-ps can be 0 and thus ommited from DT file.
+These interrupts are enabled/disabled via a custom register
+SLIE instead of the standard interrupt enable register SIE.
 
-Thanks, rgmii-rxid works for me. Will be corrected in patch v2.
+Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
+---
+Changes v1 -> v2:
+  - New patch
+Changes v2 -> v3:
+  - Updated commit message
+  - Fixed possible compatibles for Andes INTC
+---
+ Documentation/devicetree/bindings/riscv/cpus.yaml | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-Thanks,
-Chukun
-
+diff --git a/Documentation/devicetree/bindings/riscv/cpus.yaml b/Documentation/devicetree/bindings/riscv/cpus.yaml
+index 97e8441eda1c..4c1bbcf07406 100644
+--- a/Documentation/devicetree/bindings/riscv/cpus.yaml
++++ b/Documentation/devicetree/bindings/riscv/cpus.yaml
+@@ -99,7 +99,12 @@ properties:
+         const: 1
+ 
+       compatible:
+-        const: riscv,cpu-intc
++        oneOf:
++          - items:
++              - enum:
++                  - andestech,cpu-intc
++              - const: riscv,cpu-intc
++          - const: riscv,cpu-intc
+ 
+       interrupt-controller: true
+ 
 -- 
-2.25.1
+2.34.1
 
