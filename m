@@ -1,278 +1,313 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C03979F9
-	for <linux-sunxi@lists.linux.dev>; Mon, 23 Oct 2023 10:48:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5B786C15;
-	Mon, 23 Oct 2023 03:49:17 -0700 (PDT)
-Received: from donnerap.arm.com (donnerap.manchester.arm.com [10.32.101.43])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E51443F762;
-	Mon, 23 Oct 2023 03:48:34 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Tom Rini <trini@konsulko.com>,
-	u-boot@lists.denx.de
-Cc: linux-sunxi@lists.linux.dev,
-	Samuel Holland <samuel@sholland.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Icenowy Zheng <uwu@icenowy.me>,
-	Maxim Kiselev <bigunclemax@gmail.com>,
-	Sam Edwards <cfsworks@gmail.com>,
-	Okhunjon Sobirjonov <okhunjon72@gmail.com>
-Subject: Pull request: u-boot-sunxi/master for v2024.01
-Date: Mon, 23 Oct 2023 11:48:30 +0100
-Message-Id: <20231023104830.792659-1-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.25.1
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA46918629;
+	Mon, 23 Oct 2023 11:56:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CvbdBVea"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80EA0C433C8;
+	Mon, 23 Oct 2023 11:56:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1698062199;
+	bh=ye0Dbd8QYVtEN8vg7b7frsXs9Dqrk9uXB/oe2lWo/oI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CvbdBVeaxqqYJ3oP/sI6EYSHPI7ct4J1bHnZpQDi4wc3tPSFA99qY+nyyFYOCIHJP
+	 exnZC9FL8kgYxF6wjhENzNjRsgIQFJ2t14BjQ9QlaFNgW9tdl3+JRdGg/Hr+PCnUx0
+	 PcQIqu3MZ3pVDWEaWSdknKZOwCsD0WXrqgPiAyukRVjjEvRqB1bZgO7HrqPsApRg2v
+	 ruyo4J3L3/KsbzqUmOk+bvEWKgR1kdaU0jtwaBpeFjy3N83SZ0w/y1VcewUfu3j2wA
+	 j8f6yb+F1f+BbO3kfV0oLlt4cAqkNw3u4N7m0IgBBq/Up2k8H/k4cmRHJH6QALVw18
+	 xsqr7vsJFaGqA==
+Date: Mon, 23 Oct 2023 12:56:28 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Yu Chien Peter Lin <peterlin@andestech.com>
+Cc: acme@kernel.org, adrian.hunter@intel.com, ajones@ventanamicro.com,
+	alexander.shishkin@linux.intel.com, andre.przywara@arm.com,
+	anup@brainfault.org, aou@eecs.berkeley.edu, atishp@atishpatra.org,
+	conor+dt@kernel.org, conor.dooley@microchip.com,
+	devicetree@vger.kernel.org, dminus@andestech.com, evan@rivosinc.com,
+	geert+renesas@glider.be, guoren@kernel.org, heiko@sntech.de,
+	irogers@google.com, jernej.skrabec@gmail.com, jolsa@kernel.org,
+	jszhang@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	locus84@andestech.com, magnus.damm@gmail.com, mark.rutland@arm.com,
+	mingo@redhat.com, n.shubin@yadro.com, namhyung@kernel.org,
+	palmer@dabbelt.com, paul.walmsley@sifive.com, peterz@infradead.org,
+	prabhakar.mahadev-lad.rj@bp.renesas.com, rdunlap@infradead.org,
+	robh+dt@kernel.org, samuel@sholland.org, sunilvl@ventanamicro.com,
+	tglx@linutronix.de, tim609@andestech.com, uwu@icenowy.me,
+	wens@csie.org, will@kernel.org, ycliang@andestech.com
+Subject: Re: [RFC PATCH v3 RESEND 07/13] RISC-V: Move T-Head PMU to CPU
+ feature alternative framework
+Message-ID: <20231023-derived-rind-cfec145c9ce6@spud>
+References: <20231023004100.2663486-1-peterlin@andestech.com>
+ <20231023004100.2663486-8-peterlin@andestech.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="3CrJUMx+JJd/NlXH"
+Content-Disposition: inline
+In-Reply-To: <20231023004100.2663486-8-peterlin@andestech.com>
 
-Hi Tom,
 
-please pull the sunxi/master branch, containing the first part of the
-2024.01 changes. Apologies for the late PR, there were quite some recent
-activities (fixes and reviews), but I didn't want to delay this series
-any longer, since it's been around one year in the making already:
+--3CrJUMx+JJd/NlXH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This is mostly about support for the Allwinner R528/T113s SoC, which is
-reportedly the same die as the Allwinner D1, but with the two
-Arm Cortex-A7 cores activated instead of the RISC-V one.
-Using sunxi code outside of arch/arm proved to be difficult, so apart
-from enabling this Arm SoC, the patches also prepare for more refactoring
-to get the D1 nicely supported some day:
-- We get rid of some Kconfig (hard-)coded GPIO pins, responsible for
-  enabling regulators.
-- The GPIO code is moved out of arch/arm, into drivers/gpio.
-- Some definitions are moved out of header files under asm/arch.
-- Some T113s/D1 specific definitions are guarded by a generic Kconfig
-  symbol (CONFIG_SUNXI_GEN_NCAT2).
-- The DRAM controller initialisation code is located under drivers/ram.
-- The base SoC .dtsi files are shared (under arch/riscv, as in Linux).
+On Mon, Oct 23, 2023 at 08:40:54AM +0800, Yu Chien Peter Lin wrote:
+> The custom PMU extension aims to support perf event sampling prior
+> to the ratification of Sscofpmf. Instead of utilizing the bits and
+> CSRs reserved for future standard, a set of custom CSRs is added.
+> Hence, we may consider it as a CPU feature rather than an erratum.
+>=20
+> T-Head cores need to append "xtheadpmu" to the riscv,isa-extensions
+> for each cpu node in device tree, and enable CONFIG_THEAD_CUSTOM_PMU
+> for proper functioning as of this commit.
+>=20
+> Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
+> ---
+> Hi All,
+>=20
+> This is in preparation for introducing other PMU alternative.
+> We follow Conor's suggestion [1] to use cpu feature alternative
+> framework rather than errata, if you want to stick with errata
+> alternative or have other issues, please let me know. Thanks.
 
-Of course there are also the usual new SoC specific patches, like clock
-and pinmux descriptions, alongside a rework of the pinctrl code, since
-Allwinner changed the GPIO register layout, for the first time since
-sunxi's inception.
-On top of this the PSCI code sees some update, to provide SMP services
-for R528/T113s boards. Many thanks to Sam for providing this code and 
-staying strong through the review cycles.
-The final patch enables support for one popular board, I hope to see
-more DTs and defconfigs contributed in the future!
+I replied to the discussion on v2 earlier this morning (please try to
+wait for previous conversations to resolve before sending new versions)
+commenting on this patch:
+https://lore.kernel.org/linux-riscv/20231023-impulse-quickness-4c7076e6eb58=
+@spud/T/#m77982ce990577b974edd24bb3ac175737b2a621c
 
-Many thanks to all the various contributors, testers and reviewers,
-that series was a real team effort!
+Sticking with the existing method for the t-head stuff isn't a matter
+of how the code is structured, but a question of regressing existing
+platforms.
 
-The gitlab CI completed successfully.
+Cheers,
+Conor.
 
-Thanks,
-Andre
+>=20
+> [1] https://patchwork.kernel.org/project/linux-riscv/patch/20230907021635=
+=2E1002738-4-peterlin@andestech.com/#25503860
+>=20
+> Changes v1 -> v2:
+>   - New patch
+> Changes v2 -> v3:
+>   - Removed m{vendor/arch/imp}id checks in pmu_sbi_setup_irqs()
+> ---
+>  arch/riscv/Kconfig.errata            | 13 -------------
+>  arch/riscv/errata/thead/errata.c     | 19 -------------------
+>  arch/riscv/include/asm/errata_list.h | 15 +--------------
+>  arch/riscv/include/asm/hwcap.h       |  1 +
+>  arch/riscv/kernel/cpufeature.c       |  1 +
+>  drivers/perf/Kconfig                 | 13 +++++++++++++
+>  drivers/perf/riscv_pmu_sbi.c         | 19 ++++++++++++++-----
+>  7 files changed, 30 insertions(+), 51 deletions(-)
+>=20
+> diff --git a/arch/riscv/Kconfig.errata b/arch/riscv/Kconfig.errata
+> index 566bcefeab50..35dfb19d6a29 100644
+> --- a/arch/riscv/Kconfig.errata
+> +++ b/arch/riscv/Kconfig.errata
+> @@ -85,17 +85,4 @@ config ERRATA_THEAD_CMO
+> =20
+>  	  If you don't know what to do here, say "Y".
+> =20
+> -config ERRATA_THEAD_PMU
+> -	bool "Apply T-Head PMU errata"
+> -	depends on ERRATA_THEAD && RISCV_PMU_SBI
+> -	default y
+> -	help
+> -	  The T-Head C9xx cores implement a PMU overflow extension very
+> -	  similar to the core SSCOFPMF extension.
+> -
+> -	  This will apply the overflow errata to handle the non-standard
+> -	  behaviour via the regular SBI PMU driver and interface.
+> -
+> -	  If you don't know what to do here, say "Y".
+> -
+>  endmenu # "CPU errata selection"
+> diff --git a/arch/riscv/errata/thead/errata.c b/arch/riscv/errata/thead/e=
+rrata.c
+> index 0554ed4bf087..5de5f7209132 100644
+> --- a/arch/riscv/errata/thead/errata.c
+> +++ b/arch/riscv/errata/thead/errata.c
+> @@ -53,22 +53,6 @@ static bool errata_probe_cmo(unsigned int stage,
+>  	return true;
+>  }
+> =20
+> -static bool errata_probe_pmu(unsigned int stage,
+> -			     unsigned long arch_id, unsigned long impid)
+> -{
+> -	if (!IS_ENABLED(CONFIG_ERRATA_THEAD_PMU))
+> -		return false;
+> -
+> -	/* target-c9xx cores report arch_id and impid as 0 */
+> -	if (arch_id !=3D 0 || impid !=3D 0)
+> -		return false;
+> -
+> -	if (stage =3D=3D RISCV_ALTERNATIVES_EARLY_BOOT)
+> -		return false;
+> -
+> -	return true;
+> -}
+> -
+>  static u32 thead_errata_probe(unsigned int stage,
+>  			      unsigned long archid, unsigned long impid)
+>  {
+> @@ -80,9 +64,6 @@ static u32 thead_errata_probe(unsigned int stage,
+>  	if (errata_probe_cmo(stage, archid, impid))
+>  		cpu_req_errata |=3D BIT(ERRATA_THEAD_CMO);
+> =20
+> -	if (errata_probe_pmu(stage, archid, impid))
+> -		cpu_req_errata |=3D BIT(ERRATA_THEAD_PMU);
+> -
+>  	return cpu_req_errata;
+>  }
+> =20
+> diff --git a/arch/riscv/include/asm/errata_list.h b/arch/riscv/include/as=
+m/errata_list.h
+> index c190393aa9db..1b5354a50d55 100644
+> --- a/arch/riscv/include/asm/errata_list.h
+> +++ b/arch/riscv/include/asm/errata_list.h
+> @@ -25,8 +25,7 @@
+>  #ifdef CONFIG_ERRATA_THEAD
+>  #define	ERRATA_THEAD_PBMT 0
+>  #define	ERRATA_THEAD_CMO 1
+> -#define	ERRATA_THEAD_PMU 2
+> -#define	ERRATA_THEAD_NUMBER 3
+> +#define	ERRATA_THEAD_NUMBER 2
+>  #endif
+> =20
+>  #ifdef __ASSEMBLY__
+> @@ -147,18 +146,6 @@ asm volatile(ALTERNATIVE_2(						\
+>  	    "r"((unsigned long)(_start) + (_size))			\
+>  	: "a0")
+> =20
+> -#define THEAD_C9XX_RV_IRQ_PMU			17
+> -#define THEAD_C9XX_CSR_SCOUNTEROF		0x5c5
+> -
+> -#define ALT_SBI_PMU_OVERFLOW(__ovl)					\
+> -asm volatile(ALTERNATIVE(						\
+> -	"csrr %0, " __stringify(CSR_SSCOUNTOVF),			\
+> -	"csrr %0, " __stringify(THEAD_C9XX_CSR_SCOUNTEROF),		\
+> -		THEAD_VENDOR_ID, ERRATA_THEAD_PMU,			\
+> -		CONFIG_ERRATA_THEAD_PMU)				\
+> -	: "=3Dr" (__ovl) :						\
+> -	: "memory")
+> -
+>  #endif /* __ASSEMBLY__ */
+> =20
+>  #endif
+> diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwca=
+p.h
+> index b7b58258f6c7..d3082391c901 100644
+> --- a/arch/riscv/include/asm/hwcap.h
+> +++ b/arch/riscv/include/asm/hwcap.h
+> @@ -58,6 +58,7 @@
+>  #define RISCV_ISA_EXT_ZICSR		40
+>  #define RISCV_ISA_EXT_ZIFENCEI		41
+>  #define RISCV_ISA_EXT_ZIHPM		42
+> +#define RISCV_ISA_EXT_XTHEADPMU		43
+> =20
+>  #define RISCV_ISA_EXT_MAX		64
+> =20
+> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeatur=
+e.c
+> index 1cfbba65d11a..4a3fb017026c 100644
+> --- a/arch/riscv/kernel/cpufeature.c
+> +++ b/arch/riscv/kernel/cpufeature.c
+> @@ -181,6 +181,7 @@ const struct riscv_isa_ext_data riscv_isa_ext[] =3D {
+>  	__RISCV_ISA_EXT_DATA(svinval, RISCV_ISA_EXT_SVINVAL),
+>  	__RISCV_ISA_EXT_DATA(svnapot, RISCV_ISA_EXT_SVNAPOT),
+>  	__RISCV_ISA_EXT_DATA(svpbmt, RISCV_ISA_EXT_SVPBMT),
+> +	__RISCV_ISA_EXT_DATA(xtheadpmu, RISCV_ISA_EXT_XTHEADPMU),
+>  };
+> =20
+>  const size_t riscv_isa_ext_count =3D ARRAY_SIZE(riscv_isa_ext);
+> diff --git a/drivers/perf/Kconfig b/drivers/perf/Kconfig
+> index 273d67ecf6d2..c71b6f16bdfa 100644
+> --- a/drivers/perf/Kconfig
+> +++ b/drivers/perf/Kconfig
+> @@ -86,6 +86,19 @@ config RISCV_PMU_SBI
+>  	  full perf feature support i.e. counter overflow, privilege mode
+>  	  filtering, counter configuration.
+> =20
+> +config THEAD_CUSTOM_PMU
+> +	bool "T-Head custom PMU support"
+> +	depends on RISCV_ALTERNATIVE && RISCV_PMU_SBI
+> +	default y
+> +	help
+> +	  The T-Head C9xx cores implement a PMU overflow extension very
+> +	  similar to the core SSCOFPMF extension.
+> +
+> +	  This will patch the overflow CSR and handle the non-standard
+> +	  behaviour via the regular SBI PMU driver and interface.
+> +
+> +	  If you don't know what to do here, say "Y".
+> +
+>  config ARM_PMU_ACPI
+>  	depends on ARM_PMU && ACPI
+>  	def_bool y
+> diff --git a/drivers/perf/riscv_pmu_sbi.c b/drivers/perf/riscv_pmu_sbi.c
+> index f340db9ce1e2..a3d5ededfd45 100644
+> --- a/drivers/perf/riscv_pmu_sbi.c
+> +++ b/drivers/perf/riscv_pmu_sbi.c
+> @@ -20,10 +20,21 @@
+>  #include <linux/cpu_pm.h>
+>  #include <linux/sched/clock.h>
+> =20
+> -#include <asm/errata_list.h>
+>  #include <asm/sbi.h>
+>  #include <asm/hwcap.h>
+> =20
+> +#define THEAD_C9XX_RV_IRQ_PMU		17
+> +#define THEAD_C9XX_CSR_SCOUNTEROF	0x5c5
+> +
+> +#define ALT_SBI_PMU_OVERFLOW(__ovl)					\
+> +asm volatile(ALTERNATIVE(						\
+> +	"csrr %0, " __stringify(CSR_SSCOUNTOVF),			\
+> +	"csrr %0, " __stringify(THEAD_C9XX_CSR_SCOUNTEROF),		\
+> +		0, RISCV_ISA_EXT_XTHEADPMU,				\
+> +		CONFIG_THEAD_CUSTOM_PMU)				\
+> +	: "=3Dr" (__ovl) :						\
+> +	: "memory")
+> +
+>  #define SYSCTL_NO_USER_ACCESS	0
+>  #define SYSCTL_USER_ACCESS	1
+>  #define SYSCTL_LEGACY		2
+> @@ -805,10 +816,8 @@ static int pmu_sbi_setup_irqs(struct riscv_pmu *pmu,=
+ struct platform_device *pde
+>  	if (riscv_isa_extension_available(NULL, SSCOFPMF)) {
+>  		riscv_pmu_irq_num =3D RV_IRQ_PMU;
+>  		riscv_pmu_use_irq =3D true;
+> -	} else if (IS_ENABLED(CONFIG_ERRATA_THEAD_PMU) &&
+> -		   riscv_cached_mvendorid(0) =3D=3D THEAD_VENDOR_ID &&
+> -		   riscv_cached_marchid(0) =3D=3D 0 &&
+> -		   riscv_cached_mimpid(0) =3D=3D 0) {
+> +	} else if (riscv_isa_extension_available(NULL, XTHEADPMU) &&
+> +		   IS_ENABLED(CONFIG_THEAD_CUSTOM_PMU)) {
+>  		riscv_pmu_irq_num =3D THEAD_C9XX_RV_IRQ_PMU;
+>  		riscv_pmu_use_irq =3D true;
+>  	}
+> --=20
+> 2.34.1
+>=20
 
-===========================
-The following changes since commit 9a3a58396b78b1f9d0c14580dc03f81d29207dd2:
+--3CrJUMx+JJd/NlXH
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  Merge https://source.denx.de/u-boot/custodians/u-boot-marvell (2023-10-20 12:54:33 -0400)
+-----BEGIN PGP SIGNATURE-----
 
-are available in the Git repository at:
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZTZfbAAKCRB4tDGHoIJi
+0hb7AQChme18l0KgHqpprLTN0kROM107t9194FKQxmlCBOo+9gD+N9abwsMMJfKh
+0A9X4v4ePpcB8tvAnnz58cMfLZt0OAs=
+=CUTY
+-----END PGP SIGNATURE-----
 
-  https://source.denx.de/u-boot/custodians/u-boot-sunxi.git master
-
-for you to fetch changes up to fa066df62ed9bfe0aed7749a68457468ad8bcc1c:
-
-  sunxi: add MangoPi MQ-R board support (2023-10-23 01:00:56 +0100)
-
-----------------------------------------------------------------
-Andre Przywara (21):
-      sunxi: dts: arm64: update devicetree files from Linux-v6.6-rc6
-      sunxi: dts: arm: update devicetree files from Linux-v6.6-rc6
-      sunxi: dts: arm: add T113s/D1 DT files from Linux-v6.6-rc6
-      sunxi: remove CONFIG_SATAPWR
-      net: sunxi_emac: chase DT nodes to find PHY regulator
-      sunxi: remove CONFIG_MACPWR
-      pinctrl: sunxi: move pinctrl code
-      pinctrl: sunxi: add GPIO in/out wrappers
-      pinctrl: sunxi: remove struct sunxi_gpio
-      pinctrl: sunxi: remove GPIO_EXTRA_HEADER
-      pinctrl: sunxi: move PIO_BASE into sunxi_gpio.h
-      pinctrl: sunxi: add new D1 pinctrl support
-      sunxi: introduce NCAT2 generation model
-      pinctrl: sunxi: add Allwinner D1 pinctrl description
-      sunxi: clock: D1/R528: Enable PLL LDO during PLL1 setup
-      sunxi: clock: support D1/R528 PLL6 clock
-      Kconfig: sunxi: prepare for using drivers/ram/sunxi
-      sunxi: add R528/T113-s3/D1(s) DRAM initialisation code
-      sunxi: add Allwinner R528/T113 SoC support
-      sunxi: refactor serial base addresses to avoid asm/arch/cpu.h
-      sunxi: add MangoPi MQ-R board support
-
-Okhunjon Sobirjonov (1):
-      sunxi: R528: add SMHC2 pin pull ups support
-
-Sam Edwards (4):
-      sunxi: psci: clean away preprocessor macros
-      sunxi: psci: refactor register access to separate functions
-      sunxi: psci: stop modeling register layout with C structs
-      sunxi: psci: implement PSCI on R528
-
-Samuel Holland (1):
-      clk: sunxi: Add support for the D1 CCU
-
- arch/arm/Kconfig                                   |    3 +-
- arch/arm/cpu/armv7/Kconfig                         |    3 +-
- arch/arm/cpu/armv7/sunxi/psci.c                    |  190 ++-
- arch/arm/cpu/armv7/sunxi/sram.c                    |    1 +
- arch/arm/cpu/armv8/fel_utils.S                     |    1 +
- arch/arm/dts/Makefile                              |    2 +
- arch/arm/dts/axp209.dtsi                           |    7 +
- arch/arm/dts/sun50i-a64.dtsi                       |    3 +-
- arch/arm/dts/sun50i-h6-pine-h64-model-b.dts        |    2 +-
- arch/arm/dts/sun50i-h616-orangepi-zero.dtsi        |  134 ++
- arch/arm/dts/sun50i-h616-orangepi-zero2.dts        |  121 +-
- arch/arm/dts/sun50i-h616-x96-mate.dts              |    2 +-
- arch/arm/dts/sun50i-h618-orangepi-zero3.dts        |   94 ++
- arch/arm/dts/sun5i-r8-chip.dts                     |    6 +
- arch/arm/dts/sun5i.dtsi                            |   11 +-
- arch/arm/dts/sun7i-a20-icnova-a20-adb4006.dts      |  137 ++
- arch/arm/dts/sun7i-a20-icnova-a20.dtsi             |   62 +
- arch/arm/dts/sun8i-a23-a33.dtsi                    |    2 +-
- arch/arm/dts/sun8i-a83t.dtsi                       |    2 +-
- arch/arm/dts/sun8i-t113s-mangopi-mq-r-t113.dts     |   35 +
- arch/arm/dts/sun8i-t113s.dtsi                      |   59 +
- arch/arm/dts/sun8i-v3s.dtsi                        |    2 +-
- arch/arm/dts/sunxi-d1s-t113-mangopi-mq-r.dtsi      |  126 ++
- arch/arm/dts/sunxi-u-boot.dtsi                     |    7 +
- arch/arm/include/asm/arch-sunxi/boot0.h            |    2 +
- arch/arm/include/asm/arch-sunxi/clock.h            |    3 +-
- arch/arm/include/asm/arch-sunxi/clock_sun50i_h6.h  |   12 +-
- arch/arm/include/asm/arch-sunxi/cpu.h              |    2 +
- arch/arm/include/asm/arch-sunxi/cpu_sun4i.h        |   17 -
- arch/arm/include/asm/arch-sunxi/cpu_sun50i_h6.h    |    7 -
- arch/arm/include/asm/arch-sunxi/cpu_sun9i.h        |    9 -
- arch/arm/include/asm/arch-sunxi/cpu_sunxi_ncat2.h  |   39 +
- arch/arm/include/asm/arch-sunxi/cpucfg.h           |   67 -
- arch/arm/include/asm/arch-sunxi/mmc.h              |    2 +-
- arch/arm/include/asm/arch-sunxi/prcm.h             |    2 +-
- arch/arm/include/asm/arch-sunxi/serial.h           |   32 +
- arch/arm/include/asm/arch-sunxi/timer.h            |    2 +-
- arch/arm/mach-sunxi/Kconfig                        |   42 +-
- arch/arm/mach-sunxi/Makefile                       |    2 +-
- arch/arm/mach-sunxi/board.c                        |   31 +-
- arch/arm/mach-sunxi/clock_sun50i_h6.c              |   45 +-
- arch/arm/mach-sunxi/cpu_info.c                     |    2 +
- arch/arm/mach-sunxi/dram_suniv.c                   |    2 +-
- arch/arm/mach-sunxi/gtbus_sun9i.c                  |    1 +
- arch/arm/mach-sunxi/pinmux.c                       |   78 --
- arch/arm/mach-sunxi/spl_spi_sunxi.c                |    1 +
- arch/arm/mach-sunxi/timer.c                        |    1 +
- arch/riscv/dts/sunxi-d1-t113.dtsi                  |   15 +
- arch/riscv/dts/sunxi-d1s-t113.dtsi                 |  927 +++++++++++++
- board/sunxi/board.c                                |   34 +-
- board/sunxi/chip.c                                 |    2 +-
- common/spl/Kconfig                                 |    3 +-
- configs/A10-OLinuXino-Lime_defconfig               |    1 -
- configs/A20-OLinuXino-Lime2-eMMC_defconfig         |    1 -
- configs/A20-OLinuXino-Lime2_defconfig              |    1 -
- configs/A20-OLinuXino-Lime_defconfig               |    1 -
- configs/A20-OLinuXino_MICRO-eMMC_defconfig         |    1 -
- configs/A20-OLinuXino_MICRO_defconfig              |    1 -
- configs/A20-Olimex-SOM-EVB_defconfig               |    1 -
- configs/A20-Olimex-SOM204-EVB-eMMC_defconfig       |    1 -
- configs/A20-Olimex-SOM204-EVB_defconfig            |    1 -
- configs/Bananapi_M2_Ultra_defconfig                |    1 -
- configs/Bananapi_defconfig                         |    1 -
- configs/Bananapro_defconfig                        |    1 -
- configs/Cubieboard2_defconfig                      |    1 -
- configs/Cubieboard_defconfig                       |    1 -
- configs/Cubietruck_defconfig                       |    1 -
- configs/Itead_Ibox_A20_defconfig                   |    1 -
- configs/Lamobo_R1_defconfig                        |    2 -
- configs/Linksprite_pcDuino3_Nano_defconfig         |    1 -
- configs/Linksprite_pcDuino3_defconfig              |    1 -
- configs/Mele_A1000_defconfig                       |    1 -
- configs/Orangepi_defconfig                         |    1 -
- configs/Orangepi_mini_defconfig                    |    1 -
- configs/Sinovoip_BPI_M3_defconfig                  |    1 -
- configs/bananapi_m1_plus_defconfig                 |    1 -
- configs/bananapi_m2_plus_h3_defconfig              |    1 -
- configs/bananapi_m2_plus_h5_defconfig              |    1 -
- configs/i12-tvbox_defconfig                        |    1 -
- configs/jesurun_q5_defconfig                       |    1 -
- configs/mangopi_mq_r_defconfig                     |   15 +
- configs/mixtile_loftq_defconfig                    |    1 -
- configs/nanopi_m1_plus_defconfig                   |    1 -
- configs/nanopi_neo_plus2_defconfig                 |    1 -
- configs/nanopi_r1s_h5_defconfig                    |    1 -
- configs/orangepi_pc2_defconfig                     |    1 -
- configs/orangepi_plus2e_defconfig                  |    1 -
- configs/orangepi_plus_defconfig                    |    3 +-
- configs/orangepi_win_defconfig                     |    1 -
- configs/pine_h64_defconfig                         |    1 -
- configs/zeropi_defconfig                           |    1 -
- drivers/Makefile                                   |    1 +
- drivers/ata/ahci_sunxi.c                           |    9 +
- drivers/clk/sunxi/Kconfig                          |    7 +
- drivers/clk/sunxi/Makefile                         |    1 +
- drivers/clk/sunxi/clk_d1.c                         |   84 ++
- drivers/clk/sunxi/clk_sunxi.c                      |    5 +
- drivers/gpio/Kconfig                               |    7 +
- drivers/gpio/axp_gpio.c                            |    1 +
- drivers/gpio/sunxi_gpio.c                          |  189 ++-
- drivers/i2c/mvtwsi.c                               |    3 +-
- drivers/i2c/sun6i_p2wi.c                           |    2 +-
- drivers/i2c/sun8i_rsb.c                            |    2 +-
- drivers/mmc/sunxi_mmc.c                            |    9 +-
- drivers/net/sun8i_emac.c                           |    7 +
- drivers/net/sunxi_emac.c                           |   38 +
- drivers/pinctrl/sunxi/Kconfig                      |    5 +
- drivers/pinctrl/sunxi/pinctrl-sunxi.c              |   47 +-
- drivers/ram/Kconfig                                |    3 +-
- drivers/ram/Makefile                               |    3 +
- drivers/ram/sunxi/Kconfig                          |   60 +
- drivers/ram/sunxi/Makefile                         |    3 +
- drivers/ram/sunxi/dram_sun20i_d1.c                 | 1441 ++++++++++++++++++++
- drivers/ram/sunxi/dram_sun20i_d1.h                 |   73 +
- drivers/video/hitachi_tx18d42vm_lcd.c              |    1 +
- drivers/video/ssd2828.c                            |    1 -
- drivers/video/sunxi/sunxi_display.c                |    1 +
- drivers/video/sunxi/sunxi_lcd.c                    |    1 +
- include/configs/sunxi-common.h                     |    2 +-
- include/dt-bindings/clock/sun20i-d1-ccu.h          |  158 +++
- include/dt-bindings/clock/sun20i-d1-r-ccu.h        |   19 +
- include/dt-bindings/clock/sun50i-h6-ccu.h          |    2 +-
- include/dt-bindings/clock/sun50i-h616-ccu.h        |    2 +-
- include/dt-bindings/clock/sun6i-rtc.h              |    2 +-
- include/dt-bindings/reset/sun20i-d1-ccu.h          |   79 ++
- include/dt-bindings/reset/sun20i-d1-r-ccu.h        |   16 +
- include/dt-bindings/reset/sun50i-h6-ccu.h          |    2 +-
- include/dt-bindings/reset/sun50i-h6-r-ccu.h        |    2 +-
- include/dt-bindings/reset/sun50i-h616-ccu.h        |    2 +-
- .../asm/arch-sunxi/gpio.h => include/sunxi_gpio.h  |   83 +-
- 130 files changed, 4229 insertions(+), 594 deletions(-)
- create mode 100644 arch/arm/dts/sun50i-h616-orangepi-zero.dtsi
- create mode 100644 arch/arm/dts/sun50i-h618-orangepi-zero3.dts
- create mode 100644 arch/arm/dts/sun7i-a20-icnova-a20-adb4006.dts
- create mode 100644 arch/arm/dts/sun7i-a20-icnova-a20.dtsi
- create mode 100644 arch/arm/dts/sun8i-t113s-mangopi-mq-r-t113.dts
- create mode 100644 arch/arm/dts/sun8i-t113s.dtsi
- create mode 100644 arch/arm/dts/sunxi-d1s-t113-mangopi-mq-r.dtsi
- create mode 100644 arch/arm/include/asm/arch-sunxi/cpu_sunxi_ncat2.h
- delete mode 100644 arch/arm/include/asm/arch-sunxi/cpucfg.h
- create mode 100644 arch/arm/include/asm/arch-sunxi/serial.h
- delete mode 100644 arch/arm/mach-sunxi/pinmux.c
- create mode 100644 arch/riscv/dts/sunxi-d1-t113.dtsi
- create mode 100644 arch/riscv/dts/sunxi-d1s-t113.dtsi
- create mode 100644 configs/mangopi_mq_r_defconfig
- create mode 100644 drivers/clk/sunxi/clk_d1.c
- create mode 100644 drivers/ram/sunxi/Kconfig
- create mode 100644 drivers/ram/sunxi/Makefile
- create mode 100644 drivers/ram/sunxi/dram_sun20i_d1.c
- create mode 100644 drivers/ram/sunxi/dram_sun20i_d1.h
- create mode 100644 include/dt-bindings/clock/sun20i-d1-ccu.h
- create mode 100644 include/dt-bindings/clock/sun20i-d1-r-ccu.h
- create mode 100644 include/dt-bindings/reset/sun20i-d1-ccu.h
- create mode 100644 include/dt-bindings/reset/sun20i-d1-r-ccu.h
- rename arch/arm/include/asm/arch-sunxi/gpio.h => include/sunxi_gpio.h (75%)
+--3CrJUMx+JJd/NlXH--
