@@ -1,18 +1,18 @@
 Received: from Atcsqr.andestech.com (60-248-80-70.hinet-ip.hinet.net [60.248.80.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAB58372
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3560374
 	for <linux-sunxi@lists.linux.dev>; Mon, 23 Oct 2023 00:45:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=andestech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=andestech.com
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
-	by Atcsqr.andestech.com with ESMTP id 39N0iO0S078995;
-	Mon, 23 Oct 2023 08:44:24 +0800 (+08)
+	by Atcsqr.andestech.com with ESMTP id 39N0ides079396;
+	Mon, 23 Oct 2023 08:44:39 +0800 (+08)
 	(envelope-from peterlin@andestech.com)
 Received: from swlinux02.andestech.com (10.0.15.183) by ATCPCS16.andestech.com
  (10.0.1.222) with Microsoft SMTP Server id 14.3.498.0; Mon, 23 Oct 2023
- 08:44:20 +0800
+ 08:44:36 +0800
 From: Yu Chien Peter Lin <peterlin@andestech.com>
 To: <acme@kernel.org>, <adrian.hunter@intel.com>, <ajones@ventanamicro.com>,
         <alexander.shishkin@linux.intel.com>, <andre.przywara@arm.com>,
@@ -36,9 +36,9 @@ To: <acme@kernel.org>, <adrian.hunter@intel.com>, <ajones@ventanamicro.com>,
         <sunilvl@ventanamicro.com>, <tglx@linutronix.de>,
         <tim609@andestech.com>, <uwu@icenowy.me>, <wens@csie.org>,
         <will@kernel.org>, <ycliang@andestech.com>
-Subject: [RFC PATCH v3 RESEND 02/13] irqchip/riscv-intc: Allow large non-standard hwirq number
-Date: Mon, 23 Oct 2023 08:40:49 +0800
-Message-ID: <20231023004100.2663486-3-peterlin@andestech.com>
+Subject: [PATCH v3 RESEND 05/13] riscv: dts: renesas: r9a07g043f: Update compatible string to use Andes INTC
+Date: Mon, 23 Oct 2023 08:40:52 +0800
+Message-ID: <20231023004100.2663486-6-peterlin@andestech.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231023004100.2663486-1-peterlin@andestech.com>
 References: <20231023004100.2663486-1-peterlin@andestech.com>
@@ -48,76 +48,39 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Originating-IP: [10.0.15.183]
 X-DNSRBL: 
 X-SPAM-SOURCE-CHECK: pass
-X-MAIL:Atcsqr.andestech.com 39N0iO0S078995
+X-MAIL:Atcsqr.andestech.com 39N0ides079396
 
-Currently, the implementation of the RISC-V INTC driver uses the
-interrupt cause as hwirq and has a limitation of supporting a
-maximum of 64 hwirqs. However, according to the privileged spec,
-interrupt causes >= 16 are defined for platform use.
-
-This limitation prevents us from fully utilizing the available
-local interrupt sources. Additionally, the hwirqs used on RISC-V
-are sparse, with only interrupt numbers 1, 5 and 9 (plus Sscofpmf
-or T-Head's PMU irq) being currently used for supervisor mode.
-
-The patch switches to using irq_domain_create_tree() which
-creates the radix tree map, allowing us to handle a larger
-number of hwirqs.
+The Andes INTC allows AX45MP cores to handle custom local
+interrupts, such as the performance monitor overflow interrupt.
 
 Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
-Reviewed-by: Charles Ci-Jyun Wu <dminus@andestech.com>
-Reviewed-by: Leo Yu-Chi Liang <ycliang@andestech.com>
 ---
 Changes v1 -> v2:
-  - Fixed irq mapping failure checking (suggested by Clément and Anup)
+  - New patch
 Changes v2 -> v3:
-  - No change
+  - Fixed possible compatibles for Andes INTC
 ---
- drivers/irqchip/irq-riscv-intc.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ arch/riscv/boot/dts/renesas/r9a07g043f.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/irqchip/irq-riscv-intc.c b/drivers/irqchip/irq-riscv-intc.c
-index e8d01b14ccdd..79d049105384 100644
---- a/drivers/irqchip/irq-riscv-intc.c
-+++ b/drivers/irqchip/irq-riscv-intc.c
-@@ -24,10 +24,8 @@ static asmlinkage void riscv_intc_irq(struct pt_regs *regs)
- {
- 	unsigned long cause = regs->cause & ~CAUSE_IRQ_FLAG;
+diff --git a/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi b/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
+index 8a726407fb76..dfe27550af11 100644
+--- a/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
++++ b/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
+@@ -37,7 +37,7 @@ cpu0: cpu@0 {
  
--	if (unlikely(cause >= BITS_PER_LONG))
--		panic("unexpected interrupt cause");
--
--	generic_handle_domain_irq(intc_domain, cause);
-+	if (generic_handle_domain_irq(intc_domain, cause))
-+		pr_warn("Failed to handle interrupt (cause: %ld)\n", cause);
- }
- 
- /*
-@@ -117,8 +115,8 @@ static int __init riscv_intc_init_common(struct fwnode_handle *fn)
- {
- 	int rc;
- 
--	intc_domain = irq_domain_create_linear(fn, BITS_PER_LONG,
--					       &riscv_intc_domain_ops, NULL);
-+	intc_domain = irq_domain_create_tree(fn, &riscv_intc_domain_ops,
-+					     NULL);
- 	if (!intc_domain) {
- 		pr_err("unable to add IRQ domain\n");
- 		return -ENXIO;
-@@ -132,8 +130,6 @@ static int __init riscv_intc_init_common(struct fwnode_handle *fn)
- 
- 	riscv_set_intc_hwnode_fn(riscv_intc_hwnode);
- 
--	pr_info("%d local interrupts mapped\n", BITS_PER_LONG);
--
- 	return 0;
- }
- 
+ 			cpu0_intc: interrupt-controller {
+ 				#interrupt-cells = <1>;
+-				compatible = "riscv,cpu-intc";
++				compatible = "andestech,cpu-intc", "riscv,cpu-intc";
+ 				interrupt-controller;
+ 			};
+ 		};
 -- 
 2.34.1
 
