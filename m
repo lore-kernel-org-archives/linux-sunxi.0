@@ -1,46 +1,47 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC1C63588B
-	for <linux-sunxi@lists.linux.dev>; Tue, 24 Oct 2023 17:13:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEEBD3A28E
+	for <linux-sunxi@lists.linux.dev>; Tue, 24 Oct 2023 17:13:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cJE09Jdq"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-507d1cc0538so6866737e87.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 24 Oct 2023 10:13:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kOpWqwh0"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-50802148be9so2009586e87.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 24 Oct 2023 10:13:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698167600; x=1698772400; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=q35Px7RIOLFQ2tv3JiGGnvjx9fOPn74ja8lDfqI7X2c=;
-        b=cJE09JdqcYNwVRjwSFLy4EJCYQFXpNYsVSqEqBGErH14xNqusEzqyCF/ce4BtyrZMI
-         8KSlct9oQjOpKAB/wO2GW9E477ZU3hnlP6bkJ5mFkm4geBJJH2K/v5MNpTEf8XXCbz0F
-         wn48l3/dAo5eG1WRMS5bZvV/75n/qSTw5yHlOOZfGLPQwso7LxJg73Ruu1qdNdaWS00u
-         jMWLE2qUR5BG3K0/eYehGDelzcIosbPjM4tr6gtwwkfXfftE5YTdkZgmE4PWzzQ8cozP
-         GLPbKpBGA5jSSFtG8lylJKRjhU/1RArBplY6ZA+IKhuQf2QhK/D1CYZG4vKT1ixFQ+Jg
-         m3Eg==
+        d=gmail.com; s=20230601; t=1698167602; x=1698772402; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=x9fNjyF1v5YksnWbAbpME/leIFX1OZIHlz6r3I23R8Y=;
+        b=kOpWqwh0S/eWSzAdxMfwVvNMphyyt26GVIoZO0pWPEyw2iAlviJY9/rNHaSDfoUEQS
+         CDdPizpJ/8QwDoJuqko+LeJfwcx5e9gtwUOw0HQ9ibIKuk4hmiKzpEwU9STAj17vs9o4
+         Zni1APz1buUOr+S5sS+yBKUuM9EBGDDbu0oDfdVXUs1qfa/nFGg5YpLGIjqliSjz5BXi
+         GBwcR9xyfet05eaSmfTjibHXdNPbcpiVSPGFFak+uPou584TDRyFvYfh0HoA4uMIYbGh
+         XxD8Ihn4WEcPGR3b9fBF4qdQF+ZjNNo8DjeoZoC1LF/dmTwKVR01RnmYd+FHmEFB6aJH
+         ElGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698167600; x=1698772400;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=q35Px7RIOLFQ2tv3JiGGnvjx9fOPn74ja8lDfqI7X2c=;
-        b=IXS5SPn6GBewqqE6jKD//MduWhQbi8Ihb8Pct7XfW/+X5X4NMdH4Ce/L0yyrvVNSKZ
-         3EW4o9CTVoV+xdhAV7bzJUAj0+khEDovGsbs/H84FvrDoeACairYZ50pmagbx92KZfWx
-         UC7r3AeAy0ZGxSjxw7OqWbcYJcLK39NMBrvcbKjuoRSDkfxFY2z5E9z1GfTG+yrHLqCL
-         EvT9gcTQF6L3PENEB5DlXKo1VoLF1VqkUOp7QNYMXhnjUMt+wNSE2Q//F8wrjg2qKsZG
-         n3ZY3ho1SFV4x8c1+EeCmDEpdSIZL4zEcx9Ghxia2ypwg5aJPBxSPS1IEyNGm+fBaKfP
-         s/4g==
-X-Gm-Message-State: AOJu0YyIQSE94sQVCQbyX5LU8P+n/f0BOUSrR/cLGdOl57mJAXkqFWy3
-	4P0j29esKOZOGk9SDOGN988=
-X-Google-Smtp-Source: AGHT+IEpe8c+FhGADyyGxC/YOQXGPU6MPBqGVDVSGUiFQMZhx+kKrT8W1MlOev6pkIFQ3ABCFXwqmw==
-X-Received: by 2002:ac2:5e9c:0:b0:507:8f1b:ff59 with SMTP id b28-20020ac25e9c000000b005078f1bff59mr8656097lfq.62.1698167599424;
-        Tue, 24 Oct 2023 10:13:19 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1698167602; x=1698772402;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=x9fNjyF1v5YksnWbAbpME/leIFX1OZIHlz6r3I23R8Y=;
+        b=XFxRIr3u7KubowH2ocQgtM+/Q9Rn6RZVc+P2z6/jw5EPGt0FeUKntfZ6bwtCyHm3Vv
+         efxG4sowh1MxS9hrFwAUpBruOroMX1qcfDVSa/tPykpDvEPFVAnfdehSxvLR11hEcse7
+         2dppvSGVVE0OvU6Uys2Am3qCUi9g3QA/LT2Nn5HNWuL5E/VaP9ekbOqR0X7Vrqb2Y+RZ
+         KnBQ6JPed6bjV5dW4GvNaBh8kXpY+GHz+nvSvgmFRyxcPvUSPguz3nd4g3wQma6ONUXl
+         CJXF5L1UqCoiFIUNq1UdndrNXl52nOsxicosHH8zVgLoWD22PRXY3GT6Kfpr7MyY4Azn
+         zorw==
+X-Gm-Message-State: AOJu0YyILSR8SNCyDO+tLX16/6HY238QmUtqapZFwkhQ7rU4l+gg1+O8
+	tc5jIlmpr5DJN60r9BDdjcY=
+X-Google-Smtp-Source: AGHT+IEcCwgneLND5o7bHUBISV9MdVzV/sMKw7Tq9M+fpNLyyTN50vBBXmjkI52iU1JqHSFil7yqoA==
+X-Received: by 2002:ac2:46c5:0:b0:507:b1e2:d3c4 with SMTP id p5-20020ac246c5000000b00507b1e2d3c4mr8591914lfo.58.1698167601562;
+        Tue, 24 Oct 2023 10:13:21 -0700 (PDT)
 Received: from localhost.lan (031011218106.poznan.vectranet.pl. [31.11.218.106])
-        by smtp.gmail.com with ESMTPSA id o12-20020ac24e8c000000b00505a5ea726asm2202413lfr.309.2023.10.24.10.13.18
+        by smtp.gmail.com with ESMTPSA id o12-20020ac24e8c000000b00505a5ea726asm2202413lfr.309.2023.10.24.10.13.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Oct 2023 10:13:18 -0700 (PDT)
+        Tue, 24 Oct 2023 10:13:21 -0700 (PDT)
 From: =?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <zajec5@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
@@ -59,10 +60,12 @@ Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	linux-kernel@vger.kernel.org,
 	=?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>,
 	Rob Herring <robh@kernel.org>
-Subject: [PATCH 6.7 fix 1/2] dt-bindings: nvmem: SID: allow NVMEM cells based on old syntax
-Date: Tue, 24 Oct 2023 19:12:52 +0200
-Message-Id: <20231024171253.19976-1-zajec5@gmail.com>
+Subject: [PATCH 6.7 fix 2/2] dt-bindings: eeprom: at24: allow NVMEM cells based on old syntax
+Date: Tue, 24 Oct 2023 19:12:53 +0200
+Message-Id: <20231024171253.19976-2-zajec5@gmail.com>
 X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20231024171253.19976-1-zajec5@gmail.com>
+References: <20231024171253.19976-1-zajec5@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -81,24 +84,21 @@ Reported-by: Rob Herring <robh@kernel.org>
 Fixes: c5330723d5a0 ("dt-bindings: nvmem: move deprecated cells binding to its own file")
 Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
 ---
-This fixes issue introduced by v6.7 queued char-misc commit:
-https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.git/commit/?h=char-misc-next&id=c5330723d5a0c77299a38a46e5611a584e887b87
----
- .../devicetree/bindings/nvmem/allwinner,sun4i-a10-sid.yaml       | 1 +
+ Documentation/devicetree/bindings/eeprom/at24.yaml | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/nvmem/allwinner,sun4i-a10-sid.yaml b/Documentation/devicetree/bindings/nvmem/allwinner,sun4i-a10-sid.yaml
-index 0928ec408170..4424c3c5e75c 100644
---- a/Documentation/devicetree/bindings/nvmem/allwinner,sun4i-a10-sid.yaml
-+++ b/Documentation/devicetree/bindings/nvmem/allwinner,sun4i-a10-sid.yaml
+diff --git a/Documentation/devicetree/bindings/eeprom/at24.yaml b/Documentation/devicetree/bindings/eeprom/at24.yaml
+index 6385b05a1e62..b6864d0ee81e 100644
+--- a/Documentation/devicetree/bindings/eeprom/at24.yaml
++++ b/Documentation/devicetree/bindings/eeprom/at24.yaml
 @@ -12,6 +12,7 @@ maintainers:
  
  allOf:
-   - $ref: nvmem.yaml#
-+  - $ref: nvmem-deprecated-cells.yaml#
+   - $ref: /schemas/nvmem/nvmem.yaml
++  - $ref: /schemas/nvmem/nvmem-deprecated-cells.yaml
  
- properties:
-   compatible:
+ select:
+   properties:
 -- 
 2.35.3
 
