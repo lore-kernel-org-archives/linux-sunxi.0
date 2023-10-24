@@ -1,71 +1,27 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEEBD3A28E
-	for <linux-sunxi@lists.linux.dev>; Tue, 24 Oct 2023 17:13:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kOpWqwh0"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-50802148be9so2009586e87.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 24 Oct 2023 10:13:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698167602; x=1698772402; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=x9fNjyF1v5YksnWbAbpME/leIFX1OZIHlz6r3I23R8Y=;
-        b=kOpWqwh0S/eWSzAdxMfwVvNMphyyt26GVIoZO0pWPEyw2iAlviJY9/rNHaSDfoUEQS
-         CDdPizpJ/8QwDoJuqko+LeJfwcx5e9gtwUOw0HQ9ibIKuk4hmiKzpEwU9STAj17vs9o4
-         Zni1APz1buUOr+S5sS+yBKUuM9EBGDDbu0oDfdVXUs1qfa/nFGg5YpLGIjqliSjz5BXi
-         GBwcR9xyfet05eaSmfTjibHXdNPbcpiVSPGFFak+uPou584TDRyFvYfh0HoA4uMIYbGh
-         XxD8Ihn4WEcPGR3b9fBF4qdQF+ZjNNo8DjeoZoC1LF/dmTwKVR01RnmYd+FHmEFB6aJH
-         ElGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698167602; x=1698772402;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=x9fNjyF1v5YksnWbAbpME/leIFX1OZIHlz6r3I23R8Y=;
-        b=XFxRIr3u7KubowH2ocQgtM+/Q9Rn6RZVc+P2z6/jw5EPGt0FeUKntfZ6bwtCyHm3Vv
-         efxG4sowh1MxS9hrFwAUpBruOroMX1qcfDVSa/tPykpDvEPFVAnfdehSxvLR11hEcse7
-         2dppvSGVVE0OvU6Uys2Am3qCUi9g3QA/LT2Nn5HNWuL5E/VaP9ekbOqR0X7Vrqb2Y+RZ
-         KnBQ6JPed6bjV5dW4GvNaBh8kXpY+GHz+nvSvgmFRyxcPvUSPguz3nd4g3wQma6ONUXl
-         CJXF5L1UqCoiFIUNq1UdndrNXl52nOsxicosHH8zVgLoWD22PRXY3GT6Kfpr7MyY4Azn
-         zorw==
-X-Gm-Message-State: AOJu0YyILSR8SNCyDO+tLX16/6HY238QmUtqapZFwkhQ7rU4l+gg1+O8
-	tc5jIlmpr5DJN60r9BDdjcY=
-X-Google-Smtp-Source: AGHT+IEcCwgneLND5o7bHUBISV9MdVzV/sMKw7Tq9M+fpNLyyTN50vBBXmjkI52iU1JqHSFil7yqoA==
-X-Received: by 2002:ac2:46c5:0:b0:507:b1e2:d3c4 with SMTP id p5-20020ac246c5000000b00507b1e2d3c4mr8591914lfo.58.1698167601562;
-        Tue, 24 Oct 2023 10:13:21 -0700 (PDT)
-Received: from localhost.lan (031011218106.poznan.vectranet.pl. [31.11.218.106])
-        by smtp.gmail.com with ESMTPSA id o12-20020ac24e8c000000b00505a5ea726asm2202413lfr.309.2023.10.24.10.13.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Oct 2023 10:13:21 -0700 (PDT)
-From: =?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <zajec5@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-i2c@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>,
-	Rob Herring <robh@kernel.org>
-Subject: [PATCH 6.7 fix 2/2] dt-bindings: eeprom: at24: allow NVMEM cells based on old syntax
-Date: Tue, 24 Oct 2023 19:12:53 +0200
-Message-Id: <20231024171253.19976-2-zajec5@gmail.com>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20231024171253.19976-1-zajec5@gmail.com>
-References: <20231024171253.19976-1-zajec5@gmail.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D22141ABA
+	for <linux-sunxi@lists.linux.dev>; Tue, 24 Oct 2023 22:27:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D644BC15;
+	Tue, 24 Oct 2023 15:27:55 -0700 (PDT)
+Received: from slackpad.lan (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BAF813F762;
+	Tue, 24 Oct 2023 15:27:13 -0700 (PDT)
+Date: Tue, 24 Oct 2023 23:26:08 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Ludwig Kormann <ludwig.kormann@ict42.de>, linux-sunxi
+ <linux-sunxi@lists.linux.dev>
+Cc: hdegoede@redhat.com, jagan@amarulasolutions.com, u-boot@lists.denx.de
+Subject: Re: [PATCH RESEND v3 1/1] arm: dts: icnova-a20-adb4006: Add board
+ support
+Message-ID: <20231024232608.6e9b2516@slackpad.lan>
+In-Reply-To: <20231009113916.2668425-1-ludwig.kormann@ict42.de>
+References: <20231009113916.2668425-1-ludwig.kormann@ict42.de>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -73,32 +29,340 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-From: Rafał Miłecki <rafal@milecki.pl>
+On Mon,  9 Oct 2023 13:39:16 +0200
+Ludwig Kormann <ludwig.kormann@ict42.de> wrote:
 
-This binding supported NVMEM cells as subnodes and that syntax is used
-by few in-kenel DTS files. Modify binding to allow it.
+Hi Ludwig,
 
-Reported-by: Rob Herring <robh@kernel.org>
-Fixes: c5330723d5a0 ("dt-bindings: nvmem: move deprecated cells binding to its own file")
-Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
----
- Documentation/devicetree/bindings/eeprom/at24.yaml | 1 +
- 1 file changed, 1 insertion(+)
+> Add board support for ICnova A20 SomPi compute module on
+> ICnova ADB4006 development board.
+>=20
+> Specification:
+> SoM
+> - Processor: Allwinner A20 Cortex-A7 Dual Core at 1GHz
+> - 512MB DDR3 RAM
+> - Fast Ethernet (Phy: Realtek RTL8201CP)
+> ADB4006
+> - I2C
+> - 2x USB 2.0
+> - 1x Fast Ethernet port
+> - 1x SATA
+> - 2x buttons (PWRON, Boot)
+> - 2x LEDS
+> - serial console
+> - HDMI
+> - =C2=B5SD-Card slot
+> - Audio Line-In / Line-Out
+> - GPIO pinheaders
+>=20
+> https://wiki.in-circuit.de/index.php5?title=3DICnova_ADB4006
+> https://wiki.in-circuit.de/index.php5?title=3DICnova_A20_SODIMM
+>=20
+> devicetree upstreamed with linux 6.5
 
-diff --git a/Documentation/devicetree/bindings/eeprom/at24.yaml b/Documentation/devicetree/bindings/eeprom/at24.yaml
-index 6385b05a1e62..b6864d0ee81e 100644
---- a/Documentation/devicetree/bindings/eeprom/at24.yaml
-+++ b/Documentation/devicetree/bindings/eeprom/at24.yaml
-@@ -12,6 +12,7 @@ maintainers:
- 
- allOf:
-   - $ref: /schemas/nvmem/nvmem.yaml
-+  - $ref: /schemas/nvmem/nvmem-deprecated-cells.yaml
- 
- select:
-   properties:
--- 
-2.35.3
+As you have probably seen, the DT files have been synced into U-Boot's
+master branch yesterday.
+So if you rebase this on top of master, so just send the defconfig
+(with CONFIG_SYS_64BIT_LBA added) and the Makefile change in a new
+patch, I am happy to take it still this cycle.
+
+Cheers,
+Andre
+
+> Signed-off-by: Ludwig Kormann <ludwig.kormann@ict42.de>
+> ---
+> changes in v3:
+> - rebase on v2023.10
+>=20
+> changes in v2:
+> - rebase on v2023.07-rc2
+> - remove pin defines from defconfig
+> - get dts reviewed on the linux mailing list and
+>   scheduled for kernel 6.5 [1]
+>=20
+> [1]
+> https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git
+> commit de2bdfb7f79d5c655eb056d459e02be2c7f13c8b
+>=20
+> ---
+>  arch/arm/dts/Makefile                         |   1 +
+>  arch/arm/dts/sun7i-a20-icnova-a20-adb4006.dts | 137 ++++++++++++++++++
+>  arch/arm/dts/sun7i-a20-icnova-a20.dtsi        |  62 ++++++++
+>  board/sunxi/MAINTAINERS                       |   5 +
+>  configs/icnova-a20-adb4006_defconfig          |  20 +++
+>  5 files changed, 225 insertions(+)
+>  create mode 100644 arch/arm/dts/sun7i-a20-icnova-a20-adb4006.dts
+>  create mode 100644 arch/arm/dts/sun7i-a20-icnova-a20.dtsi
+>  create mode 100644 configs/icnova-a20-adb4006_defconfig
+>=20
+> diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
+> index 85fd5b1157..16d5930b78 100644
+> --- a/arch/arm/dts/Makefile
+> +++ b/arch/arm/dts/Makefile
+> @@ -667,6 +667,7 @@ dtb-$(CONFIG_MACH_SUN7I) +=3D \
+>  	sun7i-a20-haoyu-marsboard.dtb \
+>  	sun7i-a20-hummingbird.dtb \
+>  	sun7i-a20-i12-tvbox.dtb \
+> +	sun7i-a20-icnova-a20-adb4006.dtb \
+>  	sun7i-a20-icnova-swac.dtb \
+>  	sun7i-a20-itead-ibox.dtb \
+>  	sun7i-a20-lamobo-r1.dtb \
+> diff --git a/arch/arm/dts/sun7i-a20-icnova-a20-adb4006.dts b/arch/arm/dts=
+/sun7i-a20-icnova-a20-adb4006.dts
+> new file mode 100644
+> index 0000000000..577ead1d02
+> --- /dev/null
+> +++ b/arch/arm/dts/sun7i-a20-icnova-a20-adb4006.dts
+> @@ -0,0 +1,137 @@
+> +// SPDX-License-Identifier: (GPL-2.0 OR MIT)
+> +// Copyright (C) 2023 In-Circuit GmbH
+> +
+> +/dts-v1/;
+> +
+> +#include "sun7i-a20-icnova-a20.dtsi"
+> +
+> +#include <dt-bindings/gpio/gpio.h>
+> +#include <dt-bindings/leds/common.h>
+> +
+> +/ {
+> +	model =3D "In-Circuit ICnova A20 ADB4006";
+> +	compatible =3D "incircuit,icnova-a20-adb4006", "incircuit,icnova-a20",
+> +		     "allwinner,sun7i-a20";
+> +
+> +	aliases {
+> +		serial0 =3D &uart0;
+> +	};
+> +
+> +	chosen {
+> +		stdout-path =3D "serial0:115200n8";
+> +	};
+> +
+> +	hdmi-connector {
+> +		compatible =3D "hdmi-connector";
+> +		type =3D "a";
+> +
+> +		port {
+> +			hdmi_con_in: endpoint {
+> +				remote-endpoint =3D <&hdmi_out_con>;
+> +			};
+> +		};
+> +	};
+> +
+> +	leds {
+> +		compatible =3D "gpio-leds";
+> +
+> +		led-0 {
+> +			function =3D LED_FUNCTION_POWER;
+> +			color =3D <LED_COLOR_ID_YELLOW>;
+> +			gpios =3D <&pio 7 21 GPIO_ACTIVE_HIGH>; /* PH21 */
+> +			default-state =3D "on";
+> +		};
+> +
+> +		led-1 {
+> +			function =3D LED_FUNCTION_HEARTBEAT;
+> +			color =3D <LED_COLOR_ID_RED>;
+> +			gpios =3D <&pio 7 20 GPIO_ACTIVE_HIGH>; /* PH20 */
+> +			linux,default-trigger =3D "heartbeat";
+> +		};
+> +	};
+> +};
+> +
+> +&ahci {
+> +	target-supply =3D <&reg_ahci_5v>;
+> +	status =3D "okay";
+> +};
+> +
+> +&codec {
+> +	status =3D "okay";
+> +};
+> +
+> +&de {
+> +	status =3D "okay";
+> +};
+> +
+> +&ehci0 {
+> +	status =3D "okay";
+> +};
+> +
+> +&ehci1 {
+> +	status =3D "okay";
+> +};
+> +
+> +&hdmi {
+> +	status =3D "okay";
+> +};
+> +
+> +&hdmi_out {
+> +	hdmi_out_con: endpoint {
+> +		remote-endpoint =3D <&hdmi_con_in>;
+> +	};
+> +};
+> +
+> +&mmc0 {
+> +	vmmc-supply =3D <&reg_vcc3v3>;
+> +	bus-width =3D <4>;
+> +	cd-gpios =3D <&pio 7 1 GPIO_ACTIVE_LOW>; /* PH1 */
+> +	status =3D "okay";
+> +};
+> +
+> +&ohci0 {
+> +	status =3D "okay";
+> +};
+> +
+> +&ohci1 {
+> +	status =3D "okay";
+> +};
+> +
+> +&otg_sram {
+> +	status =3D "okay";
+> +};
+> +
+> +&reg_ahci_5v {
+> +	status =3D "okay";
+> +};
+> +
+> +&ac_power_supply {
+> +	status =3D "okay";
+> +};
+> +
+> +&reg_usb1_vbus {
+> +	status =3D "okay";
+> +};
+> +
+> +&reg_usb2_vbus {
+> +	status =3D "okay";
+> +};
+> +
+> +&uart0 {
+> +	pinctrl-names =3D "default";
+> +	pinctrl-0 =3D <&uart0_pb_pins>;
+> +	status =3D "okay";
+> +};
+> +
+> +&usb_otg {
+> +	dr_mode =3D "otg";
+> +	status =3D "okay";
+> +};
+> +
+> +&usbphy {
+> +	usb0_id_det-gpios =3D <&pio 7 4 GPIO_ACTIVE_HIGH>; /* PH4 */
+> +	usb0_vbus_det-gpios =3D <&pio 7 5 GPIO_ACTIVE_HIGH>; /* PH5 */
+> +	usb1_vbus-supply =3D <&reg_usb1_vbus>;
+> +	usb2_vbus-supply =3D <&reg_usb2_vbus>;
+> +	status =3D "okay";
+> +};
+> diff --git a/arch/arm/dts/sun7i-a20-icnova-a20.dtsi b/arch/arm/dts/sun7i-=
+a20-icnova-a20.dtsi
+> new file mode 100644
+> index 0000000000..46616c6bc8
+> --- /dev/null
+> +++ b/arch/arm/dts/sun7i-a20-icnova-a20.dtsi
+> @@ -0,0 +1,62 @@
+> +// SPDX-License-Identifier: (GPL-2.0 OR MIT)
+> +// Copyright (C) 2023 In-Circuit GmbH
+> +
+> +#include "sun7i-a20.dtsi"
+> +#include "sunxi-common-regulators.dtsi"
+> +
+> +#include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +&cpu0 {
+> +	cpu-supply =3D <&reg_dcdc2>;
+> +};
+> +
+> +&gmac {
+> +	pinctrl-names =3D "default";
+> +	pinctrl-0 =3D <&gmac_mii_pins>;
+> +	phy-handle =3D <&phy1>;
+> +	phy-mode =3D "mii";
+> +	status =3D "okay";
+> +};
+> +
+> +&i2c0 {
+> +	status =3D "okay";
+> +
+> +	axp209: pmic@34 {
+> +		reg =3D <0x34>;
+> +		interrupt-parent =3D <&nmi_intc>;
+> +		interrupts =3D <0 IRQ_TYPE_LEVEL_LOW>;
+> +	};
+> +};
+> +
+> +&gmac_mdio {
+> +	phy1: ethernet-phy@1 {
+> +		reg =3D <1>;
+> +	};
+> +};
+> +
+> +#include "axp209.dtsi"
+> +
+> +&reg_dcdc2 {
+> +	regulator-always-on;
+> +	regulator-min-microvolt =3D <1000000>;
+> +	regulator-max-microvolt =3D <1400000>;
+> +	regulator-name =3D "vdd-cpu";
+> +};
+> +
+> +&reg_dcdc3 {
+> +	regulator-always-on;
+> +	regulator-min-microvolt =3D <1000000>;
+> +	regulator-max-microvolt =3D <1400000>;
+> +	regulator-name =3D "vdd-int-dll";
+> +};
+> +
+> +&reg_ldo1 {
+> +	regulator-name =3D "vdd-rtc";
+> +};
+> +
+> +&reg_ldo2 {
+> +	regulator-always-on;
+> +	regulator-min-microvolt =3D <3000000>;
+> +	regulator-max-microvolt =3D <3000000>;
+> +	regulator-name =3D "avcc";
+> +};
+> diff --git a/board/sunxi/MAINTAINERS b/board/sunxi/MAINTAINERS
+> index 98bbd2dd25..67cdd01371 100644
+> --- a/board/sunxi/MAINTAINERS
+> +++ b/board/sunxi/MAINTAINERS
+> @@ -236,6 +236,11 @@ M:	Stefan Roese <sr@denx.de>
+>  S:	Maintained
+>  F:	configs/icnova-a20-swac_defconfig
+> =20
+> +ICnova-A20-ADB4006 BOARD
+> +M:	Ludwig Kormann <ludwig.kormann@ict42.de>
+> +S:	Maintained
+> +F:	configs/icnova-a20-adb4006_defconfig
+> +
+>  ITEAD IBOX BOARD
+>  M:	Marcus Cooper <codekipper@gmail.com>
+>  S:	Maintained
+> diff --git a/configs/icnova-a20-adb4006_defconfig b/configs/icnova-a20-ad=
+b4006_defconfig
+> new file mode 100644
+> index 0000000000..f70ffe45ab
+> --- /dev/null
+> +++ b/configs/icnova-a20-adb4006_defconfig
+> @@ -0,0 +1,20 @@
+> +CONFIG_ARM=3Dy
+> +CONFIG_ARCH_SUNXI=3Dy
+> +CONFIG_DEFAULT_DEVICE_TREE=3D"sun7i-a20-icnova-a20-adb4006"
+> +CONFIG_SPL=3Dy
+> +CONFIG_MACH_SUN7I=3Dy
+> +CONFIG_DRAM_CLK=3D384
+> +CONFIG_AHCI=3Dy
+> +# CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+> +CONFIG_SPL_I2C=3Dy
+> +CONFIG_SCSI_AHCI=3Dy
+> +CONFIG_SYS_I2C_MVTWSI=3Dy
+> +CONFIG_SYS_I2C_SLAVE=3D0x7f
+> +CONFIG_SYS_I2C_SPEED=3D400000
+> +CONFIG_ETH_DESIGNWARE=3Dy
+> +CONFIG_MII=3Dy
+> +CONFIG_SUN7I_GMAC=3Dy
+> +CONFIG_AXP_ALDO4_VOLT=3D2800
+> +CONFIG_SCSI=3Dy
+> +CONFIG_USB_EHCI_HCD=3Dy
+> +CONFIG_USB_OHCI_HCD=3Dy
 
