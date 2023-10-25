@@ -1,127 +1,70 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62A7D27ED7
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 Oct 2023 13:14:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AB7F286AA
+	for <linux-sunxi@lists.linux.dev>; Wed, 25 Oct 2023 14:05:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cuwz5bzZ"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-40839807e82so5376785e9.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 25 Oct 2023 06:14:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698239686; x=1698844486; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Uh9NzWDOpOjBqAE2NxiRV75HtTvFEEfbyuq8HRzPj3o=;
-        b=Cuwz5bzZo7rBgz9teyyEoqkC01QBAvQi7eCFr/BsopLkYHBTWUKXC2np6q2QV1r09x
-         XX/HQ19dozgXq56m/RhsvL5YOdTdzsnINviMPbhLsQiwEonLVyor6OGUEmDAbDB/iYqA
-         Ef8cdLDt8TS/vVahVnj1AgCRv7iy8fq+4zKCxutHwYq3WrsCe0SpUSwEUmPYnEG7R5uP
-         +M0+9pjT2XvhPado1BOkIocuHySRbzYSY+RjtUWk/h28q+xJKeCaRnG2TL6aSvOh1uw1
-         B8WSKCNSUsTPaTx3gCmQ25Z2bUQ0Vn2afiy2X8pnOqu43mC+fKQ9gbK87U4uSjA6fUYe
-         O1Zw==
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-6ce344fa7e4so3786803a34.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 25 Oct 2023 07:05:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698239686; x=1698844486;
+        d=1e100.net; s=20230601; t=1698242722; x=1698847522;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Uh9NzWDOpOjBqAE2NxiRV75HtTvFEEfbyuq8HRzPj3o=;
-        b=tVOPEMQi5mYYpSNDd9jkW/VaziPk53ESudc7JcjXOp1rfBLQb/OTO7ciaTpNlnEqku
-         z1zFRtTtENzfOUQYmFsswMvZaPGfjEAqdUfBYFZMj1sK68ioe4Y15sUGAunALAo3qgdg
-         wZ11HgaKeswuO8Oc5iTwR/a2QGLUEnPnt00AjAg3LcgDYnhGwsqhhqU1tRoP7xeC1ecg
-         /0saKi5JmM5cQQlG1npgKLA2aW7SpvSIEN2XZ129Y/Kdi+8vqnQyZjLTKNAebDhlPqVZ
-         HBTR/IG880Qd+AdjIfb8JbeSnqsIUHG640g19jTFriBgzRIH2b88RvZlBOITiStbioYl
-         o/JA==
-X-Gm-Message-State: AOJu0Yw6P3v+AAxamAyjUufh68u6COOR0jm9q2IwJ5oWEdAUi7RMk2IB
-	VCsU+fbJioaZgQeOG5mYVe8=
-X-Google-Smtp-Source: AGHT+IEJFh8RrfOpsYHcP8SNWpaqchDATr5wPw2duU0ud3HztsU/+kp3ToqrWO5GiOcF98UISwZhVg==
-X-Received: by 2002:a05:600c:450d:b0:405:409e:1fcb with SMTP id t13-20020a05600c450d00b00405409e1fcbmr15904488wmo.5.1698239686303;
-        Wed, 25 Oct 2023 06:14:46 -0700 (PDT)
-Received: from Red ([2a01:cb1d:3d5:a100:4a02:2aff:fe07:1efc])
-        by smtp.googlemail.com with ESMTPSA id o27-20020a05600c511b00b004067e905f44sm14909072wms.9.2023.10.25.06.14.45
+        bh=2t9oxYN3rsKk69GT+sMAlcc8j8BCgsk4o9AAcXE61O8=;
+        b=ZoawvvbA9yvLQVvLTzpVuKz7JP56YWKlhOad8b5MEFRfOKy8yjuUKATTaPgNQtrXeY
+         H/2V9qxZKG75x00w+Y6DorT5XMKQ5FHrMBAPLBAVpVbuk9cJy9Ds3/bJaxCPjkQz0Vzo
+         SuJmvi9kRCw0bUT+h/WvDGL3nqqc4bwdYcqzd/ktNJPx9XOGI6NrbWtvXLI59miFfyF6
+         /vRgnkPegQbz3xKudjPJt/nIRuCA1EyAz0ATCFeoRc222sU6aubg/SDJQoxbp66zBV+u
+         6drPAIf4fPswcSkGJeWb3hdbE+g08aOEAeNWNEcs3mQjtvs5hg/mccDHwjAN0VALTfJR
+         i4RA==
+X-Gm-Message-State: AOJu0Yx87/Taq41oZS3pIIO5ehX1qGos0LRoRUMqFGiVYoozQ0uDWKu/
+	hAsJfv2MWmUsqd/KCRk4Aw==
+X-Google-Smtp-Source: AGHT+IHZwbA7/T2Cie9xzSfVJjTlYJrns7ET5Ntkdpdj0CP3GCyvFAiFVZ/zk9i/aLQ4mMVrs1++Eg==
+X-Received: by 2002:a05:6830:11:b0:6c4:897a:31c4 with SMTP id c17-20020a056830001100b006c4897a31c4mr15222170otp.29.1698242721907;
+        Wed, 25 Oct 2023 07:05:21 -0700 (PDT)
+Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id y22-20020a4ade16000000b0057b38a94f38sm2366961oot.12.2023.10.25.07.05.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Oct 2023 06:14:46 -0700 (PDT)
-Date: Wed, 25 Oct 2023 15:14:44 +0200
-From: Corentin Labbe <clabbe.montjoie@gmail.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
-	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, kernel@pengutronix.de
-Subject: Re: [PATCH 03/42] crypto: sun8i-ss - Convert to platform remove
- callback returning void
-Message-ID: <ZTkUxIdKwMrgdlyX@Red>
-References: <20231020075521.2121571-44-u.kleine-koenig@pengutronix.de>
- <20231020075521.2121571-47-u.kleine-koenig@pengutronix.de>
+        Wed, 25 Oct 2023 07:05:21 -0700 (PDT)
+Received: (nullmailer pid 4149460 invoked by uid 1000);
+	Wed, 25 Oct 2023 14:05:20 -0000
+Date: Wed, 25 Oct 2023 09:05:20 -0500
+From: Rob Herring <robh@kernel.org>
+To: =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
+Subject: Re: [PATCH 6.7 fix 1/2] dt-bindings: nvmem: SID: allow NVMEM cells
+ based on old syntax
+Message-ID: <20231025140520.GA4143384-robh@kernel.org>
+References: <20231024171253.19976-1-zajec5@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231020075521.2121571-47-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20231024171253.19976-1-zajec5@gmail.com>
 
-Le Fri, Oct 20, 2023 at 09:55:25AM +0200, Uwe Kleine-K�nig a �crit :
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling by
-> returning an error code. However the value returned is ignored (apart
-> from emitting a warning) and this typically results in resource leaks.
+On Tue, Oct 24, 2023 at 07:12:52PM +0200, Rafał Miłecki wrote:
+> From: Rafał Miłecki <rafal@milecki.pl>
 > 
-> To improve here there is a quest to make the remove callback return
-> void. In the first step of this quest all drivers are converted to
-> .remove_new(), which already returns void. Eventually after all drivers
-> are converted, .remove_new() will be renamed to .remove().
+> This binding supported NVMEM cells as subnodes and that syntax is used
+> by few in-kenel DTS files. Modify binding to allow it.
 > 
-> Trivially convert this driver from always returning zero in the remove
-> callback to the void returning variant.
-> 
-> Signed-off-by: Uwe Kleine-K�nig <u.kleine-koenig@pengutronix.de>
+> Reported-by: Rob Herring <robh@kernel.org>
+> Fixes: c5330723d5a0 ("dt-bindings: nvmem: move deprecated cells binding to its own file")
+> Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
 > ---
->  drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c
-> index 4a9587285c04..f14c60359d19 100644
-> --- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c
-> +++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c
-> @@ -908,7 +908,7 @@ static int sun8i_ss_probe(struct platform_device *pdev)
->  	return err;
->  }
->  
-> -static int sun8i_ss_remove(struct platform_device *pdev)
-> +static void sun8i_ss_remove(struct platform_device *pdev)
->  {
->  	struct sun8i_ss_dev *ss = platform_get_drvdata(pdev);
->  
-> @@ -921,8 +921,6 @@ static int sun8i_ss_remove(struct platform_device *pdev)
->  	sun8i_ss_free_flows(ss, MAXFLOW - 1);
->  
->  	sun8i_ss_pm_exit(ss);
-> -
-> -	return 0;
->  }
->  
->  static const struct of_device_id sun8i_ss_crypto_of_match_table[] = {
-> @@ -936,7 +934,7 @@ MODULE_DEVICE_TABLE(of, sun8i_ss_crypto_of_match_table);
->  
->  static struct platform_driver sun8i_ss_driver = {
->  	.probe		 = sun8i_ss_probe,
-> -	.remove		 = sun8i_ss_remove,
-> +	.remove_new	 = sun8i_ss_remove,
->  	.driver		 = {
->  		.name		= "sun8i-ss",
->  		.pm             = &sun8i_ss_pm_ops,
-> -- 
-> 2.42.0
-> 
-Acked-by: Corentin Labbe <clabbe.montjoie@gmail.com>
+> This fixes issue introduced by v6.7 queued char-misc commit:
+> https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.git/commit/?h=char-misc-next&id=c5330723d5a0c77299a38a46e5611a584e887b87
+> ---
+>  .../devicetree/bindings/nvmem/allwinner,sun4i-a10-sid.yaml       | 1 +
+>  1 file changed, 1 insertion(+)
 
-Thanks
+Reviewed-by: Rob Herring <robh@kernel.org>
+
