@@ -1,67 +1,105 @@
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
+Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com [209.85.222.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32E1E286AA
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 Oct 2023 14:05:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-6c7c2c428c1so446848a34.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 25 Oct 2023 07:05:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E24EC8EA
+	for <linux-sunxi@lists.linux.dev>; Wed, 25 Oct 2023 14:52:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="DRwqQmhT"
+Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-7b6d6773d05so2092441241.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 25 Oct 2023 07:52:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1698245531; x=1698850331; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QLjdKZ5k0mXVbD8bW7euvhzE58el0xEiaStx/smEM9o=;
+        b=DRwqQmhT6onn+dWqzTwEN8qywi3v+g8i1G/7bg5wIUQorsTxOLUSIzNEYzNgbx8fgi
+         fXimHdk5G+Ch1IVkM/GnhlPQu3v3vYceHV5cZCTVBOBAACOoRnatikLOmx+b35cCAP66
+         NRAriVQY1Y+f1UAIZZJ0UDFycOVauu1YJgM+tTIdWKo+cw1kabMZBzreyhXXt8sdR+Qt
+         44D/vJem2PQgYadEaXJyXEjhiXq6QIk2vZixwDOiJrdEWGC+G6YVpNpZ62+4KgjZvcLJ
+         6fBlYUYjbMAV9Jtb3WnwpBPCddMXkHlOQeMgzKiS1XWD3PpNO7e6Hlr7VfjDlXRFcu+3
+         1aZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698242734; x=1698847534;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XpP/KVLPfr1JGBWdnnD2sOwbC3Inv/m/J6ZxAGnmBtg=;
-        b=SoYgOqph6lSOf7prryisZMIrlWO3W8xGkRHDqoHVsw7/I/vunEgieEY7P57fQakt9Y
-         4AI81QaaNIf2TB9Upc2xvwdbsKaCbDHZlAO6syEWM2s9pfcJX4yd2pAyp3W47oquSQpe
-         HAaSssLAO54Bj91hoVEtfTdmK220qBEXKdcXaTutYoIfvhZDeK8ZB+XPRmzTpVY/rXnM
-         RGErXpvZsfa+tKuY+knZhoGi/rfPz2MU0OcV/nsXSeiBhv9ZCvNaP8ErYbn40jkKtwgk
-         Q6RTLeGCrwLVsBwllNHX/lrl6tpXtfpzLQw6oBo53tG2VwXmywIHEdcwq7oHZy82GX95
-         DNNg==
-X-Gm-Message-State: AOJu0YwhZwxrktuCdb6RCHpsVDjZkdj03gX6A28igrlTubWyQGC+bIKo
-	2BcCozYUz1/C6mzZAy001g==
-X-Google-Smtp-Source: AGHT+IH+6a7epqZvUDTN+14J0hAc961jG6m79dcx8YdfxnNVsEinj19hfONazliwyUi5O5zv8dDu9A==
-X-Received: by 2002:a05:6870:45a1:b0:1e9:ac0e:21a5 with SMTP id y33-20020a05687045a100b001e9ac0e21a5mr9331126oao.14.1698242734284;
-        Wed, 25 Oct 2023 07:05:34 -0700 (PDT)
-Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id le25-20020a05687c341900b001eae28db525sm2594797oac.23.2023.10.25.07.05.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Oct 2023 07:05:33 -0700 (PDT)
-Received: (nullmailer pid 4149680 invoked by uid 1000);
-	Wed, 25 Oct 2023 14:05:32 -0000
-Date: Wed, 25 Oct 2023 09:05:32 -0500
-From: Rob Herring <robh@kernel.org>
-To: =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
-Subject: Re: [PATCH 6.7 fix 2/2] dt-bindings: eeprom: at24: allow NVMEM cells
- based on old syntax
-Message-ID: <20231025140532.GB4143384-robh@kernel.org>
-References: <20231024171253.19976-1-zajec5@gmail.com>
- <20231024171253.19976-2-zajec5@gmail.com>
+        d=1e100.net; s=20230601; t=1698245531; x=1698850331;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QLjdKZ5k0mXVbD8bW7euvhzE58el0xEiaStx/smEM9o=;
+        b=GcHQQqadUzrY9EWM9KN3J3q88ndAeoBSip9jiHMiq/pD7hAKb//zkjQnBBpl49Ixd1
+         q8EgWZT0hRMtKATmPaHX4rg7YEjL7gJW4rSEo+t9N9QgXeLFCyfJgYwvJuRdpOOVl0s8
+         ZsFUtq/nnsiMPtsBa0ajwMzK0jR+Oi+m5Qumc07begsfGDOlq3vrG2dZ8A5omPVT+9co
+         Mz2bBbY2TJ58qnjR0T9KxE/OlVjHykJFzCuNxV4cmydJ4cJN4htV+15KeeXGWZFf4AJv
+         KdBeBCjY/BheK0Q21WXCqCGgiT6Cbbp7ZB2hyx9+SR+e7lT28lOI/4jV1bc2bhF7nAaT
+         QPdA==
+X-Gm-Message-State: AOJu0YwS7fWPVNs5ky1xitYNcUwHUYte+bRPoPzx2W6ZpXNuQYflBcQK
+	xSoqxjEuoKDqC6sq6HE6yLXL65bv4pf2SOK9i8dcgg==
+X-Google-Smtp-Source: AGHT+IH9eZcIeh5TypMu2DrELpqy3iFXVc5K2Hl5mUVraJmb0uVk6Ut6VGVvmn/692Isw5J2GiM90b5hEhQWssWFL90=
+X-Received: by 2002:a67:c295:0:b0:458:47e6:70e4 with SMTP id
+ k21-20020a67c295000000b0045847e670e4mr15925625vsj.19.1698245531279; Wed, 25
+ Oct 2023 07:52:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+References: <20231024171253.19976-1-zajec5@gmail.com> <20231024171253.19976-2-zajec5@gmail.com>
 In-Reply-To: <20231024171253.19976-2-zajec5@gmail.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Wed, 25 Oct 2023 16:52:00 +0200
+Message-ID: <CAMRc=Mdb7mjOLQSVVka4XTCuziB1DNj9kpgB=sE=fcJKvpk0_A@mail.gmail.com>
+Subject: Re: [PATCH 6.7 fix 2/2] dt-bindings: eeprom: at24: allow NVMEM cells
+ based on old syntax
+To: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	=?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>, 
+	Rob Herring <robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 24, 2023 at 07:12:53PM +0200, Rafał Miłecki wrote:
-> From: Rafał Miłecki <rafal@milecki.pl>
-> 
+On Tue, Oct 24, 2023 at 7:13=E2=80=AFPM Rafa=C5=82 Mi=C5=82ecki <zajec5@gma=
+il.com> wrote:
+>
+> From: Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl>
+>
 > This binding supported NVMEM cells as subnodes and that syntax is used
 > by few in-kenel DTS files. Modify binding to allow it.
-> 
+>
 > Reported-by: Rob Herring <robh@kernel.org>
-> Fixes: c5330723d5a0 ("dt-bindings: nvmem: move deprecated cells binding to its own file")
-> Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
+> Fixes: c5330723d5a0 ("dt-bindings: nvmem: move deprecated cells binding t=
+o its own file")
+> Signed-off-by: Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl>
 > ---
 >  Documentation/devicetree/bindings/eeprom/at24.yaml | 1 +
 >  1 file changed, 1 insertion(+)
+>
+> diff --git a/Documentation/devicetree/bindings/eeprom/at24.yaml b/Documen=
+tation/devicetree/bindings/eeprom/at24.yaml
+> index 6385b05a1e62..b6864d0ee81e 100644
+> --- a/Documentation/devicetree/bindings/eeprom/at24.yaml
+> +++ b/Documentation/devicetree/bindings/eeprom/at24.yaml
+> @@ -12,6 +12,7 @@ maintainers:
+>
+>  allOf:
+>    - $ref: /schemas/nvmem/nvmem.yaml
+> +  - $ref: /schemas/nvmem/nvmem-deprecated-cells.yaml
+>
+>  select:
+>    properties:
+> --
+> 2.35.3
+>
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Do you want it to go through the at24 and subsequently i2c tree?
+
+Otherwise if someone else will pick it up:
+
+Acked-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
