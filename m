@@ -1,105 +1,112 @@
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com [209.85.222.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from Atcsqr.andestech.com (60-248-80-70.hinet-ip.hinet.net [60.248.80.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E24EC8EA
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 Oct 2023 14:52:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="DRwqQmhT"
-Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-7b6d6773d05so2092441241.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 25 Oct 2023 07:52:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1698245531; x=1698850331; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QLjdKZ5k0mXVbD8bW7euvhzE58el0xEiaStx/smEM9o=;
-        b=DRwqQmhT6onn+dWqzTwEN8qywi3v+g8i1G/7bg5wIUQorsTxOLUSIzNEYzNgbx8fgi
-         fXimHdk5G+Ch1IVkM/GnhlPQu3v3vYceHV5cZCTVBOBAACOoRnatikLOmx+b35cCAP66
-         NRAriVQY1Y+f1UAIZZJ0UDFycOVauu1YJgM+tTIdWKo+cw1kabMZBzreyhXXt8sdR+Qt
-         44D/vJem2PQgYadEaXJyXEjhiXq6QIk2vZixwDOiJrdEWGC+G6YVpNpZ62+4KgjZvcLJ
-         6fBlYUYjbMAV9Jtb3WnwpBPCddMXkHlOQeMgzKiS1XWD3PpNO7e6Hlr7VfjDlXRFcu+3
-         1aZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698245531; x=1698850331;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QLjdKZ5k0mXVbD8bW7euvhzE58el0xEiaStx/smEM9o=;
-        b=GcHQQqadUzrY9EWM9KN3J3q88ndAeoBSip9jiHMiq/pD7hAKb//zkjQnBBpl49Ixd1
-         q8EgWZT0hRMtKATmPaHX4rg7YEjL7gJW4rSEo+t9N9QgXeLFCyfJgYwvJuRdpOOVl0s8
-         ZsFUtq/nnsiMPtsBa0ajwMzK0jR+Oi+m5Qumc07begsfGDOlq3vrG2dZ8A5omPVT+9co
-         Mz2bBbY2TJ58qnjR0T9KxE/OlVjHykJFzCuNxV4cmydJ4cJN4htV+15KeeXGWZFf4AJv
-         KdBeBCjY/BheK0Q21WXCqCGgiT6Cbbp7ZB2hyx9+SR+e7lT28lOI/4jV1bc2bhF7nAaT
-         QPdA==
-X-Gm-Message-State: AOJu0YwS7fWPVNs5ky1xitYNcUwHUYte+bRPoPzx2W6ZpXNuQYflBcQK
-	xSoqxjEuoKDqC6sq6HE6yLXL65bv4pf2SOK9i8dcgg==
-X-Google-Smtp-Source: AGHT+IH9eZcIeh5TypMu2DrELpqy3iFXVc5K2Hl5mUVraJmb0uVk6Ut6VGVvmn/692Isw5J2GiM90b5hEhQWssWFL90=
-X-Received: by 2002:a67:c295:0:b0:458:47e6:70e4 with SMTP id
- k21-20020a67c295000000b0045847e670e4mr15925625vsj.19.1698245531279; Wed, 25
- Oct 2023 07:52:11 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C5EDC123
+	for <linux-sunxi@lists.linux.dev>; Thu, 26 Oct 2023 08:24:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=andestech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=andestech.com
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
+	by Atcsqr.andestech.com with ESMTP id 39Q8MUGX059449;
+	Thu, 26 Oct 2023 16:22:30 +0800 (+08)
+	(envelope-from peterlin@andestech.com)
+Received: from APC323 (10.0.12.98) by ATCPCS16.andestech.com (10.0.1.222) with
+ Microsoft SMTP Server id 14.3.498.0; Thu, 26 Oct 2023 16:22:26 +0800
+Date: Thu, 26 Oct 2023 16:22:22 +0800
+From: Yu-Chien Peter Lin <peterlin@andestech.com>
+To: Conor Dooley <conor@kernel.org>
+CC: <acme@kernel.org>, <adrian.hunter@intel.com>, <ajones@ventanamicro.com>,
+        <alexander.shishkin@linux.intel.com>, <andre.przywara@arm.com>,
+        <anup@brainfault.org>, <aou@eecs.berkeley.edu>,
+        <atishp@atishpatra.org>, <conor+dt@kernel.org>,
+        <conor.dooley@microchip.com>, <devicetree@vger.kernel.org>,
+        <dminus@andestech.com>, <evan@rivosinc.com>, <geert+renesas@glider.be>,
+        <guoren@kernel.org>, <heiko@sntech.de>, <irogers@google.com>,
+        <jernej.skrabec@gmail.com>, <jolsa@kernel.org>, <jszhang@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <linux-perf-users@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        <linux-sunxi@lists.linux.dev>, <locus84@andestech.com>,
+        <magnus.damm@gmail.com>, <mark.rutland@arm.com>, <mingo@redhat.com>,
+        <n.shubin@yadro.com>, <namhyung@kernel.org>, <palmer@dabbelt.com>,
+        <paul.walmsley@sifive.com>, <peterz@infradead.org>,
+        <prabhakar.mahadev-lad.rj@bp.renesas.com>, <rdunlap@infradead.org>,
+        <robh+dt@kernel.org>, <samuel@sholland.org>,
+        <sunilvl@ventanamicro.com>, <tglx@linutronix.de>,
+        <tim609@andestech.com>, <uwu@icenowy.me>, <wens@csie.org>,
+        <will@kernel.org>, <ycliang@andestech.com>
+Subject: Re: [PATCH v3 RESEND 10/13] dt-bindings: riscv: Add Andes PMU
+ extension description
+Message-ID: <ZTohvi7TPyVoO-Sl@APC323>
+References: <20231023004100.2663486-1-peterlin@andestech.com>
+ <20231023004100.2663486-11-peterlin@andestech.com>
+ <20231023-spectacle-module-0516fb35995a@spud>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231024171253.19976-1-zajec5@gmail.com> <20231024171253.19976-2-zajec5@gmail.com>
-In-Reply-To: <20231024171253.19976-2-zajec5@gmail.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Wed, 25 Oct 2023 16:52:00 +0200
-Message-ID: <CAMRc=Mdb7mjOLQSVVka4XTCuziB1DNj9kpgB=sE=fcJKvpk0_A@mail.gmail.com>
-Subject: Re: [PATCH 6.7 fix 2/2] dt-bindings: eeprom: at24: allow NVMEM cells
- based on old syntax
-To: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	=?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>, 
-	Rob Herring <robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20231023-spectacle-module-0516fb35995a@spud>
+User-Agent: Mutt/2.2.10 (2023-03-25)
+X-Originating-IP: [10.0.12.98]
+X-DNSRBL: 
+X-SPAM-SOURCE-CHECK: pass
+X-MAIL:Atcsqr.andestech.com 39Q8MUGX059449
 
-On Tue, Oct 24, 2023 at 7:13=E2=80=AFPM Rafa=C5=82 Mi=C5=82ecki <zajec5@gma=
-il.com> wrote:
->
-> From: Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl>
->
-> This binding supported NVMEM cells as subnodes and that syntax is used
-> by few in-kenel DTS files. Modify binding to allow it.
->
-> Reported-by: Rob Herring <robh@kernel.org>
-> Fixes: c5330723d5a0 ("dt-bindings: nvmem: move deprecated cells binding t=
-o its own file")
-> Signed-off-by: Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl>
-> ---
->  Documentation/devicetree/bindings/eeprom/at24.yaml | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/Documentation/devicetree/bindings/eeprom/at24.yaml b/Documen=
-tation/devicetree/bindings/eeprom/at24.yaml
-> index 6385b05a1e62..b6864d0ee81e 100644
-> --- a/Documentation/devicetree/bindings/eeprom/at24.yaml
-> +++ b/Documentation/devicetree/bindings/eeprom/at24.yaml
-> @@ -12,6 +12,7 @@ maintainers:
->
->  allOf:
->    - $ref: /schemas/nvmem/nvmem.yaml
-> +  - $ref: /schemas/nvmem/nvmem-deprecated-cells.yaml
->
->  select:
->    properties:
-> --
-> 2.35.3
->
+Hi Conor,
 
-Do you want it to go through the at24 and subsequently i2c tree?
+On Mon, Oct 23, 2023 at 01:03:53PM +0100, Conor Dooley wrote:
+> On Mon, Oct 23, 2023 at 08:40:57AM +0800, Yu Chien Peter Lin wrote:
+> > Document the ISA string for Andes Technology performance monitor
+> > extension which provides counter overflow interrupt and mode
+> > filtering mechanisms.
+> > 
+> > Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
+> > ---
+> > Changes v2 -> v3:
+> >   - New patch
+> > ---
+> >  Documentation/devicetree/bindings/riscv/extensions.yaml | 7 +++++++
+> >  1 file changed, 7 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Documentation/devicetree/bindings/riscv/extensions.yaml
+> > index 5e9291d258d5..e0694e2adbc2 100644
+> > --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
+> > +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
+> > @@ -246,6 +246,13 @@ properties:
+> >              in commit 2e5236 ("Ztso is now ratified.") of the
+> >              riscv-isa-manual.
+> >  
+> > +        - const: xandespmu
+> > +          description:
+> > +            The Andes Technology performance monitor extension for counter overflow
+> > +            and privilege mode filtering. For more details, see Counter Related
+> > +            Registers in the AX45MP datasheet.
+> > +            https://www.andestech.com/wp-content/uploads/AX45MP-1C-Rev.-5.0.0-Datasheet.pdf
+> 
+> Does/will this PMU function identically on the other CPUs that support it?
 
-Otherwise if someone else will pick it up:
+Yes, I can confirm that.
+Thanks for the review.
 
-Acked-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Best regards,
+Peter Lin
+
+> I assume the answer is yes.
+> 
+> Cheers,
+> Conor.
+> 
+> > +
+> >          - const: xtheadpmu
+> >            description:
+> >              The T-Head performance monitor extension for counter overflow. For more
+> > -- 
+> > 2.34.1
+> > 
+
+
