@@ -1,107 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C45A0A20
-	for <linux-sunxi@lists.linux.dev>; Sun, 29 Oct 2023 04:57:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F3101371
+	for <linux-sunxi@lists.linux.dev>; Sun, 29 Oct 2023 18:37:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sholland.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sholland.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DWnydzym"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16786C433C8;
-	Sun, 29 Oct 2023 04:57:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1698555420;
-	bh=sHgfFAYO70c894DjN0E352MLi6hviuWFMljb+EHZVmM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=DWnydzymxvMlcWr5tK4thYFwaXIpUi26FV93o9PBElsxTVsHvPfBpatvqL3mRm68X
-	 mDnkSbjAaNsjm/T5N5K5sjLtABEi/GrFvT6JryzyQfxIracpGxDDOL5psGAgeJ8sXK
-	 LxJjyBfxKHv0CihXRs0IXVHGGwLe+k0QtKwUPhx05Tj46w67dXvkRm1/Qt3sdUrGsD
-	 bNw5+1Sbym9gkdNpl+FY9TR9QsspaNXYB9Zv9lLgB+E9ujP23EfeI+rMABek0i7LMy
-	 TvmA+ouXXWELmuaANvBDrUrFvWfEHdVAA2et0J6ziFFdEvwAuisXJDJ1kzho7t6YDR
-	 2HSmVa6mXtu3g==
-From: Eric Biggers <ebiggers@kernel.org>
-To: linux-crypto@vger.kernel.org
-Cc: linux-sunxi@lists.linux.dev,
-	Corentin Labbe <clabbe.montjoie@gmail.com>
-Subject: [PATCH] crypto: sun8i-ss - use crypto_shash_tfm_digest() in sun8i_ss_hashkey()
-Date: Sat, 28 Oct 2023 21:56:13 -0700
-Message-ID: <20231029045613.153689-1-ebiggers@kernel.org>
-X-Mailer: git-send-email 2.42.0
+	dkim=pass (2048-bit key) header.d=sholland.org header.i=@sholland.org header.b="TL2AUyoR";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Kk/ld9HH"
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.west.internal (Postfix) with ESMTP id 0E5CA3200926;
+	Sun, 29 Oct 2023 14:37:27 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Sun, 29 Oct 2023 14:37:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:sender:subject:subject:to:to; s=fm1; t=
+	1698604647; x=1698691047; bh=g+C4anPIqrq6/eg620vtM+R75wvlyb5iHu6
+	nAfe1o+0=; b=TL2AUyoRk3GGGIdODDHwnW5feSjKYugvEZmitWHFH0QiZAmvyOx
+	6oMwTma8snXx9blQtNRzaZ7GxzRCyr9NZEB9NDhxp4Kb4S08iUV1hKFfcvh86xgV
+	iV1WCOFek8MRZVavOemgi8yAhcMJQ5gM49c/wOnBXCZvf+V1K3MMAFLextBwsTzb
+	bj36c/0AT3flbfaqtmhhbCjcKG2W7uWDINwmGwXO1cx1Hjl+rPWsqxfGY8mErMxu
+	0lDlm3EDEz+KAeOhgF5uDAi+dvRpAjSkjkfp+1pZo1B47aU23XVG/Yay+WWua0T/
+	OcS22Kx6HV8vvjU9MZxYsmf7zfboWqIpqNg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1698604647; x=1698691047; bh=g+C4anPIqrq6/eg620vtM+R75wvlyb5iHu6
+	nAfe1o+0=; b=Kk/ld9HHMSnYytItJfmWFYIUTboLDA5D/mupL99RBMkhLQO2Yph
+	TaQCf8bs7nN+hke1J7mZ8MxRmCYdzHJNUd/TYIyk2cOZ4DeKwBZVktaNmXwJSgaL
+	k5kNFPMYV4M5cEoT9CDqq03+7LXCuFKYXGCsefM6pBf9CkBeZgaF6+nIEBKd2x1J
+	p0HfRBmn4SN0Iq2BCdYIe9IWE/eZ2PbxfgeVO1kjBDl1Jd4VJb19EjbePXcwhj5f
+	/9ajsJo8OIADzM9LnxUOA7O+EyuWUlWU3qthIdAkfqPfk1pCHqq8V+h8iAkjTvFw
+	cZkkBR6jcGMelW5LavSSOLE4t8kdBI60GXQ==
+X-ME-Sender: <xms:ZqY-ZTt6Y0Qgib5w5UQJ6KQCVgDMb6OcuQJTQRh4Q9ofPyz7g_N56w>
+    <xme:ZqY-ZUcphp6kG1MSZp3dhp6-Hr252Q3MAci9FXWdH_N1F8eLATBk-Oad9QB0nZPBV
+    7AawWsfz7EGYmzZKQ>
+X-ME-Received: <xmr:ZqY-ZWy1CZ9nQBT3V6ACftl7CgSoPEKJ47JYkEH83iPWQ8iwYEQor5M4USMtZ253n13qKNhP0-ae-osQjM1Wg_5MRHu6DvvT5VCOeqcmGvyMnNPi_ouVWj7-LQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrleekgdduudefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepkfffgggfhffvvehfufgjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
+    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpefhhfeggeduheeihedtkedutdegleduudelhfekheekvdetudev
+    ieejudfhveejffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:ZqY-ZSOzlJzTSm2hv6dyWoq41JQY5nro6ApbStqiqfYjYrBdhvmXAQ>
+    <xmx:ZqY-ZT98yf6awAfBJ8tzN6xK_ia5iuvoNppViOBkjtQlOeZ22yXEkw>
+    <xmx:ZqY-ZSUdZS4F1n0E4-RlQ29vwM-fUmCwdllXo_Zgkj71KbjtopiJ5Q>
+    <xmx:Z6Y-ZekqQpvr7MHWEMkg5lmz9MBv-sPrNk-hNBGfpovwT8OEQUVvXg>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 29 Oct 2023 14:37:26 -0400 (EDT)
+Message-ID: <f5468eac-96ec-e8c9-bcc1-9ec219bf3352@sholland.org>
+Date: Sun, 29 Oct 2023 13:37:25 -0500
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Content-Language: en-US
+From: Samuel Holland <samuel@sholland.org>
+To: Lee Jones <lee@kernel.org>
+Cc: Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+References: <20221231235541.13568-1-samuel@sholland.org>
+ <20221231235541.13568-3-samuel@sholland.org>
+ <20230316133422.GM9667@google.com>
+ <a1adbe50-3400-fd10-1856-8c1d0ed82276@sholland.org>
+Subject: Re: [RESEND PATCH v7 2/5] leds: sun50i-a100: New driver for the A100
+ LED controller
+In-Reply-To: <a1adbe50-3400-fd10-1856-8c1d0ed82276@sholland.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Eric Biggers <ebiggers@google.com>
+Hi Lee,
 
-Simplify sun8i_ss_hashkey() by using crypto_shash_tfm_digest() instead
-of an alloc+init+update+final sequence.  This should also improve
-performance.
+On 10/17/23 19:38, Samuel Holland wrote:
+> On 3/16/23 08:34, Lee Jones wrote:
+>> On Sat, 31 Dec 2022, Samuel Holland wrote:
+>>> +	for_each_available_child_of_node(np, child) {
+>>> +		struct sun50i_a100_ledc_led *led;
+>>> +		struct led_classdev *cdev;
+>>> +		u32 addr, color;
+>>> +
+>>> +		ret = of_property_read_u32(child, "reg", &addr);
+>>> +		if (ret || addr >= count) {
+>>> +			dev_err(dev, "LED 'reg' values must be from 0 to %d\n",
+>>
+>> Doesn't sounds like an address.
+> 
+> The one-wire protocol involves the first LED responding to the first 24
+> bits of the transfer, then forwarding the rest to the next LED. The
+> address is the ordinal position in the chain. So I don't think there is
+> any reason to have gaps in the addresses--the LEDs would still have to
+> physically be there, but you would not be able to control them. That
+> said, the driver doesn't need to enforce this, so I can remove the check.
 
-Signed-off-by: Eric Biggers <ebiggers@google.com>
----
- .../crypto/allwinner/sun8i-ss/sun8i-ss-hash.c | 25 +++----------------
- 1 file changed, 4 insertions(+), 21 deletions(-)
+There's actually a reason for the driver enforcing that LED addresses
+are contiguous. Removing this check decouples the largest address from
+the number of LED class devices. Unfortunately, there's a register field
+(LEDC_RESET_TIMING_CTRL_REG_LED_NUM) that must be set to the largest
+address for transfers to work correctly.
 
-diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c
-index d70b105dcfa1..753f67a36dc5 100644
---- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c
-+++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c
-@@ -23,47 +23,30 @@
- #include <linux/pm_runtime.h>
- #include <linux/scatterlist.h>
- #include <linux/slab.h>
- #include <linux/string.h>
- #include "sun8i-ss.h"
- 
- static int sun8i_ss_hashkey(struct sun8i_ss_hash_tfm_ctx *tfmctx, const u8 *key,
- 			    unsigned int keylen)
- {
- 	struct crypto_shash *xtfm;
--	struct shash_desc *sdesc;
--	size_t len;
--	int ret = 0;
-+	int ret;
- 
- 	xtfm = crypto_alloc_shash("sha1", 0, CRYPTO_ALG_NEED_FALLBACK);
- 	if (IS_ERR(xtfm))
- 		return PTR_ERR(xtfm);
- 
--	len = sizeof(*sdesc) + crypto_shash_descsize(xtfm);
--	sdesc = kmalloc(len, GFP_KERNEL);
--	if (!sdesc) {
--		ret = -ENOMEM;
--		goto err_hashkey_sdesc;
--	}
--	sdesc->tfm = xtfm;
--
--	ret = crypto_shash_init(sdesc);
--	if (ret) {
--		dev_err(tfmctx->ss->dev, "shash init error ret=%d\n", ret);
--		goto err_hashkey;
--	}
--	ret = crypto_shash_finup(sdesc, key, keylen, tfmctx->key);
-+	ret = crypto_shash_tfm_digest(xtfm, key, keylen, tfmctx->key);
- 	if (ret)
--		dev_err(tfmctx->ss->dev, "shash finup error\n");
--err_hashkey:
--	kfree(sdesc);
--err_hashkey_sdesc:
-+		dev_err(tfmctx->ss->dev, "shash digest error ret=%d\n", ret);
-+
- 	crypto_free_shash(xtfm);
- 	return ret;
- }
- 
- int sun8i_ss_hmac_setkey(struct crypto_ahash *ahash, const u8 *key,
- 			 unsigned int keylen)
- {
- 	struct sun8i_ss_hash_tfm_ctx *tfmctx = crypto_ahash_ctx(ahash);
- 	int digestsize, i;
- 	int bs = crypto_ahash_blocksize(ahash);
+This means the driver would need to iterate through the child nodes in
+two passes inside the probe function: first to find the largest reg
+value, and second to actually register the LED class devices.
 
-base-commit: 2af9b20dbb39f6ebf9b9b6c090271594627d818e
--- 
-2.42.0
+Since I don't think having gaps in the addresses is a realistic use
+case, I'd like to keep this restriction for now (with a comment). We
+could always pay the complexity cost later if someone really does want
+to relax this check.
+
+Regards,
+Samuel
 
