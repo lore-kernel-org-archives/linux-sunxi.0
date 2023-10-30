@@ -1,171 +1,123 @@
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+Received: from Atcsqr.andestech.com (60-248-80-70.hinet-ip.hinet.net [60.248.80.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B0FC12E4D
-	for <linux-sunxi@lists.linux.dev>; Sun, 29 Oct 2023 21:27:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sholland.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sholland.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sholland.org header.i=@sholland.org header.b="ZgqMwS2D";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="tJmCwC8a"
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailout.nyi.internal (Postfix) with ESMTP id 221405C00F5;
-	Sun, 29 Oct 2023 17:27:51 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Sun, 29 Oct 2023 17:27:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm1; t=1698614871; x=
-	1698701271; bh=pqggGLCwnACae2UnEHHjv/s1fXcJLCQyy4ZCbqoi31o=; b=Z
-	gqMwS2D+kJ4kswoDW9i2nb/5RDjHHQQg/nlgEd+ZmGnvnSfPEq3ES4y4nD1TbFC2
-	fk/CoxFMftMxtamvIarT2HF1MXgW2vRqFrkprnSsXkfpUB5hm2VBwEhY5oMts6fk
-	4zLhwSAIAsZCLlJNMVHuBmSc1hle3Oon+3m2xjMeSYL3v3kj56ANZ2ZbGuv1w5oA
-	Ma0vPwUHAfPAiTtRqH0NqrkdtWmA47gFZwirZpl4MZPV7ROWZyno/PLVAfnD4Lsm
-	wxROGu+uMI873u4cbReIwIa5PKA2DCXYZ0krA8IsdoIZ8JetvnOv89oHeX/UcLJ0
-	WIofRgq9xo3JZFoy9NnFg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1698614871; x=
-	1698701271; bh=pqggGLCwnACae2UnEHHjv/s1fXcJLCQyy4ZCbqoi31o=; b=t
-	JmCwC8aYLZGOFM9dYO+XRT+YMxeyVgPh1nmN2/K5bCGlXN/NFlsIJcq9Hyf3S8x5
-	1oHvNdoRcU8JL4W5BtlCKNwtwWW//yz53YCczG2LR7re3TtlT3rSRjb21wC91AF0
-	+j30s5Czv8ylIRQJ3SXlB8PKxO8iOKjvHppIztWa/GNKq/aWK/mtKlhRyKJpjnJW
-	RYsjlzwef55QiKeto2DCKbLGh9U3/OHFG8s4c7m2LdFUy5PLt3IOXqAvrPOZMmLr
-	NM420mpp94tD41XaMfJdVy7sgqoHpP3fNHf7OaGM38lpBv1n7lNtvb/DY1Bo+yPY
-	hAgDv+JuMEage2Jujp/GA==
-X-ME-Sender: <xms:V84-ZYpNXs0l4jUWUxn0HR_h-mpilzyOxma2J1uNMOHd33fChwL0oA>
-    <xme:V84-Zeob_5mYcbaFW3RjVmO-p7qsJv9m8fr2c9xqMyZTdroD8ccqK2SNpx_9M-zcq
-    4Gou1KlM15SZDRlZQ>
-X-ME-Received: <xmr:V84-ZdN2y2PI5UOHn0AuaJY5ZHLPOUM5KvrNRuKEgtxRFnwjestQtKSphdBtIQuqyLPOdgZObhqNDk8LQ-FoquRCQcGStnwjlNs7QsBRKS6GzN4TyZIcKLFxcIlzW0puvWzssw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrleekgddugeekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepudekteeuudehtdelteevgfduvddvjefhfedulefgudevgeeghefg
-    udefiedtveetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:V84-Zf6VyhNSgo-hr84p5F_xXi94fn0nGjpBWDDayw4UXN3Skgi1Fg>
-    <xmx:V84-ZX7VbzZlzchlI8ynPStFghcN00SFf0aGf7blOdpiHoHLf49QNQ>
-    <xmx:V84-Zfi2ezyHLXh_hYDOMReXa4KxWGJLg6Gu1KNtU7m390CQ5JYcoQ>
-    <xmx:V84-Zcr0ShP3pvYkZmTrErI_4LGVgwT1JQQF9_0psqGzotL3lTv1HA>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 29 Oct 2023 17:27:50 -0400 (EDT)
-From: Samuel Holland <samuel@sholland.org>
-To: Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@ucw.cz>,
-	linux-leds@vger.kernel.org,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Samuel Holland <samuel@sholland.org>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	Guo Ren <guoren@kernel.org>,
-	Jisheng Zhang <jszhang@kernel.org>,
-	John Watts <contact@jookia.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Maksim Kiselev <bigunclemax@gmail.com>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Trevor Woerner <twoerner@gmail.com>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH v8 5/5] riscv: dts: allwinner: d1: Add RGB LEDs to boards
-Date: Sun, 29 Oct 2023 16:26:59 -0500
-Message-ID: <20231029212738.7871-6-samuel@sholland.org>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231029212738.7871-1-samuel@sholland.org>
-References: <20231029212738.7871-1-samuel@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD8851C36
+	for <linux-sunxi@lists.linux.dev>; Mon, 30 Oct 2023 07:14:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=andestech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=andestech.com
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
+	by Atcsqr.andestech.com with ESMTP id 39U7Cl8k048592;
+	Mon, 30 Oct 2023 15:12:47 +0800 (+08)
+	(envelope-from peterlin@andestech.com)
+Received: from APC323 (10.0.12.98) by ATCPCS16.andestech.com (10.0.1.222) with
+ Microsoft SMTP Server id 14.3.498.0; Mon, 30 Oct 2023 15:12:46 +0800
+Date: Mon, 30 Oct 2023 15:12:46 +0800
+From: Yu-Chien Peter Lin <peterlin@andestech.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+CC: <acme@kernel.org>, <adrian.hunter@intel.com>, <ajones@ventanamicro.com>,
+        <alexander.shishkin@linux.intel.com>, <andre.przywara@arm.com>,
+        <anup@brainfault.org>, <aou@eecs.berkeley.edu>,
+        <atishp@atishpatra.org>, <conor+dt@kernel.org>,
+        <conor.dooley@microchip.com>, <conor@kernel.org>,
+        <devicetree@vger.kernel.org>, <dminus@andestech.com>,
+        <evan@rivosinc.com>, <geert+renesas@glider.be>, <guoren@kernel.org>,
+        <heiko@sntech.de>, <irogers@google.com>, <jernej.skrabec@gmail.com>,
+        <jolsa@kernel.org>, <jszhang@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <linux-perf-users@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        <linux-sunxi@lists.linux.dev>, <locus84@andestech.com>,
+        <magnus.damm@gmail.com>, <mark.rutland@arm.com>, <mingo@redhat.com>,
+        <n.shubin@yadro.com>, <namhyung@kernel.org>, <palmer@dabbelt.com>,
+        <paul.walmsley@sifive.com>, <peterz@infradead.org>,
+        <prabhakar.mahadev-lad.rj@bp.renesas.com>, <rdunlap@infradead.org>,
+        <robh+dt@kernel.org>, <samuel@sholland.org>,
+        <sunilvl@ventanamicro.com>, <tim609@andestech.com>, <uwu@icenowy.me>,
+        <wens@csie.org>, <will@kernel.org>, <ycliang@andestech.com>
+Subject: Re: [RFC PATCH v3 RESEND 02/13] irqchip/riscv-intc: Allow large
+ non-standard hwirq number
+Message-ID: <ZT9XbuxE2vlvsfYG@APC323>
+References: <20231023004100.2663486-1-peterlin@andestech.com>
+ <20231023004100.2663486-3-peterlin@andestech.com>
+ <87a5s44jyc.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <87a5s44jyc.ffs@tglx>
+User-Agent: Mutt/2.2.10 (2023-03-25)
+X-Originating-IP: [10.0.12.98]
+X-DNSRBL: 
+X-SPAM-SOURCE-CHECK: pass
+X-MAIL:Atcsqr.andestech.com 39U7Cl8k048592
 
-Some D1-based boards feature an onboard RGB LED. Enable them.
+Hi Thomas,
 
-Acked-by: Guo Ren <guoren@kernel.org>
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Tested-by: Trevor Woerner <twoerner@gmail.com>
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
+Thanks for the review.
 
-(no changes since v5)
+On Fri, Oct 27, 2023 at 09:12:59AM +0200, Thomas Gleixner wrote:
+> On Mon, Oct 23 2023 at 08:40, Yu Chien Peter Lin wrote:
+> > Currently, the implementation of the RISC-V INTC driver uses the
+> > interrupt cause as hwirq and has a limitation of supporting a
+> > maximum of 64 hwirqs. However, according to the privileged spec,
+> > interrupt causes >= 16 are defined for platform use.
+> >
+> > This limitation prevents us from fully utilizing the available
+> > local interrupt sources. Additionally, the hwirqs used on RISC-V
+> > are sparse, with only interrupt numbers 1, 5 and 9 (plus Sscofpmf
+> > or T-Head's PMU irq) being currently used for supervisor mode.
+> >
+> > The patch switches to using irq_domain_create_tree() which
+> 
+> git grep "This patch" Documentation/process/
 
-Changes in v5:
- - New patch for v5
+Sure, will fix.
 
- .../boot/dts/allwinner/sun20i-d1-lichee-rv-dock.dts | 12 ++++++++++++
- arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts   | 13 +++++++++++++
- 2 files changed, 25 insertions(+)
+> > creates the radix tree map, allowing us to handle a larger
+> > number of hwirqs.
+> 
+> Who is 'us'? We are not part of the chip and please write out 'hardware
+> interrupts'
 
-diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-dock.dts b/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-dock.dts
-index 08cf716328a0..feaa75d5aead 100644
---- a/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-dock.dts
-+++ b/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-dock.dts
-@@ -59,6 +59,18 @@ &ehci1 {
- 	status = "okay";
- };
- 
-+&ledc {
-+	pinctrl-0 = <&ledc_pc0_pin>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+
-+	multi-led@0 {
-+		reg = <0x0>;
-+		color = <LED_COLOR_ID_RGB>;
-+		function = LED_FUNCTION_STATUS;
-+	};
-+};
-+
- &mmc1 {
- 	bus-width = <4>;
- 	mmc-pwrseq = <&wifi_pwrseq>;
-diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts b/arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts
-index 8dbe717c79ce..73840ea300f0 100644
---- a/arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts
-+++ b/arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts
-@@ -22,6 +22,7 @@
- 
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/input/input.h>
-+#include <dt-bindings/leds/common.h>
- 
- /dts-v1/;
- 
-@@ -121,6 +122,18 @@ pcf8574a: gpio@38 {
- 	};
- };
- 
-+&ledc {
-+	pinctrl-0 = <&ledc_pc0_pin>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+
-+	multi-led@0 {
-+		reg = <0x0>;
-+		color = <LED_COLOR_ID_RGB>;
-+		function = LED_FUNCTION_STATUS;
-+	};
-+};
-+
- &mdio {
- 	ext_rgmii_phy: ethernet-phy@1 {
- 		compatible = "ethernet-phy-ieee802.3-c22";
--- 
-2.41.0
+OK!
 
+> > @@ -24,10 +24,8 @@ static asmlinkage void riscv_intc_irq(struct pt_regs *regs)
+> >  {
+> >  	unsigned long cause = regs->cause & ~CAUSE_IRQ_FLAG;
+> >  
+> > -	if (unlikely(cause >= BITS_PER_LONG))
+> > -		panic("unexpected interrupt cause");
+> > -
+> > -	generic_handle_domain_irq(intc_domain, cause);
+> > +	if (generic_handle_domain_irq(intc_domain, cause))
+> > +		pr_warn("Failed to handle interrupt (cause: %ld)\n", cause);
+> 
+> pr_warn_once() or at least pr_warn_ratelimited().
+
+OK!
+
+> >  }
+> >  
+> >  /*
+> > @@ -117,8 +115,8 @@ static int __init riscv_intc_init_common(struct fwnode_handle *fn)
+> >  {
+> >  	int rc;
+> >  
+> > -	intc_domain = irq_domain_create_linear(fn, BITS_PER_LONG,
+> > -					       &riscv_intc_domain_ops, NULL);
+> > +	intc_domain = irq_domain_create_tree(fn, &riscv_intc_domain_ops,
+> > +					     NULL);
+> 
+> Put it into one line. Linebreaking arguments is really only required
+> when the line length is exceedingly long. This one is not.
+
+OK! will fix.
+
+Thanks,
+Peter Lin
