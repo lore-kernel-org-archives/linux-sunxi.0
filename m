@@ -1,93 +1,207 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7BB310A00
-	for <linux-sunxi@lists.linux.dev>; Tue, 31 Oct 2023 07:48:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cqfsXm/c"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4C27C433C7;
-	Tue, 31 Oct 2023 07:48:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1698738492;
-	bh=u5OhuMhZzR6JXuvhNC/KDrltMRDZ6tM7BPip6bBNUic=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cqfsXm/cvPDFyWtJcarQZbOA+Ra2DBzhwm1Xm2FVKaBARc8FW0bceA+lQShI5GQAI
-	 WvjnPpUor4s7F/lyhTRkAHt5AsHeHRZerxG/pCNDxIPO1YZKs44wLMAi7eaRxQFpZD
-	 S4DKTU1kUJPL40Sg8nJ0O8FOgsqxDZeaX3G4TBJA4fuLZpfjl33gBDnADEz9k0B0Hz
-	 Rs1Lhpb+rV3QkBO6PkmIGcwIpXUgMBLonhFQNP99k9P+lWbPVyIM3B2RhcW1Q7YprL
-	 EqkLUalBBH/LGoJ8U1q5MNcB9oytnJ8ZiEMHb3KDuCp23uUGUDZRg06TWN0Bky/cxQ
-	 S55p9ERkgGmBA==
-Date: Tue, 31 Oct 2023 07:48:07 +0000
-From: Lee Jones <lee@kernel.org>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [RESEND PATCH v7 2/5] leds: sun50i-a100: New driver for the A100
- LED controller
-Message-ID: <20231031074807.GQ8909@google.com>
-References: <20221231235541.13568-1-samuel@sholland.org>
- <20221231235541.13568-3-samuel@sholland.org>
- <20230316133422.GM9667@google.com>
- <a1adbe50-3400-fd10-1856-8c1d0ed82276@sholland.org>
- <f5468eac-96ec-e8c9-bcc1-9ec219bf3352@sholland.org>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BD0D1D549
+	for <linux-sunxi@lists.linux.dev>; Tue, 31 Oct 2023 11:54:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 772BBC15;
+	Tue, 31 Oct 2023 04:55:29 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 78D573F64C;
+	Tue, 31 Oct 2023 04:54:46 -0700 (PDT)
+Date: Tue, 31 Oct 2023 11:54:40 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: "Jaehoon Chung" <jh80.chung@samsung.com>
+Cc: 'Jernej =?UTF-8?B?xaBrcmFiZWMn?= <jernej.skrabec@gmail.com>, "'Jagan
+ Teki'" <jagan@amarulasolutions.com>, "'Samuel Holland'"
+ <samuel@sholland.org>, "'SASANO	Takayoshi'" <uaa@mx5.nisiq.net>, "'Mikhail
+ Kalashnikov'" <iuncuim@gmail.com>, "'Piotr Oniszczuk'"
+ <piotr.oniszczuk@gmail.com>, <u-boot@lists.denx.de>,
+ <linux-sunxi@lists.linux.dev>
+Subject: Re: [PATCH 1/3] sunxi: board: simplify early PMIC setup conditions
+Message-ID: <20231031115428.0e9edf56@donnerap.manchester.arm.com>
+In-Reply-To: <004e01da0bc5$7a210c60$6e632520$@samsung.com>
+References: <20231018155014.383566-1-andre.przywara@arm.com>
+	<20231018155014.383566-2-andre.przywara@arm.com>
+	<1965267.usQuhbGJ8B@archlinux>
+	<CGME20231021212022epcas1p1f34ed4f9c235d0e8aaace738f009feaf@epcas1p1.samsung.com>
+	<20231021221911.16a6a145@slackpad.lan>
+	<004e01da0bc5$7a210c60$6e632520$@samsung.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f5468eac-96ec-e8c9-bcc1-9ec219bf3352@sholland.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, 29 Oct 2023, Samuel Holland wrote:
+On Tue, 31 Oct 2023 15:42:54 +0900
+"Jaehoon Chung" <jh80.chung@samsung.com> wrote:
 
-> Hi Lee,
-> 
-> On 10/17/23 19:38, Samuel Holland wrote:
-> > On 3/16/23 08:34, Lee Jones wrote:
-> >> On Sat, 31 Dec 2022, Samuel Holland wrote:
-> >>> +	for_each_available_child_of_node(np, child) {
-> >>> +		struct sun50i_a100_ledc_led *led;
-> >>> +		struct led_classdev *cdev;
-> >>> +		u32 addr, color;
-> >>> +
-> >>> +		ret = of_property_read_u32(child, "reg", &addr);
-> >>> +		if (ret || addr >= count) {
-> >>> +			dev_err(dev, "LED 'reg' values must be from 0 to %d\n",
-> >>
-> >> Doesn't sounds like an address.
-> > 
-> > The one-wire protocol involves the first LED responding to the first 24
-> > bits of the transfer, then forwarding the rest to the next LED. The
-> > address is the ordinal position in the chain. So I don't think there is
-> > any reason to have gaps in the addresses--the LEDs would still have to
-> > physically be there, but you would not be able to control them. That
-> > said, the driver doesn't need to enforce this, so I can remove the check.
-> 
-> There's actually a reason for the driver enforcing that LED addresses
-> are contiguous. Removing this check decouples the largest address from
-> the number of LED class devices. Unfortunately, there's a register field
-> (LEDC_RESET_TIMING_CTRL_REG_LED_NUM) that must be set to the largest
-> address for transfers to work correctly.
-> 
-> This means the driver would need to iterate through the child nodes in
-> two passes inside the probe function: first to find the largest reg
-> value, and second to actually register the LED class devices.
-> 
-> Since I don't think having gaps in the addresses is a realistic use
-> case, I'd like to keep this restriction for now (with a comment). We
-> could always pay the complexity cost later if someone really does want
-> to relax this check.
+Hi Jaehoon,
 
-You're replying to a review conducted 7 months ago which in turn was for
-a patch submitted nearly a year ago!
+> Hi,
+>=20
+> > -----Original Message-----
+> > From: Andre Przywara <andre.przywara@arm.com>
+> > Sent: Sunday, October 22, 2023 6:19 AM
+> > To: Jernej =C5=A0krabec <jernej.skrabec@gmail.com>
+> > Cc: Jagan Teki <jagan@amarulasolutions.com>; Jaehoon Chung <jh80.chung@=
+samsung.com>; Samuel Holland
+> > <samuel@sholland.org>; SASANO Takayoshi <uaa@mx5.nisiq.net>; Mikhail Ka=
+lashnikov <iuncuim@gmail.com>;
+> > Piotr Oniszczuk <piotr.oniszczuk@gmail.com>; u-boot@lists.denx.de; linu=
+x-sunxi@lists.linux.dev
+> > Subject: Re: [PATCH 1/3] sunxi: board: simplify early PMIC setup condit=
+ions
+> >=20
+> > On Sat, 21 Oct 2023 08:34:06 +0200
+> > Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
+> >  =20
+> > > On Wednesday, October 18, 2023 5:50:12 PM CEST Andre Przywara wrote: =
+=20
+> > > > So far we have a convoluted #ifdef mesh that guards the early AXP P=
+MIC
+> > > > setup in board.c. That combination of &&, || and negations is very =
+hard
+> > > > to read, maintain and especially to extend.
+> > > >
+> > > > Fortunately we have those same conditions already modelled in the
+> > > > Kconfig file, so they are actually redundant. On top of that the re=
+al
+> > > > reason we have those preprocessor guards in the first place is abou=
+t the
+> > > > symbols that are *conditionally* defined: without #ifdefs the build
+> > > > would break because of them being undefined for many boards.
+> > > >
+> > > > To simplify this, just change the guards to actually look at the sy=
+mbols
+> > > > needed, so CONFIG_AXP_xxx_VOLT instead of CONFIG_AXPyyy_POWER.
+> > > > This drastically improves the readability of this code, and makes a=
+dding
+> > > > PMIC support a pure Kconfig matter.
+> > > >
+> > > > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > > > ---
+> > > >  board/sunxi/board.c   | 32 ++++++++++++++------------------
+> > > >  drivers/power/Kconfig |  2 +-
+> > > >  2 files changed, 15 insertions(+), 19 deletions(-)
+> > > >
+> > > > diff --git a/board/sunxi/board.c b/board/sunxi/board.c
+> > > > index ebaa9431984..65d79a02c25 100644
+> > > > --- a/board/sunxi/board.c
+> > > > +++ b/board/sunxi/board.c
+> > > > @@ -597,50 +597,46 @@ void sunxi_board_init(void)
+> > > >  		}
+> > > >  	}
+> > > >
+> > > > -#if defined CONFIG_AXP221_POWER || defined CONFIG_AXP809_POWER || \
+> > > > -	defined CONFIG_AXP818_POWER
+> > > > +#ifdef CONFIG_AXP_DCDC1_VOLT
+> > > >  	power_failed |=3D axp_set_dcdc1(CONFIG_AXP_DCDC1_VOLT);
+> > > > +	power_failed |=3D axp_set_dcdc5(CONFIG_AXP_DCDC5_VOLT);
+> > > >  #endif
+> > > > -#if !defined(CONFIG_AXP305_POWER)
+> > > > +#ifdef CONFIG_AXP_DCDC2_VOLT
+> > > >  	power_failed |=3D axp_set_dcdc2(CONFIG_AXP_DCDC2_VOLT);
+> > > >  	power_failed |=3D axp_set_dcdc3(CONFIG_AXP_DCDC3_VOLT);
+> > > >  #endif
+> > > > -#if !defined(CONFIG_AXP209_POWER) && !defined(CONFIG_AXP818_POWER)
+> > > > +#ifdef CONFIG_AXP_DCDC4_VOLT
+> > > >  	power_failed |=3D axp_set_dcdc4(CONFIG_AXP_DCDC4_VOLT);
+> > > >  #endif
+> > > > -#if defined CONFIG_AXP221_POWER || defined CONFIG_AXP809_POWER || \
+> > > > -	defined CONFIG_AXP818_POWER
+> > > > -	power_failed |=3D axp_set_dcdc5(CONFIG_AXP_DCDC5_VOLT);
+> > > > -#endif
+> > > >
+> > > > -#if defined CONFIG_AXP221_POWER || defined CONFIG_AXP809_POWER || \
+> > > > -	defined CONFIG_AXP818_POWER
+> > > > +#ifdef CONFIG_AXP_ALDO1_VOLT
+> > > >  	power_failed |=3D axp_set_aldo1(CONFIG_AXP_ALDO1_VOLT);
+> > > >  #endif
+> > > > -#if !defined(CONFIG_AXP305_POWER)
+> > > > +#ifdef CONFIG_AXP_ALDO2_VOLT
+> > > >  	power_failed |=3D axp_set_aldo2(CONFIG_AXP_ALDO2_VOLT);
+> > > >  #endif
+> > > > -#if !defined(CONFIG_AXP152_POWER) && !defined(CONFIG_AXP305_POWER)
+> > > > +#ifdef CONFIG_AXP_ALDO3_VOLT
+> > > >  	power_failed |=3D axp_set_aldo3(CONFIG_AXP_ALDO3_VOLT);
+> > > >  #endif
+> > > > -#ifdef CONFIG_AXP209_POWER
+> > > > +#ifdef CONFIG_AXP_ALDO4_VOLT
+> > > >  	power_failed |=3D axp_set_aldo4(CONFIG_AXP_ALDO4_VOLT);
+> > > >  #endif
+> > > >
+> > > > -#if defined(CONFIG_AXP221_POWER) || defined(CONFIG_AXP809_POWER) |=
+| \
+> > > > -	defined(CONFIG_AXP818_POWER)
+> > > > +#ifdef CONFIG_AXP_DLDO1_VOLT
+> > > >  	power_failed |=3D axp_set_dldo(1, CONFIG_AXP_DLDO1_VOLT);
+> > > >  	power_failed |=3D axp_set_dldo(2, CONFIG_AXP_DLDO2_VOLT);
+> > > > -#if !defined CONFIG_AXP809_POWER
+> > > > +#endif
+> > > > +#ifdef CONFIG_AXP_DLDO3_VOLT
+> > > >  	power_failed |=3D axp_set_dldo(3, CONFIG_AXP_DLDO3_VOLT);
+> > > >  	power_failed |=3D axp_set_dldo(4, CONFIG_AXP_DLDO4_VOLT);
+> > > >  #endif
+> > > > +#ifdef CONFIG_AXP_ELDO1_VOLT
+> > > >  	power_failed |=3D axp_set_eldo(1, CONFIG_AXP_ELDO1_VOLT);
+> > > >  	power_failed |=3D axp_set_eldo(2, CONFIG_AXP_ELDO2_VOLT);
+> > > >  	power_failed |=3D axp_set_eldo(3, CONFIG_AXP_ELDO3_VOLT);
+> > > >  #endif
+> > > >
+> > > > -#ifdef CONFIG_AXP818_POWER
+> > > > +#ifdef CONFIG_AXP_FLDO1_VOLT
+> > > >  	power_failed |=3D axp_set_fldo(1, CONFIG_AXP_FLDO1_VOLT);
+> > > >  	power_failed |=3D axp_set_fldo(2, CONFIG_AXP_FLDO2_VOLT);
+> > > >  	power_failed |=3D axp_set_fldo(3, CONFIG_AXP_FLDO3_VOLT);
+> > > > @@ -649,7 +645,7 @@ void sunxi_board_init(void)
+> > > >  #if defined CONFIG_AXP809_POWER || defined CONFIG_AXP818_POWER
+> > > >  	power_failed |=3D axp_set_sw(IS_ENABLED(CONFIG_AXP_SW_ON));
+> > > >  #endif
+> > > > -#endif
+> > > > +#endif	/* CONFIG_AXPxxx_POWER */
+> > > >  	printf("DRAM:");
+> > > >  	gd->ram_size =3D sunxi_dram_init();
+> > > >  	printf(" %d MiB\n", (int)(gd->ram_size >> 20));
+> > > > diff --git a/drivers/power/Kconfig b/drivers/power/Kconfig
+> > > > index 7f3b990d231..83cb31c937a 100644
+> > > > --- a/drivers/power/Kconfig
+> > > > +++ b/drivers/power/Kconfig
+> > > > @@ -180,7 +180,7 @@ config AXP_DCDC3_VOLT
+> > > >
+> > > >  config AXP_DCDC4_VOLT
+> > > >  	int "axp pmic dcdc4 voltage"
+> > > > -	depends on AXP152_POWER || AXP221_POWER || AXP809_POWER || =20
+> > > AXP818_POWER || =20
+> > > > AXP305_POWER +	depends on AXP152_POWER || AXP221_POWER || AXP809_PO=
+WER =20
+> > > || =20
+> > > > AXP305_POWER default 1250 if AXP152_POWER
+> > > >  	default 1200 if MACH_SUN6I
+> > > >  	default 0 if MACH_SUN8I =20
+> > >
+> > > This patch is great, but this last change doesn't seem to be directly
+> > > connected? =20
+> >=20
+> > It is an existing bug: there is no axp_set_dcdc4() for the AXP818, but
+> > since the AXP818 is not included in the guards at the calling site
+> > in board.c above, we didn't notice.
+> > So without this change, all A83T boards (the only ones using AXP818)
+> > would fail compilation.
+> > I just forgot to mention it in the commit message, will add it. =20
+>=20
+> Will you resend this patch after updating the commit message?
 
-Also the review comment was simple - if it's not an address, rename the
-variable.
+Well, I was actually thinking of merging it straight away (with the
+updated commit message), since I think that plus a tiny typo were the only
+changes requested in that series.
+Unless there is more from your side?
 
--- 
-Lee Jones [李琼斯]
+Cheers,
+Andre
