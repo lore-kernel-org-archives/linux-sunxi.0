@@ -1,207 +1,193 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BD0D1D549
-	for <linux-sunxi@lists.linux.dev>; Tue, 31 Oct 2023 11:54:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 772BBC15;
-	Tue, 31 Oct 2023 04:55:29 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 78D573F64C;
-	Tue, 31 Oct 2023 04:54:46 -0700 (PDT)
-Date: Tue, 31 Oct 2023 11:54:40 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: "Jaehoon Chung" <jh80.chung@samsung.com>
-Cc: 'Jernej =?UTF-8?B?xaBrcmFiZWMn?= <jernej.skrabec@gmail.com>, "'Jagan
- Teki'" <jagan@amarulasolutions.com>, "'Samuel Holland'"
- <samuel@sholland.org>, "'SASANO	Takayoshi'" <uaa@mx5.nisiq.net>, "'Mikhail
- Kalashnikov'" <iuncuim@gmail.com>, "'Piotr Oniszczuk'"
- <piotr.oniszczuk@gmail.com>, <u-boot@lists.denx.de>,
- <linux-sunxi@lists.linux.dev>
-Subject: Re: [PATCH 1/3] sunxi: board: simplify early PMIC setup conditions
-Message-ID: <20231031115428.0e9edf56@donnerap.manchester.arm.com>
-In-Reply-To: <004e01da0bc5$7a210c60$6e632520$@samsung.com>
-References: <20231018155014.383566-1-andre.przywara@arm.com>
-	<20231018155014.383566-2-andre.przywara@arm.com>
-	<1965267.usQuhbGJ8B@archlinux>
-	<CGME20231021212022epcas1p1f34ed4f9c235d0e8aaace738f009feaf@epcas1p1.samsung.com>
-	<20231021221911.16a6a145@slackpad.lan>
-	<004e01da0bc5$7a210c60$6e632520$@samsung.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3B1D1DDD4;
+	Tue, 31 Oct 2023 16:48:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dKz+IPkB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6096DC433C8;
+	Tue, 31 Oct 2023 16:48:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1698770914;
+	bh=UTXiOQLTvMkvbOw9m5YrJAM7tKQY8I2vb1txsTaB+ww=;
+	h=From:Subject:Date:To:Cc:From;
+	b=dKz+IPkB1YjAQopIg5/wqctpT5XPs9kwBvEabr+vWXBfR1DJQsQFx+pMcgaIEDDr6
+	 zhDX7M43NkPtBzJZzzP/ym0ci/wAtup3XaRXBoX8wD9GYYFclvFj8H1T1/Do5LBYd1
+	 hM7fDUi5YJ/V+u+BmcT3R5sBdG4xQS/6QFfxh4GAMEUNNRdFvH8fI8sEA9SvidqjFy
+	 JBTP7EXruC/zsdqsdIXg90Se/zIe2F4067naac1sdD0rwT89gRPsY9HJZerMqa/ChA
+	 ht/mLTlsTrttAEiu8flbJVOOqfdZI4dWNDV1Rt23pB+mqFg8RoKVkuCDwyYrM1dpUI
+	 Sq42JQDpOSaVQ==
+From: Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH RFC v3 00/37] drm/connector: Create HDMI Connector
+ infrastructure
+Date: Tue, 31 Oct 2023 17:48:13 +0100
+Message-Id: <20231031-kms-hdmi-connector-state-v3-0-328b0fae43a7@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAM4vQWUC/4XNQQrCMBAF0KuUrI0kaZq0rgTBA7gVF6UzbUNtI
+ kkJSundDdmIG13+P/w3KwnoDQZyKFbiMZpgnE2h3BWkG1s7IDWQMhFMlKzmkk5zoCPMhnbOWuw
+ W52lY2gWp4krXGpVuhCZp/vDYm2emr+RyPpFbKkcT0uKV30WeT//lyCmjTNasktCXqpLHCb3F+
+ 975IatRfKRGsB+SSBLXTSmgBQANX9K2bW9wAKu8EAEAAA==
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, 
+ Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ Maxime Ripard <mripard@kernel.org>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6338; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=UTXiOQLTvMkvbOw9m5YrJAM7tKQY8I2vb1txsTaB+ww=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKmO+nef/XR+1KS6yUn3KisHU07+rHXlqS5rMrhZ0qxXe
+ EoytAd1lLIwiHExyIopssQImy+JOzXrdScb3zyYOaxMIEMYuDgFYCKieYwMs/ZqGpVUHdwml71F
+ fePTlqXcpWxxrQydIRL+rDG3emZZMjK8euUSeHxTdqmwZdWPqM+5ETF+t+4mc11SnSIyZ5qC7gZ
+ WAA==
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
-On Tue, 31 Oct 2023 15:42:54 +0900
-"Jaehoon Chung" <jh80.chung@samsung.com> wrote:
+Hi,
 
-Hi Jaehoon,
+Here's a series that creates a subclass of drm_connector specifically
+targeted at HDMI controllers.
 
-> Hi,
->=20
-> > -----Original Message-----
-> > From: Andre Przywara <andre.przywara@arm.com>
-> > Sent: Sunday, October 22, 2023 6:19 AM
-> > To: Jernej =C5=A0krabec <jernej.skrabec@gmail.com>
-> > Cc: Jagan Teki <jagan@amarulasolutions.com>; Jaehoon Chung <jh80.chung@=
-samsung.com>; Samuel Holland
-> > <samuel@sholland.org>; SASANO Takayoshi <uaa@mx5.nisiq.net>; Mikhail Ka=
-lashnikov <iuncuim@gmail.com>;
-> > Piotr Oniszczuk <piotr.oniszczuk@gmail.com>; u-boot@lists.denx.de; linu=
-x-sunxi@lists.linux.dev
-> > Subject: Re: [PATCH 1/3] sunxi: board: simplify early PMIC setup condit=
-ions
-> >=20
-> > On Sat, 21 Oct 2023 08:34:06 +0200
-> > Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
-> >  =20
-> > > On Wednesday, October 18, 2023 5:50:12 PM CEST Andre Przywara wrote: =
-=20
-> > > > So far we have a convoluted #ifdef mesh that guards the early AXP P=
-MIC
-> > > > setup in board.c. That combination of &&, || and negations is very =
-hard
-> > > > to read, maintain and especially to extend.
-> > > >
-> > > > Fortunately we have those same conditions already modelled in the
-> > > > Kconfig file, so they are actually redundant. On top of that the re=
-al
-> > > > reason we have those preprocessor guards in the first place is abou=
-t the
-> > > > symbols that are *conditionally* defined: without #ifdefs the build
-> > > > would break because of them being undefined for many boards.
-> > > >
-> > > > To simplify this, just change the guards to actually look at the sy=
-mbols
-> > > > needed, so CONFIG_AXP_xxx_VOLT instead of CONFIG_AXPyyy_POWER.
-> > > > This drastically improves the readability of this code, and makes a=
-dding
-> > > > PMIC support a pure Kconfig matter.
-> > > >
-> > > > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > > > ---
-> > > >  board/sunxi/board.c   | 32 ++++++++++++++------------------
-> > > >  drivers/power/Kconfig |  2 +-
-> > > >  2 files changed, 15 insertions(+), 19 deletions(-)
-> > > >
-> > > > diff --git a/board/sunxi/board.c b/board/sunxi/board.c
-> > > > index ebaa9431984..65d79a02c25 100644
-> > > > --- a/board/sunxi/board.c
-> > > > +++ b/board/sunxi/board.c
-> > > > @@ -597,50 +597,46 @@ void sunxi_board_init(void)
-> > > >  		}
-> > > >  	}
-> > > >
-> > > > -#if defined CONFIG_AXP221_POWER || defined CONFIG_AXP809_POWER || \
-> > > > -	defined CONFIG_AXP818_POWER
-> > > > +#ifdef CONFIG_AXP_DCDC1_VOLT
-> > > >  	power_failed |=3D axp_set_dcdc1(CONFIG_AXP_DCDC1_VOLT);
-> > > > +	power_failed |=3D axp_set_dcdc5(CONFIG_AXP_DCDC5_VOLT);
-> > > >  #endif
-> > > > -#if !defined(CONFIG_AXP305_POWER)
-> > > > +#ifdef CONFIG_AXP_DCDC2_VOLT
-> > > >  	power_failed |=3D axp_set_dcdc2(CONFIG_AXP_DCDC2_VOLT);
-> > > >  	power_failed |=3D axp_set_dcdc3(CONFIG_AXP_DCDC3_VOLT);
-> > > >  #endif
-> > > > -#if !defined(CONFIG_AXP209_POWER) && !defined(CONFIG_AXP818_POWER)
-> > > > +#ifdef CONFIG_AXP_DCDC4_VOLT
-> > > >  	power_failed |=3D axp_set_dcdc4(CONFIG_AXP_DCDC4_VOLT);
-> > > >  #endif
-> > > > -#if defined CONFIG_AXP221_POWER || defined CONFIG_AXP809_POWER || \
-> > > > -	defined CONFIG_AXP818_POWER
-> > > > -	power_failed |=3D axp_set_dcdc5(CONFIG_AXP_DCDC5_VOLT);
-> > > > -#endif
-> > > >
-> > > > -#if defined CONFIG_AXP221_POWER || defined CONFIG_AXP809_POWER || \
-> > > > -	defined CONFIG_AXP818_POWER
-> > > > +#ifdef CONFIG_AXP_ALDO1_VOLT
-> > > >  	power_failed |=3D axp_set_aldo1(CONFIG_AXP_ALDO1_VOLT);
-> > > >  #endif
-> > > > -#if !defined(CONFIG_AXP305_POWER)
-> > > > +#ifdef CONFIG_AXP_ALDO2_VOLT
-> > > >  	power_failed |=3D axp_set_aldo2(CONFIG_AXP_ALDO2_VOLT);
-> > > >  #endif
-> > > > -#if !defined(CONFIG_AXP152_POWER) && !defined(CONFIG_AXP305_POWER)
-> > > > +#ifdef CONFIG_AXP_ALDO3_VOLT
-> > > >  	power_failed |=3D axp_set_aldo3(CONFIG_AXP_ALDO3_VOLT);
-> > > >  #endif
-> > > > -#ifdef CONFIG_AXP209_POWER
-> > > > +#ifdef CONFIG_AXP_ALDO4_VOLT
-> > > >  	power_failed |=3D axp_set_aldo4(CONFIG_AXP_ALDO4_VOLT);
-> > > >  #endif
-> > > >
-> > > > -#if defined(CONFIG_AXP221_POWER) || defined(CONFIG_AXP809_POWER) |=
-| \
-> > > > -	defined(CONFIG_AXP818_POWER)
-> > > > +#ifdef CONFIG_AXP_DLDO1_VOLT
-> > > >  	power_failed |=3D axp_set_dldo(1, CONFIG_AXP_DLDO1_VOLT);
-> > > >  	power_failed |=3D axp_set_dldo(2, CONFIG_AXP_DLDO2_VOLT);
-> > > > -#if !defined CONFIG_AXP809_POWER
-> > > > +#endif
-> > > > +#ifdef CONFIG_AXP_DLDO3_VOLT
-> > > >  	power_failed |=3D axp_set_dldo(3, CONFIG_AXP_DLDO3_VOLT);
-> > > >  	power_failed |=3D axp_set_dldo(4, CONFIG_AXP_DLDO4_VOLT);
-> > > >  #endif
-> > > > +#ifdef CONFIG_AXP_ELDO1_VOLT
-> > > >  	power_failed |=3D axp_set_eldo(1, CONFIG_AXP_ELDO1_VOLT);
-> > > >  	power_failed |=3D axp_set_eldo(2, CONFIG_AXP_ELDO2_VOLT);
-> > > >  	power_failed |=3D axp_set_eldo(3, CONFIG_AXP_ELDO3_VOLT);
-> > > >  #endif
-> > > >
-> > > > -#ifdef CONFIG_AXP818_POWER
-> > > > +#ifdef CONFIG_AXP_FLDO1_VOLT
-> > > >  	power_failed |=3D axp_set_fldo(1, CONFIG_AXP_FLDO1_VOLT);
-> > > >  	power_failed |=3D axp_set_fldo(2, CONFIG_AXP_FLDO2_VOLT);
-> > > >  	power_failed |=3D axp_set_fldo(3, CONFIG_AXP_FLDO3_VOLT);
-> > > > @@ -649,7 +645,7 @@ void sunxi_board_init(void)
-> > > >  #if defined CONFIG_AXP809_POWER || defined CONFIG_AXP818_POWER
-> > > >  	power_failed |=3D axp_set_sw(IS_ENABLED(CONFIG_AXP_SW_ON));
-> > > >  #endif
-> > > > -#endif
-> > > > +#endif	/* CONFIG_AXPxxx_POWER */
-> > > >  	printf("DRAM:");
-> > > >  	gd->ram_size =3D sunxi_dram_init();
-> > > >  	printf(" %d MiB\n", (int)(gd->ram_size >> 20));
-> > > > diff --git a/drivers/power/Kconfig b/drivers/power/Kconfig
-> > > > index 7f3b990d231..83cb31c937a 100644
-> > > > --- a/drivers/power/Kconfig
-> > > > +++ b/drivers/power/Kconfig
-> > > > @@ -180,7 +180,7 @@ config AXP_DCDC3_VOLT
-> > > >
-> > > >  config AXP_DCDC4_VOLT
-> > > >  	int "axp pmic dcdc4 voltage"
-> > > > -	depends on AXP152_POWER || AXP221_POWER || AXP809_POWER || =20
-> > > AXP818_POWER || =20
-> > > > AXP305_POWER +	depends on AXP152_POWER || AXP221_POWER || AXP809_PO=
-WER =20
-> > > || =20
-> > > > AXP305_POWER default 1250 if AXP152_POWER
-> > > >  	default 1200 if MACH_SUN6I
-> > > >  	default 0 if MACH_SUN8I =20
-> > >
-> > > This patch is great, but this last change doesn't seem to be directly
-> > > connected? =20
-> >=20
-> > It is an existing bug: there is no axp_set_dcdc4() for the AXP818, but
-> > since the AXP818 is not included in the guards at the calling site
-> > in board.c above, we didn't notice.
-> > So without this change, all A83T boards (the only ones using AXP818)
-> > would fail compilation.
-> > I just forgot to mention it in the commit message, will add it. =20
->=20
-> Will you resend this patch after updating the commit message?
+The idea behind this series came from a recent discussion on IRC during
+which we discussed infoframes generation of i915 vs everything else. 
 
-Well, I was actually thinking of merging it straight away (with the
-updated commit message), since I think that plus a tiny typo were the only
-changes requested in that series.
-Unless there is more from your side?
+Infoframes generation code still requires some decent boilerplate, with
+each driver doing some variation of it.
 
-Cheers,
-Andre
+In parallel, while working on vc4, we ended up converting a lot of i915
+logic (mostly around format / bpc selection, and scrambler setup) to
+apply on top of a driver that relies only on helpers.
+
+While currently sitting in the vc4 driver, none of that logic actually
+relies on any driver or hardware-specific behaviour.
+
+The only missing piece to make it shareable are a bunch of extra
+variables stored in a state (current bpc, format, RGB range selection,
+etc.).
+
+The initial implementation was relying on some generic subclass of
+drm_connector to address HDMI connectors, with a bunch of helpers that
+will take care of all the "HDMI Spec" related code. Scrambler setup is
+missing at the moment but can easily be plugged in.
+
+The feedback was that creating a connector subclass like was done for
+writeback would prevent the adoption of those helpers since it couldn't
+be used in all situations (like when the connector driver can implement
+multiple output) and required more churn to cast between the
+drm_connector and its subclass. The decision was thus to provide a set
+of helper and to store the required variables in drm_connector and
+drm_connector_state. This what has been implemented now.
+
+Hans Verkuil also expressed interest in implementing a mechanism in v4l2
+to retrieve infoframes from HDMI receiver and implementing an
+infoframe-decode tool.
+
+This series thus leverages the infoframe generation code to expose it
+through debugfs.
+
+This entire series has been tested on a Pi4, and has only been
+build-tested for sunxi and rockchip.
+
+Let me know what you think,
+Maxime
+
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+Changes in v3:
+- Made sure the series work on the RaspberryPi4
+- Handle YUV420 in the char clock rate computation
+- Use the maximum bpc value the connector allows at reset 
+- Expose the RGB Limited vs Full Range value in the connector state
+  instead of through a helper
+- Fix Broadcast RGB documentation 
+- Add more debug logging
+- Small fixes here and there
+- Link to v2: https://lore.kernel.org/r/20230920-kms-hdmi-connector-state-v2-0-17932daddd7d@kernel.org
+
+Changes in v2:
+- Change from a subclass to a set of helpers for drm_connector and
+  drm_connector state
+- Don't assume that all drivers support RGB, YUV420 and YUV422 but make
+  them provide a bitfield instead.
+- Don't assume that all drivers support the Broadcast RGB property but
+  make them call the registration helper.
+- Document the Broacast RGB property
+- Convert the inno_hdmi and sun4i_hdmi driver.
+- Link to v1: https://lore.kernel.org/r/20230814-kms-hdmi-connector-state-v1-0-048054df3654@kernel.org
+
+---
+Maxime Ripard (37):
+      drm/connector: Introduce an HDMI connector
+      drm/connector: hdmi: Create a custom state
+      drm/connector: hdmi: Add Broadcast RGB property
+      drm/connector: hdmi: Add RGB Quantization Range to the connector state
+      drm/connector: hdmi: Add output BPC to the connector state
+      drm/connector: hdmi: Add support for output format
+      drm/connector: hdmi: Add HDMI compute clock helper
+      drm/connector: hdmi: Calculate TMDS character rate
+      drm/connector: hdmi: Add custom hook to filter TMDS character rate
+      drm/connector: hdmi: Compute bpc and format automatically
+      drm/connector: hdmi: Add Infoframes generation
+      drm/connector: hdmi: Create Infoframe DebugFS entries
+      drm/vc4: hdmi: Create destroy state implementation
+      drm/vc4: hdmi: Switch to HDMI connector
+      drm/rockchip: inno_hdmi: Remove useless mode_fixup
+      drm/rockchip: inno_hdmi: Remove useless copy of drm_display_mode
+      drm/rockchip: inno_hdmi: Switch encoder hooks to atomic
+      drm/rockchip: inno_hdmi: Get rid of mode_set
+      drm/rockchip: inno_hdmi: no need to store vic
+      drm/rockchip: inno_hdmi: Remove unneeded has audio flag
+      drm/rockchip: inno_hdmi: Remove useless input format
+      drm/rockchip: inno_hdmi: Remove useless output format
+      drm/rockchip: inno_hdmi: Remove useless colorimetry
+      drm/rockchip: inno_hdmi: Remove useless enum
+      drm/rockchip: inno_hdmi: Remove tmds rate from structure
+      drm/rockchip: inno_hdmi: Remove useless coeff_csc matrix
+      drm/rockchip: inno_hdmi: Remove useless mode_valid
+      drm/rockchip: inno_hdmi: Move infoframe disable to separate function
+      drm/rockchip: inno_hdmi: Create mask retrieval functions
+      drm/rockchip: inno_hdmi: Switch to infoframe type
+      drm/rockchip: inno_hdmi: Remove unused drm device pointer
+      drm/rockchip: inno_hdmi: Switch to HDMI connector
+      drm/sun4i: hdmi: Convert encoder to atomic
+      drm/sun4i: hdmi: Move mode_set into enable
+      drm/sun4i: hdmi: Switch to container_of_const
+      drm/sun4i: hdmi: Consolidate atomic_check and mode_valid
+      drm/sun4i: hdmi: Switch to HDMI connector
+
+ Documentation/gpu/kms-properties.csv      |   1 -
+ drivers/gpu/drm/Kconfig                   |   1 +
+ drivers/gpu/drm/drm_atomic.c              |  11 +
+ drivers/gpu/drm/drm_atomic_state_helper.c | 661 ++++++++++++++++++++++++++++++
+ drivers/gpu/drm/drm_atomic_uapi.c         |   4 +
+ drivers/gpu/drm/drm_connector.c           | 208 ++++++++++
+ drivers/gpu/drm/drm_debugfs.c             | 110 +++++
+ drivers/gpu/drm/rockchip/inno_hdmi.c      | 409 +++++++-----------
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c    | 203 +++++----
+ drivers/gpu/drm/vc4/vc4_hdmi.c            | 624 ++++------------------------
+ drivers/gpu/drm/vc4/vc4_hdmi.h            |  44 +-
+ drivers/gpu/drm/vc4/vc4_hdmi_phy.c        |   6 +-
+ include/drm/drm_atomic_state_helper.h     |  12 +
+ include/drm/drm_connector.h               | 248 +++++++++++
+ 14 files changed, 1598 insertions(+), 944 deletions(-)
+---
+base-commit: ffc253263a1375a65fa6c9f62a893e9767fbebfa
+change-id: 20230814-kms-hdmi-connector-state-616787e67927
+
+Best regards,
+-- 
+Maxime Ripard <mripard@kernel.org>
+
