@@ -1,192 +1,240 @@
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F25AD10FD
-	for <linux-sunxi@lists.linux.dev>; Tue, 31 Oct 2023 06:17:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61FB223D2
+	for <linux-sunxi@lists.linux.dev>; Tue, 31 Oct 2023 06:43:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="h/a5Uz0N"
-Received: from epcas1p4.samsung.com (unknown [182.195.41.48])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20231031060944epoutp04383d8277c8adb1d71a22dbc1fe003168~THEkKFCZB1128711287epoutp04F
-	for <linux-sunxi@lists.linux.dev>; Tue, 31 Oct 2023 06:09:44 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20231031060944epoutp04383d8277c8adb1d71a22dbc1fe003168~THEkKFCZB1128711287epoutp04F
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="qJdmIX57"
+Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20231031064259epoutp03f3b73a53220cf5e82cda56cff6d78b77~THhmK0zMC2735227352epoutp03S
+	for <linux-sunxi@lists.linux.dev>; Tue, 31 Oct 2023 06:42:59 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20231031064259epoutp03f3b73a53220cf5e82cda56cff6d78b77~THhmK0zMC2735227352epoutp03S
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1698732584;
-	bh=n6XUE6/tPVq9ZmGzexlm3z5b2H5Sn0R5o04eZZo7VwE=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=h/a5Uz0N8deHRFEuELT9FgNhiaeLJDDNCEZbr9DsDdEsPmWHMObxKEH7qn4cuEM2r
-	 OnF8tix/+zZ1gf7P+wuwsJbbERmf1bnZQFLPcQAnwaLDYNNR9g/dsOctutUEhUKhMh
-	 omCuKa/jYwNFK7Sq1dsMf2fasCLrjFOIjTPLMdjQ=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-	epcas1p4.samsung.com (KnoxPortal) with ESMTP id
-	20231031060944epcas1p45c0399a1b40c7fd821348ef92ecab731~THEjxtOrL1693516935epcas1p4j;
-	Tue, 31 Oct 2023 06:09:44 +0000 (GMT)
-Received: from epsmgec1p1-new.samsung.com (unknown [182.195.36.135]) by
-	epsnrtp2.localdomain (Postfix) with ESMTP id 4SKKVH05lpz4x9Pv; Tue, 31 Oct
-	2023 06:09:43 +0000 (GMT)
-Received: from epcas1p2.samsung.com ( [182.195.41.46]) by
-	epsmgec1p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	53.A7.19104.62A90456; Tue, 31 Oct 2023 15:09:42 +0900 (KST)
+	s=mail20170921; t=1698734579;
+	bh=i9ndbnLUdeNtHod3MR/uxONNFq1nHD7uKZ0zQX8iYlw=;
+	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
+	b=qJdmIX57OjLngFCA6rmAKCpPqQgkbECxOIgus+Gtdam9eHYv8aSXZ6YNp+nKvuHYn
+	 xERJ9t5NB6rySQiPM+RJnl23GkgfmM1/39D7IKPfaG0g9RMFkIVpKUl1eAJYdGo/8A
+	 6NFb+8+MfSuT6vsxtgsXRFknnNJbZgmJ7e5Rsim4=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+	epcas1p3.samsung.com (KnoxPortal) with ESMTP id
+	20231031064256epcas1p36f8ed2fad1287547dedb320c37a9f77b~THhj1v3DF0960609606epcas1p3I;
+	Tue, 31 Oct 2023 06:42:56 +0000 (GMT)
+Received: from epsmges1p3.samsung.com (unknown [182.195.38.231]) by
+	epsnrtp3.localdomain (Postfix) with ESMTP id 4SKLDb28XDz4x9Pr; Tue, 31 Oct
+	2023 06:42:55 +0000 (GMT)
+Received: from epcas1p3.samsung.com ( [182.195.41.47]) by
+	epsmges1p3.samsung.com (Symantec Messaging Gateway) with SMTP id
+	2A.25.09739.FE1A0456; Tue, 31 Oct 2023 15:42:55 +0900 (KST)
 Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20231031060942epcas1p1876a7ef8fff3e53885d0d244f5277d7d~THEiPThWA2928529285epcas1p1k;
-	Tue, 31 Oct 2023 06:09:42 +0000 (GMT)
-Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
+	epcas1p3.samsung.com (KnoxPortal) with ESMTPA id
+	20231031064254epcas1p38ab8b48b9f2a78e97ef09afb8b913dfc~THhh4nOgA0980609806epcas1p39;
+	Tue, 31 Oct 2023 06:42:54 +0000 (GMT)
+Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
 	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20231031060942epsmtrp1c9c803a21641de2f948562281e2f4a61~THEiOi7WF2952029520epsmtrp15;
-	Tue, 31 Oct 2023 06:09:42 +0000 (GMT)
-X-AuditID: b6c32a4c-559ff70000004aa0-3c-65409a269743
+	20231031064254epsmtrp1f997ca575e709512dd5f5a2be5ffc1ca~THhh323Dl1582015820epsmtrp1K;
+	Tue, 31 Oct 2023 06:42:54 +0000 (GMT)
+X-AuditID: b6c32a37-c0bff7000000260b-cf-6540a1ef3439
 Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	44.6F.07368.62A90456; Tue, 31 Oct 2023 15:09:42 +0900 (KST)
-Received: from [10.113.113.235] (unknown [10.113.113.235]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20231031060941epsmtip2c6984de5ab52cf6bb2f369f9b714b4cb~THEh026Fc1834918349epsmtip27;
-	Tue, 31 Oct 2023 06:09:41 +0000 (GMT)
-Message-ID: <7c7c903a-df99-4b93-a14f-f1b03d90fcb3@samsung.com>
-Date: Tue, 31 Oct 2023 15:09:41 +0900
+	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	BD.90.08817.EE1A0456; Tue, 31 Oct 2023 15:42:54 +0900 (KST)
+Received: from jh80chung01 (unknown [10.113.111.84]) by epsmtip2.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20231031064254epsmtip22d241de3b44b441e15c7e389f593b7eb~THhhnEByG1825218252epsmtip2L;
+	Tue, 31 Oct 2023 06:42:54 +0000 (GMT)
+From: "Jaehoon Chung" <jh80.chung@samsung.com>
+To: "'Andre Przywara'" <andre.przywara@arm.com>,
+	=?utf-8?Q?'Jernej_=C5=A0krabec'?= <jernej.skrabec@gmail.com>
+Cc: "'Jagan Teki'" <jagan@amarulasolutions.com>, "'Samuel Holland'"
+	<samuel@sholland.org>, "'SASANO	Takayoshi'" <uaa@mx5.nisiq.net>, "'Mikhail
+ Kalashnikov'" <iuncuim@gmail.com>, "'Piotr Oniszczuk'"
+	<piotr.oniszczuk@gmail.com>, <u-boot@lists.denx.de>,
+	<linux-sunxi@lists.linux.dev>
+In-Reply-To: <20231021221911.16a6a145@slackpad.lan>
+Subject: RE: [PATCH 1/3] sunxi: board: simplify early PMIC setup conditions
+Date: Tue, 31 Oct 2023 15:42:54 +0900
+Message-ID: <004e01da0bc5$7a210c60$6e632520$@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] power: regulator: add AXP313 support
-Content-Language: en-US
-To: Andre Przywara <andre.przywara@arm.com>, Jagan Teki
-	<jagan@amarulasolutions.com>
-Cc: Samuel Holland <samuel@sholland.org>, Jernej Skrabec
-	<jernej.skrabec@gmail.com>, SASANO Takayoshi <uaa@mx5.nisiq.net>, Mikhail
-	Kalashnikov <iuncuim@gmail.com>, Piotr Oniszczuk
-	<piotr.oniszczuk@gmail.com>, u-boot@lists.denx.de,
-	linux-sunxi@lists.linux.dev
-From: Jaehoon Chung <jh80.chung@samsung.com>
-In-Reply-To: <20231018155014.383566-4-andre.przywara@arm.com>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA01SYUxTVxjNbV/bV7eSt1rjXf9YGyfBrKVPWvZ0whhzWyc4G50LIXPdC30p
-	pe1r0xYFZhZAJpNUrKmL0khLMiWojAamQxCYFCJ2iwk2bt1Q1myUCXWAMosTpq7tk41/5/vu
-	Ofec734XZQu7uGLUQDsoG02apNxVyLdDGXLZRk8epQh5VESb9zEgRuvdCPGwy8Ul7vo6AHFi
-	oJdLnF4aZRN3fz/CJWb6j/CIjhMxXh5f/fWDCEfd7m0H6h7POE99485loJ76pgmoW2+L1LF4
-	M9Dwio3bSilSR9kkFF1i0RlofY60YI/2La0qW4HL8C3Ea1IJTZqpHOn2Qo3sHYMpEU0q2U+a
-	yhMtDWm3SzNzt9ks5Q5KUmqxO3KklFVnsqqscjtptpfTejlNObbiCsVmVYL4ibH0++EJYHWL
-	K24+DCLVIC5qAHwUYkrY0DcIGsAqVIj1AfjH33e4TDEP4Px0DYcpFgBsOXSStSz57WqYxRz0
-	A1j3uQthijkAw+1fIUmWAMuF8X++BEmMYK/AyPANDtN/CQaboinOGmwdjIyd4iXxaiwHLvxY
-	k8JsbC0ci/oSDigqwj6E0ZAteT8ba2DBn729qRRc7FXYvTCSwvyEtino5zDadbB75jQ7KYDY
-	ORTGLsR4TOztcGR2ksvg1TA2cvF5Xwynjx3mMYJDAJ49M8hhCieAT6vDzxVZ8Luz7lQkNpYB
-	/b2ZTHs97FlqBoxzGpyNOzlJCsQE8IvDQoayAYbuTbOWvcajzzgMVsPFIT/PBdZ7VryLZ8X8
-	nhXzeP43bgHIeSCmrHaznirBrbiMpg78t/MSi7kLpD7vpsLL4JH/iTwAWCgIAIiypSLBkCqP
-	Egp0ZGUVZbNobeUmyh4AqsSGjrPFa0osid9PO7S4cotCmb05S0ng2bh0reCj+XqdENOTDspI
-	UVbKtqxjoXxxNav+jWyebyp3h8Ww834ktB8RYZ9NlWnzzlBI5Xhr1d5rde89/ljO3xo6OdcT
-	1Do7DvZPjN12PSu89T6t+cs566eRXdHrL7x+1F2kOi47eLFotPESZuLUamtRe7qkRnagyB3o
-	DFdK6hq5tcCwa6d2okJ5b/xC/t6fWu4vvLg0UFz8Q9g1WTeQZva1jexefNuYFc71dlS0aU0Z
-	lXyI/VqIvmv8pXXxZifXfS1DsCOU352vT+8DeLO3xq0Zmhl+UHCJzalytp16NO2//vSY21c/
-	FzeXTQTpc/7Y+cmjaV37iq6apnxPCrDAy+mRN6+4N5QhjbcGP933Ad5p2lh1JfNPKWIvJfFN
-	bJud/Bexyk7cRQQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupgkeLIzCtJLcpLzFFi42LZdlhJXldtlkOqwedlAhYr5v1ktLjQPpnF
-	4sumCWwWz+evY7SYsm8Xm8Wc3xeYLZ4/6mSzeLu3k91i3ZRX7A6cHms/3mf1WDNvDaPHzll3
-	2T3O3tnB6PFi80xGj2W3RTxefZ3LGMAexWWTkpqTWZZapG+XwJVx6shjxoLJUhUXv5xkaWD8
-	KtLFyMkhIWAi8fDAdaYuRi4OIYHdjBLLjvxjgUhISXx+OpWti5EDyBaWOHy4GKLmLaPEwl03
-	2UBqeAXsJL7+mcoIYrMIqErcP3KWFSIuKHFy5hOwOaIC8hL3b81gB7GFBWwlvl1tBLOZBcQl
-	bj2ZzwRiiwiESUyeNIkFIt7FJHFxrR6ILSSQL/Hyz22wGjYBHYnt346D2ZxAc2aeXM8Kchuz
-	gLrE+nlCEK3yEtvfzmGewCg0C8kVs5Bsm4XQMQtJxwJGllWMkqkFxbnpucmGBYZ5qeV6xYm5
-	xaV56XrJ+bmbGMGRpaWxg/He/H96hxiZOBgPMUpwMCuJ8B42dUgV4k1JrKxKLcqPLyrNSS0+
-	xCjNwaIkzms4Y3aKkEB6YklqdmpqQWoRTJaJg1OqgWnuH+amkmddjUbJmxTrbjY4FWguEjn0
-	5p46y4Enn53iBesFX8crcx6Qc9JiUHfdYHL+w4oP4ebrP/x3UFXXLdKbfKhc/ZhY5zmhaNF3
-	79dVeQdoL7TkPPaqlyG7sOfbdJ05t3sFPLg2MYXynzv1KlbBkLFHvf0Qw2q2ymuMT5XrBMW9
-	FT4FWMsdlUu6w3etdeKxp8qGSvusFafuOlhzkH2vbA7HpFCL8868y2/3Kd0x8X3r+N7E02ha
-	ySzNeB6/X0s1tNZMW/Z0SWNz61vei1vXd2kzZppv/f5c6Xtz4Lp9vV0/NziV2ITWu/5eu0NW
-	/dtJ3lVHrcxj/nCt9n85c9ZuCeH6h4XneXLqzxW2KrEUZyQaajEXFScCAJreXBkbAwAA
-X-CMS-MailID: 20231031060942epcas1p1876a7ef8fff3e53885d0d244f5277d7d
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQICxhFctULs6tp52ii3zw4GQnpLbQIv9iDYAYRZowICsinPVQKiUJM2r8m3kjA=
+Content-Language: ko
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrLJsWRmVeSWpSXmKPExsWy7bCmvu77hQ6pBvdu81msmPeT0eJC+2QW
+	iy+bJrBZPJ+/jtFiyr5dbBZzfl9gtnj+qJPN4u3eTnaLdVNesTtweqz9eJ/VY828NYweO2fd
+	Zfc4e2cHo8eLzTMZPZbdFvF49XUuYwB7VLZNRmpiSmqRQmpecn5KZl66rZJ3cLxzvKmZgaGu
+	oaWFuZJCXmJuqq2Si0+ArltmDtBpSgpliTmlQKGAxOJiJX07m6L80pJUhYz84hJbpdSClJwC
+	0wK94sTc4tK8dL281BIrQwMDI1OgwoTsjOdzFrEWNHpWXJu8hrGB8adbFyMnh4SAicSzh2uZ
+	uxi5OIQEdjBKfHk4mQ3C+cQosbzvHpTzjVFi//6tTF2MHGAtt3fFQsT3MkrsPbOEFcJ5ySix
+	reMoK8hcNgE9if+LFjKD2CIC+RKv/rxhByliFljAJLF52SOwIk4BY4nbD66ygdjCAt4SD869
+	AGtgEVCV6LxxjAXE5hWwlDjUc58RwhaUODnzCVicWUBbYtnC18wQTyhI/Hy6jBVimZ/E8t7f
+	bBA1IhKzO9ugarZwSKx/5QVhu0jMPT2bEcIWlnh1fAs7hC0l8bK/DexQCYFmRomlSw6yQjg9
+	jBL/Gq6zQVQZS+xfOhkcFswCmhLrd+lDhBUldv6eywixmE/i3dceVkhw8Up0tAlBlKhIXHr9
+	kglm190n/1knMCrNQvLaLCSvzULywiyEZQsYWVYxiqUWFOempxYbFhjDozs5P3cTIzjdapnv
+	YJz29oPeIUYmDsZDjBIczEoivIdNHVKFeFMSK6tSi/Lji0pzUosPMZoCA3sis5Rocj4w4eeV
+	xBuaWBqYmBkZm1gYmhkqifPeetabIiSQnliSmp2aWpBaBNPHxMEp1cBkvSXulY97nOE6LfGP
+	0i8O+nXrvOUpOeH3T6TZ/GJSyG6O+ezTt3OZ/fDat36CjmDR+2NzBOPsRSKXLWS+9PJLxEaZ
+	Pzs88mavzdPMyHlrFX/cLEj7QcWclzdfr/q8eDXbOZbt6b+XP5yu+PnZHS3bi38Cp3pvcpte
+	Znc1JDTzbNqm4Msnkm4bdnzaHsF0pbinhO+k/2bxegHTykcyd1+frDz88UW7xK0PJs6CXr1L
+	Z7/NPbtv54+5D393d76wCVP4uFrWMeXKRqVXvEUnqx9I7LPLahC4Hbr3WsQqo/SGt6etZ/3+
+	HGHrYO3+5I7F0f3RF28YLbvLZxjfWbJ5PXsIb8DFDUfuTE/cPf3lowaxU0osxRmJhlrMRcWJ
+	ALrb8FlABAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprKIsWRmVeSWpSXmKPExsWy7bCSvO67hQ6pBm1fdC1WzPvJaHGhfTKL
+	xZdNE9gsns9fx2gxZd8uNos5vy8wWzx/1Mlm8XZvJ7vFuimv2B04PdZ+vM/qsWbeGkaPnbPu
+	snucvbOD0ePF5pmMHstui3i8+jqXMYA9issmJTUnsyy1SN8ugStjyuLVzAVHjCoaJ01gaWDs
+	1Oxi5OCQEDCRuL0rtouRi0NIYDejxPKzT5m7GDmB4lISn59OZYOoEZY4fLgYJCwk8JxRYuZE
+	dxCbTUBP4v+ihWDlIgL5Eq/+vGEHsZkFljBJ7JvtDTGzlUniy+VFYAlOAWOJ2w+usoHYwgLe
+	Eg/OvQBrZhFQlei8cYwFxOYVsJQ41HOfEcIWlDg58wkLxFBtiac3n8LZyxa+hrpTQeLn02Ws
+	EEf4SSzv/c0GUSMiMbuzjXkCo/AsJKNmIRk1C8moWUhaFjCyrGKUTC0ozk3PLTYsMMpLLdcr
+	TswtLs1L10vOz93ECI45La0djHtWfdA7xMjEwXiIUYKDWUmE97CpQ6oQb0piZVVqUX58UWlO
+	avEhRmkOFiVx3m+ve1OEBNITS1KzU1MLUotgskwcnFINTFZPFjGnzEl9OnEt98b0L4+eLXq5
+	ulL5+i2pW1KXpqyQzunTuDk50Puq5IG4EHtN368fG2N+zxD7t1bR1HOWWcMujzXLVnsy9XNv
+	VOr8+Mlf4sRc1WnSXmFSDq1rsv83Xr1mK2+79Eql1ZM9Ez/fWH1VYZOURLuhmsKUZ8qmIYtv
+	rWI6v0k6ePEvvf37t+/J3HzqVeA2tam7vErrHr1YEqC14PK8VdONAhzDfdTD7wtUK+ntDJbe
+	Ya0kd8mori5zUu6eB9+2vOVksdhyLXdb2OR5d0wLr8QdtmSPSPOuPrsokemJrbbFtBeV/ge2
+	bck75PFrywybrWtTF36KOL5ORfLC3vZZBUcm72q+85il+4ivEktxRqKhFnNRcSIAFWkpACgD
+	AAA=
+X-CMS-MailID: 20231031064254epcas1p38ab8b48b9f2a78e97ef09afb8b913dfc
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 X-Sendblock-Type: SVC_REQ_APPROVE
 CMS-TYPE: 101P
 DLP-Filter: Pass
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20231031060942epcas1p1876a7ef8fff3e53885d0d244f5277d7d
+X-CMS-RootMailID: 20231021212022epcas1p1f34ed4f9c235d0e8aaace738f009feaf
 References: <20231018155014.383566-1-andre.przywara@arm.com>
-	<20231018155014.383566-4-andre.przywara@arm.com>
-	<CGME20231031060942epcas1p1876a7ef8fff3e53885d0d244f5277d7d@epcas1p1.samsung.com>
+	<20231018155014.383566-2-andre.przywara@arm.com>
+	<1965267.usQuhbGJ8B@archlinux>
+	<CGME20231021212022epcas1p1f34ed4f9c235d0e8aaace738f009feaf@epcas1p1.samsung.com>
+	<20231021221911.16a6a145@slackpad.lan>
 
-On 10/19/23 00:50, Andre Przywara wrote:
-> The X-Powers AXP313a is a small PMIC with just three buck converters and
-> three LDOs, one of which is actually fixed (so not modelled here).
-> 
-> Add the compatible string and the respective regulator ranges to allow
-> drivers to adjust voltages.
-> 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Hi,
 
-Reviewed-by: Jaehoon Chung <jh80.chung@samsung.com>
-
-Best Regards,
-Jaehoon Chung
-
-> ---
->  drivers/power/pmic/axp.c                |  1 +
->  drivers/power/regulator/axp_regulator.c | 17 +++++++++++++++++
->  include/axp_pmic.h                      |  1 +
->  3 files changed, 19 insertions(+)
-> 
-> diff --git a/drivers/power/pmic/axp.c b/drivers/power/pmic/axp.c
-> index 025dac24f28..0e1e45fba74 100644
-> --- a/drivers/power/pmic/axp.c
-> +++ b/drivers/power/pmic/axp.c
-> @@ -87,6 +87,7 @@ static const struct udevice_id axp_pmic_ids[] = {
->  	{ .compatible = "x-powers,axp209", .data = AXP209_ID },
->  	{ .compatible = "x-powers,axp221", .data = AXP221_ID },
->  	{ .compatible = "x-powers,axp223", .data = AXP223_ID },
-> +	{ .compatible = "x-powers,axp313a", .data = AXP313_ID },
->  	{ .compatible = "x-powers,axp803", .data = AXP803_ID },
->  	{ .compatible = "x-powers,axp806", .data = AXP806_ID },
->  	{ .compatible = "x-powers,axp809", .data = AXP809_ID },
-> diff --git a/drivers/power/regulator/axp_regulator.c b/drivers/power/regulator/axp_regulator.c
-> index 02f320eac1e..d27e09538e0 100644
-> --- a/drivers/power/regulator/axp_regulator.c
-> +++ b/drivers/power/regulator/axp_regulator.c
-> @@ -173,6 +173,22 @@ static const struct axp_regulator_plat axp22x_regulators[] = {
->  	{ }
->  };
->  
-> +/*
-> + * The "dcdc1" regulator has another range, beyond 1.54V up to 3.4V, in
-> + * steps of 100mV. We cannot model this easily, but also don't need that,
-> + * since it's typically only used for ~1.1V anyway, so just ignore it.
-> + * Also the DCDC3 regulator is described wrongly in the (available) manual,
-> + * experiments show that the split point is at 1200mV, as for DCDC1/2.
-> + */
-> +static const struct axp_regulator_plat axp313_regulators[] = {
-> +	{ "dcdc1", 0x10, BIT(0), 0x13, 0x7f,  500, 1540,  10, 70 },
-> +	{ "dcdc2", 0x10, BIT(1), 0x14, 0x7f,  500, 1540,  10, 70 },
-> +	{ "dcdc3", 0x10, BIT(2), 0x15, 0x7f,  500, 1840,  10, 70 },
-> +	{ "aldo1", 0x10, BIT(3), 0x16, 0x1f,  500, 3500, 100, NA },
-> +	{ "dldo1", 0x10, BIT(4), 0x17, 0x1f,  500, 3500, 100, NA },
-> +	{ }
-> +};
-> +
->  static const struct axp_regulator_plat axp803_regulators[] = {
->  	{ "dcdc1", 0x10, BIT(0), 0x20, 0x1f, 1600, 3400, 100, NA },
->  	{ "dcdc2", 0x10, BIT(1), 0x21, 0x7f,  500, 1300,  10, 70 },
-> @@ -274,6 +290,7 @@ static const struct axp_regulator_plat *const axp_regulators[] = {
->  	[AXP209_ID]	= axp20x_regulators,
->  	[AXP221_ID]	= axp22x_regulators,
->  	[AXP223_ID]	= axp22x_regulators,
-> +	[AXP313_ID]	= axp313_regulators,
->  	[AXP803_ID]	= axp803_regulators,
->  	[AXP806_ID]	= axp806_regulators,
->  	[AXP809_ID]	= axp809_regulators,
-> diff --git a/include/axp_pmic.h b/include/axp_pmic.h
-> index 4ac64865831..aabafc8501b 100644
-> --- a/include/axp_pmic.h
-> +++ b/include/axp_pmic.h
-> @@ -32,6 +32,7 @@ enum {
->  	AXP209_ID,
->  	AXP221_ID,
->  	AXP223_ID,
-> +	AXP313_ID,
->  	AXP803_ID,
->  	AXP806_ID,
->  	AXP809_ID,
-
+> -----Original Message-----
+> From: Andre Przywara <andre.przywara=40arm.com>
+> Sent: Sunday, October 22, 2023 6:19 AM
+> To: Jernej =C5=A0krabec=20<jernej.skrabec=40gmail.com>=0D=0A>=20Cc:=20Jag=
+an=20Teki=20<jagan=40amarulasolutions.com>;=20Jaehoon=20Chung=20<jh80.chung=
+=40samsung.com>;=20Samuel=20Holland=0D=0A>=20<samuel=40sholland.org>;=20SAS=
+ANO=20Takayoshi=20<uaa=40mx5.nisiq.net>;=20Mikhail=20Kalashnikov=20<iuncuim=
+=40gmail.com>;=0D=0A>=20Piotr=20Oniszczuk=20<piotr.oniszczuk=40gmail.com>;=
+=20u-boot=40lists.denx.de;=20linux-sunxi=40lists.linux.dev=0D=0A>=20Subject=
+:=20Re:=20=5BPATCH=201/3=5D=20sunxi:=20board:=20simplify=20early=20PMIC=20s=
+etup=20conditions=0D=0A>=20=0D=0A>=20On=20Sat,=2021=20Oct=202023=2008:34:06=
+=20+0200=0D=0A>=20Jernej=20=C5=A0krabec=20<jernej.skrabec=40gmail.com>=20wr=
+ote:=0D=0A>=20=0D=0A>=20>=20On=20Wednesday,=20October=2018,=202023=205:50:1=
+2=20PM=20CEST=20Andre=20Przywara=20wrote:=0D=0A>=20>=20>=20So=20far=20we=20=
+have=20a=20convoluted=20=23ifdef=20mesh=20that=20guards=20the=20early=20AXP=
+=20PMIC=0D=0A>=20>=20>=20setup=20in=20board.c.=20That=20combination=20of=20=
+&&,=20=7C=7C=20and=20negations=20is=20very=20hard=0D=0A>=20>=20>=20to=20rea=
+d,=20maintain=20and=20especially=20to=20extend.=0D=0A>=20>=20>=0D=0A>=20>=
+=20>=20Fortunately=20we=20have=20those=20same=20conditions=20already=20mode=
+lled=20in=20the=0D=0A>=20>=20>=20Kconfig=20file,=20so=20they=20are=20actual=
+ly=20redundant.=20On=20top=20of=20that=20the=20real=0D=0A>=20>=20>=20reason=
+=20we=20have=20those=20preprocessor=20guards=20in=20the=20first=20place=20i=
+s=20about=20the=0D=0A>=20>=20>=20symbols=20that=20are=20*conditionally*=20d=
+efined:=20without=20=23ifdefs=20the=20build=0D=0A>=20>=20>=20would=20break=
+=20because=20of=20them=20being=20undefined=20for=20many=20boards.=0D=0A>=20=
+>=20>=0D=0A>=20>=20>=20To=20simplify=20this,=20just=20change=20the=20guards=
+=20to=20actually=20look=20at=20the=20symbols=0D=0A>=20>=20>=20needed,=20so=
+=20CONFIG_AXP_xxx_VOLT=20instead=20of=20CONFIG_AXPyyy_POWER.=0D=0A>=20>=20>=
+=20This=20drastically=20improves=20the=20readability=20of=20this=20code,=20=
+and=20makes=20adding=0D=0A>=20>=20>=20PMIC=20support=20a=20pure=20Kconfig=
+=20matter.=0D=0A>=20>=20>=0D=0A>=20>=20>=20Signed-off-by:=20Andre=20Przywar=
+a=20<andre.przywara=40arm.com>=0D=0A>=20>=20>=20---=0D=0A>=20>=20>=20=20boa=
+rd/sunxi/board.c=20=20=20=7C=2032=20++++++++++++++------------------=0D=0A>=
+=20>=20>=20=20drivers/power/Kconfig=20=7C=20=202=20+-=0D=0A>=20>=20>=20=202=
+=20files=20changed,=2015=20insertions(+),=2019=20deletions(-)=0D=0A>=20>=20=
+>=0D=0A>=20>=20>=20diff=20--git=20a/board/sunxi/board.c=20b/board/sunxi/boa=
+rd.c=0D=0A>=20>=20>=20index=20ebaa9431984..65d79a02c25=20100644=0D=0A>=20>=
+=20>=20---=20a/board/sunxi/board.c=0D=0A>=20>=20>=20+++=20b/board/sunxi/boa=
+rd.c=0D=0A>=20>=20>=20=40=40=20-597,50=20+597,46=20=40=40=20void=20sunxi_bo=
+ard_init(void)=0D=0A>=20>=20>=20=20=09=09=7D=0D=0A>=20>=20>=20=20=09=7D=0D=
+=0A>=20>=20>=0D=0A>=20>=20>=20-=23if=20defined=20CONFIG_AXP221_POWER=20=7C=
+=7C=20defined=20CONFIG_AXP809_POWER=20=7C=7C=20=5C=0D=0A>=20>=20>=20-=09def=
+ined=20CONFIG_AXP818_POWER=0D=0A>=20>=20>=20+=23ifdef=20CONFIG_AXP_DCDC1_VO=
+LT=0D=0A>=20>=20>=20=20=09power_failed=20=7C=3D=20axp_set_dcdc1(CONFIG_AXP_=
+DCDC1_VOLT);=0D=0A>=20>=20>=20+=09power_failed=20=7C=3D=20axp_set_dcdc5(CON=
+FIG_AXP_DCDC5_VOLT);=0D=0A>=20>=20>=20=20=23endif=0D=0A>=20>=20>=20-=23if=
+=20=21defined(CONFIG_AXP305_POWER)=0D=0A>=20>=20>=20+=23ifdef=20CONFIG_AXP_=
+DCDC2_VOLT=0D=0A>=20>=20>=20=20=09power_failed=20=7C=3D=20axp_set_dcdc2(CON=
+FIG_AXP_DCDC2_VOLT);=0D=0A>=20>=20>=20=20=09power_failed=20=7C=3D=20axp_set=
+_dcdc3(CONFIG_AXP_DCDC3_VOLT);=0D=0A>=20>=20>=20=20=23endif=0D=0A>=20>=20>=
+=20-=23if=20=21defined(CONFIG_AXP209_POWER)=20&&=20=21defined(CONFIG_AXP818=
+_POWER)=0D=0A>=20>=20>=20+=23ifdef=20CONFIG_AXP_DCDC4_VOLT=0D=0A>=20>=20>=
+=20=20=09power_failed=20=7C=3D=20axp_set_dcdc4(CONFIG_AXP_DCDC4_VOLT);=0D=
+=0A>=20>=20>=20=20=23endif=0D=0A>=20>=20>=20-=23if=20defined=20CONFIG_AXP22=
+1_POWER=20=7C=7C=20defined=20CONFIG_AXP809_POWER=20=7C=7C=20=5C=0D=0A>=20>=
+=20>=20-=09defined=20CONFIG_AXP818_POWER=0D=0A>=20>=20>=20-=09power_failed=
+=20=7C=3D=20axp_set_dcdc5(CONFIG_AXP_DCDC5_VOLT);=0D=0A>=20>=20>=20-=23endi=
+f=0D=0A>=20>=20>=0D=0A>=20>=20>=20-=23if=20defined=20CONFIG_AXP221_POWER=20=
+=7C=7C=20defined=20CONFIG_AXP809_POWER=20=7C=7C=20=5C=0D=0A>=20>=20>=20-=09=
+defined=20CONFIG_AXP818_POWER=0D=0A>=20>=20>=20+=23ifdef=20CONFIG_AXP_ALDO1=
+_VOLT=0D=0A>=20>=20>=20=20=09power_failed=20=7C=3D=20axp_set_aldo1(CONFIG_A=
+XP_ALDO1_VOLT);=0D=0A>=20>=20>=20=20=23endif=0D=0A>=20>=20>=20-=23if=20=21d=
+efined(CONFIG_AXP305_POWER)=0D=0A>=20>=20>=20+=23ifdef=20CONFIG_AXP_ALDO2_V=
+OLT=0D=0A>=20>=20>=20=20=09power_failed=20=7C=3D=20axp_set_aldo2(CONFIG_AXP=
+_ALDO2_VOLT);=0D=0A>=20>=20>=20=20=23endif=0D=0A>=20>=20>=20-=23if=20=21def=
+ined(CONFIG_AXP152_POWER)=20&&=20=21defined(CONFIG_AXP305_POWER)=0D=0A>=20>=
+=20>=20+=23ifdef=20CONFIG_AXP_ALDO3_VOLT=0D=0A>=20>=20>=20=20=09power_faile=
+d=20=7C=3D=20axp_set_aldo3(CONFIG_AXP_ALDO3_VOLT);=0D=0A>=20>=20>=20=20=23e=
+ndif=0D=0A>=20>=20>=20-=23ifdef=20CONFIG_AXP209_POWER=0D=0A>=20>=20>=20+=23=
+ifdef=20CONFIG_AXP_ALDO4_VOLT=0D=0A>=20>=20>=20=20=09power_failed=20=7C=3D=
+=20axp_set_aldo4(CONFIG_AXP_ALDO4_VOLT);=0D=0A>=20>=20>=20=20=23endif=0D=0A=
+>=20>=20>=0D=0A>=20>=20>=20-=23if=20defined(CONFIG_AXP221_POWER)=20=7C=7C=
+=20defined(CONFIG_AXP809_POWER)=20=7C=7C=20=5C=0D=0A>=20>=20>=20-=09defined=
+(CONFIG_AXP818_POWER)=0D=0A>=20>=20>=20+=23ifdef=20CONFIG_AXP_DLDO1_VOLT=0D=
+=0A>=20>=20>=20=20=09power_failed=20=7C=3D=20axp_set_dldo(1,=20CONFIG_AXP_D=
+LDO1_VOLT);=0D=0A>=20>=20>=20=20=09power_failed=20=7C=3D=20axp_set_dldo(2,=
+=20CONFIG_AXP_DLDO2_VOLT);=0D=0A>=20>=20>=20-=23if=20=21defined=20CONFIG_AX=
+P809_POWER=0D=0A>=20>=20>=20+=23endif=0D=0A>=20>=20>=20+=23ifdef=20CONFIG_A=
+XP_DLDO3_VOLT=0D=0A>=20>=20>=20=20=09power_failed=20=7C=3D=20axp_set_dldo(3=
+,=20CONFIG_AXP_DLDO3_VOLT);=0D=0A>=20>=20>=20=20=09power_failed=20=7C=3D=20=
+axp_set_dldo(4,=20CONFIG_AXP_DLDO4_VOLT);=0D=0A>=20>=20>=20=20=23endif=0D=
+=0A>=20>=20>=20+=23ifdef=20CONFIG_AXP_ELDO1_VOLT=0D=0A>=20>=20>=20=20=09pow=
+er_failed=20=7C=3D=20axp_set_eldo(1,=20CONFIG_AXP_ELDO1_VOLT);=0D=0A>=20>=
+=20>=20=20=09power_failed=20=7C=3D=20axp_set_eldo(2,=20CONFIG_AXP_ELDO2_VOL=
+T);=0D=0A>=20>=20>=20=20=09power_failed=20=7C=3D=20axp_set_eldo(3,=20CONFIG=
+_AXP_ELDO3_VOLT);=0D=0A>=20>=20>=20=20=23endif=0D=0A>=20>=20>=0D=0A>=20>=20=
+>=20-=23ifdef=20CONFIG_AXP818_POWER=0D=0A>=20>=20>=20+=23ifdef=20CONFIG_AXP=
+_FLDO1_VOLT=0D=0A>=20>=20>=20=20=09power_failed=20=7C=3D=20axp_set_fldo(1,=
+=20CONFIG_AXP_FLDO1_VOLT);=0D=0A>=20>=20>=20=20=09power_failed=20=7C=3D=20a=
+xp_set_fldo(2,=20CONFIG_AXP_FLDO2_VOLT);=0D=0A>=20>=20>=20=20=09power_faile=
+d=20=7C=3D=20axp_set_fldo(3,=20CONFIG_AXP_FLDO3_VOLT);=0D=0A>=20>=20>=20=40=
+=40=20-649,7=20+645,7=20=40=40=20void=20sunxi_board_init(void)=0D=0A>=20>=
+=20>=20=20=23if=20defined=20CONFIG_AXP809_POWER=20=7C=7C=20defined=20CONFIG=
+_AXP818_POWER=0D=0A>=20>=20>=20=20=09power_failed=20=7C=3D=20axp_set_sw(IS_=
+ENABLED(CONFIG_AXP_SW_ON));=0D=0A>=20>=20>=20=20=23endif=0D=0A>=20>=20>=20-=
+=23endif=0D=0A>=20>=20>=20+=23endif=09/*=20CONFIG_AXPxxx_POWER=20*/=0D=0A>=
+=20>=20>=20=20=09printf(=22DRAM:=22);=0D=0A>=20>=20>=20=20=09gd->ram_size=
+=20=3D=20sunxi_dram_init();=0D=0A>=20>=20>=20=20=09printf(=22=20%d=20MiB=5C=
+n=22,=20(int)(gd->ram_size=20>>=2020));=0D=0A>=20>=20>=20diff=20--git=20a/d=
+rivers/power/Kconfig=20b/drivers/power/Kconfig=0D=0A>=20>=20>=20index=207f3=
+b990d231..83cb31c937a=20100644=0D=0A>=20>=20>=20---=20a/drivers/power/Kconf=
+ig=0D=0A>=20>=20>=20+++=20b/drivers/power/Kconfig=0D=0A>=20>=20>=20=40=40=
+=20-180,7=20+180,7=20=40=40=20config=20AXP_DCDC3_VOLT=0D=0A>=20>=20>=0D=0A>=
+=20>=20>=20=20config=20AXP_DCDC4_VOLT=0D=0A>=20>=20>=20=20=09int=20=22axp=
+=20pmic=20dcdc4=20voltage=22=0D=0A>=20>=20>=20-=09depends=20on=20AXP152_POW=
+ER=20=7C=7C=20AXP221_POWER=20=7C=7C=20AXP809_POWER=20=7C=7C=0D=0A>=20>=20AX=
+P818_POWER=20=7C=7C=0D=0A>=20>=20>=20AXP305_POWER=20+=09depends=20on=20AXP1=
+52_POWER=20=7C=7C=20AXP221_POWER=20=7C=7C=20AXP809_POWER=0D=0A>=20>=20=7C=
+=7C=0D=0A>=20>=20>=20AXP305_POWER=20default=201250=20if=20AXP152_POWER=0D=
+=0A>=20>=20>=20=20=09default=201200=20if=20MACH_SUN6I=0D=0A>=20>=20>=20=20=
+=09default=200=20if=20MACH_SUN8I=0D=0A>=20>=0D=0A>=20>=20This=20patch=20is=
+=20great,=20but=20this=20last=20change=20doesn't=20seem=20to=20be=20directl=
+y=0D=0A>=20>=20connected?=0D=0A>=20=0D=0A>=20It=20is=20an=20existing=20bug:=
+=20there=20is=20no=20axp_set_dcdc4()=20for=20the=20AXP818,=20but=0D=0A>=20s=
+ince=20the=20AXP818=20is=20not=20included=20in=20the=20guards=20at=20the=20=
+calling=20site=0D=0A>=20in=20board.c=20above,=20we=20didn't=20notice.=0D=0A=
+>=20So=20without=20this=20change,=20all=20A83T=20boards=20(the=20only=20one=
+s=20using=20AXP818)=0D=0A>=20would=20fail=20compilation.=0D=0A>=20I=20just=
+=20forgot=20to=20mention=20it=20in=20the=20commit=20message,=20will=20add=
+=20it.=0D=0A=0D=0AWill=20you=20resend=20this=20patch=20after=20updating=20t=
+he=20commit=20message?=0D=0A=0D=0ABest=20Regards,=0D=0AJaehoon=20Chung=0D=
+=0A=0D=0A>=20=0D=0A>=20Cheers,=0D=0A>=20Andre=0D=0A=0D=0A
