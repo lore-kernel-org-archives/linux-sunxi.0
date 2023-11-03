@@ -1,427 +1,269 @@
-Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de [81.169.146.221])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5219A5C9A
-	for <linux-sunxi@lists.linux.dev>; Wed,  1 Nov 2023 07:44:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ict42.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ict42.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ict42.de header.i=@ict42.de header.b="e/fQKLP5";
-	dkim=permerror (0-bit key) header.d=ict42.de header.i=@ict42.de header.b="6uEeRObD"
-ARC-Seal: i=1; a=rsa-sha256; t=1698822253; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=PVam/2hFv/O1EpBjeL8CxGmVHucnvP94Olu+8jOQSAP7+RJTroo0YzNcpO9+pmFm0G
-    AZs13kp/SGwSSQTfO8v8o9OW3QpZDP1vGus8VbqD2l/NP9ctzrcF21vgdfH7QD7bWSoB
-    uyYUNlXLGv/TZcresb3OLPO2dB1a2xoUiBvLATeJd3TWT2WJI8dI/gHluJ+zQQb+Sqwt
-    5rXrANyhl9be182ODXyQ+GQwKx378tXiSkOQnvHbLZxguBCDWBYB5xqKwm5JEL4AVz1p
-    6o6owA65KznLYwUuLXgatkk4YD43vzcfGRWT57amegGsC+YUOzd9XnT5hQfmsIUmav9O
-    auNA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1698822253;
-    s=strato-dkim-0002; d=strato.com;
-    h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
-    From:Subject:Sender;
-    bh=1E90L37nkBeD7vA5IS6t6bKKn48yaTUgrMIOr5H/6pM=;
-    b=AwEaPfEWrjQRz0Na38NzY5KnIkH47rzUjzgyQFv8vdqUNTygtvAppStD1XwdqNTvms
-    nopQW9H/ZkFJjNvNnX9yqf376H8S5Cmd1DRm9hcBtOkHgNKSNFo0OdVy0w1nkHP63EjQ
-    GSu83Mi0zAkK4CgSHC6ZByaLG0tcgMrFaNIrST/zMRxVSU1TYIlFKqjxVC5EcYOzwP38
-    0Lk+qfGPln9nsP6QK7IT0AWymLmUMDZ5IBrz5fu0bjIhGGF6LGWweRnkoP9UixH35ZpY
-    ofSnxZzKdEsdcV2+k4heTcMOqqaBhLmZhqX0F9XjEdEbZLczvDOLLbyMUDH0niJpTWbT
-    v0zw==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo00
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1698822253;
-    s=strato-dkim-0002; d=ict42.de;
-    h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
-    From:Subject:Sender;
-    bh=1E90L37nkBeD7vA5IS6t6bKKn48yaTUgrMIOr5H/6pM=;
-    b=e/fQKLP5MUNoFO7o8s3tJjW4xSs85MrBUGASBwgUwjm0ikZtjU7yvufgkSLu6osRpI
-    V4VNPABTTEmVkuVawCqpZB6g1j4SqONux4uG1RmmttjTasxfF9yD+JmR5i69lk6ZgdMN
-    n+scXX5xPRPBuLr8mfB1GL3kZQ/7W/zNnmF+pIS3/zNQJw/XjIRMz+AuBb1r3Ozwb6Uw
-    0tP5wXiMKgbrd4LYsYBTz1DBVUPC1T0SMHp9jvmcs5c73S7+NRtLmzi2m7Qs9BN/i7NX
-    DBQR0HTYJiM4mHJYIkc4TJwgA5XR9LEKZfmP3QdkU/BjtgmmRMtmDn+KSqO6nWbaONTU
-    Zynw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1698822253;
-    s=strato-dkim-0003; d=ict42.de;
-    h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
-    From:Subject:Sender;
-    bh=1E90L37nkBeD7vA5IS6t6bKKn48yaTUgrMIOr5H/6pM=;
-    b=6uEeRObDccVOUZvEjGlmM0wo73IJZiLrqO97g+3ScEf0riCSK9rXUBB5Ro7ngk5iqU
-    Rh3CRXniMOch2fQO5UAg==
-X-RZG-AUTH: ":IHkAYkmvNfSwjg/qSc4u8zZOVaURsoXe3UH2mQA0Kgl2F4tJkg7tCR14B0tQRciSQkqaueMYDMKD"
-Received: from [192.168.4.220]
-    by smtp.strato.de (RZmta 49.9.1 DYNA|AUTH)
-    with ESMTPSA id w61ae2zA174DaGs
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-	(Client did not present a certificate);
-    Wed, 1 Nov 2023 08:04:13 +0100 (CET)
-Message-ID: <8f675d53-5f4e-26ba-bf9e-17210ed7b201@ict42.de>
-Date: Wed, 1 Nov 2023 08:04:12 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A31FC8832;
+	Fri,  3 Nov 2023 09:05:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3347C433C7;
+	Fri,  3 Nov 2023 09:05:20 +0000 (UTC)
+Message-ID: <806f2ad3-c80b-41e5-9388-f1af7bace8e3@xs4all.nl>
+Date: Fri, 3 Nov 2023 10:05:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH RESEND v3 1/1] arm: dts: icnova-a20-adb4006: Add board
- support
-Content-Language: de-DE
-To: Andre Przywara <andre.przywara@arm.com>,
- linux-sunxi <linux-sunxi@lists.linux.dev>
-Cc: hdegoede@redhat.com, jagan@amarulasolutions.com, u-boot@lists.denx.de
-References: <20231009113916.2668425-1-ludwig.kormann@ict42.de>
- <20231024232608.6e9b2516@slackpad.lan>
-From: Ludwig Kormann <ludwig.kormann@ict42.de>
-In-Reply-To: <20231024232608.6e9b2516@slackpad.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC v3 12/37] drm/connector: hdmi: Create Infoframe
+ DebugFS entries
+Content-Language: en-US, nl
+To: Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
+ Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+References: <20231031-kms-hdmi-connector-state-v3-0-328b0fae43a7@kernel.org>
+ <20231031-kms-hdmi-connector-state-v3-12-328b0fae43a7@kernel.org>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20231031-kms-hdmi-connector-state-v3-12-328b0fae43a7@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hello Andre,
+Hi Maxime,
 
-thanks for the update! I will send the updated patch today.
+Thank you for posting v3, this time it runs fine on my RPi 4, thank you for
+fixing that.
 
-kind regards
-Ludwig
+I'll start working on a conformity checker for this.
 
-Am 25.10.23 um 00:26 schrieb Andre Przywara:
-> On Mon,  9 Oct 2023 13:39:16 +0200
-> Ludwig Kormann <ludwig.kormann@ict42.de> wrote:
->
-> Hi Ludwig,
->
->> Add board support for ICnova A20 SomPi compute module on
->> ICnova ADB4006 development board.
->>
->> Specification:
->> SoM
->> - Processor: Allwinner A20 Cortex-A7 Dual Core at 1GHz
->> - 512MB DDR3 RAM
->> - Fast Ethernet (Phy: Realtek RTL8201CP)
->> ADB4006
->> - I2C
->> - 2x USB 2.0
->> - 1x Fast Ethernet port
->> - 1x SATA
->> - 2x buttons (PWRON, Boot)
->> - 2x LEDS
->> - serial console
->> - HDMI
->> - µSD-Card slot
->> - Audio Line-In / Line-Out
->> - GPIO pinheaders
->>
->> https://wiki.in-circuit.de/index.php5?title=ICnova_ADB4006
->> https://wiki.in-circuit.de/index.php5?title=ICnova_A20_SODIMM
->>
->> devicetree upstreamed with linux 6.5
-> As you have probably seen, the DT files have been synced into U-Boot's
-> master branch yesterday.
-> So if you rebase this on top of master, so just send the defconfig
-> (with CONFIG_SYS_64BIT_LBA added) and the Makefile change in a new
-> patch, I am happy to take it still this cycle.
->
-> Cheers,
-> Andre
+I have a few remarks:
 
-thanks for the update! I will send the updated patch today.
+On 31/10/2023 17:48, Maxime Ripard wrote:
+> There has been some discussions recently about the infoframes sent by
+> drivers and if they were properly generated.
+> 
+> In parallel, there's been some interest in creating an infoframe-decode
+> tool similar to edid-decode.
+> 
+> Both would be much easier if we were to expose the infoframes programmed
+> in the hardware. It won't be perfect since we have no guarantee that
+> it's actually what goes through the wire, but it's the best we can do.
+> 
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>  drivers/gpu/drm/drm_debugfs.c | 110 ++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 110 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
+> index 2de43ff3ce0a..3c65b1d3f926 100644
+> --- a/drivers/gpu/drm/drm_debugfs.c
+> +++ b/drivers/gpu/drm/drm_debugfs.c
+> @@ -538,6 +538,114 @@ static const struct file_operations drm_connector_fops = {
+>  	.write = connector_write
+>  };
+>  
+> +struct debugfs_wrapper {
+> +	struct drm_connector *connector;
+> +	struct drm_connector_hdmi_infoframe *frame;
+> +};
+> +
+> +#define HDMI_MAX_INFOFRAME_SIZE		29
+> +
+> +static ssize_t
+> +infoframe_read(struct file *filp, char __user *ubuf, size_t count, loff_t *ppos)
+> +{
+> +	const struct debugfs_wrapper *wrapper = filp->private_data;
+> +	struct drm_connector *connector = wrapper->connector;
+> +	struct drm_connector_hdmi_infoframe *infoframe = wrapper->frame;
+> +	union hdmi_infoframe *frame = &infoframe->data;
+> +	u8 buf[HDMI_MAX_INFOFRAME_SIZE];
+> +	ssize_t len = 0;
+> +
+> +	mutex_lock(&connector->hdmi.infoframes.lock);
+> +
+> +	if (!infoframe->set)
+> +		goto out;
+> +
+> +	len = hdmi_infoframe_pack(frame, buf, sizeof(buf));
+> +	if (len < 0)
+> +		goto out;
+> +
+> +	len = simple_read_from_buffer(ubuf, count, ppos, buf, len);
+> +
+> +out:
+> +	mutex_unlock(&connector->hdmi.infoframes.lock);
+> +	return len;
+> +}
+> +
+> +static const struct file_operations infoframe_fops = {
+> +	.owner   = THIS_MODULE,
+> +	.open    = simple_open,
+> +	.read    = infoframe_read,
+> +};
+> +
+> +static int create_hdmi_infoframe_file(struct drm_connector *connector,
+> +				      struct dentry *parent,
+> +				      const char *filename,
+> +				      struct drm_connector_hdmi_infoframe *frame)
+> +{
+> +	struct drm_device *dev = connector->dev;
+> +	struct debugfs_wrapper *wrapper;
+> +	struct dentry *file;
+> +
+> +	wrapper = drmm_kzalloc(dev, sizeof(*wrapper), GFP_KERNEL);
+> +	if (!wrapper)
+> +		return -ENOMEM;
+> +
+> +	wrapper->connector = connector;
+> +	wrapper->frame = frame;
+> +
+> +	file = debugfs_create_file(filename, 0400, parent, wrapper, &infoframe_fops);
+> +	if (IS_ERR(file))
+> +		return PTR_ERR(file);
+> +
+> +	return 0;
+> +}
+> +
+> +#define CREATE_HDMI_INFOFRAME_FILE(c, p, i)		\
+> +	create_hdmi_infoframe_file(c, p, #i, &(c)->hdmi.infoframes.i)
+> +
+> +static int create_hdmi_infoframe_files(struct drm_connector *connector,
+> +				       struct dentry *parent)
+> +{
+> +	int ret;
+> +
+> +	ret = CREATE_HDMI_INFOFRAME_FILE(connector, parent, audio);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = CREATE_HDMI_INFOFRAME_FILE(connector, parent, avi);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = CREATE_HDMI_INFOFRAME_FILE(connector, parent, drm);
 
-kind regards
-Ludwig
+Hmm, I had to look into the code to figure out that 'drm' stands for
+Dynamic Range and Mastering InfoFrame. While entirely correct, it is
+also very confusing in the context of the 'drm' subsystem.
 
+I am not quite certain what the best approach is here.
 
->> Signed-off-by: Ludwig Kormann <ludwig.kormann@ict42.de>
->> ---
->> changes in v3:
->> - rebase on v2023.10
->>
->> changes in v2:
->> - rebase on v2023.07-rc2
->> - remove pin defines from defconfig
->> - get dts reviewed on the linux mailing list and
->>    scheduled for kernel 6.5 [1]
->>
->> [1]
->> https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git
->> commit de2bdfb7f79d5c655eb056d459e02be2c7f13c8b
->>
->> ---
->>   arch/arm/dts/Makefile                         |   1 +
->>   arch/arm/dts/sun7i-a20-icnova-a20-adb4006.dts | 137 ++++++++++++++++++
->>   arch/arm/dts/sun7i-a20-icnova-a20.dtsi        |  62 ++++++++
->>   board/sunxi/MAINTAINERS                       |   5 +
->>   configs/icnova-a20-adb4006_defconfig          |  20 +++
->>   5 files changed, 225 insertions(+)
->>   create mode 100644 arch/arm/dts/sun7i-a20-icnova-a20-adb4006.dts
->>   create mode 100644 arch/arm/dts/sun7i-a20-icnova-a20.dtsi
->>   create mode 100644 configs/icnova-a20-adb4006_defconfig
->>
->> diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
->> index 85fd5b1157..16d5930b78 100644
->> --- a/arch/arm/dts/Makefile
->> +++ b/arch/arm/dts/Makefile
->> @@ -667,6 +667,7 @@ dtb-$(CONFIG_MACH_SUN7I) += \
->>   	sun7i-a20-haoyu-marsboard.dtb \
->>   	sun7i-a20-hummingbird.dtb \
->>   	sun7i-a20-i12-tvbox.dtb \
->> +	sun7i-a20-icnova-a20-adb4006.dtb \
->>   	sun7i-a20-icnova-swac.dtb \
->>   	sun7i-a20-itead-ibox.dtb \
->>   	sun7i-a20-lamobo-r1.dtb \
->> diff --git a/arch/arm/dts/sun7i-a20-icnova-a20-adb4006.dts b/arch/arm/dts/sun7i-a20-icnova-a20-adb4006.dts
->> new file mode 100644
->> index 0000000000..577ead1d02
->> --- /dev/null
->> +++ b/arch/arm/dts/sun7i-a20-icnova-a20-adb4006.dts
->> @@ -0,0 +1,137 @@
->> +// SPDX-License-Identifier: (GPL-2.0 OR MIT)
->> +// Copyright (C) 2023 In-Circuit GmbH
->> +
->> +/dts-v1/;
->> +
->> +#include "sun7i-a20-icnova-a20.dtsi"
->> +
->> +#include <dt-bindings/gpio/gpio.h>
->> +#include <dt-bindings/leds/common.h>
->> +
->> +/ {
->> +	model = "In-Circuit ICnova A20 ADB4006";
->> +	compatible = "incircuit,icnova-a20-adb4006", "incircuit,icnova-a20",
->> +		     "allwinner,sun7i-a20";
->> +
->> +	aliases {
->> +		serial0 = &uart0;
->> +	};
->> +
->> +	chosen {
->> +		stdout-path = "serial0:115200n8";
->> +	};
->> +
->> +	hdmi-connector {
->> +		compatible = "hdmi-connector";
->> +		type = "a";
->> +
->> +		port {
->> +			hdmi_con_in: endpoint {
->> +				remote-endpoint = <&hdmi_out_con>;
->> +			};
->> +		};
->> +	};
->> +
->> +	leds {
->> +		compatible = "gpio-leds";
->> +
->> +		led-0 {
->> +			function = LED_FUNCTION_POWER;
->> +			color = <LED_COLOR_ID_YELLOW>;
->> +			gpios = <&pio 7 21 GPIO_ACTIVE_HIGH>; /* PH21 */
->> +			default-state = "on";
->> +		};
->> +
->> +		led-1 {
->> +			function = LED_FUNCTION_HEARTBEAT;
->> +			color = <LED_COLOR_ID_RED>;
->> +			gpios = <&pio 7 20 GPIO_ACTIVE_HIGH>; /* PH20 */
->> +			linux,default-trigger = "heartbeat";
->> +		};
->> +	};
->> +};
->> +
->> +&ahci {
->> +	target-supply = <&reg_ahci_5v>;
->> +	status = "okay";
->> +};
->> +
->> +&codec {
->> +	status = "okay";
->> +};
->> +
->> +&de {
->> +	status = "okay";
->> +};
->> +
->> +&ehci0 {
->> +	status = "okay";
->> +};
->> +
->> +&ehci1 {
->> +	status = "okay";
->> +};
->> +
->> +&hdmi {
->> +	status = "okay";
->> +};
->> +
->> +&hdmi_out {
->> +	hdmi_out_con: endpoint {
->> +		remote-endpoint = <&hdmi_con_in>;
->> +	};
->> +};
->> +
->> +&mmc0 {
->> +	vmmc-supply = <&reg_vcc3v3>;
->> +	bus-width = <4>;
->> +	cd-gpios = <&pio 7 1 GPIO_ACTIVE_LOW>; /* PH1 */
->> +	status = "okay";
->> +};
->> +
->> +&ohci0 {
->> +	status = "okay";
->> +};
->> +
->> +&ohci1 {
->> +	status = "okay";
->> +};
->> +
->> +&otg_sram {
->> +	status = "okay";
->> +};
->> +
->> +&reg_ahci_5v {
->> +	status = "okay";
->> +};
->> +
->> +&ac_power_supply {
->> +	status = "okay";
->> +};
->> +
->> +&reg_usb1_vbus {
->> +	status = "okay";
->> +};
->> +
->> +&reg_usb2_vbus {
->> +	status = "okay";
->> +};
->> +
->> +&uart0 {
->> +	pinctrl-names = "default";
->> +	pinctrl-0 = <&uart0_pb_pins>;
->> +	status = "okay";
->> +};
->> +
->> +&usb_otg {
->> +	dr_mode = "otg";
->> +	status = "okay";
->> +};
->> +
->> +&usbphy {
->> +	usb0_id_det-gpios = <&pio 7 4 GPIO_ACTIVE_HIGH>; /* PH4 */
->> +	usb0_vbus_det-gpios = <&pio 7 5 GPIO_ACTIVE_HIGH>; /* PH5 */
->> +	usb1_vbus-supply = <&reg_usb1_vbus>;
->> +	usb2_vbus-supply = <&reg_usb2_vbus>;
->> +	status = "okay";
->> +};
->> diff --git a/arch/arm/dts/sun7i-a20-icnova-a20.dtsi b/arch/arm/dts/sun7i-a20-icnova-a20.dtsi
->> new file mode 100644
->> index 0000000000..46616c6bc8
->> --- /dev/null
->> +++ b/arch/arm/dts/sun7i-a20-icnova-a20.dtsi
->> @@ -0,0 +1,62 @@
->> +// SPDX-License-Identifier: (GPL-2.0 OR MIT)
->> +// Copyright (C) 2023 In-Circuit GmbH
->> +
->> +#include "sun7i-a20.dtsi"
->> +#include "sunxi-common-regulators.dtsi"
->> +
->> +#include <dt-bindings/interrupt-controller/irq.h>
->> +
->> +&cpu0 {
->> +	cpu-supply = <&reg_dcdc2>;
->> +};
->> +
->> +&gmac {
->> +	pinctrl-names = "default";
->> +	pinctrl-0 = <&gmac_mii_pins>;
->> +	phy-handle = <&phy1>;
->> +	phy-mode = "mii";
->> +	status = "okay";
->> +};
->> +
->> +&i2c0 {
->> +	status = "okay";
->> +
->> +	axp209: pmic@34 {
->> +		reg = <0x34>;
->> +		interrupt-parent = <&nmi_intc>;
->> +		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
->> +	};
->> +};
->> +
->> +&gmac_mdio {
->> +	phy1: ethernet-phy@1 {
->> +		reg = <1>;
->> +	};
->> +};
->> +
->> +#include "axp209.dtsi"
->> +
->> +&reg_dcdc2 {
->> +	regulator-always-on;
->> +	regulator-min-microvolt = <1000000>;
->> +	regulator-max-microvolt = <1400000>;
->> +	regulator-name = "vdd-cpu";
->> +};
->> +
->> +&reg_dcdc3 {
->> +	regulator-always-on;
->> +	regulator-min-microvolt = <1000000>;
->> +	regulator-max-microvolt = <1400000>;
->> +	regulator-name = "vdd-int-dll";
->> +};
->> +
->> +&reg_ldo1 {
->> +	regulator-name = "vdd-rtc";
->> +};
->> +
->> +&reg_ldo2 {
->> +	regulator-always-on;
->> +	regulator-min-microvolt = <3000000>;
->> +	regulator-max-microvolt = <3000000>;
->> +	regulator-name = "avcc";
->> +};
->> diff --git a/board/sunxi/MAINTAINERS b/board/sunxi/MAINTAINERS
->> index 98bbd2dd25..67cdd01371 100644
->> --- a/board/sunxi/MAINTAINERS
->> +++ b/board/sunxi/MAINTAINERS
->> @@ -236,6 +236,11 @@ M:	Stefan Roese <sr@denx.de>
->>   S:	Maintained
->>   F:	configs/icnova-a20-swac_defconfig
->>   
->> +ICnova-A20-ADB4006 BOARD
->> +M:	Ludwig Kormann <ludwig.kormann@ict42.de>
->> +S:	Maintained
->> +F:	configs/icnova-a20-adb4006_defconfig
->> +
->>   ITEAD IBOX BOARD
->>   M:	Marcus Cooper <codekipper@gmail.com>
->>   S:	Maintained
->> diff --git a/configs/icnova-a20-adb4006_defconfig b/configs/icnova-a20-adb4006_defconfig
->> new file mode 100644
->> index 0000000000..f70ffe45ab
->> --- /dev/null
->> +++ b/configs/icnova-a20-adb4006_defconfig
->> @@ -0,0 +1,20 @@
->> +CONFIG_ARM=y
->> +CONFIG_ARCH_SUNXI=y
->> +CONFIG_DEFAULT_DEVICE_TREE="sun7i-a20-icnova-a20-adb4006"
->> +CONFIG_SPL=y
->> +CONFIG_MACH_SUN7I=y
->> +CONFIG_DRAM_CLK=384
->> +CONFIG_AHCI=y
->> +# CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
->> +CONFIG_SPL_I2C=y
->> +CONFIG_SCSI_AHCI=y
->> +CONFIG_SYS_I2C_MVTWSI=y
->> +CONFIG_SYS_I2C_SLAVE=0x7f
->> +CONFIG_SYS_I2C_SPEED=400000
->> +CONFIG_ETH_DESIGNWARE=y
->> +CONFIG_MII=y
->> +CONFIG_SUN7I_GMAC=y
->> +CONFIG_AXP_ALDO4_VOLT=2800
->> +CONFIG_SCSI=y
->> +CONFIG_USB_EHCI_HCD=y
->> +CONFIG_USB_OHCI_HCD=y
->
+Internally in the drm code it is talking about 'hdr' or 'hdr metadata',
+but that's a bit confusing as well since there is also an HDR Dynamic
+Metadata Extended InfoFrame defined in CTA-861, even though support for
+that is not (yet) implemented in drm.
+
+At minimum there should be a comment in the code explaining what drm
+stands for in this context.
+
+One option to consider is renaming this file to hdr_drm, thus indicating
+that this is HDR related.
+
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = CREATE_HDMI_INFOFRAME_FILE(connector, parent, spd);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = CREATE_HDMI_INFOFRAME_FILE(connector, parent, vendor);
+
+There may be multiple vendor specific InfoFrames in the future, so how
+would that be handled? Perhaps add a comment here that currently only one
+vendor specific InfoFrame is supported, but suggest how to handle multiple
+VSIFs in the future.
+
+What would actually be nice (although probably not that easy to fix) is if
+the name of the file would be "vendor-XXXXXX' where 'XXXXXX' is the IEEE OUI
+number.
+
+Regards,
+
+	Hans
+
+> +	if (ret)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +
+> +static void hdmi_debugfs_add(struct drm_connector *connector)
+> +{
+> +	struct dentry *dir;
+> +
+> +	if (!(connector->connector_type == DRM_MODE_CONNECTOR_HDMIA ||
+> +	      connector->connector_type == DRM_MODE_CONNECTOR_HDMIB))
+> +		return;
+> +
+> +	dir = debugfs_create_dir("infoframes", connector->debugfs_entry);
+> +	if (IS_ERR(dir))
+> +		return;
+> +
+> +	create_hdmi_infoframe_files(connector, dir);
+> +}
+> +
+>  void drm_debugfs_connector_add(struct drm_connector *connector)
+>  {
+>  	struct drm_minor *minor = connector->dev->primary;
+> @@ -565,6 +673,8 @@ void drm_debugfs_connector_add(struct drm_connector *connector)
+>  	debugfs_create_file("output_bpc", 0444, root, connector,
+>  			    &output_bpc_fops);
+>  
+> +	hdmi_debugfs_add(connector);
+> +
+>  	if (connector->funcs->debugfs_init)
+>  		connector->funcs->debugfs_init(connector, root);
+>  }
+> 
 
