@@ -1,46 +1,47 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBC2A1C2B
-	for <linux-sunxi@lists.linux.dev>; Sun,  5 Nov 2023 18:42:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 503C823B8
+	for <linux-sunxi@lists.linux.dev>; Sun,  5 Nov 2023 18:42:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rqScz6K/"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-32f7c44f6a7so2240575f8f.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 05 Nov 2023 10:42:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zNPu1/Nx"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-407c3adef8eso33341815e9.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 05 Nov 2023 10:42:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699209720; x=1699814520; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=s6FXMyoR2RkXPnTlL3+97juQKdzA3iKTZ459azEjBsw=;
-        b=rqScz6K/9/gEsZxDVjYXezs3GTDj2VJnr7UyfVIbtVTXeb+tTaVXspihqdKDqgLIPt
-         Qnnd6c25gFoHZSxCWgqWGA3MR6g40GRZUqM4iRqIZob5SjCbdyKVw58zUCtVfdm3viZh
-         GL8vwvKQR1sKja8vneceQ8iLGspsxShiK2PbXx8CUzQaEvKyCn6/LOFGwhWjmcQ2ESJx
-         SxNnGgK1xPE0oOJfTMiTsuAvUELC7C79dazoWN/VFGCg9ww76gWOQkWEAX5aQlW52Mm0
-         XVZ7t02+fFHrzLIEWzZL2xPSTbkM5MgHD1d1AJSZytaRAHQEi3Bb+gXJBhNKH5nPL6Fe
-         zzkQ==
+        d=linaro.org; s=google; t=1699209722; x=1699814522; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5p4QFuKK4zDjK7JmREfNGLdO3brtt0j7Hb6QAgVUrUA=;
+        b=zNPu1/NxLNfouSOD0Q+i+YV3do8FFUAUVahKj921zSXMuSCPSQ0HKpOGUd3/EwJz6T
+         VFJEHuxiQ/XEA5znvUqaN9W19gYCwoslLNPUQAlFrbG3JlaG4jPWVt2nzqprKNvLzwK9
+         6RWFSwmO9sO6HrVjOw8KOfUp3A4vugUxwKvbEbbtz+Kbv5sa6OcyQnWocUgfU3Cuosam
+         I+kVB1vgpaimRjkEjbJfw9SehcgdGcxfUl6tWRpJA594nZMNV5qwPSSJm5OXk9ryJQkw
+         UQWyw5/PrD5BiE2IHS3k8ABzcGACC/h87KG5nS/m/k3Lmh5zN42PH6yJu7AynuIvVl6M
+         wZUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699209720; x=1699814520;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=s6FXMyoR2RkXPnTlL3+97juQKdzA3iKTZ459azEjBsw=;
-        b=CO35P123bEWueTEZC9ZyJUqsmFzat6uHlnWVe3kugiGLZ8G3131fDerthX7VC3dyfE
-         DVnfr16zG+YMp7KKT5sxU2GOh/lp2Ln2hEwdxu1XbMUr6vSkod0Lws1QiJeJYKYP1MMY
-         IjQz6dyWl3MmyQ5n/FuCzRdUjrwxLJYHtoLE7Kq8Rky2zR7bGvWgF+aORmxdaL5qxaxv
-         5FtSF1nVfEVIRhmkJAkihR/VhpmidP339R+A8xFiOhHAkSIUVy9v6Gc38RcHXLhJUqAx
-         JWlHvuMSbc5/jyKaMW29qQhGTzAZaTpFjnQT/OTaPf+YqlV3Z4j8Ic335DFN0qo0Oggl
-         wzyA==
-X-Gm-Message-State: AOJu0Yy4nLCd48Xq7KSqPraIG9b2D6f3bmD0Ons5SzmqUUCffXY/G7lj
-	BPHlDuGR9+m9usFrlfRd8z9r8g==
-X-Google-Smtp-Source: AGHT+IGp5LTDf9nALATaSVGPtOxssSiLR/V1qZdAhbCJxMJjQpzx3iN0/0oJPilkWq6sFqIXs0ngFg==
-X-Received: by 2002:adf:f605:0:b0:32d:89b5:7fd9 with SMTP id t5-20020adff605000000b0032d89b57fd9mr19790945wrp.56.1699209719987;
-        Sun, 05 Nov 2023 10:41:59 -0800 (PST)
+        d=1e100.net; s=20230601; t=1699209722; x=1699814522;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5p4QFuKK4zDjK7JmREfNGLdO3brtt0j7Hb6QAgVUrUA=;
+        b=cvd/t8eIOnPVyCSV3Lnvk2L6XILFIp8w/KVhfbW11jOn6GQyd2qZ08ntUg2QgZsAO6
+         t19zinbCN7R414EgpSrJK6cElF3DfYVfZLOlfxzN/glq76ibtbzygCv61fNW5iD4lfC2
+         ndeTeU3CNDWsM+uixPe7T/07NDKB3Ipm564R+TX57OqtBBIrGAi2YFzPjmmYhSllf8y+
+         OrqMldf2WIHUvtKtalWo6fxTDBRoFxaxVappiB59ZG58wjGMwrcwDmOBQVfSdKAGrGxm
+         V+b9N3BGGjENSM27U06dwKkhTRMdDzxM1Oo5q06r+eYo/qSf8/ku2lHOrL3JUadn9jHV
+         vY6A==
+X-Gm-Message-State: AOJu0YybqHyOH4co/79E/9el0KU23aCHXn0InXlLHvR8f4eUyPgQZ9vc
+	0f3Jk306ClSPY9pDU6UJX0cT3A==
+X-Google-Smtp-Source: AGHT+IFSpmafwOZq0U7CWe+nXmQRtHQOLcDbi+JWbFPNcxG5YLhYbhIL0Wd8ASmATcTAoMtu5NK/OQ==
+X-Received: by 2002:a05:6000:18a9:b0:32f:a5af:99ca with SMTP id b9-20020a05600018a900b0032fa5af99camr11998596wri.69.1699209722530;
+        Sun, 05 Nov 2023 10:42:02 -0800 (PST)
 Received: from krzk-bin.. ([178.197.218.126])
-        by smtp.gmail.com with ESMTPSA id z17-20020a5d44d1000000b00326b8a0e817sm7370111wrr.84.2023.11.05.10.41.57
+        by smtp.gmail.com with ESMTPSA id z17-20020a5d44d1000000b00326b8a0e817sm7370111wrr.84.2023.11.05.10.42.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Nov 2023 10:41:59 -0800 (PST)
+        Sun, 05 Nov 2023 10:42:02 -0800 (PST)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Wim Van Sebroeck <wim@linux-watchdog.org>,
 	Guenter Roeck <linux@roeck-us.net>,
@@ -73,117 +74,35 @@ To: Wim Van Sebroeck <wim@linux-watchdog.org>,
 	linux-kernel@vger.kernel.org,
 	asahi@lists.linux.dev
 Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 1/2] dt-bindings: watchdog: re-order entries to match coding convention
-Date: Sun,  5 Nov 2023 19:41:53 +0100
-Message-Id: <20231105184154.43700-1-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 2/2] dt-bindings: watchdog: intel,keembay: reference common watchdog schema
+Date: Sun,  5 Nov 2023 19:41:54 +0100
+Message-Id: <20231105184154.43700-2-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231105184154.43700-1-krzysztof.kozlowski@linaro.org>
+References: <20231105184154.43700-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The Devicetree bindings coding convention, as used in most of the files
-and expressed in Documentation/devicetree/bindings/example-schema.yaml,
-expects:
-1. "allOf:" block just before "properties:" (or after "required:" for
-   more complex cases),
-2. additionalProperties/unevaluatedProperties at the end of the file,
-   just before the examples section.
-
-Re-order few schemas to match the convention to avoid repeating review
-comments for new patches using existing code as template.  No functional
-changes.
+Reference common watchdog.yaml schema to allow "timeout-sec" property
+and enforce proper device node name.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- .../bindings/watchdog/allwinner,sun4i-a10-wdt.yaml     |  6 +++---
- .../bindings/watchdog/alphascale,asm9260-wdt.yaml      |  6 +++---
- .../devicetree/bindings/watchdog/apple,wdt.yaml        |  6 +++---
- .../devicetree/bindings/watchdog/arm-smc-wdt.yaml      |  6 +++---
- .../devicetree/bindings/watchdog/brcm,bcm7038-wdt.yaml | 10 +++++-----
- .../devicetree/bindings/watchdog/cnxt,cx92755-wdt.yaml |  6 +++---
- .../devicetree/bindings/watchdog/maxim,max63xx.yaml    |  8 ++++----
- .../devicetree/bindings/watchdog/snps,dw-wdt.yaml      | 10 +++++-----
- 8 files changed, 29 insertions(+), 29 deletions(-)
+ .../devicetree/bindings/watchdog/intel,keembay-wdt.yaml      | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml b/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
-index 274519fc24fd..64c8f7393809 100644
---- a/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
-+++ b/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
-@@ -6,13 +6,13 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: Allwinner A10 Watchdog
- 
--allOf:
--  - $ref: watchdog.yaml#
--
+diff --git a/Documentation/devicetree/bindings/watchdog/intel,keembay-wdt.yaml b/Documentation/devicetree/bindings/watchdog/intel,keembay-wdt.yaml
+index 1437ff8a122f..8231dde2bfa6 100644
+--- a/Documentation/devicetree/bindings/watchdog/intel,keembay-wdt.yaml
++++ b/Documentation/devicetree/bindings/watchdog/intel,keembay-wdt.yaml
+@@ -9,6 +9,9 @@ title: Intel Keem Bay SoC non-secure Watchdog Timer
  maintainers:
-   - Chen-Yu Tsai <wens@csie.org>
-   - Maxime Ripard <mripard@kernel.org>
- 
-+allOf:
-+  - $ref: watchdog.yaml#
-+
- properties:
-   compatible:
-     oneOf:
-diff --git a/Documentation/devicetree/bindings/watchdog/alphascale,asm9260-wdt.yaml b/Documentation/devicetree/bindings/watchdog/alphascale,asm9260-wdt.yaml
-index fea84f5b7e6d..6425fe51d20c 100644
---- a/Documentation/devicetree/bindings/watchdog/alphascale,asm9260-wdt.yaml
-+++ b/Documentation/devicetree/bindings/watchdog/alphascale,asm9260-wdt.yaml
-@@ -6,12 +6,12 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: Alphascale asm9260 Watchdog timer
- 
--allOf:
--  - $ref: watchdog.yaml#
--
- maintainers:
-   - Oleksij Rempel <linux@rempel-privat.de>
- 
-+allOf:
-+  - $ref: watchdog.yaml#
-+
- properties:
-   compatible:
-     const: alphascale,asm9260-wdt
-diff --git a/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml b/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
-index 929681127df0..21872e15916c 100644
---- a/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
-+++ b/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
-@@ -6,12 +6,12 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: Apple SoC Watchdog
- 
--allOf:
--  - $ref: watchdog.yaml#
--
- maintainers:
-   - Sven Peter <sven@svenpeter.dev>
- 
-+allOf:
-+  - $ref: watchdog.yaml#
-+
- properties:
-   compatible:
-     items:
-diff --git a/Documentation/devicetree/bindings/watchdog/arm-smc-wdt.yaml b/Documentation/devicetree/bindings/watchdog/arm-smc-wdt.yaml
-index b5573852ef5a..8e9d0b7e8244 100644
---- a/Documentation/devicetree/bindings/watchdog/arm-smc-wdt.yaml
-+++ b/Documentation/devicetree/bindings/watchdog/arm-smc-wdt.yaml
-@@ -6,12 +6,12 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: ARM Secure Monitor Call based watchdog
- 
--allOf:
--  - $ref: watchdog.yaml#
--
- maintainers:
-   - Julius Werner <jwerner@chromium.org>
+   - Wan Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>
  
 +allOf:
 +  - $ref: watchdog.yaml#
@@ -191,121 +110,15 @@ index b5573852ef5a..8e9d0b7e8244 100644
  properties:
    compatible:
      enum:
-diff --git a/Documentation/devicetree/bindings/watchdog/brcm,bcm7038-wdt.yaml b/Documentation/devicetree/bindings/watchdog/brcm,bcm7038-wdt.yaml
-index 526ff908d134..e898167ef628 100644
---- a/Documentation/devicetree/bindings/watchdog/brcm,bcm7038-wdt.yaml
-+++ b/Documentation/devicetree/bindings/watchdog/brcm,bcm7038-wdt.yaml
-@@ -6,14 +6,14 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: BCM63xx and BCM7038 watchdog timer
- 
--allOf:
--  - $ref: watchdog.yaml#
--
- maintainers:
-   - Florian Fainelli <f.fainelli@gmail.com>
-   - Justin Chen <justinpopo6@gmail.com>
-   - Rafał Miłecki <rafal@milecki.pl>
- 
-+allOf:
-+  - $ref: watchdog.yaml#
-+
- properties:
-   compatible:
-     enum:
-@@ -29,11 +29,11 @@ properties:
-       The clock running the watchdog. If no clock is found the driver will
-       default to 27000000 Hz.
- 
--unevaluatedProperties: false
--
- required:
-   - reg
- 
-+unevaluatedProperties: false
-+
- examples:
-   - |
-     watchdog@f040a7e8 {
-diff --git a/Documentation/devicetree/bindings/watchdog/cnxt,cx92755-wdt.yaml b/Documentation/devicetree/bindings/watchdog/cnxt,cx92755-wdt.yaml
-index 1844d7e026fe..13236ee61f6f 100644
---- a/Documentation/devicetree/bindings/watchdog/cnxt,cx92755-wdt.yaml
-+++ b/Documentation/devicetree/bindings/watchdog/cnxt,cx92755-wdt.yaml
-@@ -12,12 +12,12 @@ description: |
-   timer counters. The first timer (called "Timer A") is the only one that can be
-   used as watchdog.
- 
--allOf:
--  - $ref: watchdog.yaml#
--
- maintainers:
-   - Baruch Siach <baruch@tkos.co.il>
- 
-+allOf:
-+  - $ref: watchdog.yaml#
-+
- properties:
-   compatible:
-     const: cnxt,cx92755-wdt
-diff --git a/Documentation/devicetree/bindings/watchdog/maxim,max63xx.yaml b/Documentation/devicetree/bindings/watchdog/maxim,max63xx.yaml
-index 1a6490c43d89..442c21f12a3b 100644
---- a/Documentation/devicetree/bindings/watchdog/maxim,max63xx.yaml
-+++ b/Documentation/devicetree/bindings/watchdog/maxim,max63xx.yaml
-@@ -6,14 +6,14 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: Maxim 63xx Watchdog Timers
- 
--allOf:
--  - $ref: watchdog.yaml#
--  - $ref: /schemas/memory-controllers/mc-peripheral-props.yaml#
--
- maintainers:
-   - Marc Zyngier <maz@kernel.org>
-   - Linus Walleij <linus.walleij@linaro.org>
- 
-+allOf:
-+  - $ref: watchdog.yaml#
-+  - $ref: /schemas/memory-controllers/mc-peripheral-props.yaml#
-+
- properties:
-   compatible:
-     enum:
-diff --git a/Documentation/devicetree/bindings/watchdog/snps,dw-wdt.yaml b/Documentation/devicetree/bindings/watchdog/snps,dw-wdt.yaml
-index 76eceeddd150..c7aab0418a32 100644
---- a/Documentation/devicetree/bindings/watchdog/snps,dw-wdt.yaml
-+++ b/Documentation/devicetree/bindings/watchdog/snps,dw-wdt.yaml
-@@ -6,12 +6,12 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: Synopsys Designware Watchdog Timer
- 
--allOf:
--  - $ref: watchdog.yaml#
--
- maintainers:
-   - Jamie Iles <jamie@jamieiles.com>
- 
-+allOf:
-+  - $ref: watchdog.yaml#
-+
- properties:
-   compatible:
-     oneOf:
-@@ -73,13 +73,13 @@ properties:
-     minItems: 16
-     maxItems: 16
- 
--unevaluatedProperties: false
--
- required:
-   - compatible
-   - reg
+@@ -37,7 +40,7 @@ required:
+   - interrupt-names
    - clocks
  
+-additionalProperties: false
 +unevaluatedProperties: false
-+
+ 
  examples:
    - |
-     watchdog@ffd02000 {
 -- 
 2.34.1
 
