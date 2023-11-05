@@ -1,269 +1,311 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A31FC8832;
-	Fri,  3 Nov 2023 09:05:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3347C433C7;
-	Fri,  3 Nov 2023 09:05:20 +0000 (UTC)
-Message-ID: <806f2ad3-c80b-41e5-9388-f1af7bace8e3@xs4all.nl>
-Date: Fri, 3 Nov 2023 10:05:18 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBC2A1C2B
+	for <linux-sunxi@lists.linux.dev>; Sun,  5 Nov 2023 18:42:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rqScz6K/"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-32f7c44f6a7so2240575f8f.1
+        for <linux-sunxi@lists.linux.dev>; Sun, 05 Nov 2023 10:42:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1699209720; x=1699814520; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=s6FXMyoR2RkXPnTlL3+97juQKdzA3iKTZ459azEjBsw=;
+        b=rqScz6K/9/gEsZxDVjYXezs3GTDj2VJnr7UyfVIbtVTXeb+tTaVXspihqdKDqgLIPt
+         Qnnd6c25gFoHZSxCWgqWGA3MR6g40GRZUqM4iRqIZob5SjCbdyKVw58zUCtVfdm3viZh
+         GL8vwvKQR1sKja8vneceQ8iLGspsxShiK2PbXx8CUzQaEvKyCn6/LOFGwhWjmcQ2ESJx
+         SxNnGgK1xPE0oOJfTMiTsuAvUELC7C79dazoWN/VFGCg9ww76gWOQkWEAX5aQlW52Mm0
+         XVZ7t02+fFHrzLIEWzZL2xPSTbkM5MgHD1d1AJSZytaRAHQEi3Bb+gXJBhNKH5nPL6Fe
+         zzkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699209720; x=1699814520;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=s6FXMyoR2RkXPnTlL3+97juQKdzA3iKTZ459azEjBsw=;
+        b=CO35P123bEWueTEZC9ZyJUqsmFzat6uHlnWVe3kugiGLZ8G3131fDerthX7VC3dyfE
+         DVnfr16zG+YMp7KKT5sxU2GOh/lp2Ln2hEwdxu1XbMUr6vSkod0Lws1QiJeJYKYP1MMY
+         IjQz6dyWl3MmyQ5n/FuCzRdUjrwxLJYHtoLE7Kq8Rky2zR7bGvWgF+aORmxdaL5qxaxv
+         5FtSF1nVfEVIRhmkJAkihR/VhpmidP339R+A8xFiOhHAkSIUVy9v6Gc38RcHXLhJUqAx
+         JWlHvuMSbc5/jyKaMW29qQhGTzAZaTpFjnQT/OTaPf+YqlV3Z4j8Ic335DFN0qo0Oggl
+         wzyA==
+X-Gm-Message-State: AOJu0Yy4nLCd48Xq7KSqPraIG9b2D6f3bmD0Ons5SzmqUUCffXY/G7lj
+	BPHlDuGR9+m9usFrlfRd8z9r8g==
+X-Google-Smtp-Source: AGHT+IGp5LTDf9nALATaSVGPtOxssSiLR/V1qZdAhbCJxMJjQpzx3iN0/0oJPilkWq6sFqIXs0ngFg==
+X-Received: by 2002:adf:f605:0:b0:32d:89b5:7fd9 with SMTP id t5-20020adff605000000b0032d89b57fd9mr19790945wrp.56.1699209719987;
+        Sun, 05 Nov 2023 10:41:59 -0800 (PST)
+Received: from krzk-bin.. ([178.197.218.126])
+        by smtp.gmail.com with ESMTPSA id z17-20020a5d44d1000000b00326b8a0e817sm7370111wrr.84.2023.11.05.10.41.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 Nov 2023 10:41:59 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Julius Werner <jwerner@chromium.org>,
+	Evan Benn <evanbenn@chromium.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Oleksij Rempel <linux@rempel-privat.de>,
+	Justin Chen <justinpopo6@gmail.com>,
+	=?UTF-8?q?=82ecki?= <rafal@milecki.pl>,
+	Baruch Siach <baruch@tkos.co.il>,
+	Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>,
+	Marc Zyngier <maz@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Jamie Iles <jamie@jamieiles.com>,
+	linux-watchdog@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 1/2] dt-bindings: watchdog: re-order entries to match coding convention
+Date: Sun,  5 Nov 2023 19:41:53 +0100
+Message-Id: <20231105184154.43700-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v3 12/37] drm/connector: hdmi: Create Infoframe
- DebugFS entries
-Content-Language: en-US, nl
-To: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
- Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <20231031-kms-hdmi-connector-state-v3-0-328b0fae43a7@kernel.org>
- <20231031-kms-hdmi-connector-state-v3-12-328b0fae43a7@kernel.org>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20231031-kms-hdmi-connector-state-v3-12-328b0fae43a7@kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Maxime,
+The Devicetree bindings coding convention, as used in most of the files
+and expressed in Documentation/devicetree/bindings/example-schema.yaml,
+expects:
+1. "allOf:" block just before "properties:" (or after "required:" for
+   more complex cases),
+2. additionalProperties/unevaluatedProperties at the end of the file,
+   just before the examples section.
 
-Thank you for posting v3, this time it runs fine on my RPi 4, thank you for
-fixing that.
+Re-order few schemas to match the convention to avoid repeating review
+comments for new patches using existing code as template.  No functional
+changes.
 
-I'll start working on a conformity checker for this.
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ .../bindings/watchdog/allwinner,sun4i-a10-wdt.yaml     |  6 +++---
+ .../bindings/watchdog/alphascale,asm9260-wdt.yaml      |  6 +++---
+ .../devicetree/bindings/watchdog/apple,wdt.yaml        |  6 +++---
+ .../devicetree/bindings/watchdog/arm-smc-wdt.yaml      |  6 +++---
+ .../devicetree/bindings/watchdog/brcm,bcm7038-wdt.yaml | 10 +++++-----
+ .../devicetree/bindings/watchdog/cnxt,cx92755-wdt.yaml |  6 +++---
+ .../devicetree/bindings/watchdog/maxim,max63xx.yaml    |  8 ++++----
+ .../devicetree/bindings/watchdog/snps,dw-wdt.yaml      | 10 +++++-----
+ 8 files changed, 29 insertions(+), 29 deletions(-)
 
-I have a few remarks:
-
-On 31/10/2023 17:48, Maxime Ripard wrote:
-> There has been some discussions recently about the infoframes sent by
-> drivers and if they were properly generated.
-> 
-> In parallel, there's been some interest in creating an infoframe-decode
-> tool similar to edid-decode.
-> 
-> Both would be much easier if we were to expose the infoframes programmed
-> in the hardware. It won't be perfect since we have no guarantee that
-> it's actually what goes through the wire, but it's the best we can do.
-> 
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
->  drivers/gpu/drm/drm_debugfs.c | 110 ++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 110 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-> index 2de43ff3ce0a..3c65b1d3f926 100644
-> --- a/drivers/gpu/drm/drm_debugfs.c
-> +++ b/drivers/gpu/drm/drm_debugfs.c
-> @@ -538,6 +538,114 @@ static const struct file_operations drm_connector_fops = {
->  	.write = connector_write
->  };
->  
-> +struct debugfs_wrapper {
-> +	struct drm_connector *connector;
-> +	struct drm_connector_hdmi_infoframe *frame;
-> +};
-> +
-> +#define HDMI_MAX_INFOFRAME_SIZE		29
-> +
-> +static ssize_t
-> +infoframe_read(struct file *filp, char __user *ubuf, size_t count, loff_t *ppos)
-> +{
-> +	const struct debugfs_wrapper *wrapper = filp->private_data;
-> +	struct drm_connector *connector = wrapper->connector;
-> +	struct drm_connector_hdmi_infoframe *infoframe = wrapper->frame;
-> +	union hdmi_infoframe *frame = &infoframe->data;
-> +	u8 buf[HDMI_MAX_INFOFRAME_SIZE];
-> +	ssize_t len = 0;
-> +
-> +	mutex_lock(&connector->hdmi.infoframes.lock);
-> +
-> +	if (!infoframe->set)
-> +		goto out;
-> +
-> +	len = hdmi_infoframe_pack(frame, buf, sizeof(buf));
-> +	if (len < 0)
-> +		goto out;
-> +
-> +	len = simple_read_from_buffer(ubuf, count, ppos, buf, len);
-> +
-> +out:
-> +	mutex_unlock(&connector->hdmi.infoframes.lock);
-> +	return len;
-> +}
-> +
-> +static const struct file_operations infoframe_fops = {
-> +	.owner   = THIS_MODULE,
-> +	.open    = simple_open,
-> +	.read    = infoframe_read,
-> +};
-> +
-> +static int create_hdmi_infoframe_file(struct drm_connector *connector,
-> +				      struct dentry *parent,
-> +				      const char *filename,
-> +				      struct drm_connector_hdmi_infoframe *frame)
-> +{
-> +	struct drm_device *dev = connector->dev;
-> +	struct debugfs_wrapper *wrapper;
-> +	struct dentry *file;
-> +
-> +	wrapper = drmm_kzalloc(dev, sizeof(*wrapper), GFP_KERNEL);
-> +	if (!wrapper)
-> +		return -ENOMEM;
-> +
-> +	wrapper->connector = connector;
-> +	wrapper->frame = frame;
-> +
-> +	file = debugfs_create_file(filename, 0400, parent, wrapper, &infoframe_fops);
-> +	if (IS_ERR(file))
-> +		return PTR_ERR(file);
-> +
-> +	return 0;
-> +}
-> +
-> +#define CREATE_HDMI_INFOFRAME_FILE(c, p, i)		\
-> +	create_hdmi_infoframe_file(c, p, #i, &(c)->hdmi.infoframes.i)
-> +
-> +static int create_hdmi_infoframe_files(struct drm_connector *connector,
-> +				       struct dentry *parent)
-> +{
-> +	int ret;
-> +
-> +	ret = CREATE_HDMI_INFOFRAME_FILE(connector, parent, audio);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = CREATE_HDMI_INFOFRAME_FILE(connector, parent, avi);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = CREATE_HDMI_INFOFRAME_FILE(connector, parent, drm);
-
-Hmm, I had to look into the code to figure out that 'drm' stands for
-Dynamic Range and Mastering InfoFrame. While entirely correct, it is
-also very confusing in the context of the 'drm' subsystem.
-
-I am not quite certain what the best approach is here.
-
-Internally in the drm code it is talking about 'hdr' or 'hdr metadata',
-but that's a bit confusing as well since there is also an HDR Dynamic
-Metadata Extended InfoFrame defined in CTA-861, even though support for
-that is not (yet) implemented in drm.
-
-At minimum there should be a comment in the code explaining what drm
-stands for in this context.
-
-One option to consider is renaming this file to hdr_drm, thus indicating
-that this is HDR related.
-
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = CREATE_HDMI_INFOFRAME_FILE(connector, parent, spd);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = CREATE_HDMI_INFOFRAME_FILE(connector, parent, vendor);
-
-There may be multiple vendor specific InfoFrames in the future, so how
-would that be handled? Perhaps add a comment here that currently only one
-vendor specific InfoFrame is supported, but suggest how to handle multiple
-VSIFs in the future.
-
-What would actually be nice (although probably not that easy to fix) is if
-the name of the file would be "vendor-XXXXXX' where 'XXXXXX' is the IEEE OUI
-number.
-
-Regards,
-
-	Hans
-
-> +	if (ret)
-> +		return ret;
-> +
-> +	return 0;
-> +}
-> +
-> +static void hdmi_debugfs_add(struct drm_connector *connector)
-> +{
-> +	struct dentry *dir;
-> +
-> +	if (!(connector->connector_type == DRM_MODE_CONNECTOR_HDMIA ||
-> +	      connector->connector_type == DRM_MODE_CONNECTOR_HDMIB))
-> +		return;
-> +
-> +	dir = debugfs_create_dir("infoframes", connector->debugfs_entry);
-> +	if (IS_ERR(dir))
-> +		return;
-> +
-> +	create_hdmi_infoframe_files(connector, dir);
-> +}
-> +
->  void drm_debugfs_connector_add(struct drm_connector *connector)
->  {
->  	struct drm_minor *minor = connector->dev->primary;
-> @@ -565,6 +673,8 @@ void drm_debugfs_connector_add(struct drm_connector *connector)
->  	debugfs_create_file("output_bpc", 0444, root, connector,
->  			    &output_bpc_fops);
->  
-> +	hdmi_debugfs_add(connector);
-> +
->  	if (connector->funcs->debugfs_init)
->  		connector->funcs->debugfs_init(connector, root);
->  }
-> 
+diff --git a/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml b/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
+index 274519fc24fd..64c8f7393809 100644
+--- a/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
++++ b/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
+@@ -6,13 +6,13 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Allwinner A10 Watchdog
+ 
+-allOf:
+-  - $ref: watchdog.yaml#
+-
+ maintainers:
+   - Chen-Yu Tsai <wens@csie.org>
+   - Maxime Ripard <mripard@kernel.org>
+ 
++allOf:
++  - $ref: watchdog.yaml#
++
+ properties:
+   compatible:
+     oneOf:
+diff --git a/Documentation/devicetree/bindings/watchdog/alphascale,asm9260-wdt.yaml b/Documentation/devicetree/bindings/watchdog/alphascale,asm9260-wdt.yaml
+index fea84f5b7e6d..6425fe51d20c 100644
+--- a/Documentation/devicetree/bindings/watchdog/alphascale,asm9260-wdt.yaml
++++ b/Documentation/devicetree/bindings/watchdog/alphascale,asm9260-wdt.yaml
+@@ -6,12 +6,12 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Alphascale asm9260 Watchdog timer
+ 
+-allOf:
+-  - $ref: watchdog.yaml#
+-
+ maintainers:
+   - Oleksij Rempel <linux@rempel-privat.de>
+ 
++allOf:
++  - $ref: watchdog.yaml#
++
+ properties:
+   compatible:
+     const: alphascale,asm9260-wdt
+diff --git a/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml b/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
+index 929681127df0..21872e15916c 100644
+--- a/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
++++ b/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
+@@ -6,12 +6,12 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Apple SoC Watchdog
+ 
+-allOf:
+-  - $ref: watchdog.yaml#
+-
+ maintainers:
+   - Sven Peter <sven@svenpeter.dev>
+ 
++allOf:
++  - $ref: watchdog.yaml#
++
+ properties:
+   compatible:
+     items:
+diff --git a/Documentation/devicetree/bindings/watchdog/arm-smc-wdt.yaml b/Documentation/devicetree/bindings/watchdog/arm-smc-wdt.yaml
+index b5573852ef5a..8e9d0b7e8244 100644
+--- a/Documentation/devicetree/bindings/watchdog/arm-smc-wdt.yaml
++++ b/Documentation/devicetree/bindings/watchdog/arm-smc-wdt.yaml
+@@ -6,12 +6,12 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: ARM Secure Monitor Call based watchdog
+ 
+-allOf:
+-  - $ref: watchdog.yaml#
+-
+ maintainers:
+   - Julius Werner <jwerner@chromium.org>
+ 
++allOf:
++  - $ref: watchdog.yaml#
++
+ properties:
+   compatible:
+     enum:
+diff --git a/Documentation/devicetree/bindings/watchdog/brcm,bcm7038-wdt.yaml b/Documentation/devicetree/bindings/watchdog/brcm,bcm7038-wdt.yaml
+index 526ff908d134..e898167ef628 100644
+--- a/Documentation/devicetree/bindings/watchdog/brcm,bcm7038-wdt.yaml
++++ b/Documentation/devicetree/bindings/watchdog/brcm,bcm7038-wdt.yaml
+@@ -6,14 +6,14 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: BCM63xx and BCM7038 watchdog timer
+ 
+-allOf:
+-  - $ref: watchdog.yaml#
+-
+ maintainers:
+   - Florian Fainelli <f.fainelli@gmail.com>
+   - Justin Chen <justinpopo6@gmail.com>
+   - Rafał Miłecki <rafal@milecki.pl>
+ 
++allOf:
++  - $ref: watchdog.yaml#
++
+ properties:
+   compatible:
+     enum:
+@@ -29,11 +29,11 @@ properties:
+       The clock running the watchdog. If no clock is found the driver will
+       default to 27000000 Hz.
+ 
+-unevaluatedProperties: false
+-
+ required:
+   - reg
+ 
++unevaluatedProperties: false
++
+ examples:
+   - |
+     watchdog@f040a7e8 {
+diff --git a/Documentation/devicetree/bindings/watchdog/cnxt,cx92755-wdt.yaml b/Documentation/devicetree/bindings/watchdog/cnxt,cx92755-wdt.yaml
+index 1844d7e026fe..13236ee61f6f 100644
+--- a/Documentation/devicetree/bindings/watchdog/cnxt,cx92755-wdt.yaml
++++ b/Documentation/devicetree/bindings/watchdog/cnxt,cx92755-wdt.yaml
+@@ -12,12 +12,12 @@ description: |
+   timer counters. The first timer (called "Timer A") is the only one that can be
+   used as watchdog.
+ 
+-allOf:
+-  - $ref: watchdog.yaml#
+-
+ maintainers:
+   - Baruch Siach <baruch@tkos.co.il>
+ 
++allOf:
++  - $ref: watchdog.yaml#
++
+ properties:
+   compatible:
+     const: cnxt,cx92755-wdt
+diff --git a/Documentation/devicetree/bindings/watchdog/maxim,max63xx.yaml b/Documentation/devicetree/bindings/watchdog/maxim,max63xx.yaml
+index 1a6490c43d89..442c21f12a3b 100644
+--- a/Documentation/devicetree/bindings/watchdog/maxim,max63xx.yaml
++++ b/Documentation/devicetree/bindings/watchdog/maxim,max63xx.yaml
+@@ -6,14 +6,14 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Maxim 63xx Watchdog Timers
+ 
+-allOf:
+-  - $ref: watchdog.yaml#
+-  - $ref: /schemas/memory-controllers/mc-peripheral-props.yaml#
+-
+ maintainers:
+   - Marc Zyngier <maz@kernel.org>
+   - Linus Walleij <linus.walleij@linaro.org>
+ 
++allOf:
++  - $ref: watchdog.yaml#
++  - $ref: /schemas/memory-controllers/mc-peripheral-props.yaml#
++
+ properties:
+   compatible:
+     enum:
+diff --git a/Documentation/devicetree/bindings/watchdog/snps,dw-wdt.yaml b/Documentation/devicetree/bindings/watchdog/snps,dw-wdt.yaml
+index 76eceeddd150..c7aab0418a32 100644
+--- a/Documentation/devicetree/bindings/watchdog/snps,dw-wdt.yaml
++++ b/Documentation/devicetree/bindings/watchdog/snps,dw-wdt.yaml
+@@ -6,12 +6,12 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Synopsys Designware Watchdog Timer
+ 
+-allOf:
+-  - $ref: watchdog.yaml#
+-
+ maintainers:
+   - Jamie Iles <jamie@jamieiles.com>
+ 
++allOf:
++  - $ref: watchdog.yaml#
++
+ properties:
+   compatible:
+     oneOf:
+@@ -73,13 +73,13 @@ properties:
+     minItems: 16
+     maxItems: 16
+ 
+-unevaluatedProperties: false
+-
+ required:
+   - compatible
+   - reg
+   - clocks
+ 
++unevaluatedProperties: false
++
+ examples:
+   - |
+     watchdog@ffd02000 {
+-- 
+2.34.1
 
