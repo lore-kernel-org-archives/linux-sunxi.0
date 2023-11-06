@@ -1,80 +1,79 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EA8F630
-	for <linux-sunxi@lists.linux.dev>; Mon,  6 Nov 2023 02:00:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from 2.mo583.mail-out.ovh.net (2.mo583.mail-out.ovh.net [178.33.109.111])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B96218636
+	for <linux-sunxi@lists.linux.dev>; Mon,  6 Nov 2023 11:51:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=milecki.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=milecki.pl
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 96222C15;
-	Sun,  5 Nov 2023 18:01:25 -0800 (PST)
-Received: from localhost.localdomain (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A9C7C3F703;
-	Sun,  5 Nov 2023 18:00:40 -0800 (PST)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Cc: Samuel Holland <samuel@sholland.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	u-boot@lists.denx.de,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH] sunxi: h616: (really) lower SPL stack address to avoid BROM data
-Date: Mon,  6 Nov 2023 01:59:30 +0000
-Message-Id: <20231106015930.30439-1-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.35.8
+Received: from director2.ghost.mail-out.ovh.net (unknown [10.108.4.73])
+	by mo583.mail-out.ovh.net (Postfix) with ESMTP id 1915821142
+	for <linux-sunxi@lists.linux.dev>; Mon,  6 Nov 2023 08:10:49 +0000 (UTC)
+Received: from ghost-submission-6684bf9d7b-wwxds (unknown [10.110.103.14])
+	by director2.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 3C6D81FEB6;
+	Mon,  6 Nov 2023 08:10:45 +0000 (UTC)
+Received: from RCM-web8.webmail.mail.ovh.net ([151.80.29.22])
+	by ghost-submission-6684bf9d7b-wwxds with ESMTPSA
+	id 7H6TDIWfSGVAfQQAGogUGA
+	(envelope-from <rafal@milecki.pl>); Mon, 06 Nov 2023 08:10:45 +0000
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Date: Mon, 06 Nov 2023 09:10:44 +0100
+From: =?UTF-8?Q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck
+ <linux@roeck-us.net>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Hector Martin <marcan@marcan.st>, Sven
+ Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, Julius
+ Werner <jwerner@chromium.org>, Evan Benn <evanbenn@chromium.org>, Florian
+ Fainelli <florian.fainelli@broadcom.com>, Broadcom internal kernel review
+ list <bcm-kernel-feedback-list@broadcom.com>, Maxime Ripard
+ <mripard@kernel.org>, Oleksij Rempel <linux@rempel-privat.de>, Justin Chen
+ <justinpopo6@gmail.com>, Baruch Siach <baruch@tkos.co.il>, Ahmad Zainie
+ <wan.ahmad.zainie.wan.mohamad@intel.com>, Marc Zyngier <maz@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>, Jamie Iles <jamie@jamieiles.com>,
+ linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev
+Subject: Re: [PATCH 1/2] dt-bindings: watchdog: re-order entries to match
+ coding convention
+In-Reply-To: <20231105184154.43700-1-krzysztof.kozlowski@linaro.org>
+References: <20231105184154.43700-1-krzysztof.kozlowski@linaro.org>
+User-Agent: Roundcube Webmail/1.4.15
+Message-ID: <300293570c0d29d5d4a39762121b5bef@milecki.pl>
+X-Sender: rafal@milecki.pl
+X-Originating-IP: 31.11.218.106
+X-Webmail-UserID: rafal@milecki.pl
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
 Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 11495438051932285714
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvkedruddufedgudduiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeggfffhvfevufgjfhgfkfigihgtgfesthekjhdttderjeenucfhrhhomheptfgrfhgrlhcuofhilhgvtghkihcuoehrrghfrghlsehmihhlvggtkhhirdhplheqnecuggftrfgrthhtvghrnhepjedvlefguedthfefleehgeeftdeludeluedvgfeffeevhfevtdehteejteefheegnecukfhppeduvdejrddtrddtrddupdefuddruddurddvudekrddutdeipdduhedurdektddrvdelrddvvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehrrghfrghlsehmihhlvggtkhhirdhplheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqshhunhigiheslhhishhtshdrlhhinhhugidruggvvhdpoffvtefjohhsthepmhhoheekfedpmhhouggvpehsmhhtphhouhht
 
-When using the USB OTG FEL mode on the Allwinner H616, the BootROM
-stores some data at the end of SRAM C. This is also the location where
-we place the initial SPL stack, so it will overwrite this data.
-We still need the BROM code after running the SPL, so should leave that
-area alone.
-Interestingly this does not seem to have an adverse effect, I guess on
-the "way out" (when we return to FEL after the SPL has run), this data
-is not needed by the BROM, for just the trailing end of the USB operation.
-However this is still wrong, and we should not clobber BROM data.
+On 2023-11-05 19:41, Krzysztof Kozlowski wrote:
+> The Devicetree bindings coding convention, as used in most of the files
+> and expressed in Documentation/devicetree/bindings/example-schema.yaml,
+> expects:
+> 1. "allOf:" block just before "properties:" (or after "required:" for
+>    more complex cases),
+> 2. additionalProperties/unevaluatedProperties at the end of the file,
+>    just before the examples section.
+> 
+> Re-order few schemas to match the convention to avoid repeating review
+> comments for new patches using existing code as template.  No 
+> functional
+> changes.
 
-Lower the SPL stack address to be situated right below the swap buffers
-we use in sunxi-fel: that should be out of the way of everyone else.
+It's surely going to help a bit but for a long time solution maybe you
+could consider adding proper check to Rob's bot and/or checkpatch.pl.
 
-This obsoletes a previous commit (eb53e7743c8f) with the same name:
-that one was changing the address in an *unused* macro in sunxi_common.h,
-so the previous patch didn't have any effect at all.
-
-Fixes: eb53e7743c8f ("sunxi: h616: lower SPL stack address to avoid BROM data")
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
-Hi,
-
-sorry for the blunder with that previous patch!
-This issue came up when cleaning up some SPL code: LOW_LEVEL_SRAM_STACK,
-as changed in the previous patch, is not used anywhere. I have a patch to
-remove that whole section from sunxi-common.h, and will send that as part
-of some bigger SPL clean-up series later.
-
-Cheers,
-Andre
-
- common/spl/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/common/spl/Kconfig b/common/spl/Kconfig
-index 25cd18afda7..c521b02f4a3 100644
---- a/common/spl/Kconfig
-+++ b/common/spl/Kconfig
-@@ -370,7 +370,7 @@ config SPL_STACK
- 	default 0x93ffb8 if ARCH_MX6 && MX6_OCRAM_256KB
- 	default 0x91ffb8 if ARCH_MX6 && !MX6_OCRAM_256KB
- 	default 0x118000 if MACH_SUN50I_H6
--	default 0x58000 if MACH_SUN50I_H616
-+	default 0x52a00 if MACH_SUN50I_H616
- 	default 0x40000 if MACH_SUN8I_R528
- 	default 0x54000 if MACH_SUN50I || MACH_SUN50I_H5
- 	default 0x18000 if MACH_SUN9I
 -- 
-2.35.8
-
+Rafał Miłecki
