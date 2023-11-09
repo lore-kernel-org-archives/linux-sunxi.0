@@ -1,78 +1,97 @@
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A3141078E;
-	Wed,  8 Nov 2023 16:41:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94133374C9
+	for <linux-sunxi@lists.linux.dev>; Thu,  9 Nov 2023 20:29:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-6ce31c4a653so4337187a34.3;
-        Wed, 08 Nov 2023 08:41:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699461673; x=1700066473;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TSxL3MDH/hHWV3cRZwmMwvNKyaUEVCBXJu1BFVWJHwQ=;
-        b=KfGUK2yI2eQq5rMLvsMvf3LeGXlHYyEIxEwbOVchnyaQTrWcSQwtyBPjzWtLYk+Yx5
-         nM8FNxuPoIufNY7oU789faPUgSKBmOykPi+8C6nw8GdXvwgm+7t+Gtop1PohisvSt0GF
-         WgKO2yCSvUXCREjglYW0aRUrU+1YpzQMohNh+ZJa1EfjuILtBcraL7y7hr9XKm4JN+MH
-         sdU8m7ofEEVvdt0m0Zx5K925cOCShkrNNMIii+WniU38k9VqpsOi4iMCXrX2nPEIaq3y
-         Jbq77eDMQPiq1ORP3LgJf2OLqORayj0f8H9HEg12rD3BVv3OelIkRRGH/r57DUfmat/l
-         RHPg==
-X-Gm-Message-State: AOJu0YyNidY2NWRJT3oyxFLBoHOnZGH+SYTIk9FvFlT5aDGLNuFO+1dO
-	rxpx5D+9x5RbaJKVN0oZYQ==
-X-Google-Smtp-Source: AGHT+IEf+6ItAebPYovhnFoCTcGgM9HQB5LAxzETm5MftRlfTvL6If9mI5W6oa4ALafvno12x6nzlw==
-X-Received: by 2002:a9d:744e:0:b0:6b7:43eb:c1a with SMTP id p14-20020a9d744e000000b006b743eb0c1amr2306497otk.36.1699461673654;
-        Wed, 08 Nov 2023 08:41:13 -0800 (PST)
-Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id e2-20020a9d7302000000b006ce32816a35sm1940528otk.81.2023.11.08.08.41.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Nov 2023 08:41:13 -0800 (PST)
-Received: (nullmailer pid 2364307 invoked by uid 1000);
-	Wed, 08 Nov 2023 16:41:11 -0000
-Date: Wed, 8 Nov 2023 10:41:11 -0600
-From: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Julius Werner <jwerner@chromium.org>, linux-watchdog@vger.kernel.org, 
-	Justin Chen <justinpopo6@gmail.com>, Oleksij Rempel <linux@rempel-privat.de>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, linux-sunxi@lists.linux.dev, 
-	Evan Benn <evanbenn@chromium.org>, Guenter Roeck <linux@roeck-us.net>, 
-	Wim Van Sebroeck <wim@linux-watchdog.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, asahi@lists.linux.dev, 
-	Sven Peter <sven@svenpeter.dev>, Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org, 
-	Hector Martin <marcan@marcan.st>, Jamie Iles <jamie@jamieiles.com>, 
-	Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>, Baruch Siach <baruch@tkos.co.il>, 
-	linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
-	=?UTF-8?B?77+9ZWNraQ==?= <rafal@milecki.pl>, 
-	Samuel Holland <samuel@sholland.org>, Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Marc Zyngier <maz@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 2/2] dt-bindings: watchdog: intel,keembay: reference
- common watchdog schema
-Message-ID: <169946167110.2364244.9399282289978694454.robh@kernel.org>
-References: <20231105184154.43700-1-krzysztof.kozlowski@linaro.org>
- <20231105184154.43700-2-krzysztof.kozlowski@linaro.org>
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r1BeH-000307-0E; Thu, 09 Nov 2023 21:29:09 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r1BeD-007rWn-TW; Thu, 09 Nov 2023 21:29:05 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r1BeD-00GGtj-K5; Thu, 09 Nov 2023 21:29:05 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Arnd Bergmann <arnd@arndb.de>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	kernel@pengutronix.de
+Subject: [PATCH 06/12] bus: sun50i-de2: Convert to platform remove callback returning void
+Date: Thu,  9 Nov 2023 21:28:36 +0100
+Message-ID: <20231109202830.4124591-7-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.42.0.586.gbc5204569f7d.dirty
+In-Reply-To: <20231109202830.4124591-1-u.kleine-koenig@pengutronix.de>
+References: <20231109202830.4124591-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231105184154.43700-2-krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1726; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=YjxQ9k2VhTNSjPuszXvrypquoQe61zCjR6hyAesl/x0=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlTUD1h/FL212JBtXnUYvTOt6e/oAiPyWOeMRVg MwOBzqtJD2JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZU1A9QAKCRCPgPtYfRL+ TtAtB/40Cw1OEL2T46KLdtC6CPWjFjNclqSJ+qr/t4mj2hWDKwQtf0kTynpCe6dsTwfyifEPBfQ d3VgfUp1eO2NYm9OBdHXDl32gc0MDmOoNpdgDKlCc6aYawUN/noK27PmoPWdFuEcm1VyU9uMAuX sR5pS1cctbTPPozjbI4Y43ApHt0iatVbNW2jxyRqQW7Ac+Bi/tfW+R4g2VJqQ3O78mZ3dSY5MLt q7CyCWxnhD1PXANJFoeNMAgGd65yzDtNxJ66WOLbB/W5SkCO0WrqOoVNBIBUmsCU7nTUwhDZUVT hIhBabSoRtg8sz8beNoY1SfoJ4H6moejJnD+pPh8i+i+h+2g
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
+The .remove() callback for a platform driver returns an int which makes
+many driver authors wrongly assume it's possible to do error handling by
+returning an error code. However the value returned is ignored (apart
+from emitting a warning) and this typically results in resource leaks.
 
-On Sun, 05 Nov 2023 19:41:54 +0100, Krzysztof Kozlowski wrote:
-> Reference common watchdog.yaml schema to allow "timeout-sec" property
-> and enforce proper device node name.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  .../devicetree/bindings/watchdog/intel,keembay-wdt.yaml      | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
+To improve here there is a quest to make the remove callback return
+void. In the first step of this quest all drivers are converted to
+.remove_new(), which already returns void. Eventually after all drivers
+are converted, .remove_new() will be renamed to .remove().
 
-Acked-by: Rob Herring <robh@kernel.org>
+Trivially convert this driver from always returning zero in the remove
+callback to the void returning variant.
+
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/bus/sun50i-de2.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/bus/sun50i-de2.c b/drivers/bus/sun50i-de2.c
+index 414f29cdedf0..3339311ce068 100644
+--- a/drivers/bus/sun50i-de2.c
++++ b/drivers/bus/sun50i-de2.c
+@@ -24,10 +24,9 @@ static int sun50i_de2_bus_probe(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
+-static int sun50i_de2_bus_remove(struct platform_device *pdev)
++static void sun50i_de2_bus_remove(struct platform_device *pdev)
+ {
+ 	sunxi_sram_release(&pdev->dev);
+-	return 0;
+ }
+ 
+ static const struct of_device_id sun50i_de2_bus_of_match[] = {
+@@ -37,7 +36,7 @@ static const struct of_device_id sun50i_de2_bus_of_match[] = {
+ 
+ static struct platform_driver sun50i_de2_bus_driver = {
+ 	.probe = sun50i_de2_bus_probe,
+-	.remove = sun50i_de2_bus_remove,
++	.remove_new = sun50i_de2_bus_remove,
+ 	.driver = {
+ 		.name = "sun50i-de2-bus",
+ 		.of_match_table = sun50i_de2_bus_of_match,
+-- 
+2.42.0
 
