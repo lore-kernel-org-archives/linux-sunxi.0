@@ -1,82 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAC078BEC;
-	Sun, 12 Nov 2023 13:24:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G4gasymp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2366C433D9;
-	Sun, 12 Nov 2023 13:24:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1699795498;
-	bh=fA/Gl85/aqYKqIqYNvGeoHYQKLCcLZ+PRdv4RZjBolk=;
-	h=From:To:Cc:Subject:Date:From;
-	b=G4gasympdwV0LTZFszLaEsnVxur1LcQ9mupuXVEF/d/u0In3xvHjHyDe+C23ARXlP
-	 /oZUWp+4Y4eJ7VKnFFmOrykf84ss0pTRAlDmh5ooE8bLeVVVGXKp3mc+WIsLeXO4LV
-	 Vay3bn2vp5PLMR0uB0HZsKOgXZXHwoRAulBaZAPbTshvWuTZJyWu3OmsyYZPCLXumN
-	 K6oQX5bIdbFQajlWbvbvqsYtukbj4BEY0/WnDoaW4dIFkPOyl7kzLkwxf7azfM4fW3
-	 TK4M5fy/TS5AaczRg3zrpmSDNWlL5IQozQtzZPdr+TBCLlGiHjuxAb7APcJDTHY2up
-	 21c10MbWUfx+A==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Axel Lin <axel.lin@ingics.com>,
-	Boris Brezillon <boris.brezillon@free-electrons.com>,
-	Wolfram Sang <wsa@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	andi.shyti@kernel.org,
-	wens@csie.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	linux-i2c@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8D0C1A58D
+	for <linux-sunxi@lists.linux.dev>; Sun, 12 Nov 2023 21:26:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5A27CDA7;
+	Sun, 12 Nov 2023 13:26:57 -0800 (PST)
+Received: from localhost.localdomain (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 144EF3F641;
+	Sun, 12 Nov 2023 13:26:10 -0800 (PST)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Tom Rini <trini@konsulko.com>
+Cc: Jagan Teki <jagan@amarulasolutions.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Mikhail Kalashnikov <iuncuim@gmail.com>,
+	Ludwig Kormann <ludwig.kormann@ict42.de>,
+	u-boot@lists.denx.de,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH AUTOSEL 4.14] i2c: sun6i-p2wi: Prevent potential division by zero
-Date: Sun, 12 Nov 2023 08:24:54 -0500
-Message-ID: <20231112132454.174917-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.42.0
+Subject: Pull request: u-boot-sunxi/master for 2024.01
+Date: Sun, 12 Nov 2023 21:24:50 +0000
+Message-Id: <20231112212450.882-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.35.8
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 4.14.329
 Content-Transfer-Encoding: 8bit
 
-From: Axel Lin <axel.lin@ingics.com>
+Hi Tom,
 
-[ Upstream commit 5ac61d26b8baff5b2e5a9f3dc1ef63297e4b53e7 ]
+please pull some more sunxi changes for this cycle:
 
-Make sure we don't OOPS in case clock-frequency is set to 0 in a DT. The
-variable set here is later used as a divisor.
+the first few patches are some easy refactorings and fixes, most of them
+actually don't change the generated binaries at all. Then there is a
+defconfig for a new board, for which we just gained the .dts file from
+the last kernel DT sync.
+On top there is support for a new PMIC (AXP313), and LPDDR4 support for
+the Allwinner H616 SoC, both of which are needed to support new devices
+that appeared lately, especially cheap TV boxes.
 
-Signed-off-by: Axel Lin <axel.lin@ingics.com>
-Acked-by: Boris Brezillon <boris.brezillon@free-electrons.com>
-Signed-off-by: Wolfram Sang <wsa@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/i2c/busses/i2c-sun6i-p2wi.c | 5 +++++
- 1 file changed, 5 insertions(+)
+While those are technically new features, they don't affect existing boards,
+for instance the LPDDR4 support code is guarded by a new DRAM type Kconfig
+variable. So the risk for regressions is very slim.
 
-diff --git a/drivers/i2c/busses/i2c-sun6i-p2wi.c b/drivers/i2c/busses/i2c-sun6i-p2wi.c
-index 7c07ce116e384..540c33f4e3500 100644
---- a/drivers/i2c/busses/i2c-sun6i-p2wi.c
-+++ b/drivers/i2c/busses/i2c-sun6i-p2wi.c
-@@ -202,6 +202,11 @@ static int p2wi_probe(struct platform_device *pdev)
- 		return -EINVAL;
- 	}
- 
-+	if (clk_freq == 0) {
-+		dev_err(dev, "clock-frequency is set to 0 in DT\n");
-+		return -EINVAL;
-+	}
-+
- 	if (of_get_child_count(np) > 1) {
- 		dev_err(dev, "P2WI only supports one slave device\n");
- 		return -EINVAL;
--- 
-2.42.0
+Gitlab CI passed, and I booted that briefly on some boards, including an
+H616 and an H618 one (with LPDDR4).
 
+Thanks,
+Andre
+
+=========================================================
+The following changes since commit da2e3196e4dc28298b58a018ace07f85eecd1652:
+
+  Merge patch series "arm: dts: k3-am6: Fix Ethernet/DMA" (2023-11-10 15:25:47 -0500)
+
+are available in the Git repository at:
+
+  https://source.denx.de/u-boot/custodians/u-boot-sunxi.git master
+
+for you to fetch changes up to 4b02f0120a4bb2a5d7081aef8cef6a4ca57e9db2:
+
+  sunxi: H616: add LPDDR4 DRAM support (2023-11-12 18:04:32 +0000)
+
+----------------------------------------------------------------
+Andre Przywara (4):
+      sunxi: board: simplify early PMIC setup conditions
+      power: pmic: sunxi: add AXP313 SPL driver
+      power: regulator: add AXP313 support
+      sunxi: H616: DRAM: refactor mctl_phy_configure_odt()
+
+Ludwig Kormann (1):
+      arm: dts: icnova-a20-adb4006: Add board support
+
+Mikhail Kalashnikov (1):
+      sunxi: H616: add LPDDR4 DRAM support
+
+Samuel Holland (5):
+      net: sun8i_emac: Drop DM_GPIO checks
+      sunxi: mmc: Move header to the driver directory
+      clk: sunxi: Use the right symbol in the Makefile
+      sunxi: mmc: Sort compatible strings numerically
+      pinctrl: sunxi: Avoid using .bss for SPL
+
+Tom Rini (1):
+      arm: sunxi: Correct warning in board_fit_config_name_match
+
+ arch/arm/dts/Makefile                              |   1 +
+ arch/arm/include/asm/arch-sunxi/dram_sun50i_h616.h |   2 +
+ arch/arm/include/asm/arch-sunxi/mmc.h              | 139 +---------
+ arch/arm/mach-sunxi/Kconfig                        |  17 ++
+ arch/arm/mach-sunxi/dram_sun50i_h616.c             | 294 +++++++++++++++------
+ arch/arm/mach-sunxi/dram_timings/Makefile          |   1 +
+ .../arm/mach-sunxi/dram_timings/h616_lpddr4_2133.c |  95 +++++++
+ arch/arm/mach-sunxi/pmic_bus.c                     |   3 +
+ board/sunxi/MAINTAINERS                            |   5 +
+ board/sunxi/board.c                                |  38 ++-
+ configs/icnova-a20-adb4006_defconfig               |  21 ++
+ drivers/clk/Makefile                               |   2 +-
+ drivers/mmc/sunxi_mmc.c                            |   6 +-
+ drivers/mmc/sunxi_mmc.h                            | 138 ++++++++++
+ drivers/net/sun8i_emac.c                           |  10 -
+ drivers/pinctrl/sunxi/pinctrl-sunxi.c              |   2 +-
+ drivers/power/Kconfig                              |  19 +-
+ drivers/power/Makefile                             |   1 +
+ drivers/power/axp313.c                             | 134 ++++++++++
+ drivers/power/pmic/axp.c                           |   1 +
+ drivers/power/regulator/axp_regulator.c            |  17 ++
+ include/axp_pmic.h                                 |   1 +
+ 22 files changed, 688 insertions(+), 259 deletions(-)
+ create mode 100644 arch/arm/mach-sunxi/dram_timings/h616_lpddr4_2133.c
+ create mode 100644 configs/icnova-a20-adb4006_defconfig
+ create mode 100644 drivers/mmc/sunxi_mmc.h
+ create mode 100644 drivers/power/axp313.c
