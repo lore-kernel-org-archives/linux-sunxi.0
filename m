@@ -1,22 +1,22 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 399CE8C05;
-	Sun, 12 Nov 2023 13:23:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0990114A9F;
+	Sun, 12 Nov 2023 13:23:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z+bzMcb8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46191C433CA;
-	Sun, 12 Nov 2023 13:23:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TEkfg4Vk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21078C433C9;
+	Sun, 12 Nov 2023 13:23:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1699795412;
+	s=k20201202; t=1699795434;
 	bh=Xq/kzMbdpTOA74+EGlOh+LhuKvaYKKQT5nN3FI1YCg4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Z+bzMcb8Vu2j9ed0uplAVf/f5ZZSUCERPYMnb5Y3A/45JOKp7fDAFEe17ixKewU0A
-	 wQvZb0VmsvE/j3/63E/L/lpSYKMS8Cwz4FyR1/YiLcuM1iBcbE3fpZ7C/EXcPPjJ4Y
-	 3MNmWcMVNsI7E+Ec0Lsf1BrkfnWPo+tha+HMKT6Np/m7IjR2eYhooGSrNXa8t3TEmM
-	 U+DeaJ49VFiNyYOYn8rLSPLChZoScCnPOjAjk3hWKtuGCB00Fpx31sSuzLm96/7yGa
-	 DraQ8YKFGwk+1fVgikNh0JATKVsulhNjFYAsakXD/PWyvMynBBZiA1LJF6NHseETVI
-	 /uj1YSpbpME4w==
+	b=TEkfg4Vkipt0lpod+cxCs1UUm0ojxghxNEPncUudRPU8088njuoObB/+YZz5O8FwO
+	 l69MhKYUoq9pxtRHEKVXDTy4Ua+9/lwdhIGSdxjGuFBePShZAdzD5cWNS8WyCSrEn5
+	 iwRGWs8KgDPePv0UiOyE0jZJOD3b07hRfrl2Kh0+P6cNtLOnSBGGQijv0cppifrB13
+	 lNEks/mQDUdpnmE6suilU9WDqsED2hUc6W1yv8bCQQM5dsXq0t+EmVL6sQeVT41NAn
+	 e9DKRnEoP2mfCWP7xeezF1WLpF4cVOXJlbXxZUkCKR9bbj8h17bfSqSinBukH9r3tD
+	 Eh1rpqINqhO4A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -31,12 +31,12 @@ Cc: Axel Lin <axel.lin@ingics.com>,
 	linux-i2c@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.6 4/7] i2c: sun6i-p2wi: Prevent potential division by zero
-Date: Sun, 12 Nov 2023 08:23:13 -0500
-Message-ID: <20231112132323.174148-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.5 4/7] i2c: sun6i-p2wi: Prevent potential division by zero
+Date: Sun, 12 Nov 2023 08:23:36 -0500
+Message-ID: <20231112132347.174334-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231112132323.174148-1-sashal@kernel.org>
-References: <20231112132323.174148-1-sashal@kernel.org>
+In-Reply-To: <20231112132347.174334-1-sashal@kernel.org>
+References: <20231112132347.174334-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,7 +45,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.1
+X-stable-base: Linux 6.5.11
 Content-Transfer-Encoding: 8bit
 
 From: Axel Lin <axel.lin@ingics.com>
