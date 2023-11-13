@@ -1,27 +1,26 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8D0C1A58D
-	for <linux-sunxi@lists.linux.dev>; Sun, 12 Nov 2023 21:26:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5A27CDA7;
-	Sun, 12 Nov 2023 13:26:57 -0800 (PST)
-Received: from localhost.localdomain (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 144EF3F641;
-	Sun, 12 Nov 2023 13:26:10 -0800 (PST)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Tom Rini <trini@konsulko.com>
-Cc: Jagan Teki <jagan@amarulasolutions.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Mikhail Kalashnikov <iuncuim@gmail.com>,
-	Ludwig Kormann <ludwig.kormann@ict42.de>,
-	u-boot@lists.denx.de,
-	linux-sunxi@lists.linux.dev
-Subject: Pull request: u-boot-sunxi/master for 2024.01
-Date: Sun, 12 Nov 2023 21:24:50 +0000
-Message-Id: <20231112212450.882-1-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.35.8
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E0E4883B;
+	Mon, 13 Nov 2023 03:23:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tXXHDD4v"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 23FFBC4339A;
+	Mon, 13 Nov 2023 03:23:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1699845835;
+	bh=M3Qhhjk/BU+r9ygb4BrBodry+Iy+/+c1KAZvoMB6Rjg=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=tXXHDD4vc13CqUYQaDnEhtGLHW1POo2WeYIwiz7RivcXeGCX56ZEHdMgH4lWjscCu
+	 TRYnwpJvawaBHgmt3cJfhHfVuEEyj9Z4oVfuW4J44Vk+fwBuqUmSiItgpGhvBEvQWa
+	 uUY+5xo82BA1kb1ChCxUiL+iwRg+RpcI0uc8TxmBIlmhU8AqiNRK+dsRlb77FjXT/g
+	 wQmKVPKgIAbBig2lnZ0zl7BxNArqSB9iMwH9Hasgm6eV8Xb3HRP1Y0E25pUR2iuJfO
+	 qIWWcsuFRmJ/kI0wDOLJTjshHmYrPMDwNu0Rpk8xwHufp8wdnYSlDWWi5G6haP8284
+	 LAsQGZ+w47fZg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E412EE32714;
+	Mon, 13 Nov 2023 03:23:54 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -29,89 +28,72 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 00/49] iio: Convert to platform remove callback returning void
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <169984583492.27851.676337627622488866.git-patchwork-notify@kernel.org>
+Date: Mon, 13 Nov 2023 03:23:54 +0000
+References: <20230919174931.1417681-1-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230919174931.1417681-1-u.kleine-koenig@pengutronix.de>
+To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=3Cu=2Ekleine-koenig=40pengutronix=2Ede=3E?=@ci.codeaurora.org
+Cc: jic23@kernel.org, jikos@kernel.org, srinivas.pandruvada@linux.intel.com,
+ lars@metafoo.de, linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
+ kernel@pengutronix.de, linus.walleij@linaro.org,
+ linux-arm-kernel@lists.infradead.org, eugen.hristev@collabora.com,
+ nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
+ claudiu.beznea@tuxon.dev, ruanjinjie@huawei.com, robh@kernel.org,
+ heiko@sntech.de, yangyingliang@huawei.com, wens@csie.org,
+ aidanmacdonald.0x0@gmail.com, andy.shevchenko@gmail.com, rjui@broadcom.com,
+ sbranden@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
+ hsweeten@visionengravers.com, alexander.sverdlin@gmail.com,
+ krzysztof.kozlowski@linaro.org, alim.akhtar@samsung.com,
+ linux-samsung-soc@vger.kernel.org, shawnguo@kernel.org,
+ s.hauer@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+ ak@it-klinger.de, cai.huoqing@linux.dev, haibo.chen@nxp.com,
+ neil.armstrong@linaro.org, khilman@baylibre.com, jbrunet@baylibre.com,
+ martin.blumenstingl@googlemail.com, gnstark@sberdevices.ru,
+ andriy.shevchenko@linux.intel.com, nuno.sa@analog.com,
+ linux-amlogic@lists.infradead.org, sravanhome@gmail.com, jkluo@hust.edu.cn,
+ dzm91@hust.edu.cn, avifishman70@gmail.com, tmaimon77@gmail.com,
+ tali.perry1@gmail.com, venture@google.com, yuenn@google.com,
+ benjaminfair@google.com, openbmc@lists.ozlabs.org, agross@kernel.org,
+ andersson@kernel.org, konrad.dybcio@linaro.org,
+ linux-arm-msm@vger.kernel.org, marek.vasut@gmail.com,
+ mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
+ olivier.moysan@foss.st.com, fabrice.gasnier@foss.st.com,
+ zhang_shurong@foxmail.com, frank.li@vivo.com,
+ linux-stm32@st-md-mailman.stormreply.com, sean@geanix.com, trix@redhat.com,
+ jernej.skrabec@gmail.com, samuel@sholland.org, rafael.j.wysocki@intel.com,
+ damien.lemoal@opensource.wdc.com, broonie@kernel.org, idosch@nvidia.com,
+ daniel.lezcano@linaro.org, linux-sunxi@lists.linux.dev,
+ dmitry.torokhov@gmail.com, andreas@kemnade.info, peda@axentia.se,
+ vz@mleia.com, ktsai@capellamicro.com, bleung@chromium.org,
+ groeck@chromium.org, chrome-platform@lists.linux.dev
 
-Hi Tom,
+Hello:
 
-please pull some more sunxi changes for this cycle:
+This patch was applied to chrome-platform/linux.git (for-kernelci)
+by Jonathan Cameron <Jonathan.Cameron@huawei.com>:
 
-the first few patches are some easy refactorings and fixes, most of them
-actually don't change the generated binaries at all. Then there is a
-defconfig for a new board, for which we just gained the .dts file from
-the last kernel DT sync.
-On top there is support for a new PMIC (AXP313), and LPDDR4 support for
-the Allwinner H616 SoC, both of which are needed to support new devices
-that appeared lately, especially cheap TV boxes.
+On Tue, 19 Sep 2023 19:48:42 +0200 you wrote:
+> this series converts all platform drivers below drivers/iio to use
+> .remove_new(). The motivation is to get rid of an integer return code
+> that is (mostly) ignored by the platform driver core and error prone on
+> the driver side. As all platform drivers return zero unconditionally in their
+> remove callback up to now, the conversions are "trivial".
+> 
+> See commit 5c5a7680e67b ("platform: Provide a remove callback that
+> returns no value") for an extended explanation and the eventual goal.
+> 
+> [...]
 
-While those are technically new features, they don't affect existing boards,
-for instance the LPDDR4 support code is guarded by a new DRAM type Kconfig
-variable. So the risk for regressions is very slim.
+Here is the summary with links:
+  - [45/49] iio: proximity: cros_ec_mkbp: Convert to platform remove callback returning void
+    https://git.kernel.org/chrome-platform/c/2df694f710d2
 
-Gitlab CI passed, and I booted that briefly on some boards, including an
-H616 and an H618 one (with LPDDR4).
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Thanks,
-Andre
 
-=========================================================
-The following changes since commit da2e3196e4dc28298b58a018ace07f85eecd1652:
-
-  Merge patch series "arm: dts: k3-am6: Fix Ethernet/DMA" (2023-11-10 15:25:47 -0500)
-
-are available in the Git repository at:
-
-  https://source.denx.de/u-boot/custodians/u-boot-sunxi.git master
-
-for you to fetch changes up to 4b02f0120a4bb2a5d7081aef8cef6a4ca57e9db2:
-
-  sunxi: H616: add LPDDR4 DRAM support (2023-11-12 18:04:32 +0000)
-
-----------------------------------------------------------------
-Andre Przywara (4):
-      sunxi: board: simplify early PMIC setup conditions
-      power: pmic: sunxi: add AXP313 SPL driver
-      power: regulator: add AXP313 support
-      sunxi: H616: DRAM: refactor mctl_phy_configure_odt()
-
-Ludwig Kormann (1):
-      arm: dts: icnova-a20-adb4006: Add board support
-
-Mikhail Kalashnikov (1):
-      sunxi: H616: add LPDDR4 DRAM support
-
-Samuel Holland (5):
-      net: sun8i_emac: Drop DM_GPIO checks
-      sunxi: mmc: Move header to the driver directory
-      clk: sunxi: Use the right symbol in the Makefile
-      sunxi: mmc: Sort compatible strings numerically
-      pinctrl: sunxi: Avoid using .bss for SPL
-
-Tom Rini (1):
-      arm: sunxi: Correct warning in board_fit_config_name_match
-
- arch/arm/dts/Makefile                              |   1 +
- arch/arm/include/asm/arch-sunxi/dram_sun50i_h616.h |   2 +
- arch/arm/include/asm/arch-sunxi/mmc.h              | 139 +---------
- arch/arm/mach-sunxi/Kconfig                        |  17 ++
- arch/arm/mach-sunxi/dram_sun50i_h616.c             | 294 +++++++++++++++------
- arch/arm/mach-sunxi/dram_timings/Makefile          |   1 +
- .../arm/mach-sunxi/dram_timings/h616_lpddr4_2133.c |  95 +++++++
- arch/arm/mach-sunxi/pmic_bus.c                     |   3 +
- board/sunxi/MAINTAINERS                            |   5 +
- board/sunxi/board.c                                |  38 ++-
- configs/icnova-a20-adb4006_defconfig               |  21 ++
- drivers/clk/Makefile                               |   2 +-
- drivers/mmc/sunxi_mmc.c                            |   6 +-
- drivers/mmc/sunxi_mmc.h                            | 138 ++++++++++
- drivers/net/sun8i_emac.c                           |  10 -
- drivers/pinctrl/sunxi/pinctrl-sunxi.c              |   2 +-
- drivers/power/Kconfig                              |  19 +-
- drivers/power/Makefile                             |   1 +
- drivers/power/axp313.c                             | 134 ++++++++++
- drivers/power/pmic/axp.c                           |   1 +
- drivers/power/regulator/axp_regulator.c            |  17 ++
- include/axp_pmic.h                                 |   1 +
- 22 files changed, 688 insertions(+), 259 deletions(-)
- create mode 100644 arch/arm/mach-sunxi/dram_timings/h616_lpddr4_2133.c
- create mode 100644 configs/icnova-a20-adb4006_defconfig
- create mode 100644 drivers/mmc/sunxi_mmc.h
- create mode 100644 drivers/power/axp313.c
