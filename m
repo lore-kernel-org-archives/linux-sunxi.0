@@ -1,26 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1B8FC132;
-	Mon, 13 Nov 2023 03:42:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79FAF1C29E
+	for <linux-sunxi@lists.linux.dev>; Mon, 13 Nov 2023 11:24:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XlxhlH2K"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3BFD9C43397;
-	Mon, 13 Nov 2023 03:42:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1699846957;
-	bh=cJyTsg2/ykeyXvrK54v0p7rMm498zi6eFEDrVxQoqHU=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=XlxhlH2Ky0/ppr6cbSjHHpmiaiAVtSAxgBo4szAffgNq3Vw2d4mxasFwD8OxzJ9Zc
-	 f4QvUyLxBzdsORjYJ/jIA3bMgB6rFLhgu9WGPPq6txPrGEpYMonIfKKyLZFKV9Ikgr
-	 i46ejT5aoIaDrxYme/xKHKediCRPVMl04Gq+WxbwWhon8SoJXo7GvqFTX7QGYoTGuv
-	 Q+xiS2gFfR3PcLmP2/s/s4W4dBHixX8YysXwO7Btaoc8ufZji2Kt6zGcmxlXEjGfeS
-	 Tys2pX5hYdkuhdMzwFp19SMxgYZGEqpYnLIzX7HltYLcLL+0OAkYB96UQAAEngliA1
-	 T3cWunvqmrg/g==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 2142AE32714;
-	Mon, 13 Nov 2023 03:42:37 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GezeQdMb"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4083f61322fso33326885e9.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 13 Nov 2023 03:24:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699874641; x=1700479441; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4/UMvWLGwbB65y4MgNgbTrhLeriroJNqxOaU5RBpd/A=;
+        b=GezeQdMb2PRdYxvq/V3gGFc5EFzS4tcTQbQP51qekc7qV0HjZVcD0Z80dUVj9mh4ka
+         KmkYkA1RJnbCUr6KDXa8T2huOpK26OrQTYDAbiTLM8hgqsnXR0G2lJ0NM1t0jSlcqAph
+         4cZ7s2oZmd+TtlfliX5+uLpbGiSWPbwFnUzA0679EiOTpjc36gHquOJp4Lq+kJI06oaf
+         Q5o99bAEJM7gFif3JJA0G2uCPjl+g2aqgbTY4dix+qaNGCsopDjrdt/18Z12PXKOdLCF
+         fmJFPHy3gxD5LmAu/7d1F5Bn9g/cZVhrwuv/edENKLKFG7SmCi78JjIWO61Bjwg1wMKl
+         fyaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699874641; x=1700479441;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4/UMvWLGwbB65y4MgNgbTrhLeriroJNqxOaU5RBpd/A=;
+        b=LXXenFEfU34X9lontXIRvKqFnvPNSwH8ih2HSkGixetH363IIcUzLFhhgGnp17C2lm
+         MqHjr8K3qPkzh9OfVBSMLYzQRdXnaf/ozYB96iPeWxjGmUbMTopQqJFBNM4aJSzxvN0I
+         i1QzyEBmX7yqFkYcYklqiMxQXLvf/tixkaL0YQZJPiCYy4lB0ggODq9n1trbAjXiasNx
+         hHyE/MempN+22AD/yLI2M2NIujyV0Od/eBoFBOXvwDkbo3Lc5QwGoLwYG6UpcGOyyqcp
+         QSXYI+OKV86tuRn/yRnw0yiJQbCEdrhMLECC7J7QGEKPSWnWyaAo5Mi7O09ROLZhWmUC
+         J2gQ==
+X-Gm-Message-State: AOJu0Yy+v/NYIpGdir3KuSCswRIh5rHieZsPYmqQ619BV8PLrx0bl/g1
+	zgZSO0jIKk0xbsB6dEuEulo=
+X-Google-Smtp-Source: AGHT+IHeSfxulnBJhsxmWDCBwohx10bO7bTu1BHjhSiyjqQiFY1QaU+JjC7xoDkTmTAquVkbrdJhaA==
+X-Received: by 2002:a05:600c:4fd2:b0:404:7670:90b8 with SMTP id o18-20020a05600c4fd200b00404767090b8mr5004204wmq.27.1699874640270;
+        Mon, 13 Nov 2023 03:24:00 -0800 (PST)
+Received: from zotac.lan. (dynamic-2a01-0c22-6e16-fe00-2223-08ff-fe18-0310.c22.pool.telefonica.de. [2a01:c22:6e16:fe00:2223:8ff:fe18:310])
+        by smtp.gmail.com with ESMTPSA id l19-20020a05600c4f1300b0040772138bb7sm13565787wmq.2.2023.11.13.03.23.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Nov 2023 03:23:59 -0800 (PST)
+From: Heiner Kallweit <hkallweit1@gmail.com>
+To: Wolfram Sang <wsa@kernel.org>,
+	intel-gfx@lists.freedesktop.org
+Cc: linux-i2c@vger.kernel.org,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	linux-fbdev@vger.kernel.org,
+	amd-gfx@lists.freedesktop.org,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Jocelyn Falempe <jfalempe@redhat.com>,
+	linux-sunxi@lists.linux.dev,
+	linux-mediatek@lists.infradead.org,
+	Sean Paul <sean@poorly.run>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org,
+	Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Yongqin Liu <yongqin.liu@linaro.org>,
+	John Stultz <jstultz@google.com>
+Subject: [PATCH 00/20] remove I2C_CLASS_DDC support
+Date: Mon, 13 Nov 2023 12:23:24 +0100
+Message-ID: <20231113112344.719-1-hkallweit1@gmail.com>
+X-Mailer: git-send-email 2.42.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -28,57 +78,47 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 00/52] input: Convert to platform remove callback returning
- void
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <169984695713.27851.5146160260731495399.git-patchwork-notify@kernel.org>
-Date: Mon, 13 Nov 2023 03:42:37 +0000
-References: <20230920125829.1478827-1-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20230920125829.1478827-1-u.kleine-koenig@pengutronix.de>
-To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=3Cu=2Ekleine-koenig=40pengutronix=2Ede=3E?=@ci.codeaurora.org
-Cc: dmitry.torokhov@gmail.com, michael.hennerich@analog.com,
- linux-input@vger.kernel.org, kernel@pengutronix.de, bleung@chromium.org,
- groeck@chromium.org, gregkh@linuxfoundation.org, Jonathan.Cameron@huawei.com,
- joewu@msi.com, chrome-platform@lists.linux.dev,
- andriy.shevchenko@linux.intel.com, mkorpershoek@baylibre.com,
- jeff@labundy.com, robh@kernel.org, lis8215@gmail.com, pavel@ucw.cz,
- rostedt@goodmis.org, pabeni@redhat.com, kvalo@kernel.org, frank.li@vivo.com,
- ye.xingchen@zte.com.cn, mcoquelin.stm32@gmail.com,
- alexandre.torgue@foss.st.com, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, support.opensource@diasemi.com,
- o2g.org.ru@gmail.com, lee@kernel.org, linus.walleij@linaro.org,
- agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
- linux-arm-msm@vger.kernel.org, hdegoede@redhat.com, mitr@volny.cz,
- patches@opensource.cirrus.com, christophe.jaillet@wanadoo.fr, windhl@126.com,
- chenjun102@huawei.com, ruanjinjie@huawei.com, wens@csie.org,
- jernej.skrabec@gmail.com, samuel@sholland.org, linux-sunxi@lists.linux.dev,
- michal.simek@amd.com, robert.jarzmik@free.fr, dmitry.baryshkov@linaro.org,
- arnd@arndb.de, rafael.j.wysocki@intel.com, krzysztof.kozlowski@linaro.org,
- daniel.lezcano@linaro.org, corbet@lwn.net
 
-Hello:
+After removal of the legacy EEPROM driver and I2C_CLASS_DDC support in
+olpc_dcon there's no i2c client driver left supporting I2C_CLASS_DDC.
+Class-based device auto-detection is a legacy mechanism and shouldn't
+be used in new code. So we can remove this class completely now.
 
-This patch was applied to chrome-platform/linux.git (for-next)
-by Dmitry Torokhov <dmitry.torokhov@gmail.com>:
+Preferably this series should be applied via the i2c tree.
 
-On Wed, 20 Sep 2023 14:57:37 +0200 you wrote:
-> Hello,
-> 
-> this series converts all platform drivers below drivers/input to use
-> remove_new. The motivation is to get rid of an integer return code
-> that is (mostly) ignored by the platform driver core and error prone on
-> the driver side.
-> 
-> [...]
+Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 
-Here is the summary with links:
-  - [02/52] input: cros_ec_keyb - Convert to platform remove callback returning void
-    https://git.kernel.org/chrome-platform/c/63ef64cb6453
+---
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c           |    1 -
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |    1 -
+ drivers/gpu/drm/ast/ast_i2c.c                     |    1 -
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c         |    1 -
+ drivers/gpu/drm/display/drm_dp_helper.c           |    1 -
+ drivers/gpu/drm/display/drm_dp_mst_topology.c     |    1 -
+ drivers/gpu/drm/gma500/cdv_intel_dp.c             |    1 -
+ drivers/gpu/drm/gma500/intel_gmbus.c              |    1 -
+ drivers/gpu/drm/gma500/oaktrail_hdmi_i2c.c        |    1 -
+ drivers/gpu/drm/gma500/psb_intel_sdvo.c           |    1 -
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c   |    1 -
+ drivers/gpu/drm/i915/display/intel_gmbus.c        |    1 -
+ drivers/gpu/drm/i915/display/intel_sdvo.c         |    1 -
+ drivers/gpu/drm/loongson/lsdc_i2c.c               |    1 -
+ drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c           |    1 -
+ drivers/gpu/drm/mgag200/mgag200_i2c.c             |    1 -
+ drivers/gpu/drm/msm/hdmi/hdmi_i2c.c               |    1 -
+ drivers/gpu/drm/radeon/radeon_i2c.c               |    1 -
+ drivers/gpu/drm/rockchip/inno_hdmi.c              |    1 -
+ drivers/gpu/drm/rockchip/rk3066_hdmi.c            |    1 -
+ drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c            |    1 -
+ drivers/video/fbdev/core/fb_ddc.c                 |    1 -
+ drivers/video/fbdev/cyber2000fb.c                 |    1 -
+ drivers/video/fbdev/i740fb.c                      |    1 -
+ drivers/video/fbdev/intelfb/intelfb_i2c.c         |   15 +++++----------
+ drivers/video/fbdev/matrox/i2c-matroxfb.c         |   12 ++++--------
+ drivers/video/fbdev/s3fb.c                        |    1 -
+ drivers/video/fbdev/tdfxfb.c                      |    1 -
+ drivers/video/fbdev/tridentfb.c                   |    1 -
+ drivers/video/fbdev/via/via_i2c.c                 |    1 -
+ include/linux/i2c.h                               |    1 -
+ 31 files changed, 9 insertions(+), 47 deletions(-)
