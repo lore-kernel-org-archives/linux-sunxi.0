@@ -1,128 +1,177 @@
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD2BB3FE40
-	for <linux-sunxi@lists.linux.dev>; Tue, 14 Nov 2023 13:24:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TJWaa40m"
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-66cfd35f595so28780056d6.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 14 Nov 2023 05:24:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699968288; x=1700573088; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=DXlobsUXWVZnCCx4FHbx2dgLdz+a6A+PeoEHES5fC5k=;
-        b=TJWaa40mzK4ZrHCrO/BAGtahGgX6y6u7Qtvgvm/DgmFgN7UgjETFRNmY1nYrVDiDsU
-         NjMpAZ2/hgK2i63YnQ0/dSsoUDQNdLwsAm/wbLol48B+tlX8TjruakQJh77v6S4iNqwF
-         hXwJNURip4TRYNEOYiS8PTVUsg+LHKB+RPQ+vjWt1WlcFepVKsS1pUpdpQYx9D2Rojpy
-         2mCfESHRyB45VPIFIVE1+RwHObqxr5uZXfs84k79JhBHSQoPri/X52oKialEO45y1NaA
-         P0lX6YC6vXgczSxzdbRwTQ7bea61k6IMZc5x8znusGo65o8b+R7RoG2iJIfmrf13Pgnj
-         K/Gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699968288; x=1700573088;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DXlobsUXWVZnCCx4FHbx2dgLdz+a6A+PeoEHES5fC5k=;
-        b=g5dA6ePC79PcpJE4bLTZaLRY7kD1wkPw4o0QES1pnrjFLnbgoAxjeRc7Ldb/6f1jt1
-         tZ5ehJK+21ALpVlO6PuWQj+DlwGVYNkV9uqQ60QMqYP/XMc3wf//xk8//saDFa25A3J+
-         EKYWfiAlGXR6w5NRJ1wcfDdVDyHvQL01KlKkmB6yH2jKFIB0c1htwyQSNsDHV0JPkV3f
-         2hvwSfmBSp/0kg8tslBdnKfy55Q0XMXBvNfs+icTtBkGvSvMh6N276+f/keDTwFgE20z
-         KoAIyMiVMWwztH9zoilv7RgeErafDPFNa2OVUc37DDnqtZ5L3/NCTo3IDcCvvW/PbVAK
-         blJw==
-X-Gm-Message-State: AOJu0YzA5Aa6Di8X8k5IL7OcZdH915pf992zBHQkW2O3TQV440i7BnBc
-	bj6VXxRjMD6TCzGEyOlksRg=
-X-Google-Smtp-Source: AGHT+IGgmUF/XJsntUbaGCg0CCDaLKsNA6AqR/Ad7EQl2bbNRD6hrvVQE8KG4x0OM/k/Fnzrb35tCA==
-X-Received: by 2002:ad4:4ea5:0:b0:66c:ffe1:e244 with SMTP id ed5-20020ad44ea5000000b0066cffe1e244mr3095105qvb.62.1699968288514;
-        Tue, 14 Nov 2023 05:24:48 -0800 (PST)
-Received: from [172.20.3.47] ([12.191.197.195])
-        by smtp.gmail.com with ESMTPSA id dl15-20020ad44e0f000000b006709b9f0a72sm2882825qvb.22.2023.11.14.05.24.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Nov 2023 05:24:48 -0800 (PST)
-Message-ID: <41c7aa9d-9c7f-4a4a-a9d3-ec5c6909337d@gmail.com>
-Date: Tue, 14 Nov 2023 22:24:37 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94991C147
+	for <linux-sunxi@lists.linux.dev>; Thu, 16 Nov 2023 11:53:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r3avq-0003lL-PZ; Thu, 16 Nov 2023 12:53:14 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r3avk-009RKv-1F; Thu, 16 Nov 2023 12:53:08 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r3avj-002aey-NF; Thu, 16 Nov 2023 12:53:07 +0100
+Date: Thu, 16 Nov 2023 12:53:07 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Arnd Bergmann <arnd@arndb.de>, soc@kernel.org
+Cc: Jay Fang <f.fangjian@huawei.com>, Rob Herring <robh@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Laurentiu Tudor <laurentiu.tudor@nxp.com>,
+	Tony Lindgren <tony@atomide.com>,
+	"Sicelo A. Mhlongo" <absicsz@gmail.com>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Liu Ying <victor.liu@nxp.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Nick Alcock <nick.alcock@oracle.com>, Chen-Yu Tsai <wens@csie.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Hans de Goede <hdegoede@redhat.com>, Yangtao Li <frank.li@vivo.com>,
+	Yuan Can <yuancan@huawei.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jon Hunter <jonathanh@nvidia.com>, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	linux-tegra@vger.kernel.org,
+	Linux-OMAP <linux-omap@vger.kernel.org>,
+	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: [PULL] bus: Convert to platform remove callback returning void
+Message-ID: <20231116115307.32rovgcej2s5pe4r@pengutronix.de>
+References: <20231109202830.4124591-1-u.kleine-koenig@pengutronix.de>
+ <1e5e1008-707b-449a-9dbf-48324eb2b248@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] sunxi: H616: remove default AXP305 selection
-Content-Language: en-US
-To: Andre Przywara <andre.przywara@arm.com>,
- Jagan Teki <jagan@amarulasolutions.com>
-Cc: Vignesh R <vigneshr@ti.com>, Jaehoon Chung <jh80.chung@samsung.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Mikhail Kalashnikov <iuncuim@gmail.com>,
- Piotr Oniszczuk <piotr.oniszczuk@gmail.com>, u-boot@lists.denx.de,
- linux-sunxi@lists.linux.dev
-References: <20231114013106.31336-1-andre.przywara@arm.com>
- <20231114013106.31336-3-andre.przywara@arm.com>
-From: Jaehoon Chung <jh80.chung@gmail.com>
-In-Reply-To: <20231114013106.31336-3-andre.przywara@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="uz4ywpyf2v5xtmw3"
+Content-Disposition: inline
+In-Reply-To: <1e5e1008-707b-449a-9dbf-48324eb2b248@app.fastmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
 
+--uz4ywpyf2v5xtmw3
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 11/14/23 10:31, Andre Przywara wrote:
-> The original H616 devices released about three years ago were typically
-> paired with an X-Powers AXP305 PMIC. Newer devices uses the smaller
-> AXP313, and there seem to be far more systems with this PMIC around now.
-> 
-> Remove the default AXP305 selection for the H616 SoC from the Kconfig,
-> and move the PMIC selection into the board defconfig files instead.
-> 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Hello Arnd,
 
-Reviewed-by: Jaehoon Chung <jh80.chung@samsung.com>
+On Fri, Nov 10, 2023 at 07:32:01AM +0100, Arnd Bergmann wrote:
+> On Thu, Nov 9, 2023, at 21:28, Uwe Kleine-K=F6nig wrote:
+> > this series converts all drivers below drivers/bus to struct
+> > platform_driver::remove_new(). See commit 5c5a7680e67b ("platform:
+> > Provide a remove callback that returns no value") for an extended
+> > explanation and the eventual goal.
+> >
+> > drivers/bus/fsl-mc was already addressed earlier with a separate
+> > series[1].
+> >
+> > All conversations are trivial, because all .remove() callbacks returned
+> > zero unconditionally.
+> >
+> > Some of the drivers touched here don't have a maintainer and there is no
+> > maintainer for all of drivers/bus. It would be great if someone could p=
+ick up
+> > the whole series, maybe Arnd might do that?
+>=20
+> Sure, please send a pull request to soc@kernel.org if there
+> are no further comments.
 
-Best Regards,
-Jaehoon Chung
+here it comes:
 
-> ---
->  configs/orangepi_zero2_defconfig | 1 +
->  configs/x96_mate_defconfig       | 1 +
->  drivers/power/Kconfig            | 1 -
->  3 files changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/configs/orangepi_zero2_defconfig b/configs/orangepi_zero2_defconfig
-> index f13735e91c7..127cf9e365a 100644
-> --- a/configs/orangepi_zero2_defconfig
-> +++ b/configs/orangepi_zero2_defconfig
-> @@ -19,6 +19,7 @@ CONFIG_SYS_I2C_SPEED=400000
->  CONFIG_SPI_FLASH_MACRONIX=y
->  CONFIG_PHY_REALTEK=y
->  CONFIG_SUN8I_EMAC=y
-> +CONFIG_AXP305_POWER=y
->  CONFIG_SPI=y
->  CONFIG_USB_EHCI_HCD=y
->  CONFIG_USB_OHCI_HCD=y
-> diff --git a/configs/x96_mate_defconfig b/configs/x96_mate_defconfig
-> index 318951e19c2..e805e0952b3 100644
-> --- a/configs/x96_mate_defconfig
-> +++ b/configs/x96_mate_defconfig
-> @@ -18,6 +18,7 @@ CONFIG_SPL_SYS_I2C_LEGACY=y
->  CONFIG_SYS_I2C_MVTWSI=y
->  CONFIG_SYS_I2C_SLAVE=0x7f
->  CONFIG_SYS_I2C_SPEED=400000
-> +CONFIG_AXP305_POWER=y
->  CONFIG_SUPPORT_EMMC_BOOT=y
->  CONFIG_USB_EHCI_HCD=y
->  CONFIG_USB_OHCI_HCD=y
-> diff --git a/drivers/power/Kconfig b/drivers/power/Kconfig
-> index 2395720c99c..33b8bc1214d 100644
-> --- a/drivers/power/Kconfig
-> +++ b/drivers/power/Kconfig
-> @@ -56,7 +56,6 @@ choice
->  	depends on ARCH_SUNXI
->  	default AXP209_POWER if MACH_SUN4I || MACH_SUN5I || MACH_SUN7I
->  	default AXP221_POWER if MACH_SUN6I || MACH_SUN8I_A23 || MACH_SUN8I_A33 || MACH_SUN8I_R40
-> -	default AXP305_POWER if MACH_SUN50I_H616
->  	default AXP818_POWER if MACH_SUN8I_A83T
->  	default SUNXI_NO_PMIC if MACH_SUNXI_H3_H5 || MACH_SUN50I || MACH_SUN8I_V3S
->  
+The following changes since commit b85ea95d086471afb4ad062012a4d73cd328fa86:
+
+  Linux 6.7-rc1 (2023-11-12 16:19:07 -0800)
+
+are available in the Git repository at:
+
+  https://git.pengutronix.de/git/ukl/linux tags/bus-platform-remove-void
+
+for you to fetch changes up to 7d6da8800a35d2257ff8b4b7d7c4551978f0a71a:
+
+  bus: ts-nbus: Convert to platform remove callback returning void (2023-11=
+-16 12:43:57 +0100)
+
+----------------------------------------------------------------
+This series converts all drivers below drivers/bus to struct
+platform_driver::remove_new(). See commit 5c5a7680e67b ("platform:
+Provide a remove callback that returns no value") for an extended
+explanation and the eventual goal.
+
+After the initial simplification in commit 864acca58000 ("bus: fsl-mc:
+Drop if block with always false condition") all conversations are
+trivial because the remove callbacks all return zero unconditionally.
+
+----------------------------------------------------------------
+Uwe Kleine-K=F6nig (14):
+      bus: fsl-mc: Drop if block with always false condition
+      bus: fsl-mc: Convert to platform remove callback returning void
+      bus: hisi_lpc: Convert to platform remove callback returning void
+      bus: omap-ocp2scp: Convert to platform remove callback returning void
+      bus: omap_l3_smx: Convert to platform remove callback returning void
+      bus: qcom-ssc-block-bus: Convert to platform remove callback returnin=
+g void
+      bus: simple-pm-bus: Convert to platform remove callback returning void
+      bus: sun50i-de2: Convert to platform remove callback returning void
+      bus: sunxi-rsb: Convert to platform remove callback returning void
+      bus: tegra-aconnect: Convert to platform remove callback returning vo=
+id
+      bus: tegra-gmi: Convert to platform remove callback returning void
+      bus: ti-pwmss: Convert to platform remove callback returning void
+      bus: ti-sysc: Convert to platform remove callback returning void
+      bus: ts-nbus: Convert to platform remove callback returning void
+
+ drivers/bus/fsl-mc/fsl-mc-bus.c  | 16 +++-------------
+ drivers/bus/hisi_lpc.c           |  6 ++----
+ drivers/bus/omap-ocp2scp.c       |  6 ++----
+ drivers/bus/omap_l3_smx.c        |  6 ++----
+ drivers/bus/qcom-ssc-block-bus.c |  6 ++----
+ drivers/bus/simple-pm-bus.c      |  7 +++----
+ drivers/bus/sun50i-de2.c         |  5 ++---
+ drivers/bus/sunxi-rsb.c          |  6 ++----
+ drivers/bus/tegra-aconnect.c     |  6 ++----
+ drivers/bus/tegra-gmi.c          |  6 ++----
+ drivers/bus/ti-pwmss.c           |  5 ++---
+ drivers/bus/ti-sysc.c            |  6 ++----
+ drivers/bus/ts-nbus.c            |  6 ++----
+ 13 files changed, 28 insertions(+), 59 deletions(-)
+
+Thanks for considering these changes,
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--uz4ywpyf2v5xtmw3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmVWAqIACgkQj4D7WH0S
+/k4d1gf/TpLJMgm0K7phGR6IWiPk7QZqX2jnAbl6qyTi+9xjRHbuz/D4C7zAO46l
+ZHY9vIM/qpv5F+ym/qOFKjh1byHDqtIdhJiICka50uHZfsH7LhgPtrf6O3sUWzeu
+iA2Rv+ntUK7EabnEka/zzepJYvXPUiulla0N7to+syQffGo24ialHAubU9e2BztQ
+q78IWAu/LKAgcMT6uxHCELNmTMuORFiN+DI2T4wVwbzLGh8IinScezVi1pmRREDI
+gZTzC0dqmgDbLT57PFwpRRDWUrzj+B2HIzBd6BcZiG3eR6JQID4Z2ahfCDQTMM0o
+9HDdblXjmhubXbN71G1MA0Mi7knPWQ==
+=u4Db
+-----END PGP SIGNATURE-----
+
+--uz4ywpyf2v5xtmw3--
