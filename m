@@ -1,177 +1,90 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94991C147
-	for <linux-sunxi@lists.linux.dev>; Thu, 16 Nov 2023 11:53:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1r3avq-0003lL-PZ; Thu, 16 Nov 2023 12:53:14 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1r3avk-009RKv-1F; Thu, 16 Nov 2023 12:53:08 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1r3avj-002aey-NF; Thu, 16 Nov 2023 12:53:07 +0100
-Date: Thu, 16 Nov 2023 12:53:07 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Arnd Bergmann <arnd@arndb.de>, soc@kernel.org
-Cc: Jay Fang <f.fangjian@huawei.com>, Rob Herring <robh@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Laurentiu Tudor <laurentiu.tudor@nxp.com>,
-	Tony Lindgren <tony@atomide.com>,
-	"Sicelo A. Mhlongo" <absicsz@gmail.com>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Liu Ying <victor.liu@nxp.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Nick Alcock <nick.alcock@oracle.com>, Chen-Yu Tsai <wens@csie.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Hans de Goede <hdegoede@redhat.com>, Yangtao Li <frank.li@vivo.com>,
-	Yuan Can <yuancan@huawei.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jon Hunter <jonathanh@nvidia.com>, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	linux-tegra@vger.kernel.org,
-	Linux-OMAP <linux-omap@vger.kernel.org>,
-	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: [PULL] bus: Convert to platform remove callback returning void
-Message-ID: <20231116115307.32rovgcej2s5pe4r@pengutronix.de>
-References: <20231109202830.4124591-1-u.kleine-koenig@pengutronix.de>
- <1e5e1008-707b-449a-9dbf-48324eb2b248@app.fastmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C68BC34558
+	for <linux-sunxi@lists.linux.dev>; Thu, 16 Nov 2023 19:18:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hcXouEQB"
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-1ea82246069so590404fac.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 16 Nov 2023 11:18:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700162280; x=1700767080; darn=lists.linux.dev;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NQvW2mlQLaPe9zQwh1aRBhkCYad5wvCc2L3vPohQIMU=;
+        b=hcXouEQBZ8rB5qHGPZV1nngWYRbic9zBiEFLwhVGbkNk4Qvi9BMp645R3OwvS4eIv8
+         /1r4HKqX7bnqk3UiZwBczA+kEANl0S4Gx1IwvcAdAXVGMEA2UbzKBTCLDOVSHy9k7Vn4
+         ddhOHXzD9TI94ACbbquxg0jP/nTfzC/yb1Wlt059cmRUnLfNzNayByB4TYhgRHw0rOAK
+         bXLEARdsTBCkA9VArAEe9hhXaZhauPEtPJjJF1UoUqHByV7N8mZ6fLwsqyn7GKEVi+0q
+         f8VC3vquRn0Kas+hK8cJRE2SSz2H0kxNW/s6834ao/IarkkwZDeMdUB/kqomy/1f1g3n
+         6UEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700162280; x=1700767080;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NQvW2mlQLaPe9zQwh1aRBhkCYad5wvCc2L3vPohQIMU=;
+        b=k1LZcSCWqUEZ2GYMKIA1JR/94k6wFQlSylIsDidIHw9cQlSXgaR6jdjG63uYZC+/cy
+         UBCMDq3e0BhtPkOSWjx0UbqshXhXEmxgS4jZaoFdgaKmXLJLsZCGU9Hmoco/0amgDcNt
+         zlXrbK6FX2PgjNwNZ+5KLSP5DT8YrVglQuuNjhDUyMCt08aDWFIjentBb/MO3Uj8MOrt
+         FSIcSRfxtJirjHaePf6lNtVEZgXZO+2RhlotkbqheKDG8eyFfNUg+i9CGnGXaG+oGfIR
+         lbPnNH2XsTDYj4twQxuHfZKRu1ch1QTVLRxKnF8c1WUe4PAgosNMLFivV4zYnv6LZhta
+         njeA==
+X-Gm-Message-State: AOJu0YzBiVWPtBl6i24qrJV0cCBYDELn+h/3tgYHpIMRkLgXzmaTlsv/
+	wCBK1uPbuYPvwFyQUWKP9phtjPo17AgZl4AQMUU=
+X-Google-Smtp-Source: AGHT+IFchzrhEbVbz5AEifNKluJrx6zIDMG5gc5BfPiF7RMJY6+/+9azNscfVMvB74Y03sWBedUaDVz9bS5Uf4oPXtE=
+X-Received: by 2002:a05:6871:2312:b0:1e9:cb7f:2287 with SMTP id
+ sf18-20020a056871231200b001e9cb7f2287mr21389323oab.46.1700162279900; Thu, 16
+ Nov 2023 11:17:59 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="uz4ywpyf2v5xtmw3"
-Content-Disposition: inline
-In-Reply-To: <1e5e1008-707b-449a-9dbf-48324eb2b248@app.fastmail.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
-
-
---uz4ywpyf2v5xtmw3
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+References: <20231113112344.719-1-hkallweit1@gmail.com> <ZVJhwSS16+/Zzt0f@shikoro>
+ <887657ba-86ca-49bc-b6c3-8543610c3230@gmail.com> <ZVKNIn1eSlZ9yzco@shikoro>
+In-Reply-To: <ZVKNIn1eSlZ9yzco@shikoro>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 16 Nov 2023 14:17:48 -0500
+Message-ID: <CADnq5_NgzZ+1FTzZObivnjJbbuYcafY-fbvgiGA9ryqA9wYedg@mail.gmail.com>
+Subject: Re: [PATCH 00/20] remove I2C_CLASS_DDC support
+To: Wolfram Sang <wsa@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>, 
+	intel-gfx@lists.freedesktop.org, linux-i2c@vger.kernel.org, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, linux-fbdev@vger.kernel.org, 
+	amd-gfx@lists.freedesktop.org, linux-rockchip@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Jocelyn Falempe <jfalempe@redhat.com>, linux-sunxi@lists.linux.dev, 
+	linux-mediatek@lists.infradead.org, Sean Paul <sean@poorly.run>, 
+	Marijn Suijten <marijn.suijten@somainline.org>, linux-arm-msm@vger.kernel.org, 
+	freedreno@lists.freedesktop.org, Xinwei Kong <kong.kongxinwei@hisilicon.com>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Yongqin Liu <yongqin.liu@linaro.org>, 
+	John Stultz <jstultz@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hello Arnd,
+On Mon, Nov 13, 2023 at 3:55=E2=80=AFPM Wolfram Sang <wsa@kernel.org> wrote=
+:
+>
+>
+> > We're not in a hurry. It's just my experience with patch series' affect=
+ing
+> > multiple subsystems that typically the decision was to apply the full
+> > series via one tree. Also to avoid inquires from maintainers like:
+> > Shall I take it or are you going to take it?
+> > Of course there may be different opinions. Please advise.
+>
+> Ok, then this turns out to be a negotation thing between the drm/fbdev
+> maintainers and me. I *can* take all the patches, of course. But since
+> the number of patches touching the non-i2c subsystems is high, I'd like
+> to hear their preference, too.
+>
 
-On Fri, Nov 10, 2023 at 07:32:01AM +0100, Arnd Bergmann wrote:
-> On Thu, Nov 9, 2023, at 21:28, Uwe Kleine-K=F6nig wrote:
-> > this series converts all drivers below drivers/bus to struct
-> > platform_driver::remove_new(). See commit 5c5a7680e67b ("platform:
-> > Provide a remove callback that returns no value") for an extended
-> > explanation and the eventual goal.
-> >
-> > drivers/bus/fsl-mc was already addressed earlier with a separate
-> > series[1].
-> >
-> > All conversations are trivial, because all .remove() callbacks returned
-> > zero unconditionally.
-> >
-> > Some of the drivers touched here don't have a maintainer and there is no
-> > maintainer for all of drivers/bus. It would be great if someone could p=
-ick up
-> > the whole series, maybe Arnd might do that?
->=20
-> Sure, please send a pull request to soc@kernel.org if there
-> are no further comments.
+I don't have a preference if you would prefer to take these via i2c.
 
-here it comes:
-
-The following changes since commit b85ea95d086471afb4ad062012a4d73cd328fa86:
-
-  Linux 6.7-rc1 (2023-11-12 16:19:07 -0800)
-
-are available in the Git repository at:
-
-  https://git.pengutronix.de/git/ukl/linux tags/bus-platform-remove-void
-
-for you to fetch changes up to 7d6da8800a35d2257ff8b4b7d7c4551978f0a71a:
-
-  bus: ts-nbus: Convert to platform remove callback returning void (2023-11=
--16 12:43:57 +0100)
-
-----------------------------------------------------------------
-This series converts all drivers below drivers/bus to struct
-platform_driver::remove_new(). See commit 5c5a7680e67b ("platform:
-Provide a remove callback that returns no value") for an extended
-explanation and the eventual goal.
-
-After the initial simplification in commit 864acca58000 ("bus: fsl-mc:
-Drop if block with always false condition") all conversations are
-trivial because the remove callbacks all return zero unconditionally.
-
-----------------------------------------------------------------
-Uwe Kleine-K=F6nig (14):
-      bus: fsl-mc: Drop if block with always false condition
-      bus: fsl-mc: Convert to platform remove callback returning void
-      bus: hisi_lpc: Convert to platform remove callback returning void
-      bus: omap-ocp2scp: Convert to platform remove callback returning void
-      bus: omap_l3_smx: Convert to platform remove callback returning void
-      bus: qcom-ssc-block-bus: Convert to platform remove callback returnin=
-g void
-      bus: simple-pm-bus: Convert to platform remove callback returning void
-      bus: sun50i-de2: Convert to platform remove callback returning void
-      bus: sunxi-rsb: Convert to platform remove callback returning void
-      bus: tegra-aconnect: Convert to platform remove callback returning vo=
-id
-      bus: tegra-gmi: Convert to platform remove callback returning void
-      bus: ti-pwmss: Convert to platform remove callback returning void
-      bus: ti-sysc: Convert to platform remove callback returning void
-      bus: ts-nbus: Convert to platform remove callback returning void
-
- drivers/bus/fsl-mc/fsl-mc-bus.c  | 16 +++-------------
- drivers/bus/hisi_lpc.c           |  6 ++----
- drivers/bus/omap-ocp2scp.c       |  6 ++----
- drivers/bus/omap_l3_smx.c        |  6 ++----
- drivers/bus/qcom-ssc-block-bus.c |  6 ++----
- drivers/bus/simple-pm-bus.c      |  7 +++----
- drivers/bus/sun50i-de2.c         |  5 ++---
- drivers/bus/sunxi-rsb.c          |  6 ++----
- drivers/bus/tegra-aconnect.c     |  6 ++----
- drivers/bus/tegra-gmi.c          |  6 ++----
- drivers/bus/ti-pwmss.c           |  5 ++---
- drivers/bus/ti-sysc.c            |  6 ++----
- drivers/bus/ts-nbus.c            |  6 ++----
- 13 files changed, 28 insertions(+), 59 deletions(-)
-
-Thanks for considering these changes,
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---uz4ywpyf2v5xtmw3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmVWAqIACgkQj4D7WH0S
-/k4d1gf/TpLJMgm0K7phGR6IWiPk7QZqX2jnAbl6qyTi+9xjRHbuz/D4C7zAO46l
-ZHY9vIM/qpv5F+ym/qOFKjh1byHDqtIdhJiICka50uHZfsH7LhgPtrf6O3sUWzeu
-iA2Rv+ntUK7EabnEka/zzepJYvXPUiulla0N7to+syQffGo24ialHAubU9e2BztQ
-q78IWAu/LKAgcMT6uxHCELNmTMuORFiN+DI2T4wVwbzLGh8IinScezVi1pmRREDI
-gZTzC0dqmgDbLT57PFwpRRDWUrzj+B2HIzBd6BcZiG3eR6JQID4Z2ahfCDQTMM0o
-9HDdblXjmhubXbN71G1MA0Mi7knPWQ==
-=u4Db
------END PGP SIGNATURE-----
-
---uz4ywpyf2v5xtmw3--
+Alex
