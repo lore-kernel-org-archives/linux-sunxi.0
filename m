@@ -1,48 +1,69 @@
-Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3565179AF
-	for <linux-sunxi@lists.linux.dev>; Fri, 17 Nov 2023 11:21:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gondor.apana.org.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
-	by formenos.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
-	id 1r3wup-000dFP-Tg; Fri, 17 Nov 2023 19:21:40 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Fri, 17 Nov 2023 19:21:47 +0800
-Date: Fri, 17 Nov 2023 19:21:47 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: linux-crypto@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	clabbe.montjoie@gmail.com
-Subject: Re: [PATCH] crypto: sun8i-ss - use crypto_shash_tfm_digest() in
- sun8i_ss_hashkey()
-Message-ID: <ZVdMyynEvoXh4t5g@gondor.apana.org.au>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF074FC08;
+	Fri, 17 Nov 2023 12:54:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mg7fSaYX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7672C433C7;
+	Fri, 17 Nov 2023 12:54:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700225689;
+	bh=jgQc5Itelpk92zM45YpqFlo1y4VJI+dnHxsnMdw3FZY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Mg7fSaYXjkW0T93Lpe/n79IhrWlBC15Gxd2bhh9VEEQTsdCNzpOFxXBHZ9Mid9MJW
+	 uaZTpS/4fSrgMvOFG23qHmqv9SJ/UfOHoIu4EaC4U8esmvFCFcsH0fzhhjVPXehKcG
+	 PpW5zmsMlu9aSPBUhrg+7bhG7dt2wEjy1zCa7Hlt8Rh2G4rPy+m1Oy8+qgoXKrEb8j
+	 xr+0tpSZ4D7FYlBUygvGx0OKU8ccQKLVhTg7Cse9Yn7G9aaLpq8zhRBNHWMv9Xa1gk
+	 hKtgr78XHjGXL2+BQDh2uKxmRtxlIwf7WttNVWLMy03Mu/e2nmSIrcbafGiDjz/clC
+	 VWZTNDXKG4aSw==
+Date: Fri, 17 Nov 2023 12:54:41 +0000
+From: Lee Jones <lee@kernel.org>
+To: =?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
+Cc: Samuel Holland <samuel@sholland.org>, Pavel Machek <pavel@ucw.cz>,
+	linux-leds@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
+	Guo Ren <guoren@kernel.org>,
+	Heiko Stuebner <heiko.stuebner@vrull.eu>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Jisheng Zhang <jszhang@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [RESEND PATCH v7 2/5] leds: sun50i-a100: New driver for the A100
+ LED controller
+Message-ID: <20231117125441.GC153049@google.com>
+References: <20221231235541.13568-1-samuel@sholland.org>
+ <20221231235541.13568-3-samuel@sholland.org>
+ <c3ae7d79ab81621c66e939d804ca41e97eab79fb.camel@apitzsch.eu>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231029045613.153689-1-ebiggers@kernel.org>
-X-Newsgroups: apana.lists.os.linux.cryptoapi
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c3ae7d79ab81621c66e939d804ca41e97eab79fb.camel@apitzsch.eu>
 
-Eric Biggers <ebiggers@kernel.org> wrote:
-> From: Eric Biggers <ebiggers@google.com>
-> 
-> Simplify sun8i_ss_hashkey() by using crypto_shash_tfm_digest() instead
-> of an alloc+init+update+final sequence.  This should also improve
-> performance.
-> 
-> Signed-off-by: Eric Biggers <ebiggers@google.com>
-> ---
-> .../crypto/allwinner/sun8i-ss/sun8i-ss-hash.c | 25 +++----------------
-> 1 file changed, 4 insertions(+), 21 deletions(-)
+On Thu, 19 Oct 2023, André Apitzsch wrote:
 
-Patch applied.  Thanks.
+> Hi Samuel,
+> 
+> there are two more things to change, which came up recently. See below.
+
+Please remember to snip your replies.
+
+> Regards,
+> André
+
+[snipped 600+ lines]
+
 -- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+Lee Jones [李琼斯]
