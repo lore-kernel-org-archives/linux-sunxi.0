@@ -1,91 +1,81 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4523AD27D
-	for <linux-sunxi@lists.linux.dev>; Sat, 18 Nov 2023 21:51:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AD8D111A8
+	for <linux-sunxi@lists.linux.dev>; Sat, 18 Nov 2023 21:53:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cku8y497"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-543923af573so4526124a12.0
-        for <linux-sunxi@lists.linux.dev>; Sat, 18 Nov 2023 13:51:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZetJYqoC"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-9f27af23443so436566366b.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 18 Nov 2023 13:53:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700344272; x=1700949072; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1700344414; x=1700949214; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4Sxr/0cg0TxZRHR6aK8VgbLOF1wZHnjhGaQVl3ixHFI=;
-        b=cku8y497SgIOwIPrIgu9tt3jWUeIDBzI6xQC5K+DEWto/RE8/vI7QQAgepHDR3M02G
-         z+9uq9ZoSeqwhvG0P9NsrqH9kF3hPGpAOkQYPIYgA6r/EZ/3//v6Lab4F2OcY+u07f/d
-         AhSoxLrL6dsMFp3fARt/mcYXKfr5KhmNX0mU7H9hOaarhV4t94BRwB+Br5Z9ZvER7Jag
-         qf3NgGXLznCaEiIHOP7pAH8asdc9MYZYtjAr9cBbKbhr7g3MaEue18crQj6W7k88lCrJ
-         Nj1m/FxVKY44/2UIyXK0zBBs18pM/X6OwIIdIc3W3isFy+pcdRRGk8tZT+zh+R7QLzBT
-         bDrg==
+        bh=Wtt/oFJ6mp4pvc5MxO64v8GI8P+1Sx5CjrqoYf23NVA=;
+        b=ZetJYqoCkbaHe2bDd5wP/oXLR3OMowJXVBISjw5g/c6s2KNFzzyAl08faOTWtrm/Sk
+         jUk3Bcn50metmF4iOnVmiV+v5rf3pAPS67gavLoeq5tw7poh/7/TqSjV1XAWiJwBiNvU
+         zyE5PG0+Xg+MiBwXrY11jSNxSL9O1lLdWpU/j+sgaIsgsZ12Bzy8T+JqD3GkSicelF+H
+         MAH5RnGVKfAwFw+bCNi4XOqlVNszyJbtxGOM7euKAnv9vPWQ6MWFkgVVeqaLyROc0Yha
+         cib3YowZJUlNWBpFIVaO/WVDGLtXcVYgFjxdA9JcHsnCG8ROJBUZIgczbYMgXTPA6Jl0
+         Yn5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700344272; x=1700949072;
+        d=1e100.net; s=20230601; t=1700344414; x=1700949214;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=4Sxr/0cg0TxZRHR6aK8VgbLOF1wZHnjhGaQVl3ixHFI=;
-        b=oZSjqOUWs9D/2MySHCKdkhb2zL7kchyWFpW3d7IWXYDTu81/m2bOPtanl+pwKqObml
-         aVPjd4KHRWz3iryeVS0ruKiq/rueQKgGkmRf94oY/POUhJseLWcY9+sRiQmOxrmKc3oN
-         BT9yEQnAuAnEtPMnIdoPGYLXr6T+J5lkTO8o0owzTQ4xj44HbEs+sdxrU4vN/b0r0lGM
-         tkOqIZZ+z9l8mQiRQYMs+16ewP/Xct0hDpMglPqhOFxTSKw1VAZn7AYwhibYiIJ0eD6D
-         CS6tzpu5w/nWnPnUCtwDAwHBSHsXJOvn1DOgLG+U5LL2YJnYPIpXECPEaq+SvnTGJYl9
-         zvwg==
-X-Gm-Message-State: AOJu0YzkTX7f+fHs6nljAKk9nmoPKdZpLNxhs9I/Yp2I6KrMFupkQN0s
-	NXyjGc2AJCRttvsWkP+q7Xc=
-X-Google-Smtp-Source: AGHT+IFBW03ms2SVzWJ0idpdO5YHqO6UUeWsYN0Xb97W07gJzbyMEt21UBvSnXPxGvaMVI6VuPps7Q==
-X-Received: by 2002:aa7:c490:0:b0:541:2476:d23e with SMTP id m16-20020aa7c490000000b005412476d23emr2622831edq.28.1700344272439;
-        Sat, 18 Nov 2023 13:51:12 -0800 (PST)
+        bh=Wtt/oFJ6mp4pvc5MxO64v8GI8P+1Sx5CjrqoYf23NVA=;
+        b=WSYnx5XmceRnzAO78rEatQ4hBhPBh7nCMXa6HNsolUkd2qtiOo23jChcV2BcYoEtmo
+         rs0+VL4nqs8NMiW1AkSAaF2bP1ZiSqnd9SS2gsUNwXDAph71k2Ke6RM71zOriQyrhotB
+         xezJCcVVgi99FAeKFv1Yzq7y4fsI+K+wlsj0rsDZB8uoV1Q36hG7q/JIhR+DmL5mIdCw
+         kuPq74IeiWuBmX/24vin3sVHR9Ko6MQWzRUPOZjba/xidfbP7auGTY/CjoEP7GlySot6
+         PbFpHa28byg3xwYDo0XXPa/R6iidRgnsXwGI9tDCT0mxEC6N2Ct8QR4UTHulwmNpBmZk
+         vA2A==
+X-Gm-Message-State: AOJu0Yx8gC0I2CDveCMCmV3fmxUAjaUFGb6nytQQw8fWKl9IZXNzPyZv
+	pNxEKKXjxtEoiav+6jFDauo=
+X-Google-Smtp-Source: AGHT+IEsj8NvVPt+C+yDrHzdKUUesSpB0lSD7yp/W/7z0ksNKCl2sWrmAL563BNLNRtvG/DBVkqbfw==
+X-Received: by 2002:a17:907:7401:b0:9bf:60f9:9b7c with SMTP id gj1-20020a170907740100b009bf60f99b7cmr1955872ejc.62.1700344413958;
+        Sat, 18 Nov 2023 13:53:33 -0800 (PST)
 Received: from jernej-laptop.localnet (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
-        by smtp.gmail.com with ESMTPSA id s16-20020aa7cb10000000b00544f8271b5fsm2012886edt.8.2023.11.18.13.51.11
+        by smtp.gmail.com with ESMTPSA id ca3-20020a170906a3c300b009fc42f37970sm296837ejb.171.2023.11.18.13.53.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Nov 2023 13:51:12 -0800 (PST)
+        Sat, 18 Nov 2023 13:53:33 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Arnd Bergmann <arnd@arndb.de>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Hans de Goede <hdegoede@redhat.com>,
- Laurentiu Tudor <laurentiu.tudor@nxp.com>, Rob Herring <robh@kernel.org>,
- Yangtao Li <frank.li@vivo.com>, Yuan Can <yuancan@huawei.com>,
- Uwe =?ISO-8859-1?Q?Kleine=2DK=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, kernel@pengutronix.de
+To: Chukun Pan <amadeus@jmu.edu.cn>
+Cc: Samuel Holland <samuel@sholland.org>,
+ Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Chukun Pan <amadeus@jmu.edu.cn>
 Subject:
- Re: [PATCH 07/12] bus: sunxi-rsb: Convert to platform remove callback
- returning void
-Date: Sat, 18 Nov 2023 22:51:10 +0100
-Message-ID: <4874510.31r3eYUQgx@jernej-laptop>
-In-Reply-To: <20231109202830.4124591-8-u.kleine-koenig@pengutronix.de>
+ Re: [PATCH v2 1/1] arm64: dts: allwinner: h616: update emac for Orange Pi
+ Zero 3
+Date: Sat, 18 Nov 2023 22:53:32 +0100
+Message-ID: <2303336.ElGaqSPkdT@jernej-laptop>
+In-Reply-To: <20231029074009.7820-2-amadeus@jmu.edu.cn>
 References:
- <20231109202830.4124591-1-u.kleine-koenig@pengutronix.de>
- <20231109202830.4124591-8-u.kleine-koenig@pengutronix.de>
+ <20231029074009.7820-1-amadeus@jmu.edu.cn>
+ <20231029074009.7820-2-amadeus@jmu.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Dne =C4=8Detrtek, 09. november 2023 ob 21:28:37 CET je Uwe Kleine-K=C3=B6ni=
-g napisal(a):
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling by
-> returning an error code. However the value returned is ignored (apart
-> from emitting a warning) and this typically results in resource leaks.
->=20
-> To improve here there is a quest to make the remove callback return
-> void. In the first step of this quest all drivers are converted to
-> .remove_new(), which already returns void. Eventually after all drivers
-> are converted, .remove_new() will be renamed to .remove().
->=20
-> Trivially convert this driver from always returning zero in the remove
-> callback to the void returning variant.
->=20
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+Dne nedelja, 29. oktober 2023 ob 08:40:09 CET je Chukun Pan napisal(a):
+> The current emac setting is not suitable for Orange Pi Zero 3,
+> move it back to Orange Pi Zero 2 DT. Also update phy mode and
+> delay values for emac on Orange Pi Zero 3.
+> With these changes, Ethernet now looks stable.
+> 
+> Fixes: 322bf103204b ("arm64: dts: allwinner: h616: Split Orange Pi Zero 2 DT")
+> Signed-off-by: Chukun Pan <amadeus@jmu.edu.cn>
 
 Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
@@ -93,41 +83,54 @@ Best regards,
 Jernej
 
 > ---
->  drivers/bus/sunxi-rsb.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/bus/sunxi-rsb.c b/drivers/bus/sunxi-rsb.c
-> index db0ed4e5d315..fd3e9d82340a 100644
-> --- a/drivers/bus/sunxi-rsb.c
-> +++ b/drivers/bus/sunxi-rsb.c
-> @@ -817,15 +817,13 @@ static int sunxi_rsb_probe(struct platform_device *=
-pdev)
->  	return 0;
->  }
-> =20
-> -static int sunxi_rsb_remove(struct platform_device *pdev)
-> +static void sunxi_rsb_remove(struct platform_device *pdev)
->  {
->  	struct sunxi_rsb *rsb =3D platform_get_drvdata(pdev);
-> =20
->  	device_for_each_child(rsb->dev, NULL, sunxi_rsb_remove_devices);
->  	pm_runtime_disable(&pdev->dev);
->  	sunxi_rsb_hw_exit(rsb);
-> -
-> -	return 0;
->  }
-> =20
->  static const struct dev_pm_ops sunxi_rsb_dev_pm_ops =3D {
-> @@ -842,7 +840,7 @@ MODULE_DEVICE_TABLE(of, sunxi_rsb_of_match_table);
-> =20
->  static struct platform_driver sunxi_rsb_driver =3D {
->  	.probe =3D sunxi_rsb_probe,
-> -	.remove	=3D sunxi_rsb_remove,
-> +	.remove_new =3D sunxi_rsb_remove,
->  	.driver	=3D {
->  		.name =3D RSB_CTRL_NAME,
->  		.of_match_table =3D sunxi_rsb_of_match_table,
->=20
+>  arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi | 3 ---
+>  arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts | 3 +++
+>  arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts | 2 ++
+>  3 files changed, 5 insertions(+), 3 deletions(-)
+> 
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi
+> index 15290e6892fc..fc7315b94406 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi
+> @@ -68,10 +68,7 @@ &ehci1 {
+>  &emac0 {
+>  	pinctrl-names = "default";
+>  	pinctrl-0 = <&ext_rgmii_pins>;
+> -	phy-mode = "rgmii";
+>  	phy-handle = <&ext_rgmii_phy>;
+> -	allwinner,rx-delay-ps = <3100>;
+> -	allwinner,tx-delay-ps = <700>;
+>  	status = "okay";
+>  };
+>  
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
+> index d83852e72f06..b5d713926a34 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
+> @@ -13,6 +13,9 @@ / {
+>  };
+>  
+>  &emac0 {
+> +	allwinner,rx-delay-ps = <3100>;
+> +	allwinner,tx-delay-ps = <700>;
+> +	phy-mode = "rgmii";
+>  	phy-supply = <&reg_dcdce>;
+>  };
+>  
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
+> index 00fe28caac93..b3b1b8692125 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
+> @@ -13,6 +13,8 @@ / {
+>  };
+>  
+>  &emac0 {
+> +	allwinner,tx-delay-ps = <700>;
+> +	phy-mode = "rgmii-rxid";
+>  	phy-supply = <&reg_dldo1>;
+>  };
+>  
+> 
 
 
 
