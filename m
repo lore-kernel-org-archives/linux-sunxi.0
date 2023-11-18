@@ -1,109 +1,125 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 968D01E502
-	for <linux-sunxi@lists.linux.dev>; Sat, 18 Nov 2023 21:49:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F50D1B27F
+	for <linux-sunxi@lists.linux.dev>; Sat, 18 Nov 2023 21:50:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eFH8etG3"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-543456dbd7bso8186664a12.1
-        for <linux-sunxi@lists.linux.dev>; Sat, 18 Nov 2023 13:49:55 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KzYJtg0C"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-9d10972e63eso431931466b.2
+        for <linux-sunxi@lists.linux.dev>; Sat, 18 Nov 2023 13:50:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700344194; x=1700948994; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1700344235; x=1700949035; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tu8B/DrosgiV85GSiOsUY9FsBSgQ5Nsx1mRRxIDJDOU=;
-        b=eFH8etG3guFqZwrs6xxSEypVY4DEZ6/8WeNsdKJl07mi6UB2/KgdqsZ2HBX6RsXn/P
-         PFMktoPwnP3JcUZhIk9ZhPjhaQM4B4wjBut3IRxVbBORuhnYAtkDhFFQnGpGLVmWYaTJ
-         jRw20xsQP7NVVE14tY1iXMm7EJJufCbZeiQMqMpJMsayVNjQcAnkaddu1UzIba/8RrQY
-         /lJihTeeqwohWQ4qq/hqk4mRCBGl+x7vXaOvLVKcPt56pajiOoM6eQ5/4eZxWJ+wR47q
-         jGXhsZLqcE40ubY0GLFQvgfjgzSSKcv6n3sutRcdr4e3JVWnj3K+BM+WYYKhiOBtzNtO
-         QroQ==
+        bh=ZIuycvwcOtzj5a92tHoVOAi7oenZudHbZIioAcVhUH8=;
+        b=KzYJtg0CZ290CGdV8VS49fiC094qwYmrlsvaiXMfLZ/+03VgaHxZ2QiSaxTSaqnF21
+         AW+nOAYrkEmVWmLUOJ5mWyXEtsBOinAgKg87FUYQm7HaxzA7es2S4Ekc3p4QKiEQN3ON
+         kvGQZ9/AV+P8XR7QT7rSoJeDxcy9A0WEJZYQg3PoJuv/8vBU9v+WY9W6SNiWXyPpJhM7
+         stOiHM9DMvzH1juu7JY/rtxd3jQH+npOaUoWAy/gAX6yKBCeN9jK+Xln7pnMKA1ARTz0
+         jcxF77sWApsTGvtar/DKEpfBxwuSz7daK7T4Rj8DTc6rQxHXi/MpTOsMgP97NjEMvAvl
+         EMLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700344194; x=1700948994;
+        d=1e100.net; s=20230601; t=1700344235; x=1700949035;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tu8B/DrosgiV85GSiOsUY9FsBSgQ5Nsx1mRRxIDJDOU=;
-        b=b1LNN5ZUQtF23WUY4krdtSclQwszNnBEwOLQn4zUvp1sKt84r0HiMeQxOs095+o+UY
-         uzTdpE5cqH+cS2tOmzbCnf+ncqCB51zfnPGlaetZXCfBwMs7pgHgCAfcG53hVDBP3PlS
-         Ktv/z/Xd/xfUzPHFOn/k7iope9XNhkdf0b9U7gAWi5xa+o4tGNgsPz5wUfEt6g9eNHUy
-         t3NWnB5e3dMloJZY4+6WUBO20l8/MNo2H54O5vG2R2EUxy67n0XSlBOxlI1feJOHQMYm
-         UZnick6SUC1+qU2s4T36IiTxrQdh1Vigux6Y9awA+lqPpREm1FFP0QZfbOCXqP538xNo
-         iITA==
-X-Gm-Message-State: AOJu0Yz1BRPAlRJDjCU5BbfjyMcBe0Kneh2f/HmLBoRKzz1XEcSJvHxL
-	92MRi6p+Zbie5vx+vX2bqQ4=
-X-Google-Smtp-Source: AGHT+IGvGe/YhVqfTTgGOZH6rxAZKgoCFGPA+F4kHVoXMK1rmU/eIymVSurR+kzjcJHGaQ8dnTci8A==
-X-Received: by 2002:a17:906:38da:b0:9ae:50ec:bd81 with SMTP id r26-20020a17090638da00b009ae50ecbd81mr6889839ejd.21.1700344193504;
-        Sat, 18 Nov 2023 13:49:53 -0800 (PST)
+        bh=ZIuycvwcOtzj5a92tHoVOAi7oenZudHbZIioAcVhUH8=;
+        b=WhZaeOVrB2B9V1X2gVxjn0WYH5kUPmmipk4F4/+Weq7Ky3R70bPKDXrS24UfM17fkn
+         sSfC630WPZylMd6T2eacKpF/Yqhb88AV/AvltF9/q2knApgImARhw6ZsLkZ18cekkW/Z
+         DZmSxLL+XRhSRtSkssTF2YXPM603/OOuSwMzn9aOb9cwTC1Q18zm4duvRTuEDb+ulW7e
+         WKCM0BGGM8pLnZ849CMYTnOu5NUqlyHc4PnCMTZHfOdYZA732UKZaawEswifH7sfq1fb
+         LAY3yh15oMqqAhqPxHUw3RtjZCOKn2CYg1yrF6jfk5W0uJW6RDYVDJbdkd1dZO3q3ACg
+         2bYA==
+X-Gm-Message-State: AOJu0YwEvqvLCtBb2bqsitqiEmyBFjIHd3i3XpGYKmry6BHbGNxBKiND
+	IOPCOh477nLm9TI0dW/ojrE=
+X-Google-Smtp-Source: AGHT+IHiK+AbaxW1Wc75IyiNhOW9ArhXV2tF0E1iEFOC758dB4Re3ICn5guoVvHiY5DBe7czrLcFtg==
+X-Received: by 2002:a17:906:4356:b0:9c7:4d3e:1e50 with SMTP id z22-20020a170906435600b009c74d3e1e50mr2139036ejm.76.1700344234769;
+        Sat, 18 Nov 2023 13:50:34 -0800 (PST)
 Received: from jernej-laptop.localnet (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
-        by smtp.gmail.com with ESMTPSA id cm7-20020a170906f58700b009e5e1710ae7sm1028955ejd.191.2023.11.18.13.49.52
+        by smtp.gmail.com with ESMTPSA id m8-20020a170906234800b009bf94de8971sm2250339eja.70.2023.11.18.13.50.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Nov 2023 13:49:52 -0800 (PST)
+        Sat, 18 Nov 2023 13:50:34 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Wolfram Sang <wsa@kernel.org>, Maxime Ripard <mripard@kernel.org>,
- Heiner Kallweit <hkallweit1@gmail.com>
-Cc: linux-i2c@vger.kernel.org, Heiner Kallweit <hkallweit1@gmail.com>,
- Chen-Yu Tsai <wens@csie.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Samuel Holland <samuel@sholland.org>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+To: Arnd Bergmann <arnd@arndb.de>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Uwe =?ISO-8859-1?Q?Kleine=2DK=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, kernel@pengutronix.de
 Subject:
- Re: [PATCH v2 04/20] drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c: remove
- I2C_CLASS_DDC support
-Date: Sat, 18 Nov 2023 22:49:51 +0100
-Message-ID: <2705713.mvXUDI8C0e@jernej-laptop>
-In-Reply-To: <20231118174221.851-5-hkallweit1@gmail.com>
+ Re: [PATCH 06/12] bus: sun50i-de2: Convert to platform remove callback
+ returning void
+Date: Sat, 18 Nov 2023 22:50:33 +0100
+Message-ID: <5727528.DvuYhMxLoT@jernej-laptop>
+In-Reply-To: <20231109202830.4124591-7-u.kleine-koenig@pengutronix.de>
 References:
- <20231118174221.851-1-hkallweit1@gmail.com>
- <20231118174221.851-5-hkallweit1@gmail.com>
+ <20231109202830.4124591-1-u.kleine-koenig@pengutronix.de>
+ <20231109202830.4124591-7-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-Dne sobota, 18. november 2023 ob 18:42:04 CET je Heiner Kallweit napisal(a):
-> After removal of the legacy EEPROM driver and I2C_CLASS_DDC support in
-> olpc_dcon there's no i2c client driver left supporting I2C_CLASS_DDC.
-> Class-based device auto-detection is a legacy mechanism and shouldn't
-> be used in new code. So we can remove this class completely now.
-> 
-> Preferably this series should be applied via the i2c tree.
-> 
-> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+Dne =C4=8Detrtek, 09. november 2023 ob 21:28:36 CET je Uwe Kleine-K=C3=B6ni=
+g napisal(a):
+> The .remove() callback for a platform driver returns an int which makes
+> many driver authors wrongly assume it's possible to do error handling by
+> returning an error code. However the value returned is ignored (apart
+> from emitting a warning) and this typically results in resource leaks.
+>=20
+> To improve here there is a quest to make the remove callback return
+> void. In the first step of this quest all drivers are converted to
+> .remove_new(), which already returns void. Eventually after all drivers
+> are converted, .remove_new() will be renamed to .remove().
+>=20
+> Trivially convert this driver from always returning zero in the remove
+> callback to the void returning variant.
+>=20
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
 
-> 
 > ---
->  drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c |    1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c
-> index d1a65a921..f5f62eb0e 100644
-> --- a/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c
-> +++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c
-> @@ -302,7 +302,6 @@ int sun4i_hdmi_i2c_create(struct device *dev, struct sun4i_hdmi *hdmi)
->  		return -ENOMEM;
->  
->  	adap->owner = THIS_MODULE;
-> -	adap->class = I2C_CLASS_DDC;
->  	adap->algo = &sun4i_hdmi_i2c_algorithm;
->  	strscpy(adap->name, "sun4i_hdmi_i2c adapter", sizeof(adap->name));
->  	i2c_set_adapdata(adap, hdmi);
-> 
-> 
+>  drivers/bus/sun50i-de2.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/bus/sun50i-de2.c b/drivers/bus/sun50i-de2.c
+> index 414f29cdedf0..3339311ce068 100644
+> --- a/drivers/bus/sun50i-de2.c
+> +++ b/drivers/bus/sun50i-de2.c
+> @@ -24,10 +24,9 @@ static int sun50i_de2_bus_probe(struct platform_device=
+ *pdev)
+>  	return 0;
+>  }
+> =20
+> -static int sun50i_de2_bus_remove(struct platform_device *pdev)
+> +static void sun50i_de2_bus_remove(struct platform_device *pdev)
+>  {
+>  	sunxi_sram_release(&pdev->dev);
+> -	return 0;
+>  }
+> =20
+>  static const struct of_device_id sun50i_de2_bus_of_match[] =3D {
+> @@ -37,7 +36,7 @@ static const struct of_device_id sun50i_de2_bus_of_matc=
+h[] =3D {
+> =20
+>  static struct platform_driver sun50i_de2_bus_driver =3D {
+>  	.probe =3D sun50i_de2_bus_probe,
+> -	.remove =3D sun50i_de2_bus_remove,
+> +	.remove_new =3D sun50i_de2_bus_remove,
+>  	.driver =3D {
+>  		.name =3D "sun50i-de2-bus",
+>  		.of_match_table =3D sun50i_de2_bus_of_match,
+>=20
 
 
 
