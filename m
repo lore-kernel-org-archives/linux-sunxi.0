@@ -1,137 +1,85 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C51C4A9A7
-	for <linux-sunxi@lists.linux.dev>; Tue, 21 Nov 2023 13:25:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VZjuSn0h"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5440f25dcc7so7891903a12.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 21 Nov 2023 05:25:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700573120; x=1701177920; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=m92K+MDAt/mcnsYqpnD286mgL18e1jbSNxgzizE2vc0=;
-        b=VZjuSn0hkGOEoJhqNbgvWYTpIfFnQOUOKVEN4T+stQm/TydwhQrqvGOgCbQrfn/N2x
-         7fCP5dFANxeM+WkSAQ0Ywv1fUdthPqUGrG6b40ob1y6Em5kf8dFrKZ9WZsbl5AtVuZxu
-         ZEtgq8Bd1dXxy0sN/aTSaXjtUIE7AHgXlKHPUi1noP50EacxXnaZN1eJV9Rcy/c/VU6Z
-         1ubUJuJiD4qzjJ5LOwlNzAkrT6pRSccKX+nXTiH/7FpYt9GXlQgueDAmqDWQt9c4RDuV
-         Tm9xmEYqT/GhiMTEjokASdKPWgU66qLEhgZGhhZMvRHr1n87OEVYxdB/kOozJXN3akn1
-         EINw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700573120; x=1701177920;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=m92K+MDAt/mcnsYqpnD286mgL18e1jbSNxgzizE2vc0=;
-        b=kZnhP1HPiCVb5pRKVV5twPMzUC/t9EgulNfgopVPZl15eZL7LTci9QVWdbFuAPMxxY
-         YY89DKAI6qkJdw7NReQg8NJCHYx0iCpb/FPHa9RKLs4QVmLWKgpsd7RaHgL23xBC6Fbs
-         S27PqpmWkwBpc0K0h/huMjiK874CyTNGjl/7XkpAlJhpqqi2lahO8f1sqJmw966z3XDd
-         q6wONc54YFpcUqYHbw4yoBQaIP7NaRtPS1n6PlSdo3CoMpNaU5L/hN7hTSFP14VxI7IR
-         tCAcShPOcnomU+ohSEd7dyOeU8YqseGDl7BNRrbYX9rGFkPnF7ve8UPAK/BF93LB6CHR
-         eI+g==
-X-Gm-Message-State: AOJu0Yzr754/+zgS9ofdPfD1KvtCpSHfYAGi47zQHuitbXoLMnDiKBKX
-	HI8mZQf8ktJQWCByZKB1u7k=
-X-Google-Smtp-Source: AGHT+IFeVg0d+ORZfLoV2hl/dUB5IqhT2S/nhE3hYYfAZSZypJJtkrq2Fw+2ndptvfPv114T0zoi/Q==
-X-Received: by 2002:aa7:d8cc:0:b0:540:97b5:3719 with SMTP id k12-20020aa7d8cc000000b0054097b53719mr1597855eds.25.1700573119970;
-        Tue, 21 Nov 2023 05:25:19 -0800 (PST)
-Received: from ?IPV6:2a01:c23:c095:ed00:bc3d:5c69:4067:a24b? (dynamic-2a01-0c23-c095-ed00-bc3d-5c69-4067-a24b.c23.pool.telefonica.de. [2a01:c23:c095:ed00:bc3d:5c69:4067:a24b])
-        by smtp.googlemail.com with ESMTPSA id j19-20020aa7ca53000000b005488ae52752sm3212156edt.18.2023.11.21.05.25.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Nov 2023 05:25:19 -0800 (PST)
-Message-ID: <c636a24f-0390-49a2-9012-9abf9794abc3@gmail.com>
-Date: Tue, 21 Nov 2023 13:25:18 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C2D65380D
+	for <linux-sunxi@lists.linux.dev>; Tue, 21 Nov 2023 13:51:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r5RAN-0005NP-99; Tue, 21 Nov 2023 14:51:51 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r5RAM-00AayH-RO; Tue, 21 Nov 2023 14:51:50 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r5RAM-004xcc-II; Tue, 21 Nov 2023 14:51:50 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Thierry Reding <thierry.reding@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: linux-pwm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	kernel@pengutronix.de
+Subject: [PATCH v3 030/108] pwm: sun4i: Make use of pwmchip_parent() macro
+Date: Tue, 21 Nov 2023 14:49:32 +0100
+Message-ID: <20231121134901.208535-31-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.42.0.586.gbc5204569f7d.dirty
+In-Reply-To: <20231121134901.208535-1-u.kleine-koenig@pengutronix.de>
+References: <20231121134901.208535-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Intel-gfx] [PATCH v4 00/20] remove I2C_CLASS_DDC support
-To: Jani Nikula <jani.nikula@linux.intel.com>, Wolfram Sang <wsa@kernel.org>,
- intel-gfx@lists.freedesktop.org
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Yongqin Liu <yongqin.liu@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, amd-gfx@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>, linux-sunxi@lists.linux.dev,
- Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- Jocelyn Falempe <jfalempe@redhat.com>, linux-kernel@vger.kernel.org,
- linux-i2c@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- John Stultz <jstultz@google.com>, freedreno@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-References: <20231120214624.9378-1-hkallweit1@gmail.com>
- <87h6lfo53n.fsf@intel.com>
-Content-Language: en-US
-From: Heiner Kallweit <hkallweit1@gmail.com>
-Autocrypt: addr=hkallweit1@gmail.com; keydata=
- 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
-In-Reply-To: <87h6lfo53n.fsf@intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1268; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=HIZLcG7Ck3uCiidtWYoYqHxm8CIohmV/VYBLbN2MIts=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlXLVuyiiNmFtagV2g0fYhFlWynZouKX4MBIGgM sZcuTgldECJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZVy1bgAKCRCPgPtYfRL+ TizyB/41CLuE2bjDxJ7eCj2PXqDk1/R2wjA6zCvT9/9xhD3hmkrUbYoJCPj0ZMGQ273f5E5Wg3U jQVGzGHMyMRT0iUYhRgarUKyFWzK2F8ibEg8h4ud8BX9DfW1io5XuybmOsX7ALLxDwA96E8x3+T nwiQXGAmSDZB5yetz29+BjXFb3HFGi04bazPWiwJibsAILtACz4xqdHdrvMwGaJJPpsegqfkVDq VQC7RdqF87F3eCvJmNepL2bTNdgEHjyzC3VEfJlwu7yWrWkk7DRQ/+HE2Jd0UeMa7kmQOsIiGxj pIasQ+8/T5+nziD3JbsZQhZgBX2TY7N63Edv9jIhBZms9+8O
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
-On 21.11.2023 09:58, Jani Nikula wrote:
-> On Mon, 20 Nov 2023, Heiner Kallweit <hkallweit1@gmail.com> wrote:
->> v4:
->> - more ack and review tags
-> 
-> Please do not send new versions just to record the acks and
-> reviews. They should be added while applying the patches.
-> 
-Right, typically also patchwork interprets and shows A-b and R-b when
-sent as a reply to a patch of the series. I sent a new version because
-an A-b covered multiple patches and was sent as reply to the cover letter.
+struct pwm_chip::dev is about to change. To not have to touch this
+driver in the same commit as struct pwm_chip::dev, use the macro
+provided for exactly this purpose.
 
-> Thanks,
-> Jani.
-> 
-Heiner
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/pwm/pwm-sun4i.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/pwm/pwm-sun4i.c b/drivers/pwm/pwm-sun4i.c
+index 1a439025540d..44edf1ce5739 100644
+--- a/drivers/pwm/pwm-sun4i.c
++++ b/drivers/pwm/pwm-sun4i.c
+@@ -245,7 +245,7 @@ static int sun4i_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+ 	if (!cstate.enabled) {
+ 		ret = clk_prepare_enable(sun4i_pwm->clk);
+ 		if (ret) {
+-			dev_err(chip->dev, "failed to enable PWM clock\n");
++			dev_err(pwmchip_parent(chip), "failed to enable PWM clock\n");
+ 			return ret;
+ 		}
+ 	}
+@@ -253,7 +253,7 @@ static int sun4i_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+ 	ret = sun4i_pwm_calculate(sun4i_pwm, state, &duty, &period, &prescaler,
+ 				  &bypass);
+ 	if (ret) {
+-		dev_err(chip->dev, "period exceeds the maximum value\n");
++		dev_err(pwmchip_parent(chip), "period exceeds the maximum value\n");
+ 		if (!cstate.enabled)
+ 			clk_disable_unprepare(sun4i_pwm->clk);
+ 		return ret;
+-- 
+2.42.0
+
