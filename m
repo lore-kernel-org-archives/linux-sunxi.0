@@ -1,29 +1,29 @@
 Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 680A83E46D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 681014BAB5
 	for <linux-sunxi@lists.linux.dev>; Wed, 22 Nov 2023 14:26:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="UOYPKGnr"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="eMuKTIP+"
 Received: from relay4-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::224])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 7BA37C7CAD
-	for <linux-sunxi@lists.linux.dev>; Wed, 22 Nov 2023 14:14:55 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 166E2E000A;
-	Wed, 22 Nov 2023 14:14:47 +0000 (UTC)
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id A1ABDC902F
+	for <linux-sunxi@lists.linux.dev>; Wed, 22 Nov 2023 14:14:56 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id BC234E0007;
+	Wed, 22 Nov 2023 14:14:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1700662487;
+	t=1700662489;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ABQkvnbU9jREL+xGEduT9Jz440AQVxL+9NX8sRWpyl0=;
-	b=UOYPKGnr7sOyxEsQY3xpDVSRRGBZINCji7asEbWpRM803LzqHZWc45iqwkf6AbjKlWKvjI
-	FxfR1WGV6IKEaFYUpUBU6T8z0wnOLgvJVXLXF7fJiAmxbrbMf3HAHiHnz9woxoT6o6IjoV
-	fANbhFgt7lRAJUBPV/vlsDbH/bYeialQuZPUp/ACdQ/6k+Ka59dMxDiiycLCWiEpKVuu4t
-	JyvCqDr5ZePlFwWBKyBOK5PPmN3IoneyuHOTyPx2iRQely6KIozj+MQTnc/IKbRimK1W18
-	cml8a1t27JJp4x3hW5XyimZLnmBevRq6GZIFwCJnCI/u+d9qhKPJj2dJATzdZA==
+	bh=zkdHkQjq3zn+cr3h8O6hniqwb4wqvOUf1cWWpN7DY+s=;
+	b=eMuKTIP+3smNdNoRBrZEeMbsJjG0CWGQ6wjhR+xyz4LO5SxAm7+b5yxQUdS4igDJG7Obr+
+	2NAwGIeKs3kv/ZY0/2Pdt1q4pt1CLSd9LC7vT79bPx+cKN3wYO/r2k9UT+TyHxbl/FR+a+
+	3mRk4Jq20XyzteKkuKtwW01wqj2PBbx/7R7z1Kl6dpEqto5LNLlePHRT4X72pQgSYPmfF+
+	hmGgnMMXWWDURMHrx+N6d4At2kFO4iZ8xZil4o0hVCvPYKMvrUQIl9Um8ks+yMMfoNhc7+
+	2F+GtkLXKV2t7s+nQLScgQq5VFksionhGslwoB6qzTE+mTxipnS3pXxw8cAePA==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -41,9 +41,9 @@ Cc: Rob Herring <robh+dt@kernel.org>,
 	Michael Turquette <mturquette@baylibre.com>,
 	Stephen Boyd <sboyd@kernel.org>,
 	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: [PATCH v7 2/7] ARM: dts: sun8i: v3s: Add mbus node to represent the interconnect
-Date: Wed, 22 Nov 2023 15:14:20 +0100
-Message-ID: <20231122141426.329694-3-paul.kocialkowski@bootlin.com>
+Subject: [PATCH v7 4/7] ARM: dts: sun8i: v3s: Add support for the ISP
+Date: Wed, 22 Nov 2023 15:14:22 +0100
+Message-ID: <20231122141426.329694-5-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.42.1
 In-Reply-To: <20231122141426.329694-1-paul.kocialkowski@bootlin.com>
 References: <20231122141426.329694-1-paul.kocialkowski@bootlin.com>
@@ -56,42 +56,78 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-GND-Sasl: paul.kocialkowski@bootlin.com
 
-The V3s uses the mbus interconnect to provide DRAM access for a
-number of blocks. The SoC can only map 2 GiB of DRAM, which is
-reflected in the dma-ranges property.
+The V3s (and related platforms) come with an instance of the A31 ISP.
+Even though it is very close to the A31 ISP, it is not exactly
+register-compatible and a dedicated compatible only is used as a
+result.
+
+Just like most other blocks of the camera pipeline, the ISP uses
+the common CSI bus, module and ram clock as well as reset.
+
+A port connection to the ISP is added to CSI0 for convenience since
+CSI0 serves for MIPI CSI-2 interface support, which is likely to
+receive raw data that will need to be processed by the ISP to produce
+a final image.
+
+The interconnects property is used to inherit the proper DMA offset.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Reviewed-by: Samuel Holland <samuel@sholland.org>
 ---
- arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi | 35 ++++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
 
 diff --git a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi b/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
-index 3b9a282c2746..506e98f4f69d 100644
+index d57612023aa4..1a1dcd36cba4 100644
 --- a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
 +++ b/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
-@@ -579,6 +579,21 @@ int_mii_phy: ethernet-phy@1 {
+@@ -645,6 +645,14 @@ csi0_in_mipi_csi2: endpoint {
+ 						remote-endpoint = <&mipi_csi2_out_csi0>;
+ 					};
+ 				};
++
++				port@2 {
++					reg = <2>;
++
++					csi0_out_isp: endpoint {
++						remote-endpoint = <&isp_in_csi0>;
++					};
++				};
  			};
  		};
  
-+		mbus: dram-controller@1c62000 {
-+			compatible = "allwinner,sun8i-v3s-mbus";
-+			reg = <0x01c62000 0x1000>,
-+			      <0x01c63000 0x1000>;
-+			reg-names = "mbus", "dram";
-+			clocks = <&ccu CLK_MBUS>,
-+				 <&ccu CLK_DRAM>,
-+				 <&ccu CLK_BUS_DRAM>;
-+			clock-names = "mbus", "dram", "bus";
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+			dma-ranges = <0x00000000 0x40000000 0x80000000>;
-+			#interconnect-cells = <1>;
-+		};
+@@ -703,5 +711,32 @@ csi1: camera@1cb4000 {
+ 			resets = <&ccu RST_BUS_CSI>;
+ 			status = "disabled";
+ 		};
 +
- 		spi0: spi@1c68000 {
- 			compatible = "allwinner,sun8i-h3-spi";
- 			reg = <0x01c68000 0x1000>;
++		isp: isp@1cb8000 {
++			compatible = "allwinner,sun8i-v3s-isp";
++			reg = <0x01cb8000 0x1000>;
++			interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_CSI>,
++				 <&ccu CLK_CSI1_SCLK>,
++				 <&ccu CLK_DRAM_CSI>;
++			clock-names = "bus", "mod", "ram";
++			resets = <&ccu RST_BUS_CSI>;
++			interconnects = <&mbus 5>;
++			interconnect-names = "dma-mem";
++			status = "disabled";
++
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				port@0 {
++					reg = <0>;
++
++					isp_in_csi0: endpoint {
++						remote-endpoint = <&csi0_out_isp>;
++					};
++				};
++			};
++		};
+ 	};
+ };
 -- 
 2.42.1
 
