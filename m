@@ -1,22 +1,22 @@
 Received: from Atcsqr.andestech.com (60-248-80-70.hinet-ip.hinet.net [60.248.80.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ACDC18645
-	for <linux-sunxi@lists.linux.dev>; Wed, 22 Nov 2023 12:46:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 681FD4D12D
+	for <linux-sunxi@lists.linux.dev>; Wed, 22 Nov 2023 12:46:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=andestech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=andestech.com
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 Received: from Atcsqr.andestech.com (localhost [127.0.0.2] (may be forged))
-	by Atcsqr.andestech.com with ESMTP id 3AMCHjZD025450
+	by Atcsqr.andestech.com with ESMTP id 3AMCHjRG025449
 	for <linux-sunxi@lists.linux.dev>; Wed, 22 Nov 2023 20:17:45 +0800 (+08)
 	(envelope-from peterlin@andestech.com)
 Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
-	by Atcsqr.andestech.com with ESMTP id 3AMCGIi3025043;
-	Wed, 22 Nov 2023 20:16:18 +0800 (+08)
+	by Atcsqr.andestech.com with ESMTP id 3AMCGDtX025025;
+	Wed, 22 Nov 2023 20:16:13 +0800 (+08)
 	(envelope-from peterlin@andestech.com)
 Received: from swlinux02.andestech.com (10.0.15.183) by ATCPCS16.andestech.com
  (10.0.1.222) with Microsoft SMTP Server id 14.3.498.0; Wed, 22 Nov 2023
- 20:16:14 +0800
+ 20:16:09 +0800
 From: Yu Chien Peter Lin <peterlin@andestech.com>
 To: <acme@kernel.org>, <adrian.hunter@intel.com>, <ajones@ventanamicro.com>,
         <alexander.shishkin@linux.intel.com>, <andre.przywara@arm.com>,
@@ -40,9 +40,9 @@ To: <acme@kernel.org>, <adrian.hunter@intel.com>, <ajones@ventanamicro.com>,
         <sunilvl@ventanamicro.com>, <tglx@linutronix.de>,
         <tim609@andestech.com>, <uwu@icenowy.me>, <wens@csie.org>,
         <will@kernel.org>, <ycliang@andestech.com>, <inochiama@outlook.com>
-Subject: [PATCH v4 03/13] irqchip/riscv-intc: Introduce Andes hart-level interrupt controller
-Date: Wed, 22 Nov 2023 20:12:25 +0800
-Message-ID: <20231122121235.827122-4-peterlin@andestech.com>
+Subject: [PATCH v4 02/13] irqchip/riscv-intc: Allow large non-standard interrupt number
+Date: Wed, 22 Nov 2023 20:12:24 +0800
+Message-ID: <20231122121235.827122-3-peterlin@andestech.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231122121235.827122-1-peterlin@andestech.com>
 References: <20231122121235.827122-1-peterlin@andestech.com>
@@ -52,193 +52,79 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-DNSRBL: 
 X-SPAM-SOURCE-CHECK: pass
-X-MAIL:Atcsqr.andestech.com 3AMCHjZD025450
+X-MAIL:Atcsqr.andestech.com 3AMCHjRG025449
 
-Add support for the Andes hart-level interrupt controller. This
-controller provides interrupt mask/unmask functions to access the
-custom register (SLIE) where the non-standard S-mode local interrupt
-enable bits are located.
+Currently, the implementation of the RISC-V INTC driver uses the
+interrupt cause as hwirq and has a limitation of supporting a
+maximum of 64 hwirqs. However, according to the privileged spec,
+interrupt causes >= 16 are defined for platform use.
 
-To share the riscv_intc_domain_map() with the generic RISC-V INTC and
-ACPI, we add a chip parameter to riscv_intc_init_common(), so it can be
-passed to the irq_domain_set_info() as private data.
+This limitation prevents us from fully utilizing the available
+local interrupt sources. Additionally, the hwirqs used on RISC-V
+are sparse, with only interrupt numbers 1, 5 and 9 (plus Sscofpmf
+or T-Head's PMU irq) being currently used for supervisor mode.
 
-Andes hart-level interrupt controller requires the "andestech,cpu-intc"
-compatible string to be present in interrupt-controller of cpu node.
-e.g.,
-
-  cpu0: cpu@0 {
-      compatible = "andestech,ax45mp", "riscv";
-      ...
-      cpu0-intc: interrupt-controller {
-          #interrupt-cells = <0x01>;
-          compatible = "andestech,cpu-intc", "riscv,cpu-intc";
-          interrupt-controller;
-      };
-  };
+Switch to using irq_domain_create_tree() to create the radix tree
+map, so a larger number of hardware interrupts can be handled.
 
 Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
 Reviewed-by: Charles Ci-Jyun Wu <dminus@andestech.com>
 Reviewed-by: Leo Yu-Chi Liang <ycliang@andestech.com>
 ---
 Changes v1 -> v2:
-  - New patch
+  - Fixed irq mapping failure checking (suggested by Clément and Anup)
 Changes v2 -> v3:
-  - Return -ENXIO if no valid compatible INTC found
-  - Allow falling back to generic RISC-V INTC
+  - No change
 Changes v3 -> v4: (Suggested by Thomas [1])
-  - Add comment to andes irq chip function
-  - Refine code flow to share with generic RISC-V INTC and ACPI
-  - Move Andes specific definitions to include/linux/soc/andes/irq.h  
+  - Use pr_warn_ratelimited instead
+  - Fix coding style and commit message
 
-[1] https://patchwork.kernel.org/project/linux-riscv/patch/20231019135723.3657156-1-peterlin@andestech.com/
+[1] https://patchwork.kernel.org/project/linux-riscv/patch/20231023004100.2663486-3-peterlin@andestech.com/#25573085
 ---
- drivers/irqchip/irq-riscv-intc.c | 51 ++++++++++++++++++++++++++++----
- include/linux/soc/andes/irq.h    | 17 +++++++++++
- 2 files changed, 63 insertions(+), 5 deletions(-)
- create mode 100644 include/linux/soc/andes/irq.h
+ drivers/irqchip/irq-riscv-intc.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/irqchip/irq-riscv-intc.c b/drivers/irqchip/irq-riscv-intc.c
-index 2fdd40f2a791..30f0036c8978 100644
+index e8d01b14ccdd..2fdd40f2a791 100644
 --- a/drivers/irqchip/irq-riscv-intc.c
 +++ b/drivers/irqchip/irq-riscv-intc.c
-@@ -17,6 +17,7 @@
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/smp.h>
-+#include <linux/soc/andes/irq.h>
+@@ -24,10 +24,9 @@ static asmlinkage void riscv_intc_irq(struct pt_regs *regs)
+ {
+ 	unsigned long cause = regs->cause & ~CAUSE_IRQ_FLAG;
  
- static struct irq_domain *intc_domain;
- 
-@@ -46,6 +47,31 @@ static void riscv_intc_irq_unmask(struct irq_data *d)
- 	csr_set(CSR_IE, BIT(d->hwirq));
+-	if (unlikely(cause >= BITS_PER_LONG))
+-		panic("unexpected interrupt cause");
+-
+-	generic_handle_domain_irq(intc_domain, cause);
++	if (generic_handle_domain_irq(intc_domain, cause))
++		pr_warn_ratelimited("Failed to handle interrupt (cause: %ld)\n",
++				    cause);
  }
  
-+static void andes_intc_irq_mask(struct irq_data *d)
-+{
-+	/*
-+	 * Andes specific S-mode local interrupt causes (hwirq)
-+	 * are defined as (256 + n) and controlled by n-th bit
-+	 * of SLIE.
-+	 */
-+	unsigned int mask = BIT(d->hwirq % BITS_PER_LONG);
-+
-+	if (d->hwirq < ANDES_SLI_CAUSE_BASE)
-+		csr_clear(CSR_IE, mask);
-+	else
-+		csr_clear(ANDES_CSR_SLIE, mask);
-+}
-+
-+static void andes_intc_irq_unmask(struct irq_data *d)
-+{
-+	unsigned int mask = BIT(d->hwirq % BITS_PER_LONG);
-+
-+	if (d->hwirq < ANDES_SLI_CAUSE_BASE)
-+		csr_set(CSR_IE, mask);
-+	else
-+		csr_set(ANDES_CSR_SLIE, mask);
-+}
-+
- static void riscv_intc_irq_eoi(struct irq_data *d)
- {
- 	/*
-@@ -69,11 +95,20 @@ static struct irq_chip riscv_intc_chip = {
- 	.irq_eoi = riscv_intc_irq_eoi,
- };
- 
-+static struct irq_chip andes_intc_chip = {
-+	.name       = "RISC-V INTC",
-+	.irq_mask   = andes_intc_irq_mask,
-+	.irq_unmask = andes_intc_irq_unmask,
-+	.irq_eoi    = riscv_intc_irq_eoi,
-+};
-+
- static int riscv_intc_domain_map(struct irq_domain *d, unsigned int irq,
- 				 irq_hw_number_t hwirq)
- {
-+	struct irq_chip *chip = d->host_data;
-+
- 	irq_set_percpu_devid(irq);
--	irq_domain_set_info(d, irq, hwirq, &riscv_intc_chip, d->host_data,
-+	irq_domain_set_info(d, irq, hwirq, chip, d->host_data,
- 			    handle_percpu_devid_irq, NULL, NULL);
- 
- 	return 0;
-@@ -112,11 +147,12 @@ static struct fwnode_handle *riscv_intc_hwnode(void)
- 	return intc_domain->fwnode;
- }
- 
--static int __init riscv_intc_init_common(struct fwnode_handle *fn)
-+static int __init riscv_intc_init_common(struct fwnode_handle *fn,
-+					 struct irq_chip *chip)
+ /*
+@@ -117,8 +116,7 @@ static int __init riscv_intc_init_common(struct fwnode_handle *fn)
  {
  	int rc;
  
--	intc_domain = irq_domain_create_tree(fn, &riscv_intc_domain_ops, NULL);
-+	intc_domain = irq_domain_create_tree(fn, &riscv_intc_domain_ops, chip);
+-	intc_domain = irq_domain_create_linear(fn, BITS_PER_LONG,
+-					       &riscv_intc_domain_ops, NULL);
++	intc_domain = irq_domain_create_tree(fn, &riscv_intc_domain_ops, NULL);
  	if (!intc_domain) {
  		pr_err("unable to add IRQ domain\n");
  		return -ENXIO;
-@@ -138,6 +174,7 @@ static int __init riscv_intc_init(struct device_node *node,
- {
- 	int rc;
- 	unsigned long hartid;
-+	struct irq_chip *chip = &riscv_intc_chip;
+@@ -132,8 +130,6 @@ static int __init riscv_intc_init_common(struct fwnode_handle *fn)
  
- 	rc = riscv_of_parent_hartid(node, &hartid);
- 	if (rc < 0) {
-@@ -162,10 +199,14 @@ static int __init riscv_intc_init(struct device_node *node,
- 		return 0;
- 	}
+ 	riscv_set_intc_hwnode_fn(riscv_intc_hwnode);
  
--	return riscv_intc_init_common(of_node_to_fwnode(node));
-+	if (of_device_is_compatible(node, "andestech,cpu-intc"))
-+		chip = &andes_intc_chip;
-+
-+	return riscv_intc_init_common(of_node_to_fwnode(node), chip);
+-	pr_info("%d local interrupts mapped\n", BITS_PER_LONG);
+-
+ 	return 0;
  }
  
- IRQCHIP_DECLARE(riscv, "riscv,cpu-intc", riscv_intc_init);
-+IRQCHIP_DECLARE(andes, "andestech,cpu-intc", riscv_intc_init);
- 
- #ifdef CONFIG_ACPI
- 
-@@ -192,7 +233,7 @@ static int __init riscv_intc_acpi_init(union acpi_subtable_headers *header,
- 		return -ENOMEM;
- 	}
- 
--	return riscv_intc_init_common(fn);
-+	return riscv_intc_init_common(fn, &riscv_intc_chip);
- }
- 
- IRQCHIP_ACPI_DECLARE(riscv_intc, ACPI_MADT_TYPE_RINTC, NULL,
-diff --git a/include/linux/soc/andes/irq.h b/include/linux/soc/andes/irq.h
-new file mode 100644
-index 000000000000..f03e68fea261
---- /dev/null
-+++ b/include/linux/soc/andes/irq.h
-@@ -0,0 +1,17 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (C) 2023 Andes Technology Corporation
-+ */
-+#ifndef __ANDES_IRQ_H
-+#define __ANDES_IRQ_H
-+
-+/* Andes PMU irq number */
-+#define ANDES_RV_IRQ_PMU		18
-+#define ANDES_SLI_CAUSE_BASE		256
-+
-+/* Andes PMU related registers */
-+#define ANDES_CSR_SLIE			0x9c4
-+#define ANDES_CSR_SLIP			0x9c5
-+#define ANDES_CSR_SCOUNTEROF		0x9d4
-+
-+#endif /* __ANDES_IRQ_H */
 -- 
 2.34.1
 
