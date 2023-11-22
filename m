@@ -1,29 +1,29 @@
 Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6804D3C685
-	for <linux-sunxi@lists.linux.dev>; Wed, 22 Nov 2023 14:26:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96DE04C3C8
+	for <linux-sunxi@lists.linux.dev>; Wed, 22 Nov 2023 14:26:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="RTfTRVsi"
-Received: from relay4-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::224])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 84CA3C85D7
-	for <linux-sunxi@lists.linux.dev>; Wed, 22 Nov 2023 14:14:55 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id E09E7E0012;
-	Wed, 22 Nov 2023 14:14:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="aGAVlR1d"
+Received: from relay4-d.mail.gandi.net (unknown [217.70.183.196])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id 7C327C9280
+	for <linux-sunxi@lists.linux.dev>; Wed, 22 Nov 2023 14:14:59 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 97F2DE000F;
+	Wed, 22 Nov 2023 14:14:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1700662488;
+	t=1700662492;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4r8AmM7mXWeipOMUfi50m9Hi0q6kLe/5x9Q/douM3aY=;
-	b=RTfTRVsisHRP5wcG9YOUbabpkm1gdgR9IUrxZ2EuBPNx1Y6drFoUm0Axd70PVxqBBTvE/c
-	bcYl0hPsvjHoMMhJbRuIZMb7jn3OolmyCk+6ZFH3N3K547Ib+BFLG7vwc8wmHXRPToW6fi
-	R1oR+So8dr6Ie2ALrCBshOGRR6wOm9JsQoVV5DNXL9TPBuCgVQ301ivNTsh/goID1r3QQA
-	/pWJXv/XTs3U3BCEB/QRlDFu1dIMZq+PdAsXjlmNN5d1SYbzXp5wvyX1SIus2FIlMbsGY0
-	GALU9Cljj/HOQuklGq5goKsA2R1qvRXJoBOH4lkHWdQgcBFhox+I5VQ5G2Pzzw==
+	bh=OJh0UJcLRZDsO0H3GP2TmEuizz0gtILPNblbJuaZueI=;
+	b=aGAVlR1dvSb8R60JtZC4/1ZmFZCQmBdZtEBRDcN9p7PwJw47vH70p/M1SXIfQelMrh9qLs
+	UJoLFtz0IUziaBa40lXw4X9wGepSb9oLxRmORW7AE1aNWNbLkEovE4TqeBMLtxzoXjwM+R
+	wVL1y4oE8N+nqw32IqZVqOnJPDKhomCC8KJ1qTV+kFxPrw7Bo9wtbbpHgHH1SU+3ExfQsP
+	u9Q9Db3A5SiJRAS3kL9A+8C4SzEhURpq4udRGSXfI0OvEzf/i0Dfdh8IBgjaomT4ClPzw6
+	/uTv+d0f7NT9Eda1skSB+7d3jfKMKPeAETuHoBBIeGn0JEnm2ZjVXD2yfVpctA==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -41,9 +41,9 @@ Cc: Rob Herring <robh+dt@kernel.org>,
 	Michael Turquette <mturquette@baylibre.com>,
 	Stephen Boyd <sboyd@kernel.org>,
 	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: [PATCH v7 3/7] ARM: dts: sun8i: v3s: Add nodes for MIPI CSI-2 support
-Date: Wed, 22 Nov 2023 15:14:21 +0100
-Message-ID: <20231122141426.329694-4-paul.kocialkowski@bootlin.com>
+Subject: [PATCH v7 5/7] ARM: dts: sun8i: a83t: Add MIPI CSI-2 controller node
+Date: Wed, 22 Nov 2023 15:14:23 +0100
+Message-ID: <20231122141426.329694-6-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.42.1
 In-Reply-To: <20231122141426.329694-1-paul.kocialkowski@bootlin.com>
 References: <20231122141426.329694-1-paul.kocialkowski@bootlin.com>
@@ -56,48 +56,27 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-GND-Sasl: paul.kocialkowski@bootlin.com
 
-MIPI CSI-2 is supported on the V3s with an A31-based MIPI CSI-2 bridge
-controller. The controller uses a separate D-PHY, which is the same
-that is otherwise used for MIPI DSI, but used in Rx mode.
+MIPI CSI-2 is supported on the A83T with a dedicated controller that
+covers both the protocol and D-PHY. It is connected to the only CSI
+receiver with a fwnode graph link. Note that the CSI receiver supports
+both this MIPI CSI-2 source and a parallel source.
 
-On the V3s, the CSI0 controller is dedicated to MIPI CSI-2 as it does
-not have access to any parallel interface pins.
-
-Add all the necessary nodes (CSI0, MIPI CSI-2 bridge and D-PHY) to
-support the MIPI CSI-2 interface.
-
-Note that a fwnode graph link is created between CSI0 and MIPI CSI-2
-even when no sensor is connected. This will result in a probe failure
-for the controller as long as no sensor is connected but this is fine
-since no other interface is available.
-
-The interconnects property is used to inherit the proper DMA offset.
+An empty port with a label for the MIPI CSI-2 sensor input is also
+defined for convenience.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 ---
- arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi | 71 ++++++++++++++++++++++
- 1 file changed, 71 insertions(+)
+ arch/arm/boot/dts/allwinner/sun8i-a83t.dtsi | 43 +++++++++++++++++++++
+ 1 file changed, 43 insertions(+)
 
-diff --git a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi b/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
-index 506e98f4f69d..d57612023aa4 100644
---- a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
-+++ b/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
-@@ -621,6 +621,77 @@ gic: interrupt-controller@1c81000 {
- 			interrupts = <GIC_PPI 9 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_HIGH)>;
- 		};
- 
-+		csi0: camera@1cb0000 {
-+			compatible = "allwinner,sun8i-v3s-csi";
-+			reg = <0x01cb0000 0x1000>;
-+			interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_CSI>,
-+				 <&ccu CLK_CSI1_SCLK>,
-+				 <&ccu CLK_DRAM_CSI>;
-+			clock-names = "bus", "mod", "ram";
-+			resets = <&ccu RST_BUS_CSI>;
-+			interconnects = <&mbus 5>;
-+			interconnect-names = "dma-mem";
-+			status = "disabled";
+diff --git a/arch/arm/boot/dts/allwinner/sun8i-a83t.dtsi b/arch/arm/boot/dts/allwinner/sun8i-a83t.dtsi
+index 94eb3bfc989e..b74c3f9e6598 100644
+--- a/arch/arm/boot/dts/allwinner/sun8i-a83t.dtsi
++++ b/arch/arm/boot/dts/allwinner/sun8i-a83t.dtsi
+@@ -1062,6 +1062,49 @@ csi: camera@1cb0000 {
+ 			clock-names = "bus", "mod", "ram";
+ 			resets = <&ccu RST_BUS_CSI>;
+ 			status = "disabled";
 +
 +			ports {
 +				#address-cells = <1>;
@@ -106,26 +85,24 @@ index 506e98f4f69d..d57612023aa4 100644
 +				port@1 {
 +					reg = <1>;
 +
-+					csi0_in_mipi_csi2: endpoint {
-+						remote-endpoint = <&mipi_csi2_out_csi0>;
++					csi_in_mipi_csi2: endpoint {
++						remote-endpoint = <&mipi_csi2_out_csi>;
 +					};
 +				};
 +			};
 +		};
 +
 +		mipi_csi2: csi@1cb1000 {
-+			compatible = "allwinner,sun8i-v3s-mipi-csi2",
-+				     "allwinner,sun6i-a31-mipi-csi2";
++			compatible = "allwinner,sun8i-a83t-mipi-csi2";
 +			reg = <0x01cb1000 0x1000>;
-+			interrupts = <GIC_SPI 90 IRQ_TYPE_LEVEL_HIGH>;
++			interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
 +			clocks = <&ccu CLK_BUS_CSI>,
-+				 <&ccu CLK_CSI1_SCLK>;
-+			clock-names = "bus", "mod";
++				 <&ccu CLK_CSI_SCLK>,
++				 <&ccu CLK_MIPI_CSI>,
++				 <&ccu CLK_CSI_MISC>;
++			clock-names = "bus", "mod", "mipi", "misc";
 +			resets = <&ccu RST_BUS_CSI>;
 +			status = "disabled";
-+
-+			phys = <&dphy>;
-+			phy-names = "dphy";
 +
 +			ports {
 +				#address-cells = <1>;
@@ -138,28 +115,14 @@ index 506e98f4f69d..d57612023aa4 100644
 +				mipi_csi2_out: port@1 {
 +					reg = <1>;
 +
-+					mipi_csi2_out_csi0: endpoint {
-+						remote-endpoint = <&csi0_in_mipi_csi2>;
++					mipi_csi2_out_csi: endpoint {
++						remote-endpoint = <&csi_in_mipi_csi2>;
 +					};
 +				};
 +			};
-+		};
-+
-+		dphy: d-phy@1cb2000 {
-+			compatible = "allwinner,sun6i-a31-mipi-dphy";
-+			reg = <0x01cb2000 0x1000>;
-+			clocks = <&ccu CLK_BUS_CSI>,
-+				 <&ccu CLK_MIPI_CSI>;
-+			clock-names = "bus", "mod";
-+			resets = <&ccu RST_BUS_CSI>;
-+			allwinner,direction = "rx";
-+			status = "disabled";
-+			#phy-cells = <0>;
-+		};
-+
- 		csi1: camera@1cb4000 {
- 			compatible = "allwinner,sun8i-v3s-csi";
- 			reg = <0x01cb4000 0x3000>;
+ 		};
+ 
+ 		hdmi: hdmi@1ee0000 {
 -- 
 2.42.1
 
