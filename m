@@ -1,43 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B75921C291
-	for <linux-sunxi@lists.linux.dev>; Wed, 22 Nov 2023 21:13:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DB6B1A58C
+	for <linux-sunxi@lists.linux.dev>; Wed, 22 Nov 2023 21:14:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sb2CFkvV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B905C43215
-	for <linux-sunxi@lists.linux.dev>; Wed, 22 Nov 2023 21:13:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LVnx0uwq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E52B0C433C9
+	for <linux-sunxi@lists.linux.dev>; Wed, 22 Nov 2023 21:14:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700687583;
-	bh=GuBVjZjV1gqDATE7AVDXVR6KbB06LDstoa1u5pJdd44=;
+	s=k20201202; t=1700687684;
+	bh=AdLucksemJuNek6Q2mYTXAkYIMbYexxotameJ9QABko=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Sb2CFkvVVYZXzOKMOH5EgfoH44/hh5lOLXw/8XpIpRRcBs3438ZP4qZwNBV6VgUt0
-	 Ugm8EivgHtAgGie+ZZ1YLf8biVC40cXIejmrQk/Ux8zzfuocKyYNuNhxw+TzKtuB1O
-	 oO66SFyRx1xp6ARG9adlEOp4W9wb6Cjj1IOltt8INourZq9xZiw+1gkdvIsAe2eJsE
-	 xfvzOCQbDjt4JVmHrS4HzNqJe/C+ATyfBOQ8Nn5aUk47cRsP5sKfDJHv9+syvLP1iI
-	 x3vCryPTt3wyel67HKW2rbGInsi5Uj1qC1sQtMoiVD/9RjsCCmuKnipvILIIgE4dJ9
-	 3fjGVRs/7BNNg==
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-507a29c7eefso200120e87.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 22 Nov 2023 13:13:03 -0800 (PST)
-X-Gm-Message-State: AOJu0YxmHcL7RIuUuEQMLcuagehjNpKLkl5vgtOYLXJpJezDAm8K0tfF
-	/+VHhm8SslZYavwur7zvvu07vrurXySd25DO5jE=
-X-Google-Smtp-Source: AGHT+IHWayR4EGGb4sgKiVHICBmTJo1MuoDmYLHsEjt2qHT1ekKZfpyAiACfEC6paYV5C6+kwxlRbJ1dqBHcL71+PtA=
-X-Received: by 2002:a19:ac0b:0:b0:500:be57:ce53 with SMTP id
- g11-20020a19ac0b000000b00500be57ce53mr2345053lfc.42.1700687581392; Wed, 22
- Nov 2023 13:13:01 -0800 (PST)
+	b=LVnx0uwqLWCYmAWiJKlx+9QZY8fRd84MrS0vGuvyazCtR5o3mZtlr3SkUdoQFEw5q
+	 UtNc1CTaNHgDIqW2h7FzeJEGCtMkG4v/XTFdWhixb7x90ya+qqVqmo2fv1mE5lkGcn
+	 yMRdvsfvOr+m9J16TK3uAFuZjXCMPiUGrwPR40Vh/UmeYuBQ78UGAd4eOFn1UxVP0X
+	 YDLPQGEBxMnwQc5P38fREVZFDBu0Nacjs2ikRl1U8sikSrAqDWzl/Z5iIdeFjiaxCh
+	 cFA7xfNn/SJEjNDQeEAkgPJp6T8pfSIMLHhByTGbgBHIfMa67cgtGE3ZoMds8ltKaQ
+	 iU/KdKOJmhqqw==
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-54a94e68fb1so931264a12.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 22 Nov 2023 13:14:44 -0800 (PST)
+X-Gm-Message-State: AOJu0YzuJVNnEuEUcii1fwPvBoWN89BwPok7ey9W7SiCIAVFquMlkPdr
+	c/DnVtNaNO1KEbYAOqbSYSLIofPY7o/bno98DtA=
+X-Google-Smtp-Source: AGHT+IGIAQGj/hNQ0yottVsGW32nM9K4Wad//z6CZkRNPSM4tQ2oBX2Rax3OWYHQw9MprWovLzjIL1OmqUf1i6gr5yE=
+X-Received: by 2002:a17:906:b218:b0:a04:98ef:c73c with SMTP id
+ p24-20020a170906b21800b00a0498efc73cmr600541ejz.23.1700687683439; Wed, 22 Nov
+ 2023 13:14:43 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231122121235.827122-1-peterlin@andestech.com> <20231122121235.827122-12-peterlin@andestech.com>
-In-Reply-To: <20231122121235.827122-12-peterlin@andestech.com>
+References: <20231122121235.827122-1-peterlin@andestech.com> <20231122121235.827122-10-peterlin@andestech.com>
+In-Reply-To: <20231122121235.827122-10-peterlin@andestech.com>
 From: Guo Ren <guoren@kernel.org>
-Date: Thu, 23 Nov 2023 05:12:45 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTQdksCizkEtiE_wFAJGpyVOEUz4k2aCHi6mQiWieaMEnQ@mail.gmail.com>
-Message-ID: <CAJF2gTQdksCizkEtiE_wFAJGpyVOEUz4k2aCHi6mQiWieaMEnQ@mail.gmail.com>
-Subject: Re: [PATCH v4 11/13] riscv: dts: allwinner: Add T-Head PMU extension
+Date: Thu, 23 Nov 2023 05:14:30 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTSMe-yfzKfX92eWhBnJ_WwoYQu7_7fsOQuNqXdafHA1dg@mail.gmail.com>
+Message-ID: <CAJF2gTSMe-yfzKfX92eWhBnJ_WwoYQu7_7fsOQuNqXdafHA1dg@mail.gmail.com>
+Subject: Re: [PATCH v4 09/13] dt-bindings: riscv: Add T-Head PMU extension description
 To: Yu Chien Peter Lin <peterlin@andestech.com>
 Cc: acme@kernel.org, adrian.hunter@intel.com, ajones@ventanamicro.com, 
 	alexander.shishkin@linux.intel.com, andre.przywara@arm.com, 
@@ -63,9 +63,8 @@ Content-Transfer-Encoding: quoted-printable
 On Wed, Nov 22, 2023 at 8:17=E2=80=AFPM Yu Chien Peter Lin
 <peterlin@andestech.com> wrote:
 >
-> xtheadpmu stands for T-Head Performance Monitor Unit extension.
-> Based on the added T-Head PMU ISA string, the SBI PMU driver
-> will make use of the non-standard irq source.
+> Document the ISA string for T-Head performance monitor extension
+> which provides counter overflow interrupt mechanism.
 >
 > Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
 > ---
@@ -74,31 +73,31 @@ On Wed, Nov 22, 2023 at 8:17=E2=80=AFPM Yu Chien Peter Lin
 > Changes v3 -> v4:
 >   - No change
 > ---
->  arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  Documentation/devicetree/bindings/riscv/extensions.yaml | 6 ++++++
+>  1 file changed, 6 insertions(+)
 >
-> diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi b/arch/riscv/b=
-oot/dts/allwinner/sun20i-d1s.dtsi
-> index 64c3c2e6cbe0..7dcba86cfdd0 100644
-> --- a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
-> +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
-> @@ -27,7 +27,7 @@ cpu0: cpu@0 {
->                         riscv,isa =3D "rv64imafdc";
->                         riscv,isa-base =3D "rv64i";
->                         riscv,isa-extensions =3D "i", "m", "a", "f", "d",=
- "c", "zicntr", "zicsr",
-> -                                              "zifencei", "zihpm";
-> +                                              "zifencei", "zihpm", "xthe=
-adpmu";
-Reviewed-by: Guo Ren <guoren@kernel.org>
-
->                         #cooling-cells =3D <2>;
+> diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Do=
+cumentation/devicetree/bindings/riscv/extensions.yaml
+> index c91ab0e46648..694efaea8fce 100644
+> --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
+> +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
+> @@ -258,5 +258,11 @@ properties:
+>              in commit 2e5236 ("Ztso is now ratified.") of the
+>              riscv-isa-manual.
 >
->                         cpu0_intc: interrupt-controller {
+> +        - const: xtheadpmu
+> +          description:
+> +            The T-Head performance monitor extension for counter overflo=
+w. For more
+> +            details, see the chapter 12 in the Xuantie C906 user manual.
+> +            https://github.com/T-head-Semi/openc906/tree/main/doc
+> +
+>  additionalProperties: true
+>  ...
 > --
 > 2.34.1
 >
-
+Reviewed-by: Guo Ren <guoren@kernel.org>
 
 --=20
 Best Regards
