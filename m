@@ -1,61 +1,50 @@
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC0FD59B56
-	for <linux-sunxi@lists.linux.dev>; Wed, 22 Nov 2023 16:36:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-da3b4b7c6bdso6832837276.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 22 Nov 2023 08:36:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700670999; x=1701275799;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YnNltyNH2Qapz/Qt/SgTE3LNVbUWrueMgIGKLwuGujM=;
-        b=haF3kOwy+q+LiJEjlnoT44e7j5eEqJld0DzjTBn0h3TV35dJBErB/9UvfYKrMHjjZC
-         pfeCq0cfQ1Nb0BtSwJABpluqKm8neOPaVIDlYlC0Dtmo+xZodV0mWT9/ZGhpjT8W4klm
-         MP+TyYzepX3rT9E/eyf2aFy4JSkKhi0aPLZr/7vk8xsR7S7LgaLgdJ5VTPl4vLqKQqJG
-         NuQA/aLwZfT8XtNX051qrnzgvpxiDterp/cZGGCpbCD9WBSrsHb0weL6p4Gy2JFxPdI7
-         05zCk8OFMfKejHH4MwKkeLibHDGCaZyTzSVW+IuZ9xPA1k0DOFD+UydN2HfwuvDtq88T
-         XHZA==
-X-Gm-Message-State: AOJu0Yw5hRmC0iVGSxPjF582Nf2yqHQ0m1Db8PekrYIWDnxzsgK9TN5l
-	GmhYK9psgeXvDN4r9vltWLfhOwyib0jrzA==
-X-Google-Smtp-Source: AGHT+IGF8ZmQQv1oRiV1RJCsK5vvik8lXt9f8cgSqv/M8nELW1rIiRMB6owzDqYkw5YRXrdb86CskA==
-X-Received: by 2002:a25:6605:0:b0:da3:ab41:33c6 with SMTP id a5-20020a256605000000b00da3ab4133c6mr2562775ybc.65.1700670998802;
-        Wed, 22 Nov 2023 08:36:38 -0800 (PST)
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
-        by smtp.gmail.com with ESMTPSA id u9-20020a256009000000b00d677aec54ffsm1436761ybb.60.2023.11.22.08.36.38
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Nov 2023 08:36:38 -0800 (PST)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-5c85e8fdd2dso55845107b3.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 22 Nov 2023 08:36:38 -0800 (PST)
-X-Received: by 2002:a0d:d78f:0:b0:5a8:22b5:399c with SMTP id
- z137-20020a0dd78f000000b005a822b5399cmr3089413ywd.24.1700670998325; Wed, 22
- Nov 2023 08:36:38 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B75921C291
+	for <linux-sunxi@lists.linux.dev>; Wed, 22 Nov 2023 21:13:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sb2CFkvV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B905C43215
+	for <linux-sunxi@lists.linux.dev>; Wed, 22 Nov 2023 21:13:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700687583;
+	bh=GuBVjZjV1gqDATE7AVDXVR6KbB06LDstoa1u5pJdd44=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Sb2CFkvVVYZXzOKMOH5EgfoH44/hh5lOLXw/8XpIpRRcBs3438ZP4qZwNBV6VgUt0
+	 Ugm8EivgHtAgGie+ZZ1YLf8biVC40cXIejmrQk/Ux8zzfuocKyYNuNhxw+TzKtuB1O
+	 oO66SFyRx1xp6ARG9adlEOp4W9wb6Cjj1IOltt8INourZq9xZiw+1gkdvIsAe2eJsE
+	 xfvzOCQbDjt4JVmHrS4HzNqJe/C+ATyfBOQ8Nn5aUk47cRsP5sKfDJHv9+syvLP1iI
+	 x3vCryPTt3wyel67HKW2rbGInsi5Uj1qC1sQtMoiVD/9RjsCCmuKnipvILIIgE4dJ9
+	 3fjGVRs/7BNNg==
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-507a29c7eefso200120e87.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 22 Nov 2023 13:13:03 -0800 (PST)
+X-Gm-Message-State: AOJu0YxmHcL7RIuUuEQMLcuagehjNpKLkl5vgtOYLXJpJezDAm8K0tfF
+	/+VHhm8SslZYavwur7zvvu07vrurXySd25DO5jE=
+X-Google-Smtp-Source: AGHT+IHWayR4EGGb4sgKiVHICBmTJo1MuoDmYLHsEjt2qHT1ekKZfpyAiACfEC6paYV5C6+kwxlRbJ1dqBHcL71+PtA=
+X-Received: by 2002:a19:ac0b:0:b0:500:be57:ce53 with SMTP id
+ g11-20020a19ac0b000000b00500be57ce53mr2345053lfc.42.1700687581392; Wed, 22
+ Nov 2023 13:13:01 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231122121235.827122-1-peterlin@andestech.com> <20231122121235.827122-6-peterlin@andestech.com>
-In-Reply-To: <20231122121235.827122-6-peterlin@andestech.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 22 Nov 2023 17:36:24 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVL9_VQ7e7-Cr7vcFWqpCTeptczZmgWN4seENcJKTi0eQ@mail.gmail.com>
-Message-ID: <CAMuHMdVL9_VQ7e7-Cr7vcFWqpCTeptczZmgWN4seENcJKTi0eQ@mail.gmail.com>
-Subject: Re: [PATCH v4 05/13] riscv: dts: renesas: r9a07g043f: Update
- compatible string to use Andes INTC
+References: <20231122121235.827122-1-peterlin@andestech.com> <20231122121235.827122-12-peterlin@andestech.com>
+In-Reply-To: <20231122121235.827122-12-peterlin@andestech.com>
+From: Guo Ren <guoren@kernel.org>
+Date: Thu, 23 Nov 2023 05:12:45 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTQdksCizkEtiE_wFAJGpyVOEUz4k2aCHi6mQiWieaMEnQ@mail.gmail.com>
+Message-ID: <CAJF2gTQdksCizkEtiE_wFAJGpyVOEUz4k2aCHi6mQiWieaMEnQ@mail.gmail.com>
+Subject: Re: [PATCH v4 11/13] riscv: dts: allwinner: Add T-Head PMU extension
 To: Yu Chien Peter Lin <peterlin@andestech.com>
 Cc: acme@kernel.org, adrian.hunter@intel.com, ajones@ventanamicro.com, 
 	alexander.shishkin@linux.intel.com, andre.przywara@arm.com, 
 	anup@brainfault.org, aou@eecs.berkeley.edu, atishp@atishpatra.org, 
 	conor+dt@kernel.org, conor.dooley@microchip.com, conor@kernel.org, 
 	devicetree@vger.kernel.org, dminus@andestech.com, evan@rivosinc.com, 
-	guoren@kernel.org, heiko@sntech.de, irogers@google.com, 
+	geert+renesas@glider.be, heiko@sntech.de, irogers@google.com, 
 	jernej.skrabec@gmail.com, jolsa@kernel.org, jszhang@kernel.org, 
 	krzysztof.kozlowski+dt@linaro.org, linux-arm-kernel@lists.infradead.org, 
 	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
@@ -71,26 +60,46 @@ Cc: acme@kernel.org, adrian.hunter@intel.com, ajones@ventanamicro.com,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 22, 2023 at 1:16=E2=80=AFPM Yu Chien Peter Lin
+On Wed, Nov 22, 2023 at 8:17=E2=80=AFPM Yu Chien Peter Lin
 <peterlin@andestech.com> wrote:
-> The Andes hart-level interrupt controller (Andes INTC) allows AX45MP
-> cores to handle custom local interrupts, such as the performance
-> counter overflow interrupt.
+>
+> xtheadpmu stands for T-Head Performance Monitor Unit extension.
+> Based on the added T-Head PMU ISA string, the SBI PMU driver
+> will make use of the non-standard irq source.
 >
 > Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
+> ---
+> Changes v2 -> v3:
+>   - New patch
+> Changes v3 -> v4:
+>   - No change
+> ---
+>  arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi b/arch/riscv/b=
+oot/dts/allwinner/sun20i-d1s.dtsi
+> index 64c3c2e6cbe0..7dcba86cfdd0 100644
+> --- a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> @@ -27,7 +27,7 @@ cpu0: cpu@0 {
+>                         riscv,isa =3D "rv64imafdc";
+>                         riscv,isa-base =3D "rv64i";
+>                         riscv,isa-extensions =3D "i", "m", "a", "f", "d",=
+ "c", "zicntr", "zicsr",
+> -                                              "zifencei", "zihpm";
+> +                                              "zifencei", "zihpm", "xthe=
+adpmu";
+Reviewed-by: Guo Ren <guoren@kernel.org>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>                         #cooling-cells =3D <2>;
+>
+>                         cpu0_intc: interrupt-controller {
+> --
+> 2.34.1
+>
 
-Gr{oetje,eeting}s,
-
-                        Geert
 
 --=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Best Regards
+ Guo Ren
