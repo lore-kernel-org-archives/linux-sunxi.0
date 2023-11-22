@@ -1,26 +1,29 @@
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2BAE4C3CC
-	for <linux-sunxi@lists.linux.dev>; Wed, 22 Nov 2023 14:14:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1A0E1F615
+	for <linux-sunxi@lists.linux.dev>; Wed, 22 Nov 2023 14:26:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ZwSqH+8l"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 0924DE0005;
-	Wed, 22 Nov 2023 14:14:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="mFKodwPq"
+Received: from relay4-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::224])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id A9CE8C7979
+	for <linux-sunxi@lists.linux.dev>; Wed, 22 Nov 2023 14:14:54 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 263EEE0011;
+	Wed, 22 Nov 2023 14:14:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1700662493;
+	t=1700662487;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=RMUiNYYrSJTJpIrbqVmKd1nt/unZDdKv9MD9/KuRjYU=;
-	b=ZwSqH+8lCJrY2dcdvuLfcyUKWscKeAFuIdhGlMmMEJhRsMlUdaxjRRhbQ34NPkIQ/qOE19
-	iXLRl9FZIKxlPwHGd/Ru7l9BfhiKQT0hwj5QrjHPBjOoUeENgW9/PpftveMyDsl7zVDOV6
-	B/raDGP1i8+aaBcNSYagiXiDRpvHkNvuaoWf+x5DZ4uIS+bNYORAh4nyO3sHuxLCDI6B11
-	QebxJvcY69UBGKLF1zARAUH9PT7S+hzFI7WVTWD8s3sLq84eZ228OyFTe9I+LBt7OYNknO
-	s65gs4Lrh1xWQpS7OJgWXbEdKUJZ+RbM7aSbj/begvkf6/XOPg+sGv5TMmK2Ng==
+	bh=3KqnBhwi67VqJqEoEy9XgHZcNT6TUUQXGFk1xEUCrIQ=;
+	b=mFKodwPq4XOUO1X1XcibL+8nMe9XB2JJRjnKkfHqLckGDyaeWKiuYJTspH43lAh2MMUqgb
+	Qgl0bLjHxCAsJKkAftPb0N/8HLSsGtaumW1znjqEM5Xv/5TGfmJYYvuodfgVXK1erKLEWX
+	v9Tug1WHllDB4hKux38EXU4BbxCZ//nxfU998j1nMRi/dYJyoDVsszmP/2m7SpFLGw6IRC
+	3sdWylHC7tFAZYMXHptccD0bs98KrK9GxpDhyMkRDiuKAcEVRQK5JVprR+cq1aNHnZmJdE
+	BTNtXSRttySKoQ++jV8cTMna7Hfbdd//PVhenW/5zvsHHWniq25kkbJ6F/8qmw==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -37,10 +40,11 @@ Cc: Rob Herring <robh+dt@kernel.org>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Michael Turquette <mturquette@baylibre.com>,
 	Stephen Boyd <sboyd@kernel.org>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: [PATCH v7 7/7] ARM: dts: sun8i-a83t: Add BananaPi M3 OV8865 camera overlay
-Date: Wed, 22 Nov 2023 15:14:25 +0100
-Message-ID: <20231122141426.329694-8-paul.kocialkowski@bootlin.com>
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Rob Herring <robh@kernel.org>
+Subject: [PATCH v7 1/7] clk: sunxi-ng: v3s: Export MBUS and DRAM clocks to the public header
+Date: Wed, 22 Nov 2023 15:14:19 +0100
+Message-ID: <20231122141426.329694-2-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.42.1
 In-Reply-To: <20231122141426.329694-1-paul.kocialkowski@bootlin.com>
 References: <20231122141426.329694-1-paul.kocialkowski@bootlin.com>
@@ -50,149 +54,61 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-GND-Sasl: paul.kocialkowski@bootlin.com
 
-Add an overlay supporting the OV8865 from the BananaPi Camera v3
-peripheral board. The board has two sensors (OV5640 and OV8865)
-which cannot be supported in parallel as they share the same reset
-pin and the kernel currently has no support for this case.
+In order to declare a mbus node for the v3s, expose its associated
+clocks to the public header.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Reviewed-by: Samuel Holland <samuel@sholland.org>
+Acked-by: Rob Herring <robh@kernel.org>
 ---
- arch/arm/boot/dts/allwinner/Makefile          |   1 +
- .../sun8i-a83t-bananapi-m3-camera-ov8865.dtso | 109 ++++++++++++++++++
- 2 files changed, 110 insertions(+)
- create mode 100644 arch/arm/boot/dts/allwinner/sun8i-a83t-bananapi-m3-camera-ov8865.dtso
+ drivers/clk/sunxi-ng/ccu-sun8i-v3s.h      | 4 ----
+ include/dt-bindings/clock/sun8i-v3s-ccu.h | 4 ++--
+ 2 files changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/arch/arm/boot/dts/allwinner/Makefile b/arch/arm/boot/dts/allwinner/Makefile
-index a0a9aa6595e4..980ac88634e3 100644
---- a/arch/arm/boot/dts/allwinner/Makefile
-+++ b/arch/arm/boot/dts/allwinner/Makefile
-@@ -278,6 +278,7 @@ dtb-$(CONFIG_MACH_SUN8I) += \
- 	sun8i-a83t-allwinner-h8homlet-v2.dtb \
- 	sun8i-a83t-bananapi-m3.dtb \
- 	sun8i-a83t-bananapi-m3-camera-ov5640.dtbo \
-+	sun8i-a83t-bananapi-m3-camera-ov8865.dtbo \
- 	sun8i-a83t-cubietruck-plus.dtb \
- 	sun8i-a83t-tbs-a711.dtb \
- 	sun8i-h2-plus-bananapi-m2-zero.dtb \
-diff --git a/arch/arm/boot/dts/allwinner/sun8i-a83t-bananapi-m3-camera-ov8865.dtso b/arch/arm/boot/dts/allwinner/sun8i-a83t-bananapi-m3-camera-ov8865.dtso
-new file mode 100644
-index 000000000000..0656ee8d4bfe
---- /dev/null
-+++ b/arch/arm/boot/dts/allwinner/sun8i-a83t-bananapi-m3-camera-ov8865.dtso
-@@ -0,0 +1,109 @@
-+// SPDX-License-Identifier: GPL-2.0 OR X11
-+/*
-+ * Copyright 2022 Bootlin
-+ * Author: Kévin L'hôpital <kevin.lhopital@bootlin.com>
-+ * Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-+ */
-+
-+/dts-v1/;
-+/plugin/;
-+
-+#include <dt-bindings/clock/sun8i-a83t-ccu.h>
-+#include <dt-bindings/gpio/gpio.h>
-+
-+&{/} {
-+	/*
-+	 * These regulators actually have DLDO4 tied to their EN pin, which is
-+	 * described as input supply here for lack of a better representation.
-+	 * Their actual supply is PS, which is always-on.
-+	 */
-+
-+	ov8865_avdd: ov8865-avdd {
-+		compatible = "regulator-fixed";
-+		regulator-name = "ov8865-avdd";
-+		regulator-min-microvolt = <2800000>;
-+		regulator-max-microvolt = <2800000>;
-+		vin-supply = <&reg_dldo4>;
-+	};
-+
-+	ov8865_dovdd: ov8865-dovdd {
-+		compatible = "regulator-fixed";
-+		regulator-name = "ov8865-dovdd";
-+		regulator-min-microvolt = <2800000>;
-+		regulator-max-microvolt = <2800000>;
-+		vin-supply = <&reg_dldo4>;
-+	};
-+
-+	ov8865_dvdd: ov8865-dvdd {
-+		compatible = "regulator-fixed";
-+		regulator-name = "ov8865-dvdd";
-+		regulator-min-microvolt = <1200000>;
-+		regulator-max-microvolt = <1200000>;
-+		vin-supply = <&reg_dldo4>;
-+	};
-+};
-+
-+&ccu {
-+	assigned-clocks = <&ccu CLK_CSI_MCLK>;
-+	assigned-clock-parents = <&osc24M>;
-+	assigned-clock-rates = <24000000>;
-+};
-+
-+&csi {
-+	status = "okay";
-+};
-+
-+&i2c2 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&i2c2_pe_pins>;
-+	status = "okay";
-+
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+
-+	ov8865: camera@36 {
-+		compatible = "ovti,ov8865";
-+		reg = <0x36>;
-+
-+		clocks = <&ccu CLK_CSI_MCLK>;
-+		assigned-clocks = <&ccu CLK_CSI_MCLK>;
-+		assigned-clock-parents = <&osc24M>;
-+		assigned-clock-rates = <24000000>;
-+
-+		avdd-supply = <&ov8865_avdd>;
-+		dovdd-supply = <&ov8865_dovdd>;
-+		dvdd-supply = <&ov8865_dvdd>;
-+
-+		powerdown-gpios = <&pio 4 17 GPIO_ACTIVE_LOW>; /* PE17 */
-+		reset-gpios = <&pio 4 16 GPIO_ACTIVE_LOW>; /* PE16 */
-+
-+		port {
-+			ov8865_out_mipi_csi2: endpoint {
-+				remote-endpoint = <&mipi_csi2_in_ov8865>;
-+				link-frequencies = /bits/ 64 <360000000>;
-+				data-lanes = <1 2 3 4>;
-+			};
-+		};
-+	};
-+};
-+
-+&mipi_csi2 {
-+	status = "okay";
-+};
-+
-+&mipi_csi2_in {
-+	mipi_csi2_in_ov8865: endpoint {
-+		remote-endpoint = <&ov8865_out_mipi_csi2>;
-+		data-lanes = <1 2 3 4>;
-+	};
-+};
-+
-+&pio {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&csi_mclk_pin>;
-+};
-+
-+&reg_dldo4 {
-+	regulator-min-microvolt = <2800000>;
-+	regulator-max-microvolt = <2800000>;
-+};
+diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-v3s.h b/drivers/clk/sunxi-ng/ccu-sun8i-v3s.h
+index 345cdbbab362..c933ef016570 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun8i-v3s.h
++++ b/drivers/clk/sunxi-ng/ccu-sun8i-v3s.h
+@@ -39,14 +39,10 @@
+ 
+ /* The first bunch of module clocks are exported */
+ 
+-#define CLK_DRAM		58
+-
+ /* All the DRAM gates are exported */
+ 
+ /* Some more module clocks are exported */
+ 
+-#define CLK_MBUS		72
+-
+ /* And the GPU module clock is exported */
+ 
+ #define CLK_PLL_DDR1		74
+diff --git a/include/dt-bindings/clock/sun8i-v3s-ccu.h b/include/dt-bindings/clock/sun8i-v3s-ccu.h
+index 014ac6123d17..4231f23bc53b 100644
+--- a/include/dt-bindings/clock/sun8i-v3s-ccu.h
++++ b/include/dt-bindings/clock/sun8i-v3s-ccu.h
+@@ -87,7 +87,7 @@
+ #define CLK_SPI0		55
+ #define CLK_USB_PHY0		56
+ #define CLK_USB_OHCI0		57
+-
++#define CLK_DRAM		58
+ #define CLK_DRAM_VE		59
+ #define CLK_DRAM_CSI		60
+ #define CLK_DRAM_EHCI		61
+@@ -101,7 +101,7 @@
+ #define CLK_VE			69
+ #define CLK_AC_DIG		70
+ #define CLK_AVS			71
+-
++#define CLK_MBUS		72
+ #define CLK_MIPI_CSI		73
+ 
+ /* Clocks not available on V3s */
 -- 
 2.42.1
 
