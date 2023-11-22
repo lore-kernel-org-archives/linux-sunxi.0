@@ -1,22 +1,22 @@
 Received: from Atcsqr.andestech.com (60-248-80-70.hinet-ip.hinet.net [60.248.80.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70BDB4D12D
-	for <linux-sunxi@lists.linux.dev>; Wed, 22 Nov 2023 12:47:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CCD33C69C
+	for <linux-sunxi@lists.linux.dev>; Wed, 22 Nov 2023 12:47:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=andestech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=andestech.com
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 Received: from Atcsqr.andestech.com (localhost [127.0.0.2] (may be forged))
-	by Atcsqr.andestech.com with ESMTP id 3AMCI3tR025747
-	for <linux-sunxi@lists.linux.dev>; Wed, 22 Nov 2023 20:18:03 +0800 (+08)
+	by Atcsqr.andestech.com with ESMTP id 3AMCI6RS025776
+	for <linux-sunxi@lists.linux.dev>; Wed, 22 Nov 2023 20:18:06 +0800 (+08)
 	(envelope-from peterlin@andestech.com)
 Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
-	by Atcsqr.andestech.com with ESMTP id 3AMCGwQb025259;
-	Wed, 22 Nov 2023 20:16:58 +0800 (+08)
+	by Atcsqr.andestech.com with ESMTP id 3AMCH3ei025292;
+	Wed, 22 Nov 2023 20:17:03 +0800 (+08)
 	(envelope-from peterlin@andestech.com)
 Received: from swlinux02.andestech.com (10.0.15.183) by ATCPCS16.andestech.com
  (10.0.1.222) with Microsoft SMTP Server id 14.3.498.0; Wed, 22 Nov 2023
- 20:16:54 +0800
+ 20:16:59 +0800
 From: Yu Chien Peter Lin <peterlin@andestech.com>
 To: <acme@kernel.org>, <adrian.hunter@intel.com>, <ajones@ventanamicro.com>,
         <alexander.shishkin@linux.intel.com>, <andre.przywara@arm.com>,
@@ -40,9 +40,9 @@ To: <acme@kernel.org>, <adrian.hunter@intel.com>, <ajones@ventanamicro.com>,
         <sunilvl@ventanamicro.com>, <tglx@linutronix.de>,
         <tim609@andestech.com>, <uwu@icenowy.me>, <wens@csie.org>,
         <will@kernel.org>, <ycliang@andestech.com>, <inochiama@outlook.com>
-Subject: [PATCH v4 11/13] riscv: dts: allwinner: Add T-Head PMU extension
-Date: Wed, 22 Nov 2023 20:12:33 +0800
-Message-ID: <20231122121235.827122-12-peterlin@andestech.com>
+Subject: [PATCH v4 12/13] riscv: dts: renesas: Add Andes PMU extension
+Date: Wed, 22 Nov 2023 20:12:34 +0800
+Message-ID: <20231122121235.827122-13-peterlin@andestech.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231122121235.827122-1-peterlin@andestech.com>
 References: <20231122121235.827122-1-peterlin@andestech.com>
@@ -56,35 +56,37 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-DNSRBL: 
 X-SPAM-SOURCE-CHECK: pass
-X-MAIL:Atcsqr.andestech.com 3AMCI3tR025747
+X-MAIL:Atcsqr.andestech.com 3AMCI6RS025776
 
-xtheadpmu stands for T-Head Performance Monitor Unit extension.
-Based on the added T-Head PMU ISA string, the SBI PMU driver
+xandespmu stands for Andes Performance Monitor Unit extension.
+Based on the added Andes PMU ISA string, the SBI PMU driver
 will make use of the non-standard irq source.
 
 Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
 ---
-Changes v2 -> v3:
+Changes v1 -> v2:
   - New patch
+Changes v2 -> v3:
+  - No change
 Changes v3 -> v4:
   - No change
 ---
- arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi | 2 +-
+ arch/riscv/boot/dts/renesas/r9a07g043f.dtsi | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
-index 64c3c2e6cbe0..7dcba86cfdd0 100644
---- a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
-+++ b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
-@@ -27,7 +27,7 @@ cpu0: cpu@0 {
+diff --git a/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi b/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
+index 78072e80793d..5f2f2181638a 100644
+--- a/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
++++ b/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
+@@ -26,7 +26,7 @@ cpu0: cpu@0 {
  			riscv,isa = "rv64imafdc";
  			riscv,isa-base = "rv64i";
  			riscv,isa-extensions = "i", "m", "a", "f", "d", "c", "zicntr", "zicsr",
 -					       "zifencei", "zihpm";
-+					       "zifencei", "zihpm", "xtheadpmu";
- 			#cooling-cells = <2>;
- 
- 			cpu0_intc: interrupt-controller {
++					       "zifencei", "zihpm", "xandespmu";
+ 			mmu-type = "riscv,sv39";
+ 			i-cache-size = <0x8000>;
+ 			i-cache-line-size = <0x40>;
 -- 
 2.34.1
 
