@@ -1,145 +1,124 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A20B62E850
-	for <linux-sunxi@lists.linux.dev>; Thu, 23 Nov 2023 15:17:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D9CAC12FC;
-	Thu, 23 Nov 2023 07:17:58 -0800 (PST)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BE19A3F6C4;
-	Thu, 23 Nov 2023 07:17:11 -0800 (PST)
-Date: Thu, 23 Nov 2023 15:17:09 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: electricworry <worryelectric@gmail.com>
-Cc: u-boot@lists.denx.de, "linux-sunxi@lists.linux.dev"
- <linux-sunxi@lists.linux.dev>, Mikhail Kalashnikov <iuncuim@gmail.com>
-Subject: Re: Adding support for Orange Pi Zero 3
-Message-ID: <20231123151709.64002286@donnerap.manchester.arm.com>
-In-Reply-To: <CABZPTZSQHhcVuqLmg6nEiKBfF4p+R+y5sDCGaa19qztSEs54BA@mail.gmail.com>
-References: <CABZPTZSQHhcVuqLmg6nEiKBfF4p+R+y5sDCGaa19qztSEs54BA@mail.gmail.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D897C18056;
+	Thu, 23 Nov 2023 21:33:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QX5gnL6J"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BADBCC433C7;
+	Thu, 23 Nov 2023 21:33:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700775224;
+	bh=nmgRXoCC/6bVdvvn+DsQpOtnPLlwkOcJBQD/gcvPILU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QX5gnL6JXj8vwBd2hjrgTWmiQNvpaIU3ub8DZJit9Gh0ljsPaGJPx49AWqTyKl4EA
+	 MxLsTmaI0J08GfBbNmZjOMk5kO/qqeDp4cbPt3UIxlPrCxNX9Ybbo8D/5zN6YIT/c5
+	 Hnj6bfqt1z0klQSfKgjf1u2TKv2FBCx5URjphkB83BntI5fFoPmHmoZCLyARPTWK6O
+	 tphuxc8VElCdY2DqFnyhtojL941RLPd+x7YqE3ObFsb0vpG92ljXG0z8CMOuNRgrow
+	 rasw3VtSw505b5SaknZkPzLjb2F1Etfd4VuPA9L3fLwdIadEeib6E5YIE9YSMXlWfX
+	 3WbVK/7XEz8bA==
+Date: Thu, 23 Nov 2023 22:33:41 +0100
+From: Wolfram Sang <wsa@kernel.org>
+To: Heiner Kallweit <hkallweit1@gmail.com>
+Cc: intel-gfx@lists.freedesktop.org, linux-i2c@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	linux-fbdev@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Jocelyn Falempe <jfalempe@redhat.com>, linux-sunxi@lists.linux.dev,
+	linux-mediatek@lists.infradead.org, Sean Paul <sean@poorly.run>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+	Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Yongqin Liu <yongqin.liu@linaro.org>,
+	John Stultz <jstultz@google.com>
+Subject: Re: [PATCH v5 00/20] remove I2C_CLASS_DDC support
+Message-ID: <ZV/FNWfw0jdXSglr@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	intel-gfx@lists.freedesktop.org, linux-i2c@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	linux-fbdev@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Jocelyn Falempe <jfalempe@redhat.com>, linux-sunxi@lists.linux.dev,
+	linux-mediatek@lists.infradead.org, Sean Paul <sean@poorly.run>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+	Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Yongqin Liu <yongqin.liu@linaro.org>,
+	John Stultz <jstultz@google.com>
+References: <20231123094040.592-1-hkallweit1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="xLjxEuZaeN8xgDN1"
+Content-Disposition: inline
+In-Reply-To: <20231123094040.592-1-hkallweit1@gmail.com>
 
-On Sat, 4 Nov 2023 19:17:44 +0000
-electricworry <worryelectric@gmail.com> wrote:
 
-Hi,
+--xLjxEuZaeN8xgDN1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> I would like to contribute improvements u-boot to enable support for
-> the Orange Pi Zero 3 board. I have already gained a good understanding
-> of the project and the standards for changes, and so I have made
-> modifications and tested them on my board.
+On Thu, Nov 23, 2023 at 10:40:20AM +0100, Heiner Kallweit wrote:
+> After removal of the legacy EEPROM driver and I2C_CLASS_DDC support in
+> olpc_dcon there's no i2c client driver left supporting I2C_CLASS_DDC.
+> Class-based device auto-detection is a legacy mechanism and shouldn't
+> be used in new code. So we can remove this class completely now.
+>=20
+> Preferably this series should be applied via the i2c tree.
+>=20
+> v2:
+> - change tag in commit subject of patch 03
+> - add ack tags
+> v3:
+> - fix a compile error in patch 5
+> v4:
+> - more ack and review tags
+> v5:
+> - more acks
+>=20
+> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 
-thanks for your interest and for reaching out!
+I created an immutable branch for this which the buildbots will
+hopefully check over night. I will reply with comments tomorrow when I
+got the buildbot results.
 
-I will answer your questions below, but for this particular topic there
-are already support patches on the list (sorry for the disappointment!):
-https://lore.kernel.org/u-boot/20231114013106.31336-1-andre.przywara@arm.com/
 
-Can you please apply those patches on top of mainline U-Boot and test
-them? Then reply to patch 3/3 above with a Tested-by: line, stating your
-name and email address?
-Having independent reports of that working would make me more confident in
-merging the series.
+--xLjxEuZaeN8xgDN1
+Content-Type: application/pgp-signature; name="signature.asc"
 
-As a general advice: try to reach out early, to avoid working in parallel
-on something, and also to avoid working in the wrong direction.
-There is the #linux-sunxi IRC channel on the OFTC IRC network[1] (you can
-join via any browser), also there is a mailing list for Allwinner related
-upstream work: linux-sunxi@lists.linux.dev [2]
-Another resource is our wiki: https://linux-sunxi.org
+-----BEGIN PGP SIGNATURE-----
 
-[1] https://www.oftc.net/WebChat/
-    https://oftc.irclog.whitequark.org/linux-sunxi
-[2] https://subspace.kernel.org/lists.linux.dev.html
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmVfxTEACgkQFA3kzBSg
+KbarPBAAkN43LMGC9b1vpMsl5y6W1jnEMTjSF+7tzpFga/xsqL+jL9B/h0bO4NQ4
+ATDYno+0o6BwCEUeBSgYEs7/gNJHlWCq2SisLmhVXXOTzWZ09VRSPaXU49gXviog
+LZbTffK3ABbQSCBbzAhx6/Aog9BH2md1QBdbrCmkf/+i8OOhDUzPiyz6txmIimC2
+6YRBRpLdY1cnme1uvNPJv8GI8UYUgdrYeFQQd4qbPsz5WIzl5/MbMeev4jtUzXC0
+exE4jjPds5scEDyf7QdoeOsHRxZ5pGEu6/luiIhN+SFolyYWzX3Yun37Ac1WWmnR
+Wo97HN7iUlhAQVQ6phTbiVCp8HISNGiWkh/Z0/NoMPO21Vr4WV1/p4TX+5shPicc
+OhBT1NydXft0pPSmT0adOalbsEv4x4P3Oa0I6A+HQCea7Acsz5Ya1+AxY2LehDKz
+lyYnz7L0pcF+k3II/wqSeiK8CidamPnVPamCG+Df3F/NDBXEih9jaI23Hkjyp8xM
+7AO5GH/0ihgont0oYMIl6bAeK9BGrKOt0AM+fF0dC+byFDGxffRvFwYnPIqJfxCr
+6NKvDBM37nY4pHxbDu1b9iamk8WN3tpdrC/XZ8BxqKaciOF+w52ac/v4+znNeo2X
+J9U48VknVCyH0l1Fpph+/ukvqwpdWMVtk4GI2wgR7mdFp8c44Z8=
+=oQZk
+-----END PGP SIGNATURE-----
 
-> Before submitting patches for review I've got a few questions I'd like
-> to discuss.
-> 
-> The board is an Allwinner H618. From what I can gather this is just an
-> H616 with minor changes. The changes are so minor that I've been able
-> to implement the support as changes to the existing files for H616.
-
-Just curious, what changes did you find in particular? So far we know
-about the increased L2 cache, which is irrelevant from a software support
-perspective, and the change of base address and layout of the CPUX_CFG
-block, which is already covered by:
-https://source.denx.de/u-boot/u-boot/-/commit/0a137ac5015933bf38ea2700abe70602ef63bbdd
-Did you find anything else?
-
-> For example, to add LPDDR4 support I have been able to make changes to
-> arch/arm/mach-sunxi/dram_sun50i_h616.c and done so in a well
-
-Out of interest, how did you do this? Disassembled the vendor boot0?
-Dumping DRAM registers? We discussed and tested the LPDDR4 support already
-a while ago, and support for that was merged recently:
-https://source.denx.de/u-boot/u-boot/-/commit/4b02f0120a4bb2a5d7081aef8cef6a4ca57e9db2
-
-> configured way that won't impact anything else. Is doing it in this
-> way acceptable or would the preference be to have a separate file
-
-In general we try to keep the code as much together as possible,
-especially when there is a high overlap, like in this case.
-So yeah, one file to drive all variants of DRAM for this SoC.
-
-> (e.g. dram_sun50i_h618.c) to keep H616 and H618 separate? The way I've
-
-Please note that the DRAM controller in both chips is the same, it's just
-that the OrangePi boards using the H618 are the first easily available to
-use LPDDR4. Mikhail was in fact developing his patch on a custom board
-with LPDDR4 DRAM, using the Allwinner T507 (a repackaged H616).
-
-> done it feels right because it really is just a minor upgrade, but
-> there might be other opinions I should hear first.
-> 
-> Further, with regards to attribution, all of my changes are based on
-> code in https://github.com/orangepi-xunlong/u-boot-orangepi. I've not
-> been able to cherry-pick changes because that codebase has departed
-> severely from the u-boot master branch and it's not as elegantly
-> maintained, so I've had to surgically move just the changes required
-
-I see you figured ;-)
-
-> to get my board working. Their repo is correctly marked as GPL-2.0 so
-> compatible with merging, but the exact author of every line of code
-> will be difficult to attribute. Is it sufficient for me to cite that
-> downstream repo as the source of the patches?
-
-Yes, if you (need to) make significant changes, it's common practice to
-make those your patches, and just mention the original work. At the end
-the original author apparently couldn't be bothered to upstream this.
-If possible, it's nice to try to reach the author, and ask for their
-intention on this: often they don't really care (anymore), so are happy if
-you do the upstreaming work.
-
-Another way would be to take an original patch, adjust/rebase it, and
-send it on behalf of the original author, keeping their authorship
-(From:). This requires a Signed-off-by: line from the author, and *your*
-Signed-off-by: line added, to confirm that you obtained those patches
-legally and in compliance with the license.
-
-Commonly this generates a series with a mixture of original patches,
-rewritten patches (you as the author), and slightly adjusted patches (them
-as the author).
-
-Hope that helps!
-
-Cheers,
-Andre
-
-> Thanks in advance. I've not submitted a patch here before so I could
-> benefit from some hand-holding to not create problems for people, but
-> I'm pretty confident that the changes I've made comply with the
-> standards of the project and that there won't be much of an issue
-> having them accepted.
-
+--xLjxEuZaeN8xgDN1--
