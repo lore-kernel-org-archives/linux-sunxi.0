@@ -1,110 +1,145 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BD4C33CD2
-	for <linux-sunxi@lists.linux.dev>; Thu, 23 Nov 2023 14:59:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="Y6T3NWGy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1700751589; x=1732287589;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=EbumtQAp61xxtl1wFucMhCk0s7eSuM0PDcdqsk0vVXY=;
-  b=Y6T3NWGy7c++Hx3qSYN54RO5qHUO9BdQCLu626rqY+hdKjJyn6iCpvOb
-   TRsLJGmbcbrxEKfBKnekngr2N+PZnuRLw/rP2NurqtVXCi15ThDwYt4BR
-   llMQN9yoQJdeX90GCM/Cb+4JXio320TSCIzGQ7/xryGPMk+Ww5h0Q9jOl
-   AQkQEQ06K7ju4GH1y3QlevJ1m/uXqySQbHYR6zJK4hxh+lKSek1yZp29l
-   /NMHdUHkAOo6ZIbRjMHDgezbWrGAwgBqCFUS1EnQHrRUSzvUDSXBgQwb4
-   lt7UnOHklm+UA+9o1NgT0m+sAuxipYULoa/xxv+xHH+wFXzRjaAXb2V1R
-   g==;
-X-CSE-ConnectionGUID: dphmfmJ6QC2EtHTlf6BQfw==
-X-CSE-MsgGUID: yYZjdC/+SzKEzWIlmXahFg==
-X-ThreatScanner-Verdict: Negative
-X-IronPort-AV: E=Sophos;i="6.04,222,1695711600"; 
-   d="asc'?scan'208";a="12119561"
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa4.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 23 Nov 2023 07:59:43 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.87.72) by
- chn-vm-ex02.mchp-main.com (10.10.87.72) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Thu, 23 Nov 2023 07:59:31 -0700
-Received: from wendy (10.10.85.11) by chn-vm-ex02.mchp-main.com (10.10.85.144)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
- Transport; Thu, 23 Nov 2023 07:59:23 -0700
-Date: Thu, 23 Nov 2023 14:58:55 +0000
-From: Conor Dooley <conor.dooley@microchip.com>
-To: Yu Chien Peter Lin <peterlin@andestech.com>
-CC: <acme@kernel.org>, <adrian.hunter@intel.com>, <ajones@ventanamicro.com>,
-	<alexander.shishkin@linux.intel.com>, <andre.przywara@arm.com>,
-	<anup@brainfault.org>, <aou@eecs.berkeley.edu>, <atishp@atishpatra.org>,
-	<conor+dt@kernel.org>, <conor@kernel.org>, <devicetree@vger.kernel.org>,
-	<dminus@andestech.com>, <evan@rivosinc.com>, <geert+renesas@glider.be>,
-	<guoren@kernel.org>, <heiko@sntech.de>, <irogers@google.com>,
-	<jernej.skrabec@gmail.com>, <jolsa@kernel.org>, <jszhang@kernel.org>,
-	<krzysztof.kozlowski+dt@linaro.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, <linux-perf-users@vger.kernel.org>,
-	<linux-renesas-soc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-	<linux-sunxi@lists.linux.dev>, <locus84@andestech.com>,
-	<magnus.damm@gmail.com>, <mark.rutland@arm.com>, <mingo@redhat.com>,
-	<n.shubin@yadro.com>, <namhyung@kernel.org>, <palmer@dabbelt.com>,
-	<paul.walmsley@sifive.com>, <peterz@infradead.org>,
-	<prabhakar.mahadev-lad.rj@bp.renesas.com>, <rdunlap@infradead.org>,
-	<robh+dt@kernel.org>, <samuel@sholland.org>, <sunilvl@ventanamicro.com>,
-	<tglx@linutronix.de>, <tim609@andestech.com>, <uwu@icenowy.me>,
-	<wens@csie.org>, <will@kernel.org>, <ycliang@andestech.com>,
-	<inochiama@outlook.com>
-Subject: Re: [PATCH v4 11/13] riscv: dts: allwinner: Add T-Head PMU extension
-Message-ID: <20231123-coping-revenue-be284a351c9d@wendy>
-References: <20231122121235.827122-1-peterlin@andestech.com>
- <20231122121235.827122-12-peterlin@andestech.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A20B62E850
+	for <linux-sunxi@lists.linux.dev>; Thu, 23 Nov 2023 15:17:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D9CAC12FC;
+	Thu, 23 Nov 2023 07:17:58 -0800 (PST)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BE19A3F6C4;
+	Thu, 23 Nov 2023 07:17:11 -0800 (PST)
+Date: Thu, 23 Nov 2023 15:17:09 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: electricworry <worryelectric@gmail.com>
+Cc: u-boot@lists.denx.de, "linux-sunxi@lists.linux.dev"
+ <linux-sunxi@lists.linux.dev>, Mikhail Kalashnikov <iuncuim@gmail.com>
+Subject: Re: Adding support for Orange Pi Zero 3
+Message-ID: <20231123151709.64002286@donnerap.manchester.arm.com>
+In-Reply-To: <CABZPTZSQHhcVuqLmg6nEiKBfF4p+R+y5sDCGaa19qztSEs54BA@mail.gmail.com>
+References: <CABZPTZSQHhcVuqLmg6nEiKBfF4p+R+y5sDCGaa19qztSEs54BA@mail.gmail.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="/5s3BqTCv3O//+Ke"
-Content-Disposition: inline
-In-Reply-To: <20231122121235.827122-12-peterlin@andestech.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
---/5s3BqTCv3O//+Ke
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Sat, 4 Nov 2023 19:17:44 +0000
+electricworry <worryelectric@gmail.com> wrote:
 
-On Wed, Nov 22, 2023 at 08:12:33PM +0800, Yu Chien Peter Lin wrote:
-> xtheadpmu stands for T-Head Performance Monitor Unit extension.
-> Based on the added T-Head PMU ISA string, the SBI PMU driver
-> will make use of the non-standard irq source.
+Hi,
 
-Allwinner aren't the only ones using T-Head CPUs that the previous
-m*id pmu detection code would have matched on. I think the first three
-files below will also need to be updated:
+> I would like to contribute improvements u-boot to enable support for
+> the Orange Pi Zero 3 board. I have already gained a good understanding
+> of the project and the standards for changes, and so I have made
+> modifications and tested them on my board.
 
-rg -l "thead,c[0-9]*\b[^-]" arch/riscv/boot/dts/
-arch/riscv/boot/dts/sophgo/sg2042-cpus.dtsi
-arch/riscv/boot/dts/sophgo/cv1800b.dtsi
-arch/riscv/boot/dts/thead/th1520.dtsi
-arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+thanks for your interest and for reaching out!
+
+I will answer your questions below, but for this particular topic there
+are already support patches on the list (sorry for the disappointment!):
+https://lore.kernel.org/u-boot/20231114013106.31336-1-andre.przywara@arm.com/
+
+Can you please apply those patches on top of mainline U-Boot and test
+them? Then reply to patch 3/3 above with a Tested-by: line, stating your
+name and email address?
+Having independent reports of that working would make me more confident in
+merging the series.
+
+As a general advice: try to reach out early, to avoid working in parallel
+on something, and also to avoid working in the wrong direction.
+There is the #linux-sunxi IRC channel on the OFTC IRC network[1] (you can
+join via any browser), also there is a mailing list for Allwinner related
+upstream work: linux-sunxi@lists.linux.dev [2]
+Another resource is our wiki: https://linux-sunxi.org
+
+[1] https://www.oftc.net/WebChat/
+    https://oftc.irclog.whitequark.org/linux-sunxi
+[2] https://subspace.kernel.org/lists.linux.dev.html
+
+> Before submitting patches for review I've got a few questions I'd like
+> to discuss.
+> 
+> The board is an Allwinner H618. From what I can gather this is just an
+> H616 with minor changes. The changes are so minor that I've been able
+> to implement the support as changes to the existing files for H616.
+
+Just curious, what changes did you find in particular? So far we know
+about the increased L2 cache, which is irrelevant from a software support
+perspective, and the change of base address and layout of the CPUX_CFG
+block, which is already covered by:
+https://source.denx.de/u-boot/u-boot/-/commit/0a137ac5015933bf38ea2700abe70602ef63bbdd
+Did you find anything else?
+
+> For example, to add LPDDR4 support I have been able to make changes to
+> arch/arm/mach-sunxi/dram_sun50i_h616.c and done so in a well
+
+Out of interest, how did you do this? Disassembled the vendor boot0?
+Dumping DRAM registers? We discussed and tested the LPDDR4 support already
+a while ago, and support for that was merged recently:
+https://source.denx.de/u-boot/u-boot/-/commit/4b02f0120a4bb2a5d7081aef8cef6a4ca57e9db2
+
+> configured way that won't impact anything else. Is doing it in this
+> way acceptable or would the preference be to have a separate file
+
+In general we try to keep the code as much together as possible,
+especially when there is a high overlap, like in this case.
+So yeah, one file to drive all variants of DRAM for this SoC.
+
+> (e.g. dram_sun50i_h618.c) to keep H616 and H618 separate? The way I've
+
+Please note that the DRAM controller in both chips is the same, it's just
+that the OrangePi boards using the H618 are the first easily available to
+use LPDDR4. Mikhail was in fact developing his patch on a custom board
+with LPDDR4 DRAM, using the Allwinner T507 (a repackaged H616).
+
+> done it feels right because it really is just a minor upgrade, but
+> there might be other opinions I should hear first.
+> 
+> Further, with regards to attribution, all of my changes are based on
+> code in https://github.com/orangepi-xunlong/u-boot-orangepi. I've not
+> been able to cherry-pick changes because that codebase has departed
+> severely from the u-boot master branch and it's not as elegantly
+> maintained, so I've had to surgically move just the changes required
+
+I see you figured ;-)
+
+> to get my board working. Their repo is correctly marked as GPL-2.0 so
+> compatible with merging, but the exact author of every line of code
+> will be difficult to attribute. Is it sufficient for me to cite that
+> downstream repo as the source of the patches?
+
+Yes, if you (need to) make significant changes, it's common practice to
+make those your patches, and just mention the original work. At the end
+the original author apparently couldn't be bothered to upstream this.
+If possible, it's nice to try to reach the author, and ask for their
+intention on this: often they don't really care (anymore), so are happy if
+you do the upstreaming work.
+
+Another way would be to take an original patch, adjust/rebase it, and
+send it on behalf of the original author, keeping their authorship
+(From:). This requires a Signed-off-by: line from the author, and *your*
+Signed-off-by: line added, to confirm that you obtained those patches
+legally and in compliance with the license.
+
+Commonly this generates a series with a mixture of original patches,
+rewritten patches (you as the author), and slightly adjusted patches (them
+as the author).
+
+Hope that helps!
 
 Cheers,
-Conor.
+Andre
 
---/5s3BqTCv3O//+Ke
-Content-Type: application/pgp-signature; name="signature.asc"
+> Thanks in advance. I've not submitted a patch here before so I could
+> benefit from some hand-holding to not create problems for people, but
+> I'm pretty confident that the changes I've made comply with the
+> standards of the project and that there won't be much of an issue
+> having them accepted.
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZV9orwAKCRB4tDGHoIJi
-0mywAQDLiZ7Dv/EbYy9xnbLn22k0W8jszlQjb/0c3Uj362SnMAD+NfU0XmNTf1e8
-tbN33jbWPlia/s7ecfUt/OgqNf7XxAY=
-=CJRs
------END PGP SIGNATURE-----
-
---/5s3BqTCv3O//+Ke--
