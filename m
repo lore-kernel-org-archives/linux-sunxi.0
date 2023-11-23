@@ -1,303 +1,243 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C19601BDCB
-	for <linux-sunxi@lists.linux.dev>; Wed, 22 Nov 2023 21:16:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8920A13FFE
+	for <linux-sunxi@lists.linux.dev>; Thu, 23 Nov 2023 06:57:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="afPluMU+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98AF2C43397
-	for <linux-sunxi@lists.linux.dev>; Wed, 22 Nov 2023 21:16:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700687787;
-	bh=i/uvn0zG7GX6WYB/bVMDXd0WbjNxSnbJY3Efex0PL20=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=afPluMU+NthupsGeN8ixp8QVRaSS58JP9nFitOpR0PUdYJYaE9MDjZYIzq/FIZo7E
-	 RfQ9WgFykxmAqM2T6E2TgvGjWvVBO6CsL117Di4d3MpgGffQTX5PXnwcvEcXTXfuT2
-	 UOy9PDu9YXOu8atSBlTY329JooGjS/FIrgzf7VHcTV1Suf14ooK4Nyqs9lFeceXIXk
-	 naqqjJO5dCD2Ne2OxCqOB/BM7m90TEaR9VnojkOwp7uGvItscGIZ7n2i4RvFULtf8b
-	 bUZ/1jqCVn33mwneUtWsY2exg4E1FS1x41obHG7OsIUtJe0hjuYC+HZr6AcPgtDQ+v
-	 LbtZjCOyTgiiQ==
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a0029289b1bso24369266b.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 22 Nov 2023 13:16:27 -0800 (PST)
-X-Gm-Message-State: AOJu0Ywy2mlLarmz9r58yQDDjOO9oGhUYnNT9B6FKyKU+sSuC73SggLR
-	7Gtr0X8gXKT61Gp5DaOH6Wf4TFGS66+bHOE+X8Q=
-X-Google-Smtp-Source: AGHT+IGCGM1QlV0x5h6yeq5Y9F3587ZfeYrmF2BNv4ibnrmbuHC2OtPjtaNQ1NR6omamtcQJVRzOXgnbLO2IXoQzzwU=
-X-Received: by 2002:a17:906:4c:b0:a02:ac3d:9e97 with SMTP id
- 12-20020a170906004c00b00a02ac3d9e97mr2508212ejg.9.1700687786020; Wed, 22 Nov
- 2023 13:16:26 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="khMJDMZ7";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IwktbC3z"
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A972F2192D;
+	Thu, 23 Nov 2023 06:56:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1700722619; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=+cyotAqL8AduDM5+Y4Kh5EBMjuBXnBF9LgA0c07VSx8=;
+	b=khMJDMZ73wZbWfp00ra0Z6efVYxQD/34+y1If9SLEjb3SE0lLgmaj3MW3iqWu2sGQxM852
+	9iv7tId0W9hYPwGBcuhP9HOPS5W6oNg5GBvq7XNg5qIdp1rt3Om8nShqpS9BMYcf7A1iPs
+	I4RyuUmt8fZ7ehsjoJnaXePercV9OFM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1700722619;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=+cyotAqL8AduDM5+Y4Kh5EBMjuBXnBF9LgA0c07VSx8=;
+	b=IwktbC3zvGYGDcAPkvoq16OUkmjP98Yln46qE2evYjUeKg8wA3oZMCnNsBCDGUjBO6TWbi
+	9gkNZHdNNFTUurBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 32A74133B6;
+	Thu, 23 Nov 2023 06:56:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id /aJ2C7v3XmX5XAAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Thu, 23 Nov 2023 06:56:59 +0000
+Message-ID: <4e0cc556-a7eb-48ce-8226-0f5281f3ef0a@suse.de>
+Date: Thu, 23 Nov 2023 07:56:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231122121235.827122-1-peterlin@andestech.com> <20231122121235.827122-8-peterlin@andestech.com>
-In-Reply-To: <20231122121235.827122-8-peterlin@andestech.com>
-From: Guo Ren <guoren@kernel.org>
-Date: Thu, 23 Nov 2023 05:16:11 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTTCfr-ysDru5qYhDCL4GW0Te57HJfpS=a2i4ffR+1dyMg@mail.gmail.com>
-Message-ID: <CAJF2gTTCfr-ysDru5qYhDCL4GW0Te57HJfpS=a2i4ffR+1dyMg@mail.gmail.com>
-Subject: Re: [PATCH v4 07/13] RISC-V: Move T-Head PMU to CPU feature
- alternative framework
-To: Yu Chien Peter Lin <peterlin@andestech.com>
-Cc: acme@kernel.org, adrian.hunter@intel.com, ajones@ventanamicro.com, 
-	alexander.shishkin@linux.intel.com, andre.przywara@arm.com, 
-	anup@brainfault.org, aou@eecs.berkeley.edu, atishp@atishpatra.org, 
-	conor+dt@kernel.org, conor.dooley@microchip.com, conor@kernel.org, 
-	devicetree@vger.kernel.org, dminus@andestech.com, evan@rivosinc.com, 
-	geert+renesas@glider.be, heiko@sntech.de, irogers@google.com, 
-	jernej.skrabec@gmail.com, jolsa@kernel.org, jszhang@kernel.org, 
-	krzysztof.kozlowski+dt@linaro.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, locus84@andestech.com, magnus.damm@gmail.com, 
-	mark.rutland@arm.com, mingo@redhat.com, n.shubin@yadro.com, 
-	namhyung@kernel.org, palmer@dabbelt.com, paul.walmsley@sifive.com, 
-	peterz@infradead.org, prabhakar.mahadev-lad.rj@bp.renesas.com, 
-	rdunlap@infradead.org, robh+dt@kernel.org, samuel@sholland.org, 
-	sunilvl@ventanamicro.com, tglx@linutronix.de, tim609@andestech.com, 
-	uwu@icenowy.me, wens@csie.org, will@kernel.org, ycliang@andestech.com, 
-	inochiama@outlook.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 00/20] remove I2C_CLASS_DDC support
+To: Heiner Kallweit <hkallweit1@gmail.com>, Wolfram Sang <wsa@kernel.org>,
+ intel-gfx@lists.freedesktop.org
+Cc: linux-i2c@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ linux-fbdev@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Jocelyn Falempe <jfalempe@redhat.com>, linux-sunxi@lists.linux.dev,
+ linux-mediatek@lists.infradead.org, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Yongqin Liu
+ <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>
+References: <20231120214624.9378-1-hkallweit1@gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20231120214624.9378-1-hkallweit1@gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------vifXtZ8GAwM1Zi9nNGG8Dq4u"
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -3.79
+X-Spamd-Result: default: False [-3.79 / 50.00];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 XM_UA_NO_VERSION(0.01)[];
+	 TO_DN_SOME(0.00)[];
+	 HAS_ATTACHMENT(0.00)[];
+	 MIME_BASE64_TEXT_BOGUS(1.00)[];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 MIME_BASE64_TEXT(0.10)[];
+	 SIGNED_PGP(-2.00)[];
+	 FREEMAIL_TO(0.00)[gmail.com,kernel.org,lists.freedesktop.org];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+,1:+,2:+,3:~];
+	 MID_RHS_MATCH_FROM(0.00)[];
+	 BAYES_HAM(-3.00)[100.00%];
+	 ARC_NA(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 RCPT_COUNT_TWELVE(0.00)[24];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 RCVD_COUNT_TWO(0.00)[2];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[];
+	 FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,kwiboo.se,ideasonboard.com,lists.freedesktop.org,lists.infradead.org,redhat.com,lists.linux.dev,poorly.run,somainline.org,hisilicon.com,linaro.org,google.com]
+X-Spam-Flag: NO
 
-On Wed, Nov 22, 2023 at 8:17=E2=80=AFPM Yu Chien Peter Lin
-<peterlin@andestech.com> wrote:
->
-> The custom PMU extension aims to support perf event sampling prior
-> to the ratification of Sscofpmf. Instead of diverting the bits and
-> register reserved for future standard, a set of custom registers is
-> added.  Hence, we may consider it as a CPU feature rather than an
-> erratum.
->
-> T-Head cores need to append "xtheadpmu" to the riscv,isa-extensions
-> for each cpu node in device tree, and enable CONFIG_THEAD_CUSTOM_PMU
-> for proper functioning as of this commit.
->
-> Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
-> ---
-> Hi All,
->
-> This is in preparation for introducing other PMU alternative.
-> We follow Conor's suggestion [1][2] to use cpu feature alternative
-> framework rather than errata, I'm happy to drop the patch if someone
-> is willing to take care of this for T-Head's platforms (or sticking
-> with CPU errata alternative?)
->
-> [1] https://patchwork.kernel.org/project/linux-riscv/patch/20230907021635=
-.1002738-4-peterlin@andestech.com/#25503860
-> [2] https://patchwork.kernel.org/project/linux-riscv/patch/20231023004100=
-.2663486-8-peterlin@andestech.com/#25565650
->
-> Changes v1 -> v2:
->   - New patch
-> Changes v2 -> v3:
->   - Removed m{vendor/arch/imp}id checks in pmu_sbi_setup_irqs()
-> Changes v3 -> v4:
->   - No change
-> ---
->  arch/riscv/Kconfig.errata            | 13 -------------
->  arch/riscv/errata/thead/errata.c     | 19 -------------------
->  arch/riscv/include/asm/errata_list.h | 15 +--------------
->  arch/riscv/include/asm/hwcap.h       |  1 +
->  arch/riscv/kernel/cpufeature.c       |  1 +
->  drivers/perf/Kconfig                 | 13 +++++++++++++
->  drivers/perf/riscv_pmu_sbi.c         | 19 ++++++++++++++-----
->  7 files changed, 30 insertions(+), 51 deletions(-)
->
-> diff --git a/arch/riscv/Kconfig.errata b/arch/riscv/Kconfig.errata
-> index e2c731cfed8c..0d19f47d1018 100644
-> --- a/arch/riscv/Kconfig.errata
-> +++ b/arch/riscv/Kconfig.errata
-> @@ -86,17 +86,4 @@ config ERRATA_THEAD_CMO
->
->           If you don't know what to do here, say "Y".
->
-> -config ERRATA_THEAD_PMU
-> -       bool "Apply T-Head PMU errata"
-> -       depends on ERRATA_THEAD && RISCV_PMU_SBI
-> -       default y
-> -       help
-> -         The T-Head C9xx cores implement a PMU overflow extension very
-> -         similar to the core SSCOFPMF extension.
-> -
-> -         This will apply the overflow errata to handle the non-standard
-> -         behaviour via the regular SBI PMU driver and interface.
-> -
-> -         If you don't know what to do here, say "Y".
-> -
->  endmenu # "CPU errata selection"
-> diff --git a/arch/riscv/errata/thead/errata.c b/arch/riscv/errata/thead/e=
-rrata.c
-> index 0554ed4bf087..5de5f7209132 100644
-> --- a/arch/riscv/errata/thead/errata.c
-> +++ b/arch/riscv/errata/thead/errata.c
-> @@ -53,22 +53,6 @@ static bool errata_probe_cmo(unsigned int stage,
->         return true;
->  }
->
-> -static bool errata_probe_pmu(unsigned int stage,
-> -                            unsigned long arch_id, unsigned long impid)
-> -{
-> -       if (!IS_ENABLED(CONFIG_ERRATA_THEAD_PMU))
-> -               return false;
-> -
-> -       /* target-c9xx cores report arch_id and impid as 0 */
-> -       if (arch_id !=3D 0 || impid !=3D 0)
-> -               return false;
-> -
-> -       if (stage =3D=3D RISCV_ALTERNATIVES_EARLY_BOOT)
-> -               return false;
-> -
-> -       return true;
-> -}
-> -
->  static u32 thead_errata_probe(unsigned int stage,
->                               unsigned long archid, unsigned long impid)
->  {
-> @@ -80,9 +64,6 @@ static u32 thead_errata_probe(unsigned int stage,
->         if (errata_probe_cmo(stage, archid, impid))
->                 cpu_req_errata |=3D BIT(ERRATA_THEAD_CMO);
->
-> -       if (errata_probe_pmu(stage, archid, impid))
-> -               cpu_req_errata |=3D BIT(ERRATA_THEAD_PMU);
-> -
->         return cpu_req_errata;
->  }
->
-> diff --git a/arch/riscv/include/asm/errata_list.h b/arch/riscv/include/as=
-m/errata_list.h
-> index 4ed21a62158c..9bccc2ba0eb5 100644
-> --- a/arch/riscv/include/asm/errata_list.h
-> +++ b/arch/riscv/include/asm/errata_list.h
-> @@ -25,8 +25,7 @@
->  #ifdef CONFIG_ERRATA_THEAD
->  #define        ERRATA_THEAD_PBMT 0
->  #define        ERRATA_THEAD_CMO 1
-> -#define        ERRATA_THEAD_PMU 2
-> -#define        ERRATA_THEAD_NUMBER 3
-> +#define        ERRATA_THEAD_NUMBER 2
->  #endif
->
->  #ifdef __ASSEMBLY__
-> @@ -147,18 +146,6 @@ asm volatile(ALTERNATIVE_2(                         =
-                       \
->             "r"((unsigned long)(_start) + (_size))                      \
->         : "a0")
->
-> -#define THEAD_C9XX_RV_IRQ_PMU                  17
-> -#define THEAD_C9XX_CSR_SCOUNTEROF              0x5c5
-> -
-> -#define ALT_SBI_PMU_OVERFLOW(__ovl)                                    \
-> -asm volatile(ALTERNATIVE(                                              \
-> -       "csrr %0, " __stringify(CSR_SSCOUNTOVF),                        \
-> -       "csrr %0, " __stringify(THEAD_C9XX_CSR_SCOUNTEROF),             \
-> -               THEAD_VENDOR_ID, ERRATA_THEAD_PMU,                      \
-> -               CONFIG_ERRATA_THEAD_PMU)                                \
-> -       : "=3Dr" (__ovl) :                                               =
- \
-> -       : "memory")
-> -
->  #endif /* __ASSEMBLY__ */
->
->  #endif
-> diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwca=
-p.h
-> index 06d30526ef3b..c85ee34c78d9 100644
-> --- a/arch/riscv/include/asm/hwcap.h
-> +++ b/arch/riscv/include/asm/hwcap.h
-> @@ -57,6 +57,7 @@
->  #define RISCV_ISA_EXT_ZIHPM            42
->  #define RISCV_ISA_EXT_SMSTATEEN                43
->  #define RISCV_ISA_EXT_ZICOND           44
-> +#define RISCV_ISA_EXT_XTHEADPMU                45
->
->  #define RISCV_ISA_EXT_MAX              64
->
-> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeatur=
-e.c
-> index b3785ffc1570..e606f588d366 100644
-> --- a/arch/riscv/kernel/cpufeature.c
-> +++ b/arch/riscv/kernel/cpufeature.c
-> @@ -185,6 +185,7 @@ const struct riscv_isa_ext_data riscv_isa_ext[] =3D {
->         __RISCV_ISA_EXT_DATA(svinval, RISCV_ISA_EXT_SVINVAL),
->         __RISCV_ISA_EXT_DATA(svnapot, RISCV_ISA_EXT_SVNAPOT),
->         __RISCV_ISA_EXT_DATA(svpbmt, RISCV_ISA_EXT_SVPBMT),
-> +       __RISCV_ISA_EXT_DATA(xtheadpmu, RISCV_ISA_EXT_XTHEADPMU),
->  };
->
->  const size_t riscv_isa_ext_count =3D ARRAY_SIZE(riscv_isa_ext);
-> diff --git a/drivers/perf/Kconfig b/drivers/perf/Kconfig
-> index 273d67ecf6d2..c71b6f16bdfa 100644
-> --- a/drivers/perf/Kconfig
-> +++ b/drivers/perf/Kconfig
-> @@ -86,6 +86,19 @@ config RISCV_PMU_SBI
->           full perf feature support i.e. counter overflow, privilege mode
->           filtering, counter configuration.
->
-> +config THEAD_CUSTOM_PMU
-> +       bool "T-Head custom PMU support"
-> +       depends on RISCV_ALTERNATIVE && RISCV_PMU_SBI
-> +       default y
-> +       help
-> +         The T-Head C9xx cores implement a PMU overflow extension very
-> +         similar to the core SSCOFPMF extension.
-> +
-> +         This will patch the overflow CSR and handle the non-standard
-> +         behaviour via the regular SBI PMU driver and interface.
-> +
-> +         If you don't know what to do here, say "Y".
-> +
->  config ARM_PMU_ACPI
->         depends on ARM_PMU && ACPI
->         def_bool y
-> diff --git a/drivers/perf/riscv_pmu_sbi.c b/drivers/perf/riscv_pmu_sbi.c
-> index 2edbc37abadf..31ca79846399 100644
-> --- a/drivers/perf/riscv_pmu_sbi.c
-> +++ b/drivers/perf/riscv_pmu_sbi.c
-> @@ -20,10 +20,21 @@
->  #include <linux/cpu_pm.h>
->  #include <linux/sched/clock.h>
->
-> -#include <asm/errata_list.h>
->  #include <asm/sbi.h>
->  #include <asm/cpufeature.h>
->
-> +#define THEAD_C9XX_RV_IRQ_PMU          17
-> +#define THEAD_C9XX_CSR_SCOUNTEROF      0x5c5
-> +
-> +#define ALT_SBI_PMU_OVERFLOW(__ovl)                                    \
-> +asm volatile(ALTERNATIVE(                                              \
-> +       "csrr %0, " __stringify(CSR_SSCOUNTOVF),                        \
-> +       "csrr %0, " __stringify(THEAD_C9XX_CSR_SCOUNTEROF),             \
-> +               0, RISCV_ISA_EXT_XTHEADPMU,                             \
-> +               CONFIG_THEAD_CUSTOM_PMU)                                \
-> +       : "=3Dr" (__ovl) :                                               =
- \
-> +       : "memory")
-> +
->  #define SYSCTL_NO_USER_ACCESS  0
->  #define SYSCTL_USER_ACCESS     1
->  #define SYSCTL_LEGACY          2
-> @@ -808,10 +819,8 @@ static int pmu_sbi_setup_irqs(struct riscv_pmu *pmu,=
- struct platform_device *pde
->         if (riscv_isa_extension_available(NULL, SSCOFPMF)) {
->                 riscv_pmu_irq_num =3D RV_IRQ_PMU;
->                 riscv_pmu_use_irq =3D true;
-> -       } else if (IS_ENABLED(CONFIG_ERRATA_THEAD_PMU) &&
-> -                  riscv_cached_mvendorid(0) =3D=3D THEAD_VENDOR_ID &&
-> -                  riscv_cached_marchid(0) =3D=3D 0 &&
-> -                  riscv_cached_mimpid(0) =3D=3D 0) {
-> +       } else if (riscv_isa_extension_available(NULL, XTHEADPMU) &&
-> +                  IS_ENABLED(CONFIG_THEAD_CUSTOM_PMU)) {
->                 riscv_pmu_irq_num =3D THEAD_C9XX_RV_IRQ_PMU;
->                 riscv_pmu_use_irq =3D true;
->         }
-> --
-> 2.34.1
->
-Reviewed-by: Guo Ren <guoren@kernel.org>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------vifXtZ8GAwM1Zi9nNGG8Dq4u
+Content-Type: multipart/mixed; boundary="------------IiZwcTSMBVj1VO2fSGDyCS5o";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Heiner Kallweit <hkallweit1@gmail.com>, Wolfram Sang <wsa@kernel.org>,
+ intel-gfx@lists.freedesktop.org
+Cc: linux-i2c@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ linux-fbdev@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Jocelyn Falempe <jfalempe@redhat.com>, linux-sunxi@lists.linux.dev,
+ linux-mediatek@lists.infradead.org, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Yongqin Liu
+ <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>
+Message-ID: <4e0cc556-a7eb-48ce-8226-0f5281f3ef0a@suse.de>
+Subject: Re: [PATCH v4 00/20] remove I2C_CLASS_DDC support
+References: <20231120214624.9378-1-hkallweit1@gmail.com>
+In-Reply-To: <20231120214624.9378-1-hkallweit1@gmail.com>
 
---=20
-Best Regards
- Guo Ren
+--------------IiZwcTSMBVj1VO2fSGDyCS5o
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+
+SGkNCg0KQW0gMjAuMTEuMjMgdW0gMjI6NDYgc2NocmllYiBIZWluZXIgS2FsbHdlaXQ6DQo+
+IEFmdGVyIHJlbW92YWwgb2YgdGhlIGxlZ2FjeSBFRVBST00gZHJpdmVyIGFuZCBJMkNfQ0xB
+U1NfRERDIHN1cHBvcnQgaW4NCj4gb2xwY19kY29uIHRoZXJlJ3Mgbm8gaTJjIGNsaWVudCBk
+cml2ZXIgbGVmdCBzdXBwb3J0aW5nIEkyQ19DTEFTU19EREMuDQo+IENsYXNzLWJhc2VkIGRl
+dmljZSBhdXRvLWRldGVjdGlvbiBpcyBhIGxlZ2FjeSBtZWNoYW5pc20gYW5kIHNob3VsZG4n
+dA0KPiBiZSB1c2VkIGluIG5ldyBjb2RlLiBTbyB3ZSBjYW4gcmVtb3ZlIHRoaXMgY2xhc3Mg
+Y29tcGxldGVseSBub3cuDQo+IA0KPiBQcmVmZXJhYmx5IHRoaXMgc2VyaWVzIHNob3VsZCBi
+ZSBhcHBsaWVkIHZpYSB0aGUgaTJjIHRyZWUuDQo+IA0KPiB2MjoNCj4gLSBjaGFuZ2UgdGFn
+IGluIGNvbW1pdCBzdWJqZWN0IG9mIHBhdGNoIDAzDQo+IC0gYWRkIGFjayB0YWdzDQo+IHYz
+Og0KPiAtIGZpeCBhIGNvbXBpbGUgZXJyb3IgaW4gcGF0Y2ggNQ0KPiB2NDoNCj4gLSBtb3Jl
+IGFjayBhbmQgcmV2aWV3IHRhZ3MNCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEhlaW5lciBLYWxs
+d2VpdCA8aGthbGx3ZWl0MUBnbWFpbC5jb20+DQoNCkFja2VkLWJ5OiBUaG9tYXMgWmltbWVy
+bWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCg0KZm9yIHRoZSBwYXRjaGVzIHRoYXQgZG9u
+J3QgYWxyZWFkeSBoYXZlIG15IHItYi4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiAN
+Cj4gLS0tDQo+IA0KPiAgIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9pMmMu
+YyAgICAgICAgICAgfCAgICAxIC0NCj4gICBkcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkv
+YW1kZ3B1X2RtL2FtZGdwdV9kbS5jIHwgICAgMSAtDQo+ICAgZHJpdmVycy9ncHUvZHJtL2Fz
+dC9hc3RfaTJjLmMgICAgICAgICAgICAgICAgICAgICB8ICAgIDEgLQ0KPiAgIGRyaXZlcnMv
+Z3B1L2RybS9icmlkZ2Uvc3lub3BzeXMvZHctaGRtaS5jICAgICAgICAgfCAgICAxIC0NCj4g
+ICBkcml2ZXJzL2dwdS9kcm0vZGlzcGxheS9kcm1fZHBfaGVscGVyLmMgICAgICAgICAgIHwg
+ICAgMSAtDQo+ICAgZHJpdmVycy9ncHUvZHJtL2Rpc3BsYXkvZHJtX2RwX21zdF90b3BvbG9n
+eS5jICAgICB8ICAgIDEgLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvY2R2X2ludGVs
+X2RwLmMgICAgICAgICAgICAgfCAgICAxIC0NCj4gICBkcml2ZXJzL2dwdS9kcm0vZ21hNTAw
+L2ludGVsX2dtYnVzLmMgICAgICAgICAgICAgIHwgICAgMSAtDQo+ICAgZHJpdmVycy9ncHUv
+ZHJtL2dtYTUwMC9vYWt0cmFpbF9oZG1pX2kyYy5jICAgICAgICB8ICAgIDEgLQ0KPiAgIGRy
+aXZlcnMvZ3B1L2RybS9nbWE1MDAvcHNiX2ludGVsX3Nkdm8uYyAgICAgICAgICAgfCAgICAx
+IC0NCj4gICBkcml2ZXJzL2dwdS9kcm0vaGlzaWxpY29uL2hpYm1jL2hpYm1jX2RybV9pMmMu
+YyAgIHwgICAgMSAtDQo+ICAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9n
+bWJ1cy5jICAgICAgICB8ICAgIDEgLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3Bs
+YXkvaW50ZWxfc2R2by5jICAgICAgICAgfCAgICAxIC0NCj4gICBkcml2ZXJzL2dwdS9kcm0v
+bG9vbmdzb24vbHNkY19pMmMuYyAgICAgICAgICAgICAgIHwgICAgMSAtDQo+ICAgZHJpdmVy
+cy9ncHUvZHJtL21lZGlhdGVrL210a19oZG1pX2RkYy5jICAgICAgICAgICB8ICAgIDEgLQ0K
+PiAgIGRyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfaTJjLmMgICAgICAgICAgICAg
+fCAgICAxIC0NCj4gICBkcml2ZXJzL2dwdS9kcm0vbXNtL2hkbWkvaGRtaV9pMmMuYyAgICAg
+ICAgICAgICAgIHwgICAgMSAtDQo+ICAgZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25f
+aTJjLmMgICAgICAgICAgICAgICB8ICAgIDEgLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9yb2Nr
+Y2hpcC9pbm5vX2hkbWkuYyAgICAgICAgICAgICAgfCAgICAxIC0NCj4gICBkcml2ZXJzL2dw
+dS9kcm0vcm9ja2NoaXAvcmszMDY2X2hkbWkuYyAgICAgICAgICAgIHwgICAgMSAtDQo+ICAg
+ZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjRpX2hkbWlfaTJjLmMgICAgICAgICAgICB8ICAg
+IDEgLQ0KPiAgIGRyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9mYl9kZGMuYyAgICAgICAgICAg
+ICAgICAgfCAgICAxIC0NCj4gICBkcml2ZXJzL3ZpZGVvL2ZiZGV2L2N5YmVyMjAwMGZiLmMg
+ICAgICAgICAgICAgICAgIHwgICAgMSAtDQo+ICAgZHJpdmVycy92aWRlby9mYmRldi9pNzQw
+ZmIuYyAgICAgICAgICAgICAgICAgICAgICB8ICAgIDEgLQ0KPiAgIGRyaXZlcnMvdmlkZW8v
+ZmJkZXYvaW50ZWxmYi9pbnRlbGZiX2kyYy5jICAgICAgICAgfCAgIDE1ICsrKysrLS0tLS0t
+LS0tLQ0KPiAgIGRyaXZlcnMvdmlkZW8vZmJkZXYvbWF0cm94L2kyYy1tYXRyb3hmYi5jICAg
+ICAgICAgfCAgIDEyICsrKystLS0tLS0tLQ0KPiAgIGRyaXZlcnMvdmlkZW8vZmJkZXYvczNm
+Yi5jICAgICAgICAgICAgICAgICAgICAgICAgfCAgICAxIC0NCj4gICBkcml2ZXJzL3ZpZGVv
+L2ZiZGV2L3RkZnhmYi5jICAgICAgICAgICAgICAgICAgICAgIHwgICAgMSAtDQo+ICAgZHJp
+dmVycy92aWRlby9mYmRldi90cmlkZW50ZmIuYyAgICAgICAgICAgICAgICAgICB8ICAgIDEg
+LQ0KPiAgIGRyaXZlcnMvdmlkZW8vZmJkZXYvdmlhL3ZpYV9pMmMuYyAgICAgICAgICAgICAg
+ICAgfCAgICAxIC0NCj4gICBpbmNsdWRlL2xpbnV4L2kyYy5oICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIHwgICAgMSAtDQo+ICAgMzEgZmlsZXMgY2hhbmdlZCwgOSBpbnNlcnRp
+b25zKCspLCA0NyBkZWxldGlvbnMoLSkNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3Jh
+cGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFu
+eSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0K
+R0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4g
+TW9lcm1hbg0KSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
+
+--------------IiZwcTSMBVj1VO2fSGDyCS5o--
+
+--------------vifXtZ8GAwM1Zi9nNGG8Dq4u
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmVe97oFAwAAAAAACgkQlh/E3EQov+BL
+pRAAofCcHzKlz7RbTPrrcEcKn9btAb4NPmvFo3wpV8ZrJ3GDqaCOYx1jnoYJqfjk6iFqXqHFEOr3
+lmzuzL/jCzE6gA1fAlP0Uc0Fm9AwJoCYYQ9x81EGKKuQUMXkwnYYVMk1VtTdW3t2OcEQqFT1Mr1f
+GNZIVtD5iwXyEWdFDtWHqEPIR3Mgqk2u5twaqkxYkQrp5W594ZJxRJqdSj3AQf6stCxwd8cqHyH+
+m39bh2zMwVNC8LUQZNe+7UUB3uJUypHhtrexw07YRzHgvCo57c4i6YT69MzMarbREhxElAf5mPON
+Rb46KLVyJaTH8KVgGISA8pCVXadJwdf5h9hmUXgwp9Z8mHn/z0oXOK2WtAelRdQvMx1nHnCG/MUd
+bTpRzPI9SNEkTL6Q2r+ieDugUOWy5V3b+1RTd5lkzwvSbZZFfbYuIFpfY+h0UQdOQ8EvuKfibCMX
+0/Tp/o5qF5AP6bR9JZmB4mrfom85fqTFZoJjaN6uOaXkdLr+KK4ZhxiUmIhhsYJwB1rd5+STruaO
+6TbfOCLe+q69FMzuNn+95fb/iur0BMuV5ZKgpnOAaffivnGuztF9pGpKZLbT+so3OAy7LaoxiunE
+9/GJEStgnV43QE84GnfkMDEsRKMGwFXfCJNWcVJG9pBrYiN8nA5SAb0rWJNCKLMPi4aZwc7bj9Mu
+KaA=
+=qc7l
+-----END PGP SIGNATURE-----
+
+--------------vifXtZ8GAwM1Zi9nNGG8Dq4u--
