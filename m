@@ -1,72 +1,148 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52C3E224E1;
-	Thu, 23 Nov 2023 10:55:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD64E33CD2
+	for <linux-sunxi@lists.linux.dev>; Thu, 23 Nov 2023 14:39:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DQDoVQ79"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9429DC433C8;
-	Thu, 23 Nov 2023 10:55:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700736910;
-	bh=NGJuny/T+fyg0bzZg8rPSHmJVa/rpExZEmSSYXneMOg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=DQDoVQ795iRe1AeJ0JE0DdQLKCHM4AMUcZd6QEjh2vi6f+YXd2u3WvyvdLBl0Oi0P
-	 huPpFsn58tBf+keKnxM0QvYeQXJDLg1+bnXHmslVns0T5uATrg/W5BeMXPacUQksxj
-	 TRX/HuQccMzyCcCuUbVBb88ETEpQCnFMJiDRMIOuwoLgjUCAmzBjr68DW2m60YNLp0
-	 SO+n86vKNJ40PV39QkNDdKAoiv+iNoSgf5IBk+YP95bZL2k6SWKIK3IxGnIvxBTV8p
-	 t50AMXEu4iRdmzdvehN7QV4rvKlI6Kry/UO1BFpc4qIaQJ60NQi/30PJI8dvsIMKij
-	 ptAf+w0t6mdsg==
-From: Lee Jones <lee@kernel.org>
-To: Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>
-Cc: Andre Przywara <andre.przywara@arm.com>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
- Guo Ren <guoren@kernel.org>, Jisheng Zhang <jszhang@kernel.org>, 
- John Watts <contact@jookia.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Maksim Kiselev <bigunclemax@gmail.com>, 
- Marc Kleine-Budde <mkl@pengutronix.de>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh+dt@kernel.org>, 
- Trevor Woerner <twoerner@gmail.com>, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev
-In-Reply-To: <20231029212738.7871-1-samuel@sholland.org>
-References: <20231029212738.7871-1-samuel@sholland.org>
-Subject: Re: (subset) [PATCH v8 0/5] leds: Allwinner A100 LED controller
- support
-Message-Id: <170073690632.1239913.13249026950783494795.b4-ty@kernel.org>
-Date: Thu, 23 Nov 2023 10:55:06 +0000
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="NjjJvGpN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1700750359; x=1732286359;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5mio/kqNaH+U+jZDajo8QsPctXLeEgKj3mmEzUpaptE=;
+  b=NjjJvGpNLdjDBa4Sh7g9+V5nNQ128jBNGeF1lgI/q74IwDS20CtOsyiq
+   NDz1o7BvaPvmcZm5kp0ncSBJh3yvxj2Yni3wMhZUZuy2XkdajenXF2NnW
+   zjUfahlZCyWY1dJ705BpP6RRrN5UNDXjfD3Ftvk6FGt2VOwN3UEO7pGVe
+   3x6Qr6OpxShTkuGJL8Adg4+JmeeKRAO6z4b7KnCwNxiv5VyuRlG3PWu16
+   QavTyJy3wgOt0gdpDsrAxnbIWJPXyMLMMlYMpGqEiWYgXNirUE38nWMy1
+   zT151EGOE2BpuPTML4tgT8g1+XOeq8K17G6SCNHcVyiX735aA1YesOeaO
+   w==;
+X-CSE-ConnectionGUID: 4AAYCoZfTi6PJe832bnWGg==
+X-CSE-MsgGUID: 4TersX+dTLKSZqX2n5bjxw==
+X-ThreatScanner-Verdict: Negative
+X-IronPort-AV: E=Sophos;i="6.04,221,1695711600"; 
+   d="asc'?scan'208";a="12937545"
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 23 Nov 2023 07:39:17 -0700
+Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Thu, 23 Nov 2023 07:39:06 -0700
+Received: from wendy (10.10.85.11) by chn-vm-ex04.mchp-main.com (10.10.85.152)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
+ Transport; Thu, 23 Nov 2023 07:38:58 -0700
+Date: Thu, 23 Nov 2023 14:38:30 +0000
+From: Conor Dooley <conor.dooley@microchip.com>
+To: Yu Chien Peter Lin <peterlin@andestech.com>
+CC: <acme@kernel.org>, <adrian.hunter@intel.com>, <ajones@ventanamicro.com>,
+	<alexander.shishkin@linux.intel.com>, <andre.przywara@arm.com>,
+	<anup@brainfault.org>, <aou@eecs.berkeley.edu>, <atishp@atishpatra.org>,
+	<conor+dt@kernel.org>, <conor@kernel.org>, <devicetree@vger.kernel.org>,
+	<dminus@andestech.com>, <evan@rivosinc.com>, <geert+renesas@glider.be>,
+	<guoren@kernel.org>, <heiko@sntech.de>, <irogers@google.com>,
+	<jernej.skrabec@gmail.com>, <jolsa@kernel.org>, <jszhang@kernel.org>,
+	<krzysztof.kozlowski+dt@linaro.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>, <linux-perf-users@vger.kernel.org>,
+	<linux-renesas-soc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+	<linux-sunxi@lists.linux.dev>, <locus84@andestech.com>,
+	<magnus.damm@gmail.com>, <mark.rutland@arm.com>, <mingo@redhat.com>,
+	<n.shubin@yadro.com>, <namhyung@kernel.org>, <palmer@dabbelt.com>,
+	<paul.walmsley@sifive.com>, <peterz@infradead.org>,
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>, <rdunlap@infradead.org>,
+	<robh+dt@kernel.org>, <samuel@sholland.org>, <sunilvl@ventanamicro.com>,
+	<tglx@linutronix.de>, <tim609@andestech.com>, <uwu@icenowy.me>,
+	<wens@csie.org>, <will@kernel.org>, <ycliang@andestech.com>,
+	<inochiama@outlook.com>
+Subject: Re: [PATCH v4 04/13] dt-bindings: riscv: Add Andes interrupt
+ controller compatible string
+Message-ID: <20231123-vigorous-worrier-c8ed0fbbec55@wendy>
+References: <20231122121235.827122-1-peterlin@andestech.com>
+ <20231122121235.827122-5-peterlin@andestech.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.12.3
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="Myq4yn8cC+6SYdA6"
+Content-Disposition: inline
+In-Reply-To: <20231122121235.827122-5-peterlin@andestech.com>
 
-On Sun, 29 Oct 2023 16:26:54 -0500, Samuel Holland wrote:
-> This series adds bindings and a driver for the RGB LED controller found
-> in some Allwinner SoCs, starting with A100. The hardware in the R329 and
-> D1 SoCs appears to be identical.
-> 
-> This series was tested on the Nezha board (one onboard LED) and the
-> Dongshan Nezha STU board (with an external strip of 16/32/48 LEDs, also
-> with gaps in the LED addresses).
-> 
-> [...]
+--Myq4yn8cC+6SYdA6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Applied, thanks!
+On Wed, Nov 22, 2023 at 08:12:26PM +0800, Yu Chien Peter Lin wrote:
+> Add "andestech,cpu-intc" compatible string to indicate that
+> Andes specific local interrupt is supported on the core,
+> e.g. AX45MP cores have 3 types of non-standard local interrupt
+> can be handled in supervisor mode:
+>=20
+> - Slave port ECC error interrupt
+> - Bus write transaction error interrupt
+> - Performance monitor overflow interrupt
+>=20
+> These interrupts are enabled/disabled via a custom register
+> SLIE instead of the standard interrupt enable register SIE.
+>=20
+> Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
 
-[1/5] dt-bindings: leds: Add Allwinner A100 LED controller
-      commit: 57ef666e1586823adc1b7909ed3472dec117df1f
-[2/5] leds: sun50i-a100: New driver for the A100 LED controller
-      commit: 090a25ad97983720f52b11d9c5a8d1a446217c1d
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
---
-Lee Jones [李琼斯]
+Cheers,
+Conor.
 
+> ---
+> Changes v1 -> v2:
+>   - New patch
+> Changes v2 -> v3:
+>   - Updated commit message
+>   - Fixed possible compatibles for Andes INTC
+> Changes v3 -> v4:
+>   - Add const entry instead of enum (Suggested by Conor)
+> ---
+>  Documentation/devicetree/bindings/riscv/cpus.yaml | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/riscv/cpus.yaml b/Document=
+ation/devicetree/bindings/riscv/cpus.yaml
+> index f392e367d673..50307554478f 100644
+> --- a/Documentation/devicetree/bindings/riscv/cpus.yaml
+> +++ b/Documentation/devicetree/bindings/riscv/cpus.yaml
+> @@ -100,7 +100,11 @@ properties:
+>          const: 1
+> =20
+>        compatible:
+> -        const: riscv,cpu-intc
+> +        oneOf:
+> +          - items:
+> +              - const: andestech,cpu-intc
+> +              - const: riscv,cpu-intc
+> +          - const: riscv,cpu-intc
+> =20
+>        interrupt-controller: true
+> =20
+> --=20
+> 2.34.1
+>=20
+
+--Myq4yn8cC+6SYdA6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZV9j5gAKCRB4tDGHoIJi
+0hycAP9qsI3APm3yGB24FyPPA6csDBgW0MdowMy/BXFdk8mpqgD6A+eIkaU3B8V0
+LKuOUJhXb2lSRMosR/DWKoi3S/tGZgg=
+=H/7m
+-----END PGP SIGNATURE-----
+
+--Myq4yn8cC+6SYdA6--
