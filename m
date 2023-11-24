@@ -1,56 +1,56 @@
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com [209.85.222.54])
+Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F8801A5A3
-	for <linux-sunxi@lists.linux.dev>; Fri, 24 Nov 2023 15:07:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 474CF2D781
+	for <linux-sunxi@lists.linux.dev>; Fri, 24 Nov 2023 15:08:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="duiJmEsX"
-Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-7c46c7bc538so402966241.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 24 Nov 2023 07:07:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fji6ZN3E"
+Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-581ed744114so910920eaf.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 24 Nov 2023 07:08:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700838467; x=1701443267; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1700838499; x=1701443299; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9cD4XTfLDfdBaVvLQQvVIb/DdNn7sLhHYoYCs/LHKvs=;
-        b=duiJmEsXPR4Rqd4N6W8tdziPgl3Cxh/8TxPvkR7gSIXIG5NI2ix5zX9meaollG489a
-         F4Zt/wfH1yswwauKp/QPOB3wd7VJM2HsOd2khJcmcng55q12Z6qVbHCLT9+KLCPlIBbC
-         zj2iP2KjBBVFF3zdnV3OQpUHRwPaXu0OaQ4nRFiWLEXf0vOQFufnH3DScCdYxMUGcqHJ
-         zmhfXUUZkegz+2R2y9OtjIfvImK7aXLiDLUTiVnslMk1+w9BVJlwn/67xqyMnm9T74A5
-         5Z3HtKOddqCtz6A4S4nvbVi46kK0ESyOQFYIYfKET2sTFIYA08uut3i0SnuyY5XwK85K
-         T01A==
+        bh=Wqb6gmrOIr6APnQsTYHkPk1borpFhD009W5cTbT2h40=;
+        b=fji6ZN3ETunxTMRFRWfHapxZ7wrQBAQyV3zwNTBZYi5Q408yB7sdTFx3jTz1jlt1g8
+         fF6X/ZfsmnU8sPC9bfRK+r59ThHQsFyZilJUgfQiPw+40yZUSyLKOt46xp5dNtGx1vBk
+         APMOBihv7pqH+DHuo08F4iEGTuBtzXDPRUgM6hYtz/CugKwZDiSW71AmKGObQGOKa+IX
+         Oe5tFi0GCOgyfWXtxH+HAEOD8Voztm/wp5i4akeTLwq2YvRF1NZ44P8E8L7ewrAxsOpg
+         SmkDEjqNtrBHLhyz7h66vrJg7zaCKcdO4WBOMU2DutxK76KiY8sDZSJ1h/fnRk/v8lYC
+         5ObA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700838467; x=1701443267;
+        d=1e100.net; s=20230601; t=1700838499; x=1701443299;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9cD4XTfLDfdBaVvLQQvVIb/DdNn7sLhHYoYCs/LHKvs=;
-        b=fwwyscZv18kMVC1pV5yEKuywB57jujp1hkmSHtKSr8ZoHWEXQNQ2A8FF4WDmBnlOHH
-         j3q9xJo2YGhTL8hSNWeKpZWXqavMwucJLsfG2WlLuclY0Wl/7rEcsOoVaK/IVhLm/b2n
-         sGM7hkIYQzRX1SzWjVMXXNQqRQBl22hstxOjcwk9ZLVWbUJJnNfy+N6JjboJamindJmP
-         IX0Y3bC4XwRU7FMKZ6mMMGZmKPOviUnBFLTcPRs59aSOR4oL8kT5d4CEF/heZHEqyPLa
-         ImFuRPXJZQHyqIwJSjM/637U6I2g2UaigIGZV0bUyF8UP5Ou0QOsuueWF6laFgiwl4t0
-         1s4Q==
-X-Gm-Message-State: AOJu0YyGw+pv/3A0jy6oLrTU5zuYQKnNKiMiobdOnwRJQFP6ff+WVllZ
-	GFb2v0kj7yO13AxIlH19XpDf+pU5POL+3owEbco=
-X-Google-Smtp-Source: AGHT+IGwXCccI84TpN5xF2DxNx/5Qx0U4TpwtpfvD5tAf/GoEOLYxxD2REsWw4Dlpn477SB/DfDmefE9drxOV1y67p8=
-X-Received: by 2002:a05:6122:903:b0:49a:466c:199e with SMTP id
- j3-20020a056122090300b0049a466c199emr3335155vka.2.1700838467503; Fri, 24 Nov
- 2023 07:07:47 -0800 (PST)
+        bh=Wqb6gmrOIr6APnQsTYHkPk1borpFhD009W5cTbT2h40=;
+        b=EIpPEic1jogiOsKxhJ1W4G7zvzcKy9oNw0AkeEetpj1ulEMkGrgQ9qO4pq9ivtDWuf
+         pzTdRJjJw76WecoUFLm7qoGxWed6L8s6jyRje7IaDks34MZg2sEmoz01X/yaX3h0k6DS
+         zoM1RjbMjNML+D4ythXOeHhNmZazHWvgqVxLn7Sgjp6TQYXWGDnAW2jY7DQy5HnvqVuZ
+         urd4Szt4/UIaw5uiJkBVsb2IBh9Vwa/INEA8NtFD4YLJszEztClNzDiYKObYpUHfRTCh
+         sdL6LAoSe1GzyG6+hlXoEQkiAdSG4Qr9Ax79FDcc0JM0o2vRmhpArl4lGzgIWzjVV+ZR
+         +Uqg==
+X-Gm-Message-State: AOJu0YzhC5dl/xsuBM5IK8I2nmVACl1a+Hclcx8wweAHqn+BRGsAOqQ4
+	JW2eQSNVmIJ2CYpGSyEV2I4KTqFNdX8CLnlq4DU=
+X-Google-Smtp-Source: AGHT+IG77ETgp0DMV9KXOevkcc677tVxeO+ugYI4hI1PX92j15kxePilfPhpPcHEZVQAcN8ZK/GbSo2YogMF+v/oHCA=
+X-Received: by 2002:a05:6358:998a:b0:168:e707:2e56 with SMTP id
+ j10-20020a056358998a00b00168e7072e56mr2295754rwb.16.1700838499153; Fri, 24
+ Nov 2023 07:08:19 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231122121235.827122-1-peterlin@andestech.com> <20231122121235.827122-11-peterlin@andestech.com>
-In-Reply-To: <20231122121235.827122-11-peterlin@andestech.com>
+References: <20231122121235.827122-1-peterlin@andestech.com> <20231122121235.827122-13-peterlin@andestech.com>
+In-Reply-To: <20231122121235.827122-13-peterlin@andestech.com>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 24 Nov 2023 15:07:21 +0000
-Message-ID: <CA+V-a8s2Ep3cC_qJ-a=3xf+D_90SJKe_MObywmnm6UJzEbvA6w@mail.gmail.com>
-Subject: Re: [PATCH v4 10/13] dt-bindings: riscv: Add Andes PMU extension description
+Date: Fri, 24 Nov 2023 15:07:53 +0000
+Message-ID: <CA+V-a8swHt079fxZfzMnzr3w7MfKpLnceHU_p4zvU+6X-Po0zg@mail.gmail.com>
+Subject: Re: [PATCH v4 12/13] riscv: dts: renesas: Add Andes PMU extension
 To: Yu Chien Peter Lin <peterlin@andestech.com>
 Cc: acme@kernel.org, adrian.hunter@intel.com, ajones@ventanamicro.com, 
 	alexander.shishkin@linux.intel.com, andre.przywara@arm.com, 
@@ -73,52 +73,47 @@ Cc: acme@kernel.org, adrian.hunter@intel.com, ajones@ventanamicro.com,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 22, 2023 at 12:18=E2=80=AFPM Yu Chien Peter Lin
+On Wed, Nov 22, 2023 at 12:19=E2=80=AFPM Yu Chien Peter Lin
 <peterlin@andestech.com> wrote:
 >
-> Document the ISA string for Andes Technology performance monitor
-> extension which provides counter overflow interrupt and mode
-> filtering mechanisms.
+> xandespmu stands for Andes Performance Monitor Unit extension.
+> Based on the added Andes PMU ISA string, the SBI PMU driver
+> will make use of the non-standard irq source.
 >
 > Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
 > ---
-> Changes v2 -> v3:
+> Changes v1 -> v2:
 >   - New patch
+> Changes v2 -> v3:
+>   - No change
 > Changes v3 -> v4:
->   - Include Conor's Acked-by
+>   - No change
 > ---
->  Documentation/devicetree/bindings/riscv/extensions.yaml | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  arch/riscv/boot/dts/renesas/r9a07g043f.dtsi | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
 Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
 Cheers,
 Prabhakar
 
-> diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Do=
-cumentation/devicetree/bindings/riscv/extensions.yaml
-> index 694efaea8fce..4e0066afc848 100644
-> --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
-> +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
-> @@ -258,6 +258,13 @@ properties:
->              in commit 2e5236 ("Ztso is now ratified.") of the
->              riscv-isa-manual.
->
-> +        - const: xandespmu
-> +          description:
-> +            The Andes Technology performance monitor extension for count=
-er overflow
-> +            and privilege mode filtering. For more details, see Counter =
-Related
-> +            Registers in the AX45MP datasheet.
-> +            https://www.andestech.com/wp-content/uploads/AX45MP-1C-Rev.-=
-5.0.0-Datasheet.pdf
-> +
->          - const: xtheadpmu
->            description:
->              The T-Head performance monitor extension for counter overflo=
-w. For more
+> diff --git a/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi b/arch/riscv/boo=
+t/dts/renesas/r9a07g043f.dtsi
+> index 78072e80793d..5f2f2181638a 100644
+> --- a/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
+> +++ b/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
+> @@ -26,7 +26,7 @@ cpu0: cpu@0 {
+>                         riscv,isa =3D "rv64imafdc";
+>                         riscv,isa-base =3D "rv64i";
+>                         riscv,isa-extensions =3D "i", "m", "a", "f", "d",=
+ "c", "zicntr", "zicsr",
+> -                                              "zifencei", "zihpm";
+> +                                              "zifencei", "zihpm", "xand=
+espmu";
+>                         mmu-type =3D "riscv,sv39";
+>                         i-cache-size =3D <0x8000>;
+>                         i-cache-line-size =3D <0x40>;
 > --
 > 2.34.1
 >
