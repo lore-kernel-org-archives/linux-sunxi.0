@@ -1,56 +1,57 @@
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A96018E35
-	for <linux-sunxi@lists.linux.dev>; Fri, 24 Nov 2023 14:57:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76C0E2E417
+	for <linux-sunxi@lists.linux.dev>; Fri, 24 Nov 2023 15:04:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZB5SbaN5"
-Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-6d7f2058213so1127142a34.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 24 Nov 2023 06:57:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="flMuZUnH"
+Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-7c461a8684fso453925241.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 24 Nov 2023 07:04:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700837861; x=1701442661; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1700838257; x=1701443057; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=McONVnnVXBzrRAKYWOt6koN2Gq2PdEQz7Bj2evyzgvA=;
-        b=ZB5SbaN5unwyJ7D4BWseBcwm0YWRvpFIbsTTHI+pGi87NPzxjd9otgUt2gK/SighoI
-         RIMbPSyRSQxHhgZvwcQxDPOyo1fTKPBtfYEXj6U+bCtdbt/zFZCpAjjKO17ZOhui3xiZ
-         D4SY5XreKyYGhMW+GFGUIG+HhOuWWrNrRQ3qg03aWOs96wdyqNSGkglinrfv0CAR2GHZ
-         jTKNQNKTkTcuaXEG4G6oc6YLZtd9sI5tHd/fk5DfqoezQ4CSmVWlN7U56xMfk8ZpFPqh
-         U4tVEjjxnDIrffVxnQDfKCeZ4JgtgL7kJfzHxm+c1VRxSNXvroMDHBxa5AY2WiFCeohY
-         N6HQ==
+        bh=l/uTADgd8yavomJvu4FPF4hVWKDAN545TEF230idRIM=;
+        b=flMuZUnHtjGvtL+5pExPr6cy3sApjfyfAiYd8lPFeDq4oXEc+Ax1QYxw1IOwH9mklc
+         dtcauTX9seK9Fnp2zFQkOhA8+fyhLerKjmpMkqgOBATxawweMD9p7ih7Y8xMzXhIMfNY
+         4PjSp0VCeAcQw69il9r6t1mQ6td0vQ6hW7JdcTr1nqwNjMXXKvCVyJla1VIFLtZdAzvj
+         bHyxfrXc5lwtWWTSX+OvKgxygNRfO9VrPLhEOtQqj2oTGxQL4xrG8eAdkWpvJs45Gsqr
+         iBvRtZXP1NwSwj2tQbcJhSqgpuWvOfdAVBRcVHprER6/WcU3LOV88rQK2ciK1hwW3Rk5
+         7WdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700837861; x=1701442661;
+        d=1e100.net; s=20230601; t=1700838257; x=1701443057;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=McONVnnVXBzrRAKYWOt6koN2Gq2PdEQz7Bj2evyzgvA=;
-        b=mCpDZG/0d8Munr9/TKQjpNGXhbnULZ8AFWkxCFuyArDU7nQZhf3MQl1NDAWAquciPg
-         YHNt20nGRaOKIuK8VAODgRQ3w0V+0gD8ScEh5/Yav5od6LOyIJU3p6nrrmqULKysixpQ
-         Vf+06H/vFzxhZzXdfYxWxsd8TVk5+f/Gepac+DQyR+P1B1AniaCk/nMAOV+KFa9WXjb+
-         tabc37eVKiOhRApsD+s0zvmO2NfvIJvRbvRIZdW5D+X1ffw8VQMRL+b0EusyoJRsRCnH
-         R4b06lwAQC0o3vZ1Vb/XFr46FA5QVJvv7ezASfoMTsZmFJTPScnzZLhLBRrTGWwC6GIs
-         dq6Q==
-X-Gm-Message-State: AOJu0YyhJ4bFxxoM2z+XriPsdyJf6WNBx7GEs7tYn8Avkx6/s8I2lVRY
-	aLWwoUrcaM9KjsV8bRRchkia3z2pQNwW2IamyEE=
-X-Google-Smtp-Source: AGHT+IFyw54KdvX5NZtpjxNOebZ/DdQWx5nul4bTgzQLtaMiqrgW8bakiEzPtq/Ulcd5S/faM446P2Jo1/UeRTY/fHI=
-X-Received: by 2002:a05:6358:9198:b0:16d:f02d:d394 with SMTP id
- j24-20020a056358919800b0016df02dd394mr2754632rwa.14.1700837860947; Fri, 24
- Nov 2023 06:57:40 -0800 (PST)
+        bh=l/uTADgd8yavomJvu4FPF4hVWKDAN545TEF230idRIM=;
+        b=KK5PZJDiPNq1QtxXb+mDkFWZfn2N+oj7pJtK4vhJxIqDmypWgbs2IB7YdQMo0HtNaj
+         VwiSCzhfcSP7xm31XVfJa8ztlCHmYm5WyO2Xxu7fdqnfmE8OPRvAQVm7fXRENvmnMqxy
+         rCsMjLnb8MqD5saTIRv+/aRw1PWTECCQ1oa64mVJjeTsrEi0Fe8dZPVjYuRWf7At9nM8
+         6djKML3L/zLhWznBUNailwBT2WGqcVjpPR5JM1ubBEvzphVgtuwsWPKHim9rt8y29ONX
+         mrcBa3TM4vrsf+Y3zVYQy2pnxDJ5QzK3Q6SepZ5Ob+FqqhvbXBAlMfCPsR0YBDytYCEh
+         vhAA==
+X-Gm-Message-State: AOJu0YzkMYXkmxBKXLbvi21Qa2fRCZQe7xkU8XO2er59TqzxPBCYGArh
+	qi0g2D7LU3OCFls6z+xOU2DkF5P1Fnmyk58a5zU=
+X-Google-Smtp-Source: AGHT+IGn6rzI1NHfvj2S91FrsEfWhu1mpfJ9nScpB8mMaoymohn6mrpA57mTUjJApelr8DTsyC/emZM0XfrDO6gs3Qc=
+X-Received: by 2002:ac5:cde1:0:b0:4ab:fbff:a811 with SMTP id
+ v1-20020ac5cde1000000b004abfbffa811mr2973431vkn.14.1700838257213; Fri, 24 Nov
+ 2023 07:04:17 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231122121235.827122-1-peterlin@andestech.com> <20231122121235.827122-2-peterlin@andestech.com>
-In-Reply-To: <20231122121235.827122-2-peterlin@andestech.com>
+References: <20231122121235.827122-1-peterlin@andestech.com> <20231122121235.827122-5-peterlin@andestech.com>
+In-Reply-To: <20231122121235.827122-5-peterlin@andestech.com>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 24 Nov 2023 14:57:15 +0000
-Message-ID: <CA+V-a8tS0hE_aDEk6RwhhjjEPP-OQpg1zuRbFrK7JdHtLCUTYA@mail.gmail.com>
-Subject: Re: [PATCH v4 01/13] riscv: errata: Rename defines for Andes
+Date: Fri, 24 Nov 2023 15:03:51 +0000
+Message-ID: <CA+V-a8t+vgrwDe9OxqMNHdcVX+qq76DuskF0ETCri4VeP-FAbg@mail.gmail.com>
+Subject: Re: [PATCH v4 04/13] dt-bindings: riscv: Add Andes interrupt
+ controller compatible string
 To: Yu Chien Peter Lin <peterlin@andestech.com>
 Cc: acme@kernel.org, adrian.hunter@intel.com, ajones@ventanamicro.com, 
 	alexander.shishkin@linux.intel.com, andre.przywara@arm.com, 
@@ -76,121 +77,57 @@ Content-Transfer-Encoding: quoted-printable
 On Wed, Nov 22, 2023 at 12:18=E2=80=AFPM Yu Chien Peter Lin
 <peterlin@andestech.com> wrote:
 >
-> Using "ANDES" rather than "ANDESTECH" to unify the naming
-> convention with directory, file names, Kconfig options
-> and other definitions.
+> Add "andestech,cpu-intc" compatible string to indicate that
+> Andes specific local interrupt is supported on the core,
+> e.g. AX45MP cores have 3 types of non-standard local interrupt
+> can be handled in supervisor mode:
+>
+> - Slave port ECC error interrupt
+> - Bus write transaction error interrupt
+> - Performance monitor overflow interrupt
+>
+> These interrupts are enabled/disabled via a custom register
+> SLIE instead of the standard interrupt enable register SIE.
 >
 > Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
-> Reviewed-by: Charles Ci-Jyun Wu <dminus@andestech.com>
-> Reviewed-by: Leo Yu-Chi Liang <ycliang@andestech.com>
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
 > ---
 > Changes v1 -> v2:
->   - No change
+>   - New patch
 > Changes v2 -> v3:
->   - Rewrote commit message (suggested by Conor)
+>   - Updated commit message
+>   - Fixed possible compatibles for Andes INTC
 > Changes v3 -> v4:
->   - Include Conor's Acked-by tag
+>   - Add const entry instead of enum (Suggested by Conor)
 > ---
->  arch/riscv/errata/andes/errata.c       | 10 +++++-----
->  arch/riscv/include/asm/errata_list.h   |  4 ++--
->  arch/riscv/include/asm/vendorid_list.h |  2 +-
->  arch/riscv/kernel/alternative.c        |  2 +-
->  4 files changed, 9 insertions(+), 9 deletions(-)
+>  Documentation/devicetree/bindings/riscv/cpus.yaml | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/devicetree/bindings/riscv/cpus.yaml b/Document=
+ation/devicetree/bindings/riscv/cpus.yaml
+> index f392e367d673..50307554478f 100644
+> --- a/Documentation/devicetree/bindings/riscv/cpus.yaml
+> +++ b/Documentation/devicetree/bindings/riscv/cpus.yaml
+> @@ -100,7 +100,11 @@ properties:
+>          const: 1
+>
+>        compatible:
+> -        const: riscv,cpu-intc
+> +        oneOf:
+> +          - items:
+> +              - const: andestech,cpu-intc
+given that the first patch renames andestech -> andes, do you want to
+follow the same here?
+
+> +              - const: riscv,cpu-intc
+> +          - const: riscv,cpu-intc
+>
+>        interrupt-controller: true
 >
 Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
 Cheers,
 Prabhakar
 
-> diff --git a/arch/riscv/errata/andes/errata.c b/arch/riscv/errata/andes/e=
-rrata.c
-> index 197db68cc8da..d2e1abcac967 100644
-> --- a/arch/riscv/errata/andes/errata.c
-> +++ b/arch/riscv/errata/andes/errata.c
-> @@ -18,9 +18,9 @@
->  #include <asm/sbi.h>
->  #include <asm/vendorid_list.h>
->
-> -#define ANDESTECH_AX45MP_MARCHID       0x8000000000008a45UL
-> -#define ANDESTECH_AX45MP_MIMPID                0x500UL
-> -#define ANDESTECH_SBI_EXT_ANDES                0x0900031E
-> +#define ANDES_AX45MP_MARCHID           0x8000000000008a45UL
-> +#define ANDES_AX45MP_MIMPID            0x500UL
-> +#define ANDES_SBI_EXT_ANDES            0x0900031E
->
->  #define ANDES_SBI_EXT_IOCP_SW_WORKAROUND       1
->
-> @@ -32,7 +32,7 @@ static long ax45mp_iocp_sw_workaround(void)
->          * ANDES_SBI_EXT_IOCP_SW_WORKAROUND SBI EXT checks if the IOCP is=
- missing and
->          * cache is controllable only then CMO will be applied to the pla=
-tform.
->          */
-> -       ret =3D sbi_ecall(ANDESTECH_SBI_EXT_ANDES, ANDES_SBI_EXT_IOCP_SW_=
-WORKAROUND,
-> +       ret =3D sbi_ecall(ANDES_SBI_EXT_ANDES, ANDES_SBI_EXT_IOCP_SW_WORK=
-AROUND,
->                         0, 0, 0, 0, 0, 0);
->
->         return ret.error ? 0 : ret.value;
-> @@ -43,7 +43,7 @@ static bool errata_probe_iocp(unsigned int stage, unsig=
-ned long arch_id, unsigne
->         if (!IS_ENABLED(CONFIG_ERRATA_ANDES_CMO))
->                 return false;
->
-> -       if (arch_id !=3D ANDESTECH_AX45MP_MARCHID || impid !=3D ANDESTECH=
-_AX45MP_MIMPID)
-> +       if (arch_id !=3D ANDES_AX45MP_MARCHID || impid !=3D ANDES_AX45MP_=
-MIMPID)
->                 return false;
->
->         if (!ax45mp_iocp_sw_workaround())
-> diff --git a/arch/riscv/include/asm/errata_list.h b/arch/riscv/include/as=
-m/errata_list.h
-> index 83ed25e43553..4ed21a62158c 100644
-> --- a/arch/riscv/include/asm/errata_list.h
-> +++ b/arch/riscv/include/asm/errata_list.h
-> @@ -12,8 +12,8 @@
->  #include <asm/vendorid_list.h>
->
->  #ifdef CONFIG_ERRATA_ANDES
-> -#define ERRATA_ANDESTECH_NO_IOCP       0
-> -#define ERRATA_ANDESTECH_NUMBER                1
-> +#define ERRATA_ANDES_NO_IOCP 0
-> +#define ERRATA_ANDES_NUMBER 1
->  #endif
->
->  #ifdef CONFIG_ERRATA_SIFIVE
-> diff --git a/arch/riscv/include/asm/vendorid_list.h b/arch/riscv/include/=
-asm/vendorid_list.h
-> index e55407ace0c3..2f2bb0c84f9a 100644
-> --- a/arch/riscv/include/asm/vendorid_list.h
-> +++ b/arch/riscv/include/asm/vendorid_list.h
-> @@ -5,7 +5,7 @@
->  #ifndef ASM_VENDOR_LIST_H
->  #define ASM_VENDOR_LIST_H
->
-> -#define ANDESTECH_VENDOR_ID    0x31e
-> +#define ANDES_VENDOR_ID                0x31e
->  #define SIFIVE_VENDOR_ID       0x489
->  #define THEAD_VENDOR_ID                0x5b7
->
-> diff --git a/arch/riscv/kernel/alternative.c b/arch/riscv/kernel/alternat=
-ive.c
-> index 319a1da0358b..0128b161bfda 100644
-> --- a/arch/riscv/kernel/alternative.c
-> +++ b/arch/riscv/kernel/alternative.c
-> @@ -43,7 +43,7 @@ static void riscv_fill_cpu_mfr_info(struct cpu_manufact=
-urer_info_t *cpu_mfr_info
->
->         switch (cpu_mfr_info->vendor_id) {
->  #ifdef CONFIG_ERRATA_ANDES
-> -       case ANDESTECH_VENDOR_ID:
-> +       case ANDES_VENDOR_ID:
->                 cpu_mfr_info->patch_func =3D andes_errata_patch_func;
->                 break;
->  #endif
 > --
 > 2.34.1
 >
