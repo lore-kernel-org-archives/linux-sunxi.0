@@ -1,174 +1,182 @@
-Received: from forward501b.mail.yandex.net (forward501b.mail.yandex.net [178.154.239.145])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48872B65F
-	for <linux-sunxi@lists.linux.dev>; Sat, 25 Nov 2023 10:06:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D437823DB
+	for <linux-sunxi@lists.linux.dev>; Sat, 25 Nov 2023 17:43:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yandex.com header.i=@yandex.com header.b="DHHfCL7i"
-Received: from mail-nwsmtp-smtp-production-main-63.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-63.sas.yp-c.yandex.net [IPv6:2a02:6b8:c14:6e01:0:640:627f:0])
-	by forward501b.mail.yandex.net (Yandex) with ESMTP id DB35C60FAE;
-	Sat, 25 Nov 2023 13:00:58 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-63.sas.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id q0Owa29FViE0-sB5ZypyC;
-	Sat, 25 Nov 2023 13:00:57 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.com; s=mail;
-	t=1700906457; bh=3CNf1YUwxPcXKoagyMGFPDxulGH1Yq2+32NGw4WJ5MU=;
-	h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
-	b=DHHfCL7iGm5GVPbUq82yaVHggXkMmPsxE/T3itgPUjMM9Qc8MuvqC5nawCxZdSsw1
-	 yRwAAYQAaPfRihZvyhcAXNT57r2XEHlYFvgsbbFmkV4/IxHE5jZUKmIppWvxnMABNz
-	 94DFUYxjCcq10vL19DtPAJ6AV3anLqh4JDOEICLA=
-Authentication-Results: mail-nwsmtp-smtp-production-main-63.sas.yp-c.yandex.net; dkim=pass header.i=@yandex.com
-Message-ID: <52b232e4-7ffa-1d01-efa6-a0af84729483@yandex.com>
-Date: Sat, 25 Nov 2023 11:00:52 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AI0gbv+E"
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2c5071165d5so37463531fa.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 25 Nov 2023 09:43:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700934196; x=1701538996; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=RoPaQXs5kwCOGgQtskzKCQHgLNsgwa/aDk3uWUTMHtE=;
+        b=AI0gbv+EDgy+GHxn/CsJAEOYup0MdGVrXimYqzmWx7wbqPHUZrN+5H3wSQFTM+9D1/
+         DSoT4ABsHV9ed1j53raU58zlGPL3AaKbEFkz0sxpKEXw3ctW1SC95flxBq9DLenS+Bco
+         v55tvC0pgF5AGX0seWxCtuOLaNSEBGeHviuUYPRSGGefy978dkkFu6tMMNs1Qek0wHO/
+         bWPxb+IQaTCyearF80pWUp8RafksddjxdtiWGqx1Agn8bjxzXfBUbyE5bCQ9CEAhW3ay
+         GzpPz6KjaLxuigzD9bvZz6HYQI+hf8qU06QwqUOnbMFjyIQbMzPy0Ca4tFJBgOVZ5dU9
+         oIPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700934196; x=1701538996;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=RoPaQXs5kwCOGgQtskzKCQHgLNsgwa/aDk3uWUTMHtE=;
+        b=GwoK0ldMjQ8Y3YJt4adLLY3rjzcHZflhNVLWpFLgs7GPhPTgZ5HW5WweMS/2e7QQxu
+         u4bxFPWKTrzim1icZo577JrF1Z22xs2CsfXUtmdbCrSFoVyueBcUaMxtLoYkUgfoZXVQ
+         dVh930pGr1LFW8TSqex8MrpePpV7HJ+7cPmVVz5KlZbluEZzYh7GejKxD5iKeo7Ycyfc
+         VoWCdv0MJRa+wLwndZptX4kbHexZExugagAG7Y6jNZ8DrMUfeigVWqhpnS3RIRUFGz+h
+         8lqG972YNHblgwG2/k2m/KVRRbmyePfuZjs1o9QR2b76vVhj7y2qg9VqrZgOZaGvnvh5
+         JVWg==
+X-Gm-Message-State: AOJu0YwNvT1RmQEz573N+EVc5IsjXzsDyL/M2c4yM0g/wl0XPl1W/Pkl
+	ZVB602MvWyq2qWiDAH104M8=
+X-Google-Smtp-Source: AGHT+IFl6HJxTncbFHoW9isHLjnj9ILw7Nl4xxH6taPv8J+WuLjtXfPizA4RQ9zQFQcVsCLDX9W5jg==
+X-Received: by 2002:a2e:94c7:0:b0:2c1:522a:8e25 with SMTP id r7-20020a2e94c7000000b002c1522a8e25mr1122870ljh.32.1700934196336;
+        Sat, 25 Nov 2023 09:43:16 -0800 (PST)
+Received: from [192.168.99.248] ([94.143.197.234])
+        by smtp.gmail.com with ESMTPSA id m9-20020a2e7109000000b002c506c89511sm902586ljc.37.2023.11.25.09.43.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 25 Nov 2023 09:43:15 -0800 (PST)
+Message-ID: <0eab5c21-4fdc-478e-9071-f43c12e01fb3@gmail.com>
+Date: Sat, 25 Nov 2023 20:43:12 +0300
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH RFC v3 22/37] drm/rockchip: inno_hdmi: Remove useless
- output format
-To: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
- Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=c3=bcbner?= <heiko@sntech.de>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
-References: <20231031-kms-hdmi-connector-state-v3-0-328b0fae43a7@kernel.org>
- <20231031-kms-hdmi-connector-state-v3-22-328b0fae43a7@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] sunxi: H616: Add OrangePi Zero 3 board support
 Content-Language: en-US
-From: Johan Jonker <jbx6244@yandex.com>
-In-Reply-To: <20231031-kms-hdmi-connector-state-v3-22-328b0fae43a7@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+To: Andre Przywara <andre.przywara@arm.com>,
+ Jagan Teki <jagan@amarulasolutions.com>
+Cc: Vignesh R <vigneshr@ti.com>, Jaehoon Chung <jh80.chung@samsung.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Piotr Oniszczuk <piotr.oniszczuk@gmail.com>, u-boot@lists.denx.de,
+ linux-sunxi@lists.linux.dev
+References: <20231114013106.31336-1-andre.przywara@arm.com>
+ <20231114013106.31336-4-andre.przywara@arm.com>
+From: Mikhail Kalashnikov <iuncuim@gmail.com>
+In-Reply-To: <20231114013106.31336-4-andre.przywara@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Hi Maxime,
+Hi Andre!
+Thanks for your patches. I started checking and noticed that USB storage
+was not working:
 
-In stead of further cripplingRockchip HDMI drivers one could also make it functional based  on EDID info.
+=> usb reset
+resetting USB...
+Bus usb@5200000: USB EHCI 1.00
+Bus usb@5200400: USB OHCI 1.0
+scanning bus usb@5200000 for devices... 1 USB Device(s) found
+scanning bus usb@5200400 for devices... 1 USB Device(s) found
+       scanning usb for storage devices... 0 Storage Device(s) found
+=> usb storage
+No storage devices, perhaps not 'usb start'ed..?
 
-To start with the output could you turn RGB888 input and switch between
+Otherwise my OpiZero3 (4GB) board looks working.
+Ethernet works with my 10 Mbps usb-dongle.
 
-RGB444, YCBCR444 and YCBCR422 output.
+sf probe detect spi nor flash:
+=> sf probe
+SF: Detected zb25vq128 with page size 256 Bytes, erase size 4 KiB, total 
+16 MiB
 
-Johan
+Loading the kernel and running the operating system (from microsd) also
+without problems.
 
-On 10/31/23 17:48, Maxime Ripard wrote:
-> Similarly to the input format, the driver has a lot of code to deal with
-> various output format, but the driver hardcodes it to RGB always.
+Tested-by: Mikhail Kalashnikov <iuncuim@gmail.com>
+
+
+On 14.11.2023 04:31, Andre Przywara wrote:
+> The OrangePi Zero 3 is a small development board featuring the Allwinner
+> H618 SoC, shipping with up to 4GB of DRAM, Gigabit Ethernet, a micro-HDMI
+> connector and two USB sockets.
+> The board uses LPDDR4 DRAM and an X-Powers AXP313a PMIC, support for
+> which was recently added to U-Boot.
 >
-> Let's get rid of the dead code.
+> Add a defconfig file selecting the right drivers and DRAM options.
+> Since the .dts file was synced from the Linux kernel repo already, we
+> just need to add one line to the Makefile to actually build the .dtb.
 >
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> The DRAM parameters were derived from the values found in the BSP DRAM
+> drivers on the SPI NOR flash.
+>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 > ---
->  drivers/gpu/drm/rockchip/inno_hdmi.c | 57 ++++--------------------------------
->  1 file changed, 6 insertions(+), 51 deletions(-)
+>   arch/arm/dts/Makefile            |  1 +
+>   board/sunxi/MAINTAINERS          |  5 +++++
+>   configs/orangepi_zero3_defconfig | 30 ++++++++++++++++++++++++++++++
+>   3 files changed, 36 insertions(+)
+>   create mode 100644 configs/orangepi_zero3_defconfig
 >
-> diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockchip/inno_hdmi.c
-> index e0696ab16da3..0c6c550e0ce7 100644
-> --- a/drivers/gpu/drm/rockchip/inno_hdmi.c
-> +++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
-> @@ -28,7 +28,6 @@
->  #include "inno_hdmi.h"
->  
->  struct hdmi_data_info {
-> -	unsigned int enc_out_format;
->  	unsigned int colorimetry;
->  };
->  
-> @@ -296,26 +295,14 @@ static int inno_hdmi_config_video_avi(struct inno_hdmi *hdmi,
->  	rc = drm_hdmi_avi_infoframe_from_display_mode(&frame.avi,
->  						      &hdmi->connector,
->  						      mode);
-> -
-> -	if (hdmi->hdmi_data.enc_out_format == HDMI_COLORSPACE_YUV444)
-> -		frame.avi.colorspace = HDMI_COLORSPACE_YUV444;
-> -	else if (hdmi->hdmi_data.enc_out_format == HDMI_COLORSPACE_YUV422)
-> -		frame.avi.colorspace = HDMI_COLORSPACE_YUV422;
-> -	else
-> -		frame.avi.colorspace = HDMI_COLORSPACE_RGB;
-> +	frame.avi.colorspace = HDMI_COLORSPACE_RGB;
->  
->  	return inno_hdmi_upload_frame(hdmi, rc, &frame, INFOFRAME_AVI, 0, 0, 0);
->  }
->  
->  static int inno_hdmi_config_video_csc(struct inno_hdmi *hdmi)
->  {
-> -	struct hdmi_data_info *data = &hdmi->hdmi_data;
-> -	int c0_c2_change = 0;
-> -	int csc_enable = 0;
-> -	int csc_mode = 0;
-> -	int auto_csc = 0;
->  	int value;
-> -	int i;
->  
->  	/* Input video mode is SDR RGB24bit, data enable signal from external */
->  	hdmi_writeb(hdmi, HDMI_VIDEO_CONTRL1, v_DE_EXTERNAL |
-> @@ -327,43 +314,13 @@ static int inno_hdmi_config_video_csc(struct inno_hdmi *hdmi)
->  		v_VIDEO_INPUT_CSP(0);
->  	hdmi_writeb(hdmi, HDMI_VIDEO_CONTRL2, value);
->  
-> -	if (HDMI_COLORSPACE_RGB == data->enc_out_format) {
-> -		value = v_SOF_DISABLE | v_COLOR_DEPTH_NOT_INDICATED(1);
-> -		hdmi_writeb(hdmi, HDMI_VIDEO_CONTRL3, value);
-> -
-> -		hdmi_modb(hdmi, HDMI_VIDEO_CONTRL,
-> -			  m_VIDEO_AUTO_CSC | m_VIDEO_C0_C2_SWAP,
-> -			  v_VIDEO_AUTO_CSC(AUTO_CSC_DISABLE) |
-> -			  v_VIDEO_C0_C2_SWAP(C0_C2_CHANGE_DISABLE));
-> -		return 0;
-> -	}
-> -
-> -	if (data->colorimetry == HDMI_COLORIMETRY_ITU_601) {
-> -		if (data->enc_out_format == HDMI_COLORSPACE_YUV444) {
-> -			csc_mode = CSC_RGB_0_255_TO_ITU601_16_235_8BIT;
-> -			auto_csc = AUTO_CSC_DISABLE;
-> -			c0_c2_change = C0_C2_CHANGE_DISABLE;
-> -			csc_enable = v_CSC_ENABLE;
-> -		}
-> -	} else {
-> -		if (data->enc_out_format == HDMI_COLORSPACE_YUV444) {
-> -			csc_mode = CSC_RGB_0_255_TO_ITU709_16_235_8BIT;
-> -			auto_csc = AUTO_CSC_DISABLE;
-> -			c0_c2_change = C0_C2_CHANGE_DISABLE;
-> -			csc_enable = v_CSC_ENABLE;
-> -		}
-> -	}
-> -
-> -	for (i = 0; i < 24; i++)
-> -		hdmi_writeb(hdmi, HDMI_VIDEO_CSC_COEF + i,
-> -			    coeff_csc[csc_mode][i]);
-> -
-> -	value = v_SOF_DISABLE | csc_enable | v_COLOR_DEPTH_NOT_INDICATED(1);
-> +	value = v_SOF_DISABLE | v_COLOR_DEPTH_NOT_INDICATED(1);
->  	hdmi_writeb(hdmi, HDMI_VIDEO_CONTRL3, value);
-> -	hdmi_modb(hdmi, HDMI_VIDEO_CONTRL, m_VIDEO_AUTO_CSC |
-> -		  m_VIDEO_C0_C2_SWAP, v_VIDEO_AUTO_CSC(auto_csc) |
-> -		  v_VIDEO_C0_C2_SWAP(c0_c2_change));
->  
-> +	hdmi_modb(hdmi, HDMI_VIDEO_CONTRL,
-> +		  m_VIDEO_AUTO_CSC | m_VIDEO_C0_C2_SWAP,
-> +		  v_VIDEO_AUTO_CSC(AUTO_CSC_DISABLE) |
-> +		  v_VIDEO_C0_C2_SWAP(C0_C2_CHANGE_DISABLE));
->  	return 0;
->  }
->  
-> @@ -425,8 +382,6 @@ static int inno_hdmi_setup(struct inno_hdmi *hdmi,
->  	struct drm_display_info *display = &hdmi->connector.display_info;
->  	u8 vic = drm_match_cea_mode(mode);
->  
-> -	hdmi->hdmi_data.enc_out_format = HDMI_COLORSPACE_RGB;
-> -
->  	if ((vic == 6) || (vic == 7) ||
->  	    (vic == 21) || (vic == 22) ||
->  	    (vic == 2) || (vic == 3) ||
->
+> diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
+> index 1be08c5fdc2..5fc888680b3 100644
+> --- a/arch/arm/dts/Makefile
+> +++ b/arch/arm/dts/Makefile
+> @@ -835,6 +835,7 @@ dtb-$(CONFIG_MACH_SUN50I_H6) += \
+>   	sun50i-h6-tanix-tx6-mini.dtb
+>   dtb-$(CONFIG_MACH_SUN50I_H616) += \
+>   	sun50i-h616-orangepi-zero2.dtb \
+> +	sun50i-h618-orangepi-zero3.dtb \
+>   	sun50i-h616-x96-mate.dtb
+>   dtb-$(CONFIG_MACH_SUN50I) += \
+>   	sun50i-a64-amarula-relic.dtb \
+> diff --git a/board/sunxi/MAINTAINERS b/board/sunxi/MAINTAINERS
+> index 00614372119..f556857a391 100644
+> --- a/board/sunxi/MAINTAINERS
+> +++ b/board/sunxi/MAINTAINERS
+> @@ -455,6 +455,11 @@ M:	Jernej Skrabec <jernej.skrabec@siol.net>
+>   S:	Maintained
+>   F:	configs/orangepi_zero2_defconfig
+>   
+> +ORANGEPI ZERO 3 BOARD
+> +M:	Andre Przywara <andre.przywara@arm.com>
+> +S:	Maintained
+> +F:	configs/orangepi_zero3_defconfig
+> +
+>   ORANGEPI PC 2 BOARD
+>   M:	Andre Przywara <andre.przywara@arm.com>
+>   S:	Maintained
+> diff --git a/configs/orangepi_zero3_defconfig b/configs/orangepi_zero3_defconfig
+> new file mode 100644
+> index 00000000000..e59044f6639
+> --- /dev/null
+> +++ b/configs/orangepi_zero3_defconfig
+> @@ -0,0 +1,30 @@
+> +CONFIG_ARM=y
+> +CONFIG_ARCH_SUNXI=y
+> +CONFIG_DEFAULT_DEVICE_TREE="sun50i-h618-orangepi-zero3"
+> +CONFIG_SPL=y
+> +CONFIG_DRAM_SUN50I_H616_DX_ODT=0x07070707
+> +CONFIG_DRAM_SUN50I_H616_DX_DRI=0x0e0e0e0e
+> +CONFIG_DRAM_SUN50I_H616_CA_DRI=0x0e0e
+> +CONFIG_DRAM_SUN50I_H616_ODT_EN=0xaaaaeeee
+> +CONFIG_DRAM_SUN50I_H616_TPR6=0x44000000
+> +CONFIG_DRAM_SUN50I_H616_TPR10=0x402f6663
+> +CONFIG_DRAM_SUN50I_H616_TPR11=0x24242624
+> +CONFIG_DRAM_SUN50I_H616_TPR12=0x0f0f100f
+> +CONFIG_MACH_SUN50I_H616=y
+> +CONFIG_SUNXI_DRAM_H616_LPDDR4=y
+> +CONFIG_R_I2C_ENABLE=y
+> +CONFIG_SPL_SPI_SUNXI=y
+> +# CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+> +CONFIG_SPL_I2C=y
+> +CONFIG_SPL_SYS_I2C_LEGACY=y
+> +CONFIG_SYS_I2C_MVTWSI=y
+> +CONFIG_SYS_I2C_SLAVE=0x7f
+> +CONFIG_SYS_I2C_SPEED=400000
+> +CONFIG_SPI_FLASH_ZBIT=y
+> +CONFIG_PHY_MOTORCOMM=y
+> +CONFIG_SUN8I_EMAC=y
+> +CONFIG_AXP313_POWER=y
+> +CONFIG_SPI=y
+> +CONFIG_USB_EHCI_HCD=y
+> +CONFIG_USB_OHCI_HCD=y
+> +CONFIG_USB_MUSB_GADGET=y
