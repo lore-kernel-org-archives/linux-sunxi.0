@@ -1,507 +1,506 @@
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FE702C1AE
-	for <linux-sunxi@lists.linux.dev>; Fri, 24 Nov 2023 15:08:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HSlWoA77"
-Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-3b8382b8f5aso1215625b6e.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 24 Nov 2023 07:08:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700838527; x=1701443327; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bOCl1swrFbW/7sFUtbSrbFab89YweYfN5WTmXg3TDK4=;
-        b=HSlWoA77HAfNEu+F2R6gRfeJYZ9CNEoFQd37w7SkM2g5T/HWCNwq5HHUuhTcyBnKnm
-         AbtKetB1oUCoLAYx/TNqa4M1QPXBtrVLYllbmmKLgwkMZE1ktNFDbRW+hB63zjuFsdoY
-         cPhczcVw951mcjMJwHXlyCZrCEU7N+SBR51/+BaD4UGHF7l5UR60kbWwiGIl9AkZGZtq
-         TmrBwPBh7Jx6GVV8y1oDsM5EbtBpVYfL6jTboSj6qO5AQENlMFz5aFcH5N1WRF9LTm7I
-         18IP5OOnYbJA+Ay4FahJe92eZRlqnmsvwN+UJCXeFhdmUoCnye2zt8n/OGmHdXMvqP7P
-         GSAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700838527; x=1701443327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bOCl1swrFbW/7sFUtbSrbFab89YweYfN5WTmXg3TDK4=;
-        b=NVLB5AdiNUon25meD42nOlLrtrwAJ1+hRJX1dsNo4RDaQU17tgA12PM8R6+vck+2Nv
-         MZxGdoc6EyiEIpaX9Vt/8vy/R/diY3UOuGrMAJwok8Ka80EyQ3srCbLNNz52dCD3R+6b
-         ldXR0FdGebzCS0nASdIJMCDrrD2S+BcbhM8aoJ0JREr5Qxlh4UavraA0WSCq/qo7/Rws
-         EA6RU9i1Y60LBLQuMFOHB2c9iNhMxBMkX7F4Xd0H34fHqv+Zhs7O/VOV24MGDiiBNJt1
-         XhEV6Sqo1FH8ffZ9HGduRijpgC9nhQ/qkPTjrlFXVYVK6SYrGVc5b0fMhDU9A0ca/mTn
-         BvOA==
-X-Gm-Message-State: AOJu0Yzodv2bqMNCWvrgLVuIUX+yFBP101MHlXIXZfsPn0hqO3dqNhtZ
-	y6MUm+N7FfmMPJEryW4tixH8bq1bqxS4sreeids=
-X-Google-Smtp-Source: AGHT+IHbug40/QYz+/7p5JxTk4BbKhmH+Y2/rax9GKSlZ7ONB0Q5R/TbT3m8srbn2jl1Ir5SdK3oYg2mW7a0rR13vWY=
-X-Received: by 2002:a05:6358:611e:b0:16e:29eb:98c8 with SMTP id
- 30-20020a056358611e00b0016e29eb98c8mr676506rws.30.1700838527192; Fri, 24 Nov
- 2023 07:08:47 -0800 (PST)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABC9A391
+	for <linux-sunxi@lists.linux.dev>; Sat, 25 Nov 2023 00:53:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 65875FEC;
+	Fri, 24 Nov 2023 16:53:40 -0800 (PST)
+Received: from slackpad.lan (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 251FA3F73F;
+	Fri, 24 Nov 2023 16:52:53 -0800 (PST)
+Date: Sat, 25 Nov 2023 00:51:40 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Stephen Graf <stephen.graf@gmail.com>
+Cc: U-Boot Mailing List <u-boot@lists.denx.de>, linux-sunxi
+ <linux-sunxi@lists.linux.dev>, Piotr Oniszczuk <piotr.oniszczuk@gmail.com>,
+ Mikhail Kalashnikov <iuncuim@gmail.com>
+Subject: Re: orangepi zero3
+Message-ID: <20231125005140.3bafa549@slackpad.lan>
+In-Reply-To: <b86e94ac-a469-4b29-81c4-b92dd478295a@gmail.com>
+References: <28efed32-ee19-4a89-9c84-defa95c3a963@telus.net>
+	<20231123141551.799dc14f@donnerap.manchester.arm.com>
+	<dd04a65c-7f99-451b-9c89-b6300cdbf803@gmail.com>
+	<20231124000952.6d24df32@slackpad.lan>
+	<b86e94ac-a469-4b29-81c4-b92dd478295a@gmail.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231122121235.827122-1-peterlin@andestech.com> <20231122121235.827122-14-peterlin@andestech.com>
-In-Reply-To: <20231122121235.827122-14-peterlin@andestech.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 24 Nov 2023 15:08:21 +0000
-Message-ID: <CA+V-a8tozeqAN=R1UHciT=hOCcnSRack=h3gpb3=pytQY9TpAQ@mail.gmail.com>
-Subject: Re: [PATCH v4 13/13] riscv: andes: Support symbolic FW and HW raw events
-To: Yu Chien Peter Lin <peterlin@andestech.com>
-Cc: acme@kernel.org, adrian.hunter@intel.com, ajones@ventanamicro.com, 
-	alexander.shishkin@linux.intel.com, andre.przywara@arm.com, 
-	anup@brainfault.org, aou@eecs.berkeley.edu, atishp@atishpatra.org, 
-	conor+dt@kernel.org, conor.dooley@microchip.com, conor@kernel.org, 
-	devicetree@vger.kernel.org, dminus@andestech.com, evan@rivosinc.com, 
-	geert+renesas@glider.be, guoren@kernel.org, heiko@sntech.de, 
-	irogers@google.com, jernej.skrabec@gmail.com, jolsa@kernel.org, 
-	jszhang@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	locus84@andestech.com, magnus.damm@gmail.com, mark.rutland@arm.com, 
-	mingo@redhat.com, n.shubin@yadro.com, namhyung@kernel.org, palmer@dabbelt.com, 
-	paul.walmsley@sifive.com, peterz@infradead.org, 
-	prabhakar.mahadev-lad.rj@bp.renesas.com, rdunlap@infradead.org, 
-	robh+dt@kernel.org, samuel@sholland.org, sunilvl@ventanamicro.com, 
-	tglx@linutronix.de, tim609@andestech.com, uwu@icenowy.me, wens@csie.org, 
-	will@kernel.org, ycliang@andestech.com, inochiama@outlook.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 22, 2023 at 12:19=E2=80=AFPM Yu Chien Peter Lin
-<peterlin@andestech.com> wrote:
->
-> From: Locus Wei-Han Chen <locus84@andestech.com>
->
-> This patch adds the Andes AX45 JSON files in the perf tool,
-> allowing perf to be used with symbolic event names.
->
-> Signed-off-by: Locus Wei-Han Chen <locus84@andestech.com>
-> Reviewed-by: Yu Chien Peter Lin <peterlin@andestech.com>
-> Reviewed-by: Charles Ci-Jyun Wu <dminus@andestech.com>
-> Reviewed-by: Leo Yu-Chi Liang <ycliang@andestech.com>
-> ---
-> Changes v1 -> v2:
->   - No change
-> Changes v2 -> v3:
->   - No change
-> Changes v3 -> v4:
->   - No change
-> ---
->  .../arch/riscv/andes/ax45/firmware.json       |  68 ++++++++++
->  .../arch/riscv/andes/ax45/instructions.json   | 127 ++++++++++++++++++
->  .../arch/riscv/andes/ax45/memory.json         |  57 ++++++++
->  .../arch/riscv/andes/ax45/microarch.json      |  77 +++++++++++
->  tools/perf/pmu-events/arch/riscv/mapfile.csv  |   1 +
->  5 files changed, 330 insertions(+)
->  create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/firmware.=
-json
->  create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/instructi=
-ons.json
->  create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/memory.js=
-on
->  create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/microarch=
-.json
->
-Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Fri, 24 Nov 2023 11:04:31 -0800
+Stephen Graf <stephen.graf@gmail.com> wrote:
+
+Hi,
+
+> I tested a u-boot build with the emac timing changes you pointed out and=
+=20
+> with CONFIG_DRAM_CLK=3D792. It looks like this configuration and dts=20
+> changes works with both 100Mb and 1Gb switches.
+
+Ah, great, thanks! I will see if I can pull the DT change in sometime
+soon.
+
+> I am struggling to get something to actually load. Is there an easy way=20
+> to get a debian image onto the sd card so that u-boot can actually load=20
+> something.
+
+Userland wise you can use any arm64 image, for instance any of the
+cloud images, or you nick it from some existing arm64 installation.
+Kernel wise the only requirement would be at least a v6.5 kernel, since
+only this one supports the Motorcomm Ethernet PHY and, more
+importantly: the PMIC.
+Any distro kernel would do, or you bake your own, defconfig should be
+enough for booting plus USB and MMC. CONFIG_DWMAC_SUN8I=3Dy and
+CONFIG_MOTORCOMM_PHY=3Dy should give you Ethernet on top, I think, but
+there might be more needed.
+
+For a quick boot, set the commandline and load and boot the kernel:
+=3D> setenv bootargs "console=3DttyS0,115200n8 earlycon root=3D/dev/mmcblk0=
+p2 rootwait"
+=3D> load mmc 0:1 $kernel_addr_r Image-6.7-rc2
+=3D> booti $kernel_addr_r - $fdtcontroladdr
+
+(those are rough instructions, please fill the gaps, or reply with specific=
+ questions)
+
+You could even try to install a distro, using the official UEFI
+installers many distros provide. This process can be long and
+tedious, though, plus you need a v6.5 installer kernel, and would
+probably need to play around to get it booted automatically.
+
+> Console output:
+
+This seems to got mangled, but looks like expected: you just have
+nothing that would load automatically. A USB stick with an UEFI boot
+program should be detected and started, for instance a distro
+installer. Still you would need a v6.5 kernel, without the PMIC driver
+you won't get far.
 
 Cheers,
-Prabhakar
+Andre
 
-> diff --git a/tools/perf/pmu-events/arch/riscv/andes/ax45/firmware.json b/=
-tools/perf/pmu-events/arch/riscv/andes/ax45/firmware.json
-> new file mode 100644
-> index 000000000000..9b4a032186a7
-> --- /dev/null
-> +++ b/tools/perf/pmu-events/arch/riscv/andes/ax45/firmware.json
-> @@ -0,0 +1,68 @@
-> +[
-> +  {
-> +    "ArchStdEvent": "FW_MISALIGNED_LOAD"
-> +  },
-> +  {
-> +    "ArchStdEvent": "FW_MISALIGNED_STORE"
-> +  },
-> +  {
-> +    "ArchStdEvent": "FW_ACCESS_LOAD"
-> +  },
-> +  {
-> +    "ArchStdEvent": "FW_ACCESS_STORE"
-> +  },
-> +  {
-> +    "ArchStdEvent": "FW_ILLEGAL_INSN"
-> +  },
-> +  {
-> +    "ArchStdEvent": "FW_SET_TIMER"
-> +  },
-> +  {
-> +    "ArchStdEvent": "FW_IPI_SENT"
-> +  },
-> +  {
-> +    "ArchStdEvent": "FW_IPI_RECEIVED"
-> +  },
-> +  {
-> +    "ArchStdEvent": "FW_FENCE_I_SENT"
-> +  },
-> +  {
-> +    "ArchStdEvent": "FW_FENCE_I_RECEIVED"
-> +  },
-> +  {
-> +    "ArchStdEvent": "FW_SFENCE_VMA_SENT"
-> +  },
-> +  {
-> +    "ArchStdEvent": "FW_SFENCE_VMA_RECEIVED"
-> +  },
-> +  {
-> +    "ArchStdEvent": "FW_SFENCE_VMA_RECEIVED"
-> +  },
-> +  {
-> +    "ArchStdEvent": "FW_SFENCE_VMA_ASID_RECEIVED"
-> +  },
-> +  {
-> +    "ArchStdEvent": "FW_HFENCE_GVMA_SENT"
-> +  },
-> +  {
-> +    "ArchStdEvent": "FW_HFENCE_GVMA_RECEIVED"
-> +  },
-> +  {
-> +    "ArchStdEvent": "FW_HFENCE_GVMA_VMID_SENT"
-> +  },
-> +  {
-> +    "ArchStdEvent": "FW_HFENCE_GVMA_VMID_RECEIVED"
-> +  },
-> +  {
-> +    "ArchStdEvent": "FW_HFENCE_VVMA_SENT"
-> +  },
-> +  {
-> +    "ArchStdEvent": "FW_HFENCE_VVMA_RECEIVED"
-> +  },
-> +  {
-> +    "ArchStdEvent": "FW_HFENCE_VVMA_ASID_SENT"
-> +  },
-> +  {
-> +    "ArchStdEvent": "FW_HFENCE_VVMA_ASID_RECEIVED"
-> +  }
-> +]
-> diff --git a/tools/perf/pmu-events/arch/riscv/andes/ax45/instructions.jso=
-n b/tools/perf/pmu-events/arch/riscv/andes/ax45/instructions.json
-> new file mode 100644
-> index 000000000000..713a08c1a40f
-> --- /dev/null
-> +++ b/tools/perf/pmu-events/arch/riscv/andes/ax45/instructions.json
-> @@ -0,0 +1,127 @@
-> +[
-> +       {
-> +               "EventCode": "0x10",
-> +               "EventName": "cycle_count",
-> +               "BriefDescription": "Cycle count"
-> +       },
-> +       {
-> +               "EventCode": "0x20",
-> +               "EventName": "inst_count",
-> +               "BriefDescription": "Retired instruction count"
-> +       },
-> +       {
-> +               "EventCode": "0x30",
-> +               "EventName": "int_load_inst",
-> +               "BriefDescription": "Integer load instruction count"
-> +       },
-> +       {
-> +               "EventCode": "0x40",
-> +               "EventName": "int_store_inst",
-> +               "BriefDescription": "Integer store instruction count"
-> +       },
-> +       {
-> +               "EventCode": "0x50",
-> +               "EventName": "atomic_inst",
-> +               "BriefDescription": "Atomic instruction count"
-> +       },
-> +       {
-> +               "EventCode": "0x60",
-> +               "EventName": "sys_inst",
-> +               "BriefDescription": "System instruction count"
-> +       },
-> +       {
-> +               "EventCode": "0x70",
-> +               "EventName": "int_compute_inst",
-> +               "BriefDescription": "Integer computational instruction co=
-unt"
-> +       },
-> +       {
-> +               "EventCode": "0x80",
-> +               "EventName": "condition_br",
-> +               "BriefDescription": "Conditional branch instruction count=
-"
-> +       },
-> +       {
-> +               "EventCode": "0x90",
-> +               "EventName": "taken_condition_br",
-> +               "BriefDescription": "Taken conditional branch instruction=
- count"
-> +       },
-> +       {
-> +               "EventCode": "0xA0",
-> +               "EventName": "jal_inst",
-> +               "BriefDescription": "JAL instruction count"
-> +       },
-> +       {
-> +               "EventCode": "0xB0",
-> +               "EventName": "jalr_inst",
-> +               "BriefDescription": "JALR instruction count"
-> +       },
-> +       {
-> +               "EventCode": "0xC0",
-> +               "EventName": "ret_inst",
-> +               "BriefDescription": "Return instruction count"
-> +       },
-> +       {
-> +               "EventCode": "0xD0",
-> +               "EventName": "control_trans_inst",
-> +               "BriefDescription": "Control transfer instruction count"
-> +       },
-> +       {
-> +               "EventCode": "0xE0",
-> +               "EventName": "ex9_inst",
-> +               "BriefDescription": "EXEC.IT instruction count"
-> +       },
-> +       {
-> +               "EventCode": "0xF0",
-> +               "EventName": "int_mul_inst",
-> +               "BriefDescription": "Integer multiplication instruction c=
-ount"
-> +       },
-> +       {
-> +               "EventCode": "0x100",
-> +               "EventName": "int_div_rem_inst",
-> +               "BriefDescription": "Integer division/remainder instructi=
-on count"
-> +       },
-> +       {
-> +               "EventCode": "0x110",
-> +               "EventName": "float_load_inst",
-> +               "BriefDescription": "Floating-point load instruction coun=
-t"
-> +       },
-> +       {
-> +               "EventCode": "0x120",
-> +               "EventName": "float_store_inst",
-> +               "BriefDescription": "Floating-point store instruction cou=
-nt"
-> +       },
-> +       {
-> +               "EventCode": "0x130",
-> +               "EventName": "float_add_sub_inst",
-> +               "BriefDescription": "Floating-point addition/subtraction =
-instruction count"
-> +       },
-> +       {
-> +               "EventCode": "0x140",
-> +               "EventName": "float_mul_inst",
-> +               "BriefDescription": "Floating-point multiplication instru=
-ction count"
-> +       },
-> +       {
-> +               "EventCode": "0x150",
-> +               "EventName": "float_fused_muladd_inst",
-> +               "BriefDescription": "Floating-point fused multiply-add in=
-struction count"
-> +       },
-> +       {
-> +               "EventCode": "0x160",
-> +               "EventName": "float_div_sqrt_inst",
-> +               "BriefDescription": "Floating-point division or square-ro=
-ot instruction count"
-> +       },
-> +       {
-> +               "EventCode": "0x170",
-> +               "EventName": "other_float_inst",
-> +               "BriefDescription": "Other floating-point instruction cou=
-nt"
-> +       },
-> +       {
-> +               "EventCode": "0x180",
-> +               "EventName": "int_mul_add_sub_inst",
-> +               "BriefDescription": "Integer multiplication and add/sub i=
-nstruction count"
-> +       },
-> +       {
-> +               "EventCode": "0x190",
-> +               "EventName": "retired_ops",
-> +               "BriefDescription": "Retired operation count"
-> +       }
-> +]
-> diff --git a/tools/perf/pmu-events/arch/riscv/andes/ax45/memory.json b/to=
-ols/perf/pmu-events/arch/riscv/andes/ax45/memory.json
-> new file mode 100644
-> index 000000000000..c7401b526c77
-> --- /dev/null
-> +++ b/tools/perf/pmu-events/arch/riscv/andes/ax45/memory.json
-> @@ -0,0 +1,57 @@
-> +[
-> +       {
-> +               "EventCode": "0x01",
-> +               "EventName": "ilm_access",
-> +               "BriefDescription": "ILM access"
-> +       },
-> +       {
-> +               "EventCode": "0x11",
-> +               "EventName": "dlm_access",
-> +               "BriefDescription": "DLM access"
-> +       },
-> +       {
-> +               "EventCode": "0x21",
-> +               "EventName": "icache_access",
-> +               "BriefDescription": "ICACHE access"
-> +       },
-> +       {
-> +               "EventCode": "0x31",
-> +               "EventName": "icache_miss",
-> +               "BriefDescription": "ICACHE miss"
-> +       },
-> +       {
-> +               "EventCode": "0x41",
-> +               "EventName": "dcache_access",
-> +               "BriefDescription": "DCACHE access"
-> +       },
-> +       {
-> +               "EventCode": "0x51",
-> +               "EventName": "dcache_miss",
-> +               "BriefDescription": "DCACHE miss"
-> +       },
-> +       {
-> +               "EventCode": "0x61",
-> +               "EventName": "dcache_load_access",
-> +               "BriefDescription": "DCACHE load access"
-> +       },
-> +       {
-> +               "EventCode": "0x71",
-> +               "EventName": "dcache_load_miss",
-> +               "BriefDescription": "DCACHE load miss"
-> +       },
-> +       {
-> +               "EventCode": "0x81",
-> +               "EventName": "dcache_store_access",
-> +               "BriefDescription": "DCACHE store access"
-> +       },
-> +       {
-> +               "EventCode": "0x91",
-> +               "EventName": "dcache_store_miss",
-> +               "BriefDescription": "DCACHE store miss"
-> +       },
-> +       {
-> +               "EventCode": "0xA1",
-> +               "EventName": "dcache_wb",
-> +               "BriefDescription": "DCACHE writeback"
-> +       }
-> +]
-> diff --git a/tools/perf/pmu-events/arch/riscv/andes/ax45/microarch.json b=
-/tools/perf/pmu-events/arch/riscv/andes/ax45/microarch.json
-> new file mode 100644
-> index 000000000000..a6d378cbaa74
-> --- /dev/null
-> +++ b/tools/perf/pmu-events/arch/riscv/andes/ax45/microarch.json
-> @@ -0,0 +1,77 @@
-> +[
-> +       {
-> +               "EventCode": "0xB1",
-> +               "EventName": "cycle_wait_icache_fill",
-> +               "BriefDescription": "Cycles waiting for ICACHE fill data"
-> +       },
-> +       {
-> +               "EventCode": "0xC1",
-> +               "EventName": "cycle_wait_dcache_fill",
-> +               "BriefDescription": "Cycles waiting for DCACHE fill data"
-> +       },
-> +       {
-> +               "EventCode": "0xD1",
-> +               "EventName": "uncached_ifetch_from_bus",
-> +               "BriefDescription": "Uncached ifetch data access from bus=
-"
-> +       },
-> +       {
-> +               "EventCode": "0xE1",
-> +               "EventName": "uncached_load_from_bus",
-> +               "BriefDescription": "Uncached load data access from bus"
-> +       },
-> +       {
-> +               "EventCode": "0xF1",
-> +               "EventName": "cycle_wait_uncached_ifetch",
-> +               "BriefDescription": "Cycles waiting for uncached ifetch d=
-ata from bus"
-> +       },
-> +       {
-> +               "EventCode": "0x101",
-> +               "EventName": "cycle_wait_uncached_load",
-> +               "BriefDescription": "Cycles waiting for uncached load dat=
-a from bus"
-> +       },
-> +       {
-> +               "EventCode": "0x111",
-> +               "EventName": "main_itlb_access",
-> +               "BriefDescription": "Main ITLB access"
-> +       },
-> +       {
-> +               "EventCode": "0x121",
-> +               "EventName": "main_itlb_miss",
-> +               "BriefDescription": "Main ITLB miss"
-> +       },
-> +       {
-> +               "EventCode": "0x131",
-> +               "EventName": "main_dtlb_access",
-> +               "BriefDescription": "Main DTLB access"
-> +       },
-> +       {
-> +               "EventCode": "0x141",
-> +               "EventName": "main_dtlb_miss",
-> +               "BriefDescription": "Main DTLB miss"
-> +       },
-> +       {
-> +               "EventCode": "0x151",
-> +               "EventName": "cycle_wait_itlb_fill",
-> +               "BriefDescription": "Cycles waiting for Main ITLB fill da=
-ta"
-> +       },
-> +       {
-> +               "EventCode": "0x161",
-> +               "EventName": "pipe_stall_cycle_dtlb_miss",
-> +               "BriefDescription": "Pipeline stall cycles caused by Main=
- DTLB miss"
-> +       },
-> +       {
-> +               "EventCode": "0x02",
-> +               "EventName": "mispredict_condition_br",
-> +               "BriefDescription": "Misprediction of conditional branche=
-s"
-> +       },
-> +       {
-> +               "EventCode": "0x12",
-> +               "EventName": "mispredict_take_condition_br",
-> +               "BriefDescription": "Misprediction of taken conditional b=
-ranches"
-> +       },
-> +       {
-> +               "EventCode": "0x22",
-> +               "EventName": "mispredict_target_ret_inst",
-> +               "BriefDescription": "Misprediction of targets of Return i=
-nstructions"
-> +       }
-> +]
-> diff --git a/tools/perf/pmu-events/arch/riscv/mapfile.csv b/tools/perf/pm=
-u-events/arch/riscv/mapfile.csv
-> index c61b3d6ef616..5bf09af14c1b 100644
-> --- a/tools/perf/pmu-events/arch/riscv/mapfile.csv
-> +++ b/tools/perf/pmu-events/arch/riscv/mapfile.csv
-> @@ -15,3 +15,4 @@
->  #
->  #MVENDORID-MARCHID-MIMPID,Version,Filename,EventType
->  0x489-0x8000000000000007-0x[[:xdigit:]]+,v1,sifive/u74,core
-> +0x31e-0x8000000000008a45-0x[[:xdigit:]]+,v1,andes/ax45,core
-> --
-> 2.34.1
->
->
+P.S. You can put the whole firmware (U-Boot + TF-A) on the SPI flash,
+that gives you more freedom with the SD card. Just follow the
+instructions in doc/board/allwinner/sunxi.rst.
+
+>=20
+> U-Boot SPL 2024.01-rc3-00009-g9e53e45292-dirty (Nov 24 2023 - 18:47:11=20
+> +0000) DRAM: 1024 MiB Trying to boot from MMC1 NOTICE: BL31: v2.10.0=20
+> (debug):v2.10.0 NOTICE: BL31: Built : 18:07:18, Nov 23 2023 NOTICE:=20
+> BL31: Detected Allwinner H616 SoC (1823) NOTICE: BL31: Found U-Boot DTB=20
+> at 0x4a0b2750, model: OrangePi Zero3 INFO: ARM GICv2 driver initialized=20
+> INFO: Configuring SPC Controller INFO: PMIC: Probing AXP305 on RSB=20
+> ERROR: RSB: set run-time address: 0x10003 INFO: Could not init RSB:=20
+> -65539 INFO: BL31: Platform setup done INFO: BL31: Initializing runtime=20
+> services INFO: BL31: cortex_a53: CPU workaround for erratum 855873 was=20
+> applied INFO: BL31: cortex_a53: CPU workaround for erratum 1530924 was=20
+> applied INFO: PSCI: Suspend is unavailable INFO: BL31: Preparing for EL3=
+=20
+> exit to normal world INFO: Entry point address =3D 0x4a000000 INFO: SPSR =
+=3D=20
+> 0x3c9 INFO: Changed devicetree. U-Boot=20
+> 2024.01-rc3-00009-g9e53e45292-dirty (Nov 24 2023 - 18:47:11 +0000)=20
+> Allwinner Technology CPU: Allwinner H616 (SUN50I) Model: OrangePi Zero3=20
+> DRAM: 1 GiB Core: 57 devices, 25 uclasses, devicetree: separate WDT: Not=
+=20
+> starting watchdog@30090a0 MMC: mmc@4020000: 0 Loading Environment from=20
+> FAT... Unable to read "uboot.env" from mmc0:1... In: serial@5000000 Out:=
+=20
+> serial@5000000 Err: serial@5000000 Allwinner mUSB OTG (Peripheral) Net:=20
+> eth0: ethernet@5020000using musb-hdrc, OUT ep1out IN ep1in STATUS ep2in=20
+> MAC de:ad:be:ef:00:01 HOST MAC de:ad:be:ef:00:00 RNDIS ready , eth1:=20
+> usb_ether starting USB... Bus usb@5200000: USB EHCI 1.00 Bus=20
+> usb@5200400: USB OHCI 1.0 scanning bus usb@5200000 for devices... 1 USB=20
+> Device(s) found scanning bus usb@5200400 for devices... 1 USB Device(s)=20
+> found scanning usb for storage devices... 0 Storage Device(s) found Hit=20
+> any key to stop autoboot: 0 switch to partitions #0, OK mmc0 is current=20
+> device Scanning mmc 0:1... No EFI system partition No EFI system=20
+> partition Failed to persist EFI variables BootOrder not defined EFI boot=
+=20
+> manager: Cannot load any image Device 0: unknown device BOOTP broadcast=20
+> 1 DHCP client bound to address 192.168.1.63 (4 ms) *** Warning: no boot=20
+> file name; using 'C0A8013F.img' Using ethernet@5020000 device TFTP from=20
+> server 192.168.1.253; our IP address is 192.168.1.63 Filename=20
+> 'C0A8013F.img'. Load address: 0x42000000 Loading: T T T
+>=20
+> On 2023-11-23 4:11 p.m., Andre Przywara wrote:
+> > On Thu, 23 Nov 2023 11:12:25 -0800
+> > Stephen Graf<stephen.graf@gmail.com>  wrote:
+> >
+> > Hi Stephen,
+> > =20
+> >> Thank you for your reply. =20
+> > Thanks for coming back. Please keep the list(s) on CC:, as this is also
+> > interesting for others, and more eyes help to find issues faster.
+> > CC:ing Piotr and Mikhail, who were debugging the LPDDR4 DRAM setup
+> > before.
+> > =20
+> >> I built u-boot with the proposed changes and it seems to work. It does
+> >> however report "DRAM: 2048 MiB" although I have a board with only 1G. =
+=20
+> > Ah, that's a good report! I actually saw the same issue (reporting 8GB
+> > instead of 4GB), and my hunch is that it's related to some missing
+> > barriers or delays, as seen on other boards.
+> > Can you try to add a "dsb();" to the beginning of
+> > arch/arm/mach-sunxi/dram_helpers.c:mctl_mem_matches(), before the first=
+ writel()?
+> > I am still not convinced this is the right place to put the barrier,
+> > but it would confirm that this is the issue.
+> > Also I didn't see this effect consistently, so did this happen for you
+> > every time?
+> >
+> > Another thing you could try is to increase the voltage to 1150mV, this
+> > is what Piotr needed for reliable operation.
+> > =20
+> >> When I built u-boot with the config that I used it reported 1G
+> >> correctly. The Zunlong distros do have different images for various RAM
+> >> configurations. =20
+> > Yeah, I saw this, and I hope we can avoid this. I am not sure if you
+> > are the first one with a 1GB board, so your testing is definitely
+> > helpful.
+> > =20
+> >> I do not know enough about the details to determine which differences =
+in
+> >> the two configs result in the change.
+> >>
+> >> I am more than willing to test and report if someone can direct me a b=
+it.
+> >>
+> >> sysadmin@ubuntu:~/defconfgs$ diff sg.txt andre.txt =20
+> > (please use "diff -u", that's easier to read and people are more used
+> > to its output style)
+> > =20
+> >> 9d8
+> >> < CONFIG_DRAM_SUN50I_H616_TPR0=3D0x0
+> >> 11,13c10,12
+> >> < CONFIG_DRAM_SUN50I_H616_TPR10=3D0x402f0663
+> >> < CONFIG_DRAM_SUN50I_H616_TPR11=3D0x24242323
+> >> < CONFIG_DRAM_SUN50I_H616_TPR12=3D0x0e0e0e0e
+> >> --- =20
+> >>   > CONFIG_DRAM_SUN50I_H616_TPR10=3D0x402f6663
+> >>   > CONFIG_DRAM_SUN50I_H616_TPR11=3D0x24242624
+> >>   > CONFIG_DRAM_SUN50I_H616_TPR12=3D0x0f0f100f =20
+> > I don't think those minor timing differences matter much, but you can
+> > try to experiment with both set of values.
+> > =20
+> >> 16d14
+> >> < CONFIG_DRAM_CLK=3D792 =20
+> > Not specifying DRAM_CLK means it uses the default 720 MHz. In the past
+> > lowering the DRAM frequency was an easy way to stabilise the DRAM
+> > setup, even though this might somewhat paper over other issues.
+> > =20
+> >> 25c23
+> >> < CONFIG_SPI_FLASH_MACRONIX=3Dy
+> >> --- =20
+> >>   > CONFIG_SPI_FLASH_ZBIT=3Dy =20
+> > Please double check, but I think all new OrangePi boards now use a zBIT
+> > flash chip? Should have a small "Z" like logo on that 8 pin chip with
+> > the large pins on top.
+> > =20
+> >> 27a26 =20
+> >>   > CONFIG_AXP313_POWER=3Dy =20
+> >> 32,34c31
+> >> < CONFIG_AXP313_POWER=3Dy
+> >> < CONFIG_AXP_DCDC3_VOLT=3D1100 =20
+> > 1100mV is the default, so putting exactly this value in doesn't change
+> > anything.
+> > =20
+> >> < CONFIG_CMD_BOOTZ=3Dy =20
+> > Why do you need bootz? I don't think this doing anything useful in
+> > mainline U-Boot. Don't know if OrangePi was just confused and had an
+> > actual use case for this.
+> >
+> > =20
+> >> --- =20
+> >>   > =20
+> >>
+> >> A second issue that I discovered with both builds is that the Ethernet
+> >> does not come up on a 1Gb switch, but works on a 100Mb switch. =20
+> > There is a pending patch for mainline Linux, can you try to apply those
+> > DT changes to U-Boot's DT copy and see if that helps?
+> > https://lore.kernel.org/linux-sunxi/2303336.ElGaqSPkdT@jernej-laptop/T/=
+#m77ee30923cb0351f2d701a463a940dc7c00fa8b7
+> >
+> > Cheers,
+> > Andre
+> >
+> > =20
+> >> Output from the patch defconfig (1Gb LAN):
+> >>
+> >> U-Boot SPL 2024.01-rc3-00009-g9e53e45292-dirty (Nov 23 2023 - 18:08:24
+> >> +0000)
+> >> DRAM: 2048 MiB
+> >> Trying to boot from MMC1
+> >> NOTICE:=C2=A0 BL31: v2.10.0=C2=A0 (debug):v2.10.0
+> >> NOTICE:=C2=A0 BL31: Built : 18:07:18, Nov 23 2023
+> >> NOTICE:=C2=A0 BL31: Detected Allwinner H616 SoC (1823)
+> >> NOTICE:=C2=A0 BL31: Found U-Boot DTB at 0x4a0b2750, model: OrangePi Ze=
+ro3
+> >> INFO:=C2=A0=C2=A0=C2=A0 ARM GICv2 driver initialized
+> >> INFO:=C2=A0=C2=A0=C2=A0 Configuring SPC Controller
+> >> INFO:=C2=A0=C2=A0=C2=A0 PMIC: Probing AXP305 on RSB
+> >> ERROR:=C2=A0=C2=A0 RSB: set run-time address: 0x10003
+> >> INFO:=C2=A0=C2=A0=C2=A0 Could not init RSB: -65539
+> >> INFO:=C2=A0=C2=A0=C2=A0 BL31: Platform setup done
+> >> INFO:=C2=A0=C2=A0=C2=A0 BL31: Initializing runtime services
+> >> INFO:=C2=A0=C2=A0=C2=A0 BL31: cortex_a53: CPU workaround for erratum 8=
+55873 was applied
+> >> INFO:=C2=A0=C2=A0=C2=A0 BL31: cortex_a53: CPU workaround for erratum 1=
+530924 was applied
+> >> INFO:=C2=A0=C2=A0=C2=A0 PSCI: Suspend is unavailable
+> >> INFO:=C2=A0=C2=A0=C2=A0 BL31: Preparing for EL3 exit to normal world
+> >> INFO:=C2=A0=C2=A0=C2=A0 Entry point address =3D 0x4a000000
+> >> INFO:=C2=A0=C2=A0=C2=A0 SPSR =3D 0x3c9
+> >> INFO:=C2=A0=C2=A0=C2=A0 Changed devicetree.
+> >>
+> >>
+> >> U-Boot 2024.01-rc3-00009-g9e53e45292-dirty (Nov 23 2023 - 18:08:24
+> >> +0000) Allwinner Technology
+> >>
+> >> CPU:=C2=A0=C2=A0 Allwinner H616 (SUN50I)
+> >> Model: OrangePi Zero3
+> >> DRAM:=C2=A0 2 GiB
+> >> Core:=C2=A0 57 devices, 25 uclasses, devicetree: separate
+> >> WDT:=C2=A0=C2=A0 Not starting watchdog@30090a0
+> >> MMC:=C2=A0=C2=A0 mmc@4020000: 0
+> >> Loading Environment from FAT... Unable to use mmc 0:1...
+> >> In:=C2=A0=C2=A0=C2=A0 serial@5000000
+> >> Out:=C2=A0=C2=A0 serial@5000000
+> >> Err:=C2=A0=C2=A0 serial@5000000
+> >> Allwinner mUSB OTG (Peripheral)
+> >> Net:=C2=A0=C2=A0 eth0: ethernet@5020000using musb-hdrc, OUT ep1out IN =
+ep1in STATUS
+> >> ep2in
+> >> MAC de:ad:be:ef:00:01
+> >> HOST MAC de:ad:be:ef:00:00
+> >> RNDIS ready
+> >> , eth1: usb_ether
+> >> starting USB...
+> >> Bus usb@5200000: USB EHCI 1.00
+> >> Bus usb@5200400: USB OHCI 1.0
+> >> scanning bus usb@5200000 for devices... 1 USB Device(s) found
+> >> scanning bus usb@5200400 for devices... 1 USB Device(s) found
+> >>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 scanning usb for storage device=
+s... 0 Storage Device(s) found
+> >> Hit any key to stop autoboot:=C2=A0 0
+> >> switch to partitions #0, OK
+> >> mmc0 is current device
+> >>
+> >> Device 0: unknown device
+> >> BOOTP broadcast 1
+> >> BOOTP broadcast 2
+> >> BOOTP broadcast 3
+> >> BOOTP broadcast 4
+> >> BOOTP broadcast 5
+> >> BOOTP broadcast 6
+> >> BOOTP broadcast 7
+> >> BOOTP broadcast 8
+> >> BOOTP broadcast 9
+> >> BOOTP broadcast 10
+> >> BOOTP broadcast 11
+> >> BOOTP broadcast 12
+> >>
+> >> Retry time exceeded; starting again
+> >> missing environment variable: pxeuuid
+> >> Retrieving file: pxelinux.cfg/01-02-00-d5-13-4f-ba
+> >> *** ERROR: `serverip' not set
+> >>
+> >>
+> >> Output from the defconfig that I had used (100Mb LAN):
+> >>
+> >> U-Boot SPL 2024.01-rc3-00009-g9e53e45292-dirty (Nov 23 2023 - 18:56:18
+> >> +0000)
+> >> DRAM: 1024 MiB
+> >> Trying to boot from MMC1
+> >> NOTICE:=C2=A0 BL31: v2.10.0=C2=A0 (debug):v2.10.0
+> >> NOTICE:=C2=A0 BL31: Built : 18:07:18, Nov 23 2023
+> >> NOTICE:=C2=A0 BL31: Detected Allwinner H616 SoC (1823)
+> >> NOTICE:=C2=A0 BL31: Found U-Boot DTB at 0x4a0b3b68, model: OrangePi Ze=
+ro3
+> >> INFO:=C2=A0=C2=A0=C2=A0 ARM GICv2 driver initialized
+> >> INFO:=C2=A0=C2=A0=C2=A0 Configuring SPC Controller
+> >> INFO:=C2=A0=C2=A0=C2=A0 PMIC: Probing AXP305 on RSB
+> >> ERROR:=C2=A0=C2=A0 RSB: set run-time address: 0x10003
+> >> INFO:=C2=A0=C2=A0=C2=A0 Could not init RSB: -65539
+> >> INFO:=C2=A0=C2=A0=C2=A0 BL31: Platform setup done
+> >> INFO:=C2=A0=C2=A0=C2=A0 BL31: Initializing runtime services
+> >> INFO:=C2=A0=C2=A0=C2=A0 BL31: cortex_a53: CPU workaround for erratum 8=
+55873 was applied
+> >> INFO:=C2=A0=C2=A0=C2=A0 BL31: cortex_a53: CPU workaround for erratum 1=
+530924 was applied
+> >> INFO:=C2=A0=C2=A0=C2=A0 PSCI: Suspend is unavailable
+> >> INFO:=C2=A0=C2=A0=C2=A0 BL31: Preparing for EL3 exit to normal world
+> >> INFO:=C2=A0=C2=A0=C2=A0 Entry point address =3D 0x4a000000
+> >> INFO:=C2=A0=C2=A0=C2=A0 SPSR =3D 0x3c9
+> >> INFO:=C2=A0=C2=A0=C2=A0 Changed devicetree.
+> >>
+> >>
+> >> U-Boot 2024.01-rc3-00009-g9e53e45292-dirty (Nov 23 2023 - 18:56:18
+> >> +0000) Allwinner Technology
+> >>
+> >> CPU:=C2=A0=C2=A0 Allwinner H616 (SUN50I)
+> >> Model: OrangePi Zero3
+> >> DRAM:=C2=A0 1 GiB
+> >> Core:=C2=A0 57 devices, 25 uclasses, devicetree: separate
+> >> WDT:=C2=A0=C2=A0 Not starting watchdog@30090a0
+> >> MMC:=C2=A0=C2=A0 mmc@4020000: 0
+> >> Loading Environment from FAT... Unable to use mmc 0:1...
+> >> In:=C2=A0=C2=A0=C2=A0 serial@5000000
+> >> Out:=C2=A0=C2=A0 serial@5000000
+> >> Err:=C2=A0=C2=A0 serial@5000000
+> >> Allwinner mUSB OTG (Peripheral)
+> >> Net:=C2=A0=C2=A0 eth0: ethernet@5020000using musb-hdrc, OUT ep1out IN =
+ep1in STATUS
+> >> ep2in
+> >> MAC de:ad:be:ef:00:01
+> >> HOST MAC de:ad:be:ef:00:00
+> >> RNDIS ready
+> >> , eth1: usb_ether
+> >> starting USB...
+> >> Bus usb@5200000: USB EHCI 1.00
+> >> Bus usb@5200400: USB OHCI 1.0
+> >> scanning bus usb@5200000 for devices... 1 USB Device(s) found
+> >> scanning bus usb@5200400 for devices... 1 USB Device(s) found
+> >>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 scanning usb for storage device=
+s... 0 Storage Device(s) found
+> >> Hit any key to stop autoboot:=C2=A0 0
+> >> switch to partitions #0, OK
+> >> mmc0 is current device
+> >>
+> >> Device 0: unknown device
+> >> BOOTP broadcast 1
+> >> DHCP client bound to address 192.168.1.63 (5 ms)
+> >> *** Warning: no boot file name; using 'C0A8013F.img'
+> >> Using ethernet@5020000 device
+> >> TFTP from server 192.168.1.253; our IP address is 192.168.1.63
+> >> Filename 'C0A8013F.img'.
+> >> Load address: 0x42000000
+> >> Loading: T T T
+> >>
+> >> defconfig used:
+> >>
+> >> CONFIG_ARM=3Dy
+> >> CONFIG_ARCH_SUNXI=3Dy
+> >> CONFIG_DEFAULT_DEVICE_TREE=3D"sun50i-h618-orangepi-zero3"
+> >> CONFIG_SPL=3Dy
+> >> CONFIG_DRAM_SUN50I_H616_DX_ODT=3D0x07070707
+> >> CONFIG_DRAM_SUN50I_H616_DX_DRI=3D0x0e0e0e0e
+> >> CONFIG_DRAM_SUN50I_H616_CA_DRI=3D0x0e0e
+> >> CONFIG_DRAM_SUN50I_H616_ODT_EN=3D0xaaaaeeee
+> >> CONFIG_DRAM_SUN50I_H616_TPR0=3D0x0
+> >> CONFIG_DRAM_SUN50I_H616_TPR6=3D0x44000000
+> >> CONFIG_DRAM_SUN50I_H616_TPR10=3D0x402f0663
+> >> CONFIG_DRAM_SUN50I_H616_TPR11=3D0x24242323
+> >> CONFIG_DRAM_SUN50I_H616_TPR12=3D0x0e0e0e0e
+> >> CONFIG_MACH_SUN50I_H616=3Dy
+> >> CONFIG_SUNXI_DRAM_H616_LPDDR4=3Dy
+> >> CONFIG_DRAM_CLK=3D792
+> >> CONFIG_R_I2C_ENABLE=3Dy
+> >> CONFIG_SPL_SPI_SUNXI=3Dy
+> >> # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+> >> CONFIG_SPL_I2C=3Dy
+> >> CONFIG_SPL_SYS_I2C_LEGACY=3Dy
+> >> CONFIG_SYS_I2C_MVTWSI=3Dy
+> >> CONFIG_SYS_I2C_SLAVE=3D0x7f
+> >> CONFIG_SYS_I2C_SPEED=3D400000
+> >> CONFIG_SPI_FLASH_MACRONIX=3Dy
+> >> CONFIG_PHY_MOTORCOMM=3Dy
+> >> CONFIG_SUN8I_EMAC=3Dy
+> >> CONFIG_SPI=3Dy
+> >> CONFIG_USB_EHCI_HCD=3Dy
+> >> CONFIG_USB_OHCI_HCD=3Dy
+> >> CONFIG_USB_MUSB_GADGET=3Dy
+> >> CONFIG_AXP313_POWER=3Dy
+> >> CONFIG_AXP_DCDC3_VOLT=3D1100
+> >> CONFIG_CMD_BOOTZ=3Dy
+> >>
+> >>
+> >> On 2023-11-23 6:15 a.m., Andre Przywara wrote: =20
+> >>> On Tue, 21 Nov 2023 21:52:12 -0800
+> >>> Stephen Graf<s_graf@telus.net>  wrote:
+> >>>
+> >>> Hi Stephen,
+> >>>    =20
+> >>>> I have been able to build a working (on my orangepi zero3 1G) u-boot=
+ for
+> >>>> the orangepi zero3 with the following defconfig. Would it be possibl=
+e to =20
+> >>> thanks for your interest in contributing and for reaching out!
+> >>> As Peter already mentioned, you would need to send a patch, as genera=
+ted
+> >>> by "git format-patch". "git send-email" would help you with sending t=
+his
+> >>> out.
+> >>>
+> >>> But actually I sent a small series already last week:
+> >>> https://lore.kernel.org/u-boot/20231114013106.31336-1-andre.przywara@=
+arm.com/
+> >>>
+> >>> If you could apply these patches and test it on your board, I'd be
+> >>> grateful. If it works for you and you are happy, please reply to patc=
+h 3/3
+> >>> and add a "Tested-by: Your Name<your@email.com>" line.
+> >>> For instructions how to reply, check "Reply instructions" at the end =
+of
+> >>> that mailing list archive web page above.
+> >>>
+> >>> I was just waiting for confirmations by other people before merging i=
+t.
+> >>>
+> >>> Cheers,
+> >>> Andre
+> >>>
+> >>>    =20
+> >>>> add this config to the working boards.=C2=A0 I would test it again w=
+ith an
+> >>>> official build. The dtb/dts is in linux and in u-boot.
+> >>>>
+> >>>> The H618 processor is software compatible with the H616 and the zero3
+> >>>> board is very similar to the zero2 with the exception of DDR3 replac=
+ed
+> >>>> with LPDDR4 and the Realtek phy with Motorcomm.
+> >>>>
+> >>>> CONFIG_ARM=3Dy
+> >>>> CONFIG_ARCH_SUNXI=3Dy
+> >>>> CONFIG_DEFAULT_DEVICE_TREE=3D"sun50i-h618-orangepi-zero3"
+> >>>> CONFIG_SPL=3Dy
+> >>>> CONFIG_DRAM_SUN50I_H616_DX_ODT=3D0x07070707
+> >>>> CONFIG_DRAM_SUN50I_H616_DX_DRI=3D0x0e0e0e0e
+> >>>> CONFIG_DRAM_SUN50I_H616_CA_DRI=3D0x0e0e
+> >>>> CONFIG_DRAM_SUN50I_H616_ODT_EN=3D0xaaaaeeee
+> >>>> CONFIG_DRAM_SUN50I_H616_TPR0=3D0x0
+> >>>> CONFIG_DRAM_SUN50I_H616_TPR6=3D0x44000000
+> >>>> CONFIG_DRAM_SUN50I_H616_TPR10=3D0x402f0663
+> >>>> CONFIG_DRAM_SUN50I_H616_TPR11=3D0x24242323
+> >>>> CONFIG_DRAM_SUN50I_H616_TPR12=3D0x0e0e0e0e
+> >>>> CONFIG_MACH_SUN50I_H616=3Dy
+> >>>> CONFIG_SUNXI_DRAM_H616_LPDDR4=3Dy
+> >>>> CONFIG_DRAM_CLK=3D792
+> >>>> CONFIG_R_I2C_ENABLE=3Dy
+> >>>> CONFIG_SPL_SPI_SUNXI=3Dy
+> >>>> # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+> >>>> CONFIG_SPL_I2C=3Dy
+> >>>> CONFIG_SPL_SYS_I2C_LEGACY=3Dy
+> >>>> CONFIG_SYS_I2C_MVTWSI=3Dy
+> >>>> CONFIG_SYS_I2C_SLAVE=3D0x7f
+> >>>> CONFIG_SYS_I2C_SPEED=3D400000
+> >>>> CONFIG_SPI_FLASH_MACRONIX=3Dy
+> >>>> CONFIG_PHY_MOTORCOMM=3Dy
+> >>>> CONFIG_SUN8I_EMAC=3Dy
+> >>>> CONFIG_SPI=3Dy
+> >>>> CONFIG_USB_EHCI_HCD=3Dy
+> >>>> CONFIG_USB_OHCI_HCD=3Dy
+> >>>> CONFIG_USB_MUSB_GADGET=3Dy
+> >>>> CONFIG_AXP313_POWER=3Dy
+> >>>> CONFIG_AXP_DCDC3_VOLT=3D1100
+> >>>> CONFIG_CMD_BOOTZ=3Dy
+> >>>>    =20
+
