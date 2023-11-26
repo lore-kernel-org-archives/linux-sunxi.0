@@ -1,234 +1,218 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34EC0469E
-	for <linux-sunxi@lists.linux.dev>; Sun, 26 Nov 2023 12:55:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93C27D276
+	for <linux-sunxi@lists.linux.dev>; Sun, 26 Nov 2023 13:30:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D0jmV9Ib"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4079ed65471so26064585e9.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 26 Nov 2023 04:55:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O7BkzpvB"
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2c8880fbb33so43247511fa.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 26 Nov 2023 05:30:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701003312; x=1701608112; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YtcA5b6GbR7/vHA9l1lF9v9C2/MzYffk/XAE//0ZIJM=;
-        b=D0jmV9Ib+C17UDFYhmk4eK7G6fMB+xWRDV8JI51pJzggTMLQMJYs3tKH0OkbnfS9dV
-         EybvER8GzBzR8yRMH2sXJsEUVIK7Vj2n/OxxDS4VPTGSGJtGs4qX0gKOx8jaBwpuaCZl
-         BdHzTp2G9o2qyiLygynbUOxXVedsrt02Lrlu95ecuQhJ3GPVqr7Y0gQ92cOyqLXqW6iP
-         oezlnWWcH2ARkt+D9c1ppX+/1kLVt89QjuAfmeY7G2opmG56Se9wJEmv1QUbPU8g8/j9
-         6yyxEdv7j7c4TyAQvRWiEdRTtL7BhOPcW9cVXC9XXvW/1nvkCbEDw/xdTTysmvpOZyWO
-         cIuA==
+        d=gmail.com; s=20230601; t=1701005418; x=1701610218; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+A2ODoEq+PbT1g17Ko+IenUBauOUVFuLuyXpQ4HSuy0=;
+        b=O7BkzpvBEuc6RSyfwCgS1I1GkBh4YyvNz/H8gLMaMH5NeDjvPaoDC11s/7gqTfW9s7
+         41OdDYeqH0g0d+0JHIrtpem4VyGOsVlPd/qfk2Cz150y1l+tHwnePfGusk8HF/vYm86T
+         MubcGVdss0lEdOcLWfoBv2o/Mfro0O6s3KqDTF6mgmSd8NPy6CsbzzoP0aJN6Bp8rsPp
+         gosi06D/bPcLwmBL8RPLgR56MYYBRgGnGpw3aVCTq4WGwIYnms8sJuY+hsgaJogdcUeN
+         sYoQGOH3WQIKosuGExX5DVGHdRccg2n2v7H4yZXxyp2h3pxgVr/p08V/hMvJi2E2ITNu
+         9EJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701003312; x=1701608112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YtcA5b6GbR7/vHA9l1lF9v9C2/MzYffk/XAE//0ZIJM=;
-        b=X8XIEoX7BRQqvmZ60vYVQXedTffHxOZZX4XveJR/jH8yJZY1scQEhLicrxNtXU2/qR
-         zQMEAKdPT173KMgSSqVewqZxsOMz182PYdjJv71bQMsKdZ2FZuD3VUmgfLAL3UvjFABk
-         vpZi9kHXmlghVGstDtsJDLQ46SZF1M/Rln/Tncqji1vJ4yjQWjy8RUOgReY68IP9pGA/
-         2QmaEnfJTPB1mgIohBoeXdYTUVGk7ry6xYJQDtu4EMJnM2eouRgv009DORfI0a4aSepe
-         /2XzI7+uHwfN+5jV5X7uWTEIrTOt4FVscil2EIV0dCEpPLghcq+FJKvf4CYD9xmRZ7qb
-         urgg==
-X-Gm-Message-State: AOJu0YwHsdjkm1O8nr+HpDkQSntnCMwzPZO+oMVfNNm5MP/J0AbmG/sP
-	MTOANTt9nQjiR/YDgGecDOc=
-X-Google-Smtp-Source: AGHT+IHRdEnu0UinauuCnMo9zKzDcmIZJhFoyIPjscIIJl0UW3IdmpQSj2qPBGXR4kocK9gG8xhkYw==
-X-Received: by 2002:a05:600c:1c81:b0:40b:3938:65fc with SMTP id k1-20020a05600c1c8100b0040b393865fcmr2770257wms.4.1701003312061;
-        Sun, 26 Nov 2023 04:55:12 -0800 (PST)
-Received: from jernej-laptop.localnet (APN-123-253-119-gprs.simobil.net. [46.123.253.119])
-        by smtp.gmail.com with ESMTPSA id k24-20020a5d5258000000b00332c0aace23sm9171800wrc.105.2023.11.26.04.55.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Nov 2023 04:55:11 -0800 (PST)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Bob McChesney <bob@electricworry.net>,
- Andre Przywara <andre.przywara@arm.com>
-Cc: electricworry <worryelectric@gmail.com>, u-boot@lists.denx.de,
- "linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>,
- Mikhail Kalashnikov <iuncuim@gmail.com>
-Subject: Re: Adding support for Orange Pi Zero 3
-Date: Sun, 26 Nov 2023 13:55:10 +0100
-Message-ID: <5729464.DvuYhMxLoT@jernej-laptop>
-In-Reply-To: <20231126123351.7275f4c7@slackpad.lan>
-References:
- <CABZPTZSQHhcVuqLmg6nEiKBfF4p+R+y5sDCGaa19qztSEs54BA@mail.gmail.com>
- <ZWMs0z6ED1ukmRGU@BOB1> <20231126123351.7275f4c7@slackpad.lan>
+        d=1e100.net; s=20230601; t=1701005418; x=1701610218;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+A2ODoEq+PbT1g17Ko+IenUBauOUVFuLuyXpQ4HSuy0=;
+        b=ic4RlCx6azIF/xQstYDOjj1ULSjuKSe7fWlr51NU/mn9eF23MzXDrFyh1Fwk1gbXDp
+         JeTn7wdX588DFdpa7rYKWmOVO2Nanj1nwfKT/QIpiikn52pQ5nO55yXmd/A7VakxPNR6
+         EgyPLB8UZCvNfcxdqnuQhQ8JJ+rpGpEPK0fsR8WPJFECl/UIZ9XcK0CL7ETRS8PKwugg
+         9eGmzFh+JHiWJtcQQL2tXfntOBLiVvRIpgwLeRdp4ay3XhN+eYBawPKV5Olkfs1BiW+z
+         XjLI5SscgK+cRpayDV/RYZYoDxfLEaTutyYtEHp3sCGwazafGOoIAOksbxlBU6iqCXC6
+         AmaA==
+X-Gm-Message-State: AOJu0Yy2Z5aUIeEELhdRj03+rMhzKE8ujUPFH/O4MNZUOmEXduWE1uLs
+	RdGvO3rrgJqQswkLiRSNaxk=
+X-Google-Smtp-Source: AGHT+IHljFUHWXCzN78mkE2vGo+PrL5o1xad2V67iXAGr93i0mP5hbPxAga27VIfqm5DSRSrKG8w8g==
+X-Received: by 2002:a2e:b5d3:0:b0:2c9:a05c:547d with SMTP id g19-20020a2eb5d3000000b002c9a05c547dmr511682ljn.34.1701005418242;
+        Sun, 26 Nov 2023 05:30:18 -0800 (PST)
+Received: from [192.168.99.248] ([94.143.197.234])
+        by smtp.gmail.com with ESMTPSA id b40-20020a05651c0b2800b002c8721c20e2sm981909ljr.106.2023.11.26.05.30.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 26 Nov 2023 05:30:17 -0800 (PST)
+Message-ID: <9eaccd15-a54d-4597-8530-e9f61c9e5f75@gmail.com>
+Date: Sun, 26 Nov 2023 16:30:15 +0300
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] sunxi: H616: Add OrangePi Zero 3 board support
+Content-Language: en-US
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Jagan Teki <jagan@amarulasolutions.com>, Vignesh R <vigneshr@ti.com>,
+ Jaehoon Chung <jh80.chung@samsung.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Piotr Oniszczuk <piotr.oniszczuk@gmail.com>, u-boot@lists.denx.de,
+ linux-sunxi@lists.linux.dev
+References: <20231114013106.31336-1-andre.przywara@arm.com>
+ <20231114013106.31336-4-andre.przywara@arm.com>
+ <0eab5c21-4fdc-478e-9071-f43c12e01fb3@gmail.com>
+ <20231126002349.55404e43@slackpad.lan>
+From: Mikhail Kalashnikov <iuncuim@gmail.com>
+In-Reply-To: <20231126002349.55404e43@slackpad.lan>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Dne nedelja, 26. november 2023 ob 13:33:51 CET je Andre Przywara napisal(a):
-> On Sun, 26 Nov 2023 11:32:35 +0000
-> Bob McChesney <bob@electricworry.net> wrote:
-> 
-> Hi Bob,
-> 
-> thanks for the reply!
-> 
-> CC:ing Jernej for the THS SRAM issue and the HDMI support mentioned
-> below.
-> 
-> > On Thu, Nov 23, 2023 at 03:17:09PM +0000, Andre Przywara wrote:
-> > > On Sat, 4 Nov 2023 19:17:44 +0000
-> > > electricworry <worryelectric@gmail.com> wrote:
-> > > 
-> > > Hi,
-> > >   
-> > > > I would like to contribute improvements u-boot to enable support for
-> > > > the Orange Pi Zero 3 board. I have already gained a good understanding
-> > > > of the project and the standards for changes, and so I have made
-> > > > modifications and tested them on my board.  
-> > > 
-> > > thanks for your interest and for reaching out!
-> > > 
-> > > I will answer your questions below, but for this particular topic there
-> > > are already support patches on the list (sorry for the disappointment!):
-> > > https://lore.kernel.org/u-boot/20231114013106.31336-1-andre.przywara@arm.com/  
-> > 
-> > That's good. I'm happy that more experienced people have been working on
-> > this. It's been a good learning experience nevertheless.
-> > 
-> > > Can you please apply those patches on top of mainline U-Boot and test
-> > > them? Then reply to patch 3/3 above with a Tested-by: line, stating your
-> > > name and email address?
-> > > Having independent reports of that working would make me more confident in
-> > > merging the series.  
-> > 
-> > I'm happy to do that and will be able to do it shortly. In this case
-> > would I be applying the patches on top of the next branch?
-> 
-> The normal master branch would be safer. I don't typically work on the
-> next branch, and there might be changes in there which subtly break
-> sunxi.
->  
-> > > As a general advice: try to reach out early, to avoid working in parallel
-> > > on something, and also to avoid working in the wrong direction.
-> > > There is the #linux-sunxi IRC channel on the OFTC IRC network[1] (you can
-> > > join via any browser), also there is a mailing list for Allwinner related
-> > > upstream work: linux-sunxi@lists.linux.dev [2]
-> > > Another resource is our wiki: https://linux-sunxi.org
-> > > 
-> > > [1] https://www.oftc.net/WebChat/
-> > >     https://oftc.irclog.whitequark.org/linux-sunxi
-> > > [2] https://subspace.kernel.org/lists.linux.dev.html  
-> > 
-> > Thank you. I wasn't aware of this community and have been working alone.
-> > It will be more productive to work and discuss with others so I'll join
-> > that mailing list too.
-> 
-> Yeah, the IRC chat is the most responsive and most helpful, I find, so
-> try to join that.
-> 
-> > 
-> > > > Before submitting patches for review I've got a few questions I'd like
-> > > > to discuss.
-> > > > 
-> > > > The board is an Allwinner H618. From what I can gather this is just an
-> > > > H616 with minor changes. The changes are so minor that I've been able
-> > > > to implement the support as changes to the existing files for H616.  
-> > > 
-> > > Just curious, what changes did you find in particular? So far we know
-> > > about the increased L2 cache, which is irrelevant from a software support
-> > > perspective, and the change of base address and layout of the CPUX_CFG
-> > > block, which is already covered by:
-> > > https://source.denx.de/u-boot/u-boot/-/commit/0a137ac5015933bf38ea2700abe70602ef63bbdd
-> > > Did you find anything else?  
-> > 
-> > I am not what anyone could call a hardware expert so I've just been
-> > working by diffing the codebase from the vendor against u-boot mainline.
-> 
-> Most of us are indeed curious software developers, and we typically do
-> a mixture of looking at vendor code, checking manuals, and doing live
-> experiments to figure things out.
-> 
-> > Changes that I've created patches for include their full dtb, the LPDDR4
-> > support, the AXP313A power, and - perhaps incorrectly - zeroing a
-> > register so that the thermal driver in the kernel works properly and
-> > doesn't get false high temperature readings.
-> 
-> Ah, glad I am not the only one seeing this!
-> I strangely haven't seen this all the time, but I indeed now need to do
-> a "mw.l 0x3000000 0x7ffeffff" in U-Boot, otherwise I see the kernel
-> screaming about +200C temperatures.
-> 
-> > I say "perhaps incorrectly"
-> > because I feel like the kernel driver should be doing that work itself
-> > and the comment in the vendor u-boot code suggests it's a hack: "The
-> > bit[16] of register reg[0x03000000] must be zero for the THS driver to
-> > work properly in the kernel. The BSP u-boot is putting the whole
-> > register to zero so we are doing the same."
-> 
-> Very good, you are exactly on the same path as I am! I have a patch for
-> the THS driver that tries to clear the bit, via using the regmap
-> exported by syscon, but I need to test this further (was my plan for
-> today). I think this was somehow not working properly the last time I
-> checked.
-> Another approach was trying to claim an SRAM region - as this is what
-> this register does for the video engine (VE). I figured that apparently
-> just bit 0 switches the SRAM to the VE, and flipping all 31 bits might
-> be some anachronism from the olden A10 days.
-> So we might claim that bit 16 switches the SRAM for THS, but then I am
-> not sure it really has something to do with SRAM, or if it's just
-> another Allwinner special of "oh, we have an unused bit in this
-> register" ;-)
-> We will see what the list has to say about this.
-> 
-> > > Out of interest, how did you do this? Disassembled the vendor boot0?
-> > > Dumping DRAM registers? We discussed and tested the LPDDR4 support already
-> > > a while ago, and support for that was merged recently:
-> > > https://source.denx.de/u-boot/u-boot/-/commit/4b02f0120a4bb2a5d7081aef8cef6a4ca57e9db2  
-> > 
-> > As above, I didn't do anything clever like probe hardware or
-> > disassemble binaries; it was just a brute force loop of cherry-picking,
-> > compiling and testing. And also doing it in a way that fitted the
-> > incumbent style and practices of mainline. e.g. making use of configs
-> > like CONFIG_DRAM_SUN50I_H616_DX_ODT for the board family rathern than
-> > having board specific ifdefs. The work done is available if anyone wants
-> > to see it, and I'd be happy to have it critiqued. Looking at the patches
-> > proposed here I'm happy to see that we've come to the same conclusion on
-> > some things (such as the above config) and others we diverge on, but as
-> > I can see from the discussion in linux-sunxi the feeling is that some of
-> > these difference don't matter.
-> > 
-> > > Hope that helps!
-> > > 
-> > > Cheers,
-> > > Andre  
-> > 
-> > Thanks for all of that good advice. It's immensely appreciated. I'll
-> > keep this as a guide for contibuting patches in the future.
-> > 
-> > Now that there's a working u-boot for the board - I've got two to choose
-> > from now :) - I'm going to be concentrating on trying to get the Mali
-> > graphics working as it's a requirement for my project. I've got a
-> > working kernel (6.1.31 with patches) but I can also see that work's been
-> > underway to bring the support to 6.7. I tested 6.7-rc2 today and can't
-> > get any output at all on the console after u-boot starts the kernel.
-> 
-> Yeah, that's because we don't have any video (HDMI) output support
-> (something completely unrelated to Mali, which is just a 3D renderer!)
-> yet in mainline. Jernej was sitting on *some* patches for a while, but
-> didn't have the time to upstream them, and IIUC there is something odd
-> to fix first before it's mainline ready.
-> There are some rough bits in here, and in other repos floating around:
-> https://github.com/jernejsk/linux-1/commits/h616-hdmi-v2
+On 26.11.2023 03:23, Andre Przywara wrote:
+Hi Andre,
+> On Sat, 25 Nov 2023 20:43:12 +0300
+> Mikhail Kalashnikov <iuncuim@gmail.com> wrote:
+>
+> Hi Mikhail,
+>
+>> Hi Andre!
+>> Thanks for your patches. I started checking and noticed that USB storage
+>> was not working:
+>>
+>> => usb reset
+>> resetting USB...
+>> Bus usb@5200000: USB EHCI 1.00
+>> Bus usb@5200400: USB OHCI 1.0
+>> scanning bus usb@5200000 for devices... 1 USB Device(s) found
+>> scanning bus usb@5200400 for devices... 1 USB Device(s) found
+>>         scanning usb for storage devices... 0 Storage Device(s) found
+>> => usb storage
+>> No storage devices, perhaps not 'usb start'ed..?
+> Ah, thanks for the report, seems I didn't even test this!
+> So digging around I figured it's working in Linux, and it's the right
+> USB port, but we are missing the VBUS power switch, which is a GPIO
+> controlled regulator. There are pending patches to pick this from the
+> devicetree[1], but we are not there yet, so we need:
+> CONFIG_USB1_VBUS_PIN="PC16"
 
-That one is old. Most recent development is in
-https://github.com/jernejsk/linux-1/commits/h616-var
+With that usb storage work. Also I successfully loaded u-boot image to spi
 
-However, note that there is quite a lot of work to do before it could
-be mainlined.
+with command:
+
+sunxi-fel -p spiflash-write 0 u-boot-sunxi-with-spl.bin
+100% [================================================]   828 kB,   74.7 
+kB/s
+
+After that u-boot successful started from spi.
 
 Best regards,
-Jernej
 
+Mikhail
 
-
-
+> in the defconfig, for now. I will update the file. The same is
+> actually missing from the OrangePi Zero2 defconfig, I will send a patch
+> ASAP.
+>   
+>> Otherwise my OpiZero3 (4GB) board looks working.
+>> Ethernet works with my 10 Mbps usb-dongle.
+>>
+>> sf probe detect spi nor flash:
+>> => sf probe
+>> SF: Detected zb25vq128 with page size 256 Bytes, erase size 4 KiB, total
+>> 16 MiB
+>>
+>> Loading the kernel and running the operating system (from microsd) also
+>> without problems.
+>>
+>> Tested-by: Mikhail Kalashnikov <iuncuim@gmail.com>
+> Great, thanks for the tag!
+>
+> Cheers,
+> Andre
+>
+>> On 14.11.2023 04:31, Andre Przywara wrote:
+>>> The OrangePi Zero 3 is a small development board featuring the Allwinner
+>>> H618 SoC, shipping with up to 4GB of DRAM, Gigabit Ethernet, a micro-HDMI
+>>> connector and two USB sockets.
+>>> The board uses LPDDR4 DRAM and an X-Powers AXP313a PMIC, support for
+>>> which was recently added to U-Boot.
+>>>
+>>> Add a defconfig file selecting the right drivers and DRAM options.
+>>> Since the .dts file was synced from the Linux kernel repo already, we
+>>> just need to add one line to the Makefile to actually build the .dtb.
+>>>
+>>> The DRAM parameters were derived from the values found in the BSP DRAM
+>>> drivers on the SPI NOR flash.
+>>>
+>>> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+>>> ---
+>>>    arch/arm/dts/Makefile            |  1 +
+>>>    board/sunxi/MAINTAINERS          |  5 +++++
+>>>    configs/orangepi_zero3_defconfig | 30 ++++++++++++++++++++++++++++++
+>>>    3 files changed, 36 insertions(+)
+>>>    create mode 100644 configs/orangepi_zero3_defconfig
+>>>
+>>> diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
+>>> index 1be08c5fdc2..5fc888680b3 100644
+>>> --- a/arch/arm/dts/Makefile
+>>> +++ b/arch/arm/dts/Makefile
+>>> @@ -835,6 +835,7 @@ dtb-$(CONFIG_MACH_SUN50I_H6) += \
+>>>    	sun50i-h6-tanix-tx6-mini.dtb
+>>>    dtb-$(CONFIG_MACH_SUN50I_H616) += \
+>>>    	sun50i-h616-orangepi-zero2.dtb \
+>>> +	sun50i-h618-orangepi-zero3.dtb \
+>>>    	sun50i-h616-x96-mate.dtb
+>>>    dtb-$(CONFIG_MACH_SUN50I) += \
+>>>    	sun50i-a64-amarula-relic.dtb \
+>>> diff --git a/board/sunxi/MAINTAINERS b/board/sunxi/MAINTAINERS
+>>> index 00614372119..f556857a391 100644
+>>> --- a/board/sunxi/MAINTAINERS
+>>> +++ b/board/sunxi/MAINTAINERS
+>>> @@ -455,6 +455,11 @@ M:	Jernej Skrabec <jernej.skrabec@siol.net>
+>>>    S:	Maintained
+>>>    F:	configs/orangepi_zero2_defconfig
+>>>    
+>>> +ORANGEPI ZERO 3 BOARD
+>>> +M:	Andre Przywara <andre.przywara@arm.com>
+>>> +S:	Maintained
+>>> +F:	configs/orangepi_zero3_defconfig
+>>> +
+>>>    ORANGEPI PC 2 BOARD
+>>>    M:	Andre Przywara <andre.przywara@arm.com>
+>>>    S:	Maintained
+>>> diff --git a/configs/orangepi_zero3_defconfig b/configs/orangepi_zero3_defconfig
+>>> new file mode 100644
+>>> index 00000000000..e59044f6639
+>>> --- /dev/null
+>>> +++ b/configs/orangepi_zero3_defconfig
+>>> @@ -0,0 +1,30 @@
+>>> +CONFIG_ARM=y
+>>> +CONFIG_ARCH_SUNXI=y
+>>> +CONFIG_DEFAULT_DEVICE_TREE="sun50i-h618-orangepi-zero3"
+>>> +CONFIG_SPL=y
+>>> +CONFIG_DRAM_SUN50I_H616_DX_ODT=0x07070707
+>>> +CONFIG_DRAM_SUN50I_H616_DX_DRI=0x0e0e0e0e
+>>> +CONFIG_DRAM_SUN50I_H616_CA_DRI=0x0e0e
+>>> +CONFIG_DRAM_SUN50I_H616_ODT_EN=0xaaaaeeee
+>>> +CONFIG_DRAM_SUN50I_H616_TPR6=0x44000000
+>>> +CONFIG_DRAM_SUN50I_H616_TPR10=0x402f6663
+>>> +CONFIG_DRAM_SUN50I_H616_TPR11=0x24242624
+>>> +CONFIG_DRAM_SUN50I_H616_TPR12=0x0f0f100f
+>>> +CONFIG_MACH_SUN50I_H616=y
+>>> +CONFIG_SUNXI_DRAM_H616_LPDDR4=y
+>>> +CONFIG_R_I2C_ENABLE=y
+>>> +CONFIG_SPL_SPI_SUNXI=y
+>>> +# CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+>>> +CONFIG_SPL_I2C=y
+>>> +CONFIG_SPL_SYS_I2C_LEGACY=y
+>>> +CONFIG_SYS_I2C_MVTWSI=y
+>>> +CONFIG_SYS_I2C_SLAVE=0x7f
+>>> +CONFIG_SYS_I2C_SPEED=400000
+>>> +CONFIG_SPI_FLASH_ZBIT=y
+>>> +CONFIG_PHY_MOTORCOMM=y
+>>> +CONFIG_SUN8I_EMAC=y
+>>> +CONFIG_AXP313_POWER=y
+>>> +CONFIG_SPI=y
+>>> +CONFIG_USB_EHCI_HCD=y
+>>> +CONFIG_USB_OHCI_HCD=y
+>>> +CONFIG_USB_MUSB_GADGET=y
