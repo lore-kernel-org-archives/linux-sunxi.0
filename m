@@ -1,60 +1,82 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25DBF8C13
-	for <linux-sunxi@lists.linux.dev>; Sun, 26 Nov 2023 17:17:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 472D2C15;
-	Sun, 26 Nov 2023 09:18:39 -0800 (PST)
-Received: from localhost.localdomain (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1C0DF3F73F;
-	Sun, 26 Nov 2023 09:17:50 -0800 (PST)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Mikhail Kalashnikov <iuncuim@gmail.com>,
-	u-boot@lists.denx.de,
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF2133E0;
+	Mon, 27 Nov 2023 09:41:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ie6DAQKQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31DAAC433C9;
+	Mon, 27 Nov 2023 09:41:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701078060;
+	bh=VAe16eg7y6ayTkfAT9VTCj+Q3FFIy+QqJ0XsEAFzdqo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ie6DAQKQwth6/jsj75eLcKctEZhUSo3DB0NwQ2dpsFGO1StB90BsXbeaHN0mAAp5r
+	 eBTOZ0KH8MvrhVT6ZSAnGs89nyE+jIjaFTVBfoRB5NI1Lx2Cch6ycLeW5aA1RB8nR1
+	 5Mrnhw6eBJEzPlKSL6d++7ZRL0QcMchZ30C/YoEic6QG3a+aEdIAWmzFtJFP3sLZAb
+	 4O2z7iEkjaCO8KpJx9qFQH2UviDu92Ydl/azM+Wc7SAkwxNbnb1cRGkcCrU4TRNM+b
+	 hmM91Th0AzdPz8u7IuiA4GPFBr4oJJ9Do4FmdDr4hCfNvLT4Y2j38vpWSBxUO0i+CW
+	 9jqQWwJk6rFyA==
+Date: Mon, 27 Nov 2023 10:40:57 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Johan Jonker <jbx6244@yandex.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>, 
+	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH] sunxi: H616: OrangePi Zero 2: enable USB power supply
-Date: Sun, 26 Nov 2023 17:16:36 +0000
-Message-Id: <20231126171636.29076-1-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.35.8
+Subject: Re: [PATCH RFC v3 22/37] drm/rockchip: inno_hdmi: Remove useless
+ output format
+Message-ID: <pxj5yv3f5ukobsqfokd5ojh2is5za5wdv3imfqrlcu3smoib76@5lw5bwl77uvg>
+References: <20231031-kms-hdmi-connector-state-v3-0-328b0fae43a7@kernel.org>
+ <20231031-kms-hdmi-connector-state-v3-22-328b0fae43a7@kernel.org>
+ <52b232e4-7ffa-1d01-efa6-a0af84729483@yandex.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="fgomrsf3hj7iwzkr"
+Content-Disposition: inline
+In-Reply-To: <52b232e4-7ffa-1d01-efa6-a0af84729483@yandex.com>
 
-The OrangePi Zero 2 has a USB VBUS regulator, controlled by pin PC16.
-This is correctly described in the DT, but the patches for supporting
-this are still pending.
 
-Meanwhile add our good old CONFIG_USB1_VBUS_PIN to the defconfig file,
-to enable power on the USB port and allow using a USB flash drive, for
-instance.
+--fgomrsf3hj7iwzkr
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: 6acc5fa581b4 ("sunxi: H616: enable USB support for H616 boards")
-Reported-by: Mikhail Kalashnikov <iuncuim@gmail.com>
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- configs/orangepi_zero2_defconfig | 1 +
- 1 file changed, 1 insertion(+)
+Hi,
 
-diff --git a/configs/orangepi_zero2_defconfig b/configs/orangepi_zero2_defconfig
-index 127cf9e365a..98aed846f1f 100644
---- a/configs/orangepi_zero2_defconfig
-+++ b/configs/orangepi_zero2_defconfig
-@@ -8,6 +8,7 @@ CONFIG_DRAM_SUN50I_H616_CA_DRI=0x0e0e
- CONFIG_DRAM_SUN50I_H616_TPR10=0xf83438
- CONFIG_MACH_SUN50I_H616=y
- CONFIG_SUNXI_DRAM_H616_DDR3_1333=y
-+CONFIG_USB1_VBUS_PIN="PC16"
- CONFIG_R_I2C_ENABLE=y
- CONFIG_SPL_SPI_SUNXI=y
- # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
--- 
-2.35.8
+On Sat, Nov 25, 2023 at 11:00:52AM +0100, Johan Jonker wrote:
+> In stead of further cripplingRockchip HDMI drivers one could also make
+> it functional based=A0 on EDID info.
 
+I'm not crippling it, it was dead code. This has no functional impact
+whatsoever.
+
+> To start with the output could you turn RGB888 input and switch between
+> RGB444, YCBCR444 and YCBCR422 output.
+
+I don't have any hardware to test that out
+
+Maxime
+
+--fgomrsf3hj7iwzkr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZWRkKQAKCRDj7w1vZxhR
+xRUcAP9CI1PcttTNikiIZjxjYzvcKVQK/UCxKc5meY4XBGQ5OgD+LSZ4/nwHLH0l
+7NofWH+K9NjPixshRfY99cdGrd+x+wc=
+=/lNp
+-----END PGP SIGNATURE-----
+
+--fgomrsf3hj7iwzkr--
