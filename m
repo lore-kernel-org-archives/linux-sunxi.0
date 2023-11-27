@@ -1,82 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF2133E0;
-	Mon, 27 Nov 2023 09:41:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9968136B08;
+	Mon, 27 Nov 2023 16:55:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ie6DAQKQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31DAAC433C9;
-	Mon, 27 Nov 2023 09:41:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701078060;
-	bh=VAe16eg7y6ayTkfAT9VTCj+Q3FFIy+QqJ0XsEAFzdqo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ie6DAQKQwth6/jsj75eLcKctEZhUSo3DB0NwQ2dpsFGO1StB90BsXbeaHN0mAAp5r
-	 eBTOZ0KH8MvrhVT6ZSAnGs89nyE+jIjaFTVBfoRB5NI1Lx2Cch6ycLeW5aA1RB8nR1
-	 5Mrnhw6eBJEzPlKSL6d++7ZRL0QcMchZ30C/YoEic6QG3a+aEdIAWmzFtJFP3sLZAb
-	 4O2z7iEkjaCO8KpJx9qFQH2UviDu92Ydl/azM+Wc7SAkwxNbnb1cRGkcCrU4TRNM+b
-	 hmM91Th0AzdPz8u7IuiA4GPFBr4oJJ9Do4FmdDr4hCfNvLT4Y2j38vpWSBxUO0i+CW
-	 9jqQWwJk6rFyA==
-Date: Mon, 27 Nov 2023 10:40:57 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Johan Jonker <jbx6244@yandex.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>, 
-	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="AiG+Ejb2"
+Received: from benjamin-XPS-13-9310.. (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 75A956607286;
+	Mon, 27 Nov 2023 16:55:26 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1701104127;
+	bh=YIgkAExbbbECDPnkaD6N0lG+VUJuWN8PC9JRmzX9TCI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=AiG+Ejb2+mNZ23dQ58fH8HeFPy3hJ02mlj2Hi6rxIeY+Gy1a8/QIAfOk23U/takDW
+	 v6q5IkEXN2y6tQf+omLSLpcCgvsdNkad61xg1wUI87O6gd/fMVHJPt7beMBJxoFrzv
+	 o3zi6w3FT8MG0PcMXFjmkzio7deWNDtDOAOgQxgjwDHJYjxGTvkbAVGKotPtggFhjH
+	 nEwfKFLrFCHpdhjTGSVVIYW9HnpEUsKJSQJhbxaToNiZ+59Uk/fYnCZBuMuMOIXmHs
+	 95pGFhjthjI/q+XLSrPOYxKfQ89KGXqn3gvvCg3f+9+VRpC04Qij8+Svm2OuMVLuVw
+	 WvZajJW/poNYw==
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: hverkuil@xs4all.nl,
+	mchehab@kernel.org,
+	tfiga@chromium.org,
+	m.szyprowski@samsung.com,
+	matt.ranostay@konsulko.com
+Cc: linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
 	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH RFC v3 22/37] drm/rockchip: inno_hdmi: Remove useless
- output format
-Message-ID: <pxj5yv3f5ukobsqfokd5ojh2is5za5wdv3imfqrlcu3smoib76@5lw5bwl77uvg>
-References: <20231031-kms-hdmi-connector-state-v3-0-328b0fae43a7@kernel.org>
- <20231031-kms-hdmi-connector-state-v3-22-328b0fae43a7@kernel.org>
- <52b232e4-7ffa-1d01-efa6-a0af84729483@yandex.com>
+Subject: [PATCH 27/55] media: sun6i-isp: Stop abusing of min_buffers_needed field
+Date: Mon, 27 Nov 2023 17:54:26 +0100
+Message-Id: <20231127165454.166373-28-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20231127165454.166373-1-benjamin.gaignard@collabora.com>
+References: <20231127165454.166373-1-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fgomrsf3hj7iwzkr"
-Content-Disposition: inline
-In-Reply-To: <52b232e4-7ffa-1d01-efa6-a0af84729483@yandex.com>
+Content-Transfer-Encoding: 8bit
 
+'min_buffers_needed' is suppose to be used to indicate the number
+of buffers needed by DMA engine to start streaming.
+sun6i-isp driver doesn't use DMA engine and just want to specify
+the minimum number of buffers to allocate when calling VIDIOC_REQBUFS.
+That 'min_reqbufs_allocation' field purpose so use it.
 
---fgomrsf3hj7iwzkr
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+CC: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+CC: Chen-Yu Tsai <wens@csie.org>
+CC: Jernej Skrabec <jernej.skrabec@gmail.com>
+CC: Samuel Holland <samuel@sholland.org>
+CC: linux-sunxi@lists.linux.dev
+---
+ drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c | 2 +-
+ drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Hi,
+diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
+index 1595a9607775..f47f9946c19f 100644
+--- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
++++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
+@@ -660,7 +660,7 @@ int sun6i_isp_capture_setup(struct sun6i_isp_device *isp_dev)
+ 	queue->buf_struct_size = sizeof(struct sun6i_isp_buffer);
+ 	queue->ops = &sun6i_isp_capture_queue_ops;
+ 	queue->mem_ops = &vb2_dma_contig_memops;
+-	queue->min_buffers_needed = 2;
++	queue->min_reqbufs_allocation = 2;
+ 	queue->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+ 	queue->lock = &capture->lock;
+ 	queue->dev = isp_dev->dev;
+diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
+index e28be895b486..259f6bfcb620 100644
+--- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
++++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
+@@ -489,7 +489,7 @@ int sun6i_isp_params_setup(struct sun6i_isp_device *isp_dev)
+ 	queue->buf_struct_size = sizeof(struct sun6i_isp_buffer);
+ 	queue->ops = &sun6i_isp_params_queue_ops;
+ 	queue->mem_ops = &vb2_vmalloc_memops;
+-	queue->min_buffers_needed = 1;
++	queue->min_reqbufs_allocation = 1;
+ 	queue->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+ 	queue->lock = &params->lock;
+ 	queue->dev = isp_dev->dev;
+-- 
+2.39.2
 
-On Sat, Nov 25, 2023 at 11:00:52AM +0100, Johan Jonker wrote:
-> In stead of further cripplingRockchip HDMI drivers one could also make
-> it functional based=A0 on EDID info.
-
-I'm not crippling it, it was dead code. This has no functional impact
-whatsoever.
-
-> To start with the output could you turn RGB888 input and switch between
-> RGB444, YCBCR444 and YCBCR422 output.
-
-I don't have any hardware to test that out
-
-Maxime
-
---fgomrsf3hj7iwzkr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZWRkKQAKCRDj7w1vZxhR
-xRUcAP9CI1PcttTNikiIZjxjYzvcKVQK/UCxKc5meY4XBGQ5OgD+LSZ4/nwHLH0l
-7NofWH+K9NjPixshRfY99cdGrd+x+wc=
-=/lNp
------END PGP SIGNATURE-----
-
---fgomrsf3hj7iwzkr--
