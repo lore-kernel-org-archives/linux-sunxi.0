@@ -1,49 +1,49 @@
 Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51E97CA73
-	for <linux-sunxi@lists.linux.dev>; Tue, 28 Nov 2023 07:41:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 428A514A83
+	for <linux-sunxi@lists.linux.dev>; Tue, 28 Nov 2023 07:43:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="e6dL4pQH"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-548ce28fd23so6654184a12.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 27 Nov 2023 23:41:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gKe/ynu/"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-54bb5ebbb35so153416a12.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 27 Nov 2023 23:43:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701157271; x=1701762071; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1701157415; x=1701762215; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=eWAZTNH1owl43DfAMqnorKC9heAavDsuXgKZMRgXHEQ=;
-        b=e6dL4pQHMhGe9AcC7mwbRLppDyHtJtGBqLoUdlbnJKyP6b6/w2sn8YwnF8AR82bCHP
-         k8j4+mwRE3dIpCCy021846FbdXpJsGI+2AmJT1jNDMunwaDgPND/HzIzSj8K78UBSyrO
-         9riI7UpVbtJC3Cw+OoJZml1LNbPFAMnGRHQVeWnHe7Omhw23aDTDKHF0mXVxdZ57wY+w
-         UIS9Ag9+cndN8kN+PpsJ3HcCBm9Q1R5DbdSUTY400Uu3hddXO9+57Zg8YdNHTfGUWXhZ
-         hJB6mg9xcaJMLskyuPyDkRdPL02+x6y/fepv67lKwn9kHq6uLJdeLVk7cQWlK10ysXBM
-         AQBQ==
+        bh=QjKjY32RRsVP1Lb8kieaSiTmcBseX72PfvjV+Q7Lzxg=;
+        b=gKe/ynu/9JTlte/NkjwGcAk98baXiZ32HAGm1wSKmZb2th4JKV5DBpBEaCcc/jXbwx
+         2kLHRmISbst2L72sdnpStwQ3O0nCuwB8c1p5YLsXAOsSOKRbqfqB2E2l8huh2uzftapF
+         mxOOWz4UBGja+A+/HBaIaEyL6vbr+0HpYQu5DGE1NSkrLMD27poefTdd5XnqisI96k/0
+         uzfLr2rY1VbjBnr68MWTSSUtAmPB48dXQzSnCuwvw1sRgeSSL2/KBGIScUXDtyV3MgZh
+         JMN+S/CrtOnpxL1QjCQYEX7UszTDw5dvPSgTRbC9bwUpMhy0LFPIDiBfwwcHjY4vOXLb
+         z4Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701157271; x=1701762071;
+        d=1e100.net; s=20230601; t=1701157415; x=1701762215;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eWAZTNH1owl43DfAMqnorKC9heAavDsuXgKZMRgXHEQ=;
-        b=d7V9/UMcjSToVfNcvlaqbRyOenEXD7melaGCTEt7oKUj556L9oKiDwnfJuuMFabUh1
-         0ejT9Kjsx4A1GJKxfPu6RORgiJ8qbnZ7I23L8Bcuubn0nRIr0Jxgjzh9hsa6celfeU9T
-         NgWCrdwkY/HsF4pfL0aA2STYxy+6jGVzykB4BLJdsBVyR0XehddL2M5n4nj1WDwg6yek
-         mi/AZUv8ZmsNimma9n8bRUJhndDyNtlhtkzP0JVOWDGa7v06YdgfxIKZ9KN9VQODU42p
-         fLM9ZSbwG4q9AOO8k5SeBDXwrO5gW9Z+krrmvdD9f/uLAinDpwlzKdZ6l8ql/3NqxQOu
-         OHow==
-X-Gm-Message-State: AOJu0YwCqsPtX4T+TCKua4VDu3cithZtOdN61oVATgCeq9p3g6ANaLOv
-	3X9tOpfwSE3T3R2tUqg1YXtKIA==
-X-Google-Smtp-Source: AGHT+IHeWsC7fml3P7Hus4eFMCtgG/ZqAyXDpOvFkPrBX38PZz4jJDFbWN3YM4jcIIHlPrIHOOxHPg==
-X-Received: by 2002:a50:9312:0:b0:53e:3b8f:8a58 with SMTP id m18-20020a509312000000b0053e3b8f8a58mr11696420eda.11.1701157271546;
-        Mon, 27 Nov 2023 23:41:11 -0800 (PST)
+        bh=QjKjY32RRsVP1Lb8kieaSiTmcBseX72PfvjV+Q7Lzxg=;
+        b=h6ssRuRJ4briBONucuyY/Aq9qQ/tWFMZCk/52s77NoTzklAKXVR2QdcAIpB1QSBxO5
+         E9k5HD01ctOZSi24HoZsnoeCidW+VrZRM1KxuZB+xn/lSRQkTsNiu9vNkgSz5BCU1MsP
+         +jvqwP65V3F7qp0AjOxzv4zIuMcoN6NyGKeilZu9xv9dCCDccgtDCbbX1lH/gRgiPTrq
+         mHIr/a41/q7wCWXG3F6bvf62fgeu6RFsKQiLM4HBUNJnoGAe59cdkTfMCQ2KIVT4TjuG
+         28gRlYhnc0T+8NDUI3GEQkzwZCB+bEms7B6P10k3ym+VNeDZSOmjiYk0DZdSLq8LJg5u
+         EV+g==
+X-Gm-Message-State: AOJu0YzC1rkXOwVuAG/8Gf20/CH8UZZ1m1pN4oQOWkvZe5FhwCnwyDiC
+	AJqoZPhYp3iMyvb1RlRHS4xj7Q==
+X-Google-Smtp-Source: AGHT+IGqXJqj04Z/g3gH8CkQUBNigQHuuvATOTiCtMNwKPbClEuuCuCBLtJ/LQFPMPbhEbLvW0rq/w==
+X-Received: by 2002:a17:906:1091:b0:a0c:c09f:65fe with SMTP id u17-20020a170906109100b00a0cc09f65femr5551013eju.38.1701157415587;
+        Mon, 27 Nov 2023 23:43:35 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.223.109])
-        by smtp.gmail.com with ESMTPSA id w4-20020a056402268400b0054b2daa6654sm3413986edd.56.2023.11.27.23.41.09
+        by smtp.gmail.com with ESMTPSA id uz2-20020a170907118200b00a098348d803sm5116861ejb.141.2023.11.27.23.43.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Nov 2023 23:41:11 -0800 (PST)
-Message-ID: <c30f126b-d295-4482-8a7f-5dc5cf651e84@linaro.org>
-Date: Tue, 28 Nov 2023 08:41:08 +0100
+        Mon, 27 Nov 2023 23:43:35 -0800 (PST)
+Message-ID: <ddceb30f-1778-4312-af91-97813fe3c6fb@linaro.org>
+Date: Tue, 28 Nov 2023 08:43:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -51,8 +51,7 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/6] dt-bindings: thermal: sun8i: Add H616 THS
- controller
+Subject: Re: [PATCH v3 4/6] thermal: sun8i: add syscon register access code
 Content-Language: en-US
 To: Andre Przywara <andre.przywara@arm.com>,
  Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>,
@@ -68,7 +67,7 @@ Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev
 References: <20231128005849.19044-1-andre.przywara@arm.com>
- <20231128005849.19044-3-andre.przywara@arm.com>
+ <20231128005849.19044-5-andre.przywara@arm.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -114,68 +113,38 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231128005849.19044-3-andre.przywara@arm.com>
+In-Reply-To: <20231128005849.19044-5-andre.przywara@arm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 28/11/2023 01:58, Andre Przywara wrote:
-> From: Martin Botka <martin.botka@somainline.org>
-> 
-> This controller is similar to the H6, but covers four sensors and uses
-> slightly different calibration methods.
-> Also the H616 requires to poke a bit in the SYS_CFG register range for
-> correct operation, so add a "syscon" phandle property to point there.
-> 
-> Signed-off-by: Martin Botka <martin.botka@somainline.org>
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  .../thermal/allwinner,sun8i-a83t-ths.yaml     | 30 ++++++++++++-------
->  1 file changed, 20 insertions(+), 10 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.yaml b/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.yaml
-> index fbd4212285e28..95a6ab9a5889b 100644
-> --- a/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.yaml
-> +++ b/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.yaml
-> @@ -20,6 +20,7 @@ properties:
->        - allwinner,sun50i-a100-ths
->        - allwinner,sun50i-h5-ths
->        - allwinner,sun50i-h6-ths
-> +      - allwinner,sun50i-h616-ths
 >  
->    clocks:
->      minItems: 1
-> @@ -63,6 +64,7 @@ allOf:
->              enum:
->                - allwinner,sun50i-a100-ths
->                - allwinner,sun50i-h6-ths
-> +              - allwinner,sun50i-h616-ths
->  
->      then:
->        properties:
-> @@ -80,6 +82,18 @@ allOf:
->          clock-names:
->            minItems: 2
->  
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: allwinner,sun50i-h616-ths
+> +static struct regmap *sun8i_ths_get_syscon_regmap(struct device_node *node)
+> +{
+> +	struct device_node *syscon_node;
+> +	struct platform_device *syscon_pdev;
+> +	struct regmap *regmap = NULL;
 > +
-> +    then:
-> +      properties:
-> +        syscon:
+> +	syscon_node = of_parse_phandle(node, "syscon", 0);
 
-Nope, there is no such property. First of all, properties must be
-defined in top level. Second of all - this is exactly the example I used
-for my talk. Two times.
+Nope. For the 100th time, this cannot be generic.
 
-> +          maxItems: 1
-> +          description: phandle to syscon device allowing access to SYS_CFG registers
+> +	if (!syscon_node)
+> +		return ERR_PTR(-ENODEV);
+> +
+> +	syscon_pdev = of_find_device_by_node(syscon_node);
+> +	if (!syscon_pdev) {
+> +		/* platform device might not be probed yet */
+> +		regmap = ERR_PTR(-EPROBE_DEFER);
+> +		goto out_put_node;
+> +	}
+> +
+> +	/* If no regmap is found then the other device driver is at fault */
+> +	regmap = dev_get_regmap(&syscon_pdev->dev, NULL);
+> +	if (!regmap)
+> +		regmap = ERR_PTR(-EINVAL);
 
-You must also say what is the purpose. Drop redundant parts like
-"phandle to syscon device allowing access" and explain what is the hardware.
-
+Aren't you open-coding existing API to get regmap from syscon?
 
 
 Best regards,
