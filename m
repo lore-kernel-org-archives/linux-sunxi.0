@@ -1,47 +1,47 @@
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D682042A87
-	for <linux-sunxi@lists.linux.dev>; Tue, 28 Nov 2023 20:49:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A231D42AB0
+	for <linux-sunxi@lists.linux.dev>; Tue, 28 Nov 2023 20:49:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="HaLFDTsN"
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-67a31b64a9aso19243686d6.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 28 Nov 2023 12:49:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="g96RUD2M"
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-67a44ee7ab3so16623806d6.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 28 Nov 2023 12:49:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1701204593; x=1701809393; darn=lists.linux.dev;
+        d=soleen.com; s=google; t=1701204595; x=1701809395; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=B42Ompk/0S+0FHWlF0c0WCUF97rKJOKtrfjrMLAbFqA=;
-        b=HaLFDTsN0ZEr9CmpuCyGVyR1aKhqwry/azTT4xbNi+IhkA068XlzZqb3lFUqMu6w0l
-         TyVxy/tXrH9LYLjgditiiPJNbW1awb4XUh/1z/wjQtLfCgdwk9ocMHZrMs9Ih1NzqLKB
-         tGWxtZremWKZjPWPiTXzJ/ywVz4w42MbcELrlRgb5B2Ym6qN7ezLQTLcQuM1gK4960cL
-         yvOFxcuPXcifcBiS4iENpBMcZx7SUOGjMbJQDRT/DVuiBZeA7XRB0DE0j5ZzCDXMoaBK
-         fsA03kkrtylJp+3rWWqpJnkgrkQD14B7z9ypMbwDH279G18YkfGb+lVc188fkcURXuri
-         e0Gg==
+        bh=iygGvNb1KE298FiVkmeH8gdBVxeTTuJw4eGKIF/nIuM=;
+        b=g96RUD2MOY1Bvm1FLg7x/+xgNZNHsFe/a5met5K5jH9N40+hWJYrTU4ik+TAI/8OYg
+         b4QwzX/uv3J8AWxtFq4Ijj6ZEajpiR+znDJXdI+G1eTKD7K/WGelLofRz9pXl1ZO1DlU
+         N5vuiW73n62x8UYdIW93nZCgoaxdJ4Z1QzkvJffJMAJTbh1bkMoVjuRenByX+Fj+jKfA
+         I8vOvc1g7NCbG9q78jbwtPRLORPbz4DrbmJ4+T7dwWHhd5HKexTuOQGjm0G8sFmR4wHX
+         vsBShE7aEPUNr4BkRSrTeX5Qe1MBrCqE/QsZWkRKQRiS7wWYMAHUCI7nLpqAemTxenRG
+         OgqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701204593; x=1701809393;
+        d=1e100.net; s=20230601; t=1701204595; x=1701809395;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=B42Ompk/0S+0FHWlF0c0WCUF97rKJOKtrfjrMLAbFqA=;
-        b=vIC5RwyrOGIVe/gnkJ8qKESRBiod6bTu/8+UE8izBgzKS7RDHvqp1uyPTKfSWDt1GX
-         tGd2Ub2m8bVMH0Kvov3IxFLIKBZt5yoAQ+wM7GoJm1MZ1oZIGBOpE6M34kTTGupPZNhb
-         QEj4DgqYDlbdjmvtJMEeUBtEonQlsk7jAgo1gNpC7NCWH3BQENUF84VjNF7HsN3WdNQw
-         bEfayj2YjRee7EffuaA6WKtQo85b0yxXUAG7uwx7UqpJX0ht9GkMiHMItvZ+0YQmRvQe
-         Az5X+ICYwoKIf/uzcRIs2705muNFKCvWatgZpuL9iQ477RxwztrvxncPa1KQH2lVISmS
-         Iq4A==
-X-Gm-Message-State: AOJu0YxAFf6mIbcsOYKMFx8SwmEpeRjL5NyY6mOlmjPRk1b9TQOUwteL
-	XV7opB8rBmte7bAWJQ94aggCqg==
-X-Google-Smtp-Source: AGHT+IEnkegi/uFQPrDyc6H7OPo4j0lB/ryXbrV4xgswOmTSvbgLDCpwj8bvXcZGxvDXiQNLdJDbew==
-X-Received: by 2002:ad4:4a6f:0:b0:67a:5ae8:d346 with SMTP id cn15-20020ad44a6f000000b0067a5ae8d346mr3075756qvb.62.1701204593484;
-        Tue, 28 Nov 2023 12:49:53 -0800 (PST)
+        bh=iygGvNb1KE298FiVkmeH8gdBVxeTTuJw4eGKIF/nIuM=;
+        b=GIQZBaY1RjLwnYlvyPwRZVyV61FC2q3OnouNida3sWxUkLPXP5e/NpK/L6bHu2dIC0
+         PoNk2QgMDMxW7ao0NoQHNDSOPkKiFO9yDJEp2qf/PMoYPp/WTIqUI5vL5Z58q9SDd6Aq
+         5Km72E6N5+H+TEOqV18vzBUQA8KCgH1jGQ/EjNjts37GkI35PaOGVu5N6JkPrExyBktk
+         NQasnTiZLEvC2mFBOAUbulhR81C2OARJ69DVycKES404ggh+PEHG+Fmm3t4Stq/IkwDl
+         nTm2rE3NGEqU+45aIUb19/xyfqap7hBlxyy9g4l0puyxaHWcb2Ssm75SkASdPkhULGUO
+         7sBA==
+X-Gm-Message-State: AOJu0YykWa3lGQmA6tgrgiVqLFw+IpQh6zeF5YE81tPkffX5D7MT1MuV
+	rYXyvl/y5N8E9pdD/1muIvxUuw==
+X-Google-Smtp-Source: AGHT+IE0Jl3QLEggdMt0xv2T8AyvhzkahJgD3VRGmfbhI7sqHJ8Aa/AdHKiYq6E8wbv77IBFZbLYmg==
+X-Received: by 2002:ad4:5dc6:0:b0:67a:21aa:6513 with SMTP id m6-20020ad45dc6000000b0067a21aa6513mr18119809qvh.17.1701204595440;
+        Tue, 28 Nov 2023 12:49:55 -0800 (PST)
 Received: from soleen.c.googlers.com.com (55.87.194.35.bc.googleusercontent.com. [35.194.87.55])
-        by smtp.gmail.com with ESMTPSA id d11-20020a0cfe8b000000b0067a56b6adfesm1056863qvs.71.2023.11.28.12.49.52
+        by smtp.gmail.com with ESMTPSA id d11-20020a0cfe8b000000b0067a56b6adfesm1056863qvs.71.2023.11.28.12.49.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Nov 2023 12:49:53 -0800 (PST)
+        Tue, 28 Nov 2023 12:49:54 -0800 (PST)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: akpm@linux-foundation.org,
 	alex.williamson@redhat.com,
@@ -95,9 +95,9 @@ To: akpm@linux-foundation.org,
 	wens@csie.org,
 	will@kernel.org,
 	yu-cheng.yu@intel.com
-Subject: [PATCH 13/16] iommu: observability of the IOMMU allocations
-Date: Tue, 28 Nov 2023 20:49:35 +0000
-Message-ID: <20231128204938.1453583-14-pasha.tatashin@soleen.com>
+Subject: [PATCH 15/16] vhost-vdpa: account iommu allocations
+Date: Tue, 28 Nov 2023 20:49:37 +0000
+Message-ID: <20231128204938.1453583-16-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.43.0.rc2.451.g8631bc7472-goog
 In-Reply-To: <20231128204938.1453583-1-pasha.tatashin@soleen.com>
 References: <20231128204938.1453583-1-pasha.tatashin@soleen.com>
@@ -109,125 +109,28 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add NR_IOMMU_PAGES into node_stat_item that counts number of pages
-that are allocated by the IOMMU subsystem.
-
-The allocations can be view per-node via:
-/sys/devices/system/node/nodeN/vmstat.
-
-For example:
-
-$ grep iommu /sys/devices/system/node/node*/vmstat
-/sys/devices/system/node/node0/vmstat:nr_iommu_pages 106025
-/sys/devices/system/node/node1/vmstat:nr_iommu_pages 3464
-
-The value is in page-count, therefore, in the above example
-the iommu allocations amount to ~428M.
+iommu allocations should be accounted in order to allow admins to
+monitor and limit the amount of iommu memory.
 
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 ---
- drivers/iommu/iommu-pages.h | 30 ++++++++++++++++++++++++++++++
- include/linux/mmzone.h      |  3 +++
- mm/vmstat.c                 |  3 +++
- 3 files changed, 36 insertions(+)
+ drivers/vhost/vdpa.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/iommu/iommu-pages.h b/drivers/iommu/iommu-pages.h
-index 2332f807d514..69895a355c0c 100644
---- a/drivers/iommu/iommu-pages.h
-+++ b/drivers/iommu/iommu-pages.h
-@@ -17,6 +17,30 @@
-  * state can be rather large, i.e. multiple gigabytes in size.
-  */
- 
-+/**
-+ * __iommu_alloc_account - account for newly allocated page.
-+ * @pages: head struct page of the page.
-+ * @order: order of the page
-+ */
-+static inline void __iommu_alloc_account(struct page *pages, int order)
-+{
-+	const long pgcnt = 1l << order;
-+
-+	mod_node_page_state(page_pgdat(pages), NR_IOMMU_PAGES, pgcnt);
-+}
-+
-+/**
-+ * __iommu_free_account - account a page that is about to be freed.
-+ * @pages: head struct page of the page.
-+ * @order: order of the page
-+ */
-+static inline void __iommu_free_account(struct page *pages, int order)
-+{
-+	const long pgcnt = 1l << order;
-+
-+	mod_node_page_state(page_pgdat(pages), NR_IOMMU_PAGES, -pgcnt);
-+}
-+
- /**
-  * __iommu_alloc_pages_node - allocate a zeroed page of a given order from
-  * specific NUMA node.
-@@ -35,6 +59,8 @@ static inline struct page *__iommu_alloc_pages_node(int nid, gfp_t gfp,
- 	if (!pages)
- 		return NULL;
- 
-+	__iommu_alloc_account(pages, order);
-+
- 	return pages;
- }
- 
-@@ -53,6 +79,8 @@ static inline struct page *__iommu_alloc_pages(gfp_t gfp, int order)
- 	if (!pages)
- 		return NULL;
- 
-+	__iommu_alloc_account(pages, order);
-+
- 	return pages;
- }
- 
-@@ -89,6 +117,7 @@ static inline void __iommu_free_pages(struct page *pages, int order)
- 	if (!pages)
- 		return;
- 
-+	__iommu_free_account(pages, order);
- 	__free_pages(pages, order);
- }
- 
-@@ -192,6 +221,7 @@ static inline void iommu_free_pages_list(struct list_head *pages)
- 		struct page *p = list_entry(pages->prev, struct page, lru);
- 
- 		list_del(&p->lru);
-+		__iommu_free_account(p, 0);
- 		put_page(p);
+diff --git a/drivers/vhost/vdpa.c b/drivers/vhost/vdpa.c
+index da7ec77cdaff..a51c69c078d9 100644
+--- a/drivers/vhost/vdpa.c
++++ b/drivers/vhost/vdpa.c
+@@ -968,7 +968,8 @@ static int vhost_vdpa_map(struct vhost_vdpa *v, struct vhost_iotlb *iotlb,
+ 			r = ops->set_map(vdpa, asid, iotlb);
+ 	} else {
+ 		r = iommu_map(v->domain, iova, pa, size,
+-			      perm_to_iommu_flags(perm), GFP_KERNEL);
++			      perm_to_iommu_flags(perm),
++			      GFP_KERNEL_ACCOUNT);
  	}
- }
-diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-index 3c25226beeed..1a4d0bba3e8b 100644
---- a/include/linux/mmzone.h
-+++ b/include/linux/mmzone.h
-@@ -200,6 +200,9 @@ enum node_stat_item {
- #endif
- 	NR_PAGETABLE,		/* used for pagetables */
- 	NR_SECONDARY_PAGETABLE, /* secondary pagetables, e.g. KVM pagetables */
-+#ifdef CONFIG_IOMMU_SUPPORT
-+	NR_IOMMU_PAGES,		/* # of pages allocated by IOMMU */
-+#endif
- #ifdef CONFIG_SWAP
- 	NR_SWAPCACHE,
- #endif
-diff --git a/mm/vmstat.c b/mm/vmstat.c
-index 359460deb377..801b58890b6c 100644
---- a/mm/vmstat.c
-+++ b/mm/vmstat.c
-@@ -1242,6 +1242,9 @@ const char * const vmstat_text[] = {
- #endif
- 	"nr_page_table_pages",
- 	"nr_sec_page_table_pages",
-+#ifdef CONFIG_IOMMU_SUPPORT
-+	"nr_iommu_pages",
-+#endif
- #ifdef CONFIG_SWAP
- 	"nr_swapcached",
- #endif
+ 	if (r) {
+ 		vhost_iotlb_del_range(iotlb, iova, iova + size - 1);
 -- 
 2.43.0.rc2.451.g8631bc7472-goog
 
