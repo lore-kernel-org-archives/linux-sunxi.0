@@ -1,99 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB9134EB53;
-	Tue, 28 Nov 2023 13:29:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3514310796
+	for <linux-sunxi@lists.linux.dev>; Tue, 28 Nov 2023 13:49:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jq7O6PHR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C68D8C433C9;
-	Tue, 28 Nov 2023 13:29:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701178183;
-	bh=eegc62CSFJSGMpwmfbQ9cieR8ro9QUfxI2Hecr1t0d0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Jq7O6PHR6YExx9eupodBnBU26Udoi6FMtcX3bU0B51+pFSeHpJij8cLvwfre2NU9r
-	 hlU8qmy3P9IKCI32NGfGoni/pILrS/N0Cck3Tw7ijrhJCX1Sf7O7oU2BFFkwWdJZNR
-	 iiQeyGhKbsamyvQTl7kyEyLKkq+N2PPHIolJ5kOfAAHS1dm/aR6mTJirWaZ/FWN7tf
-	 0D1yIWE/TUPh7NQQ1aZp2qlVgarhL3nEIZNzaQVa5OpJCI47SJqKml4TEp3yPS9Ti8
-	 JMc/ozLQGq95jIAU9G6MmFGXMRLW2Otb9xTDH8Yas6bpLF9Wg1eT7bbYXmlO/TiwG2
-	 JdNpUHuh7JNOg==
-Date: Tue, 28 Nov 2023 14:29:40 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>, 
-	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HPGndlVu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701179376; x=1732715376;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=ho8ya67y0bcAC8iRE41B+MB3YSCUZNByqFAIWF4TZg8=;
+  b=HPGndlVuHasbVuRsfz4yI9RO89sry5KLzLp2AkdsjazcIgwsgjFtzv6O
+   oa1F/rZYDpgA04yo57DUT3vhQ5UucrlAk2jQuC772WTFjs1jA/RiqrhDt
+   Ei1R0mWvvHeuJtQtn6OdGrlWa39/mycnacPbKL59QRq+wcHFn/ePFk8Be
+   MWSaW6ZFPz5c4aENMcrB6Enov2Q64uC2m5jPB2em6et9RtSJvpSjkyx9C
+   AmJ1JUb+Jsfr+vuLRgIK6wOOTzBi3J+Y+V/4u3fnKf2/BBeBE+hQe2IdJ
+   g/SV5HFIp198uQO7G+sFzEf8hbWFxWx5M1pncDmtQD+k0by75r7ZxqE1/
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="392676343"
+X-IronPort-AV: E=Sophos;i="6.04,233,1695711600"; 
+   d="scan'208";a="392676343"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2023 05:49:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="761938211"
+X-IronPort-AV: E=Sophos;i="6.04,233,1695711600"; 
+   d="scan'208";a="761938211"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+  by orsmga007.jf.intel.com with SMTP; 28 Nov 2023 05:49:08 -0800
+Received: by stinkbox (sSMTP sendmail emulation); Tue, 28 Nov 2023 15:49:08 +0200
+Date: Tue, 28 Nov 2023 15:49:08 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>,
+	linux-kernel@vger.kernel.org, Samuel Holland <samuel@sholland.org>,
+	Sandy Huang <hjc@rock-chips.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	linux-doc@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+	linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
+	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Subject: Re: [PATCH v4 05/45] drm/connector: Check drm_connector_init
  pointers arguments
-Message-ID: <v3hplco5fdedv6bnc6mwx2zhhw4xxdiekha26ykhc5cmy7ol77@2irk3w4hmabw>
+Message-ID: <ZWXv1Oi_sH0BRWao@intel.com>
 References: <20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org>
  <20231128-kms-hdmi-connector-state-v4-5-c7602158306e@kernel.org>
  <87h6l66nth.fsf@intel.com>
+ <v3hplco5fdedv6bnc6mwx2zhhw4xxdiekha26ykhc5cmy7ol77@2irk3w4hmabw>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ncmpulkgjsh2p7e6"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <87h6l66nth.fsf@intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <v3hplco5fdedv6bnc6mwx2zhhw4xxdiekha26ykhc5cmy7ol77@2irk3w4hmabw>
+X-Patchwork-Hint: comment
 
+On Tue, Nov 28, 2023 at 02:29:40PM +0100, Maxime Ripard wrote:
+> Hi Jani,
+> 
+> On Tue, Nov 28, 2023 at 02:54:02PM +0200, Jani Nikula wrote:
+> > On Tue, 28 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
+> > > All the drm_connector_init variants take at least a pointer to the
+> > > device, connector and hooks implementation.
+> > >
+> > > However, none of them check their value before dereferencing those
+> > > pointers which can lead to a NULL-pointer dereference if the author
+> > > isn't careful.
+> > 
+> > Arguably oopsing on the spot is preferrable when this can't be caused by
+> > user input. It's always a mistake that should be caught early during
+> > development.
+> > 
+> > Not everyone checks the return value of drm_connector_init and friends,
+> > so those cases will lead to more mysterious bugs later. And probably
+> > oopses as well.
+> 
+> So maybe we can do both then, with something like
+> 
+> if (WARN_ON(!dev))
+>    return -EINVAL
+> 
+> if (drm_WARN_ON(dev, !connector || !funcs))
+>    return -EINVAL;
+> 
+> I'd still like to check for this, so we can have proper testing, and we
+> already check for those pointers in some places (like funcs in
+> drm_connector_init), so if we don't cover everything we're inconsistent.
 
---ncmpulkgjsh2p7e6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+People will invariably cargo-cult this kind of stuff absolutely
+everywhere and then all your functions will have tons of dead
+code to check their arguments. I'd prefer not to go there
+usually.
 
-Hi Jani,
+Should we perhaps start to use the (arguably hideous)
+ - void f(struct foo *bar)
+ + void f(struct foo bar[static 1])
+syntax to tell the compiler we don't accept NULL pointers?
 
-On Tue, Nov 28, 2023 at 02:54:02PM +0200, Jani Nikula wrote:
-> On Tue, 28 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
-> > All the drm_connector_init variants take at least a pointer to the
-> > device, connector and hooks implementation.
-> >
-> > However, none of them check their value before dereferencing those
-> > pointers which can lead to a NULL-pointer dereference if the author
-> > isn't careful.
->=20
-> Arguably oopsing on the spot is preferrable when this can't be caused by
-> user input. It's always a mistake that should be caught early during
-> development.
->=20
-> Not everyone checks the return value of drm_connector_init and friends,
-> so those cases will lead to more mysterious bugs later. And probably
-> oopses as well.
+Hmm. Apparently that has the same problem as using any
+other kind of array syntax in the prototype. That is,
+the compiler demands to know the definition of 'struct foo'
+even though we're passing in effectively a pointer. Sigh.
 
-So maybe we can do both then, with something like
-
-if (WARN_ON(!dev))
-   return -EINVAL
-
-if (drm_WARN_ON(dev, !connector || !funcs))
-   return -EINVAL;
-
-I'd still like to check for this, so we can have proper testing, and we
-already check for those pointers in some places (like funcs in
-drm_connector_init), so if we don't cover everything we're inconsistent.
-
-Maxime
-
---ncmpulkgjsh2p7e6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZWXrRAAKCRDj7w1vZxhR
-xTyXAP0W+h2/0xLXXBJVtoNPSJ+MdMt1B3qXNmsRScATV36j3QD+JmPDNBt3syJA
-33NzAAvtBetz/KSX6B52Yckf1U8lwwU=
-=KHiZ
------END PGP SIGNATURE-----
-
---ncmpulkgjsh2p7e6--
+-- 
+Ville Syrjälä
+Intel
