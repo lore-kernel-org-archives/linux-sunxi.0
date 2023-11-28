@@ -1,218 +1,223 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C6A364DB
-	for <linux-sunxi@lists.linux.dev>; Tue, 28 Nov 2023 09:13:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85F0F4E1CA;
+	Tue, 28 Nov 2023 10:24:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="H/+VkzWR"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-54af0eca12dso5428871a12.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 28 Nov 2023 01:13:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701162831; x=1701767631; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JKyWhsE4YmkQihUdNxWVXRUHnVaAIsib0Sm+z2bLT/w=;
-        b=H/+VkzWRLLxOPCsbPAAzBQcBPRwVdq7L57jMU1oIzJ8XSBH3bfrbWSHdXvv6XNiQoM
-         aG4vvgmMqvF/Wpo7RtyAIYlucDlrS1T95R23tflv9YsUUHBCgZkwe4xssGJKiP8CjOVT
-         mU3dZa/isW+FHapGW90GXRUwZ5H/0ws87ege9QHued0ad9/fToBS9Q++cqGB6wLHzbuJ
-         T1WLUb+FmVOTR3E6/udA0J+puBG0KK1FyrjTpUwVxCixhDRlfsIE/w7CmPl3j5Tsf+3F
-         eOwd70A9715HqVxLx/lvJhvYZ9RqU/EBZDBtPDKtIXy1h1LNSiuB1CcgJr+9rMExTSt2
-         UkEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701162831; x=1701767631;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JKyWhsE4YmkQihUdNxWVXRUHnVaAIsib0Sm+z2bLT/w=;
-        b=TA1V8bNfwQoAMPLpLcSWINTKpC6jH8k3uOceTDY8TcJ9k0Y5mI9KWrBPCqquv31oF+
-         Cq9chvevoYRQc0sq/DYl8pUidJ0PFxQVD6YpeVl8qjy34GYJXHxw0Ih42X4scj9hHDje
-         n/qkDTEAMYTrv0cvbzKJ5bqyDrkbv4ggEVlckesXONXBdqxvLyVE3Suep4EjzUn829JI
-         qXk9gOuN4THDrBw/iFvBIbctMraQgeQc6bT2pAgfVGtECKojSOJ4VtFRZ9hQh6pr34Bz
-         dSXnEDj8zxVxCk4vI13s7dowgFHa+CjWTefTr2DsoXMidWnzcM32tu6eLXxoGY1wNksl
-         EZkw==
-X-Gm-Message-State: AOJu0YwR4syvNL2CDG6WiHkEJrQoY5H/GkTL0GVMat87e2epZLsAaax9
-	aRnrvUpoDm4IzU7PuCfRztla1Q==
-X-Google-Smtp-Source: AGHT+IGjXv3UdHBG2YMRvepgbPhAMEX50VONOl/YY+7Ok/qqTsHdTylMX86Xj/xQS55nV8HJ/6YnFA==
-X-Received: by 2002:a17:906:39c9:b0:9fe:5d39:41c6 with SMTP id i9-20020a17090639c900b009fe5d3941c6mr10411839eje.51.1701162830874;
-        Tue, 28 Nov 2023 01:13:50 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.223.109])
-        by smtp.gmail.com with ESMTPSA id gr19-20020a170906e2d300b009de11bcbbcasm6667234ejb.175.2023.11.28.01.13.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Nov 2023 01:13:50 -0800 (PST)
-Message-ID: <6356d9d1-2110-4195-805c-531bcdbeeb1f@linaro.org>
-Date: Tue, 28 Nov 2023 10:13:47 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R9L+6QCM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97CA6C433C7;
+	Tue, 28 Nov 2023 10:24:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701167062;
+	bh=qYMomW8pY6YBLbLameKXjKgQdEQkpgpJT4hyaH2avZQ=;
+	h=From:Subject:Date:To:Cc:From;
+	b=R9L+6QCM8mKAqcCvs65DNHxiFBZttUtgtTgG7HGa3ThKymGHaK6Te+GS/jEa2hueD
+	 BZAFuEEgeSWoqepxLfIbE6Fq6ueL/CiSfgnM6Tc0hClzrj+WsbZW0BAnIJijBcozN4
+	 k7758Su0wDlUyWgE9N4EQlXK8ugxITO1UUAbRzx76rCyW5SYMF1WcOt0Gv7k9YRgwO
+	 +Y+0vm2GZ2gBu3Fq1/CJMGLqIueLEpYKWou0z2xuz5pRP5kvTBkUbf/vbgKYC3gzip
+	 nJBie7PIeIB1SDrUDo0K+CCSNYPZZqTVsseMcskBp3UQoM9nndXPvHTQUSoYJAUuUd
+	 /CY1dVZiIU5jA==
+From: Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH v4 00/45] drm/connector: Create HDMI Connector
+ infrastructure
+Date: Tue, 28 Nov 2023 11:24:11 +0100
+Message-Id: <20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/6] thermal: sun8i: add syscon register access code
-Content-Language: en-US
-To: wens@csie.org
-Cc: Andre Przywara <andre.przywara@arm.com>,
- Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, "Rafael J . Wysocki"
- <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>,
- Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Martin Botka <martin.botka@somainline.org>,
- Bob McChesney <bob@electricworry.net>, linux-pm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <20231128005849.19044-1-andre.przywara@arm.com>
- <20231128005849.19044-5-andre.przywara@arm.com>
- <ddceb30f-1778-4312-af91-97813fe3c6fb@linaro.org>
- <CAGb2v66YpYBS78C7H-O3zef2NTs+7=ec3A7jrZ+DxjYEyBmWxQ@mail.gmail.com>
- <9045f837-3370-46e9-8631-7464c796d643@linaro.org>
- <CAGb2v66PFNz++d3_5smYBL_BRirYhu4SvX0j36y0JsmXHT33OQ@mail.gmail.com>
- <CAGb2v66L+sW-GQ4HvR-rXsG=JTi6vKt-9P-y1=vPqh0e5gKiOg@mail.gmail.com>
- <CAGb2v64Om8xqpgacbXV9Qf0tbV5qDcSOs7gW-uqSh2HD3Hhu3A@mail.gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <CAGb2v64Om8xqpgacbXV9Qf0tbV5qDcSOs7gW-uqSh2HD3Hhu3A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAMu/ZWUC/43MTQrCMBQE4KuUrI3kr0nqynuIi9j32obaBJJSk
+ NK7G1woIhRXwzDMt5KMyWMmp2olCReffQylqENF2sGFHqmH0olgQjLLFR2nTAeYPG1jCNjOMdE
+ 8uxmp5tpYg9o0wpByH3wu4+MlL7zE5Q9k4ZRRpiyrFXRS1+o8Ygp4P8bUk2tRF/GRGsF2JFEkb
+ hopwAGAgR9JviXOJN+RZJGksDfWOVTSmS9p27YnBGrQqkUBAAA=
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, 
+ Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ Maxime Ripard <mripard@kernel.org>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8165; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=qYMomW8pY6YBLbLameKXjKgQdEQkpgpJT4hyaH2avZQ=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKmp+y/07FgpoN3aZONQF/Bs86WPnx/4HnwvL7T4uURkw
+ JWC5MuvO0pZGMS4GGTFFFlihM2XxJ2a9bqTjW8ezBxWJpAhDFycAjARl4cMv9l3SGmEMrG65p4y
+ 9Zj5KpIz6JyF39S7VS8dlwt2CsUr3GdkOPNYWa96ZcaNdWWX7vduUF6yp/f+i/j0yH3991b23+z
+ ZyA4A
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
-On 28/11/2023 10:09, Chen-Yu Tsai wrote:
-> On Tue, Nov 28, 2023 at 5:02 PM Chen-Yu Tsai <wens@csie.org> wrote:
->>
->> On Tue, Nov 28, 2023 at 4:59 PM Chen-Yu Tsai <wens@csie.org> wrote:
->>>
->>> On Tue, Nov 28, 2023 at 4:30 PM Krzysztof Kozlowski
->>> <krzysztof.kozlowski@linaro.org> wrote:
->>>>
->>>> On 28/11/2023 08:50, Chen-Yu Tsai wrote:
->>>>> On Tue, Nov 28, 2023 at 3:43 PM Krzysztof Kozlowski
->>>>> <krzysztof.kozlowski@linaro.org> wrote:
->>>>>>
->>>>>> On 28/11/2023 01:58, Andre Przywara wrote:
->>>>>>>
->>>>>>> +static struct regmap *sun8i_ths_get_syscon_regmap(struct device_node *node)
->>>>>>> +{
->>>>>>> +     struct device_node *syscon_node;
->>>>>>> +     struct platform_device *syscon_pdev;
->>>>>>> +     struct regmap *regmap = NULL;
->>>>>>> +
->>>>>>> +     syscon_node = of_parse_phandle(node, "syscon", 0);
->>>>>>
->>>>>> Nope. For the 100th time, this cannot be generic.
->>>>>>
->>>>>>> +     if (!syscon_node)
->>>>>>> +             return ERR_PTR(-ENODEV);
->>>>>>> +
->>>>>>> +     syscon_pdev = of_find_device_by_node(syscon_node);
->>>>>>> +     if (!syscon_pdev) {
->>>>>>> +             /* platform device might not be probed yet */
->>>>>>> +             regmap = ERR_PTR(-EPROBE_DEFER);
->>>>>>> +             goto out_put_node;
->>>>>>> +     }
->>>>>>> +
->>>>>>> +     /* If no regmap is found then the other device driver is at fault */
->>>>>>> +     regmap = dev_get_regmap(&syscon_pdev->dev, NULL);
->>>>>>> +     if (!regmap)
->>>>>>> +             regmap = ERR_PTR(-EINVAL);
->>>>>>
->>>>>> Aren't you open-coding existing API to get regmap from syscon?
->>>>>
->>>>> Not really. This is to get a regmap exported by the device. Syscon's regmap
->>>>> is not tied to the device at all.
->>>>
->>>> I am talking about open-coding existing API. Look at syscon.h.
->>>
->>> The underlying implementation is different.
->>>
->>> syscon maintains its own mapping of device nodes to regmaps, and creates
->>> regmaps when none exist. The regmap is not tied to any struct device.
->>> syscon basically exists outside of the driver model and one has no control
->>> over what is exposed because it is meant for blocks that are a collection
->>> of random stuff.
->>
->> My bad. I failed to realize there is a platform device driver for syscon,
->> in addition to the existing "no struct device" implementation.
-> 
-> Actually that doesn't do anything on DT platforms as of commit bdb0066df96e
-> ("mfd: syscon: Decouple syscon interface from platform devices"). All the
-> regmaps are, as I previously stated, not tied to any struct device.
+Hi,
 
+Here's a series that creates some extra infrastructure specifically
+targeted at HDMI controllers.
 
-Sorry, it's your third reply, so I don't know what exactly you want to
-discuss.
+The idea behind this series came from a recent discussion on IRC during
+which we discussed infoframes generation of i915 vs everything else.
 
-This code open-codes existing API. Fix it.
+Infoframes generation code still requires some decent boilerplate, with
+each driver doing some variation of it.
 
-> 
->>> Here the provider device registers the (limited) regmap it wants to provide,
->>> tying the new regmap to itself. The consumer gets it via the dev_get_regmap()
->>> call. The provider has a main function and isn't exposing that part of its
->>> register map to the outside; only the random bits that were stuffed in are.
->>>
->>>>> With this scheme a device to could export just enough registers for the
->>>>> consumer to use, instead of the whole address range.
->>>>>
->>>>> We do this in the R40 clock controller as well, which has some bits that
->>>>> tweak the ethernet controllers RGMII delay...
->>>>
->>>> Not related.
->>>
->>> Related as in that is possibly what this code was based on, commit
->>> 49a06cae6e7c ("net: stmmac: dwmac-sun8i: Allow getting syscon regmap
->>> from external device").
+In parallel, while working on vc4, we ended up converting a lot of i915
+logic (mostly around format / bpc selection, and scrambler setup) to
+apply on top of a driver that relies only on helpers.
 
+While currently sitting in the vc4 driver, none of that logic actually
+relies on any driver or hardware-specific behaviour.
 
-How duplicating a code is related to R40 controller? Duplicating code is
-generic problem, not specific and not related to your hardware.
+The only missing piece to make it shareable are a bunch of extra
+variables stored in a state (current bpc, format, RGB range selection,
+etc.).
+
+The initial implementation was relying on some generic subclass of
+drm_connector to address HDMI connectors, with a bunch of helpers that
+will take care of all the "HDMI Spec" related code. Scrambler setup is
+missing at the moment but can easily be plugged in.
+
+The feedback was that creating a connector subclass like was done for
+writeback would prevent the adoption of those helpers since it couldn't
+be used in all situations (like when the connector driver can implement
+multiple output) and required more churn to cast between the
+drm_connector and its subclass. The decision was thus to provide a set
+of helper and to store the required variables in drm_connector and
+drm_connector_state. This what has been implemented now.
+
+Hans Verkuil also expressed interest in implementing a mechanism in v4l2
+to retrieve infoframes from HDMI receiver and implementing an
+infoframe-decode tool.
+
+This series thus leverages the infoframe generation code to expose it
+through debugfs.
+
+I also used the occasion to unit-test everything but the infoframe
+generation, which can come later once I get a proper understanding of
+what the infoframe are supposed to look like. This required to add some
+extra kunit helpers and infrastructure to have multiple EDIDs and allow
+each test to run with a particular set of capabilities.
+
+This entire series has been tested on a Pi4, passes all its unittests
+(125 new tests), and has only been build-tested for sunxi and rockchip.
+
+Let me know what you think,
+Maxime
+
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+Changes in v4:
+- Create unit tests for everything but infoframes
+- Fix a number of bugs identified by the unit tests
+- Rename DRM (Dynamic Range and Mastering) infoframe file to HDR_DRM
+- Drop RFC status
+- Link to v3: https://lore.kernel.org/r/20231031-kms-hdmi-connector-state-v3-0-328b0fae43a7@kernel.org
+
+Changes in v3:
+- Made sure the series work on the RaspberryPi4
+- Handle YUV420 in the char clock rate computation
+- Use the maximum bpc value the connector allows at reset
+- Expose the RGB Limited vs Full Range value in the connector state
+  instead of through a helper
+- Fix Broadcast RGB documentation
+- Add more debug logging
+- Small fixes here and there
+- Link to v2: https://lore.kernel.org/r/20230920-kms-hdmi-connector-state-v2-0-17932daddd7d@kernel.org
+
+Changes in v2:
+- Change from a subclass to a set of helpers for drm_connector and
+  drm_connector state
+- Don't assume that all drivers support RGB, YUV420 and YUV422 but make
+  them provide a bitfield instead.
+- Don't assume that all drivers support the Broadcast RGB property but
+  make them call the registration helper.
+- Document the Broacast RGB property
+- Convert the inno_hdmi and sun4i_hdmi driver.
+- Link to v1: https://lore.kernel.org/r/20230814-kms-hdmi-connector-state-v1-0-048054df3654@kernel.org
+
+---
+Maxime Ripard (45):
+      drm/tests: helpers: Include missing drm_drv header
+      drm/tests: helpers: Add atomic helpers
+      drm/tests: Add helper to create mock plane
+      drm/tests: Add helper to create mock crtc
+      drm/connector: Check drm_connector_init pointers arguments
+      drm/tests: connector: Add tests for drmm_connector_init
+      drm/connector: Introduce an HDMI connector initialization function
+      drm/connector: hdmi: Create an HDMI sub-state
+      drm/connector: hdmi: Add Broadcast RGB property
+      drm/connector: hdmi: Add RGB Quantization Range to the connector state
+      drm/connector: hdmi: Add output BPC to the connector state
+      drm/connector: hdmi: Add support for output format
+      drm/connector: hdmi: Add HDMI compute clock helper
+      drm/connector: hdmi: Calculate TMDS character rate
+      drm/connector: hdmi: Add custom hook to filter TMDS character rate
+      drm/connector: hdmi: Compute bpc and format automatically
+      drm/connector: hdmi: Add Infoframes generation
+      drm/connector: hdmi: Create Infoframe DebugFS entries
+      drm/vc4: hdmi: Create destroy state implementation
+      drm/vc4: hdmi: Switch to HDMI connector
+      drm/vc4: tests: Remove vc4_dummy_plane structure
+      drm/vc4: tests: Convert to plane creation helper
+      drm/rockchip: inno_hdmi: Remove useless mode_fixup
+      drm/rockchip: inno_hdmi: Remove useless copy of drm_display_mode
+      drm/rockchip: inno_hdmi: Switch encoder hooks to atomic
+      drm/rockchip: inno_hdmi: Get rid of mode_set
+      drm/rockchip: inno_hdmi: no need to store vic
+      drm/rockchip: inno_hdmi: Remove unneeded has audio flag
+      drm/rockchip: inno_hdmi: Remove useless input format
+      drm/rockchip: inno_hdmi: Remove useless output format
+      drm/rockchip: inno_hdmi: Remove useless colorimetry
+      drm/rockchip: inno_hdmi: Remove useless enum
+      drm/rockchip: inno_hdmi: Remove tmds rate from structure
+      drm/rockchip: inno_hdmi: Remove useless coeff_csc matrix
+      drm/rockchip: inno_hdmi: Remove useless mode_valid
+      drm/rockchip: inno_hdmi: Move infoframe disable to separate function
+      drm/rockchip: inno_hdmi: Create mask retrieval functions
+      drm/rockchip: inno_hdmi: Switch to infoframe type
+      drm/rockchip: inno_hdmi: Remove unused drm device pointer
+      drm/rockchip: inno_hdmi: Switch to HDMI connector
+      drm/sun4i: hdmi: Convert encoder to atomic
+      drm/sun4i: hdmi: Move mode_set into enable
+      drm/sun4i: hdmi: Switch to container_of_const
+      drm/sun4i: hdmi: Consolidate atomic_check and mode_valid
+      drm/sun4i: hdmi: Switch to HDMI connector
+
+ Documentation/gpu/kms-properties.csv               |    1 -
+ drivers/gpu/drm/Kconfig                            |    1 +
+ drivers/gpu/drm/drm_atomic.c                       |   11 +
+ drivers/gpu/drm/drm_atomic_state_helper.c          |  659 ++++++++
+ drivers/gpu/drm/drm_atomic_uapi.c                  |    4 +
+ drivers/gpu/drm/drm_connector.c                    |  249 +++
+ drivers/gpu/drm/drm_debugfs.c                      |  110 ++
+ drivers/gpu/drm/rockchip/inno_hdmi.c               |  409 ++---
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c             |  203 ++-
+ drivers/gpu/drm/tests/Makefile                     |    1 +
+ .../gpu/drm/tests/drm_atomic_state_helper_test.c   | 1728 ++++++++++++++++++++
+ drivers/gpu/drm/tests/drm_connector_test.c         | 1345 ++++++++++++++-
+ drivers/gpu/drm/tests/drm_kunit_edid.h             |  482 ++++++
+ drivers/gpu/drm/tests/drm_kunit_helpers.c          |  150 ++
+ drivers/gpu/drm/vc4/tests/vc4_mock.c               |    6 +-
+ drivers/gpu/drm/vc4/tests/vc4_mock.h               |    9 +-
+ drivers/gpu/drm/vc4/tests/vc4_mock_plane.c         |   44 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.c                     |  624 +------
+ drivers/gpu/drm/vc4/vc4_hdmi.h                     |   44 +-
+ drivers/gpu/drm/vc4/vc4_hdmi_phy.c                 |    6 +-
+ include/drm/drm_atomic_state_helper.h              |   12 +
+ include/drm/drm_connector.h                        |  257 +++
+ include/drm/drm_kunit_helpers.h                    |   23 +
+ 23 files changed, 5389 insertions(+), 989 deletions(-)
+---
+base-commit: 815d8b0425ad1164e45953ac3d56a9f6f63792cc
+change-id: 20230814-kms-hdmi-connector-state-616787e67927
 
 Best regards,
-Krzysztof
+-- 
+Maxime Ripard <mripard@kernel.org>
 
