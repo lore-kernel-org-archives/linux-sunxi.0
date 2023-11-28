@@ -1,169 +1,164 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5213258AA1;
-	Tue, 28 Nov 2023 14:58:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="den1Frdv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701183535; x=1732719535;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MmtHq2AXw3e0z60hXa4rJ0joKeClbwyrFO4/JVmK7So=;
-  b=den1FrdvHvwJ1TmR4oA8E/48cIcrozJlqjewdrru04uweIIkljWdZn9m
-   YsaxSs4PnzvMPH7HfprbqxTPMVyjhqSMlmRMwQCvsxVqWs1avM/+/eJNW
-   jsjUCc58mlbwNiIsJtzAcnS6EZHXcdO0BIuNbYVP/mujo7OImevdAqQSh
-   ff3aCHTenIiXAppeRW+z0eSe8+YCL5LKww5dDjEQ3MzFPQ45ViKHRcjg7
-   NTaPrc62Gi8DwwJ6ssMhIwD3POS5dqWN7u+aOSziAh9Zpdh0+TOYoc6iK
-   8m80dmGbM8gzerlodiDQtYpHtKhjgPiSrxvLWThsK+tQIeeIm03TNX01R
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="459442642"
-X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; 
-   d="scan'208";a="459442642"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2023 06:58:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; 
-   d="scan'208";a="9971128"
-Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 28 Nov 2023 06:58:48 -0800
-Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r7zXy-0007eq-14;
-	Tue, 28 Nov 2023 14:58:46 +0000
-Date: Tue, 28 Nov 2023 22:57:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Maxime Ripard <mripard@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Hans Verkuil <hverkuil@xs4all.nl>, dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH v4 03/45] drm/tests: Add helper to create mock plane
-Message-ID: <202311282223.mefGp1S5-lkp@intel.com>
-References: <20231128-kms-hdmi-connector-state-v4-3-c7602158306e@kernel.org>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F5FF37D04
+	for <linux-sunxi@lists.linux.dev>; Tue, 28 Nov 2023 16:10:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4DA12C15;
+	Tue, 28 Nov 2023 08:11:03 -0800 (PST)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 45B843F6C4;
+	Tue, 28 Nov 2023 08:10:13 -0800 (PST)
+Date: Tue, 28 Nov 2023 16:10:10 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li
+ <tiny.windzz@gmail.com>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, "Rafael J
+ . Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, Rob
+ Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Martin Botka <martin.botka@somainline.org>, Bob McChesney
+ <bob@electricworry.net>, linux-pm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, Icenowy Zheng <icenowy@aosc.io>, Maxime Ripard
+ <mripard@kernel.org>
+Subject: Re: [PATCH v3 4/6] thermal: sun8i: add syscon register access code
+Message-ID: <20231128161010.26657e76@donnerap.manchester.arm.com>
+In-Reply-To: <4e90608e-aca5-4b57-be76-350ad54f9e7c@linaro.org>
+References: <20231128005849.19044-1-andre.przywara@arm.com>
+	<20231128005849.19044-5-andre.przywara@arm.com>
+	<ddceb30f-1778-4312-af91-97813fe3c6fb@linaro.org>
+	<20231128143309.38a4ce61@donnerap.manchester.arm.com>
+	<4e90608e-aca5-4b57-be76-350ad54f9e7c@linaro.org>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231128-kms-hdmi-connector-state-v4-3-c7602158306e@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Maxime,
+On Tue, 28 Nov 2023 15:48:18 +0100
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
 
-kernel test robot noticed the following build warnings:
+Hi,
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on sunxi/sunxi/for-next drm/drm-next linus/master v6.7-rc3 next-20231128]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+(adding Maxime for the syscon question below)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Ripard/drm-tests-helpers-Add-atomic-helpers/20231128-193409
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20231128-kms-hdmi-connector-state-v4-3-c7602158306e%40kernel.org
-patch subject: [PATCH v4 03/45] drm/tests: Add helper to create mock plane
-config: i386-buildonly-randconfig-002-20231128 (https://download.01.org/0day-ci/archive/20231128/202311282223.mefGp1S5-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231128/202311282223.mefGp1S5-lkp@intel.com/reproduce)
+> On 28/11/2023 15:33, Andre Przywara wrote:
+> > On Tue, 28 Nov 2023 08:43:32 +0100
+> > Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+> > 
+> > Hi,
+> >   
+> >> On 28/11/2023 01:58, Andre Przywara wrote:  
+> >>>  
+> >>> +static struct regmap *sun8i_ths_get_syscon_regmap(struct device_node *node)
+> >>> +{
+> >>> +	struct device_node *syscon_node;
+> >>> +	struct platform_device *syscon_pdev;
+> >>> +	struct regmap *regmap = NULL;
+> >>> +
+> >>> +	syscon_node = of_parse_phandle(node, "syscon", 0);    
+> >>
+> >> Nope. For the 100th time, this cannot be generic.  
+> > 
+> > OK. Shall this name refer to the required functionality (temperature
+> > offset fix) or to the target syscon node (like allwinner,misc-syscon).
+> > The problem is that this is really a syscon, as in: "random collection of
+> > bits that we didn't know where else to put in", so "syscon" alone actually
+> > says it all.  
+> 
+> Every syscon is a "random collection of bits...", but not every "random
+> collection of bits..." is a syscon.
+> 
+> Your target device does not implement syscon nodes. Your Linux
+> implementation does not use it as syscon. Therefore if something does
+> not look like syscon and does not behave like syscon, it is not a syscon.
+> 
+> I looked at the bit and this is SRAM, not syscon. I am sorry, but it is
+> something entirely different and we have a binding for it: "sram", I think.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311282223.mefGp1S5-lkp@intel.com/
+Well, it's somehow both: On the face of it it's a SRAM controller, indeed:
+it can switch the control of certain SRAM regions between CPU access and
+peripheral access (for the video and the display engine). But then it's
+also a syscon, because on top of that, it also controls those random bits,
+for instance the EMAC clock register, and this ominous THS bit.
+I guess in hindsight we should have never dropped that "syscon" string
+then, but I am not sure if adding it back has side effects?
 
-All warnings (new ones prefixed by >>):
+And as I mentioned in the cover letter: modelling this as some SRAM
+region, as you suggest, might be an alternative, but it doesn't sound right
+either, as I don't think it really is one: I just tried in U-Boot, and I
+can write and read the whole SRAM C region just fine, with and without the
+bit set. And SRAM content is preserved, even with the thermal sensor
+running and the bit cleared (or set).
 
->> drivers/gpu/drm/tests/drm_kunit_helpers.c:290: warning: Function parameter or member 'num_formats' not described in 'drm_kunit_helper_create_primary_plane'
->> drivers/gpu/drm/tests/drm_kunit_helpers.c:290: warning: Excess function parameter 'format_count' description in 'drm_kunit_helper_create_primary_plane'
+So adding the "syscon" to the compatible would fix most things, but then
+we need to keep the open coded lookup code in dwmac-sun8i.c (because older
+DTs would break otherwise).
 
+What do people think about this?
+Samuel, does this affect the D1 LDO driver as well?
 
-vim +290 drivers/gpu/drm/tests/drm_kunit_helpers.c
+Cheers,
+Andre
 
-   257	
-   258	/**
-   259	 * drm_kunit_helper_create_primary_plane - Creates a mock primary plane for a KUnit test
-   260	 * @test: The test context object
-   261	 * @drm: The device to alloc the plane for
-   262	 * @funcs: Callbacks for the new plane. Optional.
-   263	 * @helper_funcs: Helpers callbacks for the new plane. Optional.
-   264	 * @formats: array of supported formats (DRM_FORMAT\_\*). Optional.
-   265	 * @format_count: number of elements in @formats
-   266	 * @modifiers: array of struct drm_format modifiers terminated by
-   267	 *             DRM_FORMAT_MOD_INVALID. Optional.
-   268	 *
-   269	 * This allocates and initializes a mock struct &drm_plane meant to be
-   270	 * part of a mock device for a KUnit test.
-   271	 *
-   272	 * Resources will be cleaned up automatically.
-   273	 *
-   274	 * @funcs will default to the default helpers implementations.
-   275	 * @helper_funcs will default to an empty implementation. @formats will
-   276	 * default to XRGB8888 only. @modifiers will default to a linear
-   277	 * modifier only.
-   278	 *
-   279	 * Returns:
-   280	 * A pointer to the new plane, or an ERR_PTR() otherwise.
-   281	 */
-   282	struct drm_plane *
-   283	drm_kunit_helper_create_primary_plane(struct kunit *test,
-   284					      struct drm_device *drm,
-   285					      const struct drm_plane_funcs *funcs,
-   286					      const struct drm_plane_helper_funcs *helper_funcs,
-   287					      const uint32_t *formats,
-   288					      unsigned int num_formats,
-   289					      const uint64_t *modifiers)
- > 290	{
-   291		struct drm_plane *plane;
-   292	
-   293		if (!funcs)
-   294			funcs = &default_plane_funcs;
-   295	
-   296		if (!helper_funcs)
-   297			helper_funcs = &default_plane_helper_funcs;
-   298	
-   299		if (!formats || !num_formats) {
-   300			formats = default_plane_formats;
-   301			num_formats = ARRAY_SIZE(default_plane_formats);
-   302		}
-   303	
-   304		if (!modifiers)
-   305			modifiers = default_plane_modifiers;
-   306	
-   307		plane = __drmm_universal_plane_alloc(drm,
-   308						     sizeof(struct drm_plane), 0,
-   309						     0,
-   310						     funcs,
-   311						     formats,
-   312						     num_formats,
-   313						     default_plane_modifiers,
-   314						     DRM_PLANE_TYPE_PRIMARY,
-   315						     NULL);
-   316		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, plane);
-   317	
-   318		drm_plane_helper_add(plane, helper_funcs);
-   319	
-   320		return plane;
-   321	}
-   322	EXPORT_SYMBOL_GPL(drm_kunit_helper_create_primary_plane);
-   323	
+> 
+> > 
+> > 
+> > And btw: it would have been about the same effort (and more helpful!) to
+> > type:
+> > 
+> > "This cannot be generic, please check writing-bindings.rst."    ;-)
+> >   
+> >>  
+> >>> +	if (!syscon_node)
+> >>> +		return ERR_PTR(-ENODEV);
+> >>> +
+> >>> +	syscon_pdev = of_find_device_by_node(syscon_node);
+> >>> +	if (!syscon_pdev) {
+> >>> +		/* platform device might not be probed yet */
+> >>> +		regmap = ERR_PTR(-EPROBE_DEFER);
+> >>> +		goto out_put_node;
+> >>> +	}
+> >>> +
+> >>> +	/* If no regmap is found then the other device driver is at fault */
+> >>> +	regmap = dev_get_regmap(&syscon_pdev->dev, NULL);
+> >>> +	if (!regmap)
+> >>> +		regmap = ERR_PTR(-EINVAL);    
+> >>
+> >> Aren't you open-coding existing API to get regmap from syscon?  
+> > 
+> > That's a good point, I lifted that code from sun8i-emac.c, where we have
+> > the exact same problem. 
+> > Unfortunately syscon_regmap_lookup_by_phandle() requires the syscon DT
+> > node to have "syscon" in its compatible string list, which we
+> > don't have. We actually explicitly dropped this for the A64 (with
+> > 1f1f5183981d70bf0950), and never added this for later SoCs in the first place.
+> > I guess we could add it back, and it would work for this case here (tested
+> > that), but then cannot replace the sun8i-emac.c code, because that would
+> > break older DTs.
+> > So is there any chance we can drop the requirement for "syscon" in the
+> > compatible string list, in the implementation of
+> > syscon_regmap_lookup_by_phandle()? Maybe optionally, using a different
+> > prototype? Or is there another existing API that does this already?  
+> 
+> I must correct myself: I was wrong. You are not open-coding, because as
+> pointed out, this is not a phandle to syscon (even if you call it like
+> "syscon").
+> 
+> The code is fine, maybe except missing links (needs double checking,
+> because maybe regmap creates links?). The DT binding and DTS needs
+> fixing, because it is not a syscon.
+> 
+> Best regards,
+> Krzysztof
+> 
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
