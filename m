@@ -1,191 +1,110 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f181.google.com (mail-il1-f181.google.com [209.85.166.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BB6739AEC
-	for <linux-sunxi@lists.linux.dev>; Tue, 28 Nov 2023 17:49:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1r82DD-0008Kh-R5; Tue, 28 Nov 2023 18:49:31 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1r82DA-00CEE8-AI; Tue, 28 Nov 2023 18:49:28 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1r82DA-00AItg-0H; Tue, 28 Nov 2023 18:49:28 +0100
-Date: Tue, 28 Nov 2023 18:49:27 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Arnd Bergmann <arnd@arndb.de>, soc@kernel.org
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Tony Lindgren <tony@atomide.com>, Yuan Can <yuancan@huawei.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Rob Herring <robh@kernel.org>, Samuel Holland <samuel@sholland.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jon Hunter <jonathanh@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
-	Andy Gross <agross@kernel.org>, linux-sunxi@lists.linux.dev,
-	Nick Alcock <nick.alcock@oracle.com>,
-	Yangtao Li <frank.li@vivo.com>, Liu Ying <victor.liu@nxp.com>,
-	linux-arm-msm@vger.kernel.org, Jay Fang <f.fangjian@huawei.com>,
-	Hans de Goede <hdegoede@redhat.com>, linux-tegra@vger.kernel.org,
-	Linux-OMAP <linux-omap@vger.kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	Laurentiu Tudor <laurentiu.tudor@nxp.com>,
-	"Sicelo A. Mhlongo" <absicsz@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>
-Subject: [PULL v2] bus: Convert to platform remove callback returning void
-Message-ID: <20231128174927.m46dgp4juig2omci@pengutronix.de>
-References: <20231109202830.4124591-1-u.kleine-koenig@pengutronix.de>
- <1e5e1008-707b-449a-9dbf-48324eb2b248@app.fastmail.com>
- <20231116115307.32rovgcej2s5pe4r@pengutronix.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7151746B87
+	for <linux-sunxi@lists.linux.dev>; Tue, 28 Nov 2023 20:07:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NUj0GCWk"
+Received: by mail-il1-f181.google.com with SMTP id e9e14a558f8ab-3580b94ac2eso20080705ab.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 28 Nov 2023 12:07:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701202075; x=1701806875; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Zyt3AA9rAsrEEbanfY0RJVuBD8G7Bab+3ER5tFRgGnw=;
+        b=NUj0GCWko5BRQN3NN1mNbgWchGoUvuStogNV6a6xM6h2CYvQzWpCrF89mGQsst3Egg
+         yBcmHOJfGyfmBcNwbvLPy+oyJ06s0FeT/txuNcl3J5NvXOGmZaagqI8ktR+IQHuMstUc
+         rAGzDcdxgRpIQUI/IUZmMA5qnFt9JBwHYLT7WM/9zBPLRaQSFg6S5K/h88XfLit8TIA7
+         1zqFddt+laxBZ1Eaor/mYZCfYkK/tO1wqZbFWy173tEpl7qMB/TYWf26pdIEzNGmr3rx
+         cBxgs8qvkQI2naiFwk5s/J55gWXZY+iqFMcTOQfx8fqShD8vA3rjRo12M1bj7YbhOdne
+         EnUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701202075; x=1701806875;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Zyt3AA9rAsrEEbanfY0RJVuBD8G7Bab+3ER5tFRgGnw=;
+        b=MdGTxcSu76Op/KsG6ntgxIm3lFFQ2xovH7BDu0Ohp7Ja22fWhB9ObH02qhmeKN66g/
+         reCvka8qgM5+uvoPc1+zN4GOzl9cj9QV5XJHd2waabeQVLDFuzZjVlgEm92Re1K1R8O5
+         UZXsIXZv1Z/QAePIScVz1ds/Os5HRx8gnp9T7iuaje51Mjsiyjba538Vg35dbIxmgJIp
+         XrPPUShtQNFJFC0JP+hjzkNASNX90CAo/oCNDR9NOVssTTAz3grp9abIhYVTvuWns/w2
+         SW8YhciEdtFkKzfgEE2FYeE7DK48qlP9UK0q+DcC9dh2cOKJTTVXUbd401BWfX4wPyc6
+         zTJw==
+X-Gm-Message-State: AOJu0Yxbkl2OzIJ7MmLNnRkVe1F+xa+DVj9L/SPJIoRGQC6SseAfrDNi
+	AfbVBOeVkBULtRhYdupOQZU=
+X-Google-Smtp-Source: AGHT+IFQme9ulTecymjfUGWzrk6/Wcnnu4qGKF32CqYFYV1jLahNY/c5ufGYsOOLoMGlGeDVTqATiQ==
+X-Received: by 2002:a92:c603:0:b0:35c:debc:94f8 with SMTP id p3-20020a92c603000000b0035cdebc94f8mr7955462ilm.10.1701202075192;
+        Tue, 28 Nov 2023 12:07:55 -0800 (PST)
+Received: from [192.168.1.3] (d23-16-72-139.bchsia.telus.net. [23.16.72.139])
+        by smtp.gmail.com with ESMTPSA id fi35-20020a056a0039a300b006cb8ceeea62sm9258194pfb.55.2023.11.28.12.07.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Nov 2023 12:07:54 -0800 (PST)
+Message-ID: <5d7ea381-2a57-46f7-85c6-2bcad339d1db@gmail.com>
+Date: Tue, 28 Nov 2023 12:07:54 -0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="53zsv2odqs745utj"
-Content-Disposition: inline
-In-Reply-To: <20231116115307.32rovgcej2s5pe4r@pengutronix.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+User-Agent: Mozilla Thunderbird
+Subject: mdt_debug write
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Mikhail Kalashnikov <iuncuim@gmail.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, Vignesh R <vigneshr@ti.com>,
+ Jaehoon Chung <jh80.chung@samsung.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Piotr Oniszczuk <piotr.oniszczuk@gmail.com>, u-boot@lists.denx.de,
+ linux-sunxi@lists.linux.dev
+References: <20231114013106.31336-1-andre.przywara@arm.com>
+ <20231114013106.31336-4-andre.przywara@arm.com>
+ <0eab5c21-4fdc-478e-9071-f43c12e01fb3@gmail.com>
+ <20231126002349.55404e43@slackpad.lan>
+ <465a5608-89f7-4691-a2e0-ebec9b85d994@gmail.com>
+ <20231126122342.3944cad5@slackpad.lan>
+ <d8862c87-072d-4f74-bb37-08f34c610cc8@gmail.com>
+ <dae3bee5-e1c7-4154-959c-e41dabb5d844@gmail.com>
+ <20231128013746.23648d39@slackpad.lan>
+Content-Language: en-CA
+From: Stephen Graf <stephen.graf@gmail.com>
+In-Reply-To: <20231128013746.23648d39@slackpad.lan>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+Below is the consol log from trying to use mtd_debug write. It returned 
+immediately with a strange success message.
+
+root@orangepizero3:~# mtd_debug write /dev/mtd0 0 0xf0000 
+/home/sysadmin/u-boot-sunxi-with-spl.bin
+file_to_flash: fread, size 0xf0000, n 0xf0000
+fread(): Success
+
+I then used the cat command to write to the SPI flash which took a few 
+seconds to execute:
+
+root@orangepizero3:~# cat /home/sysadmin/u-boot-sunxi-with-spl.bin > 
+/dev/mtd0
 
 
---53zsv2odqs745utj
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hello Arnd,
-
-On Thu, Nov 16, 2023 at 12:53:07PM +0100, Uwe Kleine-K=F6nig wrote:
-> On Fri, Nov 10, 2023 at 07:32:01AM +0100, Arnd Bergmann wrote:
-> > On Thu, Nov 9, 2023, at 21:28, Uwe Kleine-K=F6nig wrote:
-> > > this series converts all drivers below drivers/bus to struct
-> > > platform_driver::remove_new(). See commit 5c5a7680e67b ("platform:
-> > > Provide a remove callback that returns no value") for an extended
-> > > explanation and the eventual goal.
-> > >
-> > > drivers/bus/fsl-mc was already addressed earlier with a separate
-> > > series[1].
-> > >
-> > > All conversations are trivial, because all .remove() callbacks return=
-ed
-> > > zero unconditionally.
-> > >
-> > > Some of the drivers touched here don't have a maintainer and there is=
- no
-> > > maintainer for all of drivers/bus. It would be great if someone could=
- pick up
-> > > the whole series, maybe Arnd might do that?
-> >=20
-> > Sure, please send a pull request to soc@kernel.org if there
-> > are no further comments.
->=20
-> here it comes:
->=20
-> The following changes since commit b85ea95d086471afb4ad062012a4d73cd328fa=
-86:
->=20
->   Linux 6.7-rc1 (2023-11-12 16:19:07 -0800)
-
-Here comes an updated PR. The only change is that it also includes two
-Reviewed-by tags for Jernej Skrabec that came in after I sent the PR.
-Obviously that changed the commit hash which made it necessary to redo
-the PR. I hope it doesn't disturb your tooling that there are now two
-similar pull requests.
-
-Best regards
-Uwe
-
-The following changes since commit b85ea95d086471afb4ad062012a4d73cd328fa86:
-
-  Linux 6.7-rc1 (2023-11-12 16:19:07 -0800)
-
-are available in the Git repository at:
-
-  https://git.pengutronix.de/git/ukl/linux tags/bus-platform-remove-void
-
-for you to fetch changes up to fc540426f7baa0c7d4b477e80435d075659092a2:
-
-  bus: ts-nbus: Convert to platform remove callback returning void (2023-11=
--28 18:43:27 +0100)
-
-----------------------------------------------------------------
-This series converts all drivers below drivers/bus to struct
-platform_driver::remove_new(). See commit 5c5a7680e67b ("platform:
-Provide a remove callback that returns no value") for an extended
-explanation and the eventual goal.
-
-After the initial simplification in commit 864acca58000 ("bus: fsl-mc:
-Drop if block with always false condition") all conversations are
-trivial because the remove callbacks all return zero unconditionally.
-
-----------------------------------------------------------------
-Uwe Kleine-K=F6nig (14):
-      bus: fsl-mc: Drop if block with always false condition
-      bus: fsl-mc: Convert to platform remove callback returning void
-      bus: hisi_lpc: Convert to platform remove callback returning void
-      bus: omap-ocp2scp: Convert to platform remove callback returning void
-      bus: omap_l3_smx: Convert to platform remove callback returning void
-      bus: qcom-ssc-block-bus: Convert to platform remove callback returnin=
-g void
-      bus: simple-pm-bus: Convert to platform remove callback returning void
-      bus: sun50i-de2: Convert to platform remove callback returning void
-      bus: sunxi-rsb: Convert to platform remove callback returning void
-      bus: tegra-aconnect: Convert to platform remove callback returning vo=
-id
-      bus: tegra-gmi: Convert to platform remove callback returning void
-      bus: ti-pwmss: Convert to platform remove callback returning void
-      bus: ti-sysc: Convert to platform remove callback returning void
-      bus: ts-nbus: Convert to platform remove callback returning void
-
- drivers/bus/fsl-mc/fsl-mc-bus.c  | 16 +++-------------
- drivers/bus/hisi_lpc.c           |  6 ++----
- drivers/bus/omap-ocp2scp.c       |  6 ++----
- drivers/bus/omap_l3_smx.c        |  6 ++----
- drivers/bus/qcom-ssc-block-bus.c |  6 ++----
- drivers/bus/simple-pm-bus.c      |  7 +++----
- drivers/bus/sun50i-de2.c         |  5 ++---
- drivers/bus/sunxi-rsb.c          |  6 ++----
- drivers/bus/tegra-aconnect.c     |  6 ++----
- drivers/bus/tegra-gmi.c          |  6 ++----
- drivers/bus/ti-pwmss.c           |  5 ++---
- drivers/bus/ti-sysc.c            |  6 ++----
- drivers/bus/ts-nbus.c            |  6 ++----
- 13 files changed, 28 insertions(+), 59 deletions(-)
-
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---53zsv2odqs745utj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmVmKCcACgkQj4D7WH0S
-/k66uAf+KEj6yCYL/fZUMESxp+ruHd0CIqqyeqoXs8QJkSZpBYf6q/1nJvHP8UV8
-uwqqXDJ+/qN0XvfzFFY8sBUbw8aZhyPKUsrdXsauHjCYGMwjVDB2fWrmchk8J2cN
-6yS1cKfZjexAhBrZm/02p1b6zTV6AMj3HYKEmTsFmZ3G9FcANo/zOro3prS0M4W6
-79xe6KqnjNr0MCIHeBnnig/94vz408lqk+ebBS25Fy7JIkfsNTGrntTrQ/zbyQ/T
-Oaegx6m+33HBtpLeK/L+dOLBzdSblKXZpSbbKD1NVT1q0aDcfnlXU8CHp080y0u/
-Ppx52VMZg3hOXuwZtKcIZA1COE/NyA==
-=jxQg
------END PGP SIGNATURE-----
-
---53zsv2odqs745utj--
+>>>
+>>> I tried to follow the u-boot documentation on writing the SPI flash but
+>>> had problems with the write command.  When issued it returned
+>>> immediately. The erase command took about 5 sec to execute. I researched
+>>> use of mtd commands and got a suggestion to use cat instead, which worked.
+>>>
+>>> "root@orangepizero3:~# mtdinfo
+>>> Count of MTD devices:           1
+>>> Present MTD devices:            mtd0
+>>> Sysfs interface supported:      yes
+>>> root@orangepizero3:~# mtd_debug erase /dev/mtd0 0 0xf0000
+>>> Erased 983040 bytes from address 0x00000000 in flash
+>>> root@orangepizero3:~# mtd_debug write /dev/mtd0 0 0xf0000
+>>> /home/sysadmin/u-boot-sunxi-with-spl.bin
+>>> file_to_flash: fread, size 0xf0000, n 0xf0000
+>>> fread(): Success
+>>> 
+>>>
