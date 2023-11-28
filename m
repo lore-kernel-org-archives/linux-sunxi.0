@@ -1,47 +1,47 @@
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A96A59B5C
-	for <linux-sunxi@lists.linux.dev>; Tue, 28 Nov 2023 20:49:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A618B5D4BD
+	for <linux-sunxi@lists.linux.dev>; Tue, 28 Nov 2023 20:49:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="SlAqeFyd"
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-67a34fbaf12so18842926d6.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 28 Nov 2023 12:49:51 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="VGBPC+zY"
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-5d05ff42db0so27503507b3.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 28 Nov 2023 12:49:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1701204590; x=1701809390; darn=lists.linux.dev;
+        d=soleen.com; s=google; t=1701204591; x=1701809391; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ETdhPmFEsQhEIbzNxRgoLUCae/wd+Ix3V20Xa0Oz0Bc=;
-        b=SlAqeFyd5426XUwK0lASob0qunAJb/3f74c1KBD7QEhVRLeaVtuMSmGRGCovD7WjaJ
-         4KO1i0ieVglrBjE4lqyemt8zJN+xo1esP3qcSIlFrX0p1A1WX3d4trnLIOS/6szd3YQd
-         rn+sU24xpkKs5yA2QMkykyNMoqCZ9KXoMLVotEt/CMDq2JB1AItlVnLNbLxpCnx80z/n
-         KzPEhGCqNThFrO57iaLa4hOgxel3pQ6mEsSk8zIbuf+RTA9b8SfipkWfhhR8RKjfaAqa
-         BSJg0Gk+uKAdFX3PTVKFUXKKe8a/n+KszjnGcMmZF2/HO/2Jrqr2rtH8PmVOPvIw9ujc
-         /aYw==
+        bh=WwZxW20NTsAI6OtU2mg3WBn7dc7VhXurLb9lJcGaB3s=;
+        b=VGBPC+zY9VfphY31IQYYHsr20EXfG8UHAURUhc63DW7sZziP3/Ccss/d704YKiIfwj
+         upEk4Bmbr5gpVAtMiZL5EYLaTGwJcHhfimQ2aStoIjnubnoTcQoeH89tuNxL32uVXlvI
+         xEf0MHEdJp2ekYy0OH713EzMf0rqiy+NFWh6FPXoTVpZUYgqRRopHyYZg7ntmHh2mihb
+         lEVnxw3600dmywLxxI2jKWMtkGlGfzeE7Y64GAvhtkzRmbQpB+8KK/0ZtJ7nBu47vDG6
+         xPpcojeo1ixeHKqine92vw0MNXdrN6d+vc7Vdv0siqnbYruZALTqUfNGp2HiJiGWt6my
+         dyKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701204590; x=1701809390;
+        d=1e100.net; s=20230601; t=1701204591; x=1701809391;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ETdhPmFEsQhEIbzNxRgoLUCae/wd+Ix3V20Xa0Oz0Bc=;
-        b=jDTJ6z82YJzwnx19lfO5omRZRrdWjd2Q5ypTH/7+aQH7zeDMbCZ6zlu1DRhIZ60N8A
-         g8OFOpTRU+WeYN2NG+nM5lIZmCoaTaTO6V/q+SRpwQyD2DCOMuYaUNhYbuyOZSJI9L0T
-         hoawcg+nlvqJ1VOQaOEV22uh6xX49okd4xt9vuxjojtwtkzzNlLbg3qFE8D/9QkPui2A
-         PDJMcpzv71hl/F9VSKedZIIAnVqjXd8us8z+iY6nhg36v8w2MCpLdPQ8IK+6gIX3zfxF
-         uTUwLwbb/CxZPVdROWmqYXITGS2E/r30uitZ4htTKpU0Q8vZh/h28nwrFgZJtf6RUTkv
-         O+pw==
-X-Gm-Message-State: AOJu0YwdXwBMf9418bon9ZjIgbrbUhKBP40lJsJ8HWwpq2NgMRm1FbH6
-	36jliyjBLrEkBQkOdR4jGo3quw==
-X-Google-Smtp-Source: AGHT+IF20t0VWjgac0dRIZCA1JkcXVtwNJBGTcAuMHzFzEm0RhGR7NzU38i0clAtj6I8+ULrxoVFmw==
-X-Received: by 2002:a0c:ebc3:0:b0:67a:2129:c05a with SMTP id k3-20020a0cebc3000000b0067a2129c05amr14629363qvq.53.1701204590697;
-        Tue, 28 Nov 2023 12:49:50 -0800 (PST)
+        bh=WwZxW20NTsAI6OtU2mg3WBn7dc7VhXurLb9lJcGaB3s=;
+        b=SoohXIvzdfTjTNquPRYDf/3p/8BImqI8QeNCy0g8YcHS3+eAB7UnHrk4R0dCASOyf/
+         3JQEPy2Q1EV9Y4uj+ZxiRubiPJF4Q3ZLOsBiNkbX5JkTaH3xzHYCr2w26vEWWOt9zPQE
+         leMAVP/skY+nEqveKAyJ0IlF8k492e2FZVTOmnzor9Uzm/hOpOK3otnIb4UZcOXaJocy
+         4CcpWT0hNdC66RwqG40PQndX8FQtbYhg4im80W0Y/rzglQT5C3lP10VOq6yzR1gsUwhf
+         7mAX2OxpDGXh46Xumu4cNeD5dw6EVWz0k0ifYH+T99fMSepsOBboC7ahfh8hhEuw1XAo
+         5tDw==
+X-Gm-Message-State: AOJu0YxW9dsCtEMb7CN7CXlqWUlT8D9Wcl3hy+pLKnu3BKfJqVRgD6UA
+	9ZOm8Edc1s32yxArNOiF9kiJ7A==
+X-Google-Smtp-Source: AGHT+IHCcneC8xut0NvwO9Mjx/qxjTP4L7ixlY2hbUe9eNo80eBX8ekYQZcNVvvgdD6z0QrQuBV3MA==
+X-Received: by 2002:a0d:d409:0:b0:5cb:5171:ab07 with SMTP id w9-20020a0dd409000000b005cb5171ab07mr16139567ywd.12.1701204591541;
+        Tue, 28 Nov 2023 12:49:51 -0800 (PST)
 Received: from soleen.c.googlers.com.com (55.87.194.35.bc.googleusercontent.com. [35.194.87.55])
-        by smtp.gmail.com with ESMTPSA id d11-20020a0cfe8b000000b0067a56b6adfesm1056863qvs.71.2023.11.28.12.49.49
+        by smtp.gmail.com with ESMTPSA id d11-20020a0cfe8b000000b0067a56b6adfesm1056863qvs.71.2023.11.28.12.49.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Nov 2023 12:49:50 -0800 (PST)
+        Tue, 28 Nov 2023 12:49:51 -0800 (PST)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: akpm@linux-foundation.org,
 	alex.williamson@redhat.com,
@@ -95,9 +95,9 @@ To: akpm@linux-foundation.org,
 	wens@csie.org,
 	will@kernel.org,
 	yu-cheng.yu@intel.com
-Subject: [PATCH 10/16] iommu/rockchip: use page allocation function provided by iommu-pages.h
-Date: Tue, 28 Nov 2023 20:49:32 +0000
-Message-ID: <20231128204938.1453583-11-pasha.tatashin@soleen.com>
+Subject: [PATCH 11/16] iommu/sun50i: use page allocation function provided by iommu-pages.h
+Date: Tue, 28 Nov 2023 20:49:33 +0000
+Message-ID: <20231128204938.1453583-12-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.43.0.rc2.451.g8631bc7472-goog
 In-Reply-To: <20231128204938.1453583-1-pasha.tatashin@soleen.com>
 References: <20231128204938.1453583-1-pasha.tatashin@soleen.com>
@@ -109,92 +109,46 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert iommu/rockchip-iommu.c to use the new page allocation functions
+Convert iommu/sun50i-iommu.c to use the new page allocation functions
 provided in iommu-pages.h.
 
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 ---
- drivers/iommu/iommufd/iova_bitmap.c |  2 ++
- drivers/iommu/rockchip-iommu.c      | 14 ++++++++------
- 2 files changed, 10 insertions(+), 6 deletions(-)
+ drivers/iommu/sun50i-iommu.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/iommu/iommufd/iova_bitmap.c b/drivers/iommu/iommufd/iova_bitmap.c
-index 6b8575b93f17..4d5d1be807fe 100644
---- a/drivers/iommu/iommufd/iova_bitmap.c
-+++ b/drivers/iommu/iommufd/iova_bitmap.c
-@@ -8,6 +8,8 @@
- #include <linux/slab.h>
- #include <linux/highmem.h>
- 
-+#include "../iommu-pages.h"
-+
- #define BITS_PER_PAGE (PAGE_SIZE * BITS_PER_BYTE)
- 
- /*
-diff --git a/drivers/iommu/rockchip-iommu.c b/drivers/iommu/rockchip-iommu.c
-index 2685861c0a12..e04f22d481d0 100644
---- a/drivers/iommu/rockchip-iommu.c
-+++ b/drivers/iommu/rockchip-iommu.c
+diff --git a/drivers/iommu/sun50i-iommu.c b/drivers/iommu/sun50i-iommu.c
+index 41484a5a399b..172ddb717eb5 100644
+--- a/drivers/iommu/sun50i-iommu.c
++++ b/drivers/iommu/sun50i-iommu.c
 @@ -26,6 +26,8 @@
- #include <linux/slab.h>
  #include <linux/spinlock.h>
+ #include <linux/types.h>
  
 +#include "iommu-pages.h"
 +
- /** MMU register offsets */
- #define RK_MMU_DTE_ADDR		0x00	/* Directory table address */
- #define RK_MMU_STATUS		0x04
-@@ -727,14 +729,14 @@ static u32 *rk_dte_get_page_table(struct rk_iommu_domain *rk_domain,
- 	if (rk_dte_is_pt_valid(dte))
- 		goto done;
+ #define IOMMU_RESET_REG			0x010
+ #define IOMMU_RESET_RELEASE_ALL			0xffffffff
+ #define IOMMU_ENABLE_REG		0x020
+@@ -679,8 +681,7 @@ sun50i_iommu_domain_alloc_paging(struct device *dev)
+ 	if (!sun50i_domain)
+ 		return NULL;
  
--	page_table = (u32 *)get_zeroed_page(GFP_ATOMIC | rk_ops->gfp_flags);
-+	page_table = iommu_alloc_page(GFP_ATOMIC | rk_ops->gfp_flags);
- 	if (!page_table)
- 		return ERR_PTR(-ENOMEM);
- 
- 	pt_dma = dma_map_single(dma_dev, page_table, SPAGE_SIZE, DMA_TO_DEVICE);
- 	if (dma_mapping_error(dma_dev, pt_dma)) {
- 		dev_err(dma_dev, "DMA mapping error while allocating page table\n");
--		free_page((unsigned long)page_table);
-+		iommu_free_page(page_table);
- 		return ERR_PTR(-ENOMEM);
- 	}
- 
-@@ -1061,7 +1063,7 @@ static struct iommu_domain *rk_iommu_domain_alloc_paging(struct device *dev)
- 	 * Each level1 (dt) and level2 (pt) table has 1024 4-byte entries.
- 	 * Allocate one 4 KiB page for each table.
- 	 */
--	rk_domain->dt = (u32 *)get_zeroed_page(GFP_KERNEL | rk_ops->gfp_flags);
-+	rk_domain->dt = iommu_alloc_page(GFP_KERNEL | rk_ops->gfp_flags);
- 	if (!rk_domain->dt)
+-	sun50i_domain->dt = (u32 *)__get_free_pages(GFP_KERNEL | __GFP_ZERO,
+-						    get_order(DT_SIZE));
++	sun50i_domain->dt = iommu_alloc_pages(GFP_KERNEL, get_order(DT_SIZE));
+ 	if (!sun50i_domain->dt)
  		goto err_free_domain;
  
-@@ -1083,7 +1085,7 @@ static struct iommu_domain *rk_iommu_domain_alloc_paging(struct device *dev)
- 	return &rk_domain->domain;
+@@ -702,7 +703,7 @@ static void sun50i_iommu_domain_free(struct iommu_domain *domain)
+ {
+ 	struct sun50i_iommu_domain *sun50i_domain = to_sun50i_domain(domain);
  
- err_free_dt:
--	free_page((unsigned long)rk_domain->dt);
-+	iommu_free_page(rk_domain->dt);
- err_free_domain:
- 	kfree(rk_domain);
+-	free_pages((unsigned long)sun50i_domain->dt, get_order(DT_SIZE));
++	iommu_free_pages(sun50i_domain->dt, get_order(DT_SIZE));
+ 	sun50i_domain->dt = NULL;
  
-@@ -1104,13 +1106,13 @@ static void rk_iommu_domain_free(struct iommu_domain *domain)
- 			u32 *page_table = phys_to_virt(pt_phys);
- 			dma_unmap_single(dma_dev, pt_phys,
- 					 SPAGE_SIZE, DMA_TO_DEVICE);
--			free_page((unsigned long)page_table);
-+			iommu_free_page(page_table);
- 		}
- 	}
- 
- 	dma_unmap_single(dma_dev, rk_domain->dt_dma,
- 			 SPAGE_SIZE, DMA_TO_DEVICE);
--	free_page((unsigned long)rk_domain->dt);
-+	iommu_free_page(rk_domain->dt);
- 
- 	kfree(rk_domain);
- }
+ 	kfree(sun50i_domain);
 -- 
 2.43.0.rc2.451.g8631bc7472-goog
 
