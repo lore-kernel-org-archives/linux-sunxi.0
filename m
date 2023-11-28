@@ -1,150 +1,191 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C6125A0E6
-	for <linux-sunxi@lists.linux.dev>; Tue, 28 Nov 2023 16:50:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VMNENkx2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CF55C433C7
-	for <linux-sunxi@lists.linux.dev>; Tue, 28 Nov 2023 16:50:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701190232;
-	bh=EzBRlUdWtojgmIuIil4jL3QpKF01LdWaXfWJK6/lfmE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=VMNENkx24ar0AG4kwNEYcgD1fSGnUzsV5M3CHnUFO95egvPKXcs8CIHswGVwlfl6l
-	 nDNUPK0lTZI8jfaobG+zK7b7Dp6uVnpUviAqkN/DgWbmdpde6NAUe3HyN5izn6spz7
-	 jXm+ILJ1pPgniPvCDQdM98lrg7evfKgcI447CfDBcvIg20BiPRB9IJCP+ad/whBVRH
-	 Tu7vVFazyKvv9jkDxDUxyEtK487wPU0/bBku1chV3NOHAxVTn8qp4nWuFO00vaPNv9
-	 z4TcY8HLzyWggufLvtv6djLehkO8/O9oyZ0+vvkMSjMHqM0EPnL7RSYmrvcDUU4Rit
-	 7Ixxt6GfZ3kfw==
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-50bbb78efb5so1174107e87.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 28 Nov 2023 08:50:31 -0800 (PST)
-X-Gm-Message-State: AOJu0YxLBpnW0aLNrgMWHuqptlTvqppzaCMJLq63Xa/YSJ4STMQBZiZA
-	sLZSaT+Z1lbT+zNy/GMGBM8dwTvTL88j16PkqQ==
-X-Google-Smtp-Source: AGHT+IHKVOIZpOAytolK6Nl+aWI1xmuii6vKwSdFNSAZfLUktVONq4m16q+G98GlafInI1ClKOH6O12EgOfFC3bMslQ=
-X-Received: by 2002:a05:6512:929:b0:508:1a25:a190 with SMTP id
- f9-20020a056512092900b005081a25a190mr8734195lft.23.1701190230229; Tue, 28 Nov
- 2023 08:50:30 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BB6739AEC
+	for <linux-sunxi@lists.linux.dev>; Tue, 28 Nov 2023 17:49:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r82DD-0008Kh-R5; Tue, 28 Nov 2023 18:49:31 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r82DA-00CEE8-AI; Tue, 28 Nov 2023 18:49:28 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r82DA-00AItg-0H; Tue, 28 Nov 2023 18:49:28 +0100
+Date: Tue, 28 Nov 2023 18:49:27 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Arnd Bergmann <arnd@arndb.de>, soc@kernel.org
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Tony Lindgren <tony@atomide.com>, Yuan Can <yuancan@huawei.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Rob Herring <robh@kernel.org>, Samuel Holland <samuel@sholland.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jon Hunter <jonathanh@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
+	Andy Gross <agross@kernel.org>, linux-sunxi@lists.linux.dev,
+	Nick Alcock <nick.alcock@oracle.com>,
+	Yangtao Li <frank.li@vivo.com>, Liu Ying <victor.liu@nxp.com>,
+	linux-arm-msm@vger.kernel.org, Jay Fang <f.fangjian@huawei.com>,
+	Hans de Goede <hdegoede@redhat.com>, linux-tegra@vger.kernel.org,
+	Linux-OMAP <linux-omap@vger.kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	Laurentiu Tudor <laurentiu.tudor@nxp.com>,
+	"Sicelo A. Mhlongo" <absicsz@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>
+Subject: [PULL v2] bus: Convert to platform remove callback returning void
+Message-ID: <20231128174927.m46dgp4juig2omci@pengutronix.de>
+References: <20231109202830.4124591-1-u.kleine-koenig@pengutronix.de>
+ <1e5e1008-707b-449a-9dbf-48324eb2b248@app.fastmail.com>
+ <20231116115307.32rovgcej2s5pe4r@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231128005849.19044-1-andre.przywara@arm.com>
- <20231128005849.19044-5-andre.przywara@arm.com> <ddceb30f-1778-4312-af91-97813fe3c6fb@linaro.org>
- <20231128143309.38a4ce61@donnerap.manchester.arm.com> <4e90608e-aca5-4b57-be76-350ad54f9e7c@linaro.org>
- <20231128161010.26657e76@donnerap.manchester.arm.com>
-In-Reply-To: <20231128161010.26657e76@donnerap.manchester.arm.com>
-From: Rob Herring <robh+dt@kernel.org>
-Date: Tue, 28 Nov 2023 10:50:18 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+9J1=+gZ83QyedAWbFN=AwSB8ue+o4TM7F6yu5_62z3g@mail.gmail.com>
-Message-ID: <CAL_Jsq+9J1=+gZ83QyedAWbFN=AwSB8ue+o4TM7F6yu5_62z3g@mail.gmail.com>
-Subject: Re: [PATCH v3 4/6] thermal: sun8i: add syscon register access code
-To: Andre Przywara <andre.przywara@arm.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
-	Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>, 
-	Lukasz Luba <lukasz.luba@arm.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Martin Botka <martin.botka@somainline.org>, Bob McChesney <bob@electricworry.net>, 
-	linux-pm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	Icenowy Zheng <icenowy@aosc.io>, Maxime Ripard <mripard@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="53zsv2odqs745utj"
+Content-Disposition: inline
+In-Reply-To: <20231116115307.32rovgcej2s5pe4r@pengutronix.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+
+
+--53zsv2odqs745utj
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 28, 2023 at 10:10=E2=80=AFAM Andre Przywara <andre.przywara@arm=
-.com> wrote:
->
-> On Tue, 28 Nov 2023 15:48:18 +0100
-> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
->
-> Hi,
->
-> (adding Maxime for the syscon question below)
->
-> > On 28/11/2023 15:33, Andre Przywara wrote:
-> > > On Tue, 28 Nov 2023 08:43:32 +0100
-> > > Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+Hello Arnd,
+
+On Thu, Nov 16, 2023 at 12:53:07PM +0100, Uwe Kleine-K=F6nig wrote:
+> On Fri, Nov 10, 2023 at 07:32:01AM +0100, Arnd Bergmann wrote:
+> > On Thu, Nov 9, 2023, at 21:28, Uwe Kleine-K=F6nig wrote:
+> > > this series converts all drivers below drivers/bus to struct
+> > > platform_driver::remove_new(). See commit 5c5a7680e67b ("platform:
+> > > Provide a remove callback that returns no value") for an extended
+> > > explanation and the eventual goal.
 > > >
-> > > Hi,
+> > > drivers/bus/fsl-mc was already addressed earlier with a separate
+> > > series[1].
 > > >
-> > >> On 28/11/2023 01:58, Andre Przywara wrote:
-> > >>>
-> > >>> +static struct regmap *sun8i_ths_get_syscon_regmap(struct device_no=
-de *node)
-> > >>> +{
-> > >>> + struct device_node *syscon_node;
-> > >>> + struct platform_device *syscon_pdev;
-> > >>> + struct regmap *regmap =3D NULL;
-> > >>> +
-> > >>> + syscon_node =3D of_parse_phandle(node, "syscon", 0);
-> > >>
-> > >> Nope. For the 100th time, this cannot be generic.
+> > > All conversations are trivial, because all .remove() callbacks return=
+ed
+> > > zero unconditionally.
+> > >
+> > > Some of the drivers touched here don't have a maintainer and there is=
+ no
+> > > maintainer for all of drivers/bus. It would be great if someone could=
+ pick up
+> > > the whole series, maybe Arnd might do that?
+> >=20
+> > Sure, please send a pull request to soc@kernel.org if there
+> > are no further comments.
+>=20
+> here it comes:
+>=20
+> The following changes since commit b85ea95d086471afb4ad062012a4d73cd328fa=
+86:
+>=20
+>   Linux 6.7-rc1 (2023-11-12 16:19:07 -0800)
 
-Unless it is the 100th time for the submitter, please just point to
-the documentation.
+Here comes an updated PR. The only change is that it also includes two
+Reviewed-by tags for Jernej Skrabec that came in after I sent the PR.
+Obviously that changed the commit hash which made it necessary to redo
+the PR. I hope it doesn't disturb your tooling that there are now two
+similar pull requests.
 
-Can we simply ban "syscon" as a property name? It looks like we have
-65 cases in upstream dts files. Maybe that's doable. This is where we
-need levels of warnings with okay for existing vs. don't use in new
-designs.
+Best regards
+Uwe
 
-> > > OK. Shall this name refer to the required functionality (temperature
-> > > offset fix) or to the target syscon node (like allwinner,misc-syscon)=
-.
-> > > The problem is that this is really a syscon, as in: "random collectio=
-n of
-> > > bits that we didn't know where else to put in", so "syscon" alone act=
-ually
-> > > says it all.
-> >
-> > Every syscon is a "random collection of bits...", but not every "random
-> > collection of bits..." is a syscon.
-> >
-> > Your target device does not implement syscon nodes. Your Linux
-> > implementation does not use it as syscon. Therefore if something does
-> > not look like syscon and does not behave like syscon, it is not a sysco=
-n.
-> >
-> > I looked at the bit and this is SRAM, not syscon. I am sorry, but it is
-> > something entirely different and we have a binding for it: "sram", I th=
-ink.
->
-> Well, it's somehow both: On the face of it it's a SRAM controller, indeed=
-:
-> it can switch the control of certain SRAM regions between CPU access and
-> peripheral access (for the video and the display engine). But then it's
-> also a syscon, because on top of that, it also controls those random bits=
-,
-> for instance the EMAC clock register, and this ominous THS bit.
-> I guess in hindsight we should have never dropped that "syscon" string
-> then, but I am not sure if adding it back has side effects?
->
-> And as I mentioned in the cover letter: modelling this as some SRAM
-> region, as you suggest, might be an alternative, but it doesn't sound rig=
-ht
-> either, as I don't think it really is one: I just tried in U-Boot, and I
-> can write and read the whole SRAM C region just fine, with and without th=
-e
-> bit set. And SRAM content is preserved, even with the thermal sensor
-> running and the bit cleared (or set).
->
-> So adding the "syscon" to the compatible would fix most things, but then
-> we need to keep the open coded lookup code in dwmac-sun8i.c (because olde=
-r
-> DTs would break otherwise).
+The following changes since commit b85ea95d086471afb4ad062012a4d73cd328fa86:
 
-Really, I'd like to get rid of the "syscon" compatible. It is nothing
-more than a flag for Linux to create a regmap.
+  Linux 6.7-rc1 (2023-11-12 16:19:07 -0800)
 
-Not a fully baked idea, but perhaps what is needed is drivers that
-request a regmap for a node simply get one regardless. That kind of
-throws out the Linux driver model though. Alternatively with no
-"syscon" compatible, we'd have to have table(s) of 100s of compatibles
-in the kernel.
+are available in the Git repository at:
 
-Rob
+  https://git.pengutronix.de/git/ukl/linux tags/bus-platform-remove-void
+
+for you to fetch changes up to fc540426f7baa0c7d4b477e80435d075659092a2:
+
+  bus: ts-nbus: Convert to platform remove callback returning void (2023-11=
+-28 18:43:27 +0100)
+
+----------------------------------------------------------------
+This series converts all drivers below drivers/bus to struct
+platform_driver::remove_new(). See commit 5c5a7680e67b ("platform:
+Provide a remove callback that returns no value") for an extended
+explanation and the eventual goal.
+
+After the initial simplification in commit 864acca58000 ("bus: fsl-mc:
+Drop if block with always false condition") all conversations are
+trivial because the remove callbacks all return zero unconditionally.
+
+----------------------------------------------------------------
+Uwe Kleine-K=F6nig (14):
+      bus: fsl-mc: Drop if block with always false condition
+      bus: fsl-mc: Convert to platform remove callback returning void
+      bus: hisi_lpc: Convert to platform remove callback returning void
+      bus: omap-ocp2scp: Convert to platform remove callback returning void
+      bus: omap_l3_smx: Convert to platform remove callback returning void
+      bus: qcom-ssc-block-bus: Convert to platform remove callback returnin=
+g void
+      bus: simple-pm-bus: Convert to platform remove callback returning void
+      bus: sun50i-de2: Convert to platform remove callback returning void
+      bus: sunxi-rsb: Convert to platform remove callback returning void
+      bus: tegra-aconnect: Convert to platform remove callback returning vo=
+id
+      bus: tegra-gmi: Convert to platform remove callback returning void
+      bus: ti-pwmss: Convert to platform remove callback returning void
+      bus: ti-sysc: Convert to platform remove callback returning void
+      bus: ts-nbus: Convert to platform remove callback returning void
+
+ drivers/bus/fsl-mc/fsl-mc-bus.c  | 16 +++-------------
+ drivers/bus/hisi_lpc.c           |  6 ++----
+ drivers/bus/omap-ocp2scp.c       |  6 ++----
+ drivers/bus/omap_l3_smx.c        |  6 ++----
+ drivers/bus/qcom-ssc-block-bus.c |  6 ++----
+ drivers/bus/simple-pm-bus.c      |  7 +++----
+ drivers/bus/sun50i-de2.c         |  5 ++---
+ drivers/bus/sunxi-rsb.c          |  6 ++----
+ drivers/bus/tegra-aconnect.c     |  6 ++----
+ drivers/bus/tegra-gmi.c          |  6 ++----
+ drivers/bus/ti-pwmss.c           |  5 ++---
+ drivers/bus/ti-sysc.c            |  6 ++----
+ drivers/bus/ts-nbus.c            |  6 ++----
+ 13 files changed, 28 insertions(+), 59 deletions(-)
+
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--53zsv2odqs745utj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmVmKCcACgkQj4D7WH0S
+/k66uAf+KEj6yCYL/fZUMESxp+ruHd0CIqqyeqoXs8QJkSZpBYf6q/1nJvHP8UV8
+uwqqXDJ+/qN0XvfzFFY8sBUbw8aZhyPKUsrdXsauHjCYGMwjVDB2fWrmchk8J2cN
+6yS1cKfZjexAhBrZm/02p1b6zTV6AMj3HYKEmTsFmZ3G9FcANo/zOro3prS0M4W6
+79xe6KqnjNr0MCIHeBnnig/94vz408lqk+ebBS25Fy7JIkfsNTGrntTrQ/zbyQ/T
+Oaegx6m+33HBtpLeK/L+dOLBzdSblKXZpSbbKD1NVT1q0aDcfnlXU8CHp080y0u/
+Ppx52VMZg3hOXuwZtKcIZA1COE/NyA==
+=jxQg
+-----END PGP SIGNATURE-----
+
+--53zsv2odqs745utj--
