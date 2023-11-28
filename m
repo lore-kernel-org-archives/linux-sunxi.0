@@ -1,284 +1,262 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 322031428D;
-	Tue, 28 Nov 2023 10:45:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 304E3C433C8;
-	Tue, 28 Nov 2023 10:45:41 +0000 (UTC)
-Message-ID: <50db7366-cd3d-4675-aaad-b857202234de@xs4all.nl>
-Date: Tue, 28 Nov 2023 11:45:40 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2932D511
+	for <linux-sunxi@lists.linux.dev>; Tue, 28 Nov 2023 11:45:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ds59EwHY"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a0029289b1bso738876466b.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 28 Nov 2023 03:45:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701171905; x=1701776705; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qVyoKGbm9uEoi/X6H5927NF7CsFAti82Jkn535IWRLU=;
+        b=ds59EwHYdz1Zx7FA+aKfWdRCIY4yg8Vu9PFBJ9+VomTEGUrkqePkipZWeN5GcFLkos
+         pRvHx5SGxlV+gf4yWH0EclkUdmjLb9xO6tvarB2fr6K394TpQVW/0vEInK9oRJGejqu7
+         nYn6BEvdvkQXkZbD9m0q8i0mqAmSfXg/JQZzwKwuGnBT1D9DpJRpDKCDdbaAY3MHZqY4
+         FhlStjgPYoKd4Rsoe1zyq1V95nHTpCTPXd26ROF3DrCMXYo7TBfLyYUNOQMCGjWFwd+W
+         4Ck+CqwTBcdguOTGZeEQPwGceFBey06ejczmwFOD9QEVY84I+LPnAm2CUVZoqbx17gSO
+         jH1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701171905; x=1701776705;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qVyoKGbm9uEoi/X6H5927NF7CsFAti82Jkn535IWRLU=;
+        b=whTnv9+k3WexkkkYeqoo+o4lHrmoUu5hPpWoehBAmZkulWbjooCiwK7D31R4g51U6A
+         56tNR8hotZjJnql6znLaCpv2NNBqiOfw6hcppqKzgQHGNpxhPAovzCVgrTCvEMENtVJC
+         imH/NJF1MLOR2OGbbjvJE4YFxrpfjppjuAJmfrieGhGoS0b5mlCz0VHY5PE2o/rXlA3o
+         Ex3YzXe3kZh0NBifOkvX5y3FRz6xco/qXQIJ9nwQyJxfKMliXWq5vb8u+jIdXe/0HHab
+         /DOOzUyZkKKkQOhJ6v2kjf9vyJwOBweZEBQ8KD/chailetuS/KngCwVkjUpzr3T1fbCw
+         erOw==
+X-Gm-Message-State: AOJu0YzPZELOdDhUkzoWn4p70XfJzowFTOU/REdQ5+eZ9rRd5m+2mYRy
+	XTpjuGnoIXGHgvGZduhkR+Q=
+X-Google-Smtp-Source: AGHT+IHdLHq7SVACyp0TGOAJ7YYU9KjyyngMti1/L69SMz2NBoKFv/CGPDJ9/NE3UAOVE/5bAaEY0Q==
+X-Received: by 2002:a17:906:693:b0:9fc:9b28:7ff7 with SMTP id u19-20020a170906069300b009fc9b287ff7mr12075812ejb.60.1701171904683;
+        Tue, 28 Nov 2023 03:45:04 -0800 (PST)
+Received: from [192.168.2.1] (81-204-249-205.fixed.kpn.net. [81.204.249.205])
+        by smtp.gmail.com with ESMTPSA id j25-20020a170906051900b00a0bdfab0f02sm4004423eja.77.2023.11.28.03.45.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Nov 2023 03:45:04 -0800 (PST)
+Message-ID: <c34a6eb0-d436-931b-d08d-f3449be84a4c@gmail.com>
+Date: Tue, 28 Nov 2023 12:45:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 00/45] drm/connector: Create HDMI Connector
- infrastructure
-Content-Language: en-US, nl
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v4 38/45] drm/rockchip: inno_hdmi: Switch to infoframe
+ type
 To: Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
  Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ =?UTF-8?Q?Heiko_St=c3=bcbner?= <heiko@sntech.de>,
  Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Samuel Holland <samuel@sholland.org>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
 References: <20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org>
+ <20231128-kms-hdmi-connector-state-v4-38-c7602158306e@kernel.org>
+Content-Language: en-US
+From: Johan Jonker <jbx6244@gmail.com>
+In-Reply-To: <20231128-kms-hdmi-connector-state-v4-38-c7602158306e@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 28/11/2023 11:24, Maxime Ripard wrote:
-> Hi,
-> 
-> Here's a series that creates some extra infrastructure specifically
-> targeted at HDMI controllers.
-> 
-> The idea behind this series came from a recent discussion on IRC during
-> which we discussed infoframes generation of i915 vs everything else.
-> 
-> Infoframes generation code still requires some decent boilerplate, with
-> each driver doing some variation of it.
-> 
-> In parallel, while working on vc4, we ended up converting a lot of i915
-> logic (mostly around format / bpc selection, and scrambler setup) to
-> apply on top of a driver that relies only on helpers.
-> 
-> While currently sitting in the vc4 driver, none of that logic actually
-> relies on any driver or hardware-specific behaviour.
-> 
-> The only missing piece to make it shareable are a bunch of extra
-> variables stored in a state (current bpc, format, RGB range selection,
-> etc.).
-> 
-> The initial implementation was relying on some generic subclass of
-> drm_connector to address HDMI connectors, with a bunch of helpers that
-> will take care of all the "HDMI Spec" related code. Scrambler setup is
-> missing at the moment but can easily be plugged in.
-> 
-> The feedback was that creating a connector subclass like was done for
-> writeback would prevent the adoption of those helpers since it couldn't
-> be used in all situations (like when the connector driver can implement
-> multiple output) and required more churn to cast between the
-> drm_connector and its subclass. The decision was thus to provide a set
-> of helper and to store the required variables in drm_connector and
-> drm_connector_state. This what has been implemented now.
-> 
-> Hans Verkuil also expressed interest in implementing a mechanism in v4l2
-> to retrieve infoframes from HDMI receiver and implementing an
-> infoframe-decode tool.
+Hi,
 
-For those who are interested in the InfoFrame parser:
+Maximum for inno_hdmi is: 1920x1080.
 
-https://git.linuxtv.org/hverkuil/edid-decode.git/log/?h=hverkuil
+Do we still need INFOFRAME_VSI?
 
-This is work-in-progress, and will definitely be rebased at times.
+From Rockchip RK3036 TRM V1.0 20150907-Part2 Peripheral and Interface.pdf:
 
-It is integrated into edid-decode since I want to be able to check the
-InfoFrames against the EDID capabilities. If no EDID is given, then
-those checks are skipped.
+- HDMI 1.4a/b/1.3/1.2/1.1, HDCP 1.2 and DVI 1.0 standard compliant transmitter
+- Supports all DTV resolutions including 480p/576p/720p/1080p
 
-You can parse the InfoFrames with -I <path-to-if-file>. All known InfoFrames
-are parsed, and I am working on adding the checks against the EDID whenever
-time permits.
+https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_edid.c#L7015
 
-It's quite handy already as a parser, but it is really the checks against the
-EDID that will make this really useful.
+* HDMI spec says if a mode is found in HDMI 1.4b 4K modes
+* we should send its VIC in vendor infoframes, else send the
+* VIC in AVI infoframes. Lets check if this mode is present in
+* HDMI 1.4b 4K modes https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_edid.c#L7212 * Note that there's is a need to send HDMI vendor infoframes only when using a
+* 4k or stereoscopic 3D mode. So when giving any other mode as input this
+* function will return -EINVAL, error that can be safely ignored.
 
-A related note: exposing InfoFrames is equally useful for the media subsystem
-for video receivers (and the odd V4L2 video transmitter driver). I did look
-at whether any of this drm code could be generalized, but it is too different
-and frankly not worth the effort.
 
-Also, when receiving InfoFrames you don't want to use the hdmi.h functions,
-you want to dump the raw unprocessed InfoFrame.
-
-I did a proof-of-concept for the adv7511-v4l2 tx and adv7604 rx drivers here:
-
-https://git.linuxtv.org/hverkuil/media_tree.git/commit/?h=infoframe&id=19c80e21b30e2cafc0669cfae093a0b7a17c6b55
-
-I am using debugfs here as well, but I am not actually certain whether that's
-the best approach, esp. for receivers where access to InfoFrames can be very
-useful for userspace. Options are e.g. /sys/class/video4linux/<devnode>/infoframes
-or perhaps using V4L2 controls. TBD.
-
-Regards,
-
-	Hans
-
-> 
-> This series thus leverages the infoframe generation code to expose it
-> through debugfs.
-> 
-> I also used the occasion to unit-test everything but the infoframe
-> generation, which can come later once I get a proper understanding of
-> what the infoframe are supposed to look like. This required to add some
-> extra kunit helpers and infrastructure to have multiple EDIDs and allow
-> each test to run with a particular set of capabilities.
-> 
-> This entire series has been tested on a Pi4, passes all its unittests
-> (125 new tests), and has only been build-tested for sunxi and rockchip.
-> 
-> Let me know what you think,
-> Maxime
-> 
+On 11/28/23 11:24, Maxime Ripard wrote:
+> The inno_hdmi driver relies on its own internal infoframe type matching
+> the hardware.
+>
+> This works fine, but in order to make further reworks easier, let's
+> switch to the HDMI spec definition of those types.
+>
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
-> Changes in v4:
-> - Create unit tests for everything but infoframes
-> - Fix a number of bugs identified by the unit tests
-> - Rename DRM (Dynamic Range and Mastering) infoframe file to HDR_DRM
-> - Drop RFC status
-> - Link to v3: https://lore.kernel.org/r/20231031-kms-hdmi-connector-state-v3-0-328b0fae43a7@kernel.org
-> 
-> Changes in v3:
-> - Made sure the series work on the RaspberryPi4
-> - Handle YUV420 in the char clock rate computation
-> - Use the maximum bpc value the connector allows at reset
-> - Expose the RGB Limited vs Full Range value in the connector state
->   instead of through a helper
-> - Fix Broadcast RGB documentation
-> - Add more debug logging
-> - Small fixes here and there
-> - Link to v2: https://lore.kernel.org/r/20230920-kms-hdmi-connector-state-v2-0-17932daddd7d@kernel.org
-> 
-> Changes in v2:
-> - Change from a subclass to a set of helpers for drm_connector and
->   drm_connector state
-> - Don't assume that all drivers support RGB, YUV420 and YUV422 but make
->   them provide a bitfield instead.
-> - Don't assume that all drivers support the Broadcast RGB property but
->   make them call the registration helper.
-> - Document the Broacast RGB property
-> - Convert the inno_hdmi and sun4i_hdmi driver.
-> - Link to v1: https://lore.kernel.org/r/20230814-kms-hdmi-connector-state-v1-0-048054df3654@kernel.org
-> 
-> ---
-> Maxime Ripard (45):
->       drm/tests: helpers: Include missing drm_drv header
->       drm/tests: helpers: Add atomic helpers
->       drm/tests: Add helper to create mock plane
->       drm/tests: Add helper to create mock crtc
->       drm/connector: Check drm_connector_init pointers arguments
->       drm/tests: connector: Add tests for drmm_connector_init
->       drm/connector: Introduce an HDMI connector initialization function
->       drm/connector: hdmi: Create an HDMI sub-state
->       drm/connector: hdmi: Add Broadcast RGB property
->       drm/connector: hdmi: Add RGB Quantization Range to the connector state
->       drm/connector: hdmi: Add output BPC to the connector state
->       drm/connector: hdmi: Add support for output format
->       drm/connector: hdmi: Add HDMI compute clock helper
->       drm/connector: hdmi: Calculate TMDS character rate
->       drm/connector: hdmi: Add custom hook to filter TMDS character rate
->       drm/connector: hdmi: Compute bpc and format automatically
->       drm/connector: hdmi: Add Infoframes generation
->       drm/connector: hdmi: Create Infoframe DebugFS entries
->       drm/vc4: hdmi: Create destroy state implementation
->       drm/vc4: hdmi: Switch to HDMI connector
->       drm/vc4: tests: Remove vc4_dummy_plane structure
->       drm/vc4: tests: Convert to plane creation helper
->       drm/rockchip: inno_hdmi: Remove useless mode_fixup
->       drm/rockchip: inno_hdmi: Remove useless copy of drm_display_mode
->       drm/rockchip: inno_hdmi: Switch encoder hooks to atomic
->       drm/rockchip: inno_hdmi: Get rid of mode_set
->       drm/rockchip: inno_hdmi: no need to store vic
->       drm/rockchip: inno_hdmi: Remove unneeded has audio flag
->       drm/rockchip: inno_hdmi: Remove useless input format
->       drm/rockchip: inno_hdmi: Remove useless output format
->       drm/rockchip: inno_hdmi: Remove useless colorimetry
->       drm/rockchip: inno_hdmi: Remove useless enum
->       drm/rockchip: inno_hdmi: Remove tmds rate from structure
->       drm/rockchip: inno_hdmi: Remove useless coeff_csc matrix
->       drm/rockchip: inno_hdmi: Remove useless mode_valid
->       drm/rockchip: inno_hdmi: Move infoframe disable to separate function
->       drm/rockchip: inno_hdmi: Create mask retrieval functions
->       drm/rockchip: inno_hdmi: Switch to infoframe type
->       drm/rockchip: inno_hdmi: Remove unused drm device pointer
->       drm/rockchip: inno_hdmi: Switch to HDMI connector
->       drm/sun4i: hdmi: Convert encoder to atomic
->       drm/sun4i: hdmi: Move mode_set into enable
->       drm/sun4i: hdmi: Switch to container_of_const
->       drm/sun4i: hdmi: Consolidate atomic_check and mode_valid
->       drm/sun4i: hdmi: Switch to HDMI connector
-> 
->  Documentation/gpu/kms-properties.csv               |    1 -
->  drivers/gpu/drm/Kconfig                            |    1 +
->  drivers/gpu/drm/drm_atomic.c                       |   11 +
->  drivers/gpu/drm/drm_atomic_state_helper.c          |  659 ++++++++
->  drivers/gpu/drm/drm_atomic_uapi.c                  |    4 +
->  drivers/gpu/drm/drm_connector.c                    |  249 +++
->  drivers/gpu/drm/drm_debugfs.c                      |  110 ++
->  drivers/gpu/drm/rockchip/inno_hdmi.c               |  409 ++---
->  drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c             |  203 ++-
->  drivers/gpu/drm/tests/Makefile                     |    1 +
->  .../gpu/drm/tests/drm_atomic_state_helper_test.c   | 1728 ++++++++++++++++++++
->  drivers/gpu/drm/tests/drm_connector_test.c         | 1345 ++++++++++++++-
->  drivers/gpu/drm/tests/drm_kunit_edid.h             |  482 ++++++
->  drivers/gpu/drm/tests/drm_kunit_helpers.c          |  150 ++
->  drivers/gpu/drm/vc4/tests/vc4_mock.c               |    6 +-
->  drivers/gpu/drm/vc4/tests/vc4_mock.h               |    9 +-
->  drivers/gpu/drm/vc4/tests/vc4_mock_plane.c         |   44 +-
->  drivers/gpu/drm/vc4/vc4_hdmi.c                     |  624 +------
->  drivers/gpu/drm/vc4/vc4_hdmi.h                     |   44 +-
->  drivers/gpu/drm/vc4/vc4_hdmi_phy.c                 |    6 +-
->  include/drm/drm_atomic_state_helper.h              |   12 +
->  include/drm/drm_connector.h                        |  257 +++
->  include/drm/drm_kunit_helpers.h                    |   23 +
->  23 files changed, 5389 insertions(+), 989 deletions(-)
-> ---
-> base-commit: 815d8b0425ad1164e45953ac3d56a9f6f63792cc
-> change-id: 20230814-kms-hdmi-connector-state-616787e67927
-> 
-> Best regards,
-
+>  drivers/gpu/drm/rockchip/inno_hdmi.c | 71 +++++++++++++++++++++++-------------
+>  1 file changed, 45 insertions(+), 26 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockchip/inno_hdmi.c
+> index bc7fb1278cb2..ed1d10efbef4 100644
+> --- a/drivers/gpu/drm/rockchip/inno_hdmi.c
+> +++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
+> @@ -156,61 +156,80 @@ static void inno_hdmi_reset(struct inno_hdmi *hdmi)
+>  	inno_hdmi_set_pwr_mode(hdmi, NORMAL);
+>  }
+>  
+> +static u32 inno_hdmi_get_frame_index(struct inno_hdmi *hdmi,
+> +				    enum hdmi_infoframe_type type)
+> +{
+> +	struct drm_device *drm = hdmi->connector.dev;
+> +
+> +	switch (type) {
+> +	case HDMI_INFOFRAME_TYPE_VENDOR:
+> +		return INFOFRAME_VSI;
+> +	case HDMI_INFOFRAME_TYPE_AVI:
+> +		return INFOFRAME_AVI;
+> +	default:
+> +		drm_err(drm, "Unknown infoframe type: %u\n", type);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static u32 inno_hdmi_get_frame_mask(struct inno_hdmi *hdmi,
+> -				    u32 frame_index)
+> +				    enum hdmi_infoframe_type type)
+>  {
+>  	struct drm_device *drm = hdmi->connector.dev;
+>  
+> -	switch (frame_index) {
+> -	case INFOFRAME_VSI:
+> +	switch (type) {
+> +	case HDMI_INFOFRAME_TYPE_VENDOR:
+>  		return m_PACKET_VSI_EN;
+> -	case INFOFRAME_AVI:
+> +	case HDMI_INFOFRAME_TYPE_AVI:
+>  		return 0;
+>  	default:
+> -		drm_err(drm, "Unknown infoframe type: %u\n", frame_index);
+> +		drm_err(drm, "Unknown infoframe type: %u\n", type);
+>  	}
+>  
+>  	return 0;
+>  }
+>  
+>  static u32 inno_hdmi_get_frame_disable(struct inno_hdmi *hdmi,
+> -				       u32 frame_index)
+> +				       enum hdmi_infoframe_type type)
+>  {
+>  	struct drm_device *drm = hdmi->connector.dev;
+>  
+> -	switch (frame_index) {
+> -	case INFOFRAME_VSI:
+> +	switch (type) {
+> +	case HDMI_INFOFRAME_TYPE_VENDOR:
+>  		return v_PACKET_VSI_EN(0);
+> -	case INFOFRAME_AVI:
+> +	case HDMI_INFOFRAME_TYPE_AVI:
+>  		return 0;
+>  	default:
+> -		drm_err(drm, "Unknown infoframe type: %u\n", frame_index);
+> +		drm_err(drm, "Unknown infoframe type: %u\n", type);
+>  	}
+>  
+>  	return 0;
+>  }
+>  
+>  static u32 inno_hdmi_get_frame_enable(struct inno_hdmi *hdmi,
+> -				      u32 frame_index)
+> +				      enum hdmi_infoframe_type type)
+>  {
+>  	struct drm_device *drm = hdmi->connector.dev;
+>  
+> -	switch (frame_index) {
+> -	case INFOFRAME_VSI:
+> +	switch (type) {
+> +	case HDMI_INFOFRAME_TYPE_VENDOR:
+>  		return v_PACKET_VSI_EN(1);
+> -	case INFOFRAME_AVI:
+> +	case HDMI_INFOFRAME_TYPE_AVI:
+>  		return 0;
+>  	default:
+> -		drm_err(drm, "Unknown infoframe type: %u\n", frame_index);
+> +		drm_err(drm, "Unknown infoframe type: %u\n", type);
+>  	}
+>  
+>  	return 0;
+>  }
+>  
+> -static void inno_hdmi_disable_frame(struct inno_hdmi *hdmi, u32 frame_index)
+> +static void inno_hdmi_disable_frame(struct inno_hdmi *hdmi,
+> +				    enum hdmi_infoframe_type type)
+>  {
+> -	u32 disable = inno_hdmi_get_frame_disable(hdmi, frame_index);
+> -	u32 mask = inno_hdmi_get_frame_mask(hdmi, frame_index);
+> +	u32 frame_index = inno_hdmi_get_frame_index(hdmi, type);
+> +	u32 disable = inno_hdmi_get_frame_disable(hdmi, type);
+> +	u32 mask = inno_hdmi_get_frame_mask(hdmi, type);
+>  
+>  	if (mask)
+>  		hdmi_modb(hdmi, HDMI_PACKET_SEND_AUTO, mask, disable);
+> @@ -219,14 +238,14 @@ static void inno_hdmi_disable_frame(struct inno_hdmi *hdmi, u32 frame_index)
+>  }
+>  
+>  static int inno_hdmi_upload_frame(struct inno_hdmi *hdmi,
+> -				  union hdmi_infoframe *frame, u32 frame_index)
+> +				  union hdmi_infoframe *frame, enum hdmi_infoframe_type type)
+>  {
+> -	u32 enable = inno_hdmi_get_frame_enable(hdmi, frame_index);
+> -	u32 mask = inno_hdmi_get_frame_mask(hdmi, frame_index);
+> +	u32 enable = inno_hdmi_get_frame_enable(hdmi, type);
+> +	u32 mask = inno_hdmi_get_frame_mask(hdmi, type);
+>  	u8 packed_frame[HDMI_MAXIMUM_INFO_FRAME_SIZE];
+>  	ssize_t rc, i;
+>  
+> -	inno_hdmi_disable_frame(hdmi, frame_index);
+> +	inno_hdmi_disable_frame(hdmi, type);
+>  
+>  	rc = hdmi_infoframe_pack(frame, packed_frame,
+>  				 sizeof(packed_frame));
+> @@ -253,11 +272,11 @@ static int inno_hdmi_config_video_vsi(struct inno_hdmi *hdmi,
+>  							 &hdmi->connector,
+>  							 mode);
+>  	if (rc) {
+> -		inno_hdmi_disable_frame(hdmi, INFOFRAME_VSI);
+> +		inno_hdmi_disable_frame(hdmi, HDMI_INFOFRAME_TYPE_VENDOR);
+>  		return rc;
+>  	}
+>  
+> -	return inno_hdmi_upload_frame(hdmi, &frame, INFOFRAME_VSI);
+> +	return inno_hdmi_upload_frame(hdmi, &frame, HDMI_INFOFRAME_TYPE_VENDOR);
+>  }
+>  
+>  static int inno_hdmi_config_video_avi(struct inno_hdmi *hdmi,
+> @@ -270,13 +289,13 @@ static int inno_hdmi_config_video_avi(struct inno_hdmi *hdmi,
+>  						      &hdmi->connector,
+>  						      mode);
+>  	if (rc) {
+> -		inno_hdmi_disable_frame(hdmi, INFOFRAME_AVI);
+> +		inno_hdmi_disable_frame(hdmi, HDMI_INFOFRAME_TYPE_AVI);
+>  		return rc;
+>  	}
+>  
+>  	frame.avi.colorspace = HDMI_COLORSPACE_RGB;
+>  
+> -	return inno_hdmi_upload_frame(hdmi, &frame, INFOFRAME_AVI);
+> +	return inno_hdmi_upload_frame(hdmi, &frame, HDMI_INFOFRAME_TYPE_AVI);
+>  }
+>  
+>  static int inno_hdmi_config_video_csc(struct inno_hdmi *hdmi)
+>
