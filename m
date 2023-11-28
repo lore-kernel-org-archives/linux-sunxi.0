@@ -1,40 +1,30 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EA3A5E0D6
-	for <linux-sunxi@lists.linux.dev>; Tue, 28 Nov 2023 16:39:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-6c431b91b2aso4536103b3a.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 28 Nov 2023 08:39:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701189563; x=1701794363;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BZVq+tnZrzJJKqeHrCOUaRPEG7BJXhNfIpCjpEqZuC8=;
-        b=f3BcZBQAhc42/Vr4pXrZwMWCldd7T2eQ3olAvXTG//viVGbD/rHSOwV6Pn3Cz0TVzk
-         rHherWfV4ShM2b60gR05wkRhRmzobaZvWM0MnLRRxUaelpFfAke1RTrflwCICahmY05v
-         PTr9rchiTargTQ9Z+3k2sPB2SQ+a6XJ1lH5cRmkrc30buxEMVnoTTyvbIQ1kBPr08xLz
-         SqVJmXLRcHkjbD6gmHy0Tunn+3g93jo85oIDGnRpkHHSh4atdQeTj9zeL9MR9UV04+RO
-         K7kn6Rj5Vsn7qRk05P/Aw3e+jsZXVtm3928nuMzFTqTCF6fwC+KgMshQkdB4KnDkyU3N
-         KyoA==
-X-Gm-Message-State: AOJu0Yz54P+xqdtxeMRp8wF1lxW9/A5cxjrrZFXP+Xn2Gdpbn0s4No43
-	FQXjjmMGmFhCfcA4+BTVaQ6RwcrgMFWYUg==
-X-Google-Smtp-Source: AGHT+IHrxjreDGqRZk4SWG9ctbQLiN+6wWyG+Yk4d4kkalKBjuHV4vq6PS2Gdgd2yrXKpSIjCPr8Tw==
-X-Received: by 2002:a05:6a21:3714:b0:18b:8147:91fb with SMTP id yl20-20020a056a21371400b0018b814791fbmr11951574pzb.19.1701189563091;
-        Tue, 28 Nov 2023 08:39:23 -0800 (PST)
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com. [209.85.215.180])
-        by smtp.gmail.com with ESMTPSA id g3-20020a62e303000000b0068a13b0b300sm9491506pfh.11.2023.11.28.08.39.22
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Nov 2023 08:39:22 -0800 (PST)
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-5be30d543c4so4072904a12.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 28 Nov 2023 08:39:22 -0800 (PST)
-X-Received: by 2002:a17:90b:30cb:b0:281:3a4a:2e61 with SMTP id
- hi11-20020a17090b30cb00b002813a4a2e61mr14001629pjb.14.1701189562547; Tue, 28
- Nov 2023 08:39:22 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C6125A0E6
+	for <linux-sunxi@lists.linux.dev>; Tue, 28 Nov 2023 16:50:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VMNENkx2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CF55C433C7
+	for <linux-sunxi@lists.linux.dev>; Tue, 28 Nov 2023 16:50:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701190232;
+	bh=EzBRlUdWtojgmIuIil4jL3QpKF01LdWaXfWJK6/lfmE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=VMNENkx24ar0AG4kwNEYcgD1fSGnUzsV5M3CHnUFO95egvPKXcs8CIHswGVwlfl6l
+	 nDNUPK0lTZI8jfaobG+zK7b7Dp6uVnpUviAqkN/DgWbmdpde6NAUe3HyN5izn6spz7
+	 jXm+ILJ1pPgniPvCDQdM98lrg7evfKgcI447CfDBcvIg20BiPRB9IJCP+ad/whBVRH
+	 Tu7vVFazyKvv9jkDxDUxyEtK487wPU0/bBku1chV3NOHAxVTn8qp4nWuFO00vaPNv9
+	 z4TcY8HLzyWggufLvtv6djLehkO8/O9oyZ0+vvkMSjMHqM0EPnL7RSYmrvcDUU4Rit
+	 7Ixxt6GfZ3kfw==
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-50bbb78efb5so1174107e87.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 28 Nov 2023 08:50:31 -0800 (PST)
+X-Gm-Message-State: AOJu0YxLBpnW0aLNrgMWHuqptlTvqppzaCMJLq63Xa/YSJ4STMQBZiZA
+	sLZSaT+Z1lbT+zNy/GMGBM8dwTvTL88j16PkqQ==
+X-Google-Smtp-Source: AGHT+IHKVOIZpOAytolK6Nl+aWI1xmuii6vKwSdFNSAZfLUktVONq4m16q+G98GlafInI1ClKOH6O12EgOfFC3bMslQ=
+X-Received: by 2002:a05:6512:929:b0:508:1a25:a190 with SMTP id
+ f9-20020a056512092900b005081a25a190mr8734195lft.23.1701190230229; Tue, 28 Nov
+ 2023 08:50:30 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -46,18 +36,18 @@ References: <20231128005849.19044-1-andre.przywara@arm.com>
  <20231128143309.38a4ce61@donnerap.manchester.arm.com> <4e90608e-aca5-4b57-be76-350ad54f9e7c@linaro.org>
  <20231128161010.26657e76@donnerap.manchester.arm.com>
 In-Reply-To: <20231128161010.26657e76@donnerap.manchester.arm.com>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Wed, 29 Nov 2023 00:39:11 +0800
-X-Gmail-Original-Message-ID: <CAGb2v643S6vLxXghZNqyC=7SKSH3EZNd9Xriu1jBKjza7-Ex6g@mail.gmail.com>
-Message-ID: <CAGb2v643S6vLxXghZNqyC=7SKSH3EZNd9Xriu1jBKjza7-Ex6g@mail.gmail.com>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Tue, 28 Nov 2023 10:50:18 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+9J1=+gZ83QyedAWbFN=AwSB8ue+o4TM7F6yu5_62z3g@mail.gmail.com>
+Message-ID: <CAL_Jsq+9J1=+gZ83QyedAWbFN=AwSB8ue+o4TM7F6yu5_62z3g@mail.gmail.com>
 Subject: Re: [PATCH v3 4/6] thermal: sun8i: add syscon register access code
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Vasily Khoruzhick <anarsoul@gmail.com>, 
-	Yangtao Li <tiny.windzz@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+To: Andre Przywara <andre.przywara@arm.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
 	Samuel Holland <samuel@sholland.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
 	Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>, 
-	Lukasz Luba <lukasz.luba@arm.com>, Rob Herring <robh+dt@kernel.org>, 
+	Lukasz Luba <lukasz.luba@arm.com>, 
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
 	Martin Botka <martin.botka@somainline.org>, Bob McChesney <bob@electricworry.net>, 
 	linux-pm@vger.kernel.org, devicetree@vger.kernel.org, 
@@ -66,7 +56,7 @@ Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Vasily Khoruzhick <ana
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 29, 2023 at 12:10=E2=80=AFAM Andre Przywara <andre.przywara@arm=
+On Tue, Nov 28, 2023 at 10:10=E2=80=AFAM Andre Przywara <andre.przywara@arm=
 .com> wrote:
 >
 > On Tue, 28 Nov 2023 15:48:18 +0100
@@ -94,7 +84,15 @@ de *node)
 > > >>> + syscon_node =3D of_parse_phandle(node, "syscon", 0);
 > > >>
 > > >> Nope. For the 100th time, this cannot be generic.
-> > >
+
+Unless it is the 100th time for the submitter, please just point to
+the documentation.
+
+Can we simply ban "syscon" as a property name? It looks like we have
+65 cases in upstream dts files. Maybe that's doable. This is where we
+need levels of warnings with okay for existing vs. don't use in new
+designs.
+
 > > > OK. Shall this name refer to the required functionality (temperature
 > > > offset fix) or to the target syscon node (like allwinner,misc-syscon)=
 .
@@ -125,17 +123,7 @@ ink.
 > for instance the EMAC clock register, and this ominous THS bit.
 > I guess in hindsight we should have never dropped that "syscon" string
 > then, but I am not sure if adding it back has side effects?
-
-Either way you would need to add locking around the register accesses,
-or you could, however unlikely, end up with two simultaneous read-update-wr=
-ite
-accesses by both consumers (THS and claiming C1).
-
-If you add the syscon string back, then you'd have to convert the SRAM
-controller driver to use syscon as well, as there is no way to provide
-a custom spinlock for the syscon regmap. Another reason why a driver
-would want to create its own regmap.
-
+>
 > And as I mentioned in the cover letter: modelling this as some SRAM
 > region, as you suggest, might be an alternative, but it doesn't sound rig=
 ht
@@ -150,81 +138,13 @@ e
 r
 > DTs would break otherwise).
 
-dwmac-sun8i already falls back to syscon_regmap_lookup_by_phandle() because
-of even older DTs. I'm the one that added the open coded stuff, mostly
-because the R40 had the bits embedded in the clock controller, not the
-system control, and it seemed error prone and hard to debug for some
-other device to have full access.
+Really, I'd like to get rid of the "syscon" compatible. It is nothing
+more than a flag for Linux to create a regmap.
 
-So you'd just be reverting the driver to the old ways.
+Not a fully baked idea, but perhaps what is needed is drivers that
+request a regmap for a node simply get one regardless. That kind of
+throws out the Linux driver model though. Alternatively with no
+"syscon" compatible, we'd have to have table(s) of 100s of compatibles
+in the kernel.
 
-ChenYu
-
-
-> What do people think about this?
-> Samuel, does this affect the D1 LDO driver as well?
->
-> Cheers,
-> Andre
->
-> >
-> > >
-> > >
-> > > And btw: it would have been about the same effort (and more helpful!)=
- to
-> > > type:
-> > >
-> > > "This cannot be generic, please check writing-bindings.rst."    ;-)
-> > >
-> > >>
-> > >>> + if (!syscon_node)
-> > >>> +         return ERR_PTR(-ENODEV);
-> > >>> +
-> > >>> + syscon_pdev =3D of_find_device_by_node(syscon_node);
-> > >>> + if (!syscon_pdev) {
-> > >>> +         /* platform device might not be probed yet */
-> > >>> +         regmap =3D ERR_PTR(-EPROBE_DEFER);
-> > >>> +         goto out_put_node;
-> > >>> + }
-> > >>> +
-> > >>> + /* If no regmap is found then the other device driver is at fault=
- */
-> > >>> + regmap =3D dev_get_regmap(&syscon_pdev->dev, NULL);
-> > >>> + if (!regmap)
-> > >>> +         regmap =3D ERR_PTR(-EINVAL);
-> > >>
-> > >> Aren't you open-coding existing API to get regmap from syscon?
-> > >
-> > > That's a good point, I lifted that code from sun8i-emac.c, where we h=
-ave
-> > > the exact same problem.
-> > > Unfortunately syscon_regmap_lookup_by_phandle() requires the syscon D=
-T
-> > > node to have "syscon" in its compatible string list, which we
-> > > don't have. We actually explicitly dropped this for the A64 (with
-> > > 1f1f5183981d70bf0950), and never added this for later SoCs in the fir=
-st place.
-> > > I guess we could add it back, and it would work for this case here (t=
-ested
-> > > that), but then cannot replace the sun8i-emac.c code, because that wo=
-uld
-> > > break older DTs.
-> > > So is there any chance we can drop the requirement for "syscon" in th=
-e
-> > > compatible string list, in the implementation of
-> > > syscon_regmap_lookup_by_phandle()? Maybe optionally, using a differen=
-t
-> > > prototype? Or is there another existing API that does this already?
-> >
-> > I must correct myself: I was wrong. You are not open-coding, because as
-> > pointed out, this is not a phandle to syscon (even if you call it like
-> > "syscon").
-> >
-> > The code is fine, maybe except missing links (needs double checking,
-> > because maybe regmap creates links?). The DT binding and DTS needs
-> > fixing, because it is not a syscon.
-> >
-> > Best regards,
-> > Krzysztof
-> >
->
+Rob
