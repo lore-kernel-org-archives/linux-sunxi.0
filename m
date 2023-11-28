@@ -1,49 +1,49 @@
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7333511181
-	for <linux-sunxi@lists.linux.dev>; Tue, 28 Nov 2023 06:03:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51E97CA73
+	for <linux-sunxi@lists.linux.dev>; Tue, 28 Nov 2023 07:41:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EKz587fD"
-Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-3b86f3cdca0so1183188b6e.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 27 Nov 2023 22:03:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="e6dL4pQH"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-548ce28fd23so6654184a12.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 27 Nov 2023 23:41:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701151413; x=1701756213; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=linaro.org; s=google; t=1701157271; x=1701762071; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=csLS64+eI7GN6dTCIhzLKg4veI11cG+jyxOwg061tdQ=;
-        b=EKz587fDN076cr1DriPLoAiTpnYnZrXV8g2zaqah6HkOH3Bmo17g+knLxMZyGpHGrD
-         UrRqljXlyKfQRYKc83DWY7zXiyia8/qMy8cRfEyiHhv3QkC4FMzkvPK9XV76+xn14c9J
-         /jRSPKbigpiFTIJEJM7LtyC5M73mmqviNcb5YneWwu4xM4v0hRVo8A5ybQqx+bq9ryGg
-         6oCWeQ27gHfZ+eVROACJj7/41MS09+js9zQxpjSf4XojGARpKHiOnk6OPLubSMYQG0hf
-         W07JDpuDUzHy4PsbhE3lyhLhPb9eUWhM7gpUy7Vp0ERYhNQ3N5eOEcgdte0gvMOaYZCr
-         SwCA==
+        bh=eWAZTNH1owl43DfAMqnorKC9heAavDsuXgKZMRgXHEQ=;
+        b=e6dL4pQHMhGe9AcC7mwbRLppDyHtJtGBqLoUdlbnJKyP6b6/w2sn8YwnF8AR82bCHP
+         k8j4+mwRE3dIpCCy021846FbdXpJsGI+2AmJT1jNDMunwaDgPND/HzIzSj8K78UBSyrO
+         9riI7UpVbtJC3Cw+OoJZml1LNbPFAMnGRHQVeWnHe7Omhw23aDTDKHF0mXVxdZ57wY+w
+         UIS9Ag9+cndN8kN+PpsJ3HcCBm9Q1R5DbdSUTY400Uu3hddXO9+57Zg8YdNHTfGUWXhZ
+         hJB6mg9xcaJMLskyuPyDkRdPL02+x6y/fepv67lKwn9kHq6uLJdeLVk7cQWlK10ysXBM
+         AQBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701151413; x=1701756213;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1701157271; x=1701762071;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=csLS64+eI7GN6dTCIhzLKg4veI11cG+jyxOwg061tdQ=;
-        b=bVxsXRMhAjKw9nEO13gHJr3ZExZMgR75a6QOgAn/Og33S31skq9LoQG5aS7xUFvnX7
-         VwXspf/dcT0Eg8rZlXTkjm0zOSTjiIKFg3NhuKeym3i6E+Ci+xuP6DCP+8pUySD7RWTg
-         KZbowyDsVqLLbvLgCuFRiohqaKfkUzcSbJ+aH2z+3mB/tr4sofszGJNvGtj+wf5tS0qh
-         nf48TfLDIjz6yOtBgYn19I9XIakcLhdmTmBfdOWxH1JVxUoXYVpNx1HtrWNcPmJf4cq8
-         DdQuFh69a8EeCyDuI9MAJWBMrgOzroumzuH+lK+V/sH+RBz8IipDrQHwkOWdsYM80774
-         OWdg==
-X-Gm-Message-State: AOJu0Yzsqfxpl6Ao5Cat3m6l58QX0gh1v2Ch7EQ1hcMVEgg8VJCTXFLC
-	7Gu/IFwgyT9JLTBqwE+mzNg=
-X-Google-Smtp-Source: AGHT+IFlMWUbEg/72ldhJnjxjuAfzS+5b73m0GCjdgzxC71pxh+Z8aAB0K0ARiAtdBYEHTbcrHSbGQ==
-X-Received: by 2002:a05:6870:ff4b:b0:1fa:1db4:46da with SMTP id qo11-20020a056870ff4b00b001fa1db446damr10802583oab.42.1701151413332;
-        Mon, 27 Nov 2023 22:03:33 -0800 (PST)
-Received: from [192.168.1.3] (d23-16-72-139.bchsia.telus.net. [23.16.72.139])
-        by smtp.gmail.com with ESMTPSA id g8-20020a056a00078800b006cb574445efsm8231211pfu.88.2023.11.27.22.03.32
+        bh=eWAZTNH1owl43DfAMqnorKC9heAavDsuXgKZMRgXHEQ=;
+        b=d7V9/UMcjSToVfNcvlaqbRyOenEXD7melaGCTEt7oKUj556L9oKiDwnfJuuMFabUh1
+         0ejT9Kjsx4A1GJKxfPu6RORgiJ8qbnZ7I23L8Bcuubn0nRIr0Jxgjzh9hsa6celfeU9T
+         NgWCrdwkY/HsF4pfL0aA2STYxy+6jGVzykB4BLJdsBVyR0XehddL2M5n4nj1WDwg6yek
+         mi/AZUv8ZmsNimma9n8bRUJhndDyNtlhtkzP0JVOWDGa7v06YdgfxIKZ9KN9VQODU42p
+         fLM9ZSbwG4q9AOO8k5SeBDXwrO5gW9Z+krrmvdD9f/uLAinDpwlzKdZ6l8ql/3NqxQOu
+         OHow==
+X-Gm-Message-State: AOJu0YwCqsPtX4T+TCKua4VDu3cithZtOdN61oVATgCeq9p3g6ANaLOv
+	3X9tOpfwSE3T3R2tUqg1YXtKIA==
+X-Google-Smtp-Source: AGHT+IHeWsC7fml3P7Hus4eFMCtgG/ZqAyXDpOvFkPrBX38PZz4jJDFbWN3YM4jcIIHlPrIHOOxHPg==
+X-Received: by 2002:a50:9312:0:b0:53e:3b8f:8a58 with SMTP id m18-20020a509312000000b0053e3b8f8a58mr11696420eda.11.1701157271546;
+        Mon, 27 Nov 2023 23:41:11 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.223.109])
+        by smtp.gmail.com with ESMTPSA id w4-20020a056402268400b0054b2daa6654sm3413986edd.56.2023.11.27.23.41.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Nov 2023 22:03:33 -0800 (PST)
-Message-ID: <5320e06e-8f0b-4d2c-9942-9e4c0a8b0c48@gmail.com>
-Date: Mon, 27 Nov 2023 22:03:32 -0800
+        Mon, 27 Nov 2023 23:41:11 -0800 (PST)
+Message-ID: <c30f126b-d295-4482-8a7f-5dc5cf651e84@linaro.org>
+Date: Tue, 28 Nov 2023 08:41:08 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -51,313 +51,133 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] sunxi: H616: Add OrangePi Zero 3 board support
-Content-Language: en-CA
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Mikhail Kalashnikov <iuncuim@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Vignesh R <vigneshr@ti.com>,
- Jaehoon Chung <jh80.chung@samsung.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Piotr Oniszczuk <piotr.oniszczuk@gmail.com>, u-boot@lists.denx.de,
+Subject: Re: [PATCH v3 2/6] dt-bindings: thermal: sun8i: Add H616 THS
+ controller
+Content-Language: en-US
+To: Andre Przywara <andre.przywara@arm.com>,
+ Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>,
+ Lukasz Luba <lukasz.luba@arm.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ Bob McChesney <bob@electricworry.net>, linux-pm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev
-References: <20231114013106.31336-1-andre.przywara@arm.com>
- <20231114013106.31336-4-andre.przywara@arm.com>
- <0eab5c21-4fdc-478e-9071-f43c12e01fb3@gmail.com>
- <20231126002349.55404e43@slackpad.lan>
- <465a5608-89f7-4691-a2e0-ebec9b85d994@gmail.com>
- <20231126122342.3944cad5@slackpad.lan>
- <d8862c87-072d-4f74-bb37-08f34c610cc8@gmail.com>
- <dae3bee5-e1c7-4154-959c-e41dabb5d844@gmail.com>
- <20231128013746.23648d39@slackpad.lan>
-From: Stephen Graf <stephen.graf@gmail.com>
-In-Reply-To: <20231128013746.23648d39@slackpad.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20231128005849.19044-1-andre.przywara@arm.com>
+ <20231128005849.19044-3-andre.przywara@arm.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20231128005849.19044-3-andre.przywara@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-I did some digging into the orangepi SDK and it sort of looks like the 
-zero3 is set up for dram_clk = 792. I use their image as a fallback and 
-it has been stable (built linux kernel and set up debian rootfs).
-
-from https://github.com/orangepi-xunlong/orangepi-build.git
-
-external/packages/pack-uboot/sun50iw9/bin/dts/orangepizero3-u-boot-legacy.dts: 
-                  dram_type = <0x8>;
-
-
-external/packages/pack-uboot/sun50iw9/bin/sys_config/sys_config_orangepizero3.fex
-
-[dram_para]
-dram_clk = 792
-dram_type = 8
-dram_dx_odt = 0x07070707
-dram_dx_dri = 0x0e0e0e0e
-dram_ca_dri = 0x0e0e
-dram_odt_en = 0xaaaaeeee
-dram_para1 = 0x30fa
-dram_para2 = 0x0000
-dram_mr0 = 0x0
-dram_mr1 = 0x34
-dram_mr2 = 0x1b
-dram_mr3 = 0x33
-dram_mr4 = 0x3
-dram_mr5 = 0x0
-dram_mr6 = 0x0
-dram_mr11 = 0x4
-dram_mr12 = 0x72
-dram_mr13 = 0x0
-dram_mr14 = 0x9
-dram_mr16 = 0x0
-dram_mr17 = 0x0
-dram_mr22 = 0x24
-dram_tpr0 = 0x0
-dram_tpr1 = 0x0
-dram_tpr2 = 0x0
-dram_tpr3 = 0x0
-dram_tpr6 = 0x35808080
-dram_tpr10 = 0x402f6663
-dram_tpr11 = 0x36363535
-dram_tpr12 = 0x10101110
-dram_tpr13 = 0x2080C60
-
-
-[dram_para16]
-dram_clk = 792
-dram_type = 8
-dram_dx_odt = 0x07070707
-dram_dx_dri = 0x0e0e0e0e
-dram_ca_dri = 0x0e0e
-dram_odt_en = 0xaaaaeeee
-dram_para1 = 0x30fa
-dram_para2 = 0x0000
-dram_mr0 = 0x0
-dram_mr1 = 0x34
-dram_mr2 = 0x1b
-dram_mr3 = 0x33
-dram_mr4 = 0x3
-dram_mr5 = 0x0
-dram_mr6 = 0x0
-dram_mr11 = 0x4
-dram_mr12 = 0x72
-dram_mr13 = 0x0
-dram_mr14 = 0x9
-dram_mr16 = 0x0
-dram_mr17 = 0x0
-dram_mr22 = 0x24
-dram_tpr0 = 0x0
-dram_tpr1 = 0x0
-dram_tpr2 = 0x0
-dram_tpr3 = 0x0
-dram_tpr6 = 0x35808080
-dram_tpr10 = 0x402f6663
-dram_tpr11 = 0x36363535
-dram_tpr12 = 0x10101110
-dram_tpr13 = 0x2080C60
-
-On 2023-11-27 5:37 p.m., Andre Przywara wrote:
-> On Mon, 27 Nov 2023 14:31:19 -0800
-> Stephen Graf <stephen.graf@gmail.com> wrote:
+On 28/11/2023 01:58, Andre Przywara wrote:
+> From: Martin Botka <martin.botka@somainline.org>
 > 
-> Hi,
+> This controller is similar to the H6, but covers four sensors and uses
+> slightly different calibration methods.
+> Also the H616 requires to poke a bit in the SYS_CFG register range for
+> correct operation, so add a "syscon" phandle property to point there.
 > 
->> Since the last test I rebuilt u-boot without the
->> "CONFIG_DRAM_CLK=792" in the defconfig and got the wrong DRAM size
->> problem (showing 2G instead of 1G). I had to do a power down/up to see this.
->> Are you planning to add this parameter to your patch?
+> Signed-off-by: Martin Botka <martin.botka@somainline.org>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  .../thermal/allwinner,sun8i-a83t-ths.yaml     | 30 ++++++++++++-------
+>  1 file changed, 20 insertions(+), 10 deletions(-)
 > 
-> This symptom is pretty surely not directly related to the DRAM
-> frequency, it's caused by a missing barrier or delay *somewhere*.
-> People report that this is fixed by adding another "dsb();" at the
-> beginning of the mctl_mem_matches() function, but I don't have a good
-> explanation why exactly there, and would like to avoid submitting
-> patches that "just seem to work (TM)".
-> 
-> If I find some time, I will try to setup some automated environment
-> where I can run some experiments with different barrier locations.
-> I can offer some rationale for putting it at the end of the function(s)
-> that call mctl_mem_matches(), so hope that this fixes it.
-> 
-> Cheers,
-> Andre
-> 
->> U-Boot 2024.01-rc3-00012-g1fcf078f54-dirty (Nov 27 2023 - 12:25:33
->> -0800) Allwin                                                      ner
->> Technology
->>
->> CPU:   Allwinner H616 (SUN50I)
->> Model: OrangePi Zero3
->> DRAM:  2 GiB
->>
->>
->> On 2023-11-27 12:21 p.m., Stephen Graf wrote:
->>> Yes I forgot about the zBIT patch. With this patch also included I built
->>> and retested u-boot loaded from SPI flash.  The two warning/error
->>> messages disappeared and the flash worked properly and booted from a USB
->>> device.
->>>
->>> There was one message that I did not understand:
->>> "Loading Environment from SPIFlash... SF: Detected zb25vq128 with page
->>> size 256 Bytes, erase size 4 KiB, total 16 MiB
->>> *** Warning - bad CRC, using default environment"
->>>
->>> I tried to follow the u-boot documentation on writing the SPI flash but
->>> had problems with the write command.  When issued it returned
->>> immediately. The erase command took about 5 sec to execute. I researched
->>> use of mtd commands and got a suggestion to use cat instead, which worked.
->>>
->>> "root@orangepizero3:~# mtdinfo
->>> Count of MTD devices:           1
->>> Present MTD devices:            mtd0
->>> Sysfs interface supported:      yes
->>> root@orangepizero3:~# mtd_debug erase /dev/mtd0 0 0xf0000
->>> Erased 983040 bytes from address 0x00000000 in flash
->>> root@orangepizero3:~# mtd_debug write /dev/mtd0 0 0xf0000
->>> /home/sysadmin/u-boot-sunxi-with-spl.bin
->>> file_to_flash: fread, size 0xf0000, n 0xf0000
->>> fread(): Success
->>> root@orangepizero3:~# cat /home/sysadmin/u-boot-sunxi-with-spl.bin >
->>> /dev/mtd0
->>>
->>>
->>> Console log of boot:
->>>
->>> U-Boot SPL 2024.01-rc3-00012-g1fcf078f54-dirty (Nov 27 2023 - 10:17:46
->>> -0800)
->>> DRAM: 1024 MiB
->>> Trying to boot from sunxi SPI
->>> NOTICE:  BL31: v2.10.0  (debug):v2.10.0
->>> NOTICE:  BL31: Built : 18:07:18, Nov 23 2023
->>> NOTICE:  BL31: Detected Allwinner H616 SoC (1823)
->>> NOTICE:  BL31: Found U-Boot DTB at 0x4a0b2798, model: OrangePi Zero3
->>> INFO:    ARM GICv2 driver initialized
->>> INFO:    Configuring SPC Controller
->>> INFO:    PMIC: Probing AXP305 on RSB
->>> ERROR:   RSB: set run-time address: 0x10003
->>> INFO:    Could not init RSB: -65539
->>> INFO:    BL31: Platform setup done
->>> INFO:    BL31: Initializing runtime services
->>> INFO:    BL31: cortex_a53: CPU workaround for erratum 855873 was applied
->>> INFO:    BL31: cortex_a53: CPU workaround for erratum 1530924 was applied
->>> INFO:    PSCI: Suspend is unavailable
->>> INFO:    BL31: Preparing for EL3 exit to normal world
->>> INFO:    Entry point address = 0x4a000000
->>> INFO:    SPSR = 0x3c9
->>> INFO:    Changed devicetree.
->>>
->>>
->>> U-Boot 2024.01-rc3-00012-g1fcf078f54-dirty (Nov 27 2023 - 10:17:46
->>> -0800) Allwinner Technology
->>>
->>> CPU:   Allwinner H616 (SUN50I)
->>> Model: OrangePi Zero3
->>> DRAM:  1 GiB
->>> Core:  57 devices, 25 uclasses, devicetree: separate
->>> WDT:   Not starting watchdog@30090a0
->>> MMC:   mmc@4020000: 0
->>> Loading Environment from SPIFlash... SF: Detected zb25vq128 with page
->>> size 256 Bytes, erase size 4 KiB, total 16 MiB
->>> *** Warning - bad CRC, using default environment
->>>
->>> Loading Environment from FAT... Card did not respond to voltage select!
->>> : -110
->>> ** Bad device specification mmc 0 **
->>> In:    serial@5000000
->>> Out:   serial@5000000
->>> Err:   serial@5000000
->>> Allwinner mUSB OTG (Peripheral)
->>> Net:   eth0: ethernet@5020000using musb-hdrc, OUT ep1out IN ep1in STATUS
->>> ep2in
->>> MAC de:ad:be:ef:00:01
->>> HOST MAC de:ad:be:ef:00:00
->>> RNDIS ready
->>> , eth1: usb_ether
->>> starting USB...
->>> Bus usb@5200000: USB EHCI 1.00
->>> Bus usb@5200400: USB OHCI 1.0
->>> scanning bus usb@5200000 for devices... Device NOT ready
->>>      Request Sense returned 02 3A 00
->>> Device NOT ready
->>>      Request Sense returned 02 3A 00
->>> Device NOT ready
->>>      Request Sense returned 02 3A 00
->>> 2 USB Device(s) found
->>> scanning bus usb@5200400 for devices... 1 USB Device(s) found
->>>          scanning usb for storage devices... 1 Storage Device(s) found
->>> Hit any key to stop autoboot:  0
->>> Card did not respond to voltage select! : -110
->>>
->>> Device 0: Vendor: Generic- Rev: 1.00 Prod: SD/MMC
->>>               Type: Removable Hard Disk
->>>               Capacity: 3828.0 MB = 3.7 GB (7839744 x 512)
->>> ... is now current device
->>> Scanning usb 0:1...
->>> Found U-Boot script /boot.scr
->>> 1575 bytes read in 1 ms (1.5 MiB/s)
->>> ## Executing script at 4fc00000
->>> Mainline u-boot / new-style environment detected.
->>> This installer medium does not contain a suitable device-tree file for
->>> this system (allwinner/sun50i-h618-orangepi-zero3.dtb). Aborting boot
->>> process.
->>> SCRIPT FAILED: continuing...
->>> Found U-Boot script /boot/boot.scr
->>> 621 bytes read in 2 ms (302.7 KiB/s)
->>> ## Executing script at 4fc00000
->>> 19472 bytes read in 3 ms (6.2 MiB/s)
->>> Working FDT set to 4fa00000
->>> 7088139 bytes read in 326 ms (20.7 MiB/s)
->>> 22491144 bytes read in 1031 ms (20.8 MiB/s)
->>> Moving Image from 0x40080000 to 0x40200000, end=41800000
->>> ## Loading init Ramdisk from Legacy Image at 4ff00000 ...
->>>      Image Name:   uInitrd
->>>      Image Type:   AArch64 Linux RAMDisk Image (gzip compressed)
->>>      Data Size:    7088075 Bytes = 6.8 MiB
->>>      Load Address: 00000000
->>>      Entry Point:  00000000
->>>      Verifying Checksum ... OK
->>> ## Flattened Device Tree blob at 4fa00000
->>>      Booting using the fdt blob at 0x4fa00000
->>> Working FDT set to 4fa00000
->>>      Loading Ramdisk to 4993d000, end 49fff7cb ... OK
->>>      Loading Device Tree to 00000000498cf000, end 000000004993cfff ... OK
->>> Working FDT set to 498cf000
->>>
->>> Starting kernel ...
->>>
->>> [    0.000000] Booting Linux on physical CPU 0x0000000000 [0x410fd034]
->>> [    0.000000] Linux version 6.6.2 (orangepi@orangepizero3) (gcc (Debian
->>> 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40) #1 SMP Sat Nov
->>> 25 18:37:47 UTC 2023
->>>
->>>
->>> On 2023-11-26 4:23 a.m., Andre Przywara wrote:
->>>> On Sat, 25 Nov 2023 20:27:05 -0800
->>>> Stephen Graf <stephen.graf@gmail.com> wrote:
->>>>
->>>> Hi Stephen,
->>>>   
->>>>> I built u-boot with the additional parameter for usb and it works, I
->>>>> think.  There was one message that might be of concern "
->>>>> Card did not respond to voltage select! : -110".
->>>>
->>>> This is a normal, though admittedly confusing message if no SD card is
->>>> inserted. The code tries to (unconditionally) access the SD card, and
->>>> sees that no card is there, the missing respond to the voltage select
->>>> command is just the first real proof of this.
->>>>   
->>>>> I am not sure of the details of the boot.cmd. The output below came from
->>>>> the supplier image on an SD plugged into a USB card reader. The SD
->>>>> slot of the board was empty.
->>>>>
->>>>> I was able to install u-boot to the SPI flash memory and there is a
->>>>> warning message from that also: "
->>>>> Loading Environment from SPIFlash... jedec_spi_nor flash@0:
->>>>> unrecognized JEDEC id bytes: 5e, 40, 18
->>>>> *** Warning - spi_flash_probe_bus_cs() failed, using default
->>>>> environment"
->>>>
->>>> So for a start there is no environment on the SPI flash yet, so it
->>>> wouldn't do anything. But the "unrecognised JEDEC id bytes" message
->>>> doesn't sound right. Can you dig into this? Do you have patch 1/3
->>>> applied, which tells U-Boot about 0x5e meaning zBIT?
->>>>   
->>
-> 
+> diff --git a/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.yaml b/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.yaml
+> index fbd4212285e28..95a6ab9a5889b 100644
+> --- a/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.yaml
+> +++ b/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.yaml
+> @@ -20,6 +20,7 @@ properties:
+>        - allwinner,sun50i-a100-ths
+>        - allwinner,sun50i-h5-ths
+>        - allwinner,sun50i-h6-ths
+> +      - allwinner,sun50i-h616-ths
+>  
+>    clocks:
+>      minItems: 1
+> @@ -63,6 +64,7 @@ allOf:
+>              enum:
+>                - allwinner,sun50i-a100-ths
+>                - allwinner,sun50i-h6-ths
+> +              - allwinner,sun50i-h616-ths
+>  
+>      then:
+>        properties:
+> @@ -80,6 +82,18 @@ allOf:
+>          clock-names:
+>            minItems: 2
+>  
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: allwinner,sun50i-h616-ths
+> +
+> +    then:
+> +      properties:
+> +        syscon:
+
+Nope, there is no such property. First of all, properties must be
+defined in top level. Second of all - this is exactly the example I used
+for my talk. Two times.
+
+> +          maxItems: 1
+> +          description: phandle to syscon device allowing access to SYS_CFG registers
+
+You must also say what is the purpose. Drop redundant parts like
+"phandle to syscon device allowing access" and explain what is the hardware.
+
+
+
+Best regards,
+Krzysztof
+
