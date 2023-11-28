@@ -1,49 +1,49 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25CA3524B
-	for <linux-sunxi@lists.linux.dev>; Tue, 28 Nov 2023 02:35:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7333511181
+	for <linux-sunxi@lists.linux.dev>; Tue, 28 Nov 2023 06:03:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="my5zu5my"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-5bd306f86a8so3554838a12.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 27 Nov 2023 18:35:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EKz587fD"
+Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-3b86f3cdca0so1183188b6e.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 27 Nov 2023 22:03:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701138911; x=1701743711; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1701151413; x=1701756213; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=NtPn7eZgNT/oorqCom+5KaiuORO3f5l/kpnudwPLLrI=;
-        b=my5zu5myzG3BnGCOhGko9Ts3VElQaOURIDwjtHIRLoBypcFASyMCm0WH5iBlNVngDd
-         sZuc7av3imIED68njaVCyHKlBO80qMX36co39cbDZETvdQ6Ew5W8gYRlcXDSu/2K9uxK
-         +e+AGMu6VNKFpy8emu4oB8xW0idaOI5K8tBsTGR5iOkbT8vsCn8+3CN0PExsnSVqvLKY
-         Y0cnhe9Oi4SF/gkkIP2uaiLdTc8/XeLNo4Is6vTEyhXpqKUQzXbTTMqpT/0zuw2iH+b5
-         29ztQhnxEV6/sJbrO9fOGxeL0JbWzH2Ar41SGhSS7H3dE+Q784b68gQsZtF64WDCoGD9
-         fAuw==
+        bh=csLS64+eI7GN6dTCIhzLKg4veI11cG+jyxOwg061tdQ=;
+        b=EKz587fDN076cr1DriPLoAiTpnYnZrXV8g2zaqah6HkOH3Bmo17g+knLxMZyGpHGrD
+         UrRqljXlyKfQRYKc83DWY7zXiyia8/qMy8cRfEyiHhv3QkC4FMzkvPK9XV76+xn14c9J
+         /jRSPKbigpiFTIJEJM7LtyC5M73mmqviNcb5YneWwu4xM4v0hRVo8A5ybQqx+bq9ryGg
+         6oCWeQ27gHfZ+eVROACJj7/41MS09+js9zQxpjSf4XojGARpKHiOnk6OPLubSMYQG0hf
+         W07JDpuDUzHy4PsbhE3lyhLhPb9eUWhM7gpUy7Vp0ERYhNQ3N5eOEcgdte0gvMOaYZCr
+         SwCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701138911; x=1701743711;
+        d=1e100.net; s=20230601; t=1701151413; x=1701756213;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NtPn7eZgNT/oorqCom+5KaiuORO3f5l/kpnudwPLLrI=;
-        b=Zi7wZtAM7nSl+p7EUciBrdirTDn4o0PuRVOshvTBxqeF9fGOEJz1+BPJ+k3LRX9p+h
-         AnD4Y3hJCiYhSeXlWlW9AesGZYwCSl2wnnwwmzJPXv663Ajcl120EKVZSVX0rX2FkTmr
-         aDUxfmymXtiuJEi8ox1dh0HXrjP5exMVou/0vbnvWaRaz0uM144lVlE6BhUQLIqyYvV3
-         gsQtxt/5Y9uNGif8/z1PVJXF7KRepRm97HEmvaLPhv8QMhYGuo8TLzWQO/IRlx/mSU87
-         GLi8eX3wUgNRldUNhecK1quHqj2liA6r87CTdNWh1GGrJghsZXn1R607EogZzbEgXFi3
-         z0MA==
-X-Gm-Message-State: AOJu0YzsApeRFXsBzJA8sWf1MxPh0gVFQnsv1Mh0cnGdHKCCtSXPUUzk
-	y5a4Pp+UAsH2Z+6cPbR6Dy8=
-X-Google-Smtp-Source: AGHT+IEtcRR2jBCjbBsrq+VfaOLZFfd0ZsZs3fl/vIgy1T9nBsPiUwkJ4/f6NRinIc4eMv0u36ZlMQ==
-X-Received: by 2002:a05:6a21:3989:b0:186:de7:e803 with SMTP id ad9-20020a056a21398900b001860de7e803mr16054940pzc.53.1701138911106;
-        Mon, 27 Nov 2023 18:35:11 -0800 (PST)
+        bh=csLS64+eI7GN6dTCIhzLKg4veI11cG+jyxOwg061tdQ=;
+        b=bVxsXRMhAjKw9nEO13gHJr3ZExZMgR75a6QOgAn/Og33S31skq9LoQG5aS7xUFvnX7
+         VwXspf/dcT0Eg8rZlXTkjm0zOSTjiIKFg3NhuKeym3i6E+Ci+xuP6DCP+8pUySD7RWTg
+         KZbowyDsVqLLbvLgCuFRiohqaKfkUzcSbJ+aH2z+3mB/tr4sofszGJNvGtj+wf5tS0qh
+         nf48TfLDIjz6yOtBgYn19I9XIakcLhdmTmBfdOWxH1JVxUoXYVpNx1HtrWNcPmJf4cq8
+         DdQuFh69a8EeCyDuI9MAJWBMrgOzroumzuH+lK+V/sH+RBz8IipDrQHwkOWdsYM80774
+         OWdg==
+X-Gm-Message-State: AOJu0Yzsqfxpl6Ao5Cat3m6l58QX0gh1v2Ch7EQ1hcMVEgg8VJCTXFLC
+	7Gu/IFwgyT9JLTBqwE+mzNg=
+X-Google-Smtp-Source: AGHT+IFlMWUbEg/72ldhJnjxjuAfzS+5b73m0GCjdgzxC71pxh+Z8aAB0K0ARiAtdBYEHTbcrHSbGQ==
+X-Received: by 2002:a05:6870:ff4b:b0:1fa:1db4:46da with SMTP id qo11-20020a056870ff4b00b001fa1db446damr10802583oab.42.1701151413332;
+        Mon, 27 Nov 2023 22:03:33 -0800 (PST)
 Received: from [192.168.1.3] (d23-16-72-139.bchsia.telus.net. [23.16.72.139])
-        by smtp.gmail.com with ESMTPSA id fw13-20020a17090b128d00b002839d7d8bf3sm6588456pjb.55.2023.11.27.18.35.10
+        by smtp.gmail.com with ESMTPSA id g8-20020a056a00078800b006cb574445efsm8231211pfu.88.2023.11.27.22.03.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Nov 2023 18:35:10 -0800 (PST)
-Message-ID: <68d7dda4-666d-40e4-bed7-f6b754105a32@gmail.com>
-Date: Mon, 27 Nov 2023 18:35:10 -0800
+        Mon, 27 Nov 2023 22:03:33 -0800 (PST)
+Message-ID: <5320e06e-8f0b-4d2c-9942-9e4c0a8b0c48@gmail.com>
+Date: Mon, 27 Nov 2023 22:03:32 -0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -74,19 +74,84 @@ In-Reply-To: <20231128013746.23648d39@slackpad.lan>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-I got the initial defconfig that I started testing with from:
+I did some digging into the orangepi SDK and it sort of looks like the 
+zero3 is set up for dram_clk = 792. I use their image as a fallback and 
+it has been stable (built linux kernel and set up debian rootfs).
 
-https://gist.github.com/iuncuim/2150b7a5317700314393665260ca628e
+from https://github.com/orangepi-xunlong/orangepi-build.git
 
-which has CONFIG_DRAM_CLK=792.
+external/packages/pack-uboot/sun50iw9/bin/dts/orangepizero3-u-boot-legacy.dts: 
+                  dram_type = <0x8>;
 
-Just a few hours ago, when I was testing without this parameter, my 
-system misbehaved and refused to reboot. The file system was corrupted 
-and I had to reinstall the rootfs to get it going again.  I put the 
-u-boot with the CONFIG_DRAM_CLK=792 back on it.
 
-I will retest the system by building u-boot which is what I was doing 
-when it crashed.
+external/packages/pack-uboot/sun50iw9/bin/sys_config/sys_config_orangepizero3.fex
+
+[dram_para]
+dram_clk = 792
+dram_type = 8
+dram_dx_odt = 0x07070707
+dram_dx_dri = 0x0e0e0e0e
+dram_ca_dri = 0x0e0e
+dram_odt_en = 0xaaaaeeee
+dram_para1 = 0x30fa
+dram_para2 = 0x0000
+dram_mr0 = 0x0
+dram_mr1 = 0x34
+dram_mr2 = 0x1b
+dram_mr3 = 0x33
+dram_mr4 = 0x3
+dram_mr5 = 0x0
+dram_mr6 = 0x0
+dram_mr11 = 0x4
+dram_mr12 = 0x72
+dram_mr13 = 0x0
+dram_mr14 = 0x9
+dram_mr16 = 0x0
+dram_mr17 = 0x0
+dram_mr22 = 0x24
+dram_tpr0 = 0x0
+dram_tpr1 = 0x0
+dram_tpr2 = 0x0
+dram_tpr3 = 0x0
+dram_tpr6 = 0x35808080
+dram_tpr10 = 0x402f6663
+dram_tpr11 = 0x36363535
+dram_tpr12 = 0x10101110
+dram_tpr13 = 0x2080C60
+
+
+[dram_para16]
+dram_clk = 792
+dram_type = 8
+dram_dx_odt = 0x07070707
+dram_dx_dri = 0x0e0e0e0e
+dram_ca_dri = 0x0e0e
+dram_odt_en = 0xaaaaeeee
+dram_para1 = 0x30fa
+dram_para2 = 0x0000
+dram_mr0 = 0x0
+dram_mr1 = 0x34
+dram_mr2 = 0x1b
+dram_mr3 = 0x33
+dram_mr4 = 0x3
+dram_mr5 = 0x0
+dram_mr6 = 0x0
+dram_mr11 = 0x4
+dram_mr12 = 0x72
+dram_mr13 = 0x0
+dram_mr14 = 0x9
+dram_mr16 = 0x0
+dram_mr17 = 0x0
+dram_mr22 = 0x24
+dram_tpr0 = 0x0
+dram_tpr1 = 0x0
+dram_tpr2 = 0x0
+dram_tpr3 = 0x0
+dram_tpr6 = 0x35808080
+dram_tpr10 = 0x402f6663
+dram_tpr11 = 0x36363535
+dram_tpr12 = 0x10101110
+dram_tpr13 = 0x2080C60
 
 On 2023-11-27 5:37 p.m., Andre Przywara wrote:
 > On Mon, 27 Nov 2023 14:31:19 -0800
