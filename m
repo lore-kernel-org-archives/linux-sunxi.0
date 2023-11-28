@@ -1,98 +1,106 @@
-Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F26E235888
-	for <linux-sunxi@lists.linux.dev>; Tue, 28 Nov 2023 14:11:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="lKKIARly"
-Message-ID: <6d0f8057-70f9-46f9-828a-df03c753b42b@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1701180706;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Hxr6Qi8uAR1GAsmRwi31SrOVsQk0+PK+MAopQh8m5vk=;
-	b=lKKIARlyv1H6YGZl6IGyLBEni04sQJfG863/4ZgCGXNR9S/hHpHmfvXyouaj//rnKHuvYk
-	43za6NCU8WEn9fiHOOidCkKIH83XwBPPuHZ4e1Grw5BHUwFC6vH+V7cw0wmx5/w3WiJdFA
-	LOF/zVvAJBOiCI+vxywRaIkiRGMDZMs=
-Date: Tue, 28 Nov 2023 22:11:24 +0800
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0453B5B5B7
+	for <linux-sunxi@lists.linux.dev>; Tue, 28 Nov 2023 14:33:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 91544C15;
+	Tue, 28 Nov 2023 06:34:03 -0800 (PST)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6D2373F6C4;
+	Tue, 28 Nov 2023 06:33:13 -0800 (PST)
+Date: Tue, 28 Nov 2023 14:33:09 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li
+ <tiny.windzz@gmail.com>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, "Rafael J
+ . Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, Rob
+ Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Martin Botka <martin.botka@somainline.org>, Bob McChesney
+ <bob@electricworry.net>, linux-pm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, Icenowy Zheng <icenowy@aosc.io>
+Subject: Re: [PATCH v3 4/6] thermal: sun8i: add syscon register access code
+Message-ID: <20231128143309.38a4ce61@donnerap.manchester.arm.com>
+In-Reply-To: <ddceb30f-1778-4312-af91-97813fe3c6fb@linaro.org>
+References: <20231128005849.19044-1-andre.przywara@arm.com>
+	<20231128005849.19044-5-andre.przywara@arm.com>
+	<ddceb30f-1778-4312-af91-97813fe3c6fb@linaro.org>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [v4,43/45] drm/sun4i: hdmi: Switch to container_of_const
-Content-Language: en-US
-To: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
- Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Hans Verkuil <hverkuil@xs4all.nl>,
- linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-References: <20231128-kms-hdmi-connector-state-v4-43-c7602158306e@kernel.org>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <20231128-kms-hdmi-connector-state-v4-43-c7602158306e@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+
+On Tue, 28 Nov 2023 08:43:32 +0100
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
 
 Hi,
 
+> On 28/11/2023 01:58, Andre Przywara wrote:
+> >  
+> > +static struct regmap *sun8i_ths_get_syscon_regmap(struct device_node *node)
+> > +{
+> > +	struct device_node *syscon_node;
+> > +	struct platform_device *syscon_pdev;
+> > +	struct regmap *regmap = NULL;
+> > +
+> > +	syscon_node = of_parse_phandle(node, "syscon", 0);  
+> 
+> Nope. For the 100th time, this cannot be generic.
 
-On 2023/11/28 18:24, Maxime Ripard wrote:
-> container_of_const() allows to preserve the pointer constness and is
-> thus more flexible than inline functions.
->
-> Let's switch all our instances of container_of() to container_of_const().
->
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+OK. Shall this name refer to the required functionality (temperature
+offset fix) or to the target syscon node (like allwinner,misc-syscon).
+The problem is that this is really a syscon, as in: "random collection of
+bits that we didn't know where else to put in", so "syscon" alone actually
+says it all.
 
 
-LGTM,
+And btw: it would have been about the same effort (and more helpful!) to
+type:
 
-Reviewed-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+"This cannot be generic, please check writing-bindings.rst."    ;-)
 
+> 
+> > +	if (!syscon_node)
+> > +		return ERR_PTR(-ENODEV);
+> > +
+> > +	syscon_pdev = of_find_device_by_node(syscon_node);
+> > +	if (!syscon_pdev) {
+> > +		/* platform device might not be probed yet */
+> > +		regmap = ERR_PTR(-EPROBE_DEFER);
+> > +		goto out_put_node;
+> > +	}
+> > +
+> > +	/* If no regmap is found then the other device driver is at fault */
+> > +	regmap = dev_get_regmap(&syscon_pdev->dev, NULL);
+> > +	if (!regmap)
+> > +		regmap = ERR_PTR(-EINVAL);  
+> 
+> Aren't you open-coding existing API to get regmap from syscon?
 
-> ---
->   drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 16 ++++------------
->   1 file changed, 4 insertions(+), 12 deletions(-)
->
-> diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-> index bae69d696765..c276d984da6b 100644
-> --- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-> +++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-> @@ -30,19 +30,11 @@
->   #include "sun4i_drv.h"
->   #include "sun4i_hdmi.h"
->   
-> -static inline struct sun4i_hdmi *
-> -drm_encoder_to_sun4i_hdmi(struct drm_encoder *encoder)
-> -{
-> -	return container_of(encoder, struct sun4i_hdmi,
-> -			    encoder);
-> -}
-> +#define drm_encoder_to_sun4i_hdmi(e)		\
-> +	container_of_const(e, struct sun4i_hdmi, encoder)
->   
-> -static inline struct sun4i_hdmi *
-> -drm_connector_to_sun4i_hdmi(struct drm_connector *connector)
-> -{
-> -	return container_of(connector, struct sun4i_hdmi,
-> -			    connector);
-> -}
-> +#define drm_connector_to_sun4i_hdmi(c)		\
-> +	container_of_const(c, struct sun4i_hdmi, connector)
->   
->   static int sun4i_hdmi_setup_avi_infoframes(struct sun4i_hdmi *hdmi,
->   					   struct drm_display_mode *mode)
+That's a good point, I lifted that code from sun8i-emac.c, where we have
+the exact same problem. 
+Unfortunately syscon_regmap_lookup_by_phandle() requires the syscon DT
+node to have "syscon" in its compatible string list, which we
+don't have. We actually explicitly dropped this for the A64 (with
+1f1f5183981d70bf0950), and never added this for later SoCs in the first place.
+I guess we could add it back, and it would work for this case here (tested
+that), but then cannot replace the sun8i-emac.c code, because that would
+break older DTs.
+So is there any chance we can drop the requirement for "syscon" in the
+compatible string list, in the implementation of
+syscon_regmap_lookup_by_phandle()? Maybe optionally, using a different
+prototype? Or is there another existing API that does this already?
+
+Cheers,
+Andre
