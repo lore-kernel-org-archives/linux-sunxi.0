@@ -1,17 +1,17 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FF3839854;
-	Wed, 29 Nov 2023 16:48:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A09D36B05
+	for <linux-sunxi@lists.linux.dev>; Wed, 29 Nov 2023 17:03:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 96AD0C15;
-	Wed, 29 Nov 2023 08:49:40 -0800 (PST)
-Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 69D1A3F73F;
-	Wed, 29 Nov 2023 08:48:47 -0800 (PST)
-Message-ID: <52de3aca-41b1-471e-8f87-1a77de547510@arm.com>
-Date: Wed, 29 Nov 2023 16:48:43 +0000
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D874AC15;
+	Wed, 29 Nov 2023 09:04:21 -0800 (PST)
+Received: from [10.1.30.35] (e110479.arm.com [10.1.30.35])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 825373F73F;
+	Wed, 29 Nov 2023 09:03:31 -0800 (PST)
+Message-ID: <a097a613-14c1-4a53-bbe1-c44964e7ecaa@arm.com>
+Date: Wed, 29 Nov 2023 17:03:24 +0000
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -19,105 +19,132 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/16] iommu/fsl: use page allocation function provided by
- iommu-pages.h
-Content-Language: en-GB
-To: Jason Gunthorpe <jgg@ziepe.ca>, Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: akpm@linux-foundation.org, alex.williamson@redhat.com,
- alim.akhtar@samsung.com, alyssa@rosenzweig.io, asahi@lists.linux.dev,
- baolu.lu@linux.intel.com, bhelgaas@google.com, cgroups@vger.kernel.org,
- corbet@lwn.net, david@redhat.com, dwmw2@infradead.org, hannes@cmpxchg.org,
- heiko@sntech.de, iommu@lists.linux.dev, jasowang@redhat.com,
- jernej.skrabec@gmail.com, jonathanh@nvidia.com, joro@8bytes.org,
- kevin.tian@intel.com, krzysztof.kozlowski@linaro.org, kvm@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, linux-rockchip@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st,
- mhiramat@kernel.org, mst@redhat.com, m.szyprowski@samsung.com,
- netdev@vger.kernel.org, paulmck@kernel.org, rdunlap@infradead.org,
- samuel@sholland.org, suravee.suthikulpanit@amd.com, sven@svenpeter.dev,
- thierry.reding@gmail.com, tj@kernel.org, tomas.mudrunka@gmail.com,
- vdumpa@nvidia.com, virtualization@lists.linux.dev, wens@csie.org,
- will@kernel.org, yu-cheng.yu@intel.com
-References: <20231128204938.1453583-1-pasha.tatashin@soleen.com>
- <20231128204938.1453583-9-pasha.tatashin@soleen.com>
- <1c6156de-c6c7-43a7-8c34-8239abee3978@arm.com>
- <CA+CK2bCOtwZxTUS60PHOQ3szXdCzau7OpopgFEbbC6a9Frxafg@mail.gmail.com>
- <20231128235037.GC1312390@ziepe.ca>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <20231128235037.GC1312390@ziepe.ca>
+Subject: Re: [PATCH v3 4/6] thermal: sun8i: add syscon register access code
+Content-Language: en-US
+To: Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li
+ <tiny.windzz@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, "Rafael J . Wysocki"
+ <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ Bob McChesney <bob@electricworry.net>, linux-pm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, Icenowy Zheng <icenowy@aosc.io>,
+ Maxime Ripard <mripard@kernel.org>
+References: <20231128005849.19044-1-andre.przywara@arm.com>
+ <20231128005849.19044-5-andre.przywara@arm.com>
+ <ddceb30f-1778-4312-af91-97813fe3c6fb@linaro.org>
+ <20231128143309.38a4ce61@donnerap.manchester.arm.com>
+ <4e90608e-aca5-4b57-be76-350ad54f9e7c@linaro.org>
+ <20231128161010.26657e76@donnerap.manchester.arm.com>
+ <CAL_Jsq+9J1=+gZ83QyedAWbFN=AwSB8ue+o4TM7F6yu5_62z3g@mail.gmail.com>
+From: Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <CAL_Jsq+9J1=+gZ83QyedAWbFN=AwSB8ue+o4TM7F6yu5_62z3g@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 28/11/2023 11:50 pm, Jason Gunthorpe wrote:
-> On Tue, Nov 28, 2023 at 06:00:13PM -0500, Pasha Tatashin wrote:
->> On Tue, Nov 28, 2023 at 5:53 PM Robin Murphy <robin.murphy@arm.com> wrote:
->>>
->>> On 2023-11-28 8:49 pm, Pasha Tatashin wrote:
->>>> Convert iommu/fsl_pamu.c to use the new page allocation functions
->>>> provided in iommu-pages.h.
->>>
->>> Again, this is not a pagetable. This thing doesn't even *have* pagetables.
->>>
->>> Similar to patches #1 and #2 where you're lumping in configuration
->>> tables which belong to the IOMMU driver itself, as opposed to pagetables
->>> which effectively belong to an IOMMU domain's user. But then there are
->>> still drivers where you're *not* accounting similar configuration
->>> structures, so I really struggle to see how this metric is useful when
->>> it's so completely inconsistent in what it's counting :/
+Hi,
+
+On 28/11/2023 16:50, Rob Herring wrote:
+> On Tue, Nov 28, 2023 at 10:10 AM Andre Przywara <andre.przywara@arm.com> wrote:
 >>
->> The whole IOMMU subsystem allocates a significant amount of kernel
->> locked memory that we want to at least observe. The new field in
->> vmstat does just that: it reports ALL buddy allocator memory that
->> IOMMU allocates. However, for accounting purposes, I agree, we need to
->> do better, and separate at least iommu pagetables from the rest.
+>> On Tue, 28 Nov 2023 15:48:18 +0100
+>> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
 >>
->> We can separate the metric into two:
->> iommu pagetable only
->> iommu everything
+>> Hi,
 >>
->> or into three:
->> iommu pagetable only
->> iommu dma
->> iommu everything
+>> (adding Maxime for the syscon question below)
 >>
->> What do you think?
+>>> On 28/11/2023 15:33, Andre Przywara wrote:
+>>>> On Tue, 28 Nov 2023 08:43:32 +0100
+>>>> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+>>>>
+>>>> Hi,
+>>>>
+>>>>> On 28/11/2023 01:58, Andre Przywara wrote:
+>>>>>>
+>>>>>> +static struct regmap *sun8i_ths_get_syscon_regmap(struct device_node *node)
+>>>>>> +{
+>>>>>> + struct device_node *syscon_node;
+>>>>>> + struct platform_device *syscon_pdev;
+>>>>>> + struct regmap *regmap = NULL;
+>>>>>> +
+>>>>>> + syscon_node = of_parse_phandle(node, "syscon", 0);
+>>>>>
+>>>>> Nope. For the 100th time, this cannot be generic.
 > 
-> I think I said this at LPC - if you want to have fine grained
-> accounting of memory by owner you need to go talk to the cgroup people
-> and come up with something generic. Adding ever open coded finer
-> category breakdowns just for iommu doesn't make alot of sense.
+> Unless it is the 100th time for the submitter, please just point to
+> the documentation.
 > 
-> You can make some argument that the pagetable memory should be counted
-> because kvm counts it's shadow memory, but I wouldn't go into further
-> detail than that with hand coded counters..
+> Can we simply ban "syscon" as a property name? It looks like we have
+> 65 cases in upstream dts files. Maybe that's doable. This is where we
+> need levels of warnings with okay for existing vs. don't use in new
+> designs.
+> 
+>>>> OK. Shall this name refer to the required functionality (temperature
+>>>> offset fix) or to the target syscon node (like allwinner,misc-syscon).
+>>>> The problem is that this is really a syscon, as in: "random collection of
+>>>> bits that we didn't know where else to put in", so "syscon" alone actually
+>>>> says it all.
+>>>
+>>> Every syscon is a "random collection of bits...", but not every "random
+>>> collection of bits..." is a syscon.
+>>>
+>>> Your target device does not implement syscon nodes. Your Linux
+>>> implementation does not use it as syscon. Therefore if something does
+>>> not look like syscon and does not behave like syscon, it is not a syscon.
+>>>
+>>> I looked at the bit and this is SRAM, not syscon. I am sorry, but it is
+>>> something entirely different and we have a binding for it: "sram", I think.
+>>
+>> Well, it's somehow both: On the face of it it's a SRAM controller, indeed:
+>> it can switch the control of certain SRAM regions between CPU access and
+>> peripheral access (for the video and the display engine). But then it's
+>> also a syscon, because on top of that, it also controls those random bits,
+>> for instance the EMAC clock register, and this ominous THS bit.
+>> I guess in hindsight we should have never dropped that "syscon" string
+>> then, but I am not sure if adding it back has side effects?
+>>
+>> And as I mentioned in the cover letter: modelling this as some SRAM
+>> region, as you suggest, might be an alternative, but it doesn't sound right
+>> either, as I don't think it really is one: I just tried in U-Boot, and I
+>> can write and read the whole SRAM C region just fine, with and without the
+>> bit set. And SRAM content is preserved, even with the thermal sensor
+>> running and the bit cleared (or set).
+>>
+>> So adding the "syscon" to the compatible would fix most things, but then
+>> we need to keep the open coded lookup code in dwmac-sun8i.c (because older
+>> DTs would break otherwise).
+> 
+> Really, I'd like to get rid of the "syscon" compatible. It is nothing
+> more than a flag for Linux to create a regmap.
 
-Right, pagetable memory is interesting since it's something that any 
-random kernel user can indirectly allocate via iommu_domain_alloc() and 
-iommu_map(), and some of those users may even be doing so on behalf of 
-userspace. I have no objection to accounting and potentially applying 
-limits to *that*.
+Yeah, so thinking about it indeed feels a bit like we are changing the 
+DT here to cater for some Linux implementation detail. After all we 
+already access the regmap successfully in dwmac-sun8i.c, is that 
+approach frowned upon (because: driver model) and just tolerated because 
+it's already in the code base?
 
-Beyond that, though, there is nothing special about "the IOMMU 
-subsystem". The amount of memory an IOMMU driver needs to allocate for 
-itself in order to function is not of interest beyond curiosity, it just 
-is what it is; limiting it would only break the IOMMU, and if a user 
-thinks it's "too much", the only actionable thing that might help is to 
-physically remove devices from the system. Similar for DMA buffers; it 
-might be intriguing to account those, but it's not really an actionable 
-metric - in the overwhelming majority of cases you can't simply tell a 
-driver to allocate less than what it needs. And that is of course 
-assuming if we were to account *all* DMA buffers, since whether they 
-happen to have an IOMMU translation or not is irrelevant (we'd have 
-already accounted the pagetables as pagetables if so).
+> Not a fully baked idea, but perhaps what is needed is drivers that
+> request a regmap for a node simply get one regardless. That kind of > throws out the Linux driver model though. Alternatively with no
+> "syscon" compatible, we'd have to have table(s) of 100s of compatibles
+> in the kernel.
 
-I bet "the networking subsystem" also consumes significant memory on the 
-same kind of big systems where IOMMU pagetables would be of any concern. 
-I believe some of the some of the "serious" NICs can easily run up 
-hundreds of megabytes if not gigabytes worth of queues, SKB pools, etc. 
-- would you propose accounting those too?
+So do you mean to either just remove the explicit syscon compatible 
+check in syscon_node_to_regmap(), or replace it with a check against a 
+list of allowed devices?
+Wouldn't it be sufficient to leave that check to the (syscon-like) 
+devices, by them exporting a regmap in the first place or not? And we 
+can do filtering of accesses there, like we do in sunxi_sram.c?
 
-Thanks,
-Robin.
+Cheers,
+Andre
+
+
+> 
+> Rob
