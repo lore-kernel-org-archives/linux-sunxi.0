@@ -1,43 +1,44 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A7BA2B9A9
-	for <linux-sunxi@lists.linux.dev>; Wed, 29 Nov 2023 21:49:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAE654CB24
+	for <linux-sunxi@lists.linux.dev>; Wed, 29 Nov 2023 22:00:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="Lp5uPDC+"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-423f4a6144fso1611511cf.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 29 Nov 2023 13:49:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="if/y/fFG"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-423dcd5d060so2417261cf.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 29 Nov 2023 14:00:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1701294586; x=1701899386; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=cpfJU5sAguyt0/G2iahMIWT2bpNq5anO26/F530wIyY=;
-        b=Lp5uPDC+mdT1yXJredYQDmUmgob6XCvFiBu9hllnH3jX3lSKmFtvlVERj6OKdn4dol
-         60fUWpt6HbFoPduUxgrwmCaRj6SV4T5RB80o0+SRqd/jtiK/7e7VqhvuM2W+qNu/Mq0G
-         cYy1KasC4Rfk24yN3j/McFFVkrzt+FwuBToWzJzbUmQh3dcWpF72wwMoCLGsE+kxukfr
-         7Wy5NmqHPCmTqQMS+8nxbbgjNrP9f93GWbI4J+JDadzg+d9B1qY4BgFPMvk+raN5z0GM
-         VnS1tw/9KgHZ4eUJPnTQi4Ly326P8ivptQfxJRlnMM0oy7md5RLBBZibBWW1nZo/PXTA
-         mjuQ==
+        d=soleen.com; s=google; t=1701295220; x=1701900020; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aiOfm5uGDMrP0UYnHwC5BRUcA0oU3b2DbcdcIFPiI/Q=;
+        b=if/y/fFGh+maTAsAyHGQijIB5fH2tqMDIQW93wh3rI1RcQ8Qkr0rwyioeCLwqY3kyC
+         /xTB3kKaHibPnw/aLf42p0Yd+J8bSoCd5bvv7G0xTcqhmKlU3XRYLp72cw8mZIP6stUC
+         JQqHKdVtWq6TFYIxfgg9ASBqyXeVvrZ7x4e28c16PzO1UT1H0uJAYu+Xq6xa4V5PKlTD
+         tBLSsPMfvE4ze7H+q6YYI+oinmpkILsgAq3rkUc6vK9wfpQzT0J8Oog52jYUsQ8GnD3e
+         t3izOtOjkuV85yFaeaKtXCYMlzZPNPNQBIPGDbk5tRb7sOqLLM7hgkr7FgwKuslrqHxG
+         UbDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701294586; x=1701899386;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cpfJU5sAguyt0/G2iahMIWT2bpNq5anO26/F530wIyY=;
-        b=Cd8RxanYeEaPckbCtSgvqPI2yoVtchMVi2HYZm2o2d7hPqSvr6wdYSkTBlnCO6rWNi
-         DAAFRtMK4zCYtr29NFG++WHPNKoo/HjedaFgUl5m4iZw+j7kU50Ws7fssp/Dr0qVqNWm
-         1wTEZhuGzHmxxlSiRjny/LmcEPNzNPEcUSSobia3CvFdlgz7FfQNQUrA57+wevcFszUI
-         ibm+jJhT/O3PFZUIDexSCaj9wiSBwMDZQGpPVojW9R20IiJmTKLv33NqwC/BlPiXQQfR
-         GoUQaQquW0H0mP/6oYxqW2J2kUYiBDOZpjYmP8NsnGp5m0/WUdtvRje2jTTSpy4RU7xr
-         iGSA==
-X-Gm-Message-State: AOJu0Yx5ATkuMfD/1TVA5NgV1I8OYjJpHuJu6IRamaEjk9pOkHXIqgcq
-	Et3DqUOI8IiUiq2ZoG5kCsCJA6Ifhpe9jCvfBq76iQ==
-X-Google-Smtp-Source: AGHT+IHQGnPttzbf2bAdb5gwZpT0Nh8amOSeNRZF+eb1/SrYiR5d7rhV+9FkDuUK6ClQ83baR1dhxHx1LVYRiRyKJoI=
-X-Received: by 2002:a05:622a:34c:b0:41e:213d:3c8e with SMTP id
- r12-20020a05622a034c00b0041e213d3c8emr22630747qtw.32.1701294586528; Wed, 29
- Nov 2023 13:49:46 -0800 (PST)
+        d=1e100.net; s=20230601; t=1701295220; x=1701900020;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=aiOfm5uGDMrP0UYnHwC5BRUcA0oU3b2DbcdcIFPiI/Q=;
+        b=lxphsskYftachGBzAMFc5q5mBZxelugYmob3rocFqwTx85ymcklaYOXtR21pTfNuqK
+         u2u5h95TT7dQxq8+1Ti+cYqO39YlAtMN2P4I3qKeA6dItlBsEly+TUDbztlCpFD6GWLQ
+         ayCFcJM6Y4F9utVrD1v2kA7iBZOra1tc9HdekblRtafB+bjTzcSx/+uqFJBWGcAMA5cU
+         7H5iJr7uGMiBCH/6xgmXHCqO8e1Uh8/YZeBc56bg7S6RWrTLAkOU/xQptA+hZGegY+qE
+         F2heuFC9MFkTALy8sK2YKWjW4+GiWO5JLTjnQ0UOuXmKoeDRiUGiGMHY/dbosiobo0TP
+         YJsg==
+X-Gm-Message-State: AOJu0YwF7sduBOJOQp+dESbad+DPBjAffFzYOSJbew+snkR7mxTk40N5
+	/SHa87tIFQdnrdY4XlGvtvEwxS5c37t4ymgW/abP0w==
+X-Google-Smtp-Source: AGHT+IGmE/x/Q9wBAAP4WSVeu6Pzwkh80gJNXkwIoavJV9VXufokUhNCLXMfXFExg6GRm7Q1Y/p8TrFXYkay1vjqtA4=
+X-Received: by 2002:ac8:5ac4:0:b0:41c:d62b:fb51 with SMTP id
+ d4-20020ac85ac4000000b0041cd62bfb51mr39263562qtd.26.1701295220560; Wed, 29
+ Nov 2023 14:00:20 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,36 +46,53 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20231128204938.1453583-1-pasha.tatashin@soleen.com>
- <20231128204938.1453583-5-pasha.tatashin@soleen.com> <ca7a025d-8154-4509-b8ab-2a17e53ccbef@app.fastmail.com>
-In-Reply-To: <ca7a025d-8154-4509-b8ab-2a17e53ccbef@app.fastmail.com>
+ <20231128204938.1453583-10-pasha.tatashin@soleen.com> <20231128235254.GE1312390@ziepe.ca>
+In-Reply-To: <20231128235254.GE1312390@ziepe.ca>
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Wed, 29 Nov 2023 16:49:10 -0500
-Message-ID: <CA+CK2bB-TMCgpjvuXRigNaaA2Zmj=r3PHTQMaqs5W-9FkE3roQ@mail.gmail.com>
-Subject: Re: [PATCH 04/16] iommu/io-pgtable-dart: use page allocation function
+Date: Wed, 29 Nov 2023 16:59:43 -0500
+Message-ID: <CA+CK2bC=vMU54wXz1GSzpOcLFCuX5vuE6tD49JF8cMbz4tis-g@mail.gmail.com>
+Subject: Re: [PATCH 09/16] iommu/iommufd: use page allocation function
  provided by iommu-pages.h
-To: Janne Grunau <j@jannau.net>
+To: Jason Gunthorpe <jgg@ziepe.ca>
 Cc: akpm@linux-foundation.org, alex.williamson@redhat.com, 
-	alim.akhtar@samsung.com, Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev, 
-	Lu Baolu <baolu.lu@linux.intel.com>, bhelgaas@google.com, cgroups@vger.kernel.org, 
-	corbet@lwn.net, david@redhat.com, David Woodhouse <dwmw2@infradead.org>, hannes@cmpxchg.org, 
+	alim.akhtar@samsung.com, alyssa@rosenzweig.io, asahi@lists.linux.dev, 
+	baolu.lu@linux.intel.com, bhelgaas@google.com, cgroups@vger.kernel.org, 
+	corbet@lwn.net, david@redhat.com, dwmw2@infradead.org, hannes@cmpxchg.org, 
 	heiko@sntech.de, iommu@lists.linux.dev, jasowang@redhat.com, 
-	jernej.skrabec@gmail.com, jgg@ziepe.ca, jonathanh@nvidia.com, 
-	Joerg Roedel <joro@8bytes.org>, Kevin Tian <kevin.tian@intel.com>, krzysztof.kozlowski@linaro.org, 
-	kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org, 
-	linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
-	lizefan.x@bytedance.com, Hector Martin <marcan@marcan.st>, mhiramat@kernel.org, 
-	mst@redhat.com, m.szyprowski@samsung.com, netdev@vger.kernel.org, 
-	paulmck@kernel.org, rdunlap@infradead.org, 
-	Robin Murphy <robin.murphy@arm.com>, samuel@sholland.org, suravee.suthikulpanit@amd.com, 
-	Sven Peter <sven@svenpeter.dev>, thierry.reding@gmail.com, tj@kernel.org, 
+	jernej.skrabec@gmail.com, jonathanh@nvidia.com, joro@8bytes.org, 
+	kevin.tian@intel.com, krzysztof.kozlowski@linaro.org, kvm@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
+	mhiramat@kernel.org, mst@redhat.com, m.szyprowski@samsung.com, 
+	netdev@vger.kernel.org, paulmck@kernel.org, rdunlap@infradead.org, 
+	robin.murphy@arm.com, samuel@sholland.org, suravee.suthikulpanit@amd.com, 
+	sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org, 
 	tomas.mudrunka@gmail.com, vdumpa@nvidia.com, virtualization@lists.linux.dev, 
-	wens@csie.org, Will Deacon <will@kernel.org>, yu-cheng.yu@intel.com
+	wens@csie.org, will@kernel.org, yu-cheng.yu@intel.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> Reviewed-by: Janne Grunau <j@jannau.net>
+On Tue, Nov 28, 2023 at 6:52=E2=80=AFPM Jason Gunthorpe <jgg@ziepe.ca> wrot=
+e:
+>
+> On Tue, Nov 28, 2023 at 08:49:31PM +0000, Pasha Tatashin wrote:
+> > Convert iommu/iommufd/* files to use the new page allocation functions
+> > provided in iommu-pages.h.
+> >
+> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> > ---
+> >  drivers/iommu/iommufd/iova_bitmap.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> This is a short term allocation, it should not be counted, that is why
+> it is already not using GFP_KERNEL_ACCOUNT.
 
-Thank you,
-Pasha
+I made this change for completeness. I changed all calls to
+get_free_page/alloc_page etc under driver/iommu to use the
+iommu_alloc_* variants, this also helps future developers in this area
+to use the right allocation functions.
+The accounting is implemented using cheap per-cpu counters, so should
+not affect the performance, I think it is OK to keep them here.
