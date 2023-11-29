@@ -1,108 +1,131 @@
-Received: from Atcsqr.andestech.com (60-248-80-70.hinet-ip.hinet.net [60.248.80.70])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B4B11173A
-	for <linux-sunxi@lists.linux.dev>; Wed, 29 Nov 2023 08:49:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=andestech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=andestech.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
-	by Atcsqr.andestech.com with ESMTP id 3AT8mw3e055241;
-	Wed, 29 Nov 2023 16:48:58 +0800 (+08)
-	(envelope-from peterlin@andestech.com)
-Received: from APC323 (10.0.12.98) by ATCPCS16.andestech.com (10.0.1.222) with
- Microsoft SMTP Server id 14.3.498.0; Wed, 29 Nov 2023 16:48:56 +0800
-Date: Wed, 29 Nov 2023 16:48:56 +0800
-From: Yu-Chien Peter Lin <peterlin@andestech.com>
-To: Guo Ren <guoren@kernel.org>
-CC: <acme@kernel.org>, <adrian.hunter@intel.com>, <ajones@ventanamicro.com>,
-        <alexander.shishkin@linux.intel.com>, <andre.przywara@arm.com>,
-        <anup@brainfault.org>, <aou@eecs.berkeley.edu>,
-        <atishp@atishpatra.org>, <conor+dt@kernel.org>,
-        <conor.dooley@microchip.com>, <conor@kernel.org>,
-        <devicetree@vger.kernel.org>, <dminus@andestech.com>,
-        <evan@rivosinc.com>, <geert+renesas@glider.be>, <heiko@sntech.de>,
-        <irogers@google.com>, <jernej.skrabec@gmail.com>, <jolsa@kernel.org>,
-        <jszhang@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <linux-perf-users@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-        <linux-sunxi@lists.linux.dev>, <locus84@andestech.com>,
-        <magnus.damm@gmail.com>, <mark.rutland@arm.com>, <mingo@redhat.com>,
-        <n.shubin@yadro.com>, <namhyung@kernel.org>, <palmer@dabbelt.com>,
-        <paul.walmsley@sifive.com>, <peterz@infradead.org>,
-        <prabhakar.mahadev-lad.rj@bp.renesas.com>, <rdunlap@infradead.org>,
-        <robh+dt@kernel.org>, <samuel@sholland.org>,
-        <sunilvl@ventanamicro.com>, <tglx@linutronix.de>,
-        <tim609@andestech.com>, <uwu@icenowy.me>, <wens@csie.org>,
-        <will@kernel.org>, <ycliang@andestech.com>, <inochiama@outlook.com>
-Subject: Re: [PATCH v4 09/13] dt-bindings: riscv: Add T-Head PMU extension
- description
-Message-ID: <ZWb6-LEkyh5RRpcP@APC323>
-References: <20231122121235.827122-1-peterlin@andestech.com>
- <20231122121235.827122-10-peterlin@andestech.com>
- <CAJF2gTSMe-yfzKfX92eWhBnJ_WwoYQu7_7fsOQuNqXdafHA1dg@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2D55101F3;
+	Wed, 29 Nov 2023 09:11:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nwbfrj7P"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0045CC433C7;
+	Wed, 29 Nov 2023 09:11:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701249089;
+	bh=cAQDm1OHi6AwpFtu2oyoP4lirQiWSiJNR9l7GsKXbG0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Nwbfrj7Pk2t2Z7wByu0jHudFVV4zAocI0bejf4VNuJ94Gv2F5DMNrfE6wB3QNldRG
+	 z7A40mmCnCiugGuIop83o5nbsu/un4/gm+L4OOyqOZJplUGWVy/fy/5V0Ah0fTKds9
+	 uirW/8qj7vfQGn5bztbUXZUFHO0buy0PYmdbSucg5HbE2qjcBV261rqO1/NFYhSkkL
+	 e0on0p9J42TspyvoUFNBGMB/Ol6v34YBgC3waQmjoDLU7fUO4D4w9YGZ09qh7H51YI
+	 z5suLwGP2CTJLldp9JIdJfUJghx2Nxbf1Dp07okJGX4uvEwzQQOFvu+Xv1trZEo4hX
+	 sKILXaByCcPog==
+Date: Wed, 29 Nov 2023 10:11:26 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>, 
+	linux-kernel@vger.kernel.org, Samuel Holland <samuel@sholland.org>, 
+	Sandy Huang <hjc@rock-chips.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	linux-doc@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>, 
+	linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>, dri-devel@lists.freedesktop.org, 
+	linux-media@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v4 05/45] drm/connector: Check drm_connector_init
+ pointers arguments
+Message-ID: <2mnodqvu2oo674vspiy4gxhglu3it5cq47acx5itnbwevgc4cf@c7h2bvnx3m2n>
+References: <20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org>
+ <20231128-kms-hdmi-connector-state-v4-5-c7602158306e@kernel.org>
+ <87h6l66nth.fsf@intel.com>
+ <v3hplco5fdedv6bnc6mwx2zhhw4xxdiekha26ykhc5cmy7ol77@2irk3w4hmabw>
+ <ZWXv1Oi_sH0BRWao@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="5yeernlclvkai5mu"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJF2gTSMe-yfzKfX92eWhBnJ_WwoYQu7_7fsOQuNqXdafHA1dg@mail.gmail.com>
-User-Agent: Mutt/2.2.10 (2023-03-25)
-X-DNSRBL: 
-X-SPAM-SOURCE-CHECK: pass
-X-MAIL:Atcsqr.andestech.com 3AT8mw3e055241
+In-Reply-To: <ZWXv1Oi_sH0BRWao@intel.com>
 
-Hi Guo Ren,
 
-On Thu, Nov 23, 2023 at 05:14:30AM +0800, Guo Ren wrote:
-> On Wed, Nov 22, 2023 at 8:17 PM Yu Chien Peter Lin
-> <peterlin@andestech.com> wrote:
-> >
-> > Document the ISA string for T-Head performance monitor extension
-> > which provides counter overflow interrupt mechanism.
-> >
-> > Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
-> > ---
-> > Changes v2 -> v3:
-> >   - New patch
-> > Changes v3 -> v4:
-> >   - No change
-> > ---
-> >  Documentation/devicetree/bindings/riscv/extensions.yaml | 6 ++++++
-> >  1 file changed, 6 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Documentation/devicetree/bindings/riscv/extensions.yaml
-> > index c91ab0e46648..694efaea8fce 100644
-> > --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
-> > +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
-> > @@ -258,5 +258,11 @@ properties:
-> >              in commit 2e5236 ("Ztso is now ratified.") of the
-> >              riscv-isa-manual.
-> >
-> > +        - const: xtheadpmu
-> > +          description:
-> > +            The T-Head performance monitor extension for counter overflow. For more
-> > +            details, see the chapter 12 in the Xuantie C906 user manual.
-> > +            https://github.com/T-head-Semi/openc906/tree/main/doc
-> > +
-> >  additionalProperties: true
-> >  ...
-> > --
-> > 2.34.1
-> >
-> Reviewed-by: Guo Ren <guoren@kernel.org>
+--5yeernlclvkai5mu
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for the review.
-Would you share document about T-Head PMU?
+Hi Ville,
 
-Best regards,
-Peter Lin
+On Tue, Nov 28, 2023 at 03:49:08PM +0200, Ville Syrj=E4l=E4 wrote:
+> On Tue, Nov 28, 2023 at 02:29:40PM +0100, Maxime Ripard wrote:
+> > On Tue, Nov 28, 2023 at 02:54:02PM +0200, Jani Nikula wrote:
+> > > On Tue, 28 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
+> > > > All the drm_connector_init variants take at least a pointer to the
+> > > > device, connector and hooks implementation.
+> > > >
+> > > > However, none of them check their value before dereferencing those
+> > > > pointers which can lead to a NULL-pointer dereference if the author
+> > > > isn't careful.
+> > >=20
+> > > Arguably oopsing on the spot is preferrable when this can't be caused=
+ by
+> > > user input. It's always a mistake that should be caught early during
+> > > development.
+> > >=20
+> > > Not everyone checks the return value of drm_connector_init and friend=
+s,
+> > > so those cases will lead to more mysterious bugs later. And probably
+> > > oopses as well.
+> >=20
+> > So maybe we can do both then, with something like
+> >=20
+> > if (WARN_ON(!dev))
+> >    return -EINVAL
+> >=20
+> > if (drm_WARN_ON(dev, !connector || !funcs))
+> >    return -EINVAL;
+> >=20
+> > I'd still like to check for this, so we can have proper testing, and we
+> > already check for those pointers in some places (like funcs in
+> > drm_connector_init), so if we don't cover everything we're inconsistent.
+>=20
+> People will invariably cargo-cult this kind of stuff absolutely
+> everywhere and then all your functions will have tons of dead
+> code to check their arguments.
 
-> -- 
-> Best Regards
->  Guo Ren
+And that's a bad thing because... ?
+
+Also, are you really saying that checking that your arguments make sense
+is cargo-cult?
+
+We're already doing it in some parts of KMS, so we have to be
+consistent, and the answer to "most drivers don't check the error"
+cannot be "let's just give on error checking then".
+
+> I'd prefer not to go there usually.
+>=20
+> Should we perhaps start to use the (arguably hideous)
+>  - void f(struct foo *bar)
+>  + void f(struct foo bar[static 1])
+> syntax to tell the compiler we don't accept NULL pointers?
+>=20
+> Hmm. Apparently that has the same problem as using any
+> other kind of array syntax in the prototype. That is,
+> the compiler demands to know the definition of 'struct foo'
+> even though we're passing in effectively a pointer. Sigh.
+
+Honestly, I don't care as long as it's something we can unit-test to
+make sure we make it consistent. We can't unit test a complete kernel
+crash.
+
+--5yeernlclvkai5mu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZWcAPgAKCRDj7w1vZxhR
+xdiAAP9/Y3QZYC3QOV7WWulwxqeWACuHSjmA+KHPl8qOdVnh+AD9HTqYM7+ypKLa
+CFZu3zXCIPjDPQmXptfe2oXEaBjpwQA=
+=KUBI
+-----END PGP SIGNATURE-----
+
+--5yeernlclvkai5mu--
