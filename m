@@ -1,202 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91CA01D521
-	for <linux-sunxi@lists.linux.dev>; Wed, 29 Nov 2023 11:40:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 450801DFD8;
+	Wed, 29 Nov 2023 12:33:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ADdFFgvF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701258048; x=1732794048;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version:content-transfer-encoding;
-  bh=w91TqZU/Sz95TBAtE+lLgPRTyMnYI3/7ak+ZXvIxwqY=;
-  b=ADdFFgvFyLb3+4ipTMKiAHiryDFBqi6nbXGVz7SMXo6yrQ57xuH/eCTr
-   m4Jnc5P9b61FW3T69NMsCOSbDuGYx00ZRR/RymlY34e6rCkI0Hz/kF3Vw
-   L5snh12O8shA+QWJ39oTcycaOrGydnBod10G6zxZcf9Yy9t6KK9+tSlLK
-   MixxYNeY8QnxZnu+ot9chjum73YZeMSJfChIRRo3HMVzk59RvNEOIIAGU
-   sQ5FKP0LoRjjanytp/0FYhxKqzbSrHfz3fapJA1J4TtBth8k6VANi/vCG
-   sdicfEHT61Gnb8vZd48k03BartzlhbVM8wOXpWD4AL/uTuiGwYIRfTDq2
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="35042"
-X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
-   d="scan'208";a="35042"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 03:40:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="942291528"
-X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
-   d="scan'208";a="942291528"
-Received: from dstavrak-mobl.ger.corp.intel.com (HELO localhost) ([10.252.60.61])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 03:40:40 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, Thomas
- Zimmermann
- <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>, Jonathan Corbet
- <corbet@lwn.net>, linux-kernel@vger.kernel.org, Samuel Holland
- <samuel@sholland.org>, Sandy Huang <hjc@rock-chips.com>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, linux-doc@vger.kernel.org, Hans Verkuil
- <hverkuil@xs4all.nl>, linux-rockchip@lists.infradead.org, Chen-Yu Tsai
- <wens@csie.org>, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v4 05/45] drm/connector: Check drm_connector_init
- pointers arguments
-In-Reply-To: <kygezdrfz56zj6lmq6l5s5yyys2urgq3id7r5n4mb3afn5kc5q@eswnd6a2ihqc>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org>
- <20231128-kms-hdmi-connector-state-v4-5-c7602158306e@kernel.org>
- <87h6l66nth.fsf@intel.com>
- <v3hplco5fdedv6bnc6mwx2zhhw4xxdiekha26ykhc5cmy7ol77@2irk3w4hmabw>
- <ZWXv1Oi_sH0BRWao@intel.com>
- <2mnodqvu2oo674vspiy4gxhglu3it5cq47acx5itnbwevgc4cf@c7h2bvnx3m2n>
- <8734wo7vbx.fsf@intel.com>
- <kygezdrfz56zj6lmq6l5s5yyys2urgq3id7r5n4mb3afn5kc5q@eswnd6a2ihqc>
-Date: Wed, 29 Nov 2023 13:40:38 +0200
-Message-ID: <87ttp46b49.fsf@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tjRhol3c"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCF62C433C7;
+	Wed, 29 Nov 2023 12:33:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701261237;
+	bh=rcKNM4SrzvOTPOMTTnNAkDwa6umDcm/Z1HWPpEbPqyA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tjRhol3cWY3zuGru3VVvU0O2nvIZ1iroKFgUGd5udxtr1+fOZwwjI4yf34DDZBv6e
+	 3prqd/wUw5nFVikChUwzQVlOj3jKDgliaH6N/gbEFyGYqMRPILgkTeJgSOPo6go4Ru
+	 QA0lsDQ1IkYy0myr5ssNkCMZE4Fye5x+f/6igxF5houf7db1oPc0rp0j7PyJpwicjP
+	 dnGM+Ga37Jy74eyQgKrb/5PqccEYDaKnLbwudYSK4RJ+LSyr3qDaXHuk+396BqI0ae
+	 ZJRjIlDqvg/ucpgMXN/p3WqucvWHyOw6mCXMInn8nuHvw2Wfvi4HdmHJxvZUsU5dII
+	 SB0+fpQJHj75w==
+Date: Wed, 29 Nov 2023 12:33:46 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Yu-Chien Peter Lin <peterlin@andestech.com>
+Cc: Conor Dooley <conor.dooley@microchip.com>, acme@kernel.org,
+	adrian.hunter@intel.com, ajones@ventanamicro.com,
+	alexander.shishkin@linux.intel.com, andre.przywara@arm.com,
+	anup@brainfault.org, aou@eecs.berkeley.edu, atishp@atishpatra.org,
+	conor+dt@kernel.org, devicetree@vger.kernel.org,
+	dminus@andestech.com, evan@rivosinc.com, geert+renesas@glider.be,
+	guoren@kernel.org, heiko@sntech.de, irogers@google.com,
+	jernej.skrabec@gmail.com, jolsa@kernel.org, jszhang@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	locus84@andestech.com, magnus.damm@gmail.com, mark.rutland@arm.com,
+	mingo@redhat.com, n.shubin@yadro.com, namhyung@kernel.org,
+	palmer@dabbelt.com, paul.walmsley@sifive.com, peterz@infradead.org,
+	prabhakar.mahadev-lad.rj@bp.renesas.com, rdunlap@infradead.org,
+	robh+dt@kernel.org, samuel@sholland.org, sunilvl@ventanamicro.com,
+	tglx@linutronix.de, tim609@andestech.com, uwu@icenowy.me,
+	wens@csie.org, will@kernel.org, ycliang@andestech.com,
+	inochiama@outlook.com
+Subject: Re: [PATCH v4 09/13] dt-bindings: riscv: Add T-Head PMU extension
+ description
+Message-ID: <20231129-curvature-stainable-bf77c735438f@spud>
+References: <20231122121235.827122-1-peterlin@andestech.com>
+ <20231122121235.827122-10-peterlin@andestech.com>
+ <20231123-obscurity-copied-7a7bcc66d69d@wendy>
+ <ZWb6qqaNzzNUJ7aX@APC323>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="Utvw2SdgzW4fg31u"
+Content-Disposition: inline
+In-Reply-To: <ZWb6qqaNzzNUJ7aX@APC323>
+
+
+--Utvw2SdgzW4fg31u
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 29 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
-> On Wed, Nov 29, 2023 at 11:38:42AM +0200, Jani Nikula wrote:
->> On Wed, 29 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
->> > Hi Ville,
->> >
->> > On Tue, Nov 28, 2023 at 03:49:08PM +0200, Ville Syrj=C3=A4l=C3=A4 wrot=
-e:
->> >> On Tue, Nov 28, 2023 at 02:29:40PM +0100, Maxime Ripard wrote:
->> >> > On Tue, Nov 28, 2023 at 02:54:02PM +0200, Jani Nikula wrote:
->> >> > > On Tue, 28 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
->> >> > > > All the drm_connector_init variants take at least a pointer to =
-the
->> >> > > > device, connector and hooks implementation.
->> >> > > >
->> >> > > > However, none of them check their value before dereferencing th=
-ose
->> >> > > > pointers which can lead to a NULL-pointer dereference if the au=
-thor
->> >> > > > isn't careful.
->> >> > >=20
->> >> > > Arguably oopsing on the spot is preferrable when this can't be ca=
-used by
->> >> > > user input. It's always a mistake that should be caught early dur=
-ing
->> >> > > development.
->> >> > >=20
->> >> > > Not everyone checks the return value of drm_connector_init and fr=
-iends,
->> >> > > so those cases will lead to more mysterious bugs later. And proba=
-bly
->> >> > > oopses as well.
->> >> >=20
->> >> > So maybe we can do both then, with something like
->> >> >=20
->> >> > if (WARN_ON(!dev))
->> >> >    return -EINVAL
->> >> >=20
->> >> > if (drm_WARN_ON(dev, !connector || !funcs))
->> >> >    return -EINVAL;
->> >> >=20
->> >> > I'd still like to check for this, so we can have proper testing, an=
-d we
->> >> > already check for those pointers in some places (like funcs in
->> >> > drm_connector_init), so if we don't cover everything we're inconsis=
-tent.
->> >>=20
->> >> People will invariably cargo-cult this kind of stuff absolutely
->> >> everywhere and then all your functions will have tons of dead
->> >> code to check their arguments.
->> >
->> > And that's a bad thing because... ?
->> >
->> > Also, are you really saying that checking that your arguments make sen=
-se
->> > is cargo-cult?
->>=20
->> It's a powerful thing to be able to assume a NULL argument is always a
->> fatal programming error on the caller's side, and should oops and get
->> caught immediately. It's an assertion.
->
-> Yeah, but we're not really doing that either. We have no explicit
-> assertion anywhere. We take a pointer in, and just hope that it will be
-> dereferenced later on and that the kernel will crash. The pointer to the
-> functions especially is only deferenced very later on.
->
-> And assertions might be powerful, but being able to notice errors and
-> debug them is too. A panic takes away basically any remote access to
-> debug. If you don't have a console, you're done.
->
->> We're not talking about user input or anything like that here.
->>=20
->> If you start checking for things that can't happen, and return errors
->> for them, you start gracefully handling things that don't have anything
->> graceful about them.
->
-> But there's nothing graceful to do here: you just return from your probe
-> function that you couldn't probe and that's it. Just like you do when
-> you can't map your registers, or get your interrupt, or register into
-> any framework (including drm_dev_register that pretty much every driver
-> handles properly if it returns an error, without being graceful about
-> it).
+On Wed, Nov 29, 2023 at 04:47:38PM +0800, Yu-Chien Peter Lin wrote:
+> Hi Conor,
+>=20
+> On Thu, Nov 23, 2023 at 02:48:20PM +0000, Conor Dooley wrote:
+> > On Wed, Nov 22, 2023 at 08:12:31PM +0800, Yu Chien Peter Lin wrote:
+> > > Document the ISA string for T-Head performance monitor extension
+> > > which provides counter overflow interrupt mechanism.
+> > >=20
+> > > Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
+> > > ---
+> > > Changes v2 -> v3:
+> > >   - New patch
+> > > Changes v3 -> v4:
+> > >   - No change
+> > > ---
+> > >  Documentation/devicetree/bindings/riscv/extensions.yaml | 6 ++++++
+> > >  1 file changed, 6 insertions(+)
+> > >=20
+> > > diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml =
+b/Documentation/devicetree/bindings/riscv/extensions.yaml
+> > > index c91ab0e46648..694efaea8fce 100644
+> > > --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
+> > > +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
+> > > @@ -258,5 +258,11 @@ properties:
+> > >              in commit 2e5236 ("Ztso is now ratified.") of the
+> > >              riscv-isa-manual.
+> > > =20
+> > > +        - const: xtheadpmu
+> > > +          description:
+> > > +            The T-Head performance monitor extension for counter ove=
+rflow. For more
+> > > +            details, see the chapter 12 in the Xuantie C906 user man=
+ual.
+> > > +            https://github.com/T-head-Semi/openc906/tree/main/doc
+> >=20
+> > I'm pretty sure that I asked on the previous revision for you to
+> > identify a specific revision of this document.
+>=20
+> Sorry, I'm still searching for it.
 
-Those are all dynamic things that can fail.
+Identifying a specific commit from that repo as the revision would be
+okay. Follow the format used elsewhere for the standard extensions.
 
-Quite different from passing NULL dev, connector, or funcs to
-drm_connector_init() and friends.
+Cheers,
+Conor.
 
-I think it's wrong to set the example that everything needs to be
-checked, everything needs to return an error, every call needs to check
-for error return, all the time, everywhere. People absolutely will cargo
-cult that, and that's what Ville is referring to.
+--Utvw2SdgzW4fg31u
+Content-Type: application/pgp-signature; name="signature.asc"
 
-If you pass NULL dev, connector, or funcs to drm_connector_init() I
-think you absolutely deserve to get an oops.
+-----BEGIN PGP SIGNATURE-----
 
-For dev, you could possibly not have reached the function with NULL
-dev. (And __drm_connector_init() has dev->mode_config before the check,
-so you'll get a static analyzer warning about dereference before the
-check.) If you have NULL connector, you didn't check for allocation
-failure earlier. If you have NULL funcs, you just passed NULL, because
-it's generally supposed to be a pointer to a static const struct.
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZWcvqgAKCRB4tDGHoIJi
+0pQuAQDZZfwrh03OUXbGE0xwEKsxZcfxxPGdlMVElJGo9ksISAD+KCK6j7yitR3a
+gkIK95gOtiUMn/8ZposqtImCwROI7gg=
+=RvjF
+-----END PGP SIGNATURE-----
 
->> Having such checks in place trains people to think they *may* happen.
->
-> In most cases, kmalloc can't fail. We seem to have a very different
-> policy towards it.
-
-Again, dynamic in nature and can fail.
-
->> While it should fail fast and loud at the developer's first smoke test,
->> and get fixed then and there.
->
-> Returning an error + a warning also qualifies for "fail fast and loud".
-> But keeps the system alive for someone to notice in any case.
-
-But where do you draw the line? If we keep adding these checks to things
-that actually can't happen, we teach developers we need to check for
-impossible things. And we teach them not to trust anything.
-
-I scroll down the file and reach
-drm_connector_attach_edid_property(). Should we NULL check connector?
-Should we change the function to int and return a value? Should the
-caller check the value? Then there's drm_connector_attach_encoder(). And
-drm_connector_has_possible_encoder(). And so on and so forth.
-
-Where do you draw the line?
-
-
-BR,
-Jani.
-
-
---=20
-Jani Nikula, Intel
+--Utvw2SdgzW4fg31u--
