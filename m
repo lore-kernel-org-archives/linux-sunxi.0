@@ -1,31 +1,17 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26D0820B2F;
-	Wed, 29 Nov 2023 14:03:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="bu8LQ5GM"
-Received: from [100.122.216.38] (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 97DA56602F24;
-	Wed, 29 Nov 2023 14:03:22 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1701266603;
-	bh=b6+ijhuLS88ltAwu7BXjh1rAJvOdjCKQaRzxoejPv4I=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=bu8LQ5GMgFuLSvVASEwXe4Q5ZReofSektOwVrjhLicV/nbfkoOnfdHR/M3EswcMW7
-	 s1dsjIA+9VOfS0GqbQotfBRMxj6Darr13HwKvZ75gw3T9YjPg4T1xC6/p5Mvkd/UnW
-	 pLEmNvoDTrNXeTegisVMJ2+Etjg7ZalJjYhXbrZInb0o9jok1EHgWrNh/sXyc4m4pk
-	 NilB+X55GcW+iL6aj1skRM11qNQvktH+Fnpm2g2tlF8zPkAIF9YuVHAYmJkg495R3w
-	 6Z3BgFtnRuHXZHVFbgd7TWcFsKyRamG0BTbcXrtj8FYwMRMqx7fsmDeXZOBsq2xBWD
-	 OIn9WxkVfy+Gg==
-Message-ID: <54881dbe-e722-4a2d-840d-972d1a58331a@collabora.com>
-Date: Wed, 29 Nov 2023 15:03:20 +0100
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FF3839854;
+	Wed, 29 Nov 2023 16:48:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 96AD0C15;
+	Wed, 29 Nov 2023 08:49:40 -0800 (PST)
+Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 69D1A3F73F;
+	Wed, 29 Nov 2023 08:48:47 -0800 (PST)
+Message-ID: <52de3aca-41b1-471e-8f87-1a77de547510@arm.com>
+Date: Wed, 29 Nov 2023 16:48:43 +0000
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -33,91 +19,105 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 27/55] media: sun6i-isp: Stop abusing of
- min_buffers_needed field
-Content-Language: en-US
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: hverkuil@xs4all.nl, mchehab@kernel.org, tfiga@chromium.org,
- m.szyprowski@samsung.com, matt.ranostay@konsulko.com,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, kernel@collabora.com,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev
-References: <20231127165454.166373-1-benjamin.gaignard@collabora.com>
- <20231127165454.166373-28-benjamin.gaignard@collabora.com>
- <ZWc_S8CuPyc9zRXz@aptenodytes>
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <ZWc_S8CuPyc9zRXz@aptenodytes>
+Subject: Re: [PATCH 08/16] iommu/fsl: use page allocation function provided by
+ iommu-pages.h
+Content-Language: en-GB
+To: Jason Gunthorpe <jgg@ziepe.ca>, Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: akpm@linux-foundation.org, alex.williamson@redhat.com,
+ alim.akhtar@samsung.com, alyssa@rosenzweig.io, asahi@lists.linux.dev,
+ baolu.lu@linux.intel.com, bhelgaas@google.com, cgroups@vger.kernel.org,
+ corbet@lwn.net, david@redhat.com, dwmw2@infradead.org, hannes@cmpxchg.org,
+ heiko@sntech.de, iommu@lists.linux.dev, jasowang@redhat.com,
+ jernej.skrabec@gmail.com, jonathanh@nvidia.com, joro@8bytes.org,
+ kevin.tian@intel.com, krzysztof.kozlowski@linaro.org, kvm@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, linux-rockchip@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st,
+ mhiramat@kernel.org, mst@redhat.com, m.szyprowski@samsung.com,
+ netdev@vger.kernel.org, paulmck@kernel.org, rdunlap@infradead.org,
+ samuel@sholland.org, suravee.suthikulpanit@amd.com, sven@svenpeter.dev,
+ thierry.reding@gmail.com, tj@kernel.org, tomas.mudrunka@gmail.com,
+ vdumpa@nvidia.com, virtualization@lists.linux.dev, wens@csie.org,
+ will@kernel.org, yu-cheng.yu@intel.com
+References: <20231128204938.1453583-1-pasha.tatashin@soleen.com>
+ <20231128204938.1453583-9-pasha.tatashin@soleen.com>
+ <1c6156de-c6c7-43a7-8c34-8239abee3978@arm.com>
+ <CA+CK2bCOtwZxTUS60PHOQ3szXdCzau7OpopgFEbbC6a9Frxafg@mail.gmail.com>
+ <20231128235037.GC1312390@ziepe.ca>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20231128235037.GC1312390@ziepe.ca>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
+On 28/11/2023 11:50 pm, Jason Gunthorpe wrote:
+> On Tue, Nov 28, 2023 at 06:00:13PM -0500, Pasha Tatashin wrote:
+>> On Tue, Nov 28, 2023 at 5:53 PM Robin Murphy <robin.murphy@arm.com> wrote:
+>>>
+>>> On 2023-11-28 8:49 pm, Pasha Tatashin wrote:
+>>>> Convert iommu/fsl_pamu.c to use the new page allocation functions
+>>>> provided in iommu-pages.h.
+>>>
+>>> Again, this is not a pagetable. This thing doesn't even *have* pagetables.
+>>>
+>>> Similar to patches #1 and #2 where you're lumping in configuration
+>>> tables which belong to the IOMMU driver itself, as opposed to pagetables
+>>> which effectively belong to an IOMMU domain's user. But then there are
+>>> still drivers where you're *not* accounting similar configuration
+>>> structures, so I really struggle to see how this metric is useful when
+>>> it's so completely inconsistent in what it's counting :/
+>>
+>> The whole IOMMU subsystem allocates a significant amount of kernel
+>> locked memory that we want to at least observe. The new field in
+>> vmstat does just that: it reports ALL buddy allocator memory that
+>> IOMMU allocates. However, for accounting purposes, I agree, we need to
+>> do better, and separate at least iommu pagetables from the rest.
+>>
+>> We can separate the metric into two:
+>> iommu pagetable only
+>> iommu everything
+>>
+>> or into three:
+>> iommu pagetable only
+>> iommu dma
+>> iommu everything
+>>
+>> What do you think?
+> 
+> I think I said this at LPC - if you want to have fine grained
+> accounting of memory by owner you need to go talk to the cgroup people
+> and come up with something generic. Adding ever open coded finer
+> category breakdowns just for iommu doesn't make alot of sense.
+> 
+> You can make some argument that the pagetable memory should be counted
+> because kvm counts it's shadow memory, but I wouldn't go into further
+> detail than that with hand coded counters..
 
-Le 29/11/2023 à 14:40, Paul Kocialkowski a écrit :
-> Hi Benjamin,
->
-> On Mon 27 Nov 23, 17:54, Benjamin Gaignard wrote:
->> 'min_buffers_needed' is suppose to be used to indicate the number
->> of buffers needed by DMA engine to start streaming.
->> sun6i-isp driver doesn't use DMA engine and just want to specify
->> the minimum number of buffers to allocate when calling VIDIOC_REQBUFS.
->> That 'min_reqbufs_allocation' field purpose so use it.
-> The hardware actually has its own DMA engine. It can work with just one buffer
-> though (which will never be returned to userspace). But I think we should still
-> require at least two buffers allocated, otherwise the driver will be of no use
-> at all.
->
-> So I don't think the commit message here is correct.
+Right, pagetable memory is interesting since it's something that any 
+random kernel user can indirectly allocate via iommu_domain_alloc() and 
+iommu_map(), and some of those users may even be doing so on behalf of 
+userspace. I have no objection to accounting and potentially applying 
+limits to *that*.
 
-That is exactly the info I hope to get for this first series since I don't know
-each hardware block details.
-I will remove this commit and make the driver use min_queued_buffers field instead
-so that will fit with it needs.
+Beyond that, though, there is nothing special about "the IOMMU 
+subsystem". The amount of memory an IOMMU driver needs to allocate for 
+itself in order to function is not of interest beyond curiosity, it just 
+is what it is; limiting it would only break the IOMMU, and if a user 
+thinks it's "too much", the only actionable thing that might help is to 
+physically remove devices from the system. Similar for DMA buffers; it 
+might be intriguing to account those, but it's not really an actionable 
+metric - in the overwhelming majority of cases you can't simply tell a 
+driver to allocate less than what it needs. And that is of course 
+assuming if we were to account *all* DMA buffers, since whether they 
+happen to have an IOMMU translation or not is irrelevant (we'd have 
+already accounted the pagetables as pagetables if so).
+
+I bet "the networking subsystem" also consumes significant memory on the 
+same kind of big systems where IOMMU pagetables would be of any concern. 
+I believe some of the some of the "serious" NICs can easily run up 
+hundreds of megabytes if not gigabytes worth of queues, SKB pools, etc. 
+- would you propose accounting those too?
 
 Thanks,
-Benjamin
-
->
-> Cheers,
->
-> Paul
->
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> CC: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
->> CC: Chen-Yu Tsai <wens@csie.org>
->> CC: Jernej Skrabec <jernej.skrabec@gmail.com>
->> CC: Samuel Holland <samuel@sholland.org>
->> CC: linux-sunxi@lists.linux.dev
->> ---
->>   drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c | 2 +-
->>   drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c  | 2 +-
->>   2 files changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
->> index 1595a9607775..f47f9946c19f 100644
->> --- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
->> +++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
->> @@ -660,7 +660,7 @@ int sun6i_isp_capture_setup(struct sun6i_isp_device *isp_dev)
->>   	queue->buf_struct_size = sizeof(struct sun6i_isp_buffer);
->>   	queue->ops = &sun6i_isp_capture_queue_ops;
->>   	queue->mem_ops = &vb2_dma_contig_memops;
->> -	queue->min_buffers_needed = 2;
->> +	queue->min_reqbufs_allocation = 2;
->>   	queue->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
->>   	queue->lock = &capture->lock;
->>   	queue->dev = isp_dev->dev;
->> diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
->> index e28be895b486..259f6bfcb620 100644
->> --- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
->> +++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
->> @@ -489,7 +489,7 @@ int sun6i_isp_params_setup(struct sun6i_isp_device *isp_dev)
->>   	queue->buf_struct_size = sizeof(struct sun6i_isp_buffer);
->>   	queue->ops = &sun6i_isp_params_queue_ops;
->>   	queue->mem_ops = &vb2_vmalloc_memops;
->> -	queue->min_buffers_needed = 1;
->> +	queue->min_reqbufs_allocation = 1;
->>   	queue->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
->>   	queue->lock = &params->lock;
->>   	queue->dev = isp_dev->dev;
->> -- 
->> 2.39.2
->>
+Robin.
