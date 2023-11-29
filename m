@@ -1,196 +1,232 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 480A63B2B6
-	for <linux-sunxi@lists.linux.dev>; Wed, 29 Nov 2023 17:09:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 616FA5DF08
+	for <linux-sunxi@lists.linux.dev>; Wed, 29 Nov 2023 18:45:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1d00689f5c8so15653515ad.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 29 Nov 2023 09:09:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701277767; x=1701882567;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OE11VomW"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-5c186f027cfso39516a12.3
+        for <linux-sunxi@lists.linux.dev>; Wed, 29 Nov 2023 10:45:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701283556; x=1701888356; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=8XT90raft4qh6RNwHKuCeh4qMI9GaXwyHHdgJokFFRM=;
-        b=Zz7Ly1sDdv89HpwQidPtf/dLiGMppFdYcRr4i0BFMy5yjgs4//DT+WZiEoIkt3tK1T
-         teJnkiZYPWuMfpzijuXiQ2BpmqDFqkXWkRb1QmjVEshIF6VRg5rCit1tPuTWSk7Qn5m/
-         xIv3FsdChXczn0kUw58EY0+93mtaHF927SKMUlx3BWdahGAp+o1QXmYC3F3UgiPW5eTS
-         mwGnnOCCGzJBfwSQI26Hn3e+UJ0ePsDDXQuiZXOl7Gi+k0a2867FTpbA18xRs/mgxdGY
-         zPkMbpKcsdXGFiJun9yQcS4hCY6EsXrTaf4QV9ZGYvSffkVSaBpvyhqTnDFF7jauOU/b
-         E84A==
-X-Gm-Message-State: AOJu0YzVrxVnTnpuUmpS95wzEnKJwdkh77sCVq6YqI13kR6fTXm2PxNZ
-	GZxFylPWHKOtTK3r7LUJhUixtIHssjqErQ==
-X-Google-Smtp-Source: AGHT+IGTNURFG6xrQTQSX3HMDiWxsUswLnn7CVAz5gzIzoXwz2q3EZ38aRuFB5qG+XQItERCE4mVTw==
-X-Received: by 2002:a17:902:d345:b0:1cf:a0e0:168d with SMTP id l5-20020a170902d34500b001cfa0e0168dmr19506390plk.62.1701277767324;
-        Wed, 29 Nov 2023 09:09:27 -0800 (PST)
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com. [209.85.215.176])
-        by smtp.gmail.com with ESMTPSA id s17-20020a170902989100b001cfd0ddc5d3sm5907117plp.277.2023.11.29.09.09.23
-        for <linux-sunxi@lists.linux.dev>
+        bh=BgzvJXsqiXk12x5OQ30yYkVMdSSNyGahPnt5pCx3nKI=;
+        b=OE11VomWv3GsqjFwQAPO60h6L2uVOgBS6vgFBcYnDg/MdzXgAm0baxoO5BRd5hONPp
+         evy3W+jYsUcfGHUdIA4jV19hafyLDEjtrNN++fHOfhsdoSU/EjQdTPNk81gG9GYIyOf7
+         IOGFbSlWT/e2/dQPnuG/ZI/GUFqHQJqKvYOwAbegowhUbeXVGPCh2f4iRZG5HDZuUjyw
+         ikj2rDc0DuknEcdwsPCIH1obg1dkG4JaWEeyTK2zFbcJwtYSUntRWnR4x6l4g9Qt2RqW
+         0+A28OdQaf5FnTHnTVyyJde/AfjSFzpaCZR2Qb2bx1b3Q3+wfnPhqBGWJm6mQsz52ybw
+         beOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701283556; x=1701888356;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BgzvJXsqiXk12x5OQ30yYkVMdSSNyGahPnt5pCx3nKI=;
+        b=cKNZQvq5UkaZeS99DfDsBtnBOHiLFqnfy4hj6Q4OxTmUrSxzjdriybn1HnCfrR1tHl
+         H16QF2oJ3aUZ8fJt83a0nAsRFvsY7Fgxa39fTTag31ONITOQn5FLbahwS6Pelr3BG87V
+         VDRZ5V18WB+rdDlhYyuwvl3pUu3YVcAwtZXSuAhaYvCPbeYSIx/SZ7qq1wvyNDhoO+QJ
+         Wf8lhxy/5yzHluP6NC2vcWIOce9wkcbdekd4svZoYUxPYhtGeb9abRlIdDY8Ndv1t1NC
+         LE3TiRGVDI3udLwfU7gkj1AffJboyeR+qeIzJ8LGYAU8GgLVtBQ+CdbkXfxRkInfE9ak
+         wCBg==
+X-Gm-Message-State: AOJu0YxaNsI3z7EdpVof753hrOuJnXM6U5t5jl7rdOvH8ZwVuYw+H/Xt
+	W6ZmbN+qTlEyx2KtHHQKgbw=
+X-Google-Smtp-Source: AGHT+IHHRFA/yjhn11mF7EsHuthWwNMt3kxvFBnhVNwPBuuoAyObJkPZIHCZ5wilv29wRamXbQJAWw==
+X-Received: by 2002:a17:902:ab94:b0:1cf:ba11:1adf with SMTP id f20-20020a170902ab9400b001cfba111adfmr14058925plr.67.1701283556446;
+        Wed, 29 Nov 2023 10:45:56 -0800 (PST)
+Received: from [192.168.1.3] (d23-16-72-139.bchsia.telus.net. [23.16.72.139])
+        by smtp.gmail.com with ESMTPSA id v3-20020a170902b7c300b001cfc9ad74a3sm6779598plz.15.2023.11.29.10.45.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Nov 2023 09:09:24 -0800 (PST)
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-5c27ee9c36bso5116265a12.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 29 Nov 2023 09:09:23 -0800 (PST)
-X-Received: by 2002:a17:90b:3884:b0:285:d803:8945 with SMTP id
- mu4-20020a17090b388400b00285d8038945mr10586265pjb.46.1701277763468; Wed, 29
- Nov 2023 09:09:23 -0800 (PST)
+        Wed, 29 Nov 2023 10:45:56 -0800 (PST)
+Message-ID: <0560924e-119b-4122-ad5b-bd563554eb10@gmail.com>
+Date: Wed, 29 Nov 2023 10:45:55 -0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231128005849.19044-1-andre.przywara@arm.com>
- <20231128005849.19044-5-andre.przywara@arm.com> <ddceb30f-1778-4312-af91-97813fe3c6fb@linaro.org>
- <20231128143309.38a4ce61@donnerap.manchester.arm.com> <4e90608e-aca5-4b57-be76-350ad54f9e7c@linaro.org>
- <20231128161010.26657e76@donnerap.manchester.arm.com> <CAL_Jsq+9J1=+gZ83QyedAWbFN=AwSB8ue+o4TM7F6yu5_62z3g@mail.gmail.com>
- <a097a613-14c1-4a53-bbe1-c44964e7ecaa@arm.com>
-In-Reply-To: <a097a613-14c1-4a53-bbe1-c44964e7ecaa@arm.com>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Thu, 30 Nov 2023 01:09:12 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64mEyk_hZ=9wExzN5oF3frB7EimTHBSc_c98_pHO6inuA@mail.gmail.com>
-Message-ID: <CAGb2v64mEyk_hZ=9wExzN5oF3frB7EimTHBSc_c98_pHO6inuA@mail.gmail.com>
-Subject: Re: [PATCH v3 4/6] thermal: sun8i: add syscon register access code
+User-Agent: Mozilla Thunderbird
+Subject: OrangePI Zero3 memory timing testing
 To: Andre Przywara <andre.przywara@arm.com>
-Cc: Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Vasily Khoruzhick <anarsoul@gmail.com>, 
-	Yangtao Li <tiny.windzz@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
-	Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>, 
-	Lukasz Luba <lukasz.luba@arm.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Martin Botka <martin.botka@somainline.org>, Bob McChesney <bob@electricworry.net>, 
-	linux-pm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	Icenowy Zheng <icenowy@aosc.io>, Maxime Ripard <mripard@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cc: Mikhail Kalashnikov <iuncuim@gmail.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, Vignesh R <vigneshr@ti.com>,
+ Jaehoon Chung <jh80.chung@samsung.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Piotr Oniszczuk <piotr.oniszczuk@gmail.com>, u-boot@lists.denx.de,
+ linux-sunxi@lists.linux.dev
+References: <20231114013106.31336-1-andre.przywara@arm.com>
+ <20231114013106.31336-4-andre.przywara@arm.com>
+ <0eab5c21-4fdc-478e-9071-f43c12e01fb3@gmail.com>
+ <20231126002349.55404e43@slackpad.lan>
+ <465a5608-89f7-4691-a2e0-ebec9b85d994@gmail.com>
+ <20231126122342.3944cad5@slackpad.lan>
+ <d8862c87-072d-4f74-bb37-08f34c610cc8@gmail.com>
+ <dae3bee5-e1c7-4154-959c-e41dabb5d844@gmail.com>
+ <20231128013746.23648d39@slackpad.lan>
+Content-Language: en-CA
+From: Stephen Graf <stephen.graf@gmail.com>
+In-Reply-To: <20231128013746.23648d39@slackpad.lan>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 30, 2023 at 1:03=E2=80=AFAM Andre Przywara <andre.przywara@arm.=
-com> wrote:
->
-> Hi,
->
-> On 28/11/2023 16:50, Rob Herring wrote:
-> > On Tue, Nov 28, 2023 at 10:10=E2=80=AFAM Andre Przywara <andre.przywara=
-@arm.com> wrote:
-> >>
-> >> On Tue, 28 Nov 2023 15:48:18 +0100
-> >> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
-> >>
-> >> Hi,
-> >>
-> >> (adding Maxime for the syscon question below)
-> >>
-> >>> On 28/11/2023 15:33, Andre Przywara wrote:
-> >>>> On Tue, 28 Nov 2023 08:43:32 +0100
-> >>>> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
-> >>>>
-> >>>> Hi,
-> >>>>
-> >>>>> On 28/11/2023 01:58, Andre Przywara wrote:
-> >>>>>>
-> >>>>>> +static struct regmap *sun8i_ths_get_syscon_regmap(struct device_n=
-ode *node)
-> >>>>>> +{
-> >>>>>> + struct device_node *syscon_node;
-> >>>>>> + struct platform_device *syscon_pdev;
-> >>>>>> + struct regmap *regmap =3D NULL;
-> >>>>>> +
-> >>>>>> + syscon_node =3D of_parse_phandle(node, "syscon", 0);
-> >>>>>
-> >>>>> Nope. For the 100th time, this cannot be generic.
-> >
-> > Unless it is the 100th time for the submitter, please just point to
-> > the documentation.
-> >
-> > Can we simply ban "syscon" as a property name? It looks like we have
-> > 65 cases in upstream dts files. Maybe that's doable. This is where we
-> > need levels of warnings with okay for existing vs. don't use in new
-> > designs.
-> >
-> >>>> OK. Shall this name refer to the required functionality (temperature
-> >>>> offset fix) or to the target syscon node (like allwinner,misc-syscon=
-).
-> >>>> The problem is that this is really a syscon, as in: "random collecti=
-on of
-> >>>> bits that we didn't know where else to put in", so "syscon" alone ac=
-tually
-> >>>> says it all.
-> >>>
-> >>> Every syscon is a "random collection of bits...", but not every "rand=
-om
-> >>> collection of bits..." is a syscon.
-> >>>
-> >>> Your target device does not implement syscon nodes. Your Linux
-> >>> implementation does not use it as syscon. Therefore if something does
-> >>> not look like syscon and does not behave like syscon, it is not a sys=
-con.
-> >>>
-> >>> I looked at the bit and this is SRAM, not syscon. I am sorry, but it =
-is
-> >>> something entirely different and we have a binding for it: "sram", I =
-think.
-> >>
-> >> Well, it's somehow both: On the face of it it's a SRAM controller, ind=
-eed:
-> >> it can switch the control of certain SRAM regions between CPU access a=
-nd
-> >> peripheral access (for the video and the display engine). But then it'=
-s
-> >> also a syscon, because on top of that, it also controls those random b=
-its,
-> >> for instance the EMAC clock register, and this ominous THS bit.
-> >> I guess in hindsight we should have never dropped that "syscon" string
-> >> then, but I am not sure if adding it back has side effects?
-> >>
-> >> And as I mentioned in the cover letter: modelling this as some SRAM
-> >> region, as you suggest, might be an alternative, but it doesn't sound =
-right
-> >> either, as I don't think it really is one: I just tried in U-Boot, and=
- I
-> >> can write and read the whole SRAM C region just fine, with and without=
- the
-> >> bit set. And SRAM content is preserved, even with the thermal sensor
-> >> running and the bit cleared (or set).
-> >>
-> >> So adding the "syscon" to the compatible would fix most things, but th=
-en
-> >> we need to keep the open coded lookup code in dwmac-sun8i.c (because o=
-lder
-> >> DTs would break otherwise).
-> >
-> > Really, I'd like to get rid of the "syscon" compatible. It is nothing
-> > more than a flag for Linux to create a regmap.
->
-> Yeah, so thinking about it indeed feels a bit like we are changing the
-> DT here to cater for some Linux implementation detail. After all we
-> already access the regmap successfully in dwmac-sun8i.c, is that
-> approach frowned upon (because: driver model) and just tolerated because
-> it's already in the code base?
->
-> > Not a fully baked idea, but perhaps what is needed is drivers that
-> > request a regmap for a node simply get one regardless. That kind of > t=
-hrows out the Linux driver model though. Alternatively with no
-> > "syscon" compatible, we'd have to have table(s) of 100s of compatibles
-> > in the kernel.
->
-> So do you mean to either just remove the explicit syscon compatible
-> check in syscon_node_to_regmap(), or replace it with a check against a
-> list of allowed devices?
+Some testing results:
 
-There is already device_node_to_regmap() which skips the check. It still
-bypasses the driver model though.
+With the default DRAM timing of 30x24=720, most often when my system 
+boots it comes up with DRAM 2G, but I have a 1G system. Once in a while 
+the boot shows 1G.  When it shows 2G the linux OS also shows 2G and 
+continuing does not make much sense.
 
-> Wouldn't it be sufficient to leave that check to the (syscon-like)
-> devices, by them exporting a regmap in the first place or not? And we
-> can do filtering of accesses there, like we do in sunxi_sram.c?
->
+On one boot where u-boot reported 1G the OS agreed and I ran memtester 
+successfully.
+
+If I build u-boot with CONFIG_DRAM_CLK=792 (33*24=792) I have never seen 
+my system boot with anything other than DRAM 1G showing in u-boot. I ran 
+memtester successfully and this system has been stable running linux 6.6.2.
+
+Andre, if you can put together a few patches I can test them to see 
+which works.
+
+If anyone else with different variations of the Zero3 would test with 
+the two DRAM timings and report results.
+
+I also use the Zunlong image on occasion and it consistently shows 1G 
+and from my poking around I think it runs at a 792 clk.
+
+
+Console output with DRAM default:
+
+U-Boot 2024.01-rc3-00028-g43f2873fa9-dirty (Nov 28 2023 - 22:46:39 
+-0800) Allwinner Technology
+
+CPU:   Allwinner H616 (SUN50I)
+Model: OrangePi Zero3
+DRAM:  2 GiB
+
+Last login: Wed Nov 29 09:35:15 PST 2023 on ttyS0
+root@orangepizero3:~# free -h
+                total        used        free      shared  buff/cache 
+available
+Mem:           1.9Gi       139Mi       1.7Gi       360Ki        82Mi 
+   1.7Gi
+Swap:             0B          0B          0B
+
+
+U-Boot 2024.01-rc3-00028-g43f2873fa9-dirty (Nov 28 2023 - 22:46:39 
+-0800) Allwinner Technology
+
+CPU:   Allwinner H616 (SUN50I)
+Model: OrangePi Zero3
+DRAM:  1 GiB
+
+root@orangepizero3:~# free -h
+                total        used        free      shared  buff/cache 
+available
+Mem:           917Mi       137Mi       766Mi       360Ki        79Mi 
+   780Mi
+Swap:             0B          0B          0B
+
+
+root@orangepizero3:~# memtester 700M 1
+memtester version 4.6.0 (64-bit)
+Copyright (C) 2001-2020 Charles Cazabon.
+Licensed under the GNU General Public License version 2 (only).
+
+pagesize is 4096
+pagesizemask is 0xfffffffffffff000
+want 700MB (734003200 bytes)
+got  700MB (734003200 bytes), trying mlock ...locked.
+Loop 1/1:
+   Stuck Address       : ok
+   Random Value        : ok
+   Compare XOR         : ok
+   Compare SUB         : ok
+   Compare MUL         : ok
+   Compare DIV         : ok
+   Compare OR          : ok
+   Compare AND         : ok
+   Sequential Increment: ok
+   Solid Bits          : ok
+   Block Sequential    : ok
+   Checkerboard        : ok
+   Bit Spread          : ok
+   Bit Flip            : ok
+   Walking Ones        : ok
+   Walking Zeroes      : ok
+   8-bit Writes        : ok
+   16-bit Writes       : ok
+
+Done.
+
+Console output with DRAM clk 792:
+
+
+U-Boot 2024.01-rc3-00028-g43f2873fa9-dirty (Nov 28 2023 - 21:34:46 
+-0800) Allwinner Technology
+
+CPU:   Allwinner H616 (SUN50I)
+Model: OrangePi Zero3
+DRAM:  1 GiB
+
+root@orangepizero3:~# free -h
+                total        used        free      shared  buff/cache 
+available
+Mem:           917Mi       134Mi       768Mi       360Ki        79Mi 
+   782Mi
+Swap:             0B          0B          0B
+
+
+root@orangepizero3:~# memtester 700M 1
+memtester version 4.6.0 (64-bit)
+Copyright (C) 2001-2020 Charles Cazabon.
+Licensed under the GNU General Public License version 2 (only).
+
+pagesize is 4096
+pagesizemask is 0xfffffffffffff000
+want 700MB (734003200 bytes)
+got  700MB (734003200 bytes), trying mlock ...locked.
+Loop 1/1:
+   Stuck Address       : ok
+   Random Value        : ok
+   Compare XOR         : ok
+   Compare SUB         : ok
+   Compare MUL         : ok
+   Compare DIV         : ok
+   Compare OR          : ok
+   Compare AND         : ok
+   Sequential Increment: ok
+   Solid Bits          : ok
+   Block Sequential    : ok
+   Checkerboard        : ok
+   Bit Spread          : ok
+   Bit Flip            : ok
+   Walking Ones        : ok
+   Walking Zeroes      : ok
+   8-bit Writes        : ok
+   16-bit Writes       : ok
+
+Done.
+
+
+On 2023-11-27 5:37 p.m., Andre Przywara wrote:
+
+> 
+> This symptom is pretty surely not directly related to the DRAM
+> frequency, it's caused by a missing barrier or delay *somewhere*.
+> People report that this is fixed by adding another "dsb();" at the
+> beginning of the mctl_mem_matches() function, but I don't have a good
+> explanation why exactly there, and would like to avoid submitting
+> patches that "just seem to work (TM)".
+> 
+> If I find some time, I will try to setup some automated environment
+> where I can run some experiments with different barrier locations.
+> I can offer some rationale for putting it at the end of the function(s)
+> that call mctl_mem_matches(), so hope that this fixes it.
+> 
 > Cheers,
 > Andre
->
->
-> >
-> > Rob
+> 
