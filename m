@@ -1,84 +1,154 @@
-Received: from Atcsqr.andestech.com (60-248-80-70.hinet-ip.hinet.net [60.248.80.70])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 841111804A
-	for <linux-sunxi@lists.linux.dev>; Wed, 29 Nov 2023 09:35:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=andestech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=andestech.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
-	by Atcsqr.andestech.com with ESMTP id 3AT9Ya14074351;
-	Wed, 29 Nov 2023 17:34:36 +0800 (+08)
-	(envelope-from peterlin@andestech.com)
-Received: from APC323 (10.0.12.98) by ATCPCS16.andestech.com (10.0.1.222) with
- Microsoft SMTP Server id 14.3.498.0; Wed, 29 Nov 2023 17:34:33 +0800
-Date: Wed, 29 Nov 2023 17:34:30 +0800
-From: Yu-Chien Peter Lin <peterlin@andestech.com>
-To: Conor Dooley <conor.dooley@microchip.com>
-CC: <acme@kernel.org>, <adrian.hunter@intel.com>, <ajones@ventanamicro.com>,
-        <alexander.shishkin@linux.intel.com>, <andre.przywara@arm.com>,
-        <anup@brainfault.org>, <aou@eecs.berkeley.edu>,
-        <atishp@atishpatra.org>, <conor+dt@kernel.org>, <conor@kernel.org>,
-        <devicetree@vger.kernel.org>, <dminus@andestech.com>,
-        <evan@rivosinc.com>, <geert+renesas@glider.be>, <guoren@kernel.org>,
-        <heiko@sntech.de>, <irogers@google.com>, <jernej.skrabec@gmail.com>,
-        <jolsa@kernel.org>, <jszhang@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <linux-perf-users@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-        <linux-sunxi@lists.linux.dev>, <locus84@andestech.com>,
-        <magnus.damm@gmail.com>, <mark.rutland@arm.com>, <mingo@redhat.com>,
-        <n.shubin@yadro.com>, <namhyung@kernel.org>, <palmer@dabbelt.com>,
-        <paul.walmsley@sifive.com>, <peterz@infradead.org>,
-        <prabhakar.mahadev-lad.rj@bp.renesas.com>, <rdunlap@infradead.org>,
-        <robh+dt@kernel.org>, <samuel@sholland.org>,
-        <sunilvl@ventanamicro.com>, <tglx@linutronix.de>,
-        <tim609@andestech.com>, <uwu@icenowy.me>, <wens@csie.org>,
-        <will@kernel.org>, <ycliang@andestech.com>, <inochiama@outlook.com>
-Subject: Re: [PATCH v4 11/13] riscv: dts: allwinner: Add T-Head PMU extension
-Message-ID: <ZWcFpjLbAf1-YtLs@APC323>
-References: <20231122121235.827122-1-peterlin@andestech.com>
- <20231122121235.827122-12-peterlin@andestech.com>
- <20231123-coping-revenue-be284a351c9d@wendy>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 150B81862B
+	for <linux-sunxi@lists.linux.dev>; Wed, 29 Nov 2023 09:38:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C+badq6y"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701250732; x=1732786732;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version:content-transfer-encoding;
+  bh=AKuXrJt5cSWlwQTjHEOlVJMaFv/ThpR7gpZ8mCu+jiM=;
+  b=C+badq6yTSXqxH+LI1h+wtGGA4rK0yFLs1iyvo7xsR9IMxNH4ZH34gMh
+   iF5tJQ4FiJkmJvyFe7zCfAshw6q9ZXHCUAKIkzvUiZUpgJs+szKLIXuyl
+   O8Vsg6sPpEVS9JBD63iiJTkWG398rhMdVxX7G6uGfQIfCOs9Q8HPVcSe2
+   sK9cmFI5uuczcCichDwjckVXTIiTO9Xqv+tTVcYMv39tmpigvEo2xtbZw
+   qDUlzUpcEzgH0gAo7Hz/rFhY3ekEkffrFyb/+A96q9ozM9i7eO9IAew4f
+   OlpDuK2QcILF2NX5EanFQgGLCudd9HwYC0ZNdvm24MziuIurY+dKNmkps
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="424277748"
+X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
+   d="scan'208";a="424277748"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 01:38:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="745194703"
+X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
+   d="scan'208";a="745194703"
+Received: from dstavrak-mobl.ger.corp.intel.com (HELO localhost) ([10.252.60.61])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 01:38:45 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>, Ville =?utf-8?B?U3lyasOkbMOk?=
+ <ville.syrjala@linux.intel.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>,
+ Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, Samuel
+ Holland <samuel@sholland.org>, Sandy Huang <hjc@rock-chips.com>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, linux-doc@vger.kernel.org, Hans
+ Verkuil <hverkuil@xs4all.nl>, linux-rockchip@lists.infradead.org, Chen-Yu
+ Tsai <wens@csie.org>, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v4 05/45] drm/connector: Check drm_connector_init
+ pointers arguments
+In-Reply-To: <2mnodqvu2oo674vspiy4gxhglu3it5cq47acx5itnbwevgc4cf@c7h2bvnx3m2n>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org>
+ <20231128-kms-hdmi-connector-state-v4-5-c7602158306e@kernel.org>
+ <87h6l66nth.fsf@intel.com>
+ <v3hplco5fdedv6bnc6mwx2zhhw4xxdiekha26ykhc5cmy7ol77@2irk3w4hmabw>
+ <ZWXv1Oi_sH0BRWao@intel.com>
+ <2mnodqvu2oo674vspiy4gxhglu3it5cq47acx5itnbwevgc4cf@c7h2bvnx3m2n>
+Date: Wed, 29 Nov 2023 11:38:42 +0200
+Message-ID: <8734wo7vbx.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20231123-coping-revenue-be284a351c9d@wendy>
-User-Agent: Mutt/2.2.10 (2023-03-25)
-X-DNSRBL: 
-X-SPAM-SOURCE-CHECK: pass
-X-MAIL:Atcsqr.andestech.com 3AT9Ya14074351
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Conor,
+On Wed, 29 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
+> Hi Ville,
+>
+> On Tue, Nov 28, 2023 at 03:49:08PM +0200, Ville Syrj=C3=A4l=C3=A4 wrote:
+>> On Tue, Nov 28, 2023 at 02:29:40PM +0100, Maxime Ripard wrote:
+>> > On Tue, Nov 28, 2023 at 02:54:02PM +0200, Jani Nikula wrote:
+>> > > On Tue, 28 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
+>> > > > All the drm_connector_init variants take at least a pointer to the
+>> > > > device, connector and hooks implementation.
+>> > > >
+>> > > > However, none of them check their value before dereferencing those
+>> > > > pointers which can lead to a NULL-pointer dereference if the author
+>> > > > isn't careful.
+>> > >=20
+>> > > Arguably oopsing on the spot is preferrable when this can't be cause=
+d by
+>> > > user input. It's always a mistake that should be caught early during
+>> > > development.
+>> > >=20
+>> > > Not everyone checks the return value of drm_connector_init and frien=
+ds,
+>> > > so those cases will lead to more mysterious bugs later. And probably
+>> > > oopses as well.
+>> >=20
+>> > So maybe we can do both then, with something like
+>> >=20
+>> > if (WARN_ON(!dev))
+>> >    return -EINVAL
+>> >=20
+>> > if (drm_WARN_ON(dev, !connector || !funcs))
+>> >    return -EINVAL;
+>> >=20
+>> > I'd still like to check for this, so we can have proper testing, and we
+>> > already check for those pointers in some places (like funcs in
+>> > drm_connector_init), so if we don't cover everything we're inconsisten=
+t.
+>>=20
+>> People will invariably cargo-cult this kind of stuff absolutely
+>> everywhere and then all your functions will have tons of dead
+>> code to check their arguments.
+>
+> And that's a bad thing because... ?
+>
+> Also, are you really saying that checking that your arguments make sense
+> is cargo-cult?
 
-On Thu, Nov 23, 2023 at 02:58:55PM +0000, Conor Dooley wrote:
-> On Wed, Nov 22, 2023 at 08:12:33PM +0800, Yu Chien Peter Lin wrote:
-> > xtheadpmu stands for T-Head Performance Monitor Unit extension.
-> > Based on the added T-Head PMU ISA string, the SBI PMU driver
-> > will make use of the non-standard irq source.
-> 
-> Allwinner aren't the only ones using T-Head CPUs that the previous
-> m*id pmu detection code would have matched on. I think the first three
-> files below will also need to be updated:
-> 
-> rg -l "thead,c[0-9]*\b[^-]" arch/riscv/boot/dts/
-> arch/riscv/boot/dts/sophgo/sg2042-cpus.dtsi
-> arch/riscv/boot/dts/sophgo/cv1800b.dtsi
-> arch/riscv/boot/dts/thead/th1520.dtsi
-> arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+It's a powerful thing to be able to assume a NULL argument is always a
+fatal programming error on the caller's side, and should oops and get
+caught immediately. It's an assertion.
 
-That's really helpful, I'll add these .dtsi files in the patchset v5.
+We're not talking about user input or anything like that here.
 
-Thanks,
-Peter Lin
+If you start checking for things that can't happen, and return errors
+for them, you start gracefully handling things that don't have anything
+graceful about them.
 
-> Cheers,
-> Conor.
+Having such checks in place trains people to think they *may* happen.
+
+While it should fail fast and loud at the developer's first smoke test,
+and get fixed then and there.
 
 
+BR,
+Jani.
+
+
+>
+> We're already doing it in some parts of KMS, so we have to be
+> consistent, and the answer to "most drivers don't check the error"
+> cannot be "let's just give on error checking then".
+>
+>> I'd prefer not to go there usually.
+>>=20
+>> Should we perhaps start to use the (arguably hideous)
+>>  - void f(struct foo *bar)
+>>  + void f(struct foo bar[static 1])
+>> syntax to tell the compiler we don't accept NULL pointers?
+>>=20
+>> Hmm. Apparently that has the same problem as using any
+>> other kind of array syntax in the prototype. That is,
+>> the compiler demands to know the definition of 'struct foo'
+>> even though we're passing in effectively a pointer. Sigh.
+>
+> Honestly, I don't care as long as it's something we can unit-test to
+> make sure we make it consistent. We can't unit test a complete kernel
+> crash.
+
+--=20
+Jani Nikula, Intel
