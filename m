@@ -1,154 +1,119 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 150B81862B
-	for <linux-sunxi@lists.linux.dev>; Wed, 29 Nov 2023 09:38:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88D8C18E0E
+	for <linux-sunxi@lists.linux.dev>; Wed, 29 Nov 2023 10:13:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C+badq6y"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701250732; x=1732786732;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version:content-transfer-encoding;
-  bh=AKuXrJt5cSWlwQTjHEOlVJMaFv/ThpR7gpZ8mCu+jiM=;
-  b=C+badq6yTSXqxH+LI1h+wtGGA4rK0yFLs1iyvo7xsR9IMxNH4ZH34gMh
-   iF5tJQ4FiJkmJvyFe7zCfAshw6q9ZXHCUAKIkzvUiZUpgJs+szKLIXuyl
-   O8Vsg6sPpEVS9JBD63iiJTkWG398rhMdVxX7G6uGfQIfCOs9Q8HPVcSe2
-   sK9cmFI5uuczcCichDwjckVXTIiTO9Xqv+tTVcYMv39tmpigvEo2xtbZw
-   qDUlzUpcEzgH0gAo7Hz/rFhY3ekEkffrFyb/+A96q9ozM9i7eO9IAew4f
-   OlpDuK2QcILF2NX5EanFQgGLCudd9HwYC0ZNdvm24MziuIurY+dKNmkps
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="424277748"
-X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
-   d="scan'208";a="424277748"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 01:38:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="745194703"
-X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
-   d="scan'208";a="745194703"
-Received: from dstavrak-mobl.ger.corp.intel.com (HELO localhost) ([10.252.60.61])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 01:38:45 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>, Ville =?utf-8?B?U3lyasOkbMOk?=
- <ville.syrjala@linux.intel.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>,
- Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, Samuel
- Holland <samuel@sholland.org>, Sandy Huang <hjc@rock-chips.com>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, linux-doc@vger.kernel.org, Hans
- Verkuil <hverkuil@xs4all.nl>, linux-rockchip@lists.infradead.org, Chen-Yu
- Tsai <wens@csie.org>, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AeSUa6gM"
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-50bc8a9503fso74772e87.3
+        for <linux-sunxi@lists.linux.dev>; Wed, 29 Nov 2023 02:13:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701252797; x=1701857597; darn=lists.linux.dev;
+        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=gCZTkTf5gNqH/rsoLk7etD6DwWJwR710k5LJwshNSuI=;
+        b=AeSUa6gMhSx/LUVYoPu287qR5+ZjqokTXELpxm6iBW9vNHD3JZv6bM7y7YAQXC96cs
+         4KjLjEbS/lk/etIGSb0ztNqIKb2Yghn4GBQZOZpXnJ5bZ34mLIgp0zJFEDnouRw4IOVc
+         +wXSjmCeIkH5SkTftfH7JlW66gOeg7daCLW5rRM5ZAZ0gfTntTSWg2ptdZBrFYFdq3pX
+         7DSaa+847GwcmgHvbEMRQxiVjQqNbAQ5UAQYF0grSA7LNP2S8OM/IinAQKQSAh+Se5za
+         YHW36eWuSFjKZ+XQTzmtXLt5UEpCl/UqGhrUhm0UWA1UgfMfFHVbUYVFtB3PcbZN6zEO
+         mGEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701252797; x=1701857597;
+        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gCZTkTf5gNqH/rsoLk7etD6DwWJwR710k5LJwshNSuI=;
+        b=MS6jjsgCm1NqDkv8P6zga1IQGYZcSe7N2W2iyKk15u8VRVBdM1qds67BE/4d7Z79Lr
+         idKI5sbJCEjzwLDjCw0Dc/XpnYs5O6TRrvgz+1TL69qiyOZl8xw1f/X9KTej2vodzHwe
+         L1FML8JvGm77xZebeOPZuDx3wEapdXhLuHGG61mMZNz2ahWTLWXuNqWXMLM/iwkcTtTv
+         dH/nHQ2psQ3M8ZBwB9Ws93TYeP03f/REoDsgkSW1acxkY/Xww+xt43uL9mwHkVCU5XWi
+         h3SSxK+zRm1OS4yAjZORn02eEo/dwLbUDFYL8plx8z8lDe4NUrKnMTUMJ71kysenwJA3
+         pVcw==
+X-Gm-Message-State: AOJu0YyTjT0icnAZ4DZ8B0xjuG5Zb7MA3S9jXedBWTgIjJosFhAbsyBT
+	q1HLLxrhprDJlFBzEBbb5kY=
+X-Google-Smtp-Source: AGHT+IEqoByK4nUUfepBkFUQYGj/+qIG7mkFMGeDo/wE/qhqodU6sLdPk1cmUua5FNVdwpoUj02mkQ==
+X-Received: by 2002:a19:f60e:0:b0:507:cfbc:bf8d with SMTP id x14-20020a19f60e000000b00507cfbcbf8dmr11730596lfe.16.1701252797196;
+        Wed, 29 Nov 2023 02:13:17 -0800 (PST)
+Received: from eldfell ([194.136.85.206])
+        by smtp.gmail.com with ESMTPSA id q9-20020a0565123a8900b0050abbda2c52sm2140292lfu.157.2023.11.29.02.13.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Nov 2023 02:13:16 -0800 (PST)
+Date: Wed, 29 Nov 2023 12:12:59 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>,
+ linux-kernel@vger.kernel.org, Samuel Holland <samuel@sholland.org>, Sandy
+ Huang <hjc@rock-chips.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ linux-doc@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+ linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Subject: Re: [PATCH v4 05/45] drm/connector: Check drm_connector_init
  pointers arguments
-In-Reply-To: <2mnodqvu2oo674vspiy4gxhglu3it5cq47acx5itnbwevgc4cf@c7h2bvnx3m2n>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Message-ID: <20231129121259.47746996@eldfell>
+In-Reply-To: <ZWXv1Oi_sH0BRWao@intel.com>
 References: <20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org>
- <20231128-kms-hdmi-connector-state-v4-5-c7602158306e@kernel.org>
- <87h6l66nth.fsf@intel.com>
- <v3hplco5fdedv6bnc6mwx2zhhw4xxdiekha26ykhc5cmy7ol77@2irk3w4hmabw>
- <ZWXv1Oi_sH0BRWao@intel.com>
- <2mnodqvu2oo674vspiy4gxhglu3it5cq47acx5itnbwevgc4cf@c7h2bvnx3m2n>
-Date: Wed, 29 Nov 2023 11:38:42 +0200
-Message-ID: <8734wo7vbx.fsf@intel.com>
+	<20231128-kms-hdmi-connector-state-v4-5-c7602158306e@kernel.org>
+	<87h6l66nth.fsf@intel.com>
+	<v3hplco5fdedv6bnc6mwx2zhhw4xxdiekha26ykhc5cmy7ol77@2irk3w4hmabw>
+	<ZWXv1Oi_sH0BRWao@intel.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; boundary="Sig_/qS7Sjt2IF0HAAZwDWVWm5Tz";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+
+--Sig_/qS7Sjt2IF0HAAZwDWVWm5Tz
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 29 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
-> Hi Ville,
->
-> On Tue, Nov 28, 2023 at 03:49:08PM +0200, Ville Syrj=C3=A4l=C3=A4 wrote:
->> On Tue, Nov 28, 2023 at 02:29:40PM +0100, Maxime Ripard wrote:
->> > On Tue, Nov 28, 2023 at 02:54:02PM +0200, Jani Nikula wrote:
->> > > On Tue, 28 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
->> > > > All the drm_connector_init variants take at least a pointer to the
->> > > > device, connector and hooks implementation.
->> > > >
->> > > > However, none of them check their value before dereferencing those
->> > > > pointers which can lead to a NULL-pointer dereference if the author
->> > > > isn't careful.
->> > >=20
->> > > Arguably oopsing on the spot is preferrable when this can't be cause=
-d by
->> > > user input. It's always a mistake that should be caught early during
->> > > development.
->> > >=20
->> > > Not everyone checks the return value of drm_connector_init and frien=
-ds,
->> > > so those cases will lead to more mysterious bugs later. And probably
->> > > oopses as well.
->> >=20
->> > So maybe we can do both then, with something like
->> >=20
->> > if (WARN_ON(!dev))
->> >    return -EINVAL
->> >=20
->> > if (drm_WARN_ON(dev, !connector || !funcs))
->> >    return -EINVAL;
->> >=20
->> > I'd still like to check for this, so we can have proper testing, and we
->> > already check for those pointers in some places (like funcs in
->> > drm_connector_init), so if we don't cover everything we're inconsisten=
-t.
->>=20
->> People will invariably cargo-cult this kind of stuff absolutely
->> everywhere and then all your functions will have tons of dead
->> code to check their arguments.
->
-> And that's a bad thing because... ?
->
-> Also, are you really saying that checking that your arguments make sense
-> is cargo-cult?
+On Tue, 28 Nov 2023 15:49:08 +0200
+Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com> wrote:
 
-It's a powerful thing to be able to assume a NULL argument is always a
-fatal programming error on the caller's side, and should oops and get
-caught immediately. It's an assertion.
-
-We're not talking about user input or anything like that here.
-
-If you start checking for things that can't happen, and return errors
-for them, you start gracefully handling things that don't have anything
-graceful about them.
-
-Having such checks in place trains people to think they *may* happen.
-
-While it should fail fast and loud at the developer's first smoke test,
-and get fixed then and there.
+> Should we perhaps start to use the (arguably hideous)
+>  - void f(struct foo *bar)
+>  + void f(struct foo bar[static 1])
+> syntax to tell the compiler we don't accept NULL pointers?
+>=20
+> Hmm. Apparently that has the same problem as using any
+> other kind of array syntax in the prototype. That is,
+> the compiler demands to know the definition of 'struct foo'
+> even though we're passing in effectively a pointer. Sigh.
 
 
-BR,
-Jani.
+__attribute__((nonnull)) ?
 
 
->
-> We're already doing it in some parts of KMS, so we have to be
-> consistent, and the answer to "most drivers don't check the error"
-> cannot be "let's just give on error checking then".
->
->> I'd prefer not to go there usually.
->>=20
->> Should we perhaps start to use the (arguably hideous)
->>  - void f(struct foo *bar)
->>  + void f(struct foo bar[static 1])
->> syntax to tell the compiler we don't accept NULL pointers?
->>=20
->> Hmm. Apparently that has the same problem as using any
->> other kind of array syntax in the prototype. That is,
->> the compiler demands to know the definition of 'struct foo'
->> even though we're passing in effectively a pointer. Sigh.
->
-> Honestly, I don't care as long as it's something we can unit-test to
-> make sure we make it consistent. We can't unit test a complete kernel
-> crash.
+Thanks,
+pq
 
---=20
-Jani Nikula, Intel
+--Sig_/qS7Sjt2IF0HAAZwDWVWm5Tz
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmVnDqsACgkQI1/ltBGq
+qqde7A/+LfG5e8v6ABH2JqANkfijej4EDU9sSC3ZWBaUspi3UJEY1U0ZrDHgQd27
+lLSoxs0tguK5Dtehhk/Mn4S1XmyDtRrKNB/2L/rNqilREqQa5ciQG9OFjpqnepS2
+3kONuuooZchgnujkUjmgCg+L1X05peA166I3R9MkD4N3eqBH++XmohBaeUJDpUnN
+n1OATmnWyX2df7p/qBpOhVaNT+zu8HCgsIZq//PDNTxQxmHP5CPqbxbxuBjcwFHt
+bX1coZ602jx16CsrwaVYgVsHehXW0ru901OSPJ4flgpx/EyAjA4hHuVg+lJIZKqs
+wQRR4p/QdyBRULqGl/+4VML92ccuHFCedEtbLyH+RXSTlM547Q9nwtUPw1lB7tYQ
+Zx0BchNXyqKGnYvQUx5rTpJlTjwwq/IqkGkXnzpc3tIuj7hNTXEE1+3voPqNlnlU
+J16Lt49s2r4J2ufAykGzgqC19HM5baSykl006GFCpzLrH6iETMejOymRxAFlnE8m
+NdVHVD2YMPW9c21sJ+UjfbGrvF3H6E6MYZLDQLRnL44aHuYkCK6uSBfpgF1ugEqP
+Tzqd5wGEhEeH6OmzYEiwWHBkNJdiGnA4yo1dzpLdgdGaEKHRfdcGePGcNlLdtNcI
+AQZwl9NR+mk0zozfoa9HsXTUv+Su0TXpgD/prZ7PyqzSeM/SmkE=
+=Sfat
+-----END PGP SIGNATURE-----
+
+--Sig_/qS7Sjt2IF0HAAZwDWVWm5Tz--
