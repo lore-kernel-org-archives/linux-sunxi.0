@@ -1,217 +1,101 @@
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com [66.111.4.221])
+Received: from Atcsqr.andestech.com (60-248-80-70.hinet-ip.hinet.net [60.248.80.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7E9B186A;
-	Wed, 29 Nov 2023 07:49:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="WS0m9G0n";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="rQPYt4rH"
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 9064C580A2F;
-	Wed, 29 Nov 2023 02:49:50 -0500 (EST)
-Received: from imap53 ([10.202.2.103])
-  by compute1.internal (MEProxy); Wed, 29 Nov 2023 02:49:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm3; t=1701244190; x=1701251390; bh=ww
-	kE8lsdD1lmCvJ6vHeRL3ETi3+Yj2miubjiEiAIJqc=; b=WS0m9G0nx6dD9iEji/
-	fBqlaAFY/rMIvdHqXU7tZxzaCT6/WaZqN24lhBSrCWbph5RWVn8OG0wIE3vLDiA7
-	dOWPtjwm4K1LXbVSgViqbhQnGAqsI7zVo/p5C5Cc2lkcP6BvkMMbJJPRLlk6Obqn
-	AHfiWue+I4lT9KO4M5IqOwcDkJ9k3rIoOQzzkgfdeVW+FPwIkWR8otEXHsC4vN5M
-	YRFUR7qjaXjm+/zVf+gwWpzm9l6TfNicjYV48mg69Jf51d7lmUwmWy0QDMagwX+h
-	my8WMJddQ84zOCl6wx49JlxbWBkrLfSX8dsYvVyefTTM6PDNHjgdqGvgdPI98pTh
-	CeVQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1701244190; x=1701251390; bh=wwkE8lsdD1lmC
-	vJ6vHeRL3ETi3+Yj2miubjiEiAIJqc=; b=rQPYt4rH1AA0LiTAAnJGE//YvqNCw
-	0qwLht7gsUZGiRgP8vOuUojrK3gXdkIqqQy8kh1RU6M48Z+Q1F0tnQhr+VVyl2w5
-	NmyzspDEFgY404mNlejNyplFYnmca/DQjbd3xvYN1Ln64vKHdITrMssLqBon8Ujn
-	P7Qb4qPDUzh92GrFKk6+AzOXk04amTS8z6iqjc442y/87PjOdgE3r4Ts0YSlpbOW
-	dquGLaB3VxWfcHpWrswAQY2/Rw9xn8Jq2WVIEzpZjj1/JtoUjjzbJm94BlKfxFeu
-	aDZFAe2s9qDxCwDO/RDxvPYqUWrMro5Rq5vNlH5XTTV2LcBscKUpE50kw==
-X-ME-Sender: <xms:HO1mZWwi-0PHwgZ7UGdDg2Nfu1cPQBmbtYZcjowlgAyQ0BQky2hXjA>
-    <xme:HO1mZSTMYD4qqQdTonZ8IGVDTRfv30PWEOnWS8uEzYlouq8tMUIbuyDbZitdKhK-h
-    lPnAf3-fMz25n81ToA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudeigedguddutdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedflfgr
-    nhhnvgcuifhruhhnrghufdcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvg
-    hrnhepteeugeeltdelffetleetudejgfejieegudekleekleeifffffefgfefgfeeukeef
-    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjh
-    grnhhnrghurdhnvght
-X-ME-Proxy: <xmx:HO1mZYWbL-dzWpMIvCrcF_hkcPxVblMr6At8rrdkDOd5QKecybyP8A>
-    <xmx:HO1mZcghfi5RLWq0pFjhso2VXNF7V40Fof9Xj8XlOYXvC_owwh5wlQ>
-    <xmx:HO1mZYDWse66_RKIUSsZ-t0CzxR6dHcZEVv_0jTO_L-qPjoGwVzSYQ>
-    <xmx:Hu1mZerEKP658mX4LK_6tKFnkmAWe_WKTSc7PfS_s-S-h8Msb1Q_lw>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 5DF0E3640069; Wed, 29 Nov 2023 02:49:48 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-1234-gac66594aae-fm-20231122.001-gac66594a
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8456125C0
+	for <linux-sunxi@lists.linux.dev>; Wed, 29 Nov 2023 08:49:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=andestech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=andestech.com
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
+	by Atcsqr.andestech.com with ESMTP id 3AT8lgDk054922;
+	Wed, 29 Nov 2023 16:47:42 +0800 (+08)
+	(envelope-from peterlin@andestech.com)
+Received: from APC323 (10.0.12.98) by ATCPCS16.andestech.com (10.0.1.222) with
+ Microsoft SMTP Server id 14.3.498.0; Wed, 29 Nov 2023 16:47:39 +0800
+Date: Wed, 29 Nov 2023 16:47:38 +0800
+From: Yu-Chien Peter Lin <peterlin@andestech.com>
+To: Conor Dooley <conor.dooley@microchip.com>
+CC: <acme@kernel.org>, <adrian.hunter@intel.com>, <ajones@ventanamicro.com>,
+        <alexander.shishkin@linux.intel.com>, <andre.przywara@arm.com>,
+        <anup@brainfault.org>, <aou@eecs.berkeley.edu>,
+        <atishp@atishpatra.org>, <conor+dt@kernel.org>, <conor@kernel.org>,
+        <devicetree@vger.kernel.org>, <dminus@andestech.com>,
+        <evan@rivosinc.com>, <geert+renesas@glider.be>, <guoren@kernel.org>,
+        <heiko@sntech.de>, <irogers@google.com>, <jernej.skrabec@gmail.com>,
+        <jolsa@kernel.org>, <jszhang@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <linux-perf-users@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        <linux-sunxi@lists.linux.dev>, <locus84@andestech.com>,
+        <magnus.damm@gmail.com>, <mark.rutland@arm.com>, <mingo@redhat.com>,
+        <n.shubin@yadro.com>, <namhyung@kernel.org>, <palmer@dabbelt.com>,
+        <paul.walmsley@sifive.com>, <peterz@infradead.org>,
+        <prabhakar.mahadev-lad.rj@bp.renesas.com>, <rdunlap@infradead.org>,
+        <robh+dt@kernel.org>, <samuel@sholland.org>,
+        <sunilvl@ventanamicro.com>, <tglx@linutronix.de>,
+        <tim609@andestech.com>, <uwu@icenowy.me>, <wens@csie.org>,
+        <will@kernel.org>, <ycliang@andestech.com>, <inochiama@outlook.com>
+Subject: Re: [PATCH v4 09/13] dt-bindings: riscv: Add T-Head PMU extension
+ description
+Message-ID: <ZWb6qqaNzzNUJ7aX@APC323>
+References: <20231122121235.827122-1-peterlin@andestech.com>
+ <20231122121235.827122-10-peterlin@andestech.com>
+ <20231123-obscurity-copied-7a7bcc66d69d@wendy>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <ca7a025d-8154-4509-b8ab-2a17e53ccbef@app.fastmail.com>
-In-Reply-To: <20231128204938.1453583-5-pasha.tatashin@soleen.com>
-References: <20231128204938.1453583-1-pasha.tatashin@soleen.com>
- <20231128204938.1453583-5-pasha.tatashin@soleen.com>
-Date: Wed, 29 Nov 2023 08:49:18 +0100
-From: "Janne Grunau" <j@jannau.net>
-To: "Pasha Tatashin" <pasha.tatashin@soleen.com>, akpm@linux-foundation.org,
- alex.williamson@redhat.com, alim.akhtar@samsung.com,
- "Alyssa Rosenzweig" <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
- "Lu Baolu" <baolu.lu@linux.intel.com>, bhelgaas@google.com,
- cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com,
- "David Woodhouse" <dwmw2@infradead.org>, hannes@cmpxchg.org,
- heiko@sntech.de, iommu@lists.linux.dev, jasowang@redhat.com,
- jernej.skrabec@gmail.com, jgg@ziepe.ca, jonathanh@nvidia.com,
- "Joerg Roedel" <joro@8bytes.org>, "Kevin Tian" <kevin.tian@intel.com>,
- krzysztof.kozlowski@linaro.org, kvm@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
- linux-mm@kvack.org, linux-rockchip@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-tegra@vger.kernel.org, lizefan.x@bytedance.com,
- "Hector Martin" <marcan@marcan.st>, mhiramat@kernel.org, mst@redhat.com,
- m.szyprowski@samsung.com, netdev@vger.kernel.org, paulmck@kernel.org,
- rdunlap@infradead.org, "Robin Murphy" <robin.murphy@arm.com>,
- samuel@sholland.org, suravee.suthikulpanit@amd.com,
- "Sven Peter" <sven@svenpeter.dev>, thierry.reding@gmail.com,
- tj@kernel.org, tomas.mudrunka@gmail.com, vdumpa@nvidia.com,
- virtualization@lists.linux.dev, wens@csie.org,
- "Will Deacon" <will@kernel.org>, yu-cheng.yu@intel.com
-Subject: Re: [PATCH 04/16] iommu/io-pgtable-dart: use page allocation function provided
- by iommu-pages.h
-Content-Type: text/plain
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20231123-obscurity-copied-7a7bcc66d69d@wendy>
+User-Agent: Mutt/2.2.10 (2023-03-25)
+X-DNSRBL: 
+X-SPAM-SOURCE-CHECK: pass
+X-MAIL:Atcsqr.andestech.com 3AT8lgDk054922
 
-Hej,
+Hi Conor,
 
-On Tue, Nov 28, 2023, at 21:49, Pasha Tatashin wrote:
-> Convert iommu/io-pgtable-dart.c to use the new page allocation functions
-> provided in iommu-pages.h.
->
-> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> ---
->  drivers/iommu/io-pgtable-dart.c | 37 +++++++++++++--------------------
->  1 file changed, 14 insertions(+), 23 deletions(-)
->
-> diff --git a/drivers/iommu/io-pgtable-dart.c b/drivers/iommu/io-pgtable-dart.c
-> index 74b1ef2b96be..ad28031e1e93 100644
-> --- a/drivers/iommu/io-pgtable-dart.c
-> +++ b/drivers/iommu/io-pgtable-dart.c
-> @@ -23,6 +23,7 @@
->  #include <linux/types.h>
+On Thu, Nov 23, 2023 at 02:48:20PM +0000, Conor Dooley wrote:
+> On Wed, Nov 22, 2023 at 08:12:31PM +0800, Yu Chien Peter Lin wrote:
+> > Document the ISA string for T-Head performance monitor extension
+> > which provides counter overflow interrupt mechanism.
+> > 
+> > Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
+> > ---
+> > Changes v2 -> v3:
+> >   - New patch
+> > Changes v3 -> v4:
+> >   - No change
+> > ---
+> >  Documentation/devicetree/bindings/riscv/extensions.yaml | 6 ++++++
+> >  1 file changed, 6 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Documentation/devicetree/bindings/riscv/extensions.yaml
+> > index c91ab0e46648..694efaea8fce 100644
+> > --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
+> > +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
+> > @@ -258,5 +258,11 @@ properties:
+> >              in commit 2e5236 ("Ztso is now ratified.") of the
+> >              riscv-isa-manual.
+> >  
+> > +        - const: xtheadpmu
+> > +          description:
+> > +            The T-Head performance monitor extension for counter overflow. For more
+> > +            details, see the chapter 12 in the Xuantie C906 user manual.
+> > +            https://github.com/T-head-Semi/openc906/tree/main/doc
 > 
->  #include <asm/barrier.h>
-> +#include "iommu-pages.h"
-> 
->  #define DART1_MAX_ADDR_BITS	36
-> 
-> @@ -106,18 +107,12 @@ static phys_addr_t iopte_to_paddr(dart_iopte pte,
->  	return paddr;
->  }
-> 
-> -static void *__dart_alloc_pages(size_t size, gfp_t gfp,
-> -				    struct io_pgtable_cfg *cfg)
-> +static void *__dart_alloc_pages(size_t size, gfp_t gfp)
->  {
->  	int order = get_order(size);
-> -	struct page *p;
-> 
->  	VM_BUG_ON((gfp & __GFP_HIGHMEM));
-> -	p = alloc_pages(gfp | __GFP_ZERO, order);
-> -	if (!p)
-> -		return NULL;
-> -
-> -	return page_address(p);
-> +	return iommu_alloc_pages(gfp, order);
->  }
-> 
->  static int dart_init_pte(struct dart_io_pgtable *data,
-> @@ -262,13 +257,13 @@ static int dart_map_pages(struct io_pgtable_ops 
-> *ops, unsigned long iova,
-> 
->  	/* no L2 table present */
->  	if (!pte) {
-> -		cptep = __dart_alloc_pages(tblsz, gfp, cfg);
-> +		cptep = __dart_alloc_pages(tblsz, gfp);
->  		if (!cptep)
->  			return -ENOMEM;
-> 
->  		pte = dart_install_table(cptep, ptep, 0, data);
->  		if (pte)
-> -			free_pages((unsigned long)cptep, get_order(tblsz));
-> +			iommu_free_pages(cptep, get_order(tblsz));
-> 
->  		/* L2 table is present (now) */
->  		pte = READ_ONCE(*ptep);
-> @@ -419,8 +414,7 @@ apple_dart_alloc_pgtable(struct io_pgtable_cfg 
-> *cfg, void *cookie)
->  	cfg->apple_dart_cfg.n_ttbrs = 1 << data->tbl_bits;
-> 
->  	for (i = 0; i < cfg->apple_dart_cfg.n_ttbrs; ++i) {
-> -		data->pgd[i] = __dart_alloc_pages(DART_GRANULE(data), GFP_KERNEL,
-> -					   cfg);
-> +		data->pgd[i] = __dart_alloc_pages(DART_GRANULE(data), GFP_KERNEL);
->  		if (!data->pgd[i])
->  			goto out_free_data;
->  		cfg->apple_dart_cfg.ttbr[i] = virt_to_phys(data->pgd[i]);
-> @@ -429,9 +423,10 @@ apple_dart_alloc_pgtable(struct io_pgtable_cfg 
-> *cfg, void *cookie)
->  	return &data->iop;
-> 
->  out_free_data:
-> -	while (--i >= 0)
-> -		free_pages((unsigned long)data->pgd[i],
-> -			   get_order(DART_GRANULE(data)));
-> +	while (--i >= 0) {
-> +		iommu_free_pages(data->pgd[i],
-> +				 get_order(DART_GRANULE(data)));
-> +	}
->  	kfree(data);
->  	return NULL;
->  }
-> @@ -439,6 +434,7 @@ apple_dart_alloc_pgtable(struct io_pgtable_cfg 
-> *cfg, void *cookie)
->  static void apple_dart_free_pgtable(struct io_pgtable *iop)
->  {
->  	struct dart_io_pgtable *data = io_pgtable_to_data(iop);
-> +	int order = get_order(DART_GRANULE(data));
->  	dart_iopte *ptep, *end;
->  	int i;
-> 
-> @@ -449,15 +445,10 @@ static void apple_dart_free_pgtable(struct 
-> io_pgtable *iop)
->  		while (ptep != end) {
->  			dart_iopte pte = *ptep++;
-> 
-> -			if (pte) {
-> -				unsigned long page =
-> -					(unsigned long)iopte_deref(pte, data);
-> -
-> -				free_pages(page, get_order(DART_GRANULE(data)));
-> -			}
-> +			if (pte)
-> +				iommu_free_pages(iopte_deref(pte, data), order);
->  		}
-> -		free_pages((unsigned long)data->pgd[i],
-> -			   get_order(DART_GRANULE(data)));
-> +		iommu_free_pages(data->pgd[i], order);
->  	}
-> 
->  	kfree(data);
+> I'm pretty sure that I asked on the previous revision for you to
+> identify a specific revision of this document.
 
-Reviewed-by: Janne Grunau <j@jannau.net>
+Sorry, I'm still searching for it.
 
-Janne
+Regards,
+Peter Lin
+
+> Cheers,
+> Conor.
+
+
