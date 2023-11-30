@@ -1,281 +1,214 @@
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12olkn2061.outbound.protection.outlook.com [40.92.21.61])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E921A4CB39
-	for <linux-sunxi@lists.linux.dev>; Thu, 30 Nov 2023 01:15:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F36E220DC5
+	for <linux-sunxi@lists.linux.dev>; Thu, 30 Nov 2023 08:29:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ie0u1dPD"
-Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-daf4f0e3a0fso337979276.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 29 Nov 2023 17:15:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701306954; x=1701911754; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JXKP4SSt0qypx9B+Eqm6qceJHM70vdhk5fcUjlGzGN8=;
-        b=ie0u1dPDrWAC2Q/+0lWGMdj2kwv9zQjBtxVVCcVduUEthtPUUOP8/LY/zKuvLLjyvo
-         7S1B3vO+TqRzgzNjKquWJHAc8Z5YK05xdApf84s/vz7qn8pXOYgoy1O1NDgVt6h/XBpo
-         vzr+KMVajZA3zKHAqrpJqPodbtZwHY2RvmkaW/Hg6FmkmGInThUl8AZBF+nEhMKT0eQt
-         NeKR0Lbv5yc9/DYKC8kQaTz865+n/FSqrT8Hqc251Xd3SbLLUV0NPu8jssl0Ah3F8D3i
-         U/EVRD/g1IR7YIvjszVcMsl8cNqik0boS5cjacA84ygWL5Zon1N9cKCkOFcaOFLYyiKk
-         b8rA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701306954; x=1701911754;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JXKP4SSt0qypx9B+Eqm6qceJHM70vdhk5fcUjlGzGN8=;
-        b=ae4asKI4CEQmSXfBVHY4V/o5dQyjh9/RauEVSOqAriTv4UE/1ud/O9zYUunbig8uSJ
-         g6kC9gAztxZ8vKmDInva4DhBQJLTbdcrr45GjmpgOYzlZzo1BrooGLXfI6/It/GBGISp
-         MSJs8jjLTgxELwKmRVWsRDjqeGgdBC28/9jyF6z0izMGnmdCy5AeyaymHxFGavgiTqbJ
-         OP/kTklmHNf0i1Uy/5OV8D7giNznMLAntqRTMnPMSwxjxUUuWXbmTLCM/4Jfj98ot3pg
-         FQBRKb2c4gziaw/woOP8TdBMpB0OmEbO8RCxqcS+zksuoFFhDanHR9FrGpxQdGR7rbce
-         uPug==
-X-Gm-Message-State: AOJu0YyO3wU3reLoJ/lQqMnSXOk0e1K3JCMOFGcmj3U5KDGJkzgcfQL9
-	JW14SsIDKXuZWhKdXGJVZ5gcne8xbm0nCy0XvLE=
-X-Google-Smtp-Source: AGHT+IGVRIudbBlARhfV3dqZtthM4lt6AohTe9WBzEO80sP2IC/7J1wKXyHc+Jc/g8aFGGvcWpsz4G9o1OVuGCeySIs=
-X-Received: by 2002:a5b:550:0:b0:daf:18e5:3935 with SMTP id
- r16-20020a5b0550000000b00daf18e53935mr18397982ybp.9.1701306953718; Wed, 29
- Nov 2023 17:15:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="ei71DpBg"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Lc0tBwpg/ZdzqGBY4sADoowzVDOZyBXXOkXpIm16krdRBYiSvYhO/hIxbyfP6YwN/lFm2RCtPqxPPzVFyCn84YYZp7Qe/D+vmqdmcs+iKi2pjC3fR5LtL+Ge7OQhR6mfcNIlw1sgCaA73CZ2KLSToLV0mtpRvAeYZMEAPKFztqHRvwNw1t4xVXN812sgPbBGe99aTjSd2IlGoyGNYnv8wm0lE7G0sguB7CCk08o/TTuviFCriolDyjDk3LV7YGtK+0vBeu41P3BIcXN5PmjWJT+13qR4uuhIkAqTam10/EX8yvg9XoqT/PHrAtE4Y2OzUeIIrSP6BIHMiNSkIo1R4w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TuS3J0Mb2RKzFcskZ/u9lKpG1xUxld7DKBvalFR5ETc=;
+ b=CoLd4zrKs7xt0p5fi1IlE1VcmxNUhFVQ+hZiFj1pxNsICMOEQu+AG/WlvbZarYN7yEDkWxrtgbDIYhx+AlCF8gVhJheFMRWaRujbUwDOPH8+nJWXi1KB1bVy3kskGjva8MOLVvi027rupp0SRT7bIRFYSl6dBZGGgS2T/a20L9PjcuFdvaiBWneAeeZhusSMs61jipCF9ieuEs8niK56VNUNqc7dgcbecdWY11JUBrGoqsWC6mTU5obszmmy+SQW5/A5g1IFlcDBtnumJ94dNhckaNZ6sEXzcBFPaiXWzuDpTFD8wJdnj9YayahKSBEF/LSBDDLZwTgdXO+mDyuFHg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TuS3J0Mb2RKzFcskZ/u9lKpG1xUxld7DKBvalFR5ETc=;
+ b=ei71DpBgglKmI2xbQn6yIpk0JIqGpQ3DsyOO9lQUEX3eLsGIk8iTthqwoR6EV1mPmxpfIqjAkM8elYBh34AG5WTV6dPr9rVinbR57B0gvpfcTrbM0q5Lfhbtaa8xknCn42MCK4uuwIlap6iMZNlGm1vJr3foCkrNvA8xyMzQIQdk8Y0Lwt8PMFcPDr1sT8m6XHS7bT9tYKxUn3hPsXRIRtsqVUFE0rABZSVR13lUDgmIMTNYvAbA+FfvNnQ0nrUyGs8GVxEwRPa21dOY1+ieVM+bcKm0pzjQKWOssGf6XYZqRUU4VYHap5sxZNQrGXgQlxjCY9nsR4Sf1vxmZ5xYCA==
+Received: from IA1PR20MB4953.namprd20.prod.outlook.com (2603:10b6:208:3af::19)
+ by LV2PR20MB4677.namprd20.prod.outlook.com (2603:10b6:408:179::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.23; Thu, 30 Nov
+ 2023 08:29:24 +0000
+Received: from IA1PR20MB4953.namprd20.prod.outlook.com
+ ([fe80::55b:c350:980:ad8]) by IA1PR20MB4953.namprd20.prod.outlook.com
+ ([fe80::55b:c350:980:ad8%6]) with mapi id 15.20.7046.024; Thu, 30 Nov 2023
+ 08:29:24 +0000
+From: Inochi Amaoto <inochiama@outlook.com>
+To: Yu-Chien Peter Lin <peterlin@andestech.com>
+Cc: Inochi Amaoto <inochiama@outlook.com>,
+	Guo Ren <guoren@kernel.org>,
+	acme@kernel.org,
+	adrian.hunter@intel.com,
+	ajones@ventanamicro.com,
+	alexander.shishkin@linux.intel.com,
+	andre.przywara@arm.com,
+	anup@brainfault.org,
+	aou@eecs.berkeley.edu,
+	atishp@atishpatra.org,
+	conor+dt@kernel.org,
+	conor.dooley@microchip.com,
+	conor@kernel.org,
+	devicetree@vger.kernel.org,
+	dminus@andestech.com,
+	evan@rivosinc.com,
+	geert+renesas@glider.be,
+	heiko@sntech.de,
+	irogers@google.com,
+	jernej.skrabec@gmail.com,
+	jolsa@kernel.org,
+	jszhang@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	locus84@andestech.com,
+	magnus.damm@gmail.com,
+	mark.rutland@arm.com,
+	mingo@redhat.com,
+	n.shubin@yadro.com,
+	namhyung@kernel.org,
+	palmer@dabbelt.com,
+	paul.walmsley@sifive.com,
+	peterz@infradead.org,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	rdunlap@infradead.org,
+	robh+dt@kernel.org,
+	samuel@sholland.org,
+	sunilvl@ventanamicro.com,
+	tglx@linutronix.de,
+	tim609@andestech.com,
+	uwu@icenowy.me,
+	wens@csie.org,
+	will@kernel.org,
+	ycliang@andestech.com
+Subject: Re: [PATCH v4 09/13] dt-bindings: riscv: Add T-Head PMU extension description
+Date: Thu, 30 Nov 2023 16:29:22 +0800
+Message-ID:
+ <IA1PR20MB49537364BDF1ADE185CA8FE4BB82A@IA1PR20MB4953.namprd20.prod.outlook.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <ZWb6-LEkyh5RRpcP@APC323>
+References: <ZWb6-LEkyh5RRpcP@APC323>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TMN: [EBa3r4hqDh0RrCv7sIxmB+P9fF6W+5EBDmKKlKMZNfo=]
+X-ClientProxiedBy: SJ0PR13CA0111.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c5::26) To IA1PR20MB4953.namprd20.prod.outlook.com
+ (2603:10b6:208:3af::19)
+X-Microsoft-Original-Message-ID:
+ <20231130082923.329153-1-inochiama@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231114013106.31336-1-andre.przywara@arm.com>
- <20231114013106.31336-4-andre.przywara@arm.com> <0eab5c21-4fdc-478e-9071-f43c12e01fb3@gmail.com>
- <20231126002349.55404e43@slackpad.lan> <465a5608-89f7-4691-a2e0-ebec9b85d994@gmail.com>
- <20231126122342.3944cad5@slackpad.lan> <d8862c87-072d-4f74-bb37-08f34c610cc8@gmail.com>
- <dae3bee5-e1c7-4154-959c-e41dabb5d844@gmail.com> <20231128013746.23648d39@slackpad.lan>
- <0560924e-119b-4122-ad5b-bd563554eb10@gmail.com> <3c5b7d67-f8e5-41a3-a34b-8f59f9adb117@arm.com>
-In-Reply-To: <3c5b7d67-f8e5-41a3-a34b-8f59f9adb117@arm.com>
-From: Siarhei Siamashka <siarhei.siamashka@gmail.com>
-Date: Thu, 30 Nov 2023 03:15:41 +0200
-Message-ID: <CACY+gR35tzYEiGvGVgBw6hH8D451-dsi3G+4bLbLipnYDpD62g@mail.gmail.com>
-Subject: Re: OrangePI Zero3 memory timing testing
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Stephen Graf <stephen.graf@gmail.com>, Mikhail Kalashnikov <iuncuim@gmail.com>, 
-	Jagan Teki <jagan@amarulasolutions.com>, Vignesh R <vigneshr@ti.com>, 
-	Jaehoon Chung <jh80.chung@samsung.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Piotr Oniszczuk <piotr.oniszczuk@gmail.com>, u-boot@lists.denx.de, 
-	linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA1PR20MB4953:EE_|LV2PR20MB4677:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0a3eea9f-f97b-4dec-37bf-08dbf17e7561
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	xisGXSkcn1uetDq33P2fZ8q455etabpBOtR7zrHsBtZfNJ9AOW526dIoHAXI4vDRJXYR9PVgKdP/RBenqVDdFrV02oVndu24TcYGBB33KeI+xsQ5yK6C/rj8VJjeeEzNCMOE46o4J24CVNdTSu6prKKLHW/7gMH6HHw3ZSke6FG0LT8tWKCkVsNq51eh/LGAKwreJSYYtoApROJJajk7SnufPUpvxS0np8bCkoLgwORe+2HRszVLhQYYj8DI93mcy81ohsyHCmdA51qA/bURIRPDlfZTkKjSfGOO3TuiCLPGkL3GvdOXM4gaBVwnCNFNOOL9I/Zl5tzuFRpLzk9CqmRb16iFLWMoiFu8if+WJizx/4m33qmEKD1RNneh0tVOp6JtmEQ01InwnNufS3/ewtr+ZBI1VVbPpqp2o85Hjcb/F/DRAWgc4so35ZRpeWTrG/egGCFRtL5zh9XnbfTgxTCNIEmYD8Z+DXgvjbnamK7wPpAC4pZ6ZjJKchMBfnjbhgaE/ZWTb7sBhczFd7qSLF30gTalc1q/EAVkBvMk5rZFD5BKca+rMcjjALSZhLhVrmJ47mBWP0jVQx/rZu/XC6IhHn7+1Nz3T3i0F+TPihUvImNiOkBgsosDC7KiRZe480fiVAgJl0giT5FgV3aMTnbOoeiRbCqmwxDe3fYkEhU=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?OExRSXhmenZtUms5SEpiekdUODRUREROM0NIL0EvTVBWbDV0YnBremhrZWNr?=
+ =?utf-8?B?VmtSZWJldlhGbWI0M3hsc0lwUG4zV240L3BRdzJXTnVpS2dOVjloNE5NUVlx?=
+ =?utf-8?B?SG9HVFRDTWgwVDI3RHFkZEVNTVpTWDZyOHplRmMvOXpXVWZLK2lmdVFzZGs4?=
+ =?utf-8?B?ZDBSc1FUM1BiY1VPdWZhRVZ2cUFBdUx2L0pKNlVSMUQyOHdubkFIdWtKd01N?=
+ =?utf-8?B?bGpJdG85ZFB3TDZ5WEhEc0ltVVdnckNXMTZkNGd4a25mZlFuSXRWVWJUR1Rt?=
+ =?utf-8?B?bXpqWXRjRGtTTVlwcU5tWld4M1p4NzJaMzNlWjdEZlhiNjZjYjkrUXlwK2xT?=
+ =?utf-8?B?MGJseVJ1di9zWTkrSWZCdkdYbVQxMVh6R1h0dHFnTHBPeFpLNGp3QjA3ek0y?=
+ =?utf-8?B?aUVZT1JtVlExbmt6ekJ5d0pET05DWHo5eStPdzc5cExDTVp2TXZwMk5CMVE5?=
+ =?utf-8?B?RmdodCtFeHpuazVYTXZrZWlUaEFWVFFKQjc3ODhEVk1yZVNqbFNBYWtsR0RL?=
+ =?utf-8?B?Zy9PUUQ1azFFRk0rVXA5bW9QRnY5bXJ5RjV3N2hweERXdks4OUFoc2ZIL3gz?=
+ =?utf-8?B?YTFwTGM3dmswbnFBWlp3aHR5VkNyTGMwTzJVbGkvMUY5K3g2bVBOTjdUaHl1?=
+ =?utf-8?B?eThuUjlpSWJIWG5aRGJkaisxZ0xLODBlMDBIYlNVUDZkRjNSQ3p0eForbVZ5?=
+ =?utf-8?B?SUxqbnpjVnZ5TVdHSkk4S1lnU0Z6b29TQkNuVGNpK1NETHQxMXU4azNxMjh5?=
+ =?utf-8?B?ZGhwd2JrUGhodnVwdFpFTUkwVCtmMExIOHZ6MEdacU1EaTVYOFdtakJBV2Iv?=
+ =?utf-8?B?bWxteS9nd2VZTVI4MEZyN2VLYlFNajNyVmRCQ3dDZ2dkcC9qQVMxbXJmak12?=
+ =?utf-8?B?bDRSK244NDVURTFmK0JRakpJT3lIb1JneTAxbmxFQUNDZGh3MHNVRmtCank5?=
+ =?utf-8?B?QjN2eEluUm5HY2s5dU5XQ0hwa0U2Q0FDVjg4dy9qc0ZzZlp0UUJKYXgrWnNL?=
+ =?utf-8?B?ZVBTVGYrZ1BYUUhOQWpLWm93UktBcmd5MStOOFdYRFY0cjR0YW90Z0s4TTdM?=
+ =?utf-8?B?OU45Y00vQmVvanVnUmhuSm84enNKSUhMeG5LSUdkbUc5OGFKWkZQTTB0QXRn?=
+ =?utf-8?B?VnNzRlJjYkFaK0krSVBvMitIMk5PVFo1MU04QnN3TnY4VHpxUXluNWhqSDBU?=
+ =?utf-8?B?cy8zdFZQQTlQampGTmV0TCtrZ1ltWUZBZUkyQ2tkSW5WQis1VXZGNDJaRGc3?=
+ =?utf-8?B?ZnFyR2txd1dXalNqNDFLQzI4YjJieXJ5ZmVuTFFrbTJ3NGM3bUFpYWREZ3RJ?=
+ =?utf-8?B?eTd1Uno4U0NoOEw2NW5yQit0Y1hROFcvcHhGS09kNldpZ0VoT1N5Y0cxVVVH?=
+ =?utf-8?B?UU9MMGdTRjlXMlRadng2ODlRc3U0SENpS3Q0bnJ3QTZTV1pHZ0xzeStQSE1Q?=
+ =?utf-8?B?N0czbC9FZndybGljTko4NUo3WGpFZktvTlRZeEtQWno0aHkrb3hrTXExWGV4?=
+ =?utf-8?B?NUtvTnh5OXJkRkVBRk90S1lDTC96RFFDei92RWF3VUxXcWc2TVc2L1ZwL3B6?=
+ =?utf-8?B?aFgwR2VvUDI4K3hsMmo4c2NyTlFJbnU1cDdKOUpDbFMwVUtkdTNWQmhrR2ZB?=
+ =?utf-8?Q?zXKwDrWghnBg2h9P+9Lq+YQmkB3iGbEKZW/ow3LnF1cA=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0a3eea9f-f97b-4dec-37bf-08dbf17e7561
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR20MB4953.namprd20.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Nov 2023 08:29:24.2850
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR20MB4677
 
-Hello,
+>
+>Hi Guo Ren,
+>
+>On Thu, Nov 23, 2023 at 05:14:30AM +0800, Guo Ren wrote:
+>> On Wed, Nov 22, 2023 at 8:17 PM Yu Chien Peter Lin
+>> <peterlin@andestech.com> wrote:
+>>>
+>>> Document the ISA string for T-Head performance monitor extension
+>>> which provides counter overflow interrupt mechanism.
+>>>
+>>> Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
+>>> ---
+>>> Changes v2 -> v3:
+>>>   - New patch
+>>> Changes v3 -> v4:
+>>>   - No change
+>>> ---
+>>>  Documentation/devicetree/bindings/riscv/extensions.yaml | 6 ++++++
+>>>  1 file changed, 6 insertions(+)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Documentation/devicetree/bindings/riscv/extensions.yaml
+>>> index c91ab0e46648..694efaea8fce 100644
+>>> --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
+>>> +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
+>>> @@ -258,5 +258,11 @@ properties:
+>>>              in commit 2e5236 ("Ztso is now ratified.") of the
+>>>              riscv-isa-manual.
+>>>
+>>> +        - const: xtheadpmu
+>>> +          description:
+>>> +            The T-Head performance monitor extension for counter overflow. For more
+>>> +            details, see the chapter 12 in the Xuantie C906 user manual.
+>>> +            https://github.com/T-head-Semi/openc906/tree/main/doc
+>>> +
+>>>  additionalProperties: true
+>>>  ...
+>>> --
+>>> 2.34.1
+>>>
+>> Reviewed-by: Guo Ren <guoren@kernel.org>
+>
+>Thanks for the review.
+>Would you share document about T-Head PMU?
+>
 
-Please try to insert udelay() calls in addition to dsb() in the
-mctl_mem_matches()
-and see if this helps. I suspect that there's just no way to do
-perfectly reliable
-synchronization all the way from the CPU to DRAM and back in this particula=
-r
-scenario (which involves wacky things, such as accessing aliased physical
-memory addresses). So just having a generous delay may do the job and
-solve all the timing issues.
+Hi, Peter Lin:
 
-Another comment is about the use of memtester program. It's actually not ve=
-ry
-sensitive to memory reliability problems as-is.
+You can use the following two document to get all events:
+https://github.com/T-head-Semi/openc906/tree/main/doc
+https://github.com/T-head-Semi/openc910/tree/main/doc
 
-Back in A10/A20 and H3 days, it was necessary to run memtester simultaneous=
-ly
-with a Mali GPU rendered spinning textured cube animation for best results:
-        https://github.com/ssvb/lima-memtester
-For example, a misconfigured H3 DRAM was showing no problems at all in
-the memtester test at 624MHz, but couldn't survive memtester together with
-the spinning textured cube until downclocked to 384MHz. Only aggressive
-simultaneous access from both CPU and GPU really exposes reliability
-problems. The other types of DMA transfers couldn't replace the GPU. It
-was also possible to use the G2D accelerator instead of the Mali GPU, but
-only when performing 90 degrees rotations. Doing simple non-rotated blits
-with G2D was useless and couldn't expose reliability problems.
+There are also some RTL code can describe these events:
+https://github.com/T-head-Semi/openc910/blob/e0c4ad8ec7f8c70f649d826ebd6c949086453272/C910_RTL_FACTORY/gen_rtl/pmu/rtl/ct_hpcp_top.v#L1123
+https://github.com/T-head-Semi/openc906/blob/af5614d72de7e5a4b8609c427d2e20af1deb21c4/C906_RTL_FACTORY/gen_rtl/pmu/rtl/aq_hpcp_top.v#L543
 
-I would suggest to install 3D drivers (whatever is available for the
-modern kernels
-nowadays) and run some textured spinning cube demo together with memtester
-before deciding that your DRAM configuration is alright.
+The perf events json can also be used as document, this is already
+applied (with more detailed explanation):
+https://lore.kernel.org/all/IA1PR20MB495325FCF603BAA841E29281BBBAA@IA1PR20MB4953.namprd20.prod.outlook.com/
 
-On Thu, Nov 30, 2023 at 2:11=E2=80=AFAM Andre Przywara <andre.przywara@arm.=
-com> wrote:
->
-> Hi Stephen,
->
-> On 29/11/2023 18:45, Stephen Graf wrote:
-> > Some testing results:
-> >
-> > With the default DRAM timing of 30x24=3D720, most often when my system
-> > boots it comes up with DRAM 2G, but I have a 1G system. Once in a while
-> > the boot shows 1G.  When it shows 2G the linux OS also shows 2G and
-> > continuing does not make much sense.
-> >
-> > On one boot where u-boot reported 1G the OS agreed and I ran memtester
-> > successfully.
-> >
-> > If I build u-boot with CONFIG_DRAM_CLK=3D792 (33*24=3D792) I have never=
- seen
-> > my system boot with anything other than DRAM 1G showing in u-boot. I ra=
-n
->
-> Interesting, many thanks for the elaborate experiments!
-> To be fair, the timing parameters were from Xunlong's setup, so with 792
-> MHz, but I remember that in my early testing this failed more often than
-> not, so I reverted back to 720MHz. But I had different parameters back
-> then, I believe. I will try to arrange some boot loop, to see how it
-> fares with the 792 MHz, though I believe you that it's more stable.
-> If that works, I will send a v2 with the USB and the DRAM clock fixed.
->
-> Thanks again for testing and the report!
->
-> Cheers,
-> Andre
->
-> > memtester successfully and this system has been stable running linux 6.=
-6.2.
-> >
-> > Andre, if you can put together a few patches I can test them to see
-> > which works.
-> >
-> > If anyone else with different variations of the Zero3 would test with
-> > the two DRAM timings and report results.
-> >
-> > I also use the Zunlong image on occasion and it consistently shows 1G
-> > and from my poking around I think it runs at a 792 clk.
-> >
-> >
-> > Console output with DRAM default:
-> >
-> > U-Boot 2024.01-rc3-00028-g43f2873fa9-dirty (Nov 28 2023 - 22:46:39
-> > -0800) Allwinner Technology
-> >
-> > CPU:   Allwinner H616 (SUN50I)
-> > Model: OrangePi Zero3
-> > DRAM:  2 GiB
-> >
-> > Last login: Wed Nov 29 09:35:15 PST 2023 on ttyS0
-> > root@orangepizero3:~# free -h
-> >                 total        used        free      shared  buff/cache
-> > available
-> > Mem:           1.9Gi       139Mi       1.7Gi       360Ki        82Mi
-> > 1.7Gi
-> > Swap:             0B          0B          0B
-> >
-> >
-> > U-Boot 2024.01-rc3-00028-g43f2873fa9-dirty (Nov 28 2023 - 22:46:39
-> > -0800) Allwinner Technology
-> >
-> > CPU:   Allwinner H616 (SUN50I)
-> > Model: OrangePi Zero3
-> > DRAM:  1 GiB
-> >
-> > root@orangepizero3:~# free -h
-> >                 total        used        free      shared  buff/cache
-> > available
-> > Mem:           917Mi       137Mi       766Mi       360Ki        79Mi
-> > 780Mi
-> > Swap:             0B          0B          0B
-> >
-> >
-> > root@orangepizero3:~# memtester 700M 1
-> > memtester version 4.6.0 (64-bit)
-> > Copyright (C) 2001-2020 Charles Cazabon.
-> > Licensed under the GNU General Public License version 2 (only).
-> >
-> > pagesize is 4096
-> > pagesizemask is 0xfffffffffffff000
-> > want 700MB (734003200 bytes)
-> > got  700MB (734003200 bytes), trying mlock ...locked.
-> > Loop 1/1:
-> >    Stuck Address       : ok
-> >    Random Value        : ok
-> >    Compare XOR         : ok
-> >    Compare SUB         : ok
-> >    Compare MUL         : ok
-> >    Compare DIV         : ok
-> >    Compare OR          : ok
-> >    Compare AND         : ok
-> >    Sequential Increment: ok
-> >    Solid Bits          : ok
-> >    Block Sequential    : ok
-> >    Checkerboard        : ok
-> >    Bit Spread          : ok
-> >    Bit Flip            : ok
-> >    Walking Ones        : ok
-> >    Walking Zeroes      : ok
-> >    8-bit Writes        : ok
-> >    16-bit Writes       : ok
-> >
-> > Done.
-> >
-> > Console output with DRAM clk 792:
-> >
-> >
-> > U-Boot 2024.01-rc3-00028-g43f2873fa9-dirty (Nov 28 2023 - 21:34:46
-> > -0800) Allwinner Technology
-> >
-> > CPU:   Allwinner H616 (SUN50I)
-> > Model: OrangePi Zero3
-> > DRAM:  1 GiB
-> >
-> > root@orangepizero3:~# free -h
-> >                 total        used        free      shared  buff/cache
-> > available
-> > Mem:           917Mi       134Mi       768Mi       360Ki        79Mi
-> > 782Mi
-> > Swap:             0B          0B          0B
-> >
-> >
-> > root@orangepizero3:~# memtester 700M 1
-> > memtester version 4.6.0 (64-bit)
-> > Copyright (C) 2001-2020 Charles Cazabon.
-> > Licensed under the GNU General Public License version 2 (only).
-> >
-> > pagesize is 4096
-> > pagesizemask is 0xfffffffffffff000
-> > want 700MB (734003200 bytes)
-> > got  700MB (734003200 bytes), trying mlock ...locked.
-> > Loop 1/1:
-> >    Stuck Address       : ok
-> >    Random Value        : ok
-> >    Compare XOR         : ok
-> >    Compare SUB         : ok
-> >    Compare MUL         : ok
-> >    Compare DIV         : ok
-> >    Compare OR          : ok
-> >    Compare AND         : ok
-> >    Sequential Increment: ok
-> >    Solid Bits          : ok
-> >    Block Sequential    : ok
-> >    Checkerboard        : ok
-> >    Bit Spread          : ok
-> >    Bit Flip            : ok
-> >    Walking Ones        : ok
-> >    Walking Zeroes      : ok
-> >    8-bit Writes        : ok
-> >    16-bit Writes       : ok
-> >
-> > Done.
-> >
-> >
-> > On 2023-11-27 5:37 p.m., Andre Przywara wrote:
-> >
-> >>
-> >> This symptom is pretty surely not directly related to the DRAM
-> >> frequency, it's caused by a missing barrier or delay *somewhere*.
-> >> People report that this is fixed by adding another "dsb();" at the
-> >> beginning of the mctl_mem_matches() function, but I don't have a good
-> >> explanation why exactly there, and would like to avoid submitting
-> >> patches that "just seem to work (TM)".
-> >>
-> >> If I find some time, I will try to setup some automated environment
-> >> where I can run some experiments with different barrier locations.
-> >> I can offer some rationale for putting it at the end of the function(s=
-)
-> >> that call mctl_mem_matches(), so hope that this fixes it.
-> >>
-> >> Cheers,
-> >> Andre
-> >>
+Best regards,
+Inochi
