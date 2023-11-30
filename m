@@ -1,100 +1,117 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A4CF219FE
-	for <linux-sunxi@lists.linux.dev>; Wed, 29 Nov 2023 23:57:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 76E521042;
-	Wed, 29 Nov 2023 15:58:00 -0800 (PST)
-Received: from [192.168.1.247] (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 157C63F73F;
-	Wed, 29 Nov 2023 15:57:11 -0800 (PST)
-Message-ID: <0d46cc83-8820-4bf2-95bd-a0c12b6f7aff@arm.com>
-Date: Wed, 29 Nov 2023 23:57:09 +0000
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07DBE369
+	for <linux-sunxi@lists.linux.dev>; Thu, 30 Nov 2023 00:03:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="C/nICsSF"
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-1fa4e47f6c0so697752fac.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 29 Nov 2023 16:03:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1701302581; x=1701907381; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=iqaBGyfV5ntKwlfmxQAMawFx8i861c6WUBXKE0OU9B4=;
+        b=C/nICsSF4lFjwshOSfbWzqrGk+h/4sCvAhcWsbpXXRmSm1AWeuRGHAlmVxymvvwH/L
+         ns5/eL2Yw8chmfFv2gyUgHNJ0bpa1PzoH2Y6rr1YHrHw+VMqrRsSwwiMnMTavVu5IDo2
+         zYw36NQWhljOlbso37etAzEbC4I+u2atseF2JRm3FeNYTgH0n1VwjKmOh5SJkBuhxj2J
+         0PZdS8Cfj8GJyc9+dNcFCnQGEdvDYPHHl6/jaDO9WNZO2/iH7BejCrOwi2kDp8U/dzPM
+         g47Ey7aqdhYFXf/mDPF6nvB0By1ZzyhX+42F8gU7RPQThBN58oukfJ4Y5Xfz0N/xcMln
+         ij3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701302581; x=1701907381;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=iqaBGyfV5ntKwlfmxQAMawFx8i861c6WUBXKE0OU9B4=;
+        b=bqjF/ZK+p2fhKRlgPla0keDJyuKHtOJ83uQtr2C2ePss5KMwhqeA5K9loKLc6VynQi
+         EncauFo1UI868iNk74xgfFIdcvxc4alifOAcXn6VrOKVe+X2r+q3ojoybsOyom0toy1S
+         qBhoi4fJg7JOVUN191GngQguZe7Sd5tBUPbGCLYxUXlnw19DAYPQFKIFcHyL8HotWVJB
+         5UXrHEuVXoT5lsSLiCJS5UGUppcHg76kSBb0I33jnJ9/IloH6Ew4K99Zt2FVPsVCz+Dy
+         Kono+HRaObCBlqTU0Usm741Zgv2BIG3uJd90YsCGAItlVCS7x8tlVKyleJsJYHHWEJds
+         8oUg==
+X-Gm-Message-State: AOJu0YxXzz0SuE1euRk2ONCEfFDG5DTJNfjuREBWJyEu9cGPmchnPK6V
+	oXUldwsGS0s6PBpb2IXj01g4KQ==
+X-Google-Smtp-Source: AGHT+IH9mJrgeBca3QDmdqlZSO64E6UWuuZZMjhMVoz9rZsKA5pWXiF1aXxzzo/4HFbYhkfRvbso7A==
+X-Received: by 2002:a05:6870:1603:b0:1f9:eb7e:6621 with SMTP id b3-20020a056870160300b001f9eb7e6621mr10166623oae.18.1701302580971;
+        Wed, 29 Nov 2023 16:03:00 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-134-23-187.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.134.23.187])
+        by smtp.gmail.com with ESMTPSA id ry4-20020a056871208400b001efa3446d4esm3609159oab.43.2023.11.29.16.03.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Nov 2023 16:03:00 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.95)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1r8UWB-005qQQ-Hz;
+	Wed, 29 Nov 2023 20:02:59 -0400
+Date: Wed, 29 Nov 2023 20:02:59 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: akpm@linux-foundation.org, alex.williamson@redhat.com,
+	alim.akhtar@samsung.com, alyssa@rosenzweig.io,
+	asahi@lists.linux.dev, baolu.lu@linux.intel.com,
+	bhelgaas@google.com, cgroups@vger.kernel.org, corbet@lwn.net,
+	david@redhat.com, dwmw2@infradead.org, hannes@cmpxchg.org,
+	heiko@sntech.de, iommu@lists.linux.dev, jasowang@redhat.com,
+	jernej.skrabec@gmail.com, jonathanh@nvidia.com, joro@8bytes.org,
+	kevin.tian@intel.com, krzysztof.kozlowski@linaro.org,
+	kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com,
+	marcan@marcan.st, mhiramat@kernel.org, mst@redhat.com,
+	m.szyprowski@samsung.com, netdev@vger.kernel.org,
+	paulmck@kernel.org, rdunlap@infradead.org, robin.murphy@arm.com,
+	samuel@sholland.org, suravee.suthikulpanit@amd.com,
+	sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org,
+	tomas.mudrunka@gmail.com, vdumpa@nvidia.com,
+	virtualization@lists.linux.dev, wens@csie.org, will@kernel.org,
+	yu-cheng.yu@intel.com
+Subject: Re: [PATCH 09/16] iommu/iommufd: use page allocation function
+ provided by iommu-pages.h
+Message-ID: <20231130000259.GS1312390@ziepe.ca>
+References: <20231128204938.1453583-1-pasha.tatashin@soleen.com>
+ <20231128204938.1453583-10-pasha.tatashin@soleen.com>
+ <20231128235254.GE1312390@ziepe.ca>
+ <CA+CK2bC=vMU54wXz1GSzpOcLFCuX5vuE6tD49JF8cMbz4tis-g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: mdt_debug write
-Content-Language: en-US
-To: Stephen Graf <stephen.graf@gmail.com>
-Cc: Mikhail Kalashnikov <iuncuim@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Vignesh R <vigneshr@ti.com>,
- Jaehoon Chung <jh80.chung@samsung.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Piotr Oniszczuk <piotr.oniszczuk@gmail.com>, u-boot@lists.denx.de,
- linux-sunxi@lists.linux.dev
-References: <20231114013106.31336-1-andre.przywara@arm.com>
- <20231114013106.31336-4-andre.przywara@arm.com>
- <0eab5c21-4fdc-478e-9071-f43c12e01fb3@gmail.com>
- <20231126002349.55404e43@slackpad.lan>
- <465a5608-89f7-4691-a2e0-ebec9b85d994@gmail.com>
- <20231126122342.3944cad5@slackpad.lan>
- <d8862c87-072d-4f74-bb37-08f34c610cc8@gmail.com>
- <dae3bee5-e1c7-4154-959c-e41dabb5d844@gmail.com>
- <20231128013746.23648d39@slackpad.lan>
- <5d7ea381-2a57-46f7-85c6-2bcad339d1db@gmail.com>
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <5d7ea381-2a57-46f7-85c6-2bcad339d1db@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+CK2bC=vMU54wXz1GSzpOcLFCuX5vuE6tD49JF8cMbz4tis-g@mail.gmail.com>
 
-Hi Stephen,
+On Wed, Nov 29, 2023 at 04:59:43PM -0500, Pasha Tatashin wrote:
+> On Tue, Nov 28, 2023 at 6:52 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> >
+> > On Tue, Nov 28, 2023 at 08:49:31PM +0000, Pasha Tatashin wrote:
+> > > Convert iommu/iommufd/* files to use the new page allocation functions
+> > > provided in iommu-pages.h.
+> > >
+> > > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> > > ---
+> > >  drivers/iommu/iommufd/iova_bitmap.c | 4 ++--
+> > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > This is a short term allocation, it should not be counted, that is why
+> > it is already not using GFP_KERNEL_ACCOUNT.
+> 
+> I made this change for completeness. I changed all calls to
+> get_free_page/alloc_page etc under driver/iommu to use the
+> iommu_alloc_* variants, this also helps future developers in this area
+> to use the right allocation functions.
+> The accounting is implemented using cheap per-cpu counters, so should
+> not affect the performance, I think it is OK to keep them here.
 
-On 28/11/2023 20:07, Stephen Graf wrote:
-> Below is the consol log from trying to use mtd_debug write. It returned 
-> immediately with a strange success message.
-> 
-> root@orangepizero3:~# mtd_debug write /dev/mtd0 0 0xf0000 
-> /home/sysadmin/u-boot-sunxi-with-spl.bin
-> file_to_flash: fread, size 0xf0000, n 0xf0000
-> fread(): Success
+Except it is a mis use of an API that should only be used for page
+table memory :(
 
-interesting, I was under the impression that "mtd_debug write" would be 
-the way to write to flash. In hindsight, the "debug" in that name should 
-have probably put me off. Anyway, "cat" is probably not a good choice, 
-"dd" is better, but it looks like "flashcp" (also part of mtdutils) is 
-the go-to tool, since it does the required erasing automatically and 
-also reportedly does some error detection. Can you please test this?
-# flashcp u-boot-sunxi-with-spl.bin /dev/mtd0
-I would test this on my end ASAP as well.
-
-Do you feel like sending a patch to the U-Boot documentation to get this 
-changed then?
-
-Thanks,
-Andre
-
-> I then used the cat command to write to the SPI flash which took a few 
-> seconds to execute:
-> 
-> root@orangepizero3:~# cat /home/sysadmin/u-boot-sunxi-with-spl.bin > 
-> /dev/mtd0
-> 
-> 
-> 
->>>>
->>>> I tried to follow the u-boot documentation on writing the SPI flash but
->>>> had problems with the write command.  When issued it returned
->>>> immediately. The erase command took about 5 sec to execute. I 
->>>> researched
->>>> use of mtd commands and got a suggestion to use cat instead, which 
->>>> worked.
->>>>
->>>> "root@orangepizero3:~# mtdinfo
->>>> Count of MTD devices:           1
->>>> Present MTD devices:            mtd0
->>>> Sysfs interface supported:      yes
->>>> root@orangepizero3:~# mtd_debug erase /dev/mtd0 0 0xf0000
->>>> Erased 983040 bytes from address 0x00000000 in flash
->>>> root@orangepizero3:~# mtd_debug write /dev/mtd0 0 0xf0000
->>>> /home/sysadmin/u-boot-sunxi-with-spl.bin
->>>> file_to_flash: fread, size 0xf0000, n 0xf0000
->>>> fread(): Success
->>>>
->>>>
-> 
+Jason
