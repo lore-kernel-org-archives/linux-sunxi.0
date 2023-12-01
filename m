@@ -1,115 +1,145 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92ECA3FE20
-	for <linux-sunxi@lists.linux.dev>; Fri,  1 Dec 2023 15:17:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D373551C3E
+	for <linux-sunxi@lists.linux.dev>; Fri,  1 Dec 2023 18:50:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BSk1eTp8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701443862; x=1732979862;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=wYPSx9+wbY4jC6jNQkQIxE7XoYAMfQUsgyw8T5lmYsg=;
-  b=BSk1eTp8KH6vv/xHR/hqBvxjsmTmsyXdzRXG1Wo/L7e7G5SfwQylPMG+
-   YkXtbigEZsO5w1S2iweiDGXZE3iSHwiy2hGcke9MzRQ/Wf7+7RbPJQ0yB
-   d5mUl2JYLwlSiJrwkHCENgayWrszw5EjLyyMilpOztM5ZkiPV97WaZgEB
-   gc1xMQicCyPCHH5B7GT7jFQ5weEzDjCf6ukWsA9WbX9GbpQp1Sn42gvk5
-   4GkvCDs2urtN9tMD9T1hSlgCLTLIcZiQkznmc4o0i9HFLq0MGqG2C3/Kv
-   uxzckUkozpf2PnDJddt/I/gU8IcgbWVvio6fga4qiMB/dCuJZVeDyDUHJ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="362670"
-X-IronPort-AV: E=Sophos;i="6.04,241,1695711600"; 
-   d="scan'208";a="362670"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2023 07:17:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="763178004"
-X-IronPort-AV: E=Sophos;i="6.04,241,1695711600"; 
-   d="scan'208";a="763178004"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
-  by orsmga007.jf.intel.com with SMTP; 01 Dec 2023 07:17:36 -0800
-Received: by stinkbox (sSMTP sendmail emulation); Fri, 01 Dec 2023 17:17:35 +0200
-Date: Fri, 1 Dec 2023 17:17:35 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Pekka Paalanen <ppaalanen@gmail.com>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>,
-	dri-devel@lists.freedesktop.org,
-	Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Sandy Huang <hjc@rock-chips.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH v4 05/45] drm/connector: Check drm_connector_init
- pointers arguments
-Message-ID: <ZWn5D387DYmsh1sa@intel.com>
-References: <20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org>
- <20231128-kms-hdmi-connector-state-v4-5-c7602158306e@kernel.org>
- <87h6l66nth.fsf@intel.com>
- <v3hplco5fdedv6bnc6mwx2zhhw4xxdiekha26ykhc5cmy7ol77@2irk3w4hmabw>
- <ZWXv1Oi_sH0BRWao@intel.com>
- <20231129121259.47746996@eldfell>
- <ZWcRoTJ9VgOqZ3ts@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cCB95zbo"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-5bdf5a025c1so677292a12.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 01 Dec 2023 10:50:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701456642; x=1702061442; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=R3KirjFnVpXFWMsJNro6OZTInSngEe0mSu2U6KTe9ZI=;
+        b=cCB95zboUqIRYDOD4CCCqDAdPocKk6SKzQSr0SFmd8fu5rMMKUpoLar9Xtnh5U8AuA
+         9myHsTFgRZA/2pxuLQn6CPmHjyfbaEUz2TezD5Aj+VhZ04tpCcp8Qus2UDK24zmdMBhk
+         Est3QjA55cMSqIg8wsr3bP99nNGLIBwNbY+/g8Mt/FE65bfuMUNNL0SfH2rdXs6MJL4g
+         ZoEwj6bz2IC/aZDm7ogAIg7Q1if3KvWS1gQ6DDDyWJZoIFftarmWfxUbIQ0ThOTyW3i5
+         1REPKK21tC3QmRkcspUWc3WXqevhy9tIPw/fhrk0NOxNm1eDt9Bj4sxAGch6bjzOdpty
+         qGpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701456642; x=1702061442;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=R3KirjFnVpXFWMsJNro6OZTInSngEe0mSu2U6KTe9ZI=;
+        b=ZcUTDgYdhxqRpIr/aWrISu9G+m+kFO442fXcHE1EY5JJZW00y8Fu52zkAtiyfsgsuu
+         Ed9ASmQwApZRf9nECqjoEnoTU4240M3cHYX7kCMEtLIsOCe9qmB0rp5gbxr3xKI2Hy/F
+         PVd/6mCBLIKXnIuF4tqUvgXrJc13uLhvcoEvIJNxoHoMpdzDDeEcIu5+vtJMLHiKrpNh
+         iJYhCZ/ayeDZlspeed4sV7My71EtXY5oGBL8ksoH/kp/Aiik3RCskLCbFllNVtXTFPu/
+         p+HDZeGn08z5yHBhJaTJoFzVI1s63yEOvARKaJxrTqivpJbc3LhU2z497AprnBvCwuhk
+         3S1g==
+X-Gm-Message-State: AOJu0Yy6uQsc5t+HWGmIaIAYRHeoG4nz9aKnWxUkhBcNjZCw/BVWqi2f
+	n5hGNHTYALKIZUG8rG+GOzY=
+X-Google-Smtp-Source: AGHT+IEAn2zdk83VqulfQX/swK0vD8DxzA/QAlOKRxu4kRJVLG3t2FG903PujmBfvI4zh2ln5/JqRw==
+X-Received: by 2002:a05:6a20:5502:b0:18b:2710:d729 with SMTP id ko2-20020a056a20550200b0018b2710d729mr21144775pzb.31.1701456641305;
+        Fri, 01 Dec 2023 10:50:41 -0800 (PST)
+Received: from [192.168.1.3] (d23-16-72-139.bchsia.telus.net. [23.16.72.139])
+        by smtp.gmail.com with ESMTPSA id g24-20020a056a00079800b006cde7dd80cbsm3310183pfu.191.2023.12.01.10.50.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 01 Dec 2023 10:50:40 -0800 (PST)
+Message-ID: <ef003512-e433-4d83-87a4-5ae3341f6399@gmail.com>
+Date: Fri, 1 Dec 2023 10:50:39 -0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZWcRoTJ9VgOqZ3ts@intel.com>
-X-Patchwork-Hint: comment
+User-Agent: Mozilla Thunderbird
+Subject: [PATCH 1/1] correct documentation for SPI flashing
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Mikhail Kalashnikov <iuncuim@gmail.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, Vignesh R <vigneshr@ti.com>,
+ Jaehoon Chung <jh80.chung@samsung.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Piotr Oniszczuk <piotr.oniszczuk@gmail.com>, u-boot@lists.denx.de,
+ linux-sunxi@lists.linux.dev
+References: <20231114013106.31336-1-andre.przywara@arm.com>
+ <20231114013106.31336-4-andre.przywara@arm.com>
+ <0eab5c21-4fdc-478e-9071-f43c12e01fb3@gmail.com>
+ <20231126002349.55404e43@slackpad.lan>
+ <465a5608-89f7-4691-a2e0-ebec9b85d994@gmail.com>
+ <20231126122342.3944cad5@slackpad.lan>
+ <d8862c87-072d-4f74-bb37-08f34c610cc8@gmail.com>
+ <dae3bee5-e1c7-4154-959c-e41dabb5d844@gmail.com>
+ <20231128013746.23648d39@slackpad.lan>
+ <5d7ea381-2a57-46f7-85c6-2bcad339d1db@gmail.com>
+ <0d46cc83-8820-4bf2-95bd-a0c12b6f7aff@arm.com>
+ <d410fbe1-bf0f-4cb5-99cf-3353b952985b@gmail.com>
+ <345d9916-6ae6-4dbe-99a2-33aafeebcb60@arm.com>
+Content-Language: en-CA
+From: Stephen Graf <stephen.graf@gmail.com>
+In-Reply-To: <345d9916-6ae6-4dbe-99a2-33aafeebcb60@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 29, 2023 at 12:25:37PM +0200, Ville Syrjälä wrote:
-> On Wed, Nov 29, 2023 at 12:12:59PM +0200, Pekka Paalanen wrote:
-> > On Tue, 28 Nov 2023 15:49:08 +0200
-> > Ville Syrjälä <ville.syrjala@linux.intel.com> wrote:
-> > 
-> > > Should we perhaps start to use the (arguably hideous)
-> > >  - void f(struct foo *bar)
-> > >  + void f(struct foo bar[static 1])
-> > > syntax to tell the compiler we don't accept NULL pointers?
-> > > 
-> > > Hmm. Apparently that has the same problem as using any
-> > > other kind of array syntax in the prototype. That is,
-> > > the compiler demands to know the definition of 'struct foo'
-> > > even though we're passing in effectively a pointer. Sigh.
-> > 
-> > 
-> > __attribute__((nonnull)) ?
+The mtd_debug write does not work in this context. The flashcp command does work, provides
+both the erase and write functions and with the verbose option gives good feedback.
+
+Signed-off-by: Stephen Graf <stephen.graf@gmail.com>
+---
+  doc/board/allwinner/sunxi.rst | 3 +--
+  1 file changed, 1 insertions(+), 2 deletions(-)
+
+diff --git a/doc/board/allwinner/sunxi.rst b/doc/board/allwinner/sunxi.rst
+index 797222d8d3..d0c89b956b 100644
+--- a/doc/board/allwinner/sunxi.rst
++++ b/doc/board/allwinner/sunxi.rst
+@@ -251,8 +251,7 @@ the SPI flash content from Linux, using the `MTD utils`_::
+
+      # apt-get install mtd-utils
+      # mtdinfo
+-    # mtd_debug erase /dev/mtdX 0 0xf0000
+-    # mtd_debug write /dev/mtdX 0 0xf0000 u-boot-sunxi-with-spl.bin
++    # flashcp -v u-boot-sunxi-with-spl.bin /dev/mtdX
+
+  ``/dev/mtdX`` needs to be replaced with the respective device name, as listed
+  in the output of ``mtdinfo``.
+---
+
+On 2023-11-30 4:27 p.m., Andre Przywara wrote:
+> Hi Stephen,
 > 
-> I guess that would work, though the syntax is horrible when
-> you need to flag specific arguments.
-
-I played around with this a bit (blindly cocci'd tons of
-drm and i915 function declarations with the nonnull attribute)
-and it's somewhat underwhelming unfortunately.
-
-It will trip only if the compiler is 100% sure you're passing
-in a NULL. There is no way to eg. tell the compiler that a
-function can return a NULL and thus anything coming from it
-should be checked by the caller before passing it on to
-something with the nonnull attribute. And I suppose error
-pointers would also screw that idea over anyway.
-
-Additionally the NULL device checks being being done in 
-the drm_err/dbg macros trip this up left right and center.
-And hiding that check inside a function (instead of having
-it in the macro) is also ruined by the fact that we apparently
-pass different types of pointers to these macros :( Generics
-could be used to sort out that type mess I suppose, or the
-code that passes the wrong type (DSI code at least) should
-just be changed to not do that. But not sure if there's enough
-benefit to warrant the work.
-
--- 
-Ville Syrjälä
-Intel
+> On 30/11/2023 01:13, Stephen Graf wrote:
+>> Is the attached patch file going in the right direction?
+> 
+> yes, thanks, the change itself looks alright, but it needs to be:
+> - in a separate email, with a descriptive subject, prefixed by [PATCH]
+> - have the diff inline, not as an attachment (to allow easy commenting in an email thread)
+> - have a Signed-off-by: tag with your name and email address. This is to signify that the change is an original one made by you and you are happy to submit this under the (GPL) license conditions.
+> - an explanation *why* this change is required (mtd_debug write being not reliable, etc)
+> - sent to the U-Boot list and the maintainer (me)
+> 
+> Look at the U-Boot mailing list (archive) for examples.
+> "git format-patch" creates everything in the right format (mbox), and "git send-email" will send this via an SMTP server you point it to. Or you import this into your client.
+> 
+> If you could try this (with the Signed-off-by being the most important change), I am happy to submit this with the next push.
+> 
+> Thanks,
+> Andre
+> 
+>>
+>> On 2023-11-29 3:57 p.m., Andre Przywara wrote:
+>>> Hi Stephen,
+>>>
+>>> On 28/11/2023 20:07, Stephen Graf wrote:
+>>>> Below is the console log from trying to use mtd_debug write. It returned immediately with a strange success message.
+>>>>
+>>>> root@orangepizero3:~# mtd_debug write /dev/mtd0 0 0xf0000 /home/sysadmin/u-boot-sunxi-with-spl.bin
+>>>> file_to_flash: fread, size 0xf0000, n 0xf0000
+>>>> fread(): Success
+>>>
+>>> interesting, I was under the impression that "mtd_debug write" would be the way to write to flash. In hindsight, the "debug" in that name should have probably put me off. Anyway, "cat" is probably not a good choice, "dd" is better, but it looks like "flashcp" (also part of mtdutils) is the go-to tool, since it does the required erasing automatically and also reportedly does some error detection. Can you please test this?
+>>> # flashcp u-boot-sunxi-with-spl.bin /dev/mtd0
+>>> I would test this on my end ASAP as well.
+>>>
+>>> Do you feel like sending a patch to the U-Boot documentation to get this changed then?
+>>>
+>>> Thanks,
+>>> Andre
+>>>
