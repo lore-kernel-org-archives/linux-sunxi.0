@@ -1,102 +1,185 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B0C57EC
-	for <linux-sunxi@lists.linux.dev>; Fri,  1 Dec 2023 00:27:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 15E871042;
-	Thu, 30 Nov 2023 16:27:56 -0800 (PST)
-Received: from [10.57.82.74] (unknown [10.57.82.74])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C859D3F6C4;
-	Thu, 30 Nov 2023 16:27:07 -0800 (PST)
-Message-ID: <345d9916-6ae6-4dbe-99a2-33aafeebcb60@arm.com>
-Date: Fri, 1 Dec 2023 00:27:05 +0000
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDE83387;
+	Fri,  1 Dec 2023 00:40:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZJWxdQjH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE544C433C7;
+	Fri,  1 Dec 2023 00:40:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701391214;
+	bh=Bwi6rHBnTF4XvJJlKCsW+lAw3yuN1E/2bSWXjFUXBlo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZJWxdQjHwFwzN3MDNBVDR9RVIKZHH+ZYWbc+bsJ3IEuZxNsvfUAdPFaMh8SqqcEpe
+	 pGBa87uCh0j+Lv/eilOH/rMkvTe69hfhziRTHvL47PeiWR+/WFBiNvdN35yA7RHo6a
+	 eSto+KrCfTk37oNICO5zL0io4r/qCny2XTAgIqgrcXiovqvj7O25sK0Hg/xMFxuIFx
+	 94ZnLTXkFr3gYPVwFqJcYHNqqmcy4HtjQmHdCDtBpj48WK/YpokXA2x9ctnUeVqYTl
+	 ULUC/rQPetIL8xAghf3/VmAmfbSnztqMRVIpwaLCgwVYEc4F5LLhfYONb6qoTk/nHX
+	 7MagA3g4gefBg==
+Date: Fri, 1 Dec 2023 00:40:03 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Inochi Amaoto <inochiama@outlook.com>
+Cc: Yu-Chien Peter Lin <peterlin@andestech.com>,
+	Guo Ren <guoren@kernel.org>, acme@kernel.org,
+	adrian.hunter@intel.com, ajones@ventanamicro.com,
+	alexander.shishkin@linux.intel.com, andre.przywara@arm.com,
+	anup@brainfault.org, aou@eecs.berkeley.edu, atishp@atishpatra.org,
+	conor+dt@kernel.org, conor.dooley@microchip.com,
+	devicetree@vger.kernel.org, dminus@andestech.com, evan@rivosinc.com,
+	geert+renesas@glider.be, heiko@sntech.de, irogers@google.com,
+	jernej.skrabec@gmail.com, jolsa@kernel.org, jszhang@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	locus84@andestech.com, magnus.damm@gmail.com, mark.rutland@arm.com,
+	mingo@redhat.com, n.shubin@yadro.com, namhyung@kernel.org,
+	palmer@dabbelt.com, paul.walmsley@sifive.com, peterz@infradead.org,
+	prabhakar.mahadev-lad.rj@bp.renesas.com, rdunlap@infradead.org,
+	robh+dt@kernel.org, samuel@sholland.org, sunilvl@ventanamicro.com,
+	tglx@linutronix.de, tim609@andestech.com, uwu@icenowy.me,
+	wens@csie.org, will@kernel.org, ycliang@andestech.com
+Subject: Re: [PATCH v4 09/13] dt-bindings: riscv: Add T-Head PMU extension
+ description
+Message-ID: <20231201-hatchback-lustily-a516298c3556@spud>
+References: <20231130-isotope-runaround-9afb98579734@spud>
+ <IA1PR20MB495378652B09B37E92D8BB04BB82A@IA1PR20MB4953.namprd20.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: mdt_debug write
-Content-Language: en-US
-To: Stephen Graf <stephen.graf@gmail.com>
-Cc: Mikhail Kalashnikov <iuncuim@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Vignesh R <vigneshr@ti.com>,
- Jaehoon Chung <jh80.chung@samsung.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Piotr Oniszczuk <piotr.oniszczuk@gmail.com>, u-boot@lists.denx.de,
- linux-sunxi@lists.linux.dev
-References: <20231114013106.31336-1-andre.przywara@arm.com>
- <20231114013106.31336-4-andre.przywara@arm.com>
- <0eab5c21-4fdc-478e-9071-f43c12e01fb3@gmail.com>
- <20231126002349.55404e43@slackpad.lan>
- <465a5608-89f7-4691-a2e0-ebec9b85d994@gmail.com>
- <20231126122342.3944cad5@slackpad.lan>
- <d8862c87-072d-4f74-bb37-08f34c610cc8@gmail.com>
- <dae3bee5-e1c7-4154-959c-e41dabb5d844@gmail.com>
- <20231128013746.23648d39@slackpad.lan>
- <5d7ea381-2a57-46f7-85c6-2bcad339d1db@gmail.com>
- <0d46cc83-8820-4bf2-95bd-a0c12b6f7aff@arm.com>
- <d410fbe1-bf0f-4cb5-99cf-3353b952985b@gmail.com>
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <d410fbe1-bf0f-4cb5-99cf-3353b952985b@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="aS5JTpy0ABLKb+d2"
+Content-Disposition: inline
+In-Reply-To: <IA1PR20MB495378652B09B37E92D8BB04BB82A@IA1PR20MB4953.namprd20.prod.outlook.com>
 
-Hi Stephen,
 
-On 30/11/2023 01:13, Stephen Graf wrote:
-> Is the attached patch file going in the right direction?
+--aS5JTpy0ABLKb+d2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-yes, thanks, the change itself looks alright, but it needs to be:
-- in a separate email, with a descriptive subject, prefixed by [PATCH]
-- have the diff inline, not as an attachment (to allow easy commenting 
-in an email thread)
-- have a Signed-off-by: tag with your name and email address. This is to 
-signify that the change is an original one made by you and you are happy 
-to submit this under the (GPL) license conditions.
-- an explanation *why* this change is required (mtd_debug write being 
-not reliable, etc)
-- sent to the U-Boot list and the maintainer (me)
+On Fri, Dec 01, 2023 at 07:11:31AM +0800, Inochi Amaoto wrote:
+> >
+> >On Thu, Nov 30, 2023 at 08:16:38PM +0800, Inochi Amaoto wrote:
+> >>>
+> >>> Hi Inochi,
+> >>>
+> >>> On Thu, Nov 30, 2023 at 04:29:22PM +0800, Inochi Amaoto wrote:
+> >>>>>
+> >>>>> Hi Guo Ren,
+> >>>>>
+> >>>>> On Thu, Nov 23, 2023 at 05:14:30AM +0800, Guo Ren wrote:
+> >>>>>> On Wed, Nov 22, 2023 at 8:17=E2=80=AFPM Yu Chien Peter Lin
+> >>>>>> <peterlin@andestech.com> wrote:
+> >>>>>>>
+> >>>>>>> Document the ISA string for T-Head performance monitor extension
+> >>>>>>> which provides counter overflow interrupt mechanism.
+> >>>>>>>
+> >>>>>>> Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
+> >>>>>>> ---
+> >>>>>>> Changes v2 -> v3:
+> >>>>>>>   - New patch
+> >>>>>>> Changes v3 -> v4:
+> >>>>>>>   - No change
+> >>>>>>> ---
+> >>>>>>>  Documentation/devicetree/bindings/riscv/extensions.yaml | 6 ++++=
+++
+> >>>>>>>  1 file changed, 6 insertions(+)
+> >>>>>>>
+> >>>>>>> diff --git a/Documentation/devicetree/bindings/riscv/extensions.y=
+aml b/Documentation/devicetree/bindings/riscv/extensions.yaml
+> >>>>>>> index c91ab0e46648..694efaea8fce 100644
+> >>>>>>> --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
+> >>>>>>> +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
+> >>>>>>> @@ -258,5 +258,11 @@ properties:
+> >>>>>>>              in commit 2e5236 ("Ztso is now ratified.") of the
+> >>>>>>>              riscv-isa-manual.
+> >>>>>>>
+> >>>>>>> +        - const: xtheadpmu
+> >>>>>>> +          description:
+> >>>>>>> +            The T-Head performance monitor extension for counter=
+ overflow. For more
+> >>>>>>> +            details, see the chapter 12 in the Xuantie C906 user=
+ manual.
+> >>>>>>> +            https://github.com/T-head-Semi/openc906/tree/main/doc
+> >>>>>>> +
+> >>>>>>>  additionalProperties: true
+> >>>>>>>  ...
+> >>>>>>> --
+> >>>>>>> 2.34.1
+> >>>>>>>
+> >>>>>> Reviewed-by: Guo Ren <guoren@kernel.org>
+> >>>>>
+> >>>>> Thanks for the review.
+> >>>>> Would you share document about T-Head PMU?
+> >>>>>
+> >>>>
+> >>>> Hi, Peter Lin:
+> >>>>
+> >>>> You can use the following two document to get all events:
+> >>>> https://github.com/T-head-Semi/openc906/tree/main/doc
+> >>>> https://github.com/T-head-Semi/openc910/tree/main/doc
+> >>>>
+> >>>> There are also some RTL code can describe these events:
+> >>>> https://github.com/T-head-Semi/openc910/blob/e0c4ad8ec7f8c70f649d826=
+ebd6c949086453272/C910_RTL_FACTORY/gen_rtl/pmu/rtl/ct_hpcp_top.v#L1123
+> >>>> https://github.com/T-head-Semi/openc906/blob/af5614d72de7e5a4b8609c4=
+27d2e20af1deb21c4/C906_RTL_FACTORY/gen_rtl/pmu/rtl/aq_hpcp_top.v#L543
+> >>>>
+> >>>> The perf events json can also be used as document, this is already
+> >>>> applied (with more detailed explanation):
+> >>>> https://lore.kernel.org/all/IA1PR20MB495325FCF603BAA841E29281BBBAA@I=
+A1PR20MB4953.namprd20.prod.outlook.com/
+> >>>
+> >>> Thanks for reaching out!
+> >>> The updated description will be:
+> >>>
+> >>> - const: xtheadpmu
+> >>>  description:
+> >>>    The T-Head performance monitor extension for counter overflow, as =
+ratified
+> >>>    in commit bd9206 ("Initial commit") of Xuantie C906 user manual.
+> >>>    https://github.com/T-head-Semi/openc906/tree/main/doc
+> >>>
+> >>> Is it OK with you?
+> >>>
+> >>
+> >> I suggest using perf event json as event description. The jsons provide
+> >> more detailed explanation for these events than the user manual.
+> >
+> >Does the "perf event json" describe the registers and interrupt behaviou=
+r?
+> >
+>=20
+> It does not. IIRC, the linux just uses SBI as perf driver backend. So
+> the registers and interrupt behaviour is primarily for SBI developer.
 
-Look at the U-Boot mailing list (archive) for examples.
-"git format-patch" creates everything in the right format (mbox), and 
-"git send-email" will send this via an SMTP server you point it to. Or 
-you import this into your client.
+Interrupts and registers are the reason that this patch (and the rest of
+the patchset) exists :)
 
-If you could try this (with the Signed-off-by being the most important 
-change), I am happy to submit this with the next push.
+> For registers and interrup detail, just reference the openc910 doc url
+> (https://github.com/T-head-Semi/openc910/tree/main/doc) and the T-HEAD
+> PMU driver in OpenSBI.
+
+The former, sure. But I will not accept driver implementations as the
+reference in this context.
 
 Thanks,
-Andre
+Conor.
 
-> 
-> On 2023-11-29 3:57 p.m., Andre Przywara wrote:
->> Hi Stephen,
->>
->> On 28/11/2023 20:07, Stephen Graf wrote:
->>> Below is the console log from trying to use mtd_debug write. It 
->>> returned immediately with a strange success message.
->>>
->>> root@orangepizero3:~# mtd_debug write /dev/mtd0 0 0xf0000 
->>> /home/sysadmin/u-boot-sunxi-with-spl.bin
->>> file_to_flash: fread, size 0xf0000, n 0xf0000
->>> fread(): Success
->>
->> interesting, I was under the impression that "mtd_debug write" would 
->> be the way to write to flash. In hindsight, the "debug" in that name 
->> should have probably put me off. Anyway, "cat" is probably not a good 
->> choice, "dd" is better, but it looks like "flashcp" (also part of 
->> mtdutils) is the go-to tool, since it does the required erasing 
->> automatically and also reportedly does some error detection. Can you 
->> please test this?
->> # flashcp u-boot-sunxi-with-spl.bin /dev/mtd0
->> I would test this on my end ASAP as well.
->>
->> Do you feel like sending a patch to the U-Boot documentation to get 
->> this changed then?
->>
->> Thanks,
->> Andre
->>
+--aS5JTpy0ABLKb+d2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZWkrYwAKCRB4tDGHoIJi
+0pwIAPwK17iPJiDp9ipZS/utYpBvkvx0ll5v01jA4ntru7UxxQEA4aGN5NO3jlaA
+IGvR1UvnavydACZeMLUy8t+jGSuPzAA=
+=bY70
+-----END PGP SIGNATURE-----
+
+--aS5JTpy0ABLKb+d2--
