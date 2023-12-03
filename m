@@ -1,145 +1,142 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D373551C3E
-	for <linux-sunxi@lists.linux.dev>; Fri,  1 Dec 2023 18:50:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cCB95zbo"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-5bdf5a025c1so677292a12.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 01 Dec 2023 10:50:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701456642; x=1702061442; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=R3KirjFnVpXFWMsJNro6OZTInSngEe0mSu2U6KTe9ZI=;
-        b=cCB95zboUqIRYDOD4CCCqDAdPocKk6SKzQSr0SFmd8fu5rMMKUpoLar9Xtnh5U8AuA
-         9myHsTFgRZA/2pxuLQn6CPmHjyfbaEUz2TezD5Aj+VhZ04tpCcp8Qus2UDK24zmdMBhk
-         Est3QjA55cMSqIg8wsr3bP99nNGLIBwNbY+/g8Mt/FE65bfuMUNNL0SfH2rdXs6MJL4g
-         ZoEwj6bz2IC/aZDm7ogAIg7Q1if3KvWS1gQ6DDDyWJZoIFftarmWfxUbIQ0ThOTyW3i5
-         1REPKK21tC3QmRkcspUWc3WXqevhy9tIPw/fhrk0NOxNm1eDt9Bj4sxAGch6bjzOdpty
-         qGpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701456642; x=1702061442;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=R3KirjFnVpXFWMsJNro6OZTInSngEe0mSu2U6KTe9ZI=;
-        b=ZcUTDgYdhxqRpIr/aWrISu9G+m+kFO442fXcHE1EY5JJZW00y8Fu52zkAtiyfsgsuu
-         Ed9ASmQwApZRf9nECqjoEnoTU4240M3cHYX7kCMEtLIsOCe9qmB0rp5gbxr3xKI2Hy/F
-         PVd/6mCBLIKXnIuF4tqUvgXrJc13uLhvcoEvIJNxoHoMpdzDDeEcIu5+vtJMLHiKrpNh
-         iJYhCZ/ayeDZlspeed4sV7My71EtXY5oGBL8ksoH/kp/Aiik3RCskLCbFllNVtXTFPu/
-         p+HDZeGn08z5yHBhJaTJoFzVI1s63yEOvARKaJxrTqivpJbc3LhU2z497AprnBvCwuhk
-         3S1g==
-X-Gm-Message-State: AOJu0Yy6uQsc5t+HWGmIaIAYRHeoG4nz9aKnWxUkhBcNjZCw/BVWqi2f
-	n5hGNHTYALKIZUG8rG+GOzY=
-X-Google-Smtp-Source: AGHT+IEAn2zdk83VqulfQX/swK0vD8DxzA/QAlOKRxu4kRJVLG3t2FG903PujmBfvI4zh2ln5/JqRw==
-X-Received: by 2002:a05:6a20:5502:b0:18b:2710:d729 with SMTP id ko2-20020a056a20550200b0018b2710d729mr21144775pzb.31.1701456641305;
-        Fri, 01 Dec 2023 10:50:41 -0800 (PST)
-Received: from [192.168.1.3] (d23-16-72-139.bchsia.telus.net. [23.16.72.139])
-        by smtp.gmail.com with ESMTPSA id g24-20020a056a00079800b006cde7dd80cbsm3310183pfu.191.2023.12.01.10.50.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Dec 2023 10:50:40 -0800 (PST)
-Message-ID: <ef003512-e433-4d83-87a4-5ae3341f6399@gmail.com>
-Date: Fri, 1 Dec 2023 10:50:39 -0800
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33219156D3
+	for <linux-sunxi@lists.linux.dev>; Sun,  3 Dec 2023 23:41:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0C9FC1684;
+	Sun,  3 Dec 2023 15:42:20 -0800 (PST)
+Received: from slackpad.lan (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ABE963F762;
+	Sun,  3 Dec 2023 15:41:31 -0800 (PST)
+Date: Sun, 3 Dec 2023 23:40:14 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Stephen Graf <stephen.graf@gmail.com>
+Cc: Mikhail Kalashnikov <iuncuim@gmail.com>, Jagan Teki
+ <jagan@amarulasolutions.com>, Vignesh R <vigneshr@ti.com>, Jaehoon Chung
+ <jh80.chung@samsung.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, Piotr
+ Oniszczuk <piotr.oniszczuk@gmail.com>, u-boot@lists.denx.de,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 1/1] correct documentation for SPI flashing
+Message-ID: <20231203234014.5dc4cbe7@slackpad.lan>
+In-Reply-To: <ef003512-e433-4d83-87a4-5ae3341f6399@gmail.com>
+References: <20231114013106.31336-1-andre.przywara@arm.com>
+	<20231114013106.31336-4-andre.przywara@arm.com>
+	<0eab5c21-4fdc-478e-9071-f43c12e01fb3@gmail.com>
+	<20231126002349.55404e43@slackpad.lan>
+	<465a5608-89f7-4691-a2e0-ebec9b85d994@gmail.com>
+	<20231126122342.3944cad5@slackpad.lan>
+	<d8862c87-072d-4f74-bb37-08f34c610cc8@gmail.com>
+	<dae3bee5-e1c7-4154-959c-e41dabb5d844@gmail.com>
+	<20231128013746.23648d39@slackpad.lan>
+	<5d7ea381-2a57-46f7-85c6-2bcad339d1db@gmail.com>
+	<0d46cc83-8820-4bf2-95bd-a0c12b6f7aff@arm.com>
+	<d410fbe1-bf0f-4cb5-99cf-3353b952985b@gmail.com>
+	<345d9916-6ae6-4dbe-99a2-33aafeebcb60@arm.com>
+	<ef003512-e433-4d83-87a4-5ae3341f6399@gmail.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: [PATCH 1/1] correct documentation for SPI flashing
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Mikhail Kalashnikov <iuncuim@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Vignesh R <vigneshr@ti.com>,
- Jaehoon Chung <jh80.chung@samsung.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Piotr Oniszczuk <piotr.oniszczuk@gmail.com>, u-boot@lists.denx.de,
- linux-sunxi@lists.linux.dev
-References: <20231114013106.31336-1-andre.przywara@arm.com>
- <20231114013106.31336-4-andre.przywara@arm.com>
- <0eab5c21-4fdc-478e-9071-f43c12e01fb3@gmail.com>
- <20231126002349.55404e43@slackpad.lan>
- <465a5608-89f7-4691-a2e0-ebec9b85d994@gmail.com>
- <20231126122342.3944cad5@slackpad.lan>
- <d8862c87-072d-4f74-bb37-08f34c610cc8@gmail.com>
- <dae3bee5-e1c7-4154-959c-e41dabb5d844@gmail.com>
- <20231128013746.23648d39@slackpad.lan>
- <5d7ea381-2a57-46f7-85c6-2bcad339d1db@gmail.com>
- <0d46cc83-8820-4bf2-95bd-a0c12b6f7aff@arm.com>
- <d410fbe1-bf0f-4cb5-99cf-3353b952985b@gmail.com>
- <345d9916-6ae6-4dbe-99a2-33aafeebcb60@arm.com>
-Content-Language: en-CA
-From: Stephen Graf <stephen.graf@gmail.com>
-In-Reply-To: <345d9916-6ae6-4dbe-99a2-33aafeebcb60@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-The mtd_debug write does not work in this context. The flashcp command does work, provides
-both the erase and write functions and with the verbose option gives good feedback.
+On Fri, 1 Dec 2023 10:50:39 -0800
+Stephen Graf <stephen.graf@gmail.com> wrote:
 
-Signed-off-by: Stephen Graf <stephen.graf@gmail.com>
----
-  doc/board/allwinner/sunxi.rst | 3 +--
-  1 file changed, 1 insertions(+), 2 deletions(-)
+Hi Stephen,
 
-diff --git a/doc/board/allwinner/sunxi.rst b/doc/board/allwinner/sunxi.rst
-index 797222d8d3..d0c89b956b 100644
---- a/doc/board/allwinner/sunxi.rst
-+++ b/doc/board/allwinner/sunxi.rst
-@@ -251,8 +251,7 @@ the SPI flash content from Linux, using the `MTD utils`_::
+thanks for the patch, and you almost nailed it, some little things:
 
-      # apt-get install mtd-utils
-      # mtdinfo
--    # mtd_debug erase /dev/mtdX 0 0xf0000
--    # mtd_debug write /dev/mtdX 0 0xf0000 u-boot-sunxi-with-spl.bin
-+    # flashcp -v u-boot-sunxi-with-spl.bin /dev/mtdX
+- The patch should start a new thread on the list, so do not reply to
+  an existing discussion or (un)related patch. This avoids the patch
+  getting buried in longish threads and helps tools like patchworks to
+  find and process it. Also please just send the patch, and avoid any
+  quoted text from previous discussions outside of the commit message.
+- Please prefix your commit message with some context tags, in this
+  case "sunxi: ", so that people scanning the list can ignore it if
+  it's outside their scope of interest.
+- Please limit commit messages to 75 characters per line.
+  $ scripts/checkpatch.pl
+  0001-correct_documentation_for_SPI_flashing.patch
+  will do some checks on the patch and would report this.
 
-  ``/dev/mtdX`` needs to be replaced with the respective device name, as listed
-  in the output of ``mtdinfo``.
----
+Anyway, those are minor things, I will just fix them while committing.
 
-On 2023-11-30 4:27 p.m., Andre Przywara wrote:
-> Hi Stephen,
+> The mtd_debug write does not work in this context. The flashcp command does work, provides
+> both the erase and write functions and with the verbose option gives good feedback.
 > 
-> On 30/11/2023 01:13, Stephen Graf wrote:
->> Is the attached patch file going in the right direction?
+> Signed-off-by: Stephen Graf <stephen.graf@gmail.com>
+
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+
+Cheers,
+Andre
+
+> ---
+>   doc/board/allwinner/sunxi.rst | 3 +--
+>   1 file changed, 1 insertions(+), 2 deletions(-)
 > 
-> yes, thanks, the change itself looks alright, but it needs to be:
-> - in a separate email, with a descriptive subject, prefixed by [PATCH]
-> - have the diff inline, not as an attachment (to allow easy commenting in an email thread)
-> - have a Signed-off-by: tag with your name and email address. This is to signify that the change is an original one made by you and you are happy to submit this under the (GPL) license conditions.
-> - an explanation *why* this change is required (mtd_debug write being not reliable, etc)
-> - sent to the U-Boot list and the maintainer (me)
+> diff --git a/doc/board/allwinner/sunxi.rst b/doc/board/allwinner/sunxi.rst
+> index 797222d8d3..d0c89b956b 100644
+> --- a/doc/board/allwinner/sunxi.rst
+> +++ b/doc/board/allwinner/sunxi.rst
+> @@ -251,8 +251,7 @@ the SPI flash content from Linux, using the `MTD utils`_::
 > 
-> Look at the U-Boot mailing list (archive) for examples.
-> "git format-patch" creates everything in the right format (mbox), and "git send-email" will send this via an SMTP server you point it to. Or you import this into your client.
+>       # apt-get install mtd-utils
+>       # mtdinfo
+> -    # mtd_debug erase /dev/mtdX 0 0xf0000
+> -    # mtd_debug write /dev/mtdX 0 0xf0000 u-boot-sunxi-with-spl.bin
+> +    # flashcp -v u-boot-sunxi-with-spl.bin /dev/mtdX
 > 
-> If you could try this (with the Signed-off-by being the most important change), I am happy to submit this with the next push.
+>   ``/dev/mtdX`` needs to be replaced with the respective device name, as listed
+>   in the output of ``mtdinfo``.
+> ---
 > 
-> Thanks,
-> Andre
+> On 2023-11-30 4:27 p.m., Andre Przywara wrote:
+> > Hi Stephen,
+> > 
+> > On 30/11/2023 01:13, Stephen Graf wrote:  
+> >> Is the attached patch file going in the right direction?  
+> > 
+> > yes, thanks, the change itself looks alright, but it needs to be:
+> > - in a separate email, with a descriptive subject, prefixed by [PATCH]
+> > - have the diff inline, not as an attachment (to allow easy commenting in an email thread)
+> > - have a Signed-off-by: tag with your name and email address. This is to signify that the change is an original one made by you and you are happy to submit this under the (GPL) license conditions.
+> > - an explanation *why* this change is required (mtd_debug write being not reliable, etc)
+> > - sent to the U-Boot list and the maintainer (me)
+> > 
+> > Look at the U-Boot mailing list (archive) for examples.
+> > "git format-patch" creates everything in the right format (mbox), and "git send-email" will send this via an SMTP server you point it to. Or you import this into your client.
+> > 
+> > If you could try this (with the Signed-off-by being the most important change), I am happy to submit this with the next push.
+> > 
+> > Thanks,
+> > Andre
+> >   
+> >>
+> >> On 2023-11-29 3:57 p.m., Andre Przywara wrote:  
+> >>> Hi Stephen,
+> >>>
+> >>> On 28/11/2023 20:07, Stephen Graf wrote:  
+> >>>> Below is the console log from trying to use mtd_debug write. It returned immediately with a strange success message.
+> >>>>
+> >>>> root@orangepizero3:~# mtd_debug write /dev/mtd0 0 0xf0000 /home/sysadmin/u-boot-sunxi-with-spl.bin
+> >>>> file_to_flash: fread, size 0xf0000, n 0xf0000
+> >>>> fread(): Success  
+> >>>
+> >>> interesting, I was under the impression that "mtd_debug write" would be the way to write to flash. In hindsight, the "debug" in that name should have probably put me off. Anyway, "cat" is probably not a good choice, "dd" is better, but it looks like "flashcp" (also part of mtdutils) is the go-to tool, since it does the required erasing automatically and also reportedly does some error detection. Can you please test this?
+> >>> # flashcp u-boot-sunxi-with-spl.bin /dev/mtd0
+> >>> I would test this on my end ASAP as well.
+> >>>
+> >>> Do you feel like sending a patch to the U-Boot documentation to get this changed then?
+> >>>
+> >>> Thanks,
+> >>> Andre
+> >>>  
 > 
->>
->> On 2023-11-29 3:57 p.m., Andre Przywara wrote:
->>> Hi Stephen,
->>>
->>> On 28/11/2023 20:07, Stephen Graf wrote:
->>>> Below is the console log from trying to use mtd_debug write. It returned immediately with a strange success message.
->>>>
->>>> root@orangepizero3:~# mtd_debug write /dev/mtd0 0 0xf0000 /home/sysadmin/u-boot-sunxi-with-spl.bin
->>>> file_to_flash: fread, size 0xf0000, n 0xf0000
->>>> fread(): Success
->>>
->>> interesting, I was under the impression that "mtd_debug write" would be the way to write to flash. In hindsight, the "debug" in that name should have probably put me off. Anyway, "cat" is probably not a good choice, "dd" is better, but it looks like "flashcp" (also part of mtdutils) is the go-to tool, since it does the required erasing automatically and also reportedly does some error detection. Can you please test this?
->>> # flashcp u-boot-sunxi-with-spl.bin /dev/mtd0
->>> I would test this on my end ASAP as well.
->>>
->>> Do you feel like sending a patch to the U-Boot documentation to get this changed then?
->>>
->>> Thanks,
->>> Andre
->>>
+
