@@ -1,37 +1,37 @@
 Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6E9D241E9
-	for <linux-sunxi@lists.linux.dev>; Mon,  4 Dec 2023 18:23:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABDB72F845
+	for <linux-sunxi@lists.linux.dev>; Mon,  4 Dec 2023 18:23:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="JBeVn6LS"
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 3B4IMwk7034910;
-	Mon, 4 Dec 2023 12:22:58 -0600
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="JIf6khui"
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 3B4IMsrR034895;
+	Mon, 4 Dec 2023 12:22:54 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1701714178;
-	bh=PWj0D2WMvRJ11gnfwf0SZ44vgMNZaHz/OZM54jmoFVs=;
+	s=ti-com-17Q1; t=1701714174;
+	bh=/DHNdb2h/H27I/9d/VEE7PByu6B0S/1IcDh2mFWNTsA=;
 	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=JBeVn6LSLGMkNjL+d/YkWu4H0o6fxo2MdR5Fms74roq7LZv8+Z2jnVYCFSJbjrLwz
-	 V59XS90IBgp+WehEBwrM7H8jiDTGvWpjxKoJf4rRAmU8SBURe4NRt7gXlIBTMHhfBL
-	 /oEAueViMAEbU6Bl8TZbxfVCw7h7jOSA6ZoVDWiU=
+	b=JIf6khuinRgUkcdoOlkCpzr9YBiGYcYGwWZBw3F+dSnx2cckKzm+soV6EDDAexjY5
+	 Hom244EXPeQd84QajIjAQQUpjoZi/rliikOspF2+DakEej8uhFX6p4JqcKFDRkduKK
+	 0KS+9fsbZs3xvVvzLDcfwfUOSXuO0oZYKC5e31KI=
 Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 3B4IMw6W091872
+	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 3B4IMsQt013588
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Mon, 4 Dec 2023 12:22:58 -0600
-Received: from DFLE110.ent.ti.com (10.64.6.31) by DFLE109.ent.ti.com
+	Mon, 4 Dec 2023 12:22:54 -0600
+Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE109.ent.ti.com
  (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 4
- Dec 2023 12:22:57 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE110.ent.ti.com
- (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
+ Dec 2023 12:22:53 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Mon, 4 Dec 2023 12:22:57 -0600
+ Frontend Transport; Mon, 4 Dec 2023 12:22:54 -0600
 Received: from fllv0039.itg.ti.com (ileaxei01-snat.itg.ti.com [10.180.69.5])
-	by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 3B4IMkxD042313;
-	Mon, 4 Dec 2023 12:22:56 -0600
+	by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 3B4IMkx9042313;
+	Mon, 4 Dec 2023 12:22:53 -0600
 From: Andrew Davis <afd@ti.com>
 To: Frank Binns <frank.binns@imgtec.com>,
         Donald Robson
@@ -63,9 +63,9 @@ CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
         <linux-sunxi@lists.linux.dev>, <linux-omap@vger.kernel.org>,
         <linux-mips@vger.kernel.org>, Andrew Davis <afd@ti.com>
-Subject: [PATCH RFC 10/10] MIPS: DTS: jz4780: Add device tree entry for SGX GPU
-Date: Mon, 4 Dec 2023 12:22:45 -0600
-Message-ID: <20231204182245.33683-11-afd@ti.com>
+Subject: [PATCH RFC 06/10] ARM: dts: AM437x: Add device tree entry for SGX GPU
+Date: Mon, 4 Dec 2023 12:22:41 -0600
+Message-ID: <20231204182245.33683-7-afd@ti.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231204182245.33683-1-afd@ti.com>
 References: <20231204182245.33683-1-afd@ti.com>
@@ -79,35 +79,30 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-Add SGX GPU device entry to base jz4780 dtsi file.
+Add SGX GPU device entry to base AM437x dtsi file.
 
 Signed-off-by: Andrew Davis <afd@ti.com>
 ---
- arch/mips/boot/dts/ingenic/jz4780.dtsi | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ arch/arm/boot/dts/ti/omap/am4372.dtsi | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/arch/mips/boot/dts/ingenic/jz4780.dtsi b/arch/mips/boot/dts/ingenic/jz4780.dtsi
-index 18affff85ce38..5ea6833f5e872 100644
---- a/arch/mips/boot/dts/ingenic/jz4780.dtsi
-+++ b/arch/mips/boot/dts/ingenic/jz4780.dtsi
-@@ -460,6 +460,17 @@ hdmi: hdmi@10180000 {
- 		status = "disabled";
+diff --git a/arch/arm/boot/dts/ti/omap/am4372.dtsi b/arch/arm/boot/dts/ti/omap/am4372.dtsi
+index 9d2c064534f7d..5fd1b380ece62 100644
+--- a/arch/arm/boot/dts/ti/omap/am4372.dtsi
++++ b/arch/arm/boot/dts/ti/omap/am4372.dtsi
+@@ -719,6 +719,12 @@ target-module@56000000 {
+ 			#address-cells = <1>;
+ 			#size-cells = <1>;
+ 			ranges = <0 0x56000000 0x1000000>;
++
++			gpu@0 {
++				compatible = "ti,omap3630-gpu", "img,powervr-sgx530";
++				reg = <0x0 0x10000>; /* 64kB */
++				interrupts = <GIC_SPI 37 IRQ_TYPE_LEVEL_HIGH>;
++			};
+ 		};
  	};
- 
-+	gpu: gpu@13040000 {
-+		compatible = "ingenic,jz4780-gpu", "img,powervr-sgx540";
-+		reg = <0x13040000 0x4000>;
-+
-+		clocks = <&cgu JZ4780_CLK_GPU>;
-+		clock-names = "core";
-+
-+		interrupt-parent = <&intc>;
-+		interrupts = <63>;
-+	};
-+
- 	lcdc0: lcdc0@13050000 {
- 		compatible = "ingenic,jz4780-lcd";
- 		reg = <0x13050000 0x1800>;
+ };
 -- 
 2.39.2
 
