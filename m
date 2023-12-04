@@ -1,14 +1,14 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D33BF818
-	for <linux-sunxi@lists.linux.dev>; Mon,  4 Dec 2023 01:01:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F78065C
+	for <linux-sunxi@lists.linux.dev>; Mon,  4 Dec 2023 01:01:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 351451691;
-	Sun,  3 Dec 2023 17:02:04 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 14E47106F;
+	Sun,  3 Dec 2023 17:02:06 -0800 (PST)
 Received: from localhost.localdomain (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7B2813F6C4;
-	Sun,  3 Dec 2023 17:01:15 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5AB8B3F6C4;
+	Sun,  3 Dec 2023 17:01:17 -0800 (PST)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Jagan Teki <jagan@amarulasolutions.com>
 Cc: Vignesh R <vigneshr@ti.com>,
@@ -21,9 +21,9 @@ Cc: Vignesh R <vigneshr@ti.com>,
 	Stephen Graf <stephen.graf@gmail.com>,
 	u-boot@lists.denx.de,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH v2 2/3] sunxi: H616: remove default AXP305 selection
-Date: Mon,  4 Dec 2023 00:59:53 +0000
-Message-Id: <20231204005954.13201-3-andre.przywara@arm.com>
+Subject: [PATCH v2 3/3] sunxi: H616: Add OrangePi Zero 3 board support
+Date: Mon,  4 Dec 2023 00:59:54 +0000
+Message-Id: <20231204005954.13201-4-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.35.8
 In-Reply-To: <20231204005954.13201-1-andre.przywara@arm.com>
 References: <20231204005954.13201-1-andre.przywara@arm.com>
@@ -35,57 +35,95 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The original H616 devices released about three years ago were typically
-paired with an X-Powers AXP305 PMIC. Newer devices uses the smaller
-AXP313, and there seem to be far more systems with this PMIC around now.
+The OrangePi Zero 3 is a small development board featuring the Allwinner
+H618 SoC, shipping with up to 4GB of DRAM, Gigabit Ethernet, a micro-HDMI
+connector and two USB sockets.
+The board uses LPDDR4 DRAM and an X-Powers AXP313a PMIC, support for
+which was recently added to U-Boot.
 
-Remove the default AXP305 selection for the H616 SoC from the Kconfig,
-and move the PMIC selection into the board defconfig files instead.
+Add a defconfig file selecting the right drivers and DRAM options.
+Since the .dts file was synced from the Linux kernel repo already, we
+just need to add one line to the Makefile to actually build the .dtb.
+
+The DRAM parameters were derived from the values found in the BSP DRAM
+drivers on the SPI NOR flash.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-Reviewed-by: Jaehoon Chung <jh80.chung@samsung.com>
+Tested-by: Mikhail Kalashnikov <iuncuim@gmail.com>
+Tested-by: Bob McChesney <bob@electricworry.net>
 ---
- configs/orangepi_zero2_defconfig | 1 +
- configs/x96_mate_defconfig       | 1 +
- drivers/power/Kconfig            | 1 -
- 3 files changed, 2 insertions(+), 1 deletion(-)
+ arch/arm/dts/Makefile            |  1 +
+ board/sunxi/MAINTAINERS          |  5 +++++
+ configs/orangepi_zero3_defconfig | 32 ++++++++++++++++++++++++++++++++
+ 3 files changed, 38 insertions(+)
+ create mode 100644 configs/orangepi_zero3_defconfig
 
-diff --git a/configs/orangepi_zero2_defconfig b/configs/orangepi_zero2_defconfig
-index 50009e823cb..98aed846f1f 100644
---- a/configs/orangepi_zero2_defconfig
-+++ b/configs/orangepi_zero2_defconfig
-@@ -20,6 +20,7 @@ CONFIG_SYS_I2C_SPEED=400000
- CONFIG_SPI_FLASH_MACRONIX=y
- CONFIG_PHY_REALTEK=y
- CONFIG_SUN8I_EMAC=y
-+CONFIG_AXP305_POWER=y
- CONFIG_SPI=y
- CONFIG_USB_EHCI_HCD=y
- CONFIG_USB_OHCI_HCD=y
-diff --git a/configs/x96_mate_defconfig b/configs/x96_mate_defconfig
-index 318951e19c2..e805e0952b3 100644
---- a/configs/x96_mate_defconfig
-+++ b/configs/x96_mate_defconfig
-@@ -18,6 +18,7 @@ CONFIG_SPL_SYS_I2C_LEGACY=y
- CONFIG_SYS_I2C_MVTWSI=y
- CONFIG_SYS_I2C_SLAVE=0x7f
- CONFIG_SYS_I2C_SPEED=400000
-+CONFIG_AXP305_POWER=y
- CONFIG_SUPPORT_EMMC_BOOT=y
- CONFIG_USB_EHCI_HCD=y
- CONFIG_USB_OHCI_HCD=y
-diff --git a/drivers/power/Kconfig b/drivers/power/Kconfig
-index 2395720c99c..33b8bc1214d 100644
---- a/drivers/power/Kconfig
-+++ b/drivers/power/Kconfig
-@@ -56,7 +56,6 @@ choice
- 	depends on ARCH_SUNXI
- 	default AXP209_POWER if MACH_SUN4I || MACH_SUN5I || MACH_SUN7I
- 	default AXP221_POWER if MACH_SUN6I || MACH_SUN8I_A23 || MACH_SUN8I_A33 || MACH_SUN8I_R40
--	default AXP305_POWER if MACH_SUN50I_H616
- 	default AXP818_POWER if MACH_SUN8I_A83T
- 	default SUNXI_NO_PMIC if MACH_SUNXI_H3_H5 || MACH_SUN50I || MACH_SUN8I_V3S
+diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
+index 1be08c5fdc2..5fc888680b3 100644
+--- a/arch/arm/dts/Makefile
++++ b/arch/arm/dts/Makefile
+@@ -835,6 +835,7 @@ dtb-$(CONFIG_MACH_SUN50I_H6) += \
+ 	sun50i-h6-tanix-tx6-mini.dtb
+ dtb-$(CONFIG_MACH_SUN50I_H616) += \
+ 	sun50i-h616-orangepi-zero2.dtb \
++	sun50i-h618-orangepi-zero3.dtb \
+ 	sun50i-h616-x96-mate.dtb
+ dtb-$(CONFIG_MACH_SUN50I) += \
+ 	sun50i-a64-amarula-relic.dtb \
+diff --git a/board/sunxi/MAINTAINERS b/board/sunxi/MAINTAINERS
+index 00614372119..f556857a391 100644
+--- a/board/sunxi/MAINTAINERS
++++ b/board/sunxi/MAINTAINERS
+@@ -455,6 +455,11 @@ M:	Jernej Skrabec <jernej.skrabec@siol.net>
+ S:	Maintained
+ F:	configs/orangepi_zero2_defconfig
  
++ORANGEPI ZERO 3 BOARD
++M:	Andre Przywara <andre.przywara@arm.com>
++S:	Maintained
++F:	configs/orangepi_zero3_defconfig
++
+ ORANGEPI PC 2 BOARD
+ M:	Andre Przywara <andre.przywara@arm.com>
+ S:	Maintained
+diff --git a/configs/orangepi_zero3_defconfig b/configs/orangepi_zero3_defconfig
+new file mode 100644
+index 00000000000..5a019fed84b
+--- /dev/null
++++ b/configs/orangepi_zero3_defconfig
+@@ -0,0 +1,32 @@
++CONFIG_ARM=y
++CONFIG_ARCH_SUNXI=y
++CONFIG_DEFAULT_DEVICE_TREE="sun50i-h618-orangepi-zero3"
++CONFIG_SPL=y
++CONFIG_DRAM_SUN50I_H616_DX_ODT=0x07070707
++CONFIG_DRAM_SUN50I_H616_DX_DRI=0x0e0e0e0e
++CONFIG_DRAM_SUN50I_H616_CA_DRI=0x0e0e
++CONFIG_DRAM_SUN50I_H616_ODT_EN=0xaaaaeeee
++CONFIG_DRAM_SUN50I_H616_TPR6=0x44000000
++CONFIG_DRAM_SUN50I_H616_TPR10=0x402f6663
++CONFIG_DRAM_SUN50I_H616_TPR11=0x24242624
++CONFIG_DRAM_SUN50I_H616_TPR12=0x0f0f100f
++CONFIG_MACH_SUN50I_H616=y
++CONFIG_SUNXI_DRAM_H616_LPDDR4=y
++CONFIG_DRAM_CLK=792
++CONFIG_USB1_VBUS_PIN="PC16"
++CONFIG_R_I2C_ENABLE=y
++CONFIG_SPL_SPI_SUNXI=y
++# CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
++CONFIG_SPL_I2C=y
++CONFIG_SPL_SYS_I2C_LEGACY=y
++CONFIG_SYS_I2C_MVTWSI=y
++CONFIG_SYS_I2C_SLAVE=0x7f
++CONFIG_SYS_I2C_SPEED=400000
++CONFIG_SPI_FLASH_ZBIT=y
++CONFIG_PHY_MOTORCOMM=y
++CONFIG_SUN8I_EMAC=y
++CONFIG_AXP313_POWER=y
++CONFIG_SPI=y
++CONFIG_USB_EHCI_HCD=y
++CONFIG_USB_OHCI_HCD=y
++CONFIG_USB_MUSB_GADGET=y
 -- 
 2.35.8
 
