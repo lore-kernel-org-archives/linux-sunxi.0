@@ -1,129 +1,222 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F78065C
-	for <linux-sunxi@lists.linux.dev>; Mon,  4 Dec 2023 01:01:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 14E47106F;
-	Sun,  3 Dec 2023 17:02:06 -0800 (PST)
-Received: from localhost.localdomain (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5AB8B3F6C4;
-	Sun,  3 Dec 2023 17:01:17 -0800 (PST)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Cc: Vignesh R <vigneshr@ti.com>,
-	Jaehoon Chung <jh80.chung@samsung.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Mikhail Kalashnikov <iuncuim@gmail.com>,
-	Piotr Oniszczuk <piotr.oniszczuk@gmail.com>,
-	Bob McChesney <bob@electricworry.net>,
-	Stephen Graf <stephen.graf@gmail.com>,
-	u-boot@lists.denx.de,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH v2 3/3] sunxi: H616: Add OrangePi Zero 3 board support
-Date: Mon,  4 Dec 2023 00:59:54 +0000
-Message-Id: <20231204005954.13201-4-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.35.8
-In-Reply-To: <20231204005954.13201-1-andre.przywara@arm.com>
-References: <20231204005954.13201-1-andre.przywara@arm.com>
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BC826AA0
+	for <linux-sunxi@lists.linux.dev>; Mon,  4 Dec 2023 05:57:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="evF9lqsW"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-6cdd214bce1so4395254b3a.3
+        for <linux-sunxi@lists.linux.dev>; Sun, 03 Dec 2023 21:57:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701669474; x=1702274274; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=la4TZ50Y8dYK/8KmCragSc/UeZ0f0P/CMIBUUKYVbDo=;
+        b=evF9lqsW843UtdXtwGOjB/kGCvoS/K8mqwdqx4h63KCO2hOlvaUe0MykgHmBF4vaqW
+         rmcKiTtLXJNOh5j6eow/2jkadN2dUG04DxUG358i4KMcs6y/UWtwOFkQrv7STsZzk99Q
+         jqFmKYupAjBpFVmlo6G0cHuoovzcAIEw6mL76BJ1wAJAepVLHRwF4mPjEI3heSfm0v1C
+         lud9a6XQsjyGDZFbaQQVZFfe/QAoHhQtjM5YX2/k6TL5MsYJY3CEgOLKhFiu3r4PwMrN
+         p0s7ILmL4NMJ0yb7IuAjziLIOV53MeLeU6SAMLGVwZU8cLyOmLhavkPjbYlApMHhbXI6
+         BEgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701669474; x=1702274274;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=la4TZ50Y8dYK/8KmCragSc/UeZ0f0P/CMIBUUKYVbDo=;
+        b=fX03viHPk3hGNXScfcrmYOa6RD9bkBj2aRkA6q0eOBiHX1pSEvH4GH+iW3ZJiJ15Th
+         3ZuRk/7qLm9TJzmxo9kSm0BKsAN4THHMo20G9HdOAyCq2a0QFvSluoADkxjxS9ZkFcmm
+         MkGVk3hrbnTexoAcLVRb5uoUfmizeYruxySt4OtK/5EHu5uqHMdHEtj7a7yNvBAUZ09E
+         aKXHnx1d3u/6k7Kux5x1n9wVtXUMHJ6hL0FL1R3QQBd9+CIalSyX2TcxoI1ijMXTVOwn
+         XB6kY7dzp6aOE7TfRZBFizFXYHFNIiuk8ektGkhoMCBpxZgbYAP6kFQYyeNGSqBfX/CY
+         FAwg==
+X-Gm-Message-State: AOJu0Yy9bVSmY5+6vSOWRk8CZaManWsV0z2qFy1FE+5mC9ci4Mr3bVp7
+	UYhlZ0aeDOPK2vn7XW38Y6E=
+X-Google-Smtp-Source: AGHT+IE5VO1u6UjhihOBsbQ+yGD/yO0OaRHv8KazOb063lA4ep/9z/vP1E+uWzmzwB9Vxd2tXzyWGQ==
+X-Received: by 2002:a05:6a20:54a3:b0:18b:8158:86ea with SMTP id i35-20020a056a2054a300b0018b815886eamr4347705pzk.10.1701669473600;
+        Sun, 03 Dec 2023 21:57:53 -0800 (PST)
+Received: from [192.168.1.3] (d23-16-72-139.bchsia.telus.net. [23.16.72.139])
+        by smtp.gmail.com with ESMTPSA id fz9-20020a17090b024900b002836c720713sm3047969pjb.24.2023.12.03.21.57.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 03 Dec 2023 21:57:53 -0800 (PST)
+Message-ID: <1f373e2d-c71a-412f-819a-27b82fc254f4@gmail.com>
+Date: Sun, 3 Dec 2023 21:57:51 -0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+From: Stephen Graf <stephen.graf@gmail.com>
+Subject: Re: [PATCH v2 0/3] sunxi: add OrangePi Zero 3 board support
+To: Andre Przywara <andre.przywara@arm.com>,
+ Jagan Teki <jagan@amarulasolutions.com>
+Cc: Vignesh R <vigneshr@ti.com>, Jaehoon Chung <jh80.chung@samsung.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Mikhail Kalashnikov
+ <iuncuim@gmail.com>, Piotr Oniszczuk <piotr.oniszczuk@gmail.com>,
+ Bob McChesney <bob@electricworry.net>, u-boot@lists.denx.de,
+ linux-sunxi@lists.linux.dev
+References: <20231204005954.13201-1-andre.przywara@arm.com>
+Content-Language: en-CA
+In-Reply-To: <20231204005954.13201-1-andre.przywara@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The OrangePi Zero 3 is a small development board featuring the Allwinner
-H618 SoC, shipping with up to 4GB of DRAM, Gigabit Ethernet, a micro-HDMI
-connector and two USB sockets.
-The board uses LPDDR4 DRAM and an X-Powers AXP313a PMIC, support for
-which was recently added to U-Boot.
+I have tested a newly built u-boot with the patches you provided and it works well.
+It is the same configuration as what I have been testing with for the last few weeks.
 
-Add a defconfig file selecting the right drivers and DRAM options.
-Since the .dts file was synced from the Linux kernel repo already, we
-just need to add one line to the Makefile to actually build the .dtb.
+I loaded the U-boot to SPI flash and tested with the SD card removed from the system
+and put in a USB card reader. The output for that test is below.
 
-The DRAM parameters were derived from the values found in the BSP DRAM
-drivers on the SPI NOR flash.
+For completeness you might want to mention that another difference between the zero2
+and zero3 is the emac phy going from Realtek to Motorcomm.
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-Tested-by: Mikhail Kalashnikov <iuncuim@gmail.com>
-Tested-by: Bob McChesney <bob@electricworry.net>
----
- arch/arm/dts/Makefile            |  1 +
- board/sunxi/MAINTAINERS          |  5 +++++
- configs/orangepi_zero3_defconfig | 32 ++++++++++++++++++++++++++++++++
- 3 files changed, 38 insertions(+)
- create mode 100644 configs/orangepi_zero3_defconfig
+Thank you for fixing my patch attempt. It is the first one I have ever done.
+Thank you also for your patience with my fumbling attempts. I have learned a lot
+from you in the last two weeks.
 
-diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
-index 1be08c5fdc2..5fc888680b3 100644
---- a/arch/arm/dts/Makefile
-+++ b/arch/arm/dts/Makefile
-@@ -835,6 +835,7 @@ dtb-$(CONFIG_MACH_SUN50I_H6) += \
- 	sun50i-h6-tanix-tx6-mini.dtb
- dtb-$(CONFIG_MACH_SUN50I_H616) += \
- 	sun50i-h616-orangepi-zero2.dtb \
-+	sun50i-h618-orangepi-zero3.dtb \
- 	sun50i-h616-x96-mate.dtb
- dtb-$(CONFIG_MACH_SUN50I) += \
- 	sun50i-a64-amarula-relic.dtb \
-diff --git a/board/sunxi/MAINTAINERS b/board/sunxi/MAINTAINERS
-index 00614372119..f556857a391 100644
---- a/board/sunxi/MAINTAINERS
-+++ b/board/sunxi/MAINTAINERS
-@@ -455,6 +455,11 @@ M:	Jernej Skrabec <jernej.skrabec@siol.net>
- S:	Maintained
- F:	configs/orangepi_zero2_defconfig
- 
-+ORANGEPI ZERO 3 BOARD
-+M:	Andre Przywara <andre.przywara@arm.com>
-+S:	Maintained
-+F:	configs/orangepi_zero3_defconfig
-+
- ORANGEPI PC 2 BOARD
- M:	Andre Przywara <andre.przywara@arm.com>
- S:	Maintained
-diff --git a/configs/orangepi_zero3_defconfig b/configs/orangepi_zero3_defconfig
-new file mode 100644
-index 00000000000..5a019fed84b
---- /dev/null
-+++ b/configs/orangepi_zero3_defconfig
-@@ -0,0 +1,32 @@
-+CONFIG_ARM=y
-+CONFIG_ARCH_SUNXI=y
-+CONFIG_DEFAULT_DEVICE_TREE="sun50i-h618-orangepi-zero3"
-+CONFIG_SPL=y
-+CONFIG_DRAM_SUN50I_H616_DX_ODT=0x07070707
-+CONFIG_DRAM_SUN50I_H616_DX_DRI=0x0e0e0e0e
-+CONFIG_DRAM_SUN50I_H616_CA_DRI=0x0e0e
-+CONFIG_DRAM_SUN50I_H616_ODT_EN=0xaaaaeeee
-+CONFIG_DRAM_SUN50I_H616_TPR6=0x44000000
-+CONFIG_DRAM_SUN50I_H616_TPR10=0x402f6663
-+CONFIG_DRAM_SUN50I_H616_TPR11=0x24242624
-+CONFIG_DRAM_SUN50I_H616_TPR12=0x0f0f100f
-+CONFIG_MACH_SUN50I_H616=y
-+CONFIG_SUNXI_DRAM_H616_LPDDR4=y
-+CONFIG_DRAM_CLK=792
-+CONFIG_USB1_VBUS_PIN="PC16"
-+CONFIG_R_I2C_ENABLE=y
-+CONFIG_SPL_SPI_SUNXI=y
-+# CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
-+CONFIG_SPL_I2C=y
-+CONFIG_SPL_SYS_I2C_LEGACY=y
-+CONFIG_SYS_I2C_MVTWSI=y
-+CONFIG_SYS_I2C_SLAVE=0x7f
-+CONFIG_SYS_I2C_SPEED=400000
-+CONFIG_SPI_FLASH_ZBIT=y
-+CONFIG_PHY_MOTORCOMM=y
-+CONFIG_SUN8I_EMAC=y
-+CONFIG_AXP313_POWER=y
-+CONFIG_SPI=y
-+CONFIG_USB_EHCI_HCD=y
-+CONFIG_USB_OHCI_HCD=y
-+CONFIG_USB_MUSB_GADGET=y
--- 
-2.35.8
+U-Boot SPL 2024.01-rc3-00043-g5c4e9d0c74-dirty (Dec 03 2023 - 18:21:41 -0800)
+DRAM: 1024 MiB
+Trying to boot from sunxi SPI
+NOTICE:  BL31: v2.10.0  (debug):v2.10.0
+NOTICE:  BL31: Built : 18:07:18, Nov 23 2023
+NOTICE:  BL31: Detected Allwinner H616 SoC (1823)
+NOTICE:  BL31: Found U-Boot DTB at 0x4a0b2828, model: OrangePi Zero3
+INFO:    ARM GICv2 driver initialized
+INFO:    Configuring SPC Controller
+INFO:    PMIC: Probing AXP305 on RSB
+ERROR:   RSB: set run-time address: 0x10003
+INFO:    Could not init RSB: -65539
+INFO:    BL31: Platform setup done
+INFO:    BL31: Initializing runtime services
+INFO:    BL31: cortex_a53: CPU workaround for erratum 855873 was applied
+INFO:    BL31: cortex_a53: CPU workaround for erratum 1530924 was applied
+INFO:    PSCI: Suspend is unavailable
+INFO:    BL31: Preparing for EL3 exit to normal world
+INFO:    Entry point address = 0x4a000000
+INFO:    SPSR = 0x3c9
+INFO:    Changed devicetree.
 
+
+U-Boot 2024.01-rc3-00043-g5c4e9d0c74-dirty (Dec 03 2023 - 18:21:41 -0800) Allwinner Technology
+
+CPU:   Allwinner H616 (SUN50I)
+Model: OrangePi Zero3
+DRAM:  1 GiB
+Core:  57 devices, 25 uclasses, devicetree: separate
+WDT:   Not starting watchdog@30090a0
+MMC:   mmc@4020000: 0
+Loading Environment from SPIFlash... SF: Detected zb25vq128 with page size 256 Bytes, erase size 4 KiB, total 16 MiB
+OK
+In:    serial@5000000
+Out:   serial@5000000
+Err:   serial@5000000
+Allwinner mUSB OTG (Peripheral)
+Net:   eth0: ethernet@5020000using musb-hdrc, OUT ep1out IN ep1in STATUS ep2in
+MAC de:ad:be:ef:00:01
+HOST MAC de:ad:be:ef:00:00
+RNDIS ready
+, eth1: usb_ether
+starting USB...
+Bus usb@5200000: USB EHCI 1.00
+Bus usb@5200400: USB OHCI 1.0
+scanning bus usb@5200000 for devices... Device NOT ready
+    Request Sense returned 02 3A 00
+Device NOT ready
+    Request Sense returned 02 3A 00
+Device NOT ready
+    Request Sense returned 02 3A 00
+2 USB Device(s) found
+scanning bus usb@5200400 for devices... 1 USB Device(s) found
+        scanning usb for storage devices... 1 Storage Device(s) found
+Hit any key to stop autoboot:  0
+Card did not respond to voltage select! : -110
+
+Device 0: Vendor: Generic- Rev: 1.00 Prod: SD/MMC
+             Type: Removable Hard Disk
+             Capacity: 15193.5 MB = 14.8 GB (31116288 x 512)
+... is now current device
+Scanning usb 0:1...
+Found U-Boot script /boot/boot.scr
+1052 bytes read in 1 ms (1 MiB/s)
+## Executing script at 4fc00000
+Card did not respond to voltage select! : -110
+** Bad device specification mmc 0 **
+19472 bytes read in 3 ms (6.2 MiB/s)
+No FDT memory address configured. Please configure
+the FDT address via "fdt addr <address>" command.
+Aborting!
+7088139 bytes read in 324 ms (20.9 MiB/s)
+22491144 bytes read in 1025 ms (20.9 MiB/s)
+Moving Image from 0x40080000 to 0x40200000, end=41800000
+## Loading init Ramdisk from Legacy Image at 4ff00000 ...
+    Image Name:   uInitrd
+    Image Type:   AArch64 Linux RAMDisk Image (gzip compressed)
+    Data Size:    7088075 Bytes = 6.8 MiB
+    Load Address: 00000000
+    Entry Point:  00000000
+    Verifying Checksum ... OK
+## Flattened Device Tree blob at 4fa00000
+    Booting using the fdt blob at 0x4fa00000
+Working FDT set to 4fa00000
+    Loading Ramdisk to 4993d000, end 49fff7cb ... OK
+    Loading Device Tree to 0000000049935000, end 000000004993cc0f ... OK
+Working FDT set to 49935000
+
+Starting kernel ...
+
+
+Welcome to Debian GNU/Linux 12 (bookworm)!
+
+
+
+On 2023-12-03 4:59 p.m., Andre Przywara wrote:
+> A small update for the OrangePi Zero 3 support series. This fixes
+> USB support, and upgrades the DRAM clock to 792, for better stability
+> (as the other DRAM parameters were tailored to that frequency). I added
+> the tags on the way.
+> Please test!
+> 
+> =================
+> The OrangePi Zero 3 is a small development board featuring the Allwinner
+> H618 SoC. Compared to its predecessor OrangePi Zero 2, the new board uses
+> LPDDR4 DRAM instead of DDR3 DRAM, and an X-Powers AXP313 PMIC instead of
+> the AXP305.
+> U-Boot gained support for both LPDDR4 DRAM and the new PMIC just
+> recently, so add a user for those features by adding a defconfig for the
+> new board.
+> To make this work, patch 1/3 introduces support for zBIT SPI NOR flash
+> chip, and patch 2/3 removes the default AXP305 PMIC selection when
+> compiling for H616 SoCs.
+> Patch 3/3 then adds the defconfig. The DT was already synced from the
+> Linux kernel repo a few weeks ago.
+> 
+> Cheers,
+> Andre
+> 
+> Changelog v1 .. v2:
+> - add tags
+> - set DRAM clock to 792 MHz (from the default 720 MHz)
+> - fix USB support by supplying USB VBUS enable GPIO
+> 
+> Andre Przywara (3):
+>    mtd: spi-nor: Add support for zBIT ZB25VQ128
+>    sunxi: H616: remove default AXP305 selection
+>    sunxi: H616: Add OrangePi Zero 3 board support
+> 
+>   arch/arm/dts/Makefile            |  1 +
+>   board/sunxi/MAINTAINERS          |  5 +++++
+>   configs/orangepi_zero2_defconfig |  1 +
+>   configs/orangepi_zero3_defconfig | 32 ++++++++++++++++++++++++++++++++
+>   configs/x96_mate_defconfig       |  1 +
+>   drivers/mtd/spi/Kconfig          |  5 +++++
+>   drivers/mtd/spi/spi-nor-ids.c    |  5 +++++
+>   drivers/power/Kconfig            |  1 -
+>   8 files changed, 50 insertions(+), 1 deletion(-)
+>   create mode 100644 configs/orangepi_zero3_defconfig
+> 
