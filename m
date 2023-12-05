@@ -1,26 +1,26 @@
 Received: from mail5.25mail.st (mail5.25mail.st [74.50.62.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE91935F04
-	for <linux-sunxi@lists.linux.dev>; Tue,  5 Dec 2023 08:04:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EA8012E61
+	for <linux-sunxi@lists.linux.dev>; Tue,  5 Dec 2023 08:11:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomide.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=atomide.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=atomide.com header.i=@atomide.com header.b="OvctUa8Q"
+	dkim=pass (2048-bit key) header.d=atomide.com header.i=@atomide.com header.b="o9zb72wS"
 Received: from localhost (91-158-86-216.elisa-laajakaista.fi [91.158.86.216])
-	by mail5.25mail.st (Postfix) with ESMTPSA id 9065F60354;
-	Tue,  5 Dec 2023 07:56:59 +0000 (UTC)
+	by mail5.25mail.st (Postfix) with ESMTPSA id C35C060354;
+	Tue,  5 Dec 2023 08:10:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=atomide.com;
-	s=25mailst; t=1701763079;
-	bh=h3c0XIZu8HbtvK19lq1dOZHqca7qeD59maL/gJhxeU4=;
+	s=25mailst; t=1701763901;
+	bh=5ES838qobdDu8dMPGjH86YPsZ3trJz94Y8IV2r4EIM4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OvctUa8QMANcluWAdRPNxxmD+MVnpSnWC7upoG4UBmVkldsPZDF5bG4K2pjCO2el1
-	 k7PF1jodRp1xIPKpY9F/Sqd++pafBjiWkEUQ93eB4XUu5cBd+RWhmo94eBTBZeIcaf
-	 yy6jzlahvKwGQYE/lZ+B0Jk1nAc5YcbFbC7mFp7lYigIiUf9iPyWjV4KXnIgf8oAKP
-	 2RfpM3jym7Z1TlujzL9SLs34YjoJm6iXY5wnan1T7/oVqW5nLCnBrE0dt8jw0mjJBY
-	 WzQI/kVtk+kMg0wLCQXW/2/tfZJaYH13Z3Ny/NY+o/tE3lOHdj9mEXGAhv57TgpRo7
-	 bwBLsWKH9hgaQ==
-Date: Tue, 5 Dec 2023 09:56:57 +0200
+	b=o9zb72wSQK+020tfmyFtoECoadFyckZOdPQngTqM80x40ixd9u4S4Df+1hf69TxfO
+	 K3pt/kZ2WxWGwqJgCPxAyqWA8MqczSv94DB4Xi1V8NZqglZ+NXCrqxUUDuiwOBjMD6
+	 dnqH3MpkvzmLDibfumSoHcSICFTb7FGNRsseQorvWNX58QhvCKdBfP/AYg/eQSLT1e
+	 UC2UUuOaXMZb+Xc7iGznXMj+kv3eAbGWYcVZv/X3Zq+7lzZ2tQIDsHJT8f0hLb35og
+	 HntMEhegbsnpyNAlq0+RwsjKCFmrpISnapaxscxj12RJQqGgxTlTb0qvgGLIOZ3Kx+
+	 ajum/wBX2OyZg==
+Date: Tue, 5 Dec 2023 10:10:31 +0200
 From: Tony Lindgren <tony@atomide.com>
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc: Andrew Davis <afd@ti.com>, Frank Binns <frank.binns@imgtec.com>,
@@ -46,10 +46,12 @@ Cc: Andrew Davis <afd@ti.com>, Frank Binns <frank.binns@imgtec.com>,
 	linux-sunxi@lists.linux.dev, linux-omap@vger.kernel.org,
 	linux-mips@vger.kernel.org
 Subject: Re: [PATCH RFC 01/10] dt-bindings: gpu: Add PowerVR Series5 SGX GPUs
-Message-ID: <20231205075657.GN5169@atomide.com>
+Message-ID: <20231205081031.GO5169@atomide.com>
 References: <20231204182245.33683-1-afd@ti.com>
  <20231204182245.33683-2-afd@ti.com>
  <b97f04f6-cda2-4e9b-b729-a5149e36f978@linaro.org>
+ <20231205075657.GN5169@atomide.com>
+ <df7dd7b0-f315-4033-985a-175f75568a8c@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -58,24 +60,13 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b97f04f6-cda2-4e9b-b729-a5149e36f978@linaro.org>
+In-Reply-To: <df7dd7b0-f315-4033-985a-175f75568a8c@linaro.org>
 
-* Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> [231205 07:10]:
-> On 04/12/2023 19:22, Andrew Davis wrote:
-> > @@ -56,6 +76,43 @@ allOf:
-> >        properties:
-> >          clocks:
-> >            maxItems: 1
-> > +      required:
-> > +        - clocks
-> > +        - clock-names
-> 
-> You need to define the clocks for your variants or disallow them. The
-> original code should be fixed as well and make the clocks fixed for all
-> img-axe cases.
+* Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> [231205 08:03]:
+> What does runtime PM have to do with it? If runtime PM enables clocks,
+> these are real signals and not optional.
 
-To clarify, the clocks may be optional as they can be hardwired and coming
-from the interconnect target wrapper module and enabled with runtime PM.
+Runtime PM propagates to the parent device.
 
 Regards,
 
