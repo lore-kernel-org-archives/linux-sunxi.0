@@ -1,100 +1,84 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31F89ECB
-	for <linux-sunxi@lists.linux.dev>; Tue,  5 Dec 2023 01:24:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F29071474;
-	Mon,  4 Dec 2023 17:24:46 -0800 (PST)
-Received: from localhost.localdomain (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 201583F5A1;
-	Mon,  4 Dec 2023 17:23:59 -0800 (PST)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Cc: u-boot@lists.denx.de,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-sunxi@lists.linux.dev,
-	Chukun Pan <amadeus@jmu.edu.cn>
-Subject: [PATCH] sunxi: dts: arm64: update emac for Orange Pi Zero 3
-Date: Tue,  5 Dec 2023 01:22:28 +0000
-Message-Id: <20231205012228.4256-1-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.35.8
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 069D5D302;
+	Tue,  5 Dec 2023 06:58:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F2nj7Yex"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E66ECC433C8;
+	Tue,  5 Dec 2023 06:58:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701759481;
+	bh=zU7bTrxdpBYUmSDNAlUUH1oAlR/IAxzg27ffUEN0aqg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=F2nj7YexWsNxGq1DW0G+3ScWUIilUHilBq/5ctjgR9pfK+8AbSPMb5Z4AOxi1s4s6
+	 j7Qy6xxw9Epswxmbxh6NDRdPu8JKiTg4vB/JdcJ32GWgjPHOOWH7MI4xfqv3RAPWKI
+	 Gk9WocRqObcfOlG9R840rGCtyoXnhEqxSPAyBJOcegTZMARz32V8t7M1hvHpR5pqer
+	 dv42RHxrXnzHdvuNOYirCcLiJFswHZMlWgLFZvdIYCJi0OxiRKyaq+oH+lQTkxQEX0
+	 X2fDC6nUBL+CqpI0Hci+a+Jsr8Nw28iVqoLbdue2UHEbMrc5hXnSJkDwIsVr0mtt+T
+	 PRb2rNZzFUnEg==
+Date: Tue, 5 Dec 2023 07:57:58 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Andrew Davis <afd@ti.com>
+Cc: Frank Binns <frank.binns@imgtec.com>, 
+	Donald Robson <donald.robson@imgtec.com>, Matt Coster <matt.coster@imgtec.com>, 
+	"H . Nikolaus Schaller" <hns@goldelico.com>, Adam Ford <aford173@gmail.com>, 
+	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	=?utf-8?Q?Beno=C3=AEt?= Cousson <bcousson@baylibre.com>, Tony Lindgren <tony@atomide.com>, Nishanth Menon <nm@ti.com>, 
+	Vignesh Raghavendra <vigneshr@ti.com>, Tero Kristo <kristo@kernel.org>, 
+	Paul Cercueil <paul@crapouillou.net>, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-omap@vger.kernel.org, linux-mips@vger.kernel.org
+Subject: Re: [PATCH RFC 01/10] dt-bindings: gpu: Add PowerVR Series5 SGX GPUs
+Message-ID: <23livt5mcc64bb6lkeec2uxp5cyn4wfekwaj6wzrjnrkndvwgj@6tveqglqpr4v>
+References: <20231204182245.33683-1-afd@ti.com>
+ <20231204182245.33683-2-afd@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="y3drixbas2c643fb"
+Content-Disposition: inline
+In-Reply-To: <20231204182245.33683-2-afd@ti.com>
 
-From: Chukun Pan <amadeus@jmu.edu.cn>
 
-The current emac setting is not suitable for Orange Pi Zero 3,
-move it back to Orange Pi Zero 2 DT. Also update phy mode and
-delay values for emac on Orange Pi Zero 3.
-With these changes, Ethernet now looks stable.
+--y3drixbas2c643fb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: 95c3b0635ea4 ("sunxi: dts: arm64: update devicetree files from Linux-v6.6-rc6")
-Signed-off-by: Chukun Pan <amadeus@jmu.edu.cn>
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
-Hi,
+On Mon, Dec 04, 2023 at 12:22:36PM -0600, Andrew Davis wrote:
+> The Imagination PowerVR Series5 "SGX" GPU is part of several SoCs from
+> multiple vendors. Describe how the SGX GPU is integrated in these SoC,
+> including register space and interrupts. Clocks, reset, and power domain
+> information is SoC specific.
+>=20
+> Signed-off-by: Andrew Davis <afd@ti.com>
+> ---
+>  .../devicetree/bindings/gpu/img,powervr.yaml  | 69 +++++++++++++++++--
+>  1 file changed, 63 insertions(+), 6 deletions(-)
 
-this is a port of the corresponding Linux patch, that fixes Ethernet
-on that board. The patch is in Linux' sunxi/fixes-for-6.7 queue,
-awaiting a merge anytime soon.
-For me this indeed fixes Ethernet operation in U-Boot on that board.
+I think it would be best to have a separate file for this, img,sgx.yaml
+maybe?
 
-Cheers,
-Andre
+Maxime
 
- arch/arm/dts/sun50i-h616-orangepi-zero.dtsi | 3 ---
- arch/arm/dts/sun50i-h616-orangepi-zero2.dts | 3 +++
- arch/arm/dts/sun50i-h618-orangepi-zero3.dts | 2 ++
- 3 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/arch/arm/dts/sun50i-h616-orangepi-zero.dtsi b/arch/arm/dts/sun50i-h616-orangepi-zero.dtsi
-index 15290e6892f..fc7315b9440 100644
---- a/arch/arm/dts/sun50i-h616-orangepi-zero.dtsi
-+++ b/arch/arm/dts/sun50i-h616-orangepi-zero.dtsi
-@@ -68,10 +68,7 @@
- &emac0 {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&ext_rgmii_pins>;
--	phy-mode = "rgmii";
- 	phy-handle = <&ext_rgmii_phy>;
--	allwinner,rx-delay-ps = <3100>;
--	allwinner,tx-delay-ps = <700>;
- 	status = "okay";
- };
- 
-diff --git a/arch/arm/dts/sun50i-h616-orangepi-zero2.dts b/arch/arm/dts/sun50i-h616-orangepi-zero2.dts
-index d83852e72f0..b5d713926a3 100644
---- a/arch/arm/dts/sun50i-h616-orangepi-zero2.dts
-+++ b/arch/arm/dts/sun50i-h616-orangepi-zero2.dts
-@@ -13,6 +13,9 @@
- };
- 
- &emac0 {
-+	allwinner,rx-delay-ps = <3100>;
-+	allwinner,tx-delay-ps = <700>;
-+	phy-mode = "rgmii";
- 	phy-supply = <&reg_dcdce>;
- };
- 
-diff --git a/arch/arm/dts/sun50i-h618-orangepi-zero3.dts b/arch/arm/dts/sun50i-h618-orangepi-zero3.dts
-index 00fe28caac9..b3b1b869212 100644
---- a/arch/arm/dts/sun50i-h618-orangepi-zero3.dts
-+++ b/arch/arm/dts/sun50i-h618-orangepi-zero3.dts
-@@ -13,6 +13,8 @@
- };
- 
- &emac0 {
-+	allwinner,tx-delay-ps = <700>;
-+	phy-mode = "rgmii-rxid";
- 	phy-supply = <&reg_dldo1>;
- };
- 
--- 
-2.35.8
+--y3drixbas2c643fb
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZW7J9gAKCRDj7w1vZxhR
+xeU2AP9mvBxXe/cJsKPcYEfxWRhpvRor2SswHRWF6NJUuqagJgEAibpTgY0sHnsx
+bw4+3yY5CjgxLG+iw0A7d3xv1r1ZJwI=
+=8RNH
+-----END PGP SIGNATURE-----
+
+--y3drixbas2c643fb--
