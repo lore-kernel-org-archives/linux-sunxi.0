@@ -1,218 +1,202 @@
-Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de [85.215.255.81])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C777645
-	for <linux-sunxi@lists.linux.dev>; Tue,  5 Dec 2023 18:07:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goldelico.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=goldelico.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=goldelico.com header.i=@goldelico.com header.b="L6vpZfzM";
-	dkim=permerror (0-bit key) header.d=goldelico.com header.i=@goldelico.com header.b="TD8ho4B7"
-ARC-Seal: i=1; a=rsa-sha256; t=1701799457; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=VmFc1XWvs5u9DH+vdiul0FqKwjuBitqSXZVOQBWY2k7zVyPvg1NFis5yw+pu7hmxjh
-    wyBdSnIvT5bWcOXBbunmBinnT+T9BHveySdmlJzKdEEU3OkhU29CuOOm96PD2ZhHg3fc
-    4Sui3G7Xqu0ZbPdXkpiRIlM8/A/Qc5RipA9C474RLa2ASZISyDpVCXM7Ewn3BpNy++Bm
-    Im7VjKjKu70FtHvnkYLjO4OanaL9ByOwRs1FxlGDldD7bKwxnRI14SHG0QdQBrro/wHA
-    2MaPnejDlQI77jit9hQ9EHpkvj76PTeq6jyYt9GFn9uTN9haJowbmrMbYJv0yOkAh4ux
-    zdKQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1701799457;
-    s=strato-dkim-0002; d=strato.com;
-    h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
-    From:Subject:Sender;
-    bh=1UBNn0Iu2hfNvuHQsBRxEquJNd6AQ4+RDCYbbSAQ0nU=;
-    b=agnyK1EuXFGdO/wTcLOUuhg6Ytzq9u1Zvl2IeoEdXlDrA6C2jck+3VWJ9z+DvQgDJN
-    LJMqWuTrCBDo/W9YR9ay6fB+nophfxjT669jApdlMp4IF5WLgizew3quzAyuvo+uStAk
-    70uATWRJt0lCHbfUQsl7SRK994w3IGMXrSrFUDjaMIglqC2D70LS9nth4yFt1jKXF/x3
-    GqKWSfgKRzVS7teLHLUX2fhuTAddCBcZ4kkUN6fCICpQoP6pJ2mBfphPW1q3Z++VX7Kl
-    B9Xpw8A2dIn0Y9uqkuejz/aJ3UMwLl/3rjnighW18bMLHANtrfKVz6ZOO4j+eJPdioqo
-    bPmg==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo02
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1701799457;
-    s=strato-dkim-0002; d=goldelico.com;
-    h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
-    From:Subject:Sender;
-    bh=1UBNn0Iu2hfNvuHQsBRxEquJNd6AQ4+RDCYbbSAQ0nU=;
-    b=L6vpZfzMuHzcxIaLRg6AvzGgDfwVhVH5aV+YftyHIakS72uPspob4CHDIrBafsVwNw
-    Xp4y9dZX/c8trthSmjtvXCTv14AioTepn55vjePkKWcouBQH6RexbG4BpGLtjR8XKPuj
-    jNMrYVYiWlkhY/uhpk0PT6ngNhhiLqYuMzKKMUUJxWOadq7D1LsM1m/ka9lJ+bjGpPKo
-    ZPMlFJbVTi8l1AGGTKJc4tXTWzhQpKovbziBzQhPNz47ApvlLfIRLxGgSgBky6OQLsmd
-    dNNy0S0Vmp+rxP/96Wv92ukPSF9w6T74eIqChdoxZ7oIGvLzGZDl76wYRBPhiaAQJUV2
-    mcnw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1701799457;
-    s=strato-dkim-0003; d=goldelico.com;
-    h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
-    From:Subject:Sender;
-    bh=1UBNn0Iu2hfNvuHQsBRxEquJNd6AQ4+RDCYbbSAQ0nU=;
-    b=TD8ho4B7CGbx6LG30k3gueB1c00HDFe+LdKRbDGI8bd5fwaUoeqx4THPruFYoRie54
-    5SO17IPoBXNHVj7mz6Ag==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj5Apz9PSN6LgsXcGeonQ="
-Received: from smtpclient.apple
-    by smtp.strato.de (RZmta 49.10.0 DYNA|AUTH)
-    with ESMTPSA id wfeb35zB5I4F3Mm
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
-	(Client did not present a certificate);
-    Tue, 5 Dec 2023 19:04:15 +0100 (CET)
-Content-Type: text/plain;
-	charset=us-ascii
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F8C26A006
+	for <linux-sunxi@lists.linux.dev>; Tue,  5 Dec 2023 18:30:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 19E5B139F;
+	Tue,  5 Dec 2023 10:31:42 -0800 (PST)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 242E63F762;
+	Tue,  5 Dec 2023 10:30:54 -0800 (PST)
+Date: Tue, 5 Dec 2023 18:30:47 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Stephen Graf <stephen.graf@gmail.com>
+Cc: Jagan Teki <jagan@amarulasolutions.com>, Vignesh R <vigneshr@ti.com>,
+ Jaehoon Chung <jh80.chung@samsung.com>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Mikhail
+ Kalashnikov <iuncuim@gmail.com>, Piotr Oniszczuk
+ <piotr.oniszczuk@gmail.com>, Bob McChesney <bob@electricworry.net>,
+ u-boot@lists.denx.de, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 0/3] sunxi: add OrangePi Zero 3 board support
+Message-ID: <20231205183047.467aa14c@donnerap.manchester.arm.com>
+In-Reply-To: <1f373e2d-c71a-412f-819a-27b82fc254f4@gmail.com>
+References: <20231204005954.13201-1-andre.przywara@arm.com>
+	<1f373e2d-c71a-412f-819a-27b82fc254f4@gmail.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.200.91.1.1\))
-Subject: Re: [PATCH RFC 01/10] dt-bindings: gpu: Add PowerVR Series5 SGX GPUs
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <cb590a13-e0ff-49d9-8583-be613ad50dc5@ti.com>
-Date: Tue, 5 Dec 2023 19:04:05 +0100
-Cc: Frank Binns <frank.binns@imgtec.com>,
- Donald Robson <donald.robson@imgtec.com>,
- Matt Coster <matt.coster@imgtec.com>,
- Adam Ford <aford173@gmail.com>,
- Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- =?utf-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
- Tony Lindgren <tony@atomide.com>,
- Nishanth Menon <nm@ti.com>,
- Vignesh Raghavendra <vigneshr@ti.com>,
- Tero Kristo <kristo@kernel.org>,
- Paul Cercueil <paul@crapouillou.net>,
- dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev,
- linux-omap@vger.kernel.org,
- linux-mips@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <FE0DBA5E-95A5-4C27-9F69-D1D8BDF56EC3@goldelico.com>
-References: <20231204182245.33683-1-afd@ti.com>
- <20231204182245.33683-2-afd@ti.com>
- <CFF198DA-5C42-425E-86F4-759629489ECB@goldelico.com>
- <cb590a13-e0ff-49d9-8583-be613ad50dc5@ti.com>
-To: Andrew Davis <afd@ti.com>
-X-Mailer: Apple Mail (2.3774.200.91.1.1)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+
+On Sun, 3 Dec 2023 21:57:51 -0800
+Stephen Graf <stephen.graf@gmail.com> wrote:
+
+Hi Stephen,
+
+> I have tested a newly built u-boot with the patches you provided and it works well.
+> It is the same configuration as what I have been testing with for the last few weeks.
+> 
+> I loaded the U-boot to SPI flash and tested with the SD card removed from the system
+> and put in a USB card reader. The output for that test is below.
+
+thanks for your testing efforts! Is it OK if I convert this statement into
+a "Tested-by:" tag with your email, to become part of the commit?
+
+Cheers,
+Andre
 
 
+> For completeness you might want to mention that another difference between the zero2
+> and zero3 is the emac phy going from Realtek to Motorcomm.
+> 
+> Thank you for fixing my patch attempt. It is the first one I have ever done.
+> Thank you also for your patience with my fumbling attempts. I have learned a lot
+> from you in the last two weeks.
+> 
+> U-Boot SPL 2024.01-rc3-00043-g5c4e9d0c74-dirty (Dec 03 2023 - 18:21:41 -0800)
+> DRAM: 1024 MiB
+> Trying to boot from sunxi SPI
+> NOTICE:  BL31: v2.10.0  (debug):v2.10.0
+> NOTICE:  BL31: Built : 18:07:18, Nov 23 2023
+> NOTICE:  BL31: Detected Allwinner H616 SoC (1823)
+> NOTICE:  BL31: Found U-Boot DTB at 0x4a0b2828, model: OrangePi Zero3
+> INFO:    ARM GICv2 driver initialized
+> INFO:    Configuring SPC Controller
+> INFO:    PMIC: Probing AXP305 on RSB
+> ERROR:   RSB: set run-time address: 0x10003
+> INFO:    Could not init RSB: -65539
+> INFO:    BL31: Platform setup done
+> INFO:    BL31: Initializing runtime services
+> INFO:    BL31: cortex_a53: CPU workaround for erratum 855873 was applied
+> INFO:    BL31: cortex_a53: CPU workaround for erratum 1530924 was applied
+> INFO:    PSCI: Suspend is unavailable
+> INFO:    BL31: Preparing for EL3 exit to normal world
+> INFO:    Entry point address = 0x4a000000
+> INFO:    SPSR = 0x3c9
+> INFO:    Changed devicetree.
+> 
+> 
+> U-Boot 2024.01-rc3-00043-g5c4e9d0c74-dirty (Dec 03 2023 - 18:21:41 -0800) Allwinner Technology
+> 
+> CPU:   Allwinner H616 (SUN50I)
+> Model: OrangePi Zero3
+> DRAM:  1 GiB
+> Core:  57 devices, 25 uclasses, devicetree: separate
+> WDT:   Not starting watchdog@30090a0
+> MMC:   mmc@4020000: 0
+> Loading Environment from SPIFlash... SF: Detected zb25vq128 with page size 256 Bytes, erase size 4 KiB, total 16 MiB
+> OK
+> In:    serial@5000000
+> Out:   serial@5000000
+> Err:   serial@5000000
+> Allwinner mUSB OTG (Peripheral)
+> Net:   eth0: ethernet@5020000using musb-hdrc, OUT ep1out IN ep1in STATUS ep2in
+> MAC de:ad:be:ef:00:01
+> HOST MAC de:ad:be:ef:00:00
+> RNDIS ready
+> , eth1: usb_ether
+> starting USB...
+> Bus usb@5200000: USB EHCI 1.00
+> Bus usb@5200400: USB OHCI 1.0
+> scanning bus usb@5200000 for devices... Device NOT ready
+>     Request Sense returned 02 3A 00
+> Device NOT ready
+>     Request Sense returned 02 3A 00
+> Device NOT ready
+>     Request Sense returned 02 3A 00
+> 2 USB Device(s) found
+> scanning bus usb@5200400 for devices... 1 USB Device(s) found
+>         scanning usb for storage devices... 1 Storage Device(s) found
+> Hit any key to stop autoboot:  0
+> Card did not respond to voltage select! : -110
+> 
+> Device 0: Vendor: Generic- Rev: 1.00 Prod: SD/MMC
+>              Type: Removable Hard Disk
+>              Capacity: 15193.5 MB = 14.8 GB (31116288 x 512)
+> ... is now current device
+> Scanning usb 0:1...
+> Found U-Boot script /boot/boot.scr
+> 1052 bytes read in 1 ms (1 MiB/s)
+> ## Executing script at 4fc00000
+> Card did not respond to voltage select! : -110
+> ** Bad device specification mmc 0 **
+> 19472 bytes read in 3 ms (6.2 MiB/s)
+> No FDT memory address configured. Please configure
+> the FDT address via "fdt addr <address>" command.
+> Aborting!
+> 7088139 bytes read in 324 ms (20.9 MiB/s)
+> 22491144 bytes read in 1025 ms (20.9 MiB/s)
+> Moving Image from 0x40080000 to 0x40200000, end=41800000
+> ## Loading init Ramdisk from Legacy Image at 4ff00000 ...
+>     Image Name:   uInitrd
+>     Image Type:   AArch64 Linux RAMDisk Image (gzip compressed)
+>     Data Size:    7088075 Bytes = 6.8 MiB
+>     Load Address: 00000000
+>     Entry Point:  00000000
+>     Verifying Checksum ... OK
+> ## Flattened Device Tree blob at 4fa00000
+>     Booting using the fdt blob at 0x4fa00000
+> Working FDT set to 4fa00000
+>     Loading Ramdisk to 4993d000, end 49fff7cb ... OK
+>     Loading Device Tree to 0000000049935000, end 000000004993cc0f ... OK
+> Working FDT set to 49935000
+> 
+> Starting kernel ...
+> 
+> 
+> Welcome to Debian GNU/Linux 12 (bookworm)!
+> 
+> 
+> 
+> On 2023-12-03 4:59 p.m., Andre Przywara wrote:
+> > A small update for the OrangePi Zero 3 support series. This fixes
+> > USB support, and upgrades the DRAM clock to 792, for better stability
+> > (as the other DRAM parameters were tailored to that frequency). I added
+> > the tags on the way.
+> > Please test!
+> > 
+> > =================
+> > The OrangePi Zero 3 is a small development board featuring the Allwinner
+> > H618 SoC. Compared to its predecessor OrangePi Zero 2, the new board uses
+> > LPDDR4 DRAM instead of DDR3 DRAM, and an X-Powers AXP313 PMIC instead of
+> > the AXP305.
+> > U-Boot gained support for both LPDDR4 DRAM and the new PMIC just
+> > recently, so add a user for those features by adding a defconfig for the
+> > new board.
+> > To make this work, patch 1/3 introduces support for zBIT SPI NOR flash
+> > chip, and patch 2/3 removes the default AXP305 PMIC selection when
+> > compiling for H616 SoCs.
+> > Patch 3/3 then adds the defconfig. The DT was already synced from the
+> > Linux kernel repo a few weeks ago.
+> > 
+> > Cheers,
+> > Andre
+> > 
+> > Changelog v1 .. v2:
+> > - add tags
+> > - set DRAM clock to 792 MHz (from the default 720 MHz)
+> > - fix USB support by supplying USB VBUS enable GPIO
+> > 
+> > Andre Przywara (3):
+> >    mtd: spi-nor: Add support for zBIT ZB25VQ128
+> >    sunxi: H616: remove default AXP305 selection
+> >    sunxi: H616: Add OrangePi Zero 3 board support
+> > 
+> >   arch/arm/dts/Makefile            |  1 +
+> >   board/sunxi/MAINTAINERS          |  5 +++++
+> >   configs/orangepi_zero2_defconfig |  1 +
+> >   configs/orangepi_zero3_defconfig | 32 ++++++++++++++++++++++++++++++++
+> >   configs/x96_mate_defconfig       |  1 +
+> >   drivers/mtd/spi/Kconfig          |  5 +++++
+> >   drivers/mtd/spi/spi-nor-ids.c    |  5 +++++
+> >   drivers/power/Kconfig            |  1 -
+> >   8 files changed, 50 insertions(+), 1 deletion(-)
+> >   create mode 100644 configs/orangepi_zero3_defconfig
+> >   
 
-> Am 05.12.2023 um 18:33 schrieb Andrew Davis <afd@ti.com>:
->=20
-> On 12/5/23 2:17 AM, H. Nikolaus Schaller wrote:
->>> +          - enum:
->>> +              - ti,omap3430-gpu # Rev 121
->>> +              - ti,omap3630-gpu # Rev 125
->> Is the "Rev 121" and "Rev 125" a property of the SoC integration =
-(clock/reset/power
->> hookup etc.) or of the integrated SGX core?
->=20
-> The Rev is a property of the SGX core, not the SoC integration.
-
-Then, it should belong there and not be a comment of the ti,omap*-gpu =
-record.
-In this way it does not seem to be a proper hardware description.
-
-BTW: there are examples where the revision is part of the compatible =
-string, even
-if the (Linux) driver makes no use of it:
-
-drivers/net/ethernet/xilinx/xilinx_emaclite.c
-
-> But it seems that
-> compatible string is being used to define both (as we see being =
-debated in the other
-> thread on this series).
->=20
->> In my understanding the Revs are different variants of the SGX core =
-(errata
->> fixes, instruction set, pipeline size etc.). And therefore the =
-current driver code
->> has to be configured by some macros to handle such cases.
->> So the Rev should IMHO be part of the next line:
->>> +          - const: img,powervr-sgx530
->> +          - enum:
->> +              - img,powervr-sgx530-121
->> +              - img,powervr-sgx530-125
->> We have a similar definition in the openpvrsgx code.
->> Example: compatible =3D "ti,omap3-sgx530-121", "img,sgx530-121", =
-"img,sgx530";
->> (I don't mind about the powervr- prefix).
->> This would allow a generic and universal sgx driver (loaded through =
-just matching
->> "img,sgx530") to handle the errata and revision specifics at runtime =
-based on the
->> compatible entry ("img,sgx530-121") and know about SoC integration =
-("ti,omap3-sgx530-121").
->> And user-space can be made to load the right firmware variant based =
-on "img,sgx530-121"
->> I don't know if there is some register which allows to discover the =
-revision long
->> before the SGX subsystem is initialized and the firmware is up and =
-running.
->> What I know is that it is possible to read out the revision after =
-starting the firmware
->> but it may just echo the version number of the firmware binary =
-provided from user-space.
->=20
-> We should be able to read out the revision (register =
-EUR_CR_CORE_REVISION), the problem is
-> today the driver is built for a given revision at compile time.
-
-Yes, that is something we had planned to get rid of for a long time by =
-using different compatible
-strings and some variant specific struct like many others drivers are =
-doing it.
-But it was a to big task so nobody did start with it.
-
-> That is a software issue,
-> not something that we need to encode in DT. While the core ID (SGX5xx) =
-can be also detected
-> (EUR_CR_CORE_ID), the location of that register changes, and so it =
-does need encoded in
-> DT compatible.
-
-Ok, I didn't know about such registers as there is not much public =
-information available.
-Fair enough, there are some error reports about in different forums.
-
-On the other hand we then must read out this register in more or less =
-early initialization
-stages. Even if we know this information to be static and it could be as =
-simple as a list
-of compatible strings in the driver.
-
-> The string "ti,omap3430-gpu" tells us the revision if we cannot detect =
-it (as in the current
-> driver), and the SoC integration is generic anyway (just a reg and =
-interrupt).
-
-It of course tells, but may need a translation table that needs to be =
-maintained in a
-different format. Basically the same what the comments show in a =
-non-machine readable
-format.
-
-I just wonder why the specific version can or should not become simply =
-part of the DTS
-and needs this indirection.
-
-Basically it is a matter of openness for future (driver) development and =
-why it needs
-careful decisions.
-
-So in other words: I would prefer to see the comments about versions =
-encoded in the device
-tree binary to make it machine readable.
-
-BR and thanks,
-Nikolaus=
