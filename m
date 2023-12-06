@@ -1,149 +1,128 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 741143EA7D
-	for <linux-sunxi@lists.linux.dev>; Wed,  6 Dec 2023 17:11:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 96166143D;
-	Wed,  6 Dec 2023 09:12:18 -0800 (PST)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6CD263F762;
-	Wed,  6 Dec 2023 09:11:31 -0800 (PST)
-Date: Wed, 6 Dec 2023 17:11:28 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@pengutronix.de>
-Cc: Thierry Reding <thierry.reding@gmail.com>, kernel@pengutronix.de,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, linux-pwm@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v4 097/115] pwm: sun4i: Make use of devm_pwmchip_alloc()
- function
-Message-ID: <20231206171128.3e2391ea@donnerap.manchester.arm.com>
-In-Reply-To: <c79e120b120df9eedddaaf70364d28e15df23d91.1701860672.git.u.kleine-koenig@pengutronix.de>
-References: <cover.1701860672.git.u.kleine-koenig@pengutronix.de>
-	<c79e120b120df9eedddaaf70364d28e15df23d91.1701860672.git.u.kleine-koenig@pengutronix.de>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A54D9364B2
+	for <linux-sunxi@lists.linux.dev>; Wed,  6 Dec 2023 17:45:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="anqxPzK7"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
+	t=1701884319;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AIFIE9irPiHpBCzaEsGhlzQmk7KDpAPd1R8xcuraGyg=;
+	b=anqxPzK7T0g7Ce9J4JfkGwm8VSlatS1V/LUy1tDHIvjvQY898LDmpuvAxx6UUcpvuNjxrz
+	rHgjv0X/CPEoBcyenByW7SWf4c0BOJReVW6y9H7KBB/luOs1Bx141R+ULA+uhU6bdtsxnR
+	vfGT+KuN9LbkfBc0Q6PrP2oWcTk3+L5J/Jpue27rpJd9cKV0S5mcmEHpZCWAhUek4k+Iug
+	pz4JnMR/gwRM1Fg++rurvf6HpcOCISINKTsVPOFoKRZmBW6VE+rNPVHWa2KXlX9Gq18TYD
+	s6H8dJWN7siHX6dxILff6Y4wlWs/1qWBd80GVkA5p7JNkJ3P0WnCBCEGcN5yVg==
+Date: Wed, 06 Dec 2023 18:38:38 +0100
+From: Dragan Simic <dsimic@manjaro.org>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Jagan Teki <jagan@amarulasolutions.com>, Simon Glass <sjg@chromium.org>,
+ Tom Rini <trini@konsulko.com>, Vignesh R <vigneshr@ti.com>, Jaehoon Chung
+ <jh80.chung@samsung.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
+ Holland <samuel@sholland.org>, Mikhail Kalashnikov <iuncuim@gmail.com>,
+ Piotr Oniszczuk <piotr.oniszczuk@gmail.com>, Bob McChesney
+ <bob@electricworry.net>, Stephen Graf <stephen.graf@gmail.com>,
+ u-boot@lists.denx.de, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 1/3] mtd: spi-nor: Add support for zBIT ZB25VQ128
+In-Reply-To: <20231206162443.7f0692d7@donnerap.manchester.arm.com>
+References: <20231204005954.13201-1-andre.przywara@arm.com>
+ <20231204005954.13201-2-andre.przywara@arm.com>
+ <20231206162443.7f0692d7@donnerap.manchester.arm.com>
+Message-ID: <2a2db42c20704a600b726b1ee807f1c0@manjaro.org>
+X-Sender: dsimic@manjaro.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Authentication-Results: ORIGINATING;
+	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
 
-On Wed,  6 Dec 2023 12:44:51 +0100
-Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de> wrote:
+Hello Andre,
 
-Hi,
+On 2023-12-06 17:24, Andre Przywara wrote:
+> On Mon,  4 Dec 2023 00:59:52 +0000 Andre Przywara 
+> <andre.przywara@arm.com> wrote:
+>> Add support for the zBIT ZB25VQ128 (128M-bit) SPI NOR flash memory 
+>> chip,
+>> as used on the Xunlong Orange Pi Zero 3 board.
+> 
+> does anyone have any objections against this patch? I wanted to take 
+> this
+> via the sunxi tree, as this blocks some board support patches.
 
-> This prepares the pwm-sun4i driver to further changes of the pwm core
-> outlined in the commit introducing devm_pwmchip_alloc(). There is no
-> intended semantical change and the driver should behave as before.
->=20
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+The patch looks perfectly fine to me.  Thus,
 
-That looks alright to me, it's really only wrapping the access to
-struct sun4i_pwm_chip using the newly provided functions.
+Reviewed-by: Dragan Simic <dsimic@manjaro.org>
 
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+> IIUC Linux gave up on adding rather generic entries up for each and 
+> every
+> SPI NOR chip, if there is nothing special about them:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=773bbe1044
+> Should we follow suit here?
 
-Cheers,
-Andre
+I think it would be good to employ the same approach, to make it easier 
+to support more chips and more boards in the future.  Also, at least a 
+few already existing chip definitions could be dropped, after testing, 
+of course.  Simplifying the things is almost always a good choice.
 
-> ---
->  drivers/pwm/pwm-sun4i.c | 34 +++++++++++++++++++---------------
->  1 file changed, 19 insertions(+), 15 deletions(-)
->=20
-> diff --git a/drivers/pwm/pwm-sun4i.c b/drivers/pwm/pwm-sun4i.c
-> index 44edf1ce5739..36a8dc65b19c 100644
-> --- a/drivers/pwm/pwm-sun4i.c
-> +++ b/drivers/pwm/pwm-sun4i.c
-> @@ -81,7 +81,6 @@ struct sun4i_pwm_data {
->  };
-> =20
->  struct sun4i_pwm_chip {
-> -	struct pwm_chip chip;
->  	struct clk *bus_clk;
->  	struct clk *clk;
->  	struct reset_control *rst;
-> @@ -92,7 +91,7 @@ struct sun4i_pwm_chip {
-> =20
->  static inline struct sun4i_pwm_chip *to_sun4i_pwm_chip(struct pwm_chip *=
-chip)
->  {
-> -	return container_of(chip, struct sun4i_pwm_chip, chip);
-> +	return pwmchip_get_drvdata(chip);
->  }
-> =20
->  static inline u32 sun4i_pwm_readl(struct sun4i_pwm_chip *chip,
-> @@ -384,17 +383,22 @@ MODULE_DEVICE_TABLE(of, sun4i_pwm_dt_ids);
-> =20
->  static int sun4i_pwm_probe(struct platform_device *pdev)
->  {
-> +	struct pwm_chip *chip;
->  	struct sun4i_pwm_chip *sun4ichip;
-> +	const struct sun4i_pwm_data *data;
->  	int ret;
-> =20
-> -	sun4ichip =3D devm_kzalloc(&pdev->dev, sizeof(*sun4ichip), GFP_KERNEL);
-> -	if (!sun4ichip)
-> -		return -ENOMEM;
-> -
-> -	sun4ichip->data =3D of_device_get_match_data(&pdev->dev);
-> -	if (!sun4ichip->data)
-> +	data =3D of_device_get_match_data(&pdev->dev);
-> +	if (!data)
->  		return -ENODEV;
-> =20
-> +	chip =3D devm_pwmchip_alloc(&pdev->dev, data->npwm, sizeof(*sun4ichip));
-> +	if (IS_ERR(chip))
-> +		return PTR_ERR(chip);
-> +	sun4ichip =3D to_sun4i_pwm_chip(chip);
-> +
-> +	sun4ichip->data =3D data;
-> +
->  	sun4ichip->base =3D devm_platform_ioremap_resource(pdev, 0);
->  	if (IS_ERR(sun4ichip->base))
->  		return PTR_ERR(sun4ichip->base);
-> @@ -451,19 +455,18 @@ static int sun4i_pwm_probe(struct platform_device *=
-pdev)
->  		goto err_bus;
->  	}
-> =20
-> -	sun4ichip->chip.dev =3D &pdev->dev;
-> -	sun4ichip->chip.ops =3D &sun4i_pwm_ops;
-> -	sun4ichip->chip.npwm =3D sun4ichip->data->npwm;
-> +	chip->ops =3D &sun4i_pwm_ops;
-> +	chip->npwm =3D sun4ichip->data->npwm;
-> =20
->  	spin_lock_init(&sun4ichip->ctrl_lock);
-> =20
-> -	ret =3D pwmchip_add(&sun4ichip->chip);
-> +	ret =3D pwmchip_add(chip);
->  	if (ret < 0) {
->  		dev_err(&pdev->dev, "failed to add PWM chip: %d\n", ret);
->  		goto err_pwm_add;
->  	}
-> =20
-> -	platform_set_drvdata(pdev, sun4ichip);
-> +	platform_set_drvdata(pdev, chip);
-> =20
->  	return 0;
-> =20
-> @@ -477,9 +480,10 @@ static int sun4i_pwm_probe(struct platform_device *p=
-dev)
-> =20
->  static void sun4i_pwm_remove(struct platform_device *pdev)
->  {
-> -	struct sun4i_pwm_chip *sun4ichip =3D platform_get_drvdata(pdev);
-> +	struct pwm_chip *chip =3D platform_get_drvdata(pdev);
-> +	struct sun4i_pwm_chip *sun4ichip =3D to_sun4i_pwm_chip(chip);
-> =20
-> -	pwmchip_remove(&sun4ichip->chip);
-> +	pwmchip_remove(chip);
-> =20
->  	clk_disable_unprepare(sun4ichip->bus_clk);
->  	reset_control_assert(sun4ichip->rst);
+As visible in [1] and [2], the Linux kernel no longer accepts entries 
+for the chips that can be detected automatically and don't require some 
+specific fixes.
 
+[1] 
+https://lore.kernel.org/linux-mtd/542998283b464d19fa5f354898de79df@walle.cc/T/#t
+[2] 
+https://lore.kernel.org/linux-mtd/20231123160721.64561-2-tudor.ambarus@linaro.org/
+
+>> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+>> ---
+>>  drivers/mtd/spi/Kconfig       | 5 +++++
+>>  drivers/mtd/spi/spi-nor-ids.c | 5 +++++
+>>  2 files changed, 10 insertions(+)
+>> 
+>> diff --git a/drivers/mtd/spi/Kconfig b/drivers/mtd/spi/Kconfig
+>> index 732b0760452..abed392c28d 100644
+>> --- a/drivers/mtd/spi/Kconfig
+>> +++ b/drivers/mtd/spi/Kconfig
+>> @@ -224,6 +224,11 @@ config SPI_FLASH_XTX
+>>  	  Add support for various XTX (XTX Technology Limited)
+>>  	  SPI flash chips (XT25xxx).
+>> 
+>> +config SPI_FLASH_ZBIT
+>> +	bool "ZBIT SPI flash support"
+>> +	help
+>> +	  Add support for Zbit Semiconductor Inc. SPI flash chips (ZB25xxx).
+>> +
+>>  endif
+>> 
+>>  config SPI_FLASH_USE_4K_SECTORS
+>> diff --git a/drivers/mtd/spi/spi-nor-ids.c 
+>> b/drivers/mtd/spi/spi-nor-ids.c
+>> index 3cb132dcffc..f86e7ff8e58 100644
+>> --- a/drivers/mtd/spi/spi-nor-ids.c
+>> +++ b/drivers/mtd/spi/spi-nor-ids.c
+>> @@ -571,6 +571,11 @@ const struct flash_info spi_nor_ids[] = {
+>>  	       SECT_4K | SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ | 
+>> SPI_NOR_4B_OPCODES) },
+>>  	{ INFO("xt25w01g", 0x0b651B, 0, 64 * 1024, 2048,
+>>  	       SECT_4K | SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ | 
+>> SPI_NOR_4B_OPCODES) },
+>> +#endif
+>> +#ifdef CONFIG_SPI_FLASH_ZBIT
+>> +	/* Zbit Semiconductor Inc. */
+>> +	{ INFO("zb25vq128", 0x5e4018, 0, 64 * 1024, 256,
+>> +	       SECT_4K | SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ) },
+>>  #endif
+>>  	{ },
+>>  };
