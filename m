@@ -1,293 +1,405 @@
-Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de [85.215.255.80])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D72F7096A
-	for <linux-sunxi@lists.linux.dev>; Wed,  6 Dec 2023 22:02:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goldelico.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=goldelico.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D22810A35
+	for <linux-sunxi@lists.linux.dev>; Thu,  7 Dec 2023 05:42:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=goldelico.com header.i=@goldelico.com header.b="cQiqp85C";
-	dkim=permerror (0-bit key) header.d=goldelico.com header.i=@goldelico.com header.b="M72ksU6R"
-ARC-Seal: i=1; a=rsa-sha256; t=1701900157; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=qEtNFithtbtbT5kvCB1bcxft1JwKxupkuyxYYSM8jR0psds9sYyQqrT+QQiRWE5Ei+
-    QLMwNxuOkdnFZC6FJec4IBt7DaRZ9TbchK2oTIfzBoCJdvlVOJHxzglFrXaX7uAi8WCy
-    T6uj3FmCjHZOJNp8PlO+zhZ6nzpLIhViVVUfa5Zhq4K3V5yEQ64DB+6StbFex2Zm/cwv
-    mRz0cHXoGKYsCkWqRpvAVTg90o/C+g8Q0o7eyCm5M0rPRByuoFj2AO3rIH3dF4CJifsx
-    JioC4Ejz8zqglJg+lRxYyqiXgknEIrFwmbrHk+oS5q9yk9UXwJut+Fje17m4ivNuaA8k
-    1wOQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1701900157;
-    s=strato-dkim-0002; d=strato.com;
-    h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
-    From:Subject:Sender;
-    bh=b7N6TMTtL9mF/E7SNl70t4vsVFtL/VG18eTOiMqO3Zs=;
-    b=mY0WpbOYHU5VFRwWF2qFIZ2lW2lye0PvYheCAyS/z2+7mmEqFfHjHw92JmhynzBwqk
-    +wN8UfJDIXI9rD3eTUYKoSx4/qutvNDah8BJ1qh3HzHaTI8+wZqipElijW3CXZVbaWkt
-    c6SuYUN62vvWL0aHJbeTaKb+VDyfjStEGYm8VLkOX+iJvnTJzr9DkoBtxZ5Tu/DJgKDq
-    WZ34vd6GV7enYLj6V2KkIklUC1nQd7c4//AIXAqBpB5tXZwwLTcpDRCI4VaHDE6PiJZC
-    Aav+SWydOhdgvgdiv0XDLJlaOT7X2H4UGHP5zehjNUAa8oEIDkt31LY36J3lPRUFo4sL
-    SlcA==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo02
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1701900157;
-    s=strato-dkim-0002; d=goldelico.com;
-    h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
-    From:Subject:Sender;
-    bh=b7N6TMTtL9mF/E7SNl70t4vsVFtL/VG18eTOiMqO3Zs=;
-    b=cQiqp85CU2Ka7mIca5N1sRlcb6Kku1JkKzAAWwrpJ3LetadQbqTxwj3r2+Cs9+xXmC
-    drjlPQker7TIlaPtYDdcJjzap4CBrWcDp2ADveKOc8i2xXOeSWk6a16XOInNwWcQWHAT
-    /pEr3AUVqe2eJ+z7ZyXaG/b94JGqa7wFEJuWjNMJMymTFPtL7ANLqnr8btfxW/LXfeRm
-    WlFxMlBYCf1/cbuIfrm8O0qxglex7FAU5yG9mpjfhPTnwZghFcM41k6E7FUmH8Kxr0t/
-    3pPTyeU/uCxZ/4K0NAeDvejC1TAEe8X1HZxzmkCM8osWM9EiRrESeM8Z10SBXG5WjM2z
-    OJtA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1701900157;
-    s=strato-dkim-0003; d=goldelico.com;
-    h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
-    From:Subject:Sender;
-    bh=b7N6TMTtL9mF/E7SNl70t4vsVFtL/VG18eTOiMqO3Zs=;
-    b=M72ksU6RC6fuhk40KEhoUlPYg0CI4JkdBtFnjGH9gwxLnUxhJRA5teP1qqWVe20ffT
-    Qf5LthSt2quR3uJKH5CQ==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj5Apz9PSN6LgsXcGeqHQ="
-Received: from smtpclient.apple
-    by smtp.strato.de (RZmta 49.10.0 DYNA|AUTH)
-    with ESMTPSA id wfeb35zB6M2a9SZ
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
-	(Client did not present a certificate);
-    Wed, 6 Dec 2023 23:02:36 +0100 (CET)
-Content-Type: text/plain;
-	charset=us-ascii
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pb71r+Cr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701927723; x=1733463723;
+  h=date:from:to:cc:subject:message-id;
+  bh=uKfMX7B7AelUiYi9YjjS3dGRw+Gxe2MWxWgi3QPMihQ=;
+  b=Pb71r+CrdpfpvxZjW9u8ukpVYnr5+XIeNSv5dWTMwJqFIhu6uCFu5cJW
+   P4jndM7P1am0u+74iLJRa82WJq3lK636W1WWcBSfAn3LMZgecxYG9SHSw
+   3TLDT8H49AMN71PKrwcFJI9oi+9HoKJ+RaPdnEBrJytm4HvCWz3O1BxuQ
+   ZrsGXaDrp56xOAHyz8R/rRwYabi3Ui2bg/G5YdcSERr3SASzRG1V5NbU4
+   V/yDFHzEc2CYtSsCuiH6ARvTAf0vciufBAPazlM4d+S59uvDRAJRSyyC8
+   taG2mpBEHXV7FOvydjCfrOiFzfIPt9Y3xTSu324y9+KonwWHrizqXMG7J
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="7537559"
+X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
+   d="scan'208";a="7537559"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 21:42:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="895013884"
+X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
+   d="scan'208";a="895013884"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga004.jf.intel.com with ESMTP; 06 Dec 2023 21:41:56 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rB78z-000Btc-2F;
+	Thu, 07 Dec 2023 05:41:53 +0000
+Date: Thu, 07 Dec 2023 13:41:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Linux Memory Management List <linux-mm@kvack.org>,
+ amd-gfx@lists.freedesktop.org, linux-alpha@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-atm-general@lists.sourceforge.net, linux-block@vger.kernel.org,
+ linux-csky@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-leds@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-sh@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
+ netdev@vger.kernel.org, sparclinux@vger.kernel.org
+Subject: [linux-next:master] BUILD REGRESSION
+ 577a4ee0b96fb043c9cf4a533c550ff587e526cf
+Message-ID: <202312071357.ypE0yrPf-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.200.91.1.1\))
-Subject: Re: [PATCH RFC 01/10] dt-bindings: gpu: Add PowerVR Series5 SGX GPUs
-From: H. Nikolaus Schaller <hns@goldelico.com>
-In-Reply-To: <8328bec9-a963-4f8a-ae03-a531749a30db@ti.com>
-Date: Wed, 6 Dec 2023 23:02:26 +0100
-Cc: Conor Dooley <conor@kernel.org>,
- Frank Binns <frank.binns@imgtec.com>,
- Donald Robson <donald.robson@imgtec.com>,
- Matt Coster <matt.coster@imgtec.com>,
- Adam Ford <aford173@gmail.com>,
- Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- =?utf-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
- Tony Lindgren <tony@atomide.com>,
- Nishanth Menon <nm@ti.com>,
- Vignesh Raghavendra <vigneshr@ti.com>,
- Tero Kristo <kristo@kernel.org>,
- Paul Cercueil <paul@crapouillou.net>,
- dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev,
- linux-omap@vger.kernel.org,
- linux-mips@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <65992757-0A28-48AE-89D1-212E115265B8@goldelico.com>
-References: <20231204182245.33683-1-afd@ti.com>
- <20231204182245.33683-2-afd@ti.com>
- <CFF198DA-5C42-425E-86F4-759629489ECB@goldelico.com>
- <cb590a13-e0ff-49d9-8583-be613ad50dc5@ti.com>
- <FE0DBA5E-95A5-4C27-9F69-D1D8BDF56EC3@goldelico.com>
- <20231206-wolverine-paprika-0674ca01e1f2@spud>
- <8328bec9-a963-4f8a-ae03-a531749a30db@ti.com>
-To: Andrew Davis <afd@ti.com>
-X-Mailer: Apple Mail (2.3774.200.91.1.1)
 
-(non-html)
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: 577a4ee0b96fb043c9cf4a533c550ff587e526cf  Add linux-next specific files for 20231206
 
-> Am 06.12.2023 um 17:15 schrieb Andrew Davis <afd@ti.com>:
->=20
-> On 12/6/23 10:02 AM, Conor Dooley wrote:
->> On Tue, Dec 05, 2023 at 07:04:05PM +0100, H. Nikolaus Schaller wrote:
->>>> Am 05.12.2023 um 18:33 schrieb Andrew Davis <afd@ti.com>:
->>>>=20
->>>> On 12/5/23 2:17 AM, H. Nikolaus Schaller wrote:
->>>>>> +          - enum:
->>>>>> +              - ti,omap3430-gpu # Rev 121
->>>>>> +              - ti,omap3630-gpu # Rev 125
->>>>> Is the "Rev 121" and "Rev 125" a property of the SoC integration =
-(clock/reset/power
->>>>> hookup etc.) or of the integrated SGX core?
->>>>=20
->>>> The Rev is a property of the SGX core, not the SoC integration.
->>>=20
->>> Then, it should belong there and not be a comment of the =
-ti,omap*-gpu record.
->>> In this way it does not seem to be a proper hardware description.
->>>=20
->>> BTW: there are examples where the revision is part of the compatible =
-string, even
->>> if the (Linux) driver makes no use of it:
->>>=20
->>> drivers/net/ethernet/xilinx/xilinx_emaclite.c
->> AFAICT these Xilinx devices that put the revisions in the compatible =
-are
->> a different case - they're "soft" IP intended for use in the fabric =
-of
->> an FPGA, and assigning a device specific compatible there does not =
-make
->> sense.
->> In this case it appears that the revision is completely known once =
-you
->> see "ti,omap3630-gpu", so encoding the extra "121" into the =
-compatible
->> string is not required.
->>>=20
->>>> But it seems that
->>>> compatible string is being used to define both (as we see being =
-debated in the other
->>>> thread on this series).
->>>>=20
->>>>> In my understanding the Revs are different variants of the SGX =
-core (errata
->>>>> fixes, instruction set, pipeline size etc.). And therefore the =
-current driver code
->>>>> has to be configured by some macros to handle such cases.
->>>>> So the Rev should IMHO be part of the next line:
->>>>>> +          - const: img,powervr-sgx530
->>>>> +          - enum:
->>>>> +              - img,powervr-sgx530-121
->>>>> +              - img,powervr-sgx530-125
->>>>> We have a similar definition in the openpvrsgx code.
->>>>> Example: compatible =3D "ti,omap3-sgx530-121", "img,sgx530-121", =
-"img,sgx530";
->>>>> (I don't mind about the powervr- prefix).
->>>>> This would allow a generic and universal sgx driver (loaded =
-through just matching
->>>>> "img,sgx530") to handle the errata and revision specifics at =
-runtime based on the
->>>>> compatible entry ("img,sgx530-121") and know about SoC integration =
-("ti,omap3-sgx530-121").
->> The "raw" sgx530 compatible does not seem helpful if the sgx530-121 =
-or
->> sgx530-125 compatibles are also required to be present for the driver =
-to
->> actually function. The revision specific compatibles I would not =
-object
->> to, but everything in here has different revisions anyway - does the
->> same revision actually appear in multiple devices? If it doesn't then =
-I
->> don't see any value in the suffixed compatibles either.
->=20
-> Everything here has different revisions because any device that uses
-> the same revision can also use the same base compatible string. For
-> instance AM335x SoCs use the SGX530 revision 125, same as OMAP3630,
-> so I simply reuse that compatible in their DT as you can see in
-> patch [5/10]. I didn't see the need for a new compatible string
-> for identical (i.e. "compatible") IP and integration.
+Error/Warning reports:
 
-Ok, this is a point. As long as there is no SoC which can come with =
-different
-SGX revisions the SoC compatible is enough for everything.
+https://lore.kernel.org/oe-kbuild-all/202312061337.WNVSk0AL-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202312061837.tbKWaozM-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202312062242.RFPPozG9-lkp@intel.com
 
-I never looked it that way.
+Error/Warning: (recently discovered and may have been fixed)
 
->=20
-> The first device to use that IP/revision combo gets the named
-> compatible, all others re-use the same compatible where possible.
+/tmp/cco4BMDv.s:387: Error: selected processor does not support requested special purpose register -- `mrs r1,cpsr'
+drivers/perf/riscv_pmu_sbi.c:1008:19: error: incompatible function pointer types initializing 'proc_handler *' (aka 'int (*)(const struct ctl_table *, int, void *, unsigned long *, long long *)') with an expression of type 'int (struct ctl_table *, int, void *, size_t *, loff_t *)' (aka 'int (struct ctl_table *, int, void *, unsigned long *, long long *)') [-Wincompatible-function-pointer-types]
 
-Hm. If we take this rule, we can even completely leave out all
+Error/Warning ids grouped by kconfigs:
 
-+          - const: img,powervr-sgx530
-+          - const: img,powervr-sgx540
-+          - const: img,powervr-sgx544
+gcc_recent_errors
+|-- alpha-randconfig-r132-20231206
+|   |-- arch-alpha-mm-fault.c:sparse:sparse:Using-plain-integer-as-NULL-pointer
+|   |-- drivers-atm-fore200e.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-int-usertype-b-got-restricted-__le32-usertype
+|   |-- drivers-iio-imu-bmi323-bmi323_i2c.c:sparse:sparse:symbol-bmi323_i2c_regmap_config-was-not-declared.-Should-it-be-static
+|   `-- lib-zstd-compress-zstd_fast.c:sparse:sparse:Using-plain-integer-as-NULL-pointer
+|-- arm-allyesconfig
+|   `-- qcom_stats.c:(.text):undefined-reference-to-__aeabi_uldivmod
+|-- arm-randconfig-r016-20220626
+|   `-- :Error:selected-processor-does-not-support-requested-special-purpose-register-mrs-r1-cpsr
+|-- csky-randconfig-r122-20231206
+|   |-- arch-csky-kernel-vdso-vgettimeofday.c:sparse:sparse:function-__vdso_clock_gettime-with-external-linkage-has-definition
+|   `-- lib-zstd-compress-zstd_fast.c:sparse:sparse:Using-plain-integer-as-NULL-pointer
+|-- microblaze-randconfig-r121-20231206
+|   `-- lib-zstd-compress-zstd_fast.c:sparse:sparse:Using-plain-integer-as-NULL-pointer
+|-- mips-allyesconfig
+|   `-- qcom_stats.c:(.text.qcom_ddr_stats_show):undefined-reference-to-__udivdi3
+|-- mips-randconfig-r123-20231206
+|   `-- lib-zstd-compress-zstd_fast.c:sparse:sparse:Using-plain-integer-as-NULL-pointer
+|-- parisc-randconfig-r113-20231206
+|   |-- drivers-iio-imu-bmi323-bmi323_i2c.c:sparse:sparse:symbol-bmi323_i2c_regmap_config-was-not-declared.-Should-it-be-static
+|   |-- drivers-soc-qcom-pmic_pdcharger_ulog.c:sparse:sparse:incorrect-type-in-initializer-(different-base-types)-expected-restricted-__le32-usertype-opcode-got-int
+|   |-- drivers-soc-qcom-pmic_pdcharger_ulog.c:sparse:sparse:incorrect-type-in-initializer-(different-base-types)-expected-restricted-__le32-usertype-owner-got-int
+|   |-- drivers-soc-qcom-pmic_pdcharger_ulog.c:sparse:sparse:incorrect-type-in-initializer-(different-base-types)-expected-restricted-__le32-usertype-type-got-int
+|   `-- lib-zstd-compress-zstd_fast.c:sparse:sparse:Using-plain-integer-as-NULL-pointer
+|-- sh-randconfig-m031-20230727
+|   `-- standard-input:Error:unknown-pseudo-op:cfi_def_cfa_regist
+|-- sh-randconfig-r112-20231206
+|   |-- arch-sh-kernel-crash_dump.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-addr-got-void-noderef-__iomem
+|   |-- drivers-soc-qcom-pmic_pdcharger_ulog.c:sparse:sparse:incorrect-type-in-initializer-(different-base-types)-expected-restricted-__le32-usertype-opcode-got-int
+|   |-- drivers-soc-qcom-pmic_pdcharger_ulog.c:sparse:sparse:incorrect-type-in-initializer-(different-base-types)-expected-restricted-__le32-usertype-owner-got-int
+|   |-- drivers-soc-qcom-pmic_pdcharger_ulog.c:sparse:sparse:incorrect-type-in-initializer-(different-base-types)-expected-restricted-__le32-usertype-type-got-int
+|   `-- lib-zstd-compress-zstd_fast.c:sparse:sparse:Using-plain-integer-as-NULL-pointer
+|-- sparc-allmodconfig
+|   |-- arch-sparc-kernel-module.c:warning:variable-strtab-set-but-not-used
+|   `-- arch-sparc-mm-init_64.c:warning:variable-hv_pgsz_idx-set-but-not-used
+|-- sparc-allnoconfig
+|   |-- arch-sparc-mm-leon_mm.c:warning:variable-paddrbase-set-but-not-used
+|   `-- arch-sparc-mm-srmmu.c:warning:variable-clear-set-but-not-used
+|-- sparc-defconfig
+|   |-- arch-sparc-kernel-module.c:warning:variable-strtab-set-but-not-used
+|   |-- arch-sparc-mm-leon_mm.c:warning:variable-paddrbase-set-but-not-used
+|   `-- arch-sparc-mm-srmmu.c:warning:variable-clear-set-but-not-used
+|-- sparc-randconfig-001-20231206
+|   |-- arch-sparc-kernel-module.c:warning:variable-strtab-set-but-not-used
+|   |-- arch-sparc-mm-leon_mm.c:warning:variable-paddrbase-set-but-not-used
+|   `-- arch-sparc-mm-srmmu.c:warning:variable-clear-set-but-not-used
+|-- sparc-randconfig-002-20231206
+|   |-- arch-sparc-mm-leon_mm.c:warning:variable-paddrbase-set-but-not-used
+|   `-- arch-sparc-mm-srmmu.c:warning:variable-clear-set-but-not-used
+|-- sparc-randconfig-r061-20231206
+|   |-- arch-sparc-kernel-module.c:warning:variable-strtab-set-but-not-used
+|   `-- arch-sparc-mm-init_64.c:warning:variable-hv_pgsz_idx-set-but-not-used
+|-- sparc64-allmodconfig
+|   |-- arch-sparc-kernel-module.c:warning:variable-strtab-set-but-not-used
+|   `-- arch-sparc-mm-init_64.c:warning:variable-hv_pgsz_idx-set-but-not-used
+|-- sparc64-allyesconfig
+|   |-- arch-sparc-kernel-module.c:warning:variable-strtab-set-but-not-used
+|   `-- arch-sparc-mm-init_64.c:warning:variable-hv_pgsz_idx-set-but-not-used
+|-- sparc64-defconfig
+|   |-- arch-sparc-kernel-module.c:warning:variable-strtab-set-but-not-used
+|   `-- arch-sparc-mm-init_64.c:warning:variable-hv_pgsz_idx-set-but-not-used
+|-- sparc64-randconfig-001-20231206
+|   |-- arch-sparc-kernel-module.c:warning:variable-strtab-set-but-not-used
+|   `-- arch-sparc-mm-init_64.c:warning:variable-hv_pgsz_idx-set-but-not-used
+|-- sparc64-randconfig-002-20231206
+|   `-- arch-sparc-mm-init_64.c:warning:variable-hv_pgsz_idx-set-but-not-used
+|-- sparc64-randconfig-r133-20231206
+|   |-- drivers-infiniband-hw-vmw_pvrdma-pvrdma.h:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-int-usertype-l-got-restricted-__le32-usertype
+|   `-- lib-zstd-compress-zstd_fast.c:sparse:sparse:Using-plain-integer-as-NULL-pointer
+|-- x86_64-randconfig-121-20231206
+|   |-- drivers-gpu-drm-amd-amdgpu-..-amdkfd-kfd_process.c:sparse:sparse:incompatible-types-in-comparison-expression-(different-address-spaces):
+|   |-- drivers-gpu-drm-amd-amdgpu-..-amdkfd-kfd_process.c:sparse:struct-dma_fence
+|   |-- drivers-gpu-drm-amd-amdgpu-..-amdkfd-kfd_process.c:sparse:struct-dma_fence-noderef-__rcu
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_amdkfd_gpuvm.c:sparse:sparse:incompatible-types-in-comparison-expression-(different-address-spaces):
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_amdkfd_gpuvm.c:sparse:struct-dma_fence
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_amdkfd_gpuvm.c:sparse:struct-dma_fence-noderef-__rcu
+|   |-- drivers-soc-qcom-pmic_pdcharger_ulog.c:sparse:sparse:incorrect-type-in-initializer-(different-base-types)-expected-restricted-__le32-usertype-opcode-got-int
+|   |-- drivers-soc-qcom-pmic_pdcharger_ulog.c:sparse:sparse:incorrect-type-in-initializer-(different-base-types)-expected-restricted-__le32-usertype-owner-got-int
+|   |-- drivers-soc-qcom-pmic_pdcharger_ulog.c:sparse:sparse:incorrect-type-in-initializer-(different-base-types)-expected-restricted-__le32-usertype-type-got-int
+|   `-- lib-zstd-compress-zstd_fast.c:sparse:sparse:Using-plain-integer-as-NULL-pointer
+`-- x86_64-randconfig-122-20231206
+    `-- lib-zstd-compress-zstd_fast.c:sparse:sparse:Using-plain-integer-as-NULL-pointer
+clang_recent_errors
+|-- arm64-allmodconfig
+|   `-- drivers-leds-leds-max5970.c:warning:variable-num_leds-set-but-not-used
+|-- arm64-allyesconfig
+|   `-- drivers-leds-leds-max5970.c:warning:variable-num_leds-set-but-not-used
+|-- arm64-randconfig-003-20231206
+|   `-- drivers-leds-leds-max5970.c:warning:variable-num_leds-set-but-not-used
+|-- arm64-randconfig-004-20231206
+|   `-- drivers-leds-leds-max5970.c:warning:variable-num_leds-set-but-not-used
+|-- hexagon-allmodconfig
+|   `-- drivers-leds-leds-max5970.c:warning:variable-num_leds-set-but-not-used
+|-- hexagon-allyesconfig
+|   |-- drivers-leds-leds-max5970.c:warning:variable-num_leds-set-but-not-used
+|   |-- ld.lld:error:vmlinux.a(arch-hexagon-kernel-head.o):(.init.text):relocation-R_HEX_B22_PCREL-out-of-range:is-not-in-references-__vmnewmap
+|   |-- ld.lld:error:vmlinux.a(arch-hexagon-kernel-head.o):(.init.text):relocation-R_HEX_B22_PCREL-out-of-range:is-not-in-references-__vmsetvec
+|   `-- ld.lld:error:vmlinux.a(arch-hexagon-kernel-head.o):(.init.text):relocation-R_HEX_B22_PCREL-out-of-range:is-not-in-references-memset
+|-- hexagon-randconfig-002-20231206
+|   `-- drivers-leds-leds-max5970.c:warning:variable-num_leds-set-but-not-used
+|-- i386-allmodconfig
+|   `-- drivers-leds-leds-max5970.c:warning:variable-num_leds-set-but-not-used
+|-- i386-allyesconfig
+|   `-- drivers-leds-leds-max5970.c:warning:variable-num_leds-set-but-not-used
+|-- i386-randconfig-061-20231206
+|   |-- drivers-soc-qcom-pmic_pdcharger_ulog.c:sparse:sparse:incorrect-type-in-initializer-(different-base-types)-expected-restricted-__le32-usertype-opcode-got-int
+|   |-- drivers-soc-qcom-pmic_pdcharger_ulog.c:sparse:sparse:incorrect-type-in-initializer-(different-base-types)-expected-restricted-__le32-usertype-owner-got-int
+|   |-- drivers-soc-qcom-pmic_pdcharger_ulog.c:sparse:sparse:incorrect-type-in-initializer-(different-base-types)-expected-restricted-__le32-usertype-type-got-int
+|   `-- lib-zstd-compress-zstd_fast.c:sparse:sparse:Using-plain-integer-as-NULL-pointer
+|-- i386-randconfig-141-20231206
+|   |-- block-bdev.c-bdev_open_by_dev()-warn:possible-memory-leak-of-handle
+|   |-- drivers-hwtracing-stm-core.c-stm_register_device()-error:double-free-of-stm
+|   |-- lib-zstd-common-bits.h-ZSTD_countLeadingZeros32()-warn:inconsistent-indenting
+|   |-- lib-zstd-common-bits.h-ZSTD_countTrailingZeros32()-warn:inconsistent-indenting
+|   |-- lib-zstd-compress-..-common-bits.h-ZSTD_countLeadingZeros32()-warn:inconsistent-indenting
+|   |-- lib-zstd-compress-..-common-bits.h-ZSTD_countLeadingZeros64()-warn:inconsistent-indenting
+|   |-- lib-zstd-compress-..-common-bits.h-ZSTD_countTrailingZeros32()-warn:inconsistent-indenting
+|   |-- lib-zstd-compress-..-common-bits.h-ZSTD_countTrailingZeros64()-warn:inconsistent-indenting
+|   |-- lib-zstd-decompress-..-common-bits.h-ZSTD_countLeadingZeros32()-warn:inconsistent-indenting
+|   |-- lib-zstd-decompress-..-common-bits.h-ZSTD_countTrailingZeros32()-warn:inconsistent-indenting
+|   |-- lib-zstd-decompress-..-common-bits.h-ZSTD_countTrailingZeros64()-warn:inconsistent-indenting
+|   `-- mm-slub.c-__put_partials()-error:calling-spin_unlock_irqrestore()-with-bogus-flags
+|-- powerpc-allmodconfig
+|   `-- drivers-leds-leds-max5970.c:warning:variable-num_leds-set-but-not-used
+|-- powerpc-allyesconfig
+|   `-- drivers-leds-leds-max5970.c:warning:variable-num_leds-set-but-not-used
+|-- powerpc-randconfig-r064-20231206
+|   `-- drivers-leds-leds-sun50i-a100.c:error:call-to-__compiletime_assert_NNN-declared-with-error-attribute:FIELD_PREP:value-too-large-for-the-field
+|-- powerpc64-randconfig-002-20231206
+|   `-- drivers-leds-leds-max5970.c:warning:variable-num_leds-set-but-not-used
+|-- powerpc64-randconfig-003-20231206
+|   `-- drivers-leds-leds-max5970.c:warning:variable-num_leds-set-but-not-used
+|-- riscv-randconfig-001-20231206
+|   `-- drivers-perf-riscv_pmu_sbi.c:error:incompatible-function-pointer-types-initializing-proc_handler-(aka-int-(-)(const-struct-ctl_table-int-void-unsigned-long-long-long-)-)-with-an-expression-of-type-int
+|-- riscv-randconfig-002-20231206
+|   `-- drivers-leds-leds-max5970.c:warning:variable-num_leds-set-but-not-used
+|-- s390-randconfig-r111-20231206
+|   |-- drivers-leds-leds-max5970.c:warning:variable-num_leds-set-but-not-used
+|   `-- lib-zstd-compress-zstd_fast.c:sparse:sparse:Using-plain-integer-as-NULL-pointer
+|-- x86_64-allmodconfig
+|   `-- drivers-leds-leds-max5970.c:warning:variable-num_leds-set-but-not-used
+`-- x86_64-allyesconfig
+    `-- drivers-leds-leds-max5970.c:warning:variable-num_leds-set-but-not-used
 
-and just have a list of allsgx compatible SoC:
+elapsed time: 1467m
 
-+      - items:
-+          - enum:
-+              - ti,am62-gpu # IMG AXE GPU model/revision is fully =
-discoverable
-+              - ti,omap3430-gpu # sgx530 Rev 121
-+              - ti,omap3630-gpu # sgx530 Rev 125
-+              - ingenic,jz4780-gpu # sgx540 Rev 130
-+              - ti,omap4430-gpu # sgx540 Rev 120
-+              - allwinner,sun6i-a31-gpu # sgx544 MP2 Rev 115
-+              - ti,omap4470-gpu # sgx544 MP1 Rev 112
-+              - ti,omap5432-gpu # sgx544 MP2 Rev 105
-+              - ti,am5728-gpu # sgx544 MP2 Rev 116
-+              - ti,am6548-gpu # sgx544 MP1 Rev 117
-+              - more to come
+configs tested: 176
+configs skipped: 3
 
->=20
-> Andrew
->=20
->>>>> And user-space can be made to load the right firmware variant =
-based on "img,sgx530-121"
->>>>> I don't know if there is some register which allows to discover =
-the revision long
->>>>> before the SGX subsystem is initialized and the firmware is up and =
-running.
->>>>> What I know is that it is possible to read out the revision after =
-starting the firmware
->>>>> but it may just echo the version number of the firmware binary =
-provided from user-space.
->>>>=20
->>>> We should be able to read out the revision (register =
-EUR_CR_CORE_REVISION), the problem is
->>>> today the driver is built for a given revision at compile time.
->>>=20
->>> Yes, that is something we had planned to get rid of for a long time =
-by using different compatible
->>> strings and some variant specific struct like many others drivers =
-are doing it.
->>> But it was a to big task so nobody did start with it.
->>>=20
->>>> That is a software issue,
->>>> not something that we need to encode in DT. While the core ID =
-(SGX5xx) can be also detected
->>>> (EUR_CR_CORE_ID), the location of that register changes, and so it =
-does need encoded in
->>>> DT compatible.
->>>=20
->>> Ok, I didn't know about such registers as there is not much public =
-information available.
->>> Fair enough, there are some error reports about in different forums.
->>>=20
->>> On the other hand we then must read out this register in more or =
-less early initialization
->>> stages. Even if we know this information to be static and it could =
-be as simple as a list
->>> of compatible strings in the driver.
->>>=20
->>>> The string "ti,omap3430-gpu" tells us the revision if we cannot =
-detect it (as in the current
->>>> driver), and the SoC integration is generic anyway (just a reg and =
-interrupt).
->>>=20
->>> It of course tells, but may need a translation table that needs to =
-be maintained in a
->>> different format. Basically the same what the comments show in a =
-non-machine readable
->>> format.
->>>=20
->>> I just wonder why the specific version can or should not become =
-simply part of the DTS
->>> and needs this indirection.
->>>=20
->>> Basically it is a matter of openness for future (driver) development =
-and why it needs
->>> careful decisions.
->>>=20
->>> So in other words: I would prefer to see the comments about versions =
-encoded in the device
->>> tree binary to make it machine readable.
->> It's already machine readable if it is invariant on an SoC given the
->> patch had SoC-specific compatibles.
->=20
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                         haps_hs_defconfig   gcc  
+arc                   randconfig-001-20231206   gcc  
+arc                   randconfig-002-20231206   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   clang
+arm                          pxa910_defconfig   gcc  
+arm                   randconfig-001-20231206   clang
+arm                   randconfig-002-20231206   clang
+arm                   randconfig-003-20231206   clang
+arm                   randconfig-004-20231206   clang
+arm                           spitz_defconfig   clang
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20231206   clang
+arm64                 randconfig-002-20231206   clang
+arm64                 randconfig-003-20231206   clang
+arm64                 randconfig-004-20231206   clang
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20231206   gcc  
+csky                  randconfig-002-20231206   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20231206   clang
+hexagon               randconfig-002-20231206   clang
+i386                             allmodconfig   clang
+i386                              allnoconfig   clang
+i386                             allyesconfig   clang
+i386         buildonly-randconfig-001-20231206   clang
+i386         buildonly-randconfig-002-20231206   clang
+i386         buildonly-randconfig-003-20231206   clang
+i386         buildonly-randconfig-004-20231206   clang
+i386         buildonly-randconfig-005-20231206   clang
+i386         buildonly-randconfig-006-20231206   clang
+i386                                defconfig   gcc  
+i386                  randconfig-001-20231206   clang
+i386                  randconfig-002-20231206   clang
+i386                  randconfig-003-20231206   clang
+i386                  randconfig-004-20231206   clang
+i386                  randconfig-005-20231206   clang
+i386                  randconfig-006-20231206   clang
+i386                  randconfig-011-20231206   gcc  
+i386                  randconfig-012-20231206   gcc  
+i386                  randconfig-013-20231206   gcc  
+i386                  randconfig-014-20231206   gcc  
+i386                  randconfig-015-20231206   gcc  
+i386                  randconfig-016-20231206   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20231206   gcc  
+loongarch             randconfig-002-20231206   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                          hp300_defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   clang
+mips                             allyesconfig   gcc  
+mips                           mtx1_defconfig   clang
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20231206   gcc  
+nios2                 randconfig-002-20231206   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20231206   gcc  
+parisc                randconfig-002-20231206   gcc  
+parisc64                            defconfig   gcc  
+powerpc                     akebono_defconfig   clang
+powerpc                          allmodconfig   clang
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                 canyonlands_defconfig   gcc  
+powerpc               randconfig-001-20231206   clang
+powerpc               randconfig-003-20231206   clang
+powerpc                     tqm5200_defconfig   clang
+powerpc                     tqm8548_defconfig   gcc  
+powerpc64             randconfig-001-20231206   clang
+powerpc64             randconfig-002-20231206   clang
+powerpc64             randconfig-003-20231206   clang
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   clang
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                 randconfig-001-20231206   clang
+riscv                 randconfig-002-20231206   clang
+riscv                          rv32_defconfig   clang
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                  randconfig-001-20231206   gcc  
+s390                  randconfig-002-20231206   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                        edosk7705_defconfig   gcc  
+sh                        edosk7760_defconfig   gcc  
+sh                          lboxre2_defconfig   gcc  
+sh                    randconfig-001-20231206   gcc  
+sh                    randconfig-002-20231206   gcc  
+sh                          rsk7269_defconfig   gcc  
+sh                            shmin_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20231206   gcc  
+sparc64               randconfig-002-20231206   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20231206   clang
+um                    randconfig-002-20231206   clang
+um                           x86_64_defconfig   gcc  
+x86_64                           alldefconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20231206   clang
+x86_64       buildonly-randconfig-002-20231206   clang
+x86_64       buildonly-randconfig-003-20231206   clang
+x86_64       buildonly-randconfig-004-20231206   clang
+x86_64       buildonly-randconfig-005-20231206   clang
+x86_64       buildonly-randconfig-006-20231206   clang
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20231206   gcc  
+x86_64                randconfig-002-20231206   gcc  
+x86_64                randconfig-003-20231206   gcc  
+x86_64                randconfig-004-20231206   gcc  
+x86_64                randconfig-005-20231206   gcc  
+x86_64                randconfig-006-20231206   gcc  
+x86_64                randconfig-011-20231206   clang
+x86_64                randconfig-012-20231206   clang
+x86_64                randconfig-013-20231206   clang
+x86_64                randconfig-014-20231206   clang
+x86_64                randconfig-015-20231206   clang
+x86_64                randconfig-016-20231206   clang
+x86_64                randconfig-071-20231206   clang
+x86_64                randconfig-072-20231206   clang
+x86_64                randconfig-073-20231206   clang
+x86_64                randconfig-074-20231206   clang
+x86_64                randconfig-075-20231206   clang
+x86_64                randconfig-076-20231206   clang
+x86_64                          rhel-8.3-rust   clang
+xtensa                            allnoconfig   gcc  
+xtensa                randconfig-001-20231206   gcc  
+xtensa                randconfig-002-20231206   gcc  
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
