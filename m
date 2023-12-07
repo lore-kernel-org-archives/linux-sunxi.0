@@ -1,117 +1,144 @@
-Received: from mail5.25mail.st (mail5.25mail.st [74.50.62.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 092921C2E
-	for <linux-sunxi@lists.linux.dev>; Thu,  7 Dec 2023 06:39:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomide.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=atomide.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C52E32C76;
+	Thu,  7 Dec 2023 09:20:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=atomide.com header.i=@atomide.com header.b="NB5K6bbG"
-Received: from localhost (91-158-86-216.elisa-laajakaista.fi [91.158.86.216])
-	by mail5.25mail.st (Postfix) with ESMTPSA id 25AE36045F;
-	Thu,  7 Dec 2023 06:38:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=atomide.com;
-	s=25mailst; t=1701931146;
-	bh=WJ0wR74d+mkwm+IUhYNno9dDAtwE/eqL/spvRAJBdfs=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sv2QlZb+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 799F6C433C7;
+	Thu,  7 Dec 2023 09:20:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701940804;
+	bh=nl+7zRM+RUou0hee7Fw3E82iCj4CZDlgNOvJ1QEoImg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NB5K6bbGCpg41F4Y2JGI/TNwe3RGFW3Rb4TSnkoscLAJWyiJiI9oXkVCYi5gJHMUE
-	 rec/JKiVE0yT1vYJQYhdXWSOpHIN54QGzL6WqfqoxkLv91onW6Dz79NJ6Vdb3udRhT
-	 g4HB3bZFTntDqubO+X3JvKDCdaKA0DekPQ4uWpzaKpeKqvgHMCIg8HwkhVRqCravtn
-	 YeFizvmnz0qBvGZ2CbSPVnG4I+Gr9T0sxFMTO9tFLKvsPkuLc89p9Vr2tw7BtmLd1j
-	 PUVaUSKJDGuguxsfKpyxZIFKGKz5PBUnOl4Ij7KZmXv3Ryh00sxy2R/JOPY1RyCIZ1
-	 XKfEq9e8Lqa+Q==
-Date: Thu, 7 Dec 2023 08:38:02 +0200
-From: Tony Lindgren <tony@atomide.com>
-To: Andreas Kemnade <andreas@kemnade.info>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Andrew Davis <afd@ti.com>, Frank Binns <frank.binns@imgtec.com>,
-	Donald Robson <donald.robson@imgtec.com>,
-	Matt Coster <matt.coster@imgtec.com>,
-	"H . Nikolaus Schaller" <hns@goldelico.com>,
-	Adam Ford <aford173@gmail.com>,
-	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	=?utf-8?Q?Beno=C3=AEt?= Cousson <bcousson@baylibre.com>,
-	Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
-	Tero Kristo <kristo@kernel.org>,
-	Paul Cercueil <paul@crapouillou.net>,
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-omap@vger.kernel.org,
-	linux-mips@vger.kernel.org
+	b=sv2QlZb+Ob2LJQaMP7IvnHXktcQOXq3LyiBJd+WHY3aNDCVRrPmmsXjbd4sThhsWO
+	 Mv2qjo9pUGyudeNAvyNSFUmY/lYDmpqW13Hc43AahvCQiQdTaCP07u/aS4zapvGQux
+	 +zY5i/GLh0RNXMRL5KTtWzsaxu+TjnNwM1gErk4xdSbeqvzlbBhz2X0QnyhbqHD94N
+	 vj+hHSQ9gpLcZegPXaMgbUywNkAgWTTYCvKRbuK4BkzOpUjke1o5/ZZh9WeiDXVMig
+	 E0hqdib+4jKIQ4V4GOaa5Zi52YOvhzBGyzVEULYeGXsPYGfPhJSDJcJjSMyVGXb1f0
+	 Zww7wMw+b4LsQ==
+Date: Thu, 7 Dec 2023 10:20:01 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Cc: Andrew Davis <afd@ti.com>, Frank Binns <frank.binns@imgtec.com>, 
+	Donald Robson <donald.robson@imgtec.com>, Matt Coster <matt.coster@imgtec.com>, 
+	Adam Ford <aford173@gmail.com>, Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	=?utf-8?Q?Beno=C3=AEt?= Cousson <bcousson@baylibre.com>, Tony Lindgren <tony@atomide.com>, Nishanth Menon <nm@ti.com>, 
+	Vignesh Raghavendra <vigneshr@ti.com>, Tero Kristo <kristo@kernel.org>, 
+	Paul Cercueil <paul@crapouillou.net>, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-omap@vger.kernel.org, linux-mips@vger.kernel.org
 Subject: Re: [PATCH RFC 01/10] dt-bindings: gpu: Add PowerVR Series5 SGX GPUs
-Message-ID: <20231207063802.GR5169@atomide.com>
-References: <b97f04f6-cda2-4e9b-b729-a5149e36f978@linaro.org>
- <20231205075657.GN5169@atomide.com>
- <df7dd7b0-f315-4033-985a-175f75568a8c@linaro.org>
- <20231205081031.GO5169@atomide.com>
- <efcd64f4-00d2-4671-af3a-e27764f70e8d@linaro.org>
- <20231205083001.GP5169@atomide.com>
- <27f2e3a3-0791-4278-adb2-55ed76820a3a@linaro.org>
- <20231205100246.5db0d6a1@aktux>
- <78a81d54-f12c-401e-9a26-5125eb0b1c65@linaro.org>
- <20231205104343.2e3c4105@aktux>
+Message-ID: <6gpehpoz54f5lxhmvirqbfwmq7dpgiroy27cljpvu66wtn7aqy@lgrh7wysyxnp>
+References: <20231204182245.33683-1-afd@ti.com>
+ <20231204182245.33683-2-afd@ti.com>
+ <23livt5mcc64bb6lkeec2uxp5cyn4wfekwaj6wzrjnrkndvwgj@6tveqglqpr4v>
+ <B3A1B8A7-0363-4ECB-AFBF-576FECA569FA@goldelico.com>
+ <vawv2mwhonuyvgmp7uox4rfgdcjwg5fa7hmbcfgl3wiase6e4p@tyavpclppfvu>
+ <6BC60156-89E2-4734-BD00-B49A9A6C1D7A@goldelico.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="at7ezwmqtv5cf653"
+Content-Disposition: inline
+In-Reply-To: <6BC60156-89E2-4734-BD00-B49A9A6C1D7A@goldelico.com>
+
+
+--at7ezwmqtv5cf653
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231205104343.2e3c4105@aktux>
+Content-Transfer-Encoding: quoted-printable
 
-* Andreas Kemnade <andreas@kemnade.info> [231205 09:43]:
-> On Tue, 5 Dec 2023 10:27:56 +0100
-> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
-> 
-> > On 05/12/2023 10:02, Andreas Kemnade wrote:
-> > > On Tue, 5 Dec 2023 09:45:44 +0100
-> > > Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
-> > >   
-> > >>> Sure the clock nodes can be there for the child IP, but they won't do
-> > >>> anything. And still need to be managed separately by the device driver if
-> > >>> added.    
-> > >>
-> > >> So if OS does not have runtime PM, the bindings are wrong? Bindings
-> > >> should not depend on some particular feature of some particular OS.  
-> > > 
-> > > Any user of the devicetree sees that there is a parent and the parent needs
-> > > to be enabled by some mechanism.
-> > > E.g. I2c devices do not specify the clocks of the parent (the i2c master)  
+On Tue, Dec 05, 2023 at 02:50:08PM +0100, H. Nikolaus Schaller wrote:
+> Hi,
+>=20
+> > Am 05.12.2023 um 14:29 schrieb Maxime Ripard <mripard@kernel.org>:
+> >=20
+> > Hi,
+> >=20
+> > On Tue, Dec 05, 2023 at 09:18:58AM +0100, H. Nikolaus Schaller wrote:
+> >>> Am 05.12.2023 um 07:57 schrieb Maxime Ripard <mripard@kernel.org>:
+> >>>=20
+> >>> On Mon, Dec 04, 2023 at 12:22:36PM -0600, Andrew Davis wrote:
+> >>>> The Imagination PowerVR Series5 "SGX" GPU is part of several SoCs fr=
+om
+> >>>> multiple vendors. Describe how the SGX GPU is integrated in these So=
+C,
+> >>>> including register space and interrupts. Clocks, reset, and power do=
+main
+> >>>> information is SoC specific.
+> >>>>=20
+> >>>> Signed-off-by: Andrew Davis <afd@ti.com>
+> >>>> ---
+> >>>> .../devicetree/bindings/gpu/img,powervr.yaml  | 69 +++++++++++++++++=
+--
+> >>>> 1 file changed, 63 insertions(+), 6 deletions(-)
+> >>>=20
+> >>> I think it would be best to have a separate file for this, img,sgx.ya=
+ml
+> >>> maybe?
+> >>=20
+> >> Why?
+> >=20
+> > Because it's more convenient?
+>=20
+> Is it?
 
-Yeah the interconnect target module needs to be enabled before the child
-IP can be probed for any OS. That is unless the target module is left on
-from the bootloader.
+It's for a separate architecture, with a separate driver, maintained out
+of tree by a separate community, with a separate set of requirements as
+evidenced by the other thread. And that's all fine in itself, but
+there's very little reason to put these two bindings in the same file.
 
-But like I said, I have no objection to also having the clocks for the
-child SGX device here. I think two out of the tree SGX clocks are merged,
-so one of the three clocks would repeat twice in the binding.
+We could also turn this around, why is it important that it's in the
+same file?
 
-We do provide some of the clock aliases, like fck and ick, for the child
-ip automatically by the ti-sysc interconnect target module. But likely we
-don't want to clock name specific handling in the driver so best to
-standardize on SGX specific clock names. That is if the clock properties
-are not set optional.
+> >> The whole family of IMG GPUs is PowerVR and SGX and Rogue are generati=
+ons 5 and 6++:
+> >>=20
+> >> https://en.wikipedia.org/wiki/PowerVR
+> >=20
+> > That's not really relevant as far as bindings go.
+>=20
+> But maybe for choosing binding file names. Well they are machine readable
+> but sometimes humans work with them.
 
-> > If you use this analogy, then compare it with an I2C device which has
-> > these clock inputs. Such device must have clocks in the bindings.
-> > 
-> I would see target-module = i2c master.
-> 
-> Well, if there is a variant of the i2c device which does not require
-> external clocks and a variant which requires it, then clock can be
-> optional.
+Heh. It's something that can also be easily grepped, and the name is
+never going to reflect all the compatibles in a binding so it's what
+you'll end up doing anyway. But feel free to suggest another name to
+avoid the confusion.
 
-Yes that sounds about right for an analogy :)
+> > We have multiple
+> > binding files for devices of the same generation, or single bindings
+> > covering multiple generations.
+> >=20
+> > The important part is that every compatible is documented. It doesn't
+> > really matter how or where.
+>=20
+> Yes, and that is why I would find it more convenient to have a single
+> "img,powervr.yaml" for all variations unless it becomes filled with
+> unrelated stuff (which isn't as far as I see).
 
-Regards,
+Again, hard disagree there.
 
-Tony
+Maxime
+
+--at7ezwmqtv5cf653
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZXGOQQAKCRDj7w1vZxhR
+xbE8AQCZfNo9oCxq0vvLhGlgv/lmiS2j6lzTN0TCD3qEYXuWvgEA8HDEG22nAn5t
+tKqxvYUa7HNULBEgPKYPdGXjaC67bgw=
+=r0f1
+-----END PGP SIGNATURE-----
+
+--at7ezwmqtv5cf653--
