@@ -1,123 +1,131 @@
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E99F81E51
-	for <linux-sunxi@lists.linux.dev>; Tue, 12 Dec 2023 19:33:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b="o7P1qpVJ"
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id E464024002D
-	for <linux-sunxi@lists.linux.dev>; Tue, 12 Dec 2023 20:27:24 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
-	t=1702409244; bh=Fl6wWVfLLuK3aQj8q6nx+95p5nnzO8WTVvVWB4QYR/4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:
-	 Content-Disposition:From;
-	b=o7P1qpVJg2/q2FVr7aQdpSrMzn8ljBmUhAgYHOjH6Z8qFqEPibBfH5X7Of+RbuKbp
-	 1orl3zWoAgOu93WJaEgsmp4xAkIfYzjVTzMObpFUicW69Z1vooU+yZ+2hL+ix1rZFQ
-	 H516eYZPRZhgRVGPojC8A43KqX+34D+xTFVqcG/KhyQh1ErTOT0jNXQ0vJp6oSK/gZ
-	 d1i273RqE9LWcn0UDgCmXpt1ONQsap6n8m0C1cGTJD8YqNVrSrg28vm96OPtzn0nEh
-	 ZXLQ/G+maa4GRBWg3Mg8m5r/iuctj92ouzdPDr0YzVDzjQm3yQlJyQ72AZKVXg3CoQ
-	 a8sHD3xjcnnvw==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4SqTCB3Qm6z6txZ;
-	Tue, 12 Dec 2023 20:27:18 +0100 (CET)
-Date: Tue, 12 Dec 2023 19:27:14 +0000
-From: Anne Macedo <retpolanne@posteo.net>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, 
-	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>, 
-	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>, open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] arm64: dts: allwinner: Orange Pi One Plus PHY support
-Message-ID: <axsvii25yrknfae6gdreti7lcskoscsdbsujwuispiieimsbdy@gwzm4l7mwlew>
-References: <20231212122835.10850-2-retpolanne@posteo.net>
- <20231212162200.10b3868b@donnerap.manchester.arm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 073F965A81
+	for <linux-sunxi@lists.linux.dev>; Tue, 12 Dec 2023 21:05:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rD9wF-0001Oy-5K; Tue, 12 Dec 2023 22:05:11 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rD9wE-00FQEY-2C; Tue, 12 Dec 2023 22:05:10 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rD9wD-001snP-Ol; Tue, 12 Dec 2023 22:05:09 +0100
+Date: Tue, 12 Dec 2023 22:05:09 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	platform-driver-x86@vger.kernel.org,
+	linux-hardening@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-leds@vger.kernel.org, chrome-platform@lists.linux.dev,
+	linux-samsung-soc@vger.kernel.org,
+	Bartosz Golaszewski <brgl@bgdev.pl>, linux-staging@lists.linux.dev,
+	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-pwm@vger.kernel.org, greybus-dev@lists.linaro.org,
+	linux-mediatek@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-amlogic@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+	asahi@lists.linux.dev, kernel@pengutronix.de
+Subject: Re: [PATCH v4 000/115] pwm: Fix lifetime issues for pwm_chips
+Message-ID: <20231212210509.focpb63fbmahqij3@pengutronix.de>
+References: <cover.1701860672.git.u.kleine-koenig@pengutronix.de>
+ <ZXM4CdJxg-XrYhkn@orome.fritz.box>
+ <20231208185033.e6ty2cajcfle6dgk@pengutronix.de>
+ <ZXbzcFTnDTKoZAta@orome.fritz.box>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="gyt34nc3mm25zmmf"
 Content-Disposition: inline
-In-Reply-To: <20231212162200.10b3868b@donnerap.manchester.arm.com>
+In-Reply-To: <ZXbzcFTnDTKoZAta@orome.fritz.box>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
-On Tue, Dec 12, 2023 at 04:22:00PM +0000, Andre Przywara wrote:
-> On Tue, 12 Dec 2023 12:28:30 +0000
-> Anne Macedo <retpolanne@posteo.net> wrote:
-> 
-> Hi Anne,
-> 
-> > Adds compatible values to mdio subnodes for Ethernet PHY representing
-> > Realtek 8211 PHY to Orange Pi One Plus.
-> 
-> So can you state why this would be needed? This is the RTL8211 ID,
 
-Apologies, I completely forgot to include some context. 
+--gyt34nc3mm25zmmf
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> right? Which should be autodetected via MDIO. Looking back in my inbox
-> you proposed this change before, for U-Boot, specifically, but I fail to
-> find a solution or explanation what really happens here. Two Renesas .dts
-> files have the same compatible, and the commit message talks about the
-> reset line there, is this related?
-> 
-> So can you please give some more background and explanation? That would be
-> part of a good commit message anyway ("why", not "what").
+Hello Thierry,
 
-Should I resend the commit with a more meaningful explanation? The
-context is the following:
+On Mon, Dec 11, 2023 at 12:33:04PM +0100, Thierry Reding wrote:
+> On Fri, Dec 08, 2023 at 07:50:33PM +0100, Uwe Kleine-K=F6nig wrote:
+> > You don't need to touch all drivers because you didn't change struct
+> > pwm_chip::dev yet. (If you really want, you don't need to change that,
+> > but then you have some duplication as chip->dev holds the same value as
+> > priv->dev.parent in the end.)
+>=20
+> I don't think that's a problem. These are for two logically separate
+> things, after all.
 
-currently, ethernet doesn't seem to work on both u-boot and Linux on the
-Orange Pi One Plus board. 
+How are they different? I'd say one is the initializer for the other and
+(ideally) unused after that. With that interpretation they are indeed
+different, but then it's ugly that the initializer keeps staying around.
 
-On the kernel, this error shows up:
+> Duplication can also sometimes be useful to simplify
+> things. There are plently of cases where we use local variables for the
+> same reason.
 
-Configuring network interfaces... [    5.992589] dwmac-sun8i 5020000.ethernet eth0: Register MEM_TYPE_PAGE_POOL RxQ-0
-[    6.000823] dwmac-sun8i 5020000.ethernet eth0: __stmmac_open: Cannot attach to PHY (error: -19)
+local variables go away though after the respective function is left.
+chip->dev and its copy priv->dev.parent stay around for the full
+lifetime of the chip.
 
-After applying this fix, the PHY gets attached: 
+> > > @@ -58,23 +60,24 @@ static struct pwm_chip *pwmchip_find_by_name(cons=
+t char *name)
+> > > =20
+> > >  static int pwm_device_request(struct pwm_device *pwm, const char *la=
+bel)
+> > >  {
+> > > +	struct pwm_chip *chip =3D pwm->priv->chip;
+> >=20
+> > With my approach getting the chip of a struct pwm_device is only one
+> > pointer dereference away. You need two.
+>=20
+> None of the functions here are called very often, so even if this isn't
+> optimized away it would hardly matter.
 
-Configuring network interfaces... [    6.060020] dwmac-sun8i 5020000.ethernet eth0: Register MEM_TYPE_PAGE_POOL RxQ-0
-[    6.069460] dwmac-sun8i 5020000.ethernet eth0: PHY [stmmac-0:01] driver [RTL8211E Gigabit Ethernet] (irq=POLL)
+I'd say pwm_apply_state() at least matters. Also I think that making a
+slow path quicker is a good thing.=20
 
-The previous compatible list that had ethernet-phy-ieee802.3-c22 fails
-to find a PHY, so this patch includes the correct PHY ID with the
-RTL8211 ID. 
+I wonder how we'll converge to an approach that can go into the
+mainline given that we both have our strong opinions.
 
-The behaviour is described on [1]. U-boot fails completely if the
-correct PHY ID is not correct, and in order to fix U-boot we need to fix
-the upstream dts [2].
+Best regards
+Uwe
 
-[1] https://elixir.bootlin.com/linux/v4.14/source/Documentation/devicetree/bindings/net/phy.txt#L20
-[2] https://elixir.bootlin.com/u-boot/latest/source/drivers/core/ofnode.c#L1258
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
-> 
-> Cheers,
-> Andre
-> 
-> > Signed-off-by: Anne Macedo <retpolanne@posteo.net>
-> > ---
-> >  arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-one-plus.dts | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-one-plus.dts b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-one-plus.dts
-> > index 29a081e72..7248ab72f 100644
-> > --- a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-one-plus.dts
-> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-one-plus.dts
-> > @@ -37,7 +37,8 @@ &emac {
-> >  
-> >  &mdio {
-> >  	ext_rgmii_phy: ethernet-phy@1 {
-> > -		compatible = "ethernet-phy-ieee802.3-c22";
-> > +		compatible = "ethernet-phy-id001c.c915",
-> > +			     "ethernet-phy-ieee802.3-c22";
-> >  		reg = <1>;
-> >  	};
-> >  };
-> 
+--gyt34nc3mm25zmmf
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Regards, Anne
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmV4ywQACgkQj4D7WH0S
+/k4AOQf/Rn+1it6Pa2jcb+shcSHEefw76NASZ1jTJwzdnczaZca+4/TdY0/HLE/V
+27TLO93Qd9e4o0E4uFjg/T9KbZy+cu9WxiCJ9LgBEhgPaLIWe9opiDarsy2BNLJi
+e6lERFOmyBoG3USP7t/iEQn5C+0+gC6/pcPVWk8TJO/mc2kr8ioQRsaHtaE0AsX0
+hpZS0GH+ypW5d1saF+TMkSDV4QUzmTaXxsSDqG9/vnXhjln6wlriyIo2gJI2qQ6R
+gBrGVWoz8SnG3OjfGZwo9KhL+KPTbjIba4erb1KbE9j9Ul7c3xF/nA6GcTwU/IcQ
+6WQMUp7Ez5oG8txpknnsR9R2Iimimw==
+=APXJ
+-----END PGP SIGNATURE-----
+
+--gyt34nc3mm25zmmf--
