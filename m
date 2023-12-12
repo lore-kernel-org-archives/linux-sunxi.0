@@ -1,164 +1,114 @@
-Received: from Atcsqr.andestech.com (60-248-80-70.hinet-ip.hinet.net [60.248.80.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E52EA5B5D6
-	for <linux-sunxi@lists.linux.dev>; Tue, 12 Dec 2023 10:30:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=andestech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=andestech.com
-Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
-	by Atcsqr.andestech.com with ESMTP id 3BCASoWD093073;
-	Tue, 12 Dec 2023 18:28:50 +0800 (+08)
-	(envelope-from peterlin@andestech.com)
-Received: from APC323 (10.0.12.98) by ATCPCS16.andestech.com (10.0.1.222) with
- Microsoft SMTP Server id 14.3.498.0; Tue, 12 Dec 2023 18:28:47 +0800
-Date: Tue, 12 Dec 2023 18:28:47 +0800
-From: Yu-Chien Peter Lin <peterlin@andestech.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-CC: <acme@kernel.org>, <adrian.hunter@intel.com>, <ajones@ventanamicro.com>,
-        <alexander.shishkin@linux.intel.com>, <andre.przywara@arm.com>,
-        <anup@brainfault.org>, <aou@eecs.berkeley.edu>,
-        <atishp@atishpatra.org>, <conor+dt@kernel.org>,
-        <conor.dooley@microchip.com>, <conor@kernel.org>,
-        <devicetree@vger.kernel.org>, <dminus@andestech.com>,
-        <evan@rivosinc.com>, <geert+renesas@glider.be>, <guoren@kernel.org>,
-        <heiko@sntech.de>, <irogers@google.com>, <jernej.skrabec@gmail.com>,
-        <jolsa@kernel.org>, <jszhang@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <linux-perf-users@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-        <linux-sunxi@lists.linux.dev>, <locus84@andestech.com>,
-        <magnus.damm@gmail.com>, <mark.rutland@arm.com>, <mingo@redhat.com>,
-        <n.shubin@yadro.com>, <namhyung@kernel.org>, <palmer@dabbelt.com>,
-        <paul.walmsley@sifive.com>, <peterz@infradead.org>,
-        <prabhakar.mahadev-lad.rj@bp.renesas.com>, <rdunlap@infradead.org>,
-        <robh+dt@kernel.org>, <samuel@sholland.org>,
-        <sunilvl@ventanamicro.com>, <tim609@andestech.com>, <uwu@icenowy.me>,
-        <wens@csie.org>, <will@kernel.org>, <ycliang@andestech.com>,
-        <inochiama@outlook.com>
-Subject: Re: [PATCH v4 03/13] irqchip/riscv-intc: Introduce Andes hart-level
- interrupt controller
-Message-ID: <ZXg130SN3AOUmx_v@APC323>
-References: <20231122121235.827122-1-peterlin@andestech.com>
- <20231122121235.827122-4-peterlin@andestech.com>
- <87y1e4r8db.ffs@tglx>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A0B55CD37
+	for <linux-sunxi@lists.linux.dev>; Tue, 12 Dec 2023 11:40:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="POHMgnGZ"
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-db7d198e791so4126027276.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 12 Dec 2023 03:40:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1702381242; x=1702986042; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=0iUPBvo8eOmT//4vl8DQjGC5UmJmCx85Al5r4t/jUw0=;
+        b=POHMgnGZibuYAiL+IN0cv5i0ypA53tdEJN91pLbcSwcFLRkr5rl21xQEB52WnN4dcl
+         ENnhp1oevbqEohPHYTJ0CBK0/2xY3UYinSSEj+pXwh5fMQCTmXgQ87WZk88nTYrgTL1y
+         K0YUd/ABo38tRbqBjqe+pimNLXhWIInRME6bKnbGF/GrKXQqu0PCjav0uLBOA9wmvShk
+         8oSO2C7UVMdlddls9gH9ZH79MrF7xFAXWhLhgM4X3Xe6IfKKlvi/Ar8aLmBsieiHhcwn
+         cgE3kRzsNOgSrD1NKkxzyTD6z/n/8G94yE+m3GQTIrTqk6eocgQ9JSQM7tulk+NpN4t4
+         uAiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702381242; x=1702986042;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0iUPBvo8eOmT//4vl8DQjGC5UmJmCx85Al5r4t/jUw0=;
+        b=heCgDrFOOWBqpvkMHsRdsZ3Ao9S1iJBTGHxqkY+K6J5EAykHaU8Q0tgdoN1EUbOwM9
+         hgq0S2YYy9Q0PvpeZhjyPW7ZvlssSXsGbDiaYBq6cumESq0OmSI7Sr+TD8iQESgGlrt5
+         OMXeEi/3LgxHiOx20mPnIOEuNcifsbWkNmIHKnpMQcKUsuYTqfc3lc2+0BZxU8M+mnXp
+         UXw8e6+W4q8VgF8g91XLC2zNbbGkl7YqEKLUrBE+78/AFVlNT+6LD3KjGwOj9HFnJd1A
+         2DgtDMaaYDQeEGvHrkuAU9vlWFs7CdoIngDs279tH5E+SqYsDsEWp5s/wAbh0ir911zx
+         jJSg==
+X-Gm-Message-State: AOJu0YxYm1PtQMQLGn7TXRWHDNNfurzuHG+3LpQ1tR7VQivPNyNSogmD
+	6TRzC5S1LuCj3jjeu5VAxPGnf7ItfrxH+qNZ0jrF9w==
+X-Google-Smtp-Source: AGHT+IGkFxJXB+75F7npYS3Sl7fcGotb27eRrk6u5Q+tryG0nLGLjgw4n/C3z2I9FmEbcpAIdKRvpPS2VqJqFmY8cyo=
+X-Received: by 2002:a25:ce8a:0:b0:db5:47ee:47c4 with SMTP id
+ x132-20020a25ce8a000000b00db547ee47c4mr2442389ybe.53.1702381242014; Tue, 12
+ Dec 2023 03:40:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <87y1e4r8db.ffs@tglx>
-User-Agent: Mutt/2.2.10 (2023-03-25)
-X-DNSRBL: 
-X-SPAM-SOURCE-CHECK: pass
-X-MAIL:Atcsqr.andestech.com 3BCASoWD093073
+References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org> <20231207-kms-hdmi-connector-state-v5-18-6538e19d634d@kernel.org>
+In-Reply-To: <20231207-kms-hdmi-connector-state-v5-18-6538e19d634d@kernel.org>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Tue, 12 Dec 2023 11:40:26 +0000
+Message-ID: <CAPY8ntBe9RfSjdnd5Smx23La5gQaR9WqY8ehXQyp=4D_11N55Q@mail.gmail.com>
+Subject: Re: [PATCH v5 18/44] drm/vc4: hdmi: Create destroy state implementation
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
+	=?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	Hans Verkuil <hverkuil@xs4all.nl>, linux-rockchip@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Thomas,
+On Thu, 7 Dec 2023 at 15:50, Maxime Ripard <mripard@kernel.org> wrote:
+>
+> Even though we were rolling our own custom state for the vc4 HDMI
+> controller driver, we were still using the generic helper to destroy
+> that state.
+>
+> It was mostly working since the underlying state is the first member of
+> our state so the pointers are probably equal in all relevant cases, but
+> it's still fragile so let's fix this properly.
+>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-On Fri, Dec 08, 2023 at 05:01:36PM +0100, Thomas Gleixner wrote:
-> On Wed, Nov 22 2023 at 20:12, Yu Chien Peter Lin wrote:
-> > To share the riscv_intc_domain_map() with the generic RISC-V INTC and
-> > ACPI, we add a chip parameter to riscv_intc_init_common(), so it can be
-> 
-> s/we//
-> 
-> See: Documentation/process/
-> 
-> > passed to the irq_domain_set_info() as private data.
-> > diff --git a/drivers/irqchip/irq-riscv-intc.c b/drivers/irqchip/irq-riscv-intc.c
-> > index 2fdd40f2a791..30f0036c8978 100644
-> > --- a/drivers/irqchip/irq-riscv-intc.c
-> > +++ b/drivers/irqchip/irq-riscv-intc.c
-> > @@ -17,6 +17,7 @@
-> >  #include <linux/module.h>
-> >  #include <linux/of.h>
-> >  #include <linux/smp.h>
-> > +#include <linux/soc/andes/irq.h>
-> >  
-> >  static struct irq_domain *intc_domain;
-> >  
-> > @@ -46,6 +47,31 @@ static void riscv_intc_irq_unmask(struct irq_data *d)
-> >  	csr_set(CSR_IE, BIT(d->hwirq));
-> >  }
-> >  
-> > +static void andes_intc_irq_mask(struct irq_data *d)
-> > +{
-> > +	/*
-> > +	 * Andes specific S-mode local interrupt causes (hwirq)
-> > +	 * are defined as (256 + n) and controlled by n-th bit
-> > +	 * of SLIE.
-> > +	 */
-> > +	unsigned int mask = BIT(d->hwirq % BITS_PER_LONG);
-> 
-> How is this supposed to be correct with BITS_PER_LONG == 64?
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-Yes, I should subtract ANDES_SLI_CAUSE_BASE directly here.
-
-> > +
-> > +	if (d->hwirq < ANDES_SLI_CAUSE_BASE)
-> > +		csr_clear(CSR_IE, mask);
-> > +	else
-> > +		csr_clear(ANDES_CSR_SLIE, mask);
-> > +}
-> > +
-> > +static void andes_intc_irq_unmask(struct irq_data *d)
-> > +{
-> > +	unsigned int mask = BIT(d->hwirq % BITS_PER_LONG);
-> 
-> Ditto.
-> 
-> > +	if (d->hwirq < ANDES_SLI_CAUSE_BASE)
-> > +		csr_set(CSR_IE, mask);
-> > +	else
-> > +		csr_set(ANDES_CSR_SLIE, mask);
-> > +}
-> 
-> >  static int riscv_intc_domain_map(struct irq_domain *d, unsigned int irq,
-> >  				 irq_hw_number_t hwirq)
-> >  {
-> > +	struct irq_chip *chip = d->host_data;
-> > +
-> >  	irq_set_percpu_devid(irq);
-> > -	irq_domain_set_info(d, irq, hwirq, &riscv_intc_chip, d->host_data,
-> > +	irq_domain_set_info(d, irq, hwirq, chip, d->host_data,
-> 
-> So this sets 'chip_data' to the chip itself. What's the point? Just set
-> it to NULL as the chip obviously does not need chip_data at all.
-
-Will fix. Thanks.
-
-Best regards,
-Peter Lin
-
-> >  			    handle_percpu_devid_irq, NULL, NULL);
-> >  
-> >  	return 0;
-> > @@ -112,11 +147,12 @@ static struct fwnode_handle *riscv_intc_hwnode(void)
-> >  	return intc_domain->fwnode;
-> >  }
-> >  
-> > -static int __init riscv_intc_init_common(struct fwnode_handle *fn)
-> > +static int __init riscv_intc_init_common(struct fwnode_handle *fn,
-> > +					 struct irq_chip *chip)
-> >  {
-> >  	int rc;
-> >  
-> > -	intc_domain = irq_domain_create_tree(fn, &riscv_intc_domain_ops, NULL);
-> > +	intc_domain = irq_domain_create_tree(fn, &riscv_intc_domain_ops, chip);
-> >  	if (!intc_domain) {
-> >  		pr_err("unable to add IRQ domain\n");
-> >  		return -ENXIO;
-> > @@ -138,6 +174,7 @@ static int __init riscv_intc_init(struct device_node *node,
-> >  {
-> >  	int rc;
-> >  	unsigned long hartid;
-> > +	struct irq_chip *chip = &riscv_intc_chip;
-> 
-> https://www.kernel.org/doc/html/latest/process/maintainer-tip.html#variable-declarations
-> 
-> Thanks
-> 
->         tglx
+> ---
+>  drivers/gpu/drm/vc4/vc4_hdmi.c | 12 +++++++++++-
+>  1 file changed, 11 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> index 25c9c71256d3..f05e2c95a60d 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> @@ -672,11 +672,21 @@ vc4_hdmi_connector_duplicate_state(struct drm_connector *connector)
+>         return &new_state->base;
+>  }
+>
+> +static void vc4_hdmi_connector_destroy_state(struct drm_connector *connector,
+> +                                            struct drm_connector_state *state)
+> +{
+> +       struct vc4_hdmi_connector_state *vc4_state =
+> +               conn_state_to_vc4_hdmi_conn_state(state);
+> +
+> +       __drm_atomic_helper_connector_destroy_state(state);
+> +       kfree(vc4_state);
+> +}
+> +
+>  static const struct drm_connector_funcs vc4_hdmi_connector_funcs = {
+>         .fill_modes = drm_helper_probe_single_connector_modes,
+>         .reset = vc4_hdmi_connector_reset,
+>         .atomic_duplicate_state = vc4_hdmi_connector_duplicate_state,
+> -       .atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+> +       .atomic_destroy_state = vc4_hdmi_connector_destroy_state,
+>         .atomic_get_property = vc4_hdmi_connector_get_property,
+>         .atomic_set_property = vc4_hdmi_connector_set_property,
+>  };
+>
+> --
+> 2.43.0
+>
