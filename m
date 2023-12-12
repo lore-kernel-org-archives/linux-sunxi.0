@@ -1,27 +1,31 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48BEB7D8AD
-	for <linux-sunxi@lists.linux.dev>; Tue, 12 Dec 2023 18:12:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB6205B5D5
+	for <linux-sunxi@lists.linux.dev>; Tue, 12 Dec 2023 18:17:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 69378FEC;
-	Tue, 12 Dec 2023 10:13:06 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 538B0FEC;
+	Tue, 12 Dec 2023 10:17:46 -0800 (PST)
 Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F0D013F762;
-	Tue, 12 Dec 2023 10:12:18 -0800 (PST)
-Date: Tue, 12 Dec 2023 18:12:16 +0000
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 36D963F762;
+	Tue, 12 Dec 2023 10:16:58 -0800 (PST)
+Date: Tue, 12 Dec 2023 18:16:55 +0000
 From: Andre Przywara <andre.przywara@arm.com>
-To: Icenowy Zheng <uwu@icenowy.me>
-Cc: Jagan Teki <jagan@amarulasolutions.com>, Hans de Goede
- <hdegoede@redhat.com>, Samuel Holland <samuel@sholland.org>, Jesse Taube
- <mr.bossman075@gmail.com>, u-boot@lists.denx.de,
- "linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>, John Watts
- <contact@jookia.org>
-Subject: Re: [PATCH 1/8] sunxi: SPL SPI: extract code for doing SPI transfer
-Message-ID: <20231212181216.4ebd980b@donnerap.manchester.arm.com>
-In-Reply-To: <20221014030520.3067228-2-uwu@icenowy.me>
-References: <20221014030520.3067228-1-uwu@icenowy.me>
- <20221014030520.3067228-2-uwu@icenowy.me>
+To: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@pengutronix.de>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ linux-clk@vger.kernel.org, MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Chanwoo Choi
+ <cw00.choi@samsung.com>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, kernel@pengutronix.de
+Subject: Re: [PATCH 1/5] PM / devfreq: sun8i-a33-mbus: Simplify usage of
+ clk_rate_exclusive_get()
+Message-ID: <20231212181655.1a0d5971@donnerap.manchester.arm.com>
+In-Reply-To: <5ef585a3d7bee42bac5be0e40efcfbc6e75adfff.1702400947.git.u.kleine-koenig@pengutronix.de>
+References: <cover.1702400947.git.u.kleine-koenig@pengutronix.de>
+	<5ef585a3d7bee42bac5be0e40efcfbc6e75adfff.1702400947.git.u.kleine-koenig@pengutronix.de>
 Organization: ARM
 X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
@@ -30,180 +34,63 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 14 Oct 2022 11:05:13 +0800
-Icenowy Zheng <uwu@icenowy.me> wrote:
+On Tue, 12 Dec 2023 18:26:38 +0100
+Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de> wrote:
 
-Hi,
+> clk_rate_exclusive_get() returns 0 unconditionally. So remove error
+> handling. This prepares making clk_rate_exclusive_get() return void.
+>=20
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
 
-> To support SPI NAND flashes, more commands than Read (03h) are needed.
-> 
-> Extract the code for doing SPI transfer from the reading code for code
-> reuse.
-
-I was looking for a better solution than this inflated function parameter
-list, but everything I came up with is actually worse. So it's fine like
-you wrote it here.
-I think it now even looks a bit better, since that long list is now
-wrapped completely by the spi0_xfer() function.
-It increases the code size by 20 (Thumb2) and 28 bytes (AArch64), that's
-not great, but acceptable.
-
-> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-
-With that one array index change that Samuel suggested (I can fix this up
-myself):
-
-Acked-by: Andre Przywara <andre.przywara@arm.com>
+Looks alright to me:
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 
 Cheers,
 Andre
 
 > ---
->  arch/arm/mach-sunxi/spl_spi_sunxi.c | 105 ++++++++++++++++------------
->  1 file changed, 59 insertions(+), 46 deletions(-)
-> 
-> diff --git a/arch/arm/mach-sunxi/spl_spi_sunxi.c b/arch/arm/mach-sunxi/spl_spi_sunxi.c
-> index 925bf85f2d..7975457758 100644
-> --- a/arch/arm/mach-sunxi/spl_spi_sunxi.c
-> +++ b/arch/arm/mach-sunxi/spl_spi_sunxi.c
-> @@ -243,77 +243,90 @@ static void spi0_deinit(void)
->  
->  #define SPI_READ_MAX_SIZE 60 /* FIFO size, minus 4 bytes of the header */
->  
-> -static void sunxi_spi0_read_data(u8 *buf, u32 addr, u32 bufsize,
-> -				 ulong spi_ctl_reg,
-> -				 ulong spi_ctl_xch_bitmask,
-> -				 ulong spi_fifo_reg,
-> -				 ulong spi_tx_reg,
-> -				 ulong spi_rx_reg,
-> -				 ulong spi_bc_reg,
-> -				 ulong spi_tc_reg,
-> -				 ulong spi_bcc_reg)
-> +static void sunxi_spi0_xfer(const u8 *txbuf, u32 txlen,
-> +			    u8 *rxbuf, u32 rxlen,
-> +			    ulong spi_ctl_reg,
-> +			    ulong spi_ctl_xch_bitmask,
-> +			    ulong spi_fifo_reg,
-> +			    ulong spi_tx_reg,
-> +			    ulong spi_rx_reg,
-> +			    ulong spi_bc_reg,
-> +			    ulong spi_tc_reg,
-> +			    ulong spi_bcc_reg)
->  {
-> -	writel(4 + bufsize, spi_bc_reg); /* Burst counter (total bytes) */
-> -	writel(4, spi_tc_reg);           /* Transfer counter (bytes to send) */
-> +	writel(txlen + rxlen, spi_bc_reg); /* Burst counter (total bytes) */
-> +	writel(txlen, spi_tc_reg);         /* Transfer counter (bytes to send) */
->  	if (spi_bcc_reg)
-> -		writel(4, spi_bcc_reg);  /* SUN6I also needs this */
-> +		writel(txlen, spi_bcc_reg);  /* SUN6I also needs this */
->  
-> -	/* Send the Read Data Bytes (03h) command header */
-> -	writeb(0x03, spi_tx_reg);
-> -	writeb((u8)(addr >> 16), spi_tx_reg);
-> -	writeb((u8)(addr >> 8), spi_tx_reg);
-> -	writeb((u8)(addr), spi_tx_reg);
-> +	for (u32 i = 0; i < txlen; i++)
-> +		writeb(*(txbuf++), spi_tx_reg);
->  
->  	/* Start the data transfer */
->  	setbits_le32(spi_ctl_reg, spi_ctl_xch_bitmask);
->  
->  	/* Wait until everything is received in the RX FIFO */
-> -	while ((readl(spi_fifo_reg) & 0x7F) < 4 + bufsize)
-> +	while ((readl(spi_fifo_reg) & 0x7F) < txlen + rxlen)
->  		;
->  
-> -	/* Skip 4 bytes */
-> -	readl(spi_rx_reg);
-> +	/* Skip txlen bytes */
-> +	for (u32 i = 0; i < txlen; i++)
-> +		readb(spi_rx_reg);
->  
->  	/* Read the data */
-> -	while (bufsize-- > 0)
-> -		*buf++ = readb(spi_rx_reg);
-> +	while (rxlen-- > 0)
-> +		*rxbuf++ = readb(spi_rx_reg);
-> +}
-> +
-> +static void spi0_xfer(const u8 *txbuf, u32 txlen, u8 *rxbuf, u32 rxlen)
-> +{
-> +	uintptr_t base = spi0_base_address();
->  
-> -	/* tSHSL time is up to 100 ns in various SPI flash datasheets */
-> -	udelay(1);
-> +	if (is_sun6i_gen_spi()) {
-> +		sunxi_spi0_xfer(txbuf, txlen, rxbuf, rxlen,
-> +				base + SUN6I_SPI0_TCR,
-> +				SUN6I_TCR_XCH,
-> +				base + SUN6I_SPI0_FIFO_STA,
-> +				base + SUN6I_SPI0_TXD,
-> +				base + SUN6I_SPI0_RXD,
-> +				base + SUN6I_SPI0_MBC,
-> +				base + SUN6I_SPI0_MTC,
-> +				base + SUN6I_SPI0_BCC);
-> +	} else {
-> +		sunxi_spi0_xfer(txbuf, txlen, rxbuf, rxlen,
-> +				base + SUN4I_SPI0_CTL,
-> +				SUN4I_CTL_XCH,
-> +				base + SUN4I_SPI0_FIFO_STA,
-> +				base + SUN4I_SPI0_TX,
-> +				base + SUN4I_SPI0_RX,
-> +				base + SUN4I_SPI0_BC,
-> +				base + SUN4I_SPI0_TC,
-> +				0);
-> +	}
->  }
->  
->  static void spi0_read_data(void *buf, u32 addr, u32 len)
->  {
->  	u8 *buf8 = buf;
->  	u32 chunk_len;
-> -	uintptr_t base = spi0_base_address();
-> +	u8 txbuf[4];
->  
->  	while (len > 0) {
->  		chunk_len = len;
-> +
-> +		/* Configure the Read Data Bytes (03h) command header */
-> +		txbuf[0] = 0x03;
-> +		txbuf[1] = (u8)(addr >> 16);
-> +		txbuf[2] = (u8)(addr >> 8);
-> +		txbuf[3] = (u8)(addr);
-> +
->  		if (chunk_len > SPI_READ_MAX_SIZE)
->  			chunk_len = SPI_READ_MAX_SIZE;
->  
-> -		if (is_sun6i_gen_spi()) {
-> -			sunxi_spi0_read_data(buf8, addr, chunk_len,
-> -					     base + SUN6I_SPI0_TCR,
-> -					     SUN6I_TCR_XCH,
-> -					     base + SUN6I_SPI0_FIFO_STA,
-> -					     base + SUN6I_SPI0_TXD,
-> -					     base + SUN6I_SPI0_RXD,
-> -					     base + SUN6I_SPI0_MBC,
-> -					     base + SUN6I_SPI0_MTC,
-> -					     base + SUN6I_SPI0_BCC);
-> -		} else {
-> -			sunxi_spi0_read_data(buf8, addr, chunk_len,
-> -					     base + SUN4I_SPI0_CTL,
-> -					     SUN4I_CTL_XCH,
-> -					     base + SUN4I_SPI0_FIFO_STA,
-> -					     base + SUN4I_SPI0_TX,
-> -					     base + SUN4I_SPI0_RX,
-> -					     base + SUN4I_SPI0_BC,
-> -					     base + SUN4I_SPI0_TC,
-> -					     0);
-> -		}
-> +		spi0_xfer(txbuf, 4, buf8, chunk_len);
-> +
-> +		/* tSHSL time is up to 100 ns in various SPI flash datasheets */
-> +		udelay(1);
->  
->  		len  -= chunk_len;
->  		buf8 += chunk_len;
+>  drivers/devfreq/sun8i-a33-mbus.c | 14 ++------------
+>  1 file changed, 2 insertions(+), 12 deletions(-)
+>=20
+> diff --git a/drivers/devfreq/sun8i-a33-mbus.c b/drivers/devfreq/sun8i-a33=
+-mbus.c
+> index 13d32213139f..bbc577556944 100644
+> --- a/drivers/devfreq/sun8i-a33-mbus.c
+> +++ b/drivers/devfreq/sun8i-a33-mbus.c
+> @@ -381,18 +381,10 @@ static int sun8i_a33_mbus_probe(struct platform_dev=
+ice *pdev)
+>  				     "failed to enable bus clock\n");
+> =20
+>  	/* Lock the DRAM clock rate to keep priv->nominal_bw in sync. */
+> -	ret =3D clk_rate_exclusive_get(priv->clk_dram);
+> -	if (ret) {
+> -		err =3D "failed to lock dram clock rate\n";
+> -		goto err_disable_bus;
+> -	}
+> +	clk_rate_exclusive_get(priv->clk_dram);
+> =20
+>  	/* Lock the MBUS clock rate to keep MBUS_TMR_PERIOD in sync. */
+> -	ret =3D clk_rate_exclusive_get(priv->clk_mbus);
+> -	if (ret) {
+> -		err =3D "failed to lock mbus clock rate\n";
+> -		goto err_unlock_dram;
+> -	}
+> +	clk_rate_exclusive_get(priv->clk_mbus);
+> =20
+>  	priv->gov_data.upthreshold	=3D 10;
+>  	priv->gov_data.downdifferential	=3D  5;
+> @@ -450,9 +442,7 @@ static int sun8i_a33_mbus_probe(struct platform_devic=
+e *pdev)
+>  	dev_pm_opp_remove_all_dynamic(dev);
+>  err_unlock_mbus:
+>  	clk_rate_exclusive_put(priv->clk_mbus);
+> -err_unlock_dram:
+>  	clk_rate_exclusive_put(priv->clk_dram);
+> -err_disable_bus:
+>  	clk_disable_unprepare(priv->clk_bus);
+> =20
+>  	return dev_err_probe(dev, ret, err);
 
