@@ -1,96 +1,123 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB6205B5D5
-	for <linux-sunxi@lists.linux.dev>; Tue, 12 Dec 2023 18:17:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 538B0FEC;
-	Tue, 12 Dec 2023 10:17:46 -0800 (PST)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 36D963F762;
-	Tue, 12 Dec 2023 10:16:58 -0800 (PST)
-Date: Tue, 12 Dec 2023 18:16:55 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@pengutronix.de>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Russell King <linux@armlinux.org.uk>,
- linux-clk@vger.kernel.org, MyungJoo Ham <myungjoo.ham@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, Chanwoo Choi
- <cw00.choi@samsung.com>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, kernel@pengutronix.de
-Subject: Re: [PATCH 1/5] PM / devfreq: sun8i-a33-mbus: Simplify usage of
- clk_rate_exclusive_get()
-Message-ID: <20231212181655.1a0d5971@donnerap.manchester.arm.com>
-In-Reply-To: <5ef585a3d7bee42bac5be0e40efcfbc6e75adfff.1702400947.git.u.kleine-koenig@pengutronix.de>
-References: <cover.1702400947.git.u.kleine-koenig@pengutronix.de>
-	<5ef585a3d7bee42bac5be0e40efcfbc6e75adfff.1702400947.git.u.kleine-koenig@pengutronix.de>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E99F81E51
+	for <linux-sunxi@lists.linux.dev>; Tue, 12 Dec 2023 19:33:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b="o7P1qpVJ"
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id E464024002D
+	for <linux-sunxi@lists.linux.dev>; Tue, 12 Dec 2023 20:27:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
+	t=1702409244; bh=Fl6wWVfLLuK3aQj8q6nx+95p5nnzO8WTVvVWB4QYR/4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:
+	 Content-Disposition:From;
+	b=o7P1qpVJg2/q2FVr7aQdpSrMzn8ljBmUhAgYHOjH6Z8qFqEPibBfH5X7Of+RbuKbp
+	 1orl3zWoAgOu93WJaEgsmp4xAkIfYzjVTzMObpFUicW69Z1vooU+yZ+2hL+ix1rZFQ
+	 H516eYZPRZhgRVGPojC8A43KqX+34D+xTFVqcG/KhyQh1ErTOT0jNXQ0vJp6oSK/gZ
+	 d1i273RqE9LWcn0UDgCmXpt1ONQsap6n8m0C1cGTJD8YqNVrSrg28vm96OPtzn0nEh
+	 ZXLQ/G+maa4GRBWg3Mg8m5r/iuctj92ouzdPDr0YzVDzjQm3yQlJyQ72AZKVXg3CoQ
+	 a8sHD3xjcnnvw==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4SqTCB3Qm6z6txZ;
+	Tue, 12 Dec 2023 20:27:18 +0100 (CET)
+Date: Tue, 12 Dec 2023 19:27:14 +0000
+From: Anne Macedo <retpolanne@posteo.net>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, 
+	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>, 
+	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>, open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] arm64: dts: allwinner: Orange Pi One Plus PHY support
+Message-ID: <axsvii25yrknfae6gdreti7lcskoscsdbsujwuispiieimsbdy@gwzm4l7mwlew>
+References: <20231212122835.10850-2-retpolanne@posteo.net>
+ <20231212162200.10b3868b@donnerap.manchester.arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231212162200.10b3868b@donnerap.manchester.arm.com>
 
-On Tue, 12 Dec 2023 18:26:38 +0100
-Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de> wrote:
+On Tue, Dec 12, 2023 at 04:22:00PM +0000, Andre Przywara wrote:
+> On Tue, 12 Dec 2023 12:28:30 +0000
+> Anne Macedo <retpolanne@posteo.net> wrote:
+> 
+> Hi Anne,
+> 
+> > Adds compatible values to mdio subnodes for Ethernet PHY representing
+> > Realtek 8211 PHY to Orange Pi One Plus.
+> 
+> So can you state why this would be needed? This is the RTL8211 ID,
 
-> clk_rate_exclusive_get() returns 0 unconditionally. So remove error
-> handling. This prepares making clk_rate_exclusive_get() return void.
->=20
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+Apologies, I completely forgot to include some context. 
 
-Looks alright to me:
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+> right? Which should be autodetected via MDIO. Looking back in my inbox
+> you proposed this change before, for U-Boot, specifically, but I fail to
+> find a solution or explanation what really happens here. Two Renesas .dts
+> files have the same compatible, and the commit message talks about the
+> reset line there, is this related?
+> 
+> So can you please give some more background and explanation? That would be
+> part of a good commit message anyway ("why", not "what").
 
-Cheers,
-Andre
+Should I resend the commit with a more meaningful explanation? The
+context is the following:
 
-> ---
->  drivers/devfreq/sun8i-a33-mbus.c | 14 ++------------
->  1 file changed, 2 insertions(+), 12 deletions(-)
->=20
-> diff --git a/drivers/devfreq/sun8i-a33-mbus.c b/drivers/devfreq/sun8i-a33=
--mbus.c
-> index 13d32213139f..bbc577556944 100644
-> --- a/drivers/devfreq/sun8i-a33-mbus.c
-> +++ b/drivers/devfreq/sun8i-a33-mbus.c
-> @@ -381,18 +381,10 @@ static int sun8i_a33_mbus_probe(struct platform_dev=
-ice *pdev)
->  				     "failed to enable bus clock\n");
-> =20
->  	/* Lock the DRAM clock rate to keep priv->nominal_bw in sync. */
-> -	ret =3D clk_rate_exclusive_get(priv->clk_dram);
-> -	if (ret) {
-> -		err =3D "failed to lock dram clock rate\n";
-> -		goto err_disable_bus;
-> -	}
-> +	clk_rate_exclusive_get(priv->clk_dram);
-> =20
->  	/* Lock the MBUS clock rate to keep MBUS_TMR_PERIOD in sync. */
-> -	ret =3D clk_rate_exclusive_get(priv->clk_mbus);
-> -	if (ret) {
-> -		err =3D "failed to lock mbus clock rate\n";
-> -		goto err_unlock_dram;
-> -	}
-> +	clk_rate_exclusive_get(priv->clk_mbus);
-> =20
->  	priv->gov_data.upthreshold	=3D 10;
->  	priv->gov_data.downdifferential	=3D  5;
-> @@ -450,9 +442,7 @@ static int sun8i_a33_mbus_probe(struct platform_devic=
-e *pdev)
->  	dev_pm_opp_remove_all_dynamic(dev);
->  err_unlock_mbus:
->  	clk_rate_exclusive_put(priv->clk_mbus);
-> -err_unlock_dram:
->  	clk_rate_exclusive_put(priv->clk_dram);
-> -err_disable_bus:
->  	clk_disable_unprepare(priv->clk_bus);
-> =20
->  	return dev_err_probe(dev, ret, err);
+currently, ethernet doesn't seem to work on both u-boot and Linux on the
+Orange Pi One Plus board. 
 
+On the kernel, this error shows up:
+
+Configuring network interfaces... [    5.992589] dwmac-sun8i 5020000.ethernet eth0: Register MEM_TYPE_PAGE_POOL RxQ-0
+[    6.000823] dwmac-sun8i 5020000.ethernet eth0: __stmmac_open: Cannot attach to PHY (error: -19)
+
+After applying this fix, the PHY gets attached: 
+
+Configuring network interfaces... [    6.060020] dwmac-sun8i 5020000.ethernet eth0: Register MEM_TYPE_PAGE_POOL RxQ-0
+[    6.069460] dwmac-sun8i 5020000.ethernet eth0: PHY [stmmac-0:01] driver [RTL8211E Gigabit Ethernet] (irq=POLL)
+
+The previous compatible list that had ethernet-phy-ieee802.3-c22 fails
+to find a PHY, so this patch includes the correct PHY ID with the
+RTL8211 ID. 
+
+The behaviour is described on [1]. U-boot fails completely if the
+correct PHY ID is not correct, and in order to fix U-boot we need to fix
+the upstream dts [2].
+
+[1] https://elixir.bootlin.com/linux/v4.14/source/Documentation/devicetree/bindings/net/phy.txt#L20
+[2] https://elixir.bootlin.com/u-boot/latest/source/drivers/core/ofnode.c#L1258
+
+> 
+> Cheers,
+> Andre
+> 
+> > Signed-off-by: Anne Macedo <retpolanne@posteo.net>
+> > ---
+> >  arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-one-plus.dts | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-one-plus.dts b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-one-plus.dts
+> > index 29a081e72..7248ab72f 100644
+> > --- a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-one-plus.dts
+> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-one-plus.dts
+> > @@ -37,7 +37,8 @@ &emac {
+> >  
+> >  &mdio {
+> >  	ext_rgmii_phy: ethernet-phy@1 {
+> > -		compatible = "ethernet-phy-ieee802.3-c22";
+> > +		compatible = "ethernet-phy-id001c.c915",
+> > +			     "ethernet-phy-ieee802.3-c22";
+> >  		reg = <1>;
+> >  	};
+> >  };
+> 
+
+Regards, Anne
