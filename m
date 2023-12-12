@@ -1,49 +1,49 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87FA156B9B
-	for <linux-sunxi@lists.linux.dev>; Tue, 12 Dec 2023 09:01:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 987C641840
+	for <linux-sunxi@lists.linux.dev>; Tue, 12 Dec 2023 09:01:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="S2c7Ttj4"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-40c55872d80so134005e9.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 12 Dec 2023 01:01:29 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iQN78bZ5"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-40c236624edso54843875e9.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 12 Dec 2023 01:01:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702371688; x=1702976488; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1702371718; x=1702976518; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=JnGXXRX/LoA3Wi5ltjflr6CxLJue6XIF44P2g9HyreM=;
-        b=S2c7Ttj4g/aaU9UB/T0688xjsOwoTQ8MP4qWiuic7HtrtfztkxGAPotLrRJ6MPb4a7
-         sp3rxBVvOJjcm59oGw+ZaWk0ea1NmAWpn8mfjP+lAsbYTY07bHYZ9o8InRAB2aIOfDrc
-         MAH8AfoWfn9UjlmU1UuULFcXybxyEdrDECs137yikS4lqNAmIlYIYk1kM9q/enQJE+Qu
-         xp5jR7LtdOLtK9/FWJqrDYsNOKLb9g8eJSxdOiPry9J6E86wZg0sFmfEQIgAV3/IafjX
-         Au/lLbl93MBMiZFEZsTrZ0zQQvZncK4gXOT1FTzJ2+DfO5hlqNK8FTU27ye8N8V/LMUP
-         8Faw==
+        bh=eYG7ud5yK82RZxm9/aHMwrBDu+amZk7eQeeVtdw3MfA=;
+        b=iQN78bZ5f0WbXA82HbVbJ78quEigAlhAJT9O82hk83H7bQ+XO1RD01zTyrSvDquPI7
+         qLk9QuYsCP3d7cNhzj4F6PY5mHFYHPmr5gDATftNVzyC3CWovwuSek87m5bcPUY0OLHd
+         y4mAHwslxRdlC1h50aHKK6so759h8sn4Ug9hGuK6W64Z+berGLaUWARXyEoWIW2F0QdZ
+         gNGIC4VpeCw646IYb7q56s+fdWLw2TSsMGdFplnCmm+lre+3V3Z7hJtlK6fjwFc70Yud
+         Yv1Srpbq/xRdy9I6hZxSirZ6TWlsaTdswfPWhq2R7ZtgV8giL743CVXO9Wo937ezixqf
+         fLoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702371688; x=1702976488;
+        d=1e100.net; s=20230601; t=1702371718; x=1702976518;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JnGXXRX/LoA3Wi5ltjflr6CxLJue6XIF44P2g9HyreM=;
-        b=PMUNyz9qiFa6dBPhlZvIPsCXfL+QUefHcObN/gJ0iWGV46R6G6kZS1vhTQP2r092VJ
-         OcQMruLp/OC3HviotcQKEh8Q0Tka4pt0nTmmKsuh+yn3gQmK7u83EPnnZ2h1cI1WP4UD
-         l/fX3SABSkljEa2xA3Dzv5HJOojUSAowq0WclH/JMxBDWe5ohUEn00XxPGKPwElQeOSc
-         6Hxet8iCIjP3mfDg3uwIYGmpI4GwAjAUpzkOtMmJ4L7iXUfqzzxnyDT/99vbql3VOaU/
-         SFHHUcNsQhDmnzZLY1UxKZHrBjuGv5B9xAnWDfQLr8aL7Nk1aOIQspsgQx8pk5jZp2Zc
-         oJNA==
-X-Gm-Message-State: AOJu0YyxyyBE03K6u8RPv+gYvZG0bLdrCW2B6LXiusdjKc6KD8t/fBhs
-	8JJuQCY4U3XrrZFe6fnuDZimtz4033RtG9cn7m8=
-X-Google-Smtp-Source: AGHT+IHzGc9ndXsaeQxMiHI1uY7kX+MP+eGDl8JsYH+8qfBiJLUkfPM6+uNX+3ExrX7GOuLJAJC3kw==
-X-Received: by 2002:a1c:720f:0:b0:40b:5e56:7b68 with SMTP id n15-20020a1c720f000000b0040b5e567b68mr2733691wmc.177.1702371687699;
-        Tue, 12 Dec 2023 01:01:27 -0800 (PST)
+        bh=eYG7ud5yK82RZxm9/aHMwrBDu+amZk7eQeeVtdw3MfA=;
+        b=t37psgCJVQCzHHF/OdS86xAAEuyZ9O3po0LcTInxDVmHJvYwHYijTwWvTRSYkyBTGw
+         cc91j9znvl/HmpdKqBF55a76qucd7/iIRpr1c012aKCPXWGPQmAYmNvGhNyvmB4qnFs/
+         YLCw/B05KLWjw/SVXlE6Ltcc09pmdluPnNLpnjcFCM130uqdfL9f9dFoSiYFAjpYi6ID
+         mp+/COVVTp/ZAeN1SYWEKZmqVpk2ErsT2U59m6NFZ7WjqMzjxVQz5/Kv2a5qcR7syeap
+         ErV8m7jlTzhQkX8uV/sDknXlK0q+WP7XG2tXVPhWkVE+5nhWCM9FU4ursrMSWsMraQ89
+         uxcg==
+X-Gm-Message-State: AOJu0YwOmsQT2tO0UsJV/xXISsOQD7p7i3DPpN+zhy/Qj4vbL3reyNVQ
+	fdU5iI6wEEA+ix3wagaPdQ1uaw==
+X-Google-Smtp-Source: AGHT+IFtNP9sMWhqMWlnk+/nFaWk008hebp5EKauZDFbmTBhDNs7QGtgo4JOegNTmR2z5Cj3XfCYmg==
+X-Received: by 2002:a05:600c:1c01:b0:40b:380e:2c9e with SMTP id j1-20020a05600c1c0100b0040b380e2c9emr2249028wms.34.1702371717852;
+        Tue, 12 Dec 2023 01:01:57 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.218.27])
-        by smtp.gmail.com with ESMTPSA id bg16-20020a05600c3c9000b0040c517d090esm1351862wmb.15.2023.12.12.01.01.26
+        by smtp.gmail.com with ESMTPSA id bg16-20020a05600c3c9000b0040c517d090esm1351862wmb.15.2023.12.12.01.01.56
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Dec 2023 01:01:27 -0800 (PST)
-Message-ID: <cb28ca67-8648-4199-92d0-e3129277b624@linaro.org>
-Date: Tue, 12 Dec 2023 10:01:25 +0100
+        Tue, 12 Dec 2023 01:01:57 -0800 (PST)
+Message-ID: <7d352882-5f6f-4c8b-a8c5-76ea31c2ae31@linaro.org>
+Date: Tue, 12 Dec 2023 10:01:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -51,7 +51,8 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] dt-bindings: vendor-prefixes: add Transpeed
+Subject: Re: [PATCH 2/3] dt-bindings: arm: sunxi: document Transpeed 8K618-T
+ board name
 Content-Language: en-US
 To: Andre Przywara <andre.przywara@arm.com>, Rob Herring
  <robh+dt@kernel.org>, Krzysztof Kozlowski
@@ -61,7 +62,7 @@ To: Andre Przywara <andre.przywara@arm.com>, Rob Herring
 Cc: Icenowy Zheng <uwu@icenowy.me>, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
 References: <20231212010859.11571-1-andre.przywara@arm.com>
- <20231212010859.11571-2-andre.przywara@arm.com>
+ <20231212010859.11571-3-andre.przywara@arm.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -107,30 +108,37 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231212010859.11571-2-andre.przywara@arm.com>
+In-Reply-To: <20231212010859.11571-3-andre.przywara@arm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 12/12/2023 02:08, Andre Przywara wrote:
-> This is a name used by some Chinese TV boxes, add it to the bindings.
+> The Transpeed 8K618-T TV box is a Chinese Android TV box, using the
+> Allwinner H618 SoC.
+> 
+> Add the board/SoC compatible string pair to the list of known boards.
 > 
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 > ---
->  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
->  1 file changed, 2 insertions(+)
+>  Documentation/devicetree/bindings/arm/sunxi.yaml | 5 +++++
+>  1 file changed, 5 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> index 309b94c328c84..d9dd3f929cdcf 100644
-> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> @@ -1438,6 +1438,8 @@ patternProperties:
->      description: Traverse Technologies Australia Pty Ltd
->    "^tronfy,.*":
->      description: Tronfy
-> +  "^transpeed,.*":
-> +    description: Transpeed
+> diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
+> index 11c5ce941dd7e..5e91110cc9eb8 100644
+> --- a/Documentation/devicetree/bindings/arm/sunxi.yaml
+> +++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
+> @@ -868,6 +868,11 @@ properties:
+>            - const: topwise,a721
+>            - const: allwinner,sun4i-a10
+>  
+> +      - description: Transpeed 8K618-T
+> +        items:
+> +          - const: transpeed,8k618-t
+> +          - const: allwinner,sun50i-h618
 
-Please keep alphabetical order.
+Assuming you kept the existing order (its style) of a file:
+
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
