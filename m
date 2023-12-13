@@ -1,205 +1,254 @@
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEADB2E3FF
-	for <linux-sunxi@lists.linux.dev>; Wed, 13 Dec 2023 14:28:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="BdPmD4oT"
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2cc3647bf06so9459941fa.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 13 Dec 2023 06:28:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1702477693; x=1703082493; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wYCVDEfmEpAAq2joADzIDjMSoQFlP/Ou+pXsJQt/qSE=;
-        b=BdPmD4oTvaum/fZkpFkLG2RhfRFSeLZqEyLjLBVQIPwAADXFqiOXO2SwbbOo9wT5Q3
-         ebIRAlTfP8RDL2JGThvZnrLXO65HDedsNL5laR7GB7OMun9hi7XxvnDQlSQ6ySx8Wd5D
-         jAVkaPQTyfedw+rOch6QxWLds0H6Fs8NaAGpwdRqkdYrjLdQHSz5EWuVJPQ5kx4Hccdq
-         q0ZTHwUgTSyAoXgFhFZkuKxmbpqqXLf+WVivDWcNUdpzu0wCIFTN6BXDKhZ1hJAzpvgu
-         +iplmeSO116/qWgsJcgQHws6+GboBc2dgh+Cdnnfe3cnccNAb+G1KGYEy1izotLi1Ugd
-         tPng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702477693; x=1703082493;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wYCVDEfmEpAAq2joADzIDjMSoQFlP/Ou+pXsJQt/qSE=;
-        b=VWnL0Z27W9ZRAMdea085X2w9OOvoUgwc39fo9tcQ3TWz+6gNBAydl1GHEDxEr+R1TT
-         n7R4mfVt3Tq21u69ere8D6bU0GZafHZxUX40so5q1xnQyNpfElFBc5hreGFHY8I+AUQ1
-         s5zsTFAuEMIbgBViK+TazmEIRYOro07YwkdDp+e2FABMOkPMxAUtzASDbqG5NbMua+je
-         qXTtmsANsCNBiNKC9fWGmD8CCVg8T5lW6DueuK3BMH8k7vMB1QXgmwr3aemQReIbxIhw
-         jVW9kf/pEqLNX7VBFTd3R5olQY+CZ7LId2uadKGg9ysFNTSAMSmqYKRHoyhasIWUGBiq
-         nwHA==
-X-Gm-Message-State: AOJu0YyOXVxSDz2ocIFnIliwn36Dd7hh+V+Oqsw0XztaUT6uEfxOF2h1
-	FMIhOamFT/2431gh2uYfNUcC3KiEiJSBoH0WUgyS9g==
-X-Google-Smtp-Source: AGHT+IHDmlLtTkFMLJW7VNJT8SlVJHCzmvG4k5wsYrRIgEpE6i0fDa0/acLJ4JdcgtstAE4LD4tfwFQKOdBlv8mM9Vw=
-X-Received: by 2002:a2e:bea7:0:b0:2cb:2b04:cf92 with SMTP id
- a39-20020a2ebea7000000b002cb2b04cf92mr2250407ljr.11.1702477692628; Wed, 13
- Dec 2023 06:28:12 -0800 (PST)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 302012E856
+	for <linux-sunxi@lists.linux.dev>; Wed, 13 Dec 2023 14:37:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2D4F0C15;
+	Wed, 13 Dec 2023 06:38:35 -0800 (PST)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8AD383F738;
+	Wed, 13 Dec 2023 06:37:47 -0800 (PST)
+Date: Wed, 13 Dec 2023 14:37:43 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Anne Macedo <retpolanne@posteo.net>
+Cc: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, "open list:OPEN FIRMWARE AND
+ FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, "moderated
+ list:ARM/Allwinner sunXi SoC support"
+ <linux-arm-kernel@lists.infradead.org>, "open list:ARM/Allwinner sunXi SoC
+ support" <linux-sunxi@lists.linux.dev>, open list
+ <linux-kernel@vger.kernel.org>, Corentin Labbe <clabbe@baylibre.com>
+Subject: Re: [PATCH] arm64: dts: allwinner: Orange Pi One Plus PHY support
+Message-ID: <20231213143743.272e4d3c@donnerap.manchester.arm.com>
+In-Reply-To: <cm5e7g2ozviyin6p3dh2qtuh4i3f2sbqq4c2arjtdektgk7i6c@l7aawekyj6t2>
+References: <20231212122835.10850-2-retpolanne@posteo.net>
+	<20231212162200.10b3868b@donnerap.manchester.arm.com>
+	<axsvii25yrknfae6gdreti7lcskoscsdbsujwuispiieimsbdy@gwzm4l7mwlew>
+	<20231213013544.2fc7e0d1@minigeek.lan>
+	<ceuoq3xxgb5kkel7e7wqpslcg7h6dde3wgdqhyo7jgop6owovk@5a76ks5fiun4>
+	<20231213122523.219cbfc0@donnerap.manchester.arm.com>
+	<cm5e7g2ozviyin6p3dh2qtuh4i3f2sbqq4c2arjtdektgk7i6c@l7aawekyj6t2>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231213070301.1684751-1-peterlin@andestech.com> <20231213070301.1684751-3-peterlin@andestech.com>
-In-Reply-To: <20231213070301.1684751-3-peterlin@andestech.com>
-From: Anup Patel <apatel@ventanamicro.com>
-Date: Wed, 13 Dec 2023 19:58:00 +0530
-Message-ID: <CAK9=C2WuuYQD8ydrHP16hUXVk6RuKLbfvUe_GpUGw9ppe3Rd8Q@mail.gmail.com>
-Subject: Re: [PATCH v5 02/16] irqchip/riscv-intc: Allow large non-standard
- interrupt number
-To: Yu Chien Peter Lin <peterlin@andestech.com>
-Cc: acme@kernel.org, adrian.hunter@intel.com, ajones@ventanamicro.com, 
-	alexander.shishkin@linux.intel.com, andre.przywara@arm.com, 
-	anup@brainfault.org, aou@eecs.berkeley.edu, atishp@atishpatra.org, 
-	conor+dt@kernel.org, conor.dooley@microchip.com, conor@kernel.org, 
-	devicetree@vger.kernel.org, dminus@andestech.com, evan@rivosinc.com, 
-	geert+renesas@glider.be, guoren@kernel.org, heiko@sntech.de, 
-	irogers@google.com, jernej.skrabec@gmail.com, jolsa@kernel.org, 
-	jszhang@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	locus84@andestech.com, magnus.damm@gmail.com, mark.rutland@arm.com, 
-	mingo@redhat.com, n.shubin@yadro.com, namhyung@kernel.org, palmer@dabbelt.com, 
-	paul.walmsley@sifive.com, peterz@infradead.org, 
-	prabhakar.mahadev-lad.rj@bp.renesas.com, rdunlap@infradead.org, 
-	robh+dt@kernel.org, samuel@sholland.org, sunilvl@ventanamicro.com, 
-	tglx@linutronix.de, tim609@andestech.com, uwu@icenowy.me, wens@csie.org, 
-	will@kernel.org, ycliang@andestech.com, inochiama@outlook.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Dec 13, 2023 at 12:34=E2=80=AFPM Yu Chien Peter Lin
-<peterlin@andestech.com> wrote:
->
-> Currently, the implementation of the RISC-V INTC driver uses the
-> interrupt cause as hardware interrupt number and has a limitation of
-> supporting a maximum of 64 interrupts. However, according to the
-> privileged spec, interrupt causes >=3D 16 are defined for platform use.
+On Wed, 13 Dec 2023 12:55:58 +0000
+Anne Macedo <retpolanne@posteo.net> wrote:
 
-I disagree with this patch.
+Hi Anne,
 
-Even though RISC-V priv sepc allows interrupt causes >=3D 16, we
-still need CSRs to manage arbitrary local interrupts
+> On Wed, Dec 13, 2023 at 12:25:23PM +0000, Andre Przywara wrote:
+> > On Wed, 13 Dec 2023 11:02:39 +0000
+> > Anne Macedo <retpolanne@posteo.net> wrote:
+> > 
+> > Hi Anne,
+> >   
+> > > On Wed, Dec 13, 2023 at 01:35:44AM +0000, Andre Przywara wrote:  
+> > > > On Tue, 12 Dec 2023 19:27:14 +0000
+> > > > Anne Macedo <retpolanne@posteo.net> wrote:
+> > > > 
+> > > > Hi Anne,
+> > > >     
+> > > > > On Tue, Dec 12, 2023 at 04:22:00PM +0000, Andre Przywara wrote:    
+> > > > > > On Tue, 12 Dec 2023 12:28:30 +0000
+> > > > > > Anne Macedo <retpolanne@posteo.net> wrote:
+> > > > > > 
+> > > > > > Hi Anne,
+> > > > > >       
+> > > > > > > Adds compatible values to mdio subnodes for Ethernet PHY representing
+> > > > > > > Realtek 8211 PHY to Orange Pi One Plus.      
+> > > > > > 
+> > > > > > So can you state why this would be needed? This is the RTL8211 ID,      
+> > > > > 
+> > > > > Apologies, I completely forgot to include some context. 
+> > > > >     
+> > > > > > right? Which should be autodetected via MDIO. Looking back in my inbox
+> > > > > > you proposed this change before, for U-Boot, specifically, but I fail to
+> > > > > > find a solution or explanation what really happens here. Two Renesas .dts
+> > > > > > files have the same compatible, and the commit message talks about the
+> > > > > > reset line there, is this related?
+> > > > > > 
+> > > > > > So can you please give some more background and explanation? That would be
+> > > > > > part of a good commit message anyway ("why", not "what").      
+> > > > > 
+> > > > > Should I resend the commit with a more meaningful explanation? The
+> > > > > context is the following:
+> > > > > 
+> > > > > currently, ethernet doesn't seem to work on both u-boot and Linux on the
+> > > > > Orange Pi One Plus board. 
+> > > > > 
+> > > > > On the kernel, this error shows up:
+> > > > > 
+> > > > > Configuring network interfaces... [    5.992589] dwmac-sun8i 5020000.ethernet eth0: Register MEM_TYPE_PAGE_POOL RxQ-0
+> > > > > [    6.000823] dwmac-sun8i 5020000.ethernet eth0: __stmmac_open: Cannot attach to PHY (error: -19)
+> > > > > 
+> > > > > After applying this fix, the PHY gets attached: 
+> > > > > 
+> > > > > Configuring network interfaces... [    6.060020] dwmac-sun8i 5020000.ethernet eth0: Register MEM_TYPE_PAGE_POOL RxQ-0
+> > > > > [    6.069460] dwmac-sun8i 5020000.ethernet eth0: PHY [stmmac-0:01] driver [RTL8211E Gigabit Ethernet] (irq=POLL)
+> > > > > 
+> > > > > The previous compatible list that had ethernet-phy-ieee802.3-c22 fails
+> > > > > to find a PHY, so this patch includes the correct PHY ID with the
+> > > > > RTL8211 ID. 
+> > > > > 
+> > > > > The behaviour is described on [1].    
+> > > > 
+> > > > So this is all an observation, but no real explanation, isn't it?    
+> > > 
+> > > I've made some analysis on [3] on this bug, but it was based solely on
+> > > u-boot. I was having trouble with the regulator and on u-boot nothing
+> > > would trigger the GPIO PD6 and the vcc-gmac-3v3 regulator, so the NIC
+> > > was completely dead. Next I did an analysis based on [2] because the
+> > > u-boot PHY initialization was flaky.
+> > >   
+> > > > To cite [1]: "If the PHY reports an incorrect ID (or none at all) ...".
+> > > > I am pretty sure this is not the case here, instead we are looking at
+> > > > some missing platform bits, like a missing clock, reset, or most likely
+> > > > regulator. Or one of the existing resources is wrongly assigned or    
+> > > 
+> > > As I mentioned, PHY initialization is flaky on u-boot, so maybe that
+> > > assumption is correct. 
+> > >   
+> > > > configured? If the PHY is not (yet?) powered correctly when the code
+> > > > does the auto-detection via the MDIO bus, then the initialisation would    
+> > > 
+> > > If I recall correctly (I don't know if I kept it in my notes :c), that
+> > > could be the case. regulator-boot-on makes the NIC work (LEDs blink, at
+> > > least) but it doesn't get initialized. 
+> > >   
+> > > > fail. But since it works when overriding the auto-detection, I feel
+> > > > like we are papering over something here.
+> > > > Do you have the schematics for this board? I can only find the one for
+> > > > the Orange Pi Plus 2E, and I don't know how similar those two are. This
+> > > > shows *two* regulators, but both are activated by the same GPIO.    
+> > > 
+> > > I do. It's available on [4]  
+> > 
+> > Oh damn it, I got lost in Orange Pi's naming maze again - and was looking
+> > for the wrong board! So thanks for the link, and this clears things up!  
+> 
+> Yay! 
+> 
+> > 
+> > So yes, the Orange Pi *One* Plus, much like the Orange Pi 3, uses *two*
+> > regulators for Ethernet: one 3.3V from the PMIC's ALDO2 rail to power the
+> > PHY, and a discrete 2.5V regulator, enabled by GPIO PD6, for the voltage  
+> 
+> Oh! I didn't know about the PMIC's ALDO2.
 
-Currently, we have following standard CSRs:
-1) [m|s]ie and [m|s]ip which are XLEN wide
-2) With AIA, we have [m|s]ieh and [m|s]iph for RV32
+That's a bit obscure in the schematic, but it's a common thing to do:
+- On page 12 (LAN), in the top right box, you see the EPHY-DVDD33 and
+EPHY-AVDD33 signals connected to GMAC-3V.
+- On the same page, in the middle left part, you see GMAC-3V connected to
+VCC3V3-MAC.
+- On page 8 (POWER), in the lower left corner, you see VCC3V3-MAC
+connected to ALDO2.
+- On the same page, in the right hand part, you see the ALDO2 signal
+connected to the ALDO2 pin on the PMIC.
 
-Clearly, we can only have a XLEN number of standard local
-interrupts without AIA and 64 local interrupts with AIA.
+Easy, huh? ;-)
 
-Now for implementations with custom CSRs (such as Andes),
-we still can't assume infinite local interrupts because HW will
-have a finite number of custom CSRs.
+> > level on the MDIO lines. On top of this there is a reset line for the PHY,
+> > though this is held up by a pull-up resistor, so it *should* work,
+> > although we should describe this in the DT.  
+> 
+> Noting here to take a look at the reset line so I can add it as well to
+> the DT.
 
->
-> This limitation prevents to fully utilize the available local interrupt
-> sources. Additionally, the interrupt number used on RISC-V are sparse,
-> with only interrupt numbers 1, 5 and 9 (plus Sscofpmf or T-Head's PMU
-> interrupt) being currently used for supervisor mode.
->
-> Switch to using irq_domain_create_tree() to create the radix tree
-> map, so a larger number of hardware interrupts can be handled.
->
-> Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
-> Reviewed-by: Charles Ci-Jyun Wu <dminus@andestech.com>
-> Reviewed-by: Leo Yu-Chi Liang <ycliang@andestech.com>
-> ---
-> Changes v1 -> v2:
->   - Fixed irq mapping failure checking (suggested by Cl=C3=A9ment and Anu=
-p)
-> Changes v2 -> v3:
->   - No change
-> Changes v3 -> v4: (Suggested by Thomas [1])
->   - Use pr_warn_ratelimited instead
->   - Fix coding style and commit message
-> Changes v4 -> v5: (Suggested by Thomas)
->   - Fix commit message
->
-> [1] https://patchwork.kernel.org/project/linux-riscv/patch/20231023004100=
-.2663486-3-peterlin@andestech.com/#25573085
-> ---
->  drivers/irqchip/irq-riscv-intc.c | 12 ++++--------
->  1 file changed, 4 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/irqchip/irq-riscv-intc.c b/drivers/irqchip/irq-riscv=
--intc.c
-> index e8d01b14ccdd..2fdd40f2a791 100644
-> --- a/drivers/irqchip/irq-riscv-intc.c
-> +++ b/drivers/irqchip/irq-riscv-intc.c
-> @@ -24,10 +24,9 @@ static asmlinkage void riscv_intc_irq(struct pt_regs *=
-regs)
->  {
->         unsigned long cause =3D regs->cause & ~CAUSE_IRQ_FLAG;
->
-> -       if (unlikely(cause >=3D BITS_PER_LONG))
-> -               panic("unexpected interrupt cause");
-> -
-> -       generic_handle_domain_irq(intc_domain, cause);
-> +       if (generic_handle_domain_irq(intc_domain, cause))
-> +               pr_warn_ratelimited("Failed to handle interrupt (cause: %=
-ld)\n",
-> +                                   cause);
->  }
->
->  /*
-> @@ -117,8 +116,7 @@ static int __init riscv_intc_init_common(struct fwnod=
-e_handle *fn)
->  {
->         int rc;
->
-> -       intc_domain =3D irq_domain_create_linear(fn, BITS_PER_LONG,
-> -                                              &riscv_intc_domain_ops, NU=
-LL);
-> +       intc_domain =3D irq_domain_create_tree(fn, &riscv_intc_domain_ops=
-, NULL);
+Yeah, maybe it helps to bring the PHY back into a sane state?
 
-I disagree with this change based on the reasoning above.
+> > So the DT looks wrong then: The reg_gmac_3v3 is actually a 2.5V regulator,
+> > and phy-supply is aldo2. I think it was done the way it is to somehow make
+> > it work with the current DT binding and code, which just supports one
+> > regulator. And aldo2 is referenced as the source of reg_gmac_3v3, which
+> > smells like another hack to me.  
+> 
+> 	reg_gmac_3v3: gmac-3v3 {
+> 		compatible = "regulator-fixed";
+> 		regulator-name = "vcc-gmac-3v3";
+> 		regulator-min-microvolt = <3300000>;
+> 		regulator-max-microvolt = <3300000>;
+> 		startup-delay-us = <100000>;
+> 		enable-active-high;
+> 		gpio = <&pio 3 6 GPIO_ACTIVE_HIGH>; /* PD6 */
+> 		vin-supply = <&reg_aldo2>;
+> 	};
+> 
+> Interesting, I see the reg_aldo2 on vin-supply for reg_gmac_3v3. I don't
+> understand how it works, is it linking the regulator with the ALDO2 but
+> it also enables the PD6 GPIO?
 
-Instead of this, we should determine the number of local interrupts
-based on the type of RISC-V intc:
-1) For standard INTC without AIA, we have XLEN (or BITS_PER_LONG)
-    local interrupts
-2) For standart INTC with AIA, we have 64 local interrupts
-3) For custom INTC (such as Andes), the number of local interrupt
-    should be custom (Andes specific) which can be determined based
-    on compatible string.
+So yes, this is one hack I was talking about: This DT node describes a
+regulator with a GPIO controlled enable pin (PD6), which feeds itself off
+another regulator (vin-supply), namely ALDO2.
+So to enable reg_gmac_3v3, which is referenced by the MAC DT node as the
+"phy-supply", the regulator driver code would need to enable ALDO2 first,
+then make PD6 go high, (to enable this regulator here), then wait 100ms.
+So even though the MAC DT node only references one regulator, this trick
+will allow *two* regulators to be turned on.
 
-Also, creating a linear domain with a fixed number of local interrupts
-ensures that drivers can't map a local interrupt beyond the availability
-of CSRs to manage it.
+The only problem with this is that it's the wrong order: there are
+comments somewhere that say it's required to enable the 2.5V supply
+*earlier* or at the same time as the 3.3V supply. And since this PD6
+controlled regulator is actually the 2.5V regulator (compare the
+schematic!), and ALDO2 is the 3.3V supply, we get it the other way around,
+and the PHY operation becomes unstable (that's what those comments say).
 
->         if (!intc_domain) {
->                 pr_err("unable to add IRQ domain\n");
->                 return -ENXIO;
-> @@ -132,8 +130,6 @@ static int __init riscv_intc_init_common(struct fwnod=
-e_handle *fn)
->
->         riscv_set_intc_hwnode_fn(riscv_intc_hwnode);
->
-> -       pr_info("%d local interrupts mapped\n", BITS_PER_LONG);
-> -
+And we can't apply this same trick the other way around, since the ALDO
+input supply clearly does not feed off this PD6 regulator. 
+And besides, it would be wrong and a hack anyway, as we should be able to
+describe two regulators as the requirement: this is what Corentin's
+of_regulator_bulk_get_all() patch takes care of.
 
-Same as above, we should definitely advertise the type of INTC and
-number of local interrupts mapped.
+> > > > It would also be interesting to see if any of Corentin's work for the
+> > > > Orange Pi 3 helps here?    
+> > > 
+> > > Adding [5] for reference here, thanks! Will check it out.   
+> > 
+> > This is an older version, there are actually updates. And he also mentions
+> > your board as well, so I think it just can sail in the wake of the OPi 3
+> > Ethernet enablement.
+> > 
+> > Can you try if this change, just applied to your .dts instead, works?
+> > https://github.com/montjoie/linux/commit/cf6e192eca1d59be630e6729d2cef9e897b3da8c  
+> 
+> Will do! I'll be out of my lab today but will try it at night Brazil
+> time. 
+> > 
+> > Cheers,
+> > Andre
+> > 
+> > P.S. Is there any chance where I can reply/comment on your blog? It seems
+> > like I can clear some things up...  
+> 
+> Please send me suggestions off thread, the blog is a static GHPages
+> blog, so I didn't implement replies yet. I will be happy to include them
+> to my notes :) 
 
-Regards,
-Anup
+OK, will do later today!
 
->         return 0;
->  }
->
-> --
-> 2.34.1
->
->
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+Cheers,
+Andre
+
+> 
+> >   
+> > > [3] https://blog.retpolanne.com/hardware/embedded/2023/07/07/embedded-phy.html
+> > > [4] https://linux-sunxi.org/images/7/7c/OrangePi_OnePlus_Schematics_v2.0.pdf
+> > > [5] https://lore.kernel.org/netdev/20220509074857.195302-1-clabbe@baylibre.com/
+> > > 
+> > > Regards, Anne  
+> >   
+> 
+> Regards, Anne
+> 
+
