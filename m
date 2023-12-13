@@ -1,197 +1,230 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFEDE85345
-	for <linux-sunxi@lists.linux.dev>; Wed, 13 Dec 2023 15:48:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=brainfault.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=brainfault.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=brainfault-org.20230601.gappssmtp.com header.i=@brainfault-org.20230601.gappssmtp.com header.b="h5Oag67b"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-28af0b85f58so245297a91.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 13 Dec 2023 07:48:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brainfault-org.20230601.gappssmtp.com; s=20230601; t=1702482511; x=1703087311; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jJQOr6G595liPThx9YQFt7iREStykDelnicH4b+uNfM=;
-        b=h5Oag67bUwQ2Ohk4LZGfH2tGE+Nanlewywvhilze5V8bBk3C/wvGZuIgOmXI9h9dYp
-         rwLWuGkyf8E5VCfWw8HQtqouW5tQsaF6sdQHUyIxc8mpfenuoJF9nvOqzBtA9yGY0NLG
-         7Gw2MQW5WqJRRQElmVeQSlsSmDXrK5P6yYFXGYxl3Q3WVBST+qP/kuCoJ8RvBjYh6Fnh
-         rUKi23Gr8bpjP1lYY8haseta5wIwZ6wMwA3HPx58jTb6jiuRhDd6HVZotP61Tdbu0oP3
-         al4izSirHAeM8o+5P2NKo1fOhHmKUM58QCPrtdewBWrj0QYJgtTIJRnApJeQZKN6KhHx
-         x87Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702482511; x=1703087311;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jJQOr6G595liPThx9YQFt7iREStykDelnicH4b+uNfM=;
-        b=Cr4KETeQrDvYjupWRhTS9C9ZCq/xkgdMJGY31x+2mv2N0Ztj7evmCm+1fQ/lhRx96c
-         zhuLRZiA8QWs7booCNrdQI0IFQ3Ww3Za5UiQHKzqxbGBUukg7KSVlVjQTMWw7fPjpg+q
-         EzOeIvqH3EJ0snH2hP/S+BnUAqs1juLoEXOr9c47WOHaeiVKdEdDVG7+UT5VeCRcg6Xn
-         EzC6F9BwRGOoz/FEEnwioY/uh+UdOMHenjmEdPWtR3vB6/6SFlQPvAg8h3g5kdvcz0Qv
-         YPRO3dl+KF0PoZmWkwKTRuiQip3hFsz/m+hYt5seg/bdRhzauqxbtsTW6CFngAONF3gR
-         5/0g==
-X-Gm-Message-State: AOJu0Ywj5Fh8FgMlX9xhiAqKukAZv4//A7NlQ7obhGgovp4emy6N4pdU
-	boxQWDOFRvBiLGacIcxsgnSVVYeJx5fy+qm11EkAGw==
-X-Google-Smtp-Source: AGHT+IGETEWIybG8Cj7o1mZXeX0Cpwd1y0htevZPrsabRyIPn8kV57YkKN614sbxd8+A0O5Bt1rDcCLjsD/w7J5obHk=
-X-Received: by 2002:a17:90a:1049:b0:286:e125:1a3f with SMTP id
- y9-20020a17090a104900b00286e1251a3fmr3741967pjd.5.1702482511032; Wed, 13 Dec
- 2023 07:48:31 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5CF585346
+	for <linux-sunxi@lists.linux.dev>; Wed, 13 Dec 2023 15:53:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rDRXd-0000t5-N4; Wed, 13 Dec 2023 16:52:57 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rDRXZ-00FbSV-8h; Wed, 13 Dec 2023 16:52:53 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rDRXY-002Mb8-UB; Wed, 13 Dec 2023 16:52:52 +0100
+Date: Wed, 13 Dec 2023 16:52:52 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+	dri-devel@lists.freedesktop.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	David Airlie <airlied@gmail.com>, linux-clk@vger.kernel.org,
+	Jerome Brunet <jbrunet@baylibre.com>, Rob Herring <robh@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>, Chen-Yu Tsai <wens@csie.org>,
+	MyungJoo Ham <myungjoo.ham@samsung.com>,
+	Johan Hovold <johan+linaro@kernel.org>, linux-sunxi@lists.linux.dev,
+	Daniel Vetter <daniel@ffwll.ch>, linux-pm@vger.kernel.org,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Kyungmin Park <kyungmin.park@samsung.com>, kernel@pengutronix.de,
+	Georgi Djakov <djakov@kernel.org>
+Subject: Re: [PATCH 0/5] clk: Make clk_rate_exclusive_get() return void
+Message-ID: <20231213155252.eq6cdzk2vuwllzdu@pengutronix.de>
+References: <cover.1702400947.git.u.kleine-koenig@pengutronix.de>
+ <ki5n3rz5n4oxj2hhc3rj6xpn3e2tdi7fcp2q7exjbzilrlqflp@przautvhuy4g>
+ <20231213074300.4bq7wkfqd4jhhcr4@pengutronix.de>
+ <2nvbag657mlniqwq7fbilapc6vfw5qumab3yd6bqul25ot6wcn@wdlkh5az2fgs>
+ <20231213110829.bjaxjjiyy4ug7o67@pengutronix.de>
+ <6wnsxbi27xdxjtaqaaaq5wtwwilp4jfw4mg5y2ctdl7xrs44ry@ns6y36pf7hge>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231213070301.1684751-1-peterlin@andestech.com>
- <20231213070301.1684751-4-peterlin@andestech.com> <CAK9=C2WC2i7XkjDgbjccVn03BYfnE_YS4YiA6ZWMj6GDyTjJKA@mail.gmail.com>
- <ZXnRcfuvQBo6UDCx@APC323>
-In-Reply-To: <ZXnRcfuvQBo6UDCx@APC323>
-From: Anup Patel <anup@brainfault.org>
-Date: Wed, 13 Dec 2023 21:18:19 +0530
-Message-ID: <CAAhSdy3t-zAyxikkSOsdLZvHC=uo1E2o35guYnZVuWHKUYH-Pg@mail.gmail.com>
-Subject: Re: [PATCH v5 03/16] irqchip/riscv-intc: Introduce Andes hart-level
- interrupt controller
-To: Yu-Chien Peter Lin <peterlin@andestech.com>
-Cc: Anup Patel <apatel@ventanamicro.com>, acme@kernel.org, adrian.hunter@intel.com, 
-	ajones@ventanamicro.com, alexander.shishkin@linux.intel.com, 
-	andre.przywara@arm.com, aou@eecs.berkeley.edu, atishp@atishpatra.org, 
-	conor+dt@kernel.org, conor.dooley@microchip.com, conor@kernel.org, 
-	devicetree@vger.kernel.org, dminus@andestech.com, evan@rivosinc.com, 
-	geert+renesas@glider.be, guoren@kernel.org, heiko@sntech.de, 
-	irogers@google.com, jernej.skrabec@gmail.com, jolsa@kernel.org, 
-	jszhang@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	locus84@andestech.com, magnus.damm@gmail.com, mark.rutland@arm.com, 
-	mingo@redhat.com, n.shubin@yadro.com, namhyung@kernel.org, palmer@dabbelt.com, 
-	paul.walmsley@sifive.com, peterz@infradead.org, 
-	prabhakar.mahadev-lad.rj@bp.renesas.com, rdunlap@infradead.org, 
-	robh+dt@kernel.org, samuel@sholland.org, sunilvl@ventanamicro.com, 
-	tglx@linutronix.de, tim609@andestech.com, uwu@icenowy.me, wens@csie.org, 
-	will@kernel.org, ycliang@andestech.com, inochiama@outlook.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="4rnwsmpqrmgwol6u"
+Content-Disposition: inline
+In-Reply-To: <6wnsxbi27xdxjtaqaaaq5wtwwilp4jfw4mg5y2ctdl7xrs44ry@ns6y36pf7hge>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+
+
+--4rnwsmpqrmgwol6u
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 13, 2023 at 9:15=E2=80=AFPM Yu-Chien Peter Lin
-<peterlin@andestech.com> wrote:
->
-> On Wed, Dec 13, 2023 at 08:15:28PM +0530, Anup Patel wrote:
-> > On Wed, Dec 13, 2023 at 12:35=E2=80=AFPM Yu Chien Peter Lin
-> > <peterlin@andestech.com> wrote:
-> > >
-> > > Add support for the Andes hart-level interrupt controller. This
-> > > controller provides interrupt mask/unmask functions to access the
-> > > custom register (SLIE) where the non-standard S-mode local interrupt
-> > > enable bits are located.
-> > >
-> > > To share the riscv_intc_domain_map() with the generic RISC-V INTC and
-> > > ACPI, add a chip parameter to riscv_intc_init_common(), so it can be
-> > > passed to the irq_domain_set_info() as private data.
-> > >
-> > > Andes hart-level interrupt controller requires the "andestech,cpu-int=
-c"
-> > > compatible string to be present in interrupt-controller of cpu node.
-> > > e.g.,
-> > >
-> > >   cpu0: cpu@0 {
-> > >       compatible =3D "andestech,ax45mp", "riscv";
-> > >       ...
-> > >       cpu0-intc: interrupt-controller {
-> > >           #interrupt-cells =3D <0x01>;
-> > >           compatible =3D "andestech,cpu-intc", "riscv,cpu-intc";
-> > >           interrupt-controller;
-> > >       };
-> > >   };
-> > >
-> > > Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
-> > > Reviewed-by: Charles Ci-Jyun Wu <dminus@andestech.com>
-> > > Reviewed-by: Leo Yu-Chi Liang <ycliang@andestech.com>
-> > > ---
-> > > Changes v1 -> v2:
-> > >   - New patch
-> > > Changes v2 -> v3:
-> > >   - Return -ENXIO if no valid compatible INTC found
-> > >   - Allow falling back to generic RISC-V INTC
-> > > Changes v3 -> v4: (Suggested by Thomas [1])
-> > >   - Add comment to andes irq chip function
-> > >   - Refine code flow to share with generic RISC-V INTC and ACPI
-> > >   - Move Andes specific definitions to include/linux/soc/andes/irq.h
-> > > Changes v4 -> v5: (Suggested by Thomas)
-> > >   - Fix commit message
-> > >   - Subtract ANDES_SLI_CAUSE_BASE from d->hwirq to calculate the valu=
-e of mask
-> > >   - Do not set chip_data to the chip itself with irq_domain_set_info(=
-)
-> > >   - Follow reverse fir tree order variable declarations
-> > >
-> > > [1] https://patchwork.kernel.org/project/linux-riscv/patch/2023101913=
-5723.3657156-1-peterlin@andestech.com/
-> > > ---
-> > >  drivers/irqchip/irq-riscv-intc.c | 53 ++++++++++++++++++++++++++++--=
---
-> > >  include/linux/soc/andes/irq.h    | 17 ++++++++++
-> > >  2 files changed, 64 insertions(+), 6 deletions(-)
-> > >  create mode 100644 include/linux/soc/andes/irq.h
-> > >
-> > > diff --git a/drivers/irqchip/irq-riscv-intc.c b/drivers/irqchip/irq-r=
-iscv-intc.c
-> > > index 2fdd40f2a791..0b6bf3fb1dba 100644
-> > > --- a/drivers/irqchip/irq-riscv-intc.c
-> > > +++ b/drivers/irqchip/irq-riscv-intc.c
-> > > @@ -17,6 +17,7 @@
-> > >  #include <linux/module.h>
-> > >  #include <linux/of.h>
-> > >  #include <linux/smp.h>
-> > > +#include <linux/soc/andes/irq.h>
-> > >
-> > >  static struct irq_domain *intc_domain;
-> > >
-> > > @@ -46,6 +47,31 @@ static void riscv_intc_irq_unmask(struct irq_data =
-*d)
-> > >         csr_set(CSR_IE, BIT(d->hwirq));
-> > >  }
-> > >
-> > > +static void andes_intc_irq_mask(struct irq_data *d)
-> > > +{
-> > > +       /*
-> > > +        * Andes specific S-mode local interrupt causes (hwirq)
-> > > +        * are defined as (256 + n) and controlled by n-th bit
-> > > +        * of SLIE.
-> > > +        */
-> > > +       unsigned int mask =3D BIT(d->hwirq - ANDES_SLI_CAUSE_BASE);
-> > > +
-> > > +       if (d->hwirq < ANDES_SLI_CAUSE_BASE)
-> > > +               csr_clear(CSR_IE, mask);
-> > > +       else
-> > > +               csr_clear(ANDES_CSR_SLIE, mask);
-> > > +}
-> > > +
-> > > +static void andes_intc_irq_unmask(struct irq_data *d)
-> > > +{
-> > > +       unsigned int mask =3D BIT(d->hwirq - ANDES_SLI_CAUSE_BASE);
-> > > +
-> > > +       if (d->hwirq < ANDES_SLI_CAUSE_BASE)
-> > > +               csr_set(CSR_IE, mask);
-> > > +       else
-> > > +               csr_set(ANDES_CSR_SLIE, mask);
-> >
-> > Clearly, Andes does not have any CSR for:
-> > XLEN <=3D local interrupt <ANDES_SLI_CAUSE_BASE
-> > and
-> > ANDES_SLI_CAUSE_BASE + XLEN <=3D local interrupt
->
-> Ah, what am I doing here.
-> sorry for that silly patch.
+On Wed, Dec 13, 2023 at 12:54:14PM +0100, Maxime Ripard wrote:
+> On Wed, Dec 13, 2023 at 12:08:29PM +0100, Uwe Kleine-K=F6nig wrote:
+> > On Wed, Dec 13, 2023 at 09:36:49AM +0100, Maxime Ripard wrote:
+> > > On Wed, Dec 13, 2023 at 08:43:00AM +0100, Uwe Kleine-K=F6nig wrote:
+> > > > On Wed, Dec 13, 2023 at 08:16:04AM +0100, Maxime Ripard wrote:
+> > > > > On Tue, Dec 12, 2023 at 06:26:37PM +0100, Uwe Kleine-K=F6nig wrot=
+e:
+> > > > > > clk_rate_exclusive_get() returns zero unconditionally. Most use=
+rs "know"
+> > > > > > that and don't check the return value. This series fixes the fo=
+ur users
+> > > > > > that do error checking on the returned value and then makes fun=
+ction
+> > > > > > return void.
+> > > > > >=20
+> > > > > > Given that the changes to the drivers are simple and so merge c=
+onflicts
+> > > > > > (if any) should be easy to handle, I suggest to merge this comp=
+lete
+> > > > > > series via the clk tree.
+> > > > >=20
+> > > > > I don't think it's the right way to go about it.
+> > > > >=20
+> > > > > clk_rate_exclusive_get() should be expected to fail. For example =
+if
+> > > > > there's another user getting an exclusive rate on the same clock.
+> > > > >=20
+> > > > > If we're not checking for it right now, then it should probably be
+> > > > > fixed, but the callers checking for the error are right to do so =
+if they
+> > > > > rely on an exclusive rate. It's the ones that don't that should be
+> > > > > modified.
+> > > >=20
+> > > > If some other consumer has already "locked" a clock that I call
+> > > > clk_rate_exclusive_get() for, this isn't an error. In my bubble I c=
+all
+> > > > this function because I don't want the rate to change e.g. because I
+> > > > setup some registers in the consuming device to provide a fixed UART
+> > > > baud rate or i2c bus frequency (and that works as expected).
+> > >=20
+> > > [a long text of mostly right things (Uwe's interpretation) that are
+> > > however totally unrelated to the patches under discussion.]
+>=20
+> I'm glad you consider it "mostly" right.
 
-This patch is okay only if we can guarantee that
-hwirq is within accepted range.
+there was no offense intended. I didn't agree to all points, but didn't
+think it was helpful to discuss that given that I considered them
+orthogonal to my suggested modifications.
+=20
+> > The clk API works with and without my patches in exactly the same way.
+> > It just makes more explicit that clk_rate_exclusive_get() cannot fail
+> > today and removes the error handling from consumers that is never used.
+>=20
+> Not really, no.
 
-For example, riscv_intc_domain_alloc() can deny
-invalid local interrupts.
+What exactly do you oppose here? Both of my sentences are correct?!
+=20
+> An API is an interface, meant to provide an abstraction. The only
+> relevant thing is whether or not that function, from an abstract point
+> of view, can fail.
 
-Regards,
-Anup
+What is the ideal API that you imagine? For me the ideal API is:
+
+A consumer might call clk_rate_exclusive_get() and after that returns
+all other consumers are prohibited to change the rate of the clock
+(directly and indirectly) until clk_rate_exclusive_put() is called. If
+this ends in a double lock (i.e. two different consumers locked the
+clock), then I cannot change the rate (and neither can anybody else).
+
+That is fine iff I don't need to change the rate and just want to rely
+on it to keep its current value (which is a valid use case). And if I
+want to change the rate but another consumer prevents that, I handle
+that in the same away as I handle all other failures to set the rate to
+the value I need. I have to prepare for that anyhow even if I have
+ensured that I'm the only one having exclusivity on that clock.
+
+Letting clk_rate_exclusive_get() fail in the assumption that the
+consumer also wants to modify the rate is wrong. The obvious point where
+to stop such consumers is when they call clk_rate_set(). And those who
+don't modify the rate then continue without interruption even if there
+are two lockers.
+
+This can easily be implemented without clk_rate_exclusive_get() ever
+failing.
+
+> Can you fail to get the exclusivity? Yes. On a theoretical basis, you
+> can, and the function was explicitly documented as such.
+
+Sure, you could modify the clk internals such that
+clk_rate_exclusive_get() needs to allocate memory. Or that it fails if
+another consumer already has called it. At least the latter is a change
+in semantics that requires to review (and maybe fix) all users. Also
+note that calling clk_rate_exclusive_get() essentially locks all parent
+clocks up to the root clock. So if clk_rate_exclusive_get() fails in the
+presence of another locker, you can only have one locker per clock
+hierarchy because it's impossible that both grab the lock on the root
+clock.
+
+> > Is there anyone working on improving the clk framework regarding how clk
+> > rate exclusivity works? I'd probably not notice, but I guess there is
+> > noone that I need to consider for.
+>=20
+> I started working on it.
+
+That is indeed a reason to postpone my patches. Feel free to Cc: me when
+you're done. And please mention if you need longer than (say) 6 months,
+then I'd argue that applying my patches now without caring for
+out-of-tree users is the way to go.
+
+My demand for such a rework would be that there is a function for=20
+consumers to call that don't have the requirement for a certain rate but
+only any fixed rate that results in locking the clock's rate to whatever
+it currently is. Today that function exists and is called
+clk_rate_exclusive_get(); this might not be the best name, so maybe
+rename it to something that you consider more sensible at the start of
+your rework?!
+
+Semantically that is similar to read_lock() (which never fails and
+still prevents any writers). And clk_set_rate() is like=20
+
+	try_upgrade_read_lock_to_write_lock();
+	actually_change_the_rate()
+	downgrade_write_lock_to_read_lock();
+
+where try_upgrade_read_lock_to_write_lock() fails if there are other
+readers. So maybe a sensible name for today's clk_rate_exclusive_get()
+is clk_rate_read_lock()?
+
+If your variant of clk_rate_exclusive_get() might fail, you can already
+prepare for me questioning why this is sensible and needed.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--4rnwsmpqrmgwol6u
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmV501MACgkQj4D7WH0S
+/k51hQf8CRNymicQ4BgKO3Qz+szmXEUKIg8qmLZG6f+sJ77H3mvg7zlbvpI/W/hI
+rscYS06UjEHJM9ec8XTYACyQ1nJy98D8BxhawVTn+wrJa2z0tBDSg01HHBXZkVLe
+xG6BYa5Dx94GTfhTXr9H4zwiLgchRz6/FFp4H49wHQ8rHLX6YYwLBUMq258vYNN8
+Df1WULIGmruvRCkwWFyfhVC2OPyUy0FagJ5xsjJyRIavDaiFmuLEGg0avrbfEjN3
+CMcsnDtQD1pALNhIWwvovcLint4Iap8vDz6O3+MyEDj65AZf8DzO8TJZjTYwGnoI
+zj1/dV/j2h1+TK5lvLFOTKPzSD3u1Q==
+=Nnb7
+-----END PGP SIGNATURE-----
+
+--4rnwsmpqrmgwol6u--
