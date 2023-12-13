@@ -1,203 +1,146 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 351352031B
-	for <linux-sunxi@lists.linux.dev>; Wed, 13 Dec 2023 09:41:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED7FE2374E
+	for <linux-sunxi@lists.linux.dev>; Wed, 13 Dec 2023 11:02:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J24BTckB"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-54bf9a54fe3so9275513a12.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 13 Dec 2023 01:41:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702460501; x=1703065301; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=C83DAGlgLjSSq6kThFj4INGY4aLqpVekjXi2FmsqvB8=;
-        b=J24BTckBlMacxahVR+T2DRf333ah7c5KF7h+BRcQZxW/14RD0/vg4J4dtIDqobPAFK
-         Lh9duc4sO39XR8Oeo/DehjiU57zW8+06TjHuqs81OBfg+cLTL0mf9ALYRPYzGlbKn/v1
-         Dpk+LlGKS4aQzVzoVOI+LzAEeKobNXU/e+BnHeZ/VN/O7FuIeCS6lnLH7uUF8uQzEXrD
-         ZbTEDd6sNuimUNDU+2+2uHHx3ypKDDY+U3Q8i7NLGZ38YXWyHSSj/G1QJUNQiSHG9HoN
-         8ls2EtKM6NE5m0u/CAiW2U271u5Iiaukd1yErj5Ij01elFaF99VGHgBD/mqCD329jwyc
-         pMHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702460501; x=1703065301;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=C83DAGlgLjSSq6kThFj4INGY4aLqpVekjXi2FmsqvB8=;
-        b=o0Hb8sJ3Kcc15MqgmvjQcZEPRsoQFZYZzBqEqAEbJO8cHk+ySvaSYYyUCs97BbfYQW
-         Q8Z1UIknmmYzWjw52bueFwIGzzpHmjerMcBfKpAurgWUzZQT4PXfDgiqU9dTzvyNiVDX
-         YCLPdAJG7zVjcDXAC/lhaewYX/iT88jKrUy0WKf+DANpvleHYUsxqw9uqqYhysvbBUvz
-         sVUHPBadgSnibDL1zvFUK7mwKMEgPhSaF0Uft0141nWj7DJcLHxf6VL5l29XNAonPSIY
-         u7Azb0EazN9UwYjaTj7DSk4VhEMSS3FRH1nqElXvS1vAWTF7fNvVkjsdmJoRVOLTnnRT
-         gCEA==
-X-Gm-Message-State: AOJu0Yxa51WWFcrY9LcOvlKbsgbVllPDNMC5UDX45jGJvr/qhPdxTSXU
-	ARjtd0Lq6jsMiw5/kv9hgOX0VhhP5ZzlxdPeQhQ=
-X-Google-Smtp-Source: AGHT+IG0bBWmjm6NcYA2QyCq5cfwbQDssTLyiI6RX1jLAlo6UEOqt8P078NxAt96sT8oxJMzFlNusGWOMWuo3iQnNhY=
-X-Received: by 2002:a17:906:3390:b0:a1d:b97b:58d4 with SMTP id
- v16-20020a170906339000b00a1db97b58d4mr3482432eja.98.1702460501003; Wed, 13
- Dec 2023 01:41:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b="ovI9kRR2"
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout02.posteo.de (Postfix) with ESMTPS id 9960E240101
+	for <linux-sunxi@lists.linux.dev>; Wed, 13 Dec 2023 12:02:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
+	t=1702465370; bh=Xn11GfJCgZ19WHONmDGEs0lStFSo2QPNdFNP92RVqOI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:
+	 Content-Disposition:From;
+	b=ovI9kRR2zf5MQRLepWAGGopPB4nh3rSpYbdIODMHFOiG+VpcqnXOBOMM2OMiG8BHb
+	 eoO7hy3BFmHIEtBKk8eBYk1pKrywfomYk0kvXDVXPAePZ3u5nL2ZiPaR2SNk8hIQRj
+	 sUppfBzC+meUzPCXDg6nOIJQ9AJ0ivoPEPJuuqq4dsLkJBs9iLoP0CCbRyLoNwrplU
+	 imUajjGn02yKz9wQPVmPbBzjUorFxA6w02gio3tRta3Ot13rkcOF/m5fTE0SJ6GkU5
+	 XcoBVDVcmrj3/spVZ1LHgh+tdrxLO1PPK9PIGYpJ7lx/lDS17wtL0pPctY49JV2kfa
+	 vf3FpySCoZn8Q==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4SqsyW26CGz6tvr;
+	Wed, 13 Dec 2023 12:02:42 +0100 (CET)
+Date: Wed, 13 Dec 2023 11:02:39 +0000
+From: Anne Macedo <retpolanne@posteo.net>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, 
+	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>, 
+	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>, open list <linux-kernel@vger.kernel.org>, 
+	Corentin Labbe <clabbe@baylibre.com>
+Subject: Re: [PATCH] arm64: dts: allwinner: Orange Pi One Plus PHY support
+Message-ID: <ceuoq3xxgb5kkel7e7wqpslcg7h6dde3wgdqhyo7jgop6owovk@5a76ks5fiun4>
+References: <20231212122835.10850-2-retpolanne@posteo.net>
+ <20231212162200.10b3868b@donnerap.manchester.arm.com>
+ <axsvii25yrknfae6gdreti7lcskoscsdbsujwuispiieimsbdy@gwzm4l7mwlew>
+ <20231213013544.2fc7e0d1@minigeek.lan>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Maxim Kiselev <bigunclemax@gmail.com>
-Date: Wed, 13 Dec 2023 12:41:29 +0300
-Message-ID: <CALHCpMj3+g5MD1vHdtZeYP3=2xBYvXMBH9ai376YwETGJRyeyA@mail.gmail.com>
-Subject: Re: [PATCH v3 5/6] thermal: sun8i: add support for H616 THS controller
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Vasily Khoruzhick <anarsoul@gmail.com>, bob@electricworry.net, 
-	Conor Dooley <conor+dt@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
-	devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org, 
-	linux-pm@vger.kernel.org, linux-sunxi@lists.linux.dev, lukasz.luba@arm.com, 
-	martin.botka@somainline.org, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Rob Herring <robh+dt@kernel.org>, Zhang Rui <rui.zhang@intel.com>, 
-	Samuel Holland <samuel@sholland.org>, Yangtao Li <tiny.windzz@gmail.com>, 
-	Chen-Yu Tsai <wens@csie.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231213013544.2fc7e0d1@minigeek.lan>
 
-Hello, again!
+On Wed, Dec 13, 2023 at 01:35:44AM +0000, Andre Przywara wrote:
+> On Tue, 12 Dec 2023 19:27:14 +0000
+> Anne Macedo <retpolanne@posteo.net> wrote:
+> 
+> Hi Anne,
+> 
+> > On Tue, Dec 12, 2023 at 04:22:00PM +0000, Andre Przywara wrote:
+> > > On Tue, 12 Dec 2023 12:28:30 +0000
+> > > Anne Macedo <retpolanne@posteo.net> wrote:
+> > > 
+> > > Hi Anne,
+> > >   
+> > > > Adds compatible values to mdio subnodes for Ethernet PHY representing
+> > > > Realtek 8211 PHY to Orange Pi One Plus.  
+> > > 
+> > > So can you state why this would be needed? This is the RTL8211 ID,  
+> > 
+> > Apologies, I completely forgot to include some context. 
+> > 
+> > > right? Which should be autodetected via MDIO. Looking back in my inbox
+> > > you proposed this change before, for U-Boot, specifically, but I fail to
+> > > find a solution or explanation what really happens here. Two Renesas .dts
+> > > files have the same compatible, and the commit message talks about the
+> > > reset line there, is this related?
+> > > 
+> > > So can you please give some more background and explanation? That would be
+> > > part of a good commit message anyway ("why", not "what").  
+> > 
+> > Should I resend the commit with a more meaningful explanation? The
+> > context is the following:
+> > 
+> > currently, ethernet doesn't seem to work on both u-boot and Linux on the
+> > Orange Pi One Plus board. 
+> > 
+> > On the kernel, this error shows up:
+> > 
+> > Configuring network interfaces... [    5.992589] dwmac-sun8i 5020000.ethernet eth0: Register MEM_TYPE_PAGE_POOL RxQ-0
+> > [    6.000823] dwmac-sun8i 5020000.ethernet eth0: __stmmac_open: Cannot attach to PHY (error: -19)
+> > 
+> > After applying this fix, the PHY gets attached: 
+> > 
+> > Configuring network interfaces... [    6.060020] dwmac-sun8i 5020000.ethernet eth0: Register MEM_TYPE_PAGE_POOL RxQ-0
+> > [    6.069460] dwmac-sun8i 5020000.ethernet eth0: PHY [stmmac-0:01] driver [RTL8211E Gigabit Ethernet] (irq=POLL)
+> > 
+> > The previous compatible list that had ethernet-phy-ieee802.3-c22 fails
+> > to find a PHY, so this patch includes the correct PHY ID with the
+> > RTL8211 ID. 
+> > 
+> > The behaviour is described on [1].
+> 
+> So this is all an observation, but no real explanation, isn't it?
 
-On 28.11.2023 03:58, Andre Przywara wrote:
-> From: Martin Botka <martin.botka@somainline.org>
->
-> Add support for the thermal sensor found in H616 SoCs, which slightly
-> resembles the H6 thermal sensor controller, with a few changes like
-> four sensors.
-> Also the registers readings are wrong, unless a bit in the first SYS_CFG
-> register cleared, so set needs_syscon to trigger that code
->
-> Signed-off-by: Martin Botka <martin.botka@somainline.org>
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
-> drivers/thermal/sun8i_thermal.c | 73 +++++++++++++++++++++++++++++++++
-> 1 file changed, 73 insertions(+)
->
-> diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_thermal.c
-> index 920e419ce7343..9a404fa9d76a9 100644
-> --- a/drivers/thermal/sun8i_thermal.c
-> +++ b/drivers/thermal/sun8i_thermal.c
-> @@ -280,6 +280,64 @@ static int sun50i_h6_ths_calibrate(struct ths_device *tmdev,
-> return 0;
-> }
->
-> +static int sun50i_h616_ths_calibrate(struct ths_device *tmdev,
-> + u16 *caldata, int callen)
-> +{
-> + struct device *dev = tmdev->dev;
-> + int i, ft_temp;
-> +
-> + if (!caldata[0])
-> + return -EINVAL;
-> +
-> + /*
-> + * h616 efuse THS calibration data layout:
-> + *
-> + * 0 11 16 27 32 43 48 57
-> + * +----------+-----------+-----------+-----------+
-> + * | temp | |sensor0| |sensor1| |sensor2| |
-> + * +----------+-----------+-----------+-----------+
-> + * ^ ^ ^
-> + * | | |
-> + * | | sensor3[11:8]
-> + * | sensor3[7:4]
-> + * sensor3[3:0]
-> + *
-> + * The calibration data on the H616 is the ambient temperature and
-> + * sensor values that are filled during the factory test stage.
-> + *
-> + * The unit of stored FT temperature is 0.1 degree celsius.
-> + */
-> + ft_temp = caldata[0] & FT_TEMP_MASK;
-> +
-> + for (i = 0; i < tmdev->chip->sensor_num; i++) {
-> + int delta, cdata, offset, reg, temp;
-> +
-> + if (i == 3)
-> + reg = (caldata[1] >> 12)
-> + | ((caldata[2] >> 12) << 4)
-> + | ((caldata[3] >> 12) << 8);
-> + else
-> + reg = (int)caldata[i + 1] & TEMP_CALIB_MASK;
-> +
-> + temp = tmdev->chip->calc_temp(tmdev, i, reg);
-> + delta = ((temp - ft_temp * 100) * 10) / tmdev->chip->scale;
-> + cdata = CALIBRATE_DEFAULT - delta;
-> + if (cdata & ~TEMP_CALIB_MASK) {
-> + dev_warn(dev, "sensor%d is not calibrated.\n", i);
-> +
-> + continue;
-> + }
-> +
-> + offset = (i % 2) * 16;
-> + regmap_update_bits(tmdev->regmap,
-> + SUN50I_H6_THS_TEMP_CALIB + (i / 2 * 4),
-> + TEMP_CALIB_MASK << offset,
-> + cdata << offset);
-> + }
-> +
-> + return 0;
-> +}
-> +
-> static int sun8i_ths_calibrate(struct ths_device *tmdev)
-> {
-> struct nvmem_cell *calcell;
-> @@ -659,6 +717,20 @@ static const struct ths_thermal_chip sun50i_h6_ths = {
-> .calc_temp = sun8i_ths_calc_temp,
-> };
->
-> +static const struct ths_thermal_chip sun50i_h616_ths = {
-> + .sensor_num = 4,
-> + .has_bus_clk_reset = true,
-> + .needs_syscon = true,
-> + .ft_deviation = 8000,
-> + .offset = 263655,
-> + .scale = 810,
+I've made some analysis on [3] on this bug, but it was based solely on
+u-boot. I was having trouble with the regulator and on u-boot nothing
+would trigger the GPIO PD6 and the vcc-gmac-3v3 regulator, so the NIC
+was completely dead. Next I did an analysis based on [2] because the
+u-boot PHY initialization was flaky.
 
-Can I ask you, how did you get the offset and the scale values?
+> To cite [1]: "If the PHY reports an incorrect ID (or none at all) ...".
+> I am pretty sure this is not the case here, instead we are looking at
+> some missing platform bits, like a missing clock, reset, or most likely
+> regulator. Or one of the existing resources is wrongly assigned or
 
-In the H616 user manual (3.10.3.4. THS Temperature Conversion Formula)
-we can find this formula:
+As I mentioned, PHY initialization is flaky on u-boot, so maybe that
+assumption is correct. 
 
-T = (sensor_data - 3255)/(-12.401)
+> configured? If the PHY is not (yet?) powered correctly when the code
+> does the auto-detection via the MDIO bus, then the initialisation would
 
-I calculated offset and scale values, and this is what I got:
+If I recall correctly (I don't know if I kept it in my notes :c), that
+could be the case. regulator-boot-on makes the NIC work (LEDs blink, at
+least) but it doesn't get initialized. 
 
-scale = 1 / 12.401 = 806,38658173 ~ 806
-offset = 3255 / 12.401 = 262478,832352 ~ 262479
+> fail. But since it works when overriding the auto-detection, I feel
+> like we are papering over something here.
+> Do you have the schematics for this board? I can only find the one for
+> the Orange Pi Plus 2E, and I don't know how similar those two are. This
+> shows *two* regulators, but both are activated by the same GPIO.
 
-Let me assume that you got offset and scale values from Tina Linux
-Here for example
-https://github.com/Tina-Linux/linux-5.4/blob/ff6b1361f7041be75d4486559141e13134d164ef/drivers/thermal/sunxi_thermal.c#L373
+I do. It's available on [4]
 
-In Tina Linux the scale is rounded to 81 (that equals to 810 in
-mainline driver).
-And looks like you used this rounded value to recalculate the offset:
-3255 * 81 = 263655
+> It would also be interesting to see if any of Corentin's work for the
+> Orange Pi 3 helps here?
 
-I would be glad to know your thoughts about this.
+Adding [5] for reference here, thanks! Will check it out. 
+> 
+> Cheers,
+> Andre
+> 
 
-> + .temp_data_base = SUN50I_H6_THS_TEMP_DATA,
-> + .calibrate = sun50i_h616_ths_calibrate,
-> + .init = sun50i_h6_thermal_init,
-> + .irq_ack = sun50i_h6_irq_ack,
-> + .calc_temp = sun8i_ths_calc_temp,
-> +};
-> +
-> static const struct of_device_id of_ths_match[] = {
-> { .compatible = "allwinner,sun8i-a83t-ths", .data = &sun8i_a83t_ths },
-> { .compatible = "allwinner,sun8i-h3-ths", .data = &sun8i_h3_ths },
-> @@ -667,6 +739,7 @@ static const struct of_device_id of_ths_match[] = {
-> { .compatible = "allwinner,sun50i-a100-ths", .data = &sun50i_a100_ths },
-> { .compatible = "allwinner,sun50i-h5-ths", .data = &sun50i_h5_ths },
-> { .compatible = "allwinner,sun50i-h6-ths", .data = &sun50i_h6_ths },
-> + { .compatible = "allwinner,sun50i-h616-ths", .data = &sun50i_h616_ths },
-> { /* sentinel */ },
-> };
-> MODULE_DEVICE_TABLE(of, of_ths_match);
+[3] https://blog.retpolanne.com/hardware/embedded/2023/07/07/embedded-phy.html
+[4] https://linux-sunxi.org/images/7/7c/OrangePi_OnePlus_Schematics_v2.0.pdf
+[5] https://lore.kernel.org/netdev/20220509074857.195302-1-clabbe@baylibre.com/
 
-Best regards,
-Maksim
+Regards, Anne
