@@ -1,146 +1,160 @@
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED7FE2374E
-	for <linux-sunxi@lists.linux.dev>; Wed, 13 Dec 2023 11:02:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b="ovI9kRR2"
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id 9960E240101
-	for <linux-sunxi@lists.linux.dev>; Wed, 13 Dec 2023 12:02:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
-	t=1702465370; bh=Xn11GfJCgZ19WHONmDGEs0lStFSo2QPNdFNP92RVqOI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:
-	 Content-Disposition:From;
-	b=ovI9kRR2zf5MQRLepWAGGopPB4nh3rSpYbdIODMHFOiG+VpcqnXOBOMM2OMiG8BHb
-	 eoO7hy3BFmHIEtBKk8eBYk1pKrywfomYk0kvXDVXPAePZ3u5nL2ZiPaR2SNk8hIQRj
-	 sUppfBzC+meUzPCXDg6nOIJQ9AJ0ivoPEPJuuqq4dsLkJBs9iLoP0CCbRyLoNwrplU
-	 imUajjGn02yKz9wQPVmPbBzjUorFxA6w02gio3tRta3Ot13rkcOF/m5fTE0SJ6GkU5
-	 XcoBVDVcmrj3/spVZ1LHgh+tdrxLO1PPK9PIGYpJ7lx/lDS17wtL0pPctY49JV2kfa
-	 vf3FpySCoZn8Q==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4SqsyW26CGz6tvr;
-	Wed, 13 Dec 2023 12:02:42 +0100 (CET)
-Date: Wed, 13 Dec 2023 11:02:39 +0000
-From: Anne Macedo <retpolanne@posteo.net>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, 
-	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>, 
-	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>, open list <linux-kernel@vger.kernel.org>, 
-	Corentin Labbe <clabbe@baylibre.com>
-Subject: Re: [PATCH] arm64: dts: allwinner: Orange Pi One Plus PHY support
-Message-ID: <ceuoq3xxgb5kkel7e7wqpslcg7h6dde3wgdqhyo7jgop6owovk@5a76ks5fiun4>
-References: <20231212122835.10850-2-retpolanne@posteo.net>
- <20231212162200.10b3868b@donnerap.manchester.arm.com>
- <axsvii25yrknfae6gdreti7lcskoscsdbsujwuispiieimsbdy@gwzm4l7mwlew>
- <20231213013544.2fc7e0d1@minigeek.lan>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28C4923740
+	for <linux-sunxi@lists.linux.dev>; Wed, 13 Dec 2023 11:08:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rDN6O-0002aF-Kp; Wed, 13 Dec 2023 12:08:32 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rDN6M-00FYCV-Ag; Wed, 13 Dec 2023 12:08:30 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rDN6M-002FTL-0C; Wed, 13 Dec 2023 12:08:30 +0100
+Date: Wed, 13 Dec 2023 12:08:29 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Daniel Vetter <daniel@ffwll.ch>,
+	Michael Turquette <mturquette@baylibre.com>,
+	dri-devel@lists.freedesktop.org,
+	Thierry Reding <thierry.reding@gmail.com>,
+	David Airlie <airlied@gmail.com>, linux-clk@vger.kernel.org,
+	Jerome Brunet <jbrunet@baylibre.com>, Rob Herring <robh@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>, Chen-Yu Tsai <wens@csie.org>,
+	MyungJoo Ham <myungjoo.ham@samsung.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Kyungmin Park <kyungmin.park@samsung.com>,
+	linux-sunxi@lists.linux.dev, kernel@pengutronix.de,
+	linux-pm@vger.kernel.org,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org,
+	Johan Hovold <johan+linaro@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Georgi Djakov <djakov@kernel.org>
+Subject: Re: [PATCH 0/5] clk: Make clk_rate_exclusive_get() return void
+Message-ID: <20231213110829.bjaxjjiyy4ug7o67@pengutronix.de>
+References: <cover.1702400947.git.u.kleine-koenig@pengutronix.de>
+ <ki5n3rz5n4oxj2hhc3rj6xpn3e2tdi7fcp2q7exjbzilrlqflp@przautvhuy4g>
+ <20231213074300.4bq7wkfqd4jhhcr4@pengutronix.de>
+ <2nvbag657mlniqwq7fbilapc6vfw5qumab3yd6bqul25ot6wcn@wdlkh5az2fgs>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="kl2l3xgmnlmlkt4p"
 Content-Disposition: inline
-In-Reply-To: <20231213013544.2fc7e0d1@minigeek.lan>
+In-Reply-To: <2nvbag657mlniqwq7fbilapc6vfw5qumab3yd6bqul25ot6wcn@wdlkh5az2fgs>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
-On Wed, Dec 13, 2023 at 01:35:44AM +0000, Andre Przywara wrote:
-> On Tue, 12 Dec 2023 19:27:14 +0000
-> Anne Macedo <retpolanne@posteo.net> wrote:
-> 
-> Hi Anne,
-> 
-> > On Tue, Dec 12, 2023 at 04:22:00PM +0000, Andre Przywara wrote:
-> > > On Tue, 12 Dec 2023 12:28:30 +0000
-> > > Anne Macedo <retpolanne@posteo.net> wrote:
-> > > 
-> > > Hi Anne,
-> > >   
-> > > > Adds compatible values to mdio subnodes for Ethernet PHY representing
-> > > > Realtek 8211 PHY to Orange Pi One Plus.  
-> > > 
-> > > So can you state why this would be needed? This is the RTL8211 ID,  
-> > 
-> > Apologies, I completely forgot to include some context. 
-> > 
-> > > right? Which should be autodetected via MDIO. Looking back in my inbox
-> > > you proposed this change before, for U-Boot, specifically, but I fail to
-> > > find a solution or explanation what really happens here. Two Renesas .dts
-> > > files have the same compatible, and the commit message talks about the
-> > > reset line there, is this related?
-> > > 
-> > > So can you please give some more background and explanation? That would be
-> > > part of a good commit message anyway ("why", not "what").  
-> > 
-> > Should I resend the commit with a more meaningful explanation? The
-> > context is the following:
-> > 
-> > currently, ethernet doesn't seem to work on both u-boot and Linux on the
-> > Orange Pi One Plus board. 
-> > 
-> > On the kernel, this error shows up:
-> > 
-> > Configuring network interfaces... [    5.992589] dwmac-sun8i 5020000.ethernet eth0: Register MEM_TYPE_PAGE_POOL RxQ-0
-> > [    6.000823] dwmac-sun8i 5020000.ethernet eth0: __stmmac_open: Cannot attach to PHY (error: -19)
-> > 
-> > After applying this fix, the PHY gets attached: 
-> > 
-> > Configuring network interfaces... [    6.060020] dwmac-sun8i 5020000.ethernet eth0: Register MEM_TYPE_PAGE_POOL RxQ-0
-> > [    6.069460] dwmac-sun8i 5020000.ethernet eth0: PHY [stmmac-0:01] driver [RTL8211E Gigabit Ethernet] (irq=POLL)
-> > 
-> > The previous compatible list that had ethernet-phy-ieee802.3-c22 fails
-> > to find a PHY, so this patch includes the correct PHY ID with the
-> > RTL8211 ID. 
-> > 
-> > The behaviour is described on [1].
-> 
-> So this is all an observation, but no real explanation, isn't it?
 
-I've made some analysis on [3] on this bug, but it was based solely on
-u-boot. I was having trouble with the regulator and on u-boot nothing
-would trigger the GPIO PD6 and the vcc-gmac-3v3 regulator, so the NIC
-was completely dead. Next I did an analysis based on [2] because the
-u-boot PHY initialization was flaky.
+--kl2l3xgmnlmlkt4p
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> To cite [1]: "If the PHY reports an incorrect ID (or none at all) ...".
-> I am pretty sure this is not the case here, instead we are looking at
-> some missing platform bits, like a missing clock, reset, or most likely
-> regulator. Or one of the existing resources is wrongly assigned or
+Hello Maxime,
 
-As I mentioned, PHY initialization is flaky on u-boot, so maybe that
-assumption is correct. 
+On Wed, Dec 13, 2023 at 09:36:49AM +0100, Maxime Ripard wrote:
+> On Wed, Dec 13, 2023 at 08:43:00AM +0100, Uwe Kleine-K=F6nig wrote:
+> > On Wed, Dec 13, 2023 at 08:16:04AM +0100, Maxime Ripard wrote:
+> > > On Tue, Dec 12, 2023 at 06:26:37PM +0100, Uwe Kleine-K=F6nig wrote:
+> > > > clk_rate_exclusive_get() returns zero unconditionally. Most users "=
+know"
+> > > > that and don't check the return value. This series fixes the four u=
+sers
+> > > > that do error checking on the returned value and then makes function
+> > > > return void.
+> > > >=20
+> > > > Given that the changes to the drivers are simple and so merge confl=
+icts
+> > > > (if any) should be easy to handle, I suggest to merge this complete
+> > > > series via the clk tree.
+> > >=20
+> > > I don't think it's the right way to go about it.
+> > >=20
+> > > clk_rate_exclusive_get() should be expected to fail. For example if
+> > > there's another user getting an exclusive rate on the same clock.
+> > >=20
+> > > If we're not checking for it right now, then it should probably be
+> > > fixed, but the callers checking for the error are right to do so if t=
+hey
+> > > rely on an exclusive rate. It's the ones that don't that should be
+> > > modified.
+> >=20
+> > If some other consumer has already "locked" a clock that I call
+> > clk_rate_exclusive_get() for, this isn't an error. In my bubble I call
+> > this function because I don't want the rate to change e.g. because I
+> > setup some registers in the consuming device to provide a fixed UART
+> > baud rate or i2c bus frequency (and that works as expected).
+>=20
+> [a long text of mostly right things (Uwe's interpretation) that are
+> however totally unrelated to the patches under discussion.]
 
-> configured? If the PHY is not (yet?) powered correctly when the code
-> does the auto-detection via the MDIO bus, then the initialisation would
+The clk API works with and without my patches in exactly the same way.
+It just makes more explicit that clk_rate_exclusive_get() cannot fail
+today and removes the error handling from consumers that is never used.
 
-If I recall correctly (I don't know if I kept it in my notes :c), that
-could be the case. regulator-boot-on makes the NIC work (LEDs blink, at
-least) but it doesn't get initialized. 
+Yes, my series doesn't fix any race conditions that are there without
+doubt in some consumers. It also doesn't make the situation any worse.
+It also doesn't fix other problems that are orthogonal to the intention
+of this patch series (neither makes it any of them any worse).
 
-> fail. But since it works when overriding the auto-detection, I feel
-> like we are papering over something here.
-> Do you have the schematics for this board? I can only find the one for
-> the Orange Pi Plus 2E, and I don't know how similar those two are. This
-> shows *two* regulators, but both are activated by the same GPIO.
+It's just dead code removal and making sure no new dead code of the same
+type is introduced in the future.
 
-I do. It's available on [4]
+Is there anyone working on improving the clk framework regarding how clk
+rate exclusivity works? I'd probably not notice, but I guess there is
+noone that I need to consider for. And if in the future someone
+redesigns how all that works *and* clk_rate_exclusive_get() stays around
+*and* that makes it possible that clk_rate_exclusive_get() fails (and
+thus breaking all consumers that don't care for the actual clk rate and
+only want it to not change), then they'll have to review all users
+anyhow and reintroduce error handling. I can live with that and suggest
+until then we're happy that we have a few drivers with less dead code
+than before.
 
-> It would also be interesting to see if any of Corentin's work for the
-> Orange Pi 3 helps here?
+Cheers!
+Uwe
 
-Adding [5] for reference here, thanks! Will check it out. 
-> 
-> Cheers,
-> Andre
-> 
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
-[3] https://blog.retpolanne.com/hardware/embedded/2023/07/07/embedded-phy.html
-[4] https://linux-sunxi.org/images/7/7c/OrangePi_OnePlus_Schematics_v2.0.pdf
-[5] https://lore.kernel.org/netdev/20220509074857.195302-1-clabbe@baylibre.com/
+--kl2l3xgmnlmlkt4p
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Regards, Anne
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmV5kK0ACgkQj4D7WH0S
+/k4Eugf/TStPMZiYghA+qeYfwNXsEudTquLXEPqhja/JKNv9WiKYrt43bIE6RaeZ
+uqnkw/3MfPy9251IlDl8hjB/hahPAVFA1/FP1n1+q+G4fWTLeEHj8+SErxvfZyrv
+QHRLnpLc5OFul0s5WRLBUR6S7Vnu22YiZ0fWFGsakm5CS/BsVxJ/IDsZdss7XBTp
+Auy00X3wur3dEdwcVZin6favSPTHv/pLecde0Jh7GsTUmenaP74HE5jWnutVqPRh
+D/YfxJz4FVfe8iaFR02v9z7oBlnGuZyCQU9vyebyVNVV6orHYSXgFN8WhdZ1WuBT
+RxqsIej1c9x4ergK7wRTHJUz6ZP3Lg==
+=b9cr
+-----END PGP SIGNATURE-----
+
+--kl2l3xgmnlmlkt4p--
