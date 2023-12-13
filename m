@@ -1,62 +1,66 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0E2A68273
-	for <linux-sunxi@lists.linux.dev>; Wed, 13 Dec 2023 19:22:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A417F67B42
+	for <linux-sunxi@lists.linux.dev>; Wed, 13 Dec 2023 20:07:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PO2gl6CD"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-336210c34ebso3446965f8f.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 13 Dec 2023 11:22:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S6MF81+C"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-40c2308faedso75407575e9.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 13 Dec 2023 12:07:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702495378; x=1703100178; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1702498043; x=1703102843; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=89i1OHXQJgIekZUdzaoOl/WPzNUPAmh4Shyy9X7oUY4=;
-        b=PO2gl6CDrbA/Nln/FzrmZoItK0wYeNnVXTXYNHI7edDQ89Yb1EvVfU3w54X9yR3AZo
-         zf53vt/OLyW3YuqV+HBkGhxIgb8Jau+kbOqd0DMfNIzsc366d0Y9V42rMAbfTBhPaIA0
-         7WfOAAzN+1eIgIsLrtz+8tLXqDsEBlurzLE0hEAK8SeM4LBiXBQ8wx3IV8YxW6lW/QUY
-         A82Te7iLQSjSJZrEA7fjMXT4RqffoiYCYi8H2w06CygeUlaVSAw+UQUbdHTT6Wx5/Xwu
-         eLsv3dH9lTdcIya1fU1IpKCKQl6ZnZXgzirGI8d/FsIUOjOFpIQBjV2Jmqy+rofeGc8Q
-         ogOg==
+        bh=Gsu3q13MvDpE/CGXMPYCWwJtd9OUgwH5TkWvsm2e2cA=;
+        b=S6MF81+C+CajNOO4PBiCIk/dHcywcPHKnkptXASR2PCH0e2uJai404eeYIiaqiwJ5W
+         /dYOuJEIRlXLnaFIu118pvVNKDVfEksc/Z0AQXoZyOGvz/Vj+eetefDnW0m7xuXPNEFu
+         DFZGTYX3be01J2z9PSELLhh0hto/3gu8tpAWQNvu/0XGHOt/RycHQ56LEEh96v1DaZDm
+         DOWTyXG49SLg+8VRJbPigZ0m9IJSiEZ89k3K3f0OUO1jfDU0aXHND8q96Jftm3EzPWxn
+         5QEG6eMyPi3csEBACUPoAoo5wLYETjRgZoDgDovtvRpGlXaUr8Crb8yPZPNF04E/dvaY
+         CltA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702495378; x=1703100178;
+        d=1e100.net; s=20230601; t=1702498043; x=1703102843;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=89i1OHXQJgIekZUdzaoOl/WPzNUPAmh4Shyy9X7oUY4=;
-        b=Qx/reND/p9oG/Xx7Ga2IR9aNcQo5XH3WcUsmlFUrVeucpxtHDWe+7OWUL6LAdAlz0o
-         eAL8wbjOjBF2qYMjc5qQxwNsENJn9JeDC/nDjRlimUJ47x5BZsv/KVDEu6/T9YnxD39N
-         F63Ec+PUOFChs3sKnLNgxSvTO9mq8oIB0mpG/4go+6m/l4Ku4srAq2uHmtln9sW7GIx8
-         TxZFk39jO/wK/Ou/d9HLdtsilaqsR4dDpBZz11PBAg+w2Wb36VIDW+KKouaytLt/z9LY
-         EeuRtiRSeO5XH5l0AC6uV1e18MC5YGhibp0uv+2k5X1nv6BoY565i1oyTZAWCwcsIs3j
-         PD2g==
-X-Gm-Message-State: AOJu0Yz6HQCoQXfKo1h8hM2IfKAvWud3/TLTxFO5ejdwAUxKz6hK31hV
-	pRWeQstHrtRiU5rn7OY4wA8=
-X-Google-Smtp-Source: AGHT+IFcZKcfAVcsQKDAtqomxNhsXvBOqj2C0qfAQJcS/u+Cqm3nCQMDR0fiNd6YdrV8nk7TJFFkig==
-X-Received: by 2002:adf:e64d:0:b0:336:38ef:f4ec with SMTP id b13-20020adfe64d000000b0033638eff4ecmr541429wrn.28.1702495377445;
-        Wed, 13 Dec 2023 11:22:57 -0800 (PST)
+        bh=Gsu3q13MvDpE/CGXMPYCWwJtd9OUgwH5TkWvsm2e2cA=;
+        b=WGknFmCskNMSDwv2FZkOWao3QBZeTeN0Ydi5imX7JsYROPD9GO37CM+W4M0AZoarDl
+         UYjv9QqRdipKgLd5Pi0T5WeUjaxHkw3JzUjJzClBwJdpLLj6MyhOgJYIuzjhaN3qfQLt
+         ENmbmk9HvX55LBcv4eas9cRGHJvgv0+NXoonBffJzfb8sebN4uUT2UM/4VwVohp/Mbb1
+         W70DnKj2qSJtpwZXTzSdcmz8tpJRAAWoM+XuJ2dj4mzGRehtQXbV9jGcrgeoKbxIrtFr
+         b24G2To8vdD/6y3BJlQkylFTt+TGeBcj/dXluofHYIgadYYpYoD13LoMs9R4xOsDyRzL
+         XxqQ==
+X-Gm-Message-State: AOJu0YzJb5qR15V892R4xEjL3HPimL+FFNOL+jLLDNpFE/TLw3Yronmi
+	iSUU95Roq78F5yUJ0ild88k=
+X-Google-Smtp-Source: AGHT+IHXFAhPhkQlTGwETgEwQJ0+N7+UNA2cm4OrTmck51BAJtoT4bV4BK2nZBlfQ3MZpCxFuPiTkg==
+X-Received: by 2002:a05:600c:81b:b0:40b:5e59:c590 with SMTP id k27-20020a05600c081b00b0040b5e59c590mr4312661wmp.186.1702498042479;
+        Wed, 13 Dec 2023 12:07:22 -0800 (PST)
 Received: from archlinux.localnet (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
-        by smtp.gmail.com with ESMTPSA id c11-20020a5d414b000000b0033342f72bf8sm14153283wrq.9.2023.12.13.11.22.56
+        by smtp.gmail.com with ESMTPSA id p7-20020a05600c468700b0040c420eda48sm15195843wmo.22.2023.12.13.12.07.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Dec 2023 11:22:56 -0800 (PST)
+        Wed, 13 Dec 2023 12:07:21 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Rob Herring <robh+dt@kernel.org>,
+To: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org, Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>, Andre Przywara <andre.przywara@arm.com>
-Cc: Icenowy Zheng <uwu@icenowy.me>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+ Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Subject:
- Re: [PATCH 3/3] arm64: dts: allwinner: h618: add Transpeed 8K618-T TV box
-Date: Wed, 13 Dec 2023 20:22:55 +0100
-Message-ID: <4533903.LvFx2qVVIh@archlinux>
-In-Reply-To: <20231212010859.11571-4-andre.przywara@arm.com>
+ Re: [PATCH v7 3/7] ARM: dts: sun8i: v3s: Add nodes for MIPI CSI-2 support
+Date: Wed, 13 Dec 2023 21:07:20 +0100
+Message-ID: <2169265.irdbgypaU6@archlinux>
+In-Reply-To: <20231122141426.329694-4-paul.kocialkowski@bootlin.com>
 References:
- <20231212010859.11571-1-andre.przywara@arm.com>
- <20231212010859.11571-4-andre.przywara@arm.com>
+ <20231122141426.329694-1-paul.kocialkowski@bootlin.com>
+ <20231122141426.329694-4-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -66,239 +70,123 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Hi Andre!
+Hi Paul!
 
-On Tuesday, December 12, 2023 2:08:59 AM CET Andre Przywara wrote:
-> This is a Chinese TV box, probably very similar if not identical to
-> various other cheap TV boxes with the same specs:
->       - Allwinner H618 SoC (4 * Arm Cortex-A53 cores, 1MB L2 cache)
->       - 2 or 4GiB DDR3L DRAM
->       - 32, 64, or 128 GiB eMMC flash
->       - AXP313a PMIC
->       - 100 Mbit/s Ethernet (using yet unsupported internal PHY)
->       - HDMI port
->       - 2 * USB 2.0 ports
->       - microSD card slot
->       - 3.5mm A/V port
->       - 7-segment display
->       - 5V barrel plug power supply
+Sorry for late reply.
+
+On Wednesday, November 22, 2023 3:14:21 PM CET Paul Kocialkowski wrote:
+> MIPI CSI-2 is supported on the V3s with an A31-based MIPI CSI-2 bridge
+> controller. The controller uses a separate D-PHY, which is the same
+> that is otherwise used for MIPI DSI, but used in Rx mode.
 > 
-> The PCB provides holes for soldering a UART header or cable, this is
-> connected to the debug UART0. UART1 is used for the Bluetooth chip,
-> although this isn't working yet.
+> On the V3s, the CSI0 controller is dedicated to MIPI CSI-2 as it does
+> not have access to any parallel interface pins.
 > 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> Add all the necessary nodes (CSI0, MIPI CSI-2 bridge and D-PHY) to
+> support the MIPI CSI-2 interface.
+> 
+> Note that a fwnode graph link is created between CSI0 and MIPI CSI-2
+> even when no sensor is connected. This will result in a probe failure
+> for the controller as long as no sensor is connected but this is fine
+> since no other interface is available.
+> 
+> The interconnects property is used to inherit the proper DMA offset.
+> 
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 > ---
->  arch/arm64/boot/dts/allwinner/Makefile        |   1 +
->  .../sun50i-h618-transpeed-8k618-t.dts         | 164 ++++++++++++++++++
->  2 files changed, 165 insertions(+)
->  create mode 100644
-> arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts
+>  arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi | 71 ++++++++++++++++++++++
+>  1 file changed, 71 insertions(+)
 > 
-> diff --git a/arch/arm64/boot/dts/allwinner/Makefile
-> b/arch/arm64/boot/dts/allwinner/Makefile index 3aca6787a1679..91d505b385de5
-> 100644
-> --- a/arch/arm64/boot/dts/allwinner/Makefile
-> +++ b/arch/arm64/boot/dts/allwinner/Makefile
-> @@ -43,3 +43,4 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-bigtreetech-pi.dtb
-> dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-orangepi-zero2.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-x96-mate.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero3.dtb
-> +dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-transpeed-8k618-t.dtb
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts
-> b/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts new file
-> mode 100644
-> index 0000000000000..fd7ea7bcde2c1
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts
-> @@ -0,0 +1,164 @@
-> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> +/*
-> + * Copyright (C) 2023 Arm Ltd.
-> + */
-> +
-> +/dts-v1/;
-> +
-> +#include "sun50i-h616.dtsi"
-> +
-> +#include <dt-bindings/gpio/gpio.h>
-> +#include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +/ {
-> +	model = "Transpeed 8K618-T";
-> +	compatible = "transpeed,8k618-t", "allwinner,sun50i-h618";
-> +
-> +	aliases {
-> +		serial0 = &uart0;
-> +		serial1 = &uart1;
+> diff --git a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi b/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
+> index 506e98f4f69d..d57612023aa4 100644
+> --- a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
+> +++ b/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
+> @@ -621,6 +621,77 @@ gic: interrupt-controller@1c81000 {
+>  			interrupts = <GIC_PPI 9 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_HIGH)>;
+>  		};
+>  
+> +		csi0: camera@1cb0000 {
+> +			compatible = "allwinner,sun8i-v3s-csi";
+> +			reg = <0x01cb0000 0x1000>;
+> +			interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks = <&ccu CLK_BUS_CSI>,
+> +				 <&ccu CLK_CSI1_SCLK>,
+> +				 <&ccu CLK_DRAM_CSI>;
+> +			clock-names = "bus", "mod", "ram";
+> +			resets = <&ccu RST_BUS_CSI>;
+> +			interconnects = <&mbus 5>;
+> +			interconnect-names = "dma-mem";
 
-Any particular reason for above alias?
-
-> +	};
-> +
-> +	chosen {
-> +		stdout-path = "serial0:115200n8";
-> +	};
-> +
-> +	reg_vcc5v: vcc5v {
-> +		/* board wide 5V supply directly from the DC input */
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "vcc-5v";
-> +		regulator-min-microvolt = <5000000>;
-> +		regulator-max-microvolt = <5000000>;
-> +		regulator-always-on;
-> +	};
-> +
-> +	reg_vcc3v3: vcc3v3 {
-> +		/* discrete 3.3V regulator */
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "vcc-3v3";
-> +		regulator-min-microvolt = <3300000>;
-> +		regulator-max-microvolt = <3300000>;
-> +		regulator-always-on;
-> +	};
-> +};
-> +
-> +&ehci0 {
-> +	status = "okay";
-> +};
-> +
-> +&ehci1 {
-> +	status = "okay";
-> +};
-> +
-> +&ir {
-> +	status = "okay";
-> +};
-> +
-> +&mmc0 {
-> +	vmmc-supply = <&reg_dldo1>;
-> +	cd-gpios = <&pio 8 16 GPIO_ACTIVE_LOW>;	/* PI16 */
-> +	bus-width = <4>;
-> +	status = "okay";
-> +};
-> +
-> +&mmc2 {
-> +	vmmc-supply = <&reg_dldo1>;
-> +	vqmmc-supply = <&reg_aldo1>;
-> +	bus-width = <8>;
-> +	non-removable;
-> +	cap-mmc-hw-reset;
-> +	mmc-ddr-1_8v;
-> +	mmc-hs200-1_8v;
-> +	status = "okay";
-> +};
-> +
-> +&ohci0 {
-> +	status = "okay";
-> +};
-> +
-> +&ohci1 {
-> +	status = "okay";
-> +};
-> +
-> +&r_i2c {
-> +	status = "okay";
-> +
-> +	axp313: pmic@36 {
-> +		compatible = "x-powers,axp313a";
-> +		reg = <0x36>;
-> +		#interrupt-cells = <1>;
-> +		interrupt-controller;
-> +
-> +		vin1-supply = <&reg_vcc5v>;
-> +		vin2-supply = <&reg_vcc5v>;
-> +		vin3-supply = <&reg_vcc5v>;
-> +
-> +		regulators {
-> +			/* Supplies VCC-PLL, so needs to be always 
-on. */
-> +			reg_aldo1: aldo1 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = 
-<1800000>;
-> +				regulator-max-microvolt = 
-<1800000>;
-> +				regulator-name = "vcc1v8";
-
-It would be great to expand all PMIC regulator names with (known) areas they 
-power, so something like "vcc1v8-pll-pc". With that, I think you can remove 
-comments.
+As far as I can see, interconnects are not documented in
+allwinner,sun6i-a31-csi.yaml. Please run make dtbs_check on this.
 
 Best regards,
 Jernej
 
-> +			};
+> +			status = "disabled";
 > +
-> +			/* Supplies VCC-IO, so needs to be always on. 
-*/
-> +			reg_dldo1: dldo1 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = 
-<3300000>;
-> +				regulator-max-microvolt = 
-<3300000>;
-> +				regulator-name = "vcc3v3";
-> +			};
+> +			ports {
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
 > +
-> +			reg_dcdc1: dcdc1 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = 
-<810000>;
-> +				regulator-max-microvolt = 
-<990000>;
-> +				regulator-name = "vdd-gpu-sys";
-> +			};
+> +				port@1 {
+> +					reg = <1>;
 > +
-> +			reg_dcdc2: dcdc2 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = 
-<810000>;
-> +				regulator-max-microvolt = 
-<1100000>;
-> +				regulator-name = "vdd-cpu";
-> +			};
-> +
-> +			reg_dcdc3: dcdc3 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = 
-<1360000>;
-> +				regulator-max-microvolt = 
-<1360000>;
-> +				regulator-name = "vdd-dram";
+> +					csi0_in_mipi_csi2: endpoint {
+> +						remote-endpoint = <&mipi_csi2_out_csi0>;
+> +					};
+> +				};
 > +			};
 > +		};
-> +	};
-> +};
 > +
-> +&pio {
-> +	vcc-pc-supply = <&reg_aldo1>;
-> +	vcc-pg-supply = <&reg_dldo1>;
-> +	vcc-ph-supply = <&reg_dldo1>;
-> +	vcc-pi-supply = <&reg_dldo1>;
-> +};
+> +		mipi_csi2: csi@1cb1000 {
+> +			compatible = "allwinner,sun8i-v3s-mipi-csi2",
+> +				     "allwinner,sun6i-a31-mipi-csi2";
+> +			reg = <0x01cb1000 0x1000>;
+> +			interrupts = <GIC_SPI 90 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks = <&ccu CLK_BUS_CSI>,
+> +				 <&ccu CLK_CSI1_SCLK>;
+> +			clock-names = "bus", "mod";
+> +			resets = <&ccu RST_BUS_CSI>;
+> +			status = "disabled";
 > +
-> +&uart0 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&uart0_ph_pins>;
-> +	status = "okay";
-> +};
+> +			phys = <&dphy>;
+> +			phy-names = "dphy";
 > +
-> +&uart1 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&uart1_pins>, <&uart1_rts_cts_pins>;
-> +	uart-has-rtscts;
-> +	status = "okay";
-> +};
+> +			ports {
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
 > +
-> +&usbotg {
-> +	dr_mode = "host";	/* USB A type receptable */
-> +	status = "okay";
-> +};
+> +				mipi_csi2_in: port@0 {
+> +					reg = <0>;
+> +				};
 > +
-> +&usbphy {
-> +	status = "okay";
-> +};
+> +				mipi_csi2_out: port@1 {
+> +					reg = <1>;
+> +
+> +					mipi_csi2_out_csi0: endpoint {
+> +						remote-endpoint = <&csi0_in_mipi_csi2>;
+> +					};
+> +				};
+> +			};
+> +		};
+> +
+> +		dphy: d-phy@1cb2000 {
+> +			compatible = "allwinner,sun6i-a31-mipi-dphy";
+> +			reg = <0x01cb2000 0x1000>;
+> +			clocks = <&ccu CLK_BUS_CSI>,
+> +				 <&ccu CLK_MIPI_CSI>;
+> +			clock-names = "bus", "mod";
+> +			resets = <&ccu RST_BUS_CSI>;
+> +			allwinner,direction = "rx";
+> +			status = "disabled";
+> +			#phy-cells = <0>;
+> +		};
+> +
+>  		csi1: camera@1cb4000 {
+>  			compatible = "allwinner,sun8i-v3s-csi";
+>  			reg = <0x01cb4000 0x3000>;
+> 
 
 
 
