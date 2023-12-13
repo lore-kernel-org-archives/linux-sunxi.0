@@ -1,47 +1,47 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 741057E542
-	for <linux-sunxi@lists.linux.dev>; Wed, 13 Dec 2023 20:09:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 096795FF18
+	for <linux-sunxi@lists.linux.dev>; Wed, 13 Dec 2023 20:11:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QQaYOFTm"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-40c3fe6c08fso49789525e9.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 13 Dec 2023 12:09:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MOP2Fmbz"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-336356d9092so1230550f8f.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 13 Dec 2023 12:11:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702498175; x=1703102975; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1702498314; x=1703103114; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=E1E00I7csYet+h6d3hCBs5SooYMP4Ja6qAuEnzWpbHw=;
-        b=QQaYOFTmaFLY/JnrDDhDAJcmrD3bskTFcwAQT3BBOiKNBsGWdkkLdJ8IGaFsTn9nE+
-         cbFbKbXSrMgAQejDT1hHN0tJXkhYdZytnmwVcD91bAVv4t7W0nhd/au7P9hEbohI3Qs1
-         igA0irGN+tIEhIGWjKMUwnhxgZsTN75nrVU899FLwx7fgEhd8oK7IhmW58ipjw4xuWjT
-         WVvznBzMOzeFU9Ku7tDaxhqIv6DtXZBB3bnSXJhQSqIRv3lMiIhIHBrI0iVhfOEU3jRF
-         cgSV9dF2HTCWFuxiJONirWhUKrgVMAtM/lwrFd0HzAZAs41ZBmERf/z0ENydHaTH5n7p
-         fqEQ==
+        bh=SHZJxjE/63ZPQdMM7w++i0H3AQcrKC5RCaCrTHY5Njs=;
+        b=MOP2FmbzUkF5iikEuh2aHe+uc80StbZID+5I9S1gSYr9JSzj+tqu9E+FaN98hF+spf
+         HP5DYblDIM2cJ283oRp7frYc76xijU5w5ERWvyT4TlupRM+b7IQXTeiZS5gGEoD3uDil
+         ybl1EbPPq7HKCrfCffU/+fGJ8Lw11qKMvKRQz26Yv/+2vXoSxWQ52Gxv/XDBpT3EPLUH
+         zvjRZ/vgz4HkB2lO6P1QSoHD4CufiMgZcPTqT9CFofsF2kshAZW2BEH6AgMAzpBLNWSX
+         tBDPXqRqhGv6L6lK6xalVxgbvLbcSNmSwwih4zeak7z2wuuDTrsynAuTe89ka9vwHgH6
+         //FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702498175; x=1703102975;
+        d=1e100.net; s=20230601; t=1702498314; x=1703103114;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=E1E00I7csYet+h6d3hCBs5SooYMP4Ja6qAuEnzWpbHw=;
-        b=r+cPaPw8ZaQCb/amUZE1yIPw3aJO13hYBFpXzoMcQ5/14ZjwxFsMixwz/N9+9TtJBu
-         pf6EPcw5CPWS3W8dnxh0n/YEoOCJkG1hLi/T/RMGEoGg3hZI8/fRFUEARQmcuQKKh7CI
-         Atu5sTEuITQyUoHvhDn0LiL/FQU65vrA5Mqmqzc0hTDEyBHT7B9wcNxo9BYCTKFhnxEz
-         RJoEplJNXxb8FiTuCI5SUxoGmxEgVCVEMSrpGMKh1bMCAQNxJ88yKjztaio73IOlJSSX
-         vJxf9K9iFKO//J3M0Dxz9lwKhH6OK8Aa36xsZVEKXL7ldLGZxyffxVbFPEIN+QlMunGu
-         HP8g==
-X-Gm-Message-State: AOJu0Yy6yKlnuJ9z5+18w/GZ+ynEHDo+MOkv6s/46K34SpMDfIvzkRyn
-	CRFbDdRn9hbgTI90+1kc2LU=
-X-Google-Smtp-Source: AGHT+IGgnj9gSAhJ/otmBIdrNYjW6wgF/y7XkF5VoE4tuaeCabEiVYTrQgIZsnFDgtnuMk+zMFilUw==
-X-Received: by 2002:a7b:c419:0:b0:40b:2a3e:4c9b with SMTP id k25-20020a7bc419000000b0040b2a3e4c9bmr3183581wmi.29.1702498174346;
-        Wed, 13 Dec 2023 12:09:34 -0800 (PST)
+        bh=SHZJxjE/63ZPQdMM7w++i0H3AQcrKC5RCaCrTHY5Njs=;
+        b=mc0J9G5ZiAUSGANd4pnfp33HFgSwXSHh8LOJVS4LmvamPiSas6dxLm5yb8tHJ85MAP
+         dz7fhGgUD3hCFjJGE5NnTxBldkdjeuDM/9pjxC9DFYCiE3mEuKb8bY/b3H6nhEKNrt1d
+         24G7lS5tDo8oRx74rsVAPt6BHe5A6T3UlVG1CDHoIDoIdGCvCs4CnHcc/4NMZvRQJU3E
+         a0tBVKr46JIv/5yXXCPPZ4ecnT8k7/pjb2H+O6mdiYyPTlFopPWMHpCXccgo4GRaU4zz
+         4gAtINnI+Y/+jrYIKx6TxTeHvMCv+0UU6eyUOutAzxwdTpEs8QvG1e8y08uFhsuadbdR
+         Gfdw==
+X-Gm-Message-State: AOJu0YxvLLTfC6y1cic88LVOhED7fm0zW0m/+dn6bOK/H9WShpREmmsw
+	jHB3NCoj2aAhcWPvnHfRELo=
+X-Google-Smtp-Source: AGHT+IHg04Gu69P+Oe4HgRL6vL95x2eltXYD3MsDq45X2kjtZUnpZ+853MUpjE5htvbO4NJbgu55tw==
+X-Received: by 2002:a5d:4c4e:0:b0:336:30d8:a75f with SMTP id n14-20020a5d4c4e000000b0033630d8a75fmr1969785wrt.136.1702498314064;
+        Wed, 13 Dec 2023 12:11:54 -0800 (PST)
 Received: from archlinux.localnet (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
-        by smtp.gmail.com with ESMTPSA id p8-20020a05600c468800b0040c488e4fb5sm11794611wmo.40.2023.12.13.12.09.33
+        by smtp.gmail.com with ESMTPSA id p10-20020a5d458a000000b00336463625c0sm100880wrq.51.2023.12.13.12.11.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Dec 2023 12:09:34 -0800 (PST)
+        Wed, 13 Dec 2023 12:11:53 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
@@ -53,13 +53,14 @@ Cc: Rob Herring <robh+dt@kernel.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
  Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v7 4/7] ARM: dts: sun8i: v3s: Add support for the ISP
-Date: Wed, 13 Dec 2023 21:09:32 +0100
-Message-ID: <3267480.aeNJFYEL58@archlinux>
-In-Reply-To: <20231122141426.329694-5-paul.kocialkowski@bootlin.com>
+Subject:
+ Re: [PATCH v7 5/7] ARM: dts: sun8i: a83t: Add MIPI CSI-2 controller node
+Date: Wed, 13 Dec 2023 21:11:52 +0100
+Message-ID: <8310859.T7Z3S40VBb@archlinux>
+In-Reply-To: <20231122141426.329694-6-paul.kocialkowski@bootlin.com>
 References:
  <20231122141426.329694-1-paul.kocialkowski@bootlin.com>
- <20231122141426.329694-5-paul.kocialkowski@bootlin.com>
+ <20231122141426.329694-6-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -69,86 +70,80 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-On Wednesday, November 22, 2023 3:14:22 PM CET Paul Kocialkowski wrote:
-> The V3s (and related platforms) come with an instance of the A31 ISP.
-> Even though it is very close to the A31 ISP, it is not exactly
-> register-compatible and a dedicated compatible only is used as a
-> result.
+On Wednesday, November 22, 2023 3:14:23 PM CET Paul Kocialkowski wrote:
+> MIPI CSI-2 is supported on the A83T with a dedicated controller that
+> covers both the protocol and D-PHY. It is connected to the only CSI
+> receiver with a fwnode graph link. Note that the CSI receiver supports
+> both this MIPI CSI-2 source and a parallel source.
 > 
-> Just like most other blocks of the camera pipeline, the ISP uses
-> the common CSI bus, module and ram clock as well as reset.
-> 
-> A port connection to the ISP is added to CSI0 for convenience since
-> CSI0 serves for MIPI CSI-2 interface support, which is likely to
-> receive raw data that will need to be processed by the ISP to produce
-> a final image.
-> 
-> The interconnects property is used to inherit the proper DMA offset.
+> An empty port with a label for the MIPI CSI-2 sensor input is also
+> defined for convenience.
 > 
 > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> ---
->  arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi | 35 ++++++++++++++++++++++
->  1 file changed, 35 insertions(+)
-> 
-> diff --git a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi b/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
-> index d57612023aa4..1a1dcd36cba4 100644
-> --- a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
-> +++ b/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
-> @@ -645,6 +645,14 @@ csi0_in_mipi_csi2: endpoint {
->  						remote-endpoint = <&mipi_csi2_out_csi0>;
->  					};
->  				};
-> +
-> +				port@2 {
-> +					reg = <2>;
-> +
-> +					csi0_out_isp: endpoint {
-> +						remote-endpoint = <&isp_in_csi0>;
-> +					};
-> +				};
->  			};
->  		};
->  
-> @@ -703,5 +711,32 @@ csi1: camera@1cb4000 {
->  			resets = <&ccu RST_BUS_CSI>;
->  			status = "disabled";
->  		};
-> +
-> +		isp: isp@1cb8000 {
-> +			compatible = "allwinner,sun8i-v3s-isp";
-> +			reg = <0x01cb8000 0x1000>;
-> +			interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&ccu CLK_BUS_CSI>,
-> +				 <&ccu CLK_CSI1_SCLK>,
-> +				 <&ccu CLK_DRAM_CSI>;
-> +			clock-names = "bus", "mod", "ram";
-> +			resets = <&ccu RST_BUS_CSI>;
-> +			interconnects = <&mbus 5>;
-> +			interconnect-names = "dma-mem";
 
-Same as in previous patch, interconnects properties are not described in
-bindings, please update.
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
 
+> ---
+>  arch/arm/boot/dts/allwinner/sun8i-a83t.dtsi | 43 +++++++++++++++++++++
+>  1 file changed, 43 insertions(+)
+> 
+> diff --git a/arch/arm/boot/dts/allwinner/sun8i-a83t.dtsi b/arch/arm/boot/dts/allwinner/sun8i-a83t.dtsi
+> index 94eb3bfc989e..b74c3f9e6598 100644
+> --- a/arch/arm/boot/dts/allwinner/sun8i-a83t.dtsi
+> +++ b/arch/arm/boot/dts/allwinner/sun8i-a83t.dtsi
+> @@ -1062,6 +1062,49 @@ csi: camera@1cb0000 {
+>  			clock-names = "bus", "mod", "ram";
+>  			resets = <&ccu RST_BUS_CSI>;
+>  			status = "disabled";
+> +
+> +			ports {
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +
+> +				port@1 {
+> +					reg = <1>;
+> +
+> +					csi_in_mipi_csi2: endpoint {
+> +						remote-endpoint = <&mipi_csi2_out_csi>;
+> +					};
+> +				};
+> +			};
+> +		};
+> +
+> +		mipi_csi2: csi@1cb1000 {
+> +			compatible = "allwinner,sun8i-a83t-mipi-csi2";
+> +			reg = <0x01cb1000 0x1000>;
+> +			interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks = <&ccu CLK_BUS_CSI>,
+> +				 <&ccu CLK_CSI_SCLK>,
+> +				 <&ccu CLK_MIPI_CSI>,
+> +				 <&ccu CLK_CSI_MISC>;
+> +			clock-names = "bus", "mod", "mipi", "misc";
+> +			resets = <&ccu RST_BUS_CSI>;
 > +			status = "disabled";
 > +
 > +			ports {
 > +				#address-cells = <1>;
 > +				#size-cells = <0>;
 > +
-> +				port@0 {
+> +				mipi_csi2_in: port@0 {
 > +					reg = <0>;
+> +				};
 > +
-> +					isp_in_csi0: endpoint {
-> +						remote-endpoint = <&csi0_out_isp>;
+> +				mipi_csi2_out: port@1 {
+> +					reg = <1>;
+> +
+> +					mipi_csi2_out_csi: endpoint {
+> +						remote-endpoint = <&csi_in_mipi_csi2>;
 > +					};
 > +				};
 > +			};
-> +		};
->  	};
->  };
+>  		};
+>  
+>  		hdmi: hdmi@1ee0000 {
 > 
 
 
