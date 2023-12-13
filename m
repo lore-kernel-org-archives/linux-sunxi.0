@@ -1,17 +1,17 @@
 Received: from Atcsqr.andestech.com (60-248-80-70.hinet-ip.hinet.net [60.248.80.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6D131171B
-	for <linux-sunxi@lists.linux.dev>; Wed, 13 Dec 2023 07:05:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2231A1171B
+	for <linux-sunxi@lists.linux.dev>; Wed, 13 Dec 2023 07:05:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=andestech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=andestech.com
 Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
-	by Atcsqr.andestech.com with ESMTP id 3BD7488l032591;
-	Wed, 13 Dec 2023 15:04:08 +0800 (+08)
+	by Atcsqr.andestech.com with ESMTP id 3BD74IhD032637;
+	Wed, 13 Dec 2023 15:04:18 +0800 (+08)
 	(envelope-from peterlin@andestech.com)
 Received: from swlinux02.andestech.com (10.0.15.183) by ATCPCS16.andestech.com
  (10.0.1.222) with Microsoft SMTP Server id 14.3.498.0; Wed, 13 Dec 2023
- 15:04:04 +0800
+ 15:04:14 +0800
 From: Yu Chien Peter Lin <peterlin@andestech.com>
 To: <acme@kernel.org>, <adrian.hunter@intel.com>, <ajones@ventanamicro.com>,
         <alexander.shishkin@linux.intel.com>, <andre.przywara@arm.com>,
@@ -35,9 +35,9 @@ To: <acme@kernel.org>, <adrian.hunter@intel.com>, <ajones@ventanamicro.com>,
         <sunilvl@ventanamicro.com>, <tglx@linutronix.de>,
         <tim609@andestech.com>, <uwu@icenowy.me>, <wens@csie.org>,
         <will@kernel.org>, <ycliang@andestech.com>, <inochiama@outlook.com>
-Subject: [PATCH v5 12/16] riscv: dts: sophgo: Add T-Head PMU extension for cv1800b
-Date: Wed, 13 Dec 2023 15:02:57 +0800
-Message-ID: <20231213070301.1684751-13-peterlin@andestech.com>
+Subject: [PATCH v5 14/16] riscv: dts: thead: Add T-Head PMU extension for th1520
+Date: Wed, 13 Dec 2023 15:02:59 +0800
+Message-ID: <20231213070301.1684751-15-peterlin@andestech.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231213070301.1684751-1-peterlin@andestech.com>
 References: <20231213070301.1684751-1-peterlin@andestech.com>
@@ -51,7 +51,7 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-DNSRBL: 
 X-SPAM-SOURCE-CHECK: pass
-X-MAIL:Atcsqr.andestech.com 3BD7488l032591
+X-MAIL:Atcsqr.andestech.com 3BD74IhD032637
 
 xtheadpmu stands for T-Head Performance Monitor Unit extension.
 Based on the added T-Head PMU ISA string, the SBI PMU driver
@@ -62,22 +62,49 @@ Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
 Changes v4 -> v5:
   - New patch
 ---
- arch/riscv/boot/dts/sophgo/cv1800b.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/riscv/boot/dts/thead/th1520.dtsi | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/arch/riscv/boot/dts/sophgo/cv1800b.dtsi b/arch/riscv/boot/dts/sophgo/cv1800b.dtsi
-index aec6401a467b..8c0143f0a01b 100644
---- a/arch/riscv/boot/dts/sophgo/cv1800b.dtsi
-+++ b/arch/riscv/boot/dts/sophgo/cv1800b.dtsi
-@@ -29,7 +29,7 @@ cpu0: cpu@0 {
+diff --git a/arch/riscv/boot/dts/thead/th1520.dtsi b/arch/riscv/boot/dts/thead/th1520.dtsi
+index ba4d2c673ac8..2dad2b22824a 100644
+--- a/arch/riscv/boot/dts/thead/th1520.dtsi
++++ b/arch/riscv/boot/dts/thead/th1520.dtsi
+@@ -22,7 +22,7 @@ c910_0: cpu@0 {
  			riscv,isa = "rv64imafdc";
  			riscv,isa-base = "rv64i";
  			riscv,isa-extensions = "i", "m", "a", "f", "d", "c", "zicntr", "zicsr",
 -					       "zifencei", "zihpm";
 +					       "zifencei", "zihpm", "xtheadpmu";
- 
- 			cpu0_intc: interrupt-controller {
- 				compatible = "riscv,cpu-intc";
+ 			reg = <0>;
+ 			i-cache-block-size = <64>;
+ 			i-cache-size = <65536>;
+@@ -46,7 +46,7 @@ c910_1: cpu@1 {
+ 			riscv,isa = "rv64imafdc";
+ 			riscv,isa-base = "rv64i";
+ 			riscv,isa-extensions = "i", "m", "a", "f", "d", "c", "zicntr", "zicsr",
+-					       "zifencei", "zihpm";
++					       "zifencei", "zihpm", "xtheadpmu";
+ 			reg = <1>;
+ 			i-cache-block-size = <64>;
+ 			i-cache-size = <65536>;
+@@ -70,7 +70,7 @@ c910_2: cpu@2 {
+ 			riscv,isa = "rv64imafdc";
+ 			riscv,isa-base = "rv64i";
+ 			riscv,isa-extensions = "i", "m", "a", "f", "d", "c", "zicntr", "zicsr",
+-					       "zifencei", "zihpm";
++					       "zifencei", "zihpm", "xtheadpmu";
+ 			reg = <2>;
+ 			i-cache-block-size = <64>;
+ 			i-cache-size = <65536>;
+@@ -94,7 +94,7 @@ c910_3: cpu@3 {
+ 			riscv,isa = "rv64imafdc";
+ 			riscv,isa-base = "rv64i";
+ 			riscv,isa-extensions = "i", "m", "a", "f", "d", "c", "zicntr", "zicsr",
+-					       "zifencei", "zihpm";
++					       "zifencei", "zihpm", "xtheadpmu";
+ 			reg = <3>;
+ 			i-cache-block-size = <64>;
+ 			i-cache-size = <65536>;
 -- 
 2.34.1
 
