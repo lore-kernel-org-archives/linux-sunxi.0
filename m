@@ -1,232 +1,305 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04CC92FC42
-	for <linux-sunxi@lists.linux.dev>; Wed, 13 Dec 2023 16:44:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0E2A68273
+	for <linux-sunxi@lists.linux.dev>; Wed, 13 Dec 2023 19:22:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LCgb9p2F"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-40c2d50bfbfso36162115e9.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 13 Dec 2023 08:44:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PO2gl6CD"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-336210c34ebso3446965f8f.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 13 Dec 2023 11:22:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702485871; x=1703090671; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xr6toAXCsIC/bmSJ5B/sgzDjMz3Z0Uajw+zCN70ZLA8=;
-        b=LCgb9p2FwIBpRtoA1cEhlB6F6bnbhyKZONlYaJ1KVj/htxWDVLkLrskZLpO+1NiBax
-         YHPUUXhV9PwU7Dm2tbTZpQBX61eSrtce2D9l4U97Zczo3vmOe7WPOzv8hm7ZzBR++JM4
-         BOTpHapJsE4KQbPfcTCTHBRS3kmUbiEBLvP3kvS+mh6+LU+lm7YTCxe0IErkG/A+br43
-         I/6vYi3azsCVr1wXi32k5J2RVm0ClQTLsx6YNp2CPE/sl9ljekeUlNKMxdEYc1qcsgpe
-         TnrfO0RIJP6j5j1ihRSIWBrLlV2mkuKTasdBt6oC37hbwubcFnz5gpO/GyvfVo3+nZn0
-         hYZw==
+        d=gmail.com; s=20230601; t=1702495378; x=1703100178; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=89i1OHXQJgIekZUdzaoOl/WPzNUPAmh4Shyy9X7oUY4=;
+        b=PO2gl6CDrbA/Nln/FzrmZoItK0wYeNnVXTXYNHI7edDQ89Yb1EvVfU3w54X9yR3AZo
+         zf53vt/OLyW3YuqV+HBkGhxIgb8Jau+kbOqd0DMfNIzsc366d0Y9V42rMAbfTBhPaIA0
+         7WfOAAzN+1eIgIsLrtz+8tLXqDsEBlurzLE0hEAK8SeM4LBiXBQ8wx3IV8YxW6lW/QUY
+         A82Te7iLQSjSJZrEA7fjMXT4RqffoiYCYi8H2w06CygeUlaVSAw+UQUbdHTT6Wx5/Xwu
+         eLsv3dH9lTdcIya1fU1IpKCKQl6ZnZXgzirGI8d/FsIUOjOFpIQBjV2Jmqy+rofeGc8Q
+         ogOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702485871; x=1703090671;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xr6toAXCsIC/bmSJ5B/sgzDjMz3Z0Uajw+zCN70ZLA8=;
-        b=pmB94Pu7YwRaW6D6+mWONvXW4GBZAg+2sB1wUh2IN10tJVrSRuqNSzlwZAAmkm0GTc
-         N0JYaZRzqPkAr0ujMhPjxdXOR3h4UsBAJaSIYwMj6Cz4R7J/2k28mGiEBbhTSsIXSUgI
-         rBd7w02ha1orA4QktmxFepI3EPvkofV+yYTH4uzUZ9oF0rLTkBKf+ID7jVO8OMAtpy7v
-         OZY0yeFcRWhoCWYz3D4At3A9EXMalfPUNiAxB8S2kUsaP68Hh0bI5pnntwTGYuWfaMpI
-         HfCFC8RXLI/tmWVTPINc2VHsWjbWl1ArcI4ORvfR99gLnO4j3K1LoVV3rjXGzZa6bSfJ
-         zG9g==
-X-Gm-Message-State: AOJu0Yw1DxFSVyeCswRFWD+k7Ykiq483vjXtlv/SEo/WPkktNDCOZZMU
-	OWDbYEo5RIR1l7KY5CzmwxrP4g==
-X-Google-Smtp-Source: AGHT+IHmb8ewYnbRlq6v/5rMQRoMcMWRfLl01skabFTAXrcQx6eTujOz4Paqf/1jHchf7eivqMmEQQ==
-X-Received: by 2002:a05:600c:2246:b0:40b:2a46:6f1 with SMTP id a6-20020a05600c224600b0040b2a4606f1mr4313509wmm.2.1702485870981;
-        Wed, 13 Dec 2023 08:44:30 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:ac4e:a5fe:7f71:8d59? ([2a01:e0a:982:cbb0:ac4e:a5fe:7f71:8d59])
-        by smtp.gmail.com with ESMTPSA id o4-20020a5d58c4000000b0033333bee379sm13767115wrf.107.2023.12.13.08.44.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Dec 2023 08:44:30 -0800 (PST)
-Message-ID: <212239ae-60ab-46f3-a838-39a4d61091fe@linaro.org>
-Date: Wed, 13 Dec 2023 17:44:28 +0100
+        d=1e100.net; s=20230601; t=1702495378; x=1703100178;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=89i1OHXQJgIekZUdzaoOl/WPzNUPAmh4Shyy9X7oUY4=;
+        b=Qx/reND/p9oG/Xx7Ga2IR9aNcQo5XH3WcUsmlFUrVeucpxtHDWe+7OWUL6LAdAlz0o
+         eAL8wbjOjBF2qYMjc5qQxwNsENJn9JeDC/nDjRlimUJ47x5BZsv/KVDEu6/T9YnxD39N
+         F63Ec+PUOFChs3sKnLNgxSvTO9mq8oIB0mpG/4go+6m/l4Ku4srAq2uHmtln9sW7GIx8
+         TxZFk39jO/wK/Ou/d9HLdtsilaqsR4dDpBZz11PBAg+w2Wb36VIDW+KKouaytLt/z9LY
+         EeuRtiRSeO5XH5l0AC6uV1e18MC5YGhibp0uv+2k5X1nv6BoY565i1oyTZAWCwcsIs3j
+         PD2g==
+X-Gm-Message-State: AOJu0Yz6HQCoQXfKo1h8hM2IfKAvWud3/TLTxFO5ejdwAUxKz6hK31hV
+	pRWeQstHrtRiU5rn7OY4wA8=
+X-Google-Smtp-Source: AGHT+IFcZKcfAVcsQKDAtqomxNhsXvBOqj2C0qfAQJcS/u+Cqm3nCQMDR0fiNd6YdrV8nk7TJFFkig==
+X-Received: by 2002:adf:e64d:0:b0:336:38ef:f4ec with SMTP id b13-20020adfe64d000000b0033638eff4ecmr541429wrn.28.1702495377445;
+        Wed, 13 Dec 2023 11:22:57 -0800 (PST)
+Received: from archlinux.localnet (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
+        by smtp.gmail.com with ESMTPSA id c11-20020a5d414b000000b0033342f72bf8sm14153283wrq.9.2023.12.13.11.22.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Dec 2023 11:22:56 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>, Andre Przywara <andre.przywara@arm.com>
+Cc: Icenowy Zheng <uwu@icenowy.me>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject:
+ Re: [PATCH 3/3] arm64: dts: allwinner: h618: add Transpeed 8K618-T TV box
+Date: Wed, 13 Dec 2023 20:22:55 +0100
+Message-ID: <4533903.LvFx2qVVIh@archlinux>
+In-Reply-To: <20231212010859.11571-4-andre.przywara@arm.com>
+References:
+ <20231212010859.11571-1-andre.przywara@arm.com>
+ <20231212010859.11571-4-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/5] clk: Make clk_rate_exclusive_get() return void
-Content-Language: en-GB
-To: Maxime Ripard <mripard@kernel.org>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Michael Turquette <mturquette@baylibre.com>,
- dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>, David Airlie <airlied@gmail.com>,
- linux-clk@vger.kernel.org, Jerome Brunet <jbrunet@baylibre.com>,
- Rob Herring <robh@kernel.org>, Samuel Holland <samuel@sholland.org>,
- Kevin Hilman <khilman@baylibre.com>, Russell King <linux@armlinux.org.uk>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Chanwoo Choi
- <cw00.choi@samsung.com>, Chen-Yu Tsai <wens@csie.org>,
- MyungJoo Ham <myungjoo.ham@samsung.com>,
- Johan Hovold <johan+linaro@kernel.org>, linux-sunxi@lists.linux.dev,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-pm@vger.kernel.org,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org,
- kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org,
- Stephen Boyd <sboyd@kernel.org>, Kyungmin Park <kyungmin.park@samsung.com>,
- Daniel Vetter <daniel@ffwll.ch>, Georgi Djakov <djakov@kernel.org>
-References: <cover.1702400947.git.u.kleine-koenig@pengutronix.de>
- <ki5n3rz5n4oxj2hhc3rj6xpn3e2tdi7fcp2q7exjbzilrlqflp@przautvhuy4g>
- <20231213074300.4bq7wkfqd4jhhcr4@pengutronix.de>
- <2nvbag657mlniqwq7fbilapc6vfw5qumab3yd6bqul25ot6wcn@wdlkh5az2fgs>
-From: Neil Armstrong <neil.armstrong@linaro.org>
-In-Reply-To: <2nvbag657mlniqwq7fbilapc6vfw5qumab3yd6bqul25ot6wcn@wdlkh5az2fgs>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Hi Maxime,
+Hi Andre!
 
-Le 13/12/2023 à 09:36, Maxime Ripard a écrit :
-> Hi,
+On Tuesday, December 12, 2023 2:08:59 AM CET Andre Przywara wrote:
+> This is a Chinese TV box, probably very similar if not identical to
+> various other cheap TV boxes with the same specs:
+>       - Allwinner H618 SoC (4 * Arm Cortex-A53 cores, 1MB L2 cache)
+>       - 2 or 4GiB DDR3L DRAM
+>       - 32, 64, or 128 GiB eMMC flash
+>       - AXP313a PMIC
+>       - 100 Mbit/s Ethernet (using yet unsupported internal PHY)
+>       - HDMI port
+>       - 2 * USB 2.0 ports
+>       - microSD card slot
+>       - 3.5mm A/V port
+>       - 7-segment display
+>       - 5V barrel plug power supply
 > 
-> On Wed, Dec 13, 2023 at 08:43:00AM +0100, Uwe Kleine-König wrote:
->> On Wed, Dec 13, 2023 at 08:16:04AM +0100, Maxime Ripard wrote:
->>> On Tue, Dec 12, 2023 at 06:26:37PM +0100, Uwe Kleine-König wrote:
->>>> clk_rate_exclusive_get() returns zero unconditionally. Most users "know"
->>>> that and don't check the return value. This series fixes the four users
->>>> that do error checking on the returned value and then makes function
->>>> return void.
->>>>
->>>> Given that the changes to the drivers are simple and so merge conflicts
->>>> (if any) should be easy to handle, I suggest to merge this complete
->>>> series via the clk tree.
->>>
->>> I don't think it's the right way to go about it.
->>>
->>> clk_rate_exclusive_get() should be expected to fail. For example if
->>> there's another user getting an exclusive rate on the same clock.
->>>
->>> If we're not checking for it right now, then it should probably be
->>> fixed, but the callers checking for the error are right to do so if they
->>> rely on an exclusive rate. It's the ones that don't that should be
->>> modified.
->>
->> If some other consumer has already "locked" a clock that I call
->> clk_rate_exclusive_get() for, this isn't an error. In my bubble I call
->> this function because I don't want the rate to change e.g. because I
->> setup some registers in the consuming device to provide a fixed UART
->> baud rate or i2c bus frequency (and that works as expected).
+> The PCB provides holes for soldering a UART header or cable, this is
+> connected to the debug UART0. UART1 is used for the Bluetooth chip,
+> although this isn't working yet.
 > 
-> I guess it's a larger conversation, but I don't see how that can
-> possibly work.
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+>  .../sun50i-h618-transpeed-8k618-t.dts         | 164 ++++++++++++++++++
+>  2 files changed, 165 insertions(+)
+>  create mode 100644
+> arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts
 > 
-> The way the API is designed, you have no guarantee (outside of
-> clk_rate_exclusive_*) that the rate is going to change.
-> 
-> And clk_rate_exclusive_get() doesn't allow the rate to change while in
-> the "critical section".
-> 
-> So the only possible thing to do is clk_set_rate() +
-> clk_rate_exclusive_get().
+> diff --git a/arch/arm64/boot/dts/allwinner/Makefile
+> b/arch/arm64/boot/dts/allwinner/Makefile index 3aca6787a1679..91d505b385de5
+> 100644
+> --- a/arch/arm64/boot/dts/allwinner/Makefile
+> +++ b/arch/arm64/boot/dts/allwinner/Makefile
+> @@ -43,3 +43,4 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-bigtreetech-pi.dtb
+> dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-orangepi-zero2.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-x96-mate.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero3.dtb
+> +dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-transpeed-8k618-t.dtb
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts
+> b/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts new file
+> mode 100644
+> index 0000000000000..fd7ea7bcde2c1
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts
+> @@ -0,0 +1,164 @@
+> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> +/*
+> + * Copyright (C) 2023 Arm Ltd.
+> + */
+> +
+> +/dts-v1/;
+> +
+> +#include "sun50i-h616.dtsi"
+> +
+> +#include <dt-bindings/gpio/gpio.h>
+> +#include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +/ {
+> +	model = "Transpeed 8K618-T";
+> +	compatible = "transpeed,8k618-t", "allwinner,sun50i-h618";
+> +
+> +	aliases {
+> +		serial0 = &uart0;
+> +		serial1 = &uart1;
 
-There's clk_set_rate_exclusive() for this purpose.
+Any particular reason for above alias?
 
-> 
-> So there's a window where the clock can indeed be changed, and the
-> consumer that is about to lock its rate wouldn't be aware of it.
-> 
-> I guess it would work if you don't care about the rate at all, you just
-> want to make sure it doesn't change.
-> 
-> Out of the 7 users of that function, 3 are in that situation, so I guess
-> it's fair.
-> 
-> 3 are open to that race condition I mentioned above.
-> 
-> 1 is calling clk_set_rate while in the critical section, which works if
-> there's a single user but not if there's multiple, so it should be
-> discouraged.
-> 
->> In this case I won't be able to change the rate of the clock, but that
->> is signalled by clk_set_rate() failing (iff and when I need awother
->> rate) which also seems the right place to fail to me.
-> 
-> Which is ignored by like half the callers, including the one odd case I
-> mentioned above.
-> 
-> And that's super confusing still: you can *always* get exclusivity, but
-> not always do whatever you want with the rate when you have it? How are
-> drivers supposed to recover from that? You can handle failing to get
-> exclusivity, but certainly not working around variable guarantees.
-> 
->> It's like that since clk_rate_exclusive_get() was introduced in 2017
->> (commit 55e9b8b7b806ec3f9a8817e13596682a5981c19c).
-> 
-> Right, but "it's always been that way" surely can't be an argument,
-> otherwise you wouldn't have done that series in the first place.
-> 
->> BTW, I just noticed that my assertion "Most users \"know\" that
->> [clk_rate_exclusive_get() returns zero unconditionally]" is wrong. As of
->> next-20231213 there are 3 callers ignoring the return value of
->> clk_rate_exclusive_get() and 4 that handle (imaginary) returned errors.
->> I expected this function to be used more extensively. (In fact I think
->> it should be used more as several drivers rely on the clk rate not
->> changing.)
-> 
-> Yes, but also it's super difficult to use in practice, and most devices
-> don't care.
-> 
-> The current situation is something like this:
-> 
->    * Only a handful of devices really care about their clock rate, and
->      often only for one of their clock if they have several. You would
->      probably get all the devices that create an analog signal somehow
->      there, so audio, display, i2c, spi, uarts, etc. Plus the ones doing
->      frequency scaling so CPU and GPUs.
-> 
->    * CPUs and GPUs are very likely to have a dedicated clock, so we can
->      rule the "another user is going to mess with my clock" case.
-> 
->    * UARTs/i2c/etc. are usually taking their clock from the bus interface
->      directly which is pretty much never going to change (for good
->      reason). And the rate of the bus is not really likely to change.
-> 
->    * SPI/NAND/MMC usually have their dedicated clock too, and the bus
->      rate is not likely to change after the initial setup either.
-> 
-> So, the only affected devices are the ones generating external signals,
-> with the rate changing during the life of the system. Even for audio or
-> video devices, that's fairly unlikely to happen. And you need to have
-> multiple devices sharing the same clock tree for that issue to occur,
-> which is further reducing the chances it happens.
+> +	};
+> +
+> +	chosen {
+> +		stdout-path = "serial0:115200n8";
+> +	};
+> +
+> +	reg_vcc5v: vcc5v {
+> +		/* board wide 5V supply directly from the DC input */
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "vcc-5v";
+> +		regulator-min-microvolt = <5000000>;
+> +		regulator-max-microvolt = <5000000>;
+> +		regulator-always-on;
+> +	};
+> +
+> +	reg_vcc3v3: vcc3v3 {
+> +		/* discrete 3.3V regulator */
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "vcc-3v3";
+> +		regulator-min-microvolt = <3300000>;
+> +		regulator-max-microvolt = <3300000>;
+> +		regulator-always-on;
+> +	};
+> +};
+> +
+> +&ehci0 {
+> +	status = "okay";
+> +};
+> +
+> +&ehci1 {
+> +	status = "okay";
+> +};
+> +
+> +&ir {
+> +	status = "okay";
+> +};
+> +
+> +&mmc0 {
+> +	vmmc-supply = <&reg_dldo1>;
+> +	cd-gpios = <&pio 8 16 GPIO_ACTIVE_LOW>;	/* PI16 */
+> +	bus-width = <4>;
+> +	status = "okay";
+> +};
+> +
+> +&mmc2 {
+> +	vmmc-supply = <&reg_dldo1>;
+> +	vqmmc-supply = <&reg_aldo1>;
+> +	bus-width = <8>;
+> +	non-removable;
+> +	cap-mmc-hw-reset;
+> +	mmc-ddr-1_8v;
+> +	mmc-hs200-1_8v;
+> +	status = "okay";
+> +};
+> +
+> +&ohci0 {
+> +	status = "okay";
+> +};
+> +
+> +&ohci1 {
+> +	status = "okay";
+> +};
+> +
+> +&r_i2c {
+> +	status = "okay";
+> +
+> +	axp313: pmic@36 {
+> +		compatible = "x-powers,axp313a";
+> +		reg = <0x36>;
+> +		#interrupt-cells = <1>;
+> +		interrupt-controller;
+> +
+> +		vin1-supply = <&reg_vcc5v>;
+> +		vin2-supply = <&reg_vcc5v>;
+> +		vin3-supply = <&reg_vcc5v>;
+> +
+> +		regulators {
+> +			/* Supplies VCC-PLL, so needs to be always 
+on. */
+> +			reg_aldo1: aldo1 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt = 
+<1800000>;
+> +				regulator-max-microvolt = 
+<1800000>;
+> +				regulator-name = "vcc1v8";
 
-Well, thanks for HW designers, this exists and some SoCs has less PLLs than
-needed, and they can't be dedicated for some hw blocks.
+It would be great to expand all PMIC regulator names with (known) areas they 
+power, so something like "vcc1v8-pll-pc". With that, I think you can remove 
+comments.
 
-> 
-> Realistically speaking, this only occurs with multi-head display outputs
-> where it's somewhat likely to have all the display controllers feeding
-> from the same clock, and the power up of the various output is done in
-> sequence which creates that situation.
-> 
-> And even then, the clk_rate_exclusive_* interface effectively locks the
-> entire clock subtree to its current rate, so the effect on the rest of
-> the devices can be significant.
-> 
-> So... yeah. Even though you're right, it's trying to address a problem
-> that is super unlikely to happen with a pretty big hammer that might be
-> too much for most. So it's not really surprising it's not used more.
+Best regards,
+Jernej
 
-Honestly I tried my best to find a smart way to set the DSI clock tree
-with only 2 endpoints of the tree, but CCF will explore all possibilities
-and since you cannot set constraints, locking a sub-tree is the smartest
-way I found.
-In this case, the PLL is common between the DSI controller and video generator,
-so to keep the expected clock ratio, the smart way is to set the freq on
-one side, lock the subtree and set the rate on the other side.
-An API permitting to set multiple rates to multiple clocks in a single call
-would be the solution, but not sure if we could possibly write such algorithm.
+> +			};
+> +
+> +			/* Supplies VCC-IO, so needs to be always on. 
+*/
+> +			reg_dldo1: dldo1 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt = 
+<3300000>;
+> +				regulator-max-microvolt = 
+<3300000>;
+> +				regulator-name = "vcc3v3";
+> +			};
+> +
+> +			reg_dcdc1: dcdc1 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt = 
+<810000>;
+> +				regulator-max-microvolt = 
+<990000>;
+> +				regulator-name = "vdd-gpu-sys";
+> +			};
+> +
+> +			reg_dcdc2: dcdc2 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt = 
+<810000>;
+> +				regulator-max-microvolt = 
+<1100000>;
+> +				regulator-name = "vdd-cpu";
+> +			};
+> +
+> +			reg_dcdc3: dcdc3 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt = 
+<1360000>;
+> +				regulator-max-microvolt = 
+<1360000>;
+> +				regulator-name = "vdd-dram";
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&pio {
+> +	vcc-pc-supply = <&reg_aldo1>;
+> +	vcc-pg-supply = <&reg_dldo1>;
+> +	vcc-ph-supply = <&reg_dldo1>;
+> +	vcc-pi-supply = <&reg_dldo1>;
+> +};
+> +
+> +&uart0 {
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&uart0_ph_pins>;
+> +	status = "okay";
+> +};
+> +
+> +&uart1 {
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&uart1_pins>, <&uart1_rts_cts_pins>;
+> +	uart-has-rtscts;
+> +	status = "okay";
+> +};
+> +
+> +&usbotg {
+> +	dr_mode = "host";	/* USB A type receptable */
+> +	status = "okay";
+> +};
+> +
+> +&usbphy {
+> +	status = "okay";
+> +};
 
-> 
-> Maxime
 
-Neil
+
+
