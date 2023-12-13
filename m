@@ -1,154 +1,168 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A03251EB35;
-	Wed, 13 Dec 2023 11:54:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MjnnVZ0S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC807C433C8;
-	Wed, 13 Dec 2023 11:54:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702468457;
-	bh=iHthuXB7sfzZcg98+EKwHTXcS8ZvmQ4BanSBcAsrHIE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MjnnVZ0S7rVIKkqnGTiQ4DlqE2/wYLDD+AwPYhVsgGx6Eii2AQtoaWS7SymKrgfJF
-	 Ttkwe0ZPFeMuRktLhUTlDjtSv+F0Euq61k8svBaGRGYZIkq8ylsQsBIBfwbf4AnqWo
-	 VDKv7GvOb0WtVWDbzkCxmes4wW6Qhes/ZC5J2Xq5JiutrXqMccJLknAKOIqSNHcQoA
-	 1cS6vcPQtfv/3ocOXTNm36GO4yA3C8uiDNEy1eUrlM4g3ReHOjoYYVLiBUCDL+5aqu
-	 5NE/cfH4OP74Pg+t5zJ7YzInYoIFTK11scS0e4Nd8Uwh8X7GLXRNKNFcXUZzibD43+
-	 hNyjWepgZ0BMw==
-Date: Wed, 13 Dec 2023 12:54:14 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Daniel Vetter <daniel@ffwll.ch>, 
-	Michael Turquette <mturquette@baylibre.com>, dri-devel@lists.freedesktop.org, 
-	Thierry Reding <thierry.reding@gmail.com>, David Airlie <airlied@gmail.com>, linux-clk@vger.kernel.org, 
-	Jerome Brunet <jbrunet@baylibre.com>, Rob Herring <robh@kernel.org>, 
-	Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>, 
-	Russell King <linux@armlinux.org.uk>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Chanwoo Choi <cw00.choi@samsung.com>, 
-	Chen-Yu Tsai <wens@csie.org>, MyungJoo Ham <myungjoo.ham@samsung.com>, 
-	linux-arm-kernel@lists.infradead.org, Kyungmin Park <kyungmin.park@samsung.com>, 
-	linux-sunxi@lists.linux.dev, kernel@pengutronix.de, linux-pm@vger.kernel.org, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org, 
-	Johan Hovold <johan+linaro@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Stephen Boyd <sboyd@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Georgi Djakov <djakov@kernel.org>
-Subject: Re: [PATCH 0/5] clk: Make clk_rate_exclusive_get() return void
-Message-ID: <6wnsxbi27xdxjtaqaaaq5wtwwilp4jfw4mg5y2ctdl7xrs44ry@ns6y36pf7hge>
-References: <cover.1702400947.git.u.kleine-koenig@pengutronix.de>
- <ki5n3rz5n4oxj2hhc3rj6xpn3e2tdi7fcp2q7exjbzilrlqflp@przautvhuy4g>
- <20231213074300.4bq7wkfqd4jhhcr4@pengutronix.de>
- <2nvbag657mlniqwq7fbilapc6vfw5qumab3yd6bqul25ot6wcn@wdlkh5az2fgs>
- <20231213110829.bjaxjjiyy4ug7o67@pengutronix.de>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD72828E00
+	for <linux-sunxi@lists.linux.dev>; Wed, 13 Dec 2023 12:25:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 08FB4C15;
+	Wed, 13 Dec 2023 04:26:14 -0800 (PST)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5E4BE3F762;
+	Wed, 13 Dec 2023 04:25:26 -0800 (PST)
+Date: Wed, 13 Dec 2023 12:25:23 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Anne Macedo <retpolanne@posteo.net>
+Cc: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, "open list:OPEN FIRMWARE AND
+ FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, "moderated
+ list:ARM/Allwinner sunXi SoC support"
+ <linux-arm-kernel@lists.infradead.org>, "open list:ARM/Allwinner sunXi SoC
+ support" <linux-sunxi@lists.linux.dev>, open list
+ <linux-kernel@vger.kernel.org>, Corentin Labbe <clabbe@baylibre.com>
+Subject: Re: [PATCH] arm64: dts: allwinner: Orange Pi One Plus PHY support
+Message-ID: <20231213122523.219cbfc0@donnerap.manchester.arm.com>
+In-Reply-To: <ceuoq3xxgb5kkel7e7wqpslcg7h6dde3wgdqhyo7jgop6owovk@5a76ks5fiun4>
+References: <20231212122835.10850-2-retpolanne@posteo.net>
+	<20231212162200.10b3868b@donnerap.manchester.arm.com>
+	<axsvii25yrknfae6gdreti7lcskoscsdbsujwuispiieimsbdy@gwzm4l7mwlew>
+	<20231213013544.2fc7e0d1@minigeek.lan>
+	<ceuoq3xxgb5kkel7e7wqpslcg7h6dde3wgdqhyo7jgop6owovk@5a76ks5fiun4>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="nuge2gzlt63erkrn"
-Content-Disposition: inline
-In-Reply-To: <20231213110829.bjaxjjiyy4ug7o67@pengutronix.de>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Wed, 13 Dec 2023 11:02:39 +0000
+Anne Macedo <retpolanne@posteo.net> wrote:
 
---nuge2gzlt63erkrn
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Anne,
 
-On Wed, Dec 13, 2023 at 12:08:29PM +0100, Uwe Kleine-K=F6nig wrote:
-> On Wed, Dec 13, 2023 at 09:36:49AM +0100, Maxime Ripard wrote:
-> > On Wed, Dec 13, 2023 at 08:43:00AM +0100, Uwe Kleine-K=F6nig wrote:
-> > > On Wed, Dec 13, 2023 at 08:16:04AM +0100, Maxime Ripard wrote:
-> > > > On Tue, Dec 12, 2023 at 06:26:37PM +0100, Uwe Kleine-K=F6nig wrote:
-> > > > > clk_rate_exclusive_get() returns zero unconditionally. Most users=
- "know"
-> > > > > that and don't check the return value. This series fixes the four=
- users
-> > > > > that do error checking on the returned value and then makes funct=
-ion
-> > > > > return void.
-> > > > >=20
-> > > > > Given that the changes to the drivers are simple and so merge con=
-flicts
-> > > > > (if any) should be easy to handle, I suggest to merge this comple=
-te
-> > > > > series via the clk tree.
-> > > >=20
-> > > > I don't think it's the right way to go about it.
-> > > >=20
-> > > > clk_rate_exclusive_get() should be expected to fail. For example if
-> > > > there's another user getting an exclusive rate on the same clock.
-> > > >=20
-> > > > If we're not checking for it right now, then it should probably be
-> > > > fixed, but the callers checking for the error are right to do so if=
- they
-> > > > rely on an exclusive rate. It's the ones that don't that should be
-> > > > modified.
-> > >=20
-> > > If some other consumer has already "locked" a clock that I call
-> > > clk_rate_exclusive_get() for, this isn't an error. In my bubble I call
-> > > this function because I don't want the rate to change e.g. because I
-> > > setup some registers in the consuming device to provide a fixed UART
-> > > baud rate or i2c bus frequency (and that works as expected).
-> >=20
-> > [a long text of mostly right things (Uwe's interpretation) that are
-> > however totally unrelated to the patches under discussion.]
+> On Wed, Dec 13, 2023 at 01:35:44AM +0000, Andre Przywara wrote:
+> > On Tue, 12 Dec 2023 19:27:14 +0000
+> > Anne Macedo <retpolanne@posteo.net> wrote:
+> > 
+> > Hi Anne,
+> >   
+> > > On Tue, Dec 12, 2023 at 04:22:00PM +0000, Andre Przywara wrote:  
+> > > > On Tue, 12 Dec 2023 12:28:30 +0000
+> > > > Anne Macedo <retpolanne@posteo.net> wrote:
+> > > > 
+> > > > Hi Anne,
+> > > >     
+> > > > > Adds compatible values to mdio subnodes for Ethernet PHY representing
+> > > > > Realtek 8211 PHY to Orange Pi One Plus.    
+> > > > 
+> > > > So can you state why this would be needed? This is the RTL8211 ID,    
+> > > 
+> > > Apologies, I completely forgot to include some context. 
+> > >   
+> > > > right? Which should be autodetected via MDIO. Looking back in my inbox
+> > > > you proposed this change before, for U-Boot, specifically, but I fail to
+> > > > find a solution or explanation what really happens here. Two Renesas .dts
+> > > > files have the same compatible, and the commit message talks about the
+> > > > reset line there, is this related?
+> > > > 
+> > > > So can you please give some more background and explanation? That would be
+> > > > part of a good commit message anyway ("why", not "what").    
+> > > 
+> > > Should I resend the commit with a more meaningful explanation? The
+> > > context is the following:
+> > > 
+> > > currently, ethernet doesn't seem to work on both u-boot and Linux on the
+> > > Orange Pi One Plus board. 
+> > > 
+> > > On the kernel, this error shows up:
+> > > 
+> > > Configuring network interfaces... [    5.992589] dwmac-sun8i 5020000.ethernet eth0: Register MEM_TYPE_PAGE_POOL RxQ-0
+> > > [    6.000823] dwmac-sun8i 5020000.ethernet eth0: __stmmac_open: Cannot attach to PHY (error: -19)
+> > > 
+> > > After applying this fix, the PHY gets attached: 
+> > > 
+> > > Configuring network interfaces... [    6.060020] dwmac-sun8i 5020000.ethernet eth0: Register MEM_TYPE_PAGE_POOL RxQ-0
+> > > [    6.069460] dwmac-sun8i 5020000.ethernet eth0: PHY [stmmac-0:01] driver [RTL8211E Gigabit Ethernet] (irq=POLL)
+> > > 
+> > > The previous compatible list that had ethernet-phy-ieee802.3-c22 fails
+> > > to find a PHY, so this patch includes the correct PHY ID with the
+> > > RTL8211 ID. 
+> > > 
+> > > The behaviour is described on [1].  
+> > 
+> > So this is all an observation, but no real explanation, isn't it?  
+> 
+> I've made some analysis on [3] on this bug, but it was based solely on
+> u-boot. I was having trouble with the regulator and on u-boot nothing
+> would trigger the GPIO PD6 and the vcc-gmac-3v3 regulator, so the NIC
+> was completely dead. Next I did an analysis based on [2] because the
+> u-boot PHY initialization was flaky.
+> 
+> > To cite [1]: "If the PHY reports an incorrect ID (or none at all) ...".
+> > I am pretty sure this is not the case here, instead we are looking at
+> > some missing platform bits, like a missing clock, reset, or most likely
+> > regulator. Or one of the existing resources is wrongly assigned or  
+> 
+> As I mentioned, PHY initialization is flaky on u-boot, so maybe that
+> assumption is correct. 
+> 
+> > configured? If the PHY is not (yet?) powered correctly when the code
+> > does the auto-detection via the MDIO bus, then the initialisation would  
+> 
+> If I recall correctly (I don't know if I kept it in my notes :c), that
+> could be the case. regulator-boot-on makes the NIC work (LEDs blink, at
+> least) but it doesn't get initialized. 
+> 
+> > fail. But since it works when overriding the auto-detection, I feel
+> > like we are papering over something here.
+> > Do you have the schematics for this board? I can only find the one for
+> > the Orange Pi Plus 2E, and I don't know how similar those two are. This
+> > shows *two* regulators, but both are activated by the same GPIO.  
+> 
+> I do. It's available on [4]
 
-I'm glad you consider it "mostly" right.
+Oh damn it, I got lost in Orange Pi's naming maze again - and was looking
+for the wrong board! So thanks for the link, and this clears things up!
 
->=20
-> The clk API works with and without my patches in exactly the same way.
-> It just makes more explicit that clk_rate_exclusive_get() cannot fail
-> today and removes the error handling from consumers that is never used.
+So yes, the Orange Pi *One* Plus, much like the Orange Pi 3, uses *two*
+regulators for Ethernet: one 3.3V from the PMIC's ALDO2 rail to power the
+PHY, and a discrete 2.5V regulator, enabled by GPIO PD6, for the voltage
+level on the MDIO lines. On top of this there is a reset line for the PHY,
+though this is held up by a pull-up resistor, so it *should* work,
+although we should describe this in the DT.
 
-Not really, no.
+So the DT looks wrong then: The reg_gmac_3v3 is actually a 2.5V regulator,
+and phy-supply is aldo2. I think it was done the way it is to somehow make
+it work with the current DT binding and code, which just supports one
+regulator. And aldo2 is referenced as the source of reg_gmac_3v3, which
+smells like another hack to me.
 
-An API is an interface, meant to provide an abstraction. The only
-relevant thing is whether or not that function, from an abstract point
-of view, can fail.
+> > It would also be interesting to see if any of Corentin's work for the
+> > Orange Pi 3 helps here?  
+> 
+> Adding [5] for reference here, thanks! Will check it out. 
 
-Can you fail to get the exclusivity? Yes. On a theoretical basis, you
-can, and the function was explicitly documented as such.
+This is an older version, there are actually updates. And he also mentions
+your board as well, so I think it just can sail in the wake of the OPi 3
+Ethernet enablement.
 
-Whether or not the function actually can fail in its current
-implementation is irrelevant.
+Can you try if this change, just applied to your .dts instead, works?
+https://github.com/montjoie/linux/commit/cf6e192eca1d59be630e6729d2cef9e897b3da8c
 
-> Yes, my series doesn't fix any race conditions that are there without
-> doubt in some consumers. It also doesn't make the situation any worse.
+Cheers,
+Andre
 
-Sure it does. If we ever improve that function to handle those unrelated
-cases, then all your patches will have to be reverted, while we already
-had code to deal with it written down.
+P.S. Is there any chance where I can reply/comment on your blog? It seems
+like I can clear some things up...
 
-> It also doesn't fix other problems that are orthogonal to the intention
-> of this patch series (neither makes it any of them any worse).
->=20
-> It's just dead code removal and making sure no new dead code of the same
-> type is introduced in the future.
+> [3] https://blog.retpolanne.com/hardware/embedded/2023/07/07/embedded-phy.html
+> [4] https://linux-sunxi.org/images/7/7c/OrangePi_OnePlus_Schematics_v2.0.pdf
+> [5] https://lore.kernel.org/netdev/20220509074857.195302-1-clabbe@baylibre.com/
+> 
+> Regards, Anne
 
-Again, it's not. It's a modification of the abstraction.
-
-> Is there anyone working on improving the clk framework regarding how clk
-> rate exclusivity works? I'd probably not notice, but I guess there is
-> noone that I need to consider for.
-
-I started working on it.
-
-Maxime
-
---nuge2gzlt63erkrn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZXmbZgAKCRDj7w1vZxhR
-xeNbAPsE+NnFuPDNbesYJ/zccKjzlV8dYIxZVV6ktpsHP6v5fwEAuyJ0fCkI9TXf
-zyJQ9dsVbHuR1MO93Vzy2Jkp7HckJg8=
-=gX+r
------END PGP SIGNATURE-----
-
---nuge2gzlt63erkrn--
