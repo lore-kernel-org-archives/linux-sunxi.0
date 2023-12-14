@@ -1,29 +1,29 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC763692A0
-	for <linux-sunxi@lists.linux.dev>; Thu, 14 Dec 2023 19:19:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58EB9692A5;
+	Thu, 14 Dec 2023 19:21:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y0PnfO1x"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3CA1C433C8;
-	Thu, 14 Dec 2023 19:19:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gq52NFA2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FEFFC433C7;
+	Thu, 14 Dec 2023 19:21:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702581588;
-	bh=SLnwOfnZIrvB4VzBl+S7nelpsQ3BWswHTT1pzK3ba6s=;
-	h=Date:From:List-Id:To:Cc:Subject:From;
-	b=Y0PnfO1xw9oPRJjtjNXQztojKz5nL5HTowk1D7mVbfgXB+kpyEUWI+5nnJkVJ0BK1
-	 mP+ZeDhaQq61KjHQmDu+QHl+VZJZKU8Dz3D9nF8XaEUsKTFkMNcNAggo2uovhIpsvu
-	 D5X4m9nW0OutzNrZKYDjP+rNyvc2MZllY2il3DAgArC17fvJKs9J/EDLF4aBgkgzZD
-	 5/ZPEQZ4n6ntlFJSz7XoIej8qfBUfeW5HYM5k+kn18FJqaItp7vIKEDHCcQZWaKr/3
-	 Hx3HI/y0NvbhSXhHyvDRFcyl65IlecCBAeOaILo93mICBZ1uU7h/6E197I0cs6fj1z
-	 TEMAuggTyZ8Uw==
-Date: Thu, 14 Dec 2023 20:19:44 +0100
+	s=k20201202; t=1702581689;
+	bh=jm6nUfXARM/+3uSABtPYsvnGGVA6apuuP0n3hJprDYQ=;
+	h=Date:From:To:Cc:Subject:From;
+	b=gq52NFA22AGMRg52jmM3DeGIPtBjfUhunjKrKslNXI1dHumVWnA2zQ3iNaej/5ZTu
+	 y3NhCQIFXe4ft0bPkMW1AhgV13TH/jL1xd5DOE3TfzHPfPoPg4G8Q7FZolkdqiKsu0
+	 A8xHpLwIzoxlE6+sjLkB+20LLvdkKE7WHWpHlp8YsSeG65MOnbb6hWDDnBYMKQzwvo
+	 UiclqdxdcF5rqb1CjXlXCbAKWtLVvRfuF0U8KJwmmiCepzJHPZnbHfYu6KHhSj6Wbc
+	 KDYdFvM6o3Rli/BciPDRzOCnTCqA7u9bWDckFAQm4Tf6AXIYYDCBobrgYTSTPVF0Ai
+	 azHHszw6+ZeHQ==
+Date: Thu, 14 Dec 2023 20:21:25 +0100
 From: Jernej Skrabec <jernej@kernel.org>
-To: arm@kernel.org, soc@kernel.org
-Cc: wens@csie.org, samuel@sholland.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: [GIT PULL] Allwinner fixes for 6.7
-Message-ID: <ZXtVUJ0SG2NRpPG4@archlinux>
+To: mturquette@baylibre.com, sboyd@kernel.org
+Cc: wens@csie.org, samuel@sholland.org, linux-clk@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: [GIT PULL] Allwinner clock changes for 6.8
+Message-ID: <ZXtVtZt30bBU77m6@archlinux>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -35,7 +35,7 @@ Content-Disposition: inline
 
 Hi!
 
-Please pull following DT fixes for 6.7.
+Please pull following clock changes for 6.8.
 
 Best regards,
 Jernej
@@ -46,20 +46,18 @@ The following changes since commit b85ea95d086471afb4ad062012a4d73cd328fa86:
 
 are available in the Git repository at:
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-fixes-for-6.7-1
+  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-clk-for-6.8-1
 
-for you to fetch changes up to b9622937d95809ef89904583191571a9fa326402:
+for you to fetch changes up to 89e00444cb894a42c33ba88738eaae788b05b924:
 
-  arm64: dts: allwinner: h616: update emac for Orange Pi Zero 3 (2023-11-18 23:24:34 +0100)
-
-----------------------------------------------------------------
-- Fix ethernet node for Orange Pi Zero 3 board
+  clk: sunxi-ng: nkm: remove redundant initialization of tmp_parent (2023-11-18 23:20:34 +0100)
 
 ----------------------------------------------------------------
-Chukun Pan (1):
-      arm64: dts: allwinner: h616: update emac for Orange Pi Zero 3
+- cleanup variable init in nkm module
 
- arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi | 3 ---
- arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts | 3 +++
- arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts | 2 ++
- 3 files changed, 5 insertions(+), 3 deletions(-)
+----------------------------------------------------------------
+Colin Ian King (1):
+      clk: sunxi-ng: nkm: remove redundant initialization of tmp_parent
+
+ drivers/clk/sunxi-ng/ccu_nkm.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
