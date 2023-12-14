@@ -1,120 +1,239 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BA3368B94
-	for <linux-sunxi@lists.linux.dev>; Thu, 14 Dec 2023 18:56:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51DAC692A9
+	for <linux-sunxi@lists.linux.dev>; Thu, 14 Dec 2023 19:17:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X/9lLk78"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-40c32df9174so76402185e9.3
-        for <linux-sunxi@lists.linux.dev>; Thu, 14 Dec 2023 10:56:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="obUhtJyd"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-425860bf009so61165601cf.2
+        for <linux-sunxi@lists.linux.dev>; Thu, 14 Dec 2023 11:17:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702580197; x=1703184997; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=soleen.com; s=google; t=1702581441; x=1703186241; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=IAxAjKcdxPU97AIvApR3RCAnoJx2vmM7/1XrerRQJkc=;
-        b=X/9lLk78OCU91M7LVrzK75xYKCh/cfCG6WXDyfNQUkFTJe2/QztA3IfKrU+8T4HOto
-         j4w9muon9DP1I3JzkYk9xLY/HmX4sCmXoBF++6cyYfQ7tAviq3tUrlMfyHRCtm3W2XGK
-         rGK9lZIY+rHCflU1S4rvNn2FWa4jKbCFr7Y6l/ZEGOQIM8vIzaI5qXj81xi1092XUDg5
-         frYIy+UdWqgN27Su61oUHBQ9YelpquUv08WseXVF8Cj5zMwf/Nl+p0Ji4H22JP2FC8BS
-         V25MANmXPxSPD7jxbUIWmAgKY7ByK6ayRiC2nV8BbIZaCaeOAAGvOhCwCq3hdTW0b7nO
-         JGfA==
+        bh=O2wAVapsX3d4Wu5zcLkO1Y9GXGGh0W89rcgF3jgTa1I=;
+        b=obUhtJyddqFcwTzMK9dzuAfdmuLHHXSHP61C85Ji6q59sq1C/9zAv6H4Z56kKoYsY3
+         hHDvJvZbO+kGJ1hbKjQngHNvY+h1cofkw2dc5xG7vdwiahD68eOEioHcFcxw60WTKwqA
+         g2Bt2ukDqBYIgXrt5BrTYRTD4GnA3kcuups9d9+4CDcbv96z2rO/y4UzlXU/gkpX8Wgj
+         PXjhufre2mT3Hl7EVNXQJ7K58hnrwU3C5+XHr8WnwxgdUpiB2lNNtWPueHwLEhZG4PqB
+         FvejdrSGJHqiQMFr0/vCdpgYagVZ9GvS6WeIATWNGo5Z1LsIe2/H5fRDpr+CfkPqdMJN
+         oqug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702580197; x=1703184997;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1702581441; x=1703186241;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=IAxAjKcdxPU97AIvApR3RCAnoJx2vmM7/1XrerRQJkc=;
-        b=O8UyWLQs09rtYq7IRphi+bAC2+PVLABp4sEh086HEWuG+Hb0SGHvVrC7MUXzsEG5/2
-         hZjKgZ2WrweL9UH9wQRHiBdbZx2dHM8HP5M7uuNmKLYmYz4z6pHm2ybTlKPEwOzEAlHt
-         xyY3dsKvzQ8N/kSorFqH2UMW4QSYKaeJxYHGtbI8LuHlP2DXSzlvAXrSchkYVHkwrl9F
-         6vl7nfZZvPvhPyPgSru9CBhpx2dQs//iNLd/W6Q8Qh+EDh3nu91GMfjymoUzhY1jr/85
-         yEQA7sLsMZySLDLS3x/ChSeY438F0xuvqQigg/+OWF54qLy1LEGwOpt4hLk+022Yog08
-         lFtA==
-X-Gm-Message-State: AOJu0YyhV2CcNgJMxbZCr5xbDbq/oblLbIErLdXkH0xpAdMav4Zg8OwT
-	5VDhEMWZoTy9dhDWsy1WCfU=
-X-Google-Smtp-Source: AGHT+IEJdSovztE1+kaX2STJnCOl7W1aWVQMf5BovgvciYv0lS+dzUl+ZZ1suE0cXUGwcLPNd6ee9g==
-X-Received: by 2002:a05:600c:1c07:b0:40c:1e8a:4d0e with SMTP id j7-20020a05600c1c0700b0040c1e8a4d0emr3298090wms.27.1702580197226;
-        Thu, 14 Dec 2023 10:56:37 -0800 (PST)
-Received: from archlinux.localnet (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
-        by smtp.gmail.com with ESMTPSA id m14-20020a05600c4f4e00b0040b30be6244sm25718707wmq.24.2023.12.14.10.56.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Dec 2023 10:56:36 -0800 (PST)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>, Andre Przywara <andre.przywara@arm.com>
-Cc: Icenowy Zheng <uwu@icenowy.me>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject:
- Re: [PATCH v2 0/3] arm64: dts: allwinner: Add Transpeed 8K618-T TV box
-Date: Thu, 14 Dec 2023 19:56:35 +0100
-Message-ID: <46021670.fMDQidcC6G@archlinux>
-In-Reply-To: <20231214015312.17363-1-andre.przywara@arm.com>
-References: <20231214015312.17363-1-andre.przywara@arm.com>
+        bh=O2wAVapsX3d4Wu5zcLkO1Y9GXGGh0W89rcgF3jgTa1I=;
+        b=pXpyS+94Ra+Ii+eyox4E3ag8bIBGkY/sTzY05sKZaCP38+L5GjqPeFp0Kfxff279Yy
+         4YGxU5v1tOUy8Sm8hyM95oO/tR0CFwMjwr+s/oIXhCRN+8aLx36cpPDpt7VVsIlqFT/k
+         gK7UNynRhBaBiMV2upzgNHgpt3zv7uY351Ga0s0/Z5CZ3KMrTaAJ8QhfhYmWcaZDkwxq
+         QwZwvotWwdUA4AaRGautbSKArEAz9GkI5GEok8/F/5SOW/SWYKYvGKssiEYxdawMToLJ
+         GEwrBPsrFiz3ZSLSGElHeCwyU6NF+cAHU1P3/Zi8Y4/JHV5/TsgnpQrfGs5xjlDCD3yP
+         gQgQ==
+X-Gm-Message-State: AOJu0Yyrdj5G9IwoO5etoad4jAI9631n+yutr2acJKQw2ptCmkNXrlaA
+	H+XJktxdzxZsDHBrVSnzMNTR6hKoNjejRsQUpQ250A==
+X-Google-Smtp-Source: AGHT+IFzRCB9Md6JcXtZ2Es25f4UOuYMeLP9Itx6hDPrn436g7L6e3bJmetcIjga0ApETmdpPvmDW7XHrih7qp2afIE=
+X-Received: by 2002:a05:622a:452:b0:423:a4f6:9aa2 with SMTP id
+ o18-20020a05622a045200b00423a4f69aa2mr12441941qtx.6.1702581441062; Thu, 14
+ Dec 2023 11:17:21 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+References: <20231130201504.2322355-1-pasha.tatashin@soleen.com>
+ <20231130201504.2322355-2-pasha.tatashin@soleen.com> <776e17af-ae25-16a0-f443-66f3972b00c0@google.com>
+In-Reply-To: <776e17af-ae25-16a0-f443-66f3972b00c0@google.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Thu, 14 Dec 2023 14:16:44 -0500
+Message-ID: <CA+CK2bA8iJ_w8CSx2Ed=d2cVSujrC0-TpO7U9j+Ow-gfk1nyfQ@mail.gmail.com>
+Subject: Re: [PATCH v2 01/10] iommu/vt-d: add wrapper functions for page allocations
+To: David Rientjes <rientjes@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, alim.akhtar@samsung.com, 
+	alyssa@rosenzweig.io, asahi@lists.linux.dev, baolu.lu@linux.intel.com, 
+	bhelgaas@google.com, cgroups@vger.kernel.org, corbet@lwn.net, 
+	david@redhat.com, dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
+	iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
+	joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
+	mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
+	rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
+	suravee.suthikulpanit@amd.com, sven@svenpeter.dev, thierry.reding@gmail.com, 
+	tj@kernel.org, tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, 
+	will@kernel.org, yu-cheng.yu@intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thursday, December 14, 2023 2:53:09 AM CET Andre Przywara wrote:
-> A quick update, with the few fixes for issues that reviewers spotted.
-> See below for a changelog.
-> ================================
-> 
-> The Transpeed 8K618-T is one example of various cheap Chinese TV boxes
-> using the Allwinner H618 SoC. It comes with up to 4GB DRAM and up to
-> 128GB eMMC flash, plus the usual HDMI, 100Mbit Ethernet, WiFi/BT and
-> dual USB ports, not to forget the mandatory microSD card slot.
-> More details: https://linux-sunxi.org/Transpeed_8K618-T
-> 
-> Ethernet relies on the yet unsupported integrated PHY, and the HDMI
-> output is similarly not yet supported, but patches exist that await
-> polishing for mainline submission.
-> Meanwhile USB and eMMC plus SD card work, so you can hook up an USB
-> Ethernet or WiFi adapter to get things going.
-> 
-> This series is the usual trilogy of DT support patches: adding the vendor
-> name in patch 1, the board compatible name in patch 2, and the actual
-> .dts file in patch 3.
-> 
-> Please have a look!
+On Thu, Dec 14, 2023 at 12:58=E2=80=AFPM David Rientjes <rientjes@google.co=
+m> wrote:
+>
+> On Thu, 30 Nov 2023, Pasha Tatashin wrote:
+>
+> > diff --git a/drivers/iommu/iommu-pages.h b/drivers/iommu/iommu-pages.h
+> > new file mode 100644
+> > index 000000000000..2332f807d514
+> > --- /dev/null
+> > +++ b/drivers/iommu/iommu-pages.h
+> > @@ -0,0 +1,199 @@
+> > +/* SPDX-License-Identifier: GPL-2.0-only */
+> > +/*
+> > + * Copyright (c) 2023, Google LLC.
+> > + * Pasha Tatashin <pasha.tatashin@soleen.com>
+> > + */
+> > +
+> > +#ifndef __IOMMU_PAGES_H
+> > +#define __IOMMU_PAGES_H
+> > +
+> > +#include <linux/vmstat.h>
+> > +#include <linux/gfp.h>
+> > +#include <linux/mm.h>
+> > +
+> > +/*
+> > + * All page allocation that are performed in the IOMMU subsystem must =
+use one of
+> > + * the functions below.  This is necessary for the proper accounting a=
+s IOMMU
+> > + * state can be rather large, i.e. multiple gigabytes in size.
+> > + */
+> > +
+> > +/**
+> > + * __iommu_alloc_pages_node - allocate a zeroed page of a given order =
+from
+> > + * specific NUMA node.
+> > + * @nid: memory NUMA node id
+>
+> NUMA_NO_NODE if no locality requirements?
 
-Applied, thanks!
+If no locality is required, there is a better interface:
+__iommu_alloc_pages(). That one will also take a look at the calling
+process policies to determine the proper NUMA node when nothing is
+specified. However, when policies should be ignored, and no locality
+required, NUMA_NO_NODE can be passed.
 
-Best regards,
-Jernej
+>
+> > + * @gfp: buddy allocator flags
+> > + * @order: page order
+> > + *
+> > + * returns the head struct page of the allocated page.
+> > + */
+> > +static inline struct page *__iommu_alloc_pages_node(int nid, gfp_t gfp=
+,
+> > +                                                 int order)
+> > +{
+> > +     struct page *pages;
+>
+> s/pages/page/ here and later in this file.
 
-> 
-> Thanks,
-> Andre
-> 
-> Changelog v1 .. v2:
-> - fix alphabetical ordering in vendor-prefixes
-> - remove unneeded UART1 alias
-> - extend regulator names, drop now redundant comments
-> 
-> Andre Przywara (3):
->   dt-bindings: vendor-prefixes: add Transpeed
->   dt-bindings: arm: sunxi: document Transpeed 8K618-T board name
->   arm64: dts: allwinner: h618: add Transpeed 8K618-T TV box
-> 
->  .../devicetree/bindings/arm/sunxi.yaml        |   5 +
->  .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
->  arch/arm64/boot/dts/allwinner/Makefile        |   1 +
->  .../sun50i-h618-transpeed-8k618-t.dts         | 161 ++++++++++++++++++
->  4 files changed, 169 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts
-> 
-> 
+In this file, where there a page with an "order", I reference it with
+"pages", when no order (i.e. order =3D 0), I reference it with "page"
 
+I.e.: __iommu_alloc_page vs. __iommu_alloc_pages
 
+>
+> > +
+> > +     pages =3D alloc_pages_node(nid, gfp | __GFP_ZERO, order);
+> > +     if (!pages)
+>
+> unlikely()?
 
+Will add it.
 
+>
+> > +             return NULL;
+> > +
+> > +     return pages;
+> > +}
+> > +
+> > +/**
+> > + * __iommu_alloc_pages - allocate a zeroed page of a given order.
+> > + * @gfp: buddy allocator flags
+> > + * @order: page order
+> > + *
+> > + * returns the head struct page of the allocated page.
+> > + */
+> > +static inline struct page *__iommu_alloc_pages(gfp_t gfp, int order)
+> > +{
+> > +     struct page *pages;
+> > +
+> > +     pages =3D alloc_pages(gfp | __GFP_ZERO, order);
+> > +     if (!pages)
+> > +             return NULL;
+> > +
+> > +     return pages;
+> > +}
+> > +
+> > +/**
+> > + * __iommu_alloc_page_node - allocate a zeroed page at specific NUMA n=
+ode.
+> > + * @nid: memory NUMA node id
+> > + * @gfp: buddy allocator flags
+> > + *
+> > + * returns the struct page of the allocated page.
+> > + */
+> > +static inline struct page *__iommu_alloc_page_node(int nid, gfp_t gfp)
+> > +{
+> > +     return __iommu_alloc_pages_node(nid, gfp, 0);
+> > +}
+> > +
+> > +/**
+> > + * __iommu_alloc_page - allocate a zeroed page
+> > + * @gfp: buddy allocator flags
+> > + *
+> > + * returns the struct page of the allocated page.
+> > + */
+> > +static inline struct page *__iommu_alloc_page(gfp_t gfp)
+> > +{
+> > +     return __iommu_alloc_pages(gfp, 0);
+> > +}
+> > +
+> > +/**
+> > + * __iommu_free_pages - free page of a given order
+> > + * @pages: head struct page of the page
+>
+> I think "pages" implies more than one page, this is just a (potentially
+> compound) page?
+
+Yes, more than one page, basically, when order may be > 0.
+
+> > +/**
+> > + * iommu_free_page - free page
+> > + * @virt: virtual address of the page to be freed.
+> > + */
+> > +static inline void iommu_free_page(void *virt)
+> > +{
+> > +     iommu_free_pages(virt, 0);
+> > +}
+> > +
+> > +/**
+> > + * iommu_free_pages_list - free a list of pages.
+> > + * @pages: the head of the lru list to be freed.
+>
+> Document the locking requirements for this?
+
+Thank you for the review. I will add info about locking requirements,
+in fact they are very relaxed.
+
+These pages are added to the list by unmaps or remaps operation in
+Intel IOMMU implementation. These calls assume that whoever is doing
+those operations has exclusive access to the VA range in the page
+table of that operation. The pages in this freelist only belong to the
+former page-tables from the IOVA range for those operations.
+
+> > + */
+> > +static inline void iommu_free_pages_list(struct list_head *pages)
+> > +{
+> > +     while (!list_empty(pages)) {
+> > +             struct page *p =3D list_entry(pages->prev, struct page, l=
+ru);
+> > +
+> > +             list_del(&p->lru);
+> > +             put_page(p);
+> > +     }
+> > +}
