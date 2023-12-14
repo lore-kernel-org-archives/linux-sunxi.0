@@ -1,69 +1,70 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C991DA53
-	for <linux-sunxi@lists.linux.dev>; Thu, 14 Dec 2023 16:30:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E016860B8B
+	for <linux-sunxi@lists.linux.dev>; Thu, 14 Dec 2023 16:37:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mc6h99wv"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-40c48d7a7a7so40704045e9.3
-        for <linux-sunxi@lists.linux.dev>; Thu, 14 Dec 2023 08:30:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f3eOAX7F"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-40c39e936b4so58915905e9.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 14 Dec 2023 08:37:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702571418; x=1703176218; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1702571821; x=1703176621; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xE01ZdGgOUbKW6jdSRaQsPD8axcaxCU7gBZ6Hb9nfkU=;
-        b=mc6h99wvTWkZMfOjmy0tNToV/NGI2gSwHScNV4JiHctmxauOm9clE/23hQ6q3yG/vq
-         Hh0xx3NHmog6BKNZJ3x2mSYcZUOhJ+xFVSx9kQXdO8Vdd8Zxbp2hAYJn2qc26ng9rnGz
-         j8acBqkH82iuHNWNU2VTTJl9yhHNPwngwh/Djzez3A3ONJVMzHMPSR8EB6LexrtltEE8
-         qmANONZ4CgfO/sNWpKtAXfrcSW8U4CABOsEmKhYCK6V535EkzOqp+MTK07T3QE5o03js
-         Ithls6ePwo22xOcSTm+ZpZUmBfy9+UA7Y/Q3Uc/St+cpKLqi/yomc8BMzTGAg9e6yO9F
-         KNPA==
+        bh=TcCiI3TQ8gopQV9tnMaS9uQNfvMYnRZBR7pxWDWkr/8=;
+        b=f3eOAX7F6XAsnDGHxiG8TBqO4Y6Vm43HUq0eSmvblrcHMljXPSSMUWTP4MAu5S+BDw
+         vgd/2f/gDDhQjGlHxHQCAKrhrdgB9OsK7S+65tMDQHpbIDDFfH2EJNAoO9/aX8lDkAmD
+         eHKvJDAIlRA7LusHqQZB/I4R14G33J31DZ/2Y5OBJlVaidUKmn6AdH5JH4dyKlc5RkhP
+         KlpE4W3Nh+gKCCitvqaYtRXp5IGvH3/0tuTxpvGASJOIySJ0WEmjG479CLdfVrGPGwRW
+         2Qr3CvQ1svJD3kHcpsl6AvNVEOP3ovYOYxkE0XrCeYfi2mpC0Pc7eWH1uOvb5AUB40JZ
+         LzJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702571418; x=1703176218;
+        d=1e100.net; s=20230601; t=1702571821; x=1703176621;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=xE01ZdGgOUbKW6jdSRaQsPD8axcaxCU7gBZ6Hb9nfkU=;
-        b=syR2jGHDaP8+GN9+Ia4gFPVushFavhfZO9yL+P/qbozq9CWxTYZyiK6zR3PwPsFoiU
-         AP1upuP3keWSGdVfbywNr8VABnjUl4TVG+aDpwGyUk7NmUu/LSdE5Y/Sg2WhQFwqP5T0
-         QGAGJfyS7tVmUTusVAwGsVSXrQbGu6MFox2OX69VPD9S9VdLi3ZD/BbhnZuDYkAnTjuh
-         0tHRTYzH51+T9NjNvVua66fup3ghUVz9avQFRmDzLwZ5CUuNbiTlWqK4dtlvBh3s4gmH
-         lFTN6vzIbDVb94+bP/tDfkT2aTmb9q+FZG1jUyYe0BjJWJ98pju4y6Rw4LRFZTZiYZ6C
-         gjwA==
-X-Gm-Message-State: AOJu0Yw8B6Pwu2f/G92mRLRVnzGxTTB1FNeR2RSM3mMqe1i1iGiosXSz
-	mX5u9OxtntsxcL6Asx7cs1s=
-X-Google-Smtp-Source: AGHT+IEt3Nf2FCXCesN3uRpXrcfJ59x2f6UcAcLrd557rYe94mku6UBCBQZa/o3m9hOoz7r2BA5Z3A==
-X-Received: by 2002:a05:600c:1392:b0:40c:55c4:45ec with SMTP id u18-20020a05600c139200b0040c55c445ecmr2704032wmf.46.1702571417702;
-        Thu, 14 Dec 2023 08:30:17 -0800 (PST)
+        bh=TcCiI3TQ8gopQV9tnMaS9uQNfvMYnRZBR7pxWDWkr/8=;
+        b=ntkRTIGPXfFjecku74F+W6bbA6pSe51hC1e2+EIiVNS0bYW9js+3Dys0Q4+w8tHe+b
+         ziUH1RxRtA8gSYIgqqLyWpEQrHN9fikhP2bcUx6jHaeWTvlILnwGFFo0kuqYB/svXa8i
+         EskB8fL9glFqLrjoqGXDiLabPG/pJRXcqyMjwmPly+sJUiZXAurRA6Ys3Q7OHZ+sTPab
+         x1V394GA+Jk9i7BrJ38ecC3z5ymsjvTQqs3jq36cctYkl1Mxzi1yD99hXs21aqM3Pxku
+         762K3e0KmrCZlSS6+O3QDW6BHp0JGB77LFxTaxcCkKdkWfq1jCFf5ioe0mkQHcvxJ1Vx
+         eEew==
+X-Gm-Message-State: AOJu0Yydp30KVBCHZNZsUqbDL7BjTkgZrSjtjbKyTShmmV0+9HVa3EW1
+	+1hYwwo5Z4vs1gzvDOSBSlA=
+X-Google-Smtp-Source: AGHT+IF7IW71yfGUG4q0bOw/8YVkeH6lRc27QSTBg3suiLoVsXi8oVaj5T3bf+/+et/gNTlQqLCjlA==
+X-Received: by 2002:a05:600c:1819:b0:40c:3630:264b with SMTP id n25-20020a05600c181900b0040c3630264bmr1912250wmp.249.1702571820876;
+        Thu, 14 Dec 2023 08:37:00 -0800 (PST)
 Received: from archlinux.localnet (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
-        by smtp.gmail.com with ESMTPSA id i1-20020a05600c354100b0040c411da99csm19770588wmq.48.2023.12.14.08.30.16
+        by smtp.gmail.com with ESMTPSA id m29-20020a05600c3b1d00b0040b3515cdf8sm25400470wms.7.2023.12.14.08.36.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Dec 2023 08:30:17 -0800 (PST)
+        Thu, 14 Dec 2023 08:37:00 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Rob Herring <robh+dt@kernel.org>,
+To: Viresh Kumar <viresh.kumar@linaro.org>, Conor Dooley <conor@kernel.org>
+Cc: Brandon Cheo Fusi <fusibrandon13@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  Samuel Holland <samuel@sholland.org>,
  Paul Walmsley <paul.walmsley@sifive.com>,
  Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- "Rafael J . Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>, Yangtao Li <tiny.windzz@gmail.com>,
- Brandon Cheo Fusi <fusibrandon13@gmail.com>
-Cc: devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
+ "Rafael J . Wysocki" <rafael@kernel.org>, Yangtao Li <tiny.windzz@gmail.com>,
+ devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- Brandon Cheo Fusi <fusibrandon13@gmail.com>
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
 Subject:
- Re: [PATCH 3/5] cpufreq: dt-platdev: Blocklist allwinner,sun20i-d1 SoC
-Date: Thu, 14 Dec 2023 17:30:15 +0100
-Message-ID: <3459481.QJadu78ljV@archlinux>
-In-Reply-To: <20231214103342.30775-4-fusibrandon13@gmail.com>
+ Re: [PATCH 1/5] riscv: dts: allwinner: Update opp table to allow CPU
+ frequency scaling
+Date: Thu, 14 Dec 2023 17:36:59 +0100
+Message-ID: <2177637.Mh6RI2rZIc@archlinux>
+In-Reply-To: <20231214-junkyard-corset-d35b01bad69f@spud>
 References:
  <20231214103342.30775-1-fusibrandon13@gmail.com>
- <20231214103342.30775-4-fusibrandon13@gmail.com>
+ <20231214111446.camz2krqanaieybh@vireshk-i7>
+ <20231214-junkyard-corset-d35b01bad69f@spud>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -73,34 +74,57 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-On Thursday, December 14, 2023 11:33:40 AM CET Brandon Cheo Fusi wrote:
-> The Allwinner D1 uses H6 cpufreq driver. Add it to blocklist
-> so the "cpufreq-dt" device is not created twice.
+On Thursday, December 14, 2023 2:47:14 PM CET Conor Dooley wrote:
+> On Thu, Dec 14, 2023 at 04:44:46PM +0530, Viresh Kumar wrote:
+> > On 14-12-23, 11:33, Brandon Cheo Fusi wrote:
+> > > Two OPPs are currently defined for the D1/D1s; one at 408MHz and
+> > > another at 1.08GHz. Switching between these can be done with the
+> > > "sun50i-cpufreq-nvmem" driver. This patch populates the opp table
+> > > appropriately, with inspiration from
+> > > https://github.com/Tina-Linux/linux-5.4/blob/master/arch/riscv/boot/dts/sunxi/sun20iw1p1.dtsi
+> > > 
+> > > The supply voltages are PWM-controlled, but support for that IP
+> > > is still in the works. So stick to a fixed 0.9V vdd-cpu supply,
+> > > which seems to be the default on most D1 boards.
+> > > 
+> > > Signed-off-by: Brandon Cheo Fusi <fusibrandon13@gmail.com>
+> > > ---
+> > >  arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi | 18 +++++++++++++++---
+> > >  1 file changed, 15 insertions(+), 3 deletions(-)
+> > > 
+> > > diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> > > index 64c3c2e6c..e211fe4c7 100644
+> > > --- a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> > > +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> > > @@ -39,16 +39,22 @@ cpu0_intc: interrupt-controller {
+> > >  	};
+> > >  
+> > >  	opp_table_cpu: opp-table-cpu {
+> > > -		compatible = "operating-points-v2";
+> > > +		compatible = "allwinner,sun20i-d1-operating-points",
+> > 
+> > I don't think you should add a new compatible for every SoC that needs
+> > to be supported by a DT bindings and cpufreq driver. Maybe you should
+> > just reuse "allwinner,sun50i-h6-operating-points" and it will work
+> > fine for you ?
+> > 
+> > Rob ?
 > 
-> Signed-off-by: Brandon Cheo Fusi <fusibrandon13@gmail.com>
-> ---
->  drivers/cpufreq/cpufreq-dt-platdev.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/cpufreq/cpufreq-dt-platdev.c b/drivers/cpufreq/cpufreq-dt-platdev.c
-> index bd1e1357c..2febcfc2c 100644
-> --- a/drivers/cpufreq/cpufreq-dt-platdev.c
-> +++ b/drivers/cpufreq/cpufreq-dt-platdev.c
-> @@ -104,6 +104,7 @@ static const struct of_device_id allowlist[] __initconst = {
->   */
->  static const struct of_device_id blocklist[] __initconst = {
->  	{ .compatible = "allwinner,sun50i-h6", },
-> +	{ .compatible = "allwinner,sun20i-d1", },
+> The driver can definitely just reuse sun50i-h6, but the binding and
+> devicetree should have a soc-specific compatible for the sun20i-d1.
 
-This should not be needed since you're using H6 variant for a fallback.
+Correct. This is to avoid later regrets if it turns out there are some slight
+differences or additional functionality.
 
 Best regards,
 Jernej
 
->  
->  	{ .compatible = "apple,arm-platform", },
->  
 > 
+> That said, the compatible does need to be documented, there's a
+> dt-bindings patch missing from this series.
+> 
+> Cheers,
+> Conor.
 
 
 
