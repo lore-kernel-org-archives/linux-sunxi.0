@@ -1,125 +1,153 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 579FE3BB33
-	for <linux-sunxi@lists.linux.dev>; Thu, 14 Dec 2023 10:35:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A17CE3E483
+	for <linux-sunxi@lists.linux.dev>; Thu, 14 Dec 2023 11:14:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KL3znGMn"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3333131e08dso8362499f8f.2
-        for <linux-sunxi@lists.linux.dev>; Thu, 14 Dec 2023 02:35:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ORIa5KVI"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1d075392ff6so3829755ad.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 14 Dec 2023 03:14:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702550152; x=1703154952; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/bSH5LSThTrH8jKZ5V0W7uU2b3lxsQ8a/FvDmGfwzlA=;
-        b=KL3znGMnJ1fVpf0e8abFHErWqlyC602UoZC5SrZBHtJlAxcfU6WbhPaQa8Q0xyEshS
-         hdo9XaL53ewitZDSj0+u0C6zn7uil74MV0Q76I25m3dyhng10yYAqdqOiJzhBqgm4gGv
-         FnwHssTEgB8zk2pWwnfzBCD4Kje8yo6CE+tXlBRrXyO1I9vnPu9LhSIKbd/A8dxGShHD
-         cKi2/4cvP1JIJsKWcRlG+DFCEWPWVwrBqRBL+wa1wQFcElwdMbbe+Gj9popOxTNFpaeG
-         SLd3WbrmLqI3uN9+c5aqsmoyPBHgrWxhgWB2SP4IgNpS2ua9RgwYHUn+x70I2618TfFf
-         EYTQ==
+        d=linaro.org; s=google; t=1702552489; x=1703157289; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=FVPTp88lkoUNclLNyMQ28Q4aUPFrbO4VyJ2R1jHccBw=;
+        b=ORIa5KVIbry0fKy1Jy1nZkqiHNwWD6zmA5A3Y3UY7Dak46b0lVnVSwYVO0JSQo5a4x
+         kYjrsQZ2VcoLZbdv7Lu3C4pAHppqInbD739nBNE68/sTeWJ94vJTxy2nkLq+z1VCBmvg
+         GjYCZfZWNSKE9s/p9OocsSi++419WGjs3NOTTXR0xnwpfYpk4/KAglFgJWW3fLTrV3wF
+         VTa0yIilsWNOlaQanm8mo74OqvOUP5iLPWxg8bVGx2qbSyCijLfGyZbQSp0GmwEVn/yU
+         Kfj3dweh6pPBqUjqt6IymzOq2xgPigAdPYw9qbppCauFzbsdicIRMAXzyqRqzQ+E4JRZ
+         1Ctg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702550152; x=1703154952;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/bSH5LSThTrH8jKZ5V0W7uU2b3lxsQ8a/FvDmGfwzlA=;
-        b=cbpf9mGAIWOcjp+AiguuUBqqIR0MNc9OKDECz4EOR9A9nX6PLWXmZ92Wp8aZbvptCc
-         JqEq34lqhbLF3wwcMCsg8jQZlfdyskBkSwipjpOv1yOtNlWOJcpzHXzqlQo9uOCOaksO
-         3PhUxiwd3QSQyGIptN2m3kKnI2b8wBpLfGOkdmmEzOsZFp5CTno8bvHM8LQjeYoqBUKw
-         Sb4WXFmrezdGVXgTx3JmFoer/Uq8OSE3jnNHqGr0b5L4WmWlQ2IRgWywDu0IxJoA0bLH
-         0t9qxYfuClWEIyZ7j04PSU5mFWyYnt5UnsR5H2mYe04lDrVKgugCDR6rcHJR6aoInRQ7
-         4XnQ==
-X-Gm-Message-State: AOJu0YwEJP/wWxj9N+EV1V3hrjhJms06VmtIfhd7vpnuJlMajT7vH/2a
-	iU/HjOP8K53QvAMfeV0e0lO+nO4xND6oew==
-X-Google-Smtp-Source: AGHT+IEbki3k5FnEaNVZtWRBuhOkVOwOnKsRmJW5T9tQx+eZlX6USeTgoCxh9UtIGcxFBYXudVg1vw==
-X-Received: by 2002:a5d:4bd2:0:b0:333:4940:dd1a with SMTP id l18-20020a5d4bd2000000b003334940dd1amr4977407wrt.23.1702550152438;
-        Thu, 14 Dec 2023 02:35:52 -0800 (PST)
-Received: from localhost.localdomain ([129.0.226.240])
-        by smtp.gmail.com with ESMTPSA id e4-20020a5d65c4000000b003333ed23356sm15849623wrw.4.2023.12.14.02.35.48
+        d=1e100.net; s=20230601; t=1702552489; x=1703157289;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FVPTp88lkoUNclLNyMQ28Q4aUPFrbO4VyJ2R1jHccBw=;
+        b=OqQa7Fzd+mpi7ImFVj2NseS5Yuqa3j+5uEUDtpGUbjNWpdGjSuewZMupXRg4OjzW8w
+         wJ/Ziaaw8jpHMNF4xRIqwQnq9in8Z0xJ1MdiIkw0sf68mmSgIK4nziTvry8RTyrchS1K
+         q+oSnznNz2c/LmhLGwVrD06/ogOe4WM8hqWf1XSGMEHEB4XXR5AkQi4MQcc418OZt8Z/
+         1YQPNHCCxFY1z/9jzS2s2bmWG/xDvZFBYr4eX6pfGmqMIADcbGgIpa532zxCaGQLSFlC
+         B3FtJNG/ugTEeTcmgU8fVcCIBuwDcKpIMsZznQbvaCJohT9/YdCpcfzPMF3ASRPnkAVm
+         tERQ==
+X-Gm-Message-State: AOJu0Ywl9bUaqNzFr9R0arFL6k1BhIs83lr0ATniXCnG/LWm6M6/HdXV
+	htnLz0tj6a7AbOSSCXnU+vQzQg==
+X-Google-Smtp-Source: AGHT+IGOq6hMOmxs2rxUvcaHRqnepK0+YXJSK1x4rZ1t/yLDbiZCF+pmSCx8HAr3XtqPRa+sDOje9g==
+X-Received: by 2002:a17:902:ce86:b0:1d3:7368:663 with SMTP id f6-20020a170902ce8600b001d373680663mr343871plg.7.1702552488925;
+        Thu, 14 Dec 2023 03:14:48 -0800 (PST)
+Received: from localhost ([122.172.82.6])
+        by smtp.gmail.com with ESMTPSA id j4-20020a170902da8400b001d072591d77sm12200392plx.247.2023.12.14.03.14.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Dec 2023 02:35:51 -0800 (PST)
-From: Brandon Cheo Fusi <fusibrandon13@gmail.com>
-To: Rob Herring <robh+dt@kernel.org>,
+        Thu, 14 Dec 2023 03:14:48 -0800 (PST)
+Date: Thu, 14 Dec 2023 16:44:46 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Brandon Cheo Fusi <fusibrandon13@gmail.com>
+Cc: Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
 	Paul Walmsley <paul.walmsley@sifive.com>,
 	Palmer Dabbelt <palmer@dabbelt.com>,
 	Albert Ou <aou@eecs.berkeley.edu>,
 	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Yangtao Li <tiny.windzz@gmail.com>
-Cc: devicetree@vger.kernel.org,
+	Yangtao Li <tiny.windzz@gmail.com>, devicetree@vger.kernel.org,
 	linux-riscv@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	Brandon Cheo Fusi <fusibrandon13@gmail.com>
-Subject: [PATCH 5/5] cpufreq: Make sun50i h6 cpufreq Kconfig option generic
-Date: Thu, 14 Dec 2023 11:33:42 +0100
-Message-Id: <20231214103342.30775-6-fusibrandon13@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20231214103342.30775-1-fusibrandon13@gmail.com>
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
+Subject: Re: [PATCH 1/5] riscv: dts: allwinner: Update opp table to allow CPU
+ frequency scaling
+Message-ID: <20231214111446.camz2krqanaieybh@vireshk-i7>
 References: <20231214103342.30775-1-fusibrandon13@gmail.com>
+ <20231214103342.30775-2-fusibrandon13@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231214103342.30775-2-fusibrandon13@gmail.com>
 
-Remove the 'ARM_' prefix from the Allwinner SUN50I cpufreq driver
-Kconfig.arm option as that driver can support the D1, a RISC-V
-chip.
+On 14-12-23, 11:33, Brandon Cheo Fusi wrote:
+> Two OPPs are currently defined for the D1/D1s; one at 408MHz and
+> another at 1.08GHz. Switching between these can be done with the
+> "sun50i-cpufreq-nvmem" driver. This patch populates the opp table
+> appropriately, with inspiration from
+> https://github.com/Tina-Linux/linux-5.4/blob/master/arch/riscv/boot/dts/sunxi/sun20iw1p1.dtsi
+> 
+> The supply voltages are PWM-controlled, but support for that IP
+> is still in the works. So stick to a fixed 0.9V vdd-cpu supply,
+> which seems to be the default on most D1 boards.
+> 
+> Signed-off-by: Brandon Cheo Fusi <fusibrandon13@gmail.com>
+> ---
+>  arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi | 18 +++++++++++++++---
+>  1 file changed, 15 insertions(+), 3 deletions(-)
+> 
+> diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> index 64c3c2e6c..e211fe4c7 100644
+> --- a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> @@ -39,16 +39,22 @@ cpu0_intc: interrupt-controller {
+>  	};
+>  
+>  	opp_table_cpu: opp-table-cpu {
+> -		compatible = "operating-points-v2";
+> +		compatible = "allwinner,sun20i-d1-operating-points",
 
-Signed-off-by: Brandon Cheo Fusi <fusibrandon13@gmail.com>
----
- drivers/cpufreq/Kconfig.arm | 4 ++--
- drivers/cpufreq/Makefile    | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+I don't think you should add a new compatible for every SoC that needs
+to be supported by a DT bindings and cpufreq driver. Maybe you should
+just reuse "allwinner,sun50i-h6-operating-points" and it will work
+fine for you ?
 
-diff --git a/drivers/cpufreq/Kconfig.arm b/drivers/cpufreq/Kconfig.arm
-index f91160689..510604781 100644
---- a/drivers/cpufreq/Kconfig.arm
-+++ b/drivers/cpufreq/Kconfig.arm
-@@ -29,14 +29,14 @@ config ACPI_CPPC_CPUFREQ_FIE
- 
- 	  If in doubt, say N.
- 
--config ARM_ALLWINNER_SUN50I_CPUFREQ_NVMEM
-+config ALLWINNER_SUN50I_CPUFREQ_NVMEM
- 	tristate "Allwinner nvmem based SUN50I CPUFreq driver"
- 	depends on ARCH_SUNXI
- 	depends on NVMEM_SUNXI_SID
- 	select PM_OPP
- 	help
- 	  This adds the nvmem based CPUFreq driver for Allwinner
--	  h6 SoC.
-+	  H6/D1 SoCs.
- 
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called sun50i-cpufreq-nvmem.
-diff --git a/drivers/cpufreq/Makefile b/drivers/cpufreq/Makefile
-index 8d141c71b..110b676d2 100644
---- a/drivers/cpufreq/Makefile
-+++ b/drivers/cpufreq/Makefile
-@@ -78,7 +78,7 @@ obj-$(CONFIG_ARM_SCMI_CPUFREQ)		+= scmi-cpufreq.o
- obj-$(CONFIG_ARM_SCPI_CPUFREQ)		+= scpi-cpufreq.o
- obj-$(CONFIG_ARM_SPEAR_CPUFREQ)		+= spear-cpufreq.o
- obj-$(CONFIG_ARM_STI_CPUFREQ)		+= sti-cpufreq.o
--obj-$(CONFIG_ARM_ALLWINNER_SUN50I_CPUFREQ_NVMEM) += sun50i-cpufreq-nvmem.o
-+obj-$(CONFIG_ALLWINNER_SUN50I_CPUFREQ_NVMEM) += sun50i-cpufreq-nvmem.o
- obj-$(CONFIG_ARM_TEGRA20_CPUFREQ)	+= tegra20-cpufreq.o
- obj-$(CONFIG_ARM_TEGRA124_CPUFREQ)	+= tegra124-cpufreq.o
- obj-$(CONFIG_ARM_TEGRA186_CPUFREQ)	+= tegra186-cpufreq.o
+Rob ?
+
+> +				 "allwinner,sun50i-h6-operating-points";
+> +		nvmem-cells = <&cpu_speed_grade>;
+> +		nvmem-cell-names = "speed";
+> +		opp-shared;
+>  
+>  		opp-408000000 {
+> +			clock-latency-ns = <244144>; /* 8 32k periods */
+>  			opp-hz = /bits/ 64 <408000000>;
+> -			opp-microvolt = <900000 900000 1100000>;
+> +			opp-microvolt-speed0 = <900000>;
+
+The separate property name thing was required when you could have
+different values for different SoC instances, which can be read from
+efuses, like in your case.
+
+But all I see is speed0 here, why don't you always set opp-microvolt
+then ?
+
+Also why degrade from min/max/target type to just target ?
+
+>  		};
+>  
+>  		opp-1080000000 {
+> +			clock-latency-ns = <244144>; /* 8 32k periods */
+>  			opp-hz = /bits/ 64 <1008000000>;
+> -			opp-microvolt = <900000 900000 1100000>;
+> +			opp-microvolt-speed0 = <900000>;
+>  		};
+>  	};
+>  
+> @@ -115,3 +121,8 @@ pmu {
+>  			<0x00000000 0x0000000f 0xffffffff 0xffffffff 0x00020000>;
+>  	};
+>  };
+> +
+> +&sid {
+> +	cpu_speed_grade: cpu-speed-grade@0 {
+> +		reg = <0x00 0x2>;
+> +	};
+> +};
+> -- 
+> 2.30.2
+
 -- 
-2.30.2
-
+viresh
