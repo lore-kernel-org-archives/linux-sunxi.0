@@ -1,90 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A7986122;
-	Thu, 14 Dec 2023 08:48:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pPD0dHul"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2380C433C8;
-	Thu, 14 Dec 2023 08:48:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702543685;
-	bh=bWHJ2nEewYvkEMXif5fsymjDtt1zbVHkI49YReVBsDQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pPD0dHulfnGTLBExOIGRTAfiqj1Qk7C1wGbXEFFA+Pt+rXyiZAj7vbwEaxmbG0WwT
-	 fXFFyJk+4cXRjuEuZOaIW2zJfaQWQVhtRrRRMs9UBCIfoOA/vwGoNjuOsMobs2oBCm
-	 /x6JnOvRPji6GrvOos2Yw0oUNQ7Twg7kRtElj5s2rVwBJyXcyMMHWXpshWSCkkceSt
-	 DYWU1oSq1eOTpMnCRdiI6PV+tNisgz0AazAxpQrLs1AbDcui/7JAAaAoEKbqsOi4RV
-	 TbFefK+3/aSdO1enpIiXwv3fnydWvBXHZc2tXzUZCp7iO2AVsS4o+JMKrdmlVqf3VR
-	 5MriRhjZBtS9w==
-Date: Thu, 14 Dec 2023 09:48:02 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>, 
-	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, Hans Verkuil <hverkuil@xs4all.nl>, 
-	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v5 18/44] drm/vc4: hdmi: Create destroy state
- implementation
-Message-ID: <rr5wvkunjglkxozfsvf5zvffwzznq6zt5mzvxw5rx2rpyfzecb@kauuy72x43gj>
-References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
- <20231207-kms-hdmi-connector-state-v5-18-6538e19d634d@kernel.org>
- <CAPY8ntBe9RfSjdnd5Smx23La5gQaR9WqY8ehXQyp=4D_11N55Q@mail.gmail.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C9DD381C9
+	for <linux-sunxi@lists.linux.dev>; Thu, 14 Dec 2023 09:59:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0C78BC15;
+	Thu, 14 Dec 2023 02:00:06 -0800 (PST)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2F1B73F762;
+	Thu, 14 Dec 2023 01:59:18 -0800 (PST)
+Date: Thu, 14 Dec 2023 09:59:14 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Maxim Kiselev <bigunclemax@gmail.com>
+Cc: anarsoul@gmail.com, bob@electricworry.net, conor+dt@kernel.org,
+ daniel.lezcano@linaro.org, devicetree@vger.kernel.org,
+ jernej.skrabec@gmail.com, krzysztof.kozlowski+dt@linaro.org,
+ linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, lukasz.luba@arm.com,
+ martin.botka@somainline.org, rafael@kernel.org, robh+dt@kernel.org,
+ rui.zhang@intel.com, samuel@sholland.org, tiny.windzz@gmail.com,
+ wens@csie.org
+Subject: Re: [PATCH v3 5/6] thermal: sun8i: add support for H616 THS
+ controller
+Message-ID: <20231214095914.4a98ba8c@donnerap.manchester.arm.com>
+In-Reply-To: <CALHCpMjz4YiE_=6Cxq7RqF_3qPaw8UCA=6eLy9ZZuofRhr7mcA@mail.gmail.com>
+References: <20231128005849.19044-6-andre.przywara@arm.com>
+	<a14fb458-caf0-4a4a-b76b-c2503b0840d2@gmail.com>
+	<20231211000528.57cb646c@minigeek.lan>
+	<CALHCpMjz4YiE_=6Cxq7RqF_3qPaw8UCA=6eLy9ZZuofRhr7mcA@mail.gmail.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="34euckmdvwkupler"
-Content-Disposition: inline
-In-Reply-To: <CAPY8ntBe9RfSjdnd5Smx23La5gQaR9WqY8ehXQyp=4D_11N55Q@mail.gmail.com>
-
-
---34euckmdvwkupler
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi Dave,
+On Tue, 12 Dec 2023 21:09:45 +0300
+Maxim Kiselev <bigunclemax@gmail.com> wrote:
 
-On Tue, Dec 12, 2023 at 11:40:26AM +0000, Dave Stevenson wrote:
-> On Thu, 7 Dec 2023 at 15:50, Maxime Ripard <mripard@kernel.org> wrote:
+Hi Maksim,
+
+sorry for the delay.
+
+> =D0=BF=D0=BD, 11 =D0=B4=D0=B5=D0=BA. 2023=E2=80=AF=D0=B3. =D0=B2 02:48, A=
+ndre Przywara <andre.przywara@arm.com>:
 > >
-> > Even though we were rolling our own custom state for the vc4 HDMI
-> > controller driver, we were still using the generic helper to destroy
-> > that state.
+> > On Sat, 9 Dec 2023 13:44:34 +0300
+> > Maksim Kiselev <bigunclemax@gmail.com> wrote:
 > >
-> > It was mostly working since the underlying state is the first member of
-> > our state so the pointers are probably equal in all relevant cases, but
-> > it's still fragile so let's fix this properly.
+> > Hi Maksim,
+> > =20
+> > > Hi Martin, Andre.
+> > >
+> > > May I inquire? Why do we need a separate sun50i_h616_ths_calibrate()
+> > > function? Why can't we just extend an existing sun50i_h6_ths_calibrat=
+e()?
+> > >
+> > > At my glance the calculations in both functions are the same. We just
+> > > need to handle a special case for the 4th sensor. =20
 > >
-> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > You seem to be right, they are indeed the same, just written slightly
+> > differently. Do you already have any patches that unify that? =20
 >=20
-> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> No, I don't have any patches for that yet. But I can do it if you told
+> me where to
+> send the patch. Should I put it here as a reply?
 
-Thanks for the review, I've applied that patch now.
+Can you make one patch on top of mainline, that prepares the existing
+sun50i_h6_ths_calibrate() function to deal with four sensors? I would then
+include this patch of yours in the next submission, and put Martin's H616
+patch (now probably just the struct ths_thermal_chip) on top then.
 
-Could you also review the framework changes (patches 6 to 16) ?
+Please send this patch just to the list (CC:ing people like Martin and
+me), starting a new thread.
 
-Thanks!
-Maxime
+Many thanks,
+Andre
 
---34euckmdvwkupler
-Content-Type: application/pgp-signature; name="signature.asc"
+> > I don't know if Martin or I find time to do it this week, but we could
+> > also optimise this later.
+> >
+> > Cheers,
+> > Andre =20
+>=20
+> Best regards,
+> Maksim
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZXrBQgAKCRDj7w1vZxhR
-xRk8AQDdN5Neajg11B6buyB2iqOXxDC3Ad8XCWlmcjkK9I1jTQEAv+RIYp6M3cV0
-8PQqOi1QiT/3hX+WMjreXGSqFUgQCg8=
-=hVnz
------END PGP SIGNATURE-----
-
---34euckmdvwkupler--
