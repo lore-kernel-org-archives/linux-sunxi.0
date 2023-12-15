@@ -1,119 +1,101 @@
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10D2447792
-	for <linux-sunxi@lists.linux.dev>; Fri, 15 Dec 2023 21:09:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sholland.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sholland.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41D1A563A5
+	for <linux-sunxi@lists.linux.dev>; Fri, 15 Dec 2023 21:11:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sholland.org header.i=@sholland.org header.b="qRat0JjU";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="bTJSsJXY"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id 08D615C01B4;
-	Fri, 15 Dec 2023 16:09:49 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Fri, 15 Dec 2023 16:09:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1702674589;
-	 x=1702760989; bh=+9pLPYjGFzgfQNqnSkxnhSaHWO67M+0iAl8v+uqZUn0=; b=
-	qRat0JjUuSP+CfpfIN2pUKpArcFwNph/k3XRmvINBOoHN7pB4D8n7pkE8iBHA0Qk
-	odXJPgXteR0Xm5RtvWlDCYGtYMAyFMhF7pXJlrFvsJEgzuJBUmrxnIQ/h9GGJkjN
-	AGllPtoiPQ1HfYI38BcYwoCaVwaXYsYM3Tm/3Ue9M8yhshedBOFofOzWZuP0zTRH
-	yoSAxvbBB0bEnEMgotajZaiTr/OvB019lYMFqK70HQXJR10SlhyMmmObJ9am4Y2W
-	GBrwGsxQuhzD4ndPWNnD0ftTtGDpoIydMftL78GEid9ydKYWP0b2TrvbhSwoSP1q
-	BT/On1G6mHYrRMvC06NsDA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1702674589; x=
-	1702760989; bh=+9pLPYjGFzgfQNqnSkxnhSaHWO67M+0iAl8v+uqZUn0=; b=b
-	TJSsJXYOMfo+ayDWdjBB5rX0z+IaPLykp8Ix+V7WgrTdZYVwjG8gfMG4b9OTbfjq
-	BvN1l2in5uzVkegf4KRXbfwPKmH6xOjdHfMTZFBX+geQfbINDI09rw2YAk4rVOYm
-	pAy/TrpjkteeXFBBWnpA3dEZ4gA0UF3LIFDizumOqDWUkto/fUg9ac7PNcWu5m1U
-	nv9UKqi4YQgf+evBIuqDQ3gj/HfUupEs8dyeH47PUMFPs7lroHF3jKdhPKns5PWu
-	f80ah+Ujds+y5aFrz+912p6PJU4tnF8p+er+N4rj+IgENkr/OsfyyCIVPfZSFDxg
-	+HyD5PD9PgXUGHZeZ++qA==
-X-ME-Sender: <xms:nMB8ZZEuYE7BXDpGFfbOk_4c1rdExyb3dPRpgkHivUzKCxO6A-QLYA>
-    <xme:nMB8ZeU1bLyUJmYrQJ60LyUUDXmr1R6AUGGdS2N5QOvPi48nCTejAqM8UEQZe0TfF
-    FGZu0hOzSA4KQ1wLQ>
-X-ME-Received: <xmr:nMB8ZbII-66LC2gnpfa7Wn4D_icvvn3BPx7bVDbylIuSFNwX0_2BAFdLU-pXqiH_1k2yFEk_fBlzsJ3clBLKt_56v6nHM76vKNe1tLxog3LYC1o76O_g8zktoQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvddtvddgudeghecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomhepufgr
-    mhhuvghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqne
-    cuggftrfgrthhtvghrnhepteevhffhteegfeehteehhfevgfejtdehudehvdejveetgedt
-    ffejjefhffehudffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
-    hfrhhomhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:nMB8ZfELrq8xAznZrAp53-LvFGhKOEdj4xfr1b1x7PB9_8EzoQwECQ>
-    <xmx:nMB8ZfVfRWgzryaISqCJQAgWBuk81px9I4pWUvrfQJcsVQhdVwG_yw>
-    <xmx:nMB8ZaOVgiaKi2SjWVQBwKssdcB0_9tRhb0QlVXnGAX-fa1Sqk7f2g>
-    <xmx:ncB8ZTmp8MMBx-462eITdqMgyHG8rDd6oz_R_LOFOWw2517D1T7oEA>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 15 Dec 2023 16:09:47 -0500 (EST)
-Message-ID: <11b5aea1-7c6e-4be5-ae01-9c4c869dc98c@sholland.org>
-Date: Fri, 15 Dec 2023 15:09:46 -0600
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="iUgE4Icz"
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-20389ff9cc8so68296fac.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 15 Dec 2023 13:11:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1702674715; x=1703279515; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=b9KJ+4BbcKeSEG7077PFa7FVZHENUrxS+8ivlb7RAxY=;
+        b=iUgE4IczE0XSg3lo4kslaX18/Nt46O72aZ6cXya6lCJIINRCUZcPp1L8VS9VrJmc/Y
+         kUCY41SxznYXtVElnHJEjYbTWVQrI5Svh2rfu1gcvVaqymq0L+m3iPTFpT2pyKzDSzQ9
+         Q2nmxQddw3F32PvuzhcNw/msinCHTMXQmoHPhBfsQFSbB6xFD63jrrPobBsBprz3krPk
+         Q3Sl5e6z4WPiiTrb1iHDZQf/3F/NGVTOk0xDkKgSdfcCSv3ZFzJBx+NuzXJfvglfrre9
+         7wIOv2s0ZlNHCy+EQYMIC2CJfq66KpXKcpUP4oyhp/1ezURjLXXAzVcvc1/PwMstfl2Q
+         0CbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702674715; x=1703279515;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=b9KJ+4BbcKeSEG7077PFa7FVZHENUrxS+8ivlb7RAxY=;
+        b=f/yu57FFtIiN1u0tCTbOalm4C0o+bh6zWyhcP63SGJF6AVLqNmZtkmPgQ0lEF7zccc
+         R99LZQ86LoQYtAyUCz1kRzu1L18YTuyLkrzHJjeAKgQnMlw19k6HAaRH5ARjotoW3aXw
+         5SciFc3NTKow8XFtyotzPLvI8qqinX5tD008zRfEePfxZN2W3MzhO0sB3ICdLPdOHWTs
+         c0xNHcb4W7a+b3mz1tPfeNoLU59V40tJ+IM3FPBbEHqvxINR7iFnsTGyleYegJx3ogIl
+         IGJMkyHlmOgsaa4Cz82EozwI2Dch6gj7DzVNQc3B3Ror/LG4mh7/xUVRqw0SnOqUjySh
+         emgg==
+X-Gm-Message-State: AOJu0YxBLlc75zyICaMwK5Vl/J4BuDrEKbbUMqHFfckb1MmQmLSUYKGN
+	ZDbLPDnnRWe+6AHBQTkCdFy6Hupu9LwjK9Pmgz5cjA==
+X-Google-Smtp-Source: AGHT+IFHrLpndT4XCwAesdcyNwQf00aMOvX02D4/8uxdog8acvbjKfsi57jpp2aqEyynfGVCKlt0IXuLjUhCsHgb3nk=
+X-Received: by 2002:a05:6870:c09:b0:203:7ccc:b6e8 with SMTP id
+ le9-20020a0568700c0900b002037cccb6e8mr1214533oab.25.1702674715317; Fri, 15
+ Dec 2023 13:11:55 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/5] cpufreq: Add support for RISC-V CPU Frequency scaling
- drivers
-To: Brandon Cheo Fusi <fusibrandon13@gmail.com>, viresh.kumar@linaro.org
-Cc: aou@eecs.berkeley.edu, conor+dt@kernel.org, devicetree@vger.kernel.org,
- jernej.skrabec@gmail.com, krzysztof.kozlowski+dt@linaro.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-sunxi@lists.linux.dev, palmer@dabbelt.com, paul.walmsley@sifive.com,
- rafael@kernel.org, robh+dt@kernel.org, tiny.windzz@gmail.com, wens@csie.org
-References: <20231214111702.xdd7qlcrpqh74i3j@vireshk-i7>
- <20231215151723.46409-1-fusibrandon13@gmail.com>
-Content-Language: en-US
-From: Samuel Holland <samuel@sholland.org>
-In-Reply-To: <20231215151723.46409-1-fusibrandon13@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20231130201504.2322355-1-pasha.tatashin@soleen.com>
+ <20231130201504.2322355-11-pasha.tatashin@soleen.com> <c0d23d3e-39e6-57af-fd38-eb1b885d7da4@google.com>
+In-Reply-To: <c0d23d3e-39e6-57af-fd38-eb1b885d7da4@google.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Fri, 15 Dec 2023 16:11:18 -0500
+Message-ID: <CA+CK2bD0Wz8mzB_BGKEYKCHRJKKVwr0CPK7OOC0tD_Sxi5Rp5g@mail.gmail.com>
+Subject: Re: [PATCH v2 10/10] iommu: account IOMMU allocated memory
+To: David Rientjes <rientjes@google.com>
+Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
+	asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
+	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
+	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
+	iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
+	joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
+	mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
+	rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
+	suravee.suthikulpanit@amd.com, sven@svenpeter.dev, thierry.reding@gmail.com, 
+	tj@kernel.org, tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, 
+	will@kernel.org, yu-cheng.yu@intel.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Brandon,
+> > diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> > index 3f85254f3cef..e004e05a7cde 100644
+> > --- a/Documentation/admin-guide/cgroup-v2.rst
+> > +++ b/Documentation/admin-guide/cgroup-v2.rst
+> > @@ -1418,7 +1418,7 @@ PAGE_SIZE multiple when read back.
+> >         sec_pagetables
+> >               Amount of memory allocated for secondary page tables,
+> >               this currently includes KVM mmu allocations on x86
+> > -             and arm64.
+> > +             and arm64 and IOMMU page tables.
+>
+> Hmm, if existing users are parsing this field and alerting when it exceeds
+> an expected value (a cloud provider, let's say), is it safe to add in a
+> whole new set of page tables?
+>
+> I understand the documentation allows for it, but I think potential impact
+> on userspace would be more interesting.
 
-On 12/15/23 09:17, Brandon Cheo Fusi wrote:
-> On Thu, Dec 14, 2023 at 12:17 PM Viresh Kumar <viresh.kumar@linaro.org> wrote:
->>
->> On 14-12-23, 11:33, Brandon Cheo Fusi wrote:
->>> Add Kconfig file for cpufreq scaling drivers that can handle RISC-V
->>> CPUs. An entry is included for the Allwinner H6 cpufreq driver that
->>> works with D1.
->>>
->>> Signed-off-by: Brandon Cheo Fusi <fusibrandon13@gmail.com>
->>> ---
->>>  drivers/cpufreq/Kconfig       |  4 ++++
->>>  drivers/cpufreq/Kconfig.riscv | 16 ++++++++++++++++
->>>  2 files changed, 20 insertions(+)
->>>  create mode 100644 drivers/cpufreq/Kconfig.riscv
->>
->> We don't have a separate kconfig file for each architecture. Only if
->> there are too many entries for an architecture, we add a new file.
->>
->> --
->> viresh
-> 
-> The sun50i cpufreq driver is currently only available when CONFIG_ARM or
-> CONFIG_ARM64 is selected, so this was the only decent way I could think
-> of making it accessible on either one of CONFIG_(ARM | ARM64 | RISC-V).
-> Any suggestions for a better workaround ?
+Hi David,
 
-Move the option to the main drivers/cpufreq/Kconfig, like QORIQ_CPUFREQ,
-which is also used with multiple architectures (PowerPC and ARM, in that
-case). We don't want two options for the same driver.
+This is something that was discussed at LPC'23. I also was proposing a
+separate counter for iommu page tables, but it was noted that we
+specifically have sec_pagetables called this way to include all non
+regular CPU page tables, and we should therefore account for them
+together.
 
-Regards,
-Samuel
+Please also see this discussion from the previous version of this patch series:
+https://lore.kernel.org/all/CAJD7tkb1FqTqwONrp2nphBDkEamQtPCOFm0208H3tp0Gq2OLMQ@mail.gmail.com/
 
+Pasha
