@@ -1,143 +1,172 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4490B2DB71;
-	Fri, 15 Dec 2023 13:33:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B26F3C466
+	for <linux-sunxi@lists.linux.dev>; Fri, 15 Dec 2023 15:13:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BJcTttLW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44711C433C7;
-	Fri, 15 Dec 2023 13:33:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702647194;
-	bh=tGUhZ8a1wsbx0GalNAANJzpCwpQC3QW2iHSYADKeSd0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BJcTttLW46h1AIr8fYhPxXp/T5lrnGXfSuuj1cYQJ8Vp3lwBUMrFQ/RFMGzBVoHRl
-	 XQEItc18liqK+qYbS2F+dntRyrr3ZwLueXZTw33eYCOIG7WrKiTs7XBDORhUYF5dn0
-	 4dDOSP2CxoXqCAyAN3XJ3X15F7RkwLrcvLY5WObqXn+zvG53DTpV+58W1oUkT3B+mB
-	 czKFhXsk4126nHSzSxrRd8yCS3V8JygX/BwifVKxD2D1gbt1LDkU/d8Cg60y9l3qyI
-	 p5MRLg3p95hkUVScbzuNXtOur0zq/Qr578Jr3MsvB0ZJqvbRZnlXg0cPVwRHeSQF3v
-	 gJ6z1AliF5MIA==
-Date: Fri, 15 Dec 2023 14:33:12 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Cc: Andrew Davis <afd@ti.com>, Frank Binns <frank.binns@imgtec.com>, 
-	Donald Robson <donald.robson@imgtec.com>, Matt Coster <matt.coster@imgtec.com>, 
-	Adam Ford <aford173@gmail.com>, Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	=?utf-8?Q?Beno=C3=AEt?= Cousson <bcousson@baylibre.com>, Tony Lindgren <tony@atomide.com>, Nishanth Menon <nm@ti.com>, 
-	Vignesh Raghavendra <vigneshr@ti.com>, Tero Kristo <kristo@kernel.org>, 
-	Paul Cercueil <paul@crapouillou.net>, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-omap@vger.kernel.org, linux-mips@vger.kernel.org
-Subject: Re: [PATCH RFC 01/10] dt-bindings: gpu: Add PowerVR Series5 SGX GPUs
-Message-ID: <oobcl2kfsuph27er7rflfqvt3lu6athufomxv5chf3uctx4emh@x6rzjtlskhbf>
-References: <20231204182245.33683-1-afd@ti.com>
- <20231204182245.33683-2-afd@ti.com>
- <23livt5mcc64bb6lkeec2uxp5cyn4wfekwaj6wzrjnrkndvwgj@6tveqglqpr4v>
- <B3A1B8A7-0363-4ECB-AFBF-576FECA569FA@goldelico.com>
- <vawv2mwhonuyvgmp7uox4rfgdcjwg5fa7hmbcfgl3wiase6e4p@tyavpclppfvu>
- <6BC60156-89E2-4734-BD00-B49A9A6C1D7A@goldelico.com>
- <6gpehpoz54f5lxhmvirqbfwmq7dpgiroy27cljpvu66wtn7aqy@lgrh7wysyxnp>
- <D8AB6CC4-DCA5-40DD-A311-94A16FF59254@goldelico.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BpUA2xtx"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3363aa2bbfbso677840f8f.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 15 Dec 2023 07:13:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702653204; x=1703258004; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=brYOzG3g23wL22CEoDTu8T5IzltVcQQgzthieH5Rn74=;
+        b=BpUA2xtx0abOixABfAuu35oL8ggIHqcAJ1Yt4tYZLvUe+iATH0PIALm8T8P0D10uMq
+         CUdRHN3MeK8XqDlA3j0xrmuOFHzJodKhTXcPqNh3pL+SWV9rxGABzpHo1VsqUXufKfWx
+         zAL6Dy3jlzDzvlAuzyHbl++OvDWFWOHMXMex35lBCezL2+6QPyFIWIU54oHtjTsS5Hx6
+         EZBtRMQKb4rShAKeaJXakVc9V2kYgnGhT47mYQVl7pGIvvkJOgm+eFl8z034mJ1iaTW9
+         46KUqEAwwtSs4l2ezGgDJePZx8q1/H5GmZJKoNVh495/jOLgYGDPXeIbdFYu3aS5rPvp
+         n/mA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702653204; x=1703258004;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=brYOzG3g23wL22CEoDTu8T5IzltVcQQgzthieH5Rn74=;
+        b=s659Zm83/n1TZQGgakJsAYb2BglOJLJle3bxDoIqGqCyotFAWwKC4DFDX6QrXYtWIm
+         cBTVeAuvp6jTAuwMYf/NwQ+LMUHmMADZoEfwVQX09pfKxGzpSzxzKcUN2fXB1VfvDo/1
+         Z/+hyD1xaK8gPlNmSUTwPPh72jVlnY8lKT68gYypfNXmhkMqrsKH0jxPqFKL3Uk24fmK
+         78bxa21ldr/F5DYlJztdbGZVJZur/1xPOU7XlLDhyWHbceo42FdafsVfTN158NY0V7k4
+         cisL4wjSl22yGl2odLhX0qWWNHJL0Gf7ZB8NqoOiID8qsIw4nvBqIRXwCdCUr4YnYPv+
+         ZG/g==
+X-Gm-Message-State: AOJu0YxElQyFlSYLHg9zFbz4I732aUwa1+zhQ1izLLdffaQhKe0wU/FG
+	nYMQvh6iq7iA0O9ZzOXu4SI=
+X-Google-Smtp-Source: AGHT+IG6xfZAKkoFs/nB1j6orGlhGJ6P+tWaOcp0B83WVeZzCcdiugIKJlUguBz4lJNFDEAwHhhOIg==
+X-Received: by 2002:adf:f050:0:b0:336:3538:6636 with SMTP id t16-20020adff050000000b0033635386636mr3854305wro.86.1702653203715;
+        Fri, 15 Dec 2023 07:13:23 -0800 (PST)
+Received: from localhost.localdomain ([154.72.162.212])
+        by smtp.gmail.com with ESMTPSA id s18-20020a5d4ed2000000b00336421f1818sm6600631wrv.112.2023.12.15.07.13.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Dec 2023 07:13:22 -0800 (PST)
+From: Brandon Cheo Fusi <fusibrandon13@gmail.com>
+To: viresh.kumar@linaro.org
+Cc: aou@eecs.berkeley.edu,
+	conor+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	fusibrandon13@gmail.com,
+	jernej.skrabec@gmail.com,
+	krzysztof.kozlowski+dt@linaro.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	palmer@dabbelt.com,
+	paul.walmsley@sifive.com,
+	rafael@kernel.org,
+	robh+dt@kernel.org,
+	samuel@sholland.org,
+	tiny.windzz@gmail.com,
+	wens@csie.org
+Subject: Re: [PATCH 1/5] riscv: dts: allwinner: Update opp table to allow CPU frequency scaling
+Date: Fri, 15 Dec 2023 16:12:09 +0100
+Message-Id: <20231215151209.46221-1-fusibrandon13@gmail.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20231214111446.camz2krqanaieybh@vireshk-i7>
+References: <20231214111446.camz2krqanaieybh@vireshk-i7>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="jgmzzpd4kephm2k6"
-Content-Disposition: inline
-In-Reply-To: <D8AB6CC4-DCA5-40DD-A311-94A16FF59254@goldelico.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+On Thu, Dec 14, 2023 at 12:14 PM Viresh Kumar <viresh.kumar@linaro.org> wrote:
+>
+> On 14-12-23, 11:33, Brandon Cheo Fusi wrote:
+> > Two OPPs are currently defined for the D1/D1s; one at 408MHz and
+> > another at 1.08GHz. Switching between these can be done with the
+> > "sun50i-cpufreq-nvmem" driver. This patch populates the opp table
+> > appropriately, with inspiration from
+> > https://github.com/Tina-Linux/linux-5.4/blob/master/arch/riscv/boot/dts/sunxi/sun20iw1p1.dtsi
+> >
+> > The supply voltages are PWM-controlled, but support for that IP
+> > is still in the works. So stick to a fixed 0.9V vdd-cpu supply,
+> > which seems to be the default on most D1 boards.
+> >
+> > Signed-off-by: Brandon Cheo Fusi <fusibrandon13@gmail.com>
+> > ---
+> >  arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi | 18 +++++++++++++++---
+> >  1 file changed, 15 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> > index 64c3c2e6c..e211fe4c7 100644
+> > --- a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> > +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> > @@ -39,16 +39,22 @@ cpu0_intc: interrupt-controller {
+> >       };
+> >
+> >       opp_table_cpu: opp-table-cpu {
+> > -             compatible = "operating-points-v2";
+> > +             compatible = "allwinner,sun20i-d1-operating-points",
+>
+> I don't think you should add a new compatible for every SoC that needs
+> to be supported by a DT bindings and cpufreq driver. Maybe you should
+> just reuse "allwinner,sun50i-h6-operating-points" and it will work
+> fine for you ?
+>
+> Rob ?
+>
+> > +                              "allwinner,sun50i-h6-operating-points";
+> > +             nvmem-cells = <&cpu_speed_grade>;
+> > +             nvmem-cell-names = "speed";
+> > +             opp-shared;
+> >
+> >               opp-408000000 {
+> > +                     clock-latency-ns = <244144>; /* 8 32k periods */
+> >                       opp-hz = /bits/ 64 <408000000>;
+> > -                     opp-microvolt = <900000 900000 1100000>;
+> > +                     opp-microvolt-speed0 = <900000>;
+>
+> The separate property name thing was required when you could have
+> different values for different SoC instances, which can be read from
+> efuses, like in your case.
+>
+> But all I see is speed0 here, why don't you always set opp-microvolt
+> then ?
+>
 
---jgmzzpd4kephm2k6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Setting opp-microvolt would be ok, but opp-microvolt-speed0 was chosen for
+consistency with the driver bindings here
+https://elixir.bootlin.com/linux/latest/source/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml#L52 
 
-On Thu, Dec 07, 2023 at 11:33:53AM +0100, H. Nikolaus Schaller wrote:
-> Hi Maxime,
->=20
-> > Am 07.12.2023 um 10:20 schrieb Maxime Ripard <mripard@kernel.org>:
-> >=20
-> > On Tue, Dec 05, 2023 at 02:50:08PM +0100, H. Nikolaus Schaller wrote:
-> >> Hi,
-> >>=20
-> >>> Am 05.12.2023 um 14:29 schrieb Maxime Ripard <mripard@kernel.org>:
-> >>>=20
-> >>> Hi,
-> >>>=20
-> >>> On Tue, Dec 05, 2023 at 09:18:58AM +0100, H. Nikolaus Schaller wrote:
-> >>>>> Am 05.12.2023 um 07:57 schrieb Maxime Ripard <mripard@kernel.org>:
-> >>>>>=20
-> >>>>> On Mon, Dec 04, 2023 at 12:22:36PM -0600, Andrew Davis wrote:
-> >>>>>> The Imagination PowerVR Series5 "SGX" GPU is part of several SoCs =
-=66rom
-> >>>>>> multiple vendors. Describe how the SGX GPU is integrated in these =
-SoC,
-> >>>>>> including register space and interrupts. Clocks, reset, and power =
-domain
-> >>>>>> information is SoC specific.
-> >>>>>>=20
-> >>>>>> Signed-off-by: Andrew Davis <afd@ti.com>
-> >>>>>> ---
-> >>>>>> .../devicetree/bindings/gpu/img,powervr.yaml  | 69 +++++++++++++++=
-++--
-> >>>>>> 1 file changed, 63 insertions(+), 6 deletions(-)
-> >>>>>=20
-> >>>>> I think it would be best to have a separate file for this, img,sgx.=
-yaml
-> >>>>> maybe?
-> >>>>=20
-> >>>> Why?
-> >>>=20
-> >>> Because it's more convenient?
-> >>=20
-> >> Is it?
-> >=20
-> > It's for a separate architecture, with a separate driver, maintained out
-> > of tree by a separate community, with a separate set of requirements as
-> > evidenced by the other thread. And that's all fine in itself, but
-> > there's very little reason to put these two bindings in the same file.
-> >=20
-> > We could also turn this around, why is it important that it's in the
-> > same file?
->=20
-> Same vendor. And enough similarity in architectures, even a logical seque=
-nce
-> of development of versions (SGX =3D Version 5, Rogue =3D Version 6+) behi=
-nd.
-> (SGX and Rogue seem to be just trade names for their architecture develop=
-ment).
+> Also why degrade from min/max/target type to just target ?
+>
 
-Again, none of that matters for *where* the binding is stored.
+This is a mistake on my part as I thought requesting non default voltages
+was going to be a problem with lack of PWM support. Will be reverted in v2.
 
-> AFAIK bindings should describe hardware and not communities or drivers
-> or who is currently maintaining it. The latter can change, the first not.
+> >               };
+> >
+> >               opp-1080000000 {
+> > +                     clock-latency-ns = <244144>; /* 8 32k periods */
+> >                       opp-hz = /bits/ 64 <1008000000>;
+> > -                     opp-microvolt = <900000 900000 1100000>;
+> > +                     opp-microvolt-speed0 = <900000>;
+> >               };
+> >       };
+> >
+> > @@ -115,3 +121,8 @@ pmu {
+> >                       <0x00000000 0x0000000f 0xffffffff 0xffffffff 0x00020000>;
+> >       };
+> >  };
+> > +
+> > +&sid {
+> > +     cpu_speed_grade: cpu-speed-grade@0 {
+> > +             reg = <0x00 0x2>;
+> > +     };
+> > +};
+> > --
+> > 2.30.2
+>
+> --
+> viresh
 
-Bindings are supposed to describe hardware indeed. Nothing was ever said
-about where those bindings are supposed to be located.
-
-There's hundreds of other YAML bindings describing devices of the same
-vendors and different devices from the same generation. If anything
-it'll make it easier for you. I'm really not sure why it is
-controversial and you're fighting this so hard.
-
-Maxime
-
---jgmzzpd4kephm2k6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZXxVmAAKCRDj7w1vZxhR
-xVw8AP41gJoEr4Iyn/S1Hezu3iKztXGS3daC3u3QCuAGL/pTzwD9HOO3pcwNEL/E
-pFq4wYajjL/ypoQuClzjpZ6kW6ckSgs=
-=YYGh
------END PGP SIGNATURE-----
-
---jgmzzpd4kephm2k6--
+Thank you for reviewing.
+Brandon.
