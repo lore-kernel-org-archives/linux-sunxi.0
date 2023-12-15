@@ -1,54 +1,54 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C77BF3C468
-	for <linux-sunxi@lists.linux.dev>; Fri, 15 Dec 2023 15:17:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B8213A8E9
+	for <linux-sunxi@lists.linux.dev>; Fri, 15 Dec 2023 15:19:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="feM9WDCd"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-40c25973988so8278605e9.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 15 Dec 2023 07:17:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="laQP4asv"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3364b049467so658803f8f.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 15 Dec 2023 07:19:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702653461; x=1703258261; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1702653554; x=1703258354; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UxtTXwrG/DoJdGtWMfu6YqqiGt2u0eh0tzIyDazjR9w=;
-        b=feM9WDCd0tNRibPVAPTC4IOsUia8lNNfGBRM8PRADyVJLzYaJCXpoCM5cEjMZ3Fki4
-         lTdiXXaueLN4E4Tbu1zY6BtV149ZAadHnoq2xW0k3kCZqRWPQKvitiVXA6/kdVa68uWg
-         j5em2hRiqRoCjJWJAX6ykkk0HYifZyghWPontZH2f3Ox4ZiPDPpVveWCZ07nK2goaqJd
-         oaNLR1xEMd2/YVYvusXxfKGv0QavAh8kYDrjl87xFMISjVt+//YbNYLv9JPVH6QHSQhT
-         //l23Xqc2Mngbo34C0yO/UkbKdvkX9Xc+Esw8nmvujwROVMcR8Ok/pcIJvS+cQcYtQiZ
-         kSfw==
+        bh=TMReaTbQ3mhpSM37nBgg+G+dvqzrCE9o1IcxtKQzbVA=;
+        b=laQP4asveCLABQCJDibL1McPk4IyyZ4Kz622N8pwq3quvzYRwY+W7yytLPKcODBjkG
+         +R7kva0LI1uX+3W7BE4KvV2tbU+rb85p7fSrMECDTE5k9sroWMZH9Sy3/e9MWqHnHtyb
+         FgdEClseH1+pzjC5B2e56zSzObYKQClyl49KG4215njpXef76ZgHwBBpvXur/dSETpUH
+         SgpmvmxxCok5kHSw3RZn8G/OeE+1JRLkOT6Tk4lvj4VqwYQ7OMlkuqbYkPCOBawkcXuk
+         pVHsOn+33W9C1sIkIFGSI7Uk6H+aIzYYgim8UGTzYiCYHXcApvIPDatEyNw81HTZsmWd
+         848g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702653461; x=1703258261;
+        d=1e100.net; s=20230601; t=1702653554; x=1703258354;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UxtTXwrG/DoJdGtWMfu6YqqiGt2u0eh0tzIyDazjR9w=;
-        b=B6kETWGEwWAcUOySxkrMtcGAao9dW3sYlXLHuK9pmwcAA7qdJpqbHOo1NGsXiyULpG
-         wLtmIqpiUlY6hpXci9Dx0Wg+EMZGHo/bh+dBmTLI0sPwEcT93Cud94it9/nKmtwK8rlh
-         IWISa2/XkZnAguxFsXw8zEJb44nXJNl6fKxWouPFj0b4uQPcR6V0w3cRijK2IOlh29Mj
-         3O08SklZUrlgJrP9iWD3YqV19z2YPoIkdgnEmmYf/FAXFxj4LcZ2Qv7ynGj9poZLduPF
-         D1uffyr5VI4LFn7oDkW0iW1zJMO77OpKZztTqRMhv6+vygI92wFxeq95Y5+0/JAuM9fs
-         Cxng==
-X-Gm-Message-State: AOJu0YyxDu88dOa4ti+fcvYiovOCnRPHcTIsz1L4AHnRaTvOdoeHSNyU
-	SjsfimeK/+ybHl48MlMJG7k=
-X-Google-Smtp-Source: AGHT+IHCy5Jt0sNRcFT4XvhtCQgRzgiDR2kGcZzEPbaBUD2KhamdV5ExRXFs+HFRp/3YOnpYtX+4hQ==
-X-Received: by 2002:a05:600c:30d2:b0:40c:4378:f117 with SMTP id h18-20020a05600c30d200b0040c4378f117mr5479693wmn.76.1702653460855;
-        Fri, 15 Dec 2023 07:17:40 -0800 (PST)
+        bh=TMReaTbQ3mhpSM37nBgg+G+dvqzrCE9o1IcxtKQzbVA=;
+        b=OybvachCF+sIl2sk7TUlBA46oY6FmL0Ei9FoemYzXd2vGCf+uJsABg/cqRCfKJzTEl
+         2CQcheb4x3IkQ4V2nIW2nrlz0f4tYGTxIE6JR5QmRkvXX5Zzsp/eW5D6SgK6W108FcFi
+         XOrz7KqjczWy5t76M0EK0/PZXNAaQ3uzk6GnqCtuuabSKekzu85m9BVxRttV71GbtUXq
+         4t3nGdhKQDRbQ/CNYXFokyTiu6Wgb0cMh+sxTSd87RU+bOG6X8r3EwMExaw9JyVZrwoh
+         urHxw5Xft09/9iGpdJzWtAuVhxHL701hEJ/CYDl1DdcSCcSGmzF7p3zvU10Nki48rluD
+         iACw==
+X-Gm-Message-State: AOJu0Yxr5h72gwFXMZsHjYbvD8tRk7XNRaF53yn/zl4F9SeIx7A/mTNJ
+	m4fzwtAi3zVZnqaRzQcKo00=
+X-Google-Smtp-Source: AGHT+IGKqTqBRSWdn71ojaWth20HbPUm9gy+BpxlK4y7dtRj5sPpy5aey1MFNTP111CfVFovxNGCrQ==
+X-Received: by 2002:a5d:4573:0:b0:336:595d:d201 with SMTP id a19-20020a5d4573000000b00336595dd201mr291256wrc.19.1702653554178;
+        Fri, 15 Dec 2023 07:19:14 -0800 (PST)
 Received: from localhost.localdomain ([154.72.162.212])
-        by smtp.gmail.com with ESMTPSA id bd19-20020a05600c1f1300b0040839fcb217sm29806121wmb.8.2023.12.15.07.17.35
+        by smtp.gmail.com with ESMTPSA id r8-20020a056000014800b003364360839esm5891186wrx.81.2023.12.15.07.19.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Dec 2023 07:17:40 -0800 (PST)
+        Fri, 15 Dec 2023 07:19:13 -0800 (PST)
 From: Brandon Cheo Fusi <fusibrandon13@gmail.com>
-To: viresh.kumar@linaro.org
+To: jernej.skrabec@gmail.com
 Cc: aou@eecs.berkeley.edu,
 	conor+dt@kernel.org,
+	conor@kernel.org,
 	devicetree@vger.kernel.org,
 	fusibrandon13@gmail.com,
-	jernej.skrabec@gmail.com,
 	krzysztof.kozlowski+dt@linaro.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
@@ -61,13 +61,14 @@ Cc: aou@eecs.berkeley.edu,
 	robh+dt@kernel.org,
 	samuel@sholland.org,
 	tiny.windzz@gmail.com,
+	viresh.kumar@linaro.org,
 	wens@csie.org
-Subject: Re: [PATCH 4/5] cpufreq: Add support for RISC-V CPU Frequency scaling drivers
-Date: Fri, 15 Dec 2023 16:17:23 +0100
-Message-Id: <20231215151723.46409-1-fusibrandon13@gmail.com>
+Subject: Re: [PATCH 1/5] riscv: dts: allwinner: Update opp table to allow CPU frequency scaling
+Date: Fri, 15 Dec 2023 16:18:35 +0100
+Message-Id: <20231215151835.46492-1-fusibrandon13@gmail.com>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20231214111702.xdd7qlcrpqh74i3j@vireshk-i7>
-References: <20231214111702.xdd7qlcrpqh74i3j@vireshk-i7>
+In-Reply-To: <2177637.Mh6RI2rZIc@archlinux>
+References: <2177637.Mh6RI2rZIc@archlinux>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -77,33 +78,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On Thu, Dec 14, 2023 at 12:17 PM Viresh Kumar <viresh.kumar@linaro.org> wrote:
+On Thu, Dec 14, 2023 at 5:37 PM Jernej Škrabec <jernej.skrabec@gmail.com> wrote:
 >
-> On 14-12-23, 11:33, Brandon Cheo Fusi wrote:
-> > Add Kconfig file for cpufreq scaling drivers that can handle RISC-V
-> > CPUs. An entry is included for the Allwinner H6 cpufreq driver that
-> > works with D1.
+> On Thursday, December 14, 2023 2:47:14 PM CET Conor Dooley wrote:
+> > On Thu, Dec 14, 2023 at 04:44:46PM +0530, Viresh Kumar wrote:
+> > > On 14-12-23, 11:33, Brandon Cheo Fusi wrote:
+> > > > Two OPPs are currently defined for the D1/D1s; one at 408MHz and
+> > > > another at 1.08GHz. Switching between these can be done with the
+> > > > "sun50i-cpufreq-nvmem" driver. This patch populates the opp table
+> > > > appropriately, with inspiration from
+> > > > https://github.com/Tina-Linux/linux-5.4/blob/master/arch/riscv/boot/dts/sunxi/sun20iw1p1.dtsi
+> > > >
+> > > > The supply voltages are PWM-controlled, but support for that IP
+> > > > is still in the works. So stick to a fixed 0.9V vdd-cpu supply,
+> > > > which seems to be the default on most D1 boards.
+> > > >
+> > > > Signed-off-by: Brandon Cheo Fusi <fusibrandon13@gmail.com>
+> > > > ---
+> > > >  arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi | 18 +++++++++++++++---
+> > > >  1 file changed, 15 insertions(+), 3 deletions(-)
+> > > >
+> > > > diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> > > > index 64c3c2e6c..e211fe4c7 100644
+> > > > --- a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> > > > +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> > > > @@ -39,16 +39,22 @@ cpu0_intc: interrupt-controller {
+> > > >   };
+> > > >
+> > > >   opp_table_cpu: opp-table-cpu {
+> > > > -         compatible = "operating-points-v2";
+> > > > +         compatible = "allwinner,sun20i-d1-operating-points",
+> > >
+> > > I don't think you should add a new compatible for every SoC that needs
+> > > to be supported by a DT bindings and cpufreq driver. Maybe you should
+> > > just reuse "allwinner,sun50i-h6-operating-points" and it will work
+> > > fine for you ?
+> > >
+> > > Rob ?
 > >
-> > Signed-off-by: Brandon Cheo Fusi <fusibrandon13@gmail.com>
-> > ---
-> >  drivers/cpufreq/Kconfig       |  4 ++++
-> >  drivers/cpufreq/Kconfig.riscv | 16 ++++++++++++++++
-> >  2 files changed, 20 insertions(+)
-> >  create mode 100644 drivers/cpufreq/Kconfig.riscv
+> > The driver can definitely just reuse sun50i-h6, but the binding and
+> > devicetree should have a soc-specific compatible for the sun20i-d1.
 >
-> We don't have a separate kconfig file for each architecture. Only if
-> there are too many entries for an architecture, we add a new file.
+> Correct. This is to avoid later regrets if it turns out there are some slight
+> differences or additional functionality.
 >
-> --
-> viresh
+> Best regards,
+> Jernej
+>
+> >
+> > That said, the compatible does need to be documented, there's a
+> > dt-bindings patch missing from this series.
+> >
+> > Cheers,
+> > Conor.
+>
+>
+>
+>
 
-The sun50i cpufreq driver is currently only available when CONFIG_ARM or
-CONFIG_ARM64 is selected, so this was the only decent way I could think
-of making it accessible on either one of CONFIG_(ARM | ARM64 | RISC-V).
-Any suggestions for a better workaround ?
+This dt-bindings patch will be available in v2
 
-Also I think future cpufreq drivers for RISC-V are going to happen, so we
-might as well have the Kconfig file.
-
-Kind Regards,
+Thanks for reviewing.
 Brandon.
