@@ -1,49 +1,49 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 485A479E2
-	for <linux-sunxi@lists.linux.dev>; Mon, 18 Dec 2023 07:20:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9761F79C7
+	for <linux-sunxi@lists.linux.dev>; Mon, 18 Dec 2023 07:21:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XZwH/ZWD"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a233354c74aso218694166b.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 17 Dec 2023 23:20:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JMmzAXTJ"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-550dd0e3304so3171377a12.1
+        for <linux-sunxi@lists.linux.dev>; Sun, 17 Dec 2023 23:21:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702884048; x=1703488848; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1702884098; x=1703488898; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=KYJDZFTI/zM6MpquwK22XGM0Ljq38ovNo+nXbCkxlx0=;
-        b=XZwH/ZWDUZazOI2DGXS8xPlvVHCC9ZyLmd7WDpjx0M+iBvNg6/NGT4G8O0rNL9dwke
-         tTW2tzLYBeftF/MMMI2I+nW/CVgQ9Y3Gf+qUSxohsf3Khr2s+2pLYpw2xHwoOXEdiLg6
-         wGE33SwcA/UyAMQLgs2IK4KKj/kLjVU0YKS99JDw8TZ31sxK52tXr7ch/d7hO4DYP4Gy
-         jK3L63zlKntTH7s1Rs4O8UqouhtDvsPC76na1euFf0NUvWL+zUuQoM6frrz2dsVemPVb
-         n2SEtVuS781OScGr3pkcFEqUatgsEELD2S6dSNjQat5ye+9NUnVrPUV/V0TmJ4uEeXdX
-         6/HA==
+        bh=g0C2Dj9kxu4ITsEWqxi033kuHIdp0V6w6ek+ZKVXhlc=;
+        b=JMmzAXTJQhCYGSA70KC6nvr3obm0dKMWuGX39CVyR9e4rld6y8i5+XKWQxwJb+cpCK
+         ixfxORqL713TbHRNYydI0NPVLvC5ZUk0pgl6GNd58wXvT1lO1GdYW71LqG1A+jgS1qog
+         FH4fJRMynW49wuYLTV2bLtAX8zmNJS3aNfgLfzPEcgkTmjlTH5C7PE2IpZlv1WQiM1TO
+         J/MX0RjcV/5P5tY1WvN/+N1aKxGJv7MaEljlrK6INReqVQBk+DcZjn0QoWPvbMOODvRD
+         CrqVAb0VExkkaI7jkRb+ygmYGLHblPJNC1JtCFzSI7qiBULFVOrOdZiHJgg7+E6wMuP2
+         U7sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702884048; x=1703488848;
+        d=1e100.net; s=20230601; t=1702884098; x=1703488898;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KYJDZFTI/zM6MpquwK22XGM0Ljq38ovNo+nXbCkxlx0=;
-        b=ZCrutBvnF7uuP88z+2Y8T20FmpVTCgAUWXToSpbMpmYsTkzf7Kdcs8iP6nMKlnyacS
-         BzC4xjWmF6nqqFsfVmWIuJP5H0zf6Y9nyd77jqOXW3vT8WIYek+vSzzcQvz2dmHOf3L7
-         uFCCNuf3j/i7J1duG/07o8mKjJwqeTmpBFkkk1vVKGrm0yuSBgLYJsg3rGX5oBRCcfvq
-         GRglDoSSo/3vPariZpwI3cd0e3NohRgCs6GF0/ax5mo4YnBiDa9n3O9CWLCxV7mmQWtw
-         iIogEZvdTXT5T4fMPLFvl0F/4QKDBSnEut6SKG1OpayZcDmUJ5wPjOi8viQ3CzEyW7iZ
-         LacQ==
-X-Gm-Message-State: AOJu0YyZcKPOFqSZJdgPBDWyo0DSMMzdhnd6/QzMt8Rnbj57H/WOLujB
-	kc5TtBk0dRQODU8XcxIVRXQbfA==
-X-Google-Smtp-Source: AGHT+IGS+l7hquQJefPE/Q8bnxEJND2OFdLkFvfVU34kz6YpuSpIgA1dNTfTbkslS+1PP5Q+e/iZkw==
-X-Received: by 2002:a17:906:f88c:b0:a23:6249:dda0 with SMTP id lg12-20020a170906f88c00b00a236249dda0mr332640ejb.11.1702884048564;
-        Sun, 17 Dec 2023 23:20:48 -0800 (PST)
+        bh=g0C2Dj9kxu4ITsEWqxi033kuHIdp0V6w6ek+ZKVXhlc=;
+        b=jTQYxQ/6X0+MkEZ7y0yeccV/jmLafRESDB+BRvEEDbhnvror45VxLyvVOOhm/uw+Cb
+         BJPpNtc7NWO/qtAOcl2DRwgfLnV4kdWX6vILg6OmLpcqDid9z8VKbGzKaiITWc5Yl5xJ
+         4M9VtyliDunlL2okuB/7tVFzX4wP01uDA/rQUTvVl81iiRdn7Vlvq6KgbbRcYX2Cx0gR
+         cvEmz63C73iqye4BaBcUuC/Yoyroraq3o3K5v7XK0OXJVE3x443dsIGpg3M1nJY/bXvH
+         z/n2kt+M5MWcyEpwlg9G/nu/uJLEFxGuOXDYdfR8Pjfbo0ApshvOVNMUG6pkf4S0FXgG
+         Eesg==
+X-Gm-Message-State: AOJu0YyUAHIgluPNZoa2IZfJrUHr7ffe0YnnCQ6fbTzAKV8BMZ+xdsg4
+	0i/KJ/HpXRvdsPfanMcavt3WvA==
+X-Google-Smtp-Source: AGHT+IHxnD3UsecgrZiRAo2Uwbo0io+YHLpnQflHUzHDSPED6zvoAZAocJCWFTpZnX8Gv4RaJw8wig==
+X-Received: by 2002:a17:906:1091:b0:a23:5075:d45 with SMTP id u17-20020a170906109100b00a2350750d45mr599804eju.108.1702884097724;
+        Sun, 17 Dec 2023 23:21:37 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.218.27])
-        by smtp.gmail.com with ESMTPSA id re13-20020a170907a2cd00b00a1d13fccec4sm13771868ejc.159.2023.12.17.23.20.46
+        by smtp.gmail.com with ESMTPSA id re13-20020a170907a2cd00b00a1d13fccec4sm13771868ejc.159.2023.12.17.23.21.36
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 17 Dec 2023 23:20:47 -0800 (PST)
-Message-ID: <520ef9c7-1a12-4662-99c7-0be9762ce7bb@linaro.org>
-Date: Mon, 18 Dec 2023 08:20:45 +0100
+        Sun, 17 Dec 2023 23:21:37 -0800 (PST)
+Message-ID: <60c4e8b9-17b5-44e9-b971-abf147735334@linaro.org>
+Date: Mon, 18 Dec 2023 08:21:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -51,8 +51,8 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: arm: sunxi: document BananaPi M4 Berry
- board name
+Subject: Re: [PATCH 2/2] arm64: dts: allwinner: h618: add BananaPi M4 Berry
+ board
 Content-Language: en-US
 To: Andre Przywara <andre.przywara@arm.com>, Rob Herring
  <robh+dt@kernel.org>, Krzysztof Kozlowski
@@ -62,7 +62,7 @@ To: Andre Przywara <andre.przywara@arm.com>, Rob Herring
 Cc: Icenowy Zheng <uwu@icenowy.me>, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
 References: <20231217232405.302-1-andre.przywara@arm.com>
- <20231217232405.302-2-andre.przywara@arm.com>
+ <20231217232405.302-3-andre.przywara@arm.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -108,22 +108,52 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231217232405.302-2-andre.przywara@arm.com>
+In-Reply-To: <20231217232405.302-3-andre.przywara@arm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 18/12/2023 00:24, Andre Przywara wrote:
-> The Bananapi M4 Berry is a development board with the Allwinner H618 SoC.
-> 
-> Add the board/SoC compatible string pair to the list of known boards.
-> 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  Documentation/devicetree/bindings/arm/sunxi.yaml | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
+> +	gpio-keys {
+> +		compatible = "gpio-keys";
+> +
+> +		key-sw4 {
+> +			label = "sw3";
+> +			linux,code = <BTN_0>;
+> +			gpios = <&pio 2 7 GPIO_ACTIVE_LOW>;	/* PC7 */
+> +		};
+> +	};
+> +
+> +	reg_vcc5v: vcc5v {
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+regulator prefix to the node name (others have it).
+
+> +		/* board wide 5V supply directly from the USB-C socket */
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "vcc-5v";
+> +		regulator-min-microvolt = <5000000>;
+> +		regulator-max-microvolt = <5000000>;
+> +		regulator-always-on;
+> +	};
+> +
+> +	reg_usb_vbus: regulator-usb-vbus {
+> +		/* separate discrete regulator for the USB ports */
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "usb-vbus";
+> +		regulator-min-microvolt = <5000000>;
+> +		regulator-max-microvolt = <5000000>;
+> +		vin-supply = <&reg_vcc5v>;
+> +	};
+> +
+> +	reg_3v3: regulator-3v3 {
+> +		/* separate discrete regulator for WiFi and Ethernet PHY */
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "vcc-3v3";
+> +		regulator-min-microvolt = <3300000>;
+> +		regulator-max-microvolt = <3300000>;
+> +		vin-supply = <&reg_vcc5v>;
+> +	};
+> +};
+> +
 
 Best regards,
 Krzysztof
