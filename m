@@ -1,133 +1,111 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 248E7F4FD
-	for <linux-sunxi@lists.linux.dev>; Mon, 18 Dec 2023 11:14:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 11C991FB;
-	Mon, 18 Dec 2023 03:14:53 -0800 (PST)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AFCA53F738;
-	Mon, 18 Dec 2023 03:14:06 -0800 (PST)
-Date: Mon, 18 Dec 2023 11:14:04 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Maksim Kiselev <bigunclemax@gmail.com>
-Cc: Martin Botka <martin.botka@somainline.org>, Vasily Khoruzhick
- <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>, "Rafael J.
- Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>,
- Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, Chen-Yu
- Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
- Holland <samuel@sholland.org>, linux-pm@vger.kernel.org (open
- list:ALLWINNER THERMAL DRIVER), linux-arm-kernel@lists.infradead.org
- (moderated list:ARM/Allwinner sunXi SoC support),
- linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi SoC support),
- linux-kernel@vger.kernel.org (open list)
-Subject: Re: [PATCH v1] thermal: sun8i: extend H6 calibration function to
- support 4 sensors
-Message-ID: <20231218111404.5f08a4c4@donnerap.manchester.arm.com>
-In-Reply-To: <20231217133637.54773-1-bigunclemax@gmail.com>
-References: <20231217133637.54773-1-bigunclemax@gmail.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA8911D137
+	for <linux-sunxi@lists.linux.dev>; Mon, 18 Dec 2023 13:36:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oltmanns.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b="WB3Doh5k"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4Sv17K2gCpz9ssY;
+	Mon, 18 Dec 2023 14:36:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+	s=MBO0001; t=1702906573;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3knn0KnfHEWgYWaadr1J0evJJiSgFisyuPOwfE6u7RA=;
+	b=WB3Doh5kKvL3k78nLJhWQFOk2fz64k4yLEVREuaYRL11WlmELNwJnVC4VMp90rfJ9MZ2ul
+	dwbxOOckPhBVugw1Ja6zntM4xHkDYJxoYuCCiMKf25IhBnGbatVlzdZ/Bf7xBrFc3LYAjb
+	UMkcloU9B44sJ+gLt0SAZXQKoBJmYDlhlDcN3bO6DvFaEjlsPdEuuneqRGEsUoErAJ0abH
+	OrAFgyWCw2AEl6N/62c+eiR7zKJioQZTXYnnOKFp4gmZ7Uen2i+G7rtAASgJsQcJRZCbsH
+	RzSxFpyKaGjap7H2pCuAxGqJ6PZetOb6i+qumcyTlMFXn51HRrIJBKQW1midvw==
+From: Frank Oltmanns <frank@oltmanns.dev>
+Date: Mon, 18 Dec 2023 14:35:22 +0100
+Subject: [PATCH 4/5] clk: sunxi-ng: a64: Add constraints on PLL-VIDEO0's
+ n/m ratio
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20231218-pinephone-pll-fixes-v1-4-e238b6ed6dc1@oltmanns.dev>
+References: <20231218-pinephone-pll-fixes-v1-0-e238b6ed6dc1@oltmanns.dev>
+In-Reply-To: <20231218-pinephone-pll-fixes-v1-0-e238b6ed6dc1@oltmanns.dev>
+To: Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ =?utf-8?q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, 
+ Purism Kernel Team <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, Frank Oltmanns <frank@oltmanns.dev>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1435; i=frank@oltmanns.dev;
+ h=from:subject:message-id; bh=jj1kC8r64WXDg1/5wbxM9P8hCH8A2GebZKvM1vIvFPo=;
+ b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBlgEq1xinOlh9sftstb32086w7Ky1jm6/lGaxZ5
+ NrpDnJiE4+JAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZYBKtQAKCRCaaaIIlErT
+ x93iC/9GPVPladgryx1JLV+61g8cBhKv2Cudg3FL/5IIT/LP93v+OTcSmNzjfcQNGNz1czgvP3P
+ m2srxWLpJXHtskjrNSrFM2K16MDEUHig33MfYl1n8Q4vN0taaY+bLFbKlFKZjhuMvuQte12QG1m
+ oRbq5Gm6B1ss/VIjAksUn+QzzMjHz0xlllP894PtmNR7yrfYU7eBdvEnV1xx53Q0nVuWFfww7AZ
+ dTdG+1RiE4j68NAnJtiB4E4nni7OITmxS1es1FK4UDLC/38jSLl2FjGkvv+kLLwAJGRcmVt49PS
+ vIRWeslKFohfcV7CJDoVhuKX1vExq6PBoTiB94VCmo3DgsIJPgZ6k/XusI2eFYQxpaEuQcYhzFD
+ bwSOtn2l6ZGTf+nCqnTLltr3qAFY/flWypH1qs1fNzWOHtXZoPBpct6xJU3pEe0XPkA9tpQmUPk
+ RsrQui/HQyrioIOF9OI+iJFPG9ZxK8J0p0xV3Zx0ABNPxg6fDgalK/l4zkxh1LeH5WwHA=
+X-Developer-Key: i=frank@oltmanns.dev; a=openpgp;
+ fpr=02FD257B7F90E6B9A5444F969A69A208944AD3C7
+X-Rspamd-Queue-Id: 4Sv17K2gCpz9ssY
 
-On Sun, 17 Dec 2023 16:36:36 +0300
-Maksim Kiselev <bigunclemax@gmail.com> wrote:
+The Allwinner A64 manual lists the following constraint for the
+PLL-VIDEO0 clock: 8 <= N/M <= 25
 
-Hi Maksim,
+Use this constraint.
 
-many thanks for sending this!
+Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+---
+ drivers/clk/sunxi-ng/ccu-sun50i-a64.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-> The H616 SoC resembles the H6 thermal sensor controller, with a few
-> changes like four sensors.
-> 
-> Extend sun50i_h6_ths_calibrate() function to support calibration of
-> these sensors.
+diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+index c034ac027d1c..75d839da446c 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
++++ b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+@@ -68,7 +68,8 @@ static SUNXI_CCU_NM_WITH_SDM_GATE_LOCK(pll_audio_base_clk, "pll-audio-base",
+ 				       BIT(28),	/* lock */
+ 				       CLK_SET_RATE_UNGATE);
+ 
+-static SUNXI_CCU_NM_WITH_FRAC_GATE_LOCK_MIN_MAX_CLOSEST(pll_video0_clk, "pll-video0",
++static SUNXI_CCU_NM_WITH_FRAC_GATE_LOCK_MIN_MAX_FEAT_NM_RATIO(pll_video0_clk,
++						"pll-video0",
+ 						"osc24M", 0x010,
+ 						192000000,	/* Minimum rate */
+ 						1008000000,	/* Maximum rate */
+@@ -80,7 +81,10 @@ static SUNXI_CCU_NM_WITH_FRAC_GATE_LOCK_MIN_MAX_CLOSEST(pll_video0_clk, "pll-vid
+ 						297000000,	/* frac rate 1 */
+ 						BIT(31),	/* gate */
+ 						BIT(28),	/* lock */
+-						CLK_SET_RATE_UNGATE);
++						CLK_SET_RATE_UNGATE,
++						CCU_FEATURE_FRACTIONAL |
++						CCU_FEATURE_CLOSEST_RATE,
++						8, 25);		/* min/max nm ratio */
+ 
+ static SUNXI_CCU_NM_WITH_FRAC_GATE_LOCK(pll_ve_clk, "pll-ve",
+ 					"osc24M", 0x018,
 
-Oh wow, I didn't expect that, but it's indeed that simple: we just need to
-cater for the 4th sensor's data to be cramped into the other bits, the
-rest is exactly the same! Well spotted!
-
-> Signed-off-by: Martin Botka <martin.botka@somainline.org>
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-
-I don't think the Signed-off-by:s are accurate here. Please replace those
-two with just:
-Co-developed-by: Martin Botka <martin.botka@somainline.org>
-(I didn't really do anything in those parts)
-
-> Signed-off-by: Maksim Kiselev <bigunclemax@gmail.com>
-
-I compared the two routines and came to the same solution as you, so:
-
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-
-I will incorporate this patch into the next submission of the H616 THS
-series, so there is no need to merge this patch as is.
-
-Cheers,
-Andre
-
-> ---
->  drivers/thermal/sun8i_thermal.c | 28 ++++++++++++++++++++--------
->  1 file changed, 20 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_thermal.c
-> index f989b55a8aa8..9af95b4785be 100644
-> --- a/drivers/thermal/sun8i_thermal.c
-> +++ b/drivers/thermal/sun8i_thermal.c
-> @@ -221,16 +221,21 @@ static int sun50i_h6_ths_calibrate(struct ths_device *tmdev,
->  	struct device *dev = tmdev->dev;
->  	int i, ft_temp;
->  
-> -	if (!caldata[0] || callen < 2 + 2 * tmdev->chip->sensor_num)
-> +	if (!caldata[0])
->  		return -EINVAL;
->  
->  	/*
->  	 * efuse layout:
->  	 *
-> -	 *	0   11  16	 32
-> -	 *	+-------+-------+-------+
-> -	 *	|temp|  |sensor0|sensor1|
-> -	 *	+-------+-------+-------+
-> +	 * 0      11  16     27   32     43   48    57
-> +	 * +----------+-----------+-----------+-----------+
-> +	 * |  temp |  |sensor0|   |sensor1|   |sensor2|   |
-> +	 * +----------+-----------+-----------+-----------+
-> +	 *                      ^           ^           ^
-> +	 *                      |           |           |
-> +	 *                      |           |           sensor3[11:8]
-> +	 *                      |           sensor3[7:4]
-> +	 *                      sensor3[3:0]
->  	 *
->  	 * The calibration data on the H6 is the ambient temperature and
->  	 * sensor values that are filled during the factory test stage.
-> @@ -243,9 +248,16 @@ static int sun50i_h6_ths_calibrate(struct ths_device *tmdev,
->  	ft_temp = (caldata[0] & FT_TEMP_MASK) * 100;
->  
->  	for (i = 0; i < tmdev->chip->sensor_num; i++) {
-> -		int sensor_reg = caldata[i + 1] & TEMP_CALIB_MASK;
-> -		int cdata, offset;
-> -		int sensor_temp = tmdev->chip->calc_temp(tmdev, i, sensor_reg);
-> +		int sensor_reg, sensor_temp, cdata, offset;
-> +
-> +		if (i == 3)
-> +			sensor_reg = (caldata[1] >> 12)
-> +				     | ((caldata[2] >> 12) << 4)
-> +				     | ((caldata[3] >> 12) << 8);
-> +		else
-> +			sensor_reg = caldata[i + 1] & TEMP_CALIB_MASK;
-> +
-> +		sensor_temp = tmdev->chip->calc_temp(tmdev, i, sensor_reg);
->  
->  		/*
->  		 * Calibration data is CALIBRATE_DEFAULT - (calculated
+-- 
+2.43.0
 
