@@ -1,51 +1,49 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E0C3D57A
-	for <linux-sunxi@lists.linux.dev>; Mon, 18 Dec 2023 16:15:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C48BA3D54B
+	for <linux-sunxi@lists.linux.dev>; Mon, 18 Dec 2023 16:16:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hGPGpjui"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a23350cd51cso210059566b.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 18 Dec 2023 08:15:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NywxCaBG"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a234205785dso204365366b.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 18 Dec 2023 08:16:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702916114; x=1703520914; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1702916215; x=1703521015; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NuQkvFoOE7DbmbVDS6evAusjIw9xKO/OIgcTSDhOMeo=;
-        b=hGPGpjuiQiVEnbzdtc2E2zWoun1WA1e/YSmqZi9Z0UL+HppaOohs9qBYfdD/c6dYkj
-         up7AAccfArzfbI5xYWB4kRvaD8uNazz/PhJeOeqFEALexuw8XExIKgerXd95ht89iJLh
-         9D26l1HWXY8ca2r5UN8gQvjTQL7AOXYrABWMTgW1KIWXw6NbMCHJk22vROU+R9ZNbcUo
-         QbTsj+mIIzZlt4QwYfrGW+8FBjFg+2vZ5dokY4st7/aBPjtq9NCHhCpNMeGSLs1s+JlA
-         Dm26zmR2N3Fu2yvcqJ7kwfm46+JxvBb5sYlzocCxKEhYeM13fpAs8RKvxWxbunHl4iV7
-         HJsQ==
+        bh=0bezxA4w3BofKoayOrhRD9PM6sHufVYtq2w+UEfMweo=;
+        b=NywxCaBG3aAkbJcGjxe7M+ed9Qcz32MLQGiJbrUMf2p3qUjoFy4EOkHSugvQT/nsV4
+         nBcE4MAWGd2i/eZ2AiWJe79NrdPm/R6aYjMbsUN4mprMy0JylbWILelZ4CweCgS3e+D9
+         Q7se3NSy1w/aCIqQY77BrKaqWeiyMoyL5OW3pF0WD337UkcZx2Bkwmc2a0bZ/2iUf0/7
+         jY2fS1+xegzrhOF7c4adioy3+pDyEGk9BMRf737d3RYsyfBKT/ve4b2Wu+jfPtmGfumE
+         Nmj/WuvA8nygqUZ3bLzde3hdYos1Ghr8H51Gyesv7yXwmkXadQYsf2Qv6KVL0+t/W8xB
+         Felg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702916114; x=1703520914;
+        d=1e100.net; s=20230601; t=1702916215; x=1703521015;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NuQkvFoOE7DbmbVDS6evAusjIw9xKO/OIgcTSDhOMeo=;
-        b=g5MUuqLnH8E7oQbfdzgVXxV4L0oQb2My6diPitfMbS8uxMxxDf6HOydqfyPVn3absC
-         aLU3l0igkht6U0CKvmtfoUMyZeH9fx8+B4UbiOBvVIusnp70YGbFyV8o5NRH22luGX4h
-         ws18gped4OGwXmHd2I60xHz9uUEm4zvLUEqyGcFGM93y1DEL+vPkpl9qW/SlR8+lyfD9
-         7Onh1b6rQSQqmXgvN4IW5pMuJxyWI0hDdRkkkVxMsybwGKmqiE9L6fTd8BTzB1x4rYeb
-         SEVRlZCHHEvwtaOYVWX0ZsTC+0AMzY+muH+L0cp0Y2wflVBBHSdNM40SQtY2smKyIqZj
-         sSaw==
-X-Gm-Message-State: AOJu0YySMbpte1HCV8+mhqewe2HmnNLzE9cUQdBHbqcJO8FNVX8BkNal
-	D0QqChG6DDFOlwehB78aXtw=
-X-Google-Smtp-Source: AGHT+IFwxKikc0VD/aflFLF5hsUj2htfh9cxPznr1qHGY/nVPfC2muHIz36ghByZC6hXFA3e5iP3eQ==
-X-Received: by 2002:a17:906:51d8:b0:a23:6eb6:6b29 with SMTP id v24-20020a17090651d800b00a236eb66b29mr58860ejk.101.1702916114457;
-        Mon, 18 Dec 2023 08:15:14 -0800 (PST)
+        bh=0bezxA4w3BofKoayOrhRD9PM6sHufVYtq2w+UEfMweo=;
+        b=NAyaYfWAYrHNehX/Yvu7w9DjiKB7ywR6DJ2aN7/J4bwf0DnFr7y9Oa/XSISFG2PAvI
+         GhEGJS+rp4djCZJOIJ6AVZIbTAXcmocF7mNYOONjHQXyHV5iFNJZqE56dL8j8arE488y
+         TIXdCAVm2iCUOkbIzs4yIlUvUeUbPsmKLb+npkd1MS3m6tlZP1oqy68G5Exig9D9cVte
+         H4Ge5adwmVRrrM13/lK9ADPk4qYVxhtvw/yWH7+3spLhZu1NNPYWmFDIdADzuIhyOrfw
+         klE5hAudjylUNxuVcMRoxWOejrmT7C53kz4rqgxvVp5i8RF4Mbw19+oSr2rGzSX2iaLO
+         LTTg==
+X-Gm-Message-State: AOJu0YyyrX4YFxBvYxszrV+tTmOiYWv5mZ2VmacU5207fECkWfPNiofs
+	0brOMKOLbGN0CIsdy0dMyew=
+X-Google-Smtp-Source: AGHT+IGGXZM869rCvborKIS6+AaZ6Fg2Fee5h0yXK5Lip2vogxh1X3uCF4McDxJ8OOYxEvnqggmR6w==
+X-Received: by 2002:a17:906:516:b0:a23:4e3a:a643 with SMTP id j22-20020a170906051600b00a234e3aa643mr528083eja.168.1702916214829;
+        Mon, 18 Dec 2023 08:16:54 -0800 (PST)
 Received: from jernej-laptop.localnet (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
-        by smtp.gmail.com with ESMTPSA id hg12-20020a1709072ccc00b00a2359f95ad8sm1230202ejc.37.2023.12.18.08.15.12
+        by smtp.gmail.com with ESMTPSA id fj8-20020a1709069c8800b00a1d5c342674sm14186209ejc.27.2023.12.18.08.16.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Dec 2023 08:15:13 -0800 (PST)
+        Mon, 18 Dec 2023 08:16:54 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Conor Dooley <conor@kernel.org>, Andre Przywara <andre.przywara@arm.com>
-Cc: Brandon Cheo Fusi <fusibrandon13@gmail.com>,
- Yangtao Li <tiny.windzz@gmail.com>, Viresh Kumar <vireshk@kernel.org>,
+To: Yangtao Li <tiny.windzz@gmail.com>, Viresh Kumar <vireshk@kernel.org>,
  Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -54,17 +52,20 @@ Cc: Brandon Cheo Fusi <fusibrandon13@gmail.com>,
  Paul Walmsley <paul.walmsley@sifive.com>,
  Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
  "Rafael J . Wysocki" <rafael@kernel.org>, Maxime Ripard <mripard@kernel.org>,
- linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+ Brandon Cheo Fusi <fusibrandon13@gmail.com>
+Cc: linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v2 3/5] cpufreq: sun50i: Add D1 support
-Date: Mon, 18 Dec 2023 17:15:12 +0100
-Message-ID: <2710663.mvXUDI8C0e@jernej-laptop>
-In-Reply-To: <20231218155345.476e71ea@donnerap.manchester.arm.com>
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+ Brandon Cheo Fusi <fusibrandon13@gmail.com>
+Subject:
+ Re: [PATCH v2 5/5] cpufreq: Make sun50i h6 cpufreq Kconfig option arch
+ generic
+Date: Mon, 18 Dec 2023 17:16:52 +0100
+Message-ID: <5737049.DvuYhMxLoT@jernej-laptop>
+In-Reply-To: <20231218110543.64044-6-fusibrandon13@gmail.com>
 References:
  <20231218110543.64044-1-fusibrandon13@gmail.com>
- <20231218-blabber-slapstick-ab7ae45af019@spud>
- <20231218155345.476e71ea@donnerap.manchester.arm.com>
+ <20231218110543.64044-6-fusibrandon13@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -74,52 +75,84 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne ponedeljek, 18. december 2023 ob 16:53:45 CET je Andre Przywara napisal(a):
-> On Mon, 18 Dec 2023 14:55:30 +0000
-> Conor Dooley <conor@kernel.org> wrote:
+Dne ponedeljek, 18. december 2023 ob 12:05:43 CET je Brandon Cheo Fusi napisal(a):
+> Move the Allwinner SUN50I cpufreq driver from Kconfig.arm to the
+> main Kconfig file so it supports other architectures, like RISC-V
+> in our case, and drop the 'ARM_' prefix.
 > 
-> Hi,
+> Signed-off-by: Brandon Cheo Fusi <fusibrandon13@gmail.com>
+> ---
+>  drivers/cpufreq/Kconfig     | 12 ++++++++++++
+>  drivers/cpufreq/Kconfig.arm | 12 ------------
+>  drivers/cpufreq/Makefile    |  2 +-
+>  3 files changed, 13 insertions(+), 13 deletions(-)
 > 
-> > On Mon, Dec 18, 2023 at 12:05:41PM +0100, Brandon Cheo Fusi wrote:
-> > > Add support for D1 based devices to the Allwinner H6 cpufreq
-> > > driver
-> > > 
-> > > Signed-off-by: Brandon Cheo Fusi <fusibrandon13@gmail.com>
-> > > ---
-> > >  drivers/cpufreq/sun50i-cpufreq-nvmem.c | 1 +
-> > >  1 file changed, 1 insertion(+)
-> > > 
-> > > diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-> > > index 32a9c88f8..ccf83780f 100644
-> > > --- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-> > > +++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-> > > @@ -160,6 +160,7 @@ static struct platform_driver sun50i_cpufreq_driver = {
-> > >  
-> > >  static const struct of_device_id sun50i_cpufreq_match_list[] = {
-> > >  	{ .compatible = "allwinner,sun50i-h6" },
-> > > +	{ .compatible = "allwinner,sun20i-d1" },  
-> > 
-> > I thought the feedback in v2 was to drop this change, since the
-> > devicetree has the sun50i-h6 as a fallback compatible?
-> 
-> Well, this is the *board* (fallback) compatible string, so we cannot assign
-> it as we like. The whole (existing) scheme is admittedly somewhat weird,
-> because we not only match on a particular device compatible
-> (like allwinner,sun20i-d1-operating-points), but also need to blocklist and
-> re-match some parts against the *board compatible*, owing to the
-> cpufreq-dt driver. The board name is basically used as a placeholder to
-> find out the SoC, because there is (or was?) no other good way - the
-> CPU DT nodes don't work for this. Back when this was introduced, this was
-> the "least worst" solution.
-> 
-> I don't remember all the details, and didn't find time yet to look into
-> this in more detail, but fixing this is non-trivial. If this isn't 6.8
-> material, I might have a look at this later this week/month.
+> diff --git a/drivers/cpufreq/Kconfig b/drivers/cpufreq/Kconfig
+> index 35efb53d5..50aa66cfc 100644
+> --- a/drivers/cpufreq/Kconfig
+> +++ b/drivers/cpufreq/Kconfig
+> @@ -301,5 +301,17 @@ config QORIQ_CPUFREQ
+>  	  This adds the CPUFreq driver support for Freescale QorIQ SoCs
+>  	  which are capable of changing the CPU's frequency dynamically.
+>  
+> +config ALLWINNER_SUN50I_CPUFREQ_NVMEM
+> +	tristate "Allwinner nvmem based SUN50I CPUFreq driver"
+> +	depends on ARCH_SUNXI
+> +	depends on NVMEM_SUNXI_SID
+> +	select PM_OPP
+> +	help
+> +	  This adds the nvmem based CPUFreq driver for Allwinner
+> +	  h6/D1 SoCs.
+> +
+> +	  To compile this driver as a module, choose M here: the
+> +	  module will be called sun50i-cpufreq-nvmem.
+> +
+>  endif
+>  endmenu
+> diff --git a/drivers/cpufreq/Kconfig.arm b/drivers/cpufreq/Kconfig.arm
+> index f91160689..98b8e6eef 100644
+> --- a/drivers/cpufreq/Kconfig.arm
+> +++ b/drivers/cpufreq/Kconfig.arm
+> @@ -29,18 +29,6 @@ config ACPI_CPPC_CPUFREQ_FIE
+>  
+>  	  If in doubt, say N.
+>  
+> -config ARM_ALLWINNER_SUN50I_CPUFREQ_NVMEM
+> -	tristate "Allwinner nvmem based SUN50I CPUFreq driver"
+> -	depends on ARCH_SUNXI
+> -	depends on NVMEM_SUNXI_SID
+> -	select PM_OPP
+> -	help
+> -	  This adds the nvmem based CPUFreq driver for Allwinner
+> -	  h6 SoC.
+> -
+> -	  To compile this driver as a module, choose M here: the
+> -	  module will be called sun50i-cpufreq-nvmem.
+> -
+>  config ARM_APPLE_SOC_CPUFREQ
+>  	tristate "Apple Silicon SoC CPUFreq support"
+>  	depends on ARCH_APPLE || (COMPILE_TEST && 64BIT)
+> diff --git a/drivers/cpufreq/Makefile b/drivers/cpufreq/Makefile
+> index 8d141c71b..110b676d2 100644
+> --- a/drivers/cpufreq/Makefile
+> +++ b/drivers/cpufreq/Makefile
+> @@ -78,7 +78,7 @@ obj-$(CONFIG_ARM_SCMI_CPUFREQ)		+= scmi-cpufreq.o
+>  obj-$(CONFIG_ARM_SCPI_CPUFREQ)		+= scpi-cpufreq.o
+>  obj-$(CONFIG_ARM_SPEAR_CPUFREQ)		+= spear-cpufreq.o
+>  obj-$(CONFIG_ARM_STI_CPUFREQ)		+= sti-cpufreq.o
+> -obj-$(CONFIG_ARM_ALLWINNER_SUN50I_CPUFREQ_NVMEM) += sun50i-cpufreq-nvmem.o
+> +obj-$(CONFIG_ALLWINNER_SUN50I_CPUFREQ_NVMEM) += sun50i-cpufreq-nvmem.o
 
-I would say it's 6.9 material. -rc6 already passed and it's not yet aligned
-with all maintainers.
+This should be moved, so it's sorted alphabetically.
 
 Best regards,
 Jernej
+
+>  obj-$(CONFIG_ARM_TEGRA20_CPUFREQ)	+= tegra20-cpufreq.o
+>  obj-$(CONFIG_ARM_TEGRA124_CPUFREQ)	+= tegra124-cpufreq.o
+>  obj-$(CONFIG_ARM_TEGRA186_CPUFREQ)	+= tegra186-cpufreq.o
+> 
+
+
 
 
