@@ -1,47 +1,47 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D133B1A27A
-	for <linux-sunxi@lists.linux.dev>; Mon, 18 Dec 2023 11:07:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5F491BDFA
+	for <linux-sunxi@lists.linux.dev>; Mon, 18 Dec 2023 11:07:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O/Fkb1RC"
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-50bf3efe2cbso2966720e87.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 18 Dec 2023 03:07:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hrl2vv75"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a235eb41251so67412166b.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 18 Dec 2023 03:07:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702897622; x=1703502422; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1702897631; x=1703502431; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4SZpEgDuZF0Kd57Q/v4Kq9sCIukMURy5kzt0ohYZmr8=;
-        b=O/Fkb1RC3k/en9GJQgk74D4eyL4V4iyZyXhZCWBoHuxD+rTzDDgYTosICssiLrbdAa
-         sT/uSVf9/LDZrmvZlBx9STBKxRVMCa82N2JvOAhXn1gtMYXB2elZ0GMhJaw3NgUe0llz
-         BvlkVbRoasWwLPOCkXvHhjYUvMT3PuzCmTOAHN+HKU6d8q/Z489RX/cyuv/azuXe+1mG
-         m6r2h5SYAdXg6lKdbmtXDQFMhWw9Mfbi4jYT68Xjl/aOJi28vsd1MFKTlD+QKNQ/EVzs
-         aK9w2FQhxQK3Q9O1MOw5ArPuKcGtV72aS3QmxoaACE+EkGK3GuPICMxDobrefr8/uyNm
-         sk7g==
+        bh=lerjiFsv40IIbLDp1yKfCOrHgxz1kvFlDa/xJlfcdo0=;
+        b=Hrl2vv75CDtwrQdHuxPS9CfSayMeq9abU7XO1F5GxMlwI1YRabCODTI2qS+E296NXR
+         ltF075fbRmuqe/ea1HMl487pb/llO+xgdryj1B8OF3pWpa6StSebLK0jqXB6CXW57tiQ
+         LpX4qCRZXJHwEsdnhcpOBMqa5+/a+on9EbMH5/FCOpcBv/aU8D8xgBfvnQx0yjsp2yyu
+         Wt4TGBiZ77P09hcwRp1iRFO4fWOzpNslfPpQ/d8KQdPS18Au3D75k5gZj6s9bc5w5/NX
+         p+Vzfxo8aOYugwUkOMGaa0F2NYc2+tB8DDmgk2zKttoTRUSGkAp//umAJDBA87Gv1pce
+         uyLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702897622; x=1703502422;
+        d=1e100.net; s=20230601; t=1702897631; x=1703502431;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=4SZpEgDuZF0Kd57Q/v4Kq9sCIukMURy5kzt0ohYZmr8=;
-        b=PiOnLCToJ1J3LVQNUkruWZC9PR/LmbwnFV5OIKE099J7kjhS/+X+URR1IxOojFgpxC
-         Pzwp2dynWt+Nc0Yd+QVt9Iu966wrGAj4lyTX0W+WZm+xjqHruduMDcOn5O8owOnG+uyK
-         8/Lv20Ewx2cwZ7AtGnuP06rkciav7XmucSOCB7Ohs4DKphAqtZFOwKiiP7nGihdaavli
-         uv1qxTLtCzuvn1utA58rhRD4lVa7a+PvTDjL0BPtMnmUXJT44YFmU5HkxoXoMJCf8w+/
-         0+OSBB6kw/lrDsL6I4c8HAQiB4wp/3pbxPBswjrxg4Q+L8gMWOd089X/c5Q2ZCCm2cI7
-         vhEw==
-X-Gm-Message-State: AOJu0YxWm3IZFkU+LYjQdjF23rx/jTCOEyblem4O4UmjIrTyl1NlP7ur
-	shI8dQ53+uAJYCgBP2aTYRQ=
-X-Google-Smtp-Source: AGHT+IEEPpv4PbOGki1wpFYE/FNbr0LMBpvRkHRipU02IysiUzOQcuXrBHqB/ytN1/Alf/94bokq8Q==
-X-Received: by 2002:ac2:4d12:0:b0:50e:3dc2:ad16 with SMTP id r18-20020ac24d12000000b0050e3dc2ad16mr142258lfi.232.1702897621400;
-        Mon, 18 Dec 2023 03:07:01 -0800 (PST)
+        bh=lerjiFsv40IIbLDp1yKfCOrHgxz1kvFlDa/xJlfcdo0=;
+        b=W6N9s1czh8gafU197OnWtPP8w9RvTfAXVV01BeHvRMyXMT1Aa1pCdEQ9RBu6PwpLjQ
+         cGjweun7L9CU8d/PwNXf64ztmKBqmalpHEY60Y4nUddMklnO3AxbtfZpsqwLz0Z7T8qn
+         ZlwfiwlAjSYxBp1otGKX5tQFvM08BWQUsVfn0xELZDI2IXkcjKbFzDXP+9bTIzLQuF/v
+         GEb159iusuexX60ncuytUmXFMmSdah7VH3484Hs6RQhghJjtCp7Ehir5ZBzQ9gYf/9Od
+         DDEa+4gC5PZo1Ksxvz72d4GJ0ZT8dAlmfMyfR+VL30VieDwJLNnNMiOJjJGgTGKzfVOQ
+         yLIw==
+X-Gm-Message-State: AOJu0YyZV/g+Fy0nCR1k1H8pk7OOWoLHKw2z/P+jXi5D/nV746jpWE4t
+	Xy3T0T8JkORP6Wl5cuaiSjc=
+X-Google-Smtp-Source: AGHT+IGQMtd6fso8NFusjQjFPqt6Spt8yZ8CBjuG18cqbhcpV/I/x5LWeBsLrRHnA3YL1WPAg7whNQ==
+X-Received: by 2002:a17:906:11cd:b0:a23:365d:fc74 with SMTP id o13-20020a17090611cd00b00a23365dfc74mr870108eja.125.1702897630746;
+        Mon, 18 Dec 2023 03:07:10 -0800 (PST)
 Received: from localhost.localdomain ([154.72.163.164])
-        by smtp.gmail.com with ESMTPSA id pj4-20020a170906d78400b00a2353af1f7bsm1406769ejb.92.2023.12.18.03.06.54
+        by smtp.gmail.com with ESMTPSA id pj4-20020a170906d78400b00a2353af1f7bsm1406769ejb.92.2023.12.18.03.07.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Dec 2023 03:07:00 -0800 (PST)
+        Mon, 18 Dec 2023 03:07:10 -0800 (PST)
 From: Brandon Cheo Fusi <fusibrandon13@gmail.com>
 To: Yangtao Li <tiny.windzz@gmail.com>,
 	Viresh Kumar <vireshk@kernel.org>,
@@ -65,9 +65,9 @@ Cc: linux-pm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-riscv@lists.infradead.org,
 	Brandon Cheo Fusi <fusibrandon13@gmail.com>
-Subject: [PATCH v2 4/5] cpufreq: dt-platdev: Blocklist allwinner,sun20i-d1 SoC
-Date: Mon, 18 Dec 2023 12:05:42 +0100
-Message-Id: <20231218110543.64044-5-fusibrandon13@gmail.com>
+Subject: [PATCH v2 5/5] cpufreq: Make sun50i h6 cpufreq Kconfig option arch generic
+Date: Mon, 18 Dec 2023 12:05:43 +0100
+Message-Id: <20231218110543.64044-6-fusibrandon13@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20231218110543.64044-1-fusibrandon13@gmail.com>
 References: <20231218110543.64044-1-fusibrandon13@gmail.com>
@@ -79,26 +79,75 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Allwinner D1 uses H6 cpufreq driver. Add it to blocklist
-so the "cpufreq-dt" device is not created twice.
+Move the Allwinner SUN50I cpufreq driver from Kconfig.arm to the
+main Kconfig file so it supports other architectures, like RISC-V
+in our case, and drop the 'ARM_' prefix.
 
 Signed-off-by: Brandon Cheo Fusi <fusibrandon13@gmail.com>
 ---
- drivers/cpufreq/cpufreq-dt-platdev.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/cpufreq/Kconfig     | 12 ++++++++++++
+ drivers/cpufreq/Kconfig.arm | 12 ------------
+ drivers/cpufreq/Makefile    |  2 +-
+ 3 files changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/cpufreq/cpufreq-dt-platdev.c b/drivers/cpufreq/cpufreq-dt-platdev.c
-index bd1e1357c..2febcfc2c 100644
---- a/drivers/cpufreq/cpufreq-dt-platdev.c
-+++ b/drivers/cpufreq/cpufreq-dt-platdev.c
-@@ -104,6 +104,7 @@ static const struct of_device_id allowlist[] __initconst = {
-  */
- static const struct of_device_id blocklist[] __initconst = {
- 	{ .compatible = "allwinner,sun50i-h6", },
-+	{ .compatible = "allwinner,sun20i-d1", },
+diff --git a/drivers/cpufreq/Kconfig b/drivers/cpufreq/Kconfig
+index 35efb53d5..50aa66cfc 100644
+--- a/drivers/cpufreq/Kconfig
++++ b/drivers/cpufreq/Kconfig
+@@ -301,5 +301,17 @@ config QORIQ_CPUFREQ
+ 	  This adds the CPUFreq driver support for Freescale QorIQ SoCs
+ 	  which are capable of changing the CPU's frequency dynamically.
  
- 	{ .compatible = "apple,arm-platform", },
++config ALLWINNER_SUN50I_CPUFREQ_NVMEM
++	tristate "Allwinner nvmem based SUN50I CPUFreq driver"
++	depends on ARCH_SUNXI
++	depends on NVMEM_SUNXI_SID
++	select PM_OPP
++	help
++	  This adds the nvmem based CPUFreq driver for Allwinner
++	  h6/D1 SoCs.
++
++	  To compile this driver as a module, choose M here: the
++	  module will be called sun50i-cpufreq-nvmem.
++
+ endif
+ endmenu
+diff --git a/drivers/cpufreq/Kconfig.arm b/drivers/cpufreq/Kconfig.arm
+index f91160689..98b8e6eef 100644
+--- a/drivers/cpufreq/Kconfig.arm
++++ b/drivers/cpufreq/Kconfig.arm
+@@ -29,18 +29,6 @@ config ACPI_CPPC_CPUFREQ_FIE
  
+ 	  If in doubt, say N.
+ 
+-config ARM_ALLWINNER_SUN50I_CPUFREQ_NVMEM
+-	tristate "Allwinner nvmem based SUN50I CPUFreq driver"
+-	depends on ARCH_SUNXI
+-	depends on NVMEM_SUNXI_SID
+-	select PM_OPP
+-	help
+-	  This adds the nvmem based CPUFreq driver for Allwinner
+-	  h6 SoC.
+-
+-	  To compile this driver as a module, choose M here: the
+-	  module will be called sun50i-cpufreq-nvmem.
+-
+ config ARM_APPLE_SOC_CPUFREQ
+ 	tristate "Apple Silicon SoC CPUFreq support"
+ 	depends on ARCH_APPLE || (COMPILE_TEST && 64BIT)
+diff --git a/drivers/cpufreq/Makefile b/drivers/cpufreq/Makefile
+index 8d141c71b..110b676d2 100644
+--- a/drivers/cpufreq/Makefile
++++ b/drivers/cpufreq/Makefile
+@@ -78,7 +78,7 @@ obj-$(CONFIG_ARM_SCMI_CPUFREQ)		+= scmi-cpufreq.o
+ obj-$(CONFIG_ARM_SCPI_CPUFREQ)		+= scpi-cpufreq.o
+ obj-$(CONFIG_ARM_SPEAR_CPUFREQ)		+= spear-cpufreq.o
+ obj-$(CONFIG_ARM_STI_CPUFREQ)		+= sti-cpufreq.o
+-obj-$(CONFIG_ARM_ALLWINNER_SUN50I_CPUFREQ_NVMEM) += sun50i-cpufreq-nvmem.o
++obj-$(CONFIG_ALLWINNER_SUN50I_CPUFREQ_NVMEM) += sun50i-cpufreq-nvmem.o
+ obj-$(CONFIG_ARM_TEGRA20_CPUFREQ)	+= tegra20-cpufreq.o
+ obj-$(CONFIG_ARM_TEGRA124_CPUFREQ)	+= tegra124-cpufreq.o
+ obj-$(CONFIG_ARM_TEGRA186_CPUFREQ)	+= tegra186-cpufreq.o
 -- 
 2.30.2
 
