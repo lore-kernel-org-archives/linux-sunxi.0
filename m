@@ -1,154 +1,80 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF4A1E4BF
-	for <linux-sunxi@lists.linux.dev>; Mon, 18 Dec 2023 17:32:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oltmanns.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 124EB72062
+	for <linux-sunxi@lists.linux.dev>; Mon, 18 Dec 2023 19:56:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b="QZq2hHey"
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4Sv6MX6LDzz9sp7;
-	Mon, 18 Dec 2023 18:32:08 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1702920728;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+vve0NiBqF/ep9e79zQnM4N2qRMtt/LCYu4PuzewmJ0=;
-	b=QZq2hHeyxhgZWBwpbBlpRX5VLY/977BHVX6kCqLDDjCUMrNBHnvN7SIPIneOtBnKlkjMmC
-	iL89+dK142E8S9UB7gyrpj/QdCIratTBdOK61d5RGJogDWj7BcgsfioU/ZG0efG3gOxI2J
-	WLIEovlqlukfGthr9hjkicgKNe/JuVFvIZIe0ykW47p4XXTlhjVff6bjOnAsW8L5Q3fl7k
-	RMQ2eDrZcOYd/fiXy+waNgXtKFFWs858qVZ29wnY2wSo5SgFZYvg9Ldw8420NCTrakhywn
-	x3/XY/u2ZqDgfjA2u/pizqRWIC1RqlVAYAdqBwM0EVYpcvGKp1uVgIu3+0uMRw==
-References: <20231218-pinephone-pll-fixes-v1-0-e238b6ed6dc1@oltmanns.dev>
- <20231218-pinephone-pll-fixes-v1-1-e238b6ed6dc1@oltmanns.dev>
-From: Frank Oltmanns <frank@oltmanns.dev>
-To: Frank Oltmanns <frank@oltmanns.dev>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Guido
- =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>, Purism Kernel Team
- <kernel@puri.sm>, Ondrej
- Jirman <megi@xff.cz>, Neil Armstrong <neil.armstrong@linaro.org>, Jessica
- Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/5] clk: sunxi-ng: nkm: Support constraints on m/n
- ratio and parent rate
-Date: Mon, 18 Dec 2023 18:26:51 +0100
-In-reply-to: <20231218-pinephone-pll-fixes-v1-1-e238b6ed6dc1@oltmanns.dev>
-Message-ID: <8734vz1kok.fsf@oltmanns.dev>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iNvUyRjh"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-50c0f13ea11so4371011e87.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 18 Dec 2023 11:56:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702929371; x=1703534171; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZNO3jiSu7ic70hh4tyicrSnhqEtgPiAeeapM4Oz5gIE=;
+        b=iNvUyRjhAZrP7i0qUn6wMikKQwD+DQC0aV8zUgEOj5GC6+rr/nBfxlojC+/WmxK72W
+         nv0ODb4xrD/RTWqJ2Pyn4Y/qWtedkiuPGw8Z8G/S4XXMZ57SlsQ1ZOLUz+OPGLXgDWVM
+         ABcNBhAwIFSL2j8LlxycX6WvdgKPKn6WuavXp5roxo0l8wn24JEbDXoHZ7+9NXEkRRMR
+         WHPVIB/9EtDgMxHgyJ3in71RUS/GKVLDm5VIDSrhAuTjW+WaBNhkWzoEVn0xilqHuMix
+         y/R3PMi0CjL95jmyZ8JKS3X5c7ft+ymbx8gVcwI6tG8j5gM9cB/JBHakMCzSGv5jLxnS
+         iJAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702929371; x=1703534171;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZNO3jiSu7ic70hh4tyicrSnhqEtgPiAeeapM4Oz5gIE=;
+        b=Rauq60qyWKdp294+Ybht/ZXXwzou0iFQv3dG+cFMuC1HGIBqOUmYHVCyTw9ZzduUSL
+         N03GCIuwDRLDK84wrs0Akc1bKqUPeYBzH6pMx1RPCRn78M7NuDhDINORMarQ1BFYnRtz
+         HX6B+yrFB3ukA3sWbM5Z9WBILA7F2M2Fec7EE19Qcwh9zb/lu4vk9oqw9BdRYdUjz7D3
+         IjxDIj146XZ79AfhUGf1OvvCWLX9juXfKm+9aRH+tSjelM0s70nuBB/AZV78ykwTf3S6
+         p+bQtSxMpmF4PA+9qwOILHzsTMhZXnHnqRLy8IjLfSH4cNDBVVK2u3KiF5xiKJQcGwru
+         yTgg==
+X-Gm-Message-State: AOJu0YwYGMGhDVxD8mIudua1v4jUbYGM3r4o/GvBz93wScLy1k71Zj8N
+	+7LUQ33UJuyEvuFZyP97veE=
+X-Google-Smtp-Source: AGHT+IGqqjw8wDeHxgdqEtTKBo2i830o6mNdblTFcEpQVPyBO4j57qkcMzMS3IxB9FnDj6Zou+dADw==
+X-Received: by 2002:a05:6512:3344:b0:50d:1e07:5aac with SMTP id y4-20020a056512334400b0050d1e075aacmr8599983lfd.43.1702929370889;
+        Mon, 18 Dec 2023 11:56:10 -0800 (PST)
+Received: from jernej-laptop.localnet (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
+        by smtp.gmail.com with ESMTPSA id h29-20020a0564020e9d00b0054c63cc0469sm10780410eda.33.2023.12.18.11.56.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Dec 2023 11:56:10 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: linux-crypto@vger.kernel.org, ovidiu.panait@windriver.com
+Cc: linux-kernel@vger.kernel.org, herbert@gondor.apana.org.au,
+ davem@davemloft.net, Ovidiu Panait <ovidiu.panait@windriver.com>,
+ Corentin Labbe <clabbe.montjoie@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 6/7] crypto: sun8i-ce - Use helper to set reqsize
+Date: Mon, 18 Dec 2023 20:56:08 +0100
+Message-ID: <4532392.LvFx2qVVIh@jernej-laptop>
+In-Reply-To: <20231218164649.2492465-6-ovidiu.panait@windriver.com>
+References:
+ <20231218164649.2492465-1-ovidiu.panait@windriver.com>
+ <20231218164649.2492465-6-ovidiu.panait@windriver.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+
+Dne ponedeljek, 18. december 2023 ob 17:46:48 CET je ovidiu.panait@windriver.com napisal(a):
+> From: Ovidiu Panait <ovidiu.panait@windriver.com>
+> 
+> The value of reqsize must only be changed through the helper.
+> 
+> Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+
+Best regards,
+Jernej
 
 
-On 2023-12-18 at 14:35:19 +0100, Frank Oltmanns <frank@oltmanns.dev> wrote:
-> The Allwinner A64 manual lists the following constraints for the
-> PLL-MIPI clock:
->  - M/N >= 3
->  - (PLL_VIDEO0)/M >= 24MHz
->
-> The PLL-MIPI clock is implemented as ccu_nkm. Therefore, add support for
-> these constraints.
->
-> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
-> ---
->  drivers/clk/sunxi-ng/ccu_nkm.c | 23 +++++++++++++++++++++++
->  drivers/clk/sunxi-ng/ccu_nkm.h |  8 ++++++++
->  2 files changed, 31 insertions(+)
->
-> diff --git a/drivers/clk/sunxi-ng/ccu_nkm.c b/drivers/clk/sunxi-ng/ccu_nkm.c
-> index eed64547ad42..2af5c1ebd527 100644
-> --- a/drivers/clk/sunxi-ng/ccu_nkm.c
-> +++ b/drivers/clk/sunxi-ng/ccu_nkm.c
-> @@ -16,6 +16,20 @@ struct _ccu_nkm {
->  	unsigned long	m, min_m, max_m;
->  };
->
-> +static bool ccu_nkm_is_valid_rate(struct ccu_common *common, unsigned long parent,
-> +				  unsigned long n, unsigned long m)
-> +{
-> +	struct ccu_nkm *nkm = container_of(common, struct ccu_nkm, common);
-> +
-> +	if (nkm->max_mn_ratio && (m > nkm->max_mn_ratio * n))
-> +		return false;
-> +
-> +	if (nkm->parent_wo_nk && (parent < nkm->parent_wo_nk * m))
-> +		return false;
-> +
-> +	return true;
-> +}
-> +
->  static unsigned long ccu_nkm_find_best_with_parent_adj(struct ccu_common *common,
->  						       struct clk_hw *parent_hw,
->  						       unsigned long *parent, unsigned long rate,
-> @@ -32,6 +46,9 @@ static unsigned long ccu_nkm_find_best_with_parent_adj(struct ccu_common *common
->
->  				tmp_parent = clk_hw_round_rate(parent_hw, rate * _m / (_n * _k));
->
-> +				if (!ccu_nkm_is_valid_rate(common, tmp_parent, _n, _m))
-> +					continue;
-> +
->  				tmp_rate = tmp_parent * _n * _k / _m;
->
->  				if (ccu_is_better_rate(common, rate, tmp_rate, best_rate) ||
-> @@ -65,6 +82,12 @@ static unsigned long ccu_nkm_find_best(unsigned long parent, unsigned long rate,
->  	for (_k = nkm->min_k; _k <= nkm->max_k; _k++) {
->  		for (_n = nkm->min_n; _n <= nkm->max_n; _n++) {
->  			for (_m = nkm->min_m; _m <= nkm->max_m; _m++) {
-> +				if ((common->reg == 0x040) && (_m > 3 * _n))
-> +					break;
-> +
-> +				if ((common->reg == 0x040) && (parent < 24000000 * _m))
-> +					continue;
-> +
-
-This, of course, is rubbish and should be this instead:
-+				if (!ccu_nkm_is_valid_rate(common, parent, _n, _m))
-+					continue;
-+
-
-I'll submit a V2 after receiving some feedback.
-
->  				unsigned long tmp_rate;
->
->  				tmp_rate = parent * _n * _k / _m;
-> diff --git a/drivers/clk/sunxi-ng/ccu_nkm.h b/drivers/clk/sunxi-ng/ccu_nkm.h
-> index 6601defb3f38..d3d3eaf55faf 100644
-> --- a/drivers/clk/sunxi-ng/ccu_nkm.h
-> +++ b/drivers/clk/sunxi-ng/ccu_nkm.h
-> @@ -16,6 +16,12 @@
->   * struct ccu_nkm - Definition of an N-K-M clock
->   *
->   * Clocks based on the formula parent * N * K / M
-> + *
-> + * @max_mn_ratio:	Maximum value for M / N.
-> + * @parent_wo_nk:	The minimum rate the parent must provide after applying the divisor,
-> + *			but without applying the multipliers, i.e. the contstraint
-> + *			   (parent rate)/M >= parent_wo_nk
-> + *			must be fulfilled.
->   */
->  struct ccu_nkm {
->  	u32			enable;
-> @@ -27,6 +33,8 @@ struct ccu_nkm {
->  	struct ccu_mux_internal	mux;
->
->  	unsigned int		fixed_post_div;
-> +	unsigned long		max_mn_ratio;
-> +	unsigned long           parent_wo_nk;
->
->  	struct ccu_common	common;
->  };
