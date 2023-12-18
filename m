@@ -1,47 +1,47 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E57D199B5
-	for <linux-sunxi@lists.linux.dev>; Mon, 18 Dec 2023 11:06:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF4651A286
+	for <linux-sunxi@lists.linux.dev>; Mon, 18 Dec 2023 11:06:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RNN74e+A"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-9fa2714e828so334207566b.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 18 Dec 2023 03:06:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="THNMiVIV"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a233a60f8feso150085766b.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 18 Dec 2023 03:06:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702897591; x=1703502391; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1702897611; x=1703502411; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=E8/JnmQCAMS2cYksRjeaCp4G2NnTSXTyff3BziFBU7s=;
-        b=RNN74e+Aa1jq3Pb6BUv4hS5pT91aplz98iGwtUXsR/no38N9rhPRWoU/IkCPFud2Is
-         7mBK4H8JRj5K9M4GqarEhuFTmD8Dm0KtRmzydF2pYjcpgfmXAcMzPRrRwhn0R+FYO13d
-         ypiAoND/0vCxtIptfg4Zs1IAFTfbEwS3unPzDiXAc7rD6xeYLt24+UDfnUmjXEtk52ap
-         Ts5m+yjai4+XkoandQ7JYl7lcJlz+Zj1cJOu+qBem7XtLOBR2Jja7lel3QgocUHPxDjQ
-         3Jc0ZRMjczdZ9eBeO6Gbc8ZGBY23WuKUjn+ZLWGu4IUhdU0vR8k9GufBADTL58yfggSy
-         jZlg==
+        bh=5YMMP/qsVfdoJtEElBLyEEO9c305KOAYJqUkekDdPZs=;
+        b=THNMiVIVpvq5bhuWs5OirW0moRmGnno66CXZNSnfqVNGIw8rI3yFV47dqU4R4ahWI5
+         fy/MHPteXRzAxbjRfy3ge03JOQLzm9ewRdDtntTqyvoqsGihyYXQbS8pYEG8oeJEcSrP
+         yRYgiFRz2+oAqHm9Agqrl87b6/ZhTaq7X9IqjU2WyyG9u12m9DisOptfTSvmut3kF1Cc
+         /T9YOkaPJmDEp1Sld+OD3owZvb2lJi6j+8kfvm9EBRkA9Cwr51D8u5Lbt1FQi6/s1NCL
+         LEmDiIzA0+wf/+HNiuVnXrn/C7XR65oXdQwnExA8I+4S8oMcJ4E/RAvmBjON73M1J3qa
+         I4iQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702897591; x=1703502391;
+        d=1e100.net; s=20230601; t=1702897611; x=1703502411;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=E8/JnmQCAMS2cYksRjeaCp4G2NnTSXTyff3BziFBU7s=;
-        b=w6r+Z8BuP787tyUgVOueNin8DT6x2DwhRbvGk7DACT5FAMf6w4WDzm77mT4OjTdPSM
-         h708SZ/Zug4rex5xd0hfV3ZDuWiTwu/BQ1rm6/E5jJ5pzhoTbV4SKNqUVITKT6W9Lhnd
-         eyeNjarcL2mWQ6/FJyFpEY3g0Ymr3sLzm7hHnysIZdaegGSP7TSco0J1msnyiD/yVcxO
-         sDEDGYiLQ+i0CQxlB8aQsazaU0d9eG/jHPl08swQRMmdrqVtWPKkTJZIoAaB68zF1XJV
-         v9ax3p2YyB5h5N0c0hi7s1PqD/vt+e6YyEM2fGE2FMYLFuNpVH6Wuv/rSQyf/8jd2tI5
-         iOoA==
-X-Gm-Message-State: AOJu0YysKf3Gfu4F1H7USPojQVbsL2noMMGxm0QWMw5jNyvA7jTPDPmz
-	h1jVME7h5SbKTLYIAKQSWDs=
-X-Google-Smtp-Source: AGHT+IFf3fTdcqRMdf1nMW9QU6h5ioPHWtIwlndls7xDU+7sKH62DkfHYo+TKGbOTDX/dltHActCzw==
-X-Received: by 2002:a17:906:fd86:b0:a23:26e4:862a with SMTP id xa6-20020a170906fd8600b00a2326e4862amr2021405ejb.88.1702897591591;
-        Mon, 18 Dec 2023 03:06:31 -0800 (PST)
+        bh=5YMMP/qsVfdoJtEElBLyEEO9c305KOAYJqUkekDdPZs=;
+        b=cg5z8TNaketgv/iDLs8X8Vuxt9c3AAsIbPmqTIgaUb4EFR3dzuvtxp3LJjEUZtue5n
+         neHxKCWvYA6/AQSW9yakaLuLIWdTcHWtWINzOfvJhQLZKpcyHtB/9t0lAjZpOJVNiqEn
+         XSgUmg/H6kx5QxFVfDca6c4iy1omVWc41w6wBF8TUljjqjCoUN/07kGzWMN//xC5+f4s
+         4ikTXQzMJgP7KJX5DpM52O4P5rbD4N3ibC2vT/ikZhqBUxBIznnjXUM1Cs5EnRyTpJ+u
+         aitD8iFa8j4gbTYrPiVHmp/SnI98AS33bMgwh5WHawvnHuy9J6nlwxlABDThj0R9639W
+         g7AQ==
+X-Gm-Message-State: AOJu0Yzjnv+lyFTeNWhz4rR56P/QISndoNWbnehxKhgduC7g5bzbD0zg
+	xWKmtI66NUJP/uFytedmP5M=
+X-Google-Smtp-Source: AGHT+IFvCQuixkVNgpJoy4iekrTbntIvFyqQXesXqFyDPHUVUrNSA7K6fhKQ0zABch1KMEk0awPKmQ==
+X-Received: by 2002:a17:907:6094:b0:9fe:5d39:41c6 with SMTP id ht20-20020a170907609400b009fe5d3941c6mr8647546ejc.51.1702897611128;
+        Mon, 18 Dec 2023 03:06:51 -0800 (PST)
 Received: from localhost.localdomain ([154.72.163.164])
-        by smtp.gmail.com with ESMTPSA id pj4-20020a170906d78400b00a2353af1f7bsm1406769ejb.92.2023.12.18.03.06.24
+        by smtp.gmail.com with ESMTPSA id pj4-20020a170906d78400b00a2353af1f7bsm1406769ejb.92.2023.12.18.03.06.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Dec 2023 03:06:31 -0800 (PST)
+        Mon, 18 Dec 2023 03:06:50 -0800 (PST)
 From: Brandon Cheo Fusi <fusibrandon13@gmail.com>
 To: Yangtao Li <tiny.windzz@gmail.com>,
 	Viresh Kumar <vireshk@kernel.org>,
@@ -65,9 +65,9 @@ Cc: linux-pm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-riscv@lists.infradead.org,
 	Brandon Cheo Fusi <fusibrandon13@gmail.com>
-Subject: [PATCH v2 2/5] dt-bindings: opp: sun50i: Add binding for D1 CPUs
-Date: Mon, 18 Dec 2023 12:05:40 +0100
-Message-Id: <20231218110543.64044-3-fusibrandon13@gmail.com>
+Subject: [PATCH v2 3/5] cpufreq: sun50i: Add D1 support
+Date: Mon, 18 Dec 2023 12:05:41 +0100
+Message-Id: <20231218110543.64044-4-fusibrandon13@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20231218110543.64044-1-fusibrandon13@gmail.com>
 References: <20231218110543.64044-1-fusibrandon13@gmail.com>
@@ -79,28 +79,26 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add binding for D1 CPU OPPs.
+Add support for D1 based devices to the Allwinner H6 cpufreq
+driver
 
 Signed-off-by: Brandon Cheo Fusi <fusibrandon13@gmail.com>
 ---
- .../bindings/opp/allwinner,sun50i-h6-operating-points.yaml    | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/cpufreq/sun50i-cpufreq-nvmem.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml b/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
-index 51f62c3ae..fddaa3216 100644
---- a/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
-+++ b/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
-@@ -23,7 +23,9 @@ allOf:
+diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+index 32a9c88f8..ccf83780f 100644
+--- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
++++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+@@ -160,6 +160,7 @@ static struct platform_driver sun50i_cpufreq_driver = {
  
- properties:
-   compatible:
--    const: allwinner,sun50i-h6-operating-points
-+    enum:
-+      - allwinner,sun50i-h6-operating-points
-+      - allwinner,sun20i-d1-operating-points
- 
-   nvmem-cells:
-     description: |
+ static const struct of_device_id sun50i_cpufreq_match_list[] = {
+ 	{ .compatible = "allwinner,sun50i-h6" },
++	{ .compatible = "allwinner,sun20i-d1" },
+ 	{}
+ };
+ MODULE_DEVICE_TABLE(of, sun50i_cpufreq_match_list);
 -- 
 2.30.2
 
