@@ -1,217 +1,227 @@
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+Received: from Atcsqr.andestech.com (60-248-80-70.hinet-ip.hinet.net [60.248.80.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22F7D637
-	for <linux-sunxi@lists.linux.dev>; Tue, 19 Dec 2023 00:31:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b="CS9b1OWZ"
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id 35D11240029
-	for <linux-sunxi@lists.linux.dev>; Tue, 19 Dec 2023 01:31:15 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
-	t=1702945875; bh=YCM1J7uFMZiP5n9w7V1v0uyj7uBg5DsW2n1XY33gWbw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:
-	 Content-Disposition:From;
-	b=CS9b1OWZY5aCtdaexuTI750YNZd39ki9CMGsqDySRrwppdulqj+gUOwJx3h9JHosm
-	 RSqzzZnk2AEN3ZAHPWabvnOt9vf1d71kQkVUN138dF86ITFvxHIV4kmsCmXcxxww4M
-	 B/011EQ0dXGRzdTAst3vs33zKOV5WTGIsReLtfClBGo/SuBGQ6j3fdvdyB8yC0+Avn
-	 zTweVSFf663fqEIPlwZTsZCJfQ1drxqyR/bMaAMtavc1RMY0HNiys96QoEmSA3ihIg
-	 GabaXWtRdxBe13zr/9Ph+df969v4zd0cBHvDjExb2Wwvn1vD1FW3Uk1ZIXikoHaCK2
-	 iLb7/c6P15EqQ==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4SvHg06PCPz6tmv;
-	Tue, 19 Dec 2023 01:31:08 +0100 (CET)
-Date: Tue, 19 Dec 2023 00:31:05 +0000
-From: Anne Macedo <retpolanne@posteo.net>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, 
-	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>, 
-	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>, open list <linux-kernel@vger.kernel.org>, 
-	Corentin Labbe <clabbe@baylibre.com>
-Subject: Re: [PATCH] arm64: dts: allwinner: Orange Pi One Plus PHY support
-Message-ID: <ljqe2z34upvzaxh744labf6ephmvcj535img2ct4d2vijjmboh@abg7anbngfyv>
-References: <20231212122835.10850-2-retpolanne@posteo.net>
- <20231212162200.10b3868b@donnerap.manchester.arm.com>
- <axsvii25yrknfae6gdreti7lcskoscsdbsujwuispiieimsbdy@gwzm4l7mwlew>
- <20231213013544.2fc7e0d1@minigeek.lan>
- <ceuoq3xxgb5kkel7e7wqpslcg7h6dde3wgdqhyo7jgop6owovk@5a76ks5fiun4>
- <20231213122523.219cbfc0@donnerap.manchester.arm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCD8E11702
+	for <linux-sunxi@lists.linux.dev>; Tue, 19 Dec 2023 07:45:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=andestech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=andestech.com
+Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
+	by Atcsqr.andestech.com with ESMTP id 3BJ7hYaZ012432;
+	Tue, 19 Dec 2023 15:43:34 +0800 (+08)
+	(envelope-from peterlin@andestech.com)
+Received: from APC323 (10.0.12.98) by ATCPCS16.andestech.com (10.0.1.222) with
+ Microsoft SMTP Server id 14.3.498.0; Tue, 19 Dec 2023 15:43:32 +0800
+Date: Tue, 19 Dec 2023 15:43:29 +0800
+From: Yu-Chien Peter Lin <peterlin@andestech.com>
+To: Anup Patel <apatel@ventanamicro.com>
+CC: <acme@kernel.org>, <adrian.hunter@intel.com>, <ajones@ventanamicro.com>,
+        <alexander.shishkin@linux.intel.com>, <andre.przywara@arm.com>,
+        <anup@brainfault.org>, <aou@eecs.berkeley.edu>,
+        <atishp@atishpatra.org>, <conor+dt@kernel.org>,
+        <conor.dooley@microchip.com>, <conor@kernel.org>,
+        <devicetree@vger.kernel.org>, <dminus@andestech.com>,
+        <evan@rivosinc.com>, <geert+renesas@glider.be>, <guoren@kernel.org>,
+        <heiko@sntech.de>, <irogers@google.com>, <jernej.skrabec@gmail.com>,
+        <jolsa@kernel.org>, <jszhang@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <linux-perf-users@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        <linux-sunxi@lists.linux.dev>, <locus84@andestech.com>,
+        <magnus.damm@gmail.com>, <mark.rutland@arm.com>, <mingo@redhat.com>,
+        <n.shubin@yadro.com>, <namhyung@kernel.org>, <palmer@dabbelt.com>,
+        <paul.walmsley@sifive.com>, <peterz@infradead.org>,
+        <prabhakar.mahadev-lad.rj@bp.renesas.com>, <rdunlap@infradead.org>,
+        <robh+dt@kernel.org>, <samuel@sholland.org>,
+        <sunilvl@ventanamicro.com>, <tglx@linutronix.de>,
+        <tim609@andestech.com>, <uwu@icenowy.me>, <wens@csie.org>,
+        <will@kernel.org>, <ycliang@andestech.com>, <inochiama@outlook.com>
+Subject: Re: [PATCH v5 02/16] irqchip/riscv-intc: Allow large non-standard
+ interrupt number
+Message-ID: <ZYFJjR1rD5Hn-HEH@APC323>
+References: <20231213070301.1684751-1-peterlin@andestech.com>
+ <20231213070301.1684751-3-peterlin@andestech.com>
+ <CAK9=C2WuuYQD8ydrHP16hUXVk6RuKLbfvUe_GpUGw9ppe3Rd8Q@mail.gmail.com>
+ <CAK9=C2U+rSP8YMahPmTHLYZ+ZBfwwY5y52JeU_=R+VL1frR1Uw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
-In-Reply-To: <20231213122523.219cbfc0@donnerap.manchester.arm.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK9=C2U+rSP8YMahPmTHLYZ+ZBfwwY5y52JeU_=R+VL1frR1Uw@mail.gmail.com>
+User-Agent: Mutt/2.2.12 (2023-09-09)
+X-DNSRBL: 
+X-SPAM-SOURCE-CHECK: pass
+X-MAIL:Atcsqr.andestech.com 3BJ7hYaZ012432
 
-On Wed, Dec 13, 2023 at 12:25:23PM +0000, Andre Przywara wrote:
-> On Wed, 13 Dec 2023 11:02:39 +0000
-> Anne Macedo <retpolanne@posteo.net> wrote:
-> 
-> Hi Anne,
-> 
-> > On Wed, Dec 13, 2023 at 01:35:44AM +0000, Andre Przywara wrote:
-> > > On Tue, 12 Dec 2023 19:27:14 +0000
-> > > Anne Macedo <retpolanne@posteo.net> wrote:
-> > > 
-> > > Hi Anne,
-> > >   
-> > > > On Tue, Dec 12, 2023 at 04:22:00PM +0000, Andre Przywara wrote:  
-> > > > > On Tue, 12 Dec 2023 12:28:30 +0000
-> > > > > Anne Macedo <retpolanne@posteo.net> wrote:
-> > > > > 
-> > > > > Hi Anne,
-> > > > >     
-> > > > > > Adds compatible values to mdio subnodes for Ethernet PHY representing
-> > > > > > Realtek 8211 PHY to Orange Pi One Plus.    
-> > > > > 
-> > > > > So can you state why this would be needed? This is the RTL8211 ID,    
-> > > > 
-> > > > Apologies, I completely forgot to include some context. 
-> > > >   
-> > > > > right? Which should be autodetected via MDIO. Looking back in my inbox
-> > > > > you proposed this change before, for U-Boot, specifically, but I fail to
-> > > > > find a solution or explanation what really happens here. Two Renesas .dts
-> > > > > files have the same compatible, and the commit message talks about the
-> > > > > reset line there, is this related?
-> > > > > 
-> > > > > So can you please give some more background and explanation? That would be
-> > > > > part of a good commit message anyway ("why", not "what").    
-> > > > 
-> > > > Should I resend the commit with a more meaningful explanation? The
-> > > > context is the following:
-> > > > 
-> > > > currently, ethernet doesn't seem to work on both u-boot and Linux on the
-> > > > Orange Pi One Plus board. 
-> > > > 
-> > > > On the kernel, this error shows up:
-> > > > 
-> > > > Configuring network interfaces... [    5.992589] dwmac-sun8i 5020000.ethernet eth0: Register MEM_TYPE_PAGE_POOL RxQ-0
-> > > > [    6.000823] dwmac-sun8i 5020000.ethernet eth0: __stmmac_open: Cannot attach to PHY (error: -19)
-> > > > 
-> > > > After applying this fix, the PHY gets attached: 
-> > > > 
-> > > > Configuring network interfaces... [    6.060020] dwmac-sun8i 5020000.ethernet eth0: Register MEM_TYPE_PAGE_POOL RxQ-0
-> > > > [    6.069460] dwmac-sun8i 5020000.ethernet eth0: PHY [stmmac-0:01] driver [RTL8211E Gigabit Ethernet] (irq=POLL)
-> > > > 
-> > > > The previous compatible list that had ethernet-phy-ieee802.3-c22 fails
-> > > > to find a PHY, so this patch includes the correct PHY ID with the
-> > > > RTL8211 ID. 
-> > > > 
-> > > > The behaviour is described on [1].  
-> > > 
-> > > So this is all an observation, but no real explanation, isn't it?  
-> > 
-> > I've made some analysis on [3] on this bug, but it was based solely on
-> > u-boot. I was having trouble with the regulator and on u-boot nothing
-> > would trigger the GPIO PD6 and the vcc-gmac-3v3 regulator, so the NIC
-> > was completely dead. Next I did an analysis based on [2] because the
-> > u-boot PHY initialization was flaky.
-> > 
-> > > To cite [1]: "If the PHY reports an incorrect ID (or none at all) ...".
-> > > I am pretty sure this is not the case here, instead we are looking at
-> > > some missing platform bits, like a missing clock, reset, or most likely
-> > > regulator. Or one of the existing resources is wrongly assigned or  
-> > 
-> > As I mentioned, PHY initialization is flaky on u-boot, so maybe that
-> > assumption is correct. 
-> > 
-> > > configured? If the PHY is not (yet?) powered correctly when the code
-> > > does the auto-detection via the MDIO bus, then the initialisation would  
-> > 
-> > If I recall correctly (I don't know if I kept it in my notes :c), that
-> > could be the case. regulator-boot-on makes the NIC work (LEDs blink, at
-> > least) but it doesn't get initialized. 
-> > 
-> > > fail. But since it works when overriding the auto-detection, I feel
-> > > like we are papering over something here.
-> > > Do you have the schematics for this board? I can only find the one for
-> > > the Orange Pi Plus 2E, and I don't know how similar those two are. This
-> > > shows *two* regulators, but both are activated by the same GPIO.  
-> > 
-> > I do. It's available on [4]
-> 
-> Oh damn it, I got lost in Orange Pi's naming maze again - and was looking
-> for the wrong board! So thanks for the link, and this clears things up!
-> 
-> So yes, the Orange Pi *One* Plus, much like the Orange Pi 3, uses *two*
-> regulators for Ethernet: one 3.3V from the PMIC's ALDO2 rail to power the
-> PHY, and a discrete 2.5V regulator, enabled by GPIO PD6, for the voltage
-> level on the MDIO lines. On top of this there is a reset line for the PHY,
-> though this is held up by a pull-up resistor, so it *should* work,
-> although we should describe this in the DT.
-> 
-> So the DT looks wrong then: The reg_gmac_3v3 is actually a 2.5V regulator,
-> and phy-supply is aldo2. I think it was done the way it is to somehow make
-> it work with the current DT binding and code, which just supports one
-> regulator. And aldo2 is referenced as the source of reg_gmac_3v3, which
-> smells like another hack to me.
-> 
-> > > It would also be interesting to see if any of Corentin's work for the
-> > > Orange Pi 3 helps here?  
-> > 
-> > Adding [5] for reference here, thanks! Will check it out. 
-> 
-> This is an older version, there are actually updates. And he also mentions
-> your board as well, so I think it just can sail in the wake of the OPi 3
-> Ethernet enablement.
-> 
-> Can you try if this change, just applied to your .dts instead, works?
-> https://github.com/montjoie/linux/commit/cf6e192eca1d59be630e6729d2cef9e897b3da8c
+Hi Anup,
 
-Hello, 
-
-I've tried applying this change but it didn't seem to work :( 
-
-I got these errors:
-
-[    5.117220] dwmac-sun8i 5020000.ethernet: IRQ eth_wake_irq not found
-[    5.124366] dwmac-sun8i 5020000.ethernet: IRQ eth_lpi not found
-[    5.130645] dwmac-sun8i 5020000.ethernet: No regulator found
-[    5.137133] dwmac-sun8i 5020000.ethernet: PTP uses main clock
-[    5.143925] dwmac-sun8i 5020000.ethernet: Current syscon value is not the default 58000 (expect 50000)
-[    5.157588] dwmac-sun8i 5020000.ethernet: No HW DMA feature register supported
-[    5.164905] dwmac-sun8i 5020000.ethernet: RX Checksum Offload Engine supported
-[    5.172189] dwmac-sun8i 5020000.ethernet: COE Type 2
-[    5.177213] dwmac-sun8i 5020000.ethernet: TX Checksum insertion supported
-[    5.184033] dwmac-sun8i 5020000.ethernet: Normal descriptors
-[    5.189724] dwmac-sun8i 5020000.ethernet: Chain mode enabled
-[    5.381149] dwmac-sun8i 5020000.ethernet: EMAC reset timeout
-[    5.386863] dwmac-sun8i 5020000.ethernet eth0: stmmac_dvr_remove: removing driver
-[    5.438851] dwmac-sun8i: probe of 5020000.ethernet failed with error -110
-
-I think I understand what is going on in Corentin's patch though. Please
-correct me if I'm wrong:
-
-1. Instead of using the gmac-3v3, they use gmac-2v5 enabled by PD6.
-2. For "phy-io", the 2v5 regulator is used
-3. For "ephy", the 3v3 regulator is used (aldo2 already sends this 3v3
-signal)
-
-My changes are here:
-https://github.com/retpolanne/linux/commit/45aa2abde2606f9164f9a97d092fab6a36d45165
-
-Maybe I should try to use the existing 3v3 regulator alongside a new 2v5
-regulator on the DT. 
+On Wed, Dec 13, 2023 at 08:49:23PM +0530, Anup Patel wrote:
+> On Wed, Dec 13, 2023 at 7:58 PM Anup Patel <apatel@ventanamicro.com> wrote:
+> >
+> > On Wed, Dec 13, 2023 at 12:34 PM Yu Chien Peter Lin
+> > <peterlin@andestech.com> wrote:
+> > >
+> > > Currently, the implementation of the RISC-V INTC driver uses the
+> > > interrupt cause as hardware interrupt number and has a limitation of
+> > > supporting a maximum of 64 interrupts. However, according to the
+> > > privileged spec, interrupt causes >= 16 are defined for platform use.
+> >
+> > I disagree with this patch.
+> >
+> > Even though RISC-V priv sepc allows interrupt causes >= 16, we
+> > still need CSRs to manage arbitrary local interrupts
+> >
+> > Currently, we have following standard CSRs:
+> > 1) [m|s]ie and [m|s]ip which are XLEN wide
+> > 2) With AIA, we have [m|s]ieh and [m|s]iph for RV32
+> >
+> > Clearly, we can only have a XLEN number of standard local
+> > interrupts without AIA and 64 local interrupts with AIA.
+> >
+> > Now for implementations with custom CSRs (such as Andes),
+> > we still can't assume infinite local interrupts because HW will
+> > have a finite number of custom CSRs.
+> >
+> > >
+> > > This limitation prevents to fully utilize the available local interrupt
+> > > sources. Additionally, the interrupt number used on RISC-V are sparse,
+> > > with only interrupt numbers 1, 5 and 9 (plus Sscofpmf or T-Head's PMU
+> > > interrupt) being currently used for supervisor mode.
+> > >
+> > > Switch to using irq_domain_create_tree() to create the radix tree
+> > > map, so a larger number of hardware interrupts can be handled.
+> > >
+> > > Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
+> > > Reviewed-by: Charles Ci-Jyun Wu <dminus@andestech.com>
+> > > Reviewed-by: Leo Yu-Chi Liang <ycliang@andestech.com>
+> > > ---
+> > > Changes v1 -> v2:
+> > >   - Fixed irq mapping failure checking (suggested by Clément and Anup)
+> > > Changes v2 -> v3:
+> > >   - No change
+> > > Changes v3 -> v4: (Suggested by Thomas [1])
+> > >   - Use pr_warn_ratelimited instead
+> > >   - Fix coding style and commit message
+> > > Changes v4 -> v5: (Suggested by Thomas)
+> > >   - Fix commit message
+> > >
+> > > [1] https://patchwork.kernel.org/project/linux-riscv/patch/20231023004100.2663486-3-peterlin@andestech.com/#25573085
+> > > ---
+> > >  drivers/irqchip/irq-riscv-intc.c | 12 ++++--------
+> > >  1 file changed, 4 insertions(+), 8 deletions(-)
+> > >
+> > > diff --git a/drivers/irqchip/irq-riscv-intc.c b/drivers/irqchip/irq-riscv-intc.c
+> > > index e8d01b14ccdd..2fdd40f2a791 100644
+> > > --- a/drivers/irqchip/irq-riscv-intc.c
+> > > +++ b/drivers/irqchip/irq-riscv-intc.c
+> > > @@ -24,10 +24,9 @@ static asmlinkage void riscv_intc_irq(struct pt_regs *regs)
+> > >  {
+> > >         unsigned long cause = regs->cause & ~CAUSE_IRQ_FLAG;
+> > >
+> > > -       if (unlikely(cause >= BITS_PER_LONG))
+> > > -               panic("unexpected interrupt cause");
+> > > -
+> > > -       generic_handle_domain_irq(intc_domain, cause);
+> > > +       if (generic_handle_domain_irq(intc_domain, cause))
+> > > +               pr_warn_ratelimited("Failed to handle interrupt (cause: %ld)\n",
+> > > +                                   cause);
+> > >  }
+> > >
+> > >  /*
+> > > @@ -117,8 +116,7 @@ static int __init riscv_intc_init_common(struct fwnode_handle *fn)
+> > >  {
+> > >         int rc;
+> > >
+> > > -       intc_domain = irq_domain_create_linear(fn, BITS_PER_LONG,
+> > > -                                              &riscv_intc_domain_ops, NULL);
+> > > +       intc_domain = irq_domain_create_tree(fn, &riscv_intc_domain_ops, NULL);
+> >
+> > I disagree with this change based on the reasoning above.
+> >
+> > Instead of this, we should determine the number of local interrupts
+> > based on the type of RISC-V intc:
+> > 1) For standard INTC without AIA, we have XLEN (or BITS_PER_LONG)
+> >     local interrupts
+> > 2) For standart INTC with AIA, we have 64 local interrupts
+> > 3) For custom INTC (such as Andes), the number of local interrupt
+> >     should be custom (Andes specific) which can be determined based
+> >     on compatible string.
+> >
+> > Also, creating a linear domain with a fixed number of local interrupts
+> > ensures that drivers can't map a local interrupt beyond the availability
+> > of CSRs to manage it.
 > 
-> Cheers,
-> Andre
+> Thinking about this more. We do have a problem because Andes local
+> interrupts are really sparse which is not the case for standard local
+> interrupts
 > 
-> P.S. Is there any chance where I can reply/comment on your blog? It seems
-> like I can clear some things up...
+> I have an alternate suggestion which goes as follows ...
 > 
-> > [3] https://blog.retpolanne.com/hardware/embedded/2023/07/07/embedded-phy.html
-> > [4] https://linux-sunxi.org/images/7/7c/OrangePi_OnePlus_Schematics_v2.0.pdf
-> > [5] https://lore.kernel.org/netdev/20220509074857.195302-1-clabbe@baylibre.com/
-> > 
-> > Regards, Anne
+> We use irq_domain_create_tree() in-place of irq_domain_create_linear()
+> and enforce checks on hwirq in riscv_intc_domain_alloc() to ensure that
+> we only allow hwirq for which we have corresponding standard or custom
+> CSR.
 > 
+> To achieve this, riscv_intc_init_common() will have to save the following
+> as static global variables:
+> 1) riscv_intc_nr_irqs: Number of standard local interrupts
+> 2) riscv_intc_custom_base and riscv_intc_custom_nr_irqs: Base and
+>     number of custom local interrupts.
+> 
+> Using the above static global variables, the riscv_intc_domain_alloc()
+> can return error if one of the following conditions are met:
+> 1) riscv_intc_nr_irqs<= hwirq && hwirq < riscv_intc_custom_base
+> 2) (riscv_intc_custom_base + riscv_intc_custom_nr_irqs) <= hwirq
+> 
+> For standard INTC, we can set the static global variable as follows:
+> riscv_intc_nr_irqs = XLEN or BITS_PER_LONG
+> riscv_intc_custom_base = riscv_intc_nr_irqs
+> riscv_intc_custom_nr_irqs = 0
+> 
+> For Andes INTC, we can set the static global variables as follows:
+> riscv_intc_nr_irqs = XLEN or BITS_PER_LONG
+> riscv_intc_custom_base = 256
+> riscv_intc_custom_nr_irqs = XLEN or BITS_PER_LONG
+> 
+> Regards,
+> Anup
 
-Regards, Anne
+Thank you for offering your help on this.
+I will rework the patch accordingly.
+
+Best regards,
+Peter Lin
+
+> >
+> > >         if (!intc_domain) {
+> > >                 pr_err("unable to add IRQ domain\n");
+> > >                 return -ENXIO;
+> > > @@ -132,8 +130,6 @@ static int __init riscv_intc_init_common(struct fwnode_handle *fn)
+> > >
+> > >         riscv_set_intc_hwnode_fn(riscv_intc_hwnode);
+> > >
+> > > -       pr_info("%d local interrupts mapped\n", BITS_PER_LONG);
+> > > -
+> >
+> > Same as above, we should definitely advertise the type of INTC and
+> > number of local interrupts mapped.
+> >
+> > Regards,
+> > Anup
+> >
+> > >         return 0;
+> > >  }
+> > >
+> > > --
+> > > 2.34.1
+> > >
+> > >
+> > > _______________________________________________
+> > > linux-riscv mailing list
+> > > linux-riscv@lists.infradead.org
+> > > http://lists.infradead.org/mailman/listinfo/linux-riscv
