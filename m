@@ -1,270 +1,191 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48CB338F87
-	for <linux-sunxi@lists.linux.dev>; Tue, 19 Dec 2023 18:54:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A4881773D
+	for <linux-sunxi@lists.linux.dev>; Wed, 20 Dec 2023 07:08:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oltmanns.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AK5hgjP7"
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-50e2d00f99cso4091439e87.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 19 Dec 2023 10:54:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703012065; x=1703616865; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qY39xe1coSten7e+K+61fIhTf4xSg3OfZZqEzTu6850=;
-        b=AK5hgjP7DdCfiA64hWx/Yd4AZGpq59oMiD5NVl/A1slGGCIKJ4f7UNUejB3eIXdEx/
-         ZlAGyjN0oBejVkXGEref0Pc83YiPfCH1/jLMJugtGmSBEc5Rg2nyFr/hdWxEle/B20gn
-         Qmgtu5+Gae2FKkq6LcozkVfnfWrg1mPf7o+TC8O97PuTwhGWTaSDpocHimC2kD7+xUbB
-         dRZW/iOhUcZBZElfE2/d05HuMwuKzP1Rtzxzpa92RboXcewvXjwoiouQGi/XjwEKuVc/
-         rHNsmXzcbfAAKbYyv9MbJ4kzybZWGvdPf+0Iz3OBAi22mPzx4XCfQ7+CSCFdjGFr4GSZ
-         fCxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703012065; x=1703616865;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qY39xe1coSten7e+K+61fIhTf4xSg3OfZZqEzTu6850=;
-        b=nQUsjZKidS9Z1zjION7MXW6sMCRdT0xfSa326yHabZyQ3mTB9cPomAtucDnvsNxx6x
-         B6w0Ml7O/auMpdKrFAUdmSEoZAc/1yRBlDmPJyZugfMqLeoOBeUdxFH7MOHz+1nVpSWv
-         VP3CMf/OxMXRU9ZBW2aC1C474g0gn8Hv8008IlZ4tFu+OZlcbu+8Wswl0yvlwiixP33X
-         cBGyxJLmlw6jRl9QLbzcUcqGF14LZIPNjOxQnzKxybYzJDx1OYDKJjBdqbjZWDdjSp7N
-         Qgbu5qxT3EGEHu+HBcXFcgNZKC56kxJdrfe+4LuD6TWHFL1rrIvEUAmPxBjAwCJrzmZA
-         A9QA==
-X-Gm-Message-State: AOJu0YyjwbjT0nox7uS6vfMCyHEHiEDgbJU2opSP68SftWBg9I5HlaMg
-	cJ5cHqlzBSD8sbnelnj80O8ZxhZB9ojoqw==
-X-Google-Smtp-Source: AGHT+IGp/VPgz1BPWwWaHlgT3y2Aw3CyHtRjl3shfexRb34OedKobIXnaSyLyBzy2zeL9GuE5+n5pQ==
-X-Received: by 2002:a05:6512:3c9a:b0:50e:44a4:d439 with SMTP id h26-20020a0565123c9a00b0050e44a4d439mr1352573lfv.56.1703012064962;
-        Tue, 19 Dec 2023 10:54:24 -0800 (PST)
-Received: from jernej-laptop.localnet (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
-        by smtp.gmail.com with ESMTPSA id vx12-20020a170907a78c00b00a1ddb5a2f7esm15838730ejc.60.2023.12.19.10.54.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Dec 2023 10:54:24 -0800 (PST)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Andre Przywara <andre.przywara@arm.com>,
- Anne Macedo <retpolanne@posteo.net>
-Cc: Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- "moderated list:ARM/Allwinner sunXi SoC support"
- <linux-arm-kernel@lists.infradead.org>,
- "open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
- open list <linux-kernel@vger.kernel.org>,
- Corentin Labbe <clabbe@baylibre.com>
-Subject: Re: [PATCH] arm64: dts: allwinner: Orange Pi One Plus PHY support
-Date: Tue, 19 Dec 2023 19:54:23 +0100
-Message-ID: <3456637.QJadu78ljV@jernej-laptop>
-In-Reply-To: <ljqe2z34upvzaxh744labf6ephmvcj535img2ct4d2vijjmboh@abg7anbngfyv>
-References:
- <20231212122835.10850-2-retpolanne@posteo.net>
- <20231213122523.219cbfc0@donnerap.manchester.arm.com>
- <ljqe2z34upvzaxh744labf6ephmvcj535img2ct4d2vijjmboh@abg7anbngfyv>
+	dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b="MDcUmSB4"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4Sw4R8464Sz9spg;
+	Wed, 20 Dec 2023 08:08:36 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+	s=MBO0001; t=1703056116;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LpZoNtkkDCmi/GIcUCtUwUBihXR4v8Tro3usQTKcxlk=;
+	b=MDcUmSB4S9LKW4ZTc+NtSRMKxUEdcUnY0wn6l44qvlbFTTroJ8WZz5Qv8ECcVX6DcWjZEB
+	jQ3/re3xsmLKWlT56zs7kSvnpxqaGqUyTpFPXRYcHlxzWtOpgwLi842VLkgNnvurZyx3u/
+	pU8yvY2kHZV45dGMVHz4hRINvsyVJ0sWMFDjlDz9We995sS9ko94Wzrbqf0Zguf4yeuezP
+	Dp+RlKPjalQPUv2yalY2J3y9A07U/nS5YMDRzud4jdtIzGnBAI065q5SH+W7caLMt6wG06
+	yZODhREY6WZtsf7PhjmuFdeVjEA7uEAzTtE1kr3gkp/S35umgtp6o59UeK4Dkg==
+References: <20231218-pinephone-pll-fixes-v1-0-e238b6ed6dc1@oltmanns.dev>
+ <20231218-pinephone-pll-fixes-v1-1-e238b6ed6dc1@oltmanns.dev>
+ <5736273.DvuYhMxLoT@jernej-laptop>
+From: Frank Oltmanns <frank@oltmanns.dev>
+To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland
+ <samuel@sholland.org>, Guido =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>,
+ Purism Kernel Team
+ <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, linux-clk@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 1/5] clk: sunxi-ng: nkm: Support constraints on m/n
+ ratio and parent rate
+Date: Wed, 20 Dec 2023 07:58:07 +0100
+In-reply-to: <5736273.DvuYhMxLoT@jernej-laptop>
+Message-ID: <87msu59wrc.fsf@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Dne torek, 19. december 2023 ob 01:31:05 CET je Anne Macedo napisal(a):
-> On Wed, Dec 13, 2023 at 12:25:23PM +0000, Andre Przywara wrote:
-> > On Wed, 13 Dec 2023 11:02:39 +0000
-> > Anne Macedo <retpolanne@posteo.net> wrote:
-> > 
-> > Hi Anne,
-> > 
-> > > On Wed, Dec 13, 2023 at 01:35:44AM +0000, Andre Przywara wrote:
-> > > > On Tue, 12 Dec 2023 19:27:14 +0000
-> > > > Anne Macedo <retpolanne@posteo.net> wrote:
-> > > > 
-> > > > Hi Anne,
-> > > >   
-> > > > > On Tue, Dec 12, 2023 at 04:22:00PM +0000, Andre Przywara wrote:  
-> > > > > > On Tue, 12 Dec 2023 12:28:30 +0000
-> > > > > > Anne Macedo <retpolanne@posteo.net> wrote:
-> > > > > > 
-> > > > > > Hi Anne,
-> > > > > >     
-> > > > > > > Adds compatible values to mdio subnodes for Ethernet PHY representing
-> > > > > > > Realtek 8211 PHY to Orange Pi One Plus.    
-> > > > > > 
-> > > > > > So can you state why this would be needed? This is the RTL8211 ID,    
-> > > > > 
-> > > > > Apologies, I completely forgot to include some context. 
-> > > > >   
-> > > > > > right? Which should be autodetected via MDIO. Looking back in my inbox
-> > > > > > you proposed this change before, for U-Boot, specifically, but I fail to
-> > > > > > find a solution or explanation what really happens here. Two Renesas .dts
-> > > > > > files have the same compatible, and the commit message talks about the
-> > > > > > reset line there, is this related?
-> > > > > > 
-> > > > > > So can you please give some more background and explanation? That would be
-> > > > > > part of a good commit message anyway ("why", not "what").    
-> > > > > 
-> > > > > Should I resend the commit with a more meaningful explanation? The
-> > > > > context is the following:
-> > > > > 
-> > > > > currently, ethernet doesn't seem to work on both u-boot and Linux on the
-> > > > > Orange Pi One Plus board. 
-> > > > > 
-> > > > > On the kernel, this error shows up:
-> > > > > 
-> > > > > Configuring network interfaces... [    5.992589] dwmac-sun8i 5020000.ethernet eth0: Register MEM_TYPE_PAGE_POOL RxQ-0
-> > > > > [    6.000823] dwmac-sun8i 5020000.ethernet eth0: __stmmac_open: Cannot attach to PHY (error: -19)
-> > > > > 
-> > > > > After applying this fix, the PHY gets attached: 
-> > > > > 
-> > > > > Configuring network interfaces... [    6.060020] dwmac-sun8i 5020000.ethernet eth0: Register MEM_TYPE_PAGE_POOL RxQ-0
-> > > > > [    6.069460] dwmac-sun8i 5020000.ethernet eth0: PHY [stmmac-0:01] driver [RTL8211E Gigabit Ethernet] (irq=POLL)
-> > > > > 
-> > > > > The previous compatible list that had ethernet-phy-ieee802.3-c22 fails
-> > > > > to find a PHY, so this patch includes the correct PHY ID with the
-> > > > > RTL8211 ID. 
-> > > > > 
-> > > > > The behaviour is described on [1].  
-> > > > 
-> > > > So this is all an observation, but no real explanation, isn't it?  
-> > > 
-> > > I've made some analysis on [3] on this bug, but it was based solely on
-> > > u-boot. I was having trouble with the regulator and on u-boot nothing
-> > > would trigger the GPIO PD6 and the vcc-gmac-3v3 regulator, so the NIC
-> > > was completely dead. Next I did an analysis based on [2] because the
-> > > u-boot PHY initialization was flaky.
-> > > 
-> > > > To cite [1]: "If the PHY reports an incorrect ID (or none at all) ...".
-> > > > I am pretty sure this is not the case here, instead we are looking at
-> > > > some missing platform bits, like a missing clock, reset, or most likely
-> > > > regulator. Or one of the existing resources is wrongly assigned or  
-> > > 
-> > > As I mentioned, PHY initialization is flaky on u-boot, so maybe that
-> > > assumption is correct. 
-> > > 
-> > > > configured? If the PHY is not (yet?) powered correctly when the code
-> > > > does the auto-detection via the MDIO bus, then the initialisation would  
-> > > 
-> > > If I recall correctly (I don't know if I kept it in my notes :c), that
-> > > could be the case. regulator-boot-on makes the NIC work (LEDs blink, at
-> > > least) but it doesn't get initialized. 
-> > > 
-> > > > fail. But since it works when overriding the auto-detection, I feel
-> > > > like we are papering over something here.
-> > > > Do you have the schematics for this board? I can only find the one for
-> > > > the Orange Pi Plus 2E, and I don't know how similar those two are. This
-> > > > shows *two* regulators, but both are activated by the same GPIO.  
-> > > 
-> > > I do. It's available on [4]
-> > 
-> > Oh damn it, I got lost in Orange Pi's naming maze again - and was looking
-> > for the wrong board! So thanks for the link, and this clears things up!
-> > 
-> > So yes, the Orange Pi *One* Plus, much like the Orange Pi 3, uses *two*
-> > regulators for Ethernet: one 3.3V from the PMIC's ALDO2 rail to power the
-> > PHY, and a discrete 2.5V regulator, enabled by GPIO PD6, for the voltage
-> > level on the MDIO lines. On top of this there is a reset line for the PHY,
-> > though this is held up by a pull-up resistor, so it *should* work,
-> > although we should describe this in the DT.
-> > 
-> > So the DT looks wrong then: The reg_gmac_3v3 is actually a 2.5V regulator,
-> > and phy-supply is aldo2. I think it was done the way it is to somehow make
-> > it work with the current DT binding and code, which just supports one
-> > regulator. And aldo2 is referenced as the source of reg_gmac_3v3, which
-> > smells like another hack to me.
-> > 
-> > > > It would also be interesting to see if any of Corentin's work for the
-> > > > Orange Pi 3 helps here?  
-> > > 
-> > > Adding [5] for reference here, thanks! Will check it out. 
-> > 
-> > This is an older version, there are actually updates. And he also mentions
-> > your board as well, so I think it just can sail in the wake of the OPi 3
-> > Ethernet enablement.
-> > 
-> > Can you try if this change, just applied to your .dts instead, works?
-> > https://github.com/montjoie/linux/commit/cf6e192eca1d59be630e6729d2cef9e897b3da8c
-> 
-> Hello, 
-> 
-> I've tried applying this change but it didn't seem to work :( 
+Hi Jernej!
 
-Those patches are obsolete, I took over the work and latest patches are here:
-https://github.com/jernejsk/linux-1/commits/opi3-net/ (last 3)
+On 2023-12-19 at 17:46:08 +0100, Jernej =C5=A0krabec <jernej.skrabec@gmail.=
+com> wrote:
+> Hi Frank!
+>
+> Dne ponedeljek, 18. december 2023 ob 14:35:19 CET je Frank Oltmanns napis=
+al(a):
+>> The Allwinner A64 manual lists the following constraints for the
+>> PLL-MIPI clock:
+>>  - M/N >=3D 3
+>
+> This should be "<=3D"
 
-While I have OrangePi 3 and I have tested patches on it, I don't have Orange
-Pi One Plus.
+Yes, good catch! I will fix it in V2.
 
-> 
-> I got these errors:
-> 
-> [    5.117220] dwmac-sun8i 5020000.ethernet: IRQ eth_wake_irq not found
-> [    5.124366] dwmac-sun8i 5020000.ethernet: IRQ eth_lpi not found
-> [    5.130645] dwmac-sun8i 5020000.ethernet: No regulator found
-> [    5.137133] dwmac-sun8i 5020000.ethernet: PTP uses main clock
-> [    5.143925] dwmac-sun8i 5020000.ethernet: Current syscon value is not the default 58000 (expect 50000)
-> [    5.157588] dwmac-sun8i 5020000.ethernet: No HW DMA feature register supported
-> [    5.164905] dwmac-sun8i 5020000.ethernet: RX Checksum Offload Engine supported
-> [    5.172189] dwmac-sun8i 5020000.ethernet: COE Type 2
-> [    5.177213] dwmac-sun8i 5020000.ethernet: TX Checksum insertion supported
-> [    5.184033] dwmac-sun8i 5020000.ethernet: Normal descriptors
-> [    5.189724] dwmac-sun8i 5020000.ethernet: Chain mode enabled
-> [    5.381149] dwmac-sun8i 5020000.ethernet: EMAC reset timeout
-> [    5.386863] dwmac-sun8i 5020000.ethernet eth0: stmmac_dvr_remove: removing driver
-> [    5.438851] dwmac-sun8i: probe of 5020000.ethernet failed with error -110
-> 
-> I think I understand what is going on in Corentin's patch though. Please
-> correct me if I'm wrong:
-> 
-> 1. Instead of using the gmac-3v3, they use gmac-2v5 enabled by PD6.
+>
+>>  - (PLL_VIDEO0)/M >=3D 24MHz
+>>
+>> The PLL-MIPI clock is implemented as ccu_nkm. Therefore, add support for
+>> these constraints.
+>>
+>> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+>> ---
+>>  drivers/clk/sunxi-ng/ccu_nkm.c | 23 +++++++++++++++++++++++
+>>  drivers/clk/sunxi-ng/ccu_nkm.h |  8 ++++++++
+>>  2 files changed, 31 insertions(+)
+>>
+>> diff --git a/drivers/clk/sunxi-ng/ccu_nkm.c b/drivers/clk/sunxi-ng/ccu_n=
+km.c
+>> index eed64547ad42..2af5c1ebd527 100644
+>> --- a/drivers/clk/sunxi-ng/ccu_nkm.c
+>> +++ b/drivers/clk/sunxi-ng/ccu_nkm.c
+>> @@ -16,6 +16,20 @@ struct _ccu_nkm {
+>>  	unsigned long	m, min_m, max_m;
+>>  };
+>>
+>> +static bool ccu_nkm_is_valid_rate(struct ccu_common *common, unsigned l=
+ong parent,
+>> +				  unsigned long n, unsigned long m)
+>> +{
+>> +	struct ccu_nkm *nkm =3D container_of(common, struct ccu_nkm, common);
+>> +
+>> +	if (nkm->max_mn_ratio && (m > nkm->max_mn_ratio * n))
+>> +		return false;
+>> +
+>> +	if (nkm->parent_wo_nk && (parent < nkm->parent_wo_nk * m))
+>> +		return false;
+>> +
+>> +	return true;
+>> +}
+>> +
+>>  static unsigned long ccu_nkm_find_best_with_parent_adj(struct ccu_commo=
+n *common,
+>>  						       struct clk_hw *parent_hw,
+>>  						       unsigned long *parent, unsigned long rate,
+>> @@ -32,6 +46,9 @@ static unsigned long ccu_nkm_find_best_with_parent_adj=
+(struct ccu_common *common
+>>
+>>  				tmp_parent =3D clk_hw_round_rate(parent_hw, rate * _m / (_n * _k));
+>>
+>> +				if (!ccu_nkm_is_valid_rate(common, tmp_parent, _n, _m))
+>> +					continue;
+>> +
+>>  				tmp_rate =3D tmp_parent * _n * _k / _m;
+>>
+>>  				if (ccu_is_better_rate(common, rate, tmp_rate, best_rate) ||
+>> @@ -65,6 +82,12 @@ static unsigned long ccu_nkm_find_best(unsigned long =
+parent, unsigned long rate,
+>>  	for (_k =3D nkm->min_k; _k <=3D nkm->max_k; _k++) {
+>>  		for (_n =3D nkm->min_n; _n <=3D nkm->max_n; _n++) {
+>>  			for (_m =3D nkm->min_m; _m <=3D nkm->max_m; _m++) {
+>> +				if ((common->reg =3D=3D 0x040) && (_m > 3 * _n))
+>> +					break;
+>> +
+>> +				if ((common->reg =3D=3D 0x040) && (parent < 24000000 * _m))
+>> +					continue;
+>> +
+>
+> You already figured this part.
+>
+>>  				unsigned long tmp_rate;
+>>
+>>  				tmp_rate =3D parent * _n * _k / _m;
+>> diff --git a/drivers/clk/sunxi-ng/ccu_nkm.h b/drivers/clk/sunxi-ng/ccu_n=
+km.h
+>> index 6601defb3f38..d3d3eaf55faf 100644
+>> --- a/drivers/clk/sunxi-ng/ccu_nkm.h
+>> +++ b/drivers/clk/sunxi-ng/ccu_nkm.h
+>> @@ -16,6 +16,12 @@
+>>   * struct ccu_nkm - Definition of an N-K-M clock
+>>   *
+>>   * Clocks based on the formula parent * N * K / M
+>> + *
+>> + * @max_mn_ratio:	Maximum value for M / N.
+>> + * @parent_wo_nk:	The minimum rate the parent must provide after applyi=
+ng the divisor,
+>> + *			but without applying the multipliers, i.e. the contstraint
+>> + *			   (parent rate)/M >=3D parent_wo_nk
+>> + *			must be fulfilled.
+>>   */
+>>  struct ccu_nkm {
+>>  	u32			enable;
+>> @@ -27,6 +33,8 @@ struct ccu_nkm {
+>>  	struct ccu_mux_internal	mux;
+>>
+>>  	unsigned int		fixed_post_div;
+>> +	unsigned long		max_mn_ratio;
+>> +	unsigned long           parent_wo_nk;
+>
+> What about max_m_n_ratio and max_parent_m_ratio, to be consistent? This
+> should also allow to simplify description.
 
-Yes, 3v3 is completely wrong. Schematic only shows 2v5 regulator controlled
-with PD6.
+Jernej, thank you so much! This is brilliant! I was racking my brain for
+a good name but failed. Now, that I see your proposal, I don't know why
+I hadn't come up with it. It's the obvious choice.
 
-> 2. For "phy-io", the 2v5 regulator is used
-> 3. For "ephy", the 3v3 regulator is used (aldo2 already sends this 3v3
-> signal)
-
-Correct.
-
-> 
-> My changes are here:
-> https://github.com/retpolanne/linux/commit/45aa2abde2606f9164f9a97d092fab6a36d45165
-> 
-> Maybe I should try to use the existing 3v3 regulator alongside a new 2v5
-> regulator on the DT. 
-
-No.
-
-Please make sure that you have
-https://github.com/jernejsk/linux-1/commit/25b44143ea8162209beb02759ca3ea3bd3be7a74
-
-Without it, ethernet PHY won't be powered on and you will get errors in dmesg.
+I'd say with the new names we should be able to get rid of the comments
+describing the new struct members (also in ccu_nm.h). What are your
+thoughts on that?
 
 Best regards,
-Jernej
+  Frank
 
-> > 
-> > Cheers,
-> > Andre
-> > 
-> > P.S. Is there any chance where I can reply/comment on your blog? It seems
-> > like I can clear some things up...
-> > 
-> > > [3] https://blog.retpolanne.com/hardware/embedded/2023/07/07/embedded-phy.html
-> > > [4] https://linux-sunxi.org/images/7/7c/OrangePi_OnePlus_Schematics_v2.0.pdf
-> > > [5] https://lore.kernel.org/netdev/20220509074857.195302-1-clabbe@baylibre.com/
-> > > 
-> > > Regards, Anne
-> > 
-> 
-> Regards, Anne
-> 
-
-
-
-
+>
+> Best regards,
+> Jernej
+>
+>>
+>>  	struct ccu_common	common;
+>>  };
+>>
+>>
