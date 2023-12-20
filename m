@@ -1,47 +1,47 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3D56487B3
-	for <linux-sunxi@lists.linux.dev>; Wed, 20 Dec 2023 20:36:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7C2C48CFD
+	for <linux-sunxi@lists.linux.dev>; Wed, 20 Dec 2023 20:36:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C4w7XAd8"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-40c256ffdbcso1272555e9.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 20 Dec 2023 12:36:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UIs2FBb4"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-40d2376db79so835145e9.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 20 Dec 2023 12:36:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703104573; x=1703709373; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1703104574; x=1703709374; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fAeNatgENX3HfSxaqLZ4jbMgumQ+tBQiP8BhXetmc10=;
-        b=C4w7XAd8e0sNSX1144St/JOPnpyE677KEhcD1G52jVI54m8TNMu+UG5Qs5ZuzB10YE
-         VluaFxLabC0ktJfWw7iF3STpBxCxWaP+gfy2+ZMNbzO1pQjPFaSHD+kgC0zDfpPcwZTR
-         IWLbTHej7DvgVtm5hUgNKGFtIdvBownFKRyYjrCcfAqh+OVUz2VJcseaLoRIPnAKInQI
-         wX8+/1/mE3qO1MoECkRjPEIdm+ipBRbiOZFlirF8nC/EsVLFjri6f4Rz7MT+FPA1yseF
-         +2TRZfaTLJbhQYKN3NJm/VODYxe0ZugrjJSCA+bmWckzzrmEawY7ODtpcJeLTaOB6wvp
-         P/iA==
+        bh=yT4onLSCJnRO5OsDAsoEnYosn/gTLA+uZJCYGELgzHg=;
+        b=UIs2FBb4Icaynnd0/c/P+KC8QVKWfLqJHGL3DFUb2/b7lyihDrALpQqSCD1rvAQ9T4
+         mW+RlL1b7xrO2KgCkuIFO7jD1bKTzzSdGiA7ng4Q1Cfg3EUsFLTzOCTf+EAR45Z+KuBK
+         8u1Wj/5utnUEstbXyhPynwiA4P4IHBjqh0REWuo36iHq9eqxoQVQpJd6N8wyguam4LI+
+         2Luvzmv9LtTSt7qFS7jB0BvL3nuV5JUSMv+6XhiNFrfxnB15KC9GQ6Cd11RHzRJkkVPt
+         eTL6QtQ0Llwh1vkOYaMcNOoapMCZyrpeFeVkw7dFcjm4PZ1xtKjNTvLUkZD3EegsVoqq
+         JH/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703104573; x=1703709373;
+        d=1e100.net; s=20230601; t=1703104574; x=1703709374;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fAeNatgENX3HfSxaqLZ4jbMgumQ+tBQiP8BhXetmc10=;
-        b=eP68+yI0jFDMzn/P+cwzBCVpG9Uy4EVz0LekL1oWyb0VNcWhlQ7wTZEz5faWvVjFXU
-         n273YduiHxvJgsVbAawROsaW1IGFIcR1oZ/hixhWfM78SeGLxKNDsxM/tkDAY3k70PSe
-         pyIaSNrqe4TR76obD3lkp4ts+QGzGolG5Gtt/Xsfwr+di32bMZJ+E4qbvoH2GZl2jMAO
-         X+G2kcXuRENbc0bNJolImLBS9yCPfj+j5Wa1I8NTMKbeYRYTz2YhEJ70E7vUGwerHQlI
-         qpLvTb6oARpgCD1grP6CJ+3o3AJMV73H87kLclcD7DFzDx8s+jqGmF6eXZHF2LJO91hB
-         6TrQ==
-X-Gm-Message-State: AOJu0YxO+y4MUCAT+58iezQkwoYuFo6GuSpSFQgxJxD4aac4pAU1evYa
-	DGIv6/wmT0YRFknVGnDcQJM=
-X-Google-Smtp-Source: AGHT+IG8O/e8IeFMn3xNIU6oCdHt0cDdgg6cfuGKM3ycqPI/asSdTF9PcYT8bYSKYB/qauPHaDDUKQ==
-X-Received: by 2002:a05:600c:ad4:b0:40c:711:f492 with SMTP id c20-20020a05600c0ad400b0040c0711f492mr146701wmr.181.1703104572845;
-        Wed, 20 Dec 2023 12:36:12 -0800 (PST)
+        bh=yT4onLSCJnRO5OsDAsoEnYosn/gTLA+uZJCYGELgzHg=;
+        b=E5yUuJfGVsJIQgMvRz9fII6jOL/ax46Z923Viq3i3QU3CkaNIodLOsYUY4Sp/X9x5k
+         HixRZkEPOc8xYPuxQBGAq7qGuFfpyvTjMeKn0bDbe4LxAOruk/4WQ/8nTkm0R0nV74ir
+         Rajbw45FO+ryNzvXA/H5YEB4Tob7jN1VtkT0+oubXO9tTWCtzDyOdNDaEPiQEvgiZDl+
+         oit14n8BBYGKy8t7I2e4F0pwZv+HXaGcjgcEiwzDoPldkTyP+Z6SI94CjD0ajL8oSek7
+         tiInImGyA/vP+D5JkVYmC7+4kSfZHOmVGJ2XKmYNwPI7TeNBXFpDR62x92YVFkFkXav5
+         7Uzg==
+X-Gm-Message-State: AOJu0Yw3q/ZgfOs/bAqki0XoG7lW/TlQNw4+Al+/RXkuwsboer4iB/vw
+	zgTYfqxz98SBrp4rlTuuTpk=
+X-Google-Smtp-Source: AGHT+IEtwDmn2IbaAJwe9giXx+3hvOdMNOXDyWm03ZJR089ngNLl2e5wGYDa27uVUhlHEo6c4G1Paw==
+X-Received: by 2002:a05:600c:524f:b0:40c:2822:958f with SMTP id fc15-20020a05600c524f00b0040c2822958fmr127184wmb.73.1703104574143;
+        Wed, 20 Dec 2023 12:36:14 -0800 (PST)
 Received: from localhost.localdomain (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
-        by smtp.gmail.com with ESMTPSA id v14-20020a05600c444e00b0040c58e410a3sm8703224wmn.14.2023.12.20.12.36.11
+        by smtp.gmail.com with ESMTPSA id v14-20020a05600c444e00b0040c58e410a3sm8703224wmn.14.2023.12.20.12.36.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Dec 2023 12:36:12 -0800 (PST)
+        Wed, 20 Dec 2023 12:36:13 -0800 (PST)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 To: robh+dt@kernel.org,
 	krzysztof.kozlowski+dt@linaro.org,
@@ -60,12 +60,10 @@ Cc: devicetree@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	netdev@vger.kernel.org,
-	Ondrej Jirman <megi@xff.cz>,
-	Corentin Labbe <clabbe.montjoie@gmail.com>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v5 2/3] arm64: dts: allwinner: orange-pi-3: Enable ethernet
-Date: Wed, 20 Dec 2023 21:35:36 +0100
-Message-ID: <20231220203537.83479-3-jernej.skrabec@gmail.com>
+Subject: [PATCH v5 3/3] arm64: dts: allwinner: orange-pi-one-plus: Fix ethernet
+Date: Wed, 20 Dec 2023 21:35:37 +0100
+Message-ID: <20231220203537.83479-4-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231220203537.83479-1-jernej.skrabec@gmail.com>
 References: <20231220203537.83479-1-jernej.skrabec@gmail.com>
@@ -77,9 +75,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Ondrej Jirman <megi@xff.cz>
-
-Orange Pi 3 has two regulators that power the Realtek RTL8211E
+Orange Pi One Plus has two regulators that power the Realtek RTL8211E
 PHY. According to the datasheet, both regulators need to be enabled
 at the same time, or that "phy-io" should be enabled slightly earlier
 than "ephy" regulator.
@@ -90,59 +86,54 @@ RTL8211E/RTL8211EG datasheet says:
   or slightly earlier than 3.3V power. Rising 2.5V (or 1.8/1.5V) power
   later than 3.3V power may lead to errors.
 
-Signed-off-by: Ondrej Jirman <megi@xff.cz>
-Signed-off-by: Corentin Labbe <clabbe.montjoie@gmail.com>
+Original submission ignored these rules, so it works in some cases but
+not all. On top of that, regulator voltages don't reflect actual ones
+in hardware. Rework ethernet and PHY nodes to properly reflect HW.
+
+Fixes: 7ee32a17e0d6 ("arm64: dts: allwinner: h6: orangepi-one-plus: Enable ethernet")
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- .../dts/allwinner/sun50i-h6-orangepi-3.dts    | 40 +++++++++++++++++++
- 1 file changed, 40 insertions(+)
+ .../allwinner/sun50i-h6-orangepi-one-plus.dts | 29 ++++++++++++++-----
+ 1 file changed, 22 insertions(+), 7 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dts b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dts
-index 6fc65e8db220..6ed8613a3169 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dts
-@@ -13,6 +13,7 @@ / {
- 	compatible = "xunlong,orangepi-3", "allwinner,sun50i-h6";
- 
- 	aliases {
-+		ethernet0 = &emac;
- 		serial0 = &uart0;
- 		serial1 = &uart1;
- 	};
-@@ -55,6 +56,17 @@ led-1 {
- 		};
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-one-plus.dts b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-one-plus.dts
+index 29a081e72a9b..9c76eecaacce 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-one-plus.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-one-plus.dts
+@@ -12,15 +12,15 @@ aliases {
+ 		ethernet0 = &emac;
  	};
  
+-	reg_gmac_3v3: gmac-3v3 {
 +	reg_gmac_2v5: gmac-2v5 {
-+		compatible = "regulator-fixed";
+ 		compatible = "regulator-fixed";
+-		regulator-name = "vcc-gmac-3v3";
+-		regulator-min-microvolt = <3300000>;
+-		regulator-max-microvolt = <3300000>;
+-		startup-delay-us = <100000>;
 +		regulator-name = "gmac-2v5";
 +		regulator-min-microvolt = <2500000>;
 +		regulator-max-microvolt = <2500000>;
-+		enable-active-high;
-+		gpio = <&pio 3 6 GPIO_ACTIVE_HIGH>; /* PD6 */
+ 		enable-active-high;
+ 		gpio = <&pio 3 6 GPIO_ACTIVE_HIGH>; /* PD6 */
+-		vin-supply = <&reg_aldo2>;
 +		off-on-delay-us = <100000>;
 +		vin-supply = <&reg_vcc5v>;
-+	};
-+
- 	reg_vcc5v: vcc5v {
- 		/* board wide 5V supply directly from the DC jack */
- 		compatible = "regulator-fixed";
-@@ -113,6 +125,33 @@ &ehci3 {
- 	status = "okay";
+ 	};
  };
  
-+&emac {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&ext_rgmii_pins>;
-+	phy-mode = "rgmii-id";
-+	phy-handle = <&ext_rgmii_phy>;
-+	status = "okay";
-+};
-+
-+&mdio {
-+	ext_rgmii_phy: ethernet-phy@1 {
-+		compatible = "ethernet-phy-ieee802.3-c22";
-+		reg = <1>;
+@@ -29,7 +29,6 @@ &emac {
+ 	pinctrl-0 = <&ext_rgmii_pins>;
+ 	phy-mode = "rgmii-id";
+ 	phy-handle = <&ext_rgmii_phy>;
+-	phy-supply = <&reg_gmac_3v3>;
+ 	allwinner,rx-delay-ps = <200>;
+ 	allwinner,tx-delay-ps = <200>;
+ 	status = "okay";
+@@ -39,5 +38,21 @@ &mdio {
+ 	ext_rgmii_phy: ethernet-phy@1 {
+ 		compatible = "ethernet-phy-ieee802.3-c22";
+ 		reg = <1>;
 +		/*
 +		 * The board uses 2.5V RGMII signalling. Power sequence to enable
 +		 * the phy is to enable GMAC-2V5 and GMAC-3V (aldo2) power rails
@@ -155,20 +146,12 @@ index 6fc65e8db220..6ed8613a3169 100644
 +		reset-gpios = <&pio 3 14 GPIO_ACTIVE_LOW>; /* PD14 */
 +		reset-assert-us = <15000>;
 +		reset-deassert-us = <40000>;
-+	};
-+};
+ 	};
+ };
 +
- &gpu {
- 	mali-supply = <&reg_dcdcc>;
- 	status = "okay";
-@@ -211,6 +250,7 @@ reg_aldo2: aldo2 {
- 				regulator-min-microvolt = <3300000>;
- 				regulator-max-microvolt = <3300000>;
- 				regulator-name = "vcc33-audio-tv-ephy-mac";
-+				regulator-enable-ramp-delay = <100000>;
- 			};
- 
- 			/* ALDO3 is shorted to CLDO1 */
++&reg_aldo2 {
++	regulator-enable-ramp-delay = <100000>;
++};
 -- 
 2.43.0
 
