@@ -1,191 +1,192 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from out28-43.mail.aliyun.com (out28-43.mail.aliyun.com [115.124.28.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A4881773D
-	for <linux-sunxi@lists.linux.dev>; Wed, 20 Dec 2023 07:08:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oltmanns.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b="MDcUmSB4"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4Sw4R8464Sz9spg;
-	Wed, 20 Dec 2023 08:08:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1703056116;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LpZoNtkkDCmi/GIcUCtUwUBihXR4v8Tro3usQTKcxlk=;
-	b=MDcUmSB4S9LKW4ZTc+NtSRMKxUEdcUnY0wn6l44qvlbFTTroJ8WZz5Qv8ECcVX6DcWjZEB
-	jQ3/re3xsmLKWlT56zs7kSvnpxqaGqUyTpFPXRYcHlxzWtOpgwLi842VLkgNnvurZyx3u/
-	pU8yvY2kHZV45dGMVHz4hRINvsyVJ0sWMFDjlDz9We995sS9ko94Wzrbqf0Zguf4yeuezP
-	Dp+RlKPjalQPUv2yalY2J3y9A07U/nS5YMDRzud4jdtIzGnBAI065q5SH+W7caLMt6wG06
-	yZODhREY6WZtsf7PhjmuFdeVjEA7uEAzTtE1kr3gkp/S35umgtp6o59UeK4Dkg==
-References: <20231218-pinephone-pll-fixes-v1-0-e238b6ed6dc1@oltmanns.dev>
- <20231218-pinephone-pll-fixes-v1-1-e238b6ed6dc1@oltmanns.dev>
- <5736273.DvuYhMxLoT@jernej-laptop>
-From: Frank Oltmanns <frank@oltmanns.dev>
-To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland
- <samuel@sholland.org>, Guido =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>,
- Purism Kernel Team
- <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>, Neil Armstrong
- <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
- Sam Ravnborg <sam@ravnborg.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/5] clk: sunxi-ng: nkm: Support constraints on m/n
- ratio and parent rate
-Date: Wed, 20 Dec 2023 07:58:07 +0100
-In-reply-to: <5736273.DvuYhMxLoT@jernej-laptop>
-Message-ID: <87msu59wrc.fsf@oltmanns.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2154D13ACD
+	for <linux-sunxi@lists.linux.dev>; Wed, 20 Dec 2023 07:08:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=cyg.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sjterm.com
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.07452829|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_social|0.0367338-0.0107246-0.952542;FP=0|0|0|0|0|-1|-1|-1;HT=ay29a033018047205;MF=fuyao@sjterm.com;NM=1;PH=DS;RN=9;RT=9;SR=0;TI=SMTPD_---.VoiN-3D_1703056120;
+Received: from localhost(mailfrom:fuyao@sjterm.com fp:SMTPD_---.VoiN-3D_1703056120)
+          by smtp.aliyun-inc.com;
+          Wed, 20 Dec 2023 15:08:41 +0800
+Date: Wed, 20 Dec 2023 15:08:40 +0800
+From: fuyao <fuyao1697@cyg.com>
+To: Lee Jones <lee@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Maxime Ripard <mripard@kernel.org>,
+	maijianzhang <maijianzhang@allwinnertech.com>
+Subject: [PATCH RESEND] iio: adc: sun4i-gpadc-iio: adaptation interrupt number
+Message-ID: <YwdhTlk+7h+FMrwm@scg>
+Mail-Followup-To: Lee Jones <lee@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+	maijianzhang <maijianzhang@allwinnertech.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YxmR5SPPY18O7LaG@google.com>
+Received: from out20-218.mail.aliyun.com (out20-218.mail.aliyun.com
+ [115.124.20.218]) (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384
+ (256/256 bits)) (No client certificate requested) by
+ smtp.subspace.kernel.org (Postfix) with ESMTPS id 103EC2F28 for
+ <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 12:18:23 +0000 (UTC)
+X-Alimail-AntiSpam: AC=CONTINUE;BC=0.3045855|-1;BR=01201311R131S89rulernew998_84748_2000303;CH=blue;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.025949-0.00105542-0.972996;FP=0|0|0|0|0|-1|-1|-1;HT=ay29a033018047190;MF=fuyao@sjterm.com;NM=1;PH=DS;RN=9;RT=9;SR=0;TI=SMTPD_---.P.m81RD_1661428046;
+Received: from localhost(mailfrom:fuyao@sjterm.com
+ fp:SMTPD_---.P.m81RD_1661428046) by smtp.aliyun-inc.com; Thu, 25 Aug 2022
+ 19:47:26 +0800
+Precedence: bulk
+Organization: work_work_work
+Organization: work_work_work
+Message-ID: <20231220070840.KQkpl6ZOobxuDz7C05lwEHCgQ0sfoSuF6G8hAKYP6_4@z>
 
-Hi Jernej!
+__platform_get_irq_byname determinies whether the interrupt
+number is 0 and returns EINVAL.
 
-On 2023-12-19 at 17:46:08 +0100, Jernej =C5=A0krabec <jernej.skrabec@gmail.=
-com> wrote:
-> Hi Frank!
->
-> Dne ponedeljek, 18. december 2023 ob 14:35:19 CET je Frank Oltmanns napis=
-al(a):
->> The Allwinner A64 manual lists the following constraints for the
->> PLL-MIPI clock:
->>  - M/N >=3D 3
->
-> This should be "<=3D"
+Signed-off-by: fuyao <fuyao1697@cyg.com>
+Acked-by:  Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ include/linux/mfd/sun4i-gpadc.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Yes, good catch! I will fix it in V2.
+diff --git a/include/linux/mfd/sun4i-gpadc.h b/include/linux/mfd/sun4i-gpadc.h
+index ea0ccf33a459..021f820f9d52 100644
+--- a/include/linux/mfd/sun4i-gpadc.h
++++ b/include/linux/mfd/sun4i-gpadc.h
+@@ -81,8 +81,8 @@
+ #define SUN4I_GPADC_TEMP_DATA				0x20
+ #define SUN4I_GPADC_DATA				0x24
+ 
+-#define SUN4I_GPADC_IRQ_FIFO_DATA			0
+-#define SUN4I_GPADC_IRQ_TEMP_DATA			1
++#define SUN4I_GPADC_IRQ_FIFO_DATA			1
++#define SUN4I_GPADC_IRQ_TEMP_DATA			2
+ 
+ /* 10s delay before suspending the IP */
+ #define SUN4I_GPADC_AUTOSUSPEND_DELAY			10000
+-- 
+2.32.0
 
->
->>  - (PLL_VIDEO0)/M >=3D 24MHz
->>
->> The PLL-MIPI clock is implemented as ccu_nkm. Therefore, add support for
->> these constraints.
->>
->> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
->> ---
->>  drivers/clk/sunxi-ng/ccu_nkm.c | 23 +++++++++++++++++++++++
->>  drivers/clk/sunxi-ng/ccu_nkm.h |  8 ++++++++
->>  2 files changed, 31 insertions(+)
->>
->> diff --git a/drivers/clk/sunxi-ng/ccu_nkm.c b/drivers/clk/sunxi-ng/ccu_n=
-km.c
->> index eed64547ad42..2af5c1ebd527 100644
->> --- a/drivers/clk/sunxi-ng/ccu_nkm.c
->> +++ b/drivers/clk/sunxi-ng/ccu_nkm.c
->> @@ -16,6 +16,20 @@ struct _ccu_nkm {
->>  	unsigned long	m, min_m, max_m;
->>  };
->>
->> +static bool ccu_nkm_is_valid_rate(struct ccu_common *common, unsigned l=
-ong parent,
->> +				  unsigned long n, unsigned long m)
->> +{
->> +	struct ccu_nkm *nkm =3D container_of(common, struct ccu_nkm, common);
->> +
->> +	if (nkm->max_mn_ratio && (m > nkm->max_mn_ratio * n))
->> +		return false;
->> +
->> +	if (nkm->parent_wo_nk && (parent < nkm->parent_wo_nk * m))
->> +		return false;
->> +
->> +	return true;
->> +}
->> +
->>  static unsigned long ccu_nkm_find_best_with_parent_adj(struct ccu_commo=
-n *common,
->>  						       struct clk_hw *parent_hw,
->>  						       unsigned long *parent, unsigned long rate,
->> @@ -32,6 +46,9 @@ static unsigned long ccu_nkm_find_best_with_parent_adj=
-(struct ccu_common *common
->>
->>  				tmp_parent =3D clk_hw_round_rate(parent_hw, rate * _m / (_n * _k));
->>
->> +				if (!ccu_nkm_is_valid_rate(common, tmp_parent, _n, _m))
->> +					continue;
->> +
->>  				tmp_rate =3D tmp_parent * _n * _k / _m;
->>
->>  				if (ccu_is_better_rate(common, rate, tmp_rate, best_rate) ||
->> @@ -65,6 +82,12 @@ static unsigned long ccu_nkm_find_best(unsigned long =
-parent, unsigned long rate,
->>  	for (_k =3D nkm->min_k; _k <=3D nkm->max_k; _k++) {
->>  		for (_n =3D nkm->min_n; _n <=3D nkm->max_n; _n++) {
->>  			for (_m =3D nkm->min_m; _m <=3D nkm->max_m; _m++) {
->> +				if ((common->reg =3D=3D 0x040) && (_m > 3 * _n))
->> +					break;
->> +
->> +				if ((common->reg =3D=3D 0x040) && (parent < 24000000 * _m))
->> +					continue;
->> +
->
-> You already figured this part.
->
->>  				unsigned long tmp_rate;
->>
->>  				tmp_rate =3D parent * _n * _k / _m;
->> diff --git a/drivers/clk/sunxi-ng/ccu_nkm.h b/drivers/clk/sunxi-ng/ccu_n=
-km.h
->> index 6601defb3f38..d3d3eaf55faf 100644
->> --- a/drivers/clk/sunxi-ng/ccu_nkm.h
->> +++ b/drivers/clk/sunxi-ng/ccu_nkm.h
->> @@ -16,6 +16,12 @@
->>   * struct ccu_nkm - Definition of an N-K-M clock
->>   *
->>   * Clocks based on the formula parent * N * K / M
->> + *
->> + * @max_mn_ratio:	Maximum value for M / N.
->> + * @parent_wo_nk:	The minimum rate the parent must provide after applyi=
-ng the divisor,
->> + *			but without applying the multipliers, i.e. the contstraint
->> + *			   (parent rate)/M >=3D parent_wo_nk
->> + *			must be fulfilled.
->>   */
->>  struct ccu_nkm {
->>  	u32			enable;
->> @@ -27,6 +33,8 @@ struct ccu_nkm {
->>  	struct ccu_mux_internal	mux;
->>
->>  	unsigned int		fixed_post_div;
->> +	unsigned long		max_mn_ratio;
->> +	unsigned long           parent_wo_nk;
->
-> What about max_m_n_ratio and max_parent_m_ratio, to be consistent? This
-> should also allow to simplify description.
 
-Jernej, thank you so much! This is brilliant! I was racking my brain for
-a good name but failed. Now, that I see your proposal, I don't know why
-I hadn't come up with it. It's the obvious choice.
+-- 
+Technology is exciting
 
-I'd say with the new names we should be able to get rid of the comments
-describing the new struct members (also in ccu_nm.h). What are your
-thoughts on that?
+From mboxrd@z Thu Jan  1 00:00:00 1970
+Return-Path: <linux-arm-kernel-bounces+linux-arm-kernel=archiver.kernel.org@lists.infradead.org>
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+	aws-us-west-2-korg-lkml-1.web.codeaurora.org
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D7BEFC04AA5
+	for <linux-arm-kernel@archiver.kernel.org>; Thu, 25 Aug 2022 11:54:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=43HWo/ZUnCasly+ZDH2iZ6YziJoEl7DGgRHVq1AWHGA=; b=N4HqsZY4E2SL6r
+	coTCsOX2hRzQ7B0a1T00J2VkAPl7AipXosk76WMzyfIWnLKRkW8uqqBXKpQ2sHn25CKHP+ZW5UpiD
+	6l25/vh+YIPuTKjxd22dXb3QWpmIObDbHRRIOZSAWMBva+k42rsgsfgRyYKOI/+fBRoqDqFZHrjV1
+	LbiROW7b0SqMq6vAWAjGQvRON+qQDsqqpadEY+j508ViyVZdDIB2TY1zdy6uTAc4QqMRmzUH2NP7W
+	eSzjr4Kd1dtJMmykNtjjlIm/7IPwpXbHb72IdX1lzo27891mjNCP6V6fToGXw+s5RFS1qHaRuZ+XB
+	8g9p7pCDPqH/9eUb74/g==;
+Received: from localhost ([::1] helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1oRBPm-00D1Ka-Ur; Thu, 25 Aug 2022 11:52:51 +0000
+Received: from out20-123.mail.aliyun.com ([115.124.20.123])
+	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1oRBPk-00D1FB-2p
+	for linux-arm-kernel@lists.infradead.org; Thu, 25 Aug 2022 11:52:49 +0000
+X-Alimail-AntiSpam: AC=CONTINUE;BC=0.3045855|-1;BR=01201311R131S89rulernew998_84748_2000303;CH=blue;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.025949-0.00105542-0.972996;FP=0|0|0|0|0|-1|-1|-1;HT=ay29a033018047190;MF=fuyao@sjterm.com;NM=1;PH=DS;RN=9;RT=9;SR=0;TI=SMTPD_---.P.m81RD_1661428046;
+Received: from localhost(mailfrom:fuyao@sjterm.com fp:SMTPD_---.P.m81RD_1661428046)
+          by smtp.aliyun-inc.com;
+          Thu, 25 Aug 2022 19:47:26 +0800
+Date: Thu, 25 Aug 2022 19:47:26 +0800
+From: fuyao <fuyao1697@cyg.com>
+To: Lee Jones <lee@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Maxime Ripard <mripard@kernel.org>,
+	maijianzhang <maijianzhang@allwinnertech.com>
+Subject: [PATCH] iio: adc: sun4i-gpadc-iio: adaptation interrupt number
+Message-ID: <YwdhTlk+7h+FMrwm@scg>
+Mail-Followup-To: Lee Jones <lee@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+	maijianzhang <maijianzhang@allwinnertech.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+Organization: work_work_work
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20220825_045248_320501_10DAB7D1 
+X-CRM114-Status: UNSURE (   9.15  )
+X-CRM114-Notice: Please train this message.
+X-BeenThere: linux-arm-kernel@lists.infradead.org
+X-Mailman-Version: 2.1.34
+Precedence: list
+List-Id: <linux-arm-kernel.lists.infradead.org>
+List-Unsubscribe: <http://lists.infradead.org/mailman/options/linux-arm-kernel>,
+ <mailto:linux-arm-kernel-request@lists.infradead.org?subject=unsubscribe>
+List-Archive: <http://lists.infradead.org/pipermail/linux-arm-kernel/>
+List-Post: <mailto:linux-arm-kernel@lists.infradead.org>
+List-Help: <mailto:linux-arm-kernel-request@lists.infradead.org?subject=help>
+List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-arm-kernel>,
+ <mailto:linux-arm-kernel-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Sender: "linux-arm-kernel" <linux-arm-kernel-bounces@lists.infradead.org>
+Errors-To: linux-arm-kernel-bounces+linux-arm-kernel=archiver.kernel.org@lists.infradead.org
 
-Best regards,
-  Frank
+__platform_get_irq_byname determinies whether the interrupt
+number is 0 and returns EINVAL.
 
->
-> Best regards,
-> Jernej
->
->>
->>  	struct ccu_common	common;
->>  };
->>
->>
+Signed-off-by: fuyao <fuyao1697@cyg.com>
+---
+ include/linux/mfd/sun4i-gpadc.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/include/linux/mfd/sun4i-gpadc.h b/include/linux/mfd/sun4i-gpadc.h
+index ea0ccf33a459..021f820f9d52 100644
+--- a/include/linux/mfd/sun4i-gpadc.h
++++ b/include/linux/mfd/sun4i-gpadc.h
+@@ -81,8 +81,8 @@
+ #define SUN4I_GPADC_TEMP_DATA				0x20
+ #define SUN4I_GPADC_DATA				0x24
+ 
+-#define SUN4I_GPADC_IRQ_FIFO_DATA			0
+-#define SUN4I_GPADC_IRQ_TEMP_DATA			1
++#define SUN4I_GPADC_IRQ_FIFO_DATA			1
++#define SUN4I_GPADC_IRQ_TEMP_DATA			2
+ 
+ /* 10s delay before suspending the IP */
+ #define SUN4I_GPADC_AUTOSUSPEND_DELAY			10000
+-- 
+2.32.0
+
+
+-- 
+Technology is exciting
+
+_______________________________________________
+linux-arm-kernel mailing list
+linux-arm-kernel@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+
+
+-- 
+CYG Technology.
