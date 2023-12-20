@@ -1,33 +1,28 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CC0F20B06
-	for <linux-sunxi@lists.linux.dev>; Wed, 20 Dec 2023 10:39:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06FF422307
+	for <linux-sunxi@lists.linux.dev>; Wed, 20 Dec 2023 11:54:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A75831FB;
-	Wed, 20 Dec 2023 02:40:21 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 519A01FB;
+	Wed, 20 Dec 2023 03:55:01 -0800 (PST)
 Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8E2803F5A1;
-	Wed, 20 Dec 2023 02:39:34 -0800 (PST)
-Date: Wed, 20 Dec 2023 10:39:32 +0000
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2AE0C3F5A1;
+	Wed, 20 Dec 2023 03:54:15 -0800 (PST)
+Date: Wed, 20 Dec 2023 11:54:12 +0000
 From: Andre Przywara <andre.przywara@arm.com>
-To: Brandon Cheo Fusi <fusibrandon13@gmail.com>
-Cc: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Chen-Yu Tsai
- <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>, Yangtao Li <tiny.windzz@gmail.com>, "Rafael J .
- Wysocki" <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: Re: [RFC PATCH 1/2] cpufreq: sun50i: Add support for D1's speed bin
- decoding
-Message-ID: <20231220103932.1b186610@donnerap.manchester.arm.com>
-In-Reply-To: <20231220095141.27883-2-fusibrandon13@gmail.com>
-References: <20231220095141.27883-1-fusibrandon13@gmail.com>
-	<20231220095141.27883-2-fusibrandon13@gmail.com>
+To: fuyao <fuyao1697@cyg.com>
+Cc: Lee Jones <lee@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ maijianzhang <maijianzhang@allwinnertech.com>
+Subject: Re: [PATCH RESEND] iio: adc: sun4i-gpadc-iio: adaptation interrupt
+ number
+Message-ID: <20231220115412.65bbc8c7@donnerap.manchester.arm.com>
+In-Reply-To: <YwdhTlk+9h+9Mrwm@scg>
+References: <YxmR5SPPY18O7LaG@google.com>
+	<YwdhTlk+9h+9Mrwm@scg>
 Organization: ARM
 X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
@@ -39,161 +34,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Wed, 20 Dec 2023 10:51:40 +0100
-Brandon Cheo Fusi <fusibrandon13@gmail.com> wrote:
+On Wed, 20 Dec 2023 15:23:17 +0800
+fuyao <fuyao1697@cyg.com> wrote:
 
-Hi Brandon,
+Hi,
 
-> Adds support for decoding the efuse value read from D1 efuse speed
-> bins, and factors out equivalent code for sun50i.
+> __platform_get_irq_byname determinies whether the interrupt
+> number is 0 and returns EINVAL.
 
-Thanks for taking care and sharing this approach!
+can you please say what this fixes, exactly? Is something not working at
+the moment? Can you please provide parts of the error message?
 
-So this seems to be trying to achieve the same goal as this patch:
-https://lore.kernel.org/linux-sunxi/20230904-cpufreq-h616-v1-4-b8842e525c43@somainline.org/
-That covers the H616, and would at least clash heavily. The H616 series is
-stuck on of some stupid bit in the temperature sensor driver, so I
-guess the D1 (being easier) would overtake it.
+And maybe expand the explanation a bit more? For instance mention that the
+identifiers are used as IRQ resource numbers, where 0 is treated specially.
 
-Can you please split your patch below up, to first refactor the existing
-code, with just the H6 support in, then in a second patch add the D1
-specific parts? Bonus points for looking at the H616 patch and checking
-if there are extra requirements over the D1, which should be already
-considered in this refactoring patch.
-
-Many thanks,
+Cheers,
 Andre
 
-
-> The algorithm is gotten from
 > 
-> https://github.com/Tina-Linux/linux-5.4/blob/master/drivers/cpufreq/sun50i-cpufreq-nvmem.c#L293-L338
-> 
-> and maps an efuse value to either 0 or 1, with 1 meaning stable at
-> a lower supply voltage for the same clock frequency.
-> 
-> Signed-off-by: Brandon Cheo Fusi <fusibrandon13@gmail.com>
+> Signed-off-by: fuyao <fuyao1697@cyg.com>
+> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 > ---
->  drivers/cpufreq/sun50i-cpufreq-nvmem.c | 85 +++++++++++++++++++++-----
->  1 file changed, 70 insertions(+), 15 deletions(-)
+>  include/linux/mfd/sun4i-gpadc.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-> index ccf83780f..28afbe558 100644
-> --- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-> +++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-> @@ -25,6 +25,66 @@
+> diff --git a/include/linux/mfd/sun4i-gpadc.h b/include/linux/mfd/sun4i-gpadc.h
+> index ea0ccf33a459..021f820f9d52 100644
+> --- a/include/linux/mfd/sun4i-gpadc.h
+> +++ b/include/linux/mfd/sun4i-gpadc.h
+> @@ -81,8 +81,8 @@
+>  #define SUN4I_GPADC_TEMP_DATA				0x20
+>  #define SUN4I_GPADC_DATA				0x24
 >  
->  static struct platform_device *cpufreq_dt_pdev, *sun50i_cpufreq_pdev;
+> -#define SUN4I_GPADC_IRQ_FIFO_DATA			0
+> -#define SUN4I_GPADC_IRQ_TEMP_DATA			1
+> +#define SUN4I_GPADC_IRQ_FIFO_DATA			1
+> +#define SUN4I_GPADC_IRQ_TEMP_DATA			2
 >  
-> +struct sunxi_cpufreq_data {
-> +	u32 (*efuse_xlate)(u32 efuse_value);
-> +};
-> +
-> +static u32 sun20i_efuse_xlate(u32 efuse_value)
-> +{
-> +	u32 ret;
-> +
-> +	switch (efuse_value) {
-> +	case 0x5e00:
-> +		/* QFN package */
-> +		ret = 0;
-> +		break;
-> +	case 0x5c00:
-> +	case 0x7400:
-> +		/* QFN package */
-> +		ret = 1;
-> +		break;
-> +	case 0x5000:
-> +	default:
-> +		/* BGA package */
-> +		ret = 0;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +static u32 sun50i_efuse_xlate(u32 efuse_value)
-> +{
-> +	efuse_value = (efuse_value >> NVMEM_SHIFT) & NVMEM_MASK;
-> +
-> +	/*
-> +	* We treat unexpected efuse values as if the SoC was from
-> +	* the slowest bin. Expected efuse values are 1-3, slowest
-> +	* to fastest.
-> +	*/
-> +	if (efuse_value >= 1 && efuse_value <= 3)
-> +		return efuse_value - 1;
-> +	else
-> +		return 0;
-> +}
-> +
-> +struct sunxi_cpufreq_data sun20i_cpufreq_data = {
-> +	.efuse_xlate = sun20i_efuse_xlate,
-> +};
-> +
-> +struct sunxi_cpufreq_data sun50i_cpufreq_data = {
-> +	.efuse_xlate = sun50i_efuse_xlate,
-> +};
-> +
-> +static const struct of_device_id cpu_opp_match_list[] = {
-> +	{ .compatible = "allwinner,sun50i-h6-operating-points",
-> +	  .data = &sun50i_cpufreq_data,
-> +	},
-> +	{ .compatible = "allwinner,sun20i-d1-operating-points",
-> +	  .data = &sun20i_cpufreq_data,
-> +	},
-> +	{}
-> +};
-> +
->  /**
->   * sun50i_cpufreq_get_efuse() - Determine speed grade from efuse value
->   * @versions: Set to the value parsed from efuse
-> @@ -36,9 +96,11 @@ static int sun50i_cpufreq_get_efuse(u32 *versions)
->  	struct nvmem_cell *speedbin_nvmem;
->  	struct device_node *np;
->  	struct device *cpu_dev;
-> -	u32 *speedbin, efuse_value;
-> +	const struct of_device_id *opp_match;
-> +	const struct sunxi_cpufreq_data *opp_data;
-> +	u32 *speedbin, efuse_value = 0;
->  	size_t len;
-> -	int ret;
-> +	int i;
->  
->  	cpu_dev = get_cpu_device(0);
->  	if (!cpu_dev)
-> @@ -48,9 +110,8 @@ static int sun50i_cpufreq_get_efuse(u32 *versions)
->  	if (!np)
->  		return -ENOENT;
->  
-> -	ret = of_device_is_compatible(np,
-> -				      "allwinner,sun50i-h6-operating-points");
-> -	if (!ret) {
-> +	opp_match = of_match_node(cpu_opp_match_list, np);
-> +	if (!opp_match) {
->  		of_node_put(np);
->  		return -ENOENT;
->  	}
-> @@ -66,17 +127,11 @@ static int sun50i_cpufreq_get_efuse(u32 *versions)
->  	if (IS_ERR(speedbin))
->  		return PTR_ERR(speedbin);
->  
-> -	efuse_value = (*speedbin >> NVMEM_SHIFT) & NVMEM_MASK;
-> +	for (i = 0; i < len; i++)
-> +		efuse_value |= ((u32)speedbin[i] << (i * 8));
->  
-> -	/*
-> -	 * We treat unexpected efuse values as if the SoC was from
-> -	 * the slowest bin. Expected efuse values are 1-3, slowest
-> -	 * to fastest.
-> -	 */
-> -	if (efuse_value >= 1 && efuse_value <= 3)
-> -		*versions = efuse_value - 1;
-> -	else
-> -		*versions = 0;
-> +	opp_data = opp_match->data;
-> +	*versions = opp_data->efuse_xlate(efuse_value);
->  
->  	kfree(speedbin);
->  	return 0;
+>  /* 10s delay before suspending the IP */
+>  #define SUN4I_GPADC_AUTOSUSPEND_DELAY			10000
 
