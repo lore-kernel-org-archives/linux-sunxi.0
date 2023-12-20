@@ -1,46 +1,47 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F549208A5
-	for <linux-sunxi@lists.linux.dev>; Wed, 20 Dec 2023 09:52:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F616208BE
+	for <linux-sunxi@lists.linux.dev>; Wed, 20 Dec 2023 09:52:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YjO92L3T"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a236d77dceeso306976266b.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 20 Dec 2023 01:52:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S2Wlbo0L"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5534abbc637so4245070a12.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 20 Dec 2023 01:52:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703065921; x=1703670721; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=M9qpB4qf3ZId6lZMFowk0z0oliDO3YWtk6BSWDnuZ0o=;
-        b=YjO92L3T3uz6AGRjELipU9ipVIDFHX0IoAtVE/igrHtmv44iUG6zVT7EbMdNJIFeJ3
-         V+1SHlHow9SnXGi+yBUySW5Apk4a6Vswk7xJPsjzRhBEsxvZhKKZXgNaz3lXtWBoTxGQ
-         PcZvO6SI0ZFMr0oUTfIw64AH37EPeFa5fgQIMZprb7cTYvqKvPt7Q/Grs6E5NkFvYqbz
-         IGMtIWS8OcoE/PqoRT7bHyNuOdVqK9pSxzWcWB8nexvZD7Yopb9puAVgrVq0VhqDMeji
-         qJkfO1ftse/JFosHDBQJWbhm9PMVSrEg7eGqIPWe5XOOQka3uzHgbf2OBCEaO058jlUV
-         jmmA==
+        d=gmail.com; s=20230601; t=1703065927; x=1703670727; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YvAwavagWNrO/Q9Vdb9xCDrUrBaPNjWgjY6N/TwA0bg=;
+        b=S2Wlbo0LIbvJgoJ8PFdgXUk7tz1lblOTBSK861a/xKTfeX1HWZ7B1zY3kioCUE/GkB
+         TwnkkqxECzhUIr+8ACmzN1I6w3ZcBXAAg0HKCerc3vU9VIvlu/nzuv19l7BFQwP0jqEd
+         pqGpdn5f+DbsbyRgrQlUnYrJT2J6vAnzyxNCl3PObmv+6kP+v1khwWQRo0DBWJUKS6mD
+         gowBsc2nflKGsXy8wAk72gKAHTewjw1gulbjG9bv1JN1/YYQpiK9k5gxsW9oWQFDV1tW
+         ovSJhmnfCd3eU7h2WizeAMxY08hq9zkj5NKDVffnkhM3MxYyaCJ+QgPnemEruOBuL8oQ
+         Tr1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703065921; x=1703670721;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=M9qpB4qf3ZId6lZMFowk0z0oliDO3YWtk6BSWDnuZ0o=;
-        b=Iqvc7b08FzrFBG+BGtMAgdfBdms/I6TBGaHFY+Jn+IlpyXV9//I/DMGGO5YcLpY1xB
-         qn4NsP5sWAuQs697vCrhLQeiN3WOvZpz5T+ys5/RGqglr28iiRWeSrCnGnxc6Wynqzm7
-         1ADrXbt27QVEkv+FGuIvi3HvIUx1iMLciBH5iwzEFrHFQ3NrT0ZabDJsLgNehItTL1kX
-         jGUkDSE/sO6olP4iDKRxZJzyxptvvt9K+O53t5L0V6cTcdSOBQbi7PMV/vkOk1FFBSae
-         4hoHsqg4u8UyORlp8S/TGAaO+e3lxQDMFHXuTArtI7HP5ndUxz2+n1ZuoVy+xHrm1r2I
-         hIHw==
-X-Gm-Message-State: AOJu0Yz/6c1lYAGzlBYmjZ9sQcyMpSrY3cRuBNN0Db8z5pi1MfJMfg3N
-	SJjHBAz1sWQSQsRQIWcjTg4=
-X-Google-Smtp-Source: AGHT+IE28g41l7HoQZQIn3TqFjt4hhf/zSXdXrozlWV0k0jrhm2KNFm8zxiuiquLZS9DJmjzTRsGSQ==
-X-Received: by 2002:a17:906:10da:b0:a23:617d:1917 with SMTP id v26-20020a17090610da00b00a23617d1917mr1485420ejv.116.1703065920680;
-        Wed, 20 Dec 2023 01:52:00 -0800 (PST)
+        d=1e100.net; s=20230601; t=1703065927; x=1703670727;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YvAwavagWNrO/Q9Vdb9xCDrUrBaPNjWgjY6N/TwA0bg=;
+        b=VTJVlJxS/O/5vL/xlsdv5pWEgDN4RFNODZPBb74IIGu7b2T+gGft4ScA6Dl+dnoWVL
+         ujPJANuUNsSVWoUsvle+0+G5vmR0Wm25qTDs7lj5KwKouU/tlQxjRFgC/HVljsRmvisU
+         EgLj/pDKxzERGr6MTxR4f8DaLy6SxNPpEhfiW282OauiTgWw4zvqH6OcmaUJxqyu7KW8
+         i3fwoDUiVVOoi66UdqnZ/E/uoSG3ghuOAMcErW90yccWYihjQOq6KRckx31Gcn/lbDyp
+         DZ/JL+Vre9V2Wdw/yVy2UCoQAnrazaBWPdziapBwv7x07YqmkhYf+Vmk3ITcDCBTZaUH
+         gQ7g==
+X-Gm-Message-State: AOJu0Yy6CPc7pzgtXmB99E6PrlXfm20gHmDOilgguGzcwwM/b+2EjceD
+	51jUdX6w9Q6/r0NfeDwIxhk=
+X-Google-Smtp-Source: AGHT+IHJLTFVlMeVWUfl2R/aVxV5HUEVW0LFkZhbSzhOrR+n633yl76oiQKvS23mYKEl1VoOE8yaXA==
+X-Received: by 2002:a17:906:1787:b0:a19:a1ba:8cd6 with SMTP id t7-20020a170906178700b00a19a1ba8cd6mr9779000eje.116.1703065927014;
+        Wed, 20 Dec 2023 01:52:07 -0800 (PST)
 Received: from localhost.localdomain ([154.72.162.158])
-        by smtp.gmail.com with ESMTPSA id st3-20020a170907c08300b00a1c4fde4e88sm16596791ejc.18.2023.12.20.01.51.56
+        by smtp.gmail.com with ESMTPSA id st3-20020a170907c08300b00a1c4fde4e88sm16596791ejc.18.2023.12.20.01.52.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Dec 2023 01:52:00 -0800 (PST)
+        Wed, 20 Dec 2023 01:52:06 -0800 (PST)
 From: Brandon Cheo Fusi <fusibrandon13@gmail.com>
 To: Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -61,10 +62,12 @@ Cc: devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-pm@vger.kernel.org,
 	Brandon Cheo Fusi <fusibrandon13@gmail.com>
-Subject: [RFC PATCH 0/2] Add support for reading D1 efuse speed bin
-Date: Wed, 20 Dec 2023 10:51:39 +0100
-Message-Id: <20231220095141.27883-1-fusibrandon13@gmail.com>
+Subject: [RFC PATCH 1/2] cpufreq: sun50i: Add support for D1's speed bin decoding
+Date: Wed, 20 Dec 2023 10:51:40 +0100
+Message-Id: <20231220095141.27883-2-fusibrandon13@gmail.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20231220095141.27883-1-fusibrandon13@gmail.com>
+References: <20231220095141.27883-1-fusibrandon13@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -73,29 +76,140 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi everyone,
+Adds support for decoding the efuse value read from D1 efuse speed
+bins, and factors out equivalent code for sun50i.
 
-This series is an attempt to get feedback on decoding D1 efuse speed bins
-in the Sun50i H6 cpufreq driver, and turning the result into a meaningful
-value that selects voltage ranges in an OPP table.
+The algorithm is gotten from
 
-I want to make sure I get this right before sending in a v3 of the D1
-cpufreq support series at
+https://github.com/Tina-Linux/linux-5.4/blob/master/drivers/cpufreq/sun50i-cpufreq-nvmem.c#L293-L338
 
-https://lore.kernel.org/linux-sunxi/20231218110543.64044-1-fusibrandon13@gmail.com/T/#t
+and maps an efuse value to either 0 or 1, with 1 meaning stable at
+a lower supply voltage for the same clock frequency.
 
-which is currently stuck at
+Signed-off-by: Brandon Cheo Fusi <fusibrandon13@gmail.com>
+---
+ drivers/cpufreq/sun50i-cpufreq-nvmem.c | 85 +++++++++++++++++++++-----
+ 1 file changed, 70 insertions(+), 15 deletions(-)
 
-https://lore.kernel.org/linux-sunxi/aad8302d-a015-44ee-ad11-1a4c6e00074c@sholland.org/
-
-Brandon Cheo Fusi (2):
-  cpufreq: sun50i: Add support for D1's speed bin decoding
-  riscv: dts: allwinner: Fill in OPPs
-
- arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi |  8 +-
- drivers/cpufreq/sun50i-cpufreq-nvmem.c        | 85 +++++++++++++++----
- 2 files changed, 76 insertions(+), 17 deletions(-)
-
+diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+index ccf83780f..28afbe558 100644
+--- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
++++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+@@ -25,6 +25,66 @@
+ 
+ static struct platform_device *cpufreq_dt_pdev, *sun50i_cpufreq_pdev;
+ 
++struct sunxi_cpufreq_data {
++	u32 (*efuse_xlate)(u32 efuse_value);
++};
++
++static u32 sun20i_efuse_xlate(u32 efuse_value)
++{
++	u32 ret;
++
++	switch (efuse_value) {
++	case 0x5e00:
++		/* QFN package */
++		ret = 0;
++		break;
++	case 0x5c00:
++	case 0x7400:
++		/* QFN package */
++		ret = 1;
++		break;
++	case 0x5000:
++	default:
++		/* BGA package */
++		ret = 0;
++	}
++
++	return ret;
++}
++
++static u32 sun50i_efuse_xlate(u32 efuse_value)
++{
++	efuse_value = (efuse_value >> NVMEM_SHIFT) & NVMEM_MASK;
++
++	/*
++	* We treat unexpected efuse values as if the SoC was from
++	* the slowest bin. Expected efuse values are 1-3, slowest
++	* to fastest.
++	*/
++	if (efuse_value >= 1 && efuse_value <= 3)
++		return efuse_value - 1;
++	else
++		return 0;
++}
++
++struct sunxi_cpufreq_data sun20i_cpufreq_data = {
++	.efuse_xlate = sun20i_efuse_xlate,
++};
++
++struct sunxi_cpufreq_data sun50i_cpufreq_data = {
++	.efuse_xlate = sun50i_efuse_xlate,
++};
++
++static const struct of_device_id cpu_opp_match_list[] = {
++	{ .compatible = "allwinner,sun50i-h6-operating-points",
++	  .data = &sun50i_cpufreq_data,
++	},
++	{ .compatible = "allwinner,sun20i-d1-operating-points",
++	  .data = &sun20i_cpufreq_data,
++	},
++	{}
++};
++
+ /**
+  * sun50i_cpufreq_get_efuse() - Determine speed grade from efuse value
+  * @versions: Set to the value parsed from efuse
+@@ -36,9 +96,11 @@ static int sun50i_cpufreq_get_efuse(u32 *versions)
+ 	struct nvmem_cell *speedbin_nvmem;
+ 	struct device_node *np;
+ 	struct device *cpu_dev;
+-	u32 *speedbin, efuse_value;
++	const struct of_device_id *opp_match;
++	const struct sunxi_cpufreq_data *opp_data;
++	u32 *speedbin, efuse_value = 0;
+ 	size_t len;
+-	int ret;
++	int i;
+ 
+ 	cpu_dev = get_cpu_device(0);
+ 	if (!cpu_dev)
+@@ -48,9 +110,8 @@ static int sun50i_cpufreq_get_efuse(u32 *versions)
+ 	if (!np)
+ 		return -ENOENT;
+ 
+-	ret = of_device_is_compatible(np,
+-				      "allwinner,sun50i-h6-operating-points");
+-	if (!ret) {
++	opp_match = of_match_node(cpu_opp_match_list, np);
++	if (!opp_match) {
+ 		of_node_put(np);
+ 		return -ENOENT;
+ 	}
+@@ -66,17 +127,11 @@ static int sun50i_cpufreq_get_efuse(u32 *versions)
+ 	if (IS_ERR(speedbin))
+ 		return PTR_ERR(speedbin);
+ 
+-	efuse_value = (*speedbin >> NVMEM_SHIFT) & NVMEM_MASK;
++	for (i = 0; i < len; i++)
++		efuse_value |= ((u32)speedbin[i] << (i * 8));
+ 
+-	/*
+-	 * We treat unexpected efuse values as if the SoC was from
+-	 * the slowest bin. Expected efuse values are 1-3, slowest
+-	 * to fastest.
+-	 */
+-	if (efuse_value >= 1 && efuse_value <= 3)
+-		*versions = efuse_value - 1;
+-	else
+-		*versions = 0;
++	opp_data = opp_match->data;
++	*versions = opp_data->efuse_xlate(efuse_value);
+ 
+ 	kfree(speedbin);
+ 	return 0;
 -- 
 2.30.2
 
