@@ -1,64 +1,61 @@
-Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com [95.215.58.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33B503609E
-	for <linux-sunxi@lists.linux.dev>; Thu, 21 Dec 2023 14:53:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="xCoT8n1O"
-Message-ID: <bf45f0f7-8772-4f95-94b5-0078ac20b8b7@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1703170421;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9DWCbTtactyPz1Ws+U8aJ3Iw5YuEjx40PPU3oVvJZrA=;
-	b=xCoT8n1ObOYoSEUUPhIGGLeX4YPTL/MN07zCk5cwewehpLQMiprAiSqmiJUrYxg+tvgz1x
-	cttuLlvMIbfbw1qezKnOW6X8vD8SyK+owcw+MwgYR9nJveI3rxseT2wm1g3kGs0obJobCJ
-	teGbrbyyerrrO2NcVfKtF1jkHyqU5Lc=
-Date: Thu, 21 Dec 2023 22:53:26 +0800
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D0DD1DA2C
+	for <linux-sunxi@lists.linux.dev>; Thu, 21 Dec 2023 15:07:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 41A312F4;
+	Thu, 21 Dec 2023 07:08:03 -0800 (PST)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E213D3F64C;
+	Thu, 21 Dec 2023 07:07:16 -0800 (PST)
+Date: Thu, 21 Dec 2023 15:07:14 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] dt-bindings: arm: sunxi: sort alphabetically
+Message-ID: <20231221150714.53d40ea3@donnerap.manchester.arm.com>
+In-Reply-To: <ab8e7d68-c09c-47ff-9f31-08b073387403@linaro.org>
+References: <20231221140614.639697-1-andre.przywara@arm.com>
+	<ab8e7d68-c09c-47ff-9f31-08b073387403@linaro.org>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [v5,43/44] drm/sun4i: hdmi: Consolidate atomic_check and
- mode_valid
-Content-Language: en-US
-To: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
- Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Hans Verkuil <hverkuil@xs4all.nl>,
- linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-References: <20231207-kms-hdmi-connector-state-v5-43-6538e19d634d@kernel.org>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <20231207-kms-hdmi-connector-state-v5-43-6538e19d634d@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+
+On Thu, 21 Dec 2023 15:45:17 +0100
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
 
 Hi,
 
+> On 21/12/2023 15:06, Andre Przywara wrote:
+> > The sunxi.yaml file, holding all known board compatible names for
+> > devices with Allwinner SoCs, is apparently sorted alphabetically, by the
+> > "description" entry. However there are a few outliers.
+> > 
+> > Re-order the entries to get a strict alphabetical ordering, so that:
+> > $ grep description: sunxi.yaml | sort -fc
+> > returns empty-handed. There is no change otherwise.
+> > 
+> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>  
+> 
+> What was the existing order? Aren't this just shuffling again things?
 
-On 2023/12/7 23:50, Maxime Ripard wrote:
-> atomic_check and mode_valid do not check for the same things which can
-> lead to surprising result if the userspace commits a mode that didn't go
-> through mode_valid. Let's merge the two implementations into a function
-> called by both.
->
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+It assume the intention was to order "alphabetically by description", but
+there were some out-of-place entries which apparently slipped through
+review.
 
+Shall I add a comment at the top to note the order?
 
-Acked-by: Sui Jingfeng <sui.jingfeng@linux.dev>
-
+Cheers,
+Andre
