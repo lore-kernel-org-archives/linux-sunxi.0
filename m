@@ -1,57 +1,64 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com [95.215.58.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95CB636086;
-	Thu, 21 Dec 2023 14:49:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33B503609E
+	for <linux-sunxi@lists.linux.dev>; Thu, 21 Dec 2023 14:53:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RuhtVTuf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BE77C433C7;
-	Thu, 21 Dec 2023 14:49:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703170167;
-	bh=QvZmkfa9nsJ9c9WaTXKTbbvlPgztD+xmTVTQXhhNdEQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=RuhtVTufr3KEtyr76LDmOKS8yAi6mSVaJeyaf6qXGI1OYOsZFYt+pLkz2WUfI5V0H
-	 k390fzO5fJKBKxm1D3qt7aXUkobObjp36zmrVuCILJ5SKnaILuLvaCrTcxOzidL5Am
-	 acArugkYbOHB8AHnON64KZHL0eSqh79niKC3nPvsALgIoZKluRzZqUJJn+0y8kKFC0
-	 E4Jl1ldveLROmAKXDI4hSdrBa/eNZKgv4nnbwyv4DbzvG4oHunrwYEHAh9f3k9rA90
-	 lRrZAK7YEw+LSk9MqimXxAzdwJC+SiyHG1bss1OaMVs0BZjDGpxbfSWNmwI0VNWRN7
-	 l5pg1XWr8b5bQ==
-From: Lee Jones <lee@kernel.org>
-To: Lee Jones <lee@kernel.org>, Samuel Holland <samuel@sholland.org>, 
- linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Pavel Machek <pavel@ucw.cz>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>
-In-Reply-To: <20231214192131.1309912-1-andriy.shevchenko@linux.intel.com>
-References: <20231214192131.1309912-1-andriy.shevchenko@linux.intel.com>
-Subject: Re: (subset) [PATCH v1 1/1] leds: sun50i-a100: Convert to be
- agnostic to property provider
-Message-Id: <170317016487.605235.6036458810231529969.b4-ty@kernel.org>
-Date: Thu, 21 Dec 2023 14:49:24 +0000
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="xCoT8n1O"
+Message-ID: <bf45f0f7-8772-4f95-94b5-0078ac20b8b7@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1703170421;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9DWCbTtactyPz1Ws+U8aJ3Iw5YuEjx40PPU3oVvJZrA=;
+	b=xCoT8n1ObOYoSEUUPhIGGLeX4YPTL/MN07zCk5cwewehpLQMiprAiSqmiJUrYxg+tvgz1x
+	cttuLlvMIbfbw1qezKnOW6X8vD8SyK+owcw+MwgYR9nJveI3rxseT2wm1g3kGs0obJobCJ
+	teGbrbyyerrrO2NcVfKtF1jkHyqU5Lc=
+Date: Thu, 21 Dec 2023 22:53:26 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.12.3
+Subject: Re: [v5,43/44] drm/sun4i: hdmi: Consolidate atomic_check and
+ mode_valid
+Content-Language: en-US
+To: Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
+ Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Hans Verkuil <hverkuil@xs4all.nl>,
+ linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+References: <20231207-kms-hdmi-connector-state-v5-43-6538e19d634d@kernel.org>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <20231207-kms-hdmi-connector-state-v5-43-6538e19d634d@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, 14 Dec 2023 21:21:31 +0200, Andy Shevchenko wrote:
-> Convert the driver to be agnostic to the property provider.
-> LEDS subsytem is not dependent on OF, so no need to make drivers
-> be a such.
-> 
-> 
+Hi,
 
-Applied, thanks!
 
-[1/1] leds: sun50i-a100: Convert to be agnostic to property provider
-      commit: 06c5206ccdb459de95bb8d558602d2a722dd4bbc
+On 2023/12/7 23:50, Maxime Ripard wrote:
+> atomic_check and mode_valid do not check for the same things which can
+> lead to surprising result if the userspace commits a mode that didn't go
+> through mode_valid. Let's merge the two implementations into a function
+> called by both.
+>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
---
-Lee Jones [李琼斯]
+
+Acked-by: Sui Jingfeng <sui.jingfeng@linux.dev>
 
