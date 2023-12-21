@@ -1,91 +1,217 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11D6655E70
-	for <linux-sunxi@lists.linux.dev>; Thu, 21 Dec 2023 16:29:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6CEF22F4;
-	Thu, 21 Dec 2023 08:29:56 -0800 (PST)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1C9393F64C;
-	Thu, 21 Dec 2023 08:29:10 -0800 (PST)
-Date: Thu, 21 Dec 2023 16:29:07 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org,
- devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev, Maxime Ripard
- <mripard@kernel.org>
-Subject: Re: [PATCH] dt-bindings: arm: sunxi: sort alphabetically
-Message-ID: <20231221162907.1b609235@donnerap.manchester.arm.com>
-In-Reply-To: <6721cb2f-4498-4d20-9059-257846005905@linaro.org>
-References: <20231221140614.639697-1-andre.przywara@arm.com>
-	<ab8e7d68-c09c-47ff-9f31-08b073387403@linaro.org>
-	<20231221150714.53d40ea3@donnerap.manchester.arm.com>
-	<6721cb2f-4498-4d20-9059-257846005905@linaro.org>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A75AC62804
+	for <linux-sunxi@lists.linux.dev>; Thu, 21 Dec 2023 17:11:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q5zOwGVj"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-553729ee917so1216121a12.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 21 Dec 2023 09:11:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1703178713; x=1703783513; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8c7qdOK44Erw1rd2N9Dkc3C/rkBrTjfjshoie/DwZvs=;
+        b=Q5zOwGVjE2vcqFpxwnuJMVtHcNRSdWuGAe45SLcGMgHjPfftKy8w0oveB5H5PCc184
+         bFnEl0XqmWmhqzs0CD1qthJnv2VXfVUUwm4NXHXTKdHRj/CzkldNWW3jZ5yvGgW6rQ/H
+         QV4d0F0Qj8PcZuVSWdKhf9lxrqiW5hRQHfrFX8M9amXuw5p9l6h4cGcJ/4iLSIbBIqBR
+         Fta0YW8ECWxkYIYDDJ9eWj+SCd/e2xbxA2TlDZLIy8I/ZW6/WgkfO0NW+mXH3i+cKWiN
+         VmaMubwqN/31CjWhYQdXVlfQHI4uCyTxx1gqbs/QoW+JJeoXGRArt9u4QNMZztWBqpe9
+         fKiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703178713; x=1703783513;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8c7qdOK44Erw1rd2N9Dkc3C/rkBrTjfjshoie/DwZvs=;
+        b=PVvfXzC2Q1ewyfan+3e6443SKQreGJ+76AQfBh0jWhk1XqbOFqQi7Zt/YBXsnNVAF4
+         uQ29TuI8+ggrhdliDOwLEGvOrQiQ3CKZZoiTJFlHnlYRaoBoLFMbAjzzRFHt0CpHMXxI
+         JKcOyAksUkLVEfy1h3XqQqI8XibBvShUfM3yp676ufAMCwDe4Mpz2rZs82cjswackT0R
+         VmKviuU/0ubvM5q3FzHRFyn5HMkZsKq0UQ7Fe5gPntTV9V/uuS4MD5uzBvbQFL5Ri6jK
+         li1aaveh2xarIqJvSw4sIhF1E+Pq1m0PxgQNnmcx6P5/8o1jbgNEyNylDJqhe4gLMr6u
+         jlRg==
+X-Gm-Message-State: AOJu0YyZ3hNfEiXtBDTpbesfZHpjoIxhGFwtnKSl6pBiCjpg111HZLuV
+	YGoc5kvdnzVinQCFFwrUrYU=
+X-Google-Smtp-Source: AGHT+IHNiAZdFnzAEiUdKfNoeSk+geKiEkWgT/aPnMVG9zgCLJmSuW1YXNdZkHxCVKCqsDhOaSRiwg==
+X-Received: by 2002:a50:c057:0:b0:54b:27e7:f965 with SMTP id u23-20020a50c057000000b0054b27e7f965mr12048802edd.19.1703178712653;
+        Thu, 21 Dec 2023 09:11:52 -0800 (PST)
+Received: from localhost.localdomain ([154.72.163.204])
+        by smtp.gmail.com with ESMTPSA id b24-20020a056402139800b0054cb316499dsm1400760edv.10.2023.12.21.09.11.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Dec 2023 09:11:52 -0800 (PST)
+From: Brandon Cheo Fusi <fusibrandon13@gmail.com>
+To: andre.przywara@arm.com
+Cc: aou@eecs.berkeley.edu,
+	conor+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	fusibrandon13@gmail.com,
+	jernej.skrabec@gmail.com,
+	krzysztof.kozlowski+dt@linaro.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	palmer@dabbelt.com,
+	paul.walmsley@sifive.com,
+	rafael@kernel.org,
+	robh+dt@kernel.org,
+	samuel@sholland.org,
+	sfr@canb.auug.org.au,
+	tiny.windzz@gmail.com,
+	viresh.kumar@linaro.org,
+	wens@csie.org
+Subject: Re: [RFC PATCH v2 2/3] cpufreq: sun50i: Add support for D1's speed bin decoding
+Date: Thu, 21 Dec 2023 18:11:07 +0100
+Message-Id: <20231221171107.85991-1-fusibrandon13@gmail.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20231221124957.27fa9922@donnerap.manchester.arm.com>
+References: <20231221124957.27fa9922@donnerap.manchester.arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, 21 Dec 2023 16:38:41 +0100
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+On Thu, Dec 21, 2023 at 1:50 PM Andre Przywara <andre.przywara@arm.com> wrote:
+>
+> On Thu, 21 Dec 2023 11:10:12 +0100
+> Brandon Cheo Fusi <fusibrandon13@gmail.com> wrote:
+>
+> Hi Brandon,
+>
+> thanks for the quick turnaround, and for splitting this code up, that
+> makes reasoning about this much easier!
+>
+> > Adds support for decoding the efuse value read from D1 efuse speed
+> > bins, and factors out equivalent code for sun50i.
+> >
+> > The algorithm is gotten from
+> >
+> > https://github.com/Tina-Linux/linux-5.4/blob/master/drivers/cpufreq/sun50i-cpufreq-nvmem.c#L293-L338
+> >
+> > and maps an efuse value to either 0 or 1, with 1 meaning stable at
+> > a lower supply voltage for the same clock frequency.
+> >
+> > Signed-off-by: Brandon Cheo Fusi <fusibrandon13@gmail.com>
+> > ---
+> >  drivers/cpufreq/sun50i-cpufreq-nvmem.c | 34 ++++++++++++++++++++++++++
+> >  1 file changed, 34 insertions(+)
+> >
+> > diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+> > index fc509fc49..b1cb95308 100644
+> > --- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+> > +++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+> > @@ -29,6 +29,33 @@ struct sunxi_cpufreq_data {
+> >       u32 (*efuse_xlate)(u32 *speedbin, size_t len);
+> >  };
+> >
+> > +static u32 sun20i_efuse_xlate(u32 *speedbin, size_t len)
+>
+> I feel like this prototype can be shortened to:
+>
+> static u32 sun20i_efuse_xlate(u32 speedbin)
+>
+> See below.
+>
+> > +{
+> > +     u32 ret, efuse_value = 0;
+> > +     int i;
+> > +
+> > +     for (i = 0; i < len; i++)
+> > +             efuse_value |= ((u32)speedbin[i] << (i * 8));
+>
+> The cast is not needed. Looking deeper into the original code you linked
+> to, cell_value[] there is an array of u8, so they assemble a little endian
+> 32-bit integer from *up to* four 8-bit values read from the nvmem.
+>
+> So I think this code here is wrong, len is the size of the nvmem cells
+> holding the bin identifier, in *bytes*, so the idea here is to just read
+> the (lowest) 16 bits (in the D1 case, cf. "reg = <0x00 0x2>;" in the next
+> patch) from this nvmem cell. Here you are combining two 32-bit words into
 
-Hi,
+This is true. Not sure though what the 'in the D1 case...' bit means.
 
-(CC:ing Maxime for potential historic context)
+> efuse_value.
+>
+> So I think this whole part above is actually not necessary: we are
+> expecting maximum 32 bits, and nvmem_cell_read() should take care of
+> masking off unrequested bits, so we get the correct value back already. So
+> can you try to remove the loop above, and use ...
+>
+> > +
+> > +     switch (efuse_value) {
+>
+>         switch (*speedbin & 0xffff) {
+>
 
-> On 21/12/2023 16:07, Andre Przywara wrote:
-> > On Thu, 21 Dec 2023 15:45:17 +0100
-> > Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
-> > 
-> > Hi,
-> >   
-> >> On 21/12/2023 15:06, Andre Przywara wrote:  
-> >>> The sunxi.yaml file, holding all known board compatible names for
-> >>> devices with Allwinner SoCs, is apparently sorted alphabetically, by the
-> >>> "description" entry. However there are a few outliers.
-> >>>
-> >>> Re-order the entries to get a strict alphabetical ordering, so that:
-> >>> $ grep description: sunxi.yaml | sort -fc
-> >>> returns empty-handed. There is no change otherwise.
-> >>>
-> >>> Signed-off-by: Andre Przywara <andre.przywara@arm.com>    
-> >>
-> >> What was the existing order? Aren't this just shuffling again things?  
-> > 
-> > It assume the intention was to order "alphabetically by description", but
-> > there were some out-of-place entries which apparently slipped through
-> > review.
-> > 
-> > Shall I add a comment at the top to note the order?  
-> 
-> Some files like this are ordered by compatible, some by class or family
-> of devices, so first you need to be sure there is no existing order.
+Shouldn't the bytes in *speedbin be reversed? 
 
-That's what I did, of course:
-- there is no order in the compatible strings, not in the most specific
-name, nor in the fallback names
-- new boards have always been added somewhere in the middle, never at the
-end, so it's not "oldest boards first"
-- the SoCs used in the boards are all over the place, so it's not sorted
-by SoC
-- I see no rhyme or reason in the board types: we have tablets, devboards,
-TV boxes all mixed up happily.
+> here instead? Or drop the pointer at all, and just use one u32 value, see
+> the above prototype.
+>
 
-But: from the 197 listed boards, a movement of 13 boards, often by just one
-position, makes the list ordered by description.
+I was uncomfortable dropping the len parameter, because then each
+platform's efuse_xlate would ignore the number of valid bytes actually
+read.
 
-So I assumed this was the intention, and fixed the list accordingly. Happy
-to stand corrected if the maintainers have a better idea.
+> Cheers,
+> Andre
+>
+> P.S. This is just a "peephole review" of this patch, I haven't got around
+> to look at this whole scheme in whole yet, to see if we actually need this
+> or can simplify this or clean it up.
+>
+>
+> > +     case 0x5e00:
+> > +             /* QFN package */
+> > +             ret = 0;
+> > +             break;
+> > +     case 0x5c00:
+> > +     case 0x7400:
+> > +             /* QFN package */
+> > +             ret = 1;
+> > +             break;
+> > +     case 0x5000:
+> > +     default:
+> > +             /* BGA package */
+> > +             ret = 0;
+> > +     }
+> > +
+> > +     return ret;
+> > +}
+> > +
+> >  static u32 sun50i_efuse_xlate(u32 *speedbin, size_t len)
+> >  {
+> >       u32 efuse_value = 0;
+> > @@ -46,6 +73,10 @@ static u32 sun50i_efuse_xlate(u32 *speedbin, size_t len)
+> >               return 0;
+> >  }
+> >
+> > +struct sunxi_cpufreq_data sun20i_cpufreq_data = {
+> > +     .efuse_xlate = sun20i_efuse_xlate,
+> > +};
+> > +
+> >  struct sunxi_cpufreq_data sun50i_cpufreq_data = {
+> >       .efuse_xlate = sun50i_efuse_xlate,
+> >  };
+> > @@ -54,6 +85,9 @@ static const struct of_device_id cpu_opp_match_list[] = {
+> >       { .compatible = "allwinner,sun50i-h6-operating-points",
+> >         .data = &sun50i_cpufreq_data,
+> >       },
+> > +     { .compatible = "allwinner,sun20i-d1-operating-points",
+> > +       .data = &sun20i_cpufreq_data,
+> > +     },
+> >       {}
+> >  };
+> >
+>
 
-Cheers,
-Andre
+Thank you for reviewing.
+Brandon.
