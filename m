@@ -1,32 +1,34 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98847760BB
-	for <linux-sunxi@lists.linux.dev>; Thu, 21 Dec 2023 10:39:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5BDA76901
+	for <linux-sunxi@lists.linux.dev>; Thu, 21 Dec 2023 12:50:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CC9392F4;
-	Thu, 21 Dec 2023 02:39:55 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D90762F4;
+	Thu, 21 Dec 2023 04:50:46 -0800 (PST)
 Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DFC133F5A1;
-	Thu, 21 Dec 2023 02:39:08 -0800 (PST)
-Date: Thu, 21 Dec 2023 10:39:06 +0000
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7D29D3F738;
+	Thu, 21 Dec 2023 04:49:59 -0800 (PST)
+Date: Thu, 21 Dec 2023 12:49:57 +0000
 From: Andre Przywara <andre.przywara@arm.com>
-To: fuyao <fuyao@sjterm.com>
-Cc: fuyao <fuyao1697@cyg.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Alexandre
- TORGUE <alexandre.torgue@st.com>, Enric Balletbo i Serra
- <eballetbo@gmail.com>, Baruch Siach <baruch@tkos.co.il>, Paul Barker
- <paul.barker@sancloud.com>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND] ARM: dts: sun8i: r40: open the regulator aldo1
-Message-ID: <20231221103906.1830ef94@donnerap.manchester.arm.com>
-In-Reply-To: <ZYOhAQi7XeLUuAC9@debian.cyg>
-References: <ZYKjYypuAx7gNuam@debian.cyg>
-	<20231220150400.0f32e2a5@donnerap.manchester.arm.com>
-	<ZYOhAQi7XeLUuAC9@debian.cyg>
+To: Brandon Cheo Fusi <fusibrandon13@gmail.com>
+Cc: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Chen-Yu Tsai
+ <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+ <samuel@sholland.org>, Yangtao Li <tiny.windzz@gmail.com>, "Rafael J .
+ Wysocki" <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>,
+ Stephen Rothwell <sfr@canb.auug.org.au>, devicetree@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org
+Subject: Re: [RFC PATCH v2 2/3] cpufreq: sun50i: Add support for D1's speed
+ bin decoding
+Message-ID: <20231221124957.27fa9922@donnerap.manchester.arm.com>
+In-Reply-To: <20231221101013.67204-3-fusibrandon13@gmail.com>
+References: <20231221101013.67204-1-fusibrandon13@gmail.com>
+	<20231221101013.67204-3-fusibrandon13@gmail.com>
 Organization: ARM
 X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
@@ -38,98 +40,123 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Thu, 21 Dec 2023 10:20:49 +0800
-fuyao <fuyao@sjterm.com> wrote:
+On Thu, 21 Dec 2023 11:10:12 +0100
+Brandon Cheo Fusi <fusibrandon13@gmail.com> wrote:
 
-Hi,
+Hi Brandon,
 
-thanks for the reply!
+thanks for the quick turnaround, and for splitting this code up, that
+makes reasoning about this much easier!
 
-> On Wed, Dec 20, 2023 at 03:04:00PM +0000, Andre Przywara wrote:
-> > On Wed, 20 Dec 2023 16:18:43 +0800
-> > fuyao <fuyao1697@cyg.com> wrote:
-> > 
-> > Hi,
-> >   
-> > > the aldo1 is connect regulator pin which power the TV.  
-> > 
-> > What do you mean with that? That ALDO1 is connected to VCC-TVOUT and/or
-> > VCC-TVIN on the R40 SoC?  
+> Adds support for decoding the efuse value read from D1 efuse speed
+> bins, and factors out equivalent code for sun50i.
 > 
-> The ALDO1 is connected to VCC-TVOUT on the R40 Soc.
-
-Ah, thanks for the confirmation.
-
-> > > The USB core use TV ref as reference Voltage.  
-> > 
-> > The USB core in the SoC? So pin VCC-USB, which requires 3.3V, the same
-> > voltage as the TV pins?
-> > Which means this doesn't really have much to do with TV, it's just that
-> > USB and also "TV" are supplied by ALDO1?  
+> The algorithm is gotten from
 > 
-> The internal USB PHY requires a reference voltage. It seems that in
-> order to save costs, the reference voltage of the TVOUT module is used.
+> https://github.com/Tina-Linux/linux-5.4/blob/master/drivers/cpufreq/sun50i-cpufreq-nvmem.c#L293-L338
+> 
+> and maps an efuse value to either 0 or 1, with 1 meaning stable at
+> a lower supply voltage for the same clock frequency.
+> 
+> Signed-off-by: Brandon Cheo Fusi <fusibrandon13@gmail.com>
+> ---
+>  drivers/cpufreq/sun50i-cpufreq-nvmem.c | 34 ++++++++++++++++++++++++++
+>  1 file changed, 34 insertions(+)
+> 
+> diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+> index fc509fc49..b1cb95308 100644
+> --- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+> +++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+> @@ -29,6 +29,33 @@ struct sunxi_cpufreq_data {
+>  	u32 (*efuse_xlate)(u32 *speedbin, size_t len);
+>  };
+>  
+> +static u32 sun20i_efuse_xlate(u32 *speedbin, size_t len)
 
-Do you mean a USB *reference* voltage that is separate from the USB PHY
-power supply voltage, so pin VCC-USB on the SoC? And that it is internally
-connected to some TV-OUT related circuits? So that would apply to all
-devices using the R40 SoC then?
+I feel like this prototype can be shortened to:
 
-Or is it simply that the SoC pins VCC-TVOUT and VCC-USB are connected
-together, on this SoM?
-Do you have access to some schematic? I couldn't find one online easily,
-so cannot check this myself.
+static u32 sun20i_efuse_xlate(u32 speedbin)
 
-Thanks,
+See below.
+
+> +{
+> +	u32 ret, efuse_value = 0;
+> +	int i;
+> +
+> +	for (i = 0; i < len; i++)
+> +		efuse_value |= ((u32)speedbin[i] << (i * 8));
+
+The cast is not needed. Looking deeper into the original code you linked
+to, cell_value[] there is an array of u8, so they assemble a little endian
+32-bit integer from *up to* four 8-bit values read from the nvmem.
+
+So I think this code here is wrong, len is the size of the nvmem cells
+holding the bin identifier, in *bytes*, so the idea here is to just read
+the (lowest) 16 bits (in the D1 case, cf. "reg = <0x00 0x2>;" in the next
+patch) from this nvmem cell. Here you are combining two 32-bit words into
+efuse_value.
+
+So I think this whole part above is actually not necessary: we are
+expecting maximum 32 bits, and nvmem_cell_read() should take care of
+masking off unrequested bits, so we get the correct value back already. So
+can you try to remove the loop above, and use ...
+
+> +
+> +	switch (efuse_value) {
+
+	switch (*speedbin & 0xffff) {
+
+here instead? Or drop the pointer at all, and just use one u32 value, see
+the above prototype.
+
+Cheers,
 Andre
 
-> > > Signed-off-by: fuyao <fuyao1697@cyg.com>
-> > > ---
-> > >  arch/arm/boot/dts/allwinner/sun8i-r40-feta40i.dtsi | 7 +++++++
-> > >  1 file changed, 7 insertions(+)
-> > > 
-> > > diff --git a/arch/arm/boot/dts/allwinner/sun8i-r40-feta40i.dtsi b/arch/arm/boot/dts/allwinner/sun8i-r40-feta40i.dtsi
-> > > index 9f39b5a2bb35..8906170461df 100644
-> > > --- a/arch/arm/boot/dts/allwinner/sun8i-r40-feta40i.dtsi
-> > > +++ b/arch/arm/boot/dts/allwinner/sun8i-r40-feta40i.dtsi
-> > > @@ -42,6 +42,13 @@ &pio {
-> > >  	vcc-pg-supply = <&reg_dldo1>;
-> > >  };
-> > >  
-> > > +&reg_aldo1 {
-> > > +	regulator-always-on;  
-> > 
-> > So did USB never work before, with the DT as in mainline?
-> >   
-> 
-> The USB can work, but is unstable. Occasionally disconnected because of
-> the D+/D- electrical characteristics.
-> 
-> > For always-on regulators it would be good to see some rationale why this
-> > cannot be referenced by its consumer. If it is really supplying the USB
-> > core, that would be a reason, because we don't have a good way of
-> > describing this.
-> >   
-> > > +	regulator-min-microvolt = <3300000>;
-> > > +	regulator-max-microvolt = <3300000>;
-> > > +	regulator-name = "vcc-aldo1";  
-> > 
-> > Regulators should be named after their users, so use something like:
-> > 	regulator-name = "vcc-3v3-tv-usb";
-> >   
-> 
-> thanks.
-> 
-> > That then also serves as documentation of why this is always on.
-> > 
-> > Cheers,
-> > Andre
-> >   
-> > > +};
-> > > +
-> > >  &reg_aldo2 {
-> > >  	regulator-always-on;
-> > >  	regulator-min-microvolt = <1800000>;  
-> >   
-> 
+P.S. This is just a "peephole review" of this patch, I haven't got around
+to look at this whole scheme in whole yet, to see if we actually need this
+or can simplify this or clean it up.
+
+
+> +	case 0x5e00:
+> +		/* QFN package */
+> +		ret = 0;
+> +		break;
+> +	case 0x5c00:
+> +	case 0x7400:
+> +		/* QFN package */
+> +		ret = 1;
+> +		break;
+> +	case 0x5000:
+> +	default:
+> +		/* BGA package */
+> +		ret = 0;
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+>  static u32 sun50i_efuse_xlate(u32 *speedbin, size_t len)
+>  {
+>  	u32 efuse_value = 0;
+> @@ -46,6 +73,10 @@ static u32 sun50i_efuse_xlate(u32 *speedbin, size_t len)
+>  		return 0;
+>  }
+>  
+> +struct sunxi_cpufreq_data sun20i_cpufreq_data = {
+> +	.efuse_xlate = sun20i_efuse_xlate,
+> +};
+> +
+>  struct sunxi_cpufreq_data sun50i_cpufreq_data = {
+>  	.efuse_xlate = sun50i_efuse_xlate,
+>  };
+> @@ -54,6 +85,9 @@ static const struct of_device_id cpu_opp_match_list[] = {
+>  	{ .compatible = "allwinner,sun50i-h6-operating-points",
+>  	  .data = &sun50i_cpufreq_data,
+>  	},
+> +	{ .compatible = "allwinner,sun20i-d1-operating-points",
+> +	  .data = &sun20i_cpufreq_data,
+> +	},
+>  	{}
+>  };
+>  
 
