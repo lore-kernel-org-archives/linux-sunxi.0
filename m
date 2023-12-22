@@ -1,222 +1,148 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CC1D627E2
-	for <linux-sunxi@lists.linux.dev>; Thu, 21 Dec 2023 17:26:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B423A2F4;
-	Thu, 21 Dec 2023 09:27:34 -0800 (PST)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3ED1B3F5A1;
-	Thu, 21 Dec 2023 09:26:47 -0800 (PST)
-Date: Thu, 21 Dec 2023 17:26:44 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Brandon Cheo Fusi <fusibrandon13@gmail.com>
-Cc: aou@eecs.berkeley.edu, conor+dt@kernel.org, devicetree@vger.kernel.org,
- jernej.skrabec@gmail.com, krzysztof.kozlowski+dt@linaro.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-sunxi@lists.linux.dev, palmer@dabbelt.com, paul.walmsley@sifive.com,
- rafael@kernel.org, robh+dt@kernel.org, samuel@sholland.org,
- sfr@canb.auug.org.au, tiny.windzz@gmail.com, viresh.kumar@linaro.org,
- wens@csie.org
-Subject: Re: [RFC PATCH v2 2/3] cpufreq: sun50i: Add support for D1's speed
- bin decoding
-Message-ID: <20231221172644.21cf3817@donnerap.manchester.arm.com>
-In-Reply-To: <20231221171107.85991-1-fusibrandon13@gmail.com>
-References: <20231221124957.27fa9922@donnerap.manchester.arm.com>
-	<20231221171107.85991-1-fusibrandon13@gmail.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3EB9944D
+	for <linux-sunxi@lists.linux.dev>; Fri, 22 Dec 2023 07:46:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oltmanns.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b="yfTUqeG/"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4SxK9d5hNTz9t37;
+	Fri, 22 Dec 2023 08:46:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+	s=MBO0001; t=1703231173;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QReCVjp65CghleerQ4Gsba57ap8mMcMDnWkb8OUPQus=;
+	b=yfTUqeG/KzzUMlyxkh4Kr1ro6U3WNlOXHfwdMVxDWBWooswGbQ9Tf76tXJ/iDUuXhmukWP
+	SJgx93NSfrGhfjIcfrnJaBUhBMYKNjpU/tL0CDkZqR6eiOVv6egqgSp3reUif8cA9W8j10
+	hveCBXVvJUucNi2OxlfVRWZViA8CsXrEa+B9w6jm2VC/HDdNvGmDFkuTWft9ydWk74somG
+	GR7PfwtWATistc3dXQWwO/j0mUTDCIMdD5hVTeX4l+Ski4+Wjv5R02c/Bar5CgneCKfsss
+	n+AkM9pdMdi1lXHOxQqD1gZLXtA0ua/0D0kaD1DUq8C8HcrN3hW1TRiUrOwb+A==
+References: <20231218-pinephone-pll-fixes-v1-0-e238b6ed6dc1@oltmanns.dev>
+ <13411739.uLZWGnKmhe@jernej-laptop> <87il4t9wi1.fsf@oltmanns.dev>
+ <2174554.Mh6RI2rZIc@jernej-laptop>
+From: Frank Oltmanns <frank@oltmanns.dev>
+To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland
+ <samuel@sholland.org>, Guido =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>,
+ Purism Kernel Team
+ <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, linux-clk@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 4/5] clk: sunxi-ng: a64: Add constraints on PLL-VIDEO0's
+ n/m ratio
+In-reply-to: <2174554.Mh6RI2rZIc@jernej-laptop>
+Date: Fri, 22 Dec 2023 08:46:01 +0100
+Message-ID: <87edfellxi.fsf@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 4SxK9d5hNTz9t37
 
-On Thu, 21 Dec 2023 18:11:07 +0100
-Brandon Cheo Fusi <fusibrandon13@gmail.com> wrote:
 
-Hi Brandon,
+On 2023-12-20 at 16:12:42 +0100, Jernej =C5=A0krabec <jernej.skrabec@gmail.=
+com> wrote:
+> Dne sreda, 20. december 2023 ob 08:09:28 CET je Frank Oltmanns napisal(a):
+>>
+>> On 2023-12-19 at 17:54:19 +0100, Jernej =C5=A0krabec <jernej.skrabec@gma=
+il.com> wrote:
+>> > Dne ponedeljek, 18. december 2023 ob 14:35:22 CET je Frank Oltmanns na=
+pisal(a):
+>> >> The Allwinner A64 manual lists the following constraint for the
+>> >> PLL-VIDEO0 clock: 8 <=3D N/M <=3D 25
+>> >>
+>> >> Use this constraint.
+>> >>
+>> >> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+>> >> ---
+>> >>  drivers/clk/sunxi-ng/ccu-sun50i-a64.c | 8 ++++++--
+>> >>  1 file changed, 6 insertions(+), 2 deletions(-)
+>> >>
+>> >> diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c b/drivers/clk/sunx=
+i-ng/ccu-sun50i-a64.c
+>> >> index c034ac027d1c..75d839da446c 100644
+>> >> --- a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+>> >> +++ b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+>> >> @@ -68,7 +68,8 @@ static SUNXI_CCU_NM_WITH_SDM_GATE_LOCK(pll_audio_ba=
+se_clk, "pll-audio-base",
+>> >>  				       BIT(28),	/* lock */
+>> >>  				       CLK_SET_RATE_UNGATE);
+>> >>
+>> >> -static SUNXI_CCU_NM_WITH_FRAC_GATE_LOCK_MIN_MAX_CLOSEST(pll_video0_c=
+lk, "pll-video0",
+>> >> +static SUNXI_CCU_NM_WITH_FRAC_GATE_LOCK_MIN_MAX_FEAT_NM_RATIO(pll_vi=
+deo0_clk,
+>> >> +						"pll-video0",
+>> >>  						"osc24M", 0x010,
+>> >>  						192000000,	/* Minimum rate */
+>> >>  						1008000000,	/* Maximum rate */
+>> >> @@ -80,7 +81,10 @@ static SUNXI_CCU_NM_WITH_FRAC_GATE_LOCK_MIN_MAX_CL=
+OSEST(pll_video0_clk, "pll-vid
+>> >>  						297000000,	/* frac rate 1 */
+>> >>  						BIT(31),	/* gate */
+>> >>  						BIT(28),	/* lock */
+>> >> -						CLK_SET_RATE_UNGATE);
+>> >> +						CLK_SET_RATE_UNGATE,
+>> >> +						CCU_FEATURE_FRACTIONAL |
+>> >> +						CCU_FEATURE_CLOSEST_RATE,
+>> >
+>> > Above flags are unrelated change, put them in new patch if needed.
+>>
+>> You might notice that I am using a new macro for initializing the
+>> pll_video0_clk struct:
+>> New: SUNXI_CCU_NM_WITH_FRAC_GATE_LOCK_MIN_MAX_FEAT_NM_RATIO
+>> Old: SUNXI_CCU_NM_WITH_FRAC_GATE_LOCK_MIN_MAX_CLOSEST
+>>
+>> Setting the two CCU_FEATURE flags is part of the old initialization
+>> macro.
+>>
+>> I'll add SUNXI_CCU_NM_WITH_FRAC_GATE_LOCK_MIN_MAX_NM_RATIO_CLOSEST which
+>> hopefully resolves the confusion.
+>
+> I'm in doubt if we need so many macros. How many users of these macro we'=
+ll have?
+> I see that R40 SoC would also need same ratio limits, but other that that=
+, none?
 
-> On Thu, Dec 21, 2023 at 1:50=E2=80=AFPM Andre Przywara <andre.przywara@ar=
-m.com> wrote:
-> >
-> > On Thu, 21 Dec 2023 11:10:12 +0100
-> > Brandon Cheo Fusi <fusibrandon13@gmail.com> wrote:
-> >
-> > Hi Brandon,
-> >
-> > thanks for the quick turnaround, and for splitting this code up, that
-> > makes reasoning about this much easier!
-> > =20
-> > > Adds support for decoding the efuse value read from D1 efuse speed
-> > > bins, and factors out equivalent code for sun50i.
-> > >
-> > > The algorithm is gotten from
-> > >
-> > > https://github.com/Tina-Linux/linux-5.4/blob/master/drivers/cpufreq/s=
-un50i-cpufreq-nvmem.c#L293-L338
-> > >
-> > > and maps an efuse value to either 0 or 1, with 1 meaning stable at
-> > > a lower supply voltage for the same clock frequency.
-> > >
-> > > Signed-off-by: Brandon Cheo Fusi <fusibrandon13@gmail.com>
-> > > ---
-> > >  drivers/cpufreq/sun50i-cpufreq-nvmem.c | 34 ++++++++++++++++++++++++=
-++
-> > >  1 file changed, 34 insertions(+)
-> > >
-> > > diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq=
-/sun50i-cpufreq-nvmem.c
-> > > index fc509fc49..b1cb95308 100644
-> > > --- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-> > > +++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-> > > @@ -29,6 +29,33 @@ struct sunxi_cpufreq_data {
-> > >       u32 (*efuse_xlate)(u32 *speedbin, size_t len);
-> > >  };
-> > >
-> > > +static u32 sun20i_efuse_xlate(u32 *speedbin, size_t len) =20
-> >
-> > I feel like this prototype can be shortened to:
-> >
-> > static u32 sun20i_efuse_xlate(u32 speedbin)
-> >
-> > See below.
-> > =20
-> > > +{
-> > > +     u32 ret, efuse_value =3D 0;
-> > > +     int i;
-> > > +
-> > > +     for (i =3D 0; i < len; i++)
-> > > +             efuse_value |=3D ((u32)speedbin[i] << (i * 8)); =20
-> >
-> > The cast is not needed. Looking deeper into the original code you linked
-> > to, cell_value[] there is an array of u8, so they assemble a little end=
-ian
-> > 32-bit integer from *up to* four 8-bit values read from the nvmem.
-> >
-> > So I think this code here is wrong, len is the size of the nvmem cells
-> > holding the bin identifier, in *bytes*, so the idea here is to just read
-> > the (lowest) 16 bits (in the D1 case, cf. "reg =3D <0x00 0x2>;" in the =
-next
-> > patch) from this nvmem cell. Here you are combining two 32-bit words in=
-to =20
->=20
-> This is true. Not sure though what the 'in the D1 case...' bit means.
+Ok, IIUC no additional macro and we keep this part of the patch as is.
 
-In the next patch you introduce the nvmem DT property, and set the length
-part to "0x2". So for the D1 we will always read two bytes.
+Best regards,
+  Frank
 
-> > efuse_value.
-> >
-> > So I think this whole part above is actually not necessary: we are
-> > expecting maximum 32 bits, and nvmem_cell_read() should take care of
-> > masking off unrequested bits, so we get the correct value back already.=
- So
-> > can you try to remove the loop above, and use ...
-> > =20
-> > > +
-> > > +     switch (efuse_value) { =20
-> >
-> >         switch (*speedbin & 0xffff) {
-> > =20
->=20
-> Shouldn't the bytes in *speedbin be reversed?=20
-
-I believe they are stored as a little endian 16-bit integer in the fuses.
-I haven't tried a BE kernel, but I think the NVMEM framework takes care of
-that.
-If you dump the values as returned by nvmem_cell_read(), we would know for
-sure.
-
-> > here instead? Or drop the pointer at all, and just use one u32 value, s=
-ee
-> > the above prototype.
-> > =20
->=20
-> I was uncomfortable dropping the len parameter, because then each
-> platform's efuse_xlate would ignore the number of valid bytes actually
-> read.
-
-Well, I am not sure either, but neither the H6, nor the H616 or the D1
-apparently really need that: they all use either 4 or 2 bytes to encode
-the speed bin. And since the routines are SoC specific anyway, and the
-first 32-bit word of the buffer filled by nvmem_cell_read() should always
-be valid (and be it 0), I think there is little need to check that.
-I ported the H616 code over, and it looks somewhat similar to the D1 (with
-different numbers, though): it's (ab)using some die revision code (the
-first two bytes in the SID) to derive the speed bin. The H6 had a
-dedicated bin fuse.
-
-So iff we are going to see a SoC needing to check the length, we can always
-introduce that later: it's just an internal function.
-But for now I'd like to keep it simple.
-
-Cheers,
-Andre
-
->=20
-> > Cheers,
-> > Andre
-> >
-> > P.S. This is just a "peephole review" of this patch, I haven't got arou=
-nd
-> > to look at this whole scheme in whole yet, to see if we actually need t=
-his
-> > or can simplify this or clean it up.
-> >
-> > =20
-> > > +     case 0x5e00:
-> > > +             /* QFN package */
-> > > +             ret =3D 0;
-> > > +             break;
-> > > +     case 0x5c00:
-> > > +     case 0x7400:
-> > > +             /* QFN package */
-> > > +             ret =3D 1;
-> > > +             break;
-> > > +     case 0x5000:
-> > > +     default:
-> > > +             /* BGA package */
-> > > +             ret =3D 0;
-> > > +     }
-> > > +
-> > > +     return ret;
-> > > +}
-> > > +
-> > >  static u32 sun50i_efuse_xlate(u32 *speedbin, size_t len)
-> > >  {
-> > >       u32 efuse_value =3D 0;
-> > > @@ -46,6 +73,10 @@ static u32 sun50i_efuse_xlate(u32 *speedbin, size_=
-t len)
-> > >               return 0;
-> > >  }
-> > >
-> > > +struct sunxi_cpufreq_data sun20i_cpufreq_data =3D {
-> > > +     .efuse_xlate =3D sun20i_efuse_xlate,
-> > > +};
-> > > +
-> > >  struct sunxi_cpufreq_data sun50i_cpufreq_data =3D {
-> > >       .efuse_xlate =3D sun50i_efuse_xlate,
-> > >  };
-> > > @@ -54,6 +85,9 @@ static const struct of_device_id cpu_opp_match_list=
-[] =3D {
-> > >       { .compatible =3D "allwinner,sun50i-h6-operating-points",
-> > >         .data =3D &sun50i_cpufreq_data,
-> > >       },
-> > > +     { .compatible =3D "allwinner,sun20i-d1-operating-points",
-> > > +       .data =3D &sun20i_cpufreq_data,
-> > > +     },
-> > >       {}
-> > >  };
-> > > =20
-> > =20
->=20
-> Thank you for reviewing.
-> Brandon.
->=20
-
+>
+> Best regards,
+> Jernej
+>
+>>
+>> Thanks,
+>>   Frank
+>>
+>> >
+>> > Best regards,
+>> > Jernej
+>> >
+>> >> +						8, 25);		/* min/max nm ratio */
+>> >>
+>> >>  static SUNXI_CCU_NM_WITH_FRAC_GATE_LOCK(pll_ve_clk, "pll-ve",
+>> >>  					"osc24M", 0x018,
+>> >>
+>> >>
+>>
