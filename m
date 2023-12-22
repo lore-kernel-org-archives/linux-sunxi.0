@@ -1,47 +1,47 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B9F018038
-	for <linux-sunxi@lists.linux.dev>; Fri, 22 Dec 2023 11:14:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8525D15ACC
+	for <linux-sunxi@lists.linux.dev>; Fri, 22 Dec 2023 11:15:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DpAFonRI"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-50e51a7545dso2020119e87.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 22 Dec 2023 03:14:55 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ilQoYmmY"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-550dd0e3304so2210493a12.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 22 Dec 2023 03:15:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703243693; x=1703848493; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1703243705; x=1703848505; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=422E8D0hJIO/x9qlN5M/YDPeDy51iO5eXq4u7UbXCT8=;
-        b=DpAFonRIxZXpojTK454UXQ5hXBGhpNNktHRjQyCiWcfht16JR7oaaYXQoHKwn4Yav3
-         1Bo7EW7IHIsXTD+upO5KYSTceHdIyYDSuEcMHR/ls5cxpWzId+pH/oLosq0lvPAMiDI2
-         mvPGjFXWbP620lEmycmW5MMmiipHAVVfQCplRAOWU5DNBwLltdJebLXCg9ZxurqxPclt
-         mEmnZ0dB8GJISt/uZtEZNgl1Rs35yWOGzMGx1LvNUgmVIqPXTua1tgVHtGUIUXksErTk
-         7VTnEnsAIyRxfhFkDtDQY8w+1t1oZiStlFunTSnd6UiuS9+COHTThCZFFJ12HPrEODqj
-         5IuA==
+        bh=7BvelMzmtyu1Sqb0MGaQ3BVDecc44IV/AoEGKsA1SR0=;
+        b=ilQoYmmYjhos0nEMO1Zes7SI7d6hxBQU9ZFVgtxWESUOpQXHQxrSucF931FYu4HlSG
+         TBo/MKoYFGAuHoJgnjDd01D0K47YExOjmVcfU7Z+SiETniEEMOeQItw7aq2h3KDB58uq
+         8WqcIAVv5nxfM27xbmtDkE2RvXAWY5QHzA4/FlfB3ZNg4rYJ434qGvxXtwa7/YOh6GaK
+         jUHhCFO+vmgzhiNq8oHIPheuxFTWhhWyd7FdW5e7KqfxXei0TodnUEbtBSt096FG8lxM
+         tFLljz10R0RBscoC0FCiVCWI2sNQqgOQHjgVPVJfP4dD87noaALF3n+idPIteJtQnV6O
+         mc4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703243693; x=1703848493;
+        d=1e100.net; s=20230601; t=1703243705; x=1703848505;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=422E8D0hJIO/x9qlN5M/YDPeDy51iO5eXq4u7UbXCT8=;
-        b=uhNt15K3LM/MWMnvR3zEKLf0k3+TYaXUhBoFwVd/hpoVMzMRZYUpIJ8M8SQryaNASG
-         pn5QINtrmqYFnnLi2aQFKsZ5CFA5MATO0swAEoek/f9Vs5ocxVgCtUBR5tCXtyM+zTZ3
-         KZWv7OBCm1er1Zgk+DLUPJDAzVhF9UiU5w/DyGdgnXexll08T8HHBVB5pUwyjI967Q0J
-         0PyuL/83lKv2WjVTtiYEVmGo/8ZzxMms8DsN60jbfFpGRx2QAio60Ws+7G0Ik5hKaX/W
-         /3jAnlleejOQdaMpMpDodidCyNTaymbzfhtc0Vmyn0i3TftYC4BOqVYxYMGcMUbMSnLl
-         5ZSA==
-X-Gm-Message-State: AOJu0Ywx6JLkTQwmJgtT9oECax3VDYwjIF3QIswCdFl8fOSD7Ym+7ekc
-	1ZsgO2k1mn3SlYhXQ9FOJcw=
-X-Google-Smtp-Source: AGHT+IHvAdtVCOCM0VreRerqB83H12IHnADRmj9a8fDFQRtDWT3/nlvul6XbQlcen4QGsNI+A1vNAA==
-X-Received: by 2002:ac2:4db0:0:b0:50e:375e:735f with SMTP id h16-20020ac24db0000000b0050e375e735fmr494437lfe.74.1703243693363;
-        Fri, 22 Dec 2023 03:14:53 -0800 (PST)
+        bh=7BvelMzmtyu1Sqb0MGaQ3BVDecc44IV/AoEGKsA1SR0=;
+        b=QmDkG10WpDyRZ/A+n9oVMj6HI3OGu4XGGDghToRhY2Flmf+LLEhJNn/cj3a+hYMmS/
+         0KJZf/dC1IWaTZGsgua/O/le76gBGES6QS+vXZpeRksbKkU5nmpNp+nb5t7nns6iZROc
+         7vUlip8wCqNK6cEvEa2mE+Mrn6AQGgPQzAZr2je7ij+UQvXd8HPlSvUfUwiRXJc/iHCK
+         VOQfysibr3OuNiyNAtJsy9bYzb9iXJ9DQiWWnpyA7+DOZDsZeKt0HQMGzlMgpOeKFRnS
+         et4BK/KAsIaxvdlmxUCGNuMhmCPVI2R5SqQsXH/8BnDaBctmuUmG7M1AngcArgc7hCPz
+         Wk8w==
+X-Gm-Message-State: AOJu0Yy5ZlkGm2ajXQBlXYVJ2lIUF3Pgv00MKgHsWfzhlLBpwmjD0NX8
+	bk4PlTdcjeh+D03EfiQFUEQ=
+X-Google-Smtp-Source: AGHT+IGWir11b4gGwRl3NO7lj7pMTMBbWgNmeSbRuM9TWOJnnwaniRMrtaZLnxpLWHffPO330BSmbA==
+X-Received: by 2002:a05:6402:124b:b0:551:ab9e:53c6 with SMTP id l11-20020a056402124b00b00551ab9e53c6mr575373edw.52.1703243704565;
+        Fri, 22 Dec 2023 03:15:04 -0800 (PST)
 Received: from localhost.localdomain ([154.72.162.91])
-        by smtp.gmail.com with ESMTPSA id es15-20020a056402380f00b0055267663784sm2420469edb.11.2023.12.22.03.14.46
+        by smtp.gmail.com with ESMTPSA id es15-20020a056402380f00b0055267663784sm2420469edb.11.2023.12.22.03.14.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Dec 2023 03:14:52 -0800 (PST)
+        Fri, 22 Dec 2023 03:15:03 -0800 (PST)
 From: Brandon Cheo Fusi <fusibrandon13@gmail.com>
 To: Andre Przywara <andre.przywara@arm.com>,
 	Rob Herring <robh+dt@kernel.org>,
@@ -64,9 +64,9 @@ Cc: devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-pm@vger.kernel.org,
 	Brandon Cheo Fusi <fusibrandon13@gmail.com>
-Subject: [RFC PATCH v3 2/3] cpufreq: sun50i: Add support for D1's speed bin decoding
-Date: Fri, 22 Dec 2023 12:14:06 +0100
-Message-Id: <20231222111407.104270-3-fusibrandon13@gmail.com>
+Subject: [RFC PATCH v3 3/3] riscv: dts: allwinner: Fill in OPPs
+Date: Fri, 22 Dec 2023 12:14:07 +0100
+Message-Id: <20231222111407.104270-4-fusibrandon13@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20231222111407.104270-1-fusibrandon13@gmail.com>
 References: <20231222111407.104270-1-fusibrandon13@gmail.com>
@@ -78,84 +78,60 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Adds support for decoding the efuse value read from D1 efuse speed
-bins, and factors out equivalent code for sun50i.
+Specify two voltage ranges, in order of increasing stability,
+for each OPP.
 
-The algorithm is gotten from
+Also define an nvmem cpu speed grade cell of length 2.
 
-https://github.com/Tina-Linux/linux-5.4/blob/master/drivers/cpufreq/sun50i-cpufreq-nvmem.c#L293-L338
-
-and maps an efuse value to either 0 or 1, with 1 meaning stable at
-a lower supply voltage for the same clock frequency.
+Link: https://github.com/Tina-Linux/linux-5.4/blob/master/arch/riscv/boot/dts/sunxi/sun20iw1p1.dtsi#L118-L133
+Link: https://github.com/mangopi-sbc/tina-linux-5.4/blob/0d4903ebd9d2194ad914686d5b0fc1ddacf11a9d/arch/riscv/boot/dts/sunxi/sun20iw1p1.dtsi#L118-L182
 
 Signed-off-by: Brandon Cheo Fusi <fusibrandon13@gmail.com>
 ---
- drivers/cpufreq/sun50i-cpufreq-nvmem.c | 31 ++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+ arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi | 19 ++++++++++++++++---
+ 1 file changed, 16 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-index e8c2a1dc3..26bb5217b 100644
---- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-+++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-@@ -29,6 +29,29 @@ struct sunxi_cpufreq_data {
- 	u32 (*efuse_xlate)(u32 speedbin);
+diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+index 64c3c2e6c..7e2e015e0 100644
+--- a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
++++ b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+@@ -39,16 +39,23 @@ cpu0_intc: interrupt-controller {
+ 	};
+ 
+ 	opp_table_cpu: opp-table-cpu {
+-		compatible = "operating-points-v2";
++		compatible = "allwinner,sun20i-d1-operating-points";
++		nvmem-cells = <&cpu_speed_grade>;
++		nvmem-cell-names = "speed";
++		opp-shared;
+ 
+ 		opp-408000000 {
+ 			opp-hz = /bits/ 64 <408000000>;
+-			opp-microvolt = <900000 900000 1100000>;
++
++			opp-microvolt-speed0 = <950000 950000 1100000>;
++			opp-microvolt-speed1 = <900000 900000 1100000>;
+ 		};
+ 
+ 		opp-1080000000 {
+ 			opp-hz = /bits/ 64 <1008000000>;
+-			opp-microvolt = <900000 900000 1100000>;
++
++			opp-microvolt-speed0 = <1100000>;
++			opp-microvolt-speed1 = <950000 950000 1100000>;
+ 		};
+ 	};
+ 
+@@ -115,3 +122,9 @@ pmu {
+ 			<0x00000000 0x0000000f 0xffffffff 0xffffffff 0x00020000>;
+ 	};
  };
- 
-+static u32 sun20i_efuse_xlate(u32 speedbin)
-+{
-+	u32 ret;
 +
-+	switch (speedbin & 0xffff) {
-+	case 0x5e00:
-+		/* QFN package */
-+		ret = 0;
-+		break;
-+	case 0x5c00:
-+	case 0x7400:
-+		/* QFN package */
-+		ret = 1;
-+		break;
-+	case 0x5000:
-+	default:
-+		/* BGA package */
-+		ret = 0;
-+	}
-+
-+	return ret;
-+}
-+
- static u32 sun50i_efuse_xlate(u32 speedbin)
- {
- 	u32 efuse_value;
-@@ -46,6 +69,10 @@ static u32 sun50i_efuse_xlate(u32 speedbin)
- 		return 0;
- }
- 
-+struct sunxi_cpufreq_data sun20i_cpufreq_data = {
-+	.efuse_xlate = sun20i_efuse_xlate,
++&sid {
++	cpu_speed_grade: cpu-speed-grade@0 {
++		reg = <0x00 0x2>;
++	};
 +};
-+
- static struct sunxi_cpufreq_data sun50i_cpufreq_data = {
- 	.efuse_xlate = sun50i_efuse_xlate,
- };
-@@ -54,6 +81,9 @@ static const struct of_device_id cpu_opp_match_list[] = {
- 	{ .compatible = "allwinner,sun50i-h6-operating-points",
- 	  .data = &sun50i_cpufreq_data,
- 	},
-+	{ .compatible = "allwinner,sun20i-d1-operating-points",
-+	  .data = &sun20i_cpufreq_data,
-+	},
- 	{}
- };
- 
-@@ -182,6 +212,7 @@ static struct platform_driver sun50i_cpufreq_driver = {
- 
- static const struct of_device_id sun50i_cpufreq_match_list[] = {
- 	{ .compatible = "allwinner,sun50i-h6" },
-+	{ .compatible = "allwinner,sun20i-d1" },
- 	{}
- };
- MODULE_DEVICE_TABLE(of, sun50i_cpufreq_match_list);
 -- 
 2.30.2
 
