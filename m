@@ -1,78 +1,296 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 360A719BD3;
-	Fri, 22 Dec 2023 12:52:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54F0324B4D
+	for <linux-sunxi@lists.linux.dev>; Fri, 22 Dec 2023 17:36:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ctcXJKZ2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0EDEC433CA;
-	Fri, 22 Dec 2023 12:52:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703249564;
-	bh=7XWGcOrq/RDTo8zQVqjxLsAsAQ6YQ8CXxz6OTo3M7HY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ctcXJKZ2iRVYnCCHSwbYGMB5ikB+PqhrA0xKcspRtJDDZbd/qi1dzFzTjWOttRgcD
-	 wG1szO5tDBRemQjNyvv0MwwLnKQ3ORAaYgWSxgwwsO/Kpt+aYL8Xk/8ga5vOctKptw
-	 HgE8LiK8KKfzNaLCXO18k/CuO5QOYbTBJwj7VqGIu2c7hc7WUKOFkBAbZQQlIibMvM
-	 RqDCLLDUVfSAx3icsOsDBca5eC7OkvTSgq+qvPZhHVVFzxuk4fURkTUVShiV9FKGEN
-	 Q9Sch8Eh7sjrcOSQeXyAbJfamJ8bbE3a6HWXppJtoi7fdJL83qgwNV2hGe8+iCsIcW
-	 fSsycsr3KYTBw==
-Date: Fri, 22 Dec 2023 13:52:34 +0100
-From: Simon Horman <horms@kernel.org>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org, wens@csie.org, samuel@sholland.org,
-	andrew@lunn.ch, hkallweit1@gmail.com, linux@armlinux.org.uk,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	Corentin Labbe <clabbe.montjoie@gmail.com>
-Subject: Re: [PATCH v5 1/3] phy: handle optional regulator for PHY
-Message-ID: <20231222125234.GF1202958@kernel.org>
-References: <20231220203537.83479-1-jernej.skrabec@gmail.com>
- <20231220203537.83479-2-jernej.skrabec@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NsqBs0HF"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-40d4d70eca6so2450485e9.3
+        for <linux-sunxi@lists.linux.dev>; Fri, 22 Dec 2023 09:36:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1703266594; x=1703871394; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7YiZlI//r8En/tRk88upggSvyQysyuMQpr+gIg9UNzw=;
+        b=NsqBs0HFBKIkJAU4kekIwZOwNm1b16Rvy3kaYN/+yv/QVoiT5yUIRu3Oj6XSWALmGF
+         RfQN3Yc/rMKOUdkztX3givMjIAhpIoc3oYP6aAYruqcK5gHN0iLHbiqBJZXDUroxWcKU
+         NJ/3eObdEvfHixyqHow4NZAoB577NI8sWiQ4+bDkEZwO3cPDQCD9ib9Z6AByj8pwcWsb
+         uOg3dL2u0tI6tWpJkrLEMqf+R4pfC5tqFC0zomSkoj0O1aginTBICyhYrOo0o9M2oAk3
+         BhtEKb8zFMIz5wXob3QFGgh/AfIcCE4rpZaHJrZct8B0f1iUTd4PIT5efTK7PCfNq+A2
+         sT3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703266594; x=1703871394;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7YiZlI//r8En/tRk88upggSvyQysyuMQpr+gIg9UNzw=;
+        b=CQc2xiLicbGqkWGWq5Evk0Lf9Y4tW8v0oeLS7bZGej929igLAt67lQ4OXi9l2G9+Ca
+         osdS62engIkOxKPjNitSR3QG42WmRYKA93E5BEo+H7HUhtxqgYV8ciUZUdMh71GN9rOa
+         ciWQ3Lol3qi+kCZ1NlidVfqFtR9IhlK5hhrGxtS7VthahWs1hsZAVpE2YfqoXyxA4anK
+         lO93bgp9zSDRJkbv8SppenydPANtY5cH3NIeoaMq5sVx3g2FifG1XuN6IbkBgmCFisaQ
+         2MFPLBYaDyLAOXiWIwVnEdwrQDvXFH2Lqrfgl69WwCdA20wmJP+kwJSwFLB2MG6UH4pX
+         2J2A==
+X-Gm-Message-State: AOJu0YyPp+Yq/wD4Z/NH4q3LI661l8iW+M76/oWzEPdqqcYgnct6SruL
+	rMv/Lp0+a4QykQDg3GI/nN8=
+X-Google-Smtp-Source: AGHT+IEAqe5dPjXcNIC+gFC5cubYgHN/sN9f6NAD4LxEz9mwTJLk9dblvc9QQAfaFyUSkIhnyKdDDQ==
+X-Received: by 2002:a05:600c:4f88:b0:40c:2533:8f41 with SMTP id n8-20020a05600c4f8800b0040c25338f41mr665524wmq.210.1703266594211;
+        Fri, 22 Dec 2023 09:36:34 -0800 (PST)
+Received: from jernej-laptop.localnet (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
+        by smtp.gmail.com with ESMTPSA id u9-20020a05600c19c900b0040d18fdfe96sm15504000wmq.44.2023.12.22.09.36.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Dec 2023 09:36:33 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Frank Oltmanns <frank@oltmanns.dev>, Frank Oltmanns <frank@oltmanns.dev>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Guido =?ISO-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+ Purism Kernel Team <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject:
+ Re: [PATCH 5/5] drm/panel: st7703: Drive XBD599 panel at higher clock rate
+Date: Fri, 22 Dec 2023 18:36:31 +0100
+Message-ID: <4187182.1IzOArtZ34@jernej-laptop>
+In-Reply-To: <87v88qk3ge.fsf@oltmanns.dev>
+References:
+ <20231218-pinephone-pll-fixes-v1-0-e238b6ed6dc1@oltmanns.dev>
+ <875y0sacmz.fsf@oltmanns.dev> <87v88qk3ge.fsf@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231220203537.83479-2-jernej.skrabec@gmail.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Dec 20, 2023 at 09:35:35PM +0100, Jernej Skrabec wrote:
-> From: Corentin Labbe <clabbe.montjoie@gmail.com>
-> 
-> Add handling of optional regulators for PHY.
-> 
-> Regulators need to be enabled before PHY scanning, so MDIO bus
-> initiate this task.
-> 
-> Signed-off-by: Corentin Labbe <clabbe.montjoie@gmail.com>
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Dne petek, 22. december 2023 ob 10:10:25 CET je Frank Oltmanns napisal(a):
+>=20
+> On 2023-12-20 at 19:57:06 +0100, Frank Oltmanns <frank@oltmanns.dev> wrot=
+e:
+> > Ok, I've done more detailed testing, and it seems this patch results in
+> > lots of dropped frames. I'm sorry for not being more thorough earlier.
+> > I'll do some more testing without this patch and might have to either
+> > remove it from V2 of this series.
+> >
+> > I need to see if the same stability can be achieved when running
+> > PLL-MIPI outside its specied range.
+>=20
+> I've done some more (load) testing and observing the panel for dropped
+> frames.
+>=20
+> The conclusion I draw from those results is that this patch isn't
+> necessary for the pinephone. It would be enough to use the correct clock
+> rate based on the existing values [*]:
+> -	.clock	     =3D 69000,
+> +	.clock	     =3D (720 + 40 + 40 + 40) * (1440 + 18 + 10 + 17) * 60 / 100=
+0,
+>=20
+> I've asked in the postmarketOS community for a bit more testing. They
+> already have a merge request that contains these changes [2].
 
-Hi Jernej,
+This patch sounds reasonable and IMO should be merged.
 
-> diff --git a/include/linux/phy.h b/include/linux/phy.h
-> index 3cc52826f18e..832cb2d4f76a 100644
-> --- a/include/linux/phy.h
-> +++ b/include/linux/phy.h
-> @@ -757,6 +757,9 @@ struct phy_device {
->  	void (*phy_link_change)(struct phy_device *phydev, bool up);
->  	void (*adjust_link)(struct net_device *dev);
->  
-> +	int regulator_cnt;
-> +	struct regulator_bulk_data *consumers;
+Best regards,
+Jernej
 
-Please add these two new fields to the kernel doc
-for struct phy_device which appears a above this hunk in phy.h.
+>=20
+> This means that we would continue to drive PLL-MIPI outside it's
+> specified range. I have, so far, not experienced any downside of doing
+> so. It seems enough to fix the ratios that are part of the first four
+> patches in this series without introducing a min and max rate.
+>=20
+> In conclusion, I'll soon (after some more feedback from the fine folks
+> at postmarketOS) submit a V2 that addresses the fixes requested in the
+> first four patches of this series. I'll drop the existing PATCH 5 and
+> replace it with the one I sent in February [1] instead.
+>=20
+> After that, just for fun, I'll probably look into min_rate and max_rate
+> for nkm clocks and which consequences it has on the pinephone. I might
+> or might not send a follow up series for that. However, if the pinephone
+> runs stable without it, it's not a high priority for me.
+>=20
+> Best regards,
+>   Frank
+>=20
+> [*] I've already submitted a patch in February '23 [1]. It was of little
+>     use back then because the A64's PLL-MIPI clock was not able to run
+>     close to that rate. But since kernel 6.6 PLL-MIPI is able to set
+>     it's parent rate, so that it can come quite close to the required
+>     rate:
+>      + Panel requires 74.844 MHz with the current timings.
+>      +-> tcon-data-clock rate should be 112.266 MHz (panel*24/4/4).
+>       +-> PLL-MIPI rate should be 449.064 MHz (TCON0 * 4)
+>=20
+>     The 6.6 kernel the following rates are possible:
+>      + PLL-MIPI: ~448.984615 MHz
+>      +-> tcon-data-clock: ~112.246153
+>       +-> panel: ~74.830768 MHz
+>=20
+>     Which leaves us with a vertical refresh rate of ~59.989 Hz,
+>     deviating less then 0.2% from the ideal 60Hz. That's probably closer
+>     than the accumulated accuracy of all involved components can
+>     reliably achieve. I'd say, let's leave it at that.
+>=20
+> [1]: https://lore.kernel.org/lkml/20230219114553.288057-2-frank@oltmanns.=
+dev/
+> [2]: https://gitlab.com/postmarketOS/pmaports/-/merge_requests/4645
+> >
+> > Best regards,
+> >   Frank
+> >
+> > On 2023-12-20 at 16:18:49 +0100, Jernej =C5=A0krabec <jernej.skrabec@gm=
+ail.com> wrote:
+> >> Dne sreda, 20. december 2023 ob 08:14:27 CET je Frank Oltmanns napisal=
+(a):
+> >>>
+> >>> On 2023-12-19 at 18:04:29 +0100, Jernej =C5=A0krabec <jernej.skrabec@=
+gmail.com> wrote:
+> >>> > Dne ponedeljek, 18. december 2023 ob 14:35:23 CET je Frank Oltmanns=
+ napisal(a):
+> >>> >> This panel is used in the pinephone that runs on a Allwinner A64 S=
+OC.
+> >>> >> Acoording to it's datasheet, the SOC requires PLL-MIPI to run at m=
+ore
+> >>> >> than 500 MHz.
+> >>> >>
+> >>> >> Therefore, change [hv]sync_(start|end) so that we reach a clock ra=
+te
+> >>> >> that is high enough to drive PLL-MIPI within its limits.
+> >>> >>
+> >>> >> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+> >>> >
+> >>> > I'm not too sure about this patch. I see that PLL_MIPI doesn't have=
+ set
+> >>> > minimum frequency limit in clock driver. If you add it, clock frame=
+work
+> >>> > should find rate that is high enough and divisible with target rate.
+> >>>
+> >>> This one is really a tough nut. Unfortunately, the PLL_MIPI clock for
+> >>> this panel has to run exactly at 6 * panel clock. Let me start by
+> >>> showing the relevant part of the clock tree (this is on the pinephone
+> >>> after applying the patches):
+> >>>     pll-video0                 393600000
+> >>>        pll-mipi                500945454
+> >>>           tcon0                500945454
+> >>>              tcon-data-clock   125236363
+> >>>
+> >>> To elaborate, tcon-data-clock has to run at 1/4 the DSI per-lane bit
+> >>> rate [1]. It's a fixed divisor
+> >>>
+> >>> The panel I'm proposing to change is defined as this:
+> >>>
+> >>>     static const struct st7703_panel_desc xbd599_desc =3D {
+> >>>     	.mode =3D &xbd599_mode,
+> >>>     	.lanes =3D 4,
+> >>>     	.mode_flags =3D MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_P=
+ULSE,
+> >>>     	.format =3D MIPI_DSI_FMT_RGB888,
+> >>>     	.init_sequence =3D xbd599_init_sequence,
+> >>>     };
+> >>>
+> >>> So, we have 24 bpp and 4 lanes. Therefore, the resulting requested
+> >>> tcon-data-clock rate is
+> >>>     crtc_clock * 1000 * (24 / 4) / 4
+> >>>
+> >>> tcon-data-clock therefore requests a parent rate of
+> >>>     4 * (crtc_clock * 1000 * (24 / 4) / 4)
+> >>>
+> >>> The initial 4 is the fixed divisor between tcon0 and tcon-data-clock.
+> >>> Since tcon0 is a ccu_mux, the rate of tcon0 equals the rate of pll-mi=
+pi.
+> >>>
+> >>> Since PLL-MIPI has to run at at least at 500MHz this forces us to hav=
+e a
+> >>> crtc_clock >=3D 83.333 MHz. The mode I'm prorposing results in a rate=
+ of
+> >>> 83.502 MHz.
+> >>
+> >> This is much better explanation why this change is needed. Still, I th=
+ink
+> >> adding min and max rate to PLL_MIPI would make sense, so proper rates
+> >> are guaranteed.
+> >>
+> >> Anyway, do you know where are all those old values come from? And how =
+did
+> >> you come up with new ones? I guess you can't just simply change timing=
+s,
+> >> there are probably some HW limitations? Do you know if BSP kernel supp=
+ort
+> >> this panel and how this situation is solved there?
+> >>
+> >>>
+> >>> If we only changed the constraints on the PLL_MIPI without changing t=
+he
+> >>> panel mode, we end up with a mismatch. This, in turn, would result in
+> >>> dropped frames, right?
+> >>
+> >> From what I read, I think frame rate would be higher than 60 fps. What
+> >> exactly would happen depends on the panel.
+> >>
+> >> Best regards,
+> >> Jernej
+> >>
+> >>>
+> >>> Best regards,
+> >>>   Frank
+> >>>
+> >>> [1] Source:
+> >>> https://elixir.bootlin.com/linux/v6.6.7/source/drivers/gpu/drm/sun4i/=
+sun4i_tcon.c#L346
+> >>>
+> >>> >
+> >>> > Best regards,
+> >>> > Jernej
+> >>> >
+> >>> >> ---
+> >>> >>  drivers/gpu/drm/panel/panel-sitronix-st7703.c | 14 +++++++-------
+> >>> >>  1 file changed, 7 insertions(+), 7 deletions(-)
+> >>> >>
+> >>> >> diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7703.c b/drive=
+rs/gpu/drm/panel/panel-sitronix-st7703.c
+> >>> >> index b55bafd1a8be..6886fd7f765e 100644
+> >>> >> --- a/drivers/gpu/drm/panel/panel-sitronix-st7703.c
+> >>> >> +++ b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
+> >>> >> @@ -320,14 +320,14 @@ static int xbd599_init_sequence(struct st770=
+3 *ctx)
+> >>> >>
+> >>> >>  static const struct drm_display_mode xbd599_mode =3D {
+> >>> >>  	.hdisplay    =3D 720,
+> >>> >> -	.hsync_start =3D 720 + 40,
+> >>> >> -	.hsync_end   =3D 720 + 40 + 40,
+> >>> >> -	.htotal	     =3D 720 + 40 + 40 + 40,
+> >>> >> +	.hsync_start =3D 720 + 65,
+> >>> >> +	.hsync_end   =3D 720 + 65 + 65,
+> >>> >> +	.htotal      =3D 720 + 65 + 65 + 65,
+> >>> >>  	.vdisplay    =3D 1440,
+> >>> >> -	.vsync_start =3D 1440 + 18,
+> >>> >> -	.vsync_end   =3D 1440 + 18 + 10,
+> >>> >> -	.vtotal	     =3D 1440 + 18 + 10 + 17,
+> >>> >> -	.clock	     =3D 69000,
+> >>> >> +	.vsync_start =3D 1440 + 30,
+> >>> >> +	.vsync_end   =3D 1440 + 30 + 22,
+> >>> >> +	.vtotal	     =3D 1440 + 30 + 22 + 29,
+> >>> >> +	.clock	     =3D (720 + 65 + 65 + 65) * (1440 + 30 + 22 + 29) * 6=
+0 / 1000,
+> >>> >>  	.flags	     =3D DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
+> >>> >>  	.width_mm    =3D 68,
+> >>> >>  	.height_mm   =3D 136,
+> >>> >>
+> >>> >>
+> >>>
+>=20
 
-> +
->  #if IS_ENABLED(CONFIG_MACSEC)
->  	/* MACsec management functions */
->  	const struct macsec_ops *macsec_ops;
 
--- 
-pw-bot: changes-requested
+
+
