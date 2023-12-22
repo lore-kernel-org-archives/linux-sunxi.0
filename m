@@ -1,295 +1,109 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54F0324B4D
-	for <linux-sunxi@lists.linux.dev>; Fri, 22 Dec 2023 17:36:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A40EF2C1A3
+	for <linux-sunxi@lists.linux.dev>; Fri, 22 Dec 2023 17:51:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NsqBs0HF"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-40d4d70eca6so2450485e9.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 22 Dec 2023 09:36:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kDN9MwM3"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a2370535060so581236966b.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 22 Dec 2023 09:51:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703266594; x=1703871394; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1703267494; x=1703872294; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7YiZlI//r8En/tRk88upggSvyQysyuMQpr+gIg9UNzw=;
-        b=NsqBs0HFBKIkJAU4kekIwZOwNm1b16Rvy3kaYN/+yv/QVoiT5yUIRu3Oj6XSWALmGF
-         RfQN3Yc/rMKOUdkztX3givMjIAhpIoc3oYP6aAYruqcK5gHN0iLHbiqBJZXDUroxWcKU
-         NJ/3eObdEvfHixyqHow4NZAoB577NI8sWiQ4+bDkEZwO3cPDQCD9ib9Z6AByj8pwcWsb
-         uOg3dL2u0tI6tWpJkrLEMqf+R4pfC5tqFC0zomSkoj0O1aginTBICyhYrOo0o9M2oAk3
-         BhtEKb8zFMIz5wXob3QFGgh/AfIcCE4rpZaHJrZct8B0f1iUTd4PIT5efTK7PCfNq+A2
-         sT3A==
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=g5PzFyYcX86yCLXNKDOjJWI+21oWYWqgqfLfuKAPKRg=;
+        b=kDN9MwM3HNSh5FKqQbKMDYm8JZ6z3CqIVuiSFQnDXanwebHWL3LlnTbQ3HobvAIuh8
+         MHkTP9y83/2+wkdCe0cCUu6QMsJ9t9Tsn2now3uchMcqtSWrOAEW0mIm9fnnbi/Wsyce
+         TseD7j0vt6dRwFCpbxlCCxyJgrN1DeaqeCM8GULLCGb4IK7QCYbHTHeH5gXm+GEmKeOk
+         1xwfuVkrJFcZMy5ezCd9KsWsTExVqOF9qn7bgzc70PEdFJyZJJtfR2Vm7PE1+52L4K/w
+         OPVtgQZqIjlB9N598w9Y6F/jpsDPpUcyTN7PvInXqBzObVnYNVb1t0t5h300tS97ytQ2
+         pgew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703266594; x=1703871394;
+        d=1e100.net; s=20230601; t=1703267494; x=1703872294;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=7YiZlI//r8En/tRk88upggSvyQysyuMQpr+gIg9UNzw=;
-        b=CQc2xiLicbGqkWGWq5Evk0Lf9Y4tW8v0oeLS7bZGej929igLAt67lQ4OXi9l2G9+Ca
-         osdS62engIkOxKPjNitSR3QG42WmRYKA93E5BEo+H7HUhtxqgYV8ciUZUdMh71GN9rOa
-         ciWQ3Lol3qi+kCZ1NlidVfqFtR9IhlK5hhrGxtS7VthahWs1hsZAVpE2YfqoXyxA4anK
-         lO93bgp9zSDRJkbv8SppenydPANtY5cH3NIeoaMq5sVx3g2FifG1XuN6IbkBgmCFisaQ
-         2MFPLBYaDyLAOXiWIwVnEdwrQDvXFH2Lqrfgl69WwCdA20wmJP+kwJSwFLB2MG6UH4pX
-         2J2A==
-X-Gm-Message-State: AOJu0YyPp+Yq/wD4Z/NH4q3LI661l8iW+M76/oWzEPdqqcYgnct6SruL
-	rMv/Lp0+a4QykQDg3GI/nN8=
-X-Google-Smtp-Source: AGHT+IEAqe5dPjXcNIC+gFC5cubYgHN/sN9f6NAD4LxEz9mwTJLk9dblvc9QQAfaFyUSkIhnyKdDDQ==
-X-Received: by 2002:a05:600c:4f88:b0:40c:2533:8f41 with SMTP id n8-20020a05600c4f8800b0040c25338f41mr665524wmq.210.1703266594211;
-        Fri, 22 Dec 2023 09:36:34 -0800 (PST)
+        bh=g5PzFyYcX86yCLXNKDOjJWI+21oWYWqgqfLfuKAPKRg=;
+        b=CuV0IE2boxFTmS0SGKqznW9P9Q6MazoI9/N1nGDJMhU4Vg3PS6BR/VY8rFVpHFeWVI
+         fnbnGaC7RXdCM375gHECHOXQJlnHvQDOV736QQ1+76+i5PfGXvs8UTLqQNLmj6axDz0E
+         0JqjLjGISW0l7pBSu6fescWCHaW2txZb+QQGz4wwbC3RbEWiWl1dSntb5JEIjH2MMHLN
+         6Y3qUB4NqK47A+Bk2h1HXc26fGD35vl5+nvmVSqR8CmHpDAxa1Pm1alI6LDV/anxkS+k
+         rPPyV3wJ6eRWveWUL4qn+qNAyR2r+ye8HQqrM9FvyBOx9tvW8e82eZ2QjY9ocrLK9+xh
+         dF7g==
+X-Gm-Message-State: AOJu0YwpisxzuS7qevIRUllzFzBWOXkvi93ZyAqUtLlOQNr1gRTOKSfj
+	mGvmQ2wNUMweYXtQJ1C2djI=
+X-Google-Smtp-Source: AGHT+IEmmfJDl8r9eainIjCEsYgu5V4LJQxCLxpqL7aCrNTs+kDc9ivnEx+x6SbJCwhPn1EFWFUnwQ==
+X-Received: by 2002:a17:906:4ed6:b0:a26:c590:1b4e with SMTP id i22-20020a1709064ed600b00a26c5901b4emr1013585ejv.36.1703267493630;
+        Fri, 22 Dec 2023 09:51:33 -0800 (PST)
 Received: from jernej-laptop.localnet (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
-        by smtp.gmail.com with ESMTPSA id u9-20020a05600c19c900b0040d18fdfe96sm15504000wmq.44.2023.12.22.09.36.32
+        by smtp.gmail.com with ESMTPSA id v27-20020a17090610db00b00a2689e28445sm2225366ejv.106.2023.12.22.09.51.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Dec 2023 09:36:33 -0800 (PST)
+        Fri, 22 Dec 2023 09:51:32 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Frank Oltmanns <frank@oltmanns.dev>, Frank Oltmanns <frank@oltmanns.dev>
-Cc: Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+To: Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
  Samuel Holland <samuel@sholland.org>,
- Guido =?ISO-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
- Purism Kernel Team <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject:
- Re: [PATCH 5/5] drm/panel: st7703: Drive XBD599 panel at higher clock rate
-Date: Fri, 22 Dec 2023 18:36:31 +0100
-Message-ID: <4187182.1IzOArtZ34@jernej-laptop>
-In-Reply-To: <87v88qk3ge.fsf@oltmanns.dev>
-References:
- <20231218-pinephone-pll-fixes-v1-0-e238b6ed6dc1@oltmanns.dev>
- <875y0sacmz.fsf@oltmanns.dev> <87v88qk3ge.fsf@oltmanns.dev>
+ Andre Przywara <andre.przywara@arm.com>,
+ Alexandre TORGUE <alexandre.torgue@st.com>,
+ Enric Balletbo i Serra <eballetbo@gmail.com>,
+ Baruch Siach <baruch@tkos.co.il>, Paul Barker <paul.barker@sancloud.com>,
+ fuyao <fuyao1697@cyg.com>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND] ARM: dts: sun8i: r40: open the regulator aldo1
+Date: Fri, 22 Dec 2023 18:51:30 +0100
+Message-ID: <9259140.rMLUfLXkoz@jernej-laptop>
+In-Reply-To: <ZYKjYypuAx7gNuam@debian.cyg>
+References: <ZYKjYypuAx7gNuam@debian.cyg>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Dne petek, 22. december 2023 ob 10:10:25 CET je Frank Oltmanns napisal(a):
->=20
-> On 2023-12-20 at 19:57:06 +0100, Frank Oltmanns <frank@oltmanns.dev> wrot=
-e:
-> > Ok, I've done more detailed testing, and it seems this patch results in
-> > lots of dropped frames. I'm sorry for not being more thorough earlier.
-> > I'll do some more testing without this patch and might have to either
-> > remove it from V2 of this series.
-> >
-> > I need to see if the same stability can be achieved when running
-> > PLL-MIPI outside its specied range.
->=20
-> I've done some more (load) testing and observing the panel for dropped
-> frames.
->=20
-> The conclusion I draw from those results is that this patch isn't
-> necessary for the pinephone. It would be enough to use the correct clock
-> rate based on the existing values [*]:
-> -	.clock	     =3D 69000,
-> +	.clock	     =3D (720 + 40 + 40 + 40) * (1440 + 18 + 10 + 17) * 60 / 100=
-0,
->=20
-> I've asked in the postmarketOS community for a bit more testing. They
-> already have a merge request that contains these changes [2].
+Dne sreda, 20. december 2023 ob 09:18:43 CET je fuyao napisal(a):
+> the aldo1 is connect regulator pin which power the TV.
+> The USB core use TV ref as reference Voltage.
+> 
+> Signed-off-by: fuyao <fuyao1697@cyg.com>
 
-This patch sounds reasonable and IMO should be merged.
+Subject line must have board name in it. Please also update message
+as it's unclear.
 
 Best regards,
 Jernej
 
->=20
-> This means that we would continue to drive PLL-MIPI outside it's
-> specified range. I have, so far, not experienced any downside of doing
-> so. It seems enough to fix the ratios that are part of the first four
-> patches in this series without introducing a min and max rate.
->=20
-> In conclusion, I'll soon (after some more feedback from the fine folks
-> at postmarketOS) submit a V2 that addresses the fixes requested in the
-> first four patches of this series. I'll drop the existing PATCH 5 and
-> replace it with the one I sent in February [1] instead.
->=20
-> After that, just for fun, I'll probably look into min_rate and max_rate
-> for nkm clocks and which consequences it has on the pinephone. I might
-> or might not send a follow up series for that. However, if the pinephone
-> runs stable without it, it's not a high priority for me.
->=20
-> Best regards,
->   Frank
->=20
-> [*] I've already submitted a patch in February '23 [1]. It was of little
->     use back then because the A64's PLL-MIPI clock was not able to run
->     close to that rate. But since kernel 6.6 PLL-MIPI is able to set
->     it's parent rate, so that it can come quite close to the required
->     rate:
->      + Panel requires 74.844 MHz with the current timings.
->      +-> tcon-data-clock rate should be 112.266 MHz (panel*24/4/4).
->       +-> PLL-MIPI rate should be 449.064 MHz (TCON0 * 4)
->=20
->     The 6.6 kernel the following rates are possible:
->      + PLL-MIPI: ~448.984615 MHz
->      +-> tcon-data-clock: ~112.246153
->       +-> panel: ~74.830768 MHz
->=20
->     Which leaves us with a vertical refresh rate of ~59.989 Hz,
->     deviating less then 0.2% from the ideal 60Hz. That's probably closer
->     than the accumulated accuracy of all involved components can
->     reliably achieve. I'd say, let's leave it at that.
->=20
-> [1]: https://lore.kernel.org/lkml/20230219114553.288057-2-frank@oltmanns.=
-dev/
-> [2]: https://gitlab.com/postmarketOS/pmaports/-/merge_requests/4645
-> >
-> > Best regards,
-> >   Frank
-> >
-> > On 2023-12-20 at 16:18:49 +0100, Jernej =C5=A0krabec <jernej.skrabec@gm=
-ail.com> wrote:
-> >> Dne sreda, 20. december 2023 ob 08:14:27 CET je Frank Oltmanns napisal=
-(a):
-> >>>
-> >>> On 2023-12-19 at 18:04:29 +0100, Jernej =C5=A0krabec <jernej.skrabec@=
-gmail.com> wrote:
-> >>> > Dne ponedeljek, 18. december 2023 ob 14:35:23 CET je Frank Oltmanns=
- napisal(a):
-> >>> >> This panel is used in the pinephone that runs on a Allwinner A64 S=
-OC.
-> >>> >> Acoording to it's datasheet, the SOC requires PLL-MIPI to run at m=
-ore
-> >>> >> than 500 MHz.
-> >>> >>
-> >>> >> Therefore, change [hv]sync_(start|end) so that we reach a clock ra=
-te
-> >>> >> that is high enough to drive PLL-MIPI within its limits.
-> >>> >>
-> >>> >> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
-> >>> >
-> >>> > I'm not too sure about this patch. I see that PLL_MIPI doesn't have=
- set
-> >>> > minimum frequency limit in clock driver. If you add it, clock frame=
-work
-> >>> > should find rate that is high enough and divisible with target rate.
-> >>>
-> >>> This one is really a tough nut. Unfortunately, the PLL_MIPI clock for
-> >>> this panel has to run exactly at 6 * panel clock. Let me start by
-> >>> showing the relevant part of the clock tree (this is on the pinephone
-> >>> after applying the patches):
-> >>>     pll-video0                 393600000
-> >>>        pll-mipi                500945454
-> >>>           tcon0                500945454
-> >>>              tcon-data-clock   125236363
-> >>>
-> >>> To elaborate, tcon-data-clock has to run at 1/4 the DSI per-lane bit
-> >>> rate [1]. It's a fixed divisor
-> >>>
-> >>> The panel I'm proposing to change is defined as this:
-> >>>
-> >>>     static const struct st7703_panel_desc xbd599_desc =3D {
-> >>>     	.mode =3D &xbd599_mode,
-> >>>     	.lanes =3D 4,
-> >>>     	.mode_flags =3D MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_P=
-ULSE,
-> >>>     	.format =3D MIPI_DSI_FMT_RGB888,
-> >>>     	.init_sequence =3D xbd599_init_sequence,
-> >>>     };
-> >>>
-> >>> So, we have 24 bpp and 4 lanes. Therefore, the resulting requested
-> >>> tcon-data-clock rate is
-> >>>     crtc_clock * 1000 * (24 / 4) / 4
-> >>>
-> >>> tcon-data-clock therefore requests a parent rate of
-> >>>     4 * (crtc_clock * 1000 * (24 / 4) / 4)
-> >>>
-> >>> The initial 4 is the fixed divisor between tcon0 and tcon-data-clock.
-> >>> Since tcon0 is a ccu_mux, the rate of tcon0 equals the rate of pll-mi=
-pi.
-> >>>
-> >>> Since PLL-MIPI has to run at at least at 500MHz this forces us to hav=
-e a
-> >>> crtc_clock >=3D 83.333 MHz. The mode I'm prorposing results in a rate=
- of
-> >>> 83.502 MHz.
-> >>
-> >> This is much better explanation why this change is needed. Still, I th=
-ink
-> >> adding min and max rate to PLL_MIPI would make sense, so proper rates
-> >> are guaranteed.
-> >>
-> >> Anyway, do you know where are all those old values come from? And how =
-did
-> >> you come up with new ones? I guess you can't just simply change timing=
-s,
-> >> there are probably some HW limitations? Do you know if BSP kernel supp=
-ort
-> >> this panel and how this situation is solved there?
-> >>
-> >>>
-> >>> If we only changed the constraints on the PLL_MIPI without changing t=
-he
-> >>> panel mode, we end up with a mismatch. This, in turn, would result in
-> >>> dropped frames, right?
-> >>
-> >> From what I read, I think frame rate would be higher than 60 fps. What
-> >> exactly would happen depends on the panel.
-> >>
-> >> Best regards,
-> >> Jernej
-> >>
-> >>>
-> >>> Best regards,
-> >>>   Frank
-> >>>
-> >>> [1] Source:
-> >>> https://elixir.bootlin.com/linux/v6.6.7/source/drivers/gpu/drm/sun4i/=
-sun4i_tcon.c#L346
-> >>>
-> >>> >
-> >>> > Best regards,
-> >>> > Jernej
-> >>> >
-> >>> >> ---
-> >>> >>  drivers/gpu/drm/panel/panel-sitronix-st7703.c | 14 +++++++-------
-> >>> >>  1 file changed, 7 insertions(+), 7 deletions(-)
-> >>> >>
-> >>> >> diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7703.c b/drive=
-rs/gpu/drm/panel/panel-sitronix-st7703.c
-> >>> >> index b55bafd1a8be..6886fd7f765e 100644
-> >>> >> --- a/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-> >>> >> +++ b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-> >>> >> @@ -320,14 +320,14 @@ static int xbd599_init_sequence(struct st770=
-3 *ctx)
-> >>> >>
-> >>> >>  static const struct drm_display_mode xbd599_mode =3D {
-> >>> >>  	.hdisplay    =3D 720,
-> >>> >> -	.hsync_start =3D 720 + 40,
-> >>> >> -	.hsync_end   =3D 720 + 40 + 40,
-> >>> >> -	.htotal	     =3D 720 + 40 + 40 + 40,
-> >>> >> +	.hsync_start =3D 720 + 65,
-> >>> >> +	.hsync_end   =3D 720 + 65 + 65,
-> >>> >> +	.htotal      =3D 720 + 65 + 65 + 65,
-> >>> >>  	.vdisplay    =3D 1440,
-> >>> >> -	.vsync_start =3D 1440 + 18,
-> >>> >> -	.vsync_end   =3D 1440 + 18 + 10,
-> >>> >> -	.vtotal	     =3D 1440 + 18 + 10 + 17,
-> >>> >> -	.clock	     =3D 69000,
-> >>> >> +	.vsync_start =3D 1440 + 30,
-> >>> >> +	.vsync_end   =3D 1440 + 30 + 22,
-> >>> >> +	.vtotal	     =3D 1440 + 30 + 22 + 29,
-> >>> >> +	.clock	     =3D (720 + 65 + 65 + 65) * (1440 + 30 + 22 + 29) * 6=
-0 / 1000,
-> >>> >>  	.flags	     =3D DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
-> >>> >>  	.width_mm    =3D 68,
-> >>> >>  	.height_mm   =3D 136,
-> >>> >>
-> >>> >>
-> >>>
->=20
+> ---
+>  arch/arm/boot/dts/allwinner/sun8i-r40-feta40i.dtsi | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/arch/arm/boot/dts/allwinner/sun8i-r40-feta40i.dtsi b/arch/arm/boot/dts/allwinner/sun8i-r40-feta40i.dtsi
+> index 9f39b5a2bb35..8906170461df 100644
+> --- a/arch/arm/boot/dts/allwinner/sun8i-r40-feta40i.dtsi
+> +++ b/arch/arm/boot/dts/allwinner/sun8i-r40-feta40i.dtsi
+> @@ -42,6 +42,13 @@ &pio {
+>  	vcc-pg-supply = <&reg_dldo1>;
+>  };
+>  
+> +&reg_aldo1 {
+> +	regulator-always-on;
+> +	regulator-min-microvolt = <3300000>;
+> +	regulator-max-microvolt = <3300000>;
+> +	regulator-name = "vcc-aldo1";
+> +};
+> +
+>  &reg_aldo2 {
+>  	regulator-always-on;
+>  	regulator-min-microvolt = <1800000>;
+> 
 
 
 
