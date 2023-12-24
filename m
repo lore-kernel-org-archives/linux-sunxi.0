@@ -1,121 +1,150 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED52720F8
-	for <linux-sunxi@lists.linux.dev>; Sun, 24 Dec 2023 11:18:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 593A1E574
+	for <linux-sunxi@lists.linux.dev>; Sun, 24 Dec 2023 21:30:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="D0U0HI2O"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=s31663417; t=1703416664; x=1704021464; i=wahrenst@gmx.net;
-	bh=JWZ+8g5eZNOh20k52eUqOz4WDMv4KYT+Ma3ruBXDwk4=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-	 In-Reply-To;
-	b=D0U0HI2OZqDT/Zf6MDxiiSZ5F3qJ5QCu3HIiYZW+ZCIs+kSzSlVJ4R0Z0p9hTEAk
-	 PAxMNWynPsRS3rLh4dRpLzGOHMopPdy0k8yveYUIbFK3Eh7scEqMOuYYUoyRiKReY
-	 7L0Jo3BX6albQzVaUffNMVK+qLL3L/SxITZiMvIhWFcfaBKkct0Yveg7TiEnzULrT
-	 +o5xMi2DSyHp7McBdtdEGHEbfdPwsR97VWV6bQ/beADeZZFUe6yVKtg8Od4AJXZtR
-	 0l0vHltbR8C2wcQJG9o8SD5EpRnhwNSWpNAQDzWN9DziDons6C39Aqm4X/Ax/PvGN
-	 +uQwiZoxOcv2/pm76w==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.130] ([37.4.248.43]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MSt8W-1rhK8U3TTC-00UHjs; Sun, 24
- Dec 2023 12:17:44 +0100
-Message-ID: <44838edf-a7c7-4563-b9ea-b874dc3a1698@gmx.net>
-Date: Sun, 24 Dec 2023 12:17:42 +0100
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JfWBeJXX"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1d42ed4cdc7so134985ad.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 24 Dec 2023 13:30:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1703453452; x=1704058252; darn=lists.linux.dev;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7/MCgJrzTYbobYDGPWMaxVSPHC8aF5GoN3HBnQNC1yE=;
+        b=JfWBeJXXkXbfjZHtWk1ozKiBM2tK7tURvJZjwmu5wo9+GtLSE0GQlINAj+qSWuXDvJ
+         y7JL/gmazkzOH0VDID+P4kKvrc5TdRkf/TxGR9dB2nwGd0iIlForZxxHq+r9qmzvd/XM
+         WxjP7CrsbwwvZU9NaueXW+e5EP3X6AzDvbIGynLxCJoDw0StgNtD4bqmKHslTIE2Jaee
+         ZGL/KEH6RJENhyhTm/r8s5YgD7nRTp2jPctxZvXCVUu4ph9URWM4QnsQCLmDSrsL9n0M
+         P7ucXElbaLCMM4NTwRtKlePNzYqxXdflZ4AEFSK5btEwyXFEW8CCmFqy9N7ZhfoMaBQ8
+         3jOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703453452; x=1704058252;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7/MCgJrzTYbobYDGPWMaxVSPHC8aF5GoN3HBnQNC1yE=;
+        b=E5yQ17//A4m2SHfjU3m5n448mO4k/JEdbbZQkgKFWtzcBn51UXRNzXnPHEr0l+9nhf
+         CTsJ3aOgYfHTePNVsQMOXI2oFhAyzeX0jXK6pxjDsna0b+aGQ31yr9i0cb2+PYzGE0M0
+         lvF2il8sgpjvYXhWMskKIsWWlood3Do/kVxDNXFYxQEsYA+nWb0+XsHevBEFXxsXJZDr
+         07uv1sPwHV0zmZvDfbznaBtpZZeE4eVWTafdd0QhUG5hc+UoxREcZMSkn25dAnGFwHbQ
+         NpjYvBkarxr7q8z1j+R0Xa4iIxu2zzUs8fDjp1M+9UxpubIF0PVi4X1bXqX2onqNcA6m
+         k/GA==
+X-Gm-Message-State: AOJu0Yx9dOJSJqZart3nmO3xUsrCp8PCm1TtDX7zhjglq8iZJkEKunxa
+	8u1KkH9LmNu4rLuE3lHbD5uJN6eDKz89
+X-Google-Smtp-Source: AGHT+IGEdm29d6jmw+nANphFK7SbhaR7mM9JSy5/jGKgQinKhgDaZxXLk5PDheL/k90mn9Ft6aU5hg==
+X-Received: by 2002:a17:902:bb84:b0:1d4:55b3:45d9 with SMTP id m4-20020a170902bb8400b001d455b345d9mr28530pls.6.1703453451456;
+        Sun, 24 Dec 2023 13:30:51 -0800 (PST)
+Received: from [2620:0:1008:15:c723:e11e:854b:ac88] ([2620:0:1008:15:c723:e11e:854b:ac88])
+        by smtp.gmail.com with ESMTPSA id b14-20020a170902d50e00b001d3dacffde3sm6890413plg.226.2023.12.24.13.30.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 24 Dec 2023 13:30:50 -0800 (PST)
+Date: Sun, 24 Dec 2023 13:30:50 -0800 (PST)
+From: David Rientjes <rientjes@google.com>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+cc: Andrew Morton <akpm@linux-foundation.org>, alim.akhtar@samsung.com, 
+    alyssa@rosenzweig.io, asahi@lists.linux.dev, baolu.lu@linux.intel.com, 
+    bhelgaas@google.com, cgroups@vger.kernel.org, corbet@lwn.net, 
+    david@redhat.com, dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
+    iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
+    joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
+    linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+    linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
+    linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+    linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
+    mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
+    rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
+    suravee.suthikulpanit@amd.com, sven@svenpeter.dev, 
+    thierry.reding@gmail.com, tj@kernel.org, tomas.mudrunka@gmail.com, 
+    vdumpa@nvidia.com, wens@csie.org, will@kernel.org, yu-cheng.yu@intel.com
+Subject: Re: [PATCH v2 01/10] iommu/vt-d: add wrapper functions for page
+ allocations
+In-Reply-To: <CA+CK2bA8iJ_w8CSx2Ed=d2cVSujrC0-TpO7U9j+Ow-gfk1nyfQ@mail.gmail.com>
+Message-ID: <1fd66377-030c-2e48-e658-4669bbf037e9@google.com>
+References: <20231130201504.2322355-1-pasha.tatashin@soleen.com> <20231130201504.2322355-2-pasha.tatashin@soleen.com> <776e17af-ae25-16a0-f443-66f3972b00c0@google.com> <CA+CK2bA8iJ_w8CSx2Ed=d2cVSujrC0-TpO7U9j+Ow-gfk1nyfQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ARM: sun9i: smp: Fix array-index-out-of-bounds read in
- sunxi_mc_smp_init
-Content-Language: en-US
-To: Florian Fainelli <f.fainelli@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: Maxime Ripard <mripard@kernel.org>,
- =?UTF-8?Q?Myl=C3=A8ne_Josserand?= <mylene.josserand@bootlin.com>,
- linux-sunxi@lists.linux.dev, soc@kernel.org, Arnd Bergmann <arnd@arndb.de>,
- linux-arm-kernel@lists.infradead.org
-References: <20231223123546.88125-1-wahrenst@gmx.net>
- <17bfb503-9e6a-40c7-b9fa-fc89c8a903c9@gmail.com>
-From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <17bfb503-9e6a-40c7-b9fa-fc89c8a903c9@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:JLSVgLuLUmLFWRh6IJTAltUlcax0zxap1vQ0odssACh4KO5xlCR
- c4s1O57jo+NOAzxOXjaF75sMd5e+6uOEDU7ZUlE+HL5T5fyNkqCiVVI9yQywUGgNl1Pkw6h
- DlelRwOn6cNBPPPVucAboK7ozoUhhOOtrLX2j91q6MmJ38BxbdI+Dg9ymjFIebCuTe8Oy5x
- 2neL5GfwXS8moo5sawxFg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:JZ9lhrLJU/M=;C/SVdbRFQcsjQf1dpsTa4bZU2Q4
- E4NizFWTifE9oSEBi9ct5xT+5KdhhrSuSPX5bHUkjb9utyy8cDrcFhKf9I8X+Ca4R9yD46o5d
- z96D9uCT88AHbDWpQ+D1Ic3jv1OGdigjsTWgFSIgEfaeTU/f/w/RrLWq0E3qAvpcL4duvxwPP
- aCF90FYpAtm+EL/8aznaGMlMyLH2Sri2ZN7/9T2Vg6onhld/1L2Ji7UcKHgEZnfw/B1ItMsKm
- HW/fpf+vxRMIsQSx432SGsNKjOSgFXoQv/CXsxLUQzdu7pRvQXziZsBjjKZXRy81+pQvq9UGa
- LbTLGyPYmHKA3PHwuQSSK63SUXgb8g5NIf+uP5GQluE3qfBn8Y9irP62CcId2r2vHJk6wimvE
- 6m0Yoka7qGn934VHAbFKhBSOXT2mKXwQoEx/9Llz6YwPyA6k9gjqZegWltF7X/E5aw7Khe9UX
- h9sBwr4pNmSncNmvIIi9pdy9WCdblj8LYy6Bi/8HJ3eagyx+jO9JTwaxlrtQ22sdpQRA9g8Aw
- UKWB0UYiPYcvxbhBiUopVG73fxrybLPZonySGnQj/nx5Wz45JObN1RFCzlAzyYume6LqWyyrc
- CelN6QNTPPQt47f/wHGE+iuYN3y/vcBFlQI8ZYqq0IOzpiFWVonCYR6Aj70cFDBiaTu/0Dxb6
- A+sy1/FH631sG2/hwvKmtFLrfIMorh5o4Zt6aEiGaPJiAFATC4JCV8q/TMcxFNgTXqEgApDzU
- KxOYz1Es1AfCG1mpKQDNshhJjvygt5Z0yUj5WXqOWoCHoJz5tHQlgx+1E3bQGALVEOkY3M1pN
- oDpwwjMzg7IGFUBiANu9PVh4ix7JKP8oKH1qj2m16RPO92PaVAaA3htVQ+wAUde4vbSJQ9OHi
- fiexneKDn+DUVZ2oqWwTlyvDr6Q6LDw3OznGtbRhDFPr/i/ZlKlyo8ieejvAlcy15QzGdpu1O
- nAyQgw==
+Content-Type: multipart/mixed; boundary="2003067076-655310594-1703453450=:2163178"
 
-Hi Florian,
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Am 24.12.23 um 11:12 schrieb Florian Fainelli:
->
->
-> On 12/23/2023 1:35 PM, Stefan Wahren wrote:
->> Running a multi-arch kernel (multi_v7_defconfig) on a Raspberry Pi 3B+
->> with enabled CONFIG_UBSAN triggers the following warning:
->>
->> =C2=A0 UBSAN: array-index-out-of-bounds in
->> arch/arm/mach-sunxi/mc_smp.c:810:29
->> =C2=A0 index 2 is out of range for type 'sunxi_mc_smp_data [2]'
->> =C2=A0 CPU: 0 PID: 1 Comm: swapper/0 Not tainted
->> 6.7.0-rc6-00248-g5254c0cbc92d
->> =C2=A0 Hardware name: BCM2835
->> =C2=A0=C2=A0 unwind_backtrace from show_stack+0x10/0x14
->> =C2=A0=C2=A0 show_stack from dump_stack_lvl+0x40/0x4c
->> =C2=A0=C2=A0 dump_stack_lvl from ubsan_epilogue+0x8/0x34
->> =C2=A0=C2=A0 ubsan_epilogue from __ubsan_handle_out_of_bounds+0x78/0x80
->> =C2=A0=C2=A0 __ubsan_handle_out_of_bounds from sunxi_mc_smp_init+0xe4/0=
-x4cc
->> =C2=A0=C2=A0 sunxi_mc_smp_init from do_one_initcall+0xa0/0x2fc
->> =C2=A0=C2=A0 do_one_initcall from kernel_init_freeable+0xf4/0x2f4
->> =C2=A0=C2=A0 kernel_init_freeable from kernel_init+0x18/0x158
->> =C2=A0=C2=A0 kernel_init from ret_from_fork+0x14/0x28
->>
->> Since the enabled method couldn't match with any entry from
->> sunxi_mc_smp_data, the value of the index shouldn't be used right after
->> the loop. So move it after the check of ret in order to have a valid
->> index.
->>
->> Fixes: 1631090e34f5 ("ARM: sun9i: smp: Add is_a83t field")
->> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
->
-> Previous attempts at fixing this:
->
-> https://lore.kernel.org/lkml/20230516-sunxi-v1-1-ac4b9651a8c1@google.com=
-/T/
-thanks for pointing out. Nick's version missed the refcounting of node
-and my version missed the proper handling of of_property_match_string.
-So we have actually two issues in the original code.
+--2003067076-655310594-1703453450=:2163178
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
-I will prepare a second version.
+On Thu, 14 Dec 2023, Pasha Tatashin wrote:
 
-Nevertheless merry x-mas
->
-> including a patch from William from nearly 18 months ago, which was
-> not captured by lore however.
->
-> Is anyone collecting patches for that platform still?
+> On Thu, Dec 14, 2023 at 12:58 PM David Rientjes <rientjes@google.com> wrote:
+> >
+> > On Thu, 30 Nov 2023, Pasha Tatashin wrote:
+> >
+> > > diff --git a/drivers/iommu/iommu-pages.h b/drivers/iommu/iommu-pages.h
+> > > new file mode 100644
+> > > index 000000000000..2332f807d514
+> > > --- /dev/null
+> > > +++ b/drivers/iommu/iommu-pages.h
+> > > @@ -0,0 +1,199 @@
+> > > +/* SPDX-License-Identifier: GPL-2.0-only */
+> > > +/*
+> > > + * Copyright (c) 2023, Google LLC.
+> > > + * Pasha Tatashin <pasha.tatashin@soleen.com>
+> > > + */
+> > > +
+> > > +#ifndef __IOMMU_PAGES_H
+> > > +#define __IOMMU_PAGES_H
+> > > +
+> > > +#include <linux/vmstat.h>
+> > > +#include <linux/gfp.h>
+> > > +#include <linux/mm.h>
+> > > +
+> > > +/*
+> > > + * All page allocation that are performed in the IOMMU subsystem must use one of
+> > > + * the functions below.  This is necessary for the proper accounting as IOMMU
+> > > + * state can be rather large, i.e. multiple gigabytes in size.
+> > > + */
+> > > +
+> > > +/**
+> > > + * __iommu_alloc_pages_node - allocate a zeroed page of a given order from
+> > > + * specific NUMA node.
+> > > + * @nid: memory NUMA node id
+> >
+> > NUMA_NO_NODE if no locality requirements?
+> 
+> If no locality is required, there is a better interface:
+> __iommu_alloc_pages(). That one will also take a look at the calling
+> process policies to determine the proper NUMA node when nothing is
+> specified. However, when policies should be ignored, and no locality
+> required, NUMA_NO_NODE can be passed.
+> 
 
+Gotcha, thanks!
+
+> >
+> > > + * @gfp: buddy allocator flags
+> > > + * @order: page order
+> > > + *
+> > > + * returns the head struct page of the allocated page.
+> > > + */
+> > > +static inline struct page *__iommu_alloc_pages_node(int nid, gfp_t gfp,
+> > > +                                                 int order)
+> > > +{
+> > > +     struct page *pages;
+> >
+> > s/pages/page/ here and later in this file.
+> 
+> In this file, where there a page with an "order", I reference it with
+> "pages", when no order (i.e. order = 0), I reference it with "page"
+> 
+> I.e.: __iommu_alloc_page vs. __iommu_alloc_pages
+> 
+
+Eh, the struct page points to a (potentially compound) page, not a set or 
+list of pages.  I won't bikeshed on it, but "struct page *pages" never 
+makes sense unless it's **pages or *pages[] :)
+--2003067076-655310594-1703453450=:2163178--
