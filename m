@@ -1,187 +1,134 @@
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com [209.85.166.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out198-148.us.a.mail.aliyun.com (out198-148.us.a.mail.aliyun.com [47.90.198.148])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2337BFC13
-	for <linux-sunxi@lists.linux.dev>; Sun, 24 Dec 2023 21:49:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Yjkdeh2v"
-Received: by mail-il1-f182.google.com with SMTP id e9e14a558f8ab-36000a26f8aso27165ab.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 24 Dec 2023 13:49:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1703454581; x=1704059381; darn=lists.linux.dev;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=O0HiuPkhATpCWAkLMW05BPxTgagJyPS45hssBqZfyJY=;
-        b=Yjkdeh2vOu/tqzy5hNZxeoRAsWVyg1J9dMC9UM9X+JkvYUskf4+2ELqLhLRjFpS6A/
-         utYSz6BZibx6NhcFgL8o5SyHTNtHnYBTClC965TNPQc0rzvFc6pJ83Tp3sEO9zd7TN5O
-         OcTmp7qmN2vPCo+MSIfaeiNYpU4rweMLkVxjr1MBhLO0MA8waps1exoHZkQ+PZC6NFJd
-         A3xUCg1vHSMsZtmrPwhquMSl3FASY9Nc78oT51bDa4OGIJYqnBGXSzb0BnaW9b9oM4Lx
-         DUOXUQB4pnklsRXoKd7MCCn70PllmjDjftRjNhtSo7neEu7eZ9njPWuNS7nxw9pEPa3w
-         2kjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703454581; x=1704059381;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=O0HiuPkhATpCWAkLMW05BPxTgagJyPS45hssBqZfyJY=;
-        b=kGPkey5AzxFAupCZNdy/1zp1SDibBmvXEB19YszVKiDbj2RuWXAs7G3k24+JRIMcHY
-         WQmrVK+oaKSQZIeeOlg7kf7EAzfM4FG3mXumZ+PD5vTFa+B/Eou+/v7o7jVDgjTZrVQV
-         +E8XUyus/2vm/XCW9PgcGANCqNqY26VaUthidQSlXQZR8WSCrUZHWYnG1tKfkuEdGOHr
-         3KMwhxkUqgHEjQnudk2g8nt/x+xOhaw3fUMsbCH/hKroIzaC/V5dSiBJbQ46j4kBO9Ix
-         Zmov2Jw0kM0TpvkagSbSIudIC0NzGgWR0xMWfDAYC79YXF4yVS4moC+xFrqDKFWzk1X5
-         yHEg==
-X-Gm-Message-State: AOJu0Yz837Y18E/FFqE8IRXAF8L9hbcN0J+fyBgM/knQt0fcasL2jr2t
-	pNGTCqrmS84TsU86ntvPD3pdwyPw1TwQ
-X-Google-Smtp-Source: AGHT+IHO1o4MpTmRsY4pG5iPw80zAps+6fJHAueY55ciRhpJtDvuIlpvxAKJ08/tY4qG55yyTyBfTQ==
-X-Received: by 2002:a05:6e02:3001:b0:35f:b200:2fb5 with SMTP id bd1-20020a056e02300100b0035fb2002fb5mr495955ilb.11.1703454581205;
-        Sun, 24 Dec 2023 13:49:41 -0800 (PST)
-Received: from [2620:0:1008:15:c723:e11e:854b:ac88] ([2620:0:1008:15:c723:e11e:854b:ac88])
-        by smtp.gmail.com with ESMTPSA id l18-20020a62be12000000b006ce95e37a40sm6824858pff.111.2023.12.24.13.49.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Dec 2023 13:49:40 -0800 (PST)
-Date: Sun, 24 Dec 2023 13:49:39 -0800 (PST)
-From: David Rientjes <rientjes@google.com>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
-    asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
-    cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
-    dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
-    iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
-    joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
-    linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-    linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
-    linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-    linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
-    mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
-    rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
-    suravee.suthikulpanit@amd.com, sven@svenpeter.dev, 
-    thierry.reding@gmail.com, tj@kernel.org, tomas.mudrunka@gmail.com, 
-    vdumpa@nvidia.com, wens@csie.org, will@kernel.org, yu-cheng.yu@intel.com
-Subject: Re: [PATCH v2 00/10] IOMMU memory observability
-In-Reply-To: <20231130201504.2322355-1-pasha.tatashin@soleen.com>
-Message-ID: <2913539c-68f1-5597-df64-99a884a60e0a@google.com>
-References: <20231130201504.2322355-1-pasha.tatashin@soleen.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8254435F07
+	for <linux-sunxi@lists.linux.dev>; Mon, 25 Dec 2023 09:52:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sjterm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sjterm.com
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.07447141|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.157524-0.0058014-0.836675;FP=0|0|0|0|0|-1|-1|-1;HT=ay29a033018047187;MF=fuyao@sjterm.com;NM=1;PH=DS;RN=11;RT=11;SR=0;TI=SMTPD_---.VsS8aFT_1703497925;
+Received: from localhost(mailfrom:fuyao@sjterm.com fp:SMTPD_---.VsS8aFT_1703497925)
+          by smtp.aliyun-inc.com;
+          Mon, 25 Dec 2023 17:52:06 +0800
+Date: Mon, 25 Dec 2023 17:52:05 +0800
+From: fuyao <fuyao@sjterm.com>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: fuyao <fuyao1697@cyg.com>, Lee Jones <lee@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+	maijianzhang <maijianzhang@allwinnertech.com>
+Subject: Re: [PATCH RESEND] iio: adc: sun4i-gpadc-iio: adaptation interrupt
+ number
+Message-ID: <ZYlQxccd-_1kyHt5@debian.cyg>
+Mail-Followup-To: Andre Przywara <andre.przywara@arm.com>,
+	fuyao <fuyao1697@cyg.com>, Lee Jones <lee@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+	maijianzhang <maijianzhang@allwinnertech.com>
+References: <YxmR5SPPY18O7LaG@google.com>
+ <YwdhTlk+9h+9Mrwm@scg>
+ <20231220115412.65bbc8c7@donnerap.manchester.arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231220115412.65bbc8c7@donnerap.manchester.arm.com>
+Organization: work_work_work
 
-On Thu, 30 Nov 2023, Pasha Tatashin wrote:
-
-> IOMMU subsystem may contain state that is in gigabytes. Majority of that
-> state is iommu page tables. Yet, there is currently, no way to observe
-> how much memory is actually used by the iommu subsystem.
+On Wed, Dec 20, 2023 at 11:54:12AM +0000, Andre Przywara wrote:
+> On Wed, 20 Dec 2023 15:23:17 +0800
+> fuyao <fuyao1697@cyg.com> wrote:
 > 
-> This patch series solves this problem by adding both observability to
-> all pages that are allocated by IOMMU, and also accountability, so
-> admins can limit the amount if via cgroups.
+> Hi,
 > 
-> The system-wide observability is using /proc/meminfo:
-> SecPageTables:    438176 kB
+> > __platform_get_irq_byname determinies whether the interrupt
+> > number is 0 and returns EINVAL.
 > 
-> Contains IOMMU and KVM memory.
-> 
-> Per-node observability:
-> /sys/devices/system/node/nodeN/meminfo
-> Node N SecPageTables:    422204 kB
-> 
-> Contains IOMMU and KVM memory memory in the given NUMA node.
-> 
-> Per-node IOMMU only observability:
-> /sys/devices/system/node/nodeN/vmstat
-> nr_iommu_pages 105555
-> 
-> Contains number of pages IOMMU allocated in the given node.
-> 
-> Accountability: using sec_pagetables cgroup-v2 memory.stat entry.
-> 
-> With the change, iova_stress[1] stops as limit is reached:
-> 
-> # ./iova_stress
-> iova space:     0T      free memory:   497G
-> iova space:     1T      free memory:   495G
-> iova space:     2T      free memory:   493G
-> iova space:     3T      free memory:   491G
-> 
-> stops as limit is reached.
+> can you please say what this fixes, exactly? Is something not working at
+> the moment? Can you please provide parts of the error message?
 > 
 
-I think this is *very* useful to provide visibility into a significant 
-amount of memory that we currently cannot observe on a host.  It can help 
-to uncover bugs and shed light onto a particularly large amount of memory 
-that would otherwise be mysterious.
+With open MFD_SUN4I_GPADC and SUN4I_GPADC, It happens:
 
-Joerg, Will, Robin, I think this series would go through the 
-git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git tree since it 
-depends on a common framework for all other IOMMU implementations to then 
-use?
+[    0.185068] ------------[ cut here ]------------
+[    0.185093] WARNING: CPU: 3 PID: 1 at drivers/base/platform.c:451 __platform_get_irq_byname+0xb8/0xc4
+[    0.185131] 0 is an invalid IRQ number
+[    0.185140] Modules linked in:
+[    0.185160] CPU: 3 PID: 1 Comm: swapper/0 Not tainted 6.7.0-rc6 #9
+[    0.185179] Hardware name: Allwinner sun8i Family
+[    0.185203]  unwind_backtrace from show_stack+0x10/0x14
+[    0.185234]  show_stack from dump_stack_lvl+0x48/0x54
+[    0.185262]  dump_stack_lvl from __warn+0xcc/0x1ac
+[    0.185285]  __warn from warn_slowpath_fmt+0xb4/0x168
+[    0.185304]  warn_slowpath_fmt from __platform_get_irq_byname+0xb8/0xc4
+[    0.185328]  __platform_get_irq_byname from platform_get_irq_byname+0x10/0x38
+[    0.185354]  platform_get_irq_byname from sun4i_irq_init+0x40/0xdc
+[    0.185382]  sun4i_irq_init from sun4i_gpadc_probe+0x1cc/0x310
+[    0.185403]  sun4i_gpadc_probe from platform_probe+0x98/0xc0
+[    0.185426]  platform_probe from really_probe+0x10c/0x374
+[    0.185450]  really_probe from __driver_probe_device+0x90/0x188
+[    0.185473]  __driver_probe_device from driver_probe_device+0x3c/0x198
+[    0.185496]  driver_probe_device from __driver_attach+0x118/0x1b4
+[    0.185518]  __driver_attach from bus_for_each_dev+0x104/0x148
+[    0.185540]  bus_for_each_dev from bus_add_driver+0x164/0x25c
+[    0.185560]  bus_add_driver from driver_register+0x70/0x118
+[    0.185582]  driver_register from do_one_initcall+0xcc/0x29c
+[    0.185605]  do_one_initcall from do_initcall_level+0x80/0x8c
+[    0.185630]  do_initcall_level from do_initcalls+0x50/0x80
+[    0.185653]  do_initcalls from kernel_init_freeable+0xb0/0xfc
+[    0.185675]  kernel_init_freeable from kernel_init+0x14/0x1b4
+[    0.185698]  kernel_init from ret_from_fork+0x14/0x28
+[    0.185720] Exception stack(0xf0825fb0 to 0xf0825ff8)
+[    0.185737] 5fa0:                                     00000000 00000000 00000000 00000000
+[    0.185756] 5fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[    0.185775] 5fe0: 00000000 00000000 00000000 00000000 00000013 00000000
+[    0.185788] ---[ end trace 0000000000000000 ]---
+[    0.185804] sun4i-gpadc-iio sun6i-a31-gpadc-iio.0: error -EINVAL: IRQ FIFO_DATA_PENDING not found
+[    0.185828] sun4i-gpadc-iio: probe of sun6i-a31-gpadc-iio.0 failed with error -22
 
-Any concerns about this patch series?  It would be very useful for us to 
-create visibility into this memory.
+The gpadc-iio can not request irq.
 
+> And maybe expand the explanation a bit more? For instance mention that the
+> identifiers are used as IRQ resource numbers, where 0 is treated specially.
+> 
 
-Pasha: any chance of adding a selftest that can be run that will test the 
-value of nr_iommu_pages?  I could imagine in the future that a bug could 
-be introduced where either an allocation or free is done through 
-alloc_pages() directly and its paired alloc/free function now results in a 
-leak or underflow.
+thanks
 
-> This series encorporates suggestions that came from the discussion
-> at LPC [2].
-> ----------------------------------------------------------------------
-> [1] https://github.com/soleen/iova_stress
-> [2] https://lpc.events/event/17/contributions/1466
-> ----------------------------------------------------------------------
-> Previous versions
-> v1: https://lore.kernel.org/all/20231128204938.1453583-1-pasha.tatashin@soleen.com
-> ----------------------------------------------------------------------
+> Cheers,
+> Andre
 > 
-> Pasha Tatashin (10):
->   iommu/vt-d: add wrapper functions for page allocations
->   iommu/amd: use page allocation function provided by iommu-pages.h
->   iommu/io-pgtable-arm: use page allocation function provided by
->     iommu-pages.h
->   iommu/io-pgtable-dart: use page allocation function provided by
->     iommu-pages.h
->   iommu/exynos: use page allocation function provided by iommu-pages.h
->   iommu/rockchip: use page allocation function provided by iommu-pages.h
->   iommu/sun50i: use page allocation function provided by iommu-pages.h
->   iommu/tegra-smmu: use page allocation function provided by
->     iommu-pages.h
->   iommu: observability of the IOMMU allocations
->   iommu: account IOMMU allocated memory
+> > 
+> > Signed-off-by: fuyao <fuyao1697@cyg.com>
+> > Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > ---
+> >  include/linux/mfd/sun4i-gpadc.h | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/include/linux/mfd/sun4i-gpadc.h b/include/linux/mfd/sun4i-gpadc.h
+> > index ea0ccf33a459..021f820f9d52 100644
+> > --- a/include/linux/mfd/sun4i-gpadc.h
+> > +++ b/include/linux/mfd/sun4i-gpadc.h
+> > @@ -81,8 +81,8 @@
+> >  #define SUN4I_GPADC_TEMP_DATA				0x20
+> >  #define SUN4I_GPADC_DATA				0x24
+> >  
+> > -#define SUN4I_GPADC_IRQ_FIFO_DATA			0
+> > -#define SUN4I_GPADC_IRQ_TEMP_DATA			1
+> > +#define SUN4I_GPADC_IRQ_FIFO_DATA			1
+> > +#define SUN4I_GPADC_IRQ_TEMP_DATA			2
+> >  
+> >  /* 10s delay before suspending the IP */
+> >  #define SUN4I_GPADC_AUTOSUSPEND_DELAY			10000
 > 
->  Documentation/admin-guide/cgroup-v2.rst |   2 +-
->  Documentation/filesystems/proc.rst      |   4 +-
->  drivers/iommu/amd/amd_iommu.h           |   8 -
->  drivers/iommu/amd/init.c                |  91 +++++-----
->  drivers/iommu/amd/io_pgtable.c          |  13 +-
->  drivers/iommu/amd/io_pgtable_v2.c       |  20 +-
->  drivers/iommu/amd/iommu.c               |  13 +-
->  drivers/iommu/exynos-iommu.c            |  14 +-
->  drivers/iommu/intel/dmar.c              |  10 +-
->  drivers/iommu/intel/iommu.c             |  47 ++---
->  drivers/iommu/intel/iommu.h             |   2 -
->  drivers/iommu/intel/irq_remapping.c     |  10 +-
->  drivers/iommu/intel/pasid.c             |  12 +-
->  drivers/iommu/intel/svm.c               |   7 +-
->  drivers/iommu/io-pgtable-arm.c          |   7 +-
->  drivers/iommu/io-pgtable-dart.c         |  37 ++--
->  drivers/iommu/iommu-pages.h             | 231 ++++++++++++++++++++++++
->  drivers/iommu/rockchip-iommu.c          |  14 +-
->  drivers/iommu/sun50i-iommu.c            |   7 +-
->  drivers/iommu/tegra-smmu.c              |  18 +-
->  include/linux/mmzone.h                  |   5 +-
->  mm/vmstat.c                             |   3 +
->  22 files changed, 390 insertions(+), 185 deletions(-)
->  create mode 100644 drivers/iommu/iommu-pages.h
-> 
-> -- 
-> 2.43.0.rc2.451.g8631bc7472-goog
-> 
-> 
-> 
+
+-- 
+CYG Technology.
