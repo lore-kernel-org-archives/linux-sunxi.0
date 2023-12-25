@@ -1,156 +1,238 @@
-Received: from out198-156.us.a.mail.aliyun.com (out198-156.us.a.mail.aliyun.com [47.90.198.156])
+Received: from Atcsqr.andestech.com (60-248-80-70.hinet-ip.hinet.net [60.248.80.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1D7E35F03
-	for <linux-sunxi@lists.linux.dev>; Mon, 25 Dec 2023 10:11:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sjterm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sjterm.com
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.07467577|-1;BR=01201311R751ec;CH=green;DM=|CONTINUE|false|;DS=SPAM|spam_ad|0.839325-0.000325292-0.160349;FP=0|0|0|0|0|-1|-1|-1;HT=ay29a033018047213;MF=fuyao@sjterm.com;NM=1;PH=DS;RN=16;RT=16;SR=0;TI=SMTPD_---.VsSYimv_1703499085;
-Received: from localhost(mailfrom:fuyao@sjterm.com fp:SMTPD_---.VsSYimv_1703499085)
-          by smtp.aliyun-inc.com;
-          Mon, 25 Dec 2023 18:11:25 +0800
-Date: Mon, 25 Dec 2023 18:11:24 +0800
-From: fuyao <fuyao@sjterm.com>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: fuyao <fuyao1697@cyg.com>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Alexandre TORGUE <alexandre.torgue@st.com>,
-	Enric Balletbo i Serra <eballetbo@gmail.com>,
-	Baruch Siach <baruch@tkos.co.il>,
-	Paul Barker <paul.barker@sancloud.com>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND] ARM: dts: sun8i: r40: open the regulator aldo1
-Message-ID: <ZYlVTFrWkPaci92K@debian.cyg>
-Mail-Followup-To: Andre Przywara <andre.przywara@arm.com>,
-	fuyao <fuyao1697@cyg.com>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Alexandre TORGUE <alexandre.torgue@st.com>,
-	Enric Balletbo i Serra <eballetbo@gmail.com>,
-	Baruch Siach <baruch@tkos.co.il>,
-	Paul Barker <paul.barker@sancloud.com>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-References: <ZYKjYypuAx7gNuam@debian.cyg>
- <20231220150400.0f32e2a5@donnerap.manchester.arm.com>
- <ZYOhAQi7XeLUuAC9@debian.cyg>
- <20231221103906.1830ef94@donnerap.manchester.arm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A4A44F8BF
+	for <linux-sunxi@lists.linux.dev>; Mon, 25 Dec 2023 10:44:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=andestech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=andestech.com
+Received: from Atcsqr.andestech.com (localhost [127.0.0.2] (may be forged))
+	by Atcsqr.andestech.com with ESMTP id 3BPAZ6li093606
+	for <linux-sunxi@lists.linux.dev>; Mon, 25 Dec 2023 18:35:06 +0800 (+08)
+	(envelope-from peterlin@andestech.com)
+Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
+	by Atcsqr.andestech.com with ESMTP id 3BPAXrgi093236;
+	Mon, 25 Dec 2023 18:33:53 +0800 (+08)
+	(envelope-from peterlin@andestech.com)
+Received: from swlinux02.andestech.com (10.0.15.183) by ATCPCS16.andestech.com
+ (10.0.1.222) with Microsoft SMTP Server id 14.3.498.0; Mon, 25 Dec 2023
+ 18:33:50 +0800
+From: Yu Chien Peter Lin <peterlin@andestech.com>
+To: <acme@kernel.org>, <adrian.hunter@intel.com>, <ajones@ventanamicro.com>,
+        <alexander.shishkin@linux.intel.com>, <andre.przywara@arm.com>,
+        <anup@brainfault.org>, <aou@eecs.berkeley.edu>,
+        <atishp@atishpatra.org>, <conor+dt@kernel.org>,
+        <conor.dooley@microchip.com>, <conor@kernel.org>,
+        <devicetree@vger.kernel.org>, <dminus@andestech.com>,
+        <evan@rivosinc.com>, <geert+renesas@glider.be>, <guoren@kernel.org>,
+        <heiko@sntech.de>, <irogers@google.com>, <jernej.skrabec@gmail.com>,
+        <jolsa@kernel.org>, <jszhang@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <linux-perf-users@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        <linux-sunxi@lists.linux.dev>, <locus84@andestech.com>,
+        <magnus.damm@gmail.com>, <mark.rutland@arm.com>, <mingo@redhat.com>,
+        <n.shubin@yadro.com>, <namhyung@kernel.org>, <palmer@dabbelt.com>,
+        <paul.walmsley@sifive.com>, <peterlin@andestech.com>,
+        <peterz@infradead.org>, <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        <rdunlap@infradead.org>, <robh+dt@kernel.org>, <samuel@sholland.org>,
+        <sunilvl@ventanamicro.com>, <tglx@linutronix.de>,
+        <tim609@andestech.com>, <uwu@icenowy.me>, <wens@csie.org>,
+        <will@kernel.org>, <ycliang@andestech.com>, <inochiama@outlook.com>,
+        <chao.wei@sophgo.com>, <unicorn_wang@outlook.com>, <wefu@redhat.com>
+Subject: [PATCH v6 08/16] perf: RISC-V: Introduce Andes PMU for perf event sampling
+Date: Mon, 25 Dec 2023 18:33:00 +0800
+Message-ID: <20231225103308.1557548-9-peterlin@andestech.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231225103308.1557548-1-peterlin@andestech.com>
+References: <20231225103308.1557548-1-peterlin@andestech.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231221103906.1830ef94@donnerap.manchester.arm.com>
-Organization: work_work_work
+Content-Type: text/plain
+X-DNSRBL: 
+X-SPAM-SOURCE-CHECK: pass
+X-MAIL:Atcsqr.andestech.com 3BPAZ6li093606
 
-On Thu, Dec 21, 2023 at 10:39:06AM +0000, Andre Przywara wrote:
-> On Thu, 21 Dec 2023 10:20:49 +0800
-> fuyao <fuyao@sjterm.com> wrote:
-> 
-> Hi,
-> 
-> thanks for the reply!
-> 
-> > On Wed, Dec 20, 2023 at 03:04:00PM +0000, Andre Przywara wrote:
-> > > On Wed, 20 Dec 2023 16:18:43 +0800
-> > > fuyao <fuyao1697@cyg.com> wrote:
-> > > 
-> > > Hi,
-> > >   
-> > > > the aldo1 is connect regulator pin which power the TV.  
-> > > 
-> > > What do you mean with that? That ALDO1 is connected to VCC-TVOUT and/or
-> > > VCC-TVIN on the R40 SoC?  
-> > 
-> > The ALDO1 is connected to VCC-TVOUT on the R40 Soc.
-> 
-> Ah, thanks for the confirmation.
-> 
-> > > > The USB core use TV ref as reference Voltage.  
-> > > 
-> > > The USB core in the SoC? So pin VCC-USB, which requires 3.3V, the same
-> > > voltage as the TV pins?
-> > > Which means this doesn't really have much to do with TV, it's just that
-> > > USB and also "TV" are supplied by ALDO1?  
-> > 
-> > The internal USB PHY requires a reference voltage. It seems that in
-> > order to save costs, the reference voltage of the TVOUT module is used.
-> 
-> Do you mean a USB *reference* voltage that is separate from the USB PHY
-> power supply voltage, so pin VCC-USB on the SoC? And that it is internally
-> connected to some TV-OUT related circuits? So that would apply to all
-> devices using the R40 SoC then?
-yes, The usb need a power from TV module insides.
-> 
-> Or is it simply that the SoC pins VCC-TVOUT and VCC-USB are connected
-> together, on this SoM?
-no
-> Do you have access to some schematic? I couldn't find one online easily,
-> so cannot check this myself.
-> 
-It has up to https://file.io/VSUL4FDrapDY
-> Thanks,
-> Andre
-> 
-> > > > Signed-off-by: fuyao <fuyao1697@cyg.com>
-> > > > ---
-> > > >  arch/arm/boot/dts/allwinner/sun8i-r40-feta40i.dtsi | 7 +++++++
-> > > >  1 file changed, 7 insertions(+)
-> > > > 
-> > > > diff --git a/arch/arm/boot/dts/allwinner/sun8i-r40-feta40i.dtsi b/arch/arm/boot/dts/allwinner/sun8i-r40-feta40i.dtsi
-> > > > index 9f39b5a2bb35..8906170461df 100644
-> > > > --- a/arch/arm/boot/dts/allwinner/sun8i-r40-feta40i.dtsi
-> > > > +++ b/arch/arm/boot/dts/allwinner/sun8i-r40-feta40i.dtsi
-> > > > @@ -42,6 +42,13 @@ &pio {
-> > > >  	vcc-pg-supply = <&reg_dldo1>;
-> > > >  };
-> > > >  
-> > > > +&reg_aldo1 {
-> > > > +	regulator-always-on;  
-> > > 
-> > > So did USB never work before, with the DT as in mainline?
-> > >   
-> > 
-> > The USB can work, but is unstable. Occasionally disconnected because of
-> > the D+/D- electrical characteristics.
-> > 
-> > > For always-on regulators it would be good to see some rationale why this
-> > > cannot be referenced by its consumer. If it is really supplying the USB
-> > > core, that would be a reason, because we don't have a good way of
-> > > describing this.
-> > >   
-> > > > +	regulator-min-microvolt = <3300000>;
-> > > > +	regulator-max-microvolt = <3300000>;
-> > > > +	regulator-name = "vcc-aldo1";  
-> > > 
-> > > Regulators should be named after their users, so use something like:
-> > > 	regulator-name = "vcc-3v3-tv-usb";
-> > >   
-> > 
-> > thanks.
-> > 
-> > > That then also serves as documentation of why this is always on.
-> > > 
-> > > Cheers,
-> > > Andre
-> > >   
-> > > > +};
-> > > > +
-> > > >  &reg_aldo2 {
-> > > >  	regulator-always-on;
-> > > >  	regulator-min-microvolt = <1800000>;  
-> > >   
-> > 
+The Andes PMU extension provides the same mechanism as Sscofpmf,
+allowing us to reuse the SBI PMU driver to support event sampling
+and mode filtering.
 
+To make use of this custom PMU extension, "xandespmu" needs
+to be appended to the riscv,isa-extensions for each cpu node
+in device-tree, and enable CONFIG_ANDES_CUSTOM_PMU.
+
+Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
+Reviewed-by: Charles Ci-Jyun Wu <dminus@andestech.com>
+Reviewed-by: Leo Yu-Chi Liang <ycliang@andestech.com>
+Co-developed-by: Locus Wei-Han Chen <locus84@andestech.com>
+Signed-off-by: Locus Wei-Han Chen <locus84@andestech.com>
+Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+Changes v1 -> v2:
+  - New patch
+Changes v2 -> v3:
+  - Reordered list in riscv_isa_ext[]
+  - Removed mvendorid check in pmu_sbi_setup_irqs()
+Changes v3 -> v4:
+  - No change
+Changes v4 -> v5:
+  - Let ANDES_CUSTOM_PMU depend on ARCH_RENESAS
+  - Include Prabhakar's Reviewed/Tested-by
+Changes v5 -> v6:
+  - No change
+---
+ arch/riscv/include/asm/hwcap.h |  1 +
+ arch/riscv/kernel/cpufeature.c |  1 +
+ drivers/perf/Kconfig           | 14 ++++++++++++++
+ drivers/perf/riscv_pmu_sbi.c   | 30 +++++++++++++++++++++++++-----
+ 4 files changed, 41 insertions(+), 5 deletions(-)
+
+diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwcap.h
+index c85ee34c78d9..cbfbc3505d2c 100644
+--- a/arch/riscv/include/asm/hwcap.h
++++ b/arch/riscv/include/asm/hwcap.h
+@@ -58,6 +58,7 @@
+ #define RISCV_ISA_EXT_SMSTATEEN		43
+ #define RISCV_ISA_EXT_ZICOND		44
+ #define RISCV_ISA_EXT_XTHEADPMU		45
++#define RISCV_ISA_EXT_XANDESPMU		46
+ 
+ #define RISCV_ISA_EXT_MAX		64
+ 
+diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
+index e606f588d366..42fda134c4a3 100644
+--- a/arch/riscv/kernel/cpufeature.c
++++ b/arch/riscv/kernel/cpufeature.c
+@@ -185,6 +185,7 @@ const struct riscv_isa_ext_data riscv_isa_ext[] = {
+ 	__RISCV_ISA_EXT_DATA(svinval, RISCV_ISA_EXT_SVINVAL),
+ 	__RISCV_ISA_EXT_DATA(svnapot, RISCV_ISA_EXT_SVNAPOT),
+ 	__RISCV_ISA_EXT_DATA(svpbmt, RISCV_ISA_EXT_SVPBMT),
++	__RISCV_ISA_EXT_DATA(xandespmu, RISCV_ISA_EXT_XANDESPMU),
+ 	__RISCV_ISA_EXT_DATA(xtheadpmu, RISCV_ISA_EXT_XTHEADPMU),
+ };
+ 
+diff --git a/drivers/perf/Kconfig b/drivers/perf/Kconfig
+index 6cef15ec7c25..18f4c62eafc2 100644
+--- a/drivers/perf/Kconfig
++++ b/drivers/perf/Kconfig
+@@ -86,6 +86,20 @@ config RISCV_PMU_SBI
+ 	  full perf feature support i.e. counter overflow, privilege mode
+ 	  filtering, counter configuration.
+ 
++config ANDES_CUSTOM_PMU
++	bool "Andes custom PMU support"
++	depends on ARCH_RENESAS && RISCV_ALTERNATIVE && RISCV_PMU_SBI
++	default y
++	help
++	  The Andes cores implement a PMU overflow extension very
++	  similar to the core SSCOFPMF extension.
++
++	  This will patch the overflow/pending CSR and handle the
++	  non-standard behaviour via the regular SBI PMU driver and
++	  interface.
++
++	  If you don't know what to do here, say "Y".
++
+ config THEAD_CUSTOM_PMU
+ 	bool "T-Head custom PMU support"
+ 	depends on ARCH_THEAD && RISCV_ALTERNATIVE && RISCV_PMU_SBI
+diff --git a/drivers/perf/riscv_pmu_sbi.c b/drivers/perf/riscv_pmu_sbi.c
+index 31ca79846399..4d5d478430c8 100644
+--- a/drivers/perf/riscv_pmu_sbi.c
++++ b/drivers/perf/riscv_pmu_sbi.c
+@@ -19,6 +19,7 @@
+ #include <linux/of.h>
+ #include <linux/cpu_pm.h>
+ #include <linux/sched/clock.h>
++#include <linux/soc/andes/irq.h>
+ 
+ #include <asm/sbi.h>
+ #include <asm/cpufeature.h>
+@@ -27,14 +28,26 @@
+ #define THEAD_C9XX_CSR_SCOUNTEROF	0x5c5
+ 
+ #define ALT_SBI_PMU_OVERFLOW(__ovl)					\
+-asm volatile(ALTERNATIVE(						\
++asm volatile(ALTERNATIVE_2(						\
+ 	"csrr %0, " __stringify(CSR_SSCOUNTOVF),			\
+ 	"csrr %0, " __stringify(THEAD_C9XX_CSR_SCOUNTEROF),		\
+ 		0, RISCV_ISA_EXT_XTHEADPMU,				\
+-		CONFIG_THEAD_CUSTOM_PMU)				\
++		CONFIG_THEAD_CUSTOM_PMU,				\
++	"csrr %0, " __stringify(ANDES_CSR_SCOUNTEROF),			\
++		0, RISCV_ISA_EXT_XANDESPMU,		\
++		CONFIG_ANDES_CUSTOM_PMU)				\
+ 	: "=r" (__ovl) :						\
+ 	: "memory")
+ 
++#define ALT_SBI_PMU_OVF_CLEAR_PENDING(__irq_mask)			\
++asm volatile(ALTERNATIVE(						\
++	"csrc " __stringify(CSR_IP) ", %0\n\t",				\
++	"csrc " __stringify(ANDES_CSR_SLIP) ", %0\n\t",			\
++		0, RISCV_ISA_EXT_XANDESPMU,				\
++		CONFIG_ANDES_CUSTOM_PMU)				\
++	: : "r"(__irq_mask)						\
++	: "memory")
++
+ #define SYSCTL_NO_USER_ACCESS	0
+ #define SYSCTL_USER_ACCESS	1
+ #define SYSCTL_LEGACY		2
+@@ -72,6 +85,7 @@ static int sysctl_perf_user_access __read_mostly = SYSCTL_USER_ACCESS;
+ static union sbi_pmu_ctr_info *pmu_ctr_list;
+ static bool riscv_pmu_use_irq;
+ static unsigned int riscv_pmu_irq_num;
++static unsigned int riscv_pmu_irq_mask;
+ static unsigned int riscv_pmu_irq;
+ 
+ /* Cache the available counters in a bitmask */
+@@ -705,7 +719,7 @@ static irqreturn_t pmu_sbi_ovf_handler(int irq, void *dev)
+ 
+ 	event = cpu_hw_evt->events[fidx];
+ 	if (!event) {
+-		csr_clear(CSR_SIP, BIT(riscv_pmu_irq_num));
++		ALT_SBI_PMU_OVF_CLEAR_PENDING(riscv_pmu_irq_mask);
+ 		return IRQ_NONE;
+ 	}
+ 
+@@ -719,7 +733,7 @@ static irqreturn_t pmu_sbi_ovf_handler(int irq, void *dev)
+ 	 * Overflow interrupt pending bit should only be cleared after stopping
+ 	 * all the counters to avoid any race condition.
+ 	 */
+-	csr_clear(CSR_SIP, BIT(riscv_pmu_irq_num));
++	ALT_SBI_PMU_OVF_CLEAR_PENDING(riscv_pmu_irq_mask);
+ 
+ 	/* No overflow bit is set */
+ 	if (!overflow)
+@@ -791,7 +805,7 @@ static int pmu_sbi_starting_cpu(unsigned int cpu, struct hlist_node *node)
+ 
+ 	if (riscv_pmu_use_irq) {
+ 		cpu_hw_evt->irq = riscv_pmu_irq;
+-		csr_clear(CSR_IP, BIT(riscv_pmu_irq_num));
++		ALT_SBI_PMU_OVF_CLEAR_PENDING(riscv_pmu_irq_mask);
+ 		enable_percpu_irq(riscv_pmu_irq, IRQ_TYPE_NONE);
+ 	}
+ 
+@@ -823,8 +837,14 @@ static int pmu_sbi_setup_irqs(struct riscv_pmu *pmu, struct platform_device *pde
+ 		   IS_ENABLED(CONFIG_THEAD_CUSTOM_PMU)) {
+ 		riscv_pmu_irq_num = THEAD_C9XX_RV_IRQ_PMU;
+ 		riscv_pmu_use_irq = true;
++	} else if (riscv_isa_extension_available(NULL, XANDESPMU) &&
++		   IS_ENABLED(CONFIG_ANDES_CUSTOM_PMU)) {
++		riscv_pmu_irq_num = ANDES_SLI_CAUSE_BASE + ANDES_RV_IRQ_PMOVI;
++		riscv_pmu_use_irq = true;
+ 	}
+ 
++	riscv_pmu_irq_mask = BIT(riscv_pmu_irq_num % BITS_PER_LONG);
++
+ 	if (!riscv_pmu_use_irq)
+ 		return -EOPNOTSUPP;
+ 
 -- 
-fuyao [付尧]
+2.34.1
+
