@@ -1,43 +1,44 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1F224F891
-	for <linux-sunxi@lists.linux.dev>; Tue, 26 Dec 2023 17:15:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3CA94FF62
+	for <linux-sunxi@lists.linux.dev>; Tue, 26 Dec 2023 17:58:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="cvqBdOMS"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-427a2fd7b87so32004471cf.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 26 Dec 2023 09:15:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="YLhUBZYH"
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-42786514fe6so42899511cf.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 26 Dec 2023 09:58:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1703610912; x=1704215712; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=znBescOeGDyEd/eBwZlWM7zCSH3WtYT9hTuxQY/0ciQ=;
-        b=cvqBdOMS1Wr32wu95b58kMsJIZQD05fteQdkTJhKioS1VZ1JKp2KAkRP3Qs4/kbG1e
-         xpqboHkCNCtJOKnabsbbqPEKUIOfru+Evjwz7P9UhAA8WljV9DPSWrdepIaBzwaC7HK1
-         2B4LRjztR2EC4N5Y9jXghZWZUeM+HOVi8mLiuP7vTcjyRrjfRh1e5kUtU/fPPdfoGHZo
-         jwJ1y+nsYw8tHJ+WmCrmx72NbudUuNE97pBd+bCBjDnm4Ew29qfGx7BZvoFQQkIVmDqg
-         04HobwVq1OLs8bRM7nU/9YZrjqLL0bFcV0Zv3UhZ8vPPxDraJzlzwtFEUG2eWtEjm7+2
-         Zehg==
+        d=soleen.com; s=google; t=1703613482; x=1704218282; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eYH7udRxVOWUuYR1uviT4nzog+O468I+tsZ16QY52lY=;
+        b=YLhUBZYHaa+V45secGbMWqoWIuRq/9ZN6jZZYlkd7/j5R69mIu7m0OiaXgAH5AD+Wi
+         nJc+Unyv9OByvyqNdmyptTSl7rdmvPbRXwXN/TfL2JKikHVwmAXAwFOC6zmDM7isI7Ng
+         Cym4guyUjyz3gy83U6EbQThPHAaWCGoMTHq16oO81ALDhgEyGa4UeBCJAK2AY8u2LbK3
+         x9ygnWzwt4X5PMaIvVfcEUKVpWuUMU1CXxeMoXaYBqmF0CZex4/9LQZ4KksJysAt+iNU
+         bw6MPDUn3/03BNym8rHq/DtkLam6uzjQ2bqWwU7B4LbQ9TsEoZRK7j2d+Xdv6SwdotVh
+         Bu7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703610912; x=1704215712;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=znBescOeGDyEd/eBwZlWM7zCSH3WtYT9hTuxQY/0ciQ=;
-        b=dUerT2f+Xvui1Ubc04ILO9tonQCxbaZdfbgqgM0m6e4yt0VoH7CijDI9oEPNIAauUG
-         WJ8CRhTVq7fuhVm304+2DlglTkPXoAgRYSYwuDF9i/YsK3iRWzu3TTaB+4o/wtJOB5g+
-         Eos5P+O9I5W9UqFyjPM2ZMLDe1VzQCxl8tq6SP5s1dddf9M4ISnQVGUpOXMuHSSDkmM7
-         ejuszcWDyFbXwb4KneiXUv4kRo0dTHPoMtMZPayvxdKErT68VLlOx4niBgPGNk3rT2oS
-         zazneY07X7gbZpHuYpineujq3M8AKBwIvs0cPZYbnZ2OFnHCVTVpx48UFJUu3m/vIWl1
-         7ZSQ==
-X-Gm-Message-State: AOJu0Yzef5HDxVt7ixAG+9ZhfkArsYhleFB60nH87chU6tdTT29x9DDD
-	0i3+bZ9Kfl0J3q27LoCWRoIo0W//Jn0EULAly+kKguPtg9HlXQ==
-X-Google-Smtp-Source: AGHT+IHyQ5pm+vKsp8dlt+xdHnTW6C3uPhOZpDSwoY++VClJ/nDwEbMxRN02tbeUhgBwD4pSJVi4TOSqszJhqwYmmj4=
-X-Received: by 2002:ac8:5bc2:0:b0:425:a28f:ddd8 with SMTP id
- b2-20020ac85bc2000000b00425a28fddd8mr8563250qtb.137.1703610912560; Tue, 26
- Dec 2023 09:15:12 -0800 (PST)
+        d=1e100.net; s=20230601; t=1703613482; x=1704218282;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=eYH7udRxVOWUuYR1uviT4nzog+O468I+tsZ16QY52lY=;
+        b=RKOGxlBV3D50x9h4ag8KmjJcYnkTbkaqbEzyaqWoVmEBksz94uxHG3palpHsVzvpNk
+         krf/UXkRaG7EIa4nrNInk69UnS34XVSwQ5Jd0sD2EI1427dlV70ktPVi/xERwSlNoMtw
+         UFc+wVpooXhrcFQRDbCuGMOU07RBqUcei/VDsEfRWd29fZXrgqxuIdpqF0CmS/WiUqEp
+         VZV23g3Pq+P8b1iMEDvs2KPWfz13gXYG8SSnFeyYEWlmOTi5cK8mBT1XZ+4kgNjpMck/
+         H3clygKRrzu3fIMM2vGv2XUBmB9Lt2ssR/rb7u1enikq4NmBElu3GB6U3m455MSGCFv4
+         GF5Q==
+X-Gm-Message-State: AOJu0YwBLoMIT8NBpnwE2HrIRyhhXbll9f5/nTye1hVeTvqzY+Afvq43
+	SxjSoJOAYfOxs0i24dp5bdRHt7APyrbwTBnBadvZFdwFJchkaw==
+X-Google-Smtp-Source: AGHT+IF1mJ8zM3mxpNM9KsLehfwPoH0iCOIzFR/lBXLAAhZkeLDmK9jCB4DCOG5yTSpoP8aUapffGpK3Rjo+EEYkWKw=
+X-Received: by 2002:ac8:5915:0:b0:427:9fad:896a with SMTP id
+ 21-20020ac85915000000b004279fad896amr10235427qty.56.1703613481775; Tue, 26
+ Dec 2023 09:58:01 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -46,13 +47,14 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20231130201504.2322355-1-pasha.tatashin@soleen.com>
  <20231130201504.2322355-2-pasha.tatashin@soleen.com> <776e17af-ae25-16a0-f443-66f3972b00c0@google.com>
- <CA+CK2bA8iJ_w8CSx2Ed=d2cVSujrC0-TpO7U9j+Ow-gfk1nyfQ@mail.gmail.com> <0ba8e579-2b6f-4e9f-a38c-097694f14d3c@intel.com>
-In-Reply-To: <0ba8e579-2b6f-4e9f-a38c-097694f14d3c@intel.com>
+ <CA+CK2bA8iJ_w8CSx2Ed=d2cVSujrC0-TpO7U9j+Ow-gfk1nyfQ@mail.gmail.com>
+ <1fd66377-030c-2e48-e658-4669bbf037e9@google.com> <ZYinEGCdl8mZjmXi@casper.infradead.org>
+In-Reply-To: <ZYinEGCdl8mZjmXi@casper.infradead.org>
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Tue, 26 Dec 2023 12:14:35 -0500
-Message-ID: <CA+CK2bBGHv3f2AM999C5zoo018yzFdQpygUaPn0AVoJ7cX+Sbg@mail.gmail.com>
+Date: Tue, 26 Dec 2023 12:57:25 -0500
+Message-ID: <CA+CK2bDWRN__FBw1N9j9RD3EE+0pca89ASKROA6tK_CGH17gNw@mail.gmail.com>
 Subject: Re: [PATCH v2 01/10] iommu/vt-d: add wrapper functions for page allocations
-To: "Liu, Jingqi" <jingqi.liu@intel.com>
+To: Matthew Wilcox <willy@infradead.org>
 Cc: David Rientjes <rientjes@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
 	alim.akhtar@samsung.com, alyssa@rosenzweig.io, asahi@lists.linux.dev, 
 	baolu.lu@linux.intel.com, bhelgaas@google.com, cgroups@vger.kernel.org, 
@@ -70,27 +72,42 @@ Cc: David Rientjes <rientjes@google.com>, Andrew Morton <akpm@linux-foundation.o
 	tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, will@kernel.org, 
 	yu-cheng.yu@intel.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> >> Document the locking requirements for this?
-> >
-> > Thank you for the review. I will add info about locking requirements,
-> > in fact they are very relaxed.
-> >
-> > These pages are added to the list by unmaps or remaps operation in
-> > Intel IOMMU implementation. These calls assume that whoever is doing
-> > those operations has exclusive access to the VA range in the page
-> > table of that operation. The pages in this freelist only belong to the
-> > former page-tables from the IOVA range for those operations.
+On Sun, Dec 24, 2023 at 4:48=E2=80=AFPM Matthew Wilcox <willy@infradead.org=
+> wrote:
 >
-> These pages maybe be accessed concurrently by thread contexts other than
-> the IOMMU driver (such as debugfs).
+> On Sun, Dec 24, 2023 at 01:30:50PM -0800, David Rientjes wrote:
+> > > > s/pages/page/ here and later in this file.
+> > >
+> > > In this file, where there a page with an "order", I reference it with
+> > > "pages", when no order (i.e. order =3D 0), I reference it with "page"
+> > >
+> > > I.e.: __iommu_alloc_page vs. __iommu_alloc_pages
+> > >
+> >
+> > Eh, the struct page points to a (potentially compound) page, not a set =
+or
+> > list of pages.  I won't bikeshed on it, but "struct page *pages" never
+> > makes sense unless it's **pages or *pages[] :)
+>
+> I'd suggest that 'pages' also makes sense when _not_ using __GFP_COMP,
+> as we do in fact allocate an array of pages in that case.
+>
+> That said, we shouldn't encourage the use of non-compound allocations.
+> It would also be good for someone to define a memdesc for iommu memory
+> like we have already for slab.  We'll need it eventually, and it'll work
+> out better if someone who understands iommus (ie not me) does it.
 
-Good point regarding debugfs. While, it does not change any locking
-assumptions, for this series. It might change some design decisions
-that we need to make when freeing pages on unmaps (a separate RFC
-series that I sent). I will have to study how debugfs affect refcnt
-and mapcount, and whether we could use per-page page table locking if
-needed.
+I was thinking of adding an IOMMU page table memdesc, at least by
+starting with Intel implementation.
 
-Thanks,
+- For efficient freeing on page-unmap we need a counter.
+- We might also need a per-page page table locking (aka PTL type
+lock), if the current approach I am proposing is not scalable enough.
+- Access to debugfs (I am studying this now).
+
+However, iommu memdesc would really make sense, once all the various
+page table management IOMMU implementations are unified.
+
 Pasha
