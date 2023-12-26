@@ -1,185 +1,163 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAD60A28
-	for <linux-sunxi@lists.linux.dev>; Tue, 26 Dec 2023 01:17:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7513A1FB;
-	Mon, 25 Dec 2023 17:17:45 -0800 (PST)
-Received: from minigeek.lan (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3B7A03F641;
-	Mon, 25 Dec 2023 17:16:58 -0800 (PST)
-Date: Tue, 26 Dec 2023 01:16:34 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: fuyao <fuyao@sjterm.com>
-Cc: fuyao <fuyao1697@cyg.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Alexandre
- TORGUE <alexandre.torgue@st.com>, Enric Balletbo i Serra
- <eballetbo@gmail.com>, Baruch Siach <baruch@tkos.co.il>, Paul Barker
- <paul.barker@sancloud.com>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND] ARM: dts: sun8i: r40: open the regulator aldo1
-Message-ID: <20231226011634.32e2342d@minigeek.lan>
-In-Reply-To: <ZYlVTFrWkPaci92K@debian.cyg>
-References: <ZYKjYypuAx7gNuam@debian.cyg>
-	<20231220150400.0f32e2a5@donnerap.manchester.arm.com>
-	<ZYOhAQi7XeLUuAC9@debian.cyg>
-	<20231221103906.1830ef94@donnerap.manchester.arm.com>
-	<ZYlVTFrWkPaci92K@debian.cyg>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+Received: from Atcsqr.andestech.com (60-248-80-70.hinet-ip.hinet.net [60.248.80.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61353F4FE
+	for <linux-sunxi@lists.linux.dev>; Tue, 26 Dec 2023 03:02:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=andestech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=andestech.com
+Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
+	by Atcsqr.andestech.com with ESMTP id 3BQ301qO075346;
+	Tue, 26 Dec 2023 11:00:01 +0800 (+08)
+	(envelope-from peterlin@andestech.com)
+Received: from APC323 (10.0.12.98) by ATCPCS16.andestech.com (10.0.1.222) with
+ Microsoft SMTP Server id 14.3.498.0; Tue, 26 Dec 2023 11:00:00 +0800
+Date: Tue, 26 Dec 2023 10:59:55 +0800
+From: Yu-Chien Peter Lin <peterlin@andestech.com>
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+CC: <acme@kernel.org>, <adrian.hunter@intel.com>, <ajones@ventanamicro.com>,
+        <alexander.shishkin@linux.intel.com>, <andre.przywara@arm.com>,
+        <anup@brainfault.org>, <aou@eecs.berkeley.edu>,
+        <atishp@atishpatra.org>, <conor+dt@kernel.org>,
+        <conor.dooley@microchip.com>, <conor@kernel.org>,
+        <devicetree@vger.kernel.org>, <dminus@andestech.com>,
+        <evan@rivosinc.com>, <geert+renesas@glider.be>, <guoren@kernel.org>,
+        <heiko@sntech.de>, <irogers@google.com>, <jernej.skrabec@gmail.com>,
+        <jolsa@kernel.org>, <jszhang@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <linux-perf-users@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        <linux-sunxi@lists.linux.dev>, <locus84@andestech.com>,
+        <magnus.damm@gmail.com>, <mark.rutland@arm.com>, <mingo@redhat.com>,
+        <n.shubin@yadro.com>, <namhyung@kernel.org>, <palmer@dabbelt.com>,
+        <paul.walmsley@sifive.com>, <peterz@infradead.org>,
+        <prabhakar.mahadev-lad.rj@bp.renesas.com>, <rdunlap@infradead.org>,
+        <robh+dt@kernel.org>, <samuel@sholland.org>,
+        <sunilvl@ventanamicro.com>, <tglx@linutronix.de>,
+        <tim609@andestech.com>, <uwu@icenowy.me>, <wens@csie.org>,
+        <will@kernel.org>, <ycliang@andestech.com>, <inochiama@outlook.com>,
+        <chao.wei@sophgo.com>, <unicorn_wang@outlook.com>, <wefu@redhat.com>
+Subject: Re: [PATCH v6 00/16] Support Andes PMU extension
+Message-ID: <ZYpBqwbI8vMwIpXH@APC323>
+References: <20231225103308.1557548-1-peterlin@andestech.com>
+ <CA+V-a8t7g8ctPQrwdB9tgtmgtGfqQ-k2N-1sSwnjB-b1F71-AQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+V-a8t7g8ctPQrwdB9tgtmgtGfqQ-k2N-1sSwnjB-b1F71-AQ@mail.gmail.com>
+User-Agent: Mutt/2.2.12 (2023-09-09)
+X-DNSRBL: 
+X-SPAM-SOURCE-CHECK: pass
+X-MAIL:Atcsqr.andestech.com 3BQ301qO075346
 
-On Mon, 25 Dec 2023 18:11:24 +0800
-fuyao <fuyao@sjterm.com> wrote:
+Hi Prabhakar,
 
-Hi,
-
-thanks for the reply, with insightful information!
-
-> On Thu, Dec 21, 2023 at 10:39:06AM +0000, Andre Przywara wrote:
-> > On Thu, 21 Dec 2023 10:20:49 +0800
-> > fuyao <fuyao@sjterm.com> wrote:
-> > 
-> > Hi,
-> > 
-> > thanks for the reply!
-> >   
-> > > On Wed, Dec 20, 2023 at 03:04:00PM +0000, Andre Przywara wrote:  
-> > > > On Wed, 20 Dec 2023 16:18:43 +0800
-> > > > fuyao <fuyao1697@cyg.com> wrote:
-> > > > 
-> > > > Hi,
-> > > >     
-> > > > > the aldo1 is connect regulator pin which power the TV.    
-> > > > 
-> > > > What do you mean with that? That ALDO1 is connected to VCC-TVOUT and/or
-> > > > VCC-TVIN on the R40 SoC?    
-> > > 
-> > > The ALDO1 is connected to VCC-TVOUT on the R40 Soc.  
-> > 
-> > Ah, thanks for the confirmation.
-> >   
-> > > > > The USB core use TV ref as reference Voltage.    
-> > > > 
-> > > > The USB core in the SoC? So pin VCC-USB, which requires 3.3V, the same
-> > > > voltage as the TV pins?
-> > > > Which means this doesn't really have much to do with TV, it's just that
-> > > > USB and also "TV" are supplied by ALDO1?    
-> > > 
-> > > The internal USB PHY requires a reference voltage. It seems that in
-> > > order to save costs, the reference voltage of the TVOUT module is used.  
-> > 
-> > Do you mean a USB *reference* voltage that is separate from the USB PHY
-> > power supply voltage, so pin VCC-USB on the SoC? And that it is internally
-> > connected to some TV-OUT related circuits? So that would apply to all
-> > devices using the R40 SoC then?  
-> yes, The usb need a power from TV module insides.
-
-Ah, alright. I dimly remember hearing reports about unstable USB
-operation on some (custom?) R40 boards, that might as well explain it.
-On the BananaPis (the only other officially supported R40 boards),
-TVOUT and TVOUT are connected to DCDC1, so are effectively always
-powered by 3.3V already, which would explain why we didn't observe USB
-issues there.
-
-> > Or is it simply that the SoC pins VCC-TVOUT and VCC-USB are connected
-> > together, on this SoM?  
-> no
-
-Thanks for the confirmation!
-
-> > Do you have access to some schematic? I couldn't find one online easily,
-> > so cannot check this myself.
-> >   
-> It has up to https://file.io/VSUL4FDrapDY
-
-Ah, many thanks, that's really useful! That indeed confirms that both
-TVIN and TVOUT are exclusively powered by ALDO1.
-
-So if you resend the patch as v2, with the regulator-name changed, and
-possibly with the following commit message, I'd support it:
-
-=============
-The USB PHY in the Allwinner R40 SoC seems to rely on voltage on the
-VCC-TVIN/OUT supply pins for proper operation, on top of its own supply
-voltage on VCC-USB. Without a 3.3V voltage supplied to VCC-TV*, USB
-operation becomes unstable and can result in disconnects.
-
-The Forlinx FETA40i-C SoM connects both the VCC-TVOUT and VCC-TVIN pins
-to the ALDO1 rail of the PMIC, so we need to enable that rail for USB
-operation. Since there is no supply property in the DT bindings for
-the USB core, we need to always enable the regulator.
-
-This fixes unstable USB operation on boards using the Forlinx FETA40i-C
-module.
-================
-
-Cheers,
-Andre
-
-
-> > Thanks,
-> > Andre
-> >   
-> > > > > Signed-off-by: fuyao <fuyao1697@cyg.com>
-> > > > > ---
-> > > > >  arch/arm/boot/dts/allwinner/sun8i-r40-feta40i.dtsi | 7 +++++++
-> > > > >  1 file changed, 7 insertions(+)
-> > > > > 
-> > > > > diff --git a/arch/arm/boot/dts/allwinner/sun8i-r40-feta40i.dtsi b/arch/arm/boot/dts/allwinner/sun8i-r40-feta40i.dtsi
-> > > > > index 9f39b5a2bb35..8906170461df 100644
-> > > > > --- a/arch/arm/boot/dts/allwinner/sun8i-r40-feta40i.dtsi
-> > > > > +++ b/arch/arm/boot/dts/allwinner/sun8i-r40-feta40i.dtsi
-> > > > > @@ -42,6 +42,13 @@ &pio {
-> > > > >  	vcc-pg-supply = <&reg_dldo1>;
-> > > > >  };
-> > > > >  
-> > > > > +&reg_aldo1 {
-> > > > > +	regulator-always-on;    
-> > > > 
-> > > > So did USB never work before, with the DT as in mainline?
-> > > >     
-> > > 
-> > > The USB can work, but is unstable. Occasionally disconnected because of
-> > > the D+/D- electrical characteristics.
-> > >   
-> > > > For always-on regulators it would be good to see some rationale why this
-> > > > cannot be referenced by its consumer. If it is really supplying the USB
-> > > > core, that would be a reason, because we don't have a good way of
-> > > > describing this.
-> > > >     
-> > > > > +	regulator-min-microvolt = <3300000>;
-> > > > > +	regulator-max-microvolt = <3300000>;
-> > > > > +	regulator-name = "vcc-aldo1";    
-> > > > 
-> > > > Regulators should be named after their users, so use something like:
-> > > > 	regulator-name = "vcc-3v3-tv-usb";
-> > > >     
-> > > 
-> > > thanks.
-> > >   
-> > > > That then also serves as documentation of why this is always on.
-> > > > 
-> > > > Cheers,
-> > > > Andre
-> > > >     
-> > > > > +};
-> > > > > +
-> > > > >  &reg_aldo2 {
-> > > > >  	regulator-always-on;
-> > > > >  	regulator-min-microvolt = <1800000>;    
-> > > >     
-> > >   
+On Mon, Dec 25, 2023 at 09:06:04PM +0000, Lad, Prabhakar wrote:
+> Hi Lin-san,
 > 
+> On Mon, Dec 25, 2023 at 10:37 AM Yu Chien Peter Lin
+> <peterlin@andestech.com> wrote:
+> >
+> > Hi All,
+> >
+> > This patch series introduces the Andes PMU extension, which serves
+> > the same purpose as Sscofpmf. To use FDT-based probing for hardware
+> > support of the PMU extensions, we first convert T-Head's PMU to CPU
+> > feature alternative, then add Andes PMU alternatives.
+> >
+> > Its non-standard local interrupt is assigned to bit 18 in the
+> > custom S-mode local interrupt enable/pending registers (slie/slip),
+> > while the interrupt cause is (256 + 18).
+> >
+> > Mainline OpenSBI has supported Andes PMU extension:
+> > - https://github.com/riscv-software-src/opensbi/tree/master
+> > Linux patches (based on v6.7-rc7) can be found on Andes Technology GitHub
+> > - https://github.com/andestech/linux/commits/andes-pmu-support-v6
+> >
+> > The PMU device tree node used on AX45MP:
+> > - https://github.com/riscv-software-src/opensbi/blob/master/docs/pmu_support.md#example-3
+> >
+> > Locus Wei-Han Chen (1):
+> >   riscv: andes: Support specifying symbolic firmware and hardware raw
+> >     events
+> >
+> > Yu Chien Peter Lin (15):
+> >   riscv: errata: Rename defines for Andes
+> >   irqchip/riscv-intc: Allow large non-standard interrupt number
+> >   irqchip/riscv-intc: Introduce Andes hart-level interrupt controller
+> >   dt-bindings: riscv: Add Andes interrupt controller compatible string
+> >   riscv: dts: renesas: r9a07g043f: Update compatible string to use Andes
+> >     INTC
+> >   perf: RISC-V: Eliminate redundant interrupt enable/disable operations
+> >   RISC-V: Move T-Head PMU to CPU feature alternative framework
+> >   perf: RISC-V: Introduce Andes PMU for perf event sampling
+> >   dt-bindings: riscv: Add T-Head PMU extension description
+> >   dt-bindings: riscv: Add Andes PMU extension description
+> >   riscv: dts: allwinner: Add T-Head PMU extension for sun20i-d1s
+> >   riscv: dts: sophgo: Add T-Head PMU extension for cv1800b
+> >   riscv: dts: sophgo: Add T-Head PMU extension for sg2042
+> >   riscv: dts: thead: Add T-Head PMU extension for th1520
+> >   riscv: dts: renesas: Add Andes PMU extension for r9a07g043f
+> >
+> The above patches dont apply cleanly on top of below branches. Can you
+> please rebase and re-send.
 
+Sure, will do.
+
+> https://git.kernel.org/pub/scm/linux/kernel/git/palmer/linux.git/log/?h=fixes
+> https://git.kernel.org/pub/scm/linux/kernel/git/palmer/linux.git/log/?h=for-next
+> https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git/log/?h=renesas-dts-for-v6.8
+
+Thanks for the pointers.
+
+Best regards,
+Peter Lin
+
+> Cheers,
+> Prabhakar
+> 
+> >  .../devicetree/bindings/riscv/cpus.yaml       |   6 +-
+> >  .../devicetree/bindings/riscv/extensions.yaml |  13 ++
+> >  arch/riscv/Kconfig.errata                     |  13 --
+> >  arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi |   2 +-
+> >  arch/riscv/boot/dts/renesas/r9a07g043f.dtsi   |   4 +-
+> >  arch/riscv/boot/dts/sophgo/cv1800b.dtsi       |   2 +-
+> >  arch/riscv/boot/dts/sophgo/sg2042-cpus.dtsi   | 128 +++++++++---------
+> >  arch/riscv/boot/dts/thead/th1520.dtsi         |   8 +-
+> >  arch/riscv/errata/andes/errata.c              |  10 +-
+> >  arch/riscv/errata/thead/errata.c              |  19 ---
+> >  arch/riscv/include/asm/errata_list.h          |  19 +--
+> >  arch/riscv/include/asm/hwcap.h                |   2 +
+> >  arch/riscv/include/asm/vendorid_list.h        |   2 +-
+> >  arch/riscv/kernel/alternative.c               |   2 +-
+> >  arch/riscv/kernel/cpufeature.c                |   2 +
+> >  drivers/irqchip/irq-riscv-intc.c              |  89 ++++++++++--
+> >  drivers/perf/Kconfig                          |  27 ++++
+> >  drivers/perf/riscv_pmu_sbi.c                  |  47 +++++--
+> >  include/linux/soc/andes/irq.h                 |  18 +++
+> >  .../arch/riscv/andes/ax45/firmware.json       |  68 ++++++++++
+> >  .../arch/riscv/andes/ax45/instructions.json   | 127 +++++++++++++++++
+> >  .../arch/riscv/andes/ax45/memory.json         |  57 ++++++++
+> >  .../arch/riscv/andes/ax45/microarch.json      |  77 +++++++++++
+> >  tools/perf/pmu-events/arch/riscv/mapfile.csv  |   1 +
+> >  24 files changed, 592 insertions(+), 151 deletions(-)
+> >  create mode 100644 include/linux/soc/andes/irq.h
+> >  create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/firmware.json
+> >  create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/instructions.json
+> >  create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/memory.json
+> >  create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/microarch.json
+> >
+> > --
+> > 2.34.1
+> >
+> >
+> > _______________________________________________
+> > linux-riscv mailing list
+> > linux-riscv@lists.infradead.org
+> > http://lists.infradead.org/mailman/listinfo/linux-riscv
