@@ -1,163 +1,139 @@
-Received: from Atcsqr.andestech.com (60-248-80-70.hinet-ip.hinet.net [60.248.80.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61353F4FE
-	for <linux-sunxi@lists.linux.dev>; Tue, 26 Dec 2023 03:02:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=andestech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=andestech.com
-Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
-	by Atcsqr.andestech.com with ESMTP id 3BQ301qO075346;
-	Tue, 26 Dec 2023 11:00:01 +0800 (+08)
-	(envelope-from peterlin@andestech.com)
-Received: from APC323 (10.0.12.98) by ATCPCS16.andestech.com (10.0.1.222) with
- Microsoft SMTP Server id 14.3.498.0; Tue, 26 Dec 2023 11:00:00 +0800
-Date: Tue, 26 Dec 2023 10:59:55 +0800
-From: Yu-Chien Peter Lin <peterlin@andestech.com>
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-CC: <acme@kernel.org>, <adrian.hunter@intel.com>, <ajones@ventanamicro.com>,
-        <alexander.shishkin@linux.intel.com>, <andre.przywara@arm.com>,
-        <anup@brainfault.org>, <aou@eecs.berkeley.edu>,
-        <atishp@atishpatra.org>, <conor+dt@kernel.org>,
-        <conor.dooley@microchip.com>, <conor@kernel.org>,
-        <devicetree@vger.kernel.org>, <dminus@andestech.com>,
-        <evan@rivosinc.com>, <geert+renesas@glider.be>, <guoren@kernel.org>,
-        <heiko@sntech.de>, <irogers@google.com>, <jernej.skrabec@gmail.com>,
-        <jolsa@kernel.org>, <jszhang@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <linux-perf-users@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-        <linux-sunxi@lists.linux.dev>, <locus84@andestech.com>,
-        <magnus.damm@gmail.com>, <mark.rutland@arm.com>, <mingo@redhat.com>,
-        <n.shubin@yadro.com>, <namhyung@kernel.org>, <palmer@dabbelt.com>,
-        <paul.walmsley@sifive.com>, <peterz@infradead.org>,
-        <prabhakar.mahadev-lad.rj@bp.renesas.com>, <rdunlap@infradead.org>,
-        <robh+dt@kernel.org>, <samuel@sholland.org>,
-        <sunilvl@ventanamicro.com>, <tglx@linutronix.de>,
-        <tim609@andestech.com>, <uwu@icenowy.me>, <wens@csie.org>,
-        <will@kernel.org>, <ycliang@andestech.com>, <inochiama@outlook.com>,
-        <chao.wei@sophgo.com>, <unicorn_wang@outlook.com>, <wefu@redhat.com>
-Subject: Re: [PATCH v6 00/16] Support Andes PMU extension
-Message-ID: <ZYpBqwbI8vMwIpXH@APC323>
-References: <20231225103308.1557548-1-peterlin@andestech.com>
- <CA+V-a8t7g8ctPQrwdB9tgtmgtGfqQ-k2N-1sSwnjB-b1F71-AQ@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 894CB4B12B
+	for <linux-sunxi@lists.linux.dev>; Tue, 26 Dec 2023 05:36:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Qe7vfV0Z"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-6d98ce84e18so2549856b3a.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 25 Dec 2023 21:36:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1703569010; x=1704173810; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=wt8Y6H9UYhlcK+Kq+g9t/n5C3ulwRlQUCahaLJRULwM=;
+        b=Qe7vfV0Ztsp4puRXJGDb6gLGYQmP5pAtO5kH0fqZ8uKvtq9T/2Bdv/mEQGiUvkDsSR
+         Zj17X31GiHMs2P2k1C/Fjt0Hj2uGyDn07jEoKIomx2nIFxQ/IcAlmfEtfqVH/MhUQF8b
+         nlt1M0LAVEZ54Cm8JSQz8ze+UVFzePoWAfrTBGEnwYIHbRpEx8KbRu0PBkyXwSjyS7r+
+         DvNTw2xlsf2c6NG/77/iuh0QLpTusiGGSx/Wwm5Ie0w1OzVRuPXbybwu1CcoZYynRffE
+         cl8a3h0k29hrBH1XFJjOdMpiAkfZx8DupWc6V/ZZpe3ALoKwC+VTQ0AbOe+mmZw6Vuee
+         2MlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703569010; x=1704173810;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wt8Y6H9UYhlcK+Kq+g9t/n5C3ulwRlQUCahaLJRULwM=;
+        b=aAkvghPstXvZLNEhJvagkDEH0GchNU4Ux3spHrL8jH9lSNVsTrrv6NOEmwzcom6XgM
+         t8idvaCv/FBfutkOQwkykIsEI7ebUNiMOn47uuFL7N5as69e2BatfB+gQWYeC24uhKLY
+         GYJuA2oNiI1N5d+mQGhbOCxoyjkaaa5JS7bVQRjUUlNn7Qos/GzmC1SbfnfLhH5k3QuE
+         wgT+WFnNV4T0YorjP9e/Eu4jurDFWCHUOnn1dCndhNBqT8XeJmQ0yUKaleap2dnDVgx+
+         hCbNVwBff6vK1Gqq7e1kjGb5LTMD4fweFR9X9wCzTvyyZY2bEtKUOJU5B5/bLsQ6SbuV
+         VVUg==
+X-Gm-Message-State: AOJu0YyKJJmzqF9xzibSjmf6GGuCkuxKjaLJvfLV1zeqOrEk2jh9tO+u
+	cGiNtNnwZETQdrCvNnvw6qj+5CaQOjf/qg==
+X-Google-Smtp-Source: AGHT+IEWpDU3OhwCcS4KqMR5BEt9i18xozZDMVXrBdzYqH1/mZXMMZY7yPJGFUrViMSlAQI50dwQjw==
+X-Received: by 2002:a05:6a00:181e:b0:6d9:ba7f:8b02 with SMTP id y30-20020a056a00181e00b006d9ba7f8b02mr3323033pfa.32.1703569009897;
+        Mon, 25 Dec 2023 21:36:49 -0800 (PST)
+Received: from localhost ([122.172.86.168])
+        by smtp.gmail.com with ESMTPSA id ff21-20020a056a002f5500b006cef5c09ca3sm9165969pfb.147.2023.12.25.21.36.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Dec 2023 21:36:49 -0800 (PST)
+Date: Tue, 26 Dec 2023 11:06:47 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Brandon Cheo Fusi <fusibrandon13@gmail.com>
+Cc: Andre Przywara <andre.przywara@arm.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Yangtao Li <tiny.windzz@gmail.com>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Stephen Rothwell <sfr@canb.auug.org.au>, devicetree@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
+Subject: Re: [RFC PATCH v3 3/3] riscv: dts: allwinner: Fill in OPPs
+Message-ID: <20231226053647.kvrpn4pjtc2lhfcm@vireshk-i7>
+References: <20231222111407.104270-1-fusibrandon13@gmail.com>
+ <20231222111407.104270-4-fusibrandon13@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+V-a8t7g8ctPQrwdB9tgtmgtGfqQ-k2N-1sSwnjB-b1F71-AQ@mail.gmail.com>
-User-Agent: Mutt/2.2.12 (2023-09-09)
-X-DNSRBL: 
-X-SPAM-SOURCE-CHECK: pass
-X-MAIL:Atcsqr.andestech.com 3BQ301qO075346
+In-Reply-To: <20231222111407.104270-4-fusibrandon13@gmail.com>
 
-Hi Prabhakar,
-
-On Mon, Dec 25, 2023 at 09:06:04PM +0000, Lad, Prabhakar wrote:
-> Hi Lin-san,
+On 22-12-23, 12:14, Brandon Cheo Fusi wrote:
+> Specify two voltage ranges, in order of increasing stability,
+> for each OPP.
 > 
-> On Mon, Dec 25, 2023 at 10:37 AM Yu Chien Peter Lin
-> <peterlin@andestech.com> wrote:
-> >
-> > Hi All,
-> >
-> > This patch series introduces the Andes PMU extension, which serves
-> > the same purpose as Sscofpmf. To use FDT-based probing for hardware
-> > support of the PMU extensions, we first convert T-Head's PMU to CPU
-> > feature alternative, then add Andes PMU alternatives.
-> >
-> > Its non-standard local interrupt is assigned to bit 18 in the
-> > custom S-mode local interrupt enable/pending registers (slie/slip),
-> > while the interrupt cause is (256 + 18).
-> >
-> > Mainline OpenSBI has supported Andes PMU extension:
-> > - https://github.com/riscv-software-src/opensbi/tree/master
-> > Linux patches (based on v6.7-rc7) can be found on Andes Technology GitHub
-> > - https://github.com/andestech/linux/commits/andes-pmu-support-v6
-> >
-> > The PMU device tree node used on AX45MP:
-> > - https://github.com/riscv-software-src/opensbi/blob/master/docs/pmu_support.md#example-3
-> >
-> > Locus Wei-Han Chen (1):
-> >   riscv: andes: Support specifying symbolic firmware and hardware raw
-> >     events
-> >
-> > Yu Chien Peter Lin (15):
-> >   riscv: errata: Rename defines for Andes
-> >   irqchip/riscv-intc: Allow large non-standard interrupt number
-> >   irqchip/riscv-intc: Introduce Andes hart-level interrupt controller
-> >   dt-bindings: riscv: Add Andes interrupt controller compatible string
-> >   riscv: dts: renesas: r9a07g043f: Update compatible string to use Andes
-> >     INTC
-> >   perf: RISC-V: Eliminate redundant interrupt enable/disable operations
-> >   RISC-V: Move T-Head PMU to CPU feature alternative framework
-> >   perf: RISC-V: Introduce Andes PMU for perf event sampling
-> >   dt-bindings: riscv: Add T-Head PMU extension description
-> >   dt-bindings: riscv: Add Andes PMU extension description
-> >   riscv: dts: allwinner: Add T-Head PMU extension for sun20i-d1s
-> >   riscv: dts: sophgo: Add T-Head PMU extension for cv1800b
-> >   riscv: dts: sophgo: Add T-Head PMU extension for sg2042
-> >   riscv: dts: thead: Add T-Head PMU extension for th1520
-> >   riscv: dts: renesas: Add Andes PMU extension for r9a07g043f
-> >
-> The above patches dont apply cleanly on top of below branches. Can you
-> please rebase and re-send.
-
-Sure, will do.
-
-> https://git.kernel.org/pub/scm/linux/kernel/git/palmer/linux.git/log/?h=fixes
-> https://git.kernel.org/pub/scm/linux/kernel/git/palmer/linux.git/log/?h=for-next
-> https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git/log/?h=renesas-dts-for-v6.8
-
-Thanks for the pointers.
-
-Best regards,
-Peter Lin
-
-> Cheers,
-> Prabhakar
+> Also define an nvmem cpu speed grade cell of length 2.
 > 
-> >  .../devicetree/bindings/riscv/cpus.yaml       |   6 +-
-> >  .../devicetree/bindings/riscv/extensions.yaml |  13 ++
-> >  arch/riscv/Kconfig.errata                     |  13 --
-> >  arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi |   2 +-
-> >  arch/riscv/boot/dts/renesas/r9a07g043f.dtsi   |   4 +-
-> >  arch/riscv/boot/dts/sophgo/cv1800b.dtsi       |   2 +-
-> >  arch/riscv/boot/dts/sophgo/sg2042-cpus.dtsi   | 128 +++++++++---------
-> >  arch/riscv/boot/dts/thead/th1520.dtsi         |   8 +-
-> >  arch/riscv/errata/andes/errata.c              |  10 +-
-> >  arch/riscv/errata/thead/errata.c              |  19 ---
-> >  arch/riscv/include/asm/errata_list.h          |  19 +--
-> >  arch/riscv/include/asm/hwcap.h                |   2 +
-> >  arch/riscv/include/asm/vendorid_list.h        |   2 +-
-> >  arch/riscv/kernel/alternative.c               |   2 +-
-> >  arch/riscv/kernel/cpufeature.c                |   2 +
-> >  drivers/irqchip/irq-riscv-intc.c              |  89 ++++++++++--
-> >  drivers/perf/Kconfig                          |  27 ++++
-> >  drivers/perf/riscv_pmu_sbi.c                  |  47 +++++--
-> >  include/linux/soc/andes/irq.h                 |  18 +++
-> >  .../arch/riscv/andes/ax45/firmware.json       |  68 ++++++++++
-> >  .../arch/riscv/andes/ax45/instructions.json   | 127 +++++++++++++++++
-> >  .../arch/riscv/andes/ax45/memory.json         |  57 ++++++++
-> >  .../arch/riscv/andes/ax45/microarch.json      |  77 +++++++++++
-> >  tools/perf/pmu-events/arch/riscv/mapfile.csv  |   1 +
-> >  24 files changed, 592 insertions(+), 151 deletions(-)
-> >  create mode 100644 include/linux/soc/andes/irq.h
-> >  create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/firmware.json
-> >  create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/instructions.json
-> >  create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/memory.json
-> >  create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/microarch.json
-> >
-> > --
-> > 2.34.1
-> >
-> >
-> > _______________________________________________
-> > linux-riscv mailing list
-> > linux-riscv@lists.infradead.org
-> > http://lists.infradead.org/mailman/listinfo/linux-riscv
+> Link: https://github.com/Tina-Linux/linux-5.4/blob/master/arch/riscv/boot/dts/sunxi/sun20iw1p1.dtsi#L118-L133
+> Link: https://github.com/mangopi-sbc/tina-linux-5.4/blob/0d4903ebd9d2194ad914686d5b0fc1ddacf11a9d/arch/riscv/boot/dts/sunxi/sun20iw1p1.dtsi#L118-L182
+> 
+> Signed-off-by: Brandon Cheo Fusi <fusibrandon13@gmail.com>
+> ---
+>  arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi | 19 ++++++++++++++++---
+>  1 file changed, 16 insertions(+), 3 deletions(-)
+> 
+> diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> index 64c3c2e6c..7e2e015e0 100644
+> --- a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> @@ -39,16 +39,23 @@ cpu0_intc: interrupt-controller {
+>  	};
+>  
+>  	opp_table_cpu: opp-table-cpu {
+> -		compatible = "operating-points-v2";
+> +		compatible = "allwinner,sun20i-d1-operating-points";
+> +		nvmem-cells = <&cpu_speed_grade>;
+> +		nvmem-cell-names = "speed";
+> +		opp-shared;
+>  
+>  		opp-408000000 {
+>  			opp-hz = /bits/ 64 <408000000>;
+> -			opp-microvolt = <900000 900000 1100000>;
+> +
+> +			opp-microvolt-speed0 = <950000 950000 1100000>;
+> +			opp-microvolt-speed1 = <900000 900000 1100000>;
+>  		};
+>  
+>  		opp-1080000000 {
+>  			opp-hz = /bits/ 64 <1008000000>;
+> -			opp-microvolt = <900000 900000 1100000>;
+> +
+> +			opp-microvolt-speed0 = <1100000>;
+
+I was expecting the above two lines to have same values. Why change
+them ?
+
+> +			opp-microvolt-speed1 = <950000 950000 1100000>;
+>  		};
+>  	};
+>  
+> @@ -115,3 +122,9 @@ pmu {
+>  			<0x00000000 0x0000000f 0xffffffff 0xffffffff 0x00020000>;
+>  	};
+>  };
+> +
+> +&sid {
+> +	cpu_speed_grade: cpu-speed-grade@0 {
+> +		reg = <0x00 0x2>;
+> +	};
+> +};
+> -- 
+> 2.30.2
+
+-- 
+viresh
