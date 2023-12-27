@@ -1,90 +1,110 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out28-67.mail.aliyun.com (out28-67.mail.aliyun.com [115.124.28.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4621D4403
-	for <linux-sunxi@lists.linux.dev>; Wed, 27 Dec 2023 00:27:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PceDFWXj"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1d47fae33e0so18975ad.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 26 Dec 2023 16:27:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1703636859; x=1704241659; darn=lists.linux.dev;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tWB8GEfhgaG2StCZxtDIu7qsHSf/rZ4sNtnlAoGbWAQ=;
-        b=PceDFWXjUyajDMM1VREY2KHfsmdfsBZTN7jlbquO0JD/NoXW9M12eEDKVV3srtDEqm
-         l+JdPR3gUANBrk/F9yAO7XL8qHGa91l9O0xmP0LXXBk9EK7I80r7hF3n+KAgNxtEXPi0
-         4zMQRsufJlnwi5KSx3zty7cL2zaiPhiC2Ty7dpe9tzU/b8SML8X/bGf7FvudZr4rGBuj
-         LjJ9kNxk32HZ/6MdZr0rux+l4GdaVreuQT/PbDt/56P3VKH8UeGht225qkQnDg0gWJN7
-         z9K8OM/SQKBAHOeGQXx2Z6ZmQ1D4Vh9GK/QZYFU6hDV4eWg3NtsRYY1BkYi734RvglgR
-         hDcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703636859; x=1704241659;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tWB8GEfhgaG2StCZxtDIu7qsHSf/rZ4sNtnlAoGbWAQ=;
-        b=kPIzlMmHY/mY9NJrqTYEyByRMG4gqVCAHH1I1G0qqpMdHAjVL9vCweDjrbDxqtj0J5
-         j8eGw1zSnpJZ/E957Ngcu1rY/m2jnZGaQNcnkHfbLt724OpXk8KYj3Vk4FkaayIlJmkx
-         DrkKxydtbNi8Tt3J8n122vAt6eLRYQgVi0oDb+sqPFNW1AYpQhd91hmQ3ompzIKbwVPY
-         7ZgRkZ1npvhg3OJ4VhQaQLTCxyaX4067/V2wAppbKfmG3JxKiJG4dzJSsHyB0BVjtZ8i
-         w5qHaeMFjpUNQMdGwUameOl5cKP6wSHIlLIkfsVkZjIT2++mLKpHH4Xg35doe6GvsjIZ
-         wejA==
-X-Gm-Message-State: AOJu0YxauVOZ12/NTrVAj2W7ixIbOUDey43Ox8PA4vYPOkum3Apg3Gej
-	/1nxqX8xS/0rdJuHeAsKCK6pVNjRgxgf
-X-Google-Smtp-Source: AGHT+IEt5kz+5IRUGXbqQvg0LHmZbhtvIOnJMwFJGwN1byHl8pOfJREKbeZKfGVR7i5FozKA6XE7xw==
-X-Received: by 2002:a17:902:d508:b0:1d4:69f7:792b with SMTP id b8-20020a170902d50800b001d469f7792bmr170997plg.17.1703636858562;
-        Tue, 26 Dec 2023 16:27:38 -0800 (PST)
-Received: from [2620:0:1008:15:5a8c:89e6:ca2f:ea30] ([2620:0:1008:15:5a8c:89e6:ca2f:ea30])
-        by smtp.gmail.com with ESMTPSA id l7-20020a170902f68700b001d39af62b1fsm10527546plg.232.2023.12.26.16.27.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Dec 2023 16:27:38 -0800 (PST)
-Date: Tue, 26 Dec 2023 16:27:37 -0800 (PST)
-From: David Rientjes <rientjes@google.com>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
-    asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
-    cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
-    dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
-    iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
-    joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
-    linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-    linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
-    linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-    linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
-    mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
-    rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
-    suravee.suthikulpanit@amd.com, sven@svenpeter.dev, 
-    thierry.reding@gmail.com, tj@kernel.org, tomas.mudrunka@gmail.com, 
-    vdumpa@nvidia.com, wens@csie.org, will@kernel.org, yu-cheng.yu@intel.com
-Subject: Re: [PATCH v3 01/10] iommu/vt-d: add wrapper functions for page
- allocations
-In-Reply-To: <20231226200205.562565-2-pasha.tatashin@soleen.com>
-Message-ID: <c8311c45-72e3-8ff2-c206-3dd21f6a9bed@google.com>
-References: <20231226200205.562565-1-pasha.tatashin@soleen.com> <20231226200205.562565-2-pasha.tatashin@soleen.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7765823BD
+	for <linux-sunxi@lists.linux.dev>; Wed, 27 Dec 2023 02:01:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sjterm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sjterm.com
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.1100688|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.0502652-0.000180865-0.949554;FP=0|0|0|0|0|-1|-1|-1;HT=ay29a033018047206;MF=fuyao@sjterm.com;NM=1;PH=DS;RN=9;RT=9;SR=0;TI=SMTPD_---.VtpmuEK_1703642477;
+Received: from localhost(mailfrom:fuyao@sjterm.com fp:SMTPD_---.VtpmuEK_1703642477)
+          by smtp.aliyun-inc.com;
+          Wed, 27 Dec 2023 10:01:18 +0800
+Date: Wed, 27 Dec 2023 10:01:17 +0800
+From: Fuyao Kashizuku <fuyao@sjterm.com>
+To: Lee Jones <lee@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Andre Przywara <andre.przywara@arm.com>
+Cc: Jianzhang Mai <maijianzhang@allwinnertech.com>
+Subject: [PATCH] mfd: sun4i-gpadc: adaptation interrupt number
+Message-ID: <ZYuFbUUus9apiCpq@debian.cyg>
+Mail-Followup-To: Lee Jones <lee@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Andre Przywara <andre.przywara@arm.com>,
+	Jianzhang Mai <maijianzhang@allwinnertech.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Organization: work_work_work
 
-On Tue, 26 Dec 2023, Pasha Tatashin wrote:
+The identifiers are used as IRQ resource numbers, where 0 is treated
+specially.
 
-> In order to improve observability and accountability of IOMMU layer, we
-> must account the number of pages that are allocated by functions that
-> are calling directly into buddy allocator.
-> 
-> This is achieved by first wrapping the allocation related functions into a
-> separate inline functions in new file:
-> 
-> drivers/iommu/iommu-pages.h
-> 
-> Convert all page allocation calls under iommu/intel to use these new
-> functions.
-> 
-> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+This fixes sun4i-gpadc-iio probe failed when request irq.
 
-Acked-by: David Rientjes <rientjes@google.com>
+The backstack:
+	WARNING: CPU: 3 PID: 1 at drivers/base/platform.c:451
+	__platform_get_irq_byname+0xb8/0xc4
+	0 is an invalid IRQ number
+	Modules linked in:
+	CPU: 3 PID: 1 Comm: swapper/0 Not tainted 6.7.0-rc6 #9
+	Hardware name: Allwinner sun8i Family
+	 unwind_backtrace
+	 show_stack
+	 dump_stack_lvl
+	 __warn
+	 warn_slowpath_fmt
+	 __platform_get_irq_byname
+	 platform_get_irq_byname
+	 sun4i_irq_init
+	 sun4i_gpadc_probe
+	 platform_probe
+	 really_probe
+	 __driver_probe_device
+	 driver_probe_device
+	 __driver_attach
+	 bus_for_each_dev
+	 bus_add_driver
+	 driver_register
+	 do_one_initcall
+	 do_initcall_level
+	 do_initcalls
+	 kernel_init_freeable
+	 kernel_init
+
+Log reports:
+sun4i-gpadc-iio sun6i-a31-gpadc-iio.0: error -EINVAL: IRQ FIFO_DATA_PENDING
+not found
+sun4i-gpadc-iio: probe of sun6i-a31-gpadc-iio.0 failed with error -22
+
+Signed-off-by: Fuyao Kashizuku <fuyao@sjterm.com>
+---
+Changes in v2:
+ - Fix the commit message.
+ - Add the backstack.
+ - Add the log reports.
+ - Use the correct full name and email address.
+ - Correct the subsystem to mfd.
+ - Link to v1: https://lore.kernel.org/lkml/YwdhTlk+9h+9Mrwm@scg/
+
+ include/linux/mfd/sun4i-gpadc.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/include/linux/mfd/sun4i-gpadc.h b/include/linux/mfd/sun4i-gpadc.h
+index ea0ccf33a459..021f820f9d52 100644
+--- a/include/linux/mfd/sun4i-gpadc.h
++++ b/include/linux/mfd/sun4i-gpadc.h
+@@ -81,8 +81,8 @@
+ #define SUN4I_GPADC_TEMP_DATA				0x20
+ #define SUN4I_GPADC_DATA				0x24
+ 
+-#define SUN4I_GPADC_IRQ_FIFO_DATA			0
+-#define SUN4I_GPADC_IRQ_TEMP_DATA			1
++#define SUN4I_GPADC_IRQ_FIFO_DATA			1
++#define SUN4I_GPADC_IRQ_TEMP_DATA			2
+ 
+ /* 10s delay before suspending the IP */
+ #define SUN4I_GPADC_AUTOSUSPEND_DELAY			10000
+-- 
+2.39.2
+
