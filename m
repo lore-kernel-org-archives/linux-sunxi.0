@@ -1,93 +1,85 @@
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F4EDC8C2
-	for <linux-sunxi@lists.linux.dev>; Thu, 28 Dec 2023 14:37:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90AD5F4F0;
+	Thu, 28 Dec 2023 15:09:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="l0rpBrVQ"
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-427e83601c4so10203351cf.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 28 Dec 2023 06:37:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1703774244; x=1704379044; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=VU21beHWoGJM/Oi2NFAV2MrwGlZZbvr3br6yMg4QftQ=;
-        b=l0rpBrVQbYkQnE/K5z8TciZ3OZIIYDD8Urqr3N4UgGngs2iEutLNnNLoyM2QCzwYTj
-         wixG+Fk9CRBS9o+rT7jR/UXtOxL8pEAXGMUokybttlKUfMDq1Y7t5+dYk3ZmgndxhuJp
-         KOW95t8U1bCZXUcrQ96W+/ZgGTVK1/GkVCgrdhYdO0uu0/IqdA0LQyW3pWbIl3uD8kKZ
-         2hO5ll32avI4uYQT7csj7jYEFB0G0oj1PcNpx0ahIJvlCvCHbXXc9D6uWGFGovgmpBz7
-         xIc9zpSA1f+OloSPap3miDKcxeH3ZdyCgXaygWRPuJPzymu6Qf5rNtnMTCk+gUaGYDtB
-         FhEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703774244; x=1704379044;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VU21beHWoGJM/Oi2NFAV2MrwGlZZbvr3br6yMg4QftQ=;
-        b=gjrL2Nf2716wuhqt26utHP1Ho+RPd8F99EIHvn/9kCz8PR1meB+PGfQ5UrBem1P5lO
-         6aKzAPgmQXd1q0Sc9lkBlvQzl8OIpv0BTet7EDBuyEmxN5ZaMsSRKoF2L+YgpsSwCj+M
-         zxczw/7/9k0Hn2mjl2N5BpGnXLblRvjDYEoEjMEiZ2lFfmJHWzWA5NhYSZEfbXjQl/HV
-         dt9xUfV9mCHgLi01LF39s7mEeBWsJ6Va+pvn1z37Xehzmwji4plpBHltoWKr9Mch0duO
-         3IvzmkhTua1Ub/zdMFfdABRiP+qVSD3Pev4LHQ5sKo5Vi+0K7Bi6C/YjuKtn5SqW4Kpa
-         pmmQ==
-X-Gm-Message-State: AOJu0YyvzIV7MYe/te5nmLWOIwx6SST32iDCcWiE1ZDhS3KkZ2u5NNNQ
-	iN+qK4ZsG8fG7tWOiFDA5T0hhw3EtYMB9hpCTBt0GWJS45n/HA==
-X-Google-Smtp-Source: AGHT+IG/UmSKlDQRlBa0+Is4JntOVZHhkiYS93o0FbAPPReWbU+HuVGCau4VX0GkprQKsQRXjMZhGZwl3l+vLHMY8rQ=
-X-Received: by 2002:ac8:7f54:0:b0:41e:a62b:3d18 with SMTP id
- g20-20020ac87f54000000b0041ea62b3d18mr11492563qtk.59.1703774244502; Thu, 28
- Dec 2023 06:37:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lyeXkaFp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89A99C433CA;
+	Thu, 28 Dec 2023 15:09:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1703776179;
+	bh=jCI/YMfr+NrtHxo3qHYZpBjBqghFPe+6yiDfEv5LI1s=;
+	h=From:To:Cc:Subject:Date:From;
+	b=lyeXkaFpTNlQ8A459Cp2D3+Mwy+bf2puUUc4xFDxB2odlSXM93Y+D6YBDw+BT8Jsk
+	 JryFCU4yiriOFCQqYIMScdhFTb7e/Qfr9jkTL+Hjsg9+sQGYlABZpI3cR6qymWfdaI
+	 rzRuCg7uIAwWSzUa9gHTu16fhm/009B7VcgKSPxkq2o2pIin+hO7LKju2O0xJ3PFr1
+	 +nqTsv8lVK01XPSJsTslTYjoIsbxQFIuKGFUaCDvoNPhQXhLbAz2juxWFk7Fo7OFSh
+	 F/BSyr/QNdbVmiyHi2NeNgGhrs1lGQDcTNJ8TYJOfaAfQdZrrLB3Mqi3a5/YJS5z5G
+	 5t/wud5LAAnSA==
+From: Jisheng Zhang <jszhang@kernel.org>
+To: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Andre Przywara <andre.przywara@arm.com>,
+	Icenowy Zheng <uwu@icenowy.me>
+Cc: devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] arm64: dts: allwinner: h618: Add Sipeed Longan SoM 3H and Pi 3H board
+Date: Thu, 28 Dec 2023 22:56:45 +0800
+Message-Id: <20231228145647.1470-1-jszhang@kernel.org>
+X-Mailer: git-send-email 2.40.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231226200205.562565-1-pasha.tatashin@soleen.com> <ZYv3BIeEgY8LnH7U@archie.me>
-In-Reply-To: <ZYv3BIeEgY8LnH7U@archie.me>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Thu, 28 Dec 2023 09:36:48 -0500
-Message-ID: <CA+CK2bCSB46sZUrx+jsCCtGb-DFUuU9wvCaTamYtKnDAaG9eVA@mail.gmail.com>
-Subject: Re: [PATCH v3 00/10] IOMMU memory observability
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
-	asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
-	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
-	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
-	iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
-	joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
-	mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
-	rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
-	suravee.suthikulpanit@amd.com, sven@svenpeter.dev, thierry.reding@gmail.com, 
-	tj@kernel.org, tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, 
-	will@kernel.org, yu-cheng.yu@intel.com, rientjes@google.com, 
-	Josh Don <joshdon@google.com>, YouHong Li <liyouhong@kylinos.cn>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-> > This series encorporates suggestions that came from the discussion
-> > at LPC [2].
-> > ----------------------------------------------------------------------
-> > [1] https://github.com/soleen/iova_stress
-> > [2] https://lpc.events/event/17/contributions/1466
-> > ----------------------------------------------------------------------
-> > Previous versions
-> > v1: https://lore.kernel.org/all/20231128204938.1453583-1-pasha.tatashin@soleen.com
-> > v2: https://lore.kernel.org/linux-mm/20231130201504.2322355-1-pasha.tatashin@soleen.com
-> > ----------------------------------------------------------------------
-> >
->
-> First of all, Merry Christmas and Happy New Year for all!
->
-> And for this series, no observable regressions when booting the kernel with
-> the series applied.
->
-> Tested-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Add Sipeed Longan SoM 3H and Longan Pi 3H board support.
 
-Thank you for testing.
+The Sipeed Longan SoM 3H is a system on module based on the Allwinner
+H618 SoC. The SoM features:
 
-Pasha
+- Four ARM Cortex-A53 cores, Mali-G31 MP2 GPU
+- 2/4 GiB LPDDR4 DRAM SoMs
+- AXP313a PMIC
+- eMMC
+
+The Sipeed Longan PI 3H is a development board based on the above SoM.
+The board features:
+- Longan SoM 3H
+- Raspberry-Pi-1 compatible GPIO header
+- 2 USB 2.0 host port
+- 1 USB 2.0 type C port (power supply + OTG)
+- MicroSD slot
+- 1Gbps Ethernet port (via RTL8211 PHY)
+- HDMI port
+- WiFi/BT chip
+
+NOTE: I know it's too late for v6.8-rc1, but I want to send out this
+series so that the board users can easily get mainline support with two
+additional patches. I will send out v2 once v6.8-rc1 is out.
+
+Jisheng Zhang (2):
+  dt-bindings: arm: sunxi: Add Sipeed Longan Module 3H and Longan Pi 3H
+  arm64: dts: allwinner: h618: Add Sipeed Longan SoM 3H and Pi 3H board
+    support
+
+ .../devicetree/bindings/arm/sunxi.yaml        |   7 +
+ arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+ .../sun50i-h618-longan-module-3h.dtsi         |  82 +++++++++++
+ .../dts/allwinner/sun50i-h618-longanpi-3h.dts | 133 ++++++++++++++++++
+ 4 files changed, 223 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h618-longan-module-3h.dtsi
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dts
+
+-- 
+2.40.0
+
