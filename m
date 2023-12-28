@@ -1,317 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F284101C1;
-	Thu, 28 Dec 2023 15:09:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA22A101E1
+	for <linux-sunxi@lists.linux.dev>; Thu, 28 Dec 2023 19:39:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ONFTeL19"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51193C43391;
-	Thu, 28 Dec 2023 15:09:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703776187;
-	bh=C4BJGS32ZKxgcTmEcR+hxDBxjCex7+/UXa6MS9Hmn1w=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ONFTeL19zVdPf08JmfzO7k6gQ0m3UlWacWBE9EfAFQyxkL6muyJf/bvwtY+HL9Ldk
-	 u4VqDp0PuNNyWY/5w8lr7T6YB6jMySBvbRTPT7y8UNsb/IivIaRa+lpuCJ3gg3BhrM
-	 A0VsUPRD1RmZAAVIUbjBD8VwszCHsDfa41pvtYl9pwRtFQU/dn8ozEJSslat7m4TXl
-	 sMtwJrIOIS1h8sBAg53F5Nb5KUi93bspNjz77/WEoP7b67iZu4tNEkKeOTbkXAldaC
-	 GsXAKJJMjdvuokbwIsm/NvxBPaxq8lt+vvDSJ06sPLjh4Mk+O2EHVpfVbTfL0MSiBL
-	 9BQhPDqmmqdxA==
-From: Jisheng Zhang <jszhang@kernel.org>
-To: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="R7xB1Cre"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=s31663417; t=1703792376; x=1704397176; i=wahrenst@gmx.net;
+	bh=O5ulGC/E+pkbJaH3m3FickjdmSA72Lqn3/s8w/8jwD8=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+	b=R7xB1Creaf/m5vUFWuAv0q8ULOFXcU7Vx/rnpwHrC048R62sKJpcNYSKxLM4OXf+
+	 maLDIrb8Il+aXUlMHeomZzT9bJ3WJO1Qsb47U+3vPn4AsHP2elC9MYwqIVzUUs5RC
+	 6Gmeks8gcMn+MDpO7lcvr9BigI/RBS8QEYjNBZFmX0tX5u1LwJe6AX70bejvCX25T
+	 jRbQv4TKtjHbgNhpIlPevGXdb8jeerLonZzuoqrcle9VTN+7q1CicYwZIZwsFoUKN
+	 gM7snvQChjzzOAtIXMTcPgSovdUsDCGN+W9lJt9Ya0PH5rspnvyg8MLyaMvatxUPM
+	 FfM2CFDhtDC+/dCVjA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from stefanw-SCHENKER ([37.4.248.43]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MbAcs-1qhOUJ452O-00bbWi; Thu, 28
+ Dec 2023 20:39:36 +0100
+From: Stefan Wahren <wahrenst@gmx.net>
+To: Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Icenowy Zheng <uwu@icenowy.me>
-Cc: devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
+	Samuel Holland <samuel@sholland.org>
+Cc: Maxime Ripard <mripard@kernel.org>,
+	=?UTF-8?q?Myl=C3=A8ne=20Josserand?= <mylene.josserand@bootlin.com>,
 	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] arm64: dts: allwinner: h616: Add Sipeed Longan SoM 3H and Pi 3H board support
-Date: Thu, 28 Dec 2023 22:56:47 +0800
-Message-Id: <20231228145647.1470-3-jszhang@kernel.org>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20231228145647.1470-1-jszhang@kernel.org>
-References: <20231228145647.1470-1-jszhang@kernel.org>
+	soc@kernel.org,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	linux-arm-kernel@lists.infradead.org,
+	Stefan Wahren <wahrenst@gmx.net>
+Subject: [PATCH V2 1/2] ARM: sun9i: smp: Fix array-index-out-of-bounds read in sunxi_mc_smp_init
+Date: Thu, 28 Dec 2023 20:39:02 +0100
+Message-Id: <20231228193903.9078-1-wahrenst@gmx.net>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:QXumkr2GEgs4aBLmHE2c+e2mWHTCzqDtFafwQoth9VRlL7aNXdn
+ J5GrPmdE5T31zLLWMBDHIIJN8SEhd3LkKf/e2e50TWGyAn8yulMA9H40atnRF9PZutkn1lK
+ J05QSgRiX5LSlghBC0QXdq7kJM5xpE7mICuLPiqm8FNvdIuiOpAxGnMxWWF8eb9eWKFOmQR
+ 2w1Gw8v5hCxt56h3r+7cQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:F2lq3oHs+1Y=;G3LbDeFTbXDRBFDi8EPrFbtFZjv
+ HWrUMfhbm3uGyzEck+hp+uS7o+GfB48UIRTLJ0aCx0HVjsDXxAMdvbys768NLI+xUh4Ln504e
+ /OLmvK8Qtx3oDLm6rzHb7bsk3ZqIoM2fygj01FXKAjCZByWbHxQEn1OMsWCjUvMJQEYys+fBc
+ VWl6MjyQ+pnrB2GpaxZnmrs6N6gJbQWHiH7mvrA1IImNyHWWhtYR3PxGwnFKeqZrIq2P+vKsM
+ sAz7bBa4lS+G+GhVhNDSQKEW/KKFpepwm9gBa8D6637qzWhjHhi7yUwS6UywWlqNZCip/vZSZ
+ FAKMbTd9rlPD0GNemOrZSKzlNBXHQO4PQs3cvSGjzGh70BFNcWVOcy3YdsrBIJpZbEFaZT4Ev
+ WfWkh5AavrULPDJMhvfFFeYVpdo16QIUeWW13Zp6a9XrY6a7hj5IlSie+/xVZ20+Mn7Dv019o
+ TrLMH73DLjpFv7mHvJdKO1BQw9+PAkOupnIxPPLYxKxpPPXFH6VPhG35guyO7A4hhAgGaekY+
+ MYgoz8hD5CzmSPCoNnM8HaJ2ANzftZS/zamGFZKzEmM6WIrYddKF75jjbwqqRaf+UaP2+K7iG
+ zvznHqfVIHaWlfb3pW+UciujcU+c+M3l8HrGTGTyRSsvBqgotTayfC1nQ1eUaCsAQ5t9XxEaQ
+ TmjF68tJEEu+rpbAh/ETLIIlnSXIpbIKd5Ai2tKRMG/Dg7X5d1sC2qgqJMP9OAHxm3BV35yzC
+ m8ZQlqR49e5wNvxrz0GgIJTyfJIdK/GMeM91k8vhzDzifBN60MEVDLBDFP1Kt25OWLc0CmkJz
+ D8SnW/75844RJWIdqXcDCLj0tszve0yHEhcSDewa2CuNA/7bxepxEVKxlIsBftx4mkRWlha9d
+ 50gbpgqnFlIZsWztl5ZIB/OoDh0TWO6Bi9Gt4LB+vPUDKKvg/2/jnCWeZuiOxDtFvGtWdDVDt
+ kGIgce/CW4/4qEMJ6pmjkawvnh6HPRS6i8QMHsQ6lBlhcrQD
 
-The Sipeed Longan SoM 3H is a system on module based on the Allwinner
-H618 SoC. The SoM features:
+Running a multi-arch kernel (multi_v7_defconfig) on a Raspberry Pi 3B+
+with enabled CONFIG_UBSAN triggers the following warning:
 
-- Four ARM Cortex-A53 cores, Mali-G31 MP2 GPU
-- 2/4 GiB LPDDR4 DRAM SoMs
-- AXP313a PMIC
-- eMMC
+ UBSAN: array-index-out-of-bounds in arch/arm/mach-sunxi/mc_smp.c:810:29
+ index 2 is out of range for type 'sunxi_mc_smp_data [2]'
+ CPU: 0 PID: 1 Comm: swapper/0 Not tainted 6.7.0-rc6-00248-g5254c0cbc92d
+ Hardware name: BCM2835
+  unwind_backtrace from show_stack+0x10/0x14
+  show_stack from dump_stack_lvl+0x40/0x4c
+  dump_stack_lvl from ubsan_epilogue+0x8/0x34
+  ubsan_epilogue from __ubsan_handle_out_of_bounds+0x78/0x80
+  __ubsan_handle_out_of_bounds from sunxi_mc_smp_init+0xe4/0x4cc
+  sunxi_mc_smp_init from do_one_initcall+0xa0/0x2fc
+  do_one_initcall from kernel_init_freeable+0xf4/0x2f4
+  kernel_init_freeable from kernel_init+0x18/0x158
+  kernel_init from ret_from_fork+0x14/0x28
 
-The Sipeed Longan PI 3H is a development board based on the above SoM.
-The board features:
-- Longan SoM 3H
-- Raspberry-Pi-1 compatible GPIO header
-- 2 USB 2.0 host port
-- 1 USB 2.0 type C port (power supply + OTG)
-- MicroSD slot
-- 1Gbps Ethernet port (via RTL8211 PHY)
-- HDMI port
-- WiFi/BT chip
+Since the enabled method couldn't match with any entry from
+sunxi_mc_smp_data, the value of the index shouldn't be used right after
+the loop. So move it after the check of ret in order to have a valid
+index.
 
-Add the devicetree file describing the currently supported features,
-namely PMIC, LEDs, UART, SD card, eMMC, USB and Ethernet.
+Fixes: 1631090e34f5 ("ARM: sun9i: smp: Add is_a83t field")
+Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+=2D--
+Changes in V2:
+- append another patch to fix return code check
 
-Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
----
- arch/arm64/boot/dts/allwinner/Makefile        |   1 +
- .../sun50i-h618-longan-module-3h.dtsi         |  82 +++++++++++
- .../dts/allwinner/sun50i-h618-longanpi-3h.dts | 133 ++++++++++++++++++
- 3 files changed, 216 insertions(+)
- create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h618-longan-module-3h.dtsi
- create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dts
+ arch/arm/mach-sunxi/mc_smp.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
-index 3aca6787a167..00db504a9b8c 100644
---- a/arch/arm64/boot/dts/allwinner/Makefile
-+++ b/arch/arm64/boot/dts/allwinner/Makefile
-@@ -42,4 +42,5 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-bigtreetech-cb1-manta.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-bigtreetech-pi.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-orangepi-zero2.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-x96-mate.dtb
-+dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-longanpi-3h.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero3.dtb
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-longan-module-3h.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h618-longan-module-3h.dtsi
-new file mode 100644
-index 000000000000..88a7d287b73c
---- /dev/null
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-longan-module-3h.dtsi
-@@ -0,0 +1,82 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+/*
-+ * Copyright (C) Jisheng Zhang <jszhang@kernel.org>
-+ */
+diff --git a/arch/arm/mach-sunxi/mc_smp.c b/arch/arm/mach-sunxi/mc_smp.c
+index cb63921232a6..6ec3445f3c72 100644
+=2D-- a/arch/arm/mach-sunxi/mc_smp.c
++++ b/arch/arm/mach-sunxi/mc_smp.c
+@@ -807,12 +807,12 @@ static int __init sunxi_mc_smp_init(void)
+ 			break;
+ 	}
+
+-	is_a83t =3D sunxi_mc_smp_data[i].is_a83t;
+-
+ 	of_node_put(node);
+ 	if (ret)
+ 		return -ENODEV;
+
++	is_a83t =3D sunxi_mc_smp_data[i].is_a83t;
 +
-+/dts-v1/;
-+
-+#include "sun50i-h616.dtsi"
-+
-+/ {
-+	model = "Sipeed Longan Module 3H";
-+	compatible = "sipeed,longan-module-3h", "allwinner,sun50i-h618";
-+};
-+
-+&mmc2 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&mmc2_pins>;
-+	vmmc-supply = <&reg_dldo1>;
-+	vqmmc-supply = <&reg_aldo1>;
-+	bus-width = <8>;
-+	non-removable;
-+	cap-mmc-hw-reset;
-+	mmc-ddr-1_8v;
-+	mmc-hs200-1_8v;
-+	status = "okay";
-+};
-+
-+&r_i2c {
-+	status = "okay";
-+
-+	axp313: pmic@36 {
-+		compatible = "x-powers,axp313a";
-+		reg = <0x36>;
-+
-+		regulators {
-+			/* Supplies VCC-PLL, so needs to be always on. */
-+			reg_aldo1: aldo1 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <1800000>;
-+				regulator-max-microvolt = <1800000>;
-+				regulator-name = "vcc1v8";
-+			};
-+
-+			/* Supplies VCC-IO, so needs to be always on. */
-+			reg_dldo1: dldo1 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <3300000>;
-+				regulator-max-microvolt = <3300000>;
-+				regulator-name = "vcc3v3";
-+			};
-+
-+			reg_dcdc1: dcdc1 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <810000>;
-+				regulator-max-microvolt = <990000>;
-+				regulator-name = "vdd-gpu-sys";
-+			};
-+
-+			reg_dcdc2: dcdc2 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <810000>;
-+				regulator-max-microvolt = <1100000>;
-+				regulator-name = "vdd-cpu";
-+			};
-+
-+			reg_dcdc3: dcdc3 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <1100000>;
-+				regulator-max-microvolt = <1100000>;
-+				regulator-name = "vdd-dram";
-+			};
-+		};
-+	};
-+};
-+
-+&pio {
-+	vcc-pc-supply = <&reg_dldo1>;
-+	vcc-pf-supply = <&reg_dldo1>;
-+	vcc-pg-supply = <&reg_aldo1>;
-+	vcc-ph-supply = <&reg_dldo1>;
-+	vcc-pi-supply = <&reg_dldo1>;
-+};
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dts b/arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dts
-new file mode 100644
-index 000000000000..245583881549
---- /dev/null
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dts
-@@ -0,0 +1,133 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+/*
-+ * Copyright (C) Jisheng Zhang <jszhang@kernel.org>
-+ */
-+
-+/dts-v1/;
-+
-+#include "sun50i-h618-longan-module-3h.dtsi"
-+
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/interrupt-controller/arm-gic.h>
-+#include <dt-bindings/leds/common.h>
-+
-+/ {
-+	model = "Sipeed Longan Pi 3H";
-+	compatible = "sipeed,longan-pi-3h", "sipeed,longan-module-3h", "allwinner,sun50i-h618";
-+
-+	aliases {
-+		ethernet0 = &emac0;
-+		serial0 = &uart0;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial0:115200n8";
-+	};
-+
-+	leds {
-+		compatible = "gpio-leds";
-+
-+		led-0 {
-+			color = <LED_COLOR_ID_ORANGE>;
-+			function = LED_FUNCTION_INDICATOR;
-+			function-enumerator = <0>;
-+			gpios = <&pio 6 2 GPIO_ACTIVE_LOW>; /* PG2 */
-+		};
-+
-+		led-1 {
-+			color = <LED_COLOR_ID_ORANGE>;
-+			function = LED_FUNCTION_INDICATOR;
-+			function-enumerator = <1>;
-+			gpios = <&pio 6 4 GPIO_ACTIVE_LOW>; /* PG4 */
-+		};
-+	};
-+
-+	reg_vcc5v: vcc5v {
-+		/* board wide 5V supply directly from the USB-C socket */
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc-5v";
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+		regulator-always-on;
-+	};
-+};
-+
-+&axp313 {
-+	vin1-supply = <&reg_vcc5v>;
-+	vin2-supply = <&reg_vcc5v>;
-+	vin3-supply = <&reg_vcc5v>;
-+};
-+
-+&ehci1 {
-+	status = "okay";
-+};
-+
-+&ohci1 {
-+	status = "okay";
-+};
-+
-+&ehci2 {
-+	status = "okay";
-+};
-+
-+&ohci2 {
-+	status = "okay";
-+};
-+
-+&ehci3 {
-+	status = "okay";
-+};
-+
-+&ohci3 {
-+	status = "okay";
-+};
-+
-+&emac0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&ext_rgmii_pins>;
-+	phy-mode = "rgmii";
-+	phy-handle = <&ext_rgmii_phy>;
-+	allwinner,rx-delay-ps = <3100>;
-+	allwinner,tx-delay-ps = <700>;
-+	phy-supply = <&reg_dldo1>;
-+	status = "okay";
-+};
-+
-+&mdio0 {
-+	ext_rgmii_phy: ethernet-phy@1 {
-+		compatible = "ethernet-phy-ieee802.3-c22";
-+		reg = <1>;
-+	};
-+};
-+
-+&mmc0 {
-+	bus-width = <4>;
-+	cd-gpios = <&pio 5 6 GPIO_ACTIVE_HIGH>;	/* PF6 */
-+	vmmc-supply = <&reg_dldo1>;
-+	status = "okay";
-+};
-+
-+&uart0 {
-+	status = "okay";
-+};
-+
-+&usbotg {
-+	/*
-+	 * PHY0 pins are connected to a USB-C socket, but a role switch
-+	 * is not implemented: both CC pins are pulled to GND.
-+	 * The VBUS pins power the device, so a fixed peripheral mode
-+	 * is the best choice.
-+	 * The board can be powered via GPIOs, in this case port0 *can*
-+	 * act as a host (with a cable/adapter ignoring CC), as VBUS is
-+	 * then provided by the GPIOs. Any user of this setup would
-+	 * need to adjust the DT accordingly: dr_mode set to "host",
-+	 * enabling OHCI0 and EHCI0.
-+	 */
-+	dr_mode = "peripheral";
-+	status = "okay";
-+};
-+
-+&usbphy {
-+	usb1_vbus-supply = <&reg_vcc5v>;
-+	status = "okay";
-+};
--- 
-2.40.0
+ 	if (!sunxi_mc_smp_cpu_table_init())
+ 		return -EINVAL;
+
+=2D-
+2.34.1
 
