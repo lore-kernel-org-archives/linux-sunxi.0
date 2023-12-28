@@ -1,116 +1,93 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D432947F7C
-	for <linux-sunxi@lists.linux.dev>; Wed, 27 Dec 2023 21:03:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rIb3M-0000le-3j; Wed, 27 Dec 2023 22:03:00 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rIb3H-001wEi-AR; Wed, 27 Dec 2023 22:02:56 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rIb3I-001ZVE-0o;
-	Wed, 27 Dec 2023 22:02:56 +0100
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Jassi Brar <jassisinghbrar@gmail.com>
-Cc: linux-kernel@vger.kernel.org,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-mediatek@lists.infradead.org,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	linux-arm-msm@vger.kernel.org,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	linux-stm32@st-md-mailman.stormreply.com,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-sunxi@lists.linux.dev,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	linux-tegra@vger.kernel.org,
-	Michal Simek <michal.simek@amd.com>,
-	kernel@pengutronix.de
-Subject: [PATCH 00/12] mailbox: Convert to platform remove callback returning void
-Date: Wed, 27 Dec 2023 22:02:28 +0100
-Message-ID: <cover.1703710628.git.u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.43.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F4EDC8C2
+	for <linux-sunxi@lists.linux.dev>; Thu, 28 Dec 2023 14:37:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="l0rpBrVQ"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-427e83601c4so10203351cf.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 28 Dec 2023 06:37:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1703774244; x=1704379044; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=VU21beHWoGJM/Oi2NFAV2MrwGlZZbvr3br6yMg4QftQ=;
+        b=l0rpBrVQbYkQnE/K5z8TciZ3OZIIYDD8Urqr3N4UgGngs2iEutLNnNLoyM2QCzwYTj
+         wixG+Fk9CRBS9o+rT7jR/UXtOxL8pEAXGMUokybttlKUfMDq1Y7t5+dYk3ZmgndxhuJp
+         KOW95t8U1bCZXUcrQ96W+/ZgGTVK1/GkVCgrdhYdO0uu0/IqdA0LQyW3pWbIl3uD8kKZ
+         2hO5ll32avI4uYQT7csj7jYEFB0G0oj1PcNpx0ahIJvlCvCHbXXc9D6uWGFGovgmpBz7
+         xIc9zpSA1f+OloSPap3miDKcxeH3ZdyCgXaygWRPuJPzymu6Qf5rNtnMTCk+gUaGYDtB
+         FhEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703774244; x=1704379044;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VU21beHWoGJM/Oi2NFAV2MrwGlZZbvr3br6yMg4QftQ=;
+        b=gjrL2Nf2716wuhqt26utHP1Ho+RPd8F99EIHvn/9kCz8PR1meB+PGfQ5UrBem1P5lO
+         6aKzAPgmQXd1q0Sc9lkBlvQzl8OIpv0BTet7EDBuyEmxN5ZaMsSRKoF2L+YgpsSwCj+M
+         zxczw/7/9k0Hn2mjl2N5BpGnXLblRvjDYEoEjMEiZ2lFfmJHWzWA5NhYSZEfbXjQl/HV
+         dt9xUfV9mCHgLi01LF39s7mEeBWsJ6Va+pvn1z37Xehzmwji4plpBHltoWKr9Mch0duO
+         3IvzmkhTua1Ub/zdMFfdABRiP+qVSD3Pev4LHQ5sKo5Vi+0K7Bi6C/YjuKtn5SqW4Kpa
+         pmmQ==
+X-Gm-Message-State: AOJu0YyvzIV7MYe/te5nmLWOIwx6SST32iDCcWiE1ZDhS3KkZ2u5NNNQ
+	iN+qK4ZsG8fG7tWOiFDA5T0hhw3EtYMB9hpCTBt0GWJS45n/HA==
+X-Google-Smtp-Source: AGHT+IG/UmSKlDQRlBa0+Is4JntOVZHhkiYS93o0FbAPPReWbU+HuVGCau4VX0GkprQKsQRXjMZhGZwl3l+vLHMY8rQ=
+X-Received: by 2002:ac8:7f54:0:b0:41e:a62b:3d18 with SMTP id
+ g20-20020ac87f54000000b0041ea62b3d18mr11492563qtk.59.1703774244502; Thu, 28
+ Dec 2023 06:37:24 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2241; i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id; bh=TnloZYpKIYRmaOM4Vyp6tR8nMUztNxQOKpyjV0rpvQ4=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBljJDlF5RcQbsMo+jn9Hk4Fn0DGB3DTp1LZRoam 4uXEKKoj2GJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZYyQ5QAKCRCPgPtYfRL+ TmefCACxCqozxo0GnqWmhu00tf7kElJNTysNznKKdidgf7fo9mcsJuA7Ck125Ja84llYdplJCvv Dsdgd+ignUqSSvOgP0rhHT1pxzc3t9CgKIvLUZMIwaiFUxnPuGs0iLILF0hhUoUb6JLwyAFJw/W pPtgJ/owxsaEcqXJEcIL+CMDaCWvE8mUTxuY4pmJCm6WMPBEM3f8affobB2FMtJ7qI2crJx7ojl xgvXdsuX9EtOecBbxd/N706v8sAbPO2cSehuoXojKHPV81zg+QhoTYPjdqW75nODS26hacjnboO xL/0decenMphAvdsq/GieTqJqbXlITNBQapQQbyLQwxG+KFY
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+References: <20231226200205.562565-1-pasha.tatashin@soleen.com> <ZYv3BIeEgY8LnH7U@archie.me>
+In-Reply-To: <ZYv3BIeEgY8LnH7U@archie.me>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Thu, 28 Dec 2023 09:36:48 -0500
+Message-ID: <CA+CK2bCSB46sZUrx+jsCCtGb-DFUuU9wvCaTamYtKnDAaG9eVA@mail.gmail.com>
+Subject: Re: [PATCH v3 00/10] IOMMU memory observability
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
+	asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
+	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
+	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
+	iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
+	joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
+	mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
+	rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
+	suravee.suthikulpanit@amd.com, sven@svenpeter.dev, thierry.reding@gmail.com, 
+	tj@kernel.org, tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, 
+	will@kernel.org, yu-cheng.yu@intel.com, rientjes@google.com, 
+	Josh Don <joshdon@google.com>, YouHong Li <liyouhong@kylinos.cn>
+Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+> > This series encorporates suggestions that came from the discussion
+> > at LPC [2].
+> > ----------------------------------------------------------------------
+> > [1] https://github.com/soleen/iova_stress
+> > [2] https://lpc.events/event/17/contributions/1466
+> > ----------------------------------------------------------------------
+> > Previous versions
+> > v1: https://lore.kernel.org/all/20231128204938.1453583-1-pasha.tatashin@soleen.com
+> > v2: https://lore.kernel.org/linux-mm/20231130201504.2322355-1-pasha.tatashin@soleen.com
+> > ----------------------------------------------------------------------
+> >
+>
+> First of all, Merry Christmas and Happy New Year for all!
+>
+> And for this series, no observable regressions when booting the kernel with
+> the series applied.
+>
+> Tested-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-this series converts all platform drivers below drivers/mailbox that
-make use of .remove() to use .remove_new() instead.
+Thank you for testing.
 
-See commit 5c5a7680e67b ("platform: Provide a remove callback that
-returns no value") for an extended explanation and the eventual goal.
-The TL;DR; is to make it harder for driver authors to leak resources
-without noticing. The drivers here get it right though and so can be
-converted trivially.
-
-This is merge window material. All patches are pairwise independent, so
-they can be applied individually.
-
-Best regards
-Uwe
-
-Uwe Kleine-König (12):
-  mailbox: bcm-flexrm: Convert to platform remove callback returning void
-  mailbox: bcm-pdc: Convert to platform remove callback returning void
-  mailbox: imx: Convert to platform remove callback returning void
-  mailbox: mailbox-test: Convert to platform remove callback returning void
-  mailbox: mtk-cmdq: Convert to platform remove callback returning void
-  mailbox: omap: Convert to platform remove callback returning void
-  mailbox: qcom-apcs-ipc: Convert to platform remove callback returning void
-  mailbox: qcom-ipcc: Convert to platform remove callback returning void
-  mailbox: stm32-ipcc: Convert to platform remove callback returning void
-  mailbox: sun6i-msgbox: Convert to platform remove callback returning void
-  mailbox: tegra-hsp: Convert to platform remove callback returning void
-  mailbox: zynqmp-ipi: Convert to platform remove callback returning void
-
- drivers/mailbox/bcm-flexrm-mailbox.c    | 6 ++----
- drivers/mailbox/bcm-pdc-mailbox.c       | 5 ++---
- drivers/mailbox/imx-mailbox.c           | 6 ++----
- drivers/mailbox/mailbox-test.c          | 6 ++----
- drivers/mailbox/mtk-cmdq-mailbox.c      | 5 ++---
- drivers/mailbox/omap-mailbox.c          | 6 ++----
- drivers/mailbox/qcom-apcs-ipc-mailbox.c | 6 ++----
- drivers/mailbox/qcom-ipcc.c             | 6 ++----
- drivers/mailbox/stm32-ipcc.c            | 6 ++----
- drivers/mailbox/sun6i-msgbox.c          | 6 ++----
- drivers/mailbox/tegra-hsp.c             | 6 ++----
- drivers/mailbox/zynqmp-ipi-mailbox.c    | 6 ++----
- 12 files changed, 24 insertions(+), 46 deletions(-)
-
-base-commit: 39676dfe52331dba909c617f213fdb21015c8d10
--- 
-2.43.0
-
+Pasha
