@@ -1,383 +1,288 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8C07A5C
-	for <linux-sunxi@lists.linux.dev>; Sat, 30 Dec 2023 00:06:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3EDBF2F4;
-	Fri, 29 Dec 2023 15:56:56 -0800 (PST)
-Received: from minigeek.lan (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D92EF3F641;
-	Fri, 29 Dec 2023 15:56:07 -0800 (PST)
-Date: Fri, 29 Dec 2023 23:55:43 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jisheng Zhang <jszhang@kernel.org>
-Cc: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Icenowy Zheng <uwu@icenowy.me>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] arm64: dts: allwinner: h616: Add Sipeed Longan SoM
- 3H and Pi 3H board support
-Message-ID: <20231229235543.7548cafa@minigeek.lan>
-In-Reply-To: <20231228145647.1470-3-jszhang@kernel.org>
-References: <20231228145647.1470-1-jszhang@kernel.org>
-	<20231228145647.1470-3-jszhang@kernel.org>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5069DDC6
+	for <linux-sunxi@lists.linux.dev>; Sat, 30 Dec 2023 21:17:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oltmanns.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b="Sm3iHXtN"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4T2Znr2Cjnz9scM;
+	Sat, 30 Dec 2023 22:17:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+	s=MBO0001; t=1703971040;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EqzpSggOCyXix/RyQdbwO3KPIBKLdQSHS6acVQjzt6c=;
+	b=Sm3iHXtNAXh9K/xf42tiU1rN0I+mCEy7Yh5xJB7lDG45dqj4W4QsJ7Q/8b/Z+/TQTOU6uL
+	xJzOGVp79vCiwI3fCWWUQt/IPOXhjto4X8+hF37c+grkV4kAMOOZCqwAm8Y2mnb6XP8d+z
+	sWkJ/CZAPewrist1vQJCgjN00S26rMZvLb5LeIiZJjWtBqHgUUHVHpw7yMy3M68bcYolTL
+	gB1ZRwWHrAaIUagoQw6KafgX2nljdrhZMH1SDYB7NJw92QYz8Zqoq2tQpdiAVY4bpGg21o
+	78kBpVZuMnESIZSP+DJR/X8wjBz5hKJDNFFo2xDZWzRFFpOp7sxQMs3olLm4lg==
+References: <20231218-pinephone-pll-fixes-v1-0-e238b6ed6dc1@oltmanns.dev>
+ <10386431.nUPlyArG6x@jernej-laptop> <87edfh9ud8.fsf@oltmanns.dev>
+ <1845418.atdPhlSkOF@jernej-laptop>
+From: Frank Oltmanns <frank@oltmanns.dev>
+To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland
+ <samuel@sholland.org>, Guido =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>,
+ Purism Kernel Team
+ <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, linux-clk@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Icenowy
+ Zheng <uwu@icenowy.me>
+Subject: Re: [PATCH 5/5] drm/panel: st7703: Drive XBD599 panel at higher
+ clock rate
+In-reply-to: <1845418.atdPhlSkOF@jernej-laptop>
+Date: Sat, 30 Dec 2023 22:17:06 +0100
+Message-ID: <87wmsvo0fh.fsf@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 4T2Znr2Cjnz9scM
 
-On Thu, 28 Dec 2023 22:56:47 +0800
-Jisheng Zhang <jszhang@kernel.org> wrote:
 
-Hi,
+On 2023-12-20 at 16:18:49 +0100, Jernej =C5=A0krabec <jernej.skrabec@gmail.=
+com> wrote:
+> Dne sreda, 20. december 2023 ob 08:14:27 CET je Frank Oltmanns napisal(a):
+>>
+>> On 2023-12-19 at 18:04:29 +0100, Jernej =C5=A0krabec <jernej.skrabec@gma=
+il.com> wrote:
+>> > Dne ponedeljek, 18. december 2023 ob 14:35:23 CET je Frank Oltmanns na=
+pisal(a):
+>> >> This panel is used in the pinephone that runs on a Allwinner A64 SOC.
+>> >> Acoording to it's datasheet, the SOC requires PLL-MIPI to run at more
+>> >> than 500 MHz.
+>> >>
+>> >> Therefore, change [hv]sync_(start|end) so that we reach a clock rate
+>> >> that is high enough to drive PLL-MIPI within its limits.
+>> >>
+>> >> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+>> >
+>> > I'm not too sure about this patch. I see that PLL_MIPI doesn't have set
+>> > minimum frequency limit in clock driver. If you add it, clock framework
+>> > should find rate that is high enough and divisible with target rate.
+>>
+>> This one is really a tough nut. Unfortunately, the PLL_MIPI clock for
+>> this panel has to run exactly at 6 * panel clock. Let me start by
+>> showing the relevant part of the clock tree (this is on the pinephone
+>> after applying the patches):
+>>     pll-video0                 393600000
+>>        pll-mipi                500945454
+>>           tcon0                500945454
+>>              tcon-data-clock   125236363
+>>
+>> To elaborate, tcon-data-clock has to run at 1/4 the DSI per-lane bit
+>> rate [1]. It's a fixed divisor
+>>
+>> The panel I'm proposing to change is defined as this:
+>>
+>>     static const struct st7703_panel_desc xbd599_desc =3D {
+>>     	.mode =3D &xbd599_mode,
+>>     	.lanes =3D 4,
+>>     	.mode_flags =3D MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULS=
+E,
+>>     	.format =3D MIPI_DSI_FMT_RGB888,
+>>     	.init_sequence =3D xbd599_init_sequence,
+>>     };
+>>
+>> So, we have 24 bpp and 4 lanes. Therefore, the resulting requested
+>> tcon-data-clock rate is
+>>     crtc_clock * 1000 * (24 / 4) / 4
+>>
+>> tcon-data-clock therefore requests a parent rate of
+>>     4 * (crtc_clock * 1000 * (24 / 4) / 4)
+>>
+>> The initial 4 is the fixed divisor between tcon0 and tcon-data-clock.
+>> Since tcon0 is a ccu_mux, the rate of tcon0 equals the rate of pll-mipi.
+>>
+>> Since PLL-MIPI has to run at at least at 500MHz this forces us to have a
+>> crtc_clock >=3D 83.333 MHz. The mode I'm prorposing results in a rate of
+>> 83.502 MHz.
+>
+> This is much better explanation why this change is needed. Still, I think
+> adding min and max rate to PLL_MIPI would make sense, so proper rates
+> are guaranteed.
 
-> The Sipeed Longan SoM 3H is a system on module based on the Allwinner
-> H618 SoC. The SoM features:
-> 
-> - Four ARM Cortex-A53 cores, Mali-G31 MP2 GPU
-> - 2/4 GiB LPDDR4 DRAM SoMs
-> - AXP313a PMIC
-> - eMMC
-> 
-> The Sipeed Longan PI 3H is a development board based on the above SoM.
-> The board features:
-> - Longan SoM 3H
-> - Raspberry-Pi-1 compatible GPIO header
-> - 2 USB 2.0 host port
-> - 1 USB 2.0 type C port (power supply + OTG)
-> - MicroSD slot
-> - 1Gbps Ethernet port (via RTL8211 PHY)
-> - HDMI port
-> - WiFi/BT chip
-> 
-> Add the devicetree file describing the currently supported features,
-> namely PMIC, LEDs, UART, SD card, eMMC, USB and Ethernet.
-> 
-> Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
-> ---
->  arch/arm64/boot/dts/allwinner/Makefile        |   1 +
->  .../sun50i-h618-longan-module-3h.dtsi         |  82 +++++++++++
->  .../dts/allwinner/sun50i-h618-longanpi-3h.dts | 133 ++++++++++++++++++
->  3 files changed, 216 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h618-longan-module-3h.dtsi
->  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dts
-> 
-> diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
-> index 3aca6787a167..00db504a9b8c 100644
-> --- a/arch/arm64/boot/dts/allwinner/Makefile
-> +++ b/arch/arm64/boot/dts/allwinner/Makefile
-> @@ -42,4 +42,5 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-bigtreetech-cb1-manta.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-bigtreetech-pi.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-orangepi-zero2.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-x96-mate.dtb
-> +dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-longanpi-3h.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero3.dtb
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-longan-module-3h.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h618-longan-module-3h.dtsi
-> new file mode 100644
-> index 000000000000..88a7d287b73c
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-longan-module-3h.dtsi
-> @@ -0,0 +1,82 @@
-> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> +/*
-> + * Copyright (C) Jisheng Zhang <jszhang@kernel.org>
-> + */
-> +
-> +/dts-v1/;
+Okay, I'll include min and max rate in V2, because you're right that
+it's the sane thing to do and actually it wasn't too much work. I (and
+others) do experience crashes if pll-mipi is driven below the 500 MHz
+mark, so let's fix this once and for all.
 
-I don't see how the SoM could be used on its own, without a hosting
-board. So we don't need the dts version tag in the .dtsi, that would
-just be double when we are going to compile any actual .dtb.
+> Anyway, do you know where are all those old values come from?
 
-> +
-> +#include "sun50i-h616.dtsi"
-> +
-> +/ {
-> +	model = "Sipeed Longan Module 3H";
-> +	compatible = "sipeed,longan-module-3h", "allwinner,sun50i-h618";
+I've done some digging on lore and the values were originally submitted
+by Icenowy Zheng as part of a series to support the pinephone's LCD [1].
+There has been some refactoring after this initial submission and Ondrej
+Jirman took over. But the values are still the ones submitted by
+Icenowy, so I've added her to CC. I couldn't find any documentation for
+this specific panel.
 
-Same here, any model or compatible string would only be overwritten by
-the board versions, so you don't need those two in the SoM .dtsi.
-Compare the SoPine and BTT CB1 .dtsi files.
+> And how did
+> you come up with new ones?
 
-> +};
-> +
-> +&mmc2 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&mmc2_pins>;
+Trial and no error. :)
 
-Can you please add the DS pin here? At the moment the sunxi Linux
-driver doesn't support HS-400, but that can a) change and b) doesn't
-affect the DT anyway, since that describes the hardware. The connection
-is definitely there, according to the schematics.
+No, really, it was just a lucky guess. I know nothing about LCD panels,
+so I only looked at the original values:
+.htotal =3D  720 + 40 + 40 + 40,
+.vtotal =3D 1440 + 18 + 10 + 17,
 
-> +	vmmc-supply = <&reg_dldo1>;
-> +	vqmmc-supply = <&reg_aldo1>;
-> +	bus-width = <8>;
-> +	non-removable;
-> +	cap-mmc-hw-reset;
-> +	mmc-ddr-1_8v;
-> +	mmc-hs200-1_8v;
-> +	status = "okay";
-> +};
-> +
-> +&r_i2c {
-> +	status = "okay";
-> +
-> +	axp313: pmic@36 {
-> +		compatible = "x-powers,axp313a";
+I thought, what if every time I increase a horizontal value by 2, I
+increase a vertical value by 1 (very roughly).
 
-According to the bindings you need:
+So I ended up with:
+.htotal =3D  720 + 65 + 65 + 65,
+.vtotal =3D 1440 + 30 + 22 + 29,
 
-	interrupt-controller;
-	#interrupt-cells = <1>;
+So, in conclusion, I've increased each of the horizontal values by 25
+and each of the vertical values by 12. Then I just tried out these new
+values, and the world didn't end. :)
 
-Even without the IRQ line connected. dt-validate complains about that.
+If this is stupid, please somebody let me know.
 
-Actually, do you know of any reason why it is not connected? I see it on
-the SoM pins, is the idea that any *board* could dedicate a GPIO pin for
-it, if needed?
+I (and at least one postmarket OS tester) have been daily driving the
+panel with these values for about a week now.
 
-> +		reg = <0x36>;
-> +
-> +		regulators {
-> +			/* Supplies VCC-PLL, so needs to be always on. */
-> +			reg_aldo1: aldo1 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <1800000>;
-> +				regulator-max-microvolt = <1800000>;
-> +				regulator-name = "vcc1v8";
+I've checked the panel's refresh rate with the following test setup:
+ - I created a 60 fps video that shows the current frame number in each
+   frame. The video is 10 seconds (600 frames) long. [2]
+ - I played that video on my pinephone using vlc. [3]
+ - I recorded the playback with a Google Pixel 5 phone at 1/8 slow
+   motion (240 fps).
+ - I converted the video into individual pictures [4], resized
+   the pictures to 10% [5], and finally - after deleting some superfluous
+   pictures at the beginning and end - I created one big collage out of
+   these [6].
 
-Can you please use "vcc-1v8-pll" instead? Then you don't need the
-comment.
+I've uploaded the video[7], resulting collage [8] and the individual
+pictures [9].
 
-> +			};
-> +
-> +			/* Supplies VCC-IO, so needs to be always on. */
-> +			reg_dldo1: dldo1 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <3300000>;
-> +				regulator-max-microvolt = <3300000>;
-> +				regulator-name = "vcc3v3";
+In the resulting picture you can see that in the beginning frame 2 is
+missing and frame 136 is only barely visible because it is stuck too
+long on frame 135. Other than that, I think this looks pretty good.
 
-Same here, "vcc-3v3-io" is the name we used lately, to avoid the
-comment.
+> I guess you can't just simply change timings,
+> there are probably some HW limitations? Do you know if BSP kernel support
+> this panel and how this situation is solved there?
 
-> +			};
-> +
-> +			reg_dcdc1: dcdc1 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <810000>;
-> +				regulator-max-microvolt = <990000>;
-> +				regulator-name = "vdd-gpu-sys";
-> +			};
-> +
-> +			reg_dcdc2: dcdc2 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <810000>;
-> +				regulator-max-microvolt = <1100000>;
-> +				regulator-name = "vdd-cpu";
-> +			};
-> +
-> +			reg_dcdc3: dcdc3 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <1100000>;
-> +				regulator-max-microvolt = <1100000>;
-> +				regulator-name = "vdd-dram";
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&pio {
-> +	vcc-pc-supply = <&reg_dldo1>;
-> +	vcc-pf-supply = <&reg_dldo1>;
-> +	vcc-pg-supply = <&reg_aldo1>;
-> +	vcc-ph-supply = <&reg_dldo1>;
-> +	vcc-pi-supply = <&reg_dldo1>;
-> +};
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dts b/arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dts
-> new file mode 100644
-> index 000000000000..245583881549
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dts
-> @@ -0,0 +1,133 @@
-> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> +/*
-> + * Copyright (C) Jisheng Zhang <jszhang@kernel.org>
-> + */
-> +
-> +/dts-v1/;
-> +
-> +#include "sun50i-h618-longan-module-3h.dtsi"
-> +
-> +#include <dt-bindings/gpio/gpio.h>
-> +#include <dt-bindings/interrupt-controller/arm-gic.h>
-> +#include <dt-bindings/leds/common.h>
-> +
-> +/ {
-> +	model = "Sipeed Longan Pi 3H";
-> +	compatible = "sipeed,longan-pi-3h", "sipeed,longan-module-3h", "allwinner,sun50i-h618";
-> +
-> +	aliases {
-> +		ethernet0 = &emac0;
-> +		serial0 = &uart0;
-> +	};
-> +
-> +	chosen {
-> +		stdout-path = "serial0:115200n8";
-> +	};
-> +
-> +	leds {
-> +		compatible = "gpio-leds";
-> +
-> +		led-0 {
-> +			color = <LED_COLOR_ID_ORANGE>;
-> +			function = LED_FUNCTION_INDICATOR;
-> +			function-enumerator = <0>;
-> +			gpios = <&pio 6 2 GPIO_ACTIVE_LOW>; /* PG2 */
-> +		};
-> +
-> +		led-1 {
-> +			color = <LED_COLOR_ID_ORANGE>;
-> +			function = LED_FUNCTION_INDICATOR;
-> +			function-enumerator = <1>;
-> +			gpios = <&pio 6 4 GPIO_ACTIVE_LOW>; /* PG4 */
-> +		};
-> +	};
-> +
-> +	reg_vcc5v: vcc5v {
-> +		/* board wide 5V supply directly from the USB-C socket */
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "vcc-5v";
-> +		regulator-min-microvolt = <5000000>;
-> +		regulator-max-microvolt = <5000000>;
-> +		regulator-always-on;
-> +	};
+I'm not aware of any BSP kernel that supports this kernel.
 
-According to the schematic, there is a discrete 5V->3.3V regulator, can
-you please describe this here as well?
+>> If we only changed the constraints on the PLL_MIPI without changing the
+>> panel mode, we end up with a mismatch. This, in turn, would result in
+>> dropped frames, right?
+>
+> From what I read, I think frame rate would be higher than 60 fps. What
+> exactly would happen depends on the panel.
 
-> +};
-> +
-> +&axp313 {
-> +	vin1-supply = <&reg_vcc5v>;
-> +	vin2-supply = <&reg_vcc5v>;
-> +	vin3-supply = <&reg_vcc5v>;
-> +};
-> +
-> +&ehci1 {
-> +	status = "okay";
-> +};
-> +
-> +&ohci1 {
-> +	status = "okay";
-> +};
-> +
-> +&ehci2 {
-> +	status = "okay";
-> +};
-> +
-> +&ohci2 {
-> +	status = "okay";
-> +};
-> +
+To give this a fair comparison, I tested with the original timings but
+with correcting the panel's clock rate of 74844 kHZ instead of 69000 kHz
+as discussed elsewhere in this thread [10] and pll-mipi running at
+500MHz (because that's really a must to run the pinephone in a stable
+manner). I used the same procedure as described above. Again, I've
+uploaded the resulting video [11], collage [12] and the individual files
+[13].
 
-Maybe worth adding a comment here that there is a USB WiFi chip
-connected to those pins.
+Here, the being stuck happens much more often, e.g. frames 23, 31, 40,
+49, 58, 66 etc.
 
-> +&ehci3 {
-> +	status = "okay";
-> +};
-> +
-> +&ohci3 {
-> +	status = "okay";
-> +};
-> +
-> +&emac0 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&ext_rgmii_pins>;
-> +	phy-mode = "rgmii";
-> +	phy-handle = <&ext_rgmii_phy>;
-> +	allwinner,rx-delay-ps = <3100>;
-> +	allwinner,tx-delay-ps = <700>;
-> +	phy-supply = <&reg_dldo1>;
+So, I think, in order to have a better user experience, I think it's a
+good idea to update the XBD599 panel with the new values I proposed in
+this patch.
 
-If I get the schematic correctly, the PHY is powered from the discrete
-3.3V regulator? In fact, the 3V3-DLDO-OUT/1V8-ALDO-OUT pins on the SoM
-do not seem to be connected, so anything using 3.3V or 1.8V on the
-board needs to be fed from this regulator, and everything on the SoM is
-supplied by the AXP?
+Best regards,
+  Frank
 
-> +	status = "okay";
-> +};
-> +
-> +&mdio0 {
-> +	ext_rgmii_phy: ethernet-phy@1 {
-> +		compatible = "ethernet-phy-ieee802.3-c22";
-> +		reg = <1>;
-> +	};
-> +};
-> +
-> +&mmc0 {
-> +	bus-width = <4>;
-> +	cd-gpios = <&pio 5 6 GPIO_ACTIVE_HIGH>;	/* PF6 */
-> +	vmmc-supply = <&reg_dldo1>;
+[1]: https://lore.kernel.org/all/20200311162936.221613-1-icenowy@aosc.io/
+[2]: ffmpeg -f lavfi -i testsrc=3Dduration=3D10:size=3D80x50:rate=3D60 -vf \
+   "drawtext=3Dtext=3D%{n}:fontsize=3D36:r=3D60:x=3D(w-tw)/2: y=3Dh-(1*lh):=
+fontcolor=3Dwhite:box=3D1:boxcolor=3D0x00000099"\
+   test_80x50.mp4
+[3]: cvlc test_80x50.mp4  --fullscreen --play-and-exit
+[4]: ffmpeg -i video_from_pixel_phone.mp4 -vsync vfr output_%04d.jpg
+[5]: mogrify -resize 10% output_*.jpg
+[6]: montage output_*.jpg -tile 20x -geometry +0+0 \
+      verify_panel_65_65_65_30_22_29_83502.jpg
+[7]: https://share.mailbox.org/ajax/share/0a471a7205211949ad7067d5211945719=
+84a15d1613d74be/1/8/Njg/NjgvMzE
+[8]: https://share.mailbox.org/ajax/share/0741f90808f2df4e7d1e5078f2df43cfa=
+e732189f27e75e3/1/8/Njg/NjgvMzI
+[9]: https://share.mailbox.org/ajax/share/0471bc0706bfee4e4e1a0086bfee40ecb=
+a2123a14c9b8d4d/1/8/Njg/NjgvMzA
+[10]: https://lore.kernel.org/all/87v88qk3ge.fsf@oltmanns.dev/
+[11]: https://share.mailbox.org/ajax/share/036036d00eac574e3f02adfeac5741dd=
+a88105026a1221f4/1/8/Njg/NjgvMzQ
+[12]: https://share.mailbox.org/ajax/share/05f6d3e905e30058566cfe65e300486a=
+a936122f2414639a/1/8/Njg/NjgvMzU
+[13]: https://share.mailbox.org/ajax/share/0cf25a810cce2357c62468ecce234681=
+a4e8e674d38d02cd/1/8/Njg/NjgvMzM
 
-According to the schematic, the SD card is supplied by the discrete
-3.3V regulator on the board.
-
-> +	status = "okay";
-> +};
-> +
-> +&uart0 {
-> +	status = "okay";
-> +};
-> +
-> +&usbotg {
-> +	/*
-> +	 * PHY0 pins are connected to a USB-C socket, but a role switch
-> +	 * is not implemented: both CC pins are pulled to GND.
-> +	 * The VBUS pins power the device, so a fixed peripheral mode
-> +	 * is the best choice.
-> +	 * The board can be powered via GPIOs, in this case port0 *can*
-> +	 * act as a host (with a cable/adapter ignoring CC), as VBUS is
-> +	 * then provided by the GPIOs. Any user of this setup would
-> +	 * need to adjust the DT accordingly: dr_mode set to "host",
-> +	 * enabling OHCI0 and EHCI0.
-> +	 */
-> +	dr_mode = "peripheral";
-> +	status = "okay";
-> +};
-> +
-> +&usbphy {
-> +	usb1_vbus-supply = <&reg_vcc5v>;
-
-The same seems to be true for USB2 as well, and the WiFi chip on USB3 is
-powered by the discrete 3.3V regulator. But I think we don't need these
-properties at all if it's directly connected to the input and so always
-powered. Or maybe we should do this anyway, and be it to make it clear
-where the bus power is coming from?
-
-Cheers,
-Andre
-
-P.S. I saw some U-Boot patches on some github. Most of them are
-merged, but feel free to post the DT (same ones as here) and the
-defconfig to the U-Boot list as well. You can use "make savedefconfig"
-when you have configured the board, this will create a file "defconfig"
-in the build directory that contains the minimal items, this can be
-directly used as a defconfig.
-
-> +	status = "okay";
-> +};
-
+>
+> Best regards,
+> Jernej
+>
+>>
+>> Best regards,
+>>   Frank
+>>
+>> [1] Source:
+>> https://elixir.bootlin.com/linux/v6.6.7/source/drivers/gpu/drm/sun4i/sun=
+4i_tcon.c#L346
+>>
+>> >
+>> > Best regards,
+>> > Jernej
+>> >
+>> >> ---
+>> >>  drivers/gpu/drm/panel/panel-sitronix-st7703.c | 14 +++++++-------
+>> >>  1 file changed, 7 insertions(+), 7 deletions(-)
+>> >>
+>> >> diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7703.c b/drivers/=
+gpu/drm/panel/panel-sitronix-st7703.c
+>> >> index b55bafd1a8be..6886fd7f765e 100644
+>> >> --- a/drivers/gpu/drm/panel/panel-sitronix-st7703.c
+>> >> +++ b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
+>> >> @@ -320,14 +320,14 @@ static int xbd599_init_sequence(struct st7703 *=
+ctx)
+>> >>
+>> >>  static const struct drm_display_mode xbd599_mode =3D {
+>> >>  	.hdisplay    =3D 720,
+>> >> -	.hsync_start =3D 720 + 40,
+>> >> -	.hsync_end   =3D 720 + 40 + 40,
+>> >> -	.htotal	     =3D 720 + 40 + 40 + 40,
+>> >> +	.hsync_start =3D 720 + 65,
+>> >> +	.hsync_end   =3D 720 + 65 + 65,
+>> >> +	.htotal      =3D 720 + 65 + 65 + 65,
+>> >>  	.vdisplay    =3D 1440,
+>> >> -	.vsync_start =3D 1440 + 18,
+>> >> -	.vsync_end   =3D 1440 + 18 + 10,
+>> >> -	.vtotal	     =3D 1440 + 18 + 10 + 17,
+>> >> -	.clock	     =3D 69000,
+>> >> +	.vsync_start =3D 1440 + 30,
+>> >> +	.vsync_end   =3D 1440 + 30 + 22,
+>> >> +	.vtotal	     =3D 1440 + 30 + 22 + 29,
+>> >> +	.clock	     =3D (720 + 65 + 65 + 65) * (1440 + 30 + 22 + 29) * 60 /=
+ 1000,
+>> >>  	.flags	     =3D DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
+>> >>  	.width_mm    =3D 68,
+>> >>  	.height_mm   =3D 136,
+>> >>
+>> >>
+>>
