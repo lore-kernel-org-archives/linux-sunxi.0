@@ -1,107 +1,253 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BE7712E5A
-	for <linux-sunxi@lists.linux.dev>; Tue,  2 Jan 2024 15:00:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1d3eb299e2eso43502815ad.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 02 Jan 2024 07:00:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704207612; x=1704812412;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6A7D1427C
+	for <linux-sunxi@lists.linux.dev>; Tue,  2 Jan 2024 15:12:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="nCOdKTW2"
+Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-dbdb8e032f7so7185673276.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 02 Jan 2024 07:12:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1704208362; x=1704813162; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qITYVoXybW9kflLeOHzjPWVcZKsOtFNbi43GeVISOKA=;
-        b=vVh163UpIrCdMSzVaGc6Jys1yWdIjLbCj+kReBMp0JytLOhFLynjhZ8MNOWOwh6KMs
-         6LrIDAjXFniXOr9OcjPfW/T1Vpq1Hudo3ChCsxZgbC0W+Xic/4fnfMzyHeQRhmQy1ur1
-         uNoiZ8cI6gaxSlzNj4355hNeF4xkmXyQMoHnjRbMO4KAXoCqIetxP7qlptCMLnEb0RtC
-         CM26xKmIq+ywbJWT5gKnRexsrAv2wShmx8swm40YBc4rR2cksYjj7DdfxLa0dfg8QCjn
-         TxVZYE3yupCM0O/rYgbAo/fwQsfki1vXF6yYndtqHFwdwveqsNyGF1HSe9het7Cq8qcm
-         fCMw==
-X-Gm-Message-State: AOJu0Ywl+og/UduiVMoYLkaB9/3KsxEH6eHh0sUIBlsQdbuX+nDTOtiF
-	oacR8W5gGrzFpyRDewM2i5uZTifeSO/iEw==
-X-Google-Smtp-Source: AGHT+IFpcJIk6GaIzn7qHe4umMerMBxqWRS4E01Dt2XXi/51u63s1gFoZs4pXibzyjy4a+fFDzlUmA==
-X-Received: by 2002:a17:902:e74a:b0:1d0:b503:2edd with SMTP id p10-20020a170902e74a00b001d0b5032eddmr9337190plf.8.1704207612256;
-        Tue, 02 Jan 2024 07:00:12 -0800 (PST)
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com. [209.85.216.50])
-        by smtp.gmail.com with ESMTPSA id a4-20020a170902ecc400b001d1d1ef8be5sm22164795plh.173.2024.01.02.07.00.12
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Jan 2024 07:00:12 -0800 (PST)
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-28b9e9e83b0so4004838a91.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 02 Jan 2024 07:00:12 -0800 (PST)
-X-Received: by 2002:a17:90a:4546:b0:28c:ad4f:2b4f with SMTP id
- r6-20020a17090a454600b0028cad4f2b4fmr1823827pjm.96.1704207611979; Tue, 02 Jan
- 2024 07:00:11 -0800 (PST)
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DETzKFn+RNOmM0nC/CwezQoH3E46aIzh480BZFUjCe0=;
+        b=nCOdKTW2v2VZb7gSHPEgSyP7Cmdjw5PwaAfiSj4mEFK2FG+NKZ8xDaQfl9ZdOl67kF
+         p64OYUOkrcBJRnU/BS89oLe4lJsVtm0K1gnAl1mVS6uk1Zo5pt5xAPgQ6dhscJlYDPMx
+         DUSSPdtR3AEbsT90AGQydtSUCfMr/gypLIDfTmgRQw8NAn+NQglp3/WGq8B17raUD4GS
+         WjmqG7jTJVXDDZZjVj+HLvF6mZPudOuZsAuBplDxJdvrJWentcpWdS58OTSiRlESNb15
+         L0wNFMn+dwhGM//68iVQq+6Hh+w0luxtxAYE7U0aJfEivSC/mrkhK52qv0La0R8zy4uP
+         dGYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704208362; x=1704813162;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DETzKFn+RNOmM0nC/CwezQoH3E46aIzh480BZFUjCe0=;
+        b=CTzTn+dGn2IBunOw8Ax3F/nDoo0Vzkru2slgYOlU510PEXBF9AhK8XJbXgxu2SDaR/
+         pDWcJO8zI60pWwPLNkfc8ESgEt9mbdP1Ueuju3Zptyc8wQus7gLZJIVuehSmp5ubtcCB
+         1PRqoPEWF0tV4iIqRcJqeO950NSdox6eTjvijqYYl4NPUHEf2o4u9B/Gmn9hL9tkK4r1
+         C63uML8aBTDpLE2sxnTlTHy4B8ikjLtWmfPxsG9YApUGRDRuL0GqNBMF2ps2srgb02Ud
+         27FI1723CSXhZHPdw3qwhWxHQF+lnGcUsErXfczQpI4muZnX8IhKnoyPOA1WSYKbvilS
+         Awjw==
+X-Gm-Message-State: AOJu0YxHLJ1tITesf2Nf++Wkh/fK7/6ysHXrY3hpyCatJQr2RjURCLk+
+	cvEfYR9wt5Q2Yf7ua3iW39YUY9lHFsx4wZBFjPMAzAyrsLI6eg==
+X-Google-Smtp-Source: AGHT+IGRpeH+ulCpq2/CqActcdg5ra5CWJ9lXcPK7CIYy8JkK0sx9W7zDyxU3/x4g+WaKSqbAQ0nQ6n2LGD5JROwu9w=
+X-Received: by 2002:a25:860c:0:b0:dbc:519b:8415 with SMTP id
+ y12-20020a25860c000000b00dbc519b8415mr12386888ybk.41.1704208362422; Tue, 02
+ Jan 2024 07:12:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231228193903.9078-1-wahrenst@gmx.net> <20231228193903.9078-2-wahrenst@gmx.net>
-In-Reply-To: <20231228193903.9078-2-wahrenst@gmx.net>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Tue, 2 Jan 2024 22:59:59 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66dvTZdRZF+yrdiAsjHVLAQkusyAx=Z5f=UxMNYBAY80A@mail.gmail.com>
-Message-ID: <CAGb2v66dvTZdRZF+yrdiAsjHVLAQkusyAx=Z5f=UxMNYBAY80A@mail.gmail.com>
-Subject: Re: [PATCH V2 2/2] ARM: sun9i: smp: fix return code check of of_property_match_string
-To: Stefan Wahren <wahrenst@gmx.net>, Arnd Bergmann <arnd@arndb.de>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Maxime Ripard <mripard@kernel.org>, =?UTF-8?Q?Myl=C3=A8ne_Josserand?= <mylene.josserand@bootlin.com>, 
-	linux-sunxi@lists.linux.dev, soc@kernel.org, 
-	Florian Fainelli <f.fainelli@gmail.com>, linux-arm-kernel@lists.infradead.org, 
-	Nick Desaulniers <ndesaulniers@google.com>
+References: <20220728-rpi-analog-tv-properties-v9-0-24b168e5bcd5@cerno.tech> <20220728-rpi-analog-tv-properties-v9-9-24b168e5bcd5@cerno.tech>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v9-9-24b168e5bcd5@cerno.tech>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Tue, 2 Jan 2024 15:12:26 +0000
+Message-ID: <CAPY8ntD4oz9A1H7Ek1YSLRicLprz1ev5YeAqP2Ah=DMPk84KRQ@mail.gmail.com>
+Subject: Re: [PATCH v9 09/25] drm/modes: Move named modes parsing to a
+ separate function
+To: Maxime Ripard <maxime@cerno.tech>, Maxime Ripard <mripard@kernel.org>
+Cc: Karol Herbst <kherbst@redhat.com>, Samuel Holland <samuel@sholland.org>, 
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Chen-Yu Tsai <wens@csie.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Lyude Paul <lyude@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Jani Nikula <jani.nikula@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Ben Skeggs <bskeggs@redhat.com>, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, 
+	David Airlie <airlied@linux.ie>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Dom Cobley <dom@raspberrypi.com>, Phil Elwell <phil@raspberrypi.com>, 
+	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>, nouveau@lists.freedesktop.org, 
+	Hans de Goede <hdegoede@redhat.com>, intel-gfx@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, linux-sunxi@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 29, 2023 at 3:39=E2=80=AFAM Stefan Wahren <wahrenst@gmx.net> wr=
-ote:
+Hi Maxime
+
+On Mon, 14 Nov 2022 at 13:00, Maxime Ripard <maxime@cerno.tech> wrote:
 >
-> of_property_match_string returns an int; either an index from 0 or
-> greater if successful or negative on failure. Even it's very
-> unlikely that the DT CPU node contains multiple enable-methods
-> these checks should be fixed.
+> The current construction of the named mode parsing doesn't allow to exten=
+d
+> it easily. Let's move it to a separate function so we can add more
+> parameters and modes.
 >
-> This patch was inspired by the work of Nick Desaulniers.
+> In order for the tests to still pass, some extra checks are needed, so
+> it's not a 1:1 move.
 >
-> Link: https://lore.kernel.org/lkml/20230516-sunxi-v1-1-ac4b9651a8c1@googl=
-e.com/T/
-> Cc: Nick Desaulniers <ndesaulniers@google.com>
-> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
-
-Reviewed-by: Chen-Yu Tsai <wens@csie.org>
-
-Arnd, would it be possible to apply the two fixes directly to the soc tree?
-
-Thanks.
-
+> Reviewed-by: Noralf Tr=C3=B8nnes <noralf@tronnes.org>
+> Tested-by: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>
 > ---
->  arch/arm/mach-sunxi/mc_smp.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Changes in v7:
+> - Add Noralf Reviewed-by
 >
-> diff --git a/arch/arm/mach-sunxi/mc_smp.c b/arch/arm/mach-sunxi/mc_smp.c
-> index 6ec3445f3c72..277f6aa8e6c2 100644
-> --- a/arch/arm/mach-sunxi/mc_smp.c
-> +++ b/arch/arm/mach-sunxi/mc_smp.c
-> @@ -803,12 +803,12 @@ static int __init sunxi_mc_smp_init(void)
->         for (i =3D 0; i < ARRAY_SIZE(sunxi_mc_smp_data); i++) {
->                 ret =3D of_property_match_string(node, "enable-method",
->                                                sunxi_mc_smp_data[i].enabl=
-e_method);
-> -               if (!ret)
-> +               if (ret >=3D 0)
->                         break;
+> Changes in v6:
+> - Simplify the test for connection status extras
+> - Simplify the code path to call drm_mode_parse_cmdline_named_mode
+>
+> Changes in v4:
+> - Fold down all the named mode patches that were split into a single
+>   patch again to maintain bisectability
+> ---
+>  drivers/gpu/drm/drm_modes.c | 70 +++++++++++++++++++++++++++++++++++++--=
+------
+>  1 file changed, 58 insertions(+), 12 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
+> index 71c050c3ee6b..37542612912b 100644
+> --- a/drivers/gpu/drm/drm_modes.c
+> +++ b/drivers/gpu/drm/drm_modes.c
+> @@ -2229,6 +2229,51 @@ static const char * const drm_named_modes_whitelis=
+t[] =3D {
+>         "PAL",
+>  };
+>
+> +static int drm_mode_parse_cmdline_named_mode(const char *name,
+> +                                            unsigned int name_end,
+> +                                            struct drm_cmdline_mode *cmd=
+line_mode)
+> +{
+> +       unsigned int i;
+> +
+> +       if (!name_end)
+> +               return 0;
+> +
+> +       /* If the name starts with a digit, it's not a named mode */
+> +       if (isdigit(name[0]))
+> +               return 0;
+> +
+> +       /*
+> +        * If there's an equal sign in the name, the command-line
+> +        * contains only an option and no mode.
+> +        */
+> +       if (strnchr(name, name_end, '=3D'))
+> +               return 0;
+> +
+> +       /* The connection status extras can be set without a mode. */
+> +       if (name_end =3D=3D 1 &&
+> +           (name[0] =3D=3D 'd' || name[0] =3D=3D 'D' || name[0] =3D=3D '=
+e'))
+> +               return 0;
+> +
+> +       /*
+> +        * We're sure we're a named mode at this point, iterate over the
+> +        * list of modes we're aware of.
+> +        */
+> +       for (i =3D 0; i < ARRAY_SIZE(drm_named_modes_whitelist); i++) {
+> +               int ret;
+> +
+> +               ret =3D str_has_prefix(name, drm_named_modes_whitelist[i]=
+);
+> +               if (ret !=3D name_end)
+> +                       continue;
+> +
+> +               strcpy(cmdline_mode->name, drm_named_modes_whitelist[i]);
+> +               cmdline_mode->specified =3D true;
+> +
+> +               return 1;
+> +       }
+> +
+> +       return -EINVAL;
+> +}
+> +
+>  /**
+>   * drm_mode_parse_command_line_for_connector - parse command line modeli=
+ne for connector
+>   * @mode_option: optional per connector mode option
+> @@ -2265,7 +2310,7 @@ bool drm_mode_parse_command_line_for_connector(cons=
+t char *mode_option,
+>         const char *bpp_ptr =3D NULL, *refresh_ptr =3D NULL, *extra_ptr =
+=3D NULL;
+>         const char *options_ptr =3D NULL;
+>         char *bpp_end_ptr =3D NULL, *refresh_end_ptr =3D NULL;
+> -       int i, len, ret;
+> +       int len, ret;
+>
+>         memset(mode, 0, sizeof(*mode));
+>         mode->panel_orientation =3D DRM_MODE_PANEL_ORIENTATION_UNKNOWN;
+> @@ -2306,18 +2351,19 @@ bool drm_mode_parse_command_line_for_connector(co=
+nst char *mode_option,
+>                 parse_extras =3D true;
 >         }
 >
->         of_node_put(node);
-> -       if (ret)
+> -       /* First check for a named mode */
+> -       for (i =3D 0; i < ARRAY_SIZE(drm_named_modes_whitelist); i++) {
+> -               ret =3D str_has_prefix(name, drm_named_modes_whitelist[i]=
+);
+> -               if (ret =3D=3D mode_end) {
+> -                       if (refresh_ptr)
+> -                               return false; /* named + refresh is inval=
+id */
+> +       if (!mode_end)
+> +               return false;
+
+I'm chasing down a change in behaviour between 6.1 and 6.6, and this
+patch seems to be at least part of the cause.
+
+Since [1] we've had the emulated framebuffer on Pi being 16bpp to save
+memory. All good.
+
+It used to be possible to use "video=3DHDMI-A-1:-32" on the kernel
+command line to set it back to 32bpp.
+
+After this patch that is no longer possible. "mode_end =3D bpp_off", and
+"bpp_off =3D bpp_ptr - name", so with bpp_ptr =3D name we get mode_end
+being 0. That fails this conditional.
+drm_mode_parse_cmdline_named_mode already aborts early but with no
+error if name_end / mode_end is 0, so this "if" clause seems
+redundant, and is a change in behaviour.
+
+We do then get a second parsing failure due to the check if (bpp_ptr
+|| refresh_ptr) at [2].
+Prior to this patch my video=3D line would get mode->specified set via
+"if (ret =3D=3D mode_end)" removed above, as ret =3D mode_end =3D 0. We
+therefore didn't evaluate the conditional that now fails.
+
+So I guess my question is whether my command line is valid or not, and
+therefore is this a regression?
+If considered invalid, then presumably there is no way to update the
+bpp without also having to specify the resolution. That is rather
+annoying as almost everything else can be updated without having to
+set the resolution, so this one property would be the odd one out.
+
+Thanks, and Happy New Year.
+  Dave
+
+[1] https://github.com/torvalds/linux/commit/f741b28fb299263d2d03a0fb701bfe=
+648927cd47
+[2] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_mode=
+s.c#L2441
+[3] https://github.com/torvalds/linux/commit/a631bf30eb914affc0a574f4457683=
+3477346ad6
+
+>
+> -                       strcpy(mode->name, drm_named_modes_whitelist[i]);
+> -                       mode->specified =3D true;
+> -                       break;
+> -               }
+> -       }
+> +       ret =3D drm_mode_parse_cmdline_named_mode(name, mode_end, mode);
 > +       if (ret < 0)
->                 return -ENODEV;
+> +               return false;
+> +
+> +       /*
+> +        * Having a mode that starts by a letter (and thus is named) and
+> +        * an at-sign (used to specify a refresh rate) is disallowed.
+> +        */
+> +       if (ret && refresh_ptr)
+> +               return false;
 >
->         is_a83t =3D sunxi_mc_smp_data[i].is_a83t;
+>         /* No named mode? Check for a normal mode argument, e.g. 1024x768=
+ */
+>         if (!mode->specified && isdigit(name[0])) {
+>
 > --
-> 2.34.1
->
+> b4 0.11.0-dev-99e3a
