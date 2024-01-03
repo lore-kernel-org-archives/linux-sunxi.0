@@ -1,311 +1,164 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AEC6139F
-	for <linux-sunxi@lists.linux.dev>; Wed,  3 Jan 2024 00:13:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1ABAA14BF;
-	Tue,  2 Jan 2024 16:14:36 -0800 (PST)
-Received: from localhost.localdomain (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 305DF3F5A1;
-	Tue,  2 Jan 2024 16:13:49 -0800 (PST)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Cc: Samuel Holland <samuel@sholland.org>,
-	linux-sunxi@lists.linux.dev,
-	u-boot@lists.denx.de
-Subject: [PATCH 19/19] sunxi: SPL pinmux: rewrite UART setup without #ifdefs
-Date: Wed,  3 Jan 2024 00:12:39 +0000
-Message-Id: <20240103001239.17482-20-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.35.8
-In-Reply-To: <20240103001239.17482-1-andre.przywara@arm.com>
-References: <20240103001239.17482-1-andre.przywara@arm.com>
+Received: from sender4-op-o10.zoho.com (sender4-op-o10.zoho.com [136.143.188.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1543110EE
+	for <linux-sunxi@lists.linux.dev>; Wed,  3 Jan 2024 01:40:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icenowy.me
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b="RU2g7DHz"
+ARC-Seal: i=1; a=rsa-sha256; t=1704246050; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=HSg+e+Nw84UJKsztMiRO82NEuT6N2ItlXPkE9p0puFZ50zVdAiTgyjvS6IVskgROQRKGcxyylr3Da8TIUYlYO2+Btj88BYZxuHyrnHo1IOye/yKKvVjRQw6x1w/hKW+kn/tiCpv2wdkbKvxVfzo8aKoqyO5XvOs1YtndkptqAZA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1704246050; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=Gj6YxQ75iiB/BEXS7c2m5L18+BjacyE9oLwb6HHBAEI=; 
+	b=btTks4pX6r4DE8Xl0Cx92ggtDd53/jqGz6TKG25sJBkCvHHNOmTqX/k9A/K2GWGJ3AkgSJtys87K0sC5j/aPmGwIt3aQoLS7EOJ3aYRGj1ECatdDocOKX/QHhHk6C6i19j3WlgP7y2A2x9fMO6gsJUuGx2eSn29FbbDHKuSZD5Q=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=icenowy.me;
+	spf=pass  smtp.mailfrom=uwu@icenowy.me;
+	dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1704246050;
+	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+	bh=Gj6YxQ75iiB/BEXS7c2m5L18+BjacyE9oLwb6HHBAEI=;
+	b=RU2g7DHzRw6IcVzBKnwmxU/a9lh/sP6u8hidJcxGPGi69i5RKhQR2gifEoV9uUO5
+	1t9gginnxFRl64V/DlrWX3XHI6oC7s5AF5xVc0XXr/6TRS7zaXeaqgUy6z+6nsWoE0+
+	fO6qLuwTXvXnp1a5a8PVSPJ/BaSJxrEQiFAuqUl5iMX5bmh6dB4MUgn10iO5VJTcpo5
+	dNhMtcT3uksd+p4fCDiA56cFOOvHQXjkrn/U3IhCom003IEA9aPFHni5HIJijtENqC+
+	CAYr05KKgrdTiQBsnUFsdl62P3NEh3VXu69As58dWZRnUCL2vWzAVqRl7kEMQHA4Www
+	QKGUfAGifA==
+Received: from edelgard.fodlan.icenowy.me (120.85.97.100 [120.85.97.100]) by mx.zohomail.com
+	with SMTPS id 1704246049145819.0302806532882; Tue, 2 Jan 2024 17:40:49 -0800 (PST)
+Message-ID: <fff240d6ef9ac1f4c67f9c1a7eaebc3b90af53b4.camel@icenowy.me>
+Subject: Re: [PATCH RESEND] arm64: dts: allwinner: a64: Add thermal trip
+ points for GPU
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Alexey Klimov <alexey.klimov@linaro.org>, anarsoul@gmail.com, 
+	tiny.windzz@gmail.com, linux-sunxi@lists.linux.dev
+Cc: rafael@kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org, 
+	daniel.lezcano@linaro.org, peter.griffin@linaro.org, klimov.linux@gmail.com
+Date: Wed, 03 Jan 2024 09:40:43 +0800
+In-Reply-To: <20240101000008.65747-1-alexey.klimov@linaro.org>
+References: <20240101000008.65747-1-alexey.klimov@linaro.org>
+Organization: Anthon Open-Source Community
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.44.4 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-The existing SPL UART pinmux setup is using #ifdef's heavily, which
-makes it hard to read and even harder to extend.
-
-Replace the #ifdef's with proper C "if" statements, with the help of the
-magic IS_ENABLED() macro.
-
-To cover the non-configured case, which is currently handled by
-an #error preprocessor directive, create a prototype for a non-existing
-function. Replace that #error line with a call to that function, which
-will be removed by the compiler and linker in the normal case, but will
-cause a linker error otherwise.
-
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- arch/arm/mach-sunxi/uart_pinmux.c | 240 ++++++++++++++++--------------
- 1 file changed, 128 insertions(+), 112 deletions(-)
-
-diff --git a/arch/arm/mach-sunxi/uart_pinmux.c b/arch/arm/mach-sunxi/uart_pinmux.c
-index cb4b16f0e37..ba42352fbcf 100644
---- a/arch/arm/mach-sunxi/uart_pinmux.c
-+++ b/arch/arm/mach-sunxi/uart_pinmux.c
-@@ -15,128 +15,144 @@
- #include <config.h>
- #include <sunxi_gpio.h>
- 
--void uart0_portf_pinmux_setup(void)
-+/* Non-existing function to trigger speaking link error. */
-+void Unsupported_console_number_Please_fix_UART_pin_mux_settings(void);
-+
-+static void uart0_portf_pinmux_setup(void)
- {
--#if defined(CONFIG_MACH_SUN4I) || \
--    defined(CONFIG_MACH_SUN7I) || \
--    defined(CONFIG_MACH_SUN8I_R40)
--	/* disable GPB22,23 as uart0 tx,rx to avoid conflict */
--	sunxi_gpio_set_cfgpin(SUNXI_GPB(22), SUNXI_GPIO_INPUT);
--	sunxi_gpio_set_cfgpin(SUNXI_GPB(23), SUNXI_GPIO_INPUT);
--#endif
--#if defined(CONFIG_MACH_SUN4I) || defined(CONFIG_MACH_SUN5I) || \
--    defined(CONFIG_MACH_SUN7I) || defined(CONFIG_MACH_SUN8I_R40) || \
--    defined(CONFIG_MACH_SUN9I)
--	sunxi_gpio_set_cfgpin(SUNXI_GPF(2), SUNXI_GPF_UART0);
--	sunxi_gpio_set_cfgpin(SUNXI_GPF(4), SUNXI_GPF_UART0);
--#else
--	sunxi_gpio_set_cfgpin(SUNXI_GPF(2), SUN8I_GPF_UART0);
--	sunxi_gpio_set_cfgpin(SUNXI_GPF(4), SUN8I_GPF_UART0);
--#endif
-+	if (IS_ENABLED(CONFIG_MACH_SUN4I) || IS_ENABLED(CONFIG_MACH_SUN7I) ||
-+	    IS_ENABLED(CONFIG_MACH_SUN8I_R40)) {
-+		/* disable GPB22,23 as uart0 tx,rx to avoid conflict */
-+		sunxi_gpio_set_cfgpin(SUNXI_GPB(22), SUNXI_GPIO_INPUT);
-+		sunxi_gpio_set_cfgpin(SUNXI_GPB(23), SUNXI_GPIO_INPUT);
-+	}
-+
-+	if (IS_ENABLED(CONFIG_MACH_SUN4I) || IS_ENABLED(CONFIG_MACH_SUN5I) ||
-+	    IS_ENABLED(CONFIG_MACH_SUN7I) || IS_ENABLED(CONFIG_MACH_SUN8I_R40) ||
-+	    IS_ENABLED(CONFIG_MACH_SUN9I)) {
-+		sunxi_gpio_set_cfgpin(SUNXI_GPF(2), SUNXI_GPF_UART0);
-+		sunxi_gpio_set_cfgpin(SUNXI_GPF(4), SUNXI_GPF_UART0);
-+	} else {
-+		sunxi_gpio_set_cfgpin(SUNXI_GPF(2), SUN8I_GPF_UART0);
-+		sunxi_gpio_set_cfgpin(SUNXI_GPF(4), SUN8I_GPF_UART0);
-+	}
- 	sunxi_gpio_set_pull(SUNXI_GPF(4), SUNXI_GPIO_PULL_UP);
- }
- 
--void uart0_pinmux_setup(void)
-+static void uart0_pinmux_setup(void)
- {
--#if defined(CONFIG_MACH_SUNIV)
--	sunxi_gpio_set_cfgpin(SUNXI_GPE(0), SUNIV_GPE_UART0);
--	sunxi_gpio_set_cfgpin(SUNXI_GPE(1), SUNIV_GPE_UART0);
--	sunxi_gpio_set_pull(SUNXI_GPE(1), SUNXI_GPIO_PULL_UP);
--#elif (defined(CONFIG_MACH_SUN4I) || \
--	 defined(CONFIG_MACH_SUN7I) || \
--	 defined(CONFIG_MACH_SUN8I_R40))
--	sunxi_gpio_set_cfgpin(SUNXI_GPB(22), SUN4I_GPB_UART0);
--	sunxi_gpio_set_cfgpin(SUNXI_GPB(23), SUN4I_GPB_UART0);
--	sunxi_gpio_set_pull(SUNXI_GPB(23), SUNXI_GPIO_PULL_UP);
--#elif defined(CONFIG_MACH_SUN5I)
--	sunxi_gpio_set_cfgpin(SUNXI_GPB(19), SUN5I_GPB_UART0);
--	sunxi_gpio_set_cfgpin(SUNXI_GPB(20), SUN5I_GPB_UART0);
--	sunxi_gpio_set_pull(SUNXI_GPB(20), SUNXI_GPIO_PULL_UP);
--#elif defined(CONFIG_MACH_SUN6I)
--	sunxi_gpio_set_cfgpin(SUNXI_GPH(20), SUN6I_GPH_UART0);
--	sunxi_gpio_set_cfgpin(SUNXI_GPH(21), SUN6I_GPH_UART0);
--	sunxi_gpio_set_pull(SUNXI_GPH(21), SUNXI_GPIO_PULL_UP);
--#elif defined(CONFIG_MACH_SUN8I_A33)
--	sunxi_gpio_set_cfgpin(SUNXI_GPB(0), SUN8I_A33_GPB_UART0);
--	sunxi_gpio_set_cfgpin(SUNXI_GPB(1), SUN8I_A33_GPB_UART0);
--	sunxi_gpio_set_pull(SUNXI_GPB(1), SUNXI_GPIO_PULL_UP);
--#elif defined(CONFIG_MACH_SUNXI_H3_H5)
--	sunxi_gpio_set_cfgpin(SUNXI_GPA(4), SUN8I_H3_GPA_UART0);
--	sunxi_gpio_set_cfgpin(SUNXI_GPA(5), SUN8I_H3_GPA_UART0);
--	sunxi_gpio_set_pull(SUNXI_GPA(5), SUNXI_GPIO_PULL_UP);
--#elif defined(CONFIG_MACH_SUN50I)
--	sunxi_gpio_set_cfgpin(SUNXI_GPB(8), SUN50I_GPB_UART0);
--	sunxi_gpio_set_cfgpin(SUNXI_GPB(9), SUN50I_GPB_UART0);
--	sunxi_gpio_set_pull(SUNXI_GPB(9), SUNXI_GPIO_PULL_UP);
--#elif defined(CONFIG_MACH_SUN50I_H6)
--	sunxi_gpio_set_cfgpin(SUNXI_GPH(0), SUN50I_H6_GPH_UART0);
--	sunxi_gpio_set_cfgpin(SUNXI_GPH(1), SUN50I_H6_GPH_UART0);
--	sunxi_gpio_set_pull(SUNXI_GPH(1), SUNXI_GPIO_PULL_UP);
--#elif defined(CONFIG_MACH_SUN50I_H616)
--	sunxi_gpio_set_cfgpin(SUNXI_GPH(0), SUN50I_H616_GPH_UART0);
--	sunxi_gpio_set_cfgpin(SUNXI_GPH(1), SUN50I_H616_GPH_UART0);
--	sunxi_gpio_set_pull(SUNXI_GPH(1), SUNXI_GPIO_PULL_UP);
--#elif defined(CONFIG_MACH_SUN8I_A83T)
--	sunxi_gpio_set_cfgpin(SUNXI_GPB(9), SUN8I_A83T_GPB_UART0);
--	sunxi_gpio_set_cfgpin(SUNXI_GPB(10), SUN8I_A83T_GPB_UART0);
--	sunxi_gpio_set_pull(SUNXI_GPB(10), SUNXI_GPIO_PULL_UP);
--#elif defined(CONFIG_MACH_SUN8I_V3S)
--	sunxi_gpio_set_cfgpin(SUNXI_GPB(8), SUN8I_V3S_GPB_UART0);
--	sunxi_gpio_set_cfgpin(SUNXI_GPB(9), SUN8I_V3S_GPB_UART0);
--	sunxi_gpio_set_pull(SUNXI_GPB(9), SUNXI_GPIO_PULL_UP);
--#elif defined(CONFIG_MACH_SUN9I)
--	sunxi_gpio_set_cfgpin(SUNXI_GPH(12), SUN9I_GPH_UART0);
--	sunxi_gpio_set_cfgpin(SUNXI_GPH(13), SUN9I_GPH_UART0);
--	sunxi_gpio_set_pull(SUNXI_GPH(13), SUNXI_GPIO_PULL_UP);
--#elif defined(CONFIG_MACH_SUN8I_R528)
--	sunxi_gpio_set_cfgpin(SUNXI_GPE(2), 6);
--	sunxi_gpio_set_cfgpin(SUNXI_GPE(3), 6);
--	sunxi_gpio_set_pull(SUNXI_GPE(3), SUNXI_GPIO_PULL_UP);
--#endif
-+	if (IS_ENABLED(CONFIG_UART0_PORT_F)) {
-+		uart0_portf_pinmux_setup();
-+		return;
-+	}
-+
-+	if (IS_ENABLED(CONFIG_MACH_SUNIV)) {
-+		sunxi_gpio_set_cfgpin(SUNXI_GPE(0), SUNIV_GPE_UART0);
-+		sunxi_gpio_set_cfgpin(SUNXI_GPE(1), SUNIV_GPE_UART0);
-+		sunxi_gpio_set_pull(SUNXI_GPE(1), SUNXI_GPIO_PULL_UP);
-+	} else if (IS_ENABLED(CONFIG_MACH_SUN4I) ||
-+		   IS_ENABLED(CONFIG_MACH_SUN7I) ||
-+		   IS_ENABLED(CONFIG_MACH_SUN8I_R40)) {
-+		sunxi_gpio_set_cfgpin(SUNXI_GPB(22), SUN4I_GPB_UART0);
-+		sunxi_gpio_set_cfgpin(SUNXI_GPB(23), SUN4I_GPB_UART0);
-+		sunxi_gpio_set_pull(SUNXI_GPB(23), SUNXI_GPIO_PULL_UP);
-+	} else if (IS_ENABLED(CONFIG_MACH_SUN5I)) {
-+		sunxi_gpio_set_cfgpin(SUNXI_GPB(19), SUN5I_GPB_UART0);
-+		sunxi_gpio_set_cfgpin(SUNXI_GPB(20), SUN5I_GPB_UART0);
-+		sunxi_gpio_set_pull(SUNXI_GPB(20), SUNXI_GPIO_PULL_UP);
-+	} else if (IS_ENABLED(CONFIG_MACH_SUN6I)) {
-+		sunxi_gpio_set_cfgpin(SUNXI_GPH(20), SUN6I_GPH_UART0);
-+		sunxi_gpio_set_cfgpin(SUNXI_GPH(21), SUN6I_GPH_UART0);
-+		sunxi_gpio_set_pull(SUNXI_GPH(21), SUNXI_GPIO_PULL_UP);
-+	} else if (IS_ENABLED(CONFIG_MACH_SUN8I_A33)) {
-+		sunxi_gpio_set_cfgpin(SUNXI_GPB(0), SUN8I_A33_GPB_UART0);
-+		sunxi_gpio_set_cfgpin(SUNXI_GPB(1), SUN8I_A33_GPB_UART0);
-+		sunxi_gpio_set_pull(SUNXI_GPB(1), SUNXI_GPIO_PULL_UP);
-+	} else if (IS_ENABLED(CONFIG_MACH_SUNXI_H3_H5)) {
-+		sunxi_gpio_set_cfgpin(SUNXI_GPA(4), SUN8I_H3_GPA_UART0);
-+		sunxi_gpio_set_cfgpin(SUNXI_GPA(5), SUN8I_H3_GPA_UART0);
-+		sunxi_gpio_set_pull(SUNXI_GPA(5), SUNXI_GPIO_PULL_UP);
-+	} else if (IS_ENABLED(CONFIG_MACH_SUN50I)) {
-+		sunxi_gpio_set_cfgpin(SUNXI_GPB(8), SUN50I_GPB_UART0);
-+		sunxi_gpio_set_cfgpin(SUNXI_GPB(9), SUN50I_GPB_UART0);
-+		sunxi_gpio_set_pull(SUNXI_GPB(9), SUNXI_GPIO_PULL_UP);
-+	} else if (IS_ENABLED(CONFIG_MACH_SUN50I_H6)) {
-+		sunxi_gpio_set_cfgpin(SUNXI_GPH(0), SUN50I_H6_GPH_UART0);
-+		sunxi_gpio_set_cfgpin(SUNXI_GPH(1), SUN50I_H6_GPH_UART0);
-+		sunxi_gpio_set_pull(SUNXI_GPH(1), SUNXI_GPIO_PULL_UP);
-+	} else if (IS_ENABLED(CONFIG_MACH_SUN50I_H616)) {
-+		sunxi_gpio_set_cfgpin(SUNXI_GPH(0), SUN50I_H616_GPH_UART0);
-+		sunxi_gpio_set_cfgpin(SUNXI_GPH(1), SUN50I_H616_GPH_UART0);
-+		sunxi_gpio_set_pull(SUNXI_GPH(1), SUNXI_GPIO_PULL_UP);
-+	} else if (IS_ENABLED(CONFIG_MACH_SUN8I_A83T)) {
-+		sunxi_gpio_set_cfgpin(SUNXI_GPB(9), SUN8I_A83T_GPB_UART0);
-+		sunxi_gpio_set_cfgpin(SUNXI_GPB(10), SUN8I_A83T_GPB_UART0);
-+		sunxi_gpio_set_pull(SUNXI_GPB(10), SUNXI_GPIO_PULL_UP);
-+	} else if (IS_ENABLED(CONFIG_MACH_SUN8I_V3S)) {
-+		sunxi_gpio_set_cfgpin(SUNXI_GPB(8), SUN8I_V3S_GPB_UART0);
-+		sunxi_gpio_set_cfgpin(SUNXI_GPB(9), SUN8I_V3S_GPB_UART0);
-+		sunxi_gpio_set_pull(SUNXI_GPB(9), SUNXI_GPIO_PULL_UP);
-+	} else if (IS_ENABLED(CONFIG_MACH_SUN9I)) {
-+		sunxi_gpio_set_cfgpin(SUNXI_GPH(12), SUN9I_GPH_UART0);
-+		sunxi_gpio_set_cfgpin(SUNXI_GPH(13), SUN9I_GPH_UART0);
-+		sunxi_gpio_set_pull(SUNXI_GPH(13), SUNXI_GPIO_PULL_UP);
-+	} else if (IS_ENABLED(CONFIG_MACH_SUN8I_R528)) {
-+		sunxi_gpio_set_cfgpin(SUNXI_GPE(2), 6);
-+		sunxi_gpio_set_cfgpin(SUNXI_GPE(3), 6);
-+		sunxi_gpio_set_pull(SUNXI_GPE(3), SUNXI_GPIO_PULL_UP);
-+	} else {
-+		Unsupported_console_number_Please_fix_UART_pin_mux_settings();
-+	}
- }
- 
--void uart1_pinmux_setup(void)
-+static void uart1_pinmux_setup(void)
- {
--#if defined(CONFIG_MACH_SUNIV)
--	sunxi_gpio_set_cfgpin(SUNXI_GPA(2), SUNIV_GPE_UART0);
--	sunxi_gpio_set_cfgpin(SUNXI_GPA(3), SUNIV_GPE_UART0);
--	sunxi_gpio_set_pull(SUNXI_GPA(3), SUNXI_GPIO_PULL_UP);
--#elif defined(CONFIG_MACH_SUN5I)
--	sunxi_gpio_set_cfgpin(SUNXI_GPG(3), SUN5I_GPG_UART1);
--	sunxi_gpio_set_cfgpin(SUNXI_GPG(4), SUN5I_GPG_UART1);
--	sunxi_gpio_set_pull(SUNXI_GPG(4), SUNXI_GPIO_PULL_UP);
--#elif defined(CONFIG_MACH_SUN8I) && !defined(CONFIG_MACH_SUN8I_R40)
--	sunxi_gpio_set_cfgpin(SUNXI_GPG(6), SUN8I_GPG_UART1);
--	sunxi_gpio_set_cfgpin(SUNXI_GPG(7), SUN8I_GPG_UART1);
--	sunxi_gpio_set_pull(SUNXI_GPG(7), SUNXI_GPIO_PULL_UP);
--#endif
-+	if (IS_ENABLED(CONFIG_MACH_SUNIV)) {
-+		sunxi_gpio_set_cfgpin(SUNXI_GPA(2), SUNIV_GPE_UART0);
-+		sunxi_gpio_set_cfgpin(SUNXI_GPA(3), SUNIV_GPE_UART0);
-+		sunxi_gpio_set_pull(SUNXI_GPA(3), SUNXI_GPIO_PULL_UP);
-+	} else if (IS_ENABLED(CONFIG_MACH_SUN5I)) {
-+		sunxi_gpio_set_cfgpin(SUNXI_GPG(3), SUN5I_GPG_UART1);
-+		sunxi_gpio_set_cfgpin(SUNXI_GPG(4), SUN5I_GPG_UART1);
-+		sunxi_gpio_set_pull(SUNXI_GPG(4), SUNXI_GPIO_PULL_UP);
-+	} else if (IS_ENABLED(CONFIG_MACH_SUN8I) &&
-+		   !IS_ENABLED(CONFIG_MACH_SUN8I_R40)) {
-+		sunxi_gpio_set_cfgpin(SUNXI_GPG(6), SUN8I_GPG_UART1);
-+		sunxi_gpio_set_cfgpin(SUNXI_GPG(7), SUN8I_GPG_UART1);
-+		sunxi_gpio_set_pull(SUNXI_GPG(7), SUNXI_GPIO_PULL_UP);
-+	} else {
-+		Unsupported_console_number_Please_fix_UART_pin_mux_settings();
-+	}
- }
- 
- void uart_pinmux_setup(void)
- {
--#if CONFIG_CONS_INDEX == 1
--	uart0_pinmux_setup();
--	return;
--#elif CONFIG_CONS_INDEX == 2
--	uart1_pinmux_setup();
--	return;
--#elif CONFIG_CONS_INDEX == 3 && defined(CONFIG_MACH_SUN8I_H3)
--	sunxi_gpio_set_cfgpin(SUNXI_GPA(0), SUN8I_H3_GPA_UART2);
--	sunxi_gpio_set_cfgpin(SUNXI_GPA(1), SUN8I_H3_GPA_UART2);
--	sunxi_gpio_set_pull(SUNXI_GPA(1), SUNXI_GPIO_PULL_UP);
--#elif CONFIG_CONS_INDEX == 3 && defined(CONFIG_MACH_SUN8I)
--	sunxi_gpio_set_cfgpin(SUNXI_GPB(0), SUN8I_GPB_UART2);
--	sunxi_gpio_set_cfgpin(SUNXI_GPB(1), SUN8I_GPB_UART2);
--	sunxi_gpio_set_pull(SUNXI_GPB(1), SUNXI_GPIO_PULL_UP);
--#elif CONFIG_CONS_INDEX == 4 && defined(CONFIG_MACH_SUN8I_R528)
--	sunxi_gpio_set_cfgpin(SUNXI_GPB(6), 7);
--	sunxi_gpio_set_cfgpin(SUNXI_GPB(7), 7);
--	sunxi_gpio_set_pull(SUNXI_GPB(7), SUNXI_GPIO_PULL_UP);
--#elif CONFIG_CONS_INDEX == 5 && defined(CONFIG_MACH_SUN8I)
--	sunxi_gpio_set_cfgpin(SUNXI_GPL(2), SUN8I_GPL_R_UART);
--	sunxi_gpio_set_cfgpin(SUNXI_GPL(3), SUN8I_GPL_R_UART);
--	sunxi_gpio_set_pull(SUNXI_GPL(3), SUNXI_GPIO_PULL_UP);
--#else
--#error Unsupported console port number. Please fix pin mux settings in board.c
--#endif
-+	if (CONFIG_CONS_INDEX == 1) {
-+		uart0_pinmux_setup();
-+		return;
-+	}
-+	if (CONFIG_CONS_INDEX == 2) {
-+		uart1_pinmux_setup();
-+		return;
-+	}
-+	if (CONFIG_CONS_INDEX == 3 && IS_ENABLED(CONFIG_MACH_SUN8I_H3)) {
-+		sunxi_gpio_set_cfgpin(SUNXI_GPA(0), SUN8I_H3_GPA_UART2);
-+		sunxi_gpio_set_cfgpin(SUNXI_GPA(1), SUN8I_H3_GPA_UART2);
-+		sunxi_gpio_set_pull(SUNXI_GPA(1), SUNXI_GPIO_PULL_UP);
-+	} else if (CONFIG_CONS_INDEX == 3 && IS_ENABLED(CONFIG_MACH_SUN8I)) {
-+		sunxi_gpio_set_cfgpin(SUNXI_GPB(0), SUN8I_GPB_UART2);
-+		sunxi_gpio_set_cfgpin(SUNXI_GPB(1), SUN8I_GPB_UART2);
-+		sunxi_gpio_set_pull(SUNXI_GPB(1), SUNXI_GPIO_PULL_UP);
-+	} else if (CONFIG_CONS_INDEX == 4 &&
-+		   IS_ENABLED(CONFIG_MACH_SUN8I_R528)) {
-+		sunxi_gpio_set_cfgpin(SUNXI_GPB(6), 7);
-+		sunxi_gpio_set_cfgpin(SUNXI_GPB(7), 7);
-+		sunxi_gpio_set_pull(SUNXI_GPB(7), SUNXI_GPIO_PULL_UP);
-+	} else if (CONFIG_CONS_INDEX == 5 && IS_ENABLED(CONFIG_MACH_SUN8I)) {
-+		sunxi_gpio_set_cfgpin(SUNXI_GPL(2), SUN8I_GPL_R_UART);
-+		sunxi_gpio_set_cfgpin(SUNXI_GPL(3), SUN8I_GPL_R_UART);
-+		sunxi_gpio_set_pull(SUNXI_GPL(3), SUNXI_GPIO_PULL_UP);
-+	} else {
-+		Unsupported_console_number_Please_fix_UART_pin_mux_settings();
-+	}
- }
--- 
-2.35.8
+5ZyoIDIwMjQtMDEtMDHmmJ/mnJ/kuIDnmoQgMDA6MDAgKzAwMDDvvIxBbGV4ZXkgS2xpbW925YaZ
+6YGT77yaCj4gV2l0aG91dCB0cmlwIHBvaW50cyBmb3IgR1BVLCB0aGUgZm9sbG93aW5nIGVycm9y
+cyBhcmUgcHJpbnRlZCBpbiB0aGUKPiBkbWVzZyBsb2cgYW5kIHRoZSBzdW44aS10aGVybWFsIGRy
+aXZlciBmYWlscyB0byBsb2FkOgo+IAo+IHRoZXJtYWxfc3lzOiBGYWlsZWQgdG8gZmluZCAndHJp
+cHMnIG5vZGUKPiB0aGVybWFsX3N5czogRmFpbGVkIHRvIGZpbmQgdHJpcCBwb2ludHMgZm9yIHRo
+ZXJtYWwtc2Vuc29yIGlkPTEKPiBzdW44aS10aGVybWFsOiBwcm9iZSBvZiAxYzI1MDAwLnRoZXJt
+YWwtc2Vuc29yIGZhaWxlZCB3aXRoIGVycm9yIC0yMgo+IAo+IFdoZW4gdGhlcm1hbCB6b25lcyBh
+cmUgZGVmaW5lZCwgdHJpcCBwb2ludHMgZGVmaW5pdGlvbnMgYXJlCj4gbWFuZGF0b3J5LgoKSSBz
+dWdnZXN0IGV2ZXJ5b25lIHNlZWluZyB0aGlzIHBhdGNoIGhhdmUgYSBsb29rIG9uIG15IHBhdGNo
+IGF0IFsxXSwKd2hpY2ggbWFrZXMgdHJpcCBwb2ludHMgbm90IHNvIG1hbmRhdG9yeSAtLSBpdCdz
+IGF0IGxlYXN0IG9uY2UgYW4KYWxsb3dlZCBiZWhhdmlvciwgYnV0IGxvc3Qgd2hlbiBjb252ZXJ0
+aW5nIERUIGJpbmRpbmcgdG8gWUFNTC4KClsxXQpodHRwczovL2xpc3RzLmluZnJhZGVhZC5vcmcv
+cGlwZXJtYWlsL2xpbnV4LWFybS1rZXJuZWwvMjAyMy1KdWx5Lzg1MjA4OC5odG1sCgo+IFRyaXAg
+dmFsdWVzIGZvciB0aGUgR1BVIGFyZSBhc3N1bWVkIHRvIGJlIHRoZSBzYW1lIHZhbHVlcyBhcyB0
+aGUgQ1BVCj4gb25lcy4gVGhlIGF2YWlsYWJsZSBzcGVjcyBkbyBub3QgcHJvdmlkZSBhbnkgaGlu
+dHMgYWJvdXQgdGhlcm1hbAo+IHJlZ2ltZXMKPiBmb3IgdGhlIEdQVSBhbmQgaXQgc2VlbXMgR1BV
+IGlzIGltcGxlbWVudGVkIG9uIHRoZSBzYW1lIGRpZSBhcyB0aGUKPiBDUFUuCj4gCj4gVGVzdGVk
+IG9uIFBpbmUgYTY0Ky4KPiAKPiBDYzogU2FtdWVsIEhvbGxhbmQgPHNhbXVlbEBzaG9sbGFuZC5v
+cmc+Cj4gQ2M6IEplcm5laiBTa3JhYmVjIDxqZXJuZWouc2tyYWJlY0BnbWFpbC5jb20+Cj4gQ2M6
+IENoZW4tWXUgVHNhaSA8d2Vuc0Bjc2llLm9yZz4KPiBDYzogRGFuaWVsIExlemNhbm8gPGRhbmll
+bC5sZXpjYW5vQGxpbmFyby5vcmc+Cj4gQ2M6IGRldmljZXRyZWVAdmdlci5rZXJuZWwub3JnCj4g
+U2lnbmVkLW9mZi1ieTogQWxleGV5IEtsaW1vdiA8YWxleGV5LmtsaW1vdkBsaW5hcm8ub3JnPgo+
+IC0tLQo+IMKgYXJjaC9hcm02NC9ib290L2R0cy9hbGx3aW5uZXIvc3VuNTBpLWE2NC5kdHNpIHwg
+NDYKPiArKysrKysrKysrKysrKysrKysrCj4gwqAxIGZpbGUgY2hhbmdlZCwgNDYgaW5zZXJ0aW9u
+cygrKQo+IAo+IGRpZmYgLS1naXQgYS9hcmNoL2FybTY0L2Jvb3QvZHRzL2FsbHdpbm5lci9zdW41
+MGktYTY0LmR0c2kKPiBiL2FyY2gvYXJtNjQvYm9vdC9kdHMvYWxsd2lubmVyL3N1bjUwaS1hNjQu
+ZHRzaQo+IGluZGV4IDYyZjQ1ZjcxZWM2NS4uMDc5NjNlZWExYmYwIDEwMDY0NAo+IC0tLSBhL2Fy
+Y2gvYXJtNjQvYm9vdC9kdHMvYWxsd2lubmVyL3N1bjUwaS1hNjQuZHRzaQo+ICsrKyBiL2FyY2gv
+YXJtNjQvYm9vdC9kdHMvYWxsd2lubmVyL3N1bjUwaS1hNjQuZHRzaQo+IEBAIC0yNDMsNiArMjQz
+LDI5IEBAIGdwdTBfdGhlcm1hbDogZ3B1MC10aGVybWFsIHsKPiDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBwb2xsaW5nLWRlbGF5LXBhc3NpdmUgPSA8MD47
+Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcG9sbGlu
+Zy1kZWxheSA9IDwwPjsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqB0aGVybWFsLXNlbnNvcnMgPSA8JnRocyAxPjsKPiArCj4gK8KgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB0cmlwcyB7Cj4gK8KgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZ3B1MF9hbGVy
+dDA6IGdwdTBfYWxlcnQwIHsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgLyogbWlsbGlDZWxzaXVz
+ICovCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHRlbXBlcmF0dXJlID0gPDc1MDAwPjsKPiArwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgaHlzdGVyZXNpcyA9IDwyMDAwPjsKPiArwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgdHlwZSA9ICJwYXNzaXZlIjsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB9Owo+ICsKPiArwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBncHUwX2FsZXJ0
+MTogZ3B1MF9hbGVydDEgewo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAvKiBtaWxsaUNlbHNpdXMg
+Ki8KPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgdGVtcGVyYXR1cmUgPSA8OTAwMDA+Owo+ICvCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqBoeXN0ZXJlc2lzID0gPDIwMDA+Owo+ICvCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqB0eXBlID0gImhvdCI7Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgfTsKPiArCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZ3B1MF9jcml0OiBncHUw
+X2NyaXQgewo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAvKiBtaWxsaUNlbHNpdXMgKi8KPiArwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgdGVtcGVyYXR1cmUgPSA8MTEwMDAwPjsKPiArwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgaHlzdGVyZXNpcyA9IDwyMDAwPjsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgdHlw
+ZSA9ICJjcml0aWNhbCI7Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgfTsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoH07Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB9
+Owo+IMKgCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBncHUxX3RoZXJtYWw6IGdw
+dTEtdGhlcm1hbCB7Cj4gQEAgLTI1MCw2ICsyNzMsMjkgQEAgZ3B1MV90aGVybWFsOiBncHUxLXRo
+ZXJtYWwgewo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oHBvbGxpbmctZGVsYXktcGFzc2l2ZSA9IDwwPjsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBwb2xsaW5nLWRlbGF5ID0gPDA+Owo+IMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHRoZXJtYWwtc2Vuc29ycyA9IDwm
+dGhzIDI+Owo+ICsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoHRyaXBzIHsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqBncHUxX2FsZXJ0MDogZ3B1MV9hbGVydDAgewo+ICvCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAvKiBtaWxsaUNlbHNpdXMgKi8KPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+dGVtcGVyYXR1cmUgPSA8NzUwMDA+Owo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBoeXN0ZXJlc2lz
+ID0gPDIwMDA+Owo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB0eXBlID0gInBhc3NpdmUiOwo+ICvC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoH07Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoGdwdTFfYWxlcnQxOiBncHUxX2FsZXJ0MSB7Cj4gK8KgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoC8qIG1pbGxpQ2Vsc2l1cyAqLwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB0
+ZW1wZXJhdHVyZSA9IDw5MDAwMD47Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGh5c3RlcmVzaXMg
+PSA8MjAwMD47Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHR5cGUgPSAiaG90IjsKPiArwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB9
+Owo+ICsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqBncHUxX2NyaXQ6IGdwdTFfY3JpdCB7Cj4gK8KgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoC8qIG1pbGxpQ2Vsc2l1cyAqLwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB0ZW1wZXJhdHVy
+ZSA9IDwxMTAwMDA+Owo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBoeXN0ZXJlc2lzID0gPDIwMDA+
+Owo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB0eXBlID0gImNyaXRpY2FsIjsKPiArwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB9Owo+
+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgfTsKPiDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoH07Cj4gwqDCoMKgwqDCoMKgwqDCoH07Cj4gwqAK
+Cg==
 
