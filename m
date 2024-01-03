@@ -1,164 +1,280 @@
-Received: from sender4-op-o10.zoho.com (sender4-op-o10.zoho.com [136.143.188.10])
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com [66.111.4.229])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1543110EE
-	for <linux-sunxi@lists.linux.dev>; Wed,  3 Jan 2024 01:40:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icenowy.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3C901A28F
+	for <linux-sunxi@lists.linux.dev>; Wed,  3 Jan 2024 13:33:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cerno.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cerno.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b="RU2g7DHz"
-ARC-Seal: i=1; a=rsa-sha256; t=1704246050; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=HSg+e+Nw84UJKsztMiRO82NEuT6N2ItlXPkE9p0puFZ50zVdAiTgyjvS6IVskgROQRKGcxyylr3Da8TIUYlYO2+Btj88BYZxuHyrnHo1IOye/yKKvVjRQw6x1w/hKW+kn/tiCpv2wdkbKvxVfzo8aKoqyO5XvOs1YtndkptqAZA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1704246050; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=Gj6YxQ75iiB/BEXS7c2m5L18+BjacyE9oLwb6HHBAEI=; 
-	b=btTks4pX6r4DE8Xl0Cx92ggtDd53/jqGz6TKG25sJBkCvHHNOmTqX/k9A/K2GWGJ3AkgSJtys87K0sC5j/aPmGwIt3aQoLS7EOJ3aYRGj1ECatdDocOKX/QHhHk6C6i19j3WlgP7y2A2x9fMO6gsJUuGx2eSn29FbbDHKuSZD5Q=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=icenowy.me;
-	spf=pass  smtp.mailfrom=uwu@icenowy.me;
-	dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1704246050;
-	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
-	bh=Gj6YxQ75iiB/BEXS7c2m5L18+BjacyE9oLwb6HHBAEI=;
-	b=RU2g7DHzRw6IcVzBKnwmxU/a9lh/sP6u8hidJcxGPGi69i5RKhQR2gifEoV9uUO5
-	1t9gginnxFRl64V/DlrWX3XHI6oC7s5AF5xVc0XXr/6TRS7zaXeaqgUy6z+6nsWoE0+
-	fO6qLuwTXvXnp1a5a8PVSPJ/BaSJxrEQiFAuqUl5iMX5bmh6dB4MUgn10iO5VJTcpo5
-	dNhMtcT3uksd+p4fCDiA56cFOOvHQXjkrn/U3IhCom003IEA9aPFHni5HIJijtENqC+
-	CAYr05KKgrdTiQBsnUFsdl62P3NEh3VXu69As58dWZRnUCL2vWzAVqRl7kEMQHA4Www
-	QKGUfAGifA==
-Received: from edelgard.fodlan.icenowy.me (120.85.97.100 [120.85.97.100]) by mx.zohomail.com
-	with SMTPS id 1704246049145819.0302806532882; Tue, 2 Jan 2024 17:40:49 -0800 (PST)
-Message-ID: <fff240d6ef9ac1f4c67f9c1a7eaebc3b90af53b4.camel@icenowy.me>
-Subject: Re: [PATCH RESEND] arm64: dts: allwinner: a64: Add thermal trip
- points for GPU
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Alexey Klimov <alexey.klimov@linaro.org>, anarsoul@gmail.com, 
-	tiny.windzz@gmail.com, linux-sunxi@lists.linux.dev
-Cc: rafael@kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org, 
-	daniel.lezcano@linaro.org, peter.griffin@linaro.org, klimov.linux@gmail.com
-Date: Wed, 03 Jan 2024 09:40:43 +0800
-In-Reply-To: <20240101000008.65747-1-alexey.klimov@linaro.org>
-References: <20240101000008.65747-1-alexey.klimov@linaro.org>
-Organization: Anthon Open-Source Community
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.44.4 
+	dkim=pass (2048-bit key) header.d=cerno.tech header.i=@cerno.tech header.b="n66XsJIi";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="hqCSeiUh"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailnew.nyi.internal (Postfix) with ESMTP id BEC715808A1;
+	Wed,  3 Jan 2024 08:32:59 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Wed, 03 Jan 2024 08:32:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1704288779; x=1704295979; bh=lSNz+cag97
+	6BVkFJyl4rbDI/K8SwKymldw/ZNdyJeoI=; b=n66XsJIiq4xTHK1giEc049QD3i
+	THuYcfi+cG6Yq92F7dvg2WTsHfLkRSBqaJwMDiwSaTUh6PQcDIe5af7HlDtjPv/U
+	nnP3sCPql8lxFWQRdyLlJ/IpY7a+9XO7H6iFNiETedX0UIzuGwlIehMwrBeLAYY7
+	In775MWHpeNFNnrICeOgTk+D3eOJor78ddWpWb8yELehvgpQ3rAvNtB56SqOwfRR
+	Pe39/AhfG9KdgDbyrTYHRYSc3m97U/sxceAZVn1+5JiNm9lN9C0VXfQnlZq3VlH7
+	33au69hk57uiwqOvOOg2e42NfSX3z7WEzNOCb1/PbgGnLkNRRu1eQK/TNg2g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1704288779; x=1704295979; bh=lSNz+cag976BVkFJyl4rbDI/K8Sw
+	Kymldw/ZNdyJeoI=; b=hqCSeiUhxPeMTGFrfndPMouRqMISwT4NPpAXGs9eqdJz
+	X6jd3CHs4ZOs7zOj3sSE2ERHMcPiS5U6bYtIyY5ursHK4NxgwhW0eHTC9MemO7MB
+	7lzQ3tsiEgfF1XhQ2pE5aI7qSHGqrP3StOuuCjbU4dvTBBo8vdsdh+38P2pmi3LY
+	MdCd6JSHxH4xHPnIsv/nNZnf8k4diM/F3LsLyvT6TcyIbeDS2+jp0mLpVs4ylmB1
+	RNFWDdQMqCR3HxjqtTdWp5VoJOerj9WaleTB30/WQmX5jcUoL8f8IPVNWNopWOD4
+	LO5jgNcHH4E7Bn7G8clDZjCcQrkITGdqbk6UCPoqmg==
+X-ME-Sender: <xms:CmKVZfyC9BXFuiY3eQkUq4MlEjGVh0m71bLfhZlMGg9lQFdGw7zQhw>
+    <xme:CmKVZXRJEJcVmxvfu3uxL1gx69ff2JvAOo2NoDZHy9tDSIOjzLjjcVFENiqAc4Euw
+    61Jrdof5uAMCqCjIGA>
+X-ME-Received: <xmr:CmKVZZXWPTr8WFS116I12QAAw-ALohPRk4xr4kMScWzNnxR7TZtXJsI-TNvOGf8Zq8oIJ6h_p2E5t83tbTRCPw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdeghedgheefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesghdtsfertddtudenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpeefjeeiueeiheevtddvgfeluedufeeigeeijefhveelfeevueefieehuefg
+    ffetteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:CmKVZZinXadbR7dbScyh4QbX8HmWpfqiOUtQHQzOFJxKPY5FWN7oqQ>
+    <xmx:CmKVZRCw1vMihxG5ec8dfPeBOkhDW5pqzsgLS92A9vup52H7Ja8D2g>
+    <xmx:CmKVZSLzPWS_lEGqJwebo8OwzwX7iyl1FEWMBcmuNP6u7Gzevb3d0g>
+    <xmx:C2KVZYbZYO12tFTq-6EXplNHVlujmqlUzlw4XG3SvfBhlndSszR23Q>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 3 Jan 2024 08:32:57 -0500 (EST)
+Date: Wed, 3 Jan 2024 14:32:55 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Karol Herbst <kherbst@redhat.com>, 	Samuel Holland <samuel@sholland.org>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ 	Daniel Vetter <daniel@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>,
+ 	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Lyude Paul <lyude@redhat.com>, 	Thomas Zimmermann <tzimmermann@suse.de>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ 	Rodrigo Vivi <rodrigo.vivi@intel.com>, Ben Skeggs <bskeggs@redhat.com>,
+ 	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@linux.ie>,
+ 	Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Dom Cobley <dom@raspberrypi.com>, 	Phil Elwell <phil@raspberrypi.com>,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ 	nouveau@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
+ 	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, 	linux-arm-kernel@lists.infradead.org,
+ Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ 	Geert Uytterhoeven <geert@linux-m68k.org>, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v9 09/25] drm/modes: Move named modes parsing to a
+ separate function
+Message-ID: <z5mywwtyboycdoqhayfuqjobr53jajgaft5ikfdkt77tnm7bhg@d4gjmlqpnnrt>
+References: <20220728-rpi-analog-tv-properties-v9-0-24b168e5bcd5@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v9-9-24b168e5bcd5@cerno.tech>
+ <CAPY8ntD4oz9A1H7Ek1YSLRicLprz1ev5YeAqP2Ah=DMPk84KRQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ZohoMailClient: External
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="bbzmiqvrip6kri3q"
+Content-Disposition: inline
+In-Reply-To: <CAPY8ntD4oz9A1H7Ek1YSLRicLprz1ev5YeAqP2Ah=DMPk84KRQ@mail.gmail.com>
 
-5ZyoIDIwMjQtMDEtMDHmmJ/mnJ/kuIDnmoQgMDA6MDAgKzAwMDDvvIxBbGV4ZXkgS2xpbW925YaZ
-6YGT77yaCj4gV2l0aG91dCB0cmlwIHBvaW50cyBmb3IgR1BVLCB0aGUgZm9sbG93aW5nIGVycm9y
-cyBhcmUgcHJpbnRlZCBpbiB0aGUKPiBkbWVzZyBsb2cgYW5kIHRoZSBzdW44aS10aGVybWFsIGRy
-aXZlciBmYWlscyB0byBsb2FkOgo+IAo+IHRoZXJtYWxfc3lzOiBGYWlsZWQgdG8gZmluZCAndHJp
-cHMnIG5vZGUKPiB0aGVybWFsX3N5czogRmFpbGVkIHRvIGZpbmQgdHJpcCBwb2ludHMgZm9yIHRo
-ZXJtYWwtc2Vuc29yIGlkPTEKPiBzdW44aS10aGVybWFsOiBwcm9iZSBvZiAxYzI1MDAwLnRoZXJt
-YWwtc2Vuc29yIGZhaWxlZCB3aXRoIGVycm9yIC0yMgo+IAo+IFdoZW4gdGhlcm1hbCB6b25lcyBh
-cmUgZGVmaW5lZCwgdHJpcCBwb2ludHMgZGVmaW5pdGlvbnMgYXJlCj4gbWFuZGF0b3J5LgoKSSBz
-dWdnZXN0IGV2ZXJ5b25lIHNlZWluZyB0aGlzIHBhdGNoIGhhdmUgYSBsb29rIG9uIG15IHBhdGNo
-IGF0IFsxXSwKd2hpY2ggbWFrZXMgdHJpcCBwb2ludHMgbm90IHNvIG1hbmRhdG9yeSAtLSBpdCdz
-IGF0IGxlYXN0IG9uY2UgYW4KYWxsb3dlZCBiZWhhdmlvciwgYnV0IGxvc3Qgd2hlbiBjb252ZXJ0
-aW5nIERUIGJpbmRpbmcgdG8gWUFNTC4KClsxXQpodHRwczovL2xpc3RzLmluZnJhZGVhZC5vcmcv
-cGlwZXJtYWlsL2xpbnV4LWFybS1rZXJuZWwvMjAyMy1KdWx5Lzg1MjA4OC5odG1sCgo+IFRyaXAg
-dmFsdWVzIGZvciB0aGUgR1BVIGFyZSBhc3N1bWVkIHRvIGJlIHRoZSBzYW1lIHZhbHVlcyBhcyB0
-aGUgQ1BVCj4gb25lcy4gVGhlIGF2YWlsYWJsZSBzcGVjcyBkbyBub3QgcHJvdmlkZSBhbnkgaGlu
-dHMgYWJvdXQgdGhlcm1hbAo+IHJlZ2ltZXMKPiBmb3IgdGhlIEdQVSBhbmQgaXQgc2VlbXMgR1BV
-IGlzIGltcGxlbWVudGVkIG9uIHRoZSBzYW1lIGRpZSBhcyB0aGUKPiBDUFUuCj4gCj4gVGVzdGVk
-IG9uIFBpbmUgYTY0Ky4KPiAKPiBDYzogU2FtdWVsIEhvbGxhbmQgPHNhbXVlbEBzaG9sbGFuZC5v
-cmc+Cj4gQ2M6IEplcm5laiBTa3JhYmVjIDxqZXJuZWouc2tyYWJlY0BnbWFpbC5jb20+Cj4gQ2M6
-IENoZW4tWXUgVHNhaSA8d2Vuc0Bjc2llLm9yZz4KPiBDYzogRGFuaWVsIExlemNhbm8gPGRhbmll
-bC5sZXpjYW5vQGxpbmFyby5vcmc+Cj4gQ2M6IGRldmljZXRyZWVAdmdlci5rZXJuZWwub3JnCj4g
-U2lnbmVkLW9mZi1ieTogQWxleGV5IEtsaW1vdiA8YWxleGV5LmtsaW1vdkBsaW5hcm8ub3JnPgo+
-IC0tLQo+IMKgYXJjaC9hcm02NC9ib290L2R0cy9hbGx3aW5uZXIvc3VuNTBpLWE2NC5kdHNpIHwg
-NDYKPiArKysrKysrKysrKysrKysrKysrCj4gwqAxIGZpbGUgY2hhbmdlZCwgNDYgaW5zZXJ0aW9u
-cygrKQo+IAo+IGRpZmYgLS1naXQgYS9hcmNoL2FybTY0L2Jvb3QvZHRzL2FsbHdpbm5lci9zdW41
-MGktYTY0LmR0c2kKPiBiL2FyY2gvYXJtNjQvYm9vdC9kdHMvYWxsd2lubmVyL3N1bjUwaS1hNjQu
-ZHRzaQo+IGluZGV4IDYyZjQ1ZjcxZWM2NS4uMDc5NjNlZWExYmYwIDEwMDY0NAo+IC0tLSBhL2Fy
-Y2gvYXJtNjQvYm9vdC9kdHMvYWxsd2lubmVyL3N1bjUwaS1hNjQuZHRzaQo+ICsrKyBiL2FyY2gv
-YXJtNjQvYm9vdC9kdHMvYWxsd2lubmVyL3N1bjUwaS1hNjQuZHRzaQo+IEBAIC0yNDMsNiArMjQz
-LDI5IEBAIGdwdTBfdGhlcm1hbDogZ3B1MC10aGVybWFsIHsKPiDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBwb2xsaW5nLWRlbGF5LXBhc3NpdmUgPSA8MD47
-Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcG9sbGlu
-Zy1kZWxheSA9IDwwPjsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqB0aGVybWFsLXNlbnNvcnMgPSA8JnRocyAxPjsKPiArCj4gK8KgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB0cmlwcyB7Cj4gK8KgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZ3B1MF9hbGVy
-dDA6IGdwdTBfYWxlcnQwIHsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgLyogbWlsbGlDZWxzaXVz
-ICovCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHRlbXBlcmF0dXJlID0gPDc1MDAwPjsKPiArwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgaHlzdGVyZXNpcyA9IDwyMDAwPjsKPiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgdHlwZSA9ICJwYXNzaXZlIjsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB9Owo+ICsKPiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBncHUwX2FsZXJ0
-MTogZ3B1MF9hbGVydDEgewo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAvKiBtaWxsaUNlbHNpdXMg
-Ki8KPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgdGVtcGVyYXR1cmUgPSA8OTAwMDA+Owo+ICvCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqBoeXN0ZXJlc2lzID0gPDIwMDA+Owo+ICvCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqB0eXBlID0gImhvdCI7Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgfTsKPiArCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZ3B1MF9jcml0OiBncHUw
-X2NyaXQgewo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAvKiBtaWxsaUNlbHNpdXMgKi8KPiArwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgdGVtcGVyYXR1cmUgPSA8MTEwMDAwPjsKPiArwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgaHlzdGVyZXNpcyA9IDwyMDAwPjsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgdHlw
-ZSA9ICJjcml0aWNhbCI7Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgfTsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoH07Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB9
-Owo+IMKgCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBncHUxX3RoZXJtYWw6IGdw
-dTEtdGhlcm1hbCB7Cj4gQEAgLTI1MCw2ICsyNzMsMjkgQEAgZ3B1MV90aGVybWFsOiBncHUxLXRo
-ZXJtYWwgewo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oHBvbGxpbmctZGVsYXktcGFzc2l2ZSA9IDwwPjsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBwb2xsaW5nLWRlbGF5ID0gPDA+Owo+IMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHRoZXJtYWwtc2Vuc29ycyA9IDwm
-dGhzIDI+Owo+ICsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoHRyaXBzIHsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqBncHUxX2FsZXJ0MDogZ3B1MV9hbGVydDAgewo+ICvCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAvKiBtaWxsaUNlbHNpdXMgKi8KPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-dGVtcGVyYXR1cmUgPSA8NzUwMDA+Owo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBoeXN0ZXJlc2lz
-ID0gPDIwMDA+Owo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB0eXBlID0gInBhc3NpdmUiOwo+ICvC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoH07Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoGdwdTFfYWxlcnQxOiBncHUxX2FsZXJ0MSB7Cj4gK8KgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoC8qIG1pbGxpQ2Vsc2l1cyAqLwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB0
-ZW1wZXJhdHVyZSA9IDw5MDAwMD47Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGh5c3RlcmVzaXMg
-PSA8MjAwMD47Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHR5cGUgPSAiaG90IjsKPiArwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB9
-Owo+ICsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqBncHUxX2NyaXQ6IGdwdTFfY3JpdCB7Cj4gK8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoC8qIG1pbGxpQ2Vsc2l1cyAqLwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB0ZW1wZXJhdHVy
-ZSA9IDwxMTAwMDA+Owo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBoeXN0ZXJlc2lzID0gPDIwMDA+
-Owo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB0eXBlID0gImNyaXRpY2FsIjsKPiArwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB9Owo+
-ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgfTsKPiDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoH07Cj4gwqDCoMKgwqDCoMKgwqDCoH07Cj4gwqAK
-Cg==
 
+--bbzmiqvrip6kri3q
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Dave,
+
+Happy new year :)
+
+On Tue, Jan 02, 2024 at 03:12:26PM +0000, Dave Stevenson wrote:
+> Hi Maxime
+>=20
+> On Mon, 14 Nov 2022 at 13:00, Maxime Ripard <maxime@cerno.tech> wrote:
+> >
+> > The current construction of the named mode parsing doesn't allow to ext=
+end
+> > it easily. Let's move it to a separate function so we can add more
+> > parameters and modes.
+> >
+> > In order for the tests to still pass, some extra checks are needed, so
+> > it's not a 1:1 move.
+> >
+> > Reviewed-by: Noralf Tr=F8nnes <noralf@tronnes.org>
+> > Tested-by: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> >
+> > ---
+> > Changes in v7:
+> > - Add Noralf Reviewed-by
+> >
+> > Changes in v6:
+> > - Simplify the test for connection status extras
+> > - Simplify the code path to call drm_mode_parse_cmdline_named_mode
+> >
+> > Changes in v4:
+> > - Fold down all the named mode patches that were split into a single
+> >   patch again to maintain bisectability
+> > ---
+> >  drivers/gpu/drm/drm_modes.c | 70 +++++++++++++++++++++++++++++++++++++=
+--------
+> >  1 file changed, 58 insertions(+), 12 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
+> > index 71c050c3ee6b..37542612912b 100644
+> > --- a/drivers/gpu/drm/drm_modes.c
+> > +++ b/drivers/gpu/drm/drm_modes.c
+> > @@ -2229,6 +2229,51 @@ static const char * const drm_named_modes_whitel=
+ist[] =3D {
+> >         "PAL",
+> >  };
+> >
+> > +static int drm_mode_parse_cmdline_named_mode(const char *name,
+> > +                                            unsigned int name_end,
+> > +                                            struct drm_cmdline_mode *c=
+mdline_mode)
+> > +{
+> > +       unsigned int i;
+> > +
+> > +       if (!name_end)
+> > +               return 0;
+> > +
+> > +       /* If the name starts with a digit, it's not a named mode */
+> > +       if (isdigit(name[0]))
+> > +               return 0;
+> > +
+> > +       /*
+> > +        * If there's an equal sign in the name, the command-line
+> > +        * contains only an option and no mode.
+> > +        */
+> > +       if (strnchr(name, name_end, '=3D'))
+> > +               return 0;
+> > +
+> > +       /* The connection status extras can be set without a mode. */
+> > +       if (name_end =3D=3D 1 &&
+> > +           (name[0] =3D=3D 'd' || name[0] =3D=3D 'D' || name[0] =3D=3D=
+ 'e'))
+> > +               return 0;
+> > +
+> > +       /*
+> > +        * We're sure we're a named mode at this point, iterate over the
+> > +        * list of modes we're aware of.
+> > +        */
+> > +       for (i =3D 0; i < ARRAY_SIZE(drm_named_modes_whitelist); i++) {
+> > +               int ret;
+> > +
+> > +               ret =3D str_has_prefix(name, drm_named_modes_whitelist[=
+i]);
+> > +               if (ret !=3D name_end)
+> > +                       continue;
+> > +
+> > +               strcpy(cmdline_mode->name, drm_named_modes_whitelist[i]=
+);
+> > +               cmdline_mode->specified =3D true;
+> > +
+> > +               return 1;
+> > +       }
+> > +
+> > +       return -EINVAL;
+> > +}
+> > +
+> >  /**
+> >   * drm_mode_parse_command_line_for_connector - parse command line mode=
+line for connector
+> >   * @mode_option: optional per connector mode option
+> > @@ -2265,7 +2310,7 @@ bool drm_mode_parse_command_line_for_connector(co=
+nst char *mode_option,
+> >         const char *bpp_ptr =3D NULL, *refresh_ptr =3D NULL, *extra_ptr=
+ =3D NULL;
+> >         const char *options_ptr =3D NULL;
+> >         char *bpp_end_ptr =3D NULL, *refresh_end_ptr =3D NULL;
+> > -       int i, len, ret;
+> > +       int len, ret;
+> >
+> >         memset(mode, 0, sizeof(*mode));
+> >         mode->panel_orientation =3D DRM_MODE_PANEL_ORIENTATION_UNKNOWN;
+> > @@ -2306,18 +2351,19 @@ bool drm_mode_parse_command_line_for_connector(=
+const char *mode_option,
+> >                 parse_extras =3D true;
+> >         }
+> >
+> > -       /* First check for a named mode */
+> > -       for (i =3D 0; i < ARRAY_SIZE(drm_named_modes_whitelist); i++) {
+> > -               ret =3D str_has_prefix(name, drm_named_modes_whitelist[=
+i]);
+> > -               if (ret =3D=3D mode_end) {
+> > -                       if (refresh_ptr)
+> > -                               return false; /* named + refresh is inv=
+alid */
+> > +       if (!mode_end)
+> > +               return false;
+>=20
+> I'm chasing down a change in behaviour between 6.1 and 6.6, and this
+> patch seems to be at least part of the cause.
+>=20
+> Since [1] we've had the emulated framebuffer on Pi being 16bpp to save
+> memory. All good.
+>=20
+> It used to be possible to use "video=3DHDMI-A-1:-32" on the kernel
+> command line to set it back to 32bpp.
+>=20
+> After this patch that is no longer possible. "mode_end =3D bpp_off", and
+> "bpp_off =3D bpp_ptr - name", so with bpp_ptr =3D name we get mode_end
+> being 0. That fails this conditional.
+> drm_mode_parse_cmdline_named_mode already aborts early but with no
+> error if name_end / mode_end is 0, so this "if" clause seems
+> redundant, and is a change in behaviour.
+>=20
+> We do then get a second parsing failure due to the check if (bpp_ptr
+> || refresh_ptr) at [2].
+> Prior to this patch my video=3D line would get mode->specified set via
+> "if (ret =3D=3D mode_end)" removed above, as ret =3D mode_end =3D 0. We
+> therefore didn't evaluate the conditional that now fails.
+>=20
+> So I guess my question is whether my command line is valid or not, and
+> therefore is this a regression?
+
+It's a mess :)
+
+Documentation/fb/modedb.rst defines the video parameter syntax as:
+
+<xres>x<yres>[M][R][-<bpp>][@<refresh>][i][m][eDd]
+
+And thus mandates the x and y resolution. I guess that's what I use as a
+base, and thus -bpp alone would be invalid.
+
+But then it contradicts itself some time later by documenting that
+video=3DHDMI-1:D is ok.
+
+I guess what you experienced was just an oversight: it was not
+documented anywhere that it was valid, so we didn't really tested it
+either. We should add a unit test for it and fix it.
+
+Maxime
+
+--bbzmiqvrip6kri3q
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZZViBgAKCRDj7w1vZxhR
+xTYWAQCUb3KaVDhAS7wxuMsRwXkOqvxhOGKP81OSxe57kENIDwD/dIdm/nF8XPS2
+0G7NiyX5FLRK+nfDL3J+gTzL8SuKEQY=
+=OUKf
+-----END PGP SIGNATURE-----
+
+--bbzmiqvrip6kri3q--
