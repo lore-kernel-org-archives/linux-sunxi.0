@@ -1,22 +1,22 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8F1A10FE
-	for <linux-sunxi@lists.linux.dev>; Wed,  3 Jan 2024 00:13:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 218DC7E
+	for <linux-sunxi@lists.linux.dev>; Wed,  3 Jan 2024 00:13:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 14EE21516;
-	Tue,  2 Jan 2024 16:14:18 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0648614BF;
+	Tue,  2 Jan 2024 16:14:17 -0800 (PST)
 Received: from localhost.localdomain (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2751B3F5A1;
-	Tue,  2 Jan 2024 16:13:31 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1B7583F5A1;
+	Tue,  2 Jan 2024 16:13:29 -0800 (PST)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Jagan Teki <jagan@amarulasolutions.com>
 Cc: Samuel Holland <samuel@sholland.org>,
 	linux-sunxi@lists.linux.dev,
 	u-boot@lists.denx.de
-Subject: [PATCH 02/19] sunxi: sun50i-h6: remove unneeded base addresses from header
-Date: Wed,  3 Jan 2024 00:12:22 +0000
-Message-Id: <20240103001239.17482-3-andre.przywara@arm.com>
+Subject: [PATCH 01/19] sunxi: cleanup sunxi-common.h
+Date: Wed,  3 Jan 2024 00:12:21 +0000
+Message-Id: <20240103001239.17482-2-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.35.8
 In-Reply-To: <20240103001239.17482-1-andre.przywara@arm.com>
 References: <20240103001239.17482-1-andre.przywara@arm.com>
@@ -28,70 +28,133 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The cpu_sun50i_h6.h header file defined the base addresses for quite some
-peripherals of the Allwinner H6 and related CPUs, even though we now only
-use a fraction of that.
-Most of the addresses are now either read from the DT, or were never used
-in U-Boot in the first place.
+The sunxi-common.h configs header used to contain a lot of random
+Allwinner platform related constants, but over the years we moved a lot
+of those definitions out there.
 
-Removed the ones that are not used in the whole of the U-Boot source.
-to make it clear that this file only contains addresses that are needed
-for the SPL operation.
+Clean up the file to remove outdated comments which are leftovers from
+the olden days. Also remove the definition of LOW_LEVEL_SRAM_STACK,
+which is actually used nowhere in the whole source tree.
+
+This also uses the opportunity to add some section comments that helps
+structuring the header file and improving readability.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- .../include/asm/arch-sunxi/cpu_sun50i_h6.h    | 21 -------------------
- 1 file changed, 21 deletions(-)
+ include/configs/sunxi-common.h | 56 ++++++++--------------------------
+ 1 file changed, 12 insertions(+), 44 deletions(-)
 
-diff --git a/arch/arm/include/asm/arch-sunxi/cpu_sun50i_h6.h b/arch/arm/include/asm/arch-sunxi/cpu_sun50i_h6.h
-index 15ee092d358..8a3f465545a 100644
---- a/arch/arm/include/asm/arch-sunxi/cpu_sun50i_h6.h
-+++ b/arch/arm/include/asm/arch-sunxi/cpu_sun50i_h6.h
-@@ -7,25 +7,14 @@
- #ifndef _SUNXI_CPU_SUN50I_H6_H
- #define _SUNXI_CPU_SUN50I_H6_H
+diff --git a/include/configs/sunxi-common.h b/include/configs/sunxi-common.h
+index b8ca77d031d..b29a25d5617 100644
+--- a/include/configs/sunxi-common.h
++++ b/include/configs/sunxi-common.h
+@@ -14,8 +14,9 @@
  
--#define SUNXI_SRAM_A1_BASE		CONFIG_SUNXI_SRAM_ADDRESS
--#define SUNXI_SRAM_C_BASE		0x00028000
--#define SUNXI_SRAM_A2_BASE		0x00100000
+ #include <linux/stringify.h>
+ 
+-/* Serial & console */
+-/* ns16550 reg in the low bits of cpu reg */
++/****************************************************************************
++ *                  base addresses for the SPL UART driver                  *
++ ****************************************************************************/
+ #ifdef CONFIG_MACH_SUNIV
+ /* suniv doesn't have apb2 and uart is connected to apb1 */
+ #define CFG_SYS_NS16550_CLK		100000000
+@@ -31,8 +32,9 @@
+ # define CFG_SYS_NS16550_COM5		SUNXI_R_UART_BASE
+ #endif
+ 
+-/* CPU */
 -
--#define SUNXI_DE3_BASE			0x01000000
--#define SUNXI_SS_BASE			0x01904000
--#define SUNXI_EMCE_BASE			0x01905000
++/****************************************************************************
++ *                             DRAM base address                            *
++ ****************************************************************************/
+ /*
+  * The DRAM Base differs between some models. We cannot use macros for the
+  * CONFIG_FOO defines which contain the DRAM base address since they end
+@@ -52,16 +54,6 @@
+ /* V3s do not have enough memory to place code at 0x4a000000 */
+ #endif
+ 
+-/*
+- * The A80's A1 sram starts at 0x00010000 rather then at 0x00000000 and is
+- * slightly bigger. Note that it is possible to map the first 32 KiB of the
+- * A1 at 0x00000000 like with older SoCs by writing 0x16aa0001 to the
+- * undocumented 0x008000e0 SYS_CTRL register. Where the 16aa is a key and
+- * the 1 actually activates the mapping of the first 32 KiB to 0x00000000.
+- * A64 and H5 also has SRAM A1 at 0x00010000, but no magic remap register
+- * is known yet.
+- * H6 has SRAM A1 at 0x00020000.
+- */
+ #define CFG_SYS_INIT_RAM_ADDR	CONFIG_SUNXI_SRAM_ADDRESS
+ /* FIXME: this may be larger on some SoCs */
+ #define CFG_SYS_INIT_RAM_SIZE	0x8000 /* 32 KiB */
+@@ -69,36 +61,13 @@
+ #define PHYS_SDRAM_0			CFG_SYS_SDRAM_BASE
+ #define PHYS_SDRAM_0_SIZE		0x80000000 /* 2 GiB */
+ 
+-/*
+- * Miscellaneous configurable options
+- */
 -
- #define SUNXI_SRAMC_BASE		0x03000000
- #define SUNXI_CCM_BASE			0x03001000
--#define SUNXI_DMA_BASE			0x03002000
- /* SID address space starts at 0x03006000, but e-fuse is at offset 0x200 */
- #define SUNXI_SIDC_BASE			0x03006000
- #define SUNXI_SID_BASE			0x03006200
- #define SUNXI_TIMER_BASE		0x03009000
--#define SUNXI_PSI_BASE			0x0300C000
+-/* FLASH and environment organization */
+-
++/****************************************************************************
++ *           environment variables holding default load addresses           *
++ ****************************************************************************/
+ /*
+  * We cannot use expressions here, because expressions won't be evaluated in
+  * autoconf.mk.
+  */
+-#if CONFIG_SUNXI_SRAM_ADDRESS == 0x10000
+-#ifdef CONFIG_ARM64
+-/* end of SRAM A2 for now, as SRAM A1 is pretty tight for an ARM64 build */
+-#define LOW_LEVEL_SRAM_STACK		0x00054000
+-#else
+-#define LOW_LEVEL_SRAM_STACK		0x00018000
+-#endif /* !CONFIG_ARM64 */
+-#elif CONFIG_SUNXI_SRAM_ADDRESS == 0x20000
+-#ifdef CONFIG_MACH_SUN50I_H616
+-#define LOW_LEVEL_SRAM_STACK		0x52a00		/* below FEL buffers */
+-#else
+-/* end of SRAM A2 on H6 for now */
+-#define LOW_LEVEL_SRAM_STACK		0x00118000
+-#endif
+-#else
+-#define LOW_LEVEL_SRAM_STACK		0x00008000	/* End of sram */
+-#endif
+-
+-/* Ethernet support */
+-
+ #ifdef CONFIG_ARM64
+ /*
+  * Boards seem to come with at least 512MB of DRAM.
+@@ -174,15 +143,11 @@
+ 	"ramdisk_addr_r=" RAMDISK_ADDR_R "\0"
  
- #define SUNXI_GIC400_BASE		0x03020000
--#define SUNXI_IOMMU_BASE		0x030F0000
+ #ifdef CONFIG_ARM64
+-
+ #define MEM_LAYOUT_ENV_EXTRA_SETTINGS \
+ 	"kernel_comp_addr_r=" KERNEL_COMP_ADDR_R "\0" \
+ 	"kernel_comp_size=" KERNEL_COMP_SIZE "\0"
+-
+ #else
+-
+ #define MEM_LAYOUT_ENV_EXTRA_SETTINGS ""
+-
+ #endif
  
- #ifdef CONFIG_MACH_SUN50I_H6
- #define SUNXI_DRAM_COM_BASE		0x04002000
-@@ -46,18 +35,8 @@
- #define SUNXI_TWI1_BASE			0x05002400
- #define SUNXI_TWI2_BASE			0x05002800
- #define SUNXI_TWI3_BASE			0x05002C00
--#define SUNXI_SPI0_BASE			0x05010000
--#define SUNXI_SPI1_BASE			0x05011000
--#define SUNXI_GMAC_BASE			0x05020000
--#define SUNXI_USB0_BASE			0x05100000
--#define SUNXI_XHCI_BASE			0x05200000
--#define SUNXI_USB3_BASE			0x05311000
--#define SUNXI_PCIE_BASE			0x05400000
+ #define DFU_ALT_INFO_RAM \
+@@ -191,6 +156,9 @@
+ 	"fdt ram " FDT_ADDR_R " 0x100000;" \
+ 	"ramdisk ram " RAMDISK_ADDR_R " 0x4000000\0"
  
- #define SUNXI_HDMI_BASE			0x06000000
--#define SUNXI_TCON_TOP_BASE		0x06510000
--#define SUNXI_TCON_LCD0_BASE		0x06511000
--#define SUNXI_TCON_TV0_BASE		0x06515000
- 
- #define SUNXI_RTC_BASE			0x07000000
- #define SUNXI_R_CPUCFG_BASE		0x07000400
++/****************************************************************************
++ *                  definitions for the distro boot system                  *
++ ****************************************************************************/
+ #ifdef CONFIG_MMC
+ #if CONFIG_MMC_SUNXI_SLOT_EXTRA != -1
+ #define BOOTENV_DEV_MMC_AUTO(devtypeu, devtypel, instance)		\
 -- 
 2.35.8
 
