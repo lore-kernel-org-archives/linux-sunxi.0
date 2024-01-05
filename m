@@ -1,277 +1,99 @@
-Received: from bee.tesarici.cz (bee.tesarici.cz [77.93.223.253])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28A9D2E3F0
-	for <linux-sunxi@lists.linux.dev>; Fri,  5 Jan 2024 14:46:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tesarici.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tesarici.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F27132E634
+	for <linux-sunxi@lists.linux.dev>; Fri,  5 Jan 2024 15:34:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b="TlsFY3EA"
-Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by bee.tesarici.cz (Postfix) with ESMTPSA id D6D7D1A80E5;
-	Fri,  5 Jan 2024 15:46:00 +0100 (CET)
-Authentication-Results: mail.tesarici.cz; dmarc=fail (p=none dis=none) header.from=tesarici.cz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tesarici.cz; s=mail;
-	t=1704465961; bh=jVPDDlHEkAJsKbkJAQA4OoaB0GVHg6A4zFDVTiaBIYg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=TlsFY3EAgOksGz5dkQzISJo3LB919H/zGwZ7MnySbuCYPpPMO21Iw67Ky55BAD1JZ
-	 xCgs0giNLhESBRGjFnLNpHg+k7U+0/U2DwMA03QpJdKwirhUgSuxbnobEv2ivxOAHJ
-	 ryAxkmpPSm+Rc/8dYai77r6orb8sYK5E9NvQoJBZugf5HaQNdsraftGIjAwT6C8c/v
-	 17q07yE550pG6MIIHwsN48rUMyF5FCzEbsFGYlpbls2t3N+UZsdnF1Enw10AmaMxPg
-	 9OMcgobUy4mTBepjqSRQCd6epxIKSNg6cZba497zeV22EswhChOGheuJqsNgIeMGB7
-	 Zo3gzS1cZZH/A==
-Date: Fri, 5 Jan 2024 15:45:58 +0100
-From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-To: Eric Dumazet <edumazet@google.com>
-Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>, Jose Abreu
- <joabreu@synopsys.com>, "David S. Miller" <davem@davemloft.net>, Jakub
- Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Maxime
- Coquelin <mcoquelin.stm32@gmail.com>, Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- "open list:STMMAC ETHERNET DRIVER" <netdev@vger.kernel.org>, "moderated
- list:ARM/STM32 ARCHITECTURE" <linux-stm32@st-md-mailman.stormreply.com>,
- "moderated list:ARM/STM32 ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>, open list
- <linux-kernel@vger.kernel.org>, "open list:ARM/Allwinner sunXi SoC support"
- <linux-sunxi@lists.linux.dev>, Jiri Pirko <jiri@resnulli.us>
-Subject: Re: [PATCH] net: stmmac: protect statistics updates with a spinlock
-Message-ID: <20240105154558.2ca38aca@meshulam.tesarici.cz>
-In-Reply-To: <CANn89iKWSemsKmfsLjupwWBnyeKjtHH+mZjTzYiJT4G=xyUrNQ@mail.gmail.com>
-References: <20240105091556.15516-1-petr@tesarici.cz>
-	<CANn89iLuYZBersxq4aH-9Fg_ojD0fh=0xtdLbRdbMrup=nvrkA@mail.gmail.com>
-	<20240105113402.0f5f1232@meshulam.tesarici.cz>
-	<CANn89iLEvW9ZS=+WPETPC=mKRyu9AKmueGCWZZOrz9oX3Xef=g@mail.gmail.com>
-	<20240105121447.11ae80d1@meshulam.tesarici.cz>
-	<20240105142732.1903bc70@meshulam.tesarici.cz>
-	<CANn89iLHLvGFX_JEYU-en0ZoCUpTvjXPBzFECxLFfa_Jhpcjmg@mail.gmail.com>
-	<CANn89iKWSemsKmfsLjupwWBnyeKjtHH+mZjTzYiJT4G=xyUrNQ@mail.gmail.com>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.39; x86_64-suse-linux-gnu)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="F/GOIS+Y"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-427f4407624so8395021cf.3
+        for <linux-sunxi@lists.linux.dev>; Fri, 05 Jan 2024 07:34:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1704468855; x=1705073655; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0TY2tK1Et5681qdWkhQWK7TKRb/9setDuVBnoXVgexU=;
+        b=F/GOIS+YGs1qq0IsD6koHNEHj1HxBP7kjXmY/Z1pZVLGaANg+VGaBaYeGa7DFKn2TQ
+         ACIQGdh6MKHHXWeIHJfZtmG0J3h+wbDwZu54huZjrR+gW04YCGfKLHCMLuAwYpoPfTuG
+         ChWVbI0LWeFL4vjpkXl5d5MHHDNb56gzcUd0+C9yeUd1fv7AxU9yGPcojxDUZzPCatzv
+         pA2OYcudVdJHTwpWlarIXnCJjxLaiMVusTHWhZIkXvospAahqhYI3opRSSGvxDCMG9J5
+         9SSDIRTnf20E5fHz78R1YmDBZzZu1N5+oEq7OU/p6IuXXkQfR9HNXQh6Hs5+p7WrXXYt
+         y0wQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704468855; x=1705073655;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0TY2tK1Et5681qdWkhQWK7TKRb/9setDuVBnoXVgexU=;
+        b=p9DyVmIuA2biputo9vFqGfYEbVJ+ix4mhwDLxRhy3twtEtW14JKj0X6+af+cV1EW3d
+         96Zfz2PHMG9Hk81hrWf/MXczvUk1ueWN/l+xQaXFK6md1TAgD9FgkfaI/MOxkY8rZSS+
+         L1nEn1BhZrIfuTWAXxf7AbP+LCeRo2j5XjgwGWoJaXh8OqMNADwbkqxn830gkVeFAELy
+         TvbMz5LJEsvSvhPTJErFMm3DpISEIyF8fTEecrVh37JVgXV0InuhqQ0AMQePnClYtOhN
+         N5q7D7LA1j0pkwcIbVLZbKvopC6KlH/wPsoRczThCkOthDpHh9bowR1LaHl/0JHTdhkO
+         6fug==
+X-Gm-Message-State: AOJu0Ywk/hjTiZTPbDIWZN6nQkfPDdbZcoAFabZhr9oTgKgi/pjvLcIo
+	IRt8tK2hEjBNrEfZHxXhkNwboN7bBrixGcFMb9a/A3FnmuhePg==
+X-Google-Smtp-Source: AGHT+IHfTfqU5MoKE0X4xG8QNmKPONd8jiakcdkHu4vud6eBZ8WvRO+n1CsOMpfQPwUC05tcfTICXquuDV0OuNZPOR0=
+X-Received: by 2002:a05:622a:1349:b0:429:791f:9708 with SMTP id
+ w9-20020a05622a134900b00429791f9708mr909674qtk.35.1704468854882; Fri, 05 Jan
+ 2024 07:34:14 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20231226200205.562565-1-pasha.tatashin@soleen.com>
+ <eqkpplwwyeqqd356ka3g6isaoboe62zrii77krsb7zwzmvdusr@5i3lzfhpt2xe>
+ <CA+CK2bBE1bQuqZy3cbWiv8V3vJ8YNJZRayp6Wv-j2_9i37XT4g@mail.gmail.com>
+ <eng4vwaci5hwlicszgcld6uny55vll2bfs3vp2yjbjf3exhamg@zf6yc2uhax7w>
+ <CA+CK2bCUGepLLA2Hsmq00XEhPzLWPb5CjzY_UPT0qWSKastjAQ@mail.gmail.com> <elsuzdcx2qpnazvz2ayzmco4ctms5ci3iet3k7ggbjt3p2pfk2@tvr3plow26oi>
+In-Reply-To: <elsuzdcx2qpnazvz2ayzmco4ctms5ci3iet3k7ggbjt3p2pfk2@tvr3plow26oi>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Fri, 5 Jan 2024 10:33:38 -0500
+Message-ID: <CA+CK2bD7gPP6TFR_sYPd=4U4yYrYHNu=qMLJdT+kgT_gbz6wBQ@mail.gmail.com>
+Subject: Re: [PATCH v3 00/10] IOMMU memory observability
+To: =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>
+Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
+	asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
+	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
+	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
+	iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
+	joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
+	mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
+	rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
+	suravee.suthikulpanit@amd.com, sven@svenpeter.dev, thierry.reding@gmail.com, 
+	tj@kernel.org, tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, 
+	will@kernel.org, yu-cheng.yu@intel.com, rientjes@google.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, 5 Jan 2024 15:28:41 +0100
-Eric Dumazet <edumazet@google.com> wrote:
+On Fri, Jan 5, 2024 at 4:02=E2=80=AFAM Michal Koutn=C3=BD <mkoutny@suse.com=
+> wrote:
+>
+> On Thu, Jan 04, 2024 at 02:12:26PM -0500, Pasha Tatashin <pasha.tatashin@=
+soleen.com> wrote:
+> > Yes, we will have a difference between GFP_ACCOUNT and what
+> > NR_IOMMU_PAGES shows. GFP_ACCOUNT is set only where it makes sense to
+> > charge to user processes, i.e. IOMMU Page Tables, but there more IOMMU
+> > shared data that should not really be charged to a specific process.
+>
+> I see. I'd suggest adding this explanation to commit 10/10 message
+> (perhaps with some ballpark numbers of pages). In order to have a
+> reference and understadning if someone decided to charge (and limit) all
+> in the future.
 
-> On Fri, Jan 5, 2024 at 3:26=E2=80=AFPM Eric Dumazet <edumazet@google.com>=
- wrote:
-> >
-> > On Fri, Jan 5, 2024 at 2:27=E2=80=AFPM Petr Tesa=C5=99=C3=ADk <petr@tes=
-arici.cz> wrote: =20
-> > >
-> > > Hi Eric,
-> > >
-> > > yeah, it's me again...
-> > >
-> > > On Fri, 5 Jan 2024 12:14:47 +0100
-> > > Petr Tesa=C5=99=C3=ADk <petr@tesarici.cz> wrote:
-> > > =20
-> > > > On Fri, 5 Jan 2024 11:48:19 +0100
-> > > > Eric Dumazet <edumazet@google.com> wrote:
-> > > > =20
-> > > > > On Fri, Jan 5, 2024 at 11:34=E2=80=AFAM Petr Tesa=C5=99=C3=ADk <p=
-etr@tesarici.cz> wrote: =20
-> > > > > >
-> > > > > > On Fri, 5 Jan 2024 10:58:42 +0100
-> > > > > > Eric Dumazet <edumazet@google.com> wrote:
-> > > > > > =20
-> > > > > > > On Fri, Jan 5, 2024 at 10:16=E2=80=AFAM Petr Tesarik <petr@te=
-sarici.cz> wrote: =20
-> > > > > > > >
-> > > > > > > > Add a spinlock to fix race conditions while updating Tx/Rx =
-statistics.
-> > > > > > > >
-> > > > > > > > As explained by a comment in <linux/u64_stats_sync.h>, writ=
-e side of struct
-> > > > > > > > u64_stats_sync must ensure mutual exclusion, or one seqcoun=
-t update could
-> > > > > > > > be lost on 32-bit platforms, thus blocking readers forever.
-> > > > > > > >
-> > > > > > > > Such lockups have been actually observed on 32-bit Arm afte=
-r stmmac_xmit()
-> > > > > > > > on one core raced with stmmac_napi_poll_tx() on another cor=
-e.
-> > > > > > > >
-> > > > > > > > Signed-off-by: Petr Tesarik <petr@tesarici.cz> =20
-> > > > > > >
-> > > > > > > This is going to add more costs to 64bit platforms ? =20
-> > > > > >
-> > > > > > Yes, it adds a (hopefully not too contended) spinlock and in mo=
-st
-> > > > > > places an interrupt disable/enable pair.
-> > > > > >
-> > > > > > FWIW the race condition is also present on 64-bit platforms, re=
-sulting
-> > > > > > in inaccurate statistic counters. I can understand if you consi=
-der it a
-> > > > > > mild annoyance, not worth fixing.
-> > > > > > =20
-> > > > > > > It seems to me that the same syncp can be used from two diffe=
-rent
-> > > > > > > threads : hard irq and napi poller... =20
-> > > > > >
-> > > > > > Yes, that's exactly the scenario that locks up my system.
-> > > > > > =20
-> > > > > > > At this point, I do not see why you keep linux/u64_stats_sync=
-.h if you
-> > > > > > > decide to go for a spinlock... =20
-> > > > > >
-> > > > > > The spinlock does not havce to be taken on the reader side, so =
-the
-> > > > > > seqcounter still adds some value.
-> > > > > > =20
-> > > > > > > Alternative would use atomic64_t fields for the ones where th=
-ere is no
-> > > > > > > mutual exclusion.
-> > > > > > >
-> > > > > > > RX : napi poll is definitely safe (protected by an atomic bit)
-> > > > > > > TX : each TX queue is also safe (protected by an atomic exclu=
-sion for
-> > > > > > > non LLTX drivers)
-> > > > > > >
-> > > > > > > This leaves the fields updated from hardware interrupt contex=
-t ? =20
-> > > > > >
-> > > > > > I'm afraid I don't have enough network-stack-foo to follow here.
-> > > > > >
-> > > > > > My issue on 32 bit is that stmmac_xmit() may be called directly=
- from
-> > > > > > process context while another core runs the TX napi on the same=
- channel
-> > > > > > (in interrupt context). I didn't observe any race on the RX pat=
-h, but I
-> > > > > > believe it's possible with NAPI busy polling.
-> > > > > >
-> > > > > > In any case, I don't see the connection with LLTX. Maybe you wa=
-nt to
-> > > > > > say that the TX queue is safe for stmmac (because it is a non-L=
-LTX
-> > > > > > driver), but might not be safe for LLTX drivers? =20
-> > > > >
-> > > > > LLTX drivers (mostly virtual drivers like tunnels...) can have mu=
-ltiple cpus
-> > > > > running ndo_start_xmit() concurrently. So any use of a 'shared sy=
-ncp'
-> > > > > would be a bug.
-> > > > > These drivers usually use per-cpu stats, to avoid races and false
-> > > > > sharing anyway.
-> > > > >
-> > > > > I think you should split the structures into two separate groups,=
- each
-> > > > > guarded with its own syncp.
-> > > > >
-> > > > > No extra spinlocks, no extra costs on 64bit arches...
-> > > > >
-> > > > > If TX completion can run in parallel with ndo_start_xmit(), then
-> > > > > clearly we have to split stmmac_txq_stats in two halves: =20
-> > > >
-> > > > Oh, now I get it. Yes, that's much better, indeed.
-> > > >
-> > > > I mean, the counters have never been consistent (due to the race on=
- the
-> > > > writer side), and nobody is concerned. So, there is no value in tak=
-ing
-> > > > a consistent snapshot in stmmac_get_ethtool_stats().
-> > > >
-> > > > I'm going to rework and retest my patch. Thank you for pointing me =
-in
-> > > > the right direction!
-> > > >
-> > > > Petr T
-> > > > =20
-> > > > > Also please note the conversion from u64 to u64_stats_t =20
-> > > >
-> > > > Noted. IIUC this will in turn close the update race on 64-bit by us=
-ing
-> > > > an atomic type and on 32-bit by using a seqlock. Clever.
-> > > >
-> > > > Petr T
-> > > > =20
-> > > > > Very partial patch, only to show the split and new structure :
-> > > > >
-> > > > > diff --git a/drivers/net/ethernet/stmicro/stmmac/common.h
-> > > > > b/drivers/net/ethernet/stmicro/stmmac/common.h
-> > > > > index e3f650e88f82f927f0dcf95748fbd10c14c30cbe..702bceea5dc8c875a=
-80f5e3a92b7bb058f373eda
-> > > > > 100644
-> > > > > --- a/drivers/net/ethernet/stmicro/stmmac/common.h
-> > > > > +++ b/drivers/net/ethernet/stmicro/stmmac/common.h
-> > > > > @@ -60,16 +60,22 @@
-> > > > >  /* #define FRAME_FILTER_DEBUG */
-> > > > >
-> > > > >  struct stmmac_txq_stats {
-> > > > > -       u64 tx_bytes;
-> > > > > -       u64 tx_packets;
-> > > > > -       u64 tx_pkt_n;
-> > > > > -       u64 tx_normal_irq_n;
-> > > > > -       u64 napi_poll;
-> > > > > -       u64 tx_clean;
-> > > > > -       u64 tx_set_ic_bit;
-> > > > > -       u64 tx_tso_frames;
-> > > > > -       u64 tx_tso_nfrags;
-> > > > > -       struct u64_stats_sync syncp;
-> > > > > +/* First part, updated from ndo_start_xmit(), protected by tx qu=
-eue lock */
-> > > > > +       struct u64_stats_sync syncp_tx;
-> > > > > +       u64_stats_t tx_bytes;
-> > > > > +       u64_stats_t tx_packets;
-> > > > > +       u64_stats_t tx_pkt_n;
-> > > > > +       u64_stats_t tx_tso_frames;
-> > > > > +       u64_stats_t tx_tso_nfrags;
-> > > > > +
-> > > > > +/* Second part, updated from TX completion (protected by NAPI po=
-ll logic) */
-> > > > > +       struct u64_stats_sync syncp_tx_completion;
-> > > > > +       u64_stats_t napi_poll;
-> > > > > +       u64_stats_t tx_clean;
-> > > > > +       u64_stats_t tx_set_ic_bit; =20
-> > >
-> > > Unfortunately, this field is also updated from ndo_start_xmit():
-> > >
-> > > 4572)     if (set_ic)
-> > > 4573)             txq_stats->tx_set_ic_bit++;
-> > >
-> > > I feel it would be a shame to introduce a spinlock just for this one
-> > > update. But I think the field could be converted to an atomic64_t.
-> > >
-> > > Which raises a question: Why aren't all stat counters simply atomic64=
-_t? There
-> > > is no guarantee that the reader side takes a consistent snapshot
-> > > (except on 32-bit). So, why do we even bother with u64_stats_sync? =20
-> >
-> > This infra was added to have no _lock_ overhead on 64bit arches.
-> >
-> > If a counter must be updated from multiple cpus (regardless of 32/64
-> > bit kernel), then use atomic64_t =20
->=20
-> Or use two different u64_stats_t (each guarded by a different syncp),
-> then fold them at stats gathering time.
+Sure, I will update the commit log in 10/10 with this info if we will have =
+v4.
 
-Oh, right, why didn't I think about it!
+Pasha
 
-This only leaves an atomic_t in hard irq context. I have tried to find
-something that could relax the requirement, but AFAICS at least some
-setups use several interrupts that can be delivered to different CPUs
-simultaneously, and all of them will walk over all channels. So we're
-left with an atomic_t here.
-
-> > > Is it merely because u64_stats_add() should be cheaper than
-> > > atomic64_add()? Or is there anything else I'm missing? If yes,
-> > > does it invalidate my proposal to convert tx_set_ic_bit to an
-> > > atomic64_t? =20
-> >
-> > atomic64_add() is expensive, especially in contexts where updates
-> > are already guarded by a spinlock or something. =20
-
-Yeah, I know atomics can be expensive. I've heard of cases where an Arm
-core was spinning on an atomic operation for several seconds...
-
-Petr T
+>
+> Thanks,
+> Michal
