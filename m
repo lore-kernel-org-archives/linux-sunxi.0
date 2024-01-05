@@ -1,99 +1,74 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F27132E634
-	for <linux-sunxi@lists.linux.dev>; Fri,  5 Jan 2024 15:34:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77B59328AD;
+	Fri,  5 Jan 2024 17:37:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="F/GOIS+Y"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-427f4407624so8395021cf.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 05 Jan 2024 07:34:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1704468855; x=1705073655; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0TY2tK1Et5681qdWkhQWK7TKRb/9setDuVBnoXVgexU=;
-        b=F/GOIS+YGs1qq0IsD6koHNEHj1HxBP7kjXmY/Z1pZVLGaANg+VGaBaYeGa7DFKn2TQ
-         ACIQGdh6MKHHXWeIHJfZtmG0J3h+wbDwZu54huZjrR+gW04YCGfKLHCMLuAwYpoPfTuG
-         ChWVbI0LWeFL4vjpkXl5d5MHHDNb56gzcUd0+C9yeUd1fv7AxU9yGPcojxDUZzPCatzv
-         pA2OYcudVdJHTwpWlarIXnCJjxLaiMVusTHWhZIkXvospAahqhYI3opRSSGvxDCMG9J5
-         9SSDIRTnf20E5fHz78R1YmDBZzZu1N5+oEq7OU/p6IuXXkQfR9HNXQh6Hs5+p7WrXXYt
-         y0wQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704468855; x=1705073655;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0TY2tK1Et5681qdWkhQWK7TKRb/9setDuVBnoXVgexU=;
-        b=p9DyVmIuA2biputo9vFqGfYEbVJ+ix4mhwDLxRhy3twtEtW14JKj0X6+af+cV1EW3d
-         96Zfz2PHMG9Hk81hrWf/MXczvUk1ueWN/l+xQaXFK6md1TAgD9FgkfaI/MOxkY8rZSS+
-         L1nEn1BhZrIfuTWAXxf7AbP+LCeRo2j5XjgwGWoJaXh8OqMNADwbkqxn830gkVeFAELy
-         TvbMz5LJEsvSvhPTJErFMm3DpISEIyF8fTEecrVh37JVgXV0InuhqQ0AMQePnClYtOhN
-         N5q7D7LA1j0pkwcIbVLZbKvopC6KlH/wPsoRczThCkOthDpHh9bowR1LaHl/0JHTdhkO
-         6fug==
-X-Gm-Message-State: AOJu0Ywk/hjTiZTPbDIWZN6nQkfPDdbZcoAFabZhr9oTgKgi/pjvLcIo
-	IRt8tK2hEjBNrEfZHxXhkNwboN7bBrixGcFMb9a/A3FnmuhePg==
-X-Google-Smtp-Source: AGHT+IHfTfqU5MoKE0X4xG8QNmKPONd8jiakcdkHu4vud6eBZ8WvRO+n1CsOMpfQPwUC05tcfTICXquuDV0OuNZPOR0=
-X-Received: by 2002:a05:622a:1349:b0:429:791f:9708 with SMTP id
- w9-20020a05622a134900b00429791f9708mr909674qtk.35.1704468854882; Fri, 05 Jan
- 2024 07:34:14 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="5mgkcPg4"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=qEr1jYijCqIp7tZDUzFDfoa3b/R4ZBz68yiDJpW40qg=; b=5mgkcPg4mKbAYOZMncV/6Qor0W
+	ZIl15YN0vYCQPxlECBy3+2sQmRZ5ACW01M8RPPkHOzpfganoOZ+rSl4xbIdAfrxWFcbKMGDbVeFPr
+	1NsKUoBh/AVWwE9a2UGTpmLg+s1spccRNsGrFnejxM9Ice+LK5+TB2RuuLRhaZzpnxUU=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1rLo7i-004TT2-08; Fri, 05 Jan 2024 18:36:46 +0100
+Date: Fri, 5 Jan 2024 18:36:45 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Petr =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+Cc: Eric Dumazet <edumazet@google.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	"open list:STMMAC ETHERNET DRIVER" <netdev@vger.kernel.org>,
+	"moderated list:ARM/STM32 ARCHITECTURE" <linux-stm32@st-md-mailman.stormreply.com>,
+	"moderated list:ARM/STM32 ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
+	Jiri Pirko <jiri@resnulli.us>
+Subject: Re: [PATCH] net: stmmac: protect statistics updates with a spinlock
+Message-ID: <a8bb0eb0-8398-4e7e-8dc5-6ebf2f981ca8@lunn.ch>
+References: <20240105091556.15516-1-petr@tesarici.cz>
+ <CANn89iLuYZBersxq4aH-9Fg_ojD0fh=0xtdLbRdbMrup=nvrkA@mail.gmail.com>
+ <20240105113402.0f5f1232@meshulam.tesarici.cz>
+ <CANn89iLEvW9ZS=+WPETPC=mKRyu9AKmueGCWZZOrz9oX3Xef=g@mail.gmail.com>
+ <20240105121447.11ae80d1@meshulam.tesarici.cz>
+ <20240105142732.1903bc70@meshulam.tesarici.cz>
+ <CANn89iLHLvGFX_JEYU-en0ZoCUpTvjXPBzFECxLFfa_Jhpcjmg@mail.gmail.com>
+ <CANn89iKWSemsKmfsLjupwWBnyeKjtHH+mZjTzYiJT4G=xyUrNQ@mail.gmail.com>
+ <20240105154558.2ca38aca@meshulam.tesarici.cz>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231226200205.562565-1-pasha.tatashin@soleen.com>
- <eqkpplwwyeqqd356ka3g6isaoboe62zrii77krsb7zwzmvdusr@5i3lzfhpt2xe>
- <CA+CK2bBE1bQuqZy3cbWiv8V3vJ8YNJZRayp6Wv-j2_9i37XT4g@mail.gmail.com>
- <eng4vwaci5hwlicszgcld6uny55vll2bfs3vp2yjbjf3exhamg@zf6yc2uhax7w>
- <CA+CK2bCUGepLLA2Hsmq00XEhPzLWPb5CjzY_UPT0qWSKastjAQ@mail.gmail.com> <elsuzdcx2qpnazvz2ayzmco4ctms5ci3iet3k7ggbjt3p2pfk2@tvr3plow26oi>
-In-Reply-To: <elsuzdcx2qpnazvz2ayzmco4ctms5ci3iet3k7ggbjt3p2pfk2@tvr3plow26oi>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Fri, 5 Jan 2024 10:33:38 -0500
-Message-ID: <CA+CK2bD7gPP6TFR_sYPd=4U4yYrYHNu=qMLJdT+kgT_gbz6wBQ@mail.gmail.com>
-Subject: Re: [PATCH v3 00/10] IOMMU memory observability
-To: =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>
-Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
-	asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
-	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
-	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
-	iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
-	joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
-	mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
-	rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
-	suravee.suthikulpanit@amd.com, sven@svenpeter.dev, thierry.reding@gmail.com, 
-	tj@kernel.org, tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, 
-	will@kernel.org, yu-cheng.yu@intel.com, rientjes@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240105154558.2ca38aca@meshulam.tesarici.cz>
 
-On Fri, Jan 5, 2024 at 4:02=E2=80=AFAM Michal Koutn=C3=BD <mkoutny@suse.com=
-> wrote:
->
-> On Thu, Jan 04, 2024 at 02:12:26PM -0500, Pasha Tatashin <pasha.tatashin@=
-soleen.com> wrote:
-> > Yes, we will have a difference between GFP_ACCOUNT and what
-> > NR_IOMMU_PAGES shows. GFP_ACCOUNT is set only where it makes sense to
-> > charge to user processes, i.e. IOMMU Page Tables, but there more IOMMU
-> > shared data that should not really be charged to a specific process.
->
-> I see. I'd suggest adding this explanation to commit 10/10 message
-> (perhaps with some ballpark numbers of pages). In order to have a
-> reference and understadning if someone decided to charge (and limit) all
-> in the future.
+> This only leaves an atomic_t in hard irq context. I have tried to find
+> something that could relax the requirement, but AFAICS at least some
+> setups use several interrupts that can be delivered to different CPUs
+> simultaneously, and all of them will walk over all channels. So we're
+> left with an atomic_t here.
 
-Sure, I will update the commit log in 10/10 with this info if we will have =
-v4.
+You might want to consider per CPU statistics. Since each CPU has its
+own structure of statistics, you don't need atomic.
 
-Pasha
+The code actually using the statistics then needs to sum up the per
+CPU statistics, and using syncp should be sufficient for that.
 
->
-> Thanks,
-> Michal
+Maybe look at mvneta.c for inspiration.
+
+      Andrew
