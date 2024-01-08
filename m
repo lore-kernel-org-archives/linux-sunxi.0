@@ -1,22 +1,22 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11D3041217;
-	Mon,  8 Jan 2024 12:27:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4752F40BF9;
+	Mon,  8 Jan 2024 12:28:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lG3MxohL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FE3CC433CC;
-	Mon,  8 Jan 2024 12:27:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MB79DPD+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1443C433CA;
+	Mon,  8 Jan 2024 12:28:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704716876;
-	bh=RVGkUfKuddK7q+LwkHlZYXF21kwp4y+tIp39Pl9cSw8=;
+	s=k20201202; t=1704716913;
+	bh=KIh12wVbDmJiLHjHRse8HnJ7sh45nq/r0+4isSVV99Y=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lG3MxohL9cDPAHFQJ7xdXh2pp0rywkMTXeN9gvOPYNIDt5nfW7zBX4HeJfQldAsc2
-	 bYFrmUrtQso06cYJ8ztxytXJN0YsRxcheCK8RFuQ2yxmKzSsQScbZqljro+YqDk0Pr
-	 9gd/MbtZNnMI+FMM+VylE/Ew0h1ubYfrdFSrnrEEwVdD8HFfk6Ck1RbhLm0N00UUMU
-	 NDkkcWz37PTbfgRNVbUazEpwMDFvMnWjkMngNm0MsP4zdw83IXNeoBsWdunTRosl79
-	 9JYnakBGoqrzXs+vXApvN3G/WP/ZPaTJ1nZalkrBygOSgscc3tNd8ZB7TlUx3U/FVt
-	 cY9r31bFOhl/Q==
+	b=MB79DPD+5eXxGtpl1mkt+sM+sDHlPkPzb2DeDcmTlRsyJQEizC46uoM79X4mS60jc
+	 cnoDyR83i7mTTDOcvB5XZcsPgg9tNNkSzEH0cgd4fCKsDtUcpKEdScxpp3JVMV1APj
+	 oo2ag9Hnav0RnRNaGdffattmbEkwkVoH87awHEIJjkDSkIU/hPpJY5AePe4WOAhIy0
+	 DdhVL/JQfrTVwfo4GCBsVAXVconhzhoh18S769lnAXVdf9SiTH84Lol3yFx9C5qD+C
+	 k+3RmrS+fFkKNnk+nYUR1KAjHroCeIfshdTL7HTwHl7J0IAS53HX2N/DG3sPS7FCbb
+	 rdh7Ww+VbgNdA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -30,12 +30,12 @@ Cc: Stefan Wahren <wahrenst@gmx.net>,
 	samuel@sholland.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.6 5/8] ARM: sun9i: smp: fix return code check of of_property_match_string
-Date: Mon,  8 Jan 2024 07:27:21 -0500
-Message-ID: <20240108122745.2090122-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 4/5] ARM: sun9i: smp: fix return code check of of_property_match_string
+Date: Mon,  8 Jan 2024 07:28:15 -0500
+Message-ID: <20240108122823.2090312-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240108122745.2090122-1-sashal@kernel.org>
-References: <20240108122745.2090122-1-sashal@kernel.org>
+In-Reply-To: <20240108122823.2090312-1-sashal@kernel.org>
+References: <20240108122823.2090312-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -44,7 +44,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.10
+X-stable-base: Linux 6.1.71
 Content-Transfer-Encoding: 8bit
 
 From: Stefan Wahren <wahrenst@gmx.net>
@@ -70,10 +70,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/arch/arm/mach-sunxi/mc_smp.c b/arch/arm/mach-sunxi/mc_smp.c
-index cb63921232a6f..a0e38050e7fad 100644
+index 26cbce1353387..5d7ddfd5990e5 100644
 --- a/arch/arm/mach-sunxi/mc_smp.c
 +++ b/arch/arm/mach-sunxi/mc_smp.c
-@@ -803,14 +803,14 @@ static int __init sunxi_mc_smp_init(void)
+@@ -804,14 +804,14 @@ static int __init sunxi_mc_smp_init(void)
  	for (i = 0; i < ARRAY_SIZE(sunxi_mc_smp_data); i++) {
  		ret = of_property_match_string(node, "enable-method",
  					       sunxi_mc_smp_data[i].enable_method);
