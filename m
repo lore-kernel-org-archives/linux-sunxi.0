@@ -1,92 +1,108 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from bee.tesarici.cz (bee.tesarici.cz [77.93.223.253])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 858A145948;
-	Mon,  8 Jan 2024 13:41:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D8B84C3C9
+	for <linux-sunxi@lists.linux.dev>; Mon,  8 Jan 2024 15:12:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tesarici.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tesarici.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="g/89ezCx"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=eG9T8lTouYuHP4iTNggEDal9BKSEaIu9o9UHqgV4zmU=; b=g/89ezCx8XKj8W9WmBVIIO1o2v
-	Xrhg/GZiVeJL8+zT0PrmSbue3YHm45GvMqN34rXMHhRVjLn5ggcS5uLitaN9K3ZBf9LvpoTlX3G2l
-	f1q+wmn+Iq76ScsWq6Apwf8I0AEZUWJTBs5u7YApblPFDXs5zD4uka8lxEKjQ+BwNpwc=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1rMpsM-004dvG-Sa; Mon, 08 Jan 2024 14:41:10 +0100
-Date: Mon, 8 Jan 2024 14:41:10 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: David Laight <David.Laight@aculab.com>
-Cc: Petr =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>,
-	Eric Dumazet <edumazet@google.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Jose Abreu <joabreu@synopsys.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	"open list:STMMAC ETHERNET DRIVER" <netdev@vger.kernel.org>,
-	"moderated list:ARM/STM32 ARCHITECTURE" <linux-stm32@st-md-mailman.stormreply.com>,
-	"moderated list:ARM/STM32 ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
-	Jiri Pirko <jiri@resnulli.us>
+	dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b="USfx4zi6"
+Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by bee.tesarici.cz (Postfix) with ESMTPSA id 63D5F1ABA94;
+	Mon,  8 Jan 2024 16:12:42 +0100 (CET)
+Authentication-Results: mail.tesarici.cz; dmarc=fail (p=none dis=none) header.from=tesarici.cz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tesarici.cz; s=mail;
+	t=1704726762; bh=T5GyI4pZHaFZHAhkulFmwZFJg3xQW0QBAO0wRAeQ28g=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=USfx4zi6oqdMofzUxQ/Inw8yxy1wDFQs3waZUpBETRNn00EV71suAAfAm+naH9mzf
+	 reYcMTEEkgelI63XHhQjAcvWcS0HAdPLCkDYU/VxO8NOl8mAIsm3j0EJwyuLMvMMGP
+	 VdBPlvTg1bKzLWrooPTmJdYqWbp8+4eBLJZoBS5b5W1eRU8mUoiVlGSoERdNxgDM8y
+	 1HLUT2ew2czqCHuuCT1RlsgZLrZ2llTutn7C8YJ5HI3lb8+8G1nqES7JLJImHhO8vY
+	 zynaYWbheQSQafSRMBJCpwbagkzWIydg+ZahmvqqCB2r9EZl+jUJv9eUL+ReMulBYX
+	 GB6+1prgC/2+Q==
+Date: Mon, 8 Jan 2024 16:12:41 +0100
+From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: David Laight <David.Laight@aculab.com>, Eric Dumazet
+ <edumazet@google.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Jose Abreu <joabreu@synopsys.com>, "David S. Miller" <davem@davemloft.net>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Maxime
+ Coquelin <mcoquelin.stm32@gmail.com>, Chen-Yu Tsai <wens@csie.org>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ "open list:STMMAC ETHERNET DRIVER" <netdev@vger.kernel.org>, "moderated
+ list:ARM/STM32 ARCHITECTURE" <linux-stm32@st-md-mailman.stormreply.com>,
+ "moderated list:ARM/STM32 ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>, open list
+ <linux-kernel@vger.kernel.org>, "open list:ARM/Allwinner sunXi SoC support"
+ <linux-sunxi@lists.linux.dev>, Jiri Pirko <jiri@resnulli.us>
 Subject: Re: [PATCH] net: stmmac: protect statistics updates with a spinlock
-Message-ID: <32c4095e-ec33-4059-a8d3-f85e18363c77@lunn.ch>
+Message-ID: <20240108161241.625df103@meshulam.tesarici.cz>
+In-Reply-To: <32c4095e-ec33-4059-a8d3-f85e18363c77@lunn.ch>
 References: <CANn89iLuYZBersxq4aH-9Fg_ojD0fh=0xtdLbRdbMrup=nvrkA@mail.gmail.com>
- <20240105113402.0f5f1232@meshulam.tesarici.cz>
- <CANn89iLEvW9ZS=+WPETPC=mKRyu9AKmueGCWZZOrz9oX3Xef=g@mail.gmail.com>
- <20240105121447.11ae80d1@meshulam.tesarici.cz>
- <20240105142732.1903bc70@meshulam.tesarici.cz>
- <CANn89iLHLvGFX_JEYU-en0ZoCUpTvjXPBzFECxLFfa_Jhpcjmg@mail.gmail.com>
- <CANn89iKWSemsKmfsLjupwWBnyeKjtHH+mZjTzYiJT4G=xyUrNQ@mail.gmail.com>
- <20240105154558.2ca38aca@meshulam.tesarici.cz>
- <a8bb0eb0-8398-4e7e-8dc5-6ebf2f981ca8@lunn.ch>
- <d05ca29283eb47df9c58838cb87a887c@AcuMS.aculab.com>
+	<20240105113402.0f5f1232@meshulam.tesarici.cz>
+	<CANn89iLEvW9ZS=+WPETPC=mKRyu9AKmueGCWZZOrz9oX3Xef=g@mail.gmail.com>
+	<20240105121447.11ae80d1@meshulam.tesarici.cz>
+	<20240105142732.1903bc70@meshulam.tesarici.cz>
+	<CANn89iLHLvGFX_JEYU-en0ZoCUpTvjXPBzFECxLFfa_Jhpcjmg@mail.gmail.com>
+	<CANn89iKWSemsKmfsLjupwWBnyeKjtHH+mZjTzYiJT4G=xyUrNQ@mail.gmail.com>
+	<20240105154558.2ca38aca@meshulam.tesarici.cz>
+	<a8bb0eb0-8398-4e7e-8dc5-6ebf2f981ca8@lunn.ch>
+	<d05ca29283eb47df9c58838cb87a887c@AcuMS.aculab.com>
+	<32c4095e-ec33-4059-a8d3-f85e18363c77@lunn.ch>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.39; x86_64-suse-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d05ca29283eb47df9c58838cb87a887c@AcuMS.aculab.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-> > You might want to consider per CPU statistics. Since each CPU has its
-> > own structure of statistics, you don't need atomic.
+On Mon, 8 Jan 2024 14:41:10 +0100
+Andrew Lunn <andrew@lunn.ch> wrote:
+
+> > > You might want to consider per CPU statistics. Since each CPU has its
+> > > own structure of statistics, you don't need atomic.
+> > > 
+> > > The code actually using the statistics then needs to sum up the per
+> > > CPU statistics, and using syncp should be sufficient for that.  
 > > 
-> > The code actually using the statistics then needs to sum up the per
-> > CPU statistics, and using syncp should be sufficient for that.
+> > Doesn't that consume rather a lot of memory on systems with
+> > 'silly numbers' of cpu?  
 > 
-> Doesn't that consume rather a lot of memory on systems with
-> 'silly numbers' of cpu?
+> Systems with silly number of CPUS tend to also have silly amounts of
+> memory. We are talking about maybe a dozen u64 here. So the memory
+> usage goes from 144 bytes, to 144K for a 1024CPU system.  Is 144K
+> excessive for such a system?
 
-Systems with silly number of CPUS tend to also have silly amounts of
-memory. We are talking about maybe a dozen u64 here. So the memory
-usage goes from 144 bytes, to 144K for a 1024CPU system.  Is 144K
-excessive for such a system?
+I'm not even sure it's worth converting _all_ statistic counters to
+per-CPU variables. Most of them are already guarded by a lock (either
+the queue lock, or NAPI scheduling). Only the hard interrupt counter is
+not protected by anything, so it's more like 8k on a 1024-CPU system....
 
-> Updating an atomic_t is (pretty much) the same as taking a lock.
-> unlock() is also likely to also contain an atomic operation.
-> So if you update more than two atomic_t it is likely that a lock
-> will be faster.
+> > Updating an atomic_t is (pretty much) the same as taking a lock.
+> > unlock() is also likely to also contain an atomic operation.
+> > So if you update more than two atomic_t it is likely that a lock
+> > will be faster.  
+> 
+> True, but all those 1024 CPUs in your silly system get affected by a
+> lock or an atomic. They all need to do something with there L1 and L2
+> cache when using atomics. Spending an extra 144K of RAM means the
+> other 1023 CPUs don't notice anything at all during the increment
+> phase, which could be happening 1M times a second. They only get
+> involved when something in user space wants the statistics, so maybe
+> once per second from the SNMP agent.
+> 
+> Also, stmmac is not used on silly CPU systems. It used in embedded
+> systems. I doubt its integrated into anything with more than 8 CPUs.
 
-True, but all those 1024 CPUs in your silly system get affected by a
-lock or an atomic. They all need to do something with there L1 and L2
-cache when using atomics. Spending an extra 144K of RAM means the
-other 1023 CPUs don't notice anything at all during the increment
-phase, which could be happening 1M times a second. They only get
-involved when something in user space wants the statistics, so maybe
-once per second from the SNMP agent.
+I also doubt it as of today, but hey, it seems that more CPU cores is
+the future of embedded. Ten years ago, who would have imagined putting
+an 8-core CPU into a smartphone? OTOH who would have imagined a
+smartphone with 24G of RAM...
 
-Also, stmmac is not used on silly CPU systems. It used in embedded
-systems. I doubt its integrated into anything with more than 8 CPUs.
-
-       Andrew
+Petr T
