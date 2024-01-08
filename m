@@ -1,22 +1,22 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4752F40BF9;
-	Mon,  8 Jan 2024 12:28:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BB274596A;
+	Mon,  8 Jan 2024 12:28:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MB79DPD+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1443C433CA;
-	Mon,  8 Jan 2024 12:28:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DPJJ1RNO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBF91C433CA;
+	Mon,  8 Jan 2024 12:28:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704716913;
+	s=k20201202; t=1704716938;
 	bh=KIh12wVbDmJiLHjHRse8HnJ7sh45nq/r0+4isSVV99Y=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=MB79DPD+5eXxGtpl1mkt+sM+sDHlPkPzb2DeDcmTlRsyJQEizC46uoM79X4mS60jc
-	 cnoDyR83i7mTTDOcvB5XZcsPgg9tNNkSzEH0cgd4fCKsDtUcpKEdScxpp3JVMV1APj
-	 oo2ag9Hnav0RnRNaGdffattmbEkwkVoH87awHEIJjkDSkIU/hPpJY5AePe4WOAhIy0
-	 DdhVL/JQfrTVwfo4GCBsVAXVconhzhoh18S769lnAXVdf9SiTH84Lol3yFx9C5qD+C
-	 k+3RmrS+fFkKNnk+nYUR1KAjHroCeIfshdTL7HTwHl7J0IAS53HX2N/DG3sPS7FCbb
-	 rdh7Ww+VbgNdA==
+	b=DPJJ1RNOMq8OA+P+YYHyX5MQVybNVBAXdmytjK7+EB7yxDuOoYxkd+QwLwboxvJ1e
+	 s8xi6Nlj4R0yIO18YkhyedWPOPFEa8MIfryhNkIgwct+Se/a+1O1nIGPnFjngLiv2O
+	 UtFApi4ZbtA56JYGrR//Ng6s07WM+nyLtaBsaWn6IE/InZrMXfARP8zkbMjQ0onqd4
+	 265JR/AgH4RyPmpeenLqXjGCCX4UuCKKWQRlV+HYkk5B2G0Bh4etc9f6zQkH4IuORM
+	 3Txt5ngLeejGaPok6lhjlFPEkiSBCvnBUaTN1uT7EUOT6vqnm0hnx9BZGYoE8F/DT3
+	 aLBv3k0YgwVuQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -30,12 +30,12 @@ Cc: Stefan Wahren <wahrenst@gmx.net>,
 	samuel@sholland.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.1 4/5] ARM: sun9i: smp: fix return code check of of_property_match_string
-Date: Mon,  8 Jan 2024 07:28:15 -0500
-Message-ID: <20240108122823.2090312-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 3/3] ARM: sun9i: smp: fix return code check of of_property_match_string
+Date: Mon,  8 Jan 2024 07:28:46 -0500
+Message-ID: <20240108122849.2090674-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240108122823.2090312-1-sashal@kernel.org>
-References: <20240108122823.2090312-1-sashal@kernel.org>
+In-Reply-To: <20240108122849.2090674-1-sashal@kernel.org>
+References: <20240108122849.2090674-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -44,7 +44,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.71
+X-stable-base: Linux 5.15.146
 Content-Transfer-Encoding: 8bit
 
 From: Stefan Wahren <wahrenst@gmx.net>
