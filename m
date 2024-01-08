@@ -1,108 +1,111 @@
-Received: from bee.tesarici.cz (bee.tesarici.cz [77.93.223.253])
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D8B84C3C9
-	for <linux-sunxi@lists.linux.dev>; Mon,  8 Jan 2024 15:12:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tesarici.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tesarici.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C9BC54BE3
+	for <linux-sunxi@lists.linux.dev>; Mon,  8 Jan 2024 18:33:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b="USfx4zi6"
-Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by bee.tesarici.cz (Postfix) with ESMTPSA id 63D5F1ABA94;
-	Mon,  8 Jan 2024 16:12:42 +0100 (CET)
-Authentication-Results: mail.tesarici.cz; dmarc=fail (p=none dis=none) header.from=tesarici.cz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tesarici.cz; s=mail;
-	t=1704726762; bh=T5GyI4pZHaFZHAhkulFmwZFJg3xQW0QBAO0wRAeQ28g=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=USfx4zi6oqdMofzUxQ/Inw8yxy1wDFQs3waZUpBETRNn00EV71suAAfAm+naH9mzf
-	 reYcMTEEkgelI63XHhQjAcvWcS0HAdPLCkDYU/VxO8NOl8mAIsm3j0EJwyuLMvMMGP
-	 VdBPlvTg1bKzLWrooPTmJdYqWbp8+4eBLJZoBS5b5W1eRU8mUoiVlGSoERdNxgDM8y
-	 1HLUT2ew2czqCHuuCT1RlsgZLrZ2llTutn7C8YJ5HI3lb8+8G1nqES7JLJImHhO8vY
-	 zynaYWbheQSQafSRMBJCpwbagkzWIydg+ZahmvqqCB2r9EZl+jUJv9eUL+ReMulBYX
-	 GB6+1prgC/2+Q==
-Date: Mon, 8 Jan 2024 16:12:41 +0100
-From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: David Laight <David.Laight@aculab.com>, Eric Dumazet
- <edumazet@google.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Jose Abreu <joabreu@synopsys.com>, "David S. Miller" <davem@davemloft.net>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Maxime
- Coquelin <mcoquelin.stm32@gmail.com>, Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- "open list:STMMAC ETHERNET DRIVER" <netdev@vger.kernel.org>, "moderated
- list:ARM/STM32 ARCHITECTURE" <linux-stm32@st-md-mailman.stormreply.com>,
- "moderated list:ARM/STM32 ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>, open list
- <linux-kernel@vger.kernel.org>, "open list:ARM/Allwinner sunXi SoC support"
- <linux-sunxi@lists.linux.dev>, Jiri Pirko <jiri@resnulli.us>
-Subject: Re: [PATCH] net: stmmac: protect statistics updates with a spinlock
-Message-ID: <20240108161241.625df103@meshulam.tesarici.cz>
-In-Reply-To: <32c4095e-ec33-4059-a8d3-f85e18363c77@lunn.ch>
-References: <CANn89iLuYZBersxq4aH-9Fg_ojD0fh=0xtdLbRdbMrup=nvrkA@mail.gmail.com>
-	<20240105113402.0f5f1232@meshulam.tesarici.cz>
-	<CANn89iLEvW9ZS=+WPETPC=mKRyu9AKmueGCWZZOrz9oX3Xef=g@mail.gmail.com>
-	<20240105121447.11ae80d1@meshulam.tesarici.cz>
-	<20240105142732.1903bc70@meshulam.tesarici.cz>
-	<CANn89iLHLvGFX_JEYU-en0ZoCUpTvjXPBzFECxLFfa_Jhpcjmg@mail.gmail.com>
-	<CANn89iKWSemsKmfsLjupwWBnyeKjtHH+mZjTzYiJT4G=xyUrNQ@mail.gmail.com>
-	<20240105154558.2ca38aca@meshulam.tesarici.cz>
-	<a8bb0eb0-8398-4e7e-8dc5-6ebf2f981ca8@lunn.ch>
-	<d05ca29283eb47df9c58838cb87a887c@AcuMS.aculab.com>
-	<32c4095e-ec33-4059-a8d3-f85e18363c77@lunn.ch>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.39; x86_64-suse-linux-gnu)
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="KME0vviq"
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 408IXDoB041796;
+	Mon, 8 Jan 2024 12:33:13 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1704738794;
+	bh=K3M9sI7ldpwxKdZlqbzDASUN2Gy2vGqDMV0YI/zfTo4=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References;
+	b=KME0vviqbdcwJlAQ8bWNbObioH1VBKu2jzYv6sic48MxvNnBTDeOtUlPIRWvdytmn
+	 0MOjzIFmD1VMrfQRNjSAJwSIcl7B9VHdiv9N+ZlY7wIa6dtrQqFYhOO+FxpDm0ZOru
+	 r0juZZMEEBEg4w89gXIoKG5h4Wicb02AOTBcTJkI=
+Received: from DFLE108.ent.ti.com (dfle108.ent.ti.com [10.64.6.29])
+	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 408IXD7f022473
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 8 Jan 2024 12:33:13 -0600
+Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE108.ent.ti.com
+ (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 8
+ Jan 2024 12:33:13 -0600
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Mon, 8 Jan 2024 12:33:13 -0600
+Received: from lelvsmtp5.itg.ti.com ([10.249.40.136])
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 408IX3hJ051691;
+	Mon, 8 Jan 2024 12:33:12 -0600
+From: Andrew Davis <afd@ti.com>
+To: Frank Binns <frank.binns@imgtec.com>,
+        Donald Robson
+	<donald.robson@imgtec.com>,
+        Matt Coster <matt.coster@imgtec.com>,
+        "H .
+ Nikolaus Schaller" <hns@goldelico.com>,
+        Adam Ford <aford173@gmail.com>,
+        Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+        Maarten Lankhorst
+	<maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec
+	<jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        =?UTF-8?q?Beno=C3=AEt=20Cousson?= <bcousson@baylibre.com>,
+        Tony Lindgren
+	<tony@atomide.com>, Nishanth Menon <nm@ti.com>,
+        Vignesh Raghavendra
+	<vigneshr@ti.com>,
+        Tero Kristo <kristo@kernel.org>, Paul Cercueil
+	<paul@crapouillou.net>
+CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-sunxi@lists.linux.dev>, <linux-omap@vger.kernel.org>,
+        <linux-mips@vger.kernel.org>, Andrew Davis <afd@ti.com>
+Subject: [PATCH RFC v2 10/11] ARM: dts: sun6i: Add device tree entry for SGX GPU
+Date: Mon, 8 Jan 2024 12:33:01 -0600
+Message-ID: <20240108183302.255055-11-afd@ti.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240108183302.255055-1-afd@ti.com>
+References: <20240108183302.255055-1-afd@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-On Mon, 8 Jan 2024 14:41:10 +0100
-Andrew Lunn <andrew@lunn.ch> wrote:
+Add SGX GPU device entry to base sun6i-a31 dtsi file.
 
-> > > You might want to consider per CPU statistics. Since each CPU has its
-> > > own structure of statistics, you don't need atomic.
-> > > 
-> > > The code actually using the statistics then needs to sum up the per
-> > > CPU statistics, and using syncp should be sufficient for that.  
-> > 
-> > Doesn't that consume rather a lot of memory on systems with
-> > 'silly numbers' of cpu?  
-> 
-> Systems with silly number of CPUS tend to also have silly amounts of
-> memory. We are talking about maybe a dozen u64 here. So the memory
-> usage goes from 144 bytes, to 144K for a 1024CPU system.  Is 144K
-> excessive for such a system?
+Signed-off-by: Andrew Davis <afd@ti.com>
+---
+ arch/arm/boot/dts/allwinner/sun6i-a31.dtsi | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-I'm not even sure it's worth converting _all_ statistic counters to
-per-CPU variables. Most of them are already guarded by a lock (either
-the queue lock, or NAPI scheduling). Only the hard interrupt counter is
-not protected by anything, so it's more like 8k on a 1024-CPU system....
+diff --git a/arch/arm/boot/dts/allwinner/sun6i-a31.dtsi b/arch/arm/boot/dts/allwinner/sun6i-a31.dtsi
+index 5cce4918f84c9..e6998783b89aa 100644
+--- a/arch/arm/boot/dts/allwinner/sun6i-a31.dtsi
++++ b/arch/arm/boot/dts/allwinner/sun6i-a31.dtsi
+@@ -962,6 +962,15 @@ mdio: mdio {
+ 			};
+ 		};
+ 
++		gpu: gpu@1c40000 {
++			compatible = "allwinner,sun6i-a31-gpu", "img,powervr-sgx544";
++			reg = <0x01c40000 0x10000>;
++			interrupts = <GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_GPU_CORE>, <&ccu CLK_GPU_MEMORY>;
++			clock-names = "core", "mem";
++			status = "disabled";
++		};
++
+ 		crypto: crypto-engine@1c15000 {
+ 			compatible = "allwinner,sun6i-a31-crypto",
+ 				     "allwinner,sun4i-a10-crypto";
+-- 
+2.39.2
 
-> > Updating an atomic_t is (pretty much) the same as taking a lock.
-> > unlock() is also likely to also contain an atomic operation.
-> > So if you update more than two atomic_t it is likely that a lock
-> > will be faster.  
-> 
-> True, but all those 1024 CPUs in your silly system get affected by a
-> lock or an atomic. They all need to do something with there L1 and L2
-> cache when using atomics. Spending an extra 144K of RAM means the
-> other 1023 CPUs don't notice anything at all during the increment
-> phase, which could be happening 1M times a second. They only get
-> involved when something in user space wants the statistics, so maybe
-> once per second from the SNMP agent.
-> 
-> Also, stmmac is not used on silly CPU systems. It used in embedded
-> systems. I doubt its integrated into anything with more than 8 CPUs.
-
-I also doubt it as of today, but hey, it seems that more CPU cores is
-the future of embedded. Ten years ago, who would have imagined putting
-an 8-core CPU into a smartphone? OTOH who would have imagined a
-smartphone with 24G of RAM...
-
-Petr T
