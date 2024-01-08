@@ -1,95 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDE0D46BBD;
-	Mon,  8 Jan 2024 12:29:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 858A145948;
+	Mon,  8 Jan 2024 13:41:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="guyrjgYG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85D56C433CA;
-	Mon,  8 Jan 2024 12:29:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704716971;
-	bh=G4ip5jfl9JfDX8Jhcz/cU2wljO5aEdScGmo3SrX3ccQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=guyrjgYGE8rjLZhvuLeap0fv+07f2ZBY6FxzVKqNdgHzIanaOkofvtj0QhUEN+3mk
-	 hfDBNgfSGF9YhyagrDvpc036tGcI900uaXEeKXUMijwYi6/zc7oMV747McemfDGwR8
-	 hKU2ZnyHIEX77sfOTWv5BNfL1DnVkkF8PPSLr2tqyL6ECwYoTmYhcD56WAuyzSUP6/
-	 A+AkxFh88V37s1DCIi8FmigDOo1LtCsL71iZ24aGSDvddRW3TtsNA7lvaauesYHWXT
-	 ZV9caguX8z5ErOv+BVu17RqqgcHvzyorT5YPvBwkVvg2AMMWOJ9LOxE7QYmLVJ0emS
-	 Qko8yU7BHXZGw==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Stefan Wahren <wahrenst@gmx.net>,
-	Nick Desaulniers <ndesaulniers@google.com>,
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="g/89ezCx"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=eG9T8lTouYuHP4iTNggEDal9BKSEaIu9o9UHqgV4zmU=; b=g/89ezCx8XKj8W9WmBVIIO1o2v
+	Xrhg/GZiVeJL8+zT0PrmSbue3YHm45GvMqN34rXMHhRVjLn5ggcS5uLitaN9K3ZBf9LvpoTlX3G2l
+	f1q+wmn+Iq76ScsWq6Apwf8I0AEZUWJTBs5u7YApblPFDXs5zD4uka8lxEKjQ+BwNpwc=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1rMpsM-004dvG-Sa; Mon, 08 Jan 2024 14:41:10 +0100
+Date: Mon, 8 Jan 2024 14:41:10 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: David Laight <David.Laight@aculab.com>
+Cc: Petr =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>,
+	Eric Dumazet <edumazet@google.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
 	Chen-Yu Tsai <wens@csie.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Sasha Levin <sashal@kernel.org>,
-	linux@armlinux.org.uk,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH AUTOSEL 4.19 2/2] ARM: sun9i: smp: fix return code check of of_property_match_string
-Date: Mon,  8 Jan 2024 07:29:24 -0500
-Message-ID: <20240108122926.2090989-2-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240108122926.2090989-1-sashal@kernel.org>
-References: <20240108122926.2090989-1-sashal@kernel.org>
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	"open list:STMMAC ETHERNET DRIVER" <netdev@vger.kernel.org>,
+	"moderated list:ARM/STM32 ARCHITECTURE" <linux-stm32@st-md-mailman.stormreply.com>,
+	"moderated list:ARM/STM32 ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
+	Jiri Pirko <jiri@resnulli.us>
+Subject: Re: [PATCH] net: stmmac: protect statistics updates with a spinlock
+Message-ID: <32c4095e-ec33-4059-a8d3-f85e18363c77@lunn.ch>
+References: <CANn89iLuYZBersxq4aH-9Fg_ojD0fh=0xtdLbRdbMrup=nvrkA@mail.gmail.com>
+ <20240105113402.0f5f1232@meshulam.tesarici.cz>
+ <CANn89iLEvW9ZS=+WPETPC=mKRyu9AKmueGCWZZOrz9oX3Xef=g@mail.gmail.com>
+ <20240105121447.11ae80d1@meshulam.tesarici.cz>
+ <20240105142732.1903bc70@meshulam.tesarici.cz>
+ <CANn89iLHLvGFX_JEYU-en0ZoCUpTvjXPBzFECxLFfa_Jhpcjmg@mail.gmail.com>
+ <CANn89iKWSemsKmfsLjupwWBnyeKjtHH+mZjTzYiJT4G=xyUrNQ@mail.gmail.com>
+ <20240105154558.2ca38aca@meshulam.tesarici.cz>
+ <a8bb0eb0-8398-4e7e-8dc5-6ebf2f981ca8@lunn.ch>
+ <d05ca29283eb47df9c58838cb87a887c@AcuMS.aculab.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 4.19.303
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d05ca29283eb47df9c58838cb87a887c@AcuMS.aculab.com>
 
-From: Stefan Wahren <wahrenst@gmx.net>
+> > You might want to consider per CPU statistics. Since each CPU has its
+> > own structure of statistics, you don't need atomic.
+> > 
+> > The code actually using the statistics then needs to sum up the per
+> > CPU statistics, and using syncp should be sufficient for that.
+> 
+> Doesn't that consume rather a lot of memory on systems with
+> 'silly numbers' of cpu?
 
-[ Upstream commit 643fe70e7bcdcc9e2d96952f7fc2bab56385cce5 ]
+Systems with silly number of CPUS tend to also have silly amounts of
+memory. We are talking about maybe a dozen u64 here. So the memory
+usage goes from 144 bytes, to 144K for a 1024CPU system.  Is 144K
+excessive for such a system?
 
-of_property_match_string returns an int; either an index from 0 or
-greater if successful or negative on failure. Even it's very
-unlikely that the DT CPU node contains multiple enable-methods
-these checks should be fixed.
+> Updating an atomic_t is (pretty much) the same as taking a lock.
+> unlock() is also likely to also contain an atomic operation.
+> So if you update more than two atomic_t it is likely that a lock
+> will be faster.
 
-This patch was inspired by the work of Nick Desaulniers.
+True, but all those 1024 CPUs in your silly system get affected by a
+lock or an atomic. They all need to do something with there L1 and L2
+cache when using atomics. Spending an extra 144K of RAM means the
+other 1023 CPUs don't notice anything at all during the increment
+phase, which could be happening 1M times a second. They only get
+involved when something in user space wants the statistics, so maybe
+once per second from the SNMP agent.
 
-Link: https://lore.kernel.org/lkml/20230516-sunxi-v1-1-ac4b9651a8c1@google.com/T/
-Cc: Nick Desaulniers <ndesaulniers@google.com>
-Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
-Link: https://lore.kernel.org/r/20231228193903.9078-2-wahrenst@gmx.net
-Reviewed-by: Chen-Yu Tsai <wens@csie.org>
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- arch/arm/mach-sunxi/mc_smp.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Also, stmmac is not used on silly CPU systems. It used in embedded
+systems. I doubt its integrated into anything with more than 8 CPUs.
 
-diff --git a/arch/arm/mach-sunxi/mc_smp.c b/arch/arm/mach-sunxi/mc_smp.c
-index ff173e67eed21..1fbc5b5a3cfe8 100644
---- a/arch/arm/mach-sunxi/mc_smp.c
-+++ b/arch/arm/mach-sunxi/mc_smp.c
-@@ -801,14 +801,14 @@ static int __init sunxi_mc_smp_init(void)
- 	for (i = 0; i < ARRAY_SIZE(sunxi_mc_smp_data); i++) {
- 		ret = of_property_match_string(node, "enable-method",
- 					       sunxi_mc_smp_data[i].enable_method);
--		if (!ret)
-+		if (ret >= 0)
- 			break;
- 	}
- 
- 	is_a83t = sunxi_mc_smp_data[i].is_a83t;
- 
- 	of_node_put(node);
--	if (ret)
-+	if (ret < 0)
- 		return -ENODEV;
- 
- 	if (!sunxi_mc_smp_cpu_table_init())
--- 
-2.43.0
-
+       Andrew
