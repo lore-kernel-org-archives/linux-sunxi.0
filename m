@@ -1,93 +1,95 @@
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD33513FEE
-	for <linux-sunxi@lists.linux.dev>; Mon,  8 Jan 2024 10:35:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aculab.com
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-131-SSdTflTDNiSgu7lU4QYbVg-1; Mon, 08 Jan 2024 10:35:00 +0000
-X-MC-Unique: SSdTflTDNiSgu7lU4QYbVg-1
-Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
- (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Mon, 8 Jan
- 2024 10:34:35 +0000
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Mon, 8 Jan 2024 10:34:35 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Andrew Lunn' <andrew@lunn.ch>, =?iso-8859-2?Q?Petr_Tesa=F8=EDk?=
-	<petr@tesarici.cz>
-CC: Eric Dumazet <edumazet@google.com>, Alexandre Torgue
-	<alexandre.torgue@foss.st.com>, Jose Abreu <joabreu@synopsys.com>, "David S.
- Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, "Chen-Yu
- Tsai" <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, "Samuel
- Holland" <samuel@sholland.org>, "open list:STMMAC ETHERNET DRIVER"
-	<netdev@vger.kernel.org>, "moderated list:ARM/STM32 ARCHITECTURE"
-	<linux-stm32@st-md-mailman.stormreply.com>, "moderated list:ARM/STM32
- ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>, open list
-	<linux-kernel@vger.kernel.org>, "open list:ARM/Allwinner sunXi SoC support"
-	<linux-sunxi@lists.linux.dev>, Jiri Pirko <jiri@resnulli.us>
-Subject: RE: [PATCH] net: stmmac: protect statistics updates with a spinlock
-Thread-Topic: [PATCH] net: stmmac: protect statistics updates with a spinlock
-Thread-Index: AQHaP/3Ni9qIc9t6xUGHU0aBdMePobDPuW8A
-Date: Mon, 8 Jan 2024 10:34:35 +0000
-Message-ID: <d05ca29283eb47df9c58838cb87a887c@AcuMS.aculab.com>
-References: <20240105091556.15516-1-petr@tesarici.cz>
- <CANn89iLuYZBersxq4aH-9Fg_ojD0fh=0xtdLbRdbMrup=nvrkA@mail.gmail.com>
- <20240105113402.0f5f1232@meshulam.tesarici.cz>
- <CANn89iLEvW9ZS=+WPETPC=mKRyu9AKmueGCWZZOrz9oX3Xef=g@mail.gmail.com>
- <20240105121447.11ae80d1@meshulam.tesarici.cz>
- <20240105142732.1903bc70@meshulam.tesarici.cz>
- <CANn89iLHLvGFX_JEYU-en0ZoCUpTvjXPBzFECxLFfa_Jhpcjmg@mail.gmail.com>
- <CANn89iKWSemsKmfsLjupwWBnyeKjtHH+mZjTzYiJT4G=xyUrNQ@mail.gmail.com>
- <20240105154558.2ca38aca@meshulam.tesarici.cz>
- <a8bb0eb0-8398-4e7e-8dc5-6ebf2f981ca8@lunn.ch>
-In-Reply-To: <a8bb0eb0-8398-4e7e-8dc5-6ebf2f981ca8@lunn.ch>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11D3041217;
+	Mon,  8 Jan 2024 12:27:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lG3MxohL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FE3CC433CC;
+	Mon,  8 Jan 2024 12:27:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1704716876;
+	bh=RVGkUfKuddK7q+LwkHlZYXF21kwp4y+tIp39Pl9cSw8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=lG3MxohL9cDPAHFQJ7xdXh2pp0rywkMTXeN9gvOPYNIDt5nfW7zBX4HeJfQldAsc2
+	 bYFrmUrtQso06cYJ8ztxytXJN0YsRxcheCK8RFuQ2yxmKzSsQScbZqljro+YqDk0Pr
+	 9gd/MbtZNnMI+FMM+VylE/Ew0h1ubYfrdFSrnrEEwVdD8HFfk6Ck1RbhLm0N00UUMU
+	 NDkkcWz37PTbfgRNVbUazEpwMDFvMnWjkMngNm0MsP4zdw83IXNeoBsWdunTRosl79
+	 9JYnakBGoqrzXs+vXApvN3G/WP/ZPaTJ1nZalkrBygOSgscc3tNd8ZB7TlUx3U/FVt
+	 cY9r31bFOhl/Q==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Stefan Wahren <wahrenst@gmx.net>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Sasha Levin <sashal@kernel.org>,
+	linux@armlinux.org.uk,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH AUTOSEL 6.6 5/8] ARM: sun9i: smp: fix return code check of of_property_match_string
+Date: Mon,  8 Jan 2024 07:27:21 -0500
+Message-ID: <20240108122745.2090122-5-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240108122745.2090122-1-sashal@kernel.org>
+References: <20240108122745.2090122-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.6.10
+Content-Transfer-Encoding: 8bit
 
-From: Andrew Lunn
-> Sent: 05 January 2024 17:37
->=20
-> > This only leaves an atomic_t in hard irq context. I have tried to find
-> > something that could relax the requirement, but AFAICS at least some
-> > setups use several interrupts that can be delivered to different CPUs
-> > simultaneously, and all of them will walk over all channels. So we're
-> > left with an atomic_t here.
->=20
-> You might want to consider per CPU statistics. Since each CPU has its
-> own structure of statistics, you don't need atomic.
->=20
-> The code actually using the statistics then needs to sum up the per
-> CPU statistics, and using syncp should be sufficient for that.
+From: Stefan Wahren <wahrenst@gmx.net>
 
-Doesn't that consume rather a lot of memory on systems with
-'silly numbers' of cpu?
+[ Upstream commit 643fe70e7bcdcc9e2d96952f7fc2bab56385cce5 ]
 
-Updating an atomic_t is (pretty much) the same as taking a lock.
-unlock() is also likely to also contain an atomic operation.
-So if you update more than two atomic_t it is likely that a lock
-will be faster.
+of_property_match_string returns an int; either an index from 0 or
+greater if successful or negative on failure. Even it's very
+unlikely that the DT CPU node contains multiple enable-methods
+these checks should be fixed.
 
-=09David
+This patch was inspired by the work of Nick Desaulniers.
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
+Link: https://lore.kernel.org/lkml/20230516-sunxi-v1-1-ac4b9651a8c1@google.com/T/
+Cc: Nick Desaulniers <ndesaulniers@google.com>
+Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+Link: https://lore.kernel.org/r/20231228193903.9078-2-wahrenst@gmx.net
+Reviewed-by: Chen-Yu Tsai <wens@csie.org>
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ arch/arm/mach-sunxi/mc_smp.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm/mach-sunxi/mc_smp.c b/arch/arm/mach-sunxi/mc_smp.c
+index cb63921232a6f..a0e38050e7fad 100644
+--- a/arch/arm/mach-sunxi/mc_smp.c
++++ b/arch/arm/mach-sunxi/mc_smp.c
+@@ -803,14 +803,14 @@ static int __init sunxi_mc_smp_init(void)
+ 	for (i = 0; i < ARRAY_SIZE(sunxi_mc_smp_data); i++) {
+ 		ret = of_property_match_string(node, "enable-method",
+ 					       sunxi_mc_smp_data[i].enable_method);
+-		if (!ret)
++		if (ret >= 0)
+ 			break;
+ 	}
+ 
+ 	is_a83t = sunxi_mc_smp_data[i].is_a83t;
+ 
+ 	of_node_put(node);
+-	if (ret)
++	if (ret < 0)
+ 		return -ENODEV;
+ 
+ 	if (!sunxi_mc_smp_cpu_table_init())
+-- 
+2.43.0
 
