@@ -1,149 +1,172 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4B023D968
-	for <linux-sunxi@lists.linux.dev>; Tue,  9 Jan 2024 19:53:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51083D577
+	for <linux-sunxi@lists.linux.dev>; Tue,  9 Jan 2024 20:13:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TVHgW7kA"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3374eb61cbcso3184479f8f.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 09 Jan 2024 11:53:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W+jcoQoe"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-40e4d778e5eso13810795e9.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 09 Jan 2024 12:13:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704830031; x=1705434831; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+vcM+EIKLS0Q1eJNlRxuAFOV/R1iZcC4d+uzgO0fQJA=;
-        b=TVHgW7kAbIbEtLBdOn2qqZHjqamVjoJ/f+bfHWwuGZ1FGTIyuCpUvgqQ9iWmRgYJ4O
-         BiBMshTsTlQJ0WG8mnMHv9yq9hBxkUur5VB1Osu4GafPhmCm8aiNctIWgWJPfMPcZd41
-         Wnd1oLxwPlfrM8AmdfWIzxvIYCBZHBb/zSLYYDxjXuN+VHuwIdJjtofyNXsj6S5VWc3u
-         iwe2EopUaeqda+vXyjILgCnJqZQiwd1MSnDvkJHK1ZsHg6qsE3VFsW2kn+UlfkuKjCMn
-         hiNn0ByzllBh2HVAJgsJggK3pjhaSmpHNgC0K7MllzV9RfTVijQ3IeDXh3yHlindgrjv
-         PYfw==
+        d=gmail.com; s=20230601; t=1704831213; x=1705436013; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ri1A4PylPs61GP02N60LyoFg+L+Yu7M2YLplX+7G6Qk=;
+        b=W+jcoQoeIlZI1M9LqNDFRmDCD/wrSvp4kf2+0YE8owY7kiwkYPVWt7EybuPJMGoxde
+         yS8JrvtG3sBYnhRPDL1M4YHKZTC7vUAJ3fdA7cS16lrM7ejQbT5yBCnGZ51tNMf3oCdz
+         +Gw2l2WNknnSGC3fkO6RtF8f7gkk0zd2dHxl2j8QNrkeZtP3OHWzeSu9MhcPXxuQNlHs
+         D2lIYfzS9SwcMtGoMkrBc1apBQ8RSFNdWRh+BNiEVuT6K8iZT8QyC1UOM9ut5h/K0iBH
+         TsOB9lgeaAwVhSorIQTanTONAHzzwtHxTb/QdDHqR11/doDvzkoDtE+Vu7I6EB9MWhZ5
+         Nz7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704830031; x=1705434831;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+vcM+EIKLS0Q1eJNlRxuAFOV/R1iZcC4d+uzgO0fQJA=;
-        b=oqohXYJN9vtDc/L1VI3qH4ryyBDNQMI2f46ufbMb63gS4ytTMRtK3BiFnP/UABuKBx
-         3CA27txjGgmDzJT8+Zoe6oy40XLLJiz9iAxm/0EPcuYfO/41So1WXKf/QKN/745va6wv
-         dLUNFVesybP1xis0pNHbADcmb4+oWXtWeF6TCwKL8KXE/EfmjR+VAUrGxmJ51wxpd70U
-         E7uKWflEZ7OYCyDsMbcY9gwEQ7B2/lCCTzIvsEmzvk0zQseiyCEq/lMporYLWveOSrd3
-         cl0ju7eJGSw3YJsq8c61BL02XXtLuYC+a11h3BR0e6qLKFuEJV1xa5u+caATnehJRJSY
-         IJFQ==
-X-Gm-Message-State: AOJu0YxLs6GUDegOD4APNTtst1QhVXoD02EQMAFdprTIT5z46tJqGz4U
-	SfTzfIooIpcm/ZCgvWFwoOSvaNeKuw4Udg==
-X-Google-Smtp-Source: AGHT+IEXp9EHl+r52nyZmUYQ2UqnJZ61Ouw6bS+YYSJgi5AM3RP3Y/ohztJJgJzhA0/8e+7u/oL88w==
-X-Received: by 2002:adf:f343:0:b0:337:49d6:d487 with SMTP id e3-20020adff343000000b0033749d6d487mr986977wrp.29.1704830031021;
-        Tue, 09 Jan 2024 11:53:51 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.223.112])
-        by smtp.gmail.com with ESMTPSA id w1-20020a5d6801000000b00336be33649csm3193258wru.9.2024.01.09.11.53.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Jan 2024 11:53:50 -0800 (PST)
-Message-ID: <e2fce141-4966-4e70-9a5c-865a2737174c@linaro.org>
-Date: Tue, 9 Jan 2024 20:53:48 +0100
+        d=1e100.net; s=20230601; t=1704831213; x=1705436013;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ri1A4PylPs61GP02N60LyoFg+L+Yu7M2YLplX+7G6Qk=;
+        b=WpAyFDW/fL+oAnAp2nqBFernvHg5f0oTyX29s2FHsh89HgqZcaFr7zyDq/MVGUjAlG
+         BZJXjXjnQRvStH3Y5qHEhsNEGhsNDHFirjPCCWtXo3kxLNCW0GDrEOqbH9+lv9jKmu6I
+         EFZyS4Dy5EGp8o/7lOekFzXz0pBakTx2ppabR6bC5mH+zAmZPOMzbLVlQ2HLc/GklPLQ
+         n29dIYdNw+1BGqxO59zQnhwg2l/ckWoP8XBX/mEecDUT9qpPffFWFYKUqmaTGaatdbAO
+         RuMVUBC6yiEL/0Vq/0wwULjU76AKxjgEz/w/zw7Q1ZEYWsiKEDuSIEdgbNfPIlKUB0FR
+         edTA==
+X-Gm-Message-State: AOJu0YxWHL68YI45v9HO2zJPgt8uDIu92o+6PjggJD8Fk1rNsNGY3rBp
+	2I8nRunmBH/Pf/JUjRJKXOI=
+X-Google-Smtp-Source: AGHT+IFWeqJH8v4d6+tnLLqV4BNVKn2y5I5WhwFYoAeVK8N9t53Q9defYknIcJu4v4RiYmRY0DHgYA==
+X-Received: by 2002:a05:600c:34cd:b0:40e:44eb:c3a with SMTP id d13-20020a05600c34cd00b0040e44eb0c3amr2112091wmq.31.1704831212907;
+        Tue, 09 Jan 2024 12:13:32 -0800 (PST)
+Received: from jernej-laptop.localnet (213-161-3-116.dynamic.telemach.net. [213.161.3.116])
+        by smtp.gmail.com with ESMTPSA id s11-20020a05600c45cb00b0040e395cd20bsm15857094wmo.7.2024.01.09.12.13.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Jan 2024 12:13:32 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: anarsoul@gmail.com, tiny.windzz@gmail.com, linux-sunxi@lists.linux.dev,
+ Alexey Klimov <alexey.klimov@linaro.org>
+Cc: rafael@kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ wens@csie.org, samuel@sholland.org, daniel.lezcano@linaro.org,
+ peter.griffin@linaro.org, klimov.linux@gmail.com
+Subject:
+ Re: [PATCH RESEND] arm64: dts: allwinner: a64: Add thermal trip points for
+ GPU
+Date: Tue, 09 Jan 2024 21:13:02 +0100
+Message-ID: <2252115.iZASKD2KPV@jernej-laptop>
+In-Reply-To: <20240101000008.65747-1-alexey.klimov@linaro.org>
+References: <20240101000008.65747-1-alexey.klimov@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/11] dt-bindings: gpu: Add PowerVR Series5 SGX GPUs
-Content-Language: en-US
-To: Andrew Davis <afd@ti.com>, Frank Binns <frank.binns@imgtec.com>,
- Matt Coster <matt.coster@imgtec.com>,
- "H . Nikolaus Schaller" <hns@goldelico.com>, Adam Ford <aford173@gmail.com>,
- Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, =?UTF-8?Q?Beno=C3=AEt_Cousson?=
- <bcousson@baylibre.com>, Tony Lindgren <tony@atomide.com>,
- Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Tero Kristo <kristo@kernel.org>, Paul Cercueil <paul@crapouillou.net>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-omap@vger.kernel.org,
- linux-mips@vger.kernel.org
-References: <20240109171950.31010-1-afd@ti.com>
- <20240109171950.31010-3-afd@ti.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240109171950.31010-3-afd@ti.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 09/01/2024 18:19, Andrew Davis wrote:
-> The Imagination PowerVR Series5 "SGX" GPU is part of several SoCs from
-> multiple vendors. Describe how the SGX GPU is integrated in these SoC,
-> including register space and interrupts. Clocks, reset, and power domain
-> information is SoC specific.
+Hi Alexey!
+
+Dne ponedeljek, 01. januar 2024 ob 01:00:08 CET je Alexey Klimov napisal(a):
+> Without trip points for GPU, the following errors are printed in the
+> dmesg log and the sun8i-thermal driver fails to load:
 > 
-> Signed-off-by: Andrew Davis <afd@ti.com>
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> thermal_sys: Failed to find 'trips' node
+> thermal_sys: Failed to find trip points for thermal-sensor id=1
+> sun8i-thermal: probe of 1c25000.thermal-sensor failed with error -22
 
+Please no Linux specific talk. Since DT is OS neutral let just talk about HW.
 
-> +  clock-names:
-> +    minItems: 1
-> +    items:
-> +      - const: core
-> +      - const: mem
-> +      - const: sys
+> 
+> When thermal zones are defined, trip points definitions are mandatory.
+> Trip values for the GPU are assumed to be the same values as the CPU
+> ones. The available specs do not provide any hints about thermal regimes
+> for the GPU and it seems GPU is implemented on the same die as the CPU.
+> 
+> Tested on Pine a64+.
+> 
+> Cc: Samuel Holland <samuel@sholland.org>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: Chen-Yu Tsai <wens@csie.org>
+> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
+> Cc: devicetree@vger.kernel.org
+> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+> ---
+>  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 46 +++++++++++++++++++
+>  1 file changed, 46 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+> index 62f45f71ec65..07963eea1bf0 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+> @@ -243,6 +243,29 @@ gpu0_thermal: gpu0-thermal {
+>  			polling-delay-passive = <0>;
+>  			polling-delay = <0>;
+>  			thermal-sensors = <&ths 1>;
+> +
+> +			trips {
+> +				gpu0_alert0: gpu0_alert0 {
+> +					/* milliCelsius */
+> +					temperature = <75000>;
+> +					hysteresis = <2000>;
+> +					type = "passive";
+> +				};
 
-There are no devices currently using third clock, but I assume it is
-expected or possible.
-
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Since GPU has OPP, can you add cooling maps with at least first trip point?
 
 Best regards,
-Krzysztof
+Jernej
+
+> +
+> +				gpu0_alert1: gpu0_alert1 {
+> +					/* milliCelsius */
+> +					temperature = <90000>;
+> +					hysteresis = <2000>;
+> +					type = "hot";
+> +				};
+> +
+> +				gpu0_crit: gpu0_crit {
+> +					/* milliCelsius */
+> +					temperature = <110000>;
+> +					hysteresis = <2000>;
+> +					type = "critical";
+> +				};
+> +			};
+>  		};
+>  
+>  		gpu1_thermal: gpu1-thermal {
+> @@ -250,6 +273,29 @@ gpu1_thermal: gpu1-thermal {
+>  			polling-delay-passive = <0>;
+>  			polling-delay = <0>;
+>  			thermal-sensors = <&ths 2>;
+> +
+> +			trips {
+> +				gpu1_alert0: gpu1_alert0 {
+> +					/* milliCelsius */
+> +					temperature = <75000>;
+> +					hysteresis = <2000>;
+> +					type = "passive";
+> +				};
+> +
+> +				gpu1_alert1: gpu1_alert1 {
+> +					/* milliCelsius */
+> +					temperature = <90000>;
+> +					hysteresis = <2000>;
+> +					type = "hot";
+> +				};
+> +
+> +				gpu1_crit: gpu1_crit {
+> +					/* milliCelsius */
+> +					temperature = <110000>;
+> +					hysteresis = <2000>;
+> +					type = "critical";
+> +				};
+> +			};
+>  		};
+>  	};
+>  
+> 
+
+
+
 
