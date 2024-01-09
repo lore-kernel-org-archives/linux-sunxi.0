@@ -1,124 +1,164 @@
 Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF26B3A8E4
-	for <linux-sunxi@lists.linux.dev>; Tue,  9 Jan 2024 20:21:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B56013D961
+	for <linux-sunxi@lists.linux.dev>; Tue,  9 Jan 2024 20:29:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fGC3lkIb"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-40e47dc8b0eso21330335e9.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 09 Jan 2024 12:21:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xa8Dy118"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-40e47dc8b0eso21395305e9.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 09 Jan 2024 12:29:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704831677; x=1705436477; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1704832182; x=1705436982; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SV192nZl7wwZqocnDFeUodUzhIyPq553m7hm6fzBgSg=;
-        b=fGC3lkIbO/gbASfmIhIfT81z4KDrYqmaB0lDssGvzA5tyvPC4Bbjn+XSs4ROLmtvFt
-         NDkMQJlF4SA5qRdtahfClfWGe9TmARROI7FvX+owMMdbZejs3+CRTxCnL/CO/g4yFw3f
-         lXsN8VFhBC8/2iwL3CIVDS/JwPYlQZOipsUd8EqW9dhgtHkeYZVDvKKviYwFvZkn/EsZ
-         smOJ0QB+rGafmj3RP3objnWRC3LgK0g9GMHJ5640YiIseALo3jJT2cdBm9kEZHRkUliD
-         DRaMk2VniTVedu3B3iLiqQ2mZbIUa41cQqKhPnr4XOcUQKKZ+6eo+H3LYbVWblimV8lU
-         VCdg==
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YhFxPk9bq95VbdmA1a6BS885aCK0kZ8gAMJ7pYXAmuY=;
+        b=Xa8Dy118BW4zzBm6VPyoVpKAA8yAZIyxeTcV6LmBIypP2eu+vCqwFnS0dLVWuG+49s
+         Uch6eyRQrcD7tTxU1i+5kSC5qaP17V7TzCNbJwbDLm46hS2oWJGbmwELwcPA3uz4RQoI
+         geolX4qbY3JDDFk1ntGeBYdM64BFvB6G0HsoZI7venQuS/uTdlO76RjP1rE0ctztXwlb
+         LKueuhjTaeHEefQqDMKQwfAhN7XQkmQUULN6HxNd1TO9854u8r2J77oKoHYtWcYdzTWU
+         huC53M6oQi+/1dsTqmVgho/F7FyRLJu9vwdf8Hb91q7iP78cwwqDb2B4Pn5N8MGQXLZI
+         uf5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704831677; x=1705436477;
+        d=1e100.net; s=20230601; t=1704832182; x=1705436982;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=SV192nZl7wwZqocnDFeUodUzhIyPq553m7hm6fzBgSg=;
-        b=G44CK1wohmppYLh+gzXue43p1rN3nVJCnlX6TGRFpaCPg5A2jE1XVDDgzC/XVfkjeN
-         Dx+/romnDGm5acJafUC2mDPTteiJQro6hvScLkO2ikcsasxHPBF9gkgEEAL/Ya0caEa5
-         iZf3OXCcSFgb5hqd2gneaD5M3+KMiWbtoRhCx2raEQAaSu7N7PvmbNpHJF2CueCff9pS
-         /tl8ddl+UBTST7HY5c+EntG+/INehYwii0CGobSSgfvYe9F3tJESKZKTfyVGB3eqalin
-         7MK1Rec9tDg17ljB9+l/ifmNeqGy2gCYIF2y0OgdliKu3kGoaaFgFUi4PBEn1TdVs/ZH
-         l4GA==
-X-Gm-Message-State: AOJu0Yxb8gVW0hFAAVdCbKRjWOn9UoM67YgLBMQ8JCcWxM5QgAKXhPpd
-	3j4eQ3hxJeJxaYBBhHFQK2w=
-X-Google-Smtp-Source: AGHT+IHG/BUU9h0G4AHEcZub4AHtt+rBOqTvADVCj3ASiPBNesPC+msk3izuB2XDdqx2MI2K3BGAfg==
-X-Received: by 2002:a05:600c:4512:b0:40e:3549:9021 with SMTP id t18-20020a05600c451200b0040e35499021mr3368771wmo.33.1704831677080;
-        Tue, 09 Jan 2024 12:21:17 -0800 (PST)
+        bh=YhFxPk9bq95VbdmA1a6BS885aCK0kZ8gAMJ7pYXAmuY=;
+        b=IZUs41rmjSJDSFSecfW1nqCEp30r3asK8UDec/wCgqldYUuIo35NJWzyBx8hEX8EWQ
+         h9qDySNLLioQm046MdLYZ+AgT1GOjBcVhOi2TT5pNFclJ73nCuPrKlj1ZLNXiGI4QK7L
+         6bWFowBwfykKeNOeaa6nIDB1CkVH6YbG60n0dZl6mLfxePn23oo8B+guQ5WJ9+VWbUOv
+         67iAtU50i0HMsIWe+scpboajqaEPTuJhmBM133iGd8hCrG+lJ2tDJ0IUPsuc7OzbXCrY
+         VcA7I3DDf3DiglcE0gNLzzbMn9J520BFkuB82cubQvxF08DYT3A9gdw5n3Vq7U0/lWV/
+         cLAQ==
+X-Gm-Message-State: AOJu0Yw0ckm/lOUPGd6T6fR9ASlWgFGB9L+eVe+NwAg0jI7q6rA+/nH+
+	qYhohrViWMHeGlm7Yctr5AY=
+X-Google-Smtp-Source: AGHT+IE5TnoT1XdEn0n5wgCIogYrdeyA0CMiYERCnMzgmb3h9FCnrk13KBv23kZ3Cm17VgQCyOeKbA==
+X-Received: by 2002:a05:600c:1381:b0:40d:5aa1:8f9d with SMTP id u1-20020a05600c138100b0040d5aa18f9dmr3358939wmf.35.1704832181725;
+        Tue, 09 Jan 2024 12:29:41 -0800 (PST)
 Received: from jernej-laptop.localnet (213-161-3-116.dynamic.telemach.net. [213.161.3.116])
-        by smtp.gmail.com with ESMTPSA id f6-20020adfe906000000b0033609584b9dsm3213016wrm.74.2024.01.09.12.21.15
+        by smtp.gmail.com with ESMTPSA id v12-20020a05600c470c00b0040d5f3ef2a2sm15931585wmo.16.2024.01.09.12.29.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jan 2024 12:21:16 -0800 (PST)
+        Tue, 09 Jan 2024 12:29:41 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
+To: Frank Oltmanns <frank@oltmanns.dev>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  Samuel Holland <samuel@sholland.org>,
- Andre Przywara <andre.przywara@arm.com>,
- Florian Fainelli <f.fainelli@gmail.com>, Wei Xu <xuwei5@hisilicon.com>,
- Gregory CLEMENT <gregory.clement@bootlin.com>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org,
- =?utf-8?B?6bqm5YGl5bu6?= <maijianzhang@allwinnertech.com>
-Subject: Re: [PATCH v2] ARM: dts: sun8i: Open FETA40i-C regulator aldo1
-Date: Tue, 09 Jan 2024 21:21:13 +0100
-Message-ID: <1780716.VLH7GnMWUR@jernej-laptop>
-In-Reply-To: <ZYqRZev1g_mztff2@debian.cyg>
-References: <ZYqRZev1g_mztff2@debian.cyg>
+ Guido =?ISO-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+ Purism Kernel Team <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject:
+ Re: [PATCH 4/5] clk: sunxi-ng: a64: Add constraints on PLL-VIDEO0's n/m ratio
+Date: Tue, 09 Jan 2024 21:29:39 +0100
+Message-ID: <3461075.QJadu78ljV@jernej-laptop>
+In-Reply-To: <87jzoug2jz.fsf@oltmanns.dev>
+References:
+ <20231218-pinephone-pll-fixes-v1-0-e238b6ed6dc1@oltmanns.dev>
+ <13411739.uLZWGnKmhe@jernej-laptop> <87jzoug2jz.fsf@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-Dne torek, 26. december 2023 ob 09:40:05 CET je Fuyao Kashizuku napisal(a):
-> The USB PHY in the Allwinner R40 SoC seems to rely on voltage on the
-> VCC-TVIN/OUT supply pins for proper operation, on top of its own supply
-> voltage on VCC-USB. Without a 3.3V voltage supplied to VCC-TV*, USB
-> operation becomes unstable and can result in disconnects.
-> 
-> The Forlinx FETA40i-C SoM connects both the VCC-TVOUT and VCC-TVIN pins
-> to the ALDO1 rail of the PMIC, so we need to enable that rail for USB
-> operation. Since there is no supply property in the DT bindings for
-> the USB core, we need to always enable the regulator.
-> 
-> This fixes unstable USB operation on boards using the Forlinx FETA40i-C
-> module.
-> 
-> Signed-off-by: Fuyao Kashizuku <fuyao@sjterm.com>
+Dne nedelja, 31. december 2023 ob 10:10:40 CET je Frank Oltmanns napisal(a):
+>=20
+> On 2023-12-19 at 17:54:19 +0100, Jernej =C5=A0krabec <jernej.skrabec@gmai=
+l.com> wrote:
+> > Dne ponedeljek, 18. december 2023 ob 14:35:22 CET je Frank Oltmanns nap=
+isal(a):
+> >> The Allwinner A64 manual lists the following constraint for the
+> >> PLL-VIDEO0 clock: 8 <=3D N/M <=3D 25
+> >>
+> >> Use this constraint.
+> >>
+> >> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+> >> ---
+> >>  drivers/clk/sunxi-ng/ccu-sun50i-a64.c | 8 ++++++--
+> >>  1 file changed, 6 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c b/drivers/clk/sunxi=
+=2Dng/ccu-sun50i-a64.c
+> >> index c034ac027d1c..75d839da446c 100644
+> >> --- a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+> >> +++ b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+> >> @@ -68,7 +68,8 @@ static SUNXI_CCU_NM_WITH_SDM_GATE_LOCK(pll_audio_bas=
+e_clk, "pll-audio-base",
+> >>  				       BIT(28),	/* lock */
+> >>  				       CLK_SET_RATE_UNGATE);
+> >>
+> >> -static SUNXI_CCU_NM_WITH_FRAC_GATE_LOCK_MIN_MAX_CLOSEST(pll_video0_cl=
+k, "pll-video0",
+> >> +static SUNXI_CCU_NM_WITH_FRAC_GATE_LOCK_MIN_MAX_FEAT_NM_RATIO(pll_vid=
+eo0_clk,
+> >> +						"pll-video0",
+> >>  						"osc24M", 0x010,
+> >>  						192000000,	/* Minimum rate */
+> >>  						1008000000,	/* Maximum rate */
+>=20
+> I just realized that adding the whole ratio limits for ccu_nm is
+> superfluous as you could just as well express them in for of a minimum
+> and maximum range:
+> Since 8 <=3D N/M <=3D 25 and parent_rate =3D 24 MHz, therefore
+>   192 MHz <=3D rate <=3D 600 MHz.
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Good point!
+
+>=20
+> These absolute limits are also listed in Allwinner's A64 manual.
+>=20
+> BUT, here the upper limit was raised to 1008 MHz:
+> 5de39acaf34604bd04834f092479cf4dcc946dd "clk: sunxi-ng: a64: Add max.
+> rate constraint to video PLL"
+>=20
+> With this upper limit the ratio limitation is effectively:
+> 8 <=3D N/M <=3D 42
+>=20
+> Icenowy Zheng (added to CC) had the reasonable explanation that this was
+> used in the BSP kernel, so we should probably stick to that and ditch
+> the two PLL-VIDEO0 related patches. What are your thoughts on that?
+
+Ok, it seems that these patches are really superfluous. Remove them for v2.
 
 Best regards,
 Jernej
 
-> ---
-> Changes in v2:
->  - Subject include board name.
->  - regulator name changed to vcc-3v3-tv-usb.
->  - explain why we need to enable the regulator.
->  - use full name of the commiter
->  - Link to v1: https://lore.kernel.org/lkml/ZYKjYypuAx7gNuam@debian.cyg/
-> 
->  arch/arm/boot/dts/allwinner/sun8i-r40-feta40i.dtsi | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/arch/arm/boot/dts/allwinner/sun8i-r40-feta40i.dtsi b/arch/arm/boot/dts/allwinner/sun8i-r40-feta40i.dtsi
-> index 9f39b5a2bb35..c12361d0317f 100644
-> --- a/arch/arm/boot/dts/allwinner/sun8i-r40-feta40i.dtsi
-> +++ b/arch/arm/boot/dts/allwinner/sun8i-r40-feta40i.dtsi
-> @@ -42,6 +42,13 @@ &pio {
->  	vcc-pg-supply = <&reg_dldo1>;
->  };
->  
-> +&reg_aldo1 {
-> +	regulator-always-on;
-> +	regulator-min-microvolt = <3300000>;
-> +	regulator-max-microvolt = <3300000>;
-> +	regulator-name = "vcc-3v3-tv-usb";
-> +};
-> +
->  &reg_aldo2 {
->  	regulator-always-on;
->  	regulator-min-microvolt = <1800000>;
-> 
+>=20
+> >> @@ -80,7 +81,10 @@ static SUNXI_CCU_NM_WITH_FRAC_GATE_LOCK_MIN_MAX_CLO=
+SEST(pll_video0_clk, "pll-vid
+> >>  						297000000,	/* frac rate 1 */
+> >>  						BIT(31),	/* gate */
+> >>  						BIT(28),	/* lock */
+> >> -						CLK_SET_RATE_UNGATE);
+> >> +						CLK_SET_RATE_UNGATE,
+> >> +						CCU_FEATURE_FRACTIONAL |
+> >> +						CCU_FEATURE_CLOSEST_RATE,
+> >
+> > Above flags are unrelated change, put them in new patch if needed.
+> >
+> > Best regards,
+> > Jernej
+> >
+> >> +						8, 25);		/* min/max nm ratio */
+> >>
+> >>  static SUNXI_CCU_NM_WITH_FRAC_GATE_LOCK(pll_ve_clk, "pll-ve",
+> >>  					"osc24M", 0x018,
+> >>
+> >>
+>=20
 
 
 
