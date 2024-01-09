@@ -1,49 +1,49 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 639913D544
-	for <linux-sunxi@lists.linux.dev>; Tue,  9 Jan 2024 19:52:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C623D978
+	for <linux-sunxi@lists.linux.dev>; Tue,  9 Jan 2024 19:52:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="N8SkAzqX"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-40e461c1f5cso28566005e9.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 09 Jan 2024 11:52:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WRwQ1u5I"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-40d5336986cso43972195e9.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 09 Jan 2024 11:52:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704829951; x=1705434751; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1704829971; x=1705434771; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=H8e7BIQ+0Uh9OOAYCo0/STP+HvJzJz6KC9y4zPITais=;
-        b=N8SkAzqXpUEQV2ntZTOlmhxa16qp8UBQQhpd9zUhjff0rGPYSts8SOXkjE4iZDkkWo
-         czG3YZgth8iqSl0wyXvcDI7xEHlYD33LmuDZKPfcHsbr5OQyPdPKdDq6dup7m7w+kWps
-         pAs+DoKeuEhAcpwOMboxbUJ42VTGvxC4U4gm8u/VmkzcM9KNyHKn+IkiBUIzeXbxqmlL
-         oM9Rbx9ZmWbnjYym4Rx4iMmGrkdacZ/tYECaA2cqg+v+vtXWkI+qO4ndQ7QIaLhkA6XS
-         1ZwBsD61PF0zsLnbXGIiTpd4cyg6bSvWbdpSNH+3nZw5Fc2FRHtH1/KHgZrUDoOIczg8
-         CFCg==
+        bh=BI/48/E7Md2QE++iHyjNqxZ4Ipvc83BNLpeu7Fm4++A=;
+        b=WRwQ1u5IGFZuGOKzCuJ4VVrpGYtlIjYD33iwdu9ccmhBekjKhgxqikWbZ/tarFgxQ0
+         513RCXP3hVY2By75/oBQkvTKRF8Pss82YV8vLcDydPOo3HW8ebHxYnX5/iFrTwIWx9ek
+         cRnsoNaGD1suIiFmw6b9fXGDJ3kwJtbRt8XFQU3lPoBYExSmxuIEAWwkELpDkfcahVfU
+         DZ+1ByASZb5uz3jyq9y2FzsjOsXI5+6q7KL3gaqfxeCEj3Wlp+on64p9N3kAj3IIyRIU
+         udUtNYuELMEZUAqRAI1JG0K8UDA9+JNJ9H4nmlRdnCyhE9SLQGe3CAxpvAo6K0Uyu5p6
+         T8/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704829951; x=1705434751;
+        d=1e100.net; s=20230601; t=1704829971; x=1705434771;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=H8e7BIQ+0Uh9OOAYCo0/STP+HvJzJz6KC9y4zPITais=;
-        b=MmB6rFoHnsNG1bEOjLgzUWJJ4dz0MypgDqmR4PgWsMx2iJg8uBnVCH3up4G/eo91N4
-         yfdjFY/VP6zYVArBWz3mXF3yTqrCVjlhNfHwTmLsjDkecspQUBXHaKmCSh85QwLEgGjh
-         YkLrUTucRFoyNfZ//cbxKDu0G/W79iVf9rB53CXsgNm2fJCqokiBxCdU4z42yOXLG8Ez
-         KvYA6+aWjq6mH/LU4ubflHuLAGMQaGsUsJowjL4b1pamV9i3ZYbKRoGZjFOG+VPik8LY
-         fYZBT+U64wRTremUYNwIN6Yxq2u+nZkVpn6HtY2BFDvtR0ehgHd1iPt/lXDWbxwBDNRX
-         f9tw==
-X-Gm-Message-State: AOJu0Yy17n3e7HmFMDmta0YLVpNqmp7tbwL6XuS/qCW5knLj9HWlah05
-	Omzn/kLMzD4nWd5g3bLOGXIz+aUkCmvn1g==
-X-Google-Smtp-Source: AGHT+IHmaMSsPHOeRys+SN1gCkDvhPPnnU4xw5om3zeZ1uZJmbZ6bUKv8I/7qxajZHyxo4zm+o/bmQ==
-X-Received: by 2002:a05:600c:511e:b0:40e:5320:2582 with SMTP id o30-20020a05600c511e00b0040e53202582mr212877wms.107.1704829951588;
-        Tue, 09 Jan 2024 11:52:31 -0800 (PST)
+        bh=BI/48/E7Md2QE++iHyjNqxZ4Ipvc83BNLpeu7Fm4++A=;
+        b=liYITHReW1vzMgQtmL6wff4DqqzkV+Wz+yVSUXF9dtg1AboSJXu/lMBGmbq/MKZR2c
+         GGoV/93dMI91glpKaNRJcdWILEPYUTwOT87LXVaCUlMDRIbldtum3ta2MojG411gdrLv
+         iLDEUUZtJwpcD2wY6NXoxW4kOVypBZzEtXcO7CIFNutZLpwFaouJaX49yPjyoYiVyjCv
+         +Q4IqM75bd3QocI8cBm05wRaMebH2Kf3c0yhPeDwwsz6tLC+tvpMrGO18iawd7EDuLtm
+         KW0poZjyXLohjk7q5sM2clRIsroOsNjS6Aiz8eO5UwjZsc7lEXpKgPGK4aQfr/YLRalP
+         EdlA==
+X-Gm-Message-State: AOJu0YwPG1tN6bnBCXjGJMOMxjsspFUsCGDxK49P/QIUtcda5GZtc2oD
+	q3mzRXOSiIz6+L3ANrNOgInpzkbjZnQGew==
+X-Google-Smtp-Source: AGHT+IE6HSL59hPqBUMbNpE6skT8szvU3eRO5hKrvBl3DRfpljPdLWzn6Ca47i5HcCIyTcytaHSX3w==
+X-Received: by 2002:a05:600c:4504:b0:40d:9255:4aca with SMTP id t4-20020a05600c450400b0040d92554acamr2804029wmo.119.1704829971274;
+        Tue, 09 Jan 2024 11:52:51 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.223.112])
-        by smtp.gmail.com with ESMTPSA id w1-20020a5d6801000000b00336be33649csm3193258wru.9.2024.01.09.11.52.29
+        by smtp.gmail.com with ESMTPSA id w1-20020a5d6801000000b00336be33649csm3193258wru.9.2024.01.09.11.52.49
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Jan 2024 11:52:30 -0800 (PST)
-Message-ID: <f1710a31-6729-4a97-afcb-518cb99b9346@linaro.org>
-Date: Tue, 9 Jan 2024 20:52:28 +0100
+        Tue, 09 Jan 2024 11:52:50 -0800 (PST)
+Message-ID: <2815d43d-d016-4656-9ad9-33d4af04f479@linaro.org>
+Date: Tue, 9 Jan 2024 20:52:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -68,16 +68,12 @@ To: Andrew Davis <afd@ti.com>, Frank Binns <frank.binns@imgtec.com>,
  <bcousson@baylibre.com>, Tony Lindgren <tony@atomide.com>,
  Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
  Tero Kristo <kristo@kernel.org>, Paul Cercueil <paul@crapouillou.net>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- linux-omap@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-omap@vger.kernel.org,
+ linux-mips@vger.kernel.org
 References: <20240109171950.31010-1-afd@ti.com>
  <20240109171950.31010-2-afd@ti.com>
- <11e3afae-76a7-4ebb-82ac-3dca040710dc@linaro.org>
- <d0c242ef-bb8f-49d9-bbb0-7922db2c322a@ti.com>
- <d584255f-87ee-48a7-869d-e2a0b40a52b4@linaro.org>
- <61b0c6c7-e5ad-4cbf-a020-230d96d43d3e@ti.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -123,53 +119,22 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <61b0c6c7-e5ad-4cbf-a020-230d96d43d3e@ti.com>
+In-Reply-To: <20240109171950.31010-2-afd@ti.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 09/01/2024 20:33, Andrew Davis wrote:
-> On 1/9/24 1:17 PM, Krzysztof Kozlowski wrote:
->> On 09/01/2024 20:04, Andrew Davis wrote:
->>> On 1/9/24 12:59 PM, Krzysztof Kozlowski wrote:
->>>> On 09/01/2024 18:19, Andrew Davis wrote:
->>>>> This binding will be used for GPUs starting from Series6 (Rogue)
->>>>> and later. A different binding document will describe Series5.
->>>>> With that the name "img,powervr" is too generic, rename to
->>>>> "img,powervr-rogue" to avoid confusion.
->>>>>
->>>>> Suggested-by: Maxime Ripard <mripard@kernel.org>
->>>>> Signed-off-by: Andrew Davis <afd@ti.com>
->>>>> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
->>>>> Reviewed-by: Frank Binns <frank.binns@imgtec.com>
->>>>> ---
->>>>
->>>> Why do you send new version while we still talk about previous?
->>>>
->>>> Please implement feedback from v1 (and this is v2, so next is v3) or
->>>> keep discussing.
->>>>
->>>
->>> I agreed with everything you said in the last round (RFC v2) and
->>> made all requested changes. Did I miss something in this version?
->>
->> The recommendation is that naming of the file matches generic compatible
->> and your file has only one generic compatible. Therefore I don't
->> understand why you claimed there are multiple compatibles.
->>
+On 09/01/2024 18:19, Andrew Davis wrote:
+> This binding will be used for GPUs starting from Series6 (Rogue)
+> and later. A different binding document will describe Series5.
+> With that the name "img,powervr" is too generic, rename to
+> "img,powervr-rogue" to avoid confusion.
 > 
-> I said "There are (or will be) multiple compatible strings", the rest
+> Suggested-by: Maxime Ripard <mripard@kernel.org>
+> Signed-off-by: Andrew Davis <afd@ti.com>
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> Reviewed-by: Frank Binns <frank.binns@imgtec.com>
 
-OK.
-
-> are on the way. So I didn't want to make this file less generic when
-> other bindings are almost ready.
-> 
-> Frank, can you help here, I'm assuming you have "img,img-bxs" and
-> "img,img-8xe" bindings staged for upstreaming somewhere; you'll be
-> putting those in this same file, right?
-> 
-
-That's fine then.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
