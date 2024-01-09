@@ -1,61 +1,64 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51083D577
-	for <linux-sunxi@lists.linux.dev>; Tue,  9 Jan 2024 20:13:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2903B3D541
+	for <linux-sunxi@lists.linux.dev>; Tue,  9 Jan 2024 20:15:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W+jcoQoe"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-40e4d778e5eso13810795e9.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 09 Jan 2024 12:13:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YmM9CEOe"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3374c693f92so2757013f8f.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 09 Jan 2024 12:15:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704831213; x=1705436013; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1704831309; x=1705436109; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ri1A4PylPs61GP02N60LyoFg+L+Yu7M2YLplX+7G6Qk=;
-        b=W+jcoQoeIlZI1M9LqNDFRmDCD/wrSvp4kf2+0YE8owY7kiwkYPVWt7EybuPJMGoxde
-         yS8JrvtG3sBYnhRPDL1M4YHKZTC7vUAJ3fdA7cS16lrM7ejQbT5yBCnGZ51tNMf3oCdz
-         +Gw2l2WNknnSGC3fkO6RtF8f7gkk0zd2dHxl2j8QNrkeZtP3OHWzeSu9MhcPXxuQNlHs
-         D2lIYfzS9SwcMtGoMkrBc1apBQ8RSFNdWRh+BNiEVuT6K8iZT8QyC1UOM9ut5h/K0iBH
-         TsOB9lgeaAwVhSorIQTanTONAHzzwtHxTb/QdDHqR11/doDvzkoDtE+Vu7I6EB9MWhZ5
-         Nz7w==
+        bh=M+B0yD7FjBgqTqLo7b2/IVuy2rnma81MvruhVPGvifo=;
+        b=YmM9CEOePdiLPEonyfLkjYpdQZa5l1suGPR4LsrnnvvFEz6uikXJvxF0LnuOr7rp89
+         qsd0j69QOW3y8DpXHLFN8U42uuvcYFc9WDEJQUaUKKFdJbw4RVUJXa65C+tKVsYZgAVG
+         GG0l6evtcEzBO+0vgaWbEpyoVmRQIB8B6x2Odl0ZKW+0hHJXibemU2yd2M+4tGGuOLYr
+         YWbx9MwzEAkRMH6rnK91Y6mSDOJxZcKrmlLskNPYPbZFlDrl3hbWzW4RhZh/FoKcIINZ
+         jwXmS7yDnbYOjtD7XVVIpBe+yQoGUYuiq3HQWcUKaerJeHLdxf1YpjOSnPc6Oc8NlOk1
+         Q4qQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704831213; x=1705436013;
+        d=1e100.net; s=20230601; t=1704831309; x=1705436109;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ri1A4PylPs61GP02N60LyoFg+L+Yu7M2YLplX+7G6Qk=;
-        b=WpAyFDW/fL+oAnAp2nqBFernvHg5f0oTyX29s2FHsh89HgqZcaFr7zyDq/MVGUjAlG
-         BZJXjXjnQRvStH3Y5qHEhsNEGhsNDHFirjPCCWtXo3kxLNCW0GDrEOqbH9+lv9jKmu6I
-         EFZyS4Dy5EGp8o/7lOekFzXz0pBakTx2ppabR6bC5mH+zAmZPOMzbLVlQ2HLc/GklPLQ
-         n29dIYdNw+1BGqxO59zQnhwg2l/ckWoP8XBX/mEecDUT9qpPffFWFYKUqmaTGaatdbAO
-         RuMVUBC6yiEL/0Vq/0wwULjU76AKxjgEz/w/zw7Q1ZEYWsiKEDuSIEdgbNfPIlKUB0FR
-         edTA==
-X-Gm-Message-State: AOJu0YxWHL68YI45v9HO2zJPgt8uDIu92o+6PjggJD8Fk1rNsNGY3rBp
-	2I8nRunmBH/Pf/JUjRJKXOI=
-X-Google-Smtp-Source: AGHT+IFWeqJH8v4d6+tnLLqV4BNVKn2y5I5WhwFYoAeVK8N9t53Q9defYknIcJu4v4RiYmRY0DHgYA==
-X-Received: by 2002:a05:600c:34cd:b0:40e:44eb:c3a with SMTP id d13-20020a05600c34cd00b0040e44eb0c3amr2112091wmq.31.1704831212907;
-        Tue, 09 Jan 2024 12:13:32 -0800 (PST)
+        bh=M+B0yD7FjBgqTqLo7b2/IVuy2rnma81MvruhVPGvifo=;
+        b=mENEopDw4+wvt/1vnub4Vj0XEwD+negOVu0YLvS9+qGDBjn0nYq5apH76mc7Il7a/R
+         v1ylhalRExRK7MXM4Q5JL3gnKKCbbwhDT7buCB7KUMKfcwequqThPESqqOA5Sp86KquS
+         3rpHzYASgdXKlR0+QVgU7oEdRb57XlRuuH+pPNsdjjI9nt4J0PnuMFXkv6WIK5SMteGF
+         Kvsff+10ladB2FrqeZiglE8qJsLvVa3YRA5IaSrnMygvQzWFZX5da1h8uCu3dinDaDgQ
+         9sdcncSqOAsopO7Un6aV5P5OvnOgsmwyVSoIGYsAQRnsTYnbMJbxAOwFIxgkjBRcycxr
+         J7Jg==
+X-Gm-Message-State: AOJu0YwtVK7vy3hOPtkMB972ZGKY/QTMLcuK8Meo6MARFV236s5i+MMc
+	yYuj6phxU+w3cOz2oYoyLM0=
+X-Google-Smtp-Source: AGHT+IHCUv6AIBjSaTr/8HPaqeDyMqGvcLyT6MaYhYhF7PYV0/3Jv2044yKOg30ZXyxDXKOcj8h8FQ==
+X-Received: by 2002:a5d:5406:0:b0:336:5b14:525f with SMTP id g6-20020a5d5406000000b003365b14525fmr1021417wrv.132.1704831309212;
+        Tue, 09 Jan 2024 12:15:09 -0800 (PST)
 Received: from jernej-laptop.localnet (213-161-3-116.dynamic.telemach.net. [213.161.3.116])
-        by smtp.gmail.com with ESMTPSA id s11-20020a05600c45cb00b0040e395cd20bsm15857094wmo.7.2024.01.09.12.13.06
+        by smtp.gmail.com with ESMTPSA id cg4-20020a5d5cc4000000b003377c5b8a43sm45539wrb.93.2024.01.09.12.15.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jan 2024 12:13:32 -0800 (PST)
+        Tue, 09 Jan 2024 12:15:08 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: anarsoul@gmail.com, tiny.windzz@gmail.com, linux-sunxi@lists.linux.dev,
- Alexey Klimov <alexey.klimov@linaro.org>
-Cc: rafael@kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- wens@csie.org, samuel@sholland.org, daniel.lezcano@linaro.org,
- peter.griffin@linaro.org, klimov.linux@gmail.com
-Subject:
- Re: [PATCH RESEND] arm64: dts: allwinner: a64: Add thermal trip points for
- GPU
-Date: Tue, 09 Jan 2024 21:13:02 +0100
-Message-ID: <2252115.iZASKD2KPV@jernej-laptop>
-In-Reply-To: <20240101000008.65747-1-alexey.klimov@linaro.org>
-References: <20240101000008.65747-1-alexey.klimov@linaro.org>
+To: fuyao <fuyao@sjterm.com>, Jakub Kicinski <kuba@kernel.org>
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Jose Abreu <joabreu@synopsys.com>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, netdev@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-stm32@st-md-mailman.stormreply.com, linux-kernel@vger.kernel.org,
+ =?utf-8?B?6bqm5YGl5bu6?= <maijianzhang@allwinnertech.com>
+Subject: Re: [PATCH] gmac: sun8i: r40: add gmac tx_delay support
+Date: Tue, 09 Jan 2024 21:15:07 +0100
+Message-ID: <22143664.EfDdHjke4D@jernej-laptop>
+In-Reply-To: <20240102075807.1a4cac92@kernel.org>
+References:
+ <ZYKvCQBD-SY9uVLF@debian.cyg> <ZYPmZj8l01eQsDS5@debian.cyg>
+ <20240102075807.1a4cac92@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -65,108 +68,31 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Hi Alexey!
+Dne torek, 02. januar 2024 ob 16:58:07 CET je Jakub Kicinski napisal(a):
+> On Thu, 21 Dec 2023 15:16:54 +0800 fuyao wrote:
+> > I don't see it in the user manual also.
+> > 
+> > it works fine in 100M, but it doesn't work good in 1G without tx_delay
+> > in my board.
+> > 
+> > Read the sdk from allwinner I found in:
+> > 
+> > https://sourcegraph.com/github.com/tinalinux/linux-3.10/-/blob/arch/arm/boot/dts/sun8iw11p1.dtsi?L1826
+> > https://sourcegraph.com/github.com/tinalinux/linux-3.10@r40-v1.y/-/blob/drivers/net/ethernet/allwinner/sunxi-gmac.c?L877
+> > 
+> > And I add it to my board, it works fine.
+> > 
+> > So, I think it may be exist register but not documented.
+> 
+> Unless Allwinner can chime in we should at least document the situation
+> clearly in the commit message (incl. what HW+config was tested, exactly)
+> and add a comment in the code?
+> 
 
-Dne ponedeljek, 01. januar 2024 ob 01:00:08 CET je Alexey Klimov napisal(a):
-> Without trip points for GPU, the following errors are printed in the
-> dmesg log and the sun8i-thermal driver fails to load:
-> 
-> thermal_sys: Failed to find 'trips' node
-> thermal_sys: Failed to find trip points for thermal-sensor id=1
-> sun8i-thermal: probe of 1c25000.thermal-sensor failed with error -22
-
-Please no Linux specific talk. Since DT is OS neutral let just talk about HW.
-
-> 
-> When thermal zones are defined, trip points definitions are mandatory.
-> Trip values for the GPU are assumed to be the same values as the CPU
-> ones. The available specs do not provide any hints about thermal regimes
-> for the GPU and it seems GPU is implemented on the same die as the CPU.
-> 
-> Tested on Pine a64+.
-> 
-> Cc: Samuel Holland <samuel@sholland.org>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Chen-Yu Tsai <wens@csie.org>
-> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
-> Cc: devicetree@vger.kernel.org
-> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
-> ---
->  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 46 +++++++++++++++++++
->  1 file changed, 46 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-> index 62f45f71ec65..07963eea1bf0 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-> @@ -243,6 +243,29 @@ gpu0_thermal: gpu0-thermal {
->  			polling-delay-passive = <0>;
->  			polling-delay = <0>;
->  			thermal-sensors = <&ths 1>;
-> +
-> +			trips {
-> +				gpu0_alert0: gpu0_alert0 {
-> +					/* milliCelsius */
-> +					temperature = <75000>;
-> +					hysteresis = <2000>;
-> +					type = "passive";
-> +				};
-
-Since GPU has OPP, can you add cooling maps with at least first trip point?
+I agree. Fuyao, please do that.
 
 Best regards,
 Jernej
-
-> +
-> +				gpu0_alert1: gpu0_alert1 {
-> +					/* milliCelsius */
-> +					temperature = <90000>;
-> +					hysteresis = <2000>;
-> +					type = "hot";
-> +				};
-> +
-> +				gpu0_crit: gpu0_crit {
-> +					/* milliCelsius */
-> +					temperature = <110000>;
-> +					hysteresis = <2000>;
-> +					type = "critical";
-> +				};
-> +			};
->  		};
->  
->  		gpu1_thermal: gpu1-thermal {
-> @@ -250,6 +273,29 @@ gpu1_thermal: gpu1-thermal {
->  			polling-delay-passive = <0>;
->  			polling-delay = <0>;
->  			thermal-sensors = <&ths 2>;
-> +
-> +			trips {
-> +				gpu1_alert0: gpu1_alert0 {
-> +					/* milliCelsius */
-> +					temperature = <75000>;
-> +					hysteresis = <2000>;
-> +					type = "passive";
-> +				};
-> +
-> +				gpu1_alert1: gpu1_alert1 {
-> +					/* milliCelsius */
-> +					temperature = <90000>;
-> +					hysteresis = <2000>;
-> +					type = "hot";
-> +				};
-> +
-> +				gpu1_crit: gpu1_crit {
-> +					/* milliCelsius */
-> +					temperature = <110000>;
-> +					hysteresis = <2000>;
-> +					type = "critical";
-> +				};
-> +			};
->  		};
->  	};
->  
-> 
-
 
 
 
