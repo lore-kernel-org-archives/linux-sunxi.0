@@ -1,59 +1,64 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B47413D574
-	for <linux-sunxi@lists.linux.dev>; Tue,  9 Jan 2024 20:19:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF26B3A8E4
+	for <linux-sunxi@lists.linux.dev>; Tue,  9 Jan 2024 20:21:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YKCReYeD"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-40e4d64a3fbso14792235e9.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 09 Jan 2024 12:19:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fGC3lkIb"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-40e47dc8b0eso21330335e9.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 09 Jan 2024 12:21:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704831592; x=1705436392; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1704831677; x=1705436477; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=DlYxPCHAYd6STqeLclpo+vdtfpOUSl4elB7ysJ3G/b8=;
-        b=YKCReYeD5W/pOQmMs4v4NE6wlwA3Mj+sx8uodsnKtV+zMX34nLni4htZoMmR/k/j0D
-         7lBfU+2poVEgqcxhgwuieaSQ1pJCMSs670FJ8T4OYdqVVrWcEsjUec6bXS7RE57xesA/
-         k5XS2H3KhxOuiPGm/lbhK+I2vuRdlxkyPR9k0Iv1IKZo4HbgrZWNOsHz4f5kbq+cw9z9
-         SR1M7fC6GN81OWCKN84Om7h3S2Z42+our45fgVpB4Ob08pZkbM44xQZsynRhBLSf9Obn
-         82EG6XsFlKGN0JxU6jLLqx6OOcvL+vGVIdkgKRWdovRt/CpUCXPPLPkQ00lQDdOFj/G8
-         wp9w==
+        bh=SV192nZl7wwZqocnDFeUodUzhIyPq553m7hm6fzBgSg=;
+        b=fGC3lkIbO/gbASfmIhIfT81z4KDrYqmaB0lDssGvzA5tyvPC4Bbjn+XSs4ROLmtvFt
+         NDkMQJlF4SA5qRdtahfClfWGe9TmARROI7FvX+owMMdbZejs3+CRTxCnL/CO/g4yFw3f
+         lXsN8VFhBC8/2iwL3CIVDS/JwPYlQZOipsUd8EqW9dhgtHkeYZVDvKKviYwFvZkn/EsZ
+         smOJ0QB+rGafmj3RP3objnWRC3LgK0g9GMHJ5640YiIseALo3jJT2cdBm9kEZHRkUliD
+         DRaMk2VniTVedu3B3iLiqQ2mZbIUa41cQqKhPnr4XOcUQKKZ+6eo+H3LYbVWblimV8lU
+         VCdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704831592; x=1705436392;
+        d=1e100.net; s=20230601; t=1704831677; x=1705436477;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DlYxPCHAYd6STqeLclpo+vdtfpOUSl4elB7ysJ3G/b8=;
-        b=LK9ZF/tzgEcXUC0xD5X6EH8wBN83OJSa+i4rvf/2gATrDdwqlplkju7svLrNt6/m77
-         0izR1y4vZ2jYzhRvFaf3fDArKM0EU13nqwBB4hMQTlxUQsVVNpYbf8GdejARMYCdGcJD
-         ffBee2bx6Ck9Tw8qNqpF/cB3/glYDBWjhn0BVZ4OQH0quh8+0C+5N0JWTJfzhy0rJLY1
-         Gmq6+rk39ZAyHsqyD4I8xSSrrdbDou2mx/umyB125WFPTeTjAbHb1WhivFSHjDLmhkiF
-         9lfbUcnwRZUi0j+IXbLKIU9KFsNzNEIRSD2cW5OggtlSck+KKCZjmUwR4g2HHwGbZgZt
-         R5KA==
-X-Gm-Message-State: AOJu0Yz4dfdMhez/c0Poff6PCfeUjHWBeKCLCCt++Uhc7sOs8HeBmpvI
-	5X1Ip/Qwvjv2yjX8cp680sU=
-X-Google-Smtp-Source: AGHT+IG1OMh03D58GI/XQbXMBGYnExJPieRU875c4MCxuqXF5c3yyX/E2Wz0vuSvYaovhTFRA8ZM/Q==
-X-Received: by 2002:a05:600c:205a:b0:40e:46e1:e3e9 with SMTP id p26-20020a05600c205a00b0040e46e1e3e9mr1923451wmg.122.1704831591554;
-        Tue, 09 Jan 2024 12:19:51 -0800 (PST)
+        bh=SV192nZl7wwZqocnDFeUodUzhIyPq553m7hm6fzBgSg=;
+        b=G44CK1wohmppYLh+gzXue43p1rN3nVJCnlX6TGRFpaCPg5A2jE1XVDDgzC/XVfkjeN
+         Dx+/romnDGm5acJafUC2mDPTteiJQro6hvScLkO2ikcsasxHPBF9gkgEEAL/Ya0caEa5
+         iZf3OXCcSFgb5hqd2gneaD5M3+KMiWbtoRhCx2raEQAaSu7N7PvmbNpHJF2CueCff9pS
+         /tl8ddl+UBTST7HY5c+EntG+/INehYwii0CGobSSgfvYe9F3tJESKZKTfyVGB3eqalin
+         7MK1Rec9tDg17ljB9+l/ifmNeqGy2gCYIF2y0OgdliKu3kGoaaFgFUi4PBEn1TdVs/ZH
+         l4GA==
+X-Gm-Message-State: AOJu0Yxb8gVW0hFAAVdCbKRjWOn9UoM67YgLBMQ8JCcWxM5QgAKXhPpd
+	3j4eQ3hxJeJxaYBBhHFQK2w=
+X-Google-Smtp-Source: AGHT+IHG/BUU9h0G4AHEcZub4AHtt+rBOqTvADVCj3ASiPBNesPC+msk3izuB2XDdqx2MI2K3BGAfg==
+X-Received: by 2002:a05:600c:4512:b0:40e:3549:9021 with SMTP id t18-20020a05600c451200b0040e35499021mr3368771wmo.33.1704831677080;
+        Tue, 09 Jan 2024 12:21:17 -0800 (PST)
 Received: from jernej-laptop.localnet (213-161-3-116.dynamic.telemach.net. [213.161.3.116])
-        by smtp.gmail.com with ESMTPSA id n33-20020a05600c3ba100b0040e398f8cafsm4740297wms.31.2024.01.09.12.19.50
+        by smtp.gmail.com with ESMTPSA id f6-20020adfe906000000b0033609584b9dsm3213016wrm.74.2024.01.09.12.21.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jan 2024 12:19:51 -0800 (PST)
+        Tue, 09 Jan 2024 12:21:16 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Lee Jones <lee@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+To: Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Samuel Holland <samuel@sholland.org>,
  Andre Przywara <andre.przywara@arm.com>,
- Jianzhang Mai <maijianzhang@allwinnertech.com>
-Subject: Re: [PATCH] mfd: sun4i-gpadc: adaptation interrupt number
-Date: Tue, 09 Jan 2024 21:19:48 +0100
-Message-ID: <3201556.5fSG56mABF@jernej-laptop>
-In-Reply-To: <ZYuFbUUus9apiCpq@debian.cyg>
-References: <ZYuFbUUus9apiCpq@debian.cyg>
+ Florian Fainelli <f.fainelli@gmail.com>, Wei Xu <xuwei5@hisilicon.com>,
+ Gregory CLEMENT <gregory.clement@bootlin.com>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org,
+ =?utf-8?B?6bqm5YGl5bu6?= <maijianzhang@allwinnertech.com>
+Subject: Re: [PATCH v2] ARM: dts: sun8i: Open FETA40i-C regulator aldo1
+Date: Tue, 09 Jan 2024 21:21:13 +0100
+Message-ID: <1780716.VLH7GnMWUR@jernej-laptop>
+In-Reply-To: <ZYqRZev1g_mztff2@debian.cyg>
+References: <ZYqRZev1g_mztff2@debian.cyg>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -63,81 +68,56 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne sreda, 27. december 2023 ob 03:01:17 CET je Fuyao Kashizuku napisal(a):
-> The identifiers are used as IRQ resource numbers, where 0 is treated
-> specially.
+Dne torek, 26. december 2023 ob 09:40:05 CET je Fuyao Kashizuku napisal(a):
+> The USB PHY in the Allwinner R40 SoC seems to rely on voltage on the
+> VCC-TVIN/OUT supply pins for proper operation, on top of its own supply
+> voltage on VCC-USB. Without a 3.3V voltage supplied to VCC-TV*, USB
+> operation becomes unstable and can result in disconnects.
 > 
-> This fixes sun4i-gpadc-iio probe failed when request irq.
+> The Forlinx FETA40i-C SoM connects both the VCC-TVOUT and VCC-TVIN pins
+> to the ALDO1 rail of the PMIC, so we need to enable that rail for USB
+> operation. Since there is no supply property in the DT bindings for
+> the USB core, we need to always enable the regulator.
 > 
-> The backstack:
-> 	WARNING: CPU: 3 PID: 1 at drivers/base/platform.c:451
-> 	__platform_get_irq_byname+0xb8/0xc4
-> 	0 is an invalid IRQ number
-> 	Modules linked in:
-> 	CPU: 3 PID: 1 Comm: swapper/0 Not tainted 6.7.0-rc6 #9
-> 	Hardware name: Allwinner sun8i Family
-> 	 unwind_backtrace
-> 	 show_stack
-> 	 dump_stack_lvl
-> 	 __warn
-> 	 warn_slowpath_fmt
-> 	 __platform_get_irq_byname
-> 	 platform_get_irq_byname
-> 	 sun4i_irq_init
-> 	 sun4i_gpadc_probe
-> 	 platform_probe
-> 	 really_probe
-> 	 __driver_probe_device
-> 	 driver_probe_device
-> 	 __driver_attach
-> 	 bus_for_each_dev
-> 	 bus_add_driver
-> 	 driver_register
-> 	 do_one_initcall
-> 	 do_initcall_level
-> 	 do_initcalls
-> 	 kernel_init_freeable
-> 	 kernel_init
-> 
-> Log reports:
-> sun4i-gpadc-iio sun6i-a31-gpadc-iio.0: error -EINVAL: IRQ FIFO_DATA_PENDING
-> not found
-> sun4i-gpadc-iio: probe of sun6i-a31-gpadc-iio.0 failed with error -22
+> This fixes unstable USB operation on boards using the Forlinx FETA40i-C
+> module.
 > 
 > Signed-off-by: Fuyao Kashizuku <fuyao@sjterm.com>
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
 
 > ---
 > Changes in v2:
->  - Fix the commit message.
->  - Add the backstack.
->  - Add the log reports.
->  - Use the correct full name and email address.
->  - Correct the subsystem to mfd.
->  - Link to v1: https://lore.kernel.org/lkml/YwdhTlk+9h+9Mrwm@scg/
+>  - Subject include board name.
+>  - regulator name changed to vcc-3v3-tv-usb.
+>  - explain why we need to enable the regulator.
+>  - use full name of the commiter
+>  - Link to v1: https://lore.kernel.org/lkml/ZYKjYypuAx7gNuam@debian.cyg/
 > 
->  include/linux/mfd/sun4i-gpadc.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  arch/arm/boot/dts/allwinner/sun8i-r40-feta40i.dtsi | 7 +++++++
+>  1 file changed, 7 insertions(+)
 > 
-> diff --git a/include/linux/mfd/sun4i-gpadc.h b/include/linux/mfd/sun4i-gpadc.h
-> index ea0ccf33a459..021f820f9d52 100644
-> --- a/include/linux/mfd/sun4i-gpadc.h
-> +++ b/include/linux/mfd/sun4i-gpadc.h
-> @@ -81,8 +81,8 @@
->  #define SUN4I_GPADC_TEMP_DATA				0x20
->  #define SUN4I_GPADC_DATA				0x24
+> diff --git a/arch/arm/boot/dts/allwinner/sun8i-r40-feta40i.dtsi b/arch/arm/boot/dts/allwinner/sun8i-r40-feta40i.dtsi
+> index 9f39b5a2bb35..c12361d0317f 100644
+> --- a/arch/arm/boot/dts/allwinner/sun8i-r40-feta40i.dtsi
+> +++ b/arch/arm/boot/dts/allwinner/sun8i-r40-feta40i.dtsi
+> @@ -42,6 +42,13 @@ &pio {
+>  	vcc-pg-supply = <&reg_dldo1>;
+>  };
 >  
-> -#define SUN4I_GPADC_IRQ_FIFO_DATA			0
-> -#define SUN4I_GPADC_IRQ_TEMP_DATA			1
-> +#define SUN4I_GPADC_IRQ_FIFO_DATA			1
-> +#define SUN4I_GPADC_IRQ_TEMP_DATA			2
->  
->  /* 10s delay before suspending the IP */
->  #define SUN4I_GPADC_AUTOSUSPEND_DELAY			10000
+> +&reg_aldo1 {
+> +	regulator-always-on;
+> +	regulator-min-microvolt = <3300000>;
+> +	regulator-max-microvolt = <3300000>;
+> +	regulator-name = "vcc-3v3-tv-usb";
+> +};
+> +
+>  &reg_aldo2 {
+>  	regulator-always-on;
+>  	regulator-min-microvolt = <1800000>;
 > 
 
 
