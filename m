@@ -1,51 +1,51 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99E8325750
-	for <linux-sunxi@lists.linux.dev>; Tue,  9 Jan 2024 08:18:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A70213ACF
+	for <linux-sunxi@lists.linux.dev>; Tue,  9 Jan 2024 08:18:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Nf4bLhwf"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="I/O0IurI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1704788282;
+	s=mimecast20190719; t=1704788299;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=P/n6bIUbxiGj6HkflcqkLH0/hS7ErA/FC9bHCDvM3UU=;
-	b=Nf4bLhwfO6Jmh3dJLWjEtOTIrZfYFwDF5Dqa6IraoyLyYbYCxJvtnUpg6YbRcFbFXA8Bpx
-	dPSFrSfm0YjJm8nYTeg7pr5AEftw1Jw/TotcKB3Crk6061Fk+iDi2u/U4S6xrDPrknFNx6
-	UvzhMnGzikuuyCUUDzxbYGqhQTQJgP8=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=n65c4qWz4ks9zOal34K20DK0gagOlvJ5Umts6SIzDOo=;
+	b=I/O0IurIDb8SFpbxo2+P+O1wXTmqnlWsmbOt+5gZuE6392LhDk03Ejdi8qsSZ4fodh5R0W
+	YKW33VKGcaYxqnS1GTjxJKoEG2c/XIKjUoTxA8eiC/6rlwulvwZvPUa14rihwnZ4u+kjo4
+	qCoc86PKddBzrKTxpmmQHTf+Q9knWrU=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-595-4u4oPYO-O4mrla04gSGGmQ-1; Tue, 09 Jan 2024 03:18:01 -0500
-X-MC-Unique: 4u4oPYO-O4mrla04gSGGmQ-1
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-40e34df6fdcso20749245e9.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 09 Jan 2024 00:18:01 -0800 (PST)
+ us-mta-556-sON-DX9lMZC3KUB3rBmlDA-1; Tue, 09 Jan 2024 03:18:17 -0500
+X-MC-Unique: sON-DX9lMZC3KUB3rBmlDA-1
+Received: by mail-lf1-f70.google.com with SMTP id 2adb3069b0e04-50e6d41ebc5so2197161e87.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 09 Jan 2024 00:18:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704788280; x=1705393080;
+        d=1e100.net; s=20230601; t=1704788296; x=1705393096;
         h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=P/n6bIUbxiGj6HkflcqkLH0/hS7ErA/FC9bHCDvM3UU=;
-        b=bm5P0m9VZBsI3ObNfNAOGttdooLu42WNLOcwF6w+Ar+VESwy/ZhtfH/rIBKL+rzFkZ
-         w/YlxeRBoYRd4N2vsof8ar4MlDfDiSM+7wnr9Xm4bkh6sAuuDO8U626tZYe34YULVJjH
-         Bz3z7nWS6IC+QuG3EQJ9PDMhzCNexvuUpHtafyl6p7KjemNfy4H/lIPSM3mWa5jRyea0
-         mnbVBY1+g1YSPzPqG3RWgWYlGYBq2uwOzqs1GQyQGyO1+K1cPmQm/Cgwt9Xk6raUJvVc
-         8McXcfTRz+RiBdRBAU7zDvToO0rRMuTS9RzHGU4IWn2msYfMrdupdYedkHj30WIZOHoj
-         p4DA==
-X-Gm-Message-State: AOJu0YyZDEukgpVl6SrpyJnbSpKW09fqzHNp79PIX/m9r2GMp02xIUma
-	/4ULx9ifo+4JpZwIFdtiJOnX7pMLTHiOFwc7pPtzgOBQ4wpADiZnCBp7QkOA5dd7jK1LDlWISjY
-	ju28vs0CqQ9eBOmNUm+PY+JtmMHX8Ev8=
-X-Received: by 2002:a05:600c:3b8d:b0:40e:5136:9c1b with SMTP id n13-20020a05600c3b8d00b0040e51369c1bmr141963wms.171.1704788280602;
-        Tue, 09 Jan 2024 00:18:00 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFC/CVCQxxwutC14ngh1OLfN28XsPAOZa3F7Km+RhSKTaEmlH4ND2gHIL5o1B6PeT/ovdJFSg==
-X-Received: by 2002:a05:600c:3b8d:b0:40e:5136:9c1b with SMTP id n13-20020a05600c3b8d00b0040e51369c1bmr141937wms.171.1704788280323;
-        Tue, 09 Jan 2024 00:18:00 -0800 (PST)
+        bh=n65c4qWz4ks9zOal34K20DK0gagOlvJ5Umts6SIzDOo=;
+        b=UlCLhv8Ys4CLxSkDcj2mPTLVwtoE3ytWSfMyiY4d3g2/g/Bs436OLdxr70lDS3Xnxy
+         /RvXgcj9fEwAF37cLkqVPwgRNJKd90y+QutNQIoW82TEbaSh/szGx/YJXgekpyWZAXNu
+         Py6zg4t0Y5ANxbdi8hpskWQAYN9SoKB8EtqyuGwiEvHDmnVMS6PADAe3Ipf9DMYsigh9
+         rOuUAZeA4dRa7h+DhCi2FYFYc3D5mo360TvKg9CTkSXwjq0+mvoIs5TFLVlpj+kkXDiP
+         p6eURXTGXRpYlM65V9Q1Tm7y/Xh5RO65gOKvAMnnOKZ1uVfsOfMxDtjr56ITH2JKvGlr
+         YcIA==
+X-Gm-Message-State: AOJu0YwkxlIkAiWpwF+IeiUckTUplh1mM54IOMU5r38Gd2VLE/lsCm4w
+	77ZGxOrVZ2a+JHmNdaozTIo7g6zXF+opYuNaz8nkMNTdlTCJ3z/ty1lGopNPXvB9sGVnqjlfZNa
+	SEgs1WXTz5J5j+s98MJ9Z3n644DIBWyA=
+X-Received: by 2002:ac2:58ce:0:b0:50e:7749:7b99 with SMTP id u14-20020ac258ce000000b0050e77497b99mr2113173lfo.37.1704788296542;
+        Tue, 09 Jan 2024 00:18:16 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFdtUeH2vYHQ8BQ+eP1vRTxNMHVd8DQJlUxLueRlKUz8p2AmTLylqVNqr7Fv47rw3ollbOaPA==
+X-Received: by 2002:ac2:58ce:0:b0:50e:7749:7b99 with SMTP id u14-20020ac258ce000000b0050e77497b99mr2113164lfo.37.1704788296241;
+        Tue, 09 Jan 2024 00:18:16 -0800 (PST)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id v10-20020a05600c444a00b0040e486bc0dfsm5117272wmn.27.2024.01.09.00.18.00
+        by smtp.gmail.com with ESMTPSA id z18-20020adfe552000000b003365fcc1846sm1708295wrm.52.2024.01.09.00.18.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jan 2024 00:18:00 -0800 (PST)
+        Tue, 09 Jan 2024 00:18:16 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Andrew Davis <afd@ti.com>, Frank Binns <frank.binns@imgtec.com>, Donald
  Robson <donald.robson@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
@@ -65,13 +65,13 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org, Andrew Davis
  <afd@ti.com>, linux-omap@vger.kernel.org, linux-sunxi@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH RFC v2 06/11] ARM: dts: AM33xx: Add device tree entry
+Subject: Re: [PATCH RFC v2 07/11] ARM: dts: AM437x: Add device tree entry
  for SGX GPU
-In-Reply-To: <20240108183302.255055-7-afd@ti.com>
+In-Reply-To: <20240108183302.255055-8-afd@ti.com>
 References: <20240108183302.255055-1-afd@ti.com>
- <20240108183302.255055-7-afd@ti.com>
-Date: Tue, 09 Jan 2024 09:17:59 +0100
-Message-ID: <87le8yrkco.fsf@minerva.mail-host-address-is-not-set>
+ <20240108183302.255055-8-afd@ti.com>
+Date: Tue, 09 Jan 2024 09:18:15 +0100
+Message-ID: <87il42rkc8.fsf@minerva.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -84,7 +84,7 @@ Content-Type: text/plain
 
 Andrew Davis <afd@ti.com> writes:
 
-> Add SGX GPU device entry to base AM33xx dtsi file.
+> Add SGX GPU device entry to base AM437x dtsi file.
 >
 > Signed-off-by: Andrew Davis <afd@ti.com>
 > ---
