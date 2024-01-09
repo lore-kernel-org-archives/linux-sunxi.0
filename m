@@ -1,98 +1,92 @@
 Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2903B3D541
-	for <linux-sunxi@lists.linux.dev>; Tue,  9 Jan 2024 20:15:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20B053D57B
+	for <linux-sunxi@lists.linux.dev>; Tue,  9 Jan 2024 20:15:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YmM9CEOe"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3374c693f92so2757013f8f.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 09 Jan 2024 12:15:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FSdQy3aW"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-33765009941so2789942f8f.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 09 Jan 2024 12:15:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704831309; x=1705436109; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1704831354; x=1705436154; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=M+B0yD7FjBgqTqLo7b2/IVuy2rnma81MvruhVPGvifo=;
-        b=YmM9CEOePdiLPEonyfLkjYpdQZa5l1suGPR4LsrnnvvFEz6uikXJvxF0LnuOr7rp89
-         qsd0j69QOW3y8DpXHLFN8U42uuvcYFc9WDEJQUaUKKFdJbw4RVUJXa65C+tKVsYZgAVG
-         GG0l6evtcEzBO+0vgaWbEpyoVmRQIB8B6x2Odl0ZKW+0hHJXibemU2yd2M+4tGGuOLYr
-         YWbx9MwzEAkRMH6rnK91Y6mSDOJxZcKrmlLskNPYPbZFlDrl3hbWzW4RhZh/FoKcIINZ
-         jwXmS7yDnbYOjtD7XVVIpBe+yQoGUYuiq3HQWcUKaerJeHLdxf1YpjOSnPc6Oc8NlOk1
-         Q4qQ==
+        bh=MQBuQHYjeBWmqCwTGH4YkN69mVB+VC/t7tF3wqgLXWM=;
+        b=FSdQy3aWrDEkG+Jgc63gfgrim8vvuAR+R9+/To571ZKrNCjbpYMRca32ne95BjhGrK
+         QClywI0Iy0CIqAKAhkXqldgt6Du+PnNl7PapT8e+1PhQBHOGEGBIhIv/4iwf3SEm53tl
+         wdiykuGeaclwecCJ/GJvnH3gV+ScuuXbxRDXlH2UFT9FdiW4khfWm54Hxc3lfZdoTK5D
+         BEfzLcciRSihBQ0oBv7k3LavPU8I8C2DF73Py3NfAfKRY3QckeNUPb1PGWKf/Ghchcfp
+         erH7J/Pmw2bP2d52JaTFdHL+bA2qmy8Cpaj7ACbExp1p/MzEqFsPz7MHwz1i9vpjdQtR
+         1c6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704831309; x=1705436109;
+        d=1e100.net; s=20230601; t=1704831354; x=1705436154;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=M+B0yD7FjBgqTqLo7b2/IVuy2rnma81MvruhVPGvifo=;
-        b=mENEopDw4+wvt/1vnub4Vj0XEwD+negOVu0YLvS9+qGDBjn0nYq5apH76mc7Il7a/R
-         v1ylhalRExRK7MXM4Q5JL3gnKKCbbwhDT7buCB7KUMKfcwequqThPESqqOA5Sp86KquS
-         3rpHzYASgdXKlR0+QVgU7oEdRb57XlRuuH+pPNsdjjI9nt4J0PnuMFXkv6WIK5SMteGF
-         Kvsff+10ladB2FrqeZiglE8qJsLvVa3YRA5IaSrnMygvQzWFZX5da1h8uCu3dinDaDgQ
-         9sdcncSqOAsopO7Un6aV5P5OvnOgsmwyVSoIGYsAQRnsTYnbMJbxAOwFIxgkjBRcycxr
-         J7Jg==
-X-Gm-Message-State: AOJu0YwtVK7vy3hOPtkMB972ZGKY/QTMLcuK8Meo6MARFV236s5i+MMc
-	yYuj6phxU+w3cOz2oYoyLM0=
-X-Google-Smtp-Source: AGHT+IHCUv6AIBjSaTr/8HPaqeDyMqGvcLyT6MaYhYhF7PYV0/3Jv2044yKOg30ZXyxDXKOcj8h8FQ==
-X-Received: by 2002:a5d:5406:0:b0:336:5b14:525f with SMTP id g6-20020a5d5406000000b003365b14525fmr1021417wrv.132.1704831309212;
-        Tue, 09 Jan 2024 12:15:09 -0800 (PST)
+        bh=MQBuQHYjeBWmqCwTGH4YkN69mVB+VC/t7tF3wqgLXWM=;
+        b=LUL0L0bx3g6SvER6mLJ6Who1gVR1ZV7KaDjM9EobZAf2EpSkXcLFi5QS2h+ZhnNYlP
+         kcT5yT+Q5C8oCjkM8fmkBnt4kOqdmS5T5rq6LvdL2J2ykcuJ9tCMRJRa+uAVx0HiP4oT
+         A9IBWr3kKOQ+VJonksCzsOB/I+7SlviIyF78MMfF9evGO5KlLe1uifV1FG7SM/ZIaUgX
+         wJn/eD5nJEMdQ4ni5afiW1y83jeD2HcILiTttAT8D8MFDiFl5k1qCilS2PMVPUPm4j+Y
+         6oCPWNzSt/3DWaHlvSO/IJJqw3P4ZY3WtCZRAI5kf9k8pcuQAipzNjIms0WMmi2RnkLC
+         B/8w==
+X-Gm-Message-State: AOJu0YwGKFvnztNgz60BJR/Z5UrKvly1BNKN/EC72+k023KAfcNbMTf/
+	d0hG6vBWT9yI4z+HS3lUxTg=
+X-Google-Smtp-Source: AGHT+IE4R7zgERsrbs9fWbJ69vzmnx8iBlzpLeYPnFGrt0JnjOw8UGQcz7XjE6871uIgRVOA/YyG7Q==
+X-Received: by 2002:a05:6000:543:b0:336:ec62:ea8b with SMTP id b3-20020a056000054300b00336ec62ea8bmr841769wrf.63.1704831354380;
+        Tue, 09 Jan 2024 12:15:54 -0800 (PST)
 Received: from jernej-laptop.localnet (213-161-3-116.dynamic.telemach.net. [213.161.3.116])
-        by smtp.gmail.com with ESMTPSA id cg4-20020a5d5cc4000000b003377c5b8a43sm45539wrb.93.2024.01.09.12.15.08
+        by smtp.gmail.com with ESMTPSA id cr8-20020a05600004e800b00336673a4153sm3191685wrb.80.2024.01.09.12.15.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jan 2024 12:15:08 -0800 (PST)
+        Tue, 09 Jan 2024 12:15:54 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: fuyao <fuyao@sjterm.com>, Jakub Kicinski <kuba@kernel.org>
-Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Jose Abreu <joabreu@synopsys.com>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, netdev@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-stm32@st-md-mailman.stormreply.com, linux-kernel@vger.kernel.org,
- =?utf-8?B?6bqm5YGl5bu6?= <maijianzhang@allwinnertech.com>
-Subject: Re: [PATCH] gmac: sun8i: r40: add gmac tx_delay support
-Date: Tue, 09 Jan 2024 21:15:07 +0100
-Message-ID: <22143664.EfDdHjke4D@jernej-laptop>
-In-Reply-To: <20240102075807.1a4cac92@kernel.org>
+To: Jassi Brar <jassisinghbrar@gmail.com>,
+ Uwe =?ISO-8859-1?Q?Kleine=2DK=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, kernel@pengutronix.de
+Subject:
+ Re: [PATCH 10/12] mailbox: sun6i-msgbox: Convert to platform remove callback
+ returning void
+Date: Tue, 09 Jan 2024 21:15:52 +0100
+Message-ID: <3783111.kQq0lBPeGt@jernej-laptop>
+In-Reply-To:
+ <2db7ef94aa35587980697405ec373e0b7bb70466.1703710628.git.u.kleine-koenig@pengutronix.de>
 References:
- <ZYKvCQBD-SY9uVLF@debian.cyg> <ZYPmZj8l01eQsDS5@debian.cyg>
- <20240102075807.1a4cac92@kernel.org>
+ <cover.1703710628.git.u.kleine-koenig@pengutronix.de>
+ <2db7ef94aa35587980697405ec373e0b7bb70466.1703710628.git.u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-Dne torek, 02. januar 2024 ob 16:58:07 CET je Jakub Kicinski napisal(a):
-> On Thu, 21 Dec 2023 15:16:54 +0800 fuyao wrote:
-> > I don't see it in the user manual also.
-> > 
-> > it works fine in 100M, but it doesn't work good in 1G without tx_delay
-> > in my board.
-> > 
-> > Read the sdk from allwinner I found in:
-> > 
-> > https://sourcegraph.com/github.com/tinalinux/linux-3.10/-/blob/arch/arm/boot/dts/sun8iw11p1.dtsi?L1826
-> > https://sourcegraph.com/github.com/tinalinux/linux-3.10@r40-v1.y/-/blob/drivers/net/ethernet/allwinner/sunxi-gmac.c?L877
-> > 
-> > And I add it to my board, it works fine.
-> > 
-> > So, I think it may be exist register but not documented.
-> 
-> Unless Allwinner can chime in we should at least document the situation
-> clearly in the commit message (incl. what HW+config was tested, exactly)
-> and add a comment in the code?
-> 
+Dne sreda, 27. december 2023 ob 22:02:38 CET je Uwe Kleine-K=F6nig napisal(=
+a):
+> The .remove() callback for a platform driver returns an int which makes
+> many driver authors wrongly assume it's possible to do error handling by
+> returning an error code. However the value returned is ignored (apart
+> from emitting a warning) and this typically results in resource leaks.
+>=20
+> To improve here there is a quest to make the remove callback return
+> void. In the first step of this quest all drivers are converted to
+> .remove_new(), which already returns void. Eventually after all drivers
+> are converted, .remove_new() will be renamed to .remove().
+>=20
+> Trivially convert this driver from always returning zero in the remove
+> callback to the void returning variant.
+>=20
+> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
 
-I agree. Fuyao, please do that.
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
-
 
 
