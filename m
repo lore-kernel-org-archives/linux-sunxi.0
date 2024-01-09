@@ -1,37 +1,37 @@
 Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 664913C489
-	for <linux-sunxi@lists.linux.dev>; Tue,  9 Jan 2024 17:20:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E56013B287
+	for <linux-sunxi@lists.linux.dev>; Tue,  9 Jan 2024 17:20:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="n3pIoV3P"
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 409HJrKq123263;
-	Tue, 9 Jan 2024 11:19:53 -0600
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="HvTe33pt"
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 409HJua0123312;
+	Tue, 9 Jan 2024 11:19:56 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1704820793;
-	bh=epFNXejMFGFMpNlRz8xyTT1KBYbxImqO/bjKUiAjdE0=;
+	s=ti-com-17Q1; t=1704820796;
+	bh=Bis8FeU6lnRQjDDfbUohAYBnwCKbBUlkXv3C00ixbKM=;
 	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=n3pIoV3PWgN7Xoj4xyq1OqcOfErt7tB1Zm+7YLRJF+RuH9O92swROIPgs4JVirbK5
-	 ndy+2lBkrRucOJ3aAJSPqiWEU2PMbnJ67eHOOzr54QCwFLM1H6o9neFqpa9v1MKu3t
-	 VK7z4pV9SbPINi4uQzzOB4Ifv+2ywzvSwyWtLbbc=
-Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
-	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 409HJrP8127656
+	b=HvTe33ptPEN/HW+OeiKfTXV4mAFh2iTn1bjWny7dYK2e9CLi7N9S6EK45dx6XomeN
+	 Oyb/6s0E/IG/9Z7fdtN83//GJjq6RA9xxu6EUiuL4mgto1lg9k+orchaiFtLjSSnmZ
+	 w2TzH2+1qaK2lJhrsLk82YPgM5+rh0Ca7D0dI+Is=
+Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
+	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 409HJubf021645
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Tue, 9 Jan 2024 11:19:53 -0600
-Received: from DFLE110.ent.ti.com (10.64.6.31) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+	Tue, 9 Jan 2024 11:19:56 -0600
+Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 9
- Jan 2024 11:19:52 -0600
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE110.ent.ti.com
- (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
+ Jan 2024 11:19:56 -0600
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 9 Jan 2024 11:19:52 -0600
+ Frontend Transport; Tue, 9 Jan 2024 11:19:56 -0600
 Received: from lelvsmtp5.itg.ti.com ([10.249.40.136])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 409HJou6089645;
-	Tue, 9 Jan 2024 11:19:52 -0600
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 409HJouA089645;
+	Tue, 9 Jan 2024 11:19:55 -0600
 From: Andrew Davis <afd@ti.com>
 To: Frank Binns <frank.binns@imgtec.com>,
         Matt Coster
@@ -62,9 +62,9 @@ CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
         <linux-sunxi@lists.linux.dev>, <linux-omap@vger.kernel.org>,
         <linux-mips@vger.kernel.org>, Andrew Davis <afd@ti.com>
-Subject: [PATCH 01/11] dt-bindings: gpu: Rename img,powervr to img,powervr-rogue
-Date: Tue, 9 Jan 2024 11:19:40 -0600
-Message-ID: <20240109171950.31010-2-afd@ti.com>
+Subject: [PATCH 05/11] ARM: dts: omap5: Add device tree entry for SGX GPU
+Date: Tue, 9 Jan 2024 11:19:44 -0600
+Message-ID: <20240109171950.31010-6-afd@ti.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240109171950.31010-1-afd@ti.com>
 References: <20240109171950.31010-1-afd@ti.com>
@@ -78,54 +78,34 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-This binding will be used for GPUs starting from Series6 (Rogue)
-and later. A different binding document will describe Series5.
-With that the name "img,powervr" is too generic, rename to
-"img,powervr-rogue" to avoid confusion.
+Add SGX GPU device entry to base OMAP5 dtsi file.
 
-Suggested-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Andrew Davis <afd@ti.com>
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Reviewed-by: Frank Binns <frank.binns@imgtec.com>
 ---
- .../bindings/gpu/{img,powervr.yaml => img,powervr-rogue.yaml} | 4 ++--
- MAINTAINERS                                                   | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
- rename Documentation/devicetree/bindings/gpu/{img,powervr.yaml => img,powervr-rogue.yaml} (91%)
+ arch/arm/boot/dts/ti/omap/omap5.dtsi | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/gpu/img,powervr.yaml b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-similarity index 91%
-rename from Documentation/devicetree/bindings/gpu/img,powervr.yaml
-rename to Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-index a13298f1a1827..256e252f8087f 100644
---- a/Documentation/devicetree/bindings/gpu/img,powervr.yaml
-+++ b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-@@ -2,10 +2,10 @@
- # Copyright (c) 2023 Imagination Technologies Ltd.
- %YAML 1.2
- ---
--$id: http://devicetree.org/schemas/gpu/img,powervr.yaml#
-+$id: http://devicetree.org/schemas/gpu/img,powervr-rogue.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/arch/arm/boot/dts/ti/omap/omap5.dtsi b/arch/arm/boot/dts/ti/omap/omap5.dtsi
+index bac6fa8387936..6a66214ad0e2f 100644
+--- a/arch/arm/boot/dts/ti/omap/omap5.dtsi
++++ b/arch/arm/boot/dts/ti/omap/omap5.dtsi
+@@ -453,10 +453,11 @@ target-module@56000000 {
+ 			#size-cells = <1>;
+ 			ranges = <0 0x56000000 0x2000000>;
  
--title: Imagination Technologies PowerVR and IMG GPU
-+title: Imagination Technologies PowerVR and IMG Rogue GPUs
+-			/*
+-			 * Closed source PowerVR driver, no child device
+-			 * binding or driver in mainline
+-			 */
++			gpu@0 {
++				compatible = "ti,omap5432-gpu", "img,powervr-sgx544";
++				reg = <0x0 0x2000000>; /* 32MB */
++				interrupts = <GIC_SPI 21 IRQ_TYPE_LEVEL_HIGH>;
++			};
+ 		};
  
- maintainers:
-   - Frank Binns <frank.binns@imgtec.com>
-diff --git a/MAINTAINERS b/MAINTAINERS
-index bcacd665f2594..2a4e8d2c69c40 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10468,7 +10468,7 @@ M:	Donald Robson <donald.robson@imgtec.com>
- M:	Matt Coster <matt.coster@imgtec.com>
- S:	Supported
- T:	git git://anongit.freedesktop.org/drm/drm-misc
--F:	Documentation/devicetree/bindings/gpu/img,powervr.yaml
-+F:	Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
- F:	Documentation/gpu/imagination/
- F:	drivers/gpu/drm/imagination/
- F:	include/uapi/drm/pvr_drm.h
+ 		target-module@58000000 {
 -- 
 2.39.2
 
