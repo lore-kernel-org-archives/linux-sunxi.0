@@ -1,100 +1,85 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A274E2575B
-	for <linux-sunxi@lists.linux.dev>; Tue,  9 Jan 2024 08:18:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7607225D3;
+	Tue,  9 Jan 2024 08:56:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="J+meWEu4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1704788315;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ncd94wXhhDxJblqZIyWiUNiDC2N6QYCqIvUVHIfpTbw=;
-	b=J+meWEu4yVRAXtXnC9NxYhRq3MelAel47tVmWYVTW+uubRghMH2inwFTj04rhkT2tZtFYY
-	HB7uJSFOu6yx1oyCvT8hCuyQfJSQwQ2KRCuXyooUsXecxeVYGE1s0oOOA8VfII/JSO/2At
-	XTDZZyao/p0v8Ggf1X9fpEgbVs5J5G4=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-353-sz8ffLdqPWucQs8QaQ3A_A-1; Tue, 09 Jan 2024 03:18:34 -0500
-X-MC-Unique: sz8ffLdqPWucQs8QaQ3A_A-1
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-33768a5f55cso1246619f8f.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 09 Jan 2024 00:18:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704788313; x=1705393113;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ncd94wXhhDxJblqZIyWiUNiDC2N6QYCqIvUVHIfpTbw=;
-        b=Ev3x4X1CJSGFEDBwqHzrvSmabjU6g+yCVVTAaJKd4Ek83nRigStDVtbvhfiXfO0juK
-         KuN7652OPziZRsveRKj9XY9hTB6wC+6vHYvewh6QO24xvwNwbgwGuaNSCCF9I03Zk23q
-         7bsqqmoFClSELxcHwCF/olvK7AIdGU2C6dCbum7DEb8h85LHMo8Kk87Cw7d9EHs2fXih
-         VBX9O3X0z12EVxCGbqCzyjVu/H7mqEFwIHaTy/RtIVslBd+l1MqpwMCC0LfTf+N+4MPN
-         W66J2zvsYoO7CZWl1LF48xr2RGIPxFAEkYI0gVsyin1UEYREniEFedMgggjHStBNkvJU
-         ukyA==
-X-Gm-Message-State: AOJu0YwycvXieY26GXJcBJTNmeCOHMnyF6m2P9BHxr0C4eSpMYz8ZjOQ
-	pK0D1TZq4DtA+SW12PS4MaF6VxfVPJsJmBmLgv7/6dL8qjDCC0gS/zlGOfo5mBUIca8ZJs9Z2Ku
-	Dj7jQDOXQ8a6WAhkslQGCQYSFnEA6knQ=
-X-Received: by 2002:a5d:594e:0:b0:336:7bd3:9520 with SMTP id e14-20020a5d594e000000b003367bd39520mr368575wri.43.1704788313424;
-        Tue, 09 Jan 2024 00:18:33 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFr2QE7CGw84chBFdWabSEnoMFo4EBSyeKmioKe2kWujoaALuS+Y7Lsnp8SKpon/RIw+U6z1g==
-X-Received: by 2002:a5d:594e:0:b0:336:7bd3:9520 with SMTP id e14-20020a5d594e000000b003367bd39520mr368545wri.43.1704788313200;
-        Tue, 09 Jan 2024 00:18:33 -0800 (PST)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id n10-20020a5d420a000000b0033719111458sm1704583wrq.36.2024.01.09.00.18.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jan 2024 00:18:33 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Andrew Davis <afd@ti.com>, Frank Binns <frank.binns@imgtec.com>, Donald
- Robson <donald.robson@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
- "H .
- Nikolaus Schaller" <hns@goldelico.com>, Adam Ford <aford173@gmail.com>,
- Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- =?utf-8?Q?Beno=C3=AEt?=
- Cousson <bcousson@baylibre.com>, Tony Lindgren <tony@atomide.com>,
- Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>, Tero
- Kristo <kristo@kernel.org>, Paul Cercueil <paul@crapouillou.net>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org, Andrew Davis
- <afd@ti.com>, linux-omap@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH RFC v2 08/11] ARM: dts: DRA7xx: Add device tree entry
- for SGX GPU
-In-Reply-To: <20240108183302.255055-9-afd@ti.com>
-References: <20240108183302.255055-1-afd@ti.com>
- <20240108183302.255055-9-afd@ti.com>
-Date: Tue, 09 Jan 2024 09:18:32 +0100
-Message-ID: <87frz6rkbr.fsf@minerva.mail-host-address-is-not-set>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VzqdRTPr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CF6EC433F1;
+	Tue,  9 Jan 2024 08:56:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1704790562;
+	bh=/G+p7T+qYU5A8uYcxrK/0d1avKq1e5cx5+294Ob001c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VzqdRTPr5JzZE23mwwncslyDbDJ0TU4l1rudWzUvbsQl9ND/G9LREX9PhBKZ7GK/1
+	 mK1RL0nSkh5UF0lEFhzupoIBAvPPGq5VbL+fYTsWPZYtMKxE5YTGuLpD5CjFBGMXyG
+	 CYk2yQXCkkBBJ2X2iiJQHFxppQiCYH6k2OHKaQRY6IPxkm4OnSBBWawO9az5jdPCnw
+	 9r4vdS53MCJHin90pYzfJBbgoZjxByjWuMIHvECzBGgJt85q4YieHvWbXWK8GvLVaB
+	 74ULsYnNjeZFVTvPlSlJJw5vwDKRF29yfV7teLF9BV5Ny1eMnCBMovLqYL2Pa7QRQc
+	 sX2cWxF8t/6Sw==
+Date: Tue, 9 Jan 2024 08:55:57 +0000
+From: Lee Jones <lee@kernel.org>
+To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: Andre Przywara <andre.przywara@arm.com>, fuyao <fuyao1697@cyg.com>,
+	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+	maijianzhang <maijianzhang@allwinnertech.com>
+Subject: Re: [PATCH RESEND] iio: adc: sun4i-gpadc-iio: adaptation interrupt
+ number
+Message-ID: <20240109085557.GG7948@google.com>
+References: <YxmR5SPPY18O7LaG@google.com>
+ <20231220115412.65bbc8c7@donnerap.manchester.arm.com>
+ <20231221152553.GM10102@google.com>
+ <4953611.0VBMTVartN@jernej-laptop>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4953611.0VBMTVartN@jernej-laptop>
 
-Andrew Davis <afd@ti.com> writes:
+On Fri, 22 Dec 2023, Jernej Škrabec wrote:
 
-> Add SGX GPU device entry to base DRA7x dtsi file.
->
-> Signed-off-by: Andrew Davis <afd@ti.com>
-> ---
+> Dne četrtek, 21. december 2023 ob 16:25:53 CET je Lee Jones napisal(a):
+> > On Wed, 20 Dec 2023, Andre Przywara wrote:
+> > 
+> > > On Wed, 20 Dec 2023 15:23:17 +0800
+> > > fuyao <fuyao1697@cyg.com> wrote:
+> > > 
+> > > Hi,
+> > > 
+> > > > __platform_get_irq_byname determinies whether the interrupt
+> > > > number is 0 and returns EINVAL.
+> > > 
+> > > can you please say what this fixes, exactly? Is something not working at
+> > > the moment? Can you please provide parts of the error message?
+> > > 
+> > > And maybe expand the explanation a bit more? For instance mention that the
+> > > identifiers are used as IRQ resource numbers, where 0 is treated specially.
+> > > 
+> > > Cheers,
+> > > Andre
+> > > 
+> > > > 
+> > > > Signed-off-by: fuyao <fuyao1697@cyg.com>
+> > 
+> > You have to use your full real name as well.
+> 
+> Isn't that enough after
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d4563201f33a022fc0353033d9dfeb1606a88330 ?
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+I believe that change in stance is to be more accepting of people who
+are universally known by their pseudonyms, like Tixy, Wookey or Piglet,
+to name a few that I'm aware of.  If fuyao is universally known by that
+name then sure, it's enough.  It just doesn't look very name-like in its
+current guise, due to the shortness and lack of capitalisation.  It
+looks to me more like a username, which is not as generally acceptable
+AFAIA.
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Lee Jones [李琼斯]
