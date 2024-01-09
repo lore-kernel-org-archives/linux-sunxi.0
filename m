@@ -1,37 +1,37 @@
 Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ED2F3B293
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 486E13B292
 	for <linux-sunxi@lists.linux.dev>; Tue,  9 Jan 2024 17:20:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="d/40QSX7"
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 409HJqs5123259;
-	Tue, 9 Jan 2024 11:19:52 -0600
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="xuTfFy+l"
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 409HJsYV123283;
+	Tue, 9 Jan 2024 11:19:54 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1704820792;
-	bh=JmHxyYvbhopogZmbOSh1yC2/KcWNk5Dzy9yuj4SVodU=;
-	h=From:To:CC:Subject:Date;
-	b=d/40QSX74U9riThnHNSv6qTZEOEy0QdOgSlYbsGm10QbaPlVy+YsPtshDtS9Iy+Ku
-	 NZDrwsPSTqRZRZQYy94KJVh6gv0+XagBUtOlCsWjmyE/lTni8jfcXPVtWta5CjfUP0
-	 EdNsjIvfb4sUP8Hhu8Xu/gZkJM7U1WbRedgnhX4U=
-Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
-	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 409HJqxO123393
+	s=ti-com-17Q1; t=1704820794;
+	bh=MwhXB5AAcwcHljcmVOvGDmkg49EqeHrTbgpd/8jnQ/Q=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References;
+	b=xuTfFy+lry3X32ECoXzFAcyBvBmpr+Bm+NRm78BdO7QILAzUJZBhCk1M/n1ZpH0OB
+	 0uXeOXE3rI87atkSG3g87zS7ri7RHIiYs91SVZpFg+bOC6LFyg/zSWc8yAAKGDNyMf
+	 W6LzMPF6fcFed9N4XS3/Ey9jUCO0Vyts51ohShM4=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 409HJsEo021620
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Tue, 9 Jan 2024 11:19:52 -0600
-Received: from DFLE115.ent.ti.com (10.64.6.36) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+	Tue, 9 Jan 2024 11:19:54 -0600
+Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 9
- Jan 2024 11:19:51 -0600
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+ Jan 2024 11:19:53 -0600
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 9 Jan 2024 11:19:52 -0600
+ Frontend Transport; Tue, 9 Jan 2024 11:19:53 -0600
 Received: from lelvsmtp5.itg.ti.com ([10.249.40.136])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 409HJou5089645;
-	Tue, 9 Jan 2024 11:19:50 -0600
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 409HJou7089645;
+	Tue, 9 Jan 2024 11:19:52 -0600
 From: Andrew Davis <afd@ti.com>
 To: Frank Binns <frank.binns@imgtec.com>,
         Matt Coster
@@ -62,10 +62,12 @@ CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
         <linux-sunxi@lists.linux.dev>, <linux-omap@vger.kernel.org>,
         <linux-mips@vger.kernel.org>, Andrew Davis <afd@ti.com>
-Subject: [PATCH 00/11] Device tree support for Imagination Series5 GPU
-Date: Tue, 9 Jan 2024 11:19:39 -0600
-Message-ID: <20240109171950.31010-1-afd@ti.com>
+Subject: [PATCH 02/11] dt-bindings: gpu: Add PowerVR Series5 SGX GPUs
+Date: Tue, 9 Jan 2024 11:19:41 -0600
+Message-ID: <20240109171950.31010-3-afd@ti.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240109171950.31010-1-afd@ti.com>
+References: <20240109171950.31010-1-afd@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -76,76 +78,175 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-Hello all,
+The Imagination PowerVR Series5 "SGX" GPU is part of several SoCs from
+multiple vendors. Describe how the SGX GPU is integrated in these SoC,
+including register space and interrupts. Clocks, reset, and power domain
+information is SoC specific.
 
-I know this has been tried before[0], but given the recent upstreaming of
-the Series6+ GPU bindings I figured it might be time to give the Series5
-bindings another try.
-
-While there is currently no mainline driver for these binding, there is an
-open source out-of-tree kernel-side driver available[1]. Having a stable
-and upstream binding for these devices allows us to describe this hardware
-in device tree.
-
-This is my vision for how these bindings should look, along with some
-example uses in several SoC DT files. The compatible names have been
-updated to match what was decided on for Series6+, but otherwise most
-is the same as we have been using in our vendor tree for many years.
-
-Thanks,
-Andrew
-
-Based on next-20240109.
-
-[0]: https://lkml.org/lkml/2020/4/24/1222
-[1]: https://github.com/openpvrsgx-devgroup
-
-Changes for v1:
- - Added commit message to patch #1
- - Reworked Rogue binding title
- - Add TI copyright to new binding doc
- - Added default min/maxItems to clocks property
- - Moved "additionalProperties" to end
- - Flattened out allOf block logic
- - Added extra SGX binding example
- - Added Suggested/Reviewed tags
-
-Changes for RFC v2:
- - Added patch to rename Rogue+ binding to img,powervr-rogue.yaml
- - Locked all property item counts
- - Removed nodename pattern check
-
-Andrew Davis (11):
-  dt-bindings: gpu: Rename img,powervr to img,powervr-rogue
-  dt-bindings: gpu: Add PowerVR Series5 SGX GPUs
-  ARM: dts: omap3: Add device tree entry for SGX GPU
-  ARM: dts: omap4: Add device tree entry for SGX GPU
-  ARM: dts: omap5: Add device tree entry for SGX GPU
-  ARM: dts: AM33xx: Add device tree entry for SGX GPU
-  ARM: dts: AM437x: Add device tree entry for SGX GPU
-  ARM: dts: DRA7xx: Add device tree entry for SGX GPU
-  arm64: dts: ti: k3-am654-main: Add device tree entry for SGX GPU
-  ARM: dts: sun6i: Add device tree entry for SGX GPU
-  MIPS: DTS: jz4780: Add device tree entry for SGX GPU
-
- ...mg,powervr.yaml => img,powervr-rogue.yaml} |   4 +-
+Signed-off-by: Andrew Davis <afd@ti.com>
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+---
  .../bindings/gpu/img,powervr-sgx.yaml         | 138 ++++++++++++++++++
- MAINTAINERS                                   |   3 +-
- arch/arm/boot/dts/allwinner/sun6i-a31.dtsi    |   9 ++
- arch/arm/boot/dts/ti/omap/am33xx.dtsi         |   9 +-
- arch/arm/boot/dts/ti/omap/am3517.dtsi         |  11 +-
- arch/arm/boot/dts/ti/omap/am4372.dtsi         |   6 +
- arch/arm/boot/dts/ti/omap/dra7.dtsi           |   9 +-
- arch/arm/boot/dts/ti/omap/omap34xx.dtsi       |  11 +-
- arch/arm/boot/dts/ti/omap/omap36xx.dtsi       |   9 +-
- arch/arm/boot/dts/ti/omap/omap4.dtsi          |   9 +-
- arch/arm/boot/dts/ti/omap/omap5.dtsi          |   9 +-
- arch/arm64/boot/dts/ti/k3-am65-main.dtsi      |   7 +
- arch/mips/boot/dts/ingenic/jz4780.dtsi        |  11 ++
- 14 files changed, 215 insertions(+), 30 deletions(-)
- rename Documentation/devicetree/bindings/gpu/{img,powervr.yaml => img,powervr-rogue.yaml} (91%)
+ MAINTAINERS                                   |   1 +
+ 2 files changed, 139 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/gpu/img,powervr-sgx.yaml
 
+diff --git a/Documentation/devicetree/bindings/gpu/img,powervr-sgx.yaml b/Documentation/devicetree/bindings/gpu/img,powervr-sgx.yaml
+new file mode 100644
+index 0000000000000..f5898b04381cb
+--- /dev/null
++++ b/Documentation/devicetree/bindings/gpu/img,powervr-sgx.yaml
+@@ -0,0 +1,138 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++# Copyright (c) 2023 Imagination Technologies Ltd.
++# Copyright (C) 2024 Texas Instruments Incorporated - https://www.ti.com/
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/gpu/img,powervr-sgx.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Imagination Technologies PowerVR SGX GPUs
++
++maintainers:
++  - Frank Binns <frank.binns@imgtec.com>
++
++properties:
++  compatible:
++    oneOf:
++      - items:
++          - enum:
++              - ti,omap3430-gpu # Rev 121
++              - ti,omap3630-gpu # Rev 125
++          - const: img,powervr-sgx530
++      - items:
++          - enum:
++              - ingenic,jz4780-gpu # Rev 130
++              - ti,omap4430-gpu # Rev 120
++          - const: img,powervr-sgx540
++      - items:
++          - enum:
++              - allwinner,sun6i-a31-gpu # MP2 Rev 115
++              - ti,omap4470-gpu # MP1 Rev 112
++              - ti,omap5432-gpu # MP2 Rev 105
++              - ti,am5728-gpu # MP2 Rev 116
++              - ti,am6548-gpu # MP1 Rev 117
++          - const: img,powervr-sgx544
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    minItems: 1
++    maxItems: 3
++
++  clock-names:
++    minItems: 1
++    items:
++      - const: core
++      - const: mem
++      - const: sys
++
++  power-domains:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - interrupts
++
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: ti,am6548-gpu
++    then:
++      required:
++        - power-domains
++    else:
++      properties:
++        power-domains: false
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - allwinner,sun6i-a31-gpu
++              - ingenic,jz4780-gpu
++    then:
++      required:
++        - clocks
++        - clock-names
++    else:
++      properties:
++        clocks: false
++        clock-names: false
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: allwinner,sun6i-a31-gpu
++    then:
++      properties:
++        clocks:
++          minItems: 2
++          maxItems: 2
++        clock-names:
++          minItems: 2
++          maxItems: 2
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: ingenic,jz4780-gpu
++    then:
++      properties:
++        clocks:
++          maxItems: 1
++        clock-names:
++          maxItems: 1
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/soc/ti,sci_pm_domain.h>
++
++    gpu@7000000 {
++        compatible = "ti,am6548-gpu", "img,powervr-sgx544";
++        reg = <0x7000000 0x10000>;
++        interrupts = <GIC_SPI 162 IRQ_TYPE_LEVEL_HIGH>;
++        power-domains = <&k3_pds 65 TI_SCI_PD_EXCLUSIVE>;
++    };
++
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++
++    gpu: gpu@1c40000 {
++        compatible = "allwinner,sun6i-a31-gpu", "img,powervr-sgx544";
++        reg = <0x01c40000 0x10000>;
++        interrupts = <GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&ccu 1>, <&ccu 2>;
++        clock-names = "core", "mem";
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 2a4e8d2c69c40..b8b3aab5dd490 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -10469,6 +10469,7 @@ M:	Matt Coster <matt.coster@imgtec.com>
+ S:	Supported
+ T:	git git://anongit.freedesktop.org/drm/drm-misc
+ F:	Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
++F:	Documentation/devicetree/bindings/gpu/img,powervr-sgx.yaml
+ F:	Documentation/gpu/imagination/
+ F:	drivers/gpu/drm/imagination/
+ F:	include/uapi/drm/pvr_drm.h
 -- 
 2.39.2
 
