@@ -1,96 +1,215 @@
-Received: from mail5.25mail.st (mail5.25mail.st [74.50.62.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9932C33CFD
-	for <linux-sunxi@lists.linux.dev>; Wed, 10 Jan 2024 08:39:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomide.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=atomide.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C9194BAA0
+	for <linux-sunxi@lists.linux.dev>; Wed, 10 Jan 2024 15:11:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=brainfault.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=brainfault.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=atomide.com header.i=@atomide.com header.b="lI0HjohH"
-Received: from localhost (91-158-86-216.elisa-laajakaista.fi [91.158.86.216])
-	by mail5.25mail.st (Postfix) with ESMTPSA id 081BB6050F;
-	Wed, 10 Jan 2024 08:38:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=atomide.com;
-	s=25mailst; t=1704875996;
-	bh=wG6D9r+AI35mwEbnFd6ymRyQAT79Vq6rM5ctoGLtHBU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lI0HjohHY5ZqItxAs8wT161JVYpJtAgnjXEDs+XAyJc9k4uwAIKZILCoxniGxeHM7
-	 NMpL2XdZBWs7+S3w/NZWsNimkeJR16R95GGWUpKizv2Adtqb7FXYWlzxwi2V8+nFoP
-	 RTiflB6mFHXKPGPj2+TZa7Ttqzte47OVO5wCtpk/a3jM3EtOWoczIwawN0tSH8TgEZ
-	 p+8904d/1MpIM6uukmZIHlwKjUrgcv3Hn6jYHHrOMm5heZJAuYWXVcNuvp1ITYC3H5
-	 5YZX2Q1DTS1LnZJLB3LqYmb7VI5cGaZX5FqpnZ+7cjS6IsYI7KpDEbaMmJIcktwVcV
-	 lgNioh8C/jw9w==
-Date: Wed, 10 Jan 2024 10:38:57 +0200
-From: Tony Lindgren <tony@atomide.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Andrew Davis <afd@ti.com>, Frank Binns <frank.binns@imgtec.com>,
-	Matt Coster <matt.coster@imgtec.com>,
-	"H . Nikolaus Schaller" <hns@goldelico.com>,
-	Adam Ford <aford173@gmail.com>,
-	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	=?utf-8?Q?Beno=C3=AEt?= Cousson <bcousson@baylibre.com>,
-	Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
-	Tero Kristo <kristo@kernel.org>,
-	Paul Cercueil <paul@crapouillou.net>,
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-omap@vger.kernel.org,
-	linux-mips@vger.kernel.org
-Subject: Re: [PATCH 02/11] dt-bindings: gpu: Add PowerVR Series5 SGX GPUs
-Message-ID: <20240110083857.GB5185@atomide.com>
-References: <20240109171950.31010-1-afd@ti.com>
- <20240109171950.31010-3-afd@ti.com>
- <e2fce141-4966-4e70-9a5c-865a2737174c@linaro.org>
+	dkim=pass (2048-bit key) header.d=brainfault-org.20230601.gappssmtp.com header.i=@brainfault-org.20230601.gappssmtp.com header.b="U05NLVqI"
+Received: by mail-il1-f175.google.com with SMTP id e9e14a558f8ab-3608bdb484fso9992525ab.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 10 Jan 2024 07:11:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=brainfault-org.20230601.gappssmtp.com; s=20230601; t=1704899488; x=1705504288; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=u7dnx0armDk/+RvWWpSg/XyhmNCzgM7h7SgaiA/YSV0=;
+        b=U05NLVqIcNyXcKTi7raxOT2OU4BIuNtojC13apVVCMlzugGk9o0AA+EZDJecSkRtn0
+         KStLGZSrUL24H5OGAufIR5mwfmuSQgUrF+N+9NAKGNmFbL0ccangM52uXLZN+nKxXdtr
+         AAjTfeHv4jNpuL9WdWSsEAE8lTG8qAdSy/0qMpUoBErhpAtFBtTTHhEg+JGK8OtUU37z
+         hBQyazAp5X1qnikQWRScRg1mAhT1ZEw5DI4dQJbx6MWKXh+NbI23iQSiNhA19tAQw4pR
+         vQ3rAmMtgCiCchyM2h+fIRcInWYd+10w20vVDUAoOdoikVF8d6JBIu28BUfAgnoP18eP
+         756w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704899488; x=1705504288;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=u7dnx0armDk/+RvWWpSg/XyhmNCzgM7h7SgaiA/YSV0=;
+        b=KUTxK3044YxQ2l28LLfk2zeVQaFMoZAmXuibQtD5ykNPtxYUQKW8AlxPBExXYkBa+r
+         R4CP0DGw+itlPshEX/hthKF3n5D45HP1ppz1g/wFbvyTSR3YE0WA5BAK0/MlBwMEUCe+
+         skSWGgtE3gDZUfW9sfKhjX74QCvUKVw2iQ6igM5iSjee9PgYpCZdfdqJR5lLvoHkfI3B
+         YATAtPulohFXQy5bZ2x/quUTkJum6044BMnbPuBrWk1G7FT+lIi3uw+3lbxhEHC7SIDD
+         PDM9l2dWkcZaY5TlGzyNfXN7pEde8H4sHDg3Yxz6BhbpBLDuQ9ggKpqa33Hi14mLWcRT
+         u5xw==
+X-Gm-Message-State: AOJu0YyPYb9j4vblIM7pD1BanDi0jNlmv4/L5nWAe44x30+Yub7GX6xr
+	DPM9GwsGl9smVcOs6KBq5cJYa8GQVR/kwBYVSexfR0Mcjo0Jiw==
+X-Google-Smtp-Source: AGHT+IEuq58zauZkEQ1xO5LVtDSLalCCv+/Jivx2TA3XmedpEjlVHqJRGlt6ZOsWmnTKoMBajwuUrebUCLahkbpfozk=
+X-Received: by 2002:a92:c56b:0:b0:360:8a0b:50dc with SMTP id
+ b11-20020a92c56b000000b003608a0b50dcmr143554ilj.10.1704899488291; Wed, 10 Jan
+ 2024 07:11:28 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e2fce141-4966-4e70-9a5c-865a2737174c@linaro.org>
+References: <20240110073917.2398826-1-peterlin@andestech.com> <20240110073917.2398826-3-peterlin@andestech.com>
+In-Reply-To: <20240110073917.2398826-3-peterlin@andestech.com>
+From: Anup Patel <anup@brainfault.org>
+Date: Wed, 10 Jan 2024 20:41:16 +0530
+Message-ID: <CAAhSdy1KLSFBA_vD+NX15wuiOsz5QadQWj4ZWOK11qfL1LuHqA@mail.gmail.com>
+Subject: Re: [PATCH v7 02/16] irqchip/riscv-intc: Allow large non-standard
+ interrupt number
+To: Yu Chien Peter Lin <peterlin@andestech.com>
+Cc: acme@kernel.org, adrian.hunter@intel.com, ajones@ventanamicro.com, 
+	alexander.shishkin@linux.intel.com, andre.przywara@arm.com, 
+	aou@eecs.berkeley.edu, atishp@atishpatra.org, conor+dt@kernel.org, 
+	conor.dooley@microchip.com, conor@kernel.org, devicetree@vger.kernel.org, 
+	dminus@andestech.com, evan@rivosinc.com, geert+renesas@glider.be, 
+	guoren@kernel.org, heiko@sntech.de, irogers@google.com, 
+	jernej.skrabec@gmail.com, jolsa@kernel.org, jszhang@kernel.org, 
+	krzysztof.kozlowski+dt@linaro.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, locus84@andestech.com, magnus.damm@gmail.com, 
+	mark.rutland@arm.com, mingo@redhat.com, n.shubin@yadro.com, 
+	namhyung@kernel.org, palmer@dabbelt.com, paul.walmsley@sifive.com, 
+	peterz@infradead.org, prabhakar.mahadev-lad.rj@bp.renesas.com, 
+	rdunlap@infradead.org, robh+dt@kernel.org, samuel@sholland.org, 
+	sunilvl@ventanamicro.com, tglx@linutronix.de, tim609@andestech.com, 
+	uwu@icenowy.me, wens@csie.org, will@kernel.org, ycliang@andestech.com, 
+	inochiama@outlook.com, chao.wei@sophgo.com, unicorn_wang@outlook.com, 
+	wefu@redhat.com, Randolph <randolph@andestech.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-* Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> [240109 19:53]:
-> On 09/01/2024 18:19, Andrew Davis wrote:
-> > The Imagination PowerVR Series5 "SGX" GPU is part of several SoCs from
-> > multiple vendors. Describe how the SGX GPU is integrated in these SoC,
-> > including register space and interrupts. Clocks, reset, and power domain
-> > information is SoC specific.
-> > 
-> > Signed-off-by: Andrew Davis <afd@ti.com>
-> > Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-> 
-> 
-> > +  clock-names:
-> > +    minItems: 1
-> > +    items:
-> > +      - const: core
-> > +      - const: mem
-> > +      - const: sys
-> 
-> There are no devices currently using third clock, but I assume it is
-> expected or possible.
+On Wed, Jan 10, 2024 at 1:10=E2=80=AFPM Yu Chien Peter Lin
+<peterlin@andestech.com> wrote:
+>
+> Currently, the implementation of the RISC-V INTC driver uses the
+> interrupt cause as the hardware interrupt number, with a maximum of
+> 64 interrupts. However, the platform can expand the interrupt number
+> further for custom local interrupts.
+>
+> To fully utilize the available local interrupt sources, switch
+> to using irq_domain_create_tree() that creates the radix tree
+> map, add global variables (riscv_intc_nr_irqs, riscv_intc_custom_base
+> and riscv_intc_custom_nr_irqs) to determine the valid range of local
+> interrupt number (hwirq).
+>
+> Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
+> Reviewed-by: Randolph <randolph@andestech.com>
 
-I think the third clock is typically merged with one of the two clocks but
-yeah possibly it's a separate clocke in some cases.
+Looks good to me.
 
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Looks good to me too.
-
-So for merging these, as many of the changes touch the omap variants, I
-could set up an immutable branch with all the changes after -rc1. Or I can
-ack the patches too if somebody has better ideas.
+Reviewed-by: Anup Patel <anup@brainfault.org>
 
 Regards,
+Anup
 
-Tony
+> ---
+> Changes v1 -> v2:
+>   - Fixed irq mapping failure checking (suggested by Cl=C3=A9ment and Anu=
+p)
+> Changes v2 -> v3:
+>   - No change
+> Changes v3 -> v4: (Suggested by Thomas [1])
+>   - Use pr_warn_ratelimited instead
+>   - Fix coding style and commit message
+> Changes v4 -> v5: (Suggested by Thomas)
+>   - Fix commit message
+> Changes v5 -> v6: (Suggested by Anup [2])
+>   - Add riscv_intc_* global variables for checking range in riscv_intc_do=
+main_alloc()
+>   - Advertise the number of interrupts allowed
+> Changes v6 -> v7:
+>   - No functional change
+>
+> [1] https://patchwork.kernel.org/project/linux-riscv/patch/20231023004100=
+.2663486-3-peterlin@andestech.com/#25573085
+> [2] https://patchwork.kernel.org/project/linux-riscv/patch/20231213070301=
+.1684751-3-peterlin@andestech.com/#25636589
+> ---
+>  drivers/irqchip/irq-riscv-intc.c | 30 +++++++++++++++++++++++-------
+>  1 file changed, 23 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/irqchip/irq-riscv-intc.c b/drivers/irqchip/irq-riscv=
+-intc.c
+> index e8d01b14ccdd..b13a16b164c9 100644
+> --- a/drivers/irqchip/irq-riscv-intc.c
+> +++ b/drivers/irqchip/irq-riscv-intc.c
+> @@ -19,15 +19,17 @@
+>  #include <linux/smp.h>
+>
+>  static struct irq_domain *intc_domain;
+> +static unsigned int riscv_intc_nr_irqs __ro_after_init;
+> +static unsigned int riscv_intc_custom_base __ro_after_init;
+> +static unsigned int riscv_intc_custom_nr_irqs __ro_after_init;
+>
+>  static asmlinkage void riscv_intc_irq(struct pt_regs *regs)
+>  {
+>         unsigned long cause =3D regs->cause & ~CAUSE_IRQ_FLAG;
+>
+> -       if (unlikely(cause >=3D BITS_PER_LONG))
+> -               panic("unexpected interrupt cause");
+> -
+> -       generic_handle_domain_irq(intc_domain, cause);
+> +       if (generic_handle_domain_irq(intc_domain, cause))
+> +               pr_warn_ratelimited("Failed to handle interrupt (cause: %=
+ld)\n",
+> +                                   cause);
+>  }
+>
+>  /*
+> @@ -93,6 +95,14 @@ static int riscv_intc_domain_alloc(struct irq_domain *=
+domain,
+>         if (ret)
+>                 return ret;
+>
+> +       /*
+> +        * Only allow hwirq for which we have corresponding standard or
+> +        * custom interrupt enable register.
+> +        */
+> +       if ((riscv_intc_nr_irqs <=3D hwirq && hwirq < riscv_intc_custom_b=
+ase) ||
+> +           (riscv_intc_custom_base + riscv_intc_custom_nr_irqs) <=3D hwi=
+rq)
+> +               return -EINVAL;
+> +
+>         for (i =3D 0; i < nr_irqs; i++) {
+>                 ret =3D riscv_intc_domain_map(domain, virq + i, hwirq + i=
+);
+>                 if (ret)
+> @@ -117,8 +127,7 @@ static int __init riscv_intc_init_common(struct fwnod=
+e_handle *fn)
+>  {
+>         int rc;
+>
+> -       intc_domain =3D irq_domain_create_linear(fn, BITS_PER_LONG,
+> -                                              &riscv_intc_domain_ops, NU=
+LL);
+> +       intc_domain =3D irq_domain_create_tree(fn, &riscv_intc_domain_ops=
+, NULL);
+>         if (!intc_domain) {
+>                 pr_err("unable to add IRQ domain\n");
+>                 return -ENXIO;
+> @@ -132,7 +141,10 @@ static int __init riscv_intc_init_common(struct fwno=
+de_handle *fn)
+>
+>         riscv_set_intc_hwnode_fn(riscv_intc_hwnode);
+>
+> -       pr_info("%d local interrupts mapped\n", BITS_PER_LONG);
+> +       pr_info("%d local interrupts mapped\n", riscv_intc_nr_irqs);
+> +       if (riscv_intc_custom_nr_irqs)
+> +               pr_info("%d custom local interrupts mapped\n",
+> +                       riscv_intc_custom_nr_irqs);
+>
+>         return 0;
+>  }
+> @@ -166,6 +178,10 @@ static int __init riscv_intc_init(struct device_node=
+ *node,
+>                 return 0;
+>         }
+>
+> +       riscv_intc_nr_irqs =3D BITS_PER_LONG;
+> +       riscv_intc_custom_base =3D riscv_intc_nr_irqs;
+> +       riscv_intc_custom_nr_irqs =3D 0;
+> +
+>         return riscv_intc_init_common(of_node_to_fwnode(node));
+>  }
+>
+> --
+> 2.34.1
+>
