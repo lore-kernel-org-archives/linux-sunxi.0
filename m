@@ -1,100 +1,141 @@
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 465176EB79
-	for <linux-sunxi@lists.linux.dev>; Fri, 12 Jan 2024 15:59:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="jTEFzxug"
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dbed179f0faso5294944276.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 12 Jan 2024 07:59:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1705075163; x=1705679963; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=OOjkY6qLcUDJ6pAB2XOnTphDRYpUaH4ZDZBnldaqt/Y=;
-        b=jTEFzxugsME7Zs0WCm6SvpAjfjd3W6zbYEmuqswAjrHhT2AtkLZMY0js5ZViQiu94L
-         lCzFyhRIlpKb13CeK6FyMm80r/ghTbnVo/n8leWLVrvCE642E82/yZuBeOYo98B9MxZl
-         /UEF4qF4qyk8eQH4dtvXqtWlr+TEzmmvZrx6GsQOJANauV92K011HB6CZBq9G/waDJg8
-         UaMdyVjcgsz8MnKJkg+di4D2HDUEXoa2CMqT5ArcrD5otJmoq/T/bH/Q8b2bOLjCA3Wl
-         SaadMh2VJzNLhsXnVQ7FLnPJyXzgaZMDokwwPBXLqs+nrhvyjG0Wdxu8pNl3h9i6n5Ar
-         glTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705075163; x=1705679963;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OOjkY6qLcUDJ6pAB2XOnTphDRYpUaH4ZDZBnldaqt/Y=;
-        b=rSAQ5PGoNeErvgSU2e8yGLxR7FJpTGkil1UsClREAaRfbj7cRCFSMpodx5d25Bdwq6
-         6grN8XTNeqdjZn1qKKfm2J1ratJzQ+y9eo5EenmAqzsv+MGR8Y4aTW62AEJ9f7isFZ0t
-         SddnkOdneohBgRXaIBrPeRAbWdJcpSu10Ef3038ioHSsp5bxyhjptHEf46Snxi8ro7ds
-         sL1ZJCR3buE6OTKUopg4Az1rSGZywe5up8Hs868YzK+FbSJd9UZnwdbNUtJsbeH7RKSp
-         MsTXm/jNaygRyURSMWWICy2zeedqO/uQvLip62whKgdTCPbie9EeBGiFlPf7Lsmr0jth
-         iz3w==
-X-Gm-Message-State: AOJu0Yx7mYbxtExw5LWMTpjoxgY8thZOgIKAyZyU32lnHzDepl6w61d1
-	a2L1MUMf+nedA1+6Xy79zxBYFhGDjA/K6DWf2HiviihhR1UYxA==
-X-Google-Smtp-Source: AGHT+IHr3UudPwurXaz4S+dT72h2sVx6HX8ltwQ55glZrlvIRFVV+m1zueg0vrLt+5IAqr6Wt0L8KbJCDVH/13I+Tbw=
-X-Received: by 2002:a25:8106:0:b0:dbf:3d61:8d03 with SMTP id
- o6-20020a258106000000b00dbf3d618d03mr551130ybk.28.1705075163182; Fri, 12 Jan
- 2024 07:59:23 -0800 (PST)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EB115917B
+	for <linux-sunxi@lists.linux.dev>; Fri, 12 Jan 2024 16:32:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 057191FB;
+	Fri, 12 Jan 2024 08:33:37 -0800 (PST)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7C2AD3F67D;
+	Fri, 12 Jan 2024 08:32:48 -0800 (PST)
+Date: Fri, 12 Jan 2024 16:32:45 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Alexey Klimov <alexey.klimov@linaro.org>
+Cc: anarsoul@gmail.com, tiny.windzz@gmail.com, linux-sunxi@lists.linux.dev,
+ rafael@kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org,
+ daniel.lezcano@linaro.org, peter.griffin@linaro.org, klimov.linux@gmail.com
+Subject: Re: [PATCH RESEND] arm64: dts: allwinner: a64: Add thermal trip
+ points for GPU
+Message-ID: <20240112163245.3be1aeaa@donnerap.manchester.arm.com>
+In-Reply-To: <20240101000008.65747-1-alexey.klimov@linaro.org>
+References: <20240101000008.65747-1-alexey.klimov@linaro.org>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
- <20231207-kms-hdmi-connector-state-v5-8-6538e19d634d@kernel.org>
- <CAPY8ntCs9EAYsxwjkscms3kqoC0N8+CcTHoyrG+gFMc0Mh=cwg@mail.gmail.com> <337mubsn42zlpuoqqvqmsjtdww4kg3x6lo6brdos5o6xgwjdwo@cxfad2pk2so2>
-In-Reply-To: <337mubsn42zlpuoqqvqmsjtdww4kg3x6lo6brdos5o6xgwjdwo@cxfad2pk2so2>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Fri, 12 Jan 2024 15:59:06 +0000
-Message-ID: <CAPY8ntDbM=j6YP3A5TNHoK73eTj0uUvnbAS0cZtxHgVoeuOFrg@mail.gmail.com>
-Subject: Re: [PATCH v5 08/44] drm/connector: hdmi: Add Broadcast RGB property
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
-	=?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	Hans Verkuil <hverkuil@xs4all.nl>, linux-rockchip@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Maxime
+On Mon,  1 Jan 2024 00:00:08 +0000
+Alexey Klimov <alexey.klimov@linaro.org> wrote:
 
-On Fri, 12 Jan 2024 at 13:59, Maxime Ripard <mripard@kernel.org> wrote:
->
-> Hi Dave,
->
-> On Thu, Dec 14, 2023 at 02:43:37PM +0000, Dave Stevenson wrote:
-> > On Thu, 7 Dec 2023 at 15:50, Maxime Ripard <mripard@kernel.org> wrote:
-> > >
-> > > The i915 driver has a property to force the RGB range of an HDMI output.
-> > > The vc4 driver then implemented the same property with the same
-> > > semantics. KWin has support for it, and a PR for mutter is also there to
-> > > support it.
-> > >
-> > > Both drivers implementing the same property with the same semantics,
-> > > plus the userspace having support for it, is proof enough that it's
-> > > pretty much a de-facto standard now and we can provide helpers for it.
-> > >
-> > > Let's plumb it into the newly created HDMI connector.
-> >
-> > To have such a significant proportion of the patch being kunit tests
-> > when there was no reference to such in the commit text was slightly
-> > unexpected.
->
-> Thanks for your review. Does that mean that you would prefer the tests
-> to be in a separate patch?
+Hi Alexey,
 
-If there was a need for a respin, then I think ideally yes, or at
-least a mention in the commit text ("Let's plumb it into the newly
-created HDMI connector*, and add appropriate unit tests*").
-Overall I'm not that fussed though.
+> Without trip points for GPU, the following errors are printed in the
+> dmesg log and the sun8i-thermal driver fails to load:
+> 
+> thermal_sys: Failed to find 'trips' node
+> thermal_sys: Failed to find trip points for thermal-sensor id=1
+> sun8i-thermal: probe of 1c25000.thermal-sensor failed with error -22
 
-  Dave
+Regardless of whether we should really *require* trip points (what Icenowy
+wanted to fix), I think it's good to have those values in the DT.
+
+The only question I have: where do those values come from? Is this coming
+from some BSP, or some downstream repository? If there are multiple
+sources: are the values across them consistent?
+I have seen a lot careless and unreflecting copy&paste in the past, so
+just want to make sure we get the right values.
+
+Cheers,
+Andre
+
+> When thermal zones are defined, trip points definitions are mandatory.
+> Trip values for the GPU are assumed to be the same values as the CPU
+> ones. The available specs do not provide any hints about thermal regimes
+> for the GPU and it seems GPU is implemented on the same die as the CPU.
+> 
+> Tested on Pine a64+.
+> 
+> Cc: Samuel Holland <samuel@sholland.org>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: Chen-Yu Tsai <wens@csie.org>
+> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
+> Cc: devicetree@vger.kernel.org
+> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+> ---
+>  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 46 +++++++++++++++++++
+>  1 file changed, 46 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+> index 62f45f71ec65..07963eea1bf0 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+> @@ -243,6 +243,29 @@ gpu0_thermal: gpu0-thermal {
+>  			polling-delay-passive = <0>;
+>  			polling-delay = <0>;
+>  			thermal-sensors = <&ths 1>;
+> +
+> +			trips {
+> +				gpu0_alert0: gpu0_alert0 {
+> +					/* milliCelsius */
+> +					temperature = <75000>;
+> +					hysteresis = <2000>;
+> +					type = "passive";
+> +				};
+> +
+> +				gpu0_alert1: gpu0_alert1 {
+> +					/* milliCelsius */
+> +					temperature = <90000>;
+> +					hysteresis = <2000>;
+> +					type = "hot";
+> +				};
+> +
+> +				gpu0_crit: gpu0_crit {
+> +					/* milliCelsius */
+> +					temperature = <110000>;
+> +					hysteresis = <2000>;
+> +					type = "critical";
+> +				};
+> +			};
+>  		};
+>  
+>  		gpu1_thermal: gpu1-thermal {
+> @@ -250,6 +273,29 @@ gpu1_thermal: gpu1-thermal {
+>  			polling-delay-passive = <0>;
+>  			polling-delay = <0>;
+>  			thermal-sensors = <&ths 2>;
+> +
+> +			trips {
+> +				gpu1_alert0: gpu1_alert0 {
+> +					/* milliCelsius */
+> +					temperature = <75000>;
+> +					hysteresis = <2000>;
+> +					type = "passive";
+> +				};
+> +
+> +				gpu1_alert1: gpu1_alert1 {
+> +					/* milliCelsius */
+> +					temperature = <90000>;
+> +					hysteresis = <2000>;
+> +					type = "hot";
+> +				};
+> +
+> +				gpu1_crit: gpu1_crit {
+> +					/* milliCelsius */
+> +					temperature = <110000>;
+> +					hysteresis = <2000>;
+> +					type = "critical";
+> +				};
+> +			};
+>  		};
+>  	};
+>  
+
