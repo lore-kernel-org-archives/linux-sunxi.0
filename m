@@ -1,172 +1,82 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96E7BF4F1
-	for <linux-sunxi@lists.linux.dev>; Sat, 13 Jan 2024 00:32:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atishpatra.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atishpatra.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=atishpatra.org header.i=@atishpatra.org header.b="GB9IeN8x"
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2ccbbb5eb77so82649611fa.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 12 Jan 2024 16:32:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=atishpatra.org; s=google; t=1705105928; x=1705710728; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lzga2b4T8jG3LT+m5ymrl6IfG+dETUDO8ivjxyijZE0=;
-        b=GB9IeN8xGPXodIzSz3mHfMpBku4aqgVLpMIeAnVGdMQSOWaoWRKN7I7FbyklBYLEek
-         b6wq8K3E65oODeXjbShE7mV4G+EdjZkbDQBtV8cXzntxJG8KU7+swl4GNNa5QxkX6s7e
-         RD7aDWLCAt3MBFMYuwABWODTDi4B7jp1JeIxA=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B99A56122
+	for <linux-sunxi@lists.linux.dev>; Sat, 13 Jan 2024 17:29:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-35ff20816f7so63619945ab.1
+        for <linux-sunxi@lists.linux.dev>; Sat, 13 Jan 2024 09:29:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705105928; x=1705710728;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lzga2b4T8jG3LT+m5ymrl6IfG+dETUDO8ivjxyijZE0=;
-        b=pMIkC+JZemhwS/+fjT7aIzgLYCSHB7YRxav1HevSuJLYvjPIRmoCUXtVgGuzbuBJo/
-         mZ6Ai3GEWDIcF3XqdHG2hvjP4ZyybKL5Dp3aikSypaSstPux+4Jww4RFlmg244e5Ek33
-         4WWG6u+GJlxWyUlc+VdOidcCZVBFqcHHfuG2moh/7Cm+osdDJ8oXpAUCxpmsePL5HJsT
-         HvCmbg5QfEqLgTbdnBpnWUfQ+xBmvdQxExbSSScLiZAgURTjLmJSsFfy7qSceMm8nOgX
-         LkpWK8CnPLw8XLgfv4hLX9EkXtoKo2e156h8Zx4zEIQBlmq3X5TcdDcfKhXnbwxA1xmx
-         UqVw==
-X-Gm-Message-State: AOJu0YyF/cdjLRlaJiEMN92si2M0hZE2e8HW6u7CGbXYXsVFj7XUB4jd
-	+vDjCW/vdX8maEkH02PLhibA8ynj4BX6I6uycvd5biDaVEQD
-X-Google-Smtp-Source: AGHT+IFYVmL/8V0hnK36wD0F+Tj56+5iO0c+zitkdAxQYpkX5w2AMpz8U0JxqKR9numdiRkolOnOQ4vwuN8VuMQU6Xw=
-X-Received: by 2002:a2e:b619:0:b0:2cc:68f0:c10d with SMTP id
- r25-20020a2eb619000000b002cc68f0c10dmr1029870ljn.34.1705105927728; Fri, 12
- Jan 2024 16:32:07 -0800 (PST)
+        d=1e100.net; s=20230601; t=1705166944; x=1705771744;
+        h=content-transfer-encoding:to:from:subject:message-id:in-reply-to
+         :date:mime-version:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ICsUNI7Afo1PaF9JpZaaVdJbx+JyaYF4RtdCTjtQr2E=;
+        b=fIxgx6iRl5Ipf7Idj8/mN3wR5wyMBfUTkQuv25cElPBBdw8Zxj3lpv7b8HAky3YLjq
+         rpFMhmE7m5KhHUJ5coTQwYfdlEAVFgSqkHfTNSfGcvb6TBic/FadW2g2gJNXm5ehfQeM
+         P9mQVulgSWbhoiZE8Zkg0zWsXcpHlQuVlPZtSNzgelF49ja8bEpsUj5tIuQpiggItL5s
+         ShYZBE1ybUtwDZVsCv5A50pA/dUT9Xx8Gu3YHf+qicTLC7kif2LOqJ0QBQaMXwaiV6TM
+         sxcVF1rL9w1j5NGMSo67AceeXTlRpbOt4pWZl4vlY4Q3mOinh10PEzJAhFmiDMpzjydM
+         pnVg==
+X-Gm-Message-State: AOJu0YxLsUqFjtDiYUstdYkFgxX2deFGrJYPXjBb9Z6bwNuoQAcuwBAD
+	5St6NKasnklprYhXQ54aplmjp/pnN14BdKZLrN0fjoC12Nvd
+X-Google-Smtp-Source: AGHT+IHcLfzVAyzvzQwfkVETCBuZ267lqDZoU9EjATlm1vKKLELh2mnr630YV9hDNu5o4qUMvxVVbcfwfndUYj9z7niA2zqVDvIP
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240110073917.2398826-1-peterlin@andestech.com>
- <20240110073917.2398826-5-peterlin@andestech.com> <CAOnJCUJ0fN5=+b4jDx+NPqUwgwGKuBNYt7d86dXYNyjzUYFAWQ@mail.gmail.com>
- <20240113-sensuous-scraggly-dee35f3e213f@spud>
-In-Reply-To: <20240113-sensuous-scraggly-dee35f3e213f@spud>
-From: Atish Patra <atishp@atishpatra.org>
-Date: Fri, 12 Jan 2024 16:31:56 -0800
-Message-ID: <CAOnJCU+JjcpH0t3kGcdM4hjj-di9UKWwtaEpMdwQmOQSnEtKJg@mail.gmail.com>
-Subject: Re: [PATCH v7 04/16] dt-bindings: riscv: Add Andes interrupt
- controller compatible string
-To: Conor Dooley <conor@kernel.org>
-Cc: Yu Chien Peter Lin <peterlin@andestech.com>, acme@kernel.org, adrian.hunter@intel.com, 
-	ajones@ventanamicro.com, alexander.shishkin@linux.intel.com, 
-	andre.przywara@arm.com, anup@brainfault.org, aou@eecs.berkeley.edu, 
-	conor+dt@kernel.org, conor.dooley@microchip.com, devicetree@vger.kernel.org, 
-	dminus@andestech.com, evan@rivosinc.com, geert+renesas@glider.be, 
-	guoren@kernel.org, heiko@sntech.de, irogers@google.com, 
-	jernej.skrabec@gmail.com, jolsa@kernel.org, jszhang@kernel.org, 
-	krzysztof.kozlowski+dt@linaro.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, locus84@andestech.com, magnus.damm@gmail.com, 
-	mark.rutland@arm.com, mingo@redhat.com, n.shubin@yadro.com, 
-	namhyung@kernel.org, palmer@dabbelt.com, paul.walmsley@sifive.com, 
-	peterz@infradead.org, prabhakar.mahadev-lad.rj@bp.renesas.com, 
-	rdunlap@infradead.org, robh+dt@kernel.org, samuel@sholland.org, 
-	sunilvl@ventanamicro.com, tglx@linutronix.de, tim609@andestech.com, 
-	uwu@icenowy.me, wens@csie.org, will@kernel.org, ycliang@andestech.com, 
-	inochiama@outlook.com, chao.wei@sophgo.com, unicorn_wang@outlook.com, 
-	wefu@redhat.com
+X-Received: by 2002:a05:6e02:1e0c:b0:360:5cc5:8ded with SMTP id
+ g12-20020a056e021e0c00b003605cc58dedmr387058ila.3.1705166944013; Sat, 13 Jan
+ 2024 09:29:04 -0800 (PST)
+Date: Sat, 13 Jan 2024 09:29:03 -0800
+In-Reply-To: <00000000000026100c060e143e5a@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000fb160f060ed71da5@google.com>
+Subject: Re: [syzbot] [net?] [nfc?] INFO: task hung in nfc_targets_found
+From: syzbot <syzbot+2b131f51bb4af224ab40@syzkaller.appspotmail.com>
+To: airlied@gmail.com, daniel@ffwll.ch, davem@davemloft.net, 
+	dianders@chromium.org, dri-devel@lists.freedesktop.org, edumazet@google.com, 
+	gregkh@linuxfoundation.org, hdanton@sina.com, jernej.skrabec@gmail.com, 
+	krzysztof.kozlowski@linaro.org, kuba@kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, mripard@kernel.org, netdev@vger.kernel.org, 
+	pabeni@redhat.com, penguin-kernel@i-love.sakura.ne.jp, samuel@sholland.org, 
+	stern@rowland.harvard.edu, syzkaller-bugs@googlegroups.com, 
+	torvalds@linux-foundation.org, u.kleine-koenig@pengutronix.de, wens@csie.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 12, 2024 at 4:19=E2=80=AFPM Conor Dooley <conor@kernel.org> wro=
-te:
->
-> On Fri, Jan 12, 2024 at 03:50:15PM -0800, Atish Patra wrote:
-> > On Tue, Jan 9, 2024 at 11:40=E2=80=AFPM Yu Chien Peter Lin
-> > <peterlin@andestech.com> wrote:
-> > >
-> > > Add "andestech,cpu-intc" compatible string to indicate that
-> > > Andes specific local interrupt is supported on the core,
-> > > e.g. AX45MP cores have 3 types of non-standard local interrupt
-> > > which can be handled in supervisor mode:
-> > >
-> >
-> > PATCH1 in this series renames everything from ANDESTECH to ANDES to be
-> > consistent.
-> > Here you are adding DT binding with "andestech". Is there any
-> > fundamental difference between these two to demand
-> > this change ?
->
-> This one is the vendor prefix and the company has been assigned
-> "andestech" and they're not getting a second one. The rename of the
+syzbot has bisected this issue to:
 
-Thanks for the clarification.
+commit d665e3c9d37ad31aec2d0d9d086e7c903ddd7250
+Author: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+Date:   Sun May 7 16:26:06 2023 +0000
 
-> variables is a bit gratuitous tbf.
->
+    drm/sun4i: Convert to platform remove callback returning void
 
-I felt the same.
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=3D146b91f5e800=
+00
+start commit:   acc657692aed keys, dns: Fix size check of V1 server-list h.=
+.
+git tree:       upstream
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=3D166b91f5e800=
+00
+console output: https://syzkaller.appspot.com/x/log.txt?x=3D126b91f5e80000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=3D5c882ebde8a5f3b=
+4
+dashboard link: https://syzkaller.appspot.com/bug?extid=3D2b131f51bb4af224a=
+b40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=3D103698bde8000=
+0
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=3D1617e0fbe80000
 
-> Cheers,
-> Conor.
->
-> > FYI: I don't mind either way as I don't have skin in the game. Just
-> > something I noticed while reviewing the series.
-> >
-> > > - Slave port ECC error interrupt
-> > > - Bus write transaction error interrupt
-> > > - Performance monitor overflow interrupt
-> > >
-> > > These interrupts are enabled/disabled via a custom register
-> > > SLIE instead of the standard interrupt enable register SIE.
-> > >
-> > > Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
-> > > Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> > > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > ---
-> > > Changes v1 -> v2:
-> > >   - New patch
-> > > Changes v2 -> v3:
-> > >   - Updated commit message
-> > >   - Fixed possible compatibles for Andes INTC
-> > > Changes v3 -> v4:
-> > >   - Add const entry instead of enum (Suggested by Conor)
-> > > Changes v4 -> v5:
-> > >   - Include Conor's Acked-by
-> > >   - Include Prabhakar's Reviewed-by
-> > > Changes v5 -> v6:
-> > >   - No change
-> > > Changes v6 -> v7:
-> > >   - No change
-> > > ---
-> > >  Documentation/devicetree/bindings/riscv/cpus.yaml | 6 +++++-
-> > >  1 file changed, 5 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/riscv/cpus.yaml b/Docu=
-mentation/devicetree/bindings/riscv/cpus.yaml
-> > > index 23646b684ea2..33c2b620a59f 100644
-> > > --- a/Documentation/devicetree/bindings/riscv/cpus.yaml
-> > > +++ b/Documentation/devicetree/bindings/riscv/cpus.yaml
-> > > @@ -101,7 +101,11 @@ properties:
-> > >          const: 1
-> > >
-> > >        compatible:
-> > > -        const: riscv,cpu-intc
-> > > +        oneOf:
-> > > +          - items:
-> > > +              - const: andestech,cpu-intc
-> > > +              - const: riscv,cpu-intc
-> > > +          - const: riscv,cpu-intc
-> > >
-> > >        interrupt-controller: true
-> > >
-> > > --
-> > > 2.34.1
-> > >
-> >
-> >
-> > --
-> > Regards,
-> > Atish
+Reported-by: syzbot+2b131f51bb4af224ab40@syzkaller.appspotmail.com
+Fixes: d665e3c9d37a ("drm/sun4i: Convert to platform remove callback return=
+ing void")
 
-
-
---=20
-Regards,
-Atish
+For information about bisection process see: https://goo.gl/tpsmEJ#bisectio=
+n
