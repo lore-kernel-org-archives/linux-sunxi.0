@@ -1,82 +1,116 @@
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B99A56122
-	for <linux-sunxi@lists.linux.dev>; Sat, 13 Jan 2024 17:29:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-35ff20816f7so63619945ab.1
-        for <linux-sunxi@lists.linux.dev>; Sat, 13 Jan 2024 09:29:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705166944; x=1705771744;
-        h=content-transfer-encoding:to:from:subject:message-id:in-reply-to
-         :date:mime-version:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ICsUNI7Afo1PaF9JpZaaVdJbx+JyaYF4RtdCTjtQr2E=;
-        b=fIxgx6iRl5Ipf7Idj8/mN3wR5wyMBfUTkQuv25cElPBBdw8Zxj3lpv7b8HAky3YLjq
-         rpFMhmE7m5KhHUJ5coTQwYfdlEAVFgSqkHfTNSfGcvb6TBic/FadW2g2gJNXm5ehfQeM
-         P9mQVulgSWbhoiZE8Zkg0zWsXcpHlQuVlPZtSNzgelF49ja8bEpsUj5tIuQpiggItL5s
-         ShYZBE1ybUtwDZVsCv5A50pA/dUT9Xx8Gu3YHf+qicTLC7kif2LOqJ0QBQaMXwaiV6TM
-         sxcVF1rL9w1j5NGMSo67AceeXTlRpbOt4pWZl4vlY4Q3mOinh10PEzJAhFmiDMpzjydM
-         pnVg==
-X-Gm-Message-State: AOJu0YxLsUqFjtDiYUstdYkFgxX2deFGrJYPXjBb9Z6bwNuoQAcuwBAD
-	5St6NKasnklprYhXQ54aplmjp/pnN14BdKZLrN0fjoC12Nvd
-X-Google-Smtp-Source: AGHT+IHcLfzVAyzvzQwfkVETCBuZ267lqDZoU9EjATlm1vKKLELh2mnr630YV9hDNu5o4qUMvxVVbcfwfndUYj9z7niA2zqVDvIP
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AD005689;
+	Mon, 15 Jan 2024 08:25:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CoV0R374"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BC49C433C7;
+	Mon, 15 Jan 2024 08:25:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705307133;
+	bh=bkFxuxf0iCghKC8GrzWqXKXAFsRRBXSZ7feexi45UVk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CoV0R374tK5kCtzfve7eyQAekaInOpN0kUMbDADJ0KXk63eiqZTQu9MWzErWMYAfj
+	 BDp82RgAyoC0OgaHWM5EFeBKTwr8e+VuBEiW9BLrJAQoXyQcvdypB5Jg9rqF3Eto5u
+	 u+EbR/pWzZwUzdc53sIOnvkoHlbqKwwykR0GFpAgmNhCKrLV97kkbrFH0THj6m9hNd
+	 rlhyTBEwVAXw3ZeYbwAxM/EyfKlfjSXTiTQg5oBwZxiTqrTSdiuaD5tS8mwlRYdcK1
+	 J5IYOw8SdFTdWr6BorUsL3PvlYJxuPS7BKs7hxmNaGe84+JruinkUhmnF8916wcMt5
+	 vzHB0zIfM8/Ew==
+Date: Mon, 15 Jan 2024 09:25:30 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Cc: Andrew Davis <afd@ti.com>, Frank Binns <frank.binns@imgtec.com>, 
+	Donald Robson <donald.robson@imgtec.com>, Matt Coster <matt.coster@imgtec.com>, 
+	Adam Ford <aford173@gmail.com>, Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	=?utf-8?Q?Beno=C3=AEt?= Cousson <bcousson@baylibre.com>, Tony Lindgren <tony@atomide.com>, Nishanth Menon <nm@ti.com>, 
+	Vignesh Raghavendra <vigneshr@ti.com>, Tero Kristo <kristo@kernel.org>, 
+	Paul Cercueil <paul@crapouillou.net>, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-omap@vger.kernel.org, linux-mips@vger.kernel.org
+Subject: Re: Re: [PATCH RFC v2 04/11] ARM: dts: omap4: Add device tree entry
+ for SGX GPU
+Message-ID: <vpcgccul53oibwoqb3barj3rjxoyskoldjyfvjdzmytic3tonm@wq4aqsenk7rp>
+References: <20240108183302.255055-1-afd@ti.com>
+ <20240108183302.255055-5-afd@ti.com>
+ <122DC5ED-2AA7-46A0-845F-083922458385@goldelico.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1e0c:b0:360:5cc5:8ded with SMTP id
- g12-20020a056e021e0c00b003605cc58dedmr387058ila.3.1705166944013; Sat, 13 Jan
- 2024 09:29:04 -0800 (PST)
-Date: Sat, 13 Jan 2024 09:29:03 -0800
-In-Reply-To: <00000000000026100c060e143e5a@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000fb160f060ed71da5@google.com>
-Subject: Re: [syzbot] [net?] [nfc?] INFO: task hung in nfc_targets_found
-From: syzbot <syzbot+2b131f51bb4af224ab40@syzkaller.appspotmail.com>
-To: airlied@gmail.com, daniel@ffwll.ch, davem@davemloft.net, 
-	dianders@chromium.org, dri-devel@lists.freedesktop.org, edumazet@google.com, 
-	gregkh@linuxfoundation.org, hdanton@sina.com, jernej.skrabec@gmail.com, 
-	krzysztof.kozlowski@linaro.org, kuba@kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, mripard@kernel.org, netdev@vger.kernel.org, 
-	pabeni@redhat.com, penguin-kernel@i-love.sakura.ne.jp, samuel@sholland.org, 
-	stern@rowland.harvard.edu, syzkaller-bugs@googlegroups.com, 
-	torvalds@linux-foundation.org, u.kleine-koenig@pengutronix.de, wens@csie.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="5bv4mdxrrdvnbudo"
+Content-Disposition: inline
+In-Reply-To: <122DC5ED-2AA7-46A0-845F-083922458385@goldelico.com>
+
+
+--5bv4mdxrrdvnbudo
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-syzbot has bisected this issue to:
+Hi,
 
-commit d665e3c9d37ad31aec2d0d9d086e7c903ddd7250
-Author: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
-Date:   Sun May 7 16:26:06 2023 +0000
+On Fri, Jan 12, 2024 at 06:33:58PM +0100, H. Nikolaus Schaller wrote:
+> > Am 08.01.2024 um 19:32 schrieb Andrew Davis <afd@ti.com>:
+> >=20
+> > Add SGX GPU device entry to base OMAP4 dtsi file.
+> >=20
+> > Signed-off-by: Andrew Davis <afd@ti.com>
+> > ---
+> > arch/arm/boot/dts/ti/omap/omap4.dtsi | 9 +++++----
+> > 1 file changed, 5 insertions(+), 4 deletions(-)
+> >=20
+> > diff --git a/arch/arm/boot/dts/ti/omap/omap4.dtsi b/arch/arm/boot/dts/t=
+i/omap/omap4.dtsi
+> > index 2bbff9032be3e..559b2bfe4ca7c 100644
+> > --- a/arch/arm/boot/dts/ti/omap/omap4.dtsi
+> > +++ b/arch/arm/boot/dts/ti/omap/omap4.dtsi
+> > @@ -501,10 +501,11 @@ sgx_module: target-module@56000000 {
+> > #size-cells =3D <1>;
+> > ranges =3D <0 0x56000000 0x2000000>;
+> >=20
+> > - /*
+> > - * Closed source PowerVR driver, no child device
+> > - * binding or driver in mainline
+> > - */
+> > + gpu@0 {
+>=20
+> I wonder why we don't add a "gpu:" label here.
+>=20
+> Almost all other subsystem nodes have one (e.g. emif:, aes:, dss:, dsi:, =
+hdmi:, etc.),
+> obviously for convenience when using a .dtsi file.
+>=20
+> It would allow a board-specific DTS to easily add status =3D "disabled" t=
+o avoid driver
+> probing or disabling the GPU (e.g. if there is no display).
 
-    drm/sun4i: Convert to platform remove callback returning void
+There's no reason to disable it in the DT: the hardware block would
+still be there and it's rendering to memory so it still could be useful.
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=3D146b91f5e800=
-00
-start commit:   acc657692aed keys, dns: Fix size check of V1 server-list h.=
-.
-git tree:       upstream
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=3D166b91f5e800=
-00
-console output: https://syzkaller.appspot.com/x/log.txt?x=3D126b91f5e80000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=3D5c882ebde8a5f3b=
-4
-dashboard link: https://syzkaller.appspot.com/bug?extid=3D2b131f51bb4af224a=
-b40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=3D103698bde8000=
-0
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=3D1617e0fbe80000
+If there's no display on the board and you really don't want the GPU
+driver, then you can disable the driver or block the module loading, but
+it should be a distro / package / user decision, not a DT / kernel one
+still.
 
-Reported-by: syzbot+2b131f51bb4af224ab40@syzkaller.appspotmail.com
-Fixes: d665e3c9d37a ("drm/sun4i: Convert to platform remove callback return=
-ing void")
+Maxime
 
-For information about bisection process see: https://goo.gl/tpsmEJ#bisectio=
-n
+--5bv4mdxrrdvnbudo
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZaTr7AAKCRDj7w1vZxhR
+xSybAP96mNxOy9DrBryPZmmu4a4Y6AfuRKXr9+Uh2C3OhAPO3QEA1j3KoeAhpYrF
+0pDWtJkRFUHwyOTCz3HpiAeRG3RSqwM=
+=GRcK
+-----END PGP SIGNATURE-----
+
+--5bv4mdxrrdvnbudo--
