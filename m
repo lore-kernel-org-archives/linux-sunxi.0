@@ -1,302 +1,340 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BD8C1773B;
-	Mon, 15 Jan 2024 15:30:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE0D725772
+	for <linux-sunxi@lists.linux.dev>; Tue, 16 Jan 2024 20:55:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1705438557; cv=none; b=Y0CyYbgx8RoUOA41FZ3JVICWTRfJG0NZFdQG0Qshi0DJedV82dduO8jNJzmV3c83X6z+Jea8Yd5eaUtBVhUAzUdfLvs38Yz/wPeDR3IJB//tpAnkFOMANC/lQy2mKVQ5Dbi6RIBYZgZ3E3g44xFxXq0PIizdVvw5KJWnQDmgZ4I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1705438557; c=relaxed/simple;
+	bh=EDcdzIOhXQ/52ms8gzeDSrTpan3bCbvz3619AOQ1tBU=;
+	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:MIME-Version:
+	 References:In-Reply-To:From:Date:Message-ID:Subject:To:Cc:
+	 Content-Type:Content-Transfer-Encoding; b=fRXsMZNdirZhIvt7wosP+Ku7boxenGztXfMsmZYXBK5MucKX5luhCMAC8NaT9SOLfgR/YitE7XPufG6V8tv5SjuT5SzbMPYH0ZNW9Tuvkilw571BEF7bkz7Px7Kk0xECXO06syQ6Cm/yktLqgkIaZaELdNkzH+8caFQAcy8Y/lQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atishpatra.org; spf=pass smtp.mailfrom=atishpatra.org; dkim=pass (1024-bit key) header.d=atishpatra.org header.i=@atishpatra.org header.b=ds76yWcH; arc=none smtp.client-ip=209.85.208.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atishpatra.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atishpatra.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sUtZFwP0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3DE1C433C7;
-	Mon, 15 Jan 2024 15:30:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705332603;
-	bh=i+sAHaV32j73dmSDaQjMq2fN84j/W7BDfu4abhHoLbk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sUtZFwP01BkBBU0Ca9vIuI9QMS/5i1oK1OOnh7h+jlN2UJ9Ela1VNwJUGvZRFar+0
-	 QmjUGv+4rJ5Ky5xARxZU9KcKe7y4xwngcvnX15RhfCxtMd3glJjPEIJXQq2Q5bNcGF
-	 TM3BFn4GdJ6OJJ48zZgplCln0DD/y8bRiTgVMP1uhBWcBbRrmSzQlG949j+DRRA1Ui
-	 5c6xWkWGJ/fUuRPecxx47WKwqFMbAY/7Ceu60WLh1o+/iyNVj9Q2fOinnlR+o7hQjy
-	 G3OJERz6abgtNEsGX/4JH/yQiV1mfpt/U4yZ63uiM8JY/OywW+jaMSE4K5/jIW51hA
-	 GcH6qVdU7q0CA==
-Date: Mon, 15 Jan 2024 16:30:00 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Sebastian Wick <sebastian.wick@redhat.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>, 
-	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, Hans Verkuil <hverkuil@xs4all.nl>, 
-	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: Re: [PATCH v5 08/44] drm/connector: hdmi: Add Broadcast RGB
- property
-Message-ID: <igshliibofml3bkkchamqo7xyrnzrf6efkfuok5lprcfg5h3ug@phfvvy6fra35>
-References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
- <20231207-kms-hdmi-connector-state-v5-8-6538e19d634d@kernel.org>
- <20240115143308.GA159345@toolbox>
- <20240115143720.GA160656@toolbox>
+	dkim=pass (1024-bit key) header.d=atishpatra.org header.i=@atishpatra.org header.b="ds76yWcH"
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2cdc1af60b2so31448161fa.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 16 Jan 2024 12:55:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=atishpatra.org; s=google; t=1705438553; x=1706043353; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=n7aeoNCGecPYipNdateEPrHUR8jipxighb0wJVc74QM=;
+        b=ds76yWcHDhqxqFo5tFL93eh3CSYdVNFbbT+SiFnPQvWyRQEbY4qiP400BkjKaTZMm2
+         eNdEuNqt36ozhDBSucKAyhsGsWc9R+P38aq/n7C6PvBvVepdnDAZwUVYs/MovSckdJug
+         bNr7FFRc5qk7BOVqnto//pUCkwJBzb4f8g9WU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705438553; x=1706043353;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=n7aeoNCGecPYipNdateEPrHUR8jipxighb0wJVc74QM=;
+        b=PBL2lGB+8p6CJlUyEWTsOmaxg2lcYDa7PmthNyO3YAWa0SMKM8Go0cpN7kiFt/QvEd
+         +f+Klz+Z33+PDFlmmyiOLaFNIVtNg2WBH2NphTWpml4MlFDeEjIttGCEL2I1GlbQdk/r
+         jKu5Cq/nGvUWmai0COhK8tKeqrwjnWy2Wb8iBo8IElbDtLXHqwPm20PMerlAokw1K+pW
+         oaTus9MSKFzI0UDrLXVXPu+fgh0Y4tjwCwL/sgu3gJs8IAYzeWtFHFJEvQ6PpMeAw8KF
+         fXhYiVarY7UxUy1xS2X8vaI/MzE66RhxqC3Z10yxHYG4GyliCbIthwyEYrul9hWMqa2V
+         yPgg==
+X-Gm-Message-State: AOJu0YxEX7SOdIJyvTg6nZaLmnxcGIAIH5xdBU3Ou/RrDLTyyiCnZUVc
+	diIcUFVECvrYidiCQF4OWz3jg2VcIEHQmM67Z9+xCrTTiRgD
+X-Google-Smtp-Source: AGHT+IG3hQqwOEAuQIEe26wVuEJZ0hqaSYghTTXqBTohi8bagHfjNbU3GhlWTUQwbqnDsE5lrjQe3fr3XFikPueYIHg=
+X-Received: by 2002:a2e:b0f2:0:b0:2cd:2ac6:9685 with SMTP id
+ h18-20020a2eb0f2000000b002cd2ac69685mr3760083ljl.92.1705438552740; Tue, 16
+ Jan 2024 12:55:52 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="lgtwqetat5bqpk6j"
-Content-Disposition: inline
-In-Reply-To: <20240115143720.GA160656@toolbox>
-
-
---lgtwqetat5bqpk6j
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+References: <20240110073917.2398826-1-peterlin@andestech.com> <20240110073917.2398826-8-peterlin@andestech.com>
+In-Reply-To: <20240110073917.2398826-8-peterlin@andestech.com>
+From: Atish Patra <atishp@atishpatra.org>
+Date: Tue, 16 Jan 2024 12:55:41 -0800
+Message-ID: <CAOnJCUKY8H+pvgTWW5zkfm8O4WR-OWOKmyPTcMjUZBCC5RaLWQ@mail.gmail.com>
+Subject: Re: [PATCH v7 07/16] RISC-V: Move T-Head PMU to CPU feature
+ alternative framework
+To: Yu Chien Peter Lin <peterlin@andestech.com>
+Cc: acme@kernel.org, adrian.hunter@intel.com, ajones@ventanamicro.com, 
+	alexander.shishkin@linux.intel.com, andre.przywara@arm.com, 
+	anup@brainfault.org, aou@eecs.berkeley.edu, conor+dt@kernel.org, 
+	conor.dooley@microchip.com, conor@kernel.org, devicetree@vger.kernel.org, 
+	dminus@andestech.com, evan@rivosinc.com, geert+renesas@glider.be, 
+	guoren@kernel.org, heiko@sntech.de, irogers@google.com, 
+	jernej.skrabec@gmail.com, jolsa@kernel.org, jszhang@kernel.org, 
+	krzysztof.kozlowski+dt@linaro.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, locus84@andestech.com, magnus.damm@gmail.com, 
+	mark.rutland@arm.com, mingo@redhat.com, n.shubin@yadro.com, 
+	namhyung@kernel.org, palmer@dabbelt.com, paul.walmsley@sifive.com, 
+	peterz@infradead.org, prabhakar.mahadev-lad.rj@bp.renesas.com, 
+	rdunlap@infradead.org, robh+dt@kernel.org, samuel@sholland.org, 
+	sunilvl@ventanamicro.com, tglx@linutronix.de, tim609@andestech.com, 
+	uwu@icenowy.me, wens@csie.org, will@kernel.org, ycliang@andestech.com, 
+	inochiama@outlook.com, chao.wei@sophgo.com, unicorn_wang@outlook.com, 
+	wefu@redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebastian Wick wrote:
-> On Mon, Jan 15, 2024 at 03:33:08PM +0100, Sebastian Wick wrote:
-> > On Thu, Dec 07, 2023 at 04:49:31PM +0100, Maxime Ripard wrote:
-> > > The i915 driver has a property to force the RGB range of an HDMI outp=
-ut.
-> > > The vc4 driver then implemented the same property with the same
-> > > semantics. KWin has support for it, and a PR for mutter is also there=
- to
-> > > support it.
-> > >=20
-> > > Both drivers implementing the same property with the same semantics,
-> > > plus the userspace having support for it, is proof enough that it's
-> > > pretty much a de-facto standard now and we can provide helpers for it.
-> > >=20
-> > > Let's plumb it into the newly created HDMI connector.
-> > >=20
-> > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > > ---
-> > >  Documentation/gpu/kms-properties.csv               |   1 -
-> > >  drivers/gpu/drm/drm_atomic.c                       |   5 +
-> > >  drivers/gpu/drm/drm_atomic_state_helper.c          |  17 +
-> > >  drivers/gpu/drm/drm_atomic_uapi.c                  |   4 +
-> > >  drivers/gpu/drm/drm_connector.c                    |  76 +++++
-> > >  drivers/gpu/drm/tests/Makefile                     |   1 +
-> > >  .../gpu/drm/tests/drm_atomic_state_helper_test.c   | 376 +++++++++++=
-++++++++++
-> > >  drivers/gpu/drm/tests/drm_connector_test.c         | 117 ++++++-
-> > >  drivers/gpu/drm/tests/drm_kunit_edid.h             | 106 ++++++
-> > >  include/drm/drm_connector.h                        |  36 ++
-> > >  10 files changed, 737 insertions(+), 2 deletions(-)
-> > >=20
-> > > diff --git a/Documentation/gpu/kms-properties.csv b/Documentation/gpu=
-/kms-properties.csv
-> > > index 0f9590834829..caef14c532d4 100644
-> > > --- a/Documentation/gpu/kms-properties.csv
-> > > +++ b/Documentation/gpu/kms-properties.csv
-> > > @@ -17,7 +17,6 @@ Owner Module/Drivers,Group,Property Name,Type,Prope=
-rty Values,Object attached,De
-> > >  ,Virtual GPU,=E2=80=9Csuggested X=E2=80=9D,RANGE,"Min=3D0, Max=3D0xf=
-fffffff",Connector,property to suggest an X offset for a connector
-> > >  ,,=E2=80=9Csuggested Y=E2=80=9D,RANGE,"Min=3D0, Max=3D0xffffffff",Co=
-nnector,property to suggest an Y offset for a connector
-> > >  ,Optional,"""aspect ratio""",ENUM,"{ ""None"", ""4:3"", ""16:9"" }",=
-Connector,TDB
-> > > -i915,Generic,"""Broadcast RGB""",ENUM,"{ ""Automatic"", ""Full"", ""=
-Limited 16:235"" }",Connector,"When this property is set to Limited 16:235 =
-and CTM is set, the hardware will be programmed with the result of the mult=
-iplication of CTM by the limited range matrix to ensure the pixels normally=
- in the range 0..1.0 are remapped to the range 16/255..235/255."
-> > >  ,,=E2=80=9Caudio=E2=80=9D,ENUM,"{ ""force-dvi"", ""off"", ""auto"", =
-""on"" }",Connector,TBD
-> > >  ,SDVO-TV,=E2=80=9Cmode=E2=80=9D,ENUM,"{ ""NTSC_M"", ""NTSC_J"", ""NT=
-SC_443"", ""PAL_B"" } etc.",Connector,TBD
-> > >  ,,"""left_margin""",RANGE,"Min=3D0, Max=3D SDVO dependent",Connector=
-,TBD
-> > > diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomi=
-c.c
-> > > index c31fc0b48c31..1465a7f09a0b 100644
-> > > --- a/drivers/gpu/drm/drm_atomic.c
-> > > +++ b/drivers/gpu/drm/drm_atomic.c
-> > > @@ -1142,6 +1142,11 @@ static void drm_atomic_connector_print_state(s=
-truct drm_printer *p,
-> > >  	drm_printf(p, "\tmax_requested_bpc=3D%d\n", state->max_requested_bp=
-c);
-> > >  	drm_printf(p, "\tcolorspace=3D%s\n", drm_get_colorspace_name(state-=
->colorspace));
-> > > =20
-> > > +	if (connector->connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIA ||
-> > > +	    connector->connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIB)
-> > > +		drm_printf(p, "\tbroadcast_rgb=3D%s\n",
-> > > +			   drm_hdmi_connector_get_broadcast_rgb_name(state->hdmi.broadcas=
-t_rgb));
-> > > +
-> > >  	if (connector->connector_type =3D=3D DRM_MODE_CONNECTOR_WRITEBACK)
-> > >  		if (state->writeback_job && state->writeback_job->fb)
-> > >  			drm_printf(p, "\tfb=3D%d\n", state->writeback_job->fb->base.id);
-> > > diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/=
-drm/drm_atomic_state_helper.c
-> > > index e69c0cc1c6da..10d98620a358 100644
-> > > --- a/drivers/gpu/drm/drm_atomic_state_helper.c
-> > > +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-> > > @@ -583,6 +583,7 @@ EXPORT_SYMBOL(drm_atomic_helper_connector_tv_rese=
-t);
-> > >  void __drm_atomic_helper_connector_hdmi_reset(struct drm_connector *=
-connector,
-> > >  					      struct drm_connector_state *new_state)
-> > >  {
-> > > +	new_state->hdmi.broadcast_rgb =3D DRM_HDMI_BROADCAST_RGB_AUTO;
-> > >  }
-> > >  EXPORT_SYMBOL(__drm_atomic_helper_connector_hdmi_reset);
-> > > =20
-> > > @@ -650,6 +651,22 @@ EXPORT_SYMBOL(drm_atomic_helper_connector_tv_che=
-ck);
-> > >  int drm_atomic_helper_connector_hdmi_check(struct drm_connector *con=
-nector,
-> > >  					   struct drm_atomic_state *state)
-> > >  {
-> > > +	struct drm_connector_state *old_state =3D
-> > > +		drm_atomic_get_old_connector_state(state, connector);
-> > > +	struct drm_connector_state *new_state =3D
-> > > +		drm_atomic_get_new_connector_state(state, connector);
-> > > +
-> > > +	if (old_state->hdmi.broadcast_rgb !=3D new_state->hdmi.broadcast_rg=
-b) {
-> > > +		struct drm_crtc *crtc =3D new_state->crtc;
-> > > +		struct drm_crtc_state *crtc_state;
-> > > +
-> > > +		crtc_state =3D drm_atomic_get_crtc_state(state, crtc);
-> > > +		if (IS_ERR(crtc_state))
-> > > +			return PTR_ERR(crtc_state);
-> > > +
-> > > +		crtc_state->mode_changed =3D true;
-> > > +	}
-> > > +
-> > >  	return 0;
-> > >  }
-> > >  EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_check);
-> > > diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_=
-atomic_uapi.c
-> > > index aee4a65d4959..3eb4f4bc8b71 100644
-> > > --- a/drivers/gpu/drm/drm_atomic_uapi.c
-> > > +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-> > > @@ -818,6 +818,8 @@ static int drm_atomic_connector_set_property(stru=
-ct drm_connector *connector,
-> > >  		state->max_requested_bpc =3D val;
-> > >  	} else if (property =3D=3D connector->privacy_screen_sw_state_prope=
-rty) {
-> > >  		state->privacy_screen_sw_state =3D val;
-> > > +	} else if (property =3D=3D connector->broadcast_rgb_property) {
-> > > +		state->hdmi.broadcast_rgb =3D val;
-> > >  	} else if (connector->funcs->atomic_set_property) {
-> > >  		return connector->funcs->atomic_set_property(connector,
-> > >  				state, property, val);
-> > > @@ -901,6 +903,8 @@ drm_atomic_connector_get_property(struct drm_conn=
-ector *connector,
-> > >  		*val =3D state->max_requested_bpc;
-> > >  	} else if (property =3D=3D connector->privacy_screen_sw_state_prope=
-rty) {
-> > >  		*val =3D state->privacy_screen_sw_state;
-> > > +	} else if (property =3D=3D connector->broadcast_rgb_property) {
-> > > +		*val =3D state->hdmi.broadcast_rgb;
-> > >  	} else if (connector->funcs->atomic_get_property) {
-> > >  		return connector->funcs->atomic_get_property(connector,
-> > >  				state, property, val);
-> > > diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_co=
-nnector.c
-> > > index d9961cce8245..929b0a911f62 100644
-> > > --- a/drivers/gpu/drm/drm_connector.c
-> > > +++ b/drivers/gpu/drm/drm_connector.c
-> > > @@ -1183,6 +1183,29 @@ static const u32 dp_colorspaces =3D
-> > >  	BIT(DRM_MODE_COLORIMETRY_BT2020_CYCC) |
-> > >  	BIT(DRM_MODE_COLORIMETRY_BT2020_YCC);
-> > > =20
-> > > +static const struct drm_prop_enum_list broadcast_rgb_names[] =3D {
-> > > +	{ DRM_HDMI_BROADCAST_RGB_AUTO, "Automatic" },
-> > > +	{ DRM_HDMI_BROADCAST_RGB_FULL, "Full" },
-> > > +	{ DRM_HDMI_BROADCAST_RGB_LIMITED, "Limited 16:235" },
-> > > +};
-> > > +
-> > > +/*
-> > > + * drm_hdmi_connector_get_broadcast_rgb_name - Return a string for H=
-DMI connector RGB broadcast selection
-> > > + * @broadcast_rgb: Broadcast RGB selection to compute name of
-> > > + *
-> > > + * Returns: the name of the Broadcast RGB selection, or NULL if the =
-type
-> > > + * is not valid.
-> > > + */
-> > > +const char *
-> > > +drm_hdmi_connector_get_broadcast_rgb_name(enum drm_hdmi_broadcast_rg=
-b broadcast_rgb)
-> > > +{
-> > > +	if (broadcast_rgb > DRM_HDMI_BROADCAST_RGB_LIMITED)
-> > > +		return NULL;
-> > > +
-> > > +	return broadcast_rgb_names[broadcast_rgb].name;
-> > > +}
-> > > +EXPORT_SYMBOL(drm_hdmi_connector_get_broadcast_rgb_name);
-> > > +
-> > >  /**
-> > >   * DOC: standard connector properties
-> > >   *
-> > > @@ -1655,6 +1678,26 @@ EXPORT_SYMBOL(drm_connector_attach_dp_subconne=
-ctor_property);
-> > >  /**
-> > >   * DOC: HDMI connector properties
-> > >   *
-> > > + * Broadcast RGB
-> > > + *      Indicates the RGB Quantization Range (Full vs Limited) used.
-> > > + *      Infoframes will be generated according to that value.
-> > > + *
-> > > + *      The value of this property can be one of the following:
-> > > + *
-> > > + *      Automatic:
-> > > + *              RGB Range is selected automatically based on the mode
-> > > + *              according to the HDMI specifications.
-> > > + *
-> > > + *      Full:
-> > > + *              Full RGB Range is forced.
-> > > + *
-> > > + *      Limited 16:235:
-> > > + *              Limited RGB Range is forced. Unlike the name suggest=
-s,
-> > > + *              this works for any number of bits-per-component.
-> > > + *
-> > > + *      Drivers can set up this property by calling
-> > > + *      drm_connector_attach_broadcast_rgb_property().
-> > > + *
-> >=20
-> > This is a good time to document this in more detail. There might be two
-> > different things being affected:
-> >=20
-> > 1. The signalling (InfoFrame/SDP/...)
-> > 2. The color pipeline processing
-> >=20
-> > All values of Broadcast RGB always affect the color pipeline processing
-> > such that a full-range input to the CRTC is converted to either full- or
-> > limited-range, depending on what the monitor is supposed to accept.
-> >=20
-> > When automatic is selected, does that mean that there is no signalling,
-> > or that the signalling matches what the monitor is supposed to accept
-> > according to the spec? Also, is this really HDMI specific?
-> >=20
-> > When full or limited is selected and the monitor doesn't support the
-> > signalling, what happens?
->=20
-> Forgot to mention: user-space still has no control over RGB vs YCbCr on
-> the cable, so is this only affecting RGB? If not, how does it affect
-> YCbCr?
-i915 only supports it for RGB indeed:
-https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/i915/display=
-/intel_hdmi.c#L2150
+On Tue, Jan 9, 2024 at 11:40=E2=80=AFPM Yu Chien Peter Lin
+<peterlin@andestech.com> wrote:
+>
+> The custom PMU extension aims to support perf event sampling prior
+> to the ratification of Sscofpmf. Instead of diverting the bits and
+> register reserved for future standard, a set of custom registers is
+> added.  Hence, we may consider it as a CPU feature rather than an
+> erratum.
+>
 
-Maxime
+I don't think we should do that. Any custom implementation that
+violates the standard RISC-V spec should
+be an errata not a feature.
+As per my understanding, a vendor can call an extension custom ISA
+extension if the same feature is not available
+in the standard ISA extensions or the mechanism is completely
+different. It must also not violate any standard spec as well.
 
---lgtwqetat5bqpk6j
-Content-Type: application/pgp-signature; name="signature.asc"
+In this case, a standard sscofpmf is already available. Moreover, both
+Andes and T-head extensions violate the standard
+spec by reusing local interrupt numbers (17(Thead) & 18(Andes)) which
+are clearly specified as reserved for standard local interrupts
+in the AIA specification.
 
------BEGIN PGP SIGNATURE-----
+Please implementation Andes PMU support as an errata as well similar to T-h=
+ead
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZaVPeAAKCRDj7w1vZxhR
-xUqfAP42KmlQNAjS8Gd15wm3o/xPVLwxKq3Mj9o3uDndMr8fFQEAwaAUHG90t28G
-n7PjI68jJ9C8mdG1vseKHs+IcWYeWwU=
-=KfLJ
------END PGP SIGNATURE-----
 
---lgtwqetat5bqpk6j--
+> T-Head cores need to append "xtheadpmu" to the riscv,isa-extensions
+> for each cpu node in device tree, and enable CONFIG_THEAD_CUSTOM_PMU
+> for proper functioning as of this commit.
+>
+> Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
+> Reviewed-by: Guo Ren <guoren@kernel.org>
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> ---
+> Changes v1 -> v2:
+>   - New patch
+> Changes v2 -> v3:
+>   - Removed m{vendor/arch/imp}id checks in pmu_sbi_setup_irqs()
+> Changes v3 -> v4:
+>   - No change
+> Changes v4 -> v5:
+>   - Include Guo's Reviewed-by
+>   - Let THEAD_CUSTOM_PMU depend on ARCH_THEAD
+> Changes v5 -> v6:
+>   - Include Conor's Reviewed-by
+> Changes v6 -> v7:
+>   - No change
+> ---
+>  arch/riscv/Kconfig.errata            | 13 -------------
+>  arch/riscv/errata/thead/errata.c     | 19 -------------------
+>  arch/riscv/include/asm/errata_list.h | 15 +--------------
+>  arch/riscv/include/asm/hwcap.h       |  1 +
+>  arch/riscv/kernel/cpufeature.c       |  1 +
+>  drivers/perf/Kconfig                 | 13 +++++++++++++
+>  drivers/perf/riscv_pmu_sbi.c         | 19 ++++++++++++++-----
+>  7 files changed, 30 insertions(+), 51 deletions(-)
+>
+> diff --git a/arch/riscv/Kconfig.errata b/arch/riscv/Kconfig.errata
+> index e2c731cfed8c..0d19f47d1018 100644
+> --- a/arch/riscv/Kconfig.errata
+> +++ b/arch/riscv/Kconfig.errata
+> @@ -86,17 +86,4 @@ config ERRATA_THEAD_CMO
+>
+>           If you don't know what to do here, say "Y".
+>
+> -config ERRATA_THEAD_PMU
+> -       bool "Apply T-Head PMU errata"
+> -       depends on ERRATA_THEAD && RISCV_PMU_SBI
+> -       default y
+> -       help
+> -         The T-Head C9xx cores implement a PMU overflow extension very
+> -         similar to the core SSCOFPMF extension.
+> -
+> -         This will apply the overflow errata to handle the non-standard
+> -         behaviour via the regular SBI PMU driver and interface.
+> -
+> -         If you don't know what to do here, say "Y".
+> -
+>  endmenu # "CPU errata selection"
+> diff --git a/arch/riscv/errata/thead/errata.c b/arch/riscv/errata/thead/e=
+rrata.c
+> index 0554ed4bf087..5de5f7209132 100644
+> --- a/arch/riscv/errata/thead/errata.c
+> +++ b/arch/riscv/errata/thead/errata.c
+> @@ -53,22 +53,6 @@ static bool errata_probe_cmo(unsigned int stage,
+>         return true;
+>  }
+>
+> -static bool errata_probe_pmu(unsigned int stage,
+> -                            unsigned long arch_id, unsigned long impid)
+> -{
+> -       if (!IS_ENABLED(CONFIG_ERRATA_THEAD_PMU))
+> -               return false;
+> -
+> -       /* target-c9xx cores report arch_id and impid as 0 */
+> -       if (arch_id !=3D 0 || impid !=3D 0)
+> -               return false;
+> -
+> -       if (stage =3D=3D RISCV_ALTERNATIVES_EARLY_BOOT)
+> -               return false;
+> -
+> -       return true;
+> -}
+> -
+>  static u32 thead_errata_probe(unsigned int stage,
+>                               unsigned long archid, unsigned long impid)
+>  {
+> @@ -80,9 +64,6 @@ static u32 thead_errata_probe(unsigned int stage,
+>         if (errata_probe_cmo(stage, archid, impid))
+>                 cpu_req_errata |=3D BIT(ERRATA_THEAD_CMO);
+>
+> -       if (errata_probe_pmu(stage, archid, impid))
+> -               cpu_req_errata |=3D BIT(ERRATA_THEAD_PMU);
+> -
+>         return cpu_req_errata;
+>  }
+>
+> diff --git a/arch/riscv/include/asm/errata_list.h b/arch/riscv/include/as=
+m/errata_list.h
+> index 4ed21a62158c..9bccc2ba0eb5 100644
+> --- a/arch/riscv/include/asm/errata_list.h
+> +++ b/arch/riscv/include/asm/errata_list.h
+> @@ -25,8 +25,7 @@
+>  #ifdef CONFIG_ERRATA_THEAD
+>  #define        ERRATA_THEAD_PBMT 0
+>  #define        ERRATA_THEAD_CMO 1
+> -#define        ERRATA_THEAD_PMU 2
+> -#define        ERRATA_THEAD_NUMBER 3
+> +#define        ERRATA_THEAD_NUMBER 2
+>  #endif
+>
+>  #ifdef __ASSEMBLY__
+> @@ -147,18 +146,6 @@ asm volatile(ALTERNATIVE_2(                         =
+                       \
+>             "r"((unsigned long)(_start) + (_size))                      \
+>         : "a0")
+>
+> -#define THEAD_C9XX_RV_IRQ_PMU                  17
+> -#define THEAD_C9XX_CSR_SCOUNTEROF              0x5c5
+> -
+> -#define ALT_SBI_PMU_OVERFLOW(__ovl)                                    \
+> -asm volatile(ALTERNATIVE(                                              \
+> -       "csrr %0, " __stringify(CSR_SSCOUNTOVF),                        \
+> -       "csrr %0, " __stringify(THEAD_C9XX_CSR_SCOUNTEROF),             \
+> -               THEAD_VENDOR_ID, ERRATA_THEAD_PMU,                      \
+> -               CONFIG_ERRATA_THEAD_PMU)                                \
+> -       : "=3Dr" (__ovl) :                                               =
+ \
+> -       : "memory")
+> -
+>  #endif /* __ASSEMBLY__ */
+>
+>  #endif
+> diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwca=
+p.h
+> index 5340f818746b..480f9da7fba7 100644
+> --- a/arch/riscv/include/asm/hwcap.h
+> +++ b/arch/riscv/include/asm/hwcap.h
+> @@ -80,6 +80,7 @@
+>  #define RISCV_ISA_EXT_ZFA              71
+>  #define RISCV_ISA_EXT_ZTSO             72
+>  #define RISCV_ISA_EXT_ZACAS            73
+> +#define RISCV_ISA_EXT_XTHEADPMU                74
+>
+>  #define RISCV_ISA_EXT_MAX              128
+>  #define RISCV_ISA_EXT_INVALID          U32_MAX
+> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeatur=
+e.c
+> index e32591e9da90..4aded5bf8fc3 100644
+> --- a/arch/riscv/kernel/cpufeature.c
+> +++ b/arch/riscv/kernel/cpufeature.c
+> @@ -303,6 +303,7 @@ const struct riscv_isa_ext_data riscv_isa_ext[] =3D {
+>         __RISCV_ISA_EXT_DATA(svinval, RISCV_ISA_EXT_SVINVAL),
+>         __RISCV_ISA_EXT_DATA(svnapot, RISCV_ISA_EXT_SVNAPOT),
+>         __RISCV_ISA_EXT_DATA(svpbmt, RISCV_ISA_EXT_SVPBMT),
+> +       __RISCV_ISA_EXT_DATA(xtheadpmu, RISCV_ISA_EXT_XTHEADPMU),
+>  };
+>
+>  const size_t riscv_isa_ext_count =3D ARRAY_SIZE(riscv_isa_ext);
+> diff --git a/drivers/perf/Kconfig b/drivers/perf/Kconfig
+> index 273d67ecf6d2..6cef15ec7c25 100644
+> --- a/drivers/perf/Kconfig
+> +++ b/drivers/perf/Kconfig
+> @@ -86,6 +86,19 @@ config RISCV_PMU_SBI
+>           full perf feature support i.e. counter overflow, privilege mode
+>           filtering, counter configuration.
+>
+> +config THEAD_CUSTOM_PMU
+> +       bool "T-Head custom PMU support"
+> +       depends on ARCH_THEAD && RISCV_ALTERNATIVE && RISCV_PMU_SBI
+> +       default y
+> +       help
+> +         The T-Head C9xx cores implement a PMU overflow extension very
+> +         similar to the core SSCOFPMF extension.
+> +
+> +         This will patch the overflow CSR and handle the non-standard
+> +         behaviour via the regular SBI PMU driver and interface.
+> +
+> +         If you don't know what to do here, say "Y".
+> +
+>  config ARM_PMU_ACPI
+>         depends on ARM_PMU && ACPI
+>         def_bool y
+> diff --git a/drivers/perf/riscv_pmu_sbi.c b/drivers/perf/riscv_pmu_sbi.c
+> index 2edbc37abadf..31ca79846399 100644
+> --- a/drivers/perf/riscv_pmu_sbi.c
+> +++ b/drivers/perf/riscv_pmu_sbi.c
+> @@ -20,10 +20,21 @@
+>  #include <linux/cpu_pm.h>
+>  #include <linux/sched/clock.h>
+>
+> -#include <asm/errata_list.h>
+>  #include <asm/sbi.h>
+>  #include <asm/cpufeature.h>
+>
+> +#define THEAD_C9XX_RV_IRQ_PMU          17
+> +#define THEAD_C9XX_CSR_SCOUNTEROF      0x5c5
+> +
+> +#define ALT_SBI_PMU_OVERFLOW(__ovl)                                    \
+> +asm volatile(ALTERNATIVE(                                              \
+> +       "csrr %0, " __stringify(CSR_SSCOUNTOVF),                        \
+> +       "csrr %0, " __stringify(THEAD_C9XX_CSR_SCOUNTEROF),             \
+> +               0, RISCV_ISA_EXT_XTHEADPMU,                             \
+> +               CONFIG_THEAD_CUSTOM_PMU)                                \
+> +       : "=3Dr" (__ovl) :                                               =
+ \
+> +       : "memory")
+> +
+>  #define SYSCTL_NO_USER_ACCESS  0
+>  #define SYSCTL_USER_ACCESS     1
+>  #define SYSCTL_LEGACY          2
+> @@ -808,10 +819,8 @@ static int pmu_sbi_setup_irqs(struct riscv_pmu *pmu,=
+ struct platform_device *pde
+>         if (riscv_isa_extension_available(NULL, SSCOFPMF)) {
+>                 riscv_pmu_irq_num =3D RV_IRQ_PMU;
+>                 riscv_pmu_use_irq =3D true;
+> -       } else if (IS_ENABLED(CONFIG_ERRATA_THEAD_PMU) &&
+> -                  riscv_cached_mvendorid(0) =3D=3D THEAD_VENDOR_ID &&
+> -                  riscv_cached_marchid(0) =3D=3D 0 &&
+> -                  riscv_cached_mimpid(0) =3D=3D 0) {
+> +       } else if (riscv_isa_extension_available(NULL, XTHEADPMU) &&
+> +                  IS_ENABLED(CONFIG_THEAD_CUSTOM_PMU)) {
+>                 riscv_pmu_irq_num =3D THEAD_C9XX_RV_IRQ_PMU;
+>                 riscv_pmu_use_irq =3D true;
+>         }
+> --
+> 2.34.1
+>
+
+
+--
+Regards,
+Atish
