@@ -1,67 +1,70 @@
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3D7822627
-	for <linux-sunxi@lists.linux.dev>; Wed, 17 Jan 2024 16:38:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A1BC224E7
+	for <linux-sunxi@lists.linux.dev>; Wed, 17 Jan 2024 16:38:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705509510; cv=none; b=YD5JW7AdWoA3v/1WJfQU6p6fD3GW7+LQa8DDxFatUp5/V+qsu/+CiYm8qNVAkiDCnRdmWQuK9wAMY+757rit3Afuo2ZylhzEDVQhoRbGiwMOmnKG5EFVKTmxPLQK5bcxriNUlUyExDgPNm8/yCO3m4tuXR3H+TbAqBLmp3NQjhI=
+	t=1705509513; cv=none; b=auYxeM+Ph4ogC8SNius+08ONS8fTMNp3M/lVAGEHfbbwEw2MKw/jiR0Zmtk6x6HkalJJ1aPQwmep4tP8Cb1glbSD3y5KYyPCKwnpcfRTTcFggZdA3PgiyrviON3735OWMJkhzJzJZ6YRB5MqKzEbrd6n+ncJy+6OdyiNt8kh4E0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705509510; c=relaxed/simple;
-	bh=eXckDmCXknZRoTsequjLg/7ye7USa+9Vf49r1Y8gDzE=;
+	s=arc-20240116; t=1705509513; c=relaxed/simple;
+	bh=CI8FxesCPgJRF5lo1ZJG3vw3sONTq+Pz84lrWr5vVxw=;
 	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:From:
-	 To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding; b=UvRI5qjbcGnsWar5oGfN5fpk2U0B0aU/xZCrOvB4nZ6Y3NwrtMSUNCFnMc9/dMy/GqDZ3C2r2+4Nj59oHjBOMgB2zZ0sVizeLu1I08HFBMYyQ3Ng3VosdspQ6wIgzTF899D4V2RoDcGKyecrW1+Bi8vjSnhNh+L3tmDeq6Sbgik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U4Rs10NX; arc=none smtp.client-ip=209.85.222.170
+	 To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding; b=cvqKkD5NoLx0wJGNjykqu/nh5W+yLPIX1JSZCfOS14M2RroBMFk4yejCnmH289eXCjOypuAjVElLhtgKseMkHbnjSOZWTGIYRpKQq1w96R1ozobM1s4zdpbyxagcpPPUMoI2FEShfXq+nP4bAEuBcveQJX03Cn9AkGIbagA/1PM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aUCsz1/F; arc=none smtp.client-ip=209.85.222.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U4Rs10NX"
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-783293278adso671871885a.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 17 Jan 2024 08:38:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aUCsz1/F"
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-783195e57c7so731338485a.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 17 Jan 2024 08:38:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705509508; x=1706114308; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lpSpvdXF/aN1Mwo9ZnYSxkTm8q5Xet2UmvVBXOFYMZM=;
-        b=U4Rs10NXSqDH8f7pbOahjjusNjUjrh30nf7DiOmpoprYDkMEidVlsL2PuNCXhTcRyE
-         0QsREavNUtdQ+7RR7dwJY1g1lM9Pb3J8akduOSnK258CgQlHwewsQiyEMYFp6TqHHB09
-         9Z773f0w+wCa2qJbdAOGXEGSbUG8OQpnJAMkb6uxmyoOdMI+ZzLbh0FPoxmBL7F0/Rl2
-         ENliL4AWlYf7WBAj9QEDkzc+V8ymvT4uMhepBbhIVKgKAvBDtaiUk3C+/OhVUW9ZEBOe
-         y14MGNfSbDVgK3hNppuWyNzp+tVr32UNa/9JdezgblAwDUy4TSYmIe6Hjl+5aLD5dFS1
-         LrHg==
+        d=gmail.com; s=20230601; t=1705509510; x=1706114310; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iRSAypqqIP1jQMTrlYCO4pCGABYvy6tncIcDPJFqsRI=;
+        b=aUCsz1/FvbXV0ekqitEo4ZhBZwegfnsx5exrvbEz51LGdoFUL1iSUDPLITKvp1ygV3
+         1O30u/xFUTm3Q5qMZzy9i+Z68xn7DpFk681d+GzgQw8YABROk7CCNDWIPUKKwxGgVgjp
+         qe2Ixj/jZlPtaHOOcAqrx4uQI06g75tTDt4h0BIqbHxDGizodQVn2OECUu0jLesDd5TP
+         PH6NBTkYHzqbLTq8NTy4IqFWcxBNSKaQ5SqPQNmwXFD0DrCfpRAd35I71/FXmpxWkRZ/
+         AgJ4MhGxrfamVzVvgFtl4GGdpGiTvkp0a9NY2p4GVgi/99bg7lYxORDhbF2LenEzc2ys
+         GTpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705509508; x=1706114308;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lpSpvdXF/aN1Mwo9ZnYSxkTm8q5Xet2UmvVBXOFYMZM=;
-        b=pRcH0+nL/kyeCJbCz8KX/QacQ+hZtf3165IhTKNOz913Mp3NnKwDDyWV7Zy7cT+l2A
-         P5QZvBVmy+93eXMYvIRGRZOHzlEh8hGsytssoZtvRWqgt/RLPZmWJ0oAoRSCtvlIQelU
-         6EAfRRVFxRUs7CRKWcsCu4qm8tT8SVvtDg8sa9P6M2PjQjUfhtrgYHUFjMUAmYeiGvJb
-         2iAQLGt9nE3q0NOwCymOpKcqElZDVAsxW11/QsP43CYPzXGRiewq/EL0kBwwAgCE/Of4
-         OOVg4VdX6/eMJmlK7WgSAyDO6LeCNnD7zo/xxl9NsOD3Dh3XHtMhPAVYsu348FNdcaDp
-         oiFw==
-X-Gm-Message-State: AOJu0Yw+YIYU9mHQaaagmxd9or2LvZYgS3o5Ntm5CRNMphTYKX1IIkQP
-	5piVs6sENdfocEqbOV9oyNM=
-X-Google-Smtp-Source: AGHT+IGZmg/FAu/L44TcnvECa5UGFRbWksJU6lqwlSA0VA7Zw7RRPEBDJZTgDypEP5ikYrFlFx5QmA==
-X-Received: by 2002:a05:620a:2414:b0:783:1ecd:bfd1 with SMTP id d20-20020a05620a241400b007831ecdbfd1mr11897076qkn.66.1705509507710;
-        Wed, 17 Jan 2024 08:38:27 -0800 (PST)
+        d=1e100.net; s=20230601; t=1705509510; x=1706114310;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iRSAypqqIP1jQMTrlYCO4pCGABYvy6tncIcDPJFqsRI=;
+        b=Bfe3QEEfeNx6vSKp0LFs7L8F9Z8nkEvLo3zmgPz08PxWAV59XW9xlj0zJD5wEZHxMs
+         VJyOsMnz2FajSHOfl+769TKG5Ye6h1G5MvCAVvfBge0F3B+4nXpNIBHjiDGQIpnlmB4m
+         hVz5ilZU/eHxbYQU2/2T/8zffRL5V/B+rXx+qCMLZcIopiosMIHhHkew88hiileG46YC
+         Jb8dwmbzYgyeL4YkLcJzekCVSnejVhNkQdUwrwTuokF8H2Dm7yxqSXiQLn8rACzJ7WGa
+         n1Esfnyucz7+rp0WmYfOkLkSeGJ0sVcHn/5rAQvx3YUz7Eeb0JE0fMeJTdZwtwnzWljR
+         sYpQ==
+X-Gm-Message-State: AOJu0YzxLmOM4K76k07dMpRK8K9Hn1RjwhQsdkqgNA5d+t4Ob0AvuojC
+	QjDm+8ot4pSvrNHYkr5+S5I=
+X-Google-Smtp-Source: AGHT+IGLqFm/gr1s2B4ba7dsGDsf9um5bzuADhUWGl9JQa3AyWkXAal12KAeW00hfqfWuGgt2rs9EA==
+X-Received: by 2002:a37:c40d:0:b0:783:53f2:8288 with SMTP id d13-20020a37c40d000000b0078353f28288mr7619866qki.151.1705509510418;
+        Wed, 17 Jan 2024 08:38:30 -0800 (PST)
 Received: from localhost.localdomain (bras-vprn-ckvlon1747w-lp130-29-70-29-79-15.dsl.bell.ca. [70.29.79.15])
-        by smtp.gmail.com with ESMTPSA id q9-20020a05620a038900b00783237b3330sm4623850qkm.31.2024.01.17.08.38.27
+        by smtp.gmail.com with ESMTPSA id q9-20020a05620a038900b00783237b3330sm4623850qkm.31.2024.01.17.08.38.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jan 2024 08:38:27 -0800 (PST)
+        Wed, 17 Jan 2024 08:38:30 -0800 (PST)
 From: Nick Alilovic <nickalilovic@gmail.com>
 To: u-boot@lists.denx.de
 Cc: andre.przywara@arm.com,
 	jagan@amarulasolutions.com,
 	linux-sunxi@lists.linux.dev,
 	Nick Alilovic <nickalilovic@gmail.com>
-Subject: [PATCH 1/2] arm: dts: Transpeed 8K618-T: Add Transpeed 8K618-T board support
-Date: Wed, 17 Jan 2024 11:37:55 -0500
-Message-Id: <20240117163756.63875-1-nickalilovic@gmail.com>
+Subject: [PATCH 2/2] configs: Transpeed 8K618-T: Add Transpeed 8K618-T board support
+Date: Wed, 17 Jan 2024 11:37:56 -0500
+Message-Id: <20240117163756.63875-2-nickalilovic@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240117163756.63875-1-nickalilovic@gmail.com>
+References: <20240117163756.63875-1-nickalilovic@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -70,194 +73,49 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This is the DT I used from the Linux kernel. Made changes to the Makefile to build the new DTB.
+This is a Chinese TV box based on Allwinner H618 SoC.
+
+The DRAM parameters were derived from the values found in a firmware update.
+
+This patch will add transpeed-8k618-t_defconfig to the configs directory.
 
 Signed-off-by: Nick Alilovic <nickalilovic@gmail.com>
 ---
- arch/arm/dts/Makefile                         |   1 +
- .../arm/dts/sun50i-h618-transpeed-8k618-t.dts | 161 ++++++++++++++++++
- 2 files changed, 162 insertions(+)
- create mode 100644 arch/arm/dts/sun50i-h618-transpeed-8k618-t.dts
+ configs/transpeed-8k618-t_defconfig | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+ create mode 100644 configs/transpeed-8k618-t_defconfig
 
-diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
-index d456a524b3..cacd21558a 100644
---- a/arch/arm/dts/Makefile
-+++ b/arch/arm/dts/Makefile
-@@ -836,6 +836,7 @@ dtb-$(CONFIG_MACH_SUN50I_H6) += \
- dtb-$(CONFIG_MACH_SUN50I_H616) += \
- 	sun50i-h616-orangepi-zero2.dtb \
- 	sun50i-h618-orangepi-zero3.dtb \
-+	sun50i-h618-transpeed-8k618-t.dtb \
- 	sun50i-h616-x96-mate.dtb
- dtb-$(CONFIG_MACH_SUN50I) += \
- 	sun50i-a64-amarula-relic.dtb \
-diff --git a/arch/arm/dts/sun50i-h618-transpeed-8k618-t.dts b/arch/arm/dts/sun50i-h618-transpeed-8k618-t.dts
+diff --git a/configs/transpeed-8k618-t_defconfig b/configs/transpeed-8k618-t_defconfig
 new file mode 100644
-index 0000000000..8ea1fd41ae
+index 0000000000..7090577199
 --- /dev/null
-+++ b/arch/arm/dts/sun50i-h618-transpeed-8k618-t.dts
-@@ -0,0 +1,161 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+/*
-+ * Copyright (C) 2023 Arm Ltd.
-+ */
-+
-+/dts-v1/;
-+
-+#include "sun50i-h616.dtsi"
-+
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+/ {
-+	model = "Transpeed 8K618-T";
-+	compatible = "transpeed,8k618-t", "allwinner,sun50i-h618";
-+
-+	aliases {
-+		serial0 = &uart0;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial0:115200n8";
-+	};
-+
-+	reg_vcc5v: vcc5v {
-+		/* board wide 5V supply directly from the DC input */
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc-5v";
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+		regulator-always-on;
-+	};
-+
-+	reg_vcc3v3: vcc3v3 {
-+		/* discrete 3.3V regulator */
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc-3v3";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+		regulator-always-on;
-+	};
-+};
-+
-+&ehci0 {
-+	status = "okay";
-+};
-+
-+&ehci1 {
-+	status = "okay";
-+};
-+
-+&ir {
-+	status = "okay";
-+};
-+
-+&mmc0 {
-+	vmmc-supply = <&reg_dldo1>;
-+	cd-gpios = <&pio 8 16 GPIO_ACTIVE_LOW>;	/* PI16 */
-+	bus-width = <4>;
-+	status = "okay";
-+};
-+
-+&mmc2 {
-+	vmmc-supply = <&reg_dldo1>;
-+	vqmmc-supply = <&reg_aldo1>;
-+	bus-width = <8>;
-+	non-removable;
-+	cap-mmc-hw-reset;
-+	mmc-ddr-1_8v;
-+	mmc-hs200-1_8v;
-+	status = "okay";
-+};
-+
-+&ohci0 {
-+	status = "okay";
-+};
-+
-+&ohci1 {
-+	status = "okay";
-+};
-+
-+&r_i2c {
-+	status = "okay";
-+
-+	axp313: pmic@36 {
-+		compatible = "x-powers,axp313a";
-+		reg = <0x36>;
-+		#interrupt-cells = <1>;
-+		interrupt-controller;
-+
-+		vin1-supply = <&reg_vcc5v>;
-+		vin2-supply = <&reg_vcc5v>;
-+		vin3-supply = <&reg_vcc5v>;
-+
-+		regulators {
-+			reg_aldo1: aldo1 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <1800000>;
-+				regulator-max-microvolt = <1800000>;
-+				regulator-name = "vcc-1v8-pll";
-+			};
-+
-+			reg_dldo1: dldo1 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <3300000>;
-+				regulator-max-microvolt = <3300000>;
-+				regulator-name = "vcc-3v3-io-mmc";
-+			};
-+
-+			reg_dcdc1: dcdc1 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <810000>;
-+				regulator-max-microvolt = <990000>;
-+				regulator-name = "vdd-gpu-sys";
-+			};
-+
-+			reg_dcdc2: dcdc2 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <810000>;
-+				regulator-max-microvolt = <1100000>;
-+				regulator-name = "vdd-cpu";
-+			};
-+
-+			reg_dcdc3: dcdc3 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <1360000>;
-+				regulator-max-microvolt = <1360000>;
-+				regulator-name = "vdd-dram";
-+			};
-+		};
-+	};
-+};
-+
-+&pio {
-+	vcc-pc-supply = <&reg_aldo1>;
-+	vcc-pg-supply = <&reg_dldo1>;
-+	vcc-ph-supply = <&reg_dldo1>;
-+	vcc-pi-supply = <&reg_dldo1>;
-+};
-+
-+&uart0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart0_ph_pins>;
-+	status = "okay";
-+};
-+
-+&uart1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart1_pins>, <&uart1_rts_cts_pins>;
-+	uart-has-rtscts;
-+	status = "okay";
-+};
-+
-+&usbotg {
-+	dr_mode = "host";	/* USB A type receptable */
-+	status = "okay";
-+};
-+
-+&usbphy {
-+	status = "okay";
-+};
++++ b/configs/transpeed-8k618-t_defconfig
+@@ -0,0 +1,25 @@
++CONFIG_ARM=y
++CONFIG_ARCH_SUNXI=y
++CONFIG_DEFAULT_DEVICE_TREE="sun50i-h618-transpeed-8k618-t"
++CONFIG_SPL=y
++CONFIG_DRAM_SUN50I_H616_DX_ODT=0x03030303
++CONFIG_DRAM_SUN50I_H616_DX_DRI=0x0e0e0e0e
++CONFIG_DRAM_SUN50I_H616_CA_DRI=0x1f12
++CONFIG_DRAM_SUN50I_H616_TPR0=0xc0001002
++CONFIG_DRAM_SUN50I_H616_TPR10=0x2f1107
++CONFIG_DRAM_SUN50I_H616_TPR11=0xddddcccc
++CONFIG_DRAM_SUN50I_H616_TPR12=0xeddc7665
++CONFIG_MACH_SUN50I_H616=y
++CONFIG_SUNXI_DRAM_H616_DDR3_1333=y
++CONFIG_DRAM_CLK=648
++CONFIG_R_I2C_ENABLE=y
++CONFIG_SPL_I2C=y
++CONFIG_SPL_SYS_I2C_LEGACY=y
++CONFIG_SYS_I2C_MVTWSI=y
++CONFIG_SYS_I2C_SLAVE=0x7f
++CONFIG_SYS_I2C_SPEED=400000
++CONFIG_SUPPORT_EMMC_BOOT=y
++CONFIG_AXP313_POWER=y
++CONFIG_USB_EHCI_HCD=y
++CONFIG_USB_OHCI_HCD=y
++CONFIG_AXP_DCDC3_VOLT=1360
 -- 
 2.34.1
 
