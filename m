@@ -1,159 +1,126 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B6061E86E
-	for <linux-sunxi@lists.linux.dev>; Wed, 17 Jan 2024 13:53:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F31AB21A0A
+	for <linux-sunxi@lists.linux.dev>; Wed, 17 Jan 2024 15:53:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705499582; cv=none; b=o3SB9yRFeGPzQTVqqXKCcnLe6qwz2XCtigjR5YW/WzMkki0ukAc710ohTyIApyW4Z8ocVX+TLeEYWp2ObG1I4M5dtPWEz8+uMbgEQ+c2SO5LklMKYEH4TeP+X5mrVnFKDNfVUTCFVpkEBJn2ySKxIja1TmpsY4avWKgRXLl1DSI=
+	t=1705506806; cv=none; b=eRwxO7Rap7C/WylA+0mzo0YjNapQ1eNTegwNAfV6FMJEya7T1hZC2lXf+dGy58K8gKOa4XOU/YlzIrHwqkjOhT7Np8Jpjee4OQL1K+42jKHCCi3LAU5kCvNEAXe4bpueWLuX9M3v3iUdBr251GJ+ZEaByFqn2P0Kyhysm8P+vx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705499582; c=relaxed/simple;
-	bh=2tU5LhRm2eRtGmhV5K7NjxFEcv8ZzlO1UyFAtO3PLNY=;
-	h=Received:Received:Date:From:To:Cc:Subject:Message-ID:In-Reply-To:
-	 References:Organization:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding; b=k2T/Dnl48D9R7WJqLmydLVnuT80EpfnVi5IV4vp7PK3Spm+RVSQMIMEsSmmi3miWozbBFrDdKkymKF3E9X0OBXZhpqoChHxrf8zavCGtvYiVLGHWkKkiAmXaqGMehMG+zJJzYxaCRdkpCGgQXdnFHKQ+EPktqtfBEanLki8E1iA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8F30011FB;
-	Wed, 17 Jan 2024 05:53:45 -0800 (PST)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A5CC13F5A1;
-	Wed, 17 Jan 2024 05:52:58 -0800 (PST)
-Date: Wed, 17 Jan 2024 13:52:56 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Cc: Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev,
- u-boot@lists.denx.de, Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: Re: [PATCH 00/19] sunxi: SPL cleanup part 1
-Message-ID: <20240117135256.66bb48ee@donnerap.manchester.arm.com>
-In-Reply-To: <20240103001239.17482-1-andre.przywara@arm.com>
-References: <20240103001239.17482-1-andre.przywara@arm.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1705506806; c=relaxed/simple;
+	bh=RN/TRAV+0bm5AnELjwjgmIYkKjf1u9x2nlP5hpU2ebs=;
+	h=Received:DKIM-Signature:Received:Received:Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:CC:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-EXCLAIMER-MD-CONFIG; b=b8qrsyn/kx3Ze0GjXJ08PLoJmcsX5Jnfbe0f7Ztp35Z3buQI/yW5fwf0q1jt+WZhPBcqOX+LccQEXjGqUycGwQex1ZxyooeZMIytUsK1xBND900Bt8OQ7aOBh6Cwj6tvKvj5B8uZ+YniOUl68LXChsd1ma4gXboTjwIm98u+pV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=PcSv0otR; arc=none smtp.client-ip=198.47.19.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="PcSv0otR"
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 40HFqhek107121;
+	Wed, 17 Jan 2024 09:52:44 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1705506764;
+	bh=UqoXHpuOsyXayN31wfG4/f1gx1ZHV/XtpeqO3uEEUxI=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=PcSv0otRf22cpnWL4ex8dgpTo4kYPE2YfM2FC7uA12j/9tyFYkEgZ2AhY9W2/eqIL
+	 UCcCKSNc2rAQMq34hF8aMVsEK2gtD8n3zgq1B2X+uumQ7rbozLTXHpMAbIth4PU623
+	 ZP/avpnMlwdRxFKiL0uRf9F+iQpxHCSIF8/AviO8=
+Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
+	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 40HFqh7o004410
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Wed, 17 Jan 2024 09:52:43 -0600
+Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 17
+ Jan 2024 09:52:43 -0600
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Wed, 17 Jan 2024 09:52:43 -0600
+Received: from [10.249.42.149] ([10.249.42.149])
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 40HFqgSs087030;
+	Wed, 17 Jan 2024 09:52:42 -0600
+Message-ID: <55efd488-c6a0-4dca-baea-1fa93d13dd17@ti.com>
+Date: Wed, 17 Jan 2024 09:52:41 -0600
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 08/11] ARM: dts: DRA7xx: Add device tree entry for SGX GPU
+To: Tony Lindgren <tony@atomide.com>
+CC: Frank Binns <frank.binns@imgtec.com>,
+        Matt Coster
+	<matt.coster@imgtec.com>,
+        "H . Nikolaus Schaller" <hns@goldelico.com>,
+        Adam
+ Ford <aford173@gmail.com>,
+        Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard
+	<mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Rob Herring
+	<robh+dt@kernel.org>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        =?UTF-8?Q?Beno=C3=AEt_Cousson?=
+	<bcousson@baylibre.com>,
+        Nishanth Menon <nm@ti.com>, Vignesh Raghavendra
+	<vigneshr@ti.com>,
+        Tero Kristo <kristo@kernel.org>, Paul Cercueil
+	<paul@crapouillou.net>,
+        <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-sunxi@lists.linux.dev>, <linux-omap@vger.kernel.org>,
+        <linux-mips@vger.kernel.org>
+References: <20240109171950.31010-1-afd@ti.com>
+ <20240109171950.31010-9-afd@ti.com> <20240110082924.GA5185@atomide.com>
+Content-Language: en-US
+From: Andrew Davis <afd@ti.com>
+In-Reply-To: <20240110082924.GA5185@atomide.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-On Wed,  3 Jan 2024 00:12:20 +0000
-Andre Przywara <andre.przywara@arm.com> wrote:
-
-Hi,
-
-> This is the first part of a series to clean up the Allwinner SPL a bit.
-
-will anyone have a chance to look at this?
-
-I compiled patches 1-4,6,7 for all sunxi boards and the resulting binaries
-were identical compared to the base, so if no one screams, I would like to
-merge those 6 patches ASAP.
-
-The other patches can surely wait, though I would be glad if someone would
-have a look and could confirm if that goes into the right direction in
-general.
-
-Cheers,
-Andre
-
-> One big driver for this whole clean up is to eventually accommodate the
-> RISC-V chips, which share most platform devices, but cannot use any code
-> that currently lives under arch/arm. So the idea is to disentangle the
-> code, to get a cleaner separation between ARM specific and platform
-> specific code. Another related reason is that the RISC-V port aims to
-> use a DM SPL, so we want to split off code bits that won't be needed when
-> we have the DM framework in the SPL.
+On 1/10/24 2:29 AM, Tony Lindgren wrote:
+> * Andrew Davis <afd@ti.com> [240109 17:20]:
+>> --- a/arch/arm/boot/dts/ti/omap/dra7.dtsi
+>> +++ b/arch/arm/boot/dts/ti/omap/dra7.dtsi
+>> @@ -850,12 +850,19 @@ target-module@56000000 {
+>>   					<SYSC_IDLE_SMART>;
+>>   			ti,sysc-sidle = <SYSC_IDLE_FORCE>,
+>>   					<SYSC_IDLE_NO>,
+>> -					<SYSC_IDLE_SMART>;
+>> +					<SYSC_IDLE_SMART>,
+>> +					<SYSC_IDLE_SMART_WKUP>;
 > 
-> This first part of the series is mostly preparation, and some smaller
-> cleanups, of code that was around for a long time and missed some
-> updates.
-> We start with some removal of no longer needed definitions, in the first
-> seven patches. The next seven patches tighten the SPL clock code: quite
-> some functions were compiled for U-Boot proper, however were not needed
-> there. Sorting this out helps to identify legacy code.
-> The final five patches move the SPL pinmux setup code into separate
-> functions and files, and convert the #ifdef hell into proper C "if"
-> statements.
-> 
-> It would be great if Samuel can have a look and say whether this is
-> helpful or not. For instance I don't really know how much of the SPL
-> clock code will be needed for the RISC-V port, since we don't really
-> model the bus clocks in the DT at all, and currently don't support PLLs
-> in the DM clock code.
-> 
-> Much of this first series should be good regardless, for instance the
-> replacement of #ifdef's with C "if" statements, since that became
-> tedious to expand for new SoCs and boards. But if some parts should live
-> in a different directory, or should be grouped differently, this can
-> certainly be factored in.
-> 
-> Please have a look, review and test!
-> 
-> Cheers,
-> Andre
-> 
-> Andre Przywara (19):
->   sunxi: cleanup sunxi-common.h
->   sunxi: sun50i-h6: remove unneeded base addresses from header
->   sunxi: sun4i: remove unneeded base addresses from header
->   sunxi: sun9i: remove unneeded base addresses from header
->   sunxi: move #ifdef guards around tzpc_init() to header file
->   sunxi: remove common.h inclusion
->   sunxi: simplify U-Boot proper only builds
->   sunxi: remove unneeded i2c_init_board() call for U-Boot proper
->   sunxi: compile clock.c for SPL only
->   sunxi: sun4i: make more clock functions SPL only
->   sunxi: sun6i: make more clock functions SPL only
->   sunxi: sun50i_h6: make more clock functions SPL only
->   sunxi: sun8i_a83t: make more clock functions SPL only
->   sunxi: sun9i: make more clock functions SPL only
->   sunxi: move pinmux setup into separate SPL only file
->   sunxi: SPL pinmux: rewrite without #ifdefs
->   sunxi: move UART pinmux setup into separate file
->   sunxi: SPL pinmux: split out UART pinmux per port
->   sunxi: SPL pinmux: rewrite UART setup without #ifdefs
-> 
->  arch/arm/Kconfig                              |   4 +-
->  arch/arm/include/asm/arch-sunxi/clock_sun9i.h |   3 -
->  arch/arm/include/asm/arch-sunxi/cpu_sun4i.h   |  47 ---
->  .../include/asm/arch-sunxi/cpu_sun50i_h6.h    |  21 --
->  arch/arm/include/asm/arch-sunxi/cpu_sun9i.h   |  41 ---
->  arch/arm/include/asm/arch-sunxi/tzpc.h        |   6 +
->  arch/arm/mach-sunxi/Kconfig                   |  16 +-
->  arch/arm/mach-sunxi/Makefile                  |   4 +-
->  arch/arm/mach-sunxi/board.c                   | 113 +------
->  arch/arm/mach-sunxi/clock.c                   |   3 -
->  arch/arm/mach-sunxi/clock_sun4i.c             |   6 +-
->  arch/arm/mach-sunxi/clock_sun50i_h6.c         |  58 ++--
->  arch/arm/mach-sunxi/clock_sun6i.c             |   4 +-
->  arch/arm/mach-sunxi/clock_sun8i_a83t.c        |   6 +-
->  arch/arm/mach-sunxi/clock_sun9i.c             |  98 +++---
->  arch/arm/mach-sunxi/cpu_info.c                |   1 -
->  arch/arm/mach-sunxi/dram_helpers.c            |   3 +-
->  arch/arm/mach-sunxi/dram_sun4i.c              |   1 -
->  arch/arm/mach-sunxi/dram_sun50i_h6.c          |   1 -
->  arch/arm/mach-sunxi/dram_sun50i_h616.c        |   1 -
->  arch/arm/mach-sunxi/dram_sun6i.c              |   1 -
->  arch/arm/mach-sunxi/dram_sun8i_a23.c          |   1 -
->  arch/arm/mach-sunxi/dram_sun8i_a33.c          |   1 -
->  arch/arm/mach-sunxi/dram_sun8i_a83t.c         |   1 -
->  arch/arm/mach-sunxi/dram_sun9i.c              |   1 -
->  arch/arm/mach-sunxi/dram_suniv.c              |   2 +-
->  arch/arm/mach-sunxi/dram_sunxi_dw.c           |   1 -
->  arch/arm/mach-sunxi/gtbus_sun9i.c             |   1 -
->  arch/arm/mach-sunxi/pmic_bus.c                |   1 -
->  arch/arm/mach-sunxi/prcm.c                    |   1 -
->  arch/arm/mach-sunxi/spl_pinmux.c              | 312 +++++++++++++++++
->  arch/arm/mach-sunxi/spl_spi_sunxi.c           |   1 -
->  arch/arm/mach-sunxi/timer.c                   |   1 -
->  arch/arm/mach-sunxi/uart_pinmux.c             | 158 +++++++++
->  board/sunxi/board.c                           | 318 +-----------------
->  include/configs/sunxi-common.h                |  56 +--
->  36 files changed, 592 insertions(+), 702 deletions(-)
->  create mode 100644 arch/arm/mach-sunxi/spl_pinmux.c
->  create mode 100644 arch/arm/mach-sunxi/uart_pinmux.c
+> You probably checked this already.. But just in case, can you please
+> confirm this is intentional. The documentation lists the smart wakeup
+> capability bit as reserved for dra7, maybe the documentation is wrong.
 > 
 
+It was an intentional change, although I'm not sure it is correct :)
+
+This is how we had it in our "evil vendor tree" for years (back when it
+was hwmod based), so when converting these nodes to use "ti,sysc" I noticed
+this bit was set, but as you point out the documentation disagrees.
+
+I'd rather go with what has worked before, but it doesn't seem to
+break anything either way, so we could also break this change out into
+its own patch if you would prefer.
+
+Andrew
+
+> Regards,
+> 
+> Tony
+> 
