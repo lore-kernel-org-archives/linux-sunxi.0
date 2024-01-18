@@ -1,106 +1,120 @@
-Received: from mail5.25mail.st (mail5.25mail.st [74.50.62.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36A1B12B71
-	for <linux-sunxi@lists.linux.dev>; Thu, 18 Jan 2024 08:56:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.50.62.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FE0128E3A
+	for <linux-sunxi@lists.linux.dev>; Thu, 18 Jan 2024 16:45:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705568212; cv=none; b=u4Utr1HTiD6+qqocp4SjdBWgef0M44WBfrLW3yR7g7UIcQj2KOizXNxjLNNWOtvBhgAMyc0w5jdwC9f4qdDJZiXYG2/ASc0waeil9xTIQ99syXEFFB/ceo88USv+IwmRocSbqj7DRLEYyqofRP1pOgHqFgiMC3D/WniOUL3Bu2s=
+	t=1705596347; cv=none; b=d7TO+59H0HjNMyLs/NdB2ch6YXlYYx87SMuZiJr78KknX2Y5VgRm9piaX7NWLuf47a4nwleSYJjhaQF+07r5oqBBbLEKsaU4zd6X8X9UYjU0NYTd4YfuymM3afnZT96OzeQ7COZRPpYO8Q60R8fCgCWnwwe2OzYa/WLcjwmBEqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705568212; c=relaxed/simple;
-	bh=vULAl46BBydQR4ps2jMZiFaBG2168vzYuRJQjRETXmM=;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To; b=rHW63XtV3ilOE98m9JZBb7UqdI1V3LMRLGtClyIaH1rW9Z4HWkZLRp78734g3Q/Q+0imJ1n4rxSOmj1R2Gge1kBLt0bE6o/rxHAPFrwN22QXcX3N7bsL+uq9pjk8awDz9Q7ejej4iZdygQYAyD2D3e375oCkvtlot/q++nHrkdA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomide.com; spf=fail smtp.mailfrom=atomide.com; dkim=pass (2048-bit key) header.d=atomide.com header.i=@atomide.com header.b=Gw04zt0W; arc=none smtp.client-ip=74.50.62.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomide.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=atomide.com
+	s=arc-20240116; t=1705596347; c=relaxed/simple;
+	bh=8vak0+7XsV3zV2KlkiTiS7rin13pbyLPvMoz/fWHFmk=;
+	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:From:
+	 To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding; b=h9z7QjsD1kB5RPFjn3H1BRk0WkALExTa8ChTBZguYL90O2LJf6JNweBHkdD/H9rmb/Ew+6zaIAnYp2y3CfY2RWiQH4ZXnRtMmSui0xso+w7vDLoe63nnf2aEiWtddnKJMSLB/NWJkvDrm4GcHguSNhi5LStbXAfZms38APnxIa0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mJ9qnMzD; arc=none smtp.client-ip=209.85.167.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=atomide.com header.i=@atomide.com header.b="Gw04zt0W"
-Received: from localhost (91-158-86-216.elisa-laajakaista.fi [91.158.86.216])
-	by mail5.25mail.st (Postfix) with ESMTPSA id 8CA6960547;
-	Thu, 18 Jan 2024 08:55:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=atomide.com;
-	s=25mailst; t=1705568209;
-	bh=vULAl46BBydQR4ps2jMZiFaBG2168vzYuRJQjRETXmM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Gw04zt0Wpjy9eWoxk2lS2uRHPyetKndWTDy1xt3tVGx6vKHlNkOkWIOKrTzvdlw/9
-	 66hcjRDA6awFbthpcjUwMl9Ag054ol8J7CDoqS8Ylxom3qRjvEEiO42kKCJd7piKXG
-	 /pBdyyWMFJWk62EFvYAkz/ET12d+9KZ1ZrUe4VIu/KG0WZBdK7YpSKhh2xshMli9/S
-	 gVVlFTKdKDM0zIga8bgoPdDQsFxhXBtVWbkeetqLrliFyg9Pu7b1qV6J7RCc90wGT2
-	 zl6zEaNx93DQC83AFSlIeGXIbiPEfkOHUAzePS1mHU6/9kjkvMvgRKFiAOeMPcANkR
-	 mknuZHXKNV/qg==
-Date: Thu, 18 Jan 2024 10:55:51 +0200
-From: Tony Lindgren <tony@atomide.com>
-To: Andrew Davis <afd@ti.com>
-Cc: Frank Binns <frank.binns@imgtec.com>,
-	Matt Coster <matt.coster@imgtec.com>,
-	"H . Nikolaus Schaller" <hns@goldelico.com>,
-	Adam Ford <aford173@gmail.com>,
-	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	=?utf-8?Q?Beno=C3=AEt?= Cousson <bcousson@baylibre.com>,
-	Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
-	Tero Kristo <kristo@kernel.org>,
-	Paul Cercueil <paul@crapouillou.net>,
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-omap@vger.kernel.org,
-	linux-mips@vger.kernel.org
-Subject: Re: [PATCH 08/11] ARM: dts: DRA7xx: Add device tree entry for SGX GPU
-Message-ID: <20240118085551.GQ5185@atomide.com>
-References: <20240109171950.31010-1-afd@ti.com>
- <20240109171950.31010-9-afd@ti.com>
- <20240110082924.GA5185@atomide.com>
- <55efd488-c6a0-4dca-baea-1fa93d13dd17@ti.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mJ9qnMzD"
+Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-3bd6581bca0so3417469b6e.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 18 Jan 2024 08:45:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1705596345; x=1706201145; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=sDom8L9VDnYHqI5K+aoFC/YHjBAnOJZUuDNfeK2VNa4=;
+        b=mJ9qnMzDLseWf1dkcz2A9SagWITh92TH/obOF/IgYKCkDVfdPH4sqQwhhO2gc2bnox
+         6B5pi+Spgl147MUn3Rh2OvaRh8s22Ig5uuKFIi7ksoFvLou4XzV0B0Bm/eDeh7IPjzhz
+         nNNBO1VgkptPxiXqxp8dzUrE6f8u/TmTV4dxT5W2lsRX6O7jQtuMsg2yna9BTqi0CocD
+         aul0O5teYRkb3WyDXtAV7eeAchnJr7OacsPKW78HTCclPkRqgxsdOy60SPfqmt+yT4Ww
+         7rWQsj5XP3gbQjtqjvyA7eZe99r1ZEhyzZ8m+bLAOMOLIVhCYF9HO8CK9VXW6Tl4aT+8
+         EQwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705596345; x=1706201145;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sDom8L9VDnYHqI5K+aoFC/YHjBAnOJZUuDNfeK2VNa4=;
+        b=SusUmOuTSkF33gk+G8hjrnIhLzGx8wvjYuydAsL4x1OQBgjeUA9kVR0sgWM6VCrvI8
+         pSZKBhcZFtJKVHR9a2wg+YbwZRgWNbmkrIXpWVUwXPVzaVCp3yvqIlsmLl6eYdm49djb
+         VpssI+wcsqG+cFR7pAuR2idW1ISWEurumMaxwVg2FmqgFdKqwsenA7Ki4d2oRuJr0quN
+         nYjKUZwGXAhqxLbOZHmdxF7mPa7ArXNP8acQlmKy8KRCW8xWYnDgFdsp3a3CcNPT/TCk
+         qrtZq22bq391xXXM1J4eIo9Z24lU4qpEPdlt0way2WcrAO/dW9ioI21CqX6AHoODscC+
+         KyCw==
+X-Gm-Message-State: AOJu0Yw7FbN359KveTud+mCmu6b6tSBe5HKm6t0SeB9KvloPZKFRTOY/
+	uTkGPoQv47S8qNI2XmJxveCzmIspE25RMjmHqgEvG+ZOz0U/RLf3
+X-Google-Smtp-Source: AGHT+IGXU9inyXThAEu9ZpnRDVHEkzKyma31neCiRGv0zOAkseGzHvKeOcuiB5LA1r4Pc/BbYXQmNg==
+X-Received: by 2002:a05:6808:14ce:b0:3bd:941d:9c36 with SMTP id f14-20020a05680814ce00b003bd941d9c36mr1505985oiw.70.1705596345143;
+        Thu, 18 Jan 2024 08:45:45 -0800 (PST)
+Received: from nick-Inspiron-5680.home ([70.29.79.15])
+        by smtp.gmail.com with ESMTPSA id vv18-20020a05620a563200b00783574d5017sm3627368qkn.19.2024.01.18.08.45.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Jan 2024 08:45:44 -0800 (PST)
+From: Nick Alilovic <nickalilovic@gmail.com>
+To: u-boot@lists.denx.de
+Cc: andre.przywara@arm.com,
+	jagan@amarulasolutions.com,
+	linux-sunxi@lists.linux.dev,
+	Nick Alilovic <nickalilovic@gmail.com>
+Subject: [PATCH v2] configs: Transpeed 8K618-T: Add Transpeed 8K618-T board support
+Date: Thu, 18 Jan 2024 11:45:08 -0500
+Message-Id: <20240118164508.43617-1-nickalilovic@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <55efd488-c6a0-4dca-baea-1fa93d13dd17@ti.com>
+Content-Transfer-Encoding: 8bit
 
-* Andrew Davis <afd@ti.com> [240117 15:52]:
-> On 1/10/24 2:29 AM, Tony Lindgren wrote:
-> > * Andrew Davis <afd@ti.com> [240109 17:20]:
-> > > --- a/arch/arm/boot/dts/ti/omap/dra7.dtsi
-> > > +++ b/arch/arm/boot/dts/ti/omap/dra7.dtsi
-> > > @@ -850,12 +850,19 @@ target-module@56000000 {
-> > >   					<SYSC_IDLE_SMART>;
-> > >   			ti,sysc-sidle = <SYSC_IDLE_FORCE>,
-> > >   					<SYSC_IDLE_NO>,
-> > > -					<SYSC_IDLE_SMART>;
-> > > +					<SYSC_IDLE_SMART>,
-> > > +					<SYSC_IDLE_SMART_WKUP>;
-> > 
-> > You probably checked this already.. But just in case, can you please
-> > confirm this is intentional. The documentation lists the smart wakeup
-> > capability bit as reserved for dra7, maybe the documentation is wrong.
-> > 
-> 
-> It was an intentional change, although I'm not sure it is correct :)
-> 
-> This is how we had it in our "evil vendor tree" for years (back when it
-> was hwmod based), so when converting these nodes to use "ti,sysc" I noticed
-> this bit was set, but as you point out the documentation disagrees.
-> 
-> I'd rather go with what has worked before, but it doesn't seem to
-> break anything either way, so we could also break this change out into
-> its own patch if you would prefer.
+This is a Chinese TV box based on Allwinner H618 SoC.
 
-I agree it's best to stick what is known to work. How about let's add
-the related information to the patch description?
+The DRAM parameters were derived from the values found in a firmware update.
 
-Regards,
+Signed-off-by: Nick Alilovic <nickalilovic@gmail.com>
+---
+This defconfig relies on the synced sun50i-h618-transpeed-8k618-t.dts file.
 
-Tony
+ configs/transpeed-8k618-t_defconfig | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
+ create mode 100644 configs/transpeed-8k618-t_defconfig
+
+diff --git a/configs/transpeed-8k618-t_defconfig b/configs/transpeed-8k618-t_defconfig
+new file mode 100644
+index 0000000000..020d3974af
+--- /dev/null
++++ b/configs/transpeed-8k618-t_defconfig
+@@ -0,0 +1,27 @@
++CONFIG_ARM=y
++CONFIG_ARCH_SUNXI=y
++CONFIG_DEFAULT_DEVICE_TREE="sun50i-h618-transpeed-8k618-t"
++CONFIG_SPL=y
++CONFIG_DRAM_SUN50I_H616_DX_ODT=0x03030303
++CONFIG_DRAM_SUN50I_H616_DX_DRI=0x0e0e0e0e
++CONFIG_DRAM_SUN50I_H616_CA_DRI=0x1f12
++CONFIG_DRAM_SUN50I_H616_TPR0=0xc0001002
++CONFIG_DRAM_SUN50I_H616_TPR10=0x2f1107
++CONFIG_DRAM_SUN50I_H616_TPR11=0xddddcccc
++CONFIG_DRAM_SUN50I_H616_TPR12=0xeddc7665
++CONFIG_MACH_SUN50I_H616=y
++CONFIG_SUNXI_DRAM_H616_DDR3_1333=y
++CONFIG_DRAM_CLK=648
++CONFIG_MMC_SUNXI_SLOT_EXTRA=2
++CONFIG_R_I2C_ENABLE=y
++# CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
++CONFIG_SPL_I2C=y
++CONFIG_SPL_SYS_I2C_LEGACY=y
++CONFIG_SYS_I2C_MVTWSI=y
++CONFIG_SYS_I2C_SLAVE=0x7f
++CONFIG_SYS_I2C_SPEED=400000
++CONFIG_SUPPORT_EMMC_BOOT=y
++CONFIG_AXP313_POWER=y
++CONFIG_AXP_DCDC3_VOLT=1360
++CONFIG_USB_EHCI_HCD=y
++CONFIG_USB_OHCI_HCD=y
+-- 
+2.34.1
+
