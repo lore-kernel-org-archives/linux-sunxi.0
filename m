@@ -1,106 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEE4B55E4A;
-	Fri, 19 Jan 2024 17:48:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA8CD364A6;
+	Sun, 21 Jan 2024 05:18:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705686498; cv=none; b=nwQenYjfTuISUbYufS2NhW5m2X/bf4wkGl1iUbV9CD2M0678MjszLtVLuc7As4918OJJLuXzVqKCC5EcrcbRe2at9k8HvDhcpFLg07zTZ5Lh5chgsxPUBNG+S+Zk2ubGTmPuGUIO5pcjVlTY9ARQ1PuXoa+XM6hhZBrj+a5Paj4=
+	t=1705814325; cv=none; b=TLo1P0S5KUlyGN8fHo8x6M0sOUGlARiuv5/qO/+Ciq2orAAMLp6KoceuciI7rMAz6fvkMfOigUdJ3q0VrTtadhibEmtVh2YNAwhl7d6DIrxrNUTK8zY7Av9t6egCZwVwXk4Gih5xDAx+l/EvNV87joiETabOPM9FW2YwBRvANVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705686498; c=relaxed/simple;
-	bh=P0KUF6vFTlftYyWUFDT96WHN8XRiIFXd1b2/AovY2hw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X8WapgewyzxhgcLamfu0BJqFHlH8Y/PQZy0bGtfGVLsZUSCcKV2L7zRHW47/ngXA7zJIxUHS7izINbcGOXccVZBQlXtJnIQ9hnoTOYrT1Qz8l82v9lxZHRmckfPVSA0xPZUZtONXjJEma0WA1xBWlBO0R3yV9/shct2goMvhzfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A8l2whsR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1705814325; c=relaxed/simple;
+	bh=UFTWkqX6bnktQloDzscK9PYzEVaNTQz67zW0Sog3Ui8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=U2w9v5ItA37wTLutiFKk/GoQdZ+tpgPa8Vcb+2XnvPhk+8eYnabJn2fZMnthfVFlT9AQGdKaDgrP9y+DXJ5TeHhIfeqCeGJBsylQTYzGr96XkImShrfGzYDrwPPJAVahK/NhuH+0gfTeOKsde1CXvPr61wNCZkINgwSOdbsQwsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=znEoVl01; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A8l2whsR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B518C433F1;
-	Fri, 19 Jan 2024 17:48:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705686497;
-	bh=P0KUF6vFTlftYyWUFDT96WHN8XRiIFXd1b2/AovY2hw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=A8l2whsRDimVA5MSS/fooSc43HMZGOw3e+psIFF/j1oxW2EmsXHFG1D4YvSgvIuH6
-	 iG1Zb2PwoSl6ZCX8Yrh+isB4kZCErgwIM9kDmhEmcfr9eAKlm6saKW9g6DDl7GpV4i
-	 ZSOGZi2k3LxyfhVWg1LZ8nrNbjSqYxzEg9DkRArtIfeqXDUUIUxgZSiGMUFYpvSUyt
-	 N4KAM+OLfp8736eK6ZLkE540xGh+g5jLNVZRPLQ45c7pXkZ6rO3c8ldkssh2898lih
-	 lMcILIdXvdVRY/4/QMFv6Ci7SgV+SpbvUku4VYZWpuX0TaZa2zaWXia+eRyjbV0bVr
-	 8Zo+PZg/w6ueg==
-Date: Fri, 19 Jan 2024 11:48:15 -0600
-From: Rob Herring <robh@kernel.org>
-To: Tony Lindgren <tony@atomide.com>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Andrew Davis <afd@ti.com>, Frank Binns <frank.binns@imgtec.com>,
-	Matt Coster <matt.coster@imgtec.com>,
-	"H . Nikolaus Schaller" <hns@goldelico.com>,
-	Adam Ford <aford173@gmail.com>,
-	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="znEoVl01"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=EpNABUkQ/ZpQnYGH4JyM/iICjAozI40BQcRt+WngSNU=; b=znEoVl0105CY16oSOWr1I1fFXh
+	TQkHYZeFXRMclH0WBPFsfm2i6Msf+8Q1hUdj6ngm7FWKGuGXvPKd1Ks7XmPPfLleU0nUHj3zv6OSm
+	E8Slr9DuSaXFDMk9VW2xAehPlo7hoKcfAFDqPSmQ+TbYlyZjG1g3FT/StW257jw4ds2lfiC1M2B2p
+	3CgweM7Y7HTWf4YAIbWZ7raZ2lyv5Q9ZfT0P+N6iL1S4LGLnEz9pfnp3D2X1BwYbh/GSR+Wjpp3pk
+	MIgNf7ZxEB3BJW6ovyZ8AAllwWlCdVM4OhoKH7rLpdgn1TejzDECrj7jKWxyeKZUQDcrKD4mYOWdH
+	K3f0mu0g==;
+Received: from [50.53.50.0] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1rRQEA-008uL5-2x;
+	Sun, 21 Jan 2024 05:18:38 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	=?UTF-8?q?Emilio=20L=C3=B3pez?= <emilio@elopez.com.ar>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	linux-clk@vger.kernel.org,
+	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	=?iso-8859-1?Q?Beno=EEt?= Cousson <bcousson@baylibre.com>,
-	Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
-	Tero Kristo <kristo@kernel.org>,
-	Paul Cercueil <paul@crapouillou.net>,
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-omap@vger.kernel.org,
-	linux-mips@vger.kernel.org
-Subject: Re: [PATCH 02/11] dt-bindings: gpu: Add PowerVR Series5 SGX GPUs
-Message-ID: <20240119174815.GA633343-robh@kernel.org>
-References: <20240109171950.31010-1-afd@ti.com>
- <20240109171950.31010-3-afd@ti.com>
- <e2fce141-4966-4e70-9a5c-865a2737174c@linaro.org>
- <20240110083857.GB5185@atomide.com>
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH] clk: sunxi: a20-gmac: fix kernel-doc warnings
+Date: Sat, 20 Jan 2024 21:18:35 -0800
+Message-ID: <20240121051837.17564-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240110083857.GB5185@atomide.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jan 10, 2024 at 10:38:57AM +0200, Tony Lindgren wrote:
-> * Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> [240109 19:53]:
-> > On 09/01/2024 18:19, Andrew Davis wrote:
-> > > The Imagination PowerVR Series5 "SGX" GPU is part of several SoCs from
-> > > multiple vendors. Describe how the SGX GPU is integrated in these SoC,
-> > > including register space and interrupts. Clocks, reset, and power domain
-> > > information is SoC specific.
-> > > 
-> > > Signed-off-by: Andrew Davis <afd@ti.com>
-> > > Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-> > 
-> > 
-> > > +  clock-names:
-> > > +    minItems: 1
-> > > +    items:
-> > > +      - const: core
-> > > +      - const: mem
-> > > +      - const: sys
-> > 
-> > There are no devices currently using third clock, but I assume it is
-> > expected or possible.
-> 
-> I think the third clock is typically merged with one of the two clocks but
-> yeah possibly it's a separate clocke in some cases.
-> 
-> > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
-> Looks good to me too.
-> 
-> So for merging these, as many of the changes touch the omap variants, I
-> could set up an immutable branch with all the changes after -rc1. Or I can
-> ack the patches too if somebody has better ideas.
+Move the function kernel-doc comment to be immediately before the
+function implementation, then add a function parameter description
+to prevent kernel-doc warnings:
 
-Just take all but patches 10 and 11. I don't think it matters if the 
-binding is there for them as long as it is all there in next. No one is 
-paying that close attention to the warnings I think.
+clk-a20-gmac.c:43: warning: expecting prototype for sun7i_a20_gmac_clk_setup(). Prototype was for SUN7I_A20_GMAC_GPIT() instead
+clk-a20-gmac.c:53: warning: Function parameter or struct member 'node' not described in 'sun7i_a20_gmac_clk_setup'
 
-Rob
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Emilio López <emilio@elopez.com.ar>
+Cc: Michael Turquette <mturquette@baylibre.com>
+Cc: Stephen Boyd <sboyd@kernel.org>
+Cc: linux-clk@vger.kernel.org
+Cc: Chen-Yu Tsai <wens@csie.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Samuel Holland <samuel@sholland.org>
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-sunxi@lists.linux.dev
+---
+ drivers/clk/sunxi/clk-a20-gmac.c |   21 +++++++++++----------
+ 1 file changed, 11 insertions(+), 10 deletions(-)
+
+diff -- a/drivers/clk/sunxi/clk-a20-gmac.c b/drivers/clk/sunxi/clk-a20-gmac.c
+--- a/drivers/clk/sunxi/clk-a20-gmac.c
++++ b/drivers/clk/sunxi/clk-a20-gmac.c
+@@ -15,8 +15,19 @@
+ 
+ static DEFINE_SPINLOCK(gmac_lock);
+ 
++
++#define SUN7I_A20_GMAC_GPIT	2
++#define SUN7I_A20_GMAC_MASK	0x3
++#define SUN7I_A20_GMAC_PARENTS	2
++
++static u32 sun7i_a20_gmac_mux_table[SUN7I_A20_GMAC_PARENTS] = {
++	0x00, /* Select mii_phy_tx_clk */
++	0x02, /* Select gmac_int_tx_clk */
++};
++
+ /**
+  * sun7i_a20_gmac_clk_setup - Setup function for A20/A31 GMAC clock module
++ * @node: &struct device_node for the clock
+  *
+  * This clock looks something like this
+  *                               ________________________
+@@ -39,16 +50,6 @@ static DEFINE_SPINLOCK(gmac_lock);
+  * enable/disable this clock to configure the required state. The clock
+  * driver then responds by auto-reparenting the clock.
+  */
+-
+-#define SUN7I_A20_GMAC_GPIT	2
+-#define SUN7I_A20_GMAC_MASK	0x3
+-#define SUN7I_A20_GMAC_PARENTS	2
+-
+-static u32 sun7i_a20_gmac_mux_table[SUN7I_A20_GMAC_PARENTS] = {
+-	0x00, /* Select mii_phy_tx_clk */
+-	0x02, /* Select gmac_int_tx_clk */
+-};
+-
+ static void __init sun7i_a20_gmac_clk_setup(struct device_node *node)
+ {
+ 	struct clk *clk;
