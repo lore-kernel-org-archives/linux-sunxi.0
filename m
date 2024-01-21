@@ -1,105 +1,115 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEBDE36AE4;
-	Sun, 21 Jan 2024 05:18:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B06D1376E4;
+	Sun, 21 Jan 2024 15:35:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705814341; cv=none; b=gtNwWONnSl4oxc1+Q2O21Rsr6kMtymIJjDTbyoqBGZCKeEXXvsY/UoPip1WB0UCzacwDmTbYkAfM+5GZ447P/9dhNd/QS6O0bzN16+dq+SPkPbMGTYpgH8XzGOkaNpn0BVYaENAejmvTvoq+0wyu/WzzKiRxxPqT7dywVFv1lLg=
+	t=1705851334; cv=none; b=TtFIS5ImxPBdaF5IreMasKGDGA5u/L7gJgj8iKcLDEDhBo3AbKV/45RkavuUXFLWGsNomnjISmvcBL1GItN4rRVAZ1bnlzfUCOSJP6N14B6JihHY9Hk3NknyMB9YaWfVRIpeMNz8EmMxksByW3masmbceUZIGhMkjr0JLofU0R4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705814341; c=relaxed/simple;
-	bh=33wh/HnX9KwU/ZtNv+g5CnyuEPqn19cIE+EgZJ7bIOY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=EI2GbBHvkRUi8qBXP//nQR7U9KSPJhNAsEC3UBoeirZweHA0TZwpZIIIO1ihfdcO0V/JV3S4PeDSNrezzfnM5bvTV6HTdqRhYi6yaGW7HmNIc6fZp7ntcRS0MpmIC5bort2UVLeISx7I0RXLTipo71552LjtgDm8t9rXKtAqR20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=2Myz9u0b; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1705851334; c=relaxed/simple;
+	bh=brNXGMrVlHQm0RTaVV57rRuousVunDuYR0RflipHqy8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=s1J5kcJlFts0kWHmkpTlvyiXGJUigOuN/zvWyz9RVaTFJLFuj8XDLRrqXBJw3aab+vVOy26MDJSCySKSO+ntVhTPfGwc/TqjHwX/tW9hWgbew77BvLxwxGKD28/8tZa25DkR81eGVtKhgL6kRxeFwKpqNCSYj0hMDrazPaiviHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com; spf=pass smtp.mailfrom=gmx.com; dkim=pass (2048-bit key) header.d=gmx.com header.i=erick.archer@gmx.com header.b=KmuHJdlQ; arc=none smtp.client-ip=212.227.17.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="2Myz9u0b"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=ZQhtfV8ocb6IW7VM8vOjHJAD+DetDPqhUntwAuu2V9M=; b=2Myz9u0b24ZNoh0ffiKXpQnTzh
-	egHVz841MwVoFwf8VUnXbf7RCY2nxmDP8Yx0yWLdMxulq7mJLAfY3CnX/D2Tszt4uDd6zF4+i34is
-	5nMGvzlaFi3VQ+ElLyl3xNusxiXZp0BLGN662EQ/JrDhWjb9fpw+0c82WVSTLo4cUulgfnjKanvTl
-	fKZ+jdDIDz5qGormFkhTMYHy+Hm4D+GpXVcsV9X43pWRZUVbb1XAy3oObKY/0ub+EXpjFXl76cIpx
-	YIff7nzjqceHmz6e4+rbihZjP55cXKMP67Mkkn5itpZdfxhX/cYff/o+XLAh7eIfKT6kaSk6GIEZj
-	YFurHaSA==;
-Received: from [50.53.50.0] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1rRQEV-008uOq-0m;
-	Sun, 21 Jan 2024 05:18:59 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	=?UTF-8?q?Emilio=20L=C3=B3pez?= <emilio@elopez.com.ar>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	linux-clk@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmx.com header.i=erick.archer@gmx.com header.b="KmuHJdlQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.com;
+	s=s31663417; t=1705851264; x=1706456064; i=erick.archer@gmx.com;
+	bh=brNXGMrVlHQm0RTaVV57rRuousVunDuYR0RflipHqy8=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+	b=KmuHJdlQlra8yhaAZyRVaOdPR3Ngby1Ed8ytpQ5Bq8rhobq78LiTS9ylXCMReZ3C
+	 VTfK2XjAxxNXCSejEJ4S5ZOIn6BoPueQj982qXij68RaTc1wQLUWVOYeBV1HSofPF
+	 iFH+REEXdNBDADA1BHw6JGCCkXCBTJanTTCGTODKBqOUG3h2MmadKr06kldID1gXN
+	 11g9g5r4zmKsUB6DgcSbTQC8tfll1Pqd4CJ8sogALz62VqosyFkoUTMbg9nuQ4EGo
+	 kJ4gLDi0p5iISesO5zgSq0hZiRCCK5GmdxvLWdkO6qSPm9r2CCMnDS+ExofpE9AAk
+	 VRG8eR0YtYCk8J/T6g==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from localhost.localdomain ([79.157.194.183]) by mail.gmx.net
+ (mrgmx105 [212.227.17.174]) with ESMTPSA (Nemesis) id
+ 1MPogF-1rnu2e2t6J-00MxT2; Sun, 21 Jan 2024 16:34:23 +0100
+From: Erick Archer <erick.archer@gmx.com>
+To: Corentin Labbe <clabbe.montjoie@gmail.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: Erick Archer <erick.archer@gmx.com>,
+	linux-crypto@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH] clk: sunxi: usb: fix kernel-doc warnings
-Date: Sat, 20 Jan 2024 21:18:57 -0800
-Message-ID: <20240121051858.17647-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.43.0
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH] crypto: sun8i-ce - Use kcalloc() instead of kzalloc()
+Date: Sun, 21 Jan 2024 16:34:07 +0100
+Message-Id: <20240121153407.8348-1-erick.archer@gmx.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:AxmzJ/LffrzzgeFylniD23yWMgGbXKe9NvmRSO8/IaOF4X9WL+d
+ /DWmNgnnIDNPKn+4YvnUGRfa05XZMxDTtrOLTZgJjgupSydDlEqj1LHneFwYJcShATqBTrX
+ AivO8CM9036cwP7d1/gHCHZkAka+MjAVDEsABxE9P+/Vti5yfy01GSpBSFmD6HviAWOqLCY
+ atPFM8X8JYu1RHSQkLkcA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:ulWb1d2L0TE=;hYsmrUzpdwDFSW+AMoveAoIAKmi
+ hoOwXEc5Iyju+CMavqgtB57Li72O4ujobrkofQU/21lrm+3ecyxP3PAoCsUV9X1isK0whSuk2
+ 1ZnfQjLB666SFEO8aKfLunD9L139jR+d1Mf/RvvjIrkaBHpvrlgB47r1GrzBv2yN5HntIvWVz
+ ArdE3vfwOcNn4cznxYKjm1BtZalPRQ3+5m6l/OGYyogrOc7lf/9iLRfLmcsVSoKtMepyBV/g1
+ xeo+wrvKzrc4SGIIExIypk8kYqKBRPO1wLwJ/GnSmHHN+ln+Arev+U29vSVd6fO8MJBXnjlXp
+ ztjmBU4XS7Xjhm0Sa1p2FHMRtCu7hRIR1xOOl0mT2VTnpcIg3bP4CAYqPT5XSKuzCirc82Kqn
+ V796rmPSpugtqJUHQgIol56B2pxIgECyK8oTfSgHk1IRUtEJIupVGtbt9FWHTbMQcxRYzow85
+ qIPBK03qa0Oxkxtcvoy3SG1ZmCsrtSz/bs/mUL6/pE7osNX2SaNKmC9czDCLK3SttRVrHOAha
+ r6lCYBTLqsEwabEimIrHud/aqloiazTBwcXYzvtIpZWKObubkJwIy83KCEiuaIqEC4kOuDxHt
+ +E3t+JWmPuz4fyUi1gv1jrUCqrq85OKrzwnwdTnNMcsug29YlwhB43+zf2X5XNVglcRBAtrE1
+ XpUAgvDnVV4giGynv8zMI8QEKvpllBPbhPBRY83aG/zQ7zcsVdpitd1JXYFVaMbKp4enNJa/S
+ dyYzYPa/eWYQmHF7NtDhEylxY9E3kiJkf2Is84qFzvaIwJBB5KzTxopTzgW+0BRHjWTroCSYg
+ SQlxXAVIBy9H5PMuyhIOjkGJoYHLeRx4royhzG1wI/EYiTDeoTgcYrTrM5tzSQsJ7BSYphMXV
+ PlcKjj7I/2bo/HCTxkOCF5cKbPxC8QBI2OaMoEUn3Sz1/3y7WEJBAkjXuHG5MJeljVpWhmQf6
+ 6cXOOEgbvK5OW548Mp0d0hwQkCI=
 
-Move the function description comment to immediately above the
-function implementation, the add function parameter descriptions to
-prevent kernel-doc warnings:
+As noted in the "Deprecated Interfaces, Language Features, Attributes,
+and Conventions" documentation [1], size calculations (especially
+multiplication) should not be performed in memory allocator (or similar)
+function arguments due to the risk of them overflowing. This could lead
+to values wrapping around and a smaller allocation being made than the
+caller was expecting. Using those allocations could lead to linear
+overflows of heap memory and other misbehaviors.
 
-clk-usb.c:80: warning: expecting prototype for sunxi_usb_clk_setup(). Prototype was for SUNXI_USB_MAX_SIZE() instead
-clk-usb.c:91: warning: Function parameter or struct member 'node' not described in 'sunxi_usb_clk_setup'
-clk-usb.c:91: warning: Function parameter or struct member 'data' not described in 'sunxi_usb_clk_setup'
-clk-usb.c:91: warning: Function parameter or struct member 'lock' not described in 'sunxi_usb_clk_setup'
+So, use the purpose specific kcalloc() function instead of the argument
+size * count in the kzalloc() function.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Emilio López <emilio@elopez.com.ar>
-Cc: Michael Turquette <mturquette@baylibre.com>
-Cc: Stephen Boyd <sboyd@kernel.org>
-Cc: linux-clk@vger.kernel.org
-Cc: Chen-Yu Tsai <wens@csie.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Samuel Holland <samuel@sholland.org>
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-sunxi@lists.linux.dev
----
- drivers/clk/sunxi/clk-usb.c |    9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+Link: https://www.kernel.org/doc/html/next/process/deprecated.html#open-co=
+ded-arithmetic-in-allocator-arguments [1]
+Link: https://github.com/KSPP/linux/issues/162
+Signed-off-by: Erick Archer <erick.archer@gmx.com>
+=2D--
+ drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff -- a/drivers/clk/sunxi/clk-usb.c b/drivers/clk/sunxi/clk-usb.c
---- a/drivers/clk/sunxi/clk-usb.c
-+++ b/drivers/clk/sunxi/clk-usb.c
-@@ -73,9 +73,6 @@ static const struct reset_control_ops su
- 	.deassert	= sunxi_usb_reset_deassert,
- };
- 
--/**
-- * sunxi_usb_clk_setup() - Setup function for usb gate clocks
-- */
- 
- #define SUNXI_USB_MAX_SIZE 32
- 
-@@ -85,6 +82,12 @@ struct usb_clk_data {
- 	bool reset_needs_clk;
- };
- 
-+/**
-+ * sunxi_usb_clk_setup() - Setup function for usb gate clocks
-+ * @node: &struct device_node for the clock
-+ * @data: &struct usb_clk_data for the clock
-+ * @lock: spinlock for the clock
-+ */
- static void __init sunxi_usb_clk_setup(struct device_node *node,
- 				       const struct usb_clk_data *data,
- 				       spinlock_t *lock)
+diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c b/drivers/c=
+rypto/allwinner/sun8i-ce/sun8i-ce-hash.c
+index d358334e5981..ee2a28c906ed 100644
+=2D-- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
++++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
+@@ -362,7 +362,7 @@ int sun8i_ce_hash_run(struct crypto_engine *engine, vo=
+id *breq)
+ 		digestsize =3D SHA512_DIGEST_SIZE;
+
+ 	/* the padding could be up to two block. */
+-	buf =3D kzalloc(bs * 2, GFP_KERNEL | GFP_DMA);
++	buf =3D kcalloc(2, bs, GFP_KERNEL | GFP_DMA);
+ 	if (!buf) {
+ 		err =3D -ENOMEM;
+ 		goto theend;
+=2D-
+2.25.1
+
