@@ -1,139 +1,137 @@
-Received: from omta38.uswest2.a.cloudfilter.net (omta38.uswest2.a.cloudfilter.net [35.89.44.37])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F1774F5E6
-	for <linux-sunxi@lists.linux.dev>; Mon, 22 Jan 2024 17:53:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.89.44.37
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 028253D99D;
+	Mon, 22 Jan 2024 18:18:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705946032; cv=none; b=XEndC4zYJJmm2nFXok+tyiXn8EJu99/nuo6rZggJ+ZV2P23OO90IYMtD3WGnhEAoY4FRRo6qTKT4ccGY6nr/IWNsMEEpJZ6yAN6bfTts9sK+DbpIhFhWx0lraEN1d5CjgKj6HSJcKCKouJ866aV68xEOlfSe3EUXgS0h9JRhTEQ=
+	t=1705947499; cv=none; b=ak2Az8aBRxEeTiBmyz9E79qbRVvPFQ08I+Ky1u1791seyrF9a11pOKziAFsYAVzSOunjZOQjThmCfshHVXtmeUliIEAXa9lbqzZQT9kdWXdo/KuEZCCYmTXgl2TtIfVmPs1ADSuZ4cFHFtuDVN/LET6O6Dgb2gbYALOJs2MCz2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705946032; c=relaxed/simple;
-	bh=qELrPQW+cBpnYsG2PAKmtPwimyiW6brT7BtW/BMBCtA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=T9h9tsnrjt/o+e9Euy4jH1iOO/HL5M2KLuMDCmU7MYaeSVF2F5+uspcqf+4xVgP2+Y9O3caxnp+AMuTerkG6SxLPginRWexA5iFeBq2FrrqFmbp7Vl9Qv1f2vg9IEj8OEitj9IP8z1mcWu5miPErfsn29gqXyM1fSdob3P3QKxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com; spf=pass smtp.mailfrom=embeddedor.com; dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b=c6iGIMVa; arc=none smtp.client-ip=35.89.44.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=embeddedor.com
+	s=arc-20240116; t=1705947499; c=relaxed/simple;
+	bh=2usFrpfFbvgtllKuc13YKWjWHiLTD42R7HKFi/spe1M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FFmxQtwEqg8g6rUuZCY4C+NvxBlDMrbC/8fTPOV1rQ3rgHNvO7Gxr+s6jJ06/1cP6bypP0bOr6ExH2IRIvwNXeeSL+heRj9fizEA6GtjSGt/KuH/EfyGGxZR9Rb0qjryeePUWfeDiZuPW9ub/qOd3qcBe3hRESDlIjJ3tAQqIog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aZVtshFo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="c6iGIMVa"
-Received: from eig-obgw-6007a.ext.cloudfilter.net ([10.0.30.247])
-	by cmsmtp with ESMTPS
-	id RuvErzz8ioMN9RyUYrsP60; Mon, 22 Jan 2024 17:53:50 +0000
-Received: from gator4166.hostgator.com ([108.167.133.22])
-	by cmsmtp with ESMTPS
-	id RyUXrovMPyxR5RyUXrGB9n; Mon, 22 Jan 2024 17:53:49 +0000
-X-Authority-Analysis: v=2.4 cv=JYOvEGGV c=1 sm=1 tr=0 ts=65aeabad
- a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=WzbPXH4gqzPVN0x6HrNMNA==:17
- a=IkcTkHD0fZMA:10 a=dEuoMetlWLkA:10 a=wYkD_t78qR0A:10 a=VwQbUJbxAAAA:8
- a=NEAV23lmAAAA:8 a=7YfXLusrAAAA:8 a=CsOLvDfn09n0XjjTB6sA:9 a=QEXdDO2ut3YA:10
- a=9cHFzqQdt-sA:10 a=PUnBvhIW4WwA:10 a=AjGcO6oz07-iQ99wixmX:22
- a=SLz71HocmBbuEhFRYD3r:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=HnBhTN2Qswqklqa5h1VDuRxzPmCKbJjTZLHYO8QIxWw=; b=c6iGIMVa+eG37rAI6qKtUzqRcp
-	xGUl5ldFfByNWlilB8Oci0BltbK/89REty8IxwtOM53jwd8dt7qtz4HUZFwfFZz4TwGM8PRk7Nccr
-	bTB1b1SDEVPpM0jaR70qY1yCd10aQwNwnUKD6krMawX3LRfB1RrnHPaXPOilmXqqsU8anGCKrMSce
-	AEXt+dX2wNOkHRZvvc8NGKtF/gUWNQNWhhp9P5YUWEZyi2WgW3+4U//FTxWDbj+7XHPlBimHWxVPa
-	rM1kmIwpaGgANpVwiNUXvoCNlZuKbL7Czw3PlRgFvums82syh0gKtA8N1oDJuFlCbx8lYzWXDSpfv
-	ANG431Hw==;
-Received: from 187-162-21-192.static.axtel.net ([187.162.21.192]:37538 helo=[192.168.15.10])
-	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.96.2)
-	(envelope-from <gustavo@embeddedor.com>)
-	id 1rRyUV-001MU8-17;
-	Mon, 22 Jan 2024 11:53:47 -0600
-Message-ID: <cb313841-4540-419a-bb89-5ae806df12b7@embeddedor.com>
-Date: Mon, 22 Jan 2024 11:53:45 -0600
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aZVtshFo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9208C433F1;
+	Mon, 22 Jan 2024 18:18:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705947498;
+	bh=2usFrpfFbvgtllKuc13YKWjWHiLTD42R7HKFi/spe1M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=aZVtshFoH3qE8Y19hWmbNEnsrrQWORDUdoLvMqOpB8fuKw/mgCKX3F0AiOC5lDjD/
+	 ip/FkCB0CCepVd83zeSbnpw476NSnJXYQZAkKcwACqPdF8vBthzE0RsLnzJ01we9Ic
+	 ICmqpLjOU3sIMMQp1LVNs6Hpg6hZchZVa+2RMVgF7qTI5Ht5FDOtbuMeqxVD2gh1k9
+	 GbkOACxvO3PIHVNWRIIBJljZbAIDi3UQ10E0gUKi+Xq+SNqTL7lBEGZ4lw9YcDKeLt
+	 R4kS3B/h3x+DF05EQPPty7N61T7BmGXFz7POhZptSwXs6bR3MUkKBUjMf9YIOgMY7K
+	 tAEp+jU0a7CtQ==
+Date: Mon, 22 Jan 2024 18:18:12 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Chen-Yu Tsai <wens@kernel.org>
+Cc: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Vinod Koul <vkoul@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-sound@vger.kernel.org, dmaengine@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/7] dt-bindings: dma: allwinner,sun50i-a64-dma: Add
+ compatible for H616
+Message-ID: <20240122-resemble-nearness-60dafde2e25d@spud>
+References: <20240122170518.3090814-1-wens@kernel.org>
+ <20240122170518.3090814-5-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] crypto: sun8i-ce - Use kcalloc() instead of kzalloc()
-Content-Language: en-US
-To: Erick Archer <erick.archer@gmx.com>,
- Corentin Labbe <clabbe.montjoie@gmail.com>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- "David S. Miller" <davem@davemloft.net>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Jonathan Corbet <corbet@lwn.net>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org
-References: <20240121153407.8348-1-erick.archer@gmx.com>
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <20240121153407.8348-1-erick.archer@gmx.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 187.162.21.192
-X-Source-L: No
-X-Exim-ID: 1rRyUV-001MU8-17
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 187-162-21-192.static.axtel.net ([192.168.15.10]) [187.162.21.192]:37538
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 41
-X-Org: HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfGvK75E4f2xrmLhAnasG3twN9lEppEBlYTGi3llgrnrwvb9fn0uT6cd7NvF9v8Y+sX/g4wjLlxpuTk0u9SOYoI/bOkUA7jhVfOT7o7iwWc4B2mLMwv0A
- avCgSEXnLFIOYZi6PFI9ZdAnmXfZhYIoDtRjyzKOJitaZiUOwnB8Qh08z9oKvGGcBt2xp1vCmP1dE/FrRXvc6JmbEFjascMqtYdGA714EWZxvTTR//AtIZ/e
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="uMkVNq/eMDtdcPET"
+Content-Disposition: inline
+In-Reply-To: <20240122170518.3090814-5-wens@kernel.org>
 
 
+--uMkVNq/eMDtdcPET
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 1/21/24 09:34, Erick Archer wrote:
-> As noted in the "Deprecated Interfaces, Language Features, Attributes,
-> and Conventions" documentation [1], size calculations (especially
-> multiplication) should not be performed in memory allocator (or similar)
-> function arguments due to the risk of them overflowing. This could lead
-> to values wrapping around and a smaller allocation being made than the
-> caller was expecting. Using those allocations could lead to linear
-> overflows of heap memory and other misbehaviors.
-> 
-> So, use the purpose specific kcalloc() function instead of the argument
-> size * count in the kzalloc() function.
-> 
-> Link: https://www.kernel.org/doc/html/next/process/deprecated.html#open-coded-arithmetic-in-allocator-arguments [1]
-> Link: https://github.com/KSPP/linux/issues/162
-> Signed-off-by: Erick Archer <erick.archer@gmx.com>
-
-Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-
-Thanks!
--- 
-Gustavo
-
+On Tue, Jan 23, 2024 at 01:05:15AM +0800, Chen-Yu Tsai wrote:
+> From: Chen-Yu Tsai <wens@csie.org>
+>=20
+> The DMA controllers found on the H616 and H618 are the same as the one
+> found on the H6. The only difference is the DMA endpoint (DRQ) layout.
+>=20
+> Since the number of channels and endpoints are described with additional
+> generic properties, just add a new H616-specific compatible string and
+> fallback to the H6 one.
+>=20
+> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
 > ---
->   drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
-> index d358334e5981..ee2a28c906ed 100644
-> --- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
-> +++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
-> @@ -362,7 +362,7 @@ int sun8i_ce_hash_run(struct crypto_engine *engine, void *breq)
->   		digestsize = SHA512_DIGEST_SIZE;
-> 
->   	/* the padding could be up to two block. */
-> -	buf = kzalloc(bs * 2, GFP_KERNEL | GFP_DMA);
-> +	buf = kcalloc(2, bs, GFP_KERNEL | GFP_DMA);
->   	if (!buf) {
->   		err = -ENOMEM;
->   		goto theend;
-> --
-> 2.25.1
-> 
+>  .../bindings/dma/allwinner,sun50i-a64-dma.yaml    | 15 +++++++++++----
+>  1 file changed, 11 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-d=
+ma.yaml b/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-dma.ya=
+ml
+> index ec2d7a789ffe..e5693be378bd 100644
+> --- a/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-dma.yaml
+> +++ b/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-dma.yaml
+> @@ -28,6 +28,9 @@ properties:
+>        - items:
+>            - const: allwinner,sun8i-r40-dma
+>            - const: allwinner,sun50i-a64-dma
+> +      - items:
+> +          - const: allwinner,sun50i-h616-dma
+> +          - const: allwinner,sun50i-h6-dma
+> =20
+>    reg:
+>      maxItems: 1
+> @@ -59,10 +62,14 @@ required:
+>  if:
+>    properties:
+>      compatible:
+> -      enum:
+> -        - allwinner,sun20i-d1-dma
+> -        - allwinner,sun50i-a100-dma
+> -        - allwinner,sun50i-h6-dma
+> +      oneOf:
+> +        - enum:
+> +            - allwinner,sun20i-d1-dma
+> +            - allwinner,sun50i-a100-dma
+> +            - allwinner,sun50i-h6-dma
+> +        - items:
+> +            - const: allwinner,sun50i-h616-dma
+> +            - const: allwinner,sun50i-h6-dma
+
+Instead of introducing this complexity, could you instead use "contains"
+here? Unless I am missing soemthing, you can achieve the same thing here
+with:
+|if:
+|  properties:
+|    compatible:
+|      constains:
+|        enum:
+|          - allwinner,sun20i-d1-dma
+|          - allwinner,sun50i-a100-dma
+|          - allwinner,sun50i-h6-dma
+
+--uMkVNq/eMDtdcPET
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZa6xZAAKCRB4tDGHoIJi
+0uhrAQCnxXs/YZMWmhTaL2/x37/8c6V1hW8i0Fcy+4pF/j9FagD+PzvoVb1uq4Xb
+caz2uxuyDai5nYCpKQMlFDgQp1wcIgs=
+=u1wG
+-----END PGP SIGNATURE-----
+
+--uMkVNq/eMDtdcPET--
