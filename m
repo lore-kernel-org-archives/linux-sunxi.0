@@ -1,107 +1,112 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D6DD3A8C3
-	for <linux-sunxi@lists.linux.dev>; Mon, 22 Jan 2024 10:45:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CDEB3D990;
+	Mon, 22 Jan 2024 17:05:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705920325; cv=none; b=TyUp7iSLJYtzh6ROO8HQL0lA6Fu2/Bo7a/5QOuDaVOIJefct92psvdfWKR/8xuWFSHlnJJGudW/C08Y5695CltZ3+wTiq67yqbuGPCmDuWCm9pTejFkXKruvF2apN0nVBm7I/FVg88B/X6WhvSYky7Gswz060i9N9AWV1Dhz+dQ=
+	t=1705943133; cv=none; b=nQ/nO1M0cHzn05oUl17dTLv0Q2E/Eqgi0UA2e2ITLwhJxXWqex1dCUlE7Sf3RDp2A2FZGMAha+9mx3lmseqgHSgLYxcDzCbcuEFEughPI2lLmTtlRD+P55bmsg/6JMj3P4YJv/qt8Or0IIgLp8yNNFLQb4fBhlkNVcK7+CnPPSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705920325; c=relaxed/simple;
-	bh=DsPCBfxhfwqn5+KUS4+3J9IPplxIlTdI3o7BZcP1A7s=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NTS7GLdNulQHyUBGZmLDbS0sj6PabdIpHD3simSUiVjr0Wqo3jYpamMSoo1yVbCOoRbrOyGAt9ePG6uS2rFwatcGri3cWQ11jhTZcjWltX+5Q6KPfNiofxHadTaYhWTgUfPFzSoyYssuru+BRgzg+UaW5jP+JuieJrh6W9CnmU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C0B191FB;
-	Mon, 22 Jan 2024 02:46:09 -0800 (PST)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 696DA3F5A1;
-	Mon, 22 Jan 2024 02:45:22 -0800 (PST)
-Date: Mon, 22 Jan 2024 10:45:19 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org, Emilio =?UTF-8?B?TMOzcGV6?=
- <emilio@elopez.com.ar>, Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org, Chen-Yu Tsai
- <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] clk: sunxi: usb: fix kernel-doc warnings
-Message-ID: <20240122104519.66116259@donnerap.manchester.arm.com>
-In-Reply-To: <20240121051858.17647-1-rdunlap@infradead.org>
-References: <20240121051858.17647-1-rdunlap@infradead.org>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1705943133; c=relaxed/simple;
+	bh=S1UkfK4/p0h181iT92j9rPEO3r0iRuL3QMMsPwiuSjY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=iqQDlhH2w/n1h0DAXaGyB5Ah02UHJTKhnj/EI+G4ETAbUdf14S0e8NHwBY5+DkHFrITgtmIM2SPzGxfVSWeAyHF9nARNO+mWlyb5oAS0fP3D+/tHXRcUb/LQO8ZVh5aAyKxULXTle4pMlAWBOxDXDM8mQOsFW8cXQOckNEen99o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=We0IU1KN; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="We0IU1KN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98346C433A6;
+	Mon, 22 Jan 2024 17:05:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705943132;
+	bh=S1UkfK4/p0h181iT92j9rPEO3r0iRuL3QMMsPwiuSjY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=We0IU1KNz5olxvNKbzGISxymnsCBPYNEmHnBPYe0KSnaa6SFlpW03oES+JnMoq8YC
+	 juiRstM9skTINNEATDvPHQnKam5PnTYkgPkjl75W4Uwc+hLPU5ivjvbKSei7e86HMd
+	 cZkSDUKl1F8DszivK2iiyOZ6e5c/AnwfwjECbGHRMXOfWGblEi5xvJbOMcq2UEW+PO
+	 KMJhRu7hoeT9sdEsnob11MVrjW48vsZA4IhXI8XEIL3mvpUIfrxnHmH8yD/HluAjzN
+	 p//aoMFPhYpwaUDmbEdrAfJpIDSz7ZsmyknDJAECmzoscNByaRjXo/2foseJm8Okxs
+	 Zf7i0qWj3zg/A==
+Received: by wens.tw (Postfix, from userid 1000)
+	id F13F66001C; Tue, 23 Jan 2024 01:05:29 +0800 (CST)
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Vinod Koul <vkoul@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-sound@vger.kernel.org,
+	dmaengine@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 4/7] dt-bindings: dma: allwinner,sun50i-a64-dma: Add compatible for H616
+Date: Tue, 23 Jan 2024 01:05:15 +0800
+Message-Id: <20240122170518.3090814-5-wens@kernel.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240122170518.3090814-1-wens@kernel.org>
+References: <20240122170518.3090814-1-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sat, 20 Jan 2024 21:18:57 -0800
-Randy Dunlap <rdunlap@infradead.org> wrote:
+From: Chen-Yu Tsai <wens@csie.org>
 
-> Move the function description comment to immediately above the
-> function implementation, the add function parameter descriptions to
-> prevent kernel-doc warnings:
->=20
-> clk-usb.c:80: warning: expecting prototype for sunxi_usb_clk_setup(). Pro=
-totype was for SUNXI_USB_MAX_SIZE() instead
-> clk-usb.c:91: warning: Function parameter or struct member 'node' not des=
-cribed in 'sunxi_usb_clk_setup'
-> clk-usb.c:91: warning: Function parameter or struct member 'data' not des=
-cribed in 'sunxi_usb_clk_setup'
-> clk-usb.c:91: warning: Function parameter or struct member 'lock' not des=
-cribed in 'sunxi_usb_clk_setup'
+The DMA controllers found on the H616 and H618 are the same as the one
+found on the H6. The only difference is the DMA endpoint (DRQ) layout.
 
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+Since the number of channels and endpoints are described with additional
+generic properties, just add a new H616-specific compatible string and
+fallback to the H6 one.
 
-Cheers,
-Andre
+Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+---
+ .../bindings/dma/allwinner,sun50i-a64-dma.yaml    | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Emilio L=C3=B3pez <emilio@elopez.com.ar>
-> Cc: Michael Turquette <mturquette@baylibre.com>
-> Cc: Stephen Boyd <sboyd@kernel.org>
-> Cc: linux-clk@vger.kernel.org
-> Cc: Chen-Yu Tsai <wens@csie.org>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Samuel Holland <samuel@sholland.org>
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-sunxi@lists.linux.dev
-> ---
->  drivers/clk/sunxi/clk-usb.c |    9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
->=20
-> diff -- a/drivers/clk/sunxi/clk-usb.c b/drivers/clk/sunxi/clk-usb.c
-> --- a/drivers/clk/sunxi/clk-usb.c
-> +++ b/drivers/clk/sunxi/clk-usb.c
-> @@ -73,9 +73,6 @@ static const struct reset_control_ops su
->  	.deassert	=3D sunxi_usb_reset_deassert,
->  };
-> =20
-> -/**
-> - * sunxi_usb_clk_setup() - Setup function for usb gate clocks
-> - */
-> =20
->  #define SUNXI_USB_MAX_SIZE 32
-> =20
-> @@ -85,6 +82,12 @@ struct usb_clk_data {
->  	bool reset_needs_clk;
->  };
-> =20
-> +/**
-> + * sunxi_usb_clk_setup() - Setup function for usb gate clocks
-> + * @node: &struct device_node for the clock
-> + * @data: &struct usb_clk_data for the clock
-> + * @lock: spinlock for the clock
-> + */
->  static void __init sunxi_usb_clk_setup(struct device_node *node,
->  				       const struct usb_clk_data *data,
->  				       spinlock_t *lock)
->=20
+diff --git a/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-dma.yaml b/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-dma.yaml
+index ec2d7a789ffe..e5693be378bd 100644
+--- a/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-dma.yaml
++++ b/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-dma.yaml
+@@ -28,6 +28,9 @@ properties:
+       - items:
+           - const: allwinner,sun8i-r40-dma
+           - const: allwinner,sun50i-a64-dma
++      - items:
++          - const: allwinner,sun50i-h616-dma
++          - const: allwinner,sun50i-h6-dma
+ 
+   reg:
+     maxItems: 1
+@@ -59,10 +62,14 @@ required:
+ if:
+   properties:
+     compatible:
+-      enum:
+-        - allwinner,sun20i-d1-dma
+-        - allwinner,sun50i-a100-dma
+-        - allwinner,sun50i-h6-dma
++      oneOf:
++        - enum:
++            - allwinner,sun20i-d1-dma
++            - allwinner,sun50i-a100-dma
++            - allwinner,sun50i-h6-dma
++        - items:
++            - const: allwinner,sun50i-h616-dma
++            - const: allwinner,sun50i-h6-dma
+ 
+ then:
+   properties:
+-- 
+2.39.2
 
