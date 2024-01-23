@@ -1,202 +1,145 @@
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B6D44EB39
-	for <linux-sunxi@lists.linux.dev>; Tue, 23 Jan 2024 22:01:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 346DD3B78E;
+	Tue, 23 Jan 2024 23:33:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706047304; cv=none; b=OWOkXdzEvX1DPAaL5KGFSpv/Ql3ZL7pY5VOZDa78j0mcXDlEVY/7LW+p+JiwHlr34QpEuSgg/etx9KtbILonmqx2ElD4bRcp1p5yWNrv0NBDo1S4Uyg0H3JvHgzmDTZTaO6CIhOyTYJkaesxx0jtAbyne4PBwrm6qh9wSA8vbGM=
+	t=1706052795; cv=none; b=mo4Q6+9boZTqK8uNA6pEihvpNHeBmGZYvyZDLFn9NwjF65IPSw2/xQoY1AdKeAGN/rCXVBcStpCoQrUHAhvBxMYu/g6IXcIXyh0GVGwRhNPU1RuLryzdVM51gRfS3ohnGHZ0tPuWCs/nu0WlJotR+AuCjs7VXO83NIQnxWOGiTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706047304; c=relaxed/simple;
-	bh=5lpUIhK3eSpspj99MI2TxolMrSCilk2rgng+Fd5SQcE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bxRfnv+NOIffuuUNmEBGNGIZUlb4sbqHPajUI4X4motLbEayz5GF2znTKqdfbWWRW2+kZivJLN1svac1tNG0cy71arP2dFtUrty9Gv77zVVta4u4U29EjUZIJ5VNCswxo4K/LAz8YF/Qj+gmvCyIWfTI31QcGGctUbrSCRJN6+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=zPC3wvSj; arc=none smtp.client-ip=195.181.215.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
+	s=arc-20240116; t=1706052795; c=relaxed/simple;
+	bh=QGNoOHkwOGudSjTTpE/RdtDWUSLVrM6Fux/IWb+zhHM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=W/6pR3L3gH2+fmiDAs/elkcIeafA4l4ojTwgqZYQJhr4WCMLTba6XAzuVOqf7QlGpLOF896CFemOBOBHAOIWgiLxZqfcvmPI4LQovlI9rxrocKLeVMOV2+CDo2kLXn4ZoCqdNLhp/5D/ZPrqIuVLWGi+Fo2m0lCZPtcjma4Y+Uw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I3MhngyQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="zPC3wvSj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
-	t=1706047291; bh=5lpUIhK3eSpspj99MI2TxolMrSCilk2rgng+Fd5SQcE=;
-	h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
-	b=zPC3wvSj0b1CRtVEOCTGIwOEl2tJYgdsRJDn4vErMv+XOEtsf5Acja3CB+wmTI/xk
-	 X2vUgAjI4PPoIPGanxMF0Uk49hTkTX1jS/PLY2wWwpKYV8/BF2cWgHpuyM62zPIiCE
-	 3jaV38aNNCgrzWJGWuwfDUHNBUQA7QxxwWVabsr0=
-Date: Tue, 23 Jan 2024 23:01:30 +0100
-From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
-To: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-Cc: Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Alain Volmat <alain.volmat@foss.st.com>, Pavel Machek <pavel@ucw.cz>, 
-	Arnaud Ferraris <arnaud.ferraris@collabora.com>
-Subject: Re: [PATCH] arm64: dts: sun50i-a64-pinephone: Add front/back cameras
-Message-ID: <rkx4iuuudkk7iaaudmr3ccwpatps7kz2qyjalcfzp4ongmbaby@rcosajd6c746>
-Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, 
-	Andrey Skvortsov <andrej.skvortzov@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Alain Volmat <alain.volmat@foss.st.com>, Pavel Machek <pavel@ucw.cz>, 
-	Arnaud Ferraris <arnaud.ferraris@collabora.com>
-X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
- <https://xff.cz/key.txt>
-References: <20240123214729.2852346-1-andrej.skvortzov@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I3MhngyQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18AFAC433C7;
+	Tue, 23 Jan 2024 23:33:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706052794;
+	bh=QGNoOHkwOGudSjTTpE/RdtDWUSLVrM6Fux/IWb+zhHM=;
+	h=From:Date:Subject:To:Cc:From;
+	b=I3MhngyQQwiO+HC4n3VfkmRV26qY3hc8196Rl80VsXzQSixMKZRNcljsOQuC859Pt
+	 GtxxpSbvMhY0kWmqSRyhXBMqAPNRQGmlXtB9gs7SmTdba7VGsjUdeeAeMxVMu0/4Gl
+	 M69jk/jX/A0zXUXLdj6otuJq+2wXlwYZ2uY33QXB+djCAVLW0vmSqNzTAeu2wCYd3Q
+	 0rCxV5EHOCbgXGmxXbmY6jqiTZrxPVxWX+72yDJA0FxDVvVtpoxOU/0B4MtYkv2CYt
+	 dN39Ryh+HKhdgVGrAa4dpXktn7cQwArrt8kjeCK3pKHqC9YNQMftRWrhYwedS2aI5k
+	 3a8jZgdrGxdjQ==
+From: Mark Brown <broonie@kernel.org>
+Date: Tue, 23 Jan 2024 23:33:07 +0000
+Subject: [PATCH v3] thermal/drivers/sun8i: Don't fail probe due to zone
+ registration failure
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240123214729.2852346-1-andrej.skvortzov@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240123-thermal-sun8i-registration-v3-1-3e5771b1bbdd@kernel.org>
+X-B4-Tracking: v=1; b=H4sIALJMsGUC/43NwQ6CMAwG4FchOzuzbgroyfcwHsYosIjDdLhoC
+ O9u4WK8GE/N3/z9OomI5DGKYzYJwuSjHwIHs8mE62xoUfqas9BKG1VAKccO6WZ7GR+h9JKw9XE
+ kO/KZrBtjweTO2cYKBu6EjX+u+PnCuePqQK/1V4Jl+xebQIJ0h30FlSqU2anTFSlgvx2oFYub9
+ Mc6gP5pabZUUXATeOTllzXP8xuVCXwkEQEAAA==
+To: Vasily Khoruzhick <anarsoul@gmail.com>, 
+ Yangtao Li <tiny.windzz@gmail.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Daniel Lezcano <daniel.lezcano@linaro.org>, 
+ Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+Cc: Hugh Dickins <hughd@google.com>, linux-pm@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
+X-Mailer: b4 0.13-dev-0438c
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3046; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=QGNoOHkwOGudSjTTpE/RdtDWUSLVrM6Fux/IWb+zhHM=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBlsEy2pfbbtfAa2AvPeU5FJK+lig+Fng09Sfcm5
+ fgY1u17UcGJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZbBMtgAKCRAk1otyXVSH
+ 0GL2B/9T8OMF5ewkEdFH2AXiJaGPuFFxbdo8n+2gHijdVsbwin12SeH0pZR5zYV9jEb1kQjkm2t
+ GM7TFXxYNHmje9ZuQqtUF45nzMMShij0BdAxyiU1PfpM5gNycOam1hPpkVCmRA+53swpLJCl8aP
+ U48gmUmQ4BdbS+ZxiqvtcJTrOhItl02NwSu49BcWYhQDswW5vKKG3ZdJ/P2YbgDO/DpLbBW3W+R
+ KfG16WMDw6xjYADDD/xoTW3SiHmPppok0DFzb2KurnnH4BKJYKDLMXDK61SZfuduz8Mx80Rv2xR
+ qCfHX2hD13u2e2GQRWiRpB1oAgxZgSNwVEm5KnnzgpAvMqtf
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-Hi Andrey,
+Currently the sun8i thermal driver will fail to probe if any of the
+thermal zones it is registering fails to register with the thermal core.
+Since we currently do not define any trip points for the GPU thermal
+zones on at least A64 or H5 this means that we have no thermal support
+on these platforms:
 
-On Wed, Jan 24, 2024 at 12:47:29AM +0300, Andrey Skvortsov wrote:
-> From: Ondřej Jirman <megi@xff.cz>
-> 
-> Pinephone has OV5640 back camera and GC2145 front camera. Add support
-> for both.
+[    1.698703] thermal_sys: Failed to find 'trips' node
+[    1.698707] thermal_sys: Failed to find trip points for thermal-sensor id=1
 
-The upstream driver doesn't support multiple endpoints per port. See:
+even though the main CPU thermal zone on both SoCs is fully configured.
+This does not seem ideal, while we may not be able to use all the zones
+it seems better to have those zones which are usable be operational.
+Instead just carry on registering zones if we get any non-deferral
+error, allowing use of those zones which are usable.
 
-https://elixir.bootlin.com/linux/v6.8-rc1/source/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml#L43
+This means that we also need to update the interrupt handler to not
+attempt to notify the core for events on zones which we have not
+registered, I didn't see an ability to mask individual interrupts and
+I would expect that interrupts would still be indicated in the ISR even
+if they were masked.
 
-Only one endpoint is allowed/supported. Looking throught LKML, I don't
-see the support for multiple parallel interface endpoints being added
-recently...
+Reviewed-by: Vasily Khoruzhick <anarsoul@gmail.com>
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+Changes in v3:
+- Rebase onto v6.8-rc1.
+- Link to v2: https://lore.kernel.org/r/20230912-thermal-sun8i-registration-v2-1-077230107768@kernel.org
 
-So this patch will not work, and will cause DTS validation errors.
+Changes in v2:
+- Rebase onto v6.6-rc1.
+- Link to v1: https://lore.kernel.org/r/20230718-thermal-sun8i-registration-v1-1-c95b1b070340@kernel.org
+---
+ drivers/thermal/sun8i_thermal.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
-Kind regards,
-	o.
+diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_thermal.c
+index 6a8e386dbc8d..c2a8ae7f8f2f 100644
+--- a/drivers/thermal/sun8i_thermal.c
++++ b/drivers/thermal/sun8i_thermal.c
+@@ -188,6 +188,9 @@ static irqreturn_t sun8i_irq_thread(int irq, void *data)
+ 	int i;
+ 
+ 	for_each_set_bit(i, &irq_bitmap, tmdev->chip->sensor_num) {
++		/* We allow some zones to not register. */
++		if (IS_ERR(tmdev->sensor[i].tzd))
++			continue;
+ 		thermal_zone_device_update(tmdev->sensor[i].tzd,
+ 					   THERMAL_EVENT_UNSPECIFIED);
+ 	}
+@@ -465,8 +468,17 @@ static int sun8i_ths_register(struct ths_device *tmdev)
+ 						      i,
+ 						      &tmdev->sensor[i],
+ 						      &ths_ops);
+-		if (IS_ERR(tmdev->sensor[i].tzd))
+-			return PTR_ERR(tmdev->sensor[i].tzd);
++
++		/*
++		 * If an individual zone fails to register for reasons
++		 * other than probe deferral (eg, a bad DT) then carry
++		 * on, other zones might register successfully.
++		 */
++		if (IS_ERR(tmdev->sensor[i].tzd)) {
++			if (PTR_ERR(tmdev->sensor[i].tzd) == -EPROBE_DEFER)
++				return PTR_ERR(tmdev->sensor[i].tzd);
++			continue;
++		}
+ 
+ 		devm_thermal_add_hwmon_sysfs(tmdev->dev, tmdev->sensor[i].tzd);
+ 	}
 
-> Signed-off-by: Ondrej Jirman <megi@xff.cz>
-> Signed-off-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-> ---
->  .../dts/allwinner/sun50i-a64-pinephone.dtsi   | 91 +++++++++++++++++++
->  1 file changed, 91 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-> index 87847116ab6d..4104a136ff75 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-> @@ -36,6 +36,15 @@ chosen {
->  		stdout-path = "serial0:115200n8";
->  	};
->  
-> +	i2c_csi: i2c-csi {
-> +		compatible = "i2c-gpio";
-> +		sda-gpios = <&pio 4 13 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>; /* PE13 */
-> +		scl-gpios = <&pio 4 12 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>; /* PE12 */
-> +		i2c-gpio,delay-us = <3>;
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +	};
-> +
->  	leds {
->  		compatible = "gpio-leds";
->  
-> @@ -124,6 +133,36 @@ &cpu3 {
->  	cpu-supply = <&reg_dcdc2>;
->  };
->  
-> +&csi {
-> +	pinctrl-0 = <&csi_pins>, <&csi_mclk_pin>;
-> +	status = "okay";
-> +
-> +	port {
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +
-> +		csi_ov5640_ep: endpoint@0 {
-> +			reg = <0>;
-> +			remote-endpoint = <&ov5640_ep>;
-> +			bus-width = <8>;
-> +			hsync-active = <1>; /* Active high */
-> +			vsync-active = <0>; /* Active low */
-> +			data-active = <1>;  /* Active high */
-> +			pclk-sample = <1>;  /* Rising */
-> +		};
-> +
-> +		csi_gc2145_ep: endpoint@1 {
-> +			reg = <1>;
-> +			remote-endpoint = <&gc2145_ep>;
-> +			bus-width = <8>;
-> +			hsync-active = <1>;
-> +			vsync-active = <1>;
-> +			data-active = <1>;
-> +			pclk-sample = <1>;
-> +		};
-> +	};
-> +};
-> +
->  &dai {
->  	status = "okay";
->  };
-> @@ -158,6 +197,58 @@ &ehci1 {
->  	status = "okay";
->  };
->  
-> +&i2c_csi {
-> +	gc2145: front-camera@3c {
-> +		compatible = "galaxycore,gc2145";
-> +		reg = <0x3c>;
-> +		clocks = <&ccu CLK_CSI_MCLK>;
-> +		clock-names = "xclk";
-> +		avdd-supply = <&reg_dldo3>;
-> +		dvdd-supply = <&reg_aldo1>;
-> +		iovdd-supply = <&reg_eldo3>;
-> +		reset-gpios = <&pio 4 16 (GPIO_ACTIVE_LOW | GPIO_OPEN_DRAIN)>; /* PE16 */
-> +		powerdown-gpios = <&pio 4 17 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>; /* PE17 */
-> +		rotation = <270>;
-> +		orientation = <0>;
-> +
-> +		port {
-> +			gc2145_ep: endpoint {
-> +				remote-endpoint = <&csi_gc2145_ep>;
-> +				bus-width = <8>;
-> +				hsync-active = <1>;
-> +				vsync-active = <1>;
-> +				data-active = <1>;
-> +				pclk-sample = <1>;
-> +			};
-> +		};
-> +	};
-> +
-> +	ov5640: rear-camera@4c {
-> +		compatible = "ovti,ov5640";
-> +		reg = <0x4c>;
-> +		clocks = <&ccu CLK_CSI_MCLK>;
-> +		clock-names = "xclk";
-> +		AVDD-supply = <&reg_dldo3>;
-> +		DOVDD-supply = <&reg_aldo1>; /* shared with AFVCC */
-> +		DVDD-supply = <&reg_eldo3>;
-> +		reset-gpios = <&pio 3 3 (GPIO_ACTIVE_LOW | GPIO_OPEN_DRAIN)>; /* PD3 */
-> +		powerdown-gpios = <&pio 2 0 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>; /* PC0 */
-> +		rotation = <90>;
-> +		orientation = <1>;
-> +
-> +		port {
-> +			ov5640_ep: endpoint {
-> +				remote-endpoint = <&csi_ov5640_ep>;
-> +				bus-width = <8>;
-> +				hsync-active = <1>; /* Active high */
-> +				vsync-active = <0>; /* Active low */
-> +				data-active = <1>;  /* Active high */
-> +				pclk-sample = <1>;  /* Rising */
-> +			};
-> +		};
-> +	};
-> +};
-> +
->  &i2c0 {
->  	status = "okay";
->  
-> -- 
-> 2.43.0
-> 
+---
+base-commit: 6613476e225e090cc9aad49be7fa504e290dd33d
+change-id: 20230718-thermal-sun8i-registration-df3a136ccafa
+
+Best regards,
+-- 
+Mark Brown <broonie@kernel.org>
+
