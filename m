@@ -1,56 +1,56 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A1B78004C
-	for <linux-sunxi@lists.linux.dev>; Tue, 23 Jan 2024 17:49:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 525E382D71
+	for <linux-sunxi@lists.linux.dev>; Tue, 23 Jan 2024 17:50:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706032198; cv=none; b=tut6aMbd4SH5TY7Ck7YRMlR7IhwwsyFkCWAmHdrOhyYcf3UIXyrlPpi9l75gW/XR3+iIky0cZWr9CCIAc6r1TD3irG9bm8xxv26rtP9CwzX66DOV4gHtTZqP5u3dlL8Qe73hJthh5EOiGlGVMoLPACL0xZE9kAv6+j9cEgAW40c=
+	t=1706032239; cv=none; b=TwBkhyafkmv82UaCl5UylSAu8sJRInBluLvBbISvQ5W8Ewntr8Lam2xs1dlm7q06QCKuB3Uap7y2otQJ4SqQLQU496k/yKnouoUZcIM7WP4cxvjfj07Sr6lFrdDKsa2vyH5+MA6+zIVuDNYGzW3wZcxVbh6U4TjbKgXiuhi0Anc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706032198; c=relaxed/simple;
-	bh=pZmhTwrYFluya1Y15DJtUQFyoFTSJRRJJCwBZJCZ/7E=;
+	s=arc-20240116; t=1706032239; c=relaxed/simple;
+	bh=vzbXOTr/hTcJB7Frwi93a5o2NZNJmUHLOIwRXVfnn7U=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rl6ISlssXaeIBkjUX5y1HmfJCjqgfQlx71pGS5ThvT9SKej9h1ookmzyEl7a+beXy4USjeRd6vVKb2YKVzgg3IR2u8/tEJfPCkA9DGxEoOYH35XaJf8l8SOdw+AmPT3AlMS67Bq/A2lUfw9npTsOOBZeYALgW5OelLS4uOttk04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FLxA7sS2; arc=none smtp.client-ip=209.85.128.52
+	 MIME-Version:Content-Type; b=Vs4q1+RG/lOXZKncXAWUT8CYndSufTFw+DqGjYgzE0MB9+z5Nu+NKYu5Umg04sMMdw52L+cQcFRZIE9sJq+GQfBoVN1CT0M+cCPxiVnaqlKVSDU79wdbeV+ass4xrSn1yJDs4ToRx5xli/1hSxfvu7D1WpqphuRVjYP0n9VZV78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SkqBlGAI; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FLxA7sS2"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-40e800461baso54950835e9.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 23 Jan 2024 09:49:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SkqBlGAI"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-40eb0836f8dso19459185e9.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 23 Jan 2024 09:50:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706032195; x=1706636995; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1706032236; x=1706637036; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=phUpc3vqpaERggtFkDbvhq6Ow8Zicp3uWb8jHfud6kw=;
-        b=FLxA7sS2encXtVC0E5oEqV5u1vMEKsOFJSBxxIoXL4VYWh/d59KmeLQgDK9jwwPS7W
-         6dMNom3VMyDG5yyRODOUpXrIdzSWJCdMgdMjSUogkooqdrUcSjcbWbh8kOCWVhCBEzp2
-         VyzKW5+P82fpyGfLo3+03TtHA+wls+BHBN4wXNhBZNwArA/ljCOLRO0envraV3yX3YgW
-         xe5OSlgPqlmv7xePrqt0SXbHMojo5v1X34QNjQQtK8Fh5eYfGQkXBUK0HcAEK1s8f56d
-         SjDxvKstbxlxcYc7UXPwrRljh5+gKNnXjQnb2Qu4mQok+VUl52bTmrpkEyRo0qFSuX3r
-         DPkg==
+        bh=hqFQzFOYw01MT9nZZuoCXkcKWOvLnR25DA95X7Fl8/A=;
+        b=SkqBlGAIiOpDu+yL2k9WONroXvN0pIsFthhC979gq03cQqECF/gGUuintkASKhjk0d
+         txcZ3ECyx73IEVpXWB2OJTAKUbOgeSLz0lHwV4Fuovrz32I3RUwTgU0JwrkMMaIqCPqN
+         rzpmE8RluakBO8RiT3Qu7Uc0qzhxNksr1cZIMPqYiwjuQ8PexJeXaTfMx5/X68dEuLgm
+         I01BjJuXpItWFfdMpEz3znanHV5tCLtoHH/phJ3eeWPbTYfu3j4uGkG/xEOVIbEWi7hJ
+         NlfK1L9KNVgMpgO+QlH/El8n9mW3cMe9h4JnZAMytgS+NhFegQ5f8VrN/NcNh84evLSv
+         Kb2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706032195; x=1706636995;
+        d=1e100.net; s=20230601; t=1706032236; x=1706637036;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=phUpc3vqpaERggtFkDbvhq6Ow8Zicp3uWb8jHfud6kw=;
-        b=avIdbecFSv/Xipd7uVvZEk+JqfFBGex/mE9mbxSRBIzkvsjxGZ4Cj4Rh6JlJ6Z+WO2
-         JOX8fNy8Kx5Z7shDTs9yNHjgmuHv23YJlEApzROHrXDZrBws+D6DIikuELPgSsV+0mvF
-         MnwBOdSCLGRsISE4QAq68mE7jAjxPnCdBkCZTLgjwr47OXBo9LZoMPgztjODf5a0wB6r
-         bddzLA3XDXvPgN5oQGa6JgjWcaITV5Ia+vPUTY0wM3m745XKMJJGNBp1rphheZfnzu/S
-         wuclZ1YL6gFhdjtn09NGDCFZGjF3+XKzmFo87rEazXlMNMs19B87kZmYO+W0ivOAum+h
-         2PQA==
-X-Gm-Message-State: AOJu0Yx/XzCoFsFDazqqut5acECxxEaY08fh6J9vDZHijc2HpEaAfrJW
-	yLfi8e9Pr5EgZnw7B3tIcDIANbXGl2x0njzpk/A0f6L+tkxgpVUO
-X-Google-Smtp-Source: AGHT+IH7zIW6Sody5lpgf0QjQ/UUb5BDBibnCsSPJ9ObnPZSc8pZ+zdBI5rEoa7/i2qPfa4nThePJg==
-X-Received: by 2002:a05:600c:198a:b0:40e:4786:9379 with SMTP id t10-20020a05600c198a00b0040e47869379mr416361wmq.103.1706032194674;
-        Tue, 23 Jan 2024 09:49:54 -0800 (PST)
+        bh=hqFQzFOYw01MT9nZZuoCXkcKWOvLnR25DA95X7Fl8/A=;
+        b=NHjFk4Hw+/ppaAiJ3p+WXqQHvK3IxWM7JN8P1+qekfzeBJKihjT4Ck7pq5z2PiuWA6
+         13ePDy3n5AnnfTTDBTn7G3LMxxcgYcpXYr6FUJ+HMBM39kCioY2x1XnpaSDG6JB0Wbyl
+         6pBWD/PdBWEx920Oxbw0QMwlJkDSKRdE5nNaLNL39B+/5j5yaAoPFZVeG+r+emvhKBs7
+         CAo3Jc3BLb4vUKbk0Y7fcPhOCbISuBAVw13YoHFgrcUWtDNdqd7rCjTkIjPv8pE71K3e
+         XoXU6UEmi9pwdy4sBRuE7Rl9MAfsLZ38O3h4JdIuozzQolE4Jh3jS9Uq/o3ghlghkK5Z
+         rMJg==
+X-Gm-Message-State: AOJu0YzPbMEAPPAUp6dQqfFGMrDeYPKnfuR43Wo47D+N6NyrCbDW5QXY
+	4JWpYgRl/dGgPEzrHzR1Doyxnxg1G5UtIYuMF3Y1RtQDCJOe7SnP
+X-Google-Smtp-Source: AGHT+IEiz/ta2vrJl+XqiiC5CDVjxC8xoQM9kiT7Qfv/7eJ5lhHTm/bQV0Jzntqijrg4bnkk5MhVFg==
+X-Received: by 2002:a05:600c:6a0b:b0:40e:3b1c:d3a2 with SMTP id jj11-20020a05600c6a0b00b0040e3b1cd3a2mr363930wmb.126.1706032236539;
+        Tue, 23 Jan 2024 09:50:36 -0800 (PST)
 Received: from jernej-laptop.localnet (86-58-14-70.dynamic.telemach.net. [86.58.14.70])
-        by smtp.gmail.com with ESMTPSA id a17-20020a5d5711000000b00339273d0626sm9662579wrv.84.2024.01.23.09.49.53
+        by smtp.gmail.com with ESMTPSA id w4-20020a05600c474400b0040d5ae2906esm47418456wmo.30.2024.01.23.09.50.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jan 2024 09:49:54 -0800 (PST)
+        Tue, 23 Jan 2024 09:50:36 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -63,14 +63,13 @@ Cc: Chen-Yu Tsai <wens@csie.org>, devicetree@vger.kernel.org,
  linux-sound@vger.kernel.org, dmaengine@vger.kernel.org,
  linux-kernel@vger.kernel.org
 Subject:
- Re: [PATCH 2/7] dt-bindings: sound: sun4i-spdif: Add Allwinner H616
- compatible
-Date: Tue, 23 Jan 2024 18:49:53 +0100
-Message-ID: <8325591.T7Z3S40VBb@jernej-laptop>
-In-Reply-To: <20240122170518.3090814-3-wens@kernel.org>
+ Re: [PATCH 3/7] ASoC: sunxi: sun4i-spdif: Add support for Allwinner H616
+Date: Tue, 23 Jan 2024 18:50:34 +0100
+Message-ID: <2254185.iZASKD2KPV@jernej-laptop>
+In-Reply-To: <20240122170518.3090814-4-wens@kernel.org>
 References:
  <20240122170518.3090814-1-wens@kernel.org>
- <20240122170518.3090814-3-wens@kernel.org>
+ <20240122170518.3090814-4-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -80,14 +79,15 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne ponedeljek, 22. januar 2024 ob 18:05:13 CET je Chen-Yu Tsai napisal(a):
+Dne ponedeljek, 22. januar 2024 ob 18:05:14 CET je Chen-Yu Tsai napisal(a):
 > From: Chen-Yu Tsai <wens@csie.org>
 > 
 > The SPDIF hardware block found in the H616 SoC has the same layout as
 > the one found in the H6 SoC, except that it is missing the receiver
 > side.
 > 
-> Add a new compatible string for it.
+> Since the driver currently only supports the transmit function, support
+> for the H616 is identical to what is currently done for the H6.
 > 
 > Signed-off-by: Chen-Yu Tsai <wens@csie.org>
 
@@ -95,5 +95,7 @@ Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
+
+
 
 
