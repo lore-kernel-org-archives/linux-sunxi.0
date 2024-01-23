@@ -1,24 +1,24 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F88454BE3
-	for <linux-sunxi@lists.linux.dev>; Tue, 23 Jan 2024 00:41:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE59A56771
+	for <linux-sunxi@lists.linux.dev>; Tue, 23 Jan 2024 00:41:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705970465; cv=none; b=B0gsGFkhqqBxK1Edo0rqREbDVfeFZWKtJsGLgoJErueXWfPtdVGjefinxCaFBdgHyf2rF5sGTOQ0WUH0W7HVyDI4iCJSLuRagjYOf9xd2xuWmjhtwj3Uf07YJ38jULVsfRnRbpGZlYQJrXLkIIunLW4I0DsUTha+uFMff0hZIu0=
+	t=1705970520; cv=none; b=kvFRacGdF0p87o/ecIe5eira2dtGcyqNchpzwnF87OzLMX2a/yULaI0PBdVjyPQ5x+gDOWA9M06SYjmqGS+9rG48dqZ9l7EUiTfLahbYcAe5QoVRkEYJmoxY2qvUKjjbrCqQbr8fyRZzFNjdx8hREhSQdOrbTqwh81d3JKCT7GM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705970465; c=relaxed/simple;
-	bh=UbGceyRiBi7uZH0lDWNsttwvZ5/EMF3MFYFsi+KKQ4U=;
+	s=arc-20240116; t=1705970520; c=relaxed/simple;
+	bh=rc4w+Jmtk94BaD231D3UglD25ABatG+9xDx3zJlmGRA=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FLJXgVHnb2pPIlOpx/zTxsdM++lnSHuSNxKlXglyZu90lLn2fRKBIogVjrwoJwf20QcBDy6sn8sgXGma89qIWdUE7vv4UO3744ea4G1ufRDcvyrYiFRloNcmyyx6rLwjClODVCqi0S7jniXPj0zJeQRRwsDQtfq6wyzB4grg9JE=
+	 MIME-Version:Content-Type; b=hPnxJ8xvfEFcpMuzLsUI+pSIvpv6aE5tWLdvtH4uISto4i3EH1YkPNzGpSyXl3Fgs1cZX7IpeTCfTLy78R6kZXcwvQQhinpkH1EXKM7pGlaB2dDRrMio/EhBLxJE/TK1c6NSrwT4ecGqR7vpoB5N0E4jJVo5zo99wTdOMNB2ZPo=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A490D1FB;
-	Mon, 22 Jan 2024 16:41:47 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DC1BD1FB;
+	Mon, 22 Jan 2024 16:42:43 -0800 (PST)
 Received: from minigeek.lan (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A41813F73F;
-	Mon, 22 Jan 2024 16:40:59 -0800 (PST)
-Date: Tue, 23 Jan 2024 00:40:10 +0000
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 068AD3F73F;
+	Mon, 22 Jan 2024 16:41:54 -0800 (PST)
+Date: Tue, 23 Jan 2024 00:41:05 +0000
 From: Andre Przywara <andre.przywara@arm.com>
 To: Chen-Yu Tsai <wens@kernel.org>
 Cc: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
@@ -31,12 +31,12 @@ Cc: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
  linux-sound@vger.kernel.org, dmaengine@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/7] dt-bindings: dma: allwinner,sun50i-a64-dma: Add
- compatible for H616
-Message-ID: <20240123004010.59cac5ad@minigeek.lan>
-In-Reply-To: <20240122170518.3090814-5-wens@kernel.org>
+Subject: Re: [PATCH 6/7] arm64: dts: allwinner: h616: Add DMA controller and
+ DMA channels
+Message-ID: <20240123004105.66fee7bd@minigeek.lan>
+In-Reply-To: <20240122170518.3090814-7-wens@kernel.org>
 References: <20240122170518.3090814-1-wens@kernel.org>
-	<20240122170518.3090814-5-wens@kernel.org>
+	<20240122170518.3090814-7-wens@kernel.org>
 Organization: Arm Ltd.
 X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
@@ -48,78 +48,178 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Tue, 23 Jan 2024 01:05:15 +0800
+On Tue, 23 Jan 2024 01:05:17 +0800
 Chen-Yu Tsai <wens@kernel.org> wrote:
-
-Hi,
 
 > From: Chen-Yu Tsai <wens@csie.org>
 > 
 > The DMA controllers found on the H616 and H618 are the same as the one
 > found on the H6. The only difference is the DMA endpoint (DRQ) layout.
+> 
+> Add a device node for it, and add DMA channels for existing peripherals.
+> 
+> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+> ---
+>  .../arm64/boot/dts/allwinner/sun50i-h616.dtsi | 39 +++++++++++++++++++
+>  1 file changed, 39 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+> index d549d277d972..a0268439f3be 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+> @@ -133,6 +133,19 @@ ccu: clock@3001000 {
+>  			#reset-cells = <1>;
+>  		};
+>  
+> +		dma: dma-controller@3002000 {
+> +			compatible = "allwinner,sun50i-h616-dma",
+> +				     "allwinner,sun50i-h6-dma";
 
-That does not seem to be entirely true: The H616 encodes the two lowest
-bits in DMA_DESC_ADDR_REG differently: on the H6 they must be 0 (word
-aligned), on the H616 these contain bits [33:32] of the address of the
-DMA descriptor. The manual doesn't describe the descriptor format in
-much detail, but ec31c5c59492 suggests that those two bits are put in
-the "para" word of the descriptor.
+This should include the A100, to cover 34 bits of address space, see
+the binding patch comment.
 
-The good thing it that this encoding is backwards compatible, so I
-think the fallback string still holds: Any driver just implementing the
-H6 encoding would be able to drive the H616.
+> +			reg = <0x03002000 0x1000>;
+> +			interrupts = <GIC_SPI 42 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks = <&ccu CLK_BUS_DMA>, <&ccu CLK_MBUS_DMA>;
+> +			clock-names = "bus", "mbus";
+> +			dma-channels = <16>;
+> +			dma-requests = <49>;
+> +			resets = <&ccu RST_BUS_DMA>;
+> +			#dma-cells = <1>;
 
-I think the A100 was mis-described, as mentioned here:
-https://lore.kernel.org/linux-arm-kernel/29e575b6-14cb-73f1-512d-9f0f934490ea@arm.com/
-I think we should:
-- make the A100 use: "allwinner,sun50i-a100-dma", "sun50i-h6-dma"
-- make the H616 use: "allwinner,sun50i-h616-dma", "allwinner,sun50i-a100-dma", "sun50i-h6-dma"
+I compared those bits against the manual and the clock driver: they are
+correct.
 
-Does that make sense?
+> +		};
+> +
+>  		sid: efuse@3006000 {
+>  			compatible = "allwinner,sun50i-h616-sid", "allwinner,sun50i-a64-sid";
+>  			reg = <0x03006000 0x1000>;
+> @@ -339,6 +352,8 @@ uart0: serial@5000000 {
+>  			reg-shift = <2>;
+>  			reg-io-width = <4>;
+>  			clocks = <&ccu CLK_BUS_UART0>;
+> +			dmas = <&dma 14>, <&dma 14>;
+> +			dma-names = "tx", "rx";
+>  			resets = <&ccu RST_BUS_UART0>;
+>  			status = "disabled";
+>  		};
+> @@ -350,6 +365,8 @@ uart1: serial@5000400 {
+>  			reg-shift = <2>;
+>  			reg-io-width = <4>;
+>  			clocks = <&ccu CLK_BUS_UART1>;
+> +			dmas = <&dma 15>, <&dma 15>;
+> +			dma-names = "tx", "rx";
+>  			resets = <&ccu RST_BUS_UART1>;
+>  			status = "disabled";
+>  		};
+> @@ -361,6 +378,8 @@ uart2: serial@5000800 {
+>  			reg-shift = <2>;
+>  			reg-io-width = <4>;
+>  			clocks = <&ccu CLK_BUS_UART2>;
+> +			dmas = <&dma 16>, <&dma 16>;
+> +			dma-names = "tx", "rx";
+>  			resets = <&ccu RST_BUS_UART2>;
+>  			status = "disabled";
+>  		};
+> @@ -372,6 +391,8 @@ uart3: serial@5000c00 {
+>  			reg-shift = <2>;
+>  			reg-io-width = <4>;
+>  			clocks = <&ccu CLK_BUS_UART3>;
+> +			dmas = <&dma 17>, <&dma 17>;
+> +			dma-names = "tx", "rx";
+>  			resets = <&ccu RST_BUS_UART3>;
+>  			status = "disabled";
+>  		};
+> @@ -383,6 +404,8 @@ uart4: serial@5001000 {
+>  			reg-shift = <2>;
+>  			reg-io-width = <4>;
+>  			clocks = <&ccu CLK_BUS_UART4>;
+> +			dmas = <&dma 18>, <&dma 18>;
+> +			dma-names = "tx", "rx";
+>  			resets = <&ccu RST_BUS_UART4>;
+>  			status = "disabled";
+>  		};
+> @@ -394,6 +417,8 @@ uart5: serial@5001400 {
+>  			reg-shift = <2>;
+>  			reg-io-width = <4>;
+>  			clocks = <&ccu CLK_BUS_UART5>;
+> +			dmas = <&dma 19>, <&dma 19>;
+> +			dma-names = "tx", "rx";
+>  			resets = <&ccu RST_BUS_UART5>;
+>  			status = "disabled";
+>  		};
+> @@ -405,6 +430,8 @@ i2c0: i2c@5002000 {
+>  			reg = <0x05002000 0x400>;
+>  			interrupts = <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>;
+>  			clocks = <&ccu CLK_BUS_I2C0>;
+> +			dmas = <&dma 43>, <&dma 43>;
+> +			dma-names = "rx", "tx";
+>  			resets = <&ccu RST_BUS_I2C0>;
+>  			pinctrl-names = "default";
+>  			pinctrl-0 = <&i2c0_pins>;
+> @@ -420,6 +447,8 @@ i2c1: i2c@5002400 {
+>  			reg = <0x05002400 0x400>;
+>  			interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
+>  			clocks = <&ccu CLK_BUS_I2C1>;
+> +			dmas = <&dma 44>, <&dma 44>;
+> +			dma-names = "rx", "tx";
+>  			resets = <&ccu RST_BUS_I2C1>;
+>  			status = "disabled";
+>  			#address-cells = <1>;
+> @@ -433,6 +462,8 @@ i2c2: i2c@5002800 {
+>  			reg = <0x05002800 0x400>;
+>  			interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
+>  			clocks = <&ccu CLK_BUS_I2C2>;
+> +			dmas = <&dma 45>, <&dma 45>;
+> +			dma-names = "rx", "tx";
+>  			resets = <&ccu RST_BUS_I2C2>;
+>  			status = "disabled";
+>  			#address-cells = <1>;
+> @@ -446,6 +477,8 @@ i2c3: i2c@5002c00 {
+>  			reg = <0x05002c00 0x400>;
+>  			interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
+>  			clocks = <&ccu CLK_BUS_I2C3>;
+> +			dmas = <&dma 46>, <&dma 46>;
+> +			dma-names = "rx", "tx";
+>  			resets = <&ccu RST_BUS_I2C3>;
+>  			status = "disabled";
+>  			#address-cells = <1>;
+> @@ -459,6 +492,8 @@ i2c4: i2c@5003000 {
+>  			reg = <0x05003000 0x400>;
+>  			interrupts = <GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>;
+>  			clocks = <&ccu CLK_BUS_I2C4>;
+> +			dmas = <&dma 47>, <&dma 47>;
+> +			dma-names = "rx", "tx";
+>  			resets = <&ccu RST_BUS_I2C4>;
+>  			status = "disabled";
+>  			#address-cells = <1>;
+
+The manual mentions "S_TWI0" using port48, so should we add dma
+properties to the r_i2c node as well?
+
+I compared all the other port numbers against the manual, they match.
 
 Cheers,
 Andre
 
-> Since the number of channels and endpoints are described with additional
-> generic properties, just add a new H616-specific compatible string and
-> fallback to the H6 one.
-> 
-> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
-> ---
->  .../bindings/dma/allwinner,sun50i-a64-dma.yaml    | 15 +++++++++++----
->  1 file changed, 11 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-dma.yaml b/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-dma.yaml
-> index ec2d7a789ffe..e5693be378bd 100644
-> --- a/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-dma.yaml
-> +++ b/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-dma.yaml
-> @@ -28,6 +28,9 @@ properties:
->        - items:
->            - const: allwinner,sun8i-r40-dma
->            - const: allwinner,sun50i-a64-dma
-> +      - items:
-> +          - const: allwinner,sun50i-h616-dma
-> +          - const: allwinner,sun50i-h6-dma
->  
->    reg:
->      maxItems: 1
-> @@ -59,10 +62,14 @@ required:
->  if:
->    properties:
->      compatible:
-> -      enum:
-> -        - allwinner,sun20i-d1-dma
-> -        - allwinner,sun50i-a100-dma
-> -        - allwinner,sun50i-h6-dma
-> +      oneOf:
-> +        - enum:
-> +            - allwinner,sun20i-d1-dma
-> +            - allwinner,sun50i-a100-dma
-> +            - allwinner,sun50i-h6-dma
-> +        - items:
-> +            - const: allwinner,sun50i-h616-dma
-> +            - const: allwinner,sun50i-h6-dma
->  
->  then:
->    properties:
+i
+> @@ -472,6 +507,8 @@ spi0: spi@5010000 {
+>  			interrupts = <GIC_SPI 12 IRQ_TYPE_LEVEL_HIGH>;
+>  			clocks = <&ccu CLK_BUS_SPI0>, <&ccu CLK_SPI0>;
+>  			clock-names = "ahb", "mod";
+> +			dmas = <&dma 22>, <&dma 22>;
+> +			dma-names = "rx", "tx";
+>  			resets = <&ccu RST_BUS_SPI0>;
+>  			status = "disabled";
+>  			#address-cells = <1>;
+> @@ -485,6 +522,8 @@ spi1: spi@5011000 {
+>  			interrupts = <GIC_SPI 13 IRQ_TYPE_LEVEL_HIGH>;
+>  			clocks = <&ccu CLK_BUS_SPI1>, <&ccu CLK_SPI1>;
+>  			clock-names = "ahb", "mod";
+> +			dmas = <&dma 23>, <&dma 23>;
+> +			dma-names = "rx", "tx";
+>  			resets = <&ccu RST_BUS_SPI1>;
+>  			status = "disabled";
+>  			#address-cells = <1>;
 
