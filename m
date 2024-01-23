@@ -1,24 +1,24 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E10E8537FE
-	for <linux-sunxi@lists.linux.dev>; Tue, 23 Jan 2024 00:39:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F262A50A75
+	for <linux-sunxi@lists.linux.dev>; Tue, 23 Jan 2024 00:40:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705970391; cv=none; b=juz0J/is/5EWgpGWWJ56K3geN+WvpQU8WVa5XS5kKqAKRC8kboSGMWQ7q6v6dSntANLCzhpatTj6SiIg4nWjc33DZExkLtnQWVDjn/3x5/ZZ0Mhkb226MxT86UlX1LyvUWa7RIDeuTCRgTl9RYCQ5M7PJDEDgZQE8RzkmrR1aVs=
+	t=1705970414; cv=none; b=ZzpI72W88NXEJFIvzitkk7A41X4p/CK42slsaB29REZG/vOM/aBmWMVfsfge+t0mXdxdTabmbLtxQy6WT2y1z4n8II8l7RYJ/0kIP2l2nLjdiZnex7NY+PBvtUgrIM+1ZjZ5h8sVFDQS77YCLSUlZrKeuT27NFOOfXyVAJSNuDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705970391; c=relaxed/simple;
-	bh=/c8wDG5UxtxoAwAuatiMUYKoX68PJuZG3V53bYgLges=;
+	s=arc-20240116; t=1705970414; c=relaxed/simple;
+	bh=HK1pRkQ0hzPNI4jNHlfS/gFmz3+HSJPrYT+o7/tAoK8=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=M2KDE9AbMA4dHDnxLLQxdgFyBRYwgOnXQEZCTvcRH/+UY5jncNlX+lnBVdZjt/G5UVnGnz3rEdcv1XrBNmRB4uXeHZ3EjP2RBQ1Z6jRVxWcY7OXYnBmmTCuPJDk3lPY1G92C1QoGIUfKLTbh7oFptXwo8V/IghJq5k262vuOoW4=
+	 MIME-Version:Content-Type; b=D9Pp2ATClKZ+sEe7rTg3pNqp3yzopK1lEzOQ0HQpSr2MawhG23oEwsD0VnKEHlujItlZljkiFpjBaDhTh0n4cPrP/mdp9acYWjHjdKOrbXAJlNzVwwqW4mR9ADsY/T+dNu8532Nr4Rzr8P1yd8CaLyLTxGvN3UpPlPKX93DY0xk=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C93DE1FB;
-	Mon, 22 Jan 2024 16:40:34 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1B27BFEC;
+	Mon, 22 Jan 2024 16:40:57 -0800 (PST)
 Received: from minigeek.lan (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C62203F73F;
-	Mon, 22 Jan 2024 16:39:46 -0800 (PST)
-Date: Tue, 23 Jan 2024 00:38:53 +0000
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 128A13F73F;
+	Mon, 22 Jan 2024 16:40:08 -0800 (PST)
+Date: Tue, 23 Jan 2024 00:39:20 +0000
 From: Andre Przywara <andre.przywara@arm.com>
 To: Chen-Yu Tsai <wens@kernel.org>
 Cc: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
@@ -31,12 +31,12 @@ Cc: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
  linux-sound@vger.kernel.org, dmaengine@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/7] ASoC: sunxi: sun4i-spdif: Add support for Allwinner
- H616
-Message-ID: <20240123003853.3da2ff57@minigeek.lan>
-In-Reply-To: <20240122170518.3090814-4-wens@kernel.org>
+Subject: Re: [PATCH 5/7] arm64: dts: allwinner: h6: Add RX DMA channel for
+ SPDIF
+Message-ID: <20240123003920.08813e16@minigeek.lan>
+In-Reply-To: <20240122170518.3090814-6-wens@kernel.org>
 References: <20240122170518.3090814-1-wens@kernel.org>
-	<20240122170518.3090814-4-wens@kernel.org>
+	<20240122170518.3090814-6-wens@kernel.org>
 Organization: Arm Ltd.
 X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
@@ -48,27 +48,22 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Tue, 23 Jan 2024 01:05:14 +0800
+On Tue, 23 Jan 2024 01:05:16 +0800
 Chen-Yu Tsai <wens@kernel.org> wrote:
-
-Hi Chen-Yu,
-
-thanks for posting this!
 
 > From: Chen-Yu Tsai <wens@csie.org>
 > 
-> The SPDIF hardware block found in the H616 SoC has the same layout as
-> the one found in the H6 SoC, except that it is missing the receiver
-> side.
+> The SPDIF hardware found on the H6 supports both transmit and receive
+> functions. However it is missing the RX DMA channel.
 > 
-> Since the driver currently only supports the transmit function, support
-> for the H616 is identical to what is currently done for the H6.
-
-I compared the OWA manual sections of the H6 and the H616 manuals, and
-can confirm that indeed the H616 is the same as the H6, minus the RX
-part:
-
+> Add the SPDIF hardware block's RX DMA channel. Also remove the
+> by-default pinmux, since the end device can choose to implement
+> either or both functionalities.
+> 
+> Fixes: f95b598df419 ("arm64: dts: allwinner: Add SPDIF node for Allwinner H6")
 > Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+
+Looks alright, just moving lines around, order of rx, tx DMA is correct:
 
 Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 
@@ -76,23 +71,60 @@ Cheers,
 Andre
 
 > ---
->  sound/soc/sunxi/sun4i-spdif.c | 5 +++++
->  1 file changed, 5 insertions(+)
+>  arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts | 2 ++
+>  arch/arm64/boot/dts/allwinner/sun50i-h6-tanix.dtsi      | 2 ++
+>  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi            | 7 +++----
+>  3 files changed, 7 insertions(+), 4 deletions(-)
 > 
-> diff --git a/sound/soc/sunxi/sun4i-spdif.c b/sound/soc/sunxi/sun4i-spdif.c
-> index 702386823d17..f41c30955857 100644
-> --- a/sound/soc/sunxi/sun4i-spdif.c
-> +++ b/sound/soc/sunxi/sun4i-spdif.c
-> @@ -577,6 +577,11 @@ static const struct of_device_id sun4i_spdif_of_match[] = {
->  		.compatible = "allwinner,sun50i-h6-spdif",
->  		.data = &sun50i_h6_spdif_quirks,
->  	},
-> +	{
-> +		.compatible = "allwinner,sun50i-h616-spdif",
-> +		/* Essentially the same as the H6, but without RX */
-> +		.data = &sun50i_h6_spdif_quirks,
-> +	},
->  	{ /* sentinel */ }
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts b/arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts
+> index 9ec49ac2f6fd..381d58cea092 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts
+> @@ -291,6 +291,8 @@ sw {
 >  };
->  MODULE_DEVICE_TABLE(of, sun4i_spdif_of_match);
+>  
+>  &spdif {
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&spdif_tx_pin>;
+>  	status = "okay";
+>  };
+>  
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-tanix.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h6-tanix.dtsi
+> index 4903d6358112..855b7d43bc50 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-h6-tanix.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-tanix.dtsi
+> @@ -166,6 +166,8 @@ &r_ir {
+>  };
+>  
+>  &spdif {
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&spdif_tx_pin>;
+>  	status = "okay";
+>  };
+>  
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
+> index ca1d287a0a01..d11e5041bae9 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
+> @@ -406,6 +406,7 @@ spi1_cs_pin: spi1-cs-pin {
+>  				function = "spi1";
+>  			};
+>  
+> +			/omit-if-no-ref/
+>  			spdif_tx_pin: spdif-tx-pin {
+>  				pins = "PH7";
+>  				function = "spdif";
+> @@ -655,10 +656,8 @@ spdif: spdif@5093000 {
+>  			clocks = <&ccu CLK_BUS_SPDIF>, <&ccu CLK_SPDIF>;
+>  			clock-names = "apb", "spdif";
+>  			resets = <&ccu RST_BUS_SPDIF>;
+> -			dmas = <&dma 2>;
+> -			dma-names = "tx";
+> -			pinctrl-names = "default";
+> -			pinctrl-0 = <&spdif_tx_pin>;
+> +			dmas = <&dma 2>, <&dma 2>;
+> +			dma-names = "rx", "tx";
+>  			status = "disabled";
+>  		};
+>  
 
