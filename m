@@ -1,56 +1,56 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D812C81214
-	for <linux-sunxi@lists.linux.dev>; Tue, 23 Jan 2024 17:52:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C984980020
+	for <linux-sunxi@lists.linux.dev>; Tue, 23 Jan 2024 17:54:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706032368; cv=none; b=sETysWTo+69EHlqQmq2zqzasfTaX9DzxVZg22+grooEHKPKXgye7ZIvdDcYBazHhKf3xPc53c8K5+ezaPYWFjXJpaLZgsW1sNNht5U33F3ebCiHMX3jV8FUjhzjyMJ3TZ90XA5aj7IZ+8OfJMC9eAO1z9C/HcuLgPrUR/eOvMho=
+	t=1706032444; cv=none; b=iOkU+lXEmRo9jzqrSjXbUNS6hPfzi8yhcR6xUsRt8x8JxHtgUWXV+iKAYUnS0RLh4WM0DFRvlMDb+c1rASpWA/2Ii2koUN6nax4r//kj1CAPkI3XICmHiNWePiJ8ILmnyd70I877Y9OQiR3IwlSV7ETn+85GATci93dWKFxGfGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706032368; c=relaxed/simple;
-	bh=ODSh1qtbG1bbM6CR7/IPiC9+vleF+a/NSYhW27DI1Gw=;
+	s=arc-20240116; t=1706032444; c=relaxed/simple;
+	bh=/Lf65r0jEFfaCyx/YVAM+/B+UJeshYc86BaIyXbVHIM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PkPaEyv4UlxQxy/iGlIwGhNmTuXSz2yYjG/pwjLChEmrfMd0wjbfNO67iHYP0g1s8CZkPCsxsmYIKgM8x5wgOf0fzIRvEiLJ3se10RyCR3OGHBAMDBP70m1V1HRYCoSQWgoBtoi+bB6hAM7aAmWKQRmka2DpaIuTTjLF7+5VEG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZZG7d31o; arc=none smtp.client-ip=209.85.128.54
+	 MIME-Version:Content-Type; b=TtH+MO3EX4rPPhNaDHjAN6KePAnSQ8+BVQr7IsQ/YzDC78i97iGYCg1RWJTYtDRjSnnD/HP8x2bfu1YjG/s0dWsrl0rZs52KjmrPYr9VM+wNSmm3JR3mshJtb3RG54yTJWn2CfkrtmeKYWt/U5ZEi3eUbA4zbcQunsrBFVugtoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SEU0oojp; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZZG7d31o"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-40ec048e0c1so6129175e9.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 23 Jan 2024 09:52:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SEU0oojp"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-40ec3535225so3439365e9.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 23 Jan 2024 09:54:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706032364; x=1706637164; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1706032441; x=1706637241; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hCFDtyr7qd7xHPm6qu+8wvTk3uDcROtuqsSzfcIUekg=;
-        b=ZZG7d31oMi2xKt0YXA1Znr+HWP08h4jQWPyzqoBduh/vGzb5gjsMBu1LpOpuTr/Ia7
-         fY/baOfBmxjBTnf/TgjLafY353iCg8b+8q95u6+nfNi11/2d04J+dXGLbhD+42XJet/f
-         8MeyMscaAkUTqLyC9bU9tu87PI85g2H12eCT/IqPEBQ1o5aeDpcHuzIGeAX0Cqi9ej2p
-         vcQWpXdmv6bSeyi/IEAiXJ7RqR5XqB4ozwD5rT7EKFoVLNtg+vhjSDZWXcwMBKlQo+b6
-         7k7uf256s0NYXm3C46FZa1cTn2y0fSWHhpqfQxQ9ZXM9K5Lkh3UNlMZtv4JTB2MT/Q+b
-         I4+A==
+        bh=T9axCURSdPj5O6k/8fwokenEz2T/EczgGrNIrYgrSFE=;
+        b=SEU0oojpsV4JGI1FQiFrJ6TTfHT5SYqkzuSn9eF7zlWU12AL8RATMG0/EqHPs53adp
+         7HNvCcTCRzw1X0mw44wOJK7oydCqI2aEmWsj+gratzsiDaEy6gIULycRpD3NWmo9gpX2
+         9Yf0VNCPcJiASIjJDXCGPBx7tdQmVB8gfPEbwOGchCxLG+A+aRwa8azUHxSrfGLSF/CI
+         3uu5RzCF3ViwTK5H7Sc7IKGFjtDLar43kq1izFW9qa5q9tf+NiRSxq3mJ1HW0UrQaGyg
+         xhX5kOwJBpcdZXNRaDbD/Gde9rs2tNFEKBxp+G+pT3KJI3Jq5YsZeQ296ZOra4bl/MjJ
+         taSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706032364; x=1706637164;
+        d=1e100.net; s=20230601; t=1706032441; x=1706637241;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hCFDtyr7qd7xHPm6qu+8wvTk3uDcROtuqsSzfcIUekg=;
-        b=b8nYaCdaozUc0j8C32yWzdNcBbE+e0RCYYtXCuItx7DCkZ+HgDpmkF2vBg7xat8HID
-         zJqLjfxee5hKA+hTFvawTIB1k0nvWBraCPNiqsNyCzjsne19glN2sPnPe2n/Z/CZhArR
-         tQyjYN+UzOu/AmM8mLYYDW1HI77YzkNOopii2EWeYazmFrWUhebplqrnqIRwD/5PQtR3
-         ByiMVVIHH9p/PfqQv9o2D+5HukFW6tqHd3eb1RVGY/k052An83+0qU02EKQuYyLqnBha
-         7+JKm2yPuVWLM7cZiBjJ2xMNK65T0KzEiJW2RGg4Wt2aPUEkghya7My+RaYQ/eN5+IL/
-         Q4/Q==
-X-Gm-Message-State: AOJu0Yyj8NQro7+fFeQziyoyXkuTnZRCLkZXZNH+RpiTno2gLoaJmsmo
-	UQug2OJ/B4rnyPEBhEMxZ8Eb2XWlM4dpy/q0+pso9UCjWrsNX57f
-X-Google-Smtp-Source: AGHT+IFLLxpjWeVimFPeA0MfQxF3KfPqSXqkgvuKucKNZCdN75cq8KsxjdqW/L6iAutpuqHKjQj9nA==
-X-Received: by 2002:a05:600c:a003:b0:40e:6227:175e with SMTP id jg3-20020a05600ca00300b0040e6227175emr856538wmb.61.1706032363904;
-        Tue, 23 Jan 2024 09:52:43 -0800 (PST)
+        bh=T9axCURSdPj5O6k/8fwokenEz2T/EczgGrNIrYgrSFE=;
+        b=CTwxIF96I83bFFABwygnFDUGkv9SSwExERxk5lyHQsQSapirIMUJ+qmzegHJChgCfI
+         HCMbwcXBjcr+SE7Q+FfNaFfvezIXIX7LHE5PacAkCRGfeoDm6dVRoKCDB6xBB5nldwah
+         pVMLOZfukYJ9zOR/YlxP04tWOK/OYSg1QM3Uay8PdG0iz14t8Fuh1UhGgnAMf1OIj3AD
+         RbiDP4rGcd0zCLgKJlcY2e5fmxwkr9AJIGrapxjtlkUzVKIlaYJGCOwCt7ku96mb6ajM
+         kL4b1Nv+rTN4Tb0KT3QsEbR3uBUbeYfOKwcoD3WRBmfi/OWuWgFB6QjSFEvCacyNmvHK
+         IW8w==
+X-Gm-Message-State: AOJu0Yyviu243aVP5WivhOOc0Ml84OeFIaJsYK9cgf8m5INSDFS9zFwM
+	gkJmN31Lu0EEcEch3AnUVJkAxr0b7jOk3cmKiDo0cg0mSh6jeGzq
+X-Google-Smtp-Source: AGHT+IHfolV3zQWbsCi6txDpI6lqMV3lpStI7mStzT3HOm8ywicmpEIYK00D6kIX3ljjceGHtRFaog==
+X-Received: by 2002:a05:600c:4657:b0:40e:5afe:a42e with SMTP id n23-20020a05600c465700b0040e5afea42emr409342wmo.247.1706032441017;
+        Tue, 23 Jan 2024 09:54:01 -0800 (PST)
 Received: from jernej-laptop.localnet (86-58-14-70.dynamic.telemach.net. [86.58.14.70])
-        by smtp.gmail.com with ESMTPSA id i19-20020a05600c355300b0040e76b60235sm32151725wmq.8.2024.01.23.09.52.42
+        by smtp.gmail.com with ESMTPSA id f18-20020a05600c155200b0040d87100733sm43414126wmg.39.2024.01.23.09.53.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jan 2024 09:52:43 -0800 (PST)
+        Tue, 23 Jan 2024 09:54:00 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -62,14 +62,13 @@ Cc: Chen-Yu Tsai <wens@csie.org>, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
  linux-sound@vger.kernel.org, dmaengine@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject:
- Re: [PATCH 5/7] arm64: dts: allwinner: h6: Add RX DMA channel for SPDIF
-Date: Tue, 23 Jan 2024 18:52:42 +0100
-Message-ID: <22159747.EfDdHjke4D@jernej-laptop>
-In-Reply-To: <20240122170518.3090814-6-wens@kernel.org>
+Subject: Re: [PATCH 7/7] arm64: dts: allwinner: h616: Add SPDIF device node
+Date: Tue, 23 Jan 2024 18:53:59 +0100
+Message-ID: <3786260.kQq0lBPeGt@jernej-laptop>
+In-Reply-To: <20240122170518.3090814-8-wens@kernel.org>
 References:
  <20240122170518.3090814-1-wens@kernel.org>
- <20240122170518.3090814-6-wens@kernel.org>
+ <20240122170518.3090814-8-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -79,20 +78,17 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne ponedeljek, 22. januar 2024 ob 18:05:16 CET je Chen-Yu Tsai napisal(a):
+Dne ponedeljek, 22. januar 2024 ob 18:05:18 CET je Chen-Yu Tsai napisal(a):
 > From: Chen-Yu Tsai <wens@csie.org>
 > 
-> The SPDIF hardware found on the H6 supports both transmit and receive
-> functions. However it is missing the RX DMA channel.
+> The H616 SoC has an SPDIF transmitter hardware block, which has the same
+> layout as the one in the H6, minus the receiver side.
 > 
-> Add the SPDIF hardware block's RX DMA channel. Also remove the
-> by-default pinmux, since the end device can choose to implement
-> either or both functionalities.
+> Add a device node for it, and a default pinmux.
 > 
-> Fixes: f95b598df419 ("arm64: dts: allwinner: Add SPDIF node for Allwinner H6")
 > Signed-off-by: Chen-Yu Tsai <wens@csie.org>
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
