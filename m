@@ -1,90 +1,52 @@
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E45862A1F
-	for <linux-sunxi@lists.linux.dev>; Wed, 24 Jan 2024 12:25:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F08A91272B7
+	for <linux-sunxi@lists.linux.dev>; Wed, 24 Jan 2024 17:55:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706099159; cv=none; b=XcMFu2ZhnfmLoTavqRHwwo4njuSmIW3Jx5BQ/7G0JzQgtzqeuCwddyZfWFMVW77c33Rz8/thg+/8CzxyFZZAasG8holOFnfYP8hlf7W1uKL6t+qNf9k6kV245GbwMCrfaEoTLnIVYZZz6+dpZ/AySx9pFdfhTk8V5YmBy2151Ec=
+	t=1706118919; cv=none; b=HZl+KbwgI9xbOJnKmnrVo2GFa4WRKMdlbWBw3uBN7hWhldNDhRfFo06NJX8yyptEwwaydCNMh4KpZ+mNV5Cfv+8jtmZf1Fv6TdMIriHI2J7cVzIxo7bUlk7ZmclvZQLNfle5y+PLFjcwhEik+Ncpajp+eajkqCANyas/Hk8Lf3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706099159; c=relaxed/simple;
-	bh=hQNdd0xiX0XMUYJoc1lP2vAqQQSZFwXEGvLtOasANJQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y2mzgVi6yysWrK5+Yluo6mCT933NBpVxhr6oN8hSqqjFCRbVebnxNQmLTpXjkocxUrwSkLds++A0IOThr83/nNrFE54Xr7oBq8nqjvUxxXuM7DJlOev9F7MWRp+ns4BtN9QMOpDU1CrqXILtxm0e9mPmy0klhm5tvcJYwi93UGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hs17Q4p7; arc=none smtp.client-ip=209.85.208.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1706118919; c=relaxed/simple;
+	bh=g3iI6NPiDTdkLc/YeKvXWbu/B9SLOYxdwsZhhVTmZLg=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QSm3zvuKXahaDZzsZ4RI1qjA8Y7RiO+SFHTZqX5aUZrOcZ1R0hQj7WyMcSntmPhHIqLb5joSJM0dtRUiKt3nEoemJBng40WgPxdwbU3NZxTmZ+MEwzPj69oIvnl9pSlXFRYgv/aOK/dbrB4xYZ7w1yE2yRMrYzBpJVXn2FMYAog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=PIyp9u/K; arc=none smtp.client-ip=195.181.215.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hs17Q4p7"
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2cf1c487235so11145311fa.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 24 Jan 2024 04:25:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706099154; x=1706703954; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GZMD/+q+fu28yD+oCinP7dETgM2Kd7uFmJijVzeanNw=;
-        b=hs17Q4p722SMT+9oNY13ziI5m75KZ6XDFPzLR5+CdbFyAe4BVnGFfsKeF+21FGin2B
-         9bG1e94/fU7sClFyx9zvp4DlbXRIDmF9BiIhkqmSVvs78eRMQBdnmIj3JAF6BB2CmYoa
-         FrYIEt/EVAfXP4pvb93tCCmLPcljA3h/0P3sjTns7r06zgjTR7ZmTACV34/8MZKL3R67
-         qhxJKIhFf4cmBd73SbbyZ4D2kupx7kttRiBCne0Pmt3rEdZ/XjYPerRDxbN+5nyuG9Np
-         BJS1iX5axgiuqSmmVxZtL+NGG4WzNNIZZXGlQslk5YC0lYBYNDk9P3vfO6jHDPGBJ2V/
-         jWVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706099154; x=1706703954;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GZMD/+q+fu28yD+oCinP7dETgM2Kd7uFmJijVzeanNw=;
-        b=q2DuF895E2n6FHPl7R7V4wurbM0KM5IfcP4nxO7Km8bg2fte67AQ7tN5BfrWhstZUP
-         kuUAQ78vGiv9RnMsS4w8Xka+sZQ4F5eFcZjdCPHqs+biuBDCK+0XCCkatDrdoLvk8+KE
-         l5r1JMjf1HuWj9OBSYRxHU6mzbZRXDJhJxa655oRXM+y6+WNlxW8V2Tuhtj5uDkiiHlv
-         wRXTwMXJvn9w96iPdeKH9yBAXxWut9ijItLM+IXD+sLoj4NGt6RRLN00OeiN5+rLcfiF
-         ttS4yHeVilKQcPtqGBqJoBri8CEdBv+P0mUL7uXGquvbDdezIf+Vn8Fhq58Q7/VnM29v
-         gZ1Q==
-X-Gm-Message-State: AOJu0YxtXiEHplclUmU2O+vkuqgTm4IdS44g7alYtH2Gom7P1yG6++pk
-	PwDumilUgqZv9cDK5xm1pyHW8UQDaCG+mXBE8T/ZJm9XRQQ/a6Ve
-X-Google-Smtp-Source: AGHT+IGvEFncMsjx5jz8DnA32Cm63E4LfeYOX1DdNxBmFDnVr6uZ99jeN3saFXSKRWS+HJcYAsUlvg==
-X-Received: by 2002:a19:654e:0:b0:510:676:7966 with SMTP id c14-20020a19654e000000b0051006767966mr1281867lfj.59.1706099153849;
-        Wed, 24 Jan 2024 04:25:53 -0800 (PST)
-Received: from localhost ([2a05:3580:f312:6c01:1b8f:2a1b:d18:1951])
-        by smtp.gmail.com with ESMTPSA id 9-20020ac25f49000000b0051015e306e7sm37909lfz.84.2024.01.24.04.25.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jan 2024 04:25:53 -0800 (PST)
-Date: Wed, 24 Jan 2024 15:25:53 +0300
-From: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Pavel Machek <pavel@ucw.cz>,
-	Arnaud Ferraris <arnaud.ferraris@collabora.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="PIyp9u/K"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
+	t=1706118913; bh=g3iI6NPiDTdkLc/YeKvXWbu/B9SLOYxdwsZhhVTmZLg=;
+	h=Date:From:To:Subject:X-My-GPG-KeyId:References:From;
+	b=PIyp9u/KIJpFSGroPUHp5KofhpOHYqwMsp842js94LJEv1RULsu7CByZ+RsDhIfse
+	 8Fwx0cVwz2k0TDSkJw65M5d/Bxuj8AItjLT9E4W280KtWGgxMvrjDk+xJWU557MQ9c
+	 T1l8jEdP85Zt7r374zIGe38EL7EsUqf8nZzah4Y4=
+Date: Wed, 24 Jan 2024 18:55:12 +0100
+From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
+To: Andrey Skvortsov <andrej.skvortzov@gmail.com>, 
+	Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Alain Volmat <alain.volmat@foss.st.com>, Pavel Machek <pavel@ucw.cz>, 
+	Arnaud Ferraris <arnaud.ferraris@collabora.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Subject: Re: [PATCH] arm64: dts: sun50i-a64-pinephone: Add front/back cameras
-Message-ID: <ZbEB0TCTkzIYnLZD@skv.local>
-Mail-Followup-To: Andrey Skvortsov <andrej.skvortzov@gmail.com>,
-	=?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Pavel Machek <pavel@ucw.cz>,
-	Arnaud Ferraris <arnaud.ferraris@collabora.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
+Message-ID: <7cj2ggvglwmzm6svmmci6jgb2hhfim7p7nyvqumfutescotfis@2auzzlttdu6e>
+Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, 
+	Andrey Skvortsov <andrej.skvortzov@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Alain Volmat <alain.volmat@foss.st.com>, Pavel Machek <pavel@ucw.cz>, 
+	Arnaud Ferraris <arnaud.ferraris@collabora.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>
+X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
+ <https://xff.cz/key.txt>
 References: <20240123214729.2852346-1-andrej.skvortzov@gmail.com>
  <rkx4iuuudkk7iaaudmr3ccwpatps7kz2qyjalcfzp4ongmbaby@rcosajd6c746>
+ <ZbEB0TCTkzIYnLZD@skv.local>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -94,238 +56,183 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <rkx4iuuudkk7iaaudmr3ccwpatps7kz2qyjalcfzp4ongmbaby@rcosajd6c746>
+In-Reply-To: <ZbEB0TCTkzIYnLZD@skv.local>
 
-Hi Ondrey,
+Hey Andrey,
 
-On 24-01-23 23:01, Ondřej Jirman wrote:
-> Hi Andrey,
+On Wed, Jan 24, 2024 at 03:25:53PM +0300, Andrey Skvortsov wrote:
+> Hi Ondrey,
 > 
-> On Wed, Jan 24, 2024 at 12:47:29AM +0300, Andrey Skvortsov wrote:
-> > From: Ondřej Jirman <megi@xff.cz>
+> On 24-01-23 23:01, Ondřej Jirman wrote:
+> > Hi Andrey,
 > > 
-> > Pinephone has OV5640 back camera and GC2145 front camera. Add support
-> > for both.
+> > On Wed, Jan 24, 2024 at 12:47:29AM +0300, Andrey Skvortsov wrote:
+> > > From: Ondřej Jirman <megi@xff.cz>
+> > > 
+> > > Pinephone has OV5640 back camera and GC2145 front camera. Add support
+> > > for both.
+> > 
+> > The upstream driver doesn't support multiple endpoints per port. See:
+> > 
+> > https://elixir.bootlin.com/linux/v6.8-rc1/source/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml#L43
+> > 
+> > Only one endpoint is allowed/supported. Looking throught LKML, I don't
+> > see the support for multiple parallel interface endpoints being added
+> > recently...
+> >
+> > So this patch will not work, and will cause DTS validation errors.
 > 
-> The upstream driver doesn't support multiple endpoints per port. See:
+> Thank you! I've not run dtb validation before submission, sorry for that.
+> I've ran 'make dtbs_check' and have several question now.
 > 
-> https://elixir.bootlin.com/linux/v6.8-rc1/source/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml#L43
+> 1. I don't see any complaints about multiple endpoints definitions.
 > 
-> Only one endpoint is allowed/supported. Looking throught LKML, I don't
-> see the support for multiple parallel interface endpoints being added
-> recently...
->
-> So this patch will not work, and will cause DTS validation errors.
+> IMHO, it looks okay from binding point of view according to that
+> video-interfaces.yaml [1].
 
-Thank you! I've not run dtb validation before submission, sorry for that.
-I've ran 'make dtbs_check' and have several question now.
+Allright, I've checked allwinner,sun6i-a31-csi.yaml and there I see:
 
-1. I don't see any complaints about multiple endpoints definitions.
+  port:
+    $ref: /schemas/graph.yaml#/$defs/port-base
+    description: Parallel input port, connect to a parallel sensor
 
-IMHO, it looks okay from binding point of view according to that
-video-interfaces.yaml [1].
+    properties:
+      endpoint:
+        $ref: video-interfaces.yaml#
+        unevaluatedProperties: false
 
-I know that currently multiple endpoint implementation for parallel
-interface is missing in sun6i_csi. Current out-of-tree implementation
-doesn't require any change in bindings (Hopefully it will be upstream one
-day) Or do you mean this change has to be submitted upstream only once
-sun6i_csi gets fixed?
-
-
-2. dtbs_check complaints about missing link-frequencies for recently
-submitted gc2145. [2]
-```
-front-camera@3c: port:endpoint: 'link-frequencies' is a required property
-```
-
-I've looked at other drivers and link-frequencies are used only
-mostly for CSI-2 endpoints. Should it be required for CPI/DVP ?
-
-Not many mainline drivers support CSI-2 and DVP: ov5640, s5k5baf,
-mt9mt114. Only mt9mt114 uses link-frequencies property for DVP and it
-should match PCLK (double pixelrate). [3]
-
-Should I define link-frequencies for DVP as a double pixelrate here as
-well and handle that in the driver?
-
-Currently gc2145 doesn't support DVP, but I have basic working support
-for DVP for the upstreamed driver for a long time and waited for it to be merged
-into mainline. I'd like to submit it for review. Until now I thought,
-that submitted gc2145 bindings will be the same for DVP and CSI-2
-support and therefore submitted this change.
-
-Are they? Or should I introduce bus-type and conditionally
-handle requirements in yaml if link-frequencies can be ignored for DVP?
-
-Something link this
-```
         properties:
-          link-frequencies: true
+          bus-width:
+            enum: [ 8, 10, 12, 16 ]
 
-          bus-type:
-            enum:
-              - 4 # CSI-2 D-PHY
-              - 5 # Parallel
+          pclk-sample: true
+          hsync-active: true
+          vsync-active: true
 
         required:
-          - bus-type
+          - bus-width
 
-        allOf:
-          - if:
-              properties:
-                bus-type:
-                  const: 4
-            then:
-              required:
-                - link-frequencies
-```
+    unevaluatedProperties: false
 
-Should I better submit DVP support to the gc2145 driver first and only then
-submit this change? 
+Which looks like a single endpoint node reference without any @somethnig suffix
+possible, but I guess in reality it means any number of those with arbitrary
+@something suffix.
+
+My bad.
+
+> I know that currently multiple endpoint implementation for parallel
+> interface is missing in sun6i_csi. Current out-of-tree implementation
+> doesn't require any change in bindings (Hopefully it will be upstream one
+> day) Or do you mean this change has to be submitted upstream only once
+> sun6i_csi gets fixed?
+
+If bindings are proper, then it's ok. I don't see a reason for them changing.
+It's a single physical port that has two cameras connected to it. So having two
+enpoints under one port describes reality well.
+
+A good thing is that the patch for multiple cameras is quite small
+against 6.7/6.8. It should be easy to merge, especially when it looks like
+now that I see there are not even DT changes needed.
 
 > 
-> Kind regards,
-> 	o.
+> 2. dtbs_check complaints about missing link-frequencies for recently
+> submitted gc2145. [2]
+> ```
+> front-camera@3c: port:endpoint: 'link-frequencies' is a required property
+> ```
 > 
-> > Signed-off-by: Ondrej Jirman <megi@xff.cz>
-> > Signed-off-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-> > ---
-> >  .../dts/allwinner/sun50i-a64-pinephone.dtsi   | 91 +++++++++++++++++++
-> >  1 file changed, 91 insertions(+)
-> > 
-> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-> > index 87847116ab6d..4104a136ff75 100644
-> > --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-> > @@ -36,6 +36,15 @@ chosen {
-> >  		stdout-path = "serial0:115200n8";
-> >  	};
-> >  
-> > +	i2c_csi: i2c-csi {
-> > +		compatible = "i2c-gpio";
-> > +		sda-gpios = <&pio 4 13 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>; /* PE13 */
-> > +		scl-gpios = <&pio 4 12 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>; /* PE12 */
-> > +		i2c-gpio,delay-us = <3>;
-> > +		#address-cells = <1>;
-> > +		#size-cells = <0>;
-> > +	};
-> > +
-> >  	leds {
-> >  		compatible = "gpio-leds";
-> >  
-> > @@ -124,6 +133,36 @@ &cpu3 {
-> >  	cpu-supply = <&reg_dcdc2>;
-> >  };
-> >  
-> > +&csi {
-> > +	pinctrl-0 = <&csi_pins>, <&csi_mclk_pin>;
-> > +	status = "okay";
-> > +
-> > +	port {
-> > +		#address-cells = <1>;
-> > +		#size-cells = <0>;
-> > +
-> > +		csi_ov5640_ep: endpoint@0 {
-> > +			reg = <0>;
-> > +			remote-endpoint = <&ov5640_ep>;
-> > +			bus-width = <8>;
-> > +			hsync-active = <1>; /* Active high */
-> > +			vsync-active = <0>; /* Active low */
-> > +			data-active = <1>;  /* Active high */
-> > +			pclk-sample = <1>;  /* Rising */
-> > +		};
-> > +
-> > +		csi_gc2145_ep: endpoint@1 {
-> > +			reg = <1>;
-> > +			remote-endpoint = <&gc2145_ep>;
-> > +			bus-width = <8>;
-> > +			hsync-active = <1>;
-> > +			vsync-active = <1>;
-> > +			data-active = <1>;
-> > +			pclk-sample = <1>;
-> > +		};
-> > +	};
-> > +};
-> > +
-> >  &dai {
-> >  	status = "okay";
-> >  };
-> > @@ -158,6 +197,58 @@ &ehci1 {
-> >  	status = "okay";
-> >  };
-> >  
-> > +&i2c_csi {
-> > +	gc2145: front-camera@3c {
-> > +		compatible = "galaxycore,gc2145";
-> > +		reg = <0x3c>;
-> > +		clocks = <&ccu CLK_CSI_MCLK>;
-> > +		clock-names = "xclk";
+> I've looked at other drivers and link-frequencies are used only
+> mostly for CSI-2 endpoints. Should it be required for CPI/DVP ?
+> 
+> Not many mainline drivers support CSI-2 and DVP: ov5640, s5k5baf,
+> mt9mt114. Only mt9mt114 uses link-frequencies property for DVP and it
+> should match PCLK (double pixelrate). [3]
+>
+> 
+> Should I define link-frequencies for DVP as a double pixelrate here as
+> well and handle that in the driver?
 
-That should be removed to fix
-```
-front-camera@3c: 'clock-names' does not match any of the regexes: 'pinctrl-[0-9]+'
-```
-when running 'make dtbs_check'
+No.
 
-> > +		avdd-supply = <&reg_dldo3>;
-> > +		dvdd-supply = <&reg_aldo1>;
-> > +		iovdd-supply = <&reg_eldo3>;
-> > +		reset-gpios = <&pio 4 16 (GPIO_ACTIVE_LOW | GPIO_OPEN_DRAIN)>; /* PE16 */
-> > +		powerdown-gpios = <&pio 4 17 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>; /* PE17 */
-> > +		rotation = <270>;
-> > +		orientation = <0>;
-> > +
-> > +		port {
-> > +			gc2145_ep: endpoint {
-> > +				remote-endpoint = <&csi_gc2145_ep>;
-> > +				bus-width = <8>;
-> > +				hsync-active = <1>;
-> > +				vsync-active = <1>;
-> > +				data-active = <1>;
-> > +				pclk-sample = <1>;
-> > +			};
-> > +		};
-> > +	};
-> > +
-> > +	ov5640: rear-camera@4c {
-> > +		compatible = "ovti,ov5640";
-> > +		reg = <0x4c>;
-> > +		clocks = <&ccu CLK_CSI_MCLK>;
-> > +		clock-names = "xclk";
-> > +		AVDD-supply = <&reg_dldo3>;
-> > +		DOVDD-supply = <&reg_aldo1>; /* shared with AFVCC */
-> > +		DVDD-supply = <&reg_eldo3>;
-> > +		reset-gpios = <&pio 3 3 (GPIO_ACTIVE_LOW | GPIO_OPEN_DRAIN)>; /* PD3 */
-> > +		powerdown-gpios = <&pio 2 0 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>; /* PC0 */
-> > +		rotation = <90>;
-> > +		orientation = <1>;
-> > +
-> > +		port {
-> > +			ov5640_ep: endpoint {
-> > +				remote-endpoint = <&csi_ov5640_ep>;
-> > +				bus-width = <8>;
-> > +				hsync-active = <1>; /* Active high */
-> > +				vsync-active = <0>; /* Active low */
-> > +				data-active = <1>;  /* Active high */
-> > +				pclk-sample = <1>;  /* Rising */
-> > +			};
-> > +		};
-> > +	};
-> > +};
-> > +
-> >  &i2c0 {
-> >  	status = "okay";
-> >  
-> > -- 
-> > 2.43.0
-> > 
+Pixel clock is generated by the sensor via some PLL based on master clock
+generated from the SoC (in this case). It will depend on pixel format
+and pixel rate, which in turn depends on selected format and frame rate. I
+don't see why this should be a predefined list of values in DT. The driver
+should use the lowest PCLK possible for a selected mode, to save power.
 
+Parallel interface on Pinephone goes up to maybe 50 MHz and is a slave
+interface with no adjustables based on PCLK frequency. So there's no in-kernel
+consumer for the sensor chosen PCLK (V4L2_CID_LINK_FREQ) information.
 
+What makes sense to me practically is to have a per board ability to specify
+a maximum PCLK frequency in DT, based on how well the routing and termination
+of signals went on a particular SBC/Phone/whatever or what SoC receiver port
+supports.
 
-1. https://elixir.bootlin.com/linux/v6.8-rc1/source/Documentation/devicetree/bindings/media/video-interfaces.yaml#L41
-2. https://elixir.bootlin.com/linux/v6.8-rc1/source/Documentation/devicetree/bindings/media/i2c/galaxycore,gc2145.yaml#L65
-3. https://elixir.bootlin.com/linux/v6.8-rc1/source/drivers/media/i2c/mt9m114.c#L2256
+The sensor driver could use this to limit the top PCLK frequency it uses,
+becuase it's a bus master. (eg. by limiting the modes or framerates it offers to
+userspace, because if mode would require say 70MHz PCLK, it would be
+unrealizable on Pinephone, even if sensor can happily produce 70MHz PCLK and
+other signals).
 
--- 
-Best regards,
-Andrey Skvortsov
+Fixed list of link-frequencies in DT is meaningless for this situation. You can
+have sensor use any frequency up to a certain limit. What matters is the top bus
+frequency limit. (Around 50MHz on Pinephone)
+
+> Currently gc2145 doesn't support DVP, but I have basic working support
+> for DVP for the upstreamed driver for a long time and waited for it to be merged
+> into mainline. I'd like to submit it for review. Until now I thought,
+> that submitted gc2145 bindings will be the same for DVP and CSI-2
+> support and therefore submitted this change.
+> 
+> Are they? Or should I introduce bus-type and conditionally
+> handle requirements in yaml if link-frequencies can be ignored for DVP?
+> 
+> Something link this
+> ```
+>         properties:
+>           link-frequencies: true
+> 
+>           bus-type:
+>             enum:
+>               - 4 # CSI-2 D-PHY
+>               - 5 # Parallel
+> 
+>         required:
+>           - bus-type
+> 
+>         allOf:
+>           - if:
+>               properties:
+>                 bus-type:
+>                   const: 4
+>             then:
+>               required:
+>                 - link-frequencies
+> ```
+> 
+> Should I better submit DVP support to the gc2145 driver first and only then
+> submit this change? 
+
+That sounds like a good approach.
+
+> > >
+> > >  [...]
+> > >
+> > > +&i2c_csi {
+> > > +	gc2145: front-camera@3c {
+> > > +		compatible = "galaxycore,gc2145";
+> > > +		reg = <0x3c>;
+> > > +		clocks = <&ccu CLK_CSI_MCLK>;
+> > > +		clock-names = "xclk";
+> 
+> That should be removed to fix
+> ```
+> front-camera@3c: 'clock-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+> ```
+
+Yes. The driver uses gc2145->xclk = devm_clk_get(dev, NULL); without a clock
+name. So setting one here is superfluous.
+
+kind regards,
+	o.
