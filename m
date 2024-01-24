@@ -1,145 +1,331 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 346DD3B78E;
-	Tue, 23 Jan 2024 23:33:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E45862A1F
+	for <linux-sunxi@lists.linux.dev>; Wed, 24 Jan 2024 12:25:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706052795; cv=none; b=mo4Q6+9boZTqK8uNA6pEihvpNHeBmGZYvyZDLFn9NwjF65IPSw2/xQoY1AdKeAGN/rCXVBcStpCoQrUHAhvBxMYu/g6IXcIXyh0GVGwRhNPU1RuLryzdVM51gRfS3ohnGHZ0tPuWCs/nu0WlJotR+AuCjs7VXO83NIQnxWOGiTk=
+	t=1706099159; cv=none; b=XcMFu2ZhnfmLoTavqRHwwo4njuSmIW3Jx5BQ/7G0JzQgtzqeuCwddyZfWFMVW77c33Rz8/thg+/8CzxyFZZAasG8holOFnfYP8hlf7W1uKL6t+qNf9k6kV245GbwMCrfaEoTLnIVYZZz6+dpZ/AySx9pFdfhTk8V5YmBy2151Ec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706052795; c=relaxed/simple;
-	bh=QGNoOHkwOGudSjTTpE/RdtDWUSLVrM6Fux/IWb+zhHM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=W/6pR3L3gH2+fmiDAs/elkcIeafA4l4ojTwgqZYQJhr4WCMLTba6XAzuVOqf7QlGpLOF896CFemOBOBHAOIWgiLxZqfcvmPI4LQovlI9rxrocKLeVMOV2+CDo2kLXn4ZoCqdNLhp/5D/ZPrqIuVLWGi+Fo2m0lCZPtcjma4Y+Uw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I3MhngyQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1706099159; c=relaxed/simple;
+	bh=hQNdd0xiX0XMUYJoc1lP2vAqQQSZFwXEGvLtOasANJQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y2mzgVi6yysWrK5+Yluo6mCT933NBpVxhr6oN8hSqqjFCRbVebnxNQmLTpXjkocxUrwSkLds++A0IOThr83/nNrFE54Xr7oBq8nqjvUxxXuM7DJlOev9F7MWRp+ns4BtN9QMOpDU1CrqXILtxm0e9mPmy0klhm5tvcJYwi93UGc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hs17Q4p7; arc=none smtp.client-ip=209.85.208.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I3MhngyQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18AFAC433C7;
-	Tue, 23 Jan 2024 23:33:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706052794;
-	bh=QGNoOHkwOGudSjTTpE/RdtDWUSLVrM6Fux/IWb+zhHM=;
-	h=From:Date:Subject:To:Cc:From;
-	b=I3MhngyQQwiO+HC4n3VfkmRV26qY3hc8196Rl80VsXzQSixMKZRNcljsOQuC859Pt
-	 GtxxpSbvMhY0kWmqSRyhXBMqAPNRQGmlXtB9gs7SmTdba7VGsjUdeeAeMxVMu0/4Gl
-	 M69jk/jX/A0zXUXLdj6otuJq+2wXlwYZ2uY33QXB+djCAVLW0vmSqNzTAeu2wCYd3Q
-	 0rCxV5EHOCbgXGmxXbmY6jqiTZrxPVxWX+72yDJA0FxDVvVtpoxOU/0B4MtYkv2CYt
-	 dN39Ryh+HKhdgVGrAa4dpXktn7cQwArrt8kjeCK3pKHqC9YNQMftRWrhYwedS2aI5k
-	 3a8jZgdrGxdjQ==
-From: Mark Brown <broonie@kernel.org>
-Date: Tue, 23 Jan 2024 23:33:07 +0000
-Subject: [PATCH v3] thermal/drivers/sun8i: Don't fail probe due to zone
- registration failure
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hs17Q4p7"
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2cf1c487235so11145311fa.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 24 Jan 2024 04:25:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706099154; x=1706703954; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=GZMD/+q+fu28yD+oCinP7dETgM2Kd7uFmJijVzeanNw=;
+        b=hs17Q4p722SMT+9oNY13ziI5m75KZ6XDFPzLR5+CdbFyAe4BVnGFfsKeF+21FGin2B
+         9bG1e94/fU7sClFyx9zvp4DlbXRIDmF9BiIhkqmSVvs78eRMQBdnmIj3JAF6BB2CmYoa
+         FrYIEt/EVAfXP4pvb93tCCmLPcljA3h/0P3sjTns7r06zgjTR7ZmTACV34/8MZKL3R67
+         qhxJKIhFf4cmBd73SbbyZ4D2kupx7kttRiBCne0Pmt3rEdZ/XjYPerRDxbN+5nyuG9Np
+         BJS1iX5axgiuqSmmVxZtL+NGG4WzNNIZZXGlQslk5YC0lYBYNDk9P3vfO6jHDPGBJ2V/
+         jWVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706099154; x=1706703954;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GZMD/+q+fu28yD+oCinP7dETgM2Kd7uFmJijVzeanNw=;
+        b=q2DuF895E2n6FHPl7R7V4wurbM0KM5IfcP4nxO7Km8bg2fte67AQ7tN5BfrWhstZUP
+         kuUAQ78vGiv9RnMsS4w8Xka+sZQ4F5eFcZjdCPHqs+biuBDCK+0XCCkatDrdoLvk8+KE
+         l5r1JMjf1HuWj9OBSYRxHU6mzbZRXDJhJxa655oRXM+y6+WNlxW8V2Tuhtj5uDkiiHlv
+         wRXTwMXJvn9w96iPdeKH9yBAXxWut9ijItLM+IXD+sLoj4NGt6RRLN00OeiN5+rLcfiF
+         ttS4yHeVilKQcPtqGBqJoBri8CEdBv+P0mUL7uXGquvbDdezIf+Vn8Fhq58Q7/VnM29v
+         gZ1Q==
+X-Gm-Message-State: AOJu0YxtXiEHplclUmU2O+vkuqgTm4IdS44g7alYtH2Gom7P1yG6++pk
+	PwDumilUgqZv9cDK5xm1pyHW8UQDaCG+mXBE8T/ZJm9XRQQ/a6Ve
+X-Google-Smtp-Source: AGHT+IGvEFncMsjx5jz8DnA32Cm63E4LfeYOX1DdNxBmFDnVr6uZ99jeN3saFXSKRWS+HJcYAsUlvg==
+X-Received: by 2002:a19:654e:0:b0:510:676:7966 with SMTP id c14-20020a19654e000000b0051006767966mr1281867lfj.59.1706099153849;
+        Wed, 24 Jan 2024 04:25:53 -0800 (PST)
+Received: from localhost ([2a05:3580:f312:6c01:1b8f:2a1b:d18:1951])
+        by smtp.gmail.com with ESMTPSA id 9-20020ac25f49000000b0051015e306e7sm37909lfz.84.2024.01.24.04.25.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Jan 2024 04:25:53 -0800 (PST)
+Date: Wed, 24 Jan 2024 15:25:53 +0300
+From: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Pavel Machek <pavel@ucw.cz>,
+	Arnaud Ferraris <arnaud.ferraris@collabora.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: Re: [PATCH] arm64: dts: sun50i-a64-pinephone: Add front/back cameras
+Message-ID: <ZbEB0TCTkzIYnLZD@skv.local>
+Mail-Followup-To: Andrey Skvortsov <andrej.skvortzov@gmail.com>,
+	=?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Pavel Machek <pavel@ucw.cz>,
+	Arnaud Ferraris <arnaud.ferraris@collabora.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>
+References: <20240123214729.2852346-1-andrej.skvortzov@gmail.com>
+ <rkx4iuuudkk7iaaudmr3ccwpatps7kz2qyjalcfzp4ongmbaby@rcosajd6c746>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240123-thermal-sun8i-registration-v3-1-3e5771b1bbdd@kernel.org>
-X-B4-Tracking: v=1; b=H4sIALJMsGUC/43NwQ6CMAwG4FchOzuzbgroyfcwHsYosIjDdLhoC
- O9u4WK8GE/N3/z9OomI5DGKYzYJwuSjHwIHs8mE62xoUfqas9BKG1VAKccO6WZ7GR+h9JKw9XE
- kO/KZrBtjweTO2cYKBu6EjX+u+PnCuePqQK/1V4Jl+xebQIJ0h30FlSqU2anTFSlgvx2oFYub9
- Mc6gP5pabZUUXATeOTllzXP8xuVCXwkEQEAAA==
-To: Vasily Khoruzhick <anarsoul@gmail.com>, 
- Yangtao Li <tiny.windzz@gmail.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
- Daniel Lezcano <daniel.lezcano@linaro.org>, 
- Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>
-Cc: Hugh Dickins <hughd@google.com>, linux-pm@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
-X-Mailer: b4 0.13-dev-0438c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3046; i=broonie@kernel.org;
- h=from:subject:message-id; bh=QGNoOHkwOGudSjTTpE/RdtDWUSLVrM6Fux/IWb+zhHM=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBlsEy2pfbbtfAa2AvPeU5FJK+lig+Fng09Sfcm5
- fgY1u17UcGJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZbBMtgAKCRAk1otyXVSH
- 0GL2B/9T8OMF5ewkEdFH2AXiJaGPuFFxbdo8n+2gHijdVsbwin12SeH0pZR5zYV9jEb1kQjkm2t
- GM7TFXxYNHmje9ZuQqtUF45nzMMShij0BdAxyiU1PfpM5gNycOam1hPpkVCmRA+53swpLJCl8aP
- U48gmUmQ4BdbS+ZxiqvtcJTrOhItl02NwSu49BcWYhQDswW5vKKG3ZdJ/P2YbgDO/DpLbBW3W+R
- KfG16WMDw6xjYADDD/xoTW3SiHmPppok0DFzb2KurnnH4BKJYKDLMXDK61SZfuduz8Mx80Rv2xR
- qCfHX2hD13u2e2GQRWiRpB1oAgxZgSNwVEm5KnnzgpAvMqtf
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <rkx4iuuudkk7iaaudmr3ccwpatps7kz2qyjalcfzp4ongmbaby@rcosajd6c746>
 
-Currently the sun8i thermal driver will fail to probe if any of the
-thermal zones it is registering fails to register with the thermal core.
-Since we currently do not define any trip points for the GPU thermal
-zones on at least A64 or H5 this means that we have no thermal support
-on these platforms:
+Hi Ondrey,
 
-[    1.698703] thermal_sys: Failed to find 'trips' node
-[    1.698707] thermal_sys: Failed to find trip points for thermal-sensor id=1
+On 24-01-23 23:01, Ondřej Jirman wrote:
+> Hi Andrey,
+> 
+> On Wed, Jan 24, 2024 at 12:47:29AM +0300, Andrey Skvortsov wrote:
+> > From: Ondřej Jirman <megi@xff.cz>
+> > 
+> > Pinephone has OV5640 back camera and GC2145 front camera. Add support
+> > for both.
+> 
+> The upstream driver doesn't support multiple endpoints per port. See:
+> 
+> https://elixir.bootlin.com/linux/v6.8-rc1/source/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml#L43
+> 
+> Only one endpoint is allowed/supported. Looking throught LKML, I don't
+> see the support for multiple parallel interface endpoints being added
+> recently...
+>
+> So this patch will not work, and will cause DTS validation errors.
 
-even though the main CPU thermal zone on both SoCs is fully configured.
-This does not seem ideal, while we may not be able to use all the zones
-it seems better to have those zones which are usable be operational.
-Instead just carry on registering zones if we get any non-deferral
-error, allowing use of those zones which are usable.
+Thank you! I've not run dtb validation before submission, sorry for that.
+I've ran 'make dtbs_check' and have several question now.
 
-This means that we also need to update the interrupt handler to not
-attempt to notify the core for events on zones which we have not
-registered, I didn't see an ability to mask individual interrupts and
-I would expect that interrupts would still be indicated in the ISR even
-if they were masked.
+1. I don't see any complaints about multiple endpoints definitions.
 
-Reviewed-by: Vasily Khoruzhick <anarsoul@gmail.com>
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
-Changes in v3:
-- Rebase onto v6.8-rc1.
-- Link to v2: https://lore.kernel.org/r/20230912-thermal-sun8i-registration-v2-1-077230107768@kernel.org
+IMHO, it looks okay from binding point of view according to that
+video-interfaces.yaml [1].
 
-Changes in v2:
-- Rebase onto v6.6-rc1.
-- Link to v1: https://lore.kernel.org/r/20230718-thermal-sun8i-registration-v1-1-c95b1b070340@kernel.org
----
- drivers/thermal/sun8i_thermal.c | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+I know that currently multiple endpoint implementation for parallel
+interface is missing in sun6i_csi. Current out-of-tree implementation
+doesn't require any change in bindings (Hopefully it will be upstream one
+day) Or do you mean this change has to be submitted upstream only once
+sun6i_csi gets fixed?
 
-diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_thermal.c
-index 6a8e386dbc8d..c2a8ae7f8f2f 100644
---- a/drivers/thermal/sun8i_thermal.c
-+++ b/drivers/thermal/sun8i_thermal.c
-@@ -188,6 +188,9 @@ static irqreturn_t sun8i_irq_thread(int irq, void *data)
- 	int i;
- 
- 	for_each_set_bit(i, &irq_bitmap, tmdev->chip->sensor_num) {
-+		/* We allow some zones to not register. */
-+		if (IS_ERR(tmdev->sensor[i].tzd))
-+			continue;
- 		thermal_zone_device_update(tmdev->sensor[i].tzd,
- 					   THERMAL_EVENT_UNSPECIFIED);
- 	}
-@@ -465,8 +468,17 @@ static int sun8i_ths_register(struct ths_device *tmdev)
- 						      i,
- 						      &tmdev->sensor[i],
- 						      &ths_ops);
--		if (IS_ERR(tmdev->sensor[i].tzd))
--			return PTR_ERR(tmdev->sensor[i].tzd);
-+
-+		/*
-+		 * If an individual zone fails to register for reasons
-+		 * other than probe deferral (eg, a bad DT) then carry
-+		 * on, other zones might register successfully.
-+		 */
-+		if (IS_ERR(tmdev->sensor[i].tzd)) {
-+			if (PTR_ERR(tmdev->sensor[i].tzd) == -EPROBE_DEFER)
-+				return PTR_ERR(tmdev->sensor[i].tzd);
-+			continue;
-+		}
- 
- 		devm_thermal_add_hwmon_sysfs(tmdev->dev, tmdev->sensor[i].tzd);
- 	}
 
----
-base-commit: 6613476e225e090cc9aad49be7fa504e290dd33d
-change-id: 20230718-thermal-sun8i-registration-df3a136ccafa
+2. dtbs_check complaints about missing link-frequencies for recently
+submitted gc2145. [2]
+```
+front-camera@3c: port:endpoint: 'link-frequencies' is a required property
+```
 
-Best regards,
+I've looked at other drivers and link-frequencies are used only
+mostly for CSI-2 endpoints. Should it be required for CPI/DVP ?
+
+Not many mainline drivers support CSI-2 and DVP: ov5640, s5k5baf,
+mt9mt114. Only mt9mt114 uses link-frequencies property for DVP and it
+should match PCLK (double pixelrate). [3]
+
+Should I define link-frequencies for DVP as a double pixelrate here as
+well and handle that in the driver?
+
+Currently gc2145 doesn't support DVP, but I have basic working support
+for DVP for the upstreamed driver for a long time and waited for it to be merged
+into mainline. I'd like to submit it for review. Until now I thought,
+that submitted gc2145 bindings will be the same for DVP and CSI-2
+support and therefore submitted this change.
+
+Are they? Or should I introduce bus-type and conditionally
+handle requirements in yaml if link-frequencies can be ignored for DVP?
+
+Something link this
+```
+        properties:
+          link-frequencies: true
+
+          bus-type:
+            enum:
+              - 4 # CSI-2 D-PHY
+              - 5 # Parallel
+
+        required:
+          - bus-type
+
+        allOf:
+          - if:
+              properties:
+                bus-type:
+                  const: 4
+            then:
+              required:
+                - link-frequencies
+```
+
+Should I better submit DVP support to the gc2145 driver first and only then
+submit this change? 
+
+> 
+> Kind regards,
+> 	o.
+> 
+> > Signed-off-by: Ondrej Jirman <megi@xff.cz>
+> > Signed-off-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+> > ---
+> >  .../dts/allwinner/sun50i-a64-pinephone.dtsi   | 91 +++++++++++++++++++
+> >  1 file changed, 91 insertions(+)
+> > 
+> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> > index 87847116ab6d..4104a136ff75 100644
+> > --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> > @@ -36,6 +36,15 @@ chosen {
+> >  		stdout-path = "serial0:115200n8";
+> >  	};
+> >  
+> > +	i2c_csi: i2c-csi {
+> > +		compatible = "i2c-gpio";
+> > +		sda-gpios = <&pio 4 13 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>; /* PE13 */
+> > +		scl-gpios = <&pio 4 12 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>; /* PE12 */
+> > +		i2c-gpio,delay-us = <3>;
+> > +		#address-cells = <1>;
+> > +		#size-cells = <0>;
+> > +	};
+> > +
+> >  	leds {
+> >  		compatible = "gpio-leds";
+> >  
+> > @@ -124,6 +133,36 @@ &cpu3 {
+> >  	cpu-supply = <&reg_dcdc2>;
+> >  };
+> >  
+> > +&csi {
+> > +	pinctrl-0 = <&csi_pins>, <&csi_mclk_pin>;
+> > +	status = "okay";
+> > +
+> > +	port {
+> > +		#address-cells = <1>;
+> > +		#size-cells = <0>;
+> > +
+> > +		csi_ov5640_ep: endpoint@0 {
+> > +			reg = <0>;
+> > +			remote-endpoint = <&ov5640_ep>;
+> > +			bus-width = <8>;
+> > +			hsync-active = <1>; /* Active high */
+> > +			vsync-active = <0>; /* Active low */
+> > +			data-active = <1>;  /* Active high */
+> > +			pclk-sample = <1>;  /* Rising */
+> > +		};
+> > +
+> > +		csi_gc2145_ep: endpoint@1 {
+> > +			reg = <1>;
+> > +			remote-endpoint = <&gc2145_ep>;
+> > +			bus-width = <8>;
+> > +			hsync-active = <1>;
+> > +			vsync-active = <1>;
+> > +			data-active = <1>;
+> > +			pclk-sample = <1>;
+> > +		};
+> > +	};
+> > +};
+> > +
+> >  &dai {
+> >  	status = "okay";
+> >  };
+> > @@ -158,6 +197,58 @@ &ehci1 {
+> >  	status = "okay";
+> >  };
+> >  
+> > +&i2c_csi {
+> > +	gc2145: front-camera@3c {
+> > +		compatible = "galaxycore,gc2145";
+> > +		reg = <0x3c>;
+> > +		clocks = <&ccu CLK_CSI_MCLK>;
+> > +		clock-names = "xclk";
+
+That should be removed to fix
+```
+front-camera@3c: 'clock-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+```
+when running 'make dtbs_check'
+
+> > +		avdd-supply = <&reg_dldo3>;
+> > +		dvdd-supply = <&reg_aldo1>;
+> > +		iovdd-supply = <&reg_eldo3>;
+> > +		reset-gpios = <&pio 4 16 (GPIO_ACTIVE_LOW | GPIO_OPEN_DRAIN)>; /* PE16 */
+> > +		powerdown-gpios = <&pio 4 17 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>; /* PE17 */
+> > +		rotation = <270>;
+> > +		orientation = <0>;
+> > +
+> > +		port {
+> > +			gc2145_ep: endpoint {
+> > +				remote-endpoint = <&csi_gc2145_ep>;
+> > +				bus-width = <8>;
+> > +				hsync-active = <1>;
+> > +				vsync-active = <1>;
+> > +				data-active = <1>;
+> > +				pclk-sample = <1>;
+> > +			};
+> > +		};
+> > +	};
+> > +
+> > +	ov5640: rear-camera@4c {
+> > +		compatible = "ovti,ov5640";
+> > +		reg = <0x4c>;
+> > +		clocks = <&ccu CLK_CSI_MCLK>;
+> > +		clock-names = "xclk";
+> > +		AVDD-supply = <&reg_dldo3>;
+> > +		DOVDD-supply = <&reg_aldo1>; /* shared with AFVCC */
+> > +		DVDD-supply = <&reg_eldo3>;
+> > +		reset-gpios = <&pio 3 3 (GPIO_ACTIVE_LOW | GPIO_OPEN_DRAIN)>; /* PD3 */
+> > +		powerdown-gpios = <&pio 2 0 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>; /* PC0 */
+> > +		rotation = <90>;
+> > +		orientation = <1>;
+> > +
+> > +		port {
+> > +			ov5640_ep: endpoint {
+> > +				remote-endpoint = <&csi_ov5640_ep>;
+> > +				bus-width = <8>;
+> > +				hsync-active = <1>; /* Active high */
+> > +				vsync-active = <0>; /* Active low */
+> > +				data-active = <1>;  /* Active high */
+> > +				pclk-sample = <1>;  /* Rising */
+> > +			};
+> > +		};
+> > +	};
+> > +};
+> > +
+> >  &i2c0 {
+> >  	status = "okay";
+> >  
+> > -- 
+> > 2.43.0
+> > 
+
+
+
+1. https://elixir.bootlin.com/linux/v6.8-rc1/source/Documentation/devicetree/bindings/media/video-interfaces.yaml#L41
+2. https://elixir.bootlin.com/linux/v6.8-rc1/source/Documentation/devicetree/bindings/media/i2c/galaxycore,gc2145.yaml#L65
+3. https://elixir.bootlin.com/linux/v6.8-rc1/source/drivers/media/i2c/mt9m114.c#L2256
+
 -- 
-Mark Brown <broonie@kernel.org>
-
+Best regards,
+Andrey Skvortsov
