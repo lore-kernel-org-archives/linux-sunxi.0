@@ -1,127 +1,94 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 707D412B60
-	for <linux-sunxi@lists.linux.dev>; Thu, 25 Jan 2024 07:21:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36BEB36B0E
+	for <linux-sunxi@lists.linux.dev>; Thu, 25 Jan 2024 12:10:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706167319; cv=none; b=mgApYiac4LRZhuyzHTJzoZSLwMnEIm+NNb9MUbJKEEBKb5lGesq6n76sUAE/dL9jpPU5wHsmlQjwGNmWYUD5DVYhcRK1v2UgIcAmRVLFRHKhBzNJJNLYBNWTEJWbnmFI/9A+ah5VsBfUc/sdM3CJw9TMcTEEzGA7YzVaTy+SUkc=
+	t=1706184660; cv=none; b=N3Jp5TaSPvdk8+rU4Qm6sN9D6MID5jsrw9NMswKkCxiB9J8rn3k+GY+gg3rK3mczhRJrQIGmILLwEygUOmO/d88zWG1JxeAmPLsf9y2XfOniJKp9EuK6vPAW/BhDdr+2f5c0gnxphNUSh9PJPrB1OVjmZnwVgUafazcOg1MY2x4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706167319; c=relaxed/simple;
-	bh=o9E9ecVEg59roajJUTj0tBIXTNYmbmyw1ntarzjaXAA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Yx55hq76ynC80P7givKCvQJtKvRBVE2oankMnNMwsX5GKt4fIClC34HONDiFdgb6/uwL5vdfZybJdx5Bo2TjpwNoAd+9bFWcn4erTrbLFLFIONWmvXNm/aKJwE7OX7/BP9emliiE29fFhzEtg/ze7jrvQULEzjFlk4zhNbezAPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kcs23ouS; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kcs23ouS"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-50e7ddd999bso7205626e87.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 24 Jan 2024 23:21:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706167315; x=1706772115; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Qk5axihAKFS9+0dIUTMZ/jrL2YTkFropx3eyJ2mG6qU=;
-        b=kcs23ouSMsA6DpbsVM3LIeRFPuOO8HP0R+dvxn56B58OL4C20m6JEHVd8rsBGBE/7I
-         26Y3eDIR+7mn/21es/xarMw4OzmHSh6ji8ws/WNyQ12z+OOVYg56C5K5WZFwRkVROPTP
-         hD1knHKjUAEljVyQfDs02Cc8QuX3u4K0UgPHUemAiRQsmD8JH8NbLfVU2c4rOgj4alko
-         AkkAWz1BB5sYc7WuBQi10lyR0kvtUcxuxoKEJoJXol12G19waLCjvEm7WwWxv7liIU0m
-         yWATkxTKZ8H0e/Ec8dp04hX6mZJUnbyUQisWpJacs8cuB6uAg0leX5cFP6RD9UC8ZtX1
-         jvVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706167315; x=1706772115;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Qk5axihAKFS9+0dIUTMZ/jrL2YTkFropx3eyJ2mG6qU=;
-        b=bSepgpR/NUuoEYF8L9yMh2GTuCjJdt+vard4V5tPYhKRunPL9aOHz9r4c5hECNuwps
-         CFWKbB2+qcxQ9oJOX6MwJL2QldfLjHLzfxiM+QnJ/1VMptV0+BY9EPZZmoritAohw8v5
-         gtuwmS19a1p4PoNe/2fJJrlaMKQdlQAgropacB4B2eeLTItCGdh1dkrRA5lsBbNUL4x0
-         /InmoaeVogeQmCYuhQ5lqq5orvO2YXI/gHt97etI7SufGXo1gFlgvyE2FzXbo2G9u+zk
-         fVSsuquLrYeJ6AhLdKf09oGB8cVJNHKtcjdMdmSRRD9f250UIwuLlT8wV9rxyEOYL2NO
-         9B3g==
-X-Gm-Message-State: AOJu0YxVU3GI597cikChOxPA30U8H2GCXCsxbm1ZDa50mXC4DmIbu5og
-	TO5+bTrG9yOuVv4Z42g79cqlk5IcYp6XvG+iKMqWH/W5HJcC6ho=
-X-Google-Smtp-Source: AGHT+IFTxwPgOv3/EtmvxxaaVICzQhm+m2RVQrsyK4AF0mtOzgJAMENWDpCC6bgpZ+U8d52vHyPnhw==
-X-Received: by 2002:a05:6512:3687:b0:50e:8ead:3889 with SMTP id d7-20020a056512368700b0050e8ead3889mr182905lfs.75.1706167315214;
-        Wed, 24 Jan 2024 23:21:55 -0800 (PST)
-Received: from localhost.localdomain ([188.162.200.139])
-        by smtp.gmail.com with ESMTPSA id x37-20020a056512132500b0050e75f9e8c8sm2780070lfu.98.2024.01.24.23.21.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jan 2024 23:21:54 -0800 (PST)
-From: Aleksandr Shubin <privatesub2@gmail.com>
-To: linux-kernel@vger.kernel.org
-Cc: Aleksandr Shubin <privatesub2@gmail.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
+	s=arc-20240116; t=1706184660; c=relaxed/simple;
+	bh=Yo6420w9dPgmTPswboA7SwJA2LCycKMLXUcUeusg2wY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=blFudwFx88UFIjbyArfnutDAIgzrBAWxyOqecsNlWTs/svdluJmlpECJrr36iCJf6Bzqa+66LeckPgtf7y6Cg7OQVdZJtVAHpd92QqHB2XTGaDHUjdInvgRYZuzcuaXRRn4POyyTDiuOntACfOSm9ybbCzVh2fl+bJcYdW8qXy4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rSyZD-0003wU-G3; Thu, 25 Jan 2024 13:10:47 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rSyZC-002HQe-26; Thu, 25 Jan 2024 13:10:46 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rSyZB-007n09-3A;
+	Thu, 25 Jan 2024 13:10:45 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Maksim Kiselev <bigunclemax@gmail.com>,
-	John Watts <contact@jookia.org>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	Cheo Fusi <fusibrandon13@gmail.com>,
-	linux-pwm@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
+	linux-pwm@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
-	linux-riscv@lists.infradead.org
-Subject: [PATCH v7 3/3] riscv: dts: allwinner: d1: Add pwm node
-Date: Thu, 25 Jan 2024 10:19:43 +0300
-Message-Id: <20240125072032.1151383-4-privatesub2@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240125072032.1151383-1-privatesub2@gmail.com>
-References: <20240125072032.1151383-1-privatesub2@gmail.com>
+	kernel@pengutronix.de
+Subject: [PATCH v5 031/111] pwm: sun4i: Make use of pwmchip_parent() macro
+Date: Thu, 25 Jan 2024 13:08:53 +0100
+Message-ID:  <a87b5bce4f2c09fccb35ac990c93e0327666a598.1706182805.git.u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1706182805.git.u.kleine-koenig@pengutronix.de>
+References: <cover.1706182805.git.u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1321; i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id; bh=Yo6420w9dPgmTPswboA7SwJA2LCycKMLXUcUeusg2wY=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlsk9dgDg56kpyhjNfeMv9DpxDruYzLJ61u+zTj P5zOqm+z8WJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZbJPXQAKCRCPgPtYfRL+ TuBrB/4zTmfwVgGCMKd/3WeDkLXoFcndR3WQBzEwLpyzuAowHlixCYbjoiQRznu8edYBIj91bwJ VTGTxeRS01JRhniYM3qDoJlAAtaFjA66IYNbTIvpi+RxeAqFb8j0RnbCDgAMSbgrSUhrcHFW7Oo Glib/4p0ATZK002PxHdeAWF3r0d4CKQYCpOcf5cgjVxqhZDMQQV9cD0gXR3pPj+wRjrNRjlo0tv 8O/2e2wW2ZM6QfrVNI+oGMXkM1ML1KJjoxAxx0e1nz03c6mzG5SZrwHpW3nmnuOJGh3iBrlLAIL gAcJAQzLnV0qdAMXHM055zMFrdiAg7/67smfmUr1AA38b7tc
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
-D1 and T113s contain a pwm controller with 8 channels.
-This controller is supported by the sun20i-pwm driver.
+struct pwm_chip::dev is about to change. To not have to touch this
+driver in the same commit as struct pwm_chip::dev, use the macro
+provided for exactly this purpose.
 
-Add a device tree node for it.
-
-Signed-off-by: Aleksandr Shubin <privatesub2@gmail.com>
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ drivers/pwm/pwm-sun4i.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-index 5a9d7f5a75b4..435a1e66aa6a 100644
---- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-+++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-@@ -145,6 +145,18 @@ uart3_pb_pins: uart3-pb-pins {
- 			};
- 		};
- 
-+		pwm: pwm@2000c00 {
-+			compatible = "allwinner,sun20i-d1-pwm";
-+			reg = <0x02000c00 0x400>;
-+			clocks = <&ccu CLK_BUS_PWM>,
-+				 <&dcxo>,
-+				 <&ccu CLK_APB0>;
-+			clock-names = "bus", "hosc", "apb0";
-+			resets = <&ccu RST_BUS_PWM>;
-+			status = "disabled";
-+			#pwm-cells = <0x3>;
-+		};
-+
- 		ccu: clock-controller@2001000 {
- 			compatible = "allwinner,sun20i-d1-ccu";
- 			reg = <0x2001000 0x1000>;
+diff --git a/drivers/pwm/pwm-sun4i.c b/drivers/pwm/pwm-sun4i.c
+index 1a439025540d..44edf1ce5739 100644
+--- a/drivers/pwm/pwm-sun4i.c
++++ b/drivers/pwm/pwm-sun4i.c
+@@ -245,7 +245,7 @@ static int sun4i_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+ 	if (!cstate.enabled) {
+ 		ret = clk_prepare_enable(sun4i_pwm->clk);
+ 		if (ret) {
+-			dev_err(chip->dev, "failed to enable PWM clock\n");
++			dev_err(pwmchip_parent(chip), "failed to enable PWM clock\n");
+ 			return ret;
+ 		}
+ 	}
+@@ -253,7 +253,7 @@ static int sun4i_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+ 	ret = sun4i_pwm_calculate(sun4i_pwm, state, &duty, &period, &prescaler,
+ 				  &bypass);
+ 	if (ret) {
+-		dev_err(chip->dev, "period exceeds the maximum value\n");
++		dev_err(pwmchip_parent(chip), "period exceeds the maximum value\n");
+ 		if (!cstate.enabled)
+ 			clk_disable_unprepare(sun4i_pwm->clk);
+ 		return ret;
 -- 
-2.25.1
+2.43.0
 
