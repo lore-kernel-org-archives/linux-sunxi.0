@@ -1,1054 +1,254 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F8AE18626
-	for <linux-sunxi@lists.linux.dev>; Fri, 26 Jan 2024 14:17:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E3431CD07
+	for <linux-sunxi@lists.linux.dev>; Fri, 26 Jan 2024 14:56:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706278663; cv=none; b=aXLdh9gyLjo5yH5QMP6hDo8yajIv6vzBhfYRdPRCvEIxAW+a5QPb7LEfAW7Wk0IxeK4mlzwcL1tBVKJv5i+sz3Ml5vuviCLqhJT1RNwlwT9ljqV6yOgTScdvzjms2H4iPxtibcBoQKNH3mmFJAOURHIMwtY/0+0qIzkD94sL+m0=
+	t=1706281002; cv=none; b=gGpep/cip41SVgrZEZZQba9FyryPO0xUBrkoTqGdod0eGQ0LfxXCM13WwNIZglYnL0fn/C0OzkQf5mzsYvn6m3eM+NjvHMEN80Ppn2vKRCIA7/5ybr9qGjBvz/kciSCAYQ6uML/ddQyG6TiyY3ej9+brsxyMdhaRJPMARm8CBgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706278663; c=relaxed/simple;
-	bh=04D2qnIKjoK2APyfqbjRMdBkLFWcpp6ug7tonoz5W2Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=edMZayS8QRIN+/QHDeGz1K9GoMDkxur2Yj8IvA3j7jTQAufWi4gzem2BkP+7xikKQH/W+gFr6yCzhzAtaMeVeD97tNrSz5ZAstGZWsVGX6DKLYhJ8IFFZtjhOT7OuzstdpshTsShb8ZiZiT2uhk93c9iU2RVI418ppISq4+ur/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EB5641FB;
-	Fri, 26 Jan 2024 06:18:22 -0800 (PST)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AF9B23F73F;
-	Fri, 26 Jan 2024 06:17:37 -0800 (PST)
-Date: Fri, 26 Jan 2024 14:17:31 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: "linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>
-Cc: u-boot@lists.denx.de, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
- Holland <samuel@sholland.org>
-Subject: Re: [PATCH] sunxi: dts: update devicetree files from Linux-v6.8-rc1
-Message-ID: <20240126141731.068d6e53@donnerap.manchester.arm.com>
-In-Reply-To: <20240122110931.903085-1-andre.przywara@arm.com>
-References: <20240122110931.903085-1-andre.przywara@arm.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1706281002; c=relaxed/simple;
+	bh=O+Et2QyBiECMjlqs36hjV1bCs0NPGQOndc6Mrtjny98=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nm6Z/79oQrmlUCFq5r02sOK06UFQ0IF9jTzpfEPFFoVbo3uhv6JJvjc3T7mGa/9fVGoSSKRQeYkUmFVkMnTtySZT88ySleBs9rNiKO4vYf1enJAMWjy/vM9rIie4J1GqIyikGoOzgE1Tg2ehMPk+RrhElRO//04G1JtdTsj2aL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org; spf=pass smtp.mailfrom=ieee.org; dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b=BMI58awe; arc=none smtp.client-ip=209.85.166.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b="BMI58awe"
+Received: by mail-io1-f47.google.com with SMTP id ca18e2360f4ac-7bedd61c587so23171139f.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 26 Jan 2024 06:56:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ieee.org; s=google; t=1706280999; x=1706885799; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wWtORc4HyTExlEpsqVhVjCB+kJhCKFinGlYPLAuyejg=;
+        b=BMI58aweMOoNoDhrHd1W+ApVfemuDM9m2rlp+5IUWShsb+ZM+jpDWXwVVU97+K1k/X
+         P6cJgEAMUEuaCAjKZJ688lbUnVWegRZ6YFG7CNsWqUB2dWABSQCThOSz3oxzsspXFoJM
+         iFKswQZLs+vSeU3Vi2dFqhsir+Aqo+/m7MM7I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706280999; x=1706885799;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wWtORc4HyTExlEpsqVhVjCB+kJhCKFinGlYPLAuyejg=;
+        b=LCARgWoNFj81EZ31QyG9hFFn622oxRRIJXeHnnxqfOPY695BZFIUaTHUw8dRqvukdT
+         FAbLazn2HXpy0VEvmleXHkg3WSWR5X0rxUmKRfPTmmcd5PspKRaHWuLyLf7kJgC0LnCC
+         wSUYwPfnspqPtbBfdnrQhMbZL6eByYgM0F7YqcRinAw++0P75EpnSnvboMLU72VgstAG
+         aPM77AJEpFeLiB5eQUvtQwfgAlrZajiDWnL6gPj7TFZHQ9A1pgag3pTN0MgHbfWCeWk8
+         0KlX6V/6q94VbVJWPtbKh6HbXLTvORkxp5WU0PEYI/rvVOqAUT3fW8NlxKTjDXmxscUm
+         20gQ==
+X-Gm-Message-State: AOJu0YyYaIttK85fjVZFpgXv7rkPaByMCO6nmdw3+XU6h96tGt/cadqS
+	opxUNkaGZSytVSZInFA/lYC3u0cvnWNBoLaKzRbsWQRD4LocerdV6RZDwnvJTA==
+X-Google-Smtp-Source: AGHT+IE7L+Lf4nGmf8jBYvWvUbBMIPYEUcZmRKhPCMfOv7qLIoTicpYxj6Q75lc9mf95xYawNxxN/g==
+X-Received: by 2002:a6b:4f13:0:b0:7bf:d2f2:3732 with SMTP id d19-20020a6b4f13000000b007bfd2f23732mr41889iob.19.1706280997488;
+        Fri, 26 Jan 2024 06:56:37 -0800 (PST)
+Received: from [172.22.22.28] (c-98-61-227-136.hsd1.mn.comcast.net. [98.61.227.136])
+        by smtp.googlemail.com with ESMTPSA id m8-20020a056638224800b00470a4791160sm46771jas.109.2024.01.26.06.56.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 Jan 2024 06:56:37 -0800 (PST)
+Message-ID: <db05fb6a-2ea5-4e00-ac03-adc1897d96de@ieee.org>
+Date: Fri, 26 Jan 2024 08:56:33 -0600
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 040/111] pwm: Provide devm_pwmchip_alloc() function
+Content-Language: en-US
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, James Clark <james.clark@arm.com>,
+ linux-pwm@vger.kernel.org, Hector Martin <marcan@marcan.st>,
+ Sven Peter <sven@svenpeter.dev>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui
+ <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+ Alexander Shiyan <shc_work@mail.ru>, Benson Leung <bleung@chromium.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Paul Cercueil <paul@crapouillou.net>, Vladimir Zapolskiy <vz@mleia.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Conor Dooley <conor.dooley@microchip.com>,
+ Daire McNamara <daire.mcnamara@microchip.com>,
+ =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+ Heiko Stuebner <heiko@sntech.de>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley
+ <paul.walmsley@sifive.com>, Michael Walle <mwalle@kernel.org>,
+ Orson Zhai <orsonzhai@gmail.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>,
+ Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai
+ <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Hammer Hsieh <hammerh0314@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+ Sean Anderson <sean.anderson@seco.com>, Michal Simek <michal.simek@amd.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
+ <brgl@bgdev.pl>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Robert Foss <rfoss@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+ Anjelique Melendez <quic_amelende@quicinc.com>,
+ Andi Shyti <andi.shyti@kernel.org>, Lu Hongfei <luhongfei@vivo.com>,
+ Bjorn Andersson <quic_bjorande@quicinc.com>, Luca Weiss <luca@z3ntu.xyz>,
+ Johan Hovold <johan@kernel.org>
+Cc: linux-doc@vger.kernel.org, kernel@pengutronix.de,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>,
+ linux-rpi-kernel@lists.infradead.org, Guenter Roeck <groeck@chromium.org>,
+ chrome-platform@lists.linux.dev, Fabio Estevam <festevam@gmail.com>,
+ NXP Linux Team <linux-imx@nxp.com>, linux-mips@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-amlogic@lists.infradead.org, linux-riscv@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, Alim Akhtar <alim.akhtar@samsung.com>,
+ linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+ linux-gpio@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
+ linux-leds@vger.kernel.org, greybus-dev@lists.linaro.org,
+ linux-staging@lists.linux.dev
+References: <cover.1706182805.git.u.kleine-koenig@pengutronix.de>
+ <f59b1a4a8d6fba65e4d3e8698310c9cb1d4c43ce.1706182805.git.u.kleine-koenig@pengutronix.de>
+From: Alex Elder <elder@ieee.org>
+In-Reply-To: <f59b1a4a8d6fba65e4d3e8698310c9cb1d4c43ce.1706182805.git.u.kleine-koenig@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, 22 Jan 2024 11:09:31 +0000
-Andre Przywara <andre.przywara@arm.com> wrote:
-
-Hi,
-
-I just realised that I forgot to CC: the linux-sunxi list on this.
-Could anyone please have a brief look and confirm that I didn't miss
-anything in this update? It's mostly about adding DTs for new boards, so
-that we can add U-Boot support for them. I would feel better merging my
-own patches if someone confirms them ;-)
-
-Cheers,
-Andre.
-
-P.S. There are discussions underway to automatically sync the DT rebase
-repo into U-Boot, so we should get fresh DTs automatically:
-https://lore.kernel.org/u-boot/20240110103547.719757-1-sumit.garg@linaro.org/
-
-> Sync the devicetree files from the official Linux kernel tree, v6.8-rc1.
-> This time only small changes in the existing files, but five new boards
-> got added, which opens the door for their respective defconfig files.
+On 1/25/24 6:09 AM, Uwe Kleine-König wrote:
+> This function allocates a struct pwm_chip and driver data. Compared to
+> the status quo the split into pwm_chip and driver data is new, otherwise
+> it doesn't change anything relevant (yet).
 > 
-> As before, this omits the non-backwards compatible changes to the R_INTC
-> controller, to remain compatible with older kernels.
+> The intention is that after all drivers are switched to use this
+> allocation function, its possible to add a struct device to struct
+> pwm_chip to properly track the latter's lifetime without touching all
+> drivers again. Proper lifetime tracking is a necessary precondition to
+> introduce character device support for PWMs (that implements atomic
+> setting and doesn't suffer from the sysfs overhead of the /sys/class/pwm
+> userspace support).
 > 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> The new function pwmchip_priv() (obviously?) only works for chips
+> allocated with devm_pwmchip_alloc().
+
+I think this looks good.  Two questions:
+- Should you explicitly align the private data?  Or do you believe
+   the default alignment (currently pointer size aligned) is adequate?
+- Is there a non-devres version of the allocation function?
+
+					-Alex
+
+> 
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 > ---
->  .../dts/sun50i-h616-bigtreetech-cb1-manta.dts |  35 +++
->  arch/arm/dts/sun50i-h616-bigtreetech-cb1.dtsi | 138 +++++++++
->  arch/arm/dts/sun50i-h616-bigtreetech-pi.dts   |  63 ++++
->  arch/arm/dts/sun50i-h616.dtsi                 |   7 +
->  arch/arm/dts/sun50i-h618-orangepi-zero2w.dts  | 176 +++++++++++
->  .../arm/dts/sun50i-h618-transpeed-8k618-t.dts | 161 ++++++++++
->  arch/arm/dts/sun8i-r40.dtsi                   |   2 +
->  arch/arm/dts/sun8i-v3s-anbernic-rg-nano.dts   | 276 ++++++++++++++++++
->  arch/arm/dts/sun8i-v3s.dtsi                   |  35 +++
->  9 files changed, 893 insertions(+)
->  create mode 100644 arch/arm/dts/sun50i-h616-bigtreetech-cb1-manta.dts
->  create mode 100644 arch/arm/dts/sun50i-h616-bigtreetech-cb1.dtsi
->  create mode 100644 arch/arm/dts/sun50i-h616-bigtreetech-pi.dts
->  create mode 100644 arch/arm/dts/sun50i-h618-orangepi-zero2w.dts
->  create mode 100644 arch/arm/dts/sun50i-h618-transpeed-8k618-t.dts
->  create mode 100644 arch/arm/dts/sun8i-v3s-anbernic-rg-nano.dts
+>   .../driver-api/driver-model/devres.rst        |  1 +
+>   Documentation/driver-api/pwm.rst              | 10 ++++----
+>   drivers/pwm/core.c                            | 25 +++++++++++++++++++
+>   include/linux/pwm.h                           |  2 ++
+>   4 files changed, 33 insertions(+), 5 deletions(-)
 > 
-> diff --git a/arch/arm/dts/sun50i-h616-bigtreetech-cb1-manta.dts b/arch/arm/dts/sun50i-h616-bigtreetech-cb1-manta.dts
-> new file mode 100644
-> index 00000000000..dbce61b355d
-> --- /dev/null
-> +++ b/arch/arm/dts/sun50i-h616-bigtreetech-cb1-manta.dts
-> @@ -0,0 +1,35 @@
-> +// SPDX-License-Identifier: (GPL-2.0+ or MIT)
-> +/*
-> + * Copyright (C) 2023 Martin Botka <martin.botka@somainline.org>.
-> + */
-> +
-> +/dts-v1/;
-> +
-> +#include "sun50i-h616-bigtreetech-cb1.dtsi"
-> +
-> +/ {
-> +	model = "BigTreeTech CB1";
-> +	compatible = "bigtreetech,cb1-manta", "bigtreetech,cb1", "allwinner,sun50i-h616";
-> +
-> +	aliases {
-> +		serial0 = &uart0;
-> +	};
-> +
-> +	chosen {
-> +		stdout-path = "serial0:115200n8";
-> +	};
-> +};
-> +
-> +&ehci1 {
-> +	status = "okay";
-> +};
-> +
-> +&ohci1 {
-> +	status = "okay";
-> +};
-> +
-> +&uart0 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&uart0_ph_pins>;
-> +	status = "okay";
-> +};
-> diff --git a/arch/arm/dts/sun50i-h616-bigtreetech-cb1.dtsi b/arch/arm/dts/sun50i-h616-bigtreetech-cb1.dtsi
-> new file mode 100644
-> index 00000000000..1fed2b46cfe
-> --- /dev/null
-> +++ b/arch/arm/dts/sun50i-h616-bigtreetech-cb1.dtsi
-> @@ -0,0 +1,138 @@
-> +// SPDX-License-Identifier: (GPL-2.0+ or MIT)
-> +/*
-> + * Copyright (C) 2023 Martin Botka <martin.botka@somainline.org>.
-> + */
-> +
-> +/dts-v1/;
-> +
-> +#include "sun50i-h616.dtsi"
-> +
-> +#include <dt-bindings/gpio/gpio.h>
-> +#include <dt-bindings/interrupt-controller/arm-gic.h>
-> +#include <dt-bindings/leds/common.h>
-> +
-> +/ {
-> +	aliases {
-> +		ethernet0 = &rtl8189ftv;
-> +	};
-> +
-> +	leds {
-> +		compatible = "gpio-leds";
-> +
-> +		led-0 {
-> +			function = LED_FUNCTION_STATUS;
-> +			color = <LED_COLOR_ID_GREEN>;
-> +			gpios = <&pio 7 5 GPIO_ACTIVE_HIGH>; /* PH5 */
-> +		};
-> +	};
-> +
-> +	reg_vcc5v: regulator-vcc5v {
-> +		/* board wide 5V supply from carrier boards */
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "vcc-5v";
-> +		regulator-min-microvolt = <5000000>;
-> +		regulator-max-microvolt = <5000000>;
-> +		regulator-always-on;
-> +	};
-> +
-> +	reg_vcc33_wifi: vcc33-wifi {
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "vcc33-wifi";
-> +		regulator-min-microvolt = <3300000>;
-> +		regulator-max-microvolt = <3300000>;
-> +		regulator-always-on;
-> +		vin-supply = <&reg_vcc5v>;
-> +	};
-> +
-> +	reg_vcc_wifi_io: vcc-wifi-io {
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "vcc-wifi-io";
-> +		regulator-min-microvolt = <1800000>;
-> +		regulator-max-microvolt = <1800000>;
-> +		regulator-always-on;
-> +		vin-supply = <&reg_vcc33_wifi>;
-> +	};
-> +
-> +	wifi_pwrseq: wifi-pwrseq {
-> +		compatible = "mmc-pwrseq-simple";
-> +		clocks = <&rtc 1>;
-> +		clock-names = "ext_clock";
-> +		reset-gpios = <&pio 6 18 GPIO_ACTIVE_LOW>; /* PG18 */
-> +		post-power-on-delay-ms = <200>;
-> +	};
-> +};
-> +
-> +&mmc0 {
-> +	vmmc-supply = <&reg_dldo1>;
-> +	/* Card detection pin is not connected */
-> +	broken-cd;
-> +	bus-width = <4>;
-> +	status = "okay";
-> +};
-> +
-> +&mmc1 {
-> +	vmmc-supply = <&reg_vcc33_wifi>;
-> +	vqmmc-supply = <&reg_vcc_wifi_io>;
-> +	mmc-pwrseq = <&wifi_pwrseq>;
-> +	bus-width = <4>;
-> +	non-removable;
-> +	mmc-ddr-1_8v;
-> +	status = "okay";
-> +
-> +	rtl8189ftv: wifi@1 {
-> +		reg = <1>;
-> +	};
-> +};
-> +
-> +&r_i2c {
-> +	status = "okay";
-> +
-> +	axp313a: pmic@36 {
-> +		compatible = "x-powers,axp313a";
-> +		reg = <0x36>;
-> +		interrupt-controller;
-> +		#interrupt-cells = <1>;
-> +
-> +		regulators{
-> +			reg_dcdc1: dcdc1 {
-> +				regulator-name = "vdd-gpu-sys";
-> +				regulator-min-microvolt = <810000>;
-> +				regulator-max-microvolt = <990000>;
-> +				regulator-always-on;
-> +			};
-> +
-> +			reg_dcdc2: dcdc2 {
-> +				regulator-name = "vdd-cpu";
-> +				regulator-min-microvolt = <810000>;
-> +				regulator-max-microvolt = <1100000>;
-> +				regulator-ramp-delay = <200>;
-> +				regulator-always-on;
-> +			};
-> +
-> +			reg_dcdc3: dcdc3 {
-> +				regulator-name = "vcc-dram";
-> +				regulator-min-microvolt = <1350000>;
-> +				regulator-max-microvolt = <1500000>;
-> +				regulator-always-on;
-> +			};
-> +
-> +			reg_aldo1: aldo1 {
-> +				regulator-name = "vcc-1v8-pll";
-> +				regulator-min-microvolt = <1800000>;
-> +				regulator-max-microvolt = <1800000>;
-> +				regulator-always-on;
-> +			};
-> +
-> +			reg_dldo1: dldo1 {
-> +				regulator-name = "vcc-3v3-io";
-> +				regulator-min-microvolt = <3300000>;
-> +				regulator-max-microvolt = <3300000>;
-> +				regulator-always-on;
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&usbphy {
-> +	status = "okay";
-> +};
-> diff --git a/arch/arm/dts/sun50i-h616-bigtreetech-pi.dts b/arch/arm/dts/sun50i-h616-bigtreetech-pi.dts
-> new file mode 100644
-> index 00000000000..832f08b2b26
-> --- /dev/null
-> +++ b/arch/arm/dts/sun50i-h616-bigtreetech-pi.dts
-> @@ -0,0 +1,63 @@
-> +// SPDX-License-Identifier: (GPL-2.0+ or MIT)
-> +/*
-> + * Copyright (C) 2023 Martin Botka <martin@biqu3d.com>.
-> + */
-> +
-> +/dts-v1/;
-> +
-> +#include "sun50i-h616-bigtreetech-cb1.dtsi"
-> +
-> +/ {
-> +	model = "BigTreeTech Pi";
-> +	compatible = "bigtreetech,pi", "allwinner,sun50i-h616";
-> +
-> +	aliases {
-> +		serial0 = &uart0;
-> +	};
-> +
-> +	chosen {
-> +		stdout-path = "serial0:115200n8";
-> +	};
-> +};
-> +
-> +&ehci0 {
-> +	status = "okay";
-> +};
-> +
-> +&ehci1 {
-> +	status = "okay";
-> +};
-> +
-> +&ehci2 {
-> +	status = "okay";
-> +};
-> +
-> +&ehci3 {
-> +	status = "okay";
-> +};
-> +
-> +&ir {
-> +	status = "okay";
-> +};
-> +
-> +&ohci0 {
-> +	status = "okay";
-> +};
-> +
-> +&ohci1 {
-> +	status = "okay";
-> +};
-> +
-> +&ohci2 {
-> +	status = "okay";
-> +};
-> +
-> +&ohci3 {
-> +	status = "okay";
-> +};
-> +
-> +&uart0 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&uart0_ph_pins>;
-> +	status = "okay";
-> +};
-> diff --git a/arch/arm/dts/sun50i-h616.dtsi b/arch/arm/dts/sun50i-h616.dtsi
-> index 74aed0d232a..d549d277d97 100644
-> --- a/arch/arm/dts/sun50i-h616.dtsi
-> +++ b/arch/arm/dts/sun50i-h616.dtsi
-> @@ -133,6 +133,13 @@
->  			#reset-cells = <1>;
->  		};
->  
-> +		sid: efuse@3006000 {
-> +			compatible = "allwinner,sun50i-h616-sid", "allwinner,sun50i-a64-sid";
-> +			reg = <0x03006000 0x1000>;
-> +			#address-cells = <1>;
-> +			#size-cells = <1>;
-> +		};
-> +
->  		watchdog: watchdog@30090a0 {
->  			compatible = "allwinner,sun50i-h616-wdt",
->  				     "allwinner,sun6i-a31-wdt";
-> diff --git a/arch/arm/dts/sun50i-h618-orangepi-zero2w.dts b/arch/arm/dts/sun50i-h618-orangepi-zero2w.dts
-> new file mode 100644
-> index 00000000000..21ca1977055
-> --- /dev/null
-> +++ b/arch/arm/dts/sun50i-h618-orangepi-zero2w.dts
-> @@ -0,0 +1,176 @@
-> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> +/*
-> + * Copyright (C) 2023 Arm Ltd.
-> + */
-> +
-> +/dts-v1/;
-> +
-> +#include "sun50i-h616.dtsi"
-> +
-> +#include <dt-bindings/gpio/gpio.h>
-> +#include <dt-bindings/interrupt-controller/arm-gic.h>
-> +#include <dt-bindings/leds/common.h>
-> +
-> +/ {
-> +	model = "OrangePi Zero 2W";
-> +	compatible = "xunlong,orangepi-zero2w", "allwinner,sun50i-h618";
-> +
-> +	aliases {
-> +		serial0 = &uart0;
-> +	};
-> +
-> +	chosen {
-> +		stdout-path = "serial0:115200n8";
-> +	};
-> +
-> +	leds {
-> +		compatible = "gpio-leds";
-> +
-> +		led-0 {
-> +			function = LED_FUNCTION_STATUS;
-> +			color = <LED_COLOR_ID_GREEN>;
-> +			gpios = <&pio 2 13 GPIO_ACTIVE_HIGH>; /* PC13 */
-> +		};
-> +	};
-> +
-> +	reg_vcc5v: vcc5v {
-> +		/* board wide 5V supply directly from the USB-C socket */
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "vcc-5v";
-> +		regulator-min-microvolt = <5000000>;
-> +		regulator-max-microvolt = <5000000>;
-> +		regulator-always-on;
-> +	};
-> +
-> +	reg_vcc3v3: vcc3v3 {
-> +		/* SY8089 DC/DC converter */
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "vcc-3v3";
-> +		regulator-min-microvolt = <3300000>;
-> +		regulator-max-microvolt = <3300000>;
-> +		vin-supply = <&reg_vcc5v>;
-> +		regulator-always-on;
-> +	};
-> +};
-> +
-> +&ehci1 {
-> +	status = "okay";
-> +};
-> +
-> +/* USB 2 & 3 are on the FPC connector (or the exansion board) */
-> +
-> +&mmc0 {
-> +	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>;	/* PF6 */
-> +	bus-width = <4>;
-> +	vmmc-supply = <&reg_vcc3v3>;
-> +	status = "okay";
-> +};
-> +
-> +&ohci1 {
-> +	status = "okay";
-> +};
-> +
-> +&pio {
-> +	vcc-pc-supply = <&reg_dldo1>;
-> +	vcc-pf-supply = <&reg_dldo1>;	/* internally via VCC-IO */
-> +	vcc-pg-supply = <&reg_aldo1>;
-> +	vcc-ph-supply = <&reg_dldo1>;	/* internally via VCC-IO */
-> +	vcc-pi-supply = <&reg_dldo1>;
-> +};
-> +
-> +&r_i2c {
-> +	status = "okay";
-> +
-> +	axp313: pmic@36 {
-> +		compatible = "x-powers,axp313a";
-> +		reg = <0x36>;
-> +		#interrupt-cells = <1>;
-> +		interrupt-controller;
-> +		interrupt-parent = <&pio>;
-> +		interrupts = <2 9 IRQ_TYPE_LEVEL_LOW>;	/* PC9 */
-> +
-> +		vin1-supply = <&reg_vcc5v>;
-> +		vin2-supply = <&reg_vcc5v>;
-> +		vin3-supply = <&reg_vcc5v>;
-> +
-> +		regulators {
-> +			/* Supplies VCC-PLL and DRAM */
-> +			reg_aldo1: aldo1 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <1800000>;
-> +				regulator-max-microvolt = <1800000>;
-> +				regulator-name = "vcc1v8";
-> +			};
-> +
-> +			/* Supplies VCC-IO, so needs to be always on. */
-> +			reg_dldo1: dldo1 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <3300000>;
-> +				regulator-max-microvolt = <3300000>;
-> +				regulator-name = "vcc3v3";
-> +			};
-> +
-> +			reg_dcdc1: dcdc1 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <810000>;
-> +				regulator-max-microvolt = <990000>;
-> +				regulator-name = "vdd-gpu-sys";
-> +			};
-> +
-> +			reg_dcdc2: dcdc2 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <810000>;
-> +				regulator-max-microvolt = <1100000>;
-> +				regulator-name = "vdd-cpu";
-> +			};
-> +
-> +			reg_dcdc3: dcdc3 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <1100000>;
-> +				regulator-max-microvolt = <1100000>;
-> +				regulator-name = "vdd-dram";
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&spi0  {
-> +	status = "okay";
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&spi0_pins>, <&spi0_cs0_pin>;
-> +
-> +	flash@0 {
-> +		#address-cells = <1>;
-> +		#size-cells = <1>;
-> +		compatible = "jedec,spi-nor";
-> +		reg = <0>;
-> +		spi-max-frequency = <40000000>;
-> +	};
-> +};
-> +
-> +&uart0 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&uart0_ph_pins>;
-> +	status = "okay";
-> +};
-> +
-> +&usbotg {
-> +	/*
-> +	 * PHY0 pins are connected to a USB-C socket, but a role switch
-> +	 * is not implemented: both CC pins are pulled to GND.
-> +	 * The VBUS pins power the device, so a fixed peripheral mode
-> +	 * is the best choice.
-> +	 * The board can be powered via GPIOs, in this case port0 *can*
-> +	 * act as a host (with a cable/adapter ignoring CC), as VBUS is
-> +	 * then provided by the GPIOs. Any user of this setup would
-> +	 * need to adjust the DT accordingly: dr_mode set to "host",
-> +	 * enabling OHCI0 and EHCI0.
-> +	 */
-> +	dr_mode = "peripheral";
-> +	status = "okay";
-> +};
-> +
-> +&usbphy {
-> +	usb1_vbus-supply = <&reg_vcc5v>;
-> +	status = "okay";
-> +};
-> diff --git a/arch/arm/dts/sun50i-h618-transpeed-8k618-t.dts b/arch/arm/dts/sun50i-h618-transpeed-8k618-t.dts
-> new file mode 100644
-> index 00000000000..8ea1fd41aeb
-> --- /dev/null
-> +++ b/arch/arm/dts/sun50i-h618-transpeed-8k618-t.dts
-> @@ -0,0 +1,161 @@
-> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> +/*
-> + * Copyright (C) 2023 Arm Ltd.
-> + */
-> +
-> +/dts-v1/;
-> +
-> +#include "sun50i-h616.dtsi"
-> +
-> +#include <dt-bindings/gpio/gpio.h>
-> +#include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +/ {
-> +	model = "Transpeed 8K618-T";
-> +	compatible = "transpeed,8k618-t", "allwinner,sun50i-h618";
-> +
-> +	aliases {
-> +		serial0 = &uart0;
-> +	};
-> +
-> +	chosen {
-> +		stdout-path = "serial0:115200n8";
-> +	};
-> +
-> +	reg_vcc5v: vcc5v {
-> +		/* board wide 5V supply directly from the DC input */
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "vcc-5v";
-> +		regulator-min-microvolt = <5000000>;
-> +		regulator-max-microvolt = <5000000>;
-> +		regulator-always-on;
-> +	};
-> +
-> +	reg_vcc3v3: vcc3v3 {
-> +		/* discrete 3.3V regulator */
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "vcc-3v3";
-> +		regulator-min-microvolt = <3300000>;
-> +		regulator-max-microvolt = <3300000>;
-> +		regulator-always-on;
-> +	};
-> +};
-> +
-> +&ehci0 {
-> +	status = "okay";
-> +};
-> +
-> +&ehci1 {
-> +	status = "okay";
-> +};
-> +
-> +&ir {
-> +	status = "okay";
-> +};
-> +
-> +&mmc0 {
-> +	vmmc-supply = <&reg_dldo1>;
-> +	cd-gpios = <&pio 8 16 GPIO_ACTIVE_LOW>;	/* PI16 */
-> +	bus-width = <4>;
-> +	status = "okay";
-> +};
-> +
-> +&mmc2 {
-> +	vmmc-supply = <&reg_dldo1>;
-> +	vqmmc-supply = <&reg_aldo1>;
-> +	bus-width = <8>;
-> +	non-removable;
-> +	cap-mmc-hw-reset;
-> +	mmc-ddr-1_8v;
-> +	mmc-hs200-1_8v;
-> +	status = "okay";
-> +};
-> +
-> +&ohci0 {
-> +	status = "okay";
-> +};
-> +
-> +&ohci1 {
-> +	status = "okay";
-> +};
-> +
-> +&r_i2c {
-> +	status = "okay";
-> +
-> +	axp313: pmic@36 {
-> +		compatible = "x-powers,axp313a";
-> +		reg = <0x36>;
-> +		#interrupt-cells = <1>;
-> +		interrupt-controller;
-> +
-> +		vin1-supply = <&reg_vcc5v>;
-> +		vin2-supply = <&reg_vcc5v>;
-> +		vin3-supply = <&reg_vcc5v>;
-> +
-> +		regulators {
-> +			reg_aldo1: aldo1 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <1800000>;
-> +				regulator-max-microvolt = <1800000>;
-> +				regulator-name = "vcc-1v8-pll";
-> +			};
-> +
-> +			reg_dldo1: dldo1 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <3300000>;
-> +				regulator-max-microvolt = <3300000>;
-> +				regulator-name = "vcc-3v3-io-mmc";
-> +			};
-> +
-> +			reg_dcdc1: dcdc1 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <810000>;
-> +				regulator-max-microvolt = <990000>;
-> +				regulator-name = "vdd-gpu-sys";
-> +			};
-> +
-> +			reg_dcdc2: dcdc2 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <810000>;
-> +				regulator-max-microvolt = <1100000>;
-> +				regulator-name = "vdd-cpu";
-> +			};
-> +
-> +			reg_dcdc3: dcdc3 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <1360000>;
-> +				regulator-max-microvolt = <1360000>;
-> +				regulator-name = "vdd-dram";
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&pio {
-> +	vcc-pc-supply = <&reg_aldo1>;
-> +	vcc-pg-supply = <&reg_dldo1>;
-> +	vcc-ph-supply = <&reg_dldo1>;
-> +	vcc-pi-supply = <&reg_dldo1>;
-> +};
-> +
-> +&uart0 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&uart0_ph_pins>;
-> +	status = "okay";
-> +};
-> +
-> +&uart1 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&uart1_pins>, <&uart1_rts_cts_pins>;
-> +	uart-has-rtscts;
-> +	status = "okay";
-> +};
-> +
-> +&usbotg {
-> +	dr_mode = "host";	/* USB A type receptable */
-> +	status = "okay";
-> +};
-> +
-> +&usbphy {
-> +	status = "okay";
-> +};
-> diff --git a/arch/arm/dts/sun8i-r40.dtsi b/arch/arm/dts/sun8i-r40.dtsi
-> index 4ef26d8f534..a5b1f1e3900 100644
-> --- a/arch/arm/dts/sun8i-r40.dtsi
-> +++ b/arch/arm/dts/sun8i-r40.dtsi
-> @@ -338,6 +338,8 @@
->  			resets = <&ccu RST_BUS_VE>;
->  			interrupts = <GIC_SPI 53 IRQ_TYPE_LEVEL_HIGH>;
->  			allwinner,sram = <&ve_sram 1>;
-> +			interconnects = <&mbus 4>;
-> +			interconnect-names = "dma-mem";
->  		};
->  
->  		mmc0: mmc@1c0f000 {
-> diff --git a/arch/arm/dts/sun8i-v3s-anbernic-rg-nano.dts b/arch/arm/dts/sun8i-v3s-anbernic-rg-nano.dts
-> new file mode 100644
-> index 00000000000..f34dfdf1566
-> --- /dev/null
-> +++ b/arch/arm/dts/sun8i-v3s-anbernic-rg-nano.dts
-> @@ -0,0 +1,276 @@
-> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> +
-> +/dts-v1/;
-> +#include <dt-bindings/input/linux-event-codes.h>
-> +#include "sun8i-v3s.dtsi"
-> +#include "sunxi-common-regulators.dtsi"
-> +
-> +/ {
-> +	model = "Anbernic RG Nano";
-> +	compatible = "anbernic,rg-nano", "allwinner,sun8i-v3s";
-> +
-> +	aliases {
-> +		rtc0 = &pcf8563;
-> +		rtc1 = &rtc;
-> +		serial0 = &uart0;
-> +	};
-> +
-> +	backlight: backlight {
-> +		compatible = "pwm-backlight";
-> +		brightness-levels = <0 1 2 3 8 14 21 32 46 60 80 100>;
-> +		default-brightness-level = <11>;
-> +		power-supply = <&reg_vcc5v0>;
-> +		pwms = <&pwm 0 40000 1>;
-> +	};
-> +
-> +	chosen {
-> +		stdout-path = "serial0:115200n8";
-> +	};
-> +
-> +	gpio_keys: gpio-keys {
-> +		compatible = "gpio-keys";
-> +
-> +		button-a {
-> +			gpios = <&gpio_expander 12 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-> +			label = "BTN-A";
-> +			linux,code = <BTN_EAST>;
-> +		};
-> +
-> +		button-b {
-> +			gpios = <&gpio_expander 14 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-> +			label = "BTN-B";
-> +			linux,code = <BTN_SOUTH>;
-> +		};
-> +
-> +		button-down {
-> +			gpios = <&gpio_expander 1 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-> +			label = "DPAD-DOWN";
-> +			linux,code = <BTN_DPAD_DOWN>;
-> +		};
-> +
-> +		button-left {
-> +			gpios = <&gpio_expander 4 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-> +			label = "DPAD-LEFT";
-> +			linux,code = <BTN_DPAD_LEFT>;
-> +		};
-> +
-> +		button-right {
-> +			gpios = <&gpio_expander 0 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-> +			label = "DPAD-RIGHT";
-> +			linux,code = <BTN_DPAD_RIGHT>;
-> +		};
-> +
-> +		button-se {
-> +			gpios = <&gpio_expander 7 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-> +			label = "BTN-SELECT";
-> +			linux,code = <BTN_SELECT>;
-> +		};
-> +
-> +		button-st {
-> +			gpios = <&gpio_expander 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-> +			label = "BTN-START";
-> +			linux,code = <BTN_START>;
-> +		};
-> +
-> +		button-tl {
-> +			gpios = <&gpio_expander 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-> +			label = "BTN-L";
-> +			linux,code = <BTN_TL>;
-> +		};
-> +
-> +		button-tr {
-> +			gpios = <&gpio_expander 15 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-> +			label = "BTN-R";
-> +			linux,code = <BTN_TR>;
-> +		};
-> +
-> +		button-up {
-> +			gpios = <&gpio_expander 3 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-> +			label = "DPAD-UP";
-> +			linux,code = <BTN_DPAD_UP>;
-> +		};
-> +
-> +		button-x {
-> +			gpios = <&gpio_expander 11 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-> +			label = "BTN-X";
-> +			linux,code = <BTN_NORTH>;
-> +		};
-> +
-> +		button-y {
-> +			gpios = <&gpio_expander 13 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-> +			label = "BTN-Y";
-> +			linux,code = <BTN_WEST>;
-> +		};
-> +	};
-> +};
-> +
-> +&codec {
-> +	allwinner,audio-routing = "Speaker", "HP",
-> +				  "MIC1", "Mic",
-> +				  "Mic", "HBIAS";
-> +	allwinner,pa-gpios = <&pio 5 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; /* PF6 */
-> +	status = "okay";
-> +};
-> +
-> +&ehci {
-> +	status = "okay";
-> +};
-> +
-> +&i2c0 {
-> +	status = "okay";
-> +
-> +	gpio_expander: gpio@20 {
-> +		compatible = "nxp,pcal6416";
-> +		reg = <0x20>;
-> +		gpio-controller;
-> +		#gpio-cells = <2>;
-> +		#interrupt-cells = <2>;
-> +		interrupt-controller;
-> +		interrupt-parent = <&pio>;
-> +		interrupts = <1 3 IRQ_TYPE_EDGE_BOTH>; /* PB3/EINT3 */
-> +		vcc-supply = <&reg_vcc3v3>;
-> +	};
-> +
-> +	axp209: pmic@34 {
-> +		reg = <0x34>;
-> +		interrupt-parent = <&pio>;
-> +		interrupts = <1 5 IRQ_TYPE_EDGE_FALLING>; /* PB5/EINT5 */
-> +	};
-> +
-> +	pcf8563: rtc@51 {
-> +		compatible = "nxp,pcf8563";
-> +		reg = <0x51>;
-> +	};
-> +};
-> +
-> +#include "axp209.dtsi"
-> +
-> +&battery_power_supply {
-> +	status = "okay";
-> +};
-> +
-> +&mmc0 {
-> +	broken-cd;
-> +	bus-width = <4>;
-> +	disable-wp;
-> +	vmmc-supply = <&reg_vcc3v3>;
-> +	vqmmc-supply = <&reg_vcc3v3>;
-> +	status = "okay";
-> +};
-> +
-> +&ohci {
-> +	status = "okay";
-> +};
-> +
-> +&pio {
-> +	vcc-pb-supply = <&reg_vcc3v3>;
-> +	vcc-pc-supply = <&reg_vcc3v3>;
-> +	vcc-pf-supply = <&reg_vcc3v3>;
-> +	vcc-pg-supply = <&reg_vcc3v3>;
-> +
-> +	spi0_no_miso_pins: spi0-no-miso-pins {
-> +		pins = "PC1", "PC2", "PC3";
-> +		function = "spi0";
-> +	};
-> +};
-> +
-> +&pwm {
-> +	pinctrl-0 = <&pwm0_pin>;
-> +	pinctrl-names = "default";
-> +	status = "okay";
-> +};
-> +
-> +/* DCDC2 wired into vdd-cpu, vdd-sys, and vdd-ephy. */
-> +&reg_dcdc2 {
-> +	regulator-always-on;
-> +	regulator-max-microvolt = <1250000>;
-> +	regulator-min-microvolt = <1250000>;
-> +	regulator-name = "vdd-cpu";
-> +};
-> +
-> +/* DCDC3 wired into every 3.3v input that isn't the RTC. */
-> +&reg_dcdc3 {
-> +	regulator-always-on;
-> +	regulator-max-microvolt = <3300000>;
-> +	regulator-min-microvolt = <3300000>;
-> +	regulator-name = "vcc-io";
-> +};
-> +
-> +/* LDO1 wired into RTC, voltage is hard-wired at 3.3v. */
-> +&reg_ldo1 {
-> +	regulator-always-on;
-> +	regulator-name = "vcc-rtc";
-> +};
-> +
-> +/* LDO2 wired into VCC-PLL and audio codec. */
-> +&reg_ldo2 {
-> +	regulator-always-on;
-> +	regulator-max-microvolt = <3000000>;
-> +	regulator-min-microvolt = <3000000>;
-> +	regulator-name = "vcc-pll";
-> +};
-> +
-> +/* LDO3, LDO4, and LDO5 unused. */
-> +&reg_ldo3 {
-> +	status = "disabled";
-> +};
-> +
-> +&reg_ldo4 {
-> +	status = "disabled";
-> +};
-> +
-> +/* RTC uses internal oscillator */
-> +&rtc {
-> +	/delete-property/ clocks;
-> +};
-> +
-> +&spi0 {
-> +	pinctrl-0 = <&spi0_no_miso_pins>;
-> +	pinctrl-names = "default";
-> +	status = "okay";
-> +
-> +	display@0 {
-> +		compatible = "saef,sftc154b", "panel-mipi-dbi-spi";
-> +		reg = <0>;
-> +		backlight = <&backlight>;
-> +		dc-gpios = <&pio 2 0 GPIO_ACTIVE_HIGH>; /* PC0 */
-> +		reset-gpios = <&pio 1 2 GPIO_ACTIVE_HIGH>; /* PB2 */
-> +		spi-max-frequency = <100000000>;
-> +
-> +		height-mm = <39>;
-> +		width-mm = <39>;
-> +
-> +		/* Set hb-porch to compensate for non-visible area */
-> +		panel-timing {
-> +			hactive = <240>;
-> +			vactive = <240>;
-> +			hback-porch = <80>;
-> +			vback-porch = <0>;
-> +			clock-frequency = <0>;
-> +			hfront-porch = <0>;
-> +			hsync-len = <0>;
-> +			vfront-porch = <0>;
-> +			vsync-len = <0>;
-> +		};
-> +	};
-> +};
-> +
-> +&uart0 {
-> +	pinctrl-0 = <&uart0_pb_pins>;
-> +	pinctrl-names = "default";
-> +	status = "okay";
-> +};
-> +
-> +&usb_otg {
-> +	dr_mode = "otg";
-> +	status = "okay";
-> +};
-> +
-> +&usb_power_supply {
-> +	status = "okay";
-> +};
-> +
-> +&usbphy {
-> +	usb0_id_det-gpios = <&pio 6 5 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PG5 */
-> +	status = "okay";
-> +};
-> diff --git a/arch/arm/dts/sun8i-v3s.dtsi b/arch/arm/dts/sun8i-v3s.dtsi
-> index 3b9a282c274..e8a04476b77 100644
-> --- a/arch/arm/dts/sun8i-v3s.dtsi
-> +++ b/arch/arm/dts/sun8i-v3s.dtsi
-> @@ -319,6 +319,29 @@
->  			#phy-cells = <1>;
->  		};
->  
-> +		ehci: usb@1c1a000 {
-> +			compatible = "allwinner,sun8i-v3s-ehci", "generic-ehci";
-> +			reg = <0x01c1a000 0x100>;
-> +			interrupts = <GIC_SPI 72 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&ccu CLK_BUS_EHCI0>, <&ccu CLK_BUS_OHCI0>;
-> +			resets = <&ccu RST_BUS_EHCI0>, <&ccu RST_BUS_OHCI0>;
-> +			phys = <&usbphy 0>;
-> +			phy-names = "usb";
-> +			status = "disabled";
-> +		};
-> +
-> +		ohci: usb@1c1a400 {
-> +			compatible = "allwinner,sun8i-v3s-ohci", "generic-ohci";
-> +			reg = <0x01c1a400 0x100>;
-> +			interrupts = <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&ccu CLK_BUS_EHCI0>, <&ccu CLK_BUS_OHCI0>,
-> +				 <&ccu CLK_USB_OHCI0>;
-> +			resets = <&ccu RST_BUS_EHCI0>, <&ccu RST_BUS_OHCI0>;
-> +			phys = <&usbphy 0>;
-> +			phy-names = "usb";
-> +			status = "disabled";
-> +		};
-> +
->  		ccu: clock@1c20000 {
->  			compatible = "allwinner,sun8i-v3s-ccu";
->  			reg = <0x01c20000 0x400>;
-> @@ -414,6 +437,18 @@
->  				bias-pull-up;
->  			};
->  
-> +			/omit-if-no-ref/
-> +			pwm0_pin: pwm0-pin {
-> +				pins = "PB4";
-> +				function = "pwm0";
-> +			};
-> +
-> +			/omit-if-no-ref/
-> +			pwm1_pin: pwm1-pin {
-> +				pins = "PB5";
-> +				function = "pwm1";
-> +			};
-> +
->  			spi0_pins: spi0-pins {
->  				pins = "PC0", "PC1", "PC2", "PC3";
->  				function = "spi0";
+> diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
+> index c5f99d834ec5..e4df72c408d2 100644
+> --- a/Documentation/driver-api/driver-model/devres.rst
+> +++ b/Documentation/driver-api/driver-model/devres.rst
+> @@ -420,6 +420,7 @@ POWER
+>     devm_reboot_mode_unregister()
+>   
+>   PWM
+> +  devm_pwmchip_alloc()
+>     devm_pwmchip_add()
+>     devm_pwm_get()
+>     devm_fwnode_pwm_get()
+> diff --git a/Documentation/driver-api/pwm.rst b/Documentation/driver-api/pwm.rst
+> index 3c28ccc4b611..cee66c7f0335 100644
+> --- a/Documentation/driver-api/pwm.rst
+> +++ b/Documentation/driver-api/pwm.rst
+> @@ -143,11 +143,11 @@ to implement the pwm_*() functions itself. This means that it's impossible
+>   to have multiple PWM drivers in the system. For this reason it's mandatory
+>   for new drivers to use the generic PWM framework.
+>   
+> -A new PWM controller/chip can be added using pwmchip_add() and removed
+> -again with pwmchip_remove(). pwmchip_add() takes a filled in struct
+> -pwm_chip as argument which provides a description of the PWM chip, the
+> -number of PWM devices provided by the chip and the chip-specific
+> -implementation of the supported PWM operations to the framework.
+> +A new PWM controller/chip can be allocated using devm_pwmchip_alloc, then added
+> +using pwmchip_add() and removed again with pwmchip_remove(). pwmchip_add()
+> +takes a filled in struct pwm_chip as argument which provides a description of
+> +the PWM chip, the number of PWM devices provided by the chip and the
+> +chip-specific implementation of the supported PWM operations to the framework.
+>   
+>   When implementing polarity support in a PWM driver, make sure to respect the
+>   signal conventions in the PWM framework. By definition, normal polarity
+> diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
+> index 1b4c3d0caa82..b821a2b0b172 100644
+> --- a/drivers/pwm/core.c
+> +++ b/drivers/pwm/core.c
+> @@ -454,6 +454,31 @@ of_pwm_single_xlate(struct pwm_chip *chip, const struct of_phandle_args *args)
+>   }
+>   EXPORT_SYMBOL_GPL(of_pwm_single_xlate);
+>   
+> +static void *pwmchip_priv(struct pwm_chip *chip)
+> +{
+> +	return (void *)chip + sizeof(*chip);
+> +}
+> +
+> +struct pwm_chip *devm_pwmchip_alloc(struct device *parent, unsigned int npwm, size_t sizeof_priv)
+> +{
+> +	struct pwm_chip *chip;
+> +	size_t alloc_size;
+> +
+> +	alloc_size = size_add(sizeof(*chip), sizeof_priv);
+> +
+> +	chip = devm_kzalloc(parent, alloc_size, GFP_KERNEL);
+> +	if (!chip)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	chip->dev = parent;
+> +	chip->npwm = npwm;
+> +
+> +	pwmchip_set_drvdata(chip, pwmchip_priv(chip));
+> +
+> +	return chip;
+> +}
+> +EXPORT_SYMBOL_GPL(devm_pwmchip_alloc);
+> +
+>   static void of_pwmchip_add(struct pwm_chip *chip)
+>   {
+>   	if (!chip->dev || !chip->dev->of_node)
+> diff --git a/include/linux/pwm.h b/include/linux/pwm.h
+> index 2c49d2fe2fe7..8bc7504aa7d4 100644
+> --- a/include/linux/pwm.h
+> +++ b/include/linux/pwm.h
+> @@ -403,6 +403,8 @@ static inline bool pwm_might_sleep(struct pwm_device *pwm)
+>   int pwm_capture(struct pwm_device *pwm, struct pwm_capture *result,
+>   		unsigned long timeout);
+>   
+> +struct pwm_chip *devm_pwmchip_alloc(struct device *parent, unsigned int npwm, size_t sizeof_priv);
+> +
+>   int __pwmchip_add(struct pwm_chip *chip, struct module *owner);
+>   #define pwmchip_add(chip) __pwmchip_add(chip, THIS_MODULE)
+>   void pwmchip_remove(struct pwm_chip *chip);
 
