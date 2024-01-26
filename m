@@ -1,65 +1,39 @@
-Received: from mail5.25mail.st (mail5.25mail.st [74.50.62.9])
+Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D22F1C688
-	for <linux-sunxi@lists.linux.dev>; Fri, 26 Jan 2024 08:32:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.50.62.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE5C860B90;
+	Fri, 26 Jan 2024 09:06:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.6.53.87
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706257940; cv=none; b=pQhfLOGzzqxxWjB6QZ6xMXLD3vEK3ms/kC+scbp+fITYPxiP7HstRM3XtTfMsLgK06m8c8uSBq64jreHKMHtkc2ien9uUpVzsDxuAsE6DgCcbEBDqJf+i+eS+4vBe1xp0aXVRMaANnmFTIIO6acGBnua0anY3YvSppuVyQk+djg=
+	t=1706260008; cv=none; b=nCJFaBYTpAiLqsiKsk5rjoLI0d92wMhbx7Q+EWG9WZ7GarBSWgmWZMfSK7ehyos2sBMPppcNavSI9Aze6yLT0ss7fiITDIB1DfkwLqncaQce3MnjuSMyz1BQVFeZibnpZTBcvXN2DIFvvK66N4AJQd4Ay7UFozu2wylcZ5nEiG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706257940; c=relaxed/simple;
-	bh=jlmG1wzP0u2ArENwmDLoBVgwPoZ/B4FgKHD1TWOBq7E=;
+	s=arc-20240116; t=1706260008; c=relaxed/simple;
+	bh=FmZ7L70FxZzdqagdRT1MctQ8VKv5y9VO6LoUIfjlsTQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r8Kv1YzsrirkXdov0iUQhIvY/JuskEdtsff6zWPzqjAbrp1KIH6IYHd5dWsMLG6FF7uSMJQWSZTFvE7kGLEMzeO5ZXZCLVGnV6bO4VJ/UtYhAeauHdyxHQ+yy8YNle/eRjshFE8twtxipzAnxbc0SuAOdxBwHcWmaq3YvZ2UvN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomide.com; spf=fail smtp.mailfrom=atomide.com; dkim=pass (2048-bit key) header.d=atomide.com header.i=@atomide.com header.b=sIqksMLT; arc=none smtp.client-ip=74.50.62.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomide.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=atomide.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=atomide.com header.i=@atomide.com header.b="sIqksMLT"
-Received: from localhost (91-158-86-216.elisa-laajakaista.fi [91.158.86.216])
-	by mail5.25mail.st (Postfix) with ESMTPSA id 185BD6042F;
-	Fri, 26 Jan 2024 08:31:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=atomide.com;
-	s=25mailst; t=1706257937;
-	bh=jlmG1wzP0u2ArENwmDLoBVgwPoZ/B4FgKHD1TWOBq7E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sIqksMLTCXWb8YUFNG8ewkvN10ILCXI1aOGTilVIg35IPVz+WJkoCE8estBQG+FAi
-	 Ki7xAhTnIBvmU7OT5pDVYwupm0MNdBVikCkHmOMS9zEnkFYc+p+Rv439YyW0wezQ1m
-	 AQm1UrgeSR3ciAJ3BUe5fRPWvd1aD73HTbeyQcR6/w7KFSGosKYgBRYmLPOjEu2v0g
-	 mVdpTvoPRdfSwfRtXaknFwhfG7tSnHQ2Nw7J0GGffMSE7mDHmuKgl3dLTRVj+R2bCQ
-	 FPbBMatNFsfpZfk6sdEu7p4PAQn8v0x91DqeXdCxoUqSYY1vMnecRDXgdstAf4F0rd
-	 G/IDhnoyGsmvg==
-Date: Fri, 26 Jan 2024 10:31:17 +0200
-From: Tony Lindgren <tony@atomide.com>
-To: Rob Herring <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Andrew Davis <afd@ti.com>, Frank Binns <frank.binns@imgtec.com>,
-	Matt Coster <matt.coster@imgtec.com>,
-	"H . Nikolaus Schaller" <hns@goldelico.com>,
-	Adam Ford <aford173@gmail.com>,
-	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=pT8I4HVCc8fBIywDamug1+mM3G5z8OfnRizdbNOx2FX0ydsh5RPxHpqBNY25FyF1y1r527gzwHmq5oQEaKW6j2MKF9crICKrkXNdUv4e3pxW6wnkdsQlLBLkWO6S/nxV9J0m+wSI+ocupGaQ3h0fKp2i1oGi5KPXJX1VhXg5dNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; arc=none smtp.client-ip=144.6.53.87
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gondor.apana.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
+	id 1rTIAG-006Eu5-Mh; Fri, 26 Jan 2024 17:06:21 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Fri, 26 Jan 2024 17:06:33 +0800
+Date: Fri, 26 Jan 2024 17:06:33 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Erick Archer <erick.archer@gmx.com>
+Cc: Corentin Labbe <clabbe.montjoie@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	=?utf-8?Q?Beno=C3=AEt?= Cousson <bcousson@baylibre.com>,
-	Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
-	Tero Kristo <kristo@kernel.org>,
-	Paul Cercueil <paul@crapouillou.net>,
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-omap@vger.kernel.org,
-	linux-mips@vger.kernel.org
-Subject: Re: [PATCH 02/11] dt-bindings: gpu: Add PowerVR Series5 SGX GPUs
-Message-ID: <20240126083117.GU5185@atomide.com>
-References: <20240109171950.31010-1-afd@ti.com>
- <20240109171950.31010-3-afd@ti.com>
- <e2fce141-4966-4e70-9a5c-865a2737174c@linaro.org>
- <20240110083857.GB5185@atomide.com>
- <20240119174815.GA633343-robh@kernel.org>
+	Jonathan Corbet <corbet@lwn.net>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] crypto: sun8i-ce - Use kcalloc() instead of kzalloc()
+Message-ID: <ZbN2GfKU18pVEprw@gondor.apana.org.au>
+References: <20240121153407.8348-1-erick.archer@gmx.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -68,23 +42,29 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240119174815.GA633343-robh@kernel.org>
+In-Reply-To: <20240121153407.8348-1-erick.archer@gmx.com>
 
-* Rob Herring <robh@kernel.org> [240119 17:48]:
-> On Wed, Jan 10, 2024 at 10:38:57AM +0200, Tony Lindgren wrote:
-> > So for merging these, as many of the changes touch the omap variants, I
-> > could set up an immutable branch with all the changes after -rc1. Or I can
-> > ack the patches too if somebody has better ideas.
+On Sun, Jan 21, 2024 at 04:34:07PM +0100, Erick Archer wrote:
+> As noted in the "Deprecated Interfaces, Language Features, Attributes,
+> and Conventions" documentation [1], size calculations (especially
+> multiplication) should not be performed in memory allocator (or similar)
+> function arguments due to the risk of them overflowing. This could lead
+> to values wrapping around and a smaller allocation being made than the
+> caller was expecting. Using those allocations could lead to linear
+> overflows of heap memory and other misbehaviors.
 > 
-> Just take all but patches 10 and 11. I don't think it matters if the 
-> binding is there for them as long as it is all there in next. No one is 
-> paying that close attention to the warnings I think.
+> So, use the purpose specific kcalloc() function instead of the argument
+> size * count in the kzalloc() function.
+> 
+> Link: https://www.kernel.org/doc/html/next/process/deprecated.html#open-coded-arithmetic-in-allocator-arguments [1]
+> Link: https://github.com/KSPP/linux/issues/162
+> Signed-off-by: Erick Archer <erick.archer@gmx.com>
+> ---
+>  drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-OK I've now applied these except patches 10 and 11 into a sgx-for-v6.9
-branch [0].
-
-Regards,
-
-Tony
-
-[0] https://git.kernel.org/pub/scm/linux/kernel/git/tmlind/linux-omap.git/log/?h=sgx-for-v6.9
+Patch applied.  Thanks.
+-- 
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
