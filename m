@@ -1,110 +1,90 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D89015B0ED
-	for <linux-sunxi@lists.linux.dev>; Mon, 29 Jan 2024 16:38:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79551152E05;
+	Mon, 29 Jan 2024 16:55:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706546310; cv=none; b=Ue3EZ6HbW+f5Pm2nBtKKtOp0m+7/IvINoV2z7EgJuKdBk5ITlkT608jYGD4XhBPH2D0ZHSJYYsMBluVGj3cl+f4pUleGtp0LMi4qIGzWyIqp2bBv7auAqVrog8zHG6bkHOsvT+GEWof/f5S5eDWQB1cSdGI8w9CvZ0MuGUI2Two=
+	t=1706547322; cv=none; b=n+667skDTZjwNBQ+RADWa+rDlp2EQl4f1fP5FOQedaipdblgL/K2CKvXYPMcnnu8BbFMURL7g9XEks4ETk7yJXb01nGZxE3DIts9F7jSdmmjNfCklHjMerqsTs/EZ+vNyXGjRl835T0333X0yBY29z4ZmWFSuFeQD9dpV+5ln8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706546310; c=relaxed/simple;
-	bh=z1hxe54wk9k16vTP+fvcHWy13xckvkM4yxr4zleDJSw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VpjTzaSipkjhYur67w2rULgV7jN5e0K9fZDgOY1fCzuAxq6HJoiST5sIm7dYQN+A+IvtYiggo/MIcM253j/xWyLLqcBR1mt/MU+KNZrtr3XfrXYzzjWVGmCJTEpaqtVIdlH8bVycE8WwUosbNecb5KIaNq7VLSTjZO1AXaMvlXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2E2F5DA7;
-	Mon, 29 Jan 2024 08:39:11 -0800 (PST)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B9D8E3F738;
-	Mon, 29 Jan 2024 08:38:26 -0800 (PST)
-Date: Mon, 29 Jan 2024 16:38:24 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Nick Alilovic <nickalilovic@gmail.com>
-Cc: u-boot@lists.denx.de, jagan@amarulasolutions.com,
- linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2] configs: Transpeed 8K618-T: Add Transpeed 8K618-T
- board support
-Message-ID: <20240129163824.6cf5804e@donnerap.manchester.arm.com>
-In-Reply-To: <20240118175655.1c8922a2@donnerap.manchester.arm.com>
-References: <20240118164508.43617-1-nickalilovic@gmail.com>
-	<20240118175655.1c8922a2@donnerap.manchester.arm.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1706547322; c=relaxed/simple;
+	bh=hR9jYGWhCgjIXuOxIH2AVMc3Vqraigi5qVyEese3aHs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C2YYH/Sr3ZfATkxit8yO80HvMJua4gbVhcCS4BCcZFbKmpbVfaTfQFQ5a824XEOPIKoXKxoNqFzX/gIfkD+TxaARfXRxwkh3wIqDTxP3igrXLGcqFJA2K8FMT3QT7S4DcfMG+M2ghzwlFdLstTaormhnPGl/+d1TOK6IkcL1Qds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ay1FWscT; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ay1FWscT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA806C433C7;
+	Mon, 29 Jan 2024 16:55:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706547322;
+	bh=hR9jYGWhCgjIXuOxIH2AVMc3Vqraigi5qVyEese3aHs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ay1FWscTz6Za/JwPsFrt6sHJK48AKK1rXolTRSxu0+vC2pF2JBY7y0/UnAFWpwrD8
+	 6lKOBnNOjIMvw4V8TtvzAUI/LA0keuXV58dWCy5HG5UVXxze/4Xn676vEfq/DjF1MC
+	 2g4Ltq3iSsDdXRDF5DLZX4ly2avS9rHzBnYXAEHNiCPgJGOmZvogtt/bwkYR/5F5Kv
+	 MFWi6y7z2mbEeUjDKMdFT8VSyZ6nnpNZAiy8o64oVyF0eZVbC8+5ry8gjRxnRVhktj
+	 Go5Y+DiIHD5FOughSoHJVTLatKFpVV2muTIPdZ2lxMCUdgYrcRKF6TvVyFZDudNeJ2
+	 lFuROlD1ekjRg==
+Date: Mon, 29 Jan 2024 16:55:15 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Chen-Yu Tsai <wens@kernel.org>
+Cc: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Vinod Koul <vkoul@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-sound@vger.kernel.org,
+	dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/7] arm64: sun50i-h616: Add DMA and SPDIF controllers
+Message-ID: <08953129-ade5-4b44-8d4f-4b9ec5c750b1@sirena.org.uk>
+References: <20240127163247.384439-1-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="DjUSIe2lhqm+shtr"
+Content-Disposition: inline
+In-Reply-To: <20240127163247.384439-1-wens@kernel.org>
+X-Cookie: Jenkinson's Law:
 
-On Thu, 18 Jan 2024 17:56:55 +0000
-Andre Przywara <andre.przywara@arm.com> wrote:
 
-> On Thu, 18 Jan 2024 11:45:08 -0500
-> Nick Alilovic <nickalilovic@gmail.com> wrote:
-> 
-> Hi Nick,
-> 
-> > This is a Chinese TV box based on Allwinner H618 SoC.
-> > 
-> > The DRAM parameters were derived from the values found in a firmware update.
-> > 
-> > Signed-off-by: Nick Alilovic <nickalilovic@gmail.com>  
-> 
-> Thanks for the fixes, looks good now:
-> 
-> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-> 
-> I will queue this after the DT files have been merged.
+--DjUSIe2lhqm+shtr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Merged into sunxi/master.
+On Sun, Jan 28, 2024 at 12:32:40AM +0800, Chen-Yu Tsai wrote:
 
-Thanks!
-Andre
+> Chen-Yu Tsai (7):
+>   dt-bindings: sound: sun4i-spdif: Fix requirements for H6
+>   dt-bindings: sound: sun4i-spdif: Add Allwinner H616 compatible
 
-> > ---
-> > This defconfig relies on the synced sun50i-h618-transpeed-8k618-t.dts file.
-> > 
-> >  configs/transpeed-8k618-t_defconfig | 27 +++++++++++++++++++++++++++
-> >  1 file changed, 27 insertions(+)
-> >  create mode 100644 configs/transpeed-8k618-t_defconfig
-> > 
-> > diff --git a/configs/transpeed-8k618-t_defconfig b/configs/transpeed-8k618-t_defconfig
-> > new file mode 100644
-> > index 0000000000..020d3974af
-> > --- /dev/null
-> > +++ b/configs/transpeed-8k618-t_defconfig
-> > @@ -0,0 +1,27 @@
-> > +CONFIG_ARM=y
-> > +CONFIG_ARCH_SUNXI=y
-> > +CONFIG_DEFAULT_DEVICE_TREE="sun50i-h618-transpeed-8k618-t"
-> > +CONFIG_SPL=y
-> > +CONFIG_DRAM_SUN50I_H616_DX_ODT=0x03030303
-> > +CONFIG_DRAM_SUN50I_H616_DX_DRI=0x0e0e0e0e
-> > +CONFIG_DRAM_SUN50I_H616_CA_DRI=0x1f12
-> > +CONFIG_DRAM_SUN50I_H616_TPR0=0xc0001002
-> > +CONFIG_DRAM_SUN50I_H616_TPR10=0x2f1107
-> > +CONFIG_DRAM_SUN50I_H616_TPR11=0xddddcccc
-> > +CONFIG_DRAM_SUN50I_H616_TPR12=0xeddc7665
-> > +CONFIG_MACH_SUN50I_H616=y
-> > +CONFIG_SUNXI_DRAM_H616_DDR3_1333=y
-> > +CONFIG_DRAM_CLK=648
-> > +CONFIG_MMC_SUNXI_SLOT_EXTRA=2
-> > +CONFIG_R_I2C_ENABLE=y
-> > +# CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
-> > +CONFIG_SPL_I2C=y
-> > +CONFIG_SPL_SYS_I2C_LEGACY=y
-> > +CONFIG_SYS_I2C_MVTWSI=y
-> > +CONFIG_SYS_I2C_SLAVE=0x7f
-> > +CONFIG_SYS_I2C_SPEED=400000
-> > +CONFIG_SUPPORT_EMMC_BOOT=y
-> > +CONFIG_AXP313_POWER=y
-> > +CONFIG_AXP_DCDC3_VOLT=1360
-> > +CONFIG_USB_EHCI_HCD=y
-> > +CONFIG_USB_OHCI_HCD=y  
-> 
-> 
+Please submit patches using subject lines reflecting the style for the
+subsystem, this makes it easier for people to identify relevant patches.
+Look at what existing commits in the area you're changing are doing and
+make sure your subject lines visually resemble what they're doing.
+There's no need to resubmit to fix this alone.
 
+--DjUSIe2lhqm+shtr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmW32HIACgkQJNaLcl1U
+h9CTTAf+NBj4Ah7hGuLaROTSDDDiz0BWk9pjww4elLlFi1AUBUBNvQWdDtAijaGu
+C7W6zTydRgAbYyxvQtUXydQVBblXpZO9518kCmpkAiVzNX7shDL0jLVEnCuK0uzx
+7h0Y9sIosdfwPVKv/jUovhp2EpsXMzl/5srlZLo+d6m24zuxstSyR/7I+9BWfk9d
+wUD6iiUUtv+ZIFdcBoH9Fw44U/R/0aN8D0cz84J7dYGV0yCKTl4iEIXPBuBjUbex
+e6kX3qicar6RtwyJpGd7y+L4wVzJSsgTLuf4OrgV8xx6aCCS76MzhjGnNi1CJzIC
+OiZCWF4xwWdg73/Z4xIipYkxAGal7g==
+=E9Pt
+-----END PGP SIGNATURE-----
+
+--DjUSIe2lhqm+shtr--
