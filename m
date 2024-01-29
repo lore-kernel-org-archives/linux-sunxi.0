@@ -1,180 +1,118 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D34B43F9C5
-	for <linux-sunxi@lists.linux.dev>; Mon, 29 Jan 2024 17:24:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C6463F9C0
+	for <linux-sunxi@lists.linux.dev>; Mon, 29 Jan 2024 17:34:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706549096; cv=none; b=c+Dvvp1OzrZ2KbeTwEshrtNGUhUI1rvct478sarBEK6Ziwdb+EhMySYdi2Qs4I5DyK0m8JQMEPiFy9I5IjFmKceJHoNKJKPPgXcUSVYaGPFcvCB2BrFaNTX4pY6CZfr4cbo8byV6w8TSMPp1nky39b+/oxse0A6fcbSRnXlqSJw=
+	t=1706549664; cv=none; b=TWE7apq5fJKMVUfVDlH46qarC+lBgHmYfaaXiUaTHrsGWQ2Zgto62xubpN2Wov2P0zbQkjMg9qgn4i3OS959gnqd2ljAIfZ2Xt1xKleD96OqrAG6zzZU+XK/QdUZjUfQQ92MpUuJnXPp2WaB9qyGw/YVmmysv+CrOqrHm03MzBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706549096; c=relaxed/simple;
-	bh=tjLUYUDHew7O8EJDtfmVUw6ULhzRkIdL5JVdwGqciJw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QcLX0w3jpoDbnDhFZEaBAq+w3vH8mfNGDdNk0CfPsbe2lvgHuPLJbIGlHk3anBdBIjutx9B20PjS8VhGci7gZ5NOSI3UrH/happKrUiUMoLdS7l3Klz9/72xcCr8x/Uk/ELaIszQ74PqHZLUBSzdUMGNLyeVaP6Kag27XpArlTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 06A21DA7;
-	Mon, 29 Jan 2024 09:25:37 -0800 (PST)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 031873F738;
-	Mon, 29 Jan 2024 09:24:51 -0800 (PST)
-Date: Mon, 29 Jan 2024 17:24:49 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Tom Rini <trini@konsulko.com>
-Cc: Jagan Teki <jagan@amarulasolutions.com>, Samuel Holland
- <samuel@sholland.org>, Maksim Kiselev <bigunclemax@gmail.com>, Nick
- Alilovic <nickalilovic@gmail.com>, Chuanhong Guo <gch981213@gmail.com>,
- linux-sunxi@lists.linux.dev, u-boot@lists.denx.de
+	s=arc-20240116; t=1706549664; c=relaxed/simple;
+	bh=dBUtWC5LOK+rI5NY0KmiF98ex20e4/UKX5mGrDcqX3I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m5dBLiYeG6diK6aCZ2vEcH1ZPYUxAQ1jC7TjNFB+E8Jd5fQEXtl/oLNlKPaSjW0IebRDNSjy9auTBCAgenqMUgiRYtV11n1QH9dHd5PIEJEpgEQObD/aV4w4U/FJhr+AZ/Nfh0aaSg6cXAu1qZxTHa1dVKvlRdBFDAxd5qUnNjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=konsulko.com; spf=pass smtp.mailfrom=konsulko.com; dkim=pass (1024-bit key) header.d=konsulko.com header.i=@konsulko.com header.b=iPuVun9R; arc=none smtp.client-ip=209.85.219.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=konsulko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=konsulko.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=konsulko.com header.i=@konsulko.com header.b="iPuVun9R"
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-dc24ead4428so2196480276.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 29 Jan 2024 09:34:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google; t=1706549661; x=1707154461; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=dBUtWC5LOK+rI5NY0KmiF98ex20e4/UKX5mGrDcqX3I=;
+        b=iPuVun9RVGut039MsKHeli3i4yfNclX0fOsTTDKfGzesW8L31m/ooq6bhSrSg39HGK
+         e9OJpOq/hWTG8WsbjVKDCIjo5ZgdL9BEUazB8SevlBck68MgDFmnLN2sb90cml+pJilc
+         E7A4+VqPIkkY/XxPEAgnMGLx70BGkyKdcc3T0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706549661; x=1707154461;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dBUtWC5LOK+rI5NY0KmiF98ex20e4/UKX5mGrDcqX3I=;
+        b=qlzUKCSCeiW9nRvSwv4tyLJ2QPBlAlfUNdGJz4FUcASo0HcyyKF1CS8bwyhuqX8J7K
+         d3yQ3Kb5Ex0n6sAIgOdCbxhYKG/i/+5z9nB4b8xh60V7Z8g1ncudqlrrKcToDRLISZtM
+         0wix5j7W5t84J3eAhbehnQQ4h1FvflMPnYBQyCbj5sw2C7uzkdrFR+20CToz+sYso0J7
+         XpIIYSvIUJ6mD9cYdlkaVoXJaJrr2cX/gB6ipZKDMTbysd5SYq5f1/X2DJFZ/7ruRuKX
+         tp4nFRs1g8BixWEwuBr+1vtnBicILe5aslanBXFEZh+9w5Bmf1hpoYPO5Y33hgLQngVC
+         XwHg==
+X-Gm-Message-State: AOJu0Yw4vHvECs8pJGmEt0XyjUqNPDjH7rYazXkS2iXoLlnbWu+r3qod
+	W3vSu9cRqjsznqQqymbWtC4N/kXl1KsE8IxhTI1AoU1mRy1uphHPLNf2wAUg2DI=
+X-Google-Smtp-Source: AGHT+IFcE/dQNk7Rvh8KugX3SXXRikgjqXst4QrfQapizXKHSPUjuaMMYSKMMhL48Un4iXCFmpEVVw==
+X-Received: by 2002:a81:b3c3:0:b0:603:cbe0:465e with SMTP id r186-20020a81b3c3000000b00603cbe0465emr3055342ywh.20.1706549661318;
+        Mon, 29 Jan 2024 09:34:21 -0800 (PST)
+Received: from bill-the-cat (2603-6081-7b00-3119-0000-0000-0000-1001.res6.spectrum.com. [2603:6081:7b00:3119::1001])
+        by smtp.gmail.com with ESMTPSA id t73-20020a81834c000000b005ffddb2369dsm2618483ywf.82.2024.01.29.09.34.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jan 2024 09:34:20 -0800 (PST)
+Date: Mon, 29 Jan 2024 12:34:18 -0500
+From: Tom Rini <trini@konsulko.com>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Jagan Teki <jagan@amarulasolutions.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Maksim Kiselev <bigunclemax@gmail.com>,
+	Nick Alilovic <nickalilovic@gmail.com>,
+	Chuanhong Guo <gch981213@gmail.com>, linux-sunxi@lists.linux.dev,
+	u-boot@lists.denx.de
 Subject: Re: Pull request: u-boot-sunxi/master for v2024.04
-Message-ID: <20240129172449.0b9ebc9f@donnerap.manchester.arm.com>
-In-Reply-To: <20240129155543.2439451-1-andre.przywara@arm.com>
+Message-ID: <20240129173418.GA1152441@bill-the-cat>
 References: <20240129155543.2439451-1-andre.przywara@arm.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+ <20240129172449.0b9ebc9f@donnerap.manchester.arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="o21KAyWGNZ5OpIQV"
+Content-Disposition: inline
+In-Reply-To: <20240129172449.0b9ebc9f@donnerap.manchester.arm.com>
+X-Clacks-Overhead: GNU Terry Pratchett
 
-On Mon, 29 Jan 2024 15:55:43 +0000
-Andre Przywara <andre.przywara@arm.com> wrote:
 
-Hi Tom,
+--o21KAyWGNZ5OpIQV
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> please pull the sunxi/master branch, containing the first part of the
+On Mon, Jan 29, 2024 at 05:24:49PM +0000, Andre Przywara wrote:
+> On Mon, 29 Jan 2024 15:55:43 +0000
+> Andre Przywara <andre.przywara@arm.com> wrote:
+>=20
+> Hi Tom,
+>=20
+> > please pull the sunxi/master branch, containing the first part of the
+>=20
+> I just saw that the CI pipeline failed on missing maintainer entries for
+> the two new boards. Is that a showstopper for you? Shall I update the
+> branch, or would a follow-up patch be sufficient?
 
-I just saw that the CI pipeline failed on missing maintainer entries for
-the two new boards. Is that a showstopper for you? Shall I update the
-branch, or would a follow-up patch be sufficient?
+I've fixed this up myself this time, since I was doing another CI run
+with this for other changes but in the future please fix these errors
+before sending the PR.
 
-Cheers,
-Andre
+--=20
+Tom
 
-> 2024.04 changes. I had some more (USB regulator) changes queued, but
-> found regressions during the final testing, so had to drop some. If I
-> can find reasons and simple fixes for those, I would send them later.
-> 
-> So for now these are some rather easy changes:
-> - Some cleanups in header files: those do not affect the generated
-> binaries at all.
-> - The usual update of DT files from the kernel repo, mostly adding new
-> board files this time. On the wake of this there is one defconfig to
-> enable a new board, some H618 TV box branded as "Transpeed".
-> - Samuel's series to support SPL FIT image loading for 32-bit SoCs as
-> well, so far this was restricted to ARM64 boards. I refrained from
-> automatically enabling this everywhere, instead this requires user
-> intervention during board configuration. This allows to ship the "crust"
-> management processor firmware on H3 boards, which enables better power
-> saving.
-> - One defconfig for an older H3 board. There was a close-by defconfig for
-> a related board, but there are some differences which deserve a separate
-> file.
-> - Support for the EMAC driver to work with fixed-link PHYs, which allows
-> to directly wire the MAC to a switch IC.
-> 
-> The branch survived build testing for all 167 sunxi boards, and Linux
-> boot testing on some selected boards.
-> 
-> Please pull!
-> 
-> Cheers,
-> Andre
-> 
-> ==================
-> The following changes since commit 526a865fe4fea59fb2638726c26e39557eb97fdd:
-> 
->   Merge branch 'master-cleanup' of https://source.denx.de/u-boot/custodians/u-boot-sh (2024-01-27 20:43:20 -0500)
-> 
-> are available in the Git repository at:
-> 
->   https://source.denx.de/u-boot/custodians/u-boot-sunxi.git master
-> 
-> for you to fetch changes up to 539612e27690a8df7f197cd1e9f4c2cf6ee1ac64:
-> 
->   sunxi: Consider SPL size limitations for FIT loading (2024-01-29 14:31:00 +0000)
-> 
-> ----------------------------------------------------------------
-> Andre Przywara (7):
->       sunxi: cleanup sunxi-common.h
->       sunxi: sun50i-h6: remove unneeded base addresses from header
->       sunxi: sun4i: remove unneeded base addresses from header
->       sunxi: sun9i: remove unneeded base addresses from header
->       sunxi: remove common.h inclusion
->       sunxi: simplify U-Boot proper only builds
->       sunxi: dts: update devicetree files from Linux-v6.8-rc1
-> 
-> Chuanhong Guo (1):
->       sunxi: add defconfig for nanopi_duo2
-> 
-> Maksim Kiselev (1):
->       net: sun8i-emac: Add support for fixed-link phy
-> 
-> Nick Alilovic (1):
->       sunxi: add Transpeed 8K618-T board support
-> 
-> Samuel Holland (4):
->       sunxi: spl: Disable padding from SPL_PAD_TO
->       sunxi: binman: Move BL31 and SCP firmware addresses to Kconfig
->       sunxi: binman: Support FIT generation for 32-bit SoCs
->       sunxi: Consider SPL size limitations for FIT loading
-> 
->  arch/arm/Kconfig                                   |   4 +-
->  arch/arm/dts/Makefile                              |   1 +
->  arch/arm/dts/sun50i-h616-bigtreetech-cb1-manta.dts |  35 +++
->  arch/arm/dts/sun50i-h616-bigtreetech-cb1.dtsi      | 138 +++++++++++
->  arch/arm/dts/sun50i-h616-bigtreetech-pi.dts        |  63 +++++
->  arch/arm/dts/sun50i-h616.dtsi                      |   7 +
->  arch/arm/dts/sun50i-h618-orangepi-zero2w.dts       | 176 +++++++++++++
->  arch/arm/dts/sun50i-h618-transpeed-8k618-t.dts     | 161 ++++++++++++
->  arch/arm/dts/sun8i-r40.dtsi                        |   2 +
->  arch/arm/dts/sun8i-v3s-anbernic-rg-nano.dts        | 276 +++++++++++++++++++++
->  arch/arm/dts/sun8i-v3s.dtsi                        |  35 +++
->  arch/arm/dts/sunxi-u-boot.dtsi                     |  41 +--
->  arch/arm/include/asm/arch-sunxi/cpu_sun4i.h        |  47 ----
->  arch/arm/include/asm/arch-sunxi/cpu_sun50i_h6.h    |  21 --
->  arch/arm/include/asm/arch-sunxi/cpu_sun9i.h        |  41 ---
->  arch/arm/mach-sunxi/Kconfig                        |  33 ++-
->  arch/arm/mach-sunxi/board.c                        |   1 -
->  arch/arm/mach-sunxi/clock.c                        |   1 -
->  arch/arm/mach-sunxi/clock_sun4i.c                  |   1 -
->  arch/arm/mach-sunxi/clock_sun50i_h6.c              |   1 -
->  arch/arm/mach-sunxi/clock_sun6i.c                  |   1 -
->  arch/arm/mach-sunxi/clock_sun8i_a83t.c             |   1 -
->  arch/arm/mach-sunxi/clock_sun9i.c                  |   1 -
->  arch/arm/mach-sunxi/cpu_info.c                     |   1 -
->  arch/arm/mach-sunxi/dram_helpers.c                 |   3 +-
->  arch/arm/mach-sunxi/dram_sun4i.c                   |   1 -
->  arch/arm/mach-sunxi/dram_sun50i_h6.c               |   1 -
->  arch/arm/mach-sunxi/dram_sun50i_h616.c             |   1 -
->  arch/arm/mach-sunxi/dram_sun6i.c                   |   1 -
->  arch/arm/mach-sunxi/dram_sun8i_a23.c               |   1 -
->  arch/arm/mach-sunxi/dram_sun8i_a33.c               |   1 -
->  arch/arm/mach-sunxi/dram_sun8i_a83t.c              |   1 -
->  arch/arm/mach-sunxi/dram_sun9i.c                   |   1 -
->  arch/arm/mach-sunxi/dram_suniv.c                   |   2 +-
->  arch/arm/mach-sunxi/dram_sunxi_dw.c                |   1 -
->  arch/arm/mach-sunxi/gtbus_sun9i.c                  |   1 -
->  arch/arm/mach-sunxi/pmic_bus.c                     |   1 -
->  arch/arm/mach-sunxi/prcm.c                         |   1 -
->  arch/arm/mach-sunxi/spl_spi_sunxi.c                |   1 -
->  arch/arm/mach-sunxi/timer.c                        |   1 -
->  common/spl/Kconfig                                 |   6 +-
->  configs/nanopi_duo2_defconfig                      |  12 +
->  configs/transpeed-8k618-t_defconfig                |  27 ++
->  drivers/net/sun8i_emac.c                           |   7 +-
->  include/configs/sunxi-common.h                     |  56 +----
->  45 files changed, 1002 insertions(+), 214 deletions(-)
->  create mode 100644 arch/arm/dts/sun50i-h616-bigtreetech-cb1-manta.dts
->  create mode 100644 arch/arm/dts/sun50i-h616-bigtreetech-cb1.dtsi
->  create mode 100644 arch/arm/dts/sun50i-h616-bigtreetech-pi.dts
->  create mode 100644 arch/arm/dts/sun50i-h618-orangepi-zero2w.dts
->  create mode 100644 arch/arm/dts/sun50i-h618-transpeed-8k618-t.dts
->  create mode 100644 arch/arm/dts/sun8i-v3s-anbernic-rg-nano.dts
->  create mode 100644 configs/nanopi_duo2_defconfig
->  create mode 100644 configs/transpeed-8k618-t_defconfig
-> 
+--o21KAyWGNZ5OpIQV
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEEGjx/cOCPqxcHgJu/FHw5/5Y0tywFAmW34ZcACgkQFHw5/5Y0
+tyykswv+Ie9wTeyz9icds5xcIv0dw8+TRYhFe+uKrjcZjRE+mbVy/AP9VKKd0xAl
+BIh7HQIiDyd6CCNZ4uq8eFyEUFoGeqhy4KzgJo6UlZ97mVHYskdUuGoQ/3DjRqLA
+fDHGwkFNkazIXgy3rsCfdP0dv9OUXvI4BdiIIcMQYZWIIzcvmHofYL0m8j5hloa7
+xg9xzD7GVd3nDBDfTS0WvEBIenZuEsgkzv8y9ML5vwDWDPermkykwLi/UrfopHLs
+FFk95Eb9n+iSizftxQvd8czBHCyXOwaSVDou587lJq8t+H7lVnn+i031wnARUffy
+gltlUtV9nh6uoWLf0U+xB9T/09GNUusZgKVOWm26d5GN3Y8SREnWv+HKEwIBP5Nf
+ZBzJMim4mD8sx7OIGUO3hgYoT0KkFEjvViSpfNqRZEpjQGMhowBRcw+unJQULRX4
+LTERrB6xQ2ClUVEPH8oOLk8w8fa2ImRbIvfg5qcEsgBP6S+XgqZD6y1hIbqSpnRO
+7VMeYEUw
+=ClI8
+-----END PGP SIGNATURE-----
+
+--o21KAyWGNZ5OpIQV--
