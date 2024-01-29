@@ -1,42 +1,34 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AAF31586D7
-	for <linux-sunxi@lists.linux.dev>; Mon, 29 Jan 2024 16:59:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D34B43F9C5
+	for <linux-sunxi@lists.linux.dev>; Mon, 29 Jan 2024 17:24:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706547600; cv=none; b=H1FKiwtu/iaXUxYbns01g70AUvjuqanU3f5aDEN9ivR2KrLkCQgG8JMFDQwtC1cJeG6/QrOgYqbekrnGsM/3bLi7BYNlaVpLitT2DUVa1na45Gzr822rqCwK8M60b5cABwAQZlySJbZjnUzCW0KVNgxvfF7cCpqQOfNYbVJj7S4=
+	t=1706549096; cv=none; b=c+Dvvp1OzrZ2KbeTwEshrtNGUhUI1rvct478sarBEK6Ziwdb+EhMySYdi2Qs4I5DyK0m8JQMEPiFy9I5IjFmKceJHoNKJKPPgXcUSVYaGPFcvCB2BrFaNTX4pY6CZfr4cbo8byV6w8TSMPp1nky39b+/oxse0A6fcbSRnXlqSJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706547600; c=relaxed/simple;
-	bh=6AlW8GfU0yXdn2MsLvTWS4FUIIv27Mo017RHrFWdyIk=;
+	s=arc-20240116; t=1706549096; c=relaxed/simple;
+	bh=tjLUYUDHew7O8EJDtfmVUw6ULhzRkIdL5JVdwGqciJw=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=i1XQfyl42CHfcOcUNlt2OrXjyJWRo3tvhfs7jW8g3kTxm8iaAkx9wyxgzm/jI7z48cgAESHZyhUfMSEhnXpO4Efz08NM+yVeDeoACNm5pw2JdXvyT2oS+FAIhfCvYbYRdirzgJvmJ2krz9Od8usnPArIvCf/ZrJYBQB19iVamok=
+	 MIME-Version:Content-Type; b=QcLX0w3jpoDbnDhFZEaBAq+w3vH8mfNGDdNk0CfPsbe2lvgHuPLJbIGlHk3anBdBIjutx9B20PjS8VhGci7gZ5NOSI3UrH/happKrUiUMoLdS7l3Klz9/72xcCr8x/Uk/ELaIszQ74PqHZLUBSzdUMGNLyeVaP6Kag27XpArlTU=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AFF1CDA7;
-	Mon, 29 Jan 2024 09:00:41 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 06A21DA7;
+	Mon, 29 Jan 2024 09:25:37 -0800 (PST)
 Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9A3213F738;
-	Mon, 29 Jan 2024 08:59:55 -0800 (PST)
-Date: Mon, 29 Jan 2024 16:59:52 +0000
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 031873F738;
+	Mon, 29 Jan 2024 09:24:51 -0800 (PST)
+Date: Mon, 29 Jan 2024 17:24:49 +0000
 From: Andre Przywara <andre.przywara@arm.com>
-To: Chen-Yu Tsai <wens@kernel.org>
-Cc: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
- <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
- <tiwai@suse.com>, Vinod Koul <vkoul@kernel.org>, Chen-Yu Tsai
- <wens@csie.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-sound@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 4/7] dt-bindings: dma: allwinner,sun50i-a64-dma: Add
- compatible for H616
-Message-ID: <20240129165952.0dec633e@donnerap.manchester.arm.com>
-In-Reply-To: <20240127163247.384439-5-wens@kernel.org>
-References: <20240127163247.384439-1-wens@kernel.org>
-	<20240127163247.384439-5-wens@kernel.org>
+To: Tom Rini <trini@konsulko.com>
+Cc: Jagan Teki <jagan@amarulasolutions.com>, Samuel Holland
+ <samuel@sholland.org>, Maksim Kiselev <bigunclemax@gmail.com>, Nick
+ Alilovic <nickalilovic@gmail.com>, Chuanhong Guo <gch981213@gmail.com>,
+ linux-sunxi@lists.linux.dev, u-boot@lists.denx.de
+Subject: Re: Pull request: u-boot-sunxi/master for v2024.04
+Message-ID: <20240129172449.0b9ebc9f@donnerap.manchester.arm.com>
+In-Reply-To: <20240129155543.2439451-1-andre.przywara@arm.com>
+References: <20240129155543.2439451-1-andre.przywara@arm.com>
 Organization: ARM
 X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
@@ -48,66 +40,141 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Sun, 28 Jan 2024 00:32:44 +0800
-Chen-Yu Tsai <wens@kernel.org> wrote:
+On Mon, 29 Jan 2024 15:55:43 +0000
+Andre Przywara <andre.przywara@arm.com> wrote:
 
-Hi,
+Hi Tom,
 
-> From: Chen-Yu Tsai <wens@csie.org>
-> 
-> The DMA controllers found on the H616 and H618 are the same as the one
-> found on the A100. The only difference is the DMA endpoint (DRQ) layout.
-> 
-> Since the number of channels and endpoints are described with additional
-> generic properties, just add a new H616-specific compatible string and
-> fallback to the A100 one.
-> 
-> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+> please pull the sunxi/master branch, containing the first part of the
 
-Looks good, A100 is the right fallback string. dt-binding_check passed for
-me.
-
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+I just saw that the CI pipeline failed on missing maintainer entries for
+the two new boards. Is that a showstopper for you? Shall I update the
+branch, or would a follow-up patch be sufficient?
 
 Cheers,
 Andre
 
-> ---
-> Changes since v1:
-> - Switch to "contains" for if-properties statement
-> - Fall back to A100 instead of H6
+> 2024.04 changes. I had some more (USB regulator) changes queued, but
+> found regressions during the final testing, so had to drop some. If I
+> can find reasons and simple fixes for those, I would send them later.
 > 
->  .../bindings/dma/allwinner,sun50i-a64-dma.yaml       | 12 ++++++++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
+> So for now these are some rather easy changes:
+> - Some cleanups in header files: those do not affect the generated
+> binaries at all.
+> - The usual update of DT files from the kernel repo, mostly adding new
+> board files this time. On the wake of this there is one defconfig to
+> enable a new board, some H618 TV box branded as "Transpeed".
+> - Samuel's series to support SPL FIT image loading for 32-bit SoCs as
+> well, so far this was restricted to ARM64 boards. I refrained from
+> automatically enabling this everywhere, instead this requires user
+> intervention during board configuration. This allows to ship the "crust"
+> management processor firmware on H3 boards, which enables better power
+> saving.
+> - One defconfig for an older H3 board. There was a close-by defconfig for
+> a related board, but there are some differences which deserve a separate
+> file.
+> - Support for the EMAC driver to work with fixed-link PHYs, which allows
+> to directly wire the MAC to a switch IC.
 > 
-> diff --git a/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-dma.yaml b/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-dma.yaml
-> index ec2d7a789ffe..0f2501f72cca 100644
-> --- a/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-dma.yaml
-> +++ b/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-dma.yaml
-> @@ -28,6 +28,9 @@ properties:
->        - items:
->            - const: allwinner,sun8i-r40-dma
->            - const: allwinner,sun50i-a64-dma
-> +      - items:
-> +          - const: allwinner,sun50i-h616-dma
-> +          - const: allwinner,sun50i-a100-dma
->  
->    reg:
->      maxItems: 1
-> @@ -59,10 +62,11 @@ required:
->  if:
->    properties:
->      compatible:
-> -      enum:
-> -        - allwinner,sun20i-d1-dma
-> -        - allwinner,sun50i-a100-dma
-> -        - allwinner,sun50i-h6-dma
-> +      contains:
-> +        enum:
-> +          - allwinner,sun20i-d1-dma
-> +          - allwinner,sun50i-a100-dma
-> +          - allwinner,sun50i-h6-dma
->  
->  then:
->    properties:
+> The branch survived build testing for all 167 sunxi boards, and Linux
+> boot testing on some selected boards.
+> 
+> Please pull!
+> 
+> Cheers,
+> Andre
+> 
+> ==================
+> The following changes since commit 526a865fe4fea59fb2638726c26e39557eb97fdd:
+> 
+>   Merge branch 'master-cleanup' of https://source.denx.de/u-boot/custodians/u-boot-sh (2024-01-27 20:43:20 -0500)
+> 
+> are available in the Git repository at:
+> 
+>   https://source.denx.de/u-boot/custodians/u-boot-sunxi.git master
+> 
+> for you to fetch changes up to 539612e27690a8df7f197cd1e9f4c2cf6ee1ac64:
+> 
+>   sunxi: Consider SPL size limitations for FIT loading (2024-01-29 14:31:00 +0000)
+> 
+> ----------------------------------------------------------------
+> Andre Przywara (7):
+>       sunxi: cleanup sunxi-common.h
+>       sunxi: sun50i-h6: remove unneeded base addresses from header
+>       sunxi: sun4i: remove unneeded base addresses from header
+>       sunxi: sun9i: remove unneeded base addresses from header
+>       sunxi: remove common.h inclusion
+>       sunxi: simplify U-Boot proper only builds
+>       sunxi: dts: update devicetree files from Linux-v6.8-rc1
+> 
+> Chuanhong Guo (1):
+>       sunxi: add defconfig for nanopi_duo2
+> 
+> Maksim Kiselev (1):
+>       net: sun8i-emac: Add support for fixed-link phy
+> 
+> Nick Alilovic (1):
+>       sunxi: add Transpeed 8K618-T board support
+> 
+> Samuel Holland (4):
+>       sunxi: spl: Disable padding from SPL_PAD_TO
+>       sunxi: binman: Move BL31 and SCP firmware addresses to Kconfig
+>       sunxi: binman: Support FIT generation for 32-bit SoCs
+>       sunxi: Consider SPL size limitations for FIT loading
+> 
+>  arch/arm/Kconfig                                   |   4 +-
+>  arch/arm/dts/Makefile                              |   1 +
+>  arch/arm/dts/sun50i-h616-bigtreetech-cb1-manta.dts |  35 +++
+>  arch/arm/dts/sun50i-h616-bigtreetech-cb1.dtsi      | 138 +++++++++++
+>  arch/arm/dts/sun50i-h616-bigtreetech-pi.dts        |  63 +++++
+>  arch/arm/dts/sun50i-h616.dtsi                      |   7 +
+>  arch/arm/dts/sun50i-h618-orangepi-zero2w.dts       | 176 +++++++++++++
+>  arch/arm/dts/sun50i-h618-transpeed-8k618-t.dts     | 161 ++++++++++++
+>  arch/arm/dts/sun8i-r40.dtsi                        |   2 +
+>  arch/arm/dts/sun8i-v3s-anbernic-rg-nano.dts        | 276 +++++++++++++++++++++
+>  arch/arm/dts/sun8i-v3s.dtsi                        |  35 +++
+>  arch/arm/dts/sunxi-u-boot.dtsi                     |  41 +--
+>  arch/arm/include/asm/arch-sunxi/cpu_sun4i.h        |  47 ----
+>  arch/arm/include/asm/arch-sunxi/cpu_sun50i_h6.h    |  21 --
+>  arch/arm/include/asm/arch-sunxi/cpu_sun9i.h        |  41 ---
+>  arch/arm/mach-sunxi/Kconfig                        |  33 ++-
+>  arch/arm/mach-sunxi/board.c                        |   1 -
+>  arch/arm/mach-sunxi/clock.c                        |   1 -
+>  arch/arm/mach-sunxi/clock_sun4i.c                  |   1 -
+>  arch/arm/mach-sunxi/clock_sun50i_h6.c              |   1 -
+>  arch/arm/mach-sunxi/clock_sun6i.c                  |   1 -
+>  arch/arm/mach-sunxi/clock_sun8i_a83t.c             |   1 -
+>  arch/arm/mach-sunxi/clock_sun9i.c                  |   1 -
+>  arch/arm/mach-sunxi/cpu_info.c                     |   1 -
+>  arch/arm/mach-sunxi/dram_helpers.c                 |   3 +-
+>  arch/arm/mach-sunxi/dram_sun4i.c                   |   1 -
+>  arch/arm/mach-sunxi/dram_sun50i_h6.c               |   1 -
+>  arch/arm/mach-sunxi/dram_sun50i_h616.c             |   1 -
+>  arch/arm/mach-sunxi/dram_sun6i.c                   |   1 -
+>  arch/arm/mach-sunxi/dram_sun8i_a23.c               |   1 -
+>  arch/arm/mach-sunxi/dram_sun8i_a33.c               |   1 -
+>  arch/arm/mach-sunxi/dram_sun8i_a83t.c              |   1 -
+>  arch/arm/mach-sunxi/dram_sun9i.c                   |   1 -
+>  arch/arm/mach-sunxi/dram_suniv.c                   |   2 +-
+>  arch/arm/mach-sunxi/dram_sunxi_dw.c                |   1 -
+>  arch/arm/mach-sunxi/gtbus_sun9i.c                  |   1 -
+>  arch/arm/mach-sunxi/pmic_bus.c                     |   1 -
+>  arch/arm/mach-sunxi/prcm.c                         |   1 -
+>  arch/arm/mach-sunxi/spl_spi_sunxi.c                |   1 -
+>  arch/arm/mach-sunxi/timer.c                        |   1 -
+>  common/spl/Kconfig                                 |   6 +-
+>  configs/nanopi_duo2_defconfig                      |  12 +
+>  configs/transpeed-8k618-t_defconfig                |  27 ++
+>  drivers/net/sun8i_emac.c                           |   7 +-
+>  include/configs/sunxi-common.h                     |  56 +----
+>  45 files changed, 1002 insertions(+), 214 deletions(-)
+>  create mode 100644 arch/arm/dts/sun50i-h616-bigtreetech-cb1-manta.dts
+>  create mode 100644 arch/arm/dts/sun50i-h616-bigtreetech-cb1.dtsi
+>  create mode 100644 arch/arm/dts/sun50i-h616-bigtreetech-pi.dts
+>  create mode 100644 arch/arm/dts/sun50i-h618-orangepi-zero2w.dts
+>  create mode 100644 arch/arm/dts/sun50i-h618-transpeed-8k618-t.dts
+>  create mode 100644 arch/arm/dts/sun8i-v3s-anbernic-rg-nano.dts
+>  create mode 100644 configs/nanopi_duo2_defconfig
+>  create mode 100644 configs/transpeed-8k618-t_defconfig
+> 
 
