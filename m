@@ -1,42 +1,34 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 220F71552F5
-	for <linux-sunxi@lists.linux.dev>; Mon, 29 Jan 2024 16:03:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D89015B0ED
+	for <linux-sunxi@lists.linux.dev>; Mon, 29 Jan 2024 16:38:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706544199; cv=none; b=hAZSjvzv6YFtKXHzdqdTAkbJj5KGxwJmoqcMbEyTV1y8YCKzO/7rS1/FRuiG0UohrBi27a3i/SsVRUmTwOeMZFBpVTzSROel/raxmwxF89/YC1pANnymrqYqvS9d82J1T09WmUk3Jj5O4m8X1pnGgWAEsBzn3NbIk0t/i4hp3Nk=
+	t=1706546310; cv=none; b=Ue3EZ6HbW+f5Pm2nBtKKtOp0m+7/IvINoV2z7EgJuKdBk5ITlkT608jYGD4XhBPH2D0ZHSJYYsMBluVGj3cl+f4pUleGtp0LMi4qIGzWyIqp2bBv7auAqVrog8zHG6bkHOsvT+GEWof/f5S5eDWQB1cSdGI8w9CvZ0MuGUI2Two=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706544199; c=relaxed/simple;
-	bh=RswJ+iNMz4CBtV4Cr8CVMktyR4DJrm705yqMfUqSDd8=;
+	s=arc-20240116; t=1706546310; c=relaxed/simple;
+	bh=z1hxe54wk9k16vTP+fvcHWy13xckvkM4yxr4zleDJSw=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=her9ZVC8zNuysO4NsvKlKya6hOLh/mujnLmxBK1vMVOTH7p04VKpg61aBYj0ZgQTEV4Lts7n1KW4khUuVeSY12IASoR+ykUIpa9bshs4ND6ZNaV/SaGyTo1OtGQM/PKibT5m/DqplXucFjhGq+HmRscq97w3UABjhGlqlNn2L9c=
+	 MIME-Version:Content-Type; b=VpjTzaSipkjhYur67w2rULgV7jN5e0K9fZDgOY1fCzuAxq6HJoiST5sIm7dYQN+A+IvtYiggo/MIcM253j/xWyLLqcBR1mt/MU+KNZrtr3XfrXYzzjWVGmCJTEpaqtVIdlH8bVycE8WwUosbNecb5KIaNq7VLSTjZO1AXaMvlXQ=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6E2AEDA7;
-	Mon, 29 Jan 2024 08:04:00 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2E2F5DA7;
+	Mon, 29 Jan 2024 08:39:11 -0800 (PST)
 Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 508083F738;
-	Mon, 29 Jan 2024 08:03:14 -0800 (PST)
-Date: Mon, 29 Jan 2024 16:03:11 +0000
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B9D8E3F738;
+	Mon, 29 Jan 2024 08:38:26 -0800 (PST)
+Date: Mon, 29 Jan 2024 16:38:24 +0000
 From: Andre Przywara <andre.przywara@arm.com>
-To: Chen-Yu Tsai <wens@kernel.org>
-Cc: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
- <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
- <tiwai@suse.com>, Vinod Koul <vkoul@kernel.org>, Chen-Yu Tsai
- <wens@csie.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-sound@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 6/7] arm64: dts: allwinner: h616: Add DMA controller
- and DMA channels
-Message-ID: <20240129160311.359d322d@donnerap.manchester.arm.com>
-In-Reply-To: <20240127163247.384439-7-wens@kernel.org>
-References: <20240127163247.384439-1-wens@kernel.org>
-	<20240127163247.384439-7-wens@kernel.org>
+To: Nick Alilovic <nickalilovic@gmail.com>
+Cc: u-boot@lists.denx.de, jagan@amarulasolutions.com,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2] configs: Transpeed 8K618-T: Add Transpeed 8K618-T
+ board support
+Message-ID: <20240129163824.6cf5804e@donnerap.manchester.arm.com>
+In-Reply-To: <20240118175655.1c8922a2@donnerap.manchester.arm.com>
+References: <20240118164508.43617-1-nickalilovic@gmail.com>
+	<20240118175655.1c8922a2@donnerap.manchester.arm.com>
 Organization: ARM
 X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
@@ -48,181 +40,71 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Sun, 28 Jan 2024 00:32:46 +0800
-Chen-Yu Tsai <wens@kernel.org> wrote:
+On Thu, 18 Jan 2024 17:56:55 +0000
+Andre Przywara <andre.przywara@arm.com> wrote:
 
-> From: Chen-Yu Tsai <wens@csie.org>
+> On Thu, 18 Jan 2024 11:45:08 -0500
+> Nick Alilovic <nickalilovic@gmail.com> wrote:
 > 
-> The DMA controllers found on the H616 and H618 are the same as the one
-> found on the A100. The only difference is the DMA endpoint (DRQ) layout.
+> Hi Nick,
 > 
-> Add a device node for it, and add DMA channels for existing peripherals.
+> > This is a Chinese TV box based on Allwinner H618 SoC.
+> > 
+> > The DRAM parameters were derived from the values found in a firmware update.
+> > 
+> > Signed-off-by: Nick Alilovic <nickalilovic@gmail.com>  
+> 
+> Thanks for the fixes, looks good now:
+> 
+> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+> 
+> I will queue this after the DT files have been merged.
 
-Thanks for the changes! I compared all bits against the manual: they match.
+Merged into sunxi/master.
 
-> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
-
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-
-Cheers,
+Thanks!
 Andre
 
-> ---
-> Changes since v1:
-> - Fall back to A100 instead of H6
-> - Add DMA channels for r_i2c
+> > ---
+> > This defconfig relies on the synced sun50i-h618-transpeed-8k618-t.dts file.
+> > 
+> >  configs/transpeed-8k618-t_defconfig | 27 +++++++++++++++++++++++++++
+> >  1 file changed, 27 insertions(+)
+> >  create mode 100644 configs/transpeed-8k618-t_defconfig
+> > 
+> > diff --git a/configs/transpeed-8k618-t_defconfig b/configs/transpeed-8k618-t_defconfig
+> > new file mode 100644
+> > index 0000000000..020d3974af
+> > --- /dev/null
+> > +++ b/configs/transpeed-8k618-t_defconfig
+> > @@ -0,0 +1,27 @@
+> > +CONFIG_ARM=y
+> > +CONFIG_ARCH_SUNXI=y
+> > +CONFIG_DEFAULT_DEVICE_TREE="sun50i-h618-transpeed-8k618-t"
+> > +CONFIG_SPL=y
+> > +CONFIG_DRAM_SUN50I_H616_DX_ODT=0x03030303
+> > +CONFIG_DRAM_SUN50I_H616_DX_DRI=0x0e0e0e0e
+> > +CONFIG_DRAM_SUN50I_H616_CA_DRI=0x1f12
+> > +CONFIG_DRAM_SUN50I_H616_TPR0=0xc0001002
+> > +CONFIG_DRAM_SUN50I_H616_TPR10=0x2f1107
+> > +CONFIG_DRAM_SUN50I_H616_TPR11=0xddddcccc
+> > +CONFIG_DRAM_SUN50I_H616_TPR12=0xeddc7665
+> > +CONFIG_MACH_SUN50I_H616=y
+> > +CONFIG_SUNXI_DRAM_H616_DDR3_1333=y
+> > +CONFIG_DRAM_CLK=648
+> > +CONFIG_MMC_SUNXI_SLOT_EXTRA=2
+> > +CONFIG_R_I2C_ENABLE=y
+> > +# CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+> > +CONFIG_SPL_I2C=y
+> > +CONFIG_SPL_SYS_I2C_LEGACY=y
+> > +CONFIG_SYS_I2C_MVTWSI=y
+> > +CONFIG_SYS_I2C_SLAVE=0x7f
+> > +CONFIG_SYS_I2C_SPEED=400000
+> > +CONFIG_SUPPORT_EMMC_BOOT=y
+> > +CONFIG_AXP313_POWER=y
+> > +CONFIG_AXP_DCDC3_VOLT=1360
+> > +CONFIG_USB_EHCI_HCD=y
+> > +CONFIG_USB_OHCI_HCD=y  
 > 
->  .../arm64/boot/dts/allwinner/sun50i-h616.dtsi | 41 +++++++++++++++++++
->  1 file changed, 41 insertions(+)
 > 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> index d549d277d972..885809137b9d 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> @@ -133,6 +133,19 @@ ccu: clock@3001000 {
->  			#reset-cells = <1>;
->  		};
->  
-> +		dma: dma-controller@3002000 {
-> +			compatible = "allwinner,sun50i-h616-dma",
-> +				     "allwinner,sun50i-a100-dma";
-> +			reg = <0x03002000 0x1000>;
-> +			interrupts = <GIC_SPI 42 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&ccu CLK_BUS_DMA>, <&ccu CLK_MBUS_DMA>;
-> +			clock-names = "bus", "mbus";
-> +			dma-channels = <16>;
-> +			dma-requests = <49>;
-> +			resets = <&ccu RST_BUS_DMA>;
-> +			#dma-cells = <1>;
-> +		};
-> +
->  		sid: efuse@3006000 {
->  			compatible = "allwinner,sun50i-h616-sid", "allwinner,sun50i-a64-sid";
->  			reg = <0x03006000 0x1000>;
-> @@ -339,6 +352,8 @@ uart0: serial@5000000 {
->  			reg-shift = <2>;
->  			reg-io-width = <4>;
->  			clocks = <&ccu CLK_BUS_UART0>;
-> +			dmas = <&dma 14>, <&dma 14>;
-> +			dma-names = "tx", "rx";
->  			resets = <&ccu RST_BUS_UART0>;
->  			status = "disabled";
->  		};
-> @@ -350,6 +365,8 @@ uart1: serial@5000400 {
->  			reg-shift = <2>;
->  			reg-io-width = <4>;
->  			clocks = <&ccu CLK_BUS_UART1>;
-> +			dmas = <&dma 15>, <&dma 15>;
-> +			dma-names = "tx", "rx";
->  			resets = <&ccu RST_BUS_UART1>;
->  			status = "disabled";
->  		};
-> @@ -361,6 +378,8 @@ uart2: serial@5000800 {
->  			reg-shift = <2>;
->  			reg-io-width = <4>;
->  			clocks = <&ccu CLK_BUS_UART2>;
-> +			dmas = <&dma 16>, <&dma 16>;
-> +			dma-names = "tx", "rx";
->  			resets = <&ccu RST_BUS_UART2>;
->  			status = "disabled";
->  		};
-> @@ -372,6 +391,8 @@ uart3: serial@5000c00 {
->  			reg-shift = <2>;
->  			reg-io-width = <4>;
->  			clocks = <&ccu CLK_BUS_UART3>;
-> +			dmas = <&dma 17>, <&dma 17>;
-> +			dma-names = "tx", "rx";
->  			resets = <&ccu RST_BUS_UART3>;
->  			status = "disabled";
->  		};
-> @@ -383,6 +404,8 @@ uart4: serial@5001000 {
->  			reg-shift = <2>;
->  			reg-io-width = <4>;
->  			clocks = <&ccu CLK_BUS_UART4>;
-> +			dmas = <&dma 18>, <&dma 18>;
-> +			dma-names = "tx", "rx";
->  			resets = <&ccu RST_BUS_UART4>;
->  			status = "disabled";
->  		};
-> @@ -394,6 +417,8 @@ uart5: serial@5001400 {
->  			reg-shift = <2>;
->  			reg-io-width = <4>;
->  			clocks = <&ccu CLK_BUS_UART5>;
-> +			dmas = <&dma 19>, <&dma 19>;
-> +			dma-names = "tx", "rx";
->  			resets = <&ccu RST_BUS_UART5>;
->  			status = "disabled";
->  		};
-> @@ -405,6 +430,8 @@ i2c0: i2c@5002000 {
->  			reg = <0x05002000 0x400>;
->  			interrupts = <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&ccu CLK_BUS_I2C0>;
-> +			dmas = <&dma 43>, <&dma 43>;
-> +			dma-names = "rx", "tx";
->  			resets = <&ccu RST_BUS_I2C0>;
->  			pinctrl-names = "default";
->  			pinctrl-0 = <&i2c0_pins>;
-> @@ -420,6 +447,8 @@ i2c1: i2c@5002400 {
->  			reg = <0x05002400 0x400>;
->  			interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&ccu CLK_BUS_I2C1>;
-> +			dmas = <&dma 44>, <&dma 44>;
-> +			dma-names = "rx", "tx";
->  			resets = <&ccu RST_BUS_I2C1>;
->  			status = "disabled";
->  			#address-cells = <1>;
-> @@ -433,6 +462,8 @@ i2c2: i2c@5002800 {
->  			reg = <0x05002800 0x400>;
->  			interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&ccu CLK_BUS_I2C2>;
-> +			dmas = <&dma 45>, <&dma 45>;
-> +			dma-names = "rx", "tx";
->  			resets = <&ccu RST_BUS_I2C2>;
->  			status = "disabled";
->  			#address-cells = <1>;
-> @@ -446,6 +477,8 @@ i2c3: i2c@5002c00 {
->  			reg = <0x05002c00 0x400>;
->  			interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&ccu CLK_BUS_I2C3>;
-> +			dmas = <&dma 46>, <&dma 46>;
-> +			dma-names = "rx", "tx";
->  			resets = <&ccu RST_BUS_I2C3>;
->  			status = "disabled";
->  			#address-cells = <1>;
-> @@ -459,6 +492,8 @@ i2c4: i2c@5003000 {
->  			reg = <0x05003000 0x400>;
->  			interrupts = <GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&ccu CLK_BUS_I2C4>;
-> +			dmas = <&dma 47>, <&dma 47>;
-> +			dma-names = "rx", "tx";
->  			resets = <&ccu RST_BUS_I2C4>;
->  			status = "disabled";
->  			#address-cells = <1>;
-> @@ -472,6 +507,8 @@ spi0: spi@5010000 {
->  			interrupts = <GIC_SPI 12 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&ccu CLK_BUS_SPI0>, <&ccu CLK_SPI0>;
->  			clock-names = "ahb", "mod";
-> +			dmas = <&dma 22>, <&dma 22>;
-> +			dma-names = "rx", "tx";
->  			resets = <&ccu RST_BUS_SPI0>;
->  			status = "disabled";
->  			#address-cells = <1>;
-> @@ -485,6 +522,8 @@ spi1: spi@5011000 {
->  			interrupts = <GIC_SPI 13 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&ccu CLK_BUS_SPI1>, <&ccu CLK_SPI1>;
->  			clock-names = "ahb", "mod";
-> +			dmas = <&dma 23>, <&dma 23>;
-> +			dma-names = "rx", "tx";
->  			resets = <&ccu RST_BUS_SPI1>;
->  			status = "disabled";
->  			#address-cells = <1>;
-> @@ -734,6 +773,8 @@ r_i2c: i2c@7081400 {
->  			reg = <0x07081400 0x400>;
->  			interrupts = <GIC_SPI 105 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&r_ccu CLK_R_APB2_I2C>;
-> +			dmas = <&dma 48>, <&dma 48>;
-> +			dma-names = "rx", "tx";
->  			resets = <&r_ccu RST_R_APB2_I2C>;
->  			status = "disabled";
->  			#address-cells = <1>;
 
