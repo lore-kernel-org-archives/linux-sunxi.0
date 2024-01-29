@@ -1,90 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79551152E05;
-	Mon, 29 Jan 2024 16:55:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB88D157038
+	for <linux-sunxi@lists.linux.dev>; Mon, 29 Jan 2024 16:56:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706547322; cv=none; b=n+667skDTZjwNBQ+RADWa+rDlp2EQl4f1fP5FOQedaipdblgL/K2CKvXYPMcnnu8BbFMURL7g9XEks4ETk7yJXb01nGZxE3DIts9F7jSdmmjNfCklHjMerqsTs/EZ+vNyXGjRl835T0333X0yBY29z4ZmWFSuFeQD9dpV+5ln8Y=
+	t=1706547368; cv=none; b=M0aIUBdm8Vh1iZp/YMbSTjB0Y7OO17dGMWsJkIBLMVg1kM3ZUNFiHDaI9gLz/xocKPnkR9JaNfOUlILZvAOuyeBCZAukZ5I0OIfmmaRqVsvrJOEA9wGY2rPvxPcjrRCoS1ETRnfS1mE+rYdv64h5oMGJ7FjuAU7qY1GHuK2Z5RE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706547322; c=relaxed/simple;
-	bh=hR9jYGWhCgjIXuOxIH2AVMc3Vqraigi5qVyEese3aHs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C2YYH/Sr3ZfATkxit8yO80HvMJua4gbVhcCS4BCcZFbKmpbVfaTfQFQ5a824XEOPIKoXKxoNqFzX/gIfkD+TxaARfXRxwkh3wIqDTxP3igrXLGcqFJA2K8FMT3QT7S4DcfMG+M2ghzwlFdLstTaormhnPGl/+d1TOK6IkcL1Qds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ay1FWscT; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ay1FWscT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA806C433C7;
-	Mon, 29 Jan 2024 16:55:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706547322;
-	bh=hR9jYGWhCgjIXuOxIH2AVMc3Vqraigi5qVyEese3aHs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ay1FWscTz6Za/JwPsFrt6sHJK48AKK1rXolTRSxu0+vC2pF2JBY7y0/UnAFWpwrD8
-	 6lKOBnNOjIMvw4V8TtvzAUI/LA0keuXV58dWCy5HG5UVXxze/4Xn676vEfq/DjF1MC
-	 2g4Ltq3iSsDdXRDF5DLZX4ly2avS9rHzBnYXAEHNiCPgJGOmZvogtt/bwkYR/5F5Kv
-	 MFWi6y7z2mbEeUjDKMdFT8VSyZ6nnpNZAiy8o64oVyF0eZVbC8+5ry8gjRxnRVhktj
-	 Go5Y+DiIHD5FOughSoHJVTLatKFpVV2muTIPdZ2lxMCUdgYrcRKF6TvVyFZDudNeJ2
-	 lFuROlD1ekjRg==
-Date: Mon, 29 Jan 2024 16:55:15 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Chen-Yu Tsai <wens@kernel.org>
-Cc: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Vinod Koul <vkoul@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-sound@vger.kernel.org,
-	dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/7] arm64: sun50i-h616: Add DMA and SPDIF controllers
-Message-ID: <08953129-ade5-4b44-8d4f-4b9ec5c750b1@sirena.org.uk>
-References: <20240127163247.384439-1-wens@kernel.org>
+	s=arc-20240116; t=1706547368; c=relaxed/simple;
+	bh=3x2pAcUF9IG3QcxA1bixYqhbV4gOILL8YqgIbJzYHK0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=a4982Xlp9wo9rO80ks6aP2vIHERIFXp5sP680OgSKp+ny1qxx5V5LHSHlvWKDYMZxEvNqgkzecTseL5zBh6TiN8bqxyPKV/G6j4/qTLFF/vcYfT+Inoj9/eO736FCmzpaj5BebkCbI2apoydbQDjIKd/X131nKDmMxoO0kHqupk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EACC2DA7;
+	Mon, 29 Jan 2024 08:56:48 -0800 (PST)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 77F513F738;
+	Mon, 29 Jan 2024 08:56:04 -0800 (PST)
+Date: Mon, 29 Jan 2024 16:55:55 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Chuanhong Guo <gch981213@gmail.com>
+Cc: u-boot@lists.denx.de, "linux-sunxi@lists.linux.dev"
+ <linux-sunxi@lists.linux.dev>
+Subject: Re: [PATCH] sunxi: add defconfig for nanopi_duo2
+Message-ID: <20240129165555.63ddd462@donnerap.manchester.arm.com>
+In-Reply-To: <20240121011528.3fb06011@minigeek.lan>
+References: <20231228052915.121433-1-gch981213@gmail.com>
+	<20240121011528.3fb06011@minigeek.lan>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="DjUSIe2lhqm+shtr"
-Content-Disposition: inline
-In-Reply-To: <20240127163247.384439-1-wens@kernel.org>
-X-Cookie: Jenkinson's Law:
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+
+On Sun, 21 Jan 2024 01:15:28 +0000
+Andre Przywara <andre.przywara@arm.com> wrote:
+
+Hi,
+
+> On Thu, 28 Dec 2023 13:29:15 +0800
+> Chuanhong Guo <gch981213@gmail.com> wrote:
+> 
+> Hi,
+> 
+> thanks for taking care and sending a patch!
+> 
+> > FriendlyElec NanoPi Duo2 is a tiny SBC with Allwinner H3 and
+> > Ampak AP6212 WiFi module. The device-tree for it is already
+> > available in u-boot source tree. Add a default config for it.
+> > 
+> > Signed-off-by: Chuanhong Guo <gch981213@gmail.com>
+> > ---
+> >  configs/nanopi_duo2_defconfig | 11 +++++++++++
+> >  1 file changed, 11 insertions(+)
+> >  create mode 100644 configs/nanopi_duo2_defconfig
+> > 
+> > diff --git a/configs/nanopi_duo2_defconfig b/configs/nanopi_duo2_defconfig
+> > new file mode 100644
+> > index 0000000000..5a2069789f
+> > --- /dev/null
+> > +++ b/configs/nanopi_duo2_defconfig
+> > @@ -0,0 +1,11 @@
+> > +CONFIG_ARM=y
+> > +CONFIG_ARCH_SUNXI=y
+> > +CONFIG_DEFAULT_DEVICE_TREE="sun8i-h3-nanopi-duo2"
+> > +CONFIG_SPL=y
+> > +CONFIG_MACH_SUN8I_H3=y
+> > +CONFIG_DRAM_CLK=408
+> > +# CONFIG_VIDEO_DE2 is not set
+> > +# CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+> > +CONFIG_CONSOLE_MUX=y
+> > +CONFIG_USB_EHCI_HCD=y
+> > +CONFIG_USB_OHCI_HCD=y  
+> 
+> Judging by the DT, this board has USB-OTG wired up correctly, so we
+> should enable it, by adding:
+> CONFIG_USB_MUSB_GADGET=y
+> This would allow access to USB Ethernet, fastboot or UMS devices, which
+> prove to be quite useful for U-Boot.
+
+So I merged this patch, after adding the USB_MUSB_GADGET option.
+I just see that the CI complained about a missing maintainer entry, I will
+fix this up in a follow-up patch.
+
+Thanks,
+Andre.
 
 
---DjUSIe2lhqm+shtr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-On Sun, Jan 28, 2024 at 12:32:40AM +0800, Chen-Yu Tsai wrote:
+> 
+> Cheers,
+> Andre
 
-> Chen-Yu Tsai (7):
->   dt-bindings: sound: sun4i-spdif: Fix requirements for H6
->   dt-bindings: sound: sun4i-spdif: Add Allwinner H616 compatible
-
-Please submit patches using subject lines reflecting the style for the
-subsystem, this makes it easier for people to identify relevant patches.
-Look at what existing commits in the area you're changing are doing and
-make sure your subject lines visually resemble what they're doing.
-There's no need to resubmit to fix this alone.
-
---DjUSIe2lhqm+shtr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmW32HIACgkQJNaLcl1U
-h9CTTAf+NBj4Ah7hGuLaROTSDDDiz0BWk9pjww4elLlFi1AUBUBNvQWdDtAijaGu
-C7W6zTydRgAbYyxvQtUXydQVBblXpZO9518kCmpkAiVzNX7shDL0jLVEnCuK0uzx
-7h0Y9sIosdfwPVKv/jUovhp2EpsXMzl/5srlZLo+d6m24zuxstSyR/7I+9BWfk9d
-wUD6iiUUtv+ZIFdcBoH9Fw44U/R/0aN8D0cz84J7dYGV0yCKTl4iEIXPBuBjUbex
-e6kX3qicar6RtwyJpGd7y+L4wVzJSsgTLuf4OrgV8xx6aCCS76MzhjGnNi1CJzIC
-OiZCWF4xwWdg73/Z4xIipYkxAGal7g==
-=E9Pt
------END PGP SIGNATURE-----
-
---DjUSIe2lhqm+shtr--
