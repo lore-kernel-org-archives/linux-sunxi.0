@@ -1,59 +1,35 @@
-Received: from Atcsqr.andestech.com (60-248-80-70.hinet-ip.hinet.net [60.248.80.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AD2D55C05
-	for <linux-sunxi@lists.linux.dev>; Mon, 29 Jan 2024 09:28:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.248.80.70
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA157154BEE
+	for <linux-sunxi@lists.linux.dev>; Mon, 29 Jan 2024 15:55:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706520486; cv=none; b=Rt9+bSZIBXLUFKzCYYz+8Epq7I3G4NqUyHJnNbdEoYxwFUHsUHtPsq/2IdKxx8YYJolRJd2vk3NJkvdmR/WqosqnSm6PAtcVQJALAJaDnboDLi1nMkxdpr02TD5kbu7P1hAsN1MAz+0xlL9O6m+xrP2CW7Px9FW256A6EfUXucc=
+	t=1706543758; cv=none; b=YwitLYzqKWwFOpaQpjt6ebxURzgzDKXhhTyGFpE51sfFDeHLGBubX2g/IpqzyQCptZ+Duyjno2NDvqH3nq5BgpQfNLKwibburFiytgVFSNU9DgAxJgD7+Geyr3+cbVGLFgDRIa2vw11ukYefSFO/ic8oAoAjEmnYpcswpfDWdWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706520486; c=relaxed/simple;
-	bh=KmnQCO9L3bVBcZaB+8oklJut8FyVVW78SVUs2lJgV+8=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iJUaACN5kmIzdOonyK0z//5qhDKv8+Okc1bgEejYj5cHX3D2JKLpifdvJDJp0HNfgGuyTDKOhdK1v00W+S/E1vITJGNyXbBA9umL2PFjbe892JZpy7NkIrx8BSajqjipHwoV9VOlDipW+MJtRsnSQVqqWHsuYMr6iLwJ16xoP0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=andestech.com; spf=pass smtp.mailfrom=andestech.com; arc=none smtp.client-ip=60.248.80.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=andestech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=andestech.com
-Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
-	by Atcsqr.andestech.com with ESMTP id 40T9Qogc080373;
-	Mon, 29 Jan 2024 17:26:50 +0800 (+08)
-	(envelope-from peterlin@andestech.com)
-Received: from swlinux02.andestech.com (10.0.15.183) by ATCPCS16.andestech.com
- (10.0.1.222) with Microsoft SMTP Server id 14.3.498.0; Mon, 29 Jan 2024
- 17:26:46 +0800
-From: Yu Chien Peter Lin <peterlin@andestech.com>
-To: <acme@kernel.org>, <adrian.hunter@intel.com>, <ajones@ventanamicro.com>,
-        <alexander.shishkin@linux.intel.com>, <andre.przywara@arm.com>,
-        <anup@brainfault.org>, <aou@eecs.berkeley.edu>,
-        <atishp@atishpatra.org>, <conor+dt@kernel.org>,
-        <conor.dooley@microchip.com>, <conor@kernel.org>,
-        <devicetree@vger.kernel.org>, <evan@rivosinc.com>,
-        <geert+renesas@glider.be>, <guoren@kernel.org>, <heiko@sntech.de>,
-        <irogers@google.com>, <jernej.skrabec@gmail.com>, <jolsa@kernel.org>,
-        <jszhang@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <linux-perf-users@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-        <linux-sunxi@lists.linux.dev>, <locus84@andestech.com>,
-        <magnus.damm@gmail.com>, <mark.rutland@arm.com>, <mingo@redhat.com>,
-        <n.shubin@yadro.com>, <namhyung@kernel.org>, <palmer@dabbelt.com>,
-        <paul.walmsley@sifive.com>, <peterlin@andestech.com>,
-        <peterz@infradead.org>, <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        <rdunlap@infradead.org>, <robh+dt@kernel.org>, <samuel@sholland.org>,
-        <sunilvl@ventanamicro.com>, <tglx@linutronix.de>,
-        <tim609@andestech.com>, <uwu@icenowy.me>, <wens@csie.org>,
-        <will@kernel.org>, <inochiama@outlook.com>, <unicorn_wang@outlook.com>,
-        <wefu@redhat.com>
-CC: Charles Ci-Jyun Wu <dminus@andestech.com>,
-        Leo Yu-Chi Liang
-	<ycliang@andestech.com>,
-        Atish Patra <atishp@rivosinc.com>
-Subject: [PATCH v8 10/10] riscv: andes: Support specifying symbolic firmware and hardware raw events
-Date: Mon, 29 Jan 2024 17:25:53 +0800
-Message-ID: <20240129092553.2058043-11-peterlin@andestech.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240129092553.2058043-1-peterlin@andestech.com>
-References: <20240129092553.2058043-1-peterlin@andestech.com>
+	s=arc-20240116; t=1706543758; c=relaxed/simple;
+	bh=jcu/WIOxSedN398mgbpFGlchZ2oA/WeeLqg0JUD2wrg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=AAfrt+oXa9W7tkVQm6twnTwDJrj0TzMtDTnDPFHT2rZmEnDCQjSfsbpQ2Rq+zH9uqU+EfK2y5Byo2N1tdUATaJ39F9h/8lY91bno74Hpj+k+zrRfXfJiGlsmGTuAfIEdY8eQl4RZHiv77ReRPlMsXm8dhOHhOxTpbSZCtvyoGoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0DBF8DA7;
+	Mon, 29 Jan 2024 07:56:39 -0800 (PST)
+Received: from donnerap.arm.com (donnerap.manchester.arm.com [10.32.100.28])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EAD923F738;
+	Mon, 29 Jan 2024 07:55:53 -0800 (PST)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Tom Rini <trini@konsulko.com>
+Cc: Jagan Teki <jagan@amarulasolutions.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Maksim Kiselev <bigunclemax@gmail.com>,
+	Nick Alilovic <nickalilovic@gmail.com>,
+	Chuanhong Guo <gch981213@gmail.com>,
+	linux-sunxi@lists.linux.dev,
+	u-boot@lists.denx.de
+Subject: Pull request: u-boot-sunxi/master for v2024.04
+Date: Mon, 29 Jan 2024 15:55:43 +0000
+Message-Id: <20240129155543.2439451-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -61,411 +37,129 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-DNSRBL: 
-X-SPAM-SOURCE-CHECK: pass
-X-MAIL:Atcsqr.andestech.com 40T9Qogc080373
 
-From: Locus Wei-Han Chen <locus84@andestech.com>
+Hi Tom,
 
-Add the Andes AX45 JSON files that allows specifying symbolic event
-names for the raw PMU events.
+please pull the sunxi/master branch, containing the first part of the
+2024.04 changes. I had some more (USB regulator) changes queued, but
+found regressions during the final testing, so had to drop some. If I
+can find reasons and simple fixes for those, I would send them later.
 
-Signed-off-by: Locus Wei-Han Chen <locus84@andestech.com>
-Reviewed-by: Yu Chien Peter Lin <peterlin@andestech.com>
-Reviewed-by: Charles Ci-Jyun Wu <dminus@andestech.com>
-Reviewed-by: Leo Yu-Chi Liang <ycliang@andestech.com>
-Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Acked-by: Atish Patra <atishp@rivosinc.com>
----
-Changes v1 -> v2:
-  - No change
-Changes v2 -> v3:
-  - No change
-Changes v3 -> v4:
-  - No change
-Changes v4 -> v5:
-  - Include Prabhakar's Tested-by
-Changes v5 -> v6:
-  - No change
-Changes v6 -> v7:
-  - No change
-Changes v7 -> v8:
-  - Include Atish's Acked-by
----
- .../arch/riscv/andes/ax45/firmware.json       |  68 ++++++++++
- .../arch/riscv/andes/ax45/instructions.json   | 127 ++++++++++++++++++
- .../arch/riscv/andes/ax45/memory.json         |  57 ++++++++
- .../arch/riscv/andes/ax45/microarch.json      |  77 +++++++++++
- tools/perf/pmu-events/arch/riscv/mapfile.csv  |   1 +
- 5 files changed, 330 insertions(+)
- create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/firmware.json
- create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/instructions.json
- create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/memory.json
- create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/microarch.json
+So for now these are some rather easy changes:
+- Some cleanups in header files: those do not affect the generated
+binaries at all.
+- The usual update of DT files from the kernel repo, mostly adding new
+board files this time. On the wake of this there is one defconfig to
+enable a new board, some H618 TV box branded as "Transpeed".
+- Samuel's series to support SPL FIT image loading for 32-bit SoCs as
+well, so far this was restricted to ARM64 boards. I refrained from
+automatically enabling this everywhere, instead this requires user
+intervention during board configuration. This allows to ship the "crust"
+management processor firmware on H3 boards, which enables better power
+saving.
+- One defconfig for an older H3 board. There was a close-by defconfig for
+a related board, but there are some differences which deserve a separate
+file.
+- Support for the EMAC driver to work with fixed-link PHYs, which allows
+to directly wire the MAC to a switch IC.
 
-diff --git a/tools/perf/pmu-events/arch/riscv/andes/ax45/firmware.json b/tools/perf/pmu-events/arch/riscv/andes/ax45/firmware.json
-new file mode 100644
-index 000000000000..9b4a032186a7
---- /dev/null
-+++ b/tools/perf/pmu-events/arch/riscv/andes/ax45/firmware.json
-@@ -0,0 +1,68 @@
-+[
-+  {
-+    "ArchStdEvent": "FW_MISALIGNED_LOAD"
-+  },
-+  {
-+    "ArchStdEvent": "FW_MISALIGNED_STORE"
-+  },
-+  {
-+    "ArchStdEvent": "FW_ACCESS_LOAD"
-+  },
-+  {
-+    "ArchStdEvent": "FW_ACCESS_STORE"
-+  },
-+  {
-+    "ArchStdEvent": "FW_ILLEGAL_INSN"
-+  },
-+  {
-+    "ArchStdEvent": "FW_SET_TIMER"
-+  },
-+  {
-+    "ArchStdEvent": "FW_IPI_SENT"
-+  },
-+  {
-+    "ArchStdEvent": "FW_IPI_RECEIVED"
-+  },
-+  {
-+    "ArchStdEvent": "FW_FENCE_I_SENT"
-+  },
-+  {
-+    "ArchStdEvent": "FW_FENCE_I_RECEIVED"
-+  },
-+  {
-+    "ArchStdEvent": "FW_SFENCE_VMA_SENT"
-+  },
-+  {
-+    "ArchStdEvent": "FW_SFENCE_VMA_RECEIVED"
-+  },
-+  {
-+    "ArchStdEvent": "FW_SFENCE_VMA_RECEIVED"
-+  },
-+  {
-+    "ArchStdEvent": "FW_SFENCE_VMA_ASID_RECEIVED"
-+  },
-+  {
-+    "ArchStdEvent": "FW_HFENCE_GVMA_SENT"
-+  },
-+  {
-+    "ArchStdEvent": "FW_HFENCE_GVMA_RECEIVED"
-+  },
-+  {
-+    "ArchStdEvent": "FW_HFENCE_GVMA_VMID_SENT"
-+  },
-+  {
-+    "ArchStdEvent": "FW_HFENCE_GVMA_VMID_RECEIVED"
-+  },
-+  {
-+    "ArchStdEvent": "FW_HFENCE_VVMA_SENT"
-+  },
-+  {
-+    "ArchStdEvent": "FW_HFENCE_VVMA_RECEIVED"
-+  },
-+  {
-+    "ArchStdEvent": "FW_HFENCE_VVMA_ASID_SENT"
-+  },
-+  {
-+    "ArchStdEvent": "FW_HFENCE_VVMA_ASID_RECEIVED"
-+  }
-+]
-diff --git a/tools/perf/pmu-events/arch/riscv/andes/ax45/instructions.json b/tools/perf/pmu-events/arch/riscv/andes/ax45/instructions.json
-new file mode 100644
-index 000000000000..713a08c1a40f
---- /dev/null
-+++ b/tools/perf/pmu-events/arch/riscv/andes/ax45/instructions.json
-@@ -0,0 +1,127 @@
-+[
-+	{
-+		"EventCode": "0x10",
-+		"EventName": "cycle_count",
-+		"BriefDescription": "Cycle count"
-+	},
-+	{
-+		"EventCode": "0x20",
-+		"EventName": "inst_count",
-+		"BriefDescription": "Retired instruction count"
-+	},
-+	{
-+		"EventCode": "0x30",
-+		"EventName": "int_load_inst",
-+		"BriefDescription": "Integer load instruction count"
-+	},
-+	{
-+		"EventCode": "0x40",
-+		"EventName": "int_store_inst",
-+		"BriefDescription": "Integer store instruction count"
-+	},
-+	{
-+		"EventCode": "0x50",
-+		"EventName": "atomic_inst",
-+		"BriefDescription": "Atomic instruction count"
-+	},
-+	{
-+		"EventCode": "0x60",
-+		"EventName": "sys_inst",
-+		"BriefDescription": "System instruction count"
-+	},
-+	{
-+		"EventCode": "0x70",
-+		"EventName": "int_compute_inst",
-+		"BriefDescription": "Integer computational instruction count"
-+	},
-+	{
-+		"EventCode": "0x80",
-+		"EventName": "condition_br",
-+		"BriefDescription": "Conditional branch instruction count"
-+	},
-+	{
-+		"EventCode": "0x90",
-+		"EventName": "taken_condition_br",
-+		"BriefDescription": "Taken conditional branch instruction count"
-+	},
-+	{
-+		"EventCode": "0xA0",
-+		"EventName": "jal_inst",
-+		"BriefDescription": "JAL instruction count"
-+	},
-+	{
-+		"EventCode": "0xB0",
-+		"EventName": "jalr_inst",
-+		"BriefDescription": "JALR instruction count"
-+	},
-+	{
-+		"EventCode": "0xC0",
-+		"EventName": "ret_inst",
-+		"BriefDescription": "Return instruction count"
-+	},
-+	{
-+		"EventCode": "0xD0",
-+		"EventName": "control_trans_inst",
-+		"BriefDescription": "Control transfer instruction count"
-+	},
-+	{
-+		"EventCode": "0xE0",
-+		"EventName": "ex9_inst",
-+		"BriefDescription": "EXEC.IT instruction count"
-+	},
-+	{
-+		"EventCode": "0xF0",
-+		"EventName": "int_mul_inst",
-+		"BriefDescription": "Integer multiplication instruction count"
-+	},
-+	{
-+		"EventCode": "0x100",
-+		"EventName": "int_div_rem_inst",
-+		"BriefDescription": "Integer division/remainder instruction count"
-+	},
-+	{
-+		"EventCode": "0x110",
-+		"EventName": "float_load_inst",
-+		"BriefDescription": "Floating-point load instruction count"
-+	},
-+	{
-+		"EventCode": "0x120",
-+		"EventName": "float_store_inst",
-+		"BriefDescription": "Floating-point store instruction count"
-+	},
-+	{
-+		"EventCode": "0x130",
-+		"EventName": "float_add_sub_inst",
-+		"BriefDescription": "Floating-point addition/subtraction instruction count"
-+	},
-+	{
-+		"EventCode": "0x140",
-+		"EventName": "float_mul_inst",
-+		"BriefDescription": "Floating-point multiplication instruction count"
-+	},
-+	{
-+		"EventCode": "0x150",
-+		"EventName": "float_fused_muladd_inst",
-+		"BriefDescription": "Floating-point fused multiply-add instruction count"
-+	},
-+	{
-+		"EventCode": "0x160",
-+		"EventName": "float_div_sqrt_inst",
-+		"BriefDescription": "Floating-point division or square-root instruction count"
-+	},
-+	{
-+		"EventCode": "0x170",
-+		"EventName": "other_float_inst",
-+		"BriefDescription": "Other floating-point instruction count"
-+	},
-+	{
-+		"EventCode": "0x180",
-+		"EventName": "int_mul_add_sub_inst",
-+		"BriefDescription": "Integer multiplication and add/sub instruction count"
-+	},
-+	{
-+		"EventCode": "0x190",
-+		"EventName": "retired_ops",
-+		"BriefDescription": "Retired operation count"
-+	}
-+]
-diff --git a/tools/perf/pmu-events/arch/riscv/andes/ax45/memory.json b/tools/perf/pmu-events/arch/riscv/andes/ax45/memory.json
-new file mode 100644
-index 000000000000..c7401b526c77
---- /dev/null
-+++ b/tools/perf/pmu-events/arch/riscv/andes/ax45/memory.json
-@@ -0,0 +1,57 @@
-+[
-+	{
-+		"EventCode": "0x01",
-+		"EventName": "ilm_access",
-+		"BriefDescription": "ILM access"
-+	},
-+	{
-+		"EventCode": "0x11",
-+		"EventName": "dlm_access",
-+		"BriefDescription": "DLM access"
-+	},
-+	{
-+		"EventCode": "0x21",
-+		"EventName": "icache_access",
-+		"BriefDescription": "ICACHE access"
-+	},
-+	{
-+		"EventCode": "0x31",
-+		"EventName": "icache_miss",
-+		"BriefDescription": "ICACHE miss"
-+	},
-+	{
-+		"EventCode": "0x41",
-+		"EventName": "dcache_access",
-+		"BriefDescription": "DCACHE access"
-+	},
-+	{
-+		"EventCode": "0x51",
-+		"EventName": "dcache_miss",
-+		"BriefDescription": "DCACHE miss"
-+	},
-+	{
-+		"EventCode": "0x61",
-+		"EventName": "dcache_load_access",
-+		"BriefDescription": "DCACHE load access"
-+	},
-+	{
-+		"EventCode": "0x71",
-+		"EventName": "dcache_load_miss",
-+		"BriefDescription": "DCACHE load miss"
-+	},
-+	{
-+		"EventCode": "0x81",
-+		"EventName": "dcache_store_access",
-+		"BriefDescription": "DCACHE store access"
-+	},
-+	{
-+		"EventCode": "0x91",
-+		"EventName": "dcache_store_miss",
-+		"BriefDescription": "DCACHE store miss"
-+	},
-+	{
-+		"EventCode": "0xA1",
-+		"EventName": "dcache_wb",
-+		"BriefDescription": "DCACHE writeback"
-+	}
-+]
-diff --git a/tools/perf/pmu-events/arch/riscv/andes/ax45/microarch.json b/tools/perf/pmu-events/arch/riscv/andes/ax45/microarch.json
-new file mode 100644
-index 000000000000..a6d378cbaa74
---- /dev/null
-+++ b/tools/perf/pmu-events/arch/riscv/andes/ax45/microarch.json
-@@ -0,0 +1,77 @@
-+[
-+	{
-+		"EventCode": "0xB1",
-+		"EventName": "cycle_wait_icache_fill",
-+		"BriefDescription": "Cycles waiting for ICACHE fill data"
-+	},
-+	{
-+		"EventCode": "0xC1",
-+		"EventName": "cycle_wait_dcache_fill",
-+		"BriefDescription": "Cycles waiting for DCACHE fill data"
-+	},
-+	{
-+		"EventCode": "0xD1",
-+		"EventName": "uncached_ifetch_from_bus",
-+		"BriefDescription": "Uncached ifetch data access from bus"
-+	},
-+	{
-+		"EventCode": "0xE1",
-+		"EventName": "uncached_load_from_bus",
-+		"BriefDescription": "Uncached load data access from bus"
-+	},
-+	{
-+		"EventCode": "0xF1",
-+		"EventName": "cycle_wait_uncached_ifetch",
-+		"BriefDescription": "Cycles waiting for uncached ifetch data from bus"
-+	},
-+	{
-+		"EventCode": "0x101",
-+		"EventName": "cycle_wait_uncached_load",
-+		"BriefDescription": "Cycles waiting for uncached load data from bus"
-+	},
-+	{
-+		"EventCode": "0x111",
-+		"EventName": "main_itlb_access",
-+		"BriefDescription": "Main ITLB access"
-+	},
-+	{
-+		"EventCode": "0x121",
-+		"EventName": "main_itlb_miss",
-+		"BriefDescription": "Main ITLB miss"
-+	},
-+	{
-+		"EventCode": "0x131",
-+		"EventName": "main_dtlb_access",
-+		"BriefDescription": "Main DTLB access"
-+	},
-+	{
-+		"EventCode": "0x141",
-+		"EventName": "main_dtlb_miss",
-+		"BriefDescription": "Main DTLB miss"
-+	},
-+	{
-+		"EventCode": "0x151",
-+		"EventName": "cycle_wait_itlb_fill",
-+		"BriefDescription": "Cycles waiting for Main ITLB fill data"
-+	},
-+	{
-+		"EventCode": "0x161",
-+		"EventName": "pipe_stall_cycle_dtlb_miss",
-+		"BriefDescription": "Pipeline stall cycles caused by Main DTLB miss"
-+	},
-+	{
-+		"EventCode": "0x02",
-+		"EventName": "mispredict_condition_br",
-+		"BriefDescription": "Misprediction of conditional branches"
-+	},
-+	{
-+		"EventCode": "0x12",
-+		"EventName": "mispredict_take_condition_br",
-+		"BriefDescription": "Misprediction of taken conditional branches"
-+	},
-+	{
-+		"EventCode": "0x22",
-+		"EventName": "mispredict_target_ret_inst",
-+		"BriefDescription": "Misprediction of targets of Return instructions"
-+	}
-+]
-diff --git a/tools/perf/pmu-events/arch/riscv/mapfile.csv b/tools/perf/pmu-events/arch/riscv/mapfile.csv
-index cfc449b19810..3d3a809a5446 100644
---- a/tools/perf/pmu-events/arch/riscv/mapfile.csv
-+++ b/tools/perf/pmu-events/arch/riscv/mapfile.csv
-@@ -17,3 +17,4 @@
- 0x489-0x8000000000000007-0x[[:xdigit:]]+,v1,sifive/u74,core
- 0x5b7-0x0-0x0,v1,thead/c900-legacy,core
- 0x67e-0x80000000db0000[89]0-0x[[:xdigit:]]+,v1,starfive/dubhe-80,core
-+0x31e-0x8000000000008a45-0x[[:xdigit:]]+,v1,andes/ax45,core
--- 
-2.34.1
+The branch survived build testing for all 167 sunxi boards, and Linux
+boot testing on some selected boards.
 
+Please pull!
+
+Cheers,
+Andre
+
+==================
+The following changes since commit 526a865fe4fea59fb2638726c26e39557eb97fdd:
+
+  Merge branch 'master-cleanup' of https://source.denx.de/u-boot/custodians/u-boot-sh (2024-01-27 20:43:20 -0500)
+
+are available in the Git repository at:
+
+  https://source.denx.de/u-boot/custodians/u-boot-sunxi.git master
+
+for you to fetch changes up to 539612e27690a8df7f197cd1e9f4c2cf6ee1ac64:
+
+  sunxi: Consider SPL size limitations for FIT loading (2024-01-29 14:31:00 +0000)
+
+----------------------------------------------------------------
+Andre Przywara (7):
+      sunxi: cleanup sunxi-common.h
+      sunxi: sun50i-h6: remove unneeded base addresses from header
+      sunxi: sun4i: remove unneeded base addresses from header
+      sunxi: sun9i: remove unneeded base addresses from header
+      sunxi: remove common.h inclusion
+      sunxi: simplify U-Boot proper only builds
+      sunxi: dts: update devicetree files from Linux-v6.8-rc1
+
+Chuanhong Guo (1):
+      sunxi: add defconfig for nanopi_duo2
+
+Maksim Kiselev (1):
+      net: sun8i-emac: Add support for fixed-link phy
+
+Nick Alilovic (1):
+      sunxi: add Transpeed 8K618-T board support
+
+Samuel Holland (4):
+      sunxi: spl: Disable padding from SPL_PAD_TO
+      sunxi: binman: Move BL31 and SCP firmware addresses to Kconfig
+      sunxi: binman: Support FIT generation for 32-bit SoCs
+      sunxi: Consider SPL size limitations for FIT loading
+
+ arch/arm/Kconfig                                   |   4 +-
+ arch/arm/dts/Makefile                              |   1 +
+ arch/arm/dts/sun50i-h616-bigtreetech-cb1-manta.dts |  35 +++
+ arch/arm/dts/sun50i-h616-bigtreetech-cb1.dtsi      | 138 +++++++++++
+ arch/arm/dts/sun50i-h616-bigtreetech-pi.dts        |  63 +++++
+ arch/arm/dts/sun50i-h616.dtsi                      |   7 +
+ arch/arm/dts/sun50i-h618-orangepi-zero2w.dts       | 176 +++++++++++++
+ arch/arm/dts/sun50i-h618-transpeed-8k618-t.dts     | 161 ++++++++++++
+ arch/arm/dts/sun8i-r40.dtsi                        |   2 +
+ arch/arm/dts/sun8i-v3s-anbernic-rg-nano.dts        | 276 +++++++++++++++++++++
+ arch/arm/dts/sun8i-v3s.dtsi                        |  35 +++
+ arch/arm/dts/sunxi-u-boot.dtsi                     |  41 +--
+ arch/arm/include/asm/arch-sunxi/cpu_sun4i.h        |  47 ----
+ arch/arm/include/asm/arch-sunxi/cpu_sun50i_h6.h    |  21 --
+ arch/arm/include/asm/arch-sunxi/cpu_sun9i.h        |  41 ---
+ arch/arm/mach-sunxi/Kconfig                        |  33 ++-
+ arch/arm/mach-sunxi/board.c                        |   1 -
+ arch/arm/mach-sunxi/clock.c                        |   1 -
+ arch/arm/mach-sunxi/clock_sun4i.c                  |   1 -
+ arch/arm/mach-sunxi/clock_sun50i_h6.c              |   1 -
+ arch/arm/mach-sunxi/clock_sun6i.c                  |   1 -
+ arch/arm/mach-sunxi/clock_sun8i_a83t.c             |   1 -
+ arch/arm/mach-sunxi/clock_sun9i.c                  |   1 -
+ arch/arm/mach-sunxi/cpu_info.c                     |   1 -
+ arch/arm/mach-sunxi/dram_helpers.c                 |   3 +-
+ arch/arm/mach-sunxi/dram_sun4i.c                   |   1 -
+ arch/arm/mach-sunxi/dram_sun50i_h6.c               |   1 -
+ arch/arm/mach-sunxi/dram_sun50i_h616.c             |   1 -
+ arch/arm/mach-sunxi/dram_sun6i.c                   |   1 -
+ arch/arm/mach-sunxi/dram_sun8i_a23.c               |   1 -
+ arch/arm/mach-sunxi/dram_sun8i_a33.c               |   1 -
+ arch/arm/mach-sunxi/dram_sun8i_a83t.c              |   1 -
+ arch/arm/mach-sunxi/dram_sun9i.c                   |   1 -
+ arch/arm/mach-sunxi/dram_suniv.c                   |   2 +-
+ arch/arm/mach-sunxi/dram_sunxi_dw.c                |   1 -
+ arch/arm/mach-sunxi/gtbus_sun9i.c                  |   1 -
+ arch/arm/mach-sunxi/pmic_bus.c                     |   1 -
+ arch/arm/mach-sunxi/prcm.c                         |   1 -
+ arch/arm/mach-sunxi/spl_spi_sunxi.c                |   1 -
+ arch/arm/mach-sunxi/timer.c                        |   1 -
+ common/spl/Kconfig                                 |   6 +-
+ configs/nanopi_duo2_defconfig                      |  12 +
+ configs/transpeed-8k618-t_defconfig                |  27 ++
+ drivers/net/sun8i_emac.c                           |   7 +-
+ include/configs/sunxi-common.h                     |  56 +----
+ 45 files changed, 1002 insertions(+), 214 deletions(-)
+ create mode 100644 arch/arm/dts/sun50i-h616-bigtreetech-cb1-manta.dts
+ create mode 100644 arch/arm/dts/sun50i-h616-bigtreetech-cb1.dtsi
+ create mode 100644 arch/arm/dts/sun50i-h616-bigtreetech-pi.dts
+ create mode 100644 arch/arm/dts/sun50i-h618-orangepi-zero2w.dts
+ create mode 100644 arch/arm/dts/sun50i-h618-transpeed-8k618-t.dts
+ create mode 100644 arch/arm/dts/sun8i-v3s-anbernic-rg-nano.dts
+ create mode 100644 configs/nanopi_duo2_defconfig
+ create mode 100644 configs/transpeed-8k618-t_defconfig
