@@ -1,74 +1,128 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A37376D1B5;
-	Tue, 30 Jan 2024 13:48:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EFEB6D1BA
+	for <linux-sunxi@lists.linux.dev>; Tue, 30 Jan 2024 14:16:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706622523; cv=none; b=O6BNzHKvnPKm5ffaXIWSHgl2tmd3cWujsPqK4pIfhtqF69W9C8sDFu8BDzJgVbwolNILylywzCgrADwC+nwAPgMQ96vG9p5uxU746nJwCX4Tf4i6FsNpIJeSMhQeIDww9IJ3pJxF0indGyG6HyhA1TLCeMOdmPmEsd4RukkdF+8=
+	t=1706624221; cv=none; b=iXDmjAVC81kn7LQIh2Lxr7d0rHVWhpmT1IiQGvjl7WkRlVelBUM4CMlZdc1way+rzjV4Vp4VV0LpcG8k+QXGUFbjAGBO66C3kKUXYPmwoY0eFLGZTriJBNjc9TR4is/vvHtEI5qaroBDXBq87qA8Q27l8bHpj9HfPlq67b1h/bk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706622523; c=relaxed/simple;
-	bh=LX2Fic2UMf7KjX8p2W2+sSCjFDYmcP3OxJ1aZl3nnnY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M0rAoKME5hVKoCoJirZswaCkp01Ozw8hfJxZQcqUxIcA20jIEmg30BchSq4qRMuJhP+j7I0drH8qa/0jz+rx60rYNgQRKkyL5k2cg2wpyX7Ahei8bqA262dBsWzJatpL3tPWdPPE9IuejT/S0qhxAQ6AJXX+lLIXpLjpX13AgSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=0EyaNAy3; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="0EyaNAy3"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=vd//V4XYtNdO2bVzPimQHhpuzy1TW7+TDVfUFwizcWs=; b=0EyaNAy3PN3WNXOZkObkKOnf7m
-	l+LjuYFxeSmhk3U5RzxxGCO0Ob/JJ5phV2UidjoFY6TDp/w1VAOw5GU0j/6w7dWlLI65z+naIqFmw
-	nV0n25zGIlwSGH0LXks3/JplBRPXEwI4GX7pzoZ7e+w37JMlEZfKniz/sYw3x4tI8BxM=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1rUoTM-006UoM-Ti; Tue, 30 Jan 2024 14:48:20 +0100
-Date: Tue, 30 Jan 2024 14:48:20 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Jisheng Zhang <jszhang@kernel.org>
-Cc: Petr Tesarik <petr@tesarici.cz>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Jose Abreu <joabreu@synopsys.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>,
+	s=arc-20240116; t=1706624221; c=relaxed/simple;
+	bh=ZirbeBgbKUGOQhE2NSueTtTcHfUsNyn5n1v88kap3Ig=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GdZ2H0QzGn9Ikx4ZeCTunieZZFw5DJhpNtFN115VNqZrj6xz7PZtA40gf8Ra6+xDGLcR1KaJmq2LyD44yZc6Z1ZgtyqBMo/a1CebAbawMDk63KPbaSUIiV4XFn3/5yCSHVniZPfZTRQWAKIk5YPN5BMf1ASABsP4sVDUVSjtsq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5667DDA7;
+	Tue, 30 Jan 2024 06:17:37 -0800 (PST)
+Received: from donnerap.arm.com (donnerap.manchester.arm.com [10.32.100.28])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BF05F3F762;
+	Tue, 30 Jan 2024 06:16:51 -0800 (PST)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Jagan Teki <jagan@amarulasolutions.com>,
+	linux-sunxi@lists.linux.dev
+Cc: u-boot@lists.denx.de,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	"open list:STMMAC ETHERNET DRIVER" <netdev@vger.kernel.org>,
-	"moderated list:ARM/STM32 ARCHITECTURE" <linux-stm32@st-md-mailman.stormreply.com>,
-	"moderated list:ARM/STM32 ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
-	Marc Haber <mh+netdev@zugschlus.de>,
-	Florian Fainelli <f.fainelli@gmail.com>, stable@vger.kernel.org
-Subject: Re: [PATCH net v2] net: stmmac: protect updates of 64-bit statistics
- counters
-Message-ID: <cd9ce78c-2761-4b87-af87-ed6ccb1206bb@lunn.ch>
-References: <20240128193529.24677-1-petr@tesarici.cz>
- <ZbiCWtY8ODrroHIq@xhacker>
+	Marc Zyngier <maz@kernel.org>,
+	James McGregor <james.mcgregor2@arm.com>
+Subject: [PATCH] sunxi: H616: Add OrangePi Zero 2W board support
+Date: Tue, 30 Jan 2024 14:16:42 +0000
+Message-Id: <20240130141642.2714470-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZbiCWtY8ODrroHIq@xhacker>
+Content-Transfer-Encoding: 8bit
 
-> PS: when I sent the above "net: stmmac: use per-queue 64 bit statistics
-> where necessary", I had an impression: there are too much statistics in
-> stmmac driver, I didn't see so many statistics in other eth drivers, is
-> it possible to remove some useless or not that useful statistic members?
+The OrangePi Zero 2W is a tiny development board featuring the Allwinner
+H618 SoC, shipping with up to 4GB of LPDDR4 DRAM, a mini-HDMI connector,
+two USB Type-C sockets and a 16MB SPI NOR flash.
+There is an FPC connector to connect an expansion board, which sports
+two more USB Type-A sockets and a 100MBit Ethernet port. Support for
+the expansion board is not in the DT yet, probably a DT overlay would
+cover this in the future.
 
-These counters might be considered ABI. We don't want to cause
-regressions in somebodies testing, or even billing scripts because we
-remove a counter which somebody is using.
+Add a defconfig file selecting the right drivers and DRAM options.
+Since the .dts file was synced from the Linux kernel repo already, we
+just need to add one line to the Makefile to actually build the .dtb.
 
-       Andrew
+The DRAM parameters were derived from the values found in the BSP DRAM
+drivers on the SPI NOR flash.
+
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+---
+ arch/arm/dts/Makefile             |  1 +
+ board/sunxi/MAINTAINERS           |  5 +++++
+ configs/orangepi_zero2w_defconfig | 30 ++++++++++++++++++++++++++++++
+ 3 files changed, 36 insertions(+)
+ create mode 100644 configs/orangepi_zero2w_defconfig
+
+diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
+index 0d4b917fb3b..ed3978037ed 100644
+--- a/arch/arm/dts/Makefile
++++ b/arch/arm/dts/Makefile
+@@ -837,6 +837,7 @@ dtb-$(CONFIG_MACH_SUN50I_H6) += \
+ 	sun50i-h6-tanix-tx6-mini.dtb
+ dtb-$(CONFIG_MACH_SUN50I_H616) += \
+ 	sun50i-h616-orangepi-zero2.dtb \
++	sun50i-h618-orangepi-zero2w.dtb \
+ 	sun50i-h618-orangepi-zero3.dtb \
+ 	sun50i-h618-transpeed-8k618-t.dtb \
+ 	sun50i-h616-x96-mate.dtb
+diff --git a/board/sunxi/MAINTAINERS b/board/sunxi/MAINTAINERS
+index a2da6a4a7a2..4bcd9b9af7f 100644
+--- a/board/sunxi/MAINTAINERS
++++ b/board/sunxi/MAINTAINERS
+@@ -460,6 +460,11 @@ M:	Jernej Skrabec <jernej.skrabec@siol.net>
+ S:	Maintained
+ F:	configs/orangepi_zero2_defconfig
+ 
++ORANGEPI ZERO 2W BOARD
++M:	Andre Przywara <andre.przywara@arm.com>
++S:	Maintained
++F:	configs/orangepi_zero2w_defconfig
++
+ ORANGEPI ZERO 3 BOARD
+ M:	Andre Przywara <andre.przywara@arm.com>
+ S:	Maintained
+diff --git a/configs/orangepi_zero2w_defconfig b/configs/orangepi_zero2w_defconfig
+new file mode 100644
+index 00000000000..5734d9d839c
+--- /dev/null
++++ b/configs/orangepi_zero2w_defconfig
+@@ -0,0 +1,30 @@
++CONFIG_ARM=y
++CONFIG_ARCH_SUNXI=y
++CONFIG_DEFAULT_DEVICE_TREE="sun50i-h618-orangepi-zero2w"
++CONFIG_SPL=y
++CONFIG_DRAM_SUN50I_H616_DX_ODT=0x07070707
++CONFIG_DRAM_SUN50I_H616_DX_DRI=0x0e0e0e0e
++CONFIG_DRAM_SUN50I_H616_CA_DRI=0x0e0e
++CONFIG_DRAM_SUN50I_H616_ODT_EN=0xaaaaeeee
++CONFIG_DRAM_SUN50I_H616_TPR6=0x48808080
++CONFIG_DRAM_SUN50I_H616_TPR10=0x402f6663
++CONFIG_DRAM_SUN50I_H616_TPR11=0x26262524
++CONFIG_DRAM_SUN50I_H616_TPR12=0x100f100f
++CONFIG_MACH_SUN50I_H616=y
++CONFIG_SUNXI_DRAM_H616_LPDDR4=y
++CONFIG_DRAM_CLK=792
++CONFIG_R_I2C_ENABLE=y
++CONFIG_SPL_SPI_SUNXI=y
++# CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
++CONFIG_SPL_I2C=y
++CONFIG_SPL_SYS_I2C_LEGACY=y
++CONFIG_SYS_I2C_MVTWSI=y
++CONFIG_SYS_I2C_SLAVE=0x7f
++CONFIG_SYS_I2C_SPEED=400000
++CONFIG_MTD=y
++CONFIG_SPI_FLASH_ZBIT=y
++CONFIG_AXP313_POWER=y
++CONFIG_SPI=y
++CONFIG_USB_EHCI_HCD=y
++CONFIG_USB_OHCI_HCD=y
++CONFIG_USB_MUSB_GADGET=y
+-- 
+2.25.1
+
