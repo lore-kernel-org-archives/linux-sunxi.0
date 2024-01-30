@@ -1,128 +1,77 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EFEB6D1BA
-	for <linux-sunxi@lists.linux.dev>; Tue, 30 Jan 2024 14:16:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 722D3823AA;
+	Tue, 30 Jan 2024 16:51:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706624221; cv=none; b=iXDmjAVC81kn7LQIh2Lxr7d0rHVWhpmT1IiQGvjl7WkRlVelBUM4CMlZdc1way+rzjV4Vp4VV0LpcG8k+QXGUFbjAGBO66C3kKUXYPmwoY0eFLGZTriJBNjc9TR4is/vvHtEI5qaroBDXBq87qA8Q27l8bHpj9HfPlq67b1h/bk=
+	t=1706633462; cv=none; b=ZgOZqxmXBpGbQ3igZq3ibD8s/z0M2nsfTvCb6OcyQjNq2X3skpkBR6FJGsZ5IKCyI0rzxWHuoB03uAW6y50PWVrHEG5QA6UVz6it+wgwS1PDhk3NTAb9zr4z0B311AwzxWdt7pEHImujXStyO3B7ZWop9MkUo53bu4EW+McfQDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706624221; c=relaxed/simple;
-	bh=ZirbeBgbKUGOQhE2NSueTtTcHfUsNyn5n1v88kap3Ig=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GdZ2H0QzGn9Ikx4ZeCTunieZZFw5DJhpNtFN115VNqZrj6xz7PZtA40gf8Ra6+xDGLcR1KaJmq2LyD44yZc6Z1ZgtyqBMo/a1CebAbawMDk63KPbaSUIiV4XFn3/5yCSHVniZPfZTRQWAKIk5YPN5BMf1ASABsP4sVDUVSjtsq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5667DDA7;
-	Tue, 30 Jan 2024 06:17:37 -0800 (PST)
-Received: from donnerap.arm.com (donnerap.manchester.arm.com [10.32.100.28])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BF05F3F762;
-	Tue, 30 Jan 2024 06:16:51 -0800 (PST)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jagan Teki <jagan@amarulasolutions.com>,
-	linux-sunxi@lists.linux.dev
-Cc: u-boot@lists.denx.de,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Marc Zyngier <maz@kernel.org>,
-	James McGregor <james.mcgregor2@arm.com>
-Subject: [PATCH] sunxi: H616: Add OrangePi Zero 2W board support
-Date: Tue, 30 Jan 2024 14:16:42 +0000
-Message-Id: <20240130141642.2714470-1-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1706633462; c=relaxed/simple;
+	bh=RaXuGC+ILopm/118dxaYm1RJctuzPkfs9VeKd+ZeDMA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=e5rWHQgA5e9ZDI7cR6yGLhoJ4VOj9iho05xKrktSW1s9DClT/psA3kDXrj0nGQCl19OTQZY5dsEzuYqXXyC75Py4EUjSBfcGcpHU/Vl0Hl+ZYDJZBMhQg7lHnMrSRC4ansFKcecKhlp0LUnGp69h++CakXfDXCIjbZC1SlsNekU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nkl0C6Bd; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nkl0C6Bd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 805D4C433F1;
+	Tue, 30 Jan 2024 16:50:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706633461;
+	bh=RaXuGC+ILopm/118dxaYm1RJctuzPkfs9VeKd+ZeDMA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Nkl0C6BdHutK53KDb6YR6uBWAvoa5ov9DxEKxaAj6AeP7mAxBMvwJMYVWodkhFPDd
+	 c5ceZMK1ANtGz8in5Xyo/yLq5PZLU8xaYoCKkYQMPUyx0C+zw1jzZ5g5gYMnWXP7zg
+	 N3980lVu7ENNCE3NmxsKI/Qg6KjcW+IV+Fyg03xrz6xrhhAAxxiQ7QQEPRNlWNNhL2
+	 D8fP8klfI8Hrc94c41ON7HpxmULAScJFDbHqfJRJnnUpFk8LeGr6b/R2F6atkUeeu+
+	 ugNc60cnWh8Ry/SDaM/dc921YP8q+NzwqkUQSzSrvgVfJezwG3dDvBLY9xT65Ld/Zq
+	 hBnjhdg+luEKw==
+From: Vinod Koul <vkoul@kernel.org>
+To: Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-sound@vger.kernel.org, dmaengine@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20240127163247.384439-1-wens@kernel.org>
+References: <20240127163247.384439-1-wens@kernel.org>
+Subject: Re: (subset) [PATCH v2 0/7] arm64: sun50i-h616: Add DMA and SPDIF
+ controllers
+Message-Id: <170663345601.658154.16420910246714061637.b4-ty@kernel.org>
+Date: Tue, 30 Jan 2024 22:20:56 +0530
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.3
 
-The OrangePi Zero 2W is a tiny development board featuring the Allwinner
-H618 SoC, shipping with up to 4GB of LPDDR4 DRAM, a mini-HDMI connector,
-two USB Type-C sockets and a 16MB SPI NOR flash.
-There is an FPC connector to connect an expansion board, which sports
-two more USB Type-A sockets and a 100MBit Ethernet port. Support for
-the expansion board is not in the DT yet, probably a DT overlay would
-cover this in the future.
 
-Add a defconfig file selecting the right drivers and DRAM options.
-Since the .dts file was synced from the Linux kernel repo already, we
-just need to add one line to the Makefile to actually build the .dtb.
+On Sun, 28 Jan 2024 00:32:40 +0800, Chen-Yu Tsai wrote:
+> This is v2 of my H616/H618 DMA and SPDIF controller series.
+> 
+> Changes since v1:
+> - Switch to "contains" for if-properties statement
+> - Fall back to A100 instead of H6
+> - Add DMA channels for r_i2c
+> 
+> [...]
 
-The DRAM parameters were derived from the values found in the BSP DRAM
-drivers on the SPI NOR flash.
+Applied, thanks!
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- arch/arm/dts/Makefile             |  1 +
- board/sunxi/MAINTAINERS           |  5 +++++
- configs/orangepi_zero2w_defconfig | 30 ++++++++++++++++++++++++++++++
- 3 files changed, 36 insertions(+)
- create mode 100644 configs/orangepi_zero2w_defconfig
+[4/7] dt-bindings: dma: allwinner,sun50i-a64-dma: Add compatible for H616
+      commit: b32eb97edeb8d69092d57419917b19c909ff962a
 
-diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
-index 0d4b917fb3b..ed3978037ed 100644
---- a/arch/arm/dts/Makefile
-+++ b/arch/arm/dts/Makefile
-@@ -837,6 +837,7 @@ dtb-$(CONFIG_MACH_SUN50I_H6) += \
- 	sun50i-h6-tanix-tx6-mini.dtb
- dtb-$(CONFIG_MACH_SUN50I_H616) += \
- 	sun50i-h616-orangepi-zero2.dtb \
-+	sun50i-h618-orangepi-zero2w.dtb \
- 	sun50i-h618-orangepi-zero3.dtb \
- 	sun50i-h618-transpeed-8k618-t.dtb \
- 	sun50i-h616-x96-mate.dtb
-diff --git a/board/sunxi/MAINTAINERS b/board/sunxi/MAINTAINERS
-index a2da6a4a7a2..4bcd9b9af7f 100644
---- a/board/sunxi/MAINTAINERS
-+++ b/board/sunxi/MAINTAINERS
-@@ -460,6 +460,11 @@ M:	Jernej Skrabec <jernej.skrabec@siol.net>
- S:	Maintained
- F:	configs/orangepi_zero2_defconfig
- 
-+ORANGEPI ZERO 2W BOARD
-+M:	Andre Przywara <andre.przywara@arm.com>
-+S:	Maintained
-+F:	configs/orangepi_zero2w_defconfig
-+
- ORANGEPI ZERO 3 BOARD
- M:	Andre Przywara <andre.przywara@arm.com>
- S:	Maintained
-diff --git a/configs/orangepi_zero2w_defconfig b/configs/orangepi_zero2w_defconfig
-new file mode 100644
-index 00000000000..5734d9d839c
---- /dev/null
-+++ b/configs/orangepi_zero2w_defconfig
-@@ -0,0 +1,30 @@
-+CONFIG_ARM=y
-+CONFIG_ARCH_SUNXI=y
-+CONFIG_DEFAULT_DEVICE_TREE="sun50i-h618-orangepi-zero2w"
-+CONFIG_SPL=y
-+CONFIG_DRAM_SUN50I_H616_DX_ODT=0x07070707
-+CONFIG_DRAM_SUN50I_H616_DX_DRI=0x0e0e0e0e
-+CONFIG_DRAM_SUN50I_H616_CA_DRI=0x0e0e
-+CONFIG_DRAM_SUN50I_H616_ODT_EN=0xaaaaeeee
-+CONFIG_DRAM_SUN50I_H616_TPR6=0x48808080
-+CONFIG_DRAM_SUN50I_H616_TPR10=0x402f6663
-+CONFIG_DRAM_SUN50I_H616_TPR11=0x26262524
-+CONFIG_DRAM_SUN50I_H616_TPR12=0x100f100f
-+CONFIG_MACH_SUN50I_H616=y
-+CONFIG_SUNXI_DRAM_H616_LPDDR4=y
-+CONFIG_DRAM_CLK=792
-+CONFIG_R_I2C_ENABLE=y
-+CONFIG_SPL_SPI_SUNXI=y
-+# CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
-+CONFIG_SPL_I2C=y
-+CONFIG_SPL_SYS_I2C_LEGACY=y
-+CONFIG_SYS_I2C_MVTWSI=y
-+CONFIG_SYS_I2C_SLAVE=0x7f
-+CONFIG_SYS_I2C_SPEED=400000
-+CONFIG_MTD=y
-+CONFIG_SPI_FLASH_ZBIT=y
-+CONFIG_AXP313_POWER=y
-+CONFIG_SPI=y
-+CONFIG_USB_EHCI_HCD=y
-+CONFIG_USB_OHCI_HCD=y
-+CONFIG_USB_MUSB_GADGET=y
+Best regards,
 -- 
-2.25.1
+~Vinod
+
 
