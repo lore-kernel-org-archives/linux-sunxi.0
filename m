@@ -1,35 +1,37 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9BCA679E4;
-	Tue, 30 Jan 2024 11:52:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A37376D1B5;
+	Tue, 30 Jan 2024 13:48:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706615552; cv=none; b=twrCa2Woe02fqTrpcNeEAore2k6/mAWhbGp8bs/e0o7CqcKMKgQeFJdUM3SkeW5WpSArhUHYiAMPTYBQOQONN8Vx5CaQDefXxahoKksPo39hxexemYpYcOPanot8xZfNVH+H2Xx+ewVw9J319iCt67Mwad2424cdgDIXUIN9ZwI=
+	t=1706622523; cv=none; b=O6BNzHKvnPKm5ffaXIWSHgl2tmd3cWujsPqK4pIfhtqF69W9C8sDFu8BDzJgVbwolNILylywzCgrADwC+nwAPgMQ96vG9p5uxU746nJwCX4Tf4i6FsNpIJeSMhQeIDww9IJ3pJxF0indGyG6HyhA1TLCeMOdmPmEsd4RukkdF+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706615552; c=relaxed/simple;
-	bh=DMspNHe+PyuwZG/IydiW/Wdtvh3uR5JF2oe/i9uuk5Y=;
+	s=arc-20240116; t=1706622523; c=relaxed/simple;
+	bh=LX2Fic2UMf7KjX8p2W2+sSCjFDYmcP3OxJ1aZl3nnnY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q6veGF+Xb+q5G1IsBvw+qQndDBnTwhcIcQSBAKBAZkKar9JeyAo+YWe9guO+dvxSLwEbWelE3UlBiC4ewSn6ec7B55ncQ8Da9JPZGNdgvWzsJvfGJXo8RHMUS89RhGHTGMxc4n9Qz5x62tBAVpwzPhLBdSMd+Sr6HROk5v8Rrk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tLd3MiRr; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=M0rAoKME5hVKoCoJirZswaCkp01Ozw8hfJxZQcqUxIcA20jIEmg30BchSq4qRMuJhP+j7I0drH8qa/0jz+rx60rYNgQRKkyL5k2cg2wpyX7Ahei8bqA262dBsWzJatpL3tPWdPPE9IuejT/S0qhxAQ6AJXX+lLIXpLjpX13AgSc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=0EyaNAy3; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tLd3MiRr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BD77C433F1;
-	Tue, 30 Jan 2024 11:52:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706615551;
-	bh=DMspNHe+PyuwZG/IydiW/Wdtvh3uR5JF2oe/i9uuk5Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tLd3MiRrPCcMgjVjHBWZko6Az5rZSFR1TS04dBkF6SIlhgzavZ2stqYFKUjlYdcgz
-	 CUm7cZDSLxFrXzePWm05avfoOHKiqK3DWlv/ZpMl4Fbk24sTIvCe9Ad7MmJZ7Huvvi
-	 JK1VLQEXMckAltshWu+H0x/ncIpjIlmb5TTFb6OVzHS8xm9VPhnBxdPSJwFZ7kx29b
-	 O4hDrkrHy1F2o3o8FdBROYbPGiljw4vd+CDssP8WvjexD/SSs6VTTDk/bMsGGQ/WhM
-	 +yAfrdEE4Gke6UPP5de/5dsmvbanSxCQT9o+813w0EqxCvGItuM9kUDGYXnlZQog6a
-	 j5Pwxm/sKwtkg==
-Date: Tue, 30 Jan 2024 19:39:35 +0800
-From: Jisheng Zhang <jszhang@kernel.org>
-To: Petr =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="0EyaNAy3"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=vd//V4XYtNdO2bVzPimQHhpuzy1TW7+TDVfUFwizcWs=; b=0EyaNAy3PN3WNXOZkObkKOnf7m
+	l+LjuYFxeSmhk3U5RzxxGCO0Ob/JJ5phV2UidjoFY6TDp/w1VAOw5GU0j/6w7dWlLI65z+naIqFmw
+	nV0n25zGIlwSGH0LXks3/JplBRPXEwI4GX7pzoZ7e+w37JMlEZfKniz/sYw3x4tI8BxM=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1rUoTM-006UoM-Ti; Tue, 30 Jan 2024 14:48:20 +0100
+Date: Tue, 30 Jan 2024 14:48:20 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Jisheng Zhang <jszhang@kernel.org>
+Cc: Petr Tesarik <petr@tesarici.cz>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
 	Jose Abreu <joabreu@synopsys.com>,
 	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
@@ -43,89 +45,30 @@ Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
 	"moderated list:ARM/STM32 ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>,
 	open list <linux-kernel@vger.kernel.org>,
 	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
-	Marc Haber <mh+netdev@zugschlus.de>, Andrew Lunn <andrew@lunn.ch>,
+	Marc Haber <mh+netdev@zugschlus.de>,
 	Florian Fainelli <f.fainelli@gmail.com>, stable@vger.kernel.org
 Subject: Re: [PATCH net v2] net: stmmac: protect updates of 64-bit statistics
  counters
-Message-ID: <Zbjf9yQRV26EO7le@xhacker>
+Message-ID: <cd9ce78c-2761-4b87-af87-ed6ccb1206bb@lunn.ch>
 References: <20240128193529.24677-1-petr@tesarici.cz>
  <ZbiCWtY8ODrroHIq@xhacker>
- <20240130083539.4ea26a8d@meshulam.tesarici.cz>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240130083539.4ea26a8d@meshulam.tesarici.cz>
+In-Reply-To: <ZbiCWtY8ODrroHIq@xhacker>
 
-On Tue, Jan 30, 2024 at 08:35:39AM +0100, Petr Tesařík wrote:
-> On Tue, 30 Jan 2024 13:00:10 +0800
-> Jisheng Zhang <jszhang@kernel.org> wrote:
-> 
-> > On Sun, Jan 28, 2024 at 08:35:29PM +0100, Petr Tesarik wrote:
-> > > As explained by a comment in <linux/u64_stats_sync.h>, write side of struct
-> > > u64_stats_sync must ensure mutual exclusion, or one seqcount update could
-> > > be lost on 32-bit platforms, thus blocking readers forever. Such lockups
-> > > have been observed in real world after stmmac_xmit() on one CPU raced with
-> > > stmmac_napi_poll_tx() on another CPU.
-> > > 
-> > > To fix the issue without introducing a new lock, split the statics into
-> > > three parts:
-> > > 
-> > > 1. fields updated only under the tx queue lock,
-> > > 2. fields updated only during NAPI poll,
-> > > 3. fields updated only from interrupt context,
-> > > 
-> > > Updates to fields in the first two groups are already serialized through
-> > > other locks. It is sufficient to split the existing struct u64_stats_sync
-> > > so that each group has its own.
-> > > 
-> > > Note that tx_set_ic_bit is updated from both contexts. Split this counter
-> > > so that each context gets its own, and calculate their sum to get the total
-> > > value in stmmac_get_ethtool_stats().
-> > > 
-> > > For the third group, multiple interrupts may be processed by different CPUs
-> > > at the same time, but interrupts on the same CPU will not nest. Move fields
-> > > from this group to a newly created per-cpu struct stmmac_pcpu_stats.
-> > > 
-> > > Fixes: 133466c3bbe1 ("net: stmmac: use per-queue 64 bit statistics where necessary")
-> > > Link: https://lore.kernel.org/netdev/Za173PhviYg-1qIn@torres.zugschlus.de/t/
-> > > Cc: stable@vger.kernel.org
-> > > Signed-off-by: Petr Tesarik <petr@tesarici.cz>  
-> > 
-> > Thanks for the fix patch. One trivial improviement below
-> > s/netdev_alloc_pcpu_stats/devm_netdev_alloc_pcpu_stats to simplify
-> > error and exit code path.
-> 
-> Thanks for your review.
-> 
-> In fact, many other allocations in stmmac could be converted to devm_*.
-> I wanted to stay consistent with the existing code, but hey, you're
+> PS: when I sent the above "net: stmmac: use per-queue 64 bit statistics
+> where necessary", I had an impression: there are too much statistics in
+> stmmac driver, I didn't see so many statistics in other eth drivers, is
+> it possible to remove some useless or not that useful statistic members?
 
-there's already devm_* usage in stmmac_dvr_probe(), eg. devm_alloc_etherdev_mqs
-I believe other parts are from the old days when there's no devm_* APIs
+These counters might be considered ABI. We don't want to cause
+regressions in somebodies testing, or even billing scripts because we
+remove a counter which somebody is using.
 
-> right there's no good reason for it.
-> 
-> Plus, I can send convert the other places with another patch.
-> 
-> > With that:
-> > Reviewed-by: Jisheng Zhang <jszhang@kernel.org>
-> > 
-> > PS: when I sent the above "net: stmmac: use per-queue 64 bit statistics
-> > where necessary", I had an impression: there are too much statistics in
-> > stmmac driver, I didn't see so many statistics in other eth drivers, is
-> > it possible to remove some useless or not that useful statistic members?
-> 
-> I don't feel authorized to make the decision. But I also wonder about
-> some counters. For example, why is there tx_packets and tx_pkt_n? The
-> former is shown as RX packets by "ip stats show dev end0", the latter
-> is shown by as tx_pkt_n by "ethtools -S end0". The values do differ,
-> but I have no clue why, and if they are even expected to be different
-> or if it's a bug.
-> 
-> Petr T
+       Andrew
