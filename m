@@ -1,127 +1,247 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de [85.215.255.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D00F7AE7F
-	for <linux-sunxi@lists.linux.dev>; Wed, 31 Jan 2024 13:00:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706706004; cv=none; b=Y1I+eQnt+7uKHoNhSB6FCN+ICuSg5rMkxMfOHAvB6Rdy/hZGVKDpXBvmza+MyfSNgsV4XNmhNVKHJQMllpRDlTMNb82tWJSnI1uyI38Z7IFlGXjvkUmRZ3/R9/w3s7Fyz/Z6aOtYuMgIMwvYmWnJsTPqiP1QmJC9kVPZEwjxMn4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706706004; c=relaxed/simple;
-	bh=o9E9ecVEg59roajJUTj0tBIXTNYmbmyw1ntarzjaXAA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=WLdX7pzu8TR9h+3iUuq0yM3mjDRSjUMXTnDDjp+nweKOIsIObJ8sTcE/InS6R1Dws3SbkzqHnkdGKIN9XzKDJ+Q8RsKR/eWjWKcP39f6WpJvQ1XddccJBovgsiu07RXj4IB4N8xvuvtRj5hZe/T49XBPxhg7CuJuAWzjbtLIdcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MZj9asCo; arc=none smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56C727B3CB
+	for <linux-sunxi@lists.linux.dev>; Wed, 31 Jan 2024 13:26:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=85.215.255.22
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706707574; cv=pass; b=I1s54f09igKVgqaB6HsrnRVkKJxwtUe6RtJu13YimhNYdDUB7RT3nDeM+ShYUUlzIhZrMRwcu/jNFdWT0sGU6rTKhHUbCztFiuwRI7lQO0VQH4sJU7OZ0iFa8kolaZSsOsB+IamvkRjnm7S4YiMqokmkk+JPVi2djDpiMS8CvdU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706707574; c=relaxed/simple;
+	bh=CENsKzPiONBcoJmHjwEPYeXtAbsTi35CqtBH2AkYGpU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=U/aoIp9p+B+Xt/CXUy/DppTGVgBqCkw9fecH1kQ8+K9Io97FylZLy27ecy/8b5X0ivXWNjbvIoAQBo/frtQuW9hTMgPcF6OHNWXf/rDwiFs8vAA4pyeX/IAEAEzsWlJ21OjS34Exc9oewQZqo8rSrZq9td62MLJVfoREKnIX2mY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ict42.de; spf=none smtp.mailfrom=ict42.de; dkim=pass (2048-bit key) header.d=ict42.de header.i=@ict42.de header.b=Mxxdvs+6; dkim=permerror (0-bit key) header.d=ict42.de header.i=@ict42.de header.b=o/gSPAjq; arc=pass smtp.client-ip=85.215.255.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ict42.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ict42.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MZj9asCo"
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5111c7d40deso2646627e87.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 31 Jan 2024 05:00:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706706000; x=1707310800; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Qk5axihAKFS9+0dIUTMZ/jrL2YTkFropx3eyJ2mG6qU=;
-        b=MZj9asCoYBUChApK70LhjCT0bCBFvCSvoyd0K8K5fzMKDdzYlyZ6NGLolF4lW1jlE1
-         4Ehw8joGRvghs8bqJeIlq7TnM/D1cbjBqDcumA3G2ZAKRJCHxxJr4F0HavvGp4gakflI
-         X63ndk/vnuFkRMnAuu+rvge+CxD7E2jZjYqL75snhnLBP+FKmtLYIQ7n49HElCTV9xGG
-         oEA9ywZQe9YVmPxR+ozzIO1DZwvUba4VFUF7ruEPRKHZ57CgXA2NqNTccjhELyfB/JaX
-         gvkXVu3Gqupqk6xEkiHyrhuxYHoxtdiWeNeVdv/HiiB5fbcISmUN/DRU9PA4jPOAHp1M
-         p8cQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706706000; x=1707310800;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Qk5axihAKFS9+0dIUTMZ/jrL2YTkFropx3eyJ2mG6qU=;
-        b=FyYQ61T2mZuTHrP8kzclTx7UDI58+avRbizZOOLk14I+LM9V1JxtlPC+7EcmA3XtSv
-         38e+2NkDQHK8NWtynck6+XePJ2g4qD5xgf9arxUWldVEEcMOhn/p/JlBR4pHbqEatsl0
-         P4geofpkBCbl05YB3qpJgPZKT0okUr/TY5jds1CQNnYa1Nv/N1puyIA8PNC5c4yEEpEY
-         IsQn2TPruOJtWuXW6cz47Kep7jCQOmB4fdQd6XxJfPw6rKxT3oO4jrXBuK74OTLOWmyS
-         jktQdQoaySeljaQTNzO9VUwsIy4/9rFHVBLubrIbUdgseNi/HLkjqgkmPksNboAjXjDt
-         0dBw==
-X-Gm-Message-State: AOJu0YxWk3mS/4A6mWpgdLC6NT+HQcyeJejMP5MyGVJk4Ld5U0Okp5tl
-	SHEiCc1AXucXnDmtAEX25+NxkJpoDbI5ZpqLydlWbY+PiRZ3nNQ=
-X-Google-Smtp-Source: AGHT+IFlj/2UQlXVTsP85U+sX9Z4Xg+m+7M8urgFGxXNNIrMtV2ixCb6BE8A2Y9DZeChVhyFjSIIgA==
-X-Received: by 2002:a05:6512:3b93:b0:511:1ed7:61bd with SMTP id g19-20020a0565123b9300b005111ed761bdmr1608967lfv.54.1706706000644;
-        Wed, 31 Jan 2024 05:00:00 -0800 (PST)
-Received: from localhost.localdomain ([188.162.49.60])
-        by smtp.gmail.com with ESMTPSA id h25-20020a19ca59000000b00510faaa62cfsm1361135lfj.222.2024.01.31.04.59.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Jan 2024 04:59:59 -0800 (PST)
-From: Aleksandr Shubin <privatesub2@gmail.com>
-To: linux-kernel@vger.kernel.org
-Cc: Aleksandr Shubin <privatesub2@gmail.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Maksim Kiselev <bigunclemax@gmail.com>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	John Watts <contact@jookia.org>,
-	Cheo Fusi <fusibrandon13@gmail.com>,
-	linux-pwm@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-riscv@lists.infradead.org
-Subject: [PATCH v8 3/3] riscv: dts: allwinner: d1: Add pwm node
-Date: Wed, 31 Jan 2024 15:59:16 +0300
-Message-Id: <20240131125920.2879433-4-privatesub2@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240131125920.2879433-1-privatesub2@gmail.com>
-References: <20240131125920.2879433-1-privatesub2@gmail.com>
+	dkim=pass (2048-bit key) header.d=ict42.de header.i=@ict42.de header.b="Mxxdvs+6";
+	dkim=permerror (0-bit key) header.d=ict42.de header.i=@ict42.de header.b="o/gSPAjq"
+ARC-Seal: i=1; a=rsa-sha256; t=1706707563; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=k9dmGSf9O5brSXVetNnRV1j1RCsxz851Lnidh/8qK3Q4mHI11mXVyQoTyWjSAPDo+1
+    26t2kuz5Z9LHGl4IaCAjYFWc1Bf4WjNOQvW+sRDmoOokT41JaCpM53oMh0vyJRjtBLPf
+    0TmYytEnlHJ1vmeEtMR8d/cGfpKoxcxXnhYWdH8IGXVSinKgR5rkxi22w4ZE+OinDAXg
+    dMVqF00V67brCtGhGhhmUL3+LipNoDODttbi/rc3ImxPWI9nofuwXnyYgAhPXK/ypz7W
+    UHl5q56wUrezcNGfMtQ6AgbCw9HbrmnbM9m05lRqL47HPgEM1nXqzkd+KrwOjjSPlLBC
+    BZBg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1706707563;
+    s=strato-dkim-0002; d=strato.com;
+    h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
+    From:Subject:Sender;
+    bh=pgAQniflagvfV9wCLzmUm4L9wYpigSZf+bdpxZ3tQXQ=;
+    b=ORju6qsZ9wHzksxBv+yTSN6kKHsRHyVwet/ktwp92I/ph01yI4fw6UXuWIz4HyJNNS
+    F+NoWLy2e4gYNlo+uueHy13T+yFKgGPgg517oHkj1CyhLI4gOxjOE19V1AxnpUsAZ7OM
+    Z2+U9bEYooIG8J8W1vnL8Z/goizwj8FuC4/eI77MUBChWLJ5xiV1xI9cHvh4vcahoBu3
+    vvuzm9iBBRxDwFZ3wTBDBu+BiIehSNrxInU0cPLnjJX7pxD+KjUUrMAN4A7BHwLzvgsf
+    tIuCVM5XA29cXZsV1xhsxqmfOkHgqGfBBdB6AU7Wkvbngz3ZcjyEd3MIDTCeKneHNH21
+    VsUw==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo00
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1706707562;
+    s=strato-dkim-0002; d=ict42.de;
+    h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
+    From:Subject:Sender;
+    bh=pgAQniflagvfV9wCLzmUm4L9wYpigSZf+bdpxZ3tQXQ=;
+    b=Mxxdvs+6yFDge21EyY7HaA27O8i3QDVkM69M9HndocWB3CjiOxlMjRU7MgxAwhHFAV
+    E19sMeLFZ80tHhGxoMPc91xw8h1J6E5yFB2hadApjLwwom4PqwRQ6G+0gv80klEyP2xO
+    i8oTdaxLjueqQLZOeU85QQK80ZLqat2QPrUrq7pXP73dQu9LXw/+DhgliBvx0kPvFZFY
+    85/fyQCb/XnzeuKQd3WUhgHMbqt/vwu7Uos5EvmIm28QbbL6nK1HNVCfcEfT2uz/3yVm
+    Nfanu7ysvjsafQJVKSD/r9Z8CFxT+DEhvabu3OdaBnAl7uLH3iIhKIKyOdLKwjjxjgyw
+    /3vw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1706707562;
+    s=strato-dkim-0003; d=ict42.de;
+    h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
+    From:Subject:Sender;
+    bh=pgAQniflagvfV9wCLzmUm4L9wYpigSZf+bdpxZ3tQXQ=;
+    b=o/gSPAjqW2YWNhfwDjWff2H76nUWo26TGbU9QdUzfvjkhnyfbpxWR4kQGZdtEvXQZX
+    keTviS5lf9V2hRRhk3DQ==
+X-RZG-AUTH: ":IHkAYkmvNfSwjg/qSc4u8zZOVaURsoXe3UH2mQA0Kgl2F4tJkg7tCR14B0pVRc2TZCi+0sAd2k4="
+Received: from [192.168.4.220]
+    by smtp.strato.de (RZmta 49.11.2 DYNA|AUTH)
+    with ESMTPSA id x7ec2e00VDQ1IKX
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+	(Client did not present a certificate);
+    Wed, 31 Jan 2024 14:26:01 +0100 (CET)
+Message-ID: <b1aecf07-8bf5-41dc-3574-257c8e8ac9c6@ict42.de>
+Date: Wed, 31 Jan 2024 14:26:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH 1/1] sunxi: sun4i: Reduce cpu clock at SPL initialization
+ to 144 MHz
+Content-Language: de-DE
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: jagan@amarulasolutions.com, trini@konsulko.com, u-boot@lists.denx.de,
+ "linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>
+References: <20240131104943.196256-1-ludwig.kormann@ict42.de>
+ <20240131123622.078f5629@donnerap.manchester.arm.com>
+From: Ludwig Kormann <ludwig.kormann@ict42.de>
+In-Reply-To: <20240131123622.078f5629@donnerap.manchester.arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-D1 and T113s contain a pwm controller with 8 channels.
-This controller is supported by the sun20i-pwm driver.
+Hi Andre,
 
-Add a device tree node for it.
+thanks for your feedback!
 
-Signed-off-by: Aleksandr Shubin <privatesub2@gmail.com>
----
- arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Am 31.01.24 um 13:36 schrieb Andre Przywara:
+> On Wed, 31 Jan 2024 11:49:43 +0100
+> Ludwig Kormann <ludwig.kormann@ict42.de> wrote:
+>
+> Hi Ludwig,
+>
+> thanks for taking care and sending a patch, though I scratch my head about
+> this a bit. My main concern is why this would be an issue *now*, 11 years
+> after the A20's release, and with tons of boards out there in operation.
+> Also 144 MHz seem a somewhat drastic reduction?
+>
+We began seeing this issue beginning in early 2023 and it seems to affect
+only a very small percentage of the units. We had to introduce this 
+patch for
+our customers and wanted to also share it with the community.
 
-diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-index 5a9d7f5a75b4..435a1e66aa6a 100644
---- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-+++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-@@ -145,6 +145,18 @@ uart3_pb_pins: uart3-pb-pins {
- 			};
- 		};
- 
-+		pwm: pwm@2000c00 {
-+			compatible = "allwinner,sun20i-d1-pwm";
-+			reg = <0x02000c00 0x400>;
-+			clocks = <&ccu CLK_BUS_PWM>,
-+				 <&dcxo>,
-+				 <&ccu CLK_APB0>;
-+			clock-names = "bus", "hosc", "apb0";
-+			resets = <&ccu RST_BUS_PWM>;
-+			status = "disabled";
-+			#pwm-cells = <0x3>;
-+		};
-+
- 		ccu: clock-controller@2001000 {
- 			compatible = "allwinner,sun20i-d1-ccu";
- 			reg = <0x2001000 0x1000>;
--- 
-2.25.1
+>> Up until now cpu clock gets initialized at 384 MHz, which is
+>> the highest supported cpu clock.
+> What do you mean with "highest supported"? Surely the A20 goes up to
+> 960 MHz?
+You're right, I must have mixed something up there.
+
+> Also please note that 384 MHz is the PLL1 reset configuration, so it's not
+> something we came up with, but probably some safe value that Allwinner
+> burned into their chips.
+>
+>> Recent A20 batches show an increased percentage of modules
+>> reacting very sensitive to operating conditions outside the
+>> specifications.
+> What are those specifications, exactly? Do you have any more reliable
+> data? The datasheet is very quiet on those conditions, it seems.
+> In particular, I couldn't find any official frequency/voltage
+> combinations, it seems like the values in the DTs are just passed on from
+> some BSP drop?
+Yes, it's hard/impossible to find any reliable information on this.
+Our main reference have been the values in the DTs.
+
+>
+>> The cpu dies very shortly after PLLs, core frequency or cpu
+>> voltage are missconfigured. E.g.:
+>> - uboot SPL selects 384 MHz as cpu clock which requires a cpu
+>>    voltage of at least 1.1 V.
+>> - Linux CPU Frequency scaling with most sun7i dts will reduce
+>>    cpu voltage down to 1.0 V.
+> How so? The mainline DT suggests 1.1V for anything above 312 MHz, and
+> even above 144 MHz for the BananaPi. Are you using any OPs that differ
+> from that?
+>
+>> - When intiating a reboot or reset from linux the cpu voltage
+>>    may keep the 1.0 V configuration and the cpu dies during SPL
+>>    initialization.
+> Ah, so you mean we run (in Linux) on a 1.0V OP, probably at a very low CPU
+> frequency, and then the CPU cores reset, leaving the PMIC at 1.0V? And
+> then the SPL programs 384 MHz, which is too high, even for the brief period
+> until we program DCDC2 to 1.4V?
+Yes, the CPU dies before the voltage gets updated.
+> If you have evidence (those "newer batches"? A20 batches in 2024?) for
+> that, what about 312 MHz? Does that work?
+The batches are actually from 2022+. We went for 144MHz as it's the lowest
+of the "default" speeds, that also ensures we're "low enough" to (hopefully)
+never trigger the issue again.
+It seems like there's some variation in A20 production that triggers the 
+issue
+and as we don't know any "official" voltage/frequency limits it's better 
+to have
+some safety margin.
+
+>
+>> Therefore reduce cpu clock at uboot SPL initialization down
+>> to 144 MHz from 384 MHz.
+> I am bit concerned about slowing down the initial SPL phase that much, for
+> *all* A20 users. We run the DRAM init with that initial clock, even though
+> the voltage is already up at this point.
+In my opinion the impact / additional delay for the initial SPL phase 
+should not
+be in a very relevant range actually, as it usually only takes a few 
+hundred milliseconds.
+But you're right of course, this would force the lower value onto all 
+A20 users.
+
+>
+> So if you see issues with those "newer batches" only(?), and since I
+> haven't heard about any issues about that before, can we make this a
+> Kconfig choice? We could make it simple, forcing K to 1, so we just need
+> to divide the frequency by 24 and shift by 8 to get to the register value?
+I will try to look into this and provide an update.
+>> Signed-off-by: Ludwig Kormann <ludwig.kormann@ict42.de>
+>> ---
+>>   arch/arm/include/asm/arch-sunxi/clock_sun4i.h | 2 +-
+>>   arch/arm/mach-sunxi/clock_sun4i.c             | 2 ++
+>>   2 files changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/arch/arm/include/asm/arch-sunxi/clock_sun4i.h b/arch/arm/include/asm/arch-sunxi/clock_sun4i.h
+>> index 2cec91cb20..252c4c693e 100644
+>> --- a/arch/arm/include/asm/arch-sunxi/clock_sun4i.h
+>> +++ b/arch/arm/include/asm/arch-sunxi/clock_sun4i.h
+>> @@ -141,7 +141,7 @@ struct sunxi_ccm_reg {
+>>   #define CCM_PLL1_CFG_SIG_DELT_PAT_EN_SHIFT	2
+>>   #define CCM_PLL1_CFG_FACTOR_M_SHIFT		0
+>>   
+>> -#define PLL1_CFG_DEFAULT	0xa1005000
+>> +#define PLL1_CFG_DEFAULT	0xa1004c01
+>>   
+>>   #if defined CONFIG_OLD_SUNXI_KERNEL_COMPAT && defined CONFIG_MACH_SUN5I
+>>   /*
+>> diff --git a/arch/arm/mach-sunxi/clock_sun4i.c b/arch/arm/mach-sunxi/clock_sun4i.c
+>> index 8f1d1b65f0..ac3b7a801f 100644
+>> --- a/arch/arm/mach-sunxi/clock_sun4i.c
+>> +++ b/arch/arm/mach-sunxi/clock_sun4i.c
+>> @@ -25,6 +25,7 @@ void clock_init_safe(void)
+>>   	       APB0_DIV_1 << APB0_DIV_SHIFT |
+>>   	       CPU_CLK_SRC_OSC24M << CPU_CLK_SRC_SHIFT,
+>>   	       &ccm->cpu_ahb_apb0_cfg);
+>> +	sdelay(20);
+> Where does that come from? Can you mention that in the commit message?
+
+This delay is required after switching the clock source.
+
+See "A20 Reference manual v1.4" Page 50 / section "1.5.4.16. 
+CPU/AHB/APB0 CLOCK RATIO(DEFAULT: 0X00010010)":
+"If the clock source is changed, at most to wait for 8 present running 
+clock cycles."
+
+Also these delays are already correctly beeing used later on in the same 
+file e.g. within clock_set_pll1(...) on line 153:
+>     /* Switch to 24MHz clock while changing PLL1 */
+>     writel(AXI_DIV_1 << AXI_DIV_SHIFT |
+>            AHB_DIV_2 << AHB_DIV_SHIFT |
+>            APB0_DIV_1 << APB0_DIV_SHIFT |
+>            CPU_CLK_SRC_OSC24M << CPU_CLK_SRC_SHIFT,
+>            &ccm->cpu_ahb_apb0_cfg);
+>     sdelay(20);
+
+
+kind regards
+
+Ludwig
+
+> Cheers,
+> Andre
+>
+>>   	writel(PLL1_CFG_DEFAULT, &ccm->pll1_cfg);
+>>   	sdelay(200);
+>>   	writel(AXI_DIV_1 << AXI_DIV_SHIFT |
+>> @@ -32,6 +33,7 @@ void clock_init_safe(void)
+>>   	       APB0_DIV_1 << APB0_DIV_SHIFT |
+>>   	       CPU_CLK_SRC_PLL1 << CPU_CLK_SRC_SHIFT,
+>>   	       &ccm->cpu_ahb_apb0_cfg);
+>> +	sdelay(20);
+>>   #ifdef CONFIG_MACH_SUN7I
+>>   	setbits_le32(&ccm->ahb_gate0, 0x1 << AHB_GATE_OFFSET_DMA);
+>>   #endif
 
