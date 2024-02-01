@@ -1,51 +1,49 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AED5615A4BE
-	for <linux-sunxi@lists.linux.dev>; Thu,  1 Feb 2024 08:49:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DF8186645;
+	Thu,  1 Feb 2024 12:51:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706777395; cv=none; b=Mqfd7AcFF+r5of3KJJweVS0lKofkMhcPPey7DoZwUP92lwOfrWrE4iHQmVNbBUiPRXh1ZwsPuqa63UZM6UXP3qrMWOoZy35pr4PigvHMq4DLubrrJFK1uaQBsikO/Y4TBNCa8jgTrGdwzCUhEF002Zh8ykCW21GEoReUju2Va2U=
+	t=1706791879; cv=none; b=NEbKthR7KDB36Dsm1MXCL1aH/OW0nYpJCXhE6EOvMxQI6oBgaoePOfB9F+cl215C/5kEtv7Jh9Vv+wmClKATK6a4iepx42+Ii/dIa9b/UfTIQT44lmqS6AXIo8uJR9iYSYkz4szi/eeDxJVLE2+kSzw8NYVbSfXXoGJazFB0atU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706777395; c=relaxed/simple;
-	bh=Y1L6+YQ3zPgekoMtZRbPzpugeBczZCH2errOXEgU/QE=;
+	s=arc-20240116; t=1706791879; c=relaxed/simple;
+	bh=iO+Eo8pPglcxEzFGDR/NbmaGU1weyDXreVR1dhmvHfA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T0Z25w5TUN1dzUYOel00ZCH6KWhE/hCnoMIdBZWau/V0uaFgZcKR0V4cxZXB/nhy7RYaJs8nORtK5V6tn7eTUGOz3SIurhrTLbpghTpA+m1k6KDUnfM1VxfyLhFoAiDb0FmJsS+r+2pA2meEs3O/NnyWd+H+gw36xSCnCTJTzYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rVSlB-0001qv-A5; Thu, 01 Feb 2024 09:49:25 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rVSl9-003oeA-0k; Thu, 01 Feb 2024 09:49:23 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rVSl8-00Cthr-2y;
-	Thu, 01 Feb 2024 09:49:22 +0100
-Date: Thu, 1 Feb 2024 09:49:22 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Aleksandr Shubin <privatesub2@gmail.com>
-Cc: linux-kernel@vger.kernel.org, 
-	Brandon Cheo Fusi <fusibrandon13@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, John Watts <contact@jookia.org>, 
-	Marc Kleine-Budde <mkl@pengutronix.de>, Maksim Kiselev <bigunclemax@gmail.com>, 
-	linux-pwm@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v8 2/3] pwm: Add Allwinner's D1/T113-S3/R329 SoCs PWM
- support
-Message-ID: <eynkbikmzcffid2jft3b6pmjfcbvda6mpzu7l5mefrw3za3iwh@ctgn57kb7ard>
-References: <20240131125920.2879433-1-privatesub2@gmail.com>
- <20240131125920.2879433-3-privatesub2@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=BU6Uilh/3Bu4lu1s94Sps9ggfaww2gGJeozR5fFbi8InMUe8JdAHqPzpb3kFhlwRpXGBP7OA98xrjtTBmJFhbyHdA1DeEMRF7QjskXqEg31nZc7d2CD9aWzPhA2nHiMWYDLLeqh6WxlU4/MGmvonuIgoLzfcEHWo1ssRjas4qys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VG2TeXqv; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VG2TeXqv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C37FC433C7;
+	Thu,  1 Feb 2024 12:51:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706791878;
+	bh=iO+Eo8pPglcxEzFGDR/NbmaGU1weyDXreVR1dhmvHfA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VG2TeXqvjxGcRv1tIL7nOyafkaL7z3CCvzIcS+2JApyFPDRQM0dhUM3PKC9rui9W7
+	 opOWXzX3wf+INRuwos5WuH4cf3M6JbqJJyg+LLI0aU/Mjafxp/zI/6LLOjymUIwDoC
+	 VDSk9ZulqP9mhOGNO91YqNdrN/xj0ITM+fgsH8po+qhjWD78Oni1Q/PDRrpA8716mK
+	 q7pVitaQP60mvxztWefD4GBlghOrGBUOghPd2F99j+OOahvR6F8gTncbv1qJZI/FBz
+	 m1WAK/Vazl7vTC3aR4c4aWHK20XFT2GuwJVRCjUR6Z4saoYMDPtpDx3hv0SXZYc5LH
+	 BbV/B+1mMlIrg==
+Date: Thu, 1 Feb 2024 13:51:15 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>, 
+	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, Hans Verkuil <hverkuil@xs4all.nl>, 
+	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: Re: [PATCH v5 15/44] drm/connector: hdmi: Compute bpc and format
+ automatically
+Message-ID: <jlkoofv7nszj2uqmo2672yo4wjd3yjqarge2l2hxofixcchu6a@j72pa4iybitd>
+References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
+ <20231207-kms-hdmi-connector-state-v5-15-6538e19d634d@kernel.org>
+ <CAPY8ntBQ+qY9441-rMzq_JAoYAaY_r+E-ADv7Wry0tJNTzKpwg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,304 +51,141 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="w56zi5w66btz7pje"
+	protocol="application/pgp-signature"; boundary="vqybhtpmawkwvb6z"
 Content-Disposition: inline
-In-Reply-To: <20240131125920.2879433-3-privatesub2@gmail.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+In-Reply-To: <CAPY8ntBQ+qY9441-rMzq_JAoYAaY_r+E-ADv7Wry0tJNTzKpwg@mail.gmail.com>
 
 
---w56zi5w66btz7pje
-Content-Type: text/plain; charset=utf-8
+--vqybhtpmawkwvb6z
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-hello Aleksandr,
-
-On Wed, Jan 31, 2024 at 03:59:15PM +0300, Aleksandr Shubin wrote:
-> +#include <linux/bitfield.h>
-> +#include <linux/clk.h>
-> +#include <linux/err.h>
-> +#include <linux/io.h>
-> +#include <linux/module.h>
-> +#include <linux/of_device.h>
-
-Some time ago there was some effort by Rob Herring to detangle the
-headers platform_device.h, of_device.h and of.h. See for example commit
-87e51b76c9db8c29cde573af0faf5a3e13e23960. I think you should use
-linux/of.h instead of linux/of_device.h.
-
-> +#include <linux/platform_device.h>
-> +#include <linux/pwm.h>
-> +#include <linux/reset.h>
-> +
-> +#define SUN20I_PWM_CLK_CFG(chan)		(0x20 + (((chan) >> 1) * 0x4))
-> +#define SUN20I_PWM_CLK_CFG_SRC			GENMASK(8, 7)
-> +#define SUN20I_PWM_CLK_CFG_DIV_M		GENMASK(3, 0)
-> +#define SUN20I_PWM_CLK_DIV_M_MAX		8
-
-SUN20I_PWM_CLK_CFG_DIV_M_MAX?
-
-> +#define SUN20I_PWM_CLK_GATE			0x40
-> +#define SUN20I_PWM_CLK_GATE_BYPASS(chan)	BIT((chan) + 16)
-> +#define SUN20I_PWM_CLK_GATE_GATING(chan)	BIT(chan)
-> +
-> +#define SUN20I_PWM_ENABLE			0x80
-> +#define SUN20I_PWM_ENABLE_EN(chan)		BIT(chan)
-> +
-> +#define SUN20I_PWM_CTL(chan)			(0x100 + (chan) * 0x20)
-> +#define SUN20I_PWM_CTL_ACT_STA			BIT(8)
-> +#define UN20I_PWM_CTL_PRESCAL_K		GENMASK(7, 0)
-> +#define SUN20I_PWM_CTL_PRESCAL_K_MAX		0xff
-
-This matches the theoretical maximum for GENMASK(7,0), so you could make
-use of field_max(SUN20I_PWM_CTL_PRESCAL_K) here.
-
-> +#define SUN20I_PWM_PERIOD(chan)			(0x104 + (chan) * 0x20)
-> +#define SUN20I_PWM_PERIOD_ENTIRE_CYCLE		GENMASK(31, 16)
-> +#define SUN20I_PWM_PERIOD_ACT_CYCLE		GENMASK(15, 0)
-> +
-> +#define SUN20I_PWM_PCNTR_SIZE			BIT(16)
-> +
-> +/**
-> + * SUN20I_PWM_MAGIC is used to quickly compute the values of the clock d=
-ividers
-> + * div_m (SUN20I_PWM_CLK_CFG_DIV_M) & prescale_k (SUN20I_PWM_CTL_PRESCAL=
-_K)
-> + * without using a loop. These dividers limit the # of cycles in a period
-> + * to SUN20I_PWM_PCNTR_SIZE by applying a scaling factor of
-> + * 1/(div_m * (prescale_k + 1)) to the clock source.
-> + *
-> + * SUN20I_PWM_MAGIC is derived by solving for div_m and prescale_k
-> + * such that for a given requested period,
-> + *
-> + * i) div_m is minimized for any prescale_k =E2=89=A4 SUN20I_PWM_CTL_PRE=
-SCAL_K_MAX,
-> + * ii) prescale_k is minimized.
-> + *
-> + * The derivation proceeds as follows, with val =3D # of cycles for reqe=
-sted
-
-s/reqested/requested/
-
-> + * period:
-> + *
-> + * for a given value of div_m we want the smallest prescale_k such that
-> + *
-> + * (val >> div_m) // (prescale_k + 1) =E2=89=A4 65536 (SUN20I_PWM_PCNTR_=
-SIZE)
-> + *
-> + * This is equivalent to:
-> + *
-> + * (val >> div_m) =E2=89=A4 65536 * (prescale_k + 1) + prescale_k
-> + * =E2=9F=BA (val >> div_m) =E2=89=A4 65537 * prescale_k + 65536
-> + * =E2=9F=BA (val >> div_m) - 65536 =E2=89=A4 65537 * prescale_k
-> + * =E2=9F=BA ((val >> div_m) - 65536) / 65537 =E2=89=A4 prescale_k
-> + *
-> + * As prescale_k is integer, this becomes
-> + *
-> + * ((val >> div_m) - 65536) // 65537 =E2=89=A4 prescale_k
-> + *
-> + * And is minimized at
-> + *
-> + * ((val >> div_m) - 65536) // 65537
-> + *
-> + * Now we pick the smallest div_m that satifies prescale_k =E2=89=A4 255
-> + * (i.e SUN20I_PWM_CTL_PRESCAL_K_MAX),
-> + *
-> + * ((val >> div_m) - 65536) // 65537 =E2=89=A4 255
-> + * =E2=9F=BA (val >> div_m) - 65536 =E2=89=A4 255 * 65537 + 65536
-> + * =E2=9F=BA val >> div_m =E2=89=A4 255 * 65537 + 2 * 65536
-> + * =E2=9F=BA val >> div_m < (255 * 65537 + 2 * 65536 + 1)
-> + * =E2=9F=BA div_m =3D fls((val) / (255 * 65537 + 2 * 65536 + 1))
-> + *
-> + * Suggested by Uwe Kleine-K=C3=B6nig
-
-Good man, I assume this is all sane then :-)
-
-> + */
-> +#define SUN20I_PWM_MAGIC			(255 * 65537 + 2 * 65536 + 1)
-> +
-> +struct sun20i_pwm_chip {
-> +	struct clk *clk_bus, *clk_hosc, *clk_apb0;
-> +	struct reset_control *rst;
-> +	struct pwm_chip chip;
-> +	void __iomem *base;
-> +	/* Mutex to protect pwm apply state */
-> +	struct mutex mutex;
-> +};
-> +
-> +static inline struct sun20i_pwm_chip *to_sun20i_pwm_chip(struct pwm_chip=
- *chip)
-> +{
-> +	return container_of(chip, struct sun20i_pwm_chip, chip);
-> +}
-> +
-> +static inline u32 sun20i_pwm_readl(struct sun20i_pwm_chip *chip,
-> +				   unsigned long offset)
-> +{
-> +	return readl(chip->base + offset);
-> +}
-> +
-> +static inline void sun20i_pwm_writel(struct sun20i_pwm_chip *chip,
-> +				     u32 val, unsigned long offset)
-> +{
-> +	writel(val, chip->base + offset);
-> +}
-> +
-> +static int sun20i_pwm_get_state(struct pwm_chip *chip,
-> +				struct pwm_device *pwm,
-> +				struct pwm_state *state)
-> +{
-> +	struct sun20i_pwm_chip *sun20i_chip =3D to_sun20i_pwm_chip(chip);
-> +	u16 ent_cycle, act_cycle, prescale_k;
-> +	u64 clk_rate, tmp;
-> +	u8 div_m;
-> +	u32 val;
-> +
-> +	mutex_lock(&sun20i_chip->mutex);
-> +
-> +	val =3D sun20i_pwm_readl(sun20i_chip, SUN20I_PWM_CLK_CFG(pwm->hwpwm));
-> +	div_m =3D FIELD_GET(SUN20I_PWM_CLK_CFG_DIV_M, val);
-> +	if (div_m > SUN20I_PWM_CLK_DIV_M_MAX)
-> +		div_m =3D SUN20I_PWM_CLK_DIV_M_MAX;
-> +
-> +	if (FIELD_GET(SUN20I_PWM_CLK_CFG_SRC, val) =3D=3D 0)
-> +		clk_rate =3D clk_get_rate(sun20i_chip->clk_hosc);
-> +	else
-> +		clk_rate =3D clk_get_rate(sun20i_chip->clk_apb0);
-> +
-> +	val =3D sun20i_pwm_readl(sun20i_chip, SUN20I_PWM_CTL(pwm->hwpwm));
-> +	state->polarity =3D (SUN20I_PWM_CTL_ACT_STA & val) ?
-> +			   PWM_POLARITY_NORMAL : PWM_POLARITY_INVERSED;
-> +
-> +	prescale_k =3D FIELD_GET(SUN20I_PWM_CTL_PRESCAL_K, val) + 1;
-> +
-> +	val =3D sun20i_pwm_readl(sun20i_chip, SUN20I_PWM_ENABLE);
-> +	state->enabled =3D (SUN20I_PWM_ENABLE_EN(pwm->hwpwm) & val) ? true : fa=
-lse;
-> +
-> +	val =3D sun20i_pwm_readl(sun20i_chip, SUN20I_PWM_PERIOD(pwm->hwpwm));
-> +
-> +	mutex_unlock(&sun20i_chip->mutex);
-> +
-> +	act_cycle =3D FIELD_GET(SUN20I_PWM_PERIOD_ACT_CYCLE, val);
-> +	ent_cycle =3D FIELD_GET(SUN20I_PWM_PERIOD_ENTIRE_CYCLE, val);
-> +
-> +	/*
-> +	 * The duration of the active phase should not be longer
-> +	 * than the duration of the period
-> +	 */
-> +	if (act_cycle > ent_cycle)
-> +		act_cycle =3D ent_cycle;
-> +
-> +	tmp =3D ((u64)(act_cycle) * prescale_k << div_m) * NSEC_PER_SEC;
-> +	state->duty_cycle =3D DIV_ROUND_UP_ULL(tmp, clk_rate);
-> +	tmp =3D ((u64)(ent_cycle) * prescale_k << div_m) * NSEC_PER_SEC;
-> +	state->period =3D DIV_ROUND_UP_ULL(tmp, clk_rate);
-
-Please add a comment above this block that justifies assuming that the
-multiplication doesn't overflow. Something like:
-
-	We have act_cycle <=3D ent_cycle <=3D 0xffff, prescale_k <=3D 0x100,
-	div_m <=3D 8. So the multiplication fits into an u64 without
-	overflow.
-
-> +
-> +	return 0;
-> +}
-> +
-> +static int sun20i_pwm_apply(struct pwm_chip *chip, struct pwm_device *pw=
-m,
-> +			    const struct pwm_state *state)
-> +{
-> +...
-> +}
-
-I didn't recheck all the logic in .apply in detail and will assume it is
-sane for this round.
-
-> +static const struct pwm_ops sun20i_pwm_ops =3D {
-> +	.apply =3D sun20i_pwm_apply,
-> +	.get_state =3D sun20i_pwm_get_state,
-> +};
-> +
-> +static const struct of_device_id sun20i_pwm_dt_ids[] =3D {
-> +	{ .compatible =3D "allwinner,sun20i-d1-pwm" },
-> +	{ },
-> +};
-> +MODULE_DEVICE_TABLE(of, sun20i_pwm_dt_ids);
-> +
-> +static int sun20i_pwm_probe(struct platform_device *pdev)
-> +{
-> +	struct sun20i_pwm_chip *sun20i_chip;
-> +	int ret;
-> +
-> +	sun20i_chip =3D devm_kzalloc(&pdev->dev, sizeof(*sun20i_chip), GFP_KERN=
-EL);
-> +	if (!sun20i_chip)
-> +		return -ENOMEM;
-> +
-> +	sun20i_chip->base =3D devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(sun20i_chip->base))
-> +		return PTR_ERR(sun20i_chip->base);
-> +
-> +	sun20i_chip->clk_bus =3D devm_clk_get_enabled(&pdev->dev, "bus");
-> +	if (IS_ERR(sun20i_chip->clk_bus))
-> +		return dev_err_probe(&pdev->dev, PTR_ERR(sun20i_chip->clk_bus),
-> +				     "failed to get bus clock\n");
-> +
-> +	sun20i_chip->clk_hosc =3D devm_clk_get_enabled(&pdev->dev, "hosc");
-> +	if (IS_ERR(sun20i_chip->clk_hosc))
-> +		return dev_err_probe(&pdev->dev, PTR_ERR(sun20i_chip->clk_hosc),
-> +				     "failed to get hosc clock\n");
-> +
-> +	sun20i_chip->clk_apb0 =3D devm_clk_get_enabled(&pdev->dev, "apb0");
-> +	if (IS_ERR(sun20i_chip->clk_apb0))
-> +		return dev_err_probe(&pdev->dev, PTR_ERR(sun20i_chip->clk_apb0),
-> +				     "failed to get apb0 clock\n");
-> +
-> +	sun20i_chip->rst =3D devm_reset_control_get_exclusive(&pdev->dev, NULL);
-> +	if (IS_ERR(sun20i_chip->rst))
-> +		return dev_err_probe(&pdev->dev, PTR_ERR(sun20i_chip->rst),
-> +				     "failed to get bus reset\n");
-> +
-> +	ret =3D of_property_read_u32(pdev->dev.of_node, "allwinner,pwm-channels=
+On Thu, Dec 14, 2023 at 03:10:43PM +0000, Dave Stevenson wrote:
+> > +static bool
+> > +sink_supports_format_bpc(const struct drm_connector *connector,
+> > +                        const struct drm_display_info *info,
+> > +                        const struct drm_display_mode *mode,
+> > +                        unsigned int format, unsigned int bpc)
+> > +{
+> > +       struct drm_device *dev =3D connector->dev;
+> > +       u8 vic =3D drm_match_cea_mode(mode);
+> > +
+> > +       if (vic =3D=3D 1 && bpc !=3D 8) {
+> > +               drm_dbg(dev, "VIC1 requires a bpc of 8, got %u\n", bpc);
+> > +               return false;
+> > +       }
+> > +
+> > +       if (!info->is_hdmi &&
+> > +           (format !=3D HDMI_COLORSPACE_RGB || bpc !=3D 8)) {
+> > +               drm_dbg(dev, "DVI Monitors require an RGB output at 8 b=
+pc\n");
+> > +               return false;
+> > +       }
+> > +
+> > +       if (!(connector->hdmi.supported_formats & BIT(format))) {
+> > +               drm_dbg(dev, "%s format unsupported by the connector.\n=
 ",
-> +				   &sun20i_chip->chip.npwm);
-> +	if (ret)
-> +		sun20i_chip->chip.npwm =3D 8;
-> +
-> +	if (sun20i_chip->chip.npwm > 16)
-> +		sun20i_chip->chip.npwm =3D 16;
+> > +                       drm_hdmi_connector_get_output_format_name(forma=
+t));
+> > +               return false;
+> > +       }
+> > +
+> > +       switch (format) {
+> > +       case HDMI_COLORSPACE_RGB:
+> > +               drm_dbg(dev, "RGB Format, checking the constraints.\n");
+> > +
+> > +               if (!(info->color_formats & DRM_COLOR_FORMAT_RGB444))
+> > +                       return false;
+>=20
+> We've dropped this check from vc4 in our downstream kernel as it stops
+> you using the prebaked EDIDs (eg drm.edid_firmware=3Dedid/1024x768.bin),
+> or any other EDID that is defined as an analog monitor.
+> The EDID parsing bombs out at [1], so info->color_formats gets left at 0.
 
-Is it worth to emit an error message here? Something like:
+Right, but it only does so if the display isn't defined as a digital displa=
+y...
 
-	Limiting number of PWM lines from %u to 16
+> RGB is mandatory for both DVI and HDMI, so rejecting it seems overly fuss=
+y.
 
-Best regards
-Uwe
+=2E.. which is required for both DVI and HDMI.
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
-   |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+And sure enough, if we decode that EDID:
 
---w56zi5w66btz7pje
+edid-decode (hex):
+
+00 ff ff ff ff ff ff 00 31 d8 00 00 00 00 00 00
+05 16 01 03 6d 23 1a 78 ea 5e c0 a4 59 4a 98 25
+20 50 54 00 08 00 61 40 01 01 01 01 01 01 01 01
+01 01 01 01 01 01 64 19 00 40 41 00 26 30 08 90
+36 00 63 0a 11 00 00 18 00 00 00 ff 00 4c 69 6e
+75 78 20 23 30 0a 20 20 20 20 00 00 00 fd 00 3b
+3d 2f 31 07 00 0a 20 20 20 20 20 20 00 00 00 fc
+00 4c 69 6e 75 78 20 58 47 41 0a 20 20 20 00 55
+
+----------------
+
+Block 0, Base EDID:
+  EDID Structure Version & Revision: 1.3
+  Vendor & Product Identification:
+    Manufacturer: LNX
+    Model: 0
+    Made in: week 5 of 2012
+  Basic Display Parameters & Features:
+    Analog display
+    Signal Level Standard: 0.700 : 0.000 : 0.700 V p-p
+    Blank level equals black level
+    Sync: Separate Composite Serration
+    Maximum image size: 35 cm x 26 cm
+    Gamma: 2.20
+    DPMS levels: Standby Suspend Off
+    RGB color display
+    First detailed timing is the preferred timing
+  Color Characteristics:
+    Red  : 0.6416, 0.3486
+    Green: 0.2919, 0.5957
+    Blue : 0.1474, 0.1250
+    White: 0.3125, 0.3281
+  Established Timings I & II:
+    DMT 0x10:  1024x768    60.003840 Hz   4:3     48.363 kHz     65.000000 =
+MHz
+  Standard Timings:
+    DMT 0x10:  1024x768    60.003840 Hz   4:3     48.363 kHz     65.000000 =
+MHz
+  Detailed Timing Descriptors:
+    DTD 1:  1024x768    60.003840 Hz   4:3     48.363 kHz     65.000000 MHz=
+ (355 mm x 266 mm)
+                 Hfront    8 Hsync 144 Hback  168 Hpol N
+                 Vfront    3 Vsync   6 Vback   29 Vpol N
+    Display Product Serial Number: 'Linux #0'
+    Display Range Limits:
+      Monitor ranges (GTF): 59-61 Hz V, 47-49 kHz H, max dotclock 70 MHz
+    Display Product Name: 'Linux XGA'
+Checksum: 0x55
+
+----------------
+
+Warnings:
+
+Block 0, Base EDID:
+  Detailed Timing Descriptor #1: DTD is similar but not identical to DMT 0x=
+10.
+
+EDID conformity: PASS
+
+So, if anything, it's the EDID that needs to be updated, not the code there.
+Maxime
+
+--vqybhtpmawkwvb6z
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmW7WxEACgkQj4D7WH0S
-/k7HfAgAn/PEpM3A20iTXqFs73pn5IFzr1kdJaIPSkUT8GkUYe8Qrjamd4VXwoBK
-lkLscSz256RA8t2tYfM5dwWO71U6TJBPmS3UfeJQjZVFN4jK7ptPzxwiO2S9xjrt
-rJhOHMvlEQT+OvF0/LJwGLYSycTXT2Y5eypA4beDzoqTRSBpmdzzcZ5ft2XbcOD+
-0tItrmGiiB7Cj17JacxEoeT2BDpMvwvuu6w7Rx2IeGkKrNcn/11bLeAQl7CKnoUk
-xs+tfJpSZ1LE8NZJVYEFb3adpGOV7jCjPEgELogWTTNdxdwuVdBY8PVgnAW+LM3q
-+Jh3qobPQ8dXFOxh6J3IHJc/he7Vpw==
-=wVat
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZbuTwwAKCRDj7w1vZxhR
+xStzAQDYM7L7UXag4iNuhrqdZjT3FFQPKQRkvAlVCUNanR6aCQEAkg4xQyzE9/jz
+b81DQAxlvCB4Ne7NX/cfiEPrXcR93Q0=
+=Fb2U
 -----END PGP SIGNATURE-----
 
---w56zi5w66btz7pje--
+--vqybhtpmawkwvb6z--
