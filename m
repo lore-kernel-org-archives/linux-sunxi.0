@@ -1,232 +1,165 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 545C585276;
-	Thu,  1 Feb 2024 18:59:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75CFC85638
+	for <linux-sunxi@lists.linux.dev>; Thu,  1 Feb 2024 19:54:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706813978; cv=none; b=k9lesqRsMmURAEK/qUHyNqNmFOmQPTppFqBy7IKHABiWlFHuzZTAWTKdqfmhI8xw4KBg1qQq2uJowO9jJD2r/YptzsdcbBqR+NSgFQCFHn8JVU7pvSotAQICuN0fo+9s582Hkwx9vnQGGoBkB0Yp+WwtV+clNjDTglzUq+s7gAw=
+	t=1706817258; cv=none; b=k1hIPl6lsDF5rMnbMb9YCAMsjtBpZPCJMZZST2I1jY+7RcpgvZmRruPGGKbpvAaNH/KZqcNrde9pyGkPxyTiIzsrpFMpiMWJkHmkRW9e1UoGfzxklQp0UEpS764G7uKYeWOhRi+qu4PbL+dXzEQS9CIqYbZrcWn0V7ugiJWOsWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706813978; c=relaxed/simple;
-	bh=I1NNXAkgesc7dKK6HS2ID8NMVYdnGuoGc/8FPQaG/B8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mhVQFK9oI8lsbCo+K99dgh0Ye9lvfAz8tZGL6CG8Z8tuivocyUC3LUMruS+7Sq3fAq5k+V9nIvrJUphjoDjZi+Jiop0szFZmFnFdS+NBiGAeDw5lmNyS7rNuI6Eyskuc98wB1MmrzPOJw51g3FR1NkWiBtQc5UsyfFXchJ7y+Mo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rpD4ef5O; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1706817258; c=relaxed/simple;
+	bh=igWepZJuJ7/NxlfTBcvat+93tyRHyJ7CtS8SToYFt88=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qWxOMK8+AclYtuBNtnkSWX/lAR5ltEUcN3al6pThct1wTqF9CantLOxJlBAzFarcKVH8YbpdC307ZZPnucB3sSF1UrAYXbIRMTxINk2cRwkvcWIsZZW7PB4vautsLaFsfcv9GMknxyEeBO32z0ql7z7gDDOd1Ia8jpB0RfI6sMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NRHmD1vM; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rpD4ef5O"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A9CEC43394;
-	Thu,  1 Feb 2024 18:59:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706813977;
-	bh=I1NNXAkgesc7dKK6HS2ID8NMVYdnGuoGc/8FPQaG/B8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rpD4ef5OrMVjIPscn4IEXS/9g9WKcBMmDKBFa3kyUooemnxgqmRn8spZZiz30At7n
-	 3aJw/14Ac/p94rgwHvpllfDNQ1nhNMqA4a3+roejfSbXeUNyWW95jwwM/v+yPm24YN
-	 A/GOS7G8pDrAb2fA1ruCCN4/wKa6ODQpYhm3b0Xh4Q1O9y48Xei1adx8QNl4GOwoUm
-	 +w+vHuUOX+c9gDOlS6K2gLxXa6p0cg+TcciextdkDVNcZPL2qq6tQrKtQls0Ku+pm1
-	 HS3kswBOIw2kP9KScsbUvLlQOzZWsf5znJVqftfRt1PthT+m9usgrDE+1Zc3hRUxr9
-	 ttjEHh290bmKg==
-Date: Thu, 1 Feb 2024 18:59:30 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Aleksandr Shubin <privatesub2@gmail.com>, linux-kernel@vger.kernel.org,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	Maksim Kiselev <bigunclemax@gmail.com>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	John Watts <contact@jookia.org>,
-	Cheo Fusi <fusibrandon13@gmail.com>, linux-pwm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v8 1/3] dt-bindings: pwm: Add binding for Allwinner
- D1/T113-S3/R329 PWM controller
-Message-ID: <20240201-numbing-reconcile-64d05bb88e9c@spud>
-References: <20240131125920.2879433-1-privatesub2@gmail.com>
- <20240131125920.2879433-2-privatesub2@gmail.com>
- <20240131145244.4f534bac@donnerap.manchester.arm.com>
- <20240131-renewably-glimpse-a80339e8ff81@spud>
- <20240201174851.62e74089@donnerap.manchester.arm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NRHmD1vM"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-33b0e5d1e89so949416f8f.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 01 Feb 2024 11:54:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706817255; x=1707422055; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Fw0ii54g50YM0TTuIh98HIpGP8lHOO7kLQ/jqdmdMzg=;
+        b=NRHmD1vM9vCmzujiJhIcHoo8vaPAB1eubt9vSCpzn0JTDzov834MbpuAgQF+kv1qnP
+         tqqcEXBpBNQc+PiUnsYbArrO22lCwMxqWiHZfBTCwOvjs+MZB5rZMYMpWfm7QsgutS4G
+         JPcN1lix9t7666Px/Qn6cfx0bTDvqFE1pQsWC8gUMUT6zVbMCDzMuo4Ct6kf1hnxJMOk
+         51Jqfmekm/jURKV3z9E/fUYpoKBiVkL8p+MUTUJWKMf+7saJSDuESoD6xeynGHki2pA6
+         DYgM7vIuqse2leV3zBZc+LySAbckjQL3oe/lJVelKNjeKVuO5AYNtqlv6GK9k1m8SeZD
+         /CFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706817255; x=1707422055;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Fw0ii54g50YM0TTuIh98HIpGP8lHOO7kLQ/jqdmdMzg=;
+        b=ZYKQJdR2YHcpdh1mmVhLzMqOlS2/bP3axW9BaoiOqtcPjM0YdgzimIIrshiikbmDOp
+         +bT1cyjn3ibOaYYdtbLS5ZbCNNMXOLFe5rAVE718AQc9EflkvOwLN7HDweqOry9NEVpd
+         0HMn9xAdCylxMaiU3Fd6W5TcySYlXEEKOzRXn5IZ3UhkdIuzo2wjqkxbtFG5z5eJXulp
+         UaLtj3JKhGj0inuWh2WTYLKeUAIiGpvUdTn+KRiXFJIyx1mtbSBfoa3uOdMov7/1Wvem
+         pDyBLEFc+P5dSGKe2H1JuMpadEMJOYWxjCBwjRjZt/B0FF7f+ETAX+luUmNQD1BqIZHh
+         1Xuw==
+X-Gm-Message-State: AOJu0YxGHsbBnQNFb2Uj7LSlEbCd8KqJyoa0RTBfxpH4M9D3XrMRTStF
+	U26GkE7LOfJXTsQ1gK1hq8CSl3uApcMryoGPInm9gbYt0MFZbKgV
+X-Google-Smtp-Source: AGHT+IEnh5hwCXXTj+jcR1g0I5bM3FN4GQ3RUZkTBdSNXXRnJnKzpnLqx2ztJH2PVqejHm+eHD5rlg==
+X-Received: by 2002:adf:f64d:0:b0:33a:ed59:c13f with SMTP id x13-20020adff64d000000b0033aed59c13fmr2215794wrp.53.1706817254477;
+        Thu, 01 Feb 2024 11:54:14 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCUkIqDqfPVesemdoaqG1j9jyMLDsyXZci7qdN4rwuZyTnBZy4P9GdwzPQDb4Y97RzDb7Nt0/KTkiYHc51OSLbBILSGHypTjb1PDb72ZoN4kaiS2TT38IIny9hPv2qk7pbyB11bBj5eswJ+oqt6ESrIo8PmhujbvmHrZ92DidVXSYCIjxN1acjdlenKmkXnSfu++c+dj/Av8asn0HmbyqnJOHJwIvOONyMQz7F09oEWk0jsg4Qs3a3TqQFxA5SUAaxlPo2IJXN4OUMn6+DxZIgdQzBM6KWGu35l4Soq52r7+Zd0QERbzokhqf2Tb42N3SFmMLFs+a7yMc+7eTw7Al8QKIOgIa0u0jl1oDEI1AB6rPSle+MxY1/QtbLL8
+Received: from jernej-laptop.localnet (82-149-13-182.dynamic.telemach.net. [82.149.13.182])
+        by smtp.gmail.com with ESMTPSA id v12-20020a5d4b0c000000b0033afce63fd0sm211781wrq.53.2024.02.01.11.54.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Feb 2024 11:54:14 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Aren <aren@peacevolution.org>
+Cc: linux-kernel@vger.kernel.org, Miles Alan <m@milesalan.com>,
+ Ondrej Jirman <megi@xff.cz>, Chen-Yu Tsai <wens@csie.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+Subject:
+ Re: [PATCH 2/4] arm64: dts: sun50i-a64-pinephone: Retain leds state in
+ suspend
+Date: Thu, 01 Feb 2024 20:54:12 +0100
+Message-ID: <10409647.nUPlyArG6x@jernej-laptop>
+In-Reply-To: <sbcg74hktwv5x7hookeb4su27xut7swarl3d5mbs3i5cqxtq4g@4evugu43ctiv>
+References:
+ <20240128204740.2355092-1-aren@peacevolution.org>
+ <4892315.31r3eYUQgx@jernej-laptop>
+ <sbcg74hktwv5x7hookeb4su27xut7swarl3d5mbs3i5cqxtq4g@4evugu43ctiv>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="wPn/chEO+X1eK+Gn"
-Content-Disposition: inline
-In-Reply-To: <20240201174851.62e74089@donnerap.manchester.arm.com>
-
-
---wPn/chEO+X1eK+Gn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Feb 01, 2024 at 05:48:51PM +0000, Andre Przywara wrote:
-> On Wed, 31 Jan 2024 21:22:06 +0000
-> Conor Dooley <conor@kernel.org> wrote:
->=20
-> Hi,
->=20
-> > On Wed, Jan 31, 2024 at 02:52:44PM +0000, Andre Przywara wrote:
-> > > On Wed, 31 Jan 2024 15:59:14 +0300
-> > > Aleksandr Shubin <privatesub2@gmail.com> wrote:
+Dne =C4=8Detrtek, 01. februar 2024 ob 02:36:46 CET je Aren napisal(a):
+> On Tue, Jan 30, 2024 at 08:06:24PM +0100, Jernej =C5=A0krabec wrote:
+> > Dne nedelja, 28. januar 2024 ob 21:45:08 CET je Aren Moynihan napisal(a=
+):
+> > > From: Miles Alan <m@milesalan.com>
 > > >=20
-> > > Hi,
-> > >  =20
-> > > > Allwinner's D1, T113-S3 and R329 SoCs have a new pwm
-> > > > controller witch is different from the previous pwm-sun4i.
-> > > >=20
-> > > > The D1 and T113 are identical in terms of peripherals,
-> > > > they differ only in the architecture of the CPU core, and
-> > > > even share the majority of their DT. Because of that,
-> > > > using the same compatible makes sense.
-> > > > The R329 is a different SoC though, and should have
-> > > > a different compatible string added, especially as there
-> > > > is a difference in the number of channels.
-> > > >=20
-> > > > D1 and T113s SoCs have one PWM controller with 8 channels.
-> > > > R329 SoC has two PWM controllers in both power domains, one of
-> > > > them has 9 channels (CPUX one) and the other has 6 (CPUS one).
-> > > >=20
-> > > > Add a device tree binding for them.
-> > > >=20
-> > > > Signed-off-by: Aleksandr Shubin <privatesub2@gmail.com>
-> > > > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> > > > ---
-> > > >  .../bindings/pwm/allwinner,sun20i-pwm.yaml    | 88 +++++++++++++++=
-++++
-> > > >  1 file changed, 88 insertions(+)
-> > > >  create mode 100644 Documentation/devicetree/bindings/pwm/allwinner=
-,sun20i-pwm.yaml
-> > > >=20
-> > > > diff --git a/Documentation/devicetree/bindings/pwm/allwinner,sun20i=
--pwm.yaml b/Documentation/devicetree/bindings/pwm/allwinner,sun20i-pwm.yaml
-> > > > new file mode 100644
-> > > > index 000000000000..716f75776006
-> > > > --- /dev/null
-> > > > +++ b/Documentation/devicetree/bindings/pwm/allwinner,sun20i-pwm.ya=
-ml
-> > > > @@ -0,0 +1,88 @@
-> > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > > +%YAML 1.2
-> > > > +---
-> > > > +$id: http://devicetree.org/schemas/pwm/allwinner,sun20i-pwm.yaml#
-> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > +
-> > > > +title: Allwinner D1, T113-S3 and R329 PWM
-> > > > +
-> > > > +maintainers:
-> > > > +  - Aleksandr Shubin <privatesub2@gmail.com>
-> > > > +  - Brandon Cheo Fusi <fusibrandon13@gmail.com>
-> > > > +
-> > > > +properties:
-> > > > +  compatible:
-> > > > +    oneOf:
-> > > > +      - const: allwinner,sun20i-d1-pwm
-> > > > +      - items:
-> > > > +          - const: allwinner,sun20i-r329-pwm
-> > > > +          - const: allwinner,sun20i-d1-pwm
-> > > > +
-> > > > +  reg:
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  "#pwm-cells":
-> > > > +    const: 3
-> > > > +
-> > > > +  clocks:
-> > > > +    items:
-> > > > +      - description: Bus clock
-> > > > +      - description: 24 MHz oscillator
-> > > > +      - description: APB0 clock
-> > > > +
-> > > > +  clock-names:
-> > > > +    items:
-> > > > +      - const: bus
-> > > > +      - const: hosc
-> > > > +      - const: apb0
-> > > > +
-> > > > +  resets:
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  allwinner,pwm-channels:
-> > > > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > > > +    description: The number of PWM channels configured for this in=
-stance
-> > > > +    enum: [6, 9]
-> > > > +
-> > > > +allOf:
-> > > > +  - $ref: pwm.yaml#
-> > > > +
-> > > > +  - if:
-> > > > +      properties:
-> > > > +        compatible:
-> > > > +          contains:
-> > > > +            const: allwinner,sun20i-r329-pwm
-> > > > +
-> > > > +    then:
-> > > > +      required:
-> > > > +        - allwinner,pwm-channels
-> > > > +
-> > > > +    else:
-> > > > +      properties:
-> > > > +        allwinner,pwm-channels: false =20
+> > > Allows user to set a led before entering suspend to know that
+> > > the phone is still on (or could be used for notifications etc.)
 > > >=20
-> > > Do we really need to be that strict?
-> > > If something compatible to D1 pops up in the future, just with a diff=
-erent
-> > > number of channels, we would need a new compatible string. =20
+> > > Signed-off-by: Miles Alan <m@milesalan.com>
+> > > Signed-off-by: Ondrej Jirman <megi@xff.cz>
+> > > Signed-off-by: Aren Moynihan <aren@peacevolution.org>
 > >=20
-> > Well, you would want to have a soc specific compatible anyway then,
-> > right?
+> > Where is patch 1 and possibly cover letter? Please resend with all patc=
+hes.
 >=20
-> So the idea would be to add any new (specific) compatible string to that
-> list then, when we add them?
-> I guess this would work, but strictly speaking any current driver would
-> then only need to check this property for the R329 type? The Linux
-> driver proposed in the next patch *always* honours the
-> allwinner,pwm-channels property, which is IMHO the right way to implement
-> this. And that's why I think the binding should reflect that, and not
-> explicitly *forbid* the property for every one other than R329 (atm).
+> Oops, sorry about that, I'm still getting used to get_maintainer.pl.
+> I'll resend this properly when I have time this weekend, until then the
+> patch you missed is available at
+> https://lore.kernel.org/lkml/20240128204740.2355092-1-aren@peacevolution.=
+org/
+
+When sending patch series it's customary to send all patches to all
+maintainers and mailing lists (to have a context). In case of large patch
+series, you can send only selected patches to each maintainer and mailing
+lists, but then send cover letter to all involved and explain general idea
+behind the series.
+
+Best regards,
+Jernej
+
 >=20
-> With the current Linux driver, a potential new SoC using:
-> 	"allwinner,sun20i-d2-pwm", "allwinner,sun20i-d1-pwm";
-> 	allwinner,pwm-channels =3D <6>;
-> would work without driver changes. A driver strictly written to this
-> binding here might not, though, as it would be free to ignore the
-> pwm-channels property.
+> > However, this particular patch is:
+> > Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 >=20
-> Does that make sense? So to encourage future compatibility, can we drop
-> the "else" branch?
+> Thanks
+>  - Aren
+>=20
+> > Best regards,
+> > Jernej
+> >=20
+> > > ---
+> > >=20
+> > >  arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi | 3 +++
+> > >  1 file changed, 3 insertions(+)
+> > >=20
+> > > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi =
+b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> > > index 87847116ab6d..ad2476ee01e4 100644
+> > > --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> > > +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> > > @@ -43,18 +43,21 @@ led-0 {
+> > >  			function =3D LED_FUNCTION_INDICATOR;
+> > >  			color =3D <LED_COLOR_ID_BLUE>;
+> > >  			gpios =3D <&pio 3 20 GPIO_ACTIVE_HIGH>; /* PD20 */
+> > > +			retain-state-suspended;
+> > >  		};
+> > > =20
+> > >  		led-1 {
+> > >  			function =3D LED_FUNCTION_INDICATOR;
+> > >  			color =3D <LED_COLOR_ID_GREEN>;
+> > >  			gpios =3D <&pio 3 18 GPIO_ACTIVE_HIGH>; /* PD18 */
+> > > +			retain-state-suspended;
+> > >  		};
+> > > =20
+> > >  		led-2 {
+> > >  			function =3D LED_FUNCTION_INDICATOR;
+> > >  			color =3D <LED_COLOR_ID_RED>;
+> > >  			gpios =3D <&pio 3 19 GPIO_ACTIVE_HIGH>; /* PD19 */
+> > > +			retain-state-suspended;
+> > >  		};
+> > >  	};
+> > > =20
+> > >=20
+> >=20
+> >=20
+> >=20
+> >=20
+>=20
 
-Oh true, I see what you mean now with the example you gave. I wouldn't
-respin for this alone, since the else branch could be dropped when
-another user showed up given the driver doesn't restrict things.
-I'm okay with your suggestion though.
 
-Cheer,
-Conor.
 
---wPn/chEO+X1eK+Gn
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZbvqEgAKCRB4tDGHoIJi
-0isTAQDdFIn8101DHoxqtxIzz2mXhQfAvSLN9IhSEoRLYtQYEQEA1ZfnLAFf02Qr
-FQmM5dsp/NBIxR7GwMaSW1en5yD5pgw=
-=tg0K
------END PGP SIGNATURE-----
-
---wPn/chEO+X1eK+Gn--
