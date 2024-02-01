@@ -1,198 +1,92 @@
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD996215A
-	for <linux-sunxi@lists.linux.dev>; Thu,  1 Feb 2024 15:33:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 065755A4E7
+	for <linux-sunxi@lists.linux.dev>; Thu,  1 Feb 2024 16:24:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706801624; cv=none; b=G1vP3zw4Yuhg4ASDpuu9pNF79YhvyJ8B2fBS9SNSHr5DlkfdEkFUNqWhhSvTuzhDECpXQEy17ng1rU3snMgeRf+IUJmmHJJc9NUpOPoz7o7EmM0BqnhXnID9ZgCjhUG9a9MqX5todfa8wmHgoIIgMSTUhm/dTTUYatkWW45mLSQ=
+	t=1706804695; cv=none; b=WahEtEXp6X/HvPm00Bj4HvfbqNFQxPa/mxcKH8CbR/71tgE5xCcvkn3zWusS8DlUiiRCguDmYNkMn+HI2ug/Br5fcdF7oChg6v3798E/UuvosTO53q+JeR36QfzRkPuYireoanideMfRBtY/s6ighFM7gDlLqTrAEpZCAbiorZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706801624; c=relaxed/simple;
-	bh=4Sy3fZOhEVHDOtZKqTI3KgHxNg/w+742xJD2OXVh4lw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=m6Wu9R4DnyTb9x2mKZm/pv/ceochrqXJABjC8brJq4RYy510X1kiLqRWH/72VdXKlRItChmk7brzUtdP6rOEVJfZWyNjPhxcisaNkNdCnZCepiBFDgi3c7Ga0IUod0T7eBCBHXiWs+O384c5wetZI3SJbrA2b0BKhgsEL8BKilw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=NswGnf6P; arc=none smtp.client-ip=209.85.128.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="NswGnf6P"
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-603fdc46852so10883367b3.2
-        for <linux-sunxi@lists.linux.dev>; Thu, 01 Feb 2024 07:33:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1706801620; x=1707406420; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=9g5X/MoP2CIyVb1m6cPTMy+MK/TlLDYbdppGeENsUGg=;
-        b=NswGnf6PiLZoJb1hkb1jonlmReSCDfQ1iCQDzK7vVKNKOJQXIQZ4oQgxdW2Y7Fg/DH
-         yE7KJzjMVDiT5UAlYHgNuCMcbbJDxq5UWJJ3sL4BWkb8Kn2OeClJVKOsBJXoRx0vg4/A
-         dLuIuRNT9QKeJjEr7eKsWo1d+mZC+F44rahcPF9sVxALpOZluX+Ofnga23Hypx8ecXsA
-         cmXyOn3fMlI+k7bqvULXw+aLMV8SmDCtPNiK5frTK6uQrxsD79PzDPxmrC5t+IG8Fb5B
-         CrCVEYDlOYZz6/Wx6u+8u0645QT052EVVZFiyHuaIbdR85bzi/a/21GpvdLNjYX180yb
-         AKmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706801620; x=1707406420;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9g5X/MoP2CIyVb1m6cPTMy+MK/TlLDYbdppGeENsUGg=;
-        b=Ncav9MSlq8JLqwl4XQ0z74d6tQH7nm0leUpF7J0R7pC8swlnlVzKEU/2FLRSECtlSQ
-         zJXZ+nWdheiZnRuL88fc+RpQfAi5gx8g2O3+3X+7cCGvH7wRHUMOyFE6n7kMzo0/EUpn
-         cddplpsCM0SpijS2tZdpn8+HMRRZ0DkGpMZ+Zlcn2GrzpB1KqJXStX5FvT4B6EMuVqZI
-         Vv9rnKLE4H8pwwB+FKv/bk5xv9GCU3vbQApkTxV0+Q340hBvybq+WgnTD+yiiVq5AV5N
-         5aaHaZDgrSoLKJ0sSWsLAeNDYYROBAuZS2y7y8PSpGctS9Fe2NPnX/9FL8RbY6DNZI5T
-         H44w==
-X-Gm-Message-State: AOJu0Yza6cQiAwIpUBCYZIzxoAKBhIAJ/mVCgLu69+ohIqUPPSqE21mS
-	MrcC8ZqrW4QkgkmZ04fnj21bzpbjb47NzixcqBFH4TqEd/KwAal73f2J87cKm7hg/ffr9mPiwEA
-	qm3ox8+dAcfn0ZaF9O7q14q6GV+4o59AjKzY4mQ==
-X-Google-Smtp-Source: AGHT+IHqiUtD2JG/xh5leeuuBCGEniE23V5uMzmzrjcmuonFmYWAx3gVWyr/EdUEfJ0Ft8FL9Z4hkCYQ/v1fUQD2kCs=
-X-Received: by 2002:a81:b608:0:b0:5ff:b07b:fb0b with SMTP id
- u8-20020a81b608000000b005ffb07bfb0bmr5193403ywh.49.1706801620096; Thu, 01 Feb
- 2024 07:33:40 -0800 (PST)
+	s=arc-20240116; t=1706804695; c=relaxed/simple;
+	bh=vqSPhrGNoBIXBwQhQv+5TVkyc0p2acScJXny4dezS/o=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uHi3/UWMOePzNnTXbGgdb0d4jRyDi9ft20enEvtg7axDWMwM3OSi3YHePWJpeeTxJ0JElTH7YkAQY1Veu4du15Bx8BSFc9MXptBpKzeRjXHtbsSwhQuOsPgd9MwMdsS9dYzKCGToszaMcgzvqaMfFvf3irvu9uRonIKkXeP5NoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 16889DA7;
+	Thu,  1 Feb 2024 08:25:35 -0800 (PST)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9B6EF3F738;
+	Thu,  1 Feb 2024 08:24:51 -0800 (PST)
+Date: Thu, 1 Feb 2024 16:24:44 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Ludwig Kormann <ludwig.kormann@ict42.de>, "linux-sunxi@lists.linux.dev"
+ <linux-sunxi@lists.linux.dev>
+Cc: jagan@amarulasolutions.com, trini@konsulko.com, u-boot@lists.denx.de
+Subject: Re: [PATCH 1/1] sunxi: sun4i: add missing sdelay() to
+ clock_init_safe()
+Message-ID: <20240201162444.1cf81b0b@donnerap.manchester.arm.com>
+In-Reply-To: <20240201084550.200913-1-ludwig.kormann@ict42.de>
+References: <20240201084550.200913-1-ludwig.kormann@ict42.de>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
- <20231207-kms-hdmi-connector-state-v5-15-6538e19d634d@kernel.org>
- <CAPY8ntBQ+qY9441-rMzq_JAoYAaY_r+E-ADv7Wry0tJNTzKpwg@mail.gmail.com> <jlkoofv7nszj2uqmo2672yo4wjd3yjqarge2l2hxofixcchu6a@j72pa4iybitd>
-In-Reply-To: <jlkoofv7nszj2uqmo2672yo4wjd3yjqarge2l2hxofixcchu6a@j72pa4iybitd>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Thu, 1 Feb 2024 15:33:24 +0000
-Message-ID: <CAPY8ntAmXyKtebMeM7rLtgRR+QwL1H+UCwSO=bLBQN4TsgwsDg@mail.gmail.com>
-Subject: Re: Re: [PATCH v5 15/44] drm/connector: hdmi: Compute bpc and format automatically
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
-	=?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	Hans Verkuil <hverkuil@xs4all.nl>, linux-rockchip@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Maxime
+On Thu,  1 Feb 2024 09:45:50 +0100
+Ludwig Kormann <ludwig.kormann@ict42.de> wrote:
 
-On Thu, 1 Feb 2024 at 12:51, Maxime Ripard <mripard@kernel.org> wrote:
->
-> On Thu, Dec 14, 2023 at 03:10:43PM +0000, Dave Stevenson wrote:
-> > > +static bool
-> > > +sink_supports_format_bpc(const struct drm_connector *connector,
-> > > +                        const struct drm_display_info *info,
-> > > +                        const struct drm_display_mode *mode,
-> > > +                        unsigned int format, unsigned int bpc)
-> > > +{
-> > > +       struct drm_device *dev = connector->dev;
-> > > +       u8 vic = drm_match_cea_mode(mode);
-> > > +
-> > > +       if (vic == 1 && bpc != 8) {
-> > > +               drm_dbg(dev, "VIC1 requires a bpc of 8, got %u\n", bpc);
-> > > +               return false;
-> > > +       }
-> > > +
-> > > +       if (!info->is_hdmi &&
-> > > +           (format != HDMI_COLORSPACE_RGB || bpc != 8)) {
-> > > +               drm_dbg(dev, "DVI Monitors require an RGB output at 8 bpc\n");
-> > > +               return false;
-> > > +       }
-> > > +
-> > > +       if (!(connector->hdmi.supported_formats & BIT(format))) {
-> > > +               drm_dbg(dev, "%s format unsupported by the connector.\n",
-> > > +                       drm_hdmi_connector_get_output_format_name(format));
-> > > +               return false;
-> > > +       }
-> > > +
-> > > +       switch (format) {
-> > > +       case HDMI_COLORSPACE_RGB:
-> > > +               drm_dbg(dev, "RGB Format, checking the constraints.\n");
-> > > +
-> > > +               if (!(info->color_formats & DRM_COLOR_FORMAT_RGB444))
-> > > +                       return false;
-> >
-> > We've dropped this check from vc4 in our downstream kernel as it stops
-> > you using the prebaked EDIDs (eg drm.edid_firmware=edid/1024x768.bin),
-> > or any other EDID that is defined as an analog monitor.
-> > The EDID parsing bombs out at [1], so info->color_formats gets left at 0.
->
-> Right, but it only does so if the display isn't defined as a digital display...
->
-> > RGB is mandatory for both DVI and HDMI, so rejecting it seems overly fussy.
->
-> ... which is required for both DVI and HDMI.
->
-> And sure enough, if we decode that EDID:
->
-> edid-decode (hex):
->
-> 00 ff ff ff ff ff ff 00 31 d8 00 00 00 00 00 00
-> 05 16 01 03 6d 23 1a 78 ea 5e c0 a4 59 4a 98 25
-> 20 50 54 00 08 00 61 40 01 01 01 01 01 01 01 01
-> 01 01 01 01 01 01 64 19 00 40 41 00 26 30 08 90
-> 36 00 63 0a 11 00 00 18 00 00 00 ff 00 4c 69 6e
-> 75 78 20 23 30 0a 20 20 20 20 00 00 00 fd 00 3b
-> 3d 2f 31 07 00 0a 20 20 20 20 20 20 00 00 00 fc
-> 00 4c 69 6e 75 78 20 58 47 41 0a 20 20 20 00 55
->
-> ----------------
->
-> Block 0, Base EDID:
->   EDID Structure Version & Revision: 1.3
->   Vendor & Product Identification:
->     Manufacturer: LNX
->     Model: 0
->     Made in: week 5 of 2012
->   Basic Display Parameters & Features:
->     Analog display
->     Signal Level Standard: 0.700 : 0.000 : 0.700 V p-p
->     Blank level equals black level
->     Sync: Separate Composite Serration
->     Maximum image size: 35 cm x 26 cm
->     Gamma: 2.20
->     DPMS levels: Standby Suspend Off
->     RGB color display
->     First detailed timing is the preferred timing
->   Color Characteristics:
->     Red  : 0.6416, 0.3486
->     Green: 0.2919, 0.5957
->     Blue : 0.1474, 0.1250
->     White: 0.3125, 0.3281
->   Established Timings I & II:
->     DMT 0x10:  1024x768    60.003840 Hz   4:3     48.363 kHz     65.000000 MHz
->   Standard Timings:
->     DMT 0x10:  1024x768    60.003840 Hz   4:3     48.363 kHz     65.000000 MHz
->   Detailed Timing Descriptors:
->     DTD 1:  1024x768    60.003840 Hz   4:3     48.363 kHz     65.000000 MHz (355 mm x 266 mm)
->                  Hfront    8 Hsync 144 Hback  168 Hpol N
->                  Vfront    3 Vsync   6 Vback   29 Vpol N
->     Display Product Serial Number: 'Linux #0'
->     Display Range Limits:
->       Monitor ranges (GTF): 59-61 Hz V, 47-49 kHz H, max dotclock 70 MHz
->     Display Product Name: 'Linux XGA'
-> Checksum: 0x55
->
-> ----------------
->
-> Warnings:
->
-> Block 0, Base EDID:
->   Detailed Timing Descriptor #1: DTD is similar but not identical to DMT 0x10.
->
-> EDID conformity: PASS
->
-> So, if anything, it's the EDID that needs to be updated, not the code there.
+Hi,
 
-So are these EDIDs only valid for VGA outputs and another set needs to
-be added for HDMI monitors?
+> This delay is required after switching the clock source.
+>=20
+> See =E2=80=9CA20 Reference manual v1.4=E2=80=9D Page 50 / section
+> =E2=80=9C1.5.4.16. CPU/AHB/APB0 CLOCK RATIO=E2=80=9D: =E2=80=9CIf the clo=
+ck
+> source is changed, at most to wait for 8 present running
+> clock cycles.=E2=80=9D
+>=20
+> This is already implemented in clock_set_pll1(), but was
+> still missing in clock_init_safe().
+>=20
+> Signed-off-by: Ludwig Kormann <ludwig.kormann@ict42.de>
 
-Having drm.edid_firmware=edid/1024x768.bin works on an HDMI connector
-prior to this patch, so presumably drm_edid_loader needs to
-automatically switch between the existing (analog) and new (digital)
-EDIDs based on the connector type? Or are you requiring users to
-change the strings they use?
+Good catch, thanks for sending this!
 
-Cheers.
-  Dave
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+
+Cheers,
+Andre
+
+> ---
+>  arch/arm/mach-sunxi/clock_sun4i.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>=20
+> diff --git a/arch/arm/mach-sunxi/clock_sun4i.c b/arch/arm/mach-sunxi/cloc=
+k_sun4i.c
+> index 8f1d1b65f0..ac3b7a801f 100644
+> --- a/arch/arm/mach-sunxi/clock_sun4i.c
+> +++ b/arch/arm/mach-sunxi/clock_sun4i.c
+> @@ -25,6 +25,7 @@ void clock_init_safe(void)
+>  	       APB0_DIV_1 << APB0_DIV_SHIFT |
+>  	       CPU_CLK_SRC_OSC24M << CPU_CLK_SRC_SHIFT,
+>  	       &ccm->cpu_ahb_apb0_cfg);
+> +	sdelay(20);
+>  	writel(PLL1_CFG_DEFAULT, &ccm->pll1_cfg);
+>  	sdelay(200);
+>  	writel(AXI_DIV_1 << AXI_DIV_SHIFT |
+> @@ -32,6 +33,7 @@ void clock_init_safe(void)
+>  	       APB0_DIV_1 << APB0_DIV_SHIFT |
+>  	       CPU_CLK_SRC_PLL1 << CPU_CLK_SRC_SHIFT,
+>  	       &ccm->cpu_ahb_apb0_cfg);
+> +	sdelay(20);
+>  #ifdef CONFIG_MACH_SUN7I
+>  	setbits_le32(&ccm->ahb_gate0, 0x1 << AHB_GATE_OFFSET_DMA);
+>  #endif
+
