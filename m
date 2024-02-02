@@ -1,165 +1,164 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75CFC85638
-	for <linux-sunxi@lists.linux.dev>; Thu,  1 Feb 2024 19:54:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E38F79DB2
+	for <linux-sunxi@lists.linux.dev>; Fri,  2 Feb 2024 11:04:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706817258; cv=none; b=k1hIPl6lsDF5rMnbMb9YCAMsjtBpZPCJMZZST2I1jY+7RcpgvZmRruPGGKbpvAaNH/KZqcNrde9pyGkPxyTiIzsrpFMpiMWJkHmkRW9e1UoGfzxklQp0UEpS764G7uKYeWOhRi+qu4PbL+dXzEQS9CIqYbZrcWn0V7ugiJWOsWQ=
+	t=1706871902; cv=none; b=tK+iW2Drb/JcK/yMoi9OYaXUL8cYwyY2QwcOEFUqGZI2Nrnxc2AX0AhNtv+G4fE/j/WXHTV7g7ZImk9M/OeIckl6h7QzAymcstGRKJfRL7LLmQojPm5qxuzGsdkePf36l9qDtweBMVkQ9tXZ8YkG84W4goDqWvvVm/5ZUDllnyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706817258; c=relaxed/simple;
-	bh=igWepZJuJ7/NxlfTBcvat+93tyRHyJ7CtS8SToYFt88=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qWxOMK8+AclYtuBNtnkSWX/lAR5ltEUcN3al6pThct1wTqF9CantLOxJlBAzFarcKVH8YbpdC307ZZPnucB3sSF1UrAYXbIRMTxINk2cRwkvcWIsZZW7PB4vautsLaFsfcv9GMknxyEeBO32z0ql7z7gDDOd1Ia8jpB0RfI6sMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NRHmD1vM; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1706871902; c=relaxed/simple;
+	bh=q7IX5Ck7p9ObclPnEIIJjPrssh+zna2B8YOn9nxa6vk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=l6jE8DIXpQm8xro9UP58RdvOUN34NsG90+rbCWXhrCidyfjy69xxRWSXeXITnc2+xNEk4FRHGi0BXwPV32AXGGUbOmDkaMN+NX+xl5yLg0oOhJfWUkyp0MrFXYnPeCxC0Rv+HcHBUmqq1lwPsxj1I+VCKkLZaxIo0HBXwViunSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i7sqhytb; arc=none smtp.client-ip=192.55.52.88
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NRHmD1vM"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-33b0e5d1e89so949416f8f.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 01 Feb 2024 11:54:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706817255; x=1707422055; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Fw0ii54g50YM0TTuIh98HIpGP8lHOO7kLQ/jqdmdMzg=;
-        b=NRHmD1vM9vCmzujiJhIcHoo8vaPAB1eubt9vSCpzn0JTDzov834MbpuAgQF+kv1qnP
-         tqqcEXBpBNQc+PiUnsYbArrO22lCwMxqWiHZfBTCwOvjs+MZB5rZMYMpWfm7QsgutS4G
-         JPcN1lix9t7666Px/Qn6cfx0bTDvqFE1pQsWC8gUMUT6zVbMCDzMuo4Ct6kf1hnxJMOk
-         51Jqfmekm/jURKV3z9E/fUYpoKBiVkL8p+MUTUJWKMf+7saJSDuESoD6xeynGHki2pA6
-         DYgM7vIuqse2leV3zBZc+LySAbckjQL3oe/lJVelKNjeKVuO5AYNtqlv6GK9k1m8SeZD
-         /CFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706817255; x=1707422055;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Fw0ii54g50YM0TTuIh98HIpGP8lHOO7kLQ/jqdmdMzg=;
-        b=ZYKQJdR2YHcpdh1mmVhLzMqOlS2/bP3axW9BaoiOqtcPjM0YdgzimIIrshiikbmDOp
-         +bT1cyjn3ibOaYYdtbLS5ZbCNNMXOLFe5rAVE718AQc9EflkvOwLN7HDweqOry9NEVpd
-         0HMn9xAdCylxMaiU3Fd6W5TcySYlXEEKOzRXn5IZ3UhkdIuzo2wjqkxbtFG5z5eJXulp
-         UaLtj3JKhGj0inuWh2WTYLKeUAIiGpvUdTn+KRiXFJIyx1mtbSBfoa3uOdMov7/1Wvem
-         pDyBLEFc+P5dSGKe2H1JuMpadEMJOYWxjCBwjRjZt/B0FF7f+ETAX+luUmNQD1BqIZHh
-         1Xuw==
-X-Gm-Message-State: AOJu0YxGHsbBnQNFb2Uj7LSlEbCd8KqJyoa0RTBfxpH4M9D3XrMRTStF
-	U26GkE7LOfJXTsQ1gK1hq8CSl3uApcMryoGPInm9gbYt0MFZbKgV
-X-Google-Smtp-Source: AGHT+IEnh5hwCXXTj+jcR1g0I5bM3FN4GQ3RUZkTBdSNXXRnJnKzpnLqx2ztJH2PVqejHm+eHD5rlg==
-X-Received: by 2002:adf:f64d:0:b0:33a:ed59:c13f with SMTP id x13-20020adff64d000000b0033aed59c13fmr2215794wrp.53.1706817254477;
-        Thu, 01 Feb 2024 11:54:14 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCUkIqDqfPVesemdoaqG1j9jyMLDsyXZci7qdN4rwuZyTnBZy4P9GdwzPQDb4Y97RzDb7Nt0/KTkiYHc51OSLbBILSGHypTjb1PDb72ZoN4kaiS2TT38IIny9hPv2qk7pbyB11bBj5eswJ+oqt6ESrIo8PmhujbvmHrZ92DidVXSYCIjxN1acjdlenKmkXnSfu++c+dj/Av8asn0HmbyqnJOHJwIvOONyMQz7F09oEWk0jsg4Qs3a3TqQFxA5SUAaxlPo2IJXN4OUMn6+DxZIgdQzBM6KWGu35l4Soq52r7+Zd0QERbzokhqf2Tb42N3SFmMLFs+a7yMc+7eTw7Al8QKIOgIa0u0jl1oDEI1AB6rPSle+MxY1/QtbLL8
-Received: from jernej-laptop.localnet (82-149-13-182.dynamic.telemach.net. [82.149.13.182])
-        by smtp.gmail.com with ESMTPSA id v12-20020a5d4b0c000000b0033afce63fd0sm211781wrq.53.2024.02.01.11.54.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Feb 2024 11:54:14 -0800 (PST)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Aren <aren@peacevolution.org>
-Cc: linux-kernel@vger.kernel.org, Miles Alan <m@milesalan.com>,
- Ondrej Jirman <megi@xff.cz>, Chen-Yu Tsai <wens@csie.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, Samuel Holland <samuel@sholland.org>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-Subject:
- Re: [PATCH 2/4] arm64: dts: sun50i-a64-pinephone: Retain leds state in
- suspend
-Date: Thu, 01 Feb 2024 20:54:12 +0100
-Message-ID: <10409647.nUPlyArG6x@jernej-laptop>
-In-Reply-To: <sbcg74hktwv5x7hookeb4su27xut7swarl3d5mbs3i5cqxtq4g@4evugu43ctiv>
-References:
- <20240128204740.2355092-1-aren@peacevolution.org>
- <4892315.31r3eYUQgx@jernej-laptop>
- <sbcg74hktwv5x7hookeb4su27xut7swarl3d5mbs3i5cqxtq4g@4evugu43ctiv>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i7sqhytb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706871899; x=1738407899;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=q7IX5Ck7p9ObclPnEIIJjPrssh+zna2B8YOn9nxa6vk=;
+  b=i7sqhytb0tVRUwQ48QDH2veY4jkL57GZxTvtpr/A0/RVIvX+WrcAz0WG
+   2FhulqkGn84J1BIL238wAeAK7NysYyQvNMa98aH8jOCQLHo1l6xWM0mh5
+   IHpMQG/K9xzaDSRK6Gx7+6UD+Zo7mxTQpRHnMaRTOuQKXNod+4lK0Exjk
+   t76BP11X56TG/jJIAufPVPj2eUJGPrX84tX1djZw6+lVdYH7TP5ZueTVp
+   1gaEzVuG3e9VxAPPdsFq+zHeSvyD1b62WZGa9lKd1aX4e6ZutWXFR48R2
+   +oNlDiWpT0qRy9svPB/ZVNnDe4qbSz5t313CarxByPJD85RB7oCo0fT8U
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="435276043"
+X-IronPort-AV: E=Sophos;i="6.05,237,1701158400"; 
+   d="scan'208";a="435276043"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 03:04:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="908542172"
+X-IronPort-AV: E=Sophos;i="6.05,237,1701158400"; 
+   d="scan'208";a="908542172"
+Received: from mmermeza-mobl3.ger.corp.intel.com (HELO localhost) ([10.252.59.198])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 03:04:53 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Sebastian Wick <sebastian.wick@redhat.com>, Maxime Ripard
+ <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>,
+ Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, Samuel
+ Holland <samuel@sholland.org>, Sandy Huang <hjc@rock-chips.com>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, linux-doc@vger.kernel.org, Hans
+ Verkuil <hverkuil@xs4all.nl>, linux-rockchip@lists.infradead.org, Chen-Yu
+ Tsai <wens@csie.org>, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, David Airlie <airlied@gmail.com>,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, Ville
+ =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH v5 08/44] drm/connector: hdmi: Add Broadcast RGB property
+In-Reply-To: <20240115143308.GA159345@toolbox>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
+ <20231207-kms-hdmi-connector-state-v5-8-6538e19d634d@kernel.org>
+ <20240115143308.GA159345@toolbox>
+Date: Fri, 02 Feb 2024 13:04:50 +0200
+Message-ID: <874jerf7ot.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 
-Dne =C4=8Detrtek, 01. februar 2024 ob 02:36:46 CET je Aren napisal(a):
-> On Tue, Jan 30, 2024 at 08:06:24PM +0100, Jernej =C5=A0krabec wrote:
-> > Dne nedelja, 28. januar 2024 ob 21:45:08 CET je Aren Moynihan napisal(a=
-):
-> > > From: Miles Alan <m@milesalan.com>
-> > >=20
-> > > Allows user to set a led before entering suspend to know that
-> > > the phone is still on (or could be used for notifications etc.)
-> > >=20
-> > > Signed-off-by: Miles Alan <m@milesalan.com>
-> > > Signed-off-by: Ondrej Jirman <megi@xff.cz>
-> > > Signed-off-by: Aren Moynihan <aren@peacevolution.org>
-> >=20
-> > Where is patch 1 and possibly cover letter? Please resend with all patc=
-hes.
->=20
-> Oops, sorry about that, I'm still getting used to get_maintainer.pl.
-> I'll resend this properly when I have time this weekend, until then the
-> patch you missed is available at
-> https://lore.kernel.org/lkml/20240128204740.2355092-1-aren@peacevolution.=
-org/
+On Mon, 15 Jan 2024, Sebastian Wick <sebastian.wick@redhat.com> wrote:
+> On Thu, Dec 07, 2023 at 04:49:31PM +0100, Maxime Ripard wrote:
+>> The i915 driver has a property to force the RGB range of an HDMI output.
+>> The vc4 driver then implemented the same property with the same
+>> semantics. KWin has support for it, and a PR for mutter is also there to
+>> support it.
+>> 
+>> Both drivers implementing the same property with the same semantics,
+>> plus the userspace having support for it, is proof enough that it's
+>> pretty much a de-facto standard now and we can provide helpers for it.
+>> 
+>> Let's plumb it into the newly created HDMI connector.
+>> 
+>> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-When sending patch series it's customary to send all patches to all
-maintainers and mailing lists (to have a context). In case of large patch
-series, you can send only selected patches to each maintainer and mailing
-lists, but then send cover letter to all involved and explain general idea
-behind the series.
+[snip]
 
-Best regards,
-Jernej
+>> @@ -1655,6 +1678,26 @@ EXPORT_SYMBOL(drm_connector_attach_dp_subconnector_property);
+>>  /**
+>>   * DOC: HDMI connector properties
+>>   *
+>> + * Broadcast RGB
+>> + *      Indicates the RGB Quantization Range (Full vs Limited) used.
+>> + *      Infoframes will be generated according to that value.
+>> + *
+>> + *      The value of this property can be one of the following:
+>> + *
+>> + *      Automatic:
+>> + *              RGB Range is selected automatically based on the mode
+>> + *              according to the HDMI specifications.
+>> + *
+>> + *      Full:
+>> + *              Full RGB Range is forced.
+>> + *
+>> + *      Limited 16:235:
+>> + *              Limited RGB Range is forced. Unlike the name suggests,
+>> + *              this works for any number of bits-per-component.
+>> + *
+>> + *      Drivers can set up this property by calling
+>> + *      drm_connector_attach_broadcast_rgb_property().
+>> + *
+>
+> This is a good time to document this in more detail. There might be two
+> different things being affected:
+>
+> 1. The signalling (InfoFrame/SDP/...)
+> 2. The color pipeline processing
+>
+> All values of Broadcast RGB always affect the color pipeline processing
+> such that a full-range input to the CRTC is converted to either full- or
+> limited-range, depending on what the monitor is supposed to accept.
+>
+> When automatic is selected, does that mean that there is no signalling,
+> or that the signalling matches what the monitor is supposed to accept
+> according to the spec? Also, is this really HDMI specific?
 
->=20
-> > However, this particular patch is:
-> > Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
->=20
-> Thanks
->  - Aren
->=20
-> > Best regards,
-> > Jernej
-> >=20
-> > > ---
-> > >=20
-> > >  arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi | 3 +++
-> > >  1 file changed, 3 insertions(+)
-> > >=20
-> > > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi =
-b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-> > > index 87847116ab6d..ad2476ee01e4 100644
-> > > --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-> > > +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-> > > @@ -43,18 +43,21 @@ led-0 {
-> > >  			function =3D LED_FUNCTION_INDICATOR;
-> > >  			color =3D <LED_COLOR_ID_BLUE>;
-> > >  			gpios =3D <&pio 3 20 GPIO_ACTIVE_HIGH>; /* PD20 */
-> > > +			retain-state-suspended;
-> > >  		};
-> > > =20
-> > >  		led-1 {
-> > >  			function =3D LED_FUNCTION_INDICATOR;
-> > >  			color =3D <LED_COLOR_ID_GREEN>;
-> > >  			gpios =3D <&pio 3 18 GPIO_ACTIVE_HIGH>; /* PD18 */
-> > > +			retain-state-suspended;
-> > >  		};
-> > > =20
-> > >  		led-2 {
-> > >  			function =3D LED_FUNCTION_INDICATOR;
-> > >  			color =3D <LED_COLOR_ID_RED>;
-> > >  			gpios =3D <&pio 3 19 GPIO_ACTIVE_HIGH>; /* PD19 */
-> > > +			retain-state-suspended;
-> > >  		};
-> > >  	};
-> > > =20
-> > >=20
-> >=20
-> >=20
-> >=20
-> >=20
->=20
+Automatic is based on the mode as described in the specs
+below. Basically certain modes are expected to be broadcast range, and
+others full range.
+
+I don't remember why we don't use the full range if the display
+indicates it supports selectable quantization range in Video
+Capabilities Data Block. It's quite possible there are displays that
+declare support but don't. Cc: Ville.
+
+- HDMI 1.4b section 6.6 Video Quantization Ranges
+
+- HDMI 2.1 section 7.3 Video Quantization Ranges
+
+- DP 2.1 (and earlier) section 5.1.1.1 Video Colorimetry
+
+- CTA-861-H (and earlier) section 5.1 Default Encoding Parameters and
+  section 6.4.3 Quantization Range
+
+> When full or limited is selected and the monitor doesn't support the
+> signalling, what happens?
+
+1) Limited selected, display expects full, colors seem washed out.
+
+2) Full selected, display expects limited, black screen possible.
+
+We receive the occasional bug report for 1, because there are displays
+that incorrectly expect full when spec says it should be limited. We
+reject the bug reports, because erring the other way can lead to black
+screens.
+
+
+BR,
+Jani.
 
 
 
-
+-- 
+Jani Nikula, Intel
