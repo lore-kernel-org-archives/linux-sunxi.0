@@ -1,137 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7D24210E8;
-	Fri,  2 Feb 2024 13:01:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBCEB15B3
+	for <linux-sunxi@lists.linux.dev>; Fri,  2 Feb 2024 13:58:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706878902; cv=none; b=VRR2+LPcxFlXO1kW4EqX5IgIErfs4cuGnkhpRL/qpwt0DM1aZ3AISdfRONjNywEUKKNuiHKMbDaOrnF4almRqAOIoInjzLkZabNwQp+2tmb+fEiOdz78xDoKzHURb10n5s15GGqHs8OfT+oaVrc5x1l4lj+wicBa9If//RNI25g=
+	t=1706882332; cv=none; b=oh0dIgwWY3z0V1BCsXnqHuftwbX2Hiy0WypMqgsoN5mn+PQJsRpv/ynzOf9dX8OIfYzei9dRebueMkD5Ux8xLz64+plSmEyPQsT0Shuta+4zbGtMQJIiY24EIQLVm4XsKIore5TRJm0ORnHXOnf2m5CZfMRWiSgKUJBUPr9ZQac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706878902; c=relaxed/simple;
-	bh=ZjGVUgcdYqjFELWbtS5Tz+gafK6SLtjIYXwEYo18YXo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lwlp1bbvGXNxCG5EyyNWbPK2jEUYH4sQ0NzWw4iAzSYmSNsmHVQCzCl/77Sw6WYsphX0FoPfmoYLeE6KDnfI3chh9fXGiP95J1HatK71nYtfJEXHlgDUelD6CnkcJ/BzBGP5simandsmv/c20WStXX+hMmXcSSQwGKPEkiR4KDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rk52/yef; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1706882332; c=relaxed/simple;
+	bh=tgr1j4EzwrF68qG4xANL4ri8EhdYwVBBDxE0H3P5pG4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=a3N20qG5uP9k0onNHRKNzDG+cTIZQIhU0YKKAn2bT+dzAqIQhSh+796sCMxFDRsrf5wgoHpt5AmT3QH4VZpV+7ZBoYHe/CAXwFj85GJrzCbC/HovZPyD8ZVm+xNoOrwyqnGKd6mj0GltyKfpE93nX86iJYKtak0weEqNJUuh6zA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cRqdA5E5; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rk52/yef"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9E34C433F1;
-	Fri,  2 Feb 2024 13:01:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706878902;
-	bh=ZjGVUgcdYqjFELWbtS5Tz+gafK6SLtjIYXwEYo18YXo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Rk52/yefcJ7xC9MuTUP9sVCJC4n6DX/+ofLVOsiOkeAH60dIBnk2fZXv9ByUydBSm
-	 DtqxnIWw/Mom3yYSOahogiwlITZbO6GPKqH6MT9Kdr8LoJYR+meY7ea3x86U/vmdK4
-	 jRDsbJiXrCZxHBdA/8os4Npi7r/i1RsmqZO0HydLSMRy0rWgj6ua7CH416PSWMz9pG
-	 0eAtdr7brPlRIP4fC1N9uM9JlSNyxx5dHaPSkw9vVrEL5j6Xw4EmSZSGqLZYN6CIUl
-	 apPnlO5ZVBPs/+JA5YylF5MM9Ainw7YQkJYQDn356jUppnedKDWil6gE6ptW+ae8v4
-	 30Y4ACuH/ziuw==
-Date: Fri, 2 Feb 2024 14:01:39 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Sebastian Wick <sebastian.wick@redhat.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>, 
-	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, Hans Verkuil <hverkuil@xs4all.nl>, 
-	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: Re: [PATCH v5 08/44] drm/connector: hdmi: Add Broadcast RGB
- property
-Message-ID: <73peztbeeikb3fg6coxu3punxllgtyrmgco34tnxkojtsjbr3s@26bud3sjbcez>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cRqdA5E5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706882331; x=1738418331;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=tgr1j4EzwrF68qG4xANL4ri8EhdYwVBBDxE0H3P5pG4=;
+  b=cRqdA5E5VvMEvq1BnxJvqo/0+XuTeypYw/6SkWC7hI7l2UTAaBbEqHb/
+   IDXLKDKRLwMWnpXWVWnFegXha6L6joMtRw0lipMT5HxBYGKLMh6vOIilT
+   C8/Cx80WE/sZWP+nOt/UaDmUP26O7IVvgIZ1MKoYQBEo3VYvAXorKjdxT
+   95iN4sTo+y7Q+U1L4z1Ca1K8ZIHCETy0FzjYABQhEtbIfrB2CR7imm1q5
+   gceqk+txJYEXFZQ9iIcO3lQKg/DSJBi/fhlrpA55AusyVt/l6U9CYjwQH
+   JaDkNylCFcgmFAfCfPXZQ0zNQUJLOiudZ0NeBpeDwQGVMDY6vTLHuXB0L
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="22645138"
+X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
+   d="scan'208";a="22645138"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 05:58:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
+   d="scan'208";a="31182993"
+Received: from mmermeza-mobl3.ger.corp.intel.com (HELO localhost) ([10.252.59.198])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 05:58:43 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>, Dave Stevenson
+ <dave.stevenson@raspberrypi.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, Jonathan Corbet
+ <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St?=
+ =?utf-8?Q?=C3=BCbner?=
+ <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Hans Verkuil <hverkuil@xs4all.nl>,
+ linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: Re: Re: [PATCH v5 15/44] drm/connector: hdmi: Compute bpc and
+ format automatically
+In-Reply-To: <vydlftxen23kd2odwegxbtpaz73sy2lgpv7nlynfjr3p2xvc2b@7lkdkaw3gp5q>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
- <20231207-kms-hdmi-connector-state-v5-8-6538e19d634d@kernel.org>
- <20240115143308.GA159345@toolbox>
- <20240115143720.GA160656@toolbox>
+ <20231207-kms-hdmi-connector-state-v5-15-6538e19d634d@kernel.org>
+ <CAPY8ntBQ+qY9441-rMzq_JAoYAaY_r+E-ADv7Wry0tJNTzKpwg@mail.gmail.com>
+ <jlkoofv7nszj2uqmo2672yo4wjd3yjqarge2l2hxofixcchu6a@j72pa4iybitd>
+ <CAPY8ntAmXyKtebMeM7rLtgRR+QwL1H+UCwSO=bLBQN4TsgwsDg@mail.gmail.com>
+ <vydlftxen23kd2odwegxbtpaz73sy2lgpv7nlynfjr3p2xvc2b@7lkdkaw3gp5q>
+Date: Fri, 02 Feb 2024 15:58:39 +0200
+Message-ID: <87y1c3dl2o.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6dznigm7bfdw265q"
-Content-Disposition: inline
-In-Reply-To: <20240115143720.GA160656@toolbox>
+Content-Type: text/plain
+
+On Thu, 01 Feb 2024, Maxime Ripard <mripard@kernel.org> wrote:
+> We've discussed that on IRC today. I'm not sure there was a conclusion
+> other than "well this doesn't seem right". I think we should at least
+> provide different EDIDs depending on the connector type indeed, but
+> there was also a few discussions that arose:
+>
+>   - Is it useful to have embedded EDIDs in the kernel at all, and could
+>     we just get rid of it?
+>
+>   - Should we expose those EDIDs to userspace, and what happens to the
+>     compositor when we do?
+>
+>   - The current way to generate those EDIDs isn't... optimal? Should we
+>     get rid of that as well?
+>
+> Anyway, all of those issues have been here for a while so I don't really
+> expect this series to fix that.
+
+IMO the direction should be towards deprecating and removing the builtin
+firmware EDIDs from the kernel instead of adding more or expanding on
+them. They were only ever meant to be the immediate aid to get something
+on screen so the user could provide a proper EDID via userspace.
+
+BR,
+Jani.
 
 
---6dznigm7bfdw265q
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebastian Wick wrote:
-> > >  /**
-> > >   * DOC: HDMI connector properties
-> > >   *
-> > > + * Broadcast RGB
-> > > + *      Indicates the RGB Quantization Range (Full vs Limited) used.
-> > > + *      Infoframes will be generated according to that value.
-> > > + *
-> > > + *      The value of this property can be one of the following:
-> > > + *
-> > > + *      Automatic:
-> > > + *              RGB Range is selected automatically based on the mode
-> > > + *              according to the HDMI specifications.
-> > > + *
-> > > + *      Full:
-> > > + *              Full RGB Range is forced.
-> > > + *
-> > > + *      Limited 16:235:
-> > > + *              Limited RGB Range is forced. Unlike the name suggest=
-s,
-> > > + *              this works for any number of bits-per-component.
-> > > + *
-> > > + *      Drivers can set up this property by calling
-> > > + *      drm_connector_attach_broadcast_rgb_property().
-> > > + *
-> >=20
-> > This is a good time to document this in more detail. There might be two
-> > different things being affected:
-> >=20
-> > 1. The signalling (InfoFrame/SDP/...)
-> > 2. The color pipeline processing
-> >=20
-> > All values of Broadcast RGB always affect the color pipeline processing
-> > such that a full-range input to the CRTC is converted to either full- or
-> > limited-range, depending on what the monitor is supposed to accept.
-> >=20
-> > When automatic is selected, does that mean that there is no signalling,
-> > or that the signalling matches what the monitor is supposed to accept
-> > according to the spec? Also, is this really HDMI specific?
-> >=20
-> > When full or limited is selected and the monitor doesn't support the
-> > signalling, what happens?
->=20
-> Forgot to mention: user-space still has no control over RGB vs YCbCr on
-> the cable, so is this only affecting RGB? If not, how does it affect
-> YCbCr?
-
-So I dug a bit into both the i915 and vc4 drivers, and it looks like if
-we're using a YCbCr format, i915 will always use a limited range while
-vc4 will follow the value of the property.
-
-I guess the best way to reconcile that would be to state that it also
-controls the YCbCr range, and i915 can choose to reject/adjust the
-configurations it can't support.
-
-Does that make sense?
-
-Maxime
-
---6dznigm7bfdw265q
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZbznsgAKCRDj7w1vZxhR
-xY65AP4thN3Jypd+NMHjCI2DGcLcaa/6C19RZkReczuElu+gZwEA4x7ld5E6OIjM
-5nF1e+nTxH1f21uOqX5xJzdswy85Rw8=
-=NO9C
------END PGP SIGNATURE-----
-
---6dznigm7bfdw265q--
+-- 
+Jani Nikula, Intel
