@@ -1,84 +1,166 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3A545F55C;
-	Sat,  3 Feb 2024 14:40:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B71455F479;
+	Sat,  3 Feb 2024 15:05:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706971224; cv=none; b=dMRiCoGZPndT5QDrxLY2unjD/iZ2bErgut8/sDf7uYwL2NIXusZcdZZGzvXtXsHUyrpo7CUoYgsKCI4V7klHnMW94wVAm14wvdQir9jlG3YppXyJnk08qC4x7cMKFftynssL1C7WO6UTZkybUAbVfb1tGIpyG4Gq4SpOmvRCj1c=
+	t=1706972759; cv=none; b=PkdRUj0/ZNJjt3mn1J0SgptclyazdWYis3Xzlo4VBsr7RlP5234S95RsHIe8GQFhz9/8vVj2zHXc+kG527AL2+scU1osH1lnAIaFNMt6GzV0slMVT94Ni1EcdpX2TGUroasURj4BS6oyApAEBCJ1cMnbcErp+JNywUbk8L1uGN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706971224; c=relaxed/simple;
-	bh=xIJTVzS/n/XFvKvdBeGCg3VKssfj+QPFUDJK7lYmlKQ=;
+	s=arc-20240116; t=1706972759; c=relaxed/simple;
+	bh=ELEZEWWk9NQcZeuQTjNOf8Xawd967PBWJKiK7K14SIs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cTuqJF+tqY8aPGKQmeAoK1hlynbNVIiQoJSMIzy6TpKig0X+KQaSuJBuOnPxSzKbzQHUSBFDDnm2V7WcKFPAYJWrwD4STBHcP+Bcf1weey2tumktEs5a54pE0BDzj9zecT1nEtbsLzSuUNeKvBrfDL+J9CjGmtf6DMJ366BBHXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LJBU77nZ; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Oyp1HJ5Lh8RKkG4ABTCoGFFPEs7lMn9KIEBZ9bBrdmhcnS0yNL/eCbeXfDcEXOpKFYyoCQq/qYZkTTtzUWw3SkgRvPYPIDEgEUgdcZkVL0L3khAHu1wfRxhvW1sJukdbnrFrzpdVjHhBFJwInoQKAybCqbV8HymiXFLSOvZDP/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Eo9N6xfL; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LJBU77nZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAA8CC433C7;
-	Sat,  3 Feb 2024 14:40:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706971224;
-	bh=xIJTVzS/n/XFvKvdBeGCg3VKssfj+QPFUDJK7lYmlKQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LJBU77nZWHXaaRbu94s+cXcM13wRLadEKIEj0kmapL4E9fysxnQeS8AEkDHlRlwrm
-	 fhM4ikclrTZH4c8tTYMSsJZD0plvSZShss/HWgeoj+DZ+G7Psq+xr9v9jTlZk+cN10
-	 BLraLWRTrTceSbFnxAxCO5d6WIvnpTZi1JayaLwCFZvSeY4uTx/N4377jJqbHwTr3i
-	 SCt43KtnM01QdjlIXwaM+287SVQX5ktCC0LKJ2T7wfAfgM278OJuqgpwOWfB5Gukat
-	 HTM3EQfK2I81YJjUPl7co9/5FhJXllp6xB8fB8Dffa3/a2nuBdgrY0xR19i2VzUQLD
-	 JtUyrjcdiIaKw==
-Date: Sat, 3 Feb 2024 14:40:19 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Jisheng Zhang <jszhang@kernel.org>
-Cc: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eo9N6xfL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706972758; x=1738508758;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=ELEZEWWk9NQcZeuQTjNOf8Xawd967PBWJKiK7K14SIs=;
+  b=Eo9N6xfL0KrLZgnJ9kOT4iYQcQWKnidQ+KbCgbHaG0hxvSOb+NJsp7MW
+   w1sflXaMT8cAjHlajW35GpEOV5fbXuTEI9n97kRY1fo4uw4rGDlPXEo9Q
+   yRMnZruwof6izOKQp2FlCpzPXsDooyfAmHeb/AGbXDQefRbFymdNYRMvM
+   U667bbH8Jg95eu9JijMh0tItgWK0EPQsmoAfCrHh2hA3jd3CuRJsWdCyE
+   /tJjJ0++QGJafPKv+c82y/P+ukJykjBvMHPWjFBUII8eSgmF3Suj2rrNG
+   sB51x+ekPMfYkNJ+kpHc9+cVi5V1Fn1JNCyVe2VTojKUz7RzXwdSXbm1p
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="555423"
+X-IronPort-AV: E=Sophos;i="6.05,240,1701158400"; 
+   d="scan'208";a="555423"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 07:05:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,240,1701158400"; 
+   d="scan'208";a="23607836"
+Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
+  by fmviesa002.fm.intel.com with ESMTP; 03 Feb 2024 07:05:47 -0800
+Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rWHaS-0005DA-0N;
+	Sat, 03 Feb 2024 15:05:44 +0000
+Date: Sat, 3 Feb 2024 23:04:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Aleksandr Shubin <privatesub2@gmail.com>, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Aleksandr Shubin <privatesub2@gmail.com>,
+	Brandon Cheo Fusi <fusibrandon13@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Andre Przywara <andre.przywara@arm.com>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: arm: sunxi: Add Sipeed Longan Module
- 3H and Longan Pi 3H
-Message-ID: <20240203-bullfrog-dropout-ce76e339b379@spud>
-References: <20240203122502.1259-1-jszhang@kernel.org>
- <20240203122502.1259-2-jszhang@kernel.org>
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+	John Watts <contact@jookia.org>,
+	Marc Kleine-Budde <mkl@pengutronix.de>,
+	Maksim Kiselev <bigunclemax@gmail.com>, linux-pwm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v8 2/3] pwm: Add Allwinner's D1/T113-S3/R329 SoCs PWM
+ support
+Message-ID: <202402032222.BiIrD3g4-lkp@intel.com>
+References: <20240131125920.2879433-3-privatesub2@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="OOwGp4su/O+4QrkP"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240203122502.1259-2-jszhang@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240131125920.2879433-3-privatesub2@gmail.com>
+
+Hi Aleksandr,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on sunxi/sunxi/for-next linus/master v6.8-rc2 next-20240202]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Aleksandr-Shubin/dt-bindings-pwm-Add-binding-for-Allwinner-D1-T113-S3-R329-PWM-controller/20240131-210313
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240131125920.2879433-3-privatesub2%40gmail.com
+patch subject: [PATCH v8 2/3] pwm: Add Allwinner's D1/T113-S3/R329 SoCs PWM support
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240203/202402032222.BiIrD3g4-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240203/202402032222.BiIrD3g4-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402032222.BiIrD3g4-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/pwm/pwm-sun20i.c:47: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * SUN20I_PWM_MAGIC is used to quickly compute the values of the clock dividers
 
 
---OOwGp4su/O+4QrkP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+vim +47 drivers/pwm/pwm-sun20i.c
 
-On Sat, Feb 03, 2024 at 08:25:00PM +0800, Jisheng Zhang wrote:
-> Add name & compatible for the Sipeed Longan Module 3H and Longan PI 3H
-> board.
->=20
-> Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
+    45	
+    46	/**
+  > 47	 * SUN20I_PWM_MAGIC is used to quickly compute the values of the clock dividers
+    48	 * div_m (SUN20I_PWM_CLK_CFG_DIV_M) & prescale_k (SUN20I_PWM_CTL_PRESCAL_K)
+    49	 * without using a loop. These dividers limit the # of cycles in a period
+    50	 * to SUN20I_PWM_PCNTR_SIZE by applying a scaling factor of
+    51	 * 1/(div_m * (prescale_k + 1)) to the clock source.
+    52	 *
+    53	 * SUN20I_PWM_MAGIC is derived by solving for div_m and prescale_k
+    54	 * such that for a given requested period,
+    55	 *
+    56	 * i) div_m is minimized for any prescale_k ≤ SUN20I_PWM_CTL_PRESCAL_K_MAX,
+    57	 * ii) prescale_k is minimized.
+    58	 *
+    59	 * The derivation proceeds as follows, with val = # of cycles for reqested
+    60	 * period:
+    61	 *
+    62	 * for a given value of div_m we want the smallest prescale_k such that
+    63	 *
+    64	 * (val >> div_m) // (prescale_k + 1) ≤ 65536 (SUN20I_PWM_PCNTR_SIZE)
+    65	 *
+    66	 * This is equivalent to:
+    67	 *
+    68	 * (val >> div_m) ≤ 65536 * (prescale_k + 1) + prescale_k
+    69	 * ⟺ (val >> div_m) ≤ 65537 * prescale_k + 65536
+    70	 * ⟺ (val >> div_m) - 65536 ≤ 65537 * prescale_k
+    71	 * ⟺ ((val >> div_m) - 65536) / 65537 ≤ prescale_k
+    72	 *
+    73	 * As prescale_k is integer, this becomes
+    74	 *
+    75	 * ((val >> div_m) - 65536) // 65537 ≤ prescale_k
+    76	 *
+    77	 * And is minimized at
+    78	 *
+    79	 * ((val >> div_m) - 65536) // 65537
+    80	 *
+    81	 * Now we pick the smallest div_m that satifies prescale_k ≤ 255
+    82	 * (i.e SUN20I_PWM_CTL_PRESCAL_K_MAX),
+    83	 *
+    84	 * ((val >> div_m) - 65536) // 65537 ≤ 255
+    85	 * ⟺ (val >> div_m) - 65536 ≤ 255 * 65537 + 65536
+    86	 * ⟺ val >> div_m ≤ 255 * 65537 + 2 * 65536
+    87	 * ⟺ val >> div_m < (255 * 65537 + 2 * 65536 + 1)
+    88	 * ⟺ div_m = fls((val) / (255 * 65537 + 2 * 65536 + 1))
+    89	 *
+    90	 * Suggested by Uwe Kleine-König
+    91	 */
+    92	#define SUN20I_PWM_MAGIC			(255 * 65537 + 2 * 65536 + 1)
+    93	
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-
-Thanks,
-Conor.
-
---OOwGp4su/O+4QrkP
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZb5QUwAKCRB4tDGHoIJi
-0pjaAPoDC/P7o8CtrI0Zo2MOdIQ1EprLUP+j0nRYAXBw1JtYfAEAv2QN22X785iW
-d3rma/7lycAmZFKI1jkBmBaVgArFUwM=
-=N3R8
------END PGP SIGNATURE-----
-
---OOwGp4su/O+4QrkP--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
