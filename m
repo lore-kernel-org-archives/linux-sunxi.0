@@ -1,366 +1,97 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0198C14A4E9
-	for <linux-sunxi@lists.linux.dev>; Fri,  2 Feb 2024 17:32:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73834384;
+	Sat,  3 Feb 2024 12:38:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706895147; cv=none; b=hAWnen6pVE/tdrIca/d2DwVYMMYcBf5ku8Cx5ZOB9WgbPS03kvQBiO1bLcS11iuMSaRZtKHty/KjYW+g0Quo5X0Fj0A3HDUi65ZvmAgi0ChybO4UEa+vEaKpYQiYqBe9BBX6bH9F8UzAX1XRo/UsLoNT/4nYN4Ynl7YCypd4ANI=
+	t=1706963881; cv=none; b=gBz4h7YdtUzPz6JWF+J3M23sYv96JUUqGBtCAxYn9Zn/BjXi8yB2h+fjqdHkGHESBro+kwwxqnRMfc/uVGRWUp+hwFi0kKzvuYqOAzTY3xFqG3sOOzSZ0cOUnC/SDWfEYtBhQQHKbjCuPPsQKrgon3Lk3FSWg3llajZeGPMTWBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706895147; c=relaxed/simple;
-	bh=hCuJY8JbZYMLQId+jf9w+DWlURO1hCfAJLAdqizCnVM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hlbNezehlf9H1Q8gP9Qp9CDCMsSYszJn07DRmB6iiEtq1Q4AmmkIITjUVc6l/2Ns0f/+kqRDFzsFtAVlz1XJG6PCGoiUCDJZ1DnxAglmv15gOWEVPWmAjEBOB7zpqAkm7n/qWrm1goLqSUc5vYDktZU+GAxG29yK2F1yB0b4je8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PQpoiGnF; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1706963881; c=relaxed/simple;
+	bh=Ry8SP/OpV6N0TsgPYkBd/xIsbggogFR8RhqfHiLkaC0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CkRgqHXoTLPimUsRdhIJ3g3X5yiCvUg8OBSvBhUkaHlhRXvgd21aGpYoaNuLOhrQIGHpqVBsDZdb5+WwkB3vYDy9Dpq6o68LmO2l3bnCa9nE/uk9cSFpj0B48t7V2CVAtR3gRg1JmybsZyKfN1GDTsxgplO2f+HwMe+Gh/OfzpM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LOQSSMyP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PQpoiGnF"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a3510d79ae9so308346166b.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 02 Feb 2024 09:32:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706895143; x=1707499943; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hCuJY8JbZYMLQId+jf9w+DWlURO1hCfAJLAdqizCnVM=;
-        b=PQpoiGnF9VkOq1F6VYS9OMaUnOXo3eDb9rfe2NIj3+OzwF09Xy7Xy6MkJx9YWbFHFb
-         q1Poio8fgBKQllf1Do+em0Xlz3sPyHq9Vbp4hcXC64JNpCGJcFsOJrtEamhg7mJCzaSF
-         PkZpizYG2c2KpVQbwRhcfmS/q6VcQ/5bWJGwm38uZKyiJn4aYDUD1FraE8c+oZ8PN1OY
-         PKIEbXGbk9ds0favXq8DnEVBB45GrlPi9xkxwF4nHrhzLuRrbippF/M4vL2YS7R+ppi4
-         FotIXw0iWyrthDg7xac3c+zCie/3hhOwg397VAzUak2ikFw2+LmsPyJsxqH0uPU2PBOU
-         3EVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706895143; x=1707499943;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hCuJY8JbZYMLQId+jf9w+DWlURO1hCfAJLAdqizCnVM=;
-        b=ceu6kea8A6inljRzlcL8urg0f1xdz2178guYSIyOmy2ygQcgu+fnCTsR+JWJNDJftr
-         aeEpgnNQWwE6SY/0UsJxIu3XHn/4naLN0WHLJjsTrmmJDGMCfUFyeSeVUYfUE98cZimP
-         ia6Y1VTjcGziRpTZFX0C+0+BVvXcbgtzfRVoeOBeBIOLamqRrvpdZ+PhmlBK205be+DA
-         ACS2CHA/Nyz4erwVppXcQB7nb4wpDSogWGiDS+KsWH0LIwuDWZWkvDjrATbueA1As8Qb
-         T4x1gqFimQRkIvek0krzEfdq5ReNEyKrCe4hivjl2YD7j61Dej1ThTEkTDR2KMGh7Wko
-         4yzA==
-X-Gm-Message-State: AOJu0YwzTHKFpHqwX6cZf3fM7Kc/VgnBDnnr+de9qyPZTomC3NAfFrOM
-	HPxB1YseBhP/PeolaDDFmxif+I5X3WIBSyH68RyKD4jInNyts31/
-X-Google-Smtp-Source: AGHT+IFtyRLBfZV+uWVH6iHqj3/XqfutBo0nPCLJ5UMNsLGPgcsFp21obzxxFm+Lz0KYhQytdxOgTQ==
-X-Received: by 2002:a17:906:e246:b0:a36:598b:e291 with SMTP id gq6-20020a170906e24600b00a36598be291mr6387969ejb.26.1706895142983;
-        Fri, 02 Feb 2024 09:32:22 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCUhjFYs0/6tnnBIWwWeMIWHNsUdBtWYrqrABkSHq7Ko6SYOD8Wf2PlaIY+492XsxIKsvnKd7DAtW/BTSRXX5Rnz+xZ+hOh4PsUC+sbfNFaXUHhx6+DKZJOQljy4705fcHr57QOABSOo/qoMvTBgOExl75PC4D3YxnG8wo5wamnNUtz/T7bRAvz1A5DWIsMsP9oGbHcuKzPaV4MKTm9HQyPk1LqKL6bWvIdx77qX0FrH0jATlLgYSAsmkxmHQADMy6rsWoXK1emsy45isaQQsw4UbgX+daXL/emFlm/8PKou5y+OcJIGR+GaHpVehKMVzpnVI9pytTVyg/PpIk1HyflUgVAELKaDIswkihqMaj58i+LgH5DyCBbHfTPWQSoImoLUfzE9aHCGJC+NzvKYqgU/bni/t4zQ3/YJVSIwbgtiSrzEc9uyRkQD7dXmfPGzcQXflSRLjcSDL64OqAnrziWnt4EfOc9Cz73Ox/FrOMA9arIr+VJcyOPiwNBcFBpUPffryZ8FNFUQk2ZFTTbzTSzLpAGuKjTmZitLfTY62vXSr34NcTSW6PE8v3hSguU6SseSjSuHTaS041ncXFcMg+r+JhSrkk9aT9YTfJEsnE6udK8lMYJjVnrVDjbCbg+6seV8MhDvk0ByJqHz5t492G7sVAFbTN+hBPJdGpaAirGrhQmDTli/uCG3ZkXeY4lG1L0Fj5hxnba+E/z45WFkU+qqts814ardiAGqreKUWcH2Ljfzlcb1sJfx+pYnB/4DadJWqaVBv49gbA==
-Received: from localhost.localdomain ([154.72.163.111])
-        by smtp.gmail.com with ESMTPSA id v12-20020a170906180c00b00a356c0fdd2csm1076487eje.26.2024.02.02.09.32.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Feb 2024 09:32:22 -0800 (PST)
-From: Brandon Cheo Fusi <fusibrandon13@gmail.com>
-To: u.kleine-koenig@pengutronix.de
-Cc: aou@eecs.berkeley.edu,
-	bigunclemax@gmail.com,
-	conor+dt@kernel.org,
-	contact@jookia.org,
-	cristian.ciocaltea@collabora.com,
-	devicetree@vger.kernel.org,
-	fusibrandon13@gmail.com,
-	jernej.skrabec@gmail.com,
-	krzysztof.kozlowski+dt@linaro.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LOQSSMyP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CCE3C43390;
+	Sat,  3 Feb 2024 12:37:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706963880;
+	bh=Ry8SP/OpV6N0TsgPYkBd/xIsbggogFR8RhqfHiLkaC0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=LOQSSMyPReMCQHK9FEk70qVJLRqmoOVAcCMtTqsUCwJoY68Bkmc4zOqHZLzZbQw7p
+	 aC1MVB3u4Mwu38xuVJTkaEkpzx+0Jo5ybsGIX4ZBOzCf7UTI+USUk6vkprfm3+THnl
+	 0JlhBZYlz9fgpUfE8d7DSCMYBYt313uFW6fe1pxcQ375X83P9iBgaS51JiRkSWvYdE
+	 LsgP215md0KkMYZaF2FZNIgeLXprzjtuBXVsD9QKUZE6Dt+M9kOQ0tVOW/EgpB0LQN
+	 QaV4RHpdHzS/SZbcRVS3yNuPrfLJRPW/qS3ATNOFumgAlNJjXfJs3GAF97ACCLmZo/
+	 WkNXAg/acfkcQ==
+From: Jisheng Zhang <jszhang@kernel.org>
+To: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Andre Przywara <andre.przywara@arm.com>
+Cc: devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-pwm@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
-	mkl@pengutronix.de,
-	p.zabel@pengutronix.de,
-	palmer@dabbelt.com,
-	paul.walmsley@sifive.com,
-	privatesub2@gmail.com,
-	robh+dt@kernel.org,
-	samuel@sholland.org,
-	wens@csie.org
-Subject: Re: [PATCH v8 2/3] pwm: Add Allwinner's D1/T113-S3/R329 SoCs PWM support
-Date: Fri,  2 Feb 2024 18:32:01 +0100
-Message-Id: <20240202173201.2564726-1-fusibrandon13@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <eynkbikmzcffid2jft3b6pmjfcbvda6mpzu7l5mefrw3za3iwh@ctgn57kb7ard>
-References: <eynkbikmzcffid2jft3b6pmjfcbvda6mpzu7l5mefrw3za3iwh@ctgn57kb7ard>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/2] arm64: dts: allwinner: h618: Add Sipeed Longan SoM 3H and Pi 3H board
+Date: Sat,  3 Feb 2024 20:24:59 +0800
+Message-ID: <20240203122502.1259-1-jszhang@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On Thu, Feb 1, 2024 at 9:49 AM Uwe Kleine-König <u.kleine-koenig@pengutronix.de> wrote:
->
-> hello Aleksandr,
->
-> On Wed, Jan 31, 2024 at 03:59:15PM +0300, Aleksandr Shubin wrote:
-> > +#include <linux/bitfield.h>
-> > +#include <linux/clk.h>
-> > +#include <linux/err.h>
-> > +#include <linux/io.h>
-> > +#include <linux/module.h>
-> > +#include <linux/of_device.h>
->
-> Some time ago there was some effort by Rob Herring to detangle the
-> headers platform_device.h, of_device.h and of.h. See for example commit
-> 87e51b76c9db8c29cde573af0faf5a3e13e23960. I think you should use
-> linux/of.h instead of linux/of_device.h.
->
-> > +#include <linux/platform_device.h>
-> > +#include <linux/pwm.h>
-> > +#include <linux/reset.h>
-> > +
-> > +#define SUN20I_PWM_CLK_CFG(chan)             (0x20 + (((chan) >> 1) * 0x4))
-> > +#define SUN20I_PWM_CLK_CFG_SRC                       GENMASK(8, 7)
-> > +#define SUN20I_PWM_CLK_CFG_DIV_M             GENMASK(3, 0)
-> > +#define SUN20I_PWM_CLK_DIV_M_MAX             8
->
-> SUN20I_PWM_CLK_CFG_DIV_M_MAX?
->
+Add Sipeed Longan SoM 3H and Longan Pi 3H board support.
 
-Yes. The manuals mark [0x9, 0xF] as reserved
+The Sipeed Longan SoM 3H is a system on module based on the Allwinner
+H618 SoC. The SoM features:
 
-> > +#define SUN20I_PWM_CLK_GATE                  0x40
-> > +#define SUN20I_PWM_CLK_GATE_BYPASS(chan)     BIT((chan) + 16)
-> > +#define SUN20I_PWM_CLK_GATE_GATING(chan)     BIT(chan)
-> > +
-> > +#define SUN20I_PWM_ENABLE                    0x80
-> > +#define SUN20I_PWM_ENABLE_EN(chan)           BIT(chan)
-> > +
-> > +#define SUN20I_PWM_CTL(chan)                 (0x100 + (chan) * 0x20)
-> > +#define SUN20I_PWM_CTL_ACT_STA                       BIT(8)
-> > +#define UN20I_PWM_CTL_PRESCAL_K              GENMASK(7, 0)
-> > +#define SUN20I_PWM_CTL_PRESCAL_K_MAX         0xff
->
-> This matches the theoretical maximum for GENMASK(7,0), so you could make
-> use of field_max(SUN20I_PWM_CTL_PRESCAL_K) here.
->
-> > +#define SUN20I_PWM_PERIOD(chan)                      (0x104 + (chan) * 0x20)
-> > +#define SUN20I_PWM_PERIOD_ENTIRE_CYCLE               GENMASK(31, 16)
-> > +#define SUN20I_PWM_PERIOD_ACT_CYCLE          GENMASK(15, 0)
-> > +
-> > +#define SUN20I_PWM_PCNTR_SIZE                        BIT(16)
-> > +
-> > +/**
-> > + * SUN20I_PWM_MAGIC is used to quickly compute the values of the clock dividers
-> > + * div_m (SUN20I_PWM_CLK_CFG_DIV_M) & prescale_k (SUN20I_PWM_CTL_PRESCAL_K)
-> > + * without using a loop. These dividers limit the # of cycles in a period
-> > + * to SUN20I_PWM_PCNTR_SIZE by applying a scaling factor of
-> > + * 1/(div_m * (prescale_k + 1)) to the clock source.
-> > + *
-> > + * SUN20I_PWM_MAGIC is derived by solving for div_m and prescale_k
-> > + * such that for a given requested period,
-> > + *
-> > + * i) div_m is minimized for any prescale_k ≤ SUN20I_PWM_CTL_PRESCAL_K_MAX,
-> > + * ii) prescale_k is minimized.
-> > + *
-> > + * The derivation proceeds as follows, with val = # of cycles for reqested
->
-> s/reqested/requested/
+- Four ARM Cortex-A53 cores, Mali-G31 MP2 GPU
+- 2/4 GiB LPDDR4 DRAM SoMs
+- AXP313a PMIC
+- eMMC
 
-Nice catch.
+The Sipeed Longan PI 3H is a development board based on the above SoM.
+The board features:
+- Longan SoM 3H
+- Raspberry-Pi-1 compatible GPIO header
+- 2 USB 2.0 host port
+- 1 USB 2.0 type C port (power supply + OTG)
+- MicroSD slot
+- 1Gbps Ethernet port (via RTL8211 PHY)
+- HDMI port
+- WiFi/BT chip
 
-> > + * period:
-> > + *
-> > + * for a given value of div_m we want the smallest prescale_k such that
-> > + *
-> > + * (val >> div_m) // (prescale_k + 1) ≤ 65536 (SUN20I_PWM_PCNTR_SIZE)
-> > + *
-> > + * This is equivalent to:
-> > + *
-> > + * (val >> div_m) ≤ 65536 * (prescale_k + 1) + prescale_k
-> > + * ⟺ (val >> div_m) ≤ 65537 * prescale_k + 65536
-> > + * ⟺ (val >> div_m) - 65536 ≤ 65537 * prescale_k
-> > + * ⟺ ((val >> div_m) - 65536) / 65537 ≤ prescale_k
-> > + *
-> > + * As prescale_k is integer, this becomes
-> > + *
-> > + * ((val >> div_m) - 65536) // 65537 ≤ prescale_k
-> > + *
-> > + * And is minimized at
-> > + *
-> > + * ((val >> div_m) - 65536) // 65537
-> > + *
-> > + * Now we pick the smallest div_m that satifies prescale_k ≤ 255
-> > + * (i.e SUN20I_PWM_CTL_PRESCAL_K_MAX),
-> > + *
-> > + * ((val >> div_m) - 65536) // 65537 ≤ 255
-> > + * ⟺ (val >> div_m) - 65536 ≤ 255 * 65537 + 65536
-> > + * ⟺ val >> div_m ≤ 255 * 65537 + 2 * 65536
-> > + * ⟺ val >> div_m < (255 * 65537 + 2 * 65536 + 1)
-> > + * ⟺ div_m = fls((val) / (255 * 65537 + 2 * 65536 + 1))
-> > + *
-> > + * Suggested by Uwe Kleine-König
->
-> Good man, I assume this is all sane then :-)
+Since v1:
+  - Use const rather than enum for "sipeed,longan-pi-3h" dt-binding
+  - remove dts-v1, model and compatible from SoM dtsi
+  - add interrupt related properties to axp313 dt node
+  - use "vcc-1v8-pll" and "vcc-3v3-io" as regulator name
+  - add dt node for board's discrete 5V->3.3V regulator and use it for
+    eth\tfcard 3.3v supply
+  - add usb2_vbus-supply property
 
-Credit should be given where it is due :-)
+Jisheng Zhang (2):
+  dt-bindings: arm: sunxi: Add Sipeed Longan Module 3H and Longan Pi 3H
+  arm64: dts: allwinner: h616: Add Sipeed Longan SoM 3H and Pi 3H board
+    support
 
-> > + */
-> > +#define SUN20I_PWM_MAGIC                     (255 * 65537 + 2 * 65536 + 1)
-> > +
-> > +struct sun20i_pwm_chip {
-> > +     struct clk *clk_bus, *clk_hosc, *clk_apb0;
-> > +     struct reset_control *rst;
-> > +     struct pwm_chip chip;
-> > +     void __iomem *base;
-> > +     /* Mutex to protect pwm apply state */
-> > +     struct mutex mutex;
-> > +};
-> > +
-> > +static inline struct sun20i_pwm_chip *to_sun20i_pwm_chip(struct pwm_chip *chip)
-> > +{
-> > +     return container_of(chip, struct sun20i_pwm_chip, chip);
-> > +}
-> > +
-> > +static inline u32 sun20i_pwm_readl(struct sun20i_pwm_chip *chip,
-> > +                                unsigned long offset)
-> > +{
-> > +     return readl(chip->base + offset);
-> > +}
-> > +
-> > +static inline void sun20i_pwm_writel(struct sun20i_pwm_chip *chip,
-> > +                                  u32 val, unsigned long offset)
-> > +{
-> > +     writel(val, chip->base + offset);
-> > +}
-> > +
-> > +static int sun20i_pwm_get_state(struct pwm_chip *chip,
-> > +                             struct pwm_device *pwm,
-> > +                             struct pwm_state *state)
-> > +{
-> > +     struct sun20i_pwm_chip *sun20i_chip = to_sun20i_pwm_chip(chip);
-> > +     u16 ent_cycle, act_cycle, prescale_k;
-> > +     u64 clk_rate, tmp;
-> > +     u8 div_m;
-> > +     u32 val;
-> > +
-> > +     mutex_lock(&sun20i_chip->mutex);
-> > +
-> > +     val = sun20i_pwm_readl(sun20i_chip, SUN20I_PWM_CLK_CFG(pwm->hwpwm));
-> > +     div_m = FIELD_GET(SUN20I_PWM_CLK_CFG_DIV_M, val);
-> > +     if (div_m > SUN20I_PWM_CLK_DIV_M_MAX)
-> > +             div_m = SUN20I_PWM_CLK_DIV_M_MAX;
-> > +
-> > +     if (FIELD_GET(SUN20I_PWM_CLK_CFG_SRC, val) == 0)
-> > +             clk_rate = clk_get_rate(sun20i_chip->clk_hosc);
-> > +     else
-> > +             clk_rate = clk_get_rate(sun20i_chip->clk_apb0);
-> > +
-> > +     val = sun20i_pwm_readl(sun20i_chip, SUN20I_PWM_CTL(pwm->hwpwm));
-> > +     state->polarity = (SUN20I_PWM_CTL_ACT_STA & val) ?
-> > +                        PWM_POLARITY_NORMAL : PWM_POLARITY_INVERSED;
-> > +
-> > +     prescale_k = FIELD_GET(SUN20I_PWM_CTL_PRESCAL_K, val) + 1;
-> > +
-> > +     val = sun20i_pwm_readl(sun20i_chip, SUN20I_PWM_ENABLE);
-> > +     state->enabled = (SUN20I_PWM_ENABLE_EN(pwm->hwpwm) & val) ? true : false;
-> > +
-> > +     val = sun20i_pwm_readl(sun20i_chip, SUN20I_PWM_PERIOD(pwm->hwpwm));
-> > +
-> > +     mutex_unlock(&sun20i_chip->mutex);
-> > +
-> > +     act_cycle = FIELD_GET(SUN20I_PWM_PERIOD_ACT_CYCLE, val);
-> > +     ent_cycle = FIELD_GET(SUN20I_PWM_PERIOD_ENTIRE_CYCLE, val);
-> > +
-> > +     /*
-> > +      * The duration of the active phase should not be longer
-> > +      * than the duration of the period
-> > +      */
-> > +     if (act_cycle > ent_cycle)
-> > +             act_cycle = ent_cycle;
-> > +
-> > +     tmp = ((u64)(act_cycle) * prescale_k << div_m) * NSEC_PER_SEC;
-> > +     state->duty_cycle = DIV_ROUND_UP_ULL(tmp, clk_rate);
-> > +     tmp = ((u64)(ent_cycle) * prescale_k << div_m) * NSEC_PER_SEC;
-> > +     state->period = DIV_ROUND_UP_ULL(tmp, clk_rate);
->
-> Please add a comment above this block that justifies assuming that the
-> multiplication doesn't overflow. Something like:
->
->         We have act_cycle <= ent_cycle <= 0xffff, prescale_k <= 0x100,
->         div_m <= 8. So the multiplication fits into an u64 without
->         overflow.
->
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static int sun20i_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
-> > +                         const struct pwm_state *state)
-> > +{
-> > +...
-> > +}
->
-> I didn't recheck all the logic in .apply in detail and will assume it is
-> sane for this round.
+ .../devicetree/bindings/arm/sunxi.yaml        |   6 +
+ arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+ .../sun50i-h618-longan-module-3h.dtsi         |  77 ++++++++++
+ .../dts/allwinner/sun50i-h618-longanpi-3h.dts | 143 ++++++++++++++++++
+ 4 files changed, 227 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h618-longan-module-3h.dtsi
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dts
 
-Please do recheck. This thing is already on v8 and we want to make sure
-everyone is happy with v9.
+-- 
+2.43.0
 
-> > +static const struct pwm_ops sun20i_pwm_ops = {
-> > +     .apply = sun20i_pwm_apply,
-> > +     .get_state = sun20i_pwm_get_state,
-> > +};
-> > +
-> > +static const struct of_device_id sun20i_pwm_dt_ids[] = {
-> > +     { .compatible = "allwinner,sun20i-d1-pwm" },
-> > +     { },
-> > +};
-> > +MODULE_DEVICE_TABLE(of, sun20i_pwm_dt_ids);
-> > +
-> > +static int sun20i_pwm_probe(struct platform_device *pdev)
-> > +{
-> > +     struct sun20i_pwm_chip *sun20i_chip;
-> > +     int ret;
-> > +
-> > +     sun20i_chip = devm_kzalloc(&pdev->dev, sizeof(*sun20i_chip), GFP_KERNEL);
-> > +     if (!sun20i_chip)
-> > +             return -ENOMEM;
-> > +
-> > +     sun20i_chip->base = devm_platform_ioremap_resource(pdev, 0);
-> > +     if (IS_ERR(sun20i_chip->base))
-> > +             return PTR_ERR(sun20i_chip->base);
-> > +
-> > +     sun20i_chip->clk_bus = devm_clk_get_enabled(&pdev->dev, "bus");
-> > +     if (IS_ERR(sun20i_chip->clk_bus))
-> > +             return dev_err_probe(&pdev->dev, PTR_ERR(sun20i_chip->clk_bus),
-> > +                                  "failed to get bus clock\n");
-> > +
-> > +     sun20i_chip->clk_hosc = devm_clk_get_enabled(&pdev->dev, "hosc");
-> > +     if (IS_ERR(sun20i_chip->clk_hosc))
-> > +             return dev_err_probe(&pdev->dev, PTR_ERR(sun20i_chip->clk_hosc),
-> > +                                  "failed to get hosc clock\n");
-> > +
-> > +     sun20i_chip->clk_apb0 = devm_clk_get_enabled(&pdev->dev, "apb0");
-> > +     if (IS_ERR(sun20i_chip->clk_apb0))
-> > +             return dev_err_probe(&pdev->dev, PTR_ERR(sun20i_chip->clk_apb0),
-> > +                                  "failed to get apb0 clock\n");
-> > +
-> > +     sun20i_chip->rst = devm_reset_control_get_exclusive(&pdev->dev, NULL);
-> > +     if (IS_ERR(sun20i_chip->rst))
-> > +             return dev_err_probe(&pdev->dev, PTR_ERR(sun20i_chip->rst),
-> > +                                  "failed to get bus reset\n");
-> > +
-> > +     ret = of_property_read_u32(pdev->dev.of_node, "allwinner,pwm-channels",
-> > +                                &sun20i_chip->chip.npwm);
-> > +     if (ret)
-> > +             sun20i_chip->chip.npwm = 8;
-> > +
-> > +     if (sun20i_chip->chip.npwm > 16)
-> > +             sun20i_chip->chip.npwm = 16;
->
-> Is it worth to emit an error message here? Something like:
->
->         Limiting number of PWM lines from %u to 16
->
-> Best regards
-> Uwe
->
-> --
-> Pengutronix e.K.                           | Uwe Kleine-König            |
-> Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
-Brandon.
