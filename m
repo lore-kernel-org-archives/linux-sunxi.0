@@ -1,23 +1,22 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49D7A18AF9
-	for <linux-sunxi@lists.linux.dev>; Sun,  4 Feb 2024 09:33:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 692A218E28
+	for <linux-sunxi@lists.linux.dev>; Sun,  4 Feb 2024 09:44:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707039196; cv=none; b=AySugxi65O075IOKeEKZnjzD9iTxiGueLYlZ/cmcYDN14MRUzdkyr5p88zxq2h/l7JK+4oPwZUPHQvMBZvz/7h7+0WMl6A4VENtQzSWJdANYHL/nqI8WRHxH4VNC/MoffbyIzoen5pKHqVv5vU40b1fH4ip0jXvhc6J7syCYLuM=
+	t=1707039857; cv=none; b=fhrEvGsEC17FsFWImkHvWA3QMdiBuxuuYiKf8MvqIemJTqBn6nR2eV+EdS2mpXoJW7yp+MYj2zFtmdD7usfC4Ody7bAZXKIwg4KDiC/+QOxahSIPpSNJp30z+h6Q69z0eF1wmIUQnWZ3gCczCwdz3eWZFgLra679hqJpAC6EtBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707039196; c=relaxed/simple;
-	bh=YYVhGRbWCtwXW7nZftJeupAIB/Gnlz1wWaOArvguRhQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Yi+f0p5KtJWYc7cNXDFG23V4DD0tFwlcLpVf7VyTPCpzuoW2LG8+wK07bJH0FZb5kJHooltSZyFGsRFREMnMnsRBvRFKeyNzOFOg4CKgRnqY9FBnLNRhdtFDRVSuKy/CPcQ6Q2kwTM261A64Afs+Nj2L1d2evd2WtTriF20ri2c=
+	s=arc-20240116; t=1707039857; c=relaxed/simple;
+	bh=L4cRRzejhErml6uEQ4WXYU66jFIs7k47XTvxMEaIuTo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=IoePPTqHMOpC1dpp3czA6xYAaLAwjeVIGI15ai/4sO5xEEE86Lepk7EswgDPmzli+EbBg4OCsXG/x1SVM2rgEHCLfdDZBumEphy2CDhk7jQhEv3mKBFL9vtRIZfnqCJqMqrYGs7BXu+BHSntzhQsH754XB/AjvsisOCIVIJk9iQ=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D876CDA7;
-	Sun,  4 Feb 2024 01:33:50 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D78511FB;
+	Sun,  4 Feb 2024 01:44:56 -0800 (PST)
 Received: from e110479.fosdem.net (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8DACA3F738;
-	Sun,  4 Feb 2024 01:33:05 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2643D3F738;
+	Sun,  4 Feb 2024 01:44:11 -0800 (PST)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Chen-Yu Tsai <wens@csie.org>,
@@ -29,12 +28,10 @@ Cc: linux-sunxi@lists.linux.dev,
 	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	Nick Alilovic <nickalilovic@gmail.com>
-Subject: [PATCH 1/2] arm64: dts: allwinner: h616: Add 32K fanout pin
-Date: Sun,  4 Feb 2024 10:32:54 +0100
-Message-Id: <20240204093255.148972-2-andre.przywara@arm.com>
+Subject: [PATCH 0/3] arm64: dts: allwinner: Add Remix Mini PC support
+Date: Sun,  4 Feb 2024 10:44:01 +0100
+Message-Id: <20240204094404.149776-1-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240204093255.148972-1-andre.przywara@arm.com>
-References: <20240204093255.148972-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -43,32 +40,35 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On some boards the designers saved on a 32KHz crystal for some external
-chips, so the SoC has to help out, with providing a 32 KHz clock signal.
+These are the DT support patches for the Jide Remix Mini PC, a now
+somewhat dated Mini-PC, once shipped with some kind of desktop Android OS.
+It sports an Allwinner H64 SoC, which is basically the same as the
+venerable A64.
+To make it stick out of the crowd, the SoC has "secure boot" enabled,
+which just means it needs a different (signed) boot code package, already
+supported by mainline U-Boot. Fortunately there is no public key burned
+into the SoC, so any key can be used: the U-Boot build system will just
+make one up.
+Apart from Ethernet (blocked by the AC200 PHY) everything should work,
+including WiFi and Bluetooth.
 
-Add a pinctrl group node to allow DT nodes to reference this fanout signal.
+Please have a look!
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi | 5 +++++
- 1 file changed, 5 insertions(+)
+Cheers,
+Andre
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-index d549d277d972..107256eeedc3 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-@@ -256,6 +256,11 @@ uart1_rts_cts_pins: uart1-rts-cts-pins {
- 				pins = "PG8", "PG9";
- 				function = "uart1";
- 			};
-+
-+			x32clk_fanout_pin: x32clk-fanout-pin {
-+				pins = "PG10";
-+				function = "clock";
-+			};
- 		};
- 
- 		gic: interrupt-controller@3021000 {
+Andre Przywara (3):
+  dt-bindings: vendor-prefixes: add Jide
+  dt-bindings: arm: sunxi: document Remix Mini PC name
+  arm64: dts: allwinner: Add Jide Remix Mini PC support
+
+ .../devicetree/bindings/arm/sunxi.yaml        |   6 +
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+ .../allwinner/sun50i-h64-remix-mini-pc.dts    | 357 ++++++++++++++++++
+ 4 files changed, 366 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h64-remix-mini-pc.dts
+
 -- 
 2.25.1
 
