@@ -1,353 +1,511 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D86E2482C4
-	for <linux-sunxi@lists.linux.dev>; Mon,  5 Feb 2024 18:19:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAE2747F7E
+	for <linux-sunxi@lists.linux.dev>; Mon,  5 Feb 2024 18:20:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707157171; cv=none; b=c1QgbCBZpuftig5FuMEYcxHbjxRH7ziRIGuK+ktR519NnBNJcBM0v45Knqj4IBiCwXGtYXTmp0iCyWmMXkv6k4xpDyNWnYS11jVOIwTUTU+Azh2PFO+mRpVPEn2P0vmt4lF2e5A+mVKqJSllVMjY2ECs9qhiemX+q2xfs2J0euU=
+	t=1707157229; cv=none; b=PQbzRZf/tTXCaHVIknMqjMf8BtZr5rsQLBTvwGLn5rtAEKzs+0M7qQuYLdXxfpUerJdAr4X3sFTOwHoVmEL4ciKeenGGNm+1dYrSjbHCfPB+OVxvfSqELf28uza+osPpjaTnIfRdw3lvHVMldY/6Z6aGKc/UqOvmNxfpr+hpshQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707157171; c=relaxed/simple;
-	bh=+P+qPlYuTeLCtW+mmcby2FaMme9ZUNZW7IRET4gjDAo=;
+	s=arc-20240116; t=1707157229; c=relaxed/simple;
+	bh=27DTfQWOWo+WN4QsBhsd/VH5DgNn9hGpY6TtVrq/q2Y=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ebtqe3xKXg9a4wuuLrG0ZqHb+Cr3OjxaYurO2P1k3iUG+v1fNS01qvw7V/bdu8TXt6RxBuDDA4TOZeZVniXif4B8yVzkUghZMPtakEgcvPHAgnGXWaaLlMlCm9J1d2Y/dPBpg7e/eXTfzM5RBYr8QgBQeq0lye9e2PHQdGS9Ky0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XSSiAu8O; arc=none smtp.client-ip=209.85.128.48
+	 MIME-Version:Content-Type; b=pDVR6chDjHJ0WvEmUEnNCwb9yNATS7H0+3nLTXv3SCyNPmLSzWo5XoZlD3bT4W/2ltAJaoUN3VPYweIADv9BEruI3YenD8k39bZGR/2r0tJ0YX82xPg1k3P0P8ug6u20DnZLY0TUrVpOi4G5S5fPMWwg/7MgY7tDdsu0nq2X8Tg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lxiw2qbV; arc=none smtp.client-ip=209.85.221.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XSSiAu8O"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-40fddfa471eso6527895e9.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 05 Feb 2024 10:19:29 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lxiw2qbV"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-33b28aadb28so1759784f8f.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 05 Feb 2024 10:20:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707157168; x=1707761968; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1707157226; x=1707762026; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Tl2UzEjkzo1QPJOGDvjG5TFdzH6mpQsNz0R5bRctIRI=;
-        b=XSSiAu8OJsGQTNUoV4XvFohwkI22Lq/1sG1qQ9d9Te5mvs/CBiYl2On9yS9kbxNagR
-         r/eDf61NMqGhP/hBBrX4FzO/jr8z5g6t16cPFobAbdUr/ieF0jMzdsCje6Bts1q1Mgoe
-         nkdM3UaBOGppcADDCocG23JFytedR3y8yBbARAIMbNAuzFEUCjsKS3g3gJAxJz0yDZCX
-         qSA6TQFl2No3XuB2UdlNFw2TQahg5LcMbs2mQCwmBhpi5WQwhqciAcY8wDREmmCpN0qO
-         fnF19Jg30YJaYptFtZUGdc6NjAxY6rkrduoRaW86uZYl9RTVqN5ARHodrc9qfnoggdhN
-         Vpug==
+        bh=wDaMto9AgVUOhIc9xou59hHctT3KVbNxCfT1U4jYVww=;
+        b=lxiw2qbVWKXl9iEP+TPQ+NAtyNeSXNzwCq1ZJAjA1o3Y0Z122XQwaPZ8B+HJuOdDar
+         ts3gWbt+adzTNmFTyz9XuVBjl5Ex/AMW8QdxGNiM1nNsYmd9TTHjCjJsFvxwnWO0TwBW
+         IMrYv6jiu925AiRREU8hiQPDTOt5mUrIY9aScMN/a7vHXSbvnDDbu3OeskDVX2eVsg9O
+         YdRNcWw7pisvLemyXw1qEUtIUlDA5A4BFqbDMcKeDjCEECaNwA45WFuYLuNb6X48a5PC
+         7pJoQjk1Wp4kSBCnqbWaq3Y00cMmwvAYef0s8Y/91vTzb+QcrqlLN1qxBr/F6Onya8Z9
+         kTlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707157168; x=1707761968;
+        d=1e100.net; s=20230601; t=1707157226; x=1707762026;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Tl2UzEjkzo1QPJOGDvjG5TFdzH6mpQsNz0R5bRctIRI=;
-        b=uKfmqDqYNrMHUddyYiXB5pA4V2c2Ki4XIwr+0brglMIBOFcjo9KVeJvNKAp6ITfEbV
-         02RySi2/XgtxgL0tKGqr9h8LPHIcX+PQcVG/rBnt4C2I4oxJa68lG0Hrw9A/WKgp0GCd
-         2zF5laKf4eJoXC/aA6xbHy+cWs8vp1qCsp+8XN5XrHZqsJzb7XYoZrrIuUf/M9woX7uX
-         l423pGOjzzm0+Y7e2zHRNsu3UT7Rz58GaB3do+3sSEv046ilSmaRsG/mMNQ9XgC/iBwD
-         VRjqQQjD5Bkcl2mDvh3mjtiCOwmkfBjmbPz3qukhic8j1IyFs/4cY0Ag/3cTdzSGmUaS
-         my0g==
-X-Gm-Message-State: AOJu0YwbFY1kwNlzyQnKCMX4YpNuBDLRwr4qMryBDSb6qvOJC3Pmsz9H
-	5puezt88luLdPXswK4HPWKkm3az9Vrhjl7Ua71boNFd+BQwoCjDg
-X-Google-Smtp-Source: AGHT+IFCvu6Zud4FBiv/6Bz9MbuE7b7OKn09apu5NqSBui15GolYDQzrvFb4IIwGfmS/JTJ9TSjgsg==
-X-Received: by 2002:a05:600c:6b01:b0:40e:85fe:af82 with SMTP id jn1-20020a05600c6b0100b0040e85feaf82mr463300wmb.24.1707157168023;
-        Mon, 05 Feb 2024 10:19:28 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCXX4+PeySSQ2Ij6oxfS9MbJmrj4dSGwblsHwGh/qQuPpXvpsv69j2429k4V69bqDoJH7xsz5VF66j5MOXqzrw4cV6f0L44HB4YIJW2M4ktSTlO/fWe761AVd84ioDhm1MdDCeBdxFcjRCvvPWESf1hNqaP+EnjYBDPa4h+xmeWiAOA6Mcjq4yHIpIzWsCipoNxGn5M3mbHxy8dn6N+YJJWdkwCVYjANZAu4yg2/Dtlv/yLh3msEOJ8lM720tvWE/ru0sNwqtTPABuWi6haocWmcHOUcejjhRwJG+8FEKdGmwoPjXP3xMvSEu5lU4Wx0hIue35BL9tO0nbk=
+        bh=wDaMto9AgVUOhIc9xou59hHctT3KVbNxCfT1U4jYVww=;
+        b=ruj0vGSCZ0Iyi81N5UMIr5UHCzHa2byfEFFggXMFo8l2XhN4M+8XR3wkwu3Snvyy96
+         QS9myzGo1mKelO41edI+rIs3FfDGel+tjh78aki5nl2fA4seUsKN4C51l1lBXzibR1UI
+         ImxjqqRzb3KM3jYkNgRPIRt0z8HkIGERsI1X3XKLVDbbDPHSmVViH5ahF69LQRt9Nxfs
+         tozYLIg+ERz2n8xSMUG61kzcrjJz2yiB+kocteOROfKbPpumMtQTKPkoOhqvfpA+j1x1
+         k7jm5vKOPefB3nNWQ4DkL2F5o2VbH2apYpS8scTTtYG+dMs4VP/tFgqBiZF8gmDoqUyE
+         d7EA==
+X-Gm-Message-State: AOJu0YwxuMCtMFkaihTjNJiWsC1x5O3NOOv+lfKXJ5QZIvQ9A4reAihU
+	gOD0hw7DtEPkYnDpWQVU5n/xq7SK2OHSNZTCiQCZLYXnyPnWqyEH
+X-Google-Smtp-Source: AGHT+IHqlecHvpa4azmwxGOdmBoAoJtWGFX60kFQ6ZFm6Yn10csIJL7HFATZNo7/6C9DERRLwGKmZw==
+X-Received: by 2002:a5d:5089:0:b0:33a:ed85:f232 with SMTP id a9-20020a5d5089000000b0033aed85f232mr189023wrt.56.1707157226023;
+        Mon, 05 Feb 2024 10:20:26 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCU356WRKo+dw5FpSmBHk8VEtt3zpqXra/3je0UBI3+fhYEsa7vyZqfkwjDerlW9tIQttzNqQ60HCtbIJ4KYE1BkSzSviDlls6pP8Y5RqTKs0uTp2iF1U/waOpTt57KxStDelSXhWTd+mZYa5UivQRaVyeN71BjZvuvjDdXCYB2caD1qLqOqW4/8i2Jm2aUMiokb7uR7Fg5MaKfH8xkb4JzpT+1AUbXHV/dGk5MztgN7U+xKjs3tdOzvbG7zCA8UauaWBxHxv5S6lmb9ivXNak7VPYH8nHeRtdIXMXt+EzouzlEuz8/D1MI7nx2lFux65zK2MKMbhoMKYDinkgq6aenNqg==
 Received: from jernej-laptop.localnet (82-149-13-182.dynamic.telemach.net. [82.149.13.182])
-        by smtp.gmail.com with ESMTPSA id o13-20020a05600c4fcd00b0040fccf7e8easm9123188wmq.36.2024.02.05.10.19.27
+        by smtp.gmail.com with ESMTPSA id v17-20020a05600c471100b0040d8ff79fd8sm604834wmo.7.2024.02.05.10.20.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Feb 2024 10:19:27 -0800 (PST)
+        Mon, 05 Feb 2024 10:20:25 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>, Andre Przywara <andre.przywara@arm.com>
 Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Icenowy Zheng <uwu@icenowy.me>
-Subject:
- Re: [PATCH v2 2/2] arm64: dts: allwinner: h618: add BananaPi M4 Berry board
-Date: Mon, 05 Feb 2024 19:19:26 +0100
-Message-ID: <22174359.EfDdHjke4D@jernej-laptop>
-In-Reply-To: <20240204101054.152012-3-andre.przywara@arm.com>
+ linux-arm-kernel@lists.infradead.org, Nick Alilovic <nickalilovic@gmail.com>
+Subject: Re: [PATCH 3/3] arm64: dts: allwinner: Add Jide Remix Mini PC support
+Date: Mon, 05 Feb 2024 19:20:24 +0100
+Message-ID: <3788758.kQq0lBPeGt@jernej-laptop>
+In-Reply-To: <3280179.44csPzL39Z@jernej-laptop>
 References:
- <20240204101054.152012-1-andre.przywara@arm.com>
- <20240204101054.152012-3-andre.przywara@arm.com>
+ <20240204094404.149776-1-andre.przywara@arm.com>
+ <20240204094404.149776-4-andre.przywara@arm.com>
+ <3280179.44csPzL39Z@jernej-laptop>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-Dne nedelja, 04. februar 2024 ob 11:10:54 CET je Andre Przywara napisal(a):
-> The BananaPi M4 Berry is a development board using the Allwinner H618
-> SoC. It comes with the following specs:
-> 	- Allwinner H618 SoC (4 * Arm Cortex-A53 cores, 1MB L2 cache)
-> 	- 2 GiB LPDDR4 DRAM
-> 	- 8 GiB eMMC flash
-> 	- AXP313a PMIC
-> 	- Gigabit Ethernet, using RTL8211 PHY
-> 	- RTL8821CU USB WiFi chip
-> 	- HDMI port
-> 	- 4 * USB 2.0 ports, via an on-board hub chip
-> 	- microSD card slot
-> 	- 3.5mm A/V port
-> 	- power supply and USB-OTG via USB-C connector
-> 
-> Add a devicetree file describing the components that we already have
-> bindings for, that excludes audio and video at the moment.
-> 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  arch/arm64/boot/dts/allwinner/Makefile        |   1 +
->  .../sun50i-h618-bananapi-m4-berry.dts         | 223 ++++++++++++++++++
->  2 files changed, 224 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h618-bananapi-m4-berry.dts
-> 
-> diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
-> index 2db3b15ad09f..1c5c204a109b 100644
-> --- a/arch/arm64/boot/dts/allwinner/Makefile
-> +++ b/arch/arm64/boot/dts/allwinner/Makefile
-> @@ -43,5 +43,6 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-bigtreetech-cb1-manta.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-bigtreetech-pi.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-orangepi-zero2.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-x96-mate.dtb
-> +dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-bananapi-m4-berry.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero3.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-transpeed-8k618-t.dtb
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-bananapi-m4-berry.dts b/arch/arm64/boot/dts/allwinner/sun50i-h618-bananapi-m4-berry.dts
-> new file mode 100644
-> index 000000000000..a3f8ff75db42
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-bananapi-m4-berry.dts
-> @@ -0,0 +1,223 @@
-> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> +/*
-> + * Copyright (C) 2023 Arm Ltd.
-> + */
-> +
-> +/dts-v1/;
-> +
-> +#include "sun50i-h616.dtsi"
-> +
-> +#include <dt-bindings/gpio/gpio.h>
-> +#include <dt-bindings/input/linux-event-codes.h>
-> +#include <dt-bindings/interrupt-controller/arm-gic.h>
-> +#include <dt-bindings/leds/common.h>
-> +
-> +/ {
-> +	model = "BananaPi M4 Berry";
-> +	compatible = "sinovoip,bananapi-m4-berry", "allwinner,sun50i-h618";
-> +
-> +	aliases {
-> +		ethernet0 = &emac0;
-> +		serial0 = &uart0;
-> +	};
-> +
-> +	chosen {
-> +		stdout-path = "serial0:115200n8";
-> +	};
-> +
-> +	leds {
-> +		compatible = "gpio-leds";
-> +
-> +		led-0 {
-> +			function = LED_FUNCTION_STATUS;
-> +			color = <LED_COLOR_ID_GREEN>;
-> +			gpios = <&pio 2 12 GPIO_ACTIVE_LOW>; /* PC12 */
-> +		};
-> +	};
-> +
-> +	gpio-keys {
-> +		compatible = "gpio-keys";
-> +
-> +		key-sw3 {
-> +			label = "sw3";
-> +			linux,code = <BTN_0>;
-> +			gpios = <&pio 2 7 GPIO_ACTIVE_LOW>;	/* PC7 */
-> +		};
-> +	};
-> +
-> +	reg_vcc5v: regulator-5v {
-> +		/* board wide 5V supply directly from the USB-C socket */
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "vcc-5v";
-> +		regulator-min-microvolt = <5000000>;
-> +		regulator-max-microvolt = <5000000>;
-> +		regulator-always-on;
-> +	};
-> +
-> +	reg_usb_vbus: regulator-usb-vbus {
-> +		/* separate discrete regulator for the USB ports */
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "usb-vbus";
-> +		regulator-min-microvolt = <5000000>;
-> +		regulator-max-microvolt = <5000000>;
-> +		vin-supply = <&reg_vcc5v>;
-> +	};
-> +
-> +	reg_3v3: regulator-3v3 {
-> +		/* separate discrete regulator for WiFi and Ethernet PHY */
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "vcc-3v3";
-> +		regulator-min-microvolt = <3300000>;
-> +		regulator-max-microvolt = <3300000>;
-> +		vin-supply = <&reg_vcc5v>;
-> +	};
-> +};
-> +
-> +&cpu0 {
-> +	cpu-supply = <&reg_dcdc2>;
-> +};
-> +
-> +/* Connected to an on-board RTL8821CU USB WiFi chip. */
-> +&ehci1 {
-> +	status = "okay";
-> +};
-> +
-> +/* EHCI2 is on unpopulated pins */
-> +
-> +/* Connected to an on-board FE1.1s USB hub chip, supplying 4 USB-A ports. */
-> +&ehci3 {
-> +	status = "okay";
-> +};
-> +
-> +&emac0 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&ext_rgmii_pins>;
-> +	phy-mode = "rgmii";
-> +	phy-handle = <&ext_rgmii_phy>;
-> +	phy-supply = <&reg_3v3>;
-> +	allwinner,rx-delay-ps = <3100>;
-> +	allwinner,tx-delay-ps = <700>;
-> +	status = "okay";
-> +};
-> +
-> +&ir {
-> +	status = "okay";
-> +};
-> +
-> +&mdio0 {
-> +	ext_rgmii_phy: ethernet-phy@1 {
-> +		compatible = "ethernet-phy-ieee802.3-c22";
-> +		reg = <1>;
-> +		reset-gpios = <&pio 8 16 GPIO_ACTIVE_LOW>;	/* PI16 */
-> +	};
-> +};
-> +
-> +&mmc0 {
-> +	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>;	/* PF6 */
-> +	vmmc-supply = <&reg_dldo1>;
-> +	bus-width = <4>;
-> +	status = "okay";
-> +};
-> +
-> +&mmc2 {
-> +	vmmc-supply = <&reg_dldo1>;
-> +	vqmmc-supply = <&reg_aldo1>;
-> +	bus-width = <8>;
-> +	non-removable;
-> +	cap-mmc-hw-reset;
-> +	mmc-ddr-1_8v;
+Dne ponedeljek, 05. februar 2024 ob 19:12:45 CET je Jernej =C5=A0krabec nap=
+isal(a):
+> Hi Andre!
+>=20
+> Dne nedelja, 04. februar 2024 ob 10:44:04 CET je Andre Przywara napisal(a=
+):
+> > The Remix Mini PC is a "mini computer" using the Allwinner H64 SoC,
+> > which appears to be just a relabelled A64. It was launched in 2015 by
+> > the now defunct company Jide, and shipped with a desktop optimised
+> > version of Android. It features
+> > 	- Allwinner H64 Soc (4 * Arm Cortex-A53 cores)
+> > 	- 1 or 2 GB DRAM
+> > 	- 8 or 16 GB eMMC flash
+> > 	- 100 MBit Ethernet port (using an X-Powers AC200 PHY)
+> > 	- RTL8723BS WiFi & Bluetooth chip
+> > 	- HDMI port
+> > 	- two USB 2.0 ports
+> > 	- 3.5mm AV port
+> > 	- microSD card slot
+> >=20
+> > The devicetree covers most peripherals, though there is no agreed
+> > binding for the PHY chip yet, so this is left out.
+> >=20
+> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > ---
+> >  arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+> >  .../allwinner/sun50i-h64-remix-mini-pc.dts    | 357 ++++++++++++++++++
+> >  2 files changed, 358 insertions(+)
+> >  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h64-remix-mini=
+=2Dpc.dts
+> >=20
+> > diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/d=
+ts/allwinner/Makefile
+> > index 91d505b385de..2db3b15ad09f 100644
+> > --- a/arch/arm64/boot/dts/allwinner/Makefile
+> > +++ b/arch/arm64/boot/dts/allwinner/Makefile
+> > @@ -16,6 +16,7 @@ dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-a64-pinetab.dtb
+> >  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-a64-pinetab-early-adopter.dtb
+> >  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-a64-sopine-baseboard.dtb
+> >  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-a64-teres-i.dtb
+> > +dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h64-remix-mini-pc.dtb
+> >  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-a100-allwinner-perf1.dtb
+> >  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h5-bananapi-m2-plus.dtb
+> >  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h5-bananapi-m2-plus-v1.2.dtb
+> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h64-remix-mini-pc.dts=
+ b/arch/arm64/boot/dts/allwinner/sun50i-h64-remix-mini-pc.dts
+> > new file mode 100644
+> > index 000000000000..537923a541a8
+> > --- /dev/null
+> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h64-remix-mini-pc.dts
+> > @@ -0,0 +1,357 @@
+> > +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> > +// Copyright (c) 2018 ARM Ltd.
+>=20
+> Shouldn't be 2024?
+>=20
+> > +
+> > +/dts-v1/;
+> > +
+> > +#include "sun50i-a64.dtsi"
+> > +#include "sun50i-a64-cpu-opp.dtsi"
+> > +
+> > +#include <dt-bindings/gpio/gpio.h>
+> > +
+> > +/ {
+> > +	model =3D "Remix Mini PC";
+> > +	compatible =3D "jide,remix-mini-pc", "allwinner,sun50i-h64",
+> > +		     "allwinner,sun50i-a64";
+> > +
+> > +	aliases {
+> > +		ethernet1 =3D &rtl8723bs;
+> > +		serial0 =3D &uart0;
+> > +	};
+> > +
+> > +	chosen {
+> > +		stdout-path =3D "serial0:115200n8";
+> > +	};
+> > +
+> > +	hdmi-connector {
+> > +		compatible =3D "hdmi-connector";
+> > +		type =3D "a";
+> > +
+> > +		port {
+> > +			hdmi_con_in: endpoint {
+> > +				remote-endpoint =3D <&hdmi_out_con>;
+> > +			};
+> > +		};
+> > +	};
+> > +
+> > +	reg_vcc5v: regulator-5v {
+> > +		/* board wide 5V supply directly from the DC input */
+> > +		compatible =3D "regulator-fixed";
+> > +		regulator-name =3D "vcc-5v";
+> > +		regulator-min-microvolt =3D <5000000>;
+> > +		regulator-max-microvolt =3D <5000000>;
+> > +		regulator-always-on;
+> > +	};
+> > +
+> > +	wifi_pwrseq: wifi_pwrseq {
+> > +		compatible =3D "mmc-pwrseq-simple";
+> > +		pinctrl-names =3D "default";
+> > +		reset-gpios =3D <&r_pio 0 2 GPIO_ACTIVE_LOW>; /* PL2 */
+> > +		post-power-on-delay-ms =3D <200>;
+> > +	};
+> > +};
+> > +
+> > +&codec {
+> > +	status =3D "okay";
+> > +};
+> > +
+> > +&codec_analog {
+> > +	cpvdd-supply =3D <&reg_eldo1>;
+> > +	status =3D "okay";
+> > +};
+> > +
+> > +&cpu0 {
+> > +	cpu-supply =3D <&reg_dcdc2>;
+> > +};
+> > +
+> > +&cpu1 {
+> > +	cpu-supply =3D <&reg_dcdc2>;
+> > +};
+> > +
+> > +&cpu2 {
+> > +	cpu-supply =3D <&reg_dcdc2>;
+> > +};
+> > +
+> > +&cpu3 {
+> > +	cpu-supply =3D <&reg_dcdc2>;
+> > +};
+> > +
+> > +&dai {
+> > +	status =3D "okay";
+> > +};
+> > +
+> > +&de {
+> > +	status =3D "okay";
+> > +};
+> > +
+> > +&ehci0 {
+> > +	status =3D "okay";
+> > +};
+> > +
+> > +&ehci1 {
+> > +	status =3D "okay";
+> > +};
+> > +
+> > +&hdmi {
+> > +	hvcc-supply =3D <&reg_dldo1>;
+> > +	status =3D "okay";
+> > +};
+> > +
+> > +&hdmi_out {
+> > +	hdmi_out_con: endpoint {
+> > +		remote-endpoint =3D <&hdmi_con_in>;
+> > +	};
+> > +};
+> > +
+> > +/* Connects to the AC200 chip */
+> > +&i2c0 {
+> > +	pinctrl-names =3D "default";
+> > +	pinctrl-0 =3D <&i2c0_pins>;
+> > +	status =3D "okay";
+> > +};
+> > +
+> > +&i2c0_pins {
+> > +	bias-pull-up;
+> > +};
+> > +
+> > +&mmc0 {
+> > +	pinctrl-names =3D "default";
+> > +	pinctrl-0 =3D <&mmc0_pins>;
+> > +	vmmc-supply =3D <&reg_dcdc1>;
+> > +	cd-gpios =3D <&pio 5 6 GPIO_ACTIVE_LOW>;
+> > +	disable-wp;
+> > +	bus-width =3D <4>;
+> > +	status =3D "okay";
+> > +};
+> > +
+> > +&mmc1 {
+> > +	pinctrl-names =3D "default";
+> > +	pinctrl-0 =3D <&mmc1_pins>;
+> > +	vmmc-supply =3D <&reg_aldo1>;
+> > +	vqmmc-supply =3D <&reg_dldo4>;
+> > +	mmc-pwrseq =3D <&wifi_pwrseq>;
+> > +	bus-width =3D <4>;
+> > +	non-removable;
+> > +	status =3D "okay";
+> > +
+> > +	rtl8723bs: wifi@1 {
+> > +		reg =3D <1>;
+> > +		interrupt-parent =3D <&r_pio>;
+> > +		interrupts =3D <0 3 IRQ_TYPE_LEVEL_LOW>; /* PL3 */
+> > +		interrupt-names =3D "host-wake";
+> > +	};
+>=20
+> Node without compatible doesn't help. Please remove it.
+>=20
+> > +};
+> > +
+> > +&mmc2 {
+> > +	pinctrl-names =3D "default";
+> > +	pinctrl-0 =3D <&mmc2_pins>, <&mmc2_ds_pin>;
+> > +	vmmc-supply =3D <&reg_dcdc1>;
+> > +	vqmmc-supply =3D <&reg_eldo1>;
+> > +	bus-width =3D <8>;
+> > +	non-removable;
+> > +	mmc-ddr-1_8v;
+> > +	mmc-hs200-1_8v;
+>=20
+> Aren't these speed modes enabled by default?
 
-This one should be dropped.
+Sorry, mmc-hs200-1_8v is ok, but mmc-ddr-1_8v should be
+removed.
 
 Best regards,
 Jernej
 
-> +	mmc-hs200-1_8v;
-> +	status = "okay";
-> +};
-> +
-> +/* USB ports 1 and 3 connect to onboard devices that are high-speed only. */
-> +
-> +/* OHCI2 is on unpopulated pins */
-> +
-> +&pio {
-> +	vcc-pc-supply = <&reg_aldo1>;
-> +	vcc-pf-supply = <&reg_dldo1>;
-> +	vcc-pg-supply = <&reg_dldo1>;
-> +	vcc-ph-supply = <&reg_dldo1>;
-> +	vcc-pi-supply = <&reg_dldo1>;
-> +};
-> +
-> +&r_i2c {
-> +	status = "okay";
-> +
-> +	axp313: pmic@36 {
-> +		compatible = "x-powers,axp313a";
-> +		reg = <0x36>;
-> +		#interrupt-cells = <1>;
-> +		interrupt-controller;
-> +		interrupt-parent = <&pio>;
-> +
-> +		vin1-supply = <&reg_vcc5v>;
-> +		vin2-supply = <&reg_vcc5v>;
-> +		vin3-supply = <&reg_vcc5v>;
-> +
-> +		regulators {
-> +			reg_aldo1: aldo1 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <1800000>;
-> +				regulator-max-microvolt = <1800000>;
-> +				regulator-name = "vcc-1v8-pll";
-> +			};
-> +
-> +			reg_dldo1: dldo1 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <3300000>;
-> +				regulator-max-microvolt = <3300000>;
-> +				regulator-name = "vcc-3v3-io";
-> +			};
-> +
-> +			reg_dcdc1: dcdc1 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <810000>;
-> +				regulator-max-microvolt = <990000>;
-> +				regulator-name = "vdd-gpu-sys";
-> +			};
-> +
-> +			reg_dcdc2: dcdc2 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <810000>;
-> +				regulator-max-microvolt = <1100000>;
-> +				regulator-name = "vdd-cpu";
-> +			};
-> +
-> +			reg_dcdc3: dcdc3 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <1100000>;
-> +				regulator-max-microvolt = <1100000>;
-> +				regulator-name = "vdd-dram";
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&uart0 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&uart0_ph_pins>;
-> +	status = "okay";
-> +};
-> +
-> +&usbotg {
-> +	/*
-> +	 * PHY0 pins are connected to a USB-C socket, but a role switch is not
-> +	 * implemented: both CC pins are pulled to GND via a 5.1K resistor.
-> +	 * The VBUS pins power the device, so a fixed peripheral mode
-> +	 * is the best choice.
-> +	 * The board can be powered via GPIOs, in this case port0 *can*
-> +	 * act as a host (with a cable/adapter ignoring CC), as VBUS is
-> +	 * then provided by the GPIOs. Any user of this setup would
-> +	 * need to adjust the DT accordingly: dr_mode set to "host",
-> +	 * enabling OHCI0 and EHCI0.
-> +	 */
-> +	dr_mode = "peripheral";
-> +	status = "okay";
-> +};
-> +
-> +&usbphy {
-> +	usb3_vbus-supply = <&reg_usb_vbus>;
-> +	status = "okay";
-> +};
-> 
+> > +	cap-mmc-hw-reset;
+> > +	status =3D "okay";
+> > +};
+> > +
+> > +&ohci0 {
+> > +	status =3D "okay";
+> > +};
+> > +
+> > +&ohci1 {
+> > +	status =3D "okay";
+> > +};
+> > +
+> > +&pio {
+> > +	vcc-pb-supply =3D <&reg_dcdc1>;
+> > +	vcc-pc-supply =3D <&reg_dcdc1>;
+> > +	vcc-pd-supply =3D <&reg_dcdc1>;
+> > +	vcc-pe-supply =3D <&reg_dcdc1>;
+> > +	vcc-pf-supply =3D <&reg_dcdc1>;
+> > +	vcc-pg-supply =3D <&reg_dldo4>;
+> > +	vcc-ph-supply =3D <&reg_dcdc1>;
+> > +};
+> > +
+> > +&r_ir {
+> > +	status =3D "okay";
+> > +};
+> > +
+> > +&r_pio {
+> > +	/*
+> > +	 * We cannot add that supply for now since it would create a circular
+> > +	 * dependency between pinctrl, the regulator and the RSB Bus.
+> > +	 *
+> > +	 * vcc-pl-supply =3D <&reg_aldo2>;
+> > +	 */
+> > +};
+> > +
+> > +&r_rsb {
+> > +	status =3D "okay";
+> > +
+> > +	axp803: pmic@3a3 {
+> > +		compatible =3D "x-powers,axp803";
+> > +		reg =3D <0x3a3>;
+> > +		interrupt-parent =3D <&r_intc>;
+> > +		interrupts =3D <GIC_SPI 0 IRQ_TYPE_LEVEL_LOW>;
+> > +		x-powers,drive-vbus-en;
+> > +
+> > +		vin1-supply =3D <&reg_vcc5v>;
+> > +		vin2-supply =3D <&reg_vcc5v>;
+> > +		vin3-supply =3D <&reg_vcc5v>;
+> > +		vin5-supply =3D <&reg_vcc5v>;
+> > +		vin6-supply =3D <&reg_vcc5v>;
+> > +		aldoin-supply =3D <&reg_vcc5v>;
+> > +		dldoin-supply =3D <&reg_vcc5v>;
+> > +		eldoin-supply =3D <&reg_vcc5v>;
+> > +		fldoin-supply =3D <&reg_vcc5v>;
+> > +		drivevbus-supply =3D <&reg_vcc5v>;
+> > +		ips-supply =3D <&reg_vcc5v>;
+> > +
+> > +		status =3D "okay";
+> > +	};
+> > +};
+> > +
+> > +#include "axp803.dtsi"
+> > +
+> > +&ac_power_supply {
+> > +	status =3D "okay";
+> > +};
+> > +
+> > +&reg_dcdc1 {
+> > +	regulator-always-on;
+> > +	regulator-min-microvolt =3D <3300000>;
+> > +	regulator-max-microvolt =3D <3300000>;
+> > +	regulator-name =3D "vcc-3v3";
+> > +};
+> > +
+> > +&reg_dcdc2 {
+> > +	regulator-always-on;
+> > +	regulator-min-microvolt =3D <1040000>;
+> > +	regulator-max-microvolt =3D <1300000>;
+> > +	regulator-name =3D "vdd-cpux";
+> > +};
+> > +
+> > +/* DCDC3 is polyphased with DCDC2 */
+> > +
+> > +&reg_dcdc5 {
+> > +	regulator-always-on;
+> > +	regulator-min-microvolt =3D <1500000>;
+> > +	regulator-max-microvolt =3D <1500000>;
+> > +	regulator-name =3D "vcc-dram";
+> > +};
+> > +
+> > +/* Deviates from the reset default of 1.1V. */
+> > +&reg_dcdc6 {
+> > +	regulator-always-on;
+> > +	regulator-min-microvolt =3D <1200000>;
+> > +	regulator-max-microvolt =3D <1200000>;
+> > +	regulator-name =3D "vdd-sys";
+> > +};
+> > +
+> > +&reg_aldo1 {
+> > +	regulator-min-microvolt =3D <3300000>;
+> > +	regulator-max-microvolt =3D <3300000>;
+> > +	regulator-name =3D "vcc-wifi";
+> > +};
+> > +
+> > +&reg_aldo2 {
+> > +	/* Specifying R_PIO consumer would create circular dependency. */
+> > +	regulator-always-on;
+> > +	regulator-min-microvolt =3D <3300000>;
+> > +	regulator-max-microvolt =3D <3300000>;
+> > +	regulator-name =3D "vcc-pl";
+> > +};
+> > +
+> > +&reg_aldo3 {
+> > +	regulator-always-on;
+> > +	regulator-min-microvolt =3D <3000000>;
+> > +	regulator-max-microvolt =3D <3000000>;
+> > +	regulator-name =3D "vcc-pll-avcc";
+> > +};
+> > +
+> > +/* AC200 power supply */
+> > +&reg_dldo1 {
+> > +	regulator-always-on;
+> > +	regulator-min-microvolt =3D <3300000>;
+> > +	regulator-max-microvolt =3D <3300000>;
+> > +	regulator-name =3D "vcc-ave-33";
+> > +};
+> > +
+> > +&reg_dldo4 {
+> > +	regulator-min-microvolt =3D <3300000>;
+> > +	regulator-max-microvolt =3D <3300000>;
+> > +	regulator-name =3D "vcc-wifi-io";
+> > +};
+> > +
+> > +&reg_drivevbus {
+> > +	regulator-name =3D "usb0-vbus";
+> > +	status =3D "okay";
+> > +};
+> > +
+> > +&reg_eldo1 {
+> > +	regulator-always-on;
+> > +	regulator-min-microvolt =3D <1800000>;
+> > +	regulator-max-microvolt =3D <1800000>;
+> > +	regulator-name =3D "vcc-cpvdd-dram-emmc";
+> > +};
+> > +
+> > +/* Supplies the arisc management core, needed by TF-A to power off cor=
+es. */
+> > +&reg_fldo2 {
+> > +	regulator-always-on;
+> > +	regulator-min-microvolt =3D <1100000>;
+> > +	regulator-max-microvolt =3D <1100000>;
+> > +	regulator-name =3D "vdd-cpus";
+> > +};
+> > +
+> > +&reg_rtc_ldo {
+> > +	regulator-name =3D "vcc-rtc";
+> > +};
+> > +
+> > +&simplefb_hdmi {
+> > +	vcc-hdmi-supply =3D <&reg_dcdc1>;
+> > +};
+> > +
+> > +&sound {
+> > +	simple-audio-card,aux-devs =3D <&codec_analog>;
+> > +	simple-audio-card,widgets =3D "Microphone", "Microphone Jack",
+> > +				    "Headphone", "Headphone Jack";
+> > +	simple-audio-card,routing =3D
+> > +			"Left DAC", "DACL",
+> > +			"Right DAC", "DACR",
+> > +			"Headphone Jack", "HP",
+> > +			"ADCL", "Left ADC",
+> > +			"ADCR", "Right ADC",
+> > +			"MIC2", "Microphone Jack";
+> > +	status =3D "okay";
+> > +};
+> > +
+> > +/* On the (unpopulated) UART pads. */
+> > +&uart0 {
+> > +	pinctrl-names =3D "default";
+> > +	pinctrl-0 =3D <&uart0_pb_pins>;
+> > +	status =3D "okay";
+> > +};
+> > +
+> > +&uart1 {
+> > +	pinctrl-names =3D "default";
+> > +	pinctrl-0 =3D <&uart1_pins>, <&uart1_rts_cts_pins>;
+> > +	uart-has-rtscts;
+> > +	status =3D "okay";
+> > +
+> > +	bluetooth {
+> > +		compatible =3D "realtek,rtl8723bs-bt";
+> > +		enable-gpios =3D <&r_pio 0 4 GPIO_ACTIVE_HIGH>; /* PL4 */
+> > +		max-speed =3D <1500000>;
+> > +	};
+> > +};
+> > +
+> > +&usb_otg {
+> > +	dr_mode =3D "host";
+> > +	status =3D "okay";
+> > +};
+> > +
+> > +&usbphy {
+> > +	usb0_vbus-supply =3D <&reg_drivevbus>;
+> > +	usb1_vbus-supply =3D <&reg_drivevbus>;
+> > +	status =3D "okay";
+> > +};
+> >=20
+>=20
+>=20
+>=20
+>=20
+>=20
 
 
 
