@@ -1,188 +1,177 @@
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41FEE2E84E
-	for <linux-sunxi@lists.linux.dev>; Mon,  5 Feb 2024 16:02:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E34FD45957
+	for <linux-sunxi@lists.linux.dev>; Mon,  5 Feb 2024 17:45:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707148925; cv=none; b=mlyInoWtauKi0MJlvVgAgPbzDqpGnkNqvqMQqa0KH4NCw0DG29uCK0F5HC4cj10d44eXKDiIAB46qTsGlItjW2u74oDuAvf9cJAp+pn7fECKvSArFrco/PsbS0Y9t1aCgNCTUibsm1RQ7OEINVIqVwX26pssWlhPJ+i929tH2fg=
+	t=1707155133; cv=none; b=UAiLbNik3A9r073RR2x2Cxk63gmb8SEA4MCY90FA4/LUeGh7yTlgfEWjm2d93O8Aj6fUI/x2mRrPf5ius7LdSn+v5DbFtxyHdwNuTqxHEHA5c0M1pkyN+z1NYXq36ajpEvNVyxJhbee+X+enXg/XlL1zsge3ZM0xv9qgnBUtWZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707148925; c=relaxed/simple;
-	bh=GZ/QrUYoWHJZzCpyI+a8pGcqG7MuwYWLC0kpCm+GmS8=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZvAOSc98qqiREGc7DWiIHbT4GwzZE7k2vJRFNWt5ano0c30csu16v4Nr2ErpnU5X+RLfQJW5vKmEm65Qmo5UXCqO/NBZNrT/444YGtDtLTPR3gGiHwJFXcdyKKG+uAqYXVXy2HsJTCCColScrRPBTFPgUvTRc64v/3QkrgF0wys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=NpsUEChh; arc=none smtp.client-ip=195.181.215.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
+	s=arc-20240116; t=1707155133; c=relaxed/simple;
+	bh=q8q3Eg7TN3B/c8h/YhNFwlgyrORWB5GQFswTspm1G8Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=p98myQJAwAhLq4ClS1Jsb7qeBdv/mB/6S2wuQiGi6wEIcSIumgCbCfnVyEj2ZCtMyJZ5v+eBOoSotuoACG9ejt//h05mzSb4ylhWweAm5uPr4y45ppxJnRcLoVh7/apZ2xblY9X/Im6qrjUdK0s/0GCYOs6umuRoC19sWtH4yYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RNkhOWCd; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="NpsUEChh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
-	t=1707148921; bh=GZ/QrUYoWHJZzCpyI+a8pGcqG7MuwYWLC0kpCm+GmS8=;
-	h=Date:From:To:Subject:X-My-GPG-KeyId:References:From;
-	b=NpsUEChhU9gd0quVquwhz9BL0um6DVapV5Mpz54Q+Os7uRpbtYhVgr75LFVW2Bjyb
-	 ije6tg/et7yVyZFkIjdB8luezZ7HJjEFWin1TfEiHXvuoYIvbxuAwxvrUcajFG3REK
-	 oUWXa9jHrNJByezx0xWEofG1Q7rMawy675GqnhhA=
-Date: Mon, 5 Feb 2024 17:02:00 +0100
-From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
-To: Frank Oltmanns <frank@oltmanns.dev>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Guido =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>, Purism Kernel Team <kernel@puri.sm>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
-	Sam Ravnborg <sam@ravnborg.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Conor Dooley <conor+dt@kernel.org>, linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 0/6] Pinephone video out fixes (flipping between two
- frames)
-Message-ID: <bgyyemyi4shj3spo6qy4icvk56nrp5sihnzqurnozqdyktwugc@ikurx4ojoxpi>
-Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, 
-	Frank Oltmanns <frank@oltmanns.dev>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Guido =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>, Purism Kernel Team <kernel@puri.sm>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
-	Sam Ravnborg <sam@ravnborg.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Conor Dooley <conor+dt@kernel.org>, linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	devicetree@vger.kernel.org
-X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
- <https://xff.cz/key.txt>
-References: <20240205-pinephone-pll-fixes-v2-0-96a46a2d8c9b@oltmanns.dev>
- <jzl3mlzk4j7qvgcedvipgale5nhinznefodrnaehwsqfnseiwc@7zzlxd4dpueh>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RNkhOWCd"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-40fc6343bd2so29667565e9.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 05 Feb 2024 09:45:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707155130; x=1707759930; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=m0wzRpVZw3TnGWQm+s3AU8BkpazXaoqZkM6kOW1G/WQ=;
+        b=RNkhOWCdbXzknjsCdtLlUKe0TRPxfyCbVxMtDk2rdxgBcw1Bz2D8R56lPb7xerJ3pT
+         XsTRT9hARRMTm6peMgyS7e/ZEwFJosqEt+f4ZT6syv8rMS6QW+w43yZHM7RclgL6rDle
+         LtGmaVagvAG+ePKfPV1G+28Ihvu0k3lFs/1nqAK/wx6blqoyq11l2e4P5qXsKVHVwwf4
+         q1keu0KYH9mrwGGk21DklT/KRcItRTI6OQVnp8aKnn0JuQpRg+IzBbP/HVPdiGM4eDsY
+         hue7heaxXaDanZa4tAKcmKP+dS5VzGNyMfKAXUTUSOxObWtD99sYQMLW1nur1kZo+RXF
+         QitA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707155130; x=1707759930;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=m0wzRpVZw3TnGWQm+s3AU8BkpazXaoqZkM6kOW1G/WQ=;
+        b=oOcVwpCl1ubek4yNdEJndGeMWHGvVFJC5Sym6iXoovb89Jv8ouzsFCLNHfiCHopD4e
+         gYjMLg3qhqS9EHRy3YAU+ZEz5XJaVmcBI5tZReG1Ok8QjGWvdOa4Afyi6YHzSQcTzx6t
+         4jfprlYcafdvgNIY8Xz6/l4KW4h6B5slDqhb/21qkjjvQ0eersd3u4qizbPoIbJv6pKB
+         TXt0WGmNXxvHNTB7mIV+eiFaiWTB7g9af07WOkqoxzFJzEa19RANn5D5kq+l1TfjW1+U
+         s3B28cPYHp13nC3a/p3eK4f3hWzi6SgRT1nHhC42biI5oZ0fsXxNkf2rnmiyj+O9it9b
+         9bfA==
+X-Gm-Message-State: AOJu0Yy3z9SAwOf6v7xllrxPOiMuC5j/foFKBdFVlRO53qcHX0oz1Nb9
+	QB1M0XUqkBeC+kwXInga04eFQdMPIUuEaqUm1jhvgn8LOvlzdXlG
+X-Google-Smtp-Source: AGHT+IHDzn+x37VJ4FfaK12jdyWyrj6HN0Ue2YwTRPprISDD+A1uWFfuwbmrJ9tOHYqi9adBbIFrKQ==
+X-Received: by 2002:a05:600c:3011:b0:40f:ddb1:dff6 with SMTP id j17-20020a05600c301100b0040fddb1dff6mr376290wmh.28.1707155129866;
+        Mon, 05 Feb 2024 09:45:29 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCW0iRwJ4iK/1l5nccg8ejnbUpry1gNIfzjuLEOOT/5O1SnadHX8mF30Lt3dBquSMQ9iBWZaAoK5LYPVtw1BvDa73qNxIRIEekrw9/tuSsE5FzQt8XqtRIPnpXQ5cBWwzSiyse3B9eo51Np58H2ro7TB/GI/P/+CiHaHz9l4Le+ywVgofn63hBmTW+4vTMr9if42Vwn/dFxY+ZoTJO/4Bbs7c2Pmq4TiVExtmgujQocrxxEfWCd87n9GOQkCjgtFaKP/4JvXK+xvBpDrHK4CNj2wgp8h2GcBza2Gryvws8wnBOfFmbl1fL0/Cki6IYQ/19GQzIiRsikzV1xeytnJRhJzMjXH/HgPSktAktmvacMmOrTc27BBfSsxAcKCD/RwdZdN6utM9vwri1vyVZFbjwetOyIut79zZ+5d4g6jB1n4zLn1puq56QGYEHZVkxdnVD6UfOBCEMjn3FDx+gMRd1AgLnMuyWx/m1ENdeCIhAEdosVo2qjy9NEJlCNXhcpHWTP0Xk9O1mVBuJfKvCqNe+9ibSfD5ULoPlfEY7EzcpDDSDCNWa+nWgN6gC2dI7Hx1NlJXasSQMEDTDJZtP/CVz57zJIbVlcGNKGpgGof8Fv5KYPm03vyNz6Q2m+mMgPqqO69hb240frSev4L8YN8ugz7sHcK2k0XYvOn48j3wO+GP6KwVjX7XHv3AQ5KNx+fiauVQqvytkLaskwKk8P3CQRoi3zlNdwsuY4qSgZRAIl7VDRi/9pVggsxdyZfaqTsgbT9c5hy+uXxRA==
+Received: from jernej-laptop.localnet (82-149-13-182.dynamic.telemach.net. [82.149.13.182])
+        by smtp.gmail.com with ESMTPSA id l18-20020a05600c1d1200b0040e541ddcb1sm499607wms.33.2024.02.05.09.45.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Feb 2024 09:45:29 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Guido =?ISO-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+ Purism Kernel Team <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Frank Oltmanns <frank@oltmanns.dev>
+Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ Frank Oltmanns <frank@oltmanns.dev>
+Subject:
+ Re: [PATCH v2 1/6] clk: sunxi-ng: nkm: Support constraints on m/n ratio and
+ parent rate
+Date: Mon, 05 Feb 2024 18:45:27 +0100
+Message-ID: <2717565.mvXUDI8C0e@jernej-laptop>
+In-Reply-To: <20240205-pinephone-pll-fixes-v2-1-96a46a2d8c9b@oltmanns.dev>
+References:
+ <20240205-pinephone-pll-fixes-v2-0-96a46a2d8c9b@oltmanns.dev>
+ <20240205-pinephone-pll-fixes-v2-1-96a46a2d8c9b@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <jzl3mlzk4j7qvgcedvipgale5nhinznefodrnaehwsqfnseiwc@7zzlxd4dpueh>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Mon, Feb 05, 2024 at 04:54:07PM +0100, Ondřej Jirman wrote:
-> On Mon, Feb 05, 2024 at 04:22:23PM +0100, Frank Oltmanns wrote:
-> > On some pinephones the video output sometimes freezes (flips between two
-> > frames) [1]. It seems to be that the reason for this behaviour is that
-> > PLL-MIPI, PLL-GPU and GPU are operating outside their limits.
-> > 
-> > In this patch series I propose the followin changes:
-> >   1. sunxi-ng: Adhere to the following constraints given in the
-> >      Allwinner A64 Manual regarding PLL-MIPI:
-> >       * M/N <= 3
-> >       * (PLL_VIDEO0)/M >= 24MHz
-> >       * 500MHz <= clockrate <= 1400MHz
-> > 
-> >   2. Choose a higher clock rate for the ST7703 based XDB599 panel, so
-> >      that the panel function well with the Allwinner A64 SOC. PLL-MIPI
-> >      must run between 500 MHz and 1.4 GHz. As PLL-MIPI runs at 6 times
-> >      the panel's clock rate, we need the panel's clock to be at least
-> >      83.333 MHz.
-> > 
-> >   3. Increase the minimum frequency in the A64 DTS OPPs from 120 MHz to
-> >      192 MHz. This further reduces the issue.
-> > 
-> > Unfortunately, with these patches the issue [1] is not completely gone,
-> > but becomes less likely.
-> > 
-> > Note, that when pinning the GPU to 432 MHz the issue completely
-> > disappears for me. I've searched the BSP and could not find any
-> > indication that supports the idea of having the three OPPs. The only
-> > frequency I found in the BPSs for A64 is 432 MHz, that has also proven
-> > stable for me. So, while increasing the minimum frequency to 192 MHz
-> > reduces the issue, should we maybe instead set the GPU to a fixed 432
-> > MHz instead?
+Dne ponedeljek, 05. februar 2024 ob 16:22:24 CET je Frank Oltmanns napisal(a):
+> The Allwinner A64 manual lists the following constraints for the
+> PLL-MIPI clock:
+>  - M/N <= 3
+>  - (PLL_VIDEO0)/M >= 24MHz
 > 
-> Per A64 User Manual 1.1 page 81:
+> The PLL-MIPI clock is implemented as ccu_nkm. Therefore, add support for
+> these constraints.
 > 
-> (9). Clock output of PLL_GPU can be used for GPU;and dynamic frequency scaling is not supported;
+> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
 
-You may be able to elegantly work around this by pinning PLL_GPU to a certain
-frequency (assing it in DT and then don't decalre gpu clock as
-CLK_SET_RATE_PARENT). Say 432 MHz for PLL and then do the scaling via GPU_CLK_REG
-N divider between 432MHz and 216MHz and maybe 108MHz if that brings any gains.
+Haven't we discussed that this patch is unnecessary because same effect can
+be reached by limiting minimum frequency?
 
-Then you can perhaps sidestep all these potential issues with PLL_GPU and
-lack of DVFS support decalred in the manual.
+Best regards,
+Jernej
 
-regards,
-	o.
+> ---
+>  drivers/clk/sunxi-ng/ccu_nkm.c | 21 +++++++++++++++++++++
+>  drivers/clk/sunxi-ng/ccu_nkm.h |  2 ++
+>  2 files changed, 23 insertions(+)
+> 
+> diff --git a/drivers/clk/sunxi-ng/ccu_nkm.c b/drivers/clk/sunxi-ng/ccu_nkm.c
+> index 853f84398e2b..1168d894d636 100644
+> --- a/drivers/clk/sunxi-ng/ccu_nkm.c
+> +++ b/drivers/clk/sunxi-ng/ccu_nkm.c
+> @@ -16,6 +16,20 @@ struct _ccu_nkm {
+>  	unsigned long	m, min_m, max_m;
+>  };
+>  
+> +static bool ccu_nkm_is_valid_rate(struct ccu_common *common, unsigned long parent,
+> +				  unsigned long n, unsigned long m)
+> +{
+> +	struct ccu_nkm *nkm = container_of(common, struct ccu_nkm, common);
+> +
+> +	if (nkm->max_m_n_ratio && (m > nkm->max_m_n_ratio * n))
+> +		return false;
+> +
+> +	if (nkm->min_parent_m_ratio && (parent < nkm->min_parent_m_ratio * m))
+> +		return false;
+> +
+> +	return true;
+> +}
+> +
+>  static unsigned long ccu_nkm_find_best_with_parent_adj(struct ccu_common *common,
+>  						       struct clk_hw *parent_hw,
+>  						       unsigned long *parent, unsigned long rate,
+> @@ -31,6 +45,10 @@ static unsigned long ccu_nkm_find_best_with_parent_adj(struct ccu_common *common
+>  				unsigned long tmp_rate, tmp_parent;
+>  
+>  				tmp_parent = clk_hw_round_rate(parent_hw, rate * _m / (_n * _k));
+> +
+> +				if (!ccu_nkm_is_valid_rate(common, tmp_parent, _n, _m))
+> +					continue;
+> +
+>  				tmp_rate = tmp_parent * _n * _k / _m;
+>  
+>  				if (ccu_is_better_rate(common, rate, tmp_rate, best_rate) ||
+> @@ -64,6 +82,9 @@ static unsigned long ccu_nkm_find_best(unsigned long parent, unsigned long rate,
+>  	for (_k = nkm->min_k; _k <= nkm->max_k; _k++) {
+>  		for (_n = nkm->min_n; _n <= nkm->max_n; _n++) {
+>  			for (_m = nkm->min_m; _m <= nkm->max_m; _m++) {
+> +				if (!ccu_nkm_is_valid_rate(common, parent, _n, _m))
+> +					continue;
+> +
+>  				unsigned long tmp_rate;
+>  
+>  				tmp_rate = parent * _n * _k / _m;
+> diff --git a/drivers/clk/sunxi-ng/ccu_nkm.h b/drivers/clk/sunxi-ng/ccu_nkm.h
+> index 6601defb3f38..c409212ee40e 100644
+> --- a/drivers/clk/sunxi-ng/ccu_nkm.h
+> +++ b/drivers/clk/sunxi-ng/ccu_nkm.h
+> @@ -27,6 +27,8 @@ struct ccu_nkm {
+>  	struct ccu_mux_internal	mux;
+>  
+>  	unsigned int		fixed_post_div;
+> +	unsigned long		max_m_n_ratio;
+> +	unsigned long		min_parent_m_ratio;
+>  
+>  	struct ccu_common	common;
+>  };
+> 
+> 
 
-> Also sunxi-ng clk driver does apply NM factors at once to PLL_GPU clock,
-> which can cause sudden frequency increase beyond intended output frequency,
-> because division is applied immediately while multiplication is reflected
-> slowly.
-> 
-> Eg. if you're changing divider from 7 to 1, you can get a sudden 7x output
-> frequency spike, before PLL VCO manages to lower the frequency through N clk
-> divider feedback loop and lock on again. This can mess up whatever's connected
-> to the output quite badly.
-> 
-> You'd have to put logging on kernel writes to PLL_GPU register to see what
-> is written in there and if divider is lowered significantly on some GPU
-> devfreq frequency transitions.
-> 
-> It's also unclear what happens when FRAC_CLK_OUT or PLL_MODE_SEL changes.
-> Maybe not much because M is supposed to be set to 1, but you still need to
-> care when enabling fractional mode, and setting M to 1 because that's exactly
-> the bad scenario if M was previously higher than 1.
-> 
-> It's tricky.
-> 
-> Having GPU module clock gated during PLL config changes may help! You can
-> do that without locking yourself out, unlike with the CPU PLL.
-> 
-> There's a gate enable bit for it at GPU_CLK_REG.SCLK_GATING. (page 122)
-> 
-> Kind regards,
-> 	o.
-> 
-> > I very much appreciate your feedback!
-> > 
-> > [1] https://gitlab.com/postmarketOS/pmaports/-/issues/805
-> > 
-> > Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
-> > ---
-> > Changes in v2:
-> > - dts: Increase minimum GPU frequency to 192 MHz.
-> > - nkm and a64: Add minimum and maximum rate for PLL-MIPI.
-> > - nkm: Use the same approach for skipping invalid rates in
-> >   ccu_nkm_find_best() as in ccu_nkm_find_best_with_parent_adj().
-> > - nkm: Improve names for ratio struct members and hence get rid of
-> >   describing comments.
-> > - nkm and a64: Correct description in the commit messages: M/N <= 3
-> > - Remove patches for nm as they were not needed.
-> > - st7703: Rework the commit message to cover more background for the
-> >   change.
-> > - Link to v1: https://lore.kernel.org/r/20231218-pinephone-pll-fixes-v1-0-e238b6ed6dc1@oltmanns.dev
-> > 
-> > ---
-> > Frank Oltmanns (6):
-> >       clk: sunxi-ng: nkm: Support constraints on m/n ratio and parent rate
-> >       clk: sunxi-ng: a64: Add constraints on PLL-MIPI's n/m ratio and parent rate
-> >       clk: sunxi-ng: nkm: Support minimum and maximum rate
-> >       clk: sunxi-ng: a64: Set minimum and maximum rate for PLL-MIPI
-> >       drm/panel: st7703: Drive XBD599 panel at higher clock rate
-> >       arm64: dts: allwinner: a64: Fix minimum GPU OPP rate
-> > 
-> >  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi |  4 ++--
-> >  drivers/clk/sunxi-ng/ccu-sun50i-a64.c         | 14 +++++++----
-> >  drivers/clk/sunxi-ng/ccu_nkm.c                | 34 +++++++++++++++++++++++++++
-> >  drivers/clk/sunxi-ng/ccu_nkm.h                |  4 ++++
-> >  drivers/gpu/drm/panel/panel-sitronix-st7703.c | 14 +++++------
-> >  5 files changed, 56 insertions(+), 14 deletions(-)
-> > ---
-> > base-commit: 059c53e877ca6e723e10490c27c1487a63e66efe
-> > change-id: 20231218-pinephone-pll-fixes-0ccdfde273e4
-> > 
-> > Best regards,
-> > -- 
-> > Frank Oltmanns <frank@oltmanns.dev>
-> > 
+
+
+
