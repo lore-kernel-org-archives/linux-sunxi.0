@@ -1,42 +1,43 @@
 Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87D7F2C85C
-	for <linux-sunxi@lists.linux.dev>; Mon,  5 Feb 2024 15:22:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED8E92D045
+	for <linux-sunxi@lists.linux.dev>; Mon,  5 Feb 2024 15:23:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707146579; cv=none; b=ehMJFBtUkf6RIo02P4PXMvhxFnm43DVx1uLGKGvPAfnN5zdbmOsuEID9oKGqxjvjwlibkmQkCEaPn/79vvpeNF6QXroWm/XgiMRkTj8Zo/J64VKMYUYEJUNjS1/muKIeeVUPvJGm9Lg8IDmwceeA8ITUmTQhsgICJlu97911zbw=
+	t=1707146583; cv=none; b=TvXMQlSbRLu/HAXQDTu+/9XwNUWalkcCE7b61355tr9jj86kH2YYGCJdSM4/gQguFCZY5S9bTcXXpkRksFJF+TijiqGilOARnJJxRo6c+ixPzPruOjL4ILeDsAAKmIzjvuOZvHcI8AixJn8UK6/6eK/zqvPPba04Vih/b+kmrYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707146579; c=relaxed/simple;
-	bh=5zewW1sTOm7xcvwNa8TfsiT0OyH+Ac61q0oCG1IJ5yo=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=JcBFxJSN4aiVBhDvAnV0VWPSWddj4DFPB7Iht6qq12waaXmAqir0mhkkl4nXxhecTWekvdJwmKyvP0Ze123Pb55IG/dpMwKYU2fTBrzPSqTKQknl0jBSnAxaqGRPqbh35oq4h3H1UuH4MOeH+b6sm0CvsDLvD9PoRM5azG+ahHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev; spf=pass smtp.mailfrom=oltmanns.dev; dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b=ZXjQNScE; arc=none smtp.client-ip=80.241.56.171
+	s=arc-20240116; t=1707146583; c=relaxed/simple;
+	bh=sZRQlV2c4BS8M6XigJWtt6aYtH5u38JavT1jr/9e9vM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=u8MQQUF8BWW11Z0Y3Nc+5ijv0c+I8Wtdhlk4RulXJpn2qqa+1BZiQf2Gfn88RYXUE2jlaP0nQFU6lhiMEZQrmetZ3xEvTcR+2VbwwV6DenrD4AERpTbZYGp7Hs101/ROSuoqBPkh2/p7+OBdUA1We8qPcDYW8Our3g0rBsW0W9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev; spf=pass smtp.mailfrom=oltmanns.dev; dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b=Pb7PTvOt; arc=none smtp.client-ip=80.241.56.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oltmanns.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b="ZXjQNScE"
+	dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b="Pb7PTvOt"
 Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4TT99g5Pc0z9t3b;
-	Mon,  5 Feb 2024 16:22:47 +0100 (CET)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4TT99t2YpRz9t3t;
+	Mon,  5 Feb 2024 16:22:58 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1707146567;
+	s=MBO0001; t=1707146578;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=02ruNxK++PAViNf3AQJm4dGqBoNl7wJTiwKpbNLSczQ=;
-	b=ZXjQNScEzCDO5NsBo6jCxc7YVO0UavM3fURJA02d2ggdkgyTOadBMCFAiGtdL0hSZM+XBb
-	AvrfdmRiQ11Ft5QjNjBNDq+3/GuKmqGHuR4xpUR0fqvVgQfDPlxU+21lQON76gnN4fgChs
-	5/txjXryAkW91io2nbW80T03qpUXIgTiDDQnXDTKdOdrtEcxwjf1piZKGY33HeJP5Mq6np
-	4ZwEIXIN5T+Tvn1RfxJGdCLHzRJw1IbYiXlIFUY2bCVVBfnU44TaOG9+y9ecOlNy1/iVOW
-	i4iPtDI/TDl4HC3mJFeHoLpoEGt6NxHM1XHpt1NKH8VZs6R1JUu9/gcf60VWdQ==
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PGwJiBi4FWl+Hj92FEhx+IKZwGNvNuswqgy6NGKOs3Y=;
+	b=Pb7PTvOtBoF0YCt7t7yc/FR+uBaYL4E0cGVHAiuOx/bbWVQJgYduuxBfdYWjNQpwXqNqTJ
+	GZXjovPTa6me6Od0SPDbLLymfKeVVbW8Ptd5NVMX0EKAmVKmx/SFN6E5h+g1VlJspltNJ0
+	altR293r31BcKwFcgnqIinPraY4LtxKW1b8cMrVq9CmpLHEPsUElItE+iVgAXDZ0POcU0q
+	uvYrbJ2hVPNq/RyW1tHG1Cntu12rdHcPVU6tMDL8d8ev2qgKmjLUTPxMy1GMxhKNa5/Dsn
+	Xc12u8FSBsr7PxlhzlRP0cgRP6i4OGRFebZpdNMOJ1iPHHpp6KXQfcOpNERubQ==
 From: Frank Oltmanns <frank@oltmanns.dev>
-Subject: [PATCH v2 0/6] Pinephone video out fixes (flipping between two
- frames)
-Date: Mon, 05 Feb 2024 16:22:23 +0100
-Message-Id: <20240205-pinephone-pll-fixes-v2-0-96a46a2d8c9b@oltmanns.dev>
+Date: Mon, 05 Feb 2024 16:22:25 +0100
+Subject: [PATCH v2 2/6] clk: sunxi-ng: a64: Add constraints on PLL-MIPI's
+ n/m ratio and parent rate
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,10 +46,9 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAC/9wGUC/32NQQ6CMBREr0L+2m9oMUhceQ/CAttBfoJt05JGQ
- 7i7lQO4fDN5MxslREGiW7VRRJYk3hXQp4rMPLonWGxh0rVulFYdB3EIs3fgsCw8yRuJa2PsZKG
- vDS5UzBBxFEXsh8KzpNXHz3GS1S/9v5cV1wzddI8WtrVG3f2yvkbn0tki07Dv+xePHWdPuQAAA
- A==
+Message-Id: <20240205-pinephone-pll-fixes-v2-2-96a46a2d8c9b@oltmanns.dev>
+References: <20240205-pinephone-pll-fixes-v2-0-96a46a2d8c9b@oltmanns.dev>
+In-Reply-To: <20240205-pinephone-pll-fixes-v2-0-96a46a2d8c9b@oltmanns.dev>
 To: Michael Turquette <mturquette@baylibre.com>, 
  Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
  Jernej Skrabec <jernej.skrabec@gmail.com>, 
@@ -67,90 +67,56 @@ Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
  Frank Oltmanns <frank@oltmanns.dev>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3229; i=frank@oltmanns.dev;
- h=from:subject:message-id; bh=5zewW1sTOm7xcvwNa8TfsiT0OyH+Ac61q0oCG1IJ5yo=;
- b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBlwP0+wYhW9UKwddP3vrnpyhEsFoFsaicaYwiaO
- 2dmOF/4eR2JAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZcD9PgAKCRCaaaIIlErT
- xxGkC/4qc4crIa5Eoj/UZwfbXARGqeQPX8RtVBTso0IlLQapsMZarACv3napgYyiG3p/WOCGiPt
- YCNMoHryUaHjF9Dvyt27XXm24Fu7eA72vSJ3Po72R03TumUH6G1vDdE/ht0humpzOoDyXoJnogU
- ujW0CYknGItVUQtqBcfAU1a6GeqU/I1CpgzQQi6SMusrjZju4TZBSE6JU/zuhlqSDDVr6P6pkeQ
- CPyXTpiGu9xJLcA1VxMIOmXx7GtY7tsJNkFKhzSaOAQMfZOz8n+2+wFbwwkPEWSJ8+p3dVXP2Md
- clqNDRWt7asIY8cu4HNR9ZIkJqI600PFe/4W+UHMNwq45v8qHSuc3cP3aXmsiifk+h+fll2awdg
- iQmNzjJQV4+nIxSxPY5HeovLW5/tTXa2aq8O8TCppSjMewGW4vuRZVRJg6euwTSVKIpf7CDGUUD
- TPd3iE6/EWTYbW8dmVNfGuRrmExcg1/7ePbYZL2xoS59qt2aPgmKzCWMFovCf66jj8udc=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1203; i=frank@oltmanns.dev;
+ h=from:subject:message-id; bh=sZRQlV2c4BS8M6XigJWtt6aYtH5u38JavT1jr/9e9vM=;
+ b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBlwP0/QMs40wrSKAWsSNGJOA7nyoav8bTj6AaMP
+ eS7Ec9O7k2JAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZcD9PwAKCRCaaaIIlErT
+ x1qbC/9s2mCUwVcw3RzsoClXh6EIF3rndAidiRIOU3Ntt0A6E40+v4Q+fAvsxkui09AzvmaEtoh
+ p6r394Intis9B1C+QQpXcN2jxVEu6i9wXi9ZKkwSwjhGbqXigueaySui7WqHPOWap9EtlXF6UCZ
+ zAd7FU8s4d4JUFWLaRLoNAKKDO896cVYd7PnC2QOTTr1Xjm3ki0rK5RuV1LVGMOAY1JwlQ1kl6Q
+ +wznvE9A//AvK+UYPGU+qHhHHN+vR6s9xqULHs41kfUpBnOsFeuERrD/n3hG2aoVg4Hd41IEXPg
+ alaPtj3RqFjD4sQimgz1HuqbXEIz1U3l0LtTdsuIGuDKB6Nmr/tG+Gj5JCD7aBG33g4oQRXymHu
+ hF+jlpCfqFX3qhGk9nBfyr5qLDlO7+GNY0yCEwf4Y4Ik0VM/zrYuXMP3hOBGkbp5F+rrz10AdZ+
+ fPMPhm2l5qne684CNYQ7usOOZROuEUsiIbgXSm28wy/eJL76J/ETfOBfv6djpJtaI1f1w=
 X-Developer-Key: i=frank@oltmanns.dev; a=openpgp;
  fpr=02FD257B7F90E6B9A5444F969A69A208944AD3C7
 
-On some pinephones the video output sometimes freezes (flips between two
-frames) [1]. It seems to be that the reason for this behaviour is that
-PLL-MIPI, PLL-GPU and GPU are operating outside their limits.
+The Allwinner A64 manual lists the following constraints for the
+PLL-MIPI clock:
+ - M/N <= 3
+ - (PLL_VIDEO0)/M >= 24MHz
 
-In this patch series I propose the followin changes:
-  1. sunxi-ng: Adhere to the following constraints given in the
-     Allwinner A64 Manual regarding PLL-MIPI:
-      * M/N <= 3
-      * (PLL_VIDEO0)/M >= 24MHz
-      * 500MHz <= clockrate <= 1400MHz
-
-  2. Choose a higher clock rate for the ST7703 based XDB599 panel, so
-     that the panel function well with the Allwinner A64 SOC. PLL-MIPI
-     must run between 500 MHz and 1.4 GHz. As PLL-MIPI runs at 6 times
-     the panel's clock rate, we need the panel's clock to be at least
-     83.333 MHz.
-
-  3. Increase the minimum frequency in the A64 DTS OPPs from 120 MHz to
-     192 MHz. This further reduces the issue.
-
-Unfortunately, with these patches the issue [1] is not completely gone,
-but becomes less likely.
-
-Note, that when pinning the GPU to 432 MHz the issue completely
-disappears for me. I've searched the BSP and could not find any
-indication that supports the idea of having the three OPPs. The only
-frequency I found in the BPSs for A64 is 432 MHz, that has also proven
-stable for me. So, while increasing the minimum frequency to 192 MHz
-reduces the issue, should we maybe instead set the GPU to a fixed 432
-MHz instead?
-
-I very much appreciate your feedback!
-
-[1] https://gitlab.com/postmarketOS/pmaports/-/issues/805
+Use these constraints.
 
 Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
 ---
-Changes in v2:
-- dts: Increase minimum GPU frequency to 192 MHz.
-- nkm and a64: Add minimum and maximum rate for PLL-MIPI.
-- nkm: Use the same approach for skipping invalid rates in
-  ccu_nkm_find_best() as in ccu_nkm_find_best_with_parent_adj().
-- nkm: Improve names for ratio struct members and hence get rid of
-  describing comments.
-- nkm and a64: Correct description in the commit messages: M/N <= 3
-- Remove patches for nm as they were not needed.
-- st7703: Rework the commit message to cover more background for the
-  change.
-- Link to v1: https://lore.kernel.org/r/20231218-pinephone-pll-fixes-v1-0-e238b6ed6dc1@oltmanns.dev
+ drivers/clk/sunxi-ng/ccu-sun50i-a64.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
----
-Frank Oltmanns (6):
-      clk: sunxi-ng: nkm: Support constraints on m/n ratio and parent rate
-      clk: sunxi-ng: a64: Add constraints on PLL-MIPI's n/m ratio and parent rate
-      clk: sunxi-ng: nkm: Support minimum and maximum rate
-      clk: sunxi-ng: a64: Set minimum and maximum rate for PLL-MIPI
-      drm/panel: st7703: Drive XBD599 panel at higher clock rate
-      arm64: dts: allwinner: a64: Fix minimum GPU OPP rate
+diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+index 8951ffc14ff5..df679dada792 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
++++ b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+@@ -171,11 +171,13 @@ static struct ccu_nkm pll_mipi_clk = {
+ 	 * user manual, and by experiments the PLL doesn't work without
+ 	 * these bits toggled.
+ 	 */
+-	.enable		= BIT(31) | BIT(23) | BIT(22),
+-	.lock		= BIT(28),
+-	.n		= _SUNXI_CCU_MULT(8, 4),
+-	.k		= _SUNXI_CCU_MULT_MIN(4, 2, 2),
+-	.m		= _SUNXI_CCU_DIV(0, 4),
++	.enable			= BIT(31) | BIT(23) | BIT(22),
++	.lock			= BIT(28),
++	.n			= _SUNXI_CCU_MULT(8, 4),
++	.k			= _SUNXI_CCU_MULT_MIN(4, 2, 2),
++	.m			= _SUNXI_CCU_DIV(0, 4),
++	.max_m_n_ratio		= 3,
++	.min_parent_m_ratio	= 24000000,
+ 	.common		= {
+ 		.reg		= 0x040,
+ 		.hw.init	= CLK_HW_INIT("pll-mipi", "pll-video0",
 
- arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi |  4 ++--
- drivers/clk/sunxi-ng/ccu-sun50i-a64.c         | 14 +++++++----
- drivers/clk/sunxi-ng/ccu_nkm.c                | 34 +++++++++++++++++++++++++++
- drivers/clk/sunxi-ng/ccu_nkm.h                |  4 ++++
- drivers/gpu/drm/panel/panel-sitronix-st7703.c | 14 +++++------
- 5 files changed, 56 insertions(+), 14 deletions(-)
----
-base-commit: 059c53e877ca6e723e10490c27c1487a63e66efe
-change-id: 20231218-pinephone-pll-fixes-0ccdfde273e4
-
-Best regards,
 -- 
-Frank Oltmanns <frank@oltmanns.dev>
+2.43.0
 
