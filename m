@@ -1,57 +1,57 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9CAC482C7
-	for <linux-sunxi@lists.linux.dev>; Mon,  5 Feb 2024 17:57:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA6947F5B
+	for <linux-sunxi@lists.linux.dev>; Mon,  5 Feb 2024 17:59:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707155882; cv=none; b=eU1Vhf46Z0DM+8v9RgFJ33Ldiu+B1sSOc+pDhQPzeAMJp2DIF0p8thOSqvHsORV2oWrJb7i2tgHh6zRqERZWAan1u0XMZme7ECkudKUaISvSGVC42RSazDUsyDTI+0/9CqVnqe+pewj8xogm+hMDk7/Rh2xVMFhXhERoHMq2V20=
+	t=1707155957; cv=none; b=bufYXhyBxBiiK5TBMvHfi9RJ7O+RUhvzHRnyNobAq6H3dZGKZ5WSkj1fGj2rP1mGcVMqn3reWz480PLt8eA7pazU2ay0w5uElmUZEJLMegRB5pL+Y+lBs3TyKvYW0/IN6aMryqFQpTjki+Ep+eIOxFow44AvotUTZdeahEELX8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707155882; c=relaxed/simple;
-	bh=lWrSbc8jUA99N/jOBUbCzu+w8Kzz0sAL1zOSR3c7zHo=;
+	s=arc-20240116; t=1707155957; c=relaxed/simple;
+	bh=iENWrZku65hAa8Tz2gQfbHCsXLTOVZAomEQlg6Oanw4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=enjekTwNYfOoKa+P6/xfNY/UZOcUuGGuiTebIfN8VN9B1DEmWk9UhsGuuK7e3w6dF7sYBrl9CdSOhvwVY8dSsRiTuL+AMSHdeaKZ1u5hPqWyMFTLj5XBbyo9uQDkfz8/VkTTlOPqpbC1bDicaE7/v8qLceunO+WqpDQ6TAxlKRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KI1cgQAn; arc=none smtp.client-ip=209.85.167.48
+	 MIME-Version:Content-Type; b=CI/+ByrJB9FpPqRhDqx64BTaKT/TeQ0hlEkuRE10s4bQ9KGRVu8I5sE/7VNwOEnCq+YCwmMgeazJd5M6qE4HaXEEgbQE4v+E3yn1AqlAH//YBU03qbwRwE+chejtonP+cIivDk4HxLci1XplKeRhAQobtMKuGf5MTbN5VFBwXfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fPtyuDD4; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KI1cgQAn"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-51124e08565so7235636e87.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 05 Feb 2024 09:57:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fPtyuDD4"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-40fd6c24812so13015335e9.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 05 Feb 2024 09:59:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707155878; x=1707760678; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1707155954; x=1707760754; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=i34tZ3FFPbhGf8aLiNBH7cN2Fd7/KOwTUUwg6OHr+K8=;
-        b=KI1cgQAntxY0nzWMIEHKJ7H7dYT5AcQDU3O+d6LCt9HCS4YN79t1yqbuUmXM//nw2d
-         XzEvoTGVuWRVcIbst175fHIbvfWbPtx2JZxIK8rlwqoktztsttE8/UEc2s4NtqGrK+iF
-         drB8zs0CgwUFwY+AFBlS/LN1iM/++bK2RagJnrKC5DCYRp5WnWJB5YWljXPC4WCmLM9N
-         KreVXRUPk83HCiyIaHz3cQiK3dyDLHzUi7C6k0yWR99VL/TgzXDp6O8qf+R9WT4h1mu+
-         CIYnM7EOh6gLzgxyrLxZ5Lajzvtk1Hxup/gTK/kVgrf7dZQotnJ6yKOIXr8ACr3HxCft
-         iYbA==
+        bh=/C76pIYyE7acYLURd95YZ9JvqXFzoendTPcs1BJgd4E=;
+        b=fPtyuDD4AF9ks86AQJLa9DL/bKfDYOjeFaSi1iF5jeh68Q1eLZs6+lPFEI9T7iiA42
+         9lv9quH8u9itdlwSOSmPSP+LZC9Du53fzxerALzSEqmqeWe3Qzn7bS8fATldo8JEjvrB
+         yBGVa9xOSBMjmKkPLOrR/cEWrtTbq/ZZE7v+okVAmijtK88JE/LAJoacvn5A1j1AmMje
+         4uW46o9l5F+jQyMaab5lHuE3DOAoeCoKLmaPxOyU/cBFPPhVBvGlXdOCncnroXWbGuNU
+         OsJ2OTZ/eIm25MWhQBeYbkpaZ478bhgUQL3lUaYkmbiAvy9wjG5/gUuCmRMpJl+EmKSx
+         FpJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707155878; x=1707760678;
+        d=1e100.net; s=20230601; t=1707155954; x=1707760754;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=i34tZ3FFPbhGf8aLiNBH7cN2Fd7/KOwTUUwg6OHr+K8=;
-        b=J+dg38eQJDlufEtnQUzBkPfeCa9fVX18tG1b2pQvAoeKqNg3+eDxbgYULvN+w6n87q
-         v6PSjSvIRiphPNorHoEP9s4PcuNv9dJu6hpkPJLd8VHCcz6JwN4dcOqnHguODcVMznKd
-         b2mK6eys/DiAHbyV9SgnYGAmf6IebAVVZ+jLHiztLv8WlVwJMwolQ/9N6OU6NV0KhUu3
-         0Cwq8JwooquA9ei2rsRaIP1J8cJ1Y3fspM4LLemgwhNh4zg/+8Eh+32CjJA5Yf9KNKdF
-         Io8AG2sLk9VP5Oq3U4hDxDEo5Zj2uXvnY0H+T31ZV4K9iuAlQ24ZzyIWVfO3Tna3SjWm
-         pd1Q==
-X-Gm-Message-State: AOJu0YxWzPQUAiT84w5jqYqA453fQC7gwZHTLB/1NDX783ccxZWaR5YK
-	lzGdG0aRxw2wgLuxrD+j9buIUjoaagpaoWPdAQByLhSvo14pcfjf
-X-Google-Smtp-Source: AGHT+IGoPOkUhCufoS6lCIs5EGArZvJVv922FEUcsxMUGIhQXY+AjR81U8jTSaoj3gJj/4rMS1O5tw==
-X-Received: by 2002:a19:6451:0:b0:511:49d9:fedf with SMTP id b17-20020a196451000000b0051149d9fedfmr251422lfj.13.1707155877476;
-        Mon, 05 Feb 2024 09:57:57 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCXGCK7tf1Ptyz6HmhmmygivSkZttogyHu1TyMDdDQ5Nu8eevB8TjC9ST/lb4I2sK2ORVanShf4tAR8h+88kfXIXB7IedBlO6CdVJTs9VbezYULqUYzMQt5n4PD4A7MsN3Fa6KsCPQMzz9tMOhlKZaFekVgW2wlECNYyCRFLwrInpCrUXkvaHKm4LFzTyVyCbG0d2ApzCkMTk6XK7sYwpllH0iRhxhGVmDxPcrozhyj+VvHLb2WyR1qXuMV+bGFM6firFlILkD9zesHbMrG/b0/FeqSifxG/2UYuX3eqPZyNyY90Z5srLZC9V0BD458p2oUE4snRo9BRj2qVKksVB0/R/+RqIxOaDUlxURN2rmXd4OQFyYsWU2ZL0/bYZjT0GUf9Kk0oJ9UPSfP7o95qiTDOACza5f7mc0cJ0ebko6KKCNkUXGzptbKQ+T92kFH6XPZVVPoUAUj99fRlwAkflkqraPD5kuIcOfX32YJ+mkpFeFoY2DreE6/cfq5hRo/vnZoL8kKsOsixux4ip8p8YeK5cf8afv/p1dRllJ6p9KDBLNdamy7kdAXdrCzXlbZt8dGcPhVkMhh4mBoKnuBkRpw0jX+zV7GRhwtJ53lU9VEle4navhVDjF5Y/rtrNu9e0D9YDMKCccO0bBinK68q2A2Wjw/1070BcyyM2pxBRuh3FTqYMQLcao7vo/yCuCzj9aphfjcEi531FnGXoEdnC0ecyojAG7cIn86l1Jfb3K1Z+eHwE2U10AT7QPWlZHFxrhV90LswemmmJg==
+        bh=/C76pIYyE7acYLURd95YZ9JvqXFzoendTPcs1BJgd4E=;
+        b=wOQuYG4XM33wQzd0NglIkMp6HunUSyQWV3uzoNWlTyup/X23LkW90Jg3OkjitfvCDT
+         uTRGiQlQgH6oYIxuydEIgBe+wGV0iNBh/ADSozmcuRkN3SQ8McSvSpHxevyoGB0TqJke
+         dwssidx20lhM6EMzNLMIPzsga6qudt0NVFbffWHRlD6rR/fFBByvaa50Pb855HzLtEpq
+         2SeCCs612HD6gDYiKcf7ogemwd4l2vRD1gYk3sTjbNQt00N3iWGd5rreemYNtR/epJIs
+         CVDOBeFlpNfBt6/USaotmGq/caBkdZjsW/zth+eKvhCJnjwF+339DhK/bSuz3IaKonzK
+         7muw==
+X-Gm-Message-State: AOJu0Yx926gKLeDQlqLfALovFDxSpNsxNttJ1F6tCwHow1Ccj7XbN403
+	TuvLW4uYsmcGlhhQ6aG/pU69AKn3NdyCNA+u11+1ng62cmkR6wjv
+X-Google-Smtp-Source: AGHT+IFDfuNn+dprW7ssb+MdCy5jmgRJzkLpuJk9Jj3FJq01fEAA1ewSEAVDfj9a3mttC9NNW39/qQ==
+X-Received: by 2002:a05:600c:1f84:b0:40f:b69e:aa20 with SMTP id je4-20020a05600c1f8400b0040fb69eaa20mr367170wmb.11.1707155953740;
+        Mon, 05 Feb 2024 09:59:13 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCXLGxFNA/76SPYxu2gToiQ41JQj1r64t0+xMs6T6ok0+J1kX7Lo3HRGsUqaghaMGWDQKL6PXq6NGNLqkkIL6fSH+q/R9n/7nX8t2HjGfS3xy3tDno+jNBpq3yhdlwMv0JwIiWGHs7pPMDmY3tppwuh007wlxUZZNFKoz77/2ORkHBIoHDnI/ufPPjYSKeEjDHiim+gWsQfvUDhYaX4z4mypzFDUcevPha6r2x7iWsfup6Oiqst2nvuH9rdJU+46xkyCnn4/ivUw8S9IVKnsMGJMg7qLChe9iXwNVF4SCU8JxeoTjvXi+r+Z7MWS7ud6I6MU3beXQxs2GYwHrSALeZRdfuLoAOymERlSPSMKGdcDcx94TlN6SAedrWcdATopdC7sw+tGASkr4zKKwBMRUJe1wqriolatAq9Krhbe2ZvlAVP8+Zy9nmXh5532Nn2rGu603uvVkCKmx1uBEh3bNT/W3C96U2wkhKAwy+zzb0/Hryn9kMrnc5Zde3M5KIM1PCxu3jMYbICJMCjqOU3GXYf/+aNklvlAAL7wlqEid1ZvQbER77q+Sl3cnYa2OWdgpqgT93pkXJ5ey7ataDjI4ghXTLkxxVsmaktCslsYlt9Ju6YQORWFaRAX9Z/+h/vH5qsTw8NvtUZlaj6372xbn8YDKQpN3d3WD4PqIgRvAa0bGxQ6j1r+SY0ebh56EgW/cmCqa02ZWncBwHOt/d33kTfrgMWYlRohrPyqeEHjhi/B1UjcLy/CNW+Bqv7keb9iJQ0cLjehkuUPyw==
 Received: from jernej-laptop.localnet (82-149-13-182.dynamic.telemach.net. [82.149.13.182])
-        by smtp.gmail.com with ESMTPSA id o13-20020a05600c4fcd00b0040fccf7e8easm9068610wmq.36.2024.02.05.09.57.56
+        by smtp.gmail.com with ESMTPSA id v8-20020a05600c444800b0040fddd8de88sm2013072wmn.15.2024.02.05.09.59.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Feb 2024 09:57:57 -0800 (PST)
+        Mon, 05 Feb 2024 09:59:13 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Michael Turquette <mturquette@baylibre.com>,
  Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
@@ -71,14 +71,13 @@ Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  Frank Oltmanns <frank@oltmanns.dev>
 Subject:
- Re: [PATCH v2 4/6] clk: sunxi-ng: a64: Set minimum and maximum rate for
- PLL-MIPI
-Date: Mon, 05 Feb 2024 18:57:55 +0100
-Message-ID: <1877423.tdWV9SEqCh@jernej-laptop>
-In-Reply-To: <20240205-pinephone-pll-fixes-v2-4-96a46a2d8c9b@oltmanns.dev>
+ Re: [PATCH v2 5/6] drm/panel: st7703: Drive XBD599 panel at higher clock rate
+Date: Mon, 05 Feb 2024 18:59:11 +0100
+Message-ID: <13445659.uLZWGnKmhe@jernej-laptop>
+In-Reply-To: <20240205-pinephone-pll-fixes-v2-5-96a46a2d8c9b@oltmanns.dev>
 References:
  <20240205-pinephone-pll-fixes-v2-0-96a46a2d8c9b@oltmanns.dev>
- <20240205-pinephone-pll-fixes-v2-4-96a46a2d8c9b@oltmanns.dev>
+ <20240205-pinephone-pll-fixes-v2-5-96a46a2d8c9b@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -88,16 +87,72 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne ponedeljek, 05. februar 2024 ob 16:22:27 CET je Frank Oltmanns napisal(a):
-> Set the minimum and maximum rate of Allwinner A64's PLL-MIPI according
-> to the Allwinner User Manual.
+Dne ponedeljek, 05. februar 2024 ob 16:22:28 CET je Frank Oltmanns napisal(a):
+> This panel is used in the pinephone that runs on a Allwinner A64 SOC.
+> The SOC requires pll-mipi to run at more than 500 MHz.
 > 
-> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+> This is the relevant clock tree:
+>  pll-mipi
+>     tcon0
+>        tcon-data-clock
+> 
+> tcon-data-clock has to run at 1/4 the DSI per-lane bit rate. The XBD599
+> has 24 bpp and 4 lanes. Therefore, the resulting requested
+> tcon-data-clock rate is:
+>     crtc_clock * 1000 * (24 / 4) / 4
+> 
+> tcon-data-clock runs at tcon0 / 4 (fixed divisor), so it requests a
+> parent rate of
+>     4 * (crtc_clock * 1000 * (24 / 4) / 4)
+> 
+> Since tcon0 is a ccu_mux, the rate of tcon0 equals the rate of pll-mipi.
+> 
+> pll-mipi's constraint to run at 500MHz or higher forces us to have a
+> crtc_clock >= 83333 kHz if we want a 60 Hz vertical refresh rate.
+> 
+> Change [hv]sync_(start|end) so that we reach a clock rate of 83502 kHz
+> so that it is high enough to align with pll-pipi limits.
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Typo: pll-pipi -> pll-mipi
 
 Best regards,
 Jernej
+
+> 
+> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+> ---
+>  drivers/gpu/drm/panel/panel-sitronix-st7703.c | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7703.c b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
+> index b55bafd1a8be..6886fd7f765e 100644
+> --- a/drivers/gpu/drm/panel/panel-sitronix-st7703.c
+> +++ b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
+> @@ -320,14 +320,14 @@ static int xbd599_init_sequence(struct st7703 *ctx)
+>  
+>  static const struct drm_display_mode xbd599_mode = {
+>  	.hdisplay    = 720,
+> -	.hsync_start = 720 + 40,
+> -	.hsync_end   = 720 + 40 + 40,
+> -	.htotal	     = 720 + 40 + 40 + 40,
+> +	.hsync_start = 720 + 65,
+> +	.hsync_end   = 720 + 65 + 65,
+> +	.htotal      = 720 + 65 + 65 + 65,
+>  	.vdisplay    = 1440,
+> -	.vsync_start = 1440 + 18,
+> -	.vsync_end   = 1440 + 18 + 10,
+> -	.vtotal	     = 1440 + 18 + 10 + 17,
+> -	.clock	     = 69000,
+> +	.vsync_start = 1440 + 30,
+> +	.vsync_end   = 1440 + 30 + 22,
+> +	.vtotal	     = 1440 + 30 + 22 + 29,
+> +	.clock	     = (720 + 65 + 65 + 65) * (1440 + 30 + 22 + 29) * 60 / 1000,
+>  	.flags	     = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
+>  	.width_mm    = 68,
+>  	.height_mm   = 136,
+> 
+> 
+
 
 
 
