@@ -1,196 +1,156 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4C4813FF5;
-	Mon,  5 Feb 2024 09:39:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87D7F2C85C
+	for <linux-sunxi@lists.linux.dev>; Mon,  5 Feb 2024 15:22:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707125982; cv=none; b=myQOnl8NbmxciQfBO6+VEep7dIeH1ATMqvDkjDIxjmjmSjKfk7eMIkt8X0mTkJhDOROJM7/TRzWLO+kUEs2cGFOxWgQzs5gipEzj1JeRJ7PHzNYqbOdC/9C0Vn+jnpMkZbcz+7Nph8Rx7Hzhn9ReQ/Zwr/MAEyqHOHL/fG5YuN4=
+	t=1707146579; cv=none; b=ehMJFBtUkf6RIo02P4PXMvhxFnm43DVx1uLGKGvPAfnN5zdbmOsuEID9oKGqxjvjwlibkmQkCEaPn/79vvpeNF6QXroWm/XgiMRkTj8Zo/J64VKMYUYEJUNjS1/muKIeeVUPvJGm9Lg8IDmwceeA8ITUmTQhsgICJlu97911zbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707125982; c=relaxed/simple;
-	bh=QSsaMz2aa4Ow1e/E+8+zBv0RXCM/l1/3uCQIFHDC8Bg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SH1DGC6mXiXK7in7CkFymcWTIndxO7VHifpjyim0hg3Z5r/NKyJl6QcZiu+4lM4clQD2wybYaB5FsmwirfFuugVBXWKmChQZUSjw1y1SuNEJef8pXKpe4e/M8WgtTIUX7ex2WJfXoOs/uAKtAddmPzQtqITjYLS4Oc+1ijgsLJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CGjcGlZS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1707146579; c=relaxed/simple;
+	bh=5zewW1sTOm7xcvwNa8TfsiT0OyH+Ac61q0oCG1IJ5yo=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=JcBFxJSN4aiVBhDvAnV0VWPSWddj4DFPB7Iht6qq12waaXmAqir0mhkkl4nXxhecTWekvdJwmKyvP0Ze123Pb55IG/dpMwKYU2fTBrzPSqTKQknl0jBSnAxaqGRPqbh35oq4h3H1UuH4MOeH+b6sm0CvsDLvD9PoRM5azG+ahHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev; spf=pass smtp.mailfrom=oltmanns.dev; dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b=ZXjQNScE; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oltmanns.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CGjcGlZS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3A85C433C7;
-	Mon,  5 Feb 2024 09:39:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707125981;
-	bh=QSsaMz2aa4Ow1e/E+8+zBv0RXCM/l1/3uCQIFHDC8Bg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CGjcGlZS0fBCh8Pj91FOCfGeLuBLH2IJXsvlSDNMJNYXbieL6OYjONC2i8L3eyk2A
-	 gDjW66Kot7LNXs+KGyl9mTfxQHJYFLZ3t0L1RLIN1Dm1Wck0ZHUJPEScRyxhMkJDmj
-	 OXKlIi1RFgz/w6HuL5qsHb2rRJ71FEHpXG+35Ca18O49av3Z/EfEhdmPtI+kXJX0OP
-	 ty/ICYtQbhjVujqeERH5pvK1Lj5IcwybfB49b1ssuH53OFwd8+WGgdjXHg0/GmHiR5
-	 6HgFPBmIm+TpGHkQdx/8FL7eeEjve5s0Czv4tmwkki21i0l2PqfomTZ58KFKCHSM9S
-	 99nBqUaN/35Jw==
-Date: Mon, 5 Feb 2024 10:39:38 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, 
-	Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
-	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	Hans Verkuil <hverkuil@xs4all.nl>, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: Re: Re: Re: [PATCH v5 08/44] drm/connector: hdmi: Add Broadcast
- RGB property
-Message-ID: <zml6j27skvjmbrfyz7agy5waxajv4p4asbemeexelm3wuv4o7j@xkd2wvnxhbuc>
-References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
- <20231207-kms-hdmi-connector-state-v5-8-6538e19d634d@kernel.org>
- <20240115143308.GA159345@toolbox>
- <20240115143720.GA160656@toolbox>
- <73peztbeeikb3fg6coxu3punxllgtyrmgco34tnxkojtsjbr3s@26bud3sjbcez>
- <Zb0M_2093UwPXK8y@intel.com>
- <hez2m57ogqx3yyqk45tzdkvxvhrbdepgm244i4m2aty2xhf5b5@acqgvmxhmmvr>
- <Zb0aYAapkxQ2kopt@intel.com>
+	dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b="ZXjQNScE"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4TT99g5Pc0z9t3b;
+	Mon,  5 Feb 2024 16:22:47 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+	s=MBO0001; t=1707146567;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=02ruNxK++PAViNf3AQJm4dGqBoNl7wJTiwKpbNLSczQ=;
+	b=ZXjQNScEzCDO5NsBo6jCxc7YVO0UavM3fURJA02d2ggdkgyTOadBMCFAiGtdL0hSZM+XBb
+	AvrfdmRiQ11Ft5QjNjBNDq+3/GuKmqGHuR4xpUR0fqvVgQfDPlxU+21lQON76gnN4fgChs
+	5/txjXryAkW91io2nbW80T03qpUXIgTiDDQnXDTKdOdrtEcxwjf1piZKGY33HeJP5Mq6np
+	4ZwEIXIN5T+Tvn1RfxJGdCLHzRJw1IbYiXlIFUY2bCVVBfnU44TaOG9+y9ecOlNy1/iVOW
+	i4iPtDI/TDl4HC3mJFeHoLpoEGt6NxHM1XHpt1NKH8VZs6R1JUu9/gcf60VWdQ==
+From: Frank Oltmanns <frank@oltmanns.dev>
+Subject: [PATCH v2 0/6] Pinephone video out fixes (flipping between two
+ frames)
+Date: Mon, 05 Feb 2024 16:22:23 +0100
+Message-Id: <20240205-pinephone-pll-fixes-v2-0-96a46a2d8c9b@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="i6rjjatuyp65otli"
-Content-Disposition: inline
-In-Reply-To: <Zb0aYAapkxQ2kopt@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAC/9wGUC/32NQQ6CMBREr0L+2m9oMUhceQ/CAttBfoJt05JGQ
+ 7i7lQO4fDN5MxslREGiW7VRRJYk3hXQp4rMPLonWGxh0rVulFYdB3EIs3fgsCw8yRuJa2PsZKG
+ vDS5UzBBxFEXsh8KzpNXHz3GS1S/9v5cV1wzddI8WtrVG3f2yvkbn0tki07Dv+xePHWdPuQAAA
+ A==
+To: Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ =?utf-8?q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, 
+ Purism Kernel Team <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ Frank Oltmanns <frank@oltmanns.dev>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3229; i=frank@oltmanns.dev;
+ h=from:subject:message-id; bh=5zewW1sTOm7xcvwNa8TfsiT0OyH+Ac61q0oCG1IJ5yo=;
+ b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBlwP0+wYhW9UKwddP3vrnpyhEsFoFsaicaYwiaO
+ 2dmOF/4eR2JAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZcD9PgAKCRCaaaIIlErT
+ xxGkC/4qc4crIa5Eoj/UZwfbXARGqeQPX8RtVBTso0IlLQapsMZarACv3napgYyiG3p/WOCGiPt
+ YCNMoHryUaHjF9Dvyt27XXm24Fu7eA72vSJ3Po72R03TumUH6G1vDdE/ht0humpzOoDyXoJnogU
+ ujW0CYknGItVUQtqBcfAU1a6GeqU/I1CpgzQQi6SMusrjZju4TZBSE6JU/zuhlqSDDVr6P6pkeQ
+ CPyXTpiGu9xJLcA1VxMIOmXx7GtY7tsJNkFKhzSaOAQMfZOz8n+2+wFbwwkPEWSJ8+p3dVXP2Md
+ clqNDRWt7asIY8cu4HNR9ZIkJqI600PFe/4W+UHMNwq45v8qHSuc3cP3aXmsiifk+h+fll2awdg
+ iQmNzjJQV4+nIxSxPY5HeovLW5/tTXa2aq8O8TCppSjMewGW4vuRZVRJg6euwTSVKIpf7CDGUUD
+ TPd3iE6/EWTYbW8dmVNfGuRrmExcg1/7ePbYZL2xoS59qt2aPgmKzCWMFovCf66jj8udc=
+X-Developer-Key: i=frank@oltmanns.dev; a=openpgp;
+ fpr=02FD257B7F90E6B9A5444F969A69A208944AD3C7
 
+On some pinephones the video output sometimes freezes (flips between two
+frames) [1]. It seems to be that the reason for this behaviour is that
+PLL-MIPI, PLL-GPU and GPU are operating outside their limits.
 
---i6rjjatuyp65otli
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In this patch series I propose the followin changes:
+  1. sunxi-ng: Adhere to the following constraints given in the
+     Allwinner A64 Manual regarding PLL-MIPI:
+      * M/N <= 3
+      * (PLL_VIDEO0)/M >= 24MHz
+      * 500MHz <= clockrate <= 1400MHz
 
-On Fri, Feb 02, 2024 at 06:37:52PM +0200, Ville Syrj=E4l=E4 wrote:
-> On Fri, Feb 02, 2024 at 04:59:30PM +0100, Maxime Ripard wrote:
-> > On Fri, Feb 02, 2024 at 05:40:47PM +0200, Ville Syrj=E4l=E4 wrote:
-> > > On Fri, Feb 02, 2024 at 02:01:39PM +0100, Maxime Ripard wrote:
-> > > > Hi,
-> > > >=20
-> > > > On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebastian Wick wrote:
-> > > > > > >  /**
-> > > > > > >   * DOC: HDMI connector properties
-> > > > > > >   *
-> > > > > > > + * Broadcast RGB
-> > > > > > > + *      Indicates the RGB Quantization Range (Full vs Limite=
-d) used.
-> > > > > > > + *      Infoframes will be generated according to that value.
-> > > > > > > + *
-> > > > > > > + *      The value of this property can be one of the followi=
-ng:
-> > > > > > > + *
-> > > > > > > + *      Automatic:
-> > > > > > > + *              RGB Range is selected automatically based on=
- the mode
-> > > > > > > + *              according to the HDMI specifications.
-> > > > > > > + *
-> > > > > > > + *      Full:
-> > > > > > > + *              Full RGB Range is forced.
-> > > > > > > + *
-> > > > > > > + *      Limited 16:235:
-> > > > > > > + *              Limited RGB Range is forced. Unlike the name=
- suggests,
-> > > > > > > + *              this works for any number of bits-per-compon=
-ent.
-> > > > > > > + *
-> > > > > > > + *      Drivers can set up this property by calling
-> > > > > > > + *      drm_connector_attach_broadcast_rgb_property().
-> > > > > > > + *
-> > > > > >=20
-> > > > > > This is a good time to document this in more detail. There migh=
-t be two
-> > > > > > different things being affected:
-> > > > > >=20
-> > > > > > 1. The signalling (InfoFrame/SDP/...)
-> > > > > > 2. The color pipeline processing
-> > > > > >=20
-> > > > > > All values of Broadcast RGB always affect the color pipeline pr=
-ocessing
-> > > > > > such that a full-range input to the CRTC is converted to either=
- full- or
-> > > > > > limited-range, depending on what the monitor is supposed to acc=
-ept.
-> > > > > >=20
-> > > > > > When automatic is selected, does that mean that there is no sig=
-nalling,
-> > > > > > or that the signalling matches what the monitor is supposed to =
-accept
-> > > > > > according to the spec? Also, is this really HDMI specific?
-> > > > > >=20
-> > > > > > When full or limited is selected and the monitor doesn't suppor=
-t the
-> > > > > > signalling, what happens?
-> > > > >=20
-> > > > > Forgot to mention: user-space still has no control over RGB vs YC=
-bCr on
-> > > > > the cable, so is this only affecting RGB? If not, how does it aff=
-ect
-> > > > > YCbCr?
-> > > >=20
-> > > > So I dug a bit into both the i915 and vc4 drivers, and it looks lik=
-e if
-> > > > we're using a YCbCr format, i915 will always use a limited range wh=
-ile
-> > > > vc4 will follow the value of the property.
-> > >=20
-> > > The property is literally called "Broadcast *RGB*".
-> > > That should explain why it's only affecting RGB.
-> >=20
-> > Right. And the limited range option is called "Limited 16:235" despite
-> > being usable on bpc > 8 bits. Naming errors occurs, and history happens
-> > to make names inconsistent too, that's fine and not an argument in
-> > itself.
-> >=20
-> > > Full range YCbCr is a much rarer beast so we've never bothered
-> > > to enable it.
-> >=20
-> > vc4 supports it.
->=20
-> Someone implemented it incorrectly then.
+  2. Choose a higher clock rate for the ST7703 based XDB599 panel, so
+     that the panel function well with the Allwinner A64 SOC. PLL-MIPI
+     must run between 500 MHz and 1.4 GHz. As PLL-MIPI runs at 6 times
+     the panel's clock rate, we need the panel's clock to be at least
+     83.333 MHz.
 
-Incorrectly according to what documentation / specification? I'm sorry,
-but I find it super ironic that i915 gets to do its own thing, not
-document any of it, and when people try to clean things up they get told
-that we got it all wrong.
+  3. Increase the minimum frequency in the A64 DTS OPPs from 120 MHz to
+     192 MHz. This further reduces the issue.
 
-> > > Eg. with DP it only became possible with the introduction of the VSC
-> > > SDP (and I don't recall if there's additional capability checks that
-> > > are also required). With DP MSA signalling full range YCbCr is not
-> > > possible at all.
-> >=20
-> > This is for HDMI only.
-> >=20
-> > > I don't recall right now what the HDMI requirements are.
-> >=20
-> > HDMI has supported it for a while, and it's defined (for example) in the
-> > HDMI 1.4 spec in Section 6.6 - Video Quantization Ranges. It supports
-> > limited and full range on both RGB and YCbCr, as long as the EDIDs state
-> > so and the Infoframes signal it.
->=20
-> I think a good reason for not using a simple boolean like this=20
-> YCbCr is that it doesn't cover the color encoding part at all,
-> which is probably more important than the quantization range.
-> So we need a new property anyway.
+Unfortunately, with these patches the issue [1] is not completely gone,
+but becomes less likely.
 
-This isn't what is being discussed here, and as I've shown you, is
-completely orthogonal as far as HDMI is concerned.
+Note, that when pinning the GPU to 432 MHz the issue completely
+disappears for me. I've searched the BSP and could not find any
+indication that supports the idea of having the three OPPs. The only
+frequency I found in the BPSs for A64 is 432 MHz, that has also proven
+stable for me. So, while increasing the minimum frequency to 192 MHz
+reduces the issue, should we maybe instead set the GPU to a fixed 432
+MHz instead?
 
-Maxime
+I very much appreciate your feedback!
 
---i6rjjatuyp65otli
-Content-Type: application/pgp-signature; name="signature.asc"
+[1] https://gitlab.com/postmarketOS/pmaports/-/issues/805
 
------BEGIN PGP SIGNATURE-----
+Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+---
+Changes in v2:
+- dts: Increase minimum GPU frequency to 192 MHz.
+- nkm and a64: Add minimum and maximum rate for PLL-MIPI.
+- nkm: Use the same approach for skipping invalid rates in
+  ccu_nkm_find_best() as in ccu_nkm_find_best_with_parent_adj().
+- nkm: Improve names for ratio struct members and hence get rid of
+  describing comments.
+- nkm and a64: Correct description in the commit messages: M/N <= 3
+- Remove patches for nm as they were not needed.
+- st7703: Rework the commit message to cover more background for the
+  change.
+- Link to v1: https://lore.kernel.org/r/20231218-pinephone-pll-fixes-v1-0-e238b6ed6dc1@oltmanns.dev
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZcCs2gAKCRDj7w1vZxhR
-xfaBAQD78t262ocyxX6HKmtZFJU24L6e/wHmLbEAi1D59Gs+tAEApB/D8z2XtVcT
-HS9PH5mQL0RDg4t5JjTmJFk1zuBxygo=
-=6BSH
------END PGP SIGNATURE-----
+---
+Frank Oltmanns (6):
+      clk: sunxi-ng: nkm: Support constraints on m/n ratio and parent rate
+      clk: sunxi-ng: a64: Add constraints on PLL-MIPI's n/m ratio and parent rate
+      clk: sunxi-ng: nkm: Support minimum and maximum rate
+      clk: sunxi-ng: a64: Set minimum and maximum rate for PLL-MIPI
+      drm/panel: st7703: Drive XBD599 panel at higher clock rate
+      arm64: dts: allwinner: a64: Fix minimum GPU OPP rate
 
---i6rjjatuyp65otli--
+ arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi |  4 ++--
+ drivers/clk/sunxi-ng/ccu-sun50i-a64.c         | 14 +++++++----
+ drivers/clk/sunxi-ng/ccu_nkm.c                | 34 +++++++++++++++++++++++++++
+ drivers/clk/sunxi-ng/ccu_nkm.h                |  4 ++++
+ drivers/gpu/drm/panel/panel-sitronix-st7703.c | 14 +++++------
+ 5 files changed, 56 insertions(+), 14 deletions(-)
+---
+base-commit: 059c53e877ca6e723e10490c27c1487a63e66efe
+change-id: 20231218-pinephone-pll-fixes-0ccdfde273e4
+
+Best regards,
+-- 
+Frank Oltmanns <frank@oltmanns.dev>
+
