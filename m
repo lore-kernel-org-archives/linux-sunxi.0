@@ -1,57 +1,57 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E657481B5
-	for <linux-sunxi@lists.linux.dev>; Mon,  5 Feb 2024 17:56:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9CAC482C7
+	for <linux-sunxi@lists.linux.dev>; Mon,  5 Feb 2024 17:57:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707155775; cv=none; b=ruC3Uax/FAAtoxVHoL2baEW1FOHcXT1j6hpps3SQtGJsBKtd7wWQCnXVXR8VLzndTuVR2oDQuxG2GwXUEwhKQIlgoPMP9U/bAATanfZBlCiQMU98UPcMNDDtdYlE3xrRvQpQyv0pXYb1Htrjn3FAyZUJnlJ5lN4hUsdnjVkJhCY=
+	t=1707155882; cv=none; b=eU1Vhf46Z0DM+8v9RgFJ33Ldiu+B1sSOc+pDhQPzeAMJp2DIF0p8thOSqvHsORV2oWrJb7i2tgHh6zRqERZWAan1u0XMZme7ECkudKUaISvSGVC42RSazDUsyDTI+0/9CqVnqe+pewj8xogm+hMDk7/Rh2xVMFhXhERoHMq2V20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707155775; c=relaxed/simple;
-	bh=dcEb2nf7K4Z0S7p1uHTCyCEbqhKHVVffOCKTgy2nN0s=;
+	s=arc-20240116; t=1707155882; c=relaxed/simple;
+	bh=lWrSbc8jUA99N/jOBUbCzu+w8Kzz0sAL1zOSR3c7zHo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ki6gU2nSd13PHkVRccp3Fec3eyuQCrUi4YUn7VDSKqJY6IZcYyOy7rsS2ddrBhDq/tQ/sQFWkMCzg3vW7vgw4/R/cI4ZmiSR5DafrmZzZYzjAvxbk4Nnn4CadaURrtb9Le6zjU8BYbG69pk+dVE7Ookanyjz8gjy2tX/ONBQtkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N1Fn4Whz; arc=none smtp.client-ip=209.85.128.41
+	 MIME-Version:Content-Type; b=enjekTwNYfOoKa+P6/xfNY/UZOcUuGGuiTebIfN8VN9B1DEmWk9UhsGuuK7e3w6dF7sYBrl9CdSOhvwVY8dSsRiTuL+AMSHdeaKZ1u5hPqWyMFTLj5XBbyo9uQDkfz8/VkTTlOPqpbC1bDicaE7/v8qLceunO+WqpDQ6TAxlKRA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KI1cgQAn; arc=none smtp.client-ip=209.85.167.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N1Fn4Whz"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-40fe076f911so572905e9.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 05 Feb 2024 09:56:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KI1cgQAn"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-51124e08565so7235636e87.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 05 Feb 2024 09:57:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707155772; x=1707760572; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1707155878; x=1707760678; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yQo7DEH+Zbxsn/GDq6x2R3lR0LaSJXJADj+lFUkrcCQ=;
-        b=N1Fn4Whze1VDQGB5NB3Wd4RFv5IzBMgy4MF/llo5G/8i2MaEggOPFlMYhsMAT6su3B
-         IiplW2tT6osHpUk/O8cZQjCVcmO1KQCDIupKT0Dpq24q2h0LmE9HORnfDMGxwRfulJE7
-         LLF+k8RJIymBqgK1Bf1/hC2YuUtKYiXcLWQZcnNnrmWcrSfYU9fl6ML/QR0NSqOuWHwQ
-         K+v0FSoso61RxwfbzoqHP26mV7T53/0jPK4Eyt2GMr1ogzwqq+uzq664T7UlEdutV0Ky
-         SF+ernEpyQ4ddkAjEle1+EDFVkUXe60HgMVpe7Dcw/o4pKoNgYVSPryWks/9AiSVvBzF
-         ph0Q==
+        bh=i34tZ3FFPbhGf8aLiNBH7cN2Fd7/KOwTUUwg6OHr+K8=;
+        b=KI1cgQAntxY0nzWMIEHKJ7H7dYT5AcQDU3O+d6LCt9HCS4YN79t1yqbuUmXM//nw2d
+         XzEvoTGVuWRVcIbst175fHIbvfWbPtx2JZxIK8rlwqoktztsttE8/UEc2s4NtqGrK+iF
+         drB8zs0CgwUFwY+AFBlS/LN1iM/++bK2RagJnrKC5DCYRp5WnWJB5YWljXPC4WCmLM9N
+         KreVXRUPk83HCiyIaHz3cQiK3dyDLHzUi7C6k0yWR99VL/TgzXDp6O8qf+R9WT4h1mu+
+         CIYnM7EOh6gLzgxyrLxZ5Lajzvtk1Hxup/gTK/kVgrf7dZQotnJ6yKOIXr8ACr3HxCft
+         iYbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707155772; x=1707760572;
+        d=1e100.net; s=20230601; t=1707155878; x=1707760678;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=yQo7DEH+Zbxsn/GDq6x2R3lR0LaSJXJADj+lFUkrcCQ=;
-        b=PmP6pYujrsFOMIC5Pqy0KHRMfTi9feEEw5132L+E+aBbu4AP/NiGQjZepNkYJEkIkd
-         PEmT7WFdgUDhrY3pZlQP4F9AyJfp7PmIfWW8zXsaTxtiNnvaCsRdQcPnFwQ/DXiUw08k
-         y5xIscyshshPGCHZPZGu+tcnc4BGdGQAtaEm5h0o3onjqnM3PVeEy5V+71RrXn6N/0/s
-         xnbXk3SB1kH4KZctTD61EHvXcoIM0vQxiviYzy9gu7ws2VwgXkoA2UMTTDFXo9KaGzVD
-         wNxt9NQPPkLllFhC0ixI6M5JtQYrjT7Nrad+JE+L/MN/PQLkPinAdbpgsUGm7gbD6YiU
-         Qq4A==
-X-Gm-Message-State: AOJu0Yx5jKEo94oCSjG+KsbWQ5Yr85KuU06RortA0oyURdtJSUEC6RFX
-	dLm+arF2J/vRW3rzq6QcKx3/XkqtfYHeu7s0JHkSf7sxE4DZdCSS
-X-Google-Smtp-Source: AGHT+IEsTlp9iHH6e8DPKagWNrPZEnjKRxqc6vq6sXhD5ZPYHBTALUGH8fsHvNTKshHOCqRe73BnQw==
-X-Received: by 2002:a05:600c:4e90:b0:40e:f681:b7b6 with SMTP id f16-20020a05600c4e9000b0040ef681b7b6mr340863wmq.37.1707155772063;
-        Mon, 05 Feb 2024 09:56:12 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCXPLF5BJxHk+SVf+iXJqOC4NqstlwVSQCIrIQZ0CNKx8ubzjsfiVziRQGSQjYrsoTpZS719hvULJu17cAsZCT1mJqFYI87qvTedGmJh27eHfDmDc/xT+M4qqBBmjm1fw5N0GFwDaOt5pID6gTxIDZzOG699DFKNj10o5fwAuCAjF/iBN5GfoIDWavEsOcGYJRC0i0oc/EEWvPfQfDpX8V0OXLXLm7zbwOgTkrV840/lRKYjWXEzpdNT7ruexZWEx7yt1Y7AWw0mgsfD3gF9jzPiqwVeqtLeVkKk6OiP0pg11SrkJkWPpcD33wXcDmrzX44WIjkvgzTvM01NkQiFu6sKPtuHTxjVmc7DKWkYk0HMq8w9DVJVHId+g8FMK5qFa3a+Hbe5YwXWckiu65qxVa6SUJuagtrMU6nr5bKCqks/E9gLYFxzvum7AFxwEcph+cl9FtZklC6jPxL12g41YTi4tG6usJR9juOrxJMvKmQiRH9CF4e9yBZBlEopCajudfY3Sk+I5UmM/i2DXlhyB0rEoqns95uSDxyUgBtgbv+0bdeL+xLYqpuMU/cjhxrmZ44fkH+BvJ5nz6cBI7Z+/mO2rQzRk66jE62DAIeCR36FneUwm7kHaV5CQ+wvM1x1M6a24wmx0kviiUARhVkKOtxWREpKRc6Z0erXqYG2cTyUDJjw0U0LsZ4R7WTH+Rtx2NI9tzNWsnjEM1WG5YUcs684BlQZBX6+EC4/1q2b2veO7C/qHXyN0jZMKO5H7Z7NoyHN5pObCTBBPA==
+        bh=i34tZ3FFPbhGf8aLiNBH7cN2Fd7/KOwTUUwg6OHr+K8=;
+        b=J+dg38eQJDlufEtnQUzBkPfeCa9fVX18tG1b2pQvAoeKqNg3+eDxbgYULvN+w6n87q
+         v6PSjSvIRiphPNorHoEP9s4PcuNv9dJu6hpkPJLd8VHCcz6JwN4dcOqnHguODcVMznKd
+         b2mK6eys/DiAHbyV9SgnYGAmf6IebAVVZ+jLHiztLv8WlVwJMwolQ/9N6OU6NV0KhUu3
+         0Cwq8JwooquA9ei2rsRaIP1J8cJ1Y3fspM4LLemgwhNh4zg/+8Eh+32CjJA5Yf9KNKdF
+         Io8AG2sLk9VP5Oq3U4hDxDEo5Zj2uXvnY0H+T31ZV4K9iuAlQ24ZzyIWVfO3Tna3SjWm
+         pd1Q==
+X-Gm-Message-State: AOJu0YxWzPQUAiT84w5jqYqA453fQC7gwZHTLB/1NDX783ccxZWaR5YK
+	lzGdG0aRxw2wgLuxrD+j9buIUjoaagpaoWPdAQByLhSvo14pcfjf
+X-Google-Smtp-Source: AGHT+IGoPOkUhCufoS6lCIs5EGArZvJVv922FEUcsxMUGIhQXY+AjR81U8jTSaoj3gJj/4rMS1O5tw==
+X-Received: by 2002:a19:6451:0:b0:511:49d9:fedf with SMTP id b17-20020a196451000000b0051149d9fedfmr251422lfj.13.1707155877476;
+        Mon, 05 Feb 2024 09:57:57 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCXGCK7tf1Ptyz6HmhmmygivSkZttogyHu1TyMDdDQ5Nu8eevB8TjC9ST/lb4I2sK2ORVanShf4tAR8h+88kfXIXB7IedBlO6CdVJTs9VbezYULqUYzMQt5n4PD4A7MsN3Fa6KsCPQMzz9tMOhlKZaFekVgW2wlECNYyCRFLwrInpCrUXkvaHKm4LFzTyVyCbG0d2ApzCkMTk6XK7sYwpllH0iRhxhGVmDxPcrozhyj+VvHLb2WyR1qXuMV+bGFM6firFlILkD9zesHbMrG/b0/FeqSifxG/2UYuX3eqPZyNyY90Z5srLZC9V0BD458p2oUE4snRo9BRj2qVKksVB0/R/+RqIxOaDUlxURN2rmXd4OQFyYsWU2ZL0/bYZjT0GUf9Kk0oJ9UPSfP7o95qiTDOACza5f7mc0cJ0ebko6KKCNkUXGzptbKQ+T92kFH6XPZVVPoUAUj99fRlwAkflkqraPD5kuIcOfX32YJ+mkpFeFoY2DreE6/cfq5hRo/vnZoL8kKsOsixux4ip8p8YeK5cf8afv/p1dRllJ6p9KDBLNdamy7kdAXdrCzXlbZt8dGcPhVkMhh4mBoKnuBkRpw0jX+zV7GRhwtJ53lU9VEle4navhVDjF5Y/rtrNu9e0D9YDMKCccO0bBinK68q2A2Wjw/1070BcyyM2pxBRuh3FTqYMQLcao7vo/yCuCzj9aphfjcEi531FnGXoEdnC0ecyojAG7cIn86l1Jfb3K1Z+eHwE2U10AT7QPWlZHFxrhV90LswemmmJg==
 Received: from jernej-laptop.localnet (82-149-13-182.dynamic.telemach.net. [82.149.13.182])
-        by smtp.gmail.com with ESMTPSA id c29-20020adfa31d000000b0033b3a010001sm144509wrb.4.2024.02.05.09.56.10
+        by smtp.gmail.com with ESMTPSA id o13-20020a05600c4fcd00b0040fccf7e8easm9068610wmq.36.2024.02.05.09.57.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Feb 2024 09:56:11 -0800 (PST)
+        Mon, 05 Feb 2024 09:57:57 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Michael Turquette <mturquette@baylibre.com>,
  Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
@@ -71,13 +71,14 @@ Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  Frank Oltmanns <frank@oltmanns.dev>
 Subject:
- Re: [PATCH v2 3/6] clk: sunxi-ng: nkm: Support minimum and maximum rate
-Date: Mon, 05 Feb 2024 18:56:09 +0100
-Message-ID: <4543794.LvFx2qVVIh@jernej-laptop>
-In-Reply-To: <20240205-pinephone-pll-fixes-v2-3-96a46a2d8c9b@oltmanns.dev>
+ Re: [PATCH v2 4/6] clk: sunxi-ng: a64: Set minimum and maximum rate for
+ PLL-MIPI
+Date: Mon, 05 Feb 2024 18:57:55 +0100
+Message-ID: <1877423.tdWV9SEqCh@jernej-laptop>
+In-Reply-To: <20240205-pinephone-pll-fixes-v2-4-96a46a2d8c9b@oltmanns.dev>
 References:
  <20240205-pinephone-pll-fixes-v2-0-96a46a2d8c9b@oltmanns.dev>
- <20240205-pinephone-pll-fixes-v2-3-96a46a2d8c9b@oltmanns.dev>
+ <20240205-pinephone-pll-fixes-v2-4-96a46a2d8c9b@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -87,74 +88,16 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne ponedeljek, 05. februar 2024 ob 16:22:26 CET je Frank Oltmanns napisal(a):
-> According to the Allwinner User Manual, the Allwinner A64 requires
-> PLL-MIPI to run at 500MHz-1.4GHz. Add support for that to ccu_nkm.
+Dne ponedeljek, 05. februar 2024 ob 16:22:27 CET je Frank Oltmanns napisal(a):
+> Set the minimum and maximum rate of Allwinner A64's PLL-MIPI according
+> to the Allwinner User Manual.
 > 
 > Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
-> ---
->  drivers/clk/sunxi-ng/ccu_nkm.c | 13 +++++++++++++
->  drivers/clk/sunxi-ng/ccu_nkm.h |  2 ++
->  2 files changed, 15 insertions(+)
-> 
-> diff --git a/drivers/clk/sunxi-ng/ccu_nkm.c b/drivers/clk/sunxi-ng/ccu_nkm.c
-> index 1168d894d636..7d135908d6e0 100644
-> --- a/drivers/clk/sunxi-ng/ccu_nkm.c
-> +++ b/drivers/clk/sunxi-ng/ccu_nkm.c
-> @@ -181,6 +181,12 @@ static unsigned long ccu_nkm_round_rate(struct ccu_mux_internal *mux,
->  	if (nkm->common.features & CCU_FEATURE_FIXED_POSTDIV)
->  		rate *= nkm->fixed_post_div;
->  
-> +	if (nkm->min_rate && rate < nkm->min_rate)
-> +		rate = nkm->min_rate;
-> +
-> +	if (nkm->max_rate && rate > nkm->max_rate)
-> +		rate = nkm->max_rate;
 
-Please take a look at ccu_nm_round_rate() code. You need to consider postdiv
-and you can return immediately.
-
-> +
->  	if (!clk_hw_can_set_rate_parent(&nkm->common.hw))
->  		rate = ccu_nkm_find_best(*parent_rate, rate, &_nkm, &nkm->common);
->  	else
-> @@ -220,6 +226,13 @@ static int ccu_nkm_set_rate(struct clk_hw *hw, unsigned long rate,
->  	_nkm.min_m = 1;
->  	_nkm.max_m = nkm->m.max ?: 1 << nkm->m.width;
->  
-> +
-> +	if (nkm->min_rate && rate < nkm->min_rate)
-> +		rate = nkm->min_rate;
-> +
-> +	if (nkm->max_rate && rate > nkm->max_rate)
-> +		rate = nkm->max_rate;
-> +
-
-No need for this, clk subsystem calls round rate before setting actual clock
-rate.
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
-
->  	ccu_nkm_find_best(parent_rate, rate, &_nkm, &nkm->common);
->  
->  	spin_lock_irqsave(nkm->common.lock, flags);
-> diff --git a/drivers/clk/sunxi-ng/ccu_nkm.h b/drivers/clk/sunxi-ng/ccu_nkm.h
-> index c409212ee40e..358a9df6b6a0 100644
-> --- a/drivers/clk/sunxi-ng/ccu_nkm.h
-> +++ b/drivers/clk/sunxi-ng/ccu_nkm.h
-> @@ -27,6 +27,8 @@ struct ccu_nkm {
->  	struct ccu_mux_internal	mux;
->  
->  	unsigned int		fixed_post_div;
-> +	unsigned long		min_rate;
-> +	unsigned long		max_rate;
->  	unsigned long		max_m_n_ratio;
->  	unsigned long		min_parent_m_ratio;
->  
-> 
-> 
-
 
 
 
