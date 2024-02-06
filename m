@@ -1,200 +1,564 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ADC1D517
-	for <linux-sunxi@lists.linux.dev>; Tue,  6 Feb 2024 17:51:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2660DDF56
+	for <linux-sunxi@lists.linux.dev>; Tue,  6 Feb 2024 18:13:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707241867; cv=none; b=ki3JLwjMzuCeZPKgOCb/EBIaakxdX0dMiXAMOmI21bnoh+CX2c8DAxc53rcQkbk7N+i5HefR62MkxM85nSWrfqTw2Me80XVTdOeafJgrn+OseO6UZuc+9ceFELwfbLrzYk4fq2K097Qx1QOLaP2Sfq5SyDLdzjz84Cl1ZfXKAIw=
+	t=1707243233; cv=none; b=HPk2YBkQKEY7BAnmkCPSz62fcnDkgTw8cqlD0YKsPvuy4BcXmMVvx5CrjOJXSwLVshwHzGMBG9RhOJkuLWXIHPte32HCQWMe5lYU91GMKQV/e4afr54I6iCP0ffpYVnBMHl4XWn4MyikEXKqPYWTkrtPpjQwWNjEaJ75JXfpNtI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707241867; c=relaxed/simple;
-	bh=IZKb1XetSfArgIDMAWLf0LauVjj5Kgg4kk09DX9ogSA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fC1m6W4lq09Mg62kB9/mNk4o2Zwhz7eEH1LR0rh9n0BVm2U7KAGikt60JNgDpVcjXC9bu3BFb1iQ9GgQeLPYFaQnyI3yk2caFuYh5ECmghDF/UdY070WodQx4YCsjo9Hg6WM5X56EM7/eSzUV5yoLtZ60KLOYXLzVJrwlryLuvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YAOB2+cN; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YAOB2+cN"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-33934567777so924174f8f.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 06 Feb 2024 09:51:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707241864; x=1707846664; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RyDSK4F15cuDmx/vu6ZGAEnvOFxcasBhnuqvACgOoY8=;
-        b=YAOB2+cNH8nmcaPGFohZW3WsISzL1iCT7N+/fcJXUk4OtsUBERbh4OQ76aK5NFVbBV
-         6PndEBERv1BslzvrTEKNZR+ehqfSNXEBi46RqQ7eX0jad/Xx71icTm9KwOiDWmZ1v0W0
-         EJ3CoL+PTFahN7gPA/FE46iOPDUQNgWIyDzAgZXDxumCpsFQD3IXC0499DTBCsH3727X
-         uc0sgE7ycJgOZv+LHQS0yZXR1b/O6NhECUl8lrW2uNBMu48ZS8XnIFEI57Z7IJE5PVsK
-         CNGX1uvn45pSQARpkKvq0nJnHOoNfHa47sqrAOAwFf7sBUeJ41c3jwFZGGP4VCkXpjxH
-         GU0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707241864; x=1707846664;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RyDSK4F15cuDmx/vu6ZGAEnvOFxcasBhnuqvACgOoY8=;
-        b=ORmoqwAaypSaNsUCDuTX+pvty/D17qSoGwvBOSOvs+W/2H8gUxuPZCT1T/V+W2kvCu
-         H+s2P+Ljhemapxr7e+rw28zjC3l1CAnDEy53VAS1cA3kASdx15BoBuVgDdXCx7pKH6/b
-         SU8+3wnPzwF1OgfCY76/mO+Ui8GldoTid+WayhsJ0JmdKtBGFD5rT4Cy3l6kv57mIPtS
-         40f989fUAlo2HtQRJ+1r7jRts4BIeNaXCrOGSbgylo3934EBNmSvQmMEcx3t3OlS1zbM
-         TFqctKGMnhanZbfPST5gRYhJXhLe7Ag5DHny9maa/5fe5EuE0QOCDneIUa4tK3pKNGMC
-         Hgtg==
-X-Gm-Message-State: AOJu0Yza6FEhTCjSnCeJFMA6UPggQpOCGzcpE6UZdjyBlf5pp0QunL+u
-	9aN3YGDlPYISseMYWq+jHua9Pz20udZlENOx7FM4G/BnDjJpw16s
-X-Google-Smtp-Source: AGHT+IFFGw8MurJEQRDhd3NrPc7k/aeq09X31PYFeQnZKxSyzmXwRdTODxBIQmNqM5wVALjwXtAHqw==
-X-Received: by 2002:a05:6000:108d:b0:33b:2856:5188 with SMTP id y13-20020a056000108d00b0033b28565188mr2440903wrw.44.1707241864183;
-        Tue, 06 Feb 2024 09:51:04 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCVnl+77EHlyL7OjE70j4LZEUM8ybfGzihKXR1fW7X87Lb8QtN/NH2w5BHRaSzjtsOgKSoIXtGS4t4G2jjpQ6fSTVquJjK474xw5tcMreE2+/4zq8GNkR7I+4PuKylb2TaUemBu8BQP7che3uNZh5Y06mYd0CAMqKsnemk02z49VekronMmyA8f6CLLE7d5KTtqwYc6Q7eUOOBwe3rgL/qsmc+DP2wZ+iBdqianq9pVLVdQ1zQm+HDfUj5IvasaTVJtULALl7VDi30cJJjKTVj9GDa2xNanGFQa+hD5zoKLggjJPLh1g/IFHIU9AnQgQK8mNFy1nZAb5mf4aTmNH8Xljyyh2fbOzfQGWE7nRbkcuN90nt2+jcCMRJgjcbftVXgdxEFEW6TJDUR5HK50qp/20EdMikeoENxf8WfXOBoE6dtpnGLsyomGZ5rat1Xym13QtVmVi2WEffS+IRcHJPyaBPzgCfBFlmYqVcnO3QtGxWM7ZpHXohGrN7VFLnEZT34g7ajm2XGbCcrLh6bAoulKDPol4jszQem+JN18eRgFXIxAyVlp5pCb8YBFDMbSLJ3iSl110HAlJE0k/LFnhooj9NkTJ9apVJdXKxbKfMwIyeD6F/m52kaq8PhuhQKP1z8iad1wLx3x4daI6ITF3tsnGgPiJCpw0B8AclUtFNQaXQYA2H1uQmY1PaYyF+7BT8LHG1aaUGT8lm7k5QY0BrmrV8jAipi7pEyIuB4Km30ZBf4LLfh4zb+Y3brtRzdyIoUXXLnGPxmbK5mVnGcVv0MI=
-Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id q11-20020adfab0b000000b0033b2276e71csm2627016wrc.62.2024.02.06.09.51.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Feb 2024 09:51:03 -0800 (PST)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Frank Oltmanns <frank@oltmanns.dev>
-Cc: Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>,
- Guido =?ISO-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
- Purism Kernel Team <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
-Subject:
- Re: [PATCH v2 3/6] clk: sunxi-ng: nkm: Support minimum and maximum rate
-Date: Tue, 06 Feb 2024 18:51:02 +0100
-Message-ID: <3280499.44csPzL39Z@jernej-laptop>
-In-Reply-To: <87eddqzm4j.fsf@oltmanns.dev>
-References:
- <20240205-pinephone-pll-fixes-v2-0-96a46a2d8c9b@oltmanns.dev>
- <4543794.LvFx2qVVIh@jernej-laptop> <87eddqzm4j.fsf@oltmanns.dev>
+	s=arc-20240116; t=1707243233; c=relaxed/simple;
+	bh=aQjve1987dXGWU24+q94mnwyhFdizw7wTe1tE6xHEbI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QScB9D4RjIpFyFjxL+ahISJonGKhfr0w+bWdtsTLAQVvRmFOmb8WS8pr+hkTPqbFTAtEo8tWlUFblvd0xBIE2qlgfW6cGKJ6c4DCBj0KxMt/IcW/I+h2e35eTPxYX/rn4YtGF+Dvq8uFXHVUg2YWXgN9sFmfRxL5LZtjHqVXNvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D90E91FB;
+	Tue,  6 Feb 2024 10:14:32 -0800 (PST)
+Received: from [10.1.34.10] (e110479.arm.com [10.1.34.10])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9F4063F64C;
+	Tue,  6 Feb 2024 10:13:48 -0800 (PST)
+Message-ID: <8d9d1d7c-8066-4400-8fe4-68aa0e28023d@arm.com>
+Date: Tue, 6 Feb 2024 18:13:46 +0000
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] arm64: dts: allwinner: Add Jide Remix Mini PC support
+Content-Language: en-US
+To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+ Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Nick Alilovic <nickalilovic@gmail.com>
+References: <20240204094404.149776-1-andre.przywara@arm.com>
+ <3788758.kQq0lBPeGt@jernej-laptop>
+ <205b3828-6ec2-4670-ac68-a61e5cc0597d@arm.com>
+ <4867577.GXAFRqVoOG@jernej-laptop>
+From: Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <4867577.GXAFRqVoOG@jernej-laptop>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Dne ponedeljek, 05. februar 2024 ob 21:34:04 CET je Frank Oltmanns napisal(=
-a):
->=20
-> On 2024-02-05 at 18:56:09 +0100, Jernej =C5=A0krabec <jernej.skrabec@gmai=
-l.com> wrote:
-> > Dne ponedeljek, 05. februar 2024 ob 16:22:26 CET je Frank Oltmanns napi=
-sal(a):
-> >> According to the Allwinner User Manual, the Allwinner A64 requires
-> >> PLL-MIPI to run at 500MHz-1.4GHz. Add support for that to ccu_nkm.
-> >>
-> >> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
-> >> ---
-> >>  drivers/clk/sunxi-ng/ccu_nkm.c | 13 +++++++++++++
-> >>  drivers/clk/sunxi-ng/ccu_nkm.h |  2 ++
-> >>  2 files changed, 15 insertions(+)
-> >>
-> >> diff --git a/drivers/clk/sunxi-ng/ccu_nkm.c b/drivers/clk/sunxi-ng/ccu=
-_nkm.c
-> >> index 1168d894d636..7d135908d6e0 100644
-> >> --- a/drivers/clk/sunxi-ng/ccu_nkm.c
-> >> +++ b/drivers/clk/sunxi-ng/ccu_nkm.c
-> >> @@ -181,6 +181,12 @@ static unsigned long ccu_nkm_round_rate(struct cc=
-u_mux_internal *mux,
-> >>  	if (nkm->common.features & CCU_FEATURE_FIXED_POSTDIV)
-> >>  		rate *=3D nkm->fixed_post_div;
-> >>
-> >> +	if (nkm->min_rate && rate < nkm->min_rate)
-> >> +		rate =3D nkm->min_rate;
-> >> +
-> >> +	if (nkm->max_rate && rate > nkm->max_rate)
-> >> +		rate =3D nkm->max_rate;
-> >
-> > Please take a look at ccu_nm_round_rate() code. You need to consider po=
-stdiv
-> > and you can return immediately.
->=20
-> There is a difference here insofar that ccu_nm is always connected to a
-> fixed rate parent (at least that's my understanding). Therefore, in
-> ccu_nm_round_rate() we can be sure that the min or max rate can really
-> be set. In ccu_nkm we don't have that luxury, we actually have to find a
-> rate that is approximately equal to the min and max rate, based on the
-> parent rate. Therefore, we can't return immediately.
+Hi Jernej,
 
-Good point.
+On 06/02/2024 18:32, Jernej Škrabec wrote:
+> Dne torek, 06. februar 2024 ob 01:47:05 CET je Andre Przywara napisal(a):
+>> Hi Jernej,
+>>
+>> thanks for having a look!
+>>
+>> On 05/02/2024 19:20, Jernej Škrabec wrote:
+>>> Dne ponedeljek, 05. februar 2024 ob 19:12:45 CET je Jernej Škrabec napisal(a):
+>>>> Hi Andre!
+>>>>
+>>>> Dne nedelja, 04. februar 2024 ob 10:44:04 CET je Andre Przywara napisal(a):
+>>>>> The Remix Mini PC is a "mini computer" using the Allwinner H64 SoC,
+>>>>> which appears to be just a relabelled A64. It was launched in 2015 by
+>>>>> the now defunct company Jide, and shipped with a desktop optimised
+>>>>> version of Android. It features
+>>>>> 	- Allwinner H64 Soc (4 * Arm Cortex-A53 cores)
+>>>>> 	- 1 or 2 GB DRAM
+>>>>> 	- 8 or 16 GB eMMC flash
+>>>>> 	- 100 MBit Ethernet port (using an X-Powers AC200 PHY)
+>>>>> 	- RTL8723BS WiFi & Bluetooth chip
+>>>>> 	- HDMI port
+>>>>> 	- two USB 2.0 ports
+>>>>> 	- 3.5mm AV port
+>>>>> 	- microSD card slot
+>>>>>
+>>>>> The devicetree covers most peripherals, though there is no agreed
+>>>>> binding for the PHY chip yet, so this is left out.
+>>>>>
+>>>>> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+>>>>> ---
+>>>>>    arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+>>>>>    .../allwinner/sun50i-h64-remix-mini-pc.dts    | 357 ++++++++++++++++++
+>>>>>    2 files changed, 358 insertions(+)
+>>>>>    create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h64-remix-mini-pc.dts
+>>>>>
+>>>>> diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
+>>>>> index 91d505b385de..2db3b15ad09f 100644
+>>>>> --- a/arch/arm64/boot/dts/allwinner/Makefile
+>>>>> +++ b/arch/arm64/boot/dts/allwinner/Makefile
+>>>>> @@ -16,6 +16,7 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-pinetab.dtb
+>>>>>    dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-pinetab-early-adopter.dtb
+>>>>>    dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-sopine-baseboard.dtb
+>>>>>    dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-teres-i.dtb
+>>>>> +dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h64-remix-mini-pc.dtb
+>>>>>    dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a100-allwinner-perf1.dtb
+>>>>>    dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-bananapi-m2-plus.dtb
+>>>>>    dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-bananapi-m2-plus-v1.2.dtb
+>>>>> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h64-remix-mini-pc.dts b/arch/arm64/boot/dts/allwinner/sun50i-h64-remix-mini-pc.dts
+>>>>> new file mode 100644
+>>>>> index 000000000000..537923a541a8
+>>>>> --- /dev/null
+>>>>> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h64-remix-mini-pc.dts
+>>>>> @@ -0,0 +1,357 @@
+>>>>> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+>>>>> +// Copyright (c) 2018 ARM Ltd.
+>>>>
+>>>> Shouldn't be 2024?
+>>
+>> Well, that just documents that sad fact that I indeed created this file
+>> 6 years ago, but just managed now to actually send this. Is there a
+>> requirement for this being "recent"?
+> 
+> Not really, but it's strange looking. Some might incorrectly assume that it's
+> present in the kernel longer than it really is.
 
->=20
-> Also, I'm not sure what you mean about me needing to consider postdiv.
-> That's what I did. The check is after multiplying with the postdiv. It's
-> the same as in ccu_nm_round_rate() (just minus the immediate return).
+OK, I will put in 2023, as this is when I touched this again.
 
-Nevermind, this applies only for immediate return.
+>>>>
+>>>>> +
+>>>>> +/dts-v1/;
+>>>>> +
+>>>>> +#include "sun50i-a64.dtsi"
+>>>>> +#include "sun50i-a64-cpu-opp.dtsi"
+>>>>> +
+>>>>> +#include <dt-bindings/gpio/gpio.h>
+>>>>> +
+>>>>> +/ {
+>>>>> +	model = "Remix Mini PC";
+>>>>> +	compatible = "jide,remix-mini-pc", "allwinner,sun50i-h64",
+>>>>> +		     "allwinner,sun50i-a64";
+>>>>> +
+>>>>> +	aliases {
+>>>>> +		ethernet1 = &rtl8723bs;
+>>>>> +		serial0 = &uart0;
+>>>>> +	};
+>>>>> +
+>>>>> +	chosen {
+>>>>> +		stdout-path = "serial0:115200n8";
+>>>>> +	};
+>>>>> +
+>>>>> +	hdmi-connector {
+>>>>> +		compatible = "hdmi-connector";
+>>>>> +		type = "a";
+>>>>> +
+>>>>> +		port {
+>>>>> +			hdmi_con_in: endpoint {
+>>>>> +				remote-endpoint = <&hdmi_out_con>;
+>>>>> +			};
+>>>>> +		};
+>>>>> +	};
+>>>>> +
+>>>>> +	reg_vcc5v: regulator-5v {
+>>>>> +		/* board wide 5V supply directly from the DC input */
+>>>>> +		compatible = "regulator-fixed";
+>>>>> +		regulator-name = "vcc-5v";
+>>>>> +		regulator-min-microvolt = <5000000>;
+>>>>> +		regulator-max-microvolt = <5000000>;
+>>>>> +		regulator-always-on;
+>>>>> +	};
+>>>>> +
+>>>>> +	wifi_pwrseq: wifi_pwrseq {
+>>>>> +		compatible = "mmc-pwrseq-simple";
+>>>>> +		pinctrl-names = "default";
+>>>>> +		reset-gpios = <&r_pio 0 2 GPIO_ACTIVE_LOW>; /* PL2 */
+>>>>> +		post-power-on-delay-ms = <200>;
+>>>>> +	};
+>>>>> +};
+>>>>> +
+>>>>> +&codec {
+>>>>> +	status = "okay";
+>>>>> +};
+>>>>> +
+>>>>> +&codec_analog {
+>>>>> +	cpvdd-supply = <&reg_eldo1>;
+>>>>> +	status = "okay";
+>>>>> +};
+>>>>> +
+>>>>> +&cpu0 {
+>>>>> +	cpu-supply = <&reg_dcdc2>;
+>>>>> +};
+>>>>> +
+>>>>> +&cpu1 {
+>>>>> +	cpu-supply = <&reg_dcdc2>;
+>>>>> +};
+>>>>> +
+>>>>> +&cpu2 {
+>>>>> +	cpu-supply = <&reg_dcdc2>;
+>>>>> +};
+>>>>> +
+>>>>> +&cpu3 {
+>>>>> +	cpu-supply = <&reg_dcdc2>;
+>>>>> +};
+>>>>> +
+>>>>> +&dai {
+>>>>> +	status = "okay";
+>>>>> +};
+>>>>> +
+>>>>> +&de {
+>>>>> +	status = "okay";
+>>>>> +};
+>>>>> +
+>>>>> +&ehci0 {
+>>>>> +	status = "okay";
+>>>>> +};
+>>>>> +
+>>>>> +&ehci1 {
+>>>>> +	status = "okay";
+>>>>> +};
+>>>>> +
+>>>>> +&hdmi {
+>>>>> +	hvcc-supply = <&reg_dldo1>;
+>>>>> +	status = "okay";
+>>>>> +};
+>>>>> +
+>>>>> +&hdmi_out {
+>>>>> +	hdmi_out_con: endpoint {
+>>>>> +		remote-endpoint = <&hdmi_con_in>;
+>>>>> +	};
+>>>>> +};
+>>>>> +
+>>>>> +/* Connects to the AC200 chip */
+>>>>> +&i2c0 {
+>>>>> +	pinctrl-names = "default";
+>>>>> +	pinctrl-0 = <&i2c0_pins>;
+>>>>> +	status = "okay";
+>>>>> +};
+>>>>> +
+>>>>> +&i2c0_pins {
+>>>>> +	bias-pull-up;
+>>>>> +};
+>>>>> +
+>>>>> +&mmc0 {
+>>>>> +	pinctrl-names = "default";
+>>>>> +	pinctrl-0 = <&mmc0_pins>;
+>>>>> +	vmmc-supply = <&reg_dcdc1>;
+>>>>> +	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>;
+>>>>> +	disable-wp;
+>>>>> +	bus-width = <4>;
+>>>>> +	status = "okay";
+>>>>> +};
+>>>>> +
+>>>>> +&mmc1 {
+>>>>> +	pinctrl-names = "default";
+>>>>> +	pinctrl-0 = <&mmc1_pins>;
+>>>>> +	vmmc-supply = <&reg_aldo1>;
+>>>>> +	vqmmc-supply = <&reg_dldo4>;
+>>>>> +	mmc-pwrseq = <&wifi_pwrseq>;
+>>>>> +	bus-width = <4>;
+>>>>> +	non-removable;
+>>>>> +	status = "okay";
+>>>>> +
+>>>>> +	rtl8723bs: wifi@1 {
+>>>>> +		reg = <1>;
+>>>>> +		interrupt-parent = <&r_pio>;
+>>>>> +		interrupts = <0 3 IRQ_TYPE_LEVEL_LOW>; /* PL3 */
+>>>>> +		interrupt-names = "host-wake";
+>>>>> +	};
+>>>>
+>>>> Node without compatible doesn't help. Please remove it.
+>>
+>> Huh, but where do I put the the IRQ line then? And every other RTL8723BS
+>> user seems to do the same?
+> 
+> It's good, sorry for the noise.
 
-Best regards,
-Jernej
+Just for the records, and for my own reference:
+Since there is no "ranges" property in the MMC node, the Linux platform 
+bus driver is not automatically traversing any child nodes. So we don't 
+need a compatible string. Instead it's a new addressing scheme (this 
+obsolete MMC "bus" address, like SPI or I2C), so it's up to the driver 
+to do the child iteration. And it will match device #1 to reg <1>, and 
+use that node, as Chen-Yu mentioned.
 
->=20
-> >
-> >> +
-> >>  	if (!clk_hw_can_set_rate_parent(&nkm->common.hw))
-> >>  		rate =3D ccu_nkm_find_best(*parent_rate, rate, &_nkm, &nkm->common);
-> >>  	else
-> >> @@ -220,6 +226,13 @@ static int ccu_nkm_set_rate(struct clk_hw *hw, un=
-signed long rate,
-> >>  	_nkm.min_m =3D 1;
-> >>  	_nkm.max_m =3D nkm->m.max ?: 1 << nkm->m.width;
-> >>
-> >> +
-> >> +	if (nkm->min_rate && rate < nkm->min_rate)
-> >> +		rate =3D nkm->min_rate;
-> >> +
-> >> +	if (nkm->max_rate && rate > nkm->max_rate)
-> >> +		rate =3D nkm->max_rate;
-> >> +
-> >
-> > No need for this, clk subsystem calls round rate before setting actual =
-clock
-> > rate.
->=20
-> I'll remove the checks in V3.
->=20
+>>>>
+>>>>> +};
+>>>>> +
+>>>>> +&mmc2 {
+>>>>> +	pinctrl-names = "default";
+>>>>> +	pinctrl-0 = <&mmc2_pins>, <&mmc2_ds_pin>;
+>>>>> +	vmmc-supply = <&reg_dcdc1>;
+>>>>> +	vqmmc-supply = <&reg_eldo1>;
+>>>>> +	bus-width = <8>;
+>>>>> +	non-removable;
+>>>>> +	mmc-ddr-1_8v;
+>>>>> +	mmc-hs200-1_8v;
+>>>>
+>>>> Aren't these speed modes enabled by default?
+>>
+>> Enabled by who? Our current sunxi-mmc driver? I cannot find anything in
+>> the binding that suggests that there would be some default settings.
+> 
+> Looking at Linux sunxi mmc driver, mmc-ddr-1_8v is enabled by default for
+> "new timings" variants except for H5. Anyway...
+
+But this is a Linux implementation detail, which we should not rely on 
+in a DT? And if I remember Maxime correctly back then, the plan was to 
+avoid those driver hacks and just say what we support in the DT, going 
+forward. This might be needed for other OSes, which might not support 
+HS-200?
+>>> Sorry, mmc-hs200-1_8v is ok, but mmc-ddr-1_8v should be
+>>> removed.
+>>
+>> Mmh, I am confused: I thought after the H5 eMMC mishap we figured that
+>> all speed modes supported by the eMMC chip should be listed in the DT?
+> 
+> I think H5 just has (had?) driver issue. From what I can see, only highest
+> supported mode by kernel and chip is specified in all Allwinner DTs.
+> mmc-ddr-1_8v is only specified by two recent board addition, where I missed
+> it while reviewing.
+> 
+>> So any driver wouldn't need to make assumptions, and if a particular
+>> mode shows problems on a board, we just remove that mode from the DT.
+>> Actually, thinking about that, I guess I should list HS-400 as well? The
+>> BSP kernel uses that mode.
+> 
+> Sure, but it also calibrates timing for it. If you'll specify HS400, kernel
+> will try to use it, but it won't work.
+
+But this is also a limitation of the current Linux kernel driver. And 
+since we indeed don't support HS-400, we explicitly remove it from the 
+capability list, *after* the call to mmc_of_parse():
+
+drivers/mmc/host/sunxi-mmc.c:1460
+         /* TODO: This driver doesn't support HS400 mode yet */
+         mmc->caps2 &= ~MMC_CAP2_HS400;
+
+So I think this should be safe?
+
+Cheers,
+Andre
+
+> 
+>> Or do you mean to say that in particular DDR (@1.8V) is problematic? I
+>> cannot test at the moment, but could try later to force that mode.
+> 
+> No, no need.
+> 
 > Best regards,
->   Frank
->=20
-> >
-> > Best regards,
-> > Jernej
-> >
-> >>  	ccu_nkm_find_best(parent_rate, rate, &_nkm, &nkm->common);
-> >>
-> >>  	spin_lock_irqsave(nkm->common.lock, flags);
-> >> diff --git a/drivers/clk/sunxi-ng/ccu_nkm.h b/drivers/clk/sunxi-ng/ccu=
-_nkm.h
-> >> index c409212ee40e..358a9df6b6a0 100644
-> >> --- a/drivers/clk/sunxi-ng/ccu_nkm.h
-> >> +++ b/drivers/clk/sunxi-ng/ccu_nkm.h
-> >> @@ -27,6 +27,8 @@ struct ccu_nkm {
-> >>  	struct ccu_mux_internal	mux;
-> >>
-> >>  	unsigned int		fixed_post_div;
-> >> +	unsigned long		min_rate;
-> >> +	unsigned long		max_rate;
-> >>  	unsigned long		max_m_n_ratio;
-> >>  	unsigned long		min_parent_m_ratio;
-> >>
-> >>
-> >>
->=20
-
-
-
-
+> Jernej
+> 
+>>
+>> Cheers,
+>> Andre
+>>
+>>
+>>>>> +	cap-mmc-hw-reset;
+>>>>> +	status = "okay";
+>>>>> +};
+>>>>> +
+>>>>> +&ohci0 {
+>>>>> +	status = "okay";
+>>>>> +};
+>>>>> +
+>>>>> +&ohci1 {
+>>>>> +	status = "okay";
+>>>>> +};
+>>>>> +
+>>>>> +&pio {
+>>>>> +	vcc-pb-supply = <&reg_dcdc1>;
+>>>>> +	vcc-pc-supply = <&reg_dcdc1>;
+>>>>> +	vcc-pd-supply = <&reg_dcdc1>;
+>>>>> +	vcc-pe-supply = <&reg_dcdc1>;
+>>>>> +	vcc-pf-supply = <&reg_dcdc1>;
+>>>>> +	vcc-pg-supply = <&reg_dldo4>;
+>>>>> +	vcc-ph-supply = <&reg_dcdc1>;
+>>>>> +};
+>>>>> +
+>>>>> +&r_ir {
+>>>>> +	status = "okay";
+>>>>> +};
+>>>>> +
+>>>>> +&r_pio {
+>>>>> +	/*
+>>>>> +	 * We cannot add that supply for now since it would create a circular
+>>>>> +	 * dependency between pinctrl, the regulator and the RSB Bus.
+>>>>> +	 *
+>>>>> +	 * vcc-pl-supply = <&reg_aldo2>;
+>>>>> +	 */
+>>>>> +};
+>>>>> +
+>>>>> +&r_rsb {
+>>>>> +	status = "okay";
+>>>>> +
+>>>>> +	axp803: pmic@3a3 {
+>>>>> +		compatible = "x-powers,axp803";
+>>>>> +		reg = <0x3a3>;
+>>>>> +		interrupt-parent = <&r_intc>;
+>>>>> +		interrupts = <GIC_SPI 0 IRQ_TYPE_LEVEL_LOW>;
+>>>>> +		x-powers,drive-vbus-en;
+>>>>> +
+>>>>> +		vin1-supply = <&reg_vcc5v>;
+>>>>> +		vin2-supply = <&reg_vcc5v>;
+>>>>> +		vin3-supply = <&reg_vcc5v>;
+>>>>> +		vin5-supply = <&reg_vcc5v>;
+>>>>> +		vin6-supply = <&reg_vcc5v>;
+>>>>> +		aldoin-supply = <&reg_vcc5v>;
+>>>>> +		dldoin-supply = <&reg_vcc5v>;
+>>>>> +		eldoin-supply = <&reg_vcc5v>;
+>>>>> +		fldoin-supply = <&reg_vcc5v>;
+>>>>> +		drivevbus-supply = <&reg_vcc5v>;
+>>>>> +		ips-supply = <&reg_vcc5v>;
+>>>>> +
+>>>>> +		status = "okay";
+>>>>> +	};
+>>>>> +};
+>>>>> +
+>>>>> +#include "axp803.dtsi"
+>>>>> +
+>>>>> +&ac_power_supply {
+>>>>> +	status = "okay";
+>>>>> +};
+>>>>> +
+>>>>> +&reg_dcdc1 {
+>>>>> +	regulator-always-on;
+>>>>> +	regulator-min-microvolt = <3300000>;
+>>>>> +	regulator-max-microvolt = <3300000>;
+>>>>> +	regulator-name = "vcc-3v3";
+>>>>> +};
+>>>>> +
+>>>>> +&reg_dcdc2 {
+>>>>> +	regulator-always-on;
+>>>>> +	regulator-min-microvolt = <1040000>;
+>>>>> +	regulator-max-microvolt = <1300000>;
+>>>>> +	regulator-name = "vdd-cpux";
+>>>>> +};
+>>>>> +
+>>>>> +/* DCDC3 is polyphased with DCDC2 */
+>>>>> +
+>>>>> +&reg_dcdc5 {
+>>>>> +	regulator-always-on;
+>>>>> +	regulator-min-microvolt = <1500000>;
+>>>>> +	regulator-max-microvolt = <1500000>;
+>>>>> +	regulator-name = "vcc-dram";
+>>>>> +};
+>>>>> +
+>>>>> +/* Deviates from the reset default of 1.1V. */
+>>>>> +&reg_dcdc6 {
+>>>>> +	regulator-always-on;
+>>>>> +	regulator-min-microvolt = <1200000>;
+>>>>> +	regulator-max-microvolt = <1200000>;
+>>>>> +	regulator-name = "vdd-sys";
+>>>>> +};
+>>>>> +
+>>>>> +&reg_aldo1 {
+>>>>> +	regulator-min-microvolt = <3300000>;
+>>>>> +	regulator-max-microvolt = <3300000>;
+>>>>> +	regulator-name = "vcc-wifi";
+>>>>> +};
+>>>>> +
+>>>>> +&reg_aldo2 {
+>>>>> +	/* Specifying R_PIO consumer would create circular dependency. */
+>>>>> +	regulator-always-on;
+>>>>> +	regulator-min-microvolt = <3300000>;
+>>>>> +	regulator-max-microvolt = <3300000>;
+>>>>> +	regulator-name = "vcc-pl";
+>>>>> +};
+>>>>> +
+>>>>> +&reg_aldo3 {
+>>>>> +	regulator-always-on;
+>>>>> +	regulator-min-microvolt = <3000000>;
+>>>>> +	regulator-max-microvolt = <3000000>;
+>>>>> +	regulator-name = "vcc-pll-avcc";
+>>>>> +};
+>>>>> +
+>>>>> +/* AC200 power supply */
+>>>>> +&reg_dldo1 {
+>>>>> +	regulator-always-on;
+>>>>> +	regulator-min-microvolt = <3300000>;
+>>>>> +	regulator-max-microvolt = <3300000>;
+>>>>> +	regulator-name = "vcc-ave-33";
+>>>>> +};
+>>>>> +
+>>>>> +&reg_dldo4 {
+>>>>> +	regulator-min-microvolt = <3300000>;
+>>>>> +	regulator-max-microvolt = <3300000>;
+>>>>> +	regulator-name = "vcc-wifi-io";
+>>>>> +};
+>>>>> +
+>>>>> +&reg_drivevbus {
+>>>>> +	regulator-name = "usb0-vbus";
+>>>>> +	status = "okay";
+>>>>> +};
+>>>>> +
+>>>>> +&reg_eldo1 {
+>>>>> +	regulator-always-on;
+>>>>> +	regulator-min-microvolt = <1800000>;
+>>>>> +	regulator-max-microvolt = <1800000>;
+>>>>> +	regulator-name = "vcc-cpvdd-dram-emmc";
+>>>>> +};
+>>>>> +
+>>>>> +/* Supplies the arisc management core, needed by TF-A to power off cores. */
+>>>>> +&reg_fldo2 {
+>>>>> +	regulator-always-on;
+>>>>> +	regulator-min-microvolt = <1100000>;
+>>>>> +	regulator-max-microvolt = <1100000>;
+>>>>> +	regulator-name = "vdd-cpus";
+>>>>> +};
+>>>>> +
+>>>>> +&reg_rtc_ldo {
+>>>>> +	regulator-name = "vcc-rtc";
+>>>>> +};
+>>>>> +
+>>>>> +&simplefb_hdmi {
+>>>>> +	vcc-hdmi-supply = <&reg_dcdc1>;
+>>>>> +};
+>>>>> +
+>>>>> +&sound {
+>>>>> +	simple-audio-card,aux-devs = <&codec_analog>;
+>>>>> +	simple-audio-card,widgets = "Microphone", "Microphone Jack",
+>>>>> +				    "Headphone", "Headphone Jack";
+>>>>> +	simple-audio-card,routing =
+>>>>> +			"Left DAC", "DACL",
+>>>>> +			"Right DAC", "DACR",
+>>>>> +			"Headphone Jack", "HP",
+>>>>> +			"ADCL", "Left ADC",
+>>>>> +			"ADCR", "Right ADC",
+>>>>> +			"MIC2", "Microphone Jack";
+>>>>> +	status = "okay";
+>>>>> +};
+>>>>> +
+>>>>> +/* On the (unpopulated) UART pads. */
+>>>>> +&uart0 {
+>>>>> +	pinctrl-names = "default";
+>>>>> +	pinctrl-0 = <&uart0_pb_pins>;
+>>>>> +	status = "okay";
+>>>>> +};
+>>>>> +
+>>>>> +&uart1 {
+>>>>> +	pinctrl-names = "default";
+>>>>> +	pinctrl-0 = <&uart1_pins>, <&uart1_rts_cts_pins>;
+>>>>> +	uart-has-rtscts;
+>>>>> +	status = "okay";
+>>>>> +
+>>>>> +	bluetooth {
+>>>>> +		compatible = "realtek,rtl8723bs-bt";
+>>>>> +		enable-gpios = <&r_pio 0 4 GPIO_ACTIVE_HIGH>; /* PL4 */
+>>>>> +		max-speed = <1500000>;
+>>>>> +	};
+>>>>> +};
+>>>>> +
+>>>>> +&usb_otg {
+>>>>> +	dr_mode = "host";
+>>>>> +	status = "okay";
+>>>>> +};
+>>>>> +
+>>>>> +&usbphy {
+>>>>> +	usb0_vbus-supply = <&reg_drivevbus>;
+>>>>> +	usb1_vbus-supply = <&reg_drivevbus>;
+>>>>> +	status = "okay";
+>>>>> +};
+>>>>>
+>>>>
+>>>>
+>>>>
+>>>>
+>>>>
+>>>
+>>>
+>>>
+>>>
+>>
+> 
+> 
+> 
+> 
