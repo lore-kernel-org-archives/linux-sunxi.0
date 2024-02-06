@@ -1,72 +1,84 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8940113AF8
-	for <linux-sunxi@lists.linux.dev>; Tue,  6 Feb 2024 17:32:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1538C142
+	for <linux-sunxi@lists.linux.dev>; Tue,  6 Feb 2024 17:44:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707240779; cv=none; b=I2a6DeZNeRwHzid4tm/ZJ468j74PHwqPeUPSopwlV3glyGFUH4WOvUvfVLXF0lBSgZIHxMJtkr7QlCkmqUrVpAw3NE0vLWYPPuAe2dcEPgnIAhXwcOueAB/+Rr3yZblp4hYRnmJ5NcaLXI47sPPltDIHu0/m2wlDes+YEPzCm7g=
+	t=1707241479; cv=none; b=kukCd++BhuoqXufYBNacoXAEP8RmoUuZKND7H5iA6oqU6W5nRrx7Us+O+Nnt/hFEjazHG/VcxmZnNlAB1mRtChNyDYwpVUYUBuiaKlBEXDGum5iWxPH4dhQxL3NpWYTBth0E1/Fiwj9sLkXoWpZn7iWyki64qrVjhCLl/mxwqZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707240779; c=relaxed/simple;
-	bh=IH6VnHpBGXDFeSXudtfvfdklOg6ktojoUsYKvgUL5bg=;
+	s=arc-20240116; t=1707241479; c=relaxed/simple;
+	bh=uQofYe6KozZfY0E7cusw4h+1hkUt1Xu77DatPoBkW24=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=A564EhYyVLalGz9scSv+kc+afUSq+rcpZnOJYP6/krDGPNNotI9ZBw5MdoYBMtDfCoA5Gzgpw6k7ZRAFjC5d3iJf0HnEciUjNoV+Qb4pJGUe/fWfnl4GTGVW8vsjvTutljjlIsSTLJsvFKng82BIs5IauboDhQhKwkLAUmuZnR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ho8vJB+U; arc=none smtp.client-ip=209.85.221.47
+	 MIME-Version:Content-Type; b=eEcv3iBKYG97FoCM2BIe8YbWF1LMxTUesoeksCogl6RTheKLIfN6Rmqfeicbfru84QV7K/VaKRBk8T+xOdBQnHKfPxhDLElK2zoJKt4u42NosEv2lWx4PKfYL9eE11AhVkQY8vs6Wt7bqLg26G8rfQ74tNiCQUJzCNW/E7SbKQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QnEoWnHd; arc=none smtp.client-ip=209.85.221.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ho8vJB+U"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-33b4b0a3bddso297800f8f.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 06 Feb 2024 09:32:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QnEoWnHd"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-33b45e8a670so633245f8f.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 06 Feb 2024 09:44:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707240775; x=1707845575; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1707241475; x=1707846275; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ff5/vMkBDQ33uChPeLE0kDKlvZvHvkb6S8CWXiyfmw8=;
-        b=Ho8vJB+U0PXzix1rMt1iKJq6Mtjspu7mrIU4DnwjsTM1lDEWbJHFCEpasHMbs9A0cD
-         ERmIyDOx9NWpnvARGpsQjrZW08ekyxIxO3GwnUentda8oCGWlj32Lxia3u2J5d323wJa
-         rDJ3qissQdnWx06tNli3xW/Bcgp8OUpHLIAnb6vBU1toE3l4RZDpBUd7jWd/b+DKvmYd
-         9+yQGQqwbCrDp1DcCGzYpamonf0N53f8nCj0iikBX4mMHqDS42MFiEPBdqqyaJj/VGr/
-         agamFpryDnyiOuGgQVlooeiwVTwgRgxWyQ+gFIneEpVHjnnqtR6C747wGIH0Er8SWxdH
-         siNw==
+        bh=9t4eRXqQzvNfu/98QWiAgJdjJHSNxLreUnAsT7Bnw7I=;
+        b=QnEoWnHdIFJZKHSetrs3ZjdVmmw3Iy/q9OsFKS1JHNscoAcwz3lsydLVgHM8jlvyxg
+         4yryOLqLzI+LNQY9F0ggsLIKaSA0m5cEWJX1HOagZzGnlCCpCVFrBBqU0VfbWwkfpCwL
+         JjKTMb7ElnaWodVOjLzdaeOca2vYaUlYN77/SWhwNcFXy4CXbg6Q+i4NlngK9n/GUrqX
+         CqfoERAwkSixMy+7GBjsGLEvG70N68XiSG8NEvjzqkOuVLE9uIbBFAHjQPnAauqFDRhN
+         +afQhTmbtgE11j41AZKK1YOVrQ6b7+H/7sSAEmnGkuY1hjzOGcT4BDR2VYMA9cPkKJeO
+         /1bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707240775; x=1707845575;
+        d=1e100.net; s=20230601; t=1707241475; x=1707846275;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ff5/vMkBDQ33uChPeLE0kDKlvZvHvkb6S8CWXiyfmw8=;
-        b=uOPwu2z4yFgO46CTy1HU0BGQn48rV5DtazBAEEbUydqzXn0+zFAiHhp8rawOBtcmjA
-         s40kpkGxhifktqBiVOGQaWBVu49LfpaVyc5cintZHQs68QjKPiW+9EEauw3tS4+u7Vuy
-         xNXXgzRn1MHrTso5MFKBfYK3QVt2ulUr4rrs0SzXPBd3lJEuToMdG9BwtaWJv1NCn7JP
-         K/LOi/7MWMvPQpKcvBULJpQVm5iz7YOLbiomXRpm0S0Yua09RPSxqAlQ17XbjofOTsvT
-         W9j76uvl0V6LV3H6clvYNlpVO/V9q/yQOdxvbGs3lZKuyYcmz5HssJA/QIfHpekPy2q6
-         UC4w==
-X-Gm-Message-State: AOJu0YyKhn6Th3uvv2NnjfbjDsI3rurg37CJDRtgTfRPkBT3AyCO+9I2
-	c1euuAg85vAkYiYArZ9m5Uqj95KK+wEsRUmhP9Zh2kYXGG6VWSQD
-X-Google-Smtp-Source: AGHT+IGE22bIu1CoDYfW6i501zFoy1xubIHKLYVLZifrpVaFhMwxEkcmHv9047nYCwXkTdr7zrWTZw==
-X-Received: by 2002:a5d:4e12:0:b0:33b:356c:e95e with SMTP id p18-20020a5d4e12000000b0033b356ce95emr2250025wrt.49.1707240774395;
-        Tue, 06 Feb 2024 09:32:54 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCV0Dd9ifj5DcIR7alMf0efvD760pPNgMPjPZ1BTeazCjrBaIcgIuLue7EbvP2iiHF+tSoUjXTQqMLEmNQb9y1qlU2sx/Wuhl6ZbpfB9RjC5YSPvDqMbJNIi8YqmQPYXfqZdW/lRA45kR6iX7ZaTR+EBQAv6mNEWZ56UYZZy181uDXs6ApzdVgqnlw9MPh3ODC40VX/KeIVXi8Yb6rTz1AuHPI/RqOeN4S6TZYhIfTBHTzqApygEWwv6r9yFUXROKoDmur+LkJAg8lptmLcscTXkGDnJfqUWjZQoBSZ+Tm6ogB0Vgblljwzrw3fquXrUQl+E4o69QZ2Mp4i67ams4BxzrQ==
+        bh=9t4eRXqQzvNfu/98QWiAgJdjJHSNxLreUnAsT7Bnw7I=;
+        b=FiPCaQ7QZg1kVSRddOHqYjjKKECcbZ8aL94JULorOn+CFqfxHodwu7FXzjct2KctrQ
+         CosC3CQl+lm9S+p3ANECw7wz18TPY1G6F13xy/EluvR4zu3xu/Rq8BpaNlQi6bhs7NXm
+         S5Wih+ovbq3bleAXCoNuVbvbdg3fUADe0QdFGQnWKIxWtIXHb30SexvBesZVeRvUx971
+         sOQV8KpThSGFvAeRWLA/DyzOKh1aYCDU5UnipHSR0cuhpBSA38Ir+xWw/oY3E5SojI/L
+         /5hm1irYztVdvH6pjv5J7JDb/YImCc9GCIx9akN4ZLeKxuWNcq0uSA9RaGnde5XtdXpt
+         30jw==
+X-Gm-Message-State: AOJu0YxvL5Ww5dIIaulQf9Z+VwYaV3AhWoNFKaI+IDexfSSNBun0hNoa
+	xL/IHWfgr5FYSg8xMkObl79Tre73CYkkNyY4XOGaGIvCnLIc+P5x
+X-Google-Smtp-Source: AGHT+IF1lpIFhtZgzKWW6d/q831mG+OpyLzRSJ+x7f9PpC4Ax09tVNR/VhUDDcXc/dOAuLQ7nXPoXQ==
+X-Received: by 2002:adf:f551:0:b0:33b:232f:63f7 with SMTP id j17-20020adff551000000b0033b232f63f7mr1878813wrp.31.1707241475073;
+        Tue, 06 Feb 2024 09:44:35 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCV2DypM6qI/Z832xi9QRDqWoQqPSTkHy+i8RGjG++zwuixmvADhnUsdCaRHqQHOvmF5uGxzDjlB0z8Wdx0EGu4a6VMYHl/G4S0LwTUm+IoTcISKtm5rSHcdlhUaFO7eTg28wUKXr/wIsq4ZreujpJtefRmwac18lB+XYTOdMpfjGYdz74pvUnJEBewCxOIwm3+KGF5eYpT2h4KN5lRmzfeOzqBkcQKedgEx8A83GYOk/+h5ajdUcqJIVQINPliwFX9FOSDlzH1LqZRWxYPmz/u2X9cI3nJA4kpafVgEU6ecRrkiRPdaHHLr0yPNxRpv0zZjX/nsA/4C02U0QK5jo98esbPEPvGda3cD6cWmhYyKOos0JpLETIclyG/oxE3YDXN75btyjGXuEiKvSyada4xu+ycGnvXnFes3Dp+lVVafA3GDDK0fsbLYrCf6lUXj8Dp6MhqDRAlFRgy7m1VboGHLhheAFH+RHvz1SUQFo+MKg2s75824X5zBU4quACJNj3+n8PsAwDjyRyCnr+C8QTNcrHXLwtrrowqQgOyerem1HCTlXiGRmIIAwuL3yfAfFZq1mh+eyDtiO33faydFVxXEIP7ZM98U+xGCiA0AYTWVAE/0r2HCpUBpA/CT1mSXYecahhcUq4fkxBzdEgYMaX0k+LkEVY6mwg129kyEDpnwolSkS4V4ev8ZXopp2cHTPmhqibJleCdfoHRaZ/V7N9t3ncg3Ek1ot6/EFHpQpRtqnnHe8yQlzJ512hU3fgwXrjTrTaSxRQYbl0DYc4pY4hw=
 Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id b16-20020a5d45d0000000b0033b11e91c0bsm2575048wrs.81.2024.02.06.09.32.53
+        by smtp.gmail.com with ESMTPSA id k18-20020a5d6292000000b0033b13922263sm2568357wru.60.2024.02.06.09.44.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Feb 2024 09:32:54 -0800 (PST)
+        Tue, 06 Feb 2024 09:44:34 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+To: Frank Oltmanns <frank@oltmanns.dev>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Guido =?ISO-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+ Purism Kernel Team <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Andre Przywara <andre.przywara@arm.com>
-Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Nick Alilovic <nickalilovic@gmail.com>
-Subject: Re: [PATCH 3/3] arm64: dts: allwinner: Add Jide Remix Mini PC support
-Date: Tue, 06 Feb 2024 18:32:53 +0100
-Message-ID: <4867577.GXAFRqVoOG@jernej-laptop>
-In-Reply-To: <205b3828-6ec2-4670-ac68-a61e5cc0597d@arm.com>
+ Conor Dooley <conor+dt@kernel.org>, linux-clk@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org
+Subject:
+ Re: [PATCH v2 1/6] clk: sunxi-ng: nkm: Support constraints on m/n ratio and
+ parent rate
+Date: Tue, 06 Feb 2024 18:44:33 +0100
+Message-ID: <2172947.irdbgypaU6@jernej-laptop>
+In-Reply-To: <87il32ztp8.fsf@oltmanns.dev>
 References:
- <20240204094404.149776-1-andre.przywara@arm.com>
- <3788758.kQq0lBPeGt@jernej-laptop>
- <205b3828-6ec2-4670-ac68-a61e5cc0597d@arm.com>
+ <20240205-pinephone-pll-fixes-v2-0-96a46a2d8c9b@oltmanns.dev>
+ <2717565.mvXUDI8C0e@jernej-laptop> <87il32ztp8.fsf@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -76,500 +88,122 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="UTF-8"
 
-Dne torek, 06. februar 2024 ob 01:47:05 CET je Andre Przywara napisal(a):
+Dne ponedeljek, 05. februar 2024 ob 18:50:27 CET je Frank Oltmanns napisal(=
+a):
 > Hi Jernej,
 >=20
-> thanks for having a look!
->=20
-> On 05/02/2024 19:20, Jernej =C5=A0krabec wrote:
-> > Dne ponedeljek, 05. februar 2024 ob 19:12:45 CET je Jernej =C5=A0krabec=
- napisal(a):
-> >> Hi Andre!
+> On 2024-02-05 at 18:45:27 +0100, Jernej =C5=A0krabec <jernej.skrabec@gmai=
+l.com> wrote:
+> > Dne ponedeljek, 05. februar 2024 ob 16:22:24 CET je Frank Oltmanns napi=
+sal(a):
+> >> The Allwinner A64 manual lists the following constraints for the
+> >> PLL-MIPI clock:
+> >>  - M/N <=3D 3
+> >>  - (PLL_VIDEO0)/M >=3D 24MHz
 > >>
-> >> Dne nedelja, 04. februar 2024 ob 10:44:04 CET je Andre Przywara napisa=
-l(a):
-> >>> The Remix Mini PC is a "mini computer" using the Allwinner H64 SoC,
-> >>> which appears to be just a relabelled A64. It was launched in 2015 by
-> >>> the now defunct company Jide, and shipped with a desktop optimised
-> >>> version of Android. It features
-> >>> 	- Allwinner H64 Soc (4 * Arm Cortex-A53 cores)
-> >>> 	- 1 or 2 GB DRAM
-> >>> 	- 8 or 16 GB eMMC flash
-> >>> 	- 100 MBit Ethernet port (using an X-Powers AC200 PHY)
-> >>> 	- RTL8723BS WiFi & Bluetooth chip
-> >>> 	- HDMI port
-> >>> 	- two USB 2.0 ports
-> >>> 	- 3.5mm AV port
-> >>> 	- microSD card slot
-> >>>
-> >>> The devicetree covers most peripherals, though there is no agreed
-> >>> binding for the PHY chip yet, so this is left out.
-> >>>
-> >>> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> >>> ---
-> >>>   arch/arm64/boot/dts/allwinner/Makefile        |   1 +
-> >>>   .../allwinner/sun50i-h64-remix-mini-pc.dts    | 357 +++++++++++++++=
-+++
-> >>>   2 files changed, 358 insertions(+)
-> >>>   create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h64-remix-m=
-ini-pc.dts
-> >>>
-> >>> diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot=
-/dts/allwinner/Makefile
-> >>> index 91d505b385de..2db3b15ad09f 100644
-> >>> --- a/arch/arm64/boot/dts/allwinner/Makefile
-> >>> +++ b/arch/arm64/boot/dts/allwinner/Makefile
-> >>> @@ -16,6 +16,7 @@ dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-a64-pinetab.dtb
-> >>>   dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-a64-pinetab-early-adopter.dtb
-> >>>   dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-a64-sopine-baseboard.dtb
-> >>>   dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-a64-teres-i.dtb
-> >>> +dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h64-remix-mini-pc.dtb
-> >>>   dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-a100-allwinner-perf1.dtb
-> >>>   dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h5-bananapi-m2-plus.dtb
-> >>>   dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h5-bananapi-m2-plus-v1.2.dtb
-> >>> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h64-remix-mini-pc.d=
-ts b/arch/arm64/boot/dts/allwinner/sun50i-h64-remix-mini-pc.dts
-> >>> new file mode 100644
-> >>> index 000000000000..537923a541a8
-> >>> --- /dev/null
-> >>> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h64-remix-mini-pc.dts
-> >>> @@ -0,0 +1,357 @@
-> >>> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> >>> +// Copyright (c) 2018 ARM Ltd.
+> >> The PLL-MIPI clock is implemented as ccu_nkm. Therefore, add support f=
+or
+> >> these constraints.
 > >>
-> >> Shouldn't be 2024?
+> >> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+> >
+> > Haven't we discussed that this patch is unnecessary because same effect=
+ can
+> > be reached by limiting minimum frequency?
 >=20
-> Well, that just documents that sad fact that I indeed created this file=20
-> 6 years ago, but just managed now to actually send this. Is there a=20
-> requirement for this being "recent"?
-
-Not really, but it's strange looking. Some might incorrectly assume that it=
-'s
-present in the kernel longer than it really is.
-
+> The patch for ccu_nm was unnecessary:
+> https://lore.kernel.org/all/87jzoug2jz.fsf@oltmanns.dev/
 >=20
-> >>
-> >>> +
-> >>> +/dts-v1/;
-> >>> +
-> >>> +#include "sun50i-a64.dtsi"
-> >>> +#include "sun50i-a64-cpu-opp.dtsi"
-> >>> +
-> >>> +#include <dt-bindings/gpio/gpio.h>
-> >>> +
-> >>> +/ {
-> >>> +	model =3D "Remix Mini PC";
-> >>> +	compatible =3D "jide,remix-mini-pc", "allwinner,sun50i-h64",
-> >>> +		     "allwinner,sun50i-a64";
-> >>> +
-> >>> +	aliases {
-> >>> +		ethernet1 =3D &rtl8723bs;
-> >>> +		serial0 =3D &uart0;
-> >>> +	};
-> >>> +
-> >>> +	chosen {
-> >>> +		stdout-path =3D "serial0:115200n8";
-> >>> +	};
-> >>> +
-> >>> +	hdmi-connector {
-> >>> +		compatible =3D "hdmi-connector";
-> >>> +		type =3D "a";
-> >>> +
-> >>> +		port {
-> >>> +			hdmi_con_in: endpoint {
-> >>> +				remote-endpoint =3D <&hdmi_out_con>;
-> >>> +			};
-> >>> +		};
-> >>> +	};
-> >>> +
-> >>> +	reg_vcc5v: regulator-5v {
-> >>> +		/* board wide 5V supply directly from the DC input */
-> >>> +		compatible =3D "regulator-fixed";
-> >>> +		regulator-name =3D "vcc-5v";
-> >>> +		regulator-min-microvolt =3D <5000000>;
-> >>> +		regulator-max-microvolt =3D <5000000>;
-> >>> +		regulator-always-on;
-> >>> +	};
-> >>> +
-> >>> +	wifi_pwrseq: wifi_pwrseq {
-> >>> +		compatible =3D "mmc-pwrseq-simple";
-> >>> +		pinctrl-names =3D "default";
-> >>> +		reset-gpios =3D <&r_pio 0 2 GPIO_ACTIVE_LOW>; /* PL2 */
-> >>> +		post-power-on-delay-ms =3D <200>;
-> >>> +	};
-> >>> +};
-> >>> +
-> >>> +&codec {
-> >>> +	status =3D "okay";
-> >>> +};
-> >>> +
-> >>> +&codec_analog {
-> >>> +	cpvdd-supply =3D <&reg_eldo1>;
-> >>> +	status =3D "okay";
-> >>> +};
-> >>> +
-> >>> +&cpu0 {
-> >>> +	cpu-supply =3D <&reg_dcdc2>;
-> >>> +};
-> >>> +
-> >>> +&cpu1 {
-> >>> +	cpu-supply =3D <&reg_dcdc2>;
-> >>> +};
-> >>> +
-> >>> +&cpu2 {
-> >>> +	cpu-supply =3D <&reg_dcdc2>;
-> >>> +};
-> >>> +
-> >>> +&cpu3 {
-> >>> +	cpu-supply =3D <&reg_dcdc2>;
-> >>> +};
-> >>> +
-> >>> +&dai {
-> >>> +	status =3D "okay";
-> >>> +};
-> >>> +
-> >>> +&de {
-> >>> +	status =3D "okay";
-> >>> +};
-> >>> +
-> >>> +&ehci0 {
-> >>> +	status =3D "okay";
-> >>> +};
-> >>> +
-> >>> +&ehci1 {
-> >>> +	status =3D "okay";
-> >>> +};
-> >>> +
-> >>> +&hdmi {
-> >>> +	hvcc-supply =3D <&reg_dldo1>;
-> >>> +	status =3D "okay";
-> >>> +};
-> >>> +
-> >>> +&hdmi_out {
-> >>> +	hdmi_out_con: endpoint {
-> >>> +		remote-endpoint =3D <&hdmi_con_in>;
-> >>> +	};
-> >>> +};
-> >>> +
-> >>> +/* Connects to the AC200 chip */
-> >>> +&i2c0 {
-> >>> +	pinctrl-names =3D "default";
-> >>> +	pinctrl-0 =3D <&i2c0_pins>;
-> >>> +	status =3D "okay";
-> >>> +};
-> >>> +
-> >>> +&i2c0_pins {
-> >>> +	bias-pull-up;
-> >>> +};
-> >>> +
-> >>> +&mmc0 {
-> >>> +	pinctrl-names =3D "default";
-> >>> +	pinctrl-0 =3D <&mmc0_pins>;
-> >>> +	vmmc-supply =3D <&reg_dcdc1>;
-> >>> +	cd-gpios =3D <&pio 5 6 GPIO_ACTIVE_LOW>;
-> >>> +	disable-wp;
-> >>> +	bus-width =3D <4>;
-> >>> +	status =3D "okay";
-> >>> +};
-> >>> +
-> >>> +&mmc1 {
-> >>> +	pinctrl-names =3D "default";
-> >>> +	pinctrl-0 =3D <&mmc1_pins>;
-> >>> +	vmmc-supply =3D <&reg_aldo1>;
-> >>> +	vqmmc-supply =3D <&reg_dldo4>;
-> >>> +	mmc-pwrseq =3D <&wifi_pwrseq>;
-> >>> +	bus-width =3D <4>;
-> >>> +	non-removable;
-> >>> +	status =3D "okay";
-> >>> +
-> >>> +	rtl8723bs: wifi@1 {
-> >>> +		reg =3D <1>;
-> >>> +		interrupt-parent =3D <&r_pio>;
-> >>> +		interrupts =3D <0 3 IRQ_TYPE_LEVEL_LOW>; /* PL3 */
-> >>> +		interrupt-names =3D "host-wake";
-> >>> +	};
-> >>
-> >> Node without compatible doesn't help. Please remove it.
->=20
-> Huh, but where do I put the the IRQ line then? And every other RTL8723BS=
-=20
-> user seems to do the same?
+> Unfortunately, we still need this one.
 
-It's good, sorry for the noise.
-
->=20
-> >>
-> >>> +};
-> >>> +
-> >>> +&mmc2 {
-> >>> +	pinctrl-names =3D "default";
-> >>> +	pinctrl-0 =3D <&mmc2_pins>, <&mmc2_ds_pin>;
-> >>> +	vmmc-supply =3D <&reg_dcdc1>;
-> >>> +	vqmmc-supply =3D <&reg_eldo1>;
-> >>> +	bus-width =3D <8>;
-> >>> +	non-removable;
-> >>> +	mmc-ddr-1_8v;
-> >>> +	mmc-hs200-1_8v;
-> >>
-> >> Aren't these speed modes enabled by default?
->=20
-> Enabled by who? Our current sunxi-mmc driver? I cannot find anything in=20
-> the binding that suggests that there would be some default settings.
-
-Looking at Linux sunxi mmc driver, mmc-ddr-1_8v is enabled by default for
-"new timings" variants except for H5. Anyway...
-
->=20
-> > Sorry, mmc-hs200-1_8v is ok, but mmc-ddr-1_8v should be
-> > removed.
->=20
-> Mmh, I am confused: I thought after the H5 eMMC mishap we figured that=20
-> all speed modes supported by the eMMC chip should be listed in the DT?
-
-I think H5 just has (had?) driver issue. From what I can see, only highest
-supported mode by kernel and chip is specified in all Allwinner DTs.
-mmc-ddr-1_8v is only specified by two recent board addition, where I missed
-it while reviewing.
-
-> So any driver wouldn't need to make assumptions, and if a particular=20
-> mode shows problems on a board, we just remove that mode from the DT.
-> Actually, thinking about that, I guess I should list HS-400 as well? The=
-=20
-> BSP kernel uses that mode.
-
-Sure, but it also calibrates timing for it. If you'll specify HS400, kernel
-will try to use it, but it won't work.
-
-> Or do you mean to say that in particular DDR (@1.8V) is problematic? I=20
-> cannot test at the moment, but could try later to force that mode.
-
-No, no need.
+Ok, then:
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
 
 >=20
-> Cheers,
-> Andre
+> Best regards,
+>   Frank
 >=20
->=20
-> >>> +	cap-mmc-hw-reset;
-> >>> +	status =3D "okay";
-> >>> +};
-> >>> +
-> >>> +&ohci0 {
-> >>> +	status =3D "okay";
-> >>> +};
-> >>> +
-> >>> +&ohci1 {
-> >>> +	status =3D "okay";
-> >>> +};
-> >>> +
-> >>> +&pio {
-> >>> +	vcc-pb-supply =3D <&reg_dcdc1>;
-> >>> +	vcc-pc-supply =3D <&reg_dcdc1>;
-> >>> +	vcc-pd-supply =3D <&reg_dcdc1>;
-> >>> +	vcc-pe-supply =3D <&reg_dcdc1>;
-> >>> +	vcc-pf-supply =3D <&reg_dcdc1>;
-> >>> +	vcc-pg-supply =3D <&reg_dldo4>;
-> >>> +	vcc-ph-supply =3D <&reg_dcdc1>;
-> >>> +};
-> >>> +
-> >>> +&r_ir {
-> >>> +	status =3D "okay";
-> >>> +};
-> >>> +
-> >>> +&r_pio {
-> >>> +	/*
-> >>> +	 * We cannot add that supply for now since it would create a circul=
-ar
-> >>> +	 * dependency between pinctrl, the regulator and the RSB Bus.
-> >>> +	 *
-> >>> +	 * vcc-pl-supply =3D <&reg_aldo2>;
-> >>> +	 */
-> >>> +};
-> >>> +
-> >>> +&r_rsb {
-> >>> +	status =3D "okay";
-> >>> +
-> >>> +	axp803: pmic@3a3 {
-> >>> +		compatible =3D "x-powers,axp803";
-> >>> +		reg =3D <0x3a3>;
-> >>> +		interrupt-parent =3D <&r_intc>;
-> >>> +		interrupts =3D <GIC_SPI 0 IRQ_TYPE_LEVEL_LOW>;
-> >>> +		x-powers,drive-vbus-en;
-> >>> +
-> >>> +		vin1-supply =3D <&reg_vcc5v>;
-> >>> +		vin2-supply =3D <&reg_vcc5v>;
-> >>> +		vin3-supply =3D <&reg_vcc5v>;
-> >>> +		vin5-supply =3D <&reg_vcc5v>;
-> >>> +		vin6-supply =3D <&reg_vcc5v>;
-> >>> +		aldoin-supply =3D <&reg_vcc5v>;
-> >>> +		dldoin-supply =3D <&reg_vcc5v>;
-> >>> +		eldoin-supply =3D <&reg_vcc5v>;
-> >>> +		fldoin-supply =3D <&reg_vcc5v>;
-> >>> +		drivevbus-supply =3D <&reg_vcc5v>;
-> >>> +		ips-supply =3D <&reg_vcc5v>;
-> >>> +
-> >>> +		status =3D "okay";
-> >>> +	};
-> >>> +};
-> >>> +
-> >>> +#include "axp803.dtsi"
-> >>> +
-> >>> +&ac_power_supply {
-> >>> +	status =3D "okay";
-> >>> +};
-> >>> +
-> >>> +&reg_dcdc1 {
-> >>> +	regulator-always-on;
-> >>> +	regulator-min-microvolt =3D <3300000>;
-> >>> +	regulator-max-microvolt =3D <3300000>;
-> >>> +	regulator-name =3D "vcc-3v3";
-> >>> +};
-> >>> +
-> >>> +&reg_dcdc2 {
-> >>> +	regulator-always-on;
-> >>> +	regulator-min-microvolt =3D <1040000>;
-> >>> +	regulator-max-microvolt =3D <1300000>;
-> >>> +	regulator-name =3D "vdd-cpux";
-> >>> +};
-> >>> +
-> >>> +/* DCDC3 is polyphased with DCDC2 */
-> >>> +
-> >>> +&reg_dcdc5 {
-> >>> +	regulator-always-on;
-> >>> +	regulator-min-microvolt =3D <1500000>;
-> >>> +	regulator-max-microvolt =3D <1500000>;
-> >>> +	regulator-name =3D "vcc-dram";
-> >>> +};
-> >>> +
-> >>> +/* Deviates from the reset default of 1.1V. */
-> >>> +&reg_dcdc6 {
-> >>> +	regulator-always-on;
-> >>> +	regulator-min-microvolt =3D <1200000>;
-> >>> +	regulator-max-microvolt =3D <1200000>;
-> >>> +	regulator-name =3D "vdd-sys";
-> >>> +};
-> >>> +
-> >>> +&reg_aldo1 {
-> >>> +	regulator-min-microvolt =3D <3300000>;
-> >>> +	regulator-max-microvolt =3D <3300000>;
-> >>> +	regulator-name =3D "vcc-wifi";
-> >>> +};
-> >>> +
-> >>> +&reg_aldo2 {
-> >>> +	/* Specifying R_PIO consumer would create circular dependency. */
-> >>> +	regulator-always-on;
-> >>> +	regulator-min-microvolt =3D <3300000>;
-> >>> +	regulator-max-microvolt =3D <3300000>;
-> >>> +	regulator-name =3D "vcc-pl";
-> >>> +};
-> >>> +
-> >>> +&reg_aldo3 {
-> >>> +	regulator-always-on;
-> >>> +	regulator-min-microvolt =3D <3000000>;
-> >>> +	regulator-max-microvolt =3D <3000000>;
-> >>> +	regulator-name =3D "vcc-pll-avcc";
-> >>> +};
-> >>> +
-> >>> +/* AC200 power supply */
-> >>> +&reg_dldo1 {
-> >>> +	regulator-always-on;
-> >>> +	regulator-min-microvolt =3D <3300000>;
-> >>> +	regulator-max-microvolt =3D <3300000>;
-> >>> +	regulator-name =3D "vcc-ave-33";
-> >>> +};
-> >>> +
-> >>> +&reg_dldo4 {
-> >>> +	regulator-min-microvolt =3D <3300000>;
-> >>> +	regulator-max-microvolt =3D <3300000>;
-> >>> +	regulator-name =3D "vcc-wifi-io";
-> >>> +};
-> >>> +
-> >>> +&reg_drivevbus {
-> >>> +	regulator-name =3D "usb0-vbus";
-> >>> +	status =3D "okay";
-> >>> +};
-> >>> +
-> >>> +&reg_eldo1 {
-> >>> +	regulator-always-on;
-> >>> +	regulator-min-microvolt =3D <1800000>;
-> >>> +	regulator-max-microvolt =3D <1800000>;
-> >>> +	regulator-name =3D "vcc-cpvdd-dram-emmc";
-> >>> +};
-> >>> +
-> >>> +/* Supplies the arisc management core, needed by TF-A to power off c=
-ores. */
-> >>> +&reg_fldo2 {
-> >>> +	regulator-always-on;
-> >>> +	regulator-min-microvolt =3D <1100000>;
-> >>> +	regulator-max-microvolt =3D <1100000>;
-> >>> +	regulator-name =3D "vdd-cpus";
-> >>> +};
-> >>> +
-> >>> +&reg_rtc_ldo {
-> >>> +	regulator-name =3D "vcc-rtc";
-> >>> +};
-> >>> +
-> >>> +&simplefb_hdmi {
-> >>> +	vcc-hdmi-supply =3D <&reg_dcdc1>;
-> >>> +};
-> >>> +
-> >>> +&sound {
-> >>> +	simple-audio-card,aux-devs =3D <&codec_analog>;
-> >>> +	simple-audio-card,widgets =3D "Microphone", "Microphone Jack",
-> >>> +				    "Headphone", "Headphone Jack";
-> >>> +	simple-audio-card,routing =3D
-> >>> +			"Left DAC", "DACL",
-> >>> +			"Right DAC", "DACR",
-> >>> +			"Headphone Jack", "HP",
-> >>> +			"ADCL", "Left ADC",
-> >>> +			"ADCR", "Right ADC",
-> >>> +			"MIC2", "Microphone Jack";
-> >>> +	status =3D "okay";
-> >>> +};
-> >>> +
-> >>> +/* On the (unpopulated) UART pads. */
-> >>> +&uart0 {
-> >>> +	pinctrl-names =3D "default";
-> >>> +	pinctrl-0 =3D <&uart0_pb_pins>;
-> >>> +	status =3D "okay";
-> >>> +};
-> >>> +
-> >>> +&uart1 {
-> >>> +	pinctrl-names =3D "default";
-> >>> +	pinctrl-0 =3D <&uart1_pins>, <&uart1_rts_cts_pins>;
-> >>> +	uart-has-rtscts;
-> >>> +	status =3D "okay";
-> >>> +
-> >>> +	bluetooth {
-> >>> +		compatible =3D "realtek,rtl8723bs-bt";
-> >>> +		enable-gpios =3D <&r_pio 0 4 GPIO_ACTIVE_HIGH>; /* PL4 */
-> >>> +		max-speed =3D <1500000>;
-> >>> +	};
-> >>> +};
-> >>> +
-> >>> +&usb_otg {
-> >>> +	dr_mode =3D "host";
-> >>> +	status =3D "okay";
-> >>> +};
-> >>> +
-> >>> +&usbphy {
-> >>> +	usb0_vbus-supply =3D <&reg_drivevbus>;
-> >>> +	usb1_vbus-supply =3D <&reg_drivevbus>;
-> >>> +	status =3D "okay";
-> >>> +};
-> >>>
+> >
+> > Best regards,
+> > Jernej
+> >
+> >> ---
+> >>  drivers/clk/sunxi-ng/ccu_nkm.c | 21 +++++++++++++++++++++
+> >>  drivers/clk/sunxi-ng/ccu_nkm.h |  2 ++
+> >>  2 files changed, 23 insertions(+)
+> >>
+> >> diff --git a/drivers/clk/sunxi-ng/ccu_nkm.c b/drivers/clk/sunxi-ng/ccu=
+_nkm.c
+> >> index 853f84398e2b..1168d894d636 100644
+> >> --- a/drivers/clk/sunxi-ng/ccu_nkm.c
+> >> +++ b/drivers/clk/sunxi-ng/ccu_nkm.c
+> >> @@ -16,6 +16,20 @@ struct _ccu_nkm {
+> >>  	unsigned long	m, min_m, max_m;
+> >>  };
+> >>
+> >> +static bool ccu_nkm_is_valid_rate(struct ccu_common *common, unsigned=
+ long parent,
+> >> +				  unsigned long n, unsigned long m)
+> >> +{
+> >> +	struct ccu_nkm *nkm =3D container_of(common, struct ccu_nkm, common);
+> >> +
+> >> +	if (nkm->max_m_n_ratio && (m > nkm->max_m_n_ratio * n))
+> >> +		return false;
+> >> +
+> >> +	if (nkm->min_parent_m_ratio && (parent < nkm->min_parent_m_ratio * m=
+))
+> >> +		return false;
+> >> +
+> >> +	return true;
+> >> +}
+> >> +
+> >>  static unsigned long ccu_nkm_find_best_with_parent_adj(struct ccu_com=
+mon *common,
+> >>  						       struct clk_hw *parent_hw,
+> >>  						       unsigned long *parent, unsigned long rate,
+> >> @@ -31,6 +45,10 @@ static unsigned long ccu_nkm_find_best_with_parent_=
+adj(struct ccu_common *common
+> >>  				unsigned long tmp_rate, tmp_parent;
+> >>
+> >>  				tmp_parent =3D clk_hw_round_rate(parent_hw, rate * _m / (_n * _k)=
+);
+> >> +
+> >> +				if (!ccu_nkm_is_valid_rate(common, tmp_parent, _n, _m))
+> >> +					continue;
+> >> +
+> >>  				tmp_rate =3D tmp_parent * _n * _k / _m;
+> >>
+> >>  				if (ccu_is_better_rate(common, rate, tmp_rate, best_rate) ||
+> >> @@ -64,6 +82,9 @@ static unsigned long ccu_nkm_find_best(unsigned long=
+ parent, unsigned long rate,
+> >>  	for (_k =3D nkm->min_k; _k <=3D nkm->max_k; _k++) {
+> >>  		for (_n =3D nkm->min_n; _n <=3D nkm->max_n; _n++) {
+> >>  			for (_m =3D nkm->min_m; _m <=3D nkm->max_m; _m++) {
+> >> +				if (!ccu_nkm_is_valid_rate(common, parent, _n, _m))
+> >> +					continue;
+> >> +
+> >>  				unsigned long tmp_rate;
+> >>
+> >>  				tmp_rate =3D parent * _n * _k / _m;
+> >> diff --git a/drivers/clk/sunxi-ng/ccu_nkm.h b/drivers/clk/sunxi-ng/ccu=
+_nkm.h
+> >> index 6601defb3f38..c409212ee40e 100644
+> >> --- a/drivers/clk/sunxi-ng/ccu_nkm.h
+> >> +++ b/drivers/clk/sunxi-ng/ccu_nkm.h
+> >> @@ -27,6 +27,8 @@ struct ccu_nkm {
+> >>  	struct ccu_mux_internal	mux;
+> >>
+> >>  	unsigned int		fixed_post_div;
+> >> +	unsigned long		max_m_n_ratio;
+> >> +	unsigned long		min_parent_m_ratio;
+> >>
+> >>  	struct ccu_common	common;
+> >>  };
 > >>
 > >>
-> >>
-> >>
-> >>
-> >=20
-> >=20
-> >=20
-> >=20
 >=20
 
 
