@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 426A16F521;
-	Wed,  7 Feb 2024 21:27:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CFA2139943;
+	Wed,  7 Feb 2024 21:27:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707341235; cv=none; b=oJsyVb/Rkv0xYlBBuH+7rkuqVHx0DUVCW9hgFNTB1P0WdlG1McARMPH/gbJDC7WceRWXSSquhpC5gW9uUOEJVNPJSBE5Pzn556f0Od5Dtm3b3umElLIakwgT++JtXERzav4bCUAhA+fzgQTEeh50VkD11YBx/2D14PS7m0PtMOI=
+	t=1707341263; cv=none; b=NReAMua1ARhBnrmaZ96R26HziCWqFroTDDdm+wFNpcIyd3st8qpm1hIm/RcZ7/y56OVTG72bb0lJCAvkQLhf/Ha/4eIQUamq7syq0KMs3lyK1kYJrCmp7kaf4lw5nwnDojDtMRphcKPYnl0jXXykXe+OUyu+wR/jKgjvBG3vEiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707341235; c=relaxed/simple;
-	bh=lxCjGoMz1GPeg4iphNIXQdTpaiA/vfzyJn8/wK9k3AE=;
+	s=arc-20240116; t=1707341263; c=relaxed/simple;
+	bh=rfP78/Abx8Kp60WplKnnefeljYYal+/1mu05tON0jkc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kZdLSFaUQIXGDgWRpoiWDXWI21xD4UDE2gFKuAzSX3oIhVdHdx7xmLDPRqqhouUAuetcm3yFxOtPVu00W2/mtuMxvbpmXN0ekqzB6iCL47xzWVbwq9ojQBv1PmZHTKqN2VSw56O4C/lIGGhzYTdFPfEPqpNkgVEi2lzOLLM1OdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OQU/jNlH; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=OXaK/3zJhbfPNN3V4vH3pDM4N6OgryV/RPziX0mdsGMpn/vmZoIwLITjbi1aGahH2aK4Mvn6dZS0jDiWwFQkiTHw62Fh052IsZLgcncGQ2tSW8zsF4yieXLab7rdRrj5ex7wiBjSjzDSPP6SQ8IilSNNRK888DNTqw800TkP5OE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ie/FINcG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OQU/jNlH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81A72C433C7;
-	Wed,  7 Feb 2024 21:27:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ie/FINcG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5D7EC433F1;
+	Wed,  7 Feb 2024 21:27:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707341234;
-	bh=lxCjGoMz1GPeg4iphNIXQdTpaiA/vfzyJn8/wK9k3AE=;
+	s=k20201202; t=1707341263;
+	bh=rfP78/Abx8Kp60WplKnnefeljYYal+/1mu05tON0jkc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=OQU/jNlHdGNFQncLTSi/gXL3aLQsIaP6sNnfCRrjr7RIfd2KU76wr5qTQuvEAJTlk
-	 mVstpx/5IbVNDvafRHiRzyzRzS1IF12wg6qTr+Y9GwqZIb6WW83uHiPrPtN5t8Uqfp
-	 j7oS96lScIPEjMxU7vuV66b5Qegrw2WMgHUOIK4tAruEg/AfmsazsgNrSFqF1T3obY
-	 y90hw1FBrYa1E5UmnBlUuHWnvCVs7S2OWq/YtAf+O/jFYQTIzNPrGfzAZ103rnS0RG
-	 NepTZMx3dJVNavXheXMrCJUcmZMth+FwzuWNXv3STl/xK4gF4zqKTKlEEedjDwKa4m
-	 zQGZeKOpJ8rSA==
+	b=Ie/FINcGfW8g4nw4YhYQqiJ1+IaeCpfoxPYil8DasteGCI2vhaGF0xVQCkdUS+jyr
+	 CkJ8aEdhZNAXKPrLUEJwIw3E4mDm25OdwcXRzqzRnJstBrl+u9VZZSL/9EeBkGXZCA
+	 bpOSGZz1Pg/EMdJPVPK9biroGa9UMgpJ1tU4RRHAa2IIOiVBOuTSU1crxqjl6ZX0hB
+	 RkDUYNKe7GTiDbioaSshiK676w2XgJVJkXAgZXeyqZ8xcu60Hu9YO5UTIRONJyuAB1
+	 p9u959Ij3RjmCimUw912wLDPyfS/S0MkZ+1dSqdkhszyYErOD+a2KAGhCFOKu+eLjW
+	 pLpjsao+eMsEA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -39,19 +39,19 @@ Cc: Chen-Yu Tsai <wens@csie.org>,
 	tiwai@suse.com,
 	samuel@sholland.org,
 	kuninori.morimoto.gx@renesas.com,
-	nicolas.ferre@microchip.com,
-	robh@kernel.org,
+	ckeepax@opensource.cirrus.com,
 	ruanjinjie@huawei.com,
+	robh@kernel.org,
 	u.kleine-koenig@pengutronix.de,
 	linux-sound@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.10 07/16] ASoC: sunxi: sun4i-spdif: Add support for Allwinner H616
-Date: Wed,  7 Feb 2024 16:26:47 -0500
-Message-ID: <20240207212700.4287-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 5/7] ASoC: sunxi: sun4i-spdif: Add support for Allwinner H616
+Date: Wed,  7 Feb 2024 16:27:29 -0500
+Message-ID: <20240207212732.4627-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240207212700.4287-1-sashal@kernel.org>
-References: <20240207212700.4287-1-sashal@kernel.org>
+In-Reply-To: <20240207212732.4627-1-sashal@kernel.org>
+References: <20240207212732.4627-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -60,7 +60,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.209
+X-stable-base: Linux 5.4.268
 Content-Transfer-Encoding: 8bit
 
 From: Chen-Yu Tsai <wens@csie.org>
@@ -85,7 +85,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 5 insertions(+)
 
 diff --git a/sound/soc/sunxi/sun4i-spdif.c b/sound/soc/sunxi/sun4i-spdif.c
-index 228485fe0734..6dcad1aa2503 100644
+index cbe598b0fb10..680d64e0d69f 100644
 --- a/sound/soc/sunxi/sun4i-spdif.c
 +++ b/sound/soc/sunxi/sun4i-spdif.c
 @@ -464,6 +464,11 @@ static const struct of_device_id sun4i_spdif_of_match[] = {
