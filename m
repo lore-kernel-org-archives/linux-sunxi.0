@@ -1,84 +1,245 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2571922307;
-	Wed,  7 Feb 2024 09:10:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CC7F823B9
+	for <linux-sunxi@lists.linux.dev>; Wed,  7 Feb 2024 17:41:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707297026; cv=none; b=HUyrlX/I6ag/oBuo9xGhryo4IXEjmK98H4ocwbVran26/pNpO67UD7lJ8u0QonOd4QcjslIj1FcZMGVDb/D7owWwOLcHoylgUTli06juCFnBcNU2wqSrjhr6aezhq3UK8u0sC4DKxariTe7WfEG/boNmXqWcN2hwAYWwGQt6xf8=
+	t=1707327669; cv=none; b=IKK/clQt6szeKz2FO9iC9sABEW8sEXSWzDkcAQWohHp8faxJV9qhsK03fQLZJ5lI2hLqO6zeegAK8Q9Z9yUedIg79Q03aMegLITKpGfXChWd+xQBimBxQKU1DKrjnYzqD/LNc5IXwNgTVwz4chDS+toaGYeHKozQif0c/m5G+WU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707297026; c=relaxed/simple;
-	bh=3Skvn/dUoFSwXi54r9T2MMdejeTQaB6k0PKGKLgLFW8=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=OMt7jkMG2sXZ2DDxTbyjJwKhEqoBvVvUdAY0SLg2v31v5QSSTE8KHnHtpwYFM8INoqmpiYD7K1debnM07GwzKpKnmq2t/tkGogGCuvPczgVRu5l6xAqRrvtG0VYWu4hABXbIfoA4fF6uY9OR87ETcGxA+qJamjDgZcU5v5Hb+FI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JpVjA9hi; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1707327669; c=relaxed/simple;
+	bh=Pts1Ollg+kHIJn7gcBTh60hwuP/+5EbYctTIjn8gNGo=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=W7wBDLLSlCgvjwOdzy+HxXRk4u73rmr4FTaVXSTrwQwyjkVZ6kPvs04zihMp3VxJQDjB8/uuI1YXLMnt5FAVrppJO3dJRYNkvoETea2Ri+yzZEFKFeCp5OZab5F5n2uf85aUA/AhI5CefP8oZUJjetQmcBKOEemV+QiRH3VQHC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com; spf=none smtp.mailfrom=soleen.com; dkim=fail (0-bit key) header.d=soleen.com header.i=@soleen.com header.b=IJlxrJ5f reason="key not found in DNS"; arc=none smtp.client-ip=209.85.128.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JpVjA9hi"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8E773C433C7;
-	Wed,  7 Feb 2024 09:10:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707297025;
-	bh=3Skvn/dUoFSwXi54r9T2MMdejeTQaB6k0PKGKLgLFW8=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=JpVjA9hi1PaqsZIiPpiX1hoyJ6QubNOqHgQGqadY/ZlSwQpDZevC20ottlioalOio
-	 cpuxfbsbNgLGI7P5fvOp5m95VdLNvCcaroiZP/ZpHtbH8a1V/KPfNlIwVqoqOv/cDR
-	 zJvWYTi2j9O/6pGfnyxQiT8XE1IT+lTKY0sa2MTJ3fOERzHmL89eJUJ3YI5FFPYFZp
-	 Me2RVjPMY2VPi2RLjKXlUJ0bIsHwzUJ8c6GT8pJhR/jdYfzM5P25t5ovoA3MERwWuW
-	 fxur5Ed2er7vR/xyJnLUkeMcdXnZCm2u7/U0nPfNwEmJS73jdbjBuOJbkXNJXNbSBr
-	 rqnTjW1bObaEA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6549FD8C96E;
-	Wed,  7 Feb 2024 09:10:25 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=soleen.com header.i=@soleen.com header.b="IJlxrJ5f"
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-60492003050so8625717b3.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 07 Feb 2024 09:41:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1707327665; x=1707932465; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=si3iSYQzW/wS10JKxA6PCTvsO4f4p9drxSnRwVUScZU=;
+        b=IJlxrJ5fRYpbhvHQsePmeudcV08XSyz134sq4C4MQ416rNB99/iQIK4i18mstXjo36
+         xMfjEOmwOCYwMIOtgOcXILBacfw3D2muGyTYB2BKFwWhukNCwv+3/yw3aM4gY3kGHM/S
+         ku36rKthjGsl9sSS1qaEQiZDqXaCPeGsyniA5CIBMdmDiFGD13Bedf+CSz3u2kd9EyQP
+         oKeEXbI1UenS1dAi7F7b//5hNjdqf55F5NVu2K/MrdhIO/uhh86fsKxBeX4qaYpgyDG3
+         wgklFtPklTOZm8aiH2OjrVITryLJBcCKgk0fmxNQqbzYBSN/wbftJeugvDobHER/8LQ/
+         KdGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707327665; x=1707932465;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=si3iSYQzW/wS10JKxA6PCTvsO4f4p9drxSnRwVUScZU=;
+        b=ORciLr9IHFGPOZzO5tB2VvIQ8iOOnjlK2DWnOfF53WqC3ZT+8n43e+T5OHYXsHBjrd
+         KV5wyz7po16MOen407jPnMFGsIcWCfq+lO5rS7tbTyNkP9XCfyDDQ702QYcb+zjxQ33T
+         oTuTjjurWhxqC39SvjnNb8AWf/JgzMSWRf7P878lLawG7Elovm6yFjCPXcVQ58D+9OcZ
+         x8zxV/Cx6Ea8b4Ss7ebNDCnjNjiVRuff0WCf3c5Z9tuaCTE9x4IaUXTkYlXsxVG63tCk
+         G4l4rah1a0JZfjEUdJgJMSpCmgqaIP2LthtUTKmwBZQ9d9hgrSE7i3LR+y9uMxsgBzUw
+         Pydg==
+X-Forwarded-Encrypted: i=1; AJvYcCXNNrUEilbmqyNlYPuGBhKutmc6/BUKm6tz9OmzuUrIXf6vj0Aolow3hEvqVQaOTPBYOcaC0lDWrscY5ojIFUz2WvHZZjbCmhjMRio=
+X-Gm-Message-State: AOJu0YwUxbAYIkBG2psNcQvvjfhIuiTobPb2uOP38OjLR8n5JjqOZW+q
+	h9RJnSaSYPX+OaKKJjRwrNNbUwc3gN2AQVZoLAZuHfxwGBnZ+s7sXQsCqx1eRGw=
+X-Google-Smtp-Source: AGHT+IEEHU0Zq486UjgccXih/doHmjMJ7ii4hv+46i8KhFxxFLmJqhnzWQ3qz8k37AV1xp4vGAJu6A==
+X-Received: by 2002:a0d:d641:0:b0:604:9fd4:a0ec with SMTP id y62-20020a0dd641000000b006049fd4a0ecmr668771ywd.5.1707327665531;
+        Wed, 07 Feb 2024 09:41:05 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUkpA1e8or7NcUr/WsWjrzjdXlKnYP7Brox9OXywH4gDbvfn48o3nQvHRI3pVbQX4O+aXkOe6P1Hn3x8IUM5XVB16c5XA7JXuzZH5fDUuhC3U9N1bfEbkfjgV7/xqboIkaeaOm372F/MkZZVEq0wEc2DJuJkyXvpBTbqVylv+rD5YWo0/G+Kg3OD5182kxWb9kzCZ+UE/n0vaD+CRG2C1kuzz4SmrQ6NdqQbHPuKYn6WxVgQS1Scls5HHdhjkF410H1Jnetb2wUH9Vej4DTNp8scc0RM4g+s3dGiuedxcYwU/O4lWzNLDnUo/WA9DCIOYKmjzvnmxeBED3dOwxSJ7FMF3P7X+3ERyu7sWGAfJMo4dSW5siDWi6HZiZ5MqA9leEV73ZV1Xm1wucVQ9wsQHZulJm4UYSoAVTYaQ9clHXTJ+boA8TvSi+pQFaIkTmzILrZcCnP/v9+gZF2G3b2d2KFGmqYSgG0gGaeKeptMhY5zBZ5TXiR5vMzoVLgPLdposs2r8L4pNbOEWF0zi6izX845ny9/Y8ba709mNUr9BsTXTdpXOH32jdwZUB1rRUPT4dFPtw6nyl8BmXWI3DBiZnpBu47RgCKYnZfBSXFi2q0ZTfGpY6vkE0+pNUelxzhMwP9YImd8mz8ORz8gfk0sj2DMsm151dgQmX/uC9RcMuoN0PSwo42yRz7KspGOG5eic/E2f2nSxwgMyWgDE8l4BZ6AqGYqlwpCJ66J1Li+1ikKsc722qVzr+fdFigDGJDZehHFCM8B1EdQjx8ub/jH9/P26lDifl1VjFAc3AA4Kvvsyo6yhiOJofANrUTNPO6SqS0jzDMXufYMQZIoY+HTiBjvj6aFjyMPao63IIQYiOrKr6uAeYBxKTyEUYAz6+FQVqHMG28i+uK+/VCIFl4wemd2x3yQ34RfasOYy5M2vSNaEUDOn3DeO3cOzE+rNZYkpbwNh
+ uQLZgO5OgShpDB5RC7nx4T4vJMHBLV4gdTrXKpcq5xKTKPg4L5nfJnheTA51MSe4dZHDfknxqft58Yp2qBaw3tvo3OmilhNVPPJyw5F7OKhNnu0H7PXSEV9GbfUQKNfMuv2lOfWpHHyZl+skgBoEfMVKO2/jKOJPnWm8ioObQVd6L2344T1EtRFasW0zYPwG9TQRQE+RZfpHFZr/v5NAy7nVe2HWfQmZ+TNHgtBJ8saOFbD+lqsTZ7loaKSaE51S/rACmqjiUEXw9S+tAJKyFQ8s6HaQikjgoPGoTP71vIid3a11OqK/EgMvScjkeqG0vU9tuvtXKomcd+gn/P3WY+qXKHpd9ClUllsbc/g4f39izeoO+NuBgrOyc8DAKyHdSA7OvsYgwTXHlopChDAFWRMic7m+I6ke8MGRJUTc5D9/kmWyxIE8uXkDBqWdSKuVjeQqEFojdrrbHmALXwMRaHOqgrUm+TD21Sq/eQwjWSfH+Z
+Received: from soleen.c.googlers.com.com (249.240.85.34.bc.googleusercontent.com. [34.85.240.249])
+        by smtp.gmail.com with ESMTPSA id e10-20020a37db0a000000b007854018044bsm696310qki.134.2024.02.07.09.41.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Feb 2024 09:41:05 -0800 (PST)
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+To: akpm@linux-foundation.org,
+	alim.akhtar@samsung.com,
+	alyssa@rosenzweig.io,
+	asahi@lists.linux.dev,
+	baolu.lu@linux.intel.com,
+	bhelgaas@google.com,
+	cgroups@vger.kernel.org,
+	corbet@lwn.net,
+	david@redhat.com,
+	dwmw2@infradead.org,
+	hannes@cmpxchg.org,
+	heiko@sntech.de,
+	iommu@lists.linux.dev,
+	jernej.skrabec@gmail.com,
+	jonathanh@nvidia.com,
+	joro@8bytes.org,
+	krzysztof.kozlowski@linaro.org,
+	linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	lizefan.x@bytedance.com,
+	marcan@marcan.st,
+	mhiramat@kernel.org,
+	m.szyprowski@samsung.com,
+	pasha.tatashin@soleen.com,
+	paulmck@kernel.org,
+	rdunlap@infradead.org,
+	robin.murphy@arm.com,
+	samuel@sholland.org,
+	suravee.suthikulpanit@amd.com,
+	sven@svenpeter.dev,
+	thierry.reding@gmail.com,
+	tj@kernel.org,
+	tomas.mudrunka@gmail.com,
+	vdumpa@nvidia.com,
+	wens@csie.org,
+	will@kernel.org,
+	yu-cheng.yu@intel.com,
+	rientjes@google.com,
+	bagasdotme@gmail.com,
+	mkoutny@suse.com
+Subject: [PATCH v4 00/10] IOMMU memory observability
+Date: Wed,  7 Feb 2024 17:40:52 +0000
+Message-ID: <20240207174102.1486130-1-pasha.tatashin@soleen.com>
+X-Mailer: git-send-email 2.43.0.594.gd9cf4e227d-goog
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net v3] net: stmmac: protect updates of 64-bit statistics
- counters
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <170729702541.31522.8754905006786635767.git-patchwork-notify@kernel.org>
-Date: Wed, 07 Feb 2024 09:10:25 +0000
-References: <20240203190927.19669-1-petr@tesarici.cz>
-In-Reply-To: <20240203190927.19669-1-petr@tesarici.cz>
-To: Petr Tesarik <petr@tesarici.cz>
-Cc: alexandre.torgue@foss.st.com, joabreu@synopsys.com, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- mcoquelin.stm32@gmail.com, wens@csie.org, jernej.skrabec@gmail.com,
- samuel@sholland.org, jszhang@kernel.org, netdev@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev, mh+netdev@zugschlus.de, andrew@lunn.ch,
- f.fainelli@gmail.com, stable@vger.kernel.org
 
-Hello:
+----------------------------------------------------------------------
+Changelog
+----------------------------------------------------------------------
+v4:
+- Synced with v6.8-rc3 
+- Updated commit log for "iommu: account IOMMU allocated memory" as
+  suggested by Michal Koutný
+- Added more Acked-bys David Rientjes and Thierry Reding
+- Added Tested-by Bagas Sanjaya.
 
-This patch was applied to netdev/net.git (main)
-by David S. Miller <davem@davemloft.net>:
+v3:
+- Sync with v6.7-rc7
+- Addressed comments from David Rientjes: s/pages/page/, added
+  unlikely() into the branches, expanded comment for
+  iommu_free_pages_list().
+- Added Acked-bys: David Rientjes
 
-On Sat,  3 Feb 2024 20:09:27 +0100 you wrote:
-> As explained by a comment in <linux/u64_stats_sync.h>, write side of struct
-> u64_stats_sync must ensure mutual exclusion, or one seqcount update could
-> be lost on 32-bit platforms, thus blocking readers forever. Such lockups
-> have been observed in real world after stmmac_xmit() on one CPU raced with
-> stmmac_napi_poll_tx() on another CPU.
-> 
-> To fix the issue without introducing a new lock, split the statics into
-> three parts:
-> 
-> [...]
+v2:
+- Added Reviewed-by Janne Grunau
+- Sync with 6.7.0-rc3
+- Separated form the series patches:
+vhost-vdpa: account iommu allocations
+https://lore.kernel.org/all/20231130200447.2319543-1-pasha.tatashin@soleen.com
+vfio: account iommu allocations
+https://lore.kernel.org/all/20231130200900.2320829-1-pasha.tatashin@soleen.com
+as suggested by Jason Gunthorpe
+- Fixed SPARC build issue detected by kernel test robot
+- Drop the following patches as they do account iommu page tables:
+iommu/dma: use page allocation function provided by iommu-pages.h
+iommu/fsl: use page allocation function provided by iommu-pages.h
+iommu/iommufd: use page allocation function provided by iommu-pages.h
+as suggested by Robin Murphy. These patches are not related to IOMMU
+page tables. We might need to do a separate work to support DMA
+observability.
+- Remove support iommu/io-pgtable-arm-v7s as the 2nd level pages are
+under a page size, thanks Robin Murphy for pointing this out.
 
-Here is the summary with links:
-  - [net,v3] net: stmmac: protect updates of 64-bit statistics counters
-    https://git.kernel.org/netdev/net/c/38cc3c6dcc09
+----------------------------------------------------------------------
+Description
+----------------------------------------------------------------------
+IOMMU subsystem may contain state that is in gigabytes. Majority of that
+state is iommu page tables. Yet, there is currently, no way to observe
+how much memory is actually used by the iommu subsystem.
 
-You are awesome, thank you!
+This patch series solves this problem by adding both observability to
+all pages that are allocated by IOMMU, and also accountability, so
+admins can limit the amount if via cgroups.
+
+The system-wide observability is using /proc/meminfo:
+SecPageTables:    438176 kB
+
+Contains IOMMU and KVM memory.
+
+Per-node observability:
+/sys/devices/system/node/nodeN/meminfo
+Node N SecPageTables:    422204 kB
+
+Contains IOMMU and KVM memory in the given NUMA node.
+
+Per-node IOMMU only observability:
+/sys/devices/system/node/nodeN/vmstat
+nr_iommu_pages 105555
+
+Contains number of pages IOMMU allocated in the given node.
+
+Accountability: using sec_pagetables cgroup-v2 memory.stat entry.
+
+With the change, iova_stress[1] stops as limit is reached:
+
+$ ./iova_stress
+iova space:     0T      free memory:   497G
+iova space:     1T      free memory:   495G
+iova space:     2T      free memory:   493G
+iova space:     3T      free memory:   491G
+
+stops as limit is reached.
+
+This series encorporates suggestions that came from the discussion
+at LPC [2].
+----------------------------------------------------------------------
+[1] https://github.com/soleen/iova_stress
+[2] https://lpc.events/event/17/contributions/1466
+----------------------------------------------------------------------
+Previous versions
+v1: https://lore.kernel.org/all/20231128204938.1453583-1-pasha.tatashin@soleen.com
+v2: https://lore.kernel.org/linux-mm/20231130201504.2322355-1-pasha.tatashin@soleen.com
+v3: https://lore.kernel.org/all/20231226200205.562565-1-pasha.tatashin@soleen.com
+----------------------------------------------------------------------
+
+Pasha Tatashin (10):
+  iommu/vt-d: add wrapper functions for page allocations
+  iommu/amd: use page allocation function provided by iommu-pages.h
+  iommu/io-pgtable-arm: use page allocation function provided by
+    iommu-pages.h
+  iommu/io-pgtable-dart: use page allocation function provided by
+    iommu-pages.h
+  iommu/exynos: use page allocation function provided by iommu-pages.h
+  iommu/rockchip: use page allocation function provided by iommu-pages.h
+  iommu/sun50i: use page allocation function provided by iommu-pages.h
+  iommu/tegra-smmu: use page allocation function provided by
+    iommu-pages.h
+  iommu: observability of the IOMMU allocations
+  iommu: account IOMMU allocated memory
+
+ Documentation/admin-guide/cgroup-v2.rst |   2 +-
+ Documentation/filesystems/proc.rst      |   4 +-
+ drivers/iommu/amd/amd_iommu.h           |   8 -
+ drivers/iommu/amd/init.c                |  91 +++++----
+ drivers/iommu/amd/io_pgtable.c          |  13 +-
+ drivers/iommu/amd/io_pgtable_v2.c       |  20 +-
+ drivers/iommu/amd/iommu.c               |  13 +-
+ drivers/iommu/exynos-iommu.c            |  14 +-
+ drivers/iommu/intel/dmar.c              |  10 +-
+ drivers/iommu/intel/iommu.c             |  47 ++---
+ drivers/iommu/intel/iommu.h             |   2 -
+ drivers/iommu/intel/irq_remapping.c     |  10 +-
+ drivers/iommu/intel/pasid.c             |  12 +-
+ drivers/iommu/intel/svm.c               |   7 +-
+ drivers/iommu/io-pgtable-arm.c          |  15 +-
+ drivers/iommu/io-pgtable-dart.c         |  37 ++--
+ drivers/iommu/iommu-pages.h             | 236 ++++++++++++++++++++++++
+ drivers/iommu/rockchip-iommu.c          |  14 +-
+ drivers/iommu/sun50i-iommu.c            |   7 +-
+ drivers/iommu/tegra-smmu.c              |  18 +-
+ include/linux/mmzone.h                  |   5 +-
+ mm/vmstat.c                             |   3 +
+ 22 files changed, 397 insertions(+), 191 deletions(-)
+ create mode 100644 drivers/iommu/iommu-pages.h
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.43.0.594.gd9cf4e227d-goog
 
