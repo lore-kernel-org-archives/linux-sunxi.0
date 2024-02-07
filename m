@@ -1,204 +1,104 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDF6686AE2
-	for <linux-sunxi@lists.linux.dev>; Wed,  7 Feb 2024 17:41:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04BBC135A4A;
+	Wed,  7 Feb 2024 21:22:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707327685; cv=none; b=g5UGT/RjRvIYcgoYHIiqZx5w7wNRZmJ8JzNC8DHBt7C5I5301FEWb+zcSinHc1cseYCpYhtAVMRWm0jg01Q5uvKc5pMEesuIvoq5ARBSZYa+44IEdVK1LkuonRntalfe+48dI0J4ITX3Uk/0yXLv7n91tSJNMS+b+fozUj6eQjA=
+	t=1707340936; cv=none; b=nG+RRr1VfErqMKPuHK4T4RYtfrZ5eYvaUIkqByxPAC5o9VlDELIiY2nSLyEpTtX/Kha0p6D5L909q4uWePYdO4ieCZK6x82kCOX4d3PJYHTtUrQlgnChAqtaUWtbbvlaA6nn4osymdno2aM+kf3+mN6n4UuYLwF9mr6paH9gnck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707327685; c=relaxed/simple;
-	bh=PHns6xqLyHWVS2RFXaEsGlNTnkb0vFPfE2pekEJ/kfI=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LUonKjjZqg3ukW/CcO3YtJVHK0cdPpdgAuJWiJH3lWJvyE91EPg6m1Lr/s0P//DWlWmE09I/X0T9k4Aaa0LAscgNkzusADMDzAC0rnrZkvVgzQCRkS51xW0akcItZpw49XHzVkiWg94rVzn96voBhUcA4a/PtdP7LWA5n3rofTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com; spf=none smtp.mailfrom=soleen.com; dkim=fail (0-bit key) header.d=soleen.com header.i=@soleen.com header.b=el7zwgso reason="key not found in DNS"; arc=none smtp.client-ip=209.85.222.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1707340936; c=relaxed/simple;
+	bh=93jnX0X1VEpNdrH3+7indBG/9bv6BaajaOA/UlBZVhE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=BalTbi0NMKCICho1ou8cAVslT9ZbOMPuAdfsVhaEUY33BKcJCV/Tfn5REBAkhaK2mTT7p53zLl8zk+b4laLrcqPkbozdNfPtiX4VVE6tg54ImgGSiOVZx3mqzc0PTADLuiC+7rq3rCW6vKoqNYc9yXnP2ZY5SZB3h4z9/vXjBmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NpJMULxa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=soleen.com header.i=@soleen.com header.b="el7zwgso"
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-7853a9eb5daso33241485a.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 07 Feb 2024 09:41:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1707327680; x=1707932480; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HrRTSlkta7nD8c1SJPx3AxPn1tn9y9LkFmhcOlF4lks=;
-        b=el7zwgsoeLztnbszHpl0XEw6wDVQk1jfbGAISVfqAkefCPYkN2luxIG+qA3ndLE+ba
-         xxKjxt6s2zVhC72YtFm6PkI4exKQuI853fSWnu8dZJkhmNGJAsG7q+5JsGPek2o5lJZq
-         kS/p8ziIMis4Fn/SQE0tBBma0E+HXPioZ+Iv7ydkr3myiR529qFXSQNiau5bsWo7zJ6Q
-         HlO5Mu2m3HjNfdAq05QdK/6IVgROFCnLeaOjFASNaYACVksquOpAUz7KG7mqIoNJ5W25
-         I9GAvmoPeZp1IysT4qty5H5OfCDGuZVfhhdWESTGDgudwuihemunC/bCJEb92p0xT2iy
-         J/GA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707327680; x=1707932480;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HrRTSlkta7nD8c1SJPx3AxPn1tn9y9LkFmhcOlF4lks=;
-        b=rnTlgrX0JOMwp4YwhkRRhXT8OdroBvQ5qfOez5vWxfEcV88vINkG1q+OqjEGpjlalR
-         hhhqu8kfn8Lx08UhbTXSWpxA4u3p18YI04BE+fVMnSnT9tNGfWgqNT6msrXqg9V5HLX8
-         EUq00M3Ptd+zQXhr40MRo2EYofpFKOl9Ni2IZvwEA9A6Zsuoabv5yT7WKyftqJa5MCuB
-         uhx+96sVjtn6ELAktkXPP5bCrJ43yIQJvFP8hVl8GAJYV4tVem5bKPGffwKVF2FU8TUT
-         o4T0J5Un/i67vDeTBYlhp7RBHRy3JMSwVc2lGFxjZWV+vond12rjyGR773ZMgu1Gp/ic
-         F5rA==
-X-Gm-Message-State: AOJu0Ywx2vJCwS0lWvjHSY3SDj1veffCPKdgm+QXuSXV2EQplXZO+23I
-	odetH9VzzdDgA62YYUgdbS6S8wzAOgalK9r9R1TEgD2Kde3LrrccbemAdwx4I+U=
-X-Google-Smtp-Source: AGHT+IHhb+pueaISZV6Y8tJp2t2CFo0mWlpmACo7IYuyoV1N2oy7KZrIG0XVhtVG+SmB5cwuhpqy+Q==
-X-Received: by 2002:a05:620a:12c8:b0:785:3887:de18 with SMTP id e8-20020a05620a12c800b007853887de18mr6401324qkl.65.1707327679899;
-        Wed, 07 Feb 2024 09:41:19 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUCDfKWFIl6QUubNKHOK+J/TQZfBk6GOATQV7+UROelHHizxj2bMScNb5yjy+7wEKvrKAVO938EhFK3MDp4QvVuIEMns3aJNEfZ4lLhVczSUx4hYdn3X7Qx8HTpAiobpDi+dY9UU0JFYWP3sxFQVS1xxl7fcBVSx0blttAqIQWkGbtG/8OFxy5YJX+xNhtsJb3t9pvZsef+YcrlQh+9z7K1HEh5YIvRBqpPod3dD8oKW9DDybH9+3HAaHHBY8iiIHdHyvvhg/Qqh/tY8U66rdo6r4QvsxgmBFMyxznrxlOPKUwMUFVhM2YvFghVr6hKgb6KzPzIvg28q6LrAw8lD7weD0eI2MrfirCmooqnAA/zgK7D0KurMOIDpabn9VkUHuhE88OEKQ8h62/Wa2gdcl4YDdMkJY4DDjELGulQmsDVBCrUtil9loYc5aX8Gh2jq/ztHo3kv5ymJnfZ/h7e7WZdfaZvxSbUL64wc23AYR/EczgayCdZpmGXX2jQE3/KPfSIPAL6DXV6qvHIwUWL4vG18mc7tiVYDE//uM4hJo7eMbISiBgH4sundju5RQWqxyjeA3VcVHj+VPU4vBDpsrZVdnHRZeaGTV3rwC8oZXb19D/7KR1Wm7euJ76N5bgFnA7vjZhfsEp+F03DZsEUpCkkLYMsxrQWrLbAZIy488QP+Zdz41QqcwwktLByJIdIxAeRSxHxin8RRSgrxaqXRKius9NFl4oDbRCD6svZoHMd4UnX0vfYrQ0s8umvFi83/7gbRVCzXY4TP8NJFByhRuhTVTALB1EBu6ny+PtNXEQLdFexeijpQwT5/ahI+mpZ9ajMM7oM3At8FGk5pnU/BL1Nonz5Y8fjdV6tPG/C5Zk6RhURg9qAf+9R8Omad1eFWXxT9K6yqaix3pq9xGAZ8o3pF+xFI149xhPQNCmvLnHRgEmJUeIIm7boC4KgdrC5bBoaux
- c6ozrLySOAxoy5JAAUBKnlhPctpWnwmvtfHeBXAM+mRt1+c/cu3MhP0MSUMt9WZHns3r/985c1KNIPq0blR6t+yh5SOQk7YDqh0wPxUpt4Kax6NjryE1iCgR1+E5QeDElNdAVf+hiKcPe5+DO4dGivJK8C2DQW1E5U+dX94X2hiWwHcHd0IHOFqpQBMw3MYyXVibLuxNZq6E5ml+47r+bMOyL/Bqfi3ViLUhztHQ6nikGjlZcsJYY7JUssc0W5vg58IiiHspK92+rwN2jGd4sH3ALx4bgyCF0SF9flcBEtXUjRUNSmob4ETrVkz7HKMS7If6nnJcyM0Vbo0UMoOZmd5knYt1xz+hu+YULQesXnetGwV4BBbVo0WA5dRc2eIzIsQXmdql1aXqiSjGCn5mug3+d3TEVV9PvmDpKEou6WN731U4KQNAZjHoQUf6UFZNlFysQJQPL4NE73c76duMdmUXiGxzZFehKgNvB7y4Wu+1/j
-Received: from soleen.c.googlers.com.com (249.240.85.34.bc.googleusercontent.com. [34.85.240.249])
-        by smtp.gmail.com with ESMTPSA id e10-20020a37db0a000000b007854018044bsm696310qki.134.2024.02.07.09.41.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Feb 2024 09:41:19 -0800 (PST)
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: akpm@linux-foundation.org,
-	alim.akhtar@samsung.com,
-	alyssa@rosenzweig.io,
-	asahi@lists.linux.dev,
-	baolu.lu@linux.intel.com,
-	bhelgaas@google.com,
-	cgroups@vger.kernel.org,
-	corbet@lwn.net,
-	david@redhat.com,
-	dwmw2@infradead.org,
-	hannes@cmpxchg.org,
-	heiko@sntech.de,
-	iommu@lists.linux.dev,
-	jernej.skrabec@gmail.com,
-	jonathanh@nvidia.com,
-	joro@8bytes.org,
-	krzysztof.kozlowski@linaro.org,
-	linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	lizefan.x@bytedance.com,
-	marcan@marcan.st,
-	mhiramat@kernel.org,
-	m.szyprowski@samsung.com,
-	pasha.tatashin@soleen.com,
-	paulmck@kernel.org,
-	rdunlap@infradead.org,
-	robin.murphy@arm.com,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NpJMULxa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57592C43399;
+	Wed,  7 Feb 2024 21:22:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707340935;
+	bh=93jnX0X1VEpNdrH3+7indBG/9bv6BaajaOA/UlBZVhE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=NpJMULxaHD7bMwX39e4kAS8qOgH/BYXlFVg6bgofWcIkqUkW0ZQsrQiJKiCkUrYi5
+	 Y0wtz8ssyh/eF8BU9XlX1wj4GSU0xeqeeAOWTP9YT6k9v8dGuELGHfLyHS4oCETq+3
+	 hKsQrGP3BVvPHi1GaQio5fzNvPr2MQMft3T4lSRI+OK7M8XF8ROfUktTl9Jildg+8X
+	 d+Ve2ssJaXCWtymP9ugs9XRTwE9hMRRL+7PPMAtt+ySjvkCwme/tKJhzXS9Ln9P4Ss
+	 +rtyJP3RtkvW0IA9tytLC0YB3JijhPgflNu8ysHT9dUsZy7+Hibks9MWzXzdVIGsoO
+	 0qLCpfHq1PU5g==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Chen-Yu Tsai <wens@csie.org>,
+	Andre Przywara <andre.przywara@arm.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	lgirdwood@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
 	samuel@sholland.org,
-	suravee.suthikulpanit@amd.com,
-	sven@svenpeter.dev,
-	thierry.reding@gmail.com,
-	tj@kernel.org,
-	tomas.mudrunka@gmail.com,
-	vdumpa@nvidia.com,
-	wens@csie.org,
-	will@kernel.org,
-	yu-cheng.yu@intel.com,
-	rientjes@google.com,
-	bagasdotme@gmail.com,
-	mkoutny@suse.com
-Subject: [PATCH v4 10/10] iommu: account IOMMU allocated memory
-Date: Wed,  7 Feb 2024 17:41:02 +0000
-Message-ID: <20240207174102.1486130-11-pasha.tatashin@soleen.com>
-X-Mailer: git-send-email 2.43.0.594.gd9cf4e227d-goog
-In-Reply-To: <20240207174102.1486130-1-pasha.tatashin@soleen.com>
-References: <20240207174102.1486130-1-pasha.tatashin@soleen.com>
+	kuninori.morimoto.gx@renesas.com,
+	u.kleine-koenig@pengutronix.de,
+	robh@kernel.org,
+	ruanjinjie@huawei.com,
+	linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH AUTOSEL 6.7 16/44] ASoC: sunxi: sun4i-spdif: Add support for Allwinner H616
+Date: Wed,  7 Feb 2024 16:20:43 -0500
+Message-ID: <20240207212142.1399-16-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240207212142.1399-1-sashal@kernel.org>
+References: <20240207212142.1399-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.7.4
 Content-Transfer-Encoding: 8bit
 
-In order to be able to limit the amount of memory that is allocated
-by IOMMU subsystem, the memory must be accounted.
+From: Chen-Yu Tsai <wens@csie.org>
 
-Account IOMMU as part of the secondary pagetables as it was discussed
-at LPC.
+[ Upstream commit 0adf963b8463faa44653e22e56ce55f747e68868 ]
 
-The value of SecPageTables now contains mmeory allocation by IOMMU
-and KVM.
+The SPDIF hardware block found in the H616 SoC has the same layout as
+the one found in the H6 SoC, except that it is missing the receiver
+side.
 
-There is a difference between GFP_ACCOUNT and what NR_IOMMU_PAGES shows.
-GFP_ACCOUNT is set only where it makes sense to charge to user
-processes, i.e. IOMMU Page Tables, but there more IOMMU shared data
-that should not really be charged to a specific process.
+Since the driver currently only supports the transmit function, support
+for the H616 is identical to what is currently done for the H6.
 
-Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-Acked-by: David Rientjes <rientjes@google.com>
-Tested-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Link: https://msgid.link/r/20240127163247.384439-4-wens@kernel.org
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- Documentation/admin-guide/cgroup-v2.rst | 2 +-
- Documentation/filesystems/proc.rst      | 4 ++--
- drivers/iommu/iommu-pages.h             | 2 ++
- include/linux/mmzone.h                  | 2 +-
- 4 files changed, 6 insertions(+), 4 deletions(-)
+ sound/soc/sunxi/sun4i-spdif.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 17e6e9565156..15f80fea8df7 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1432,7 +1432,7 @@ PAGE_SIZE multiple when read back.
- 	  sec_pagetables
- 		Amount of memory allocated for secondary page tables,
- 		this currently includes KVM mmu allocations on x86
--		and arm64.
-+		and arm64 and IOMMU page tables.
- 
- 	  percpu (npn)
- 		Amount of memory used for storing per-cpu kernel
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index 104c6d047d9b..604b2dccdc5a 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -1110,8 +1110,8 @@ KernelStack
- PageTables
-               Memory consumed by userspace page tables
- SecPageTables
--              Memory consumed by secondary page tables, this currently
--              currently includes KVM mmu allocations on x86 and arm64.
-+              Memory consumed by secondary page tables, this currently includes
-+              KVM mmu and IOMMU allocations on x86 and arm64.
- NFS_Unstable
-               Always zero. Previous counted pages which had been written to
-               the server, but has not been committed to stable storage.
-diff --git a/drivers/iommu/iommu-pages.h b/drivers/iommu/iommu-pages.h
-index 7336f976b641..e3eb93857a73 100644
---- a/drivers/iommu/iommu-pages.h
-+++ b/drivers/iommu/iommu-pages.h
-@@ -27,6 +27,7 @@ static inline void __iommu_alloc_account(struct page *page, int order)
- 	const long pgcnt = 1l << order;
- 
- 	mod_node_page_state(page_pgdat(page), NR_IOMMU_PAGES, pgcnt);
-+	mod_lruvec_page_state(page, NR_SECONDARY_PAGETABLE, pgcnt);
- }
- 
- /**
-@@ -39,6 +40,7 @@ static inline void __iommu_free_account(struct page *page, int order)
- 	const long pgcnt = 1l << order;
- 
- 	mod_node_page_state(page_pgdat(page), NR_IOMMU_PAGES, -pgcnt);
-+	mod_lruvec_page_state(page, NR_SECONDARY_PAGETABLE, -pgcnt);
- }
- 
- /**
-diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-index bb6bc504915a..a18edcf12d53 100644
---- a/include/linux/mmzone.h
-+++ b/include/linux/mmzone.h
-@@ -202,7 +202,7 @@ enum node_stat_item {
- 	NR_KERNEL_SCS_KB,	/* measured in KiB */
- #endif
- 	NR_PAGETABLE,		/* used for pagetables */
--	NR_SECONDARY_PAGETABLE, /* secondary pagetables, e.g. KVM pagetables */
-+	NR_SECONDARY_PAGETABLE, /* secondary pagetables, KVM & IOMMU */
- #ifdef CONFIG_IOMMU_SUPPORT
- 	NR_IOMMU_PAGES,		/* # of pages allocated by IOMMU */
- #endif
+diff --git a/sound/soc/sunxi/sun4i-spdif.c b/sound/soc/sunxi/sun4i-spdif.c
+index 702386823d17..f41c30955857 100644
+--- a/sound/soc/sunxi/sun4i-spdif.c
++++ b/sound/soc/sunxi/sun4i-spdif.c
+@@ -577,6 +577,11 @@ static const struct of_device_id sun4i_spdif_of_match[] = {
+ 		.compatible = "allwinner,sun50i-h6-spdif",
+ 		.data = &sun50i_h6_spdif_quirks,
+ 	},
++	{
++		.compatible = "allwinner,sun50i-h616-spdif",
++		/* Essentially the same as the H6, but without RX */
++		.data = &sun50i_h6_spdif_quirks,
++	},
+ 	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, sun4i_spdif_of_match);
 -- 
-2.43.0.594.gd9cf4e227d-goog
+2.43.0
 
