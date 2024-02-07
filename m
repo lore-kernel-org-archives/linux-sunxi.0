@@ -1,59 +1,59 @@
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1AB38564B
-	for <linux-sunxi@lists.linux.dev>; Wed,  7 Feb 2024 17:41:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD2F08565E
+	for <linux-sunxi@lists.linux.dev>; Wed,  7 Feb 2024 17:41:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707327679; cv=none; b=RU1p82QtOfpeUSzRe3XzpqJcNqXM5G3mvVGk1gqPj07rOLICu6zE+A9InO8NQ9GjExg5F53H58fyszzZM0nR6kVtO+GcSwZv1NoRZNX2Pn5JxboUzqMiqkrNl75cvwSp+8HEJkfJlxs0XPG59d6YMcKJRj4LosfKL/PsrYvwWxw=
+	t=1707327680; cv=none; b=blqTnd19s9ZvXrBGgxqbbTTxrx7WEzwz1dVtUwOpLulF1vwaBT1GJo5NNFOvOm47t5/nx8MoVDqKvk7evPEZCgEYMUJG3pPa/MwH7tixySKpwK7GwKMS+brUCNEgKz0Xg6BN9X3wtUhonZzn6UpNgpVbfNgUsVWSJwI+Fxz7Uyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707327679; c=relaxed/simple;
-	bh=3XNcUNnDyPwz5y38tg9cKv20ES1kICICpaqblVBPZxg=;
+	s=arc-20240116; t=1707327680; c=relaxed/simple;
+	bh=ZrKDwv7ntd6MUNEgXFkjIjsD/7n0h2NtbCDhpUVACm4=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AirXl/XbeyYo5i9SHui5VMC/3+saom8J2VVNJpY5uKEJX3QULzd7V0nbcAkrZQNPgcFy8XhQtmTj8asC2f1o3efwM2LGyZm5U8rqexlE0GMMlq8B0QVu+Eg8aiPD39jf5DecYwLKpUvg2KzgUL4r9OWD6YZ9TqAOGq865chL+Yc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com; spf=none smtp.mailfrom=soleen.com; dkim=fail (0-bit key) header.d=soleen.com header.i=@soleen.com header.b=omPf9ICi reason="key not found in DNS"; arc=none smtp.client-ip=209.85.222.170
+	 MIME-Version; b=THqOMp6U6gNF210HBH9ZlVWO94N6vYOWaPBcHabw3iuOhrRp2peR0HWfwQ8jj/02dbLPdobSMBzuuHmgTtF7m2kh+HKcvdyoWEfrMd2QA4V34RoaVzKRKpYr+a9vEMDirZAcV7Bmxvpva98KwGYrHUZuGiMqiKfqFS5pHfRV498=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com; spf=none smtp.mailfrom=soleen.com; dkim=fail (0-bit key) header.d=soleen.com header.i=@soleen.com header.b=MVGrUsmF reason="key not found in DNS"; arc=none smtp.client-ip=209.85.222.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=soleen.com header.i=@soleen.com header.b="omPf9ICi"
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-783da26489aso54122985a.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 07 Feb 2024 09:41:16 -0800 (PST)
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=soleen.com header.i=@soleen.com header.b="MVGrUsmF"
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-783eb452e01so5231985a.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 07 Feb 2024 09:41:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1707327675; x=1707932475; darn=lists.linux.dev;
+        d=soleen.com; s=google; t=1707327676; x=1707932476; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Xz6G05O4wA+60kCmvmgiGx9JBrU5EV4e3uvGda8jyEo=;
-        b=omPf9ICiVaJSY8u7deoVwupgQB/0hWg6/Xe7TNBFjVNrwqy6KfumOxd01NwXE4XRGs
-         3U4YSRWnvhEBfsrDcEPzXn5tIgfRvCYxIk7/wA3ivzniSWPbz2C2rcHyaSRZRhIdOjpe
-         1ppvFRFwktpjbEyoe7rdL4LrD7skDBwMeON/gXdEYD4SnUKjweFzjdT+ChhshI0hxhq+
-         5bEYD0YBbVk7A74tZP3Xg9Dn5wHJINfohV8EL91aASuyBSTOcJ1m8NtP6IHDwL0PA30e
-         vDiz0AV4yVpUwChLCciSWvFbbYspDfSL69tgjI/4DDiHVRL8Fb2Z+ZzfYltkpUqt2KVs
-         q8Ew==
+        bh=wfVh0oPEahUZvzrBZ9xf+/i5rxN2+U5mi493evzNcuQ=;
+        b=MVGrUsmFzEa1zOG5iOvip4WEilMnxnTnbYro2PY9XQ7WBazxydWQqmK/U4Y/9MHdVO
+         IJSi7GVGDQZRiXEfcZzG/OIrouUA6YyQLA6DbCImCwkj7W1WvTBLtVcJIuC4g70J0YfU
+         e4+1Aij6m0xh8UdUxk/D9qNXvY7u1ygsCx7dHwsVRRGGSgfQgch178Z1DW+fjJE2kNJF
+         pPt/q1yhie22rcs7n0YQa2hYkmW8PeVIVLhzFdvFeDQ6nzwAYhMRtYZcC+PW2vMNd7ZP
+         qrhBdUkZoKWAAmfBr1mqbf0DxDLpQUSrGUCjS56UNQK3D02VvED4faRgt+LpNUdR0lCf
+         vXag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707327675; x=1707932475;
+        d=1e100.net; s=20230601; t=1707327676; x=1707932476;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Xz6G05O4wA+60kCmvmgiGx9JBrU5EV4e3uvGda8jyEo=;
-        b=MXttPuJn0vudActnbnccLimd35Zqw2BnjXUihEdxzu92QB115sW5rxx9N36TQSY6ix
-         rGftMNLHWcnxRxaAW/o4Hrw8eHDGnTlfFuVADY4N7xaF46O6ZXIqvODdiOiRhG/RNZw3
-         DwzyjPSAq48l8Z+oe51SlyidqVIz7uDz1VTCHzQyurdfvtGq3cJiAiaw+v3U832koY15
-         e3CH+Ina71UtPidfJq6lPRaHTfdQ1BrShUC1slEZT9DbAaWnGjzUOz2NoHNWAzya7Sc+
-         HvhY/da0meYVLMhdCL+CO3WMFa7mrEwayiIID3jIcbSC38oYursItxraKaQtRj28BB0L
-         Uw+A==
-X-Forwarded-Encrypted: i=1; AJvYcCWLMTPSqI2VKaoexnMal/1IsooAr7MQiotAX0cR5DFywpNpa3i0QpwD/VHuHMOaOIF57XWLmkkh45c8oI/VZvyZHVOhE0NGYYyewNs=
-X-Gm-Message-State: AOJu0Yx1ocfOMUh47JL/6zIRecKPtZlf4xNzFB5Ib3taM6K6UBC3B7PU
-	XfFyIMZM2yHELg1DtZ8dC9ooOEwdOJceEwoXLptm6bc6qD3hjovzInBGB4SoWPA=
-X-Google-Smtp-Source: AGHT+IGm7HEOEjYyU6ceEAyCJbj5ZSiZHtVoT/GGu/ljbSy4K2SHMHGE1ZU+Mc3GOvN+MGgdJxPt7Q==
-X-Received: by 2002:a05:620a:458f:b0:783:c945:f774 with SMTP id bp15-20020a05620a458f00b00783c945f774mr7801189qkb.16.1707327674945;
-        Wed, 07 Feb 2024 09:41:14 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVrjHWstAmPKNKmmOZss+LrnMGoMozP5bewBJMtBvsxnSH4qAA9cpPi1oYJJyh0BUiRXx8vEuPicCaLWIj7WkRsbPVXs5pF2kWy9iUO8oTShW2B8fsnkt7jYBRZir8Fz5+c72ScE95t4q5LHZ9pZO7lVdBZaewRpE/NRTtfPSseusbUyGGDy6h+O4ovY7nXnFPIJ86SUz3Dtek5Hgc7y2J+Z+WTwUQs9aZpp8P8Z9mAsQP7dpGv5qpZgJJc+KhJ+3YbNawEbDn6BoSaBFcWYvC2iawUphmoa955poBq4d8NK0bieLstlnhd0+F4aMp03PTWFtKgeeGN5BNwOh+yuYSDzJGEgx+Q5FLBw8GUMq8ADEBNdGsxltHxrZkxkDb2Xzr59XaH5uUTXdxZtdNzyKd/WvxprwrkKL/Y0V496ab8itUl+7v63ZAXPuiao/r15D99xjNwwYyQ8MaIZMWx5oBm0W4viPnDezsxhm1S6ldjOX2GYSvbBKZjZKgO8JfaqW7YgAadHrhnWydYP7q897L26rp4R+PTyEyDm1Ttr1BvzrEkF14wY7DMd4cE9vnRmgyMpc9MIV1AS8Yeol//B7sedMHGx9YUlhHmMld6IvICVHr9cPlSBhKJhEgP95TiG37l5tWnPBTjqAnvQXaQ3/ssibX8uYPmb2YjK65W4/kv6al+yX4cpi8g1qWOJc/jWs0DVzguf/yN9hfoKE+C5iMFHsXGhQa+lvEGly3VLu8DY96oAirk3p7ee+Vr4Nq1Eem+lyudfRY8QGxu3vMiiocWWsFzPg+N0ka5b3Ss0zDaGpOtLPitRJvp9TSELiK4t5+VNOo5T7rOmnLnYkmtovz4hQgWWiD7cFKVpP8pPPeuXJf+RIb459I54+kbjtiIBSnxktVzV12pdR/i32lYdnVpfsSTS2IeyOGtJQzkFdR4D+1gKDfQFxHWHeFI5zESLmyLNW
- Ao7b6FgzEQATp9gXBFjnlk2upisqGrCNtgs4ViYBAYCn9VIpKTTVJx8QL1GCc6lwCUdWzqqZUFQlS3tf8uWIjDjC6W1SRrYk4pE1Y7e8reWeyw9aF+as40OW4Ezw8RGpi0muxi4Y1aZNhTeh56EfSELm+bOXEfcS787PLN7zzTynHNy2FN+1NnoUfBaolqV9bj4KixvnEsdzHzOZstfc5xGz2ZLCGLAhOGO7jdNWScuTX7NExkhEbv3PnLl9I73PUAjg+brm+juf8r9qQgk+jmy4lk6xDFQ7ssb2ubfZ9vQvNU2uJBgWMc4JqfaH5NW72z05Ap4JDXNghrCFVpeYufB7XyHzfwtAT+J8ApXxOu9QYjpzOWKVDxbi68ugpqpPv65NucRhhZdFJ9QHW8MZrIvjX6h2JEqzGbspJ+yissL6+wfnzJmBK8zVJlAOnxnmzfF5TCDMHoHoER7Lr1dMpSAzmj0/EAtm4Af6trtfEIkamc
+        bh=wfVh0oPEahUZvzrBZ9xf+/i5rxN2+U5mi493evzNcuQ=;
+        b=mEfNLWpS7CvZVz377TA+pC0BhPsX/DqPODZWjY2xRWIJtKqsAQXGbw+0z4SEmy5CaZ
+         osueobtEsbev74ADK1nHgH+aWUmR+cGI8GgH0+uGpu/Kzq0RzPnW0HbsbxGpA9fLsLXG
+         d5+hUC6SU8qS2SkZAEXnuNuCm6BaSeTRRDhgcsENhVOd+e7NCh7IhDHSc4l+PxIPU+G9
+         pmasrI/Guvmdc8C6ek1y2o1qAEoQ7gbgGXEKdZVdppz1lKq3Ubul17xzHjjDQMwJMsu9
+         wMw1xvlko1kvXxpvgC/OKkWvgUMXKnOEqvgxh2qsqcHhqbioRjsWUb3r7of//UM1PpOE
+         z8aQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXSIPxjtO6ypFBwbChwOSNKvnZIl5khPBpSI46fbq3hJTEH2ggOiA+Coe6/O1AZoDfzEiXvLSnwXRlW7M7UPN0WiFOh7MGdTpTO95I=
+X-Gm-Message-State: AOJu0Yw2v8RTcu5Nb9uZJME9EXCzJoWbYtzdgKZUZzW7w+2W28010EXd
+	mdOtHq8E6Rx4qCKPgSf/0450te/WGtIGjX98t8Rkhwd0ibubmEwaXGnP1A825ew=
+X-Google-Smtp-Source: AGHT+IEYw/oN3ccwsdwQFv2jRl2FvfT6B6nkPyMXJGG4ZBtYYD02TxlhcFEf6LXGuUiTE1mdL7ys/w==
+X-Received: by 2002:a05:620a:2191:b0:785:a0fd:26c with SMTP id g17-20020a05620a219100b00785a0fd026cmr230165qka.36.1707327676289;
+        Wed, 07 Feb 2024 09:41:16 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVXXSvczqKSyNm43JX5/tzjrxJXXar4QNtSDMhqU2+N72ON7heLA3zeXwN1sPD8iNP1Ua3viph4VSvSaigEeBs+4AB16FSQoHG3nR2ARKpJ6Z6eqdW6RZ/Dx5gVULGUeNiZJs2bmFqEcerVJIR/k77MlP0P0vb2m946zLj3/Q+KKlAaf+S7e+fUwZ84VZBAoIKR3CAFqaEvfgSVeHvJDNlreq4nUF0bRbOmv+CTFkg6/34uIuhSrA1PfBuZS9NDpUrr7qD3iWEui7dadf1quYchsrHJm7Et0JCMwNo5G7j88fU0jnlH2f3xq6IprlzgVbwgVawD+F0w5yMxaKe31AMQCKLJDPkDnYGtso1cb3VcL9cwUUlE8zHdYGqDtmL4A3bNsEc+cHEYWlAikX+B5mca++p25pQQybiJgq5+xuv6MXn3SJAmkIrOedVuJQIGWWxUXhVKrHyW1vTefklNntllKnJ8kE94Q2QK6FQ7R5hbS7ZM+HnDQX4b8eU46NlXSODa0H04teVLWvmP9gtCad8fAMZqMrrR3WQ/TUTBO30OMZ3zF+k4DWHX9SXVVrt9nrRNprKLO9Z7u8dKJ7+GXLD3DWJoiQaPYhHwdfNS0J/6cWv0Cmhs4GVlXWvAwjKLkG6R+bd+Ys0jdTkMgWDuLUuIUZJXKs8G2j8ytxUN9ONqBDbvEtiqVgUbhqFtknANpqKIjtrOa5afMZB6vaVlSXSz7JIia1p4WLqYg76UjL26wPfE+YNYaoqoyla+/NM5tlqcG+Qv9qaBsUT0PrZlag/9hIB7OlkLkbIDeffOo1piVsMnuWQ2Fb0sIE5M3tMlSV4LOUvlm6MMoqTigjLdoiMPCpo3eSydh5ThPXQcdvauDs1iooRO19ROz7wfGQiGkN433FzI8pQIGwB/Y28HAGJ2Z/e4dzgMME9mxSg6/v6VWpPcpYfrpADNnE1HG5m17F3Z9/
+ UwJNwsxkn3pX7eMFA/DZyCzVr6lCgR+6OWns+GLU2SxZUdU0xVvSfjQhkSCVyzsqGTBKOAl46Qb5IR6uUP95vhYRyZh/sazLK1hp6TuSuGwGRiqCEq3kw5QrDYNAeSeryfxDajztI6S9jiXf9iOAeZ2u7rYaFZy50vg9l9iMXxf9hkJco867096dyje+DKkhn4WuJV5pUKUPg0jyDyOEh9YkiepVTHVZe+2/e6eXAACmAIqtLN291FEcNxHSFVc9VoRJotuYKq+P9z10tdNS+gaUUxRVwOH60jk5JdNq6iqwWPhfb90cWSdU5X/SASbKNAWT2TUn7fb+cqTPdJqZU5F61vo4y6m5LgEiIZFuY8ciAZqGeXCJ4KoNYNcloHQYen9MDAb9yvPdMPytSIThAuivd6JL/t1mQ68T7pjNDeJUQ62Bl8xjmJOCkONVL1QfNYzX6G15djtpimeWhgGmyglvGJqsqIKWUnJObt/eRFoB8y
 Received: from soleen.c.googlers.com.com (249.240.85.34.bc.googleusercontent.com. [34.85.240.249])
-        by smtp.gmail.com with ESMTPSA id e10-20020a37db0a000000b007854018044bsm696310qki.134.2024.02.07.09.41.14
+        by smtp.gmail.com with ESMTPSA id e10-20020a37db0a000000b007854018044bsm696310qki.134.2024.02.07.09.41.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Feb 2024 09:41:14 -0800 (PST)
+        Wed, 07 Feb 2024 09:41:15 -0800 (PST)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: akpm@linux-foundation.org,
 	alim.akhtar@samsung.com,
@@ -101,9 +101,9 @@ To: akpm@linux-foundation.org,
 	rientjes@google.com,
 	bagasdotme@gmail.com,
 	mkoutny@suse.com
-Subject: [PATCH v4 06/10] iommu/rockchip: use page allocation function provided by iommu-pages.h
-Date: Wed,  7 Feb 2024 17:40:58 +0000
-Message-ID: <20240207174102.1486130-7-pasha.tatashin@soleen.com>
+Subject: [PATCH v4 07/10] iommu/sun50i: use page allocation function provided by iommu-pages.h
+Date: Wed,  7 Feb 2024 17:40:59 +0000
+Message-ID: <20240207174102.1486130-8-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.43.0.594.gd9cf4e227d-goog
 In-Reply-To: <20240207174102.1486130-1-pasha.tatashin@soleen.com>
 References: <20240207174102.1486130-1-pasha.tatashin@soleen.com>
@@ -115,80 +115,48 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert iommu/rockchip-iommu.c to use the new page allocation functions
+Convert iommu/sun50i-iommu.c to use the new page allocation functions
 provided in iommu-pages.h.
 
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 Acked-by: David Rientjes <rientjes@google.com>
 Tested-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- drivers/iommu/rockchip-iommu.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ drivers/iommu/sun50i-iommu.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/iommu/rockchip-iommu.c b/drivers/iommu/rockchip-iommu.c
-index 2685861c0a12..e04f22d481d0 100644
---- a/drivers/iommu/rockchip-iommu.c
-+++ b/drivers/iommu/rockchip-iommu.c
+diff --git a/drivers/iommu/sun50i-iommu.c b/drivers/iommu/sun50i-iommu.c
+index 41484a5a399b..172ddb717eb5 100644
+--- a/drivers/iommu/sun50i-iommu.c
++++ b/drivers/iommu/sun50i-iommu.c
 @@ -26,6 +26,8 @@
- #include <linux/slab.h>
  #include <linux/spinlock.h>
+ #include <linux/types.h>
  
 +#include "iommu-pages.h"
 +
- /** MMU register offsets */
- #define RK_MMU_DTE_ADDR		0x00	/* Directory table address */
- #define RK_MMU_STATUS		0x04
-@@ -727,14 +729,14 @@ static u32 *rk_dte_get_page_table(struct rk_iommu_domain *rk_domain,
- 	if (rk_dte_is_pt_valid(dte))
- 		goto done;
+ #define IOMMU_RESET_REG			0x010
+ #define IOMMU_RESET_RELEASE_ALL			0xffffffff
+ #define IOMMU_ENABLE_REG		0x020
+@@ -679,8 +681,7 @@ sun50i_iommu_domain_alloc_paging(struct device *dev)
+ 	if (!sun50i_domain)
+ 		return NULL;
  
--	page_table = (u32 *)get_zeroed_page(GFP_ATOMIC | rk_ops->gfp_flags);
-+	page_table = iommu_alloc_page(GFP_ATOMIC | rk_ops->gfp_flags);
- 	if (!page_table)
- 		return ERR_PTR(-ENOMEM);
- 
- 	pt_dma = dma_map_single(dma_dev, page_table, SPAGE_SIZE, DMA_TO_DEVICE);
- 	if (dma_mapping_error(dma_dev, pt_dma)) {
- 		dev_err(dma_dev, "DMA mapping error while allocating page table\n");
--		free_page((unsigned long)page_table);
-+		iommu_free_page(page_table);
- 		return ERR_PTR(-ENOMEM);
- 	}
- 
-@@ -1061,7 +1063,7 @@ static struct iommu_domain *rk_iommu_domain_alloc_paging(struct device *dev)
- 	 * Each level1 (dt) and level2 (pt) table has 1024 4-byte entries.
- 	 * Allocate one 4 KiB page for each table.
- 	 */
--	rk_domain->dt = (u32 *)get_zeroed_page(GFP_KERNEL | rk_ops->gfp_flags);
-+	rk_domain->dt = iommu_alloc_page(GFP_KERNEL | rk_ops->gfp_flags);
- 	if (!rk_domain->dt)
+-	sun50i_domain->dt = (u32 *)__get_free_pages(GFP_KERNEL | __GFP_ZERO,
+-						    get_order(DT_SIZE));
++	sun50i_domain->dt = iommu_alloc_pages(GFP_KERNEL, get_order(DT_SIZE));
+ 	if (!sun50i_domain->dt)
  		goto err_free_domain;
  
-@@ -1083,7 +1085,7 @@ static struct iommu_domain *rk_iommu_domain_alloc_paging(struct device *dev)
- 	return &rk_domain->domain;
+@@ -702,7 +703,7 @@ static void sun50i_iommu_domain_free(struct iommu_domain *domain)
+ {
+ 	struct sun50i_iommu_domain *sun50i_domain = to_sun50i_domain(domain);
  
- err_free_dt:
--	free_page((unsigned long)rk_domain->dt);
-+	iommu_free_page(rk_domain->dt);
- err_free_domain:
- 	kfree(rk_domain);
+-	free_pages((unsigned long)sun50i_domain->dt, get_order(DT_SIZE));
++	iommu_free_pages(sun50i_domain->dt, get_order(DT_SIZE));
+ 	sun50i_domain->dt = NULL;
  
-@@ -1104,13 +1106,13 @@ static void rk_iommu_domain_free(struct iommu_domain *domain)
- 			u32 *page_table = phys_to_virt(pt_phys);
- 			dma_unmap_single(dma_dev, pt_phys,
- 					 SPAGE_SIZE, DMA_TO_DEVICE);
--			free_page((unsigned long)page_table);
-+			iommu_free_page(page_table);
- 		}
- 	}
- 
- 	dma_unmap_single(dma_dev, rk_domain->dt_dma,
- 			 SPAGE_SIZE, DMA_TO_DEVICE);
--	free_page((unsigned long)rk_domain->dt);
-+	iommu_free_page(rk_domain->dt);
- 
- 	kfree(rk_domain);
- }
+ 	kfree(sun50i_domain);
 -- 
 2.43.0.594.gd9cf4e227d-goog
 
