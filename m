@@ -1,105 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CFA2139943;
-	Wed,  7 Feb 2024 21:27:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D494077628
+	for <linux-sunxi@lists.linux.dev>; Thu,  8 Feb 2024 10:53:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707341263; cv=none; b=NReAMua1ARhBnrmaZ96R26HziCWqFroTDDdm+wFNpcIyd3st8qpm1hIm/RcZ7/y56OVTG72bb0lJCAvkQLhf/Ha/4eIQUamq7syq0KMs3lyK1kYJrCmp7kaf4lw5nwnDojDtMRphcKPYnl0jXXykXe+OUyu+wR/jKgjvBG3vEiA=
+	t=1707389588; cv=none; b=I9wrIsBEcCxjKp5btxX5DTFHLECFHYd1GEXTTjRmBkgb5bCagaS9s43ACeBVB3ly2xVOB4cQRZAV4TKzL2Yj+cW9mIjYkczxD06abM7ddvFM+mWrUg0TAf5mMr6UvP1969T8QWOWdSpnyFoC9VHwEj4ca4uDAftfs4UihFtJUX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707341263; c=relaxed/simple;
-	bh=rfP78/Abx8Kp60WplKnnefeljYYal+/1mu05tON0jkc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OXaK/3zJhbfPNN3V4vH3pDM4N6OgryV/RPziX0mdsGMpn/vmZoIwLITjbi1aGahH2aK4Mvn6dZS0jDiWwFQkiTHw62Fh052IsZLgcncGQ2tSW8zsF4yieXLab7rdRrj5ex7wiBjSjzDSPP6SQ8IilSNNRK888DNTqw800TkP5OE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ie/FINcG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1707389588; c=relaxed/simple;
+	bh=r7neQIZqlD7kZSvzFfitQ/605+hU2dKz4dgTmnCCuhI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=f0ZkwGmh677uPiKTP+gKdKmpcNEPpBXZL5QVq6atb6ER0H6/BZLuoYXAxdWB55GN7brWQaLc9V0jdCGb+0wG0aJNI89dZ0w+LVFlZePqy/YF0qSlSxjs1lXtihb1V4I1ylOU6Mfpw+F7SGkV640eBVEI++kmW5VF74YZQtxicso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qKcMztGE; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ie/FINcG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5D7EC433F1;
-	Wed,  7 Feb 2024 21:27:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707341263;
-	bh=rfP78/Abx8Kp60WplKnnefeljYYal+/1mu05tON0jkc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Ie/FINcGfW8g4nw4YhYQqiJ1+IaeCpfoxPYil8DasteGCI2vhaGF0xVQCkdUS+jyr
-	 CkJ8aEdhZNAXKPrLUEJwIw3E4mDm25OdwcXRzqzRnJstBrl+u9VZZSL/9EeBkGXZCA
-	 bpOSGZz1Pg/EMdJPVPK9biroGa9UMgpJ1tU4RRHAa2IIOiVBOuTSU1crxqjl6ZX0hB
-	 RkDUYNKe7GTiDbioaSshiK676w2XgJVJkXAgZXeyqZ8xcu60Hu9YO5UTIRONJyuAB1
-	 p9u959Ij3RjmCimUw912wLDPyfS/S0MkZ+1dSqdkhszyYErOD+a2KAGhCFOKu+eLjW
-	 pLpjsao+eMsEA==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Chen-Yu Tsai <wens@csie.org>,
-	Andre Przywara <andre.przywara@arm.com>,
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qKcMztGE"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-511490772f6so1947392e87.2
+        for <linux-sunxi@lists.linux.dev>; Thu, 08 Feb 2024 02:53:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1707389585; x=1707994385; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SsvFX7J4wC4rV1ETkXmUe+0x+lfVuedy1wld88CqNbA=;
+        b=qKcMztGE6lls8q3tlyzHhaFIswzRtvFXgDilhIOEm0YO3yoUYJfiYagsV2maeyNc98
+         crf8Ad8SSKCvlN69HDlFWHjaHzLDSSxV7EUr1tinqrosB1htGb6bxsGtNFrETAuYlHcG
+         ZGSqzoDlxVgAUVJ1J0KorFsUiOo+qtSBt9DH9YUFHFrb/YrBBCvsZMum/mZysl30zk1w
+         GK3OuvegExD1PrHqtCf80Dk6P7h8HvhSiD2RwKNcZS29xFioQHmyPXAudAIZnedDJ+g+
+         lOZtlb+IllQUsffjuO5cDuPZlJYr4hEM7mNtwpzMPS37/aOwHkFPo9B/a4W7Y3f5uIFo
+         m7sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707389585; x=1707994385;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SsvFX7J4wC4rV1ETkXmUe+0x+lfVuedy1wld88CqNbA=;
+        b=R37J2Ojm//9uNXMUYhwsXX5y32nzBmjuExl/uz/cgMgE0MT+fUlDcRnzk+sogah37Y
+         2EYHEqMqfo8bcEx9tvTfLe2gTpclObBHhjim7Aphdi5IOASUZuFU33Lav8WG9nDtX78L
+         YHvm3g2dTnUu9rnYUFHhOE30zvLMa2pe5PCfvScXO/BFZf4Cup8+f21llzR57Fgq+ff1
+         wbPIyfkk0+UUWnJWeAu0U15I3Y4yVk/N/LE72XSb2gMA8CPyVy1slto3NRJOq5JuP9C/
+         t2E3pNqcFT3JwfpX0z8K0m155M+S3FM30/uc4az7HdgdL9KDOY1lUxlIPYMCb0h76KQs
+         EMoQ==
+X-Gm-Message-State: AOJu0Yyr8FUtwUjlFrc6d6PdUFdk6J+Y87hUhArxCPRI1kLv0N/dTrw7
+	JsmfHPsokbPxCto5FAevpO7ZtPLJWdhWqtihAS+OdHCohxMK6opRf3MC6bhhHSk=
+X-Google-Smtp-Source: AGHT+IFb04yQV9E6QtRgImmRiODLQcP1FPjgehHeg0frAo6CFt4eUX5ECX91r3IH+PwfKgKacayJeQ==
+X-Received: by 2002:a05:6512:b84:b0:511:4889:e27d with SMTP id b4-20020a0565120b8400b005114889e27dmr6538440lfv.42.1707389584948;
+        Thu, 08 Feb 2024 02:53:04 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXXkCHAjeFyN0Fsa+RcAqpxHyvfgJcwgR3h6Oip0IPelywc74iufW2oz19V9yOP4c7WICHUtvAyg+UTEn9rxI7ZMXJ4U3uubUhblVEg4wVHNGqnAeq6cMjqCG2sCHAHvViXCNDsAv4vUAGT09JNaIDDhN8W3t96/RZVubx/Jo/tUERWEmkamXTHts/xZhdASDOdavb6YMtFAXkTN7fa1yR7MsFxoz1CTh39F/UeJicSkPrpsogXS7e7enIDYLgKsDBLwB9pPQen4X7YOXX2D/uM41364VTkFVuml7SeOjYlS/gEDDSlv2l2gwfNvrVgXoFrlRvDRh70XNz5Wv0p/g==
+Received: from krzk-bin.. ([178.197.222.62])
+        by smtp.gmail.com with ESMTPSA id u10-20020a5d468a000000b0033b44b4da56sm3331975wrq.111.2024.02.08.02.53.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Feb 2024 02:53:04 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	lgirdwood@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	samuel@sholland.org,
-	kuninori.morimoto.gx@renesas.com,
-	ckeepax@opensource.cirrus.com,
-	ruanjinjie@huawei.com,
-	robh@kernel.org,
-	u.kleine-koenig@pengutronix.de,
-	linux-sound@vger.kernel.org,
+	Samuel Holland <samuel@sholland.org>,
+	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.4 5/7] ASoC: sunxi: sun4i-spdif: Add support for Allwinner H616
-Date: Wed,  7 Feb 2024 16:27:29 -0500
-Message-ID: <20240207212732.4627-5-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240207212732.4627-1-sashal@kernel.org>
-References: <20240207212732.4627-1-sashal@kernel.org>
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 1/2] arm64: dts: allwinner: use capital "OR" for multiple licenses in SPDX
+Date: Thu,  8 Feb 2024 11:53:00 +0100
+Message-Id: <20240208105301.129005-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.4.268
 Content-Transfer-Encoding: 8bit
 
-From: Chen-Yu Tsai <wens@csie.org>
+Documentation/process/license-rules.rst and checkpatch expect the SPDX
+identifier syntax for multiple licenses to use capital "OR".  Correct it
+to keep consistent format and avoid copy-paste issues.
 
-[ Upstream commit 0adf963b8463faa44653e22e56ce55f747e68868 ]
-
-The SPDIF hardware block found in the H616 SoC has the same layout as
-the one found in the H6 SoC, except that it is missing the receiver
-side.
-
-Since the driver currently only supports the transmit function, support
-for the H616 is identical to what is currently done for the H6.
-
-Signed-off-by: Chen-Yu Tsai <wens@csie.org>
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Link: https://msgid.link/r/20240127163247.384439-4-wens@kernel.org
-Signed-off-by: Mark Brown <broonie@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- sound/soc/sunxi/sun4i-spdif.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ .../boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dts    | 2 +-
+ arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi  | 2 +-
+ arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts    | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/sound/soc/sunxi/sun4i-spdif.c b/sound/soc/sunxi/sun4i-spdif.c
-index cbe598b0fb10..680d64e0d69f 100644
---- a/sound/soc/sunxi/sun4i-spdif.c
-+++ b/sound/soc/sunxi/sun4i-spdif.c
-@@ -464,6 +464,11 @@ static const struct of_device_id sun4i_spdif_of_match[] = {
- 		.compatible = "allwinner,sun50i-h6-spdif",
- 		.data = &sun50i_h6_spdif_quirks,
- 	},
-+	{
-+		.compatible = "allwinner,sun50i-h616-spdif",
-+		/* Essentially the same as the H6, but without RX */
-+		.data = &sun50i_h6_spdif_quirks,
-+	},
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, sun4i_spdif_of_match);
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dts
+index dbce61b355d6..4bfb52609c94 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dts
+@@ -1,4 +1,4 @@
+-// SPDX-License-Identifier: (GPL-2.0+ or MIT)
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+ /*
+  * Copyright (C) 2023 Martin Botka <martin.botka@somainline.org>.
+  */
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi
+index 1fed2b46cfe8..b2988f500231 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi
+@@ -1,4 +1,4 @@
+-// SPDX-License-Identifier: (GPL-2.0+ or MIT)
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+ /*
+  * Copyright (C) 2023 Martin Botka <martin.botka@somainline.org>.
+  */
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts
+index 832f08b2b260..ff84a3794470 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts
+@@ -1,4 +1,4 @@
+-// SPDX-License-Identifier: (GPL-2.0+ or MIT)
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+ /*
+  * Copyright (C) 2023 Martin Botka <martin@biqu3d.com>.
+  */
 -- 
-2.43.0
+2.34.1
 
