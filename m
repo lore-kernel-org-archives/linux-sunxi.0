@@ -1,55 +1,57 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D494077628
-	for <linux-sunxi@lists.linux.dev>; Thu,  8 Feb 2024 10:53:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EA0F73184
+	for <linux-sunxi@lists.linux.dev>; Thu,  8 Feb 2024 10:53:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707389588; cv=none; b=I9wrIsBEcCxjKp5btxX5DTFHLECFHYd1GEXTTjRmBkgb5bCagaS9s43ACeBVB3ly2xVOB4cQRZAV4TKzL2Yj+cW9mIjYkczxD06abM7ddvFM+mWrUg0TAf5mMr6UvP1969T8QWOWdSpnyFoC9VHwEj4ca4uDAftfs4UihFtJUX8=
+	t=1707389589; cv=none; b=Ag7SP4a2qYNis6hM++l0IgmTbYUJbqCgrKCwgsWzJ1ztyZsE3dANzRiTNGENg4zRHI8qMZdQdHexfNi7hHXF42rJXvN3FS64UIK4krX40eAE+WYFaBhquSNA4pt43R/fFB95bWaSm5U1HdjpQUYRzxyF7KouqeiA5Xk+IhdOobw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707389588; c=relaxed/simple;
-	bh=r7neQIZqlD7kZSvzFfitQ/605+hU2dKz4dgTmnCCuhI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=f0ZkwGmh677uPiKTP+gKdKmpcNEPpBXZL5QVq6atb6ER0H6/BZLuoYXAxdWB55GN7brWQaLc9V0jdCGb+0wG0aJNI89dZ0w+LVFlZePqy/YF0qSlSxjs1lXtihb1V4I1ylOU6Mfpw+F7SGkV640eBVEI++kmW5VF74YZQtxicso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qKcMztGE; arc=none smtp.client-ip=209.85.167.44
+	s=arc-20240116; t=1707389589; c=relaxed/simple;
+	bh=MZAwqIqKrU2y94/Ns3TN22kLxM0VGP3/4mnLhQusbZg=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=fn9MXGJkLoUZtdXsQewp4aeueygXDdYhMKOG1UzIBkFqqYbCbz7jo6FUNyXNI9SA8Cwgvvs0hArpEhjflvqRtJGm/vtG2307xeUJQQ0atFvyYF0EVnZvixMxpfdtOVKPPkBCWP65EV9+SNWsvKu9qdH8Hg5vKCSBguDOuSOFtVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=o2DYeqT7; arc=none smtp.client-ip=209.85.221.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qKcMztGE"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-511490772f6so1947392e87.2
-        for <linux-sunxi@lists.linux.dev>; Thu, 08 Feb 2024 02:53:06 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="o2DYeqT7"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-33aeb088324so1156995f8f.2
+        for <linux-sunxi@lists.linux.dev>; Thu, 08 Feb 2024 02:53:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1707389585; x=1707994385; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SsvFX7J4wC4rV1ETkXmUe+0x+lfVuedy1wld88CqNbA=;
-        b=qKcMztGE6lls8q3tlyzHhaFIswzRtvFXgDilhIOEm0YO3yoUYJfiYagsV2maeyNc98
-         crf8Ad8SSKCvlN69HDlFWHjaHzLDSSxV7EUr1tinqrosB1htGb6bxsGtNFrETAuYlHcG
-         ZGSqzoDlxVgAUVJ1J0KorFsUiOo+qtSBt9DH9YUFHFrb/YrBBCvsZMum/mZysl30zk1w
-         GK3OuvegExD1PrHqtCf80Dk6P7h8HvhSiD2RwKNcZS29xFioQHmyPXAudAIZnedDJ+g+
-         lOZtlb+IllQUsffjuO5cDuPZlJYr4hEM7mNtwpzMPS37/aOwHkFPo9B/a4W7Y3f5uIFo
-         m7sg==
+        d=linaro.org; s=google; t=1707389586; x=1707994386; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7mWzKWd+T8PsoQYOe4XSt67Daig4dIyeudjH6Sr2oBc=;
+        b=o2DYeqT7u6Kugt4NyE8VYNbxY2lKkY9rxR1idPCoyQC+fx5UgwnmXsei/ymevnmzed
+         J2umpNs8x/ccB6g92x7FJPEq7vOGhluPU+Q5sU4Op1ferwH/jfAWcGyGY2rnuuldcD3O
+         w2jar3CaLn/yVfN8NkWJve1sBGEhLI4B0vf332lRfNwh/K01fY2M2RunWvdLg7uuRUHr
+         407pFFqbxHs9WkSraO7nem9UuFD8ZhEaO1XoFVUVmUoIzkbfSwjMFnU42jA0+jMQlzV+
+         qDYGjf+6D5pQr+tOFlN58jBemJa4vVawQtsp7de/OccrPXHDh95pH2KJgUdZmDAhfuD8
+         CKIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707389585; x=1707994385;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SsvFX7J4wC4rV1ETkXmUe+0x+lfVuedy1wld88CqNbA=;
-        b=R37J2Ojm//9uNXMUYhwsXX5y32nzBmjuExl/uz/cgMgE0MT+fUlDcRnzk+sogah37Y
-         2EYHEqMqfo8bcEx9tvTfLe2gTpclObBHhjim7Aphdi5IOASUZuFU33Lav8WG9nDtX78L
-         YHvm3g2dTnUu9rnYUFHhOE30zvLMa2pe5PCfvScXO/BFZf4Cup8+f21llzR57Fgq+ff1
-         wbPIyfkk0+UUWnJWeAu0U15I3Y4yVk/N/LE72XSb2gMA8CPyVy1slto3NRJOq5JuP9C/
-         t2E3pNqcFT3JwfpX0z8K0m155M+S3FM30/uc4az7HdgdL9KDOY1lUxlIPYMCb0h76KQs
-         EMoQ==
-X-Gm-Message-State: AOJu0Yyr8FUtwUjlFrc6d6PdUFdk6J+Y87hUhArxCPRI1kLv0N/dTrw7
-	JsmfHPsokbPxCto5FAevpO7ZtPLJWdhWqtihAS+OdHCohxMK6opRf3MC6bhhHSk=
-X-Google-Smtp-Source: AGHT+IFb04yQV9E6QtRgImmRiODLQcP1FPjgehHeg0frAo6CFt4eUX5ECX91r3IH+PwfKgKacayJeQ==
-X-Received: by 2002:a05:6512:b84:b0:511:4889:e27d with SMTP id b4-20020a0565120b8400b005114889e27dmr6538440lfv.42.1707389584948;
-        Thu, 08 Feb 2024 02:53:04 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXXkCHAjeFyN0Fsa+RcAqpxHyvfgJcwgR3h6Oip0IPelywc74iufW2oz19V9yOP4c7WICHUtvAyg+UTEn9rxI7ZMXJ4U3uubUhblVEg4wVHNGqnAeq6cMjqCG2sCHAHvViXCNDsAv4vUAGT09JNaIDDhN8W3t96/RZVubx/Jo/tUERWEmkamXTHts/xZhdASDOdavb6YMtFAXkTN7fa1yR7MsFxoz1CTh39F/UeJicSkPrpsogXS7e7enIDYLgKsDBLwB9pPQen4X7YOXX2D/uM41364VTkFVuml7SeOjYlS/gEDDSlv2l2gwfNvrVgXoFrlRvDRh70XNz5Wv0p/g==
+        d=1e100.net; s=20230601; t=1707389586; x=1707994386;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7mWzKWd+T8PsoQYOe4XSt67Daig4dIyeudjH6Sr2oBc=;
+        b=XW/zg2GtvBrVJ0JABIQ65gJFEblzF+JzcQoo+4VANuvkMFjzfLvijKKa23VWRioR9q
+         ODP0d0XQD3TzT/oQck2vcjS6q68xPkrTqr5y8vLuV/Jbd0sJDlTIGnY4sFls3MzzmueZ
+         RlsFvrIbY5hY+iA7VrAKzwXMELuxlzxIYVROv8N+5/V/pqYWqXJGtJxER+93lVcZsHHu
+         OnxDzLHvJaXbTnBnPYfepkuV9GwKHSjLMVbNOxC6hfOqihzXC6IAvV+hdHvJOsFQ1d9g
+         XdfrRfyMnXLljSDZpbS0Ul8AmPJTI8FwAQNKNW+KLVQCZrLaaiw9AMbPvKQup2F3EAp4
+         EikA==
+X-Gm-Message-State: AOJu0Yxor9pSS2ThM/aY3dhF2j16XZVJCPgaL7eOEvdjtPh81cZuq183
+	4iAWejHQoUT2AkIyu14fU68glsWYHtnavUAPS6w33qF/VHeFDyEKjlviXaJqjHg=
+X-Google-Smtp-Source: AGHT+IG0Zb001fVAHJZU8yomzCgm0LXfKKPq4aLuG2BOosKb06k0rgl0dn+3KVyOGyNEkllw2sxQNg==
+X-Received: by 2002:adf:f051:0:b0:33b:26de:ea with SMTP id t17-20020adff051000000b0033b26de00eamr6647711wro.37.1707389586350;
+        Thu, 08 Feb 2024 02:53:06 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUT5rF4rLVlPKJRWVJKuV4G43pCj8lNaPxXW6zxwv3GZE9s4c9dlrnojgp9fUQFZffLSPbUWIuwqZ+JjtevgNK4ljShOetxTS34QkcvucZMxKYimXm9gHCuN03gppqCs6QNUcEgwLGdVYW3clJhiAkAGV0e4JIRID56sAAqYPjTK75bdPAFwvycu/mN3kT2B47sOZd1pNf4DAMRWGj6n38bGl0Z0FKRWCkH8qVNAdrVRyQ37yqRODnkd16qFwLODT20zMTWB1Ba0X18vHkzatBNfg7N5pyzjAIkqWuWv+Dapbp8ozcJ6CwZqyTsZj4Sv71UssIP3PW5WJ3fswOm3A==
 Received: from krzk-bin.. ([178.197.222.62])
-        by smtp.gmail.com with ESMTPSA id u10-20020a5d468a000000b0033b44b4da56sm3331975wrq.111.2024.02.08.02.53.03
+        by smtp.gmail.com with ESMTPSA id u10-20020a5d468a000000b0033b44b4da56sm3331975wrq.111.2024.02.08.02.53.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Feb 2024 02:53:04 -0800 (PST)
+        Thu, 08 Feb 2024 02:53:06 -0800 (PST)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -62,10 +64,12 @@ To: Rob Herring <robh@kernel.org>,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 1/2] arm64: dts: allwinner: use capital "OR" for multiple licenses in SPDX
-Date: Thu,  8 Feb 2024 11:53:00 +0100
-Message-Id: <20240208105301.129005-1-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 2/2] arm64: dts: allwinner: h616: minor whitespace cleanup
+Date: Thu,  8 Feb 2024 11:53:01 +0100
+Message-Id: <20240208105301.129005-2-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240208105301.129005-1-krzysztof.kozlowski@linaro.org>
+References: <20240208105301.129005-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -74,47 +78,27 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Documentation/process/license-rules.rst and checkpatch expect the SPDX
-identifier syntax for multiple licenses to use capital "OR".  Correct it
-to keep consistent format and avoid copy-paste issues.
+The DTS code coding style expects exactly one space before '{'
+character.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- .../boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dts    | 2 +-
- arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi  | 2 +-
- arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts    | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dts
-index dbce61b355d6..4bfb52609c94 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dts
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0+ or MIT)
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
- /*
-  * Copyright (C) 2023 Martin Botka <martin.botka@somainline.org>.
-  */
 diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi
-index 1fed2b46cfe8..b2988f500231 100644
+index b2988f500231..af421ba24ce0 100644
 --- a/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi
 +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0+ or MIT)
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
- /*
-  * Copyright (C) 2023 Martin Botka <martin.botka@somainline.org>.
-  */
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts
-index 832f08b2b260..ff84a3794470 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: (GPL-2.0+ or MIT)
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
- /*
-  * Copyright (C) 2023 Martin Botka <martin@biqu3d.com>.
-  */
+@@ -93,7 +93,7 @@ axp313a: pmic@36 {
+ 		interrupt-controller;
+ 		#interrupt-cells = <1>;
+ 
+-		regulators{
++		regulators {
+ 			reg_dcdc1: dcdc1 {
+ 				regulator-name = "vdd-gpu-sys";
+ 				regulator-min-microvolt = <810000>;
 -- 
 2.34.1
 
