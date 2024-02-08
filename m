@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BEC06F531;
-	Thu,  8 Feb 2024 12:16:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6A602555F;
+	Thu,  8 Feb 2024 19:05:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707394591; cv=none; b=B+kSOoFYep52Pt5OgWktHttS5wsAs5Mprv9VcEolQuzFYkjIbT6pvt94n/411BMzls31dHN+fo5zcZ8x+TsXKsVigUFRE2C6+XeZtSL5wGBdl5hXLv1YZoBgRpv/l5uXHlHzBBRbN9eprwyrz4CaRFTBDt8pD+1+uuU5ic4z9Jo=
+	t=1707419111; cv=none; b=IdIQontj8aq+h8DP4yMOjncajvQqIA69x9xHf+kyaTkEWcwGpD1UCgQcekfC5ViDLE6BQd7NiGTmKMngDkFC5M3+SWtZu452GbGsQpd2YQHtY6GKi/8TPAlZSZGJI6kppj9Y3OI5fLcm4SETpthIDB1CSH6us8rYqmJgU9hfsPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707394591; c=relaxed/simple;
-	bh=USkxMo00wu+oAG8dbi0UUhcAygROpPKwwkXbpptKPw0=;
+	s=arc-20240116; t=1707419111; c=relaxed/simple;
+	bh=2qlm0ODvAMoRIMtaJwc8hZTrxizT0hsAuAgTKH9Ac6E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i0JakIhWGeXUojq+zflFb26cwJxskQQPSgEQpCfH2BzkMv0QmrB0TPBP9Z8XyGZ2A48s4TPrQLn8hku3zZOwHmlEJcs6+MyTuGCIiFgcAL5LfXckzZ1rykfONpOtRWxPZBQCyuXAeHLcvn1sLZ2lyyYvmSwSgZRtEwYjFKXNpwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mSnsdIyB; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=u4GUz/z6p0LCEYYs3h9b8FbnFuF9nwOP3HBja+fKVi3+Kq2A7fW7Rao07kxsxk85ASDu7fhTxb20qMVFbZuEt2j+8s5b8iLZX6Pz6jEs6DAj1N5QQoARjsTJi0xQaNK9mBpDWFdYIjreFK5sn3OF+Q44XZbNYc7v/UL4ehrkk+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CS+rhKX+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mSnsdIyB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64826C433F1;
-	Thu,  8 Feb 2024 12:16:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CS+rhKX+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7FA8C433C7;
+	Thu,  8 Feb 2024 19:05:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707394590;
-	bh=USkxMo00wu+oAG8dbi0UUhcAygROpPKwwkXbpptKPw0=;
+	s=k20201202; t=1707419111;
+	bh=2qlm0ODvAMoRIMtaJwc8hZTrxizT0hsAuAgTKH9Ac6E=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mSnsdIyBgjtrpmx4IO6IAxNTOBoAYUpwNNlSLkBDFRnlYsNjH6LMU1HMJ9mrpFb75
-	 /2cZcLMxIxfdsFyq3dzzxkFBVmCZj8wEvJO5olQyLjIDdYyI7cJ8GP555tVOQNl6uD
-	 TXMtm9Nafx5RjDeopn5SJdGpdshEIZ+wmtBNcJU0Q1xYd/hS5eawcY2mjSd3siFvEg
-	 kJC7o74B+5/K5POXR5b0Tsbt7roheh+iUaNazrmA+c/NYYEX3MgYRRnswxeMiycbfZ
-	 tQt3o5/vBBmHR8FNOTEz+GFJEhpvcn7aYFZ1/ByDQB9Vk9B9nmyFYa+7Vui4p/HIBh
-	 RLqvn9ug3AY/Q==
-Date: Thu, 8 Feb 2024 13:16:27 +0100
+	b=CS+rhKX+zDJN3T7gIg8okrFgf1lLcVxRZ5Cz2/LEoMRiSQxKhS1AYIReNBGBrTVOa
+	 yGqJm+psHTpyryvSVn48tarXkW32jPdhOsJuUilGnCn5RyDnnW1xE+F3m6ufGOSxpY
+	 6dgpYCNtVr0JoPVCUH1dwTJp7pwPM6zLkXbZGLRjdHQgqfLmr/SiIpq6wlLl9xK8SP
+	 m+jk10SQh1NBroTiSMleSL7a5iOztf6nOKR5PJnZ5FJHfSitqkdlzKZcTSAANynisw
+	 OMLtJJ5En7QH+SIapHuil/lYGb3Kq2NHrOGS5iEHl/Vggqzzd8k1Hoc3o+w4i15teY
+	 gx/zycT4wEFVg==
+Date: Thu, 8 Feb 2024 20:05:08 +0100
 From: Maxime Ripard <mripard@kernel.org>
 To: Frank Oltmanns <frank@oltmanns.dev>
 Cc: Michael Turquette <mturquette@baylibre.com>, 
@@ -40,11 +40,11 @@ Cc: Michael Turquette <mturquette@baylibre.com>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, linux-clk@vger.kernel.org, 
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
 	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 3/6] clk: sunxi-ng: nkm: Support minimum and maximum
- rate
-Message-ID: <exb2lvjcozak5fayrgyenrd3ntii4jfxgvqork4klyz5pky2aq@dj2zyw5su6pv>
+Subject: Re: [PATCH v2 5/6] drm/panel: st7703: Drive XBD599 panel at higher
+ clock rate
+Message-ID: <poua4bzyciiwt65sqjf2whqfdumvoe4h3bkjpf64px2vwgumrf@sai73byg2iju>
 References: <20240205-pinephone-pll-fixes-v2-0-96a46a2d8c9b@oltmanns.dev>
- <20240205-pinephone-pll-fixes-v2-3-96a46a2d8c9b@oltmanns.dev>
+ <20240205-pinephone-pll-fixes-v2-5-96a46a2d8c9b@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -52,57 +52,64 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="g5pwkiip3azj2ftk"
+	protocol="application/pgp-signature"; boundary="fpufhrhdecowdrbb"
 Content-Disposition: inline
-In-Reply-To: <20240205-pinephone-pll-fixes-v2-3-96a46a2d8c9b@oltmanns.dev>
+In-Reply-To: <20240205-pinephone-pll-fixes-v2-5-96a46a2d8c9b@oltmanns.dev>
 
 
---g5pwkiip3azj2ftk
+--fpufhrhdecowdrbb
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 05, 2024 at 04:22:26PM +0100, Frank Oltmanns wrote:
-> According to the Allwinner User Manual, the Allwinner A64 requires
-> PLL-MIPI to run at 500MHz-1.4GHz. Add support for that to ccu_nkm.
+Hi Frank,
+
+On Mon, Feb 05, 2024 at 04:22:28PM +0100, Frank Oltmanns wrote:
+> This panel is used in the pinephone that runs on a Allwinner A64 SOC.
+> The SOC requires pll-mipi to run at more than 500 MHz.
+>=20
+> This is the relevant clock tree:
+>  pll-mipi
+>     tcon0
+>        tcon-data-clock
+>=20
+> tcon-data-clock has to run at 1/4 the DSI per-lane bit rate. The XBD599
+> has 24 bpp and 4 lanes. Therefore, the resulting requested
+> tcon-data-clock rate is:
+>     crtc_clock * 1000 * (24 / 4) / 4
+>=20
+> tcon-data-clock runs at tcon0 / 4 (fixed divisor), so it requests a
+> parent rate of
+>     4 * (crtc_clock * 1000 * (24 / 4) / 4)
+>=20
+> Since tcon0 is a ccu_mux, the rate of tcon0 equals the rate of pll-mipi.
+>=20
+> pll-mipi's constraint to run at 500MHz or higher forces us to have a
+> crtc_clock >=3D 83333 kHz if we want a 60 Hz vertical refresh rate.
+>=20
+> Change [hv]sync_(start|end) so that we reach a clock rate of 83502 kHz
+> so that it is high enough to align with pll-pipi limits.
 >=20
 > Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
-> ---
->  drivers/clk/sunxi-ng/ccu_nkm.c | 13 +++++++++++++
->  drivers/clk/sunxi-ng/ccu_nkm.h |  2 ++
->  2 files changed, 15 insertions(+)
->=20
-> diff --git a/drivers/clk/sunxi-ng/ccu_nkm.c b/drivers/clk/sunxi-ng/ccu_nk=
-m.c
-> index 1168d894d636..7d135908d6e0 100644
-> --- a/drivers/clk/sunxi-ng/ccu_nkm.c
-> +++ b/drivers/clk/sunxi-ng/ccu_nkm.c
-> @@ -181,6 +181,12 @@ static unsigned long ccu_nkm_round_rate(struct ccu_m=
-ux_internal *mux,
->  	if (nkm->common.features & CCU_FEATURE_FIXED_POSTDIV)
->  		rate *=3D nkm->fixed_post_div;
-> =20
-> +	if (nkm->min_rate && rate < nkm->min_rate)
-> +		rate =3D nkm->min_rate;
-> +
-> +	if (nkm->max_rate && rate > nkm->max_rate)
-> +		rate =3D nkm->max_rate;
-> +
 
-This is provided by the clock range already. If you call
-clk_hw_set_rate_range, it should work just fine.
+That commit log is great, but it's kind of off-topic. It's a panel
+driver, it can be used on any MIPI-DSI controller, the only relevant
+information there should be the panel timings required in the datasheet.
+
+The PLL setup is something for the MIPI-DSI driver to adjust, not for
+the panel to care for.
 
 Maxime
 
---g5pwkiip3azj2ftk
+--fpufhrhdecowdrbb
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZcTGGwAKCRDj7w1vZxhR
-xfpFAQDl1iMbvaT5VL0H8/WZy4Wj8WN7EQPe6yGsH1gHJm+SJwEA2hmsuOH5dUHZ
-3CUtUEMx4fGkAxCIbucEMa+tx6gRUgI=
-=MjMG
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZcUl4wAKCRDj7w1vZxhR
+xTm0AQDNC/Tab28G6xBV/FvvVOHHELD/uZcAMloaia6Nu7yTjQD/bu1heOYZp8J7
+/+vAKLYzF/jNMgEObqQ/VnHSFbOX+Ag=
+=CNG5
 -----END PGP SIGNATURE-----
 
---g5pwkiip3azj2ftk--
+--fpufhrhdecowdrbb--
