@@ -1,191 +1,100 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65BEF6994A
-	for <linux-sunxi@lists.linux.dev>; Fri,  9 Feb 2024 14:42:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFF7680BF2
+	for <linux-sunxi@lists.linux.dev>; Fri,  9 Feb 2024 19:01:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707489769; cv=none; b=tRhvXtVTuiSfeDidbwGSk4eV22hoJMf/IQtrbLgIrVhbA+YjCkeWsF94ZMGGXVSmfvpY9swTW3TiBEnafB4y3EDceUi6XsPD/5yXMiJWnZH1nw8hXzdoDjCVvidEE8f/w+IUkPMvEDc8hZhfiON6m0L0swA9BlH+BSRlFeismoM=
+	t=1707505277; cv=none; b=gs0Km8kt4/54HMH0pj+ICW8DtNA9d8IcKyquCBEsN+lMq5BgKBXbcminZYNEP0IcYbLu+Vfbak1sB0nj+OT9q2MNSmVD6ap7qD39iyAZxGghNuHd/uBfJ+dWvW+Q8qV2uRWKtIYBjOaDO4oeMG2o61Pu0kW3HAyCier6tjzb150=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707489769; c=relaxed/simple;
-	bh=Gmzvb4Oj+rwwQF3iqA0q4qFEPfFHRGUTBVsixYAeU1o=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Pe43sMuxRCLzwGF5klK/RBTAzVUerNi/4q74iSctxyeC+S5ZfWr+9ca8ac3Lnq3Ns93LMGmtuGXykTo8WzKOZft9zlwb1kccRZPFL6IJgjgGV1792Vr6+5Tn8yyphZSgDRj99J6WhNsbB5JdIbCsU28j/tcQh02qq/tkVIpGXcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 09B42FEC;
-	Fri,  9 Feb 2024 06:43:29 -0800 (PST)
-Received: from donnerap.arm.com (donnerap.manchester.arm.com [10.32.100.28])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 726DE3F5A1;
-	Fri,  9 Feb 2024 06:42:44 -0800 (PST)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Vasily Khoruzhick <anarsoul@gmail.com>,
-	Yangtao Li <tiny.windzz@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Zhang Rui <rui.zhang@intel.com>,
-	Lukasz Luba <lukasz.luba@arm.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Martin Botka <martin.botka@somainline.org>,
-	Maksim Kiselev <bigunclemax@gmail.com>,
-	Bob McChesney <bob@electricworry.net>,
-	linux-pm@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH v4 7/7] arm64: dts: allwinner: h616: Add thermal sensor and zones
-Date: Fri,  9 Feb 2024 14:42:21 +0000
-Message-Id: <20240209144221.3602382-8-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240209144221.3602382-1-andre.przywara@arm.com>
-References: <20240209144221.3602382-1-andre.przywara@arm.com>
+	s=arc-20240116; t=1707505277; c=relaxed/simple;
+	bh=A6nixm9+pytVx29gZ1u6InMe44RI3ah/j/zSFqY5qPg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DdivthW3pugWdJOlJ4TWDOkFDn/vYR5evsPJf8Xk+Rsu9Bf1Zp/jnxGMXZcxu89rN4zwsgP4epuskj9aJw6fEVsoYdJpYUt9c+VORUMexEDIljWCggOuV761+EsRMioDn3bgUq/a2T3aN0JmgoxsMa2QwIjOB4LkTY+uAXnlBL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com; spf=none smtp.mailfrom=soleen.com; dkim=fail (0-bit key) header.d=soleen.com header.i=@soleen.com header.b=cI+ABtlo reason="key not found in DNS"; arc=none smtp.client-ip=209.85.210.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=soleen.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=soleen.com header.i=@soleen.com header.b="cI+ABtlo"
+Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-6dc36e501e1so837212a34.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 09 Feb 2024 11:01:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1707505275; x=1708110075; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=A6nixm9+pytVx29gZ1u6InMe44RI3ah/j/zSFqY5qPg=;
+        b=cI+ABtlos5A2V4TBxvKRaM0iZdnZC+aCcF7aDMXhgpJJcuv7tiNEuuxZCYY887KFQR
+         f3fgSQclcmTqmlu+wM3O1NKWNxr4c16aeG6e7pXcq3Rkg/ocXNY08yqijtAP4wjqvNYe
+         mGcS+Z35nL4pohdSzbd++2r5bpWcWWVI2KOJM9jZW5ei7/HxZXsGD7CPeVu8n8u3KfqS
+         P6GkAQUaBHwEjwFMwMOXt/squB1/ipg9Qpo1CmLkJujhClCpECdH7uZPojS8jHFKdT34
+         aQwYfMGMwNX9c0ZI8bbYQvYNZ/uV6NE+ZCTSWEQZ3lyrAUKjs8edGULX0IZ6LxqxNVcU
+         ETIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707505275; x=1708110075;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=A6nixm9+pytVx29gZ1u6InMe44RI3ah/j/zSFqY5qPg=;
+        b=UzlHFFA8p2nz/zRYkx3A8ysWAhSinlmpwr0Yk4e9oCK4cm+pIN1MBIL2DoxjSHppHs
+         HG/Q9Xxo73pXOdl/OgZaosREi6j0O4oUv6/qhxvTK37KK6b0tEQu+bEsrGQ2EfdjQkSh
+         j70QI7vdjskFKykeLSCufQUDp3onCRjMnbJFqbq/JX9eUjBxhtKvibxEcw0Xk8a/n4zT
+         8nALXBkg7cVy1oN2xv26cOcp8iSrt/rtBoDWKYlrPxhv4uZn1gJ0oo5VKM1SRc7EQcvs
+         SbtFXtRrjgZfhgFu/1D8Tm5b4Zf04R/SswWJUkstGi4rNCAQIT9g1XPwy/+/wZautiWZ
+         lQJA==
+X-Gm-Message-State: AOJu0YwkXjHNSQMCrKntJ0qhiFV6oeD0ZIieO+zaA0NK5E6J3CgIrln7
+	OsOMCFBkFZfa0B3A1xpRyqcL791qFRp+Zf+XUCMcTqimaYntA3BajfE2rst/HElmtiRApkTWfMI
+	HJr0dtfVvE4Vh3+j8TdCpc8CP2GY6xGrYCYidMg==
+X-Google-Smtp-Source: AGHT+IFk85AK/GUYg3sBgSG/PbDJz6nuE4vk8ZoEGio36nkbZvD4VZo1ESUanwCzArrVosJa8bsMEnRS+HyilbasQKI=
+X-Received: by 2002:a05:6830:141a:b0:6e0:faab:cff4 with SMTP id
+ v26-20020a056830141a00b006e0faabcff4mr3036212otp.13.1707505274772; Fri, 09
+ Feb 2024 11:01:14 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240207174102.1486130-1-pasha.tatashin@soleen.com>
+ <CGME20240207174117eucas1p237865b0a39f3a6d1a6650150efe22e83@eucas1p2.samsung.com>
+ <20240207174102.1486130-6-pasha.tatashin@soleen.com> <a1c452f9-c265-4934-82c2-8c9278d087ec@samsung.com>
+In-Reply-To: <a1c452f9-c265-4934-82c2-8c9278d087ec@samsung.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Fri, 9 Feb 2024 14:00:37 -0500
+Message-ID: <CA+CK2bCax2NVhVwiVdyWG0Fpj7W8gi2Tmz1guNKOFNf9O1tfng@mail.gmail.com>
+Subject: Re: [PATCH v4 05/10] iommu/exynos: use page allocation function
+ provided by iommu-pages.h
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
+	asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
+	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
+	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
+	iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
+	joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
+	mhiramat@kernel.org, paulmck@kernel.org, rdunlap@infradead.org, 
+	robin.murphy@arm.com, samuel@sholland.org, suravee.suthikulpanit@amd.com, 
+	sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org, 
+	tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, will@kernel.org, 
+	yu-cheng.yu@intel.com, rientjes@google.com, bagasdotme@gmail.com, 
+	mkoutny@suse.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Martin Botka <martin.botka@somainline.org>
+On Fri, Feb 9, 2024 at 6:26=E2=80=AFAM Marek Szyprowski
+<m.szyprowski@samsung.com> wrote:
+>
+> On 07.02.2024 18:40, Pasha Tatashin wrote:
+> > Convert iommu/exynos-iommu.c to use the new page allocation functions
+> > provided in iommu-pages.h.
+> >
+> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> > Acked-by: David Rientjes <rientjes@google.com>
+> > Tested-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> Acked-by: Marek Szyprowski <m.szyprowski@samsung.com>
 
-There are four thermal sensors:
-- CPU
-- GPU
-- VE
-- DRAM
-
-Add the thermal sensor configuration and the thermal zones.
-
-Signed-off-by: Martin Botka <martin.botka@somainline.org>
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- .../arm64/boot/dts/allwinner/sun50i-h616.dtsi | 88 +++++++++++++++++++
- 1 file changed, 88 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-index 12ffabc79bcde..7c7d7c285505c 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-@@ -9,6 +9,7 @@
- #include <dt-bindings/clock/sun6i-rtc.h>
- #include <dt-bindings/reset/sun50i-h616-ccu.h>
- #include <dt-bindings/reset/sun50i-h6-r-ccu.h>
-+#include <dt-bindings/thermal/thermal.h>
- 
- / {
- 	interrupt-parent = <&gic>;
-@@ -138,6 +139,10 @@ sid: efuse@3006000 {
- 			reg = <0x03006000 0x1000>;
- 			#address-cells = <1>;
- 			#size-cells = <1>;
-+
-+			ths_calibration: thermal-sensor-calibration@14 {
-+				reg = <0x14 0x8>;
-+			};
- 		};
- 
- 		watchdog: watchdog@30090a0 {
-@@ -517,6 +522,19 @@ mdio0: mdio {
- 			};
- 		};
- 
-+		ths: thermal-sensor@5070400 {
-+			compatible = "allwinner,sun50i-h616-ths";
-+			reg = <0x05070400 0x400>;
-+			interrupts = <GIC_SPI 19 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_THS>;
-+			clock-names = "bus";
-+			resets = <&ccu RST_BUS_THS>;
-+			nvmem-cells = <&ths_calibration>;
-+			nvmem-cell-names = "calibration";
-+			allwinner,sram = <&syscon>;
-+			#thermal-sensor-cells = <1>;
-+		};
-+
- 		usbotg: usb@5100000 {
- 			compatible = "allwinner,sun50i-h616-musb",
- 				     "allwinner,sun8i-h3-musb";
-@@ -761,4 +779,74 @@ r_rsb: rsb@7083000 {
- 			#size-cells = <0>;
- 		};
- 	};
-+
-+	thermal-zones {
-+		cpu-thermal {
-+			polling-delay-passive = <500>;
-+			polling-delay = <1000>;
-+			thermal-sensors = <&ths 2>;
-+			sustainable-power = <1000>;
-+
-+			trips {
-+				cpu_threshold: cpu-trip-0 {
-+					temperature = <60000>;
-+					type = "passive";
-+					hysteresis = <0>;
-+				};
-+				cpu_target: cpu-trip-1 {
-+					temperature = <70000>;
-+					type = "passive";
-+					hysteresis = <0>;
-+				};
-+				cpu_critical: cpu-trip-2 {
-+					temperature = <110000>;
-+					type = "critical";
-+					hysteresis = <0>;
-+				};
-+			};
-+		};
-+
-+		gpu-thermal {
-+			polling-delay-passive = <500>;
-+			polling-delay = <1000>;
-+			thermal-sensors = <&ths 0>;
-+			sustainable-power = <1100>;
-+
-+			trips {
-+				gpu_temp_critical: gpu-trip-0 {
-+					temperature = <110000>;
-+					type = "critical";
-+					hysteresis = <0>;
-+				};
-+			};
-+		};
-+
-+		ve-thermal {
-+			polling-delay-passive = <0>;
-+			polling-delay = <0>;
-+			thermal-sensors = <&ths 1>;
-+
-+			trips {
-+				ve_temp_critical: ve-trip-0 {
-+					temperature = <110000>;
-+					type = "critical";
-+					hysteresis = <0>;
-+				};
-+			};
-+		};
-+
-+		ddr-thermal {
-+			polling-delay-passive = <0>;
-+			polling-delay = <0>;
-+			thermal-sensors = <&ths 3>;
-+
-+			trips {
-+				ddr_temp_critical: ddr-trip-0 {
-+					temperature = <110000>;
-+					type = "critical";
-+					hysteresis = <0>;
-+				};
-+			};
-+		};
-+	};
- };
--- 
-2.25.1
-
+Thank you,
+Pasha
