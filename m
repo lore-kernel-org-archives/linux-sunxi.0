@@ -1,100 +1,180 @@
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 257E983CAA
-	for <linux-sunxi@lists.linux.dev>; Fri,  9 Feb 2024 19:02:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09DD15394
+	for <linux-sunxi@lists.linux.dev>; Fri,  9 Feb 2024 20:30:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707505323; cv=none; b=imJmIxIjJlUqoYmwf4E/uhkiEnaaTu01aosq1Mx5XRazj4d/YZi+G437lgXJ1Dx8b6JrABO8ZuoiRVvzfjUo9LRVjv+yEmrBjQPwWxedFzreZKoMyx+E5+/QJ2SOl0Rtbhdes/yGBG/7dFSHjF3kIwtb+AoMLJM5Q+PFM2jDcRc=
+	t=1707510653; cv=none; b=Yhi3Ko6FqAj3RR4/J9apqXDJRBWkt4Autt8VoMcAwn8BeIB3C8Tlo3mQa+ocM7+6YqlPDsdEfAzYrIrriBytMViNixXxtYwex4S0IvyIs2nlFGE1U442N59fNXWMe3O7ydlFAcPH7PN8blOtPYFst7xJy/IXda7i/XuqHvIMzxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707505323; c=relaxed/simple;
-	bh=r2GAPlcgJGDaQINPFrlt1R7Ny0c1Ad/P9P2yI23KbDE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CqG0u1KMfdl3xgenPygO8EQ6EDLz1Jq3yycN/lzblg9FMaZ78r9qF1q49Dz64+J9S2jy8GGVy28ta7T3c0Kv7t88f2F/QL52tx6mGr1fjPMcUVSHkPTaSmEGBPlhV3Grqyw7rnOSIjDe6njYGFwGC0NjFlXHjz/A3BBmA/oLXeY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com; spf=none smtp.mailfrom=soleen.com; dkim=fail (0-bit key) header.d=soleen.com header.i=@soleen.com header.b=pRk8Okfe reason="key not found in DNS"; arc=none smtp.client-ip=209.85.160.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1707510653; c=relaxed/simple;
+	bh=KrHznBuwaabRsN5qbonlIYaEpCp/iU506qqInVuAJ1s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 In-Reply-To:Content-Type:Content-Disposition; b=hJdAWYf0Y8AVGbXxFBLzzZv2dGU9stHrAnh8FnPYQujdWGBQXKN72QRqoib/b7UGiqng8OLfud92Yl/Zqee1Wu6cIBTyp/u/h8VywQMxxexFfi1rHl5xKztmV2jLeE31Nk4EelaviAh7s2AvnddBqGrGXJjOuRMz9aVCAh2OTCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=N0FgUj9Q; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=soleen.com header.i=@soleen.com header.b="pRk8Okfe"
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-42aa4a9d984so5759811cf.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 09 Feb 2024 11:02:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1707505321; x=1708110121; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=r2GAPlcgJGDaQINPFrlt1R7Ny0c1Ad/P9P2yI23KbDE=;
-        b=pRk8OkfeZ6kvZAUpivcWGkX+uOYQB8FYSqC3yH93siCj6CzpPRloH1TCWeIGkqJ7mB
-         W5d71JzBld+XoVktHGUfQCw1z2sJixp754T0WKBF2ohQsG1rUjr6RxtdEJLkU2DFACkr
-         KDWSz6/cajtm4FSaoTcKy5zZtX7b/OpPIT64y7kYZOWk9eUj7LXoqI/I5oa9UphbFhDV
-         MO4DmbQCS3I7fW+JwBqpvRkm/veaQ2gAYEX1Txbmyft9vqQLmws+lPXjSFY4O2Nlhyzx
-         1dCPh8xXOSaUyZZshivclMYYOgAGZ93VsJSGjryWi5tCc05I+k4Os93/Y8ZurM6EuMhO
-         fkgg==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="N0FgUj9Q"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1707510651;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=r8J/XbEGW4rTV6z/EaKBWgEwgI/IDyi1WgmOXHA89nc=;
+	b=N0FgUj9Q5AK+1OWY6KMcWcLFXB/nZbDYog2dGqDrcpbgUfbx5ZfyGNR2JUg7JV2lwnMGeH
+	kggPAdrbt4tgIPXLnqdhjVv03cLUuNRX0xpwiggwpKfTcv5dnQ69MHW5FtlDO0Hl7jRxg3
+	pJ4atz0DpzLjVyiY4rri7g79PERYhJY=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-632-DSo-143iPVu_e3b5lIOJmQ-1; Fri, 09 Feb 2024 15:30:49 -0500
+X-MC-Unique: DSo-143iPVu_e3b5lIOJmQ-1
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-40fd28064a0so9272775e9.3
+        for <linux-sunxi@lists.linux.dev>; Fri, 09 Feb 2024 12:30:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707505321; x=1708110121;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=r2GAPlcgJGDaQINPFrlt1R7Ny0c1Ad/P9P2yI23KbDE=;
-        b=bNmM1I//GbzztgynaJNAuJqPOLDj2VBdhiSD6bjr+7cAAj1HGy0jtSkaij37AyU9kz
-         fA/e11362xD7cxfTnCOQIEH6scRSN9/fXvjH59/jkiy+BXrahjnMcEcH/ACMee5or+Wh
-         nakDlXaJ5XEQ7GNCQoNdin2HEq70Y3RVrNhmyrwZVK//gCpUhVQW9kmtO0ZcWv1l7vS4
-         xhUFyM05oVdk9lqrfaWzJ3t4inOhLLCxM4syaLpAfNjwdCKv2ksplEIQAD1lDHjc9aTU
-         EWBsvtaQbsO/fPUk6ABNhg6Bf2f6fPqswqsMHcT3jiHnpaVFu+c0VEHJ6UyxpTEVMMRR
-         GLzw==
-X-Gm-Message-State: AOJu0Yya+L7M98jH6fnuLXYHeNioXd18F/oMi50WkEjYMJnW4MbJAEVh
-	wWIgcdtJAu/bHK4VStLjdtgN4/5UDyX9YmE84+mBv2qEgGSEeq5yjReWOfNapRcituiSi+OGwOL
-	izDhHDT3q4gFcT5yxp58j9uECabJ3BOM6jqfl3g==
-X-Google-Smtp-Source: AGHT+IH7/mZBjs2EjvojqcpcvFrKDkqXbLzePQwHXjWI3pjuKzeuKKYp6aDXpqli+cr6MKqGXO43wFaJScoTxBnZMCE=
-X-Received: by 2002:ac8:5e51:0:b0:42c:5f0e:6411 with SMTP id
- i17-20020ac85e51000000b0042c5f0e6411mr85445qtx.25.1707505320844; Fri, 09 Feb
- 2024 11:02:00 -0800 (PST)
+        d=1e100.net; s=20230601; t=1707510648; x=1708115448;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=r8J/XbEGW4rTV6z/EaKBWgEwgI/IDyi1WgmOXHA89nc=;
+        b=tz68BjhLiZX8eqOsVFB1BwBRanwSmH9n/BrVE2Lftfpq/VOLa8JcY96EyWYEo/sZt/
+         Lw08CUVnZrOoAIvTHibJ+it1+g/La4EaX7Sq8YmMxUMDw10yVctJF3dhkUTXNkNgV5h6
+         OhKywjGp+qtFuJwq28bovVQFO1z5Ps4yFRq19J+CDXf0nk4PNDoOxxR7Z/Vcpg9ksnKa
+         ojPI6E6Ph+5ajn7a+1Xazx38cdEBei3y9bmxXjSj0A1jKUT6/ljfhh/Pw675w/Q4Bu5F
+         DyWhkfqIvuONp25adtVohjxxBhgMdI8glk32lYLzU26H4B4letpT5+qRNXGhh0+e0rqs
+         V6+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXUGo8EpK+90ZAn1VOfdoHYawWV6gRh5wl3XaRDs55TwIvft4hp8Mm3sjeMBUJ/o3qsOraP4h0RR85KdBpiyBYgejNFiqwK+7L4YLI=
+X-Gm-Message-State: AOJu0YylhCL4N8TYZTXlOFyy/ARY646M5jJVelpL1XqEstoaqVMsWzBI
+	z7j8YapV2KQL6UxAzIcWyaZGUlx0yizl4IvYtYQprdaC0rUkKL+QEsPfxfodL425ppFyNoPPWvu
+	q/3U4be5d1Hlu3NteTWSOQtItCU9PnfWnSuEKiGqfBbCQoFcvdbSmqubQ6Zxv
+X-Received: by 2002:a05:600c:5248:b0:40e:f2d6:9dc with SMTP id fc8-20020a05600c524800b0040ef2d609dcmr299004wmb.33.1707510648618;
+        Fri, 09 Feb 2024 12:30:48 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHn7tTpFP36Rfj//rT72qd9+jvGx2yenpz6/LSui/V8HYLJ/ywcOwSHhBf9szBB3acqUagp1Q==
+X-Received: by 2002:a05:600c:5248:b0:40e:f2d6:9dc with SMTP id fc8-20020a05600c524800b0040ef2d609dcmr298995wmb.33.1707510648315;
+        Fri, 09 Feb 2024 12:30:48 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVcq9h0v46XkBbkpGmGw7p+gvFjC5M5dM9Vxo8+153Wr+2lSmDerGeFt0bQGagJ3AqQ62L9bMcfNAhyGp2EErv/jeUfhwoqxnFqHWXQmWyIufisWQ5NN+QWQZlhqNzGtg3ymkuvzMX62LPzGS7cu5QPu8iSUMsQ7o6o8mDsv/1PeyApbtC7c0tr4rM19hySOPuvNxflS+MbsX7T4dcy51FG4nTDSJDOHg2oTilImEUjF9D97lu6EPkSvViSU5ywMA6djQ5iy8zI6i8Z1CgH9ADUR4hIYgyTZ5dnpM5e3m41u/AzGTlyFFLd1f8XUHyiMrA2TbDmPUp5WspO/0kN3M4DJfVZl1bznOif8MLeUNZ6JMJUffSu4bpqe4e3RjzORPF4lNXqSILT96MQe6qWSLLYaiRE9viR3LceZoFPgmqQ4SLwrk5+FfsTiZKXV4pGD77JBdQi4X+LMuG+3Y6kX6rHBO1SJC2XaPIdkIlpeCi4v+S7sSmgEXReM8iiCvemxFkRuc3WnHLe1Fa0/cXLvqaT9xfK6QfieDTCNEXIlIWWWNaoUpH0eAyFuxH2qyqMoSV10vmbY//bU6qpp6m8rb//wF90dZGrVCRNumEXcMHCB/ll6EBPUktzLtXGDl4=
+Received: from toolbox ([2001:9e8:898e:7200:1f00:29c:19b0:2997])
+        by smtp.gmail.com with ESMTPSA id g7-20020a5d5407000000b003392206c808sm109606wrv.105.2024.02.09.12.30.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Feb 2024 12:30:47 -0800 (PST)
+Date: Fri, 9 Feb 2024 21:30:46 +0100
+From: Sebastian Wick <sebastian.wick@redhat.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>,
+	Sandy Huang <hjc@rock-chips.com>,
+	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: Re: [PATCH v5 08/44] drm/connector: hdmi: Add Broadcast RGB
+ property
+Message-ID: <20240209203046.GA996172@toolbox>
+References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
+ <20231207-kms-hdmi-connector-state-v5-8-6538e19d634d@kernel.org>
+ <20240115143308.GA159345@toolbox>
+ <niqn7eql5neyfp5ficdfisdpmlwrprovqn5g7lgcfwoe74ds23@7fr4yv2miqe7>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240207174102.1486130-1-pasha.tatashin@soleen.com>
- <20240207174102.1486130-8-pasha.tatashin@soleen.com> <2718393.mvXUDI8C0e@jernej-laptop>
-In-Reply-To: <2718393.mvXUDI8C0e@jernej-laptop>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Fri, 9 Feb 2024 14:01:24 -0500
-Message-ID: <CA+CK2bBqzd4imzKxGJVUn3SkvDBPk_=CLA1Fm05kz3DqSE2gpA@mail.gmail.com>
-Subject: Re: [PATCH v4 07/10] iommu/sun50i: use page allocation function
- provided by iommu-pages.h
-To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
-	asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
-	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
-	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
-	iommu@lists.linux.dev, jonathanh@nvidia.com, joro@8bytes.org, 
-	krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
-	mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
-	rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
-	suravee.suthikulpanit@amd.com, sven@svenpeter.dev, thierry.reding@gmail.com, 
-	tj@kernel.org, tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, 
-	will@kernel.org, yu-cheng.yu@intel.com, rientjes@google.com, 
-	bagasdotme@gmail.com, mkoutny@suse.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <niqn7eql5neyfp5ficdfisdpmlwrprovqn5g7lgcfwoe74ds23@7fr4yv2miqe7>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, Feb 9, 2024 at 5:55=E2=80=AFAM Jernej =C5=A0krabec <jernej.skrabec@=
-gmail.com> wrote:
->
-> Dne sreda, 07. februar 2024 ob 18:40:59 CET je Pasha Tatashin napisal(a):
-> > Convert iommu/sun50i-iommu.c to use the new page allocation functions
-> > provided in iommu-pages.h.
-> >
-> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> > Acked-by: David Rientjes <rientjes@google.com>
-> > Tested-by: Bagas Sanjaya <bagasdotme@gmail.com>
->
-> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+On Fri, Feb 02, 2024 at 04:49:04PM +0100, Maxime Ripard wrote:
+> Hi Sebastian,
+> 
+> On Mon, Jan 15, 2024 at 03:33:08PM +0100, Sebastian Wick wrote:
+> > >  /**
+> > >   * DOC: HDMI connector properties
+> > >   *
+> > > + * Broadcast RGB
+> > > + *      Indicates the RGB Quantization Range (Full vs Limited) used.
+> > > + *      Infoframes will be generated according to that value.
+> > > + *
+> > > + *      The value of this property can be one of the following:
+> > > + *
+> > > + *      Automatic:
+> > > + *              RGB Range is selected automatically based on the mode
+> > > + *              according to the HDMI specifications.
+> > > + *
+> > > + *      Full:
+> > > + *              Full RGB Range is forced.
+> > > + *
+> > > + *      Limited 16:235:
+> > > + *              Limited RGB Range is forced. Unlike the name suggests,
+> > > + *              this works for any number of bits-per-component.
+> > > + *
+> > > + *      Drivers can set up this property by calling
+> > > + *      drm_connector_attach_broadcast_rgb_property().
+> > > + *
+> > 
+> > This is a good time to document this in more detail. There might be two
+> > different things being affected:
+> > 
+> > 1. The signalling (InfoFrame/SDP/...)
+> > 2. The color pipeline processing
+> > 
+> > All values of Broadcast RGB always affect the color pipeline processing
+> > such that a full-range input to the CRTC is converted to either full- or
+> > limited-range, depending on what the monitor is supposed to accept.
+> > 
+> > When automatic is selected, does that mean that there is no signalling,
+> > or that the signalling matches what the monitor is supposed to accept
+> > according to the spec? Also, is this really HDMI specific?
+> > 
+> > When full or limited is selected and the monitor doesn't support the
+> > signalling, what happens?
+> 
+> Leaving the YCbCr vs RGB discussion aside, would this be better ?
 
-Thank you,
-Pasha
+Yes, it is. Thanks.
+
+We do have to resolve the YCbCr vs RGB issue though.
+
+>  * Broadcast RGB (HDMI specific)
+>  *      Indicates the Quantization Range (Full vs Limited) used. The color
+>  *      processing pipeline will be adjusted to match the value of the
+
+Ah, another thing no note here is that the CRTC as configured by user
+space must always produce full range pixels.
+
+>  *      property, and the Infoframes will be generated and sent accordingly.
+>  *
+>  *      The value of this property can be one of the following:
+>  *
+>  *      Automatic:
+>  *              The quantization range is selected automatically based on the
+>  *              mode according to the HDMI specifications (HDMI 1.4b - Section
+>  *              6.6 - Video Quantization Ranges).
+>  *
+>  *      Full:
+>  *              Full quantization range is forced.
+>  *
+>  *      Limited 16:235:
+>  *              Limited quantization range is forced. Unlike the name suggests,
+>  *              this works for any number of bits-per-component.
+>  *
+>  *      Property values other than Automatic can result in colors being off (if
+>  *      limited is selected but the display expects full), or a black screen
+>  *      (if full is selected but the display expects limited).
+>  *
+>  *      Drivers can set up this property by calling
+>  *      drm_connector_attach_broadcast_rgb_property().
+> 
+> Thanks!
+> Maxime
+
+
