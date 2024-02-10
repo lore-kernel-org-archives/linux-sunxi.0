@@ -1,214 +1,292 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFBAC53A7
-	for <linux-sunxi@lists.linux.dev>; Fri,  9 Feb 2024 20:34:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7AAF4C7B
+	for <linux-sunxi@lists.linux.dev>; Sat, 10 Feb 2024 02:21:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707510883; cv=none; b=MJsAmyckE0wLoue9xCnddKlbtYDV2LG3XtEXkvYBoESOOJ8VKvKTpIQGqKp1i4dUFAam1pYB7apZZ5Yw/kSgLua7BHMFRFK+DepQe/HPAHL4htoouk8CyG5xnSjDb9iKt1l0qVsGjc51k0MRBWMxFWpaZF1iQxi8lI5HB2kxg1Y=
+	t=1707531710; cv=none; b=FboZ9FnYjnkaxH/rQsulqJKkPpu8eptx5Wh0FO/Fw3HovGW6Q0cMi/vELc1OEXJZ40zBDP/uwjgq8aRb+QIXiM007lWYwRqGHoGO8tD3r6XFA97gXlRUbOk9bL/Iqm0daE9e7wXDtm1Nr3Jjq0y3CY4ZDcSMtsHPPMv7ExJL9HI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707510883; c=relaxed/simple;
-	bh=T/OOwcQ1xR9qJ8cy0QMkAgwIKFttYq+EPHy71IqMHDM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=BXre4w1ZtnASnwsj8chFCO+xvEvzv67UzSWDh8FM/OUXDqONYiFumVc2FjSfWllhBrHts18KAgfnJ7GT6cAup+uYcAovrMiuH1oDpGgYfGtn6BXEFY/Z0diuFV0NNaAkHETQbZgAeISXeXuBbbZFnr43DMeyz2YNzCiPySQZmLI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HqWqpM9A; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1707531710; c=relaxed/simple;
+	bh=OEsr09Gb3Hzxbc+OG+EIkVQM7fLubAEWg7orSg+gNbQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=G6gZX9Ba9niWeWJr4yy/h/eFyl0mrpj9JhUbmeP4OUUjhPruD8Y44MqzaXBCB6Neomry7ch+mrEOMpBnJrE93RS3k72FJY+ZCAYBwNNOoQ30gMjWQUuWMICJyD4CpRNDilM1FonefjFLkn7TkFoDHvVBKDXnseMt5awIrE4DjYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com; spf=none smtp.mailfrom=soleen.com; dkim=fail (0-bit key) header.d=soleen.com header.i=@soleen.com header.b=Vc2htpBV reason="key not found in DNS"; arc=none smtp.client-ip=209.85.210.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HqWqpM9A"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1707510880;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=j2wWnG4c9flOTNWJ6O8wnfxhMZrHV7GwnwMrXW3f8A8=;
-	b=HqWqpM9AZiaTePbJd2qdRTOIN/0UnuyADdnZpRFYdZR2gMb+o632vufDUmY1eSkPd9TeBm
-	leFEhLUd1oeZch84S/ZdfhIQpRnYAPMBrwAVpfX9GBtzJjXJ1xv5+SObyj5JVYhIdR+uxG
-	ZN878sEDKBSfS3GDnOyXW8LVrn5zGw8=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-287-vy8juE_-MJi6wziylkRnsg-1; Fri, 09 Feb 2024 15:34:39 -0500
-X-MC-Unique: vy8juE_-MJi6wziylkRnsg-1
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-40fd28064a0so9290805e9.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 09 Feb 2024 12:34:38 -0800 (PST)
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=soleen.com header.i=@soleen.com header.b="Vc2htpBV"
+Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-6dbcebaf9a9so971717a34.3
+        for <linux-sunxi@lists.linux.dev>; Fri, 09 Feb 2024 18:21:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1707531707; x=1708136507; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=HxzMCuaeyhn3J9cU+FUkQXDQEw1s8FDPbrSZbrZddcs=;
+        b=Vc2htpBV/XCG+6i0IzQcjZJt1j+ZdNtQ10AYBKXElgPbxoKa38oev/nET5NIuSQFfK
+         zaISKjJEM664MAmPyUMaLY1giFjGKEHLwcS1m9b9ziThQiEAA0S/Nhdqk7zMQnVpB8TW
+         NFrhifMBLvQZuTL+WaT2q49qqCeU/jV3KCOtYHGzrnHgUVsrUDrAIYy1aqZ2qlaxWeaH
+         IfFfGIDhz/vBO8pIrVPTkMyOt8rW8c0Ci+VOBRcDpywjNcceOcbVs6+239Quexzvovbt
+         xrDO6hNKYfI9BRiTjhAuCBslsDkmkfyVlsEkBYi1648ZRYGvFyKEiXAFbOkqoKzlaiSO
+         MTJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707510878; x=1708115678;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=j2wWnG4c9flOTNWJ6O8wnfxhMZrHV7GwnwMrXW3f8A8=;
-        b=lledF1S1J6tmQGefd5nee8cXayiIrANhizetjcgvTdx+HCJhuaSLo0aq2PKwi8VUqy
-         Aqur2v35Um8aIPZwmNSDivatHFsfj+ilSJ1c0MAih1aIb5WjgmNzw9wpP/2MhYNHjIxi
-         tDEynd0pybBagDv+AxWVNWwOWjNTdnpHTcxwlZ4vKYqzLe04tfHJ2GTYmWJFk7WSmgoY
-         +05WoxQtK6j/IjvePEWT1bGdpBjmVoqMSm4TKuDvtgoUjOelnpmcYGst+NGWqISSpFAv
-         5BPiIKoroXuUSebGQsLnIXpGJEENJhIx/4iONA5Ox2hmgpov9SHz48jJhq8rxENRk+QG
-         GuRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXyqlS8DK4l0JGkY2OwhE5Lm660t+st/uzCGNa+psEnI+5sAzVbnP5cW/mOTau7Idd25HIpCU16gYegaU3PDZkbZdTaalEWVti1nas=
-X-Gm-Message-State: AOJu0Yz88tdOA/y7oQDCQdynRndx06p4S9sJ8iSG7Pr/9F6oyIhT7kRm
-	Tryza1PljOyFp65syxaCZ3pTXBpmAyr22KT86Qrnv74seLj9/q+/45HDODtULm5G/vY2qt3aXl+
-	bOYMDMHYwnD9hjb+E+g0Ri/Vio7bcENGDWJiBts6Ih+2lU7PqL5JKwaX6rLnE
-X-Received: by 2002:a05:600c:1da0:b0:410:67c7:4aec with SMTP id p32-20020a05600c1da000b0041067c74aecmr360334wms.2.1707510878047;
-        Fri, 09 Feb 2024 12:34:38 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IF13pfF52uklm5dhWcBcvNdikZJOPXaH04X4IAFneBMKzMG8gczhKEBhOer9kGWxz4bpMboiA==
-X-Received: by 2002:a05:600c:1da0:b0:410:67c7:4aec with SMTP id p32-20020a05600c1da000b0041067c74aecmr360309wms.2.1707510877712;
-        Fri, 09 Feb 2024 12:34:37 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUTFIpsyOPGLuOIRqyqojYZLXShV7fMVG8lKMKh8RWmrfILG4wVCf8gLUYnmxYZ6GojncTWgKEfP5koXhwu+L8mW7OdvkwtZN0qrjcaqiHaZqA7TU3roMpuu6JlMFFn+4qCBNlcejLlIfxt7yTqAQw44eq+2Gt3YvBKnODhx8UY004UIxjjJmMD1qB8k6iA5fh1kaHrSuUy+P8HziuYc5LiaFqmAu6pVpkvLeEb2evFtiqUaryp00KXCh/C+JzQZfr8YsNSQzKLSVIflmMGGpSXjhNZz7cEqPFNSPjqXXehfees138vEzAxsGDxWT/4m4Kb+BvL/VwHZf7h55cfdzPilGIWTQfjIlqsRLmTFjyNer9tvYV+fHP5NIvBrWkMuwK4zw081lC9wBo9G6v4Lqk9xFPzRi8ziXvrhzNkJGbvi8TR/Z2Bgw/uoru6FUJCpZZJRqb7Ak7PPwX2n1rGOXJPLjAI40lx4ryIIzK0+gPD5GtLOxedGKUhcKBzmmJYY3EPUoCscwHprrNUxAOqFjsFt9Dfx9HtZzehHYRn9fzQ/33OGqc6nEBUZ8In8El5X3dvcPBxG9zUrq9xbcPP0dphQoN8skR0FjYoQt0mIrjjraq/ahk149YTxa6askU6srquoL4TIMYWmij5nI37tV9iVNaet/SQt/58ZLbUrl60mQ==
-Received: from toolbox ([2001:9e8:898e:7200:1f00:29c:19b0:2997])
-        by smtp.gmail.com with ESMTPSA id r2-20020a056000014200b0033b4acb999dsm115375wrx.98.2024.02.09.12.34.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Feb 2024 12:34:37 -0800 (PST)
-Date: Fri, 9 Feb 2024 21:34:35 +0100
-From: Sebastian Wick <sebastian.wick@redhat.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: Re: Re: Re: [PATCH v5 08/44] drm/connector: hdmi: Add Broadcast
- RGB property
-Message-ID: <20240209203435.GB996172@toolbox>
-References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
- <20231207-kms-hdmi-connector-state-v5-8-6538e19d634d@kernel.org>
- <20240115143308.GA159345@toolbox>
- <20240115143720.GA160656@toolbox>
- <73peztbeeikb3fg6coxu3punxllgtyrmgco34tnxkojtsjbr3s@26bud3sjbcez>
- <Zb0M_2093UwPXK8y@intel.com>
- <hez2m57ogqx3yyqk45tzdkvxvhrbdepgm244i4m2aty2xhf5b5@acqgvmxhmmvr>
- <Zb0aYAapkxQ2kopt@intel.com>
- <zml6j27skvjmbrfyz7agy5waxajv4p4asbemeexelm3wuv4o7j@xkd2wvnxhbuc>
+        d=1e100.net; s=20230601; t=1707531707; x=1708136507;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HxzMCuaeyhn3J9cU+FUkQXDQEw1s8FDPbrSZbrZddcs=;
+        b=YXnQ4ublhDapCpIaohcbBWyZksymppkOOeS/DLTa0ELoRrfVL7Hgk1l4y/V3yu2Zjb
+         sDNBLwmIRgaveRakF0ofvPZdCrCoRCE3bYLfNvbdI6cP47JajHrB5UFG9wa65R9zowzR
+         +Xk2MT1rgDQsvXtUvOPfSH8K4a4kwJRImzFQ1Sar8bumVZ1JVAEhk0PrmAZDI4Z0BOWW
+         Lldr3xOAiz4Wkl3S13pa5hHcD881I/pXix5G7vK7x8uAz1lnYfzDjHciF8jnD3PaAy3r
+         bKD0oU5DFypdjUGao1MjUL7J6NPCwgwBBgnYQOioX7Jk6vHBad7RlL4wKAW9brE/H2Hj
+         XSWg==
+X-Forwarded-Encrypted: i=1; AJvYcCUxs/yhxzEozlHpSnZ4pilby4uEl0xwz791L03bj0/yGll1IyBk8Y/1VMGjbsbO9jfrTxZGO0Z1yN1llctjhJZe+7JqmzKMthJloaQ=
+X-Gm-Message-State: AOJu0Yw79wiapykUbv/Q91xXtCz/Uu7GFiQCa2oh+QP25Fbgryf9/gC/
+	W76AzsMpYP9wr5SPTW1M3lBQggjUEDDOIb6osNOzAQMqXPFP/nWomJOr+kYjKru+Ey0qvRu36fG
+	X9rxIHInItIWfASfrqS7uKqriwc4GsUfz2397Fw==
+X-Google-Smtp-Source: AGHT+IFmCDzBaOTRJEg/f8FLkRS6yQpqqh3yX5ZW6I0WCsOQ72Tibv6RAzofMrIiMT9QniCTSK/5rtfk2WW8zRu6CiM=
+X-Received: by 2002:a05:6870:211:b0:218:f001:10bf with SMTP id
+ j17-20020a056870021100b00218f00110bfmr1150766oad.35.1707531707564; Fri, 09
+ Feb 2024 18:21:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <zml6j27skvjmbrfyz7agy5waxajv4p4asbemeexelm3wuv4o7j@xkd2wvnxhbuc>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+References: <20240207174102.1486130-1-pasha.tatashin@soleen.com>
+ <20240207174102.1486130-2-pasha.tatashin@soleen.com> <8ce2cd7b-7702-45aa-b4c8-25a01c27ed83@arm.com>
+In-Reply-To: <8ce2cd7b-7702-45aa-b4c8-25a01c27ed83@arm.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Fri, 9 Feb 2024 21:21:10 -0500
+Message-ID: <CA+CK2bC=XyUhoSP9f0XBqEnQ-P5mMT2U=5dfzRSc9C=2b+bstQ@mail.gmail.com>
+Subject: Re: [PATCH v4 01/10] iommu/vt-d: add wrapper functions for page allocations
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
+	asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
+	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
+	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
+	iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
+	joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
+	mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
+	rdunlap@infradead.org, samuel@sholland.org, suravee.suthikulpanit@amd.com, 
+	sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org, 
+	tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, will@kernel.org, 
+	yu-cheng.yu@intel.com, rientjes@google.com, bagasdotme@gmail.com, 
+	mkoutny@suse.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Feb 05, 2024 at 10:39:38AM +0100, Maxime Ripard wrote:
-> On Fri, Feb 02, 2024 at 06:37:52PM +0200, Ville Syrjälä wrote:
-> > On Fri, Feb 02, 2024 at 04:59:30PM +0100, Maxime Ripard wrote:
-> > > On Fri, Feb 02, 2024 at 05:40:47PM +0200, Ville Syrjälä wrote:
-> > > > On Fri, Feb 02, 2024 at 02:01:39PM +0100, Maxime Ripard wrote:
-> > > > > Hi,
-> > > > > 
-> > > > > On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebastian Wick wrote:
-> > > > > > > >  /**
-> > > > > > > >   * DOC: HDMI connector properties
-> > > > > > > >   *
-> > > > > > > > + * Broadcast RGB
-> > > > > > > > + *      Indicates the RGB Quantization Range (Full vs Limited) used.
-> > > > > > > > + *      Infoframes will be generated according to that value.
-> > > > > > > > + *
-> > > > > > > > + *      The value of this property can be one of the following:
-> > > > > > > > + *
-> > > > > > > > + *      Automatic:
-> > > > > > > > + *              RGB Range is selected automatically based on the mode
-> > > > > > > > + *              according to the HDMI specifications.
-> > > > > > > > + *
-> > > > > > > > + *      Full:
-> > > > > > > > + *              Full RGB Range is forced.
-> > > > > > > > + *
-> > > > > > > > + *      Limited 16:235:
-> > > > > > > > + *              Limited RGB Range is forced. Unlike the name suggests,
-> > > > > > > > + *              this works for any number of bits-per-component.
-> > > > > > > > + *
-> > > > > > > > + *      Drivers can set up this property by calling
-> > > > > > > > + *      drm_connector_attach_broadcast_rgb_property().
-> > > > > > > > + *
-> > > > > > > 
-> > > > > > > This is a good time to document this in more detail. There might be two
-> > > > > > > different things being affected:
-> > > > > > > 
-> > > > > > > 1. The signalling (InfoFrame/SDP/...)
-> > > > > > > 2. The color pipeline processing
-> > > > > > > 
-> > > > > > > All values of Broadcast RGB always affect the color pipeline processing
-> > > > > > > such that a full-range input to the CRTC is converted to either full- or
-> > > > > > > limited-range, depending on what the monitor is supposed to accept.
-> > > > > > > 
-> > > > > > > When automatic is selected, does that mean that there is no signalling,
-> > > > > > > or that the signalling matches what the monitor is supposed to accept
-> > > > > > > according to the spec? Also, is this really HDMI specific?
-> > > > > > > 
-> > > > > > > When full or limited is selected and the monitor doesn't support the
-> > > > > > > signalling, what happens?
-> > > > > > 
-> > > > > > Forgot to mention: user-space still has no control over RGB vs YCbCr on
-> > > > > > the cable, so is this only affecting RGB? If not, how does it affect
-> > > > > > YCbCr?
-> > > > > 
-> > > > > So I dug a bit into both the i915 and vc4 drivers, and it looks like if
-> > > > > we're using a YCbCr format, i915 will always use a limited range while
-> > > > > vc4 will follow the value of the property.
-> > > > 
-> > > > The property is literally called "Broadcast *RGB*".
-> > > > That should explain why it's only affecting RGB.
-> > > 
-> > > Right. And the limited range option is called "Limited 16:235" despite
-> > > being usable on bpc > 8 bits. Naming errors occurs, and history happens
-> > > to make names inconsistent too, that's fine and not an argument in
-> > > itself.
-> > > 
-> > > > Full range YCbCr is a much rarer beast so we've never bothered
-> > > > to enable it.
-> > > 
-> > > vc4 supports it.
-> > 
-> > Someone implemented it incorrectly then.
-> 
-> Incorrectly according to what documentation / specification? I'm sorry,
-> but I find it super ironic that i915 gets to do its own thing, not
-> document any of it, and when people try to clean things up they get told
-> that we got it all wrong.
+Hi Robin,
 
-FWIW, this was an i915 property and if another driver uses the same
-property name it must have the same behavior. Yes, it isn't standardized
-and yes, it's not documented (hence this effort here) but it's still on
-vc4 to make the property compatible.
+Thank you for reviewing this.
 
-Trying to make the property handle YCbCr is very much in the "let's try
-to fix the property" territory that I want to avoid, so I'm in favor of
-adjusting vc4.
+> > +#ifndef __IOMMU_PAGES_H
+> > +#define __IOMMU_PAGES_H
+> > +
+> > +#include <linux/vmstat.h>
+> > +#include <linux/gfp.h>
+> > +#include <linux/mm.h>
+> > +
+> > +/*
+> > + * All page allocation that are performed in the IOMMU subsystem must use one of
+>
+> "All page allocations" is too broad; As before, this is only about
+> pagetable allocations, or I guess for the full nuance, allocations of
+> pagetables and other per-iommu_domain configuration structures which are
+> reasonable to report as "pagetables" to userspace.
 
-> > > > Eg. with DP it only became possible with the introduction of the VSC
-> > > > SDP (and I don't recall if there's additional capability checks that
-> > > > are also required). With DP MSA signalling full range YCbCr is not
-> > > > possible at all.
-> > > 
-> > > This is for HDMI only.
-> > > 
-> > > > I don't recall right now what the HDMI requirements are.
-> > > 
-> > > HDMI has supported it for a while, and it's defined (for example) in the
-> > > HDMI 1.4 spec in Section 6.6 - Video Quantization Ranges. It supports
-> > > limited and full range on both RGB and YCbCr, as long as the EDIDs state
-> > > so and the Infoframes signal it.
-> > 
-> > I think a good reason for not using a simple boolean like this 
-> > YCbCr is that it doesn't cover the color encoding part at all,
-> > which is probably more important than the quantization range.
-> > So we need a new property anyway.
-> 
-> This isn't what is being discussed here, and as I've shown you, is
-> completely orthogonal as far as HDMI is concerned.
-> 
-> Maxime
+I will update the comment.
 
 
+>
+> > + * the functions below.  This is necessary for the proper accounting as IOMMU
+> > + * state can be rather large, i.e. multiple gigabytes in size.
+> > + */
+> > +
+> > +/**
+> > + * __iommu_alloc_pages_node - allocate a zeroed page of a given order from
+> > + * specific NUMA node.
+> > + * @nid: memory NUMA node id
+> > + * @gfp: buddy allocator flags
+> > + * @order: page order
+> > + *
+> > + * returns the head struct page of the allocated page.
+> > + */
+> > +static inline struct page *__iommu_alloc_pages_node(int nid, gfp_t gfp,
+> > +                                                 int order)
+> > +{
+> > +     struct page *page;
+> > +
+> > +     page = alloc_pages_node(nid, gfp | __GFP_ZERO, order);
+> > +     if (unlikely(!page))
+> > +             return NULL;
+> > +
+> > +     return page;
+> > +}
+>
+> All 3 invocations of this only use the returned struct page to trivially
+> derive page_address(), so we really don't need it; just clean up these
+> callsites a bit more.
+
+I will remove this function, and update all invocations to use
+iommu_alloc_pages_node() directly.
+
+
+> > + * __iommu_alloc_pages - allocate a zeroed page of a given order.
+> > + * @gfp: buddy allocator flags
+> > + * @order: page order
+> > + *
+> > + * returns the head struct page of the allocated page.
+> > + */
+> > +static inline struct page *__iommu_alloc_pages(gfp_t gfp, int order)
+> > +{
+> > +     struct page *page;
+> > +
+> > +     page = alloc_pages(gfp | __GFP_ZERO, order);
+> > +     if (unlikely(!page))
+> > +             return NULL;
+> > +
+> > +     return page;
+> > +}
+>
+> Same for the single invocation of this one.
+
+I kept this function, but removed __iommu_alloc_page() that depends on
+it. This is because tegra-smmu needs a "struct page" allocator.
+
+>
+> > +
+> > +/**
+> > + * __iommu_alloc_page_node - allocate a zeroed page at specific NUMA node.
+> > + * @nid: memory NUMA node id
+> > + * @gfp: buddy allocator flags
+> > + *
+> > + * returns the struct page of the allocated page.
+> > + */
+> > +static inline struct page *__iommu_alloc_page_node(int nid, gfp_t gfp)
+> > +{
+> > +     return __iommu_alloc_pages_node(nid, gfp, 0);
+> > +}
+>
+> There are no users of this at all.
+
+Yes, I added it just for completeness, I will remove it.
+
+
+> > + * __iommu_alloc_page - allocate a zeroed page
+> > + * @gfp: buddy allocator flags
+> > + *
+> > + * returns the struct page of the allocated page.
+> > + */
+> > +static inline struct page *__iommu_alloc_page(gfp_t gfp)
+> > +{
+> > +     return __iommu_alloc_pages(gfp, 0);
+> > +}
+> > +
+> > +/**
+> > + * __iommu_free_pages - free page of a given order
+> > + * @page: head struct page of the page
+> > + * @order: page order
+> > + */
+> > +static inline void __iommu_free_pages(struct page *page, int order)
+> > +{
+> > +     if (!page)
+> > +             return;
+> > +
+> > +     __free_pages(page, order);
+> > +}
+> > +
+> > +/**
+> > + * __iommu_free_page - free page
+> > + * @page: struct page of the page
+> > + */
+> > +static inline void __iommu_free_page(struct page *page)
+> > +{
+> > +     __iommu_free_pages(page, 0);
+> > +}
+>
+> Beyond one more trivial Intel cleanup for __iommu_alloc_pages(), these 3
+> are then only used by tegra-smmu, so honestly I'd be inclined to just
+> open-code there page_address()/virt_to_page() conversions as appropriate
+> there (once again I think the whole thing could in fact be refactored to
+> not use struct pages at all because all it's ever ultimately doing with
+> them is page_address(), but that would be a bigger job so definitely
+> out-of-scope for this series).
+
+I removed __iommu_free_page(), but kept __iommu_free_pages() variant.
+
+>
+> > +
+> > +/**
+> > + * iommu_alloc_pages_node - allocate a zeroed page of a given order from
+> > + * specific NUMA node.
+> > + * @nid: memory NUMA node id
+> > + * @gfp: buddy allocator flags
+> > + * @order: page order
+> > + *
+> > + * returns the virtual address of the allocated page
+> > + */
+> > +static inline void *iommu_alloc_pages_node(int nid, gfp_t gfp, int order)
+> > +{
+> > +     struct page *page = __iommu_alloc_pages_node(nid, gfp, order);
+> > +
+> > +     if (unlikely(!page))
+> > +             return NULL;
+>
+> As a general point I'd prefer to fold these checks into the accounting
+> function itself rather than repeat them all over.
+
+For the free functions this saves a few cycles by not repeating this
+check again inside __free_pages(), to keep things symmetrical it makes
+sense to keep __iomu_free_account and __iomu_alloc_account the same.
+With the other clean-up there are not that many of these checks left.
+
+> > + */
+> > +static inline void *iommu_alloc_page_node(int nid, gfp_t gfp)
+> > +{
+> > +     return iommu_alloc_pages_node(nid, gfp, 0);
+> > +}
+>
+> TBH I'm not entirely convinced that saving 4 characters per invocation
+> times 11 invocations makes this wrapper worthwhile :/
+
+Let's keep them. After the clean-up that you suggested, there are
+fewer functions left in this file, but I think that it is cleaner to
+keep these remaining, as it is beneficial to easily distinguish when
+exactly one page is allocated vs when multiple are allocated via code
+search.
+
+
+> > + *
+> > + * There are no locking requirement for these pages, as they are going to be
+> > + * put on a free list as soon as refcount reaches 0. Pages are put on this LRU
+> > + * list once they are removed from the IOMMU page tables. However, they can
+> > + * still be access through debugfs.
+> > + */
+> > +static inline void iommu_free_pages_list(struct list_head *page)
+>
+> Nit: I'd be inclined to call this iommu_put_pages_list for consistency.
+
+I will rename it to iommu_put_pages_list(), indeed a better name.
+
+>
+> > +{
+> > +     while (!list_empty(page)) {
+> > +             struct page *p = list_entry(page->prev, struct page, lru);
+> > +
+> > +             list_del(&p->lru);
+> > +             put_page(p);
+> > +     }
+> > +}
+>
+> I realise now you've also missed the common freelist freeing sites in
+> iommu-dma.
+
+Ah yes, thank you for catching that. I will fix it.
+
+Pasha
