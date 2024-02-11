@@ -1,49 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5811A4CDEB;
-	Sun, 11 Feb 2024 08:30:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A89A59169
+	for <linux-sunxi@lists.linux.dev>; Sun, 11 Feb 2024 10:53:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707640242; cv=none; b=JyhsAERkUsTdMwDr1SqwafE/CuwQ8iTw50D3XaJGgOeHt9JhQZwOZKgORNb7z9lHlKgdrte5MZA2k6F4rKcRbJtv4WeCJocPweVnFnhWPgG/2Q/qdAzqvqGew9+Kt2FdDuMEiX8tfyTTozpGdyteXolreMMjGwZ40dLKTc7N8Vg=
+	t=1707648824; cv=none; b=qo6xJC4mz0QxbmjwYgikgR71PWkbw6bLPOKQCYDCju+sJYNBZFMoCZgbtTnTk3k8dxDhoMBRpv5eqTj0YHCxVaIoAsWLvcUnqvTP/+XTS4WtxVP/n/JIY7o5nb0aYd2aCcQ796zjUESwEFpaVzWMnFi8XPuZxIrOpoKCRj8cK7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707640242; c=relaxed/simple;
-	bh=hlTXI6UMycx+TmqfADYS2mcyoWnWOeTxWDUhNcbZ2Lc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NngDtV5WXF4Z8kRxX0i9VZe88cWhyk6q4NxZGEHouGTThAo7PTbyxTBHT2ebRy6aq0PKuRll4qAF2RtUN1LzJGswLFKj5dULpFgYQceR2YnMt9FuBnru8+0g3+6fZDtDIO7OQoLJaHXWmmXlmmkeW1bCp1BSSGB1PZM7DTZVsp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iy3X3sVN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1707648824; c=relaxed/simple;
+	bh=aHVHW7Z9Vz8E35efk396ga0J8V70ILA+KvMuR//APMA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MYy7olzOWDiGLxO2g0S/MWbcS7/PkQcophLfzpimNezbHo/o32YY2rSVlEKYX7xtcyPtghMCEDWLYbvJaLAZI7VAsIk7AuV2M6HCyzXZXlt0+UylOj0VR+tmvw/kyc9Wb/dIduFN1ETia8TmCHNYB+xMxfFFrE4S1cNZsdmtCa0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OpSiqHUK; arc=none smtp.client-ip=209.85.208.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iy3X3sVN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AED75C433C7;
-	Sun, 11 Feb 2024 08:30:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707640241;
-	bh=hlTXI6UMycx+TmqfADYS2mcyoWnWOeTxWDUhNcbZ2Lc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=iy3X3sVNKk801bGIoz3l2BA6iHEWjb4xDKo26QHWe5a90yoV1XpdBGvOmyy9KaRse
-	 AKJJ7/Ruv0SaB9bxNAJcejGwJ5xvD8duOPopzP7ixW80lBMVIHmZW/HXQnsOmpw6PX
-	 OFWbRpMRvTjijmiJhZmvWoNj2CZOVrhFkueiJoHJam77m1PDMGSllT3CfZMK0yM/d6
-	 TqiLeZfZxLyBvapyMr2nvYHKv0jBVWGkyq9Ab/F+E7oKjyPqYYZhwc4Bsal/JfSWLB
-	 fiCwe5oGV30oHFNjWVyzPhdY/N1R44AKQ1IUnHud3N4gsH0Jxgeks1zjZrFIdsBJEA
-	 SjL6VpWwqOUEQ==
-From: Jisheng Zhang <jszhang@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OpSiqHUK"
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2d0aabed735so30562741fa.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 11 Feb 2024 02:53:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707648820; x=1708253620; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uO+FD++i6lu3R3UMtfKiyAbMLFBWQFc/P76C+86fYSw=;
+        b=OpSiqHUKoAFxa91GxhF5PI3YWFCDtIIt0rkGARihiAC3ugSdln5EC+7ziWMOfb7Q1s
+         f64QRbwbiwo2OkPrUjlQ8drlQ519qXhlPzZyRAulrjdTcO7dXQ2i9FwHFoWrrLJZc830
+         BlWeMQUBELQ1gOI0CY0c9DN6N/qpG8DPzGmNofU1RF56B7TFfWKprJfIUGjnpbR8x+ys
+         wzdz8L36G6UpEg1qjtVB4AZ1lEY3xezkXQvVBriAw0Fy/JTSE/1l2pNjXze0lRfX4AY+
+         W1OaHRg+Ubf3G/N2iYHSVL0UDfQeqjSyuGs66txYBCYXxWwH8gW1g1afnk+wTK9gv41j
+         H65Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707648820; x=1708253620;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uO+FD++i6lu3R3UMtfKiyAbMLFBWQFc/P76C+86fYSw=;
+        b=R6mw3Q4v/s+1VTsd3Mt3y+Xth9ERytwMR9awaRZcuct2r8j87PTqsHYHgW1XRy6W3j
+         VhDPXpZuOrJqIEytBODMmMJ4pZryEPhdEa6kVUf1yGaTBRuegzrL+pWASHVu79Uzlhsh
+         GQaxD+ughOnrzjD6paTNSwrnuUC6dcSwLALkEV/ImLxpDi7IZALocVNayoDa+dsXFwEa
+         IXU2W5f+i4IU5pL7EnzcT0u6xnhn0hTJVbs/cankjqJPhDAdUVAH3PWQ20IanN10UtBT
+         kJd4Vl6aEjVzO6SK8XPvMA3HDm7wafYn6F7N7ak+lij9PymduHzyh72YqsUKUu4xk5QN
+         +vGQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWfuXT3NbJiAZ9mfRQ5bMlaBwjRX3uF7wZVdXtW7Jqu5y1ZUqyQleS5G2AnUnMQpedbYNIxPuduVUIEJTUJt5f3eHMQfPnZo6nXzUQ=
+X-Gm-Message-State: AOJu0YwqWzzYKraPDkGQaiw65BXNoQhD6BNdU6QwTb5p0izqF/bgpT3b
+	krkMpt6KD+nMzpNy4raOobtz8jr5U63XJZHvcB52R8PbZ4rldq9D
+X-Google-Smtp-Source: AGHT+IHfeJGfD6S5ADXFrljt6jbddz9qVjW3/0nsFBVwOu/NPnAfiZcxzuyjoHLont1QS/afVvVHYw==
+X-Received: by 2002:a2e:a0c5:0:b0:2d0:41d1:8124 with SMTP id f5-20020a2ea0c5000000b002d041d18124mr2687733ljm.1.1707648820227;
+        Sun, 11 Feb 2024 02:53:40 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXq0bUGyM2L2ZMhPe3QpzgYa2IAkwmyOEM121qoFdMoe+SQp89/Lo1WfqGa3sgNYrtjmEojn5mz2kpuhustodB5Gp3JOTfyUfGcemSebzkqRrsrzReLXngmSqImWSCUdcrPz/07+oV80iYqDNefI0e+zcVybbPZbySaATJnRYzx+rM5sIpXUZoCcks5pf8Rb+GjC2d8ooGmLJKNGsr+GPaP1VxQgrr3JOYPVa/Eu1lAAmzUgZRr9XtNzadND3dP5LW0jke9n0sxDBdslvXAz1mFEHuv33a5akuoYGsUrm/DKxPYQf8uCtbcjHS6H0yb0g2W3bkFwhO+Sft9I0NbhvDwdfBhJGdGWolmywbcSpGmxjOqxtf8akVzUX1c17J9X1gZUKmKMp7cUChndpLB7bp8ki78slLaIKa2++EOs7zSiPAcnzNjVm4xmwTBaD57deNaCh8YnOJznTwImzoD1QNFKN28/ZKTrAC9Duni6hL+VBG0L2lXZQ==
+Received: from localhost.localdomain ([2a05:3580:f312:6c01:1b8f:2a1b:d18:1951])
+        by smtp.gmail.com with ESMTPSA id y5-20020a2e95c5000000b002cd34872be7sm893799ljh.25.2024.02.11.02.53.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Feb 2024 02:53:39 -0800 (PST)
+From: Andrey Skvortsov <andrej.skvortzov@gmail.com>
 To: Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Andre Przywara <andre.przywara@arm.com>
-Cc: devicetree@vger.kernel.org,
+	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/2] arm64: dts: allwinner: h616: Add Sipeed Longan SoM 3H and Pi 3H board support
-Date: Sun, 11 Feb 2024 16:17:39 +0800
-Message-ID: <20240211081739.395-3-jszhang@kernel.org>
+	linux-kernel@vger.kernel.org,
+	Arnaud Ferraris <arnaud.ferraris@collabora.com>,
+	Alexey Klimov <alexey.klimov@linaro.org>
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Andrey Skvortsov <andrej.skvortzov@gmail.com>
+Subject: [PATCH] arm64: dts: allwinner: a64: Add thermal trip points for GPU
+Date: Sun, 11 Feb 2024 13:53:26 +0300
+Message-ID: <20240211105326.506049-1-andrej.skvortzov@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240211081739.395-1-jszhang@kernel.org>
-References: <20240211081739.395-1-jszhang@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -52,279 +78,106 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Sipeed Longan SoM 3H is a system on module based on the Allwinner
-H618 SoC. The SoM features:
+From: Alexey Klimov <alexey.klimov@linaro.org>
 
-- Four ARM Cortex-A53 cores, Mali-G31 MP2 GPU
-- 2/4 GiB LPDDR4 DRAM SoMs
-- AXP313a PMIC
-- eMMC
+Without trip points for GPU, the following errors are printed in the
+dmesg log and the sun8i-thermal driver fails to load:
 
-The Sipeed Longan PI 3H is a development board based on the above SoM.
-The board features:
-- Longan SoM 3H
-- Raspberry-Pi-1 compatible GPIO header
-- 2 USB 2.0 host port
-- 1 USB 2.0 type C port (power supply + OTG)
-- MicroSD slot
-- 1Gbps Ethernet port (via RTL8211 PHY)
-- HDMI port
-- WiFi/BT chip
+thermal_sys: Failed to find 'trips' node
+thermal_sys: Failed to find trip points for thermal-sensor id=1
+sun8i-thermal: probe of 1c25000.thermal-sensor failed with error -22
 
-Add the devicetree file describing the currently supported features,
-namely PMIC, LEDs, UART, SD card, eMMC, USB and Ethernet.
+When thermal zones are defined, trip points definitions are mandatory.
+Trip values for the GPU are assumed to be the same values as the CPU
+ones. The available specs do not provide any hints about thermal regimes
+for the GPU and it seems GPU is implemented on the same die as the CPU.
 
-Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
+'make dtbs_check' complains about problem in dts for 18 A64-based boards
+supported by the kernel:
+
+sun50i-a64-pine64.dtb: thermal-zones: gpu0-thermal: 'trips' is a required property
+	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+sun50i-a64-pine64.dtb: thermal-zones: gpu1-thermal: 'trips' is a required property
+	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+
+Tested on Pine a64+ and PinePhone 1.2.
+
+Cc: Samuel Holland <samuel@sholland.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Chen-Yu Tsai <wens@csie.org>
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc: devicetree@vger.kernel.org
+Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+Tested-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+
 ---
- arch/arm64/boot/dts/allwinner/Makefile        |   1 +
- .../sun50i-h618-longan-module-3h.dtsi         |  75 +++++++++
- .../dts/allwinner/sun50i-h618-longanpi-3h.dts | 144 ++++++++++++++++++
- 3 files changed, 220 insertions(+)
- create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h618-longan-module-3h.dtsi
- create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dts
+ arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 46 +++++++++++++++++++
+ 1 file changed, 46 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
-index 91d505b385de..4b9173a16efe 100644
---- a/arch/arm64/boot/dts/allwinner/Makefile
-+++ b/arch/arm64/boot/dts/allwinner/Makefile
-@@ -42,5 +42,6 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-bigtreetech-cb1-manta.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-bigtreetech-pi.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-orangepi-zero2.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-x96-mate.dtb
-+dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-longanpi-3h.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero3.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-transpeed-8k618-t.dtb
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-longan-module-3h.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h618-longan-module-3h.dtsi
-new file mode 100644
-index 000000000000..8c1263a3939e
---- /dev/null
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-longan-module-3h.dtsi
-@@ -0,0 +1,75 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+/*
-+ * Copyright (C) Jisheng Zhang <jszhang@kernel.org>
-+ */
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+index 57ac18738c99..c25da7229e42 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+@@ -244,6 +244,29 @@ gpu0_thermal: gpu0-thermal {
+ 			polling-delay-passive = <0>;
+ 			polling-delay = <0>;
+ 			thermal-sensors = <&ths 1>;
 +
-+#include "sun50i-h616.dtsi"
++			trips {
++				gpu0_alert0: gpu0_alert0 {
++					/* milliCelsius */
++					temperature = <75000>;
++					hysteresis = <2000>;
++					type = "passive";
++				};
 +
-+&mmc2 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&mmc2_pins>;
-+	vmmc-supply = <&reg_dldo1>;
-+	vqmmc-supply = <&reg_aldo1>;
-+	bus-width = <8>;
-+	non-removable;
-+	cap-mmc-hw-reset;
-+	mmc-ddr-1_8v;
-+	mmc-hs200-1_8v;
-+	status = "okay";
-+};
++				gpu0_alert1: gpu0_alert1 {
++					/* milliCelsius */
++					temperature = <90000>;
++					hysteresis = <2000>;
++					type = "hot";
++				};
 +
-+&r_i2c {
-+	status = "okay";
-+
-+	axp313: pmic@36 {
-+		compatible = "x-powers,axp313a";
-+		reg = <0x36>;
-+		#interrupt-cells = <1>;
-+		interrupt-controller;
-+
-+		regulators {
-+			reg_aldo1: aldo1 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <1800000>;
-+				regulator-max-microvolt = <1800000>;
-+				regulator-name = "vcc-1v8-pll";
++				gpu0_crit: gpu0_crit {
++					/* milliCelsius */
++					temperature = <110000>;
++					hysteresis = <2000>;
++					type = "critical";
++				};
 +			};
+ 		};
+ 
+ 		gpu1_thermal: gpu1-thermal {
+@@ -251,6 +274,29 @@ gpu1_thermal: gpu1-thermal {
+ 			polling-delay-passive = <0>;
+ 			polling-delay = <0>;
+ 			thermal-sensors = <&ths 2>;
 +
-+			reg_dldo1: dldo1 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <3300000>;
-+				regulator-max-microvolt = <3300000>;
-+				regulator-name = "vcc-3v3-io";
++			trips {
++				gpu1_alert0: gpu1_alert0 {
++					/* milliCelsius */
++					temperature = <75000>;
++					hysteresis = <2000>;
++					type = "passive";
++				};
++
++				gpu1_alert1: gpu1_alert1 {
++					/* milliCelsius */
++					temperature = <90000>;
++					hysteresis = <2000>;
++					type = "hot";
++				};
++
++				gpu1_crit: gpu1_crit {
++					/* milliCelsius */
++					temperature = <110000>;
++					hysteresis = <2000>;
++					type = "critical";
++				};
 +			};
-+
-+			reg_dcdc1: dcdc1 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <810000>;
-+				regulator-max-microvolt = <990000>;
-+				regulator-name = "vdd-gpu-sys";
-+			};
-+
-+			reg_dcdc2: dcdc2 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <810000>;
-+				regulator-max-microvolt = <1100000>;
-+				regulator-name = "vdd-cpu";
-+			};
-+
-+			reg_dcdc3: dcdc3 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <1100000>;
-+				regulator-max-microvolt = <1100000>;
-+				regulator-name = "vdd-dram";
-+			};
-+		};
-+	};
-+};
-+
-+&pio {
-+	vcc-pc-supply = <&reg_dldo1>;
-+	vcc-pf-supply = <&reg_dldo1>;
-+	vcc-pg-supply = <&reg_aldo1>;
-+	vcc-ph-supply = <&reg_dldo1>;
-+	vcc-pi-supply = <&reg_dldo1>;
-+};
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dts b/arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dts
-new file mode 100644
-index 000000000000..18b29c6b867f
---- /dev/null
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dts
-@@ -0,0 +1,144 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+/*
-+ * Copyright (C) Jisheng Zhang <jszhang@kernel.org>
-+ */
-+
-+/dts-v1/;
-+
-+#include "sun50i-h618-longan-module-3h.dtsi"
-+
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/interrupt-controller/arm-gic.h>
-+#include <dt-bindings/leds/common.h>
-+
-+/ {
-+	model = "Sipeed Longan Pi 3H";
-+	compatible = "sipeed,longan-pi-3h", "sipeed,longan-module-3h", "allwinner,sun50i-h618";
-+
-+	aliases {
-+		ethernet0 = &emac0;
-+		serial0 = &uart0;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial0:115200n8";
-+	};
-+
-+	leds {
-+		compatible = "gpio-leds";
-+
-+		led-0 {
-+			color = <LED_COLOR_ID_ORANGE>;
-+			function = LED_FUNCTION_INDICATOR;
-+			function-enumerator = <0>;
-+			gpios = <&pio 6 2 GPIO_ACTIVE_LOW>; /* PG2 */
-+		};
-+
-+		led-1 {
-+			color = <LED_COLOR_ID_ORANGE>;
-+			function = LED_FUNCTION_INDICATOR;
-+			function-enumerator = <1>;
-+			gpios = <&pio 6 4 GPIO_ACTIVE_LOW>; /* PG4 */
-+		};
-+	};
-+
-+	reg_vcc5v: regulator-vcc5v {
-+		/* board wide 5V supply directly from the USB-C socket */
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc-5v";
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+		regulator-always-on;
-+	};
-+
-+	reg_vcc3v3: regulator-vcc3v3 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc-3v3";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+		regulator-always-on;
-+		vin-supply = <&reg_vcc5v>;
-+	};
-+};
-+
-+&axp313 {
-+	vin1-supply = <&reg_vcc5v>;
-+	vin2-supply = <&reg_vcc5v>;
-+	vin3-supply = <&reg_vcc5v>;
-+};
-+
-+&ehci1 {
-+	status = "okay";
-+};
-+
-+&ohci1 {
-+	status = "okay";
-+};
-+
-+&ehci2 {
-+	status = "okay";
-+};
-+
-+&ohci2 {
-+	status = "okay";
-+};
-+
-+/* WiFi & BT combo module is connected to this Host */
-+&ehci3 {
-+	status = "okay";
-+};
-+
-+&ohci3 {
-+	status = "okay";
-+};
-+
-+&emac0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&ext_rgmii_pins>;
-+	phy-mode = "rgmii";
-+	phy-handle = <&ext_rgmii_phy>;
-+	allwinner,rx-delay-ps = <3100>;
-+	allwinner,tx-delay-ps = <700>;
-+	phy-supply = <&reg_vcc3v3>;
-+	status = "okay";
-+};
-+
-+&mdio0 {
-+	ext_rgmii_phy: ethernet-phy@1 {
-+		compatible = "ethernet-phy-ieee802.3-c22";
-+		reg = <1>;
-+	};
-+};
-+
-+&mmc0 {
-+	bus-width = <4>;
-+	cd-gpios = <&pio 5 6 GPIO_ACTIVE_HIGH>;	/* PF6 */
-+	vmmc-supply = <&reg_vcc3v3>;
-+	status = "okay";
-+};
-+
-+&uart0 {
-+	status = "okay";
-+};
-+
-+&usbotg {
-+	/*
-+	 * PHY0 pins are connected to a USB-C socket, but a role switch
-+	 * is not implemented: both CC pins are pulled to GND.
-+	 * The VBUS pins power the device, so a fixed peripheral mode
-+	 * is the best choice.
-+	 * The board can be powered via GPIOs, in this case port0 *can*
-+	 * act as a host (with a cable/adapter ignoring CC), as VBUS is
-+	 * then provided by the GPIOs. Any user of this setup would
-+	 * need to adjust the DT accordingly: dr_mode set to "host",
-+	 * enabling OHCI0 and EHCI0.
-+	 */
-+	dr_mode = "peripheral";
-+	status = "okay";
-+};
-+
-+&usbphy {
-+	usb1_vbus-supply = <&reg_vcc5v>;
-+	usb2_vbus-supply = <&reg_vcc5v>;
-+	status = "okay";
-+};
+ 		};
+ 	};
+ 
 -- 
 2.43.0
 
