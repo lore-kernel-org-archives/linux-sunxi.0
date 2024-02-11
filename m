@@ -1,60 +1,59 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D506C5C5EB
-	for <linux-sunxi@lists.linux.dev>; Sun, 11 Feb 2024 16:29:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6BF626ADB
+	for <linux-sunxi@lists.linux.dev>; Sun, 11 Feb 2024 16:31:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707668979; cv=none; b=TxRyZZzCW7FgrPH9KQpA5ja2egy4zhjFcTK/s5/M/oNyY+ynZbcEEn45fkLmAgxJsGulqae+nUDtBfwrzfFRw0hIPWXBtiEY2IF3R2KgddDNh7hWJ0xFn8/j9Fh7JAsX/cD6MNsu8xOLHVY7gfLwD75suqMDRJ23kdd9xaCGokQ=
+	t=1707669077; cv=none; b=heZM4vWekHZgAsOIhwaTft9tzctXwHu6pAL/ZguYnWvDboVPr7SbxGbC/E0X1/qudhWYcU71atA4fomeMyzQA1iRtDVx+dZS9CxBxUoeoqSDz4WplGnKTmt+J1P2AuewI8L7oJHgqRyyfS1kaVSSPwxcDDHhfyiWuh+BDaXNEmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707668979; c=relaxed/simple;
-	bh=JQFINT1ACXrKhGiU+Vb8AmicyXI0FvnPZWZJM+5yVmU=;
+	s=arc-20240116; t=1707669077; c=relaxed/simple;
+	bh=DA9dq7M4TbhxUI1Qabd8d7o5WzQ2s4lS69QxPh3gijk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mrS+KpyCQE5y2aUwIwIuhPGSJRJPmbFkIOx8Yn/ZGxegLJNdcMsgfGkUz03GiOaevptunayDpEkg1C9kxGO4DikkMsHswEYvxHbHScbuoSwOmKM/IUDcz2lj66KezwukvAqj+l9TntfcrBAg/wx98cUhMFcB8mYkmKK0bhusXkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZPW+TBeK; arc=none smtp.client-ip=209.85.128.43
+	 In-Reply-To:Content-Type; b=MF8bJ++yXKdifqSFGsooVLSWndo6wLPHqPNpGJU1NYW5SaJCS7R7/dZ8frACvLCaMQcy/IK/Qm0eAizFOcyuFUIl/evaD5DaFjgZ3eEZA8JMAgG7GUZVFe202Ith0kMO28JGipHlAZhniWJZxp+X/jI2dTq5p4+mt2wiect8NbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=kxI380NG; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZPW+TBeK"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-410980dfddeso7682295e9.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 11 Feb 2024 08:29:37 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kxI380NG"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4108cbd92b9so8165985e9.1
+        for <linux-sunxi@lists.linux.dev>; Sun, 11 Feb 2024 08:31:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1707668976; x=1708273776; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1707669074; x=1708273874; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=x6Ek3E2TyLbYKHcXoAZ9+3KemEFhPZl2CevDjH4XeHA=;
-        b=ZPW+TBeK5JZ/u3fc/PtoewwhhUKjCA5B/M1YsGnOwwXkjtW/ARQnr6xo7Jvn6hmOFK
-         +Zk6CXLQf6NN9QsC4zdXZq9v/rfxcF8rzf87135avxRHsORw27jyiSTwJH3uJvsx5xOG
-         tlUqFtp+T3/ANIm0BoaIz5UKGwngJ3Y0s0RIKicjUE0aOIhgmIZvusBGgD5VuiNu0vFA
-         B801wR2xjqqWi4y5fl+G5VMoKh/W5eJswWOnO/jbwlqi5bTKNwOja3neup3JlP2n5UDU
-         dUJSYilWRrKIuGZErEcnXLTMHVWEWf9QBU4R8ybYpwwiFujc/aEdHWcRHFwbv328b/Ue
-         MV6g==
+        bh=mOhWANwOKYdeEfL69UEuiwITCvq91KBON9rm558EAiU=;
+        b=kxI380NG31Xx+u16NUWXuo4yHCGNW1+Ko17RCf4yYkuToWMPalbe2CNWtosE/+VnIH
+         7mCgFFLuOvypQ3p/E8/zvW6kSk//RvsTtWxdCgV6V4qsQ20tzvokMMkoJ3G/5bEPIDhs
+         06g8zFz4M/CnjhJHeVPs6pk773nLtbUGv9KBTRjFYnh/O2kjmRet4zOlX97geSLmzQI8
+         VvofiB8fp8e0UhyJGgQBoL5XaMJDFbks+C+IKQmqRITt3DlA6/krJWXrqq9fbYd9o3Jy
+         081PznFhAD8PNMxcjGL5hWDBUmayCsyB1/J2erZiuT+3LnggqE81PmG1ouuJ3vW0K+9/
+         rbsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707668976; x=1708273776;
+        d=1e100.net; s=20230601; t=1707669074; x=1708273874;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=x6Ek3E2TyLbYKHcXoAZ9+3KemEFhPZl2CevDjH4XeHA=;
-        b=TijTyXH20fQC5BzpNjBkE+2OHcGtYdTQmq2ozGCv/lPppXevMVYOEAVGbSsSWvrSK+
-         GiAR0nGnaSssN3FxCyR3V4ezMSqkP8wD2IswOVq+d+kdxQyyd/qYbKfHnFJnAVUARXFB
-         1DZy9K7j4/ciR0VYr44K0il/M80ws3JZwZqib/+qKjZNK3icfqDbfK0jPBZShiGOibnu
-         trX4kKxnPfgRI1/lwjnNlsod94oWHjNhC+4KBzTjne17Zt2KH1dX1GIekTs0lz7EhFVU
-         H9Wq7Y9NXKaUjCAI36qBv10904ihgM/QYOzVMaf68Fvimwi8mxtAMJHuPs3CkZqgMQsG
-         lMbA==
-X-Forwarded-Encrypted: i=1; AJvYcCVR//tbd3ND2DJkIgIuvpMWKy8Bn17BEn65GkK5ny3wCrnVZ3mdvwewe5yoaEGe2hsTfUeu5PTicuPA/Xb8dYjAkkeSUQ84GmZsR6Y=
-X-Gm-Message-State: AOJu0YwaJqLOaWBkbP9LDI8dsjwDp+KViTWOj8MovZf8m8uuUt45aokJ
-	zMjheoZ7LlKbqurr2KP6+pAc5kZvaIWPgpM4YB16RcdFJ0v5S0a+iWYTj62OWiA=
-X-Google-Smtp-Source: AGHT+IHAbmsyRM4upi92KJ5eBSHIjwARrismq9nRK+rBwUaf7Gw/FoZZ/zLT2lmUAimzAUqbtwovpg==
-X-Received: by 2002:adf:a3cb:0:b0:33b:4b08:65d6 with SMTP id m11-20020adfa3cb000000b0033b4b0865d6mr3039099wrb.51.1707668975675;
-        Sun, 11 Feb 2024 08:29:35 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWx8cT1244pCJnZBUapF6hDrZDiYbS7Gm3QeBrz91QzEYUJI05iAgRx+EPXfXHjR5DA+CnNwxBOWo1h7Mxt1ppR4ELBoP/SVB8BF3Tjl2rvQb0XlTLPDqRx1BDfsPxsYq9k5qfBtqmQic9Wg3R9SvTo7T/bjpqVPBRduyDcK5Jda9PnMc0iUMsyxSRiOuWVKgCFG9YzxTpWNr0r+ggeVAF/invbXyDOkCHWWoJ0Mfq6NoGozFpocqyItxGHuCS0UCbU1qR82Hv1XtYvg7KtI67WDMuAuf1LeydzL8EK4/oHPjOmrzdzU4muN6/01gVXdVT+/p58eM7vc3MzlvrisqX6N/arxRzEnuLi1KhspRUeNQo/4sJQSHVZu9/iALUS66oTNY/FO/Pg9qL/hVTQp3BUkw==
+        bh=mOhWANwOKYdeEfL69UEuiwITCvq91KBON9rm558EAiU=;
+        b=loYVwBg7VsQr9pBViG3HMObZAeRGJhjM+5W/P8YL7vV7v0kvU2+XS4e8aXOD+EXOd5
+         pCAqU/zEG37aox7ipDObHRIUUEIljNxODisW+NnNrfHlRw64PgIPlcpcTJgVDTHQ1D8B
+         8FC3L/xRG3H8PxrbCeXz134IIjsO2WPcWnN6rArLxTpHHC9xZZf9I6j4TyK0EzysXJPc
+         Rxsqshcp+Ce53zwd1yJc70Uzprwj6YQqXlBqO/LECAeuWkySty68G1U1C06SOAYsYo4X
+         Ol4aQa9OI064718Du7bbaL1996Qs7wHzzqbe7MPMsx59q8mt1oycJ13+ioMVuPY2UCVZ
+         sRUA==
+X-Gm-Message-State: AOJu0YyHtCtQ8DaEFALHBjAydMh6twGkrtfr3WSC1TWga6wfyxxhXq/G
+	VCBaWJecdw7lYjt8evlUxh/EMzjzwBaYcVH5it+FXs+urVBKyBLckX5zx1hTwPA=
+X-Google-Smtp-Source: AGHT+IFfk+8ej04a/5UZQVhERRrmlv0ana7p+b6Ch8k8V9/W76I9B9x/wX2V8AkSH0ynfzirvbSftA==
+X-Received: by 2002:a05:600c:444f:b0:410:c791:2c64 with SMTP id v15-20020a05600c444f00b00410c7912c64mr1259756wmn.15.1707669074004;
+        Sun, 11 Feb 2024 08:31:14 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWux6/jxMCnx7mahXSKEb+xjVV3KhloU4fdl8qD85lI9jz4bPugReD+jPckHbIh4TtBhOgyA066CB1yV9iF0W+u1E5yXPKLvGZMzGiVDfrWogg3dmltwCLT705R2CWYnpU+fQvbUtXGJv1En0VnaF1oNKgJ0Y5xw5VBtVDhBm4OG2UWZqFRdMadf0GVwKPIQBUPZDrsP/xwY6f6MAS1LFxp+R9DOWy7LopMJHn6m86Uxh4xtlGcUDB0ew5tDWKS6tHWinzHaMlUK77ei3OY1V4tI2LGjKHB1/LbKD5Ao0umLAYqz4/HUWrIxs3DI1sxgWziMjZCELhU9czwQ6ddz6fhl+5YZELruhFCIv8yg6JktHrCrbw80yXexvuumrWVdPp01KV8o99IZqxQqacwb/qBdBsk4zYvEvh5GL/DqqC6lTUoIGW6IaYGSZJd8vr2bJwEIT5aW9/022ZYnljUsjbyt79RelIB01wHPYpLLPPaSp9fTOGJti9JEKmMgLixdci3edtH7BIR26UcxIUz5fb48kEFJgKif9ClNDW+vwgLsAeNUVBMz/k4WBGI+Ko5GriIm5SpordcYV6Ol5CV5e4O7buDtJc3Y7ri584AWRZ4Ah7mGoJpKjdhm47okPs/V1co2QGOEkSDC7GBF4U=
 Received: from [192.168.1.20] ([178.197.223.6])
-        by smtp.gmail.com with ESMTPSA id l9-20020a05600c1d0900b00410ab50f70fsm2806503wms.15.2024.02.11.08.29.33
+        by smtp.gmail.com with ESMTPSA id l9-20020a05600c1d0900b00410ab50f70fsm2806503wms.15.2024.02.11.08.31.11
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 11 Feb 2024 08:29:35 -0800 (PST)
-Message-ID: <7ee6df91-76fa-44e8-ab81-fd4b63b58ce9@linaro.org>
-Date: Sun, 11 Feb 2024 17:29:32 +0100
+        Sun, 11 Feb 2024 08:31:13 -0800 (PST)
+Message-ID: <647146ad-337e-4dc4-9db0-18daf4ef46d6@linaro.org>
+Date: Sun, 11 Feb 2024 17:31:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -62,18 +61,25 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] dt-bindings: arm: sunxi: Add Sipeed Longan Module
- 3H and Longan Pi 3H
+Subject: Re: [PATCH v4 2/7] dt-bindings: thermal: sun8i: Add H616 THS
+ controller
 Content-Language: en-US
-To: Jisheng Zhang <jszhang@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+To: Andre Przywara <andre.przywara@arm.com>,
+ Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>,
+ Lukasz Luba <lukasz.luba@arm.com>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Andre Przywara <andre.przywara@arm.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20240211081739.395-1-jszhang@kernel.org>
- <20240211081739.395-2-jszhang@kernel.org>
+ Conor Dooley <conor+dt@kernel.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ Maksim Kiselev <bigunclemax@gmail.com>, Bob McChesney
+ <bob@electricworry.net>, linux-pm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+References: <20240209144221.3602382-1-andre.przywara@arm.com>
+ <20240209144221.3602382-3-andre.przywara@arm.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -119,33 +125,24 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240211081739.395-2-jszhang@kernel.org>
+In-Reply-To: <20240209144221.3602382-3-andre.przywara@arm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 11/02/2024 09:17, Jisheng Zhang wrote:
-> Add name & compatible for the Sipeed Longan Module 3H and Longan PI 3H
-> board.
+On 09/02/2024 15:42, Andre Przywara wrote:
+> From: Martin Botka <martin.botka@somainline.org>
 > 
-> Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
-> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+> This controller is similar to the H6, but covers four sensors and uses
+> slightly different calibration methods.
+> Also the H616 requires to poke a bit in the SYS_CFG register range for
+> correct operation, so add a phandle property to point there.
+> 
+> Signed-off-by: Martin Botka <martin.botka@somainline.org>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 > ---
 
-This is a friendly reminder during the review process.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-It looks like you received a tag and forgot to add it.
-
-If you do not know the process, here is a short explanation:
-Please add Acked-by/Reviewed-by/Tested-by tags when posting new
-versions, under or above your Signed-off-by tag. Tag is "received", when
-provided in a message replied to you on the mailing list. Tools like b4
-can help here. However, there's no need to repost patches *only* to add
-the tags. The upstream maintainer will do that for tags received on the
-version they apply.
-
-https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
-
-If a tag was not added on purpose, please state why and what changed.
 Best regards,
 Krzysztof
 
