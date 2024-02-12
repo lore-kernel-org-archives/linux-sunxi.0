@@ -1,57 +1,57 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91C234644F
-	for <linux-sunxi@lists.linux.dev>; Mon, 12 Feb 2024 20:47:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F24C4C61B
+	for <linux-sunxi@lists.linux.dev>; Mon, 12 Feb 2024 21:12:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707770827; cv=none; b=OqLegoX0To4lWywV5bvp5e3XYMmETiZIEbGkODNtHxUlQdQEj9ZTqQVF+iWNKZy88zwQxcPLu0iCdK92mnIb/k164zRQ1O+WUQfjqIc3bu286kDQpARNBdhNn9rsppMtFTuAecsX/shHJg4hJkk1AuPiygmJ+t1tANDiS+ffrE0=
+	t=1707772332; cv=none; b=PO6HAGsVZaTpHXfj12/dLmrWAsOyquLJ8HOnTxNGi/Wf4I7xi7CyPIVDdsM2p8ZfMOmLHqqNL7kZZ5qGOs6gQ4+jnYpiwZ8f51UYK3fHqLEmBQ/D4vMwoG6Fu0kjV+7vsPSrw3rScNWoZZc6uyIChs7XkdWTNZDGSVFFIOD6dDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707770827; c=relaxed/simple;
-	bh=fn/5FyBTMnahqzrbwfSbO2KeE7u5oVugq+iHM/NMsHE=;
+	s=arc-20240116; t=1707772332; c=relaxed/simple;
+	bh=h2MtV/MK2Odk0xUTraQ/KlPfHPspWCPAQzwp7rljY2E=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CEKpRUvnNFhnFN1OzYBt8k5UnuNU+ao6M0kBXhnfPhvj4+PJ2AcFByawUCMXGbID2RaAQkmVHMOfLdZU21mlo9vkz2MnwqEzTLad0RD9ZNH+xk1Pncs4Ehn9ChU2YwFZV4jWcL24zuPtmJzJGgG1Hc8Z85vOh36OYhBn5sR2Sb0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U05XGiCk; arc=none smtp.client-ip=209.85.221.43
+	 MIME-Version:Content-Type; b=UDkq/8GgISRc3ti0/xAqvZ+er+zAe55uRypTFjuMvFxqXLjU8HULlnMD5zhJrnWNCtfBZeWCOZFacyoWyAkEGTTdqx9RhEiUYN3a/2THYmZ7jEWE8l6lGQnJtlJ7yoooY2wuOnsGGlF2LEeOEs9n6Ekd3HhBz1M1p0t4+WwAhSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XfY5Bwad; arc=none smtp.client-ip=209.85.166.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U05XGiCk"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-33b7e136a48so865731f8f.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 12 Feb 2024 12:47:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XfY5Bwad"
+Received: by mail-il1-f173.google.com with SMTP id e9e14a558f8ab-3640487d9c4so5009085ab.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 12 Feb 2024 13:12:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707770824; x=1708375624; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1707772329; x=1708377129; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4Wilr3QrMZJFwg5LcPt9WBQXjwBqyBsWNwp0pkv/Cww=;
-        b=U05XGiCkfoytnQfNL0We2l625JRO6K30gzFCk4EKJLzLqQlVTJD/Wg4/LygqWm31uA
-         zNlrznb8P0MUz17GznklPsS2cOd4ApyXIp8aoAlDx93QucHytueQyluVE6gKTfqznbli
-         pnYbA534yjUzVYamfVrwTjcHv/LD9EUlGYspe0mfe3fBM7YuhS6E7cciB2WguMrTr8lo
-         Hq+i6LgoL8msoWlttugjIwzrp4pcqcstKLJV0etRyqYNpqaw5HJKaXFAqE7Hf3D8C+gJ
-         WpKD/yRz6pnhkJi1qVko9VPSKHHyIhL/FowrSUcNycdx0g4861WcZiaTYA1CyaOElbuU
-         JFAA==
+        bh=crkWvWwMlvDdItEx33Ai/IPFs930CB0fo5NxvXMgpxs=;
+        b=XfY5Bwady/NwAnFECCff/h/ongxX+BboG/DI85Rzr2Ub/O8xXr1HcyRPHR10Kc+imo
+         /7geWyZymwsL88pgWCNYftX/+dzq7ftMHcKoBJ/KFlkjqDdSGpQhC3kZ804dsi4YIdtp
+         pyEu84pJSSOwueF8ze3vFOWLQt4OgXUczkneFw/IDaceXqBryNIToo5Q1R4RXmm8JZ1/
+         u3vGFycLwX4ZFmoOPVBef7W0ei2BZ7sZ8avgkmU9nvDapojCKl0ljpKKMG+fUscSo/Ol
+         6VDMNpTmMTUUgOBEuZWErzMaWgbyQrghMPe4WVbrLioaRD3kteCOv30m2kbDOll2qXgx
+         z2qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707770824; x=1708375624;
+        d=1e100.net; s=20230601; t=1707772329; x=1708377129;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=4Wilr3QrMZJFwg5LcPt9WBQXjwBqyBsWNwp0pkv/Cww=;
-        b=XmlKfLkkbhj8W7eVmbCnbrfx3HdX1Mig9Xccrk0tKQnYsoQP0x+RPYM9/X7VhedUYz
-         M0qfCzuvhQ1vfzvsXfeElD/etKLIurv5ehRwI+7PpKXzX7G5MI5jiskJy4e9au3hWcK1
-         LRBjYADHePGBhxBWRLm4934EBbKnMt9ChQm3cpr53IAqM8TQfEfwsmEiIGgUo0aFe8pA
-         7XdgekBS9FI34mU8lu6+3gPOvFlJqd4oL06LE2a3o8zHUUyBLQpHTBihJ9eZqsTI9Shf
-         ec7ZhqK6uWeJHMESKZDbzN51SWz+8HkT42EuUbdvPav4l2ynagjJy1aKFlGyuS/fEBR0
-         cwkA==
-X-Gm-Message-State: AOJu0YybnUmra4EwSlz/wNhMQhWRtkofS6g+HyjAQVZee+NB/4YKwF8m
-	po4SS1CQ7DU+c6Rjb2UC14csX+fPf2WMe7oGM6LeQlydN6wcmOE5N2lAzKLP
-X-Google-Smtp-Source: AGHT+IHQl8C8lV6IrF9Twikea11MfjHKeNl0A2ayoFaUaUSjFQctY/JUdfxlgWGuijlnjz/l7OG8KQ==
-X-Received: by 2002:adf:db4a:0:b0:33b:3bad:d3ee with SMTP id f10-20020adfdb4a000000b0033b3badd3eemr5329806wrj.43.1707770823491;
-        Mon, 12 Feb 2024 12:47:03 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUGijjUNoZKPS9rcc3LIBg6g+m0cUf2oDK2qWYWYsKjR9Uwl61nvvPEjrpEe288Kyrl6ndLcRoJagr7jkv9oJCmOkmMihcxAHmQ0g0HUsGlLSyPJT0G3mYCwMgl18CUvVeSQFDpTs9CeKbvG5QCXjBUnZbRMlReYQE8SblNakkPflYhHUUre/JRVTORIo9RmEwZdmRyP1aZRUHkUE5Kdi3trY36GZHoBn4X9YTwLxifE2D2gMWIXQLFATFB2zrvQHU434BpaBl0qv3jYMtwUFexVrlHDYJCTJi1KhMldp5NA9QXjmUcLbXcpbPpqwrVytsme8OOxv+Hv2crtoxmS1ftdyrKDl8l/yuupckBJNlAiW4SyOIoLdI=
+        bh=crkWvWwMlvDdItEx33Ai/IPFs930CB0fo5NxvXMgpxs=;
+        b=qJTns3PLrQ+Erlho0IznaP4hCkVu/qfw8Ia4tdiQh+5/N0ANQ/nDwOTx0qNWKyINPU
+         MVG4XHWBti3GQyNH6m4Di/zm/CT67JdItm/Idn/C8xcsY+sQRqpPCnXe8l2vCJvo3mer
+         8jemLgwnl9ZR45ciNyHF/X/vAkiglxRkbTD/CtD+af0KY98SFB/Sk/b8hMS6B/3HU+OX
+         EzRcUA3109zlV5msdsyeNm2MUBSfj0kpdWstyvSs5hVOHZ65uhypI1UkeTwX/3urFIGg
+         V6PlXTfKL/4hOvMNTdAsvct/we5mVbrXKyslv21Soju5fHKDzxVElOfW2q0c654Oep7I
+         Ji4Q==
+X-Gm-Message-State: AOJu0YwSLW89CdCGh3GjTw3p/iJ+wzuuqyux2glKZYbS9nlzVWxpZdR0
+	A+wbZM87+bL/cjItDZKx3KTsS5DyUah31Mx9Ec6szkEAc0zCEpCV
+X-Google-Smtp-Source: AGHT+IEsFxP2wf+CqyRsyHIhdyhg6SpWiZQ2tz1EtmrrYtkThu5pFY+Z/6qwEZdwy8WVxZujb8uIIQ==
+X-Received: by 2002:a92:c8c8:0:b0:363:a61b:52ba with SMTP id c8-20020a92c8c8000000b00363a61b52bamr9094902ilq.9.1707772329458;
+        Mon, 12 Feb 2024 13:12:09 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWZUJyMD3BIlUtvrM3sjdysoX1iZhYCUYCdDIih1hsVuMH0lXwQxABBNHke5UPD7IJTlw8aY9uzWC3lsfcC4qyLJmS7Qx4T4N8lDpuhjo177D0ZJ5Haf/j8KSpxEkU9zhAecvKzPrjZ4DmYP05ghRLShI042R/c3e5ZXD9/iC0irsJi2VHMSfH7iAw/I8yYi3eYqtHxkLx+O42xtDXIHhDVNbv/H5faUNNOoOzepT9ocug9aUtze2sd1jQKkzNqSeYL6znPw5S8QL8mlhajZRexueu9TTn5J1dxk2AXx39riZzU0Utt3xvE8s3kkh0zflLTfwxKft/4Vsl9Ir/WCYwkT+yHON86o7/3uWGHpSRC9IN32hJLBSQ=
 Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id bt25-20020a056000081900b0033b792ed609sm5526948wrb.91.2024.02.12.12.47.01
+        by smtp.gmail.com with ESMTPSA id a5-20020a056e02120500b00363c2249c51sm2050733ilq.87.2024.02.12.13.12.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Feb 2024 12:47:02 -0800 (PST)
+        Mon, 12 Feb 2024 13:12:08 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -61,14 +61,12 @@ To: Rob Herring <robh+dt@kernel.org>,
 Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject:
- Re: [PATCH v3 2/2] arm64: dts: allwinner: h616: Add Sipeed Longan SoM 3H and
- Pi 3H board support
-Date: Mon, 12 Feb 2024 21:47:01 +0100
-Message-ID: <2596781.Lt9SDvczpP@jernej-laptop>
-In-Reply-To: <20240211081739.395-3-jszhang@kernel.org>
-References:
- <20240211081739.395-1-jszhang@kernel.org>
- <20240211081739.395-3-jszhang@kernel.org>
+ Re: [PATCH v3 0/2] arm64: dts: allwinner: h618: Add Sipeed Longan SoM 3H and
+ Pi 3H board
+Date: Mon, 12 Feb 2024 22:12:04 +0100
+Message-ID: <2183605.Mh6RI2rZIc@jernej-laptop>
+In-Reply-To: <20240211081739.395-1-jszhang@kernel.org>
+References: <20240211081739.395-1-jszhang@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -78,7 +76,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne nedelja, 11. februar 2024 ob 09:17:39 CET je Jisheng Zhang napisal(a):
+Dne nedelja, 11. februar 2024 ob 09:17:37 CET je Jisheng Zhang napisal(a):
+> Add Sipeed Longan SoM 3H and Longan Pi 3H board support.
+> 
 > The Sipeed Longan SoM 3H is a system on module based on the Allwinner
 > H618 SoC. The SoM features:
 > 
@@ -97,15 +97,45 @@ Dne nedelja, 11. februar 2024 ob 09:17:39 CET je Jisheng Zhang napisal(a):
 > - 1Gbps Ethernet port (via RTL8211 PHY)
 > - HDMI port
 > - WiFi/BT chip
-> 
-> Add the devicetree file describing the currently supported features,
-> namely PMIC, LEDs, UART, SD card, eMMC, USB and Ethernet.
-> 
-> Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Merged, thanks!
 
 Best regards,
 Jernej
+
+> 
+> Since v2:
+>   - collect Reviewed-by tag
+>   - add vin-supply property to reg_vcc3v3
+>   - fix reg_vcc3v3 voltage value
+>   - remove "interrupt-parent" and "interrupts" properties from axp313
+>     node
+> 
+> Since v1:
+>   - Use const rather than enum for "sipeed,longan-pi-3h" dt-binding
+>   - remove dts-v1, model and compatible from SoM dtsi
+>   - add interrupt related properties to axp313 dt node
+>   - use "vcc-1v8-pll" and "vcc-3v3-io" as regulator name
+>   - add dt node for board's discrete 5V->3.3V regulator and use it for
+>     eth\tfcard 3.3v supply
+>   - add usb2_vbus-supply property
+> 
+> 
+> Jisheng Zhang (2):
+>   dt-bindings: arm: sunxi: Add Sipeed Longan Module 3H and Longan Pi 3H
+>   arm64: dts: allwinner: h616: Add Sipeed Longan SoM 3H and Pi 3H board
+>     support
+> 
+>  .../devicetree/bindings/arm/sunxi.yaml        |   6 +
+>  arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+>  .../sun50i-h618-longan-module-3h.dtsi         |  75 +++++++++
+>  .../dts/allwinner/sun50i-h618-longanpi-3h.dts | 144 ++++++++++++++++++
+>  4 files changed, 226 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h618-longan-module-3h.dtsi
+>  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dts
+> 
+> 
+
+
 
 
