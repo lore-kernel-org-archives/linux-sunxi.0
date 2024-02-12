@@ -1,112 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70F973F9FD;
-	Mon, 12 Feb 2024 17:34:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91C234644F
+	for <linux-sunxi@lists.linux.dev>; Mon, 12 Feb 2024 20:47:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707759261; cv=none; b=FO0XOQlty+EtQGOG7kxEbojWXEDSCk2/bcCg1khSL2EZ3tnqm6dCxUzX4XeV/vkuKfHseZgyZKwHA8EqwzlkOGu29T2Ta4oCmDM9IL6vw5UAA8lrtISg48BWy0D67RZJSKevmH1+rJYBfwsKnv/7FgfDNRMfc7CyMtnlLyPG2BU=
+	t=1707770827; cv=none; b=OqLegoX0To4lWywV5bvp5e3XYMmETiZIEbGkODNtHxUlQdQEj9ZTqQVF+iWNKZy88zwQxcPLu0iCdK92mnIb/k164zRQ1O+WUQfjqIc3bu286kDQpARNBdhNn9rsppMtFTuAecsX/shHJg4hJkk1AuPiygmJ+t1tANDiS+ffrE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707759261; c=relaxed/simple;
-	bh=viUeDktGlffUbGubUITq4jf7HIhZr28ZVIahNTPb2L4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bVjsRczym+ZMm8kcfykh1t0KU5IqdKmo3wz6Z12fo9MZ+TyhrakbLeJ+rXce7yd8cDVFJ34vNz3inIXaalyLy+kfkOpm9+ZcUrMDXBWe/sYZxMPPextL81hgO0PK4TZC3Q1GhZcttMC6rSRSMJNNwcDy1sTnBsozLziR4XC8rpI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gIj5PTad; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1707770827; c=relaxed/simple;
+	bh=fn/5FyBTMnahqzrbwfSbO2KeE7u5oVugq+iHM/NMsHE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CEKpRUvnNFhnFN1OzYBt8k5UnuNU+ao6M0kBXhnfPhvj4+PJ2AcFByawUCMXGbID2RaAQkmVHMOfLdZU21mlo9vkz2MnwqEzTLad0RD9ZNH+xk1Pncs4Ehn9ChU2YwFZV4jWcL24zuPtmJzJGgG1Hc8Z85vOh36OYhBn5sR2Sb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U05XGiCk; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gIj5PTad"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63103C433C7;
-	Mon, 12 Feb 2024 17:34:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707759261;
-	bh=viUeDktGlffUbGubUITq4jf7HIhZr28ZVIahNTPb2L4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gIj5PTad9hBa3fRiojsZ1WNwkpsstBZkTZiK3YdeztobrVFxWNflW9XbyFVv1LrkT
-	 iIzVaD9mkeho6FcDtBfX291iLnAH35nWl+Nro5LZjwt3Mnr3TSw5hCDy3+xG+rC23Q
-	 xJLV4N9xHGUm5DXEJntBil+DYOUhXs7HYTLiktLwRku+57axhNCfhh+OhSso7LNdYI
-	 wxWuMBt+Ya3IKwFih1rujFdY09P73vpwLRZc3l88IL6pqjY+xB4L27Z3Z889Ry1BK+
-	 atPpyleg/MPckkO3YhZ0HpPcLyS4lZKKWwDdCU/FIkIyypwMNMSWeh4dG0qgo5rvBy
-	 YSQPfjx67j7tA==
-Date: Mon, 12 Feb 2024 17:34:16 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Jisheng Zhang <jszhang@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Andre Przywara <andre.przywara@arm.com>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] dt-bindings: arm: sunxi: Add Sipeed Longan Module
- 3H and Longan Pi 3H
-Message-ID: <20240212-stowaway-cartel-3aee8992cbd3@spud>
-References: <20240211081739.395-1-jszhang@kernel.org>
- <20240211081739.395-2-jszhang@kernel.org>
- <7ee6df91-76fa-44e8-ab81-fd4b63b58ce9@linaro.org>
- <Zcn0POS-4BFGlRm9@xhacker>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U05XGiCk"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-33b7e136a48so865731f8f.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 12 Feb 2024 12:47:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707770824; x=1708375624; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4Wilr3QrMZJFwg5LcPt9WBQXjwBqyBsWNwp0pkv/Cww=;
+        b=U05XGiCkfoytnQfNL0We2l625JRO6K30gzFCk4EKJLzLqQlVTJD/Wg4/LygqWm31uA
+         zNlrznb8P0MUz17GznklPsS2cOd4ApyXIp8aoAlDx93QucHytueQyluVE6gKTfqznbli
+         pnYbA534yjUzVYamfVrwTjcHv/LD9EUlGYspe0mfe3fBM7YuhS6E7cciB2WguMrTr8lo
+         Hq+i6LgoL8msoWlttugjIwzrp4pcqcstKLJV0etRyqYNpqaw5HJKaXFAqE7Hf3D8C+gJ
+         WpKD/yRz6pnhkJi1qVko9VPSKHHyIhL/FowrSUcNycdx0g4861WcZiaTYA1CyaOElbuU
+         JFAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707770824; x=1708375624;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4Wilr3QrMZJFwg5LcPt9WBQXjwBqyBsWNwp0pkv/Cww=;
+        b=XmlKfLkkbhj8W7eVmbCnbrfx3HdX1Mig9Xccrk0tKQnYsoQP0x+RPYM9/X7VhedUYz
+         M0qfCzuvhQ1vfzvsXfeElD/etKLIurv5ehRwI+7PpKXzX7G5MI5jiskJy4e9au3hWcK1
+         LRBjYADHePGBhxBWRLm4934EBbKnMt9ChQm3cpr53IAqM8TQfEfwsmEiIGgUo0aFe8pA
+         7XdgekBS9FI34mU8lu6+3gPOvFlJqd4oL06LE2a3o8zHUUyBLQpHTBihJ9eZqsTI9Shf
+         ec7ZhqK6uWeJHMESKZDbzN51SWz+8HkT42EuUbdvPav4l2ynagjJy1aKFlGyuS/fEBR0
+         cwkA==
+X-Gm-Message-State: AOJu0YybnUmra4EwSlz/wNhMQhWRtkofS6g+HyjAQVZee+NB/4YKwF8m
+	po4SS1CQ7DU+c6Rjb2UC14csX+fPf2WMe7oGM6LeQlydN6wcmOE5N2lAzKLP
+X-Google-Smtp-Source: AGHT+IHQl8C8lV6IrF9Twikea11MfjHKeNl0A2ayoFaUaUSjFQctY/JUdfxlgWGuijlnjz/l7OG8KQ==
+X-Received: by 2002:adf:db4a:0:b0:33b:3bad:d3ee with SMTP id f10-20020adfdb4a000000b0033b3badd3eemr5329806wrj.43.1707770823491;
+        Mon, 12 Feb 2024 12:47:03 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUGijjUNoZKPS9rcc3LIBg6g+m0cUf2oDK2qWYWYsKjR9Uwl61nvvPEjrpEe288Kyrl6ndLcRoJagr7jkv9oJCmOkmMihcxAHmQ0g0HUsGlLSyPJT0G3mYCwMgl18CUvVeSQFDpTs9CeKbvG5QCXjBUnZbRMlReYQE8SblNakkPflYhHUUre/JRVTORIo9RmEwZdmRyP1aZRUHkUE5Kdi3trY36GZHoBn4X9YTwLxifE2D2gMWIXQLFATFB2zrvQHU434BpaBl0qv3jYMtwUFexVrlHDYJCTJi1KhMldp5NA9QXjmUcLbXcpbPpqwrVytsme8OOxv+Hv2crtoxmS1ftdyrKDl8l/yuupckBJNlAiW4SyOIoLdI=
+Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
+        by smtp.gmail.com with ESMTPSA id bt25-20020a056000081900b0033b792ed609sm5526948wrb.91.2024.02.12.12.47.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Feb 2024 12:47:02 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Andre Przywara <andre.przywara@arm.com>, Jisheng Zhang <jszhang@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject:
+ Re: [PATCH v3 2/2] arm64: dts: allwinner: h616: Add Sipeed Longan SoM 3H and
+ Pi 3H board support
+Date: Mon, 12 Feb 2024 21:47:01 +0100
+Message-ID: <2596781.Lt9SDvczpP@jernej-laptop>
+In-Reply-To: <20240211081739.395-3-jszhang@kernel.org>
+References:
+ <20240211081739.395-1-jszhang@kernel.org>
+ <20240211081739.395-3-jszhang@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="0uyXRW8V1u8HTXNs"
-Content-Disposition: inline
-In-Reply-To: <Zcn0POS-4BFGlRm9@xhacker>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+
+Dne nedelja, 11. februar 2024 ob 09:17:39 CET je Jisheng Zhang napisal(a):
+> The Sipeed Longan SoM 3H is a system on module based on the Allwinner
+> H618 SoC. The SoM features:
+> 
+> - Four ARM Cortex-A53 cores, Mali-G31 MP2 GPU
+> - 2/4 GiB LPDDR4 DRAM SoMs
+> - AXP313a PMIC
+> - eMMC
+> 
+> The Sipeed Longan PI 3H is a development board based on the above SoM.
+> The board features:
+> - Longan SoM 3H
+> - Raspberry-Pi-1 compatible GPIO header
+> - 2 USB 2.0 host port
+> - 1 USB 2.0 type C port (power supply + OTG)
+> - MicroSD slot
+> - 1Gbps Ethernet port (via RTL8211 PHY)
+> - HDMI port
+> - WiFi/BT chip
+> 
+> Add the devicetree file describing the currently supported features,
+> namely PMIC, LEDs, UART, SD card, eMMC, USB and Ethernet.
+> 
+> Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
+
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+
+Best regards,
+Jernej
 
 
---0uyXRW8V1u8HTXNs
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Feb 12, 2024 at 06:34:36PM +0800, Jisheng Zhang wrote:
-> On Sun, Feb 11, 2024 at 05:29:32PM +0100, Krzysztof Kozlowski wrote:
-> > On 11/02/2024 09:17, Jisheng Zhang wrote:
-> > > Add name & compatible for the Sipeed Longan Module 3H and Longan PI 3H
-> > > board.
-> > >=20
-> > > Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
-> > > Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-> > > ---
-> >=20
-> > This is a friendly reminder during the review process.
->=20
-> Oops, I forgot to add Conor's ack...
-> >=20
-> > It looks like you received a tag and forgot to add it.
-> >=20
-> > If you do not know the process, here is a short explanation:
-> > Please add Acked-by/Reviewed-by/Tested-by tags when posting new
-> > versions, under or above your Signed-off-by tag. Tag is "received", when
-> > provided in a message replied to you on the mailing list. Tools like b4
-> > can help here. However, there's no need to repost patches *only* to add
-> > the tags. The upstream maintainer will do that for tags received on the
-> > version they apply.
->=20
-> IIRC, the b4 can only help on the latest version. If I missed the ack
-> in v3, the ack tag will be lost. So how to handle this case? repost or
-> Conor gave an ack to v3 again?
-
-I think what the form letter means is that b4 could've been used to
-update the tags before you sent out this version.
-
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-
-Thanks,
-Conor.
-
---0uyXRW8V1u8HTXNs
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZcpWlwAKCRB4tDGHoIJi
-0vfmAP9vnhNT21FPEZvJBVqAq/zGnEYv66OKEvr9wmbMN0SKhgEAz5hJd9Pze5gc
-WNJ0kmlU85hnwoHnzp0By4eM5hPO6Qw=
-=Vnxj
------END PGP SIGNATURE-----
-
---0uyXRW8V1u8HTXNs--
