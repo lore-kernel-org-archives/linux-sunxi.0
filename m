@@ -1,179 +1,203 @@
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F027D3C067
-	for <linux-sunxi@lists.linux.dev>; Mon, 12 Feb 2024 13:29:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50A173CF49
+	for <linux-sunxi@lists.linux.dev>; Mon, 12 Feb 2024 15:49:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707744574; cv=none; b=jjpY6GU5msKho7tRDv4/a7vhDLKGJvjsuB65Zh90BnCSmXQ2S2SxPOuHNuDj04G7GghWy0c9FruY1f4xpGAjDjhTHh77xCT9UD+gc29H1DngFB97CvnDDy3Y/l1cjfV20P1sPxYfLT3UUPEdYpmbjFp2nk6aMb0bKJXzHdA7+Z8=
+	t=1707752983; cv=none; b=Pv8hg3ui0JaONN1zILoNFfXc3l+CrkVuHkfMHi2aWze6AyqEV7W/6SUAnygdZ6oG1hhyDm721hxcQnh/hFpsYK7zLOVN1jyvRiGxl+GBM3rHqLSl8pVAW0Ik+sQ+zZ+0HV0jQyPvYiIvp8SmKa88h7RMYL/DaEw8DB7GBU4P2sM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707744574; c=relaxed/simple;
-	bh=U2euNzWu3qoY7qsLi74++0YSoMrQP1238IGSIcTeH/M=;
-	h=References:From:To:Cc:Subject:In-reply-to:Date:Message-ID:
-	 MIME-Version:Content-Type; b=CY8r02xrSL/dQla7HWMTT8g0N8A2r0C0C7rbPtuuZ+dZqbv5fQoDUeoGI1kinJ+XNKF7wFXOzoZoqcueNw14nkrwtS1iLhgYaNOkogtei6/yDXbC/8pjUsoTGp6YT1YF6rvdsYREjUP0vOYTmFXSMRDPZ0CXUzBHPEnv/Jwn9W4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev; spf=pass smtp.mailfrom=oltmanns.dev; dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b=vw0PaWBD; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oltmanns.dev
+	s=arc-20240116; t=1707752983; c=relaxed/simple;
+	bh=RaXsYzelOZvoa5TGyCbteu+6xy/YY/Aun1Nfajjsacg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HLfrSYGpX8uzRdfSK2e4WZMNNPTPpJGy9ywMPGnh0xky0nxBXHkUwXBoKNFddwV0t/GUgE6NppqeoOEyKEF4s5lR2z+Z4rpdqOXlAmtQ47vl9gPYB/ZJd20hu6TqUb5NfzY/0S8ven3t5Z8quZQYIdWleIpk+AYoP2Xz5JZQMBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RL/orzrv; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b="vw0PaWBD"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4TYQKY3z40z9sbq;
-	Mon, 12 Feb 2024 14:29:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1707744561;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6hQXyKsjxlQOVZTDodnZAiw/5mwBoEpdiKUN3Omtj/4=;
-	b=vw0PaWBD/K1z9/h6KAOxQ33Wa+sXzXwyrc5m8vXDM0DDGmCre4J5jA4GBLZR7mbU47XTIw
-	xmU4VNFK7vajv6HhNe0qeV/VYW0cU6ZN1A9ESzAdmrAYpNG+HsG2hJjuexkJHndxTiZ8dv
-	mzAX4NgZ6Ii525xOHXFDG/DruyFc95+VHeP7H0dzGEwf9wouGAdcNWnWH0dGaQiYojmmdq
-	fmObgubotgbVFOmnNChdzKiMWeCKQXiysg18nifA0/OUb4SJavwo6yv4uruXLn+nA6LQ86
-	k0yfiWnHsdTs68XseNapwFnFCIHwAQc1oBBpyQjNVV+/n7yWOqFwVvR1nOmbOQ==
-References: <20240205-pinephone-pll-fixes-v2-0-96a46a2d8c9b@oltmanns.dev>
- <20240205-pinephone-pll-fixes-v2-5-96a46a2d8c9b@oltmanns.dev>
- <poua4bzyciiwt65sqjf2whqfdumvoe4h3bkjpf64px2vwgumrf@sai73byg2iju>
- <87sf1zxb0s.fsf@oltmanns.dev>
-From: Frank Oltmanns <frank@oltmanns.dev>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RL/orzrv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707752981; x=1739288981;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=RaXsYzelOZvoa5TGyCbteu+6xy/YY/Aun1Nfajjsacg=;
+  b=RL/orzrvXlqP8EY6ifNpMwHX3cEJNtJuK/rutdRdI4jrO8VHkR7EQEZf
+   Mvzn3G16FLqHQ8jaBCJXBWFWonJ9LR/gNdJIPR14Bax0VgEsCj9b7XYnM
+   DTFsseEYqzQu7JYygZC0eDfkAE36OLXd5XgJ3Wm093Z7rtqdxNXLMPLYQ
+   fA+pNtGSm+EEuTwNT9KV1QSr3lCcr9bgJEnvoCca+bxJaELpSIhs+Sala
+   V+IeKWeLEGi98hP1pwONlh/12H3yMjjkmbR7g4jXmjQJAEaKOEOS/2a+u
+   ++UyyZtU7oWJ3KtKUeM/yjZq6kvfWuXvCP3DaXqEVT6YVpaFRPU/9rXdq
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="24202760"
+X-IronPort-AV: E=Sophos;i="6.06,264,1705392000"; 
+   d="scan'208";a="24202760"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2024 07:49:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="825840546"
+X-IronPort-AV: E=Sophos;i="6.06,264,1705392000"; 
+   d="scan'208";a="825840546"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+  by orsmga001.jf.intel.com with SMTP; 12 Feb 2024 07:49:34 -0800
+Received: by stinkbox (sSMTP sendmail emulation); Mon, 12 Feb 2024 17:49:33 +0200
+Date: Mon, 12 Feb 2024 17:49:33 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
 To: Maxime Ripard <mripard@kernel.org>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Guido
-  =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>, Purism Kernel Team
- <kernel@puri.sm>, Ondrej
-  Jirman <megi@xff.cz>, Neil Armstrong <neil.armstrong@linaro.org>, Jessica
-  Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 5/6] drm/panel: st7703: Drive XBD599 panel at higher
- clock rate
-In-reply-to: <87sf1zxb0s.fsf@oltmanns.dev>
-Date: Mon, 12 Feb 2024 14:29:14 +0100
-Message-ID: <87o7clyfo5.fsf@oltmanns.dev>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>,
+	Sandy Huang <hjc@rock-chips.com>,
+	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: Re: Re: Re: Re: [PATCH v5 08/44] drm/connector: hdmi: Add
+ Broadcast RGB property
+Message-ID: <Zco-DQaXqae7B1jt@intel.com>
+References: <20231207-kms-hdmi-connector-state-v5-8-6538e19d634d@kernel.org>
+ <20240115143308.GA159345@toolbox>
+ <20240115143720.GA160656@toolbox>
+ <73peztbeeikb3fg6coxu3punxllgtyrmgco34tnxkojtsjbr3s@26bud3sjbcez>
+ <Zb0M_2093UwPXK8y@intel.com>
+ <hez2m57ogqx3yyqk45tzdkvxvhrbdepgm244i4m2aty2xhf5b5@acqgvmxhmmvr>
+ <Zb0aYAapkxQ2kopt@intel.com>
+ <zml6j27skvjmbrfyz7agy5waxajv4p4asbemeexelm3wuv4o7j@xkd2wvnxhbuc>
+ <20240209203435.GB996172@toolbox>
+ <ahfl6f72lpgpsbnrbgvbsh4db4npr2hh36kua2c6krh544hv5r@dndw4hz2mu2g>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ahfl6f72lpgpsbnrbgvbsh4db4npr2hh36kua2c6krh544hv5r@dndw4hz2mu2g>
+X-Patchwork-Hint: comment
+
+On Mon, Feb 12, 2024 at 11:01:07AM +0100, Maxime Ripard wrote:
+> On Fri, Feb 09, 2024 at 09:34:35PM +0100, Sebastian Wick wrote:
+> > On Mon, Feb 05, 2024 at 10:39:38AM +0100, Maxime Ripard wrote:
+> > > On Fri, Feb 02, 2024 at 06:37:52PM +0200, Ville Syrjälä wrote:
+> > > > On Fri, Feb 02, 2024 at 04:59:30PM +0100, Maxime Ripard wrote:
+> > > > > On Fri, Feb 02, 2024 at 05:40:47PM +0200, Ville Syrjälä wrote:
+> > > > > > On Fri, Feb 02, 2024 at 02:01:39PM +0100, Maxime Ripard wrote:
+> > > > > > > Hi,
+> > > > > > > 
+> > > > > > > On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebastian Wick wrote:
+> > > > > > > > > >  /**
+> > > > > > > > > >   * DOC: HDMI connector properties
+> > > > > > > > > >   *
+> > > > > > > > > > + * Broadcast RGB
+> > > > > > > > > > + *      Indicates the RGB Quantization Range (Full vs Limited) used.
+> > > > > > > > > > + *      Infoframes will be generated according to that value.
+> > > > > > > > > > + *
+> > > > > > > > > > + *      The value of this property can be one of the following:
+> > > > > > > > > > + *
+> > > > > > > > > > + *      Automatic:
+> > > > > > > > > > + *              RGB Range is selected automatically based on the mode
+> > > > > > > > > > + *              according to the HDMI specifications.
+> > > > > > > > > > + *
+> > > > > > > > > > + *      Full:
+> > > > > > > > > > + *              Full RGB Range is forced.
+> > > > > > > > > > + *
+> > > > > > > > > > + *      Limited 16:235:
+> > > > > > > > > > + *              Limited RGB Range is forced. Unlike the name suggests,
+> > > > > > > > > > + *              this works for any number of bits-per-component.
+> > > > > > > > > > + *
+> > > > > > > > > > + *      Drivers can set up this property by calling
+> > > > > > > > > > + *      drm_connector_attach_broadcast_rgb_property().
+> > > > > > > > > > + *
+> > > > > > > > > 
+> > > > > > > > > This is a good time to document this in more detail. There might be two
+> > > > > > > > > different things being affected:
+> > > > > > > > > 
+> > > > > > > > > 1. The signalling (InfoFrame/SDP/...)
+> > > > > > > > > 2. The color pipeline processing
+> > > > > > > > > 
+> > > > > > > > > All values of Broadcast RGB always affect the color pipeline processing
+> > > > > > > > > such that a full-range input to the CRTC is converted to either full- or
+> > > > > > > > > limited-range, depending on what the monitor is supposed to accept.
+> > > > > > > > > 
+> > > > > > > > > When automatic is selected, does that mean that there is no signalling,
+> > > > > > > > > or that the signalling matches what the monitor is supposed to accept
+> > > > > > > > > according to the spec? Also, is this really HDMI specific?
+> > > > > > > > > 
+> > > > > > > > > When full or limited is selected and the monitor doesn't support the
+> > > > > > > > > signalling, what happens?
+> > > > > > > > 
+> > > > > > > > Forgot to mention: user-space still has no control over RGB vs YCbCr on
+> > > > > > > > the cable, so is this only affecting RGB? If not, how does it affect
+> > > > > > > > YCbCr?
+> > > > > > > 
+> > > > > > > So I dug a bit into both the i915 and vc4 drivers, and it looks like if
+> > > > > > > we're using a YCbCr format, i915 will always use a limited range while
+> > > > > > > vc4 will follow the value of the property.
+> > > > > > 
+> > > > > > The property is literally called "Broadcast *RGB*".
+> > > > > > That should explain why it's only affecting RGB.
+> > > > > 
+> > > > > Right. And the limited range option is called "Limited 16:235" despite
+> > > > > being usable on bpc > 8 bits. Naming errors occurs, and history happens
+> > > > > to make names inconsistent too, that's fine and not an argument in
+> > > > > itself.
+> > > > > 
+> > > > > > Full range YCbCr is a much rarer beast so we've never bothered
+> > > > > > to enable it.
+> > > > > 
+> > > > > vc4 supports it.
+> > > > 
+> > > > Someone implemented it incorrectly then.
+> > > 
+> > > Incorrectly according to what documentation / specification? I'm sorry,
+> > > but I find it super ironic that i915 gets to do its own thing, not
+> > > document any of it, and when people try to clean things up they get told
+> > > that we got it all wrong.
+> > 
+> > FWIW, this was an i915 property and if another driver uses the same
+> > property name it must have the same behavior. Yes, it isn't standardized
+> > and yes, it's not documented (hence this effort here) but it's still on
+> > vc4 to make the property compatible.
+> 
+> How is it not compatible? It's a superset of what i915 provides, but
+> it's strictly compatible with it.
+
+No it is not. Eg. what happens if you set the thing to full range for
+RGB (which you must on many broken monitors), and then the kernel
+automagically switches to YCbCr (for whatever reason) but the monitor
+doesn't support full range YCbCr? Answer: you get crap output.
+
+> 
+> I would argue that i915 is the broken one since userspace could force a
+> full range output, but since the driver takes the YUV vs RGB decision
+> itself and only supports limited range for YUV, the driver would
+> effectively ignore that user-space property, without the user-space
+> being able to tell it was ignored in the first place.
+> 
+> > Trying to make the property handle YCbCr is very much in the "let's try
+> > to fix the property" territory that I want to avoid, so I'm in favor of
+> > adjusting vc4.
+> 
+> Breaking the ABI in the process. For something that is explicitly
+> supported by the spec, the driver, and the hardware. On a property that
+> never said it wasn't meant to be used that way, and with semantics based
+> on a driver that never provided a way to check those restrictions in the
+> first place.
+> 
+> And it's not like i915 is going to use that code anyway.
+> 
+> Maxime
 
 
-On 2024-02-11 at 16:42:43 +0100, Frank Oltmanns <frank@oltmanns.dev> wrote:
-> On 2024-02-08 at 20:05:08 +0100, Maxime Ripard <mripard@kernel.org> wrote:
->> [[PGP Signed Part:Undecided]]
->> Hi Frank,
->>
->> On Mon, Feb 05, 2024 at 04:22:28PM +0100, Frank Oltmanns wrote:
->>> This panel is used in the pinephone that runs on a Allwinner A64 SOC.
->>> The SOC requires pll-mipi to run at more than 500 MHz.
->>>
->>> This is the relevant clock tree:
->>>  pll-mipi
->>>     tcon0
->>>        tcon-data-clock
->>>
->>> tcon-data-clock has to run at 1/4 the DSI per-lane bit rate. The XBD599
->>> has 24 bpp and 4 lanes. Therefore, the resulting requested
->>> tcon-data-clock rate is:
->>>     crtc_clock * 1000 * (24 / 4) / 4
->>>
->>> tcon-data-clock runs at tcon0 / 4 (fixed divisor), so it requests a
->>> parent rate of
->>>     4 * (crtc_clock * 1000 * (24 / 4) / 4)
->>>
->>> Since tcon0 is a ccu_mux, the rate of tcon0 equals the rate of pll-mipi.
->>>
->>> pll-mipi's constraint to run at 500MHz or higher forces us to have a
->>> crtc_clock >= 83333 kHz if we want a 60 Hz vertical refresh rate.
->>>
->>> Change [hv]sync_(start|end) so that we reach a clock rate of 83502 kHz
->>> so that it is high enough to align with pll-pipi limits.
->>>
->>> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
->>
->> That commit log is great, but it's kind of off-topic. It's a panel
->> driver, it can be used on any MIPI-DSI controller, the only relevant
->> information there should be the panel timings required in the datasheet.
->>
->> The PLL setup is something for the MIPI-DSI driver to adjust, not for
->> the panel to care for.
->>
->
-> I absolutely agree. It even was the reason for my submission of a
-> sunxi-ng patch series last year that was accepted, to make pll-mipi more
-> flexible. :)
->
-> The only remaining option I currently see for adjusting the sunxi-ng
-> driver to further accomodate the panel, is trying to use a higher
-> divisor than 4 for calculating tcon-data-clock from tcon0. I remember
-> reading a discussion about this, but as far as I remember that proposal
-> was rejected (by you, IIRC).
->
-> While I appreciate other suggestion as well, I'll look into options for
-> using a different divisor than 4.
 
-I tried the following:
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-@@ -391,7 +391,7 @@ static void sun4i_tcon0_mode_set_cpu(struct sun4i_tcon *tcon,
-         * dclk is required to run at 1/4 the DSI per-lane bit rate.
-         */
-        tcon->dclk_min_div = SUN6I_DSI_TCON_DIV;
--       tcon->dclk_max_div = SUN6I_DSI_TCON_DIV;
-+       tcon->dclk_max_div = 127;
-        clk_set_rate(tcon->dclk, mode->crtc_clock * 1000 * (bpp / lanes)
-                                                  / SUN6I_DSI_TCON_DIV);
-
-On the pinephone, this selects a divisor of 6 resulting in a 25% frame
-drop. I.e., unless I'm missing something using a divisor other than 4 is
-not an option. This also matches your report from 2019: "Well, it's also
-breaking another panel." [1]
-
-I can currently see the following options:
-
-a. Drive PLL-MIPI outside spec and panel within spec (current situation,
-   but missing a small patch [2] that fixes the crtc_clock and nothing
-   else) and live with the fact that some pinephones will run
-   unreliably.
-
-b. Drive PLL-MIPI and panel within spec and shove data into the panel at
-   a too high rate (i.e., apply the rest of this series but not this
-   specific patch). This seems to mostly work, but hasn't seen any long
-   term testing. Short term testing showed that this approach results in
-   a slight but noticable unsmooth scrolling behavior.
-
-c. Drive PLL-MIPI within spec and panel outside spec (i.e., apply a
-   future version of the whole series). This has been tested for over a
-   month on three devices that I know of. There are no reports of panels
-   not working with the suggested parameters.
-
-All options require additional work on the GPU rate which is currently
-being discussed in a parallel thread of this series. Unless somebody
-comes up with a better idea, I will pause working on fixing PLL-MIPI and
-focus on the GPU instead. While I doubt it, maybe fixing the GPU is
-sufficient and continuing to drive PLL-MIPI outside spec proves to be
-ok.
-
-[1]: https://lore.kernel.org/all/20190828130341.s5z76wejulwdgxlc@flea/
-[2]: https://lore.kernel.org/all/20230219114553.288057-2-frank@oltmanns.dev/
-
-Best regards,
-  Frank
-
->
-> Best regards,
->   Frank
->
->>
->> Maxime
->>
->> [[End of PGP Signed Part]]
+-- 
+Ville Syrjälä
+Intel
