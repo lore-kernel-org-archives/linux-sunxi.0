@@ -1,38 +1,41 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75595171A5
-	for <linux-sunxi@lists.linux.dev>; Sun, 11 Feb 2024 23:40:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A751193
+	for <linux-sunxi@lists.linux.dev>; Mon, 12 Feb 2024 00:08:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707694843; cv=none; b=pjUj9jTkN9v0hbxt++2A5fZvhcBk3FQiuPTvcSmlfplClESy0Snrol5VdFqqdyfhrAIclYyhInxK8oYhx3HxMKhxLs0tvV9D6SX/HXVYQ5M/L5lkJAAPEMDGEJBK/0Ij9Hu8yR/7U8pxzY/fMTGaPFLTHjyxDRkY8tXLI03kpRg=
+	t=1707696534; cv=none; b=VyZeCK4MzIg1AV/4b0Td7F1Vhkbvh4fqlqJtjppq+xQZ1BmvCTL3p1Q5PlHQ1u5nknP0Y2UtEjJeJPUGSKElGtz2eEqmJU0eu+ml55GPaGw2mnS8KCWlryHRdT99k2+3g2+Ee3YlECGyjP02tjhL7vF6kpHIbSAd4/smfJEY1iM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707694843; c=relaxed/simple;
-	bh=atUs5qVxD+K/cG67yr9B5GRtKhk/D0bQa5VI06ZesN0=;
+	s=arc-20240116; t=1707696534; c=relaxed/simple;
+	bh=aZrV4SDAhZ2GYilzh8Xv+nGrKhDFhsjF5dRvA9nvciM=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gHkOvx6dXHSmsjKcvMd7XFTZ0fGUh7yz2+cn3sJvUHkFE1k1ORlKdbLzWKL7jRGZ75hknMyUYWyOxdGx17tGsCrvR6qDYwDmOrcf1cGRgIQMRGBKinb/6GYq+loIL+5N61rLivW71W3YgHgL3p7gfZF5oQrOYTAoAD/IaaNbc/k=
+	 MIME-Version:Content-Type; b=hebJU7Yyg6d6UuE4PxhbkKsNdyxycYPPrzDJ8sxfd/f1JdB9H+pLICWzpW/74YRl553uK0mdiVmQO1UzwkNRRV9A99DVb+CNmhGD8/hOVnRu5/pMqB8DUFePVvMo7ditK9bboqk5tBZqc9M3Lvwaq6pW6hflNkX7fToMa8JLSdE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 04CBFDA7;
-	Sun, 11 Feb 2024 15:41:20 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1B651DA7;
+	Sun, 11 Feb 2024 16:09:29 -0800 (PST)
 Received: from minigeek.lan (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D0FC23F5A1;
-	Sun, 11 Feb 2024 15:40:36 -0800 (PST)
-Date: Sun, 11 Feb 2024 23:39:26 +0000
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8DA6B3F5A1;
+	Sun, 11 Feb 2024 16:08:45 -0800 (PST)
+Date: Mon, 12 Feb 2024 00:07:27 +0000
 From: Andre Przywara <andre.przywara@arm.com>
-To: Jisheng Zhang <jszhang@kernel.org>
+To: Andrey Skvortsov <andrej.skvortzov@gmail.com>
 Cc: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
  <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
  Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] arm64: dts: allwinner: h616: Add Sipeed Longan
- SoM 3H and Pi 3H board support
-Message-ID: <20240211233926.70b327b1@minigeek.lan>
-In-Reply-To: <20240211081739.395-3-jszhang@kernel.org>
-References: <20240211081739.395-1-jszhang@kernel.org>
-	<20240211081739.395-3-jszhang@kernel.org>
+ linux-kernel@vger.kernel.org, Arnaud Ferraris
+ <arnaud.ferraris@collabora.com>, Alexey Klimov <alexey.klimov@linaro.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>
+Subject: Re: [PATCH] arm64: dts: allwinner: a64: Add thermal trip points for
+ GPU
+Message-ID: <20240212000727.4690bdb6@minigeek.lan>
+In-Reply-To: <ZcjYk8MD4jotKNcq@skv.local>
+References: <20240211105326.506049-1-andrej.skvortzov@gmail.com>
+	<20240211125209.15d58462@minigeek.lan>
+	<ZcjYk8MD4jotKNcq@skv.local>
 Organization: Arm Ltd.
 X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
@@ -44,291 +47,101 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Sun, 11 Feb 2024 16:17:39 +0800
-Jisheng Zhang <jszhang@kernel.org> wrote:
+On Sun, 11 Feb 2024 17:24:19 +0300
+Andrey Skvortsov <andrej.skvortzov@gmail.com> wrote:
 
-Hi Jisheng,
+Hi Andrey,
 
-thanks for the changes, and for spotting the 5V/3.3V issue yourself,
-which I missed. This looks good to me now.
-
-> The Sipeed Longan SoM 3H is a system on module based on the Allwinner
-> H618 SoC. The SoM features:
+> Hi Andre,
 > 
-> - Four ARM Cortex-A53 cores, Mali-G31 MP2 GPU
-> - 2/4 GiB LPDDR4 DRAM SoMs
-> - AXP313a PMIC
-> - eMMC
+> On 24-02-11 12:52, Andre Przywara wrote:
+> > On Sun, 11 Feb 2024 13:53:26 +0300
+> > Andrey Skvortsov <andrej.skvortzov@gmail.com> wrote:
+> > 
+> > Hi Andrey,
+> >   
+> > > From: Alexey Klimov <alexey.klimov@linaro.org>
+> > > 
+> > > Without trip points for GPU, the following errors are printed in the
+> > > dmesg log and the sun8i-thermal driver fails to load:  
+> > 
+> > So how does that post differ from Alexey one's a few weeks back:
+> > https://lore.kernel.org/linux-arm-kernel/20240101000008.65747-1-alexey.klimov@linaro.org/
+> > It seems like the same patch?  
 > 
-> The Sipeed Longan PI 3H is a development board based on the above SoM.
-> The board features:
-> - Longan SoM 3H
-> - Raspberry-Pi-1 compatible GPIO header
-> - 2 USB 2.0 host port
-> - 1 USB 2.0 type C port (power supply + OTG)
-> - MicroSD slot
-> - 1Gbps Ethernet port (via RTL8211 PHY)
-> - HDMI port
-> - WiFi/BT chip
-> 
-> Add the devicetree file describing the currently supported features,
-> namely PMIC, LEDs, UART, SD card, eMMC, USB and Ethernet.
-> 
-> Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
+> Yes, it's the same patch. I've added only information about failed
+> dtbs_check errors in already supported boards to commit message.
+> I've found this patch from June 2023 without any feedback. [1] Since I've
+> worked on dts changes for PinePhone A64, I've decided to resend
+> it. Sorry, I wasn't aware that Alexey resent it in the mean time.
 
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+No worries, that's fine, thanks for the explanation.
 
-Cheers,
+> It's better to continue discussion in original Alexey's patch.
+
+Will Alexey have time to reply and resend? If not, or if you are not
+sure (it's been a while), it's fine to take over this series, and send a
+v2, by yourself.
+
+If you can just explicitly state that the GPU trip point values are
+copied from the CPU ones (because they share a die), I am happy as far
+as my comment is concerned. This is arguably somewhat mentioned in the
+commit message already, but I missed it on the first read, so would like
+to see this more prominently stated.
+
+As mentioned before, and also stated by Jernej, consider this patch
+purely device-specific, not related to any Linux behaviour, and give
+rationale only based on the binding, which requires trip points.
+Something simple as "The DT binding requires trip points, and
+dt-validate complains about them missing for any A64 boards." should
+suffice.
+
+Thanks,
 Andre
 
-> ---
->  arch/arm64/boot/dts/allwinner/Makefile        |   1 +
->  .../sun50i-h618-longan-module-3h.dtsi         |  75 +++++++++
->  .../dts/allwinner/sun50i-h618-longanpi-3h.dts | 144 ++++++++++++++++++
->  3 files changed, 220 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h618-longan-module-3h.dtsi
->  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dts
+> > And Jernej and I had some comments (no mentioning of "Linux" in commit
+> > message, add cooling maps, source of trip temperature values), can you
+> > please try to address them?
+> > 
+> >   
+> > > thermal_sys: Failed to find 'trips' node
+> > > thermal_sys: Failed to find trip points for thermal-sensor id=1
+> > > sun8i-thermal: probe of 1c25000.thermal-sensor failed with error -22  
+> > 
+> > I think it's pretty obvious that the trip points are missing when they
+> > shouldn't, so this does not need too much explanation or rationale in
+> > the commit message, so you can cut this short.
+> >   
+> > > When thermal zones are defined, trip points definitions are mandatory.
+> > > Trip values for the GPU are assumed to be the same values as the CPU
+> > > ones. The available specs do not provide any hints about thermal regimes
+> > > for the GPU and it seems GPU is implemented on the same die as the CPU.
+> > > 
+> > > 'make dtbs_check' complains about problem in dts for 18 A64-based boards
+> > > supported by the kernel:
+> > > 
+> > > sun50i-a64-pine64.dtb: thermal-zones: gpu0-thermal: 'trips' is a required property
+> > > 	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+> > > sun50i-a64-pine64.dtb: thermal-zones: gpu1-thermal: 'trips' is a required property
+> > > 	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+> > > 
+> > > Tested on Pine a64+ and PinePhone 1.2.
+> > > 
+> > > Cc: Samuel Holland <samuel@sholland.org>
+> > > Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > > Cc: Chen-Yu Tsai <wens@csie.org>
+> > > Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
+> > > Cc: devicetree@vger.kernel.org
+> > > Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+> > > Tested-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>  
+> > 
+> > You would need your Signed-off-by: here, since you send this, even when
+> > on Alexey's behalf.
+> > 
+> > Cheers,
+> > Andre
+> >  
 > 
-> diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
-> index 91d505b385de..4b9173a16efe 100644
-> --- a/arch/arm64/boot/dts/allwinner/Makefile
-> +++ b/arch/arm64/boot/dts/allwinner/Makefile
-> @@ -42,5 +42,6 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-bigtreetech-cb1-manta.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-bigtreetech-pi.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-orangepi-zero2.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-x96-mate.dtb
-> +dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-longanpi-3h.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero3.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-transpeed-8k618-t.dtb
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-longan-module-3h.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h618-longan-module-3h.dtsi
-> new file mode 100644
-> index 000000000000..8c1263a3939e
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-longan-module-3h.dtsi
-> @@ -0,0 +1,75 @@
-> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> +/*
-> + * Copyright (C) Jisheng Zhang <jszhang@kernel.org>
-> + */
-> +
-> +#include "sun50i-h616.dtsi"
-> +
-> +&mmc2 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&mmc2_pins>;
-> +	vmmc-supply = <&reg_dldo1>;
-> +	vqmmc-supply = <&reg_aldo1>;
-> +	bus-width = <8>;
-> +	non-removable;
-> +	cap-mmc-hw-reset;
-> +	mmc-ddr-1_8v;
-> +	mmc-hs200-1_8v;
-> +	status = "okay";
-> +};
-> +
-> +&r_i2c {
-> +	status = "okay";
-> +
-> +	axp313: pmic@36 {
-> +		compatible = "x-powers,axp313a";
-> +		reg = <0x36>;
-> +		#interrupt-cells = <1>;
-> +		interrupt-controller;
-> +
-> +		regulators {
-> +			reg_aldo1: aldo1 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <1800000>;
-> +				regulator-max-microvolt = <1800000>;
-> +				regulator-name = "vcc-1v8-pll";
-> +			};
-> +
-> +			reg_dldo1: dldo1 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <3300000>;
-> +				regulator-max-microvolt = <3300000>;
-> +				regulator-name = "vcc-3v3-io";
-> +			};
-> +
-> +			reg_dcdc1: dcdc1 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <810000>;
-> +				regulator-max-microvolt = <990000>;
-> +				regulator-name = "vdd-gpu-sys";
-> +			};
-> +
-> +			reg_dcdc2: dcdc2 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <810000>;
-> +				regulator-max-microvolt = <1100000>;
-> +				regulator-name = "vdd-cpu";
-> +			};
-> +
-> +			reg_dcdc3: dcdc3 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <1100000>;
-> +				regulator-max-microvolt = <1100000>;
-> +				regulator-name = "vdd-dram";
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&pio {
-> +	vcc-pc-supply = <&reg_dldo1>;
-> +	vcc-pf-supply = <&reg_dldo1>;
-> +	vcc-pg-supply = <&reg_aldo1>;
-> +	vcc-ph-supply = <&reg_dldo1>;
-> +	vcc-pi-supply = <&reg_dldo1>;
-> +};
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dts b/arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dts
-> new file mode 100644
-> index 000000000000..18b29c6b867f
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dts
-> @@ -0,0 +1,144 @@
-> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> +/*
-> + * Copyright (C) Jisheng Zhang <jszhang@kernel.org>
-> + */
-> +
-> +/dts-v1/;
-> +
-> +#include "sun50i-h618-longan-module-3h.dtsi"
-> +
-> +#include <dt-bindings/gpio/gpio.h>
-> +#include <dt-bindings/interrupt-controller/arm-gic.h>
-> +#include <dt-bindings/leds/common.h>
-> +
-> +/ {
-> +	model = "Sipeed Longan Pi 3H";
-> +	compatible = "sipeed,longan-pi-3h", "sipeed,longan-module-3h", "allwinner,sun50i-h618";
-> +
-> +	aliases {
-> +		ethernet0 = &emac0;
-> +		serial0 = &uart0;
-> +	};
-> +
-> +	chosen {
-> +		stdout-path = "serial0:115200n8";
-> +	};
-> +
-> +	leds {
-> +		compatible = "gpio-leds";
-> +
-> +		led-0 {
-> +			color = <LED_COLOR_ID_ORANGE>;
-> +			function = LED_FUNCTION_INDICATOR;
-> +			function-enumerator = <0>;
-> +			gpios = <&pio 6 2 GPIO_ACTIVE_LOW>; /* PG2 */
-> +		};
-> +
-> +		led-1 {
-> +			color = <LED_COLOR_ID_ORANGE>;
-> +			function = LED_FUNCTION_INDICATOR;
-> +			function-enumerator = <1>;
-> +			gpios = <&pio 6 4 GPIO_ACTIVE_LOW>; /* PG4 */
-> +		};
-> +	};
-> +
-> +	reg_vcc5v: regulator-vcc5v {
-> +		/* board wide 5V supply directly from the USB-C socket */
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "vcc-5v";
-> +		regulator-min-microvolt = <5000000>;
-> +		regulator-max-microvolt = <5000000>;
-> +		regulator-always-on;
-> +	};
-> +
-> +	reg_vcc3v3: regulator-vcc3v3 {
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "vcc-3v3";
-> +		regulator-min-microvolt = <3300000>;
-> +		regulator-max-microvolt = <3300000>;
-> +		regulator-always-on;
-> +		vin-supply = <&reg_vcc5v>;
-> +	};
-> +};
-> +
-> +&axp313 {
-> +	vin1-supply = <&reg_vcc5v>;
-> +	vin2-supply = <&reg_vcc5v>;
-> +	vin3-supply = <&reg_vcc5v>;
-> +};
-> +
-> +&ehci1 {
-> +	status = "okay";
-> +};
-> +
-> +&ohci1 {
-> +	status = "okay";
-> +};
-> +
-> +&ehci2 {
-> +	status = "okay";
-> +};
-> +
-> +&ohci2 {
-> +	status = "okay";
-> +};
-> +
-> +/* WiFi & BT combo module is connected to this Host */
-> +&ehci3 {
-> +	status = "okay";
-> +};
-> +
-> +&ohci3 {
-> +	status = "okay";
-> +};
-> +
-> +&emac0 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&ext_rgmii_pins>;
-> +	phy-mode = "rgmii";
-> +	phy-handle = <&ext_rgmii_phy>;
-> +	allwinner,rx-delay-ps = <3100>;
-> +	allwinner,tx-delay-ps = <700>;
-> +	phy-supply = <&reg_vcc3v3>;
-> +	status = "okay";
-> +};
-> +
-> +&mdio0 {
-> +	ext_rgmii_phy: ethernet-phy@1 {
-> +		compatible = "ethernet-phy-ieee802.3-c22";
-> +		reg = <1>;
-> +	};
-> +};
-> +
-> +&mmc0 {
-> +	bus-width = <4>;
-> +	cd-gpios = <&pio 5 6 GPIO_ACTIVE_HIGH>;	/* PF6 */
-> +	vmmc-supply = <&reg_vcc3v3>;
-> +	status = "okay";
-> +};
-> +
-> +&uart0 {
-> +	status = "okay";
-> +};
-> +
-> +&usbotg {
-> +	/*
-> +	 * PHY0 pins are connected to a USB-C socket, but a role switch
-> +	 * is not implemented: both CC pins are pulled to GND.
-> +	 * The VBUS pins power the device, so a fixed peripheral mode
-> +	 * is the best choice.
-> +	 * The board can be powered via GPIOs, in this case port0 *can*
-> +	 * act as a host (with a cable/adapter ignoring CC), as VBUS is
-> +	 * then provided by the GPIOs. Any user of this setup would
-> +	 * need to adjust the DT accordingly: dr_mode set to "host",
-> +	 * enabling OHCI0 and EHCI0.
-> +	 */
-> +	dr_mode = "peripheral";
-> +	status = "okay";
-> +};
-> +
-> +&usbphy {
-> +	usb1_vbus-supply = <&reg_vcc5v>;
-> +	usb2_vbus-supply = <&reg_vcc5v>;
-> +	status = "okay";
-> +};
+> 1.  https://lkml.org/lkml/2023/6/4/416
+> 
 
