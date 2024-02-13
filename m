@@ -1,192 +1,144 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9879182A1
-	for <linux-sunxi@lists.linux.dev>; Tue, 13 Feb 2024 08:39:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7056322635
+	for <linux-sunxi@lists.linux.dev>; Tue, 13 Feb 2024 10:04:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707813546; cv=none; b=MhQ2f/JsYWLSWtDp+3bU6FobzO0dscvGpCQozwMMOj+aqezwwj+v6onr2ZvNyW5+A8syGf79OQn0u855smNcsqvOjDhUACUfTXLR4TCJLShucgYzKJHfv3d9nIDddfPgwGx/RgrirJ5YZQqAuFWAYTjPMO/ZBTrZlDSTm8jQCxg=
+	t=1707818696; cv=none; b=KSA4sXSHThI3O1fZ/JBh73nbU0153v2FCaWa/QuDAbeDhqM4G3eZm8cCJpS6SGGD6NA690biw/O7z+VEDHEecy50vH0zdE+BxOBujm4mPqiKLc69GyoFJ69wJf5YmPhh1uJsrNv/11eEMa0s6rxpGr2XPSBpcVU/wOQRfhYq5T8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707813546; c=relaxed/simple;
-	bh=EW4hyg6ywuwUU3ETBIP6P9hAzw5rF+JafXM/qqClrws=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=avs1y9JDav9cQD5zsRLTMUBxkDPAOs3zyUFHxzAUysHsG58QlO3JT1W3zWdul7qKmur+MMBSWvetj32PgkP4gXv6MYO/e2vqimmpdvxkOdMMVWRpOxkhZRcNvwhlp71RDGMjEbbAJGcW6Q+jg5D8w75ntp1nf76l9hMonwTQimI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nq+FAIFG; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1707818696; c=relaxed/simple;
+	bh=6TSHYiFO7t6qPOK5xs2M2DE46SDMBFbNXGbksGWwjH4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=KIi4Un08NvMGosij4FnMAgjnOIDwoQuDIXTstOABKV2O0lBIUI52F+bTPG9Ttds/e7+XGPNQ+BwyS8SoY0J+/S5fzUd9UhbloMLAEdtCN3nnPaOiii0aa2ZuLzfSP8jt94jNW4qTaUkxXHkzDmQABW17dDGyyInEzWdQvG/Lwhw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=SE49GUQb; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=hwPVCOob; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nq+FAIFG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707813545; x=1739349545;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=EW4hyg6ywuwUU3ETBIP6P9hAzw5rF+JafXM/qqClrws=;
-  b=Nq+FAIFGZ+vbGpaspxZZQWfqyNugROV6PtXFRLG/ecZM05I1/hnl5Pch
-   1RfZ+UCB4q1eY0D1957NvXPYbXm1dN0/NHh1y3Na4VTGMVkqeZ4GUQSNQ
-   FzuqXLKQ+CmnNYP2uFwgegqjOUA1fH/lfeM38NOhD0qF92noIQkCoigF8
-   28JL7YE2j7XLam03dRHI4NiiDeWnBPpAq5j3bOjFZ/GHAQuTkzs0ucVTT
-   IayjMpdrHnakqd9B6+uKfNjOLjOvrVsK7KWA/U/Jt1jBfJbAxL5oUxWnW
-   03GgYBbZTd3mldytNV4biVsnNmBs4ohpCeBeqKIsUhk2qGofs3scxjyxR
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="5629256"
-X-IronPort-AV: E=Sophos;i="6.06,156,1705392000"; 
-   d="scan'208";a="5629256"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2024 00:39:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="826052613"
-X-IronPort-AV: E=Sophos;i="6.06,156,1705392000"; 
-   d="scan'208";a="826052613"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
-  by orsmga001.jf.intel.com with SMTP; 13 Feb 2024 00:38:57 -0800
-Received: by stinkbox (sSMTP sendmail emulation); Tue, 13 Feb 2024 10:38:56 +0200
-Date: Tue, 13 Feb 2024 10:38:56 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: Re: Re: Re: Re: Re: [PATCH v5 08/44] drm/connector: hdmi: Add
- Broadcast RGB property
-Message-ID: <ZcsqoPCJDjA5PJUF@intel.com>
-References: <20240115143720.GA160656@toolbox>
- <73peztbeeikb3fg6coxu3punxllgtyrmgco34tnxkojtsjbr3s@26bud3sjbcez>
- <Zb0M_2093UwPXK8y@intel.com>
- <hez2m57ogqx3yyqk45tzdkvxvhrbdepgm244i4m2aty2xhf5b5@acqgvmxhmmvr>
- <Zb0aYAapkxQ2kopt@intel.com>
- <zml6j27skvjmbrfyz7agy5waxajv4p4asbemeexelm3wuv4o7j@xkd2wvnxhbuc>
- <20240209203435.GB996172@toolbox>
- <ahfl6f72lpgpsbnrbgvbsh4db4npr2hh36kua2c6krh544hv5r@dndw4hz2mu2g>
- <Zco-DQaXqae7B1jt@intel.com>
- <yx2t7xltxxgsngdsxamsfq6y7dze3wzegxcqwmsb5yrxen73x6@u3vilqhpci4w>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="SE49GUQb";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="hwPVCOob"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1707818693;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Y1HrfL+SrlW2XWR5pU7cGgxYMFs+Qr2zZ76ZBVxutfE=;
+	b=SE49GUQbwTclIrg8Ek0Z3VpThQD1o9FAH8SAfIXoKnzTV3UsTWw9PR3oootZv4e+BrIiEw
+	mdQccGiNG42+Pm2ePTR4i97kp8932eaGmbf9YEyCPmZhmlW6DTxYRik/XdRPpaf/1d9Rj+
+	iw237txMkf2vF9jD/1ZLzDd0rm8LrsgK/C2xIiSWgoOKHIUVHZ9nngnvzOVUFKnc6moxK7
+	BpEj8jkWpHHDobcUxfUsyG+G/u9okIlxlJR4RBySpQ43POtEj6N7+cSAuQiP7GiM5XpWMC
+	zt2UBKcuYOqCl9/NGww8Fi+s6sVfQA4TLjGzQeVeq9V65GziT/r7Yaga1vZYqA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1707818693;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Y1HrfL+SrlW2XWR5pU7cGgxYMFs+Qr2zZ76ZBVxutfE=;
+	b=hwPVCOobELnpGmo9aIjJ/oKtSoM7jE5zNUcYVknaR65ECFvfFEULvht2Ghlz1V5bazoRzP
+	gBUt4M68cX7NwTDg==
+To: Yu Chien Peter Lin <peterlin@andestech.com>, acme@kernel.org,
+ adrian.hunter@intel.com, ajones@ventanamicro.com,
+ alexander.shishkin@linux.intel.com, andre.przywara@arm.com,
+ anup@brainfault.org, aou@eecs.berkeley.edu, atishp@atishpatra.org,
+ conor+dt@kernel.org, conor.dooley@microchip.com, conor@kernel.org,
+ devicetree@vger.kernel.org, evan@rivosinc.com, geert+renesas@glider.be,
+ guoren@kernel.org, heiko@sntech.de, irogers@google.com,
+ jernej.skrabec@gmail.com, jolsa@kernel.org, jszhang@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, locus84@andestech.com, magnus.damm@gmail.com,
+ mark.rutland@arm.com, mingo@redhat.com, n.shubin@yadro.com,
+ namhyung@kernel.org, palmer@dabbelt.com, paul.walmsley@sifive.com,
+ peterlin@andestech.com, peterz@infradead.org,
+ prabhakar.mahadev-lad.rj@bp.renesas.com, rdunlap@infradead.org,
+ robh+dt@kernel.org, samuel@sholland.org, sunilvl@ventanamicro.com,
+ tim609@andestech.com, uwu@icenowy.me, wens@csie.org, will@kernel.org,
+ inochiama@outlook.com, unicorn_wang@outlook.com, wefu@redhat.com
+Cc: Randolph <randolph@andestech.com>, Atish Patra <atishp@rivosinc.com>
+Subject: Re: [PATCH v8 02/10] irqchip/riscv-intc: Allow large non-standard
+ interrupt number
+In-Reply-To: <20240129092553.2058043-3-peterlin@andestech.com>
+References: <20240129092553.2058043-1-peterlin@andestech.com>
+ <20240129092553.2058043-3-peterlin@andestech.com>
+Date: Tue, 13 Feb 2024 11:04:53 +0100
+Message-ID: <877cj8issa.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <yx2t7xltxxgsngdsxamsfq6y7dze3wzegxcqwmsb5yrxen73x6@u3vilqhpci4w>
-X-Patchwork-Hint: comment
+Content-Type: text/plain
 
-On Mon, Feb 12, 2024 at 05:53:48PM +0100, Maxime Ripard wrote:
-> On Mon, Feb 12, 2024 at 05:49:33PM +0200, Ville Syrjälä wrote:
-> > On Mon, Feb 12, 2024 at 11:01:07AM +0100, Maxime Ripard wrote:
-> > > On Fri, Feb 09, 2024 at 09:34:35PM +0100, Sebastian Wick wrote:
-> > > > On Mon, Feb 05, 2024 at 10:39:38AM +0100, Maxime Ripard wrote:
-> > > > > On Fri, Feb 02, 2024 at 06:37:52PM +0200, Ville Syrjälä wrote:
-> > > > > > On Fri, Feb 02, 2024 at 04:59:30PM +0100, Maxime Ripard wrote:
-> > > > > > > On Fri, Feb 02, 2024 at 05:40:47PM +0200, Ville Syrjälä wrote:
-> > > > > > > > On Fri, Feb 02, 2024 at 02:01:39PM +0100, Maxime Ripard wrote:
-> > > > > > > > > Hi,
-> > > > > > > > > 
-> > > > > > > > > On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebastian Wick wrote:
-> > > > > > > > > > > >  /**
-> > > > > > > > > > > >   * DOC: HDMI connector properties
-> > > > > > > > > > > >   *
-> > > > > > > > > > > > + * Broadcast RGB
-> > > > > > > > > > > > + *      Indicates the RGB Quantization Range (Full vs Limited) used.
-> > > > > > > > > > > > + *      Infoframes will be generated according to that value.
-> > > > > > > > > > > > + *
-> > > > > > > > > > > > + *      The value of this property can be one of the following:
-> > > > > > > > > > > > + *
-> > > > > > > > > > > > + *      Automatic:
-> > > > > > > > > > > > + *              RGB Range is selected automatically based on the mode
-> > > > > > > > > > > > + *              according to the HDMI specifications.
-> > > > > > > > > > > > + *
-> > > > > > > > > > > > + *      Full:
-> > > > > > > > > > > > + *              Full RGB Range is forced.
-> > > > > > > > > > > > + *
-> > > > > > > > > > > > + *      Limited 16:235:
-> > > > > > > > > > > > + *              Limited RGB Range is forced. Unlike the name suggests,
-> > > > > > > > > > > > + *              this works for any number of bits-per-component.
-> > > > > > > > > > > > + *
-> > > > > > > > > > > > + *      Drivers can set up this property by calling
-> > > > > > > > > > > > + *      drm_connector_attach_broadcast_rgb_property().
-> > > > > > > > > > > > + *
-> > > > > > > > > > > 
-> > > > > > > > > > > This is a good time to document this in more detail. There might be two
-> > > > > > > > > > > different things being affected:
-> > > > > > > > > > > 
-> > > > > > > > > > > 1. The signalling (InfoFrame/SDP/...)
-> > > > > > > > > > > 2. The color pipeline processing
-> > > > > > > > > > > 
-> > > > > > > > > > > All values of Broadcast RGB always affect the color pipeline processing
-> > > > > > > > > > > such that a full-range input to the CRTC is converted to either full- or
-> > > > > > > > > > > limited-range, depending on what the monitor is supposed to accept.
-> > > > > > > > > > > 
-> > > > > > > > > > > When automatic is selected, does that mean that there is no signalling,
-> > > > > > > > > > > or that the signalling matches what the monitor is supposed to accept
-> > > > > > > > > > > according to the spec? Also, is this really HDMI specific?
-> > > > > > > > > > > 
-> > > > > > > > > > > When full or limited is selected and the monitor doesn't support the
-> > > > > > > > > > > signalling, what happens?
-> > > > > > > > > > 
-> > > > > > > > > > Forgot to mention: user-space still has no control over RGB vs YCbCr on
-> > > > > > > > > > the cable, so is this only affecting RGB? If not, how does it affect
-> > > > > > > > > > YCbCr?
-> > > > > > > > > 
-> > > > > > > > > So I dug a bit into both the i915 and vc4 drivers, and it looks like if
-> > > > > > > > > we're using a YCbCr format, i915 will always use a limited range while
-> > > > > > > > > vc4 will follow the value of the property.
-> > > > > > > > 
-> > > > > > > > The property is literally called "Broadcast *RGB*".
-> > > > > > > > That should explain why it's only affecting RGB.
-> > > > > > > 
-> > > > > > > Right. And the limited range option is called "Limited 16:235" despite
-> > > > > > > being usable on bpc > 8 bits. Naming errors occurs, and history happens
-> > > > > > > to make names inconsistent too, that's fine and not an argument in
-> > > > > > > itself.
-> > > > > > > 
-> > > > > > > > Full range YCbCr is a much rarer beast so we've never bothered
-> > > > > > > > to enable it.
-> > > > > > > 
-> > > > > > > vc4 supports it.
-> > > > > > 
-> > > > > > Someone implemented it incorrectly then.
-> > > > > 
-> > > > > Incorrectly according to what documentation / specification? I'm sorry,
-> > > > > but I find it super ironic that i915 gets to do its own thing, not
-> > > > > document any of it, and when people try to clean things up they get told
-> > > > > that we got it all wrong.
-> > > > 
-> > > > FWIW, this was an i915 property and if another driver uses the same
-> > > > property name it must have the same behavior. Yes, it isn't standardized
-> > > > and yes, it's not documented (hence this effort here) but it's still on
-> > > > vc4 to make the property compatible.
-> > > 
-> > > How is it not compatible? It's a superset of what i915 provides, but
-> > > it's strictly compatible with it.
-> > 
-> > No it is not.
-> 
-> The property is compatible with i915 interpretation of it, whether you
-> like it or not. And that's what Sebastian was referring to.
-> 
-> > Eg. what happens if you set the thing to full range for RGB (which you
-> > must on many broken monitors), and then the kernel automagically
-> > switches to YCbCr (for whatever reason) but the monitor doesn't
-> > support full range YCbCr? Answer: you get crap output.
-> 
-> And that part is just moving goalposts.
+On Mon, Jan 29 2024 at 17:25, Yu Chien Peter Lin wrote:
+>  static asmlinkage void riscv_intc_irq(struct pt_regs *regs)
+>  {
+>  	unsigned long cause = regs->cause & ~CAUSE_IRQ_FLAG;
+>  
+> -	if (unlikely(cause >= BITS_PER_LONG))
+> -		panic("unexpected interrupt cause");
+> -
+> -	generic_handle_domain_irq(intc_domain, cause);
+> +	if (generic_handle_domain_irq(intc_domain, cause))
+> +		pr_warn_ratelimited("Failed to handle interrupt (cause: %ld)\n",
+> +				    cause);
 
-No. Allowing users to get correct colors with broken displays
-is the sole reason why this property even exists.
+Either let the cause stick out or you need brackets. See:
 
--- 
-Ville Syrjälä
-Intel
+  https://www.kernel.org/doc/html/latest/process/maintainer-tip.html#bracket-rules
+
+>  }
+>  
+>  /*
+> @@ -93,6 +95,14 @@ static int riscv_intc_domain_alloc(struct irq_domain *domain,
+>  	if (ret)
+>  		return ret;
+>  
+> +	/*
+> +	 * Only allow hwirq for which we have corresponding standard or
+> +	 * custom interrupt enable register.
+> +	 */
+> +	if ((riscv_intc_nr_irqs <= hwirq && hwirq < riscv_intc_custom_base) ||
+> +	    (riscv_intc_custom_base + riscv_intc_custom_nr_irqs) <= hwirq)
+> +		return -EINVAL;
+
+Duh. This mix of ordering required to read this 3 times. What's wrong
+with writing this consistently:
+
+	if ((hwirq >= riscv_intc_nr_irqs && hwirq < riscv_intc_custom_base) ||
+	    (hwirq >= iscv_intc_custom_base + riscv_intc_custom_nr_irqs)
+		return -EINVAL;
+
+Hmm?
+
+> -	pr_info("%d local interrupts mapped\n", BITS_PER_LONG);
+> +	pr_info("%d local interrupts mapped\n", riscv_intc_nr_irqs);
+> +	if (riscv_intc_custom_nr_irqs)
+> +		pr_info("%d custom local interrupts mapped\n",
+> +			riscv_intc_custom_nr_irqs);
+
+See bracket rules.
+  
+>  	return 0;
+>  }
+> @@ -166,6 +178,10 @@ static int __init riscv_intc_init(struct device_node *node,
+>  		return 0;
+>  	}
+>  
+> +	riscv_intc_nr_irqs = BITS_PER_LONG;
+> +	riscv_intc_custom_base = riscv_intc_nr_irqs;
+
+Why don't you initialize the static variables with constants right away?
+
+> +	riscv_intc_custom_nr_irqs = 0;
+
+It's already 0, no?
+
+>  	return riscv_intc_init_common(of_node_to_fwnode(node));
+>  }
+
+Thanks,
+
+        tglx
