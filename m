@@ -1,177 +1,120 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A8CB5F479
-	for <linux-sunxi@lists.linux.dev>; Tue, 13 Feb 2024 15:53:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF1435FBB5;
+	Tue, 13 Feb 2024 17:26:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707839586; cv=none; b=SMCHF90jGXlx+helQOr3JqQvVRaeasvJQzj+ahmqaV+GcYJMk9SXJrL/09hixFQBUVK1wenWUhRYM45980VsbWM3fIYdYa7WmyxmVJL1aNA43f2M/9n4JNlF38t2BzxAMvXJ/K3a6R2ku6Rpf0qHdd0irDyWlpjkrrs1ZbIpkYc=
+	t=1707845197; cv=none; b=R1bYXXkVa4eSjI5bzrWNcIqyHTGQ7e5foFalkIsNMZLrsAbs1RpzkqLm2DcpwV3EbmMTRUQIIbK4tp+kFybwcvXJ+GDnNJHlbG3QjLbafVbjNFjtfzmxqnK6W/kt+dkTy4hYGkHi2Dx0Zs1o1BF8Y/RZHBhl8U7j6M5PmDwuNMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707839586; c=relaxed/simple;
-	bh=9A1aL1knmmwJVorj88nXW9OtdjLYNUKnXWl0BQKd3Ks=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AMOZhWdIdnE8Xmjd5USdcVpQbaBxMGno7tfhMtz509yL/dU/y/W5VuZoBi6gw6qs4X05ky93KjglBpNCbZWIwsGpIK4llHISOMEbsmP1RCdoWJplkHfEEEIvKqial93lhhdPiKBrsLE2yV8SS/GzLDe28WeRb/SdQ+V2WGVuLRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=LhBOE6Br; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="LhBOE6Br"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-561f0f116ecso11266a12.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 13 Feb 2024 07:53:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1707839583; x=1708444383; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XBXU1a0C1GpqZ/Yh6XHCPcPsqtZQLKwjO20TKE3Arqc=;
-        b=LhBOE6BrecCOkYl1ffaizd7D0U/7fzb2wzdFv9xmbKQwARLVjslFXUfV19QfYE8hkK
-         sLG0p0nuWIKP7wQ5UTGXyntn/pc4wVG180+vqlaEjDu5pScNvXQhL3xUrIlsSweeOKIF
-         auBVxF+Ed1IEvldPRQhutgE0Js52UKAmcjTrtOJmV/ZSCMINWLijJ7opSx2uZ64iZV0K
-         5Uuzv1JQJJwfLJ6A7Q1ExfahJDHUU1JQ5oEpCPkGfXUgP1rEnQOBfPhMEg9q4bi5EaYz
-         CAfBfEninGxevnaoFmd8/UOJdD9AwGbsJhIzQNKNkVmwXkxFv2uFklQ4poKHEgEx3Sr/
-         wFpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707839583; x=1708444383;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XBXU1a0C1GpqZ/Yh6XHCPcPsqtZQLKwjO20TKE3Arqc=;
-        b=qDkNTnMpczlwV9LikOse6F9l3mRA4SMrNwNsUvg9AV+d82+LQ/Ao6w1PKXjOCJvJJL
-         Brb1mmHodx8w/U8DtZhhb+QO3NxyTjN7G5v8NlclAsjpfq+r61J4rPkgg7VLqr7i1toD
-         /HSBOBcNqxVCkmEQEHYG1+0YGQHusIafMCtigZj2Roy6ggZZaHCt/5zBtLnsNIWBQPj7
-         QCHFlr/9E6FnWkbmLjwSTLA73/tzkOLQDufRoKQWizKOKZ8bRRUMzby/t54YrveNZqJS
-         fBOOftR5TRy4yAA/ZRediuzUDxsIWG+GRDcMc98i60AyXLr/oIbf0x9eHPF2041W60mL
-         6r5A==
-X-Forwarded-Encrypted: i=1; AJvYcCWGmGTt4o/JGu4mq5Er7O50diFFdKOkOarmcbLBZmMJmCHRgi0GUBGsExTNC6MTHlgJXwMir3uXT4/eiCD3hbgamL/k5aVBAkbAWHA=
-X-Gm-Message-State: AOJu0Yy4LDJOlhWthdbApqvNcxM8IYQQ69DqBGf7bObHExfUHfRe2Jcm
-	hFP+UCDRHHVEDGpOIrinEQ5AMjza6LES7WnuDJ/mu5qiJaFcJtwK0jCr7gPReh85gjGuKFObwP8
-	N9vFR0AMzl8gvlj6yaR7RudZbpXwt9Bv7w5Ma
-X-Google-Smtp-Source: AGHT+IHO4nXHXvIeiK2c1XPlkV5MqBQcEx/6pbzTc8rR72I7ntPP6rrE8mRSCDELaXel/6Zxu9D7gKkN/LWr+JpZIgM=
-X-Received: by 2002:a50:9f08:0:b0:561:e7d8:50a8 with SMTP id
- b8-20020a509f08000000b00561e7d850a8mr5534edf.0.1707839583026; Tue, 13 Feb
- 2024 07:53:03 -0800 (PST)
+	s=arc-20240116; t=1707845197; c=relaxed/simple;
+	bh=R4W/x6sdikq9L5mixsfBJrQlDgWaZ0hlbKehGewQpgE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Bpv+ETvxc3uxOp4XmDz1Cw1ZpprtDQkn21HxeeumLOTto2Pwqc4ZcK9AdTuuAt1RoKaCGiTYqnsIVqcm1sTphAFRNZOgFzk8+0q3Tp/T7m2zYuNFIB+FzecHVP5kv7kvriGoBM9WcbuUF/jrm+6O2B42GsQCL+MpSZroLNydico=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 724E71FB;
+	Tue, 13 Feb 2024 09:27:15 -0800 (PST)
+Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 155943F5A1;
+	Tue, 13 Feb 2024 09:26:27 -0800 (PST)
+Message-ID: <b008bd2d-a189-481f-917d-bb045c43cb07@arm.com>
+Date: Tue, 13 Feb 2024 17:26:26 +0000
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240203190927.19669-1-petr@tesarici.cz> <ea1567d9-ce66-45e6-8168-ac40a47d1821@roeck-us.net>
- <Zct5qJcZw0YKx54r@xhacker> <CANn89i+4tVWezqr=BYZ5AF=9EgV2EPqhdHun=u=ga32CEJ4BXQ@mail.gmail.com>
- <20d94512-c4f2-49f7-ac97-846dc24a6730@roeck-us.net>
-In-Reply-To: <20d94512-c4f2-49f7-ac97-846dc24a6730@roeck-us.net>
-From: Eric Dumazet <edumazet@google.com>
-Date: Tue, 13 Feb 2024 16:52:52 +0100
-Message-ID: <CANn89iL1piwsbsBx4Z=kySUfmPa9LbZn-SNthgA+W6NEnojgSQ@mail.gmail.com>
-Subject: Re: [PATCH net v3] net: stmmac: protect updates of 64-bit statistics counters
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Jisheng Zhang <jszhang@kernel.org>, Petr Tesarik <petr@tesarici.cz>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Jose Abreu <joabreu@synopsys.com>, 
-	"David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	"open list:STMMAC ETHERNET DRIVER" <netdev@vger.kernel.org>, 
-	"moderated list:ARM/STM32 ARCHITECTURE" <linux-stm32@st-md-mailman.stormreply.com>, 
-	"moderated list:ARM/STM32 ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>, 
-	open list <linux-kernel@vger.kernel.org>, 
-	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>, Marc Haber <mh+netdev@zugschlus.de>, 
-	Andrew Lunn <andrew@lunn.ch>, Florian Fainelli <f.fainelli@gmail.com>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 01/10] iommu/vt-d: add wrapper functions for page
+ allocations
+Content-Language: en-GB
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io,
+ asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com,
+ cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com,
+ dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de,
+ iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com,
+ joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, linux-rockchip@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st,
+ mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org,
+ rdunlap@infradead.org, samuel@sholland.org, suravee.suthikulpanit@amd.com,
+ sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org,
+ tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, will@kernel.org,
+ yu-cheng.yu@intel.com, rientjes@google.com, bagasdotme@gmail.com,
+ mkoutny@suse.com
+References: <20240207174102.1486130-1-pasha.tatashin@soleen.com>
+ <20240207174102.1486130-2-pasha.tatashin@soleen.com>
+ <8ce2cd7b-7702-45aa-b4c8-25a01c27ed83@arm.com>
+ <CA+CK2bC=XyUhoSP9f0XBqEnQ-P5mMT2U=5dfzRSc9C=2b+bstQ@mail.gmail.com>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <CA+CK2bC=XyUhoSP9f0XBqEnQ-P5mMT2U=5dfzRSc9C=2b+bstQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Feb 13, 2024 at 4:26=E2=80=AFPM Guenter Roeck <linux@roeck-us.net> =
-wrote:
->
-> On Tue, Feb 13, 2024 at 03:51:35PM +0100, Eric Dumazet wrote:
-> > On Tue, Feb 13, 2024 at 3:29=E2=80=AFPM Jisheng Zhang <jszhang@kernel.o=
-rg> wrote:
-> > >
-> > > On Sun, Feb 11, 2024 at 08:30:21PM -0800, Guenter Roeck wrote:
-> > > > Hi,
-> > > >
-> > > > On Sat, Feb 03, 2024 at 08:09:27PM +0100, Petr Tesarik wrote:
-> > > > > As explained by a comment in <linux/u64_stats_sync.h>, write side=
- of struct
-> > > > > u64_stats_sync must ensure mutual exclusion, or one seqcount upda=
-te could
-> > > > > be lost on 32-bit platforms, thus blocking readers forever. Such =
-lockups
-> > > > > have been observed in real world after stmmac_xmit() on one CPU r=
-aced with
-> > > > > stmmac_napi_poll_tx() on another CPU.
-> > > > >
-> > > > > To fix the issue without introducing a new lock, split the static=
-s into
-> > > > > three parts:
-> > > > >
-> > > > > 1. fields updated only under the tx queue lock,
-> > > > > 2. fields updated only during NAPI poll,
-> > > > > 3. fields updated only from interrupt context,
-> > > > >
-> > > > > Updates to fields in the first two groups are already serialized =
-through
-> > > > > other locks. It is sufficient to split the existing struct u64_st=
-ats_sync
-> > > > > so that each group has its own.
-> > > > >
-> > > > > Note that tx_set_ic_bit is updated from both contexts. Split this=
- counter
-> > > > > so that each context gets its own, and calculate their sum to get=
- the total
-> > > > > value in stmmac_get_ethtool_stats().
-> > > > >
-> > > > > For the third group, multiple interrupts may be processed by diff=
-erent CPUs
-> > > > > at the same time, but interrupts on the same CPU will not nest. M=
-ove fields
-> > > > > from this group to a newly created per-cpu struct stmmac_pcpu_sta=
-ts.
-> > > > >
-> > > > > Fixes: 133466c3bbe1 ("net: stmmac: use per-queue 64 bit statistic=
-s where necessary")
-> > > > > Link: https://lore.kernel.org/netdev/Za173PhviYg-1qIn@torres.zugs=
-chlus.de/t/
-> > > > > Cc: stable@vger.kernel.org
-> > > > > Signed-off-by: Petr Tesarik <petr@tesarici.cz>
-> > > >
-> > > > This patch results in a lockdep splat. Backtrace and bisect results=
- attached.
-> > > >
-> > > > Guenter
-> > > >
-> > > > ---
-> > > > [   33.736728] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > > [   33.736805] WARNING: inconsistent lock state
-> > > > [   33.736953] 6.8.0-rc4 #1 Tainted: G                 N
-> > > > [   33.737080] --------------------------------
-> > > > [   33.737155] inconsistent {HARDIRQ-ON-W} -> {IN-HARDIRQ-W} usage.
-> > > > [   33.737309] kworker/0:2/39 [HC1[1]:SC0[2]:HE0:SE0] takes:
-> > > > [   33.737459] ef792074 (&syncp->seq#2){?...}-{0:0}, at: sun8i_dwma=
-c_dma_interrupt+0x9c/0x28c
-> > > > [   33.738206] {HARDIRQ-ON-W} state was registered at:
-> > > > [   33.738318]   lock_acquire+0x11c/0x368
-> > > > [   33.738431]   __u64_stats_update_begin+0x104/0x1ac
-> > > > [   33.738525]   stmmac_xmit+0x4d0/0xc58
-> > >
-> > > interesting lockdep splat...
-> > > stmmac_xmit() operates on txq_stats->q_syncp, while the
-> > > sun8i_dwmac_dma_interrupt() operates on pcpu's priv->xstats.pcpu_stat=
-s
-> > > they are different syncp. so how does lockdep splat happen.
-> >
-> > Right, I do not see anything obvious yet.
->
-> Wild guess: I think it maybe saying that due to
->
->         inconsistent {HARDIRQ-ON-W} -> {IN-HARDIRQ-W} usage.
->
-> the critical code may somehow be interrupted and, while handling the
-> interrupt, try to acquire the same lock again.
+On 10/02/2024 2:21 am, Pasha Tatashin wrote:
+[...]
+>>> +/**
+>>> + * iommu_alloc_pages_node - allocate a zeroed page of a given order from
+>>> + * specific NUMA node.
+>>> + * @nid: memory NUMA node id
+>>> + * @gfp: buddy allocator flags
+>>> + * @order: page order
+>>> + *
+>>> + * returns the virtual address of the allocated page
+>>> + */
+>>> +static inline void *iommu_alloc_pages_node(int nid, gfp_t gfp, int order)
+>>> +{
+>>> +     struct page *page = __iommu_alloc_pages_node(nid, gfp, order);
+>>> +
+>>> +     if (unlikely(!page))
+>>> +             return NULL;
+>>
+>> As a general point I'd prefer to fold these checks into the accounting
+>> function itself rather than repeat them all over.
+> 
+> For the free functions this saves a few cycles by not repeating this
+> check again inside __free_pages(), to keep things symmetrical it makes
+> sense to keep __iomu_free_account and __iomu_alloc_account the same.
+> With the other clean-up there are not that many of these checks left.
 
-This should not happen, the 'syncp' are different. They have different
-lockdep classes.
+__free_pages() doesn't accept NULL, so __iommu_free_pages() shouldn't 
+need a check; free_pages() does, but correspondingly iommu_free_pages() 
+needs its own check up-front to avoid virt_to_page(NULL); either way it 
+means there are no callers of iommu_free_account() who should be passing 
+NULL.
 
-One is exclusively used from hard irq context.
+The VA-returning allocators of course need to avoid page_address(NULL), 
+so I clearly made this comment in the wrong place to begin with, oops. 
+In the end I guess that will leave __iommu_alloc_pages() as the only 
+caller of iommu_alloc_account() who doesn't already need to handle their 
+own NULL. OK, I'm convinced, apologies for having to bounce it off you 
+to work it through :)
 
-The second one only used from BH context.
+>>> + */
+>>> +static inline void *iommu_alloc_page_node(int nid, gfp_t gfp)
+>>> +{
+>>> +     return iommu_alloc_pages_node(nid, gfp, 0);
+>>> +}
+>>
+>> TBH I'm not entirely convinced that saving 4 characters per invocation
+>> times 11 invocations makes this wrapper worthwhile :/
+> 
+> Let's keep them. After the clean-up that you suggested, there are
+> fewer functions left in this file, but I think that it is cleaner to
+> keep these remaining, as it is beneficial to easily distinguish when
+> exactly one page is allocated vs when multiple are allocated via code
+> search.
+
+But is it, really? It's not at all obvious to me *why* it would be 
+significantly interesting to distinguish fixed order-0 allocations from 
+higher-order or variable-order (which may still be 0) ones. After all, 
+there's no regular alloc_page_node() wrapper, yet plenty more callers of 
+alloc_pages_node(..., 0) :/
+
+Thanks,
+Robin.
