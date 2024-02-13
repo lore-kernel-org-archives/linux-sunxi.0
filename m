@@ -1,141 +1,192 @@
-Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F24C4C61B
-	for <linux-sunxi@lists.linux.dev>; Mon, 12 Feb 2024 21:12:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9879182A1
+	for <linux-sunxi@lists.linux.dev>; Tue, 13 Feb 2024 08:39:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707772332; cv=none; b=PO6HAGsVZaTpHXfj12/dLmrWAsOyquLJ8HOnTxNGi/Wf4I7xi7CyPIVDdsM2p8ZfMOmLHqqNL7kZZ5qGOs6gQ4+jnYpiwZ8f51UYK3fHqLEmBQ/D4vMwoG6Fu0kjV+7vsPSrw3rScNWoZZc6uyIChs7XkdWTNZDGSVFFIOD6dDE=
+	t=1707813546; cv=none; b=MhQ2f/JsYWLSWtDp+3bU6FobzO0dscvGpCQozwMMOj+aqezwwj+v6onr2ZvNyW5+A8syGf79OQn0u855smNcsqvOjDhUACUfTXLR4TCJLShucgYzKJHfv3d9nIDddfPgwGx/RgrirJ5YZQqAuFWAYTjPMO/ZBTrZlDSTm8jQCxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707772332; c=relaxed/simple;
-	bh=h2MtV/MK2Odk0xUTraQ/KlPfHPspWCPAQzwp7rljY2E=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UDkq/8GgISRc3ti0/xAqvZ+er+zAe55uRypTFjuMvFxqXLjU8HULlnMD5zhJrnWNCtfBZeWCOZFacyoWyAkEGTTdqx9RhEiUYN3a/2THYmZ7jEWE8l6lGQnJtlJ7yoooY2wuOnsGGlF2LEeOEs9n6Ekd3HhBz1M1p0t4+WwAhSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XfY5Bwad; arc=none smtp.client-ip=209.85.166.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1707813546; c=relaxed/simple;
+	bh=EW4hyg6ywuwUU3ETBIP6P9hAzw5rF+JafXM/qqClrws=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=avs1y9JDav9cQD5zsRLTMUBxkDPAOs3zyUFHxzAUysHsG58QlO3JT1W3zWdul7qKmur+MMBSWvetj32PgkP4gXv6MYO/e2vqimmpdvxkOdMMVWRpOxkhZRcNvwhlp71RDGMjEbbAJGcW6Q+jg5D8w75ntp1nf76l9hMonwTQimI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nq+FAIFG; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XfY5Bwad"
-Received: by mail-il1-f173.google.com with SMTP id e9e14a558f8ab-3640487d9c4so5009085ab.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 12 Feb 2024 13:12:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707772329; x=1708377129; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=crkWvWwMlvDdItEx33Ai/IPFs930CB0fo5NxvXMgpxs=;
-        b=XfY5Bwady/NwAnFECCff/h/ongxX+BboG/DI85Rzr2Ub/O8xXr1HcyRPHR10Kc+imo
-         /7geWyZymwsL88pgWCNYftX/+dzq7ftMHcKoBJ/KFlkjqDdSGpQhC3kZ804dsi4YIdtp
-         pyEu84pJSSOwueF8ze3vFOWLQt4OgXUczkneFw/IDaceXqBryNIToo5Q1R4RXmm8JZ1/
-         u3vGFycLwX4ZFmoOPVBef7W0ei2BZ7sZ8avgkmU9nvDapojCKl0ljpKKMG+fUscSo/Ol
-         6VDMNpTmMTUUgOBEuZWErzMaWgbyQrghMPe4WVbrLioaRD3kteCOv30m2kbDOll2qXgx
-         z2qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707772329; x=1708377129;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=crkWvWwMlvDdItEx33Ai/IPFs930CB0fo5NxvXMgpxs=;
-        b=qJTns3PLrQ+Erlho0IznaP4hCkVu/qfw8Ia4tdiQh+5/N0ANQ/nDwOTx0qNWKyINPU
-         MVG4XHWBti3GQyNH6m4Di/zm/CT67JdItm/Idn/C8xcsY+sQRqpPCnXe8l2vCJvo3mer
-         8jemLgwnl9ZR45ciNyHF/X/vAkiglxRkbTD/CtD+af0KY98SFB/Sk/b8hMS6B/3HU+OX
-         EzRcUA3109zlV5msdsyeNm2MUBSfj0kpdWstyvSs5hVOHZ65uhypI1UkeTwX/3urFIGg
-         V6PlXTfKL/4hOvMNTdAsvct/we5mVbrXKyslv21Soju5fHKDzxVElOfW2q0c654Oep7I
-         Ji4Q==
-X-Gm-Message-State: AOJu0YwSLW89CdCGh3GjTw3p/iJ+wzuuqyux2glKZYbS9nlzVWxpZdR0
-	A+wbZM87+bL/cjItDZKx3KTsS5DyUah31Mx9Ec6szkEAc0zCEpCV
-X-Google-Smtp-Source: AGHT+IEsFxP2wf+CqyRsyHIhdyhg6SpWiZQ2tz1EtmrrYtkThu5pFY+Z/6qwEZdwy8WVxZujb8uIIQ==
-X-Received: by 2002:a92:c8c8:0:b0:363:a61b:52ba with SMTP id c8-20020a92c8c8000000b00363a61b52bamr9094902ilq.9.1707772329458;
-        Mon, 12 Feb 2024 13:12:09 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWZUJyMD3BIlUtvrM3sjdysoX1iZhYCUYCdDIih1hsVuMH0lXwQxABBNHke5UPD7IJTlw8aY9uzWC3lsfcC4qyLJmS7Qx4T4N8lDpuhjo177D0ZJ5Haf/j8KSpxEkU9zhAecvKzPrjZ4DmYP05ghRLShI042R/c3e5ZXD9/iC0irsJi2VHMSfH7iAw/I8yYi3eYqtHxkLx+O42xtDXIHhDVNbv/H5faUNNOoOzepT9ocug9aUtze2sd1jQKkzNqSeYL6znPw5S8QL8mlhajZRexueu9TTn5J1dxk2AXx39riZzU0Utt3xvE8s3kkh0zflLTfwxKft/4Vsl9Ir/WCYwkT+yHON86o7/3uWGHpSRC9IN32hJLBSQ=
-Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id a5-20020a056e02120500b00363c2249c51sm2050733ilq.87.2024.02.12.13.12.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Feb 2024 13:12:08 -0800 (PST)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>,
- Andre Przywara <andre.przywara@arm.com>, Jisheng Zhang <jszhang@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject:
- Re: [PATCH v3 0/2] arm64: dts: allwinner: h618: Add Sipeed Longan SoM 3H and
- Pi 3H board
-Date: Mon, 12 Feb 2024 22:12:04 +0100
-Message-ID: <2183605.Mh6RI2rZIc@jernej-laptop>
-In-Reply-To: <20240211081739.395-1-jszhang@kernel.org>
-References: <20240211081739.395-1-jszhang@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nq+FAIFG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707813545; x=1739349545;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=EW4hyg6ywuwUU3ETBIP6P9hAzw5rF+JafXM/qqClrws=;
+  b=Nq+FAIFGZ+vbGpaspxZZQWfqyNugROV6PtXFRLG/ecZM05I1/hnl5Pch
+   1RfZ+UCB4q1eY0D1957NvXPYbXm1dN0/NHh1y3Na4VTGMVkqeZ4GUQSNQ
+   FzuqXLKQ+CmnNYP2uFwgegqjOUA1fH/lfeM38NOhD0qF92noIQkCoigF8
+   28JL7YE2j7XLam03dRHI4NiiDeWnBPpAq5j3bOjFZ/GHAQuTkzs0ucVTT
+   IayjMpdrHnakqd9B6+uKfNjOLjOvrVsK7KWA/U/Jt1jBfJbAxL5oUxWnW
+   03GgYBbZTd3mldytNV4biVsnNmBs4ohpCeBeqKIsUhk2qGofs3scxjyxR
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="5629256"
+X-IronPort-AV: E=Sophos;i="6.06,156,1705392000"; 
+   d="scan'208";a="5629256"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2024 00:39:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="826052613"
+X-IronPort-AV: E=Sophos;i="6.06,156,1705392000"; 
+   d="scan'208";a="826052613"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+  by orsmga001.jf.intel.com with SMTP; 13 Feb 2024 00:38:57 -0800
+Received: by stinkbox (sSMTP sendmail emulation); Tue, 13 Feb 2024 10:38:56 +0200
+Date: Tue, 13 Feb 2024 10:38:56 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>,
+	Sandy Huang <hjc@rock-chips.com>,
+	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: Re: Re: Re: Re: Re: [PATCH v5 08/44] drm/connector: hdmi: Add
+ Broadcast RGB property
+Message-ID: <ZcsqoPCJDjA5PJUF@intel.com>
+References: <20240115143720.GA160656@toolbox>
+ <73peztbeeikb3fg6coxu3punxllgtyrmgco34tnxkojtsjbr3s@26bud3sjbcez>
+ <Zb0M_2093UwPXK8y@intel.com>
+ <hez2m57ogqx3yyqk45tzdkvxvhrbdepgm244i4m2aty2xhf5b5@acqgvmxhmmvr>
+ <Zb0aYAapkxQ2kopt@intel.com>
+ <zml6j27skvjmbrfyz7agy5waxajv4p4asbemeexelm3wuv4o7j@xkd2wvnxhbuc>
+ <20240209203435.GB996172@toolbox>
+ <ahfl6f72lpgpsbnrbgvbsh4db4npr2hh36kua2c6krh544hv5r@dndw4hz2mu2g>
+ <Zco-DQaXqae7B1jt@intel.com>
+ <yx2t7xltxxgsngdsxamsfq6y7dze3wzegxcqwmsb5yrxen73x6@u3vilqhpci4w>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <yx2t7xltxxgsngdsxamsfq6y7dze3wzegxcqwmsb5yrxen73x6@u3vilqhpci4w>
+X-Patchwork-Hint: comment
 
-Dne nedelja, 11. februar 2024 ob 09:17:37 CET je Jisheng Zhang napisal(a):
-> Add Sipeed Longan SoM 3H and Longan Pi 3H board support.
+On Mon, Feb 12, 2024 at 05:53:48PM +0100, Maxime Ripard wrote:
+> On Mon, Feb 12, 2024 at 05:49:33PM +0200, Ville Syrjälä wrote:
+> > On Mon, Feb 12, 2024 at 11:01:07AM +0100, Maxime Ripard wrote:
+> > > On Fri, Feb 09, 2024 at 09:34:35PM +0100, Sebastian Wick wrote:
+> > > > On Mon, Feb 05, 2024 at 10:39:38AM +0100, Maxime Ripard wrote:
+> > > > > On Fri, Feb 02, 2024 at 06:37:52PM +0200, Ville Syrjälä wrote:
+> > > > > > On Fri, Feb 02, 2024 at 04:59:30PM +0100, Maxime Ripard wrote:
+> > > > > > > On Fri, Feb 02, 2024 at 05:40:47PM +0200, Ville Syrjälä wrote:
+> > > > > > > > On Fri, Feb 02, 2024 at 02:01:39PM +0100, Maxime Ripard wrote:
+> > > > > > > > > Hi,
+> > > > > > > > > 
+> > > > > > > > > On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebastian Wick wrote:
+> > > > > > > > > > > >  /**
+> > > > > > > > > > > >   * DOC: HDMI connector properties
+> > > > > > > > > > > >   *
+> > > > > > > > > > > > + * Broadcast RGB
+> > > > > > > > > > > > + *      Indicates the RGB Quantization Range (Full vs Limited) used.
+> > > > > > > > > > > > + *      Infoframes will be generated according to that value.
+> > > > > > > > > > > > + *
+> > > > > > > > > > > > + *      The value of this property can be one of the following:
+> > > > > > > > > > > > + *
+> > > > > > > > > > > > + *      Automatic:
+> > > > > > > > > > > > + *              RGB Range is selected automatically based on the mode
+> > > > > > > > > > > > + *              according to the HDMI specifications.
+> > > > > > > > > > > > + *
+> > > > > > > > > > > > + *      Full:
+> > > > > > > > > > > > + *              Full RGB Range is forced.
+> > > > > > > > > > > > + *
+> > > > > > > > > > > > + *      Limited 16:235:
+> > > > > > > > > > > > + *              Limited RGB Range is forced. Unlike the name suggests,
+> > > > > > > > > > > > + *              this works for any number of bits-per-component.
+> > > > > > > > > > > > + *
+> > > > > > > > > > > > + *      Drivers can set up this property by calling
+> > > > > > > > > > > > + *      drm_connector_attach_broadcast_rgb_property().
+> > > > > > > > > > > > + *
+> > > > > > > > > > > 
+> > > > > > > > > > > This is a good time to document this in more detail. There might be two
+> > > > > > > > > > > different things being affected:
+> > > > > > > > > > > 
+> > > > > > > > > > > 1. The signalling (InfoFrame/SDP/...)
+> > > > > > > > > > > 2. The color pipeline processing
+> > > > > > > > > > > 
+> > > > > > > > > > > All values of Broadcast RGB always affect the color pipeline processing
+> > > > > > > > > > > such that a full-range input to the CRTC is converted to either full- or
+> > > > > > > > > > > limited-range, depending on what the monitor is supposed to accept.
+> > > > > > > > > > > 
+> > > > > > > > > > > When automatic is selected, does that mean that there is no signalling,
+> > > > > > > > > > > or that the signalling matches what the monitor is supposed to accept
+> > > > > > > > > > > according to the spec? Also, is this really HDMI specific?
+> > > > > > > > > > > 
+> > > > > > > > > > > When full or limited is selected and the monitor doesn't support the
+> > > > > > > > > > > signalling, what happens?
+> > > > > > > > > > 
+> > > > > > > > > > Forgot to mention: user-space still has no control over RGB vs YCbCr on
+> > > > > > > > > > the cable, so is this only affecting RGB? If not, how does it affect
+> > > > > > > > > > YCbCr?
+> > > > > > > > > 
+> > > > > > > > > So I dug a bit into both the i915 and vc4 drivers, and it looks like if
+> > > > > > > > > we're using a YCbCr format, i915 will always use a limited range while
+> > > > > > > > > vc4 will follow the value of the property.
+> > > > > > > > 
+> > > > > > > > The property is literally called "Broadcast *RGB*".
+> > > > > > > > That should explain why it's only affecting RGB.
+> > > > > > > 
+> > > > > > > Right. And the limited range option is called "Limited 16:235" despite
+> > > > > > > being usable on bpc > 8 bits. Naming errors occurs, and history happens
+> > > > > > > to make names inconsistent too, that's fine and not an argument in
+> > > > > > > itself.
+> > > > > > > 
+> > > > > > > > Full range YCbCr is a much rarer beast so we've never bothered
+> > > > > > > > to enable it.
+> > > > > > > 
+> > > > > > > vc4 supports it.
+> > > > > > 
+> > > > > > Someone implemented it incorrectly then.
+> > > > > 
+> > > > > Incorrectly according to what documentation / specification? I'm sorry,
+> > > > > but I find it super ironic that i915 gets to do its own thing, not
+> > > > > document any of it, and when people try to clean things up they get told
+> > > > > that we got it all wrong.
+> > > > 
+> > > > FWIW, this was an i915 property and if another driver uses the same
+> > > > property name it must have the same behavior. Yes, it isn't standardized
+> > > > and yes, it's not documented (hence this effort here) but it's still on
+> > > > vc4 to make the property compatible.
+> > > 
+> > > How is it not compatible? It's a superset of what i915 provides, but
+> > > it's strictly compatible with it.
+> > 
+> > No it is not.
 > 
-> The Sipeed Longan SoM 3H is a system on module based on the Allwinner
-> H618 SoC. The SoM features:
+> The property is compatible with i915 interpretation of it, whether you
+> like it or not. And that's what Sebastian was referring to.
 > 
-> - Four ARM Cortex-A53 cores, Mali-G31 MP2 GPU
-> - 2/4 GiB LPDDR4 DRAM SoMs
-> - AXP313a PMIC
-> - eMMC
+> > Eg. what happens if you set the thing to full range for RGB (which you
+> > must on many broken monitors), and then the kernel automagically
+> > switches to YCbCr (for whatever reason) but the monitor doesn't
+> > support full range YCbCr? Answer: you get crap output.
 > 
-> The Sipeed Longan PI 3H is a development board based on the above SoM.
-> The board features:
-> - Longan SoM 3H
-> - Raspberry-Pi-1 compatible GPIO header
-> - 2 USB 2.0 host port
-> - 1 USB 2.0 type C port (power supply + OTG)
-> - MicroSD slot
-> - 1Gbps Ethernet port (via RTL8211 PHY)
-> - HDMI port
-> - WiFi/BT chip
+> And that part is just moving goalposts.
 
-Merged, thanks!
+No. Allowing users to get correct colors with broken displays
+is the sole reason why this property even exists.
 
-Best regards,
-Jernej
-
-> 
-> Since v2:
->   - collect Reviewed-by tag
->   - add vin-supply property to reg_vcc3v3
->   - fix reg_vcc3v3 voltage value
->   - remove "interrupt-parent" and "interrupts" properties from axp313
->     node
-> 
-> Since v1:
->   - Use const rather than enum for "sipeed,longan-pi-3h" dt-binding
->   - remove dts-v1, model and compatible from SoM dtsi
->   - add interrupt related properties to axp313 dt node
->   - use "vcc-1v8-pll" and "vcc-3v3-io" as regulator name
->   - add dt node for board's discrete 5V->3.3V regulator and use it for
->     eth\tfcard 3.3v supply
->   - add usb2_vbus-supply property
-> 
-> 
-> Jisheng Zhang (2):
->   dt-bindings: arm: sunxi: Add Sipeed Longan Module 3H and Longan Pi 3H
->   arm64: dts: allwinner: h616: Add Sipeed Longan SoM 3H and Pi 3H board
->     support
-> 
->  .../devicetree/bindings/arm/sunxi.yaml        |   6 +
->  arch/arm64/boot/dts/allwinner/Makefile        |   1 +
->  .../sun50i-h618-longan-module-3h.dtsi         |  75 +++++++++
->  .../dts/allwinner/sun50i-h618-longanpi-3h.dts | 144 ++++++++++++++++++
->  4 files changed, 226 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h618-longan-module-3h.dtsi
->  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h618-longanpi-3h.dts
-> 
-> 
-
-
-
-
+-- 
+Ville Syrjälä
+Intel
