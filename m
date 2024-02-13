@@ -1,144 +1,116 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7056322635
-	for <linux-sunxi@lists.linux.dev>; Tue, 13 Feb 2024 10:04:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF9DF55784;
+	Tue, 13 Feb 2024 13:12:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707818696; cv=none; b=KSA4sXSHThI3O1fZ/JBh73nbU0153v2FCaWa/QuDAbeDhqM4G3eZm8cCJpS6SGGD6NA690biw/O7z+VEDHEecy50vH0zdE+BxOBujm4mPqiKLc69GyoFJ69wJf5YmPhh1uJsrNv/11eEMa0s6rxpGr2XPSBpcVU/wOQRfhYq5T8=
+	t=1707829943; cv=none; b=QSvvzPCgh9NEKzhmEoL4YKzy6PB76P1rcL6edUZPji/tBP/I8KHytw7DURkPqTrVc262XrPQamixx57N1P9CmDuJtQvuX8EUINPea67u1bYeT7jmkQOkRaJFtIV+dV1hhmbpokt1z3JArp6eutqB8z7R3cz7zbFbbQyuX6LIUn0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707818696; c=relaxed/simple;
-	bh=6TSHYiFO7t6qPOK5xs2M2DE46SDMBFbNXGbksGWwjH4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=KIi4Un08NvMGosij4FnMAgjnOIDwoQuDIXTstOABKV2O0lBIUI52F+bTPG9Ttds/e7+XGPNQ+BwyS8SoY0J+/S5fzUd9UhbloMLAEdtCN3nnPaOiii0aa2ZuLzfSP8jt94jNW4qTaUkxXHkzDmQABW17dDGyyInEzWdQvG/Lwhw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=SE49GUQb; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=hwPVCOob; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1707829943; c=relaxed/simple;
+	bh=0xP8I+Qej1cBpPDnNiDZJmh7/DqD49joD1ERj3DvfKk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fY7av0wuYZHZgIEfs4H1OVltkgaPv2W1/EFweAyiTDgtpUxV1RieadKubrlth2Fq0PmYAQGUWwBLSJAzUkFKBYGtSgiYvsU3AaB9txG2TQAXwIdtrqAtF1zP74llHWPPE8zZjwYi1PE3JVMtcCJzVf6K5cusT5wNXm9ubar+hU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lCIC4VOm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="SE49GUQb";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="hwPVCOob"
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1707818693;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Y1HrfL+SrlW2XWR5pU7cGgxYMFs+Qr2zZ76ZBVxutfE=;
-	b=SE49GUQbwTclIrg8Ek0Z3VpThQD1o9FAH8SAfIXoKnzTV3UsTWw9PR3oootZv4e+BrIiEw
-	mdQccGiNG42+Pm2ePTR4i97kp8932eaGmbf9YEyCPmZhmlW6DTxYRik/XdRPpaf/1d9Rj+
-	iw237txMkf2vF9jD/1ZLzDd0rm8LrsgK/C2xIiSWgoOKHIUVHZ9nngnvzOVUFKnc6moxK7
-	BpEj8jkWpHHDobcUxfUsyG+G/u9okIlxlJR4RBySpQ43POtEj6N7+cSAuQiP7GiM5XpWMC
-	zt2UBKcuYOqCl9/NGww8Fi+s6sVfQA4TLjGzQeVeq9V65GziT/r7Yaga1vZYqA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1707818693;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Y1HrfL+SrlW2XWR5pU7cGgxYMFs+Qr2zZ76ZBVxutfE=;
-	b=hwPVCOobELnpGmo9aIjJ/oKtSoM7jE5zNUcYVknaR65ECFvfFEULvht2Ghlz1V5bazoRzP
-	gBUt4M68cX7NwTDg==
-To: Yu Chien Peter Lin <peterlin@andestech.com>, acme@kernel.org,
- adrian.hunter@intel.com, ajones@ventanamicro.com,
- alexander.shishkin@linux.intel.com, andre.przywara@arm.com,
- anup@brainfault.org, aou@eecs.berkeley.edu, atishp@atishpatra.org,
- conor+dt@kernel.org, conor.dooley@microchip.com, conor@kernel.org,
- devicetree@vger.kernel.org, evan@rivosinc.com, geert+renesas@glider.be,
- guoren@kernel.org, heiko@sntech.de, irogers@google.com,
- jernej.skrabec@gmail.com, jolsa@kernel.org, jszhang@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-sunxi@lists.linux.dev, locus84@andestech.com, magnus.damm@gmail.com,
- mark.rutland@arm.com, mingo@redhat.com, n.shubin@yadro.com,
- namhyung@kernel.org, palmer@dabbelt.com, paul.walmsley@sifive.com,
- peterlin@andestech.com, peterz@infradead.org,
- prabhakar.mahadev-lad.rj@bp.renesas.com, rdunlap@infradead.org,
- robh+dt@kernel.org, samuel@sholland.org, sunilvl@ventanamicro.com,
- tim609@andestech.com, uwu@icenowy.me, wens@csie.org, will@kernel.org,
- inochiama@outlook.com, unicorn_wang@outlook.com, wefu@redhat.com
-Cc: Randolph <randolph@andestech.com>, Atish Patra <atishp@rivosinc.com>
-Subject: Re: [PATCH v8 02/10] irqchip/riscv-intc: Allow large non-standard
- interrupt number
-In-Reply-To: <20240129092553.2058043-3-peterlin@andestech.com>
-References: <20240129092553.2058043-1-peterlin@andestech.com>
- <20240129092553.2058043-3-peterlin@andestech.com>
-Date: Tue, 13 Feb 2024 11:04:53 +0100
-Message-ID: <877cj8issa.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lCIC4VOm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E8FFC433C7;
+	Tue, 13 Feb 2024 13:12:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707829942;
+	bh=0xP8I+Qej1cBpPDnNiDZJmh7/DqD49joD1ERj3DvfKk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lCIC4VOmOV8x0JsCqVrhzsGXz5txq4HxyFPJQRNTQh3KKT2Il8RF8+xeahTD5vCl5
+	 Kektsz/mfJ/JF35E4m5MMed5MRfMr6AfYG18l3OHogPx0QMHtC27U91R9ksMBhJ7LC
+	 QrvfK3L/7OQ2iqeglywl+CEqt2Kk1nqFfANGVdzwrbq09GCHd1PFvhMsW+yndJN2EI
+	 7AKa7uQuypabSxDDmx7RIiGt05YBvnxfcDyb7e4cAzPNfO0Its8Aro6czQ6i5gQbBA
+	 2KpPkjnKmYQ164gn/9NIeHWvTjE9mVJFzcMrCxOJS/SnPSYLIExFrgWV58G9p+7QNg
+	 Scf3fQWeQ5fiA==
+Date: Tue, 13 Feb 2024 13:12:11 +0000
+From: Will Deacon <will@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com,
+	alyssa@rosenzweig.io, asahi@lists.linux.dev,
+	baolu.lu@linux.intel.com, bhelgaas@google.com,
+	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com,
+	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de,
+	iommu@lists.linux.dev, jernej.skrabec@gmail.com,
+	jonathanh@nvidia.com, joro@8bytes.org,
+	krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com,
+	marcan@marcan.st, mhiramat@kernel.org, m.szyprowski@samsung.com,
+	paulmck@kernel.org, rdunlap@infradead.org, robin.murphy@arm.com,
+	samuel@sholland.org, suravee.suthikulpanit@amd.com,
+	sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org,
+	tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org,
+	yu-cheng.yu@intel.com, rientjes@google.com
+Subject: Re: [PATCH v3 10/10] iommu: account IOMMU allocated memory
+Message-ID: <20240213131210.GA28926@willie-the-truck>
+References: <20231226200205.562565-1-pasha.tatashin@soleen.com>
+ <20231226200205.562565-11-pasha.tatashin@soleen.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231226200205.562565-11-pasha.tatashin@soleen.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Mon, Jan 29 2024 at 17:25, Yu Chien Peter Lin wrote:
->  static asmlinkage void riscv_intc_irq(struct pt_regs *regs)
->  {
->  	unsigned long cause = regs->cause & ~CAUSE_IRQ_FLAG;
+Hi Pasha,
+
+On Tue, Dec 26, 2023 at 08:02:05PM +0000, Pasha Tatashin wrote:
+> In order to be able to limit the amount of memory that is allocated
+> by IOMMU subsystem, the memory must be accounted.
+> 
+> Account IOMMU as part of the secondary pagetables as it was discussed
+> at LPC.
+> 
+> The value of SecPageTables now contains mmeory allocation by IOMMU
+> and KVM.
+> 
+> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> ---
+>  Documentation/admin-guide/cgroup-v2.rst | 2 +-
+>  Documentation/filesystems/proc.rst      | 4 ++--
+>  drivers/iommu/iommu-pages.h             | 2 ++
+>  include/linux/mmzone.h                  | 2 +-
+>  4 files changed, 6 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> index 3f85254f3cef..e004e05a7cde 100644
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> @@ -1418,7 +1418,7 @@ PAGE_SIZE multiple when read back.
+>  	  sec_pagetables
+>  		Amount of memory allocated for secondary page tables,
+>  		this currently includes KVM mmu allocations on x86
+> -		and arm64.
+> +		and arm64 and IOMMU page tables.
 >  
-> -	if (unlikely(cause >= BITS_PER_LONG))
-> -		panic("unexpected interrupt cause");
-> -
-> -	generic_handle_domain_irq(intc_domain, cause);
-> +	if (generic_handle_domain_irq(intc_domain, cause))
-> +		pr_warn_ratelimited("Failed to handle interrupt (cause: %ld)\n",
-> +				    cause);
+>  	  percpu (npn)
+>  		Amount of memory used for storing per-cpu kernel
+> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+> index 49ef12df631b..86f137a9b66b 100644
+> --- a/Documentation/filesystems/proc.rst
+> +++ b/Documentation/filesystems/proc.rst
+> @@ -1110,8 +1110,8 @@ KernelStack
+>  PageTables
+>                Memory consumed by userspace page tables
+>  SecPageTables
+> -              Memory consumed by secondary page tables, this currently
+> -              currently includes KVM mmu allocations on x86 and arm64.
+> +              Memory consumed by secondary page tables, this currently includes
+> +              KVM mmu and IOMMU allocations on x86 and arm64.
 
-Either let the cause stick out or you need brackets. See:
+While I can see the value in this for IOMMU mappings managed by VFIO,
+doesn't this end up conflating that with the normal case of DMA domains?
+For systems that e.g. rely on an IOMMU for functional host DMA, it seems
+wrong to subject that to accounting constraints.
 
-  https://www.kernel.org/doc/html/latest/process/maintainer-tip.html#bracket-rules
-
->  }
->  
->  /*
-> @@ -93,6 +95,14 @@ static int riscv_intc_domain_alloc(struct irq_domain *domain,
->  	if (ret)
->  		return ret;
->  
-> +	/*
-> +	 * Only allow hwirq for which we have corresponding standard or
-> +	 * custom interrupt enable register.
-> +	 */
-> +	if ((riscv_intc_nr_irqs <= hwirq && hwirq < riscv_intc_custom_base) ||
-> +	    (riscv_intc_custom_base + riscv_intc_custom_nr_irqs) <= hwirq)
-> +		return -EINVAL;
-
-Duh. This mix of ordering required to read this 3 times. What's wrong
-with writing this consistently:
-
-	if ((hwirq >= riscv_intc_nr_irqs && hwirq < riscv_intc_custom_base) ||
-	    (hwirq >= iscv_intc_custom_base + riscv_intc_custom_nr_irqs)
-		return -EINVAL;
-
-Hmm?
-
-> -	pr_info("%d local interrupts mapped\n", BITS_PER_LONG);
-> +	pr_info("%d local interrupts mapped\n", riscv_intc_nr_irqs);
-> +	if (riscv_intc_custom_nr_irqs)
-> +		pr_info("%d custom local interrupts mapped\n",
-> +			riscv_intc_custom_nr_irqs);
-
-See bracket rules.
-  
->  	return 0;
->  }
-> @@ -166,6 +178,10 @@ static int __init riscv_intc_init(struct device_node *node,
->  		return 0;
->  	}
->  
-> +	riscv_intc_nr_irqs = BITS_PER_LONG;
-> +	riscv_intc_custom_base = riscv_intc_nr_irqs;
-
-Why don't you initialize the static variables with constants right away?
-
-> +	riscv_intc_custom_nr_irqs = 0;
-
-It's already 0, no?
-
->  	return riscv_intc_init_common(of_node_to_fwnode(node));
->  }
-
-Thanks,
-
-        tglx
+Will
