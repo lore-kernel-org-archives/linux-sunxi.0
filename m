@@ -1,162 +1,101 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DBA558AB4
-	for <linux-sunxi@lists.linux.dev>; Tue, 13 Feb 2024 15:26:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 286FD5F56A
+	for <linux-sunxi@lists.linux.dev>; Tue, 13 Feb 2024 15:45:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707838004; cv=none; b=UgP4oahzjwt2dfP5EHppVP3R2ZgOddnf/UOu2QhegOZD1uSIfHQvLkGtTc/KPsd2L4wV2TNrcPT5AduQecSa3Pk1QwruRvlrUfKbndtOUYBc6D4tgN63xMtPo6O32fETSK1v3YiYN1evBGYuTVG+TSjTeC1aClrxYNraon+z9uk=
+	t=1707839133; cv=none; b=KrdP3JIi2Ow3DC0zQOfjuTf2piDqiQGyfzLwGd42KvHDXIwAug0mrKN+PIV9mitpj2qmirmkcbSq2EDvDPw4cV3TQAedmDQjbsG8WJ3BhgLnqNrL7a53vVE7mkAH3sf3Yv9kcBe50MARHrhXJxlQEa4lHfiQsTAy5t1uahSB1To=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707838004; c=relaxed/simple;
-	bh=BvPgZ+dKvTPbLnx9uYUjOST7fIy0URICxrmEvH+D5qg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KOXF8UxpzKt3uG/SNlrV3o/FCdbXp1tyZw9urqSQrtecA4YszP07qqgw2y08dTEb98o2kjEM8GTmZVL0HZhAqJTA+rPOITuWNVlisw9lsnk6/1UUPsrd/SgGtR2t1xc8Ns7e5NTYrEuovK7w2AQBilgy8zGxLueOENJd/AR532k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CNDgKclX; arc=none smtp.client-ip=209.85.215.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1707839133; c=relaxed/simple;
+	bh=Mb7cfkVoTPe9SpFqQPiRQCgZRgp43WdceLq+nhIl53M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qUZZr80vE5iFWrsFtCsSwwlmeNDQI4G2t7x63PghucZfUOGRgnkgA3PBTea9tD+77mMteMInGmjYjPRHqp06M9fWoQi8csX138deMePiKA2OmSl1U510dLXOrOm3/GTozAWE4o+5OLuROlpm0eQrydQMEGt1ipOS+rNTrNYFsbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com; spf=none smtp.mailfrom=soleen.com; dkim=fail (0-bit key) header.d=soleen.com header.i=@soleen.com header.b=gEome/Zr reason="key not found in DNS"; arc=none smtp.client-ip=209.85.222.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CNDgKclX"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-5d3907ff128so3575867a12.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 13 Feb 2024 07:26:42 -0800 (PST)
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=soleen.com header.i=@soleen.com header.b="gEome/Zr"
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-785bdb57dfaso299861585a.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 13 Feb 2024 07:45:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707838002; x=1708442802; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+GIHngw2Uv/9x1adyo14J65FsyM0q1LqEDIZ2pVeC/E=;
-        b=CNDgKclXMVs1o79SQHsFB4hEJPyeMipE3VCAO0b8Msbu8wNwQYsdsb2nwHcwHLpQL8
-         S/LFUR/EsAYRmVwZ8Zmz/gIvioUGigEFHUUv6jysxnJx+A82bELTevdDpqxVXJ5vwxse
-         RTIvzqnzdzYKSLVLU4rMIqgjk1ZFV5vYX2eXB0T2SETUZNrSbdlBmUfiY/ycEgIxkFK9
-         uh7l1OxV2CP0GTuyS84XB86Gysqa4DrZ7rBSD4GJbHuBAnRBfv/ZsWaRgRLzIcdQ92/m
-         mRUzDTYJWX5lYob/HAD5rD9hNePTSPyhMpzWgeIWAD2OZyXivTd3ECGy5WMoABvhwHk3
-         YUHQ==
+        d=soleen.com; s=google; t=1707839131; x=1708443931; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=r+5lFm1GOYo46btsIaJvA6S/B+CQsp17IG3lccG/v6g=;
+        b=gEome/ZrILoDDeyRIow3vBrWXA26zD5/we8YLr8e4Z3DsHbX5J7rglI1wQqh6QPVl1
+         32GV9i2a0TYB8+pxDBW/VIFzlqkRLIYkVlKEv51M0PQzQem9cQZgDigQ6iDMZuym9W4x
+         f35asHd6GN3LElTsFzfl8Mr3C2X8yQD+GyuZWVhWPELzopahVnhuTYW6rG36E/JF/8IQ
+         fhh/VY+fOkXc7VhqaE0eRg1zubPKbp6J2dhelc5NFmb5BHx1YU63CeemVPcfg8jiuQRo
+         wjqT/gXTi1bxKtu8WwByZyk9CzfFXy7qSqy7QBnRNDlSH4sQuzrlw8KFkUUYQD3SIaXn
+         w2Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707838002; x=1708442802;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+GIHngw2Uv/9x1adyo14J65FsyM0q1LqEDIZ2pVeC/E=;
-        b=LTRT1lZP0BK6Hl5jTBUr+QiI7DqZ7M0VbrarND5Xkwd2ymhw6C9fS1S3hiSI8y2+9s
-         1e+P/kqKGMj+Sx8hpWB1yEpscjIkLg/6DYf52sECyCjnPQSEfLRbA16yjGo6belQdEa5
-         XSfT2MOhOjB/QDwBQlHdBt6sihgwC4W9CVsDMpEbmEvh9iGlpD3YuhQab3W5CXfEBNY3
-         3cKSlHllrhBJi7ovEqXg8jyzf1QvpBp4ys2j+lXpyvkF4un1E4fE9XXzAh0YtEz4UTFP
-         9QZ+k2Rn3Lif6O3EYa0eycfYT5peN1X9L+QBduqE9IzcKPHHjqLYKXtsph4HakqhDoED
-         oKPg==
-X-Forwarded-Encrypted: i=1; AJvYcCUA0m6T44m9puuT6CAP1qfp3k2bCE31jHVrovcEZT/8X8/kL2raPfqoQgcIQdWEUhYjV+cvoO756XhMGQfgsPUfFHM8fIryazrHvWc=
-X-Gm-Message-State: AOJu0Yw6yxhm3XE+IPeX+s5iOg2AYwrPYHyPxi8VJ6yUVBzSjheuoRyJ
-	Cw1rkTHhRDTDjICzTS0MFfWhyna34BqSvBZpOsTmpRZoVpufEpoU
-X-Google-Smtp-Source: AGHT+IG0HcXD1rWo9g1JLTi5S5Xtb+Kag9Ao9jEu8Uy7TWW+NEyts0jd9VKEPbyr2WgtQsV6DxPe7g==
-X-Received: by 2002:a17:902:eb8e:b0:1d9:9774:7e8a with SMTP id q14-20020a170902eb8e00b001d997747e8amr11805935plg.24.1707838002213;
-        Tue, 13 Feb 2024 07:26:42 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVENJMIdmgJ8B933ISdsKbYjSLSNNiJw9hRe426uNo1XtrsNmNeodhN0qpObJ9NtQYV8RwRej3RqLjlxrzZrqvl6mgt12eP47Ur35tp8EEFEMuphG8QUquIDvA6DArx4d8okDMx21Zo1jOE2JyD0v7LMCReLjU1FW44uWoIu79wqMcAaH+s19tj/EcYHeKRbWHQLe0ddUzSfbl4BIgsajpcykzny1W0qAbTQTFpJ/H3lC9O9PMAP0SEex1On9fqmseZhA7X4WOqTZgifMndJ4gS7Z/jxzKtqL3ikJZ5CW6tLGfMLV/a5vpXxu9bwsxXAdezF7dte4z8rYwH8lsZy7r9/sfd4Bj+l06636KbC028E2hT32G0JPmtTjzEF3rgx41mpDYjsWQFa7d98IDuFjTp3dhtZuXbzh9/u8T5AooeQU20qGyr0fXhczSigKglRJTjwc+zX0JwWnCzFs6GUZQBeDDxx+xuXsvk9PVwysfucCCwRKgR+FLwVWJIQJj0iDhobkEsSUnGQTXMAvlL2pS5+HnhVX7ij2Na6RBsXYTdPgFrPVzFT4+Z6CUIPJ5+zZkaPE3FBbzZyR5qvn6IMhUJIeQpdmmbXnBeUHr2pCjmL+Ssr/kqAHnvv3cjy8lXjKjMVbTUZoWsAU5jZ+wTj4uytdeTnHgLUNrL0plApt+l
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id o8-20020a17090323c800b001d78a08e8e7sm2213947plh.250.2024.02.13.07.26.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Feb 2024 07:26:41 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Tue, 13 Feb 2024 07:26:40 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Eric Dumazet <edumazet@google.com>
-Cc: Jisheng Zhang <jszhang@kernel.org>, Petr Tesarik <petr@tesarici.cz>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Jose Abreu <joabreu@synopsys.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	"open list:STMMAC ETHERNET DRIVER" <netdev@vger.kernel.org>,
-	"moderated list:ARM/STM32 ARCHITECTURE" <linux-stm32@st-md-mailman.stormreply.com>,
-	"moderated list:ARM/STM32 ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
-	Marc Haber <mh+netdev@zugschlus.de>, Andrew Lunn <andrew@lunn.ch>,
-	Florian Fainelli <f.fainelli@gmail.com>, stable@vger.kernel.org
-Subject: Re: [PATCH net v3] net: stmmac: protect updates of 64-bit statistics
- counters
-Message-ID: <20d94512-c4f2-49f7-ac97-846dc24a6730@roeck-us.net>
-References: <20240203190927.19669-1-petr@tesarici.cz>
- <ea1567d9-ce66-45e6-8168-ac40a47d1821@roeck-us.net>
- <Zct5qJcZw0YKx54r@xhacker>
- <CANn89i+4tVWezqr=BYZ5AF=9EgV2EPqhdHun=u=ga32CEJ4BXQ@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1707839131; x=1708443931;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=r+5lFm1GOYo46btsIaJvA6S/B+CQsp17IG3lccG/v6g=;
+        b=psKi1Xoqlekiqv1rtdE3nyykOxYzN6Y+nj3DoKAUpQJMpeYDx0Tv7rzoUJJ09FlAN7
+         nv0PfdGGxzKEbsjluXLcgQH8w5KqGSJZVQVWuR7d9Y1+3KPTXMi0cd3vW5kG4B5LeHf3
+         nASS6o1bvGx0jS5OhdkYEEMJU9mUt7jrIzXs0OjfHHjVVmOIFYbwhjO6MyeDgvSe0k2E
+         Z4ttHpD0T4ib48euaKitUAKnh7iLjQD9O7jRvVaEK19I+IZ/feAsKJ81Xzgp+GAwK2cI
+         7IxJspVTR5BdnlvPttgZ4gv3Cslm/uIX70hRqR0ixK5ryjC7sBRKDIQ+MIDFRMV+Ll4k
+         YKAA==
+X-Gm-Message-State: AOJu0YzGOyj3OGPzAombgNmvUUqIUbAwXy2nH5ZKld2mQJS4eSjN7CDz
+	Vn0JrlFJY+PkoSUTf+Kq0oadKH3Rg5daD1mwtN5Jmk0FGn05nsVZnE+SHsryykJ5lnqvh82/CvM
+	2K0ebwEtGr+npqYByk7xPyMypfa5O++2+doT3pA==
+X-Google-Smtp-Source: AGHT+IFqChznTFjr/EeidSN571ZA0nQfVJvF+Fp0E+Y2flaP6eNCXc4z1s3ADkdtr1CrUfrPgpTF+9pex3Z052b1w5U=
+X-Received: by 2002:a05:620a:618b:b0:787:1db5:f0de with SMTP id
+ or11-20020a05620a618b00b007871db5f0demr2991955qkn.26.1707839131046; Tue, 13
+ Feb 2024 07:45:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANn89i+4tVWezqr=BYZ5AF=9EgV2EPqhdHun=u=ga32CEJ4BXQ@mail.gmail.com>
+References: <20231226200205.562565-1-pasha.tatashin@soleen.com>
+ <20231226200205.562565-11-pasha.tatashin@soleen.com> <20240213131210.GA28926@willie-the-truck>
+In-Reply-To: <20240213131210.GA28926@willie-the-truck>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Tue, 13 Feb 2024 10:44:53 -0500
+Message-ID: <CA+CK2bB4Z+z8tocO79AdsAy+gmN_4aVHgFUsm_gYLUJ2zV1A6A@mail.gmail.com>
+Subject: Re: [PATCH v3 10/10] iommu: account IOMMU allocated memory
+To: Will Deacon <will@kernel.org>
+Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
+	asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
+	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
+	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
+	iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
+	joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
+	mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
+	rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
+	suravee.suthikulpanit@amd.com, sven@svenpeter.dev, thierry.reding@gmail.com, 
+	tj@kernel.org, tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, 
+	yu-cheng.yu@intel.com, rientjes@google.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Feb 13, 2024 at 03:51:35PM +0100, Eric Dumazet wrote:
-> On Tue, Feb 13, 2024 at 3:29 PM Jisheng Zhang <jszhang@kernel.org> wrote:
-> >
-> > On Sun, Feb 11, 2024 at 08:30:21PM -0800, Guenter Roeck wrote:
-> > > Hi,
-> > >
-> > > On Sat, Feb 03, 2024 at 08:09:27PM +0100, Petr Tesarik wrote:
-> > > > As explained by a comment in <linux/u64_stats_sync.h>, write side of struct
-> > > > u64_stats_sync must ensure mutual exclusion, or one seqcount update could
-> > > > be lost on 32-bit platforms, thus blocking readers forever. Such lockups
-> > > > have been observed in real world after stmmac_xmit() on one CPU raced with
-> > > > stmmac_napi_poll_tx() on another CPU.
-> > > >
-> > > > To fix the issue without introducing a new lock, split the statics into
-> > > > three parts:
-> > > >
-> > > > 1. fields updated only under the tx queue lock,
-> > > > 2. fields updated only during NAPI poll,
-> > > > 3. fields updated only from interrupt context,
-> > > >
-> > > > Updates to fields in the first two groups are already serialized through
-> > > > other locks. It is sufficient to split the existing struct u64_stats_sync
-> > > > so that each group has its own.
-> > > >
-> > > > Note that tx_set_ic_bit is updated from both contexts. Split this counter
-> > > > so that each context gets its own, and calculate their sum to get the total
-> > > > value in stmmac_get_ethtool_stats().
-> > > >
-> > > > For the third group, multiple interrupts may be processed by different CPUs
-> > > > at the same time, but interrupts on the same CPU will not nest. Move fields
-> > > > from this group to a newly created per-cpu struct stmmac_pcpu_stats.
-> > > >
-> > > > Fixes: 133466c3bbe1 ("net: stmmac: use per-queue 64 bit statistics where necessary")
-> > > > Link: https://lore.kernel.org/netdev/Za173PhviYg-1qIn@torres.zugschlus.de/t/
-> > > > Cc: stable@vger.kernel.org
-> > > > Signed-off-by: Petr Tesarik <petr@tesarici.cz>
-> > >
-> > > This patch results in a lockdep splat. Backtrace and bisect results attached.
-> > >
-> > > Guenter
-> > >
-> > > ---
-> > > [   33.736728] ================================
-> > > [   33.736805] WARNING: inconsistent lock state
-> > > [   33.736953] 6.8.0-rc4 #1 Tainted: G                 N
-> > > [   33.737080] --------------------------------
-> > > [   33.737155] inconsistent {HARDIRQ-ON-W} -> {IN-HARDIRQ-W} usage.
-> > > [   33.737309] kworker/0:2/39 [HC1[1]:SC0[2]:HE0:SE0] takes:
-> > > [   33.737459] ef792074 (&syncp->seq#2){?...}-{0:0}, at: sun8i_dwmac_dma_interrupt+0x9c/0x28c
-> > > [   33.738206] {HARDIRQ-ON-W} state was registered at:
-> > > [   33.738318]   lock_acquire+0x11c/0x368
-> > > [   33.738431]   __u64_stats_update_begin+0x104/0x1ac
-> > > [   33.738525]   stmmac_xmit+0x4d0/0xc58
-> >
-> > interesting lockdep splat...
-> > stmmac_xmit() operates on txq_stats->q_syncp, while the
-> > sun8i_dwmac_dma_interrupt() operates on pcpu's priv->xstats.pcpu_stats
-> > they are different syncp. so how does lockdep splat happen.
-> 
-> Right, I do not see anything obvious yet.
+> >  SecPageTables
+> > -              Memory consumed by secondary page tables, this currently
+> > -              currently includes KVM mmu allocations on x86 and arm64.
+> > +              Memory consumed by secondary page tables, this currently includes
+> > +              KVM mmu and IOMMU allocations on x86 and arm64.
 
-Wild guess: I think it maybe saying that due to
+Hi Will,
 
-	inconsistent {HARDIRQ-ON-W} -> {IN-HARDIRQ-W} usage.
+> While I can see the value in this for IOMMU mappings managed by VFIO,
+> doesn't this end up conflating that with the normal case of DMA domains?
+> For systems that e.g. rely on an IOMMU for functional host DMA, it seems
+> wrong to subject that to accounting constraints.
 
-the critical code may somehow be interrupted and, while handling the
-interrupt, try to acquire the same lock again.
+The accounting constraints are only applicable when GFP_KERNEL_ACCOUNT
+is passed to the iommu mapping functions. We do that from the vfio,
+iommufd, and vhost. Without this flag, the memory useage is reported
+in /proc/meminfo as part of  SecPageTables field, but not constrained
+in cgroup.
 
-Guenter
+Pasha
