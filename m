@@ -1,191 +1,92 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DB4D1A731;
-	Wed, 14 Feb 2024 12:49:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD5E111A2
+	for <linux-sunxi@lists.linux.dev>; Wed, 14 Feb 2024 18:16:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707914993; cv=none; b=sznRwNKpdWHU4MOVBbYd9sKgD4wiT1gnxEsK6dw7jqvRc/3nbXhkquDifGVw5jFfWIwfUFyXG3chcnqtx5tDKNLVqs9t+IdBXbP6FA7l+xsERw7nJi/d9lrXkpDChLdNfkZqh2wu5cMfiBprDNyYjnpp4/Ybs+QAWf7yLJeYwj8=
+	t=1707934600; cv=none; b=pR4iBSU2D+SRK/IS9OEAcTstoxM+ulsMiEcRi3CjxMHtK04jIZrdajmQn91fmlonb7Znxz2V5DM7zTRmbzvVcVe09nVju2Y1ISn6Axw4dVfZns1VbnQgseAvjwu0wK6Ryfs0anxrdOTpg+7LtvRfS2lEycAigIT/TWWyX5T/gBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707914993; c=relaxed/simple;
-	bh=VfFo/DkZzmeQyKntjmarBqvTj2pcgH+G7HGM6HxEwSk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lLoMgMKggPVpNVEWOoPGh0YusOOXDoCQaiiTBAqOAsk9P21tN1uBrOpGl/KclCOnS4QHK/SHxR44eMLRFOdFbgenk3IVjxOjnLovlkfGP7BtHzUShJO4nPX6m9o0zPXtIUGPrbLVBNXt1tBUWOcFaAc6b/yjORCsk2gs6ROMSgA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ftZDfTaH; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1707934600; c=relaxed/simple;
+	bh=eNeI8ldeOXVyYU5y4G5uGvLkA49GeutfdVfIPxaJR+U=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=M8b+8NXqj+SMzGbDWlIpmgX0QXkvzCMZUKh8Viza4Z+btJhtOR9CO7BpNw31pi3sfL5ZXprIWIXlBzYRVIxYgsAV0yoWkEmkHJ11l9YYIMAmwXX+/ymkSDgMYflfoNzq4Dfn8cVHXePi+22qUI1GTrcmSg/n5SXEDfTbcRou+xg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E26Chg3U; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ftZDfTaH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707914992; x=1739450992;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=VfFo/DkZzmeQyKntjmarBqvTj2pcgH+G7HGM6HxEwSk=;
-  b=ftZDfTaHFwuNYapG9zcQMfaEbMidnt86i57VyyY2Y9kt6SPLzoxSDEw2
-   6JyCbYr4zBAxANqTOH69T1gLxpurXOE9BIeLTTlIuuNs4ecBgs6HBqEz9
-   Dz0P8f88A53ujj8v8O5JsZFpsmOtFKvKEeoO9bTuw7p6YWuvzkKNhft4D
-   tCVu1IX2EomsWb9E4GQAYNMqQz86Z6SRJ0JSUzydTC1xTb3Q2ufLnxQ9V
-   x2gJxBxsJnEX99RgYHCnaZl+GCi60AG2V00Dl4QpJ2oYbndm14XdY7Mgt
-   lx+N7U/h0irJmnOt1csds3r3h3qcQTF76MtoRxB0g/DexXpcvy7ddHA94
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="1809696"
-X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; 
-   d="scan'208";a="1809696"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2024 04:49:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="912083870"
-X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; 
-   d="scan'208";a="912083870"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2024 04:49:33 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1raEhb-00000004UXT-0JCa;
-	Wed, 14 Feb 2024 14:49:27 +0200
-Date: Wed, 14 Feb 2024 14:49:26 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	James Clark <james.clark@arm.com>, Mark Brown <broonie@kernel.org>,
-	linux-pwm@vger.kernel.org, Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Alexander Shiyan <shc_work@mail.ru>,
-	Benson Leung <bleung@chromium.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Daire McNamara <daire.mcnamara@microchip.com>,
-	Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Michael Walle <mwalle@kernel.org>, Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Hammer Hsieh <hammerh0314@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-	Sean Anderson <sean.anderson@seco.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>,
-	Anjelique Melendez <quic_amelende@quicinc.com>,
-	Bjorn Andersson <quic_bjorande@quicinc.com>,
-	Kees Cook <keescook@chromium.org>, Rob Herring <robh@kernel.org>,
-	linux-doc@vger.kernel.org, kernel@pengutronix.de,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	linux-rpi-kernel@lists.infradead.org,
-	Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev, Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>, linux-mips@vger.kernel.org,
-	linux-gpio@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	linux-amlogic@lists.infradead.org, linux-riscv@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	linux-samsung-soc@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-	linux-leds@vger.kernel.org
-Subject: Re: [PATCH v6 003/164] pwm: Provide pwmchip_alloc() function and a
- devm variant of it
-Message-ID: <Zcy21tsntcK80hef@smile.fi.intel.com>
-References: <cover.1707900770.git.u.kleine-koenig@pengutronix.de>
- <9577d6053a5a52536057dc8654ff567181c2da82.1707900770.git.u.kleine-koenig@pengutronix.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E26Chg3U"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3394b892691so39877f8f.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 14 Feb 2024 10:16:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707934595; x=1708539395; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eNeI8ldeOXVyYU5y4G5uGvLkA49GeutfdVfIPxaJR+U=;
+        b=E26Chg3U0CNugwEWF8znDaduqL0fDV1hUDctrCR3+VvX1qq07Nou1zn5fPr2rIPV2x
+         DV/RgvN3wsaJFRTD/ZoC4gz+ICpaWgy4l9QrDz2bmzTa5CW99BhT4XqTcMeFm09Y/fB0
+         Wd3/T5nR2ticg7tyQB0YPOIxgE5UXwWpbJtqjV2G7xH0kmm8ixctu4atrj0Hv3O3Kqyc
+         MCZq6XrXhcnH0QPRu8/DUW8/RVz0Wxyr5sby26zi3GIk1o/lrFQTxGG14hXg+bh01nRq
+         PYCjBDZQZsW83tD1HZjM2ala4adb4jB/J1N7HPO1PrqlgkNsYY3QsfuvNNnc+kA5ck9V
+         5mkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707934595; x=1708539395;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=eNeI8ldeOXVyYU5y4G5uGvLkA49GeutfdVfIPxaJR+U=;
+        b=JFGx/pcuqyjHrPrt9jKptTzxwVUOESrqs4xkiqXkbrDVIR4CU8lp7Mna7fgJxA4qS/
+         vXRf0qgq5Jx+lCaM+CrJXsiJQep2p9icq35Tq38FNSoslrpaEEaCyZl0qbeWRZ4GceDq
+         R1KK19CfT1k6uA70OTCc4Og4GpJydGqPVMueliPre0IPStrwZZqnbZPP5794PranCk0Q
+         1ka6a7JcIAzjo0M09YQn7dkmbgLlj7pfA86Zn6H8mhI9m86YFGvTedzYUlIc1frQmpGw
+         X4R591faYO3vj6NCFPh0GtB0R1tYFprbd3dQ9PfOlbEZ7PxGVA90xYc7YHfxmigoBIDo
+         oomg==
+X-Forwarded-Encrypted: i=1; AJvYcCVWpEOAN7zKPQhsB+VoNbEUk9PRzDR44NfcZwTMyXeT79EnFg8z/GIZRlATyCvsR1VJ5DfhtOOHv3fkI3M2X0BH35kpCgfdsufaqNM=
+X-Gm-Message-State: AOJu0YzFvFw2wUPfZ0WZIfo5XF1aCnrn6jUTcY3JMbx82vo4qnQu5j+C
+	D74/FZLVeiLXKbTs35yiphslVQrYQ92OrX0LiDuA1U2Bkp1F9dgq
+X-Google-Smtp-Source: AGHT+IHNgm4mA4NeVwoXy2ia8eMk3+9YX7+zGJaL84z5AExtp64tdZok98OjS2DaHI8OFZo2AYSpbA==
+X-Received: by 2002:a5d:40c8:0:b0:33c:ef57:ef02 with SMTP id b8-20020a5d40c8000000b0033cef57ef02mr2504331wrq.17.1707934595160;
+        Wed, 14 Feb 2024 10:16:35 -0800 (PST)
+Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
+        by smtp.gmail.com with ESMTPSA id k3-20020a05600c0b4300b00410b0ce91b1sm2610954wmr.25.2024.02.14.10.16.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Feb 2024 10:16:22 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ linux-pwm@vger.kernel.org,
+ Uwe =?ISO-8859-1?Q?Kleine=2DK=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ kernel@pengutronix.de
+Subject:
+ Re: [PATCH v6 124/164] pwm: sun4i: Make use of pwmchip_parent() accessor
+Date: Wed, 14 Feb 2024 19:16:19 +0100
+Message-ID: <2717935.mvXUDI8C0e@jernej-laptop>
+In-Reply-To:
+ <3ddaec73f3abefb45625d0a469026fa8d13da8c0.1707900770.git.u.kleine-koenig@pengutronix.de>
+References:
+ <cover.1707900770.git.u.kleine-koenig@pengutronix.de>
+ <3ddaec73f3abefb45625d0a469026fa8d13da8c0.1707900770.git.u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <9577d6053a5a52536057dc8654ff567181c2da82.1707900770.git.u.kleine-koenig@pengutronix.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-On Wed, Feb 14, 2024 at 10:30:50AM +0100, Uwe Kleine-König wrote:
-> This function allocates a struct pwm_chip and driver data. Compared to
-> the status quo the split into pwm_chip and driver data is new, otherwise
-> it doesn't change anything relevant (yet).
-> 
-> The intention is that after all drivers are switched to use this
-> allocation function, its possible to add a struct device to struct
-> pwm_chip to properly track the latter's lifetime without touching all
-> drivers again. Proper lifetime tracking is a necessary precondition to
-> introduce character device support for PWMs (that implements atomic
-> setting and doesn't suffer from the sysfs overhead of the /sys/class/pwm
-> userspace support).
-> 
-> The new function pwmchip_priv() (obviously?) only works for chips
-> allocated with pwmchip_alloc().
+Dne sreda, 14. februar 2024 ob 10:32:51 CET je Uwe Kleine-K=F6nig napisal(a=
+):
+> struct pwm_chip::dev is about to change. To not have to touch this
+> driver in the same commit as struct pwm_chip::dev, use the accessor
+> function provided for exactly this purpose.
+>=20
+> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
 
-...
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-> +#define PWMCHIP_ALIGN ARCH_DMA_MINALIGN
-> +
-> +static void *pwmchip_priv(struct pwm_chip *chip)
-> +{
-> +	return (void *)chip + ALIGN(sizeof(*chip), PWMCHIP_ALIGN);
-> +}
-
-Why not use dma_get_cache_alignment() ?
-
-...
-
-> +/* This is the counterpart to pwmchip_alloc */
-
-pwmchip_alloc()
-
-...
-
-> +EXPORT_SYMBOL_GPL(pwmchip_put);
-
-> +EXPORT_SYMBOL_GPL(pwmchip_alloc);
-
-> +EXPORT_SYMBOL_GPL(devm_pwmchip_alloc);
-
-Are these exported via namespace? If no, can they be from day 1?
-
-...
-
-> +static inline void pwmchip_put(struct pwm_chip *chip)
-> +{
-> +}
-
-Can be one line, but it's up to the present style in this header.
-
--- 
-With Best Regards,
-Andy Shevchenko
+Best regards,
+Jernej
 
 
