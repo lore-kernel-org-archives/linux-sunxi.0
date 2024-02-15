@@ -1,204 +1,225 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B65B0132466;
-	Thu, 15 Feb 2024 13:51:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C886132C24
+	for <linux-sunxi@lists.linux.dev>; Thu, 15 Feb 2024 15:09:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708005097; cv=none; b=dlbr3Fzq7ezxPfcFNQTERtL6cRrUHtEhl04fBoZ4NsO8yi7zNyGmzoAwGY0Y+BxoxnmPAMRe9pjPRGs9+uEqI/Z8oJBT9LuFFi1P8jSdzEbWs0DPJ4SEJ+bJgQc54zYwCGiGtaxjzwbzMmBss6XHDuBe6Dz8osg/sk4sVVOg1Po=
+	t=1708009756; cv=none; b=VswTsEt9Ke2d8V8x6gohS1AEUfhAlcs+tkndAFYLR9DA1isvAGXDaOghMLf/zmta9TJbAWkbdb2E0wYIN0JRNvtAteGP0Wnh3Kf0CeKr26t2xavO1K/V5yXQpQxvq0KdPV4sEGqDieeh7On4rSIfbafHJCw7h6L5tQf4TT/+qAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708005097; c=relaxed/simple;
-	bh=RzDVzAMbt/0O8rLENBgNMOIiu2ews2E1U5PQyx+Ji0k=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=duthAThQ7ST3q+IY+RI12/l/pID7L0Nmhb/kMpJj1MT6zmByzVq7B5SDMxItlbgOcnxPCuti79DYQfuELHiISOzmgiKhs7y/wXpy7QpK36g0g8faMeSDsaTLkhxhBB5wvP2OHOcegKXZUBQke9WW5qKyMLtN8/I9b3PlSb4JNs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U3huoTOG; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1708009756; c=relaxed/simple;
+	bh=1dewdp2A0Zo42dyThGoQOQMbyk8kJSMF3Ua2SIJeM54=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qpp0s7L2t5fS1fD+wN/i+oosLMLGiQ6PFwf47A/GtC8zxsxvsq7N+PF6Ys6DMWV2+HtpHYi+n5vhqbKuRrC7cYezf8MjgkMFZatSLppehitQ/XVFLPhfpyB9yb+PTtmrKES0Q1Acrzo1NxA51AC1+oVdbAvpu02zzvlXRDjGTNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ApIWkTco; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U3huoTOG"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4121954d4c0so3306335e9.0;
-        Thu, 15 Feb 2024 05:51:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708005094; x=1708609894; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=5t9mkBRSLuX6Whm+p+USkACVg0A1ZTFUPoQmMKDP/ks=;
-        b=U3huoTOGv3ZZLKaGr6em9+pbTKZvNF/aEa3yZZzK3ZRb4mZRY724epLKmUh0pfz9lr
-         Dii/Vy7BOWolB0lk8QrHWdXC/gKSrJmBeeu/E7+Y/UM97Lt2fpxMTZi6fi0pZ3mw/qyD
-         jlzZyG3xPNPVfLYh8RXEfODhltQbOhq4Kxx4nqpe5EusVfNoB8Ofej2e7Uj6IKPMVqGy
-         bpA3db/EGgQS75L3yDfqXQpcD2LIE1NSaJEQzEgwgV6HN8u1RD+lHixOw4qEWfcl3icl
-         Z3JP5o/4Mnmr5f5hM7fYMg1DzMhNt3m1582gOA9ojFWJ7DNSSZtdNJEXfDti/bGnztRL
-         VJKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708005094; x=1708609894;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5t9mkBRSLuX6Whm+p+USkACVg0A1ZTFUPoQmMKDP/ks=;
-        b=Ayegmfao7y5LVC1ng2jdCY6kcRy4Bgew9mlmKYYwE5qNTa1BmEUcSX2QRDGVBDXPId
-         dIXDrhCADbrsvuuU5VVFJuhEkiAf5RkBjEBEMs2sKey8WKgXBtRw0HgP+Q0PtsKfmZGc
-         vn+fny2UkXyHUvruXPBKxsPjM8zhkWN/Ajdxknsq3Ipr2EKQ5/E/QfrKgxvtpS0xeSh+
-         3ZZ/DO0MFpDO5rpPcGtNwwmLlZj3q0em6eNMoRPz4jOthrIKH9kbrxuwwiOO7tQNQeEM
-         90dOS6Zi07jBZX+AQYQuo936Cl+WshEjS7Zyw8wBj4yMdt93ezg6eaPbMAciwa9D6PXO
-         Vl6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCW4KkEYzMbxMnZCCn4Do8u2RVOuLpzi5k3th4jexUEDxNAGw+ZSJpiOqviE0QjZY64jRtsaoK4y7qXq17s/L5V4PTH9NVaN1AATrtOeV738S0n73oknchcD4xoYIgcszYg1kxh84XMWklEJqkdqSZjKXxqIUK5Qo68m0tnAk41Uweq0rw==
-X-Gm-Message-State: AOJu0Yw5iIAKsgqU4IibP8K63I9bkneq1Ciwwp++LdrXhLCANwoHjz+4
-	oPNgH0tSJ3m3NBhdJpiLgVqYRWhpdJkBKGktuynTrugOUdkI2ffo
-X-Google-Smtp-Source: AGHT+IH7k9jN1LEPjklm49kSSJGmdKPhxpWNQecPQqPdKhvRMqEI/U195h3M4bWUY8DUrcLpEFVYaQ==
-X-Received: by 2002:a05:600c:3503:b0:412:7d0:d83 with SMTP id h3-20020a05600c350300b0041207d00d83mr1601111wmq.16.1708005093670;
-        Thu, 15 Feb 2024 05:51:33 -0800 (PST)
-Received: from ?IPv6:2001:a61:3456:4e01:6ae:b55a:bd1d:57fc? ([2001:a61:3456:4e01:6ae:b55a:bd1d:57fc])
-        by smtp.gmail.com with ESMTPSA id i7-20020a05600c290700b00410add3af79sm5061337wmd.23.2024.02.15.05.51.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Feb 2024 05:51:33 -0800 (PST)
-Message-ID: <63b248efcbd62a121610cbf37ea0339bd87c99e7.camel@gmail.com>
-Subject: Re: [PATCH v6 003/164] pwm: Provide pwmchip_alloc() function and a
- devm variant of it
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, Michael Walle
- <mwalle@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
- linux-doc@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>, Paul
- Walmsley <paul.walmsley@sifive.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Paul Cercueil <paul@crapouillou.net>, 
- linux-tegra@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>, 
- Thierry Reding <thierry.reding@gmail.com>, James Clark
- <james.clark@arm.com>, Pavel Machek <pavel@ucw.cz>,  Broadcom internal
- kernel review list <bcm-kernel-feedback-list@broadcom.com>, Guenter Roeck
- <groeck@chromium.org>,  chrome-platform@lists.linux.dev, Nobuhiro Iwamatsu
- <nobuhiro1.iwamatsu@toshiba.co.jp>, Fabio Estevam <festevam@gmail.com>, 
- linux-riscv@lists.infradead.org, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- Jerome Brunet <jbrunet@baylibre.com>, Rob Herring <robh@kernel.org>, Samuel
- Holland <samuel@sholland.org>,  linux-samsung-soc@vger.kernel.org, Bjorn
- Andersson <quic_bjorande@quicinc.com>,  Florian Fainelli
- <florian.fainelli@broadcom.com>, Jonathan Corbet <corbet@lwn.net>, Sean
- Anderson <sean.anderson@seco.com>, Benson Leung <bleung@chromium.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Lee Jones <lee@kernel.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>,  Jonathan Hunter
- <jonathanh@nvidia.com>, Hammer Hsieh <hammerh0314@gmail.com>,
- linux-rockchip@lists.infradead.org,  Chen-Yu Tsai <wens@csie.org>, Michal
- Simek <michal.simek@amd.com>, NXP Linux Team <linux-imx@nxp.com>,
- linux-leds@vger.kernel.org, Ilpo =?ISO-8859-1?Q?J=E4rvinen?=
- <ilpo.jarvinen@linux.intel.com>, Alim Akhtar <alim.akhtar@samsung.com>,
- linux-mips@vger.kernel.org,  linux-sunxi@lists.linux.dev,
- platform-driver-x86@vger.kernel.org,  linux-pwm@vger.kernel.org, Kees Cook
- <keescook@chromium.org>, Sven Peter <sven@svenpeter.dev>, Martin
- Blumenstingl <martin.blumenstingl@googlemail.com>,  Ray Jui
- <rjui@broadcom.com>, Sascha Hauer <s.hauer@pengutronix.de>, Jonathan
- =?ISO-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>, Vladimir Zapolskiy
- <vz@mleia.com>, Hans de Goede <hdegoede@redhat.com>, Mark Brown
- <broonie@kernel.org>,  linux-mediatek@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org,  Baolin Wang
- <baolin.wang@linux.alibaba.com>, Jonathan Cameron
- <Jonathan.Cameron@huawei.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-amlogic@lists.infradead.org, Orson Zhai <orsonzhai@gmail.com>, Mika
- Westerberg <mika.westerberg@linux.intel.com>,  kernel@pengutronix.de,
- linux-arm-kernel@lists.infradead.org, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Neil Armstrong
- <neil.armstrong@linaro.org>,  Alexander Shiyan <shc_work@mail.ru>, Scott
- Branden <sbranden@broadcom.com>,  linux-gpio@vger.kernel.org, Daire
- McNamara <daire.mcnamara@microchip.com>,  Chunyan Zhang
- <zhang.lyra@gmail.com>, Hector Martin <marcan@marcan.st>, 
- linux-stm32@st-md-mailman.stormreply.com, Claudiu Beznea
- <claudiu.beznea@tuxon.dev>, Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>,  Fabrice Gasnier
- <fabrice.gasnier@foss.st.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- asahi@lists.linux.dev,  Maxime Coquelin <mcoquelin.stm32@gmail.com>, Kevin
- Hilman <khilman@baylibre.com>, Shawn Guo <shawnguo@kernel.org>,  Anjelique
- Melendez <quic_amelende@quicinc.com>
-Date: Thu, 15 Feb 2024 14:51:31 +0100
-In-Reply-To: <ws4ybgtvfxqz53vk3i67suipzyqpy5y5fqeee5uf3ua6ow222n@i4ktjuorq3nl>
-References: <cover.1707900770.git.u.kleine-koenig@pengutronix.de>
-	 <9577d6053a5a52536057dc8654ff567181c2da82.1707900770.git.u.kleine-koenig@pengutronix.de>
-	 <Zcy21tsntcK80hef@smile.fi.intel.com>
-	 <ws4ybgtvfxqz53vk3i67suipzyqpy5y5fqeee5uf3ua6ow222n@i4ktjuorq3nl>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.3 (3.50.3-1.fc39) 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ApIWkTco"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708009755; x=1739545755;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=1dewdp2A0Zo42dyThGoQOQMbyk8kJSMF3Ua2SIJeM54=;
+  b=ApIWkTcopMBYHHLcqaY4WvaivqTmGD4bX9BEWo70RJsYJ183w8vqA+TY
+   GUO8q+O1J4K2pNnGRkkIVY7K38oKM3fXYntwBSDrpv8RzITPPYuKoTJEa
+   TITDKVthtk2iDVJLlVfMBgWifkTl8Ha8ykCiztaBBuzCc6BRFk6puOcPo
+   PPbz8E4WpImeuqldPTUtYdhDQ7FzPUQ3ohKc/FuyDGUl+16oY1HKnK5oi
+   5fXS8mWIL3ddVT8xSik0Yytd4qSOBdhAwf2RLST9UlDH4nbiaPnSDVHL1
+   A8HlcaCAVX4o7sVD7sWPTZyAwDDTWatdNJJW/qjN5efBI5ZLW8tApb/eE
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10984"; a="5930140"
+X-IronPort-AV: E=Sophos;i="6.06,161,1705392000"; 
+   d="scan'208";a="5930140"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2024 07:09:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10984"; a="826423681"
+X-IronPort-AV: E=Sophos;i="6.06,161,1705392000"; 
+   d="scan'208";a="826423681"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+  by orsmga001.jf.intel.com with SMTP; 15 Feb 2024 07:09:06 -0800
+Received: by stinkbox (sSMTP sendmail emulation); Thu, 15 Feb 2024 17:09:05 +0200
+Date: Thu, 15 Feb 2024 17:09:05 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>,
+	Sandy Huang <hjc@rock-chips.com>,
+	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: Re: Re: Re: Re: Re: Re: [PATCH v5 08/44] drm/connector: hdmi:
+ Add Broadcast RGB property
+Message-ID: <Zc4pEfVRItn0ZCXE@intel.com>
+References: <Zb0M_2093UwPXK8y@intel.com>
+ <hez2m57ogqx3yyqk45tzdkvxvhrbdepgm244i4m2aty2xhf5b5@acqgvmxhmmvr>
+ <Zb0aYAapkxQ2kopt@intel.com>
+ <zml6j27skvjmbrfyz7agy5waxajv4p4asbemeexelm3wuv4o7j@xkd2wvnxhbuc>
+ <20240209203435.GB996172@toolbox>
+ <ahfl6f72lpgpsbnrbgvbsh4db4npr2hh36kua2c6krh544hv5r@dndw4hz2mu2g>
+ <Zco-DQaXqae7B1jt@intel.com>
+ <yx2t7xltxxgsngdsxamsfq6y7dze3wzegxcqwmsb5yrxen73x6@u3vilqhpci4w>
+ <ZcsqoPCJDjA5PJUF@intel.com>
+ <dti6zcuzszhut5m4g2bxiwfogwctfhktv2mwuqlij7wtvh3bny@ry4mxpiqidmt>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <dti6zcuzszhut5m4g2bxiwfogwctfhktv2mwuqlij7wtvh3bny@ry4mxpiqidmt>
+X-Patchwork-Hint: comment
 
-On Thu, 2024-02-15 at 13:01 +0100, Uwe Kleine-K=C3=B6nig wrote:
-> On Wed, Feb 14, 2024 at 02:49:26PM +0200, Andy Shevchenko wrote:
-> > On Wed, Feb 14, 2024 at 10:30:50AM +0100, Uwe Kleine-K=C3=B6nig wrote:
-> > > This function allocates a struct pwm_chip and driver data. Compared t=
-o
-> > > the status quo the split into pwm_chip and driver data is new, otherw=
-ise
-> > > it doesn't change anything relevant (yet).
-> > >=20
-> > > The intention is that after all drivers are switched to use this
-> > > allocation function, its possible to add a struct device to struct
-> > > pwm_chip to properly track the latter's lifetime without touching all
-> > > drivers again. Proper lifetime tracking is a necessary precondition t=
-o
-> > > introduce character device support for PWMs (that implements atomic
-> > > setting and doesn't suffer from the sysfs overhead of the /sys/class/=
-pwm
-> > > userspace support).
-> > >=20
-> > > The new function pwmchip_priv() (obviously?) only works for chips
-> > > allocated with pwmchip_alloc().
-> >=20
-> > ...
-> >=20
-> > > +#define PWMCHIP_ALIGN ARCH_DMA_MINALIGN
-> > > +
-> > > +static void *pwmchip_priv(struct pwm_chip *chip)
-> > > +{
-> > > +	return (void *)chip + ALIGN(sizeof(*chip), PWMCHIP_ALIGN);
-> > > +}
-> >=20
-> > Why not use dma_get_cache_alignment() ?
->=20
-> Hmm, that function returns 1 if ARCH_HAS_DMA_MINALIGN isn't defined. The
-> idea of using ARCH_DMA_MINALIGN was to ensure that the priv data has the
-> same minimal alignment as kmalloc(). Took my inspriration from
-> https://lore.kernel.org/r/20240209-counter-align-fix-v2-1-5777ea0a2722@an=
-alog.com
-> . The implementation of dma_get_cache_alignment suggests that not all
-> archs provide ARCH_DMA_MINALIGN? Also there is ARCH_KMALLOC_MINALIGN.
-> Hmm, don't know yet what to do here.
+On Thu, Feb 15, 2024 at 11:53:17AM +0100, Maxime Ripard wrote:
+> On Tue, Feb 13, 2024 at 10:38:56AM +0200, Ville Syrjälä wrote:
+> > On Mon, Feb 12, 2024 at 05:53:48PM +0100, Maxime Ripard wrote:
+> > > On Mon, Feb 12, 2024 at 05:49:33PM +0200, Ville Syrjälä wrote:
+> > > > On Mon, Feb 12, 2024 at 11:01:07AM +0100, Maxime Ripard wrote:
+> > > > > On Fri, Feb 09, 2024 at 09:34:35PM +0100, Sebastian Wick wrote:
+> > > > > > On Mon, Feb 05, 2024 at 10:39:38AM +0100, Maxime Ripard wrote:
+> > > > > > > On Fri, Feb 02, 2024 at 06:37:52PM +0200, Ville Syrjälä wrote:
+> > > > > > > > On Fri, Feb 02, 2024 at 04:59:30PM +0100, Maxime Ripard wrote:
+> > > > > > > > > On Fri, Feb 02, 2024 at 05:40:47PM +0200, Ville Syrjälä wrote:
+> > > > > > > > > > On Fri, Feb 02, 2024 at 02:01:39PM +0100, Maxime Ripard wrote:
+> > > > > > > > > > > Hi,
+> > > > > > > > > > > 
+> > > > > > > > > > > On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebastian Wick wrote:
+> > > > > > > > > > > > > >  /**
+> > > > > > > > > > > > > >   * DOC: HDMI connector properties
+> > > > > > > > > > > > > >   *
+> > > > > > > > > > > > > > + * Broadcast RGB
+> > > > > > > > > > > > > > + *      Indicates the RGB Quantization Range (Full vs Limited) used.
+> > > > > > > > > > > > > > + *      Infoframes will be generated according to that value.
+> > > > > > > > > > > > > > + *
+> > > > > > > > > > > > > > + *      The value of this property can be one of the following:
+> > > > > > > > > > > > > > + *
+> > > > > > > > > > > > > > + *      Automatic:
+> > > > > > > > > > > > > > + *              RGB Range is selected automatically based on the mode
+> > > > > > > > > > > > > > + *              according to the HDMI specifications.
+> > > > > > > > > > > > > > + *
+> > > > > > > > > > > > > > + *      Full:
+> > > > > > > > > > > > > > + *              Full RGB Range is forced.
+> > > > > > > > > > > > > > + *
+> > > > > > > > > > > > > > + *      Limited 16:235:
+> > > > > > > > > > > > > > + *              Limited RGB Range is forced. Unlike the name suggests,
+> > > > > > > > > > > > > > + *              this works for any number of bits-per-component.
+> > > > > > > > > > > > > > + *
+> > > > > > > > > > > > > > + *      Drivers can set up this property by calling
+> > > > > > > > > > > > > > + *      drm_connector_attach_broadcast_rgb_property().
+> > > > > > > > > > > > > > + *
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > This is a good time to document this in more detail. There might be two
+> > > > > > > > > > > > > different things being affected:
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > 1. The signalling (InfoFrame/SDP/...)
+> > > > > > > > > > > > > 2. The color pipeline processing
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > All values of Broadcast RGB always affect the color pipeline processing
+> > > > > > > > > > > > > such that a full-range input to the CRTC is converted to either full- or
+> > > > > > > > > > > > > limited-range, depending on what the monitor is supposed to accept.
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > When automatic is selected, does that mean that there is no signalling,
+> > > > > > > > > > > > > or that the signalling matches what the monitor is supposed to accept
+> > > > > > > > > > > > > according to the spec? Also, is this really HDMI specific?
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > When full or limited is selected and the monitor doesn't support the
+> > > > > > > > > > > > > signalling, what happens?
+> > > > > > > > > > > > 
+> > > > > > > > > > > > Forgot to mention: user-space still has no control over RGB vs YCbCr on
+> > > > > > > > > > > > the cable, so is this only affecting RGB? If not, how does it affect
+> > > > > > > > > > > > YCbCr?
+> > > > > > > > > > > 
+> > > > > > > > > > > So I dug a bit into both the i915 and vc4 drivers, and it looks like if
+> > > > > > > > > > > we're using a YCbCr format, i915 will always use a limited range while
+> > > > > > > > > > > vc4 will follow the value of the property.
+> > > > > > > > > > 
+> > > > > > > > > > The property is literally called "Broadcast *RGB*".
+> > > > > > > > > > That should explain why it's only affecting RGB.
+> > > > > > > > > 
+> > > > > > > > > Right. And the limited range option is called "Limited 16:235" despite
+> > > > > > > > > being usable on bpc > 8 bits. Naming errors occurs, and history happens
+> > > > > > > > > to make names inconsistent too, that's fine and not an argument in
+> > > > > > > > > itself.
+> > > > > > > > > 
+> > > > > > > > > > Full range YCbCr is a much rarer beast so we've never bothered
+> > > > > > > > > > to enable it.
+> > > > > > > > > 
+> > > > > > > > > vc4 supports it.
+> > > > > > > > 
+> > > > > > > > Someone implemented it incorrectly then.
+> > > > > > > 
+> > > > > > > Incorrectly according to what documentation / specification? I'm sorry,
+> > > > > > > but I find it super ironic that i915 gets to do its own thing, not
+> > > > > > > document any of it, and when people try to clean things up they get told
+> > > > > > > that we got it all wrong.
+> > > > > > 
+> > > > > > FWIW, this was an i915 property and if another driver uses the same
+> > > > > > property name it must have the same behavior. Yes, it isn't standardized
+> > > > > > and yes, it's not documented (hence this effort here) but it's still on
+> > > > > > vc4 to make the property compatible.
+> > > > > 
+> > > > > How is it not compatible? It's a superset of what i915 provides, but
+> > > > > it's strictly compatible with it.
+> > > > 
+> > > > No it is not.
+> > > 
+> > > The property is compatible with i915 interpretation of it, whether you
+> > > like it or not. And that's what Sebastian was referring to.
+> > > 
+> > > > Eg. what happens if you set the thing to full range for RGB (which you
+> > > > must on many broken monitors), and then the kernel automagically
+> > > > switches to YCbCr (for whatever reason) but the monitor doesn't
+> > > > support full range YCbCr? Answer: you get crap output.
+> > > 
+> > > And that part is just moving goalposts.
+> > 
+> > No. Allowing users to get correct colors with broken displays
+> > is the sole reason why this property even exists.
+> 
+> HDMI 1.4, Section 6.6 - Video Quantization Ranges:
+> 
+>   If the sink’s EDID declares a selectable YCC Quantization Range
+>   (QY=1), then it shall expect limited range pixel values if it receives
+>   AVI YQ=0 and it shall expect full range pixel values if it receives
+>   AVI YQ=1. For other values of YQ, the sink shall expect pixel values
+>   with the default range for the transmitted video format.
+> 
+> So, the only concern you have is if the EDID has QY set to 1 but the
+> monitor doesn't actually support it? If so, could we qualify the monitor
+> as a "broken display" and thus would require that property to apply to
+> YUV too?
 
-Here it goes my 2 cents... AFAIK, ARCH_DMA_MINALIGN gives you the same alig=
-nment
-guarantees than devm_kmalloc() for instance. In some archs it will effectiv=
-ely be the
-same as ARCH_KMALLOC_MINALIGN. Now, I think it only matters if the owners o=
-f private
-data intend to have a DMA safe buffer in their structs. If that is the case=
-, we need
-to ensure a proper alignment for that structure. In IIO for example, the co=
-nstruct is
-like this:
+Sinks that declare a selectable quantization range are not the
+problem, or at least I don't recall ever seeing one that lied about
+that. The problem is the sinks that don't have selectable quantization
+range, and which implement the default rules incorrectly. The only way
+to get correct colors on those is for the user to override the
+quantization range manually.
 
-https://elixir.bootlin.com/linux/latest/source/drivers/iio/dac/ltc2688.c#L9=
-6
+Typically TVs get it mostly right (though I have at least one that
+also expects limited range for 640x480 which is not correct), and 
+many (perhaps even most?) computer displays get it wrong (as in
+they always assume RGB to be full range).
 
-The buffers should come last in the struct so they are alone in the line. I=
-n IIO,
-Jonathan has a strict policy for this. Like, even if you just want to trans=
-fer 2/4
-bytes via spi, we need to make the buffer safe (apparently there are some c=
-ontrollers
-only doing DMA - even for small transfers).
+We could in theory quirk those, but the quirk list would be enormous,
+and fragile to maintain because the user can also shoot themselves in
+the foot here by frobbing with the "black level"/etc. settings on the
+display itself. So we'd surely end up with lots of false positives
+on the quirk list.
 
-I would say that if unsure, go with ARCH_DMA_MINALIGN. You just might waste=
- some
-space in some archs. OTOH, if you think DMA is not really a thing for pwm c=
-hips, you
-might go ARCH_KMALLOC_MINALIGN. And since you already have your own PWMCHIP=
-_ALIGN, it
-should be easy to change the requirements down the road (if needed).
-
-That said, I'm not familiar with dma_get_cache_alignment().
-
-- Nuno S=C3=A1
-
+-- 
+Ville Syrjälä
+Intel
