@@ -1,56 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86C2117581;
-	Thu, 15 Feb 2024 11:00:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2F6A12AAD6
+	for <linux-sunxi@lists.linux.dev>; Thu, 15 Feb 2024 11:48:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707994804; cv=none; b=Lg7lhnELP7IS3274rbgCy5DFF5o7FZ90hrP2Pap4QJi+0y5Nc/2MplqffVAiOTC68nLp3kbag3eHH+U9U0ZtufRiTdWvfrgMDvbp7jSzxDbzi//7eRlwKvX//apsB9isF05rvq15q0xO0Q/bf0tHfhhal8YUTzTccdy0nKEmrFg=
+	t=1707997716; cv=none; b=jKB6yfQSAHs976O9fG0xAjliA4Rqktnn9vQZwq6rdunlIa9D+N6G0gwjw/MsshOyOics1ypwMyMEChtdQDp89E+OpJ3q2QP/MHCJ5o5GVx4beC2QFY0ijksFJRNCKzRZLZM5jA79/shnEdI403XIkmbZRFE+ynRIR2laGufhwBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707994804; c=relaxed/simple;
-	bh=Ljo22OLLV1jsYk36eFmaaPdGKB/DzUQf8sEwgakSRIE=;
+	s=arc-20240116; t=1707997716; c=relaxed/simple;
+	bh=8IGtjDC8lwX138mc9T3n6QxlYh/K434+nFH09sU4g/E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Yo1o47SY+k5xn+YmZIb6/MK9OWsPRRBKwkNIH74CcoL6sNaBiRJVSpqdDPnliPT7m9px8+hYakFdBKtcgrzHBoeC3UQGuS3dyJKri04zUvyT49Aoy0FoevZdpD4aDpzjeoL7RxyHVj2N2AHrWrUeUo6uKnyELtf71htsXcvxxLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QjCNBHd3; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QjCNBHd3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBC5BC433C7;
-	Thu, 15 Feb 2024 11:00:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707994804;
-	bh=Ljo22OLLV1jsYk36eFmaaPdGKB/DzUQf8sEwgakSRIE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QjCNBHd3MZI6fRfVp7a6EoNWM616T5+u1n3Gf4bZLB4kjTRfsQTP8F/kWttSSeKv9
-	 QburFf6ryiGXRiidxyJZCgfnhAX4P7ArXA8rqrziRC6lA619UHo1/phVHn5v/HdVjD
-	 nOhC/aBrya8y9SfT6a4CuZ3+xdiIKmjI0Ozpd6rIIbT8y5sl/LJFQvI+7mxPA08NhX
-	 lsquCp+j3U8h7mXjn7+mDQHcleMtdEc8sp5/uflqTrlWTEO4QHtuMo4VUhyZIVLVLF
-	 mYmN81mQ12sZngJ2Y9Wws0QKIPlsc9vp8yvm2+LolXIRSwxyzLpT031jL2rhqPxCTD
-	 DOK1Tcdk4tRsA==
-Date: Thu, 15 Feb 2024 12:00:01 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Sebastian Wick <sebastian.wick@redhat.com>
-Cc: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, 
-	Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
-	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	Hans Verkuil <hverkuil@xs4all.nl>, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: Re: Re: Re: Re: Re: Re: [PATCH v5 08/44] drm/connector: hdmi:
- Add Broadcast RGB property
-Message-ID: <2mih3humepuedtli7ge52ncom4uffkqravdpalncgfyucmwdzc@bp5o7i3ky77a>
-References: <73peztbeeikb3fg6coxu3punxllgtyrmgco34tnxkojtsjbr3s@26bud3sjbcez>
- <Zb0M_2093UwPXK8y@intel.com>
- <hez2m57ogqx3yyqk45tzdkvxvhrbdepgm244i4m2aty2xhf5b5@acqgvmxhmmvr>
- <Zb0aYAapkxQ2kopt@intel.com>
- <zml6j27skvjmbrfyz7agy5waxajv4p4asbemeexelm3wuv4o7j@xkd2wvnxhbuc>
- <20240209203435.GB996172@toolbox>
- <ahfl6f72lpgpsbnrbgvbsh4db4npr2hh36kua2c6krh544hv5r@dndw4hz2mu2g>
- <Zco-DQaXqae7B1jt@intel.com>
- <yx2t7xltxxgsngdsxamsfq6y7dze3wzegxcqwmsb5yrxen73x6@u3vilqhpci4w>
- <20240212170618.GA1372043@toolbox>
+	 Content-Type:Content-Disposition:In-Reply-To; b=BwLwni71fCZuWcbSRPFqEhsT0NbEs0chsUNuJrsi6Gqi3fDzswyJD2Pvlj17aQs1F6r8KMmunArO2t4+2JdMktlUnsWw/IZ0S4bHpyyVOhmAEaMVsDWXPWoEm9u5Fdb8h1TUZAzhtdq5hM/B5WFpYLm26BqHQfS+wJvcXppSrWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1raaCf-0007ES-Uk; Thu, 15 Feb 2024 12:46:57 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1raaCW-000sHg-HB; Thu, 15 Feb 2024 12:46:48 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1raaCW-005KD7-12;
+	Thu, 15 Feb 2024 12:46:48 +0100
+Date: Thu, 15 Feb 2024 12:46:48 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: linux-pwm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>, James Clark <james.clark@arm.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Mark Brown <broonie@kernel.org>, 
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
+	Alexander Shiyan <shc_work@mail.ru>, Benson Leung <bleung@chromium.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Paul Cercueil <paul@crapouillou.net>, 
+	Vladimir Zapolskiy <vz@mleia.com>, Mika Westerberg <mika.westerberg@linux.intel.com>, 
+	Andy Shevchenko <andy@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
+	Hans de Goede <hdegoede@redhat.com>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Kevin Hilman <khilman@baylibre.com>, Conor Dooley <conor.dooley@microchip.com>, 
+	Daire McNamara <daire.mcnamara@microchip.com>, Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
+	Heiko Stuebner <heiko@sntech.de>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Michael Walle <mwalle@kernel.org>, Orson Zhai <orsonzhai@gmail.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Hammer Hsieh <hammerh0314@gmail.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, 
+	Sean Anderson <sean.anderson@seco.com>, Michal Simek <michal.simek@amd.com>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Robert Foss <rfoss@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Pavel Machek <pavel@ucw.cz>, 
+	Lee Jones <lee@kernel.org>, Anjelique Melendez <quic_amelende@quicinc.com>, 
+	Bjorn Andersson <quic_bjorande@quicinc.com>, Kees Cook <keescook@chromium.org>, Rob Herring <robh@kernel.org>, 
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Douglas Anderson <dianders@chromium.org>, linux-doc@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Guenter Roeck <groeck@chromium.org>, linux-riscv@lists.infradead.org, 
+	Fabio Estevam <festevam@gmail.com>, linux-stm32@st-md-mailman.stormreply.com, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Jerome Brunet <jbrunet@baylibre.com>, 
+	chrome-platform@lists.linux.dev, linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-rockchip@lists.infradead.org, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, NXP Linux Team <linux-imx@nxp.com>, linux-leds@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, Jonas Karlman <jonas@kwiboo.se>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, linux-gpio@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+	linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, greybus-dev@lists.linaro.org, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>, linux-mips@vger.kernel.org, asahi@lists.linux.dev, 
+	kernel@pengutronix.de, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v6 000/164] pwm: Improve lifetime tracking for pwm_chips
+Message-ID: <frrn4vofjuskb67rxrgnwqrsqioonglp7nidoueumgw2hemhxq@6hrsnivgobuw>
+References: <cover.1707900770.git.u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -58,192 +90,91 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="7ujblr6jhcr73aj6"
+	protocol="application/pgp-signature"; boundary="t4o747itgdnx5oup"
 Content-Disposition: inline
-In-Reply-To: <20240212170618.GA1372043@toolbox>
+In-Reply-To: <cover.1707900770.git.u.kleine-koenig@pengutronix.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
 
---7ujblr6jhcr73aj6
+--t4o747itgdnx5oup
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 12, 2024 at 06:06:18PM +0100, Sebastian Wick wrote:
-> On Mon, Feb 12, 2024 at 05:53:48PM +0100, Maxime Ripard wrote:
-> > On Mon, Feb 12, 2024 at 05:49:33PM +0200, Ville Syrj=E4l=E4 wrote:
-> > > On Mon, Feb 12, 2024 at 11:01:07AM +0100, Maxime Ripard wrote:
-> > > > On Fri, Feb 09, 2024 at 09:34:35PM +0100, Sebastian Wick wrote:
-> > > > > On Mon, Feb 05, 2024 at 10:39:38AM +0100, Maxime Ripard wrote:
-> > > > > > On Fri, Feb 02, 2024 at 06:37:52PM +0200, Ville Syrj=E4l=E4 wro=
-te:
-> > > > > > > On Fri, Feb 02, 2024 at 04:59:30PM +0100, Maxime Ripard wrote:
-> > > > > > > > On Fri, Feb 02, 2024 at 05:40:47PM +0200, Ville Syrj=E4l=E4=
- wrote:
-> > > > > > > > > On Fri, Feb 02, 2024 at 02:01:39PM +0100, Maxime Ripard w=
-rote:
-> > > > > > > > > > Hi,
-> > > > > > > > > >=20
-> > > > > > > > > > On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebastian Wic=
-k wrote:
-> > > > > > > > > > > > >  /**
-> > > > > > > > > > > > >   * DOC: HDMI connector properties
-> > > > > > > > > > > > >   *
-> > > > > > > > > > > > > + * Broadcast RGB
-> > > > > > > > > > > > > + *      Indicates the RGB Quantization Range (Fu=
-ll vs Limited) used.
-> > > > > > > > > > > > > + *      Infoframes will be generated according t=
-o that value.
-> > > > > > > > > > > > > + *
-> > > > > > > > > > > > > + *      The value of this property can be one of=
- the following:
-> > > > > > > > > > > > > + *
-> > > > > > > > > > > > > + *      Automatic:
-> > > > > > > > > > > > > + *              RGB Range is selected automatica=
-lly based on the mode
-> > > > > > > > > > > > > + *              according to the HDMI specificat=
-ions.
-> > > > > > > > > > > > > + *
-> > > > > > > > > > > > > + *      Full:
-> > > > > > > > > > > > > + *              Full RGB Range is forced.
-> > > > > > > > > > > > > + *
-> > > > > > > > > > > > > + *      Limited 16:235:
-> > > > > > > > > > > > > + *              Limited RGB Range is forced. Unl=
-ike the name suggests,
-> > > > > > > > > > > > > + *              this works for any number of bit=
-s-per-component.
-> > > > > > > > > > > > > + *
-> > > > > > > > > > > > > + *      Drivers can set up this property by call=
-ing
-> > > > > > > > > > > > > + *      drm_connector_attach_broadcast_rgb_prope=
-rty().
-> > > > > > > > > > > > > + *
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > This is a good time to document this in more detail=
-=2E There might be two
-> > > > > > > > > > > > different things being affected:
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > 1. The signalling (InfoFrame/SDP/...)
-> > > > > > > > > > > > 2. The color pipeline processing
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > All values of Broadcast RGB always affect the color=
- pipeline processing
-> > > > > > > > > > > > such that a full-range input to the CRTC is convert=
-ed to either full- or
-> > > > > > > > > > > > limited-range, depending on what the monitor is sup=
-posed to accept.
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > When automatic is selected, does that mean that the=
-re is no signalling,
-> > > > > > > > > > > > or that the signalling matches what the monitor is =
-supposed to accept
-> > > > > > > > > > > > according to the spec? Also, is this really HDMI sp=
-ecific?
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > When full or limited is selected and the monitor do=
-esn't support the
-> > > > > > > > > > > > signalling, what happens?
-> > > > > > > > > > >=20
-> > > > > > > > > > > Forgot to mention: user-space still has no control ov=
-er RGB vs YCbCr on
-> > > > > > > > > > > the cable, so is this only affecting RGB? If not, how=
- does it affect
-> > > > > > > > > > > YCbCr?
-> > > > > > > > > >=20
-> > > > > > > > > > So I dug a bit into both the i915 and vc4 drivers, and =
-it looks like if
-> > > > > > > > > > we're using a YCbCr format, i915 will always use a limi=
-ted range while
-> > > > > > > > > > vc4 will follow the value of the property.
-> > > > > > > > >=20
-> > > > > > > > > The property is literally called "Broadcast *RGB*".
-> > > > > > > > > That should explain why it's only affecting RGB.
-> > > > > > > >=20
-> > > > > > > > Right. And the limited range option is called "Limited 16:2=
-35" despite
-> > > > > > > > being usable on bpc > 8 bits. Naming errors occurs, and his=
-tory happens
-> > > > > > > > to make names inconsistent too, that's fine and not an argu=
-ment in
-> > > > > > > > itself.
-> > > > > > > >=20
-> > > > > > > > > Full range YCbCr is a much rarer beast so we've never bot=
-hered
-> > > > > > > > > to enable it.
-> > > > > > > >=20
-> > > > > > > > vc4 supports it.
-> > > > > > >=20
-> > > > > > > Someone implemented it incorrectly then.
-> > > > > >=20
-> > > > > > Incorrectly according to what documentation / specification? I'=
-m sorry,
-> > > > > > but I find it super ironic that i915 gets to do its own thing, =
-not
-> > > > > > document any of it, and when people try to clean things up they=
- get told
-> > > > > > that we got it all wrong.
-> > > > >=20
-> > > > > FWIW, this was an i915 property and if another driver uses the sa=
-me
-> > > > > property name it must have the same behavior. Yes, it isn't stand=
-ardized
-> > > > > and yes, it's not documented (hence this effort here) but it's st=
-ill on
-> > > > > vc4 to make the property compatible.
-> > > >=20
-> > > > How is it not compatible? It's a superset of what i915 provides, but
-> > > > it's strictly compatible with it.
-> > >=20
-> > > No it is not.
-> >=20
-> > The property is compatible with i915 interpretation of it, whether you
-> > like it or not. And that's what Sebastian was referring to.
-> >=20
-> > > Eg. what happens if you set the thing to full range for RGB (which you
-> > > must on many broken monitors), and then the kernel automagically
-> > > switches to YCbCr (for whatever reason) but the monitor doesn't
-> > > support full range YCbCr? Answer: you get crap output.
-> >=20
-> > And that part is just moving goalposts.
+Hello,
+
+On Wed, Feb 14, 2024 at 10:30:47AM +0100, Uwe Kleine-K=F6nig wrote:
+> this is v6 of the series introducing better lifetime tracking for
+> pwmchips that addresses (for now theoretic) lifetime issues of pwm
+> chips. Addressing these is a necessary precondition to introduce chardev
+> support for PWMs.
 >=20
-> But it's really not.
-
-It really is. This whole discussion started by "well it would be nice if
-we made that property handled by the core", and we're now at the "we
-need to deal with broken YCbCr displays and i915 opinion about them"
-stage. After creating documentation, unit tests, etc. It's the textbook
-definition of moving goalposts. And while i915 won't be affected by all
-that work.
-
-That series has been stuck for multiple iterations on pointless and
-mundane debates while the biggest part and whole point of it is not
-getting any review. So yeah, sorry, it's frustrating.
-
-> The Broadcast RGB property kind of works from a user space perspective
-> because it's a workaround for broken sinks. If a sink expects limited
-> range we can force full range. If this however affects YCbCr modes as
-> well, then this isn't a workaround for broken RGB range anymore
-> because it now breaks YCbCr.
-
-Or, you know, it's a workaround for broken YCbCr display.
-
-> Sorry, but vc4 just has to change.
+> Locking got more complicated due to non-sleeping chips, so I dropped
+> the character device patch because it got still more incomplete now.
+> Also I'm not yet entirely sure about patches #162 and #163 and I expect
+> them to change before they can go in. My plan for the next merge window
+> is to get the patches in up to #160. After that the addition of chardev
+> support (including correct locking) can continue without having to touch
+> the lowlevel driver. So the idea of this series is to get the driver
+> adaptions out of the way as this requires some cross-tree coordination.
 >=20
-> And again: let's please stop trying to improve the property.
+> The patches that touch files outside of drivers/pwm include:
+>=20
+>  - gpio: mvebu: Make use of devm_pwmchip_alloc() function
+>    It already has an Ack by Linus Walleij.
+>=20
+>  - drm/bridge: ti-sn65dsi86: Make use of pwmchip_parent() accessor
+>  - drm/bridge: ti-sn65dsi86: Make use of devm_pwmchip_alloc() function
+>    The 2nd already has an Ack by Douglas Anderson which I tend to assume
+>    good enough to merge this via my pwm tree, too. An Ack for the first
+>    patch would be nice.
+>=20
+>  - leds: qcom-lpg: Make use of devm_pwmchip_alloc() function
+>    Already has an Ack by Lee Jones.
+>=20
+>  - staging: greybus: pwm: Change prototype of helpers to prepare further =
+changes
+>  - staging: greybus: pwm: Make use of pwmchip_parent() accessor
+>  - staging: greybus: pwm: Rely on pwm framework to pass a valid hwpwm
+>  - staging: greybus: pwm: Drop unused gb_connection_set_data()
+>  - staging: greybus: pwm: Rework how the number of PWM lines is determined
+>  - staging: greybus: pwm: Make use of devm_pwmchip_alloc() function
+>    The greybus patches already got an Ack by Greg Kroah-Hartman in an
+>    earlier series, but I dropped it as the patches changed considerably.
 
-I'm not. I'm super close to just dropping that patch entirely and keep
-the current situation that seems to work fine for everyone.
+After getting the needed acks, I pushed out this series in
 
-Maxime
+https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git pwm/for-=
+next
 
---7ujblr6jhcr73aj6
+up to patch #161.
+
+(But don't let you stop looking at the changes, reviews are still
+welcome.)
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--t4o747itgdnx5oup
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZc3usAAKCRDj7w1vZxhR
-xUOcAPsFDv7RLl3qbYbEO9cMd3YT0Mx2eLivHvf3dB/UGMSz0QEAqPyXmKeZnkyC
-qKM4LbWO65EO3EMbSppQ/HMoRyV2CAg=
-=aE2T
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmXN+acACgkQj4D7WH0S
+/k6nrwf9Huw1P/RTRggrOHnHFRGpBXi+TWvCPbsOC65CPiHeI7iVxtq/vUtQ4A6L
+CNA0O2W96568TwCEnxxCI6Be+7t8/H/Xb+oTs0yb6hblYkDhxYrXz+wAtoCTWOM8
+MI6xhfufB/JvOhgeX0iVMIx/TOc7gDY0wnFCS7bE15PPxMTjb1yF9Uo3az97CIld
+AF8InyaA81p8dcTlhmHzMa59LEFqoPzmNoySKqTIII7UuHmQRXOqV1RuEmKxN9Ho
+yRvisZgaqoinb8K7tXdw6G8HErBcN1aHM4OQBkZWI0ufVRNzQ8gT1sfoaRlsilOv
+yc/xo9Wl8bLPEKrjcpb9Hv/C+LgzyQ==
+=hkRd
 -----END PGP SIGNATURE-----
 
---7ujblr6jhcr73aj6--
+--t4o747itgdnx5oup--
