@@ -1,94 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 209F9131756;
-	Fri, 16 Feb 2024 17:58:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF891135A41
+	for <linux-sunxi@lists.linux.dev>; Fri, 16 Feb 2024 19:04:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708106284; cv=none; b=jYZAN1SQ5Q0H78Tv4vhc+pnAZ/60omxJ7f8wtKtD4R3i2/21TNTp45qwmke+PjPkxaOgQpzPBMwSN8yC7joyHHqhsyT5U7U0jicqDLAQxGE+iGXIuAVgpc+U0uw1tjeO411j77BKfG3drmWja4vU33NWrWu0W8b49nf5F/tJnL0=
+	t=1708110279; cv=none; b=Y9e9Npmv594I2HXX/3raWbgihnSSIq7o4h04l7207AzQ5JAOSPOA7uIsrK8STl90I6EcjZiXRTtFF7xnlOjfxCuGT8E0A5F7muD5COsMns/NxtTIXHDi8/H9IkAjuif4mG/SiiO3XP9IVUKVg4w6wUrhbRmZqpsw3hiR+yWhc6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708106284; c=relaxed/simple;
-	bh=y2z4Q/0wnbBdLLtyxBXxt5K2cw4Zk8wNIb/HNMYSK+w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kn74lpXKleh49luNnAaoBQIyzFXHS0w1A5aNmo6OLq31OFUKgZ/J9sJ1f9aYxt/sA1INFj8S4Y8YDBp06mclJrMYYWO7VrUJbMq96L9pWS863U1cKPzPPq5kzoE74cf/8/Hqh1vqkCLw+9YdRV5K+pkgqg491HD30kldIqLwIdk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nT6IeXcB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1708110279; c=relaxed/simple;
+	bh=sRk5vgWXV6TN/MIXrm4lDllEkl5I4mq5NJ+73eNz0L4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hq+qwUoSdOQCgM3UyKrBktjk4qXqXfAdeLGL/danARwMu6Jk6uWuPxo7j7qVnl969BFzCQgjLAieOu3FGorF0LeH3rIz7ONHvhT5QL2U/xiFxrXZX+uCtglwPZ9rXO7ckSWF+FSNz7mO0XSTGhphBQCFzK6i1Kd7oQ5fCUPgsSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=z3mvE0kH; arc=none smtp.client-ip=195.181.215.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nT6IeXcB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53326C433C7;
-	Fri, 16 Feb 2024 17:57:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708106283;
-	bh=y2z4Q/0wnbBdLLtyxBXxt5K2cw4Zk8wNIb/HNMYSK+w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nT6IeXcB5A43SSuF9BwUjII4ilTrRHMPvyzAnUo1omQItjPLdK1yI1D9r6AZeDJjT
-	 Lwec75FjdfHRyDok4qKpynzHaY+jVireNBdMEX/3sIKAUUpmIhEG7WzhREkQiExlla
-	 CgQQTgxXPyDIS10jW64uzXwfZpoYlaicR7QgPuL2AkSdV1armgqhtJ8YVi3RmIUsAl
-	 Q2sDUO4AfPf2tDL7JF+EOIX5LDDCQbncjtrRPNNl7ClDtX9p0Tr4GtgrGyYSwu7tru
-	 dgGCbrO+S2RC7zBGm+KqHvQrvfNlefg2300BnAO27KjDWBt5rkFi4I/om5XiQtrGtZ
-	 +tSr/4cauSzEg==
-Date: Fri, 16 Feb 2024 17:57:52 +0000
-From: Will Deacon <will@kernel.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com,
-	alyssa@rosenzweig.io, asahi@lists.linux.dev,
-	baolu.lu@linux.intel.com, bhelgaas@google.com,
-	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com,
-	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de,
-	iommu@lists.linux.dev, jernej.skrabec@gmail.com,
-	jonathanh@nvidia.com, joro@8bytes.org,
-	krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com,
-	marcan@marcan.st, mhiramat@kernel.org, m.szyprowski@samsung.com,
-	paulmck@kernel.org, rdunlap@infradead.org, robin.murphy@arm.com,
-	samuel@sholland.org, suravee.suthikulpanit@amd.com,
-	sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org,
-	tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org,
-	yu-cheng.yu@intel.com, rientjes@google.com
-Subject: Re: [PATCH v3 10/10] iommu: account IOMMU allocated memory
-Message-ID: <20240216175752.GB2374@willie-the-truck>
-References: <20231226200205.562565-1-pasha.tatashin@soleen.com>
- <20231226200205.562565-11-pasha.tatashin@soleen.com>
- <20240213131210.GA28926@willie-the-truck>
- <CA+CK2bB4Z+z8tocO79AdsAy+gmN_4aVHgFUsm_gYLUJ2zV1A6A@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="z3mvE0kH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
+	t=1708110272; bh=sRk5vgWXV6TN/MIXrm4lDllEkl5I4mq5NJ+73eNz0L4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=z3mvE0kHkdjI+3haAogAZtgaLooSLbHIzpB1TsKN+hul18rP6xfYei3GFGva5RCQC
+	 /NlLC2CoMXvzJW2BFZknPblJXo+AX93t81Roc/5diNNnQLg9Gub6jAsxjnJ9CsbW81
+	 dP5U4mCnh/+4yZ1ijwbwKsbSJHVfyxHUxy8iMoYg=
+From: =?UTF-8?q?Ond=C5=99ej=20Jirman?= <megi@xff.cz>
+To: Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: Ondrej Jirman <megi@xff.cz>,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] Move blender setup from individual planes to crtc commit in sun4i-drm
+Date: Fri, 16 Feb 2024 20:04:23 +0100
+Message-ID: <20240216190430.1374132-1-megi@xff.cz>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+CK2bB4Z+z8tocO79AdsAy+gmN_4aVHgFUsm_gYLUJ2zV1A6A@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Feb 13, 2024 at 10:44:53AM -0500, Pasha Tatashin wrote:
-> > >  SecPageTables
-> > > -              Memory consumed by secondary page tables, this currently
-> > > -              currently includes KVM mmu allocations on x86 and arm64.
-> > > +              Memory consumed by secondary page tables, this currently includes
-> > > +              KVM mmu and IOMMU allocations on x86 and arm64.
-> 
-> Hi Will,
-> 
-> > While I can see the value in this for IOMMU mappings managed by VFIO,
-> > doesn't this end up conflating that with the normal case of DMA domains?
-> > For systems that e.g. rely on an IOMMU for functional host DMA, it seems
-> > wrong to subject that to accounting constraints.
-> 
-> The accounting constraints are only applicable when GFP_KERNEL_ACCOUNT
-> is passed to the iommu mapping functions. We do that from the vfio,
-> iommufd, and vhost. Without this flag, the memory useage is reported
-> in /proc/meminfo as part of  SecPageTables field, but not constrained
-> in cgroup.
+From: Ondrej Jirman <megi@xff.cz>
 
-Thanks, Pasha, that explanation makes sense. I still find it bizarre to
-include IOMMU allocations from the DMA API in SecPageTables though, and
-I worry that it will confuse people who are using that metric as a way
-to get a feeling for how much memory is being used by KVM's secondary
-page-tables. As an extreme example, having a non-zero SecPageTables count
-without KVM even compiled in is pretty bizarre.
+This series refactors blender setup from individual planes to a common
+place where it can be performed at once and is easier to reason about.
 
-Will
+In the process this fixes a few bugs that allowed blender pipes to be
+disabled while corresponding DRM planes were requested to be enabled.
+
+Please take a look. :)
+
+Thank you very much,
+	Ondřej Jirman
+
+Ondrej Jirman (3):
+  drm/sun4i: Unify sun8i_*_layer structs
+  drm/sun4i: Add more parameters to sunxi_engine commit callback
+  drm/sun4i: Fix layer zpos change/atomic modesetting
+
+ drivers/gpu/drm/sun4i/sun4i_backend.c  |  4 +-
+ drivers/gpu/drm/sun4i/sun4i_crtc.c     |  2 +-
+ drivers/gpu/drm/sun4i/sun8i_mixer.c    | 82 +++++++++++++++++++++++-
+ drivers/gpu/drm/sun4i/sun8i_mixer.h    | 20 ++++++
+ drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 85 +++----------------------
+ drivers/gpu/drm/sun4i/sun8i_ui_layer.h | 20 ++----
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 86 +++-----------------------
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.h | 20 ++----
+ drivers/gpu/drm/sun4i/sunxi_engine.h   | 13 +++-
+ 9 files changed, 137 insertions(+), 195 deletions(-)
+
+-- 
+2.43.0
+
