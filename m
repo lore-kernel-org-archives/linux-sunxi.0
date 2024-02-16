@@ -1,120 +1,153 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E786CFC0B
-	for <linux-sunxi@lists.linux.dev>; Fri, 16 Feb 2024 01:06:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D224912EBCE
+	for <linux-sunxi@lists.linux.dev>; Fri, 16 Feb 2024 14:40:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708045595; cv=none; b=ONcDQ0WBF3PTfvwiPbTnN5OhM1c+3O/RAhNHrQGTXZH7mbsq4lSoL0MXfnhHLvD+gJG8jYLf/kqchHQtwSItfS8g96eNJnZmi1zlnoqs8wYhf8N1HawvecVWQz0dVebRPv0AC2gq85b1vINqlzgM2JJ+5zR7QrKLsP+TzOGbihQ=
+	t=1708094435; cv=none; b=sDUr5TEdQbWZ7emRXbqxmPYjlVU06a6WsYBCU0vl57fiElXCOkG1C4+a6B2kVxIvYiH8l52BAHZMB49yM6M2FKmFk/QZq8OvBywN5LkwvhU6flqdAfVIRKPlrEBeZTtFo9Ck3UQcJ8JmtSyCAX5H7E8ZVT+aNrcRwqNxAzwBAs4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708045595; c=relaxed/simple;
-	bh=pdX4YFmXvkCYJozarbc5NuAljGq2QKgP22r5bHoyo6M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OU6Ja6/XuqEojup+GZcS0Svg/Z6zOaDmxNu/cNpAcJH/yv0N91W4yWt/sp/F/FbZ86WDuHSXnaXH1GZNNpmnYzzoc+I24qhnLn8DRniBVZe2EwpA2FenJZjeSjOxltzuT1MVDomHIH/Xpt1ljQM9BIhXBMrnKOOasATPNrgFO7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=P4vHTgN+; arc=none smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1708094435; c=relaxed/simple;
+	bh=VhhgxqgxNna3VDXzGb+u29de1zzuvgOHxd0eRr4Za/8=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=AC4kjSUEZVflTeWyNEnvIS8utMYBNRJ5brYV1ZELiWx5zEe4bmDWFcWMkduayk4E6PvUZ+i3yh4d2/WlDEnmYeFmnRR+LNt1zA+IVeRTSj6yS9FyYn5T3bKD69VrC6d3J15YrSqHK5OhyHETZWdwePF6DcDgyl0lW/KOE8O44eQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sdYGt4Hn; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="P4vHTgN+"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-42dc86cc35dso7753591cf.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 15 Feb 2024 17:06:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sdYGt4Hn"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a3dfb2e03e7so39044066b.3
+        for <linux-sunxi@lists.linux.dev>; Fri, 16 Feb 2024 06:40:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1708045592; x=1708650392; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=SJOk5GBoNGjtYX6UP2FD6x8pshcgNrZex6zZ50AbGYM=;
-        b=P4vHTgN+cwLBgeU3soLk7mORT3HgHxbUiL/mSfqzmy7dC8r3KPZYbb5k1GVMMTKOw0
-         9zVnI6OJPVIHKGdXDHNyC5mey1x1WT4jYUC2vE8bNWzYJkq0Yz/Daoom6cJva+6KxA7h
-         eXegSuXA6dcryjtLdmKFLGc8D8K4ajKCWrcsqWPAcczVsgFawYQZY8DTvCraTEDLAiIZ
-         SgqMfR1rUHAVPfnUH1LH6hK1lnKigbK1k3oNRtIjjXo4OPmCqdEXyhC2AtCBFupbffv4
-         kUU7gRqshoRg1xHPycWvCFMM1VdCCCFvfHnsXMSjcgZqhLiyoCZEAwc4C3oFmVzup7sO
-         MxoA==
+        d=linaro.org; s=google; t=1708094432; x=1708699232; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZRC42YbuNYRdIwcaj+US8j1sKLD+6CzDw3sU7mb37/4=;
+        b=sdYGt4Hnr0uzleQLmcDFGYuZ6+VzGgvm7vqhAToWmlyu5st6PHf35lwTj2xp9OKofl
+         IJgAEdwdMBJx83zDe78YTtAJ9ayPrk8qp/qBulav7jSddKDUN8T9cjfPVL29+LxvHsoO
+         xEZPYYOebsr5TOVPtsflOQuo+f2Ffzx+h/EmxWrM6HHClzGES1g/93X58LMhEQbhSX2K
+         WnkswxjdZPhA5u7DHw5rRbIxHKLn3Js6JvksHRxjAZjYrpTuH22Il8z92BQlAYYg+CvR
+         lxnbZOGYEkkyNTXFX3E/JHgHpbea/2EtI4KT/MYe/zF1OojQii9RCMxsCUZISWzwVxZk
+         1TrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708045592; x=1708650392;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SJOk5GBoNGjtYX6UP2FD6x8pshcgNrZex6zZ50AbGYM=;
-        b=hJYI49HI3Q3328pbPFyZxJgQ92x177pCAeCCtbS/J28fwwypUDgQRfZ/XIo2pSKUKK
-         tnguW8DD67V4FSsIfUIW3EUMLni8QIrtPLCWMq5GzdXTM3+iBbhWBiLL8QUb6PBS6RaM
-         P19fRqKgB/UXySHXoTCu1jt9ScaF7uJM9zZkxcsCj5szg5i9HsEGLo5b2Jutck+wOJLt
-         25V78wRUu768qWKlQrf6AZXt2f/MLmEO2EqKyA/D+u7ZPx/4Z+/dkNO6cAauvVqNmeHB
-         Jhy0q+TtVsRZIf5Ky2VlaFYzytr32XiJHUBHXxYH3eV2sX5XQYWwqVvqphNvhR6oSa+O
-         +UJA==
-X-Forwarded-Encrypted: i=1; AJvYcCW8aTmUyH3fVtlGXB9X8MF/fCMeBQhUtlyngZ5G2898YTk3dT7RYmCnPyMK8/ouboZlgqKaHYBrL5eodtcGg6zwxD+RBgM79YdClas=
-X-Gm-Message-State: AOJu0YzIFIvKTvJxCptsu7VojHqGaxOT9sMIVuaMhGrm/RtDTno5956s
-	xDyI5Gm7bsFn8BvtRXJYBx9YTlD+rlWA2LsT2Gcfjn0t9hqCOamwHd8nfnciTu7sYUz7JRSczYX
-	oEPVaJyMv3AgITdqaGUiyzasZeLLi43sNV9XPJA==
-X-Google-Smtp-Source: AGHT+IFn+h3r/AaoF4MfmIEWnQLUDUmnx1Kec57gXxwxEXHIeMLPIowE5fZkN66KK2rAD8UQkIaND2e8M33sIsMCnhQ=
-X-Received: by 2002:a05:622a:1048:b0:42c:798a:a053 with SMTP id
- f8-20020a05622a104800b0042c798aa053mr4373943qte.55.1708045591818; Thu, 15 Feb
- 2024 17:06:31 -0800 (PST)
+        d=1e100.net; s=20230601; t=1708094432; x=1708699232;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZRC42YbuNYRdIwcaj+US8j1sKLD+6CzDw3sU7mb37/4=;
+        b=D86kAqACPwNFaTf2eOVG3Z8/wlULMAOC0TxuVarLjwtFDkUn6Y+fYdXlqO+zhM+2z8
+         x3/fDrmf2SyTrf7qoROqC7gS3clPtCCGxJQovHPzIfnsiIaDZ1A6jd+PvRHpJixr1BjQ
+         DAlO1IJD1JQG9VhiTuxccnMh26Bb0C7vtGjLjxw4M5RihbCjQAK8wRTmdkB+eJQYpyfU
+         zTDkWYQS+05XwWoSNUE4J6mfGRdzJlFLcN5jP4aYyXXV94lTQdrcw1Uocr1sX8tQsTH+
+         04ALU27yTB/xm77PdjmxZ0qA6oO+BnZqJW78w8S4Y+EMITznfdu8Kdc8t5J2IbJbY1BX
+         Hvxw==
+X-Forwarded-Encrypted: i=1; AJvYcCXlEiLxhao4ms4pflaeFlx+Jb3j7ZlxeiV33KKE2KYyfsTVHCOZMIcZHxotpHjy75Muaajl+l6G9JZVzyq4qnJS9wB9sdaSro8Pg3E=
+X-Gm-Message-State: AOJu0YxJciF7dHnxFaYqjgnM3JhLa82txBuUluPQyx0vonLniAl/hfll
+	eiETeQzg2/v3V1DjIhuMvPPY1nUejwI5BBIxl0oZ1WhLpSXa0wIQoRHMl93W/Eo=
+X-Google-Smtp-Source: AGHT+IHf//9yt3eTnyw6VXgXdUG6tjNHVGPCN0at0VvNZn01LUmWCi7a4swsg2sOshpZkHrmmM9UNA==
+X-Received: by 2002:a17:906:185a:b0:a3d:994a:791d with SMTP id w26-20020a170906185a00b00a3d994a791dmr3667044eje.59.1708094432164;
+        Fri, 16 Feb 2024 06:40:32 -0800 (PST)
+Received: from krzk-bin.. ([78.10.207.130])
+        by smtp.gmail.com with ESMTPSA id a8-20020a170906670800b00a3ce3c5b2a4sm1592942ejp.195.2024.02.16.06.40.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Feb 2024 06:40:31 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Rob Clark <robdclark@gmail.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Yong Wu <yong.wu@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Krishna Reddy <vdumpa@nvidia.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Jean-Philippe Brucker <jean-philippe@linaro.org>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	iommu@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	virtualization@lists.linux.dev
+Subject: [PATCH 1/4] iommu: constify pointer to bus_type
+Date: Fri, 16 Feb 2024 15:40:24 +0100
+Message-Id: <20240216144027.185959-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240207174102.1486130-1-pasha.tatashin@soleen.com>
- <20240207174102.1486130-2-pasha.tatashin@soleen.com> <8ce2cd7b-7702-45aa-b4c8-25a01c27ed83@arm.com>
- <CA+CK2bC=XyUhoSP9f0XBqEnQ-P5mMT2U=5dfzRSc9C=2b+bstQ@mail.gmail.com> <b008bd2d-a189-481f-917d-bb045c43cb07@arm.com>
-In-Reply-To: <b008bd2d-a189-481f-917d-bb045c43cb07@arm.com>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Thu, 15 Feb 2024 20:05:55 -0500
-Message-ID: <CA+CK2bBTe93nXzY3Qhty+821LrkjBVnQDxro3m7Y-GVihSP18A@mail.gmail.com>
-Subject: Re: [PATCH v4 01/10] iommu/vt-d: add wrapper functions for page allocations
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
-	asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
-	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
-	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
-	iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
-	joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
-	mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
-	rdunlap@infradead.org, samuel@sholland.org, suravee.suthikulpanit@amd.com, 
-	sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org, 
-	tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, will@kernel.org, 
-	yu-cheng.yu@intel.com, rientjes@google.com, bagasdotme@gmail.com, 
-	mkoutny@suse.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-> >>> + */
-> >>> +static inline void *iommu_alloc_page_node(int nid, gfp_t gfp)
-> >>> +{
-> >>> +     return iommu_alloc_pages_node(nid, gfp, 0);
-> >>> +}
-> >>
-> >> TBH I'm not entirely convinced that saving 4 characters per invocation
-> >> times 11 invocations makes this wrapper worthwhile :/
-> >
-> > Let's keep them. After the clean-up that you suggested, there are
-> > fewer functions left in this file, but I think that it is cleaner to
-> > keep these remaining, as it is beneficial to easily distinguish when
-> > exactly one page is allocated vs when multiple are allocated via code
-> > search.
->
-> But is it, really? It's not at all obvious to me *why* it would be
-> significantly interesting to distinguish fixed order-0 allocations from
-> higher-order or variable-order (which may still be 0) ones. After all,
-> there's no regular alloc_page_node() wrapper, yet plenty more callers of
-> alloc_pages_node(..., 0) :/
+Make pointer to bus_type a pointer to const for code safety.
 
-The pages that are allocated with order > 0 cannot be freed using
-iommu_put_pages_list(), without messing up refcounts in the tail
-pages. I think having a dedicated function that guarantees order = 0
-pages allocation makes it easier for the reviewer to follow the code,
-and ensures that only these pages are put on the freelist.
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ drivers/iommu/iommu-priv.h | 5 +++--
+ drivers/iommu/iommu.c      | 5 +++--
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
-Even in the existing code, the order=0 allocation is wrapped in the
-*alloc_pgtable_page() function.
+diff --git a/drivers/iommu/iommu-priv.h b/drivers/iommu/iommu-priv.h
+index 2024a2313348..5f731d994803 100644
+--- a/drivers/iommu/iommu-priv.h
++++ b/drivers/iommu/iommu-priv.h
+@@ -21,10 +21,11 @@ int iommu_group_replace_domain(struct iommu_group *group,
+ 			       struct iommu_domain *new_domain);
+ 
+ int iommu_device_register_bus(struct iommu_device *iommu,
+-			      const struct iommu_ops *ops, struct bus_type *bus,
++			      const struct iommu_ops *ops,
++			      const struct bus_type *bus,
+ 			      struct notifier_block *nb);
+ void iommu_device_unregister_bus(struct iommu_device *iommu,
+-				 struct bus_type *bus,
++				 const struct bus_type *bus,
+ 				 struct notifier_block *nb);
+ 
+ #endif /* __LINUX_IOMMU_PRIV_H */
+diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+index d14413916f93..170329a085b8 100644
+--- a/drivers/iommu/iommu.c
++++ b/drivers/iommu/iommu.c
+@@ -291,7 +291,7 @@ EXPORT_SYMBOL_GPL(iommu_device_unregister);
+ 
+ #if IS_ENABLED(CONFIG_IOMMUFD_TEST)
+ void iommu_device_unregister_bus(struct iommu_device *iommu,
+-				 struct bus_type *bus,
++				 const struct bus_type *bus,
+ 				 struct notifier_block *nb)
+ {
+ 	bus_unregister_notifier(bus, nb);
+@@ -305,7 +305,8 @@ EXPORT_SYMBOL_GPL(iommu_device_unregister_bus);
+  * some memory to hold a notifier_block.
+  */
+ int iommu_device_register_bus(struct iommu_device *iommu,
+-			      const struct iommu_ops *ops, struct bus_type *bus,
++			      const struct iommu_ops *ops,
++			      const struct bus_type *bus,
+ 			      struct notifier_block *nb)
+ {
+ 	int err;
+-- 
+2.34.1
 
-Pasha
-
-
->
-> Thanks,
-> Robin.
