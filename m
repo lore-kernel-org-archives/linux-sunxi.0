@@ -1,137 +1,96 @@
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F61F12E61
-	for <linux-sunxi@lists.linux.dev>; Sun, 18 Feb 2024 08:29:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7532C12E7A;
+	Sun, 18 Feb 2024 09:31:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708244981; cv=none; b=L/iYxBbyAvW0MA5HFhIR9d0koAEhsPDaXbyx2j6A34fUzOMUZhz6w+SlzfoflpnlyZrs0Vkzihofsms2epcGGgHPx9cECNxgg3LaBFhxxjxQkLjKLIt5C/c91Jt3aD1jOA/Ht/GYGKzyKpMfB7gToPkGMfWIXb1AIt/zXGsLBeI=
+	t=1708248680; cv=none; b=UX3GZcDwekrkLnCS2XBg0s1+0Eb2o4WuIIuZRnpP7auHVvrpe5e6bLrADxsu7hMyIIY3kV+N8uem2w4hqbT7eF1KQYKer1/pDbNSaLsgxtKwa3TyL7fL8eUY3HPDrOJy7uTmmjgWtMBvQ0xwrMZR8glafd4Cm0H3dajDG4ApbN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708244981; c=relaxed/simple;
-	bh=jZcTtCZH0obhcvEN8pLDKD99bxA5SkFp4NpD0xiDXhk=;
-	h=References:From:To:Cc:Subject:In-reply-to:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Fwmn4vptDcQd7QYbqk5tIz8BXCukahjzSJhb1mAYSM4o97UVWQO2s3Oo/OhGa0eYmdFqW9OBzF/SzJcPcfZFgzqfgTNFkrgfg2xageSWiL2WzjYRkR8ziQFZ45ClhqD9JDfL5OA98qCeRy8e7Wv8zBkwulx4OwhJbh3pq7nZAkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev; spf=pass smtp.mailfrom=oltmanns.dev; dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b=g9lcu2oS; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oltmanns.dev
+	s=arc-20240116; t=1708248680; c=relaxed/simple;
+	bh=H/OSay05+csAHwBP0A3xim8Jfufbq4gn0ZbQ5TgLGOo=;
+	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=f6ydaiLITM8f4TlxaxObDob5/6C+2pqpKFqlm9sR68tXgR8JgpAqr4mYpchuCQirsp0pk0sWlcpEvaku8TVHfcopz4T06ahM3zyIFuVXWowclzroQegydSMIb5xF94Gzqwq9MN02TYuFuM1CjctwuNjX6DKHep99S/PYcgLEtmk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JqLT55/j; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b="g9lcu2oS"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4TczNn46Snz9sTN;
-	Sun, 18 Feb 2024 09:29:29 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1708244969;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xpPRlAGo3UCIb/pniYUufEMkCBvpDmyH0z7zQJYnmCE=;
-	b=g9lcu2oSUYVaqvRC7RSidQDG9k6eVMXMgQM/7PR0OOg/MKXB924LWdAQtLX/XzWfz4cBeR
-	qs/7vQOhsueqHlu37Mi2duYMpNIvf0V5Hhl93idD1WVskzdbjNxGPtRrBCgciwMpdWxFUL
-	RZqsvJAlxS3C0tceHtmvP8MgSx1EdQnmFHb2t/EQvIJd6Kc/irWNmYaTLnzP5zm3t6c6Kb
-	HMKdzQ6Bg/9IYXfGWVUcdduK3+PQ2Q3gtHOmNjtaWLVR23sxX2bMBtzKGgs21QqHQ9sSFQ
-	tA3GtSzFfZCOC+vw1lwScAneLRvH/L7Cib0kWbLj/blALD5YdXuIymbhi7KYlA==
-References: <20240205-pinephone-pll-fixes-v2-0-96a46a2d8c9b@oltmanns.dev>
- <20240205-pinephone-pll-fixes-v2-3-96a46a2d8c9b@oltmanns.dev>
- <exb2lvjcozak5fayrgyenrd3ntii4jfxgvqork4klyz5pky2aq@dj2zyw5su6pv>
-From: Frank Oltmanns <frank@oltmanns.dev>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Guido
- =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>, Purism Kernel Team
- <kernel@puri.sm>, Ondrej
- Jirman <megi@xff.cz>, Neil Armstrong <neil.armstrong@linaro.org>, Jessica
- Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 3/6] clk: sunxi-ng: nkm: Support minimum and maximum
- rate
-In-reply-to: <exb2lvjcozak5fayrgyenrd3ntii4jfxgvqork4klyz5pky2aq@dj2zyw5su6pv>
-Date: Sun, 18 Feb 2024 09:29:15 +0100
-Message-ID: <874je6b2g4.fsf@oltmanns.dev>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JqLT55/j"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708248679; x=1739784679;
+  h=message-id:date:mime-version:cc:subject:to:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=H/OSay05+csAHwBP0A3xim8Jfufbq4gn0ZbQ5TgLGOo=;
+  b=JqLT55/jGf/mUSf/KMB9jcH+qdN2G2FOxnvgQwGg+kLgaDuxDe8yXCRL
+   LAp/HjSkJw96zBbYKjq5gX02GSDGRGR+kxWc+2CjKlqm3zXnzGleF6mdH
+   JYOvAVBBAA0vDZ8XepE8C7UsoMnPhP/LelOO+rB3da/g1ttVI+Q3IRGat
+   jTzTU/wLexgSQM7R90612dhYoHZWDbovy3SizmHpLRz52mjxEYwEq6P2P
+   RhEdz15kphhFj8ukkG9i/JYNWQVY57Zhgpc83uQOr7QFWc5k5jl+Xd0Un
+   GnCfjzJ4boz62YSnNKMYefz0ZEtJComBoBPzKWhXXcJWkteizNEJdUhLr
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10987"; a="2200296"
+X-IronPort-AV: E=Sophos;i="6.06,168,1705392000"; 
+   d="scan'208";a="2200296"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2024 01:31:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10987"; a="912682691"
+X-IronPort-AV: E=Sophos;i="6.06,168,1705392000"; 
+   d="scan'208";a="912682691"
+Received: from blu2-mobl.ccr.corp.intel.com (HELO [10.254.209.212]) ([10.254.209.212])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2024 01:31:09 -0800
+Message-ID: <7b18a339-d0e3-4347-a20b-8fca9bbc7eb4@linux.intel.com>
+Date: Sun, 18 Feb 2024 17:31:06 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Rspamd-Queue-Id: 4TczNn46Snz9sTN
+User-Agent: Mozilla Thunderbird
+Cc: baolu.lu@linux.intel.com
+Subject: Re: [PATCH 1/4] iommu: constify pointer to bus_type
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Rob Clark <robdclark@gmail.com>, Marek Szyprowski
+ <m.szyprowski@samsung.com>, Alim Akhtar <alim.akhtar@samsung.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Yong Wu <yong.wu@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Heiko Stuebner <heiko@sntech.de>, Orson Zhai <orsonzhai@gmail.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Krishna Reddy
+ <vdumpa@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-tegra@vger.kernel.org, virtualization@lists.linux.dev
+References: <20240216144027.185959-1-krzysztof.kozlowski@linaro.org>
+From: Baolu Lu <baolu.lu@linux.intel.com>
+In-Reply-To: <20240216144027.185959-1-krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Maxime,
+On 2024/2/16 22:40, Krzysztof Kozlowski wrote:
+> Make pointer to bus_type a pointer to const for code safety.
+> 
+> Signed-off-by: Krzysztof Kozlowski<krzysztof.kozlowski@linaro.org>
+> ---
+>   drivers/iommu/iommu-priv.h | 5 +++--
+>   drivers/iommu/iommu.c      | 5 +++--
+>   2 files changed, 6 insertions(+), 4 deletions(-)
 
-On 2024-02-08 at 13:16:27 +0100, Maxime Ripard <mripard@kernel.org> wrote:
-> [[PGP Signed Part:Undecided]]
-> On Mon, Feb 05, 2024 at 04:22:26PM +0100, Frank Oltmanns wrote:
->> According to the Allwinner User Manual, the Allwinner A64 requires
->> PLL-MIPI to run at 500MHz-1.4GHz. Add support for that to ccu_nkm.
->>
->> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
->> ---
->>  drivers/clk/sunxi-ng/ccu_nkm.c | 13 +++++++++++++
->>  drivers/clk/sunxi-ng/ccu_nkm.h |  2 ++
->>  2 files changed, 15 insertions(+)
->>
->> diff --git a/drivers/clk/sunxi-ng/ccu_nkm.c b/drivers/clk/sunxi-ng/ccu_nkm.c
->> index 1168d894d636..7d135908d6e0 100644
->> --- a/drivers/clk/sunxi-ng/ccu_nkm.c
->> +++ b/drivers/clk/sunxi-ng/ccu_nkm.c
->> @@ -181,6 +181,12 @@ static unsigned long ccu_nkm_round_rate(struct ccu_mux_internal *mux,
->>  	if (nkm->common.features & CCU_FEATURE_FIXED_POSTDIV)
->>  		rate *= nkm->fixed_post_div;
->>
->> +	if (nkm->min_rate && rate < nkm->min_rate)
->> +		rate = nkm->min_rate;
->> +
->> +	if (nkm->max_rate && rate > nkm->max_rate)
->> +		rate = nkm->max_rate;
->> +
->
-> This is provided by the clock range already. If you call
-> clk_hw_set_rate_range, it should work just fine.
-
-I have to admit, that I don't know that much about sunxi-ng or the CCF
-and therefore humbly request some guidance.
-
-I've looked at other examples of clk_hw_set_rate_range() usage and it
-seems there is not a lot of adoption for this functionality even though
-it was already introduced mid-2015. This makes me wonder, why that is.
-
-Anyhow, it seems in all examples I found, clk_hw_set_rate_range() is
-called immediately after registering the clk_hw. So, in the case of
-sunxi-ng, we'd need to do that in sunxi_ccu_probe, which is a common
-function for all sunxi-ng clock types. Correct?
-
-If so, surely, you don't want me to introduce clock type specific code
-to a common function, so I assume you want min_rate and max_rate to
-become members of struct ccu_common. Correct?
-
-If so, since there already are some clock types in sunxi-ng that support
-having a minimum and maximum rate, these clocks should be refactored
-eventually. Correct?
-
-Finally, in sunxi-ng there is a feature of having a fixed_post_div (see,
-e.g., the first to lines of the diff above). It seems to me that CCF
-cannot know about these post_divs, so we'd also need to transfer the
-fixed_post_div to ccu_common and use that when calling
-clk_hw_set_rate_range. Correct?
-
-The fact that you casually dropped the two sentences above and me
-deducing you want a somewhat large refactoring of the functionality for
-sunxi-ng, makes me wonder if I completely misunderstood your request.
+Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
 
 Best regards,
-  Frank
-
->
-> Maxime
->
-> [[End of PGP Signed Part]]
+baolu
