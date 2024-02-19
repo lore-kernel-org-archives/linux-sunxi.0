@@ -1,278 +1,140 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE32D364DC
-	for <linux-sunxi@lists.linux.dev>; Mon, 19 Feb 2024 14:01:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1686383AB
+	for <linux-sunxi@lists.linux.dev>; Mon, 19 Feb 2024 15:36:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708351313; cv=none; b=uwA4sdt1X805LcQnaob/ZT4zf4nrt6Fm0Fgv4zgZMeD5ijc4dQbnA9HOcCRlrwpghqpm0a8Bg55wKW3ry3x4v3ajG5ouHnCzmGH/ZQ0LSu4r7SvvLmm92cza/el2uPU+0jUOpWigccroy6kdu/hGph76ElxAD2ATNtdSWirxIu0=
+	t=1708357009; cv=none; b=m3yUo+9c2gU204rYJrY0dbojjY4YiR0mbhzpPLvFRuV6A3C4pzdZHQHTSGQSbG8Bi0SyOyBV6ZVpnfSu8wbg+igfzws9vJSbvYMMduXpKtlJ8VZAZG+OTJ+5tiE8yK62cxtdmUb5kVOzqXYwohGxnzDn32oiyF5ftNJ8ZyhitwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708351313; c=relaxed/simple;
-	bh=jQIVDS/JkMP5zftyabZIdPyESMnWgo509RhNAS7bLjI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=RDRouwercd8swDqVZrMfXXPzsl2TqSvNxDCjP1JfVv2K4Are39uaPD7l2p1B6e8PVQom2zjcauUqL5etUcC6eK/EtYYK5iBb6iI0u1RlsWVVhOV+ZapuJ9iDQKICKe1Lci8k6uOCEcgmazkxTQ8ffeqdgfCVKs/PPNeIe8Wfk/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EkncEYUa; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EkncEYUa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1708351309;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=u587ZdVcj3glUgoM/Hcg0rJugpW/yYo4cuFbTIpN5kY=;
-	b=EkncEYUa4AxBx8NCdQmJNhUZSoeSIvFYjmIB5AWOp2HCZgcp36oqq2WOwwDTmyN9SEhdwl
-	4yvBSWApTcm7v8HLHqfY8xxCHs3WBCDHqDjZn92+84VJhcVLjc6ONL55QdZXn7ZBb6AlKt
-	h3lJcTcxoT86Vyb0Nxakc12Wd2gcGBI=
-Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
- [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-157-1mID4slcP0u_Ip4JifjsfA-1; Mon, 19 Feb 2024 09:01:48 -0500
-X-MC-Unique: 1mID4slcP0u_Ip4JifjsfA-1
-Received: by mail-lj1-f198.google.com with SMTP id 38308e7fff4ca-2d2368a12a1so12384041fa.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 19 Feb 2024 06:01:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708351307; x=1708956107;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=u587ZdVcj3glUgoM/Hcg0rJugpW/yYo4cuFbTIpN5kY=;
-        b=uzJTdyw+mUHStyrTfIw0pZSNJplv+wY4dqNt8UCWih2x4Kjf6tr9EbOSXrWk5VyIWX
-         9jE5tZqa76wWnO8u+hv+dzu4SRMuu24BFG/HRa93Eb79o9Z2SBMxto/Vth34m4vIX78A
-         6R3uZdZVF3UTXDs+AbA+Di/dGxDdC9j+f71zf7Yg19yBOqSu0AUPbwB2NLTEylWXz9UH
-         xctwvaktB+awT8VUuVSoMcxwu3Nx1ss1lNk+AQuzHn/PF9gOjCbLvCUb7/i7qgMmxa8S
-         it60/n33XWvnDu8PKYXbydPt41f+oI/ARgEQ5oDgqCO9v9kK8uPbIQ9BlvJ3Tb4JiBnY
-         qpTA==
-X-Forwarded-Encrypted: i=1; AJvYcCUy2JKvc39TmCx8bwHuTHh2A1V0v8ap2NYndvPjYFYlI/uKj4wmj0NkJYz+65I/QrLLzL4qUuMn9QN3VV6drmFYl+plRTXG3Dq5eOU=
-X-Gm-Message-State: AOJu0YyAQnp+La2dkwMLmuCDLujrg5DjqbUGXndwjGRcCdcNWnahcaod
-	1IbL3Lpsa3ptvFehrekeIp5f1mzd9B4/BgG4TEPCRsV5KXre4JXTxOV2QeeegMNwH/+meppIQl8
-	Z8R/9eATQ7KGuRCGgNM+YSBMcdRSNxbNtuEOiE6c4yEuWJ/AUly5WAufiJ37l
-X-Received: by 2002:a2e:bb88:0:b0:2d2:317a:4e51 with SMTP id y8-20020a2ebb88000000b002d2317a4e51mr2711453lje.19.1708351306656;
-        Mon, 19 Feb 2024 06:01:46 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFYOkgdkpjUPqkVShV5VUvUXvy45CYFqtPgSKyukje33ZPvJRJxa7MElMt9lvxrCNYhdDWEcw==
-X-Received: by 2002:a2e:bb88:0:b0:2d2:317a:4e51 with SMTP id y8-20020a2ebb88000000b002d2317a4e51mr2711422lje.19.1708351306160;
-        Mon, 19 Feb 2024 06:01:46 -0800 (PST)
-Received: from toolbox ([2001:9e8:89aa:1800:3845:886a:5f99:bee1])
-        by smtp.gmail.com with ESMTPSA id v21-20020a05600c445500b0041266f5b041sm2964973wmn.34.2024.02.19.06.01.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Feb 2024 06:01:45 -0800 (PST)
-Date: Mon, 19 Feb 2024 15:01:44 +0100
-From: Sebastian Wick <sebastian.wick@redhat.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+	s=arc-20240116; t=1708357009; c=relaxed/simple;
+	bh=36ZB6XOdVqWqVxQWay9hrTgUtWcTbyTL0Qc/nb4FMfE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=tvL2XRhvjSpZeLF6EIjU4ci9+4cqyTYv56teqzAPxQfOpH1xPNYV2xu74xIqYQSWIJxWJwuLcEmAqDYs87O79BNrEXuENn9QtTRFkyxXB1elIzEIxIJhKlHDWRm2ar730WBko6kBRqhjvYnwD1fyg6Bp4oAHjf7FHoLwHfHIzHQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E4E4EFEC;
+	Mon, 19 Feb 2024 07:37:25 -0800 (PST)
+Received: from donnerap.arm.com (donnerap.manchester.arm.com [10.32.100.28])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AE9793F762;
+	Mon, 19 Feb 2024 07:36:43 -0800 (PST)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Vasily Khoruzhick <anarsoul@gmail.com>,
+	Yangtao Li <tiny.windzz@gmail.com>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: Re: Re: Re: Re: Re: Re: [PATCH v5 08/44] drm/connector: hdmi:
- Add Broadcast RGB property
-Message-ID: <20240219140144.GB1956149@toolbox>
-References: <Zb0M_2093UwPXK8y@intel.com>
- <hez2m57ogqx3yyqk45tzdkvxvhrbdepgm244i4m2aty2xhf5b5@acqgvmxhmmvr>
- <Zb0aYAapkxQ2kopt@intel.com>
- <zml6j27skvjmbrfyz7agy5waxajv4p4asbemeexelm3wuv4o7j@xkd2wvnxhbuc>
- <20240209203435.GB996172@toolbox>
- <ahfl6f72lpgpsbnrbgvbsh4db4npr2hh36kua2c6krh544hv5r@dndw4hz2mu2g>
- <Zco-DQaXqae7B1jt@intel.com>
- <yx2t7xltxxgsngdsxamsfq6y7dze3wzegxcqwmsb5yrxen73x6@u3vilqhpci4w>
- <20240212170618.GA1372043@toolbox>
- <2mih3humepuedtli7ge52ncom4uffkqravdpalncgfyucmwdzc@bp5o7i3ky77a>
+	Samuel Holland <samuel@sholland.org>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Zhang Rui <rui.zhang@intel.com>,
+	Lukasz Luba <lukasz.luba@arm.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Martin Botka <martin.botka@somainline.org>,
+	Maksim Kiselev <bigunclemax@gmail.com>,
+	Bob McChesney <bob@electricworry.net>,
+	linux-pm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH v5 0/7] add support for H616 thermal system
+Date: Mon, 19 Feb 2024 15:36:32 +0000
+Message-Id: <20240219153639.179814-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <2mih3humepuedtli7ge52ncom4uffkqravdpalncgfyucmwdzc@bp5o7i3ky77a>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-On Thu, Feb 15, 2024 at 12:00:01PM +0100, Maxime Ripard wrote:
-> On Mon, Feb 12, 2024 at 06:06:18PM +0100, Sebastian Wick wrote:
-> > On Mon, Feb 12, 2024 at 05:53:48PM +0100, Maxime Ripard wrote:
-> > > On Mon, Feb 12, 2024 at 05:49:33PM +0200, Ville Syrjälä wrote:
-> > > > On Mon, Feb 12, 2024 at 11:01:07AM +0100, Maxime Ripard wrote:
-> > > > > On Fri, Feb 09, 2024 at 09:34:35PM +0100, Sebastian Wick wrote:
-> > > > > > On Mon, Feb 05, 2024 at 10:39:38AM +0100, Maxime Ripard wrote:
-> > > > > > > On Fri, Feb 02, 2024 at 06:37:52PM +0200, Ville Syrjälä wrote:
-> > > > > > > > On Fri, Feb 02, 2024 at 04:59:30PM +0100, Maxime Ripard wrote:
-> > > > > > > > > On Fri, Feb 02, 2024 at 05:40:47PM +0200, Ville Syrjälä wrote:
-> > > > > > > > > > On Fri, Feb 02, 2024 at 02:01:39PM +0100, Maxime Ripard wrote:
-> > > > > > > > > > > Hi,
-> > > > > > > > > > > 
-> > > > > > > > > > > On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebastian Wick wrote:
-> > > > > > > > > > > > > >  /**
-> > > > > > > > > > > > > >   * DOC: HDMI connector properties
-> > > > > > > > > > > > > >   *
-> > > > > > > > > > > > > > + * Broadcast RGB
-> > > > > > > > > > > > > > + *      Indicates the RGB Quantization Range (Full vs Limited) used.
-> > > > > > > > > > > > > > + *      Infoframes will be generated according to that value.
-> > > > > > > > > > > > > > + *
-> > > > > > > > > > > > > > + *      The value of this property can be one of the following:
-> > > > > > > > > > > > > > + *
-> > > > > > > > > > > > > > + *      Automatic:
-> > > > > > > > > > > > > > + *              RGB Range is selected automatically based on the mode
-> > > > > > > > > > > > > > + *              according to the HDMI specifications.
-> > > > > > > > > > > > > > + *
-> > > > > > > > > > > > > > + *      Full:
-> > > > > > > > > > > > > > + *              Full RGB Range is forced.
-> > > > > > > > > > > > > > + *
-> > > > > > > > > > > > > > + *      Limited 16:235:
-> > > > > > > > > > > > > > + *              Limited RGB Range is forced. Unlike the name suggests,
-> > > > > > > > > > > > > > + *              this works for any number of bits-per-component.
-> > > > > > > > > > > > > > + *
-> > > > > > > > > > > > > > + *      Drivers can set up this property by calling
-> > > > > > > > > > > > > > + *      drm_connector_attach_broadcast_rgb_property().
-> > > > > > > > > > > > > > + *
-> > > > > > > > > > > > > 
-> > > > > > > > > > > > > This is a good time to document this in more detail. There might be two
-> > > > > > > > > > > > > different things being affected:
-> > > > > > > > > > > > > 
-> > > > > > > > > > > > > 1. The signalling (InfoFrame/SDP/...)
-> > > > > > > > > > > > > 2. The color pipeline processing
-> > > > > > > > > > > > > 
-> > > > > > > > > > > > > All values of Broadcast RGB always affect the color pipeline processing
-> > > > > > > > > > > > > such that a full-range input to the CRTC is converted to either full- or
-> > > > > > > > > > > > > limited-range, depending on what the monitor is supposed to accept.
-> > > > > > > > > > > > > 
-> > > > > > > > > > > > > When automatic is selected, does that mean that there is no signalling,
-> > > > > > > > > > > > > or that the signalling matches what the monitor is supposed to accept
-> > > > > > > > > > > > > according to the spec? Also, is this really HDMI specific?
-> > > > > > > > > > > > > 
-> > > > > > > > > > > > > When full or limited is selected and the monitor doesn't support the
-> > > > > > > > > > > > > signalling, what happens?
-> > > > > > > > > > > > 
-> > > > > > > > > > > > Forgot to mention: user-space still has no control over RGB vs YCbCr on
-> > > > > > > > > > > > the cable, so is this only affecting RGB? If not, how does it affect
-> > > > > > > > > > > > YCbCr?
-> > > > > > > > > > > 
-> > > > > > > > > > > So I dug a bit into both the i915 and vc4 drivers, and it looks like if
-> > > > > > > > > > > we're using a YCbCr format, i915 will always use a limited range while
-> > > > > > > > > > > vc4 will follow the value of the property.
-> > > > > > > > > > 
-> > > > > > > > > > The property is literally called "Broadcast *RGB*".
-> > > > > > > > > > That should explain why it's only affecting RGB.
-> > > > > > > > > 
-> > > > > > > > > Right. And the limited range option is called "Limited 16:235" despite
-> > > > > > > > > being usable on bpc > 8 bits. Naming errors occurs, and history happens
-> > > > > > > > > to make names inconsistent too, that's fine and not an argument in
-> > > > > > > > > itself.
-> > > > > > > > > 
-> > > > > > > > > > Full range YCbCr is a much rarer beast so we've never bothered
-> > > > > > > > > > to enable it.
-> > > > > > > > > 
-> > > > > > > > > vc4 supports it.
-> > > > > > > > 
-> > > > > > > > Someone implemented it incorrectly then.
-> > > > > > > 
-> > > > > > > Incorrectly according to what documentation / specification? I'm sorry,
-> > > > > > > but I find it super ironic that i915 gets to do its own thing, not
-> > > > > > > document any of it, and when people try to clean things up they get told
-> > > > > > > that we got it all wrong.
-> > > > > > 
-> > > > > > FWIW, this was an i915 property and if another driver uses the same
-> > > > > > property name it must have the same behavior. Yes, it isn't standardized
-> > > > > > and yes, it's not documented (hence this effort here) but it's still on
-> > > > > > vc4 to make the property compatible.
-> > > > > 
-> > > > > How is it not compatible? It's a superset of what i915 provides, but
-> > > > > it's strictly compatible with it.
-> > > > 
-> > > > No it is not.
-> > > 
-> > > The property is compatible with i915 interpretation of it, whether you
-> > > like it or not. And that's what Sebastian was referring to.
-> > > 
-> > > > Eg. what happens if you set the thing to full range for RGB (which you
-> > > > must on many broken monitors), and then the kernel automagically
-> > > > switches to YCbCr (for whatever reason) but the monitor doesn't
-> > > > support full range YCbCr? Answer: you get crap output.
-> > > 
-> > > And that part is just moving goalposts.
-> > 
-> > But it's really not.
-> 
-> It really is. This whole discussion started by "well it would be nice if
-> we made that property handled by the core", and we're now at the "we
-> need to deal with broken YCbCr displays and i915 opinion about them"
-> stage. After creating documentation, unit tests, etc. It's the textbook
-> definition of moving goalposts. And while i915 won't be affected by all
-> that work.
+Hi,
 
-Sorry, but what you're saying is just not true.
+this is v5 of this series originally by Martin, only some cosmetic
+changes this time, for instance  mentioning experiments with the SRAM
+controller registers to confirm that it's not an SRAM region which fixes
+the temperature reporting issue.
+See the Changelog below for more details.
+==================
 
-The Broadcast RGB property is an Intel specific property. It lacked
-documentation but the user space contract exists and it based on how
-i915 implemented it. By changing the semantics you're breaking user
-space. The documentation has to document the current contract between
-i915 and user space, not whatever you want the property to be like.
+This series introduces support for the thermal sensors in the Allwinner
+H616 SoCs, which includes its siblings H618 and T507. The actual
+temperature reading turns out to be very similar to the H6 SoC, just
+with support for two more sensors. One nasty complication is caused
+by reports about temperatures above 200C, which are related to the
+firmware being run (because the vendor U-Boot contains a hack avoiding
+this problem). Some investigation and digging in BSP code later
+we identified that bit 16 in register 0x3000000 (SYS_CFG) needs to be
+cleared for the raw temperature register values to contain reasonable
+values.
+To achieve this, patch 1/7 exports this very register from the already
+existing SRAM/syscon device. Patch 5/7 then adds code to the thermal
+driver to find that device via a new DT property, and query its regmap
+to clear bit 16 in there.
+Patch 4/7 reworks the existing H6 calibration function to become
+compatible with the H616, many thanks to Maksim for figuring this out.
+This makes the actual enablement patch 6/7 very easy.
 
-I get that you're frustrated that you have to do work while i915 doesn't
-but none of that is relevant for what the property is and how user space
-expects it to work.
+The rest of the patches are straightforward and build on Martin's
+original work, with some simplifications, resulting in more code sharing.
 
-> That series has been stuck for multiple iterations on pointless and
-> mundane debates while the biggest part and whole point of it is not
-> getting any review. So yeah, sorry, it's frustrating.
+Please have a look!
 
-I'm reviewing the parts that I can, and that's the uAPI. I find it
-really offensive that you're saying that this is pointless and mundate.
-The uAPI is your end product, if it can't be used, everything you do in
-your driver is utterly pointless.
+Cheers,
+Andre
 
-> > The Broadcast RGB property kind of works from a user space perspective
-> > because it's a workaround for broken sinks. If a sink expects limited
-> > range we can force full range. If this however affects YCbCr modes as
-> > well, then this isn't a workaround for broken RGB range anymore
-> > because it now breaks YCbCr.
-> 
-> Or, you know, it's a workaround for broken YCbCr display.
+Changelog v4 .. v5:
+- add tags
+- extend commit message of SRAM controller patch (1/7)
+- remove extra empty line (1/7)
+- use global static constant for SRAM regmap field (5/7)
 
-Displays can accept both RGB and YCbCr signals, drivers can chose
-whichever they want, and user space can not influence or even know which
-one is being used.
+Changelog v3 .. v4:
+- rebase on top of v6.8-rc2
+- rework SYS_CFG bit poking patches to avoid syscon
+- use sram lock for the SRAM driver regmap as well
+- correctly advertise new allwinner,sram property in binding
+- fix conditional definition of sram property
+- new patch 4/7 to make the H6 and H616 calibrate functions compatible
+- drop now obsolete definition of sun50i_h616_ths_calibrate()
 
-The automatic selection of the range is very different between RGB and
-YCbCr. If user space forces the range to a specific value and the driver
-for whatever reason switches from RGB to YCbCr or the other way around,
-this forcing of the range will most likely be incorrect.
+Changelog v2 .. v3:
+- rebase on top of v6.7-rc3
+- add patches to clear bit 16 in SYS_CFG register 0x3000000
+- add syscon to the binding documentation
+- add patch explaining the unknown control register value
 
-This is what we're talking about when we say that the semantics of the
-vc4 Broadcast RGB property is broken. User space literally cannot use it
-consistenly. By restricting it to RGB signals, user space can user it
-consistently and fix monitors that do not follow the automatic
-quantization range algorithm correctly. Yes, if there is an issue with
-the quantization range of a YCbCr signal then this property doesn't
-help, but it never tried to help those cases.
+Changelog v1 .. v2:
+- Fix typos
+- Remove h616 calc and init functions
+- Use TEMP_CALIB_MASK insteaf of 0xffff
+- Adjust calibration function to new offset and scale
+- Add proper comment to bindings patch
+- Split delta calculations to 2 lines
+- Add parentheses around caldata[2|3] >> 12
+- Negate bindings if for clocks
 
-> > Sorry, but vc4 just has to change.
-> > 
-> > And again: let's please stop trying to improve the property.
-> 
-> I'm not. I'm super close to just dropping that patch entirely and keep
-> the current situation that seems to work fine for everyone.
 
-I mean, vc4 doesn't work fine apparently. You're just lucky that no one
-reported issues to you.
+Andre Przywara (3):
+  soc: sunxi: sram: export register 0 for THS on H616
+  thermal: sun8i: explain unknown H6 register value
+  thermal: sun8i: add SRAM register access code
 
-All you have to do is adjust the documentation to say that Broadcast RGB
-only affects RGB signalling. Yes, vc4 has a bug according to the docs
-then, but that's okay. Fix it at some point.
+Maksim Kiselev (1):
+  thermal: sun8i: extend H6 calibration to support 4 sensors
 
-> Maxime
+Martin Botka (3):
+  dt-bindings: thermal: sun8i: Add H616 THS controller
+  thermal: sun8i: add support for H616 THS controller
+  arm64: dts: allwinner: h616: Add thermal sensor and zones
 
+ .../thermal/allwinner,sun8i-a83t-ths.yaml     |  34 +++--
+ .../arm64/boot/dts/allwinner/sun50i-h616.dtsi |  88 +++++++++++++
+ drivers/soc/sunxi/sunxi_sram.c                |  22 ++++
+ drivers/thermal/sun8i_thermal.c               | 123 +++++++++++++++---
+ 4 files changed, 235 insertions(+), 32 deletions(-)
+
+-- 
+2.25.1
 
