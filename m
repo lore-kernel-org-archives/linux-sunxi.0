@@ -1,374 +1,150 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 873BA2420B
-	for <linux-sunxi@lists.linux.dev>; Mon, 19 Feb 2024 09:50:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3593C2C6B9
+	for <linux-sunxi@lists.linux.dev>; Mon, 19 Feb 2024 11:32:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708336233; cv=none; b=C+MG7OcHbBN12h2SX1Zm2XFf+/SYWKplNydnB9+lGneM1wcqsig7YDzOArHyv3tVyA52MNMbH5c/lntoUjeAtFHihSP4C+tjso5ay8HzFQ/+KgGU3bowTpcVGh+l2k9vNBeAKKXZuCGk65yc+eOJ1r9372GEr/eoltwUBHiVOVg=
+	t=1708342339; cv=none; b=XnW6cjTX+uvBPVx/u2glwIGTFVLVNbnhwSpa/SkuO5JNWG4823l5WBLvv51Af3DUqZ3SqgDyTksgJj12Yk51on4HASay8c/FcuUdBWAzjJ6xj8rDrSd89uteAHSNvd2Qd1zdNkxth7JCGsUcRJi3tzwLpeMhI4he/55xx6RmurQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708336233; c=relaxed/simple;
-	bh=VKQK21EKMbxn915tXtRUbgIOEsLQMb18VRES7PgR+TE=;
-	h=References:From:To:Cc:Subject:In-reply-to:Date:Message-ID:
-	 MIME-Version:Content-Type; b=U+nKwy/kS8YV/m2nuiEXeEynqup3QSsmOvGAHR70+I0wVnGYORvhvDf659MNXM8HI8a8QcbE39LBa+Yp/HOQROsF3gfPQppkePp+zxo87j/N0bCmk76RZOdMiQTzTcwvwT6j7P+xuhDzd/3Ugc4Olr3Kq1nb48TRNVayPF14RAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev; spf=pass smtp.mailfrom=oltmanns.dev; dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b=X/3HKccS; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oltmanns.dev
+	s=arc-20240116; t=1708342339; c=relaxed/simple;
+	bh=gbOcFoOzr/7EnXJW4o3Q4MK/WjQw3an8g42KJ/FDXq0=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=dWnNCEahr9x8vVr7c57bfYGs5WevppKaE3T2XUv2PYe24jZGYjYIycJBFilR61eHt4bd2VQxmbwj2Yal99oq4zOL9qLVzAdW6pTg6jcTlwuHwSZYDYPy8h+uuHLKawi0I25f6GXaVVawa7niCtSAsmtWl7lOED9usUnl+Bukoxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--joychakr.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rHQFTgzA; arc=none smtp.client-ip=209.85.219.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--joychakr.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b="X/3HKccS"
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4TdcxT5hb6z9sZH;
-	Mon, 19 Feb 2024 10:41:33 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1708335693;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=doZUdmkE8gcAaDePJY3w6dTirs9rrKDL9kH/AR+ydsY=;
-	b=X/3HKccSZgUn6ULcE9BtF2OwLKM1jeE1MSxbU0Ltx5g/hj5GZYJ6te6QBp7GDIxb8O8Ihu
-	ODcDaa5P0BPMG8+DHdpdkO2l+jwlylTB+l0iELPe0ZuiROoGL6znzu/LpcBDd8i1waplWU
-	MtOETbuHV0TDmRV3s4wjz37nYZkSbj+Dul2U212y+QYf+cTG/wwV6LnltKw/TsuV3yRB6C
-	aDAU2mU1G0uzNC65acEQ3sbRTcZrbBq0YDmEkPUOnuc5TUvUw81EWmnLkaXtx2esDqeAn0
-	mWGOkG/HjNxGM33D+WKOrEVn0jdYc5trTHyXGfZhhgOBezO3VyHbwfYF9dgS5g==
-References: <20240205-pinephone-pll-fixes-v2-0-96a46a2d8c9b@oltmanns.dev>
- <jzl3mlzk4j7qvgcedvipgale5nhinznefodrnaehwsqfnseiwc@7zzlxd4dpueh>
- <bgyyemyi4shj3spo6qy4icvk56nrp5sihnzqurnozqdyktwugc@ikurx4ojoxpi>
- <87wmrbxckj.fsf@oltmanns.dev>
- <s7uslavg5gzqzzdetwcushcknwe3nuicmqhfhb7gbapzxx2npy@srjc252uinqv>
-From: Frank Oltmanns <frank@oltmanns.dev>
-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Guido
- =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>, Purism Kernel Team
- <kernel@puri.sm>, Neil
- Armstrong <neil.armstrong@linaro.org>, Jessica Zhang
- <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 0/6] Pinephone video out fixes (flipping between two
- frames)
-In-reply-to: <s7uslavg5gzqzzdetwcushcknwe3nuicmqhfhb7gbapzxx2npy@srjc252uinqv>
-Date: Mon, 19 Feb 2024 10:41:19 +0100
-Message-ID: <87r0h8n64g.fsf@oltmanns.dev>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rHQFTgzA"
+Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-dcbfe1a42a4so9078681276.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 19 Feb 2024 03:32:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1708342337; x=1708947137; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=F9Y8XdXv1kzTQtopo89RJ5Qe87rOsaXFYORvSusUYec=;
+        b=rHQFTgzAc0HakRq5qRqJvDczsZ+Wo9EL8vwvOQ7Ipp8wYO5ai9DXevAa3IbiSx1S3g
+         1749oQ9MBNGqGKOuwYRays+bkoBTCjgliG8cA+e2J4bamtYS61zhL7L6dpAokTyEtogA
+         9d7h0LmxNgch3n849Fd+hMbAtgsfaxPAbabAsToH4C2AR45rAuhz3vBKgQ+i/MXE/kw4
+         05BPUz84gDmFrXHno337NMfmoKYoUuhB4EneKBx8XxAAzvsj9+HsC0obx856tfA2L6gL
+         En7lZwPkZan0KWPRmBpnB36lon27sI19xI6/NX0Txx8K4ubf55I7LB2sgBXck0gNcm4J
+         6z1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708342337; x=1708947137;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=F9Y8XdXv1kzTQtopo89RJ5Qe87rOsaXFYORvSusUYec=;
+        b=bc9IAwG8qnKaD+jFEUi1nsYqgZLtsa1JKO9Y3ZyqppVQOksLUVWbA0FRCT0WCpBfQ+
+         AVC0AnyiTD8GxsE9ZOi7hmmRLw/bc9epPRoGQPYepWulhLtMTqX3SojMwE3OozdfRmrk
+         D7KakpLuDZ33q0E1QBo9E0dMey0Juxn7HTAvV92CAkz/mAJCbDleM9qIZgKjihP9FdCE
+         1kopYrbgrOQkhaOchPtNGouA2mFUtGe5E+aECBY8py2qyue9r1Wb64HAneMxdestzxLj
+         jhLfrrhspaiy3si9DXWzsB+OdNEaUyG38tiarEqehQz6Mvsg+HUNYt2efYSE9xkOP1tf
+         nLOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWqFTAWI+G3+tJBD/hbPtrSBxB19DrJd5MwyLvwlBMWtWK+QJR0TExBG8uGoJpnQ/W9FIxxj0LQdlnXGLXjx2Vb2/QqR+qoiP99Y5o=
+X-Gm-Message-State: AOJu0YyFa4KKZQ0R1ojEOTJAganMxQnDcL3SZjrOh4YaE4nzFdkdKG5P
+	yJ/0gSIfgZCBQ30+dHXAFT2s8g3paPRoEdXsSosEPYU7+xp26CERut+Yh1Xphm9bkB3P445XT+z
+	6Xj18sQTecw==
+X-Google-Smtp-Source: AGHT+IFrFQSwNuSWu6/Y6yp6TLKb1ES+/eMj+OGcS+zU6Jh3xmGly/67ECjCQIexHldo+hDW4MAPEIU45QbnUA==
+X-Received: from joychakr.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:6ea])
+ (user=joychakr job=sendgmr) by 2002:a25:ced3:0:b0:dc2:3441:897f with SMTP id
+ x202-20020a25ced3000000b00dc23441897fmr3248186ybe.6.1708342337288; Mon, 19
+ Feb 2024 03:32:17 -0800 (PST)
+Date: Mon, 19 Feb 2024 11:31:48 +0000
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.44.0.rc0.258.g7320e95886-goog
+Message-ID: <20240219113149.2437990-1-joychakr@google.com>
+Subject: [PATCH v1 0/1] nvmem: Handle actual amount of data read/written by suppliers
+From: Joy Chakraborty <joychakr@google.com>
+To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	NXP Linux Team <linux-imx@nxp.com>, Vladimir Zapolskiy <vz@mleia.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
+	Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Heiko Stuebner <heiko@sntech.de>, Orson Zhai <orsonzhai@gmail.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Vincent Shih <vincent.sunplus@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Rafal Milecki <rafal@milecki.pl>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Michal Simek <michal.simek@amd.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-amlogic@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
+	Joy Chakraborty <joychakr@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Ond=C5=99ej,
+This Patch series stems from discussions in patchset,
+"[PATCH v2] nvmem: rmem: Fix return value of rmem_read()"
+(https://lore.kernel.org/all/20240206042408.224138-1-joychakr@google.com/).
+Where we come across the fact that currently the nvmem suppliers do not
+actually let the core know how much data has been actually read or written.
+Instead they are expected to return 0 for success and the core assumes that
+the amount of data written is equal to what the core has requested.
 
-On 2024-02-11 at 20:25:29 +0100, Ond=C5=99ej Jirman <megi@xff.cz> wrote:
-> Hi Frank,
->
-> On Sun, Feb 11, 2024 at 04:09:16PM +0100, Frank Oltmanns wrote:
->> Hi Ond=C5=99ej,
->>
->> On 2024-02-05 at 17:02:00 +0100, Ond=C5=99ej Jirman <megi@xff.cz> wrote:
->> > On Mon, Feb 05, 2024 at 04:54:07PM +0100, Ond=C5=99ej Jirman wrote:
->> >> On Mon, Feb 05, 2024 at 04:22:23PM +0100, Frank Oltmanns wrote:
->> >>
->> >> [...]
->> >>
->> >> Also sunxi-ng clk driver does apply NM factors at once to PLL_GPU clo=
-ck,
->> >> which can cause sudden frequency increase beyond intended output freq=
-uency,
->> >> because division is applied immediately while multiplication is refle=
-cted
->> >> slowly.
->> >>
->> >> Eg. if you're changing divider from 7 to 1, you can get a sudden 7x o=
-utput
->> >> frequency spike, before PLL VCO manages to lower the frequency throug=
-h N clk
->> >> divider feedback loop and lock on again. This can mess up whatever's =
-connected
->> >> to the output quite badly.
->> >>
->> >> You'd have to put logging on kernel writes to PLL_GPU register to see=
- what
->> >> is written in there and if divider is lowered significantly on some G=
-PU
->> >> devfreq frequency transitions.
->>
->> By looking at the clocks in clk_summary in debugfs, the rate of PLL-GPU
->> always matches the rate of the GPU (at least at 120, 312, and 432 MHz).
->> This is further underlined by the fact, that none of the rates can be
->> achieved by integer dividing one of the other rates. sunxi-ng would
->> only favor a different rate for pll-gpu than the one that is requested
->> for the gpu, if pll-gpu is already running at a rate such that there
->> exists an M =E2=88=88 {1, 2, 3, 4, 5, 6, 7, 8}, where
->>   rate of pll-gpu / M =3D requested gpu rate
->> or if the requested rate could not be reached directly by pll-gpu. Both
->> is not the case for the rates in question (120, 192, 312, and 432 MHz).
->>
->> This means that the following divisor/multipliers are used by sunxi-ng's
->> ccu_nm:
->> N =3D  5, M =3D 1 for 120 MHz (min value without PATCH 6)
->> N =3D  8, M =3D 1 for 192 MHz (min value after applying PATCH 6)
->> N =3D 13, M =3D 1 for 312 MHz
->> N =3D 18, M =3D 1 for 432 MHz
->>
->> So, with or without PATCH 6, the divider stays constant and it's only
->> the multiplier that changes. This means, there should be no unexpected
->> frequency spikes, right?
->
-> Maybe. Thanks for giving it a try. There may still be other kinds of glit=
-ches
-> even if the divisor stays the same. It all depends how the register updat=
-e is
-> implemented in the PLL block. It's hard to say. I guess, unless Allwinner
-> guarantees glitchless output from a given PLL when changing its parameter=
-s,
-> you can't rely on the output being clean during changes.
->
->> >> It's also unclear what happens when FRAC_CLK_OUT or PLL_MODE_SEL chan=
-ges.
->>
->> Those are not changed once the clock is initialized. The bug however
->> occurs hours or days after booting. IMO, this makes it unlikely that this
->> could be the culprit.
->>
->> >> Maybe not much because M is supposed to be set to 1, but you still ne=
-ed to
->> >> care when enabling fractional mode, and setting M to 1 because that's=
- exactly
->> >> the bad scenario if M was previously higher than 1.
->> >>
->> >> It's tricky.
->> >>
->> >> Having GPU module clock gated during PLL config changes may help! You=
- can
->> >> do that without locking yourself out, unlike with the CPU PLL.
->> >>
->> >> There's a gate enable bit for it at GPU_CLK_REG.SCLK_GATING. (page 12=
-2)
->>
->> The GPU should already be properly gated:
->> https://elixir.bootlin.com/linux/v6.7.4/source/drivers/clk/sunxi-ng/ccu-=
-sun50i-a64.c#L599
->
-> How so? That's just clock declaration. How does it guarantee the clock to=
- the
-> module is gated during parent PLL configuration changes?
->
+On addition this patchset will also add some guards and checks based on the
+count of data returned by the nvmem supplier.
+---
+V1 Changes : Change read/write callback prototype to ssize_t and
+supplier changes to accomodate the same with core checks and bounds.
+---
 
-You're of course right.
+Joy Chakraborty (1):
+  nvmem: Change return type of reg read/write to ssize_t
 
-I now tried using a similar approach like the one for changes for on
-PLL-CPU. It's using a notifier to connect the CPU to the 24 MHz
-oscillator and, after PLL-CPU is at its new rate, connecting it back to
-PLL-CPU.
+ drivers/nvmem/apple-efuses.c        |  5 +-
+ drivers/nvmem/bcm-ocotp.c           |  8 ++--
+ drivers/nvmem/brcm_nvram.c          |  8 +++-
+ drivers/nvmem/core.c                | 73 +++++++++++++----------------
+ drivers/nvmem/imx-iim.c             |  4 +-
+ drivers/nvmem/imx-ocotp-ele.c       |  4 +-
+ drivers/nvmem/imx-ocotp-scu.c       |  8 ++--
+ drivers/nvmem/imx-ocotp.c           |  6 +--
+ drivers/nvmem/jz4780-efuse.c        |  5 +-
+ drivers/nvmem/lan9662-otpc.c        |  8 ++--
+ drivers/nvmem/layerscape-sfp.c      |  7 ++-
+ drivers/nvmem/lpc18xx_eeprom.c      | 10 ++--
+ drivers/nvmem/lpc18xx_otp.c         |  4 +-
+ drivers/nvmem/meson-efuse.c         | 10 +++-
+ drivers/nvmem/meson-mx-efuse.c      |  4 +-
+ drivers/nvmem/microchip-otpc.c      |  4 +-
+ drivers/nvmem/mtk-efuse.c           |  4 +-
+ drivers/nvmem/mxs-ocotp.c           |  5 +-
+ drivers/nvmem/nintendo-otp.c        |  4 +-
+ drivers/nvmem/qcom-spmi-sdam.c      |  8 ++--
+ drivers/nvmem/qfprom.c              | 10 ++--
+ drivers/nvmem/qoriq-efuse.c         |  4 +-
+ drivers/nvmem/rave-sp-eeprom.c      | 12 ++---
+ drivers/nvmem/rmem.c                |  2 +-
+ drivers/nvmem/rockchip-efuse.c      | 11 +++--
+ drivers/nvmem/rockchip-otp.c        | 13 ++---
+ drivers/nvmem/sc27xx-efuse.c        |  3 +-
+ drivers/nvmem/sec-qfprom.c          |  4 +-
+ drivers/nvmem/snvs_lpgpr.c          | 13 +++--
+ drivers/nvmem/sprd-efuse.c          |  8 ++--
+ drivers/nvmem/stm32-bsec-optee-ta.c |  8 ++--
+ drivers/nvmem/stm32-bsec-optee-ta.h | 12 ++---
+ drivers/nvmem/stm32-romem.c         | 16 +++----
+ drivers/nvmem/sunplus-ocotp.c       |  4 +-
+ drivers/nvmem/sunxi_sid.c           | 11 +++--
+ drivers/nvmem/u-boot-env.c          |  4 +-
+ drivers/nvmem/uniphier-efuse.c      |  4 +-
+ drivers/nvmem/vf610-ocotp.c         |  5 +-
+ drivers/nvmem/zynqmp_nvmem.c        |  2 +-
+ include/linux/nvmem-provider.h      |  4 +-
+ 40 files changed, 180 insertions(+), 159 deletions(-)
 
-For the GPU my approach was to disable the GPU prior to changing
-PLL-GPU's rate and then re-enabling it, once the rate change is
-complete. I think, that's what you were proposing, right?
+-- 
+2.44.0.rc0.258.g7320e95886-goog
 
-Unfortunately, this results in a frozen phone even more quickly.
-
-Below is my code. Again, it doesn't solve the problem, but maybe
-somebody can spot what I'm doing wrong.
-
-Best regards,
-  Frank
-
-diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c b/drivers/clk/sunxi-ng/c=
-cu-sun50i-a64.c
-index d68bdf7dd342..74538259d67a 100644
---- a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
-@@ -977,6 +977,11 @@ static struct ccu_rate_reset_nb sun50i_a64_pll_video0_=
-reset_tcon0_nb =3D {
-
- #define CCU_MIPI_DSI_CLK 0x168
-
-+static struct ccu_div_nb sun50i_a64_gpu_nb =3D {
-+	.common		=3D &gpu_clk.common,
-+	.delay_us	=3D 1, /* ??? */
-+};
-+
- static int sun50i_a64_ccu_probe(struct platform_device *pdev)
- {
- 	void __iomem *reg;
-@@ -1025,6 +1030,10 @@ static int sun50i_a64_ccu_probe(struct platform_devi=
-ce *pdev)
- 	sun50i_a64_pll_video0_reset_tcon0_nb.target_clk =3D tcon0_clk.common.hw.c=
-lk;
- 	ccu_rate_reset_notifier_register(&sun50i_a64_pll_video0_reset_tcon0_nb);
-
-+	/* Gate then ungate GPU on PLL-GPU changes */
-+	ccu_div_notifier_register(pll_gpu_clk.common.hw.clk,
-+				  &sun50i_a64_gpu_nb);
-+
- 	return 0;
- }
-
-diff --git a/drivers/clk/sunxi-ng/ccu_div.c b/drivers/clk/sunxi-ng/ccu_div.c
-index cb10a3ea23f9..83813c54fb2f 100644
---- a/drivers/clk/sunxi-ng/ccu_div.c
-+++ b/drivers/clk/sunxi-ng/ccu_div.c
-@@ -4,7 +4,9 @@
-  * Maxime Ripard <maxime.ripard@free-electrons.com>
-  */
-
-+#include <linux/clk.h>
- #include <linux/clk-provider.h>
-+#include <linux/delay.h>
- #include <linux/io.h>
-
- #include "ccu_gate.h"
-@@ -142,3 +144,37 @@ const struct clk_ops ccu_div_ops =3D {
- 	.set_rate	=3D ccu_div_set_rate,
- };
- EXPORT_SYMBOL_NS_GPL(ccu_div_ops, SUNXI_CCU);
-+
-+static int ccu_div_notifier_cb(struct notifier_block *nb,
-+			       unsigned long event, void *data)
-+{
-+	struct ccu_div_nb *div_nb =3D to_ccu_div_nb(nb);
-+
-+	if (event =3D=3D PRE_RATE_CHANGE) {
-+		div_nb->original_enable =3D ccu_div_is_enabled(&div_nb->common->hw);
-+		if (div_nb->original_enable) {
-+			ccu_div_disable(&div_nb->common->hw);
-+			udelay(div_nb->delay_us);
-+		}
-+	} else if (event =3D=3D POST_RATE_CHANGE) {
-+		if (div_nb->original_enable) {
-+			ccu_div_enable(&div_nb->common->hw);
-+			udelay(div_nb->delay_us);
-+		}
-+	}
-+
-+	return NOTIFY_OK;
-+}
-+
-+int ccu_div_notifier_register(struct clk *clk, struct ccu_div_nb *div_nb)
-+{
-+	div_nb->clk_nb.notifier_call =3D ccu_div_notifier_cb;
-+
-+	return clk_notifier_register(clk, &div_nb->clk_nb);
-+}
-diff --git a/drivers/clk/sunxi-ng/ccu_div.h b/drivers/clk/sunxi-ng/ccu_div.h
-index 90d49ee8e0cc..e096c7be5dca 100644
---- a/drivers/clk/sunxi-ng/ccu_div.h
-+++ b/drivers/clk/sunxi-ng/ccu_div.h
-@@ -283,4 +283,16 @@ static inline struct ccu_div *hw_to_ccu_div(struct clk=
-_hw *hw)
-
- extern const struct clk_ops ccu_div_ops;
-
-+struct ccu_div_nb {
-+	struct notifier_block	clk_nb;
-+	struct ccu_common	*common;
-+
-+	u32	delay_us;	/* us to wait after changing parent rate */
-+	int	original_enable;/* This is set by the notifier callback */
-+};
-+
-+#define to_ccu_div_nb(_nb) container_of(_nb, struct ccu_div_nb, clk_nb)
-+
-+int ccu_div_notifier_register(struct clk *clk, struct ccu_div_nb *mux_nb);
-+
- #endif /* _CCU_DIV_H_ */
-
-
-
->
-> CLK_SET_RATE_PARENT only gates output on re-parenting, not on parent rate=
- changes,
-> according to the header:
->
->   https://elixir.bootlin.com/linux/v6.7.4/source/include/linux/clk-provid=
-er.h#L19
->
-> You'd need perhaps CLK_SET_RATE_GATE *and* still verify that it actually =
-works
-> as expected via some tracing of gpu clock enable/disable/set_rate and pll=
--gpu
-> set_rate. CLK_SET_RATE_GATE seems confusingly docummented:
->
->   https://elixir.bootlin.com/linux/v6.7.4/source/drivers/clk/clk.c#L1034
->
-> so I don't particularly trust it does exaclty what the header claims and =
-what
-> would be needed to test the theory that gating gpu clock during rate chan=
-ge
-> might help.
->
-> kind regards,
-> 	o.
->
->> Thank you for your detailed proposal! It was insightful to read. But
->> while those were all great ideas, they have all already been taken care
->> of. I'm fresh out of ideas again (except for pinning the GPU rate).
->>
->> Again, thank you so much,
->>   Frank
->>
->> >>
->> >> Kind regards,
->> >> 	o.
->> >>
->> >> > I very much appreciate your feedback!
->> >> >
->> >> > [1] https://gitlab.com/postmarketOS/pmaports/-/issues/805
->> >> >
->> >> > Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
->> >> > ---
->> >> > Changes in v2:
->> >> > - dts: Increase minimum GPU frequency to 192 MHz.
->> >> > - nkm and a64: Add minimum and maximum rate for PLL-MIPI.
->> >> > - nkm: Use the same approach for skipping invalid rates in
->> >> >   ccu_nkm_find_best() as in ccu_nkm_find_best_with_parent_adj().
->> >> > - nkm: Improve names for ratio struct members and hence get rid of
->> >> >   describing comments.
->> >> > - nkm and a64: Correct description in the commit messages: M/N <=3D=
- 3
->> >> > - Remove patches for nm as they were not needed.
->> >> > - st7703: Rework the commit message to cover more background for the
->> >> >   change.
->> >> > - Link to v1: https://lore.kernel.org/r/20231218-pinephone-pll-fixe=
-s-v1-0-e238b6ed6dc1@oltmanns.dev
->> >> >
->> >> > ---
->> >> > Frank Oltmanns (6):
->> >> >       clk: sunxi-ng: nkm: Support constraints on m/n ratio and pare=
-nt rate
->> >> >       clk: sunxi-ng: a64: Add constraints on PLL-MIPI's n/m ratio a=
-nd parent rate
->> >> >       clk: sunxi-ng: nkm: Support minimum and maximum rate
->> >> >       clk: sunxi-ng: a64: Set minimum and maximum rate for PLL-MIPI
->> >> >       drm/panel: st7703: Drive XBD599 panel at higher clock rate
->> >> >       arm64: dts: allwinner: a64: Fix minimum GPU OPP rate
->> >> >
->> >> >  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi |  4 ++--
->> >> >  drivers/clk/sunxi-ng/ccu-sun50i-a64.c         | 14 +++++++----
->> >> >  drivers/clk/sunxi-ng/ccu_nkm.c                | 34 +++++++++++++++=
-++++++++++++
->> >> >  drivers/clk/sunxi-ng/ccu_nkm.h                |  4 ++++
->> >> >  drivers/gpu/drm/panel/panel-sitronix-st7703.c | 14 +++++------
->> >> >  5 files changed, 56 insertions(+), 14 deletions(-)
->> >> > ---
->> >> > base-commit: 059c53e877ca6e723e10490c27c1487a63e66efe
->> >> > change-id: 20231218-pinephone-pll-fixes-0ccdfde273e4
->> >> >
->> >> > Best regards,
->> >> > --
->> >> > Frank Oltmanns <frank@oltmanns.dev>
->> >> >
