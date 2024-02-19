@@ -1,1532 +1,278 @@
-Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF1052CCB3
-	for <linux-sunxi@lists.linux.dev>; Mon, 19 Feb 2024 11:32:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE32D364DC
+	for <linux-sunxi@lists.linux.dev>; Mon, 19 Feb 2024 14:01:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708342346; cv=none; b=nT+nUZfMjpyl12/kQ8JMA//MnW5gfpCV+XChHc7wvwCj+T+5NNEsiKaG4jwgH6F+Y8cXXSCxIyqfkP2r6TIsLZYUJcYjX1BH6k2l9WQhIc/XnannTDYHS4d/wgtDHDM3KrdGaZCzCTHIUMasuy+1xoPsvJ33k4IhQ19bsQuhC+8=
+	t=1708351313; cv=none; b=uwA4sdt1X805LcQnaob/ZT4zf4nrt6Fm0Fgv4zgZMeD5ijc4dQbnA9HOcCRlrwpghqpm0a8Bg55wKW3ry3x4v3ajG5ouHnCzmGH/ZQ0LSu4r7SvvLmm92cza/el2uPU+0jUOpWigccroy6kdu/hGph76ElxAD2ATNtdSWirxIu0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708342346; c=relaxed/simple;
-	bh=/hRUSiWTWMxhVgKlKrO4AEOY82ID1s7+iGndP5EPEnY=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=lww3JK/YhMWVEC5a5X1RY4wj6YLnhtY5dwbeOqq9QQoBpex+1uPGycXBd6JXjJ8Fp4udJellIlXojeUA00Sk91QXXNx5HZlioJWI2VSvKvWjOgwhIon6By0hI5miLZPJdu1fd7UxqPh1yM55r5Lh59fEasXdFWqKqqVuKcPme7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--joychakr.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=wQiZGXbR; arc=none smtp.client-ip=209.85.128.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--joychakr.bounces.google.com
+	s=arc-20240116; t=1708351313; c=relaxed/simple;
+	bh=jQIVDS/JkMP5zftyabZIdPyESMnWgo509RhNAS7bLjI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 In-Reply-To:Content-Type:Content-Disposition; b=RDRouwercd8swDqVZrMfXXPzsl2TqSvNxDCjP1JfVv2K4Are39uaPD7l2p1B6e8PVQom2zjcauUqL5etUcC6eK/EtYYK5iBb6iI0u1RlsWVVhOV+ZapuJ9iDQKICKe1Lci8k6uOCEcgmazkxTQ8ffeqdgfCVKs/PPNeIe8Wfk/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EkncEYUa; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wQiZGXbR"
-Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-60761bdbd4cso77627207b3.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 19 Feb 2024 03:32:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1708342342; x=1708947142; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vaLUj696jf7q1CtSN+sGnnLiKElcmWVVod41nSag1is=;
-        b=wQiZGXbRkKc7wvbdYlfWGMDHRnY/UQN+vE7abjRKaylWUs7bYbtzyV24p6ngCgxqrX
-         /BJTAgSu+YEsRT26qejC/JA7EA7dMchqLX83vQpGnOAsFBpu2jwZwBmg4Vmd86MAO7OZ
-         /habTM669rhswrFmv0nP0b8yDzxYG5XZsY+q6yHNnWMAc9xI+A3J2NRJP4xdRgOPS55/
-         pNQB8Rh9jcdSdgM3wts1eI0BTTr595JcszWRjVBp9hjUMufpAuCxOKCYP4bUbJlkwGlF
-         oA7hVwMzUR5JwwZkT0apW/y7WcCJt3gVgsMAqYfXn9oJMm/sPVkIg0GiLqgiFbPqVROX
-         oMSQ==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EkncEYUa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1708351309;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=u587ZdVcj3glUgoM/Hcg0rJugpW/yYo4cuFbTIpN5kY=;
+	b=EkncEYUa4AxBx8NCdQmJNhUZSoeSIvFYjmIB5AWOp2HCZgcp36oqq2WOwwDTmyN9SEhdwl
+	4yvBSWApTcm7v8HLHqfY8xxCHs3WBCDHqDjZn92+84VJhcVLjc6ONL55QdZXn7ZBb6AlKt
+	h3lJcTcxoT86Vyb0Nxakc12Wd2gcGBI=
+Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
+ [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-157-1mID4slcP0u_Ip4JifjsfA-1; Mon, 19 Feb 2024 09:01:48 -0500
+X-MC-Unique: 1mID4slcP0u_Ip4JifjsfA-1
+Received: by mail-lj1-f198.google.com with SMTP id 38308e7fff4ca-2d2368a12a1so12384041fa.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 19 Feb 2024 06:01:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708342342; x=1708947142;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vaLUj696jf7q1CtSN+sGnnLiKElcmWVVod41nSag1is=;
-        b=X85ndGEvDsj/D438V4HjRaRqg1oRgug9C4flXwahfHUU2HIIbidxgrHzlDJ0AEaHfx
-         hXff792Ld4y2xDPU+ndADinqayjLWfqLu35g/CtdKNL71xj3xJFO+yUwDcJmFwlr0JJ6
-         tfnA/zIBGesXqw/I7lmRWHDslPNPtYq6vSWTEzjaKzwUzWIC3Q6lddW231VRPWaONga0
-         wFuZcgLqilfu40MNOLwwb7zeOba4edruWfExfP0GIouq+5x3juHGFz//sCZB1JZok/lq
-         tFXbrKM8OMpWrGC79Ca1hA2WPDTfPR/jDxOvaSncfRMHXA+xOssh8+AHqSys1HxWifi3
-         cf/w==
-X-Forwarded-Encrypted: i=1; AJvYcCWTv3M8e4b/NZUfn+hBlt5BAOoNVHqntMHOpDUW0NVIdybPIHntL83p+0lUvMgT9p2mkhTBpj8N9738t2iawWn34W7vS2FKJUkbfzQ=
-X-Gm-Message-State: AOJu0YyLyGXJqiiWDF6iqkd2P+TQ2mKXZ9hbgr3KcPsNNKk3xSDjSGiM
-	H8FDUj3ddcL7/ZAfsFrhNvXmZ/iEhwsmwnLTeie7VAxFdGQU9LEW/Vz+RSv1cfhyJaMKTdjS1Xg
-	+uTAc/ccl9w==
-X-Google-Smtp-Source: AGHT+IHN/eZMiyAZlahHIC9whVOJCWJW4RAdWjKjp8P6a8G/nSOK1oJiA74JGpQvN0kQ7Q6DrD+gzH5Go9UkPQ==
-X-Received: from joychakr.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:6ea])
- (user=joychakr job=sendgmr) by 2002:a81:7956:0:b0:607:c633:2997 with SMTP id
- u83-20020a817956000000b00607c6332997mr3104320ywc.5.1708342341976; Mon, 19 Feb
- 2024 03:32:21 -0800 (PST)
-Date: Mon, 19 Feb 2024 11:31:49 +0000
-In-Reply-To: <20240219113149.2437990-1-joychakr@google.com>
+        d=1e100.net; s=20230601; t=1708351307; x=1708956107;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=u587ZdVcj3glUgoM/Hcg0rJugpW/yYo4cuFbTIpN5kY=;
+        b=uzJTdyw+mUHStyrTfIw0pZSNJplv+wY4dqNt8UCWih2x4Kjf6tr9EbOSXrWk5VyIWX
+         9jE5tZqa76wWnO8u+hv+dzu4SRMuu24BFG/HRa93Eb79o9Z2SBMxto/Vth34m4vIX78A
+         6R3uZdZVF3UTXDs+AbA+Di/dGxDdC9j+f71zf7Yg19yBOqSu0AUPbwB2NLTEylWXz9UH
+         xctwvaktB+awT8VUuVSoMcxwu3Nx1ss1lNk+AQuzHn/PF9gOjCbLvCUb7/i7qgMmxa8S
+         it60/n33XWvnDu8PKYXbydPt41f+oI/ARgEQ5oDgqCO9v9kK8uPbIQ9BlvJ3Tb4JiBnY
+         qpTA==
+X-Forwarded-Encrypted: i=1; AJvYcCUy2JKvc39TmCx8bwHuTHh2A1V0v8ap2NYndvPjYFYlI/uKj4wmj0NkJYz+65I/QrLLzL4qUuMn9QN3VV6drmFYl+plRTXG3Dq5eOU=
+X-Gm-Message-State: AOJu0YyAQnp+La2dkwMLmuCDLujrg5DjqbUGXndwjGRcCdcNWnahcaod
+	1IbL3Lpsa3ptvFehrekeIp5f1mzd9B4/BgG4TEPCRsV5KXre4JXTxOV2QeeegMNwH/+meppIQl8
+	Z8R/9eATQ7KGuRCGgNM+YSBMcdRSNxbNtuEOiE6c4yEuWJ/AUly5WAufiJ37l
+X-Received: by 2002:a2e:bb88:0:b0:2d2:317a:4e51 with SMTP id y8-20020a2ebb88000000b002d2317a4e51mr2711453lje.19.1708351306656;
+        Mon, 19 Feb 2024 06:01:46 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFYOkgdkpjUPqkVShV5VUvUXvy45CYFqtPgSKyukje33ZPvJRJxa7MElMt9lvxrCNYhdDWEcw==
+X-Received: by 2002:a2e:bb88:0:b0:2d2:317a:4e51 with SMTP id y8-20020a2ebb88000000b002d2317a4e51mr2711422lje.19.1708351306160;
+        Mon, 19 Feb 2024 06:01:46 -0800 (PST)
+Received: from toolbox ([2001:9e8:89aa:1800:3845:886a:5f99:bee1])
+        by smtp.gmail.com with ESMTPSA id v21-20020a05600c445500b0041266f5b041sm2964973wmn.34.2024.02.19.06.01.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Feb 2024 06:01:45 -0800 (PST)
+Date: Mon, 19 Feb 2024 15:01:44 +0100
+From: Sebastian Wick <sebastian.wick@redhat.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>,
+	Sandy Huang <hjc@rock-chips.com>,
+	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: Re: Re: Re: Re: Re: Re: [PATCH v5 08/44] drm/connector: hdmi:
+ Add Broadcast RGB property
+Message-ID: <20240219140144.GB1956149@toolbox>
+References: <Zb0M_2093UwPXK8y@intel.com>
+ <hez2m57ogqx3yyqk45tzdkvxvhrbdepgm244i4m2aty2xhf5b5@acqgvmxhmmvr>
+ <Zb0aYAapkxQ2kopt@intel.com>
+ <zml6j27skvjmbrfyz7agy5waxajv4p4asbemeexelm3wuv4o7j@xkd2wvnxhbuc>
+ <20240209203435.GB996172@toolbox>
+ <ahfl6f72lpgpsbnrbgvbsh4db4npr2hh36kua2c6krh544hv5r@dndw4hz2mu2g>
+ <Zco-DQaXqae7B1jt@intel.com>
+ <yx2t7xltxxgsngdsxamsfq6y7dze3wzegxcqwmsb5yrxen73x6@u3vilqhpci4w>
+ <20240212170618.GA1372043@toolbox>
+ <2mih3humepuedtli7ge52ncom4uffkqravdpalncgfyucmwdzc@bp5o7i3ky77a>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20240219113149.2437990-1-joychakr@google.com>
-X-Mailer: git-send-email 2.44.0.rc0.258.g7320e95886-goog
-Message-ID: <20240219113149.2437990-2-joychakr@google.com>
-Subject: [PATCH v1 1/1] nvmem: Change return type of reg read/write to ssize_t
-From: Joy Chakraborty <joychakr@google.com>
-To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	NXP Linux Team <linux-imx@nxp.com>, Vladimir Zapolskiy <vz@mleia.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
-	Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Heiko Stuebner <heiko@sntech.de>, Orson Zhai <orsonzhai@gmail.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Vincent Shih <vincent.sunplus@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Rafal Milecki <rafal@milecki.pl>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Michal Simek <michal.simek@amd.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-amlogic@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
-	Joy Chakraborty <joychakr@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+In-Reply-To: <2mih3humepuedtli7ge52ncom4uffkqravdpalncgfyucmwdzc@bp5o7i3ky77a>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Change return type of reg_read() and reg_write() callback to ssize_t for
-nvmem suppliers to return number of bytes read/written to the nvmem core.
+On Thu, Feb 15, 2024 at 12:00:01PM +0100, Maxime Ripard wrote:
+> On Mon, Feb 12, 2024 at 06:06:18PM +0100, Sebastian Wick wrote:
+> > On Mon, Feb 12, 2024 at 05:53:48PM +0100, Maxime Ripard wrote:
+> > > On Mon, Feb 12, 2024 at 05:49:33PM +0200, Ville Syrjälä wrote:
+> > > > On Mon, Feb 12, 2024 at 11:01:07AM +0100, Maxime Ripard wrote:
+> > > > > On Fri, Feb 09, 2024 at 09:34:35PM +0100, Sebastian Wick wrote:
+> > > > > > On Mon, Feb 05, 2024 at 10:39:38AM +0100, Maxime Ripard wrote:
+> > > > > > > On Fri, Feb 02, 2024 at 06:37:52PM +0200, Ville Syrjälä wrote:
+> > > > > > > > On Fri, Feb 02, 2024 at 04:59:30PM +0100, Maxime Ripard wrote:
+> > > > > > > > > On Fri, Feb 02, 2024 at 05:40:47PM +0200, Ville Syrjälä wrote:
+> > > > > > > > > > On Fri, Feb 02, 2024 at 02:01:39PM +0100, Maxime Ripard wrote:
+> > > > > > > > > > > Hi,
+> > > > > > > > > > > 
+> > > > > > > > > > > On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebastian Wick wrote:
+> > > > > > > > > > > > > >  /**
+> > > > > > > > > > > > > >   * DOC: HDMI connector properties
+> > > > > > > > > > > > > >   *
+> > > > > > > > > > > > > > + * Broadcast RGB
+> > > > > > > > > > > > > > + *      Indicates the RGB Quantization Range (Full vs Limited) used.
+> > > > > > > > > > > > > > + *      Infoframes will be generated according to that value.
+> > > > > > > > > > > > > > + *
+> > > > > > > > > > > > > > + *      The value of this property can be one of the following:
+> > > > > > > > > > > > > > + *
+> > > > > > > > > > > > > > + *      Automatic:
+> > > > > > > > > > > > > > + *              RGB Range is selected automatically based on the mode
+> > > > > > > > > > > > > > + *              according to the HDMI specifications.
+> > > > > > > > > > > > > > + *
+> > > > > > > > > > > > > > + *      Full:
+> > > > > > > > > > > > > > + *              Full RGB Range is forced.
+> > > > > > > > > > > > > > + *
+> > > > > > > > > > > > > > + *      Limited 16:235:
+> > > > > > > > > > > > > > + *              Limited RGB Range is forced. Unlike the name suggests,
+> > > > > > > > > > > > > > + *              this works for any number of bits-per-component.
+> > > > > > > > > > > > > > + *
+> > > > > > > > > > > > > > + *      Drivers can set up this property by calling
+> > > > > > > > > > > > > > + *      drm_connector_attach_broadcast_rgb_property().
+> > > > > > > > > > > > > > + *
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > This is a good time to document this in more detail. There might be two
+> > > > > > > > > > > > > different things being affected:
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > 1. The signalling (InfoFrame/SDP/...)
+> > > > > > > > > > > > > 2. The color pipeline processing
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > All values of Broadcast RGB always affect the color pipeline processing
+> > > > > > > > > > > > > such that a full-range input to the CRTC is converted to either full- or
+> > > > > > > > > > > > > limited-range, depending on what the monitor is supposed to accept.
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > When automatic is selected, does that mean that there is no signalling,
+> > > > > > > > > > > > > or that the signalling matches what the monitor is supposed to accept
+> > > > > > > > > > > > > according to the spec? Also, is this really HDMI specific?
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > When full or limited is selected and the monitor doesn't support the
+> > > > > > > > > > > > > signalling, what happens?
+> > > > > > > > > > > > 
+> > > > > > > > > > > > Forgot to mention: user-space still has no control over RGB vs YCbCr on
+> > > > > > > > > > > > the cable, so is this only affecting RGB? If not, how does it affect
+> > > > > > > > > > > > YCbCr?
+> > > > > > > > > > > 
+> > > > > > > > > > > So I dug a bit into both the i915 and vc4 drivers, and it looks like if
+> > > > > > > > > > > we're using a YCbCr format, i915 will always use a limited range while
+> > > > > > > > > > > vc4 will follow the value of the property.
+> > > > > > > > > > 
+> > > > > > > > > > The property is literally called "Broadcast *RGB*".
+> > > > > > > > > > That should explain why it's only affecting RGB.
+> > > > > > > > > 
+> > > > > > > > > Right. And the limited range option is called "Limited 16:235" despite
+> > > > > > > > > being usable on bpc > 8 bits. Naming errors occurs, and history happens
+> > > > > > > > > to make names inconsistent too, that's fine and not an argument in
+> > > > > > > > > itself.
+> > > > > > > > > 
+> > > > > > > > > > Full range YCbCr is a much rarer beast so we've never bothered
+> > > > > > > > > > to enable it.
+> > > > > > > > > 
+> > > > > > > > > vc4 supports it.
+> > > > > > > > 
+> > > > > > > > Someone implemented it incorrectly then.
+> > > > > > > 
+> > > > > > > Incorrectly according to what documentation / specification? I'm sorry,
+> > > > > > > but I find it super ironic that i915 gets to do its own thing, not
+> > > > > > > document any of it, and when people try to clean things up they get told
+> > > > > > > that we got it all wrong.
+> > > > > > 
+> > > > > > FWIW, this was an i915 property and if another driver uses the same
+> > > > > > property name it must have the same behavior. Yes, it isn't standardized
+> > > > > > and yes, it's not documented (hence this effort here) but it's still on
+> > > > > > vc4 to make the property compatible.
+> > > > > 
+> > > > > How is it not compatible? It's a superset of what i915 provides, but
+> > > > > it's strictly compatible with it.
+> > > > 
+> > > > No it is not.
+> > > 
+> > > The property is compatible with i915 interpretation of it, whether you
+> > > like it or not. And that's what Sebastian was referring to.
+> > > 
+> > > > Eg. what happens if you set the thing to full range for RGB (which you
+> > > > must on many broken monitors), and then the kernel automagically
+> > > > switches to YCbCr (for whatever reason) but the monitor doesn't
+> > > > support full range YCbCr? Answer: you get crap output.
+> > > 
+> > > And that part is just moving goalposts.
+> > 
+> > But it's really not.
+> 
+> It really is. This whole discussion started by "well it would be nice if
+> we made that property handled by the core", and we're now at the "we
+> need to deal with broken YCbCr displays and i915 opinion about them"
+> stage. After creating documentation, unit tests, etc. It's the textbook
+> definition of moving goalposts. And while i915 won't be affected by all
+> that work.
 
-Currently nvmem core assumes the amount of data read/written is equal
-to what it has requested from the supplier, this return code facilitates
-better error handling in the nvmem core.
+Sorry, but what you're saying is just not true.
 
-Signed-off-by: Joy Chakraborty <joychakr@google.com>
----
- drivers/nvmem/apple-efuses.c        |  5 +-
- drivers/nvmem/bcm-ocotp.c           |  8 ++--
- drivers/nvmem/brcm_nvram.c          |  8 +++-
- drivers/nvmem/core.c                | 73 +++++++++++++----------------
- drivers/nvmem/imx-iim.c             |  4 +-
- drivers/nvmem/imx-ocotp-ele.c       |  4 +-
- drivers/nvmem/imx-ocotp-scu.c       |  8 ++--
- drivers/nvmem/imx-ocotp.c           |  6 +--
- drivers/nvmem/jz4780-efuse.c        |  5 +-
- drivers/nvmem/lan9662-otpc.c        |  8 ++--
- drivers/nvmem/layerscape-sfp.c      |  7 ++-
- drivers/nvmem/lpc18xx_eeprom.c      | 10 ++--
- drivers/nvmem/lpc18xx_otp.c         |  4 +-
- drivers/nvmem/meson-efuse.c         | 10 +++-
- drivers/nvmem/meson-mx-efuse.c      |  4 +-
- drivers/nvmem/microchip-otpc.c      |  4 +-
- drivers/nvmem/mtk-efuse.c           |  4 +-
- drivers/nvmem/mxs-ocotp.c           |  5 +-
- drivers/nvmem/nintendo-otp.c        |  4 +-
- drivers/nvmem/qcom-spmi-sdam.c      |  8 ++--
- drivers/nvmem/qfprom.c              | 10 ++--
- drivers/nvmem/qoriq-efuse.c         |  4 +-
- drivers/nvmem/rave-sp-eeprom.c      | 12 ++---
- drivers/nvmem/rmem.c                |  2 +-
- drivers/nvmem/rockchip-efuse.c      | 11 +++--
- drivers/nvmem/rockchip-otp.c        | 13 ++---
- drivers/nvmem/sc27xx-efuse.c        |  3 +-
- drivers/nvmem/sec-qfprom.c          |  4 +-
- drivers/nvmem/snvs_lpgpr.c          | 13 +++--
- drivers/nvmem/sprd-efuse.c          |  8 ++--
- drivers/nvmem/stm32-bsec-optee-ta.c |  8 ++--
- drivers/nvmem/stm32-bsec-optee-ta.h | 12 ++---
- drivers/nvmem/stm32-romem.c         | 16 +++----
- drivers/nvmem/sunplus-ocotp.c       |  4 +-
- drivers/nvmem/sunxi_sid.c           | 11 +++--
- drivers/nvmem/u-boot-env.c          |  4 +-
- drivers/nvmem/uniphier-efuse.c      |  4 +-
- drivers/nvmem/vf610-ocotp.c         |  5 +-
- drivers/nvmem/zynqmp_nvmem.c        |  2 +-
- include/linux/nvmem-provider.h      |  4 +-
- 40 files changed, 180 insertions(+), 159 deletions(-)
+The Broadcast RGB property is an Intel specific property. It lacked
+documentation but the user space contract exists and it based on how
+i915 implemented it. By changing the semantics you're breaking user
+space. The documentation has to document the current contract between
+i915 and user space, not whatever you want the property to be like.
 
-diff --git a/drivers/nvmem/apple-efuses.c b/drivers/nvmem/apple-efuses.c
-index d3d49d22338b..9a564cb0f26d 100644
---- a/drivers/nvmem/apple-efuses.c
-+++ b/drivers/nvmem/apple-efuses.c
-@@ -15,10 +15,11 @@ struct apple_efuses_priv {
- 	void __iomem *fuses;
- };
- 
--static int apple_efuses_read(void *context, unsigned int offset, void *val,
-+static ssize_t apple_efuses_read(void *context, unsigned int offset, void *val,
- 			     size_t bytes)
- {
- 	struct apple_efuses_priv *priv = context;
-+	size_t bytes_read = bytes;
- 	u32 *dst = val;
- 
- 	while (bytes >= sizeof(u32)) {
-@@ -27,7 +28,7 @@ static int apple_efuses_read(void *context, unsigned int offset, void *val,
- 		offset += sizeof(u32);
- 	}
- 
--	return 0;
-+	return bytes_read;
- }
- 
- static int apple_efuses_probe(struct platform_device *pdev)
-diff --git a/drivers/nvmem/bcm-ocotp.c b/drivers/nvmem/bcm-ocotp.c
-index 2490f44caa40..803354574fe0 100644
---- a/drivers/nvmem/bcm-ocotp.c
-+++ b/drivers/nvmem/bcm-ocotp.c
-@@ -148,7 +148,7 @@ static int disable_ocotp_program(void __iomem *base)
- 	return ret;
- }
- 
--static int bcm_otpc_read(void *context, unsigned int offset, void *val,
-+static ssize_t bcm_otpc_read(void *context, unsigned int offset, void *val,
- 	size_t bytes)
- {
- 	struct otpc_priv *priv = context;
-@@ -176,10 +176,10 @@ static int bcm_otpc_read(void *context, unsigned int offset, void *val,
- 		reset_start_bit(priv->base);
- 	}
- 
--	return 0;
-+	return bytes_read;
- }
- 
--static int bcm_otpc_write(void *context, unsigned int offset, void *val,
-+static ssize_t bcm_otpc_write(void *context, unsigned int offset, void *val,
- 	size_t bytes)
- {
- 	struct otpc_priv *priv = context;
-@@ -214,7 +214,7 @@ static int bcm_otpc_write(void *context, unsigned int offset, void *val,
- 
- 	disable_ocotp_program(priv->base);
- 
--	return 0;
-+	return bytes_written;
- }
- 
- static struct nvmem_config bcm_otpc_nvmem_config = {
-diff --git a/drivers/nvmem/brcm_nvram.c b/drivers/nvmem/brcm_nvram.c
-index 5cdf339cfbec..d8700b7e2642 100644
---- a/drivers/nvmem/brcm_nvram.c
-+++ b/drivers/nvmem/brcm_nvram.c
-@@ -46,7 +46,7 @@ struct brcm_nvram_header {
- 	__le32 config_ncdl;	/* ncdl values for memc */
- };
- 
--static int brcm_nvram_read(void *context, unsigned int offset, void *val,
-+static ssize_t brcm_nvram_read(void *context, unsigned int offset, void *val,
- 			   size_t bytes)
- {
- 	struct brcm_nvram *priv = context;
-@@ -61,7 +61,11 @@ static int brcm_nvram_read(void *context, unsigned int offset, void *val,
- 
- 	memset((uint8_t *)val + to_copy, priv->padding_byte, bytes - to_copy);
- 
--	return 0;
-+	/*
-+	 * Returning bytes requested as the whole buffer is padded even if the
-+	 * requested bytes to be read is out of bounds of resource size.
-+	 */
-+	return bytes;
- }
- 
- static int brcm_nvram_copy_data(struct brcm_nvram *priv, struct platform_device *pdev)
-diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-index eb357ac2e54a..c3ee526d9396 100644
---- a/drivers/nvmem/core.c
-+++ b/drivers/nvmem/core.c
-@@ -55,7 +55,7 @@ static LIST_HEAD(nvmem_lookup_list);
- 
- static BLOCKING_NOTIFIER_HEAD(nvmem_notifier);
- 
--static int __nvmem_reg_read(struct nvmem_device *nvmem, unsigned int offset,
-+static ssize_t __nvmem_reg_read(struct nvmem_device *nvmem, unsigned int offset,
- 			    void *val, size_t bytes)
- {
- 	if (nvmem->reg_read)
-@@ -64,10 +64,10 @@ static int __nvmem_reg_read(struct nvmem_device *nvmem, unsigned int offset,
- 	return -EINVAL;
- }
- 
--static int __nvmem_reg_write(struct nvmem_device *nvmem, unsigned int offset,
-+static ssize_t __nvmem_reg_write(struct nvmem_device *nvmem, unsigned int offset,
- 			     void *val, size_t bytes)
- {
--	int ret;
-+	ssize_t ret;
- 
- 	if (nvmem->reg_write) {
- 		gpiod_set_value_cansleep(nvmem->wp_gpio, 0);
-@@ -79,7 +79,7 @@ static int __nvmem_reg_write(struct nvmem_device *nvmem, unsigned int offset,
- 	return -EINVAL;
- }
- 
--static int nvmem_access_with_keepouts(struct nvmem_device *nvmem,
-+static ssize_t nvmem_access_with_keepouts(struct nvmem_device *nvmem,
- 				      unsigned int offset, void *val,
- 				      size_t bytes, int write)
- {
-@@ -88,7 +88,7 @@ static int nvmem_access_with_keepouts(struct nvmem_device *nvmem,
- 	unsigned int kend, ksize;
- 	const struct nvmem_keepout *keepout = nvmem->keepout;
- 	const struct nvmem_keepout *keepoutend = keepout + nvmem->nkeepout;
--	int rc;
-+	ssize_t rc, count = 0;
- 
- 	/*
- 	 * Skip all keepouts before the range being accessed.
-@@ -107,11 +107,12 @@ static int nvmem_access_with_keepouts(struct nvmem_device *nvmem,
- 			else
- 				rc = __nvmem_reg_read(nvmem, offset, val, ksize);
- 
--			if (rc)
-+			if (rc < 0)
- 				return rc;
- 
- 			offset += ksize;
- 			val += ksize;
-+			count += rc;
- 		}
- 
- 		/*
-@@ -135,15 +136,20 @@ static int nvmem_access_with_keepouts(struct nvmem_device *nvmem,
- 	if (offset < end) {
- 		ksize = end - offset;
- 		if (write)
--			return __nvmem_reg_write(nvmem, offset, val, ksize);
-+			rc = __nvmem_reg_write(nvmem, offset, val, ksize);
- 		else
--			return __nvmem_reg_read(nvmem, offset, val, ksize);
-+			rc = __nvmem_reg_read(nvmem, offset, val, ksize);
-+
-+		if (rc < 0)
-+			return rc;
-+
-+		count += rc;
- 	}
- 
--	return 0;
-+	return count;
- }
- 
--static int nvmem_reg_read(struct nvmem_device *nvmem, unsigned int offset,
-+static ssize_t nvmem_reg_read(struct nvmem_device *nvmem, unsigned int offset,
- 			  void *val, size_t bytes)
- {
- 	if (!nvmem->nkeepout)
-@@ -152,7 +158,7 @@ static int nvmem_reg_read(struct nvmem_device *nvmem, unsigned int offset,
- 	return nvmem_access_with_keepouts(nvmem, offset, val, bytes, false);
- }
- 
--static int nvmem_reg_write(struct nvmem_device *nvmem, unsigned int offset,
-+static ssize_t nvmem_reg_write(struct nvmem_device *nvmem, unsigned int offset,
- 			   void *val, size_t bytes)
- {
- 	if (!nvmem->nkeepout)
-@@ -195,7 +201,6 @@ static ssize_t bin_attr_nvmem_read(struct file *filp, struct kobject *kobj,
- {
- 	struct device *dev;
- 	struct nvmem_device *nvmem;
--	int rc;
- 
- 	if (attr->private)
- 		dev = attr->private;
-@@ -221,12 +226,7 @@ static ssize_t bin_attr_nvmem_read(struct file *filp, struct kobject *kobj,
- 	if (!nvmem->reg_read)
- 		return -EPERM;
- 
--	rc = nvmem_reg_read(nvmem, pos, buf, count);
--
--	if (rc)
--		return rc;
--
--	return count;
-+	return nvmem_reg_read(nvmem, pos, buf, count);
- }
- 
- static ssize_t bin_attr_nvmem_write(struct file *filp, struct kobject *kobj,
-@@ -235,7 +235,6 @@ static ssize_t bin_attr_nvmem_write(struct file *filp, struct kobject *kobj,
- {
- 	struct device *dev;
- 	struct nvmem_device *nvmem;
--	int rc;
- 
- 	if (attr->private)
- 		dev = attr->private;
-@@ -261,12 +260,7 @@ static ssize_t bin_attr_nvmem_write(struct file *filp, struct kobject *kobj,
- 	if (!nvmem->reg_write)
- 		return -EPERM;
- 
--	rc = nvmem_reg_write(nvmem, pos, buf, count);
--
--	if (rc)
--		return rc;
--
--	return count;
-+	return nvmem_reg_write(nvmem, pos, buf, count);
- }
- 
- static umode_t nvmem_bin_attr_get_umode(struct nvmem_device *nvmem)
-@@ -1633,9 +1627,12 @@ static int __nvmem_cell_read(struct nvmem_device *nvmem,
- 
- 	rc = nvmem_reg_read(nvmem, cell->offset, buf, cell->raw_len);
- 
--	if (rc)
-+	if (rc < 0)
- 		return rc;
- 
-+	if (rc != cell->raw_len)
-+		return -EIO;
-+
- 	/* shift bits in-place */
- 	if (cell->bit_offset || cell->nbits)
- 		nvmem_shift_read_buffer_in_place(cell, buf);
-@@ -1708,8 +1705,11 @@ static void *nvmem_cell_prepare_write_buffer(struct nvmem_cell_entry *cell,
- 
- 		/* setup the first byte with lsb bits from nvmem */
- 		rc = nvmem_reg_read(nvmem, cell->offset, &v, 1);
--		if (rc)
-+		if (rc < 1) {
-+			if (rc == 0)
-+				rc = -EIO;
- 			goto err;
-+		}
- 		*b++ |= GENMASK(bit_offset - 1, 0) & v;
- 
- 		/* setup rest of the byte if any */
-@@ -1728,8 +1728,11 @@ static void *nvmem_cell_prepare_write_buffer(struct nvmem_cell_entry *cell,
- 		/* setup the last byte with msb bits from nvmem */
- 		rc = nvmem_reg_read(nvmem,
- 				    cell->offset + cell->bytes - 1, &v, 1);
--		if (rc)
-+		if (rc < 1) {
-+			if (rc == 0)
-+				rc = -EIO;
- 			goto err;
-+		}
- 		*p |= GENMASK(7, (nbits + bit_offset) % BITS_PER_BYTE) & v;
- 
- 	}
-@@ -1769,10 +1772,7 @@ static int __nvmem_cell_entry_write(struct nvmem_cell_entry *cell, void *buf, si
- 	if (cell->bit_offset || cell->nbits)
- 		kfree(buf);
- 
--	if (rc)
--		return rc;
--
--	return len;
-+	return rc;
- }
- 
- /**
-@@ -2047,17 +2047,10 @@ int nvmem_device_read(struct nvmem_device *nvmem,
- 		      unsigned int offset,
- 		      size_t bytes, void *buf)
- {
--	int rc;
--
- 	if (!nvmem)
- 		return -EINVAL;
- 
--	rc = nvmem_reg_read(nvmem, offset, buf, bytes);
--
--	if (rc)
--		return rc;
--
--	return bytes;
-+	return nvmem_reg_read(nvmem, offset, buf, bytes);
- }
- EXPORT_SYMBOL_GPL(nvmem_device_read);
- 
-diff --git a/drivers/nvmem/imx-iim.c b/drivers/nvmem/imx-iim.c
-index f13bbd164086..af46c5490416 100644
---- a/drivers/nvmem/imx-iim.c
-+++ b/drivers/nvmem/imx-iim.c
-@@ -29,7 +29,7 @@ struct iim_priv {
- 	struct clk *clk;
- };
- 
--static int imx_iim_read(void *context, unsigned int offset,
-+static ssize_t imx_iim_read(void *context, unsigned int offset,
- 			  void *buf, size_t bytes)
- {
- 	struct iim_priv *iim = context;
-@@ -49,7 +49,7 @@ static int imx_iim_read(void *context, unsigned int offset,
- 
- 	clk_disable_unprepare(iim->clk);
- 
--	return 0;
-+	return bytes;
- }
- 
- static struct imx_iim_drvdata imx27_drvdata = {
-diff --git a/drivers/nvmem/imx-ocotp-ele.c b/drivers/nvmem/imx-ocotp-ele.c
-index cf920542f939..3025fe8aa991 100644
---- a/drivers/nvmem/imx-ocotp-ele.c
-+++ b/drivers/nvmem/imx-ocotp-ele.c
-@@ -61,7 +61,7 @@ static enum fuse_type imx_ocotp_fuse_type(void *context, u32 index)
- 	return FUSE_INVALID;
- }
- 
--static int imx_ocotp_reg_read(void *context, unsigned int offset, void *val, size_t bytes)
-+static ssize_t imx_ocotp_reg_read(void *context, unsigned int offset, void *val, size_t bytes)
- {
- 	struct imx_ocotp_priv *priv = context;
- 	void __iomem *reg = priv->base + priv->data->reg_off;
-@@ -102,7 +102,7 @@ static int imx_ocotp_reg_read(void *context, unsigned int offset, void *val, siz
- 
- 	kfree(p);
- 
--	return 0;
-+	return bytes;
- };
- 
- static int imx_ele_ocotp_probe(struct platform_device *pdev)
-diff --git a/drivers/nvmem/imx-ocotp-scu.c b/drivers/nvmem/imx-ocotp-scu.c
-index 517d83e11af2..2f9b9f035c49 100644
---- a/drivers/nvmem/imx-ocotp-scu.c
-+++ b/drivers/nvmem/imx-ocotp-scu.c
-@@ -129,7 +129,7 @@ static int imx_sc_misc_otp_fuse_read(struct imx_sc_ipc *ipc, u32 word,
- 	return 0;
- }
- 
--static int imx_scu_ocotp_read(void *context, unsigned int offset,
-+static ssize_t imx_scu_ocotp_read(void *context, unsigned int offset,
- 			      void *val, size_t bytes)
- {
- 	struct ocotp_priv *priv = context;
-@@ -174,10 +174,10 @@ static int imx_scu_ocotp_read(void *context, unsigned int offset,
- 
- 	kfree(p);
- 
--	return 0;
-+	return bytes;
- }
- 
--static int imx_scu_ocotp_write(void *context, unsigned int offset,
-+static ssize_t imx_scu_ocotp_write(void *context, unsigned int offset,
- 			       void *val, size_t bytes)
- {
- 	struct ocotp_priv *priv = context;
-@@ -215,7 +215,7 @@ static int imx_scu_ocotp_write(void *context, unsigned int offset,
- 
- 	mutex_unlock(&scu_ocotp_mutex);
- 
--	return res.a0;
-+	return res.a0 < 0 ? res.a0 : bytes;
- }
- 
- static struct nvmem_config imx_scu_ocotp_nvmem_config = {
-diff --git a/drivers/nvmem/imx-ocotp.c b/drivers/nvmem/imx-ocotp.c
-index 79dd4fda0329..2b04d49c7bf0 100644
---- a/drivers/nvmem/imx-ocotp.c
-+++ b/drivers/nvmem/imx-ocotp.c
-@@ -154,7 +154,7 @@ static void imx_ocotp_clr_err_if_set(struct ocotp_priv *priv)
- 	writel(bm_ctrl_error, base + IMX_OCOTP_ADDR_CTRL_CLR);
- }
- 
--static int imx_ocotp_read(void *context, unsigned int offset,
-+static ssize_t imx_ocotp_read(void *context, unsigned int offset,
- 			  void *val, size_t bytes)
- {
- 	struct ocotp_priv *priv = context;
-@@ -217,7 +217,7 @@ static int imx_ocotp_read(void *context, unsigned int offset,
- 
- 	kfree(p);
- 
--	return ret;
-+	return ret < 0 ? ret : bytes;
- }
- 
- static int imx_ocotp_cell_pp(void *context, const char *id, int index,
-@@ -307,7 +307,7 @@ static void imx_ocotp_set_imx7_timing(struct ocotp_priv *priv)
- 	writel(timing, priv->base + IMX_OCOTP_ADDR_TIMING);
- }
- 
--static int imx_ocotp_write(void *context, unsigned int offset, void *val,
-+static ssize_t imx_ocotp_write(void *context, unsigned int offset, void *val,
- 			   size_t bytes)
- {
- 	struct ocotp_priv *priv = context;
-diff --git a/drivers/nvmem/jz4780-efuse.c b/drivers/nvmem/jz4780-efuse.c
-index 0b01b840edd9..3c3f57dd1ffc 100644
---- a/drivers/nvmem/jz4780-efuse.c
-+++ b/drivers/nvmem/jz4780-efuse.c
-@@ -66,10 +66,11 @@ struct jz4780_efuse {
- };
- 
- /* main entry point */
--static int jz4780_efuse_read(void *context, unsigned int offset,
-+static ssize_t jz4780_efuse_read(void *context, unsigned int offset,
- 			     void *val, size_t bytes)
- {
- 	struct jz4780_efuse *efuse = context;
-+	size_t bytes_read = bytes;
- 
- 	while (bytes > 0) {
- 		size_t start = offset & ~(JZ_EFU_READ_SIZE - 1);
-@@ -112,7 +113,7 @@ static int jz4780_efuse_read(void *context, unsigned int offset,
- 		bytes -= chunk;
- 	}
- 
--	return 0;
-+	return bytes_read;
- }
- 
- static struct nvmem_config jz4780_efuse_nvmem_config = {
-diff --git a/drivers/nvmem/lan9662-otpc.c b/drivers/nvmem/lan9662-otpc.c
-index 56fc19f092a7..a6bdc79867c7 100644
---- a/drivers/nvmem/lan9662-otpc.c
-+++ b/drivers/nvmem/lan9662-otpc.c
-@@ -119,7 +119,7 @@ static int lan9662_otp_write_byte(struct lan9662_otp *otp, u32 offset, u8 data)
- 	return rc;
- }
- 
--static int lan9662_otp_read(void *context, unsigned int offset,
-+static ssize_t lan9662_otp_read(void *context, unsigned int offset,
- 			    void *_val, size_t bytes)
- {
- 	struct lan9662_otp *otp = context;
-@@ -136,10 +136,10 @@ static int lan9662_otp_read(void *context, unsigned int offset,
- 	}
- 	lan9662_otp_power(otp, false);
- 
--	return rc;
-+	return rc < 0 ? rc : bytes;
- }
- 
--static int lan9662_otp_write(void *context, unsigned int offset,
-+static ssize_t lan9662_otp_write(void *context, unsigned int offset,
- 			     void *_val, size_t bytes)
- {
- 	struct lan9662_otp *otp = context;
-@@ -167,7 +167,7 @@ static int lan9662_otp_write(void *context, unsigned int offset,
- 	}
- 	lan9662_otp_power(otp, false);
- 
--	return rc;
-+	return rc < 0 ? rc : bytes;
- }
- 
- static struct nvmem_config otp_config = {
-diff --git a/drivers/nvmem/layerscape-sfp.c b/drivers/nvmem/layerscape-sfp.c
-index e2b424561949..0aab245abd6e 100644
---- a/drivers/nvmem/layerscape-sfp.c
-+++ b/drivers/nvmem/layerscape-sfp.c
-@@ -26,14 +26,17 @@ struct layerscape_sfp_data {
- 	enum regmap_endian endian;
- };
- 
--static int layerscape_sfp_read(void *context, unsigned int offset, void *val,
-+static ssize_t layerscape_sfp_read(void *context, unsigned int offset, void *val,
- 			       size_t bytes)
- {
- 	struct layerscape_sfp_priv *priv = context;
-+	int ret;
- 
--	return regmap_bulk_read(priv->regmap,
-+	ret = regmap_bulk_read(priv->regmap,
- 				LAYERSCAPE_SFP_OTP_OFFSET + offset, val,
- 				bytes / 4);
-+
-+	return ret < 0 ? ret : bytes;
- }
- 
- static struct nvmem_config layerscape_sfp_nvmem_config = {
-diff --git a/drivers/nvmem/lpc18xx_eeprom.c b/drivers/nvmem/lpc18xx_eeprom.c
-index a0275b29afd5..cc8f59c2cd63 100644
---- a/drivers/nvmem/lpc18xx_eeprom.c
-+++ b/drivers/nvmem/lpc18xx_eeprom.c
-@@ -87,10 +87,11 @@ static int lpc18xx_eeprom_busywait_until_prog(struct lpc18xx_eeprom_dev *eeprom)
- 	return -ETIMEDOUT;
- }
- 
--static int lpc18xx_eeprom_gather_write(void *context, unsigned int reg,
-+static ssize_t lpc18xx_eeprom_gather_write(void *context, unsigned int reg,
- 				       void *val, size_t bytes)
- {
- 	struct lpc18xx_eeprom_dev *eeprom = context;
-+	size_t bytes_written = bytes;
- 	unsigned int offset = reg;
- 	int ret;
- 
-@@ -123,13 +124,14 @@ static int lpc18xx_eeprom_gather_write(void *context, unsigned int reg,
- 	lpc18xx_eeprom_writel(eeprom, LPC18XX_EEPROM_PWRDWN,
- 			      LPC18XX_EEPROM_PWRDWN_YES);
- 
--	return 0;
-+	return bytes_written;
- }
- 
--static int lpc18xx_eeprom_read(void *context, unsigned int offset,
-+static ssize_t lpc18xx_eeprom_read(void *context, unsigned int offset,
- 			       void *val, size_t bytes)
- {
- 	struct lpc18xx_eeprom_dev *eeprom = context;
-+	size_t bytes_read = bytes;
- 
- 	lpc18xx_eeprom_writel(eeprom, LPC18XX_EEPROM_PWRDWN,
- 			      LPC18XX_EEPROM_PWRDWN_NO);
-@@ -147,7 +149,7 @@ static int lpc18xx_eeprom_read(void *context, unsigned int offset,
- 	lpc18xx_eeprom_writel(eeprom, LPC18XX_EEPROM_PWRDWN,
- 			      LPC18XX_EEPROM_PWRDWN_YES);
- 
--	return 0;
-+	return bytes_read;
- }
- 
- 
-diff --git a/drivers/nvmem/lpc18xx_otp.c b/drivers/nvmem/lpc18xx_otp.c
-index adc9948e7b2e..da7d7667e10c 100644
---- a/drivers/nvmem/lpc18xx_otp.c
-+++ b/drivers/nvmem/lpc18xx_otp.c
-@@ -37,7 +37,7 @@ struct lpc18xx_otp {
- 	void __iomem *base;
- };
- 
--static int lpc18xx_otp_read(void *context, unsigned int offset,
-+static ssize_t lpc18xx_otp_read(void *context, unsigned int offset,
- 			    void *val, size_t bytes)
- {
- 	struct lpc18xx_otp *otp = context;
-@@ -52,7 +52,7 @@ static int lpc18xx_otp_read(void *context, unsigned int offset,
- 	for (i = index; i < (index + count); i++)
- 		*buf++ = readl(otp->base + i * LPC18XX_OTP_WORD_SIZE);
- 
--	return 0;
-+	return bytes;
- }
- 
- static struct nvmem_config lpc18xx_otp_nvmem_config = {
-diff --git a/drivers/nvmem/meson-efuse.c b/drivers/nvmem/meson-efuse.c
-index b922df99f9bc..da2e856b16a1 100644
---- a/drivers/nvmem/meson-efuse.c
-+++ b/drivers/nvmem/meson-efuse.c
-@@ -18,18 +18,24 @@ static int meson_efuse_read(void *context, unsigned int offset,
- 			    void *val, size_t bytes)
- {
- 	struct meson_sm_firmware *fw = context;
-+	int ret;
- 
--	return meson_sm_call_read(fw, (u8 *)val, bytes, SM_EFUSE_READ, offset,
-+	ret = meson_sm_call_read(fw, (u8 *)val, bytes, SM_EFUSE_READ, offset,
- 				  bytes, 0, 0, 0);
-+
-+	return ret < 0 ? ret : bytes;
- }
- 
- static int meson_efuse_write(void *context, unsigned int offset,
- 			     void *val, size_t bytes)
- {
- 	struct meson_sm_firmware *fw = context;
-+	int ret;
- 
--	return meson_sm_call_write(fw, (u8 *)val, bytes, SM_EFUSE_WRITE, offset,
-+	ret = meson_sm_call_write(fw, (u8 *)val, bytes, SM_EFUSE_WRITE, offset,
- 				   bytes, 0, 0, 0);
-+
-+	return ret < 0 ? ret : bytes;
- }
- 
- static const struct of_device_id meson_efuse_match[] = {
-diff --git a/drivers/nvmem/meson-mx-efuse.c b/drivers/nvmem/meson-mx-efuse.c
-index 3ff04d5ca8f8..fdc598adfe9e 100644
---- a/drivers/nvmem/meson-mx-efuse.c
-+++ b/drivers/nvmem/meson-mx-efuse.c
-@@ -132,7 +132,7 @@ static int meson_mx_efuse_read_addr(struct meson_mx_efuse *efuse,
- 	return 0;
- }
- 
--static int meson_mx_efuse_read(void *context, unsigned int offset,
-+static ssize_t meson_mx_efuse_read(void *context, unsigned int offset,
- 			       void *buf, size_t bytes)
- {
- 	struct meson_mx_efuse *efuse = context;
-@@ -163,7 +163,7 @@ static int meson_mx_efuse_read(void *context, unsigned int offset,
- 
- 	meson_mx_efuse_hw_disable(efuse);
- 
--	return err;
-+	return err < 0 ? err : bytes;
- }
- 
- static const struct meson_mx_efuse_platform_data meson6_efuse_data = {
-diff --git a/drivers/nvmem/microchip-otpc.c b/drivers/nvmem/microchip-otpc.c
-index 7cf81738a3e0..9b53fcb75e98 100644
---- a/drivers/nvmem/microchip-otpc.c
-+++ b/drivers/nvmem/microchip-otpc.c
-@@ -143,7 +143,7 @@ static int mchp_otpc_prepare_read(struct mchp_otpc *otpc,
-  * packet. The user will have to be aware of the memory footprint before doing
-  * the read request.
-  */
--static int mchp_otpc_read(void *priv, unsigned int off, void *val,
-+static ssize_t mchp_otpc_read(void *priv, unsigned int off, void *val,
- 			  size_t bytes)
- {
- 	struct mchp_otpc *otpc = priv;
-@@ -187,7 +187,7 @@ static int mchp_otpc_read(void *priv, unsigned int off, void *val,
- 		} while (payload_size >= 0 && len < bytes);
- 	}
- 
--	return 0;
-+	return len;
- }
- 
- static int mchp_otpc_init_packets_list(struct mchp_otpc *otpc, u32 *size)
-diff --git a/drivers/nvmem/mtk-efuse.c b/drivers/nvmem/mtk-efuse.c
-index 84f05b40a411..3819d416b505 100644
---- a/drivers/nvmem/mtk-efuse.c
-+++ b/drivers/nvmem/mtk-efuse.c
-@@ -20,7 +20,7 @@ struct mtk_efuse_priv {
- 	void __iomem *base;
- };
- 
--static int mtk_reg_read(void *context,
-+static ssize_t mtk_reg_read(void *context,
- 			unsigned int reg, void *_val, size_t bytes)
- {
- 	struct mtk_efuse_priv *priv = context;
-@@ -31,7 +31,7 @@ static int mtk_reg_read(void *context,
- 	for (i = 0; i < bytes; i++, val++)
- 		*val = readb(addr + i);
- 
--	return 0;
-+	return bytes;
- }
- 
- static int mtk_efuse_gpu_speedbin_pp(void *context, const char *id, int index,
-diff --git a/drivers/nvmem/mxs-ocotp.c b/drivers/nvmem/mxs-ocotp.c
-index 7b78f18f9545..ddf7394de71b 100644
---- a/drivers/nvmem/mxs-ocotp.c
-+++ b/drivers/nvmem/mxs-ocotp.c
-@@ -56,10 +56,11 @@ static int mxs_ocotp_wait(struct mxs_ocotp *otp)
- 	return 0;
- }
- 
--static int mxs_ocotp_read(void *context, unsigned int offset,
-+static ssize_t mxs_ocotp_read(void *context, unsigned int offset,
- 			  void *val, size_t bytes)
- {
- 	struct mxs_ocotp *otp = context;
-+	size_t bytes_read = bytes;
- 	u32 *buf = val;
- 	int ret;
- 
-@@ -102,7 +103,7 @@ static int mxs_ocotp_read(void *context, unsigned int offset,
- disable_clk:
- 	clk_disable(otp->clk);
- 
--	return ret;
-+	return ret < 0 ? ret : bytes_read;
- }
- 
- static struct nvmem_config ocotp_config = {
-diff --git a/drivers/nvmem/nintendo-otp.c b/drivers/nvmem/nintendo-otp.c
-index 355e7f1fc6d5..880f2915c030 100644
---- a/drivers/nvmem/nintendo-otp.c
-+++ b/drivers/nvmem/nintendo-otp.c
-@@ -45,7 +45,7 @@ static const struct nintendo_otp_devtype_data latte_otp_data = {
- 	.num_banks = 8,
- };
- 
--static int nintendo_otp_reg_read(void *context,
-+static ssize_t nintendo_otp_reg_read(void *context,
- 				 unsigned int reg, void *_val, size_t bytes)
- {
- 	struct nintendo_otp_priv *priv = context;
-@@ -61,7 +61,7 @@ static int nintendo_otp_reg_read(void *context,
- 		reg += WORD_SIZE;
- 	}
- 
--	return 0;
-+	return bytes;
- }
- 
- static const struct of_device_id nintendo_otp_of_table[] = {
-diff --git a/drivers/nvmem/qcom-spmi-sdam.c b/drivers/nvmem/qcom-spmi-sdam.c
-index 9aa8f42faa4c..c4dfde372794 100644
---- a/drivers/nvmem/qcom-spmi-sdam.c
-+++ b/drivers/nvmem/qcom-spmi-sdam.c
-@@ -60,7 +60,7 @@ static bool sdam_is_ro(unsigned int offset, size_t len)
- 	return false;
- }
- 
--static int sdam_read(void *priv, unsigned int offset, void *val,
-+static ssize_t sdam_read(void *priv, unsigned int offset, void *val,
- 				size_t bytes)
- {
- 	struct sdam_chip *sdam = priv;
-@@ -78,10 +78,10 @@ static int sdam_read(void *priv, unsigned int offset, void *val,
- 		dev_err(dev, "Failed to read SDAM offset %#x len=%zd, rc=%d\n",
- 						offset, bytes, rc);
- 
--	return rc;
-+	return rc < 0 ? rc : bytes;
- }
- 
--static int sdam_write(void *priv, unsigned int offset, void *val,
-+static ssize_t sdam_write(void *priv, unsigned int offset, void *val,
- 				size_t bytes)
- {
- 	struct sdam_chip *sdam = priv;
-@@ -105,7 +105,7 @@ static int sdam_write(void *priv, unsigned int offset, void *val,
- 		dev_err(dev, "Failed to write SDAM offset %#x len=%zd, rc=%d\n",
- 						offset, bytes, rc);
- 
--	return rc;
-+	return rc < 0 ? rc : bytes;
- }
- 
- static int sdam_probe(struct platform_device *pdev)
-diff --git a/drivers/nvmem/qfprom.c b/drivers/nvmem/qfprom.c
-index 116a39e804c7..4d571ae6ba3e 100644
---- a/drivers/nvmem/qfprom.c
-+++ b/drivers/nvmem/qfprom.c
-@@ -251,9 +251,9 @@ static int qfprom_enable_fuse_blowing(const struct qfprom_priv *priv,
-  *
-  * Writes to fuses.  WARNING: THIS IS PERMANENT.
-  *
-- * Return: 0 or -err.
-+ * Return: bytes written or -err.
-  */
--static int qfprom_reg_write(void *context, unsigned int reg, void *_val,
-+static ssize_t qfprom_reg_write(void *context, unsigned int reg, void *_val,
- 			    size_t bytes)
- {
- 	struct qfprom_priv *priv = context;
-@@ -314,10 +314,10 @@ static int qfprom_reg_write(void *context, unsigned int reg, void *_val,
- exit_enabled_fuse_blowing:
- 	qfprom_disable_fuse_blowing(priv, &old);
- 
--	return ret;
-+	return ret < 0 ? ret : bytes;
- }
- 
--static int qfprom_reg_read(void *context,
-+static ssize_t qfprom_reg_read(void *context,
- 			unsigned int reg, void *_val, size_t bytes)
- {
- 	struct qfprom_priv *priv = context;
-@@ -331,7 +331,7 @@ static int qfprom_reg_read(void *context,
- 	while (words--)
- 		*val++ = readb(base + reg + i++);
- 
--	return 0;
-+	return bytes;
- }
- 
- static void qfprom_runtime_disable(void *data)
-diff --git a/drivers/nvmem/qoriq-efuse.c b/drivers/nvmem/qoriq-efuse.c
-index e7fd04d6dd94..1e7315953e44 100644
---- a/drivers/nvmem/qoriq-efuse.c
-+++ b/drivers/nvmem/qoriq-efuse.c
-@@ -14,7 +14,7 @@ struct qoriq_efuse_priv {
- 	void __iomem *base;
- };
- 
--static int qoriq_efuse_read(void *context, unsigned int offset, void *val,
-+static ssize_t qoriq_efuse_read(void *context, unsigned int offset, void *val,
- 			    size_t bytes)
- {
- 	struct qoriq_efuse_priv *priv = context;
-@@ -24,7 +24,7 @@ static int qoriq_efuse_read(void *context, unsigned int offset, void *val,
- 
- 	/* Ignore trailing bytes (there shouldn't be any) */
- 
--	return 0;
-+	return bytes;
- }
- 
- static int qoriq_efuse_probe(struct platform_device *pdev)
-diff --git a/drivers/nvmem/rave-sp-eeprom.c b/drivers/nvmem/rave-sp-eeprom.c
-index 9ecf3873cbb7..6c8aecde8311 100644
---- a/drivers/nvmem/rave-sp-eeprom.c
-+++ b/drivers/nvmem/rave-sp-eeprom.c
-@@ -214,10 +214,10 @@ rave_sp_eeprom_page_access(struct rave_sp_eeprom *eeprom,
-  * arbitrary offset (not necessary page aligned) of arbitrary length
-  * (is not constrained by EEPROM page size).
-  *
-- * Returns zero in case of success or negative error code in case of
-- * failure.
-+ * Returns number of bytes in case of success or negative error code
-+ * in case of failure.
-  */
--static int rave_sp_eeprom_access(struct rave_sp_eeprom *eeprom,
-+static ssize_t rave_sp_eeprom_access(struct rave_sp_eeprom *eeprom,
- 				 enum rave_sp_eeprom_access_type type,
- 				 unsigned int offset, u8 *data,
- 				 unsigned int data_len)
-@@ -267,17 +267,17 @@ static int rave_sp_eeprom_access(struct rave_sp_eeprom *eeprom,
- 	} while (residue);
- out:
- 	mutex_unlock(&eeprom->mutex);
--	return ret;
-+	return ret < 0 ? ret : data_len;
- }
- 
--static int rave_sp_eeprom_reg_read(void *eeprom, unsigned int offset,
-+static ssize_t rave_sp_eeprom_reg_read(void *eeprom, unsigned int offset,
- 				   void *val, size_t bytes)
- {
- 	return rave_sp_eeprom_access(eeprom, RAVE_SP_EEPROM_READ,
- 				     offset, val, bytes);
- }
- 
--static int rave_sp_eeprom_reg_write(void *eeprom, unsigned int offset,
-+static ssize_t rave_sp_eeprom_reg_write(void *eeprom, unsigned int offset,
- 				    void *val, size_t bytes)
- {
- 	return rave_sp_eeprom_access(eeprom, RAVE_SP_EEPROM_WRITE,
-diff --git a/drivers/nvmem/rmem.c b/drivers/nvmem/rmem.c
-index 752d0bf4445e..1ddb832cd178 100644
---- a/drivers/nvmem/rmem.c
-+++ b/drivers/nvmem/rmem.c
-@@ -17,7 +17,7 @@ struct rmem {
- 	phys_addr_t size;
- };
- 
--static int rmem_read(void *context, unsigned int offset,
-+static ssize_t rmem_read(void *context, unsigned int offset,
- 		     void *val, size_t bytes)
- {
- 	struct rmem *priv = context;
-diff --git a/drivers/nvmem/rockchip-efuse.c b/drivers/nvmem/rockchip-efuse.c
-index 2b40978ddb18..fe05d7afd281 100644
---- a/drivers/nvmem/rockchip-efuse.c
-+++ b/drivers/nvmem/rockchip-efuse.c
-@@ -52,7 +52,7 @@ struct rockchip_efuse_chip {
- 	struct clk *clk;
- };
- 
--static int rockchip_rk3288_efuse_read(void *context, unsigned int offset,
-+static ssize_t rockchip_rk3288_efuse_read(void *context, unsigned int offset,
- 				      void *val, size_t bytes)
- {
- 	struct rockchip_efuse_chip *efuse = context;
-@@ -65,6 +65,7 @@ static int rockchip_rk3288_efuse_read(void *context, unsigned int offset,
- 		return ret;
- 	}
- 
-+	ret = bytes;
- 	writel(RK3288_LOAD | RK3288_PGENB, efuse->base + REG_EFUSE_CTRL);
- 	udelay(1);
- 	while (bytes--) {
-@@ -89,7 +90,7 @@ static int rockchip_rk3288_efuse_read(void *context, unsigned int offset,
- 
- 	clk_disable_unprepare(efuse->clk);
- 
--	return 0;
-+	return ret;
- }
- 
- static int rockchip_rk3328_efuse_read(void *context, unsigned int offset,
-@@ -144,10 +145,10 @@ static int rockchip_rk3328_efuse_read(void *context, unsigned int offset,
- nomem:
- 	clk_disable_unprepare(efuse->clk);
- 
--	return ret;
-+	return ret < 0 ? ret : bytes;
- }
- 
--static int rockchip_rk3399_efuse_read(void *context, unsigned int offset,
-+static ssize_t rockchip_rk3399_efuse_read(void *context, unsigned int offset,
- 				      void *val, size_t bytes)
- {
- 	struct rockchip_efuse_chip *efuse = context;
-@@ -200,7 +201,7 @@ static int rockchip_rk3399_efuse_read(void *context, unsigned int offset,
- 
- 	clk_disable_unprepare(efuse->clk);
- 
--	return 0;
-+	return bytes;
- }
- 
- static struct nvmem_config econfig = {
-diff --git a/drivers/nvmem/rockchip-otp.c b/drivers/nvmem/rockchip-otp.c
-index cb9aa5428350..f7eb1feea978 100644
---- a/drivers/nvmem/rockchip-otp.c
-+++ b/drivers/nvmem/rockchip-otp.c
-@@ -144,10 +144,11 @@ static int rockchip_otp_ecc_enable(struct rockchip_otp *otp, bool enable)
- 	return ret;
- }
- 
--static int px30_otp_read(void *context, unsigned int offset,
-+static ssize_t px30_otp_read(void *context, unsigned int offset,
- 			 void *val, size_t bytes)
- {
- 	struct rockchip_otp *otp = context;
-+	size_t bytes_read = bytes;
- 	u8 *buf = val;
- 	int ret;
- 
-@@ -181,10 +182,10 @@ static int px30_otp_read(void *context, unsigned int offset,
- read_end:
- 	writel(0x0 | OTPC_USE_USER_MASK, otp->base + OTPC_USER_CTRL);
- 
--	return ret;
-+	return ret < 0 ? ret : bytes_read;
- }
- 
--static int rk3588_otp_read(void *context, unsigned int offset,
-+static ssize_t rk3588_otp_read(void *context, unsigned int offset,
- 			   void *val, size_t bytes)
- {
- 	struct rockchip_otp *otp = context;
-@@ -227,10 +228,10 @@ static int rk3588_otp_read(void *context, unsigned int offset,
- read_end:
- 	kfree(buf);
- 
--	return ret;
-+	return ret < 0 ? ret : bytes;
- }
- 
--static int rockchip_otp_read(void *context, unsigned int offset,
-+static ssize_t rockchip_otp_read(void *context, unsigned int offset,
- 			     void *val, size_t bytes)
- {
- 	struct rockchip_otp *otp = context;
-@@ -249,7 +250,7 @@ static int rockchip_otp_read(void *context, unsigned int offset,
- 
- 	clk_bulk_disable_unprepare(otp->data->num_clks, otp->clks);
- 
--	return ret;
-+	return ret < 0 ? ret : bytes;
- }
- 
- static struct nvmem_config otp_config = {
-diff --git a/drivers/nvmem/sc27xx-efuse.c b/drivers/nvmem/sc27xx-efuse.c
-index bff27011f4ff..309ba1306939 100644
---- a/drivers/nvmem/sc27xx-efuse.c
-+++ b/drivers/nvmem/sc27xx-efuse.c
-@@ -121,7 +121,7 @@ static int sc27xx_efuse_poll_status(struct sc27xx_efuse *efuse, u32 bits)
- 	return 0;
- }
- 
--static int sc27xx_efuse_read(void *context, u32 offset, void *val, size_t bytes)
-+static ssize_t sc27xx_efuse_read(void *context, u32 offset, void *val, size_t bytes)
- {
- 	struct sc27xx_efuse *efuse = context;
- 	u32 buf, blk_index = offset / SC27XX_EFUSE_BLOCK_WIDTH;
-@@ -194,6 +194,7 @@ static int sc27xx_efuse_read(void *context, u32 offset, void *val, size_t bytes)
- 	if (!ret) {
- 		buf >>= blk_offset;
- 		memcpy(val, &buf, bytes);
-+		ret = bytes;
- 	}
- 
- 	return ret;
-diff --git a/drivers/nvmem/sec-qfprom.c b/drivers/nvmem/sec-qfprom.c
-index 19799b3fe00a..dbacaab519e7 100644
---- a/drivers/nvmem/sec-qfprom.c
-+++ b/drivers/nvmem/sec-qfprom.c
-@@ -20,7 +20,7 @@ struct sec_qfprom {
- 	struct device *dev;
- };
- 
--static int sec_qfprom_reg_read(void *context, unsigned int reg, void *_val, size_t bytes)
-+static ssize_t sec_qfprom_reg_read(void *context, unsigned int reg, void *_val, size_t bytes)
- {
- 	struct sec_qfprom *priv = context;
- 	unsigned int i;
-@@ -40,7 +40,7 @@ static int sec_qfprom_reg_read(void *context, unsigned int reg, void *_val, size
- 		val[i] = tmp[reg & 3];
- 	}
- 
--	return 0;
-+	return bytes;
- }
- 
- static int sec_qfprom_probe(struct platform_device *pdev)
-diff --git a/drivers/nvmem/snvs_lpgpr.c b/drivers/nvmem/snvs_lpgpr.c
-index 89c27112320f..3019bf0c6271 100644
---- a/drivers/nvmem/snvs_lpgpr.c
-+++ b/drivers/nvmem/snvs_lpgpr.c
-@@ -50,7 +50,7 @@ static const struct snvs_lpgpr_cfg snvs_lpgpr_cfg_imx7d = {
- 	.size		= 16,
- };
- 
--static int snvs_lpgpr_write(void *context, unsigned int offset, void *val,
-+static ssize_t snvs_lpgpr_write(void *context, unsigned int offset, void *val,
- 			    size_t bytes)
- {
- 	struct snvs_lpgpr_priv *priv = context;
-@@ -72,18 +72,23 @@ static int snvs_lpgpr_write(void *context, unsigned int offset, void *val,
- 	if (lock_reg & IMX_GPR_HL)
- 		return -EPERM;
- 
--	return regmap_bulk_write(priv->regmap, dcfg->offset + offset, val,
-+	ret = regmap_bulk_write(priv->regmap, dcfg->offset + offset, val,
- 				bytes / 4);
-+
-+	return ret < 0 ? ret : bytes;
- }
- 
--static int snvs_lpgpr_read(void *context, unsigned int offset, void *val,
-+static ssize_t snvs_lpgpr_read(void *context, unsigned int offset, void *val,
- 			   size_t bytes)
- {
- 	struct snvs_lpgpr_priv *priv = context;
- 	const struct snvs_lpgpr_cfg *dcfg = priv->dcfg;
-+	int ret;
- 
--	return regmap_bulk_read(priv->regmap, dcfg->offset + offset,
-+	ret = regmap_bulk_read(priv->regmap, dcfg->offset + offset,
- 			       val, bytes / 4);
-+
-+	return ret < 0 ? ret : bytes;
- }
- 
- static int snvs_lpgpr_probe(struct platform_device *pdev)
-diff --git a/drivers/nvmem/sprd-efuse.c b/drivers/nvmem/sprd-efuse.c
-index bb3105f3291f..5a1581df7555 100644
---- a/drivers/nvmem/sprd-efuse.c
-+++ b/drivers/nvmem/sprd-efuse.c
-@@ -291,7 +291,7 @@ static int sprd_efuse_raw_read(struct sprd_efuse *efuse, int blk, u32 *val,
- 	return 0;
- }
- 
--static int sprd_efuse_read(void *context, u32 offset, void *val, size_t bytes)
-+static ssize_t sprd_efuse_read(void *context, u32 offset, void *val, size_t bytes)
- {
- 	struct sprd_efuse *efuse = context;
- 	bool blk_double = efuse->data->blk_double;
-@@ -318,10 +318,10 @@ static int sprd_efuse_read(void *context, u32 offset, void *val, size_t bytes)
- 
- unlock:
- 	sprd_efuse_unlock(efuse);
--	return ret;
-+	return ret < 0 ? ret : bytes;
- }
- 
--static int sprd_efuse_write(void *context, u32 offset, void *val, size_t bytes)
-+static ssize_t sprd_efuse_write(void *context, u32 offset, void *val, size_t bytes)
- {
- 	struct sprd_efuse *efuse = context;
- 	bool blk_double = efuse->data->blk_double;
-@@ -355,7 +355,7 @@ static int sprd_efuse_write(void *context, u32 offset, void *val, size_t bytes)
- 
- unlock:
- 	sprd_efuse_unlock(efuse);
--	return ret;
-+	return ret < 0 ? ret : bytes;
- }
- 
- static int sprd_efuse_probe(struct platform_device *pdev)
-diff --git a/drivers/nvmem/stm32-bsec-optee-ta.c b/drivers/nvmem/stm32-bsec-optee-ta.c
-index f89ce791dd12..059f13af0886 100644
---- a/drivers/nvmem/stm32-bsec-optee-ta.c
-+++ b/drivers/nvmem/stm32-bsec-optee-ta.c
-@@ -136,7 +136,7 @@ void stm32_bsec_optee_ta_close(void *ctx)
- }
- 
- /* stm32_bsec_optee_ta_read() - nvmem read access using PTA client driver */
--int stm32_bsec_optee_ta_read(struct tee_context *ctx, unsigned int offset,
-+ssize_t stm32_bsec_optee_ta_read(struct tee_context *ctx, unsigned int offset,
- 			     void *buf, size_t bytes)
- {
- 	struct tee_shm *shm;
-@@ -198,11 +198,11 @@ int stm32_bsec_optee_ta_read(struct tee_context *ctx, unsigned int offset,
- out_tee_session:
- 	stm32_bsec_ta_close_session(ctx, session_id);
- 
--	return ret;
-+	return ret < 0 ? ret : bytes;
- }
- 
- /* stm32_bsec_optee_ta_write() - nvmem write access using PTA client driver */
--int stm32_bsec_optee_ta_write(struct tee_context *ctx, unsigned int lower,
-+ssize_t stm32_bsec_optee_ta_write(struct tee_context *ctx, unsigned int lower,
- 			      unsigned int offset, void *buf, size_t bytes)
- {	struct tee_shm *shm;
- 	struct tee_ioctl_invoke_arg arg;
-@@ -294,5 +294,5 @@ int stm32_bsec_optee_ta_write(struct tee_context *ctx, unsigned int lower,
- out_tee_session:
- 	stm32_bsec_ta_close_session(ctx, session_id);
- 
--	return ret;
-+	return ret < 0 ? ret : bytes;
- }
-diff --git a/drivers/nvmem/stm32-bsec-optee-ta.h b/drivers/nvmem/stm32-bsec-optee-ta.h
-index 3966a0535179..799f9f915150 100644
---- a/drivers/nvmem/stm32-bsec-optee-ta.h
-+++ b/drivers/nvmem/stm32-bsec-optee-ta.h
-@@ -33,9 +33,9 @@ void stm32_bsec_optee_ta_close(void *ctx);
-  * @bytes: number of bytes to read
-  *
-  * Return:
-- *	On success, 0. On failure, -errno.
-+ *	On success, bytes read. On failure, -errno.
-  */
--int stm32_bsec_optee_ta_read(struct tee_context *ctx, unsigned int offset,
-+ssize_t stm32_bsec_optee_ta_read(struct tee_context *ctx, unsigned int offset,
- 			     void *buf, size_t bytes);
- 
- /**
-@@ -47,9 +47,9 @@ int stm32_bsec_optee_ta_read(struct tee_context *ctx, unsigned int offset,
-  * @bytes: number of bytes to write
-  *
-  * Return:
-- *	On success, 0. On failure, -errno.
-+ *	On success, bytes written. On failure, -errno.
-  */
--int stm32_bsec_optee_ta_write(struct tee_context *ctx, unsigned int lower,
-+ssize_t stm32_bsec_optee_ta_write(struct tee_context *ctx, unsigned int lower,
- 			      unsigned int offset, void *buf, size_t bytes);
- 
- #else
-@@ -63,14 +63,14 @@ static inline void stm32_bsec_optee_ta_close(void *ctx)
- {
- }
- 
--static inline int stm32_bsec_optee_ta_read(struct tee_context *ctx,
-+static inline ssize_t stm32_bsec_optee_ta_read(struct tee_context *ctx,
- 					   unsigned int offset, void *buf,
- 					   size_t bytes)
- {
- 	return -EOPNOTSUPP;
- }
- 
--static inline int stm32_bsec_optee_ta_write(struct tee_context *ctx,
-+static inline ssize_t stm32_bsec_optee_ta_write(struct tee_context *ctx,
- 					    unsigned int lower,
- 					    unsigned int offset, void *buf,
- 					    size_t bytes)
-diff --git a/drivers/nvmem/stm32-romem.c b/drivers/nvmem/stm32-romem.c
-index 82879b1c9eb9..a8c6983f9139 100644
---- a/drivers/nvmem/stm32-romem.c
-+++ b/drivers/nvmem/stm32-romem.c
-@@ -40,7 +40,7 @@ struct stm32_romem_priv {
- 	struct tee_context *ctx;
- };
- 
--static int stm32_romem_read(void *context, unsigned int offset, void *buf,
-+static ssize_t stm32_romem_read(void *context, unsigned int offset, void *buf,
- 			    size_t bytes)
- {
- 	struct stm32_romem_priv *priv = context;
-@@ -50,7 +50,7 @@ static int stm32_romem_read(void *context, unsigned int offset, void *buf,
- 	for (i = offset; i < offset + bytes; i++)
- 		*buf8++ = readb_relaxed(priv->base + i);
- 
--	return 0;
-+	return bytes;
- }
- 
- static int stm32_bsec_smc(u8 op, u32 otp, u32 data, u32 *result)
-@@ -71,7 +71,7 @@ static int stm32_bsec_smc(u8 op, u32 otp, u32 data, u32 *result)
- #endif
- }
- 
--static int stm32_bsec_read(void *context, unsigned int offset, void *buf,
-+static ssize_t stm32_bsec_read(void *context, unsigned int offset, void *buf,
- 			   size_t bytes)
- {
- 	struct stm32_romem_priv *priv = context;
-@@ -115,10 +115,10 @@ static int stm32_bsec_read(void *context, unsigned int offset, void *buf,
- 		skip_bytes = 0;
- 	}
- 
--	return 0;
-+	return bytes;
- }
- 
--static int stm32_bsec_write(void *context, unsigned int offset, void *buf,
-+static ssize_t stm32_bsec_write(void *context, unsigned int offset, void *buf,
- 			    size_t bytes)
- {
- 	struct stm32_romem_priv *priv = context;
-@@ -142,10 +142,10 @@ static int stm32_bsec_write(void *context, unsigned int offset, void *buf,
- 	if (offset + bytes >= priv->lower * 4)
- 		dev_warn(dev, "Update of upper OTPs with ECC protection (word programming, only once)\n");
- 
--	return 0;
-+	return bytes;
- }
- 
--static int stm32_bsec_pta_read(void *context, unsigned int offset, void *buf,
-+static ssize_t stm32_bsec_pta_read(void *context, unsigned int offset, void *buf,
- 			       size_t bytes)
- {
- 	struct stm32_romem_priv *priv = context;
-@@ -153,7 +153,7 @@ static int stm32_bsec_pta_read(void *context, unsigned int offset, void *buf,
- 	return stm32_bsec_optee_ta_read(priv->ctx, offset, buf, bytes);
- }
- 
--static int stm32_bsec_pta_write(void *context, unsigned int offset, void *buf,
-+static ssize_t stm32_bsec_pta_write(void *context, unsigned int offset, void *buf,
- 				size_t bytes)
- {
- 	struct stm32_romem_priv *priv = context;
-diff --git a/drivers/nvmem/sunplus-ocotp.c b/drivers/nvmem/sunplus-ocotp.c
-index 38f5d9df39cd..7bda128bb93e 100644
---- a/drivers/nvmem/sunplus-ocotp.c
-+++ b/drivers/nvmem/sunplus-ocotp.c
-@@ -114,7 +114,7 @@ static int sp_otp_read_real(struct sp_ocotp_priv *otp, int addr, char *value)
- 	return ret;
- }
- 
--static int sp_ocotp_read(void *priv, unsigned int offset, void *value, size_t bytes)
-+static ssize_t sp_ocotp_read(void *priv, unsigned int offset, void *value, size_t bytes)
- {
- 	struct sp_ocotp_priv *otp = priv;
- 	unsigned int addr;
-@@ -140,7 +140,7 @@ static int sp_ocotp_read(void *priv, unsigned int offset, void *value, size_t by
- disable_clk:
- 	clk_disable(otp->clk);
- 
--	return ret;
-+	return ret < 0 ? ret : bytes;
- }
- 
- static struct nvmem_config sp_ocotp_nvmem_config = {
-diff --git a/drivers/nvmem/sunxi_sid.c b/drivers/nvmem/sunxi_sid.c
-index ba14a76208ab..26580c7a3c6d 100644
---- a/drivers/nvmem/sunxi_sid.c
-+++ b/drivers/nvmem/sunxi_sid.c
-@@ -36,7 +36,7 @@ struct sunxi_sid {
- 	u32			value_offset;
- };
- 
--static int sunxi_sid_read(void *context, unsigned int offset,
-+static ssize_t sunxi_sid_read(void *context, unsigned int offset,
- 			  void *val, size_t bytes)
- {
- 	struct sunxi_sid *sid = context;
-@@ -56,7 +56,7 @@ static int sunxi_sid_read(void *context, unsigned int offset,
- 	word = readl_relaxed(sid->base + sid->value_offset + offset);
- 	memcpy(val, &word, bytes);
- 
--	return 0;
-+	return bytes;
- }
- 
- static int sun8i_sid_register_readout(const struct sunxi_sid *sid,
-@@ -90,10 +90,11 @@ static int sun8i_sid_register_readout(const struct sunxi_sid *sid,
-  * to be not reliable at all.
-  * Read by the registers instead.
-  */
--static int sun8i_sid_read_by_reg(void *context, unsigned int offset,
-+static ssize_t sun8i_sid_read_by_reg(void *context, unsigned int offset,
- 				 void *val, size_t bytes)
- {
- 	struct sunxi_sid *sid = context;
-+	size_t bytes_read = bytes;
- 	u32 word;
- 	int ret;
- 
-@@ -109,7 +110,7 @@ static int sun8i_sid_read_by_reg(void *context, unsigned int offset,
- 	}
- 
- 	if (!bytes)
--		return 0;
-+		return bytes_read;
- 
- 	/* Handle any trailing bytes */
- 	ret = sun8i_sid_register_readout(sid, offset, &word);
-@@ -118,7 +119,7 @@ static int sun8i_sid_read_by_reg(void *context, unsigned int offset,
- 
- 	memcpy(val, &word, bytes);
- 
--	return 0;
-+	return bytes_read;
- }
- 
- static int sunxi_sid_probe(struct platform_device *pdev)
-diff --git a/drivers/nvmem/u-boot-env.c b/drivers/nvmem/u-boot-env.c
-index befbab156cda..a3cf63dfac2a 100644
---- a/drivers/nvmem/u-boot-env.c
-+++ b/drivers/nvmem/u-boot-env.c
-@@ -47,7 +47,7 @@ struct u_boot_env_image_broadcom {
- 	DECLARE_FLEX_ARRAY(uint8_t, data);
- } __packed;
- 
--static int u_boot_env_read(void *context, unsigned int offset, void *val,
-+static ssize_t u_boot_env_read(void *context, unsigned int offset, void *val,
- 			   size_t bytes)
- {
- 	struct u_boot_env *priv = context;
-@@ -66,7 +66,7 @@ static int u_boot_env_read(void *context, unsigned int offset, void *val,
- 		return -EIO;
- 	}
- 
--	return 0;
-+	return bytes_read;
- }
- 
- static int u_boot_env_read_post_process_ethaddr(void *context, const char *id, int index,
-diff --git a/drivers/nvmem/uniphier-efuse.c b/drivers/nvmem/uniphier-efuse.c
-index 6ad3295d3195..728c9af9fbe4 100644
---- a/drivers/nvmem/uniphier-efuse.c
-+++ b/drivers/nvmem/uniphier-efuse.c
-@@ -16,7 +16,7 @@ struct uniphier_efuse_priv {
- 	void __iomem *base;
- };
- 
--static int uniphier_reg_read(void *context,
-+static ssize_t uniphier_reg_read(void *context,
- 			     unsigned int reg, void *_val, size_t bytes)
- {
- 	struct uniphier_efuse_priv *priv = context;
-@@ -26,7 +26,7 @@ static int uniphier_reg_read(void *context,
- 	for (offs = 0; offs < bytes; offs += sizeof(u8))
- 		*val++ = readb(priv->base + reg + offs);
- 
--	return 0;
-+	return bytes;
- }
- 
- static int uniphier_efuse_probe(struct platform_device *pdev)
-diff --git a/drivers/nvmem/vf610-ocotp.c b/drivers/nvmem/vf610-ocotp.c
-index ee9c61ae727d..0ed91de61950 100644
---- a/drivers/nvmem/vf610-ocotp.c
-+++ b/drivers/nvmem/vf610-ocotp.c
-@@ -143,11 +143,12 @@ static int vf610_get_fuse_address(int base_addr_offset)
- 	return -EINVAL;
- }
- 
--static int vf610_ocotp_read(void *context, unsigned int offset,
-+static ssize_t vf610_ocotp_read(void *context, unsigned int offset,
- 			void *val, size_t bytes)
- {
- 	struct vf610_ocotp *ocotp = context;
- 	void __iomem *base = ocotp->base;
-+	size_t bytes_read = bytes;
- 	u32 reg, *buf = val;
- 	int fuse_addr;
- 	int ret;
-@@ -193,7 +194,7 @@ static int vf610_ocotp_read(void *context, unsigned int offset,
- 		offset += 4;
- 	}
- 
--	return 0;
-+	return bytes_read;
- }
- 
- static struct nvmem_config ocotp_config = {
-diff --git a/drivers/nvmem/zynqmp_nvmem.c b/drivers/nvmem/zynqmp_nvmem.c
-index 7f15aa89a9d0..50f8497cc17a 100644
---- a/drivers/nvmem/zynqmp_nvmem.c
-+++ b/drivers/nvmem/zynqmp_nvmem.c
-@@ -30,7 +30,7 @@ static int zynqmp_nvmem_read(void *context, unsigned int offset,
- 	dev_dbg(priv->dev, "Read chipid val %x %x\n", idcode, version);
- 	*(int *)val = version & SILICON_REVISION_MASK;
- 
--	return 0;
-+	return bytes;
- }
- 
- static struct nvmem_config econfig = {
-diff --git a/include/linux/nvmem-provider.h b/include/linux/nvmem-provider.h
-index f0ba0e03218f..2cdab3fec2be 100644
---- a/include/linux/nvmem-provider.h
-+++ b/include/linux/nvmem-provider.h
-@@ -16,9 +16,9 @@
- #include <linux/gpio/consumer.h>
- 
- struct nvmem_device;
--typedef int (*nvmem_reg_read_t)(void *priv, unsigned int offset,
-+typedef ssize_t (*nvmem_reg_read_t)(void *priv, unsigned int offset,
- 				void *val, size_t bytes);
--typedef int (*nvmem_reg_write_t)(void *priv, unsigned int offset,
-+typedef ssize_t (*nvmem_reg_write_t)(void *priv, unsigned int offset,
- 				 void *val, size_t bytes);
- /* used for vendor specific post processing of cell data */
- typedef int (*nvmem_cell_post_process_t)(void *priv, const char *id, int index,
--- 
-2.44.0.rc0.258.g7320e95886-goog
+I get that you're frustrated that you have to do work while i915 doesn't
+but none of that is relevant for what the property is and how user space
+expects it to work.
+
+> That series has been stuck for multiple iterations on pointless and
+> mundane debates while the biggest part and whole point of it is not
+> getting any review. So yeah, sorry, it's frustrating.
+
+I'm reviewing the parts that I can, and that's the uAPI. I find it
+really offensive that you're saying that this is pointless and mundate.
+The uAPI is your end product, if it can't be used, everything you do in
+your driver is utterly pointless.
+
+> > The Broadcast RGB property kind of works from a user space perspective
+> > because it's a workaround for broken sinks. If a sink expects limited
+> > range we can force full range. If this however affects YCbCr modes as
+> > well, then this isn't a workaround for broken RGB range anymore
+> > because it now breaks YCbCr.
+> 
+> Or, you know, it's a workaround for broken YCbCr display.
+
+Displays can accept both RGB and YCbCr signals, drivers can chose
+whichever they want, and user space can not influence or even know which
+one is being used.
+
+The automatic selection of the range is very different between RGB and
+YCbCr. If user space forces the range to a specific value and the driver
+for whatever reason switches from RGB to YCbCr or the other way around,
+this forcing of the range will most likely be incorrect.
+
+This is what we're talking about when we say that the semantics of the
+vc4 Broadcast RGB property is broken. User space literally cannot use it
+consistenly. By restricting it to RGB signals, user space can user it
+consistently and fix monitors that do not follow the automatic
+quantization range algorithm correctly. Yes, if there is an issue with
+the quantization range of a YCbCr signal then this property doesn't
+help, but it never tried to help those cases.
+
+> > Sorry, but vc4 just has to change.
+> > 
+> > And again: let's please stop trying to improve the property.
+> 
+> I'm not. I'm super close to just dropping that patch entirely and keep
+> the current situation that seems to work fine for everyone.
+
+I mean, vc4 doesn't work fine apparently. You're just lucky that no one
+reported issues to you.
+
+All you have to do is adjust the documentation to say that Broadcast RGB
+only affects RGB signalling. Yes, vc4 has a bug according to the docs
+then, but that's okay. Fix it at some point.
+
+> Maxime
+
 
