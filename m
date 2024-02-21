@@ -1,117 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACD2E7E78F;
-	Wed, 21 Feb 2024 13:29:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37AFF763F6
+	for <linux-sunxi@lists.linux.dev>; Wed, 21 Feb 2024 13:43:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708522170; cv=none; b=tyGtXln04cWn4qJh9+V6I03s1mtpp0RbiP/pyew4DDtk4mHxbw+e4qD+XToiEP36R/ax6Cksl2X6oKmU82LYt3/kyZ8XW79w+01p/fcelJ6ah/sQH2Jf6xC5RmiokuBy0ZBhNVzUK0eqXRsb0KHwKYithrjX4oSBxuDbPH4/iLo=
+	t=1708522984; cv=none; b=Na9KQyK/timJvYmdCUKUvRFH5FLcAa3+26D4LxIKRBsbNdgNNdcsygNU2Ap+EEYBa3MuZWIwCpyggRAB5WDaDS9PyhKd8MtGDMPSxpf6x3XzbK4co/G2q4ek++JjpwqfUWWuNt3n9bRtQbqkGSm6XGsZL+QwHXprZ5RfyCKw2Vk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708522170; c=relaxed/simple;
-	bh=1uXA3tuk5DSrYBKlcNHOd+IpgOiOvjcTfXfos632w+8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fkt8DjHEcCX6Q0tcMxgTAsfB4ucFIzJBkqFRxfcC8DhBVCGGeZrmymKG55kkIrymtbk/WKYgZf+Y+nvnUB/3MS3Gyc8ILHF9aTiMeUKqoHXq58MOhLoej4utNIt65L6up/wGODve7470JU80cvhSojfMqnqDUOVpXJSBaTN3yvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YiBXL6Vx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1708522984; c=relaxed/simple;
+	bh=KtKHMB+AnFiN2hMpH33PDEt8M2iVNeq3woqfEVtP35k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=t4zaigXsbq4p4/5O/h14KMaZ7Coj+Vsi5+IPLyDP3ZoEjbMWl7NdAizH+WXoXaZ9IUWi50YHRMNQ7JoIxSHgSWpuONQXpJXMR3mQqugw1EKZrd5qXpKDXAjjgsSENPZae8Pzn5gTx3Yq/MReAaAXMqoP6n3m602QB0G//JVSphI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nUbxfqA1; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YiBXL6Vx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31A34C43390;
-	Wed, 21 Feb 2024 13:29:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708522170;
-	bh=1uXA3tuk5DSrYBKlcNHOd+IpgOiOvjcTfXfos632w+8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YiBXL6VxZWpc4KOcEK2JVTNsblnglRNXqfOhTGNFEOOP3Z05SEHo/yJJZgGTfy6Yy
-	 x5i2ENXsswo0PsZfBbOQAsZyHoNv/onQNmWuZpA+8n/oxElvFdoqRi0mzLwWVmnusP
-	 4o020bDIPLnaGgwRaawuQ6ExPSxEwS9tjNHSOU3RRAgwx0t3fpNdN4N9xYYf8nH+f/
-	 AOtHcMNsU9xJMldnzfakVY3MacOvm0l/CKsIgCAZnZ61GsXNnBfAEtA1aDxQgVd0+n
-	 jM6rpcQZPk7BVwHx5KaEP4lSa8C5hCRPVxHKvPn3uCLDMLLgfnPAlq21qZXhNA05QB
-	 jflhzGp8tFFOg==
-Date: Wed, 21 Feb 2024 13:29:19 +0000
-From: Will Deacon <will@kernel.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com,
-	alyssa@rosenzweig.io, asahi@lists.linux.dev,
-	baolu.lu@linux.intel.com, bhelgaas@google.com,
-	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com,
-	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de,
-	iommu@lists.linux.dev, jernej.skrabec@gmail.com,
-	jonathanh@nvidia.com, joro@8bytes.org,
-	krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com,
-	marcan@marcan.st, mhiramat@kernel.org, m.szyprowski@samsung.com,
-	paulmck@kernel.org, rdunlap@infradead.org, robin.murphy@arm.com,
-	samuel@sholland.org, suravee.suthikulpanit@amd.com,
-	sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org,
-	tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org,
-	yu-cheng.yu@intel.com, rientjes@google.com
-Subject: Re: [PATCH v3 10/10] iommu: account IOMMU allocated memory
-Message-ID: <20240221132919.GC7273@willie-the-truck>
-References: <20231226200205.562565-1-pasha.tatashin@soleen.com>
- <20231226200205.562565-11-pasha.tatashin@soleen.com>
- <20240213131210.GA28926@willie-the-truck>
- <CA+CK2bB4Z+z8tocO79AdsAy+gmN_4aVHgFUsm_gYLUJ2zV1A6A@mail.gmail.com>
- <20240216175752.GB2374@willie-the-truck>
- <CA+CK2bDURTkZFo9uE9Bgfrz-NwgXqo4SAzLOW6Jb35M+eqUEaA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nUbxfqA1"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-512bc0e8ce1so3710776e87.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 21 Feb 2024 05:43:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1708522980; x=1709127780; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VyIS/2L8+m5oM2lTsyXu4+jS9x+VJzqAj+pH6cNaLbM=;
+        b=nUbxfqA1TXY5TCVdR2KLt73shQ8AX4K8S+nxKAgaH/Mm+vQIVniYhsyPTrxxGDefty
+         9bW7R0ycBJA0buqFWuMeOnkMpyQefYmUoWgntSoG8D78pohKlmb1PCq93DJNU39WZVRY
+         9LmTxz7cz7Dc+RG+Nys3V0YNzZnx8cXPvWYP48B6HIzD7W030TuTk3/R4gfs1dW26SCF
+         EEXXJAvn9XKvlOUgIZD+BUqV+1Thp5X/0yLGOV0wh+yshyIwqjOR2SXvL0WD8HqO3jrS
+         aBJ9X125YsQGEz6CMqa/kr+SIy3wSTka+tOsANBJOKK7tV6cU6kgSYnonpnpx/qLBiYl
+         fvDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708522980; x=1709127780;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VyIS/2L8+m5oM2lTsyXu4+jS9x+VJzqAj+pH6cNaLbM=;
+        b=xIs7uraK69zRkIQRDSWq5zAxaaE2NAWRl/UeocLpPMQBHiLsQAFHkuvXZMRDW/xlr9
+         B+tzM8b05naHsjOQLuHftcOEAbGneCeUOdySpNDwgWQNrc0L/+CFTnpK7r2ubikyFPfy
+         zoC7Kuxu3+SyTalI5DTDU1GsJUzU44Sqrz+3amGc6aDJ+RuZZOR6HvIXEeIPPxlXtIOv
+         50zw2oKrQGQVWIyQCJ4b0VLM/Sq+h2CZmEjszMBMSgGMO5yPH1o2SDEYk9uj7aJmj2/Z
+         PKmxtYNQgtAl6qQ0069862rGgGKyacgbnYDHtcvfBtKjqPfDhQTdk8OcIIuQw9WcnUJj
+         PJwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX4qia7OCgp+yfbZpu+qtqmnWLAMEdVhPvB35wueUjv2x+1fWZ2Jfl/5hV0bphywbGJYbFuCvuSsQCqrS4eD6JL/gVguJr9zE6dW+k=
+X-Gm-Message-State: AOJu0Yy7QqBBhCqqEBtjbLo32RGlFKzw8bh9ZZaAfPUPbxWKcitzMa5c
+	hKtugUWlbvtbQu7ZcGH1ashTh6sc7xzdf2V1v4z08w+btIjv9ufABqWIkcdv/sM=
+X-Google-Smtp-Source: AGHT+IHOWBy5vI8L+McUQWzkr4WjG9Pwa2JqIcYkMXVa8hcxQTu10e+H1VsUu3eKDfb+vZFAR5oB7w==
+X-Received: by 2002:a05:6512:124f:b0:512:8d8f:db7a with SMTP id fb15-20020a056512124f00b005128d8fdb7amr14181112lfb.65.1708522980437;
+        Wed, 21 Feb 2024 05:43:00 -0800 (PST)
+Received: from [192.168.10.46] (146725694.box.freepro.com. [130.180.211.218])
+        by smtp.googlemail.com with ESMTPSA id m12-20020a5d4a0c000000b0033b60bad2fcsm16875973wrq.113.2024.02.21.05.42.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 21 Feb 2024 05:42:59 -0800 (PST)
+Message-ID: <13c957a9-6021-46a7-9243-b3658c26a333@linaro.org>
+Date: Wed, 21 Feb 2024 14:42:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 0/7] add support for H616 thermal system
+Content-Language: en-US
+To: Andre Przywara <andre.przywara@arm.com>,
+ Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>, Zhang Rui
+ <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ Maksim Kiselev <bigunclemax@gmail.com>, Bob McChesney
+ <bob@electricworry.net>, linux-pm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+References: <20240219153639.179814-1-andre.przywara@arm.com>
+From: Daniel Lezcano <daniel.lezcano@linaro.org>
+In-Reply-To: <20240219153639.179814-1-andre.przywara@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+CK2bDURTkZFo9uE9Bgfrz-NwgXqo4SAzLOW6Jb35M+eqUEaA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Fri, Feb 16, 2024 at 02:48:00PM -0500, Pasha Tatashin wrote:
-> On Fri, Feb 16, 2024 at 12:58 PM Will Deacon <will@kernel.org> wrote:
-> >
-> > On Tue, Feb 13, 2024 at 10:44:53AM -0500, Pasha Tatashin wrote:
-> > > > >  SecPageTables
-> > > > > -              Memory consumed by secondary page tables, this currently
-> > > > > -              currently includes KVM mmu allocations on x86 and arm64.
-> > > > > +              Memory consumed by secondary page tables, this currently includes
-> > > > > +              KVM mmu and IOMMU allocations on x86 and arm64.
-> > >
-> > > Hi Will,
-> > >
-> > > > While I can see the value in this for IOMMU mappings managed by VFIO,
-> > > > doesn't this end up conflating that with the normal case of DMA domains?
-> > > > For systems that e.g. rely on an IOMMU for functional host DMA, it seems
-> > > > wrong to subject that to accounting constraints.
-> > >
-> > > The accounting constraints are only applicable when GFP_KERNEL_ACCOUNT
-> > > is passed to the iommu mapping functions. We do that from the vfio,
-> > > iommufd, and vhost. Without this flag, the memory useage is reported
-> > > in /proc/meminfo as part of  SecPageTables field, but not constrained
-> > > in cgroup.
-> >
-> > Thanks, Pasha, that explanation makes sense. I still find it bizarre to
-> > include IOMMU allocations from the DMA API in SecPageTables though, and
-> > I worry that it will confuse people who are using that metric as a way
-> > to get a feeling for how much memory is being used by KVM's secondary
-> > page-tables. As an extreme example, having a non-zero SecPageTables count
-> > without KVM even compiled in is pretty bizarre.
+On 19/02/2024 16:36, Andre Przywara wrote:
+> Hi,
 > 
-> I agree; I also prefer a new field in /proc/meminfo named
-> 'IOMMUPageTables'. This is what I proposed at LPC, but I was asked to
-> reuse the existing 'SecPageTables' field instead. The rationale was
-> that 'secondary' implies not only KVM page tables, but any other
-> non-regular page tables.
+> this is v5 of this series originally by Martin, only some cosmetic
+> changes this time, for instance  mentioning experiments with the SRAM
+> controller registers to confirm that it's not an SRAM region which fixes
+> the temperature reporting issue.
+> See the Changelog below for more details.
+> ==================
 > 
-> I would appreciate the opinion of IOMMU maintainers on this: is it
-> preferable to bundle the information with 'SecPageTables' or maintain
-> a separate field?
+> This series introduces support for the thermal sensors in the Allwinner
+> H616 SoCs, which includes its siblings H618 and T507. The actual
+> temperature reading turns out to be very similar to the H6 SoC, just
+> with support for two more sensors. One nasty complication is caused
+> by reports about temperatures above 200C, which are related to the
+> firmware being run (because the vendor U-Boot contains a hack avoiding
+> this problem). Some investigation and digging in BSP code later
+> we identified that bit 16 in register 0x3000000 (SYS_CFG) needs to be
+> cleared for the raw temperature register values to contain reasonable
+> values.
+> To achieve this, patch 1/7 exports this very register from the already
+> existing SRAM/syscon device. Patch 5/7 then adds code to the thermal
+> driver to find that device via a new DT property, and query its regmap
+> to clear bit 16 in there.
+> Patch 4/7 reworks the existing H6 calibration function to become
+> compatible with the H616, many thanks to Maksim for figuring this out.
+> This makes the actual enablement patch 6/7 very easy.
+> 
+> The rest of the patches are straightforward and build on Martin's
+> original work, with some simplifications, resulting in more code sharing.
+> 
+> Please have a look!
 
-I personally find it confusing to add all IOMMU page-table allocations
-to SecPageTables, considering that userspace could be using that today
-with a reasonable expectation that it's concerned only with virtual
-machine overhead. However, if the opposite conclusion was reached at LPC,
-then I really don't want to re-open the discussion and derail your
-patchset.
+Thanks for the detailed explanation.
 
-Will
+I'm willing to pick the patches 1-6 and let the last one to go through 
+the allwinner tree.
+
+However I need the blessing from the different designed maintainers for 
+the thermal driver and from the sunxi_sram
+
+Thanks
+
+-- 
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
+
