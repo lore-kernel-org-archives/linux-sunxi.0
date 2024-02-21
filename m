@@ -1,168 +1,151 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF433C082
-	for <linux-sunxi@lists.linux.dev>; Mon, 19 Feb 2024 15:58:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81C833EA8B
+	for <linux-sunxi@lists.linux.dev>; Wed, 21 Feb 2024 10:39:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708358310; cv=none; b=tANQjF5p8QeBjrLLTUMnWeHi5gVlcTIor+YczmvvwEHHpws6ZricEDNFGWf+FdrVBKOZCaZyftIVLKg76/oTKOpq15R2oIhe7UUbI95SZNfeF4ivqBHQPpj4qoLeyLD8Y2gWvh8uELbfE+aq/+tLGigbAA+8DptADrda39NgFFY=
+	t=1708511943; cv=none; b=Rvy30H6vXQaQE/H+fM/eLfA5miBKNsprPvq4CELZZsxB2DPPdUD70MFPaMQP9NYYq8ZP/Em9F20LRx6tjun7GxVolp5p+U6Acb6h6LzFVdykJK6NWUzYl71V7UuaIZKnw5zjo3YjgxwmBAw11qMiLku0soyknCF4fE/5mffrDAc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708358310; c=relaxed/simple;
-	bh=icU/jxR0DFDHz5XD9AAV7lcBtUbJa4K2a1BPr/lVQOg=;
-	h=Content-Type:Mime-Version:Date:Message-Id:Subject:From:To:
-	 References:In-Reply-To; b=rVuECbyUJPwIztrlHLTCB0q5GC56rVmqe2zx8r6Hjv2Q/LA5k/610EitvQYb2fyXo2t0QNiW0hUCyvTQHPDws5DQn4p1apiAgsoNerFd8NEcIUsBxBJanwRPPs0jH5XMM0oQTVcojqzOjDKb+bq32pRHJJDVrIHIZQP88OnzHgE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GbmBwI58; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1708511943; c=relaxed/simple;
+	bh=3T2LRJtiW3mZfk/PunFIogOMmmkLZ7ysF+8gTpzPau4=;
+	h=References:From:To:Cc:Subject:In-reply-to:Date:Message-ID:
+	 MIME-Version:Content-Type; b=m/OPZkunBwgsPF1GIFDduKKFU73C+76PISXHlHTWNKMIRI9Nr+Ixx8NjImMdKmHD/xEI++ORIO7ZdGFghvzeSxLmkh1M/uLps72aDMf0SM8IAO7b3KLzZTuLuCAM3NXdce9Vzzz9Su5Gd6lK0XMSdnn87l/Vlk5BrPRcsWCDPoc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev; spf=pass smtp.mailfrom=oltmanns.dev; dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b=NVUrtqwk; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oltmanns.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GbmBwI58"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-564a05ab3efso1022843a12.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 19 Feb 2024 07:58:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708358307; x=1708963107; darn=lists.linux.dev;
-        h=in-reply-to:references:to:from:subject:message-id:date:mime-version
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tiqLc5KdCmtjYQt/eIFsjHHh0iB3V/zgzPhPHivKtAs=;
-        b=GbmBwI58ba3SHPWA2ZT2o6Bydz1BIWbd4ITSDz9rgk3mjAs+C4wlriWyfWypzxkyIs
-         RkS2/U6rF6iAWo/uWU6HG56JwEnpymzRGMS5+iyKrsGBJlOzNItQYY65E0hmbljr9zzG
-         qcAX5O/dZ69GTcr4R9APHTAAgL5AVEKGpFn8NY334Yjk3xvM6ALSSIAAlJE9LTjWzCgR
-         EQveBmvm5GoIFgUBT5uhekpjP8V4DfMTU0Oym0bPXt06+3+7Jh4ulxFKJTIFEKM7cz9o
-         7xxiuqA0zC7VR9LnJPwqdJwIqUWbddHvVLU/suSlfAWZ9csZ5L3irtoqZ45f+UEZx9n8
-         lA3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708358307; x=1708963107;
-        h=in-reply-to:references:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tiqLc5KdCmtjYQt/eIFsjHHh0iB3V/zgzPhPHivKtAs=;
-        b=IytLb2EhZEop3QDPvj+dp29FWbNsCI6U8P/BFcIlL/WDJU38GQOVO9xHs3wK+2702y
-         cbO/hmRI+jmHAbW9h0MHfQqyh6lFcpahtZoSuXqvKmfOBkbC3aAQ8MAq+/nU6fkVqBtw
-         Ck9D7Jy9ib2aPtWiuY45codSCpi3piP2EGnDBCsX01QxT9YBjNXX3Y5jh7m+68Ok/WPr
-         8pNzUe9Qwtkrfeg0h08EGIcQi3DrZddYucM2Jx/InJfge8hx/kNlsGq7smKWqyYoz13J
-         mo6avPqN7z5Tb0joPnpeAkxwm/aohIRX8N3+fa7W242yoSwwQokmaGfIbxQ76eAT/S2m
-         DuZA==
-X-Forwarded-Encrypted: i=1; AJvYcCWuVIiVLTBrZRJYjOtHdB16cfR5AUL6NHHVoUiDFNrJRjEI/NA7mSTxnyBAjd23Ezu5gIXdXwmA2EJTWC/xiOSFG2SJ2x3CZn+H73w=
-X-Gm-Message-State: AOJu0YyA2qTJv7yWk15OkL95nEbwsrmzPmLDhcuW78Ii6uTGVJnD482K
-	7vzZExCnFvRfXTXD1x7IkKCwFU8gfEPepS+ZK1giWr/OCQZI2q2f
-X-Google-Smtp-Source: AGHT+IFtwqfaW9gJsxLy3j5F49CYy1xFjRlT0RRadI4Z0IOCUNhh1itGGGOPl5tKEJMCv67TBumOMw==
-X-Received: by 2002:a17:906:851:b0:a3d:80d7:d1e3 with SMTP id f17-20020a170906085100b00a3d80d7d1e3mr7428154ejd.77.1708358306585;
-        Mon, 19 Feb 2024 07:58:26 -0800 (PST)
-Received: from localhost (p200300e41f2d4600f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f2d:4600:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id rf23-20020a1709076a1700b00a3da5bf6aa5sm3076542ejc.211.2024.02.19.07.58.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Feb 2024 07:58:26 -0800 (PST)
-Content-Type: multipart/signed;
- boundary=f0caf17c841197981a0b66a2ac604de0b745306e0ba899959bfe0165d31f;
- micalg=pgp-sha256; protocol="application/pgp-signature"
+	dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b="NVUrtqwk"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4Tft6g64Lkz9tln;
+	Wed, 21 Feb 2024 11:38:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+	s=MBO0001; t=1708511931;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VOqX0GOQZZOiGD9BoiPl4P99i5/2V8G3vmiVhpwmjpo=;
+	b=NVUrtqwknw/O3TZyiGfvfpG0IBx7JJpeIshlUGI/ALrW+famIowinN8F9Ti3bU4Kb+DskP
+	y775xaFPKAqf07Z9jufvCZ/AuUTAM4pXCgmXlgUugQZxZI4mmfx/4UJIb3CWj7JIytAhQg
+	l3cMMRBSKwmkaUjCkZVPwc9QSZ0W96DsujRbPvrZTUclXWsJ2NVejTPx9Ud7DDCgLM69Gb
+	4oAYCyVx0a/ZfDI7wBynT1H/fvIHe24aB5hJFSRro6uKd6bhUTPnwEiiZrZqz68LsxqWry
+	p64VobbPssd93ohFph+mesCr7BNyXCE5h4LrsNcuswhXvQdIQyv57qnfdnQpWw==
+References: <20240205-pinephone-pll-fixes-v2-0-96a46a2d8c9b@oltmanns.dev>
+ <20240205-pinephone-pll-fixes-v2-3-96a46a2d8c9b@oltmanns.dev>
+From: Frank Oltmanns <frank@oltmanns.dev>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>, Maxime Ripard
+ <mripard@kernel.org>, Diego Roversi <diegor@tiscali.it>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland
+ <samuel@sholland.org>, Guido =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>,
+ Purism Kernel Team
+ <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 3/6] clk: sunxi-ng: nkm: Support minimum and maximum
+ rate
+In-reply-to: <20240205-pinephone-pll-fixes-v2-3-96a46a2d8c9b@oltmanns.dev>
+Date: Wed, 21 Feb 2024 11:38:39 +0100
+Message-ID: <8734tmhzkg.fsf@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Date: Mon, 19 Feb 2024 16:58:25 +0100
-Message-Id: <CZ96H72GI4Z0.SZJBZXA1VXJZ@gmail.com>
-Subject: Re: [PATCH] phy: constify of_phandle_args in xlate
-From: "Thierry Reding" <thierry.reding@gmail.com>
-To: "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>, "Vinod Koul"
- <vkoul@kernel.org>, "Kishon Vijay Abraham I" <kishon@kernel.org>,
- "Chun-Kuang Hu" <chunkuang.hu@kernel.org>, "Philipp Zabel"
- <p.zabel@pengutronix.de>, "Jonathan Hunter" <jonathanh@nvidia.com>,
- "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>, "Linus Walleij"
- <linus.walleij@linaro.org>, <linux-phy@lists.infradead.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>, <linux-amlogic@lists.infradead.org>,
- <netdev@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linux-mediatek@lists.infradead.org>, <linux-arm-msm@vger.kernel.org>,
- <linux-renesas-soc@vger.kernel.org>, <linux-rockchip@lists.infradead.org>,
- <linux-samsung-soc@vger.kernel.org>,
- <linux-stm32@st-md-mailman.stormreply.com>, <linux-tegra@vger.kernel.org>,
- <linux-gpio@vger.kernel.org>
-X-Mailer: aerc 0.16.0-1-0-g560d6168f0ed-dirty
-References: <20240217093937.58234-1-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20240217093937.58234-1-krzysztof.kozlowski@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Rspamd-Queue-Id: 4Tft6g64Lkz9tln
 
---f0caf17c841197981a0b66a2ac604de0b745306e0ba899959bfe0165d31f
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+Hi Jernej,
+hi Maxime,
 
-On Sat Feb 17, 2024 at 10:39 AM CET, Krzysztof Kozlowski wrote:
-> The xlate callbacks are supposed to translate of_phandle_args to proper
-> provider without modifying the of_phandle_args.  Make the argument
-> pointer to const for code safety and readability.
+On 2024-02-05 at 16:22:26 +0100, Frank Oltmanns <frank@oltmanns.dev> wrote:
+> According to the Allwinner User Manual, the Allwinner A64 requires
+> PLL-MIPI to run at 500MHz-1.4GHz. Add support for that to ccu_nkm.
+
+I should point out that limiting PLL-MIPI also fixes a regression
+that was introduced in 6.5, specifically
+ca1170b69968233b34d26432245eddf7d265186b "clk: sunxi-ng: a64: force
+select PLL_MIPI in TCON0 mux". This has been bisected and reported by
+Diego [1].
+
+I don't know the procedure (yet), but probably the fix (if and when
+accepted) should be backported at least to 6.6 (first broken LTS), 6.7
+(stable), and 6.8 (next stable).
+
+My suggestion:
+ - In V3 of this series, I will reorder the patches, so that what is now
+   PATCH 3 and 4 becomes 1 and 2 respectively, so that they can be
+   applied to 6.6 more easily.
+ - Maxime, IIUC you requested some refactoring for handling the rate
+   limits [2]. I propose, we use my current proposal as-is, and I will
+   do a follow-up series for the refactoring.
+
+Please let me know how you would like me to proceed.
+
+Thanks,
+  Frank
+
+[1]: https://groups.google.com/g/linux-sunxi/c/Rh-Uqqa66bw
+[2]: https://lore.kernel.org/all/exb2lvjcozak5fayrgyenrd3ntii4jfxgvqork4klyz5pky2aq@dj2zyw5su6pv/
+
 >
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
 > ---
->  drivers/phy/allwinner/phy-sun4i-usb.c              |  2 +-
->  drivers/phy/amlogic/phy-meson-g12a-usb3-pcie.c     |  2 +-
->  drivers/phy/broadcom/phy-bcm-sr-pcie.c             |  2 +-
->  drivers/phy/broadcom/phy-bcm-sr-usb.c              |  2 +-
->  drivers/phy/broadcom/phy-bcm63xx-usbh.c            |  2 +-
->  drivers/phy/broadcom/phy-brcm-usb.c                |  2 +-
->  drivers/phy/freescale/phy-fsl-imx8qm-lvds-phy.c    |  2 +-
->  drivers/phy/freescale/phy-fsl-lynx-28g.c           |  2 +-
->  drivers/phy/hisilicon/phy-histb-combphy.c          |  2 +-
->  drivers/phy/intel/phy-intel-lgm-combo.c            |  2 +-
->  drivers/phy/lantiq/phy-lantiq-vrx200-pcie.c        |  2 +-
->  drivers/phy/marvell/phy-armada375-usb2.c           |  2 +-
->  drivers/phy/marvell/phy-armada38x-comphy.c         |  2 +-
->  drivers/phy/marvell/phy-berlin-sata.c              |  2 +-
->  drivers/phy/marvell/phy-mvebu-a3700-comphy.c       |  2 +-
->  drivers/phy/marvell/phy-mvebu-cp110-comphy.c       |  2 +-
->  drivers/phy/mediatek/phy-mtk-mipi-csi-0-5.c        |  2 +-
->  drivers/phy/mediatek/phy-mtk-tphy.c                |  2 +-
->  drivers/phy/mediatek/phy-mtk-xsphy.c               |  2 +-
->  drivers/phy/microchip/lan966x_serdes.c             |  2 +-
->  drivers/phy/microchip/sparx5_serdes.c              |  2 +-
->  drivers/phy/mscc/phy-ocelot-serdes.c               |  2 +-
->  drivers/phy/phy-core.c                             |  8 ++++----
->  drivers/phy/phy-xgene.c                            |  2 +-
->  drivers/phy/qualcomm/phy-qcom-qmp-combo.c          |  2 +-
->  drivers/phy/ralink/phy-mt7621-pci.c                |  2 +-
->  drivers/phy/renesas/phy-rcar-gen2.c                |  2 +-
->  drivers/phy/renesas/phy-rcar-gen3-usb2.c           |  2 +-
->  drivers/phy/renesas/r8a779f0-ether-serdes.c        |  2 +-
->  drivers/phy/rockchip/phy-rockchip-naneng-combphy.c |  2 +-
->  drivers/phy/rockchip/phy-rockchip-pcie.c           |  2 +-
->  drivers/phy/samsung/phy-exynos-mipi-video.c        |  2 +-
->  drivers/phy/samsung/phy-exynos5-usbdrd.c           |  2 +-
->  drivers/phy/samsung/phy-samsung-usb2.c             |  2 +-
->  drivers/phy/socionext/phy-uniphier-usb2.c          |  2 +-
->  drivers/phy/st/phy-miphy28lp.c                     |  2 +-
->  drivers/phy/st/phy-spear1310-miphy.c               |  2 +-
->  drivers/phy/st/phy-spear1340-miphy.c               |  2 +-
->  drivers/phy/st/phy-stm32-usbphyc.c                 |  2 +-
->  drivers/phy/tegra/xusb.c                           |  2 +-
->  drivers/phy/ti/phy-am654-serdes.c                  |  2 +-
->  drivers/phy/ti/phy-da8xx-usb.c                     |  2 +-
->  drivers/phy/ti/phy-gmii-sel.c                      |  2 +-
->  drivers/phy/xilinx/phy-zynqmp.c                    |  2 +-
->  drivers/pinctrl/tegra/pinctrl-tegra-xusb.c         |  2 +-
->  include/linux/phy/phy.h                            | 14 +++++++-------
->  46 files changed, 55 insertions(+), 55 deletions(-)
-
-Makes sense:
-
-Acked-by: Thierry Reding <treding@nvidia.com>
-
---f0caf17c841197981a0b66a2ac604de0b745306e0ba899959bfe0165d31f
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmXTeqIACgkQ3SOs138+
-s6GdEBAAsZtqIRL7k6ZV5nu5N0juG6RO7Sm34o9+isHlbNUAhmDQeIXxdlWIF3qc
-ap2W/H4jLtQnrDaCtdFWa5oPx8Ud41AKoeOQRlZq6goHZemt2JbUyB5IzsMIL0KN
-FUGwvVEZdDnJbhe2+8YX0fN8WG4qpAYo7vrb1XsgP4RzGwgkwH64LbCOtoAoYtYl
-rOc7hn6eNJrIYlW1LaU37BApWV0KgdMiI1YSILAT5YJK24fYst7j//8UxyEQP4aO
-S+3uPr8/1K1JifAihpgqu7w5kyDcMW1ncoAamilKe2xDzz7wJ8wxtYcdypnwBSpd
-/+rhMybnEj2kgbDrSbY+LVlczSU6Wf/SEtZzB+DOCE4+CZrtFyMVsSgAeVXFT1n0
-L5vTh0182skHEAm97GXHwoQOmLND8wJJVZR+Sw1OApxEYI1Y8hTx33NrbA+5hiVq
-15m0Jq8NXvpd237p5obNfFNuDmK/BlMhlq3x+3/aWGqT+pRlavF1i0HP/wEV9YoC
-6zleWWkx9BAonksD76uhrk/LBnYnc3wb9O5B4KS6dp+tYE3ekIWauHxzhg4tpOcg
-FqcY6ObCs+Jjtplo4vtrTBR6A4jdvunJQcp4WqSO/5RkZd/ySVdSbpvCdK1yy/JM
-j7SSnUWV03IbkbGoBduin/a8YT84GAn3seVzxO0ik5dpZHGbAPM=
-=Z186
------END PGP SIGNATURE-----
-
---f0caf17c841197981a0b66a2ac604de0b745306e0ba899959bfe0165d31f--
+>  drivers/clk/sunxi-ng/ccu_nkm.c | 13 +++++++++++++
+>  drivers/clk/sunxi-ng/ccu_nkm.h |  2 ++
+>  2 files changed, 15 insertions(+)
+>
+> diff --git a/drivers/clk/sunxi-ng/ccu_nkm.c b/drivers/clk/sunxi-ng/ccu_nkm.c
+> index 1168d894d636..7d135908d6e0 100644
+> --- a/drivers/clk/sunxi-ng/ccu_nkm.c
+> +++ b/drivers/clk/sunxi-ng/ccu_nkm.c
+> @@ -181,6 +181,12 @@ static unsigned long ccu_nkm_round_rate(struct ccu_mux_internal *mux,
+>  	if (nkm->common.features & CCU_FEATURE_FIXED_POSTDIV)
+>  		rate *= nkm->fixed_post_div;
+>
+> +	if (nkm->min_rate && rate < nkm->min_rate)
+> +		rate = nkm->min_rate;
+> +
+> +	if (nkm->max_rate && rate > nkm->max_rate)
+> +		rate = nkm->max_rate;
+> +
+>  	if (!clk_hw_can_set_rate_parent(&nkm->common.hw))
+>  		rate = ccu_nkm_find_best(*parent_rate, rate, &_nkm, &nkm->common);
+>  	else
+> @@ -220,6 +226,13 @@ static int ccu_nkm_set_rate(struct clk_hw *hw, unsigned long rate,
+>  	_nkm.min_m = 1;
+>  	_nkm.max_m = nkm->m.max ?: 1 << nkm->m.width;
+>
+> +
+> +	if (nkm->min_rate && rate < nkm->min_rate)
+> +		rate = nkm->min_rate;
+> +
+> +	if (nkm->max_rate && rate > nkm->max_rate)
+> +		rate = nkm->max_rate;
+> +
+>  	ccu_nkm_find_best(parent_rate, rate, &_nkm, &nkm->common);
+>
+>  	spin_lock_irqsave(nkm->common.lock, flags);
+> diff --git a/drivers/clk/sunxi-ng/ccu_nkm.h b/drivers/clk/sunxi-ng/ccu_nkm.h
+> index c409212ee40e..358a9df6b6a0 100644
+> --- a/drivers/clk/sunxi-ng/ccu_nkm.h
+> +++ b/drivers/clk/sunxi-ng/ccu_nkm.h
+> @@ -27,6 +27,8 @@ struct ccu_nkm {
+>  	struct ccu_mux_internal	mux;
+>
+>  	unsigned int		fixed_post_div;
+> +	unsigned long		min_rate;
+> +	unsigned long		max_rate;
+>  	unsigned long		max_m_n_ratio;
+>  	unsigned long		min_parent_m_ratio;
