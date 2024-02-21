@@ -1,107 +1,148 @@
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D88D53CF42
-	for <linux-sunxi@lists.linux.dev>; Wed, 21 Feb 2024 14:22:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3312386628
+	for <linux-sunxi@lists.linux.dev>; Wed, 21 Feb 2024 20:58:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708525357; cv=none; b=YAnyeuw+nBFPFiA8lMPVe8QAKmQHfkgIIlqbj5cqd1/31W1dJ55qjy5DHJkeD+/VSPhAiZW9N6lYf+5g74hWOhqlEDGMyhXjDKw7JDve1be8r/nzmQa1+QkfhF9VKzM4iXSL2sgXWq+2wjoHLpoLkETRegMTRkHgbH3LNcGBsVg=
+	t=1708549116; cv=none; b=X2o/juWNYPIxL0ZdtvnGJH7LYRalNBag2+aOVd808Ktu1Kyho2sOk3TS5TaWkOOkKuqA2qDDA3WmJ/QurxqFkBxw95XqIXWcnqqWnErTjiTqARGfcr6XnFxKN9PM6iTuusH0kbdnF43Uocxr5W5eRoQk+FzLQS8YmXGTPzD6Zo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708525357; c=relaxed/simple;
-	bh=LF3mPKz82wFKYBnS3pkUFExa+8tzUpNv+iiGbb7Kggc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n2yTpUVcn7OPmL7YuOUVz3uJ+KFy9g1Bg3Dxpu15V1CxFCgTN2mDbvlZ0YRoOwT3jHxiCNcY8NpcKN6IXLdTD53nN6RYRMK9ocUaAKM30tt9KHbTnd7hv2viFJ7zGosRkWiI2euc129Y9H6LfJkiQtlYDDAmXWryHErlnz5L8qE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=FmhYO+ZN; arc=none smtp.client-ip=195.181.215.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
+	s=arc-20240116; t=1708549116; c=relaxed/simple;
+	bh=tIfAN6Hn6WlpR3POiJk+EFCBQH73UzWzhzRdaXRRW+Q=;
+	h=Date:Subject:In-Reply-To:CC:From:To:Message-ID:Mime-Version:
+	 Content-Type; b=mwjAlO1dBOkxFOoePdtRut3DTLO3FeO0F+B0T16GVCRW1++KfWrkvIKSmBZIh+e8jRxerjNfnPQTIzmDGDfK5e1WX8t0i2xGZsVq//UW4OBcm0+LaC6Xe5Y+JAOouueDzcqOLi2al1HTDEyq4u5EiR/gd27+YN5Bh+DG1ajmuq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dabbelt.com; spf=pass smtp.mailfrom=dabbelt.com; dkim=pass (2048-bit key) header.d=dabbelt-com.20230601.gappssmtp.com header.i=@dabbelt-com.20230601.gappssmtp.com header.b=FCRaRj7F; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dabbelt.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dabbelt.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="FmhYO+ZN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
-	t=1708525351; bh=LF3mPKz82wFKYBnS3pkUFExa+8tzUpNv+iiGbb7Kggc=;
-	h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
-	b=FmhYO+ZNYNU0FoScZxKn01rd9HtaMosC2AF9CFkg2IIDbNUYYYGRJBlLI/ow9fhuN
-	 S7NpSsbC2rZGeJcs2D1NrTfoiWxgMXo7Bk3eqLWovOtIHd/rcRtGcL8axGhaxSRoB4
-	 yrUAFDB3bdUZb7RnkypcZNqX5O+tiL9d3yyixMLo=
-Date: Wed, 21 Feb 2024 15:22:30 +0100
-From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] drm/sun4i: Fix layer zpos change/atomic modesetting
-Message-ID: <6n6fnjl3dw4dnmoygh3u72ebbubotpqyg67cwkuataw2vw6lwm@bhxrtjewjso6>
-Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, 
-	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
- <https://xff.cz/key.txt>
-References: <20240216190430.1374132-1-megi@xff.cz>
- <20240216190430.1374132-4-megi@xff.cz>
- <inuhwnlexpt6dpre4uailtvytjhms4uqeerzehbntczurhcxol@fc4nvkdwffdd>
+	dkim=pass (2048-bit key) header.d=dabbelt-com.20230601.gappssmtp.com header.i=@dabbelt-com.20230601.gappssmtp.com header.b="FCRaRj7F"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1d953fa3286so48527975ad.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 21 Feb 2024 12:58:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20230601.gappssmtp.com; s=20230601; t=1708549113; x=1709153913; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=J+tU7eObkjYjs1vfTPBX473q/rKEbyH/Wex2trZa7yA=;
+        b=FCRaRj7FyT/6TuTJ5VAvdHpRNME7ZFYJumCs6SwSrK4DTDmpOvK/gOnsODLxVJFyLI
+         Ek98GF0G/UrPs42mkIsRYWP+NHiZGBo7ucRyhsvlbzx+76YlfbUwbgw2QAm3H/xyjewk
+         V2dE6VK6TfsIT10WEJ4ZtnojlZ8z0Km9pcEr2Byp5e6M9sSIEiT0lOwbnUSXrJDH0bph
+         dTMNncqjEHciTkWRndoSReWy4vDFr/W9blOz5NrW/oMSFRoT9px6I77f7Whp+yWaR0uz
+         kkXXAkiueQx5oa9Megzj/2nE7i8X3mCJcFmzPce2nH8JvmFw6gi8yEOL9ZUYJ1Xg33nF
+         RuRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708549113; x=1709153913;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=J+tU7eObkjYjs1vfTPBX473q/rKEbyH/Wex2trZa7yA=;
+        b=H8Hgdn3p6TZP04coSCcZC+TiNttWrajE3T69AqIQjH1AZwkevJWDzMkAn4GDmZwZCg
+         cl79WVLyySfThj/Sw7f7ALNZwJ/v/4DJ5rVA82w7cB0+r3Rov44OwknH1sRcXa2BYb1n
+         0hJORTEFfo4ClxCVsbKsKMGgTfucxLZYOQZO2JvikXfxGvpu4qYZxTVC8KWW8em3tIb5
+         VwrTRFvljNFOvLko1ckOuGalzX+oHz6u7fCb4ZLID1tR0WrofOsBwjreJQ8CVtLg/hla
+         EgkCtvW0ftSZ5s9CyZCtjcslgtKrFxOU9P8iMTrSgednLSGRjho5+GqYJgrmaZsyNpaV
+         XcWg==
+X-Forwarded-Encrypted: i=1; AJvYcCU8kJBnOPsL+ekOqV8u4ij6J+hGrwUZJA5CG8LP33NZmF3zlVC/QDl43CFuotU41GhU+0dIV81FWR/pUE97qMXsUcJHnyIL/I7N1jM=
+X-Gm-Message-State: AOJu0YxmLxAQ9quqpvO3I7+R6EDjql0PFkmfEcQvcTYYXN3G8N2sh7d5
+	F2PWGEXXMTwuQ6f4UBneYmHsWRYbj6AqTp2uy5mm3l0WVJ3WbiuVuC/+fUhDzLs=
+X-Google-Smtp-Source: AGHT+IFE+PZQn+UmaaW8t5TQcd5db2AP8n7T//Ds6WRmFRk+fZnuSEKbOzi1SIKbGiLp5zwIJMhyjw==
+X-Received: by 2002:a17:90a:15cf:b0:299:3c25:4248 with SMTP id w15-20020a17090a15cf00b002993c254248mr3727507pjd.38.1708549113387;
+        Wed, 21 Feb 2024 12:58:33 -0800 (PST)
+Received: from localhost ([50.213.54.97])
+        by smtp.gmail.com with ESMTPSA id st4-20020a17090b1fc400b00296a7ac8b5fsm2374093pjb.6.2024.02.21.12.58.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Feb 2024 12:58:31 -0800 (PST)
+Date: Wed, 21 Feb 2024 12:58:31 -0800 (PST)
+X-Google-Original-Date: Wed, 21 Feb 2024 12:58:29 PST (-0800)
+Subject:     Re: [PATCH v8 00/10] Support Andes PMU extension
+In-Reply-To: <20240129092553.2058043-1-peterlin@andestech.com>
+CC: acme@kernel.org, adrian.hunter@intel.com, ajones@ventanamicro.com,
+  alexander.shishkin@linux.intel.com, andre.przywara@arm.com, anup@brainfault.org, aou@eecs.berkeley.edu,
+  atishp@atishpatra.org, conor+dt@kernel.org, Conor Dooley <conor.dooley@microchip.com>,
+  Conor Dooley <conor@kernel.org>, devicetree@vger.kernel.org, Evan Green <evan@rivosinc.com>,
+  geert+renesas@glider.be, guoren@kernel.org, Heiko Stuebner <heiko@sntech.de>, irogers@google.com,
+  jernej.skrabec@gmail.com, jolsa@kernel.org, jszhang@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
+  linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev,
+  locus84@andestech.com, magnus.damm@gmail.com, Mark Rutland <mark.rutland@arm.com>, mingo@redhat.com,
+  n.shubin@yadro.com, namhyung@kernel.org, Paul Walmsley <paul.walmsley@sifive.com>,
+  peterlin@andestech.com, peterz@infradead.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
+  rdunlap@infradead.org, robh+dt@kernel.org, samuel@sholland.org, Sunil V L <sunilvl@ventanamicro.com>,
+  tglx@linutronix.de, tim609@andestech.com, uwu@icenowy.me, wens@csie.org,
+  Will Deacon <will@kernel.org>, inochiama@outlook.com, unicorn_wang@outlook.com, wefu@redhat.com
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: peterlin@andestech.com
+Message-ID: <mhng-b85cfae6-43ef-42ac-94b4-d0f4ce2d0940@palmer-ri-x1c9a>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <inuhwnlexpt6dpre4uailtvytjhms4uqeerzehbntczurhcxol@fc4nvkdwffdd>
 
-Hi Maxime,
+On Mon, 29 Jan 2024 01:25:43 PST (-0800), peterlin@andestech.com wrote:
+> Hi All,
+>
+> This patch series introduces the Andes PMU extension, which serves the
+> same purpose as Sscofpmf and Smcntrpmf. Its non-standard local interrupt
+> is assigned to bit 18 in the custom S-mode local interrupt enable and
+> pending registers (slie/slip), while the interrupt cause is (256 + 18).
+>
+> Linux patches based on:
+> - ed5b7cf ("riscv: errata: andes: Probe for IOCP only once in boot stage")
+> It can be found on Andes Technology GitHub:
+> - https://github.com/andestech/linux/commits/andes-pmu-support-v8
+>
+> The PMU device tree node used on AX45MP:
+> - https://github.com/riscv-software-src/opensbi/blob/master/docs/pmu_support.md#example-3
+>
+> Locus Wei-Han Chen (1):
+>   riscv: andes: Support specifying symbolic firmware and hardware raw
+>     events
+>
+> Yu Chien Peter Lin (9):
+>   riscv: errata: Rename defines for Andes
+>   irqchip/riscv-intc: Allow large non-standard interrupt number
+>   irqchip/riscv-intc: Introduce Andes hart-level interrupt controller
+>   dt-bindings: riscv: Add Andes interrupt controller compatible string
+>   riscv: dts: renesas: r9a07g043f: Update compatible string to use Andes
+>     INTC
+>   perf: RISC-V: Eliminate redundant interrupt enable/disable operations
+>   perf: RISC-V: Introduce Andes PMU to support perf event sampling
+>   dt-bindings: riscv: Add Andes PMU extension description
+>   riscv: dts: renesas: Add Andes PMU extension for r9a07g043f
+>
+>  .../devicetree/bindings/riscv/cpus.yaml       |   6 +-
+>  .../devicetree/bindings/riscv/extensions.yaml |   7 +
+>  arch/riscv/boot/dts/renesas/r9a07g043f.dtsi   |   4 +-
+>  arch/riscv/errata/andes/errata.c              |  10 +-
+>  arch/riscv/include/asm/errata_list.h          |  13 +-
+>  arch/riscv/include/asm/hwcap.h                |   1 +
+>  arch/riscv/include/asm/vendorid_list.h        |   2 +-
+>  arch/riscv/kernel/alternative.c               |   2 +-
+>  arch/riscv/kernel/cpufeature.c                |   1 +
+>  drivers/irqchip/irq-riscv-intc.c              |  88 ++++++++++--
+>  drivers/perf/Kconfig                          |  14 ++
+>  drivers/perf/riscv_pmu_sbi.c                  |  37 ++++-
+>  include/linux/soc/andes/irq.h                 |  18 +++
+>  .../arch/riscv/andes/ax45/firmware.json       |  68 ++++++++++
+>  .../arch/riscv/andes/ax45/instructions.json   | 127 ++++++++++++++++++
+>  .../arch/riscv/andes/ax45/memory.json         |  57 ++++++++
+>  .../arch/riscv/andes/ax45/microarch.json      |  77 +++++++++++
+>  tools/perf/pmu-events/arch/riscv/mapfile.csv  |   1 +
+>  18 files changed, 494 insertions(+), 39 deletions(-)
+>  create mode 100644 include/linux/soc/andes/irq.h
+>  create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/firmware.json
+>  create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/instructions.json
+>  create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/memory.json
+>  create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/microarch.json
 
-On Wed, Feb 21, 2024 at 02:45:20PM +0100, Maxime Ripard wrote:
-> Hi,
-> 
-> On Fri, Feb 16, 2024 at 08:04:26PM +0100, Ondřej Jirman wrote:
-> > From: Ondrej Jirman <megi@xff.cz>
-> > 
-> > Identical configurations of planes can lead to different (and wrong)
-> > layer -> pipe routing at HW level, depending on the order of atomic
-> > plane changes.
-> > 
-> > For example:
-> > 
-> > - Layer 1 is configured to zpos 0 and thus uses pipe 0. No other layer
-> >   is enabled. This is a typical situation at boot.
-> > 
-> > - When a compositor takes over and layer 3 is enabled,
-> >   sun8i_ui_layer_enable() will get called with old_zpos=0 zpos=1, which
-> >   will lead to incorrect disabling of pipe 0 and enabling of pipe 1.
-> > 
-> > What happens is that sun8i_ui_layer_enable() function may disable
-> > blender pipes even if it is no longer assigned to its layer.
-> > 
-> > To correct this, move the routing setup out of individual plane's
-> > atomic_update into crtc's atomic_update, where it can be calculated
-> > and updated all at once.
-> > 
-> > Remove the atomic_disable callback because it is no longer needed.
-> > 
-> > Signed-off-by: Ondrej Jirman <megi@xff.cz>
-> 
-> I don't have enough knowledge about the mixers code to comment on your
-> patch, so I'll let Jernej review it. However, this feels to me like the
-> pipe assignment is typically the sort of things that should be dealt
-> with device-wide, and in atomic_check.
+Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
 
-Yes, this is what this patch does. It moves blender setup from individual
-planes' attomic commits to a single place in crtc atomic commit.
+in case someone wants to take this via another tree.  I'm also OK taking 
+it via the RISC-V tree, pending a resolution to Thomas' comments on 
+patch 2.  For now I'm going to assume there's a v9 coming.
 
-kind regards,
-	o.
-
-> If I'm talking non-sense, it would be great to mention at least why that
-> can't be an option in the commit log.
-> 
-> Maxime
-
-
+Thanks!
