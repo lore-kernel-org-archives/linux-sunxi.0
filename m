@@ -1,148 +1,137 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3312386628
-	for <linux-sunxi@lists.linux.dev>; Wed, 21 Feb 2024 20:58:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BCC483A1F
+	for <linux-sunxi@lists.linux.dev>; Wed, 21 Feb 2024 21:53:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708549116; cv=none; b=X2o/juWNYPIxL0ZdtvnGJH7LYRalNBag2+aOVd808Ktu1Kyho2sOk3TS5TaWkOOkKuqA2qDDA3WmJ/QurxqFkBxw95XqIXWcnqqWnErTjiTqARGfcr6XnFxKN9PM6iTuusH0kbdnF43Uocxr5W5eRoQk+FzLQS8YmXGTPzD6Zo0=
+	t=1708552440; cv=none; b=keX6UH1IL+sanGXhErCh60W4j9PbvDc6EUDyHJAbDX4BgJVvgfDSvQUlg/4NNxfKoYeF1bTh/SQGHnuam8xUm2iPv5UaxS5oxETpr7z/hAVsUYyKhG3oMjEo3EGyf7ov5F8j0Bv0Iw7/90ZZ+Dl6rEEPlIuCTmNGTK4W41yDeTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708549116; c=relaxed/simple;
-	bh=tIfAN6Hn6WlpR3POiJk+EFCBQH73UzWzhzRdaXRRW+Q=;
-	h=Date:Subject:In-Reply-To:CC:From:To:Message-ID:Mime-Version:
-	 Content-Type; b=mwjAlO1dBOkxFOoePdtRut3DTLO3FeO0F+B0T16GVCRW1++KfWrkvIKSmBZIh+e8jRxerjNfnPQTIzmDGDfK5e1WX8t0i2xGZsVq//UW4OBcm0+LaC6Xe5Y+JAOouueDzcqOLi2al1HTDEyq4u5EiR/gd27+YN5Bh+DG1ajmuq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dabbelt.com; spf=pass smtp.mailfrom=dabbelt.com; dkim=pass (2048-bit key) header.d=dabbelt-com.20230601.gappssmtp.com header.i=@dabbelt-com.20230601.gappssmtp.com header.b=FCRaRj7F; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dabbelt.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dabbelt.com
+	s=arc-20240116; t=1708552440; c=relaxed/simple;
+	bh=4yH6g5tamOusVbcyW0SRdI3swoDz3DS9OYnuqNk6+z8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Eo6gfBZyckemM9lceXhxOT44oR2qX2MyqLdMcyYLOArqfbXRuMIeZr6yVbVrDcUIBmxNLDcnoMZSKJL1CHn+8fvAxwU32jUBqkr8inl5g/N+i3+adKXLf4qsK+sn5QScl3GBGl5xmrKBpG1odsdUxuujR8vIke9dzhiZbAaPqeE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D+ZzqPYX; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dabbelt-com.20230601.gappssmtp.com header.i=@dabbelt-com.20230601.gappssmtp.com header.b="FCRaRj7F"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1d953fa3286so48527975ad.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 21 Feb 2024 12:58:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D+ZzqPYX"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-33ad9ec3ec2so1126739f8f.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 21 Feb 2024 13:53:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dabbelt-com.20230601.gappssmtp.com; s=20230601; t=1708549113; x=1709153913; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=J+tU7eObkjYjs1vfTPBX473q/rKEbyH/Wex2trZa7yA=;
-        b=FCRaRj7FyT/6TuTJ5VAvdHpRNME7ZFYJumCs6SwSrK4DTDmpOvK/gOnsODLxVJFyLI
-         Ek98GF0G/UrPs42mkIsRYWP+NHiZGBo7ucRyhsvlbzx+76YlfbUwbgw2QAm3H/xyjewk
-         V2dE6VK6TfsIT10WEJ4ZtnojlZ8z0Km9pcEr2Byp5e6M9sSIEiT0lOwbnUSXrJDH0bph
-         dTMNncqjEHciTkWRndoSReWy4vDFr/W9blOz5NrW/oMSFRoT9px6I77f7Whp+yWaR0uz
-         kkXXAkiueQx5oa9Megzj/2nE7i8X3mCJcFmzPce2nH8JvmFw6gi8yEOL9ZUYJ1Xg33nF
-         RuRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708549113; x=1709153913;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1708552437; x=1709157237; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=J+tU7eObkjYjs1vfTPBX473q/rKEbyH/Wex2trZa7yA=;
-        b=H8Hgdn3p6TZP04coSCcZC+TiNttWrajE3T69AqIQjH1AZwkevJWDzMkAn4GDmZwZCg
-         cl79WVLyySfThj/Sw7f7ALNZwJ/v/4DJ5rVA82w7cB0+r3Rov44OwknH1sRcXa2BYb1n
-         0hJORTEFfo4ClxCVsbKsKMGgTfucxLZYOQZO2JvikXfxGvpu4qYZxTVC8KWW8em3tIb5
-         VwrTRFvljNFOvLko1ckOuGalzX+oHz6u7fCb4ZLID1tR0WrofOsBwjreJQ8CVtLg/hla
-         EgkCtvW0ftSZ5s9CyZCtjcslgtKrFxOU9P8iMTrSgednLSGRjho5+GqYJgrmaZsyNpaV
-         XcWg==
-X-Forwarded-Encrypted: i=1; AJvYcCU8kJBnOPsL+ekOqV8u4ij6J+hGrwUZJA5CG8LP33NZmF3zlVC/QDl43CFuotU41GhU+0dIV81FWR/pUE97qMXsUcJHnyIL/I7N1jM=
-X-Gm-Message-State: AOJu0YxmLxAQ9quqpvO3I7+R6EDjql0PFkmfEcQvcTYYXN3G8N2sh7d5
-	F2PWGEXXMTwuQ6f4UBneYmHsWRYbj6AqTp2uy5mm3l0WVJ3WbiuVuC/+fUhDzLs=
-X-Google-Smtp-Source: AGHT+IFE+PZQn+UmaaW8t5TQcd5db2AP8n7T//Ds6WRmFRk+fZnuSEKbOzi1SIKbGiLp5zwIJMhyjw==
-X-Received: by 2002:a17:90a:15cf:b0:299:3c25:4248 with SMTP id w15-20020a17090a15cf00b002993c254248mr3727507pjd.38.1708549113387;
-        Wed, 21 Feb 2024 12:58:33 -0800 (PST)
-Received: from localhost ([50.213.54.97])
-        by smtp.gmail.com with ESMTPSA id st4-20020a17090b1fc400b00296a7ac8b5fsm2374093pjb.6.2024.02.21.12.58.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Feb 2024 12:58:31 -0800 (PST)
-Date: Wed, 21 Feb 2024 12:58:31 -0800 (PST)
-X-Google-Original-Date: Wed, 21 Feb 2024 12:58:29 PST (-0800)
-Subject:     Re: [PATCH v8 00/10] Support Andes PMU extension
-In-Reply-To: <20240129092553.2058043-1-peterlin@andestech.com>
-CC: acme@kernel.org, adrian.hunter@intel.com, ajones@ventanamicro.com,
-  alexander.shishkin@linux.intel.com, andre.przywara@arm.com, anup@brainfault.org, aou@eecs.berkeley.edu,
-  atishp@atishpatra.org, conor+dt@kernel.org, Conor Dooley <conor.dooley@microchip.com>,
-  Conor Dooley <conor@kernel.org>, devicetree@vger.kernel.org, Evan Green <evan@rivosinc.com>,
-  geert+renesas@glider.be, guoren@kernel.org, Heiko Stuebner <heiko@sntech.de>, irogers@google.com,
-  jernej.skrabec@gmail.com, jolsa@kernel.org, jszhang@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
-  linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev,
-  locus84@andestech.com, magnus.damm@gmail.com, Mark Rutland <mark.rutland@arm.com>, mingo@redhat.com,
-  n.shubin@yadro.com, namhyung@kernel.org, Paul Walmsley <paul.walmsley@sifive.com>,
-  peterlin@andestech.com, peterz@infradead.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
-  rdunlap@infradead.org, robh+dt@kernel.org, samuel@sholland.org, Sunil V L <sunilvl@ventanamicro.com>,
-  tglx@linutronix.de, tim609@andestech.com, uwu@icenowy.me, wens@csie.org,
-  Will Deacon <will@kernel.org>, inochiama@outlook.com, unicorn_wang@outlook.com, wefu@redhat.com
-From: Palmer Dabbelt <palmer@dabbelt.com>
-To: peterlin@andestech.com
-Message-ID: <mhng-b85cfae6-43ef-42ac-94b4-d0f4ce2d0940@palmer-ri-x1c9a>
+        bh=PFRJDpPchYGhggcYn82/GAyKEim/RW8WyZ7494NwPio=;
+        b=D+ZzqPYXWaYKobA22Z28dK7Y+Iowv+6ouzdDcxjOfCAxlZN1Ig3rZhrjh9ND7z5G3i
+         mhZ32E0JfSZ2RCrEh/woO+OJ9Qmk++b1QvN3lgKLjL1F5VZ04Vbwa093l2zLL03pL2hf
+         aaMEbtlTujzjmURpUQ7hxZ445U/kTxdn26YL+wsfXjE5196yfeKrYU9iMy300AoA38Dx
+         XuEsuLbiJoRojscemahWaruqRs5Z7Nkq5sEW0D9KVY18POG7OSVL0m1v4Z/mtRBrwMeY
+         WfBgHS13LCw+IORHAzV/M5OHI7kixEmARAJdl8FamIkIOUUcFGXjoOIkOIXwW9MJzydw
+         PQnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708552437; x=1709157237;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PFRJDpPchYGhggcYn82/GAyKEim/RW8WyZ7494NwPio=;
+        b=E2cnMAnbC5wysimMVry6Wmht3GlsJspS0yCvP4zBzwCaC+Csl0BSXQiel0NyNq6SHO
+         Qp1UOjrpuQGNU7hTlowmCv5jOW3C/AWF00431ekO1nqBo7/38/WnIUq6PvfhENZ4wnlA
+         8cCkgKmg5yXgLHqqLe8VPrUlBPqtu5bekutgk0rdGH1bLBNvmFysO9ZIPykRmlZGBwkn
+         Z80sXO9vH6+96McYFv2MwyGOdb3G8UiTKKUgciCAdVl53/ST6FY1GTb8tmoOY+jccjQl
+         6zLCKi4dGZz4njcxw1LX85cMaOJt/my+693DFFhtt14QN1rH5lJ3ubFGN4wYdMKLUw76
+         KlTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW3ec+lsF3vhvUmuygWxeWMpmMke7p3zU4GW8v3QTiLy7yAHwQyNtPeYL7te9bQ+ESVbou6E0i8u2gQGzTrHyuocnclAiGJMWzGmak=
+X-Gm-Message-State: AOJu0Yw+PsHYztEMTzUEFYyPznroMH3/I9vfY5aREE07eJriv4ajvqH/
+	8OGqmZkmNoMObNeOdKcsMP1nKHO4p6JzZnVGpcCodkQNr7npVu6vRMIBaz6n6nKEEJKWkBL+Lp9
+	04/SutALN+lb5BAaC3KeX+MmRAnc=
+X-Google-Smtp-Source: AGHT+IHV55akNwFuAIFfQvhZOuT8lK5D89kMCL3mGgzrAcnXttcgmEDXvmr7PnYnEg/aTKh3F7l+YPToHA0Ndcz8jzo=
+X-Received: by 2002:a05:6000:71b:b0:33d:32f7:c85 with SMTP id
+ bs27-20020a056000071b00b0033d32f70c85mr8694215wrb.0.1708552437408; Wed, 21
+ Feb 2024 13:53:57 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+References: <20240219153639.179814-1-andre.przywara@arm.com> <13c957a9-6021-46a7-9243-b3658c26a333@linaro.org>
+In-Reply-To: <13c957a9-6021-46a7-9243-b3658c26a333@linaro.org>
+From: Vasily Khoruzhick <anarsoul@gmail.com>
+Date: Wed, 21 Feb 2024 13:53:30 -0800
+Message-ID: <CA+E=qVeMnQNrT8tNnHBnCL2Efy3VjbRAYQGMXstziCThRsiBDw@mail.gmail.com>
+Subject: Re: [PATCH v5 0/7] add support for H616 thermal system
+To: Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc: Andre Przywara <andre.przywara@arm.com>, Yangtao Li <tiny.windzz@gmail.com>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, "Rafael J . Wysocki" <rafael@kernel.org>, Zhang Rui <rui.zhang@intel.com>, 
+	Lukasz Luba <lukasz.luba@arm.com>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Martin Botka <martin.botka@somainline.org>, Maksim Kiselev <bigunclemax@gmail.com>, 
+	Bob McChesney <bob@electricworry.net>, linux-pm@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 29 Jan 2024 01:25:43 PST (-0800), peterlin@andestech.com wrote:
-> Hi All,
+On Wed, Feb 21, 2024 at 5:43=E2=80=AFAM Daniel Lezcano
+<daniel.lezcano@linaro.org> wrote:
 >
-> This patch series introduces the Andes PMU extension, which serves the
-> same purpose as Sscofpmf and Smcntrpmf. Its non-standard local interrupt
-> is assigned to bit 18 in the custom S-mode local interrupt enable and
-> pending registers (slie/slip), while the interrupt cause is (256 + 18).
+> On 19/02/2024 16:36, Andre Przywara wrote:
+> > Hi,
+> >
+> > this is v5 of this series originally by Martin, only some cosmetic
+> > changes this time, for instance  mentioning experiments with the SRAM
+> > controller registers to confirm that it's not an SRAM region which fixe=
+s
+> > the temperature reporting issue.
+> > See the Changelog below for more details.
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >
+> > This series introduces support for the thermal sensors in the Allwinner
+> > H616 SoCs, which includes its siblings H618 and T507. The actual
+> > temperature reading turns out to be very similar to the H6 SoC, just
+> > with support for two more sensors. One nasty complication is caused
+> > by reports about temperatures above 200C, which are related to the
+> > firmware being run (because the vendor U-Boot contains a hack avoiding
+> > this problem). Some investigation and digging in BSP code later
+> > we identified that bit 16 in register 0x3000000 (SYS_CFG) needs to be
+> > cleared for the raw temperature register values to contain reasonable
+> > values.
+> > To achieve this, patch 1/7 exports this very register from the already
+> > existing SRAM/syscon device. Patch 5/7 then adds code to the thermal
+> > driver to find that device via a new DT property, and query its regmap
+> > to clear bit 16 in there.
+> > Patch 4/7 reworks the existing H6 calibration function to become
+> > compatible with the H616, many thanks to Maksim for figuring this out.
+> > This makes the actual enablement patch 6/7 very easy.
+> >
+> > The rest of the patches are straightforward and build on Martin's
+> > original work, with some simplifications, resulting in more code sharin=
+g.
+> >
+> > Please have a look!
 >
-> Linux patches based on:
-> - ed5b7cf ("riscv: errata: andes: Probe for IOCP only once in boot stage")
-> It can be found on Andes Technology GitHub:
-> - https://github.com/andestech/linux/commits/andes-pmu-support-v8
+> Thanks for the detailed explanation.
 >
-> The PMU device tree node used on AX45MP:
-> - https://github.com/riscv-software-src/opensbi/blob/master/docs/pmu_support.md#example-3
+> I'm willing to pick the patches 1-6 and let the last one to go through
+> the allwinner tree.
 >
-> Locus Wei-Han Chen (1):
->   riscv: andes: Support specifying symbolic firmware and hardware raw
->     events
->
-> Yu Chien Peter Lin (9):
->   riscv: errata: Rename defines for Andes
->   irqchip/riscv-intc: Allow large non-standard interrupt number
->   irqchip/riscv-intc: Introduce Andes hart-level interrupt controller
->   dt-bindings: riscv: Add Andes interrupt controller compatible string
->   riscv: dts: renesas: r9a07g043f: Update compatible string to use Andes
->     INTC
->   perf: RISC-V: Eliminate redundant interrupt enable/disable operations
->   perf: RISC-V: Introduce Andes PMU to support perf event sampling
->   dt-bindings: riscv: Add Andes PMU extension description
->   riscv: dts: renesas: Add Andes PMU extension for r9a07g043f
->
->  .../devicetree/bindings/riscv/cpus.yaml       |   6 +-
->  .../devicetree/bindings/riscv/extensions.yaml |   7 +
->  arch/riscv/boot/dts/renesas/r9a07g043f.dtsi   |   4 +-
->  arch/riscv/errata/andes/errata.c              |  10 +-
->  arch/riscv/include/asm/errata_list.h          |  13 +-
->  arch/riscv/include/asm/hwcap.h                |   1 +
->  arch/riscv/include/asm/vendorid_list.h        |   2 +-
->  arch/riscv/kernel/alternative.c               |   2 +-
->  arch/riscv/kernel/cpufeature.c                |   1 +
->  drivers/irqchip/irq-riscv-intc.c              |  88 ++++++++++--
->  drivers/perf/Kconfig                          |  14 ++
->  drivers/perf/riscv_pmu_sbi.c                  |  37 ++++-
->  include/linux/soc/andes/irq.h                 |  18 +++
->  .../arch/riscv/andes/ax45/firmware.json       |  68 ++++++++++
->  .../arch/riscv/andes/ax45/instructions.json   | 127 ++++++++++++++++++
->  .../arch/riscv/andes/ax45/memory.json         |  57 ++++++++
->  .../arch/riscv/andes/ax45/microarch.json      |  77 +++++++++++
->  tools/perf/pmu-events/arch/riscv/mapfile.csv  |   1 +
->  18 files changed, 494 insertions(+), 39 deletions(-)
->  create mode 100644 include/linux/soc/andes/irq.h
->  create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/firmware.json
->  create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/instructions.json
->  create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/memory.json
->  create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/microarch.json
+> However I need the blessing from the different designed maintainers for
+> the thermal driver and from the sunxi_sram
 
-Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
+For sun8i_thermal:
 
-in case someone wants to take this via another tree.  I'm also OK taking 
-it via the RISC-V tree, pending a resolution to Thomas' comments on 
-patch 2.  For now I'm going to assume there's a v9 coming.
+Acked-by: Vasily Khoruzhick <anarsoul@gmail.com>
 
-Thanks!
+> Thanks
+>
+> --
+> <http://www.linaro.org/> Linaro.org =E2=94=82 Open source software for AR=
+M SoCs
+>
+> Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+> <http://twitter.com/#!/linaroorg> Twitter |
+> <http://www.linaro.org/linaro-blog/> Blog
+>
