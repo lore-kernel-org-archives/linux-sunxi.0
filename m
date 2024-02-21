@@ -1,151 +1,59 @@
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81C833EA8B
-	for <linux-sunxi@lists.linux.dev>; Wed, 21 Feb 2024 10:39:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B32CE2C9A;
+	Wed, 21 Feb 2024 13:16:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708511943; cv=none; b=Rvy30H6vXQaQE/H+fM/eLfA5miBKNsprPvq4CELZZsxB2DPPdUD70MFPaMQP9NYYq8ZP/Em9F20LRx6tjun7GxVolp5p+U6Acb6h6LzFVdykJK6NWUzYl71V7UuaIZKnw5zjo3YjgxwmBAw11qMiLku0soyknCF4fE/5mffrDAc=
+	t=1708521381; cv=none; b=BFmvJBvav9+bzShAtXL+yeqfa2J8UH+C+2Zsq2vLZ41BpDKo+N77WmXuhzA3bKbTcnY6iV0bAaaydgCYw+rUYFcXDJoVNuO2oAfX2hmqw5wV28TaW+auoJdxUH/8uFXClyEEhNlOqlLl1us8GNbGZ3mCX85t3H2hegpi9ys2lR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708511943; c=relaxed/simple;
-	bh=3T2LRJtiW3mZfk/PunFIogOMmmkLZ7ysF+8gTpzPau4=;
-	h=References:From:To:Cc:Subject:In-reply-to:Date:Message-ID:
-	 MIME-Version:Content-Type; b=m/OPZkunBwgsPF1GIFDduKKFU73C+76PISXHlHTWNKMIRI9Nr+Ixx8NjImMdKmHD/xEI++ORIO7ZdGFghvzeSxLmkh1M/uLps72aDMf0SM8IAO7b3KLzZTuLuCAM3NXdce9Vzzz9Su5Gd6lK0XMSdnn87l/Vlk5BrPRcsWCDPoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev; spf=pass smtp.mailfrom=oltmanns.dev; dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b=NVUrtqwk; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oltmanns.dev
+	s=arc-20240116; t=1708521381; c=relaxed/simple;
+	bh=CzNNwBJXqJo8+OeoGkqFUliEc/7tS1hf8ZqDIk6i4dc=;
+	h=Message-ID:Date:From:To:Subject:In-Reply-To:References:Cc; b=V7CaApLaL1zZH1EBJnjU/aU9n3xQiq9YimRfjZkYkUw4q0aPheQiT/bECFjmZ1sWwUQKLK8p1JomZS2aDnfdDf8Wi/09TkZWd4j09CyOGNX0bXRuHQ6SSiWmueezTxbR7SrUYdL3qyite32KfrdvIUpB6k+gJRPSqUVr56opa70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NHH1lJU9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b="NVUrtqwk"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4Tft6g64Lkz9tln;
-	Wed, 21 Feb 2024 11:38:51 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1708511931;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VOqX0GOQZZOiGD9BoiPl4P99i5/2V8G3vmiVhpwmjpo=;
-	b=NVUrtqwknw/O3TZyiGfvfpG0IBx7JJpeIshlUGI/ALrW+famIowinN8F9Ti3bU4Kb+DskP
-	y775xaFPKAqf07Z9jufvCZ/AuUTAM4pXCgmXlgUugQZxZI4mmfx/4UJIb3CWj7JIytAhQg
-	l3cMMRBSKwmkaUjCkZVPwc9QSZ0W96DsujRbPvrZTUclXWsJ2NVejTPx9Ud7DDCgLM69Gb
-	4oAYCyVx0a/ZfDI7wBynT1H/fvIHe24aB5hJFSRro6uKd6bhUTPnwEiiZrZqz68LsxqWry
-	p64VobbPssd93ohFph+mesCr7BNyXCE5h4LrsNcuswhXvQdIQyv57qnfdnQpWw==
-References: <20240205-pinephone-pll-fixes-v2-0-96a46a2d8c9b@oltmanns.dev>
- <20240205-pinephone-pll-fixes-v2-3-96a46a2d8c9b@oltmanns.dev>
-From: Frank Oltmanns <frank@oltmanns.dev>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>, Maxime Ripard
- <mripard@kernel.org>, Diego Roversi <diegor@tiscali.it>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland
- <samuel@sholland.org>, Guido =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>,
- Purism Kernel Team
- <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>, Neil Armstrong
- <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
- Sam Ravnborg <sam@ravnborg.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 3/6] clk: sunxi-ng: nkm: Support minimum and maximum
- rate
-In-reply-to: <20240205-pinephone-pll-fixes-v2-3-96a46a2d8c9b@oltmanns.dev>
-Date: Wed, 21 Feb 2024 11:38:39 +0100
-Message-ID: <8734tmhzkg.fsf@oltmanns.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NHH1lJU9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC9D4C433C7;
+	Wed, 21 Feb 2024 13:16:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708521381;
+	bh=CzNNwBJXqJo8+OeoGkqFUliEc/7tS1hf8ZqDIk6i4dc=;
+	h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
+	b=NHH1lJU9bkBJUiUtuhcFE+K0A2Bahbpo8q/yd3K+pm4+qd6baPUdX506iiSi9LqsK
+	 XO8+DpTgBXcnBuSwJE5JqJIbJy8R+LGDOrLVOjbRU/1B92mcQmSPTssS6Y1ijka2XR
+	 g8JW2GqTjezqkzF+7zOUqAbD+H8DygS3bOQzp0BtYbcLrYLzFvOTSJprODReef42Wp
+	 xPNgOv5bfRAhhEtrkR5jfC5PaQxAs8IBRBhl5qOirhytkTyVy68Fo0itNv+rjQRPFf
+	 8UjdTQseGSyWOR/qHhdEWdtc6DQFUcY1O52px197vlc6l/VinIEVuw1DeARD1vPV7A
+	 a7moLGEUOq7/w==
+Message-ID: <ae3aed3ae64fb4d3ba1f3a063c3b1733@kernel.org>
+Date: Wed, 21 Feb 2024 13:16:18 +0000
+From: "Maxime Ripard" <mripard@kernel.org>
+To: =?utf-8?b?T25kxZllaiBKaXJtYW4=?= <megi@xff.cz>
+Subject: Re: [PATCH 1/3] drm/sun4i: Unify sun8i_*_layer structs
+In-Reply-To: <20240216190430.1374132-2-megi@xff.cz>
+References: <20240216190430.1374132-2-megi@xff.cz>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, "Chen-Yu
+ Tsai" <wens@csie.org>, "Daniel Vetter" <daniel@ffwll.ch>, "David Airlie" <airlied@gmail.com>, "Jernej
+ Skrabec" <jernej.skrabec@gmail.com>, "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime
+ Ripard" <mripard@kernel.org>, "Ondrej Jirman" <megi@xff.cz>, "Samuel
+ Holland" <samuel@sholland.org>, "Thomas Zimmermann" <tzimmermann@suse.de>
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Rspamd-Queue-Id: 4Tft6g64Lkz9tln
 
-Hi Jernej,
-hi Maxime,
+On Fri, 16 Feb 2024 20:04:24 +0100, Ond=C5=99ej Jirman wrote:
+> From: Ondrej Jirman <megi@xff.cz>
+>=20
+> These structs are identical, use a single struct to represent private
+> data for the DRM plane. This is a preparation for configuring layer
+> routing from the CRTC (mixer) instead of current approach of setting
+>=20
+> [ ... ]
 
-On 2024-02-05 at 16:22:26 +0100, Frank Oltmanns <frank@oltmanns.dev> wrote:
-> According to the Allwinner User Manual, the Allwinner A64 requires
-> PLL-MIPI to run at 500MHz-1.4GHz. Add support for that to ccu_nkm.
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
 
-I should point out that limiting PLL-MIPI also fixes a regression
-that was introduced in 6.5, specifically
-ca1170b69968233b34d26432245eddf7d265186b "clk: sunxi-ng: a64: force
-select PLL_MIPI in TCON0 mux". This has been bisected and reported by
-Diego [1].
-
-I don't know the procedure (yet), but probably the fix (if and when
-accepted) should be backported at least to 6.6 (first broken LTS), 6.7
-(stable), and 6.8 (next stable).
-
-My suggestion:
- - In V3 of this series, I will reorder the patches, so that what is now
-   PATCH 3 and 4 becomes 1 and 2 respectively, so that they can be
-   applied to 6.6 more easily.
- - Maxime, IIUC you requested some refactoring for handling the rate
-   limits [2]. I propose, we use my current proposal as-is, and I will
-   do a follow-up series for the refactoring.
-
-Please let me know how you would like me to proceed.
-
-Thanks,
-  Frank
-
-[1]: https://groups.google.com/g/linux-sunxi/c/Rh-Uqqa66bw
-[2]: https://lore.kernel.org/all/exb2lvjcozak5fayrgyenrd3ntii4jfxgvqork4klyz5pky2aq@dj2zyw5su6pv/
-
->
-> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
-> ---
->  drivers/clk/sunxi-ng/ccu_nkm.c | 13 +++++++++++++
->  drivers/clk/sunxi-ng/ccu_nkm.h |  2 ++
->  2 files changed, 15 insertions(+)
->
-> diff --git a/drivers/clk/sunxi-ng/ccu_nkm.c b/drivers/clk/sunxi-ng/ccu_nkm.c
-> index 1168d894d636..7d135908d6e0 100644
-> --- a/drivers/clk/sunxi-ng/ccu_nkm.c
-> +++ b/drivers/clk/sunxi-ng/ccu_nkm.c
-> @@ -181,6 +181,12 @@ static unsigned long ccu_nkm_round_rate(struct ccu_mux_internal *mux,
->  	if (nkm->common.features & CCU_FEATURE_FIXED_POSTDIV)
->  		rate *= nkm->fixed_post_div;
->
-> +	if (nkm->min_rate && rate < nkm->min_rate)
-> +		rate = nkm->min_rate;
-> +
-> +	if (nkm->max_rate && rate > nkm->max_rate)
-> +		rate = nkm->max_rate;
-> +
->  	if (!clk_hw_can_set_rate_parent(&nkm->common.hw))
->  		rate = ccu_nkm_find_best(*parent_rate, rate, &_nkm, &nkm->common);
->  	else
-> @@ -220,6 +226,13 @@ static int ccu_nkm_set_rate(struct clk_hw *hw, unsigned long rate,
->  	_nkm.min_m = 1;
->  	_nkm.max_m = nkm->m.max ?: 1 << nkm->m.width;
->
-> +
-> +	if (nkm->min_rate && rate < nkm->min_rate)
-> +		rate = nkm->min_rate;
-> +
-> +	if (nkm->max_rate && rate > nkm->max_rate)
-> +		rate = nkm->max_rate;
-> +
->  	ccu_nkm_find_best(parent_rate, rate, &_nkm, &nkm->common);
->
->  	spin_lock_irqsave(nkm->common.lock, flags);
-> diff --git a/drivers/clk/sunxi-ng/ccu_nkm.h b/drivers/clk/sunxi-ng/ccu_nkm.h
-> index c409212ee40e..358a9df6b6a0 100644
-> --- a/drivers/clk/sunxi-ng/ccu_nkm.h
-> +++ b/drivers/clk/sunxi-ng/ccu_nkm.h
-> @@ -27,6 +27,8 @@ struct ccu_nkm {
->  	struct ccu_mux_internal	mux;
->
->  	unsigned int		fixed_post_div;
-> +	unsigned long		min_rate;
-> +	unsigned long		max_rate;
->  	unsigned long		max_m_n_ratio;
->  	unsigned long		min_parent_m_ratio;
+Thanks!
+Maxime
