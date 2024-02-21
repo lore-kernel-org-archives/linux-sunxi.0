@@ -1,34 +1,30 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 645B37BAFB;
-	Wed, 21 Feb 2024 13:45:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D88D53CF42
+	for <linux-sunxi@lists.linux.dev>; Wed, 21 Feb 2024 14:22:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708523123; cv=none; b=usxLFZ9yAi+Vg1q43zLtdeGbb70XdHcZgIv+oF/wkhL4yoE9EVJZs0f0JHizfJm7xSSJ0iZ5sj2aLijmPgGGZxmteS5vcgmWEgluT5udKKxtGkrFizR97qcoyvuDrKylOKg29Xu3ovc5pC+qn3Z48xBUP+TB3KJN/oQvgbeh6Xs=
+	t=1708525357; cv=none; b=YAnyeuw+nBFPFiA8lMPVe8QAKmQHfkgIIlqbj5cqd1/31W1dJ55qjy5DHJkeD+/VSPhAiZW9N6lYf+5g74hWOhqlEDGMyhXjDKw7JDve1be8r/nzmQa1+QkfhF9VKzM4iXSL2sgXWq+2wjoHLpoLkETRegMTRkHgbH3LNcGBsVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708523123; c=relaxed/simple;
-	bh=BJHfR2bAYcqfGE3I7jpnJmREd+wIkIHX/KEdFxdNxEM=;
+	s=arc-20240116; t=1708525357; c=relaxed/simple;
+	bh=LF3mPKz82wFKYBnS3pkUFExa+8tzUpNv+iiGbb7Kggc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gUzAlIddXvhNnpP3ZcPuSiLugHi9yElprxPmCuH13fZRmzgJpUU4fmKXlMyR7wJgzAPSlcr75P+53L2cUIJxUkvKuSFCqbUdOZnffmPRt0tdQ9Zp9AnpPTmeIsZoULY6b7N4yPp+7S5yInGsriDhyvLYUTajFf8RDfubgSRthP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V9yvpKAH; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=n2yTpUVcn7OPmL7YuOUVz3uJ+KFy9g1Bg3Dxpu15V1CxFCgTN2mDbvlZ0YRoOwT3jHxiCNcY8NpcKN6IXLdTD53nN6RYRMK9ocUaAKM30tt9KHbTnd7hv2viFJ7zGosRkWiI2euc129Y9H6LfJkiQtlYDDAmXWryHErlnz5L8qE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=FmhYO+ZN; arc=none smtp.client-ip=195.181.215.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V9yvpKAH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F00DC433B1;
-	Wed, 21 Feb 2024 13:45:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708523122;
-	bh=BJHfR2bAYcqfGE3I7jpnJmREd+wIkIHX/KEdFxdNxEM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=V9yvpKAHKX1WltEJ2II938p0AA1QC7vXzKkuglhObkdmrkGI5z3dEVYrLqvzXRS5q
-	 ZxvKUYAvry0BC6AUZ/fEdagJZBM6RSkLGSv73vgr/VMTXBeQj10kx3ErKew8sQTHdH
-	 OvtsBrQfIesfTbfzEmKe12ho/3+QVunU9VSGoLQIxz6Tio6jI3zflXXIZmkBGCbTjM
-	 dAdvonYr1+9buy8TNKH8cGh0bl8fO+m8whFR+tNkFViUy9R/fTyNfNboTCPjSAmHau
-	 2EGNIX6DOvb7Hl1UCKzNQAygYCtlgA9Ywyt8vbdQDwIThTHuMb18oPwkW/Rc9F7EYs
-	 o8ax3Vj4mLX3w==
-Date: Wed, 21 Feb 2024 14:45:20 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
+	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="FmhYO+ZN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
+	t=1708525351; bh=LF3mPKz82wFKYBnS3pkUFExa+8tzUpNv+iiGbb7Kggc=;
+	h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
+	b=FmhYO+ZNYNU0FoScZxKn01rd9HtaMosC2AF9CFkg2IIDbNUYYYGRJBlLI/ow9fhuN
+	 S7NpSsbC2rZGeJcs2D1NrTfoiWxgMXo7Bk3eqLWovOtIHd/rcRtGcL8axGhaxSRoB4
+	 yrUAFDB3bdUZb7RnkypcZNqX5O+tiL9d3yyixMLo=
+Date: Wed, 21 Feb 2024 15:22:30 +0100
+From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
+To: Maxime Ripard <mripard@kernel.org>
 Cc: Chen-Yu Tsai <wens@csie.org>, 
 	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
 	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
@@ -36,75 +32,76 @@ Cc: Chen-Yu Tsai <wens@csie.org>,
 	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
 	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 3/3] drm/sun4i: Fix layer zpos change/atomic modesetting
-Message-ID: <inuhwnlexpt6dpre4uailtvytjhms4uqeerzehbntczurhcxol@fc4nvkdwffdd>
+Message-ID: <6n6fnjl3dw4dnmoygh3u72ebbubotpqyg67cwkuataw2vw6lwm@bhxrtjewjso6>
+Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, 
+	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
+ <https://xff.cz/key.txt>
 References: <20240216190430.1374132-1-megi@xff.cz>
  <20240216190430.1374132-4-megi@xff.cz>
+ <inuhwnlexpt6dpre4uailtvytjhms4uqeerzehbntczurhcxol@fc4nvkdwffdd>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="xizgahp2qebktux3"
-Content-Disposition: inline
-In-Reply-To: <20240216190430.1374132-4-megi@xff.cz>
-
-
---xizgahp2qebktux3
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <inuhwnlexpt6dpre4uailtvytjhms4uqeerzehbntczurhcxol@fc4nvkdwffdd>
 
-Hi,
+Hi Maxime,
 
-On Fri, Feb 16, 2024 at 08:04:26PM +0100, Ond=C5=99ej Jirman wrote:
-> From: Ondrej Jirman <megi@xff.cz>
->=20
-> Identical configurations of planes can lead to different (and wrong)
-> layer -> pipe routing at HW level, depending on the order of atomic
-> plane changes.
->=20
-> For example:
->=20
-> - Layer 1 is configured to zpos 0 and thus uses pipe 0. No other layer
->   is enabled. This is a typical situation at boot.
->=20
-> - When a compositor takes over and layer 3 is enabled,
->   sun8i_ui_layer_enable() will get called with old_zpos=3D0 zpos=3D1, whi=
-ch
->   will lead to incorrect disabling of pipe 0 and enabling of pipe 1.
->=20
-> What happens is that sun8i_ui_layer_enable() function may disable
-> blender pipes even if it is no longer assigned to its layer.
->=20
-> To correct this, move the routing setup out of individual plane's
-> atomic_update into crtc's atomic_update, where it can be calculated
-> and updated all at once.
->=20
-> Remove the atomic_disable callback because it is no longer needed.
->=20
-> Signed-off-by: Ondrej Jirman <megi@xff.cz>
+On Wed, Feb 21, 2024 at 02:45:20PM +0100, Maxime Ripard wrote:
+> Hi,
+> 
+> On Fri, Feb 16, 2024 at 08:04:26PM +0100, Ondřej Jirman wrote:
+> > From: Ondrej Jirman <megi@xff.cz>
+> > 
+> > Identical configurations of planes can lead to different (and wrong)
+> > layer -> pipe routing at HW level, depending on the order of atomic
+> > plane changes.
+> > 
+> > For example:
+> > 
+> > - Layer 1 is configured to zpos 0 and thus uses pipe 0. No other layer
+> >   is enabled. This is a typical situation at boot.
+> > 
+> > - When a compositor takes over and layer 3 is enabled,
+> >   sun8i_ui_layer_enable() will get called with old_zpos=0 zpos=1, which
+> >   will lead to incorrect disabling of pipe 0 and enabling of pipe 1.
+> > 
+> > What happens is that sun8i_ui_layer_enable() function may disable
+> > blender pipes even if it is no longer assigned to its layer.
+> > 
+> > To correct this, move the routing setup out of individual plane's
+> > atomic_update into crtc's atomic_update, where it can be calculated
+> > and updated all at once.
+> > 
+> > Remove the atomic_disable callback because it is no longer needed.
+> > 
+> > Signed-off-by: Ondrej Jirman <megi@xff.cz>
+> 
+> I don't have enough knowledge about the mixers code to comment on your
+> patch, so I'll let Jernej review it. However, this feels to me like the
+> pipe assignment is typically the sort of things that should be dealt
+> with device-wide, and in atomic_check.
 
-I don't have enough knowledge about the mixers code to comment on your
-patch, so I'll let Jernej review it. However, this feels to me like the
-pipe assignment is typically the sort of things that should be dealt
-with device-wide, and in atomic_check.
+Yes, this is what this patch does. It moves blender setup from individual
+planes' attomic commits to a single place in crtc atomic commit.
 
-If I'm talking non-sense, it would be great to mention at least why that
-can't be an option in the commit log.
+kind regards,
+	o.
 
-Maxime
+> If I'm talking non-sense, it would be great to mention at least why that
+> can't be an option in the commit log.
+> 
+> Maxime
 
---xizgahp2qebktux3
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZdX+bwAKCRDj7w1vZxhR
-xZNgAP0a4L6Azcg9V6BM/jsiHiwH17jM+P8Er1XqzO57EQIFCQD/WAIto3Vlp7l6
-KwBXVWBIRLqnsTHnduB8s/JicR+nIgU=
-=6/Lk
------END PGP SIGNATURE-----
-
---xizgahp2qebktux3--
