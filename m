@@ -1,135 +1,110 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37AFF763F6
-	for <linux-sunxi@lists.linux.dev>; Wed, 21 Feb 2024 13:43:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 645B37BAFB;
+	Wed, 21 Feb 2024 13:45:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708522984; cv=none; b=Na9KQyK/timJvYmdCUKUvRFH5FLcAa3+26D4LxIKRBsbNdgNNdcsygNU2Ap+EEYBa3MuZWIwCpyggRAB5WDaDS9PyhKd8MtGDMPSxpf6x3XzbK4co/G2q4ek++JjpwqfUWWuNt3n9bRtQbqkGSm6XGsZL+QwHXprZ5RfyCKw2Vk=
+	t=1708523123; cv=none; b=usxLFZ9yAi+Vg1q43zLtdeGbb70XdHcZgIv+oF/wkhL4yoE9EVJZs0f0JHizfJm7xSSJ0iZ5sj2aLijmPgGGZxmteS5vcgmWEgluT5udKKxtGkrFizR97qcoyvuDrKylOKg29Xu3ovc5pC+qn3Z48xBUP+TB3KJN/oQvgbeh6Xs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708522984; c=relaxed/simple;
-	bh=KtKHMB+AnFiN2hMpH33PDEt8M2iVNeq3woqfEVtP35k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=t4zaigXsbq4p4/5O/h14KMaZ7Coj+Vsi5+IPLyDP3ZoEjbMWl7NdAizH+WXoXaZ9IUWi50YHRMNQ7JoIxSHgSWpuONQXpJXMR3mQqugw1EKZrd5qXpKDXAjjgsSENPZae8Pzn5gTx3Yq/MReAaAXMqoP6n3m602QB0G//JVSphI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nUbxfqA1; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1708523123; c=relaxed/simple;
+	bh=BJHfR2bAYcqfGE3I7jpnJmREd+wIkIHX/KEdFxdNxEM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gUzAlIddXvhNnpP3ZcPuSiLugHi9yElprxPmCuH13fZRmzgJpUU4fmKXlMyR7wJgzAPSlcr75P+53L2cUIJxUkvKuSFCqbUdOZnffmPRt0tdQ9Zp9AnpPTmeIsZoULY6b7N4yPp+7S5yInGsriDhyvLYUTajFf8RDfubgSRthP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V9yvpKAH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nUbxfqA1"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-512bc0e8ce1so3710776e87.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 21 Feb 2024 05:43:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708522980; x=1709127780; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=VyIS/2L8+m5oM2lTsyXu4+jS9x+VJzqAj+pH6cNaLbM=;
-        b=nUbxfqA1TXY5TCVdR2KLt73shQ8AX4K8S+nxKAgaH/Mm+vQIVniYhsyPTrxxGDefty
-         9bW7R0ycBJA0buqFWuMeOnkMpyQefYmUoWgntSoG8D78pohKlmb1PCq93DJNU39WZVRY
-         9LmTxz7cz7Dc+RG+Nys3V0YNzZnx8cXPvWYP48B6HIzD7W030TuTk3/R4gfs1dW26SCF
-         EEXXJAvn9XKvlOUgIZD+BUqV+1Thp5X/0yLGOV0wh+yshyIwqjOR2SXvL0WD8HqO3jrS
-         aBJ9X125YsQGEz6CMqa/kr+SIy3wSTka+tOsANBJOKK7tV6cU6kgSYnonpnpx/qLBiYl
-         fvDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708522980; x=1709127780;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VyIS/2L8+m5oM2lTsyXu4+jS9x+VJzqAj+pH6cNaLbM=;
-        b=xIs7uraK69zRkIQRDSWq5zAxaaE2NAWRl/UeocLpPMQBHiLsQAFHkuvXZMRDW/xlr9
-         B+tzM8b05naHsjOQLuHftcOEAbGneCeUOdySpNDwgWQNrc0L/+CFTnpK7r2ubikyFPfy
-         zoC7Kuxu3+SyTalI5DTDU1GsJUzU44Sqrz+3amGc6aDJ+RuZZOR6HvIXEeIPPxlXtIOv
-         50zw2oKrQGQVWIyQCJ4b0VLM/Sq+h2CZmEjszMBMSgGMO5yPH1o2SDEYk9uj7aJmj2/Z
-         PKmxtYNQgtAl6qQ0069862rGgGKyacgbnYDHtcvfBtKjqPfDhQTdk8OcIIuQw9WcnUJj
-         PJwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX4qia7OCgp+yfbZpu+qtqmnWLAMEdVhPvB35wueUjv2x+1fWZ2Jfl/5hV0bphywbGJYbFuCvuSsQCqrS4eD6JL/gVguJr9zE6dW+k=
-X-Gm-Message-State: AOJu0Yy7QqBBhCqqEBtjbLo32RGlFKzw8bh9ZZaAfPUPbxWKcitzMa5c
-	hKtugUWlbvtbQu7ZcGH1ashTh6sc7xzdf2V1v4z08w+btIjv9ufABqWIkcdv/sM=
-X-Google-Smtp-Source: AGHT+IHOWBy5vI8L+McUQWzkr4WjG9Pwa2JqIcYkMXVa8hcxQTu10e+H1VsUu3eKDfb+vZFAR5oB7w==
-X-Received: by 2002:a05:6512:124f:b0:512:8d8f:db7a with SMTP id fb15-20020a056512124f00b005128d8fdb7amr14181112lfb.65.1708522980437;
-        Wed, 21 Feb 2024 05:43:00 -0800 (PST)
-Received: from [192.168.10.46] (146725694.box.freepro.com. [130.180.211.218])
-        by smtp.googlemail.com with ESMTPSA id m12-20020a5d4a0c000000b0033b60bad2fcsm16875973wrq.113.2024.02.21.05.42.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Feb 2024 05:42:59 -0800 (PST)
-Message-ID: <13c957a9-6021-46a7-9243-b3658c26a333@linaro.org>
-Date: Wed, 21 Feb 2024 14:42:58 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V9yvpKAH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F00DC433B1;
+	Wed, 21 Feb 2024 13:45:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708523122;
+	bh=BJHfR2bAYcqfGE3I7jpnJmREd+wIkIHX/KEdFxdNxEM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=V9yvpKAHKX1WltEJ2II938p0AA1QC7vXzKkuglhObkdmrkGI5z3dEVYrLqvzXRS5q
+	 ZxvKUYAvry0BC6AUZ/fEdagJZBM6RSkLGSv73vgr/VMTXBeQj10kx3ErKew8sQTHdH
+	 OvtsBrQfIesfTbfzEmKe12ho/3+QVunU9VSGoLQIxz6Tio6jI3zflXXIZmkBGCbTjM
+	 dAdvonYr1+9buy8TNKH8cGh0bl8fO+m8whFR+tNkFViUy9R/fTyNfNboTCPjSAmHau
+	 2EGNIX6DOvb7Hl1UCKzNQAygYCtlgA9Ywyt8vbdQDwIThTHuMb18oPwkW/Rc9F7EYs
+	 o8ax3Vj4mLX3w==
+Date: Wed, 21 Feb 2024 14:45:20 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
+Cc: Chen-Yu Tsai <wens@csie.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] drm/sun4i: Fix layer zpos change/atomic modesetting
+Message-ID: <inuhwnlexpt6dpre4uailtvytjhms4uqeerzehbntczurhcxol@fc4nvkdwffdd>
+References: <20240216190430.1374132-1-megi@xff.cz>
+ <20240216190430.1374132-4-megi@xff.cz>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/7] add support for H616 thermal system
-Content-Language: en-US
-To: Andre Przywara <andre.przywara@arm.com>,
- Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: "Rafael J . Wysocki" <rafael@kernel.org>, Zhang Rui
- <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Martin Botka <martin.botka@somainline.org>,
- Maksim Kiselev <bigunclemax@gmail.com>, Bob McChesney
- <bob@electricworry.net>, linux-pm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <20240219153639.179814-1-andre.przywara@arm.com>
-From: Daniel Lezcano <daniel.lezcano@linaro.org>
-In-Reply-To: <20240219153639.179814-1-andre.przywara@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="xizgahp2qebktux3"
+Content-Disposition: inline
+In-Reply-To: <20240216190430.1374132-4-megi@xff.cz>
 
-On 19/02/2024 16:36, Andre Przywara wrote:
-> Hi,
-> 
-> this is v5 of this series originally by Martin, only some cosmetic
-> changes this time, for instance  mentioning experiments with the SRAM
-> controller registers to confirm that it's not an SRAM region which fixes
-> the temperature reporting issue.
-> See the Changelog below for more details.
-> ==================
-> 
-> This series introduces support for the thermal sensors in the Allwinner
-> H616 SoCs, which includes its siblings H618 and T507. The actual
-> temperature reading turns out to be very similar to the H6 SoC, just
-> with support for two more sensors. One nasty complication is caused
-> by reports about temperatures above 200C, which are related to the
-> firmware being run (because the vendor U-Boot contains a hack avoiding
-> this problem). Some investigation and digging in BSP code later
-> we identified that bit 16 in register 0x3000000 (SYS_CFG) needs to be
-> cleared for the raw temperature register values to contain reasonable
-> values.
-> To achieve this, patch 1/7 exports this very register from the already
-> existing SRAM/syscon device. Patch 5/7 then adds code to the thermal
-> driver to find that device via a new DT property, and query its regmap
-> to clear bit 16 in there.
-> Patch 4/7 reworks the existing H6 calibration function to become
-> compatible with the H616, many thanks to Maksim for figuring this out.
-> This makes the actual enablement patch 6/7 very easy.
-> 
-> The rest of the patches are straightforward and build on Martin's
-> original work, with some simplifications, resulting in more code sharing.
-> 
-> Please have a look!
 
-Thanks for the detailed explanation.
+--xizgahp2qebktux3
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I'm willing to pick the patches 1-6 and let the last one to go through 
-the allwinner tree.
+Hi,
 
-However I need the blessing from the different designed maintainers for 
-the thermal driver and from the sunxi_sram
+On Fri, Feb 16, 2024 at 08:04:26PM +0100, Ond=C5=99ej Jirman wrote:
+> From: Ondrej Jirman <megi@xff.cz>
+>=20
+> Identical configurations of planes can lead to different (and wrong)
+> layer -> pipe routing at HW level, depending on the order of atomic
+> plane changes.
+>=20
+> For example:
+>=20
+> - Layer 1 is configured to zpos 0 and thus uses pipe 0. No other layer
+>   is enabled. This is a typical situation at boot.
+>=20
+> - When a compositor takes over and layer 3 is enabled,
+>   sun8i_ui_layer_enable() will get called with old_zpos=3D0 zpos=3D1, whi=
+ch
+>   will lead to incorrect disabling of pipe 0 and enabling of pipe 1.
+>=20
+> What happens is that sun8i_ui_layer_enable() function may disable
+> blender pipes even if it is no longer assigned to its layer.
+>=20
+> To correct this, move the routing setup out of individual plane's
+> atomic_update into crtc's atomic_update, where it can be calculated
+> and updated all at once.
+>=20
+> Remove the atomic_disable callback because it is no longer needed.
+>=20
+> Signed-off-by: Ondrej Jirman <megi@xff.cz>
 
-Thanks
+I don't have enough knowledge about the mixers code to comment on your
+patch, so I'll let Jernej review it. However, this feels to me like the
+pipe assignment is typically the sort of things that should be dealt
+with device-wide, and in atomic_check.
 
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+If I'm talking non-sense, it would be great to mention at least why that
+can't be an option in the commit log.
 
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+Maxime
 
+--xizgahp2qebktux3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZdX+bwAKCRDj7w1vZxhR
+xZNgAP0a4L6Azcg9V6BM/jsiHiwH17jM+P8Er1XqzO57EQIFCQD/WAIto3Vlp7l6
+KwBXVWBIRLqnsTHnduB8s/JicR+nIgU=
+=6/Lk
+-----END PGP SIGNATURE-----
+
+--xizgahp2qebktux3--
