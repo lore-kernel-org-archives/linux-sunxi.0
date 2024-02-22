@@ -1,92 +1,97 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51ED73F16
-	for <linux-sunxi@lists.linux.dev>; Thu, 22 Feb 2024 21:34:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61D4D12D1E4
+	for <linux-sunxi@lists.linux.dev>; Thu, 22 Feb 2024 21:36:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708637642; cv=none; b=b1rfrGy7HBsCnvK2XjQ2QKDfr6iu/5sUGvVLsWht7ZlcsH6xSKzFjrUhwHmUh6kBZNJHum6EMxMuzjE2gvjaIWEbRkFEZhaMagKgXVPP+AeiQ+DOlH6tWReAfUFje1TwiEqNuNfGDq4UVS+J2Hyxj/6nSLrnNOlxS/LSeWofWeg=
+	t=1708637775; cv=none; b=ODZP+9uY9vVCbDjF3UrMekDa3MxO+ZuiewycR20/M2v/739Ws9cwatY0OJpUGrmvSiOSzdBwloxdvDPVXDV/ansT5jF3qDB5RPGq0uURqdhAoCNrr9TTexikuelS6GM6nSZ3diUdemCu1DEo3LMq3SxZJkfcWOWZUIT2uaI4fh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708637642; c=relaxed/simple;
-	bh=PrJ6YaFxatvY2iijd5Wqk9LxjgKfLoik+dqgECHQvCc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=HLVp1kM4jxUt+GmBKEGk9aPLNpH1a8aYUviB1K0wxzq0L3C0WYdWBxAxej+iXrMYv56JR3BEE0UraSuYnfhHzpqFY0n5yNbxB8myy9AmpJZZG4JdS4Wc4UziScB+9syLwxMpmhEBxhVZR/hT6Vbmp3XY4vJbohRHD8k8QSkPr7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=E8IKGWFo; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=fDIU63ci; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1708637775; c=relaxed/simple;
+	bh=vuAaEiJCLJK2cNsjl/qEqbIOLPfcmVtss6kY5sClwbw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aZCLtbHokrdZ2IyYxTu47Mq5dktNzOv+2eUEN92XcgJkchyV/OVrTKN59fO9YKfY5GkT5wTSdCfzLHuWTANXtrI22yPIxUXui+kIg8wEPWgrXburh8aTlQkC0/2Si5bFSlaOMbA6RJvMmaXJKUiiv1KU4XQWmx2d3tYELB9Nn58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=TaAJMXd1; arc=none smtp.client-ip=46.255.230.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="E8IKGWFo";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="fDIU63ci"
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1708637638;
+	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="TaAJMXd1"
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+	id 806131C0080; Thu, 22 Feb 2024 22:36:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+	t=1708637770;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=PrJ6YaFxatvY2iijd5Wqk9LxjgKfLoik+dqgECHQvCc=;
-	b=E8IKGWFobvMuydi/MYlCGtioOqkIyOjB766pK5NO0O5XAbWMgtCQk2EakY7kz56uIkMp3A
-	fJbScBQ7wtn6rKFXSCse7HAP0zIHNNRFq8Ui3HnKIRcHVv/O9A7dOQ6zsE4xtAO/3shZDu
-	23y7JebnE1ZqgWTCB3f+GBIYWpf2KD4JcGH/n7wROMMpEU5bjsYRQQkyvREUxOWN/82puZ
-	yudaq144aPD64IIrSwauXD1UAtqhEMgF3BHJg+rFhOCmk9oLQQttGgkoVbUWVsWI1tTVVf
-	mqGzlP45wJkqZqOGx/jyqNSr6gyeRP5Z+KfnumjcBO+2r6ws4mpxbJxuDmtoag==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1708637638;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PrJ6YaFxatvY2iijd5Wqk9LxjgKfLoik+dqgECHQvCc=;
-	b=fDIU63ciUTcRIKaxF7jIPyC9HLb4PBqsycE7avUV7D+2/qWfEpyl+pqC54WNOiNeW+0k7b
-	moIvBy70qNb/RwAw==
-To: Yu Chien Peter Lin <peterlin@andestech.com>, acme@kernel.org,
- adrian.hunter@intel.com, ajones@ventanamicro.com,
- alexander.shishkin@linux.intel.com, andre.przywara@arm.com,
- anup@brainfault.org, aou@eecs.berkeley.edu, atishp@atishpatra.org,
- conor+dt@kernel.org, conor.dooley@microchip.com, conor@kernel.org,
- devicetree@vger.kernel.org, evan@rivosinc.com, geert+renesas@glider.be,
- guoren@kernel.org, heiko@sntech.de, irogers@google.com,
- jernej.skrabec@gmail.com, jolsa@kernel.org, jszhang@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-sunxi@lists.linux.dev, locus84@andestech.com, magnus.damm@gmail.com,
- mark.rutland@arm.com, mingo@redhat.com, n.shubin@yadro.com,
- namhyung@kernel.org, palmer@dabbelt.com, paul.walmsley@sifive.com,
- peterlin@andestech.com, peterz@infradead.org,
- prabhakar.mahadev-lad.rj@bp.renesas.com, rdunlap@infradead.org,
- robh+dt@kernel.org, samuel@sholland.org, sunilvl@ventanamicro.com,
- tim609@andestech.com, uwu@icenowy.me, wens@csie.org, will@kernel.org,
- inochiama@outlook.com, unicorn_wang@outlook.com, wefu@redhat.com
-Cc: Randolph <randolph@andestech.com>, Atish Patra <atishp@rivosinc.com>
-Subject: Re: [PATCH v9 02/10] irqchip/riscv-intc: Allow large non-standard
- interrupt number
-In-Reply-To: <20240222083946.3977135-3-peterlin@andestech.com>
-References: <20240222083946.3977135-1-peterlin@andestech.com>
- <20240222083946.3977135-3-peterlin@andestech.com>
-Date: Thu, 22 Feb 2024 22:33:58 +0100
-Message-ID: <87r0h4dvzt.ffs@tglx>
+	bh=RiAbSOg1V4wsQMn+whZ+yfkXiKtN4HGpCsJmgM0ywIs=;
+	b=TaAJMXd1bifnIX5lis8dv/SDuYGIau9YOv3Xh+piopnkSZZt1WL5XCRf/JAWXe4jkEMG0h
+	KQkR4ZKHf++Gllq+AJ4b4JyhlKV4+oE4JyaL0lXffi7xd4VAcLKUdKZunBCmhMRnU9wglL
+	bxhj+A63hDeYxHE+zJQYjUJWyqc5/5g=
+Date: Thu, 22 Feb 2024 22:36:09 +0100
+From: Pavel Machek <pavel@ucw.cz>
+To: Aren Moynihan <aren@peacevolution.org>
+Cc: linux-kernel@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+	Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
+	Chen-Yu Tsai <wens@csie.org>, Ondrej Jirman <megi@xff.cz>,
+	linux-sunxi@lists.linux.dev, Lee Jones <lee@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	linux-leds@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+	Miles Alan <m@milesalan.com>, Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH v2 1/4] leds: rgb: leds-group-multicolor: allow leds to
+ stay on in suspend
+Message-ID: <Zde+Sce+PAuC1U6g@duo.ucw.cz>
+References: <20240206185400.596979-1-aren@peacevolution.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="B4lkKzSJHCjhcEG2"
+Content-Disposition: inline
+In-Reply-To: <20240206185400.596979-1-aren@peacevolution.org>
 
-On Thu, Feb 22 2024 at 16:39, Yu Chien Peter Lin wrote:
-> Currently, the implementation of the RISC-V INTC driver uses the
-> interrupt cause as the hardware interrupt number, with a maximum of
-> 64 interrupts. However, the platform can expand the interrupt number
-> further for custom local interrupts.
->
-> To fully utilize the available local interrupt sources, switch
-> to using irq_domain_create_tree() that creates the radix tree
-> map, add global variables (riscv_intc_nr_irqs, riscv_intc_custom_base
-> and riscv_intc_custom_nr_irqs) to determine the valid range of local
-> interrupt number (hwirq).
->
-> Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
-> Reviewed-by: Randolph <randolph@andestech.com>
-> Reviewed-by: Anup Patel <anup@brainfault.org>
-> Reviewed-by: Atish Patra <atishp@rivosinc.com>
 
-Reviewed-by: Thomas Gleixner <tglx@linutronix.de>
+--B4lkKzSJHCjhcEG2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi!
+
+> If none of the managed leds enable LED_CORE_SUSPENDRESUME, then we
+> shouldn't need to set it here. This makes it possible to use multicolor
+> groups with gpio leds that enable retain-state-suspended in the device
+> tree.
+>=20
+> Signed-off-by: Aren Moynihan <aren@peacevolution.org>
+
+Thanks for the series.
+
+Acked-by: Pavel Machek <pavel@ucw.cz>
+
+Note this will change userland API and maybe break the LED for code
+expecting old setup and hardcoding paths. I guess we should not
+backport this to stable. But we should do this, because it is really
+one LED and not three.
+
+Best regards,
+								Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--B4lkKzSJHCjhcEG2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZde+SQAKCRAw5/Bqldv6
+8owvAKC5O0usOAHO4lNiUtD+OQPqk9DWqACfTanRh5WRYGfqZMAbzMJdVj8NVpQ=
+=rcWe
+-----END PGP SIGNATURE-----
+
+--B4lkKzSJHCjhcEG2--
