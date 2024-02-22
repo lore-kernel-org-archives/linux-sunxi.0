@@ -1,57 +1,57 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E294873F15
-	for <linux-sunxi@lists.linux.dev>; Thu, 22 Feb 2024 18:26:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3B6D137908
+	for <linux-sunxi@lists.linux.dev>; Thu, 22 Feb 2024 18:27:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708626374; cv=none; b=r02pP0+KB/J0SuI3lbsjwg+LieOPv9x3AJlUNWcVr2ORQtnu4QyeW4VTMxat2yz3YkxgjLfM6NR66IXyiT7NbCN+DvlRtKA4LJcVUkhgC3TylpUq2XedAIl020QGz06BeMbN3RQAy/YjseRPe5oetUe8clJsdyuxoi6iAhvvwnc=
+	t=1708626475; cv=none; b=s7KDiw3jhfP6rvnIMS95hhi5ZKJ6bKARJD+AZ/uRvUTobeMk1D0DrWWQZ/yB/bCmvKuDHQcXItMqpssCqht11xx+vSUAtFJxgZNdobyEZtiFLHnbHqCNuFmFvPggn+Jv+3ZLlSGd0cCzXhvYQ85GU8V7Ld0HTdTx3jKSlMDM11s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708626374; c=relaxed/simple;
-	bh=AQkSe8FkaJI8Funpjdq9m8VrzwcqL7TERUb4Ns0sUGk=;
+	s=arc-20240116; t=1708626475; c=relaxed/simple;
+	bh=/ERQAEsXu0G6kcuTagglxUQka6jY9dYPE/DzuZNf3dI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=opnmcbT4iMmLTCcv3Prl5i+vmMZ0niLMfknTeii71WNm+2lJ3tMwvG4Cvaq7h2WQHka9v/Ss6etyutoHG0rmAZoP3xaQgbM0Fa3few0NxnSNWbRiRkHNX7feFlxgSsHI95Bondqne8HBAs6eHmDAz/wOBGI3diM8HxVxtbSe9TU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XIje6yRz; arc=none smtp.client-ip=209.85.218.50
+	 MIME-Version:Content-Type; b=YKID/gPhUuYKaok+h5miSr+T3sSfCqkFbpgUtM4T3XF3PVKbJDGANJpxKBD8W+dN8uzDsAZaZF6dXTKCYrrgA/V6qM+u9aSin0/Z8B7WFvyCsTO5mJbHMxv8VXW2IrVQe0tZNUGKixMx9pcqpNo7lFkRcWCI+b7KLoPx3mzWQew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ms/Ftln1; arc=none smtp.client-ip=209.85.218.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XIje6yRz"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a3f3d0d2787so2672766b.3
-        for <linux-sunxi@lists.linux.dev>; Thu, 22 Feb 2024 10:26:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ms/Ftln1"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a3ed9cae56fso242360466b.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 22 Feb 2024 10:27:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708626371; x=1709231171; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1708626472; x=1709231272; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jkH0j96WzJMsna0efM0jXWyc85ksIIZTSjSTyzXxEDw=;
-        b=XIje6yRziJ93+NXvZjHIkVUtNqwe7RAyGtddCPvnr2PKLs2w1cxfzFvPqCHYUeqeit
-         o5xorYPO+MnC2JtFIddBVT6VDVZGOAlMViSIauplSXirXknecD0SCs56CfznTGflUIWo
-         Dsm70mopU5tgNzwV256QnXMoavU8MZ/2IJkn/FJS8EZJ7rFlxJRBXNQyJm8wwrpuEVrQ
-         NXReRQG8ETEQuU5Xqpg31YeT2iZNBXqg/LPI/SRTmNONUZp3bI0+pjG0YuAFH5FvezGz
-         NC14FLt8skpckah2+5SYK/iLRZ2jG7of3S8hrxixq37s8MFFi76G2JpvVa2Mm/UhxFBx
-         JfXA==
+        bh=tELClXvgGOtyHBZZBd2XEfCIwH1azmS4e74QYILe7xI=;
+        b=Ms/Ftln1dMNjM9/EFpz7E0wMhg5TBZXN4xcvswmmODIKLZsBfLp56cyWH21sEJUKS5
+         gtfK1uAUnTHsPDrt25g9I5rEgFw4ZOsJDhIvhvwnZjR2b15zfDbIL0TOh4TUiAJhsWB9
+         l91Ob+vwsrv7/nHBTfj5pZCvDatIQotZOsU/i73Bo3Wq92tzt38onax6l0E6S0ZqlJFE
+         nF65k8FdQi/TA7PYgUh2qvXMh1x8AMbs/0/Qh6j3L5tVYZagQ38jTnK6Ni03BlxbtUxk
+         cmbSRWUYtawPnSJYo3pvArAbFCpkFnqVB9+rVyo3kRMn9XjvH+zmemwndhVelfSDbUjj
+         QJUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708626371; x=1709231171;
+        d=1e100.net; s=20230601; t=1708626472; x=1709231272;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jkH0j96WzJMsna0efM0jXWyc85ksIIZTSjSTyzXxEDw=;
-        b=DgsWCN9quelq661/04/a2sECalsUUzIHx8+vCEuABqT/ImcerFodMH7ZE9VtrTXwu4
-         +Zs7H74rLhl87y3I6YX7dv358fq2/WJ4WAi9lFgNR5KjxhVjZoxwt73LfItPjSTjGlbR
-         TMNJmItrVVq+bk3R3uiiC00o643AhuwmNdel5GYpIq0mfehl/a5pDMVRa+/3qZF4Dwwe
-         p11+ml2/uvncApYtX6DwzDtzfTBs9Tf2V/zmIStg06T3KRm5FrZJ2qw3clv7YTAxSOXP
-         KQc3eXq5zgd2lyhnNV+tQMmTA7eia+a7uoZ+oKpWtei6aMRBNs0xHGKBvzvZ1+KsMw32
-         rzLA==
-X-Forwarded-Encrypted: i=1; AJvYcCVXlLN0oZuVZQpWyBjRnLIt/FdFsoDP5XmtSEuvHfN3XOAOeLd+UxrW5G6NbaiesKSfFkkZxnUN0/t9a08d20czUWkrh5a6lctdpYk=
-X-Gm-Message-State: AOJu0Yw6M5dH0NeIEc00UlCPCAYcepNIPIW0U3eIy8hCLYzfgzc0aeyK
-	YQ4joFKLBd2yA29dkm+KK5I/tYIyEO3BVyf/PtgzXClDY+hTdFGZ
-X-Google-Smtp-Source: AGHT+IFKU6Aq4w/6buwzzEUsHyxNhbl8/xrg10HVNhvLtylpT9s3Fi9qn4VeBXpPZYOJ1oxL+ao7SQ==
-X-Received: by 2002:a17:906:fb05:b0:a3e:c758:5a7e with SMTP id lz5-20020a170906fb0500b00a3ec7585a7emr7508645ejb.41.1708626370564;
-        Thu, 22 Feb 2024 10:26:10 -0800 (PST)
+        bh=tELClXvgGOtyHBZZBd2XEfCIwH1azmS4e74QYILe7xI=;
+        b=qIuEDAAVlDNGjWHaK0D+63nTMWNFeV4iujkh2ZedBUYJImQykdMrdqtKTbHftTXUWC
+         Dwr5svRPCHKxI8xtDnnk/BqtrhVgqQmhmCQM+ZoNw08SaTS1zKlmJZVTgay652lyb4p+
+         1d1WS9qGOUS0tnidB5tQ6ACdvJvzpjJBDJR+vm7E5VG5vevCLvMbNgkaTx5O/2y6a47L
+         lEYJtsF+dUxPOdYVEpsKpty+Jwst56hGLu5TDSxs5OWwmv53AZajVPTMm1SHyIxR2OuE
+         bgnjxG/T4kAW+D5OKxLWjQxkpnbhMOnBdqQ33l5TCIX+x1x+UTZw6QvPZ24Ttt6v0fuc
+         rVfg==
+X-Forwarded-Encrypted: i=1; AJvYcCU2fDsQegFLDhSr344tw/5T2x4auWo/2q4KUPcVrBWJY2RE15vtdZ3PSOmb9MVxuOr21Gmzwv2l2UUFI1h/DsW84C4LJun4Yfx+1NM=
+X-Gm-Message-State: AOJu0Yx8cVvcYqTLte6dQT6m2fkZK/Q40pkjC7ozFRLqfkCYky0CeG8y
+	4PTJM4LSoeXeYkCpcvx5CMrOe1WVfm/0S+/D5zX6wzmxjruZJaBD
+X-Google-Smtp-Source: AGHT+IEyETD3CnHapZN/pItaYfe7T2SP89qHiRZOnxnaXo9m2VgXcYMwYEO4qUFvxVQA2rz+LGVA2Q==
+X-Received: by 2002:a17:906:3398:b0:a3e:8b8e:8795 with SMTP id v24-20020a170906339800b00a3e8b8e8795mr2534984eja.34.1708626471678;
+        Thu, 22 Feb 2024 10:27:51 -0800 (PST)
 Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id g3-20020a170906c18300b00a3ed811cff9sm3404825ejz.154.2024.02.22.10.26.09
+        by smtp.gmail.com with ESMTPSA id bn9-20020a170907268900b00a3db46018a4sm6143818ejc.71.2024.02.22.10.27.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Feb 2024 10:26:10 -0800 (PST)
+        Thu, 22 Feb 2024 10:27:51 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Vasily Khoruzhick <anarsoul@gmail.com>,
  Yangtao Li <tiny.windzz@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
@@ -67,13 +67,13 @@ Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev
 Subject:
- Re: [PATCH v5 1/7] soc: sunxi: sram: export register 0 for THS on H616
-Date: Thu, 22 Feb 2024 19:26:08 +0100
-Message-ID: <2717467.mvXUDI8C0e@jernej-laptop>
-In-Reply-To: <20240219153639.179814-2-andre.przywara@arm.com>
+ Re: [PATCH v5 7/7] arm64: dts: allwinner: h616: Add thermal sensor and zones
+Date: Thu, 22 Feb 2024 19:27:49 +0100
+Message-ID: <6017340.lOV4Wx5bFT@jernej-laptop>
+In-Reply-To: <20240219153639.179814-8-andre.przywara@arm.com>
 References:
  <20240219153639.179814-1-andre.przywara@arm.com>
- <20240219153639.179814-2-andre.przywara@arm.com>
+ <20240219153639.179814-8-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -83,107 +83,147 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne ponedeljek, 19. februar 2024 ob 16:36:33 CET je Andre Przywara napisal(a):
-> The Allwinner H616 SoC contains a mysterious bit at register offset 0x0
-> in the SRAM control block. If bit 16 is set (the reset value), the
-> temperature readings of the THS are way off, leading to reports about
-> 200C, at normal ambient temperatures. Clearing this bits brings the
-> reported values down to the expected values.
-> The BSP code clears this bit in firmware (U-Boot), and has an explicit
-> comment about this, but offers no real explanation.
+Dne ponedeljek, 19. februar 2024 ob 16:36:39 CET je Andre Przywara napisal(a):
+> From: Martin Botka <martin.botka@somainline.org>
 > 
-> Experiments in U-Boot show that register 0x0 has no effect on the SRAM C
-> visibility: all tested bit settings still allow full read and write
-> access by the CPU to the whole of SRAM C. Only bit 24 of the register at
-> offset 0x4 makes all of SRAM C inaccessible by the CPU. So modelling
-> the THS switch functionality as an SRAM region would not reflect reality.
+> There are four thermal sensors:
+> - CPU
+> - GPU
+> - VE
+> - DRAM
 > 
-> Since we should not rely on firmware settings, allow other code (the THS
-> driver) to access this register, by exporting it through the already
-> existing regmap. This mimics what we already do for the LDO control and
-> the EMAC register.
+> Add the thermal sensor configuration and the thermal zones.
 > 
-> To avoid concurrent accesses to the same register at the same time, by
-> the SRAM switch code and the regmap code, use the same lock to protect
-> the access. The regmap subsystem allows to use an existing lock, so we
-> just need to hook in there.
-> 
+> Signed-off-by: Martin Botka <martin.botka@somainline.org>
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
 Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-
-I guess this one goes through sunxi tree, right?
 
 Best regards,
 Jernej
 
 > ---
->  drivers/soc/sunxi/sunxi_sram.c | 22 ++++++++++++++++++++++
->  1 file changed, 22 insertions(+)
+>  .../arm64/boot/dts/allwinner/sun50i-h616.dtsi | 88 +++++++++++++++++++
+>  1 file changed, 88 insertions(+)
 > 
-> diff --git a/drivers/soc/sunxi/sunxi_sram.c b/drivers/soc/sunxi/sunxi_sram.c
-> index 4458b2e0562b0..6eb6cf06278e6 100644
-> --- a/drivers/soc/sunxi/sunxi_sram.c
-> +++ b/drivers/soc/sunxi/sunxi_sram.c
-> @@ -287,6 +287,7 @@ EXPORT_SYMBOL(sunxi_sram_release);
->  struct sunxi_sramc_variant {
->  	int num_emac_clocks;
->  	bool has_ldo_ctrl;
-> +	bool has_ths_offset;
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+> index 12ffabc79bcde..7c7d7c285505c 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+> @@ -9,6 +9,7 @@
+>  #include <dt-bindings/clock/sun6i-rtc.h>
+>  #include <dt-bindings/reset/sun50i-h616-ccu.h>
+>  #include <dt-bindings/reset/sun50i-h6-r-ccu.h>
+> +#include <dt-bindings/thermal/thermal.h>
+>  
+>  / {
+>  	interrupt-parent = <&gic>;
+> @@ -138,6 +139,10 @@ sid: efuse@3006000 {
+>  			reg = <0x03006000 0x1000>;
+>  			#address-cells = <1>;
+>  			#size-cells = <1>;
+> +
+> +			ths_calibration: thermal-sensor-calibration@14 {
+> +				reg = <0x14 0x8>;
+> +			};
+>  		};
+>  
+>  		watchdog: watchdog@30090a0 {
+> @@ -517,6 +522,19 @@ mdio0: mdio {
+>  			};
+>  		};
+>  
+> +		ths: thermal-sensor@5070400 {
+> +			compatible = "allwinner,sun50i-h616-ths";
+> +			reg = <0x05070400 0x400>;
+> +			interrupts = <GIC_SPI 19 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks = <&ccu CLK_BUS_THS>;
+> +			clock-names = "bus";
+> +			resets = <&ccu RST_BUS_THS>;
+> +			nvmem-cells = <&ths_calibration>;
+> +			nvmem-cell-names = "calibration";
+> +			allwinner,sram = <&syscon>;
+> +			#thermal-sensor-cells = <1>;
+> +		};
+> +
+>  		usbotg: usb@5100000 {
+>  			compatible = "allwinner,sun50i-h616-musb",
+>  				     "allwinner,sun8i-h3-musb";
+> @@ -761,4 +779,74 @@ r_rsb: rsb@7083000 {
+>  			#size-cells = <0>;
+>  		};
+>  	};
+> +
+> +	thermal-zones {
+> +		cpu-thermal {
+> +			polling-delay-passive = <500>;
+> +			polling-delay = <1000>;
+> +			thermal-sensors = <&ths 2>;
+> +			sustainable-power = <1000>;
+> +
+> +			trips {
+> +				cpu_threshold: cpu-trip-0 {
+> +					temperature = <60000>;
+> +					type = "passive";
+> +					hysteresis = <0>;
+> +				};
+> +				cpu_target: cpu-trip-1 {
+> +					temperature = <70000>;
+> +					type = "passive";
+> +					hysteresis = <0>;
+> +				};
+> +				cpu_critical: cpu-trip-2 {
+> +					temperature = <110000>;
+> +					type = "critical";
+> +					hysteresis = <0>;
+> +				};
+> +			};
+> +		};
+> +
+> +		gpu-thermal {
+> +			polling-delay-passive = <500>;
+> +			polling-delay = <1000>;
+> +			thermal-sensors = <&ths 0>;
+> +			sustainable-power = <1100>;
+> +
+> +			trips {
+> +				gpu_temp_critical: gpu-trip-0 {
+> +					temperature = <110000>;
+> +					type = "critical";
+> +					hysteresis = <0>;
+> +				};
+> +			};
+> +		};
+> +
+> +		ve-thermal {
+> +			polling-delay-passive = <0>;
+> +			polling-delay = <0>;
+> +			thermal-sensors = <&ths 1>;
+> +
+> +			trips {
+> +				ve_temp_critical: ve-trip-0 {
+> +					temperature = <110000>;
+> +					type = "critical";
+> +					hysteresis = <0>;
+> +				};
+> +			};
+> +		};
+> +
+> +		ddr-thermal {
+> +			polling-delay-passive = <0>;
+> +			polling-delay = <0>;
+> +			thermal-sensors = <&ths 3>;
+> +
+> +			trips {
+> +				ddr_temp_critical: ddr-trip-0 {
+> +					temperature = <110000>;
+> +					type = "critical";
+> +					hysteresis = <0>;
+> +				};
+> +			};
+> +		};
+> +	};
 >  };
->  
->  static const struct sunxi_sramc_variant sun4i_a10_sramc_variant = {
-> @@ -308,8 +309,10 @@ static const struct sunxi_sramc_variant sun50i_a64_sramc_variant = {
->  
->  static const struct sunxi_sramc_variant sun50i_h616_sramc_variant = {
->  	.num_emac_clocks = 2,
-> +	.has_ths_offset = true,
->  };
->  
-> +#define SUNXI_SRAM_THS_OFFSET_REG	0x0
->  #define SUNXI_SRAM_EMAC_CLOCK_REG	0x30
->  #define SUNXI_SYS_LDO_CTRL_REG		0x150
->  
-> @@ -318,6 +321,8 @@ static bool sunxi_sram_regmap_accessible_reg(struct device *dev,
->  {
->  	const struct sunxi_sramc_variant *variant = dev_get_drvdata(dev);
->  
-> +	if (reg == SUNXI_SRAM_THS_OFFSET_REG && variant->has_ths_offset)
-> +		return true;
->  	if (reg >= SUNXI_SRAM_EMAC_CLOCK_REG &&
->  	    reg <  SUNXI_SRAM_EMAC_CLOCK_REG + variant->num_emac_clocks * 4)
->  		return true;
-> @@ -327,6 +332,20 @@ static bool sunxi_sram_regmap_accessible_reg(struct device *dev,
->  	return false;
->  }
->  
-> +static void sunxi_sram_lock(void *_lock)
-> +{
-> +	spinlock_t *lock = _lock;
-> +
-> +	spin_lock(lock);
-> +}
-> +
-> +static void sunxi_sram_unlock(void *_lock)
-> +{
-> +	spinlock_t *lock = _lock;
-> +
-> +	spin_unlock(lock);
-> +}
-> +
->  static struct regmap_config sunxi_sram_regmap_config = {
->  	.reg_bits       = 32,
->  	.val_bits       = 32,
-> @@ -336,6 +355,9 @@ static struct regmap_config sunxi_sram_regmap_config = {
->  	/* other devices have no business accessing other registers */
->  	.readable_reg	= sunxi_sram_regmap_accessible_reg,
->  	.writeable_reg	= sunxi_sram_regmap_accessible_reg,
-> +	.lock		= sunxi_sram_lock,
-> +	.unlock		= sunxi_sram_unlock,
-> +	.lock_arg	= &sram_lock,
->  };
->  
->  static int __init sunxi_sram_probe(struct platform_device *pdev)
 > 
 
 
