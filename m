@@ -1,57 +1,57 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A99E14B812
-	for <linux-sunxi@lists.linux.dev>; Thu, 22 Feb 2024 19:12:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B77FA14B837
+	for <linux-sunxi@lists.linux.dev>; Thu, 22 Feb 2024 19:14:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708629156; cv=none; b=AUiMRGVmJVqt/RllWpM1TH/QVOWeoMpaVMrjUKrSB3CeUp2QYgy6vE58Cv2oi+uZ+vcOzl6iVKgtMmzs2OFyxeesZA9q941Pn4/8s/eakmIA4GYNNcLmtdl++NravlanhZsVuPwbTIMKWPAmLK0z94mSwFOF6L1xdN5R9SdYqEE=
+	t=1708629258; cv=none; b=ofMqZkqRPzRnBFJ1+zMH0eLIANAxxdRMlXDWAtkA36cwcCTUB1vtNz/iLK2YMK7QAaDCOrugFoDxdm0UTf2MXn5nFrDrAY9CwKQd28n+VrNVksctnKOvO9NWeCpcnfv+MCK5iHZPfBECPPy8dtsvDqqw6BW0X4RIrIlb2e6mxsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708629156; c=relaxed/simple;
-	bh=EW5s5hgTLOrLlu9kaSmm1DDCMmvLyTW02LJkYzGXn+8=;
+	s=arc-20240116; t=1708629258; c=relaxed/simple;
+	bh=2XBasCnRQB/j8di2GX6Y7RgaAgaXKoQzXox64LgP3hA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=n0Ua0KZgJCocQY2wqVF4uZmRz2WgChbjt00fMqknvjGUgbof4cb+n1kcuIaa44QPbPUVCw6L6QpxrMcMINLXdi+1uKCXzOvHbT9pyNlwV7XcVF76WaZmoJeHXuTj0r2poWc/7usWPGGa8CQ7sMVyWb8zoUmkKGTXYMvlEnnAr04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bCpMpCN9; arc=none smtp.client-ip=209.85.167.45
+	 MIME-Version:Content-Type; b=afGZ1nWBM3yZ11WiPQ+x7PldMfxUybKplFrHM10xUqtd1/zsUl8gk2Z1xMGnH19BvX7Cll/A682yXESfKGCyebWocpJHoy+8rajwpYRaekJtEJJijcRTvCEPIVwHj+O2nbtFbKaig63sN2ZJsnV5wUv6PxMXHKz0+9oaAV7tFU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZLaiHytf; arc=none smtp.client-ip=209.85.218.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bCpMpCN9"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-51197ca63f5so208469e87.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 22 Feb 2024 11:12:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZLaiHytf"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a26fa294e56so15906266b.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 22 Feb 2024 11:14:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708629153; x=1709233953; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1708629255; x=1709234055; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ascVxuLaaMNM+iLyCaaEtYsJ/LtdyKIcDFbaaHuf7+A=;
-        b=bCpMpCN9M9QoULaYsVC4YAo7PZDT2dpI7EN9AEBJhZaS7S74Vm+M68JtpmtyYHKoyE
-         02YpCEIZfhP1hDAIUad4/yI9eFVwO0yRufHjE6h9v3dLVoqcBkpV1HSKbHnImH+2OZRI
-         wg49jOAznw6RdeIfIWuotVAy+K/B/FUYjTIsvya85QVXWCC6bgpBfG8UP+tdoTXac46G
-         xFXQJC7XAHiqMnzB0Aklosvl4O6uYx7boU28C2IDwZgnmvP9mEyq7qsFuzALNdiy5j+9
-         M3EZ0EdK7dU2N3cpYWJvr4zH/e3xf2GBQn6gqmJG7zL8eVJ+XKZbTuhOAr7y1fB+IPXB
-         Teeg==
+        bh=edVmxwSP8F253S2ziQ2zDxNJAvn61Q4xr461VKmjj14=;
+        b=ZLaiHytfI9H7oilAN0vKWQ/3KAD0O1XGB0Kw9i4NWQ+cNDIHKJLKpZr9n0wSTYQVKD
+         32xL3e5lMDfNYilkcxHDxaOw7iaz7dfutEAoXUljgUY/b+cN0bd0Km5Z1hsiCfQmnhCs
+         dKc7stSFyV9ctOV215E+ilF4JJNnXKmhsyRdawg8Jr8RKXoxH5wab0M2P7kLylyHNbE5
+         rSEkqi90MS30KH+WylNkzuy+aKld5TWfBDgnDhI52ZOLSUVRhdpZZ81LPm7qbkY9Xfr/
+         XdnKwl+4MotEw2It1YklGsawgpWhuOI0yfqmrb2XtmJI0OfRXo7U8RCIhXJ88bQn5ZoO
+         2imA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708629153; x=1709233953;
+        d=1e100.net; s=20230601; t=1708629255; x=1709234055;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ascVxuLaaMNM+iLyCaaEtYsJ/LtdyKIcDFbaaHuf7+A=;
-        b=ceEjPUW0iRuVVFa2pgBABbKV+91v382Y+Wj4s0wNMYrffsQfrNKpp7yjZFRdsiKNIU
-         6ALtlOKViaOLjFy4bxrJ7bGVnjKzYWhYKS6xSdlyLsDZOrc9Y3UJx2U1d39e0Evj2iy/
-         uOpPP42i66iRthK/KeiU96KeYYjrSbZZI8MzE1pZuyadrpuTiYH+hgCwtnwZNu9iXW5H
-         ApGhiTPLEtihEhMDbadif+7zoN0KnZdOMjLZkIuQANz51krnHSoKL7leZyZoFyGgkV0D
-         e3hUg/7OLZ0Y40RND3sk9M/ZYZaTbNSVboqqcQJNSfcqxJoVvQePvoBjv3WJY0yV9BVq
-         X1Iw==
-X-Forwarded-Encrypted: i=1; AJvYcCVHwHrosqHpVmnecjRrkhkOmmOQDPVGeF2OpjCJYhvtS0ykzTsTrqh4Z4a6uTfNf0ElxTmX9UZfZEXFo4fD/c/KE918RsA9E2u6ZuU=
-X-Gm-Message-State: AOJu0YxIAHyBriiaHnyXRYFUdOQX01xWuBdoyP/rWh970mEa2xNXwATE
-	ovWAfq60RuuW7qQeaNUxh07269LXs57UttEcBvh88rLKCYcbyh9p
-X-Google-Smtp-Source: AGHT+IGu+ExwuJo5Vy53aR587PvPGA/BvgjURLqHK9mgxxEedn8hBlpN+TNPuvzQRBJx6tkns7NcdQ==
-X-Received: by 2002:a05:6512:1196:b0:512:d655:9d4b with SMTP id g22-20020a056512119600b00512d6559d4bmr55318lfr.5.1708629152360;
-        Thu, 22 Feb 2024 11:12:32 -0800 (PST)
+        bh=edVmxwSP8F253S2ziQ2zDxNJAvn61Q4xr461VKmjj14=;
+        b=tJMbZXoyrE/cggjyvjH6otWmzD6umf0D3sm5Aip3A4FcVO+7j0NlN3HK/qFn8gVYE2
+         g2KN7VESgHQNACt07ErtbEPGFHAtjowo+7SrFU0XGrA4kvzv2Vohq/4WIFyxGfGXW0eg
+         MeBr4STLsRsjwZyASkGXNQ1UwWj3sxN0P/q95g75kLz2foKkI9MR7WWKQf33N/SSW6js
+         k4JYUKCg9xFp019tQY0HeA2Jf3c5jVrokXK9PQqL9ckZ6Tq8c0yI3RLAuiLilpfXPdHc
+         3QkR6+KB+mq2Rl4ZPQrVdaUZMlvLVk+r4w0GoDb1OpKYNw0uYM5RK1uYFBlbUggAzyf6
+         O2hg==
+X-Forwarded-Encrypted: i=1; AJvYcCVZIKpiycuq1GedkUUfO1af/bjAVDSWqWBAlNgngHuYfJjdoRVg76CKuiW35dFt7TsmJ8Xnum0ItyXaMhlY8CCaZALY9Dt93Nb66hk=
+X-Gm-Message-State: AOJu0YyerbP0FMngsK8Z8wkcxSE+fW6XFS7YWLrIgPOK6hcwkZsof4U0
+	HHo3e5EAcqbWbAmxPyPslW9xQbvwfsm4Ao8JiWopi5MfHG7mKsyZ
+X-Google-Smtp-Source: AGHT+IGJnuh5knoqwFurZPclruNoFy29+PgrIe7JAmBNkID3j7bYRW/rEkP5PwLYezHAgNQTB1U/6A==
+X-Received: by 2002:a17:906:6c96:b0:a3f:2272:f26c with SMTP id s22-20020a1709066c9600b00a3f2272f26cmr5504108ejr.50.1708629254832;
+        Thu, 22 Feb 2024 11:14:14 -0800 (PST)
 Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id r17-20020ac25a51000000b00512bfc0c2b9sm1189234lfn.178.2024.02.22.11.12.30
+        by smtp.gmail.com with ESMTPSA id tl23-20020a170907c31700b00a3fa5cf6d15sm352471ejc.191.2024.02.22.11.14.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Feb 2024 11:12:31 -0800 (PST)
+        Thu, 22 Feb 2024 11:14:14 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
@@ -66,16 +66,14 @@ Cc: Hans Verkuil <hverkuil@xs4all.nl>,
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>,
- Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject:
- Re: [PATCH v7 35/36] drm/sun4i: hdmi: Consolidate atomic_check and mode_valid
-Date: Thu, 22 Feb 2024 20:12:29 +0100
-Message-ID: <2921783.e9J7NaK4W3@jernej-laptop>
-In-Reply-To: <20240222-kms-hdmi-connector-state-v7-35-8f4af575fce2@kernel.org>
+ linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH v7 36/36] drm/sun4i: hdmi: Switch to HDMI connector
+Date: Thu, 22 Feb 2024 20:14:12 +0100
+Message-ID: <8335826.T7Z3S40VBb@jernej-laptop>
+In-Reply-To: <20240222-kms-hdmi-connector-state-v7-36-8f4af575fce2@kernel.org>
 References:
  <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
- <20240222-kms-hdmi-connector-state-v7-35-8f4af575fce2@kernel.org>
+ <20240222-kms-hdmi-connector-state-v7-36-8f4af575fce2@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -85,14 +83,11 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="UTF-8"
 
-Dne =C4=8Detrtek, 22. februar 2024 ob 19:14:21 CET je Maxime Ripard napisal=
+Dne =C4=8Detrtek, 22. februar 2024 ob 19:14:22 CET je Maxime Ripard napisal=
 (a):
-> atomic_check and mode_valid do not check for the same things which can
-> lead to surprising result if the userspace commits a mode that didn't go
-> through mode_valid. Let's merge the two implementations into a function
-> called by both.
+> The new HDMI connector infrastructure allows to remove some boilerplate,
+> especially to generate infoframes. Let's switch to it.
 >=20
-> Acked-by: Sui Jingfeng <sui.jingfeng@linux.dev>
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
 Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
@@ -101,129 +96,175 @@ Best regards,
 Jernej
 
 > ---
->  drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 74 +++++++++++++++++++++-------=
+>  drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 80 ++++++++++++++++++++++------=
 =2D-----
->  1 file changed, 47 insertions(+), 27 deletions(-)
+>  1 file changed, 51 insertions(+), 29 deletions(-)
 >=20
 > diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun=
 4i/sun4i_hdmi_enc.c
-> index c276d984da6b..b7cf369b1906 100644
+> index b7cf369b1906..8a9106a39f23 100644
 > --- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
 > +++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-> @@ -62,18 +62,6 @@ static int sun4i_hdmi_setup_avi_infoframes(struct sun4=
-i_hdmi *hdmi,
+> @@ -36,30 +36,24 @@
+>  #define drm_connector_to_sun4i_hdmi(c)		\
+>  	container_of_const(c, struct sun4i_hdmi, connector)
+> =20
+> -static int sun4i_hdmi_setup_avi_infoframes(struct sun4i_hdmi *hdmi,
+> -					   struct drm_display_mode *mode)
+> +static int sun4i_hdmi_write_infoframe(struct drm_connector *connector,
+> +				      enum hdmi_infoframe_type type,
+> +				      const u8 *buffer, size_t len)
+>  {
+> -	struct hdmi_avi_infoframe frame;
+> -	u8 buffer[17];
+> -	int i, ret;
+> +	struct sun4i_hdmi *hdmi =3D drm_connector_to_sun4i_hdmi(connector);
+> +	int i;
+> =20
+> -	ret =3D drm_hdmi_avi_infoframe_from_display_mode(&frame,
+> -						       &hdmi->connector, mode);
+> -	if (ret < 0) {
+> -		DRM_ERROR("Failed to get infoframes from mode\n");
+> -		return ret;
+> +	if (type !=3D HDMI_INFOFRAME_TYPE_AVI) {
+> +		drm_err(connector->dev,
+> +			"Unsupported infoframe type: %u\n", type);
+> +		return 0;
+>  	}
+> =20
+> -	ret =3D hdmi_avi_infoframe_pack(&frame, buffer, sizeof(buffer));
+> -	if (ret < 0) {
+> -		DRM_ERROR("Failed to pack infoframes\n");
+> -		return ret;
+> -	}
+> -
+> -	for (i =3D 0; i < sizeof(buffer); i++)
+> +	for (i =3D 0; i < len; i++)
+>  		writeb(buffer[i], hdmi->base + SUN4I_HDMI_AVI_INFOFRAME_REG(i));
+> =20
 >  	return 0;
+> +
 >  }
 > =20
-> -static int sun4i_hdmi_atomic_check(struct drm_encoder *encoder,
-> -				   struct drm_crtc_state *crtc_state,
-> -				   struct drm_connector_state *conn_state)
-> -{
-> -	struct drm_display_mode *mode =3D &crtc_state->mode;
-> -
-> -	if (mode->flags & DRM_MODE_FLAG_DBLCLK)
-> -		return -EINVAL;
-> -
-> -	return 0;
-> -}
-> -
 >  static void sun4i_hdmi_disable(struct drm_encoder *encoder,
->  			       struct drm_atomic_state *state)
+> @@ -82,14 +76,18 @@ static void sun4i_hdmi_enable(struct drm_encoder *enc=
+oder,
 >  {
-> @@ -166,31 +154,61 @@ static void sun4i_hdmi_enable(struct drm_encoder *e=
-ncoder,
->  	writel(val, hdmi->base + SUN4I_HDMI_VID_CTRL_REG);
->  }
-> =20
-> -static enum drm_mode_status sun4i_hdmi_mode_valid(struct drm_encoder *en=
-coder,
-> -					const struct drm_display_mode *mode)
-> +static const struct drm_encoder_helper_funcs sun4i_hdmi_helper_funcs =3D=
- {
-> +	.atomic_disable	=3D sun4i_hdmi_disable,
-> +	.atomic_enable	=3D sun4i_hdmi_enable,
-> +};
-> +
-> +static enum drm_mode_status
-> +sun4i_hdmi_connector_clock_valid(const struct drm_connector *connector,
-> +				 const struct drm_display_mode *mode,
-> +				 unsigned long long clock)
->  {
-> -	struct sun4i_hdmi *hdmi =3D drm_encoder_to_sun4i_hdmi(encoder);
-> -	unsigned long rate =3D mode->clock * 1000;
-> -	unsigned long diff =3D rate / 200; /* +-0.5% allowed by HDMI spec */
-> +	const struct sun4i_hdmi *hdmi =3D drm_connector_to_sun4i_hdmi(connector=
-);
-> +	unsigned long diff =3D clock / 200; /* +-0.5% allowed by HDMI spec */
->  	long rounded_rate;
-> =20
-> +	if (mode->flags & DRM_MODE_FLAG_DBLCLK)
-> +		return MODE_BAD;
-> +
->  	/* 165 MHz is the typical max pixelclock frequency for HDMI <=3D 1.2 */
-> -	if (rate > 165000000)
-> +	if (clock > 165000000)
->  		return MODE_CLOCK_HIGH;
-> -	rounded_rate =3D clk_round_rate(hdmi->tmds_clk, rate);
-> +
-> +	rounded_rate =3D clk_round_rate(hdmi->tmds_clk, clock);
->  	if (rounded_rate > 0 &&
-> -	    max_t(unsigned long, rounded_rate, rate) -
-> -	    min_t(unsigned long, rounded_rate, rate) < diff)
-> +	    max_t(unsigned long, rounded_rate, clock) -
-> +	    min_t(unsigned long, rounded_rate, clock) < diff)
->  		return MODE_OK;
-> +
->  	return MODE_NOCLOCK;
->  }
-> =20
-> -static const struct drm_encoder_helper_funcs sun4i_hdmi_helper_funcs =3D=
- {
-> -	.atomic_check	=3D sun4i_hdmi_atomic_check,
-> -	.atomic_disable	=3D sun4i_hdmi_disable,
-> -	.atomic_enable	=3D sun4i_hdmi_enable,
-> -	.mode_valid	=3D sun4i_hdmi_mode_valid,
-> -};
-> +static int sun4i_hdmi_connector_atomic_check(struct drm_connector *conne=
-ctor,
-> +					     struct drm_atomic_state *state)
-> +{
+>  	struct drm_display_mode *mode =3D &encoder->crtc->state->adjusted_mode;
+>  	struct sun4i_hdmi *hdmi =3D drm_encoder_to_sun4i_hdmi(encoder);
+> -	struct drm_display_info *display =3D &hdmi->connector.display_info;
+> +	struct drm_connector *connector =3D &hdmi->connector;
+> +	struct drm_display_info *display =3D &connector->display_info;
 > +	struct drm_connector_state *conn_state =3D
 > +		drm_atomic_get_new_connector_state(state, connector);
-> +	struct drm_crtc *crtc =3D conn_state->crtc;
-> +	struct drm_crtc_state *crtc_state =3D crtc->state;
-> +	struct drm_display_mode *mode =3D &crtc_state->adjusted_mode;
-> +	enum drm_mode_status status;
-> +
-> +	status =3D sun4i_hdmi_connector_clock_valid(connector, mode,
-> +						  mode->clock * 1000);
-> +	if (status !=3D MODE_OK)
-> +		return -EINVAL;
-> +
-> +	return 0;
-> +}
-> +
-> +static enum drm_mode_status
-> +sun4i_hdmi_connector_mode_valid(struct drm_connector *connector,
-> +				struct drm_display_mode *mode)
-> +{
-> +	return sun4i_hdmi_connector_clock_valid(connector, mode,
-> +						mode->clock * 1000);
-> +}
+> +	unsigned long long tmds_rate =3D conn_state->hdmi.tmds_char_rate;
+>  	unsigned int x, y;
+>  	u32 val =3D 0;
 > =20
->  static int sun4i_hdmi_get_modes(struct drm_connector *connector)
+>  	DRM_DEBUG_DRIVER("Enabling the HDMI Output\n");
+> =20
+> -	clk_set_rate(hdmi->mod_clk, mode->crtc_clock * 1000);
+> -	clk_set_rate(hdmi->tmds_clk, mode->crtc_clock * 1000);
+> +	clk_set_rate(hdmi->mod_clk, tmds_rate);
+> +	clk_set_rate(hdmi->tmds_clk, tmds_rate);
+> =20
+>  	/* Set input sync enable */
+>  	writel(SUN4I_HDMI_UNKNOWN_INPUT_SYNC,
+> @@ -142,7 +140,8 @@ static void sun4i_hdmi_enable(struct drm_encoder *enc=
+oder,
+> =20
+>  	clk_prepare_enable(hdmi->tmds_clk);
+> =20
+> -	sun4i_hdmi_setup_avi_infoframes(hdmi, mode);
+> +	drm_atomic_helper_connector_hdmi_update_infoframes(connector, state);
+> +
+>  	val |=3D SUN4I_HDMI_PKT_CTRL_TYPE(0, SUN4I_HDMI_PKT_AVI);
+>  	val |=3D SUN4I_HDMI_PKT_CTRL_TYPE(1, SUN4I_HDMI_PKT_END);
+>  	writel(val, hdmi->base + SUN4I_HDMI_PKT_CTRL_REG(0));
+> @@ -195,7 +194,7 @@ static int sun4i_hdmi_connector_atomic_check(struct d=
+rm_connector *connector,
+>  	enum drm_mode_status status;
+> =20
+>  	status =3D sun4i_hdmi_connector_clock_valid(connector, mode,
+> -						  mode->clock * 1000);
+> +						  conn_state->hdmi.tmds_char_rate);
+>  	if (status !=3D MODE_OK)
+>  		return -EINVAL;
+> =20
+> @@ -206,8 +205,11 @@ static enum drm_mode_status
+>  sun4i_hdmi_connector_mode_valid(struct drm_connector *connector,
+>  				struct drm_display_mode *mode)
 >  {
-> @@ -236,6 +254,8 @@ static struct i2c_adapter *sun4i_hdmi_get_ddc(struct =
-device *dev)
+> -	return sun4i_hdmi_connector_clock_valid(connector, mode,
+> -						mode->clock * 1000);
+> +	unsigned long long rate =3D
+> +		drm_connector_hdmi_compute_mode_clock(mode, 8,
+> +						      HDMI_COLORSPACE_RGB);
+> +
+> +	return sun4i_hdmi_connector_clock_valid(connector, mode, rate);
 >  }
 > =20
+>  static int sun4i_hdmi_get_modes(struct drm_connector *connector)
+> @@ -253,6 +255,11 @@ static struct i2c_adapter *sun4i_hdmi_get_ddc(struct=
+ device *dev)
+>  	return ddc;
+>  }
+> =20
+> +static const struct drm_connector_hdmi_funcs sun4i_hdmi_hdmi_connector_f=
+uncs =3D {
+> +	.tmds_char_rate_valid	=3D sun4i_hdmi_connector_clock_valid,
+> +	.write_infoframe	=3D sun4i_hdmi_write_infoframe,
+> +};
+> +
 >  static const struct drm_connector_helper_funcs sun4i_hdmi_connector_help=
 er_funcs =3D {
-> +	.atomic_check	=3D sun4i_hdmi_connector_atomic_check,
-> +	.mode_valid	=3D sun4i_hdmi_connector_mode_valid,
->  	.get_modes	=3D sun4i_hdmi_get_modes,
->  };
+>  	.atomic_check	=3D sun4i_hdmi_connector_atomic_check,
+>  	.mode_valid	=3D sun4i_hdmi_connector_mode_valid,
+> @@ -274,11 +281,17 @@ sun4i_hdmi_connector_detect(struct drm_connector *c=
+onnector, bool force)
+>  	return connector_status_connected;
+>  }
 > =20
+> +static void sun4i_hdmi_connector_reset(struct drm_connector *connector)
+> +{
+> +	drm_atomic_helper_connector_reset(connector);
+> +	__drm_atomic_helper_connector_hdmi_reset(connector, connector->state);
+> +}
+> +
+>  static const struct drm_connector_funcs sun4i_hdmi_connector_funcs =3D {
+>  	.detect			=3D sun4i_hdmi_connector_detect,
+>  	.fill_modes		=3D drm_helper_probe_single_connector_modes,
+>  	.destroy		=3D drm_connector_cleanup,
+> -	.reset			=3D drm_atomic_helper_connector_reset,
+> +	.reset			=3D sun4i_hdmi_connector_reset,
+>  	.atomic_duplicate_state	=3D drm_atomic_helper_connector_duplicate_state,
+>  	.atomic_destroy_state	=3D drm_atomic_helper_connector_destroy_state,
+>  };
+> @@ -637,10 +650,19 @@ static int sun4i_hdmi_bind(struct device *dev, stru=
+ct device *master,
+> =20
+>  	drm_connector_helper_add(&hdmi->connector,
+>  				 &sun4i_hdmi_connector_helper_funcs);
+> -	ret =3D drm_connector_init_with_ddc(drm, &hdmi->connector,
+> -					  &sun4i_hdmi_connector_funcs,
+> -					  DRM_MODE_CONNECTOR_HDMIA,
+> -					  hdmi->ddc_i2c);
+> +	ret =3D drmm_connector_hdmi_init(drm, &hdmi->connector,
+> +				       /*
+> +					* NOTE: Those are likely to be
+> +					* wrong, but I couldn't find the
+> +					* actual ones in the BSP.
+> +					*/
+> +				       "AW", "HDMI",
+> +				       &sun4i_hdmi_connector_funcs,
+> +				       &sun4i_hdmi_hdmi_connector_funcs,
+> +				       DRM_MODE_CONNECTOR_HDMIA,
+> +				       hdmi->ddc_i2c,
+> +				       BIT(HDMI_COLORSPACE_RGB),
+> +				       8);
+>  	if (ret) {
+>  		dev_err(dev,
+>  			"Couldn't initialise the HDMI connector\n");
 >=20
 >=20
 
