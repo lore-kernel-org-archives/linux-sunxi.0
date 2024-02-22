@@ -1,182 +1,191 @@
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84F3615B999
-	for <linux-sunxi@lists.linux.dev>; Thu, 22 Feb 2024 18:18:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E294873F15
+	for <linux-sunxi@lists.linux.dev>; Thu, 22 Feb 2024 18:26:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708625940; cv=none; b=NeKLQvyYdUDVtwSaGU8ruRcDMSvkT5xW5geza+gV7tygPlOFn8V3RlmmYY0eXlCXaNLGICrpG86emHJupsm7WI7krQLHQ9tRzNvdEL0WCj06YxRWfirqoHjB/rUNfJicacFT7ieLR5/rbzGV4Zyjv5f6GWCxdEo9FwEtI+VJ0ws=
+	t=1708626374; cv=none; b=r02pP0+KB/J0SuI3lbsjwg+LieOPv9x3AJlUNWcVr2ORQtnu4QyeW4VTMxat2yz3YkxgjLfM6NR66IXyiT7NbCN+DvlRtKA4LJcVUkhgC3TylpUq2XedAIl020QGz06BeMbN3RQAy/YjseRPe5oetUe8clJsdyuxoi6iAhvvwnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708625940; c=relaxed/simple;
-	bh=Yqk0ASm3qdzudKQuluB7RYak2VVWIt+QMV2iJnIWwSI=;
+	s=arc-20240116; t=1708626374; c=relaxed/simple;
+	bh=AQkSe8FkaJI8Funpjdq9m8VrzwcqL7TERUb4Ns0sUGk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uGpdY98LpfwORHEjBDqA3uEmwX1cCmRQVKmZIxSTh5jb/+YH76Rw+BWaTlGdHVcmAdghlWx4rjXgsCZjiI3uX4660ri+GdMhBXRwZJsZAceynAKx59IkgYXOOe9Or8JqlQTuGvxs2LRNv1G1qOUCMAXiiR/TpPhmgQziilLD/qs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=YtQDDk44; arc=none smtp.client-ip=195.181.215.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
+	 MIME-Version:Content-Type; b=opnmcbT4iMmLTCcv3Prl5i+vmMZ0niLMfknTeii71WNm+2lJ3tMwvG4Cvaq7h2WQHka9v/Ss6etyutoHG0rmAZoP3xaQgbM0Fa3few0NxnSNWbRiRkHNX7feFlxgSsHI95Bondqne8HBAs6eHmDAz/wOBGI3diM8HxVxtbSe9TU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XIje6yRz; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="YtQDDk44"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
-	t=1708625934; bh=Yqk0ASm3qdzudKQuluB7RYak2VVWIt+QMV2iJnIWwSI=;
-	h=From:To:Cc:Subject:Date:References:From;
-	b=YtQDDk44LKFLzzv4E8ww19JWbgcN5cXiIHSi2Ww7LvxnSvgoTthuV4jlj1ujsL8TT
-	 Y/0WBTPGl6YOPKNL/flpBWsfNm/aIG8RtTZlael3ac6K5DacVQMt2duU2OHmmOVNsr
-	 d1asC2MsOZbV+oaO009cCMT+2WbdP15+qnFyCU5A=
-From: =?UTF-8?q?Ond=C5=99ej=20Jirman?= <megi@xff.cz>
-To: linux-kernel@vger.kernel.org,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Samuel Holland <samuel@sholland.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Ondrej Jirman <megi@xff.cz>,
-	Arnaud Ferraris <arnaud.ferraris@collabora.com>,
-	linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH 2/4] ASoC: sun8i-codec: Enable bus clock at STANDBY and higher bias
-Date: Thu, 22 Feb 2024 19:18:45 +0100
-Message-ID: <20240222181851.3398254-3-megi@xff.cz>
-In-Reply-To: <20240222181851.3398254-1-megi@xff.cz>
-References: <20240222181851.3398254-1-megi@xff.cz>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XIje6yRz"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a3f3d0d2787so2672766b.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 22 Feb 2024 10:26:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708626371; x=1709231171; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jkH0j96WzJMsna0efM0jXWyc85ksIIZTSjSTyzXxEDw=;
+        b=XIje6yRziJ93+NXvZjHIkVUtNqwe7RAyGtddCPvnr2PKLs2w1cxfzFvPqCHYUeqeit
+         o5xorYPO+MnC2JtFIddBVT6VDVZGOAlMViSIauplSXirXknecD0SCs56CfznTGflUIWo
+         Dsm70mopU5tgNzwV256QnXMoavU8MZ/2IJkn/FJS8EZJ7rFlxJRBXNQyJm8wwrpuEVrQ
+         NXReRQG8ETEQuU5Xqpg31YeT2iZNBXqg/LPI/SRTmNONUZp3bI0+pjG0YuAFH5FvezGz
+         NC14FLt8skpckah2+5SYK/iLRZ2jG7of3S8hrxixq37s8MFFi76G2JpvVa2Mm/UhxFBx
+         JfXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708626371; x=1709231171;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jkH0j96WzJMsna0efM0jXWyc85ksIIZTSjSTyzXxEDw=;
+        b=DgsWCN9quelq661/04/a2sECalsUUzIHx8+vCEuABqT/ImcerFodMH7ZE9VtrTXwu4
+         +Zs7H74rLhl87y3I6YX7dv358fq2/WJ4WAi9lFgNR5KjxhVjZoxwt73LfItPjSTjGlbR
+         TMNJmItrVVq+bk3R3uiiC00o643AhuwmNdel5GYpIq0mfehl/a5pDMVRa+/3qZF4Dwwe
+         p11+ml2/uvncApYtX6DwzDtzfTBs9Tf2V/zmIStg06T3KRm5FrZJ2qw3clv7YTAxSOXP
+         KQc3eXq5zgd2lyhnNV+tQMmTA7eia+a7uoZ+oKpWtei6aMRBNs0xHGKBvzvZ1+KsMw32
+         rzLA==
+X-Forwarded-Encrypted: i=1; AJvYcCVXlLN0oZuVZQpWyBjRnLIt/FdFsoDP5XmtSEuvHfN3XOAOeLd+UxrW5G6NbaiesKSfFkkZxnUN0/t9a08d20czUWkrh5a6lctdpYk=
+X-Gm-Message-State: AOJu0Yw6M5dH0NeIEc00UlCPCAYcepNIPIW0U3eIy8hCLYzfgzc0aeyK
+	YQ4joFKLBd2yA29dkm+KK5I/tYIyEO3BVyf/PtgzXClDY+hTdFGZ
+X-Google-Smtp-Source: AGHT+IFKU6Aq4w/6buwzzEUsHyxNhbl8/xrg10HVNhvLtylpT9s3Fi9qn4VeBXpPZYOJ1oxL+ao7SQ==
+X-Received: by 2002:a17:906:fb05:b0:a3e:c758:5a7e with SMTP id lz5-20020a170906fb0500b00a3ec7585a7emr7508645ejb.41.1708626370564;
+        Thu, 22 Feb 2024 10:26:10 -0800 (PST)
+Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
+        by smtp.gmail.com with ESMTPSA id g3-20020a170906c18300b00a3ed811cff9sm3404825ejz.154.2024.02.22.10.26.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Feb 2024 10:26:10 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Vasily Khoruzhick <anarsoul@gmail.com>,
+ Yangtao Li <tiny.windzz@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>, Andre Przywara <andre.przywara@arm.com>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>,
+ Lukasz Luba <lukasz.luba@arm.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ Maksim Kiselev <bigunclemax@gmail.com>,
+ Bob McChesney <bob@electricworry.net>, linux-pm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+Subject:
+ Re: [PATCH v5 1/7] soc: sunxi: sram: export register 0 for THS on H616
+Date: Thu, 22 Feb 2024 19:26:08 +0100
+Message-ID: <2717467.mvXUDI8C0e@jernej-laptop>
+In-Reply-To: <20240219153639.179814-2-andre.przywara@arm.com>
+References:
+ <20240219153639.179814-1-andre.przywara@arm.com>
+ <20240219153639.179814-2-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-From: Samuel Holland <samuel@sholland.org>
+Dne ponedeljek, 19. februar 2024 ob 16:36:33 CET je Andre Przywara napisal(a):
+> The Allwinner H616 SoC contains a mysterious bit at register offset 0x0
+> in the SRAM control block. If bit 16 is set (the reset value), the
+> temperature readings of the THS are way off, leading to reports about
+> 200C, at normal ambient temperatures. Clearing this bits brings the
+> reported values down to the expected values.
+> The BSP code clears this bit in firmware (U-Boot), and has an explicit
+> comment about this, but offers no real explanation.
+> 
+> Experiments in U-Boot show that register 0x0 has no effect on the SRAM C
+> visibility: all tested bit settings still allow full read and write
+> access by the CPU to the whole of SRAM C. Only bit 24 of the register at
+> offset 0x4 makes all of SRAM C inaccessible by the CPU. So modelling
+> the THS switch functionality as an SRAM region would not reflect reality.
+> 
+> Since we should not rely on firmware settings, allow other code (the THS
+> driver) to access this register, by exporting it through the already
+> existing regmap. This mimics what we already do for the LDO control and
+> the EMAC register.
+> 
+> To avoid concurrent accesses to the same register at the same time, by
+> the SRAM switch code and the regmap code, use the same lock to protect
+> the access. The regmap subsystem allows to use an existing lock, so we
+> just need to hook in there.
+> 
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
-For codec variants that have a bus clock, that clock must be running to
-receive interrupts. Since jack and mic accessory detection should work
-even when no audio is playing, that means the bus clock should be
-enabled any time the system is on.
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Accomplish that by tying the bus clock to the runtime PM state, which is
-then tied to the bias level not being OFF. Since the codec sets
-idle_bias_on, bias will generally never be OFF. However, we can set
-suspend_bias_off to maintain the power savings of gating the bus clock
-during suspend, when we don't expect jack/accessory detection to work.
+I guess this one goes through sunxi tree, right?
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
-Signed-off-by: Ondřej Jirman <megi@xff.cz>
----
- sound/soc/sunxi/sun8i-codec.c | 41 ++++++++++++++++++++++++++++-------
- 1 file changed, 33 insertions(+), 8 deletions(-)
+Best regards,
+Jernej
 
-diff --git a/sound/soc/sunxi/sun8i-codec.c b/sound/soc/sunxi/sun8i-codec.c
-index 7b45ddffe990..2a46b96b03cc 100644
---- a/sound/soc/sunxi/sun8i-codec.c
-+++ b/sound/soc/sunxi/sun8i-codec.c
-@@ -177,12 +177,14 @@ struct sun8i_codec_aif {
- };
- 
- struct sun8i_codec_quirks {
--	bool legacy_widgets	: 1;
--	bool lrck_inversion	: 1;
-+	bool	bus_clock	: 1;
-+	bool	legacy_widgets	: 1;
-+	bool	lrck_inversion	: 1;
- };
- 
- struct sun8i_codec {
- 	struct regmap			*regmap;
-+	struct clk			*clk_bus;
- 	struct clk			*clk_module;
- 	const struct sun8i_codec_quirks	*quirks;
- 	struct sun8i_codec_aif		aifs[SUN8I_CODEC_NAIFS];
-@@ -197,6 +199,14 @@ static int sun8i_codec_runtime_resume(struct device *dev)
- 	struct sun8i_codec *scodec = dev_get_drvdata(dev);
- 	int ret;
- 
-+	if (scodec->clk_bus) {
-+		ret = clk_prepare_enable(scodec->clk_bus);
-+		if (ret) {
-+			dev_err(dev, "Failed to enable the bus clock\n");
-+			return ret;
-+		}
-+	}
-+
- 	regcache_cache_only(scodec->regmap, false);
- 
- 	ret = regcache_sync(scodec->regmap);
-@@ -215,6 +225,9 @@ static int sun8i_codec_runtime_suspend(struct device *dev)
- 	regcache_cache_only(scodec->regmap, true);
- 	regcache_mark_dirty(scodec->regmap);
- 
-+	if (scodec->clk_bus)
-+		clk_disable_unprepare(scodec->clk_bus);
-+
- 	return 0;
- }
- 
-@@ -1277,6 +1290,7 @@ static const struct snd_soc_component_driver sun8i_soc_component = {
- 	.num_dapm_routes	= ARRAY_SIZE(sun8i_codec_dapm_routes),
- 	.probe			= sun8i_codec_component_probe,
- 	.idle_bias_on		= 1,
-+	.suspend_bias_off	= 1,
- 	.endianness		= 1,
- };
- 
-@@ -1299,6 +1313,18 @@ static int sun8i_codec_probe(struct platform_device *pdev)
- 	if (!scodec)
- 		return -ENOMEM;
- 
-+	scodec->quirks = of_device_get_match_data(&pdev->dev);
-+
-+	platform_set_drvdata(pdev, scodec);
-+
-+	if (scodec->quirks->bus_clock) {
-+		scodec->clk_bus = devm_clk_get(&pdev->dev, "bus");
-+		if (IS_ERR(scodec->clk_bus)) {
-+			dev_err(&pdev->dev, "Failed to get the bus clock\n");
-+			return PTR_ERR(scodec->clk_bus);
-+		}
-+	}
-+
- 	scodec->clk_module = devm_clk_get(&pdev->dev, "mod");
- 	if (IS_ERR(scodec->clk_module)) {
- 		dev_err(&pdev->dev, "Failed to get the module clock\n");
-@@ -1311,17 +1337,14 @@ static int sun8i_codec_probe(struct platform_device *pdev)
- 		return PTR_ERR(base);
- 	}
- 
--	scodec->regmap = devm_regmap_init_mmio_clk(&pdev->dev, "bus", base,
--						   &sun8i_codec_regmap_config);
-+	scodec->regmap = devm_regmap_init_mmio(&pdev->dev, base,
-+					       &sun8i_codec_regmap_config);
- 	if (IS_ERR(scodec->regmap)) {
- 		dev_err(&pdev->dev, "Failed to create our regmap\n");
- 		return PTR_ERR(scodec->regmap);
- 	}
- 
--	scodec->quirks = of_device_get_match_data(&pdev->dev);
--
--	platform_set_drvdata(pdev, scodec);
--
-+	regcache_cache_only(scodec->regmap, true);
- 	pm_runtime_enable(&pdev->dev);
- 	if (!pm_runtime_enabled(&pdev->dev)) {
- 		ret = sun8i_codec_runtime_resume(&pdev->dev);
-@@ -1357,11 +1380,13 @@ static void sun8i_codec_remove(struct platform_device *pdev)
- }
- 
- static const struct sun8i_codec_quirks sun8i_a33_quirks = {
-+	.bus_clock	= true,
- 	.legacy_widgets	= true,
- 	.lrck_inversion	= true,
- };
- 
- static const struct sun8i_codec_quirks sun50i_a64_quirks = {
-+	.bus_clock	= true,
- };
- 
- static const struct of_device_id sun8i_codec_of_match[] = {
--- 
-2.43.0
+> ---
+>  drivers/soc/sunxi/sunxi_sram.c | 22 ++++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
+> 
+> diff --git a/drivers/soc/sunxi/sunxi_sram.c b/drivers/soc/sunxi/sunxi_sram.c
+> index 4458b2e0562b0..6eb6cf06278e6 100644
+> --- a/drivers/soc/sunxi/sunxi_sram.c
+> +++ b/drivers/soc/sunxi/sunxi_sram.c
+> @@ -287,6 +287,7 @@ EXPORT_SYMBOL(sunxi_sram_release);
+>  struct sunxi_sramc_variant {
+>  	int num_emac_clocks;
+>  	bool has_ldo_ctrl;
+> +	bool has_ths_offset;
+>  };
+>  
+>  static const struct sunxi_sramc_variant sun4i_a10_sramc_variant = {
+> @@ -308,8 +309,10 @@ static const struct sunxi_sramc_variant sun50i_a64_sramc_variant = {
+>  
+>  static const struct sunxi_sramc_variant sun50i_h616_sramc_variant = {
+>  	.num_emac_clocks = 2,
+> +	.has_ths_offset = true,
+>  };
+>  
+> +#define SUNXI_SRAM_THS_OFFSET_REG	0x0
+>  #define SUNXI_SRAM_EMAC_CLOCK_REG	0x30
+>  #define SUNXI_SYS_LDO_CTRL_REG		0x150
+>  
+> @@ -318,6 +321,8 @@ static bool sunxi_sram_regmap_accessible_reg(struct device *dev,
+>  {
+>  	const struct sunxi_sramc_variant *variant = dev_get_drvdata(dev);
+>  
+> +	if (reg == SUNXI_SRAM_THS_OFFSET_REG && variant->has_ths_offset)
+> +		return true;
+>  	if (reg >= SUNXI_SRAM_EMAC_CLOCK_REG &&
+>  	    reg <  SUNXI_SRAM_EMAC_CLOCK_REG + variant->num_emac_clocks * 4)
+>  		return true;
+> @@ -327,6 +332,20 @@ static bool sunxi_sram_regmap_accessible_reg(struct device *dev,
+>  	return false;
+>  }
+>  
+> +static void sunxi_sram_lock(void *_lock)
+> +{
+> +	spinlock_t *lock = _lock;
+> +
+> +	spin_lock(lock);
+> +}
+> +
+> +static void sunxi_sram_unlock(void *_lock)
+> +{
+> +	spinlock_t *lock = _lock;
+> +
+> +	spin_unlock(lock);
+> +}
+> +
+>  static struct regmap_config sunxi_sram_regmap_config = {
+>  	.reg_bits       = 32,
+>  	.val_bits       = 32,
+> @@ -336,6 +355,9 @@ static struct regmap_config sunxi_sram_regmap_config = {
+>  	/* other devices have no business accessing other registers */
+>  	.readable_reg	= sunxi_sram_regmap_accessible_reg,
+>  	.writeable_reg	= sunxi_sram_regmap_accessible_reg,
+> +	.lock		= sunxi_sram_lock,
+> +	.unlock		= sunxi_sram_unlock,
+> +	.lock_arg	= &sram_lock,
+>  };
+>  
+>  static int __init sunxi_sram_probe(struct platform_device *pdev)
+> 
+
+
+
 
