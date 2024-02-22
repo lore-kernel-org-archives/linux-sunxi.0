@@ -1,26 +1,25 @@
 Received: from Atcsqr.andestech.com (60-248-80-70.hinet-ip.hinet.net [60.248.80.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BA22249FC
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E1824A00
 	for <linux-sunxi@lists.linux.dev>; Thu, 22 Feb 2024 08:41:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.248.80.70
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708591268; cv=none; b=uWwFjQ9uhk8D2Hnpd3FrnrHmeEaUQrpgx1/h/IBG69/PHWyuPFODDvcLBPbPk2gm15mDpGWmEg1xfR+NvkSF7Ep5mBu2B/guQwwHU4r+267OHzcAL8viMJBGj7N4mfrTauuo3WIprY1yDJ9DvMUJdNpj8253ZYjcTdaUw22iPno=
+	t=1708591268; cv=none; b=bpr6aGGAdTq6evByv5LI0hI4A9/nF7Qok+QshNOOzt6w9sWRwK66VnW9n4BjvaMWPV8yXOyROhyjYCzusChBED8DZvECS0AgfJnRfkx5HOwRtjEQLNCvQr3GyjiFssutym2J/1N+vlrB4sGFYoR6ZPSz++NCO7mNCyVGSuGlN6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1708591268; c=relaxed/simple;
-	bh=OVquhy33yPfQbhB/8E79F8t39hAm8bIUUEhPHHjkkEo=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pdsqhncOx/zT0/lEe7+3dSVM5ib6WgsgSu6O2NWsxgiAo1FbyozK8irsh/MinbrpJckt4ZbAQJXI7zVckkeG/oBeDUKIQEGdI636x1HLlgU2MCwH1Cr8BhNKvxdeeGx+xrUqZ+njW7BCW95zggNzl8RgakTvzLPRxkl1ELSN5no=
+	bh=7sZNOHc7T8PiveA1x9QwwNpNSGm5S1gwPv/mAQj5Njo=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=mdpKYXZAD0KT9VpWQClOAUYWZwR101McSMe6HehfPrskZ81/ROwlKbjdvXVi7n0+beX3ah16bGExIDP2SHLXCQYEDGOl4BPxKCTyHiaqey7JUZ7GqgsDbBF5XmGssAG3q23mUVNgfM38JU33rX9bpptGocarSciEJm1Fa25gOnk=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=andestech.com; spf=pass smtp.mailfrom=andestech.com; arc=none smtp.client-ip=60.248.80.70
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=andestech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=andestech.com
 Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
-	by Atcsqr.andestech.com with ESMTP id 41M8dwbg074270;
-	Thu, 22 Feb 2024 16:39:58 +0800 (+08)
+	by Atcsqr.andestech.com with ESMTP id 41M8drkA074262;
+	Thu, 22 Feb 2024 16:39:53 +0800 (+08)
 	(envelope-from peterlin@andestech.com)
 Received: from swlinux02.andestech.com (10.0.15.183) by ATCPCS16.andestech.com
  (10.0.1.222) with Microsoft SMTP Server id 14.3.498.0; Thu, 22 Feb 2024
- 16:39:54 +0800
+ 16:39:52 +0800
 From: Yu Chien Peter Lin <peterlin@andestech.com>
 To: <acme@kernel.org>, <adrian.hunter@intel.com>, <ajones@ventanamicro.com>,
         <alexander.shishkin@linux.intel.com>, <andre.przywara@arm.com>,
@@ -44,15 +43,10 @@ To: <acme@kernel.org>, <adrian.hunter@intel.com>, <ajones@ventanamicro.com>,
         <tim609@andestech.com>, <uwu@icenowy.me>, <wens@csie.org>,
         <will@kernel.org>, <inochiama@outlook.com>, <unicorn_wang@outlook.com>,
         <wefu@redhat.com>
-CC: Charles Ci-Jyun Wu <dminus@andestech.com>,
-        Leo Yu-Chi Liang
-	<ycliang@andestech.com>
-Subject: [PATCH v9 01/10] riscv: errata: Rename defines for Andes
-Date: Thu, 22 Feb 2024 16:39:37 +0800
-Message-ID: <20240222083946.3977135-2-peterlin@andestech.com>
+Subject: [PATCH v9 00/10] Support Andes PMU extension
+Date: Thu, 22 Feb 2024 16:39:36 +0800
+Message-ID: <20240222083946.3977135-1-peterlin@andestech.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240222083946.3977135-1-peterlin@andestech.com>
-References: <20240222083946.3977135-1-peterlin@andestech.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -63,117 +57,62 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-DNSRBL: 
 X-SPAM-SOURCE-CHECK: pass
-X-MAIL:Atcsqr.andestech.com 41M8dwbg074270
+X-MAIL:Atcsqr.andestech.com 41M8drkA074262
 
-Use "ANDES" rather than "ANDESTECH" to unify the naming
-convention with directory, file names, Kconfig options
-and other definitions.
+Hi All,
 
-Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
-Reviewed-by: Charles Ci-Jyun Wu <dminus@andestech.com>
-Reviewed-by: Leo Yu-Chi Liang <ycliang@andestech.com>
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-Changes v1 -> v2:
-  - No change
-Changes v2 -> v3:
-  - Rewrite commit message (suggested by Conor)
-Changes v3 -> v4:
-  - Include Conor's Acked-by tag
-Changes v4 -> v5:
-  - Include Prabhakar's RB tag
-Changes v5 -> v6:
-  - No change
-Changes v6 -> v7:
-  - No change
-Changes v7 -> v8:
-  - No change
-Changes v8 -> v9:
-  - No change
----
- arch/riscv/errata/andes/errata.c       | 10 +++++-----
- arch/riscv/include/asm/errata_list.h   |  4 ++--
- arch/riscv/include/asm/vendorid_list.h |  2 +-
- arch/riscv/kernel/alternative.c        |  2 +-
- 4 files changed, 9 insertions(+), 9 deletions(-)
+This patch series introduces the Andes PMU extension, which serves the
+same purpose as Sscofpmf and Smcntrpmf. Its non-standard local interrupt
+is assigned to bit 18 in the custom S-mode local interrupt enable and
+pending registers (slie/slip), while the interrupt cause is (256 + 18).
 
-diff --git a/arch/riscv/errata/andes/errata.c b/arch/riscv/errata/andes/errata.c
-index 17a904869724..f2708a9494a1 100644
---- a/arch/riscv/errata/andes/errata.c
-+++ b/arch/riscv/errata/andes/errata.c
-@@ -18,9 +18,9 @@
- #include <asm/sbi.h>
- #include <asm/vendorid_list.h>
- 
--#define ANDESTECH_AX45MP_MARCHID	0x8000000000008a45UL
--#define ANDESTECH_AX45MP_MIMPID		0x500UL
--#define ANDESTECH_SBI_EXT_ANDES		0x0900031E
-+#define ANDES_AX45MP_MARCHID		0x8000000000008a45UL
-+#define ANDES_AX45MP_MIMPID		0x500UL
-+#define ANDES_SBI_EXT_ANDES		0x0900031E
- 
- #define ANDES_SBI_EXT_IOCP_SW_WORKAROUND	1
- 
-@@ -32,7 +32,7 @@ static long ax45mp_iocp_sw_workaround(void)
- 	 * ANDES_SBI_EXT_IOCP_SW_WORKAROUND SBI EXT checks if the IOCP is missing and
- 	 * cache is controllable only then CMO will be applied to the platform.
- 	 */
--	ret = sbi_ecall(ANDESTECH_SBI_EXT_ANDES, ANDES_SBI_EXT_IOCP_SW_WORKAROUND,
-+	ret = sbi_ecall(ANDES_SBI_EXT_ANDES, ANDES_SBI_EXT_IOCP_SW_WORKAROUND,
- 			0, 0, 0, 0, 0, 0);
- 
- 	return ret.error ? 0 : ret.value;
-@@ -50,7 +50,7 @@ static void errata_probe_iocp(unsigned int stage, unsigned long arch_id, unsigne
- 
- 	done = true;
- 
--	if (arch_id != ANDESTECH_AX45MP_MARCHID || impid != ANDESTECH_AX45MP_MIMPID)
-+	if (arch_id != ANDES_AX45MP_MARCHID || impid != ANDES_AX45MP_MIMPID)
- 		return;
- 
- 	if (!ax45mp_iocp_sw_workaround())
-diff --git a/arch/riscv/include/asm/errata_list.h b/arch/riscv/include/asm/errata_list.h
-index ea33288f8a25..96025eec5631 100644
---- a/arch/riscv/include/asm/errata_list.h
-+++ b/arch/riscv/include/asm/errata_list.h
-@@ -12,8 +12,8 @@
- #include <asm/vendorid_list.h>
- 
- #ifdef CONFIG_ERRATA_ANDES
--#define ERRATA_ANDESTECH_NO_IOCP	0
--#define ERRATA_ANDESTECH_NUMBER		1
-+#define ERRATA_ANDES_NO_IOCP 0
-+#define ERRATA_ANDES_NUMBER 1
- #endif
- 
- #ifdef CONFIG_ERRATA_SIFIVE
-diff --git a/arch/riscv/include/asm/vendorid_list.h b/arch/riscv/include/asm/vendorid_list.h
-index e55407ace0c3..2f2bb0c84f9a 100644
---- a/arch/riscv/include/asm/vendorid_list.h
-+++ b/arch/riscv/include/asm/vendorid_list.h
-@@ -5,7 +5,7 @@
- #ifndef ASM_VENDOR_LIST_H
- #define ASM_VENDOR_LIST_H
- 
--#define ANDESTECH_VENDOR_ID	0x31e
-+#define ANDES_VENDOR_ID		0x31e
- #define SIFIVE_VENDOR_ID	0x489
- #define THEAD_VENDOR_ID		0x5b7
- 
-diff --git a/arch/riscv/kernel/alternative.c b/arch/riscv/kernel/alternative.c
-index 319a1da0358b..0128b161bfda 100644
---- a/arch/riscv/kernel/alternative.c
-+++ b/arch/riscv/kernel/alternative.c
-@@ -43,7 +43,7 @@ static void riscv_fill_cpu_mfr_info(struct cpu_manufacturer_info_t *cpu_mfr_info
- 
- 	switch (cpu_mfr_info->vendor_id) {
- #ifdef CONFIG_ERRATA_ANDES
--	case ANDESTECH_VENDOR_ID:
-+	case ANDES_VENDOR_ID:
- 		cpu_mfr_info->patch_func = andes_errata_patch_func;
- 		break;
- #endif
+The series can be found on Andes Technology GitHub:
+- https://github.com/andestech/linux/commits/andes-pmu-support-v9
+
+The PMU device tree node used on AX45MP:
+- https://github.com/riscv-software-src/opensbi/blob/master/docs/pmu_support.md#example-3
+
+Locus Wei-Han Chen (1):
+  riscv: andes: Support specifying symbolic firmware and hardware raw
+    events
+
+Yu Chien Peter Lin (9):
+  riscv: errata: Rename defines for Andes
+  irqchip/riscv-intc: Allow large non-standard interrupt number
+  irqchip/riscv-intc: Introduce Andes hart-level interrupt controller
+  dt-bindings: riscv: Add Andes interrupt controller compatible string
+  riscv: dts: renesas: r9a07g043f: Update compatible string to use Andes
+    INTC
+  perf: RISC-V: Eliminate redundant interrupt enable/disable operations
+  perf: RISC-V: Introduce Andes PMU to support perf event sampling
+  dt-bindings: riscv: Add Andes PMU extension description
+  riscv: dts: renesas: Add Andes PMU extension for r9a07g043f
+
+ .../devicetree/bindings/riscv/cpus.yaml       |   6 +-
+ .../devicetree/bindings/riscv/extensions.yaml |   7 +
+ arch/riscv/boot/dts/renesas/r9a07g043f.dtsi   |   4 +-
+ arch/riscv/errata/andes/errata.c              |  10 +-
+ arch/riscv/include/asm/errata_list.h          |  13 +-
+ arch/riscv/include/asm/hwcap.h                |   1 +
+ arch/riscv/include/asm/vendorid_list.h        |   2 +-
+ arch/riscv/kernel/alternative.c               |   2 +-
+ arch/riscv/kernel/cpufeature.c                |   1 +
+ drivers/irqchip/irq-riscv-intc.c              |  82 +++++++++--
+ drivers/perf/Kconfig                          |  14 ++
+ drivers/perf/riscv_pmu_sbi.c                  |  37 ++++-
+ include/linux/soc/andes/irq.h                 |  18 +++
+ .../arch/riscv/andes/ax45/firmware.json       |  68 ++++++++++
+ .../arch/riscv/andes/ax45/instructions.json   | 127 ++++++++++++++++++
+ .../arch/riscv/andes/ax45/memory.json         |  57 ++++++++
+ .../arch/riscv/andes/ax45/microarch.json      |  77 +++++++++++
+ tools/perf/pmu-events/arch/riscv/mapfile.csv  |   1 +
+ 18 files changed, 488 insertions(+), 39 deletions(-)
+ create mode 100644 include/linux/soc/andes/irq.h
+ create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/firmware.json
+ create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/instructions.json
+ create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/memory.json
+ create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/microarch.json
+
 -- 
 2.34.1
 
