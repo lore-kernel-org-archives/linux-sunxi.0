@@ -1,299 +1,260 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B62B12FF74;
-	Thu, 22 Feb 2024 13:20:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC1FB155A47
+	for <linux-sunxi@lists.linux.dev>; Thu, 22 Feb 2024 17:39:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708608053; cv=none; b=Tj1cDN2MN1j/q27Q9bWJ+snMM74KMi0jkLi58fj6q587sDbMAicm+doYSlQ3cgpmZTIJRndOWUUra1+3OJrU/dK4EBtRdvOW+Tn9ojRJhHyos4OO3zXxAr0sCZxMmJpZ2ler8YNGW6nZIQPaT93ZM5Kz+DTtApdP7zuTkRPsKRU=
+	t=1708623590; cv=none; b=DrHPSjuQz9TnbwdGLyYMtwghA/KUCylaKTzLoUyTNb/eUO54JU41w5gPJo58cNza7lpNJMGhXNrfv+fPybDAR9QT6S3GpOCvx3KUx65ZEVluAM93w25x0kF5UvYQ5j2X2v8+yptqKx6CvLtPW6KP9bUbyp4eAc3G6FgEtZUun8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708608053; c=relaxed/simple;
-	bh=Zu7T88OQKLjnCfKYveIU790NUrfbhEaWjmTCXZYnncA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gNtQ1ng5ixnXs4zEodUnb4v7s5rGERkXlPhT7QPNXHzZ1AaqePyIf5kIzVr0hHAtgB0NHPiGQGZs27o+DxvZjCWSh7fNED7GV0HMM+ENxtCZS1bpy7SrS8821R6g1wtjUFty/VAeR0doBCst1iyrli+wu/q2jLgZm0SXQhD/MKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M0WEOm8k; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1708623590; c=relaxed/simple;
+	bh=nvxVBP9G8vyW1pjoAsXI7Druau5onIPvQrtVWXmTopM=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=c3fW8+de0y9rIHNPBh6fMvm3UTMCgGr5XiW2K5Xg866HePo8W8fHZE9KB+nXHQ4r2gP3UX/JDnYmpMNg2weARy9GEWEQtjwqyCFd6Zhaxb+1b9r+uF/Ogjg4H6xJlROKmL7tj82A7slnnrLywnYSqqSI432zB44SrSe7jcLwCNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=n8sHKuag; arc=none smtp.client-ip=209.85.160.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M0WEOm8k"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3265DC433F1;
-	Thu, 22 Feb 2024 13:20:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708608052;
-	bh=Zu7T88OQKLjnCfKYveIU790NUrfbhEaWjmTCXZYnncA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=M0WEOm8ktKGlyWLacF5Eq1chGM6nr37qP9xBp8Ka3xn4FV0USBItMRkpg5davyEDR
-	 i7hd5f9rPQhrU9qLcZEr9ZkBmkyEzuiMvdXWJrU6qIaNCtMX4Pv5Bri+IvvSBT9eNJ
-	 R30zOLoUEJtZYT88fo7qS96vyaW4RNP+B/Q0R6TTt8n20wvvjWFebgWLnI3TK78xu7
-	 hWDtONcnJbzb1GmEp7XrmUgYzGLDSORugYi3RB57zioad41pS0OMVfY8jVD3Al/OZs
-	 giIWtZJtXo924svaDlRRvGibfVoVwwckTcaHTVi1KwWopCvrYpqw0+Bc7SPP6IcE8W
-	 Cd2/y5xQ8erxA==
-Date: Thu, 22 Feb 2024 14:20:49 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, 
-	Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
-	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	Hans Verkuil <hverkuil@xs4all.nl>, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v5 08/44] drm/connector: hdmi: Add Broadcast RGB property
-Message-ID: <cf6mfm7naqdgnr3ab2tkix7b2s2frpsamlgylwiwcgbsy6ngd7@iq6ezpdnehbf>
-References: <zml6j27skvjmbrfyz7agy5waxajv4p4asbemeexelm3wuv4o7j@xkd2wvnxhbuc>
- <20240209203435.GB996172@toolbox>
- <ahfl6f72lpgpsbnrbgvbsh4db4npr2hh36kua2c6krh544hv5r@dndw4hz2mu2g>
- <Zco-DQaXqae7B1jt@intel.com>
- <yx2t7xltxxgsngdsxamsfq6y7dze3wzegxcqwmsb5yrxen73x6@u3vilqhpci4w>
- <20240212170618.GA1372043@toolbox>
- <2mih3humepuedtli7ge52ncom4uffkqravdpalncgfyucmwdzc@bp5o7i3ky77a>
- <20240219140144.GB1956149@toolbox>
- <euaujtp4jyyoud3ccg5qhyvixyq2p6vir4ojlzoky6kep754rj@wruidyfxssry>
- <ZddFBe4A-galsO91@intel.com>
+	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="n8sHKuag"
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-42a029c8e62so14481091cf.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 22 Feb 2024 09:39:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1708623586; x=1709228386; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SmC4SQg9RJFTyxACzu+4WUHQYE29YjgzDeLpVcyOgV4=;
+        b=n8sHKuagSJ04RmlrVBcKA/iUZHhC9/GP/Gu9pJMcyEvzjyCSnMKW4CfbJy73FOfThc
+         Gvfc89rL99r9+Kt79f0Ju8tkFpHZ3GFsjP0EQsNOeDNtt+ie+Lz5JkQCSpC6VcRmbxLU
+         kOTECi7D6SyqLwA5VhsHFX1n5lxTjCSBZT0RGUgV5HCAVzHZ7yJmIPQ/tRZ8cZOZdqMn
+         K5sAQytkakxjVeEu+Ye8wYyb+oK/CDBc0G8nSugH9/1w0lnQDTvMzn+/YEpOWB7y7tWI
+         51MxQZ7eO6odKiTX+4BXO2iWkMlfcgidMidVmrdEZczLcl94WFDHWnWoN+mKWPYiZNVF
+         MtKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708623586; x=1709228386;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SmC4SQg9RJFTyxACzu+4WUHQYE29YjgzDeLpVcyOgV4=;
+        b=kX1WzanzBXkdsGbHAXbY6Td+ZbThJTZGA6DP3iCmhUtRoQkHZMy1dpyz7UYuyeHhcw
+         tHjsyyurqdi5y5U3gHgZEoriyKopN3CtrSp1VLiblmRZ+mc+wQGvfPVriv23JsymsCRo
+         4Zfapb9BwdGMP97UCPQBLDgKNPn5WK9a+Dh11BQZI/OmghR61wx3RGgt54THtcGMzlhj
+         xvRBlic072oQWv02+pkwC/BAOjxzXiw1uHMKeVtv1vNlvCct0LlZyLNajGhW83MuHdCU
+         5Y9qjYeBWChwhAKsc3HVBAQsa2bLT5fe0tTzyFTxYHgfF6ZOAHDpPSNs16zZtn6BHnxu
+         Q2Rw==
+X-Forwarded-Encrypted: i=1; AJvYcCVjXoaYEWrAvs8vHiRYYirUKpac8KDKK4j7nWdEXY2ZOLhEaIkQwTfIHBOxzlSHh1yZjKxoBPtvOclhYFw9Qabz17fpp9x85xjUg9o=
+X-Gm-Message-State: AOJu0YzMVd9OsD8q7QlhlgYtrcU5qYiEz0AJpsDVa0WtQrYvU/NMi+bd
+	UIGMtjIRrMtRboL3q2OB4pGFr6Q/SzFu+SNFV6b25qnabVd3+PXqITSTuhBZFwc=
+X-Google-Smtp-Source: AGHT+IHQazQ2VKGKYiiCB/F+URR0eEgUMsL+eJQ7E97VwpEkplwTztlYNQqqnsB6QCcvUbBxCire4A==
+X-Received: by 2002:a05:622a:3d0:b0:42c:71ea:9b28 with SMTP id k16-20020a05622a03d000b0042c71ea9b28mr28604094qtx.32.1708623585634;
+        Thu, 22 Feb 2024 09:39:45 -0800 (PST)
+Received: from soleen.c.googlers.com.com (249.240.85.34.bc.googleusercontent.com. [34.85.240.249])
+        by smtp.gmail.com with ESMTPSA id f17-20020ac86ed1000000b0042e5ab6f24fsm259682qtv.7.2024.02.22.09.39.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Feb 2024 09:39:45 -0800 (PST)
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+To: akpm@linux-foundation.org,
+	alim.akhtar@samsung.com,
+	alyssa@rosenzweig.io,
+	asahi@lists.linux.dev,
+	baolu.lu@linux.intel.com,
+	bhelgaas@google.com,
+	cgroups@vger.kernel.org,
+	corbet@lwn.net,
+	david@redhat.com,
+	dwmw2@infradead.org,
+	hannes@cmpxchg.org,
+	heiko@sntech.de,
+	iommu@lists.linux.dev,
+	jernej.skrabec@gmail.com,
+	jonathanh@nvidia.com,
+	joro@8bytes.org,
+	krzysztof.kozlowski@linaro.org,
+	linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	lizefan.x@bytedance.com,
+	marcan@marcan.st,
+	mhiramat@kernel.org,
+	m.szyprowski@samsung.com,
+	pasha.tatashin@soleen.com,
+	paulmck@kernel.org,
+	rdunlap@infradead.org,
+	robin.murphy@arm.com,
+	samuel@sholland.org,
+	suravee.suthikulpanit@amd.com,
+	sven@svenpeter.dev,
+	thierry.reding@gmail.com,
+	tj@kernel.org,
+	tomas.mudrunka@gmail.com,
+	vdumpa@nvidia.com,
+	wens@csie.org,
+	will@kernel.org,
+	yu-cheng.yu@intel.com,
+	rientjes@google.com,
+	bagasdotme@gmail.com,
+	mkoutny@suse.com
+Subject: [PATCH v5 00/11] IOMMU memory observability
+Date: Thu, 22 Feb 2024 17:39:26 +0000
+Message-ID: <20240222173942.1481394-1-pasha.tatashin@soleen.com>
+X-Mailer: git-send-email 2.44.0.rc0.258.g7320e95886-goog
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="tbiepc54hbczafix"
-Content-Disposition: inline
-In-Reply-To: <ZddFBe4A-galsO91@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+----------------------------------------------------------------------
+Changelog
+----------------------------------------------------------------------
+v5:
+- Synced with v6.8-rc5
+- Added: Acked-by: Marek Szyprowski <m.szyprowski@samsung.com>
+- Added: Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+- Addressed review comments from Robin Murphy:
+  Updated the header comment in iommu-pages.h
+  Removed __iommu_alloc_pages_node(), invoke
+  iommu_alloc_pages_node directly.
+  Removed unused: __iommu_alloc_page_node()
+  Removed __iommu_free_page()
+  Renamed: iommu_free_pages_list() -> iommu_put_pages_list()
+  Added missing iommu_put_pages_list() to dma-iommu.c in
+  iommu/dma: use iommu_put_pages_list() to releae freelist
 
---tbiepc54hbczafix
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+v4:
+- Synced with v6.8-rc3
+- Updated commit log for "iommu: account IOMMU allocated memory" as
+  suggested by Michal Koutný
+- Added more Acked-bys David Rientjes and Thierry Reding
+- Added Tested-by Bagas Sanjaya.
 
-On Thu, Feb 22, 2024 at 02:58:45PM +0200, Ville Syrj=E4l=E4 wrote:
-> On Thu, Feb 22, 2024 at 11:54:04AM +0100, Maxime Ripard wrote:
-> > On Mon, Feb 19, 2024 at 03:01:44PM +0100, Sebastian Wick wrote:
-> > > On Thu, Feb 15, 2024 at 12:00:01PM +0100, Maxime Ripard wrote:
-> > > > On Mon, Feb 12, 2024 at 06:06:18PM +0100, Sebastian Wick wrote:
-> > > > > On Mon, Feb 12, 2024 at 05:53:48PM +0100, Maxime Ripard wrote:
-> > > > > > On Mon, Feb 12, 2024 at 05:49:33PM +0200, Ville Syrj=E4l=E4 wro=
-te:
-> > > > > > > On Mon, Feb 12, 2024 at 11:01:07AM +0100, Maxime Ripard wrote:
-> > > > > > > > On Fri, Feb 09, 2024 at 09:34:35PM +0100, Sebastian Wick wr=
-ote:
-> > > > > > > > > On Mon, Feb 05, 2024 at 10:39:38AM +0100, Maxime Ripard w=
-rote:
-> > > > > > > > > > On Fri, Feb 02, 2024 at 06:37:52PM +0200, Ville Syrj=E4=
-l=E4 wrote:
-> > > > > > > > > > > On Fri, Feb 02, 2024 at 04:59:30PM +0100, Maxime Ripa=
-rd wrote:
-> > > > > > > > > > > > On Fri, Feb 02, 2024 at 05:40:47PM +0200, Ville Syr=
-j=E4l=E4 wrote:
-> > > > > > > > > > > > > On Fri, Feb 02, 2024 at 02:01:39PM +0100, Maxime =
-Ripard wrote:
-> > > > > > > > > > > > > > Hi,
-> > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebas=
-tian Wick wrote:
-> > > > > > > > > > > > > > > > >  /**
-> > > > > > > > > > > > > > > > >   * DOC: HDMI connector properties
-> > > > > > > > > > > > > > > > >   *
-> > > > > > > > > > > > > > > > > + * Broadcast RGB
-> > > > > > > > > > > > > > > > > + *      Indicates the RGB Quantization R=
-ange (Full vs Limited) used.
-> > > > > > > > > > > > > > > > > + *      Infoframes will be generated acc=
-ording to that value.
-> > > > > > > > > > > > > > > > > + *
-> > > > > > > > > > > > > > > > > + *      The value of this property can b=
-e one of the following:
-> > > > > > > > > > > > > > > > > + *
-> > > > > > > > > > > > > > > > > + *      Automatic:
-> > > > > > > > > > > > > > > > > + *              RGB Range is selected au=
-tomatically based on the mode
-> > > > > > > > > > > > > > > > > + *              according to the HDMI sp=
-ecifications.
-> > > > > > > > > > > > > > > > > + *
-> > > > > > > > > > > > > > > > > + *      Full:
-> > > > > > > > > > > > > > > > > + *              Full RGB Range is forced.
-> > > > > > > > > > > > > > > > > + *
-> > > > > > > > > > > > > > > > > + *      Limited 16:235:
-> > > > > > > > > > > > > > > > > + *              Limited RGB Range is for=
-ced. Unlike the name suggests,
-> > > > > > > > > > > > > > > > > + *              this works for any numbe=
-r of bits-per-component.
-> > > > > > > > > > > > > > > > > + *
-> > > > > > > > > > > > > > > > > + *      Drivers can set up this property=
- by calling
-> > > > > > > > > > > > > > > > > + *      drm_connector_attach_broadcast_r=
-gb_property().
-> > > > > > > > > > > > > > > > > + *
-> > > > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > > > This is a good time to document this in mor=
-e detail. There might be two
-> > > > > > > > > > > > > > > > different things being affected:
-> > > > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > > > 1. The signalling (InfoFrame/SDP/...)
-> > > > > > > > > > > > > > > > 2. The color pipeline processing
-> > > > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > > > All values of Broadcast RGB always affect t=
-he color pipeline processing
-> > > > > > > > > > > > > > > > such that a full-range input to the CRTC is=
- converted to either full- or
-> > > > > > > > > > > > > > > > limited-range, depending on what the monito=
-r is supposed to accept.
-> > > > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > > > When automatic is selected, does that mean =
-that there is no signalling,
-> > > > > > > > > > > > > > > > or that the signalling matches what the mon=
-itor is supposed to accept
-> > > > > > > > > > > > > > > > according to the spec? Also, is this really=
- HDMI specific?
-> > > > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > > > When full or limited is selected and the mo=
-nitor doesn't support the
-> > > > > > > > > > > > > > > > signalling, what happens?
-> > > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > > Forgot to mention: user-space still has no co=
-ntrol over RGB vs YCbCr on
-> > > > > > > > > > > > > > > the cable, so is this only affecting RGB? If =
-not, how does it affect
-> > > > > > > > > > > > > > > YCbCr?
-> > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > So I dug a bit into both the i915 and vc4 drive=
-rs, and it looks like if
-> > > > > > > > > > > > > > we're using a YCbCr format, i915 will always us=
-e a limited range while
-> > > > > > > > > > > > > > vc4 will follow the value of the property.
-> > > > > > > > > > > > >=20
-> > > > > > > > > > > > > The property is literally called "Broadcast *RGB*=
-".
-> > > > > > > > > > > > > That should explain why it's only affecting RGB.
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > Right. And the limited range option is called "Limi=
-ted 16:235" despite
-> > > > > > > > > > > > being usable on bpc > 8 bits. Naming errors occurs,=
- and history happens
-> > > > > > > > > > > > to make names inconsistent too, that's fine and not=
- an argument in
-> > > > > > > > > > > > itself.
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > > Full range YCbCr is a much rarer beast so we've n=
-ever bothered
-> > > > > > > > > > > > > to enable it.
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > vc4 supports it.
-> > > > > > > > > > >=20
-> > > > > > > > > > > Someone implemented it incorrectly then.
-> > > > > > > > > >=20
-> > > > > > > > > > Incorrectly according to what documentation / specifica=
-tion? I'm sorry,
-> > > > > > > > > > but I find it super ironic that i915 gets to do its own=
- thing, not
-> > > > > > > > > > document any of it, and when people try to clean things=
- up they get told
-> > > > > > > > > > that we got it all wrong.
-> > > > > > > > >=20
-> > > > > > > > > FWIW, this was an i915 property and if another driver use=
-s the same
-> > > > > > > > > property name it must have the same behavior. Yes, it isn=
-'t standardized
-> > > > > > > > > and yes, it's not documented (hence this effort here) but=
- it's still on
-> > > > > > > > > vc4 to make the property compatible.
-> > > > > > > >=20
-> > > > > > > > How is it not compatible? It's a superset of what i915 prov=
-ides, but
-> > > > > > > > it's strictly compatible with it.
-> > > > > > >=20
-> > > > > > > No it is not.
-> > > > > >=20
-> > > > > > The property is compatible with i915 interpretation of it, whet=
-her you
-> > > > > > like it or not. And that's what Sebastian was referring to.
-> > > > > >=20
-> > > > > > > Eg. what happens if you set the thing to full range for RGB (=
-which you
-> > > > > > > must on many broken monitors), and then the kernel automagica=
-lly
-> > > > > > > switches to YCbCr (for whatever reason) but the monitor doesn=
-'t
-> > > > > > > support full range YCbCr? Answer: you get crap output.
-> > > > > >=20
-> > > > > > And that part is just moving goalposts.
-> > > > >=20
-> > > > > But it's really not.
-> > > >=20
-> > > > It really is. This whole discussion started by "well it would be ni=
-ce if
-> > > > we made that property handled by the core", and we're now at the "we
-> > > > need to deal with broken YCbCr displays and i915 opinion about them"
-> > > > stage. After creating documentation, unit tests, etc. It's the text=
-book
-> > > > definition of moving goalposts. And while i915 won't be affected by=
- all
-> > > > that work.
-> > >=20
-> > > Sorry, but what you're saying is just not true.
-> > >=20
-> > > The Broadcast RGB property is an Intel specific property.
-> >=20
-> > No, it's not. vc4 has been using it for a year now.
-> >=20
-> > > It lacked documentation but the user space contract exists and it
-> > > based on how i915 implemented it. By changing the semantics you're
-> > > breaking user space. The documentation has to document the current
-> > > contract between i915 and user space, not whatever you want the
-> > > property to be like.
-> > >=20
-> > > I get that you're frustrated that you have to do work while i915 does=
-n't
-> > > but none of that is relevant for what the property is and how user sp=
-ace
-> > > expects it to work.
-> >=20
-> > That's not it, really. I don't mind doing the work. I do mind losing
-> > functionalities on something that was working fine. And getting the
-> > blame for something that is, at best, just as much of an documentation
-> > issue on i915 devs.
->=20
-> We've had a couple of these cases recently where people have taken
-> some old property implemented by i915 and implemented it differently
-> in some other driver. Dunno if the reason was that people didn't try
-> to understand what i915 is doing and why, or they misundestood it,
-> or they understood it but decided to ignore it anyway.
+v3:
+- Sync with v6.7-rc7
+- Addressed comments from David Rientjes: s/pages/page/, added
+  unlikely() into the branches, expanded comment for
+  iommu_free_pages_list().
+- Added Acked-bys: David Rientjes
 
-I can't tell for the other cases, but in this particular case it's
-definitely in the misunderstanding category. And implying that we didn't
-even try to understand it, or that we didn't consult anyone when the
-patches were posted on the ML for months doesn't seem fair either.
+v2:
+- Added Reviewed-by Janne Grunau
+- Sync with 6.7.0-rc3
+- Separated form the series patches:
+vhost-vdpa: account iommu allocations
+https://lore.kernel.org/all/20231130200447.2319543-1-pasha.tatashin@soleen.com
+vfio: account iommu allocations
+https://lore.kernel.org/all/20231130200900.2320829-1-pasha.tatashin@soleen.com
+as suggested by Jason Gunthorpe
+- Fixed SPARC build issue detected by kernel test robot
+- Drop the following patches as they do account iommu page tables:
+iommu/dma: use page allocation function provided by iommu-pages.h
+iommu/fsl: use page allocation function provided by iommu-pages.h
+iommu/iommufd: use page allocation function provided by iommu-pages.h
+as suggested by Robin Murphy. These patches are not related to IOMMU
+page tables. We might need to do a separate work to support DMA
+observability.
+- Remove support iommu/io-pgtable-arm-v7s as the 2nd level pages are
+under a page size, thanks Robin Murphy for pointing this out.
 
-> Unfortunately having undocumented corners in the uapi is simply
-> a fact of life when dealing with a >15 year old legacy codebase.
-> Also there were basically no rules regarding properties in the
-> past, so everyone just added random properties whenever they=20
-> felt like it.
->=20
-> I think going forward we should probably lay down some extra
-> ground rules; if an old undocumented uapi is being extended
-> to cover more than one driver we must first figure out what
-> the de facto semantics are, and document things properly
-> before anything else gets done.
+----------------------------------------------------------------------
+Description
+----------------------------------------------------------------------
+IOMMU subsystem may contain state that is in gigabytes. Majority of that
+state is iommu page tables. Yet, there is currently, no way to observe
+how much memory is actually used by the iommu subsystem.
 
-That sounds reasonable, but you (not you personally, but the i915 team
-in general) also have to engage, you can't just impose that on everyone
-else, and then just hope they will figure it out perfectly without your
-help.
+This patch series solves this problem by adding both observability to
+all pages that are allocated by IOMMU, and also accountability, so
+admins can limit the amount if via cgroups.
 
-I think that whole story is a testament to that.
+The system-wide observability is using /proc/meminfo:
+SecPageTables:    438176 kB
 
-Maxime
+Contains IOMMU and KVM memory.
 
---tbiepc54hbczafix
-Content-Type: application/pgp-signature; name="signature.asc"
+Per-node observability:
+/sys/devices/system/node/nodeN/meminfo
+Node N SecPageTables:    422204 kB
 
------BEGIN PGP SIGNATURE-----
+Contains IOMMU and KVM memory in the given NUMA node.
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZddKMQAKCRDj7w1vZxhR
-xQZ0AP9xIjID3WRjPO9YmF5lo+fbKpeIUuu3c3a+WG/PCA+kOAD/d6a9EMFe7j7G
-LSSIf9ENRHhLQi1d/PbumiFAR9PLeQM=
-=aA2v
------END PGP SIGNATURE-----
+Per-node IOMMU only observability:
+/sys/devices/system/node/nodeN/vmstat
+nr_iommu_pages 105555
 
---tbiepc54hbczafix--
+Contains number of pages IOMMU allocated in the given node.
+
+Accountability: using sec_pagetables cgroup-v2 memory.stat entry.
+
+With the change, iova_stress[1] stops as limit is reached:
+
+$ ./iova_stress
+iova space:     0T      free memory:   497G
+iova space:     1T      free memory:   495G
+iova space:     2T      free memory:   493G
+iova space:     3T      free memory:   491G
+
+stops as limit is reached.
+
+This series encorporates suggestions that came from the discussion
+at LPC [2].
+----------------------------------------------------------------------
+[1] https://github.com/soleen/iova_stress
+[2] https://lpc.events/event/17/contributions/1466
+----------------------------------------------------------------------
+Previous versions
+v1: https://lore.kernel.org/all/20231128204938.1453583-1-pasha.tatashin@soleen.com
+v2: https://lore.kernel.org/linux-mm/20231130201504.2322355-1-pasha.tatashin@soleen.com
+v3: https://lore.kernel.org/all/20231226200205.562565-1-pasha.tatashin@soleen.com
+v4: https://lore.kernel.org/all/20240207174102.1486130-1-pasha.tatashin@soleen.com
+----------------------------------------------------------------------
+
+Pasha Tatashin (11):
+  iommu/vt-d: add wrapper functions for page allocations
+  iommu/dma: use iommu_put_pages_list() to releae freelist
+  iommu/amd: use page allocation function provided by iommu-pages.h
+  iommu/io-pgtable-arm: use page allocation function provided by
+    iommu-pages.h
+  iommu/io-pgtable-dart: use page allocation function provided by
+    iommu-pages.h
+  iommu/exynos: use page allocation function provided by iommu-pages.h
+  iommu/rockchip: use page allocation function provided by iommu-pages.h
+  iommu/sun50i: use page allocation function provided by iommu-pages.h
+  iommu/tegra-smmu: use page allocation function provided by
+    iommu-pages.h
+  iommu: observability of the IOMMU allocations
+  iommu: account IOMMU allocated memory
+
+ Documentation/admin-guide/cgroup-v2.rst |   2 +-
+ Documentation/filesystems/proc.rst      |   4 +-
+ drivers/iommu/amd/amd_iommu.h           |   8 -
+ drivers/iommu/amd/init.c                |  91 ++++++------
+ drivers/iommu/amd/io_pgtable.c          |  13 +-
+ drivers/iommu/amd/io_pgtable_v2.c       |  20 +--
+ drivers/iommu/amd/iommu.c               |  13 +-
+ drivers/iommu/dma-iommu.c               |   7 +-
+ drivers/iommu/exynos-iommu.c            |  14 +-
+ drivers/iommu/intel/dmar.c              |  16 +-
+ drivers/iommu/intel/iommu.c             |  47 ++----
+ drivers/iommu/intel/iommu.h             |   2 -
+ drivers/iommu/intel/irq_remapping.c     |  16 +-
+ drivers/iommu/intel/pasid.c             |  18 +--
+ drivers/iommu/intel/svm.c               |  11 +-
+ drivers/iommu/io-pgtable-arm.c          |  15 +-
+ drivers/iommu/io-pgtable-dart.c         |  37 ++---
+ drivers/iommu/iommu-pages.h             | 186 ++++++++++++++++++++++++
+ drivers/iommu/rockchip-iommu.c          |  14 +-
+ drivers/iommu/sun50i-iommu.c            |   7 +-
+ drivers/iommu/tegra-smmu.c              |  18 ++-
+ include/linux/mmzone.h                  |   5 +-
+ mm/vmstat.c                             |   3 +
+ 23 files changed, 361 insertions(+), 206 deletions(-)
+ create mode 100644 drivers/iommu/iommu-pages.h
+
+-- 
+2.44.0.rc0.258.g7320e95886-goog
+
