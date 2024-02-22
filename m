@@ -1,97 +1,149 @@
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5FAB128378
-	for <linux-sunxi@lists.linux.dev>; Wed, 21 Feb 2024 22:12:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25F99A35
+	for <linux-sunxi@lists.linux.dev>; Thu, 22 Feb 2024 00:21:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708553574; cv=none; b=GcROz3auBXAZ5gll5Sjf9O+t6/7sJfpG0NouGLUkOh0NelSrCg+kIrqUCCIVFFonVN4oqFkXkh/3h6DVF949Ikro1v/79QepD4Lz4UPX5TUr9QFXuJHX3JbkaNV/LYTnpeVxrAPhwr0geLq/H/eMv3Dg4/WrWffaaa/eqcMcND4=
+	t=1708561317; cv=none; b=S6SHo3ydT2/1w0i5pIeZZ02vTmQTc0twY8BU1eEQccZKc3JyXkVgGrgui3vprtSb7Vdho7eLzSKUF1DOs53eKfCZjP2ORlPTplSRY/x8mouF/V7+bNXQqIJN5ot3RTea2NikQcP1tgBBa9jiQkXJEmSDzu9oaHqCM9hKwJ15Qgk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708553574; c=relaxed/simple;
-	bh=RhFTKg9ao3rZOUrt7OqVKcCNafpR0iCJP/rDyRvJXM8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=e2ACYimZDr4eLGTCsw4y1V+3jHJ/akkQKJzv642n9KyP6i5FPRWfKKAolTTcIlAgiAmUTO2utH3+MNMDo8ZTcf8uwoh7VvQpu3OXiTOWzJ9wa+2TR9Wehg7LHBoprCxmxVWmSk+pFCSxmZ3VMBWIlSzZ1GEFLD4sm0rx7/zdACI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=krqm88WH; arc=none smtp.client-ip=209.85.219.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1708561317; c=relaxed/simple;
+	bh=ULWx7GnGcbkzH+Hk8ucwqEKl61im90Y5FaAmJnZtJAg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VKJJO7SddpjYqf7be5D6TL5wBU5XV3lZ/pk2dvYlG/p4T1WUDnJ/PduyS6YJsb728jfOg2Rj4+11T6FiMsOqOf92nz5bcb5nA1a8JHo/UaQ6VxLOL2ZgYHpIgyv1AfjcPcatnhkjL1fQLjzE+3HvIyOoi7zizNeTquOQrR/OeWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=d84pulH1; arc=none smtp.client-ip=209.85.219.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="krqm88WH"
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-dccb1421bdeso6980528276.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 21 Feb 2024 14:12:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="d84pulH1"
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-68f9218e777so10915506d6.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 21 Feb 2024 16:21:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708553571; x=1709158371; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zvHohG/osJUUJ6MrbAQ8TEaNGcUB4t0Qr7/JkHGHUIo=;
-        b=krqm88WH6Egrpb+jKSJhZuOGQRzMaKapTrGx7gai9duW0j0Wp2XfqtsXNhHA9iEyCa
-         SngZGjTXGET9cfirYt05pf3vM0xfWRKbcK9rBghCKZge3oB8lwJBgF5QcBTU1Dd2HBDB
-         +9pu3N8n4thz4W0kvpKtdqfpCQWZXfr+TCw59UD/gQjB4DwN43MMS54v3m1hfLHlerea
-         iyocstK3CM+jXqFojU6r0T1u6RvfGKFnAdDaYkKju9JtmID/RsDsvm3bYw9FXHPMbrCv
-         9HA4KdI9MXV2AV/lrBsTFGBZMmm6rHEOaS560idlYXH01yeCJ3FGFtB68HPqaT7jzk1O
-         44/Q==
+        d=ziepe.ca; s=google; t=1708561314; x=1709166114; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=9rn4mWdOER6tRcIB1iLpkedD4oyQHhFAy8BqoLay5HA=;
+        b=d84pulH1VExJKmqpZJ68MruR2+6LZCZtLsQPZ6VKNdEjur2urx1YSSTSxU/oBsnncH
+         QIepOGAXAK2/yZjTSsQIEhSUeC5hT4mWBXc+pcDvFpdwMvtCkox+5JPAVZzwx1Gl1udt
+         hDVzphJ4e5uBeIIYXR9D2KOi68Xo4+BTeHIx03UeLoTLwnX0ptKxXYr27x+sxdO6oPMY
+         pFIdypVefEQbWZuCRGI1NWX4brF2qBmMGWKctCdQ1d/GKr7GLHBIJ0iWSWVgG2UdrUjN
+         TGxotFGDtZ7bQID2yxGCFeWXfZXnTN1cLXUhQ/pQYanXI4YcSq+Z+RhNkgUGN4vKM7Rj
+         wzaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708553571; x=1709158371;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1708561314; x=1709166114;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zvHohG/osJUUJ6MrbAQ8TEaNGcUB4t0Qr7/JkHGHUIo=;
-        b=lwKzB8yNJZPOZN0iS2aHeCq7D7mANdHAW/LlpX9OgXf6Q1NEtuttqEeX+qnP9NZjkZ
-         FWF28XZyDceIWEFiFTD5P+6mlsrlL5TAeco+1h25yCSbLDEo/G2+It4uBYVE0QKHvoGE
-         IY/SpJGMAk0vJ5FbUvxvkVEMc6t8spA+GYnxwoHCFka+pCElPjxB64GHKgA7Ki8sXi72
-         Jw3oaJbrom04CvcJRn9MXYRAmddWHCVdkmgkVhU4d/nD+0cn6YHSQsU41/zZzqDQFAOy
-         qwWCWOkUmZXL35AY9Q3OvzVUsWBKZLnxHycLT/UtPtP1r787JM4rwrXL/9O7kF7HOzra
-         akGw==
-X-Forwarded-Encrypted: i=1; AJvYcCWfjMuwm/dT6GriZBVgke3ERGR/M4eWc9BoW6n8EfwKaO8vAcyRPEW1YI0l/RIRw05QPcgCMWNpBWqOor5JUUVrNgfIBYweP93Fx3Y=
-X-Gm-Message-State: AOJu0YxCQHyu6CpFD6sCVWUjbJ94HbBDVpod8tYhrQATw8X82g8FSMOg
-	5wlrAyV8sU3Wo2NCxgZqWeqOexRc682zdDMpKcgRnOiwlH3AOQ5D
-X-Google-Smtp-Source: AGHT+IF7kP+13CFMgvNV4rXPEp1sBAjlnfLwnWDRvHGUt3wwBoE4opoEpDnOPFhvcnuSrbWo1HtsDQ==
-X-Received: by 2002:a25:9346:0:b0:dcc:76a0:503b with SMTP id g6-20020a259346000000b00dcc76a0503bmr692068ybo.13.1708553571608;
-        Wed, 21 Feb 2024 14:12:51 -0800 (PST)
-Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.googlemail.com with ESMTPSA id i19-20020a05620a405300b007858c17df9csm4712295qko.96.2024.02.21.14.12.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Feb 2024 14:12:50 -0800 (PST)
-Message-ID: <69a0df59-7d27-406b-b0a0-3e43f18b20bf@gmail.com>
-Date: Wed, 21 Feb 2024 14:12:45 -0800
+        bh=9rn4mWdOER6tRcIB1iLpkedD4oyQHhFAy8BqoLay5HA=;
+        b=sP3Z29F6e01e5GbCMy4pACaQPFgmvgYGenykU3dYmS+MffiuSiNteUQWIHCgE7t9s0
+         IfI7kCwmefLJCJ3vWndDjBTuH4o2C9IU5G5/LW4KQea5k6oqDQEb34zqM4sMmHDuuMJA
+         fETITRReMNYwVlbTylRjEFI46I8F5sfrcny0pA+ew0nLLYw0xG2yhGkHsvvqV0aqEuej
+         5tQbF5HjKkCuktPN9B6JfINlcIVyjxiL+1YqX2eNQyyRh9y2Ae+nsR79H/Q2TVChjB6g
+         thAjwQakKmm06EsvOO8L10nuCB63D3QxE7UI0OFtJ5i+UiEPNBDgZK9HekSCBRr+GZ0x
+         1zLw==
+X-Forwarded-Encrypted: i=1; AJvYcCWW1vrsERUtU9pHL0CWSfl2hBYRxX+NH5gPNA+JCeXlHkZAjQnOBpcPAw2kUVyw46zgGW5SNcsax+pB1uy0ZdLV+A/gy0eGLFyccFo=
+X-Gm-Message-State: AOJu0YzwfM33FC+hBzXJujBAePDG6CgWINueIg6AdS1HjlZ2k+YgZaTF
+	S2MR8kd1hN6Nu7y7SkqJuhe3zpCO1TU0wzc35u5SbxlMeJJ4sy4bP9W2jIQASF0=
+X-Google-Smtp-Source: AGHT+IGSJoZu17XCLPx2AJSIv4qmgm+x+WexJaUrwx1qRLzsVh+X4k/87Gsnxjx0m8GySXbzSbUfyw==
+X-Received: by 2002:ad4:5ce3:0:b0:68f:8d7c:73cd with SMTP id iv3-20020ad45ce3000000b0068f8d7c73cdmr10367841qvb.8.1708561314072;
+        Wed, 21 Feb 2024 16:21:54 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-68-80-239.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.80.239])
+        by smtp.gmail.com with ESMTPSA id lb25-20020a056214319900b0068f9bb1a247sm1871280qvb.19.2024.02.21.16.21.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Feb 2024 16:21:53 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.95)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1rcwqW-00DQWC-Tn;
+	Wed, 21 Feb 2024 20:21:52 -0400
+Date: Wed, 21 Feb 2024 20:21:52 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: Will Deacon <will@kernel.org>, akpm@linux-foundation.org,
+	alim.akhtar@samsung.com, alyssa@rosenzweig.io,
+	asahi@lists.linux.dev, baolu.lu@linux.intel.com,
+	bhelgaas@google.com, cgroups@vger.kernel.org, corbet@lwn.net,
+	david@redhat.com, dwmw2@infradead.org, hannes@cmpxchg.org,
+	heiko@sntech.de, iommu@lists.linux.dev, jernej.skrabec@gmail.com,
+	jonathanh@nvidia.com, joro@8bytes.org,
+	krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com,
+	marcan@marcan.st, mhiramat@kernel.org, m.szyprowski@samsung.com,
+	paulmck@kernel.org, rdunlap@infradead.org, robin.murphy@arm.com,
+	samuel@sholland.org, suravee.suthikulpanit@amd.com,
+	sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org,
+	tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org,
+	yu-cheng.yu@intel.com, rientjes@google.com
+Subject: Re: [PATCH v3 10/10] iommu: account IOMMU allocated memory
+Message-ID: <20240222002152.GG13491@ziepe.ca>
+References: <20231226200205.562565-1-pasha.tatashin@soleen.com>
+ <20231226200205.562565-11-pasha.tatashin@soleen.com>
+ <20240213131210.GA28926@willie-the-truck>
+ <CA+CK2bB4Z+z8tocO79AdsAy+gmN_4aVHgFUsm_gYLUJ2zV1A6A@mail.gmail.com>
+ <20240216175752.GB2374@willie-the-truck>
+ <CA+CK2bDURTkZFo9uE9Bgfrz-NwgXqo4SAzLOW6Jb35M+eqUEaA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] phy: constify of_phandle_args in xlate
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Linus Walleij <linus.walleij@linaro.org>, linux-phy@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
- netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-tegra@vger.kernel.org, linux-gpio@vger.kernel.org
-References: <20240217093937.58234-1-krzysztof.kozlowski@linaro.org>
-From: Florian Fainelli <f.fainelli@gmail.com>
-In-Reply-To: <20240217093937.58234-1-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+CK2bDURTkZFo9uE9Bgfrz-NwgXqo4SAzLOW6Jb35M+eqUEaA@mail.gmail.com>
 
-On 2/17/24 01:39, Krzysztof Kozlowski wrote:
-> The xlate callbacks are supposed to translate of_phandle_args to proper
-> provider without modifying the of_phandle_args.  Make the argument
-> pointer to const for code safety and readability.
+On Fri, Feb 16, 2024 at 02:48:00PM -0500, Pasha Tatashin wrote:
+> On Fri, Feb 16, 2024 at 12:58 PM Will Deacon <will@kernel.org> wrote:
+> >
+> > On Tue, Feb 13, 2024 at 10:44:53AM -0500, Pasha Tatashin wrote:
+> > > > >  SecPageTables
+> > > > > -              Memory consumed by secondary page tables, this currently
+> > > > > -              currently includes KVM mmu allocations on x86 and arm64.
+> > > > > +              Memory consumed by secondary page tables, this currently includes
+> > > > > +              KVM mmu and IOMMU allocations on x86 and arm64.
+> > >
+> > > Hi Will,
+> > >
+> > > > While I can see the value in this for IOMMU mappings managed by VFIO,
+> > > > doesn't this end up conflating that with the normal case of DMA domains?
+> > > > For systems that e.g. rely on an IOMMU for functional host DMA, it seems
+> > > > wrong to subject that to accounting constraints.
+> > >
+> > > The accounting constraints are only applicable when GFP_KERNEL_ACCOUNT
+> > > is passed to the iommu mapping functions. We do that from the vfio,
+> > > iommufd, and vhost. Without this flag, the memory useage is reported
+> > > in /proc/meminfo as part of  SecPageTables field, but not constrained
+> > > in cgroup.
+> >
+> > Thanks, Pasha, that explanation makes sense. I still find it bizarre to
+> > include IOMMU allocations from the DMA API in SecPageTables though, and
+> > I worry that it will confuse people who are using that metric as a way
+> > to get a feeling for how much memory is being used by KVM's secondary
+> > page-tables. As an extreme example, having a non-zero SecPageTables count
+> > without KVM even compiled in is pretty bizarre.
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> I agree; I also prefer a new field in /proc/meminfo named
+> 'IOMMUPageTables'. This is what I proposed at LPC, but I was asked to
+> reuse the existing 'SecPageTables' field instead. The rationale was
+> that 'secondary' implies not only KVM page tables, but any other
+> non-regular page tables.
 
-Acked-by: Florian Fainelli <florian.fainelli@broadcom.com> #Broadcom
--- 
-Florian
+Right, SeanC mentioned that the purpose of SecPageTables was to
+capture all non-mm page table radix allocations.
 
+> I would appreciate the opinion of IOMMU maintainers on this: is it
+> preferable to bundle the information with 'SecPageTables' or maintain
+> a separate field?
+
+I think you should keep them together. I don't think we should be
+introducing new counters, in general.
+
+Detailed memory profile should come from some kind of more dynamic and
+universal scheme. Hopefully that other giant thread about profiling
+will reach some conclusion.
+
+Jason
