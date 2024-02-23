@@ -1,103 +1,114 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F409184A52
-	for <linux-sunxi@lists.linux.dev>; Fri, 23 Feb 2024 16:03:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from a.peacevolution.org (a.peacevolution.org [206.189.193.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BF7C84A5D
+	for <linux-sunxi@lists.linux.dev>; Fri, 23 Feb 2024 16:30:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.193.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708704204; cv=none; b=pDRSrTXeHxDn3jXmqOEIyNUZyKeFWY+pgXSuGqaKKHSmVcr6KHwkOK6pGxxw243/PeTmoK/SZrovnK28wEisG3uBiP0PzYRBuzEsbkz+NC93ajCntARmv2e8UXQfbq8H8YKgKTH6VU5sSQhz5kXr96xtZzt19LDAZn6+FDGHybU=
+	t=1708705808; cv=none; b=OScNclvrhZ5gd63ituoj6+RI0u0xcobZwCqtXT3YTRbxf4Cr8F/sVBEay/yQpyicmOswnZgHzAE7cehxnfTOIXjrrzctDvvIh/NdFeCSDBq4TDJKlOViQzXihaLyF2mtVnyj/r+nNtWp15mS7THmnvjxICWU3GOVj4hNKfQzLkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708704204; c=relaxed/simple;
-	bh=2QxYsbtNpv6jtUv2wxx1Te6piZjhjrREIDgL6Jx6xkg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DdOlvTZab41HbgDusZdKs/gCVlDUQpHHiSFEE6JNkLOzSx8URFGQok5fwhrPwc1NWk1MlQZP42JCZITIFqw1Wco+it0ZOo+LW4ZCLFCd2DOG4B6rzzPVAqfAxqKglMdSDNw8TSHBLJ+BJuCeBGLxYd7gu71/qOrXNcFE7jTvfmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 51D28DA7;
-	Fri, 23 Feb 2024 08:03:42 -0800 (PST)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3DD453F762;
-	Fri, 23 Feb 2024 08:03:01 -0800 (PST)
-Date: Fri, 23 Feb 2024 16:02:58 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>, Vasily
- Khoruzhick <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, "Rafael
- J . Wysocki" <rafael@kernel.org>, Zhang Rui <rui.zhang@intel.com>, Lukasz
- Luba <lukasz.luba@arm.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Martin Botka <martin.botka@somainline.org>, Maksim
- Kiselev <bigunclemax@gmail.com>, Bob McChesney <bob@electricworry.net>,
- linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v5 1/7] soc: sunxi: sram: export register 0 for THS on
- H616
-Message-ID: <20240223160258.504a1577@donnerap.manchester.arm.com>
-In-Reply-To: <dcd115fd-dc38-4f48-8485-9e4d64f53b4a@linaro.org>
-References: <20240219153639.179814-1-andre.przywara@arm.com>
-	<20240219153639.179814-2-andre.przywara@arm.com>
-	<2717467.mvXUDI8C0e@jernej-laptop>
-	<dcd115fd-dc38-4f48-8485-9e4d64f53b4a@linaro.org>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1708705808; c=relaxed/simple;
+	bh=2gqITLPm+T8DVTKA8perP2UfzFrxKTvGsvyzXlsKDGQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FsNHqymcMZ/xNKJPavZqraKVra9SRzoFYq+IOjM+NoKzTFajqo8iXIm7ZlDosmU/LejGjK5ERGeTsZCGTgJA4KdYJdYIstd8IZGIHP6Hz4b/LNZrLKMGgNwXs8FJhdyIFyDlX7D+4iMDuonsrkP4QeYfF3VodSXy1cbuVGQBYVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org; spf=pass smtp.mailfrom=peacevolution.org; dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b=frWGOL/5; arc=none smtp.client-ip=206.189.193.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=peacevolution.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b="frWGOL/5"
+Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
+	by a.peacevolution.org (Postfix) with ESMTPA id 21840474E7;
+	Fri, 23 Feb 2024 16:30:03 +0000 (UTC)
+Date: Fri, 23 Feb 2024 11:30:00 -0500
+From: Aren <aren@peacevolution.org>
+To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: linux-kernel@vger.kernel.org, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, 
+	Jean-Jacques Hiblot <jjhiblot@traphandler.com>, Chen-Yu Tsai <wens@csie.org>, Ondrej Jirman <megi@xff.cz>, 
+	linux-sunxi@lists.linux.dev, Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>, 
+	linux-arm-kernel@lists.infradead.org, linux-leds@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
+	Miles Alan <m@milesalan.com>, Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH v2 4/4] arm64: dts: sun50i-a64-pinephone: change led type
+ to status
+Message-ID: <n5rmhx7ez7xoqainjqxpdk47e3bw2pvtsgswofnhjdxtrk72j2@debhbdxsxz4m>
+References: <20240206185400.596979-1-aren@peacevolution.org>
+ <20240206185400.596979-4-aren@peacevolution.org>
+ <2792937.BEx9A2HvPv@jernej-laptop>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2792937.BEx9A2HvPv@jernej-laptop>
+X-Spamd-Bar: /
+Authentication-Results: auth=pass smtp.auth=aren@peacevolution.org smtp.mailfrom=aren@peacevolution.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=peacevolution.org;
+	s=dkim; t=1708705804;
+	h=from:subject:date:message-id:to:cc:mime-version:content-type:content-transfer-encoding:in-reply-to:references;
+	bh=QL3hXVllNtOOAwow+Eh+WDBYhGp8kPau81uRs9JQuQ0=;
+	b=frWGOL/5zk7t+eicPItDNp9ruemVvjx5/5RdP57IR6WLy1vXCdnC42bIuDIbFJ5iK2ZJvt
+	kSDgEvSNG1wEltNiI8sRmKyePbelj+Fmirhz+35GU34mTmvzNaJ9EfMTwdDcxiIo23I7xf
+	ccuTnTWWCs+/j+X85vPL7uEf8W/p7Wo=
 
-On Thu, 22 Feb 2024 19:44:12 +0100
-Daniel Lezcano <daniel.lezcano@linaro.org> wrote:
+On Thu, Feb 22, 2024 at 09:57:00PM +0100, Jernej Škrabec wrote:
+> Dne torek, 06. februar 2024 ob 19:13:20 CET je Aren Moynihan napisal(a):
+> > The status function is described in the documentation as being a rgb led
+> > used for system notifications on phones[1][2]. This is exactly what this
+> > led is used for on the PinePhone, so using status is probably more
+> > accurate than indicator.
+> > 
+> > 1: Documentation/leds/well-known-leds.txt
+> > 2: include/dt-bindings/leds/common.h
+> > 
+> > Signed-off-by: Aren Moynihan <aren@peacevolution.org>
+> 
+> Sorry for late review.
+> 
+> Please update subject in patches 2-3. Instead of "sun50i-a64-pinephone:"
+> use "allwinner: pinephone:" (check commit history of sun50i-a64-pinephone.dtsi).
+> Also rgb -> RGB, led -> LED. Last, please reword commit message to exclude
+> links and just say DT bindings documentation.
+> 
+> Note that I'll merge patches 2-3 once patch 1 is merged.
 
-Hi Daniel,
+Would you like me to reword and resend the patches, or is it quicker
+for you to just do it when you apply them?
 
-> On 22/02/2024 19:26, Jernej =C5=A0krabec wrote:
-> > Dne ponedeljek, 19. februar 2024 ob 16:36:33 CET je Andre Przywara napi=
-sal(a): =20
-> >> The Allwinner H616 SoC contains a mysterious bit at register offset 0x0
-> >> in the SRAM control block. If bit 16 is set (the reset value), the
-> >> temperature readings of the THS are way off, leading to reports about
-> >> 200C, at normal ambient temperatures. Clearing this bits brings the
-> >> reported values down to the expected values.
-> >> The BSP code clears this bit in firmware (U-Boot), and has an explicit
-> >> comment about this, but offers no real explanation.
-> >>
-> >> Experiments in U-Boot show that register 0x0 has no effect on the SRAM=
- C
-> >> visibility: all tested bit settings still allow full read and write
-> >> access by the CPU to the whole of SRAM C. Only bit 24 of the register =
-at
-> >> offset 0x4 makes all of SRAM C inaccessible by the CPU. So modelling
-> >> the THS switch functionality as an SRAM region would not reflect reali=
-ty.
-> >>
-> >> Since we should not rely on firmware settings, allow other code (the T=
-HS
-> >> driver) to access this register, by exporting it through the already
-> >> existing regmap. This mimics what we already do for the LDO control and
-> >> the EMAC register.
-> >>
-> >> To avoid concurrent accesses to the same register at the same time, by
-> >> the SRAM switch code and the regmap code, use the same lock to protect
-> >> the access. The regmap subsystem allows to use an existing lock, so we
-> >> just need to hook in there.
-> >>
-> >> Signed-off-by: Andre Przywara <andre.przywara@arm.com> =20
-> >=20
-> > Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> >=20
-> > I guess this one goes through sunxi tree, right? =20
->=20
-> I'll pick this patch along with the patch 2-6, so through the thermal=20
-> tree. The patch 7/7 will go indeed via the sunxi tree
+Thanks for taking a look at this,
+ - Aren
 
-many thanks for picking those up! I see them in your bleeding-edge branch,
-but are they on route for 6.9, so will you put them in -next soon? Or are
-you waiting for more ACKs?
-
-Cheers,
-Andre
+> Best regards,
+> Jernej
+> 
+> > ---
+> > I can't find any documentation describing the indicator function, so
+> > it's definitely less specific than status, but besides that I'm not sure
+> > how it compares. Please ignore this patch if it's not useful.
+> > 
+> > (no changes since v1)
+> > 
+> >  arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> > index e53e0d4579a7..6d327266e6cc 100644
+> > --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> > @@ -61,7 +61,7 @@ led2: led-2 {
+> >  	multi-led {
+> >  		compatible = "leds-group-multicolor";
+> >  		color = <LED_COLOR_ID_RGB>;
+> > -		function = LED_FUNCTION_INDICATOR;
+> > +		function = LED_FUNCTION_STATUS;
+> >  		leds = <&led0>, <&led1>, <&led2>;
+> >  	};
+> >  
+> > 
+> 
+> 
+> 
+> 
