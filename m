@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18F3E1DDC3;
-	Fri, 23 Feb 2024 20:56:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1B5D79DDC
+	for <linux-sunxi@lists.linux.dev>; Fri, 23 Feb 2024 20:57:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708721769; cv=none; b=Ex2kEzyWcaJp02hH3rvihKTCEHYL8AND0olHjnAdhHcriMcbWSrYk4iHlnF9gviUbTJRuneEHsSZTKHXSx0s6hg1Quo2b9zjvDwBEfFtQGYjaLICiKAqpBBKDf2ZWYOg2aqg/QQH8d0FGEcLUQQO2SJJCbtVXkDnWu1zJgHnD3w=
+	t=1708721858; cv=none; b=uzbxw1Yq0EmPIrwaNyuHZyzMWo37lGDc2l0LUr608Fw6aPRJhZjMGlxhid9yV5osCBm4e9Qe+FR4yQeSwQh9P9W0kKlpVbJW1r4d6Uk8uEXZFDmvW2979mb7ooqsLoDdE+Hw3oX+TSFvv5fDmlQhIHpdpQEleHqb3DkGqKF76G8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708721769; c=relaxed/simple;
-	bh=R11JzMxSbfU8nLkjIAyElVT1gcK7t3t67qjYaeTMU3s=;
+	s=arc-20240116; t=1708721858; c=relaxed/simple;
+	bh=5u4wpwmJcyAStc6I1ZIfyCSbe9rFG7nsuqBc5gYOlBk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dpZ0ZrtWfyx2dp4Zxow13Z2t8U1KZ8tfYLmDRJ1XBkI1jkuCT1dd2K/SMwIxortWCMVu2Vy5HOVpufW75A8mmHCKLi7F5u02c4l8pSZslx7R8H7PkPRQEnnAa4m06QeEcBO13t0lthMNTpSLvRhdAq4C2n8Oc0ofivKASsJGdHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=plq5sPgI; arc=none smtp.client-ip=10.30.226.201
+	 Content-Disposition; b=on1K7fGeDoAP0guNeGsdKX15syJZuv7fgrPMX/6Cr0L39RLOURdHByMKQ2iZJ1zeKaYTDWc3mISGjfC8gaTKlHvd6UbzU+ZY0xVm4MkOtg+q+qPtIrY6cYqz58kyUR0t4qYBTt8H289vFSKASISlwXKTqT5TEwsmv2tS3dHGS9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RoxdiNlq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="plq5sPgI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66D81C433F1;
-	Fri, 23 Feb 2024 20:56:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RoxdiNlq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF781C433C7;
+	Fri, 23 Feb 2024 20:57:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708721769;
-	bh=R11JzMxSbfU8nLkjIAyElVT1gcK7t3t67qjYaeTMU3s=;
-	h=Date:From:To:Cc:Subject:From;
-	b=plq5sPgIzg5f5FJe67+QLFQiXdc/SS59DyH+f+5xEt6Emr++2Hl1okVDK2BygiMs4
-	 7QDEPsLokjP2FAKhKvhfUSWGlk5mPeAZGgxmdoRd6uhDB5gNDs37z3pxP0DbmCHmN9
-	 rEsU0n9ydRln5w/jcveX6axhZ/qTnHNn5zHerQ9ossT9wtK9oH6uz4HC1jHAsOFunA
-	 v0gFmzEiQ0fJrMGtBrPJtaDiYXMtQxJjXk7I/queG7BTqMdI13wK5bkVjQCwf4ivX2
-	 3d9UKAk5TZP0GG3SLPci+sv8Xv0zDvN1DBaviIA4ISDOgv/BegplpKFuo0+WChmv8w
-	 0UivCz2Tdl1hw==
-Date: Fri, 23 Feb 2024 21:56:05 +0100
+	s=k20201202; t=1708721858;
+	bh=5u4wpwmJcyAStc6I1ZIfyCSbe9rFG7nsuqBc5gYOlBk=;
+	h=Date:From:List-Id:To:Cc:Subject:From;
+	b=RoxdiNlqJhVSY2AA96PTtHX1wc4/Ge6JEXte6GZzq0ljn4We6Ii5W6jyZlPgOMOrC
+	 rHzzJTwEvOSZIXCZz1H2oPR2wTwoT+FQBzALBR78g99Oiwug/LgN2++k2ub9FZfRtM
+	 EUs87Pcw1iD0naLuKCvIJ+SDRGIkbBtSVY2pYznDURrpQzwtWYYwP5TYGjbzQV2QYB
+	 9yAwmshcps+apiJik3bDXYJbtYyMrssxyd8gVz8t6DOMUXdDBPxx2rMF1dQjPKra4x
+	 IvF0gRfkPUzZDEgjU+Mf3wZQxv1YS5JM64qc3B6uBcwChqR91DI3SGNoDHQyGPBDV1
+	 UaCMm7K3b+CiA==
+Date: Fri, 23 Feb 2024 21:57:34 +0100
 From: Jernej Skrabec <jernej@kernel.org>
-To: mturquette@baylibre.com, sboyd@kernel.org
-Cc: wens@csie.org, samuel@sholland.org, linux-clk@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: [GIT PULL] Allwinner clock changes for 6.9
-Message-ID: <20240223205605.GA8950@jernej-laptop>
+To: arm@kernel.org, soc@kernel.org
+Cc: wens@csie.org, samuel@sholland.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: [GIT PULL] Allwinner drivers change for 6.9
+Message-ID: <20240223205734.GA9027@jernej-laptop>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -44,7 +44,7 @@ Content-Disposition: inline
 
 Hi!
 
-Please pull following clock changes for 6.9.
+Please pull following drivers change for 6.9.
 
 Best regards,
 Jernej
@@ -55,22 +55,18 @@ The following changes since commit 6613476e225e090cc9aad49be7fa504e290dd33d:
 
 are available in the Git repository at:
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-clk-for-6.9-1
+  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-drivers-for-6.9-1
 
-for you to fetch changes up to aed6d713187b8c47af40c0b39462e21e2737e307:
+for you to fetch changes up to 0daf87e7b47e05d0c9ccab648d5e45eaddb547f8:
 
-  clk: sunxi: usb: fix kernel-doc warnings (2024-01-23 21:47:54 +0100)
-
-----------------------------------------------------------------
-- fix kerneldoc warnings
+  bus: sunxi-rsb: make sunxi_rsb_bus const (2024-02-11 21:24:48 +0100)
 
 ----------------------------------------------------------------
-Randy Dunlap (3):
-      clk: sunxi: a20-gmac: fix kernel-doc warnings
-      clk: sunxi: sun9i-cpus: fix kernel-doc warnings
-      clk: sunxi: usb: fix kernel-doc warnings
+- make sunxi_rsb_bus constant
 
- drivers/clk/sunxi/clk-a20-gmac.c   | 21 +++++++++++----------
- drivers/clk/sunxi/clk-sun9i-cpus.c |  7 ++++---
- drivers/clk/sunxi/clk-usb.c        |  9 ++++++---
- 3 files changed, 21 insertions(+), 16 deletions(-)
+----------------------------------------------------------------
+Ricardo B. Marliere (1):
+      bus: sunxi-rsb: make sunxi_rsb_bus const
+
+ drivers/bus/sunxi-rsb.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
