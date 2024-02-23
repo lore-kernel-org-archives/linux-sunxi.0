@@ -1,73 +1,151 @@
-Received: from out-176.mta0.migadu.com (out-176.mta0.migadu.com [91.218.175.176])
+Received: from a.peacevolution.org (a.peacevolution.org [206.189.193.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A81B7EEEC
-	for <linux-sunxi@lists.linux.dev>; Fri, 23 Feb 2024 13:24:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 411912E412
+	for <linux-sunxi@lists.linux.dev>; Fri, 23 Feb 2024 15:29:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.193.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708694698; cv=none; b=SxcdILeUTbkM2HpqFR5H0O6J6+traJ+0sR2SPxJHKjVhH95R2VUkc1W0cd1c7Yalm1QGwxceX6aq5r78iyOURMVKvYSdbmmhQOxkmMEn0fKFQZPSdBripaYle88KTVlK7g9MrrpL2nHhA6BqzQ2T+WrGRTXhnLqzr99ZmKIAeSA=
+	t=1708702142; cv=none; b=YhbMEQnxls1OIoie1aAj1RmuaXBEPvbOboC1NPqhMC2jxk6CLsHtX7uKnV032O/hZH6b+GXUEydyfayH7v9E9nqiAb7qOQ0xfKhsTW4D/pVSwMX8EfHBkTmOkNKpfjBsPnvjx2r3ZY5vMgPBcvriY6ZUMBYig+ioWVkdM0T8Lcc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708694698; c=relaxed/simple;
-	bh=8w/xnzKDUY29kKgSnBq6a+7mDu2LzuzIM6anbjgh4dI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KsQycVxVYTyYYqakXvylbH1wNWaWYxkjYh3dMVkjggsmZLjmtMu+i8zaliWEQhUenQBmhfmeAmMYjJ9c2wj8/pZzm3vWBCqkQZMvQXOjdiJpdQ375sIClExjwS/KnhNN7ZiBzCC1E8FPNPvAg3CLaWClY/ikQUOldakpNymqROY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=XU8riCrA; arc=none smtp.client-ip=91.218.175.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1708702142; c=relaxed/simple;
+	bh=25P7JcxoGTkRa2dDDX/BuiwaEg9vmsf9zGtQolf4VMo=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Db52Ixn4o4efjvA/eykHsWAH3nwrrEexm1Yo/1ocNuq7h5s8KEGSwY5DRZnKnlV6MzAggkekhk7yACeSlne/vWtgn/v9Gp3q0jnRJYD5SaMk4C4xYhM+9cdeufsFRAFuAlKxVynI70h0NzPuVj45HUpoXXFzDix/jCBolDq94hM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org; spf=pass smtp.mailfrom=peacevolution.org; dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b=BU34EUMB; arc=none smtp.client-ip=206.189.193.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=peacevolution.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="XU8riCrA"
-Message-ID: <6163624c-4886-4cbe-a59f-e2f974f52c14@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1708694693;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8w/xnzKDUY29kKgSnBq6a+7mDu2LzuzIM6anbjgh4dI=;
-	b=XU8riCrAoQ45E2Ul70uO1XTWiHoPaIkBu5hEWZMG2t1+QkdtwUIssCE3zOUUoFwraB/E4y
-	6NghuzAmdf5jTKspXXDN+4Zflgvc7ev2hcpvKq97+9uYHrA9BKay5noeEvA2JzdpQligNq
-	lFlqsY0pQfKVWiIgITonQZ1lvQea6TY=
-Date: Fri, 23 Feb 2024 21:24:38 +0800
+	dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b="BU34EUMB"
+Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
+	by a.peacevolution.org (Postfix) with ESMTPA id 46802401E9;
+	Fri, 23 Feb 2024 15:22:38 +0000 (UTC)
+Date: Fri, 23 Feb 2024 10:22:36 -0500
+From: Aren <aren@peacevolution.org>
+To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, 
+	linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, 
+	Jean-Jacques Hiblot <jjhiblot@traphandler.com>, Chen-Yu Tsai <wens@csie.org>, linux-sunxi@lists.linux.dev, 
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>, 
+	linux-arm-kernel@lists.infradead.org, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	linux-leds@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, Miles Alan <m@milesalan.com>, 
+	Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH v2 3/4] arm64: dts: sun50i-a64-pinephone: add multicolor
+ led node
+Message-ID: <5hqfabcolgqcu22hs3xnaimojwuz26tzi63px3rvbsgxa6kjss@ik42w7k26see>
+References: <20240206185400.596979-1-aren@peacevolution.org>
+ <20240206185400.596979-3-aren@peacevolution.org>
+ <sixgkkllo7medcjwjnmbkpqkgfvnmrtlhlwarwuxid5oqwrht5@gl65b6fetq2b>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH v7 36/36] drm/sun4i: hdmi: Switch to HDMI connector
-To: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
- Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>,
- Sebastian Wick <sebastian.wick@redhat.com>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
- <20240222-kms-hdmi-connector-state-v7-36-8f4af575fce2@kernel.org>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <20240222-kms-hdmi-connector-state-v7-36-8f4af575fce2@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <sixgkkllo7medcjwjnmbkpqkgfvnmrtlhlwarwuxid5oqwrht5@gl65b6fetq2b>
+X-Spamd-Bar: /
+Authentication-Results: auth=pass smtp.auth=aren@peacevolution.org smtp.mailfrom=aren@peacevolution.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=peacevolution.org;
+	s=dkim; t=1708701759;
+	h=from:subject:date:message-id:to:mime-version:content-type:content-transfer-encoding:in-reply-to:references;
+	bh=/xPGKWu8KokBiTM1Ns88qRxeRkPSchgepjKoxnDo5og=;
+	b=BU34EUMBKkMZj9cFgixCr6e8kpnC8CmyEaBxEXatlZ2lG+RNvZsrr/0A4pL7+pm6xSWq+Q
+	hOCt2IrL/F7WJ5gastagvM/VAtEtUP5tI4RV7wNQSsFi4M2uBQR51LvKarznrxWXngCX+x
+	ZaHL352QGXXAhOgqBatwFmIpHh816mM=
 
-Hi,
+On Fri, Feb 23, 2024 at 09:46:25AM +0100, Ondřej Jirman wrote:
+> Hello Aren,
+> 
+> On Tue, Feb 06, 2024 at 01:13:19PM -0500, Aren Moynihan wrote:
+> > The red, green, and blue leds currently in the device tree represent a
+> > single rgb led on the front of the PinePhone.
+> > 
+> > Signed-off-by: Aren Moynihan <aren@peacevolution.org>
+> > ---
+> > 
+> > Changes in v2:
+> >  - remove function property from individual led nodes
+> > 
+> >  .../boot/dts/allwinner/sun50i-a64-pinephone.dtsi | 16 ++++++++++------
+> >  1 file changed, 10 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> > index ad2476ee01e4..e53e0d4579a7 100644
+> > --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> > @@ -39,28 +39,32 @@ chosen {
+> >  	leds {
+> >  		compatible = "gpio-leds";
+> >  
+> > -		led-0 {
+> > -			function = LED_FUNCTION_INDICATOR;
+> 
+> This looks like a needless change that will just break people's current scripts
+> and setup. It does mine, and there sure are others that will be surprised, too.
+> 
+> This leads to a change in sysfs path from:
+> 
+>   /sys/class/leds/blue:indicator
+> 
+> to
+> 
+>   /sys/class/leds/blue:
+> 
+> which is 1) a weird name and 2) a backwards compatibility break for seemingly
+> no apparent reason. Any reaons for the change?
 
-On 2024/2/23 02:14, Maxime Ripard wrote:
-> The new HDMI connector infrastructure allows to remove some boilerplate,
-> especially to generate infoframes. Let's switch to it.
->
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+Leds-group-multicolor will make those read-only, so that will break when
+it's enabled either way. Removing the function property makes it less
+likely that programs attempting to discover leds will use the wrong
+path.
 
+I left these in v1 of this patch, but was recommended to remove them.
+https://lore.kernel.org/lkml/k26bellccok4tj3kz2nrtp2vth2rnsiea677e2kzm56m767wjx@pnkqiz5hmiyb/
 
-Acked-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+Thanks for taking a look at this
+ - Aren
 
+> People normally hardcode these paths in eg. /etc/tmpfiles.d to apply LED triggers
+> to particular LEDs.
+> 
+> Kind regards,
+> 	o.
+> 
+> > +		led0: led-0 {
+> >  			color = <LED_COLOR_ID_BLUE>;
+> >  			gpios = <&pio 3 20 GPIO_ACTIVE_HIGH>; /* PD20 */
+> >  			retain-state-suspended;
+> >  		};
+> >  
+> > -		led-1 {
+> > -			function = LED_FUNCTION_INDICATOR;
+> > +		led1: led-1 {
+> >  			color = <LED_COLOR_ID_GREEN>;
+> >  			gpios = <&pio 3 18 GPIO_ACTIVE_HIGH>; /* PD18 */
+> >  			retain-state-suspended;
+> >  		};
+> >  
+> > -		led-2 {
+> > -			function = LED_FUNCTION_INDICATOR;
+> > +		led2: led-2 {
+> >  			color = <LED_COLOR_ID_RED>;
+> >  			gpios = <&pio 3 19 GPIO_ACTIVE_HIGH>; /* PD19 */
+> >  			retain-state-suspended;
+> >  		};
+> >  	};
+> >  
+> > +	multi-led {
+> > +		compatible = "leds-group-multicolor";
+> > +		color = <LED_COLOR_ID_RGB>;
+> > +		function = LED_FUNCTION_INDICATOR;
+> > +		leds = <&led0>, <&led1>, <&led2>;
+> > +	};
+> > +
+> >  	reg_ps: ps-regulator {
+> >  		compatible = "regulator-fixed";
+> >  		regulator-name = "ps";
+> > -- 
+> > 2.43.0
+> > 
