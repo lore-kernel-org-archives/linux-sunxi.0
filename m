@@ -1,77 +1,120 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3848D12D212
-	for <linux-sunxi@lists.linux.dev>; Thu, 22 Feb 2024 22:14:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 541A3B665
+	for <linux-sunxi@lists.linux.dev>; Fri, 23 Feb 2024 01:52:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708640054; cv=none; b=XmWpM8BcK+Z+kjXmjNjdD/iU5epyUgFTlOFknAFrB9iDtS/OfNPnNdL6icwU2U7ZCNJviIfvdVUBMNvSkKKh0TqcL+rRD7Slk1dERogKLHNDWzhB4X2i20z85wThngRc2nH2dOfA73WQZ+84L2OAIIR1gmydA2yIeK6oa6PYkAg=
+	t=1708653152; cv=none; b=kohSNH9e5Wndc0vgrgptYlflQ5aoO2UZ/kpGYo3t7MxVR1bNhxhCF6hCfe9f9dRDCPI16tIvYUmvz9msKeViTWsSjCaxbO26qxhj0EgiJ0R/VtGC/GbdYfiCVWETSHGc4WGdObeeTnKsNLW66I8N6P1Krfvk+7VtY6GxFEP6xqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708640054; c=relaxed/simple;
-	bh=ck3jRgRIEFFe1vVEFGBoovJRWLr353BeTOW5VKjl/ZU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hVF6izfedqx6M3leXqTa+VfcD4FQZab5D+byfuqLiVSPsK+l0mZOb/AKL5pdq1OHfTjwT6mJo/ot/KZuzUit7N4+GB085Vb0SzsJVspNwKA3FGSfKhNy4jT/9xTVl9XflQqolbUTCdqiT8UVutiKT1P23BDabjPsqIZ01VK/io0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C3FC7DA7;
-	Thu, 22 Feb 2024 14:14:49 -0800 (PST)
-Received: from minigeek.lan (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BD2AE3F766;
-	Thu, 22 Feb 2024 14:14:09 -0800 (PST)
-Date: Thu, 22 Feb 2024 22:12:45 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- conor+dt@kernel.org, wens@csie.org, samuel@sholland.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] arm64: dts: allwinner: h616: Add Orange Pi Zero 2W to
- Makefile
-Message-ID: <20240222221245.216f403a@minigeek.lan>
-In-Reply-To: <20240222211326.114955-1-jernej.skrabec@gmail.com>
-References: <20240222211326.114955-1-jernej.skrabec@gmail.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	s=arc-20240116; t=1708653152; c=relaxed/simple;
+	bh=0xAlq3FKxyKOFVzLVHdJfOKR9ZGZX8El43JyE9dp5i8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JQdRUYqnUAMsfCEtIx2gJjHceNH8VoIu4wuVueJ10cLDcYxCHG4r2lU+9NSyC9I1w7Mf5pwnOqrxeeG8XdQKJndGFGrumSe+w5JMM5isvZNbNDZXREWmzM0gS7nUppNUhCd2xF0oeBeJm2r42jIZMSHMPaT+wYQO0nS085rdlw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=rgj35SW/; arc=none smtp.client-ip=195.181.215.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="rgj35SW/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
+	t=1708653141; bh=0xAlq3FKxyKOFVzLVHdJfOKR9ZGZX8El43JyE9dp5i8=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=rgj35SW/h7h9d8qcHLZE3bORQC8cnupdAgLbC/J6svJ9qk5A/fljXHg4ok9bIw1iO
+	 V42hGHce2rMR0ZWZcD7WAq72CXnrb9PbJqDQJM78lTa4JKZR/ma4DhILdPE8Rf2WPI
+	 XeN7svlDEMQELBfpAdlTKGGn1Pxskh6q7PmyK3yU=
+From: =?UTF-8?q?Ond=C5=99ej=20Jirman?= <megi@xff.cz>
+To: linux-kernel@vger.kernel.org,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Samuel Holland <samuel@sholland.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Ondrej Jirman <megi@xff.cz>,
+	Arnaud Ferraris <arnaud.ferraris@collabora.com>,
+	linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH v2 2/5] ASoC: sun50i-codec-analog: Move suspend/resume to set_bias_level
+Date: Fri, 23 Feb 2024 02:52:12 +0100
+Message-ID: <20240223015219.3618111-3-megi@xff.cz>
+In-Reply-To: <20240223015219.3618111-1-megi@xff.cz>
+References: <20240223015219.3618111-1-megi@xff.cz>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, 22 Feb 2024 22:13:26 +0100
-Jernej Skrabec <jernej.skrabec@gmail.com> wrote:
+From: Samuel Holland <samuel@sholland.org>
 
-Hi,
+With idle_bias_on and suspend_bias_off, there are bias level transitions
+that match the suspend/resume callbacks. However, there are also
+transitions during probe (OFF => STANDBY) and removal (STANDBY => OFF).
 
-> Orange Pi Zero 2W dts file is not included in Makefile. Fix this.
-> 
-> Fixes: c505ee1eae18 ("arm64: dts: allwinner: h616: add Orange Pi Zero 2W support")
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+By using the set_bias_level hook, the driver can have one copy of code
+that would otherwise be duplicated between the probe/resume and
+suspend/remove hooks.
 
-Ah, sorry, I think this was lost during a rebase, when the other H618
-boards were merged.
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+Signed-off-by: Ondřej Jirman <megi@xff.cz>
+---
+ sound/soc/sunxi/sun50i-codec-analog.c | 29 +++++++++++++++++----------
+ 1 file changed, 18 insertions(+), 11 deletions(-)
 
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-
-Cheers,
-Andre
-
-> ---
->  arch/arm64/boot/dts/allwinner/Makefile | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
-> index 91d505b385de..1f1f8d865d0e 100644
-> --- a/arch/arm64/boot/dts/allwinner/Makefile
-> +++ b/arch/arm64/boot/dts/allwinner/Makefile
-> @@ -42,5 +42,6 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-bigtreetech-cb1-manta.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-bigtreetech-pi.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-orangepi-zero2.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-x96-mate.dtb
-> +dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero2w.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero3.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-transpeed-8k618-t.dtb
+diff --git a/sound/soc/sunxi/sun50i-codec-analog.c b/sound/soc/sunxi/sun50i-codec-analog.c
+index 8a32d05e23e1..cedd4de42d1a 100644
+--- a/sound/soc/sunxi/sun50i-codec-analog.c
++++ b/sound/soc/sunxi/sun50i-codec-analog.c
+@@ -471,17 +471,23 @@ static const struct snd_soc_dapm_route sun50i_a64_codec_routes[] = {
+ 	{ "EARPIECE", NULL, "Earpiece Amp" },
+ };
+ 
+-static int sun50i_a64_codec_suspend(struct snd_soc_component *component)
++static int sun50i_a64_codec_set_bias_level(struct snd_soc_component *component,
++					   enum snd_soc_bias_level level)
+ {
+-	return regmap_update_bits(component->regmap, SUN50I_ADDA_HP_CTRL,
+-				  BIT(SUN50I_ADDA_HP_CTRL_PA_CLK_GATE),
+-				  BIT(SUN50I_ADDA_HP_CTRL_PA_CLK_GATE));
+-}
++	switch (level) {
++	case SND_SOC_BIAS_OFF:
++		regmap_set_bits(component->regmap, SUN50I_ADDA_HP_CTRL,
++				BIT(SUN50I_ADDA_HP_CTRL_PA_CLK_GATE));
++		break;
++	case SND_SOC_BIAS_STANDBY:
++		regmap_clear_bits(component->regmap, SUN50I_ADDA_HP_CTRL,
++				   BIT(SUN50I_ADDA_HP_CTRL_PA_CLK_GATE));
++		break;
++	default:
++		break;
++	}
+ 
+-static int sun50i_a64_codec_resume(struct snd_soc_component *component)
+-{
+-	return regmap_update_bits(component->regmap, SUN50I_ADDA_HP_CTRL,
+-				  BIT(SUN50I_ADDA_HP_CTRL_PA_CLK_GATE), 0);
++	return 0;
+ }
+ 
+ static const struct snd_soc_component_driver sun50i_codec_analog_cmpnt_drv = {
+@@ -491,8 +497,9 @@ static const struct snd_soc_component_driver sun50i_codec_analog_cmpnt_drv = {
+ 	.num_dapm_widgets	= ARRAY_SIZE(sun50i_a64_codec_widgets),
+ 	.dapm_routes		= sun50i_a64_codec_routes,
+ 	.num_dapm_routes	= ARRAY_SIZE(sun50i_a64_codec_routes),
+-	.suspend		= sun50i_a64_codec_suspend,
+-	.resume			= sun50i_a64_codec_resume,
++	.set_bias_level		= sun50i_a64_codec_set_bias_level,
++	.idle_bias_on		= true,
++	.suspend_bias_off	= true,
+ };
+ 
+ static const struct of_device_id sun50i_codec_analog_of_match[] = {
+-- 
+2.43.0
 
