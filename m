@@ -1,74 +1,79 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5787146904
-	for <linux-sunxi@lists.linux.dev>; Fri, 23 Feb 2024 19:51:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C229213DBA8
+	for <linux-sunxi@lists.linux.dev>; Fri, 23 Feb 2024 19:59:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708717878; cv=none; b=iD6qZlVI+9qeOBaYcz7xavD4Xa8WQImpE3KH6r0i75gLpwNVyWQZjlC7rLvtVk++nnqi5Y0edU39reFj7KTziI4dN25xnP5djN5FqUYjqwo9wxENA07N4Zt4uMHKNwcMsujWAxfza7cMpze4li5TACKVwwcnICcFtsQe30Rrmpo=
+	t=1708718353; cv=none; b=rWoRbl/aXvgHf3MQu9/o9kq00uG0HFzpqkJI3N6z4SKE8d2N1XI7J3mp5M7ltI9FBj+EAo6V9RD60NO879Gpdc8JHqD/JTk12W0SP7JbGpRbT7yPmUEgoxXyRRqEAhbpXaWm6xTWssGWO6mT0BPnkDRiCquEhgQIoWL6J9vnRFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708717878; c=relaxed/simple;
-	bh=DCcRHQS8179CeEbpS6ho3btFvHb0UMPTbTzkvbeC7DQ=;
+	s=arc-20240116; t=1708718353; c=relaxed/simple;
+	bh=0RfNMB8U2OJeZoXfNYmx+4+5DBHIL//3DzUbkh54gbM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Uy3pTbYqYwBuSGolCxuRlhwHeqIX3k+1TaZ/IIMMYXhmOoTmKrJOOPRHmD9bIzcawsjJP4dtCfBr5fM5W6TLYoRN9WfUiMRMicv6WR2ARqBXWrd+4z8SztLgJJxl3jnf2W0I3AXXxoMfJAB/UiaE0h+W7h33xbVvuYLisSN+1Gk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UklWarrW; arc=none smtp.client-ip=209.85.218.52
+	 MIME-Version:Content-Type; b=M3OzvxaMmUAwzteIOgtuj6hqAIOITPeXxs2OsK3hsx61rJ4us0UnxvuHBspLvjm0Z+0f0zX/4du1ByUanirC1mkytjoZJBG1aXdmieNOpr61HrWAU6LlwKOWfkraLaNiDRrLUjNA7GIRrP0ev7y8FwH1UK2z8QxKXQj/li4Dpno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bKDRB4GR; arc=none smtp.client-ip=209.85.218.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UklWarrW"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a28a6cef709so186580166b.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 23 Feb 2024 11:51:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bKDRB4GR"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a3d484a58f6so177811366b.3
+        for <linux-sunxi@lists.linux.dev>; Fri, 23 Feb 2024 11:59:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708717875; x=1709322675; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1708718350; x=1709323150; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0Xr6A5ZVcZDLJ7oaBlotk2t+V105HpiLWnU7g8aHJ7w=;
-        b=UklWarrWLnfoiryt1BavzEf+MiXHvyQUvIo2EuOqqiVlERCYY79j8mj6KxFHG6H7k6
-         DuoH7aB+9G01O9unHZjF0qHajSx2vs56ccQ+Q74fov74b1MEP4X9VELf4Pc2o1vOW9nd
-         TY+PPHPlGqMcH59VDzNAME23nsz0VV4CvWvhl1Sjucfm6+W11v+k1R2bmaoSlaoXVX8Q
-         Z9fhWTELa7ZHAmDV1/kLJjzb51SVV3JKGYb0uXaEm8hMjjUiUVb7hPFxmVOAX/pDXDOC
-         JwT8zOV5bF4kS2+r6wxgtv1YXiVU9leP54/7rZA8PlMGoKrSaY1TItKj4XzPpJOc5Oml
-         f23Q==
+        bh=z894Zg2CSZbZzbMtWOcHDsDVjOprmfGRO35Ki4YUhH0=;
+        b=bKDRB4GRfSTLH3Z8Q+yuaca0ePeQVU0mlYP/jy6hSUU33sIkmw7Uvjmc4i/pHL7jL/
+         usMeqwHrWU7dbK5HxFhfuGsPIy1G08yV/RT0Tq1ZRNVCGRsSHS5RAeyBQWk9YToAdEUy
+         ZdufsTicB1DHTvetyHyx9v2XXiIMKcDUOfyejf+HTkmMps88tEo8579TVonN/rMjoLVq
+         Tk/u2urvh3ZBuroATj2gNbunNY/NXErmyjm0EfDMpRJo5kOPQNptg2BIkm+K95exd4xg
+         cl+RDFX7nIVFVDzUK8B64Dq94WqYrYoruwYEf+vFg84X5gyIa479SvaIL13d1e26pHox
+         AkmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708717875; x=1709322675;
+        d=1e100.net; s=20230601; t=1708718350; x=1709323150;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0Xr6A5ZVcZDLJ7oaBlotk2t+V105HpiLWnU7g8aHJ7w=;
-        b=XjJzPBy5FilKp295tXXZBsYMhDmJufrNbBikY3L7MPp5gVzgk1QCgTFesOXqEK5IkZ
-         KbALTCoE6aavqsuv9CIMFpZWksYmgLMFNYYuIKbgAqYBeKnIGvR1BgR4j258W79CrxlE
-         vHbGHj8BbHCAK9mg7tVTWxelUTjxIjfPMWFa2aLz+krmtnBgsOjM27fGKxMoRuZ+NpsA
-         CPzOTJE3wIkmoRSrmXww9FePChHAyGVCkVTCk/x4uw8j/cgM5eElKE1RL5ahzfNaLcyp
-         cpIHYgzPgufxmatAy787yP4ZH6hn2LuHQAdTm1CqzywhWA8AoRmv9kb0Mz+YLF/hFnjq
-         yJ8g==
-X-Forwarded-Encrypted: i=1; AJvYcCWaxFWAtna+XvyW2lD4BtabVyEAze4SNgpNkn3LKvbG+2bU/ErkI0whVdJXDH/EeGyBlX8BDpaNvc306VNOmX6xyhQrXsmlXN+F8/M=
-X-Gm-Message-State: AOJu0YxDhJ5faapkppC/Ulw7uFrIPneGMKVtuHjhYXJQ9Cof2gA2Kr3s
-	VO6LiRN//qo6N4einKP1D/xq507d2udmtUbPwv74CsqKfswzhihRArXOqYhyBzI=
-X-Google-Smtp-Source: AGHT+IE19ctpcHeC8OGPK03xM0qf45C77WZ9HAydSzM8Dyn0bvmzXPAySicx9S20pEbJNSX2ZydiUw==
-X-Received: by 2002:a17:906:cd0f:b0:a41:3950:d11c with SMTP id oz15-20020a170906cd0f00b00a413950d11cmr547643ejb.28.1708717874903;
-        Fri, 23 Feb 2024 11:51:14 -0800 (PST)
+        bh=z894Zg2CSZbZzbMtWOcHDsDVjOprmfGRO35Ki4YUhH0=;
+        b=a2VEi8VPbfwwQqBd83yEd8fEVx0DWIIFTTCkYT5/ZqUUFnxrwBMAg2/n6Te7VBLOK6
+         8RWibs6HJ55YExl01pKW1xsyp6lPbyomiCp/fiuHLm77sZ7lbTBi9+sDvLMH8/KxL9hk
+         P+VTujVsle0h1EHNY1GY5IaWWMagcMiThyrMD8HA/jbkdtkAvCz2Ef21tGDQw6GBB5mV
+         eeu6aHSFz6aq9sGHG/60E7P6QD0T8vE+nfYCP4dwOkG28C85YHzY03IMO6x3nJK2amRt
+         go59qRybnRAtLfymPLdzyxsqGFttho4LkwmfPlnoOR5DiYmwprZl4MYHwp1uhRtoawer
+         GdPg==
+X-Forwarded-Encrypted: i=1; AJvYcCUNEvcCir+1DzX4fAFKhGmC7kudVi92soucTAyg665ZCAT4pl6hDNxiTDsCHElTR3+d6LhihYiw1O+QfSo6KnsaGP5VOuphy4/d/M8=
+X-Gm-Message-State: AOJu0Yw8hIV/wYIoxuw//VsraINV3bOpSWt0Huvw4huYnf7s2QX2IfqR
+	5BvF2Rg93XBm5hfXVtt4PuMjUcb+t5drmbs8o8EZh4sHVMuy+AO4P5AV7hC/dq4=
+X-Google-Smtp-Source: AGHT+IHa3BodFIBcxDRDYeqP+u89pkUBXtdIKmif9raMa9dTkft1TZXDVm+m+J5uzAoci0my3baSQw==
+X-Received: by 2002:a17:906:4bd4:b0:a3e:7a8f:27dc with SMTP id x20-20020a1709064bd400b00a3e7a8f27dcmr485556ejv.49.1708718350027;
+        Fri, 23 Feb 2024 11:59:10 -0800 (PST)
 Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id tj9-20020a170907c24900b00a3ca56e9bcfsm7183967ejc.187.2024.02.23.11.51.12
+        by smtp.gmail.com with ESMTPSA id vw15-20020a170907a70f00b00a3f3a5d6752sm2811107ejc.51.2024.02.23.11.59.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Feb 2024 11:51:13 -0800 (PST)
+        Fri, 23 Feb 2024 11:59:09 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Vasily Khoruzhick <anarsoul@gmail.com>,
- Yangtao Li <tiny.windzz@gmail.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Daniel Lezcano <daniel.lezcano@linaro.org>, Amit Kucheria <amitk@kernel.org>,
- Zhang Rui <rui.zhang@intel.com>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>, Mark Brown <broonie@kernel.org>
-Cc: Hugh Dickins <hughd@google.com>, linux-pm@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
+ Yangtao Li <tiny.windzz@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>, Andre Przywara <andre.przywara@arm.com>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>,
+ Lukasz Luba <lukasz.luba@arm.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ Maksim Kiselev <bigunclemax@gmail.com>,
+ Bob McChesney <bob@electricworry.net>, linux-pm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
 Subject:
- Re: [PATCH v3] thermal/drivers/sun8i: Don't fail probe due to zone
- registration failure
-Date: Fri, 23 Feb 2024 20:51:12 +0100
-Message-ID: <12383045.O9o76ZdvQC@jernej-laptop>
-In-Reply-To:
- <20240123-thermal-sun8i-registration-v3-1-3e5771b1bbdd@kernel.org>
-References: <20240123-thermal-sun8i-registration-v3-1-3e5771b1bbdd@kernel.org>
+ Re: [PATCH v5 7/7] arm64: dts: allwinner: h616: Add thermal sensor and zones
+Date: Fri, 23 Feb 2024 20:59:08 +0100
+Message-ID: <6017645.lOV4Wx5bFT@jernej-laptop>
+In-Reply-To: <20240219153639.179814-8-andre.przywara@arm.com>
+References:
+ <20240219153639.179814-1-andre.przywara@arm.com>
+ <20240219153639.179814-8-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -78,90 +83,147 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Hi Daniel, Rafael,
+Dne ponedeljek, 19. februar 2024 ob 16:36:39 CET je Andre Przywara napisal(a):
+> From: Martin Botka <martin.botka@somainline.org>
+> 
+> There are four thermal sensors:
+> - CPU
+> - GPU
+> - VE
+> - DRAM
+> 
+> Add the thermal sensor configuration and the thermal zones.
+> 
+> Signed-off-by: Martin Botka <martin.botka@somainline.org>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
-is there any issue with this patch? Can you apply it?
+I can't cleanly apply patch on top of sunxi/dt-for-6.9. Can you please rebase?
 
 Best regards,
 Jernej
 
-Dne sreda, 24. januar 2024 ob 00:33:07 CET je Mark Brown napisal(a):
-> Currently the sun8i thermal driver will fail to probe if any of the
-> thermal zones it is registering fails to register with the thermal core.
-> Since we currently do not define any trip points for the GPU thermal
-> zones on at least A64 or H5 this means that we have no thermal support
-> on these platforms:
-> 
-> [    1.698703] thermal_sys: Failed to find 'trips' node
-> [    1.698707] thermal_sys: Failed to find trip points for thermal-sensor id=1
-> 
-> even though the main CPU thermal zone on both SoCs is fully configured.
-> This does not seem ideal, while we may not be able to use all the zones
-> it seems better to have those zones which are usable be operational.
-> Instead just carry on registering zones if we get any non-deferral
-> error, allowing use of those zones which are usable.
-> 
-> This means that we also need to update the interrupt handler to not
-> attempt to notify the core for events on zones which we have not
-> registered, I didn't see an ability to mask individual interrupts and
-> I would expect that interrupts would still be indicated in the ISR even
-> if they were masked.
-> 
-> Reviewed-by: Vasily Khoruzhick <anarsoul@gmail.com>
-> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Signed-off-by: Mark Brown <broonie@kernel.org>
 > ---
-> Changes in v3:
-> - Rebase onto v6.8-rc1.
-> - Link to v2: https://lore.kernel.org/r/20230912-thermal-sun8i-registration-v2-1-077230107768@kernel.org
+>  .../arm64/boot/dts/allwinner/sun50i-h616.dtsi | 88 +++++++++++++++++++
+>  1 file changed, 88 insertions(+)
 > 
-> Changes in v2:
-> - Rebase onto v6.6-rc1.
-> - Link to v1: https://lore.kernel.org/r/20230718-thermal-sun8i-registration-v1-1-c95b1b070340@kernel.org
-> ---
->  drivers/thermal/sun8i_thermal.c | 16 ++++++++++++++--
->  1 file changed, 14 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_thermal.c
-> index 6a8e386dbc8d..c2a8ae7f8f2f 100644
-> --- a/drivers/thermal/sun8i_thermal.c
-> +++ b/drivers/thermal/sun8i_thermal.c
-> @@ -188,6 +188,9 @@ static irqreturn_t sun8i_irq_thread(int irq, void *data)
->  	int i;
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+> index 12ffabc79bcde..7c7d7c285505c 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+> @@ -9,6 +9,7 @@
+>  #include <dt-bindings/clock/sun6i-rtc.h>
+>  #include <dt-bindings/reset/sun50i-h616-ccu.h>
+>  #include <dt-bindings/reset/sun50i-h6-r-ccu.h>
+> +#include <dt-bindings/thermal/thermal.h>
 >  
->  	for_each_set_bit(i, &irq_bitmap, tmdev->chip->sensor_num) {
-> +		/* We allow some zones to not register. */
-> +		if (IS_ERR(tmdev->sensor[i].tzd))
-> +			continue;
->  		thermal_zone_device_update(tmdev->sensor[i].tzd,
->  					   THERMAL_EVENT_UNSPECIFIED);
->  	}
-> @@ -465,8 +468,17 @@ static int sun8i_ths_register(struct ths_device *tmdev)
->  						      i,
->  						      &tmdev->sensor[i],
->  						      &ths_ops);
-> -		if (IS_ERR(tmdev->sensor[i].tzd))
-> -			return PTR_ERR(tmdev->sensor[i].tzd);
+>  / {
+>  	interrupt-parent = <&gic>;
+> @@ -138,6 +139,10 @@ sid: efuse@3006000 {
+>  			reg = <0x03006000 0x1000>;
+>  			#address-cells = <1>;
+>  			#size-cells = <1>;
 > +
-> +		/*
-> +		 * If an individual zone fails to register for reasons
-> +		 * other than probe deferral (eg, a bad DT) then carry
-> +		 * on, other zones might register successfully.
-> +		 */
-> +		if (IS_ERR(tmdev->sensor[i].tzd)) {
-> +			if (PTR_ERR(tmdev->sensor[i].tzd) == -EPROBE_DEFER)
-> +				return PTR_ERR(tmdev->sensor[i].tzd);
-> +			continue;
-> +		}
+> +			ths_calibration: thermal-sensor-calibration@14 {
+> +				reg = <0x14 0x8>;
+> +			};
+>  		};
 >  
->  		devm_thermal_add_hwmon_sysfs(tmdev->dev, tmdev->sensor[i].tzd);
->  	}
-> 
-> ---
-> base-commit: 6613476e225e090cc9aad49be7fa504e290dd33d
-> change-id: 20230718-thermal-sun8i-registration-df3a136ccafa
-> 
-> Best regards,
+>  		watchdog: watchdog@30090a0 {
+> @@ -517,6 +522,19 @@ mdio0: mdio {
+>  			};
+>  		};
+>  
+> +		ths: thermal-sensor@5070400 {
+> +			compatible = "allwinner,sun50i-h616-ths";
+> +			reg = <0x05070400 0x400>;
+> +			interrupts = <GIC_SPI 19 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks = <&ccu CLK_BUS_THS>;
+> +			clock-names = "bus";
+> +			resets = <&ccu RST_BUS_THS>;
+> +			nvmem-cells = <&ths_calibration>;
+> +			nvmem-cell-names = "calibration";
+> +			allwinner,sram = <&syscon>;
+> +			#thermal-sensor-cells = <1>;
+> +		};
+> +
+>  		usbotg: usb@5100000 {
+>  			compatible = "allwinner,sun50i-h616-musb",
+>  				     "allwinner,sun8i-h3-musb";
+> @@ -761,4 +779,74 @@ r_rsb: rsb@7083000 {
+>  			#size-cells = <0>;
+>  		};
+>  	};
+> +
+> +	thermal-zones {
+> +		cpu-thermal {
+> +			polling-delay-passive = <500>;
+> +			polling-delay = <1000>;
+> +			thermal-sensors = <&ths 2>;
+> +			sustainable-power = <1000>;
+> +
+> +			trips {
+> +				cpu_threshold: cpu-trip-0 {
+> +					temperature = <60000>;
+> +					type = "passive";
+> +					hysteresis = <0>;
+> +				};
+> +				cpu_target: cpu-trip-1 {
+> +					temperature = <70000>;
+> +					type = "passive";
+> +					hysteresis = <0>;
+> +				};
+> +				cpu_critical: cpu-trip-2 {
+> +					temperature = <110000>;
+> +					type = "critical";
+> +					hysteresis = <0>;
+> +				};
+> +			};
+> +		};
+> +
+> +		gpu-thermal {
+> +			polling-delay-passive = <500>;
+> +			polling-delay = <1000>;
+> +			thermal-sensors = <&ths 0>;
+> +			sustainable-power = <1100>;
+> +
+> +			trips {
+> +				gpu_temp_critical: gpu-trip-0 {
+> +					temperature = <110000>;
+> +					type = "critical";
+> +					hysteresis = <0>;
+> +				};
+> +			};
+> +		};
+> +
+> +		ve-thermal {
+> +			polling-delay-passive = <0>;
+> +			polling-delay = <0>;
+> +			thermal-sensors = <&ths 1>;
+> +
+> +			trips {
+> +				ve_temp_critical: ve-trip-0 {
+> +					temperature = <110000>;
+> +					type = "critical";
+> +					hysteresis = <0>;
+> +				};
+> +			};
+> +		};
+> +
+> +		ddr-thermal {
+> +			polling-delay-passive = <0>;
+> +			polling-delay = <0>;
+> +			thermal-sensors = <&ths 3>;
+> +
+> +			trips {
+> +				ddr_temp_critical: ddr-trip-0 {
+> +					temperature = <110000>;
+> +					type = "critical";
+> +					hysteresis = <0>;
+> +				};
+> +			};
+> +		};
+> +	};
+>  };
 > 
 
 
