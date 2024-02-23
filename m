@@ -1,182 +1,141 @@
 Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59E1B18B04
-	for <linux-sunxi@lists.linux.dev>; Fri, 23 Feb 2024 08:20:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22C1718E1F
+	for <linux-sunxi@lists.linux.dev>; Fri, 23 Feb 2024 08:46:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708676425; cv=none; b=XBziZ3lQ0MmJjFyMotjaK0zcE8P2cwlXFWjzYjJiOUjTcWiUhbRM/PjhbnO/McOzeh+OPuSEWrI3/lXbq/3deOBR3Ze9I+n42TJc0t5Ius4HlkeviAujTpINRRdhuf5b32OC/SzgKzbYb4XvDM+RDMiQOotsZ1cy/8EMFtIkGLA=
+	t=1708677989; cv=none; b=gyzWAgWjb0kthGj+39EasdQ5TeB7MSe27u6bkP5/D0JZGAqDNrtNBBOmCWmR9CiheKZfZIMy4pD4v6OCxQhLWzu/Oj91y2/PvZYH0jA8E0wISZbWbg0uIbf2LMZ8f9KvZuhZhlAdzzy+U5cN0mBwTb8GlpwLiHsqR0WruKJn74k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708676425; c=relaxed/simple;
-	bh=HeyPgo+8UCVKlR0pSsRdYja39it6FmxGSMN3doO156Q=;
+	s=arc-20240116; t=1708677989; c=relaxed/simple;
+	bh=EZZPQchlQbMRgMLdaZSVRfWs5DMx2XOakjV6Hz3uCjc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KJpsf/O6ZzPKEjqBbBvUY2+TLzbyhNZzApt0mCi90V0UIxNIRgnVlBD9noTCR3NMolkl6UMSOmv/Fxx5dpH6c7ePXZr1X2+yJEnm7Sq+NUorLwiKLWguXDO6CjdcVc6O1rn98UVFYmTb/XRewThnfzWZLiQoZE0L7Q6wB3SNUT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=bYZ3AfVe; arc=none smtp.client-ip=195.181.215.36
+	 Content-Type:Content-Disposition:In-Reply-To; b=p2Zin9ZLya+Pkxxd3z9K/pfPcxBJQKj81Ea3X4Ja6GZHbHtNwv8xxPXwQt5wPBwV5VlipY6lJM+8L3hckoVFnFC9e7EuWRMRug6+9A9DCPUfJvw7m8odjysCCb4Gp3O82LK48br4QqVewOWgqNQPZiCxjgfnir8MJaZ5cQRCsP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=tYDKGXyT; arc=none smtp.client-ip=195.181.215.36
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="bYZ3AfVe"
+	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="tYDKGXyT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
-	t=1708676418; bh=HeyPgo+8UCVKlR0pSsRdYja39it6FmxGSMN3doO156Q=;
+	t=1708677986; bh=EZZPQchlQbMRgMLdaZSVRfWs5DMx2XOakjV6Hz3uCjc=;
 	h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
-	b=bYZ3AfVewfQLfkJOtr2NFwdGwxpB2Usry+rr9+yym0SxhK11qNA87fUyvvW/Crx52
-	 Kt/zDGevmVTZsYo4hzZ7qmRBJZkxkUJVi9OgXjIN9kwjkoglf5CsDcyX9RI0QEB8gw
-	 +BKARxyqsdHdcFNhHV6/hRwFibu1BJxygJF1xl7k=
-Date: Fri, 23 Feb 2024 09:20:17 +0100
+	b=tYDKGXyTUFx45Cfn4MxTIQ4wjmFHD/P+5LQ8Tv8lWgD9lkdtT3FOkBhEEyWWts15p
+	 NdK0gVmh6eiX1XcL39WrYugf7CrmeaVPEU3mcpfmHMTbimF+jrF2xM5GtbVsDSDBHq
+	 a3IKS0Xu+eifTUatSjo6DXYkh12/fb+JEgtO842c=
+Date: Fri, 23 Feb 2024 09:46:25 +0100
 From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
-To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] drm/sun4i: Fix layer zpos change/atomic modesetting
-Message-ID: <iboaf4yyieqq6yeuu2amwjnwsao3vx7fzeqldhuplx5j6z2zxf@ex57tbxhzzk6>
+To: Aren Moynihan <aren@peacevolution.org>
+Cc: linux-kernel@vger.kernel.org, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, 
+	Jean-Jacques Hiblot <jjhiblot@traphandler.com>, Chen-Yu Tsai <wens@csie.org>, linux-sunxi@lists.linux.dev, 
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>, 
+	linux-arm-kernel@lists.infradead.org, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	linux-leds@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, Miles Alan <m@milesalan.com>, 
+	Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH v2 3/4] arm64: dts: sun50i-a64-pinephone: add multicolor
+ led node
+Message-ID: <sixgkkllo7medcjwjnmbkpqkgfvnmrtlhlwarwuxid5oqwrht5@gl65b6fetq2b>
 Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, 
-	Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>, Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+	Aren Moynihan <aren@peacevolution.org>, linux-kernel@vger.kernel.org, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, 
+	Jean-Jacques Hiblot <jjhiblot@traphandler.com>, Chen-Yu Tsai <wens@csie.org>, linux-sunxi@lists.linux.dev, 
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>, 
+	linux-arm-kernel@lists.infradead.org, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	linux-leds@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, Miles Alan <m@milesalan.com>, 
+	Samuel Holland <samuel@sholland.org>
 X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
  <https://xff.cz/key.txt>
-References: <20240216190430.1374132-1-megi@xff.cz>
- <20240216190430.1374132-4-megi@xff.cz>
- <inuhwnlexpt6dpre4uailtvytjhms4uqeerzehbntczurhcxol@fc4nvkdwffdd>
- <2448947.jE0xQCEvom@jernej-laptop>
+References: <20240206185400.596979-1-aren@peacevolution.org>
+ <20240206185400.596979-3-aren@peacevolution.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2448947.jE0xQCEvom@jernej-laptop>
+In-Reply-To: <20240206185400.596979-3-aren@peacevolution.org>
 
-On Thu, Feb 22, 2024 at 09:02:53PM +0100, Jernej Škrabec wrote:
-> Dne sreda, 21. februar 2024 ob 14:45:20 CET je Maxime Ripard napisal(a):
-> > Hi,
-> > 
-> > On Fri, Feb 16, 2024 at 08:04:26PM +0100, Ondřej Jirman wrote:
-> > > From: Ondrej Jirman <megi@xff.cz>
-> > > 
-> > > Identical configurations of planes can lead to different (and wrong)
-> > > layer -> pipe routing at HW level, depending on the order of atomic
-> > > plane changes.
-> > > 
-> > > For example:
-> > > 
-> > > - Layer 1 is configured to zpos 0 and thus uses pipe 0. No other layer
-> > >   is enabled. This is a typical situation at boot.
-> > > 
-> > > - When a compositor takes over and layer 3 is enabled,
-> > >   sun8i_ui_layer_enable() will get called with old_zpos=0 zpos=1, which
-> > >   will lead to incorrect disabling of pipe 0 and enabling of pipe 1.
-> > > 
-> > > What happens is that sun8i_ui_layer_enable() function may disable
-> > > blender pipes even if it is no longer assigned to its layer.
-> > > 
-> > > To correct this, move the routing setup out of individual plane's
-> > > atomic_update into crtc's atomic_update, where it can be calculated
-> > > and updated all at once.
-> > > 
-> > > Remove the atomic_disable callback because it is no longer needed.
-> > > 
-> > > Signed-off-by: Ondrej Jirman <megi@xff.cz>
-> > 
-> > I don't have enough knowledge about the mixers code to comment on your
-> > patch, so I'll let Jernej review it. However, this feels to me like the
-> > pipe assignment is typically the sort of things that should be dealt
-> > with device-wide, and in atomic_check.
+Hello Aren,
+
+On Tue, Feb 06, 2024 at 01:13:19PM -0500, Aren Moynihan wrote:
+> The red, green, and blue leds currently in the device tree represent a
+> single rgb led on the front of the PinePhone.
 > 
-> In DE2 and DE3.0, you cannot move planes between mixers (crtcs), because each
-> one is hardwired to specific mixer. Movable planes are the feature of DE3.3
-> and one of the pain points for upstreaming the code. Anyway, this commit only
-> addresses current issue of enabling and disabling planes and handling zpos.
+> Signed-off-by: Aren Moynihan <aren@peacevolution.org>
+> ---
 > 
-> In atomic check you can only precalculate final register values, but I don't
-> see any benefit doing that. I think that this code elegantly solves current
-> issue of enabling or disabling wrong plane in certain situations, so:
+> Changes in v2:
+>  - remove function property from individual led nodes
 > 
-> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+>  .../boot/dts/allwinner/sun50i-a64-pinephone.dtsi | 16 ++++++++++------
+>  1 file changed, 10 insertions(+), 6 deletions(-)
+> 
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> index ad2476ee01e4..e53e0d4579a7 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> @@ -39,28 +39,32 @@ chosen {
+>  	leds {
+>  		compatible = "gpio-leds";
+>  
+> -		led-0 {
+> -			function = LED_FUNCTION_INDICATOR;
 
-Thanks for the review.
+This looks like a needless change that will just break people's current scripts
+and setup. It does mine, and there sure are others that will be surprised, too.
 
-> Note, if there is new revision, please rewrite blender regmap_update_bits()
-> to regmap_write(). Since there is HW issue with reads, I would like to
-> get rid of regmap_update_bits() calls eventually.
+This leads to a change in sysfs path from:
 
-BTW as a side note, one observation I made about a year back after some testing
-with a setup like this:
+  /sys/class/leds/blue:indicator
 
-- PIN photodiode in a black box directed at a display (Pinephone)
-  attached to the oscilloscope
-- GPIO signal routed to another input of the scope
-- sun4i-drm driver modification that toggles the GPIO any number of times so
-  that I can correlate brightness changes as seen by photodiode on the
-  scope with the timing of what's happening in the driver
+to
 
-is that if you do atomic commit right after receiving the flip event there's
-a high chance that what you're commiting will get displayed right away,
-basically skipping the update from the previous atomic commit.
+  /sys/class/leds/blue:
 
-It's very easy to reproduce with a test application that flips between two
-completely white and completely black framebuffers back and forth right
-after flip event. What you see on the display is seemingly random blinking
-pattern: https://megous.com/dl/tmp/c9a286427ce66d80.png when it should be
-a peridic flipping between black and white pixels like this
-https://megous.com/dl/tmp/c085a50ccd387257.png
+which is 1) a weird name and 2) a backwards compatibility break for seemingly
+no apparent reason. Any reaons for the change?
 
-This goes away for me when introducing a >150us delay between flip event
-and next atomic commit.
+People normally hardcode these paths in eg. /etc/tmpfiles.d to apply LED triggers
+to particular LEDs.
 
-I did a more complex test with a test app that switches between 4 framebuffers
-of decreasing shades of gray, so that the resulting pattern of brightness should
-be a stariwise stepping signal pattern on the scope, along with gpio indicating which
-framebuffer just got commited (by the number of pulses 1-4). What I saw was
-that normally there's a 1 frame delay between commit and the corresponding
-brightness change, but often enough the brightness change is immediate.
-
-I think the hardware indicates a flip (vsync irq) some time before it performs
-the double buffered register update to shadow register for the next frame. So
-sometimes the driver manages to overwrite the values stored during the previous
-commit before they get flipped to shadow registers. Again, intorducing a 150us
-delay between flip event and atomic commit reliably fixes this, and I see
-a perfect stairwise pattern on the scope instead of occasional skipped ahead
-steps.
-
-It seems to me that those 150us are related to display timing.
-
-Vertical blanking cycle on Pinephone lasts about 400us with 45us long vsync
-pulse roughly in the middle. In my observation it seems likely that HW signals
-VSYNC interrupt at the start or end of the VSYNC pulse and flips the double
-buffered HW registers at the end of the blanking cycle, leaving some 150us of
-time in between for a quick atomic commit to still mess up the register settings
-for the upcoming scan out, before they get commited to shadow regs. I don't have
-a way to observe vsync signal on a scope, because it's MIPI-DSI display to
-verify this exactly.
-
-The certain thing is that after vsync interrupt, the double buffered registers
-are not switched, yet. There's still some time left before that happens.
-
-Anyway, just something I'd thought I share that may help us understand this
-HW better. :)
-
-kind regards,
+Kind regards,
 	o.
 
-> Best regards,
-> Jernej
-> 
-> > 
-> > If I'm talking non-sense, it would be great to mention at least why that
-> > can't be an option in the commit log.
-> > 
-> > Maxime
-> > 
-> 
-> 
-> 
+> +		led0: led-0 {
+>  			color = <LED_COLOR_ID_BLUE>;
+>  			gpios = <&pio 3 20 GPIO_ACTIVE_HIGH>; /* PD20 */
+>  			retain-state-suspended;
+>  		};
+>  
+> -		led-1 {
+> -			function = LED_FUNCTION_INDICATOR;
+> +		led1: led-1 {
+>  			color = <LED_COLOR_ID_GREEN>;
+>  			gpios = <&pio 3 18 GPIO_ACTIVE_HIGH>; /* PD18 */
+>  			retain-state-suspended;
+>  		};
+>  
+> -		led-2 {
+> -			function = LED_FUNCTION_INDICATOR;
+> +		led2: led-2 {
+>  			color = <LED_COLOR_ID_RED>;
+>  			gpios = <&pio 3 19 GPIO_ACTIVE_HIGH>; /* PD19 */
+>  			retain-state-suspended;
+>  		};
+>  	};
+>  
+> +	multi-led {
+> +		compatible = "leds-group-multicolor";
+> +		color = <LED_COLOR_ID_RGB>;
+> +		function = LED_FUNCTION_INDICATOR;
+> +		leds = <&led0>, <&led1>, <&led2>;
+> +	};
+> +
+>  	reg_ps: ps-regulator {
+>  		compatible = "regulator-fixed";
+>  		regulator-name = "ps";
+> -- 
+> 2.43.0
 > 
