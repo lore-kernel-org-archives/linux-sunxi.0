@@ -1,85 +1,103 @@
-Received: from a.peacevolution.org (a.peacevolution.org [206.189.193.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE8C581AC6
-	for <linux-sunxi@lists.linux.dev>; Fri, 23 Feb 2024 15:32:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.193.133
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F409184A52
+	for <linux-sunxi@lists.linux.dev>; Fri, 23 Feb 2024 16:03:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708702360; cv=none; b=P/tszB+YSAVYV0Q786wMm6QgQkk91Iue2wQh4CfyR9/RhcNXCbZ37dkeaE14SgQvxGOGbvh0JMvPvLQY+MIMxTYO7+KmeLyc7fHKzgDxVSEBhjTFx0pwf1cySyeo4++cDcU0CrYf7r1KfTX+/GP/HXyP4iHl2TpDyIfdCfgW37s=
+	t=1708704204; cv=none; b=pDRSrTXeHxDn3jXmqOEIyNUZyKeFWY+pgXSuGqaKKHSmVcr6KHwkOK6pGxxw243/PeTmoK/SZrovnK28wEisG3uBiP0PzYRBuzEsbkz+NC93ajCntARmv2e8UXQfbq8H8YKgKTH6VU5sSQhz5kXr96xtZzt19LDAZn6+FDGHybU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708702360; c=relaxed/simple;
-	bh=QwhJ/EhbFImaRF3xYH27wlph7G0Hv+gUoIttDJYn92g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rB67kS9OS6SChFk3PIG8ZLKHK0uVXvna7aGJ7TLvsVND8LPci2xiCkrSGHObZzulu3TmyMnJqsSQbEhsWDR7W6CpOlVd1uAj+6EspQhIOqn9CAS8KK/J0K0YIxUbMKOanMy+M4ZkybLtX5QPg+PY/AXEg11g61GOowbVtdHgz0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org; spf=pass smtp.mailfrom=peacevolution.org; dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b=CoCNqIXM; arc=none smtp.client-ip=206.189.193.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=peacevolution.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b="CoCNqIXM"
-Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-	by a.peacevolution.org (Postfix) with ESMTPA id 03147473D0;
-	Fri, 23 Feb 2024 15:32:36 +0000 (UTC)
-Date: Fri, 23 Feb 2024 10:32:34 -0500
-From: Aren <aren@peacevolution.org>
-To: Lee Jones <lee@kernel.org>
-Cc: linux-kernel@vger.kernel.org, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, 
-	Jean-Jacques Hiblot <jjhiblot@traphandler.com>, Chen-Yu Tsai <wens@csie.org>, Ondrej Jirman <megi@xff.cz>, 
-	linux-sunxi@lists.linux.dev, Pavel Machek <pavel@ucw.cz>, 
-	linux-arm-kernel@lists.infradead.org, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	linux-leds@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, Miles Alan <m@milesalan.com>, 
-	Samuel Holland <samuel@sholland.org>
-Subject: Re: (subset) [PATCH v2 1/4] leds: rgb: leds-group-multicolor: allow
- leds to stay on in suspend
-Message-ID: <hjug4ilzxvtf7in64zw4jcjudzknqh2onvicd5cjuc3e47nl4w@3uiabmqehx5n>
-References: <20240206185400.596979-1-aren@peacevolution.org>
- <170868429025.1582603.10651778411484887304.b4-ty@kernel.org>
- <20240223103537.GA1585387@google.com>
+	s=arc-20240116; t=1708704204; c=relaxed/simple;
+	bh=2QxYsbtNpv6jtUv2wxx1Te6piZjhjrREIDgL6Jx6xkg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DdOlvTZab41HbgDusZdKs/gCVlDUQpHHiSFEE6JNkLOzSx8URFGQok5fwhrPwc1NWk1MlQZP42JCZITIFqw1Wco+it0ZOo+LW4ZCLFCd2DOG4B6rzzPVAqfAxqKglMdSDNw8TSHBLJ+BJuCeBGLxYd7gu71/qOrXNcFE7jTvfmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 51D28DA7;
+	Fri, 23 Feb 2024 08:03:42 -0800 (PST)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3DD453F762;
+	Fri, 23 Feb 2024 08:03:01 -0800 (PST)
+Date: Fri, 23 Feb 2024 16:02:58 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>, Vasily
+ Khoruzhick <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>,
+ Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, "Rafael
+ J . Wysocki" <rafael@kernel.org>, Zhang Rui <rui.zhang@intel.com>, Lukasz
+ Luba <lukasz.luba@arm.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+ <conor+dt@kernel.org>, Martin Botka <martin.botka@somainline.org>, Maksim
+ Kiselev <bigunclemax@gmail.com>, Bob McChesney <bob@electricworry.net>,
+ linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v5 1/7] soc: sunxi: sram: export register 0 for THS on
+ H616
+Message-ID: <20240223160258.504a1577@donnerap.manchester.arm.com>
+In-Reply-To: <dcd115fd-dc38-4f48-8485-9e4d64f53b4a@linaro.org>
+References: <20240219153639.179814-1-andre.przywara@arm.com>
+	<20240219153639.179814-2-andre.przywara@arm.com>
+	<2717467.mvXUDI8C0e@jernej-laptop>
+	<dcd115fd-dc38-4f48-8485-9e4d64f53b4a@linaro.org>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240223103537.GA1585387@google.com>
-X-Spamd-Bar: /
-Authentication-Results: auth=pass smtp.auth=aren@peacevolution.org smtp.mailfrom=aren@peacevolution.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=peacevolution.org;
-	s=dkim; t=1708702357;
-	h=from:subject:date:message-id:to:cc:mime-version:content-type:content-transfer-encoding:in-reply-to:references;
-	bh=bw29ITqhOc5CeCA/jH5jxWpEfOX2iQUtCJTOD5NXUhg=;
-	b=CoCNqIXMagBCAcmjTHXGXkYAtAh0zjlljpz2ecGOWTzDEXfRdy9XzNeENx/jrVfOFS/3Uh
-	Bh9wbkJxKqXrTaacPJkPRP6DnmA9E3X0/t9Dizc79YsRX84jJVg8KlnStpJ2ArEIZL8uq7
-	siR4+baxF5E9ExTBYG/xrQJ6/pD4y9s=
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 23, 2024 at 10:35:37AM +0000, Lee Jones wrote:
-> On Fri, 23 Feb 2024, Lee Jones wrote:
-> 
-> > On Tue, 06 Feb 2024 13:13:17 -0500, Aren Moynihan wrote:
-> > > If none of the managed leds enable LED_CORE_SUSPENDRESUME, then we
-> > > shouldn't need to set it here. This makes it possible to use multicolor
-> > > groups with gpio leds that enable retain-state-suspended in the device
-> > > tree.
-> > > 
-> > > 
-> > 
-> > Applied, thanks!
-> > 
-> > [1/4] leds: rgb: leds-group-multicolor: allow leds to stay on in suspend
-> >       commit: 68552911e71d59e62dd5e50e9ac56ebfc32f0c71
-> 
-> Note that I changed a bunch of grammatical issues.
-> 
-> led  => LED
-> gpio => GPIO
-> 
-> Capitalised the first word of the comment, etc.
+On Thu, 22 Feb 2024 19:44:12 +0100
+Daniel Lezcano <daniel.lezcano@linaro.org> wrote:
 
-Awesome, thank you
- - Aren
+Hi Daniel,
 
-> -- 
-> Lee Jones [李琼斯]
+> On 22/02/2024 19:26, Jernej =C5=A0krabec wrote:
+> > Dne ponedeljek, 19. februar 2024 ob 16:36:33 CET je Andre Przywara napi=
+sal(a): =20
+> >> The Allwinner H616 SoC contains a mysterious bit at register offset 0x0
+> >> in the SRAM control block. If bit 16 is set (the reset value), the
+> >> temperature readings of the THS are way off, leading to reports about
+> >> 200C, at normal ambient temperatures. Clearing this bits brings the
+> >> reported values down to the expected values.
+> >> The BSP code clears this bit in firmware (U-Boot), and has an explicit
+> >> comment about this, but offers no real explanation.
+> >>
+> >> Experiments in U-Boot show that register 0x0 has no effect on the SRAM=
+ C
+> >> visibility: all tested bit settings still allow full read and write
+> >> access by the CPU to the whole of SRAM C. Only bit 24 of the register =
+at
+> >> offset 0x4 makes all of SRAM C inaccessible by the CPU. So modelling
+> >> the THS switch functionality as an SRAM region would not reflect reali=
+ty.
+> >>
+> >> Since we should not rely on firmware settings, allow other code (the T=
+HS
+> >> driver) to access this register, by exporting it through the already
+> >> existing regmap. This mimics what we already do for the LDO control and
+> >> the EMAC register.
+> >>
+> >> To avoid concurrent accesses to the same register at the same time, by
+> >> the SRAM switch code and the regmap code, use the same lock to protect
+> >> the access. The regmap subsystem allows to use an existing lock, so we
+> >> just need to hook in there.
+> >>
+> >> Signed-off-by: Andre Przywara <andre.przywara@arm.com> =20
+> >=20
+> > Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> >=20
+> > I guess this one goes through sunxi tree, right? =20
+>=20
+> I'll pick this patch along with the patch 2-6, so through the thermal=20
+> tree. The patch 7/7 will go indeed via the sunxi tree
+
+many thanks for picking those up! I see them in your bleeding-edge branch,
+but are they on route for 6.9, so will you put them in -next soon? Or are
+you waiting for more ACKs?
+
+Cheers,
+Andre
