@@ -1,126 +1,169 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 579F9143C68
-	for <linux-sunxi@lists.linux.dev>; Fri, 23 Feb 2024 17:25:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5787146904
+	for <linux-sunxi@lists.linux.dev>; Fri, 23 Feb 2024 19:51:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708709159; cv=none; b=L+YSXt2oW1jWu24xLKV570pTIi0jYbqM7pE8zppM8XhbcX8/caqNtoP/wCIQEMemCbRBOZxsmVnkwp70riPE1ymzgj/bCAIYzsSkL8JdswSaJmwsn80SaGzck1aSMXWaGP8SHFsMKKA3aykJbj1PYciMiYEW5D2OBC7gSFFotxU=
+	t=1708717878; cv=none; b=iD6qZlVI+9qeOBaYcz7xavD4Xa8WQImpE3KH6r0i75gLpwNVyWQZjlC7rLvtVk++nnqi5Y0edU39reFj7KTziI4dN25xnP5djN5FqUYjqwo9wxENA07N4Zt4uMHKNwcMsujWAxfza7cMpze4li5TACKVwwcnICcFtsQe30Rrmpo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708709159; c=relaxed/simple;
-	bh=9MKWMsALILdtYY3gW9cjWQ4lbfz+JKHguq9klD5wDEA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pD6SRdUxf8G/J9K3+hLIgf8uKr/zjLWwKkpx+6hb2ZxHCOJg1MfqwEdNlljiTIQ1nZiBBAE9ySbtvAlFAd5fUP4J5NLBlJuCenuyVk0a/oql7DxsgsBaHv4I7a6PeD7V32u6Hl6HPakEDH4dUAY1awufDkvtC9v4MgrZwNvy38I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1CE31DA7;
-	Fri, 23 Feb 2024 09:26:35 -0800 (PST)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 03D5C3F762;
-	Fri, 23 Feb 2024 09:25:53 -0800 (PST)
-Date: Fri, 23 Feb 2024 17:25:51 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>, Vasily
- Khoruzhick <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, "Rafael
- J . Wysocki" <rafael@kernel.org>, Zhang Rui <rui.zhang@intel.com>, Lukasz
- Luba <lukasz.luba@arm.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Martin Botka <martin.botka@somainline.org>, Maksim
- Kiselev <bigunclemax@gmail.com>, Bob McChesney <bob@electricworry.net>,
- linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v5 1/7] soc: sunxi: sram: export register 0 for THS on
- H616
-Message-ID: <20240223172551.57b7e066@donnerap.manchester.arm.com>
-In-Reply-To: <469e83f3-57ef-492b-8f27-5a052b064106@linaro.org>
-References: <20240219153639.179814-1-andre.przywara@arm.com>
-	<20240219153639.179814-2-andre.przywara@arm.com>
-	<2717467.mvXUDI8C0e@jernej-laptop>
-	<dcd115fd-dc38-4f48-8485-9e4d64f53b4a@linaro.org>
-	<20240223160258.504a1577@donnerap.manchester.arm.com>
-	<469e83f3-57ef-492b-8f27-5a052b064106@linaro.org>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1708717878; c=relaxed/simple;
+	bh=DCcRHQS8179CeEbpS6ho3btFvHb0UMPTbTzkvbeC7DQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Uy3pTbYqYwBuSGolCxuRlhwHeqIX3k+1TaZ/IIMMYXhmOoTmKrJOOPRHmD9bIzcawsjJP4dtCfBr5fM5W6TLYoRN9WfUiMRMicv6WR2ARqBXWrd+4z8SztLgJJxl3jnf2W0I3AXXxoMfJAB/UiaE0h+W7h33xbVvuYLisSN+1Gk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UklWarrW; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UklWarrW"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a28a6cef709so186580166b.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 23 Feb 2024 11:51:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708717875; x=1709322675; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0Xr6A5ZVcZDLJ7oaBlotk2t+V105HpiLWnU7g8aHJ7w=;
+        b=UklWarrWLnfoiryt1BavzEf+MiXHvyQUvIo2EuOqqiVlERCYY79j8mj6KxFHG6H7k6
+         DuoH7aB+9G01O9unHZjF0qHajSx2vs56ccQ+Q74fov74b1MEP4X9VELf4Pc2o1vOW9nd
+         TY+PPHPlGqMcH59VDzNAME23nsz0VV4CvWvhl1Sjucfm6+W11v+k1R2bmaoSlaoXVX8Q
+         Z9fhWTELa7ZHAmDV1/kLJjzb51SVV3JKGYb0uXaEm8hMjjUiUVb7hPFxmVOAX/pDXDOC
+         JwT8zOV5bF4kS2+r6wxgtv1YXiVU9leP54/7rZA8PlMGoKrSaY1TItKj4XzPpJOc5Oml
+         f23Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708717875; x=1709322675;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0Xr6A5ZVcZDLJ7oaBlotk2t+V105HpiLWnU7g8aHJ7w=;
+        b=XjJzPBy5FilKp295tXXZBsYMhDmJufrNbBikY3L7MPp5gVzgk1QCgTFesOXqEK5IkZ
+         KbALTCoE6aavqsuv9CIMFpZWksYmgLMFNYYuIKbgAqYBeKnIGvR1BgR4j258W79CrxlE
+         vHbGHj8BbHCAK9mg7tVTWxelUTjxIjfPMWFa2aLz+krmtnBgsOjM27fGKxMoRuZ+NpsA
+         CPzOTJE3wIkmoRSrmXww9FePChHAyGVCkVTCk/x4uw8j/cgM5eElKE1RL5ahzfNaLcyp
+         cpIHYgzPgufxmatAy787yP4ZH6hn2LuHQAdTm1CqzywhWA8AoRmv9kb0Mz+YLF/hFnjq
+         yJ8g==
+X-Forwarded-Encrypted: i=1; AJvYcCWaxFWAtna+XvyW2lD4BtabVyEAze4SNgpNkn3LKvbG+2bU/ErkI0whVdJXDH/EeGyBlX8BDpaNvc306VNOmX6xyhQrXsmlXN+F8/M=
+X-Gm-Message-State: AOJu0YxDhJ5faapkppC/Ulw7uFrIPneGMKVtuHjhYXJQ9Cof2gA2Kr3s
+	VO6LiRN//qo6N4einKP1D/xq507d2udmtUbPwv74CsqKfswzhihRArXOqYhyBzI=
+X-Google-Smtp-Source: AGHT+IE19ctpcHeC8OGPK03xM0qf45C77WZ9HAydSzM8Dyn0bvmzXPAySicx9S20pEbJNSX2ZydiUw==
+X-Received: by 2002:a17:906:cd0f:b0:a41:3950:d11c with SMTP id oz15-20020a170906cd0f00b00a413950d11cmr547643ejb.28.1708717874903;
+        Fri, 23 Feb 2024 11:51:14 -0800 (PST)
+Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
+        by smtp.gmail.com with ESMTPSA id tj9-20020a170907c24900b00a3ca56e9bcfsm7183967ejc.187.2024.02.23.11.51.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Feb 2024 11:51:13 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Vasily Khoruzhick <anarsoul@gmail.com>,
+ Yangtao Li <tiny.windzz@gmail.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Amit Kucheria <amitk@kernel.org>,
+ Zhang Rui <rui.zhang@intel.com>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>, Mark Brown <broonie@kernel.org>
+Cc: Hugh Dickins <hughd@google.com>, linux-pm@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
+Subject:
+ Re: [PATCH v3] thermal/drivers/sun8i: Don't fail probe due to zone
+ registration failure
+Date: Fri, 23 Feb 2024 20:51:12 +0100
+Message-ID: <12383045.O9o76ZdvQC@jernej-laptop>
+In-Reply-To:
+ <20240123-thermal-sun8i-registration-v3-1-3e5771b1bbdd@kernel.org>
+References: <20240123-thermal-sun8i-registration-v3-1-3e5771b1bbdd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Fri, 23 Feb 2024 18:00:51 +0100
-Daniel Lezcano <daniel.lezcano@linaro.org> wrote:
+Hi Daniel, Rafael,
 
-Hi Daniel,
+is there any issue with this patch? Can you apply it?
 
-> On 23/02/2024 17:02, Andre Przywara wrote:
-> > On Thu, 22 Feb 2024 19:44:12 +0100
-> > Daniel Lezcano <daniel.lezcano@linaro.org> wrote:
-> >=20
-> > Hi Daniel,
-> >  =20
-> >> On 22/02/2024 19:26, Jernej =C5=A0krabec wrote: =20
-> >>> Dne ponedeljek, 19. februar 2024 ob 16:36:33 CET je Andre Przywara na=
-pisal(a): =20
-> >>>> The Allwinner H616 SoC contains a mysterious bit at register offset =
-0x0
-> >>>> in the SRAM control block. If bit 16 is set (the reset value), the
-> >>>> temperature readings of the THS are way off, leading to reports about
-> >>>> 200C, at normal ambient temperatures. Clearing this bits brings the
-> >>>> reported values down to the expected values.
-> >>>> The BSP code clears this bit in firmware (U-Boot), and has an explic=
-it
-> >>>> comment about this, but offers no real explanation.
-> >>>>
-> >>>> Experiments in U-Boot show that register 0x0 has no effect on the SR=
-AM C
-> >>>> visibility: all tested bit settings still allow full read and write
-> >>>> access by the CPU to the whole of SRAM C. Only bit 24 of the registe=
-r at
-> >>>> offset 0x4 makes all of SRAM C inaccessible by the CPU. So modelling
-> >>>> the THS switch functionality as an SRAM region would not reflect rea=
-lity.
-> >>>>
-> >>>> Since we should not rely on firmware settings, allow other code (the=
- THS
-> >>>> driver) to access this register, by exporting it through the already
-> >>>> existing regmap. This mimics what we already do for the LDO control =
-and
-> >>>> the EMAC register.
-> >>>>
-> >>>> To avoid concurrent accesses to the same register at the same time, =
-by
-> >>>> the SRAM switch code and the regmap code, use the same lock to prote=
-ct
-> >>>> the access. The regmap subsystem allows to use an existing lock, so =
-we
-> >>>> just need to hook in there.
-> >>>>
-> >>>> Signed-off-by: Andre Przywara <andre.przywara@arm.com> =20
-> >>>
-> >>> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> >>>
-> >>> I guess this one goes through sunxi tree, right? =20
-> >>
-> >> I'll pick this patch along with the patch 2-6, so through the thermal
-> >> tree. The patch 7/7 will go indeed via the sunxi tree =20
-> >=20
-> > many thanks for picking those up! I see them in your bleeding-edge bran=
-ch,
-> > but are they on route for 6.9, so will you put them in -next soon? Or a=
-re
-> > you waiting for more ACKs? =20
->=20
-> I've enough ack. The bleeding-edge is merged with the linux-pm tree. If=20
-> everything is going well, I will move it to the linux-next branch=20
-> probably today or Monday
+Best regards,
+Jernej
 
-thanks for the quick reply, that's great to hear. All fine then!
+Dne sreda, 24. januar 2024 ob 00:33:07 CET je Mark Brown napisal(a):
+> Currently the sun8i thermal driver will fail to probe if any of the
+> thermal zones it is registering fails to register with the thermal core.
+> Since we currently do not define any trip points for the GPU thermal
+> zones on at least A64 or H5 this means that we have no thermal support
+> on these platforms:
+> 
+> [    1.698703] thermal_sys: Failed to find 'trips' node
+> [    1.698707] thermal_sys: Failed to find trip points for thermal-sensor id=1
+> 
+> even though the main CPU thermal zone on both SoCs is fully configured.
+> This does not seem ideal, while we may not be able to use all the zones
+> it seems better to have those zones which are usable be operational.
+> Instead just carry on registering zones if we get any non-deferral
+> error, allowing use of those zones which are usable.
+> 
+> This means that we also need to update the interrupt handler to not
+> attempt to notify the core for events on zones which we have not
+> registered, I didn't see an ability to mask individual interrupts and
+> I would expect that interrupts would still be indicated in the ISR even
+> if they were masked.
+> 
+> Reviewed-by: Vasily Khoruzhick <anarsoul@gmail.com>
+> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+> Changes in v3:
+> - Rebase onto v6.8-rc1.
+> - Link to v2: https://lore.kernel.org/r/20230912-thermal-sun8i-registration-v2-1-077230107768@kernel.org
+> 
+> Changes in v2:
+> - Rebase onto v6.6-rc1.
+> - Link to v1: https://lore.kernel.org/r/20230718-thermal-sun8i-registration-v1-1-c95b1b070340@kernel.org
+> ---
+>  drivers/thermal/sun8i_thermal.c | 16 ++++++++++++++--
+>  1 file changed, 14 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_thermal.c
+> index 6a8e386dbc8d..c2a8ae7f8f2f 100644
+> --- a/drivers/thermal/sun8i_thermal.c
+> +++ b/drivers/thermal/sun8i_thermal.c
+> @@ -188,6 +188,9 @@ static irqreturn_t sun8i_irq_thread(int irq, void *data)
+>  	int i;
+>  
+>  	for_each_set_bit(i, &irq_bitmap, tmdev->chip->sensor_num) {
+> +		/* We allow some zones to not register. */
+> +		if (IS_ERR(tmdev->sensor[i].tzd))
+> +			continue;
+>  		thermal_zone_device_update(tmdev->sensor[i].tzd,
+>  					   THERMAL_EVENT_UNSPECIFIED);
+>  	}
+> @@ -465,8 +468,17 @@ static int sun8i_ths_register(struct ths_device *tmdev)
+>  						      i,
+>  						      &tmdev->sensor[i],
+>  						      &ths_ops);
+> -		if (IS_ERR(tmdev->sensor[i].tzd))
+> -			return PTR_ERR(tmdev->sensor[i].tzd);
+> +
+> +		/*
+> +		 * If an individual zone fails to register for reasons
+> +		 * other than probe deferral (eg, a bad DT) then carry
+> +		 * on, other zones might register successfully.
+> +		 */
+> +		if (IS_ERR(tmdev->sensor[i].tzd)) {
+> +			if (PTR_ERR(tmdev->sensor[i].tzd) == -EPROBE_DEFER)
+> +				return PTR_ERR(tmdev->sensor[i].tzd);
+> +			continue;
+> +		}
+>  
+>  		devm_thermal_add_hwmon_sysfs(tmdev->dev, tmdev->sensor[i].tzd);
+>  	}
+> 
+> ---
+> base-commit: 6613476e225e090cc9aad49be7fa504e290dd33d
+> change-id: 20230718-thermal-sun8i-registration-df3a136ccafa
+> 
+> Best regards,
+> 
 
-Thanks,
-Andre
+
+
 
