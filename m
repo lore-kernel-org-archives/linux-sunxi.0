@@ -1,218 +1,329 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EF2E182A3
-	for <linux-sunxi@lists.linux.dev>; Fri, 23 Feb 2024 09:28:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B656E5D49F;
+	Fri, 23 Feb 2024 09:41:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708680529; cv=none; b=keuo2TBx2b7n8n0O5XbScoM+/BMiXttZoT5lMOMj/1ddqcbvDg0iL1h4xyI4rMcyG8E3TzBjaB6VgpsVgjNC+TnqQBI5FsaYr77L3ch6Swi9Y8F0olhE7j+MmqLxowf1TPagghyk9l+Ttf6ANPnrMxVQBMBDEr4X6HngNgVFJFY=
+	t=1708681301; cv=none; b=OeKkEICs0yf7pUd3AnMXVAZK6pla0sY/ftdkIVz+IC0QMWWM+uIgzYOgoPd4cbgZzjlVZ4PYljD7kN03moRCSwURAjN1il14DYv4qDkfTfOdsx8DjQ9m3QYEbPKyqp6cKWgK8mwmQmNvs9XqYohauMueNUs42h8fQfg073D6XAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708680529; c=relaxed/simple;
-	bh=wTpfui4xoHbPEHkxv2GPcszGmmWFoZWfeiHfDCcNavQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TImA0JiT97IsuPL35Xz56IvoxSvrXfDs6PUFwZe8eDx0Ko/Dy9ViCqEtkosDCSyXqzwb7I66Qw+vxVYvYMrhFbgR7Q1svE8KLul0VkP/ioA8if5TzUhj43W8VcUNWb/axXRB3H70L/Y/PyDKgM80KshJzn6CVzcQlRVrZSpW+2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=C6IxXPhA; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="C6IxXPhA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1708680519;
-	bh=wTpfui4xoHbPEHkxv2GPcszGmmWFoZWfeiHfDCcNavQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=C6IxXPhAMwX+aS+H7Qut/Jt3rp8+i/2gnBnBSgZEn7X8DvkOmLFtsxG2oHa8DUE3o
-	 RkQdNNysrDkz5akxEfGexX+5bk+/8NBg2YqeEjxqgonbtar4Uo7RQKdX5NfIRKy1YM
-	 lUnHO7XlfVUSxMSc61kLAd2kgIDd+yXpp13Hs3aXrBZcidu/+8sKUeAGIwUY0tSZxX
-	 QlrstOeqtzzwOJWYNDdlwVnWsumwNSzplqmA4rxIbwUpZkktcX4jY6Lyr81TbR5ykD
-	 9Gove+kgutYvYbzEZBM2gHxuyU+JLshqKn5GfuAu7rs0Sj/imEb2DtvNdDC6q162UX
-	 mBHEi0oAyKFXA==
-Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: pq)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 47DB937820D3;
-	Fri, 23 Feb 2024 09:28:38 +0000 (UTC)
-Date: Fri, 23 Feb 2024 11:28:37 +0200
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, Sandy Huang
- <hjc@rock-chips.com>, Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>,
- Sebastian Wick <sebastian.wick@redhat.com>, Ville =?UTF-8?B?U3lyasOkbMOk?=
- <ville.syrjala@linux.intel.com>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, Dave
- Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v7 21/36] drm/connector: hdmi: Add Broadcast RGB
- property
-Message-ID: <20240223112837.7c0394d7.pekka.paalanen@collabora.com>
-In-Reply-To: <20240222-kms-hdmi-connector-state-v7-21-8f4af575fce2@kernel.org>
-References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
-	<20240222-kms-hdmi-connector-state-v7-21-8f4af575fce2@kernel.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1708681301; c=relaxed/simple;
+	bh=2XjQyBeH/b8t4k3FPWqSMRJSi6xV3fOERwW67PdGp8o=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XbN31MS92qNyTJyYjvBRqk5XDUTGm0zxy2KTdCLsGNuFL2EdstqllPkzBypmj8/1P4eIiJtVRYrl0Ru/mGVXKBe48ocMfT/ftRKanHtHlGX7grNwoRH6kwc77ckwQ4gRbzUxOgQ4DZlLuRHISNXfCScSSzineEfYRZG/mALqQZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+Received: from i53875b6c.versanet.de ([83.135.91.108] helo=diego.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1rdS37-00081t-ON; Fri, 23 Feb 2024 10:40:57 +0100
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
+ Sandy Huang <hjc@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ Ville =?ISO-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>
+Subject:
+ Re: [PATCH v7 31/36] drm/rockchip: inno_hdmi: Switch to HDMI connector
+Date: Fri, 23 Feb 2024 10:40:56 +0100
+Message-ID: <2680721.q0ZmV6gNhb@diego>
+In-Reply-To: <20240222-kms-hdmi-connector-state-v7-31-8f4af575fce2@kernel.org>
+References:
+ <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
+ <20240222-kms-hdmi-connector-state-v7-31-8f4af575fce2@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/qC0FmXmaLo63nT+K/5dVjke";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---Sig_/qC0FmXmaLo63nT+K/5dVjke
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, 22 Feb 2024 19:14:07 +0100
-Maxime Ripard <mripard@kernel.org> wrote:
-
-> The i915 driver has a property to force the RGB range of an HDMI output.
-> The vc4 driver then implemented the same property with the same
-> semantics. KWin has support for it, and a PR for mutter is also there to
-> support it.
->=20
-> Both drivers implementing the same property with the same semantics,
-> plus the userspace having support for it, is proof enough that it's
-> pretty much a de-facto standard now and we can provide helpers for it.
->=20
-> Let's plumb it into the newly created HDMI connector.
->=20
-> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Am Donnerstag, 22. Februar 2024, 19:14:17 CET schrieb Maxime Ripard:
+> The new HDMI connector infrastructure allows to remove some boilerplate,
+> especially to generate infoframes. Let's switch to it.
+> 
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+
+Reviewed-by: Heiko Stuebner <heiko@sntech.de>
+
 > ---
->  Documentation/gpu/kms-properties.csv      |  1 -
->  drivers/gpu/drm/drm_atomic.c              |  2 +
->  drivers/gpu/drm/drm_atomic_state_helper.c |  4 +-
->  drivers/gpu/drm/drm_atomic_uapi.c         |  4 ++
->  drivers/gpu/drm/drm_connector.c           | 89 +++++++++++++++++++++++++=
-++++++
->  include/drm/drm_connector.h               | 36 +++++++++++++
->  6 files changed, 134 insertions(+), 2 deletions(-)
-
-...
-
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connec=
-tor.c
-> index 591d2d500f61..6ffe59d01698 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -1212,6 +1212,29 @@ static const u32 dp_colorspaces =3D
->  	BIT(DRM_MODE_COLORIMETRY_BT2020_CYCC) |
->  	BIT(DRM_MODE_COLORIMETRY_BT2020_YCC);
-> =20
-> +static const struct drm_prop_enum_list broadcast_rgb_names[] =3D {
-> +	{ DRM_HDMI_BROADCAST_RGB_AUTO, "Automatic" },
-> +	{ DRM_HDMI_BROADCAST_RGB_FULL, "Full" },
-> +	{ DRM_HDMI_BROADCAST_RGB_LIMITED, "Limited 16:235" },
+>  drivers/gpu/drm/rockchip/inno_hdmi.c | 123 ++++++++++++-----------------------
+>  1 file changed, 42 insertions(+), 81 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockchip/inno_hdmi.c
+> index 1d2261643743..d59947679042 100644
+> --- a/drivers/gpu/drm/rockchip/inno_hdmi.c
+> +++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
+> @@ -67,9 +67,7 @@ struct inno_hdmi {
+>  
+>  struct inno_hdmi_connector_state {
+>  	struct drm_connector_state	base;
+> -	unsigned int			enc_out_format;
+>  	unsigned int			colorimetry;
+> -	bool				rgb_limited_range;
+>  };
+>  
+>  static struct inno_hdmi *encoder_to_inno_hdmi(struct drm_encoder *encoder)
+> @@ -257,26 +255,29 @@ static void inno_hdmi_reset(struct inno_hdmi *hdmi)
+>  	inno_hdmi_standby(hdmi);
+>  }
+>  
+> -static void inno_hdmi_disable_frame(struct inno_hdmi *hdmi,
+> -				    enum hdmi_infoframe_type type)
+> +static int inno_hdmi_disable_frame(struct drm_connector *connector,
+> +				   enum hdmi_infoframe_type type)
+>  {
+> -	struct drm_connector *connector = &hdmi->connector;
+> +	struct inno_hdmi *hdmi = connector_to_inno_hdmi(connector);
+>  
+>  	if (type != HDMI_INFOFRAME_TYPE_AVI) {
+>  		drm_err(connector->dev,
+>  			"Unsupported infoframe type: %u\n", type);
+> -		return;
+> +		return 0;
+>  	}
+>  
+>  	hdmi_writeb(hdmi, HDMI_CONTROL_PACKET_BUF_INDEX, INFOFRAME_AVI);
+> +
+> +	return 0;
+>  }
+>  
+> -static int inno_hdmi_upload_frame(struct inno_hdmi *hdmi,
+> -				  union hdmi_infoframe *frame, enum hdmi_infoframe_type type)
+> +static int inno_hdmi_upload_frame(struct drm_connector *connector,
+> +				  enum hdmi_infoframe_type type,
+> +				  const u8 *buffer, size_t len)
+>  {
+> -	struct drm_connector *connector = &hdmi->connector;
+> +	struct inno_hdmi *hdmi = connector_to_inno_hdmi(connector);
+>  	u8 packed_frame[HDMI_MAXIMUM_INFO_FRAME_SIZE];
+> -	ssize_t rc, i;
+> +	ssize_t i;
+>  
+>  	if (type != HDMI_INFOFRAME_TYPE_AVI) {
+>  		drm_err(connector->dev,
+> @@ -284,59 +285,19 @@ static int inno_hdmi_upload_frame(struct inno_hdmi *hdmi,
+>  		return 0;
+>  	}
+>  
+> -	inno_hdmi_disable_frame(hdmi, type);
+> +	inno_hdmi_disable_frame(connector, type);
+>  
+> -	rc = hdmi_infoframe_pack(frame, packed_frame,
+> -				 sizeof(packed_frame));
+> -	if (rc < 0)
+> -		return rc;
+> -
+> -	for (i = 0; i < rc; i++)
+> +	for (i = 0; i < len; i++)
+>  		hdmi_writeb(hdmi, HDMI_CONTROL_PACKET_ADDR + i,
+>  			    packed_frame[i]);
+>  
+>  	return 0;
+>  }
+>  
+> -static int inno_hdmi_config_video_avi(struct inno_hdmi *hdmi,
+> -				      struct drm_display_mode *mode)
+> -{
+> -	struct drm_connector *connector = &hdmi->connector;
+> -	struct drm_connector_state *conn_state = connector->state;
+> -	struct inno_hdmi_connector_state *inno_conn_state =
+> -					to_inno_hdmi_conn_state(conn_state);
+> -	union hdmi_infoframe frame;
+> -	int rc;
+> -
+> -	rc = drm_hdmi_avi_infoframe_from_display_mode(&frame.avi,
+> -						      &hdmi->connector,
+> -						      mode);
+> -	if (rc) {
+> -		inno_hdmi_disable_frame(hdmi, HDMI_INFOFRAME_TYPE_AVI);
+> -		return rc;
+> -	}
+> -
+> -	if (inno_conn_state->enc_out_format == HDMI_COLORSPACE_YUV444)
+> -		frame.avi.colorspace = HDMI_COLORSPACE_YUV444;
+> -	else if (inno_conn_state->enc_out_format == HDMI_COLORSPACE_YUV422)
+> -		frame.avi.colorspace = HDMI_COLORSPACE_YUV422;
+> -	else
+> -		frame.avi.colorspace = HDMI_COLORSPACE_RGB;
+> -
+> -	if (inno_conn_state->enc_out_format == HDMI_COLORSPACE_RGB) {
+> -		drm_hdmi_avi_infoframe_quant_range(&frame.avi,
+> -						   connector, mode,
+> -						   inno_conn_state->rgb_limited_range ?
+> -						   HDMI_QUANTIZATION_RANGE_LIMITED :
+> -						   HDMI_QUANTIZATION_RANGE_FULL);
+> -	} else {
+> -		frame.avi.quantization_range = HDMI_QUANTIZATION_RANGE_DEFAULT;
+> -		frame.avi.ycc_quantization_range =
+> -			HDMI_YCC_QUANTIZATION_RANGE_LIMITED;
+> -	}
+> -
+> -	return inno_hdmi_upload_frame(hdmi, &frame, HDMI_INFOFRAME_TYPE_AVI);
+> -}
+> +static const struct drm_connector_hdmi_funcs inno_hdmi_hdmi_connector_funcs = {
+> +	.clear_infoframe	= inno_hdmi_disable_frame,
+> +	.write_infoframe	= inno_hdmi_upload_frame,
 > +};
-> +
-> +/*
-> + * drm_hdmi_connector_get_broadcast_rgb_name - Return a string for HDMI =
-connector RGB broadcast selection
-> + * @broadcast_rgb: Broadcast RGB selection to compute name of
-> + *
-> + * Returns: the name of the Broadcast RGB selection, or NULL if the type
-> + * is not valid.
-> + */
-> +const char *
-> +drm_hdmi_connector_get_broadcast_rgb_name(enum drm_hdmi_broadcast_rgb br=
-oadcast_rgb)
-> +{
-> +	if (broadcast_rgb > DRM_HDMI_BROADCAST_RGB_LIMITED)
-> +		return NULL;
-> +
-> +	return broadcast_rgb_names[broadcast_rgb].name;
-> +}
-> +EXPORT_SYMBOL(drm_hdmi_connector_get_broadcast_rgb_name);
-> +
->  static const char * const output_format_str[] =3D {
->  	[HDMI_COLORSPACE_RGB]		=3D "RGB",
->  	[HDMI_COLORSPACE_YUV420]	=3D "YUV 4:2:0",
-> @@ -1708,6 +1731,39 @@ EXPORT_SYMBOL(drm_connector_attach_dp_subconnector=
-_property);
->  /**
->   * DOC: HDMI connector properties
->   *
-> + * Broadcast RGB (HDMI specific)
-> + *      Indicates the Quantization Range (Full vs Limited) used. The col=
-or
-> + *      processing pipeline will be adjusted to match the value of the
-> + *      property, and the Infoframes will be generated and sent accordin=
-gly.
-> + *
-> + *      This property is only relevant if the HDMI output format is RGB.=
- If
-> + *      it's one of the YCbCr variant, it will be ignored and the output=
- will
-> + *      use a limited quantization range.
-> + *
-> + *      The CRTC attached to the connector must be configured by user-sp=
-ace to
-> + *      always produce full-range pixels.
-> + *
-> + *      The value of this property can be one of the following:
-> + *
-> + *      Automatic:
-> + *              The quantization range is selected automatically based o=
-n the
-> + *              mode according to the HDMI specifications (HDMI 1.4b - S=
-ection
-> + *              6.6 - Video Quantization Ranges).
-> + *
-> + *      Full:
-> + *              Full quantization range is forced.
-> + *
-> + *      Limited 16:235:
-> + *              Limited quantization range is forced. Unlike the name su=
-ggests,
-> + *              this works for any number of bits-per-component.
-> + *
-> + *      Property values other than Automatic can result in colors being =
-off (if
-> + *      limited is selected but the display expects full), or a black sc=
-reen
-> + *      (if full is selected but the display expects limited).
-> + *
-> + *      Drivers can set up this property by calling
-> + *      drm_connector_attach_broadcast_rgb_property().
-> + *
->   * content type (HDMI specific):
->   *	Indicates content type setting to be used in HDMI infoframes to indic=
-ate
->   *	content type for the external device, so that it adjusts its display
+>  
+>  static int inno_hdmi_config_video_csc(struct inno_hdmi *hdmi)
+>  {
+> @@ -361,8 +322,8 @@ static int inno_hdmi_config_video_csc(struct inno_hdmi *hdmi)
+>  		v_VIDEO_INPUT_CSP(0);
+>  	hdmi_writeb(hdmi, HDMI_VIDEO_CONTRL2, value);
+>  
+> -	if (inno_conn_state->enc_out_format == HDMI_COLORSPACE_RGB) {
+> -		if (inno_conn_state->rgb_limited_range) {
+> +	if (conn_state->hdmi.output_format == HDMI_COLORSPACE_RGB) {
+> +		if (!conn_state->hdmi.is_full_range) {
+>  			csc_mode = CSC_RGB_0_255_TO_RGB_16_235_8BIT;
+>  			auto_csc = AUTO_CSC_DISABLE;
+>  			c0_c2_change = C0_C2_CHANGE_DISABLE;
+> @@ -380,14 +341,14 @@ static int inno_hdmi_config_video_csc(struct inno_hdmi *hdmi)
+>  		}
+>  	} else {
+>  		if (inno_conn_state->colorimetry == HDMI_COLORIMETRY_ITU_601) {
+> -			if (inno_conn_state->enc_out_format == HDMI_COLORSPACE_YUV444) {
+> +			if (conn_state->hdmi.output_format == HDMI_COLORSPACE_YUV444) {
+>  				csc_mode = CSC_RGB_0_255_TO_ITU601_16_235_8BIT;
+>  				auto_csc = AUTO_CSC_DISABLE;
+>  				c0_c2_change = C0_C2_CHANGE_DISABLE;
+>  				csc_enable = v_CSC_ENABLE;
+>  			}
+>  		} else {
+> -			if (inno_conn_state->enc_out_format == HDMI_COLORSPACE_YUV444) {
+> +			if (conn_state->hdmi.output_format == HDMI_COLORSPACE_YUV444) {
+>  				csc_mode = CSC_RGB_0_255_TO_ITU709_16_235_8BIT;
+>  				auto_csc = AUTO_CSC_DISABLE;
+>  				c0_c2_change = C0_C2_CHANGE_DISABLE;
+> @@ -462,10 +423,12 @@ static int inno_hdmi_config_video_timing(struct inno_hdmi *hdmi,
+>  }
+>  
+>  static int inno_hdmi_setup(struct inno_hdmi *hdmi,
+> -			   struct drm_display_mode *mode)
+> +			   struct drm_crtc_state *new_crtc_state,
+> +			   struct drm_connector_state *new_conn_state)
+>  {
+> -	struct drm_display_info *display = &hdmi->connector.display_info;
+> -	unsigned long mpixelclock = mode->clock * 1000;
+> +	struct drm_connector *connector = &hdmi->connector;
+> +	struct drm_display_info *display = &connector->display_info;
+> +	struct drm_display_mode *mode = &new_crtc_state->adjusted_mode;
+>  
+>  	/* Mute video and audio output */
+>  	hdmi_modb(hdmi, HDMI_AV_MUTE, m_AUDIO_MUTE | m_VIDEO_BLACK,
+> @@ -479,8 +442,8 @@ static int inno_hdmi_setup(struct inno_hdmi *hdmi,
+>  
+>  	inno_hdmi_config_video_csc(hdmi);
+>  
+> -	if (display->is_hdmi)
+> -		inno_hdmi_config_video_avi(hdmi, mode);
+> +	drm_atomic_helper_connector_hdmi_update_infoframes(connector,
+> +							   new_conn_state->state);
+>  
+>  	/*
+>  	 * When IP controller have configured to an accurate video
+> @@ -488,13 +451,13 @@ static int inno_hdmi_setup(struct inno_hdmi *hdmi,
+>  	 * DCLK_LCDC, so we need to init the TMDS rate to mode pixel
+>  	 * clock rate, and reconfigure the DDC clock.
+>  	 */
+> -	inno_hdmi_i2c_init(hdmi, mpixelclock);
+> +	inno_hdmi_i2c_init(hdmi, new_conn_state->hdmi.tmds_char_rate);
+>  
+>  	/* Unmute video and audio output */
+>  	hdmi_modb(hdmi, HDMI_AV_MUTE, m_AUDIO_MUTE | m_VIDEO_BLACK,
+>  		  v_AUDIO_MUTE(0) | v_VIDEO_MUTE(0));
+>  
+> -	inno_hdmi_power_up(hdmi, mpixelclock);
+> +	inno_hdmi_power_up(hdmi, new_conn_state->hdmi.tmds_char_rate);
+>  
+>  	return 0;
+>  }
+> @@ -546,7 +509,7 @@ static void inno_hdmi_encoder_enable(struct drm_encoder *encoder,
+>  	if (WARN_ON(!crtc_state))
+>  		return;
+>  
+> -	inno_hdmi_setup(hdmi, &crtc_state->adjusted_mode);
+> +	inno_hdmi_setup(hdmi, crtc_state, conn_state);
+>  }
+>  
+>  static void inno_hdmi_encoder_disable(struct drm_encoder *encoder,
+> @@ -563,7 +526,6 @@ inno_hdmi_encoder_atomic_check(struct drm_encoder *encoder,
+>  			       struct drm_connector_state *conn_state)
+>  {
+>  	struct rockchip_crtc_state *s = to_rockchip_crtc_state(crtc_state);
+> -	struct inno_hdmi *hdmi = encoder_to_inno_hdmi(encoder);
+>  	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
+>  	u8 vic = drm_match_cea_mode(mode);
+>  	struct inno_hdmi_connector_state *inno_conn_state =
+> @@ -580,12 +542,7 @@ inno_hdmi_encoder_atomic_check(struct drm_encoder *encoder,
+>  	else
+>  		inno_conn_state->colorimetry = HDMI_COLORIMETRY_ITU_709;
+>  
+> -	inno_conn_state->enc_out_format = HDMI_COLORSPACE_RGB;
+> -	inno_conn_state->rgb_limited_range =
+> -		drm_default_rgb_quant_range(mode) == HDMI_QUANTIZATION_RANGE_LIMITED;
+> -
+> -	return  inno_hdmi_display_mode_valid(hdmi,
+> -				&crtc_state->adjusted_mode) == MODE_OK ? 0 : -EINVAL;
+> +	return 0;
+>  }
+>  
+>  static struct drm_encoder_helper_funcs inno_hdmi_encoder_helper_funcs = {
+> @@ -662,10 +619,9 @@ static void inno_hdmi_connector_reset(struct drm_connector *connector)
+>  		return;
+>  
+>  	__drm_atomic_helper_connector_reset(connector, &inno_conn_state->base);
+> +	__drm_atomic_helper_connector_hdmi_reset(connector, connector->state);
+>  
+>  	inno_conn_state->colorimetry = HDMI_COLORIMETRY_ITU_709;
+> -	inno_conn_state->enc_out_format = HDMI_COLORSPACE_RGB;
+> -	inno_conn_state->rgb_limited_range = false;
+>  }
+>  
+>  static struct drm_connector_state *
+> @@ -698,6 +654,7 @@ static const struct drm_connector_funcs inno_hdmi_connector_funcs = {
+>  };
+>  
+>  static struct drm_connector_helper_funcs inno_hdmi_connector_helper_funcs = {
+> +	.atomic_check = drm_atomic_helper_connector_hdmi_check,
+>  	.get_modes = inno_hdmi_connector_get_modes,
+>  	.mode_valid = inno_hdmi_connector_mode_valid,
+>  };
+> @@ -725,10 +682,14 @@ static int inno_hdmi_register(struct drm_device *drm, struct inno_hdmi *hdmi)
+>  
+>  	drm_connector_helper_add(&hdmi->connector,
+>  				 &inno_hdmi_connector_helper_funcs);
+> -	drm_connector_init_with_ddc(drm, &hdmi->connector,
+> -				    &inno_hdmi_connector_funcs,
+> -				    DRM_MODE_CONNECTOR_HDMIA,
+> -				    hdmi->ddc);
+> +	drmm_connector_hdmi_init(drm, &hdmi->connector,
+> +				 "Rockchip", "Inno HDMI",
+> +				 &inno_hdmi_connector_funcs,
+> +				 &inno_hdmi_hdmi_connector_funcs,
+> +				 DRM_MODE_CONNECTOR_HDMIA,
+> +				 hdmi->ddc,
+> +				 BIT(HDMI_COLORSPACE_RGB),
+> +				 8);
+>  
+>  	drm_connector_attach_encoder(&hdmi->connector, encoder);
+>  
+> 
+> 
 
-This piece of doc looks good to me, so
-
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
 
 
-Thanks,
-pq
 
---Sig_/qC0FmXmaLo63nT+K/5dVjke
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmXYZUUACgkQI1/ltBGq
-qqc6GA//Ud3yE7PjLhvaODOa4aypDtfd94RID6Fc+CEV+uagiJ2GdwpCdy/M3Cna
-AkrAJVW4WkOp0WMA9AX06ddqwhX6oxf6kFwFsSFjrWn63QygVBMTPmk6cgSwLKJG
-xmL7r67C6NYM94M7hT5WGX6XO4AFqAaCwDRI/LAiNhQMPSxriZ5XSmewgHQzBqHl
-x05HjtZeldFXddI7OHlWblkg2aZabwetqnDt2ZJy+AzlE0uStg0p0PWdGCkUoVjm
-+D+sf0IDPydZjSyalnCufA4xYRROGWGTQWDJm4VnLvw+b+yVpAWeY/Vq7hp7DL2Y
-wXKgj1ZsimreV/AUimJRAMMcyXYyw/onxha6sDPpF8he/+sKmoZBggu88h8Sdn29
-vFdLhrWFyVc3I9MlmQG63kL0vxIcSRN++5fmMLYO6xWulal/7AoucAdJ3pPwj1P2
-eOfzqmKgzEanTlwZNGaGqe/XZV1WDsRiXU7HTgwhU8XAnxgTDMGypz7QTcUORtUb
-RJrie0sp33kd1CpFG81x2hQLgOVS0KQQ0tOOhwmDSshHH4f0DQO9tJZeOSXeImsn
-NXO3G5RzKvotOG1AOyB/V3XhUybmbswHidEUBMozmFdbsewcfaLwZlig+9m6/xK7
-a7to0wCNbJPXbcPcPpAn7ijTbTzF91i0LPtOZbnL1BGUtf/p2FE=
-=dJZd
------END PGP SIGNATURE-----
-
---Sig_/qC0FmXmaLo63nT+K/5dVjke--
