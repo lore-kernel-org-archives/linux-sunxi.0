@@ -1,26 +1,27 @@
 Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A03A2AF04
-	for <linux-sunxi@lists.linux.dev>; Sat, 24 Feb 2024 15:06:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F36B45C08
+	for <linux-sunxi@lists.linux.dev>; Sat, 24 Feb 2024 15:06:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708787173; cv=none; b=H4Wz8JNRWIo7wDnFkkh1u+A549AeWmpMJSB1tczGJWbssFyqAunw4hnlX4iyOofFXNQ/8+8uxTVfOKLGuHczQxezKo7INIlSd3CSdQkCPW2imi4pmpu7zR0ZGBhcmc5kJE8AfyKLTgM3FFbSCLd1h55IcuK0c3p2wofy3PNONh8=
+	t=1708787174; cv=none; b=AgS211C13SZkAnBHM+CpmJsvUN5CAO8Yzz7f4gA6pMktO6uiQEIn+PmIrR/HtJ6REA9KYSRxAzVhNZZ1rnyimno/LxrEwyDY/fcUKfqLtKDf11DHH0H5A5GNt6WR33WmaNw8s0BF3Cgu8lxG0S9ifiAgLrxbypcnUc4eFAWqfWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708787173; c=relaxed/simple;
-	bh=Uryo3XdwAekEHSVjuMlMntBb6I1zHeuqUQ7N7xRLv/U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=SDlq/dlU5u+C/pMWB+SnNqLtqKEC0reUho6gy9uLkojcrnFm54A1hbVg4sCk3/8fsnA7+LJ9CQ6lPzawR3qUkgpBmbLc6XF+l1WkY/D+t+2sLaz6ZrwQeFNL7UknwRFLDO6ksX63nz4TOeBC39e7p4ywNPPqda+HevB06wZZgOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=L9I4meje; arc=none smtp.client-ip=195.181.215.36
+	s=arc-20240116; t=1708787174; c=relaxed/simple;
+	bh=Q9SrX86zQBhe2kUdguButB8vQWP6AxlFFgogUXGLSXg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=hucIP4MFOJ7xVyIIcwzlopbp0RPUsQCeL3DX6gS7dtj75rHF6TN2NXNVpOfRUAwQq3YsTxJVELehfqPmEQjK8ctepbSdP8GaotoXVikQoae1D9QUfDwrkVNHN9dSGaPXbl3ISd3Qw49Ay3QgCjKAwcl4WF9pkiGAu7lI4YXk790=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=FH2xtBV9; arc=none smtp.client-ip=195.181.215.36
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="L9I4meje"
+	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="FH2xtBV9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
-	t=1708787167; bh=Uryo3XdwAekEHSVjuMlMntBb6I1zHeuqUQ7N7xRLv/U=;
-	h=From:To:Cc:Subject:Date:From;
-	b=L9I4meje818PMKLYF5UA9Z980dPtZPCvuEHAL7MwqojCWJPc7xFfL2iAoX8mXD2fI
-	 DeaNRvSzDJnxkEngB9cioOYKej5HrJ/2mEcDFCTHdkyh6ddvPadR/JinhQSd0GZPyh
-	 yZe5GBB4MjEO5Qhzgsisj4VGB/McpYIn3o4yjQ+8=
+	t=1708787168; bh=Q9SrX86zQBhe2kUdguButB8vQWP6AxlFFgogUXGLSXg=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=FH2xtBV96s+MQ/h8BDgC0Qt5cWu1LxwDvCiUwEQ9BJP6dsQZxf1n9g6vHmOa9+agR
+	 cvRrm6HaOGJhtukSydgJLcnz+30E8g/FuuDRe0MCJBZhMxsqzeHXjftxR7Exyl84Hc
+	 1yIQ2xFSS9U0Xh061kZxFcqJ0gsqHLewKtdkcHws=
 From: =?UTF-8?q?Ond=C5=99ej=20Jirman?= <megi@xff.cz>
 To: linux-kernel@vger.kernel.org,
 	Maxime Ripard <mripard@kernel.org>,
@@ -35,51 +36,390 @@ Cc: Ondrej Jirman <megi@xff.cz>,
 	dri-devel@lists.freedesktop.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH v2 0/3] Move blender setup from individual planes to crtc commit in sun4i-drm
-Date: Sat, 24 Feb 2024 16:05:57 +0100
-Message-ID: <20240224150604.3855534-1-megi@xff.cz>
+Subject: [PATCH v2 3/3] drm/sun4i: Fix layer zpos change/atomic modesetting
+Date: Sat, 24 Feb 2024 16:06:00 +0100
+Message-ID: <20240224150604.3855534-4-megi@xff.cz>
+In-Reply-To: <20240224150604.3855534-1-megi@xff.cz>
+References: <20240224150604.3855534-1-megi@xff.cz>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 From: Ondrej Jirman <megi@xff.cz>
 
-This series refactors blender setup from individual planes to a common
-place where it can be performed at once and is easier to reason about.
+Identical configurations of planes can lead to different (and wrong)
+layer -> pipe routing at HW level, depending on the order of atomic
+plane changes.
 
-In the process this fixes a few bugs that allowed blender pipes to be
-disabled while corresponding DRM planes were requested to be enabled.
+For example:
 
-Please take a look. :)
+- Layer 1 is configured to zpos 0 and thus uses pipe 0. No other layer
+  is enabled. This is a typical situation at boot.
 
-v2:
-- use regmap_write where possible
-- add review tags
+- When a compositor takes over and layer 3 is enabled,
+  sun8i_ui_layer_enable() will get called with old_zpos=0 zpos=1, which
+  will lead to incorrect disabling of pipe 0 and enabling of pipe 1.
 
-Thank you very much,
-	Ondřej Jirman
+What happens is that sun8i_ui_layer_enable() function may disable
+blender pipes even if it is no longer assigned to its layer.
 
-Ondrej Jirman (3):
-  drm/sun4i: Unify sun8i_*_layer structs
-  drm/sun4i: Add more parameters to sunxi_engine commit callback
-  drm/sun4i: Fix layer zpos change/atomic modesetting
+To correct this, move the routing setup out of individual plane's
+atomic_update into crtc's atomic_update, where it can be calculated
+and updated all at once.
 
- drivers/gpu/drm/sun4i/sun4i_backend.c  |  4 +-
- drivers/gpu/drm/sun4i/sun4i_crtc.c     |  2 +-
- drivers/gpu/drm/sun4i/sun8i_mixer.c    | 70 ++++++++++++++++++++-
- drivers/gpu/drm/sun4i/sun8i_mixer.h    | 20 ++++++
- drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 85 +++----------------------
- drivers/gpu/drm/sun4i/sun8i_ui_layer.h | 20 ++----
- drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 86 +++-----------------------
- drivers/gpu/drm/sun4i/sun8i_vi_layer.h | 20 ++----
- drivers/gpu/drm/sun4i/sunxi_engine.h   | 13 +++-
- 9 files changed, 125 insertions(+), 195 deletions(-)
+Remove the atomic_disable callback because it is no longer needed.
 
+Signed-off-by: Ondrej Jirman <megi@xff.cz>
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ drivers/gpu/drm/sun4i/sun8i_mixer.c    | 61 +++++++++++++++++++++
+ drivers/gpu/drm/sun4i/sun8i_mixer.h    |  6 +++
+ drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 73 +------------------------
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 74 +-------------------------
+ 4 files changed, 71 insertions(+), 143 deletions(-)
+
+diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+index bdeb9b80e038..bd0fe2c6624e 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+@@ -250,12 +250,73 @@ int sun8i_mixer_drm_format_to_hw(u32 format, u32 *hw_format)
+ 	return -EINVAL;
+ }
+ 
++static void sun8i_layer_enable(struct sun8i_layer *layer, bool enable)
++{
++	u32 ch_base = sun8i_channel_base(layer->mixer, layer->channel);
++	u32 val, reg, mask;
++
++	if (layer->type == SUN8I_LAYER_TYPE_UI) {
++		val = enable ? SUN8I_MIXER_CHAN_UI_LAYER_ATTR_EN : 0;
++		mask = SUN8I_MIXER_CHAN_UI_LAYER_ATTR_EN;
++		reg = SUN8I_MIXER_CHAN_UI_LAYER_ATTR(ch_base, layer->overlay);
++	} else {
++		val = enable ? SUN8I_MIXER_CHAN_VI_LAYER_ATTR_EN : 0;
++		mask = SUN8I_MIXER_CHAN_VI_LAYER_ATTR_EN;
++		reg = SUN8I_MIXER_CHAN_VI_LAYER_ATTR(ch_base, layer->overlay);
++	}
++
++	regmap_update_bits(layer->mixer->engine.regs, reg, mask, val);
++}
++
+ static void sun8i_mixer_commit(struct sunxi_engine *engine,
+ 			       struct drm_crtc *crtc,
+ 			       struct drm_atomic_state *state)
+ {
++	struct sun8i_mixer *mixer = engine_to_sun8i_mixer(engine);
++	u32 bld_base = sun8i_blender_base(mixer);
++	struct drm_plane_state *plane_state;
++	struct drm_plane *plane;
++	u32 route = 0, pipe_en = 0;
++
+ 	DRM_DEBUG_DRIVER("Committing changes\n");
+ 
++	drm_for_each_plane(plane, state->dev) {
++		struct sun8i_layer *layer = plane_to_sun8i_layer(plane);
++		bool enable;
++		int zpos;
++
++		if (!(plane->possible_crtcs & drm_crtc_mask(crtc)) || layer->mixer != mixer)
++			continue;
++
++		plane_state = drm_atomic_get_new_plane_state(state, plane);
++		if (!plane_state)
++			plane_state = plane->state;
++
++		enable = plane_state->crtc && plane_state->visible;
++		zpos = plane_state->normalized_zpos;
++
++		DRM_DEBUG_DRIVER("  plane %d: chan=%d ovl=%d en=%d zpos=%d\n",
++				 plane->base.id, layer->channel, layer->overlay,
++				 enable, zpos);
++
++		/*
++		 * We always update the layer enable bit, because it can clear
++		 * spontaneously for unknown reasons.
++		 */
++		sun8i_layer_enable(layer, enable);
++
++		if (!enable)
++			continue;
++
++		/* Route layer to pipe based on zpos */
++		route |= layer->channel << SUN8I_MIXER_BLEND_ROUTE_PIPE_SHIFT(zpos);
++		pipe_en |= SUN8I_MIXER_BLEND_PIPE_CTL_EN(zpos);
++	}
++
++	regmap_write(mixer->engine.regs, SUN8I_MIXER_BLEND_ROUTE(bld_base), route);
++	regmap_write(mixer->engine.regs, SUN8I_MIXER_BLEND_PIPE_CTL(bld_base),
++		     pipe_en | SUN8I_MIXER_BLEND_PIPE_CTL_FC_EN(0));
++
+ 	regmap_write(engine->regs, SUN8I_MIXER_GLOBAL_DBUFF,
+ 		     SUN8I_MIXER_GLOBAL_DBUFF_ENABLE);
+ }
+diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.h b/drivers/gpu/drm/sun4i/sun8i_mixer.h
+index 5a610ee30301..d7898c9c9cc0 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_mixer.h
++++ b/drivers/gpu/drm/sun4i/sun8i_mixer.h
+@@ -186,9 +186,15 @@ struct sun8i_mixer {
+ 	struct clk			*mod_clk;
+ };
+ 
++enum {
++	SUN8I_LAYER_TYPE_UI,
++	SUN8I_LAYER_TYPE_VI,
++};
++
+ struct sun8i_layer {
+ 	struct drm_plane	plane;
+ 	struct sun8i_mixer	*mixer;
++	int			type;
+ 	int			channel;
+ 	int			overlay;
+ };
+diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+index 248fbb606ede..b90e5edef4e8 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+@@ -24,55 +24,6 @@
+ #include "sun8i_ui_layer.h"
+ #include "sun8i_ui_scaler.h"
+ 
+-static void sun8i_ui_layer_enable(struct sun8i_mixer *mixer, int channel,
+-				  int overlay, bool enable, unsigned int zpos,
+-				  unsigned int old_zpos)
+-{
+-	u32 val, bld_base, ch_base;
+-
+-	bld_base = sun8i_blender_base(mixer);
+-	ch_base = sun8i_channel_base(mixer, channel);
+-
+-	DRM_DEBUG_DRIVER("%sabling channel %d overlay %d\n",
+-			 enable ? "En" : "Dis", channel, overlay);
+-
+-	if (enable)
+-		val = SUN8I_MIXER_CHAN_UI_LAYER_ATTR_EN;
+-	else
+-		val = 0;
+-
+-	regmap_update_bits(mixer->engine.regs,
+-			   SUN8I_MIXER_CHAN_UI_LAYER_ATTR(ch_base, overlay),
+-			   SUN8I_MIXER_CHAN_UI_LAYER_ATTR_EN, val);
+-
+-	if (!enable || zpos != old_zpos) {
+-		regmap_update_bits(mixer->engine.regs,
+-				   SUN8I_MIXER_BLEND_PIPE_CTL(bld_base),
+-				   SUN8I_MIXER_BLEND_PIPE_CTL_EN(old_zpos),
+-				   0);
+-
+-		regmap_update_bits(mixer->engine.regs,
+-				   SUN8I_MIXER_BLEND_ROUTE(bld_base),
+-				   SUN8I_MIXER_BLEND_ROUTE_PIPE_MSK(old_zpos),
+-				   0);
+-	}
+-
+-	if (enable) {
+-		val = SUN8I_MIXER_BLEND_PIPE_CTL_EN(zpos);
+-
+-		regmap_update_bits(mixer->engine.regs,
+-				   SUN8I_MIXER_BLEND_PIPE_CTL(bld_base),
+-				   val, val);
+-
+-		val = channel << SUN8I_MIXER_BLEND_ROUTE_PIPE_SHIFT(zpos);
+-
+-		regmap_update_bits(mixer->engine.regs,
+-				   SUN8I_MIXER_BLEND_ROUTE(bld_base),
+-				   SUN8I_MIXER_BLEND_ROUTE_PIPE_MSK(zpos),
+-				   val);
+-	}
+-}
+-
+ static void sun8i_ui_layer_update_alpha(struct sun8i_mixer *mixer, int channel,
+ 					int overlay, struct drm_plane *plane)
+ {
+@@ -259,36 +210,18 @@ static int sun8i_ui_layer_atomic_check(struct drm_plane *plane,
+ 						   true, true);
+ }
+ 
+-static void sun8i_ui_layer_atomic_disable(struct drm_plane *plane,
+-					  struct drm_atomic_state *state)
+-{
+-	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
+-									   plane);
+-	struct sun8i_layer *layer = plane_to_sun8i_layer(plane);
+-	unsigned int old_zpos = old_state->normalized_zpos;
+-	struct sun8i_mixer *mixer = layer->mixer;
+-
+-	sun8i_ui_layer_enable(mixer, layer->channel, layer->overlay, false, 0,
+-			      old_zpos);
+-}
+ 
+ static void sun8i_ui_layer_atomic_update(struct drm_plane *plane,
+ 					 struct drm_atomic_state *state)
+ {
+-	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
+-									   plane);
+ 	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state,
+ 									   plane);
+ 	struct sun8i_layer *layer = plane_to_sun8i_layer(plane);
+ 	unsigned int zpos = new_state->normalized_zpos;
+-	unsigned int old_zpos = old_state->normalized_zpos;
+ 	struct sun8i_mixer *mixer = layer->mixer;
+ 
+-	if (!new_state->visible) {
+-		sun8i_ui_layer_enable(mixer, layer->channel,
+-				      layer->overlay, false, 0, old_zpos);
++	if (!new_state->crtc || !new_state->visible)
+ 		return;
+-	}
+ 
+ 	sun8i_ui_layer_update_coord(mixer, layer->channel,
+ 				    layer->overlay, plane, zpos);
+@@ -298,13 +231,10 @@ static void sun8i_ui_layer_atomic_update(struct drm_plane *plane,
+ 				      layer->overlay, plane);
+ 	sun8i_ui_layer_update_buffer(mixer, layer->channel,
+ 				     layer->overlay, plane);
+-	sun8i_ui_layer_enable(mixer, layer->channel, layer->overlay,
+-			      true, zpos, old_zpos);
+ }
+ 
+ static const struct drm_plane_helper_funcs sun8i_ui_layer_helper_funcs = {
+ 	.atomic_check	= sun8i_ui_layer_atomic_check,
+-	.atomic_disable	= sun8i_ui_layer_atomic_disable,
+ 	.atomic_update	= sun8i_ui_layer_atomic_update,
+ };
+ 
+@@ -390,6 +320,7 @@ struct sun8i_layer *sun8i_ui_layer_init_one(struct drm_device *drm,
+ 
+ 	drm_plane_helper_add(&layer->plane, &sun8i_ui_layer_helper_funcs);
+ 	layer->mixer = mixer;
++	layer->type = SUN8I_LAYER_TYPE_UI;
+ 	layer->channel = channel;
+ 	layer->overlay = 0;
+ 
+diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+index 0c0f1ac80517..9c09d9c08496 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+@@ -18,55 +18,6 @@
+ #include "sun8i_vi_layer.h"
+ #include "sun8i_vi_scaler.h"
+ 
+-static void sun8i_vi_layer_enable(struct sun8i_mixer *mixer, int channel,
+-				  int overlay, bool enable, unsigned int zpos,
+-				  unsigned int old_zpos)
+-{
+-	u32 val, bld_base, ch_base;
+-
+-	bld_base = sun8i_blender_base(mixer);
+-	ch_base = sun8i_channel_base(mixer, channel);
+-
+-	DRM_DEBUG_DRIVER("%sabling VI channel %d overlay %d\n",
+-			 enable ? "En" : "Dis", channel, overlay);
+-
+-	if (enable)
+-		val = SUN8I_MIXER_CHAN_VI_LAYER_ATTR_EN;
+-	else
+-		val = 0;
+-
+-	regmap_update_bits(mixer->engine.regs,
+-			   SUN8I_MIXER_CHAN_VI_LAYER_ATTR(ch_base, overlay),
+-			   SUN8I_MIXER_CHAN_VI_LAYER_ATTR_EN, val);
+-
+-	if (!enable || zpos != old_zpos) {
+-		regmap_update_bits(mixer->engine.regs,
+-				   SUN8I_MIXER_BLEND_PIPE_CTL(bld_base),
+-				   SUN8I_MIXER_BLEND_PIPE_CTL_EN(old_zpos),
+-				   0);
+-
+-		regmap_update_bits(mixer->engine.regs,
+-				   SUN8I_MIXER_BLEND_ROUTE(bld_base),
+-				   SUN8I_MIXER_BLEND_ROUTE_PIPE_MSK(old_zpos),
+-				   0);
+-	}
+-
+-	if (enable) {
+-		val = SUN8I_MIXER_BLEND_PIPE_CTL_EN(zpos);
+-
+-		regmap_update_bits(mixer->engine.regs,
+-				   SUN8I_MIXER_BLEND_PIPE_CTL(bld_base),
+-				   val, val);
+-
+-		val = channel << SUN8I_MIXER_BLEND_ROUTE_PIPE_SHIFT(zpos);
+-
+-		regmap_update_bits(mixer->engine.regs,
+-				   SUN8I_MIXER_BLEND_ROUTE(bld_base),
+-				   SUN8I_MIXER_BLEND_ROUTE_PIPE_MSK(zpos),
+-				   val);
+-	}
+-}
+-
+ static void sun8i_vi_layer_update_alpha(struct sun8i_mixer *mixer, int channel,
+ 					int overlay, struct drm_plane *plane)
+ {
+@@ -393,36 +344,17 @@ static int sun8i_vi_layer_atomic_check(struct drm_plane *plane,
+ 						   true, true);
+ }
+ 
+-static void sun8i_vi_layer_atomic_disable(struct drm_plane *plane,
+-					  struct drm_atomic_state *state)
+-{
+-	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
+-									   plane);
+-	struct sun8i_layer *layer = plane_to_sun8i_vi_layer(plane);
+-	unsigned int old_zpos = old_state->normalized_zpos;
+-	struct sun8i_mixer *mixer = layer->mixer;
+-
+-	sun8i_vi_layer_enable(mixer, layer->channel, layer->overlay, false, 0,
+-			      old_zpos);
+-}
+-
+ static void sun8i_vi_layer_atomic_update(struct drm_plane *plane,
+ 					 struct drm_atomic_state *state)
+ {
+-	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
+-									   plane);
+ 	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state,
+ 									   plane);
+ 	struct sun8i_layer *layer = plane_to_sun8i_layer(plane);
+ 	unsigned int zpos = new_state->normalized_zpos;
+-	unsigned int old_zpos = old_state->normalized_zpos;
+ 	struct sun8i_mixer *mixer = layer->mixer;
+ 
+-	if (!new_state->visible) {
+-		sun8i_vi_layer_enable(mixer, layer->channel,
+-				      layer->overlay, false, 0, old_zpos);
++	if (!new_state->crtc || !new_state->visible)
+ 		return;
+-	}
+ 
+ 	sun8i_vi_layer_update_coord(mixer, layer->channel,
+ 				    layer->overlay, plane, zpos);
+@@ -432,13 +364,10 @@ static void sun8i_vi_layer_atomic_update(struct drm_plane *plane,
+ 				      layer->overlay, plane);
+ 	sun8i_vi_layer_update_buffer(mixer, layer->channel,
+ 				     layer->overlay, plane);
+-	sun8i_vi_layer_enable(mixer, layer->channel, layer->overlay,
+-			      true, zpos, old_zpos);
+ }
+ 
+ static const struct drm_plane_helper_funcs sun8i_vi_layer_helper_funcs = {
+ 	.atomic_check	= sun8i_vi_layer_atomic_check,
+-	.atomic_disable	= sun8i_vi_layer_atomic_disable,
+ 	.atomic_update	= sun8i_vi_layer_atomic_update,
+ };
+ 
+@@ -613,6 +542,7 @@ struct sun8i_layer *sun8i_vi_layer_init_one(struct drm_device *drm,
+ 
+ 	drm_plane_helper_add(&layer->plane, &sun8i_vi_layer_helper_funcs);
+ 	layer->mixer = mixer;
++	layer->type = SUN8I_LAYER_TYPE_VI;
+ 	layer->channel = index;
+ 	layer->overlay = 0;
+ 
 -- 
 2.44.0
 
