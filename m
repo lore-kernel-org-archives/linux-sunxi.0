@@ -1,27 +1,27 @@
 Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FDE04502C
-	for <linux-sunxi@lists.linux.dev>; Sat, 24 Feb 2024 15:06:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5271145028
+	for <linux-sunxi@lists.linux.dev>; Sat, 24 Feb 2024 15:06:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708787174; cv=none; b=Lna4cBDN60oUtRU4QcKK2rdbzpj/CelRXf2IyXfIWqpNB4Ucq605/7bE4Ix5wwt88XUo0wn/XnzICfMoRB9mHPPmoWtoKL/gLHv6d/Zwd5Rhpe53zHBgEUvCg64PCGBR4dqls5ijLi1GOeCfA9P3gxi/ie/sOrgFPOrFtJbTmAM=
+	t=1708787174; cv=none; b=UWH7HBIPqyGrlu+VzvxVse3eZDjeBmtvcGrLPJn/R4Ltp/gCjvjxAzFay89FxNVMhTXdwIzJUmxOhMIKYZ2LWL0Un83e9sYQ8cJEfuMLj4QWWujS3sqPlSVOryWgrwSR3ePCMbXtnvN+Tx7dEmPPiNMybkNGnQgoLTZzMVd5l7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1708787174; c=relaxed/simple;
-	bh=1o4GXfvP6xMrbbr1RM8jSgzNi7t4j6YOvmuIy2AM9jE=;
+	bh=/QYk0uoyxgbSwG8OlM5p+weXCE1mQsTEizZZUWPWwDc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kxtNQZ+8OZq/bi0Yrljc/owMG2NWqVqprZMubNvd9fPk8rtKp3O3jwAW5bi88qgWVEWYSPX3gQTSzqbhvNDWS1cWQXCwT/VGMYXfEe9SeznzF5/A58bFUifwxgkjorjXWX35vMLMHDGSRQU92W+YGAcS4qpXBGDeeYA4uEiaXL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=tMfWRFgo; arc=none smtp.client-ip=195.181.215.36
+	 MIME-Version; b=H7t19/UgA+8ufDXONacMTiJxgxJ5/Is98bsrrQDQc3neTp2FIcUUNj2Y0Gya9elTvXDu9CLky4SzITj42iFdc4xM+EtULoHCdcuCMNp1uUmRY8eZ1Yj70+xZdWW3bQlHfG6jgMvo4FScgJccKFtVpCPSoaEDmf7fNKU4TD+c6sw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=B/aFOneB; arc=none smtp.client-ip=195.181.215.36
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="tMfWRFgo"
+	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="B/aFOneB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
-	t=1708787168; bh=1o4GXfvP6xMrbbr1RM8jSgzNi7t4j6YOvmuIy2AM9jE=;
+	t=1708787168; bh=/QYk0uoyxgbSwG8OlM5p+weXCE1mQsTEizZZUWPWwDc=;
 	h=From:To:Cc:Subject:Date:References:From;
-	b=tMfWRFgoNIuDUYqRsD974N3vcVI89e9R6Zbs7lKepJ7JniADdhZWgOdW7bf6wGDAb
-	 TyWdUyTZeQdx4pc6jTxX9ajGxkA2iLRZhlitAZFGDFBG6CdakEl/6NbTU42NVwLeGF
-	 t2kkJYHk6wim1WxIR4ud/+05vkpYhKudg4PpvgD0=
+	b=B/aFOneBxAvEXj6gOQa9hO8em8GSJUikzbXvqP2QYMspbS3b0ms4RsOIOIUumgohf
+	 A4uJ4tu5Qs+wCuoUMfCPripW/Xw6kiADtA9iuSlfP0Llejz0Jcn+KUPezwtm0/PBmr
+	 3uYpO9JAHxIVBmZ4ew4GBv55GsKHNoQLJvjJvSqE=
 From: =?UTF-8?q?Ond=C5=99ej=20Jirman?= <megi@xff.cz>
 To: linux-kernel@vger.kernel.org,
 	Maxime Ripard <mripard@kernel.org>,
@@ -36,9 +36,9 @@ Cc: Ondrej Jirman <megi@xff.cz>,
 	dri-devel@lists.freedesktop.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH v2 2/3] drm/sun4i: Add more parameters to sunxi_engine commit callback
-Date: Sat, 24 Feb 2024 16:05:59 +0100
-Message-ID: <20240224150604.3855534-3-megi@xff.cz>
+Subject: [PATCH v2 1/3] drm/sun4i: Unify sun8i_*_layer structs
+Date: Sat, 24 Feb 2024 16:05:58 +0100
+Message-ID: <20240224150604.3855534-2-megi@xff.cz>
 In-Reply-To: <20240224150604.3855534-1-megi@xff.cz>
 References: <20240224150604.3855534-1-megi@xff.cz>
 Precedence: bulk
@@ -51,112 +51,236 @@ Content-Transfer-Encoding: 8bit
 
 From: Ondrej Jirman <megi@xff.cz>
 
-These will be needed later on when we move layer configuration to
-crtc update.
+These structs are identical, use a single struct to represent private
+data for the DRM plane. This is a preparation for configuring layer
+routing from the CRTC (mixer) instead of current approach of setting
+up routing from individual layer's atomic_update callback.
 
 Signed-off-by: Ondrej Jirman <megi@xff.cz>
 Reviewed-by: Maxime Ripard <mripard@kernel.org>
 Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- drivers/gpu/drm/sun4i/sun4i_backend.c |  4 +++-
- drivers/gpu/drm/sun4i/sun4i_crtc.c    |  2 +-
- drivers/gpu/drm/sun4i/sun8i_mixer.c   |  5 ++++-
- drivers/gpu/drm/sun4i/sunxi_engine.h  | 13 ++++++++++---
- 4 files changed, 18 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/sun4i/sun8i_mixer.c    |  4 ++--
+ drivers/gpu/drm/sun4i/sun8i_mixer.h    | 14 ++++++++++++++
+ drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 14 +++++++-------
+ drivers/gpu/drm/sun4i/sun8i_ui_layer.h | 20 ++++----------------
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 14 +++++++-------
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.h | 20 ++++----------------
+ 6 files changed, 38 insertions(+), 48 deletions(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_backend.c b/drivers/gpu/drm/sun4i/sun4i_backend.c
-index 335fd0edb904..e89eb96d3131 100644
---- a/drivers/gpu/drm/sun4i/sun4i_backend.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_backend.c
-@@ -69,7 +69,9 @@ static void sun4i_backend_disable_color_correction(struct sunxi_engine *engine)
- 			   SUN4I_BACKEND_OCCTL_ENABLE, 0);
- }
- 
--static void sun4i_backend_commit(struct sunxi_engine *engine)
-+static void sun4i_backend_commit(struct sunxi_engine *engine,
-+				 struct drm_crtc *crtc,
-+				 struct drm_atomic_state *state)
- {
- 	DRM_DEBUG_DRIVER("Committing changes\n");
- 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_crtc.c b/drivers/gpu/drm/sun4i/sun4i_crtc.c
-index c06d7cd45388..18e74047b0f5 100644
---- a/drivers/gpu/drm/sun4i/sun4i_crtc.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_crtc.c
-@@ -91,7 +91,7 @@ static void sun4i_crtc_atomic_flush(struct drm_crtc *crtc,
- 
- 	DRM_DEBUG_DRIVER("Committing plane changes\n");
- 
--	sunxi_engine_commit(scrtc->engine);
-+	sunxi_engine_commit(scrtc->engine, crtc, state);
- 
- 	if (event) {
- 		crtc->state->event = NULL;
 diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-index 1e681314e379..bdeb9b80e038 100644
+index 01382860aaee..1e681314e379 100644
 --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
 +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-@@ -16,6 +16,7 @@
- #include <linux/platform_device.h>
+@@ -271,7 +271,7 @@ static struct drm_plane **sun8i_layers_init(struct drm_device *drm,
+ 		return ERR_PTR(-ENOMEM);
+ 
+ 	for (i = 0; i < mixer->cfg->vi_num; i++) {
+-		struct sun8i_vi_layer *layer;
++		struct sun8i_layer *layer;
+ 
+ 		layer = sun8i_vi_layer_init_one(drm, mixer, i);
+ 		if (IS_ERR(layer)) {
+@@ -284,7 +284,7 @@ static struct drm_plane **sun8i_layers_init(struct drm_device *drm,
+ 	}
+ 
+ 	for (i = 0; i < mixer->cfg->ui_num; i++) {
+-		struct sun8i_ui_layer *layer;
++		struct sun8i_layer *layer;
+ 
+ 		layer = sun8i_ui_layer_init_one(drm, mixer, i);
+ 		if (IS_ERR(layer)) {
+diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.h b/drivers/gpu/drm/sun4i/sun8i_mixer.h
+index 85c94884fb9a..5a610ee30301 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_mixer.h
++++ b/drivers/gpu/drm/sun4i/sun8i_mixer.h
+@@ -9,6 +9,7 @@
+ #include <linux/clk.h>
+ #include <linux/regmap.h>
  #include <linux/reset.h>
++#include <drm/drm_plane.h>
  
-+#include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_framebuffer.h>
-@@ -249,7 +250,9 @@ int sun8i_mixer_drm_format_to_hw(u32 format, u32 *hw_format)
- 	return -EINVAL;
- }
+ #include "sunxi_engine.h"
  
--static void sun8i_mixer_commit(struct sunxi_engine *engine)
-+static void sun8i_mixer_commit(struct sunxi_engine *engine,
-+			       struct drm_crtc *crtc,
-+			       struct drm_atomic_state *state)
+@@ -185,6 +186,19 @@ struct sun8i_mixer {
+ 	struct clk			*mod_clk;
+ };
+ 
++struct sun8i_layer {
++	struct drm_plane	plane;
++	struct sun8i_mixer	*mixer;
++	int			channel;
++	int			overlay;
++};
++
++static inline struct sun8i_layer *
++plane_to_sun8i_layer(struct drm_plane *plane)
++{
++	return container_of(plane, struct sun8i_layer, plane);
++}
++
+ static inline struct sun8i_mixer *
+ engine_to_sun8i_mixer(struct sunxi_engine *engine)
  {
- 	DRM_DEBUG_DRIVER("Committing changes\n");
- 
-diff --git a/drivers/gpu/drm/sun4i/sunxi_engine.h b/drivers/gpu/drm/sun4i/sunxi_engine.h
-index ec8cf9b2bda4..ec0c4932f15c 100644
---- a/drivers/gpu/drm/sun4i/sunxi_engine.h
-+++ b/drivers/gpu/drm/sun4i/sunxi_engine.h
-@@ -7,6 +7,7 @@
- #define _SUNXI_ENGINE_H_
- 
- struct drm_plane;
-+struct drm_crtc;
- struct drm_device;
- struct drm_crtc_state;
- struct drm_display_mode;
-@@ -59,7 +60,9 @@ struct sunxi_engine_ops {
- 	 *
- 	 * This function is optional.
- 	 */
--	void (*commit)(struct sunxi_engine *engine);
-+	void (*commit)(struct sunxi_engine *engine,
-+		       struct drm_crtc *crtc,
-+		       struct drm_atomic_state *state);
- 
- 	/**
- 	 * @layers_init:
-@@ -144,12 +147,16 @@ struct sunxi_engine {
- /**
-  * sunxi_engine_commit() - commit all changes of the engine
-  * @engine:	pointer to the engine
-+ * @crtc:	pointer to crtc the engine is associated with
-+ * @state:	atomic state
-  */
- static inline void
--sunxi_engine_commit(struct sunxi_engine *engine)
-+sunxi_engine_commit(struct sunxi_engine *engine,
-+		    struct drm_crtc *crtc,
-+		    struct drm_atomic_state *state)
+diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+index ca75ca0835a6..248fbb606ede 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+@@ -232,7 +232,7 @@ static int sun8i_ui_layer_atomic_check(struct drm_plane *plane,
  {
- 	if (engine->ops && engine->ops->commit)
--		engine->ops->commit(engine);
-+		engine->ops->commit(engine, crtc, state);
- }
+ 	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
+ 										 plane);
+-	struct sun8i_ui_layer *layer = plane_to_sun8i_ui_layer(plane);
++	struct sun8i_layer *layer = plane_to_sun8i_layer(plane);
+ 	struct drm_crtc *crtc = new_plane_state->crtc;
+ 	struct drm_crtc_state *crtc_state;
+ 	int min_scale, max_scale;
+@@ -264,7 +264,7 @@ static void sun8i_ui_layer_atomic_disable(struct drm_plane *plane,
+ {
+ 	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
+ 									   plane);
+-	struct sun8i_ui_layer *layer = plane_to_sun8i_ui_layer(plane);
++	struct sun8i_layer *layer = plane_to_sun8i_layer(plane);
+ 	unsigned int old_zpos = old_state->normalized_zpos;
+ 	struct sun8i_mixer *mixer = layer->mixer;
  
- /**
+@@ -279,7 +279,7 @@ static void sun8i_ui_layer_atomic_update(struct drm_plane *plane,
+ 									   plane);
+ 	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state,
+ 									   plane);
+-	struct sun8i_ui_layer *layer = plane_to_sun8i_ui_layer(plane);
++	struct sun8i_layer *layer = plane_to_sun8i_layer(plane);
+ 	unsigned int zpos = new_state->normalized_zpos;
+ 	unsigned int old_zpos = old_state->normalized_zpos;
+ 	struct sun8i_mixer *mixer = layer->mixer;
+@@ -345,13 +345,13 @@ static const uint64_t sun8i_layer_modifiers[] = {
+ 	DRM_FORMAT_MOD_INVALID
+ };
+ 
+-struct sun8i_ui_layer *sun8i_ui_layer_init_one(struct drm_device *drm,
+-					       struct sun8i_mixer *mixer,
+-					       int index)
++struct sun8i_layer *sun8i_ui_layer_init_one(struct drm_device *drm,
++					    struct sun8i_mixer *mixer,
++					    int index)
+ {
+ 	enum drm_plane_type type = DRM_PLANE_TYPE_OVERLAY;
+ 	int channel = mixer->cfg->vi_num + index;
+-	struct sun8i_ui_layer *layer;
++	struct sun8i_layer *layer;
+ 	unsigned int plane_cnt;
+ 	int ret;
+ 
+diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.h b/drivers/gpu/drm/sun4i/sun8i_ui_layer.h
+index e3e32ee1178d..83892f6ff211 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.h
++++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.h
+@@ -47,21 +47,9 @@
+ #define SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA_MODE_COMBINED	((2) << 1)
+ 
+ struct sun8i_mixer;
++struct sun8i_layer;
+ 
+-struct sun8i_ui_layer {
+-	struct drm_plane	plane;
+-	struct sun8i_mixer	*mixer;
+-	int			channel;
+-	int			overlay;
+-};
+-
+-static inline struct sun8i_ui_layer *
+-plane_to_sun8i_ui_layer(struct drm_plane *plane)
+-{
+-	return container_of(plane, struct sun8i_ui_layer, plane);
+-}
+-
+-struct sun8i_ui_layer *sun8i_ui_layer_init_one(struct drm_device *drm,
+-					       struct sun8i_mixer *mixer,
+-					       int index);
++struct sun8i_layer *sun8i_ui_layer_init_one(struct drm_device *drm,
++					    struct sun8i_mixer *mixer,
++					    int index);
+ #endif /* _SUN8I_UI_LAYER_H_ */
+diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+index f9c0a56d3a14..0c0f1ac80517 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+@@ -366,7 +366,7 @@ static int sun8i_vi_layer_atomic_check(struct drm_plane *plane,
+ {
+ 	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
+ 										 plane);
+-	struct sun8i_vi_layer *layer = plane_to_sun8i_vi_layer(plane);
++	struct sun8i_layer *layer = plane_to_sun8i_layer(plane);
+ 	struct drm_crtc *crtc = new_plane_state->crtc;
+ 	struct drm_crtc_state *crtc_state;
+ 	int min_scale, max_scale;
+@@ -398,7 +398,7 @@ static void sun8i_vi_layer_atomic_disable(struct drm_plane *plane,
+ {
+ 	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
+ 									   plane);
+-	struct sun8i_vi_layer *layer = plane_to_sun8i_vi_layer(plane);
++	struct sun8i_layer *layer = plane_to_sun8i_vi_layer(plane);
+ 	unsigned int old_zpos = old_state->normalized_zpos;
+ 	struct sun8i_mixer *mixer = layer->mixer;
+ 
+@@ -413,7 +413,7 @@ static void sun8i_vi_layer_atomic_update(struct drm_plane *plane,
+ 									   plane);
+ 	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state,
+ 									   plane);
+-	struct sun8i_vi_layer *layer = plane_to_sun8i_vi_layer(plane);
++	struct sun8i_layer *layer = plane_to_sun8i_layer(plane);
+ 	unsigned int zpos = new_state->normalized_zpos;
+ 	unsigned int old_zpos = old_state->normalized_zpos;
+ 	struct sun8i_mixer *mixer = layer->mixer;
+@@ -539,14 +539,14 @@ static const uint64_t sun8i_layer_modifiers[] = {
+ 	DRM_FORMAT_MOD_INVALID
+ };
+ 
+-struct sun8i_vi_layer *sun8i_vi_layer_init_one(struct drm_device *drm,
+-					       struct sun8i_mixer *mixer,
+-					       int index)
++struct sun8i_layer *sun8i_vi_layer_init_one(struct drm_device *drm,
++					    struct sun8i_mixer *mixer,
++					    int index)
+ {
+ 	enum drm_plane_type type = DRM_PLANE_TYPE_OVERLAY;
+ 	u32 supported_encodings, supported_ranges;
+ 	unsigned int plane_cnt, format_count;
+-	struct sun8i_vi_layer *layer;
++	struct sun8i_layer *layer;
+ 	const u32 *formats;
+ 	int ret;
+ 
+diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.h b/drivers/gpu/drm/sun4i/sun8i_vi_layer.h
+index 48c399e1c86d..655440cdc78f 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.h
++++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.h
+@@ -52,21 +52,9 @@
+ #define SUN8I_MIXER_CHAN_VI_DS_M(x)			((x) << 0)
+ 
+ struct sun8i_mixer;
++struct sun8i_layer;
+ 
+-struct sun8i_vi_layer {
+-	struct drm_plane	plane;
+-	struct sun8i_mixer	*mixer;
+-	int			channel;
+-	int			overlay;
+-};
+-
+-static inline struct sun8i_vi_layer *
+-plane_to_sun8i_vi_layer(struct drm_plane *plane)
+-{
+-	return container_of(plane, struct sun8i_vi_layer, plane);
+-}
+-
+-struct sun8i_vi_layer *sun8i_vi_layer_init_one(struct drm_device *drm,
+-					       struct sun8i_mixer *mixer,
+-					       int index);
++struct sun8i_layer *sun8i_vi_layer_init_one(struct drm_device *drm,
++					    struct sun8i_mixer *mixer,
++					    int index);
+ #endif /* _SUN8I_VI_LAYER_H_ */
 -- 
 2.44.0
 
