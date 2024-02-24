@@ -1,215 +1,131 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0F8749A
-	for <linux-sunxi@lists.linux.dev>; Sat, 24 Feb 2024 07:15:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DBB0256A;
+	Sat, 24 Feb 2024 10:31:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708758920; cv=none; b=uIoBpyz7xNMiXTNF2EPikts5JUqkNN+hDH6MzzDysPGbDCGVJf+5IsBer8sV58LPk2LbrFgRrxUVRebIFo7q5pnBbV9YlKVne44k+Wa+vEO06JJV55hglLjLlzO6OXLPB1NAk0BKNgCnaS2Jn/3fNzmkpzCLctfCYfoiR2IM1kg=
+	t=1708770676; cv=none; b=ZLYT1nY7rU8caphpuqG2SyB/f4WGdQqNCz6JyFVHTkxDYsV5UA/ifACdUInaAyU/nu4Wq1OflDnToCD2FRvcUPhstEb74oCBM9YvAIpnNAe1mmOh4IY3LoGdHWblrSeRb/QpUYAuB6qePnJB1cnyOIXIqcWudnShHRwS+tZM9mU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708758920; c=relaxed/simple;
-	bh=0HAot224t49qJekPYxrS9uVB+eTCHcXufJIXNedY8jg=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BFzrO9nqH5MTLRY6dNs4c9x/uM9DHzhn8r/7tBquJvPU23tDNaVPySNDSczcMMnp3lhDqw/7y3Ad8DPEPQBb81JnxG2D656MOrJ0+QgHsQmrueZ1vaoNwtZeW2v1gxxSnQVgYHSG6ANyXfvUdvzQ6LhLW8SJEKBeL7X+O8mLTqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bMmX2JAT; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1708770676; c=relaxed/simple;
+	bh=TZhQthnHkKwNMI4yroPtQ74XaWWynkFwbBDf/2R0uvk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kt+C0Mso/u84g+z2EhG+kHQht/yNDr7LfJRgkdEy0CDu2Kl9escjttiWs6lMv3S5XMje683MfABHzIUFmFF07WpbnOKIqRVoFqrlU0H4qNp8aqJkUipBen5sy92ruJBoU4GBZAC1vWRXybMTtI6tsd6NLhncnT7hkncf7TKnJVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bxC+4EYF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bMmX2JAT"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a3e8c1e4aa7so148807366b.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 23 Feb 2024 23:15:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708758917; x=1709363717; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Q/l3rdHHadZ15R5gzk5CAjldRNRZfc44ldL/qVb2ZY4=;
-        b=bMmX2JAT2eFyQwjAPmoTi+P2JfVz1B3O45fJ7CL0OdM7pmV6z6oUhU/Bj2MqbTty8l
-         ctoKNdFkdETgqF8UCq09QnbJtgZy8JtjOGyWrh/4U+1/bTljlDlBuCaTTtWpsbrEREe9
-         dC/sMoKKE2lcs2WnFilntvsLJmULtraqEnsOEaVNyxCpniMiV4PzUhBJUeulb36VxgYR
-         EzVBQHfjRVna1w1idEtltZkDrShAEFsD87LmraFCGwZm1ppknNJWQXTqlhL7depqNyz3
-         aNEjDYtGWDz80tzi75AsP115GMFmLD+TylnCt/LGjghpDkuSa3ryrTtw1bm6z7yq9QGK
-         a1Gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708758917; x=1709363717;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Q/l3rdHHadZ15R5gzk5CAjldRNRZfc44ldL/qVb2ZY4=;
-        b=F1LHf9yvIP5QpYe4vnm3tlfQLRTp+uC1q9biuzFJ0wiBc3yIEzbaSNpx3UUXM/HxSH
-         qqQp2eu80qD03l0r/LK9akq1GOs5ou5fxdSDZjanWJ/lC40/xhcays/Eum9g7Zl42KYl
-         VjUC0NGo60t9ZZanHy8Ry3x7MzpX+tppYR9E0OQcLVkRBQV8vqYn5P9iFnGOZOcNLm/2
-         DhUkoXq/ETX6wWWCQQZMs6sgf0L+QkU5YkueNilN6dkhAXRXADvB6XywZUkV7j0wuXlF
-         s76wEUqVCe/Vr2MR6rWQ7u4FZta0thjn7IYyUqEszBfKTwDBGokRRk9cb+fjA5J5pPNE
-         tJbg==
-X-Forwarded-Encrypted: i=1; AJvYcCVXlloCTYBZF5DikxvrC1zAfOlal/7vPzM1xX9xNcAr79Qo1FyavGi/WKwlSCrrqQZx2YGFl7yEO3USqp8BeKGNaXvQCwxbiu3j4VE=
-X-Gm-Message-State: AOJu0Yz7C8u/qxM3BrYkw2ZVxlt2hNrmMiH0zfdHE21oyqZMgxpVd5zj
-	Sv+DnkdYIfd/86jjzcGAVtlKcDgJzp+vpAtiPjpvGM8N4NJ7nH0s
-X-Google-Smtp-Source: AGHT+IEchw50Yy6f2MPM1hIEjVE7JLq6sTy83bT2bvXfzjJTJuftRJidWkflr7PgJW7pu0uhxM1szg==
-X-Received: by 2002:a17:906:5910:b0:a3f:583c:b00c with SMTP id h16-20020a170906591000b00a3f583cb00cmr1144362ejq.43.1708758916491;
-        Fri, 23 Feb 2024 23:15:16 -0800 (PST)
-Received: from archlinux.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id jx20-20020a170906ca5400b00a3d777aa8fesm322779ejb.69.2024.02.23.23.15.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Feb 2024 23:15:15 -0800 (PST)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: =?utf-8?B?T25kxZllag==?= Jirman <megi@xff.cz>,
- Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Samuel Holland <samuel@sholland.org>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-Subject: Re: [PATCH 3/3] drm/sun4i: Fix layer zpos change/atomic modesetting
-Date: Sat, 24 Feb 2024 08:10:05 +0100
-Message-ID: <6018948.lOV4Wx5bFT@archlinux>
-In-Reply-To: <5h7jcwsdlpe7w2xylbhlw2asfww3znqlmlnszwvvosz5ssokkq@dxhn4v4sy4nq>
-References:
- <20240216190430.1374132-1-megi@xff.cz> <2448947.jE0xQCEvom@jernej-laptop>
- <5h7jcwsdlpe7w2xylbhlw2asfww3znqlmlnszwvvosz5ssokkq@dxhn4v4sy4nq>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bxC+4EYF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFD11C433F1;
+	Sat, 24 Feb 2024 10:31:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708770675;
+	bh=TZhQthnHkKwNMI4yroPtQ74XaWWynkFwbBDf/2R0uvk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=bxC+4EYFJxWaNf/G6e4OGhVbsI0QmGH28VsMqNshP4keEY3Ygk7LhbHw5Pm1ozymL
+	 IUKiVa0ZI262TJzTAGeckk85MaFoBn+JbFgBxqxSzVqaCaeFAYHlRLDqrLnadCzeHt
+	 MQWmB1SG8rdu8qqvPEx+SQ7yWzAsBY0mUSSkOHXkm4vpCxt98cXb6UO5W73d/5aUDP
+	 w3DnLlOMVe661Wyjqd1LEwBQb9DsubqRq1l11XfKyfSzLkU4ZC6wgYW3KUzvhR3oVf
+	 fA1MhUgP68MqBWuE08vlK38ku42IixypkWeLJsZEmSl5RDvU2n262ozWWZLs/YK19N
+	 TnVEej9fWNeGg==
+Message-ID: <42d3ac7d-4b51-4332-8892-a4f03a315a80@kernel.org>
+Date: Sat, 24 Feb 2024 11:31:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/5] dt-bindings: sound: Add jack-type property to
+ sun8i-a33-codec
+Content-Language: en-US
+To: =?UTF-8?Q?Ond=C5=99ej_Jirman?= <megi@xff.cz>,
+ linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Arnaud Ferraris <arnaud.ferraris@collabora.com>,
+ linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+References: <20240223015219.3618111-1-megi@xff.cz>
+ <20240223015219.3618111-2-megi@xff.cz>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240223015219.3618111-2-megi@xff.cz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Saturday, February 24, 2024 3:20:43 AM CET Ond=C5=99ej Jirman wrote:
-> On Thu, Feb 22, 2024 at 09:02:53PM +0100, Jernej =C5=A0krabec wrote:
-> > Dne sreda, 21. februar 2024 ob 14:45:20 CET je Maxime Ripard napisal(a):
-> > > Hi,
-> > >=20
-> > > On Fri, Feb 16, 2024 at 08:04:26PM +0100, Ond=C5=99ej Jirman wrote:
-> > > > From: Ondrej Jirman <megi@xff.cz>
-> > > >=20
-> > > > Identical configurations of planes can lead to different (and wrong)
-> > > > layer -> pipe routing at HW level, depending on the order of atomic
-> > > > plane changes.
-> > > >=20
-> > > > For example:
-> > > >=20
-> > > > - Layer 1 is configured to zpos 0 and thus uses pipe 0. No other la=
-yer
-> > > >   is enabled. This is a typical situation at boot.
-> > > >=20
-> > > > - When a compositor takes over and layer 3 is enabled,
-> > > >   sun8i_ui_layer_enable() will get called with old_zpos=3D0 zpos=3D=
-1, which
-> > > >   will lead to incorrect disabling of pipe 0 and enabling of pipe 1.
-> > > >=20
-> > > > What happens is that sun8i_ui_layer_enable() function may disable
-> > > > blender pipes even if it is no longer assigned to its layer.
-> > > >=20
-> > > > To correct this, move the routing setup out of individual plane's
-> > > > atomic_update into crtc's atomic_update, where it can be calculated
-> > > > and updated all at once.
-> > > >=20
-> > > > Remove the atomic_disable callback because it is no longer needed.
-> > > >=20
-> > > > Signed-off-by: Ondrej Jirman <megi@xff.cz>
-> > >=20
-> > > I don't have enough knowledge about the mixers code to comment on your
-> > > patch, so I'll let Jernej review it. However, this feels to me like t=
-he
-> > > pipe assignment is typically the sort of things that should be dealt
-> > > with device-wide, and in atomic_check.
-> >=20
-> > In DE2 and DE3.0, you cannot move planes between mixers (crtcs), becaus=
-e each
-> > one is hardwired to specific mixer. Movable planes are the feature of D=
-E3.3
-> > and one of the pain points for upstreaming the code. Anyway, this commi=
-t only
-> > addresses current issue of enabling and disabling planes and handling z=
-pos.
-> >=20
-> > In atomic check you can only precalculate final register values, but I =
-don't
-> > see any benefit doing that. I think that this code elegantly solves cur=
-rent
-> > issue of enabling or disabling wrong plane in certain situations, so:
-> >=20
-> > Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> >=20
-> > Note, if there is new revision, please rewrite blender regmap_update_bi=
-ts()
-> > to regmap_write(). Since there is HW issue with reads, I would like to
-> > get rid of regmap_update_bits() calls eventually.
->=20
-> I've looked into it and I can probably rewrite these quite readily:
->=20
-> +	regmap_update_bits(mixer->engine.regs,
-> +			   SUN8I_MIXER_BLEND_ROUTE(bld_base),
-> +			   SUN8I_MIXER_BLEND_ROUTE_PIPE_MSK(0) |
-> +			   SUN8I_MIXER_BLEND_ROUTE_PIPE_MSK(1) |
-> +			   SUN8I_MIXER_BLEND_ROUTE_PIPE_MSK(2) |
-> +			   SUN8I_MIXER_BLEND_ROUTE_PIPE_MSK(3),
-> +			   route);
->=20
-> The mask here covers all implemented bits in the register.
->=20
-> +	regmap_update_bits(mixer->engine.regs,
-> +			   SUN8I_MIXER_BLEND_PIPE_CTL(bld_base),
-> +			   SUN8I_MIXER_BLEND_PIPE_CTL_EN(0) |
-> +			   SUN8I_MIXER_BLEND_PIPE_CTL_EN(1) |
-> +			   SUN8I_MIXER_BLEND_PIPE_CTL_EN(2) |
-> +			   SUN8I_MIXER_BLEND_PIPE_CTL_EN(3),
-> +			   pipe_en);
-> +
->=20
-> The mask here doesn't cover BLD_FILL_COLOR_CTL.Px_FCEN bits that implemen=
-t solid
-> color filling. But those can be 0 anyway except for pipe0 which is hardco=
-ded by
-> the driver to 1, I think:
->=20
-> 631         /*
-> 632          * Set fill color of bottom plane to black. Generally not nee=
-ded
-> 633          * except when VI plane is at bottom (zpos =3D 0) and enabled.
-> 634          */
-> 635         regmap_write(mixer->engine.regs, SUN8I_MIXER_BLEND_PIPE_CTL(b=
-ase),
-> 636                      SUN8I_MIXER_BLEND_PIPE_CTL_FC_EN(0));
+On 23/02/2024 02:52, Ondřej Jirman wrote:
+> From: Ondrej Jirman <megi@xff.cz>
+> 
+> The codec driver needs to know what jack connector is connected to
+> on the board. Add proprty to describe the type of connector.
+> 
+> Signed-off-by: Ondrej Jirman <megi@xff.cz>
+> ---
 
-Correct on all counts. That's what I've meant.
+Please use scripts/get_maintainers.pl to get a list of necessary people
+and lists to CC. It might happen, that command when run on an older
+kernel, gives you outdated entries. Therefore please be sure you base
+your patches on recent Linux kernel.
 
->=20
-> I will not be able to get rid of regmap_update_bits in sun8i_layer_enable
-> because that register there has other important things in it like framebu=
-ffer
-> pixel format, etc.
+Tools like b4 or scripts/get_maintainer.pl provide you proper list of
+people, so fix your workflow. Tools might also fail if you work on some
+ancient tree (don't, instead use mainline), work on fork of kernel
+(don't, instead use mainline) or you ignore some maintainers (really
+don't). Just use b4 and everything should be fine, although remember
+about `b4 prep --auto-to-cc` if you added new patches to the patchset.
 
-Yeah, this rework would certainly be more involved, so it's out of the scop=
-e of
-this series.
+You missed at least devicetree list (maybe more), so this won't be
+tested by automated tooling. Performing review on untested code might be
+a waste of time, thus I will skip this patch entirely till you follow
+the process allowing the patch to be tested.
+
+Please kindly resend and include all necessary To/Cc entries.
+
 
 Best regards,
-Jernej
-
->=20
-> kind regards,
-> 	o.
->=20
-> > Best regards,
-> > Jernej
-> >=20
-> > >=20
-> > > If I'm talking non-sense, it would be great to mention at least why t=
-hat
-> > > can't be an option in the commit log.
-> > >=20
-> > > Maxime
-> > >=20
-> >=20
-> >=20
-> >=20
-> >=20
->=20
-
-
-
+Krzysztof
 
