@@ -1,99 +1,95 @@
 Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E1A74502E
-	for <linux-sunxi@lists.linux.dev>; Sat, 24 Feb 2024 13:50:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6635C3F8E0
+	for <linux-sunxi@lists.linux.dev>; Sat, 24 Feb 2024 13:55:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708782639; cv=none; b=G3yOugSC88czlMyGSyMj4t3X0gbMqZafvwWUCEIRk6hlZC7qtb46g2mRnx6Y3fKZivat5OvjNwXLD0ckYJXHgpowagJ2ydY3VXBtW8VhCcj8iVBwlKtYVd1kD+6rdAFRGdQSA7dzjppiRzTMFCVlA2RgpTdZK4zuE5StyeQK+18=
+	t=1708782911; cv=none; b=kRiS2wstrvBL2HldWJZ91ld905CSU1kI+xJXrSuWDkh8Dim/Jd5624X3hI1FU4J3Cc4k8HgE3StPyoEbx001IHZ64x/lfxm4trjqLlh9xp398cKCjarKzeD11Y/VbPiqZ6fK4NmoLEafDe262/kDLjKjY5nI53OryLkcG9UciOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708782639; c=relaxed/simple;
-	bh=bA7hd8w++uVUc0cYik9/qvIUQcO7GzpA41GuPWaRpSo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pNAflaAUMHPMBAYqhdm7aWYAyNktSkz9suIZ+riIEHp0CoE69x5uBJnh09RR74KfdAodIJmS8Nd2BwezRuR6i7pCrVDgIotGDWhYi7CkyAdvxT2d89koWoOAK89NbEB6K+kkpHiCmiZGejhivpB2USzwji4ceNWRmkkQSaSj2D4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=fRU68jDr; arc=none smtp.client-ip=195.181.215.36
+	s=arc-20240116; t=1708782911; c=relaxed/simple;
+	bh=ZdTOrLkg/qf7wFKH1nhH7OcmYSUdowUaRsJjf+n31IQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ra2tfE5/5pxy3ruFH4RQlW4W74fARJ9CtrkcaD/yQcuonaNUutnsPC69HqkforuJGwTLBUW08klapvUiurDXHSDE7ZZWp80MIqC77N1g1SQ2Q0xZVDtj8uXHUZmtmTFn271JKta4sh3UtZsPBDArxxVsQxcU2JVtHt9pB70F+Wc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=ghV2nPFV; arc=none smtp.client-ip=195.181.215.36
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="fRU68jDr"
+	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="ghV2nPFV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
-	t=1708782632; bh=bA7hd8w++uVUc0cYik9/qvIUQcO7GzpA41GuPWaRpSo=;
-	h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
-	b=fRU68jDr6/yA2+a996tgyGvvxlFnaoOTaSl+8JflvQZR7JfIAmF+ZcAaLRKkP9Bxd
-	 XcDXDkCQA4NlmnhnUctDY517DGukKuYjZZ27KJOP6JS6xPooh1jRCesn7xma1WIsEt
-	 bE31ENl02kbCRDgr9DI3DqkZ0KGsdghfGWaVgfLY=
-Date: Sat, 24 Feb 2024 14:50:32 +0100
-From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Arnaud Ferraris <arnaud.ferraris@collabora.com>, 
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	t=1708782907; bh=ZdTOrLkg/qf7wFKH1nhH7OcmYSUdowUaRsJjf+n31IQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ghV2nPFVjKO14UGccN3rXpU5361OkGdsnlFc+EPQiEijflmKOSJvXVVnOWqERaLia
+	 v8SBR8AvGUndbw/tLtwCjCu9YOR9GSD0/g/k87i40dulFob/BqRh9sn1Qv7W5KbhpD
+	 rJArs/+k/ODf+1XKCMRUT/LMNlw7oWZswM53gSVk=
+From: =?UTF-8?q?Ond=C5=99ej=20Jirman?= <megi@xff.cz>
+To: linux-kernel@vger.kernel.org,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Ondrej Jirman <megi@xff.cz>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Arnaud Ferraris <arnaud.ferraris@collabora.com>,
+	linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
 	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 1/5] dt-bindings: sound: Add jack-type property to
- sun8i-a33-codec
-Message-ID: <sdkcau552puf5afga253hyxc3lqn3dmwk4hjlhojjfe5vvl5zh@ecrx7ecvsj4b>
-Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, linux-kernel@vger.kernel.org, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Arnaud Ferraris <arnaud.ferraris@collabora.com>, linux-sound@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
- <https://xff.cz/key.txt>
-References: <20240223015219.3618111-1-megi@xff.cz>
- <20240223015219.3618111-2-megi@xff.cz>
- <42d3ac7d-4b51-4332-8892-a4f03a315a80@kernel.org>
+Subject: [RESEND PATCH v2 0/5] Add support for jack detection to codec present in A64 SoC
+Date: Sat, 24 Feb 2024 14:54:53 +0100
+Message-ID: <20240224135501.3822390-1-megi@xff.cz>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <42d3ac7d-4b51-4332-8892-a4f03a315a80@kernel.org>
 
-On Sat, Feb 24, 2024 at 11:31:07AM +0100, Krzysztof Kozlowski wrote:
-> On 23/02/2024 02:52, Ondřej Jirman wrote:
-> > From: Ondrej Jirman <megi@xff.cz>
-> > 
-> > The codec driver needs to know what jack connector is connected to
-> > on the board. Add proprty to describe the type of connector.
-> > 
-> > Signed-off-by: Ondrej Jirman <megi@xff.cz>
-> > ---
-> 
-> Please use scripts/get_maintainers.pl to get a list of necessary people
-> and lists to CC. It might happen, that command when run on an older
-> kernel, gives you outdated entries. Therefore please be sure you base
-> your patches on recent Linux kernel.
-> 
-> Tools like b4 or scripts/get_maintainer.pl provide you proper list of
-> people, so fix your workflow. Tools might also fail if you work on some
-> ancient tree (don't, instead use mainline), work on fork of kernel
-> (don't, instead use mainline) or you ignore some maintainers (really
-> don't). Just use b4 and everything should be fine, although remember
-> about `b4 prep --auto-to-cc` if you added new patches to the patchset.
-> 
-> You missed at least devicetree list (maybe more), so this won't be
-> tested by automated tooling. Performing review on untested code might be
-> a waste of time, thus I will skip this patch entirely till you follow
-> the process allowing the patch to be tested.
-> 
-> Please kindly resend and include all necessary To/Cc entries.
+From: Ondrej Jirman <megi@xff.cz>
 
-Yeah, I did run the script on v3 where this patch was not present, and
-forgot to re-run it on the new version. I'll resend. In any case I did run DT
-tests on the patch.
+This series adds support for jack detection to this codec. I used
+and tested this on Pinephone. It works quite nicely. I tested it
+against Android headset mic button resistor specification.
 
-kind regards,
-	o.
+The patches are improved and debugged version of the original
+ones from Arnaud Ferraris and Samuel Holland, imrpoved to better
+handle headset button presses and with more robust plug-in/out
+event debouncing.
 
-> 
-> Best regards,
-> Krzysztof
-> 
+Please take a look. :)
+
+v2:
+- use set_jack/get_jack_type
+- get rid of some custom poking inside card internals to figure
+  out what kind of jack port we should setup the codec for
+- read jack-type from OF as suggested here: 
+  https://elixir.bootlin.com/linux/latest/source/sound/soc/soc-component.c#L288
+- add DT bindings
+
+Thank you very much,
+	Ondřej Jirman
+
+Arnaud Ferraris (2):
+  ASoC: sun50i-codec-analog: Enable jack detection on startup
+  ASoC: sun8i-codec: Implement jack and accessory detection
+
+Ondrej Jirman (1):
+  dt-bindings: sound: Add jack-type property to sun8i-a33-codec
+
+Samuel Holland (2):
+  ASoC: sun50i-codec-analog: Move suspend/resume to set_bias_level
+  ASoC: sun8i-codec: Enable bus clock at STANDBY and higher bias
+
+ .../sound/allwinner,sun8i-a33-codec.yaml      |   9 +
+ sound/soc/sunxi/sun50i-codec-analog.c         |  73 +++-
+ sound/soc/sunxi/sun8i-codec.c                 | 359 +++++++++++++++++-
+ 3 files changed, 421 insertions(+), 20 deletions(-)
+
+-- 
+2.43.0
+
