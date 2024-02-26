@@ -1,205 +1,403 @@
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13874EEDE
-	for <linux-sunxi@lists.linux.dev>; Mon, 26 Feb 2024 04:57:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708923469; cv=pass; b=o7oKf1KFOX7cfH/lXYaEaYY+DnKG0DBNFmdQEXkFrGk/TchIjqrUQ92KE8tGwN2M72dkSFKXy8YCpsgwN94yNX/WYbVh5Y0zbAkW6MAqmHyvbl7+UuRqiTjA3HyPnnW9aU+46kTllKv7/g7pXGz7IOzl/+pu9xk+/H3vgq1zlaM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708923469; c=relaxed/simple;
-	bh=QrAILGTlcUzfFUd66MJkWp2t/tRwrE6wC4UtelAjn54=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=TtPs7DGr/1RJKYlXclvoSQ8b9D+lxMG6eS6SUp6OqhWfbA6TcTRDcUfbVURgSF+DqCnbLuE/LOpSwYn/Ut0rvQm/NGs0TLgEW4f2ONUmPEEnZCdKVwuOapDC1M4Ae+IrMYq1c3itkBbZQvFfPlQ6YGDk5MHjHPGVb+EOKTQ7bq4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me; spf=pass smtp.mailfrom=icenowy.me; dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b=p9ySF9IQ; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icenowy.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BEBB1BC5A
+	for <linux-sunxi@lists.linux.dev>; Mon, 26 Feb 2024 07:13:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708931642; cv=none; b=d6RN/OlucWmkSulgC/0NRm12eKHYE9CnEOx4km2KBUXu3okdyYxrjdPxrLphQrqmYL2krV55VxrjPA4o/t6CiHmTwjTr7wL60CGxIZLdnFlaUXnREVny23zVD96Q+S3/lW63XC8TEHT8vQbvaWBq43fOwghdTGINn1M2wHJYcYw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708931642; c=relaxed/simple;
+	bh=dxCz/fFDsibRBYNTwj8zHc7Wwo+Ib9d/+RgKF2FD2V0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Ln27yA+KBb/e08XX7EFV7iTrok+j0syRnjJrBnRc5ghgJSNLefW6v+fOPScc5Ul2aIA8a/DqkHtASdGLxJhncnbebUVawM9OukkrcBBhXBvhKM+NsMEmDfCtvSqXf9dBMLXmLicbA8999eUsBJz0qQ+yhgmFQc3vYZ0xvL7dRdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev; spf=pass smtp.mailfrom=oltmanns.dev; dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b=h4iQJH1p; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oltmanns.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b="p9ySF9IQ"
-ARC-Seal: i=1; a=rsa-sha256; t=1708923427; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=S9/egMTPtcK0XTfnP9q6hh4uwDIf4SH7mvB7B//loFH77TgHuG6C2eyT1uy0BTMmE2mhBatdg2QG+V9x8+nzEg80tAbYjeBurf8rxAceOpVGMtJYIkPHCTtWS7ywW1QdMLiSCWWrRUFQ1G83R9JxH06F2RgRHIAhJinILJP1csg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1708923427; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=QrAILGTlcUzfFUd66MJkWp2t/tRwrE6wC4UtelAjn54=; 
-	b=TZrdFEPMPHMgm40I0n2fVtPCCMR4CzPNWq0/vNjM9Sq9gRB3NJYzJw1y7MFUkbOslUu6Ts0bZOA2rW6C+R1c0kDy9M/rsV1xKV+1h5rn//sMzGWsDdQoYrtXwtQy9i87Kj1nxdIOJ/zc/yeXW++qLNCqASftpa4sJUrhG8uzEko=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=icenowy.me;
-	spf=pass  smtp.mailfrom=uwu@icenowy.me;
-	dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1708923427;
-	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
-	bh=QrAILGTlcUzfFUd66MJkWp2t/tRwrE6wC4UtelAjn54=;
-	b=p9ySF9IQVfZPeDuN3uhEIHKojM87TDibcGyxFn5fW1M9y+0mj8hG1090eN1PxpZu
-	8HZ7D7iTYvpIRvei6Tst9iMAU5iIBplr9wk0Gbph4LwrcNW0wk/awHDUrY8YdQZzJ9B
-	yrsxq8JEDVpHaUt/m8evr7TmJb01ty3ke1FcAadg5tI+cK1WxHuDUbvnaj6MtHbXR0p
-	dhOAn4XRifxDvga/T+iX5VcIXvyASoI4ZANtXoBYyplgJPv+mcPDQ4XcuZL/6nKSdnJ
-	4mXw6a1tm9mkY1hqJYIY0iZeex7fwG1pYGnT7NWkgu45dS4+t1niJjXJatiGkhBfiek
-	AWXBUU3LMQ==
-Received: from edelgard.fodlan.icenowy.me (112.94.101.70 [112.94.101.70]) by mx.zohomail.com
-	with SMTPS id 1708923424459946.3223816657112; Sun, 25 Feb 2024 20:57:04 -0800 (PST)
-Message-ID: <02c27b503f379aff28563dda6ad7e2718fe7229f.camel@icenowy.me>
-Subject: Re: [PATCH v2 5/6] drm/panel: st7703: Drive XBD599 panel at higher
- clock rate
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Frank Oltmanns <frank@oltmanns.dev>, Maxime Ripard <mripard@kernel.org>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>,  Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Guido
- =?ISO-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,  Purism Kernel Team
- <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>, Neil Armstrong
- <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>, Sam
- Ravnborg <sam@ravnborg.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>,  Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- linux-clk@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev,  linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,  devicetree@vger.kernel.org
-Date: Mon, 26 Feb 2024 12:56:55 +0800
-In-Reply-To: <87o7c4mqzr.fsf@oltmanns.dev>
+	dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b="h4iQJH1p"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4TjsKt4YWpz9sbt;
+	Mon, 26 Feb 2024 08:13:54 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+	s=MBO0001; t=1708931634;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VTNzJE39BOCLxRf5yDybxYlsEYOjYJ1HoUGDaE1emkM=;
+	b=h4iQJH1pX3SvxW6V7z9hXlqCXIbWAeLPNT3wxiy4N90j+/N2zyD6McxlNvBjNDr484R6Mq
+	wF6ESHtna34N7RYcWnC3o/c0uh3IxuhhA8tkKSctDHt11DX0HxHJ3SHvIJlzUfPMdXOt6u
+	5+kZB8i7vJ9SEUrXDBc7JjbiU8oVVKoxU4KWPMU2CCFjTfTMUgP8k6U3rHK6NAqztCU4iM
+	6/uVmerY7fldINja0maN89muOi4rLUWKfCZ3OU/jYQIAltyumG9kZUYvbY0vQcdMuwJR5f
+	92+PvdW4bNSmMpOk3qLU7D4+u16EZNlO2EJG0SIj6vB9rbUk6Fa9bXQJUVhdEA==
+From: Frank Oltmanns <frank@oltmanns.dev>
+To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>,
+  Maxime Ripard <mripard@kernel.org>
+Cc: Michael Turquette <mturquette@baylibre.com>,  Stephen Boyd
+ <sboyd@kernel.org>,  Chen-Yu Tsai <wens@csie.org>,  Samuel Holland
+ <samuel@sholland.org>,  Guido =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>,
+  Purism Kernel
+ Team <kernel@puri.sm>,  Neil Armstrong <neil.armstrong@linaro.org>,
+  Jessica Zhang <quic_jesszhan@quicinc.com>,  Sam Ravnborg
+ <sam@ravnborg.org>,  Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>,  Thomas Zimmermann
+ <tzimmermann@suse.de>,  David Airlie <airlied@gmail.com>,  Daniel Vetter
+ <daniel@ffwll.ch>,  Rob Herring <robh+dt@kernel.org>,  Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>,  Conor Dooley <conor+dt@kernel.org>,
+  linux-clk@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
+  linux-sunxi@lists.linux.dev,  linux-kernel@vger.kernel.org,
+  dri-devel@lists.freedesktop.org,  devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 0/6] Pinephone video out fixes (flipping between two
+ frames)
+In-Reply-To: <87r0h8n64g.fsf@oltmanns.dev> (Frank Oltmanns's message of "Mon,
+	19 Feb 2024 10:41:19 +0100")
 References: <20240205-pinephone-pll-fixes-v2-0-96a46a2d8c9b@oltmanns.dev>
-	 <20240205-pinephone-pll-fixes-v2-5-96a46a2d8c9b@oltmanns.dev>
-	 <poua4bzyciiwt65sqjf2whqfdumvoe4h3bkjpf64px2vwgumrf@sai73byg2iju>
-	 <87sf1zxb0s.fsf@oltmanns.dev>
-	 <ia7e7gqozltl5wkfdvwtf2rw2ko2dt67qxtuqbavsroyv4ifys@x4mbulqhhri5>
-	 <87o7c4mqzr.fsf@oltmanns.dev>
-Organization: Anthon Open-Source Community
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 
+	<jzl3mlzk4j7qvgcedvipgale5nhinznefodrnaehwsqfnseiwc@7zzlxd4dpueh>
+	<bgyyemyi4shj3spo6qy4icvk56nrp5sihnzqurnozqdyktwugc@ikurx4ojoxpi>
+	<87wmrbxckj.fsf@oltmanns.dev>
+	<s7uslavg5gzqzzdetwcushcknwe3nuicmqhfhb7gbapzxx2npy@srjc252uinqv>
+	<87r0h8n64g.fsf@oltmanns.dev>
+Date: Mon, 26 Feb 2024 08:13:42 +0100
+Message-ID: <875xybr93t.fsf@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-=E5=9C=A8 2024-02-25=E6=98=9F=E6=9C=9F=E6=97=A5=E7=9A=84 17:46 +0100=EF=BC=
-=8CFrank Oltmanns=E5=86=99=E9=81=93=EF=BC=9A
-> Hi Maxime,
->=20
-> On 2024-02-22 at 11:29:51 +0100, Maxime Ripard <mripard@kernel.org>
-> wrote:
-> > [[PGP Signed Part:Undecided]]
-> > On Sun, Feb 11, 2024 at 04:42:43PM +0100, Frank Oltmanns wrote:
-> > >=20
-> > > On 2024-02-08 at 20:05:08 +0100, Maxime Ripard
-> > > <mripard@kernel.org> wrote:
-> > > > [[PGP Signed Part:Undecided]]
-> > > > Hi Frank,
-> > > >=20
-> > > > On Mon, Feb 05, 2024 at 04:22:28PM +0100, Frank Oltmanns wrote:
-> > > > > This panel is used in the pinephone that runs on a Allwinner
-> > > > > A64 SOC.
-> > > > > The SOC requires pll-mipi to run at more than 500 MHz.
-> > > > >=20
-> > > > > This is the relevant clock tree:
-> > > > > =C2=A0pll-mipi
-> > > > > =C2=A0=C2=A0=C2=A0 tcon0
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tcon-data-clock
-> > > > >=20
-> > > > > tcon-data-clock has to run at 1/4 the DSI per-lane bit rate.
-> > > > > The XBD599
-> > > > > has 24 bpp and 4 lanes. Therefore, the resulting requested
-> > > > > tcon-data-clock rate is:
-> > > > > =C2=A0=C2=A0=C2=A0 crtc_clock * 1000 * (24 / 4) / 4
-> > > > >=20
-> > > > > tcon-data-clock runs at tcon0 / 4 (fixed divisor), so it
-> > > > > requests a
-> > > > > parent rate of
-> > > > > =C2=A0=C2=A0=C2=A0 4 * (crtc_clock * 1000 * (24 / 4) / 4)
-> > > > >=20
-> > > > > Since tcon0 is a ccu_mux, the rate of tcon0 equals the rate
-> > > > > of pll-mipi.
-> > > > >=20
-> > > > > pll-mipi's constraint to run at 500MHz or higher forces us to
-> > > > > have a
-> > > > > crtc_clock >=3D 83333 kHz if we want a 60 Hz vertical refresh
-> > > > > rate.
-> > > > >=20
-> > > > > Change [hv]sync_(start|end) so that we reach a clock rate of
-> > > > > 83502 kHz
-> > > > > so that it is high enough to align with pll-pipi limits.
-> > > > >=20
-> > > > > Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
-> > > >=20
-> > > > That commit log is great, but it's kind of off-topic. It's a
-> > > > panel
-> > > > driver, it can be used on any MIPI-DSI controller, the only
-> > > > relevant
-> > > > information there should be the panel timings required in the
-> > > > datasheet.
-> > > >=20
-> > > > The PLL setup is something for the MIPI-DSI driver to adjust,
-> > > > not for
-> > > > the panel to care for.
-> > > >=20
-> > >=20
-> > > I absolutely agree. It even was the reason for my submission of a
-> > > sunxi-ng patch series last year that was accepted, to make pll-
-> > > mipi more
-> > > flexible. :)
-> > >=20
-> > > The only remaining option I currently see for adjusting the
-> > > sunxi-ng
-> > > driver to further accomodate the panel, is trying to use a higher
-> > > divisor than 4 for calculating tcon-data-clock from tcon0. I
-> > > remember
-> > > reading a discussion about this, but as far as I remember that
-> > > proposal
-> > > was rejected (by you, IIRC).
-> > >=20
-> > > While I appreciate other suggestion as well, I'll look into
-> > > options for
-> > > using a different divisor than 4.
-> >=20
-> > Like I said, I'm not against the patch at all, it looks great to me
-> > on
-> > principle. I just think you should completely rephrase the commit
-> > log
-> > using the datasheet as the only reliable source of the display
-> > timings.
-> > Whether sun4i can work around the panel requirements is something
-> > completely orthogonal to the discussion, and thus the commit log.
-> >=20
->=20
-> I was trying to follow the guidelines [1] for describing the reason
-> behind my changes to the panel. My original commit message was a lot
-> shorter, which, understandably, resulted in follow up questions [2].
-> With the current commit log, I'm trying to address those questions.
-> According to the device tree, the panel is only used in the
-> pinephone.
-> The only reason for the change is that the SoC used by the only user
-> of
-> this panel can not provide the rate the panel requests with the
-> current
-> values. I think this information is relevant.
->=20
-> Unfortunately, as described in [2], I cannot back these values with
-> any
-> datasheets because I couldn't find any. I could only find hints that
-> they are not publicly available. Icenowy (added to CC) submitted the
-> original values.
+Hi Jernej,
+hi Maxime,
+hi Ond=C5=99ej,
 
-Sorry but this kind of things are just magic from the vendor that I
-could hardly explain...
+On 2024-02-19 at 10:41:19 +0100, Frank Oltmanns <frank@oltmanns.dev> wrote:
+> Hi Ond=C5=99ej,
+>
+> On 2024-02-11 at 20:25:29 +0100, Ond=C5=99ej Jirman <megi@xff.cz> wrote:
+>> Hi Frank,
+>>
+>> On Sun, Feb 11, 2024 at 04:09:16PM +0100, Frank Oltmanns wrote:
+>>> Hi Ond=C5=99ej,
+>>>
+>>> On 2024-02-05 at 17:02:00 +0100, Ond=C5=99ej Jirman <megi@xff.cz> wrote:
+>>> > On Mon, Feb 05, 2024 at 04:54:07PM +0100, Ond=C5=99ej Jirman wrote:
+>>> >> On Mon, Feb 05, 2024 at 04:22:23PM +0100, Frank Oltmanns wrote:
+>>> >>
+>>> >> [...]
+>>> >>
+>>> >> Also sunxi-ng clk driver does apply NM factors at once to PLL_GPU cl=
+ock,
+>>> >> which can cause sudden frequency increase beyond intended output fre=
+quency,
+>>> >> because division is applied immediately while multiplication is refl=
+ected
+>>> >> slowly.
+>>> >>
+>>> >> Eg. if you're changing divider from 7 to 1, you can get a sudden 7x =
+output
+>>> >> frequency spike, before PLL VCO manages to lower the frequency throu=
+gh N clk
+>>> >> divider feedback loop and lock on again. This can mess up whatever's=
+ connected
+>>> >> to the output quite badly.
+>>> >>
+>>> >> You'd have to put logging on kernel writes to PLL_GPU register to se=
+e what
+>>> >> is written in there and if divider is lowered significantly on some =
+GPU
+>>> >> devfreq frequency transitions.
+>>>
+>>> By looking at the clocks in clk_summary in debugfs, the rate of PLL-GPU
+>>> always matches the rate of the GPU (at least at 120, 312, and 432 MHz).
+>>> This is further underlined by the fact, that none of the rates can be
+>>> achieved by integer dividing one of the other rates. sunxi-ng would
+>>> only favor a different rate for pll-gpu than the one that is requested
+>>> for the gpu, if pll-gpu is already running at a rate such that there
+>>> exists an M =E2=88=88 {1, 2, 3, 4, 5, 6, 7, 8}, where
+>>>   rate of pll-gpu / M =3D requested gpu rate
+>>> or if the requested rate could not be reached directly by pll-gpu. Both
+>>> is not the case for the rates in question (120, 192, 312, and 432 MHz).
+>>>
+>>> This means that the following divisor/multipliers are used by sunxi-ng's
+>>> ccu_nm:
+>>> N =3D  5, M =3D 1 for 120 MHz (min value without PATCH 6)
+>>> N =3D  8, M =3D 1 for 192 MHz (min value after applying PATCH 6)
+>>> N =3D 13, M =3D 1 for 312 MHz
+>>> N =3D 18, M =3D 1 for 432 MHz
+>>>
+>>> So, with or without PATCH 6, the divider stays constant and it's only
+>>> the multiplier that changes. This means, there should be no unexpected
+>>> frequency spikes, right?
+>>
+>> Maybe. Thanks for giving it a try. There may still be other kinds of gli=
+tches
+>> even if the divisor stays the same. It all depends how the register upda=
+te is
+>> implemented in the PLL block. It's hard to say. I guess, unless Allwinner
+>> guarantees glitchless output from a given PLL when changing its paramete=
+rs,
+>> you can't rely on the output being clean during changes.
+>>
+>>> >> It's also unclear what happens when FRAC_CLK_OUT or PLL_MODE_SEL cha=
+nges.
+>>>
+>>> Those are not changed once the clock is initialized. The bug however
+>>> occurs hours or days after booting. IMO, this makes it unlikely that th=
+is
+>>> could be the culprit.
+>>>
+>>> >> Maybe not much because M is supposed to be set to 1, but you still n=
+eed to
+>>> >> care when enabling fractional mode, and setting M to 1 because that'=
+s exactly
+>>> >> the bad scenario if M was previously higher than 1.
+>>> >>
+>>> >> It's tricky.
+>>> >>
+>>> >> Having GPU module clock gated during PLL config changes may help! Yo=
+u can
+>>> >> do that without locking yourself out, unlike with the CPU PLL.
+>>> >>
+>>> >> There's a gate enable bit for it at GPU_CLK_REG.SCLK_GATING. (page 1=
+22)
+>>>
+>>> The GPU should already be properly gated:
+>>> https://elixir.bootlin.com/linux/v6.7.4/source/drivers/clk/sunxi-ng/ccu=
+-sun50i-a64.c#L599
+>>
+>> How so? That's just clock declaration. How does it guarantee the clock t=
+o the
+>> module is gated during parent PLL configuration changes?
+>>
+>
+> You're of course right.
+>
+> I now tried using a similar approach like the one for changes for on
+> PLL-CPU. It's using a notifier to connect the CPU to the 24 MHz
+> oscillator and, after PLL-CPU is at its new rate, connecting it back to
+> PLL-CPU.
+>
+> For the GPU my approach was to disable the GPU prior to changing
+> PLL-GPU's rate and then re-enabling it, once the rate change is
+> complete. I think, that's what you were proposing, right?
+>
+> Unfortunately, this results in a frozen phone even more quickly.
+>
+> Below is my code. Again, it doesn't solve the problem, but maybe
+> somebody can spot what I'm doing wrong.
 
->=20
+It seems to me that all options for changing the GPU's rate in a stable
+manner have been exhausted. There seems to be no common interpretation
+what the phrase "Clock output of PLL_GPU can be used for GPU;and dynamic
+frequency scaling is not supported" in the Allwinner A64 manual (chapter
+3.3.3) means.
+
+The BSP uses a fixed rate of 432 MHz. Unless one of you has a clever
+idea, I suggest to remove the OPPs from the device tree and set the GPU
+to 432 MHz.
+
+What are your thoughts on that?
+
+Best regards,
+  Frank
+
+>
 > Best regards,
-> =C2=A0 Frank
->=20
-> [1]:
-> https://www.kernel.org/doc/html/v6.7/process/submitting-patches.html#desc=
-ribe-your-changes
-> [2]: https://lore.kernel.org/lkml/87wmsvo0fh.fsf@oltmanns.dev/
->=20
-> >=20
-> > Maxime
-> >=20
-> > [[End of PGP Signed Part]]
->=20
-
+>   Frank
+>
+> diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c b/drivers/clk/sunxi-ng=
+/ccu-sun50i-a64.c
+> index d68bdf7dd342..74538259d67a 100644
+> --- a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+> +++ b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+> @@ -977,6 +977,11 @@ static struct ccu_rate_reset_nb sun50i_a64_pll_video=
+0_reset_tcon0_nb =3D {
+>
+>  #define CCU_MIPI_DSI_CLK 0x168
+>
+> +static struct ccu_div_nb sun50i_a64_gpu_nb =3D {
+> +	.common		=3D &gpu_clk.common,
+> +	.delay_us	=3D 1, /* ??? */
+> +};
+> +
+>  static int sun50i_a64_ccu_probe(struct platform_device *pdev)
+>  {
+>  	void __iomem *reg;
+> @@ -1025,6 +1030,10 @@ static int sun50i_a64_ccu_probe(struct platform_de=
+vice *pdev)
+>  	sun50i_a64_pll_video0_reset_tcon0_nb.target_clk =3D tcon0_clk.common.hw=
+.clk;
+>  	ccu_rate_reset_notifier_register(&sun50i_a64_pll_video0_reset_tcon0_nb);
+>
+> +	/* Gate then ungate GPU on PLL-GPU changes */
+> +	ccu_div_notifier_register(pll_gpu_clk.common.hw.clk,
+> +				  &sun50i_a64_gpu_nb);
+> +
+>  	return 0;
+>  }
+>
+> diff --git a/drivers/clk/sunxi-ng/ccu_div.c b/drivers/clk/sunxi-ng/ccu_di=
+v.c
+> index cb10a3ea23f9..83813c54fb2f 100644
+> --- a/drivers/clk/sunxi-ng/ccu_div.c
+> +++ b/drivers/clk/sunxi-ng/ccu_div.c
+> @@ -4,7 +4,9 @@
+>   * Maxime Ripard <maxime.ripard@free-electrons.com>
+>   */
+>
+> +#include <linux/clk.h>
+>  #include <linux/clk-provider.h>
+> +#include <linux/delay.h>
+>  #include <linux/io.h>
+>
+>  #include "ccu_gate.h"
+> @@ -142,3 +144,37 @@ const struct clk_ops ccu_div_ops =3D {
+>  	.set_rate	=3D ccu_div_set_rate,
+>  };
+>  EXPORT_SYMBOL_NS_GPL(ccu_div_ops, SUNXI_CCU);
+> +
+> +static int ccu_div_notifier_cb(struct notifier_block *nb,
+> +			       unsigned long event, void *data)
+> +{
+> +	struct ccu_div_nb *div_nb =3D to_ccu_div_nb(nb);
+> +
+> +	if (event =3D=3D PRE_RATE_CHANGE) {
+> +		div_nb->original_enable =3D ccu_div_is_enabled(&div_nb->common->hw);
+> +		if (div_nb->original_enable) {
+> +			ccu_div_disable(&div_nb->common->hw);
+> +			udelay(div_nb->delay_us);
+> +		}
+> +	} else if (event =3D=3D POST_RATE_CHANGE) {
+> +		if (div_nb->original_enable) {
+> +			ccu_div_enable(&div_nb->common->hw);
+> +			udelay(div_nb->delay_us);
+> +		}
+> +	}
+> +
+> +	return NOTIFY_OK;
+> +}
+> +
+> +int ccu_div_notifier_register(struct clk *clk, struct ccu_div_nb *div_nb)
+> +{
+> +	div_nb->clk_nb.notifier_call =3D ccu_div_notifier_cb;
+> +
+> +	return clk_notifier_register(clk, &div_nb->clk_nb);
+> +}
+> diff --git a/drivers/clk/sunxi-ng/ccu_div.h b/drivers/clk/sunxi-ng/ccu_di=
+v.h
+> index 90d49ee8e0cc..e096c7be5dca 100644
+> --- a/drivers/clk/sunxi-ng/ccu_div.h
+> +++ b/drivers/clk/sunxi-ng/ccu_div.h
+> @@ -283,4 +283,16 @@ static inline struct ccu_div *hw_to_ccu_div(struct c=
+lk_hw *hw)
+>
+>  extern const struct clk_ops ccu_div_ops;
+>
+> +struct ccu_div_nb {
+> +	struct notifier_block	clk_nb;
+> +	struct ccu_common	*common;
+> +
+> +	u32	delay_us;	/* us to wait after changing parent rate */
+> +	int	original_enable;/* This is set by the notifier callback */
+> +};
+> +
+> +#define to_ccu_div_nb(_nb) container_of(_nb, struct ccu_div_nb, clk_nb)
+> +
+> +int ccu_div_notifier_register(struct clk *clk, struct ccu_div_nb *mux_nb=
+);
+> +
+>  #endif /* _CCU_DIV_H_ */
+>
+>
+>
+>>
+>> CLK_SET_RATE_PARENT only gates output on re-parenting, not on parent rat=
+e changes,
+>> according to the header:
+>>
+>>   https://elixir.bootlin.com/linux/v6.7.4/source/include/linux/clk-provi=
+der.h#L19
+>>
+>> You'd need perhaps CLK_SET_RATE_GATE *and* still verify that it actually=
+ works
+>> as expected via some tracing of gpu clock enable/disable/set_rate and pl=
+l-gpu
+>> set_rate. CLK_SET_RATE_GATE seems confusingly docummented:
+>>
+>>   https://elixir.bootlin.com/linux/v6.7.4/source/drivers/clk/clk.c#L1034
+>>
+>> so I don't particularly trust it does exaclty what the header claims and=
+ what
+>> would be needed to test the theory that gating gpu clock during rate cha=
+nge
+>> might help.
+>>
+>> kind regards,
+>> 	o.
+>>
+>>> Thank you for your detailed proposal! It was insightful to read. But
+>>> while those were all great ideas, they have all already been taken care
+>>> of. I'm fresh out of ideas again (except for pinning the GPU rate).
+>>>
+>>> Again, thank you so much,
+>>>   Frank
+>>>
+>>> >>
+>>> >> Kind regards,
+>>> >> 	o.
+>>> >>
+>>> >> > I very much appreciate your feedback!
+>>> >> >
+>>> >> > [1] https://gitlab.com/postmarketOS/pmaports/-/issues/805
+>>> >> >
+>>> >> > Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+>>> >> > ---
+>>> >> > Changes in v2:
+>>> >> > - dts: Increase minimum GPU frequency to 192 MHz.
+>>> >> > - nkm and a64: Add minimum and maximum rate for PLL-MIPI.
+>>> >> > - nkm: Use the same approach for skipping invalid rates in
+>>> >> >   ccu_nkm_find_best() as in ccu_nkm_find_best_with_parent_adj().
+>>> >> > - nkm: Improve names for ratio struct members and hence get rid of
+>>> >> >   describing comments.
+>>> >> > - nkm and a64: Correct description in the commit messages: M/N <=
+=3D 3
+>>> >> > - Remove patches for nm as they were not needed.
+>>> >> > - st7703: Rework the commit message to cover more background for t=
+he
+>>> >> >   change.
+>>> >> > - Link to v1: https://lore.kernel.org/r/20231218-pinephone-pll-fix=
+es-v1-0-e238b6ed6dc1@oltmanns.dev
+>>> >> >
+>>> >> > ---
+>>> >> > Frank Oltmanns (6):
+>>> >> >       clk: sunxi-ng: nkm: Support constraints on m/n ratio and par=
+ent rate
+>>> >> >       clk: sunxi-ng: a64: Add constraints on PLL-MIPI's n/m ratio =
+and parent rate
+>>> >> >       clk: sunxi-ng: nkm: Support minimum and maximum rate
+>>> >> >       clk: sunxi-ng: a64: Set minimum and maximum rate for PLL-MIPI
+>>> >> >       drm/panel: st7703: Drive XBD599 panel at higher clock rate
+>>> >> >       arm64: dts: allwinner: a64: Fix minimum GPU OPP rate
+>>> >> >
+>>> >> >  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi |  4 ++--
+>>> >> >  drivers/clk/sunxi-ng/ccu-sun50i-a64.c         | 14 +++++++----
+>>> >> >  drivers/clk/sunxi-ng/ccu_nkm.c                | 34 ++++++++++++++=
++++++++++++++
+>>> >> >  drivers/clk/sunxi-ng/ccu_nkm.h                |  4 ++++
+>>> >> >  drivers/gpu/drm/panel/panel-sitronix-st7703.c | 14 +++++------
+>>> >> >  5 files changed, 56 insertions(+), 14 deletions(-)
+>>> >> > ---
+>>> >> > base-commit: 059c53e877ca6e723e10490c27c1487a63e66efe
+>>> >> > change-id: 20231218-pinephone-pll-fixes-0ccdfde273e4
+>>> >> >
+>>> >> > Best regards,
+>>> >> > --
+>>> >> > Frank Oltmanns <frank@oltmanns.dev>
+>>> >> >
