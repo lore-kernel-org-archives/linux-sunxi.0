@@ -1,160 +1,205 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 967A5175BC
-	for <linux-sunxi@lists.linux.dev>; Sun, 25 Feb 2024 16:46:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708879601; cv=none; b=IyqaqA+aasicRmIGbQbhU+l5k9s+6q2ZzRa6/2zhePTE1bfVDffPX0jcJtE9Qon/x0YqWtr3F1zKoc3OLswwZhToUJ8EcVOW068nGOoXSLTMaTN2p6OMWKp62gPnIQyVL3pdxHslAXxpwGpKPGZ/COwU3W8onhB1MeZbkRO7CkE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708879601; c=relaxed/simple;
-	bh=0IaysRnkSUJ7kafD+lVXCwhXE6tPyPunpWCjBWUijxo=;
-	h=References:From:To:Cc:Subject:In-reply-to:Date:Message-ID:
-	 MIME-Version:Content-Type; b=SF4Jf4oBJplRjivqGvY3me7F/G9NW1OkrO6d7kuCbTU5jM9fQ6eor7f7VmHPx1zuzxHfKuxcP3yvArrFayDSjYe3oZkQGW0E5yV12AMq9e/7vJpTVbCwRt+nRdRJ8s5qvVQKkIpgB6/2MAcZOYv72n+BaDmDcM4aGFn65oRnHUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev; spf=pass smtp.mailfrom=oltmanns.dev; dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b=wzEYAgtx; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oltmanns.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13874EEDE
+	for <linux-sunxi@lists.linux.dev>; Mon, 26 Feb 2024 04:57:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708923469; cv=pass; b=o7oKf1KFOX7cfH/lXYaEaYY+DnKG0DBNFmdQEXkFrGk/TchIjqrUQ92KE8tGwN2M72dkSFKXy8YCpsgwN94yNX/WYbVh5Y0zbAkW6MAqmHyvbl7+UuRqiTjA3HyPnnW9aU+46kTllKv7/g7pXGz7IOzl/+pu9xk+/H3vgq1zlaM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708923469; c=relaxed/simple;
+	bh=QrAILGTlcUzfFUd66MJkWp2t/tRwrE6wC4UtelAjn54=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=TtPs7DGr/1RJKYlXclvoSQ8b9D+lxMG6eS6SUp6OqhWfbA6TcTRDcUfbVURgSF+DqCnbLuE/LOpSwYn/Ut0rvQm/NGs0TLgEW4f2ONUmPEEnZCdKVwuOapDC1M4Ae+IrMYq1c3itkBbZQvFfPlQ6YGDk5MHjHPGVb+EOKTQ7bq4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me; spf=pass smtp.mailfrom=icenowy.me; dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b=p9ySF9IQ; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icenowy.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b="wzEYAgtx"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4TjV512SKkz9sWt;
-	Sun, 25 Feb 2024 17:46:29 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1708879589;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KLvix7hOqGdcmlVqOW3S7yNP24rggDpe3G67MMT5Wy8=;
-	b=wzEYAgtxIWOE/MbT9GVIjTxl0alloTW3tYRA4CooKsH2iJ+EVMMmWBKAO3MpOjbvNB5YTT
-	ztRp6X8h/3VtEd4ymtHXM4ND8X0rocTb6GwwgEUUXFCFfF7GoC1aGzoIU8HplcwyqbErUH
-	y5hVYMH17/cFwaleV7b2b3W10eGEOkIj25l/LOfuEKIRxKA+1TOpRtQx8mQi8IjmzRdgsy
-	Y2XCYv54na1xCZWJAR3WP0hxIwzJDhJ31QFsLvRN8OZU+XtsmfP43cEPVXG+SZHUgKEPY6
-	xkl7ArtkrKlI48AYkpYv3SgMkaqMACDWNbd0TCPDvWLLWEhuuX51TcHxNHu3Vg==
-References: <20240205-pinephone-pll-fixes-v2-0-96a46a2d8c9b@oltmanns.dev>
- <20240205-pinephone-pll-fixes-v2-5-96a46a2d8c9b@oltmanns.dev>
- <poua4bzyciiwt65sqjf2whqfdumvoe4h3bkjpf64px2vwgumrf@sai73byg2iju>
- <87sf1zxb0s.fsf@oltmanns.dev>
- <ia7e7gqozltl5wkfdvwtf2rw2ko2dt67qxtuqbavsroyv4ifys@x4mbulqhhri5>
-From: Frank Oltmanns <frank@oltmanns.dev>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Guido
- =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>, Purism Kernel Team
- <kernel@puri.sm>, Ondrej
- Jirman <megi@xff.cz>, Neil Armstrong <neil.armstrong@linaro.org>, Jessica
- Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, Icenowy Zheng
- <uwu@icenowy.me>
+	dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b="p9ySF9IQ"
+ARC-Seal: i=1; a=rsa-sha256; t=1708923427; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=S9/egMTPtcK0XTfnP9q6hh4uwDIf4SH7mvB7B//loFH77TgHuG6C2eyT1uy0BTMmE2mhBatdg2QG+V9x8+nzEg80tAbYjeBurf8rxAceOpVGMtJYIkPHCTtWS7ywW1QdMLiSCWWrRUFQ1G83R9JxH06F2RgRHIAhJinILJP1csg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1708923427; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=QrAILGTlcUzfFUd66MJkWp2t/tRwrE6wC4UtelAjn54=; 
+	b=TZrdFEPMPHMgm40I0n2fVtPCCMR4CzPNWq0/vNjM9Sq9gRB3NJYzJw1y7MFUkbOslUu6Ts0bZOA2rW6C+R1c0kDy9M/rsV1xKV+1h5rn//sMzGWsDdQoYrtXwtQy9i87Kj1nxdIOJ/zc/yeXW++qLNCqASftpa4sJUrhG8uzEko=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=icenowy.me;
+	spf=pass  smtp.mailfrom=uwu@icenowy.me;
+	dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1708923427;
+	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+	bh=QrAILGTlcUzfFUd66MJkWp2t/tRwrE6wC4UtelAjn54=;
+	b=p9ySF9IQVfZPeDuN3uhEIHKojM87TDibcGyxFn5fW1M9y+0mj8hG1090eN1PxpZu
+	8HZ7D7iTYvpIRvei6Tst9iMAU5iIBplr9wk0Gbph4LwrcNW0wk/awHDUrY8YdQZzJ9B
+	yrsxq8JEDVpHaUt/m8evr7TmJb01ty3ke1FcAadg5tI+cK1WxHuDUbvnaj6MtHbXR0p
+	dhOAn4XRifxDvga/T+iX5VcIXvyASoI4ZANtXoBYyplgJPv+mcPDQ4XcuZL/6nKSdnJ
+	4mXw6a1tm9mkY1hqJYIY0iZeex7fwG1pYGnT7NWkgu45dS4+t1niJjXJatiGkhBfiek
+	AWXBUU3LMQ==
+Received: from edelgard.fodlan.icenowy.me (112.94.101.70 [112.94.101.70]) by mx.zohomail.com
+	with SMTPS id 1708923424459946.3223816657112; Sun, 25 Feb 2024 20:57:04 -0800 (PST)
+Message-ID: <02c27b503f379aff28563dda6ad7e2718fe7229f.camel@icenowy.me>
 Subject: Re: [PATCH v2 5/6] drm/panel: st7703: Drive XBD599 panel at higher
  clock rate
-In-reply-to: <ia7e7gqozltl5wkfdvwtf2rw2ko2dt67qxtuqbavsroyv4ifys@x4mbulqhhri5>
-Date: Sun, 25 Feb 2024 17:46:16 +0100
-Message-ID: <87o7c4mqzr.fsf@oltmanns.dev>
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Frank Oltmanns <frank@oltmanns.dev>, Maxime Ripard <mripard@kernel.org>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>,  Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Guido
+ =?ISO-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,  Purism Kernel Team
+ <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>, Sam
+ Ravnborg <sam@ravnborg.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>,  Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ linux-clk@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev,  linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,  devicetree@vger.kernel.org
+Date: Mon, 26 Feb 2024 12:56:55 +0800
+In-Reply-To: <87o7c4mqzr.fsf@oltmanns.dev>
+References: <20240205-pinephone-pll-fixes-v2-0-96a46a2d8c9b@oltmanns.dev>
+	 <20240205-pinephone-pll-fixes-v2-5-96a46a2d8c9b@oltmanns.dev>
+	 <poua4bzyciiwt65sqjf2whqfdumvoe4h3bkjpf64px2vwgumrf@sai73byg2iju>
+	 <87sf1zxb0s.fsf@oltmanns.dev>
+	 <ia7e7gqozltl5wkfdvwtf2rw2ko2dt67qxtuqbavsroyv4ifys@x4mbulqhhri5>
+	 <87o7c4mqzr.fsf@oltmanns.dev>
+Organization: Anthon Open-Source Community
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+X-ZohoMailClient: External
 
-Hi Maxime,
+=E5=9C=A8 2024-02-25=E6=98=9F=E6=9C=9F=E6=97=A5=E7=9A=84 17:46 +0100=EF=BC=
+=8CFrank Oltmanns=E5=86=99=E9=81=93=EF=BC=9A
+> Hi Maxime,
+>=20
+> On 2024-02-22 at 11:29:51 +0100, Maxime Ripard <mripard@kernel.org>
+> wrote:
+> > [[PGP Signed Part:Undecided]]
+> > On Sun, Feb 11, 2024 at 04:42:43PM +0100, Frank Oltmanns wrote:
+> > >=20
+> > > On 2024-02-08 at 20:05:08 +0100, Maxime Ripard
+> > > <mripard@kernel.org> wrote:
+> > > > [[PGP Signed Part:Undecided]]
+> > > > Hi Frank,
+> > > >=20
+> > > > On Mon, Feb 05, 2024 at 04:22:28PM +0100, Frank Oltmanns wrote:
+> > > > > This panel is used in the pinephone that runs on a Allwinner
+> > > > > A64 SOC.
+> > > > > The SOC requires pll-mipi to run at more than 500 MHz.
+> > > > >=20
+> > > > > This is the relevant clock tree:
+> > > > > =C2=A0pll-mipi
+> > > > > =C2=A0=C2=A0=C2=A0 tcon0
+> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tcon-data-clock
+> > > > >=20
+> > > > > tcon-data-clock has to run at 1/4 the DSI per-lane bit rate.
+> > > > > The XBD599
+> > > > > has 24 bpp and 4 lanes. Therefore, the resulting requested
+> > > > > tcon-data-clock rate is:
+> > > > > =C2=A0=C2=A0=C2=A0 crtc_clock * 1000 * (24 / 4) / 4
+> > > > >=20
+> > > > > tcon-data-clock runs at tcon0 / 4 (fixed divisor), so it
+> > > > > requests a
+> > > > > parent rate of
+> > > > > =C2=A0=C2=A0=C2=A0 4 * (crtc_clock * 1000 * (24 / 4) / 4)
+> > > > >=20
+> > > > > Since tcon0 is a ccu_mux, the rate of tcon0 equals the rate
+> > > > > of pll-mipi.
+> > > > >=20
+> > > > > pll-mipi's constraint to run at 500MHz or higher forces us to
+> > > > > have a
+> > > > > crtc_clock >=3D 83333 kHz if we want a 60 Hz vertical refresh
+> > > > > rate.
+> > > > >=20
+> > > > > Change [hv]sync_(start|end) so that we reach a clock rate of
+> > > > > 83502 kHz
+> > > > > so that it is high enough to align with pll-pipi limits.
+> > > > >=20
+> > > > > Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+> > > >=20
+> > > > That commit log is great, but it's kind of off-topic. It's a
+> > > > panel
+> > > > driver, it can be used on any MIPI-DSI controller, the only
+> > > > relevant
+> > > > information there should be the panel timings required in the
+> > > > datasheet.
+> > > >=20
+> > > > The PLL setup is something for the MIPI-DSI driver to adjust,
+> > > > not for
+> > > > the panel to care for.
+> > > >=20
+> > >=20
+> > > I absolutely agree. It even was the reason for my submission of a
+> > > sunxi-ng patch series last year that was accepted, to make pll-
+> > > mipi more
+> > > flexible. :)
+> > >=20
+> > > The only remaining option I currently see for adjusting the
+> > > sunxi-ng
+> > > driver to further accomodate the panel, is trying to use a higher
+> > > divisor than 4 for calculating tcon-data-clock from tcon0. I
+> > > remember
+> > > reading a discussion about this, but as far as I remember that
+> > > proposal
+> > > was rejected (by you, IIRC).
+> > >=20
+> > > While I appreciate other suggestion as well, I'll look into
+> > > options for
+> > > using a different divisor than 4.
+> >=20
+> > Like I said, I'm not against the patch at all, it looks great to me
+> > on
+> > principle. I just think you should completely rephrase the commit
+> > log
+> > using the datasheet as the only reliable source of the display
+> > timings.
+> > Whether sun4i can work around the panel requirements is something
+> > completely orthogonal to the discussion, and thus the commit log.
+> >=20
+>=20
+> I was trying to follow the guidelines [1] for describing the reason
+> behind my changes to the panel. My original commit message was a lot
+> shorter, which, understandably, resulted in follow up questions [2].
+> With the current commit log, I'm trying to address those questions.
+> According to the device tree, the panel is only used in the
+> pinephone.
+> The only reason for the change is that the SoC used by the only user
+> of
+> this panel can not provide the rate the panel requests with the
+> current
+> values. I think this information is relevant.
+>=20
+> Unfortunately, as described in [2], I cannot back these values with
+> any
+> datasheets because I couldn't find any. I could only find hints that
+> they are not publicly available. Icenowy (added to CC) submitted the
+> original values.
 
-On 2024-02-22 at 11:29:51 +0100, Maxime Ripard <mripard@kernel.org> wrote:
-> [[PGP Signed Part:Undecided]]
-> On Sun, Feb 11, 2024 at 04:42:43PM +0100, Frank Oltmanns wrote:
->>
->> On 2024-02-08 at 20:05:08 +0100, Maxime Ripard <mripard@kernel.org> wrote:
->> > [[PGP Signed Part:Undecided]]
->> > Hi Frank,
->> >
->> > On Mon, Feb 05, 2024 at 04:22:28PM +0100, Frank Oltmanns wrote:
->> >> This panel is used in the pinephone that runs on a Allwinner A64 SOC.
->> >> The SOC requires pll-mipi to run at more than 500 MHz.
->> >>
->> >> This is the relevant clock tree:
->> >>  pll-mipi
->> >>     tcon0
->> >>        tcon-data-clock
->> >>
->> >> tcon-data-clock has to run at 1/4 the DSI per-lane bit rate. The XBD599
->> >> has 24 bpp and 4 lanes. Therefore, the resulting requested
->> >> tcon-data-clock rate is:
->> >>     crtc_clock * 1000 * (24 / 4) / 4
->> >>
->> >> tcon-data-clock runs at tcon0 / 4 (fixed divisor), so it requests a
->> >> parent rate of
->> >>     4 * (crtc_clock * 1000 * (24 / 4) / 4)
->> >>
->> >> Since tcon0 is a ccu_mux, the rate of tcon0 equals the rate of pll-mipi.
->> >>
->> >> pll-mipi's constraint to run at 500MHz or higher forces us to have a
->> >> crtc_clock >= 83333 kHz if we want a 60 Hz vertical refresh rate.
->> >>
->> >> Change [hv]sync_(start|end) so that we reach a clock rate of 83502 kHz
->> >> so that it is high enough to align with pll-pipi limits.
->> >>
->> >> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
->> >
->> > That commit log is great, but it's kind of off-topic. It's a panel
->> > driver, it can be used on any MIPI-DSI controller, the only relevant
->> > information there should be the panel timings required in the datasheet.
->> >
->> > The PLL setup is something for the MIPI-DSI driver to adjust, not for
->> > the panel to care for.
->> >
->>
->> I absolutely agree. It even was the reason for my submission of a
->> sunxi-ng patch series last year that was accepted, to make pll-mipi more
->> flexible. :)
->>
->> The only remaining option I currently see for adjusting the sunxi-ng
->> driver to further accomodate the panel, is trying to use a higher
->> divisor than 4 for calculating tcon-data-clock from tcon0. I remember
->> reading a discussion about this, but as far as I remember that proposal
->> was rejected (by you, IIRC).
->>
->> While I appreciate other suggestion as well, I'll look into options for
->> using a different divisor than 4.
->
-> Like I said, I'm not against the patch at all, it looks great to me on
-> principle. I just think you should completely rephrase the commit log
-> using the datasheet as the only reliable source of the display timings.
-> Whether sun4i can work around the panel requirements is something
-> completely orthogonal to the discussion, and thus the commit log.
->
+Sorry but this kind of things are just magic from the vendor that I
+could hardly explain...
 
-I was trying to follow the guidelines [1] for describing the reason
-behind my changes to the panel. My original commit message was a lot
-shorter, which, understandably, resulted in follow up questions [2].
-With the current commit log, I'm trying to address those questions.
-According to the device tree, the panel is only used in the pinephone.
-The only reason for the change is that the SoC used by the only user of
-this panel can not provide the rate the panel requests with the current
-values. I think this information is relevant.
+>=20
+> Best regards,
+> =C2=A0 Frank
+>=20
+> [1]:
+> https://www.kernel.org/doc/html/v6.7/process/submitting-patches.html#desc=
+ribe-your-changes
+> [2]: https://lore.kernel.org/lkml/87wmsvo0fh.fsf@oltmanns.dev/
+>=20
+> >=20
+> > Maxime
+> >=20
+> > [[End of PGP Signed Part]]
+>=20
 
-Unfortunately, as described in [2], I cannot back these values with any
-datasheets because I couldn't find any. I could only find hints that
-they are not publicly available. Icenowy (added to CC) submitted the
-original values.
-
-Best regards,
-  Frank
-
-[1]: https://www.kernel.org/doc/html/v6.7/process/submitting-patches.html#describe-your-changes
-[2]: https://lore.kernel.org/lkml/87wmsvo0fh.fsf@oltmanns.dev/
-
->
-> Maxime
->
-> [[End of PGP Signed Part]]
