@@ -1,85 +1,52 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE58713172A
-	for <linux-sunxi@lists.linux.dev>; Mon, 26 Feb 2024 22:07:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63E891E894
+	for <linux-sunxi@lists.linux.dev>; Mon, 26 Feb 2024 23:57:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708985268; cv=none; b=G6p4MeHZRINhn79/lElzjsPyicBoTl9TiqxF5CHZFcG0elrL9DDhYtOMLpLAc+MPGSNSOIuW+eVH5ju5Fi0r/zAb+gq79ps1NyV0zWJx+VUmpvHBmw4rgRHDqDh5ZdcPUen/PwIWxBZKzfxEW40qydyjCw8iat3i65MBZoi8T5g=
+	t=1708991840; cv=none; b=gfPF03G1MYeF4p1jd5urz3OaNQwEnqeRRlZrF287Kct95g4A1jYWXFTZnabWCK9Sppvb4qDEROIV4QgDA6Q2OO9JxDZKn9yo9j7v04iUFLzdwXtuvgunMKTEhuuqM9ZNnvrNihOdnMIJKUEnjGrox8VjI6eS87XVhjk3K2+Av1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708985268; c=relaxed/simple;
-	bh=3bj+zZCVpfp7NxPeaeA8ZeRn6O/0o+N/z5ULqJofpEg=;
+	s=arc-20240116; t=1708991840; c=relaxed/simple;
+	bh=rZaLoAoJVtC2cJB1SpNOGGPxOC1/pGjN9BizSRFZma0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DlBb01uzs1rNPt99OjhoBOpA8k3z17rXcr3LA3yc8aQA7McyZS8d6VoenJKH9Ti/wzdQkoj8/T/d7nTQh/thhUpsb56iE8hF4zzYAL87LPdPTvpHiKJMr1Pora0UkerNOlyRIW0WGnoklzBKu6EXEIFZHjxzW9+bc6rNfviUemA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fHBnU7Le; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=GYm6oEsyn3Oxwc3RqHtFd6nvl2LO2LKcHDTXBfEuIP5UXXt6WUIHQqsP9E5ZgIq+5irmKj2McnNXdzlD5lDNHyDBonHr1rO2nv80/Ysubkz9nWYdqIViS0E/2E1KhLvs8F2NM4xTediyXs29Q9MeqQIXDA/XQQGAaj1ecq75bAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=WXO1PBxy; arc=none smtp.client-ip=195.181.215.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fHBnU7Le"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5101cd91017so5322464e87.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 26 Feb 2024 14:07:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708985265; x=1709590065; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pHEg/PobD24tdsAcn0OzUyhowswPKvxcAqmhC1J0GNY=;
-        b=fHBnU7LeaEXZp0VstLvMIQ3jyk8/l+rDghFBWTjKeRkNA+1uirP2TAY307Rx91eItf
-         OcrGOO8rjUd9mbd8OS5U3UxDpyR2Razn0ivUnh8kQ5wSi7AKhE2z1P+ldb9vnkqVzJHC
-         hDcOkcJlPmwRd5Bta1lZJo6Sk8MabWGWRKPnTqICuTn0YTXDpUbyRvGM42v9aLwLxVSt
-         Wu/B4nLNsXrTD1pJYjXhQHCmNfM++V54b92eJRKokhhq1eCdErU6pDaNFtMDRDko2rQI
-         zbT8nUBCur3z9pm/llshx64lkIm4mTMNuEBjsk53CNnY3a8frapAcsFEUmxs9/JGC2fy
-         Czaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708985265; x=1709590065;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pHEg/PobD24tdsAcn0OzUyhowswPKvxcAqmhC1J0GNY=;
-        b=g/J1QhalsMgrlVfV/3E6raaXz2WQbHJKESJL25MWZp3ac9xbzh0SDUXBmvRt/UGNAU
-         fB7JT2RyXFYKupyLoO8vLI6t5mnFxWmiy+K+j5DkmptiNTrj1rTRb4quXyaYHq87DU4H
-         aWsm1eHYCc03buhBmeaDfQ8Kj29NAdxm6aAGEWI6yhighlUFNnJTrz81eZXmsnjqW7dq
-         3nUs88UFxGWmAuMUoUPF7bUu5haifeLKEPZMqOnzSd304Xyt5f7dGbS8XuhhbBWKrVKF
-         tjWQe0jSKLbSe/rYb9W/QR2fXMmXP2JRgrOwoXqvA8kQu6K/6wtrkRMNW8rDwvnA68Tu
-         OVZA==
-X-Forwarded-Encrypted: i=1; AJvYcCWdnwGPq8knnkq2y6yavtQr3k79hhBlVmPx4RI4Wnx0BZA7/QSVO0wXsrZpI+Ry8W2uiTdZmp9cUJiJlQ7PNtw4UnQCAEl0cfmL3iM=
-X-Gm-Message-State: AOJu0YzRQZvNiOM2/e7Yw6JIldzlaa8QjypW7HkqwxNG79Lq7uiKBNm2
-	k/dhocYdsUKP1hWZC4mhRv/8RW1n6krOQyGCdAlty8B0c7Jex4FE
-X-Google-Smtp-Source: AGHT+IGz0v9kfZ8Pryt+LljBAadvtBLU3DXwhJnm4Yo8WhLtfZT8YFLtxKyvtv7wmiR80zXDE5VPcw==
-X-Received: by 2002:a05:6512:b0f:b0:512:b71d:3283 with SMTP id w15-20020a0565120b0f00b00512b71d3283mr6197335lfu.67.1708985264849;
-        Mon, 26 Feb 2024 14:07:44 -0800 (PST)
-Received: from localhost ([94.19.228.143])
-        by smtp.gmail.com with ESMTPSA id w4-20020a19c504000000b00512fe237508sm446024lfe.27.2024.02.26.14.07.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Feb 2024 14:07:44 -0800 (PST)
-Date: Tue, 27 Feb 2024 01:05:30 +0300
-From: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-To: Corentin Labbe <clabbe.montjoie@gmail.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Ovidiu Panait <ovidiu.panait@windriver.com>,
-	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: Arnaud Ferraris <arnaud.ferraris@collabora.com>
-Subject: Re: [PATCH] crypto: sun8i-ce - Fix use after free in unprepare.
-Message-ID: <Zd0LKrryWNs15zxi@skv.local>
-Mail-Followup-To: Andrey Skvortsov <andrej.skvortzov@gmail.com>,
-	Corentin Labbe <clabbe.montjoie@gmail.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Ovidiu Panait <ovidiu.panait@windriver.com>,
-	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Arnaud Ferraris <arnaud.ferraris@collabora.com>
-References: <20240226215358.555234-1-andrej.skvortzov@gmail.com>
+	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="WXO1PBxy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
+	t=1708991828; bh=rZaLoAoJVtC2cJB1SpNOGGPxOC1/pGjN9BizSRFZma0=;
+	h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
+	b=WXO1PBxyQno+RvrzTOKSG5iaPFGaFoBMY4jYlysNZb6djRltmh6ERSyY70L86T+a1
+	 Ilb+f7g+ayjXlBNH3QzL7+QNJZpTmkThUABO8S/1mSAf6Xnk95uInS3xNMmZiJu328
+	 vfO6JYvwF1GJyAPEhYPvBb5OFrVsnpo0a1Oj1UL8=
+Date: Tue, 27 Feb 2024 00:57:08 +0100
+From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
+To: Rob Herring <robh@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, 
+	Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Arnaud Ferraris <arnaud.ferraris@collabora.com>, linux-sound@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [RESEND PATCH v2 1/5] dt-bindings: sound: Add jack-type property
+ to sun8i-a33-codec
+Message-ID: <w75crq6ofqq6gisxdda6zeyem5gmsrexe7zarrza46awpstlvk@lc7bttbt63el>
+Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, 
+	Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org, 
+	Liam Girdwood <lgirdwood@gmail.com>, Conor Dooley <conor+dt@kernel.org>, 
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Arnaud Ferraris <arnaud.ferraris@collabora.com>, 
+	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev
+X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
+ <https://xff.cz/key.txt>
+References: <20240224135501.3822390-1-megi@xff.cz>
+ <20240224135501.3822390-2-megi@xff.cz>
+ <20240226194727.GA1320480-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -88,93 +55,53 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240226215358.555234-1-andrej.skvortzov@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240226194727.GA1320480-robh@kernel.org>
 
-On 24-02-27 00:53, Andrey Skvortsov wrote:
-> sun8i_ce_cipher_unprepare should be called before
-> crypto_finalize_skcipher_request, because client callbacks may
-> immediately free memory, that isn't needed anymore. But it will be
-> used by unprepare after free. Before removing prepare/unprepare
-> callbacks it was handled by crypto engine in crypto_finalize_request.
+On Mon, Feb 26, 2024 at 01:47:27PM -0600, Rob Herring wrote:
+> On Sat, Feb 24, 2024 at 02:54:54PM +0100, Ondřej Jirman wrote:
+> > From: Ondrej Jirman <megi@xff.cz>
+> > 
+> > The codec driver needs to know what jack connector it is connected to
+> > on the board. Add proprty to describe the type of connector.
+> > 
+> > Signed-off-by: Ondrej Jirman <megi@xff.cz>
+> > ---
+> >  .../bindings/sound/allwinner,sun8i-a33-codec.yaml        | 9 +++++++++
+> >  1 file changed, 9 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/sound/allwinner,sun8i-a33-codec.yaml b/Documentation/devicetree/bindings/sound/allwinner,sun8i-a33-codec.yaml
+> > index 63eadc4200ac..399fc00ad3f4 100644
+> > --- a/Documentation/devicetree/bindings/sound/allwinner,sun8i-a33-codec.yaml
+> > +++ b/Documentation/devicetree/bindings/sound/allwinner,sun8i-a33-codec.yaml
+> > @@ -44,6 +44,15 @@ properties:
+> >        - const: bus
+> >        - const: mod
+> >  
+> > +  jack-type:
+> 
+> I'm all for a generic property name, but it needs to be documented 
+> somewhere common. Perhaps dai-common.yaml.
+> 
+> I'm sure there is some prior art here to consider as well.
 
-And potentially rk3288_crypto driver is affected by the similar
-problem.
+There's only a mention in the code. But there's no use of similar property
+on the codec nodes.
 
-https://elixir.bootlin.com/linux/v6.8-rc6/source/drivers/crypto/rockchip/rk3288_crypto_ahash.c#L339
+https://elixir.bootlin.com/linux/latest/source/sound/soc/soc-component.c#L288
 
-> 
-> Usually that results in a pointer dereference problem during a in
-> crypto selftest.
->  Unable to handle kernel NULL pointer dereference at
->                                       virtual address 0000000000000030
->  Mem abort info:
->    ESR = 0x0000000096000004
->    EC = 0x25: DABT (current EL), IL = 32 bits
->    SET = 0, FnV = 0
->    EA = 0, S1PTW = 0
->    FSC = 0x04: level 0 translation fault
->  Data abort info:
->    ISV = 0, ISS = 0x00000004, ISS2 = 0x00000000
->    CM = 0, WnR = 0, TnD = 0, TagAccess = 0
->    GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
->  user pgtable: 4k pages, 48-bit VAs, pgdp=000000004716d000
->  [0000000000000030] pgd=0000000000000000, p4d=0000000000000000
->  Internal error: Oops: 0000000096000004 [#1] SMP
-> 
-> This problem is detected by KASAN as well.
->  ==================================================================
->  BUG: KASAN: slab-use-after-free in sun8i_ce_cipher_do_one+0x6e8/0xf80 [sun8i_ce]
->  Read of size 8 at addr ffff00000dcdc040 by task 1c15000.crypto-/373
-> 
->  Hardware name: Pine64 PinePhone (1.2) (DT)
->  Call trace:
->   dump_backtrace+0x9c/0x128
->   show_stack+0x20/0x38
->   dump_stack_lvl+0x48/0x60
->   print_report+0xf8/0x5d8
->   kasan_report+0x90/0xd0
->   __asan_load8+0x9c/0xc0
->   sun8i_ce_cipher_do_one+0x6e8/0xf80 [sun8i_ce]
->   crypto_pump_work+0x354/0x620 [crypto_engine]
->   kthread_worker_fn+0x244/0x498
->   kthread+0x168/0x178
->   ret_from_fork+0x10/0x20
-> 
->  Allocated by task 379:
->   kasan_save_stack+0x3c/0x68
->   kasan_set_track+0x2c/0x40
->   kasan_save_alloc_info+0x24/0x38
->   __kasan_kmalloc+0xd4/0xd8
->   __kmalloc+0x74/0x1d0
->   alg_test_skcipher+0x90/0x1f0
->   alg_test+0x24c/0x830
->   cryptomgr_test+0x38/0x60
->   kthread+0x168/0x178
->   ret_from_fork+0x10/0x20
-> 
->  Freed by task 379:
->   kasan_save_stack+0x3c/0x68
->   kasan_set_track+0x2c/0x40
->   kasan_save_free_info+0x38/0x60
->   __kasan_slab_free+0x100/0x170
->   slab_free_freelist_hook+0xd4/0x1e8
->   __kmem_cache_free+0x15c/0x290
->   kfree+0x74/0x100
->   kfree_sensitive+0x80/0xb0
->   alg_test_skcipher+0x12c/0x1f0
->   alg_test+0x24c/0x830
->   cryptomgr_test+0x38/0x60
->   kthread+0x168/0x178
->   ret_from_fork+0x10/0x20
-> 
->  The buggy address belongs to the object at ffff00000dcdc000
->   which belongs to the cache kmalloc-256 of size 256
->  The buggy address is located 64 bytes inside of
->   freed 256-byte region [ffff00000dcdc000, ffff00000dcdc100)
-> 
-> Signed-off-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-> Fixes: 4136212ab18e ("crypto: sun8i-ce - Remove prepare/unprepare request")
+/**
+ * snd_soc_component_get_jack_type
+ * @component: COMPONENTs
+ *
+ * Returns the jack type of the component
+ * This can either be the supported type or one read from
+ * devicetree with the property: jack-type.
+ */
 
--- 
-Best regards,
-Andrey Skvortsov
+This is part of a component, so maybe in sound/component-common.yaml ?
+
+Kind regards,
+	o.
+
+> Rob
