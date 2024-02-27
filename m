@@ -1,52 +1,48 @@
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63E891E894
-	for <linux-sunxi@lists.linux.dev>; Mon, 26 Feb 2024 23:57:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCEE1EAD7;
+	Tue, 27 Feb 2024 03:50:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708991840; cv=none; b=gfPF03G1MYeF4p1jd5urz3OaNQwEnqeRRlZrF287Kct95g4A1jYWXFTZnabWCK9Sppvb4qDEROIV4QgDA6Q2OO9JxDZKn9yo9j7v04iUFLzdwXtuvgunMKTEhuuqM9ZNnvrNihOdnMIJKUEnjGrox8VjI6eS87XVhjk3K2+Av1Q=
+	t=1709005812; cv=none; b=ldDLzQtwmvabnYNZxq4IW6QWCJT4RAR2DUPdeZZXBH+yzY1LfTKz6MdZT3077fEXZ/vrmD1X2hdqLfx5E31nvmF+goDNuFAqKFQ1DoeNPzvGCcvY+XRrA+jpxjVnUOUcvppRI0jtSgig8EnCHemB9tTYiDpxtYPONQiRzd8IIsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708991840; c=relaxed/simple;
-	bh=rZaLoAoJVtC2cJB1SpNOGGPxOC1/pGjN9BizSRFZma0=;
+	s=arc-20240116; t=1709005812; c=relaxed/simple;
+	bh=hOMeGK3M1MNEfZ1lZ/JwrqcEakbzHAYTL05Yftym9lM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GYm6oEsyn3Oxwc3RqHtFd6nvl2LO2LKcHDTXBfEuIP5UXXt6WUIHQqsP9E5ZgIq+5irmKj2McnNXdzlD5lDNHyDBonHr1rO2nv80/Ysubkz9nWYdqIViS0E/2E1KhLvs8F2NM4xTediyXs29Q9MeqQIXDA/XQQGAaj1ecq75bAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=WXO1PBxy; arc=none smtp.client-ip=195.181.215.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=pyiq+DD96/RCof/24ExELc9pEMVKwjSNwOAYrAMS8v6QYCtRjkv5lO1Tt6IGiZ0KONTWt7uc0WaKAM8lP74O7oQmvBymsdMXWv5/NrcU5Y1hCKfH0QNtGvfttnHdReM4BCAZxLaTRmhH8YyqX/SuQlYJyrnRwQaDt9AIlFNv03Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZnKwf/MG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="WXO1PBxy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
-	t=1708991828; bh=rZaLoAoJVtC2cJB1SpNOGGPxOC1/pGjN9BizSRFZma0=;
-	h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
-	b=WXO1PBxyQno+RvrzTOKSG5iaPFGaFoBMY4jYlysNZb6djRltmh6ERSyY70L86T+a1
-	 Ilb+f7g+ayjXlBNH3QzL7+QNJZpTmkThUABO8S/1mSAf6Xnk95uInS3xNMmZiJu328
-	 vfO6JYvwF1GJyAPEhYPvBb5OFrVsnpo0a1Oj1UL8=
-Date: Tue, 27 Feb 2024 00:57:08 +0100
-From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
-To: Rob Herring <robh@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, 
-	Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Arnaud Ferraris <arnaud.ferraris@collabora.com>, linux-sound@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [RESEND PATCH v2 1/5] dt-bindings: sound: Add jack-type property
- to sun8i-a33-codec
-Message-ID: <w75crq6ofqq6gisxdda6zeyem5gmsrexe7zarrza46awpstlvk@lc7bttbt63el>
-Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, 
-	Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org, 
-	Liam Girdwood <lgirdwood@gmail.com>, Conor Dooley <conor+dt@kernel.org>, 
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Arnaud Ferraris <arnaud.ferraris@collabora.com>, 
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev
-X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
- <https://xff.cz/key.txt>
-References: <20240224135501.3822390-1-megi@xff.cz>
- <20240224135501.3822390-2-megi@xff.cz>
- <20240226194727.GA1320480-robh@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZnKwf/MG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A341C433F1;
+	Tue, 27 Feb 2024 03:50:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709005812;
+	bh=hOMeGK3M1MNEfZ1lZ/JwrqcEakbzHAYTL05Yftym9lM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZnKwf/MGF396PEh1KPYyWEmNmIaAFk0e2kERcHFD98DCp2imkkPC2epPI0F92BQn2
+	 gQXk1Dw4rhrsz5oNN7A7prp6ddNokkg++RRTZNrlpw02oW4A2GhM1g7tjA5ind6xM+
+	 VHkAlQehrKEXOPb/xQEuMcX3qJ0rd4Q5SoBPeloeZIrSSR+fNFf+vJq/utbaZwl7ev
+	 cUIbVG0TYjB3Sj95bRA5OHWtJ9lcOdjTiQKN6TyNjqVCc5v23BM9MdSCO3r0BYiIwF
+	 eTPhNN+rzH5FJmqbmz/jK2GO9DomFe3JH32SXGQ9MOvgyCuQEobh2Bm1QCK+kLC3IE
+	 RiPByKZfP8CuA==
+Date: Mon, 26 Feb 2024 21:50:10 -0600
+From: Rob Herring <robh@kernel.org>
+To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Maxime Ripard <mripard@kernel.org>, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH] dt-bindings: input: allwinner,sun4i-a10-lrad: drop
+ redundant type from label
+Message-ID: <20240227035010.GA2663086-robh@kernel.org>
+References: <20240226122934.89257-1-krzysztof.kozlowski@linaro.org>
+ <3207352.5fSG56mABF@jernej-laptop>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -56,52 +52,19 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240226194727.GA1320480-robh@kernel.org>
+In-Reply-To: <3207352.5fSG56mABF@jernej-laptop>
 
-On Mon, Feb 26, 2024 at 01:47:27PM -0600, Rob Herring wrote:
-> On Sat, Feb 24, 2024 at 02:54:54PM +0100, Ondřej Jirman wrote:
-> > From: Ondrej Jirman <megi@xff.cz>
+On Mon, Feb 26, 2024 at 06:31:38PM +0100, Jernej Škrabec wrote:
+> Dne ponedeljek, 26. februar 2024 ob 13:29:34 CET je Krzysztof Kozlowski napisal(a):
+> > dtschema defines label as string, so $ref in other bindings is
+> > redundant.
 > > 
-> > The codec driver needs to know what jack connector it is connected to
-> > on the board. Add proprty to describe the type of connector.
-> > 
-> > Signed-off-by: Ondrej Jirman <megi@xff.cz>
-> > ---
-> >  .../bindings/sound/allwinner,sun8i-a33-codec.yaml        | 9 +++++++++
-> >  1 file changed, 9 insertions(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/sound/allwinner,sun8i-a33-codec.yaml b/Documentation/devicetree/bindings/sound/allwinner,sun8i-a33-codec.yaml
-> > index 63eadc4200ac..399fc00ad3f4 100644
-> > --- a/Documentation/devicetree/bindings/sound/allwinner,sun8i-a33-codec.yaml
-> > +++ b/Documentation/devicetree/bindings/sound/allwinner,sun8i-a33-codec.yaml
-> > @@ -44,6 +44,15 @@ properties:
-> >        - const: bus
-> >        - const: mod
-> >  
-> > +  jack-type:
+> > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > 
-> I'm all for a generic property name, but it needs to be documented 
-> somewhere common. Perhaps dai-common.yaml.
+> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 > 
-> I'm sure there is some prior art here to consider as well.
+> I already send PR for 6.9. Do you mind if it waits on next cycle?
 
-There's only a mention in the code. But there's no use of similar property
-on the codec nodes.
+This should go via input tree, not allwinner.
 
-https://elixir.bootlin.com/linux/latest/source/sound/soc/soc-component.c#L288
-
-/**
- * snd_soc_component_get_jack_type
- * @component: COMPONENTs
- *
- * Returns the jack type of the component
- * This can either be the supported type or one read from
- * devicetree with the property: jack-type.
- */
-
-This is part of a component, so maybe in sound/component-common.yaml ?
-
-Kind regards,
-	o.
-
-> Rob
+Acked-by: Rob Herring <robh@kernel.org>
