@@ -1,59 +1,59 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C487A53395
-	for <linux-sunxi@lists.linux.dev>; Tue, 27 Feb 2024 06:48:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FE0C52F90
+	for <linux-sunxi@lists.linux.dev>; Tue, 27 Feb 2024 06:49:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709016496; cv=none; b=jLVi1IG2+FsN1J5tzPQ1CLLGejjtGiaudMPM8f7D4N2nnlZi8nQw350GRqYCMNmVu/CwJbwtU6Jy7wqt8WWV+S0i00SjeKYkQxAgZtuz/gkK8kBSBpX7HG68ZfDlKnq3RSCWIqXDNquFCZZsVPtqIlpI7F2+Qtgx0AnfnjDHExo=
+	t=1709016546; cv=none; b=LUiiwwBg5suUj9lGZvBKfbEKkY3vQTdllSib0tvXqzS7FFIw8nqRny7jPEV2Ur4ruQ2sj5rBU+VxfqerELkhKxv2LC2YiRASukMmcPzdC4HDBtVMo6OtRh3LGC4ffAePfVCDB3O50/0yIzA3o6EKcWvbwlQRUJHkNCkS8OUHmQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709016496; c=relaxed/simple;
-	bh=WDrshlQ5Hw+q3estbrUolGjadT9Hxm4Npoj95g/m+VE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=EulJIlACtPZCdC64Fo4zNzTjUS5kUatWn4XXcaKZOXDFpI9WUaEBTaKp+2pKhjmcp5fx4xQr3LWpyvts6mZdEUXDVSHsiyh+3ftUusgMLIexvwzl2uivInXOld6IzlLyoAsRq0ayxA2+9Ixb3fbYJ+qc6Tm15vB8fH2aAOb7lsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yQqBy7Xm; arc=none smtp.client-ip=209.85.218.54
+	s=arc-20240116; t=1709016546; c=relaxed/simple;
+	bh=I/d0eMnYNaKxnQ9oXD2YJWd3h2CUwLNVAGEaDralJhg=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:References:
+	 In-Reply-To:Content-Type; b=DU5dn0Bd4DxECmA2iQi1eoQZ82DHkMOourr90KCzhhsq24taplLyCT8emmuKdjRqfxJZiSz/ASBRHv/5P8DR/YNpYT3dhtFfiy0IxCtVv+Q1iBvIDTyq3bEhv0dwbzomymeL0Ff5ncrIwdE1qYw7OVdER4/zDaQ/5qt5Kij0CJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qdvzpQCt; arc=none smtp.client-ip=209.85.208.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yQqBy7Xm"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a4396b785b8so89358266b.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 26 Feb 2024 22:48:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qdvzpQCt"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-55a179f5fa1so4673241a12.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 26 Feb 2024 22:49:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709016493; x=1709621293; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
+        d=linaro.org; s=google; t=1709016543; x=1709621343; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:references:to:from
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=6ktYYYMONtRVVQa7SJDqB66UXKwf6+poGY0Qtf1sr/U=;
-        b=yQqBy7Xm+AYlROOZ9gNu7dJC0zqq07Seek/m0tOwLKDy+3Crth2uXCBjdpjK56UAfa
-         eKpTu+vyimwnKalg68qYSrbokLZmZKSE/MFXD7+1nR/X5JkWmxAJ4j4g162rzWm4yK1w
-         AJEEJjfQOdn6x1RQ3ZL2yMEhJ+GCyiFWnnpoGTz47YKfi2xXLjAfBpd6VMtj7wnYoYtb
-         tlViyhpEYZ3F170dRXKcITBbhIRo0nCrXVKGiDzGXUCB0ag2EYgji03fxk3K1m54W3JU
-         t/lAP7b/qbgtYXUbJi3jN36+D3tR7ms8miyn7MtfFani0Mx4q8g+uxGz0hYk0CoEwOTF
-         785w==
+        bh=ftppbX4prfipbrJE2dRlWG+6CjMRbjIGhcz5uRsqIR0=;
+        b=qdvzpQCtfarBlJeJ+RQDIaFKFPB7K34Yz3mnu27/2LjwjV4wlwlCECuaYCNyGosi/G
+         8NLMhYAWvbsquKvNdmiHP2T0S4tnupiPqWnL/fcjxrK6SWHqv4p1j2LtbQvrOwfGsCCT
+         A6gkrfvFo/Y79we3WViNPvMj7RsesyVKbqpkAFjXK5M/fDkMfpRaD08UN7S8ECa/IplS
+         1NiyjMRVUlWSWFQJYk/+Ewoo4ZOH5cJGPs6Bi9yDIZAHC9uJFdmEmTG/+pLDbWgDJtfR
+         Ptnja7yaHIXxvGNb6mHIeda2un8yptXVDHkC1DYO8pWba2D02foQRSJrUJreE9TjL8dQ
+         HFQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709016493; x=1709621293;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
+        d=1e100.net; s=20230601; t=1709016543; x=1709621343;
+        h=content-transfer-encoding:in-reply-to:autocrypt:references:to:from
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6ktYYYMONtRVVQa7SJDqB66UXKwf6+poGY0Qtf1sr/U=;
-        b=hgKi5EMtyX/Pfgop53LIlr4iwtGeOhmZIyvOXlMtn0bLQvwk5Mrk+6yfotaELSjhxv
-         6WNFpPq/vIQ7i7cxcylcceU/GD7hVTR/zyfXEMr9UZSG8kfrTzpzJUX8ybhI61SqN8Zm
-         hoFsrp1oPfYgfcJnZG5Mmdrfn98SJ2LAon0U/ozhPbcqKcxINfbz8CPHhHKT/o4ZJk4e
-         IJXc7KsXeUbnpYycFRVMUN5mIla5u3hIZ2/+2eLnPu5aoI6/wsiY2c6TAayOZeBWBdv8
-         ll3cFCYhumkEqEZufDtaFLa5mix5iOyavUWFPrYtQWL4/zX/6HjE5eNNkwZtBjyeeVSi
-         b1bw==
-X-Forwarded-Encrypted: i=1; AJvYcCV0duoYuOxNQqQM+ajEXU9lU5IshPAafgv0pTGFrAJIwZzPM4UNIWJ/HmZv7fIoqEr0BcBimiIEf8P1+C520xjX759yDiVcVdLitoA=
-X-Gm-Message-State: AOJu0YzFVHbx7r1S3RRqWh2jysPBD1wYJg98I2FVnJU4skyehYTzuPDH
-	OAfxYIzSS6VAFXt84S3YJ4j6AXcRzVIDR49DMf0RcpN21vh10mCTfyxVWBGWw/k=
-X-Google-Smtp-Source: AGHT+IGxihfmi3Htq+yOoVnA1LlZVRzU7DI9SGryIyI8T5nCYsUonLz81eHRfceoSMhQgl3eT4X2qg==
-X-Received: by 2002:a17:906:c196:b0:a3e:8300:1af3 with SMTP id g22-20020a170906c19600b00a3e83001af3mr5914011ejz.30.1709016493314;
-        Mon, 26 Feb 2024 22:48:13 -0800 (PST)
+        bh=ftppbX4prfipbrJE2dRlWG+6CjMRbjIGhcz5uRsqIR0=;
+        b=rFge5QksHMdYcTXRGlRORaQAJbanu9rPC2Pqf89R7coPl9HtvQ22uwDJB8QO96X1Mm
+         8SYcbdpR201XvzPkoyhrdmBk8hqtJKoJV7A5IYpQPYmA7FnYNXuekL+cToBY9xZhFkaI
+         oJECA02w/slCZ7hdKrvcEoiAuZoErR4p5RETkdBNHx4n2XKEKgc67oa5iPSQvMllW4ns
+         MH0wLK0rStj5LvTTmr7oFk5ncKAeP2cSrjwfTGFMVFAD8Pb0YX3axivJIi0jZ3IQ0MT7
+         QNAehwm2u+R/cu1udHTQIJC9sj3Mdj/IL4noZOsn/ixxrRYOi1W+68DZLCEHly2oYQLa
+         +nmw==
+X-Forwarded-Encrypted: i=1; AJvYcCXwya/klE8uIKtCIx59zNrMof7emFngVDUH4CC8jVjYbRSN18tu10ap4tzatSElfWRnsr3GBBy94WZ0x4Ec3dgiHqVBOOMbTi7Io6w=
+X-Gm-Message-State: AOJu0YxlCuIgUKbU6NmedF7kjweVd4kqBwChGk73pGdImd28tTxFN7Fa
+	svpmgbboyTytt7zfzdA1lzQJMYecayNQ7uy1vBSZk7DLGYXB4nuGv1ja1sCzZJY=
+X-Google-Smtp-Source: AGHT+IFyUFbqRik0WxKEMrK61br7bRoBs9dysbrmk6zhOHxcrwDwAtYvRFr0QLbw4Etr9K3s5DLDpw==
+X-Received: by 2002:a17:906:a1d3:b0:a3f:5104:dabb with SMTP id bx19-20020a170906a1d300b00a3f5104dabbmr5716010ejb.63.1709016543469;
+        Mon, 26 Feb 2024 22:49:03 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.222.116])
-        by smtp.gmail.com with ESMTPSA id q24-20020a1709060e5800b00a4335edcfd1sm447578eji.189.2024.02.26.22.48.11
+        by smtp.gmail.com with ESMTPSA id m13-20020a1709066d0d00b00a430da5de71sm448236ejr.152.2024.02.26.22.49.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Feb 2024 22:48:12 -0800 (PST)
-Message-ID: <907d61f3-4c9e-42b6-b314-927fd77e0b94@linaro.org>
-Date: Tue, 27 Feb 2024 07:48:11 +0100
+        Mon, 26 Feb 2024 22:49:03 -0800 (PST)
+Message-ID: <bc9f5dc6-dea3-4e1e-9c23-00fefb5f5439@linaro.org>
+Date: Tue, 27 Feb 2024 07:49:01 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -64,6 +64,7 @@ User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] dt-bindings: input: allwinner,sun4i-a10-lrad: drop
  redundant type from label
 Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>,
  Hans de Goede <hdegoede@redhat.com>,
  Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>,
@@ -75,7 +76,7 @@ To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>,
  linux-kernel@vger.kernel.org
 References: <20240226122934.89257-1-krzysztof.kozlowski@linaro.org>
  <3207352.5fSG56mABF@jernej-laptop>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+ <907d61f3-4c9e-42b6-b314-927fd77e0b94@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
  cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
@@ -120,22 +121,25 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <3207352.5fSG56mABF@jernej-laptop>
+In-Reply-To: <907d61f3-4c9e-42b6-b314-927fd77e0b94@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 26/02/2024 18:31, Jernej Škrabec wrote:
-> Dne ponedeljek, 26. februar 2024 ob 13:29:34 CET je Krzysztof Kozlowski napisal(a):
->> dtschema defines label as string, so $ref in other bindings is
->> redundant.
+On 27/02/2024 07:48, Krzysztof Kozlowski wrote:
+> On 26/02/2024 18:31, Jernej Škrabec wrote:
+>> Dne ponedeljek, 26. februar 2024 ob 13:29:34 CET je Krzysztof Kozlowski napisal(a):
+>>> dtschema defines label as string, so $ref in other bindings is
+>>> redundant.
+>>>
+>>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 >>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+>>
+>> I already send PR for 6.9. Do you mind if it waits on next cycle?
 > 
-> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> 
-> I already send PR for 6.9. Do you mind if it waits on next cycle?
+> Yes.
 
-Yes.
+Damn English. I don't mind, but as Rob pointed this is patch for input.
 
 Best regards,
 Krzysztof
