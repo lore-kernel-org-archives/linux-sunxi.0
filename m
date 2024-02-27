@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2C8F137C20;
-	Tue, 27 Feb 2024 12:08:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0989113B285;
+	Tue, 27 Feb 2024 13:02:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709035697; cv=none; b=lPT+vCSgt9jgAIKDWsF/JiM3Ytuh5wLCeh1BmAuF2uuVBlXPTJqu53lNgDWxUOPw8+nXLXBSnDnYhWWx/Wta8xxm+BOsDQe4KR1/VITF+ZrpvKWJxVL+AugbdE3MZ61w1w6X7uTcN64/Oxn2bSs9fF6ijMp2rpYKm+yaaq2AxQQ=
+	t=1709038976; cv=none; b=sJhe9cN2i7ORzDd9mOYO4GJuF1s3IOSBA5w0r9X6FnxtX8JpYQrOXu3ka9ZMBRslsNTcIsDwpTlFsrGJ9iEea1/nSd+aZ9CAkuuPZ3gdAWzaFONlxUNAwPEm5JaGx4GnJ5JESW7dJaco4mCWmttoU4NoPb1sBn+fFyLwJhJzlsc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709035697; c=relaxed/simple;
-	bh=ACaz7oj5ReqFoIR72ebNJXl994t4BOU7shgO5K8CUjs=;
+	s=arc-20240116; t=1709038976; c=relaxed/simple;
+	bh=K8zljY/jOjHfxijTuYAHOGluUedQxnvvUsTqJTxkXzg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qIu6A+sgTD3lzGRrHUzM0ISvDwwTjbYh8FOPWO/DE8Gzj/srQGKcOrMeonvxYdty8sfpFq63jtpEyn8MxTqSHVHCKBOpdP/2CacP99dupwOi1Vq10PVcA2I86GLsEWhQuoSGG4xPcQmhztphDd55kiVPVD4vQA1y2gB8B5FSivE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rPcOhAiN; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=lheQu2czqLTSeP4NK3mxt33Edb02KQjVy/vzbIwpmyC2cAXBhCnrSl0FIm+7M1+sjkkEwlaM63ZbXKCV2Jimg0wpyMUp6Fd3RdxGX+4rgSXmfY8r82rnPJZbRJepHBQ9PV5w9WFMgOKSQqs1ULqTgiwnSrJragLaGUDaH71vYSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HpmbbDRj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rPcOhAiN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF9B4C43390;
-	Tue, 27 Feb 2024 12:08:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HpmbbDRj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EFF9C433C7;
+	Tue, 27 Feb 2024 13:02:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709035697;
-	bh=ACaz7oj5ReqFoIR72ebNJXl994t4BOU7shgO5K8CUjs=;
+	s=k20201202; t=1709038975;
+	bh=K8zljY/jOjHfxijTuYAHOGluUedQxnvvUsTqJTxkXzg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rPcOhAiN2PtkNLYRBMqmRiMbDR6p59SbOgdUHY6MdY/GfepvdtHrN4RR9v1sZYqf6
-	 jGI2QQj99JWnXpmDj76LwUn5WOEnN2l8plI/Woy9JymhacQ8VopW5b3x8MDmW6BR3I
-	 1mhXEPNwYTypLA8EvT5QrKq5WyQSqfjz/WuF4zmZbFCzvBEEroimeIedS523uwhWc0
-	 uq2irP6Mmsab/1y0zyVOZI3iqcQ1Tt+elVYtsRMaL5qiHIHNgePfxDPrjcFVWcmbyP
-	 nzPJdHwMz3keyVrdNrECnvtckEFIcLNcawWXousAOSunIXQ/sdzf7RMhsqiuz0ENoH
-	 NKhxbGiV9gDEw==
-Date: Tue, 27 Feb 2024 13:08:14 +0100
+	b=HpmbbDRj7DsgN7C+l0Nsac1JlsRLWmqQFqIGFCkbGxKteJFERSFF+sy5GSXwIUKOl
+	 1kkVc2T/o/MNqrMmzbg17m2eYF6giueFjm/iXh9pf2CTrYHd47O+0DLs4CEziLmag8
+	 lqW9T5vGj5jb4I/IQrlatzFgMDOEdJ/eRHcrhERUkTuHuE8WE+FOtIFVQzNJgQI/lj
+	 OFaxV54oZfzgTYDOWj2C6vzyr4cJuzXRtb/dJdW0m/t2DP1h4rYOn8Igyw+lT1MbkT
+	 /xuvt7TFgTDGlZKwg3dCxaPdPdNMiNJuceUy7f/c67/fGV4PZe0iHlh4EjMBSjdirU
+	 qpD4wU3U97/2A==
+Date: Tue, 27 Feb 2024 14:02:52 +0100
 From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
 	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
 	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
@@ -39,11 +39,11 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
 	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v7 25/36] drm/connector: hdmi: Add Infoframes generation
-Message-ID: <lxvyfigepzg4jhqub6lg6lmffen4puf477zjxmi766f3hu6trn@nnvg6htufsjn>
+Subject: Re: [PATCH v7 29/36] drm/vc4: tests: Remove vc4_dummy_plane structure
+Message-ID: <y7mxj2i56h7bcnonywjdf2eirdqil66k32drw3wb3z7juqr3ph@4u24mlrvxslc>
 References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
- <20240222-kms-hdmi-connector-state-v7-25-8f4af575fce2@kernel.org>
- <CAA8EJpri_whY8YfX2BsBjMN_4JvFsU-ogfr1W-KUKrasRoH-WQ@mail.gmail.com>
+ <20240222-kms-hdmi-connector-state-v7-29-8f4af575fce2@kernel.org>
+ <244fe6b9-f295-4c85-908a-014ada0033fa@igalia.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -51,69 +51,54 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ocit6yam46alzc5t"
+	protocol="application/pgp-signature"; boundary="cwsjmzyidxiy2r5i"
 Content-Disposition: inline
-In-Reply-To: <CAA8EJpri_whY8YfX2BsBjMN_4JvFsU-ogfr1W-KUKrasRoH-WQ@mail.gmail.com>
+In-Reply-To: <244fe6b9-f295-4c85-908a-014ada0033fa@igalia.com>
 
 
---ocit6yam46alzc5t
-Content-Type: text/plain; charset=us-ascii
+--cwsjmzyidxiy2r5i
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Feb 25, 2024 at 05:02:51PM +0200, Dmitry Baryshkov wrote:
-> > @@ -476,6 +478,7 @@ EXPORT_SYMBOL(drmm_connector_init);
-> >   */
-> >  int drmm_connector_hdmi_init(struct drm_device *dev,
-> >                              struct drm_connector *connector,
-> > +                            const char *vendor, const char *product,
-> >                              const struct drm_connector_funcs *funcs,
-> >                              const struct drm_connector_hdmi_funcs *hdm=
-i_funcs,
-> >                              int connector_type,
-> > @@ -485,6 +488,13 @@ int drmm_connector_hdmi_init(struct drm_device *de=
-v,
-> >  {
-> >         int ret;
-> >
-> > +       if (!vendor || !product)
-> > +               return -EINVAL;
-> > +
-> > +       if ((strlen(vendor) > DRM_CONNECTOR_HDMI_VENDOR_LEN) ||
-> > +           (strlen(product) > DRM_CONNECTOR_HDMI_PRODUCT_LEN))
-> > +               return -EINVAL;
-> > +
-> >         if (!(connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIA ||
-> >               connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIB))
-> >                 return -EINVAL;
-> > @@ -500,6 +510,12 @@ int drmm_connector_hdmi_init(struct drm_device *de=
-v,
-> >                 return ret;
-> >
-> >         connector->hdmi.supported_formats =3D supported_formats;
-> > +       strtomem_pad(connector->hdmi.vendor, vendor, 0);
-> > +       strtomem_pad(connector->hdmi.product, product, 0);
-> > +
-> > +       ret =3D drmm_mutex_init(dev, &connector->hdmi.infoframes.lock);
+Hi Ma=EDra,
+
+Thanks for you reviews!
+
+On Mon, Feb 26, 2024 at 09:29:32AM -0300, Ma=EDra Canal wrote:
+> On 2/22/24 15:14, Maxime Ripard wrote:
+> > The vc4_dummy_plane structure is an exact equivalent to vc4_plane, so we
 >=20
-> I'd suggest moving this call to the generic __drm_connector_init().
-> This way no matter how the rest of the drm code (mis)uses the
-> connector, the lock is always present and valid.
+> Maybe I understood incorrectly, but isn't the vc4_dummy_plane structure
+> equivalent to drm_plane?
 
-Yeah, that makes sense, I'll change it.
+Both statements are true :)
 
-Thanks!
+vc4 itself uses vc4_plane to holds its plane-related content, but it
+turns out that there's nothing in that structure anymore and vc4_plane
+=3D=3D drm_plane.
+
+In our mock driver, we have another structure meant to store the
+mock-plane-related content which doesn't have anything in it anymore,
+and is thus equivalent to vc4_plane.
+
+So, basically, vc4_dummy_plane =3D=3D vc4_plane =3D=3D drm_plane.
+
+This patch is only about getting rid of vc4_dummy_plane though.
+
+Is it clearer?
+
 Maxime
 
---ocit6yam46alzc5t
+--cwsjmzyidxiy2r5i
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZd3QrgAKCRDj7w1vZxhR
-xUw4AQDY/7kZ7wFpO+/Ak/W0YWywU3LNZ5pkN4Om9GBNtAUK6wD/YV9OiFjDhmlL
-sW/aBGeDNa/yzjkkc0NKa5D6dGQe5Qc=
-=FJc2
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZd3dfAAKCRDj7w1vZxhR
+xQB3AQCM6yIbUIAvcz/rSyKw6mmw6G4nrZh7GPft2T1APOLu4wEAylXMYpdYV8KH
+P8oZ7t3+gt3/8m9lr6IwSflU4vD4bwI=
+=qSeA
 -----END PGP SIGNATURE-----
 
---ocit6yam46alzc5t--
+--cwsjmzyidxiy2r5i--
