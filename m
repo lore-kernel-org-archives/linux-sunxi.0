@@ -1,71 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CAD714EFDB;
-	Tue, 27 Feb 2024 22:16:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E24B61D556;
+	Tue, 27 Feb 2024 22:46:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709072173; cv=none; b=pYmr2p61rtQ5901T4n/GhlAdH03S5usoW2EpexVKd55LiO82JRfSWRJOGN8ih6PXznqCbCxvHN7fZFaXr8IT18Tux805bwUwlNWYLHHIftI5tKBQmLAX3oPP1YvnXxys4SMnhWNtA+nsBTp1rNqtSauxk0mjs4mjvB1N6yK2ozk=
+	t=1709073979; cv=none; b=D4vHwJzT/O5LKkVL/K2vfih3OQUYZjpXzqsbzTddeMlcuaUEZPZJd4xP7epZHfiWzUsQ2CZvdv/PJbYpJg68cExYaVFBzvE3obk6TJbKouq3dPppm9w5k6dn4utYQPV81+Xv2DWJKyNsnyodeTOtetiO+SQTqk7L9EfUNvBx6DQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709072173; c=relaxed/simple;
-	bh=uyYLVulc78GDNb1a68pf6zhpTwp2AsJBaMEVtZDyGDY=;
-	h=Message-ID:Content-Type:MIME-Version:In-Reply-To:References:
-	 Subject:From:Cc:To:Date; b=Ylw0raLbpQAYeqdiISdNconCtGJS9sngg1RQyWXAFuqfEievMghIOHQMpLymKd/T2bLHTuLHVbbxMwmlHaiOcrQaZcAp7YB4SAzHkR+bRcDTMwk8Rs25VeM5xjT3s2S3v/flHBijPDa2I3MTXFGEE7KFn1HKKM2pb5ixDoPX1y8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jln/qEpc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1709073979; c=relaxed/simple;
+	bh=jMOvdp+7Kb57vAU/pajmYjMpp+leXZBO/O/x1MAJUTU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gFEvu8hQtDxMHNSCokRHHtTTsNgEEGtzeBF64slGIYffYjIzpRw/Bp2TMeaOwFdeJxeFY9zvqAiMipIJQxEpRQn93xAV4m7R645SRH+VdnVn8fTUEoiYlvoJ3S4SVSwTMaAjEwgDGeN8F1nqSWoqJn8lpwft82CggMCOF6RSGVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=r3ZhuY/6; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jln/qEpc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D412AC433F1;
-	Tue, 27 Feb 2024 22:16:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709072173;
-	bh=uyYLVulc78GDNb1a68pf6zhpTwp2AsJBaMEVtZDyGDY=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=jln/qEpcGSjgfOU/P+1yc3MZ5avDx4GWqhzTSvTaKjK/CYMvlaa04LAok1XBoNg37
-	 +CoozH2H703gMrmBh/9HBMdLPweskWTQsYf1tLNcQdGzoaT6WU7xK8Ymv5HGKyDsEL
-	 0Z/V8qOFWcPKapuOLHNdBn/nmPQ9XHobHPiOhJdw7ZfMaFaSgRbdIuUJptaQ/Qg6AE
-	 1gGZXg4jv8ODaP1UwYnlQe03Goans7K8SdH9S34AMjATsGOA/3NZLTLYwBsZaZf95Z
-	 m/WPLxxMWL7nWeh+k6Jg7YnCsAqlkMuwlVWMNj3wGB7Lri3JeM32yMXxscIMYHLSin
-	 vVVcYLjSJmKlg==
-Message-ID: <a6340294903b32bf48416b4b6396d9c1.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="r3ZhuY/6"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=GELtHCqztILJCJyymU5pQS8T2fsqGAS/e9ITGcryoD0=; b=r3ZhuY/60lM3m4cl4kp3YR5KnM
+	9SZzwe5SgNk/Q+6Dk7Co7U+crfx6xjdJtiGcrL/TX7PT5dsXKclYLe510taXv65W948NJ5aY1huiK
+	WGiWYgy2E58C/SXgKZhVkRl0WOKDE/d+amjDiu7KxYCvQkSgzTPhTtaZjgv5kPSZKrLIuEkCx81+A
+	uUbVKxB6G53JrleM1wHNuSABctLyDW2j0sVdTSv3bM54vtfth/9HhYHapbt63t9/UXZHXpUFFyFMi
+	cnpirBCn74tDUSmH/9eXXlUAMb94x0a5DKwBlRCx+TpXEQVDF/spXq+ZYARRCs4GFtwx8QK4b+fcS
+	8n5dD4ow==;
+Received: from [200.173.162.98] (helo=[192.168.52.5])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1rf6CE-0044Ea-FM; Tue, 27 Feb 2024 23:45:10 +0100
+Message-ID: <2693770c-0d27-4186-87e1-e55a0a5f17a5@igalia.com>
+Date: Tue, 27 Feb 2024 19:45:01 -0300
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20240223205605.GA8950@jernej-laptop>
-References: <20240223205605.GA8950@jernej-laptop>
-Subject: Re: [GIT PULL] Allwinner clock changes for 6.9
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: wens@csie.org, samuel@sholland.org, linux-clk@vger.kernel.org, linux-sunxi@lists.linux.dev
-To: Jernej Skrabec <jernej@kernel.org>, mturquette@baylibre.com
-Date: Tue, 27 Feb 2024 14:16:10 -0800
-User-Agent: alot/0.10
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 29/36] drm/vc4: tests: Remove vc4_dummy_plane structure
+Content-Language: en-US
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
+ <20240222-kms-hdmi-connector-state-v7-29-8f4af575fce2@kernel.org>
+ <244fe6b9-f295-4c85-908a-014ada0033fa@igalia.com>
+ <y7mxj2i56h7bcnonywjdf2eirdqil66k32drw3wb3z7juqr3ph@4u24mlrvxslc>
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+Autocrypt: addr=mcanal@igalia.com; keydata=
+ xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
+ H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
+ hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
+ GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
+ rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
+ s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
+ GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
+ pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
+In-Reply-To: <y7mxj2i56h7bcnonywjdf2eirdqil66k32drw3wb3z7juqr3ph@4u24mlrvxslc>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Quoting Jernej Skrabec (2024-02-23 12:56:05)
-> Hi!
->=20
-> Please pull following clock changes for 6.9.
->=20
-> Best regards,
-> Jernej
->=20
-> The following changes since commit 6613476e225e090cc9aad49be7fa504e290dd3=
-3d:
->=20
->   Linux 6.8-rc1 (2024-01-21 14:11:32 -0800)
->=20
-> are available in the Git repository at:
->=20
->   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/su=
-nxi-clk-for-6.9-1
->=20
-> for you to fetch changes up to aed6d713187b8c47af40c0b39462e21e2737e307:
->=20
->   clk: sunxi: usb: fix kernel-doc warnings (2024-01-23 21:47:54 +0100)
->=20
-> ----------------------------------------------------------------
+Hi Maxime,
 
-Thanks. Pulled into clk-next
+On 2/27/24 10:02, Maxime Ripard wrote:
+> Hi Maíra,
+> 
+> Thanks for you reviews!
+> 
+> On Mon, Feb 26, 2024 at 09:29:32AM -0300, Maíra Canal wrote:
+>> On 2/22/24 15:14, Maxime Ripard wrote:
+>>> The vc4_dummy_plane structure is an exact equivalent to vc4_plane, so we
+>>
+>> Maybe I understood incorrectly, but isn't the vc4_dummy_plane structure
+>> equivalent to drm_plane?
+> 
+> Both statements are true :)
+> 
+> vc4 itself uses vc4_plane to holds its plane-related content, but it
+> turns out that there's nothing in that structure anymore and vc4_plane
+> == drm_plane.
+> 
+> In our mock driver, we have another structure meant to store the
+> mock-plane-related content which doesn't have anything in it anymore,
+> and is thus equivalent to vc4_plane.
+> 
+> So, basically, vc4_dummy_plane == vc4_plane == drm_plane.
+> 
+> This patch is only about getting rid of vc4_dummy_plane though.
+> 
+> Is it clearer?
+> 
+
+Yeah, with that pointed out, you can add my:
+
+Reviewed-by: Maíra Canal <mcanal@igalia.com>
+
+Best Regards,
+- Maíra
+
+> Maxime
