@@ -1,39 +1,37 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E24B61D556;
-	Tue, 27 Feb 2024 22:46:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF41320DC8;
+	Wed, 28 Feb 2024 06:20:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709073979; cv=none; b=D4vHwJzT/O5LKkVL/K2vfih3OQUYZjpXzqsbzTddeMlcuaUEZPZJd4xP7epZHfiWzUsQ2CZvdv/PJbYpJg68cExYaVFBzvE3obk6TJbKouq3dPppm9w5k6dn4utYQPV81+Xv2DWJKyNsnyodeTOtetiO+SQTqk7L9EfUNvBx6DQ=
+	t=1709101222; cv=none; b=EyJ8ezycKddmLd0I13ZbLi9P//IyouAiDpxdDbhmhpFZqkJFoAbpYKA3KxUq6VxaBjVYBQMa+OaBoKTylHdbbSFcaclAfVc1ODzbLZreMIAFzZ9na9ii0q40miFEVR92yJhW7wK9KBY4tZ234LaCgZKGBh0P42rJGMnbZJ7um9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709073979; c=relaxed/simple;
-	bh=jMOvdp+7Kb57vAU/pajmYjMpp+leXZBO/O/x1MAJUTU=;
+	s=arc-20240116; t=1709101222; c=relaxed/simple;
+	bh=KM3IFL7VBvfv0H/qsM6GNcfHmm/qg0ho1w04RZ/MwvM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gFEvu8hQtDxMHNSCokRHHtTTsNgEEGtzeBF64slGIYffYjIzpRw/Bp2TMeaOwFdeJxeFY9zvqAiMipIJQxEpRQn93xAV4m7R645SRH+VdnVn8fTUEoiYlvoJ3S4SVSwTMaAjEwgDGeN8F1nqSWoqJn8lpwft82CggMCOF6RSGVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=r3ZhuY/6; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	 In-Reply-To:Content-Type; b=oWU9aI6zVkNujIHgRdrEBrZsAIyCd86s2mvjbMIr8b+5dwn6Emoh70IDa4OaejD4dlnMjyVq16qHBvxBSFAfK8s2wzCjHxMoMkwzPQCsz351tUszmNHscnJfWhnPgFzeaOMXm6bXsnl0KCqjupJF2Ix4kBSgkjJWn1bSbW/xXew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=a7ASRwun; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="r3ZhuY/6"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=GELtHCqztILJCJyymU5pQS8T2fsqGAS/e9ITGcryoD0=; b=r3ZhuY/60lM3m4cl4kp3YR5KnM
-	9SZzwe5SgNk/Q+6Dk7Co7U+crfx6xjdJtiGcrL/TX7PT5dsXKclYLe510taXv65W948NJ5aY1huiK
-	WGiWYgy2E58C/SXgKZhVkRl0WOKDE/d+amjDiu7KxYCvQkSgzTPhTtaZjgv5kPSZKrLIuEkCx81+A
-	uUbVKxB6G53JrleM1wHNuSABctLyDW2j0sVdTSv3bM54vtfth/9HhYHapbt63t9/UXZHXpUFFyFMi
-	cnpirBCn74tDUSmH/9eXXlUAMb94x0a5DKwBlRCx+TpXEQVDF/spXq+ZYARRCs4GFtwx8QK4b+fcS
-	8n5dD4ow==;
-Received: from [200.173.162.98] (helo=[192.168.52.5])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1rf6CE-0044Ea-FM; Tue, 27 Feb 2024 23:45:10 +0100
-Message-ID: <2693770c-0d27-4186-87e1-e55a0a5f17a5@igalia.com>
-Date: Tue, 27 Feb 2024 19:45:01 -0300
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="a7ASRwun"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:Reply-To:MIME-Version:Date:
+	Message-ID:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:
+	Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
+	In-Reply-To:References; bh=Tis/Y5P1c6986WEgqGUJ7LAnUXHIukbiwL2Ll2OtVE0=;
+	t=1709101219; x=1709533219; b=a7ASRwuniBuydrELW5EpoamZweLc4G/Bq45P+Mwhoz5Owgu
+	928gKnc/f4z5XX2jvr6840/CVJEU64ZH1J7FRf7gZ37lGJfSA6JdGjxJKXQyTOp6uUNShX7OcZm45
+	ac+s5osril0pRk1jnkCrkQW9AT8fwN0DECm0QuZT/S+Fh7BlU94qpoHyH0x3nsWwXp9Vblcc+xOBW
+	LeXjVT1E/QJFOVS/HBpMF27MDjdMk2Z8B2NkgCMl4mOItG7E4wlNbhxxaEdnKEX7bWlBJVAzSgq/9
+	L2hr5C+Ava/VlZWygSUiOxaJVKrR7D57OKYgvH803yuKrAw4kyZj/ngR4LPFbj2Q==;
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1rfDIN-0008F8-3u; Wed, 28 Feb 2024 07:19:59 +0100
+Message-ID: <a3749d3f-ced1-4c48-adaf-348c8dee7610@leemhuis.info>
+Date: Wed, 28 Feb 2024 07:19:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -41,76 +39,132 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 29/36] drm/vc4: tests: Remove vc4_dummy_plane structure
-Content-Language: en-US
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
- Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+Subject: Re: [PATCH net v3] net: stmmac: protect updates of 64-bit statistics
+ counters
+Content-Language: en-US, de-DE
+To: Eric Dumazet <edumazet@google.com>, "David S. Miller"
+ <davem@davemloft.net>, Paolo Abeni <pabeni@redhat.com>,
+ Jakub Kicinski <kuba@kernel.org>
+Cc: Jisheng Zhang <jszhang@kernel.org>, Petr Tesarik <petr@tesarici.cz>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Jose Abreu <joabreu@synopsys.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>,
- Sebastian Wick <sebastian.wick@redhat.com>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
- <20240222-kms-hdmi-connector-state-v7-29-8f4af575fce2@kernel.org>
- <244fe6b9-f295-4c85-908a-014ada0033fa@igalia.com>
- <y7mxj2i56h7bcnonywjdf2eirdqil66k32drw3wb3z7juqr3ph@4u24mlrvxslc>
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Autocrypt: addr=mcanal@igalia.com; keydata=
- xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
- H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
- hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
- GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
- rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
- s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
- GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
- pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
-In-Reply-To: <y7mxj2i56h7bcnonywjdf2eirdqil66k32drw3wb3z7juqr3ph@4u24mlrvxslc>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ Samuel Holland <samuel@sholland.org>,
+ "open list:STMMAC ETHERNET DRIVER" <netdev@vger.kernel.org>,
+ "moderated list:ARM/STM32 ARCHITECTURE"
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ "moderated list:ARM/STM32 ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
+ Marc Haber <mh+netdev@zugschlus.de>, Andrew Lunn <andrew@lunn.ch>,
+ Florian Fainelli <f.fainelli@gmail.com>, stable@vger.kernel.org,
+ Linux kernel regressions list <regressions@lists.linux.dev>,
+ alexis.lothore@bootlin.com, Guenter Roeck <linux@roeck-us.net>
+References: <20240203190927.19669-1-petr@tesarici.cz>
+ <ea1567d9-ce66-45e6-8168-ac40a47d1821@roeck-us.net>
+ <Zct5qJcZw0YKx54r@xhacker>
+ <CANn89i+4tVWezqr=BYZ5AF=9EgV2EPqhdHun=u=ga32CEJ4BXQ@mail.gmail.com>
+ <20d94512-c4f2-49f7-ac97-846dc24a6730@roeck-us.net>
+ <CANn89iL1piwsbsBx4Z=kySUfmPa9LbZn-SNthgA+W6NEnojgSQ@mail.gmail.com>
+From: "Linux regression tracking (Thorsten Leemhuis)"
+ <regressions@leemhuis.info>
+In-Reply-To: <CANn89iL1piwsbsBx4Z=kySUfmPa9LbZn-SNthgA+W6NEnojgSQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1709101219;0a885a42;
+X-HE-SMSGID: 1rfDIN-0008F8-3u
 
-Hi Maxime,
+Net maintainers, chiming in here, as it seems handling this regression
+stalled.
 
-On 2/27/24 10:02, Maxime Ripard wrote:
-> Hi Maíra,
-> 
-> Thanks for you reviews!
-> 
-> On Mon, Feb 26, 2024 at 09:29:32AM -0300, Maíra Canal wrote:
->> On 2/22/24 15:14, Maxime Ripard wrote:
->>> The vc4_dummy_plane structure is an exact equivalent to vc4_plane, so we
+On 13.02.24 16:52, Eric Dumazet wrote:
+> On Tue, Feb 13, 2024 at 4:26 PM Guenter Roeck <linux@roeck-us.net> wrote:
+>> On Tue, Feb 13, 2024 at 03:51:35PM +0100, Eric Dumazet wrote:
+>>> On Tue, Feb 13, 2024 at 3:29 PM Jisheng Zhang <jszhang@kernel.org> wrote:
+>>>> On Sun, Feb 11, 2024 at 08:30:21PM -0800, Guenter Roeck wrote:
+>>>>> On Sat, Feb 03, 2024 at 08:09:27PM +0100, Petr Tesarik wrote:
+>>>>>> As explained by a comment in <linux/u64_stats_sync.h>, write side of struct
+>>>>>> u64_stats_sync must ensure mutual exclusion, or one seqcount update could
+>>>>>> be lost on 32-bit platforms, thus blocking readers forever. Such lockups
+>>>>>> have been observed in real world after stmmac_xmit() on one CPU raced with
+>>>>>> stmmac_napi_poll_tx() on another CPU.
+>>>>>>
+>>>>>> To fix the issue without introducing a new lock, split the statics into
+>>>>>> three parts:
+>>>>>>
+>>>>>> 1. fields updated only under the tx queue lock,
+>>>>>> 2. fields updated only during NAPI poll,
+>>>>>> 3. fields updated only from interrupt context,
+>>>>>>
+>>>>>> Updates to fields in the first two groups are already serialized through
+>>>>>> other locks. It is sufficient to split the existing struct u64_stats_sync
+>>>>>> so that each group has its own.
+>>>>>>
+>>>>>> Note that tx_set_ic_bit is updated from both contexts. Split this counter
+>>>>>> so that each context gets its own, and calculate their sum to get the total
+>>>>>> value in stmmac_get_ethtool_stats().
+>>>>>>
+>>>>>> For the third group, multiple interrupts may be processed by different CPUs
+>>>>>> at the same time, but interrupts on the same CPU will not nest. Move fields
+>>>>>> from this group to a newly created per-cpu struct stmmac_pcpu_stats.
+>>>>>>
+>>>>>> Fixes: 133466c3bbe1 ("net: stmmac: use per-queue 64 bit statistics where necessary")
+>>>>>> Link: https://lore.kernel.org/netdev/Za173PhviYg-1qIn@torres.zugschlus.de/t/
+>>>>>> Cc: stable@vger.kernel.org
+>>>>>> Signed-off-by: Petr Tesarik <petr@tesarici.cz>
+>>>>>
+>>>>> This patch results in a lockdep splat. Backtrace and bisect results attached.
+>>>>>
+>>>>> ---
+>>>>> [   33.736728] ================================
+>>>>> [   33.736805] WARNING: inconsistent lock state
+>>>>> [   33.736953] 6.8.0-rc4 #1 Tainted: G                 N
+>>>>> [   33.737080] --------------------------------
+>>>>> [   33.737155] inconsistent {HARDIRQ-ON-W} -> {IN-HARDIRQ-W} usage.
+>>>>> [   33.737309] kworker/0:2/39 [HC1[1]:SC0[2]:HE0:SE0] takes:
+>>>>> [   33.737459] ef792074 (&syncp->seq#2){?...}-{0:0}, at: sun8i_dwmac_dma_interrupt+0x9c/0x28c
+>>>>> [   33.738206] {HARDIRQ-ON-W} state was registered at:
+>>>>> [   33.738318]   lock_acquire+0x11c/0x368
+>>>>> [   33.738431]   __u64_stats_update_begin+0x104/0x1ac
+>>>>> [   33.738525]   stmmac_xmit+0x4d0/0xc58
+>>>>
+>>>> interesting lockdep splat...
+>>>> stmmac_xmit() operates on txq_stats->q_syncp, while the
+>>>> sun8i_dwmac_dma_interrupt() operates on pcpu's priv->xstats.pcpu_stats
+>>>> they are different syncp. so how does lockdep splat happen.
+>>>
+>>> Right, I do not see anything obvious yet.
 >>
->> Maybe I understood incorrectly, but isn't the vc4_dummy_plane structure
->> equivalent to drm_plane?
+>> Wild guess: I think it maybe saying that due to
+>>
+>>         inconsistent {HARDIRQ-ON-W} -> {IN-HARDIRQ-W} usage.
+>>
+>> the critical code may somehow be interrupted and, while handling the
+>> interrupt, try to acquire the same lock again.
 > 
-> Both statements are true :)
+> This should not happen, the 'syncp' are different. They have different
+> lockdep classes.
 > 
-> vc4 itself uses vc4_plane to holds its plane-related content, but it
-> turns out that there's nothing in that structure anymore and vc4_plane
-> == drm_plane.
+> One is exclusively used from hard irq context.
 > 
-> In our mock driver, we have another structure meant to store the
-> mock-plane-related content which doesn't have anything in it anymore,
-> and is thus equivalent to vc4_plane.
-> 
-> So, basically, vc4_dummy_plane == vc4_plane == drm_plane.
-> 
-> This patch is only about getting rid of vc4_dummy_plane though.
-> 
-> Is it clearer?
-> 
+> The second one only used from BH context.
 
-Yeah, with that pointed out, you can add my:
+Alexis Lothoré hit this now as well, see yesterday report in this
+thread; apart from that nothing seem to have happened for two weeks now.
+The change recently made it to some stable/longterm kernels, too. Makes
+me wonder:
 
-Reviewed-by: Maíra Canal <mcanal@igalia.com>
+What's the plan forward here? Is this considered to be a false positive?
+Or a real problem? Or a kind of situation along the lines of "that
+commit should not cause the problem we are seeing, so it might have
+exposed a older bug in the code, but nobody looked closer yet to check"?
+Or something else?
 
-Best Regards,
-- Maíra
-
-> Maxime
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+If I did something stupid, please tell me, as explained on that page.
