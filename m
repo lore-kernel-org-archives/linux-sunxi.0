@@ -1,195 +1,128 @@
-Received: from bee.tesarici.cz (bee.tesarici.cz [77.93.223.253])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B20556B83;
-	Wed, 28 Feb 2024 11:03:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.93.223.253
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 342BB14C59D
+	for <linux-sunxi@lists.linux.dev>; Wed, 28 Feb 2024 13:37:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709118201; cv=none; b=IEI4wlM3McxFhuM+L/E4EJj4NEFLPPS2xqbqHGVqt5TFHGL/n0ItJZecjnItj3htS5fv4HWwJiZqz62ELkpmvYeG38EKfhPgTDOMM8ieMFg4WFHqgcUcPfek0H9M1kBSC3QWeT5eCCgmS7BQhtLfp8oUZBaVJwfhuDRF7TT73AM=
+	t=1709127477; cv=none; b=sSUF/BCOV4NhLmK0/EE6dskDCL6ciC3Khvd1n8Y2FZ+snpYZ4qw5VyDQJH26ccMKEXQ5oZxOFzXNC749cMjoenw1wJ+o8OLdXKsFl5OewCBB8uPYb9rm1KcFPCDp6bSoZPUcr4kKBn5emv576H8oQJQY1DRD0VXyYtmbCNvPGuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709118201; c=relaxed/simple;
-	bh=u4IVyFOR7RzjTRTot0y2acP+tk2Gagt6IY28YbB1ciA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mqJVxG+zgC4LGito5TNB5lQq3za04m+VoW4qikPQX7cyQpLJ4QFfQTspUqk5vHp+r/ouD/xpZaS3LbkjlaRJHUyFIXTB0kkgHmeLvSQUNbV+JEFc9wqWUH21FLgc1isP2JKB1xCl7NLj9VA0NexqnohV8ZsBpGhHnR68lSaJDXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz; spf=pass smtp.mailfrom=tesarici.cz; dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b=OLNEWjdH; arc=none smtp.client-ip=77.93.223.253
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tesarici.cz
+	s=arc-20240116; t=1709127477; c=relaxed/simple;
+	bh=ZrIig3MM4Z+bo/sqJIChCKj/Pje7QWTe1w+LQ7AYd7o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t3C5wje0ZBAMHkEDJvs/QqxLp7xj68H4AxADUJ30bVqnq/zL3/dwYb+lQ4TbFyRpFNJfLWwzOw7KwwSdLSUoX1A7HWEHru0gsSY9JOpKCY0hXAYR4ZMw0wqPWlPswHAHJOgW+0TMSo4ap3UvhrqzFGetE3VXcmMG5EFQROzjmw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A1K+4uyW; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b="OLNEWjdH"
-Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by bee.tesarici.cz (Postfix) with ESMTPSA id A416A1BCF11;
-	Wed, 28 Feb 2024 12:03:09 +0100 (CET)
-Authentication-Results: mail.tesarici.cz; dmarc=fail (p=quarantine dis=none) header.from=tesarici.cz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tesarici.cz; s=mail;
-	t=1709118190; bh=5w3iwvVBIESxi22ZZJiQmoVQjo/FSOSxxrB8vPximt8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=OLNEWjdHYJMeowGWV/51UimBdm/m2akUf1btKvRF2NaEFPKURBgX8ac1VYfTbZ9RU
-	 +xj9obZijQlIyybTq7FsrzEjvxwadZc/h9dXCM9Gc2+aI8qBE9GyPyP7EmAoBRXw0u
-	 SCYb28c7TN4IhPXxI2+5QjuoBKCT0CSGNl/YwQoT9d3XXQiVE+FEcogySyA0bL4QfD
-	 2GFWPfZrTUopxHLSXfM12An5+cJSgL2QdaxrDHsXPYVmmFudzUbALqpT7IZRoM0n/s
-	 nzTcV/0RX9m/2I4OEgJr28dLSPAp17apEB125LsiasVpG1L8uOM7fzQRqknRYIJZtz
-	 PF/umqxoAYmVQ==
-Date: Wed, 28 Feb 2024 12:03:08 +0100
-From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-To: "Linux regression tracking (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-Cc: Linux regressions mailing list <regressions@lists.linux.dev>, Eric
- Dumazet <edumazet@google.com>, "David S. Miller" <davem@davemloft.net>,
- Paolo Abeni <pabeni@redhat.com>, Jakub Kicinski <kuba@kernel.org>, Jisheng
- Zhang <jszhang@kernel.org>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Jose Abreu <joabreu@synopsys.com>, Maxime
- Coquelin <mcoquelin.stm32@gmail.com>, Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- "open list:STMMAC ETHERNET DRIVER" <netdev@vger.kernel.org>, "moderated
- list:ARM/STM32 ARCHITECTURE" <linux-stm32@st-md-mailman.stormreply.com>,
- "moderated list:ARM/STM32 ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>, open list
- <linux-kernel@vger.kernel.org>, "open list:ARM/Allwinner sunXi SoC support"
- <linux-sunxi@lists.linux.dev>, Marc Haber <mh+netdev@zugschlus.de>, Andrew
- Lunn <andrew@lunn.ch>, Florian Fainelli <f.fainelli@gmail.com>,
- stable@vger.kernel.org, alexis.lothore@bootlin.com, Guenter Roeck
- <linux@roeck-us.net>
-Subject: Re: [PATCH net v3] net: stmmac: protect updates of 64-bit
- statistics counters
-Message-ID: <20240228120308.48d6a9c2@meshulam.tesarici.cz>
-In-Reply-To: <a3749d3f-ced1-4c48-adaf-348c8dee7610@leemhuis.info>
-References: <20240203190927.19669-1-petr@tesarici.cz>
-	<ea1567d9-ce66-45e6-8168-ac40a47d1821@roeck-us.net>
-	<Zct5qJcZw0YKx54r@xhacker>
-	<CANn89i+4tVWezqr=BYZ5AF=9EgV2EPqhdHun=u=ga32CEJ4BXQ@mail.gmail.com>
-	<20d94512-c4f2-49f7-ac97-846dc24a6730@roeck-us.net>
-	<CANn89iL1piwsbsBx4Z=kySUfmPa9LbZn-SNthgA+W6NEnojgSQ@mail.gmail.com>
-	<a3749d3f-ced1-4c48-adaf-348c8dee7610@leemhuis.info>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.39; x86_64-suse-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A1K+4uyW"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-512fb30dbc9so3585693e87.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 28 Feb 2024 05:37:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709127474; x=1709732274; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SxWgL4sElI1B0/tx2GgHOxLa5Q0889pBGSF5c/6AjSo=;
+        b=A1K+4uyW7sd8EkU9eyI0ARarNGSa5NG/gKT9d5UpCLuysoBPbi+JKygaJwRyzEkNsW
+         UNW/DzjuyAZp3TG4tfKGDD0g1K9CUrmb8jjquuCCVMwywzjHTMnlvoIwrikj6Iqdp5IS
+         he/HxOnnORsXYv+gvwtPVF3+JFJZlsEtnrTRiWmznAjPDR+4t8TqFZx5f35xSKuZVzfO
+         TvOlxQfbzarIbW+v9YE0pVFrAagi1+v4n9dXPqSfTmhnocHuEzr6EdT2LgtQ4YBBOKeS
+         s4U+9beDEGnOf0tq1dX+3hwhh0QLdLtXRuElkabe8UqUkPaQSFoHdsX9DUwiKr+uD45Y
+         yrig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709127474; x=1709732274;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SxWgL4sElI1B0/tx2GgHOxLa5Q0889pBGSF5c/6AjSo=;
+        b=KM5BZMTR6BakomzLlVDTzh5jhhvfFIcXg4/6Jstnv8q1GUSk4CAhSA4lUqJUWRAdMd
+         OO+IO13Xp7zMNij5frxIuB5N8T1MNjC9EVWI42WJxIMwcmXF5jITQv1yITs8X0GAayhc
+         nTZU7slxHvrT6It95+MUn5LBGs2sTIj6ZB4SPGpJVBummDRObXgEgtEQWElDTT/51zJD
+         CmbnMQ0CkOJsia4XthDo044NGOLCIkJLoYdeHuLMVqQ8E1e11Br94u2JNP47+im+gCHJ
+         WML+8AlBnOOq1Pa6UJa95owb9Gw8n8voYFV6pYvBL3mqej23nZKweQa7P7k2mqD2Chx1
+         p+Ow==
+X-Forwarded-Encrypted: i=1; AJvYcCWiNvJlHsxHCm8gs0D/kgA7QfFO8VW2ZJtPbbZrKgp+VmLRJwwquSvOhrFgpZkRkyEiXP7BQ4ds6tth7Uxpm4bIQzvGTLLkTvhbFJ0=
+X-Gm-Message-State: AOJu0YzsqQ1SzFzs9Co5lLwYK1+RAhhdG6889gi7i15/wY+khIhClcEU
+	HG6xI8sDlGvTfG8OXKjtEbxi5PHFP13KR+TREkI8eZD0V+N374jl
+X-Google-Smtp-Source: AGHT+IEGAbjhr46EhXX778kptGTzCsJXZVuCDdfQgon6/ZXpJpBpqXYL2Ir2C0Xs3h1Pus1GVC1Ojw==
+X-Received: by 2002:a05:6512:21b1:b0:512:f733:9eb with SMTP id c17-20020a05651221b100b00512f73309ebmr5671413lft.11.1709127473910;
+        Wed, 28 Feb 2024 05:37:53 -0800 (PST)
+Received: from localhost ([94.19.228.143])
+        by smtp.gmail.com with ESMTPSA id o11-20020ac2494b000000b005131434454bsm433619lfi.228.2024.02.28.05.37.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Feb 2024 05:37:53 -0800 (PST)
+Date: Wed, 28 Feb 2024 16:35:39 +0300
+From: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+To: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: Corentin Labbe <clabbe.montjoie@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Ovidiu Panait <ovidiu.panait@windriver.com>,
+	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Arnaud Ferraris <arnaud.ferraris@collabora.com>
+Subject: Re: [PATCH] crypto: rk3288 - Fix use after free in unprepare
+Message-ID: <Zd82q8lw_qH7KLCs@skv.local>
+Mail-Followup-To: Andrey Skvortsov <andrej.skvortzov@gmail.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Corentin Labbe <clabbe.montjoie@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Ovidiu Panait <ovidiu.panait@windriver.com>,
+	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Arnaud Ferraris <arnaud.ferraris@collabora.com>
+References: <20240226215358.555234-1-andrej.skvortzov@gmail.com>
+ <Zd75LLhzlJx4nJiP@gondor.apana.org.au>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Zd75LLhzlJx4nJiP@gondor.apana.org.au>
 
-On Wed, 28 Feb 2024 07:19:56 +0100
-"Linux regression tracking (Thorsten Leemhuis)" <regressions@leemhuis.info>=
- wrote:
+On 24-02-28 17:13, Herbert Xu wrote:
+> The unprepare call must be carried out before the finalize call
+> as the latter can free the request.
+> 
+> Fixes: c66c17a0f69b ("crypto: rk3288 - Remove prepare/unprepare request")
+> Reported-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Herbert Xu <herbert@gondor.apana.org.au>
+> 
+> diff --git a/drivers/crypto/rockchip/rk3288_crypto_ahash.c b/drivers/crypto/rockchip/rk3288_crypto_ahash.c
+> index 1b13b4aa16ec..a235e6c300f1 100644
+> --- a/drivers/crypto/rockchip/rk3288_crypto_ahash.c
+> +++ b/drivers/crypto/rockchip/rk3288_crypto_ahash.c
+> @@ -332,12 +332,12 @@ static int rk_hash_run(struct crypto_engine *engine, void *breq)
+>  theend:
+>  	pm_runtime_put_autosuspend(rkc->dev);
+>  
+> +	rk_hash_unprepare(engine, breq);
+> +
+>  	local_bh_disable();
+>  	crypto_finalize_hash_request(engine, breq, err);
+>  	local_bh_enable();
+>  
+> -	rk_hash_unprepare(engine, breq);
+> -
+>  	return 0;
+>  }
+>  
+Thanks, that was quick. I had locally the same change.
 
-> Net maintainers, chiming in here, as it seems handling this regression
-> stalled.
+Reviewed-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
 
-Indeed, I was too busy with sandbox mode...
-
-> On 13.02.24 16:52, Eric Dumazet wrote:
-> > On Tue, Feb 13, 2024 at 4:26=E2=80=AFPM Guenter Roeck <linux@roeck-us.n=
-et> wrote: =20
-> >> On Tue, Feb 13, 2024 at 03:51:35PM +0100, Eric Dumazet wrote: =20
-> >>> On Tue, Feb 13, 2024 at 3:29=E2=80=AFPM Jisheng Zhang <jszhang@kernel=
-.org> wrote: =20
-> >>>> On Sun, Feb 11, 2024 at 08:30:21PM -0800, Guenter Roeck wrote: =20
-> >>>>> On Sat, Feb 03, 2024 at 08:09:27PM +0100, Petr Tesarik wrote: =20
-> >>>>>> As explained by a comment in <linux/u64_stats_sync.h>, write side =
-of struct
-> >>>>>> u64_stats_sync must ensure mutual exclusion, or one seqcount updat=
-e could
-> >>>>>> be lost on 32-bit platforms, thus blocking readers forever. Such l=
-ockups
-> >>>>>> have been observed in real world after stmmac_xmit() on one CPU ra=
-ced with
-> >>>>>> stmmac_napi_poll_tx() on another CPU.
-> >>>>>>
-> >>>>>> To fix the issue without introducing a new lock, split the statics=
- into
-> >>>>>> three parts:
-> >>>>>>
-> >>>>>> 1. fields updated only under the tx queue lock,
-> >>>>>> 2. fields updated only during NAPI poll,
-> >>>>>> 3. fields updated only from interrupt context,
-> >>>>>>
-> >>>>>> Updates to fields in the first two groups are already serialized t=
-hrough
-> >>>>>> other locks. It is sufficient to split the existing struct u64_sta=
-ts_sync
-> >>>>>> so that each group has its own.
-> >>>>>>
-> >>>>>> Note that tx_set_ic_bit is updated from both contexts. Split this =
-counter
-> >>>>>> so that each context gets its own, and calculate their sum to get =
-the total
-> >>>>>> value in stmmac_get_ethtool_stats().
-> >>>>>>
-> >>>>>> For the third group, multiple interrupts may be processed by diffe=
-rent CPUs
-> >>>>>> at the same time, but interrupts on the same CPU will not nest. Mo=
-ve fields
-> >>>>>> from this group to a newly created per-cpu struct stmmac_pcpu_stat=
-s.
-> >>>>>>
-> >>>>>> Fixes: 133466c3bbe1 ("net: stmmac: use per-queue 64 bit statistics=
- where necessary")
-> >>>>>> Link: https://lore.kernel.org/netdev/Za173PhviYg-1qIn@torres.zugsc=
-hlus.de/t/
-> >>>>>> Cc: stable@vger.kernel.org
-> >>>>>> Signed-off-by: Petr Tesarik <petr@tesarici.cz> =20
-> >>>>>
-> >>>>> This patch results in a lockdep splat. Backtrace and bisect results=
- attached.
-> >>>>>
-> >>>>> ---
-> >>>>> [   33.736728] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >>>>> [   33.736805] WARNING: inconsistent lock state
-> >>>>> [   33.736953] 6.8.0-rc4 #1 Tainted: G                 N
-> >>>>> [   33.737080] --------------------------------
-> >>>>> [   33.737155] inconsistent {HARDIRQ-ON-W} -> {IN-HARDIRQ-W} usage.
-> >>>>> [   33.737309] kworker/0:2/39 [HC1[1]:SC0[2]:HE0:SE0] takes:
-> >>>>> [   33.737459] ef792074 (&syncp->seq#2){?...}-{0:0}, at: sun8i_dwma=
-c_dma_interrupt+0x9c/0x28c
-> >>>>> [   33.738206] {HARDIRQ-ON-W} state was registered at:
-> >>>>> [   33.738318]   lock_acquire+0x11c/0x368
-> >>>>> [   33.738431]   __u64_stats_update_begin+0x104/0x1ac
-> >>>>> [   33.738525]   stmmac_xmit+0x4d0/0xc58 =20
-> >>>>
-> >>>> interesting lockdep splat...
-> >>>> stmmac_xmit() operates on txq_stats->q_syncp, while the
-> >>>> sun8i_dwmac_dma_interrupt() operates on pcpu's priv->xstats.pcpu_sta=
-ts
-> >>>> they are different syncp. so how does lockdep splat happen. =20
-> >>>
-> >>> Right, I do not see anything obvious yet. =20
-> >>
-> >> Wild guess: I think it maybe saying that due to
-> >>
-> >>         inconsistent {HARDIRQ-ON-W} -> {IN-HARDIRQ-W} usage.
-> >>
-> >> the critical code may somehow be interrupted and, while handling the
-> >> interrupt, try to acquire the same lock again. =20
-> >=20
-> > This should not happen, the 'syncp' are different. They have different
-> > lockdep classes.
-> >=20
-> > One is exclusively used from hard irq context.
-> >=20
-> > The second one only used from BH context. =20
->=20
-> Alexis Lothor=C3=A9 hit this now as well, see yesterday report in this
-> thread; apart from that nothing seem to have happened for two weeks now.
-> The change recently made it to some stable/longterm kernels, too. Makes
-> me wonder:
->=20
-> What's the plan forward here? Is this considered to be a false positive?
-
-Although my system has run stable for a couple of months, I am hesitant
-to call it a false positive.
-
-> Or a real problem?
-
-That's what I think. But I would have to learn a lot about the network
-stack to understand what exactly happens here.
-
-It may go faster if somebody else on the Cc can give me a hint where to
-start looking based on the lockdep warning.
-
-Petr T
+-- 
+Best regards,
+Andrey Skvortsov
