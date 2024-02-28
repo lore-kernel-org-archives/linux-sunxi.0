@@ -1,133 +1,195 @@
-Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
+Received: from bee.tesarici.cz (bee.tesarici.cz [77.93.223.253])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A72B52E647;
-	Wed, 28 Feb 2024 09:18:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.6.53.87
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B20556B83;
+	Wed, 28 Feb 2024 11:03:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.93.223.253
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709111903; cv=none; b=hcrBRt9fxWTsH8+lj3q3h+sBd3T9ylXmYK3XO+oAVkCiMSq6AWNL07jHt3FO4odXsVxErM1ktJhkW+ZWs3J2bcjEEracym+DCtRsqqbMorPPDxRLa9MCsRoHhZLx2OwXS0avEC/LoJnKph2WnZ08uM8On7gTOTMOUhUdo2Hk+R8=
+	t=1709118201; cv=none; b=IEI4wlM3McxFhuM+L/E4EJj4NEFLPPS2xqbqHGVqt5TFHGL/n0ItJZecjnItj3htS5fv4HWwJiZqz62ELkpmvYeG38EKfhPgTDOMM8ieMFg4WFHqgcUcPfek0H9M1kBSC3QWeT5eCCgmS7BQhtLfp8oUZBaVJwfhuDRF7TT73AM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709111903; c=relaxed/simple;
-	bh=IXOTBc5f94HS2SaQgqmZGk6o1ztIjX0y5NJHG2OrYQs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AuQ6aPnpJMhjDKcl2KfqQh0fS9i9NW7khryEtGzE7xeArEg3so57XxzU/DDEJUmH6FlEQuQ+Xh2xyijiL2/oqCnjBBgLFTtfRsfLNAMeeVWUZS3uDhn0UuYRVsG8Z5KargV34y2l9Ywk33axes7Kiuz91XPTl7tVnLexqEfb4I0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; arc=none smtp.client-ip=144.6.53.87
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
-Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
-	by formenos.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
-	id 1rfG4i-001COF-0i; Wed, 28 Feb 2024 17:18:05 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Wed, 28 Feb 2024 17:18:19 +0800
-Date: Wed, 28 Feb 2024 17:18:19 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-Cc: Corentin Labbe <clabbe.montjoie@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Ovidiu Panait <ovidiu.panait@windriver.com>,
-	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Arnaud Ferraris <arnaud.ferraris@collabora.com>
-Subject: Re: [PATCH] crypto: sun8i-ce - Fix use after free in unprepare.
-Message-ID: <Zd76W98Ypq5uJmqm@gondor.apana.org.au>
-References: <20240226215358.555234-1-andrej.skvortzov@gmail.com>
+	s=arc-20240116; t=1709118201; c=relaxed/simple;
+	bh=u4IVyFOR7RzjTRTot0y2acP+tk2Gagt6IY28YbB1ciA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mqJVxG+zgC4LGito5TNB5lQq3za04m+VoW4qikPQX7cyQpLJ4QFfQTspUqk5vHp+r/ouD/xpZaS3LbkjlaRJHUyFIXTB0kkgHmeLvSQUNbV+JEFc9wqWUH21FLgc1isP2JKB1xCl7NLj9VA0NexqnohV8ZsBpGhHnR68lSaJDXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz; spf=pass smtp.mailfrom=tesarici.cz; dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b=OLNEWjdH; arc=none smtp.client-ip=77.93.223.253
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tesarici.cz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b="OLNEWjdH"
+Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by bee.tesarici.cz (Postfix) with ESMTPSA id A416A1BCF11;
+	Wed, 28 Feb 2024 12:03:09 +0100 (CET)
+Authentication-Results: mail.tesarici.cz; dmarc=fail (p=quarantine dis=none) header.from=tesarici.cz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tesarici.cz; s=mail;
+	t=1709118190; bh=5w3iwvVBIESxi22ZZJiQmoVQjo/FSOSxxrB8vPximt8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=OLNEWjdHYJMeowGWV/51UimBdm/m2akUf1btKvRF2NaEFPKURBgX8ac1VYfTbZ9RU
+	 +xj9obZijQlIyybTq7FsrzEjvxwadZc/h9dXCM9Gc2+aI8qBE9GyPyP7EmAoBRXw0u
+	 SCYb28c7TN4IhPXxI2+5QjuoBKCT0CSGNl/YwQoT9d3XXQiVE+FEcogySyA0bL4QfD
+	 2GFWPfZrTUopxHLSXfM12An5+cJSgL2QdaxrDHsXPYVmmFudzUbALqpT7IZRoM0n/s
+	 nzTcV/0RX9m/2I4OEgJr28dLSPAp17apEB125LsiasVpG1L8uOM7fzQRqknRYIJZtz
+	 PF/umqxoAYmVQ==
+Date: Wed, 28 Feb 2024 12:03:08 +0100
+From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+To: "Linux regression tracking (Thorsten Leemhuis)"
+ <regressions@leemhuis.info>
+Cc: Linux regressions mailing list <regressions@lists.linux.dev>, Eric
+ Dumazet <edumazet@google.com>, "David S. Miller" <davem@davemloft.net>,
+ Paolo Abeni <pabeni@redhat.com>, Jakub Kicinski <kuba@kernel.org>, Jisheng
+ Zhang <jszhang@kernel.org>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Jose Abreu <joabreu@synopsys.com>, Maxime
+ Coquelin <mcoquelin.stm32@gmail.com>, Chen-Yu Tsai <wens@csie.org>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ "open list:STMMAC ETHERNET DRIVER" <netdev@vger.kernel.org>, "moderated
+ list:ARM/STM32 ARCHITECTURE" <linux-stm32@st-md-mailman.stormreply.com>,
+ "moderated list:ARM/STM32 ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>, open list
+ <linux-kernel@vger.kernel.org>, "open list:ARM/Allwinner sunXi SoC support"
+ <linux-sunxi@lists.linux.dev>, Marc Haber <mh+netdev@zugschlus.de>, Andrew
+ Lunn <andrew@lunn.ch>, Florian Fainelli <f.fainelli@gmail.com>,
+ stable@vger.kernel.org, alexis.lothore@bootlin.com, Guenter Roeck
+ <linux@roeck-us.net>
+Subject: Re: [PATCH net v3] net: stmmac: protect updates of 64-bit
+ statistics counters
+Message-ID: <20240228120308.48d6a9c2@meshulam.tesarici.cz>
+In-Reply-To: <a3749d3f-ced1-4c48-adaf-348c8dee7610@leemhuis.info>
+References: <20240203190927.19669-1-petr@tesarici.cz>
+	<ea1567d9-ce66-45e6-8168-ac40a47d1821@roeck-us.net>
+	<Zct5qJcZw0YKx54r@xhacker>
+	<CANn89i+4tVWezqr=BYZ5AF=9EgV2EPqhdHun=u=ga32CEJ4BXQ@mail.gmail.com>
+	<20d94512-c4f2-49f7-ac97-846dc24a6730@roeck-us.net>
+	<CANn89iL1piwsbsBx4Z=kySUfmPa9LbZn-SNthgA+W6NEnojgSQ@mail.gmail.com>
+	<a3749d3f-ced1-4c48-adaf-348c8dee7610@leemhuis.info>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.39; x86_64-suse-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240226215358.555234-1-andrej.skvortzov@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 27, 2024 at 12:53:57AM +0300, Andrey Skvortsov wrote:
-> sun8i_ce_cipher_unprepare should be called before
-> crypto_finalize_skcipher_request, because client callbacks may
-> immediately free memory, that isn't needed anymore. But it will be
-> used by unprepare after free. Before removing prepare/unprepare
-> callbacks it was handled by crypto engine in crypto_finalize_request.
-> 
-> Usually that results in a pointer dereference problem during a in
-> crypto selftest.
->  Unable to handle kernel NULL pointer dereference at
->                                       virtual address 0000000000000030
->  Mem abort info:
->    ESR = 0x0000000096000004
->    EC = 0x25: DABT (current EL), IL = 32 bits
->    SET = 0, FnV = 0
->    EA = 0, S1PTW = 0
->    FSC = 0x04: level 0 translation fault
->  Data abort info:
->    ISV = 0, ISS = 0x00000004, ISS2 = 0x00000000
->    CM = 0, WnR = 0, TnD = 0, TagAccess = 0
->    GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
->  user pgtable: 4k pages, 48-bit VAs, pgdp=000000004716d000
->  [0000000000000030] pgd=0000000000000000, p4d=0000000000000000
->  Internal error: Oops: 0000000096000004 [#1] SMP
-> 
-> This problem is detected by KASAN as well.
->  ==================================================================
->  BUG: KASAN: slab-use-after-free in sun8i_ce_cipher_do_one+0x6e8/0xf80 [sun8i_ce]
->  Read of size 8 at addr ffff00000dcdc040 by task 1c15000.crypto-/373
-> 
->  Hardware name: Pine64 PinePhone (1.2) (DT)
->  Call trace:
->   dump_backtrace+0x9c/0x128
->   show_stack+0x20/0x38
->   dump_stack_lvl+0x48/0x60
->   print_report+0xf8/0x5d8
->   kasan_report+0x90/0xd0
->   __asan_load8+0x9c/0xc0
->   sun8i_ce_cipher_do_one+0x6e8/0xf80 [sun8i_ce]
->   crypto_pump_work+0x354/0x620 [crypto_engine]
->   kthread_worker_fn+0x244/0x498
->   kthread+0x168/0x178
->   ret_from_fork+0x10/0x20
-> 
->  Allocated by task 379:
->   kasan_save_stack+0x3c/0x68
->   kasan_set_track+0x2c/0x40
->   kasan_save_alloc_info+0x24/0x38
->   __kasan_kmalloc+0xd4/0xd8
->   __kmalloc+0x74/0x1d0
->   alg_test_skcipher+0x90/0x1f0
->   alg_test+0x24c/0x830
->   cryptomgr_test+0x38/0x60
->   kthread+0x168/0x178
->   ret_from_fork+0x10/0x20
-> 
->  Freed by task 379:
->   kasan_save_stack+0x3c/0x68
->   kasan_set_track+0x2c/0x40
->   kasan_save_free_info+0x38/0x60
->   __kasan_slab_free+0x100/0x170
->   slab_free_freelist_hook+0xd4/0x1e8
->   __kmem_cache_free+0x15c/0x290
->   kfree+0x74/0x100
->   kfree_sensitive+0x80/0xb0
->   alg_test_skcipher+0x12c/0x1f0
->   alg_test+0x24c/0x830
->   cryptomgr_test+0x38/0x60
->   kthread+0x168/0x178
->   ret_from_fork+0x10/0x20
-> 
->  The buggy address belongs to the object at ffff00000dcdc000
->   which belongs to the cache kmalloc-256 of size 256
->  The buggy address is located 64 bytes inside of
->   freed 256-byte region [ffff00000dcdc000, ffff00000dcdc100)
-> 
-> Signed-off-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-> Fixes: 4136212ab18e ("crypto: sun8i-ce - Remove prepare/unprepare request")
-> ---
->  .../allwinner/sun8i-ce/sun8i-ce-cipher.c      | 34 +++++++++----------
->  1 file changed, 17 insertions(+), 17 deletions(-)
+On Wed, 28 Feb 2024 07:19:56 +0100
+"Linux regression tracking (Thorsten Leemhuis)" <regressions@leemhuis.info>=
+ wrote:
 
-Patch applied.  Thanks.
--- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+> Net maintainers, chiming in here, as it seems handling this regression
+> stalled.
+
+Indeed, I was too busy with sandbox mode...
+
+> On 13.02.24 16:52, Eric Dumazet wrote:
+> > On Tue, Feb 13, 2024 at 4:26=E2=80=AFPM Guenter Roeck <linux@roeck-us.n=
+et> wrote: =20
+> >> On Tue, Feb 13, 2024 at 03:51:35PM +0100, Eric Dumazet wrote: =20
+> >>> On Tue, Feb 13, 2024 at 3:29=E2=80=AFPM Jisheng Zhang <jszhang@kernel=
+.org> wrote: =20
+> >>>> On Sun, Feb 11, 2024 at 08:30:21PM -0800, Guenter Roeck wrote: =20
+> >>>>> On Sat, Feb 03, 2024 at 08:09:27PM +0100, Petr Tesarik wrote: =20
+> >>>>>> As explained by a comment in <linux/u64_stats_sync.h>, write side =
+of struct
+> >>>>>> u64_stats_sync must ensure mutual exclusion, or one seqcount updat=
+e could
+> >>>>>> be lost on 32-bit platforms, thus blocking readers forever. Such l=
+ockups
+> >>>>>> have been observed in real world after stmmac_xmit() on one CPU ra=
+ced with
+> >>>>>> stmmac_napi_poll_tx() on another CPU.
+> >>>>>>
+> >>>>>> To fix the issue without introducing a new lock, split the statics=
+ into
+> >>>>>> three parts:
+> >>>>>>
+> >>>>>> 1. fields updated only under the tx queue lock,
+> >>>>>> 2. fields updated only during NAPI poll,
+> >>>>>> 3. fields updated only from interrupt context,
+> >>>>>>
+> >>>>>> Updates to fields in the first two groups are already serialized t=
+hrough
+> >>>>>> other locks. It is sufficient to split the existing struct u64_sta=
+ts_sync
+> >>>>>> so that each group has its own.
+> >>>>>>
+> >>>>>> Note that tx_set_ic_bit is updated from both contexts. Split this =
+counter
+> >>>>>> so that each context gets its own, and calculate their sum to get =
+the total
+> >>>>>> value in stmmac_get_ethtool_stats().
+> >>>>>>
+> >>>>>> For the third group, multiple interrupts may be processed by diffe=
+rent CPUs
+> >>>>>> at the same time, but interrupts on the same CPU will not nest. Mo=
+ve fields
+> >>>>>> from this group to a newly created per-cpu struct stmmac_pcpu_stat=
+s.
+> >>>>>>
+> >>>>>> Fixes: 133466c3bbe1 ("net: stmmac: use per-queue 64 bit statistics=
+ where necessary")
+> >>>>>> Link: https://lore.kernel.org/netdev/Za173PhviYg-1qIn@torres.zugsc=
+hlus.de/t/
+> >>>>>> Cc: stable@vger.kernel.org
+> >>>>>> Signed-off-by: Petr Tesarik <petr@tesarici.cz> =20
+> >>>>>
+> >>>>> This patch results in a lockdep splat. Backtrace and bisect results=
+ attached.
+> >>>>>
+> >>>>> ---
+> >>>>> [   33.736728] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >>>>> [   33.736805] WARNING: inconsistent lock state
+> >>>>> [   33.736953] 6.8.0-rc4 #1 Tainted: G                 N
+> >>>>> [   33.737080] --------------------------------
+> >>>>> [   33.737155] inconsistent {HARDIRQ-ON-W} -> {IN-HARDIRQ-W} usage.
+> >>>>> [   33.737309] kworker/0:2/39 [HC1[1]:SC0[2]:HE0:SE0] takes:
+> >>>>> [   33.737459] ef792074 (&syncp->seq#2){?...}-{0:0}, at: sun8i_dwma=
+c_dma_interrupt+0x9c/0x28c
+> >>>>> [   33.738206] {HARDIRQ-ON-W} state was registered at:
+> >>>>> [   33.738318]   lock_acquire+0x11c/0x368
+> >>>>> [   33.738431]   __u64_stats_update_begin+0x104/0x1ac
+> >>>>> [   33.738525]   stmmac_xmit+0x4d0/0xc58 =20
+> >>>>
+> >>>> interesting lockdep splat...
+> >>>> stmmac_xmit() operates on txq_stats->q_syncp, while the
+> >>>> sun8i_dwmac_dma_interrupt() operates on pcpu's priv->xstats.pcpu_sta=
+ts
+> >>>> they are different syncp. so how does lockdep splat happen. =20
+> >>>
+> >>> Right, I do not see anything obvious yet. =20
+> >>
+> >> Wild guess: I think it maybe saying that due to
+> >>
+> >>         inconsistent {HARDIRQ-ON-W} -> {IN-HARDIRQ-W} usage.
+> >>
+> >> the critical code may somehow be interrupted and, while handling the
+> >> interrupt, try to acquire the same lock again. =20
+> >=20
+> > This should not happen, the 'syncp' are different. They have different
+> > lockdep classes.
+> >=20
+> > One is exclusively used from hard irq context.
+> >=20
+> > The second one only used from BH context. =20
+>=20
+> Alexis Lothor=C3=A9 hit this now as well, see yesterday report in this
+> thread; apart from that nothing seem to have happened for two weeks now.
+> The change recently made it to some stable/longterm kernels, too. Makes
+> me wonder:
+>=20
+> What's the plan forward here? Is this considered to be a false positive?
+
+Although my system has run stable for a couple of months, I am hesitant
+to call it a false positive.
+
+> Or a real problem?
+
+That's what I think. But I would have to learn a lot about the network
+stack to understand what exactly happens here.
+
+It may go faster if somebody else on the Cc can give me a hint where to
+start looking based on the lockdep warning.
+
+Petr T
