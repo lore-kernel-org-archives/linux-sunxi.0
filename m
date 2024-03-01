@@ -1,120 +1,111 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7006646B7
-	for <linux-sunxi@lists.linux.dev>; Fri,  1 Mar 2024 17:22:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91D2958ACC;
+	Fri,  1 Mar 2024 21:36:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709313758; cv=none; b=qlLRIhxBzyIwx/ZalV4Ovnfo2UxzCKRa3R1+2Tk7a+I54+VSE+pbCigOmpUCJrJAwzi1KCBbM22XOvAmntgm7iOe7ExVD+L/9t496hlytqSfnLDdxZnNgoyvbL9BcAMqdHgdRqHktfVm1JoPfbi/Oknong6NA8DfWXLenaRiNxI=
+	t=1709328975; cv=none; b=DUhuXVSbIkInrZIJHd8i1yZf8OyKF85uxGhjL7acscqdfIcaNXyd0iu9HuZVst6gjbA89XegWUfgq6EpEkGcNTZV1uTXWodd0i3tYvm6AGzJeKsxa4LOebpzUmNSb7l1f2shVmX1+GWtY5atwkp/bhv0+4IvosaZrR68E7SEjus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709313758; c=relaxed/simple;
-	bh=rqWNOboH2nAQqo7skbUOdUM2q5r76m/KRW8dhcN6Nzs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aQGcU9N2baOOmkwHUcWMEjIa0cDW5RsqoCOmMtoF/M3TFP0lGGxu3MWc+j2KiBXXPj/uEMlFv+t3uyEoanepVUJjzs/9RD5wjNtuPvGMBZcs4wimQeoppxV0iyAjD8D2Xl6L0x3B3PUL0bqkpHoMZTbJP0RWpaZkTq8QBmFjXI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QQNjNnoE; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1709328975; c=relaxed/simple;
+	bh=nNI1GFWV3VF+KBWjXYmR+1rViSk5YziUkARe0UzaTHE=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h+r6yp4fHvHLlJL9/ItVyMBOIVY5JkiDalmmrWREyDr1RFKqEVuZhV3M6yQ1ak4ETX29pbv7zXgpwI+nW8LtgjE+HVY3g1FZVOcVfIg0JKZ4Odm6AZvXF2ZbIoDNH/Oe0ax5XgtS80BllFMV9cIBmRkNWymbSIUKcF6hmubqADo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LYLz/Zns; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QQNjNnoE"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-33d9c3f36c2so1167003f8f.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 01 Mar 2024 09:22:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709313755; x=1709918555; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=37WDRV9x4Xm24khamq/oQN+S82VH6v/HallOiNR2z8I=;
-        b=QQNjNnoEjG2iRsUYPxK2zhIFrIN62CITI0Yq54b3zKhbAnpIwkJxFUyeM8FHef8WpG
-         uk2sj09tuK8ZBn7QyHn8XkNEnAx13Zu6w3ugyltF7gLwDl8RJi4NPNoVP4DBD5vgAv5A
-         ZIXLcazXOF/oVlii5xc0PvuqekLzcumrwYzxS+AV7JBl48LmxTiTAY5Z1z/0dnCexZzX
-         te3x1ru1jzhr7bokih/eN7fTeNnIquhF3UGvrzv9EMvBu3+s1R4zU+eULAhAT6ur2LuC
-         /01jusfLLLES5YQIZG56Ayb//ob6t11j9FB7zB4OUsOcwpF9C74AMwwFwtM3geIOVsQA
-         9VjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709313755; x=1709918555;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=37WDRV9x4Xm24khamq/oQN+S82VH6v/HallOiNR2z8I=;
-        b=dwYON1EIikC16ljo+vdJAxBUHpBNGVzeJVPog+u1Vbk+m1zPR8rh25AAODXaMQ5Rf9
-         JPIAYA1k+qN2ZCRnNwYC9OzO8swx4zw7SeskLgycpEQN3kSho5zQDzp7ZOo/4LvklCv3
-         piC0UMRSnUfDIbEuSXeP/dfPGaBIqTeSOHFTgrZtLBg5n66dvIUCyt0MRY9i3DBYMtp6
-         ZHxO4FlomEwbX9+6EyLV10ecfePGz5hdAKkhLC+ccxxSaDr7t+Tao9V+yw3HQU8+e7zK
-         /z0N6rGsO6HgNYaJ9bRR+u0C/r6P4B1r6Wq8Pxzxd5BU2lg4/icXnmotxx7BBBTAX3a4
-         U5kg==
-X-Forwarded-Encrypted: i=1; AJvYcCUNB3gTJXpn6SwHx7mmvrgZWmBjuV9qFYCI58h1rYwM1fmKAma8HQnaaf0nfplroQUgrf3TaeRdeJP0I2Y/RS/GU1OqLlcQJJICWuw=
-X-Gm-Message-State: AOJu0Yz2fAoysq1BfK63eAliG+bySe08wvcb+i/2glwRupeGpkSbXxtA
-	9HTaQJw82o2VY4B2173YThbA2qNNHDLp+/WyIQZZwLUrr0yyiDOV
-X-Google-Smtp-Source: AGHT+IGtVWAQft25IP1iqNWRhDEMUGcaRacUUSQk9h+swOPYRkaoHEXxo+JZvWLEqXKiNPyGToM3cA==
-X-Received: by 2002:adf:b649:0:b0:33e:1f2b:a468 with SMTP id i9-20020adfb649000000b0033e1f2ba468mr1578174wre.24.1709313754549;
-        Fri, 01 Mar 2024 09:22:34 -0800 (PST)
-Received: from jernej-laptop.localnet ([188.159.248.16])
-        by smtp.gmail.com with ESMTPSA id h18-20020a5d5052000000b0033cf4e47496sm5013576wrt.51.2024.03.01.09.22.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Mar 2024 09:22:34 -0800 (PST)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Jernej Skrabec <jernej@kernel.org>, arm <arm@kernel.org>, soc@kernel.org,
- Arnd Bergmann <arnd@arndb.de>
-Cc: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [GIT PULL] Allwinner device tree changes for 6.9
-Date: Fri, 01 Mar 2024 18:22:32 +0100
-Message-ID: <2203755.NgBsaNRSFp@jernej-laptop>
-In-Reply-To: <3990c5be-6173-4c20-96ca-79e22cb4a40f@app.fastmail.com>
-References:
- <20240223210408.GA9248@jernej-laptop>
- <3990c5be-6173-4c20-96ca-79e22cb4a40f@app.fastmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LYLz/Zns"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8B04C43390;
+	Fri,  1 Mar 2024 21:36:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709328975;
+	bh=nNI1GFWV3VF+KBWjXYmR+1rViSk5YziUkARe0UzaTHE=;
+	h=Date:From:To:Subject:References:In-Reply-To:From;
+	b=LYLz/ZnsEinauRuxr4yV1WGVUfRs0tq+0Tot9DU/uKbQeZEb5lw4RA2Iq7/yIdUiP
+	 HjrK8XFtaLipJS4P/sVNBh66ZbrHvC28PgCrPyYNECKUsXSLfi5Qx9R6gPD0+4WrEm
+	 wKl9ye33lOMRO+aG0nBrEhWD/w0W5Id3KMsrQaLHWfdlBkl9ZlGqCsOc8sva+/IAgP
+	 3s87FI+Omy163728oQT2rlDJp922OEJjzBzAeR6h52xiWMuOd8QtlKwoCqg6arKNul
+	 kfy4rLGXQ+QAB3qKDZNsV41rWFgr7QK4b2Q5Ercvxnlp4z6FWR7Dz9nK3iIl6nruJx
+	 UpBwUdRQtLyGg==
+Date: Fri, 1 Mar 2024 15:36:12 -0600
+From: Rob Herring <robh@kernel.org>
+To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>,
+	linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+	Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Arnaud Ferraris <arnaud.ferraris@collabora.com>,
+	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [RESEND PATCH v2 1/5] dt-bindings: sound: Add jack-type property
+ to sun8i-a33-codec
+Message-ID: <20240301213612.GA3071318-robh@kernel.org>
+References: <20240224135501.3822390-1-megi@xff.cz>
+ <20240224135501.3822390-2-megi@xff.cz>
+ <20240226194727.GA1320480-robh@kernel.org>
+ <w75crq6ofqq6gisxdda6zeyem5gmsrexe7zarrza46awpstlvk@lc7bttbt63el>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <w75crq6ofqq6gisxdda6zeyem5gmsrexe7zarrza46awpstlvk@lc7bttbt63el>
 
-Dne petek, 01. marec 2024 ob 10:54:41 CET je Arnd Bergmann napisal(a):
-> On Fri, Feb 23, 2024, at 22:04, Jernej Skrabec wrote:
-> > Hi!
-> >
-> > Please pull following device tree changes for 6.9.
-> >
-> > Note that this is based on top of fixes for 6.8:
-> > https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git 
-> > tags/sunxi-fixes-for-6.8-1
-> >
+On Tue, Feb 27, 2024 at 12:57:08AM +0100, Ondřej Jirman wrote:
+> On Mon, Feb 26, 2024 at 01:47:27PM -0600, Rob Herring wrote:
+> > On Sat, Feb 24, 2024 at 02:54:54PM +0100, Ondřej Jirman wrote:
+> > > From: Ondrej Jirman <megi@xff.cz>
+> > > 
+> > > The codec driver needs to know what jack connector it is connected to
+> > > on the board. Add proprty to describe the type of connector.
+> > > 
+> > > Signed-off-by: Ondrej Jirman <megi@xff.cz>
+> > > ---
+> > >  .../bindings/sound/allwinner,sun8i-a33-codec.yaml        | 9 +++++++++
+> > >  1 file changed, 9 insertions(+)
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/sound/allwinner,sun8i-a33-codec.yaml b/Documentation/devicetree/bindings/sound/allwinner,sun8i-a33-codec.yaml
+> > > index 63eadc4200ac..399fc00ad3f4 100644
+> > > --- a/Documentation/devicetree/bindings/sound/allwinner,sun8i-a33-codec.yaml
+> > > +++ b/Documentation/devicetree/bindings/sound/allwinner,sun8i-a33-codec.yaml
+> > > @@ -44,6 +44,15 @@ properties:
+> > >        - const: bus
+> > >        - const: mod
+> > >  
+> > > +  jack-type:
+> > 
+> > I'm all for a generic property name, but it needs to be documented 
+> > somewhere common. Perhaps dai-common.yaml.
+> > 
+> > I'm sure there is some prior art here to consider as well.
 > 
-> I've pulled it into the soc/dt branch manually, as b4 refused
-> to pull it because it got confused by the text above and
-> assumed it should pull from the fixes branch, which does not
-> match the commit ID below.
+> There's only a mention in the code. But there's no use of similar property
+> on the codec nodes.
 > 
-> Having the stacked pull requests is otherwise the right idea,
-> just maybe next time only mention the branch name rather than
-> the URL that can confuse tools.
+> https://elixir.bootlin.com/linux/latest/source/sound/soc/soc-component.c#L288
 
-Sorry about that. I'll do that next time.
+git grep 'jack' Documentation/devicetree/bindings/sound
 
-Best regards,
-Jernej
+There's lots of things related to jack. I don't see type, but I didn't 
+go looking for 'mic' or 'headphone' or 'headset' or ...
 
 > 
->        Arnd
+> /**
+>  * snd_soc_component_get_jack_type
+>  * @component: COMPONENTs
+>  *
+>  * Returns the jack type of the component
+>  * This can either be the supported type or one read from
+>  * devicetree with the property: jack-type.
+>  */
 > 
-> >
-> > The following changes since commit cbec657208bdd4bff4ff31cac5924aa18817027c:
-> >
-> >   arm64: dts: allwinner: h616: Add Orange Pi Zero 2W to Makefile 
-> > (2024-02-23 21:02:51 +0100)
-> >
-> > are available in the Git repository at:
-> >
-> >   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git 
-> > tags/sunxi-dt-for-6.9-1
-> >
-> > for you to fetch changes up to f4318af40544b8e7ff5a6b667ede60e6cf808262:
-> 
+> This is part of a component, so maybe in sound/component-common.yaml ?
 
+A comment with no other usage I can find doesn't make it documented.
 
-
-
+Rob
