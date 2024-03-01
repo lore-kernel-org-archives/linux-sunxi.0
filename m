@@ -1,116 +1,86 @@
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B7206A8BA
-	for <linux-sunxi@lists.linux.dev>; Fri,  1 Mar 2024 09:55:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EB4C16FF46;
+	Fri,  1 Mar 2024 10:30:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709286906; cv=none; b=NM8eeFgveuRLPt1EkvSDoF3WpUP9aqssrGEWma0iVHI6cy2Hng4hrsOWKEQbSMlVCe7TT0PdW7UFGF//Ejow9tOQHbkCAqeB/ntIcOt/AKgPcq9NSBt/L4Kz3xAGkRFX9whPlKCru1328C8zz3jIa7LHAAoUaYRic3g+wH5RoNY=
+	t=1709289060; cv=none; b=lviUw83Ep+wliJF2Ee+q3fZDI6tMrDhGwHdWm1xxxYoMrK3i4zaSBDgxttAypA9fccO84Nb3LxYVcNrU2p0pn5ZotE66WMg6SCw5qfvvRXgUBt6EUmKN+ekVDqLUCMQPtqBwpCpKfbFVtc9Xsp0h80h/F9wIv3vqeje5TVfJ/ww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709286906; c=relaxed/simple;
-	bh=txZYUuxMnJ6Wler+v+KafS4zDPSASSg11pIBY+Y/tBk=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=p+hxwOwn02Vgfgq9LVpKOwA11p1Z0+MIzdmaUnsGap6J8gxRfzw3zsldNCQgxpu88C12dWE8N6NC3U78FzOtz3NPM6kzewwh+IM19Kt1CjT9IEP729CnPhFbNZkekWaNPPggZfPjB/k8+csFeDOZBno95ZG9Khwdxl2PUi9XSNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=CtzA+3e4; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Hr9tLQcN; arc=none smtp.client-ip=64.147.123.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1709289060; c=relaxed/simple;
+	bh=dgKpI41QjGCHxUXx9zUpZ2jMevchmNMDZ5zbAW9T4z4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o7+4pO+poXUjPt4o1dmk0S/p8jlDg9OiRvVrg1KFqrJyC96wIUViVGbz4babipmRnqWqtXZPELO+QulmDIVFvRKUFLNOuUplMXAhM1AGb4Eud21zBS7tzT5KVU5LTuZghFWtzlGkdtu0PSUvwwOQeg6YfWvcyJrKy4foT/NIYsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BuDHT623; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="CtzA+3e4";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Hr9tLQcN"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id 18E803200B0B;
-	Fri,  1 Mar 2024 04:55:03 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Fri, 01 Mar 2024 04:55:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1709286902; x=1709373302; bh=eKkHrTxA5h
-	5UFzBzHhnpvQfEdW1xCrAq+5NyjYHzbVE=; b=CtzA+3e4Aa4kVVENqMhl0j+CMk
-	WgYukEVVe+TGxrziQG+/1mZTmqiLOSF6Mga9sDZvK4JizDBFP+GAZTUs3IeZdKG4
-	eHdefbDkOyNd5soBXJ5SFIrA4Nn+mWxnDMcKsOGBtiNHgGWubDwDHGK2E5K7lqXk
-	ihiQLxUFSvhhZuBcdGXLU7Pt2IzEWNsOFEpjEfxc6KlSt4gOsJu8ehkWCHv5Lel2
-	rSzGj1rfXL+6TXPbZBW2Tb7w5PQgZBH+QrukEszlBEObUJTDw4rBecHknVvk3MZs
-	8X6aXDqupeu7EydXpOjjvmZmdIuOo9whO6ox0fVZPZv2+5gwqAfJS7cVE/mA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1709286902; x=1709373302; bh=eKkHrTxA5h5UFzBzHhnpvQfEdW1x
-	CrAq+5NyjYHzbVE=; b=Hr9tLQcNME7Qa2TSUc81lcG2NW0DS6QgZCH8q2U1Aeud
-	9sZVvkDbS+Vbtf7QKVBg+4ADD0ULcvDsNjg2ZITvjcy17cJrZkk/Kt6Zk7kQyNmI
-	VHd/ZBV2Dnc9q9k4ygsyTQHBoUhL8tp7Yj6upLQ8NZZP1nqZ9pUc5SMRWgDIHPDv
-	xTZLB6Kf88uTVujQHR+WpsCwFnLWFjta6pqNren/hDGqFroPlUGcwtPZs37kug9X
-	uJMlZ1MIq/i5WZV395oGXrNm0Ql3+Hw/nwipAS78hYUYHCdPVJU0T3vyLEmcZ6ch
-	+8Ldh/at7dUVAgDFJcpB5TqyugBlw3Zv0O8C3U7aDA==
-X-ME-Sender: <xms:9aXhZcIlRQYeJqz3n8dkY0JH6bCXht7iJeq4SDIBVwX6g6efkjzdCg>
-    <xme:9aXhZcJ7Kx6Src0m9UY-XM81-V3CG8AP6oKIs-re9k8RXtZP03ByheHxKb2Jo2c98
-    2KtJ6maZ9FHBFdxPH8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrhedugddutdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
-    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
-    gvrhhnpeevhfffledtgeehfeffhfdtgedvheejtdfgkeeuvefgudffteettdekkeeufeeh
-    udenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
-    enucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:9aXhZctV7DPSCqBTNyW4aPbsaAnpAtqBhScAPjeCxzVuqjs0cvnOZg>
-    <xmx:9aXhZZZVvNYq4hen4EOvsWM7Hikisc_vBXtl0Vz00NijKUBm9Z0c3A>
-    <xmx:9aXhZTb5oNkALvcMbbKJUySwKCXXYs1DF5eaeBoXl_DrKiVbyYixew>
-    <xmx:9qXhZeyy_aFmIU_S0U2GNKm7_Xy4YzNIjw2cyZKppq1cMw8NNhyqpA>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id BBD74B6008D; Fri,  1 Mar 2024 04:55:01 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-205-g4dbcac4545-fm-20240301.001-g4dbcac45
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BuDHT623"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BC35C433F1;
+	Fri,  1 Mar 2024 10:30:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709289059;
+	bh=dgKpI41QjGCHxUXx9zUpZ2jMevchmNMDZ5zbAW9T4z4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BuDHT623qzr/FGGXvtVM2chDjaossdPprsG1lRUK24tCYniAyYxhgC9m90qCS3Rru
+	 JIjXBMl6X99Id1h2tLMiwQqLk0Urq6YAWJWdYoZlLmcypM68yq2Gq1JlqJsfv2oxxx
+	 iCShHyIZvtG2HmHVD5kNQ1B4fFl5EU+KzBLVrOv1R3xoDoU7lmEEpq6VK+FHrG3NNe
+	 JEF5MeLLx92PDkZ37IVduLvnfZ0YQ08kB1Lvu5t5w0H72gkiveJ8KfcHRvW7OBAyW7
+	 YM76A0g/1nQVocwGbQf6FvqwVFaLiTsQmIxMhtqX0zKKtFsRjh61pTPKOvsYkiPEAN
+	 1kNeUGJJuARTw==
+Date: Fri, 1 Mar 2024 11:30:56 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Sebastian Wick <sebastian.wick@redhat.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, dri-devel@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v7 21/36] drm/connector: hdmi: Add Broadcast RGB property
+Message-ID: <20240301-light-impressive-grasshopper-adabeb@houat>
+References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
+ <20240222-kms-hdmi-connector-state-v7-21-8f4af575fce2@kernel.org>
+ <20240229194726.GB166694@toolbox>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <3990c5be-6173-4c20-96ca-79e22cb4a40f@app.fastmail.com>
-In-Reply-To: <20240223210408.GA9248@jernej-laptop>
-References: <20240223210408.GA9248@jernej-laptop>
-Date: Fri, 01 Mar 2024 10:54:41 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Jernej Skrabec" <jernej@kernel.org>, arm <arm@kernel.org>, soc@kernel.org
-Cc: "Chen-Yu Tsai" <wens@csie.org>, "Samuel Holland" <samuel@sholland.org>,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [GIT PULL] Allwinner device tree changes for 6.9
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240229194726.GB166694@toolbox>
 
-On Fri, Feb 23, 2024, at 22:04, Jernej Skrabec wrote:
-> Hi!
->
-> Please pull following device tree changes for 6.9.
->
-> Note that this is based on top of fixes for 6.8:
-> https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git 
-> tags/sunxi-fixes-for-6.8-1
->
+On Thu, Feb 29, 2024 at 08:47:26PM +0100, Sebastian Wick wrote:
+> > @@ -1708,6 +1731,39 @@ EXPORT_SYMBOL(drm_connector_attach_dp_subconnect=
+or_property);
+> >  /**
+> >   * DOC: HDMI connector properties
+> >   *
+> > + * Broadcast RGB (HDMI specific)
+> > + *      Indicates the Quantization Range (Full vs Limited) used. The c=
+olor
+> > + *      processing pipeline will be adjusted to match the value of the
+> > + *      property, and the Infoframes will be generated and sent accord=
+ingly.
+> > + *
+> > + *      This property is only relevant if the HDMI output format is RG=
+B. If
+> > + *      it's one of the YCbCr variant, it will be ignored and the outp=
+ut will
+> > + *      use a limited quantization range.
+>=20
+> Uh, maybe just say that the quantization range is selected automatically
+> in case a YCbCr output format is in use. I'm not sure every YCbCr
+> variant requires limited and even if it does, new formats could change
+> this.
 
-I've pulled it into the soc/dt branch manually, as b4 refused
-to pull it because it got confused by the text above and
-assumed it should pull from the fixes branch, which does not
-match the commit ID below.
+I documented what i915 is doing:
+https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/i915/display=
+/intel_hdmi.c#L2143
 
-Having the stacked pull requests is otherwise the right idea,
-just maybe next time only mention the branch name rather than
-the URL that can confuse tools.
-
-       Arnd
-
->
-> The following changes since commit cbec657208bdd4bff4ff31cac5924aa18817027c:
->
->   arm64: dts: allwinner: h616: Add Orange Pi Zero 2W to Makefile 
-> (2024-02-23 21:02:51 +0100)
->
-> are available in the Git repository at:
->
->   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git 
-> tags/sunxi-dt-for-6.9-1
->
-> for you to fetch changes up to f4318af40544b8e7ff5a6b667ede60e6cf808262:
+Maxime
