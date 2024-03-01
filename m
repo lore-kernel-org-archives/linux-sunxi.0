@@ -1,148 +1,120 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43B306A8B2
-	for <linux-sunxi@lists.linux.dev>; Fri,  1 Mar 2024 13:15:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7006646B7
+	for <linux-sunxi@lists.linux.dev>; Fri,  1 Mar 2024 17:22:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709298928; cv=none; b=D0ARxv32XrASaXZ9tevUtzgfw8riuN7iGAOwmXCwLtqG69C14HQ1i/rMNp6r8hTy+m5H1kI70dI2W8yhjXEiZOMOW/YxV1N2emM8ytCXwiA+EpipjJuDFJKVDnvNP/rBGXBdZDUC031yVycc56+T02Z8/J0HbgjaVhPZqUh6Zbo=
+	t=1709313758; cv=none; b=qlLRIhxBzyIwx/ZalV4Ovnfo2UxzCKRa3R1+2Tk7a+I54+VSE+pbCigOmpUCJrJAwzi1KCBbM22XOvAmntgm7iOe7ExVD+L/9t496hlytqSfnLDdxZnNgoyvbL9BcAMqdHgdRqHktfVm1JoPfbi/Oknong6NA8DfWXLenaRiNxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709298928; c=relaxed/simple;
-	bh=ppxwsid024kYh+xIImopd5C7MqjcjcriC8usZ9HcFiA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=nKga9mdB37thNnjLK+uUiG08nS6z2DfAOhVwbpdn3bq5Bsj01hbLuwrG08aZCWqa9xkGjabUuwmt+KK7F3UogOGhF9g8FaQnqZP9kZicW8zosuK7fLI40O+Sipus9CrF3cyqSTr2WmiZk+1MQgahNoy3t79dMnHBn0gL8hKdnR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iI8lTj7s; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1709313758; c=relaxed/simple;
+	bh=rqWNOboH2nAQqo7skbUOdUM2q5r76m/KRW8dhcN6Nzs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=aQGcU9N2baOOmkwHUcWMEjIa0cDW5RsqoCOmMtoF/M3TFP0lGGxu3MWc+j2KiBXXPj/uEMlFv+t3uyEoanepVUJjzs/9RD5wjNtuPvGMBZcs4wimQeoppxV0iyAjD8D2Xl6L0x3B3PUL0bqkpHoMZTbJP0RWpaZkTq8QBmFjXI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QQNjNnoE; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iI8lTj7s"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1709298925;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=j6JDdzMRW33EgNy8WVE2rwXJul+k7YILcoZp2XURKLI=;
-	b=iI8lTj7syOyTuYUrra2JC9Ixh25zlm6lpJ5/XDSxvHHZ/6ckDatltHl+o0x+DBKt8i4e14
-	GWgGHG02FIHk3CvRUBtRNIt2Pb3jLghh+3m1ZOV1vVbydisna2iAiG8iA+MKLF1Y12RhUs
-	cSNRD4SkeYAhCd1c/P3E/TVKYPX2EQo=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-311-j-1sb1MnM4WYIl5WgOARiw-1; Fri, 01 Mar 2024 08:15:23 -0500
-X-MC-Unique: j-1sb1MnM4WYIl5WgOARiw-1
-Received: by mail-lf1-f72.google.com with SMTP id 2adb3069b0e04-5131aa087beso1635783e87.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 01 Mar 2024 05:15:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709298922; x=1709903722;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QQNjNnoE"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-33d9c3f36c2so1167003f8f.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 01 Mar 2024 09:22:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709313755; x=1709918555; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=j6JDdzMRW33EgNy8WVE2rwXJul+k7YILcoZp2XURKLI=;
-        b=H6YQ4YHsRkH9soWnIFAvYb2lcAguWT0tQgK7ZOay+Blb6OE8XZDCrWKV7lVhUgXoW4
-         boeWGPPqNptjOJv6q9VDlLO+oKqARpM7Ov2bg2hcyb9PqyPJ2KSQrop8K9dcO+xA9UnM
-         ZnI9Xjb0R78/eMLKs68UBKdf9c0cORquNkBY/kjaZYshI0Uz5HtrUAqPKm9/uMlfg9kF
-         IPQMaTBia5r64LJP6f2+kYVJ5TICnlBV9D1ZQdqQbxazi38jsvcodhOo9Wk5QH5GmzUO
-         ys66Ul6ugmLkTSqfyeNz7JKENJuo3eVUmTxzBgwB8ZqJ9Oqco3lcVr7YnLjDflLMtBd2
-         q4Ng==
-X-Forwarded-Encrypted: i=1; AJvYcCVicH9AqNSinWEoYc1xURKSLKwwrh5I1NHQlhoaMwvNQ5a2hTozWDCKOrZw1GP8QrRzVtfgsNox6dzmyiRw9Wvf14BpiYM2ORoJZLo=
-X-Gm-Message-State: AOJu0Yy4mml1jUAQ6xTGDLDbB11WvMFNcsuJuitdmBKSMgsJFOmc5DDY
-	bQ88N42Hf2V5FXGSKVTv+tJOsiLeJqr3FE/yxMwL738r0PBuO1ysY65ics1hAJkgwxaRC7yRY0A
-	oeTDm9q09mdUT0pfQjGZ+g/uWNFnlGh/NLXZcB27uhfossOkYidtDh8MWmpSw
-X-Received: by 2002:ac2:599b:0:b0:512:f6d3:9998 with SMTP id w27-20020ac2599b000000b00512f6d39998mr1223710lfn.17.1709298922216;
-        Fri, 01 Mar 2024 05:15:22 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFwlzt5HlgK0WAcZyh2ZsOJe95EyGGHjhxje8QxMH4nFVP4Pvs9Hg/dbyzZ0Awcz9X/EGacJg==
-X-Received: by 2002:ac2:599b:0:b0:512:f6d3:9998 with SMTP id w27-20020ac2599b000000b00512f6d39998mr1223689lfn.17.1709298921881;
-        Fri, 01 Mar 2024 05:15:21 -0800 (PST)
-Received: from toolbox ([2001:9e8:89a0:c500:c65:1f3a:8c08:2a1d])
-        by smtp.gmail.com with ESMTPSA id bw1-20020a0560001f8100b0033db0c866f7sm4639850wrb.11.2024.03.01.05.15.21
+        bh=37WDRV9x4Xm24khamq/oQN+S82VH6v/HallOiNR2z8I=;
+        b=QQNjNnoEjG2iRsUYPxK2zhIFrIN62CITI0Yq54b3zKhbAnpIwkJxFUyeM8FHef8WpG
+         uk2sj09tuK8ZBn7QyHn8XkNEnAx13Zu6w3ugyltF7gLwDl8RJi4NPNoVP4DBD5vgAv5A
+         ZIXLcazXOF/oVlii5xc0PvuqekLzcumrwYzxS+AV7JBl48LmxTiTAY5Z1z/0dnCexZzX
+         te3x1ru1jzhr7bokih/eN7fTeNnIquhF3UGvrzv9EMvBu3+s1R4zU+eULAhAT6ur2LuC
+         /01jusfLLLES5YQIZG56Ayb//ob6t11j9FB7zB4OUsOcwpF9C74AMwwFwtM3geIOVsQA
+         9VjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709313755; x=1709918555;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=37WDRV9x4Xm24khamq/oQN+S82VH6v/HallOiNR2z8I=;
+        b=dwYON1EIikC16ljo+vdJAxBUHpBNGVzeJVPog+u1Vbk+m1zPR8rh25AAODXaMQ5Rf9
+         JPIAYA1k+qN2ZCRnNwYC9OzO8swx4zw7SeskLgycpEQN3kSho5zQDzp7ZOo/4LvklCv3
+         piC0UMRSnUfDIbEuSXeP/dfPGaBIqTeSOHFTgrZtLBg5n66dvIUCyt0MRY9i3DBYMtp6
+         ZHxO4FlomEwbX9+6EyLV10ecfePGz5hdAKkhLC+ccxxSaDr7t+Tao9V+yw3HQU8+e7zK
+         /z0N6rGsO6HgNYaJ9bRR+u0C/r6P4B1r6Wq8Pxzxd5BU2lg4/icXnmotxx7BBBTAX3a4
+         U5kg==
+X-Forwarded-Encrypted: i=1; AJvYcCUNB3gTJXpn6SwHx7mmvrgZWmBjuV9qFYCI58h1rYwM1fmKAma8HQnaaf0nfplroQUgrf3TaeRdeJP0I2Y/RS/GU1OqLlcQJJICWuw=
+X-Gm-Message-State: AOJu0Yz2fAoysq1BfK63eAliG+bySe08wvcb+i/2glwRupeGpkSbXxtA
+	9HTaQJw82o2VY4B2173YThbA2qNNHDLp+/WyIQZZwLUrr0yyiDOV
+X-Google-Smtp-Source: AGHT+IGtVWAQft25IP1iqNWRhDEMUGcaRacUUSQk9h+swOPYRkaoHEXxo+JZvWLEqXKiNPyGToM3cA==
+X-Received: by 2002:adf:b649:0:b0:33e:1f2b:a468 with SMTP id i9-20020adfb649000000b0033e1f2ba468mr1578174wre.24.1709313754549;
+        Fri, 01 Mar 2024 09:22:34 -0800 (PST)
+Received: from jernej-laptop.localnet ([188.159.248.16])
+        by smtp.gmail.com with ESMTPSA id h18-20020a5d5052000000b0033cf4e47496sm5013576wrt.51.2024.03.01.09.22.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Mar 2024 05:15:21 -0800 (PST)
-Date: Fri, 1 Mar 2024 14:15:19 +0100
-From: Sebastian Wick <sebastian.wick@redhat.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>,
-	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v7 21/36] drm/connector: hdmi: Add Broadcast RGB property
-Message-ID: <20240301131519.GA10491@toolbox>
-References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
- <20240222-kms-hdmi-connector-state-v7-21-8f4af575fce2@kernel.org>
- <20240229194726.GB166694@toolbox>
- <20240301-light-impressive-grasshopper-adabeb@houat>
- <20240301112941.GE166694@toolbox>
- <20240301-loyal-cornflower-oxpecker-83ed59@houat>
+        Fri, 01 Mar 2024 09:22:34 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Jernej Skrabec <jernej@kernel.org>, arm <arm@kernel.org>, soc@kernel.org,
+ Arnd Bergmann <arnd@arndb.de>
+Cc: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [GIT PULL] Allwinner device tree changes for 6.9
+Date: Fri, 01 Mar 2024 18:22:32 +0100
+Message-ID: <2203755.NgBsaNRSFp@jernej-laptop>
+In-Reply-To: <3990c5be-6173-4c20-96ca-79e22cb4a40f@app.fastmail.com>
+References:
+ <20240223210408.GA9248@jernej-laptop>
+ <3990c5be-6173-4c20-96ca-79e22cb4a40f@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20240301-loyal-cornflower-oxpecker-83ed59@houat>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Fri, Mar 01, 2024 at 01:12:02PM +0100, Maxime Ripard wrote:
-> On Fri, Mar 01, 2024 at 12:29:41PM +0100, Sebastian Wick wrote:
-> > On Fri, Mar 01, 2024 at 11:30:56AM +0100, Maxime Ripard wrote:
-> > > On Thu, Feb 29, 2024 at 08:47:26PM +0100, Sebastian Wick wrote:
-> > > > > @@ -1708,6 +1731,39 @@ EXPORT_SYMBOL(drm_connector_attach_dp_subconnector_property);
-> > > > >  /**
-> > > > >   * DOC: HDMI connector properties
-> > > > >   *
-> > > > > + * Broadcast RGB (HDMI specific)
-> > > > > + *      Indicates the Quantization Range (Full vs Limited) used. The color
-> > > > > + *      processing pipeline will be adjusted to match the value of the
-> > > > > + *      property, and the Infoframes will be generated and sent accordingly.
-> > > > > + *
-> > > > > + *      This property is only relevant if the HDMI output format is RGB. If
-> > > > > + *      it's one of the YCbCr variant, it will be ignored and the output will
-> > > > > + *      use a limited quantization range.
-> > > > 
-> > > > Uh, maybe just say that the quantization range is selected automatically
-> > > > in case a YCbCr output format is in use. I'm not sure every YCbCr
-> > > > variant requires limited and even if it does, new formats could change
-> > > > this.
-> > > 
-> > > I documented what i915 is doing:
-> > > https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/i915/display/intel_hdmi.c#L2143
-> > 
-> > Sure, this is one valid strategy for the automatic behavior of YCbCr.
-> > Drivers could also always send an InfoFrame to ensure full range where
-> > possible. The point here is that this property shall not affect YCbCr
-> > output formats!
-> > 
-> > Maybe it's even better to say "driver specific" instead of "automatic".
+Dne petek, 01. marec 2024 ob 10:54:41 CET je Arnd Bergmann napisal(a):
+> On Fri, Feb 23, 2024, at 22:04, Jernej Skrabec wrote:
+> > Hi!
+> >
+> > Please pull following device tree changes for 6.9.
+> >
+> > Note that this is based on top of fixes for 6.8:
+> > https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git 
+> > tags/sunxi-fixes-for-6.8-1
+> >
 > 
-> Honestly, I'm not sure what you want from me here. Ville and you
-> insisted on the previous version to document what i915 is doing and to
-> follow whatever the behaviour was, and that we shouldn't spend time
-> improving the property. Fine, I did that.
+> I've pulled it into the soc/dt branch manually, as b4 refused
+> to pull it because it got confused by the text above and
+> assumed it should pull from the fixes branch, which does not
+> match the commit ID below.
 > 
-> But now, you want me to ... improve the property?
+> Having the stacked pull requests is otherwise the right idea,
+> just maybe next time only mention the branch name rather than
+> the URL that can confuse tools.
 
-The property has a clear scope: quantization range for RGB output
-formats. What Intel does with things that are not in scope of the
-property is irrelevant. This isn't improving the property either but
-documenting the scope of the property.
+Sorry about that. I'll do that next time.
 
-Sorry if this seems arbitrary but these details are so important to get
-right because the interactions between all the different things is
-already majorly broken.
+Best regards,
+Jernej
 
-> Maxime
 > 
+>        Arnd
+> 
+> >
+> > The following changes since commit cbec657208bdd4bff4ff31cac5924aa18817027c:
+> >
+> >   arm64: dts: allwinner: h616: Add Orange Pi Zero 2W to Makefile 
+> > (2024-02-23 21:02:51 +0100)
+> >
+> > are available in the Git repository at:
+> >
+> >   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git 
+> > tags/sunxi-dt-for-6.9-1
+> >
+> > for you to fetch changes up to f4318af40544b8e7ff5a6b667ede60e6cf808262:
+> 
+
+
+
 
