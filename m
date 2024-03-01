@@ -1,395 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A96C69D09;
-	Fri,  1 Mar 2024 08:29:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B7206A8BA
+	for <linux-sunxi@lists.linux.dev>; Fri,  1 Mar 2024 09:55:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709281765; cv=none; b=EtioagGJSefbjG9nIad79Soikka0QhmHIiF5mxTjqFAMaix2Rz+D2Emo8euF3SAdkpOW/qP6Iw/n1ea7N+n00RprwnJC2w7GgKfSGlB9v2DPuS5dJfJ9T61zMyIHJacc73x9eJmY6PsyCk/epPF/Xkidbk581ou+LbV8OLNaF8A=
+	t=1709286906; cv=none; b=NM8eeFgveuRLPt1EkvSDoF3WpUP9aqssrGEWma0iVHI6cy2Hng4hrsOWKEQbSMlVCe7TT0PdW7UFGF//Ejow9tOQHbkCAqeB/ntIcOt/AKgPcq9NSBt/L4Kz3xAGkRFX9whPlKCru1328C8zz3jIa7LHAAoUaYRic3g+wH5RoNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709281765; c=relaxed/simple;
-	bh=ghx+fCttyCcdBMfBk2oIxXf4N6hQcnpEYC8Q+9Ad/Ho=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=n2pFKWhftcBblUHihA8n6oT8GjADPgqlFy96fQL3CxUVrTHKUxg2M8lB5qIesNoDe3N6DLnaPOjjyWW5Z/YzYqawpJTNPIkiwG68VFsm3+H2xsHV3wC1JUkMCKuzdDFoYAK1L4LOzLFKLxmob1/zGIpWxFQ5MKcG6B2iwsgWrPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 468B9C433C7;
-	Fri,  1 Mar 2024 08:29:19 +0000 (UTC)
-Message-ID: <5a8366aa-34b9-4f80-9b14-d92e99873349@xs4all.nl>
-Date: Fri, 1 Mar 2024 09:29:17 +0100
+	s=arc-20240116; t=1709286906; c=relaxed/simple;
+	bh=txZYUuxMnJ6Wler+v+KafS4zDPSASSg11pIBY+Y/tBk=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=p+hxwOwn02Vgfgq9LVpKOwA11p1Z0+MIzdmaUnsGap6J8gxRfzw3zsldNCQgxpu88C12dWE8N6NC3U78FzOtz3NPM6kzewwh+IM19Kt1CjT9IEP729CnPhFbNZkekWaNPPggZfPjB/k8+csFeDOZBno95ZG9Khwdxl2PUi9XSNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=CtzA+3e4; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Hr9tLQcN; arc=none smtp.client-ip=64.147.123.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="CtzA+3e4";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Hr9tLQcN"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id 18E803200B0B;
+	Fri,  1 Mar 2024 04:55:03 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Fri, 01 Mar 2024 04:55:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1709286902; x=1709373302; bh=eKkHrTxA5h
+	5UFzBzHhnpvQfEdW1xCrAq+5NyjYHzbVE=; b=CtzA+3e4Aa4kVVENqMhl0j+CMk
+	WgYukEVVe+TGxrziQG+/1mZTmqiLOSF6Mga9sDZvK4JizDBFP+GAZTUs3IeZdKG4
+	eHdefbDkOyNd5soBXJ5SFIrA4Nn+mWxnDMcKsOGBtiNHgGWubDwDHGK2E5K7lqXk
+	ihiQLxUFSvhhZuBcdGXLU7Pt2IzEWNsOFEpjEfxc6KlSt4gOsJu8ehkWCHv5Lel2
+	rSzGj1rfXL+6TXPbZBW2Tb7w5PQgZBH+QrukEszlBEObUJTDw4rBecHknVvk3MZs
+	8X6aXDqupeu7EydXpOjjvmZmdIuOo9whO6ox0fVZPZv2+5gwqAfJS7cVE/mA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1709286902; x=1709373302; bh=eKkHrTxA5h5UFzBzHhnpvQfEdW1x
+	CrAq+5NyjYHzbVE=; b=Hr9tLQcNME7Qa2TSUc81lcG2NW0DS6QgZCH8q2U1Aeud
+	9sZVvkDbS+Vbtf7QKVBg+4ADD0ULcvDsNjg2ZITvjcy17cJrZkk/Kt6Zk7kQyNmI
+	VHd/ZBV2Dnc9q9k4ygsyTQHBoUhL8tp7Yj6upLQ8NZZP1nqZ9pUc5SMRWgDIHPDv
+	xTZLB6Kf88uTVujQHR+WpsCwFnLWFjta6pqNren/hDGqFroPlUGcwtPZs37kug9X
+	uJMlZ1MIq/i5WZV395oGXrNm0Ql3+Hw/nwipAS78hYUYHCdPVJU0T3vyLEmcZ6ch
+	+8Ldh/at7dUVAgDFJcpB5TqyugBlw3Zv0O8C3U7aDA==
+X-ME-Sender: <xms:9aXhZcIlRQYeJqz3n8dkY0JH6bCXht7iJeq4SDIBVwX6g6efkjzdCg>
+    <xme:9aXhZcJ7Kx6Src0m9UY-XM81-V3CG8AP6oKIs-re9k8RXtZP03ByheHxKb2Jo2c98
+    2KtJ6maZ9FHBFdxPH8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrhedugddutdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+    gvrhhnpeevhfffledtgeehfeffhfdtgedvheejtdfgkeeuvefgudffteettdekkeeufeeh
+    udenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+    enucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:9aXhZctV7DPSCqBTNyW4aPbsaAnpAtqBhScAPjeCxzVuqjs0cvnOZg>
+    <xmx:9aXhZZZVvNYq4hen4EOvsWM7Hikisc_vBXtl0Vz00NijKUBm9Z0c3A>
+    <xmx:9aXhZTb5oNkALvcMbbKJUySwKCXXYs1DF5eaeBoXl_DrKiVbyYixew>
+    <xmx:9qXhZeyy_aFmIU_S0U2GNKm7_Xy4YzNIjw2cyZKppq1cMw8NNhyqpA>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id BBD74B6008D; Fri,  1 Mar 2024 04:55:01 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-205-g4dbcac4545-fm-20240301.001-g4dbcac45
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 21/36] drm/connector: hdmi: Add Broadcast RGB property
-Content-Language: en-US, nl
-To: Sebastian Wick <sebastian.wick@redhat.com>,
- Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
- Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev, Dave Stevenson <dave.stevenson@raspberrypi.com>
-References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
- <20240222-kms-hdmi-connector-state-v7-21-8f4af575fce2@kernel.org>
- <20240229194726.GB166694@toolbox>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20240229194726.GB166694@toolbox>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Message-Id: <3990c5be-6173-4c20-96ca-79e22cb4a40f@app.fastmail.com>
+In-Reply-To: <20240223210408.GA9248@jernej-laptop>
+References: <20240223210408.GA9248@jernej-laptop>
+Date: Fri, 01 Mar 2024 10:54:41 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Jernej Skrabec" <jernej@kernel.org>, arm <arm@kernel.org>, soc@kernel.org
+Cc: "Chen-Yu Tsai" <wens@csie.org>, "Samuel Holland" <samuel@sholland.org>,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [GIT PULL] Allwinner device tree changes for 6.9
+Content-Type: text/plain
 
-On 29/02/2024 20:47, Sebastian Wick wrote:
-> On Thu, Feb 22, 2024 at 07:14:07PM +0100, Maxime Ripard wrote:
->> The i915 driver has a property to force the RGB range of an HDMI output.
->> The vc4 driver then implemented the same property with the same
->> semantics. KWin has support for it, and a PR for mutter is also there to
->> support it.
->>
->> Both drivers implementing the same property with the same semantics,
->> plus the userspace having support for it, is proof enough that it's
->> pretty much a de-facto standard now and we can provide helpers for it.
->>
->> Let's plumb it into the newly created HDMI connector.
->>
->> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
->> Signed-off-by: Maxime Ripard <mripard@kernel.org>
->> ---
->>  Documentation/gpu/kms-properties.csv      |  1 -
->>  drivers/gpu/drm/drm_atomic.c              |  2 +
->>  drivers/gpu/drm/drm_atomic_state_helper.c |  4 +-
->>  drivers/gpu/drm/drm_atomic_uapi.c         |  4 ++
->>  drivers/gpu/drm/drm_connector.c           | 89 +++++++++++++++++++++++++++++++
->>  include/drm/drm_connector.h               | 36 +++++++++++++
->>  6 files changed, 134 insertions(+), 2 deletions(-)
->>
->> diff --git a/Documentation/gpu/kms-properties.csv b/Documentation/gpu/kms-properties.csv
->> index 0f9590834829..caef14c532d4 100644
->> --- a/Documentation/gpu/kms-properties.csv
->> +++ b/Documentation/gpu/kms-properties.csv
->> @@ -17,7 +17,6 @@ Owner Module/Drivers,Group,Property Name,Type,Property Values,Object attached,De
->>  ,Virtual GPU,“suggested X”,RANGE,"Min=0, Max=0xffffffff",Connector,property to suggest an X offset for a connector
->>  ,,“suggested Y”,RANGE,"Min=0, Max=0xffffffff",Connector,property to suggest an Y offset for a connector
->>  ,Optional,"""aspect ratio""",ENUM,"{ ""None"", ""4:3"", ""16:9"" }",Connector,TDB
->> -i915,Generic,"""Broadcast RGB""",ENUM,"{ ""Automatic"", ""Full"", ""Limited 16:235"" }",Connector,"When this property is set to Limited 16:235 and CTM is set, the hardware will be programmed with the result of the multiplication of CTM by the limited range matrix to ensure the pixels normally in the range 0..1.0 are remapped to the range 16/255..235/255."
->>  ,,“audio”,ENUM,"{ ""force-dvi"", ""off"", ""auto"", ""on"" }",Connector,TBD
->>  ,SDVO-TV,“mode”,ENUM,"{ ""NTSC_M"", ""NTSC_J"", ""NTSC_443"", ""PAL_B"" } etc.",Connector,TBD
->>  ,,"""left_margin""",RANGE,"Min=0, Max= SDVO dependent",Connector,TBD
->> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
->> index 26f9e525c0a0..3e57d98d8418 100644
->> --- a/drivers/gpu/drm/drm_atomic.c
->> +++ b/drivers/gpu/drm/drm_atomic.c
->> @@ -1145,6 +1145,8 @@ static void drm_atomic_connector_print_state(struct drm_printer *p,
->>  
->>  	if (connector->connector_type == DRM_MODE_CONNECTOR_HDMIA ||
->>  	    connector->connector_type == DRM_MODE_CONNECTOR_HDMIB) {
->> +		drm_printf(p, "\tbroadcast_rgb=%s\n",
->> +			   drm_hdmi_connector_get_broadcast_rgb_name(state->hdmi.broadcast_rgb));
->>  		drm_printf(p, "\toutput_bpc=%u\n", state->hdmi.output_bpc);
->>  		drm_printf(p, "\toutput_format=%s\n",
->>  			   drm_hdmi_connector_get_output_format_name(state->hdmi.output_format));
->> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
->> index 9f517599f117..0e8fb653965a 100644
->> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
->> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
->> @@ -589,6 +589,7 @@ void __drm_atomic_helper_connector_hdmi_reset(struct drm_connector *connector,
->>  
->>  	new_state->max_bpc = max_bpc;
->>  	new_state->max_requested_bpc = max_bpc;
->> +	new_state->hdmi.broadcast_rgb = DRM_HDMI_BROADCAST_RGB_AUTO;
->>  }
->>  EXPORT_SYMBOL(__drm_atomic_helper_connector_hdmi_reset);
->>  
->> @@ -913,7 +914,8 @@ int drm_atomic_helper_connector_hdmi_check(struct drm_connector *connector,
->>  	if (ret)
->>  		return ret;
->>  
->> -	if (old_state->hdmi.output_bpc != new_state->hdmi.output_bpc ||
->> +	if (old_state->hdmi.broadcast_rgb != new_state->hdmi.broadcast_rgb ||
->> +	    old_state->hdmi.output_bpc != new_state->hdmi.output_bpc ||
->>  	    old_state->hdmi.output_format != new_state->hdmi.output_format) {
->>  		struct drm_crtc *crtc = new_state->crtc;
->>  		struct drm_crtc_state *crtc_state;
->> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
->> index 29d4940188d4..2b415b4ed506 100644
->> --- a/drivers/gpu/drm/drm_atomic_uapi.c
->> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
->> @@ -776,6 +776,8 @@ static int drm_atomic_connector_set_property(struct drm_connector *connector,
->>  		state->max_requested_bpc = val;
->>  	} else if (property == connector->privacy_screen_sw_state_property) {
->>  		state->privacy_screen_sw_state = val;
->> +	} else if (property == connector->broadcast_rgb_property) {
->> +		state->hdmi.broadcast_rgb = val;
->>  	} else if (connector->funcs->atomic_set_property) {
->>  		return connector->funcs->atomic_set_property(connector,
->>  				state, property, val);
->> @@ -859,6 +861,8 @@ drm_atomic_connector_get_property(struct drm_connector *connector,
->>  		*val = state->max_requested_bpc;
->>  	} else if (property == connector->privacy_screen_sw_state_property) {
->>  		*val = state->privacy_screen_sw_state;
->> +	} else if (property == connector->broadcast_rgb_property) {
->> +		*val = state->hdmi.broadcast_rgb;
->>  	} else if (connector->funcs->atomic_get_property) {
->>  		return connector->funcs->atomic_get_property(connector,
->>  				state, property, val);
->> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
->> index 591d2d500f61..6ffe59d01698 100644
->> --- a/drivers/gpu/drm/drm_connector.c
->> +++ b/drivers/gpu/drm/drm_connector.c
->> @@ -1212,6 +1212,29 @@ static const u32 dp_colorspaces =
->>  	BIT(DRM_MODE_COLORIMETRY_BT2020_CYCC) |
->>  	BIT(DRM_MODE_COLORIMETRY_BT2020_YCC);
->>  
->> +static const struct drm_prop_enum_list broadcast_rgb_names[] = {
->> +	{ DRM_HDMI_BROADCAST_RGB_AUTO, "Automatic" },
->> +	{ DRM_HDMI_BROADCAST_RGB_FULL, "Full" },
->> +	{ DRM_HDMI_BROADCAST_RGB_LIMITED, "Limited 16:235" },
->> +};
->> +
->> +/*
->> + * drm_hdmi_connector_get_broadcast_rgb_name - Return a string for HDMI connector RGB broadcast selection
->> + * @broadcast_rgb: Broadcast RGB selection to compute name of
->> + *
->> + * Returns: the name of the Broadcast RGB selection, or NULL if the type
->> + * is not valid.
->> + */
->> +const char *
->> +drm_hdmi_connector_get_broadcast_rgb_name(enum drm_hdmi_broadcast_rgb broadcast_rgb)
->> +{
->> +	if (broadcast_rgb > DRM_HDMI_BROADCAST_RGB_LIMITED)
->> +		return NULL;
->> +
->> +	return broadcast_rgb_names[broadcast_rgb].name;
->> +}
->> +EXPORT_SYMBOL(drm_hdmi_connector_get_broadcast_rgb_name);
->> +
->>  static const char * const output_format_str[] = {
->>  	[HDMI_COLORSPACE_RGB]		= "RGB",
->>  	[HDMI_COLORSPACE_YUV420]	= "YUV 4:2:0",
->> @@ -1708,6 +1731,39 @@ EXPORT_SYMBOL(drm_connector_attach_dp_subconnector_property);
->>  /**
->>   * DOC: HDMI connector properties
->>   *
->> + * Broadcast RGB (HDMI specific)
->> + *      Indicates the Quantization Range (Full vs Limited) used. The color
->> + *      processing pipeline will be adjusted to match the value of the
->> + *      property, and the Infoframes will be generated and sent accordingly.
->> + *
->> + *      This property is only relevant if the HDMI output format is RGB. If
->> + *      it's one of the YCbCr variant, it will be ignored and the output will
->> + *      use a limited quantization range.
-> 
-> Uh, maybe just say that the quantization range is selected automatically
-> in case a YCbCr output format is in use. I'm not sure every YCbCr
-> variant requires limited and even if it does, new formats could change
-> this.
+On Fri, Feb 23, 2024, at 22:04, Jernej Skrabec wrote:
+> Hi!
+>
+> Please pull following device tree changes for 6.9.
+>
+> Note that this is based on top of fixes for 6.8:
+> https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git 
+> tags/sunxi-fixes-for-6.8-1
+>
 
-For HDMI every YCbCr output format is limited range by default. It is
-highly unlikely that future YCbCr formats would ever use full range by
-default.
+I've pulled it into the soc/dt branch manually, as b4 refused
+to pull it because it got confused by the text above and
+assumed it should pull from the fixes branch, which does not
+match the commit ID below.
 
-So I am fine with the current text since it is actually correct and it
-explicitly states which quantization range will be used.
+Having the stacked pull requests is otherwise the right idea,
+just maybe next time only mention the branch name rather than
+the URL that can confuse tools.
 
-Regards,
+       Arnd
 
-	Hans
-
-> 
-> With this changed, this patch is
-> 
-> Reviewed-by: Sebastian Wick <sebastian.wick@redhat.com>
-> 
->> + *
->> + *      The CRTC attached to the connector must be configured by user-space to
->> + *      always produce full-range pixels.
->> + *
->> + *      The value of this property can be one of the following:
->> + *
->> + *      Automatic:
->> + *              The quantization range is selected automatically based on the
->> + *              mode according to the HDMI specifications (HDMI 1.4b - Section
->> + *              6.6 - Video Quantization Ranges).
->> + *
->> + *      Full:
->> + *              Full quantization range is forced.
->> + *
->> + *      Limited 16:235:
->> + *              Limited quantization range is forced. Unlike the name suggests,
->> + *              this works for any number of bits-per-component.
->> + *
->> + *      Property values other than Automatic can result in colors being off (if
->> + *      limited is selected but the display expects full), or a black screen
->> + *      (if full is selected but the display expects limited).
->> + *
->> + *      Drivers can set up this property by calling
->> + *      drm_connector_attach_broadcast_rgb_property().
->> + *
->>   * content type (HDMI specific):
->>   *	Indicates content type setting to be used in HDMI infoframes to indicate
->>   *	content type for the external device, so that it adjusts its display
->> @@ -2570,6 +2626,39 @@ int drm_connector_attach_hdr_output_metadata_property(struct drm_connector *conn
->>  }
->>  EXPORT_SYMBOL(drm_connector_attach_hdr_output_metadata_property);
->>  
->> +/**
->> + * drm_connector_attach_broadcast_rgb_property - attach "Broadcast RGB" property
->> + * @connector: connector to attach the property on.
->> + *
->> + * This is used to add support for forcing the RGB range on a connector
->> + *
->> + * Returns:
->> + * Zero on success, negative errno on failure.
->> + */
->> +int drm_connector_attach_broadcast_rgb_property(struct drm_connector *connector)
->> +{
->> +	struct drm_device *dev = connector->dev;
->> +	struct drm_property *prop;
->> +
->> +	prop = connector->broadcast_rgb_property;
->> +	if (!prop) {
->> +		prop = drm_property_create_enum(dev, DRM_MODE_PROP_ENUM,
->> +						"Broadcast RGB",
->> +						broadcast_rgb_names,
->> +						ARRAY_SIZE(broadcast_rgb_names));
->> +		if (!prop)
->> +			return -EINVAL;
->> +
->> +		connector->broadcast_rgb_property = prop;
->> +	}
->> +
->> +	drm_object_attach_property(&connector->base, prop,
->> +				   DRM_HDMI_BROADCAST_RGB_AUTO);
->> +
->> +	return 0;
->> +}
->> +EXPORT_SYMBOL(drm_connector_attach_broadcast_rgb_property);
->> +
->>  /**
->>   * drm_connector_attach_colorspace_property - attach "Colorspace" property
->>   * @connector: connector to attach the property on.
->> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
->> index 8cda902934cd..bb6b6a36ade3 100644
->> --- a/include/drm/drm_connector.h
->> +++ b/include/drm/drm_connector.h
->> @@ -369,6 +369,29 @@ enum drm_panel_orientation {
->>  	DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
->>  };
->>  
->> +/**
->> + * enum drm_hdmi_broadcast_rgb - Broadcast RGB Selection for an HDMI @drm_connector
->> + */
->> +enum drm_hdmi_broadcast_rgb {
->> +	/**
->> +	 * @DRM_HDMI_BROADCAST_RGB_AUTO: The RGB range is selected
->> +	 * automatically based on the mode.
->> +	 */
->> +	DRM_HDMI_BROADCAST_RGB_AUTO,
->> +
->> +	/**
->> +	 * @DRM_HDMI_BROADCAST_RGB_FULL: Full range RGB is forced.
->> +	 */
->> +	DRM_HDMI_BROADCAST_RGB_FULL,
->> +
->> +	/**
->> +	 * @DRM_HDMI_BROADCAST_RGB_LIMITED: Limited range RGB is forced.
->> +	 */
->> +	DRM_HDMI_BROADCAST_RGB_LIMITED,
->> +};
->> +
->> +const char *
->> +drm_hdmi_connector_get_broadcast_rgb_name(enum drm_hdmi_broadcast_rgb broadcast_rgb);
->>  const char *
->>  drm_hdmi_connector_get_output_format_name(enum hdmi_colorspace fmt);
->>  
->> @@ -1041,6 +1064,12 @@ struct drm_connector_state {
->>  	 * @drm_atomic_helper_connector_hdmi_check().
->>  	 */
->>  	struct {
->> +		/**
->> +		 * @broadcast_rgb: Connector property to pass the
->> +		 * Broadcast RGB selection value.
->> +		 */
->> +		enum drm_hdmi_broadcast_rgb broadcast_rgb;
->> +
->>  		/**
->>  		 * @output_bpc: Bits per color channel to output.
->>  		 */
->> @@ -1753,6 +1782,12 @@ struct drm_connector {
->>  	 */
->>  	struct drm_property *privacy_screen_hw_state_property;
->>  
->> +	/**
->> +	 * @broadcast_rgb_property: Connector property to set the
->> +	 * Broadcast RGB selection to output with.
->> +	 */
->> +	struct drm_property *broadcast_rgb_property;
->> +
->>  #define DRM_CONNECTOR_POLL_HPD (1 << 0)
->>  #define DRM_CONNECTOR_POLL_CONNECT (1 << 1)
->>  #define DRM_CONNECTOR_POLL_DISCONNECT (1 << 2)
->> @@ -2092,6 +2127,7 @@ int drm_connector_attach_scaling_mode_property(struct drm_connector *connector,
->>  					       u32 scaling_mode_mask);
->>  int drm_connector_attach_vrr_capable_property(
->>  		struct drm_connector *connector);
->> +int drm_connector_attach_broadcast_rgb_property(struct drm_connector *connector);
->>  int drm_connector_attach_colorspace_property(struct drm_connector *connector);
->>  int drm_connector_attach_hdr_output_metadata_property(struct drm_connector *connector);
->>  bool drm_connector_atomic_hdr_metadata_equal(struct drm_connector_state *old_state,
->>
->> -- 
->> 2.43.2
->>
-> 
-
+>
+> The following changes since commit cbec657208bdd4bff4ff31cac5924aa18817027c:
+>
+>   arm64: dts: allwinner: h616: Add Orange Pi Zero 2W to Makefile 
+> (2024-02-23 21:02:51 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git 
+> tags/sunxi-dt-for-6.9-1
+>
+> for you to fetch changes up to f4318af40544b8e7ff5a6b667ede60e6cf808262:
