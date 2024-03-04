@@ -1,110 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BE8933CF
-	for <linux-sunxi@lists.linux.dev>; Mon,  4 Mar 2024 13:55:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AABB1EB5A
+	for <linux-sunxi@lists.linux.dev>; Mon,  4 Mar 2024 21:29:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709560535; cv=none; b=OHhb5zCdIkiJ/+fDNWNooXHKwK5RAamKPVisBjv6LR/UMgT+35lG9BAFyPhArlPQJa8K+am2u3T8VnFPnggiDcm1rzZTFgPUVk4+qmg/YQwCtBfyaedxlS8x+3rXn5ECuifxq8Fo+q/g9DfVfOl27EsPfAwukAFvfe60/0H8PO8=
+	t=1709587752; cv=none; b=qoZLOJZz6Jff18WongC34DUpTVtKxfeOHyNY6Ztbrx9DOGSGLxwQD4BtZIh7e0/+QOkIDYzMziEHBu6LXdApe4Ve7oTfv4Ar7pJGkG1zDW7DXXF/HHfybMiLJVnoaGBALpBuZZybHdwT9Ellk84/VRND2FBFgceR3LWza3Kt07Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709560535; c=relaxed/simple;
-	bh=3M+/bQX/v9G+J1KliPz9dmTJESbLCH9kKdvpsKmgcrk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=O3tYYJfpM5s8E+G+hDKGUiPUjUvWJgZbOi97g1JOJNSIuwl1XR+OFQBTjOQsA4TYS4KpKYPgIMgqmLh5uC785U4KdDufBN3Nb1C23t3ePWvmxXM5wz1Tr/9v1M2MjwR/7b7J1ZVzrz24BKuUGfwsRfCoLtE5a1iY+sxiscJAtnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FLDRcz66; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FLDRcz66"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C431C43399
-	for <linux-sunxi@lists.linux.dev>; Mon,  4 Mar 2024 13:55:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709560535;
-	bh=3M+/bQX/v9G+J1KliPz9dmTJESbLCH9kKdvpsKmgcrk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=FLDRcz66TGjYLfnsEHY5VDgqohIRmf+bAFveGtZvAn4+hJhHQg5WGAKNzH6bfQZj1
-	 DvUaUGLWWkVLOoN60YANjjy73WlQwO/99pLjH8+WE5mXTLX37FyOh9XsVBmJJE78GI
-	 DqHRBwU8SkM2SavBcA1NmPJhu4NoDzhTX+6aBztA5Wtmih3RlhDUnK+JJObdbfkxxf
-	 oKovzk568dFn9R0JpJNKFeioKvOuMC93Ut6XAG04Y9xRv7/EIr1dRRBJrmhlewHb7Y
-	 m8iiWKQxS6WxH9I4liCvcOi871N2fkBzIIefaou/q/d1nV/icVWgB/6+Xfm5xEDAF1
-	 Q60Sx8A5gJdZA==
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2d2505352e6so56026801fa.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 04 Mar 2024 05:55:34 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWjiT96cSj0L6Qglw4zttrplkvkuRX1LR6hQHHFNM9wUcY8vdHLg8Mx+qHR7M5hJxmqMm55IhF9Fe87vA791GARDIkQKQZn9Q/whoo=
-X-Gm-Message-State: AOJu0Yzr1Ej0cr5oUniVHESFOAe9h/8bzvsMkZ6Uq9MNNMbl+Q2WZDL3
-	Z4m1ypdom9NBLNgLwW8z+LrqX6WyYVo1D3sqcA1eMT2L6qG3+i5HMdQa/DUbzW7+u/3O7GTC4C8
-	SLLIXydlgIXtoa1pe+9OYLEM9cLc=
-X-Google-Smtp-Source: AGHT+IE+QL1WO9hZcI0G8tB67Le8/FxkZDw1z5pNxBYepTDS5xo90I/CnZ68GGFy2mS2ROSGYg+VgnhJAIoCgfv6/Wk=
-X-Received: by 2002:a2e:a4ae:0:b0:2d3:4652:b2ff with SMTP id
- g14-20020a2ea4ae000000b002d34652b2ffmr5751566ljm.40.1709560533267; Mon, 04
- Mar 2024 05:55:33 -0800 (PST)
+	s=arc-20240116; t=1709587752; c=relaxed/simple;
+	bh=PBrEihezR5AA0ClQxijXvIVfy7IrlYrl4T4cYnc+AtQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hHPF6WL+JTLUK7/89E6q5wfWcDFLQkC1NTH/dvGd380DXWacnoo5kFVgRMyQdNeJjab55mtV+R1bnbAR1NAl6XNYPbqDFlpZdsgykst70yg2Rts7ppzN0m32Hc1VUUm3QahieZr4aC9kODdnjgdDxvu1WV8SLRs8MBEowN6829I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rhFrm-0002hx-4i; Mon, 04 Mar 2024 22:28:58 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rhFrk-004QhY-W6; Mon, 04 Mar 2024 22:28:57 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rhFrk-00H4uV-2u;
+	Mon, 04 Mar 2024 22:28:56 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: MyungJoo Ham <myungjoo.ham@samsung.com>,
+	Kyungmin Park <kyungmin.park@samsung.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>
+Cc: Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-pm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	kernel@pengutronix.de
+Subject: [PATCH 5/5] PM / devfreq: sun8i-a33-mbus: Convert to platform remove callback returning void
+Date: Mon,  4 Mar 2024 22:28:43 +0100
+Message-ID:  <0ca3f35bdf9549ccda7c6c10a476f28350d987df.1709587301.git.u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1709587301.git.u.kleine-koenig@pengutronix.de>
+References: <cover.1709587301.git.u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CA+G9fYvG9KE15PGNoLu+SBVyShe+u5HBLQ81+kK9Zop6u=ywmw@mail.gmail.com>
- <338c89bb-a70b-4f35-b71b-f974e90e3383@app.fastmail.com> <20240304112441.707ded23@donnerap.manchester.arm.com>
- <1baf9a7f-b0e4-45d8-ac57-0727a213d82d@app.fastmail.com> <20240304114546.4e8e1e32@donnerap.manchester.arm.com>
- <badf279a-f1fa-4938-a5d2-492b89d7c27c@app.fastmail.com> <CAMj1kXENYqUx=esK9b_pGd4wpwE43fNaGRCUhJLK_4MQzrAQeg@mail.gmail.com>
- <61aa333f-aa13-4068-b73f-eeae615f4640@app.fastmail.com>
-In-Reply-To: <61aa333f-aa13-4068-b73f-eeae615f4640@app.fastmail.com>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Mon, 4 Mar 2024 14:55:21 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXF4biAW+FpxnkuTes5uK_G2h_pDj3kN-SMFCmLXqNCcug@mail.gmail.com>
-Message-ID: <CAMj1kXF4biAW+FpxnkuTes5uK_G2h_pDj3kN-SMFCmLXqNCcug@mail.gmail.com>
-Subject: Re: arm: ERROR: modpost: "__aeabi_uldivmod" [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko]
- undefined!
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Andre Przywara <andre.przywara@arm.com>, Naresh Kamboju <naresh.kamboju@linaro.org>, 
-	open list <linux-kernel@vger.kernel.org>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, 
-	dri-devel@lists.freedesktop.org, lkft-triage@lists.linaro.org, 
-	Maxime Ripard <mripard@kernel.org>, Dave Airlie <airlied@redhat.com>, 
-	Dan Carpenter <dan.carpenter@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2083; i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id; bh=PBrEihezR5AA0ClQxijXvIVfy7IrlYrl4T4cYnc+AtQ=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBl5j0Nd/4vLbyJrlXlBYNLAsGnaqFmZKtQd7jX+ srJRfHCOFqJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZeY9DQAKCRCPgPtYfRL+ TlM6CACbzzNWmx8B9+BCzK0no3gbBhtyaxUgC5dVdB5//xc7v2zhLurgFAbxXxysS/W3uJaFJ20 uDPXWRhb0pck20FRdiFPTu2laILpgow/u97a76d8Qch1dZUeLLgG3X61Y59PhP67Yb2eizO/92M vsV2a7bGLIK7g6+HXU0DhLbRYjemnmX2Wem8Ob6e1MXcVW05E25E3b7mvC8CHjlkIrduImVWYth X9ic/6CeF/54+KUL2LYdSLYH0UV3nPNpHBEwjMZhfdz/r0hkoOW29227mwb3GBTOM4O0vBC9pfT E73seSaecZz8dKy5CFKqs8hwHHseEra4F4MYorwHXI/o6j7D
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
-On Mon, 4 Mar 2024 at 14:49, Arnd Bergmann <arnd@arndb.de> wrote:
->
-> On Mon, Mar 4, 2024, at 14:01, Ard Biesheuvel wrote:
-> > On Mon, 4 Mar 2024 at 13:35, Arnd Bergmann <arnd@arndb.de> wrote:
-> >> On Mon, Mar 4, 2024, at 12:45, Andre Przywara wrote:
-> >> It's not critical if this is called infrequently, and as Maxime
-> >> just replied, the 64-bit division is in fact required here.
-> >> Since we are dividing by a constant value (200), there is a good
-> >> chance that this will be get turned into fairly efficient
-> >> multiply/shift code.
-> >>
-> >
-> > Clang does not implement that optimization for 64-bit division. That
-> > is how we ended up with this error in the first place.
->
-> I meant it will use the optimization after the patch to convert
-> the plain '/' to div_u64().
->
+The .remove() callback for a platform driver returns an int which makes
+many driver authors wrongly assume it's possible to do error handling by
+returning an error code. However the value returned is ignored (apart
+from emitting a warning) and this typically results in resource leaks.
 
-Ah ok.
+To improve here there is a quest to make the remove callback return
+void. In the first step of this quest all drivers are converted to
+.remove_new(), which already returns void. Eventually after all drivers
+are converted, .remove_new() will be renamed to .remove().
 
-I did not realize we implement the same optimization in our code as
-the one that GCC will apply when encountering a compile-time constant
-divisor.
+Trivially convert this driver from always returning zero in the remove
+callback to the void returning variant.
 
-> > Perhaps it is worthwhile to make div_u64() check its divisor, e.g.,
-> >
-> > --- a/include/linux/math64.h
-> > +++ b/include/linux/math64.h
-> > @@ -127,6 +127,9 @@
-> >  static inline u64 div_u64(u64 dividend, u32 divisor)
-> >  {
-> >         u32 remainder;
-> > +
-> > +       if (IS_ENABLED(CONFIG_CC_IS_GCC) && __builtin_constant_p(divisor))
-> > +               return dividend / divisor;
-> >         return div_u64_rem(dividend, divisor, &remainder);
-> >  }
->
-> I think the div_u64()->do_div()->__div64_const32()->__arch_xprod_64()
-> optimization in asm-generic/div64.h already produces what we want
-> on both compilers. Is there something missing there?
->
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/devfreq/sun8i-a33-mbus.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-No, you are right. I thought we were relying on GCC for the optimization here.
+diff --git a/drivers/devfreq/sun8i-a33-mbus.c b/drivers/devfreq/sun8i-a33-mbus.c
+index 13d32213139f..bcf654f4ff96 100644
+--- a/drivers/devfreq/sun8i-a33-mbus.c
++++ b/drivers/devfreq/sun8i-a33-mbus.c
+@@ -458,7 +458,7 @@ static int sun8i_a33_mbus_probe(struct platform_device *pdev)
+ 	return dev_err_probe(dev, ret, err);
+ }
+ 
+-static int sun8i_a33_mbus_remove(struct platform_device *pdev)
++static void sun8i_a33_mbus_remove(struct platform_device *pdev)
+ {
+ 	struct sun8i_a33_mbus *priv = platform_get_drvdata(pdev);
+ 	unsigned long initial_freq = priv->profile.initial_freq;
+@@ -475,8 +475,6 @@ static int sun8i_a33_mbus_remove(struct platform_device *pdev)
+ 	clk_rate_exclusive_put(priv->clk_mbus);
+ 	clk_rate_exclusive_put(priv->clk_dram);
+ 	clk_disable_unprepare(priv->clk_bus);
+-
+-	return 0;
+ }
+ 
+ static const struct sun8i_a33_mbus_variant sun50i_a64_mbus = {
+@@ -497,7 +495,7 @@ static SIMPLE_DEV_PM_OPS(sun8i_a33_mbus_pm_ops,
+ 
+ static struct platform_driver sun8i_a33_mbus_driver = {
+ 	.probe	= sun8i_a33_mbus_probe,
+-	.remove	= sun8i_a33_mbus_remove,
++	.remove_new = sun8i_a33_mbus_remove,
+ 	.driver	= {
+ 		.name		= "sun8i-a33-mbus",
+ 		.of_match_table	= sun8i_a33_mbus_of_match,
+-- 
+2.43.0
+
