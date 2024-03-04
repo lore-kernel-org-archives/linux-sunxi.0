@@ -1,113 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout5-smtp.messagingengine.com (fout5-smtp.messagingengine.com [103.168.172.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BD2F3D3B3
-	for <linux-sunxi@lists.linux.dev>; Mon,  4 Mar 2024 13:02:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B09FC3E468
+	for <linux-sunxi@lists.linux.dev>; Mon,  4 Mar 2024 13:49:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709557326; cv=none; b=Bj1hL5Kynwnv2M7IaSGe2KEk+H1enEFiVLhp2mFvQ2f/GiEsxQr47ub83DZ+3kk7bpnzswFIPXxbncUcUJRffWuQgmRlNnkTDPQ+PorUCNyyvuVumUIhFGupnOdF4FfFtT+/A+chhGeRqiV1liEOXI5v/8Szew1KDUB/TDtgv8Q=
+	t=1709560160; cv=none; b=FizWN0bjx41XEPIWJCF0+YZVt/IiQuALBlb16vpBtOK+p2PpdPrUAJYMKM9QX3Au+DLyfvSOAMvMCd8/7ae7lKL2/+sgXq9E8OlZf1Q/tmEXNG95fWDwMCVGJnFi1WhD3RkLIPfg0gL80KOK6Ovi93d6nKHBe9/3LfKA5SkWsNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709557326; c=relaxed/simple;
-	bh=OIq1GSC2Asx+nhf1HO80avSwemP0Jz8lS4ttehqA8ZU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=h22A7lx6mwRHskO3pVKlMXxKegUI6vHyl+8dHqAPfWJmxZM8NCmiYZ7yqoIVCWj1tqUWMJCCNjkrSEdZxuEaFwtSVVvAnKIgojNgSyW9su0VtIwlbPkKNHytrSa1oZbA2D6TsWraaeBvxer9DVMN183Ly5IsQAf4Z+vZs806o74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R6udMehQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1709560160; c=relaxed/simple;
+	bh=FjRTxTcDPieY+TUIG9nrUIHRLmgaFcGm7LwfN+LNBow=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=BMSQ8eL+Zyk0gnhVfIII1Q3rk0sJGzz1q1BjTvQBoRxozvz0/x5JqH1OkoKCE8HfB2+4sH8tsi1cDvKx6wt3aQU6rlbsg2mC59VtEAtSzo+9Nc7vmm+8l2LiT1jbGJQ9m4obkTkN+YKciQK2TuDUngI97yJBV7AfxxfXWFtSzB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=AmWRSk25; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=VAgEIm/0; arc=none smtp.client-ip=103.168.172.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R6udMehQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C11C7C43394
-	for <linux-sunxi@lists.linux.dev>; Mon,  4 Mar 2024 13:02:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709557325;
-	bh=OIq1GSC2Asx+nhf1HO80avSwemP0Jz8lS4ttehqA8ZU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=R6udMehQjtGtAmCDZAgC2ey6ZZa2Fpc/S37zT4e/Fz4fKNGZkVChcMbHvkTFveoGM
-	 NnPBVlNnGBeQNSFy/lSpBEtrZ1wT2/JFHMTL7pG/OBXGT6HX1wUTkbDocayN8MKH/5
-	 QSUh376bb+5TpGQ05AWlTqXDFLDHDmR30hdlwZXjM6cjhY0Obo0hpyguC/9qY1MYgG
-	 ztT/7WDnMYHXxiNtmcrJrSmlc5ikKtJJOtzcwr1miWI40llHyeAPJAr/OFb9mQEZqn
-	 UwNWjmVveUB5B0wwZzXTEh93FepK8Z9PPNnwC4aJ9TmMTn6VLaKqT0tEHPEXq+mRCL
-	 vAn7tpvgG0giw==
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2d228a132acso57791471fa.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 04 Mar 2024 05:02:05 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVr6JmP1e3hcSvnp7B87V2NqzJRNeeDYVbHhBnfCTBT0rd41DXAK0zCgsas2o+kVsL3Ix/HjEWJDoejkxglQqyUKrh4yMyczKHa+gk=
-X-Gm-Message-State: AOJu0Yy/WliNj/geROVt4M9fu5lTeoR1Gus8yGA/J1FbtBXawH8pmpzY
-	06Hjnx/RWouIYe/FlcOrrcyXuXN02RY1lWjlf9S2Bm2JY2hgIqCuAHafHa4M3fAzk3Mh54br6Kg
-	CxBkKct9f4oqzWJdnLJASWlHNBxY=
-X-Google-Smtp-Source: AGHT+IG/OA7ZMcjudPV6N8aicvGiKXhcJmEswxwxeWIXUritE6emx8GV5K/5qAJZF0zwdxS1l9ICWj5NavvClL6iM/Q=
-X-Received: by 2002:a2e:240c:0:b0:2d2:d9b2:b310 with SMTP id
- k12-20020a2e240c000000b002d2d9b2b310mr5659217ljk.47.1709557323922; Mon, 04
- Mar 2024 05:02:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="AmWRSk25";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="VAgEIm/0"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfout.nyi.internal (Postfix) with ESMTP id D5B5C138010B;
+	Mon,  4 Mar 2024 08:49:17 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Mon, 04 Mar 2024 08:49:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1709560157; x=1709646557; bh=BRaQGMUhZF
+	+5gvPmzCZj10RTFRpRoCHi8lIQAFa6I38=; b=AmWRSk25knneYEOIKlZQ9P4pod
+	w7Zzklals0aZcGl24S0l5doNkX4rUc+l/jiTAnJ/Xu98d07n5cwfJjFcHjGU+0H3
+	4KWQcEyS9eesEKaQ4qvMetqJC3l60ZMQ0EMx6kHOWPNU3eIBPrmgNXq+JdokN/fC
+	mDnl/nlvqVNSaJUKopHul8y4fnIdnUNdtIVOjHwiBPrDzTXUR/xsEr08hOeDcXN6
+	aPhMTbEyA0gc74n/Jy4DyzcQ94hW7d8+IHuQS8lBDd6t3WEcdQomwnKRTl9tKEhD
+	U17Es/Ue/hGgfpc2nD/JwwsM6gQ4gKnzoslNEeHTYlyvG1PwnnjLHSpyZeBQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1709560157; x=1709646557; bh=BRaQGMUhZF+5gvPmzCZj10RTFRpR
+	oCHi8lIQAFa6I38=; b=VAgEIm/0E/dM3PQQEGcKjdRAkjB52xCRMiOmUHipXPF6
+	EOjCeHBFpV2jWZSMmSh9YRunduraSrgp0nFYo7MpzsPyFvOv5bMeDohJYa8chrBw
+	CcgjFk2vHzMCs8pm0IaZ8u+DFTY4AFd+zF55rtpDE89bTaa0jmAXsgw0CGc2+RpH
+	bxPz5scghGuO8wLvtNzkqnkPXutoJKXAX06OJDOWRXQmYzeBc2C3H4NIqdQq1WOj
+	ttakdq2RKGiz9c/5s1H28skDrExUU3kkMJV5lSNjk+R/DeLc8DKa7Q+mV03XTScq
+	wxfcNb0bwfb3Nn3OhkV3ePgtB0ZssPOsut5T/rttIA==
+X-ME-Sender: <xms:XdHlZU-1-ZnHZ7iRn66pd8kJL3f2lnnJWpNMBzUqo5GHakhBFgHbYw>
+    <xme:XdHlZctIAdfdnTPOkErAzD6tcHkhx_Z30FC_85rVP_kiM5ThI13N8fA2b2S-NClci
+    5thPFQGkSkZHns9Ll8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrheejgdehhecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
+    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
+    hnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:XdHlZaC4ds8JJ8D4G2yGujtYaloJSPg26lo6xIJ_jov-4U4WSHDohQ>
+    <xmx:XdHlZUfIzzdXKnPhrkgE0KFCUmhxtJ8W6_GU06pcmZJZe_y4AkrVJg>
+    <xmx:XdHlZZPUH-EFk838YNgLGI2KF_v3cViyIWYiVkHMVXwJy-C-RoxrsQ>
+    <xmx:XdHlZaGxwGtBp2WAhh3bmnvTtWPbZsOBY3rNBmxnlwo8_uz5Tg9wcA>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 9AD75B6008D; Mon,  4 Mar 2024 08:49:17 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-205-g4dbcac4545-fm-20240301.001-g4dbcac45
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CA+G9fYvG9KE15PGNoLu+SBVyShe+u5HBLQ81+kK9Zop6u=ywmw@mail.gmail.com>
- <338c89bb-a70b-4f35-b71b-f974e90e3383@app.fastmail.com> <20240304112441.707ded23@donnerap.manchester.arm.com>
- <1baf9a7f-b0e4-45d8-ac57-0727a213d82d@app.fastmail.com> <20240304114546.4e8e1e32@donnerap.manchester.arm.com>
+Message-Id: <61aa333f-aa13-4068-b73f-eeae615f4640@app.fastmail.com>
+In-Reply-To: 
+ <CAMj1kXENYqUx=esK9b_pGd4wpwE43fNaGRCUhJLK_4MQzrAQeg@mail.gmail.com>
+References: 
+ <CA+G9fYvG9KE15PGNoLu+SBVyShe+u5HBLQ81+kK9Zop6u=ywmw@mail.gmail.com>
+ <338c89bb-a70b-4f35-b71b-f974e90e3383@app.fastmail.com>
+ <20240304112441.707ded23@donnerap.manchester.arm.com>
+ <1baf9a7f-b0e4-45d8-ac57-0727a213d82d@app.fastmail.com>
+ <20240304114546.4e8e1e32@donnerap.manchester.arm.com>
  <badf279a-f1fa-4938-a5d2-492b89d7c27c@app.fastmail.com>
-In-Reply-To: <badf279a-f1fa-4938-a5d2-492b89d7c27c@app.fastmail.com>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Mon, 4 Mar 2024 14:01:52 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXENYqUx=esK9b_pGd4wpwE43fNaGRCUhJLK_4MQzrAQeg@mail.gmail.com>
-Message-ID: <CAMj1kXENYqUx=esK9b_pGd4wpwE43fNaGRCUhJLK_4MQzrAQeg@mail.gmail.com>
-Subject: Re: arm: ERROR: modpost: "__aeabi_uldivmod" [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko]
- undefined!
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Andre Przywara <andre.przywara@arm.com>, Naresh Kamboju <naresh.kamboju@linaro.org>, 
-	open list <linux-kernel@vger.kernel.org>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, 
-	dri-devel@lists.freedesktop.org, lkft-triage@lists.linaro.org, 
-	Maxime Ripard <mripard@kernel.org>, Dave Airlie <airlied@redhat.com>, 
-	Dan Carpenter <dan.carpenter@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+ <CAMj1kXENYqUx=esK9b_pGd4wpwE43fNaGRCUhJLK_4MQzrAQeg@mail.gmail.com>
+Date: Mon, 04 Mar 2024 14:48:56 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Ard Biesheuvel" <ardb@kernel.org>
+Cc: "Andre Przywara" <andre.przywara@arm.com>,
+ "Naresh Kamboju" <naresh.kamboju@linaro.org>,
+ "open list" <linux-kernel@vger.kernel.org>,
+ "Linux ARM" <linux-arm-kernel@lists.infradead.org>,
+ linux-sunxi@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ lkft-triage@lists.linaro.org, "Maxime Ripard" <mripard@kernel.org>,
+ "Dave Airlie" <airlied@redhat.com>,
+ "Dan Carpenter" <dan.carpenter@linaro.org>
+Subject: Re: arm: ERROR: modpost: "__aeabi_uldivmod"
+ [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko] undefined!
+Content-Type: text/plain
 
-On Mon, 4 Mar 2024 at 13:35, Arnd Bergmann <arnd@arndb.de> wrote:
+On Mon, Mar 4, 2024, at 14:01, Ard Biesheuvel wrote:
+> On Mon, 4 Mar 2024 at 13:35, Arnd Bergmann <arnd@arndb.de> wrote:
+>> On Mon, Mar 4, 2024, at 12:45, Andre Przywara wrote:
+>> It's not critical if this is called infrequently, and as Maxime
+>> just replied, the 64-bit division is in fact required here.
+>> Since we are dividing by a constant value (200), there is a good
+>> chance that this will be get turned into fairly efficient
+>> multiply/shift code.
+>>
 >
-> On Mon, Mar 4, 2024, at 12:45, Andre Przywara wrote:
-> > On Mon, 04 Mar 2024 12:26:46 +0100
-> > "Arnd Bergmann" <arnd@arndb.de> wrote:
-> >
-> >> On Mon, Mar 4, 2024, at 12:24, Andre Przywara wrote:
-> >> > On Mon, 04 Mar 2024 12:11:36 +0100 "Arnd Bergmann" <arnd@arndb.de> wrote:
-> >> >>
-> >> >> This used to be a 32-bit division. If the rate is never more than
-> >> >> 4.2GHz, clock could be turned back into 'unsigned long' to avoid
-> >> >> the expensive div_u64().
-> >> >
-> >> > Wouldn't "div_u64(clock, 200)" solve this problem?
-> >>
-> >> Yes, that's why I mentioned it as the worse of the two obvious
-> >> solutions. ;-)
-> >
-> > Argh, should have cleaned my glasses first ;-)
-> >
-> > I guess I was put somehow put off by the word "expensive". While it's
-> > admittedly not trivial, I wonder if we care about the (hidden) complexity
-> > of that function? I mean it's neither core code nor something called
-> > frequently?
+> Clang does not implement that optimization for 64-bit division. That
+> is how we ended up with this error in the first place.
+
+I meant it will use the optimization after the patch to convert
+the plain '/' to div_u64().
+
+> Perhaps it is worthwhile to make div_u64() check its divisor, e.g.,
 >
-> It's not critical if this is called infrequently, and as Maxime
-> just replied, the 64-bit division is in fact required here.
-> Since we are dividing by a constant value (200), there is a good
-> chance that this will be get turned into fairly efficient
-> multiply/shift code.
->
+> --- a/include/linux/math64.h
+> +++ b/include/linux/math64.h
+> @@ -127,6 +127,9 @@
+>  static inline u64 div_u64(u64 dividend, u32 divisor)
+>  {
+>         u32 remainder;
+> +
+> +       if (IS_ENABLED(CONFIG_CC_IS_GCC) && __builtin_constant_p(divisor))
+> +               return dividend / divisor;
+>         return div_u64_rem(dividend, divisor, &remainder);
+>  }
 
-Clang does not implement that optimization for 64-bit division. That
-is how we ended up with this error in the first place.
+I think the div_u64()->do_div()->__div64_const32()->__arch_xprod_64()
+optimization in asm-generic/div64.h already produces what we want
+on both compilers. Is there something missing there?
 
-Perhaps it is worthwhile to make div_u64() check its divisor, e.g.,
-
---- a/include/linux/math64.h
-+++ b/include/linux/math64.h
-@@ -127,6 +127,9 @@
- static inline u64 div_u64(u64 dividend, u32 divisor)
- {
-        u32 remainder;
-+
-+       if (IS_ENABLED(CONFIG_CC_IS_GCC) && __builtin_constant_p(divisor))
-+               return dividend / divisor;
-        return div_u64_rem(dividend, divisor, &remainder);
- }
- #endif
+     Arnd
