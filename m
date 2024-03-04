@@ -1,119 +1,88 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF04317C6A
-	for <linux-sunxi@lists.linux.dev>; Mon,  4 Mar 2024 07:30:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4454917553
+	for <linux-sunxi@lists.linux.dev>; Mon,  4 Mar 2024 08:07:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709537433; cv=none; b=oejoVK0bSPIx7PAgNbWHQDlu3G/VG/Pym3jKt4CUt/bp9nI1vMPXLHqSMHjjepPcxGBRbci3wVRd++7x6uT3kEfgRkLMhKzyCD83zI6hf9rmCC3RVVmM596Cd9MMqly2IiViEkKQwbeodIdEBuhaPKYM/52ZTRfDSBhEdAo82YQ=
+	t=1709539663; cv=none; b=foiy3wFSb7TmsSz/y1UqqfPIjcgy1HlEawD5hCxlR6po0dS45bpF2vEdN9vcspJszFqe5mEPaW6ecEiBWinJrhW4Q15b/VVOhB7wyxr/vMUDLMv+pvADPuLNs0cnSrnzLS3pGe/QdgePkrKXt2yaln+5BdKTcmUMnICBfV9v1lk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709537433; c=relaxed/simple;
-	bh=465cP31JRMr94nU0gRhI1fk1wJXGTQoV5XYegVLKIvk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Lg+Yy5clq/RqivEYNF6QTN9Bpi2xO/ST5BbgbkOJL1wVLK4DPC17nDpXfKYSINuPKNDV7QOnUO3cV7HHDb/yLnFuGE/05lvQo20ozSjyguB+H9muAdXNPEAUCgKjurqkAiiWvC04X4RWtG/YnnlOegdbCzy/tIoti/X7Q3wm0eY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev; spf=pass smtp.mailfrom=oltmanns.dev; dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b=WETvWYy8; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oltmanns.dev
+	s=arc-20240116; t=1709539663; c=relaxed/simple;
+	bh=JrEfQ5lsb+5XbsDuc82K+zIwkMVIR394kZZUVAvcIAE=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=Db8zOvaYYqJ5WnviafqyRT+cj5C+6Z7+Fwv+zaQuTKmUjSuQC1pB9Z2lm+18tTapvBcqorK0sKrNflvWIcEOPKO23xrUcrB2Vbm1V4nO1ZSBy+cvOxBr2FSM/OzKWqUrJcmQBQ/CS//agTxCP3G4PVF0cRbV6fh/x9+ipFVC5yA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xleEMZOf; arc=none smtp.client-ip=209.85.222.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b="WETvWYy8"
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4Tp9Mm0bnbz9sQJ;
-	Mon,  4 Mar 2024 08:30:28 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1709537428;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HPqo6ggfchf8Eo8IzHB61o1N1czixDrkgbYRsxezN8c=;
-	b=WETvWYy8KnRKnpbEBwTCtY8rSUlT4nt1jNvhqkNc7xjfoZzwJPVQHAgNrO8QQCCfC2Ywf4
-	DFAprV6WH9qCU0kujsvsYd8/nRlBCUw2OwJNmuGm+QqSOENyuQ8amvQ1dhtH6x3Kg1Gl4X
-	I2m5dRMkohZwACsniickAn39G80NZIJp/c9VBFlA5X00F+c4LUK2A1ppjrVeIb8PK7nDmg
-	mfFNbnARLoF0iWW8pvNzbACozuHmMbXE73vyAoZeVoYyg6cf7qFuLkdjJsMPCUdkOul1uW
-	YNzJLqC29oEqXFppvJxiup0jTTbUGYilnYIO7sh0Cn4BHpcOviVrmqqIBkAryw==
-From: Frank Oltmanns <frank@oltmanns.dev>
-Date: Mon, 04 Mar 2024 08:29:21 +0100
-Subject: [PATCH v3 5/5] arm64: dts: allwinner: a64: Run GPU at 432 MHz
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xleEMZOf"
+Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-7d5bfdd2366so2168481241.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 04 Mar 2024 00:07:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1709539661; x=1710144461; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=I4V64q1EnS//uojIpdSXO9kfi0xqru4ymFKUT9EN5ZI=;
+        b=xleEMZOf8jPaVVs5g2lcKc+Zzd4+YwNa4/DNqCe0YOOLessS2VcVHDMuYAE51cuv9D
+         FtoZ8OBXZONMden9Y6lUp7rxO0aYocl2mTLk9nVMvVoavjL8xQdLRhZuzC43ql1J5NYl
+         WxSH9CMybNWCnovlvQeZZibICsao+xdRooZGM7ZgJCITvEZnyoIoZzDjxBjgkJXWSF8I
+         OUfJPFcVrn3ZAiBuo/DYVAXoFxxgQQ9Icu67I7+HLkT8DMsDQecWx481/ZdFHdzlIpRT
+         MRK3ukyM+E3H6FHVFDe4PZAk2g7WSInZBzukUNQ3yecpsU+CCozTavePMShD5D+bVfNX
+         MJHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709539661; x=1710144461;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=I4V64q1EnS//uojIpdSXO9kfi0xqru4ymFKUT9EN5ZI=;
+        b=FQlPHVnZzX0guPFSSLyVvgKQq61iXu45+bJLp7tbR0YYKHTca55uYwUC8T4t8d85EV
+         mSw9zhtSlOiN4G/yIaGgojlARxU23K2s0g0R8FwoTfPYgrkMvgqmik57eNLUZeoVuh9Z
+         vnV4TR7QIB+HyZZrPPKKZMTqnbUUG9BmstCNhnHEgG8yRYsJ0ZROCa8A3LYzDA8Q+Ep5
+         ZRYAKGK1/w8JisWf33mV08zMmR+fzLd3cVMn5BjLxqM2OlZhUQ1XOuXfQiVg3k11/TM4
+         Ai0epHrud2lSSqL1VHsWNRfIVm/hBaatLVFQUqmrIDzJtC5kBzPOBuLDwOrA5RgKDgPP
+         bS4Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUvzDh0vnq+gse44P63MJyupna+fVGM9fQ0436nBILIMz8S+AOGB7lGd6xW46nI9esQqgic0YmOmR264Ana5juIMuzobQFNDZRoSuo=
+X-Gm-Message-State: AOJu0YyaGdJiTMaqIP5Gf1iRyzQ6SBotg4ry6+Y57qyFZeVsbCKdujCY
+	Ty8Oux3Y90C7d/RL9eCeBOVTrgFmYmdlUYQEVUkhpE6qYzEZilqbDYPU8lDVo6AgxtSgqrp9B1Q
+	ndHJJBiL7OPJImbjJEZP6Ww5jCsaVrjBEE50ODw==
+X-Google-Smtp-Source: AGHT+IGe/sEs/lbpDzYz9UckYPkNs1+8EFlDGUFzLUMP5Sy5o1K+biDa5g/KZP7WE5+fr/wSS0T9+F0Wwd8AmHuOlTA=
+X-Received: by 2002:a67:f1d1:0:b0:472:7729:69b with SMTP id
+ v17-20020a67f1d1000000b004727729069bmr5396096vsm.29.1709539660578; Mon, 04
+ Mar 2024 00:07:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240304-pinephone-pll-fixes-v3-5-94ab828f269a@oltmanns.dev>
-References: <20240304-pinephone-pll-fixes-v3-0-94ab828f269a@oltmanns.dev>
-In-Reply-To: <20240304-pinephone-pll-fixes-v3-0-94ab828f269a@oltmanns.dev>
-To: Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- =?utf-8?q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, 
- Purism Kernel Team <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- Frank Oltmanns <frank@oltmanns.dev>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1210; i=frank@oltmanns.dev;
- h=from:subject:message-id; bh=465cP31JRMr94nU0gRhI1fk1wJXGTQoV5XYegVLKIvk=;
- b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBl5Xhx9BxlpyXsETgIPW4+KIkZfwF26bL53VDWZ
- sb0uVOWRt+JAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZeV4cQAKCRCaaaIIlErT
- x0iXC/9kAUvpZfp08Fa9Etq3guQAB/WTkntp+YOU5esogHDIPMLVL9s8J3BmVymEMsrwcZGWYf6
- /Fg40Ek4gdlb7ubQx+uwcRrSmoQlnM7iALQdSnV0PVDLR9BGdfyegX+5OkVcOVxe0eodfmqylN4
- oQ/6hL7exkBjTiHjeZjtrt3nfyl5DGK8cyXLjjo+Xz1oV6C5BXsb4NMN1otFkAlhud8aV80lQgE
- WcQo7zr1B6odwuTnMTZVNAZMfeUdu2uc3WHI7AM4djqvj8EdkJk8Xtwm2mRehBL4gk7ezigkrDi
- mk+GFzrdamKg9XQEZ8STQdRlG6xq7XmefS+Vyl5hB6WnjdFZ8iW3rTYcvsBWn6UxVtXAtDNEXUn
- B2F6Z5ZT6oJlKqw78J0U2SkrNpUMd+7oChTyDKWGXGk7Y/yxW48gCU1r1jXw6eVkf/K7Rb3Vyor
- VPpbsDlGiGPIEdOUugWl5YknQ41mKlMtr1azRyBGMTeM7sW4CcVJajx2QDdwhnQMvG2cI=
-X-Developer-Key: i=frank@oltmanns.dev; a=openpgp;
- fpr=02FD257B7F90E6B9A5444F969A69A208944AD3C7
+From: Naresh Kamboju <naresh.kamboju@linaro.org>
+Date: Mon, 4 Mar 2024 13:37:29 +0530
+Message-ID: <CA+G9fYvG9KE15PGNoLu+SBVyShe+u5HBLQ81+kK9Zop6u=ywmw@mail.gmail.com>
+Subject: arm: ERROR: modpost: "__aeabi_uldivmod" [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko]
+ undefined!
+To: open list <linux-kernel@vger.kernel.org>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, 
+	dri-devel@lists.freedesktop.org, lkft-triage@lists.linaro.org
+Cc: Maxime Ripard <mripard@kernel.org>, Dave Airlie <airlied@redhat.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Dan Carpenter <dan.carpenter@linaro.org>, 
+	Ard Biesheuvel <ardb@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-The Allwinner A64's GPU has currently three operating points. However,
-the BSP runs the GPU fixed at 432 MHz. In addition, at least one of the
-devices using that SoC - the pinephone - shows unstabilities (see link)
-that can be circumvented by running the GPU at a fixed rate.
+The arm defconfig builds failed on today's Linux next tag next-20240304.
 
-Therefore, remove the other two operating points from the GPU OPP table,
-so that the GPU runs at a fixed rate of 432 MHz.
+Build log:
+---------
+ERROR: modpost: "__aeabi_uldivmod"
+[drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko] undefined!
 
-Link: https://gitlab.com/postmarketOS/pmaports/-/issues/805
-Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
----
- arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 8 --------
- 1 file changed, 8 deletions(-)
+Steps to reproduce:
+  # tuxmake --runtime podman --target-arch arm --toolchain clang-17
+--kconfig defconfig LLVM=1 LLVM_IAS=1
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-index 57ac18738c99..c810380aab6d 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-@@ -107,14 +107,6 @@ de: display-engine {
- 	gpu_opp_table: opp-table-gpu {
- 		compatible = "operating-points-v2";
- 
--		opp-120000000 {
--			opp-hz = /bits/ 64 <120000000>;
--		};
--
--		opp-312000000 {
--			opp-hz = /bits/ 64 <312000000>;
--		};
--
- 		opp-432000000 {
- 			opp-hz = /bits/ 64 <432000000>;
- 		};
+Links:
+ - https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20240304/testrun/22919744/suite/build/test/clang-17-defconfig/history/
+ - https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20240304/testrun/22919744/suite/build/test/clang-17-defconfig/log
+ - https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20240304/testrun/22919744/suite/build/test/clang-17-defconfig/details/
 
--- 
-2.44.0
 
+--
+Linaro LKFT
+https://lkft.linaro.org
