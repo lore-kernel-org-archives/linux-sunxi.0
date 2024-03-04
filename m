@@ -1,134 +1,113 @@
-Received: from fout4-smtp.messagingengine.com (fout4-smtp.messagingengine.com [103.168.172.147])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE8221D53F
-	for <linux-sunxi@lists.linux.dev>; Mon,  4 Mar 2024 12:35:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BD2F3D3B3
+	for <linux-sunxi@lists.linux.dev>; Mon,  4 Mar 2024 13:02:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709555712; cv=none; b=hLF83F1eQt/WWCyKUtVLnS+ZxtvWkpMCIS8ogrS3x5ZCJ8b4oaglzJ/chb7FcP/o0JlkSfdHgxYi4bCZZXxeof01200CrgCLQiDRKyWlYEcVn0X5hu1N4pVPzFtvrCexvLjXiIvGt/L/IuhLHQnhmgYZJNbprTVbQu0X9l9vYxM=
+	t=1709557326; cv=none; b=Bj1hL5Kynwnv2M7IaSGe2KEk+H1enEFiVLhp2mFvQ2f/GiEsxQr47ub83DZ+3kk7bpnzswFIPXxbncUcUJRffWuQgmRlNnkTDPQ+PorUCNyyvuVumUIhFGupnOdF4FfFtT+/A+chhGeRqiV1liEOXI5v/8Szew1KDUB/TDtgv8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709555712; c=relaxed/simple;
-	bh=/Np2risLVk0Wnw2e+uGrNOir2LUcu73+mKUufe6y1yA=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=PFDWGrCND93nOd632M5dZfo5ySNum5mylUVgKYjmlZRbYLXu1vcfmfWnDaazWOSB8rRksi5i7fKhpZSMf4pvS5OulvjtUdlUNUSN7bjkTmEb01leEYshMBt66KvjZ7/NQQs1+PnNjuEpO6P+p/cSzeU6fRqa2JypZin/oHu16G4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=T9/BQtSi; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=E6PLUkad; arc=none smtp.client-ip=103.168.172.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1709557326; c=relaxed/simple;
+	bh=OIq1GSC2Asx+nhf1HO80avSwemP0Jz8lS4ttehqA8ZU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=h22A7lx6mwRHskO3pVKlMXxKegUI6vHyl+8dHqAPfWJmxZM8NCmiYZ7yqoIVCWj1tqUWMJCCNjkrSEdZxuEaFwtSVVvAnKIgojNgSyW9su0VtIwlbPkKNHytrSa1oZbA2D6TsWraaeBvxer9DVMN183Ly5IsQAf4Z+vZs806o74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R6udMehQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="T9/BQtSi";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="E6PLUkad"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfout.nyi.internal (Postfix) with ESMTP id 08E0713800B1;
-	Mon,  4 Mar 2024 07:35:10 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Mon, 04 Mar 2024 07:35:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1709555710; x=1709642110; bh=+TroZF8jeB
-	zIowpYrGF9jrP9uh+0X1BM1HbguhEHK/Y=; b=T9/BQtSiILQpMCnqJv+UGt4nim
-	DKXKwfSy6GCSmU9MI/Pjsfj44Z3Wenf6/LEy+I4ZoIzLMkMgMHF+PhBwQrEQSd4R
-	3rZ34vnDWPzOLcBAQ62+F62GS/PCSwLGOjzWb+4HYu61h70JZQCIMRnQeh4xv94L
-	RqYEnHdxXR+DuyS6xSsASBQtPM6SWEa9H5ufn4ujyn/GfVm6eqdJVo0J2tl1Q9JN
-	osTb1ZoBQT/GDSHLKe+qDqnCkft9Ctrbkk5rdzz0PysbgoloPjWfVGYPC/WFEi3S
-	fwraymKJf8Oz5X0l6etK+pq0APaTc34fcxeJ/yGvKIwwpEcW1Cueh3TlRW2Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1709555710; x=1709642110; bh=+TroZF8jeBzIowpYrGF9jrP9uh+0
-	X1BM1HbguhEHK/Y=; b=E6PLUkad/4kqaHFHfUpwwh4uJpCKtRVopl24PVUHG9Mw
-	LECgX5ZE9tMDn2FoHcmaohB658HUZmtIEw/WZy3lnp1a/CWLhvo2ivZz6E7VADD0
-	62B/D08u2/oLOME9TQj8WnUl4qtdfDQvJoaRgVNeIrOzjw+tSSGK8jYnQdxMteWO
-	B68q0Iind1V77AMyiOD0AvrLeopaQo55R7a69/krkZWyZVLFhaPCYOUN6nDofW94
-	sxV5UjKcnlMguzeNrZFy9PHtSJbq8oMRGtSY1qWVoWlxqqrTvJjKoCzJMaxjcR0z
-	PA3GyhuUq7W/yzGqROK+aw8iiAxFUrplNkVwb/B/ew==
-X-ME-Sender: <xms:_b_lZejkpGfPnkZ6rWHmnlF83ytm5tLUqBDv525-BSP26reAj07lWw>
-    <xme:_b_lZfACtMQggRtzKMcil5im_zd8ZbalEEKkC-rfuv8tx8uUhDTIOuJUqTPf6H8zF
-    i4LkP3AMKbjW3Re-Kk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrheejgdegtdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
-    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
-    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
-    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
-    hnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:_b_lZWE46UepRGStc-ln7gow_V2jQP-_Q_XxHslclj-_ee0Oz5Yl-w>
-    <xmx:_b_lZXSTQ4OTlJjnlshezWanXyeIh7YpBpBVHTBFpEUGfZJ7tncL1A>
-    <xmx:_b_lZbzEc11JtuWNBa_9xbo1ZfetGIJ_nairqqjxFQaF5dkINnhbxw>
-    <xmx:_r_lZQr-hNcmlRBZu5F-5E4vJ6n1LfLuyiyftEFvlDNfCRd2z4rDrg>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id AA096B6008F; Mon,  4 Mar 2024 07:35:09 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-205-g4dbcac4545-fm-20240301.001-g4dbcac45
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R6udMehQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C11C7C43394
+	for <linux-sunxi@lists.linux.dev>; Mon,  4 Mar 2024 13:02:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709557325;
+	bh=OIq1GSC2Asx+nhf1HO80avSwemP0Jz8lS4ttehqA8ZU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=R6udMehQjtGtAmCDZAgC2ey6ZZa2Fpc/S37zT4e/Fz4fKNGZkVChcMbHvkTFveoGM
+	 NnPBVlNnGBeQNSFy/lSpBEtrZ1wT2/JFHMTL7pG/OBXGT6HX1wUTkbDocayN8MKH/5
+	 QSUh376bb+5TpGQ05AWlTqXDFLDHDmR30hdlwZXjM6cjhY0Obo0hpyguC/9qY1MYgG
+	 ztT/7WDnMYHXxiNtmcrJrSmlc5ikKtJJOtzcwr1miWI40llHyeAPJAr/OFb9mQEZqn
+	 UwNWjmVveUB5B0wwZzXTEh93FepK8Z9PPNnwC4aJ9TmMTn6VLaKqT0tEHPEXq+mRCL
+	 vAn7tpvgG0giw==
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2d228a132acso57791471fa.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 04 Mar 2024 05:02:05 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVr6JmP1e3hcSvnp7B87V2NqzJRNeeDYVbHhBnfCTBT0rd41DXAK0zCgsas2o+kVsL3Ix/HjEWJDoejkxglQqyUKrh4yMyczKHa+gk=
+X-Gm-Message-State: AOJu0Yy/WliNj/geROVt4M9fu5lTeoR1Gus8yGA/J1FbtBXawH8pmpzY
+	06Hjnx/RWouIYe/FlcOrrcyXuXN02RY1lWjlf9S2Bm2JY2hgIqCuAHafHa4M3fAzk3Mh54br6Kg
+	CxBkKct9f4oqzWJdnLJASWlHNBxY=
+X-Google-Smtp-Source: AGHT+IG/OA7ZMcjudPV6N8aicvGiKXhcJmEswxwxeWIXUritE6emx8GV5K/5qAJZF0zwdxS1l9ICWj5NavvClL6iM/Q=
+X-Received: by 2002:a2e:240c:0:b0:2d2:d9b2:b310 with SMTP id
+ k12-20020a2e240c000000b002d2d9b2b310mr5659217ljk.47.1709557323922; Mon, 04
+ Mar 2024 05:02:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <badf279a-f1fa-4938-a5d2-492b89d7c27c@app.fastmail.com>
-In-Reply-To: <20240304114546.4e8e1e32@donnerap.manchester.arm.com>
-References: 
- <CA+G9fYvG9KE15PGNoLu+SBVyShe+u5HBLQ81+kK9Zop6u=ywmw@mail.gmail.com>
- <338c89bb-a70b-4f35-b71b-f974e90e3383@app.fastmail.com>
- <20240304112441.707ded23@donnerap.manchester.arm.com>
- <1baf9a7f-b0e4-45d8-ac57-0727a213d82d@app.fastmail.com>
- <20240304114546.4e8e1e32@donnerap.manchester.arm.com>
-Date: Mon, 04 Mar 2024 13:34:49 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Andre Przywara" <andre.przywara@arm.com>
-Cc: "Naresh Kamboju" <naresh.kamboju@linaro.org>,
- "open list" <linux-kernel@vger.kernel.org>,
- "Linux ARM" <linux-arm-kernel@lists.infradead.org>,
- linux-sunxi@lists.linux.dev, dri-devel@lists.freedesktop.org,
- lkft-triage@lists.linaro.org, "Maxime Ripard" <mripard@kernel.org>,
- "Dave Airlie" <airlied@redhat.com>,
- "Dan Carpenter" <dan.carpenter@linaro.org>,
- "Ard Biesheuvel" <ardb@kernel.org>
-Subject: Re: arm: ERROR: modpost: "__aeabi_uldivmod"
- [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko] undefined!
-Content-Type: text/plain
+References: <CA+G9fYvG9KE15PGNoLu+SBVyShe+u5HBLQ81+kK9Zop6u=ywmw@mail.gmail.com>
+ <338c89bb-a70b-4f35-b71b-f974e90e3383@app.fastmail.com> <20240304112441.707ded23@donnerap.manchester.arm.com>
+ <1baf9a7f-b0e4-45d8-ac57-0727a213d82d@app.fastmail.com> <20240304114546.4e8e1e32@donnerap.manchester.arm.com>
+ <badf279a-f1fa-4938-a5d2-492b89d7c27c@app.fastmail.com>
+In-Reply-To: <badf279a-f1fa-4938-a5d2-492b89d7c27c@app.fastmail.com>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Mon, 4 Mar 2024 14:01:52 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXENYqUx=esK9b_pGd4wpwE43fNaGRCUhJLK_4MQzrAQeg@mail.gmail.com>
+Message-ID: <CAMj1kXENYqUx=esK9b_pGd4wpwE43fNaGRCUhJLK_4MQzrAQeg@mail.gmail.com>
+Subject: Re: arm: ERROR: modpost: "__aeabi_uldivmod" [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko]
+ undefined!
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Andre Przywara <andre.przywara@arm.com>, Naresh Kamboju <naresh.kamboju@linaro.org>, 
+	open list <linux-kernel@vger.kernel.org>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, 
+	dri-devel@lists.freedesktop.org, lkft-triage@lists.linaro.org, 
+	Maxime Ripard <mripard@kernel.org>, Dave Airlie <airlied@redhat.com>, 
+	Dan Carpenter <dan.carpenter@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Mar 4, 2024, at 12:45, Andre Przywara wrote:
-> On Mon, 04 Mar 2024 12:26:46 +0100
-> "Arnd Bergmann" <arnd@arndb.de> wrote:
+On Mon, 4 Mar 2024 at 13:35, Arnd Bergmann <arnd@arndb.de> wrote:
 >
->> On Mon, Mar 4, 2024, at 12:24, Andre Przywara wrote:
->> > On Mon, 04 Mar 2024 12:11:36 +0100 "Arnd Bergmann" <arnd@arndb.de> wrote:  
->> >>
->> >> This used to be a 32-bit division. If the rate is never more than
->> >> 4.2GHz, clock could be turned back into 'unsigned long' to avoid
->> >> the expensive div_u64().  
->> >
->> > Wouldn't "div_u64(clock, 200)" solve this problem?  
->> 
->> Yes, that's why I mentioned it as the worse of the two obvious
->> solutions. ;-)
+> On Mon, Mar 4, 2024, at 12:45, Andre Przywara wrote:
+> > On Mon, 04 Mar 2024 12:26:46 +0100
+> > "Arnd Bergmann" <arnd@arndb.de> wrote:
+> >
+> >> On Mon, Mar 4, 2024, at 12:24, Andre Przywara wrote:
+> >> > On Mon, 04 Mar 2024 12:11:36 +0100 "Arnd Bergmann" <arnd@arndb.de> wrote:
+> >> >>
+> >> >> This used to be a 32-bit division. If the rate is never more than
+> >> >> 4.2GHz, clock could be turned back into 'unsigned long' to avoid
+> >> >> the expensive div_u64().
+> >> >
+> >> > Wouldn't "div_u64(clock, 200)" solve this problem?
+> >>
+> >> Yes, that's why I mentioned it as the worse of the two obvious
+> >> solutions. ;-)
+> >
+> > Argh, should have cleaned my glasses first ;-)
+> >
+> > I guess I was put somehow put off by the word "expensive". While it's
+> > admittedly not trivial, I wonder if we care about the (hidden) complexity
+> > of that function? I mean it's neither core code nor something called
+> > frequently?
 >
-> Argh, should have cleaned my glasses first ;-)
+> It's not critical if this is called infrequently, and as Maxime
+> just replied, the 64-bit division is in fact required here.
+> Since we are dividing by a constant value (200), there is a good
+> chance that this will be get turned into fairly efficient
+> multiply/shift code.
 >
-> I guess I was put somehow put off by the word "expensive". While it's
-> admittedly not trivial, I wonder if we care about the (hidden) complexity
-> of that function? I mean it's neither core code nor something called
-> frequently?
 
-It's not critical if this is called infrequently, and as Maxime
-just replied, the 64-bit division is in fact required here.
-Since we are dividing by a constant value (200), there is a good
-chance that this will be get turned into fairly efficient
-multiply/shift code.
+Clang does not implement that optimization for 64-bit division. That
+is how we ended up with this error in the first place.
 
-> I don't think we have any clock exceeding 3GHz at the moment, but it
-> sounds fishy to rely on that.
+Perhaps it is worthwhile to make div_u64() check its divisor, e.g.,
 
-Right, it's just important to look at each case individually.
-The cost of 64-bit division is crazy if it gets called repeatedly,
-which is of course the entire reason we don't provide a
-__aeabi_uldivmod() function and require developers to think
-before adding div_u64().
-
-     Arnd
+--- a/include/linux/math64.h
++++ b/include/linux/math64.h
+@@ -127,6 +127,9 @@
+ static inline u64 div_u64(u64 dividend, u32 divisor)
+ {
+        u32 remainder;
++
++       if (IS_ENABLED(CONFIG_CC_IS_GCC) && __builtin_constant_p(divisor))
++               return dividend / divisor;
+        return div_u64_rem(dividend, divisor, &remainder);
+ }
+ #endif
