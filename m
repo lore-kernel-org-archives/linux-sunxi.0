@@ -1,146 +1,100 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DF525FBB2
-	for <linux-sunxi@lists.linux.dev>; Wed,  6 Mar 2024 10:17:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89D38131E4B
+	for <linux-sunxi@lists.linux.dev>; Wed,  6 Mar 2024 15:05:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709720254; cv=none; b=uY3+fgCPn0h0TdrH8QJi5PS5P7uvpSFvsnsitYWW8+XldwQFRIMKe+vNnOXsem+XhBoiLHPqV6nNlarJoxcSUssE0Q6M1YH2r4gQrHOzxT2pHDiMjV4i7LwhxSIIqODhojRKF1OxvjwB6o2U+V0h34xcJNFsiX3uSLhYt+6EO+U=
+	t=1709737504; cv=none; b=WU4bKDQMW8DM3suNC5SNBqtI5CFlKsroiCRmV6S3VIXsN+FdH0Z/tRQHEO/WyeupftCjEUe+A49vXIpdCKtZjqI4uyXPOgLwUAXpHsebKio+/ctM04QGqekReq63QD4/vDsbR6pfcrsStG0jNf7IBI2XAMD+iTM/5ckl5B6S4ac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709720254; c=relaxed/simple;
-	bh=aftI2J7tWkan9F3k+WavIQOst/Q5zH24e7gYDaM6WSE=;
+	s=arc-20240116; t=1709737504; c=relaxed/simple;
+	bh=43GXM3Q8D5bmb35Ep8tlcjDpUea4lF28uw+na04zbs4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=makjnKLtylsSVYqAbKBO9QIYzdYzLdemvKCQ0AosGroyZvPo45O8zt74eqPO20Tc86DSO4PSbHwaV0ONOHDojDZZ6P/+ShwEnzV/4YH1jmQc5s0JuBysuHDDExswS/C+Zsrt+33bDvNBefZQssH+vtetzkYNtXr3HWS6nNvRhg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dDC5JFKV; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=G0NQQ1Dr79QY6fhVtLqcTEUByxt/u4EZ/xKCG+kl0L+WFrWPDtdu6EiMIZ3opD9zPLjmQf+iEhF9Jabs0OpcesTu1HHUH/+9jxFBAqoghpQwd083yJO5d0TGIGMdHixgyzP5OiuIuMHD33Xwz84l/humotdmoj26pPSPdR61C7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wp5cZ7Wt; arc=none smtp.client-ip=209.85.208.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dDC5JFKV"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5654ef0c61fso10775a12.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 06 Mar 2024 02:17:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wp5cZ7Wt"
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2d228a132acso12514171fa.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 06 Mar 2024 07:05:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1709720251; x=1710325051; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1709737500; x=1710342300; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KXp3dvj8RXyd5VC25WQpvIY0TxZT9QViO+VH9V+80YQ=;
-        b=dDC5JFKVov+wnHU1H7VJdEDwg6Hmi2E1K6FhnUrzNlhzqzpa2wociEc9p4F4s+NTCB
-         qyuPsT4IWY5eLerGtf7DcpiLOvA2zETYPgBOSXtI/D6YohkECrbUTE8ITlJI49vluFIN
-         BkYXXmIUUXr9xEnEbOQ1kx1fKnfYmdLqqVNha7GS34vmrK65Ah/pEIs5N4Z7sIUvNRVE
-         VRywCKUxX1BX7zzcCk96h5iQDNd2ftIX91RAC4HmucMtDjL81EOKsRxH/BvWNCHkHPXI
-         WfsMOC2hOMTuFMrvfj9rzgIU3fmkJLw64DFO1vHWby9dhlDii5Lu1x9u7ZQQmy/3SpHP
-         lEvA==
+        bh=43GXM3Q8D5bmb35Ep8tlcjDpUea4lF28uw+na04zbs4=;
+        b=Wp5cZ7WtnlUC3Oj1kpoXBTCp3yorviv5PIKYCq1TGjlV3FbJNFkP0U6VzpRtuIrYan
+         vn2udfrWW4TlBuUx/Gv9Z2Djm2miumj2D1bk/rQCgQQnET4zgrMr88XtnVKKLFSwqftY
+         lEVZ50f1T3I7a37U96+N+A+F9SWtrE9rdW2VATbmS6pnLVuR3kkZAlmt3hWcEii4Ct0j
+         5gSncRchrBoFp+wx1khdqIs5QrH31p2fbbEy2WmUydxHSpFb/2F0FDMfN6P1I68Hmq+I
+         vXN5INyz/NDg6zgMhANL8653XZOr5BMG3MKsMv8Q+gkG5Tm76zz2YGCiA2jT64MM0g/D
+         4u/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709720251; x=1710325051;
+        d=1e100.net; s=20230601; t=1709737500; x=1710342300;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=KXp3dvj8RXyd5VC25WQpvIY0TxZT9QViO+VH9V+80YQ=;
-        b=HQzEAvSe08WugeDgef7qwSPEnRzZrXUYRFnrWw4/n+yuwWXCBbQxzGMZ7FLZ6y2/ws
-         je4gOapU02tIqj4gekZYbXjHQwOzw4WhP6HZB2ktnuLzqfmTVzsMe8MNt0hZEWrFLBvQ
-         WVo2XYkBMjJivpRuV4LvosX1G4Ux7IA6JNCZhRJ497oycOjl7tI3PbjgqOlXx3W78uiz
-         N8JMAZsUDoWYNgqvl59Zd2Nv8sP8tKM4uwfII5sGxOasMT4ViOSlHZ6Xu6S7gXAGyPno
-         8C4SW7kZosD8+PvG4CLyvj3eS8aaYVSz7nYLWmxy5KzVpkj1/brWFpGJUOB+ZXlYiH2u
-         Co/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVZd2Cs4A5/bg5cg7KHNCKwTfVF7g++teqoULgGkwQBxg4k4cLG2Av/65u8hh0xR3tVTSh99c29WKuZTFJorF9C/8l3a07NUc07rWk=
-X-Gm-Message-State: AOJu0YxsKfQcXGHQBTkpw07NkoSpar2yJklIEO4SBNSdf2AxyR+LT/8z
-	x6Fzfyn5tXv3wFqvZ7FQxMZMHDBC7oEdFIpXpX7BhwpiyCQkosF4yMm4qsA4TLT6OR9zddjse5w
-	IuJseqigDM9ZWSxFRUtn7SIDpVHo8V2P5Swma
-X-Google-Smtp-Source: AGHT+IEaRNnQwsDV5h/jJAyuRY2UuSSKqo6/ZssDUcS4IdliuD1AivloeSKEHCB7mXUWavBTCp+AAniu+YaHMq/FGWY=
-X-Received: by 2002:a50:8744:0:b0:567:9d6a:b82b with SMTP id
- 4-20020a508744000000b005679d6ab82bmr274320edv.7.1709720250668; Wed, 06 Mar
- 2024 02:17:30 -0800 (PST)
+        bh=43GXM3Q8D5bmb35Ep8tlcjDpUea4lF28uw+na04zbs4=;
+        b=P9J1fnF4x73zrVZmUmjCXlSsr003GcJ9d+fYh1msBDW7BFCW/rsC/UybMZILo5UdsN
+         KZyKW2I2Zx2vR2MDnrj9f1GSoLNLGs+RnIcrq7n5zWtzNAHs9M2coxLeOAOYMYOyVvG3
+         UDdAUS/JZbASF0C5EcAdTl1XPcSyK4O3Kwno2XaXkfQKoVD/bwOr7OkJwcKhfk33cwvE
+         vHcekACsEg49gskPlynYgU/XpP/vbRy/Y0Br+onY6PynR1jcbetNup0awURZY8D3p5aK
+         zs1oFOWWxnPgUWSDtzYPM0MLUITAfFvrLR8EuyjqlDh104uzrPI6sVb9rUJ0YJHBGnAg
+         uAFg==
+X-Forwarded-Encrypted: i=1; AJvYcCWxehOk2K8CKkC3fp5AdvJTl7ncZ343ANz5ZyFgWEXu6lIV1k7O33/JiFzEhFdvQSYsJr4wyhuSsPZkguzdELK+14Cg9vAKaE9eFwc=
+X-Gm-Message-State: AOJu0Yyi2s6z8zVNlDrlGV5lI920Q/nLkF4/gqweZyJYs8VjlXp5r8MC
+	o0BfhB9c5gGq9I4SJY7Nb0x1WFWU/IcKEp+kNW62DK6p6jgjMQamn3M9L/5HJeMIHTGCUhAWtII
+	WQ0C+s3Nm+bvKm9g6ToUwxqDOISg=
+X-Google-Smtp-Source: AGHT+IEEVeDiNEpHKSHTjKvhESMzneWqkwWwVGe8WoB74soHvGsOkOKPL5fYMktXsrfWue5FRmqbdFaGULj6kEl+Zug=
+X-Received: by 2002:a2e:a99f:0:b0:2d3:87b:7e9e with SMTP id
+ x31-20020a2ea99f000000b002d3087b7e9emr4317395ljq.39.1709737500066; Wed, 06
+ Mar 2024 07:05:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240203190927.19669-1-petr@tesarici.cz> <ea1567d9-ce66-45e6-8168-ac40a47d1821@roeck-us.net>
- <Zct5qJcZw0YKx54r@xhacker> <CANn89i+4tVWezqr=BYZ5AF=9EgV2EPqhdHun=u=ga32CEJ4BXQ@mail.gmail.com>
- <20d94512-c4f2-49f7-ac97-846dc24a6730@roeck-us.net> <CANn89iL1piwsbsBx4Z=kySUfmPa9LbZn-SNthgA+W6NEnojgSQ@mail.gmail.com>
- <a3749d3f-ced1-4c48-adaf-348c8dee7610@leemhuis.info> <20240228120308.48d6a9c2@meshulam.tesarici.cz>
- <e3181555-c08d-463f-a9a9-b08c69875c84@leemhuis.info> <20240306100153.32d305f7@meshulam.tesarici.cz>
- <20240306110312.04ddcde3@meshulam.tesarici.cz>
-In-Reply-To: <20240306110312.04ddcde3@meshulam.tesarici.cz>
-From: Eric Dumazet <edumazet@google.com>
-Date: Wed, 6 Mar 2024 11:17:17 +0100
-Message-ID: <CANn89iLfgK7zTWMutOycKyVepq=8n26MO_LTsUAy2JdVtXr-_g@mail.gmail.com>
-Subject: Re: [PATCH net v3] net: stmmac: protect updates of 64-bit statistics counters
-To: =?UTF-8?B?UGV0ciBUZXNhxZnDrWs=?= <petr@tesarici.cz>
-Cc: "Linux regression tracking (Thorsten Leemhuis)" <regressions@leemhuis.info>, 
-	Linux regressions mailing list <regressions@lists.linux.dev>, "David S. Miller" <davem@davemloft.net>, 
-	Paolo Abeni <pabeni@redhat.com>, Jakub Kicinski <kuba@kernel.org>, Jisheng Zhang <jszhang@kernel.org>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Jose Abreu <joabreu@synopsys.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	"open list:STMMAC ETHERNET DRIVER" <netdev@vger.kernel.org>, 
-	"moderated list:ARM/STM32 ARCHITECTURE" <linux-stm32@st-md-mailman.stormreply.com>, 
-	"moderated list:ARM/STM32 ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>, 
-	open list <linux-kernel@vger.kernel.org>, 
-	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>, Marc Haber <mh+netdev@zugschlus.de>, 
-	Andrew Lunn <andrew@lunn.ch>, Florian Fainelli <f.fainelli@gmail.com>, stable@vger.kernel.org, 
-	alexis.lothore@bootlin.com, Guenter Roeck <linux@roeck-us.net>
+References: <20240304-pinephone-pll-fixes-v3-0-94ab828f269a@oltmanns.dev> <20240304-pinephone-pll-fixes-v3-5-94ab828f269a@oltmanns.dev>
+In-Reply-To: <20240304-pinephone-pll-fixes-v3-5-94ab828f269a@oltmanns.dev>
+From: Erico Nunes <nunes.erico@gmail.com>
+Date: Wed, 6 Mar 2024 16:04:47 +0100
+Message-ID: <CAK4VdL0zWRg4hzUbuZsnabU53x3DrOiemH0tGnpbK9ECQvM1qg@mail.gmail.com>
+Subject: Re: [PATCH v3 5/5] arm64: dts: allwinner: a64: Run GPU at 432 MHz
+To: Frank Oltmanns <frank@oltmanns.dev>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, 
+	Purism Kernel Team <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 6, 2024 at 11:03=E2=80=AFAM Petr Tesa=C5=99=C3=ADk <petr@tesari=
-ci.cz> wrote:
+On Mon, Mar 4, 2024 at 6:01=E2=80=AFPM Frank Oltmanns <frank@oltmanns.dev> =
+wrote:
 >
-> On Wed, 6 Mar 2024 10:01:53 +0100
-> Petr Tesa=C5=99=C3=ADk <petr@tesarici.cz> wrote:
+> The Allwinner A64's GPU has currently three operating points. However,
+> the BSP runs the GPU fixed at 432 MHz. In addition, at least one of the
+> devices using that SoC - the pinephone - shows unstabilities (see link)
+> that can be circumvented by running the GPU at a fixed rate.
 >
-> > On Wed, 6 Mar 2024 09:23:53 +0100
-> > "Linux regression tracking (Thorsten Leemhuis)" <regressions@leemhuis.i=
-nfo> wrote:
-> >
-> > > On 28.02.24 12:03, Petr Tesa=C5=99=C3=ADk wrote:
-> > > > On Wed, 28 Feb 2024 07:19:56 +0100
-> > > > "Linux regression tracking (Thorsten Leemhuis)" <regressions@leemhu=
-is.info> wrote:
-> > > >
-> > > >> Net maintainers, chiming in here, as it seems handling this regres=
-sion
-> > > >> stalled.
-> > > > Indeed, I was too busy with sandbox mode...
-> > >
-> > > Hmm, no reply in the past week to Petr's request for help from someon=
-e
-> > > with more knowledge about the field. :-/
-> > >
-> > > So I guess this means that this won't be fixed for 6.8? Unfortunate, =
-but
-> > > well, that's how it it sometimes.
-> >
-> > For the record, I _can_ reproduce lockdep splats on my device, but they
-> > don't make any sense to me. They seem to confirm Jisheng Zhang's
-> > conclusion that lockdep conflates two locks which should have different
-> > lock-classes.
-> >
-> > So far I have noticed only one issue: the per-cpu syncp's are not
-> > initialized. I'll recompile and see if that's what confuses lockdep.
->
-> That wasn't the issue. FTR the syncp was in fact initialized, because
-> devm_netdev_alloc_pcpu_stats() is a macro that also takes care of the
-> initialization of the syncp struct field.
->
-> The problem is u64_stats_init().
->
-> Commit 9464ca650008 ("net: make u64_stats_init() a function") changed
-> it to an inline function. But that's wrong. It uses seqcount_init(),
-> which in turn declares:
->
->         static struct lock_class_key __key;
->
-> This assumes that each lock gets its own instance. But if
-> u64_stats_init() is a function (albeit an inline one), all calls
-> within the same file end up using the same instance.
->
-> Eric, would it be OK to revert the above-mentioned commit?
+> Therefore, remove the other two operating points from the GPU OPP table,
+> so that the GPU runs at a fixed rate of 432 MHz.
 
-Oh, nice !
+In addition to all of this, the A64 user manual does say explicitly
+that "dynamic frequency scaling is not supported" on PLL_GPU. So I
+think this is really needed for a reliable GPU experience on A64.
 
-Well, this would not be a revert, let's keep type safety checks if possible=
-.
+Acked-by: Erico Nunes <nunes.erico@gmail.com>
 
-Thanks.
+Thanks
+
+Erico
