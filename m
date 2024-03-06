@@ -1,196 +1,233 @@
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+Received: from bee.tesarici.cz (unknown [77.93.223.253])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C81B517742;
-	Wed,  6 Mar 2024 08:24:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 786065E08F;
+	Wed,  6 Mar 2024 09:01:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.93.223.253
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709713446; cv=none; b=o6axp7Tdg5iHNZc0mODhH7yqLpKqn4RD7yw+3E9qzSzfUSdJjY0G7b6MbOtwETHkRnHkfrPjVhtsLbajS43faMT+U24FDkzmuORwuvFkbJbFMTI/aPzhyedAP0nEn5zvjp3ZE9gcZfsbfFQ8jHHljYBmaDZatCdVPEJlY+jyGAE=
+	t=1709715721; cv=none; b=itT+UTVTg+Kwdabs2azBuXpCc8EbbawPnR+9iO3N5jv054S8Ch0wNb2a9w2GWvcmKqicNUSL3H2gxwSzBaWMIqebjDmE6AuIpbSSNoh4qUkuggtX0zB9I17jZqcgCmOWxkVp3tonC2yO3GubfqBj66mLyKwtDM0oBbec8q7w7Aw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709713446; c=relaxed/simple;
-	bh=avi3s/FLxkX7grCL8/bkpLAuIzuIxOYGkRAv8Br88SE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bgOoRWxh3Vi0aZK0smmrdOjGQ9oMNITg6OfwJhF/Y3OHw2HxsBMkL6SZRE5jgCZ78WFz5Ny/Ys0aBjdnuoYmjUL+IgpjoLhV26qCyD8YvT4tfYulHqqjVgYy3M/QVu3kzyyb0drk6In5ydXBm++aPHa+HLNi75VX6uYchIwyVrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=z7ULDoGJ; arc=none smtp.client-ip=80.237.130.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+	s=arc-20240116; t=1709715721; c=relaxed/simple;
+	bh=7XL+rmg/KDDdM8d5X26+ryR+7KjkuSIR7iF+X0R/4d8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ey35N6c97eY08NJRU3xokS74JDeYFo6Hvuf0siU/2t+zooFRD5XZp+2TEUqWHgsOo3ZN5Yue1/oNEjyWpYvVhVOPa0TXdViC3swF5+8K29qixbsh/1jyQX/iJ1rWAIOm6pk4OQZrd5yr1c8zr6RxShgwsnGUzvbcPgp0NPXgakA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz; spf=pass smtp.mailfrom=tesarici.cz; dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b=kpBLh5rE; arc=none smtp.client-ip=77.93.223.253
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tesarici.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="z7ULDoGJ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:
-	Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
-	In-Reply-To:References; bh=dP4C4A5WCdxvCJCpj0oUh+9+DdThZPg4vHyHIY5V3mA=;
-	t=1709713444; x=1710145444; b=z7ULDoGJEdsOD/HUiThsgVzA9tOvLjMxKTYsEWlJ23NeCyG
-	HglRGiZDgZzWzMF8cBsap3L5GFhZydA+0fTLaVGbHc3CHx7nQPiSS3npk3NCQLgz+Lu95sOXWaIKY
-	EUfVVW6VKlj/qgq9+B+ZtAOUaaxh9FgxUZG65wGBJ1ji3LqnHipFqTLm5nf/a4ryBMrAjoKFJgnZA
-	ZXOHkR9Pgyr1wOo/HZHYq20Pbi83W+MkILcivGIXqcuIYaIK6pjjL11Zj1OyLMTFz+T77RuioYglF
-	AgP9WZY5aGwHuentcao2jpgLwsUHegVMrhdTI5S+vuL3N4zcXcyIBXbsMxr3tybA==;
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1rhmZ8-0000fd-P1; Wed, 06 Mar 2024 09:23:54 +0100
-Message-ID: <e3181555-c08d-463f-a9a9-b08c69875c84@leemhuis.info>
-Date: Wed, 6 Mar 2024 09:23:53 +0100
+	dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b="kpBLh5rE"
+Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by bee.tesarici.cz (Postfix) with ESMTPSA id 7B6871CA38F;
+	Wed,  6 Mar 2024 10:01:54 +0100 (CET)
+Authentication-Results: mail.tesarici.cz; dmarc=fail (p=quarantine dis=none) header.from=tesarici.cz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tesarici.cz; s=mail;
+	t=1709715714; bh=YzH+vqMnEg2qYPMQb47PYCat1WD2FNYibWcd0rUjZiY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=kpBLh5rESQNyznO+SYYM00jpTxdGjER/C8xQnqISGk8f0f0ZNTfT/wigUZmhMQnJ2
+	 lOxnSFnQV276r/0/82WhJDGm7FuNZXWk5cYXxuI64wbdf+opcec/OfNzeagtaH+93y
+	 0FdlRPPUnUdTVWLxO/mwJTyeVqpAdwnVcJ9yxLw6Xqq8i8nINb7oboUnf9g98TZKxe
+	 +BcSmKTaeZSSPzDJNNM1g9gethLgL5aYOun3EKdUvVp2yW/MKxpBCjDWzvrHMqWzgl
+	 psC2i4iZCrhSlkzrcCwazXxAQmLnORH7LaXGXDF2FuzX8aK9xPcG2eUxN8H3NAWoOL
+	 ZwMpmdC/IZiFw==
+Date: Wed, 6 Mar 2024 10:01:53 +0100
+From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+To: "Linux regression tracking (Thorsten Leemhuis)"
+ <regressions@leemhuis.info>
+Cc: Linux regressions mailing list <regressions@lists.linux.dev>, Eric
+ Dumazet <edumazet@google.com>, "David S. Miller" <davem@davemloft.net>,
+ Paolo Abeni <pabeni@redhat.com>, Jakub Kicinski <kuba@kernel.org>, Jisheng
+ Zhang <jszhang@kernel.org>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Jose Abreu <joabreu@synopsys.com>, Maxime
+ Coquelin <mcoquelin.stm32@gmail.com>, Chen-Yu Tsai <wens@csie.org>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ "open list:STMMAC ETHERNET DRIVER" <netdev@vger.kernel.org>, "moderated
+ list:ARM/STM32 ARCHITECTURE" <linux-stm32@st-md-mailman.stormreply.com>,
+ "moderated list:ARM/STM32 ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>, open list
+ <linux-kernel@vger.kernel.org>, "open list:ARM/Allwinner sunXi SoC support"
+ <linux-sunxi@lists.linux.dev>, Marc Haber <mh+netdev@zugschlus.de>, Andrew
+ Lunn <andrew@lunn.ch>, Florian Fainelli <f.fainelli@gmail.com>,
+ stable@vger.kernel.org, alexis.lothore@bootlin.com, Guenter Roeck
+ <linux@roeck-us.net>
+Subject: Re: [PATCH net v3] net: stmmac: protect updates of 64-bit
+ statistics counters
+Message-ID: <20240306100153.32d305f7@meshulam.tesarici.cz>
+In-Reply-To: <e3181555-c08d-463f-a9a9-b08c69875c84@leemhuis.info>
+References: <20240203190927.19669-1-petr@tesarici.cz>
+	<ea1567d9-ce66-45e6-8168-ac40a47d1821@roeck-us.net>
+	<Zct5qJcZw0YKx54r@xhacker>
+	<CANn89i+4tVWezqr=BYZ5AF=9EgV2EPqhdHun=u=ga32CEJ4BXQ@mail.gmail.com>
+	<20d94512-c4f2-49f7-ac97-846dc24a6730@roeck-us.net>
+	<CANn89iL1piwsbsBx4Z=kySUfmPa9LbZn-SNthgA+W6NEnojgSQ@mail.gmail.com>
+	<a3749d3f-ced1-4c48-adaf-348c8dee7610@leemhuis.info>
+	<20240228120308.48d6a9c2@meshulam.tesarici.cz>
+	<e3181555-c08d-463f-a9a9-b08c69875c84@leemhuis.info>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.39; x86_64-suse-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net v3] net: stmmac: protect updates of 64-bit statistics
- counters
-Content-Language: en-US, de-DE
-To: =?UTF-8?B?UGV0ciBUZXNhxZnDrWs=?= <petr@tesarici.cz>
-Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
- Eric Dumazet <edumazet@google.com>, "David S. Miller" <davem@davemloft.net>,
- Paolo Abeni <pabeni@redhat.com>, Jakub Kicinski <kuba@kernel.org>,
- Jisheng Zhang <jszhang@kernel.org>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Jose Abreu <joabreu@synopsys.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- "open list:STMMAC ETHERNET DRIVER" <netdev@vger.kernel.org>,
- "moderated list:ARM/STM32 ARCHITECTURE"
- <linux-stm32@st-md-mailman.stormreply.com>,
- "moderated list:ARM/STM32 ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
- Marc Haber <mh+netdev@zugschlus.de>, Andrew Lunn <andrew@lunn.ch>,
- Florian Fainelli <f.fainelli@gmail.com>, stable@vger.kernel.org,
- alexis.lothore@bootlin.com, Guenter Roeck <linux@roeck-us.net>
-References: <20240203190927.19669-1-petr@tesarici.cz>
- <ea1567d9-ce66-45e6-8168-ac40a47d1821@roeck-us.net>
- <Zct5qJcZw0YKx54r@xhacker>
- <CANn89i+4tVWezqr=BYZ5AF=9EgV2EPqhdHun=u=ga32CEJ4BXQ@mail.gmail.com>
- <20d94512-c4f2-49f7-ac97-846dc24a6730@roeck-us.net>
- <CANn89iL1piwsbsBx4Z=kySUfmPa9LbZn-SNthgA+W6NEnojgSQ@mail.gmail.com>
- <a3749d3f-ced1-4c48-adaf-348c8dee7610@leemhuis.info>
- <20240228120308.48d6a9c2@meshulam.tesarici.cz>
-From: "Linux regression tracking (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <20240228120308.48d6a9c2@meshulam.tesarici.cz>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1709713444;c709e32f;
-X-HE-SMSGID: 1rhmZ8-0000fd-P1
+Content-Transfer-Encoding: quoted-printable
 
-On 28.02.24 12:03, Petr Tesařík wrote:
-> On Wed, 28 Feb 2024 07:19:56 +0100
-> "Linux regression tracking (Thorsten Leemhuis)" <regressions@leemhuis.info> wrote:
-> 
->> Net maintainers, chiming in here, as it seems handling this regression
->> stalled.
-> Indeed, I was too busy with sandbox mode...
+On Wed, 6 Mar 2024 09:23:53 +0100
+"Linux regression tracking (Thorsten Leemhuis)" <regressions@leemhuis.info>=
+ wrote:
 
-Hmm, no reply in the past week to Petr's request for help from someone
-with more knowledge about the field. :-/
+> On 28.02.24 12:03, Petr Tesa=C5=99=C3=ADk wrote:
+> > On Wed, 28 Feb 2024 07:19:56 +0100
+> > "Linux regression tracking (Thorsten Leemhuis)" <regressions@leemhuis.i=
+nfo> wrote:
+> >  =20
+> >> Net maintainers, chiming in here, as it seems handling this regression
+> >> stalled. =20
+> > Indeed, I was too busy with sandbox mode... =20
+>=20
+> Hmm, no reply in the past week to Petr's request for help from someone
+> with more knowledge about the field. :-/
+>=20
+> So I guess this means that this won't be fixed for 6.8? Unfortunate, but
+> well, that's how it it sometimes.
 
-So I guess this means that this won't be fixed for 6.8? Unfortunate, but
-well, that's how it it sometimes.
+For the record, I _can_ reproduce lockdep splats on my device, but they
+don't make any sense to me. They seem to confirm Jisheng Zhang's
+conclusion that lockdep conflates two locks which should have different
+lock-classes.
 
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
+So far I have noticed only one issue: the per-cpu syncp's are not
+initialized. I'll recompile and see if that's what confuses lockdep.
 
-#regzbot poke
+Petr T
 
->> On 13.02.24 16:52, Eric Dumazet wrote:
->>> On Tue, Feb 13, 2024 at 4:26 PM Guenter Roeck <linux@roeck-us.net> wrote:  
->>>> On Tue, Feb 13, 2024 at 03:51:35PM +0100, Eric Dumazet wrote:  
->>>>> On Tue, Feb 13, 2024 at 3:29 PM Jisheng Zhang <jszhang@kernel.org> wrote:  
->>>>>> On Sun, Feb 11, 2024 at 08:30:21PM -0800, Guenter Roeck wrote:  
->>>>>>> On Sat, Feb 03, 2024 at 08:09:27PM +0100, Petr Tesarik wrote:  
->>>>>>>> As explained by a comment in <linux/u64_stats_sync.h>, write side of struct
->>>>>>>> u64_stats_sync must ensure mutual exclusion, or one seqcount update could
->>>>>>>> be lost on 32-bit platforms, thus blocking readers forever. Such lockups
->>>>>>>> have been observed in real world after stmmac_xmit() on one CPU raced with
->>>>>>>> stmmac_napi_poll_tx() on another CPU.
->>>>>>>>
->>>>>>>> To fix the issue without introducing a new lock, split the statics into
->>>>>>>> three parts:
->>>>>>>>
->>>>>>>> 1. fields updated only under the tx queue lock,
->>>>>>>> 2. fields updated only during NAPI poll,
->>>>>>>> 3. fields updated only from interrupt context,
->>>>>>>>
->>>>>>>> Updates to fields in the first two groups are already serialized through
->>>>>>>> other locks. It is sufficient to split the existing struct u64_stats_sync
->>>>>>>> so that each group has its own.
->>>>>>>>
->>>>>>>> Note that tx_set_ic_bit is updated from both contexts. Split this counter
->>>>>>>> so that each context gets its own, and calculate their sum to get the total
->>>>>>>> value in stmmac_get_ethtool_stats().
->>>>>>>>
->>>>>>>> For the third group, multiple interrupts may be processed by different CPUs
->>>>>>>> at the same time, but interrupts on the same CPU will not nest. Move fields
->>>>>>>> from this group to a newly created per-cpu struct stmmac_pcpu_stats.
->>>>>>>>
->>>>>>>> Fixes: 133466c3bbe1 ("net: stmmac: use per-queue 64 bit statistics where necessary")
->>>>>>>> Link: https://lore.kernel.org/netdev/Za173PhviYg-1qIn@torres.zugschlus.de/t/
->>>>>>>> Cc: stable@vger.kernel.org
->>>>>>>> Signed-off-by: Petr Tesarik <petr@tesarici.cz>  
->>>>>>>
->>>>>>> This patch results in a lockdep splat. Backtrace and bisect results attached.
->>>>>>>
->>>>>>> ---
->>>>>>> [   33.736728] ================================
->>>>>>> [   33.736805] WARNING: inconsistent lock state
->>>>>>> [   33.736953] 6.8.0-rc4 #1 Tainted: G                 N
->>>>>>> [   33.737080] --------------------------------
->>>>>>> [   33.737155] inconsistent {HARDIRQ-ON-W} -> {IN-HARDIRQ-W} usage.
->>>>>>> [   33.737309] kworker/0:2/39 [HC1[1]:SC0[2]:HE0:SE0] takes:
->>>>>>> [   33.737459] ef792074 (&syncp->seq#2){?...}-{0:0}, at: sun8i_dwmac_dma_interrupt+0x9c/0x28c
->>>>>>> [   33.738206] {HARDIRQ-ON-W} state was registered at:
->>>>>>> [   33.738318]   lock_acquire+0x11c/0x368
->>>>>>> [   33.738431]   __u64_stats_update_begin+0x104/0x1ac
->>>>>>> [   33.738525]   stmmac_xmit+0x4d0/0xc58  
->>>>>>
->>>>>> interesting lockdep splat...
->>>>>> stmmac_xmit() operates on txq_stats->q_syncp, while the
->>>>>> sun8i_dwmac_dma_interrupt() operates on pcpu's priv->xstats.pcpu_stats
->>>>>> they are different syncp. so how does lockdep splat happen.  
->>>>>
->>>>> Right, I do not see anything obvious yet.  
->>>>
->>>> Wild guess: I think it maybe saying that due to
->>>>
->>>>         inconsistent {HARDIRQ-ON-W} -> {IN-HARDIRQ-W} usage.
->>>>
->>>> the critical code may somehow be interrupted and, while handling the
->>>> interrupt, try to acquire the same lock again.  
->>>
->>> This should not happen, the 'syncp' are different. They have different
->>> lockdep classes.
->>>
->>> One is exclusively used from hard irq context.
->>>
->>> The second one only used from BH context.  
->>
->> Alexis Lothoré hit this now as well, see yesterday report in this
->> thread; apart from that nothing seem to have happened for two weeks now.
->> The change recently made it to some stable/longterm kernels, too. Makes
->> me wonder:
->>
->> What's the plan forward here? Is this considered to be a false positive?
-> 
-> Although my system has run stable for a couple of months, I am hesitant
-> to call it a false positive.
-> 
->> Or a real problem?
-> 
-> That's what I think. But I would have to learn a lot about the network
-> stack to understand what exactly happens here.
-> 
-> It may go faster if somebody else on the Cc can give me a hint where to
-> start looking based on the lockdep warning.
-> 
-> Petr T
-> 
-> 
+> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+> --
+> Everything you wanna know about Linux kernel regression tracking:
+> https://linux-regtracking.leemhuis.info/about/#tldr
+> If I did something stupid, please tell me, as explained on that page.
+>=20
+> #regzbot poke
+>=20
+> >> On 13.02.24 16:52, Eric Dumazet wrote: =20
+> >>> On Tue, Feb 13, 2024 at 4:26=E2=80=AFPM Guenter Roeck <linux@roeck-us=
+.net> wrote:   =20
+> >>>> On Tue, Feb 13, 2024 at 03:51:35PM +0100, Eric Dumazet wrote:   =20
+> >>>>> On Tue, Feb 13, 2024 at 3:29=E2=80=AFPM Jisheng Zhang <jszhang@kern=
+el.org> wrote:   =20
+> >>>>>> On Sun, Feb 11, 2024 at 08:30:21PM -0800, Guenter Roeck wrote:   =
+=20
+> >>>>>>> On Sat, Feb 03, 2024 at 08:09:27PM +0100, Petr Tesarik wrote:   =
+=20
+> >>>>>>>> As explained by a comment in <linux/u64_stats_sync.h>, write sid=
+e of struct
+> >>>>>>>> u64_stats_sync must ensure mutual exclusion, or one seqcount upd=
+ate could
+> >>>>>>>> be lost on 32-bit platforms, thus blocking readers forever. Such=
+ lockups
+> >>>>>>>> have been observed in real world after stmmac_xmit() on one CPU =
+raced with
+> >>>>>>>> stmmac_napi_poll_tx() on another CPU.
+> >>>>>>>>
+> >>>>>>>> To fix the issue without introducing a new lock, split the stati=
+cs into
+> >>>>>>>> three parts:
+> >>>>>>>>
+> >>>>>>>> 1. fields updated only under the tx queue lock,
+> >>>>>>>> 2. fields updated only during NAPI poll,
+> >>>>>>>> 3. fields updated only from interrupt context,
+> >>>>>>>>
+> >>>>>>>> Updates to fields in the first two groups are already serialized=
+ through
+> >>>>>>>> other locks. It is sufficient to split the existing struct u64_s=
+tats_sync
+> >>>>>>>> so that each group has its own.
+> >>>>>>>>
+> >>>>>>>> Note that tx_set_ic_bit is updated from both contexts. Split thi=
+s counter
+> >>>>>>>> so that each context gets its own, and calculate their sum to ge=
+t the total
+> >>>>>>>> value in stmmac_get_ethtool_stats().
+> >>>>>>>>
+> >>>>>>>> For the third group, multiple interrupts may be processed by dif=
+ferent CPUs
+> >>>>>>>> at the same time, but interrupts on the same CPU will not nest. =
+Move fields
+> >>>>>>>> from this group to a newly created per-cpu struct stmmac_pcpu_st=
+ats.
+> >>>>>>>>
+> >>>>>>>> Fixes: 133466c3bbe1 ("net: stmmac: use per-queue 64 bit statisti=
+cs where necessary")
+> >>>>>>>> Link: https://lore.kernel.org/netdev/Za173PhviYg-1qIn@torres.zug=
+schlus.de/t/
+> >>>>>>>> Cc: stable@vger.kernel.org
+> >>>>>>>> Signed-off-by: Petr Tesarik <petr@tesarici.cz>   =20
+> >>>>>>>
+> >>>>>>> This patch results in a lockdep splat. Backtrace and bisect resul=
+ts attached.
+> >>>>>>>
+> >>>>>>> ---
+> >>>>>>> [   33.736728] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >>>>>>> [   33.736805] WARNING: inconsistent lock state
+> >>>>>>> [   33.736953] 6.8.0-rc4 #1 Tainted: G                 N
+> >>>>>>> [   33.737080] --------------------------------
+> >>>>>>> [   33.737155] inconsistent {HARDIRQ-ON-W} -> {IN-HARDIRQ-W} usag=
+e.
+> >>>>>>> [   33.737309] kworker/0:2/39 [HC1[1]:SC0[2]:HE0:SE0] takes:
+> >>>>>>> [   33.737459] ef792074 (&syncp->seq#2){?...}-{0:0}, at: sun8i_dw=
+mac_dma_interrupt+0x9c/0x28c
+> >>>>>>> [   33.738206] {HARDIRQ-ON-W} state was registered at:
+> >>>>>>> [   33.738318]   lock_acquire+0x11c/0x368
+> >>>>>>> [   33.738431]   __u64_stats_update_begin+0x104/0x1ac
+> >>>>>>> [   33.738525]   stmmac_xmit+0x4d0/0xc58   =20
+> >>>>>>
+> >>>>>> interesting lockdep splat...
+> >>>>>> stmmac_xmit() operates on txq_stats->q_syncp, while the
+> >>>>>> sun8i_dwmac_dma_interrupt() operates on pcpu's priv->xstats.pcpu_s=
+tats
+> >>>>>> they are different syncp. so how does lockdep splat happen.   =20
+> >>>>>
+> >>>>> Right, I do not see anything obvious yet.   =20
+> >>>>
+> >>>> Wild guess: I think it maybe saying that due to
+> >>>>
+> >>>>         inconsistent {HARDIRQ-ON-W} -> {IN-HARDIRQ-W} usage.
+> >>>>
+> >>>> the critical code may somehow be interrupted and, while handling the
+> >>>> interrupt, try to acquire the same lock again.   =20
+> >>>
+> >>> This should not happen, the 'syncp' are different. They have different
+> >>> lockdep classes.
+> >>>
+> >>> One is exclusively used from hard irq context.
+> >>>
+> >>> The second one only used from BH context.   =20
+> >>
+> >> Alexis Lothor=C3=A9 hit this now as well, see yesterday report in this
+> >> thread; apart from that nothing seem to have happened for two weeks no=
+w.
+> >> The change recently made it to some stable/longterm kernels, too. Makes
+> >> me wonder:
+> >>
+> >> What's the plan forward here? Is this considered to be a false positiv=
+e? =20
+> >=20
+> > Although my system has run stable for a couple of months, I am hesitant
+> > to call it a false positive.
+> >  =20
+> >> Or a real problem? =20
+> >=20
+> > That's what I think. But I would have to learn a lot about the network
+> > stack to understand what exactly happens here.
+> >=20
+> > It may go faster if somebody else on the Cc can give me a hint where to
+> > start looking based on the lockdep warning.
+> >=20
+> > Petr T
+> >=20
+> >  =20
+
