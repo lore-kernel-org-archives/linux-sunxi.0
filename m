@@ -1,54 +1,54 @@
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F9AB13B2BD
-	for <linux-sunxi@lists.linux.dev>; Thu,  7 Mar 2024 21:34:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C283C13EFEE
+	for <linux-sunxi@lists.linux.dev>; Thu,  7 Mar 2024 22:03:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709847293; cv=none; b=A4l2yd2P1G+FT5uwBqnJjFZJVKZ8BMKfB8J0c4h58EbjUoMk6orrV0Lu0BaXMI+mmuHaczuJYzHNnnXycXcghFfxEipGnY4KLzce4gMPonJKlJBcTkmEs2VW9M1jiO+N7QqZINdW0sfHJg+7AbkTH3uNBCQlfNnGq/+IqMG9ig0=
+	t=1709848994; cv=none; b=maoewi+cvFBtM4KS5vUuXlJEvPshVPylMQ/gJ8AlKXFx+4DeuZnQ//3oqkusDOI0PTB9IJ7QAqKUPe4PsH0+b8nc6dsJ20eGI6XrCQ66+0Qrr8muWhbfqJID1HKukbjDT/kWTx/3pig9viSqeqJGEmSCFxH/DNGz4QLps6e/WeQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709847293; c=relaxed/simple;
-	bh=ZioWa3O8UVzZn0tNvYNeFl7zVXQskY5zX1fsE0UKFgw=;
+	s=arc-20240116; t=1709848994; c=relaxed/simple;
+	bh=ZnwFebw6H3rwbeF/iJ3YzbV3zPfk9wyupA3K9uMJzwI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=h2M4HeNaR5yszZFNMU/46iAplqwKD0Bqes3evOu8j7dSyIGLyo5GPHQ53fxoxTTgIg9MLMFUkcxzcEAbt2KyH15ghwu6vtZvjCW6mpqXkiGDCwpZ3NW8ed7lbSCqw4JAbz6CzwIQKH+Fsn82udinuKR1f226212hjim57o9COPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Ia6UxCvI; arc=none smtp.client-ip=209.85.219.178
+	 To:Cc:Content-Type; b=keTr5KL/Gmi6DGyvnqItNh36KujQeXmpEKKGEgb0jPuDr8ODgeAJQm9fK4V4mNpRVyMiGO8tIjMClH8oaVmvP2M1g76r1K5OZUbxDtt2SBxV2ql04vDzMN3Ejr0aucf9xwIKY5yBia5lsqWszeyourwVPq7obflLE4rNWU2y/gk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Bff8enBH; arc=none smtp.client-ip=209.85.128.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ia6UxCvI"
-Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-dcc4de7d901so1326781276.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 07 Mar 2024 13:34:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Bff8enBH"
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-60822b444c9so11234857b3.2
+        for <linux-sunxi@lists.linux.dev>; Thu, 07 Mar 2024 14:03:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709847289; x=1710452089; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1709848991; x=1710453791; darn=lists.linux.dev;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=0/2XvFuAiyvZaIMiYL4oAu/qZ6xeRptB5Yl+Q3YU0fY=;
-        b=Ia6UxCvICiuogXAcIDcPlKibqpbcXCPQN3i+G+EkiKBWqRASX+Ekkrt+MyiC7dZNGd
-         j7+Tt27f/d0KUXmrlX778w6uNMK+ENuQECxRKOrLym9ILo/N0OL+wsb2/ulchHOLwZ1K
-         V3jkSFZ7QCQwvPiRlMoDAqcwBeevvEWvqGiHqvYlTx3fC7wDqMdTeBoWmF7wUBn0EFk2
-         WNOdocGqjlWPlRcNC1cJefh6+18g59nWC9YvIF8oMSdbcVWQDWnO1UWcNYdzjg1B38Oo
-         TG7KLf+piQskXJq2K6E73RpyGzJU2GImice1TeGrGHW82cvMXEX8KeBLPuJqxDRHvPZo
-         ygXQ==
+        bh=AizkXlmtZUCSstQR6OGH3QyFzWNfyCrG/9xzkrzNWR4=;
+        b=Bff8enBHoyXnFM9+oprQ/JZSn7Qg7gY5cKcrlv69nJZBcv3sHXYpy7e7DFjB5zswN+
+         L3hkFtqrsE3FjHjKFNkMwcsSd0znlBBs3W7cfPJV7KxYQ6ytM69aPSRbVJmX/XrG7+dM
+         8A4a9byFnPHns0G9MmE3UGOU908jFxrcO6p/kJ+REEckdgMIxp9hs+UopcOwgt1nhVCy
+         y376zAUM8v+09dazmDDxJzLxvGHXGCYQwzPKFfOeOY9byYUA/RcLCr/kB8bLNV7/BGP+
+         Sc1gcKt8JllYWycluL8gRX5LdIlHdVaa3+ot0N84/94F1PTz/yFQLGK1mDQSSSh4ka33
+         8NDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709847289; x=1710452089;
+        d=1e100.net; s=20230601; t=1709848991; x=1710453791;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=0/2XvFuAiyvZaIMiYL4oAu/qZ6xeRptB5Yl+Q3YU0fY=;
-        b=RFMqrPcUC/hec7JUZ5Q84XCqXndZy6L/74JnEvAqvrMUTLEebIge9plRqIVK8gSllD
-         v0myTdh/iBcLGkCs76DIbvmTxUdUO4vmhLrr5jXo84ufgnpoIK0r80M4pnNXcreuZRY1
-         A33KqbnNcoQXgJl4vd25Y7PEEj5ah7q4om5AXGaGHb+zKvfgPOxoTG79sVPLyLNrisbA
-         1wSZN91k5uH8UPZxfFnLp4esCjOnMNaciw2SB2xiYf+IKboVtVjPeUz/KfMgXT56TKgB
-         U+f/G7IC77Ps7fut54/vyG81Ro0FPQpjAQX2ps7LgiKGGgHJ7chhaCPIkQEEj412fFRF
-         DU+w==
-X-Forwarded-Encrypted: i=1; AJvYcCWEJl0oh6/hWK4WAfmFEBWcFqA93nwzkSXUPfsG2JU9Hgykt+8KyfK/cAfjqUbIo24O2ZiBrIuApKWIyXt4wT4KaGjHbNYTl1kVb/I=
-X-Gm-Message-State: AOJu0Yz7YzWZYuPlMaea9yOlrMkp3YgAn1VARQXpuS7jeEKCUajk6ZFX
-	jm0OBsfCT2WFKkommcSmSAIDUUjZl2PAwW4jQSxvxeN2gz9YAIi9Wx1QIj8c6otc2cza1WCMamx
-	EsQ20UTaWnCMvatLfFQDpPn+ozM22d0W4fVT5SA==
-X-Google-Smtp-Source: AGHT+IGeTs1Ho4xT1vD0AtG1sUcXcPWckpX387Tbnox2NYhxA3B6vjqm2iUu6bzzPI7K/Q1ZanJhhYZPMa4ypePWBOs=
-X-Received: by 2002:a25:14d7:0:b0:dc2:65f4:1541 with SMTP id
- 206-20020a2514d7000000b00dc265f41541mr15310765ybu.41.1709847288971; Thu, 07
- Mar 2024 13:34:48 -0800 (PST)
+        bh=AizkXlmtZUCSstQR6OGH3QyFzWNfyCrG/9xzkrzNWR4=;
+        b=rw0TdvDPcn7e3bH7RKWurFv/TjGQwbXiLSmDrYuOKzL/TEZ3EmkyJ4IsNmFB1vxZHo
+         yL9HsyEBFpRjGER2BxB+bEuyOzsKSJAxA7UtR7KJsgtsKPuDvgEYRTzzixdI6WriGROB
+         mZVC12gQFWcTN0Rc6E/xeH8rprjAN3qxOomqpw+1mfZ5PHUuWEZuD4pMtuh1n2qWzWVO
+         YUBusb9gJ9WdTsggtmuE7b95I4juLDvKHCBMW4MkxY8+X+LHmleQG6kuGjrpOS0d/yMq
+         aiuU+aNWmEVz31txaE9Yimi99FLpk7QpqM/VYQD3YIkIUxni5+IKANsKzqUR5VcT4CuP
+         GKKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXevOHWx4COhYmaz5wpQX6WYf1U4AcmFBlJ0IEe7zNzXdx8d6S+1SwB56V9oTXRdl/OAwqKaF5wOAlurXwwdepcpg1qh7L5DJks/J4=
+X-Gm-Message-State: AOJu0YypwirXD71j4EOt4KV7vtSbEnKF1qhQzSPOWK5APrgqfpKZBBmP
+	pnaF/x5DRKHtZQ7Jw2zHj7ky2NQU3UgRYDJ8wKRUnuiXAOZINYiYZj1rH4t7aerGOmWWJGdN+ec
+	T5P3joMNiHZHRKbhuobDMAo4x8m4FGzo0DUV8Gg==
+X-Google-Smtp-Source: AGHT+IEVOEju1iQyD9s82MYfyjvamBck51RQLph8mWBkLs97AfZ0UzWzQRt+IXP0+o9OTK3t73dsfq/vR6P5lUKlaPs=
+X-Received: by 2002:a81:5f0b:0:b0:608:dde5:ace6 with SMTP id
+ t11-20020a815f0b000000b00608dde5ace6mr22161539ywb.28.1709848990592; Thu, 07
+ Mar 2024 14:03:10 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -58,8 +58,8 @@ MIME-Version: 1.0
 References: <20240307-kms-hdmi-connector-state-v8-0-ef6a6f31964b@kernel.org> <20240307-kms-hdmi-connector-state-v8-20-ef6a6f31964b@kernel.org>
 In-Reply-To: <20240307-kms-hdmi-connector-state-v8-20-ef6a6f31964b@kernel.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 7 Mar 2024 23:34:37 +0200
-Message-ID: <CAA8EJprSAzov9p92gscTxaKv+5Lc3rzm1NguqEeCKCArrEeV0A@mail.gmail.com>
+Date: Fri, 8 Mar 2024 00:02:58 +0200
+Message-ID: <CAA8EJppNWVGWYM0mGEJc_PaX=VqVv16=7RRB75EM_LzuK5BXtQ@mail.gmail.com>
 Subject: Re: [PATCH v8 20/27] drm/connector: hdmi: Add Infoframes generation
 To: Maxime Ripard <mripard@kernel.org>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -247,6 +247,14 @@ On Thu, 7 Mar 2024 at 15:39, Maxime Ripard <mripard@kernel.org> wrote:
 > +
 > +       if (!info->has_hdmi_infoframe)
 > +               return 0;
+
+I tried enabling the infoframes generation for MSM HDMI bridge and I
+stumbled here.
+I think this condition is not fully correct. It should only guard
+generation of hdmi_vendor infoframe. AVI and SPD frame can be
+generated even if has_hdmi_infoframe is not set. Not sure about the
+HDR infoframe.
+
 > +
 > +       ret = hdmi_generate_avi_infoframe(connector, state);
 > +       if (ret)
@@ -850,9 +858,6 @@ On Thu, 7 Mar 2024 at 15:39, Maxime Ripard <mripard@kernel.org> wrote:
 > +        *
 > +        * This callback is invoked through
 > +        * @drm_atomic_helper_hdmi_connector_update_infoframes during a
-
-Nit: drm_atomic_helper_connector_hdmi_update_infoframes
-
 > +        * commit to clear the infoframes into the hardware. It will be
 > +        * called multiple times, once for every disabled infoframe
 > +        * type.
@@ -870,9 +875,6 @@ Nit: drm_atomic_helper_connector_hdmi_update_infoframes
 > +        *
 > +        * This callback is invoked through
 > +        * @drm_atomic_helper_hdmi_connector_update_infoframes during a
-
-And here
-
 > +        * commit to program the infoframes into the hardware. It will
 > +        * be called multiple times, once for every updated infoframe
 > +        * type.
@@ -982,6 +984,6 @@ And here
 >
 
 
--- 
+--
 With best wishes
 Dmitry
