@@ -1,53 +1,53 @@
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7C9D200DE
-	for <linux-sunxi@lists.linux.dev>; Fri,  8 Mar 2024 08:39:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2583E54746
+	for <linux-sunxi@lists.linux.dev>; Fri,  8 Mar 2024 11:11:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709887163; cv=none; b=NM5eqhm46STUIeUDqfPBWeqqaTRhH7KAF49E3E7tZzHVy47Amv3o3UYmkF0YdZO90dDVDBN7Iw0miaIyA/APf6Tx9XZCUVC2wijhP7T8Q2P+jJBSjsDJlgvUVsty+43U0aAjx3fFsslQdfEc0lI5ixbjw7CY/+O2LVRPDUAfR7M=
+	t=1709896309; cv=none; b=BG28xAtmYLLfEBSg6GwrVuiSgbCO60eYQetWH103FyCyomY1jdhghJHRrlWZCZLLLsKOxjZJFmBD+aoPGUSZU/R6gtfjn23H+iVXvmheK5CfciQMg+k1K8mRI3qPe8tV/Hl1GxWWJHDdjIICWQI1bJY+u5XRKDXHKHM7zftHCFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709887163; c=relaxed/simple;
-	bh=WlJwc0CXz289aYzNYoYl8BrBG4AN8UC5Lj2Bw7BYaSQ=;
+	s=arc-20240116; t=1709896309; c=relaxed/simple;
+	bh=5uFD+cqkULCleDfVJtHKcSPYIbJiDZQaxFTnxGYpT+A=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UcE3bwylvKymrZ0JmkENOU5cBLx9ooQl+X6a6ifHb11FlK1AHIUFxVBaShRrK330EzUtUakJZswSQzLeDHknP2HOxx9zIEbVQO+A3tRPM7TSYqksO9C1l3xwqPzaykyt8BWiG+eAdaq3M6ZKgjWWHFSvotnT4ib3KTHrzmaO8iA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=ij7r4yar; arc=none smtp.client-ip=93.104.207.81
+	 MIME-Version:Content-Type; b=VCDgeugt44aS9ffPJeyKYOb2JlGekysgzhFg7R7vj2KR0h2Sx4KzOi8UpEP5GhE3aLOkYpnKotXOL6adlEUZ+p8m9u+k1ktDXh4heocIqWzJQT0o9l5TRnL9SL1k4t66tRifK5s/DjHm1fmXf3TJCrU27y6tONBN4isunYr5RpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=URm8PUu3; arc=none smtp.client-ip=93.104.207.81
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="ij7r4yar"
+	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="URm8PUu3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1709887160; x=1741423160;
+  t=1709896306; x=1741432306;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=+0Zk9YrNAPHRCrDTW6MNWvjCjE1nDUbXvpf0eiRTAcI=;
-  b=ij7r4yarpxHsJVBLPIINqpv5h+1uaPTjFGfcNjkDD9kxgdKDQTmOUXCr
-   4Tmq5KjvMz8jYgSxandvKNdzS5lg9LMXEyd8EKDL/+nGpD0FQ5nVi/PG1
-   SSZOFDsQFu4gEAeBLNZju3/TLYU2Y6KJaGmBPyTEELKMbLgxOYnNx3HKC
-   GslvdLVQYqM4wClt1wtNa+1AiDN+QBSAJE1rru57GmMahH4bsDljs1bdO
-   Qktbn7abKU1kckGMVEXkx5HhjNClPmnl5bF48ZtcVs4eAl//8Fk4QGl3d
-   IUiXxVQ93rc5E5eUMqSox/GpxAlX83JkCv61TJWVVOad9tas/rlcEH9wV
-   g==;
+  bh=NRg85ZaxTMjqUAF+JiNjdT6tgT0KjCL5hUNiV22oZyI=;
+  b=URm8PUu3qGpgozRLEqBWeVjtQpfiVIBIu+B3e4WsTAjzTqQR+r7JJCfl
+   7VuqgMqbgw+gsasIZ1juBbgmllcbW6AGoLnlx2WTxJm2iyycGEJI9HRjR
+   IkX2EXfBjxNQervKFUy4N5/84mjZmUqUJGbbFx0jU2F6fiNZZjrvluZCa
+   2wf3PI9qEOBY/XrDGqCiPT7aXjrmygFF2truEsfDAvo+hOglXAQ6p6hx8
+   2PEcl/nbqeWgiKg39x9n+D6/BYNIbtamHIfJBwEJ7asOoFl4eOEDU6nEK
+   /Vh0cPEiEMeb5jZqDPLENcr9BoubDgs1D6BnQjDP2rbb9h0C8o4yvVQCa
+   w==;
 X-IronPort-AV: E=Sophos;i="6.07,109,1708383600"; 
-   d="scan'208";a="35803051"
+   d="scan'208";a="35807296"
 Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 08 Mar 2024 09:39:17 +0100
+  by mx1.tq-group.com with ESMTP; 08 Mar 2024 12:11:43 +0100
 Received: from steina-w.localnet (steina-w.tq-net.de [10.123.53.25])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 4074628007C;
-	Fri,  8 Mar 2024 09:39:17 +0100 (CET)
+	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 63B7428007C;
+	Fri,  8 Mar 2024 12:11:43 +0100 (CET)
 From: Alexander Stein <alexander.stein@ew.tq-group.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick <sebastian.wick@redhat.com>, Ville =?ISO-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>, dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v8 05/27] drm/tests: Add output bpc tests
-Date: Fri, 08 Mar 2024 09:39:18 +0100
-Message-ID: <1788224.VLH7GnMWUR@steina-w>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick <sebastian.wick@redhat.com>, Ville =?ISO-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>, dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, Dave Stevenson <dave.stevenson@raspberrypi.com>, Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH v8 11/27] drm/tests: Add TDMS character rate connector state tests
+Date: Fri, 08 Mar 2024 12:11:44 +0100
+Message-ID: <1981993.usQuhbGJ8B@steina-w>
 Organization: TQ-Systems GmbH
-In-Reply-To: <20240307-kms-hdmi-connector-state-v8-5-ef6a6f31964b@kernel.org>
-References: <20240307-kms-hdmi-connector-state-v8-0-ef6a6f31964b@kernel.org> <20240307-kms-hdmi-connector-state-v8-5-ef6a6f31964b@kernel.org>
+In-Reply-To: <20240307-kms-hdmi-connector-state-v8-11-ef6a6f31964b@kernel.org>
+References: <20240307-kms-hdmi-connector-state-v8-0-ef6a6f31964b@kernel.org> <20240307-kms-hdmi-connector-state-v8-11-ef6a6f31964b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -57,53 +57,62 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="iso-8859-1"
 
-Hi Maxime,
-
-Am Donnerstag, 7. M=E4rz 2024, 14:38:32 CET schrieb Maxime Ripard:
-> Now that we're tracking the output bpc count in the connector state,
-> let's add a few tests to make sure it works as expected.
+Am Donnerstag, 7. M=E4rz 2024, 14:38:38 CET schrieb Maxime Ripard:
+> ********************
+> Achtung externe E-Mail: =D6ffnen Sie Anh=E4nge und Links nur, wenn Sie wi=
+ssen, dass diese aus einer sicheren Quelle stammen und sicher sind. Leiten =
+Sie die E-Mail im Zweifelsfall zur Pr=FCfung an den IT-Helpdesk weiter.
+> Attention external email: Open attachments and links only if you know tha=
+t they are from a secure source and are safe. In doubt forward the email to=
+ the IT-Helpdesk to check it.
+> ********************
+>=20
+> The previous patch stores in the connector state the expected TMDS
+> character rate matching the configuration of the HDMI connector. Let's
+> add a few tests to make sure it works as expected.
 >=20
 > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
->  drivers/gpu/drm/tests/Makefile                     |   1 +
->  .../gpu/drm/tests/drm_atomic_state_helper_test.c   | 436 +++++++++++++++=
+>  .../gpu/drm/tests/drm_atomic_state_helper_test.c   | 166 ++++++++++++++++
+>  drivers/gpu/drm/tests/drm_kunit_edid.h             | 216 +++++++++++++++=
 ++++++
->  drivers/gpu/drm/tests/drm_connector_test.c         | 140 +++++++
->  drivers/gpu/drm/tests/drm_kunit_edid.h             | 106 +++++
->  4 files changed, 683 insertions(+)
+>  2 files changed, 382 insertions(+)
 >=20
 > [snip]
+>
 > diff --git a/drivers/gpu/drm/tests/drm_kunit_edid.h b/drivers/gpu/drm/tes=
 ts/drm_kunit_edid.h
-> new file mode 100644
-> index 000000000000..2bba316de064
-> --- /dev/null
+> index 2bba316de064..24f3377ef0f0 100644
+> --- a/drivers/gpu/drm/tests/drm_kunit_edid.h
 > +++ b/drivers/gpu/drm/tests/drm_kunit_edid.h
-> @@ -0,0 +1,106 @@
-> +#ifndef DRM_KUNIT_EDID_H_
-> +#define DRM_KUNIT_EDID_H_
-> +
+> @@ -101,6 +101,222 @@ const unsigned char test_edid_hdmi_1080p_rgb_max_20=
+0mhz[] =3D {
+>    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>    0x00, 0x00, 0x00, 0xd0
+>  };
+> =20
 > +/*
 > + * edid-decode (hex):
 > + *
 > + * 00 ff ff ff ff ff ff 00 31 d8 2a 00 00 00 00 00
-> + * 00 21 01 03 81 a0 5a 78 02 00 00 00 00 00 00 00
+> + * 00 21 01 03 81 a0 5a 78 1a 00 00 00 00 00 00 00
 > + * 00 00 00 20 00 00 01 01 01 01 01 01 01 01 01 01
 > + * 01 01 01 01 01 01 02 3a 80 18 71 38 2d 40 58 2c
 > + * 45 00 40 84 63 00 00 1e 00 00 00 fc 00 54 65 73
 > + * 74 20 45 44 49 44 0a 20 20 20 00 00 00 fd 00 32
 > + * 46 1e 46 0f 00 0a 20 20 20 20 20 20 00 00 00 10
-> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 92
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 7a
 > + *
-> + * 02 03 1b 81 e3 05 00 20 41 10 e2 00 4a 6d 03 0c
-> + * 00 12 34 00 28 20 00 00 00 00 00 00 00 00 00 00
+> + * 02 03 1b b1 e3 05 00 20 41 10 e2 00 ca 6d 03 0c
+> + * 00 12 34 78 28 20 00 00 00 00 00 00 00 00 00 00
 > + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 > + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 > + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 > + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 > + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 d0
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 a8
 > + *
 > + * ----------------
 > + *
@@ -118,7 +127,7 @@ ts/drm_kunit_edid.h
 > + *     DFP 1.x compatible TMDS
 > + *     Maximum image size: 160 cm x 90 cm
 > + *     Gamma: 2.20
-> + *     Monochrome or grayscale display
+> + *     Undefined display color type
 > + *     First detailed timing is the preferred timing
 > + *   Color Characteristics:
 > + *     Red  : 0.0000, 0.0000
@@ -140,13 +149,15 @@ ts/drm_kunit_edid.h
  MHz
 > + *     Dummy Descriptor:
 > + *   Extension blocks: 1
-> + * Checksum: 0x92
+> + * Checksum: 0x7a
 > + *
 > + * ----------------
 > + *
 > + * Block 1, CTA-861 Extension Block:
 > + *   Revision: 3
 > + *   Underscans IT Video Formats by default
+> + *   Supports YCbCr 4:4:4
+> + *   Supports YCbCr 4:2:2
 > + *   Native detailed modes: 1
 > + *   Colorimetry Data Block:
 > + *     sRGB
@@ -154,37 +165,156 @@ ts/drm_kunit_edid.h
 > + *     VIC  16:  1920x1080   60.000000 Hz  16:9     67.500 kHz    148.50=
 0000 MHz
 > + *   Video Capability Data Block:
-> + *     YCbCr quantization: No Data
+> + *     YCbCr quantization: Selectable (via AVI YQ)
 > + *     RGB quantization: Selectable (via AVI Q)
 > + *     PT scan behavior: No Data
 > + *     IT scan behavior: Always Underscanned
 > + *     CE scan behavior: Always Underscanned
 > + *   Vendor-Specific Data Block (HDMI), OUI 00-0C-03:
 > + *     Source physical address: 1.2.3.4
+> + *     DC_48bit
+> + *     DC_36bit
+> + *     DC_30bit
+> + *     DC_Y444
 > + *     Maximum TMDS clock: 200 MHz
 > + *     Extended HDMI video details:
-> + * Checksum: 0xd0  Unused space in Extension Block: 100 bytes
+> + * Checksum: 0xa8  Unused space in Extension Block: 100 bytes
 > + */
-> +const unsigned char test_edid_hdmi_1080p_rgb_max_200mhz[] =3D {
+> +const unsigned char test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz[] =3D {
 
-Shouldn't this be a static one? It's defined in a header.
+Same as patch 5. This should be static.
+
+> +  0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x31, 0xd8, 0x2a, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x21, 0x01, 0x03, 0x81, 0xa0, 0x5a, 0x78,
+> +  0x1a, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20,
+> +  0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+> +  0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x02, 0x3a, 0x80, 0x18, 0x71, 0x38,
+> +  0x2d, 0x40, 0x58, 0x2c, 0x45, 0x00, 0x40, 0x84, 0x63, 0x00, 0x00, 0x1e,
+> +  0x00, 0x00, 0x00, 0xfc, 0x00, 0x54, 0x65, 0x73, 0x74, 0x20, 0x45, 0x44,
+> +  0x49, 0x44, 0x0a, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x32,
+> +  0x46, 0x1e, 0x46, 0x0f, 0x00, 0x0a, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+> +  0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x7a, 0x02, 0x03, 0x1b, 0xb1,
+> +  0xe3, 0x05, 0x00, 0x20, 0x41, 0x10, 0xe2, 0x00, 0xca, 0x6d, 0x03, 0x0c,
+> +  0x00, 0x12, 0x34, 0x78, 0x28, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0xa8
+> +};
+> +
+> +/*
+> + * edid-decode (hex):
+> + *
+> + * 00 ff ff ff ff ff ff 00 31 d8 2a 00 00 00 00 00
+> + * 00 21 01 03 81 a0 5a 78 0a 00 00 00 00 00 00 00
+> + * 00 00 00 20 00 00 01 01 01 01 01 01 01 01 01 01
+> + * 01 01 01 01 01 01 02 3a 80 18 71 38 2d 40 58 2c
+> + * 45 00 40 84 63 00 00 1e 00 00 00 fc 00 54 65 73
+> + * 74 20 45 44 49 44 0a 20 20 20 00 00 00 fd 00 32
+> + * 46 1e 46 0f 00 0a 20 20 20 20 20 20 00 00 00 10
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 8a
+> + *
+> + * 02 03 1b b1 e3 05 00 20 41 10 e2 00 ca 6d 03 0c
+> + * 00 12 34 78 44 20 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 8c
+> + *
+> + * ----------------
+> + *
+> + * Block 0, Base EDID:
+> + *   EDID Structure Version & Revision: 1.3
+> + *   Vendor & Product Identification:
+> + *     Manufacturer: LNX
+> + *     Model: 42
+> + *     Made in: 2023
+> + *   Basic Display Parameters & Features:
+> + *     Digital display
+> + *     DFP 1.x compatible TMDS
+> + *     Maximum image size: 160 cm x 90 cm
+> + *     Gamma: 2.20
+> + *     RGB color display
+> + *     First detailed timing is the preferred timing
+> + *   Color Characteristics:
+> + *     Red  : 0.0000, 0.0000
+> + *     Green: 0.0000, 0.0000
+> + *     Blue : 0.0000, 0.0000
+> + *     White: 0.0000, 0.0000
+> + *   Established Timings I & II:
+> + *     DMT 0x04:   640x480    59.940476 Hz   4:3     31.469 kHz     25.1=
+75000 MHz
+> + *   Standard Timings: none
+> + *   Detailed Timing Descriptors:
+> + *     DTD 1:  1920x1080   60.000000 Hz  16:9     67.500 kHz    148.5000=
+00 MHz (1600 mm x 900 mm)
+> + *                  Hfront   88 Hsync  44 Hback  148 Hpol P
+> + *                  Vfront    4 Vsync   5 Vback   36 Vpol P
+> + *     Display Product Name: 'Test EDID'
+> + *     Display Range Limits:
+> + *       Monitor ranges (GTF): 50-70 Hz V, 30-70 kHz H, max dotclock 150=
+ MHz
+> + *     Dummy Descriptor:
+> + *   Extension blocks: 1
+> + * Checksum: 0x8a
+> + *
+> + * ----------------
+> + *
+> + * Block 1, CTA-861 Extension Block:
+> + *   Revision: 3
+> + *   Underscans IT Video Formats by default
+> + *   Supports YCbCr 4:4:4
+> + *   Supports YCbCr 4:2:2
+> + *   Native detailed modes: 1
+> + *   Colorimetry Data Block:
+> + *     sRGB
+> + *   Video Data Block:
+> + *     VIC  16:  1920x1080   60.000000 Hz  16:9     67.500 kHz    148.50=
+0000 MHz
+> + *   Video Capability Data Block:
+> + *     YCbCr quantization: Selectable (via AVI YQ)
+> + *     RGB quantization: Selectable (via AVI Q)
+> + *     PT scan behavior: No Data
+> + *     IT scan behavior: Always Underscanned
+> + *     CE scan behavior: Always Underscanned
+> + *   Vendor-Specific Data Block (HDMI), OUI 00-0C-03:
+> + *     Source physical address: 1.2.3.4
+> + *     DC_48bit
+> + *     DC_36bit
+> + *     DC_30bit
+> + *     DC_Y444
+> + *     Maximum TMDS clock: 340 MHz
+> + *     Extended HDMI video details:
+> + * Checksum: 0x8c  Unused space in Extension Block: 100 bytes
+> + */
+> +const unsigned char test_edid_hdmi_1080p_rgb_yuv_dc_max_340mhz[] =3D {
+
+Same as patch 5. This should be static.
 
 Best regards,
 Alexander
 
 > +  0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x31, 0xd8, 0x2a, 0x00,
 > +  0x00, 0x00, 0x00, 0x00, 0x00, 0x21, 0x01, 0x03, 0x81, 0xa0, 0x5a, 0x78,
-> +  0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20,
+> +  0x0a, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20,
 > +  0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
 > +  0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x02, 0x3a, 0x80, 0x18, 0x71, 0x38,
 > +  0x2d, 0x40, 0x58, 0x2c, 0x45, 0x00, 0x40, 0x84, 0x63, 0x00, 0x00, 0x1e,
 > +  0x00, 0x00, 0x00, 0xfc, 0x00, 0x54, 0x65, 0x73, 0x74, 0x20, 0x45, 0x44,
 > +  0x49, 0x44, 0x0a, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x32,
-> +  0x46, 0x00, 0x00, 0xc4, 0x00, 0x0a, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+> +  0x46, 0x1e, 0x46, 0x0f, 0x00, 0x0a, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
 > +  0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x41, 0x02, 0x03, 0x1b, 0x81,
-> +  0xe3, 0x05, 0x00, 0x20, 0x41, 0x10, 0xe2, 0x00, 0x4a, 0x6d, 0x03, 0x0c,
-> +  0x00, 0x12, 0x34, 0x00, 0x28, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x8a, 0x02, 0x03, 0x1b, 0xb1,
+> +  0xe3, 0x05, 0x00, 0x20, 0x41, 0x10, 0xe2, 0x00, 0xca, 0x6d, 0x03, 0x0c,
+> +  0x00, 0x12, 0x34, 0x78, 0x44, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 > +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 > +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 > +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -193,10 +323,10 @@ Alexander
 > +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 > +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 > +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +  0x00, 0x00, 0x00, 0xd0
+> +  0x00, 0x00, 0x00, 0x8c
 > +};
 > +
-> +#endif // DRM_KUNIT_EDID_H_
+>  #endif // DRM_KUNIT_EDID_H_
 >=20
 >=20
 
