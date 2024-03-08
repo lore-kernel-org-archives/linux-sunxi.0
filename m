@@ -1,322 +1,179 @@
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD0AD1401F
-	for <linux-sunxi@lists.linux.dev>; Fri,  8 Mar 2024 12:47:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E27154C7B
+	for <linux-sunxi@lists.linux.dev>; Fri,  8 Mar 2024 15:26:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709902034; cv=none; b=L+q2+lwh7qwh01xD3bmMHoWhuXxbnb5Z2xyAmF9bl/w0gXbM9vmLP9/Y6OSLudszB+fFyWt5bGaxLqGxPU3NlFO0F1Jsp/HH/8T2JL8Ad95voibMwqCjMqJiRSTOqRVYDYolA4aLyrwAEdZu/thZHnoa7CEL2KiKXivunLNSeOc=
+	t=1709911589; cv=none; b=WFt1EwHHnrEFc/iS2aXfBEEmxn/n5EsJx4CbYdGDpDtMWUtrG1HhrE+eBfWgNBRYsbV87e0dZAWApHtlPSAB6pDm5OBovI+t3Frp1//CHkYPEcYrclcO0MCpIVkYJUJ6Ssu8nbl5qIhySHyy+p1DaZtyv99PAWtvdn9yKRtEpz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709902034; c=relaxed/simple;
-	bh=r0E8P3eS2fPLIZC/WXD3R6+t1g6tiVHRmSxOWR+UqQQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iWwLmMXFim/DoVIkVqLdd4fA/jA1T0roKAR56uLN4IzoNlItD1/b0ocGTgS/pz6wRAE/idvYtxLjdKQCgpg0o0PKSiCf+2xbV1pjWLaCec3e5WzlIAXl4htqQNMjcL7H3Sb9aO18ZEkZ0KadG9Fbe4fUMVTw9CrwnLkg6kTteu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=FYIJisH5; arc=none smtp.client-ip=93.104.207.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
+	s=arc-20240116; t=1709911589; c=relaxed/simple;
+	bh=6DC78vJKP4bef9pNZHj5COm941gdKspq9AeeVyGC8ws=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OHaM+zLstHYzv8ndpd5PZ3AOZ7V1zHrMlTAJXXM7IEuqtAuHFsl5W5ZIzxdbxjuZgthNHH2vnECwa6e3sZHzuX9cKQ69AgDWcA4KtJMtufKzPhdJtwEM/eRCEWuACvYmNF0AF6J/LGjBw6bngCMvytc4UW3599K9AUMpEfAmmac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=CaJUNgBh; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="FYIJisH5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1709902031; x=1741438031;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=OqWbJSFvT2mL6M2CdG7o1ku+JZOpcSiYXFT30Jidi48=;
-  b=FYIJisH5MAMvOfTvUKo6sGRO1TRwFnLZG1rICIT3dzM0LiSxlZFH2M7g
-   txptwNSKximNB3UsUcFYPJIspWpeTRywCFu0x5Inkfmcy45581cXJvI+A
-   OpXCIBIdyDanwFE6R11DSXsj1+ar95YDW3SScHDwRblClDbf+63O813zL
-   tqNTa2T17rP/cV93QwrqkhGOKMxIlAkcTMYMTVxuKeqefE7c1LQ6Yav8s
-   WdNG0/ADtfnl8OaJ/XiMPYmSlzTN+a+ThbMGGa61HjLcgK/oCwTEB5IvA
-   sGVjqUCkarnINsXVn88IXeO5Juo4rcT8dmqDgissViTMV1MWXjQhlABPL
-   g==;
-X-IronPort-AV: E=Sophos;i="6.07,109,1708383600"; 
-   d="scan'208";a="35809634"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 08 Mar 2024 13:47:07 +0100
-Received: from steina-w.localnet (steina-w.tq-net.de [10.123.53.25])
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="CaJUNgBh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1709911586;
+	bh=6DC78vJKP4bef9pNZHj5COm941gdKspq9AeeVyGC8ws=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=CaJUNgBhVBBtKwKyU1eg2qeTLTAf8PatkzvYxsSzvyA4grXZfATZBhUiGguaWJu6d
+	 LHPmLGHvUEufBNWvRQdnYEncKBpolIIR2dYfrpi//G14XSbZ8Q2hZfcvhiRvLloxpl
+	 oXbzqhgDrEMwPuCIsICgcX23J1+9CTl2Nq53sHR3TpBOjZ/z8o+lNx6QuTHr605xgd
+	 Z9AbY/se8B1vkywbenh2YOB28PxU+v5qtQRHQc9GvDEbu8zQEn51Zt0bw4lrwfpNFx
+	 uDudYrNoifqnjB7c03LXVgZrlUzq9XkFrY7e1h43Mo6aKLHp3SsA4lEKciC3N40c2z
+	 qz83sNCiXyYQw==
+Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id E1DF028007C;
-	Fri,  8 Mar 2024 13:47:06 +0100 (CET)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick <sebastian.wick@redhat.com>, Ville =?ISO-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>, dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>, Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH v8 20/27] drm/connector: hdmi: Add Infoframes generation
-Date: Fri, 08 Mar 2024 13:47:08 +0100
-Message-ID: <3612623.R56niFO833@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20240307-kms-hdmi-connector-state-v8-20-ef6a6f31964b@kernel.org>
-References: <20240307-kms-hdmi-connector-state-v8-0-ef6a6f31964b@kernel.org> <20240307-kms-hdmi-connector-state-v8-20-ef6a6f31964b@kernel.org>
+	(Authenticated sender: pq)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id C084D3780B5F;
+	Fri,  8 Mar 2024 15:26:24 +0000 (UTC)
+Date: Fri, 8 Mar 2024 17:26:23 +0200
+From: Pekka Paalanen <pekka.paalanen@collabora.com>
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, Sandy Huang
+ <hjc@rock-chips.com>, Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org, Hans
+ Verkuil <hverkuil@xs4all.nl>, Sebastian Wick <sebastian.wick@redhat.com>,
+ Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, Maxime
+ Ripard <mripard@kernel.org>, Dave Stevenson
+ <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v8 16/27] drm/connector: hdmi: Add Broadcast RGB
+ property
+Message-ID: <20240308172623.37663eb6.pekka.paalanen@collabora.com>
+In-Reply-To: <2599919.Lt9SDvczpP@steina-w>
+References: <20240307-kms-hdmi-connector-state-v8-0-ef6a6f31964b@kernel.org>
+	<20240307-kms-hdmi-connector-state-v8-16-ef6a6f31964b@kernel.org>
+	<2599919.Lt9SDvczpP@steina-w>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="Sig_/cnPglAFz2UjDZ1=A=78DBbG";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+
+--Sig_/cnPglAFz2UjDZ1=A=78DBbG
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
 
-Hi Maxime,
+On Fri, 08 Mar 2024 12:26:14 +0100
+Alexander Stein <alexander.stein@ew.tq-group.com> wrote:
 
-Am Donnerstag, 7. M=E4rz 2024, 14:38:47 CET schrieb Maxime Ripard:
-> Infoframes in KMS is usually handled by a bunch of low-level helpers
-> that require quite some boilerplate for drivers. This leads to
-> discrepancies with how drivers generate them, and which are actually
-> sent.
+> Hi Maxime,
 >=20
-> Now that we have everything needed to generate them in the HDMI
-> connector state, we can generate them in our common logic so that
-> drivers can simply reuse what we precomputed.
+> Am Donnerstag, 7. M=C3=A4rz 2024, 14:38:43 CET schrieb Maxime Ripard:
+> > The i915 driver has a property to force the RGB range of an HDMI output.
+> > The vc4 driver then implemented the same property with the same
+> > semantics. KWin has support for it, and a PR for mutter is also there to
+> > support it.
+> >=20
+> > Both drivers implementing the same property with the same semantics,
+> > plus the userspace having support for it, is proof enough that it's
+> > pretty much a de-facto standard now and we can provide helpers for it.
+> >=20
+> > Let's plumb it into the newly created HDMI connector.
+> >=20
+> > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > Reviewed-by: Sebastian Wick <sebastian.wick@redhat.com>
+> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > ---
+> >  Documentation/gpu/kms-properties.csv      |  1 -
+> >  drivers/gpu/drm/drm_atomic.c              |  2 +
+> >  drivers/gpu/drm/drm_atomic_state_helper.c |  4 +-
+> >  drivers/gpu/drm/drm_atomic_uapi.c         |  4 ++
+> >  drivers/gpu/drm/drm_connector.c           | 88 +++++++++++++++++++++++=
+++++++++
+> >  include/drm/drm_connector.h               | 36 +++++++++++++
+> >  6 files changed, 133 insertions(+), 2 deletions(-)
+
+...
+
+> > diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_conn=
+ector.c
+> > index 591d2d500f61..0272e1d05cc6 100644
+> > --- a/drivers/gpu/drm/drm_connector.c
+> > +++ b/drivers/gpu/drm/drm_connector.c
+> > @@ -1210,10 +1210,33 @@ static const u32 dp_colorspaces =3D
+> >  	BIT(DRM_MODE_COLORIMETRY_SYCC_601) |
+> >  	BIT(DRM_MODE_COLORIMETRY_OPYCC_601) |
+> >  	BIT(DRM_MODE_COLORIMETRY_BT2020_CYCC) |
+> >  	BIT(DRM_MODE_COLORIMETRY_BT2020_YCC);
+> > =20
+> > +static const struct drm_prop_enum_list broadcast_rgb_names[] =3D {
+> > +	{ DRM_HDMI_BROADCAST_RGB_AUTO, "Automatic" },
+> > +	{ DRM_HDMI_BROADCAST_RGB_FULL, "Full" },
+> > +	{ DRM_HDMI_BROADCAST_RGB_LIMITED, "Limited 16:235" },
+> > +};
+> > +
+> > +/*
+> > + * drm_hdmi_connector_get_broadcast_rgb_name - Return a string for HDM=
+I connector RGB broadcast selection
+> > + * @broadcast_rgb: Broadcast RGB selection to compute name of
+> > + *
+> > + * Returns: the name of the Broadcast RGB selection, or NULL if the ty=
+pe
+> > + * is not valid.
+> > + */
+> > +const char *
+> > +drm_hdmi_connector_get_broadcast_rgb_name(enum drm_hdmi_broadcast_rgb =
+broadcast_rgb)
+> > +{
+> > +	if (broadcast_rgb > DRM_HDMI_BROADCAST_RGB_LIMITED) =20
 >=20
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
->  drivers/gpu/drm/Kconfig                            |   1 +
->  drivers/gpu/drm/drm_atomic_state_helper.c          | 327 +++++++++++++++=
-++++++
->  drivers/gpu/drm/drm_connector.c                    |  14 +
->  .../gpu/drm/tests/drm_atomic_state_helper_test.c   |   1 +
->  drivers/gpu/drm/tests/drm_connector_test.c         |  12 +
->  include/drm/drm_atomic_state_helper.h              |   8 +
->  include/drm/drm_connector.h                        | 133 +++++++++
->  7 files changed, 496 insertions(+)
+> I don't know if this was brought up before. IMHO it's easier to read chec=
+king:
+>  if (broadcast_rgb > ARRAY_SIZE(broadcast_rgb_names)
+
+You have an off-by-one bug in that suggestion. ;-)
+
+
+Thanks,
+pq
+
 >=20
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index 872edb47bb53..ad9c467e20ce 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -97,10 +97,11 @@ config DRM_KUNIT_TEST
->  	  If in doubt, say "N".
-> =20
->  config DRM_KMS_HELPER
->  	tristate
->  	depends on DRM
-> +	select DRM_DISPLAY_HDMI_HELPER
->  	help
->  	  CRTC helpers for KMS drivers.
-> =20
->  config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
->          bool "Enable refcount backtrace history in the DP MST helpers"
-> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/=
-drm_atomic_state_helper.c
-> index e66272c0d006..46d9fd2ea8fa 100644
-> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-> [snip]
-> @@ -958,10 +1100,195 @@ int drm_atomic_helper_connector_hdmi_check(struct=
- drm_connector *connector,
-> =20
->  	return 0;
->  }
->  EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_check);
-> =20
-> +#define HDMI_MAX_INFOFRAME_SIZE		29
-> +
-> +static int clear_device_infoframe(struct drm_connector *connector,
-> +				  enum hdmi_infoframe_type type)
-> +{
-> +	const struct drm_connector_hdmi_funcs *funcs =3D connector->hdmi.funcs;
-> +
-> +	if (!funcs || !funcs->clear_infoframe)
-> +		return 0;
-> +
-> +	return funcs->clear_infoframe(connector, type);
-> +}
-> +
-> +static int clear_infoframe(struct drm_connector *connector,
-> +			   struct drm_connector_hdmi_infoframe *conn_frame,
-> +			   struct drm_connector_hdmi_infoframe *old_frame)
-> +{
-> +	int ret;
-> +
-> +	ret =3D clear_device_infoframe(connector, old_frame->data.any.type);
-> +	if (ret)
-> +		return ret;
-> +
-> +	memset(old_frame, 0, sizeof(*old_frame));
-> +
-> +	return 0;
-> +}
-> +
-> +static int write_device_infoframe(struct drm_connector *connector,
-> +				  union hdmi_infoframe *frame)
-> +{
-> +	const struct drm_connector_hdmi_funcs *funcs =3D connector->hdmi.funcs;
-> +	u8 buffer[HDMI_MAX_INFOFRAME_SIZE];
-> +	int len;
-> +
-> +	if (!funcs || !funcs->write_infoframe)
-> +		return -ENOSYS;
-> +
-> +	len =3D hdmi_infoframe_pack(frame, buffer, sizeof(buffer));
-> +	if (len < 0)
-> +		return len;
-> +
-> +	return funcs->write_infoframe(connector, frame->any.type, buffer, len);
-> +}
-> +
-> +static int write_infoframe(struct drm_connector *connector,
-> +			   struct drm_connector_hdmi_infoframe *conn_frame,
-> +			   struct drm_connector_hdmi_infoframe *new_frame)
-> +{
-> +	int ret;
-> +
-> +	ret =3D write_device_infoframe(connector, &new_frame->data);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (conn_frame)
-> +		memcpy(conn_frame, new_frame, sizeof(*conn_frame));
-> +
-> +	return 0;
-> +}
-> +
-> +static int write_or_clear_infoframe(struct drm_connector *connector,
-> +				    struct drm_connector_hdmi_infoframe *conn_frame,
-> +				    struct drm_connector_hdmi_infoframe *old_frame,
-> +				    struct drm_connector_hdmi_infoframe *new_frame)
-> +{
-> +	if (new_frame->set)
-> +		return write_infoframe(connector, conn_frame, new_frame);
-> +
-> +	if (old_frame->set && !new_frame->set)
-> +		return clear_infoframe(connector, conn_frame, old_frame);
-> +
-> +	return 0;
-> +}
-> +
-> +#define UPDATE_INFOFRAME(c, os, ns, i)				\
-> +	write_or_clear_infoframe(c,				\
-> +				 &(c)->hdmi.infoframes.i,	\
-> +				 &(os)->hdmi.infoframes.i,	\
-> +				 &(ns)->hdmi.infoframes.i)
-> +
-> +/**
-> + * drm_atomic_helper_connector_hdmi_update_infoframes - Update the Infof=
-rames
-> + * @connector: A pointer to the HDMI connector
-> + * @state: The HDMI connector state to generate the infoframe from
-> + *
-> + * This function is meant for HDMI connector drivers to write their
-> + * infoframes. It will typically be used in a
-> + * @drm_connector_helper_funcs.atomic_enable implementation.
-> + *
-> + * Returns:
-> + * Zero on success, error code on failure.
-> + */
-> +int drm_atomic_helper_connector_hdmi_update_infoframes(struct drm_connec=
-tor *connector,
-> +						       struct drm_atomic_state *state)
-> +{
-> +	struct drm_connector_state *old_state =3D
-> +		drm_atomic_get_old_connector_state(state, connector);
-> +	struct drm_connector_state *new_state =3D
-> +		drm_atomic_get_new_connector_state(state, connector);
-> +	struct drm_display_info *info =3D &connector->display_info;
-> +	int ret;
-> +
-> +	if (!info->is_hdmi)
-> +		return 0;
-> +
-> +	if (!info->has_hdmi_infoframe)
-> +		return 0;
-> +
-> +	mutex_lock(&connector->hdmi.infoframes.lock);
-> +
-> +	ret =3D UPDATE_INFOFRAME(connector, old_state, new_state, avi);
-> +	if (ret)
-> +		goto out;
-> +
-> +	if (connector->hdmi.infoframes.audio.set) {
-> +		ret =3D write_infoframe(connector,
-> +				      NULL,
-> +				      &connector->hdmi.infoframes.audio);
-> +		if (ret)
-> +			goto out;
-> +	}
-> +
-> +	ret =3D UPDATE_INFOFRAME(connector, old_state, new_state, hdr_drm);
-> +	if (ret)
-> +		goto out;
-> +
-> +	ret =3D UPDATE_INFOFRAME(connector, old_state, new_state, spd);
-> +	if (ret)
-> +		goto out;
-> +
-> +	ret =3D UPDATE_INFOFRAME(connector, old_state, new_state, hdmi);
-> +	if (ret)
-> +		goto out;
-> +
-> +out:
-> +	mutex_unlock(&connector->hdmi.infoframes.lock);
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_update_infoframes);
-> +
-> +#undef UPDATE_INFOFRAME
-> +#undef UPDATE_INFOFRAME_TOGGLE
+> Best regards,
+> Alexander
+>=20
+> > +		return NULL;
+> > +
+> > +	return broadcast_rgb_names[broadcast_rgb].name;
+> > +}
+> > +EXPORT_SYMBOL(drm_hdmi_connector_get_broadcast_rgb_name);
 
-UPDATE_INFOFRAME_TOGGLE seems to never be defined.
+--Sig_/cnPglAFz2UjDZ1=A=78DBbG
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-Best regards,
-Alexadner
+-----BEGIN PGP SIGNATURE-----
 
-> +
-> +/**
-> + * drm_atomic_helper_connector_hdmi_update_audio_infoframe - Update the =
-Audio Infoframe
-> + * @connector: A pointer to the HDMI connector
-> + * @frame: A pointer to the audio infoframe to write
-> + *
-> + * This function is meant for HDMI connector drivers to update their
-> + * audio infoframe. It will typically be used in one of the ALSA hooks
-> + * (most likely prepare).
-> + *
-> + * Returns:
-> + * Zero on success, error code on failure.
-> + */
-> +int
-> +drm_atomic_helper_connector_hdmi_update_audio_infoframe(struct drm_conne=
-ctor *connector,
-> +							struct hdmi_audio_infoframe *frame)
-> +{
-> +	struct drm_connector_hdmi_infoframe infoframe =3D {};
-> +	struct drm_display_info *info =3D &connector->display_info;
-> +	int ret;
-> +
-> +	if (!info->is_hdmi)
-> +		return 0;
-> +
-> +	if (!info->has_hdmi_infoframe)
-> +		return 0;
-> +
-> +	memcpy(&infoframe.data, frame, sizeof(infoframe.data));
-> +	infoframe.set =3D true;
-> +
-> +	mutex_lock(&connector->hdmi.infoframes.lock);
-> +
-> +	ret =3D write_infoframe(connector,
-> +			      &connector->hdmi.infoframes.audio,
-> +			      &infoframe);
-> +
-> +	mutex_unlock(&connector->hdmi.infoframes.lock);
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_update_audio_infoframe);
-> +
->  /**
->   * __drm_atomic_helper_connector_duplicate_state - copy atomic connector=
- state
->   * @connector: connector object
->   * @state: atomic connector state
->   *
-> [snip]
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmXrLh8ACgkQI1/ltBGq
+qqdLBg//WajUtBqhYeUOZE3qGTS947fI7FHecuVL9+bEwFWN4IXJP/QP8I8lYHud
+AhB2e5IQ0KisC91nq8FnE6gL64X6lvW5+ezRUsqyezKl4tEXFxg99dhbVW2ozgD3
+9ZXWlyIldM989o3eGDBdAPRPWh9CUTWCQbhI/chyJ4GtpWpBnicbNf+sNnzOGUbw
+bGrP6vSL3PQVlV0GA95gvGKD8xvRwObQc3/qHHAaNTFvwXRbEi6y7rTkCB3OqzRT
+OoEfi2KzYHwsZ7p4My064ppTBH9+APe+FWBQEsxPLR3NVdwHArQLmT5Do9DnfS/9
+LWBLBUXms3fUr0DXzGPpCyUHFlMXJSoRQao/n2D64SNmLRBx1V++ktTf2TUpk2qr
+J1JCZ6gHXP/LYl/lVAkBXi++7wh//ytHmB8KHUINuRjxVHTedofibScVkAyx6h8P
+YO3Ykq00HrgtcePPgKdCrrYGmkXYp151NNq0h0OUsSuykMx3LzMSqneR0bjwPjOx
+5Mq7VT9gecqIsEMBLL3uTlgKAnBqbVH5r1HnbAVOgv/8b6SRoYUlTzfapCW9HVso
+akzQp9SLe6oiPiU66vlOT8M2cgUjgQlloPIdox885vMiWR4TfV3T0VS6wEpHrvWW
+RwjlgAyZaWXQ/2Al3lJGjp/DDZQ5ud7bfHxS6QnVS8Sl1eIdlGQ=
+=Nq7z
+-----END PGP SIGNATURE-----
 
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
-
-
+--Sig_/cnPglAFz2UjDZ1=A=78DBbG--
