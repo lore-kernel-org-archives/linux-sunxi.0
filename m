@@ -1,179 +1,120 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E27154C7B
-	for <linux-sunxi@lists.linux.dev>; Fri,  8 Mar 2024 15:26:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F99879DB
+	for <linux-sunxi@lists.linux.dev>; Sat,  9 Mar 2024 14:35:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.58.86.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709911589; cv=none; b=WFt1EwHHnrEFc/iS2aXfBEEmxn/n5EsJx4CbYdGDpDtMWUtrG1HhrE+eBfWgNBRYsbV87e0dZAWApHtlPSAB6pDm5OBovI+t3Frp1//CHkYPEcYrclcO0MCpIVkYJUJ6Ssu8nbl5qIhySHyy+p1DaZtyv99PAWtvdn9yKRtEpz8=
+	t=1709994903; cv=none; b=Ivo3o1ke8XxVxvuQ4ELdMuKgwhYn3Og4buhdNOZcY76pFBf8DldaRpUp5ifl995kD0+pqoyWtoqVRH+xaS3OlZlYlwnTKCo4T/oz/nJjcM8gkBlF7pEexq34bl5iFCXoyx8+M0G7ZIgTh6MXrD/r0jvv6tctGLDQ0JjFH7ynug0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709911589; c=relaxed/simple;
-	bh=6DC78vJKP4bef9pNZHj5COm941gdKspq9AeeVyGC8ws=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OHaM+zLstHYzv8ndpd5PZ3AOZ7V1zHrMlTAJXXM7IEuqtAuHFsl5W5ZIzxdbxjuZgthNHH2vnECwa6e3sZHzuX9cKQ69AgDWcA4KtJMtufKzPhdJtwEM/eRCEWuACvYmNF0AF6J/LGjBw6bngCMvytc4UW3599K9AUMpEfAmmac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=CaJUNgBh; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="CaJUNgBh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1709911586;
-	bh=6DC78vJKP4bef9pNZHj5COm941gdKspq9AeeVyGC8ws=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=CaJUNgBhVBBtKwKyU1eg2qeTLTAf8PatkzvYxsSzvyA4grXZfATZBhUiGguaWJu6d
-	 LHPmLGHvUEufBNWvRQdnYEncKBpolIIR2dYfrpi//G14XSbZ8Q2hZfcvhiRvLloxpl
-	 oXbzqhgDrEMwPuCIsICgcX23J1+9CTl2Nq53sHR3TpBOjZ/z8o+lNx6QuTHr605xgd
-	 Z9AbY/se8B1vkywbenh2YOB28PxU+v5qtQRHQc9GvDEbu8zQEn51Zt0bw4lrwfpNFx
-	 uDudYrNoifqnjB7c03LXVgZrlUzq9XkFrY7e1h43Mo6aKLHp3SsA4lEKciC3N40c2z
-	 qz83sNCiXyYQw==
-Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: pq)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id C084D3780B5F;
-	Fri,  8 Mar 2024 15:26:24 +0000 (UTC)
-Date: Fri, 8 Mar 2024 17:26:23 +0200
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, Sandy Huang
- <hjc@rock-chips.com>, Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org, Hans
- Verkuil <hverkuil@xs4all.nl>, Sebastian Wick <sebastian.wick@redhat.com>,
- Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, Maxime
- Ripard <mripard@kernel.org>, Dave Stevenson
- <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v8 16/27] drm/connector: hdmi: Add Broadcast RGB
- property
-Message-ID: <20240308172623.37663eb6.pekka.paalanen@collabora.com>
-In-Reply-To: <2599919.Lt9SDvczpP@steina-w>
-References: <20240307-kms-hdmi-connector-state-v8-0-ef6a6f31964b@kernel.org>
-	<20240307-kms-hdmi-connector-state-v8-16-ef6a6f31964b@kernel.org>
-	<2599919.Lt9SDvczpP@steina-w>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1709994903; c=relaxed/simple;
+	bh=ds0BIkru2EQH9Tc9HwHJJTJfwfJeUmksK9jbB2Cr3Ac=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 MIME-Version:Content-Type; b=PTZNs3aoS14Nt1UUN4ZI6TgIzLmD6VFskZotYSE2Id+7mHyFg7BSCKxyF9z68+fGV4j5YqOBwQkaUkUdkN4Zm8TvfsE+M5ld8otWn+lVBbp/z2sdMOkEe6nw0ijDTMQa/MkDGXy6Z18qFo1pc5FkpYbW3TzkEgnJZjT/tRqGaVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM; spf=pass smtp.mailfrom=aculab.com; arc=none smtp.client-ip=185.58.86.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aculab.com
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-253-14N-Did4PAW8hIsoNs_d-Q-1; Sat, 09 Mar 2024 14:33:12 +0000
+X-MC-Unique: 14N-Did4PAW8hIsoNs_d-Q-1
+Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
+ (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Sat, 9 Mar
+ 2024 14:33:26 +0000
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Sat, 9 Mar 2024 14:33:26 +0000
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Maxime Ripard' <mripard@kernel.org>, Arnd Bergmann <arnd@arndb.de>
+CC: Naresh Kamboju <naresh.kamboju@linaro.org>, open list
+	<linux-kernel@vger.kernel.org>, Linux ARM
+	<linux-arm-kernel@lists.infradead.org>, "linux-sunxi@lists.linux.dev"
+	<linux-sunxi@lists.linux.dev>, "dri-devel@lists.freedesktop.org"
+	<dri-devel@lists.freedesktop.org>, "lkft-triage@lists.linaro.org"
+	<lkft-triage@lists.linaro.org>, Dave Airlie <airlied@redhat.com>, "Dan
+ Carpenter" <dan.carpenter@linaro.org>, Ard Biesheuvel <ardb@kernel.org>
+Subject: RE: arm: ERROR: modpost: "__aeabi_uldivmod"
+ [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko] undefined!
+Thread-Topic: arm: ERROR: modpost: "__aeabi_uldivmod"
+ [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko] undefined!
+Thread-Index: AQHabimenIC0ADhmjUqxSQo36gIP17EvfaYA
+Date: Sat, 9 Mar 2024 14:33:26 +0000
+Message-ID: <85b807289ff2400ea5887ced63655862@AcuMS.aculab.com>
+References: <CA+G9fYvG9KE15PGNoLu+SBVyShe+u5HBLQ81+kK9Zop6u=ywmw@mail.gmail.com>
+ <338c89bb-a70b-4f35-b71b-f974e90e3383@app.fastmail.com>
+ <20240304-brawny-goshawk-of-sorcery-860cef@houat>
+In-Reply-To: <20240304-brawny-goshawk-of-sorcery-860cef@houat>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/cnPglAFz2UjDZ1=A=78DBbG";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-
---Sig_/cnPglAFz2UjDZ1=A=78DBbG
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, 08 Mar 2024 12:26:14 +0100
-Alexander Stein <alexander.stein@ew.tq-group.com> wrote:
-
-> Hi Maxime,
+From: Maxime Ripard
+> Sent: 04 March 2024 11:46
 >=20
-> Am Donnerstag, 7. M=C3=A4rz 2024, 14:38:43 CET schrieb Maxime Ripard:
-> > The i915 driver has a property to force the RGB range of an HDMI output.
-> > The vc4 driver then implemented the same property with the same
-> > semantics. KWin has support for it, and a PR for mutter is also there to
-> > support it.
-> >=20
-> > Both drivers implementing the same property with the same semantics,
-> > plus the userspace having support for it, is proof enough that it's
-> > pretty much a de-facto standard now and we can provide helpers for it.
-> >=20
-> > Let's plumb it into the newly created HDMI connector.
-> >=20
-> > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > Reviewed-by: Sebastian Wick <sebastian.wick@redhat.com>
-> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > ---
-> >  Documentation/gpu/kms-properties.csv      |  1 -
-> >  drivers/gpu/drm/drm_atomic.c              |  2 +
-> >  drivers/gpu/drm/drm_atomic_state_helper.c |  4 +-
-> >  drivers/gpu/drm/drm_atomic_uapi.c         |  4 ++
-> >  drivers/gpu/drm/drm_connector.c           | 88 +++++++++++++++++++++++=
-++++++++
-> >  include/drm/drm_connector.h               | 36 +++++++++++++
-> >  6 files changed, 133 insertions(+), 2 deletions(-)
-
-...
-
-> > diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_conn=
-ector.c
-> > index 591d2d500f61..0272e1d05cc6 100644
-> > --- a/drivers/gpu/drm/drm_connector.c
-> > +++ b/drivers/gpu/drm/drm_connector.c
-> > @@ -1210,10 +1210,33 @@ static const u32 dp_colorspaces =3D
-> >  	BIT(DRM_MODE_COLORIMETRY_SYCC_601) |
-> >  	BIT(DRM_MODE_COLORIMETRY_OPYCC_601) |
-> >  	BIT(DRM_MODE_COLORIMETRY_BT2020_CYCC) |
-> >  	BIT(DRM_MODE_COLORIMETRY_BT2020_YCC);
-> > =20
-> > +static const struct drm_prop_enum_list broadcast_rgb_names[] =3D {
-> > +	{ DRM_HDMI_BROADCAST_RGB_AUTO, "Automatic" },
-> > +	{ DRM_HDMI_BROADCAST_RGB_FULL, "Full" },
-> > +	{ DRM_HDMI_BROADCAST_RGB_LIMITED, "Limited 16:235" },
-> > +};
-> > +
-> > +/*
-> > + * drm_hdmi_connector_get_broadcast_rgb_name - Return a string for HDM=
-I connector RGB broadcast selection
-> > + * @broadcast_rgb: Broadcast RGB selection to compute name of
-> > + *
-> > + * Returns: the name of the Broadcast RGB selection, or NULL if the ty=
-pe
-> > + * is not valid.
-> > + */
-> > +const char *
-> > +drm_hdmi_connector_get_broadcast_rgb_name(enum drm_hdmi_broadcast_rgb =
-broadcast_rgb)
-> > +{
-> > +	if (broadcast_rgb > DRM_HDMI_BROADCAST_RGB_LIMITED) =20
+> On Mon, Mar 04, 2024 at 12:11:36PM +0100, Arnd Bergmann wrote:
+> > On Mon, Mar 4, 2024, at 09:07, Naresh Kamboju wrote:
+> > > The arm defconfig builds failed on today's Linux next tag next-202403=
+04.
+> > >
+> > > Build log:
+> > > ---------
+> > > ERROR: modpost: "__aeabi_uldivmod"
+> > > [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko] undefined!
+> > >
+> >
+> > Apparently caused by the 64-bit division in 358e76fd613a
+> > ("drm/sun4i: hdmi: Consolidate atomic_check and mode_valid"):
+> >
+> >
+> > +static enum drm_mode_status
+> > +sun4i_hdmi_connector_clock_valid(const struct drm_connector *connector=
+,
+> > +                                const struct drm_display_mode *mode,
+> > +                                unsigned long long clock)
+> >  {
+> > -       struct sun4i_hdmi *hdmi =3D drm_encoder_to_sun4i_hdmi(encoder);
+> > -       unsigned long rate =3D mode->clock * 1000;
+> > -       unsigned long diff =3D rate / 200; /* +-0.5% allowed by HDMI sp=
+ec */
+> > +       const struct sun4i_hdmi *hdmi =3D drm_connector_to_sun4i_hdmi(c=
+onnector);
+> > +       unsigned long diff =3D clock / 200; /* +-0.5% allowed by HDMI s=
+pec */
+> >         long rounded_rate;
+> >
+> > This used to be a 32-bit division. If the rate is never more than
+> > 4.2GHz, clock could be turned back into 'unsigned long' to avoid
+> > the expensive div_u64().
 >=20
-> I don't know if this was brought up before. IMHO it's easier to read chec=
-king:
->  if (broadcast_rgb > ARRAY_SIZE(broadcast_rgb_names)
-
-You have an off-by-one bug in that suggestion. ;-)
-
-
-Thanks,
-pq
-
+> I sent a fix for it this morning:
+> https://lore.kernel.org/r/20240304091225.366325-1-mripard@kernel.org
 >=20
-> Best regards,
-> Alexander
->=20
-> > +		return NULL;
-> > +
-> > +	return broadcast_rgb_names[broadcast_rgb].name;
-> > +}
-> > +EXPORT_SYMBOL(drm_hdmi_connector_get_broadcast_rgb_name);
+> The framework will pass an unsigned long long because HDMI character
+> rates can go up to 5.9GHz.
 
---Sig_/cnPglAFz2UjDZ1=A=78DBbG
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+You could do:
+=09/* The max clock is 5.9GHz, split the divide */
+=09u32 diff =3D (u32)(clock / 8) / (200/8);
 
------BEGIN PGP SIGNATURE-----
+The code should really use u32 and u64.
+Otherwise the sizes are different on 32bit.
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmXrLh8ACgkQI1/ltBGq
-qqdLBg//WajUtBqhYeUOZE3qGTS947fI7FHecuVL9+bEwFWN4IXJP/QP8I8lYHud
-AhB2e5IQ0KisC91nq8FnE6gL64X6lvW5+ezRUsqyezKl4tEXFxg99dhbVW2ozgD3
-9ZXWlyIldM989o3eGDBdAPRPWh9CUTWCQbhI/chyJ4GtpWpBnicbNf+sNnzOGUbw
-bGrP6vSL3PQVlV0GA95gvGKD8xvRwObQc3/qHHAaNTFvwXRbEi6y7rTkCB3OqzRT
-OoEfi2KzYHwsZ7p4My064ppTBH9+APe+FWBQEsxPLR3NVdwHArQLmT5Do9DnfS/9
-LWBLBUXms3fUr0DXzGPpCyUHFlMXJSoRQao/n2D64SNmLRBx1V++ktTf2TUpk2qr
-J1JCZ6gHXP/LYl/lVAkBXi++7wh//ytHmB8KHUINuRjxVHTedofibScVkAyx6h8P
-YO3Ykq00HrgtcePPgKdCrrYGmkXYp151NNq0h0OUsSuykMx3LzMSqneR0bjwPjOx
-5Mq7VT9gecqIsEMBLL3uTlgKAnBqbVH5r1HnbAVOgv/8b6SRoYUlTzfapCW9HVso
-akzQp9SLe6oiPiU66vlOT8M2cgUjgQlloPIdox885vMiWR4TfV3T0VS6wEpHrvWW
-RwjlgAyZaWXQ/2Al3lJGjp/DDZQ5ud7bfHxS6QnVS8Sl1eIdlGQ=
-=Nq7z
------END PGP SIGNATURE-----
+=09David
 
---Sig_/cnPglAFz2UjDZ1=A=78DBbG--
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
+PT, UK
+Registration No: 1397386 (Wales)
+
