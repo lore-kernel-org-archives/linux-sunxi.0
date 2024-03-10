@@ -1,142 +1,162 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66E1F17556
-	for <linux-sunxi@lists.linux.dev>; Sun, 10 Mar 2024 08:40:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4333F2628C
+	for <linux-sunxi@lists.linux.dev>; Sun, 10 Mar 2024 13:22:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710060017; cv=none; b=AnGYFNgImolqw853Svx4eBaTNR8MnxVSWv3xl1zOdZxSXaEtCUq/Z4SVI1PG8F9YHEDXicLeIKk6czG+XhTxoF4hqGmoX8NUUB+0+B81bR9UBtJ4uBdKx389mSUguRcV2xAHOau3Z4p+zaMR7kyjVn+bqtWEMkrNkaOH/ZtHuGU=
+	t=1710076951; cv=none; b=A+tJIg5KmVGxA3voAEGqeN9m7ZTrlJH/n7f391K82/+ZfTyE6PsC//+RRPZfm2dc6waMAH2TjNPbPvGWSBJDhAg2dI88giCgTcUltRqsi0o0JAGvWFqxvBTrneYVENRTgVVc7PiThwzAVy+WT5vKDc1bFeoHhQHyl08xYAm7P84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710060017; c=relaxed/simple;
-	bh=l09NvDnufSejDgbUZSC6DKpjR8j2UlyS+Cpr4/3LZAM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bOw9AFEGPI9IGn5ieroatR9pNPeMiPw1CdvnPlT+vRm9orTzgOdxpGmb5BO4HfFm5cx46OTDJTfCBGZi6BSYJDMfjZtN+Z4s4c1wRxY3o//RRr2JswrF46794VAqwzdQ5pcfPj1JmwiHSDqY1o0JkiitE+Y+bZr5aMmjCfvAwWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AFO1C7Kk; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1710076951; c=relaxed/simple;
+	bh=sz8/RCE/mblTN6+mQB7r6nXbctInrDxt2wSc2tr+a2Q=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=ahHgkSr6vFTw4HrgUjISbCYS3YMU0ysBQ/rWq6OhsO7NYfFynnSQpcBuxO7NQxfV+94sgIv4rpthzEG4BsPK2jdN8/Q4FK4LTeASyMkN7Kj3+tlGxrO2WqeESqYViBCb7F9yV2i38ZQpFGPJ6fVVTPVusFDHpA7pgpBsKeg8AFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev; spf=pass smtp.mailfrom=oltmanns.dev; dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b=AnZC+e2a; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oltmanns.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AFO1C7Kk"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-412f1961101so27444535e9.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 10 Mar 2024 00:40:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710060014; x=1710664814; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=vaRopQBYu86yvcn5SLZXjKAGYfexBOPbHPZsUxiN77c=;
-        b=AFO1C7KkC1df+Ypif8pLBpBCy+AnEHfijn4ik7laPr+RVx//nOc0MLbaodLnroBFgT
-         LOXhB/ndgnEPREr2zd3gzdQhREYs2yLGMMQPtsIZm5uT5Z46qS1JOcIG6vGjGhZ/EhY/
-         D5Ng8yIRtMHw5aVOtZnLVlTkG83oRT1tOJhBNOFb9+vPYNbGoUhJjE3amddzGv+yBm0n
-         uIcag8bWgy+srgbIygNv5Jl0INFw14x2cQ74BLsyhne/HvudbdsWwnbx9N6TWJpwudx9
-         dP9p7zpMTuIe7t1xH4OvH5XFDwBzkkf9o96QMfeUPKXg0X6t7MTAf4ePIBwoxFNK7C+R
-         RmoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710060014; x=1710664814;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vaRopQBYu86yvcn5SLZXjKAGYfexBOPbHPZsUxiN77c=;
-        b=RhK0yOpdhP9aZBd7Zi7ettbCmtOJKG8XP5XutcxH8CYJnTvIzUrRQctArH/Vjg09Ov
-         jWyYQ1TgQevUYG0bysPHhrkRYNA3NechYOKaVKehQqCblrrslpxw6abt2IPDA2g4RUzJ
-         8KZm55yQBvSduPwPrERJLeZerRA2XZzvfk809XBJAgaKSFgAuJVKKjpWuVAkqhB3GO4+
-         GmjL0CP8x+9xfSQ+T6LvnpMRFhHXikhyuVWAJK7mhztKS+84h+GG2zeTEbYulnWgQImc
-         hGZK05z+4tP1SCDaP/591D8PGrzrYNPtprB7KepK3drxn4pBo5RRi4wo9f0mbjptyv7O
-         IIKg==
-X-Forwarded-Encrypted: i=1; AJvYcCVzwno4P8cZmUNGZ4WB+izdiDBPAEfX9XePnmYGrvZ9PMXeUy6ftPChJoSgci3Dx93vXhD2KSmpRPfVruIiY4bNNSfn5dtQYAqWSQI=
-X-Gm-Message-State: AOJu0YyrsDq6HkkdW+P5gUmWVTparv/d8KhDyZBPBUUX6aieBcNPmt6C
-	hxnBjf+L6YtiV3R579esKEglaBV/34h+gKPVJTgM2OcYyhMqQBvI/zTRP2CdA3E=
-X-Google-Smtp-Source: AGHT+IH7tj1TTeteFJBpEyRXXnZxcaVWcUnOJhxNlnU/+0ISMRzviDw4Qxm02dUqk9KICRVZGTYKxQ==
-X-Received: by 2002:a05:600c:1908:b0:413:28c1:7867 with SMTP id j8-20020a05600c190800b0041328c17867mr328470wmq.13.1710060013956;
-        Sun, 10 Mar 2024 00:40:13 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.222.97])
-        by smtp.gmail.com with ESMTPSA id q14-20020a05600c46ce00b00412b4dca795sm5138534wmo.7.2024.03.10.00.40.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 10 Mar 2024 00:40:13 -0800 (PST)
-Message-ID: <e95c097b-0ced-4beb-ae4d-5239f9b1805a@linaro.org>
-Date: Sun, 10 Mar 2024 09:40:12 +0100
+	dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b="AnZC+e2a"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4Tt0v45hX5z9sps;
+	Sun, 10 Mar 2024 14:22:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+	s=MBO0001; t=1710076944;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ugKhzTVt1AcqmTVj4/zhKrifJsgXqt3bG4BPHQ/PtEk=;
+	b=AnZC+e2aF9e/e3raZ/HmFBI4rZRzDxjSUpTqCLeG4rYtcC5y+uQRv0VBaHDuFvWyVgBGEt
+	13ZjpOSpnsEblHujKJi0Df8cjDegZrSVOBa4QGQTRJKyCxnjEAsrl8CuJj2s7jpdH6j7rH
+	HLKxss97dZkioiI2Epp6WoXokXv8BcXgxAYKNApVmMQeJY2BB+jxgFf6/AE7IufSyFZ7dm
+	Z7PElD3n0t9L077DNF62pyIFKBc7Ep6lFHpb9x7hPnV1T3O73LLb3KkzkyHbhITkmfRNB7
+	bneU5+OVIFnPEvIsJlCjxlRbh8txufGpI8koVFI6vN4jXSEOhmmwztby2LkWVg==
+From: Frank Oltmanns <frank@oltmanns.dev>
+Date: Sun, 10 Mar 2024 14:21:13 +0100
+Subject: [PATCH v4 3/5] clk: sunxi-ng: nkm: Support constraints on m/n
+ ratio and parent rate
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] dt-bindings: mfd: x-powers,axp152: document AXP717
-Content-Language: en-US
-To: Andre Przywara <andre.przywara@arm.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Lee Jones <lee@kernel.org>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: devicetree@vger.kernel.org, Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Chris Morgan <macromorgan@hotmail.com>, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev
-References: <20240310010211.28653-1-andre.przywara@arm.com>
- <20240310010211.28653-3-andre.przywara@arm.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240310010211.28653-3-andre.przywara@arm.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20240310-pinephone-pll-fixes-v4-3-46fc80c83637@oltmanns.dev>
+References: <20240310-pinephone-pll-fixes-v4-0-46fc80c83637@oltmanns.dev>
+In-Reply-To: <20240310-pinephone-pll-fixes-v4-0-46fc80c83637@oltmanns.dev>
+To: Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ =?utf-8?q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, 
+ Purism Kernel Team <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ Frank Oltmanns <frank@oltmanns.dev>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2581; i=frank@oltmanns.dev;
+ h=from:subject:message-id; bh=sz8/RCE/mblTN6+mQB7r6nXbctInrDxt2wSc2tr+a2Q=;
+ b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBl7bP5Pva37Lqxh7aeU4Ge0T48bdNaev/Ytwhzh
+ xTIwi0Pf9OJAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZe2z+QAKCRCaaaIIlErT
+ x47kC/0bWCWj4UUKuy1/lJZ2Qaz5o9QjWH//p6UhSvRoMO0PW67MWT5weXPqpq0fdxfkTHVM/S8
+ 9vM1SBGW/C7VN/eVTeIvfsCBGlk3IGMMyJ7uVnUSrPJQD+fgw6dexD5qI2hNQRy5mgVAqUv5SZ2
+ kPf6MemGxZfwsI0fxaavcUiQARZWRtcNar3ybbnoIIb0BWzVeaXCuLWyKcNYjbph6pETDAJFSLF
+ /0sBarC6qWNPJAeFEc0I7hSXc8ysA5ws9MSADrZDxQFtQbOBDCqGwW+jPf9+L/9jDaLLtWNQDsh
+ aPwY3HPk4T3yaYefRX5idT6w0M0qy7lkB1d5mZb6ArQOZ/sKv01aNs6PfJy4bJQzyJi8ZpR8wqk
+ Yv0gV5EEHLz3goA/nReyrB4xtxxGwuwwOotKrXOoLmACBbNy2iB/KztRCdbIvrnx59ZqQ2AZmsq
+ fXlbL1/lDQrwjeNt8J2vrPQ4twmiZPPELa81VB0jmGBACqkE6btneLjYRmhnCSb/kQj0I=
+X-Developer-Key: i=frank@oltmanns.dev; a=openpgp;
+ fpr=02FD257B7F90E6B9A5444F969A69A208944AD3C7
+X-Rspamd-Queue-Id: 4Tt0v45hX5z9sps
 
-On 10/03/2024 02:02, Andre Przywara wrote:
-> The X-Powers AXP717 is a PMIC used on some newer Allwinner devices.
-> Among quite some regulators it features the usual ADC/IRQ/power key
-> parts, plus a battery charger circuit, and some newly introduced USB
-> type-C circuitry.
-> Like two other recent PMICs, it lacks the DC/DC converter PWM frequency
-> control register, that rate is fixed here as well.
-> 
-> Add the new compatible string, and add that to the list of PMICs without
-> the PWM frequency property.
+The Allwinner A64 manual lists the following constraints for the
+PLL-MIPI clock:
+ - M/N <= 3
+ - (PLL_VIDEO0)/M >= 24MHz
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+The PLL-MIPI clock is implemented as ccu_nkm. Therefore, add support for
+these constraints.
 
-Best regards,
-Krzysztof
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+---
+ drivers/clk/sunxi-ng/ccu_nkm.c | 21 +++++++++++++++++++++
+ drivers/clk/sunxi-ng/ccu_nkm.h |  2 ++
+ 2 files changed, 23 insertions(+)
+
+diff --git a/drivers/clk/sunxi-ng/ccu_nkm.c b/drivers/clk/sunxi-ng/ccu_nkm.c
+index 853f84398e2b..1168d894d636 100644
+--- a/drivers/clk/sunxi-ng/ccu_nkm.c
++++ b/drivers/clk/sunxi-ng/ccu_nkm.c
+@@ -16,6 +16,20 @@ struct _ccu_nkm {
+ 	unsigned long	m, min_m, max_m;
+ };
+ 
++static bool ccu_nkm_is_valid_rate(struct ccu_common *common, unsigned long parent,
++				  unsigned long n, unsigned long m)
++{
++	struct ccu_nkm *nkm = container_of(common, struct ccu_nkm, common);
++
++	if (nkm->max_m_n_ratio && (m > nkm->max_m_n_ratio * n))
++		return false;
++
++	if (nkm->min_parent_m_ratio && (parent < nkm->min_parent_m_ratio * m))
++		return false;
++
++	return true;
++}
++
+ static unsigned long ccu_nkm_find_best_with_parent_adj(struct ccu_common *common,
+ 						       struct clk_hw *parent_hw,
+ 						       unsigned long *parent, unsigned long rate,
+@@ -31,6 +45,10 @@ static unsigned long ccu_nkm_find_best_with_parent_adj(struct ccu_common *common
+ 				unsigned long tmp_rate, tmp_parent;
+ 
+ 				tmp_parent = clk_hw_round_rate(parent_hw, rate * _m / (_n * _k));
++
++				if (!ccu_nkm_is_valid_rate(common, tmp_parent, _n, _m))
++					continue;
++
+ 				tmp_rate = tmp_parent * _n * _k / _m;
+ 
+ 				if (ccu_is_better_rate(common, rate, tmp_rate, best_rate) ||
+@@ -64,6 +82,9 @@ static unsigned long ccu_nkm_find_best(unsigned long parent, unsigned long rate,
+ 	for (_k = nkm->min_k; _k <= nkm->max_k; _k++) {
+ 		for (_n = nkm->min_n; _n <= nkm->max_n; _n++) {
+ 			for (_m = nkm->min_m; _m <= nkm->max_m; _m++) {
++				if (!ccu_nkm_is_valid_rate(common, parent, _n, _m))
++					continue;
++
+ 				unsigned long tmp_rate;
+ 
+ 				tmp_rate = parent * _n * _k / _m;
+diff --git a/drivers/clk/sunxi-ng/ccu_nkm.h b/drivers/clk/sunxi-ng/ccu_nkm.h
+index 6601defb3f38..c409212ee40e 100644
+--- a/drivers/clk/sunxi-ng/ccu_nkm.h
++++ b/drivers/clk/sunxi-ng/ccu_nkm.h
+@@ -27,6 +27,8 @@ struct ccu_nkm {
+ 	struct ccu_mux_internal	mux;
+ 
+ 	unsigned int		fixed_post_div;
++	unsigned long		max_m_n_ratio;
++	unsigned long		min_parent_m_ratio;
+ 
+ 	struct ccu_common	common;
+ };
+
+-- 
+2.44.0
 
