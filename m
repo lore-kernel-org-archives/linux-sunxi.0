@@ -1,23 +1,23 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70A66A3D
-	for <linux-sunxi@lists.linux.dev>; Sun, 10 Mar 2024 01:02:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 931941366
+	for <linux-sunxi@lists.linux.dev>; Sun, 10 Mar 2024 01:02:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710032561; cv=none; b=iY5kFbkQJ18wbzOzkX/zxHeGG0V7Rj15RxXq8ofIB36WcJW8rqmBJedw04uLNa5XWdWkKN6BjIsRZDlrsuJziP85iiW5S7U4AT1KJTPCL+SohA9keF6UT+4b43kwILE+b4XpAUaHnGSZyT5BT8evE5hRPoWRNkTd87Un3P80Ep8=
+	t=1710032562; cv=none; b=efdKwaMFW0eo+/fHp/QTrG50nNq6ZyBuiS0DMWAtrZqV61uk+dTdNqeDan6mMMvGcp94soknKRKJLBiZqjmNZHvop8YbPhVFnJcOiWLp8orgJX0tMiKxwKDbJ3ffC26ce4ynZwPdMD7vYAqWKQVH29wavNuWPkVsSOWYOI5xiKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710032561; c=relaxed/simple;
-	bh=5O7AQF5CDHALvPbHjXmI3faWolFoR0At0TyxYjrJeeY=;
+	s=arc-20240116; t=1710032562; c=relaxed/simple;
+	bh=gZPZUILAOoXZSipH5q0S3AF34KwVnOZjIZzn+zJnjBc=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=q25BAgEWaobtbj1IJAtBmFFQTOwH8jJAxZp0IhcdVTutFF9kIAXMEiDVJpfIyavxRP7le1VtxSuNTic0EaPjkoJHV1/4t+AsVS5c6pVV/RFkt/ixdwngx6zTNLoE5CdElsrZiAI+ln9JucZm+Kd6VCcqv8bd8UZ775RJH7DDdVc=
+	 MIME-Version; b=pKkPaTh1lXa9qGsTG48lYH37gN3vC96RAWvttgKtHe0rb32TUL4mARWcOxiADGvECpvf9u39tcvk00gmKV/hqoImVfNWJslBgQfdkGmEbYc/8ayTqFr2vcmKitZSSdkHtyUmeFHhad7THkI9QeHpzUJeCUn8l+EndNVMoXk2dA4=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 79DFE1480;
-	Sat,  9 Mar 2024 17:03:09 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 10DF71515;
+	Sat,  9 Mar 2024 17:03:16 -0800 (PST)
 Received: from localhost.localdomain (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8D5613F73F;
-	Sat,  9 Mar 2024 17:02:31 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 249323F73F;
+	Sat,  9 Mar 2024 17:02:38 -0800 (PST)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
@@ -32,9 +32,9 @@ Cc: devicetree@vger.kernel.org,
 	Chris Morgan <macromorgan@hotmail.com>,
 	linux-kernel@vger.kernel.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH 1/4] regulator: axp20x: fix typo-ed identifier
-Date: Sun, 10 Mar 2024 01:02:08 +0000
-Message-Id: <20240310010211.28653-2-andre.przywara@arm.com>
+Subject: [PATCH 4/4] regulator: axp20x: add support for the AXP717
+Date: Sun, 10 Mar 2024 01:02:11 +0000
+Message-Id: <20240310010211.28653-5-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.35.8
 In-Reply-To: <20240310010211.28653-1-andre.przywara@arm.com>
 References: <20240310010211.28653-1-andre.przywara@arm.com>
@@ -46,69 +46,167 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The registers to set the X-Powers AXP313 regulators are of course
-"CONTROL" registers, not "CONRTOL" ones.
+The X-Powers AXP717 is a typical PMIC from X-Powers, featuring four
+DC/DC converters and 15 LDOs, on the regulator side.
 
-Fix the typo in the header file and in its users. No functional change.
+Describe the chip's voltage settings and switch registers, how the
+voltages are encoded, and connect this to the MFD device via its
+regulator ID.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- drivers/regulator/axp20x-regulator.c | 10 +++++-----
- include/linux/mfd/axp20x.h           | 10 +++++-----
- 2 files changed, 10 insertions(+), 10 deletions(-)
+ drivers/regulator/axp20x-regulator.c | 84 ++++++++++++++++++++++++++++
+ include/linux/mfd/axp20x.h           | 21 +++++++
+ 2 files changed, 105 insertions(+)
 
 diff --git a/drivers/regulator/axp20x-regulator.c b/drivers/regulator/axp20x-regulator.c
-index c657820b0bbb5..7bcc2d508b65a 100644
+index 7bcc2d508b65a..34fcdd82b2eaa 100644
 --- a/drivers/regulator/axp20x-regulator.c
 +++ b/drivers/regulator/axp20x-regulator.c
-@@ -733,21 +733,21 @@ static const struct linear_range axp313a_dcdc3_ranges[] = {
- static const struct regulator_desc axp313a_regulators[] = {
- 	AXP_DESC_RANGES(AXP313A, DCDC1, "dcdc1", "vin1",
- 			axp313a_dcdc1_ranges, AXP313A_DCDC1_NUM_VOLTAGES,
--			AXP313A_DCDC1_CONRTOL, AXP313A_DCDC_V_OUT_MASK,
-+			AXP313A_DCDC1_CONTROL, AXP313A_DCDC_V_OUT_MASK,
- 			AXP313A_OUTPUT_CONTROL, BIT(0)),
- 	AXP_DESC_RANGES(AXP313A, DCDC2, "dcdc2", "vin2",
- 			axp313a_dcdc2_ranges, AXP313A_DCDC23_NUM_VOLTAGES,
--			AXP313A_DCDC2_CONRTOL, AXP313A_DCDC_V_OUT_MASK,
-+			AXP313A_DCDC2_CONTROL, AXP313A_DCDC_V_OUT_MASK,
- 			AXP313A_OUTPUT_CONTROL, BIT(1)),
- 	AXP_DESC_RANGES(AXP313A, DCDC3, "dcdc3", "vin3",
- 			axp313a_dcdc3_ranges, AXP313A_DCDC23_NUM_VOLTAGES,
--			AXP313A_DCDC3_CONRTOL, AXP313A_DCDC_V_OUT_MASK,
-+			AXP313A_DCDC3_CONTROL, AXP313A_DCDC_V_OUT_MASK,
- 			AXP313A_OUTPUT_CONTROL, BIT(2)),
- 	AXP_DESC(AXP313A, ALDO1, "aldo1", "vin1", 500, 3500, 100,
--		 AXP313A_ALDO1_CONRTOL, AXP313A_LDO_V_OUT_MASK,
-+		 AXP313A_ALDO1_CONTROL, AXP313A_LDO_V_OUT_MASK,
- 		 AXP313A_OUTPUT_CONTROL, BIT(3)),
- 	AXP_DESC(AXP313A, DLDO1, "dldo1", "vin1", 500, 3500, 100,
--		 AXP313A_DLDO1_CONRTOL, AXP313A_LDO_V_OUT_MASK,
-+		 AXP313A_DLDO1_CONTROL, AXP313A_LDO_V_OUT_MASK,
- 		 AXP313A_OUTPUT_CONTROL, BIT(4)),
+@@ -138,6 +138,12 @@
+ #define AXP313A_DCDC_V_OUT_MASK		GENMASK(6, 0)
+ #define AXP313A_LDO_V_OUT_MASK		GENMASK(4, 0)
+ 
++#define AXP717_DCDC1_NUM_VOLTAGES	88
++#define AXP717_DCDC2_NUM_VOLTAGES	107
++#define AXP717_DCDC3_NUM_VOLTAGES	104
++#define AXP717_DCDC_V_OUT_MASK		GENMASK(6, 0)
++#define AXP717_LDO_V_OUT_MASK		GENMASK(4, 0)
++
+ #define AXP803_PWR_OUT_DCDC1_MASK	BIT_MASK(0)
+ #define AXP803_PWR_OUT_DCDC2_MASK	BIT_MASK(1)
+ #define AXP803_PWR_OUT_DCDC3_MASK	BIT_MASK(2)
+@@ -752,6 +758,79 @@ static const struct regulator_desc axp313a_regulators[] = {
  	AXP_DESC_FIXED(AXP313A, RTC_LDO, "rtc-ldo", "vin1", 1800),
  };
+ 
++static const struct linear_range axp717_dcdc1_ranges[] = {
++	REGULATOR_LINEAR_RANGE(500000,   0, 70, 10000),
++	REGULATOR_LINEAR_RANGE(1220000, 71, 87, 20000),
++};
++
++static const struct linear_range axp717_dcdc2_ranges[] = {
++	REGULATOR_LINEAR_RANGE(500000,   0,  70,  10000),
++	REGULATOR_LINEAR_RANGE(1220000, 71,  87,  20000),
++	REGULATOR_LINEAR_RANGE(1600000, 88, 107, 100000),
++};
++
++static const struct linear_range axp717_dcdc3_ranges[] = {
++	REGULATOR_LINEAR_RANGE(500000,   0,  70, 10000),
++	REGULATOR_LINEAR_RANGE(1220000, 71, 102, 20000),
++};
++
++static const struct regulator_desc axp717_regulators[] = {
++	AXP_DESC_RANGES(AXP717, DCDC1, "dcdc1", "vin1",
++			axp717_dcdc1_ranges, AXP717_DCDC1_NUM_VOLTAGES,
++			AXP717_DCDC1_CONTROL, AXP717_DCDC_V_OUT_MASK,
++			AXP717_DCDC_OUTPUT_CONTROL, BIT(0)),
++	AXP_DESC_RANGES(AXP717, DCDC2, "dcdc2", "vin2",
++			axp717_dcdc2_ranges, AXP717_DCDC2_NUM_VOLTAGES,
++			AXP717_DCDC2_CONTROL, AXP717_DCDC_V_OUT_MASK,
++			AXP717_DCDC_OUTPUT_CONTROL, BIT(1)),
++	AXP_DESC_RANGES(AXP717, DCDC3, "dcdc3", "vin3",
++			axp717_dcdc3_ranges, AXP717_DCDC3_NUM_VOLTAGES,
++			AXP717_DCDC3_CONTROL, AXP717_DCDC_V_OUT_MASK,
++			AXP717_DCDC_OUTPUT_CONTROL, BIT(2)),
++	AXP_DESC(AXP717, DCDC4, "dcdc4", "vin4", 1000, 3700, 100,
++		 AXP717_DCDC4_CONTROL, AXP717_DCDC_V_OUT_MASK,
++		 AXP717_DCDC_OUTPUT_CONTROL, BIT(3)),
++	AXP_DESC(AXP717, ALDO1, "aldo1", "vin1", 500, 3500, 100,
++		 AXP717_ALDO1_CONTROL, AXP717_LDO_V_OUT_MASK,
++		 AXP717_LDO0_OUTPUT_CONTROL, BIT(0)),
++	AXP_DESC(AXP717, ALDO2, "aldo2", "vin1", 500, 3500, 100,
++		 AXP717_ALDO2_CONTROL, AXP717_LDO_V_OUT_MASK,
++		 AXP717_LDO0_OUTPUT_CONTROL, BIT(1)),
++	AXP_DESC(AXP717, ALDO3, "aldo3", "vin1", 500, 3500, 100,
++		 AXP717_ALDO3_CONTROL, AXP717_LDO_V_OUT_MASK,
++		 AXP717_LDO0_OUTPUT_CONTROL, BIT(2)),
++	AXP_DESC(AXP717, ALDO4, "aldo4", "vin1", 500, 3500, 100,
++		 AXP717_ALDO4_CONTROL, AXP717_LDO_V_OUT_MASK,
++		 AXP717_LDO0_OUTPUT_CONTROL, BIT(3)),
++	AXP_DESC(AXP717, BLDO1, "bldo1", "vin1", 500, 3500, 100,
++		 AXP717_BLDO1_CONTROL, AXP717_LDO_V_OUT_MASK,
++		 AXP717_LDO0_OUTPUT_CONTROL, BIT(4)),
++	AXP_DESC(AXP717, BLDO2, "bldo2", "vin1", 500, 3500, 100,
++		 AXP717_BLDO2_CONTROL, AXP717_LDO_V_OUT_MASK,
++		 AXP717_LDO0_OUTPUT_CONTROL, BIT(5)),
++	AXP_DESC(AXP717, BLDO3, "bldo3", "vin1", 500, 3500, 100,
++		 AXP717_BLDO3_CONTROL, AXP717_LDO_V_OUT_MASK,
++		 AXP717_LDO0_OUTPUT_CONTROL, BIT(6)),
++	AXP_DESC(AXP717, BLDO4, "bldo4", "vin1", 500, 3500, 100,
++		 AXP717_BLDO4_CONTROL, AXP717_LDO_V_OUT_MASK,
++		 AXP717_LDO0_OUTPUT_CONTROL, BIT(7)),
++	AXP_DESC(AXP717, CLDO1, "cldo1", "vin1", 500, 3500, 100,
++		 AXP717_CLDO1_CONTROL, AXP717_LDO_V_OUT_MASK,
++		 AXP717_LDO1_OUTPUT_CONTROL, BIT(0)),
++	AXP_DESC(AXP717, CLDO2, "cldo2", "vin1", 500, 3500, 100,
++		 AXP717_CLDO2_CONTROL, AXP717_LDO_V_OUT_MASK,
++		 AXP717_LDO1_OUTPUT_CONTROL, BIT(1)),
++	AXP_DESC(AXP717, CLDO3, "cldo3", "vin1", 500, 3500, 100,
++		 AXP717_CLDO3_CONTROL, AXP717_LDO_V_OUT_MASK,
++		 AXP717_LDO1_OUTPUT_CONTROL, BIT(2)),
++	AXP_DESC(AXP717, CLDO4, "cldo4", "vin1", 500, 3500, 100,
++		 AXP717_CLDO4_CONTROL, AXP717_LDO_V_OUT_MASK,
++		 AXP717_LDO1_OUTPUT_CONTROL, BIT(3)),
++	AXP_DESC(AXP717, CPUSLDO, "cpusldo", "vin1", 500, 1400, 50,
++		 AXP717_CPUSLDO_CONTROL, AXP717_LDO_V_OUT_MASK,
++		 AXP717_LDO1_OUTPUT_CONTROL, BIT(4)),
++};
++
+ /* DCDC ranges shared with AXP813 */
+ static const struct linear_range axp803_dcdc234_ranges[] = {
+ 	REGULATOR_LINEAR_RANGE(500000,
+@@ -1253,6 +1332,7 @@ static int axp20x_set_dcdc_freq(struct platform_device *pdev, u32 dcdcfreq)
+ 		step = 150;
+ 		break;
+ 	case AXP313A_ID:
++	case AXP717_ID:
+ 	case AXP15060_ID:
+ 		/* The DCDC PWM frequency seems to be fixed to 3 MHz. */
+ 		if (dcdcfreq != 0) {
+@@ -1479,6 +1559,10 @@ static int axp20x_regulator_probe(struct platform_device *pdev)
+ 		regulators = axp313a_regulators;
+ 		nregulators = AXP313A_REG_ID_MAX;
+ 		break;
++	case AXP717_ID:
++		regulators = axp717_regulators;
++		nregulators = AXP717_REG_ID_MAX;
++		break;
+ 	case AXP803_ID:
+ 		regulators = axp803_regulators;
+ 		nregulators = AXP803_REG_ID_MAX;
 diff --git a/include/linux/mfd/axp20x.h b/include/linux/mfd/axp20x.h
-index f1755163dd9f1..9b2b7ac2107f4 100644
+index fd7a41a69526f..8c0a33a2e9ce2 100644
 --- a/include/linux/mfd/axp20x.h
 +++ b/include/linux/mfd/axp20x.h
-@@ -104,11 +104,11 @@ enum axp20x_variants {
+@@ -466,6 +466,27 @@ enum {
+ 	AXP313A_REG_ID_MAX,
+ };
  
- #define AXP313A_ON_INDICATE		0x00
- #define AXP313A_OUTPUT_CONTROL		0x10
--#define AXP313A_DCDC1_CONRTOL		0x13
--#define AXP313A_DCDC2_CONRTOL		0x14
--#define AXP313A_DCDC3_CONRTOL		0x15
--#define AXP313A_ALDO1_CONRTOL		0x16
--#define AXP313A_DLDO1_CONRTOL		0x17
-+#define AXP313A_DCDC1_CONTROL		0x13
-+#define AXP313A_DCDC2_CONTROL		0x14
-+#define AXP313A_DCDC3_CONTROL		0x15
-+#define AXP313A_ALDO1_CONTROL		0x16
-+#define AXP313A_DLDO1_CONTROL		0x17
- #define AXP313A_SHUTDOWN_CTRL		0x1a
- #define AXP313A_IRQ_EN			0x20
- #define AXP313A_IRQ_STATE		0x21
++enum {
++	AXP717_DCDC1 = 0,
++	AXP717_DCDC2,
++	AXP717_DCDC3,
++	AXP717_DCDC4,
++	AXP717_ALDO1,
++	AXP717_ALDO2,
++	AXP717_ALDO3,
++	AXP717_ALDO4,
++	AXP717_BLDO1,
++	AXP717_BLDO2,
++	AXP717_BLDO3,
++	AXP717_BLDO4,
++	AXP717_CLDO1,
++	AXP717_CLDO2,
++	AXP717_CLDO3,
++	AXP717_CLDO4,
++	AXP717_CPUSLDO,
++	AXP717_REG_ID_MAX,
++};
++
+ enum {
+ 	AXP806_DCDCA = 0,
+ 	AXP806_DCDCB,
 -- 
 2.35.8
 
