@@ -1,120 +1,92 @@
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F99879DB
-	for <linux-sunxi@lists.linux.dev>; Sat,  9 Mar 2024 14:35:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.58.86.151
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD0EC7FB
+	for <linux-sunxi@lists.linux.dev>; Sun, 10 Mar 2024 01:02:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709994903; cv=none; b=Ivo3o1ke8XxVxvuQ4ELdMuKgwhYn3Og4buhdNOZcY76pFBf8DldaRpUp5ifl995kD0+pqoyWtoqVRH+xaS3OlZlYlwnTKCo4T/oz/nJjcM8gkBlF7pEexq34bl5iFCXoyx8+M0G7ZIgTh6MXrD/r0jvv6tctGLDQ0JjFH7ynug0=
+	t=1710032560; cv=none; b=jySmh+JiZaB3ecVWm+4GQtJeNntJmL9YYHEBO4f2gSeT/dtssuav78uFHy5wBF0yxcs/vCNXzQt2hmfz4aYBB97Lu0qjU7cfj11U804loFRbiVrP4mw5gjPaQXdG42ij735pJrap0QEwDdRO+Y9OK4wud5MMFClqnvQwe7FRUTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709994903; c=relaxed/simple;
-	bh=ds0BIkru2EQH9Tc9HwHJJTJfwfJeUmksK9jbB2Cr3Ac=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 MIME-Version:Content-Type; b=PTZNs3aoS14Nt1UUN4ZI6TgIzLmD6VFskZotYSE2Id+7mHyFg7BSCKxyF9z68+fGV4j5YqOBwQkaUkUdkN4Zm8TvfsE+M5ld8otWn+lVBbp/z2sdMOkEe6nw0ijDTMQa/MkDGXy6Z18qFo1pc5FkpYbW3TzkEgnJZjT/tRqGaVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM; spf=pass smtp.mailfrom=aculab.com; arc=none smtp.client-ip=185.58.86.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aculab.com
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-253-14N-Did4PAW8hIsoNs_d-Q-1; Sat, 09 Mar 2024 14:33:12 +0000
-X-MC-Unique: 14N-Did4PAW8hIsoNs_d-Q-1
-Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
- (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Sat, 9 Mar
- 2024 14:33:26 +0000
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Sat, 9 Mar 2024 14:33:26 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Maxime Ripard' <mripard@kernel.org>, Arnd Bergmann <arnd@arndb.de>
-CC: Naresh Kamboju <naresh.kamboju@linaro.org>, open list
-	<linux-kernel@vger.kernel.org>, Linux ARM
-	<linux-arm-kernel@lists.infradead.org>, "linux-sunxi@lists.linux.dev"
-	<linux-sunxi@lists.linux.dev>, "dri-devel@lists.freedesktop.org"
-	<dri-devel@lists.freedesktop.org>, "lkft-triage@lists.linaro.org"
-	<lkft-triage@lists.linaro.org>, Dave Airlie <airlied@redhat.com>, "Dan
- Carpenter" <dan.carpenter@linaro.org>, Ard Biesheuvel <ardb@kernel.org>
-Subject: RE: arm: ERROR: modpost: "__aeabi_uldivmod"
- [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko] undefined!
-Thread-Topic: arm: ERROR: modpost: "__aeabi_uldivmod"
- [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko] undefined!
-Thread-Index: AQHabimenIC0ADhmjUqxSQo36gIP17EvfaYA
-Date: Sat, 9 Mar 2024 14:33:26 +0000
-Message-ID: <85b807289ff2400ea5887ced63655862@AcuMS.aculab.com>
-References: <CA+G9fYvG9KE15PGNoLu+SBVyShe+u5HBLQ81+kK9Zop6u=ywmw@mail.gmail.com>
- <338c89bb-a70b-4f35-b71b-f974e90e3383@app.fastmail.com>
- <20240304-brawny-goshawk-of-sorcery-860cef@houat>
-In-Reply-To: <20240304-brawny-goshawk-of-sorcery-860cef@houat>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
+	s=arc-20240116; t=1710032560; c=relaxed/simple;
+	bh=9dx8jZPUSeMi8ixwiSo2dmMXQdjJUvVJtzxtmxRaMZM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=TVmlVjFNE9cKw/Dsn8IXRIGyruXvNpOha7t+L0Zh9y4SzcrLUlO476giAiFqAkKLIwso/Ga+4UMFWJyQqV0hSn6+CkmSTD6ylJy4IqzCWLzFDK1psCKOa9V89izzn7PF6IJK/jqS2iJ8oHql+eyTn7SVcFWTf/AbVRvXyXErqgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4EDEB113E;
+	Sat,  9 Mar 2024 17:03:07 -0800 (PST)
+Received: from localhost.localdomain (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5E7663F73F;
+	Sat,  9 Mar 2024 17:02:29 -0800 (PST)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: devicetree@vger.kernel.org,
+	Samuel Holland <samuel@sholland.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Chris Morgan <macromorgan@hotmail.com>,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH 0/4] regulator: Add X-Powers AXP717 PMIC support
+Date: Sun, 10 Mar 2024 01:02:07 +0000
+Message-Id: <20240310010211.28653-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.35.8
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-From: Maxime Ripard
-> Sent: 04 March 2024 11:46
->=20
-> On Mon, Mar 04, 2024 at 12:11:36PM +0100, Arnd Bergmann wrote:
-> > On Mon, Mar 4, 2024, at 09:07, Naresh Kamboju wrote:
-> > > The arm defconfig builds failed on today's Linux next tag next-202403=
-04.
-> > >
-> > > Build log:
-> > > ---------
-> > > ERROR: modpost: "__aeabi_uldivmod"
-> > > [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko] undefined!
-> > >
-> >
-> > Apparently caused by the 64-bit division in 358e76fd613a
-> > ("drm/sun4i: hdmi: Consolidate atomic_check and mode_valid"):
-> >
-> >
-> > +static enum drm_mode_status
-> > +sun4i_hdmi_connector_clock_valid(const struct drm_connector *connector=
-,
-> > +                                const struct drm_display_mode *mode,
-> > +                                unsigned long long clock)
-> >  {
-> > -       struct sun4i_hdmi *hdmi =3D drm_encoder_to_sun4i_hdmi(encoder);
-> > -       unsigned long rate =3D mode->clock * 1000;
-> > -       unsigned long diff =3D rate / 200; /* +-0.5% allowed by HDMI sp=
-ec */
-> > +       const struct sun4i_hdmi *hdmi =3D drm_connector_to_sun4i_hdmi(c=
-onnector);
-> > +       unsigned long diff =3D clock / 200; /* +-0.5% allowed by HDMI s=
-pec */
-> >         long rounded_rate;
-> >
-> > This used to be a 32-bit division. If the rate is never more than
-> > 4.2GHz, clock could be turned back into 'unsigned long' to avoid
-> > the expensive div_u64().
->=20
-> I sent a fix for it this morning:
-> https://lore.kernel.org/r/20240304091225.366325-1-mripard@kernel.org
->=20
-> The framework will pass an unsigned long long because HDMI character
-> rates can go up to 5.9GHz.
+This patch series adds support for the X-Powers AXP717 PMIC, which is 
+used recently on new boards with Allwinner SoCs.
+Allwinner's BSP code often speaks of the AXP2202, this seems to be the
+same chip, at least a boot0 AXP2202 driver happily drove a chip labelled
+AXP717.
 
-You could do:
-=09/* The max clock is 5.9GHz, split the divide */
-=09u32 diff =3D (u32)(clock / 8) / (200/8);
+Patch 1 fixes a typo in some macro names for the AXP313a PMIC, I just
+realised that during some copy&paste action. It's just an identifier
+rename, so not a backport candidate, I'd say.
+Patch 2 adds the compatible string to the binding document.
+Patch 3 is the MFD part, describing the regmap and all the interrupts.
+So far we support the regulator and power key devices, the USB and
+charging devices will follow later.
+Patch 4 adds the voltage regulator rails, this part is crucial to enable
+any board using this PMIC, as we depend on those rails even for basic
+devices.
 
-The code should really use u32 and u64.
-Otherwise the sizes are different on 32bit.
+Please note that I could not test this driver myself, but had success
+messages from others. It would be good to hear from Ryan and Chris
+here on the list, with a Tested-by: tag.
 
-=09David
+This series is based on next-20240308 for now. I will send a rebased
+update after the merge window, but wanted to start discussion and review
+now.
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
+Please have a look!
+
+Cheers,
+Andre
+
+Andre Przywara (4):
+  regulator: axp20x: fix typo-ed identifier
+  dt-bindings: mfd: x-powers,axp152: document AXP717
+  mfd: axp20x: add support for AXP717 PMIC
+  regulator: axp20x: add support for the AXP717
+
+ .../bindings/mfd/x-powers,axp152.yaml         |  2 +
+ drivers/mfd/axp20x-i2c.c                      |  2 +
+ drivers/mfd/axp20x-rsb.c                      |  1 +
+ drivers/mfd/axp20x.c                          | 90 +++++++++++++++++
+ drivers/regulator/axp20x-regulator.c          | 94 +++++++++++++++++-
+ include/linux/mfd/axp20x.h                    | 98 ++++++++++++++++++-
+ 6 files changed, 277 insertions(+), 10 deletions(-)
+
+-- 
+2.35.8
 
