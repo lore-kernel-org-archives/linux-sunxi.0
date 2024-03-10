@@ -1,288 +1,291 @@
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B74EE2943C
-	for <linux-sunxi@lists.linux.dev>; Sun, 10 Mar 2024 13:32:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F2DE3B28F
+	for <linux-sunxi@lists.linux.dev>; Sun, 10 Mar 2024 22:00:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710077569; cv=none; b=eFW1wwUzFWaA12q64TY1IXWrOzkALv3UAH6d7r+IRivCYB7k3r+rAgXClrGdYmTwzpG1wzLStYqJSsRzKQ9R4BATNYRDOra28jPKG0MCU0lCJJAJSKrbauX98uAkChgJDaC+MbWbSH5WprlfsOhwAXHybmVVwL0wUI9yF2Lw+Q0=
+	t=1710108023; cv=none; b=l9ba57HBzQoEFFZFV2Nk8foNLxMw7yopRpPQ/HXK99Mqx5Ul9VK4VeqwPK6J+au7MQS04OmiZ5feAOPUdNYW411mjlAnvkb5OMoIeMC2iP+b2Z9iE17c1pRw8CwsyLyKDo136nkat4SxrAZatmarabTt89oxfJEtgd03r4uxjwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710077569; c=relaxed/simple;
-	bh=lonBQwrXnsYPbKcof+MTKx0uvAwi8yWlCFTgtOkQVu4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=WXWoay1eC8Ud5iIF2dUEtLJY/OGYIYPptxIeLy6FbLgNEFdpQjIGHbgswg7fnUk7AGkg0qzeN/vM8z5brMOm/xP9YQdQ/Bj4OqKTnRS5Q8XxGyYYRIHO2NorQMUtArOC3lUPTy+z5e/DF28vQgHy/gbjbPlqdfpQOG4SBzI/7a4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev; spf=pass smtp.mailfrom=oltmanns.dev; dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b=sK9Mtjz1; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oltmanns.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b="sK9Mtjz1"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4Tt1700QYGz9sp0;
-	Sun, 10 Mar 2024 14:32:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1710077564;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=t0GpvfqbN29DRUEZjBA4aa8eZrlWs/CDxPnvLWFvKIQ=;
-	b=sK9Mtjz1nd6Xtd4SEHUmo8DCOqwjdwUnrwVDudXXN7ZAQkUoUPHod07ENfZ2O21f85oKWF
-	GbvqmHzdImYhKv5zVyAfSQHDoZSk131rPjyMqKij1Il+oJHzpFaPZM7cq6LZToEdaOD5GH
-	c3mudAihJzc9Cpe2KHNB5XI2YOmtkZgFyNbhecjM4hgpGDQJfugxHo4ugd6FpU6mk7IDsS
-	EJlkRUVEiLRAHVe0OSVnxYZoAhKebut9Gm0o2d4eqLzqRxrhqd8CjQUr6yNInTY1mlM137
-	ytV/VgDZ47ckJSXcPhSc7rLcJDhH0K6yY5wdsuR7w4KyMuHkqibbN9BDvqctGQ==
-From: Frank Oltmanns <frank@oltmanns.dev>
-Date: Sun, 10 Mar 2024 14:32:29 +0100
-Subject: [PATCH] drm/sun4i: tcon: Support keeping dclk rate upon ancestor
- clock changes
+	s=arc-20240116; t=1710108023; c=relaxed/simple;
+	bh=amBiTF03XVCwub77QmB+Y+L7rJp/g7PZ7HZw4tUm5oc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pCr091vNH6HFQQq3UdB0AQz1KpTDPi/aXGm7+AWmkPy+FWtDQqUO3NOd/AdJoBvTl85lEU1yuZeFnyK/TkU5oJ+G6wYecSpOIMvCnZBvzJPh9OXp26bszIdW8KUkmRoFl3NC7EKuLdt9t9wh7buOFPKGRs4LOWVC4Go8rfB22dc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B89C9DA7;
+	Sun, 10 Mar 2024 15:00:54 -0700 (PDT)
+Received: from minigeek.lan (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B35B63F73F;
+	Sun, 10 Mar 2024 15:00:17 -0700 (PDT)
+Date: Sun, 10 Mar 2024 22:00:04 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Kamil Kasperski <ressetkk@gmail.com>
+Cc: u-boot@lists.denx.de, linux-sunxi <linux-sunxi@lists.linux.dev>
+Subject: Re: [PATCH] sunxi: h616: add initial support for T95 AXP313 TV Box
+Message-ID: <20240310220004.0965e2ca@minigeek.lan>
+In-Reply-To: <20240309192425.40282-1-ressetkk@gmail.com>
+References: <20240309192425.40282-1-ressetkk@gmail.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240310-tcon_keep_stable_rate-v1-1-0296b0a85c02@oltmanns.dev>
-X-B4-Tracking: v=1; b=H4sIAGy27WUC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxMDYwMT3ZLk/Lz47NTUgvjiksSknNT4osSSVF1TcyPLZHNzAzNjE2MloN6
- CotS0zAqwudGxtbUAPMG/lGcAAAA=
-To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>
-Cc: Icenowy Zheng <uwu@icenowy.me>, Ondrej Jirman <x@xnux.eu>, 
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Frank Oltmanns <frank@oltmanns.dev>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8534; i=frank@oltmanns.dev;
- h=from:subject:message-id; bh=lonBQwrXnsYPbKcof+MTKx0uvAwi8yWlCFTgtOkQVu4=;
- b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBl7bZ5RHcjbKoP+fyn+S9KGgL9pB5wLOsPhCfdL
- k0ZWNW7VEaJAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZe22eQAKCRCaaaIIlErT
- x64rC/40+R7y3l+c3vv1A24iISf+/1k+Rt+EJ1RTV/R3ATde672k6oSlO2StWvR0JIHbE1/qfh1
- AQwLTtShUMBdUu5Jn5NuQIt++3ZvOzmgDkVCv1WOMmANf2CM7hOmf6cCVyusT1ACSvJHGMQbxUE
- 2uY+v0qQHq+W2S3quSQxHe7g2zJOwCIw3WPvS1OggS3af/vqWPmZbyEWMOnJuMR5HR1jd6W5wFz
- 2TAx8bLxbmXOChkE0zRrG7OTyZ+s91XuKaye6DoyyIJP2A1nUBvIpy87KGfh7MQqYmsUZPP5mc6
- lS4fJHR/XwD7nj4gVGZhtQM+K3iCk+RC+8LZXqhR7zMtWJNppLZ7Yw+jvzWZVlPZCg8EgVVNUuW
- UPON9E+Rj+UDpj7k7+Xm2XLA05XM95MirH+CNT2C0vTlTEyQRpToMbIWrJUcWW3dz7X1uPTxVg0
- QZvm1zCRj5IF1eXn3E81CR0AIv7avomm31zV5VnLuvErTztWzItjWwlm3BaQlwoZNiruw=
-X-Developer-Key: i=frank@oltmanns.dev; a=openpgp;
- fpr=02FD257B7F90E6B9A5444F969A69A208944AD3C7
-X-Rspamd-Queue-Id: 4Tt1700QYGz9sp0
 
-Allow the dclk to reset its rate when a rate change is initiated from an
-ancestor clock. This makes it possible to no longer to get an exclusive
-lock. As a consequence, it is now possible to set new rates if
-necessary, e.g. when an external display is connected.
+On Sat,  9 Mar 2024 19:24:26 +0000
+Kamil Kasperski <ressetkk@gmail.com> wrote:
 
-The first user of this functionality is the A64 because PLL-VIDEO0 is an
-ancestor for both HDMI and TCON0. This allows to select an optimal rate
-for TCON0 as long as there is no external HDMI connection. Once a change
-in PLL-VIDEO0 is performed when an HDMI connection is established, TCON0
-can react gracefully and select an optimal rate based on this the new
-constraint.
+Hi Kamil,
 
-Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
----
-I would like to make the Allwinner A64's data-clock keep its rate
-when its ancestor's (pll-video0) rate changes. Keeping data-clock's rate
-is required, to let the A64 drive both an LCD and HDMI display at the
-same time, because both have pll-video0 as an ancestor.
+many thanks for sending a patch, that looks mostly good from the
+technical point of view, only some smaller comments.
 
-TCONs that use this flag store the ideal rate for their data-clock and
-subscribe to be notified when data-clock changes. When rate setting has
-finished (indicated by a POST_RATE_CHANGE event) the call back function
-schedules delayed work to set the data-clock's rate to the initial value
-after 100 ms. Using delayed work maks sure that the clock setting is
-finished.
+But please note that the devicetree needs to go through the Linux
+mailing lists and repo first, and we automatically copy it from the
+Linux tree once it has been merged there. This is to ensure proper
+review and checks with the Linux tooling.
 
-I've implemented this functionality as a quirk, so that it is possible
-to use it only for the A64.
+So can you please send just the .dts file to the DT and sunxi
+maintainers the respective lists, as reported by get_maintainer.pl?
+Then we can take it from there.
 
-This patch supersedes [1].
+> T95 is a most commonly known for being a box with a pre-installed malware.
+> It uses Allwinner H616 and comes with eMMC and DDR3 memory.
+> This device comes with two versions - one with AXP305 PMIC and another with AXP313 PMIC.
+> The AXP313 version comes with Secure Boot enabled and locked bootloader, so the u-boot has to be built with TOC0.
+> DRAM settings are taken from Allwinner's boot0 for this box.
 
-This work is inspired by an out-of-tree patchset [2] [3] [4].
-Unfortunately, the patchset uses clk_set_rate() directly in a notifier
-callback, which the following comment on clk_notifier_register()
-forbids: "The callbacks associated with the notifier must not re-enter
-into the clk framework by calling any top-level clk APIs." [5]
-Furthermore, that out-of-tree patchset no longer works since 6.6,
-because setting pll-mipi is now also resetting pll-video0 and therefore
-causes a race condition.
+Ah, thanks for figuring those out, that's very helpful.
 
-Thank you for considering this contribution,
-  Frank
+> 
+> Cc: Andre Przywara <andre.przywara@arm.com>
+> 
+> Signed-off-by: Kamil Kasperski <ressetkk@gmail.com>
+> ---
+>  arch/arm/dts/Makefile                   |   3 +-
+>  arch/arm/dts/sun50i-h616-t95-axp313.dts | 148 ++++++++++++++++++++++++
+>  configs/t95_axp313_defconfig            |  27 +++++
+>  3 files changed, 177 insertions(+), 1 deletion(-)
+>  create mode 100644 arch/arm/dts/sun50i-h616-t95-axp313.dts
+>  create mode 100644 configs/t95_axp313_defconfig
+> 
+> diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
+> index b102ffb5f6..144daf6c48 100644
+> --- a/arch/arm/dts/Makefile
+> +++ b/arch/arm/dts/Makefile
+> @@ -842,7 +842,8 @@ dtb-$(CONFIG_MACH_SUN50I_H616) += \
+>  	sun50i-h618-orangepi-zero2w.dtb \
+>  	sun50i-h618-orangepi-zero3.dtb \
+>  	sun50i-h618-transpeed-8k618-t.dtb \
+> -	sun50i-h616-x96-mate.dtb
+> +	sun50i-h616-x96-mate.dtb \
+> +	sun50i-h616-t95-axp313.dtb
+>  dtb-$(CONFIG_MACH_SUN50I) += \
+>  	sun50i-a64-amarula-relic.dtb \
+>  	sun50i-a64-bananapi-m64.dtb \
+> diff --git a/arch/arm/dts/sun50i-h616-t95-axp313.dts b/arch/arm/dts/sun50i-h616-t95-axp313.dts
+> new file mode 100644
+> index 0000000000..b006f363d5
+> --- /dev/null
+> +++ b/arch/arm/dts/sun50i-h616-t95-axp313.dts
+> @@ -0,0 +1,148 @@
+> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> +/*
+> + * Copyright (C) 2021 Arm Ltd.
 
-[1] https://lore.kernel.org/lkml/20230825-pll-mipi_keep_rate-v1-0-35bc43570730@oltmanns.dev/
-[2] https://codeberg.org/megi/linux/commit/a37cda2fff41a67a2bacf82b1594e10335d0bd8a
-[3] https://codeberg.org/megi/linux/commit/24dc09128d2c8efc6ddf19249420e9798e967a46
-[4] https://codeberg.org/megi/linux/commit/728a93d46f99f0eb231ed6fa8971a45f97c7182c
-[5] https://elixir.bootlin.com/linux/v6.7.9/source/drivers/clk/clk.c#L4669
----
- drivers/gpu/drm/sun4i/sun4i_tcon.c | 70 ++++++++++++++++++++++++++++++++++----
- drivers/gpu/drm/sun4i/sun4i_tcon.h | 12 +++++++
- 2 files changed, 76 insertions(+), 6 deletions(-)
+Please change this copyright you and this year.
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-index a1a2c845ade0..b880bd44049a 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-@@ -108,9 +108,11 @@ static void sun4i_tcon_channel_set_status(struct sun4i_tcon *tcon, int channel,
- 
- 	if (enabled) {
- 		clk_prepare_enable(clk);
--		clk_rate_exclusive_get(clk);
-+		if (!tcon->quirks->restores_rate)
-+			clk_rate_exclusive_get(clk);
- 	} else {
--		clk_rate_exclusive_put(clk);
-+		if (!tcon->quirks->restores_rate)
-+			clk_rate_exclusive_put(clk);
- 		clk_disable_unprepare(clk);
- 	}
- }
-@@ -343,6 +345,53 @@ static void sun4i_tcon0_mode_set_dithering(struct sun4i_tcon *tcon,
- 	regmap_write(tcon->regs, SUN4I_TCON_FRM_CTL_REG, val);
- }
- 
-+static void sun4i_rate_reset_notifier_delayed_update(struct work_struct *work)
-+{
-+	struct sun4i_rate_reset_nb *rate_reset = container_of(work, struct sun4i_rate_reset_nb,
-+							    reset_rate_work.work);
-+
-+	clk_set_rate(rate_reset->target_clk, rate_reset->saved_rate);
-+}
-+
-+static int sun4i_rate_reset_notifier_cb(struct notifier_block *nb,
-+				      unsigned long event, void *data)
-+{
-+	struct sun4i_rate_reset_nb *rate_reset = to_sun4i_rate_reset_nb(nb);
-+
-+	if (event == POST_RATE_CHANGE)
-+		schedule_delayed_work(&rate_reset->reset_rate_work, msecs_to_jiffies(100));
-+
-+	return NOTIFY_DONE;
-+}
-+
-+static void sun4i_rate_reset_notifier_register(struct sun4i_rate_reset_nb *rate_reset_nb)
-+{
-+	if (rate_reset_nb->is_registered)
-+		return;
-+
-+	rate_reset_nb->clk_nb.notifier_call = sun4i_rate_reset_notifier_cb;
-+
-+	INIT_DELAYED_WORK(&rate_reset_nb->reset_rate_work,
-+			  sun4i_rate_reset_notifier_delayed_update);
-+
-+	if (!clk_notifier_register(rate_reset_nb->target_clk,
-+				   &rate_reset_nb->clk_nb))
-+		rate_reset_nb->is_registered = true;
-+}
-+
-+static struct sun4i_rate_reset_nb tcon_rate_reset_tcon0_nb;
-+
-+static void sun4i_tcon0_set_dclk_rate(struct sun4i_tcon *tcon, unsigned long rate)
-+{
-+	clk_set_rate(tcon->dclk, rate);
-+
-+	if (tcon->quirks->restores_rate) {
-+		tcon_rate_reset_tcon0_nb.target_clk = tcon->dclk;
-+		tcon_rate_reset_tcon0_nb.saved_rate = rate;
-+		sun4i_rate_reset_notifier_register(&tcon_rate_reset_tcon0_nb);
-+	}
-+}
-+
- static void sun4i_tcon0_mode_set_cpu(struct sun4i_tcon *tcon,
- 				     const struct drm_encoder *encoder,
- 				     const struct drm_display_mode *mode)
-@@ -360,8 +409,8 @@ static void sun4i_tcon0_mode_set_cpu(struct sun4i_tcon *tcon,
- 	 */
- 	tcon->dclk_min_div = SUN6I_DSI_TCON_DIV;
- 	tcon->dclk_max_div = SUN6I_DSI_TCON_DIV;
--	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000 * (bpp / lanes)
--						  / SUN6I_DSI_TCON_DIV);
-+	sun4i_tcon0_set_dclk_rate(tcon, mode->crtc_clock * 1000 * (bpp / lanes)
-+				  / SUN6I_DSI_TCON_DIV);
- 
- 	/* Set the resolution */
- 	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
-@@ -434,7 +483,7 @@ static void sun4i_tcon0_mode_set_lvds(struct sun4i_tcon *tcon,
- 
- 	tcon->dclk_min_div = 7;
- 	tcon->dclk_max_div = 7;
--	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000);
-+	sun4i_tcon0_set_dclk_rate(tcon, mode->crtc_clock * 1000);
- 
- 	/* Set the resolution */
- 	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
-@@ -516,7 +565,7 @@ static void sun4i_tcon0_mode_set_rgb(struct sun4i_tcon *tcon,
- 
- 	tcon->dclk_min_div = tcon->quirks->dclk_min_div;
- 	tcon->dclk_max_div = 127;
--	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000);
-+	sun4i_tcon0_set_dclk_rate(tcon, mode->crtc_clock * 1000);
- 
- 	/* Set the resolution */
- 	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
-@@ -1503,6 +1552,14 @@ static const struct sun4i_tcon_quirks sun8i_a33_quirks = {
- 	.supports_lvds		= true,
- };
- 
-+static const struct sun4i_tcon_quirks sun50i_a64_lcd_quirks = {
-+	.supports_lvds		= true,
-+	.has_channel_0		= true,
-+	.restores_rate		= true,
-+	.dclk_min_div		= 1,
-+	.setup_lvds_phy		= sun6i_tcon_setup_lvds_phy,
-+};
-+
- static const struct sun4i_tcon_quirks sun8i_a83t_lcd_quirks = {
- 	.supports_lvds		= true,
- 	.has_channel_0		= true,
-@@ -1561,6 +1618,7 @@ const struct of_device_id sun4i_tcon_of_table[] = {
- 	{ .compatible = "allwinner,sun9i-a80-tcon-tv", .data = &sun9i_a80_tcon_tv_quirks },
- 	{ .compatible = "allwinner,sun20i-d1-tcon-lcd", .data = &sun20i_d1_lcd_quirks },
- 	{ .compatible = "allwinner,sun20i-d1-tcon-tv", .data = &sun8i_r40_tv_quirks },
-+	{ .compatible = "allwinner,sun50i-a64-tcon-lcd", .data = &sun50i_a64_lcd_quirks },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, sun4i_tcon_of_table);
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.h b/drivers/gpu/drm/sun4i/sun4i_tcon.h
-index fa23aa23fe4a..bd4abc90062b 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.h
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.h
-@@ -243,6 +243,7 @@ struct sun4i_tcon_quirks {
- 	bool    needs_edp_reset; /* a80 edp reset needed for tcon0 access */
- 	bool	supports_lvds;   /* Does the TCON support an LVDS output? */
- 	bool	polarity_in_ch0; /* some tcon1 channels have polarity bits in tcon0 pol register */
-+	bool	restores_rate;   /* restores the initial rate when rate changes */
- 	u8	dclk_min_div;	/* minimum divider for TCON0 DCLK */
- 
- 	/* callback to handle tcon muxing options */
-@@ -300,4 +301,15 @@ void sun4i_tcon_set_status(struct sun4i_tcon *crtc,
- 
- extern const struct of_device_id sun4i_tcon_of_table[];
- 
-+struct sun4i_rate_reset_nb {
-+	struct notifier_block	clk_nb;
-+	struct delayed_work	reset_rate_work;
-+
-+	struct clk		*target_clk;
-+	unsigned long		saved_rate;
-+	bool			is_registered;
-+};
-+
-+#define to_sun4i_rate_reset_nb(_nb) container_of(_nb, struct sun4i_rate_reset_nb, clk_nb)
-+
- #endif /* __SUN4I_TCON_H__ */
+> + */
+> +
+> +/dts-v1/;
+> +
+> +#include "sun50i-h616.dtsi"
+> +
+> +#include <dt-bindings/gpio/gpio.h>
+> +#include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +/ {
+> +	model = "T95 (AXP313)";
+> +	compatible = "mbox,t95-axp313", "allwinner,sun50i-h616";
 
----
-base-commit: dcb6c8ee6acc6c347caec1e73fb900c0f4ff9806
-change-id: 20240304-tcon_keep_stable_rate-5729c7706343
+What is "mbox"? Do you have any more information about this vendor?
+In any case a new vendor would need to be added to
+Documentation/devicetree/bindings/vendor-prefixes.yaml, in a separate
+patch. Also you need a patch to add this compatible combination to
+Documentation/devicetree/bindings/arm/sunxi.yaml.
 
-Best regards,
--- 
-Frank Oltmanns <frank@oltmanns.dev>
+Cheers,
+Andre
+
+> +
+> +	aliases {
+> +		serial0 = &uart0;
+> +	};
+> +
+> +	chosen {
+> +		stdout-path = "serial0:115200n8";
+> +	};
+> +
+> +	reg_vcc5v: vcc5v {
+> +		/* board wide 5V supply directly from the DC input */
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "vcc-5v";
+> +		regulator-min-microvolt = <5000000>;
+> +		regulator-max-microvolt = <5000000>;
+> +		regulator-always-on;
+> +	};
+> +};
+> +
+> +&ehci0 {
+> +	status = "okay";
+> +};
+> +
+> +&ehci2 {
+> +	status = "okay";
+> +};
+> +
+> +&ir {
+> +	status = "okay";
+> +};
+> +
+> +&mmc0 {
+> +	cd-gpios = <&pio 8 16 GPIO_ACTIVE_LOW>;	/* PI16 */
+> +	vmmc-supply = <&reg_dldo1>;
+> +	status = "okay";
+> +};
+> +
+> +&mmc2 {
+> +	vmmc-supply = <&reg_dldo1>;
+> +	vqmmc-supply = <&reg_aldo1>;
+> +	bus-width = <8>;
+> +	non-removable;
+> +	cap-mmc-hw-reset;
+> +	mmc-ddr-1_8v;
+> +	mmc-hs200-1_8v;
+> +	status = "okay";
+> +};
+> +
+> +&ohci0 {
+> +	status = "okay";
+> +};
+> +
+> +&ohci2 {
+> +	status = "okay";
+> +};
+> +
+> +&r_i2c {
+> +	status = "okay";
+> +
+> +	axp313: pmic@36 {
+> +		compatible = "x-powers,axp313a";
+> +		reg = <0x36>;
+> +		#interrupt-cells = <1>;
+> +		interrupt-controller;
+> +		interrupt-parent = <&pio>;
+> +		interrupts = <2 9 IRQ_TYPE_LEVEL_LOW>;	/* PC9 */
+> +
+> +		vin1-supply = <&reg_vcc5v>;
+> +		vin2-supply = <&reg_vcc5v>;
+> +		vin3-supply = <&reg_vcc5v>;
+> +
+> +		regulators {
+> +			/* Supplies VCC-PLL, so needs to be always on. */
+> +			reg_aldo1: aldo1 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt = <1800000>;
+> +				regulator-max-microvolt = <1800000>;
+> +				regulator-name = "vcc1v8";
+> +			};
+> +
+> +			/* Supplies VCC-IO, so needs to be always on. */
+> +			reg_dldo1: dldo1 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt = <3300000>;
+> +				regulator-max-microvolt = <3300000>;
+> +				regulator-name = "vcc3v3";
+> +			};
+> +
+> +			reg_dcdc1: dcdc1 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt = <810000>;
+> +				regulator-max-microvolt = <990000>;
+> +				regulator-name = "vdd-gpu-sys";
+> +			};
+> +
+> +			reg_dcdc2: dcdc2 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt = <810000>;
+> +				regulator-max-microvolt = <1100000>;
+> +				regulator-name = "vdd-cpu";
+> +			};
+> +
+> +			reg_dcdc3: dcdc3 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt = <1360000>;
+> +				regulator-max-microvolt = <1360000>;
+> +				regulator-name = "vdd-dram";
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&pio {
+> +	vcc-pc-supply = <&reg_aldo1>;
+> +	vcc-pg-supply = <&reg_dldo1>;
+> +	vcc-ph-supply = <&reg_dldo1>;
+> +	vcc-pi-supply = <&reg_dldo1>;
+> +};
+> +
+> +&uart0 {
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&uart0_ph_pins>;
+> +	status = "okay";
+> +};
+> +
+> +&usbotg {
+> +	dr_mode = "host";	/* USB A type receptable */
+> +	status = "okay";
+> +};
+> +
+> +&usbphy {
+> +	status = "okay";
+> +};
+> diff --git a/configs/t95_axp313_defconfig b/configs/t95_axp313_defconfig
+> new file mode 100644
+> index 0000000000..6542b5bc88
+> --- /dev/null
+> +++ b/configs/t95_axp313_defconfig
+> @@ -0,0 +1,27 @@
+> +CONFIG_ARM=y
+> +CONFIG_ARCH_SUNXI=y
+> +CONFIG_DEFAULT_DEVICE_TREE="sun50i-h616-t95-axp313"
+> +CONFIG_SPL=y
+> +CONFIG_MACH_SUN50I_H616=y
+> +CONFIG_DRAM_CLK=648
+> +CONFIG_DRAM_SUN50I_H616_ODT_EN=0x1
+> +CONFIG_DRAM_SUN50I_H616_DX_ODT=0x03030303
+> +CONFIG_DRAM_SUN50I_H616_DX_DRI=0x0e0e0e0e
+> +CONFIG_DRAM_SUN50I_H616_CA_DRI=0x1c1c
+> +CONFIG_DRAM_SUN50I_H616_TPR10=0x2f0006
+> +CONFIG_DRAM_SUN50I_H616_TPR11=0xffffdddd
+> +CONFIG_DRAM_SUN50I_H616_TPR12=0xfedf7657
+> +CONFIG_SUNXI_DRAM_H616_DDR3_1333=y
+> +CONFIG_R_I2C_ENABLE=y
+> +CONFIG_SPL_I2C=y
+> +CONFIG_SPL_SYS_I2C_LEGACY=y
+> +CONFIG_SYS_I2C_MVTWSI=y
+> +CONFIG_SYS_I2C_SLAVE=0x7f
+> +CONFIG_SYS_I2C_SPEED=400000
+> +CONFIG_SUPPORT_EMMC_BOOT=y
+> +CONFIG_AXP313_POWER=y
+> +CONFIG_AXP_DCDC3_VOLT=1360
+> +CONFIG_USB_EHCI_HCD=y
+> +CONFIG_USB_OHCI_HCD=y
+> +CONFIG_SUN8I_EMAC=y
+> +CONFIG_SPL_IMAGE_TYPE_SUNXI_TOC0=y
 
