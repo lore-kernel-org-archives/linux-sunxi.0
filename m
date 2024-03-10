@@ -1,42 +1,43 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBBB538F9C
-	for <linux-sunxi@lists.linux.dev>; Sun, 10 Mar 2024 13:22:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EB5F2C194
+	for <linux-sunxi@lists.linux.dev>; Sun, 10 Mar 2024 13:30:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710076965; cv=none; b=o6vvZUBAPf8yV2L/FhwQIZ/2LPbroHDquGXdl97bSmRpkJO1QVyijJTWZuZpH3KrA1r8h/hepHFhDZcPFh+aGlsqSv49p0DC2a1lzW79SfBL4I1YiiPSvuU0NE2oR2kMUIt1Qr0LocpGyY39buvN1GnFjfdK8TR67R0LqgHc+5A=
+	t=1710077423; cv=none; b=So8/TOZZCluEbsSqM6CLk8TByiC35U/N0DEPb35nilbu/SVuH6CPCeqP5rRb49Y2HlJ1FE3Fp69AbZbsinLDFGLWvFZks+UsznVl95OsV6mXaeHRGuuFUBeVUAEaaq2isWdgazaFCf4zq/ZUKPQXpRzrnNIkgzKN/WXYc8I44kg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710076965; c=relaxed/simple;
-	bh=kvvIkTmfQMw8UxSyDxPC93rn0oSCr/Quea9RAybNOn8=;
+	s=arc-20240116; t=1710077423; c=relaxed/simple;
+	bh=CqzJhF4o2XVhzVlKqVuKVOUwZQAnduWDJhne+0nY6oQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=FFwatvMeuNWrtNYfZA2iVt6nNxbr1KerPummToTwQQVrQPVoxBcKccPAataK9/QktxypzrRfXLvPJfoxIfAgum5tHnCxyam1fCzQczXxMX1SmlJ7JNKJrxQmXKBdT2rn/RanQXdyMNkB4pYazVDrdl4lnyrO4hYCebUZE+O6TQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev; spf=pass smtp.mailfrom=oltmanns.dev; dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b=yqpB/ZFs; arc=none smtp.client-ip=80.241.56.171
+	 In-Reply-To:To:Cc; b=TtMU9DDx5bmofJ1i+4P+p2X2Q5lMIwRn+zgZPd0lMAx4mRmZ7mpjkm+tKzFdc58fqzv3v+euVhwYPDod43ytJKflAhmCUW+4Txl69G03buSd8gwulzT6poqAv4a9iCDRpoYPUSp4fLVIsjbXERYpqZoQDMaabYpf8lrwlbyJlIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev; spf=pass smtp.mailfrom=oltmanns.dev; dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b=jL1TKCmJ; arc=none smtp.client-ip=80.241.56.152
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oltmanns.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b="yqpB/ZFs"
+	dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b="jL1TKCmJ"
 Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4Tt0vF5gjbz9smD;
-	Sun, 10 Mar 2024 14:22:33 +0100 (CET)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4Tt0tt2fVBz9sp0;
+	Sun, 10 Mar 2024 14:22:14 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1710076953;
+	s=MBO0001; t=1710076934;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=XhGwFTOxsp8TA925vZCjt+JcQqgJocjoqK3BssOmRYM=;
-	b=yqpB/ZFsIC3kVJiHYJxsIUj+zkEdsrbwWRpoL3s3LJXI5NXAT7uCqBmYJynZrZvLl9pG8L
-	6Lf3AiIu71PVNlRQ+byBfX2w5xMsh44hiyxEqL1EgviV57n1HO7SxCwMJC7nU0l4IemOnT
-	RrgNw4P9jbLAs0TbBFnqURRsmlFipUNhVn5S4doXCmEOhZm/oSXdrr1vjURggphMfKkvQC
-	5dpf5rQfqOhf+emT9gpdPE3El/+kMKAt1LpILKsR3l49okaMcqcMlZNVVwjrCyXNXwxrdm
-	PycJixMcrT0d1HVm7iYFxB74VZA1c+dD7Yza54IEYi2w6i6csV3XqrYbMO7WTw==
+	bh=iuVCUppc+ddFR8UUDWGyNuWRGBDXVACD/i0UBw2FfT0=;
+	b=jL1TKCmJxkYKSofV18GqqZidtQ6dBS0RSdbNryORV2eglYdk8CpD9Nl6NSPIuMKvcba6gL
+	VczhR8HuAoPuf57nciEQdJX7aGSHGaq0o4vzG1E4gd2EcTGF7kdpeyfIxpD1EB7ogSFbL3
+	BbmtwgkbdDBOJQYXEmncAWexysEWh4SwpbhG1+QD0sMWZQSys4mMHxmkJZ653zRJivGHqW
+	D9p4WWXPNh5uShxkZT1GxlQSZ/BP8hIZpiCm+Bn6K3EuYd9CA6NGdJh80SUt548YDQi7+b
+	2a6GKhWXuOriRWixcOXSmJ45B0LDxVKC50YcSNotAN4hKJHSktMB1QZPJxKfbw==
 From: Frank Oltmanns <frank@oltmanns.dev>
-Date: Sun, 10 Mar 2024 14:21:15 +0100
-Subject: [PATCH v4 5/5] arm64: dts: allwinner: a64: Run GPU at 432 MHz
+Date: Sun, 10 Mar 2024 14:21:11 +0100
+Subject: [PATCH v4 1/5] clk: sunxi-ng: common: Support minimum and maximum
+ rate
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,7 +46,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240310-pinephone-pll-fixes-v4-5-46fc80c83637@oltmanns.dev>
+Message-Id: <20240310-pinephone-pll-fixes-v4-1-46fc80c83637@oltmanns.dev>
 References: <20240310-pinephone-pll-fixes-v4-0-46fc80c83637@oltmanns.dev>
 In-Reply-To: <20240310-pinephone-pll-fixes-v4-0-46fc80c83637@oltmanns.dev>
 To: Michael Turquette <mturquette@baylibre.com>, 
@@ -65,55 +66,95 @@ To: Michael Turquette <mturquette@baylibre.com>,
 Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- Frank Oltmanns <frank@oltmanns.dev>, Erico Nunes <nunes.erico@gmail.com>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1257; i=frank@oltmanns.dev;
- h=from:subject:message-id; bh=kvvIkTmfQMw8UxSyDxPC93rn0oSCr/Quea9RAybNOn8=;
- b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBl7bP6p2D/0yVAajHJzxsF2A2zeZMiqWXbGyGZ0
- py+R4ILTJuJAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZe2z+gAKCRCaaaIIlErT
- xzQeC/9jShpjnftS4GkyabYSB2tpbtKkzT+oFr9HD819N1UtksrEvwfmCRDtWbZkHg+E+Id2EFl
- 5cwQX+IXyN5BYzWsPCCw/Jxf3LqYdbEmmwYWS7YMLBE8VVjpycE3jloPFsYVc4yOxjRW7+MCJxl
- 5/29M0HefgdbSERNfRe40HeZZGjZHUu4KdUa69QIixrQTZLrLsCFm42Z/UqQJ3VkPn5NiiyJr6E
- z40Tg+9Ga/rU2uaDcforPsLl/l0y9ayLBoK0UA9C3LijM2DxATNpeWz3iWPwg/YIRp6MvTKNW18
- YiHtgkixh18DiLRJBl2Z3G0dhWGU3g9e6EfYoV93t/YeHSmXCxp91JSM+cwxNsgHLKCoZ1jIWsP
- 82JDNAdA0LyExvZXF5171VphDgB353vTAiSQlb0BlupDKjDFbKCbOfIpcJTDS63WGJ+pBlEi0Xa
- t/JoCa19Y8thObe2+u87zj51in6LJCujRj8DHXUmwhVWJgMTIO93b65RqRGapzoBPecpg=
+ Frank Oltmanns <frank@oltmanns.dev>, stable@vger.kernel.org
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2480; i=frank@oltmanns.dev;
+ h=from:subject:message-id; bh=CqzJhF4o2XVhzVlKqVuKVOUwZQAnduWDJhne+0nY6oQ=;
+ b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBl7bP5kCr8X0Jr9HHd3T424gfP8km/HgWZfPQml
+ DbUiRGKwIqJAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZe2z+QAKCRCaaaIIlErT
+ x06dDACAZf8e15F20tsk2AJ2y+vPgbtV7PitDHlG2/P3dLpBvPQ4GJAHi7ReDu+fsWJn/0bmkxO
+ 8u0uLux/EGhhpuxCa0o5NP0w9tzUvTo+1XYDZ9cAhXXbDkraBMnYff7BXutewjjbj8HjDXV6Z2p
+ CrYYT/22bbb00DY0KVjqTHRWq5dDzyO8ymWvdkfG28vBpEeHYOoG/Zyp45EG6p2zf1Gqp0ew9Bz
+ pPDqdYka3MQovp53e7GHFeOD8/0sVBvAXJGripG1awS/rVsT7Hq0GY6XKTVZNEY69+dR4u4mYgv
+ qc/x+lx9MhMDvTfwv9MH72Y/yCIs1xJ1ulmUPS8rpdrO71f3lYJe7zBFYgLzsG0dyiFRBwNPIP0
+ /EBfNGpeLQkenimONtJE9B/BrWWCs7C8OM22CNYbQVGKsIiH+JWW9xHU0WUJivrSr1nV4bqYE6A
+ IyeFmD0oXLGrt/liRNxEWvMYOoM/xskY+oKeMve6o0RhihHV5ljc2jEHSb+6dxd5AreAE=
 X-Developer-Key: i=frank@oltmanns.dev; a=openpgp;
  fpr=02FD257B7F90E6B9A5444F969A69A208944AD3C7
 
-The Allwinner A64's GPU has currently three operating points. However,
-the BSP runs the GPU fixed at 432 MHz. In addition, at least one of the
-devices using that SoC - the pinephone - shows unstabilities (see link)
-that can be circumvented by running the GPU at a fixed rate.
+The Allwinner SoC's typically have an upper and lower limit for their
+clocks' rates. Up until now, support for that has been implemented
+separately for each clock type.
 
-Therefore, remove the other two operating points from the GPU OPP table,
-so that the GPU runs at a fixed rate of 432 MHz.
+Implement that functionality in the sunxi-ng's common part making use of
+the CCF rate liming capabilities, so that it is available for all clock
+types.
 
-Link: https://gitlab.com/postmarketOS/pmaports/-/issues/805
-Acked-by: Erico Nunes <nunes.erico@gmail.com>
+Suggested-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+Cc: stable@vger.kernel.org
 ---
- arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 8 --------
- 1 file changed, 8 deletions(-)
+ drivers/clk/sunxi-ng/ccu_common.c | 19 +++++++++++++++++++
+ drivers/clk/sunxi-ng/ccu_common.h |  3 +++
+ 2 files changed, 22 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-index 57ac18738c99..c810380aab6d 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-@@ -107,14 +107,6 @@ de: display-engine {
- 	gpu_opp_table: opp-table-gpu {
- 		compatible = "operating-points-v2";
+diff --git a/drivers/clk/sunxi-ng/ccu_common.c b/drivers/clk/sunxi-ng/ccu_common.c
+index 8babce55302f..ac0091b4ce24 100644
+--- a/drivers/clk/sunxi-ng/ccu_common.c
++++ b/drivers/clk/sunxi-ng/ccu_common.c
+@@ -44,6 +44,16 @@ bool ccu_is_better_rate(struct ccu_common *common,
+ 			unsigned long current_rate,
+ 			unsigned long best_rate)
+ {
++	unsigned long min_rate, max_rate;
++
++	clk_hw_get_rate_range(&common->hw, &min_rate, &max_rate);
++
++	if (current_rate > max_rate)
++		return false;
++
++	if (current_rate < min_rate)
++		return false;
++
+ 	if (common->features & CCU_FEATURE_CLOSEST_RATE)
+ 		return abs(current_rate - target_rate) < abs(best_rate - target_rate);
  
--		opp-120000000 {
--			opp-hz = /bits/ 64 <120000000>;
--		};
--
--		opp-312000000 {
--			opp-hz = /bits/ 64 <312000000>;
--		};
--
- 		opp-432000000 {
- 			opp-hz = /bits/ 64 <432000000>;
- 		};
+@@ -122,6 +132,7 @@ static int sunxi_ccu_probe(struct sunxi_ccu *ccu, struct device *dev,
+ 
+ 	for (i = 0; i < desc->hw_clks->num ; i++) {
+ 		struct clk_hw *hw = desc->hw_clks->hws[i];
++		struct ccu_common *common = hw_to_ccu_common(hw);
+ 		const char *name;
+ 
+ 		if (!hw)
+@@ -136,6 +147,14 @@ static int sunxi_ccu_probe(struct sunxi_ccu *ccu, struct device *dev,
+ 			pr_err("Couldn't register clock %d - %s\n", i, name);
+ 			goto err_clk_unreg;
+ 		}
++
++		if (common->max_rate)
++			clk_hw_set_rate_range(hw, common->min_rate,
++					      common->max_rate);
++		else
++			WARN(common->min_rate,
++			     "No max_rate, ignoring min_rate of clock %d - %s\n",
++			     i, name);
+ 	}
+ 
+ 	ret = of_clk_add_hw_provider(node, of_clk_hw_onecell_get,
+diff --git a/drivers/clk/sunxi-ng/ccu_common.h b/drivers/clk/sunxi-ng/ccu_common.h
+index 942a72c09437..329734f8cf42 100644
+--- a/drivers/clk/sunxi-ng/ccu_common.h
++++ b/drivers/clk/sunxi-ng/ccu_common.h
+@@ -31,6 +31,9 @@ struct ccu_common {
+ 	u16		lock_reg;
+ 	u32		prediv;
+ 
++	unsigned long	min_rate;
++	unsigned long	max_rate;
++
+ 	unsigned long	features;
+ 	spinlock_t	*lock;
+ 	struct clk_hw	hw;
 
 -- 
 2.44.0
