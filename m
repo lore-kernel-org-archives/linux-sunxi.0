@@ -1,55 +1,55 @@
-Received: from fhigh4-smtp.messagingengine.com (fhigh4-smtp.messagingengine.com [103.168.172.155])
+Received: from fout2-smtp.messagingengine.com (fout2-smtp.messagingengine.com [103.168.172.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA9D55732C
-	for <linux-sunxi@lists.linux.dev>; Mon, 11 Mar 2024 22:20:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D9895732E
+	for <linux-sunxi@lists.linux.dev>; Mon, 11 Mar 2024 22:22:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710195656; cv=none; b=n8lV45nCAHoOWPfAM6G3tpUWlICOy6BmlFqoTVsRQzUkOQZXY9nRKdfg621q6IVRqOOdZ617FIp0Tz86rz6e+ZqdhqLFiWJfITgvbr1EbNKlU4roqbERfmu/05rxsMoJUC/L7gLnAo/fKMnC8VZQluk2pn2nsJGSE2BAjTYE5c4=
+	t=1710195766; cv=none; b=uCMG69AyPrLKk/MDYRv9TebD6fl6zfEzOFFCCaIi/lymMEeDAmtAAw00ugCtalPTi6CEYqIGiC6WkJbP9dPdhKc2h1YN+34KIkxb5XZkGTFJzs7Y2+/shHGX+VjWfJ0KnxKeAu4Pwo7UfdKOBCKQ9+nZbWxA7E6zns8oamx9MHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710195656; c=relaxed/simple;
-	bh=VRQLhinwT/LuQFd/XiKpnPNLCQmE5ROtUmOmCx24HrU=;
+	s=arc-20240116; t=1710195766; c=relaxed/simple;
+	bh=DaLBLIZUZ3x/hORYWzsnIkMLSdKTpPm8OJ2UrzslVGY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=K4aUw7DBydOeh26ddnVy9oxuQuC4Bl1X/MQhaChan7bbgO+26NSY1K3z9CtsX/VPYfFSKUWW51S7W4B6MiaV4H4Iw4My/IKaOFuPPiBYCfcajwuILxAD9ofIWt6vq2I10cZpDradF8jL5laG4+1W50dBg+Uffz0b01DrKWTM1j4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sholland.org; spf=pass smtp.mailfrom=sholland.org; dkim=pass (2048-bit key) header.d=sholland.org header.i=@sholland.org header.b=eByAki9w; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=GJVizqWv; arc=none smtp.client-ip=103.168.172.155
+	 In-Reply-To:Content-Type; b=f8gOtUQdcFbVAkZrO0BR3blJDQYGNVlG9j0rlRHsk7u72i0b56bbvF2loWr0Ngs5P6q+d9xsz0UTxhGXkumAKonb284GfFSltNjni6WsK191RDGmkoA0iS+mgjdR2v5pb3wiw3VZP5MMc200SEV/YHgGFOaBYeirUSnE+vTkpyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sholland.org; spf=pass smtp.mailfrom=sholland.org; dkim=pass (2048-bit key) header.d=sholland.org header.i=@sholland.org header.b=vjTT2syL; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=j5p16aBH; arc=none smtp.client-ip=103.168.172.145
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sholland.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sholland.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sholland.org header.i=@sholland.org header.b="eByAki9w";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="GJVizqWv"
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailfhigh.nyi.internal (Postfix) with ESMTP id B33E3114011D;
-	Mon, 11 Mar 2024 18:20:52 -0400 (EDT)
+	dkim=pass (2048-bit key) header.d=sholland.org header.i=@sholland.org header.b="vjTT2syL";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="j5p16aBH"
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailfout.nyi.internal (Postfix) with ESMTP id 739EA13800D1;
+	Mon, 11 Mar 2024 18:22:43 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Mon, 11 Mar 2024 18:20:52 -0400
+  by compute6.internal (MEProxy); Mon, 11 Mar 2024 18:22:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1710195652;
-	 x=1710282052; bh=y0WVDLnkL/e8PWpqoEk2UI+JKneMl4BIZbFWtAEcPLc=; b=
-	eByAki9wwszOHWXB3pGc8UVdMrpPv6h9WHlXsyXtfc1nFUT9O9aizS1ry+EmnHM2
-	vxHxpqbw0N6SzBDWfRPSTnmDdiGcFY/pXM1jDlrUft0DaBlPulJKF2HXKlvdNS8W
-	eBbehtFthaEb0bOm2dEx+Abe4WgNJK9b3tCS2Iik71uxAskN2HE+dxfh15aH8lxy
-	iUko5nUo4YZ5ZCI/0vss/6jhfEh6qLW3AQDDP1FhC4L36trdtofAuvXvJSdlM7Qh
-	qLnKbxfmNqF7AD9kh40B+5vvd5jP2IX3puiziDnuo6YvXVVyX1TNFRd9DOGUiFrC
-	tTpep33MWhd4WxGQzPLy/g==
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1710195763;
+	 x=1710282163; bh=euLXNMdPmZs+c4REjNWXGAVfOTGgaja0guAdjfE1SFc=; b=
+	vjTT2syLSB9u53uMyyRFO4tyg2iLdkxEagkvx6Axthde5mJjYUmvMkZ4mNGmo3Fr
+	rC/h4atOdaEMIIgzJcYD7MDoYGQ+/fyCFcXIg2nE4NES2RwriM8lL3yAAB5Xxpf3
+	ts5fKmv56+9yplMLes09n76DRY19Dmdjc+qMe3Y0E2YDWJqPJFbutQyZ+uONy6aR
+	xvthG9bvNOKyNglIYivmO6yV+kFwhWGzj+TbSAOvg6nvI0Nt7x9kY0SYn7er1LjR
+	ovmWluiQ0rBAraECgK6Y/j39g5//OzMsa/ykXvCVc3HIM0icGbEt63WSXXstXh3L
+	zUBEi7i3lJE5DcAN/Ex/1g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1710195652; x=
-	1710282052; bh=y0WVDLnkL/e8PWpqoEk2UI+JKneMl4BIZbFWtAEcPLc=; b=G
-	JVizqWvQM1inBIqfL96stIzWnPtbNBb1rdPfu8GAj3b3n7OaOmIoG8wn6RjgSwU6
-	nFqs1a+11qKXklJnfqpIXMFNnivm3pImsy9iG6oxik2RJobJNSP25G6XOzdzOPgE
-	mvunhxGK3a1X7UTtdO2l9VLoOkbxYWQ9VdfqEy7mJWY7HPIn4aCAJAoeYH9D9E0R
-	sB9cMPvZeqtHfksTNQvDC0JbDYPpXTcFjREVtyWB3V5jD5pZIgBGwGnBTR4WqeBa
-	jUcm1uXkVVJPjMyDtgWd//hFfP+Sz/UBjxlRn1RluYirO6U352mWeH4fFEXEprgo
-	KxET118f467yMNg1xEecg==
-X-ME-Sender: <xms:xIPvZXpXFLXs1UeNSLGIFRWCwB3T6ujpS43B5PLkrS-RkYDtOVy9Ew>
-    <xme:xIPvZRr3rhgVD1pq3s5klYqJ2V4yPv-ZhUuwEPz9uFaRL20N8bOmFUR1mWvEN0fSr
-    uMI1_eu9qcwPpui5w>
-X-ME-Received: <xmr:xIPvZUPq2AMXRIW_r1r84xC_jQJ4zghKIxms3OzvLrfSyVPdV6r2BhfddR_4D7MjNohFrMEUL3KbRtW98yahCNLvLQnrW9cYrMljifLVcA04h12mTti37TktSg>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1710195763; x=
+	1710282163; bh=euLXNMdPmZs+c4REjNWXGAVfOTGgaja0guAdjfE1SFc=; b=j
+	5p16aBHn5kEkBmh6scxe3qc1ciWZKmecJdP3LNW834SM1wJm1dZvt02kMW6xMdMo
+	hZNF3lK31pvvuKJ/+twUk8ow5BIM4TmA7JD+wt+SnSA7FVU9NJvOfN5KWRbvZoSN
+	e5Jm2pgLdKPc03w6TSsi/Mcz4OgDIPNi93otZy8w1s3Tu2BgtANI94TlmZQ86KtI
+	gvWGdINXgodKW43SVAF4Az1R7ufACF9N0m3Es17cc59otJHQVql8sTg+pA6NLAeT
+	QKYodm/aYFEfjZE2L/p7dDCdc33MhM9pqfOCEZl8+UIioYIfcKTwLVQ1jVeQWClc
+	h8oAnU6QbFFWnN/oBc8yw==
+X-ME-Sender: <xms:MoTvZSWnaAA9X6dzPLueS_Jjmw3rWrcLAf0-LRWGjZL0BkNZSx1GAw>
+    <xme:MoTvZemEzKbuGjhbIAu2aY_YIBu7k4tJEW9wQFdDPZHNfen-QikzsMT2zFWm4O6f2
+    NSWvgj9SX2GKre9dA>
+X-ME-Received: <xmr:MoTvZWZFqlDwh5oPSAK3HlUTLZbS2juuz-FrnNDO1FQ50_vanmvoBjz_aJ5iQ6gilfM5ScStWBNeqOjvJ3uf8rNdfnGST9NNjv3JUaS7KnBPMfqkLyCeIMoOWA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrjedugdduieduucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -58,15 +58,15 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrjedugdduieduucetufdoteggod
     ggtffrrghtthgvrhhnpeetieekgeeilefgtdfgteejhfevtdfgieekvdffjedvvedvveei
     veelfeeuhffhfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
     hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:xIPvZa5ce9poCrjTBQpUHu5Sg_xXAhmGkGwrCyHBaqqXAcvfmSjLUg>
-    <xmx:xIPvZW6Odmx1HuhUf_lNyMa0__SCFAiyilHUGJS9US2SBkSLa3MdEA>
-    <xmx:xIPvZSgVwOShwGWdHpMtAYf0lySv-cQaKMwVkZKsyfYmc6eH6hSPmg>
-    <xmx:xIPvZZJ4oLONEZgB5mWsM8ZPakE4jUmzmnMBvm57lgUq7l_iJfbwnA>
+X-ME-Proxy: <xmx:MoTvZZWcxAXWxK6RfhnWKMrVLe_8lQp4jGGVJ_w19zrir4AlFgwI3g>
+    <xmx:MoTvZclNBOUVW_mOjknd4JENpL5N894y7ePaJCPcNPrqxsL-qpIGOw>
+    <xmx:MoTvZedQ6uTtsHOJxYHtG_X_jgy2yV8Np1G7rfYVx2a6n6Zj7BSaXQ>
+    <xmx:M4TvZanzQDTnEMmwfZbqI2Q8nAMQo2piGOHodqV_6NacyUZn_rb97g>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 11 Mar 2024 18:20:51 -0400 (EDT)
-Message-ID: <f203a0a3-9107-4290-a934-0f6736fe218a@sholland.org>
-Date: Mon, 11 Mar 2024 17:20:50 -0500
+ 11 Mar 2024 18:22:41 -0400 (EDT)
+Message-ID: <4ae70e42-d345-4914-af40-5dfc9e2b3ef2@sholland.org>
+Date: Mon, 11 Mar 2024 17:22:41 -0500
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -74,7 +74,8 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] dt-bindings: mfd: x-powers,axp152: document AXP717
+Subject: Re: [PATCH 4/4] regulator: axp20x: add support for the AXP717
+Content-Language: en-US
 To: Andre Przywara <andre.przywara@arm.com>
 Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Chris Morgan <macromorgan@hotmail.com>, linux-kernel@vger.kernel.org,
@@ -84,59 +85,29 @@ Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>
 References: <20240310010211.28653-1-andre.przywara@arm.com>
- <20240310010211.28653-3-andre.przywara@arm.com>
-Content-Language: en-US
+ <20240310010211.28653-5-andre.przywara@arm.com>
 From: Samuel Holland <samuel@sholland.org>
-In-Reply-To: <20240310010211.28653-3-andre.przywara@arm.com>
+In-Reply-To: <20240310010211.28653-5-andre.przywara@arm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 Hi Andre,
 
 On 3/9/24 19:02, Andre Przywara wrote:
-> The X-Powers AXP717 is a PMIC used on some newer Allwinner devices.
-> Among quite some regulators it features the usual ADC/IRQ/power key
-> parts, plus a battery charger circuit, and some newly introduced USB
-> type-C circuitry.
-
-Do you plan to put the Type-C logic under a subnode, or should the
-Type-C connector node go directly under the PMIC node? Either way, the
-binding probably needs to be updated for that.
-
-> Like two other recent PMICs, it lacks the DC/DC converter PWM frequency
-> control register, that rate is fixed here as well.
+> The X-Powers AXP717 is a typical PMIC from X-Powers, featuring four
+> DC/DC converters and 15 LDOs, on the regulator side.
 > 
-> Add the new compatible string, and add that to the list of PMICs without
-> the PWM frequency property.
+> Describe the chip's voltage settings and switch registers, how the
+> voltages are encoded, and connect this to the MFD device via its
+> regulator ID.
 > 
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 > ---
->  Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml b/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml
-> index 06f1779835a1e..b8e8db0d58e9c 100644
-> --- a/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml
-> +++ b/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml
-> @@ -83,6 +83,7 @@ allOf:
->              enum:
->                - x-powers,axp313a
->                - x-powers,axp15060
-> +              - x-powers,axp717
->  
->      then:
->        properties:
-> @@ -99,6 +100,7 @@ properties:
->            - x-powers,axp221
->            - x-powers,axp223
->            - x-powers,axp313a
-> +          - x-powers,axp717
->            - x-powers,axp803
->            - x-powers,axp806
->            - x-powers,axp809
+>  drivers/regulator/axp20x-regulator.c | 84 ++++++++++++++++++++++++++++
+>  include/linux/mfd/axp20x.h           | 21 +++++++
+>  2 files changed, 105 insertions(+)
 
-The regulators patternProperties needs to be updated for the new boost
-regulator.
+This is missing support for the boost regulator.
 
 Regards,
 Samuel
