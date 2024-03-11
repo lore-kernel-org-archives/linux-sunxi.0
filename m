@@ -1,75 +1,107 @@
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wfout7-smtp.messagingengine.com (wfout7-smtp.messagingengine.com [64.147.123.150])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC75A1E528
-	for <linux-sunxi@lists.linux.dev>; Sun, 10 Mar 2024 22:29:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6526C1C20
+	for <linux-sunxi@lists.linux.dev>; Mon, 11 Mar 2024 07:35:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710109768; cv=none; b=W0YWEVn2Try9zFvql1nMy2Xwy4atjFMBZQvLkqXq/Ufv/dta9361vwEXidpso4ijL1qIbJvOi9Ahlebl+BrLkuUdAdwUvfj+qwpTYctdFLhvDbR+XJm2cHE+hrFB86VQiMFRhptHSlTm5/JD4pq23esAD68kvX9iTtu8Ymp7r8s=
+	t=1710142522; cv=none; b=ReyRInOlIcVQAGf2wgDBImLXU+2WxLk8R+u0EQqBo+Z7pDSROddEJTZaeyfdoZawv++vKH8hq0lcDeJgIVEro/tOqupVVDKtee4n2nE58dBPDjgcUmFrRBrIGQlDwcO6iQCRiHwA4XNS1YxfKW32P50bKBppQ/CO0b7nRXZgfp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710109768; c=relaxed/simple;
-	bh=0dh7I6BWcg7FvSd5QFiZfq+RVCTqyfeXWc/UPHa5atk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BLzQTbIBlyn7brcK38JjFr8pLroDjwWT5p7Xb0rB8pyPD3wmUasD/x0WbQp4rf2oRZtjp0hkpz69Yj0CZTKU6v3/nBk16I8usLMCw5rQLCCJAAkII6xXpCWDDw9izyLCCZoQK9nUinL6cOO/ygokGxd1j8D/9NpFTFEfbMF5oZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xnux.eu; spf=pass smtp.mailfrom=xnux.eu; dkim=pass (1024-bit key) header.d=xnux.eu header.i=@xnux.eu header.b=GTkGpEn3; arc=none smtp.client-ip=195.181.215.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xnux.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xnux.eu
+	s=arc-20240116; t=1710142522; c=relaxed/simple;
+	bh=AT63euh9nACAA8FpxKTo0+f5ix3COISncDmz7k86aZw=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=HODnkSyFTXatx88VTv2mbSYgPVhCEN/A/VNfEoRjM526VpyUTFuEOFKY272n6xD/5pEZNLQpo9s/QlvuIUWhixBuF7tR4rt/IgY0hM+fT4rXiQQgLLW5n/B/P7pJJZ1S2OegK6OAfKjVtN2jQDQKlaSFzwqHnjir6KCXyCsmYls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=jpeIk9MG; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=GT3M6dXY; arc=none smtp.client-ip=64.147.123.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=testtoast.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xnux.eu header.i=@xnux.eu header.b="GTkGpEn3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xnux.eu; s=mail;
-	t=1710109441; bh=0dh7I6BWcg7FvSd5QFiZfq+RVCTqyfeXWc/UPHa5atk=;
-	h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
-	b=GTkGpEn3N5HcVUAR98jLSZy17qzKnKu8TgBB3cjtDGJQwkOzKb2yJp+bqFI3joH8J
-	 uxgzo2F5cx7Ie2uyLtEtjQHwljMVm3T9ziyfDh8cfCjn0rjENGS4QXMOWjo56VdoDY
-	 MuQU5vWCEQULn3w6drNgNV6COrsqnjUR85xMS+IE=
-Date: Sun, 10 Mar 2024 23:23:57 +0100
-From: =?utf-8?Q?Ond=C5=99ej?= Jirman <x@xnux.eu>
-To: Frank Oltmanns <frank@oltmanns.dev>
-Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Icenowy Zheng <uwu@icenowy.me>, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/sun4i: tcon: Support keeping dclk rate upon ancestor
- clock changes
-Message-ID: <s3iqqnqiqnlujncbb6vnip7hvofgbom54on7fx4hxmyfsk2v2w@gbvpkptsa5g3>
-Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <x@xnux.eu>, 
-	Frank Oltmanns <frank@oltmanns.dev>, Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Icenowy Zheng <uwu@icenowy.me>, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
- <https://xff.cz/key.txt>
-References: <20240310-tcon_keep_stable_rate-v1-1-0296b0a85c02@oltmanns.dev>
+	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="jpeIk9MG";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="GT3M6dXY"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfout.west.internal (Postfix) with ESMTP id 6E7FB1C000A7;
+	Mon, 11 Mar 2024 03:35:17 -0400 (EDT)
+Received: from imap47 ([10.202.2.97])
+  by compute5.internal (MEProxy); Mon, 11 Mar 2024 03:35:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm1; t=1710142516; x=
+	1710228916; bh=pgvUHd9qCUHGtOhpSeo2XbBXlkhAYOe42MvkFSOBuY0=; b=j
+	peIk9MG6MJ5Ovje7dA2BWAxvx55K8T8/ukYRHDrajaRNg8UC4pzu7xFIHWQ8diSx
+	gPR+VzveRw0dTiPfp9Ij+zqX9IZz4djwKs3Hy/agKG+CYhgA8PW//nqclBUfmxZy
+	oIY5jm2EwnwTy5LWCKFrWZIxpM06TQA+tejFGPrbIFAMpcP3gQUhEJyHsrn7eeRV
+	sHSfxirMwZBsU0Qik6oqnH+zzKow79eH3SwA7bHZfndNPbkQ836LC1p4KmK/GAqJ
+	Jvs5JzGBgHm272Ly1JkgNTzVnEVZooobpC2dlFdZNUXqdnO8m/8xTioICvR0Y/CD
+	59Eot6wJ37UInXifoXNKQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1710142516; x=1710228916; bh=pgvUHd9qCUHGtOhpSeo2XbBXlkhA
+	YOe42MvkFSOBuY0=; b=GT3M6dXYCI0nHt3+PNcBWCgfl7GiaGUV26XnprUB3oef
+	vHT8VSvgSCPw2HiI1te36/ox9ysb/Yq9p1jQfhrOtWayo5HxYqFBWG4dJJLzYD2q
+	iWK055k472jUFtisyZ0LMwdagim46XOCLOWPo9ACj0xJj6wuTsjHe3dRxv3P2fG3
+	QQnV8Yp811krNW8BO3+I479HGkA+m/9vN5EgNzwjGkEK/P8QncT8QZubqSSLee04
+	noZs8wUgcWuFompph9wcCd/Gyvc3MQxCVMNPMmwYVxSBgqUgGK3epxAzcNbBaRiZ
+	Wc6iGEwILGJPL36Gc+veW2iaM1sJJSkPk1T9k8adlw==
+X-ME-Sender: <xms:NLTuZWfkLel_CWAQgk_1v1FAblokO1uschh3sos-uuJbQtcfmcTcfQ>
+    <xme:NLTuZQPmqKwQ94cujAAoD6_UVp6CPGgeacISV99jPKGF-IPij_Qn1jsVCZX2wRW9q
+    rCwdvznI82b0FTBag>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrjedtgdduudduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftfih
+    rghnucghrghlkhhlihhnfdcuoehrhigrnhesthgvshhtthhorghsthdrtghomheqnecugg
+    ftrfgrthhtvghrnhephedvveeigedujeeufeegffehhfffveduhfeijefgtdffteelgfet
+    ueevieduieejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homheprhihrghnsehtvghsthhtohgrshhtrdgtohhm
+X-ME-Proxy: <xmx:NLTuZXj5tN4129KaVMHgiegce3SzTeEcJ_IMscP6_eVgnmF3rk0A_A>
+    <xmx:NLTuZT90s7raiV40515gEd5jp2LjUGnJNomYCj_NkZida1qWaecTmg>
+    <xmx:NLTuZSvdMMFK5Q020QhDunAL8G_5yNz7DoKEwAvRYfDJBlfELGXtCw>
+    <xmx:NLTuZXMC0HKkjPpTVGVGA5Lx19nJ1bIdIrirmomUoIA6EGTnB2FmQdQ6Wp0>
+Feedback-ID: idc0145fc:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 02E82A60078; Mon, 11 Mar 2024 03:35:15 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-251-g8332da0bf6-fm-20240305.001-g8332da0b
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240310-tcon_keep_stable_rate-v1-1-0296b0a85c02@oltmanns.dev>
+Message-Id: <d6a3c20c-f2d8-44e9-be63-d27dfafacba8@app.fastmail.com>
+In-Reply-To: <20240310010211.28653-1-andre.przywara@arm.com>
+References: <20240310010211.28653-1-andre.przywara@arm.com>
+Date: Mon, 11 Mar 2024 20:34:54 +1300
+From: "Ryan Walklin" <ryan@testtoast.com>
+To: "Andre Przywara" <andre.przywara@arm.com>,
+ "Liam Girdwood" <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>,
+ "Chen-Yu Tsai" <wens@csie.org>, "Lee Jones" <lee@kernel.org>,
+ "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+ "Conor Dooley" <conor+dt@kernel.org>
+Cc: devicetree@vger.kernel.org, "Samuel Holland" <samuel@sholland.org>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+ "Chris Morgan" <macromorgan@hotmail.com>, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 0/4] regulator: Add X-Powers AXP717 PMIC support
+Content-Type: text/plain
 
-Hello Frank,
+On Sun, 10 Mar 2024, at 2:02 PM, Andre Przywara wrote:
+> This patch series adds support for the X-Powers AXP717 PMIC, which is 
+> used recently on new boards with Allwinner SoCs.
 
-On Sun, Mar 10, 2024 at 02:32:29PM +0100, Frank Oltmanns wrote:
-> +static int sun4i_rate_reset_notifier_cb(struct notifier_block *nb,
-> +				      unsigned long event, void *data)
-> +{
-> +	struct sun4i_rate_reset_nb *rate_reset = to_sun4i_rate_reset_nb(nb);
-> +
-> +	if (event == POST_RATE_CHANGE)
-> +		schedule_delayed_work(&rate_reset->reset_rate_work, msecs_to_jiffies(100));
+> Please note that I could not test this driver myself, but had success
+> messages from others. It would be good to hear from Ryan and Chris
+> here on the list, with a Tested-by: tag.
 
-If you get multiple reset notifier calls within 100ms of the first one,
-the delay from the last one will not be 100ms, so this may violate expectations
-you're describing in the commit message.
+Thanks Andre, tested on an Allwinner H700-based board (Anbernic RG35XX+) with successful bringup of DRAM, boot and regulator reporting via /sys/kernel/debug/regulator/regulator_summary. 
 
-schedule_delayed_work doesn't re-schedule the work if it's already pending.
+Battery charging not tested but according to vendor datasheet this functionality is internal to the PMIC and can complete without reference to the host, with informational reporting and charging parameters optionally modified by host over I2C or RSB.
 
-Kind regards,
-	o.
+Ryan
+
+Tested-by: Ryan Walklin <ryan@testtoast.com>
+
