@@ -1,107 +1,126 @@
-Received: from wfout7-smtp.messagingengine.com (wfout7-smtp.messagingengine.com [64.147.123.150])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6526C1C20
-	for <linux-sunxi@lists.linux.dev>; Mon, 11 Mar 2024 07:35:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.150
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEFF012B7D
+	for <linux-sunxi@lists.linux.dev>; Mon, 11 Mar 2024 08:53:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710142522; cv=none; b=ReyRInOlIcVQAGf2wgDBImLXU+2WxLk8R+u0EQqBo+Z7pDSROddEJTZaeyfdoZawv++vKH8hq0lcDeJgIVEro/tOqupVVDKtee4n2nE58dBPDjgcUmFrRBrIGQlDwcO6iQCRiHwA4XNS1YxfKW32P50bKBppQ/CO0b7nRXZgfp4=
+	t=1710147231; cv=none; b=pRzgwIhRr8dEqOAq9q7O7X1nnirS0fOBWlUHuu/KxqK7BfyiNE1aBpEjVbE6hmN6MLVQ9CbvYoaBkDD+m5sIgqIg7zUnVdw6Qn6gL3eK7/C80KnLftzrjjoHI+tadVBG2YdVrbUqehLRfDsasoqOHfMTZGiJw7l1gOmv7GYUuLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710142522; c=relaxed/simple;
-	bh=AT63euh9nACAA8FpxKTo0+f5ix3COISncDmz7k86aZw=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=HODnkSyFTXatx88VTv2mbSYgPVhCEN/A/VNfEoRjM526VpyUTFuEOFKY272n6xD/5pEZNLQpo9s/QlvuIUWhixBuF7tR4rt/IgY0hM+fT4rXiQQgLLW5n/B/P7pJJZ1S2OegK6OAfKjVtN2jQDQKlaSFzwqHnjir6KCXyCsmYls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=jpeIk9MG; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=GT3M6dXY; arc=none smtp.client-ip=64.147.123.150
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=testtoast.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
+	s=arc-20240116; t=1710147231; c=relaxed/simple;
+	bh=fnGQK5mpYPky2EtgEWQVbUO7rqbWN3odhtSAfHQlY20=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=V3VbOUvZDFpMU0dWqTWk+kTEHeTTj/SVXIyP86cifu28KocOKuRYS0El2BRbMfp/najweoLGajvzFYEyLsHwZkbiCUO28B5q6rCUn/yEMG6QHakcz5cfks/3uDoQW0X1iv/He8HioC8AnoJ+qpW7mTYov34LhbJDNfyWjtiLAfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev; spf=pass smtp.mailfrom=oltmanns.dev; dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b=sHrHGthp; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oltmanns.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="jpeIk9MG";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="GT3M6dXY"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfout.west.internal (Postfix) with ESMTP id 6E7FB1C000A7;
-	Mon, 11 Mar 2024 03:35:17 -0400 (EDT)
-Received: from imap47 ([10.202.2.97])
-  by compute5.internal (MEProxy); Mon, 11 Mar 2024 03:35:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm1; t=1710142516; x=
-	1710228916; bh=pgvUHd9qCUHGtOhpSeo2XbBXlkhAYOe42MvkFSOBuY0=; b=j
-	peIk9MG6MJ5Ovje7dA2BWAxvx55K8T8/ukYRHDrajaRNg8UC4pzu7xFIHWQ8diSx
-	gPR+VzveRw0dTiPfp9Ij+zqX9IZz4djwKs3Hy/agKG+CYhgA8PW//nqclBUfmxZy
-	oIY5jm2EwnwTy5LWCKFrWZIxpM06TQA+tejFGPrbIFAMpcP3gQUhEJyHsrn7eeRV
-	sHSfxirMwZBsU0Qik6oqnH+zzKow79eH3SwA7bHZfndNPbkQ836LC1p4KmK/GAqJ
-	Jvs5JzGBgHm272Ly1JkgNTzVnEVZooobpC2dlFdZNUXqdnO8m/8xTioICvR0Y/CD
-	59Eot6wJ37UInXifoXNKQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1710142516; x=1710228916; bh=pgvUHd9qCUHGtOhpSeo2XbBXlkhA
-	YOe42MvkFSOBuY0=; b=GT3M6dXYCI0nHt3+PNcBWCgfl7GiaGUV26XnprUB3oef
-	vHT8VSvgSCPw2HiI1te36/ox9ysb/Yq9p1jQfhrOtWayo5HxYqFBWG4dJJLzYD2q
-	iWK055k472jUFtisyZ0LMwdagim46XOCLOWPo9ACj0xJj6wuTsjHe3dRxv3P2fG3
-	QQnV8Yp811krNW8BO3+I479HGkA+m/9vN5EgNzwjGkEK/P8QncT8QZubqSSLee04
-	noZs8wUgcWuFompph9wcCd/Gyvc3MQxCVMNPMmwYVxSBgqUgGK3epxAzcNbBaRiZ
-	Wc6iGEwILGJPL36Gc+veW2iaM1sJJSkPk1T9k8adlw==
-X-ME-Sender: <xms:NLTuZWfkLel_CWAQgk_1v1FAblokO1uschh3sos-uuJbQtcfmcTcfQ>
-    <xme:NLTuZQPmqKwQ94cujAAoD6_UVp6CPGgeacISV99jPKGF-IPij_Qn1jsVCZX2wRW9q
-    rCwdvznI82b0FTBag>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrjedtgdduudduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftfih
-    rghnucghrghlkhhlihhnfdcuoehrhigrnhesthgvshhtthhorghsthdrtghomheqnecugg
-    ftrfgrthhtvghrnhephedvveeigedujeeufeegffehhfffveduhfeijefgtdffteelgfet
-    ueevieduieejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homheprhihrghnsehtvghsthhtohgrshhtrdgtohhm
-X-ME-Proxy: <xmx:NLTuZXj5tN4129KaVMHgiegce3SzTeEcJ_IMscP6_eVgnmF3rk0A_A>
-    <xmx:NLTuZT90s7raiV40515gEd5jp2LjUGnJNomYCj_NkZida1qWaecTmg>
-    <xmx:NLTuZSvdMMFK5Q020QhDunAL8G_5yNz7DoKEwAvRYfDJBlfELGXtCw>
-    <xmx:NLTuZXMC0HKkjPpTVGVGA5Lx19nJ1bIdIrirmomUoIA6EGTnB2FmQdQ6Wp0>
-Feedback-ID: idc0145fc:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 02E82A60078; Mon, 11 Mar 2024 03:35:15 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-251-g8332da0bf6-fm-20240305.001-g8332da0b
+	dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b="sHrHGthp"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4TtVtf1CRMz9sZh;
+	Mon, 11 Mar 2024 09:53:46 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+	s=MBO0001; t=1710147226;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tBxxMeFHaNTIFVvrYkndR+gcWNWRWVLtfGRhdSP2/6o=;
+	b=sHrHGthpynjybtW3iaYqn4VDz8W2mUnv6z71ZcETVBTQpDmc7sauHjv28wVIESNz/NT4JO
+	/eVM/ApgVTwerUaZtR+crPq/PZ9QfQrPX1WDUb9R/U+hQMeqrmn84ffVdA6EYR8U8fVs6Q
+	6MKWrZ3VMg106rd65FLMhOoNk88XdMcm1C0OOax6wn91vCLFoo+dRCog61XZh0FdNhLrDV
+	G4ztOUTIEG0WWo+/ygkJP0lKF5CIN1zlM1Yx+VoYodoBkIzP1n5ZyULYJ9x4RqUUP0uzUp
+	U3GKlswqNYL8bbUzk07xidLNJSJeVygSFU7YDvFnpK2JjH330jL778xHvnsOSw==
+From: Frank Oltmanns <frank@oltmanns.dev>
+To: =?utf-8?Q?Ond=C5=99ej?= Jirman <x@xnux.eu>
+Cc: Maxime Ripard <mripard@kernel.org>,  Chen-Yu Tsai <wens@csie.org>,
+  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,  Thomas Zimmermann
+ <tzimmermann@suse.de>,  David Airlie <airlied@gmail.com>,  Daniel Vetter
+ <daniel@ffwll.ch>,  Jernej Skrabec <jernej.skrabec@gmail.com>,  Samuel
+ Holland <samuel@sholland.org>,  Icenowy Zheng <uwu@icenowy.me>,
+  dri-devel@lists.freedesktop.org,  linux-arm-kernel@lists.infradead.org,
+  linux-sunxi@lists.linux.dev,  linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/sun4i: tcon: Support keeping dclk rate upon
+ ancestor clock changes
+In-Reply-To: <s3iqqnqiqnlujncbb6vnip7hvofgbom54on7fx4hxmyfsk2v2w@gbvpkptsa5g3>
+	(=?utf-8?Q?=22Ond=C5=99ej?= Jirman"'s message of "Sun, 10 Mar 2024 23:23:57
+ +0100")
+References: <20240310-tcon_keep_stable_rate-v1-1-0296b0a85c02@oltmanns.dev>
+	<s3iqqnqiqnlujncbb6vnip7hvofgbom54on7fx4hxmyfsk2v2w@gbvpkptsa5g3>
+Date: Mon, 11 Mar 2024 09:53:41 +0100
+Message-ID: <87le6pcfoq.fsf@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <d6a3c20c-f2d8-44e9-be63-d27dfafacba8@app.fastmail.com>
-In-Reply-To: <20240310010211.28653-1-andre.przywara@arm.com>
-References: <20240310010211.28653-1-andre.przywara@arm.com>
-Date: Mon, 11 Mar 2024 20:34:54 +1300
-From: "Ryan Walklin" <ryan@testtoast.com>
-To: "Andre Przywara" <andre.przywara@arm.com>,
- "Liam Girdwood" <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>,
- "Chen-Yu Tsai" <wens@csie.org>, "Lee Jones" <lee@kernel.org>,
- "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
- "Conor Dooley" <conor+dt@kernel.org>
-Cc: devicetree@vger.kernel.org, "Samuel Holland" <samuel@sholland.org>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>,
- "Chris Morgan" <macromorgan@hotmail.com>, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 0/4] regulator: Add X-Powers AXP717 PMIC support
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 4TtVtf1CRMz9sZh
 
-On Sun, 10 Mar 2024, at 2:02 PM, Andre Przywara wrote:
-> This patch series adds support for the X-Powers AXP717 PMIC, which is 
-> used recently on new boards with Allwinner SoCs.
+Hello Ond=C5=99ej,
 
-> Please note that I could not test this driver myself, but had success
-> messages from others. It would be good to hear from Ryan and Chris
-> here on the list, with a Tested-by: tag.
+On 2024-03-10 at 23:23:57 +0100, Ond=C5=99ej Jirman <x@xnux.eu> wrote:
+> Hello Frank,
+>
+> On Sun, Mar 10, 2024 at 02:32:29PM +0100, Frank Oltmanns wrote:
+>> +static int sun4i_rate_reset_notifier_cb(struct notifier_block *nb,
+>> +				      unsigned long event, void *data)
+>> +{
+>> +	struct sun4i_rate_reset_nb *rate_reset =3D to_sun4i_rate_reset_nb(nb);
+>> +
+>> +	if (event =3D=3D POST_RATE_CHANGE)
+>> +		schedule_delayed_work(&rate_reset->reset_rate_work, msecs_to_jiffies(=
+100));
+>
+> If you get multiple reset notifier calls within 100ms of the first one,
+> the delay from the last one will not be 100ms, so this may violate expect=
+ations
+> you're describing in the commit message.
 
-Thanks Andre, tested on an Allwinner H700-based board (Anbernic RG35XX+) with successful bringup of DRAM, boot and regulator reporting via /sys/kernel/debug/regulator/regulator_summary. 
+Let me start by saying, the implicit expectation is that the new user of
+pll-video0 will get an exclusive lock on pll-video0 (otherwise,
+data-clock would reset pll-video0 after those 100ms rendering the whole
+endeavor of the new user pointless). This constraint makes the chances
+that the above event (two consecutive rate changes within 100ms) occurs
+very slim.
 
-Battery charging not tested but according to vendor datasheet this functionality is internal to the PMIC and can complete without reference to the host, with informational reporting and charging parameters optionally modified by host over I2C or RSB.
+That being said, I don't see a problem with cancelling the delayed work
+on PRE_RATE_CHANGE and restarting it on ABORT_RATE_CHANGE like this:
 
-Ryan
++static int sun4i_rate_reset_notifier_cb(struct notifier_block *nb,
++				      unsigned long event, void *data)
++{
++	struct sun4i_rate_reset_nb *rate_reset =3D to_sun4i_rate_reset_nb(nb);
++
++	if (event =3D=3D PRE_RATE_CHANGE) {
++		rate_reset->is_cancelled =3D cancel_delayed_work(&rate_reset->reset_rate=
+_work);
++	} else if ((event =3D=3D POST_RATE_CHANGE) ||
++		 (event =3D=3D ABORT_RATE_CHANGE) && rate_reset->is_cancelled) {
++		schedule_delayed_work(&rate_reset->reset_rate_work, msecs_to_jiffies(100=
+));
++		rate_reset->is_cancelled =3D false;
++	}
++
++	return NOTIFY_DONE;
++}
 
-Tested-by: Ryan Walklin <ryan@testtoast.com>
+The need for this new code is slim (IMHO) but on the other hand it
+doesn't add much complexity. I'll add it in V2 including the
+is_cancelled member in sun4i_rate_reset_nb if I don't receive any
+objections during this week.
 
+Thanks,
+  Frank
+
+>
+> schedule_delayed_work doesn't re-schedule the work if it's already pendin=
+g.
+>
+> Kind regards,
+> 	o.
