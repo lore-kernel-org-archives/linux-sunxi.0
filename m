@@ -1,122 +1,111 @@
-Received: from fout1-smtp.messagingengine.com (fout1-smtp.messagingengine.com [103.168.172.144])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AFBD5660
-	for <linux-sunxi@lists.linux.dev>; Tue, 12 Mar 2024 22:44:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71BE912E4E;
+	Wed, 13 Mar 2024 06:05:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710283485; cv=none; b=jZsl9luk5tI2/Az8qLMJeS6VuGTQSEQhMJyE0Y061JYVRvI/YDnwTKfdMGXSRW9k7I0ce1nCMx3DVetCQPIyscwr3yvMT80kBn96jNsBh6xa9GIU7EFXE3RjkfMkEAYKxTqc3CIu+VMryBOLwhZ5pLbRH1vhFVSjnfauP1LQuLQ=
+	t=1710309949; cv=none; b=G5hQ8VTUe5bAYIeG4ure/hEkOPR8HgsuTG/4+ybBmhTc8ykMRIAzNDoWqs9igWaLu+Q+CQ4IcbNueg0NPZK8JvHw5d0cKvHalwp0RGy0g1xQRDrEubNOdONmzXfCo5K6ayanspIArbhTVWHdbHA7+jij/P+s5oe0NA84+8b2UAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710283485; c=relaxed/simple;
-	bh=Vo5WxhL7YUoUDSjHOzaYuuqBEUJi4fHLafuFAu+2JuI=;
-	h=MIME-Version:Message-Id:Date:From:To:Cc:Subject:Content-Type; b=fnrx1iymrYpK9xPxvHZ7eF+FPw6476ZOVMLEFkYFrtFaQ7zuEnAGuoDfXFds9qHUclGgesBP0El0EEs6ISoY7JI5sSkmlkvBJ1pQRsQFxWrExtS1N1xWx22bmqDrgi2EpG2j0rupMBn98l5BlZ4VzrBwQbezPvgc8ufV35++20I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=Wor/gn2S; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=SNxn49X3; arc=none smtp.client-ip=103.168.172.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=testtoast.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="Wor/gn2S";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="SNxn49X3"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfout.nyi.internal (Postfix) with ESMTP id A0C1013800CB;
-	Tue, 12 Mar 2024 18:44:42 -0400 (EDT)
-Received: from imap47 ([10.202.2.97])
-  by compute5.internal (MEProxy); Tue, 12 Mar 2024 18:44:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to; s=fm1; t=1710283482; x=1710369882; bh=fcor0Ekpu9hijxoFT1Wzj
-	o/7fTl7DLMdXpdafme4vzM=; b=Wor/gn2SWOZo0kWn3f4dhnato0lay6Re9lXjr
-	UjEtxVJp0TpPlSDlhI43pQiJO4ZjOjw8YdbnEYJOJ6sA1UuM9n5FBrxJKoZJjpgv
-	JYg0yuZyom5jh1ukPipJsHdhMEKdLzv5sGD/xyOvKQIdHdcmDFg/AMA2Ib/dGMiI
-	jP/7VsXNLfqitKmZoEbivd5vhP7Tc0tX+xcNz5x/15gWKTbvLeI+B6xP09w4WwAu
-	ybS7sNYxabAZj0YcfMeLGv2uDkeYAI25Bngwy3JtP3G9Ow4Uxj8eDBjZJRreRmQZ
-	EK0WTAR3AINZHqhjsjh6wrsYLSPbZ9/sCdWAPdD2EkpbvV9Wg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:message-id
-	:mime-version:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1710283482; x=1710369882; bh=fcor0Ekpu9hijxoFT1Wzjo/7fTl7DLMdXpd
-	afme4vzM=; b=SNxn49X3eZJX86eFsmcIdQ+0+/+uFGXyccDZvc2gmCMD+sEVjze
-	s8mbbQQFpHLnx0K2W7tktdnZl+XhNVrJG/ZsGs23rTX8PEK2bfpJ5H/KKQSEqjSW
-	5zTzA1ZRBrTU2YCd1HKHLoysZbFaZ+WrJ+uwT/x175X0/oz4QX9Sfm6gKxCnUVZY
-	47nu5S25zAFSEnlMp26PHCsP8pedWisHt6tKWqJmgzaWAgB2eHPPpGnY2usgkoYy
-	XdZF/H5WeMIF7Cwy+Y908lhhi8lXyV8Oe9lwWPiEpG46uxEs822NfF6KBDxAjtbR
-	8pkvPQst/QvcpdnjWKBb1t1huSdSRFZItNg==
-X-ME-Sender: <xms:2trwZbXRTfgZ3mEz7Hej_tdSMzug8-76oNhY9Ii0e11jAnmLdKm7ZA>
-    <xme:2trwZTkEXTTTpbG7vYDeMbuXs82KM8TIRAdrLViMYZ6SBInLVA1IoFMsbdVBa49bo
-    UpeQ5GHdm-GKy4hKQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrjeeggddtvdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecunecujfgurhepofgfggfkfffhvfevufgtsehttdertd
-    erredtnecuhfhrohhmpedftfihrghnucghrghlkhhlihhnfdcuoehrhigrnhesthgvshht
-    thhorghsthdrtghomheqnecuggftrfgrthhtvghrnhepiedtffduteffkedtkeehtefghf
-    fhveffvdffueduiefhkeduieejveegvdekleefnecuvehluhhsthgvrhfuihiivgeptden
-    ucfrrghrrghmpehmrghilhhfrhhomheprhihrghnsehtvghsthhtohgrshhtrdgtohhm
-X-ME-Proxy: <xmx:2trwZXZaUifECbh2V_ogRDem8Qnrm3IN5fdFR_1RTCGF1mtfAYAbww>
-    <xmx:2trwZWX0Abk9927j-20uDfI4O3iXHlzGNDa_y7e1DsA9KLpe_ip0mA>
-    <xmx:2trwZVmRx6ZB3erkJjRvNomEId5Tp3fymhdlQeCwW6UN9x3tJ9u9VA>
-    <xmx:2trwZTd1gfw1pZ4upv_Rwd9Mf2ghI2DSCjNbR_Is4HDuLUvgmu_chA>
-    <xmx:2trwZbiqGPRCpJlxD7P0uzf0L7UVsSvk_KUwtilqkDZHTSbh5kEvJg>
-Feedback-ID: idc0145fc:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id EBB9FA60078; Tue, 12 Mar 2024 18:44:41 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-251-g8332da0bf6-fm-20240305.001-g8332da0b
+	s=arc-20240116; t=1710309949; c=relaxed/simple;
+	bh=uMMhAyYQnETnl/wxHyvU2XPSESG2dD8qsAVPm/vmTW4=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=PekVyeWiW4Wo3QGzYDG3fQld/y2q58rtcHYfo+yqM8s7jRNRbtzRwoMtznBMOdTZM91BvbB3tbub7jl8jo53UiYGx5f3uXtEbVumT1NGvXQzwbPXTNMmIC058v9wGodMwhmTuNy6wZ6ShfBFjerXVp++jmIlvviTL3SpbXAqsrU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 42D65hhH6540981, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
+	by rtits2.realtek.com.tw (8.15.2/2.95/5.92) with ESMTPS id 42D65hhH6540981
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 13 Mar 2024 14:05:43 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Wed, 13 Mar 2024 14:05:43 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXMBS04.realtek.com.tw (172.21.6.97) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Wed, 13 Mar 2024 14:05:43 +0800
+Received: from RTEXMBS04.realtek.com.tw ([fe80::c9b7:82a9:7e98:fa7f]) by
+ RTEXMBS04.realtek.com.tw ([fe80::c9b7:82a9:7e98:fa7f%7]) with mapi id
+ 15.01.2507.035; Wed, 13 Mar 2024 14:05:43 +0800
+From: Ping-Ke Shih <pkshih@realtek.com>
+To: Ryan Walklin <ryan@testtoast.com>,
+        "linux-wireless@vger.kernel.org"
+	<linux-wireless@vger.kernel.org>
+CC: "linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>
+Subject: RE: [BUG] RTL8821CS panic on entering power-save mode
+Thread-Topic: [BUG] RTL8821CS panic on entering power-save mode
+Thread-Index: AQHadM7olU9bQwYCjEqmXTF3UHR0U7E1LQQg
+Date: Wed, 13 Mar 2024 06:05:43 +0000
+Message-ID: <2afd1590823740a2b6a8f7e485a33842@realtek.com>
+References: <f3656995-b8fe-49c4-93b7-67612c685954@app.fastmail.com>
+In-Reply-To: <f3656995-b8fe-49c4-93b7-67612c685954@app.fastmail.com>
+Accept-Language: en-US, zh-TW
+Content-Language: zh-TW
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <f3656995-b8fe-49c4-93b7-67612c685954@app.fastmail.com>
-Date: Wed, 13 Mar 2024 11:42:44 +1300
-From: "Ryan Walklin" <ryan@testtoast.com>
-To: pkshih@realtek.com, linux-wireless@vger.kernel.org
-Cc: linux-sunxi@lists.linux.dev
-Subject: [BUG] RTL8821CS panic on entering power-save mode
-Content-Type: text/plain
 
-Hi,
 
-I have an Allwinner-H700-based platform (Anbernic RG35XX+) which I am working on mainline u-boot/kernel support for. The RGL8821CS chip on this board works when configured with a 32MHz clock and 3.3v VCC and the RTW88 kernel driver, however the BT is unstable with extensive logging about LPS state entry failures, and the driver will eventually crash with the following:
 
-[  830.797592] ------------[ cut here ]------------
-[  830.802268] firmware failed to ack driver for entering Deep Power mode
-[  830.808931] WARNING: CPU: 1 PID: 67 at drivers/net/wireless/realtek/rtw88/ps.c:105 rtw_power_mode_change+0x130/0x180 [rtw88_core]
-[  830.820663] Modules linked in: btrfs blake2b_generic libcrc32c xor xor_neon raid6_pq zstd_compress af_alg rtw88_8821cs rtw88_8821c 6
-[  830.846661] CPU: 1 PID: 67 Comm: kworker/u16:4 Not tainted 6.8.0-rc7-next-20240308-00004-gee0f4864bb48 #8
-[  830.856231] Hardware name: Anbernic RG35XX Plus (DT)
-[  830.861198] Workqueue: phy0 rtw_watch_dog_work [rtw88_core]
-[  830.866831] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[  830.873796] pc : rtw_power_mode_change+0x130/0x180 [rtw88_core]
-[  830.879763] lr : rtw_power_mode_change+0x130/0x180 [rtw88_core]
-[  830.885730] sp : ffff800082fabcc0
-[  830.889047] x29: ffff800082fabcc0 x28: 0000000000000000 x27: 0000000000000000
-[  830.896192] x26: ffff00000e670900 x25: ffff0000042a2b80 x24: 0000000000000000
-[  830.903337] x23: 0000000000000001 x22: 0000000000068dbc x21: 0000000000000000
-[  830.910482] x20: 0000000000000000 x19: ffff00000e671fc0 x18: 0000000000000006
-[  830.917627] x17: 0000000000000000 x16: 0000000000000080 x15: 076e076907720765
-[  830.924772] x14: 0774076e07650720 x13: ffff8000825a26c0 x12: 0000000000000954
-[  830.931916] x11: 000000000000031c x10: ffff8000825fa6c0 x9 : ffff8000825a26c0
-[  830.939061] x8 : 00000000ffffefff x7 : ffff8000825fa6c0 x6 : 80000000fffff000
-[  830.946205] x5 : 0000000000000000 x4 : 0000000000000000 x3 : 0000000000000000
-[  830.953348] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff000003264500
-[  830.960493] Call trace:
-[  830.962943]  rtw_power_mode_change+0x130/0x180 [rtw88_core]
-[  830.968565]  rtw_sdio_deep_ps+0x8c/0xd8 [rtw88_sdio]
-[  830.973547]  rtw_enter_lps+0xec/0x148 [rtw88_core]
-[  830.978387]  rtw_watch_dog_work+0x298/0x2a4 [rtw88_core]
-[  830.983746]  process_one_work+0x148/0x2a0
-[  830.987771]  worker_thread+0x2fc/0x40c
-[  830.991530]  kthread+0x110/0x114
-[  830.994768]  ret_from_fork+0x10/0x20
-[  830.998352] ---[ end trace 0000000000000000 ]---
+> -----Original Message-----
+> From: Ryan Walklin <ryan@testtoast.com>
+> Sent: Wednesday, March 13, 2024 6:43 AM
+> To: Ping-Ke Shih <pkshih@realtek.com>; linux-wireless@vger.kernel.org
+> Cc: linux-sunxi@lists.linux.dev
+> Subject: [BUG] RTL8821CS panic on entering power-save mode
+>=20
+> Hi,
+>=20
+> I have an Allwinner-H700-based platform (Anbernic RG35XX+) which I am wor=
+king on mainline u-boot/kernel
+> support for. The RGL8821CS chip on this board works when configured with =
+a 32MHz clock and 3.3v VCC and
+> the RTW88 kernel driver,=20
+>=20
 
-FW version is 
-[   12.561710] rtw_8821cs mmc1:0001:1: Firmware version 24.11.0, H2C version 12
-[   13.471889] Bluetooth: hci0: RTL: fw version 0x75b8f098
+Did the extensive logging of LPS state happen always? Or happen after a whi=
+le?=20
+Try module parameter rtw_disable_lps_deep_mode=3D1 to see if it works well.
 
-Thanks,
 
-Ryan
+The IO of SDIO is slower than PCIE, so maybe we can try to enlarge timeout =
+time
+in rtw_power_mode_change():
+
+diff --git a/drivers/net/wireless/realtek/rtw88/ps.c b/drivers/net/wireless=
+/realtek/rtw88/ps.c
+index add5a20b8432..d959e3ebba07 100644
+--- a/drivers/net/wireless/realtek/rtw88/ps.c
++++ b/drivers/net/wireless/realtek/rtw88/ps.c
+@@ -92,7 +92,7 @@ void rtw_power_mode_change(struct rtw_dev *rtwdev, bool e=
+nter)
+        /* Check firmware get the power requset and ack via cpwm register *=
+/
+        ret =3D read_poll_timeout_atomic(rtw_read8, polling,
+                                       (polling ^ confirm) & BIT_RPWM_TOGGL=
+E,
+-                                      100, 15000, true, rtwdev,
++                                      100, 15000 * 100, true, rtwdev,
+                                       rtwdev->hci.cpwm_addr);
+        if (ret) {
+                /* Hit here means that driver failed to get an ack from fir=
+mware.
+
+> however the BT is unstable with extensive logging about LPS state entry f=
+ailures,
+> and the driver will eventually crash with the following:
+
+Not sure why this could lead crash, because it is only a warning.=20
+
+Anyway, please try above suggestions.=20
+
+Ping-Ke=20
+
