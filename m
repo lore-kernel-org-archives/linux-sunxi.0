@@ -1,38 +1,35 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CAE5C627ED
-	for <linux-sunxi@lists.linux.dev>; Wed, 13 Mar 2024 17:35:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA96664A98
+	for <linux-sunxi@lists.linux.dev>; Wed, 13 Mar 2024 17:38:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710351335; cv=none; b=jpBa3s+SZsIcXIWZDi3KHy5UMc49zK2fHdwBtmk2FEUi5pPDxIUZSUDyvTfx7kYuPncqQypK77VvfGrzeYbOhrOm1FzSOOkOYBtrKGz0A0z4FuRDZ352IchC4DYusCSAIRP5F4BrpoSTfjkMwlzF0LKnF/zceCxrIwDJNaxouWw=
+	t=1710351496; cv=none; b=QJxFlGYOMkbwCXz2LJf8pm0g+Ge+AaRsgHKRbXarxl5LJOEOlNMRFjH9p6h/Nypp6rmTgYPdJ1fqdRNF2QPu8WJ57wd23gEvN3JWXUb/q+6uKohc4iJNMJqto+Nw29wL8o61GBJycNGHgjvwGEv/AcNP3ymEDiKmv4aT/TVhSZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710351335; c=relaxed/simple;
-	bh=MWwfH0Ds/guaynuWl2ku83J+KR2G68Bd0doIQxAEm0w=;
+	s=arc-20240116; t=1710351496; c=relaxed/simple;
+	bh=Po+4lA1wENmeWL/NswnAViySKzXpp/YmiQdUG3AAD3w=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SGa74452JbqPajeTjfwn3blu+5KNwxrLtrc+dOU1//b1UMzDZuVvOOfy5Aho+USXx+oBn9QHw7BMIWzraFzesi7/n0VJZMhMDKnZcGjAV7r7VpbuNIA+m8gkDLrxxJkrZw798FZmJhEYljp6cwMP/1YRuAXMBKkCNPTnRNUp4mE=
+	 MIME-Version:Content-Type; b=Gc40jmURBETClWv0usCJtX/YI2qG1SzECA2DTBjJs4Fn5FQgTyDolpYGUj+Etzvl91LDQ8mNa44QGBK0MOuH+buz5qRm19ZBw3SoPai5wLqLq0L3+kZZmz7GAHSTyenKhOGoMe+ZdhRWuT4CWpuF7OXFZ2EgSfsH29kUw6CtJxA=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DF58C1007;
-	Wed, 13 Mar 2024 10:36:09 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CD6801007;
+	Wed, 13 Mar 2024 10:38:48 -0700 (PDT)
 Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 886BE3F73F;
-	Wed, 13 Mar 2024 10:35:31 -0700 (PDT)
-Date: Wed, 13 Mar 2024 17:35:29 +0000
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1E8533F73F;
+	Wed, 13 Mar 2024 10:38:11 -0700 (PDT)
+Date: Wed, 13 Mar 2024 17:38:08 +0000
 From: Andre Przywara <andre.przywara@arm.com>
-To: Samuel Holland <samuel@sholland.org>
-Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Chris Morgan <macromorgan@hotmail.com>, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev, Liam Girdwood <lgirdwood@gmail.com>, Mark
- Brown <broonie@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Lee Jones
- <lee@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>
-Subject: Re: [PATCH 2/4] dt-bindings: mfd: x-powers,axp152: document AXP717
-Message-ID: <20240313173529.1f816404@donnerap.manchester.arm.com>
-In-Reply-To: <f203a0a3-9107-4290-a934-0f6736fe218a@sholland.org>
-References: <20240310010211.28653-1-andre.przywara@arm.com>
-	<20240310010211.28653-3-andre.przywara@arm.com>
-	<f203a0a3-9107-4290-a934-0f6736fe218a@sholland.org>
+To: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+Cc: wens@csie.org, samuel@sholland.org, Kamil Kasperski
+ <ressetkk@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/3] dts: arm64: sunxi: add initial support for t95 tv
+ box
+Message-ID: <20240313173808.38d893b5@donnerap.manchester.arm.com>
+In-Reply-To: <13468418.uLZWGnKmhe@jernej-laptop>
+References: <20240311174750.6428-1-ressetkk@gmail.com>
+	<13468418.uLZWGnKmhe@jernej-laptop>
 Organization: ARM
 X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
@@ -41,74 +38,54 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 11 Mar 2024 17:20:50 -0500
-Samuel Holland <samuel@sholland.org> wrote:
+On Wed, 13 Mar 2024 18:25:14 +0100
+Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
 
-Hi Samuel,
+> Hi Kamil!
+>=20
+> Dne ponedeljek, 11. marec 2024 ob 18:47:47 CET je Kamil Kasperski napisal=
+(a):
+> > T95 is a most commonly known for being a box with a pre-installed malwa=
+re.
+> > It uses Allwinner H616 and comes with eMMC and DDR3 memory.
+> > This device comes with two versions - one with AXP305 PMIC and another =
+with AXP313 PMIC. =20
+>=20
+> I have this board and it always felt like a clone of X96 Mate, which is
+> already supported in kernel, except for broken sd card detection. Would it
+> make sense to unify those two boards and just overwrite or update parts h=
+ere
+> that are not the same?
 
-thanks for having a look!
+I think the box you have is an older one, with the AXP305? IIUC, this is
+about a newer revision with the AXP313. There are quite some differences
+between the two PMICs, though it might still make sense to share the DTs,
+see the OrangePi Zero[23].
 
-> On 3/9/24 19:02, Andre Przywara wrote:
-> > The X-Powers AXP717 is a PMIC used on some newer Allwinner devices.
-> > Among quite some regulators it features the usual ADC/IRQ/power key
-> > parts, plus a battery charger circuit, and some newly introduced USB
-> > type-C circuitry.  
-> 
-> Do you plan to put the Type-C logic under a subnode, or should the
-> Type-C connector node go directly under the PMIC node? Either way, the
-> binding probably needs to be updated for that.
+Cheers,
+Andre
 
-I haven't looked into this yet, so cannot say which way to go. I
-definitely consider this some non-trivial task, so indeed wanted to push
-this off to later.
-For now there is a device (Anbernic RG35XX) with that PMIC, so we need at
-least the regulators to unblock this. USB support is not critical for now.
+> > Kamil Kasperski (3):
+> >   dt-bindings: vendor-prefixes: sunxi: add T95 to vendor-prefixes
+> >   dt-bindings: arm: sunxi: add t95 compatible string to list of known
+> >     boards
+> >   dts: arm64: sunxi: add initial support for T95 AXP313 tv box
+> >=20
+> >  .../devicetree/bindings/arm/sunxi.yaml        |   5 +
+> >  .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+> >  arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+> >  .../dts/allwinner/sun50i-h616-t95-axp313.dts  | 138 ++++++++++++++++++
+> >  4 files changed, 146 insertions(+)
+> >  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616-t95-axp31=
+3.dts
+> >=20
+> >  =20
+>=20
+>=20
+>=20
+>=20
+>=20
 
-> > Like two other recent PMICs, it lacks the DC/DC converter PWM frequency
-> > control register, that rate is fixed here as well.
-> > 
-> > Add the new compatible string, and add that to the list of PMICs without
-> > the PWM frequency property.
-> > 
-> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > ---
-> >  Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml | 2 ++
-> >  1 file changed, 2 insertions(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml b/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml
-> > index 06f1779835a1e..b8e8db0d58e9c 100644
-> > --- a/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml
-> > +++ b/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml
-> > @@ -83,6 +83,7 @@ allOf:
-> >              enum:
-> >                - x-powers,axp313a
-> >                - x-powers,axp15060
-> > +              - x-powers,axp717
-> >  
-> >      then:
-> >        properties:
-> > @@ -99,6 +100,7 @@ properties:
-> >            - x-powers,axp221
-> >            - x-powers,axp223
-> >            - x-powers,axp313a
-> > +          - x-powers,axp717
-> >            - x-powers,axp803
-> >            - x-powers,axp806
-> >            - x-powers,axp809  
-> 
-> The regulators patternProperties needs to be updated for the new boost
-> regulator.
-
-Ah, I indeed missed this one. I think the former PMICs had this
-batter->VBUS boost regulator hidden, controlled entirely by the PMIC?
-I will need to check if exposing this will present any surprises. I
-guess this goes together with the USB-C support, to have role switching,
-unless this appears on some device with just USB-A or micro-B.
-I will check what it takes to add this one, the regulator itself looks
-easy.
-
-Thanks!
-Andre. 
