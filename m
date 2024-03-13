@@ -1,59 +1,59 @@
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15C0845BF3
-	for <linux-sunxi@lists.linux.dev>; Wed, 13 Mar 2024 16:06:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2FDD46535
+	for <linux-sunxi@lists.linux.dev>; Wed, 13 Mar 2024 16:23:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710346019; cv=none; b=ImNew6H5ZcBx1HNHNJq/syPL7o7swE9e2+Tp/TwtPfU1ecayS2lSxndAyPKVnLkp/miQ6F1bpuqHVbOq0DLv8rY1vo6PF/mU1C2uryEFpEQoyeip7rB6FA289SWH/vIN3N90ZErFd7ZvhZuXUjtsVp6NDTXe+yubXzpUjC3jpD0=
+	t=1710347021; cv=none; b=S5GUfZNbqo10BZtkEx3kpBkyidmX5rPHEw20BqgdHXmzIbhRG/sR+iIKEpldJFVu3Q8orzg0yxUbh8dZaXEDkLrr+SpbRLKbPcq8f2jIxVPP+Qj9fKLbCOjfLdgkkKa+Ki9xNyAx90RvCq+qOmDoFfjQI5NSqx6m3fR78dPhxxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710346019; c=relaxed/simple;
-	bh=IXfTIdGk9Ela9nCx1kCr/XPl5dOMqlKILE6AIYXcKL8=;
+	s=arc-20240116; t=1710347021; c=relaxed/simple;
+	bh=Boowo1J6tdnxaf6TrdGpUu6xqdfk+Nnc/rN7p9MrCWU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VG0iKPzCVPujhPMqK/9bUqfETZDlvcwj/2+CRPXccvqKV+NyqIBldyiMPGq8Wto8YW2982lit1mfSBWRcmcaOwZOJEIOpGssuvP6FDf1XysxomQ0NLueVkuiMNob8FcyY1bza24zGyxSxeJObwhtfWM2I4Eo0ZuwxK2IES2eUr4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com; spf=pass smtp.mailfrom=sifive.com; dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b=Nq3jOWn0; arc=none smtp.client-ip=209.85.222.170
+	 In-Reply-To:Content-Type; b=YmgOQf3ZMY6+GOoz9G1ugbTjki0TOoVvyruBlohxDsAXx1YOZmQWf8TLkaPKmH79T9M+DDJw+pWd7P3xOxE1Obs5jKHZr7+yBMc48FimbBZ8gukEpM/CSP9kbwC2Mb/9gyB2hl9f+pnoLlzdpaZUohFQ+paYeYCbsjKQJLHSVOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com; spf=pass smtp.mailfrom=sifive.com; dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b=LnbKksgK; arc=none smtp.client-ip=209.85.219.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sifive.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="Nq3jOWn0"
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-781753f52afso477585885a.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 13 Mar 2024 09:06:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="LnbKksgK"
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-690c1747c3cso832646d6.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 13 Mar 2024 09:23:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google; t=1710346015; x=1710950815; darn=lists.linux.dev;
+        d=sifive.com; s=google; t=1710347018; x=1710951818; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=gRzWQkcGI4VUKzs6gwS4GB6+OKCj9YOx8VUKrvxZkDE=;
-        b=Nq3jOWn0CZ1aUDH/X/27etoYUKQVlbtrC7NkqSI41uzlVPUlq31aKFVWV48YlfoE8+
-         TFKQbZPFTq38nDWe+LQ8fN6VOgtrLJYFxe/4uk5zOE4j7ru6Vk3nqiPKcOt0/+zokTGe
-         J+yvCCkodpJ6yiVBRUwIv+4u/M4udIkmyVznSsh1/VNbkrzg+oH78WlLgXsouWU6G44E
-         PqmVpxBfdl+V15nl+TrLQUXhlE39Yqb4684cti8z/jersusRV7EDS4J2mSuOQ/kvDapW
-         +KWO6dt60htwbGsw5uvnnPZWymveiyXrilOk9ZcHyTlz0K80jTmX3NQyx2oCpmLbBGsO
-         4VCg==
+        bh=azgghDatY9Rxnoyec+Q+8O2UeCiS6yMjUBITF9dU9ZQ=;
+        b=LnbKksgK8br2TC/Z7ksbwiKZwE2WFmfEQ/+Lq6J2mk8TomqqDm+pREVVbdO8OjmZE/
+         xVoxmWWoyYZ2MhvptRQ6DdaFTN3sGkedQ6QMicoNy/tQfYXRjB6MNCJnQORVDY5Azljw
+         RzBjww7eJkzFmXjjHcPbVXcsBdVY4Ok6BPy4PaZ6MdbsUlVaxHvN465UXgahRuxIgIzB
+         7frKiN5xykIJjBi5ktQJEMBV/sU11oB5GSd4Za1ElE1O2g9H4ly6jkggNU7N38dAPGlE
+         +JIVPE3TZlhOEDyTxY3P/QPFN7n0AMSHCDuk2vPWWA2CxtgZ5P5RxQRq2oDjKSbOLYH8
+         tF8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710346015; x=1710950815;
+        d=1e100.net; s=20230601; t=1710347018; x=1710951818;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gRzWQkcGI4VUKzs6gwS4GB6+OKCj9YOx8VUKrvxZkDE=;
-        b=nRR9DAdG4zwimhkR6b7e6Nx0n2cjy3obxjB+0oLZx4KYifSPQr7aP8S/yBI+qXWaiJ
-         CCQiT5OBznqMZ/EWahAoqHLLvds1TjuddR3Zr5kjl2Fcnt8K1Neu4T/56AYtpzhhlsMj
-         GT8SvA5LDCiKpV3kPCPowpdI9NYCutBZZ7AfRcf0+kp8lLFjI9mmVFyfYfZui24b6rmc
-         bGw7vxdFhXTRoOPAuNtBGgyQr/lv35XopoAVbKbCrMyAwM1qdUlsQJp8xI+AD+7Sl+rv
-         glnnuWK3PbuwcqHbc39awhefj2lQEzZFwZFE1S/Ne+lCOoUJr176gzNGZ5Jtfp4pV6DI
-         Ipxw==
-X-Forwarded-Encrypted: i=1; AJvYcCW/xjfFXd3jAEd2Ahz5GSk3e2nNxZdtNPlrhKAe+WySEiZo/x2Cjpd6lv7lw0Cfi7O7zjT7+96o21kQuRdulFTK0X/wT5+435Lim6o=
-X-Gm-Message-State: AOJu0YwNR/rBG7xw35ilxnuMcd8rUYh2IPKKYLtfmV1kCt8o1atonUgs
-	PrPbTdGBN/yBrwhDjVIJjVFMTe7algEyNvXOkvW0VNxvr0AF/1a5rpxlYYuIewM=
-X-Google-Smtp-Source: AGHT+IF66winHwsZTzBvf8Uey5RMKI0SX4CQ5488zJ8YeRxzDzvy84lnyO0cdv/SDDbyPhlyPr9KWw==
-X-Received: by 2002:a05:620a:5634:b0:788:731d:7120 with SMTP id vv20-20020a05620a563400b00788731d7120mr284640qkn.19.1710346015070;
-        Wed, 13 Mar 2024 09:06:55 -0700 (PDT)
+        bh=azgghDatY9Rxnoyec+Q+8O2UeCiS6yMjUBITF9dU9ZQ=;
+        b=odHPlzLFGdvZ1c3K5o1fsmTNe6QNmugw8PLuhguZxJAk6zH37sN3TXIkorhDSCQNLI
+         YcoeSazysM7mQezrfaTuLy3ZMF0lxqIhucuPhqpk8ssC5tSZWTQpIMV4msVhS38zvqDY
+         GfVJdTMGWJOetGHFKgEFXdlNylfO8p0EnvDYX+nCIl6SuZ+siBdgV98oyLxe0HsKVONo
+         SGvohoyVjp6IZ3oIX/Ht4qlJBqFwtpmMcG8K9XOr1H/GVxRCConAK7eepqn6imNh3MKo
+         YYSQrzmaqZtSPUIPCueBrIi+iYY3/kFORBos0NdlGAH2v4XL7Ll5irwPx+Qg3z+1HEEh
+         9lFA==
+X-Forwarded-Encrypted: i=1; AJvYcCUkjCNPN/PUUhAlMZfFsytVKPMRLvmjsnq9vbSifozyQUDYzRlX2uPrBcGmtfZBS5eXtCejG3u21tbfQI0Jk1D8hdQdkfsY8ZrORdc=
+X-Gm-Message-State: AOJu0YyonfyfOuiGzHFyV4xFFmODKWIVplaUU/X601CDC6xdk7/pyCvN
+	IVPBetPS8sqTUwwSLiWuUbnwd/4woIzQ3T29LYYHgK/AJ7K0YF7dJVWKPgVnkjI=
+X-Google-Smtp-Source: AGHT+IGYIV8uYoqL4auSgQDqWaM2t72bdF5Dhxc8OhmTtRKW7l5mFr43UTUD1LQJuVrbO1IN0YIrrQ==
+X-Received: by 2002:a05:6214:1650:b0:690:9e6d:efe9 with SMTP id f16-20020a056214165000b006909e6defe9mr553361qvw.27.1710347018666;
+        Wed, 13 Mar 2024 09:23:38 -0700 (PDT)
 Received: from [100.64.0.1] ([170.85.8.176])
-        by smtp.gmail.com with ESMTPSA id k25-20020a05620a07f900b007884003f9a0sm4895880qkk.122.2024.03.13.09.06.53
+        by smtp.gmail.com with ESMTPSA id jh18-20020a0562141fd200b0068ff8d75a90sm4900672qvb.19.2024.03.13.09.23.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Mar 2024 09:06:54 -0700 (PDT)
-Message-ID: <aac2aeca-0447-4f2f-ab3b-b4412e8a09f1@sifive.com>
-Date: Wed, 13 Mar 2024 11:06:53 -0500
+        Wed, 13 Mar 2024 09:23:38 -0700 (PDT)
+Message-ID: <3e0a75a8-2c3d-478a-9e16-f6252cae3367@sifive.com>
+Date: Wed, 13 Mar 2024 11:23:37 -0500
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -73,24 +73,18 @@ Cc: Anup Patel <apatel@ventanamicro.com>, Chen-Yu Tsai <wens@csie.org>,
  linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
  linux-sunxi@lists.linux.dev
 References: <20240312192519.1602493-1-samuel.holland@sifive.com>
- <42665ccc-d020-48c4-a5bb-2713f7cbb75c@linaro.org>
+ <d68fd8a7-8889-472e-86db-b62855eebfba@linaro.org>
 From: Samuel Holland <samuel.holland@sifive.com>
-In-Reply-To: <42665ccc-d020-48c4-a5bb-2713f7cbb75c@linaro.org>
+In-Reply-To: <d68fd8a7-8889-472e-86db-b62855eebfba@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 2024-03-13 9:43 AM, Daniel Lezcano wrote:
+On 2024-03-13 10:29 AM, Daniel Lezcano wrote:
 > On 12/03/2024 20:25, Samuel Holland wrote:
 >> Commit 8ec99b033147 ("irqchip/sifive-plic: Convert PLIC driver into a
 >> platform driver") broke the MMIO timer on the Allwinner D1 SoC because
 >> the IRQ domain is no longer available when timer_probe() is called:
-> 
-> Did you mean: s/no longer available/not yet available/ ?
-
-I mean that, before this commit, the IRQ domain was available during
-timer_probe(); but after this commit, the IRQ domain is not available during
-timer_probe().
-
+>>
 >>    [    0.000000] irq: no irq domain found for interrupt-controller@10000000 !
 >>    [    0.000000] Failed to map interrupt for /soc/timer@2050000
 >>    [    0.000000] Failed to initialize '/soc/timer@2050000': -22
@@ -104,51 +98,28 @@ timer_probe().
 >> Fixes: 8ec99b033147 ("irqchip/sifive-plic: Convert PLIC driver into a platform
 >> driver")
 >> Signed-off-by: Samuel Holland <samuel.holland@sifive.com>
->> ---
->>
->>   drivers/clocksource/timer-sun4i.c | 24 ++++++++++++++++++++----
->>   1 file changed, 20 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/clocksource/timer-sun4i.c
->> b/drivers/clocksource/timer-sun4i.c
->> index 7bdcc60ad43c..728dac2baa84 100644
->> --- a/drivers/clocksource/timer-sun4i.c
->> +++ b/drivers/clocksource/timer-sun4i.c
->> @@ -20,6 +20,7 @@
->>   #include <linux/of.h>
->>   #include <linux/of_address.h>
->>   #include <linux/of_irq.h>
->> +#include <linux/platform_device.h>
->>     #include "timer-of.h"
->>   @@ -218,9 +219,24 @@ static int __init sun4i_timer_init(struct device_node
->> *node)
->>   }
->>   TIMER_OF_DECLARE(sun4i, "allwinner,sun4i-a10-timer",
->>                  sun4i_timer_init);
->> -TIMER_OF_DECLARE(sun8i_a23, "allwinner,sun8i-a23-timer",
->> -         sun4i_timer_init);
->> -TIMER_OF_DECLARE(sun8i_v3s, "allwinner,sun8i-v3s-timer",
->> -         sun4i_timer_init);
->>   TIMER_OF_DECLARE(suniv, "allwinner,suniv-f1c100s-timer",
->>                  sun4i_timer_init);
->> +
->> +static int __init sun4i_timer_probe(struct platform_device *pdev)
->> +{
->> +    return sun4i_timer_init(dev_of_node(&pdev->dev));
->> +}
->> +
->> +static const struct of_device_id sun4i_timer_of_match[] = {
->> +    { .compatible = "allwinner,sun8i-a23-timer" },
->> +    { .compatible = "allwinner,sun8i-v3s-timer" },
->> +    { /* sentinel */ }
->> +};
->> +
->> +static struct platform_driver sun4i_timer_driver = {
->> +    .driver    = {
->> +        .name        = "sun4i-timer",
->> +        .of_match_table    = sun4i_timer_of_match,
->> +    },
->> +};
->> +builtin_platform_driver_probe(sun4i_timer_driver, sun4i_timer_probe);
 > 
+> Why EPROBE_DEFER in thermal-of can not fix the issue?
+> 
+> I mean can't we check if of_irq_get_byname() returns EPROBE_DEFER and then
+> return this value?
+
+EPROBE_DEFER would not help either before or after this patch.
+
+Before this patch, the driver uses TIMER_OF_DECLARE, which means the timer gets
+initialized from the loop in timer_probe(). That function does not retry if the
+initialization function returns EPROBE_DEFER. And timer_probe() is only meant to
+be called once, before any platform drivers are registered.
+
+It does not help after this patch either, because __platform_driver_probe() also
+requires the probe to succeed the first time. This is needed to ensure the probe
+function runs before __init memory is discarded. (To support deferred probing in
+timer-of, none of the functions could be marked as __init.)
+
+But that is okay, because if both the irqchip and the timer use platform
+drivers, fw_devlink ensures they are probed in the right order. So this patch
+reliably allows the timer to probe successfully.
+
+Regards,
+Samuel
 
