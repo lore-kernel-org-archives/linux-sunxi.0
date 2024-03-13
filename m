@@ -1,57 +1,57 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DFFD61687
-	for <linux-sunxi@lists.linux.dev>; Wed, 13 Mar 2024 17:14:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB56A8004A
+	for <linux-sunxi@lists.linux.dev>; Wed, 13 Mar 2024 17:18:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710350069; cv=none; b=CZjf8GgwH5D9uv3hb7iJVAyohyV2Spl4xXjCQK9SaJAedpngMdep4E8YH7Ok7vTrkxkz0auiqx+wpqMVfvQHsr4ogE5LjgpsYXsH1yNi3cBw2AU5QgEMiXhzWRiQH3qfXHsHEtKC2KqRtYEqwixc9ACSZMF7qbQxV/3Fz8Le9Mo=
+	t=1710350304; cv=none; b=Sa+6h+ggqiuL5JCMDtIgK5jUgICOnJec4Nee1Ph0t/GVyoWnnGsixdq8++SlsFmqKbqSu2xnSDNC3DZ3oQtMJWeisaCNNcU6DGCgE8QCuxScU1qDx0y/jlbcGc73eFt/yv/XwKXOEd/CnBnxt/Awetq067XGcX2fGpKyi/4eW8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710350069; c=relaxed/simple;
-	bh=2OTaIjGgDXofJxx9Ee7lWxiDlWCxWOuc2nGuNlCC90s=;
+	s=arc-20240116; t=1710350304; c=relaxed/simple;
+	bh=37T5IfVlw03ED4EzOqmPCpS1RhbW/FzcsvsNaz03OVU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kwFZ7yzVZpjXiXFHD5Uued6ozEq4hiqlAUIJpG5Tcy4c85iYsQQFcyz5K6PUz5JQG9Z0JWZBPo6GXumPIif/0LEPbd1ItaNcvAN++62YZsRVpWNCQ4n1MAn1q0wcacFLRgWq7pKWHjcNqo6GCPbc1B0do/fnYWtldY9qr7ElLW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IpyenLFI; arc=none smtp.client-ip=209.85.221.45
+	 MIME-Version:Content-Type; b=BBrxl14Ag8nHXZZndTlCTAiNPRB/9zt6Vrv6tv6G9ZymrJaW9aFF2qeSko4ztnjsmd3MxpOq9Ed9wtEV+uH2fq/6wBmmRaRwKsR9tdXIPKZXSvFQxFMekjroOhNoEBFYaonvTHw0UafaKfJvO8Y36Bx1+ESuK4PWOIW374n6sDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xu+u5a7q; arc=none smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IpyenLFI"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-33e7ae72312so8500f8f.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 13 Mar 2024 10:14:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xu+u5a7q"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-413e6a11280so718025e9.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 13 Mar 2024 10:18:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710350066; x=1710954866; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1710350301; x=1710955101; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=v3lVNzpe3EGPa9RLkujrZt87SIOXgz2iKMU/KVgYcOI=;
-        b=IpyenLFIhdGlvTi72N91aNG6f9arMSSsfle7qELLEvb1xqK6w8qCM22+5/32QoyCPC
-         cGvsoUc2MLIuTxycLUNzSX9f1F5cLuqPDTTDYgI4oiLDvwJzfHzLHnOqrJMw+6WrbWK7
-         VfVOsumwsWQ/XtudbLQqHD8zjswQYNmoX01JRsLvv1XzoBmh2KTAyg8Wh6hyVdlGhgT9
-         fX23FnHPl/h7SSp6Bqmw6dca0JqUKlbkufFdgQLckl7bLeLa7MOenSb4TNn0Xp2XM4/6
-         56PMZjrb5wV4vPoC5kjeLlCTvIOSihDMt1CEmIHYFW+FQgQY4wSDbDcYY0HsCvDLtdy6
-         UIBQ==
+        bh=4FqFnJvYNw9zpN3h/cMtu8tZOEqGdp7v63hXLyZmhw0=;
+        b=Xu+u5a7qJrqwQB3d1whC6JFgCxafXXLshy/zg+7vPfQunmpCg1cbV85c2FO2UEkq/9
+         /0O4Gil1Gzo1b2K9umOmaWbyObv54GqxA2l3qel3nJpEdDccyqgUbbazgUqWRHs0uAd4
+         +F91YUjzq2Qv/Uu+GTurqZW/IlGNbrZVLKpROhtCQPzzWOgr1XQtr0dbp3gIFQ6E7sQl
+         ir/M9QilGPqx3JfK59v4XN0uiX3NMn2MmlzF9Z23X69s21JH5REzGpXpXnNKIQz/m7rm
+         kReOBwFH5KSHy0xXkoXcMsLqiTEqI4aP43dT2IEQWgZLgyNb+0vVYgY4EZDrIAwBW/xi
+         EXRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710350066; x=1710954866;
+        d=1e100.net; s=20230601; t=1710350301; x=1710955101;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=v3lVNzpe3EGPa9RLkujrZt87SIOXgz2iKMU/KVgYcOI=;
-        b=BhH5w3X8YgqKr4knkXrDuk/G3lzz1W1uFpgBaY3rktTd9TQa4q11Ci8HKZOgLO2pAs
-         41ZcY+VoBTJ3vlKBNBkV+mkY5gLkTNOmu1UExt1AOq5hcHPdi6eSkmmH8h0717wlCJCu
-         2xsPmTW8EsxzTyyv43BicJ2iJxn6stDaDSRwRodhqNrk1g80qNddiC1Cr24mHhdrwKPI
-         qTlcYPjXmwgTdALzipi1ksCkEgBIQQrMFTFMDoQBt9wUpFFj3uQAOCgUAAi4BAEsGkvs
-         QVcUgWaV0+GH41sI3R6jdoNGy2F24xmGtAqqjxC56NEjemofEINa9pONnDyUkZEWPn1V
-         pyVA==
-X-Forwarded-Encrypted: i=1; AJvYcCWpk7hd0adb8VsVKRynpnEzcZ/KYsgT1TXj/Iw3gzGJ7rbKWs7Y9+OXFAoWTMz9zoQZ7fF6XX/UBbs6EpZO0jg04EHyrBiP5qThb8Y=
-X-Gm-Message-State: AOJu0YzXpNAxrhhuyN3SqAn1xQlBJw1Zx1zsPILyxOQe+tl33VLW2jHB
-	E6z2QaKHm+UQ9OK/AIpyK3SLtK8o4VpsPfcGfmV+p4nUKSfjrrTi
-X-Google-Smtp-Source: AGHT+IFVxS4gydSuP1Why/aTVAez1v+HgruO0HqIkhk62OgdvkGZMiY8ntdvY9LKbTc01gQlr8KBrw==
-X-Received: by 2002:a5d:5285:0:b0:33e:b719:8bee with SMTP id c5-20020a5d5285000000b0033eb7198beemr1419837wrv.53.1710350066163;
-        Wed, 13 Mar 2024 10:14:26 -0700 (PDT)
+        bh=4FqFnJvYNw9zpN3h/cMtu8tZOEqGdp7v63hXLyZmhw0=;
+        b=KOU72LO3iCxOxuHEhEb2Eq+mgPEMYVqc/xZ2BsdmTVU3DVsLKp1FzyV6Bj+8YAUq8S
+         kJTTrPukad3Jy/XLhMiCE/gGmfhhBrQFb7WcSNq9dR71V/1vfD9sBYrDPk8SZWj3/Drr
+         mw2EL61iaPSBe5PqOZ756xtW1VwXfQntpUNLMss16wMK5nJ507eCQ1hf5cURLiBR4pkW
+         ypirXimEItk9PuGMGWVUPoJ5F5BC0axh3lViSgFSWve14RXtIQC9IvmSccg7LmE1L09O
+         cpnl2JPFdQainsCgQrITWdBV6N7j8rBu00yJzDJILaIA5gj/vwLeQ6qop+GU2/swe0wZ
+         Hlzg==
+X-Forwarded-Encrypted: i=1; AJvYcCWG9ZzfjswNWjqmpFzcZMRAC49yyywaws/OlPdph1HPZnDXM6Z9ZJGBBzrKp2m1V4ZcOvIRAQJ1FDgiRv896Yp9Yab6jM5KwG9l4B0=
+X-Gm-Message-State: AOJu0Yz5L4npwkeZk3L7ABet8KofJ2uptCaSkWy+jTxnH/xvBAsvmBJP
+	FNiUc8Kv1SLv6OMM+zEisJUBILeqAVTEQVaFvj4ulPY2z+JR/yiR
+X-Google-Smtp-Source: AGHT+IEtiPdYkCDAPHchHeFYhHC/s2/7awajXKKfjSyC4rnwNuj2Got/IRTSQQF8SJ0Qx5cyNnpxUg==
+X-Received: by 2002:a05:600c:3d17:b0:413:e85c:e5ea with SMTP id bh23-20020a05600c3d1700b00413e85ce5eamr469639wmb.0.1710350300980;
+        Wed, 13 Mar 2024 10:18:20 -0700 (PDT)
 Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id ba14-20020a0560001c0e00b0033e96fe9479sm8318396wrb.89.2024.03.13.10.14.24
+        by smtp.gmail.com with ESMTPSA id o15-20020a05600c4fcf00b004132ae838absm2833251wmq.43.2024.03.13.10.18.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Mar 2024 10:14:25 -0700 (PDT)
+        Wed, 13 Mar 2024 10:18:20 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Chen-Yu Tsai <wens@csie.org>, Lee Jones <lee@kernel.org>,
@@ -61,13 +61,13 @@ To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
 Cc: devicetree@vger.kernel.org, Samuel Holland <samuel@sholland.org>,
  Chris Morgan <macromorgan@hotmail.com>, linux-kernel@vger.kernel.org,
  linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 1/4] regulator: axp20x: fix typo-ed identifier
-Date: Wed, 13 Mar 2024 18:14:23 +0100
-Message-ID: <4901806.31r3eYUQgx@jernej-laptop>
-In-Reply-To: <20240310010211.28653-2-andre.przywara@arm.com>
+Subject: Re: [PATCH 3/4] mfd: axp20x: add support for AXP717 PMIC
+Date: Wed, 13 Mar 2024 18:18:19 +0100
+Message-ID: <2315501.ElGaqSPkdT@jernej-laptop>
+In-Reply-To: <20240310010211.28653-4-andre.przywara@arm.com>
 References:
  <20240310010211.28653-1-andre.przywara@arm.com>
- <20240310010211.28653-2-andre.przywara@arm.com>
+ <20240310010211.28653-4-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -77,11 +77,18 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="utf-8"
 
-Dne nedelja, 10. marec 2024 ob 02:02:08 CET je Andre Przywara napisal(a):
-> The registers to set the X-Powers AXP313 regulators are of course
-> "CONTROL" registers, not "CONRTOL" ones.
+Dne nedelja, 10. marec 2024 ob 02:02:10 CET je Andre Przywara napisal(a):
+> The AXP717a is a PMIC chip produced by X-Powers, it can be connected to
+> an I2C or RSB bus.
 > 
-> Fix the typo in the header file and in its users. No functional change.
+> It's a rather complete PMIC, with many regulators, interrupts, an ADC and
+> battery charging functionality. It also offer USB type-C CC pin
+> handling.
+> 
+> Describe the regmap and the MFD bits, along with the registers exposed
+> via I2C or RSB. This covers the regulator, interrupts and power key
+> devices for now.
+> Advertise the device using the new compatible string.
 > 
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
