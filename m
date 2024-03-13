@@ -1,318 +1,152 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73320A41
-	for <linux-sunxi@lists.linux.dev>; Wed, 13 Mar 2024 18:11:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A4C84D9F8
+	for <linux-sunxi@lists.linux.dev>; Wed, 13 Mar 2024 18:13:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710353503; cv=none; b=N4DjCRciXp17IiuA8k0pwVb0+aP1K7DLbKyyIiQ92m2G60UfYBEP7G/Ta+4dwFLHH0qv7VjPWUMp3XQXno/bLWwAVWlx+VZ7s8sTgyLdstl9kdtpgYU9PrRnFkvd5xELB0YPjZyozbpI+MCMIAuBDffV+lrd+cNXmsmhw4AyzBQ=
+	t=1710353624; cv=none; b=ruyl+0KP99yGmuMCPufXNCsHEs1FKh4L1b6f9UY1HBMLYS3x0uuoyF0QAOCBm90By17xiaoxmpICdZRBsqUu/ItLsY2qGoPmfWPAvRZAauM+m7Iv8M3F/TKdBtIprZ4y8Adw3pnyHohDrhzQJxbArs3B3zfHPAXqaJSr+24BJiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710353503; c=relaxed/simple;
-	bh=d3jQk57yyoR7JCgVH53hzXnD48IXGwC9kwCjVNQl3uA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hKa1BHfKiV6zXY0S84AvMHm9sEgFZ9WiIDoTOalKh9fAd4NR1xljez9AevWgDkaOvhzKnkIbBiDzGpn0mhFm9uSw7pfQ2lqcT104aFlkAJiOTtHDQlpuqCRwG6lYveFb4kMmOZaWYZLIPRr8SH82MLN+CNHeRXUuILE/oUu82VA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RF2rJeaC; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1710353624; c=relaxed/simple;
+	bh=XBZxd3/8sCA+mi0OAIV0bPCc+jlbGDc9ebO1Ccnfgsc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FkOCZMmJk5u/rdUTfCU4Ssc7IAtQVgZ1qyYVZFnZ3TR9eOwgRxNl5A25+HBmb9iy5l1wXGvfI96RQb3jFKhuriPayrKiPdy7Xoo2nQe4UmxEturFrJRO1BwvkMj/bmfsIy0SX+OUPVfpUjIKkxm2Ivy2Z5sXiZa8QseAZARipfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RF2rJeaC"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a465ddc2c09so13443666b.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 13 Mar 2024 11:11:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710353500; x=1710958300; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZW43et20TFanng2wHbIlKUXSGaDrwCfaBPMPmqrkSI8=;
-        b=RF2rJeaC4EzKPXArtuRcsDkvMz9MPqwHPNChZrgxr/Twb43iN5NIS95p/H7ggoLQhk
-         gBBGMtl9Ow78xniuCUHg6Wb89UJb7N7KQ0j3YcC599DEcI2VpD8o6kP+5rcubT2A4BNo
-         7vccpoUcuVF1h9FjBAjtm0QNfLCdot24fIn1RYjrpI/pEMSSLzF5yVmE8xVjwQ5dr512
-         u1HPJ7fkKRdlGEC7+tUved0tdiJoA+KZ+CLiy322M73ZvFpevyc6ZiN1Xialo9/b/RRz
-         oLt15DDz9Wdr4Hz5nz6ajVHJ7WthKBeXADaGyc6wrR112AWh1wJ3CGOiFMtjfcP4Kgyf
-         m7MQ==
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1dca3951ad9so861065ad.3
+        for <linux-sunxi@lists.linux.dev>; Wed, 13 Mar 2024 11:13:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710353500; x=1710958300;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZW43et20TFanng2wHbIlKUXSGaDrwCfaBPMPmqrkSI8=;
-        b=SC3Spr36NF+2NEs4sG8BABjdq/jIs7aOWz+RW3BGvTnBfO6nSlwsacRduBRe69t/+b
-         O4HMwvbRIVbY1vcBt+ZmGa6xKnFggwksyWRbZ68C21f9usb1zBYDpe6Jee3S5Q/YcHWY
-         Sm+pq5rO4aiozvYarND/YQoWsN+B7z/6X3ZQLnCmqiT1ZA1+VlpU16Nb4HtqXruJiYuT
-         DROMf5SCq7c5YCZxug1KVd02HYTB3Y337em91CeDund13mHTKxK35s/1RcpWdtA7itsN
-         MXAD+SoZspjFEzA0pJcTDZGr5CeXZOACDCBm+xYt0QZ8S4Pqm/7iuScWPKtCLosDbVpV
-         Z6lA==
-X-Forwarded-Encrypted: i=1; AJvYcCU/c9rW066NMsV/NhSLPiGH2Q01lBQIFmNVilrIRROlGHpGyljEm6LwR9aBwHp2adkmP9a7B2I5PWnGtGpg+wPY0xHTEcKQKTDvJ5Q=
-X-Gm-Message-State: AOJu0YwmQUYB2RD6etdaUHErr8KgQdNTFnF08TJpeFFFUtX6lyyBSenA
-	WiJmmPNuHc4DOL1L3XLT443CVGR0awLI7NUBvZQMjIVEC+mLet2Q
-X-Google-Smtp-Source: AGHT+IFScmFk1ldBKJ8z8B585gjb18wAYdKQkZQyPD8jeKv97wE2CSFX+9yQLrXWKs0jhSFx/xnSfQ==
-X-Received: by 2002:a17:906:24d6:b0:a46:47cf:16bb with SMTP id f22-20020a17090624d600b00a4647cf16bbmr3623131ejb.2.1710353499286;
-        Wed, 13 Mar 2024 11:11:39 -0700 (PDT)
-Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id lr1-20020a170906fb8100b00a442e2940fdsm5116418ejb.179.2024.03.13.11.11.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Mar 2024 11:11:38 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Samuel Holland <samuel@sholland.org>,
- Frank Oltmanns <frank@oltmanns.dev>
-Cc: Icenowy Zheng <uwu@icenowy.me>, Ondrej Jirman <x@xnux.eu>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- Frank Oltmanns <frank@oltmanns.dev>
-Subject:
- Re: [PATCH] drm/sun4i: tcon: Support keeping dclk rate upon ancestor clock
- changes
-Date: Wed, 13 Mar 2024 19:11:37 +0100
-Message-ID: <3793448.kQq0lBPeGt@jernej-laptop>
-In-Reply-To: <20240310-tcon_keep_stable_rate-v1-1-0296b0a85c02@oltmanns.dev>
-References: <20240310-tcon_keep_stable_rate-v1-1-0296b0a85c02@oltmanns.dev>
+        d=1e100.net; s=20230601; t=1710353622; x=1710958422;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=AhNbiGT3dBNYmyMqRR3v/dtfPCNBKZcqWH9p/BqTK+I=;
+        b=pFleQu1rwzTjl44b0tRLa5u6ajofymb1std9NWbPdnWceiveRNhKVaaj7qyOP/8WXi
+         fEnqmngTz4G/lYxDUzf3qcLXGbglpWDs5YHVvdzILMELjaD9cR0/pm3c3CuUrd9MRl/o
+         m6VNgE8aWNiLvY7z0wwJLO6JIV6C6nb2IxUZe4N4Oe4fYJf9irgmEpdZUjiM0SOz6ArN
+         pmhRpHGu8fzf0Xktm77kS53j6wje7eL/oF7Hfu5kU+XQ0e3JUxGmjO+7e+PBcx4vEC+2
+         j9B7wK0tFLF33SHna5/IFsIpQDXWKFxss/P8MEX7e4LDNWvKfdx1+GKZFApcI47JgvmP
+         FwMQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWVYEp3P5XXY9Hz0p7CVQFHcO4cZ73FF5WJ/4L19BRQ5ntU+Wkpy5Fkd1noTnh1iawSRi3w2aFB1CRUdqFhHcj8mtB72n60Cz7pNpE=
+X-Gm-Message-State: AOJu0Yx/oM8c3u7alOo0dzwRBZt68D/LJ5Kszc4+fKDgLENzM8Nc/9eG
+	EieKCvJOXeOJLfrC/s0xridv1fw131T1+QXDfWfEj8LK2dTNgQjZiW1rf9Jr
+X-Google-Smtp-Source: AGHT+IFpvycldlj7lYxH35PA266GOA5ZayOfxQCP1T7yZbqEU0gUwR3ctiPmy5zXe6bv4RjVoxDzjw==
+X-Received: by 2002:a17:903:2988:b0:1db:f696:b09 with SMTP id lm8-20020a170903298800b001dbf6960b09mr17957470plb.14.1710353621622;
+        Wed, 13 Mar 2024 11:13:41 -0700 (PDT)
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com. [209.85.216.43])
+        by smtp.gmail.com with ESMTPSA id la13-20020a170902fa0d00b001dc3c3be4adsm8975732plb.297.2024.03.13.11.13.41
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 Mar 2024 11:13:41 -0700 (PDT)
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-29bd0669781so152929a91.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 13 Mar 2024 11:13:41 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWFdsGpuD6G2FMvOD1k35Te9v/86sBpggD89O5HgQQKPJ7/yOjDmFFYF8j76dnBOhLl5l89DJFU7qplSTk9+AkOBHja0B0rbsqJmDU=
+X-Received: by 2002:a17:90a:9084:b0:29b:b854:db with SMTP id
+ j4-20020a17090a908400b0029bb85400dbmr11208175pjo.27.1710353621055; Wed, 13
+ Mar 2024 11:13:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+References: <20240310010211.28653-1-andre.przywara@arm.com>
+ <20240310010211.28653-3-andre.przywara@arm.com> <f203a0a3-9107-4290-a934-0f6736fe218a@sholland.org>
+ <20240313173529.1f816404@donnerap.manchester.arm.com>
+In-Reply-To: <20240313173529.1f816404@donnerap.manchester.arm.com>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Thu, 14 Mar 2024 02:13:29 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65LgmYU_PZLU8KDSYhr76y=kPNboTsZ9mRkT=wBuYSdvA@mail.gmail.com>
+Message-ID: <CAGb2v65LgmYU_PZLU8KDSYhr76y=kPNboTsZ9mRkT=wBuYSdvA@mail.gmail.com>
+Subject: Re: [PATCH 2/4] dt-bindings: mfd: x-powers,axp152: document AXP717
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Chris Morgan <macromorgan@hotmail.com>, 
+	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Lee Jones <lee@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Conor Dooley <conor+dt@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Frank!
+On Thu, Mar 14, 2024 at 1:35=E2=80=AFAM Andre Przywara <andre.przywara@arm.=
+com> wrote:
+>
+> On Mon, 11 Mar 2024 17:20:50 -0500
+> Samuel Holland <samuel@sholland.org> wrote:
+>
+> Hi Samuel,
+>
+> thanks for having a look!
+>
+> > On 3/9/24 19:02, Andre Przywara wrote:
+> > > The X-Powers AXP717 is a PMIC used on some newer Allwinner devices.
+> > > Among quite some regulators it features the usual ADC/IRQ/power key
+> > > parts, plus a battery charger circuit, and some newly introduced USB
+> > > type-C circuitry.
+> >
+> > Do you plan to put the Type-C logic under a subnode, or should the
+> > Type-C connector node go directly under the PMIC node? Either way, the
+> > binding probably needs to be updated for that.
+>
+> I haven't looked into this yet, so cannot say which way to go. I
+> definitely consider this some non-trivial task, so indeed wanted to push
+> this off to later.
+> For now there is a device (Anbernic RG35XX) with that PMIC, so we need at
+> least the regulators to unblock this. USB support is not critical for now=
+.
+>
+> > > Like two other recent PMICs, it lacks the DC/DC converter PWM frequen=
+cy
+> > > control register, that rate is fixed here as well.
+> > >
+> > > Add the new compatible string, and add that to the list of PMICs with=
+out
+> > > the PWM frequency property.
+> > >
+> > > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > > ---
+> > >  Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml | 2 ++
+> > >  1 file changed, 2 insertions(+)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/mfd/x-powers,axp152.ya=
+ml b/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml
+> > > index 06f1779835a1e..b8e8db0d58e9c 100644
+> > > --- a/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml
+> > > +++ b/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml
+> > > @@ -83,6 +83,7 @@ allOf:
+> > >              enum:
+> > >                - x-powers,axp313a
+> > >                - x-powers,axp15060
+> > > +              - x-powers,axp717
+> > >
+> > >      then:
+> > >        properties:
+> > > @@ -99,6 +100,7 @@ properties:
+> > >            - x-powers,axp221
+> > >            - x-powers,axp223
+> > >            - x-powers,axp313a
+> > > +          - x-powers,axp717
+> > >            - x-powers,axp803
+> > >            - x-powers,axp806
+> > >            - x-powers,axp809
+> >
+> > The regulators patternProperties needs to be updated for the new boost
+> > regulator.
+>
+> Ah, I indeed missed this one. I think the former PMICs had this
+> batter->VBUS boost regulator hidden, controlled entirely by the PMIC?
+> I will need to check if exposing this will present any surprises. I
+> guess this goes together with the USB-C support, to have role switching,
+> unless this appears on some device with just USB-A or micro-B.
+> I will check what it takes to add this one, the regulator itself looks
+> easy.
 
-Thanks on tackling this issue.
+I don't think there was such a boost regulator on previous PMICs. It was
+just a passthrough, which is why on some boards such as the Cubietruck
+there is an external boost converter to put out 5V when just the battery
+is used.
 
-Dne nedelja, 10. marec 2024 ob 14:32:29 CET je Frank Oltmanns napisal(a):
-> Allow the dclk to reset its rate when a rate change is initiated from an
-> ancestor clock. This makes it possible to no longer to get an exclusive
-> lock. As a consequence, it is now possible to set new rates if
-> necessary, e.g. when an external display is connected.
-> 
-> The first user of this functionality is the A64 because PLL-VIDEO0 is an
-> ancestor for both HDMI and TCON0. This allows to select an optimal rate
-> for TCON0 as long as there is no external HDMI connection. Once a change
-> in PLL-VIDEO0 is performed when an HDMI connection is established, TCON0
-> can react gracefully and select an optimal rate based on this the new
-> constraint.
-> 
-> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
-> ---
-> I would like to make the Allwinner A64's data-clock keep its rate
-> when its ancestor's (pll-video0) rate changes. Keeping data-clock's rate
-> is required, to let the A64 drive both an LCD and HDMI display at the
-> same time, because both have pll-video0 as an ancestor.
-> 
-> TCONs that use this flag store the ideal rate for their data-clock and
-> subscribe to be notified when data-clock changes. When rate setting has
-> finished (indicated by a POST_RATE_CHANGE event) the call back function
-> schedules delayed work to set the data-clock's rate to the initial value
-> after 100 ms. Using delayed work maks sure that the clock setting is
-> finished.
-> 
-> I've implemented this functionality as a quirk, so that it is possible
-> to use it only for the A64.
-> 
-> This patch supersedes [1].
-> 
-> This work is inspired by an out-of-tree patchset [2] [3] [4].
-> Unfortunately, the patchset uses clk_set_rate() directly in a notifier
-> callback, which the following comment on clk_notifier_register()
-> forbids: "The callbacks associated with the notifier must not re-enter
-> into the clk framework by calling any top-level clk APIs." [5]
-> Furthermore, that out-of-tree patchset no longer works since 6.6,
-> because setting pll-mipi is now also resetting pll-video0 and therefore
-> causes a race condition.
-> 
-> Thank you for considering this contribution,
->   Frank
-> 
-> [1] https://lore.kernel.org/lkml/20230825-pll-mipi_keep_rate-v1-0-35bc43570730@oltmanns.dev/
-> [2] https://codeberg.org/megi/linux/commit/a37cda2fff41a67a2bacf82b1594e10335d0bd8a
-> [3] https://codeberg.org/megi/linux/commit/24dc09128d2c8efc6ddf19249420e9798e967a46
-> [4] https://codeberg.org/megi/linux/commit/728a93d46f99f0eb231ed6fa8971a45f97c7182c
-> [5] https://elixir.bootlin.com/linux/v6.7.9/source/drivers/clk/clk.c#L4669
-> ---
->  drivers/gpu/drm/sun4i/sun4i_tcon.c | 70 ++++++++++++++++++++++++++++++++++----
->  drivers/gpu/drm/sun4i/sun4i_tcon.h | 12 +++++++
->  2 files changed, 76 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-> index a1a2c845ade0..b880bd44049a 100644
-> --- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-> +++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-> @@ -108,9 +108,11 @@ static void sun4i_tcon_channel_set_status(struct sun4i_tcon *tcon, int channel,
->  
->  	if (enabled) {
->  		clk_prepare_enable(clk);
-> -		clk_rate_exclusive_get(clk);
-> +		if (!tcon->quirks->restores_rate)
-> +			clk_rate_exclusive_get(clk);
->  	} else {
-> -		clk_rate_exclusive_put(clk);
-> +		if (!tcon->quirks->restores_rate)
-> +			clk_rate_exclusive_put(clk);
->  		clk_disable_unprepare(clk);
->  	}
->  }
-> @@ -343,6 +345,53 @@ static void sun4i_tcon0_mode_set_dithering(struct sun4i_tcon *tcon,
->  	regmap_write(tcon->regs, SUN4I_TCON_FRM_CTL_REG, val);
->  }
->  
-> +static void sun4i_rate_reset_notifier_delayed_update(struct work_struct *work)
-> +{
-> +	struct sun4i_rate_reset_nb *rate_reset = container_of(work, struct sun4i_rate_reset_nb,
-> +							    reset_rate_work.work);
-> +
-> +	clk_set_rate(rate_reset->target_clk, rate_reset->saved_rate);
-> +}
-> +
-> +static int sun4i_rate_reset_notifier_cb(struct notifier_block *nb,
-> +				      unsigned long event, void *data)
-> +{
-> +	struct sun4i_rate_reset_nb *rate_reset = to_sun4i_rate_reset_nb(nb);
-> +
-> +	if (event == POST_RATE_CHANGE)
-> +		schedule_delayed_work(&rate_reset->reset_rate_work, msecs_to_jiffies(100));
-
-Do we need that delay though? Since clock is set exclusive on TV TCONs, then
-it shouldn't be changed. Alternative, simpler variation would be something
-like this:
-https://elixir.bootlin.com/linux/v6.8/source/drivers/tty/serial/8250/8250_dw.c#L333
-
-> +
-> +	return NOTIFY_DONE;
-> +}
-> +
-> +static void sun4i_rate_reset_notifier_register(struct sun4i_rate_reset_nb *rate_reset_nb)
-> +{
-> +	if (rate_reset_nb->is_registered)
-> +		return;
-> +
-> +	rate_reset_nb->clk_nb.notifier_call = sun4i_rate_reset_notifier_cb;
-> +
-> +	INIT_DELAYED_WORK(&rate_reset_nb->reset_rate_work,
-> +			  sun4i_rate_reset_notifier_delayed_update);
-> +
-> +	if (!clk_notifier_register(rate_reset_nb->target_clk,
-> +				   &rate_reset_nb->clk_nb))
-> +		rate_reset_nb->is_registered = true;
-> +}
-> +
-> +static struct sun4i_rate_reset_nb tcon_rate_reset_tcon0_nb;
-
-Is there any specific reason for global variable? Note that R40 and T507 have
-2 LCD and 2 TV TCONs. If it's ever used there, it won't fly. Please move to
-TCON struct. You can drop a few fields for doing so.
-
-> +
-> +static void sun4i_tcon0_set_dclk_rate(struct sun4i_tcon *tcon, unsigned long rate)
-> +{
-> +	clk_set_rate(tcon->dclk, rate);
-> +
-> +	if (tcon->quirks->restores_rate) {
-> +		tcon_rate_reset_tcon0_nb.target_clk = tcon->dclk;
-> +		tcon_rate_reset_tcon0_nb.saved_rate = rate;
-> +		sun4i_rate_reset_notifier_register(&tcon_rate_reset_tcon0_nb);
-
-Can't be registration done at TCON init time?
-
-Best regards,
-Jernej
-
-> +	}
-> +}
-> +
->  static void sun4i_tcon0_mode_set_cpu(struct sun4i_tcon *tcon,
->  				     const struct drm_encoder *encoder,
->  				     const struct drm_display_mode *mode)
-> @@ -360,8 +409,8 @@ static void sun4i_tcon0_mode_set_cpu(struct sun4i_tcon *tcon,
->  	 */
->  	tcon->dclk_min_div = SUN6I_DSI_TCON_DIV;
->  	tcon->dclk_max_div = SUN6I_DSI_TCON_DIV;
-> -	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000 * (bpp / lanes)
-> -						  / SUN6I_DSI_TCON_DIV);
-> +	sun4i_tcon0_set_dclk_rate(tcon, mode->crtc_clock * 1000 * (bpp / lanes)
-> +				  / SUN6I_DSI_TCON_DIV);
->  
->  	/* Set the resolution */
->  	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
-> @@ -434,7 +483,7 @@ static void sun4i_tcon0_mode_set_lvds(struct sun4i_tcon *tcon,
->  
->  	tcon->dclk_min_div = 7;
->  	tcon->dclk_max_div = 7;
-> -	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000);
-> +	sun4i_tcon0_set_dclk_rate(tcon, mode->crtc_clock * 1000);
->  
->  	/* Set the resolution */
->  	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
-> @@ -516,7 +565,7 @@ static void sun4i_tcon0_mode_set_rgb(struct sun4i_tcon *tcon,
->  
->  	tcon->dclk_min_div = tcon->quirks->dclk_min_div;
->  	tcon->dclk_max_div = 127;
-> -	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000);
-> +	sun4i_tcon0_set_dclk_rate(tcon, mode->crtc_clock * 1000);
->  
->  	/* Set the resolution */
->  	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
-> @@ -1503,6 +1552,14 @@ static const struct sun4i_tcon_quirks sun8i_a33_quirks = {
->  	.supports_lvds		= true,
->  };
->  
-> +static const struct sun4i_tcon_quirks sun50i_a64_lcd_quirks = {
-> +	.supports_lvds		= true,
-> +	.has_channel_0		= true,
-> +	.restores_rate		= true,
-> +	.dclk_min_div		= 1,
-> +	.setup_lvds_phy		= sun6i_tcon_setup_lvds_phy,
-> +};
-> +
->  static const struct sun4i_tcon_quirks sun8i_a83t_lcd_quirks = {
->  	.supports_lvds		= true,
->  	.has_channel_0		= true,
-> @@ -1561,6 +1618,7 @@ const struct of_device_id sun4i_tcon_of_table[] = {
->  	{ .compatible = "allwinner,sun9i-a80-tcon-tv", .data = &sun9i_a80_tcon_tv_quirks },
->  	{ .compatible = "allwinner,sun20i-d1-tcon-lcd", .data = &sun20i_d1_lcd_quirks },
->  	{ .compatible = "allwinner,sun20i-d1-tcon-tv", .data = &sun8i_r40_tv_quirks },
-> +	{ .compatible = "allwinner,sun50i-a64-tcon-lcd", .data = &sun50i_a64_lcd_quirks },
->  	{ }
->  };
->  MODULE_DEVICE_TABLE(of, sun4i_tcon_of_table);
-> diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.h b/drivers/gpu/drm/sun4i/sun4i_tcon.h
-> index fa23aa23fe4a..bd4abc90062b 100644
-> --- a/drivers/gpu/drm/sun4i/sun4i_tcon.h
-> +++ b/drivers/gpu/drm/sun4i/sun4i_tcon.h
-> @@ -243,6 +243,7 @@ struct sun4i_tcon_quirks {
->  	bool    needs_edp_reset; /* a80 edp reset needed for tcon0 access */
->  	bool	supports_lvds;   /* Does the TCON support an LVDS output? */
->  	bool	polarity_in_ch0; /* some tcon1 channels have polarity bits in tcon0 pol register */
-> +	bool	restores_rate;   /* restores the initial rate when rate changes */
->  	u8	dclk_min_div;	/* minimum divider for TCON0 DCLK */
->  
->  	/* callback to handle tcon muxing options */
-> @@ -300,4 +301,15 @@ void sun4i_tcon_set_status(struct sun4i_tcon *crtc,
->  
->  extern const struct of_device_id sun4i_tcon_of_table[];
->  
-> +struct sun4i_rate_reset_nb {
-> +	struct notifier_block	clk_nb;
-> +	struct delayed_work	reset_rate_work;
-> +
-> +	struct clk		*target_clk;
-> +	unsigned long		saved_rate;
-> +	bool			is_registered;
-> +};
-> +
-> +#define to_sun4i_rate_reset_nb(_nb) container_of(_nb, struct sun4i_rate_reset_nb, clk_nb)
-> +
->  #endif /* __SUN4I_TCON_H__ */
-> 
-> ---
-> base-commit: dcb6c8ee6acc6c347caec1e73fb900c0f4ff9806
-> change-id: 20240304-tcon_keep_stable_rate-5729c7706343
-> 
-> Best regards,
-> 
-
-
-
-
+ChenYu
