@@ -1,353 +1,152 @@
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9585A1A38CA
-	for <linux-sunxi@lists.linux.dev>; Thu, 14 Mar 2024 05:44:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 535136CDAB
+	for <linux-sunxi@lists.linux.dev>; Thu, 14 Mar 2024 09:27:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710395057; cv=none; b=Hy5DalB1/UgHzbwMtd3kGUPtlVzlQ4gTLgJzcXd2+fuKTYlJaExIijE9f0mp5eJklh6gyzI35zLDj1JytGUAQ92fA/fQ3vcujyJhtemEnJOMdJ4HY4wNr9i/n0h7ksUJAQdp+4pzDcv2VjFDwTxntAxh12ROVojnjZXfOEGpFF8=
+	t=1710408461; cv=none; b=aoHc2Iy8woAwjsgEp8NMo/SIaEMIkViDgQTqi7ezIVAXErG51urKEhwPsY/HOxa/6o7lCG2AgWnXUuv35mBp3yfT90GPV8WlS2TLsEFt8f7uY8kNPtlfrA2NJCTjUha0s91kNo2N+vMEnAQn+rcjW/xyh4ZIIDKLcVc/gA2xf9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710395057; c=relaxed/simple;
-	bh=cwcJBxyeb7vOv3XrdLcrxBFEkCrwJyOEt5gUtMjvyTw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=c+BrMeF/OaqrqTHUTQS04Mv1fPKDakPfcNuI/jwPEjUBgR8vesaIbLgxZj3dGgK35bpIQ4MRLoSegjtIzGgUoytJIF+qZYFB/wTuVMj4XPIicH1H44PZXxodXLpO49yK4TAcRTuUslcRHDWgDNbT8hlLYkmGmVqscWfVUqfI+jc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev; spf=pass smtp.mailfrom=oltmanns.dev; dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b=kZa0iucc; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oltmanns.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b="kZa0iucc"
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4TwGXP1tdJz9tQC;
-	Thu, 14 Mar 2024 06:44:05 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1710395045;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jaJ8pZ9W3PfGOzFfzKRaF6N9Sdm8RE+dMAfP+mS3M4w=;
-	b=kZa0iuccJg3vDYU5HlPowebCDXer3FTu+HyECKKe+JZcd7E35fgCaG+C3L4a5PTI4nez19
-	m+yjGPjpHC1wTYs0mOuG1rrWgef6yz8r1zsj7tSBxtyVsjtSa7S22NUbr6Nwd9DpJCTbiJ
-	ayLrIK+S4K6sb1FLyLdRb6tYrhQ3ByY7yz6AmFQw1mxLwMU4qa2rWMOMOMTVrmDpsGSoms
-	3PFZYSYTL5zpa9QtgaMUm/phj+5BwXUJN0g8mJ7MtsEKjFUGYYE7pkJAy4HHjt+coIJ1b3
-	snkMQKnb1Hxp/PFlIhPUF+F7okVAb6ZXG9N7VRa86n4UNrA1r2YzvAdivh8uNw==
-From: Frank Oltmanns <frank@oltmanns.dev>
-To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: Maxime Ripard <mripard@kernel.org>,  Chen-Yu Tsai <wens@csie.org>,
-  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,  Thomas Zimmermann
- <tzimmermann@suse.de>,  David Airlie <airlied@gmail.com>,  Daniel Vetter
- <daniel@ffwll.ch>,  Samuel Holland <samuel@sholland.org>,  Icenowy Zheng
- <uwu@icenowy.me>,  Ondrej Jirman <x@xnux.eu>,
-  dri-devel@lists.freedesktop.org,  linux-arm-kernel@lists.infradead.org,
-  linux-sunxi@lists.linux.dev,  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/sun4i: tcon: Support keeping dclk rate upon
- ancestor clock changes
-In-Reply-To: <3793448.kQq0lBPeGt@jernej-laptop> ("Jernej =?utf-8?Q?=C5=A0k?=
- =?utf-8?Q?rabec=22's?= message of
-	"Wed, 13 Mar 2024 19:11:37 +0100")
-References: <20240310-tcon_keep_stable_rate-v1-1-0296b0a85c02@oltmanns.dev>
-	<3793448.kQq0lBPeGt@jernej-laptop>
-Date: Thu, 14 Mar 2024 06:43:55 +0100
-Message-ID: <87sf0twep0.fsf@oltmanns.dev>
+	s=arc-20240116; t=1710408461; c=relaxed/simple;
+	bh=f/Op71/HodaIe/ZXYbQm5hzh0Ck9AYk9S6c3uv7jZl0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KlNYE6UZ1RGDs22H+GUFl9/fx8T0upNdw4tkw5JOBzIjSS4PbkoHUSlgCSmHDp/QCyB262mOnQRZEglVinjS18a2roBBiQ0ZNcO0qdxlvA76gYa2MIdQJIhrrQ/jAwhehCbCbJuBUdj7FKjviENDxZVOn7Z3We67O56kOS2iK4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-60a0579a955so9383107b3.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 14 Mar 2024 02:27:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710408457; x=1711013257;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IaLpKVgtNxjkHzGcUUabbJb9+dMavCQgVpAQ745YG6s=;
+        b=X197qE/Our2+VBnJqaRmrn/9VyltELBEvy7cxKDGp2vA+KSGF2qBjlf93w03JKb7c2
+         twt8DKH8C32pGXlK9Ci1brjFc9gmnNb2vbVkMEzelqBFHdPi5cr2l3EZUxm/GnlvG7eI
+         oEEqSBUJYqrsOAoJAiktIYOluAFP8HUxF5jpFg8m51B/jPBuEwqBLi8gV5b/DaCeJnkX
+         7e64HBW5Nzh2ujlEWVHVVXQqubLWmpVmEvLEjWoslLdMrFUOLcUR66nkg1enV39oVK/m
+         gv333y2LFvOLQ3pj8WETXYbl5k5N1LG3Uhcjcs+O6TQKat0waHEPa407YZhMkqWdx2dF
+         z89g==
+X-Forwarded-Encrypted: i=1; AJvYcCXhJQRxtgposMfMEmaKXYyM8Z10F9exE+tpZkjq1Ok1neawN+hJ6uyAnSpB8np5gmJGixe611ASCBRku1UTFn5sQbYVeJZQtVvWmHs=
+X-Gm-Message-State: AOJu0Yy9oejSOgQJVSorlal0DT+Tzjc+1mnSOmbUJ2bjSGG8mwK5jw8G
+	mrFhzPpaGMMuBSXdXvZ7vZ4vWfKEoEGMcdAf5P5apuLQ8ThOztg0pwnSPabc9Hk=
+X-Google-Smtp-Source: AGHT+IF1tdRkBz6/Ssx+0xXuQ1rAl8zaGmpoPw7zT1cSNS5nuhJyh7g61mcow+qfbk/n9BJRygd8HQ==
+X-Received: by 2002:a81:5408:0:b0:60a:6c1a:bf6a with SMTP id i8-20020a815408000000b0060a6c1abf6amr1287644ywb.41.1710408457125;
+        Thu, 14 Mar 2024 02:27:37 -0700 (PDT)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
+        by smtp.gmail.com with ESMTPSA id dy7-20020a05690c270700b00608cea2b96bsm196594ywb.53.2024.03.14.02.27.36
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Mar 2024 02:27:36 -0700 (PDT)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-609f359b7b1so9368897b3.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 14 Mar 2024 02:27:36 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU5Vg2zOz18MgTcJGI994F7LgFCjiS5WYB0Yt7b+KMdUszQ4NHhgVQ1ZUAx36tXK6065pP96mqEofxIcrI2IULC1kmnWsra5Uuyz78=
+X-Received: by 2002:a25:a264:0:b0:dcd:38f9:f78 with SMTP id
+ b91-20020a25a264000000b00dcd38f90f78mr1053493ybi.29.1710408456666; Thu, 14
+ Mar 2024 02:27:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <CA+G9fYvG9KE15PGNoLu+SBVyShe+u5HBLQ81+kK9Zop6u=ywmw@mail.gmail.com>
+ <338c89bb-a70b-4f35-b71b-f974e90e3383@app.fastmail.com> <20240304-brawny-goshawk-of-sorcery-860cef@houat>
+ <85b807289ff2400ea5887ced63655862@AcuMS.aculab.com>
+In-Reply-To: <85b807289ff2400ea5887ced63655862@AcuMS.aculab.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 14 Mar 2024 10:27:23 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUuOnXVpocYU02Mx3_KrPow-=+WgLJqy_ku=AN52SvQiA@mail.gmail.com>
+Message-ID: <CAMuHMdUuOnXVpocYU02Mx3_KrPow-=+WgLJqy_ku=AN52SvQiA@mail.gmail.com>
+Subject: Re: arm: ERROR: modpost: "__aeabi_uldivmod" [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko]
+ undefined!
+To: David Laight <David.Laight@aculab.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Naresh Kamboju <naresh.kamboju@linaro.org>, open list <linux-kernel@vger.kernel.org>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+	"linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>, 
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+	"lkft-triage@lists.linaro.org" <lkft-triage@lists.linaro.org>, Dave Airlie <airlied@redhat.com>, 
+	Dan Carpenter <dan.carpenter@linaro.org>, Ard Biesheuvel <ardb@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 4TwGXP1tdJz9tQC
 
-On 2024-03-13 at 19:11:37 +0100, Jernej =C5=A0krabec <jernej.skrabec@gmail.=
-com> wrote:
-Hi Jernej,
-
-Thank you for your having a thorough look at this!
-
-> Hi Frank!
+On Sat, Mar 9, 2024 at 3:34=E2=80=AFPM David Laight <David.Laight@aculab.co=
+m> wrote:
+> From: Maxime Ripard
+> > Sent: 04 March 2024 11:46
+> >
+> > On Mon, Mar 04, 2024 at 12:11:36PM +0100, Arnd Bergmann wrote:
+> > > On Mon, Mar 4, 2024, at 09:07, Naresh Kamboju wrote:
+> > > > The arm defconfig builds failed on today's Linux next tag next-2024=
+0304.
+> > > >
+> > > > Build log:
+> > > > ---------
+> > > > ERROR: modpost: "__aeabi_uldivmod"
+> > > > [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko] undefined!
+> > > >
+> > >
+> > > Apparently caused by the 64-bit division in 358e76fd613a
+> > > ("drm/sun4i: hdmi: Consolidate atomic_check and mode_valid"):
+> > >
+> > >
+> > > +static enum drm_mode_status
+> > > +sun4i_hdmi_connector_clock_valid(const struct drm_connector *connect=
+or,
+> > > +                                const struct drm_display_mode *mode,
+> > > +                                unsigned long long clock)
+> > >  {
+> > > -       struct sun4i_hdmi *hdmi =3D drm_encoder_to_sun4i_hdmi(encoder=
+);
+> > > -       unsigned long rate =3D mode->clock * 1000;
+> > > -       unsigned long diff =3D rate / 200; /* +-0.5% allowed by HDMI =
+spec */
+> > > +       const struct sun4i_hdmi *hdmi =3D drm_connector_to_sun4i_hdmi=
+(connector);
+> > > +       unsigned long diff =3D clock / 200; /* +-0.5% allowed by HDMI=
+ spec */
+> > >         long rounded_rate;
+> > >
+> > > This used to be a 32-bit division. If the rate is never more than
+> > > 4.2GHz, clock could be turned back into 'unsigned long' to avoid
+> > > the expensive div_u64().
+> >
+> > I sent a fix for it this morning:
+> > https://lore.kernel.org/r/20240304091225.366325-1-mripard@kernel.org
+> >
+> > The framework will pass an unsigned long long because HDMI character
+> > rates can go up to 5.9GHz.
 >
-> Thanks on tackling this issue.
->
-> Dne nedelja, 10. marec 2024 ob 14:32:29 CET je Frank Oltmanns napisal(a):
->> Allow the dclk to reset its rate when a rate change is initiated from an
->> ancestor clock. This makes it possible to no longer to get an exclusive
->> lock. As a consequence, it is now possible to set new rates if
->> necessary, e.g. when an external display is connected.
->>
->> The first user of this functionality is the A64 because PLL-VIDEO0 is an
->> ancestor for both HDMI and TCON0. This allows to select an optimal rate
->> for TCON0 as long as there is no external HDMI connection. Once a change
->> in PLL-VIDEO0 is performed when an HDMI connection is established, TCON0
->> can react gracefully and select an optimal rate based on this the new
->> constraint.
->>
->> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
->> ---
->> I would like to make the Allwinner A64's data-clock keep its rate
->> when its ancestor's (pll-video0) rate changes. Keeping data-clock's rate
->> is required, to let the A64 drive both an LCD and HDMI display at the
->> same time, because both have pll-video0 as an ancestor.
->>
->> TCONs that use this flag store the ideal rate for their data-clock and
->> subscribe to be notified when data-clock changes. When rate setting has
->> finished (indicated by a POST_RATE_CHANGE event) the call back function
->> schedules delayed work to set the data-clock's rate to the initial value
->> after 100 ms. Using delayed work maks sure that the clock setting is
->> finished.
->>
->> I've implemented this functionality as a quirk, so that it is possible
->> to use it only for the A64.
->>
->> This patch supersedes [1].
->>
->> This work is inspired by an out-of-tree patchset [2] [3] [4].
->> Unfortunately, the patchset uses clk_set_rate() directly in a notifier
->> callback, which the following comment on clk_notifier_register()
->> forbids: "The callbacks associated with the notifier must not re-enter
->> into the clk framework by calling any top-level clk APIs." [5]
->> Furthermore, that out-of-tree patchset no longer works since 6.6,
->> because setting pll-mipi is now also resetting pll-video0 and therefore
->> causes a race condition.
->>
->> Thank you for considering this contribution,
->>   Frank
->>
->> [1] https://lore.kernel.org/lkml/20230825-pll-mipi_keep_rate-v1-0-35bc43=
-570730@oltmanns.dev/
->> [2] https://codeberg.org/megi/linux/commit/a37cda2fff41a67a2bacf82b1594e=
-10335d0bd8a
->> [3] https://codeberg.org/megi/linux/commit/24dc09128d2c8efc6ddf19249420e=
-9798e967a46
->> [4] https://codeberg.org/megi/linux/commit/728a93d46f99f0eb231ed6fa8971a=
-45f97c7182c
->> [5] https://elixir.bootlin.com/linux/v6.7.9/source/drivers/clk/clk.c#L46=
-69
->> ---
->>  drivers/gpu/drm/sun4i/sun4i_tcon.c | 70 +++++++++++++++++++++++++++++++=
-+++----
->>  drivers/gpu/drm/sun4i/sun4i_tcon.h | 12 +++++++
->>  2 files changed, 76 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/=
-sun4i_tcon.c
->> index a1a2c845ade0..b880bd44049a 100644
->> --- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
->> +++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
->> @@ -108,9 +108,11 @@ static void sun4i_tcon_channel_set_status(struct su=
-n4i_tcon *tcon, int channel,
->>
->>  	if (enabled) {
->>  		clk_prepare_enable(clk);
->> -		clk_rate_exclusive_get(clk);
->> +		if (!tcon->quirks->restores_rate)
->> +			clk_rate_exclusive_get(clk);
->>  	} else {
->> -		clk_rate_exclusive_put(clk);
->> +		if (!tcon->quirks->restores_rate)
->> +			clk_rate_exclusive_put(clk);
->>  		clk_disable_unprepare(clk);
->>  	}
->>  }
->> @@ -343,6 +345,53 @@ static void sun4i_tcon0_mode_set_dithering(struct s=
-un4i_tcon *tcon,
->>  	regmap_write(tcon->regs, SUN4I_TCON_FRM_CTL_REG, val);
->>  }
->>
->> +static void sun4i_rate_reset_notifier_delayed_update(struct work_struct=
- *work)
->> +{
->> +	struct sun4i_rate_reset_nb *rate_reset =3D container_of(work, struct s=
-un4i_rate_reset_nb,
->> +							    reset_rate_work.work);
->> +
->> +	clk_set_rate(rate_reset->target_clk, rate_reset->saved_rate);
->> +}
->> +
->> +static int sun4i_rate_reset_notifier_cb(struct notifier_block *nb,
->> +				      unsigned long event, void *data)
->> +{
->> +	struct sun4i_rate_reset_nb *rate_reset =3D to_sun4i_rate_reset_nb(nb);
->> +
->> +	if (event =3D=3D POST_RATE_CHANGE)
->> +		schedule_delayed_work(&rate_reset->reset_rate_work, msecs_to_jiffies(=
-100));
->
-> Do we need that delay though? Since clock is set exclusive on TV TCONs, t=
-hen
-> it shouldn't be changed. Alternative, simpler variation would be something
-> like this:
-> https://elixir.bootlin.com/linux/v6.8/source/drivers/tty/serial/8250/8250=
-_dw.c#L333
->
+> You could do:
+>         /* The max clock is 5.9GHz, split the divide */
+>         u32 diff =3D (u32)(clock / 8) / (200/8);
 
-Interesting! My reason for scheduling the work was to make sure we don't
-call any clk API functions from the callback as described in my cover
-letter above. But using the queue is a much nicer approach for achieving
-the same thing! Thanks!
++1, as the issue is still present in current next, as per the recent
+nagging from the build bots.
 
->> +
->> +	return NOTIFY_DONE;
->> +}
->> +
->> +static void sun4i_rate_reset_notifier_register(struct sun4i_rate_reset_=
-nb *rate_reset_nb)
->> +{
->> +	if (rate_reset_nb->is_registered)
->> +		return;
->> +
->> +	rate_reset_nb->clk_nb.notifier_call =3D sun4i_rate_reset_notifier_cb;
->> +
->> +	INIT_DELAYED_WORK(&rate_reset_nb->reset_rate_work,
->> +			  sun4i_rate_reset_notifier_delayed_update);
->> +
->> +	if (!clk_notifier_register(rate_reset_nb->target_clk,
->> +				   &rate_reset_nb->clk_nb))
->> +		rate_reset_nb->is_registered =3D true;
->> +}
->> +
->> +static struct sun4i_rate_reset_nb tcon_rate_reset_tcon0_nb;
->
-> Is there any specific reason for global variable? Note that R40 and T507 =
-have
-> 2 LCD and 2 TV TCONs. If it's ever used there, it won't fly. Please move =
-to
-> TCON struct. You can drop a few fields for doing so.
+> The code should really use u32 and u64.
+> Otherwise the sizes are different on 32bit.
 
-The only reason is that global variables were used for the SoC specific
-callbacks that served as my inspiration. So, I thought it was a common
-pattern. Actually, I wanted to make it part of the tcon struct but
-refrained from doing so to not break the pattern. Now that I have your
-blessing, I'll refactor.
+The code is already using a variety of types (long, unsigned long long,
+unsigned long) :-(
 
->
->> +
->> +static void sun4i_tcon0_set_dclk_rate(struct sun4i_tcon *tcon, unsigned=
- long rate)
->> +{
->> +	clk_set_rate(tcon->dclk, rate);
->> +
->> +	if (tcon->quirks->restores_rate) {
->> +		tcon_rate_reset_tcon0_nb.target_clk =3D tcon->dclk;
->> +		tcon_rate_reset_tcon0_nb.saved_rate =3D rate;
->> +		sun4i_rate_reset_notifier_register(&tcon_rate_reset_tcon0_nb);
->
-> Can't be registration done at TCON init time?
+       max_t(unsigned long, rounded_rate, clock) -
+       min_t(unsigned long, rounded_rate, clock) < diff)
 
-Probably yes! I'll make sure to do so in V2.
+At least u64 should make it very clear clock does not fit in 32-bit.
 
-Thanks again for the great feedback,
-  Frank
+Gr{oetje,eeting}s,
 
->
-> Best regards,
-> Jernej
->
->> +	}
->> +}
->> +
->>  static void sun4i_tcon0_mode_set_cpu(struct sun4i_tcon *tcon,
->>  				     const struct drm_encoder *encoder,
->>  				     const struct drm_display_mode *mode)
->> @@ -360,8 +409,8 @@ static void sun4i_tcon0_mode_set_cpu(struct sun4i_tc=
-on *tcon,
->>  	 */
->>  	tcon->dclk_min_div =3D SUN6I_DSI_TCON_DIV;
->>  	tcon->dclk_max_div =3D SUN6I_DSI_TCON_DIV;
->> -	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000 * (bpp / lanes)
->> -						  / SUN6I_DSI_TCON_DIV);
->> +	sun4i_tcon0_set_dclk_rate(tcon, mode->crtc_clock * 1000 * (bpp / lanes)
->> +				  / SUN6I_DSI_TCON_DIV);
->>
->>  	/* Set the resolution */
->>  	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
->> @@ -434,7 +483,7 @@ static void sun4i_tcon0_mode_set_lvds(struct sun4i_t=
-con *tcon,
->>
->>  	tcon->dclk_min_div =3D 7;
->>  	tcon->dclk_max_div =3D 7;
->> -	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000);
->> +	sun4i_tcon0_set_dclk_rate(tcon, mode->crtc_clock * 1000);
->>
->>  	/* Set the resolution */
->>  	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
->> @@ -516,7 +565,7 @@ static void sun4i_tcon0_mode_set_rgb(struct sun4i_tc=
-on *tcon,
->>
->>  	tcon->dclk_min_div =3D tcon->quirks->dclk_min_div;
->>  	tcon->dclk_max_div =3D 127;
->> -	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000);
->> +	sun4i_tcon0_set_dclk_rate(tcon, mode->crtc_clock * 1000);
->>
->>  	/* Set the resolution */
->>  	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
->> @@ -1503,6 +1552,14 @@ static const struct sun4i_tcon_quirks sun8i_a33_q=
-uirks =3D {
->>  	.supports_lvds		=3D true,
->>  };
->>
->> +static const struct sun4i_tcon_quirks sun50i_a64_lcd_quirks =3D {
->> +	.supports_lvds		=3D true,
->> +	.has_channel_0		=3D true,
->> +	.restores_rate		=3D true,
->> +	.dclk_min_div		=3D 1,
->> +	.setup_lvds_phy		=3D sun6i_tcon_setup_lvds_phy,
->> +};
->> +
->>  static const struct sun4i_tcon_quirks sun8i_a83t_lcd_quirks =3D {
->>  	.supports_lvds		=3D true,
->>  	.has_channel_0		=3D true,
->> @@ -1561,6 +1618,7 @@ const struct of_device_id sun4i_tcon_of_table[] =
-=3D {
->>  	{ .compatible =3D "allwinner,sun9i-a80-tcon-tv", .data =3D &sun9i_a80_=
-tcon_tv_quirks },
->>  	{ .compatible =3D "allwinner,sun20i-d1-tcon-lcd", .data =3D &sun20i_d1=
-_lcd_quirks },
->>  	{ .compatible =3D "allwinner,sun20i-d1-tcon-tv", .data =3D &sun8i_r40_=
-tv_quirks },
->> +	{ .compatible =3D "allwinner,sun50i-a64-tcon-lcd", .data =3D &sun50i_a=
-64_lcd_quirks },
->>  	{ }
->>  };
->>  MODULE_DEVICE_TABLE(of, sun4i_tcon_of_table);
->> diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.h b/drivers/gpu/drm/sun4i/=
-sun4i_tcon.h
->> index fa23aa23fe4a..bd4abc90062b 100644
->> --- a/drivers/gpu/drm/sun4i/sun4i_tcon.h
->> +++ b/drivers/gpu/drm/sun4i/sun4i_tcon.h
->> @@ -243,6 +243,7 @@ struct sun4i_tcon_quirks {
->>  	bool    needs_edp_reset; /* a80 edp reset needed for tcon0 access */
->>  	bool	supports_lvds;   /* Does the TCON support an LVDS output? */
->>  	bool	polarity_in_ch0; /* some tcon1 channels have polarity bits in tco=
-n0 pol register */
->> +	bool	restores_rate;   /* restores the initial rate when rate changes */
->>  	u8	dclk_min_div;	/* minimum divider for TCON0 DCLK */
->>
->>  	/* callback to handle tcon muxing options */
->> @@ -300,4 +301,15 @@ void sun4i_tcon_set_status(struct sun4i_tcon *crtc,
->>
->>  extern const struct of_device_id sun4i_tcon_of_table[];
->>
->> +struct sun4i_rate_reset_nb {
->> +	struct notifier_block	clk_nb;
->> +	struct delayed_work	reset_rate_work;
->> +
->> +	struct clk		*target_clk;
->> +	unsigned long		saved_rate;
->> +	bool			is_registered;
->> +};
->> +
->> +#define to_sun4i_rate_reset_nb(_nb) container_of(_nb, struct sun4i_rate=
-_reset_nb, clk_nb)
->> +
->>  #endif /* __SUN4I_TCON_H__ */
->>
->> ---
->> base-commit: dcb6c8ee6acc6c347caec1e73fb900c0f4ff9806
->> change-id: 20240304-tcon_keep_stable_rate-5729c7706343
->>
->> Best regards,
->>
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
