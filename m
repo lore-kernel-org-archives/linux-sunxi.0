@@ -1,73 +1,75 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7110ADF53
-	for <linux-sunxi@lists.linux.dev>; Thu, 14 Mar 2024 17:14:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCDCF745C9
+	for <linux-sunxi@lists.linux.dev>; Thu, 14 Mar 2024 17:21:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710436494; cv=none; b=giUo1S6tovciwCBGTG/dNIS8BegEvCrzkF+n3wssZ3XILJG6UKcvlFSuuNYyonMfm558y4HIpw34IhqRDC07VeT9sgben4q7sNsHVPloxdIjhzzEuvNupRl7q54r6GPm2+pGzNYzqdIqGZR4besgr2x5STijvXlEgXLGvJjKujU=
+	t=1710436863; cv=none; b=fU0UbffDi+HgP1tynk3dr5ew5iOIhvgcHv35kRSF29QlnvcN67uMRkmDd3wSed1Gae6urjbWWKoaLvKbgLhYGTCQBJqdp+3JXEsG24Yp+tA0F92dtX73OhbzZRsYef48VPThVFHaembcN+iKeIIj13e4eWxzHFz9ZxDf48BZrnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710436494; c=relaxed/simple;
-	bh=Mk+rfA5+jt08mXa/s62cSWewQqyfYwi9QnmHD0NZdQc=;
+	s=arc-20240116; t=1710436863; c=relaxed/simple;
+	bh=uvthK6ZPHv9ziKLsWHO3MPl4ZybvCCopm0QV4LX8UkQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lylAg44AkZp9BPKSoHqKv5RMGvMRaKV7UzlEyDxa2SqXzbr0lCCxB8oHznf1uRiHm/qP8386Xp1UHGfIPXK4DqbcPQyId0TQZBDgp9As7XCTYuELaYl5pbWY3fI806ugpeza9hk3koliTu93ZDAIcdSExffuSJSE0iSt6sXfiPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bVfVLWxu; arc=none smtp.client-ip=209.85.218.49
+	 MIME-Version:Content-Type; b=bXCSE0nveF1N1CU8n/mIC4CVrIn1ToChh5ghCazMWzOPN7XuEyySkrzWNK/QlV9w3MTMNWFYEymKHibLDcOkYYe0ojuG86hmJRD6o5p98YBikGq67Fw5llqiR6S0Bu8YIHkALSV+qh/iMxhJqPHrG5kxBe0Xec8s4NZordhcE6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CdPlyGZl; arc=none smtp.client-ip=209.85.218.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bVfVLWxu"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a44ad785a44so138391466b.3
-        for <linux-sunxi@lists.linux.dev>; Thu, 14 Mar 2024 10:14:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CdPlyGZl"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a28a6cef709so163835066b.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 14 Mar 2024 10:21:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710436491; x=1711041291; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1710436860; x=1711041660; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lyQuvyZvWkNkevJje/qZfohSPwJGSD6MP76YZ0DXqFI=;
-        b=bVfVLWxuuxokjVRTyY0M4YwsTidPhrNQO6iMxfmwpWrE2ESqnLsr9kWK7W6o48IhQl
-         otF+QxA99r21Znqscq/NVvGOlGiKTwr9vEIso0Ey6+4yofur8Fsg1ueicHXn6zllwaEj
-         jaIHQE/ZlAQgnCBSUy2fgWQDcWR5D+JVEvi9NmBGkqX1C6QgsKa24sSpXUFxL2pzgnX6
-         dRVzfK4oQyQfXtk9WSR5SNt3cYWhT9MvTRpgaIMyAW3+bBqIzzPpUBMq0apd5/5JQvVC
-         DBvTljUslii3RZzRh599H4ozL8ZaJJWqesMT1QkIPFjKM1CPyXOoCxEflFJ+zYB7b4KY
-         NMOw==
+        bh=uvthK6ZPHv9ziKLsWHO3MPl4ZybvCCopm0QV4LX8UkQ=;
+        b=CdPlyGZl781hlfCn8JaXHD5z2FxwX369/XlNq87pLVLca/7HN1xqZk5hF0ZgYyt89v
+         FWjpyuJY9FO51cNgcyosOzlnYsVO8WCiGq1igBdxH/jOSeLw2WnYV1rexnp8kGV6ZJaS
+         p6fQG/LFH1ityhHTEAhB/hiDpvR10l5wkIQZ4cM77t1dqhK8uZt/E3DQKpyP62EvmHVD
+         2QQY1aeI7YW9WzhCOdmFKfuEmyxfjD1C5iYazd6U7LkoedgOBoV890yTklWip2qDLNLR
+         6CryFljTi+KY5sJFGzRlZenawdXgecCJyEM0fDUHlS5Hf5EfZDMq+G9MjzcyodPbNzp1
+         KCFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710436491; x=1711041291;
+        d=1e100.net; s=20230601; t=1710436860; x=1711041660;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=lyQuvyZvWkNkevJje/qZfohSPwJGSD6MP76YZ0DXqFI=;
-        b=Q8WFJueQ3LC9JLNPoPEcONDhzmKPV5swtsgp2oJwpKAz8Y35On1ibAjiBTAUTOnVjC
-         q1JjPeD2QqfKCvf5N4nmRI63MKiaXs/fQYLPch7oWfkev0QIA1ICu4/VgG5m+X157mhP
-         pT/2LQijSg9er0wy27/S+yq7U/fZiNmzCjUIKeFEPERHBuadC+POlkDIVCpQL8f4BOXi
-         Q69wPnz1R3dMBvziUpty3z/ZaeYZ7PiQ1WojNoHnPCb7SxO6oofQDYGBLwqgwCUQ2btH
-         1SUjtCwF7eFQ6+TDBQYKYWS3YwgJLQolcqNhsw+ZB50WUtx+nnQFUHCK5fzEx6FyYYqs
-         atPA==
-X-Forwarded-Encrypted: i=1; AJvYcCX6pjL9Z7npqW6wgdfUBM26F16fRwFZVuTePQQo2wE3SnLynGywqSbnAXy3N3IhfxvGFm4I7SK2t35uGJ/plDGXsQCtTM6PAPkInec=
-X-Gm-Message-State: AOJu0YzBaanMDDbsMN6WyLdScdA6wbM4atJfZaSgsb37OO6gZKxmrtP5
-	O/0QUx7/5Ktq4vnlZtGG+GrM2hVxHkGwTCheJHqqC1LAVsNSF2t+
-X-Google-Smtp-Source: AGHT+IEMOp7WlFT+9NeLjuuuolSPGS9gEn8HXwALS4uZ7Hqf/VM5cxQ581uVXE7EOsb4JtgAAKOXNA==
-X-Received: by 2002:a17:906:ecfc:b0:a46:6557:716f with SMTP id qt28-20020a170906ecfc00b00a466557716fmr977154ejb.20.1710436490523;
-        Thu, 14 Mar 2024 10:14:50 -0700 (PDT)
+        bh=uvthK6ZPHv9ziKLsWHO3MPl4ZybvCCopm0QV4LX8UkQ=;
+        b=ZvoKfxWqrtS4WQQZtKrgf69ryR45QoSd3PWqlg9VRrOuCTOuKJwIYDBgn7zC+Iwu5r
+         w68iIefdp9F0VNRGSCmx/uUWY0hMpSuOTfnbi6FwDaAMk1tZ43DmXm2iY7+UaMJukVnN
+         6UhSs8DPo6tgdJ7iZ2Uper9USWw+7nAM84GY3X2Ta5O8tUwGMgzUzJkDJNGB12y8q4Fw
+         MytpcHm3qHg9qHChYMl27v4s8vcG/GxCPdJQCNREqE+Cod8SAwsl7LHj2DrVa12x/P0I
+         rTbu9Z3h4ZqNa6vyBiZ/Vqo/WSSVlF7UwIl0FCELGOsiFF/3roLF1ppIuOPkwZHm5F8P
+         gOvw==
+X-Forwarded-Encrypted: i=1; AJvYcCUi0VIAphZSNhOriP+BEldVO5hnnNU5z4NIkFGf7ysmuRUS5zT9+CjSVy7tC5zxUOwU6yTezMKj64efx0B8LiNkWuc/Q/1XR++g8LE=
+X-Gm-Message-State: AOJu0YyTo3jYignuUI9FQ0ogUFZphYMrZfCb7qL/wK5kGwIlil0S39RY
+	3svnoSfNP6yZlg5B6UTyZadfHpL13cqomrfr3QKd4atA3ZuAFK/M
+X-Google-Smtp-Source: AGHT+IEwb/JV3ROy5jBsR2h0x53EOam5x48bXCQzKOeUat4Rg2BPQuqlegOQyDv9bGsdCWC9AfeGSw==
+X-Received: by 2002:a17:907:2da1:b0:a45:ab9b:4a28 with SMTP id gt33-20020a1709072da100b00a45ab9b4a28mr552954ejc.60.1710436860023;
+        Thu, 14 Mar 2024 10:21:00 -0700 (PDT)
 Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id p25-20020a1709061b5900b00a461d8335f2sm866369ejg.45.2024.03.14.10.14.49
+        by smtp.gmail.com with ESMTPSA id o26-20020a17090608da00b00a461c637eddsm881549eje.223.2024.03.14.10.20.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Mar 2024 10:14:49 -0700 (PDT)
+        Thu, 14 Mar 2024 10:20:59 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- Denis Burkov <hitechshell@mail.ru>
-Cc: Denis Burkov <hitechshell@mail.ru>
-Subject: Re: [PATCH 2/2] ARM: dts: sun5i: Add PocketBook 614 Plus support
-Date: Thu, 14 Mar 2024 18:14:48 +0100
-Message-ID: <2451572.jE0xQCEvom@jernej-laptop>
-In-Reply-To: <20240314155306.11521-2-hitechshell@mail.ru>
+To: Frank Oltmanns <frank@oltmanns.dev>, Maxime Ripard <mripard@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Samuel Holland <samuel@sholland.org>,
+ Icenowy Zheng <uwu@icenowy.me>, Ondrej Jirman <x@xnux.eu>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject:
+ Re: [PATCH] drm/sun4i: tcon: Support keeping dclk rate upon ancestor clock
+ changes
+Date: Thu, 14 Mar 2024 18:20:58 +0100
+Message-ID: <5448341.Sb9uPGUboI@jernej-laptop>
+In-Reply-To: <20240314-careful-silky-bear-8ee43f@houat>
 References:
- <20240314155306.11521-1-hitechshell@mail.ru>
- <20240314155306.11521-2-hitechshell@mail.ru>
+ <20240310-tcon_keep_stable_rate-v1-1-0296b0a85c02@oltmanns.dev>
+ <20240314-careful-silky-bear-8ee43f@houat>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -77,349 +79,66 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Hi Denis!
-
-Dne =C4=8Detrtek, 14. marec 2024 ob 16:53:06 CET je Denis Burkov napisal(a):
-> What works:
+Dne =C4=8Detrtek, 14. marec 2024 ob 15:42:24 CET je Maxime Ripard napisal(a=
+):
+> Hi,
 >=20
-> - Serial console
-> - mmc0, mmc2 (both microSD card slots on the board)
-> - All buttons (gpio and lradc based)
-> - Power LED
-> - PMIC
-> - RTC
-> - USB OTG/gadgets mode
+> On Sun, Mar 10, 2024 at 02:32:29PM +0100, Frank Oltmanns wrote:
+> > Allow the dclk to reset its rate when a rate change is initiated from an
+> > ancestor clock. This makes it possible to no longer to get an exclusive
+> > lock. As a consequence, it is now possible to set new rates if
+> > necessary, e.g. when an external display is connected.
+> >=20
+> > The first user of this functionality is the A64 because PLL-VIDEO0 is an
+> > ancestor for both HDMI and TCON0. This allows to select an optimal rate
+> > for TCON0 as long as there is no external HDMI connection. Once a change
+> > in PLL-VIDEO0 is performed when an HDMI connection is established, TCON0
+> > can react gracefully and select an optimal rate based on this the new
+> > constraint.
+> >=20
+> > Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+> > ---
+> > I would like to make the Allwinner A64's data-clock keep its rate
+> > when its ancestor's (pll-video0) rate changes. Keeping data-clock's rate
+> > is required, to let the A64 drive both an LCD and HDMI display at the
+> > same time, because both have pll-video0 as an ancestor.
+> >=20
+> > TCONs that use this flag store the ideal rate for their data-clock and
+> > subscribe to be notified when data-clock changes. When rate setting has
+> > finished (indicated by a POST_RATE_CHANGE event) the call back function
+> > schedules delayed work to set the data-clock's rate to the initial value
+> > after 100 ms. Using delayed work maks sure that the clock setting is
+> > finished.
+> >=20
+> > I've implemented this functionality as a quirk, so that it is possible
+> > to use it only for the A64.
+> >=20
+> > This patch supersedes [1].
+> >=20
+> > This work is inspired by an out-of-tree patchset [2] [3] [4].
+> > Unfortunately, the patchset uses clk_set_rate() directly in a notifier
+> > callback, which the following comment on clk_notifier_register()
+> > forbids: "The callbacks associated with the notifier must not re-enter
+> > into the clk framework by calling any top-level clk APIs." [5]
+> > Furthermore, that out-of-tree patchset no longer works since 6.6,
+> > because setting pll-mipi is now also resetting pll-video0 and therefore
+> > causes a race condition.
 >=20
-> Signed-off-by: Denis Burkov <hitechshell@mail.ru>
-> ---
->  arch/arm/boot/dts/allwinner/Makefile          |   2 +
->  .../sun5i-a13-pocketbook-614-plus.dts         | 254 ++++++++++++++++++
->  2 files changed, 256 insertions(+)
->  create mode 100644 arch/arm/boot/dts/allwinner/sun5i-a13-pocketbook-614-=
-plus.dts
->=20
-> diff --git a/arch/arm/boot/dts/allwinner/Makefile b/arch/arm/boot/dts/all=
-winner/Makefile
-> index 2d26c3397f14..fe321865beed 100644
-> --- a/arch/arm/boot/dts/allwinner/Makefile
-> +++ b/arch/arm/boot/dts/allwinner/Makefile
-> @@ -61,6 +61,7 @@ dtb-$(CONFIG_MACH_SUN5I) +=3D \
->  	sun5i-a13-olinuxino.dtb \
->  	sun5i-a13-olinuxino-micro.dtb \
->  	sun5i-a13-pocketbook-touch-lux-3.dtb \
-> +	sun5i-a13-pocketbook-614-plus.dtb \
->  	sun5i-a13-q8-tablet.dtb \
->  	sun5i-a13-utoo-p66.dtb \
->  	sun5i-gr8-chip-pro.dtb \
-> @@ -82,6 +83,7 @@ dtb-$(CONFIG_MACH_SUN5I) +=3D \
->  	sun5i-a13-olinuxino.dtb \
->  	sun5i-a13-olinuxino-micro.dtb \
->  	sun5i-a13-pocketbook-touch-lux-3.dtb \
-> +	sun5i-a13-pocketbook-614-plus.dtb \
->  	sun5i-a13-q8-tablet.dtb \
->  	sun5i-a13-utoo-p66.dtb \
->  	sun5i-gr8-chip-pro.dtb \
+> Workqueues don't have an upper boundary on when they execute. As we
+> discussed multiple times, this should be solved in the clock framework
+> itself, not bypassing it.
 
-This merge artefact. Can you add patch before this one and remove duplicate=
- definitions?
+I think TCON code still needs to be touched due to clk_rate_exclusive_get()
+calls which effectively lock whole chain. You can't have both TCONs locking
+rate on A64 for this to work correctly.
 
-> diff --git a/arch/arm/boot/dts/allwinner/sun5i-a13-pocketbook-614-plus.dt=
-s b/arch/arm/boot/dts/allwinner/sun5i-a13-pocketbook-614-plus.dts
-> new file mode 100644
-> index 000000000000..89898fa16ff7
-> --- /dev/null
-> +++ b/arch/arm/boot/dts/allwinner/sun5i-a13-pocketbook-614-plus.dts
-> @@ -0,0 +1,254 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * Copyright 2024 Denis Burkov <hitechshell@mail.ru>
-> + */
-> +
-> +/dts-v1/;
-> +#include "sun5i-a13.dtsi"
-> +#include "sunxi-common-regulators.dtsi"
-
-Extra empty line here.
-
-> +#include <dt-bindings/gpio/gpio.h>
-> +#include <dt-bindings/input/input.h>
-> +#include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +/ {
-> +	model =3D "PocketBook 614 Plus";
-> +	compatible =3D "pocketbook,614-plus", "allwinner,sun5i-a13";
-> +
-> +	aliases {
-> +		serial0 =3D &uart1;
-> +		i2c0 =3D &i2c0;
-> +		i2c1 =3D &i2c1;
-> +		i2c2 =3D &i2c2;
-> +		rtc0 =3D &pcf8563;
-
-Please drop aliases except serial0.
-
-> +	};
-> +
-> +	chosen {
-> +		stdout-path =3D "serial0:115200n8";
-> +	};
-> +
-> +	leds {
-> +		compatible =3D "gpio-leds";
-> +		pinctrl-names =3D "default";
-> +		pinctrl-0 =3D <&led_pins_pocketbook>;
-
-Drop pinctrl nodes. GPIOs don't need them.
-
-> +
-> +		led {
-> +			gpios =3D <&pio 4 8 GPIO_ACTIVE_LOW>; /* PE8 */
-> +			default-state =3D "on";
-
-Add additional properties, like function and color.
-
-> +		};
-> +	};
-> +
-> +	gpio-keys {
-> +		compatible =3D "gpio-keys";
-> +		autorepeat;
-
-Why is autorepeat needed?
-
-> +		label =3D "GPIO Keys";
-
-I guess label is self evident and not needed?
-
-> +		pinctrl-names =3D "default";
-> +		pinctrl-0 =3D <&pocketbook_btn_pins>;
-
-Again, GPIOs don't need pinctrl nodes. I know that you specified pull up, b=
-ut
-please try without. Other boards have same design and it's not needed.
-
-> +
-> +		key-right {
-> +			label =3D "Right";
-> +			linux,code =3D <KEY_NEXT>;
-> +			gpios =3D <&pio 6 9 GPIO_ACTIVE_LOW>; /* PG9 */
-> +		};
-> +
-> +		key-left {
-> +			label =3D "Left";
-> +			linux,code =3D <KEY_PREVIOUS>;
-> +			gpios =3D <&pio 6 10 GPIO_ACTIVE_LOW>; /* PG10 */
-> +		};
-> +	};
-> +
-> +	reg_3v3_mmc0: regulator-mmc0 {
-> +		compatible =3D "regulator-fixed";
-> +		regulator-name =3D "vdd-mmc0";
-> +		regulator-min-microvolt =3D <3300000>;
-> +		regulator-max-microvolt =3D <3300000>;
-> +		pinctrl-names =3D "default";
-> +		pinctrl-0 =3D <&pocketbook_reg_mmc0_pins>;
-
-again, pinctrl not needed.
-
-> +		gpio =3D <&pio 4 4 GPIO_ACTIVE_LOW>; /* PE4 */
-> +		vin-supply =3D <&reg_vcc3v3>;
-> +	};
-> +};
-> +
-> +&cpu0 {
-> +	cpu-supply =3D <&reg_dcdc2>;
-> +};
-> +
-> +&ehci0 {
-> +	status =3D "okay";
-> +};
-> +
-> +&i2c0 {
-> +	status =3D "okay";
-> +
-> +	axp209: pmic@34 {
-> +		compatible =3D "x-powers,axp209";
-> +		reg =3D <0x34>;
-> +		interrupts =3D <0>;
-> +	};
-> +};
-> +
-> +#include "axp209.dtsi"
-> +
-> +&i2c1 {
-> +	status =3D "okay";
-> +
-> +	pcf8563: rtc@51 {
-> +		compatible =3D "nxp,pcf8563";
-> +		reg =3D <0x51>;
-> +		#clock-cells =3D <0>;
-> +	};
-> +};
-> +
-> +&i2c2 {
-> +	status =3D "okay";
-> +
-> +	/* Touchpanel is connected here. */
-
-Any reason why don't you specify touch panel device here?
-
-> +};
-> +
-> +&lradc {
-> +	vref-supply =3D <&reg_ldo2>;
-> +	status =3D "okay";
-> +
-> +	button-300 {
-> +		label =3D "Down";
-> +		linux,code =3D <KEY_DOWN>;
-> +		channel =3D <0>;
-> +		voltage =3D <300000>;
-> +	};
-> +
-> +	button-700 {
-> +		label =3D "Up";
-> +		linux,code =3D <KEY_UP>;
-> +		channel =3D <0>;
-> +		voltage =3D <700000>;
-> +	};
-> +
-> +	button-1000 {
-> +		label =3D "Left";
-> +		linux,code =3D <KEY_LEFT>;
-> +		channel =3D <0>;
-> +		voltage =3D <1000000>;
-> +	};
-> +
-> +	button-1200 {
-> +		label =3D "Menu";
-> +		linux,code =3D <KEY_MENU>;
-> +		channel =3D <0>;
-> +		voltage =3D <1200000>;
-> +	};
-> +
-> +	button-1500 {
-> +		label =3D "Right";
-> +		linux,code =3D <KEY_RIGHT>;
-> +		channel =3D <0>;
-> +		voltage =3D <1500000>;
-> +	};
-> +};
-> +
-> +&mmc0 {
-> +	vmmc-supply =3D <&reg_3v3_mmc0>;
-> +	bus-width =3D <4>;
-> +	cd-gpios =3D <&pio 6 0 GPIO_ACTIVE_LOW>; /* PG0 */
-> +	status =3D "okay";
-> +};
-> +
-> +&mmc2 {
-> +	pinctrl-names =3D "default";
-> +	pinctrl-0 =3D <&mmc2_4bit_pc_pins>;
-> +	vmmc-supply =3D <&reg_vcc3v3>;
-> +	bus-width =3D <4>;
-> +	non-removable;
-> +	status =3D "okay";
-> +};
-> +
-> +&ohci0 {
-> +	status =3D "okay";
-> +};
-> +
-> +&otg_sram {
-> +	status =3D "okay";
-> +};
-> +
-> +&pio {
-> +	led_pins_pocketbook: led-pin {
-> +		pins =3D "PE8";
-> +		function =3D "gpio_out";
-> +	};
-> +	pocketbook_btn_pins: btn-pins {
-> +		pins =3D "PG9", "PG10";
-> +		function =3D "gpio_in";
-> +		bias-pull-up;
-> +	};
-> +	pocketbook_reg_mmc0_pins: reg-mmc0-pins {
-> +		pins =3D "PE4";
-> +		function =3D "gpio_out";
-> +	};
-> +};
-
-Whole PIO node can be dropped.
+What was original reason for clk_rate_exclusive_get()? I forgot already.
 
 Best regards,
 Jernej
 
-> +
-> +&reg_dcdc2 {
-> +	regulator-always-on;
-> +	regulator-min-microvolt =3D <1000000>;
-> +	regulator-max-microvolt =3D <1500000>;
-> +	regulator-name =3D "vdd-cpu";
-> +};
-> +
-> +&reg_dcdc3 {
-> +	regulator-always-on;
-> +	regulator-min-microvolt =3D <1000000>;
-> +	regulator-max-microvolt =3D <1400000>;
-> +	regulator-name =3D "vdd-int-dll";
-> +};
-> +
-> +&reg_ldo1 {
-> +	regulator-name =3D "vdd-rtc";
-> +};
-> +
-> +&reg_ldo2 {
-> +	regulator-always-on;
-> +	regulator-min-microvolt =3D <3000000>;
-> +	regulator-max-microvolt =3D <3000000>;
-> +	regulator-name =3D "avcc";
-> +};
-> +
-> +&reg_ldo3 {
-> +	regulator-min-microvolt =3D <3300000>;
-> +	regulator-max-microvolt =3D <3300000>;
-> +	regulator-name =3D "vcc-wifi";
-> +};
-> +
-> +&reg_usb0_vbus {
-> +	status =3D "okay";
-> +	gpio =3D <&pio 6 12 GPIO_ACTIVE_HIGH>; /* PG12 */
-> +};
-> +
-> +&reg_usb1_vbus {
-> +	gpio =3D <&pio 6 11 GPIO_ACTIVE_HIGH>; /* PG11 */
-> +	status =3D "okay";
-> +};
-> +
-> +&uart1 {
-> +	pinctrl-names =3D "default";
-> +	pinctrl-0 =3D <&uart1_pg_pins>;
-> +	status =3D "okay";
-> +};
-> +
-> +&usb_otg {
-> +	dr_mode =3D "otg";
-> +	status =3D "okay";
-> +};
-> +
-> +&usb_power_supply {
-> +	status =3D "okay";
-> +};
-> +
-> +&battery_power_supply {
-> +	status =3D "okay";
-> +};
-> +
-> +&usbphy {
-> +	usb0_id_det-gpios =3D <&pio 6 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; /* =
-PG2 */
-> +	usb0_vbus_det-gpios =3D <&axp_gpio 1 GPIO_ACTIVE_HIGH>;
-> +	usb0_vbus-supply =3D <&reg_usb0_vbus>;
-> +	usb1_vbus-supply =3D <&reg_usb1_vbus>;
-> +	status =3D "okay";
-> +};
+>=20
+> Maxime
 >=20
 
 
