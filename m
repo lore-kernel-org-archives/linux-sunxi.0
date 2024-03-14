@@ -1,109 +1,119 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42CA857861;
-	Thu, 14 Mar 2024 12:30:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B5045D756;
+	Thu, 14 Mar 2024 14:42:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710419432; cv=none; b=hzeup4Oatr/M7KkX8iUSS6a+Wj82iIugUObXVqekX2eA6AGuoS4Hi9fymxvXZvhvSGA0x9DgX5WS6m+Mlx9xLX3c/CEJP3ptc0igBxuFjA9M200MZ4U1MDyVkCqX/WhM5o5Yq3pEmPaOxLdZ+QBKaWCAcrtBLHYRDaCReXIwC9w=
+	t=1710427347; cv=none; b=jIkapjRFRUQj1Mp8iz6RqJF69JqwunoBuzmnW3FTCvAmo9cBPg0qoXQ11xNJP9EP+bTxhJ7K6YBazEQFFpS3YaMhxoWkRbIvEHmymwKAEZNW8QAKKubp5bTccffFptETenqyQSgobCiS7dYugWyeEv01DWH2A3mQPNZRDkO+Yow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710419432; c=relaxed/simple;
-	bh=CrTSWvnI80HBCf2z8Oy2nHbmglsJV2g15ydY/Fnd+/0=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=uSw+Cs0yJAhDIn893ELZie3+hlaLWxDh/+BNYnv/fYpUU5Id9FZ5kcOz3ZcZE/n1uhTE+IbwljOpG38tFJKq6RS80qWQKbqcJBDWLzWPmmspkQVyStWXG7h3Y2WkcCmo6cb/keChZ/b6FrcvxWgut2nQMnc9xyRUtSIsncSYF2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oG+C/r13; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1710427347; c=relaxed/simple;
+	bh=t15/fUG8eEoCH9k/jfp6Z2u74HuUtlgqyLfEcx09Zp4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=M9KUlO8kvmyWiaX7atqKzF54erh5xaoAa0DckbcwP7TBICcXWV1+g0Mjv0kpNrCEBv07XEbzHpqjEg+pUdLpfLLHr9wvrCqQIEZ+dLtKq76bPVO4Onfk5h9DYD0vTwoD5hmjx+dEqYNMipxkYsccR2Qri2c2gNRXOr7E2S1bkg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I/F+lDGS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oG+C/r13"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 0781EC433A6;
-	Thu, 14 Mar 2024 12:30:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I/F+lDGS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA74DC433C7;
+	Thu, 14 Mar 2024 14:42:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710419432;
-	bh=CrTSWvnI80HBCf2z8Oy2nHbmglsJV2g15ydY/Fnd+/0=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=oG+C/r13TmKdzhAlJcO0u+vL0vp9yOVmJ0g/oiKWmipU+n6rJquFJCWqrNOQSQ2k4
-	 ccIcGlpXIeboz94YUQO3bvjZFHoQJ6QV7wUhmBeJTFg5AWNmPZJYvIZIrJsFwFY2of
-	 OIDxH2h1iJBf+ExBpnRAcKnFNtoX8rVXNSVgbDEoVlaoUHKsiFD1FrD6Tj7O9vsH/i
-	 bk0FxwUKy6ccBHLapb0AVzUUOBDcALyYpl6oV9SH4llTH7PkbUQmxG8XfVK3qfK+BC
-	 mJ2zLPRrgeNtsRC/QnH5pih+YJGWb/AwwBnL8wrVtonOOJpKYURuS/S2mY0VJCAJFt
-	 54/cvGAWu8vMw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E921DD95055;
-	Thu, 14 Mar 2024 12:30:31 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1710427347;
+	bh=t15/fUG8eEoCH9k/jfp6Z2u74HuUtlgqyLfEcx09Zp4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=I/F+lDGS2y5xE5a5YA7GzDQLaThIZmXKLcUXFYPQFaGsCyeslKqQd7z1bZgb+ttps
+	 p5mDSY9dX7k5N4dsQUhv1iOtQsRWuHo8AEQwqNHtJvj8iWE+28xfJ6cLUgkfpw5Dy6
+	 FbdjrkPuMlr12cVAvOmggmYlSPsWGdjjeyY6KKSz6ONecqBDXb7gNac7Wp4FoC3dLc
+	 6ZNoHDmv98FB+bCPD3Uy/z4vuqh9rh69Qy3RDzDbAMxENPSBF4hFT2fC09ubBRpWbv
+	 ZDZoRRNkfMhzvDAdhzqCrY2AYJmjVfor08S+wsnhihdijuUoj0jTst4SswmtBSPxBn
+	 G4RFR8dxu6BwA==
+Date: Thu, 14 Mar 2024 15:42:24 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Frank Oltmanns <frank@oltmanns.dev>
+Cc: Chen-Yu Tsai <wens@csie.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Icenowy Zheng <uwu@icenowy.me>, Ondrej Jirman <x@xnux.eu>, dri-devel@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/sun4i: tcon: Support keeping dclk rate upon ancestor
+ clock changes
+Message-ID: <20240314-careful-silky-bear-8ee43f@houat>
+References: <20240310-tcon_keep_stable_rate-v1-1-0296b0a85c02@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v9 00/10] Support Andes PMU extension
-From: patchwork-bot+linux-riscv@kernel.org
-Message-Id: 
- <171041943194.26728.3807889559884607630.git-patchwork-notify@kernel.org>
-Date: Thu, 14 Mar 2024 12:30:31 +0000
-References: <20240222083946.3977135-1-peterlin@andestech.com>
-In-Reply-To: <20240222083946.3977135-1-peterlin@andestech.com>
-To: Yu Chien Peter Lin <peterlin@andestech.com>
-Cc: linux-riscv@lists.infradead.org, acme@kernel.org, adrian.hunter@intel.com,
- ajones@ventanamicro.com, alexander.shishkin@linux.intel.com,
- andre.przywara@arm.com, anup@brainfault.org, aou@eecs.berkeley.edu,
- atishp@atishpatra.org, conor+dt@kernel.org, conor.dooley@microchip.com,
- conor@kernel.org, devicetree@vger.kernel.org, evan@rivosinc.com,
- geert+renesas@glider.be, guoren@kernel.org, heiko@sntech.de,
- irogers@google.com, jernej.skrabec@gmail.com, jolsa@kernel.org,
- jszhang@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-perf-users@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-sunxi@lists.linux.dev, locus84@andestech.com, magnus.damm@gmail.com,
- mark.rutland@arm.com, mingo@redhat.com, n.shubin@yadro.com,
- namhyung@kernel.org, palmer@dabbelt.com, paul.walmsley@sifive.com,
- peterz@infradead.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
- rdunlap@infradead.org, robh+dt@kernel.org, samuel@sholland.org,
- sunilvl@ventanamicro.com, tglx@linutronix.de, tim609@andestech.com,
- uwu@icenowy.me, wens@csie.org, will@kernel.org, inochiama@outlook.com,
- unicorn_wang@outlook.com, wefu@redhat.com
-
-Hello:
-
-This series was applied to riscv/linux.git (for-next)
-by Palmer Dabbelt <palmer@rivosinc.com>:
-
-On Thu, 22 Feb 2024 16:39:36 +0800 you wrote:
-> Hi All,
-> 
-> This patch series introduces the Andes PMU extension, which serves the
-> same purpose as Sscofpmf and Smcntrpmf. Its non-standard local interrupt
-> is assigned to bit 18 in the custom S-mode local interrupt enable and
-> pending registers (slie/slip), while the interrupt cause is (256 + 18).
-> 
-> [...]
-
-Here is the summary with links:
-  - [v9,01/10] riscv: errata: Rename defines for Andes
-    https://git.kernel.org/riscv/c/be5e8872b3fb
-  - [v9,02/10] irqchip/riscv-intc: Allow large non-standard interrupt number
-    https://git.kernel.org/riscv/c/96303bcb401c
-  - [v9,03/10] irqchip/riscv-intc: Introduce Andes hart-level interrupt controller
-    https://git.kernel.org/riscv/c/f4cc33e78ba8
-  - [v9,04/10] dt-bindings: riscv: Add Andes interrupt controller compatible string
-    https://git.kernel.org/riscv/c/b88727d554f0
-  - [v9,05/10] riscv: dts: renesas: r9a07g043f: Update compatible string to use Andes INTC
-    https://git.kernel.org/riscv/c/95113bb70515
-  - [v9,06/10] perf: RISC-V: Eliminate redundant interrupt enable/disable operations
-    https://git.kernel.org/riscv/c/ea0e0178e101
-  - [v9,07/10] perf: RISC-V: Introduce Andes PMU to support perf event sampling
-    https://git.kernel.org/riscv/c/bc969d6cc96a
-  - [v9,08/10] dt-bindings: riscv: Add Andes PMU extension description
-    https://git.kernel.org/riscv/c/61609bf2b29d
-  - [v9,09/10] riscv: dts: renesas: Add Andes PMU extension for r9a07g043f
-    https://git.kernel.org/riscv/c/270fc77e7b0e
-  - [v9,10/10] riscv: andes: Support specifying symbolic firmware and hardware raw events
-    https://git.kernel.org/riscv/c/f5102e31c209
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="nskffof7joxt6vlb"
+Content-Disposition: inline
+In-Reply-To: <20240310-tcon_keep_stable_rate-v1-1-0296b0a85c02@oltmanns.dev>
 
 
+--nskffof7joxt6vlb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Sun, Mar 10, 2024 at 02:32:29PM +0100, Frank Oltmanns wrote:
+> Allow the dclk to reset its rate when a rate change is initiated from an
+> ancestor clock. This makes it possible to no longer to get an exclusive
+> lock. As a consequence, it is now possible to set new rates if
+> necessary, e.g. when an external display is connected.
+>=20
+> The first user of this functionality is the A64 because PLL-VIDEO0 is an
+> ancestor for both HDMI and TCON0. This allows to select an optimal rate
+> for TCON0 as long as there is no external HDMI connection. Once a change
+> in PLL-VIDEO0 is performed when an HDMI connection is established, TCON0
+> can react gracefully and select an optimal rate based on this the new
+> constraint.
+>=20
+> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+> ---
+> I would like to make the Allwinner A64's data-clock keep its rate
+> when its ancestor's (pll-video0) rate changes. Keeping data-clock's rate
+> is required, to let the A64 drive both an LCD and HDMI display at the
+> same time, because both have pll-video0 as an ancestor.
+>=20
+> TCONs that use this flag store the ideal rate for their data-clock and
+> subscribe to be notified when data-clock changes. When rate setting has
+> finished (indicated by a POST_RATE_CHANGE event) the call back function
+> schedules delayed work to set the data-clock's rate to the initial value
+> after 100 ms. Using delayed work maks sure that the clock setting is
+> finished.
+>=20
+> I've implemented this functionality as a quirk, so that it is possible
+> to use it only for the A64.
+>=20
+> This patch supersedes [1].
+>=20
+> This work is inspired by an out-of-tree patchset [2] [3] [4].
+> Unfortunately, the patchset uses clk_set_rate() directly in a notifier
+> callback, which the following comment on clk_notifier_register()
+> forbids: "The callbacks associated with the notifier must not re-enter
+> into the clk framework by calling any top-level clk APIs." [5]
+> Furthermore, that out-of-tree patchset no longer works since 6.6,
+> because setting pll-mipi is now also resetting pll-video0 and therefore
+> causes a race condition.
+
+Workqueues don't have an upper boundary on when they execute. As we
+discussed multiple times, this should be solved in the clock framework
+itself, not bypassing it.
+
+Maxime
+
+--nskffof7joxt6vlb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZfMMzwAKCRDj7w1vZxhR
+xQ1CAQDtICAPI7t6iHcGTsvHtbMc/Xou8mIobymUHWIa2ywO5QEAyvQlO/lPQtZc
+I6gmabMvtrOKzIunluaotAq5NsaVYQY=
+=IRk2
+-----END PGP SIGNATURE-----
+
+--nskffof7joxt6vlb--
