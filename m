@@ -1,147 +1,109 @@
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30B596E616
-	for <linux-sunxi@lists.linux.dev>; Thu, 14 Mar 2024 11:15:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42CA857861;
+	Thu, 14 Mar 2024 12:30:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710414908; cv=none; b=OuusaKGt5MTUaEvX14JJkLzPZ23+LOveU3Bd/l1zsEC/Qy8vHqew02JxNRnBWo30I69tkZLfaaXAFI73h1NzocoQICK1MQhQmzK6qeJJ9IWnFt5L/XzbgDbMvVQ050/ALKqMwwSA8DIdr59Dm6h4AqOdA40uSQFLZ09MOZFVdh0=
+	t=1710419432; cv=none; b=hzeup4Oatr/M7KkX8iUSS6a+Wj82iIugUObXVqekX2eA6AGuoS4Hi9fymxvXZvhvSGA0x9DgX5WS6m+Mlx9xLX3c/CEJP3ptc0igBxuFjA9M200MZ4U1MDyVkCqX/WhM5o5Yq3pEmPaOxLdZ+QBKaWCAcrtBLHYRDaCReXIwC9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710414908; c=relaxed/simple;
-	bh=MHPwaGe+JEy2PghaKynwl1tJuqHfhafULXPHJzyP8ys=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AzOd+l7ZafHaLaSPYMHMovRRBuqHz1Jn7VGGZSoH3Qx8eHMpUnx58zAF1JW+iLd2+Vk+uHf9y4FYR02SoC63DWItKGMlnlN4q8gjoeX99dNgGvNy6UxV1AsbGzRlZSff7HJwoSDRQavgpIHyEbIO6NHRGUSWwc9klTEWst06Cac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-60a0579a955so10358287b3.3
-        for <linux-sunxi@lists.linux.dev>; Thu, 14 Mar 2024 04:15:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710414905; x=1711019705;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AaxQeb/LOGJ+tXY7ROrISTEEvDtokZCLzq0Vp5ELGOY=;
-        b=j3iAzdmNSqxJHZ80hDB+vgOopdcEsKLS2ik/l0XNsACN61ebSW5Pk7h1z/9aHIyQQ6
-         i5Qk0Tkj6lMkMrm57xGn8u6PMM8cloGE513QmNktdqeit5sbJ4UCO/epApqUG1/JY9rl
-         tvjRwke9Ac/rxc9n5SBGbTPsDxWnJGTkfzfif9rHl5Dy/ZI0xifsTR2HPvjJJpxQZ0Qc
-         raj8AU+PnsvsFmnDzuGu3O5oSqQ7/G1jP0AbPEVZD1cGMq7YXusgsMkvH81u7FvtPosF
-         Yzu9KtrfBJAkfPH+LdefpqRZSIPfW/XnuBIOZvVlFpuJGjl47CT+xMUXKSJB5I4bH71M
-         eDEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVbEY78jcnHPy3ZWe36mLvN7Y196uKoc4KFcGWkxtrKYKzCb4tzQenW2WAwnMDnWM3eWHPKXYDrVwVBhqOVvXYIUh6rvuJrQd9++XU=
-X-Gm-Message-State: AOJu0YwhRS+q2JlGBxDu4N7/ncUyszam4t51DCs/N1RMe6PmZCP/vhMT
-	lZdTXAeY03Vmyb+rYEoBWaa/vR2j8JeM1/zHnvMvPOBbd0gUyMXV6xYATUjsJ10=
-X-Google-Smtp-Source: AGHT+IGC7/KzBUz0o3DIcvqb3bbPRppdYzl6oo6GXcBr8aFnmnNyNAoL8DpwIEMhxaYt6wRtLB1S3g==
-X-Received: by 2002:a05:690c:2904:b0:60c:c993:7871 with SMTP id eg4-20020a05690c290400b0060cc9937871mr1090195ywb.8.1710414905367;
-        Thu, 14 Mar 2024 04:15:05 -0700 (PDT)
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
-        by smtp.gmail.com with ESMTPSA id x193-20020a81a0ca000000b00609eb9472a7sm234048ywg.41.2024.03.14.04.15.04
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Mar 2024 04:15:04 -0700 (PDT)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-609f359b7b1so10470397b3.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 14 Mar 2024 04:15:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXz04BW9U2qvPolkQbVhdFNt6DWUXRwt4Kss2EjGVehP+OnClSZVMZk98BkF08KGNeEwRmHWzdteUF5EBEGHoveW4qCZWuHswvUjl8=
-X-Received: by 2002:a0d:e782:0:b0:609:fdf7:b443 with SMTP id
- q124-20020a0de782000000b00609fdf7b443mr1440372ywe.52.1710414904384; Thu, 14
- Mar 2024 04:15:04 -0700 (PDT)
+	s=arc-20240116; t=1710419432; c=relaxed/simple;
+	bh=CrTSWvnI80HBCf2z8Oy2nHbmglsJV2g15ydY/Fnd+/0=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=uSw+Cs0yJAhDIn893ELZie3+hlaLWxDh/+BNYnv/fYpUU5Id9FZ5kcOz3ZcZE/n1uhTE+IbwljOpG38tFJKq6RS80qWQKbqcJBDWLzWPmmspkQVyStWXG7h3Y2WkcCmo6cb/keChZ/b6FrcvxWgut2nQMnc9xyRUtSIsncSYF2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oG+C/r13; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oG+C/r13"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 0781EC433A6;
+	Thu, 14 Mar 2024 12:30:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710419432;
+	bh=CrTSWvnI80HBCf2z8Oy2nHbmglsJV2g15ydY/Fnd+/0=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=oG+C/r13TmKdzhAlJcO0u+vL0vp9yOVmJ0g/oiKWmipU+n6rJquFJCWqrNOQSQ2k4
+	 ccIcGlpXIeboz94YUQO3bvjZFHoQJ6QV7wUhmBeJTFg5AWNmPZJYvIZIrJsFwFY2of
+	 OIDxH2h1iJBf+ExBpnRAcKnFNtoX8rVXNSVgbDEoVlaoUHKsiFD1FrD6Tj7O9vsH/i
+	 bk0FxwUKy6ccBHLapb0AVzUUOBDcALyYpl6oV9SH4llTH7PkbUQmxG8XfVK3qfK+BC
+	 mJ2zLPRrgeNtsRC/QnH5pih+YJGWb/AwwBnL8wrVtonOOJpKYURuS/S2mY0VJCAJFt
+	 54/cvGAWu8vMw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E921DD95055;
+	Thu, 14 Mar 2024 12:30:31 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CA+G9fYvG9KE15PGNoLu+SBVyShe+u5HBLQ81+kK9Zop6u=ywmw@mail.gmail.com>
- <338c89bb-a70b-4f35-b71b-f974e90e3383@app.fastmail.com> <20240304-brawny-goshawk-of-sorcery-860cef@houat>
- <85b807289ff2400ea5887ced63655862@AcuMS.aculab.com> <CAMuHMdUuOnXVpocYU02Mx3_KrPow-=+WgLJqy_ku=AN52SvQiA@mail.gmail.com>
-In-Reply-To: <CAMuHMdUuOnXVpocYU02Mx3_KrPow-=+WgLJqy_ku=AN52SvQiA@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 14 Mar 2024 12:14:52 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXbmZyiy_Ca8eVQtwAhJ-_JsKEOpjrGehirWziPKbd=7g@mail.gmail.com>
-Message-ID: <CAMuHMdXbmZyiy_Ca8eVQtwAhJ-_JsKEOpjrGehirWziPKbd=7g@mail.gmail.com>
-Subject: Re: arm: ERROR: modpost: "__aeabi_uldivmod" [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko]
- undefined!
-To: David Laight <David.Laight@aculab.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Naresh Kamboju <naresh.kamboju@linaro.org>, open list <linux-kernel@vger.kernel.org>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
-	"linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>, 
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
-	"lkft-triage@lists.linaro.org" <lkft-triage@lists.linaro.org>, Dave Airlie <airlied@redhat.com>, 
-	Dan Carpenter <dan.carpenter@linaro.org>, Ard Biesheuvel <ardb@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v9 00/10] Support Andes PMU extension
+From: patchwork-bot+linux-riscv@kernel.org
+Message-Id: 
+ <171041943194.26728.3807889559884607630.git-patchwork-notify@kernel.org>
+Date: Thu, 14 Mar 2024 12:30:31 +0000
+References: <20240222083946.3977135-1-peterlin@andestech.com>
+In-Reply-To: <20240222083946.3977135-1-peterlin@andestech.com>
+To: Yu Chien Peter Lin <peterlin@andestech.com>
+Cc: linux-riscv@lists.infradead.org, acme@kernel.org, adrian.hunter@intel.com,
+ ajones@ventanamicro.com, alexander.shishkin@linux.intel.com,
+ andre.przywara@arm.com, anup@brainfault.org, aou@eecs.berkeley.edu,
+ atishp@atishpatra.org, conor+dt@kernel.org, conor.dooley@microchip.com,
+ conor@kernel.org, devicetree@vger.kernel.org, evan@rivosinc.com,
+ geert+renesas@glider.be, guoren@kernel.org, heiko@sntech.de,
+ irogers@google.com, jernej.skrabec@gmail.com, jolsa@kernel.org,
+ jszhang@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, locus84@andestech.com, magnus.damm@gmail.com,
+ mark.rutland@arm.com, mingo@redhat.com, n.shubin@yadro.com,
+ namhyung@kernel.org, palmer@dabbelt.com, paul.walmsley@sifive.com,
+ peterz@infradead.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
+ rdunlap@infradead.org, robh+dt@kernel.org, samuel@sholland.org,
+ sunilvl@ventanamicro.com, tglx@linutronix.de, tim609@andestech.com,
+ uwu@icenowy.me, wens@csie.org, will@kernel.org, inochiama@outlook.com,
+ unicorn_wang@outlook.com, wefu@redhat.com
 
-On Thu, Mar 14, 2024 at 10:27=E2=80=AFAM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
-> On Sat, Mar 9, 2024 at 3:34=E2=80=AFPM David Laight <David.Laight@aculab.=
-com> wrote:
-> > From: Maxime Ripard
-> > > Sent: 04 March 2024 11:46
-> > >
-> > > On Mon, Mar 04, 2024 at 12:11:36PM +0100, Arnd Bergmann wrote:
-> > > > On Mon, Mar 4, 2024, at 09:07, Naresh Kamboju wrote:
-> > > > > The arm defconfig builds failed on today's Linux next tag next-20=
-240304.
-> > > > >
-> > > > > Build log:
-> > > > > ---------
-> > > > > ERROR: modpost: "__aeabi_uldivmod"
-> > > > > [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko] undefined!
-> > > > >
-> > > >
-> > > > Apparently caused by the 64-bit division in 358e76fd613a
-> > > > ("drm/sun4i: hdmi: Consolidate atomic_check and mode_valid"):
-> > > >
-> > > >
-> > > > +static enum drm_mode_status
-> > > > +sun4i_hdmi_connector_clock_valid(const struct drm_connector *conne=
-ctor,
-> > > > +                                const struct drm_display_mode *mod=
-e,
-> > > > +                                unsigned long long clock)
-> > > >  {
-> > > > -       struct sun4i_hdmi *hdmi =3D drm_encoder_to_sun4i_hdmi(encod=
-er);
-> > > > -       unsigned long rate =3D mode->clock * 1000;
-> > > > -       unsigned long diff =3D rate / 200; /* +-0.5% allowed by HDM=
-I spec */
-> > > > +       const struct sun4i_hdmi *hdmi =3D drm_connector_to_sun4i_hd=
-mi(connector);
-> > > > +       unsigned long diff =3D clock / 200; /* +-0.5% allowed by HD=
-MI spec */
-> > > >         long rounded_rate;
-> > > >
-> > > > This used to be a 32-bit division. If the rate is never more than
-> > > > 4.2GHz, clock could be turned back into 'unsigned long' to avoid
-> > > > the expensive div_u64().
-> > >
-> > > I sent a fix for it this morning:
-> > > https://lore.kernel.org/r/20240304091225.366325-1-mripard@kernel.org
-> > >
-> > > The framework will pass an unsigned long long because HDMI character
-> > > rates can go up to 5.9GHz.
-> >
-> > You could do:
-> >         /* The max clock is 5.9GHz, split the divide */
-> >         u32 diff =3D (u32)(clock / 8) / (200/8);
->
-> +1, as the issue is still present in current next, as per the recent
-> nagging from the build bots.
+Hello:
 
-Oops, s/next/upstream/.
-Well, less 32-bit build testing for the next few days :-(
+This series was applied to riscv/linux.git (for-next)
+by Palmer Dabbelt <palmer@rivosinc.com>:
 
-Gr{oetje,eeting}s,
+On Thu, 22 Feb 2024 16:39:36 +0800 you wrote:
+> Hi All,
+> 
+> This patch series introduces the Andes PMU extension, which serves the
+> same purpose as Sscofpmf and Smcntrpmf. Its non-standard local interrupt
+> is assigned to bit 18 in the custom S-mode local interrupt enable and
+> pending registers (slie/slip), while the interrupt cause is (256 + 18).
+> 
+> [...]
 
-                        Geert
+Here is the summary with links:
+  - [v9,01/10] riscv: errata: Rename defines for Andes
+    https://git.kernel.org/riscv/c/be5e8872b3fb
+  - [v9,02/10] irqchip/riscv-intc: Allow large non-standard interrupt number
+    https://git.kernel.org/riscv/c/96303bcb401c
+  - [v9,03/10] irqchip/riscv-intc: Introduce Andes hart-level interrupt controller
+    https://git.kernel.org/riscv/c/f4cc33e78ba8
+  - [v9,04/10] dt-bindings: riscv: Add Andes interrupt controller compatible string
+    https://git.kernel.org/riscv/c/b88727d554f0
+  - [v9,05/10] riscv: dts: renesas: r9a07g043f: Update compatible string to use Andes INTC
+    https://git.kernel.org/riscv/c/95113bb70515
+  - [v9,06/10] perf: RISC-V: Eliminate redundant interrupt enable/disable operations
+    https://git.kernel.org/riscv/c/ea0e0178e101
+  - [v9,07/10] perf: RISC-V: Introduce Andes PMU to support perf event sampling
+    https://git.kernel.org/riscv/c/bc969d6cc96a
+  - [v9,08/10] dt-bindings: riscv: Add Andes PMU extension description
+    https://git.kernel.org/riscv/c/61609bf2b29d
+  - [v9,09/10] riscv: dts: renesas: Add Andes PMU extension for r9a07g043f
+    https://git.kernel.org/riscv/c/270fc77e7b0e
+  - [v9,10/10] riscv: andes: Support specifying symbolic firmware and hardware raw events
+    https://git.kernel.org/riscv/c/f5102e31c209
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+
