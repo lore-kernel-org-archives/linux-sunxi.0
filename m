@@ -1,44 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B5045D756;
-	Thu, 14 Mar 2024 14:42:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0C1F71720;
+	Thu, 14 Mar 2024 15:04:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710427347; cv=none; b=jIkapjRFRUQj1Mp8iz6RqJF69JqwunoBuzmnW3FTCvAmo9cBPg0qoXQ11xNJP9EP+bTxhJ7K6YBazEQFFpS3YaMhxoWkRbIvEHmymwKAEZNW8QAKKubp5bTccffFptETenqyQSgobCiS7dYugWyeEv01DWH2A3mQPNZRDkO+Yow=
+	t=1710428672; cv=none; b=BpwuRSirfLZDco4whBKJmjt0ZF76i+S7OcF+JPJzfGoyDnZ7GH8NHyv2x1AWtbG6CAI9VPgD+V7Zgt70H2s9Y1YqSJDgtZkrbOmBAZ1y8b8GTipnYMgtZ+38KRSke5Bm5Ge8vM3HaX3NIyj/rgxKzoVQKxN0CeqaGhR1hTnYi20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710427347; c=relaxed/simple;
-	bh=t15/fUG8eEoCH9k/jfp6Z2u74HuUtlgqyLfEcx09Zp4=;
+	s=arc-20240116; t=1710428672; c=relaxed/simple;
+	bh=6P2LfVI5ti9AMF7ok98eGXZ4p8eeBn7+IOGZj+oGtQg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M9KUlO8kvmyWiaX7atqKzF54erh5xaoAa0DckbcwP7TBICcXWV1+g0Mjv0kpNrCEBv07XEbzHpqjEg+pUdLpfLLHr9wvrCqQIEZ+dLtKq76bPVO4Onfk5h9DYD0vTwoD5hmjx+dEqYNMipxkYsccR2Qri2c2gNRXOr7E2S1bkg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I/F+lDGS; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=mlYjRdvOYHlBrGy7cp1e00j7aF9+UruHlGgts+xh64uud8WknesS+tfAPw5FcOGKzvVe/jcfML2GsBwdOh+s51/TCr8Z90CnXvIbEVOo1ZsJQ/Xj97ZR5qL26MEWLp0QuU1nIDb205KnyDvvrphlDMhplF4/CWlV9gtygS3kDXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CW3gfuAu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I/F+lDGS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA74DC433C7;
-	Thu, 14 Mar 2024 14:42:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CW3gfuAu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE71EC43390;
+	Thu, 14 Mar 2024 15:04:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710427347;
-	bh=t15/fUG8eEoCH9k/jfp6Z2u74HuUtlgqyLfEcx09Zp4=;
+	s=k20201202; t=1710428672;
+	bh=6P2LfVI5ti9AMF7ok98eGXZ4p8eeBn7+IOGZj+oGtQg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=I/F+lDGS2y5xE5a5YA7GzDQLaThIZmXKLcUXFYPQFaGsCyeslKqQd7z1bZgb+ttps
-	 p5mDSY9dX7k5N4dsQUhv1iOtQsRWuHo8AEQwqNHtJvj8iWE+28xfJ6cLUgkfpw5Dy6
-	 FbdjrkPuMlr12cVAvOmggmYlSPsWGdjjeyY6KKSz6ONecqBDXb7gNac7Wp4FoC3dLc
-	 6ZNoHDmv98FB+bCPD3Uy/z4vuqh9rh69Qy3RDzDbAMxENPSBF4hFT2fC09ubBRpWbv
-	 ZDZoRRNkfMhzvDAdhzqCrY2AYJmjVfor08S+wsnhihdijuUoj0jTst4SswmtBSPxBn
-	 G4RFR8dxu6BwA==
-Date: Thu, 14 Mar 2024 15:42:24 +0100
+	b=CW3gfuAuCwxjr9HzOCCsYaD4IGJFlf+7m3r5gtdj73datUqZH5K4bZBIlzoHEp4EG
+	 s7b+oApWzWyv4SHNmiaRZPpLN9IE6ZASCQY8YpSbpCwuuQuJqir+CbpE0/DvaPl+No
+	 hHoGYga0Cow/amTVofqHKl2rhr8c2yfyjskaRYFZWysBegJCkyBMkZZF4Etdk6q/U8
+	 ioB3t+kvr34JNxjQPUGBRVpen66UVVAzXCuutuaHTTSKaEY2wsTSiQyc+DjoOYdlND
+	 19ABvjYS5nYdBnBRbP3g79ZIY12W006rpoU7xqqyQcEournDhY3rIKvfp1YUnGibD8
+	 PT8IYkHIv4iKg==
+Date: Thu, 14 Mar 2024 16:04:29 +0100
 From: Maxime Ripard <mripard@kernel.org>
-To: Frank Oltmanns <frank@oltmanns.dev>
-Cc: Chen-Yu Tsai <wens@csie.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Icenowy Zheng <uwu@icenowy.me>, Ondrej Jirman <x@xnux.eu>, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/sun4i: tcon: Support keeping dclk rate upon ancestor
- clock changes
-Message-ID: <20240314-careful-silky-bear-8ee43f@houat>
-References: <20240310-tcon_keep_stable_rate-v1-1-0296b0a85c02@oltmanns.dev>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: David Laight <David.Laight@aculab.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Naresh Kamboju <naresh.kamboju@linaro.org>, open list <linux-kernel@vger.kernel.org>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, "linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>, 
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "lkft-triage@lists.linaro.org" <lkft-triage@lists.linaro.org>, 
+	Dave Airlie <airlied@redhat.com>, Dan Carpenter <dan.carpenter@linaro.org>, 
+	Ard Biesheuvel <ardb@kernel.org>
+Subject: Re: arm: ERROR: modpost: "__aeabi_uldivmod"
+ [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko] undefined!
+Message-ID: <20240314-thundering-steadfast-goat-a685cc@houat>
+References: <CA+G9fYvG9KE15PGNoLu+SBVyShe+u5HBLQ81+kK9Zop6u=ywmw@mail.gmail.com>
+ <338c89bb-a70b-4f35-b71b-f974e90e3383@app.fastmail.com>
+ <20240304-brawny-goshawk-of-sorcery-860cef@houat>
+ <85b807289ff2400ea5887ced63655862@AcuMS.aculab.com>
+ <CAMuHMdUuOnXVpocYU02Mx3_KrPow-=+WgLJqy_ku=AN52SvQiA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -46,74 +50,85 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="nskffof7joxt6vlb"
+	protocol="application/pgp-signature"; boundary="myyknztutswewlxd"
 Content-Disposition: inline
-In-Reply-To: <20240310-tcon_keep_stable_rate-v1-1-0296b0a85c02@oltmanns.dev>
+In-Reply-To: <CAMuHMdUuOnXVpocYU02Mx3_KrPow-=+WgLJqy_ku=AN52SvQiA@mail.gmail.com>
 
 
---nskffof7joxt6vlb
-Content-Type: text/plain; charset=us-ascii
+--myyknztutswewlxd
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Thu, Mar 14, 2024 at 10:27:23AM +0100, Geert Uytterhoeven wrote:
+> On Sat, Mar 9, 2024 at 3:34=E2=80=AFPM David Laight <David.Laight@aculab.=
+com> wrote:
+> > From: Maxime Ripard
+> > > Sent: 04 March 2024 11:46
+> > >
+> > > On Mon, Mar 04, 2024 at 12:11:36PM +0100, Arnd Bergmann wrote:
+> > > > On Mon, Mar 4, 2024, at 09:07, Naresh Kamboju wrote:
+> > > > > The arm defconfig builds failed on today's Linux next tag next-20=
+240304.
+> > > > >
+> > > > > Build log:
+> > > > > ---------
+> > > > > ERROR: modpost: "__aeabi_uldivmod"
+> > > > > [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko] undefined!
+> > > > >
+> > > >
+> > > > Apparently caused by the 64-bit division in 358e76fd613a
+> > > > ("drm/sun4i: hdmi: Consolidate atomic_check and mode_valid"):
+> > > >
+> > > >
+> > > > +static enum drm_mode_status
+> > > > +sun4i_hdmi_connector_clock_valid(const struct drm_connector *conne=
+ctor,
+> > > > +                                const struct drm_display_mode *mod=
+e,
+> > > > +                                unsigned long long clock)
+> > > >  {
+> > > > -       struct sun4i_hdmi *hdmi =3D drm_encoder_to_sun4i_hdmi(encod=
+er);
+> > > > -       unsigned long rate =3D mode->clock * 1000;
+> > > > -       unsigned long diff =3D rate / 200; /* +-0.5% allowed by HDM=
+I spec */
+> > > > +       const struct sun4i_hdmi *hdmi =3D drm_connector_to_sun4i_hd=
+mi(connector);
+> > > > +       unsigned long diff =3D clock / 200; /* +-0.5% allowed by HD=
+MI spec */
+> > > >         long rounded_rate;
+> > > >
+> > > > This used to be a 32-bit division. If the rate is never more than
+> > > > 4.2GHz, clock could be turned back into 'unsigned long' to avoid
+> > > > the expensive div_u64().
+> > >
+> > > I sent a fix for it this morning:
+> > > https://lore.kernel.org/r/20240304091225.366325-1-mripard@kernel.org
+> > >
+> > > The framework will pass an unsigned long long because HDMI character
+> > > rates can go up to 5.9GHz.
+> >
+> > You could do:
+> >         /* The max clock is 5.9GHz, split the divide */
+> >         u32 diff =3D (u32)(clock / 8) / (200/8);
+>=20
+> +1, as the issue is still present in current next, as per the recent
+> nagging from the build bots.
 
-On Sun, Mar 10, 2024 at 02:32:29PM +0100, Frank Oltmanns wrote:
-> Allow the dclk to reset its rate when a rate change is initiated from an
-> ancestor clock. This makes it possible to no longer to get an exclusive
-> lock. As a consequence, it is now possible to set new rates if
-> necessary, e.g. when an external display is connected.
->=20
-> The first user of this functionality is the A64 because PLL-VIDEO0 is an
-> ancestor for both HDMI and TCON0. This allows to select an optimal rate
-> for TCON0 as long as there is no external HDMI connection. Once a change
-> in PLL-VIDEO0 is performed when an HDMI connection is established, TCON0
-> can react gracefully and select an optimal rate based on this the new
-> constraint.
->=20
-> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
-> ---
-> I would like to make the Allwinner A64's data-clock keep its rate
-> when its ancestor's (pll-video0) rate changes. Keeping data-clock's rate
-> is required, to let the A64 drive both an LCD and HDMI display at the
-> same time, because both have pll-video0 as an ancestor.
->=20
-> TCONs that use this flag store the ideal rate for their data-clock and
-> subscribe to be notified when data-clock changes. When rate setting has
-> finished (indicated by a POST_RATE_CHANGE event) the call back function
-> schedules delayed work to set the data-clock's rate to the initial value
-> after 100 ms. Using delayed work maks sure that the clock setting is
-> finished.
->=20
-> I've implemented this functionality as a quirk, so that it is possible
-> to use it only for the A64.
->=20
-> This patch supersedes [1].
->=20
-> This work is inspired by an out-of-tree patchset [2] [3] [4].
-> Unfortunately, the patchset uses clk_set_rate() directly in a notifier
-> callback, which the following comment on clk_notifier_register()
-> forbids: "The callbacks associated with the notifier must not re-enter
-> into the clk framework by calling any top-level clk APIs." [5]
-> Furthermore, that out-of-tree patchset no longer works since 6.6,
-> because setting pll-mipi is now also resetting pll-video0 and therefore
-> causes a race condition.
-
-Workqueues don't have an upper boundary on when they execute. As we
-discussed multiple times, this should be solved in the clock framework
-itself, not bypassing it.
+A patch to fix it has been merged today and will show up tomorrow in next.
 
 Maxime
 
---nskffof7joxt6vlb
+--myyknztutswewlxd
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZfMMzwAKCRDj7w1vZxhR
-xQ1CAQDtICAPI7t6iHcGTsvHtbMc/Xou8mIobymUHWIa2ywO5QEAyvQlO/lPQtZc
-I6gmabMvtrOKzIunluaotAq5NsaVYQY=
-=IRk2
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZfMR/QAKCRDj7w1vZxhR
+xeThAP9hu9uZyhsosg4xaXjQSqrklVzWAccxuvVo+wD/BvBe5AD7BfMoiWAkmZWD
+we529wvyNXrp/62iho4i01acFGaHUgA=
+=x+QF
 -----END PGP SIGNATURE-----
 
---nskffof7joxt6vlb--
+--myyknztutswewlxd--
