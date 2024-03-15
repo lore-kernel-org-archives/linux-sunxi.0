@@ -1,104 +1,65 @@
-Received: from fhigh8-smtp.messagingengine.com (fhigh8-smtp.messagingengine.com [103.168.172.159])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6814018021
-	for <linux-sunxi@lists.linux.dev>; Fri, 15 Mar 2024 09:30:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 090A124B26;
+	Fri, 15 Mar 2024 13:04:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710495047; cv=none; b=pbhX7Xceqg9X89Tw+QgYuhYp0tAVZUe15nyqAzlslouJwkvK8b7Y05dELLmR97ACbhohFRpuJU2bHtK782YHE+cbwXrRdLtDL3VhrXmfJYhbRT0X7hCPgAChG2BxMMiN6f5DtCc1vQXvb6JIIxv+vz1TSXN8Yxa/Qomno8b5laQ=
+	t=1710507897; cv=none; b=dLvfY4/g/0eA1kokDCOTa5JA6lDLaopr7GxinQNdJpXspSM3rpFYHlAWvFko06A2chhpaj2shQeg8dyyuM8iAnRszNgsJ1P9f/4vWGRimRoQ7u+sj0vl4dyNywITIn3UjzfD3aPOHr6yKgCYXGXr3GX8nDRYAT7DEIlKRskKPHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710495047; c=relaxed/simple;
-	bh=t1SpGlUrAQZ074GC9ZyOBS5csCAYiK3V5ubWW0rU1MI=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=e2fdjeXrmbhre0S2aMwMobNQ9Ucdurfdt4EfLM1AZbnh9Ib9qhXtmwNqFPnUFGw5HKwY7xCqtUeu6K08/veK0oqM3XkYwvWiOEe7teIlucE1rIa9W3n9/5qbIqn11hLpEUkUT4Km36daEhCGH3rFAn/O6NspKSiRQviSM1dd0vs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=XQLi9zAb; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=kGG+9q62; arc=none smtp.client-ip=103.168.172.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=testtoast.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
+	s=arc-20240116; t=1710507897; c=relaxed/simple;
+	bh=DvGI8Ea9CrQMc930SjFSluQ/GjUlhlbAS/EJEnqtjTo=;
+	h=Message-ID:Date:From:To:Subject:In-Reply-To:References:Cc; b=jHI8wty+lNsFDujkof44fTuAXLZ6lG0JsYAjDb6a+m9FfSY+zJs6WAS5fHOALrh/pPBJJHPDlncvHcs88Fy4D5U5o93aBW3Jm6kc4DpM3cWnei88mfzC0LMMfdeLc3qA4E3Bd8ydVCV/LmatETgWBHV87O7+B//954ohH1ylxpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hIeK3IEB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="XQLi9zAb";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="kGG+9q62"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfhigh.nyi.internal (Postfix) with ESMTP id 773991140139;
-	Fri, 15 Mar 2024 05:30:44 -0400 (EDT)
-Received: from imap47 ([10.202.2.97])
-  by compute5.internal (MEProxy); Fri, 15 Mar 2024 05:30:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm1; t=1710495044; x=
-	1710581444; bh=txqmZwiJj+7iIcDD/BIE3X1ghO6jVEIa1axhquQiANw=; b=X
-	QLi9zAbEX8N/Sgkxy01hI1iyHW9I96B5BB7bp+qm140m902eB0rbftINFDJzkRlK
-	tiVGIAvgSw5jBmD1nKWXF4EjUdYU5ybDBci9SIrONugb1fJiIJ/YKYw7BLTWza+Z
-	6AUbmbESxtHe23fFSq0ddCjy+50iH6yIfIt/hATpSPKYOi72FpPjvDPe8bXrbtYt
-	1vzFfMB1HvULl6r9amGCw4luf8MR4RKrwJQUNQr9T0M0TuR2C+tOb+KSmfHtaZF4
-	+DNkEhVb4a+v3RYoZdnmaXJJpsieBqlYjpRuSKHt+RfDAOlMOWb1RUynoNmA4qrC
-	1HKrQu8ha9zfs6MxjegCQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1710495044; x=1710581444; bh=txqmZwiJj+7iIcDD/BIE3X1ghO6j
-	VEIa1axhquQiANw=; b=kGG+9q62p9DyNOEfbAWVWlm4pYrJg/QYEqmfm0d6JGtT
-	jx6APwZuBoFp3pMu1/BQG7t02fSGO1iwhJv3XpORQ0OfUQuZc/Ju84hRMcEYzbgN
-	U0roeMmxUYoq29G9nMH1kZd/QqBr+wwH7WNOM7pGdKZnZXwfRBIWXbVR/2FUhsqA
-	a5GayOyiXyh8HOCS7nuzpEOSy/DL+0adbkDV+yEDve4kQmsq+RPPgu6Jv5MRlr5i
-	pCayOuNnhvg7dhU1Vpobfn1woLFhdXUf2a2TBSqrHPUPVercjSFdCPElMAX1u2w0
-	yepsZb9XFf42YUYZcRI9QU0b8Lj4hYFvWAL4P8OEOw==
-X-ME-Sender: <xms:QxX0ZYnpSj1nzP1dnbfCDvweAyoC7XbZMtdzGLBTqUyIcz1iyb05Rw>
-    <xme:QxX0ZX2h-MYngc0DkAVZDwWbD55vsxAt514nx8BKwYGshD3mKzetU6C3LPQgNOlsZ
-    YAXyZYL76vjKLNmig>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrjeelgddtgecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdfthigr
-    nhcuhggrlhhklhhinhdfuceorhihrghnsehtvghsthhtohgrshhtrdgtohhmqeenucggtf
-    frrghtthgvrhhnpeehvdevieegudejueefgeffhefhffevudfhieejgfdtffetlefgteeu
-    veeiudeijeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpehrhigrnhesthgvshhtthhorghsthdrtghomh
-X-ME-Proxy: <xmx:RBX0ZWpoj1VLMVggGuCaEJc0Ca5jNPn7ksXPwX5EdYRcMUrXlGKeqg>
-    <xmx:RBX0ZUkderjj1d5osurRMeKGTtrpFYJzRmr5GtQXYsyz7sGZkIpKQQ>
-    <xmx:RBX0ZW3S3ctXpdbouOgYyaIe9X_ICVd7qcnA4jZgZxRTfQHiXRcD1g>
-    <xmx:RBX0Zbsi4xuBWA515xUG29rtONFG-I7ndJn6C1NXtDDrq3z6RJ-fxQ>
-    <xmx:RBX0ZbwEibp7eDiOsPPF4ZaEivvF55sk7ydyIwHZLyIQHpYUF8xz_w>
-Feedback-ID: idc0145fc:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id D7626A60078; Fri, 15 Mar 2024 05:30:43 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-300-gdee1775a43-fm-20240315.001-gdee1775a
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hIeK3IEB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D36CBC433C7;
+	Fri, 15 Mar 2024 13:04:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710507896;
+	bh=DvGI8Ea9CrQMc930SjFSluQ/GjUlhlbAS/EJEnqtjTo=;
+	h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
+	b=hIeK3IEBIb6JAM9AZ/wvuH6aNzZGxylrAJRiLiGcHiZgEKx/uWiC6SEEmPlwCYvAD
+	 AZ4C87I2Tz0Mt6ogAzjumauuMWCfhHbASjxypGuMU0JASw/XmAWsL40XfnF6EEgYFB
+	 YEBwL5TE0M5q84QeAWr7NWx4Phe5gaLIjHcVab5MG4PdAGwf+DtQj9ePiKDlE1SAtr
+	 WTCn286Jg1O5nmqXSf/V0bNXrLw0wtE22iPRU+buqFbD11TdhNmeFmyM2uaBMIAiNu
+	 vK4okWTZPWdolle9rIQF8GEzzmSA/YLGZohUJPn9WJ86Kqc92s1oEEIsNnd1FfA3oQ
+	 BfPpmKmlQVz4w==
+Message-ID: <c3dbb1f483849c7ee6f61223514e5d16@kernel.org>
+Date: Fri, 15 Mar 2024 13:04:53 +0000
+From: "Maxime Ripard" <mripard@kernel.org>
+To: "Frank Oltmanns" <frank@oltmanns.dev>
+Subject: Re: [PATCH v4 1/5] clk: sunxi-ng: common: Support minimum and
+ maximum rate
+In-Reply-To: <20240310-pinephone-pll-fixes-v4-1-46fc80c83637@oltmanns.dev>
+References: <20240310-pinephone-pll-fixes-v4-1-46fc80c83637@oltmanns.dev>
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, stable@vger.kernel.org, "Chen-Yu
+ Tsai" <wens@csie.org>, "Conor Dooley" <conor+dt@kernel.org>, "Daniel Vetter" <daniel@ffwll.ch>, "David
+ Airlie" <airlied@gmail.com>, =?utf-8?b?R3VpZG8gR8O8bnRoZXI=?= <agx@sigxcpu.org>, "Jernej
+ Skrabec" <jernej.skrabec@gmail.com>, "Jessica Zhang" <quic_jesszhan@quicinc.com>, "Krzysztof
+ Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime
+ Ripard" <mripard@kernel.org>, "Michael Turquette" <mturquette@baylibre.com>, "Neil
+ Armstrong" <neil.armstrong@linaro.org>, "Ondrej Jirman" <megi@xff.cz>, "Purism
+ Kernel Team" <kernel@puri.sm>, "Rob Herring" <robh+dt@kernel.org>, "Sam
+ Ravnborg" <sam@ravnborg.org>, "Samuel Holland" <samuel@sholland.org>, "Stephen
+ Boyd" <sboyd@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Message-Id: <d5889133-4b8b-49bc-a26f-204ee9fcfdbb@app.fastmail.com>
-In-Reply-To: <2afd1590823740a2b6a8f7e485a33842@realtek.com>
-References: <f3656995-b8fe-49c4-93b7-67612c685954@app.fastmail.com>
- <2afd1590823740a2b6a8f7e485a33842@realtek.com>
-Date: Fri, 15 Mar 2024 22:30:23 +1300
-From: "Ryan Walklin" <ryan@testtoast.com>
-To: "Ping-Ke Shih" <pkshih@realtek.com>,
- "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>
-Cc: "linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>
-Subject: Re: [BUG] RTL8821CS panic on entering power-save mode
-Content-Type: text/plain
 
+On Sun, 10 Mar 2024 14:21:11 +0100, Frank Oltmanns wrote:
+> The Allwinner SoC's typically have an upper and lower limit for their
+> clocks' rates. Up until now, support for that has been implemented
+> separately for each clock type.
+> 
+> Implement that functionality in the sunxi-ng's common part making use of
+> 
+> [ ... ]
 
+Acked-by: Maxime Ripard <mripard@kernel.org>
 
-On Wed, 13 Mar 2024, at 7:05 PM, Ping-Ke Shih wrote:
-
-> Try module parameter rtw_disable_lps_deep_mode=1 to see if it works well.
-
-Adding 'options rtw88_core disable_lps_deep=1' did help significantly, and bluetooth connections now seem stable. I still get a lot of
-
-[  267.074209] rtw_8821cs mmc2:0001:1: timed out to flush queue 1
-
-(1-2 per second every few seconds) in dmesg, particularly during downloads over wifi. 
-
-> The IO of SDIO is slower than PCIE, so maybe we can try to enlarge timeout time
-> in rtw_power_mode_change():
-
-This didn't make any change without disabling the power-saving modes, I also tried increasing some of the other timeouts without an effect.
-
-Ryan
+Thanks!
+Maxime
