@@ -1,65 +1,77 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 090A124B26;
-	Fri, 15 Mar 2024 13:04:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 417BE14A98;
+	Fri, 15 Mar 2024 13:48:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710507897; cv=none; b=dLvfY4/g/0eA1kokDCOTa5JA6lDLaopr7GxinQNdJpXspSM3rpFYHlAWvFko06A2chhpaj2shQeg8dyyuM8iAnRszNgsJ1P9f/4vWGRimRoQ7u+sj0vl4dyNywITIn3UjzfD3aPOHr6yKgCYXGXr3GX8nDRYAT7DEIlKRskKPHg=
+	t=1710510487; cv=none; b=Rm1Li7QzkvR/1IIjtE4i/Eyu5IIIQTSkW3fR66+sk70OvJB62dAxMFi2yIYSGvNAtu9lee/Zfmswxj1CVGcXO2UugaQbdnXE19EdWAF7by/WW6+HGrMS3lzse6KvTrXcIez9ZBl0StOKcuFMXD2eaI57RXylh8yTJEZ+gUPGfFU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710507897; c=relaxed/simple;
-	bh=DvGI8Ea9CrQMc930SjFSluQ/GjUlhlbAS/EJEnqtjTo=;
-	h=Message-ID:Date:From:To:Subject:In-Reply-To:References:Cc; b=jHI8wty+lNsFDujkof44fTuAXLZ6lG0JsYAjDb6a+m9FfSY+zJs6WAS5fHOALrh/pPBJJHPDlncvHcs88Fy4D5U5o93aBW3Jm6kc4DpM3cWnei88mfzC0LMMfdeLc3qA4E3Bd8ydVCV/LmatETgWBHV87O7+B//954ohH1ylxpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hIeK3IEB; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hIeK3IEB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D36CBC433C7;
-	Fri, 15 Mar 2024 13:04:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710507896;
-	bh=DvGI8Ea9CrQMc930SjFSluQ/GjUlhlbAS/EJEnqtjTo=;
-	h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
-	b=hIeK3IEBIb6JAM9AZ/wvuH6aNzZGxylrAJRiLiGcHiZgEKx/uWiC6SEEmPlwCYvAD
-	 AZ4C87I2Tz0Mt6ogAzjumauuMWCfhHbASjxypGuMU0JASw/XmAWsL40XfnF6EEgYFB
-	 YEBwL5TE0M5q84QeAWr7NWx4Phe5gaLIjHcVab5MG4PdAGwf+DtQj9ePiKDlE1SAtr
-	 WTCn286Jg1O5nmqXSf/V0bNXrLw0wtE22iPRU+buqFbD11TdhNmeFmyM2uaBMIAiNu
-	 vK4okWTZPWdolle9rIQF8GEzzmSA/YLGZohUJPn9WJ86Kqc92s1oEEIsNnd1FfA3oQ
-	 BfPpmKmlQVz4w==
-Message-ID: <c3dbb1f483849c7ee6f61223514e5d16@kernel.org>
-Date: Fri, 15 Mar 2024 13:04:53 +0000
-From: "Maxime Ripard" <mripard@kernel.org>
-To: "Frank Oltmanns" <frank@oltmanns.dev>
-Subject: Re: [PATCH v4 1/5] clk: sunxi-ng: common: Support minimum and
- maximum rate
-In-Reply-To: <20240310-pinephone-pll-fixes-v4-1-46fc80c83637@oltmanns.dev>
-References: <20240310-pinephone-pll-fixes-v4-1-46fc80c83637@oltmanns.dev>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, stable@vger.kernel.org, "Chen-Yu
- Tsai" <wens@csie.org>, "Conor Dooley" <conor+dt@kernel.org>, "Daniel Vetter" <daniel@ffwll.ch>, "David
- Airlie" <airlied@gmail.com>, =?utf-8?b?R3VpZG8gR8O8bnRoZXI=?= <agx@sigxcpu.org>, "Jernej
- Skrabec" <jernej.skrabec@gmail.com>, "Jessica Zhang" <quic_jesszhan@quicinc.com>, "Krzysztof
- Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime
- Ripard" <mripard@kernel.org>, "Michael Turquette" <mturquette@baylibre.com>, "Neil
- Armstrong" <neil.armstrong@linaro.org>, "Ondrej Jirman" <megi@xff.cz>, "Purism
- Kernel Team" <kernel@puri.sm>, "Rob Herring" <robh+dt@kernel.org>, "Sam
- Ravnborg" <sam@ravnborg.org>, "Samuel Holland" <samuel@sholland.org>, "Stephen
- Boyd" <sboyd@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>
-Content-Transfer-Encoding: 7bit
+	s=arc-20240116; t=1710510487; c=relaxed/simple;
+	bh=/jaPVSWJL+HnKY3WqOkBwk9l8Qb2AuIP5j60mqDKN+E=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=QKjDuaBnZ50VbD6xX6V/t+aBIY0Zu3TV0vaKRmQ16C7PuknnEvDEWhE4Ah+p3COHGCAZcOmM0Wf+GZHjtk8JzRNZLjyvTly516YKUmleSNwMXBlrboQWNZ8hxOsaQw7Vls+WO9Qve/JMRsJfJ6gbxltSFh0BZhoRX2QfPLEDtbA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 42FDlxgV71959737, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
+	by rtits2.realtek.com.tw (8.15.2/2.95/5.92) with ESMTPS id 42FDlxgV71959737
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 15 Mar 2024 21:47:59 +0800
+Received: from RTEXMBS05.realtek.com.tw (172.21.6.98) by
+ RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Fri, 15 Mar 2024 21:48:00 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXMBS05.realtek.com.tw (172.21.6.98) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Fri, 15 Mar 2024 21:47:59 +0800
+Received: from RTEXMBS04.realtek.com.tw ([fe80::c9b7:82a9:7e98:fa7f]) by
+ RTEXMBS04.realtek.com.tw ([fe80::c9b7:82a9:7e98:fa7f%7]) with mapi id
+ 15.01.2507.035; Fri, 15 Mar 2024 21:47:59 +0800
+From: Ping-Ke Shih <pkshih@realtek.com>
+To: "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+        "ryan@testtoast.com" <ryan@testtoast.com>
+CC: "linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>
+Subject: Re: [BUG] RTL8821CS panic on entering power-save mode
+Thread-Topic: [BUG] RTL8821CS panic on entering power-save mode
+Thread-Index: AQHadM7olU9bQwYCjEqmXTF3UHR0U7E1LQQggALaEYCAAEexgA==
+Date: Fri, 15 Mar 2024 13:47:59 +0000
+Message-ID: <902ff7d3d6221f28df21c2e5b3e743671355c874.camel@realtek.com>
+References: <f3656995-b8fe-49c4-93b7-67612c685954@app.fastmail.com>
+	 <2afd1590823740a2b6a8f7e485a33842@realtek.com>
+	 <d5889133-4b8b-49bc-a26f-204ee9fcfdbb@app.fastmail.com>
+In-Reply-To: <d5889133-4b8b-49bc-a26f-204ee9fcfdbb@app.fastmail.com>
+Accept-Language: en-US, zh-TW
+Content-Language: zh-TW
+user-agent: Evolution 3.36.1-2 
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <4FF2C271142C804F8DE9985BC61704C7@realtek.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
 
-On Sun, 10 Mar 2024 14:21:11 +0100, Frank Oltmanns wrote:
-> The Allwinner SoC's typically have an upper and lower limit for their
-> clocks' rates. Up until now, support for that has been implemented
-> separately for each clock type.
-> 
-> Implement that functionality in the sunxi-ng's common part making use of
-> 
-> [ ... ]
-
-Acked-by: Maxime Ripard <mripard@kernel.org>
-
-Thanks!
-Maxime
+T24gRnJpLCAyMDI0LTAzLTE1IGF0IDIyOjMwICsxMzAwLCBSeWFuIFdhbGtsaW4gd3JvdGU6DQo+
+IA0KPiBPbiBXZWQsIDEzIE1hciAyMDI0LCBhdCA3OjA1IFBNLCBQaW5nLUtlIFNoaWggd3JvdGU6
+DQo+IA0KPiA+IFRyeSBtb2R1bGUgcGFyYW1ldGVyIHJ0d19kaXNhYmxlX2xwc19kZWVwX21vZGU9
+MSB0byBzZWUgaWYgaXQgd29ya3Mgd2VsbC4NCj4gDQo+IEFkZGluZyAnb3B0aW9ucyBydHc4OF9j
+b3JlIGRpc2FibGVfbHBzX2RlZXA9MScgZGlkIGhlbHAgc2lnbmlmaWNhbnRseSwgYW5kIGJsdWV0
+b290aCBjb25uZWN0aW9ucw0KPiBub3cgc2VlbSBzdGFibGUuIEkgc3RpbGwgZ2V0IGEgbG90IG9m
+DQo+IA0KPiBbICAyNjcuMDc0MjA5XSBydHdfODgyMWNzIG1tYzI6MDAwMToxOiB0aW1lZCBvdXQg
+dG8gZmx1c2ggcXVldWUgMQ0KPiANCj4gKDEtMiBwZXIgc2Vjb25kIGV2ZXJ5IGZldyBzZWNvbmRz
+KSBpbiBkbWVzZywgcGFydGljdWxhcmx5IGR1cmluZyBkb3dubG9hZHMgb3ZlciB3aWZpLg0KDQpU
+aGlzIGlzIGJlY2F1c2UgaXQgaXMgdHJ5aW5nIHRvIGVudGVyIFBTIG1vZGUgYnV0IFRYIHF1ZXVl
+IGlzIHN0aWxsIG5vdCBlbXB0eS4NCklmIHBvd2VyIGNvbnN1bXB0aW9uIGlzIG5vdCBiaWcgZGVh
+bCB0byB5b3UsIHRyeSB0byB0dXJuIG9mZiBQUyBieQ0KICAgIGl3IHdsYW4wIHNldCBwb3dlcl9z
+YXZlIG9mZg0KDQpJIHRoaW5rIG1lc3NhZ2VzIGNhbiBiZSBkaXNhcHBlYXIuIA0KDQo+IA0KPiA+
+IFRoZSBJTyBvZiBTRElPIGlzIHNsb3dlciB0aGFuIFBDSUUsIHNvIG1heWJlIHdlIGNhbiB0cnkg
+dG8gZW5sYXJnZSB0aW1lb3V0IHRpbWUNCj4gPiBpbiBydHdfcG93ZXJfbW9kZV9jaGFuZ2UoKToN
+Cj4gDQo+IFRoaXMgZGlkbid0IG1ha2UgYW55IGNoYW5nZSB3aXRob3V0IGRpc2FibGluZyB0aGUg
+cG93ZXItc2F2aW5nIG1vZGVzLCBJIGFsc28gdHJpZWQgaW5jcmVhc2luZyBzb21lDQo+IG9mIHRo
+ZSBvdGhlciB0aW1lb3V0cyB3aXRob3V0IGFuIGVmZmVjdC4NCj4gDQoNCk5vIGlkZWEgZm9yIG5v
+dy4gU0RJTyBsb29rcyBtdWNoIGRpZmZlcmVudCBmcm9tIFBDSUUuIA0KDQoNCg==
