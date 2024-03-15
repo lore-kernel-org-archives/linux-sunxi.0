@@ -1,226 +1,96 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6F774DA08
-	for <linux-sunxi@lists.linux.dev>; Fri, 15 Mar 2024 18:20:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AB875479F
+	for <linux-sunxi@lists.linux.dev>; Fri, 15 Mar 2024 21:28:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710526858; cv=none; b=iLTFHomOII8VL63Iv6TAmvokQEtpHm8+tSfIolQM69TBqjAvskeaR/n2VSi3Emi5yIZghEF9ocl0KR3ZboCehEpcS/Nv+9tcm4EK/Vc/J7ym2T0yeUf+eQdp2jOBn3i84PsiGKIshobMHCTl/ZT//wBSUBKwTP7LY052YL6jyx0=
+	t=1710538088; cv=none; b=FnBwG4/EvhYhFbd7r0duF8LDiKZeUlLfB+F1+Vx9d9Mhw3UpoTLb/rrnTsZ+J/1YUyUnShS1eAZq/l7sF1OMwRQRlwNlfTR8UUoLhZ0moWZRgU/8x6Nl78+pC9lKOirX0j9vOzYMG1jdP6iAjA6a6k3Cg6ALB0AhFYN9plMP6nE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710526858; c=relaxed/simple;
-	bh=oU+wtqKEvrb6U1ncUvd/CRehplkB5QsI8J8x8jxwUTk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iGVZNCNc5TSih34+mMW+YpDnQD9r6sGRrqpiUCcX8lfiRZZS60OGr5etjLq/1epF49d7jnTUcsFYiwCD4v+cvR5ylFCVTgMjxFoqB8Q0GTV83lo5+bsPvF9jpsAn2tPkBHf4N8YQIx0NVsLROix5oTnwWQ//wdBQ9zncwyBEDjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VajotisK; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1710538088; c=relaxed/simple;
+	bh=Q+XOPMRCM5h9lRk7auaVgXY8II5pi0ZuPsC/JllFwmk=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=l+ytvuiPZvIh7vY8kv39Mvo/yv8Zhr1M9RE1y3xq6rZO8Czgsm4HyKZ8KfrkmibtgbNyzUh+h26sJKI0VVZBIrd7IF4jTWny3zhcZFAat5yKpRVj4Z0INZxseos5GjRGfcHXD+Dt9GhekQXswBYEqXKICYsdD0BJP8huHLxqVtY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VxHo4ROf; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VajotisK"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-41403889b6aso4740975e9.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 15 Mar 2024 11:20:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VxHo4ROf"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1dddd7d64cdso13755ad.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 15 Mar 2024 14:28:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710526855; x=1711131655; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=N5JX+srh6iZTx3hGWXMNjBUxtYKjAj6cKvbPfHIxw9s=;
-        b=VajotisKUq+Po1X+6814iPEqMklVA0cDKJRkPeEJcElzRLqizWui+HlFBGQICQnd2i
-         ax8DSTU0WFD9eP1hyuulMUk2v+VVJ4DZY0cLu20EJsrWN7/Hbac8D8y7CF7lyWcuJ+Zg
-         HXNE5TJCZ5wL9avOlG6NadlWNv9svmVL2pNmdQwhCoV/n9+mCrf9yIvFoGXAZ2cnmvK9
-         nxPCta6j5x4/nYcSa2zXilmLAMycia4wCNfJ7tmhJtB6gEFzffDzjQGaJdouzr4/fncl
-         Sr61qgrNEZ6lbKp+NYK7H0WhU3JuLEwZuEvQujdHikPWEIbyn+9FnTzRvnO8iwMNQ4c0
-         Q1lQ==
+        d=google.com; s=20230601; t=1710538085; x=1711142885; darn=lists.linux.dev;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=f8xWPRJ3tZZgN10pKFEIYzu9dCAJ11FurTmpvR2gSvg=;
+        b=VxHo4ROfVqO4DZl/ZPN65wRvmSmIY7b5r26xtqbmQPv/hT2xckvTgn9j+nykRNdFaL
+         eqR3yTlPjiq/q1rR4yCS3O3mDKjL2QsywHBfBNucqgn4hd6fm6RQpzk5zRA6XRfU35zq
+         iurrKbv9cyWilNrKsYNLahodHqlMxILLSekJwhYtstuttba/Q3QjMUkj1L0tR04eYubB
+         xAq0QiY2rjDSvSFBqf/CsL1Q7uZPIn1gJJwpeTQS5e02JLRUH5S4P8bjEs7/QHmRZhD8
+         U/VJGlvJ74wn78qk/lvnwZYK8L4iFjSfnzbJfrvFGpH0L2zHL1OIn2nhLw5jQpBKFoaM
+         QP+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710526855; x=1711131655;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=N5JX+srh6iZTx3hGWXMNjBUxtYKjAj6cKvbPfHIxw9s=;
-        b=UVoBOruOGn8M8lIZbCvqldcBChwMbv3wvyCIeJoerBN8SXSdFNj/VO6n3wW62vsRpy
-         znTa58LYdIihpmd+8ECrlm/UMFZ4VbogcbvCG6O3CDjnPngvA5GGow/7M6ySEmsh08ca
-         gJLYHSu918s0PKEc5B7UMVTw1GArSXqUq93+pQlgpkzeXqNa9lh2/9C1pS1ZNAJkWJso
-         8b7JK2erroWYYFSDQuijMqWL1N/XE9D3R5EEKzhCbPGhBRQnu/mQMkePV6wSc+v1znjO
-         fisKhNnamcojFBpUVDQh3uCj5uIlleSfeQW0PZQvkkE33iLSmhsgQ2dTuqkSyg8ioVYL
-         eKtw==
-X-Forwarded-Encrypted: i=1; AJvYcCVO4dNBSCZmANqBzMQE+6JT3awgIw/DDukbsz8stnJN1bRD+C6vqX+5lJy6Ts8XqgstmDGuxdNl5h9Q3LHk0DZDQY+jSN/izWQhdb8=
-X-Gm-Message-State: AOJu0Yz9ckfDOkxtyAOdXx3dP9trX1vfsX9daIeiWXI2PbQ7qPDiy16s
-	VlJj2v+JAB+h1+PcN1zbY34mIOm6EwajbsvybMYvP0qpY9Kz8z3W
-X-Google-Smtp-Source: AGHT+IEUknJhMCD9YdOmBrb3UtAztWH/LqgLoBYSw8axnSvX5b5R6x5m4chC9UT+fQgPRGVgu3uimw==
-X-Received: by 2002:a05:600c:314c:b0:414:1eb:287 with SMTP id h12-20020a05600c314c00b0041401eb0287mr1703304wmo.14.1710526854834;
-        Fri, 15 Mar 2024 11:20:54 -0700 (PDT)
-Received: from jernej-laptop.localnet ([188.159.248.16])
-        by smtp.gmail.com with ESMTPSA id l12-20020a05600c4f0c00b004122b7a680dsm6615005wmq.21.2024.03.15.11.20.53
+        d=1e100.net; s=20230601; t=1710538085; x=1711142885;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=f8xWPRJ3tZZgN10pKFEIYzu9dCAJ11FurTmpvR2gSvg=;
+        b=dm2kf7Qa++NtQIMuABIyEVMyOAcokt+ygTu8ktaAyA8oKDreJZXi3SSKCMFbiIwOdh
+         1oLIbYZOkcL/rJgb4VBPD+Pdjpet948w3NgjOg+h7B9qGELn+FFlU16Sgw2UOYNMz39E
+         KT9ebM9+y4Fnqgi7kcdEWypf6WiRQi+Gi1sOhCwc4FSyx7cPFs/WxkoVQAOmR5UrioDB
+         lbmWgqbAx94ISqnj+j9tiVXZ/LxZAnHcVpFXvNEwJL07c3oEEiSLx+L8oTHfjLMK+CkE
+         5u5L3pJfh+BuJeTDSymD9neVZNLadebt88YeOf6xYh6Kc17OU+HAL2WFulZUFF32E0cN
+         7SJA==
+X-Forwarded-Encrypted: i=1; AJvYcCWy9h/8+d+uK5BNXq+J79HrGcIOmlY1AuYtWvfFgHeYlMc4sZPJGHtdoA/08Ld1ns8qdS4ijnZNWsmwPBhfKYM6dM0GRzZeMqTs2Bg=
+X-Gm-Message-State: AOJu0YztPT2OQeFDKzB9gkAFRK50guS1Y9vlecZkBJ94y01XzchLO62v
+	pmSgDSobyPvuxbRak3QN7u+IFRcsZI3aTSwOHfPRnpInG9wkBw3BcxazKCVShA==
+X-Google-Smtp-Source: AGHT+IFx0V9evEEHTCAL0rngEMSTSxrVQJwAPcZMZ/kTvEYdGlomkmF5ttVwWUPGQnGpzwrxLolHsQ==
+X-Received: by 2002:a17:902:ea0b:b0:1dd:96e5:feae with SMTP id s11-20020a170902ea0b00b001dd96e5feaemr291145plg.16.1710538084580;
+        Fri, 15 Mar 2024 14:28:04 -0700 (PDT)
+Received: from [2620:0:1008:15:59e5:b9a4:a826:c419] ([2620:0:1008:15:59e5:b9a4:a826:c419])
+        by smtp.gmail.com with ESMTPSA id u17-20020a17090341d100b001dddb6c0971sm4396163ple.17.2024.03.15.14.28.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Mar 2024 11:20:54 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Andre Przywara <andre.przywara@arm.com>,
- Kamil Kasperski <ressetkk@gmail.com>
-Cc: wens@csie.org, samuel@sholland.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] dts: arm64: sunxi: add initial support for t95 tv box
-Date: Fri, 15 Mar 2024 19:20:52 +0100
-Message-ID: <4902501.31r3eYUQgx@jernej-laptop>
-In-Reply-To: <bb9f1f58-67f1-49cb-aede-046ec6258ff1@gmail.com>
-References:
- <20240311174750.6428-1-ressetkk@gmail.com> <4331305.ejJDZkT8p0@jernej-laptop>
- <bb9f1f58-67f1-49cb-aede-046ec6258ff1@gmail.com>
+        Fri, 15 Mar 2024 14:28:03 -0700 (PDT)
+Date: Fri, 15 Mar 2024 14:28:02 -0700 (PDT)
+From: David Rientjes <rientjes@google.com>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
+    asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
+    cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
+    dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
+    iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
+    joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
+    linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+    linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
+    linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+    linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
+    mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
+    rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
+    suravee.suthikulpanit@amd.com, sven@svenpeter.dev, 
+    thierry.reding@gmail.com, tj@kernel.org, tomas.mudrunka@gmail.com, 
+    vdumpa@nvidia.com, wens@csie.org, will@kernel.org, yu-cheng.yu@intel.com, 
+    bagasdotme@gmail.com, mkoutny@suse.com
+Subject: Re: [PATCH v5 02/11] iommu/dma: use iommu_put_pages_list() to releae
+ freelist
+In-Reply-To: <20240222173942.1481394-3-pasha.tatashin@soleen.com>
+Message-ID: <34b593bb-796b-7657-8971-17d24dea4e99@google.com>
+References: <20240222173942.1481394-1-pasha.tatashin@soleen.com> <20240222173942.1481394-3-pasha.tatashin@soleen.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 
-Dne petek, 15. marec 2024 ob 01:57:21 CET je Kamil Kasperski napisal(a):
-> W dniu 14.03.2024 o 17:50, Jernej =C5=A0krabec pisze:
-> > Dne =C4=8Detrtek, 14. marec 2024 ob 01:19:28 CET je Kamil Kasperski nap=
-isal(a):
-> >> Hi Jernej, Andre!
-> > Please no top posting as per rules.
->=20
-> Sure. I'm not used to this kind of work, so please bear the mistakes I ma=
-ke.
+On Thu, 22 Feb 2024, Pasha Tatashin wrote:
 
-And line length should be 78 character max. Please read Linux netiquette.
+> Free the IOMMU page tables via iommu_put_pages_list(). The page tables
+> were allocated via iommu_alloc_* functions in architecture specific
+> places, but are released in dma-iommu if the freelist is gathered during
+> map/unmap operations into iommu_iotlb_gather data structure.
+> 
+> Currently, only iommu/intel that does that.
+> 
+> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 
->=20
-> >
-> >> Thanks for the reply. My board has a name "H616-T95MAX-AXP313A-v3.0".
-> > Ok, we for sure need to integrate this somehow to compatible string, si=
-nce
-> > there are at least two incompatible versions.
->=20
-> It's good idea to introduce dtsi with common configuration for both boxes=
- and add 2 new dts files with compatible string
-> "t95,t95max-axp313" and "t95,t95max-axp305" with separate PMIC configurat=
-ion. Similarly as OrangePI Zero got handled.
-
-Correct.
-
->=20
-> Not to mention, that it looks like arch/arm64/boot/dts/allwinner/sun50i-h=
-618-transpeed-8k618-t.dts also has very similar configuration to my T95 box=
-=2E Question is should we mix up the compatible strings for SoC?
-> I know that H616 and H618 are almost identical SoCs, but if it's not only=
- a matter of documentation it's still better idea to push new dts.
-
-Not sure what do you mean. We can mix and match whatever DTSI we want. Howe=
-ver,
-board compatible reflect SoC in them. So yes, if it make sense, Transpeed 8=
-k618-t
-can share same common DTSI, just board level DTS will have H616 compatible.
-
-Best regards,
-Jernej
-
->=20
-> Best Regards,
-> Kamil
->=20
-> >> I believe these boards are two different revisions and the one with=20
-> >> AXP313A is a newer one, besides incorrectly label as v3.0. Sharing=20
-> >> common configuration between boxes is also a good idea but for this=20
-> >> specific configuration I would be cautious. From my experience with th=
-is=20
-> >> board the default configuration for X96 Mate is not working at all. I=
-=20
-> >> suspect because of the PMIC and DRAM differences.
-> >>
-> >> Memory installed in X96 Mate is DDR3L and in mine T95 it's DDR3, hynix=
-=20
-> >> H5TQ2G43BFR, that requires 1.5V to operate.
-> > PMIC is important difference, yes, but not DRAM. DDR3L is completely co=
-mpatible
-> > with DDR3. It just additionally supports lower voltages. Additionally, =
-Linux
-> > doesn't care about DRAM type and all. It's firmware responsibility to p=
-roperly
-> > initialize it.
-> >
-> > Best regards,
-> > Jernej
-> >
-> >> The rest of configuration for both boards, like HDMI, MMC, EPHY and=20
-> >> audio codec seems to be the same across almost all H616-based boxes th=
-at=20
-> >> I've researched.
-> >>
-> >>
-> >> Moreover please let me update the patches and send v2 that aligns with=
-=20
-> >> mainline branch. I've incorrectly assumed to use sunxi fork instead of=
-=20
-> >> master. Sorry!
-> >>
-> >> W dniu 13.03.2024 o 19:00, Jernej =C5=A0krabec pisze:
-> >>> Dne sreda, 13. marec 2024 ob 18:38:08 CET je Andre Przywara napisal(a=
-):
-> >>>> On Wed, 13 Mar 2024 18:25:14 +0100
-> >>>> Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
-> >>>>
-> >>>>> Hi Kamil!
-> >>>>>
-> >>>>> Dne ponedeljek, 11. marec 2024 ob 18:47:47 CET je Kamil Kasperski n=
-apisal(a):
-> >>>>>> T95 is a most commonly known for being a box with a pre-installed =
-malware.
-> >>>>>> It uses Allwinner H616 and comes with eMMC and DDR3 memory.
-> >>>>>> This device comes with two versions - one with AXP305 PMIC and ano=
-ther with AXP313 PMIC.
-> >>>>> I have this board and it always felt like a clone of X96 Mate, whic=
-h is
-> >>>>> already supported in kernel, except for broken sd card detection. W=
-ould it
-> >>>>> make sense to unify those two boards and just overwrite or update p=
-arts here
-> >>>>> that are not the same?
-> >>>> I think the box you have is an older one, with the AXP305? IIUC, thi=
-s is
-> >>>> about a newer revision with the AXP313. There are quite some differe=
-nces
-> >>>> between the two PMICs, though it might still make sense to share the=
- DTs,
-> >>>> see the OrangePi Zero[23].
-> >>> Right, mine is with AXP305. It has "T95MAX v4.0" printed on PCB.
-> >>>
-> >>> Kamil, does your board also have "MAX" mentioned somewhere?
-> >>>
-> >>> Best regards,
-> >>> Jernej
-> >>>
-> >>>> Cheers,
-> >>>> Andre
-> >>>>
-> >>>>>> Kamil Kasperski (3):
-> >>>>>>    dt-bindings: vendor-prefixes: sunxi: add T95 to vendor-prefixes
-> >>>>>>    dt-bindings: arm: sunxi: add t95 compatible string to list of k=
-nown
-> >>>>>>      boards
-> >>>>>>    dts: arm64: sunxi: add initial support for T95 AXP313 tv box
-> >>>>>>
-> >>>>>>   .../devicetree/bindings/arm/sunxi.yaml        |   5 +
-> >>>>>>   .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
-> >>>>>>   arch/arm64/boot/dts/allwinner/Makefile        |   1 +
-> >>>>>>   .../dts/allwinner/sun50i-h616-t95-axp313.dts  | 138 ++++++++++++=
-++++++
-> >>>>>>   4 files changed, 146 insertions(+)
-> >>>>>>   create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616-t95=
-=2Daxp313.dts
-> >>>>>>
-> >>>>>>   =20
-> >>>>>
-> >>>>>
-> >>>>>
-> >>>
-> >>>
-> >
-> >
-> >
->=20
->=20
-
-
-
-
+Acked-by: David Rientjes <rientjes@google.com>
