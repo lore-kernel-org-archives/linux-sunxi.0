@@ -1,177 +1,467 @@
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97EB26FA9
-	for <linux-sunxi@lists.linux.dev>; Fri, 15 Mar 2024 00:57:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2405A1426E
+	for <linux-sunxi@lists.linux.dev>; Fri, 15 Mar 2024 08:05:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710464247; cv=none; b=smKENsAlgsMCxHXuivuCUDujgmjC41vlLBzsZSzBGndaV2LYcrE+sYeIWKx0iFwrYc6ZtvUsQJUHFXZM3Y2PFPBALNFamcqjPcoRO6+QC+ng580RhuibOAbh2I1lsR6IcLS8BJIucEilIMA5uzTd7ik2aT322iuvNs15CzTOVss=
+	t=1710489926; cv=none; b=U4EUC4jRTl7wD6CHbj//+7uvJDM5ZsNKIEarOfphc2cmQtVn0m44v+oQqWjy1HMwrv3XMGuacoLhq7l8WXkg68DoOnK66Kze/wNa83MnXvfNltXMkEyRunJO0nvsq29O9agH/KMXUJmGAR3vM70NL6jsjw/lFdnhnpp1mh94ljQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710464247; c=relaxed/simple;
-	bh=t7tpvjTyyVWqtKCRJwk851OtDCLJaW85M2oyBwk1ir4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MrG2PzWIUXQEZbNE14h/q9IgoSN+hmTDZBXBBMYMG9G7o0flujI3O91rd//8xdBUEHIH2ttNOkZ2Xym+xgw9rngXUF3ni9HmpBMgpF0mFZD2CYCeF6kI5yS0wE9pUzkOOnrEmy5ttsRAAO2XfpZw4fle8ux1P0lDbMG0w2cRbS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UCPOyrmG; arc=none smtp.client-ip=209.85.208.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1710489926; c=relaxed/simple;
+	bh=TrRBinZzGLucal8rlgqc2RLz4DMh0sLsKis+qasbHo0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XO0ie6NDm79z7mBot2EQLS0pNRPetfgpGGf/uZurymekIYIBxC42c2rpmFkobDY8sxDz0lQG8F7sQoIqs5TwjQ9oT3DmEwfDyTQVqjtCikaX+y6igxzMD8MsIZzYxN40UMej2iJKhhpwblj8lz1P0/rr/9FvCDZEPQdVL861Nys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KbJfA7lJ; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UCPOyrmG"
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2d28051376eso19467931fa.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 14 Mar 2024 17:57:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710464244; x=1711069044; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3YQvHoU8cC4gCXgr2fwgid2Bxq5jF5wWHjxN8ZHHlVA=;
-        b=UCPOyrmG8XXDJungpG1/DriET+fAdHda0H/SeQ4d2970GztYtFeobNhMGTqU2A3e0m
-         g2XaeeMtWXb+lPPNNy1bGf+RhnTXxBgpfdcEMe559ojvbol1vBMA9wG2BJmYLPhsabc5
-         q+PuU9/GuRVolqoDVonWl0YIUGgqKeU/k/gvtsrIYDRpnIf0D6TlOo/ep+syJAoWnC65
-         8RvaE1+FPpJ5yzOaV67MuxVqvoodFrxk0AmGvZ3gU2vaQWXfXVkq+yBfXopOgtSdFnts
-         +Lh0VJEULP44IhnXvbgpXV33vRY15JfuDEcUm0d3ztosUdKM+cW6od8UJEJL60JJ7Jtq
-         0LZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710464244; x=1711069044;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3YQvHoU8cC4gCXgr2fwgid2Bxq5jF5wWHjxN8ZHHlVA=;
-        b=YQesjGT4sbR8Qj9xZTsOnqNjBznYXkkzZYwgzb0rMLcajFMoxtAaDV5wc6QIrjtYFP
-         PwQP5Fzk5JAzgDvHKnSUWXAT8oDBcV7Cy1xuj5ezIZG0Tec8rYPzAZ9XJvDtZ/yN3+oB
-         cPCAbeKDziUAAoLzDCg/y4CL7n0oINIfydANjmCkVbQyMwBHZnIbtGQKEM4dpwdbfUGT
-         PumFvGLAODKlJgEXOfazC/h5AFSsaF/94/uKcB6Y7Z4QMPtX/mLg3krb+XJiNtqPQUT5
-         iFq6SpBsroN+9y6k6RK/8m6bK5B2PgJO32+FlJypqGXjbBC73ibjhf76H3JSIpNxVEJC
-         OI+g==
-X-Forwarded-Encrypted: i=1; AJvYcCVzshvfqJa2M4MXalOt9kLwSe9amcoKH3YOU2Ro+uUYwWR8ddcfmHXRsmKK91ab24gNokuKZTXVgjXHZPXLwdGqetcM1+V3wxiID+s=
-X-Gm-Message-State: AOJu0YwMrbOTQ6OAnwllmoXc7Zv/ZHCPU5v4/1msIKb4HqWIQ7YH7hFA
-	hNiRYLm4eIyThNjlSJchdGie7EUo+vaQhgqXeVZsrn0iFy0v5fVb
-X-Google-Smtp-Source: AGHT+IFG9YRjURGWHLbrJXEy9Jrdrm0nnYMpTQBt8klQpXf5qqfPpHSEZHGC40NxcJW7f5Jj4qqn/A==
-X-Received: by 2002:a05:6512:3284:b0:513:c2e3:226e with SMTP id p4-20020a056512328400b00513c2e3226emr1486799lfe.8.1710464243594;
-        Thu, 14 Mar 2024 17:57:23 -0700 (PDT)
-Received: from [192.168.100.117] (89-76-44-138.dynamic.chello.pl. [89.76.44.138])
-        by smtp.gmail.com with ESMTPSA id g12-20020a17090613cc00b00a45de7c83efsm1182229ejc.61.2024.03.14.17.57.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Mar 2024 17:57:23 -0700 (PDT)
-Message-ID: <bb9f1f58-67f1-49cb-aede-046ec6258ff1@gmail.com>
-Date: Fri, 15 Mar 2024 01:57:21 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KbJfA7lJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1710489925; x=1742025925;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=TrRBinZzGLucal8rlgqc2RLz4DMh0sLsKis+qasbHo0=;
+  b=KbJfA7lJfxnmBdoFRXy9PP74cArhbvQewJpJ+HQgzO+Y6tUdBanGweCc
+   aBH/sI8DRVWgGN0jYiz9BQ7OtDwx1eEC5rHY6jkyadVif5ddyGEfoo7w2
+   CnE9TybK1nEX6iNIu1PbezZnBi2Yyvr7GgczTZ03c0Gr7rs1oiA4HPU9D
+   OQ+qo4d6H0Y0hAVoN0uMWJkf4jmkRSpwcGjANAzLw5G2ETw0BzLploZyp
+   qp9jPcTuyJtupZtV7mSa5FzNtDeSWTEslXHp8+OdS4FX4owGm5KExWlU7
+   uJLWUVumm4SWZN4pwXd7YTk7xLL+rhdm7jSdonDbNrjCVv0FfZvfZ1Kuc
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11013"; a="5287406"
+X-IronPort-AV: E=Sophos;i="6.07,127,1708416000"; 
+   d="scan'208";a="5287406"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2024 01:05:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11013"; a="827780531"
+X-IronPort-AV: E=Sophos;i="6.07,127,1708416000"; 
+   d="scan'208";a="827780531"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+  by orsmga001.jf.intel.com with SMTP; 15 Mar 2024 01:05:17 -0700
+Received: by stinkbox (sSMTP sendmail emulation); Fri, 15 Mar 2024 10:05:16 +0200
+Date: Fri, 15 Mar 2024 10:05:16 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>,
+	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Sebastian Wick <sebastian.wick@redhat.com>,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v9 14/27] drm/connector: hdmi: Compute bpc and format
+ automatically
+Message-ID: <ZfQBPHoAvI1dquEY@intel.com>
+References: <20240311-kms-hdmi-connector-state-v9-0-d45890323344@kernel.org>
+ <20240311-kms-hdmi-connector-state-v9-14-d45890323344@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] dts: arm64: sunxi: add initial support for t95 tv box
-Content-Language: pl
-To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>,
- Andre Przywara <andre.przywara@arm.com>
-Cc: wens@csie.org, samuel@sholland.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20240311174750.6428-1-ressetkk@gmail.com>
- <8344274.T7Z3S40VBb@jernej-laptop>
- <55eda2c6-1bca-463d-a908-1887543a47a5@gmail.com>
- <4331305.ejJDZkT8p0@jernej-laptop>
-From: Kamil Kasperski <ressetkk@gmail.com>
-In-Reply-To: <4331305.ejJDZkT8p0@jernej-laptop>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240311-kms-hdmi-connector-state-v9-14-d45890323344@kernel.org>
+X-Patchwork-Hint: comment
 
-W dniu 14.03.2024 o 17:50, Jernej Škrabec pisze:
-> Dne četrtek, 14. marec 2024 ob 01:19:28 CET je Kamil Kasperski napisal(a):
->> Hi Jernej, Andre!
-> Please no top posting as per rules.
+On Mon, Mar 11, 2024 at 03:49:42PM +0100, Maxime Ripard wrote:
+> Now that we have all the infrastructure needed, we can add some code
+> that will, for a given connector state and mode, compute the best output
+> format and bpc.
+> 
+> The algorithm is equivalent to the one already found in i915 and vc4.
+> 
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>  drivers/gpu/drm/drm_atomic_state_helper.c          | 184 ++++++++++++++++++++-
+>  .../gpu/drm/tests/drm_atomic_state_helper_test.c   |  25 ++-
+>  2 files changed, 197 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+> index 448b4a73d1c8..9f517599f117 100644
+> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+> @@ -29,10 +29,11 @@
+>  #include <drm/drm_blend.h>
+>  #include <drm/drm_bridge.h>
+>  #include <drm/drm_connector.h>
+>  #include <drm/drm_crtc.h>
+>  #include <drm/drm_device.h>
+> +#include <drm/drm_edid.h>
+>  #include <drm/drm_framebuffer.h>
+>  #include <drm/drm_plane.h>
+>  #include <drm/drm_print.h>
+>  #include <drm/drm_vblank.h>
+>  #include <drm/drm_writeback.h>
+> @@ -660,10 +661,100 @@ connector_state_get_mode(const struct drm_connector_state *conn_state)
+>  		return NULL;
+>  
+>  	return &crtc_state->mode;
+>  }
+>  
+> +static bool
+> +sink_supports_format_bpc(const struct drm_connector *connector,
+> +			 const struct drm_display_info *info,
+> +			 const struct drm_display_mode *mode,
+> +			 unsigned int format, unsigned int bpc)
+> +{
+> +	struct drm_device *dev = connector->dev;
+> +	u8 vic = drm_match_cea_mode(mode);
+> +
+> +	if (vic == 1 && bpc != 8) {
+> +		drm_dbg(dev, "VIC1 requires a bpc of 8, got %u\n", bpc);
 
-Sure. I'm not used to this kind of work, so please bear the mistakes I make.
+Use of drm_dbg() for kms stuff is surprising.
 
->
->> Thanks for the reply. My board has a name "H616-T95MAX-AXP313A-v3.0".
-> Ok, we for sure need to integrate this somehow to compatible string, since
-> there are at least two incompatible versions.
+> +		return false;
+> +	}
 
-It's good idea to introduce dtsi with common configuration for both boxes and add 2 new dts files with compatible string
-"t95,t95max-axp313" and "t95,t95max-axp305" with separate PMIC configuration. Similarly as OrangePI Zero got handled.
+I don't think we have this in i915. My original impression was that you
+can use higher color depth if you can determine the sink capabilities,
+but all sinks are required to accept 640x480@8bpc as a fallback.
 
-Not to mention, that it looks like arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts also has very similar configuration to my T95 box. Question is should we mix up the compatible strings for SoC?
-I know that H616 and H618 are almost identical SoCs, but if it's not only a matter of documentation it's still better idea to push new dts.
+but CTA-861-H says:
+"5.4 Color Coding & Quantization
+ Component Depth: The coding shall be N-bit, where N = 8, 10, 12, or 16
+ bits/component — except in the case of the default 640x480 Video Timing 1,
+ where the value of N shall be 8."
 
-Best Regards,
-Kamil
+So that does seem to imply that you're supposed to use exactly 8bpc.
+Though the word "default" in there is confusing. Are they specifically
+using that to indicate that this is about the fallback behaviour, or
+is it just indicating that it is a "default mode that always has to
+be supported". Dunno. I guess no real harm in forcing 8bpc for 640x480
+since no one is likely to use that for any high fidelity stuff.
 
->> I believe these boards are two different revisions and the one with 
->> AXP313A is a newer one, besides incorrectly label as v3.0. Sharing 
->> common configuration between boxes is also a good idea but for this 
->> specific configuration I would be cautious. From my experience with this 
->> board the default configuration for X96 Mate is not working at all. I 
->> suspect because of the PMIC and DRAM differences.
->>
->> Memory installed in X96 Mate is DDR3L and in mine T95 it's DDR3, hynix 
->> H5TQ2G43BFR, that requires 1.5V to operate.
-> PMIC is important difference, yes, but not DRAM. DDR3L is completely compatible
-> with DDR3. It just additionally supports lower voltages. Additionally, Linux
-> doesn't care about DRAM type and all. It's firmware responsibility to properly
-> initialize it.
->
-> Best regards,
-> Jernej
->
->> The rest of configuration for both boards, like HDMI, MMC, EPHY and 
->> audio codec seems to be the same across almost all H616-based boxes that 
->> I've researched.
->>
->>
->> Moreover please let me update the patches and send v2 that aligns with 
->> mainline branch. I've incorrectly assumed to use sunxi fork instead of 
->> master. Sorry!
->>
->> W dniu 13.03.2024 o 19:00, Jernej Škrabec pisze:
->>> Dne sreda, 13. marec 2024 ob 18:38:08 CET je Andre Przywara napisal(a):
->>>> On Wed, 13 Mar 2024 18:25:14 +0100
->>>> Jernej Škrabec <jernej.skrabec@gmail.com> wrote:
->>>>
->>>>> Hi Kamil!
->>>>>
->>>>> Dne ponedeljek, 11. marec 2024 ob 18:47:47 CET je Kamil Kasperski napisal(a):
->>>>>> T95 is a most commonly known for being a box with a pre-installed malware.
->>>>>> It uses Allwinner H616 and comes with eMMC and DDR3 memory.
->>>>>> This device comes with two versions - one with AXP305 PMIC and another with AXP313 PMIC.
->>>>> I have this board and it always felt like a clone of X96 Mate, which is
->>>>> already supported in kernel, except for broken sd card detection. Would it
->>>>> make sense to unify those two boards and just overwrite or update parts here
->>>>> that are not the same?
->>>> I think the box you have is an older one, with the AXP305? IIUC, this is
->>>> about a newer revision with the AXP313. There are quite some differences
->>>> between the two PMICs, though it might still make sense to share the DTs,
->>>> see the OrangePi Zero[23].
->>> Right, mine is with AXP305. It has "T95MAX v4.0" printed on PCB.
->>>
->>> Kamil, does your board also have "MAX" mentioned somewhere?
->>>
->>> Best regards,
->>> Jernej
->>>
->>>> Cheers,
->>>> Andre
->>>>
->>>>>> Kamil Kasperski (3):
->>>>>>    dt-bindings: vendor-prefixes: sunxi: add T95 to vendor-prefixes
->>>>>>    dt-bindings: arm: sunxi: add t95 compatible string to list of known
->>>>>>      boards
->>>>>>    dts: arm64: sunxi: add initial support for T95 AXP313 tv box
->>>>>>
->>>>>>   .../devicetree/bindings/arm/sunxi.yaml        |   5 +
->>>>>>   .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
->>>>>>   arch/arm64/boot/dts/allwinner/Makefile        |   1 +
->>>>>>   .../dts/allwinner/sun50i-h616-t95-axp313.dts  | 138 ++++++++++++++++++
->>>>>>   4 files changed, 146 insertions(+)
->>>>>>   create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616-t95-axp313.dts
->>>>>>
->>>>>>    
->>>>>
->>>>>
->>>>>
->>>
->>>
->
->
->
+> +
+> +	if (!info->is_hdmi &&
+> +	    (format != HDMI_COLORSPACE_RGB || bpc != 8)) {
+> +		drm_dbg(dev, "DVI Monitors require an RGB output at 8 bpc\n");
+> +		return false;
+> +	}
+> +
+> +	if (!(connector->hdmi.supported_formats & BIT(format))) {
+> +		drm_dbg(dev, "%s format unsupported by the connector.\n",
+> +			drm_hdmi_connector_get_output_format_name(format));
+> +		return false;
+> +	}
+> +
+> +	switch (format) {
+> +	case HDMI_COLORSPACE_RGB:
+> +		drm_dbg(dev, "RGB Format, checking the constraints.\n");
+> +
+> +		if (!(info->color_formats & DRM_COLOR_FORMAT_RGB444))
+> +			return false;
+> +
+> +		if (bpc == 10 && !(info->edid_hdmi_rgb444_dc_modes & DRM_EDID_HDMI_DC_30)) {
+> +			drm_dbg(dev, "10 BPC but sink doesn't support Deep Color 30.\n");
+> +			return false;
+> +		}
+> +
+> +		if (bpc == 12 && !(info->edid_hdmi_rgb444_dc_modes & DRM_EDID_HDMI_DC_36)) {
+> +			drm_dbg(dev, "12 BPC but sink doesn't support Deep Color 36.\n");
+> +			return false;
+> +		}
+> +
+> +		drm_dbg(dev, "RGB format supported in that configuration.\n");
+> +
+> +		return true;
+> +
+> +	case HDMI_COLORSPACE_YUV422:
+> +		drm_dbg(dev, "YUV422 format, checking the constraints.\n");
+> +
+> +		if (!(info->color_formats & DRM_COLOR_FORMAT_YCBCR422)) {
+> +			drm_dbg(dev, "Sink doesn't support YUV422.\n");
+> +			return false;
+> +		}
+> +
+> +		if (bpc != 12) {
+> +			drm_dbg(dev, "YUV422 only supports 12 bpc.\n");
+> +			return false;
+> +		}
+> +
+> +		drm_dbg(dev, "YUV422 format supported in that configuration.\n");
+> +
+> +		return true;
+> +
+> +	case HDMI_COLORSPACE_YUV444:
+> +		drm_dbg(dev, "YUV444 format, checking the constraints.\n");
+> +
+> +		if (!(info->color_formats & DRM_COLOR_FORMAT_YCBCR444)) {
+> +			drm_dbg(dev, "Sink doesn't support YUV444.\n");
+> +			return false;
+> +		}
+> +
+> +		if (bpc == 10 && !(info->edid_hdmi_ycbcr444_dc_modes & DRM_EDID_HDMI_DC_30)) {
+> +			drm_dbg(dev, "10 BPC but sink doesn't support Deep Color 30.\n");
+> +			return false;
+> +		}
+> +
+> +		if (bpc == 12 && !(info->edid_hdmi_ycbcr444_dc_modes & DRM_EDID_HDMI_DC_36)) {
+> +			drm_dbg(dev, "12 BPC but sink doesn't support Deep Color 36.\n");
+> +			return false;
+> +		}
+> +
+> +		drm_dbg(dev, "YUV444 format supported in that configuration.\n");
+> +
+> +		return true;
+> +	}
+> +
+> +	return false;
+> +}
+> +
+>  static enum drm_mode_status
+>  hdmi_clock_valid(const struct drm_connector *connector,
+>  		 const struct drm_display_mode *mode,
+>  		 unsigned long long clock)
+>  {
+> @@ -704,10 +795,99 @@ hdmi_compute_clock(const struct drm_connector *connector,
+>  	state->hdmi.tmds_char_rate = clock;
+>  
+>  	return 0;
+>  }
+>  
+> +static bool
+> +hdmi_try_format_bpc(const struct drm_connector *connector,
+> +		    struct drm_connector_state *state,
 
+"state" is IMO not a great naming choice. It forces you to go and
+look up the definition whenever you're not sure what 'state' actually
+is when reading the code. 
+
+Als at some point you may want to plumb different kinds of states
+into these, or just switch to passing in the whole drm_atomic_state.
+
+So I recommend using more specific names for the different kinds of
+states (eg. "crtc_state"/"conn_state"/etc.) everywhere.
+
+> +		    const struct drm_display_mode *mode,
+> +		    unsigned int bpc, enum hdmi_colorspace fmt)
+> +{
+> +	const struct drm_display_info *info = &connector->display_info;
+> +	struct drm_device *dev = connector->dev;
+> +	int ret;
+> +
+> +	drm_dbg(dev, "Trying %s output format\n",
+> +		drm_hdmi_connector_get_output_format_name(fmt));
+> +
+> +	if (!sink_supports_format_bpc(connector, info, mode, fmt, bpc)) {
+> +		drm_dbg(dev, "%s output format not supported with %u bpc\n",
+> +			drm_hdmi_connector_get_output_format_name(fmt), bpc);
+> +		return false;
+> +	}
+> +
+> +	ret = hdmi_compute_clock(connector, state, mode, bpc, fmt);
+> +	if (ret) {
+> +		drm_dbg(dev, "Couldn't compute clock for %s output format and %u bpc\n",
+> +			drm_hdmi_connector_get_output_format_name(fmt), bpc);
+> +		return false;
+> +	}
+> +
+> +	drm_dbg(dev, "%s output format supported with %u (TMDS char rate: %llu Hz)\n",
+> +		drm_hdmi_connector_get_output_format_name(fmt), bpc, state->hdmi.tmds_char_rate);
+> +
+> +	return true;
+> +}
+> +
+> +static int
+> +hdmi_compute_format(const struct drm_connector *connector,
+> +		    struct drm_connector_state *state,
+> +		    const struct drm_display_mode *mode,
+> +		    unsigned int bpc)
+> +{
+> +	struct drm_device *dev = connector->dev;
+> +
+> +	if (hdmi_try_format_bpc(connector, state, mode, bpc, HDMI_COLORSPACE_RGB)) {
+> +		state->hdmi.output_format = HDMI_COLORSPACE_RGB;
+> +		return 0;
+> +	}
+> +
+> +	if (hdmi_try_format_bpc(connector, state, mode, bpc, HDMI_COLORSPACE_YUV422)) {
+> +		state->hdmi.output_format = HDMI_COLORSPACE_YUV422;
+> +		return 0;
+> +	}
+
+Looks like you're preferring YCbCr 4:2:2 over RGB 8bpc. Not sure
+if that's a good tradeoff to make.
+
+In i915 we don't currently expose 4:2:2 at all because it doesn't
+help in getting a working display, and we have no uapi for the
+user to force it if they really want 4:2:2 over RGB.
+
+> +
+> +	drm_dbg(dev, "Failed. No Format Supported for that bpc count.\n");
+> +
+> +	return -EINVAL;
+> +}
+> +
+> +static int
+> +hdmi_compute_config(const struct drm_connector *connector,
+> +		    struct drm_connector_state *state,
+> +		    const struct drm_display_mode *mode)
+> +{
+> +	struct drm_device *dev = connector->dev;
+> +	unsigned int max_bpc = clamp_t(unsigned int,
+> +				       state->max_bpc,
+> +				       8, connector->max_bpc);
+> +	unsigned int bpc;
+> +	int ret;
+> +
+> +	for (bpc = max_bpc; bpc >= 8; bpc -= 2) {
+> +		drm_dbg(dev, "Trying with a %d bpc output\n", bpc);
+> +
+> +		ret = hdmi_compute_format(connector, state, mode, bpc);
+
+Hmm. Actually I'm not sure your 4:2:2 stuff even works since you 
+check for bpc==12 in there and only call this based on the max_bpc.
+I'm not convinced max_bpc would actually be 12 for a sink that
+supports YCbCr 4:2:2 but not 12bpc RGB.
+
+> +		if (ret)
+> +			continue;
+> +
+> +		state->hdmi.output_bpc = bpc;
+> +
+> +		drm_dbg(dev,
+> +			"Mode %ux%u @ %uHz: Found configuration: bpc: %u, fmt: %s, clock: %llu\n",
+> +			mode->hdisplay, mode->vdisplay, drm_mode_vrefresh(mode),
+> +			state->hdmi.output_bpc,
+> +			drm_hdmi_connector_get_output_format_name(state->hdmi.output_format),
+> +			state->hdmi.tmds_char_rate);
+> +
+> +		return 0;
+> +	}
+> +
+> +	return -EINVAL;
+> +}
+> +
+>  /**
+>   * drm_atomic_helper_connector_hdmi_check() - Helper to check HDMI connector atomic state
+>   * @connector: DRM Connector
+>   * @state: the DRM State object
+>   *
+> @@ -727,13 +907,11 @@ int drm_atomic_helper_connector_hdmi_check(struct drm_connector *connector,
+>  		drm_atomic_get_new_connector_state(state, connector);
+>  	const struct drm_display_mode *mode =
+>  		connector_state_get_mode(new_state);
+>  	int ret;
+>  
+> -	ret = hdmi_compute_clock(connector, new_state, mode,
+> -				 new_state->hdmi.output_bpc,
+> -				 new_state->hdmi.output_format);
+> +	ret = hdmi_compute_config(connector, new_state, mode);
+>  	if (ret)
+>  		return ret;
+>  
+>  	if (old_state->hdmi.output_bpc != new_state->hdmi.output_bpc ||
+>  	    old_state->hdmi.output_format != new_state->hdmi.output_format) {
+> diff --git a/drivers/gpu/drm/tests/drm_atomic_state_helper_test.c b/drivers/gpu/drm/tests/drm_atomic_state_helper_test.c
+> index 5a8750153510..f010fde0eb69 100644
+> --- a/drivers/gpu/drm/tests/drm_atomic_state_helper_test.c
+> +++ b/drivers/gpu/drm/tests/drm_atomic_state_helper_test.c
+> @@ -68,13 +68,10 @@ static int light_up_connector(struct kunit *test,
+>  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
+>  
+>  	conn_state = drm_atomic_get_connector_state(state, connector);
+>  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, conn_state);
+>  
+> -	conn_state->hdmi.output_bpc = connector->max_bpc;
+> -	conn_state->hdmi.output_format = HDMI_COLORSPACE_RGB;
+> -
+>  	ret = drm_atomic_set_crtc_for_connector(conn_state, crtc);
+>  	KUNIT_EXPECT_EQ(test, ret, 0);
+>  
+>  	crtc_state = drm_atomic_get_crtc_state(state, crtc);
+>  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc_state);
+> @@ -249,14 +246,19 @@ static void drm_test_check_output_bpc_crtc_mode_changed(struct kunit *test)
+>  	priv = drm_atomic_helper_connector_hdmi_init(test,
+>  						     BIT(HDMI_COLORSPACE_RGB),
+>  						     10);
+>  	KUNIT_ASSERT_NOT_NULL(test, priv);
+>  
+> +	conn = &priv->connector;
+> +	ret = set_connector_edid(test, conn,
+> +				 test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz,
+> +				 ARRAY_SIZE(test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz));
+> +	KUNIT_ASSERT_EQ(test, ret, 0);
+> +
+>  	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
+>  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
+>  
+> -	conn = &priv->connector;
+>  	preferred = find_preferred_mode(conn);
+>  	KUNIT_ASSERT_NOT_NULL(test, preferred);
+>  
+>  	drm = &priv->drm;
+>  	crtc = priv->crtc;
+> @@ -270,15 +272,15 @@ static void drm_test_check_output_bpc_crtc_mode_changed(struct kunit *test)
+>  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, new_conn_state);
+>  
+>  	old_conn_state = drm_atomic_get_old_connector_state(state, conn);
+>  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, old_conn_state);
+>  
+> -	new_conn_state->hdmi.output_bpc = 8;
+> +	new_conn_state->max_requested_bpc = 8;
+>  
+>  	KUNIT_ASSERT_NE(test,
+> -			old_conn_state->hdmi.output_bpc,
+> -			new_conn_state->hdmi.output_bpc);
+> +			old_conn_state->max_requested_bpc,
+> +			new_conn_state->max_requested_bpc);
+>  
+>  	ret = drm_atomic_check_only(state);
+>  	KUNIT_ASSERT_EQ(test, ret, 0);
+>  
+>  	old_conn_state = drm_atomic_get_old_connector_state(state, conn);
+> @@ -318,14 +320,19 @@ static void drm_test_check_output_bpc_crtc_mode_not_changed(struct kunit *test)
+>  	priv = drm_atomic_helper_connector_hdmi_init(test,
+>  						     BIT(HDMI_COLORSPACE_RGB),
+>  						     10);
+>  	KUNIT_ASSERT_NOT_NULL(test, priv);
+>  
+> +	conn = &priv->connector;
+> +	ret = set_connector_edid(test, conn,
+> +				 test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz,
+> +				 ARRAY_SIZE(test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz));
+> +	KUNIT_ASSERT_EQ(test, ret, 0);
+> +
+>  	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
+>  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
+>  
+> -	conn = &priv->connector;
+>  	preferred = find_preferred_mode(conn);
+>  	KUNIT_ASSERT_NOT_NULL(test, preferred);
+>  
+>  	drm = &priv->drm;
+>  	crtc = priv->crtc;
+> @@ -668,11 +675,11 @@ static void drm_test_check_format_value(struct kunit *test)
+>  						     8);
+>  	KUNIT_ASSERT_NOT_NULL(test, priv);
+>  
+>  	conn = &priv->connector;
+>  	conn_state = conn->state;
+> -	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_format, HDMI_COLORSPACE_RGB);
+> +	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_format, 0);
+>  }
+>  
+>  /*
+>   * Test that the value of the output format property out of reset is set
+>   * to 0, and will be computed at atomic_check time.
+> 
+> -- 
+> 2.43.2
+
+-- 
+Ville Syrjälä
+Intel
