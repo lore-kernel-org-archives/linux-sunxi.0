@@ -1,64 +1,64 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AB875479F
-	for <linux-sunxi@lists.linux.dev>; Fri, 15 Mar 2024 21:28:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFCDF54908
+	for <linux-sunxi@lists.linux.dev>; Fri, 15 Mar 2024 21:33:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710538088; cv=none; b=FnBwG4/EvhYhFbd7r0duF8LDiKZeUlLfB+F1+Vx9d9Mhw3UpoTLb/rrnTsZ+J/1YUyUnShS1eAZq/l7sF1OMwRQRlwNlfTR8UUoLhZ0moWZRgU/8x6Nl78+pC9lKOirX0j9vOzYMG1jdP6iAjA6a6k3Cg6ALB0AhFYN9plMP6nE=
+	t=1710538437; cv=none; b=sN6GbLlE/wPxMLhbZuaop5wRDY0OGkdQ/cAUiUehVD41gOOI3Mf4deRoZSNEMhW6ZygLcqLp2rXAk9pjD4sCHLd/DvQ62D42j71hehy2jKuDIQb9QboIc1uSqBwXJHk9HLaD6PKSYzErY+Dvm+YOw4NS+/FXoijZrU38hL+R9Pc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710538088; c=relaxed/simple;
-	bh=Q+XOPMRCM5h9lRk7auaVgXY8II5pi0ZuPsC/JllFwmk=;
+	s=arc-20240116; t=1710538437; c=relaxed/simple;
+	bh=0F2XERw7B5j+mPxmlsSoCMnEowgGmNL23b1OGvmX7Uo=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=l+ytvuiPZvIh7vY8kv39Mvo/yv8Zhr1M9RE1y3xq6rZO8Czgsm4HyKZ8KfrkmibtgbNyzUh+h26sJKI0VVZBIrd7IF4jTWny3zhcZFAat5yKpRVj4Z0INZxseos5GjRGfcHXD+Dt9GhekQXswBYEqXKICYsdD0BJP8huHLxqVtY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VxHo4ROf; arc=none smtp.client-ip=209.85.214.174
+	 MIME-Version:Content-Type; b=QrPaamPnNipQcjv5Kxp64NOPNbsZ3Lmfu2RObxP0I4DGZPgkY6Vb36jL9zCBCxMVM0/y3NHqmBAU5ytDC+UP7HvAU6g78CZUqERW2Vod1gdDN/DKoiQryCQH8lclKZlaCB/OvNSM3tlKORH361rwm6A9LFawAMPD7klD514Atdw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=LIy6QaHe; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VxHo4ROf"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1dddd7d64cdso13755ad.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 15 Mar 2024 14:28:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="LIy6QaHe"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1dee917abd5so19035ad.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 15 Mar 2024 14:33:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1710538085; x=1711142885; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1710538435; x=1711143235; darn=lists.linux.dev;
         h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=f8xWPRJ3tZZgN10pKFEIYzu9dCAJ11FurTmpvR2gSvg=;
-        b=VxHo4ROfVqO4DZl/ZPN65wRvmSmIY7b5r26xtqbmQPv/hT2xckvTgn9j+nykRNdFaL
-         eqR3yTlPjiq/q1rR4yCS3O3mDKjL2QsywHBfBNucqgn4hd6fm6RQpzk5zRA6XRfU35zq
-         iurrKbv9cyWilNrKsYNLahodHqlMxILLSekJwhYtstuttba/Q3QjMUkj1L0tR04eYubB
-         xAq0QiY2rjDSvSFBqf/CsL1Q7uZPIn1gJJwpeTQS5e02JLRUH5S4P8bjEs7/QHmRZhD8
-         U/VJGlvJ74wn78qk/lvnwZYK8L4iFjSfnzbJfrvFGpH0L2zHL1OIn2nhLw5jQpBKFoaM
-         QP+Q==
+        bh=H0fR8S5zvFKWxYVHlf5dgazwtBnwp1HgnsQ4yUvybtw=;
+        b=LIy6QaHeD+yIJLg2u91HZu8/xhEMxrAHN1rWobOule+Qm0pR25MtXza/HxHj2Ru6qY
+         Y23LslTT958E9mPUW7Z7gJSdRwFJLjslbDftLg9zc7AZWYODQRh/jUZMY13ouGcwvgKQ
+         Kl/h086fFaboki3wRj9CQnzGmDd5BssoPSYZFMfdPHn7QdzznqGVCn7RvJW8gCkPfcQx
+         Q5fbsjFvHtQr6ipufoHDKhIACcBiR3z0fy6jQ8BgGeWKvvVqPYKBCbIpO+3SxtzT50wj
+         rCiejHTunPoqJE6WouVoRpsFcJU2NwO1UpfgIXRpRwS30za70qRaDzemalBzqZzE3MFv
+         wAOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710538085; x=1711142885;
+        d=1e100.net; s=20230601; t=1710538435; x=1711143235;
         h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=f8xWPRJ3tZZgN10pKFEIYzu9dCAJ11FurTmpvR2gSvg=;
-        b=dm2kf7Qa++NtQIMuABIyEVMyOAcokt+ygTu8ktaAyA8oKDreJZXi3SSKCMFbiIwOdh
-         1oLIbYZOkcL/rJgb4VBPD+Pdjpet948w3NgjOg+h7B9qGELn+FFlU16Sgw2UOYNMz39E
-         KT9ebM9+y4Fnqgi7kcdEWypf6WiRQi+Gi1sOhCwc4FSyx7cPFs/WxkoVQAOmR5UrioDB
-         lbmWgqbAx94ISqnj+j9tiVXZ/LxZAnHcVpFXvNEwJL07c3oEEiSLx+L8oTHfjLMK+CkE
-         5u5L3pJfh+BuJeTDSymD9neVZNLadebt88YeOf6xYh6Kc17OU+HAL2WFulZUFF32E0cN
-         7SJA==
-X-Forwarded-Encrypted: i=1; AJvYcCWy9h/8+d+uK5BNXq+J79HrGcIOmlY1AuYtWvfFgHeYlMc4sZPJGHtdoA/08Ld1ns8qdS4ijnZNWsmwPBhfKYM6dM0GRzZeMqTs2Bg=
-X-Gm-Message-State: AOJu0YztPT2OQeFDKzB9gkAFRK50guS1Y9vlecZkBJ94y01XzchLO62v
-	pmSgDSobyPvuxbRak3QN7u+IFRcsZI3aTSwOHfPRnpInG9wkBw3BcxazKCVShA==
-X-Google-Smtp-Source: AGHT+IFx0V9evEEHTCAL0rngEMSTSxrVQJwAPcZMZ/kTvEYdGlomkmF5ttVwWUPGQnGpzwrxLolHsQ==
-X-Received: by 2002:a17:902:ea0b:b0:1dd:96e5:feae with SMTP id s11-20020a170902ea0b00b001dd96e5feaemr291145plg.16.1710538084580;
-        Fri, 15 Mar 2024 14:28:04 -0700 (PDT)
+        bh=H0fR8S5zvFKWxYVHlf5dgazwtBnwp1HgnsQ4yUvybtw=;
+        b=OU/3ftfJm80tFNSt9Aie69YxJH4JvXheZbBrWLfl588pQd8gs+9fuPzecJr9n9pIfc
+         7ghtSHslP1P47Ww7LLhrXdryXqXAq+0LNAEZeFwxBlJKB/SsKqRgiPBo3BN5NK6UiKht
+         W6GjdblhrIDL2s0dwh+Vo4XF1rk5oRXE+iLt2hpmCMEnpic/1OxWplDWwm4zWohN0GhG
+         ePgnouan8DrKKfWy9C1K2TX24gYqc2eCszMGMgy4+ldXR8+OvkKkVCVpJOIocZyj2v13
+         d67V8pqxFkuM+63ec9KgNy/BidUdDc+BhhbCWV8Vwo8cLbZQL+Qb+VjAoQOVEUGHG/TB
+         uIYA==
+X-Forwarded-Encrypted: i=1; AJvYcCVYGA8rcwHUUlhxwpK7h1XyylEXylcZU/w2HSXm/qJWRS7pRk1agWkGFfF1y70UnrJ7nRje46pK/7MXdMIe8sFMWVRgvRe+VWfcKQk=
+X-Gm-Message-State: AOJu0YwafEqnyzCutlwCyqT7GQziI6w/gpX2PWekokYhZV3Ae8em/ZF7
+	vFqNFoYiOgCODv34ZrpMGmiYnAW9EjKHmqKI/xQLU0RVFYJUUn3KjP8/ic/0yA==
+X-Google-Smtp-Source: AGHT+IGXgrCyapbX6lCjIYimjaGV/xGhnyUP0IGlJg+FRlRNpmX3AgagAydyQ+EpK396sF48foPkSw==
+X-Received: by 2002:a17:902:cec9:b0:1dd:e26f:1363 with SMTP id d9-20020a170902cec900b001dde26f1363mr534470plg.15.1710538434920;
+        Fri, 15 Mar 2024 14:33:54 -0700 (PDT)
 Received: from [2620:0:1008:15:59e5:b9a4:a826:c419] ([2620:0:1008:15:59e5:b9a4:a826:c419])
-        by smtp.gmail.com with ESMTPSA id u17-20020a17090341d100b001dddb6c0971sm4396163ple.17.2024.03.15.14.28.03
+        by smtp.gmail.com with ESMTPSA id hq16-20020a056a00681000b006e6c8ed17bdsm3829728pfb.100.2024.03.15.14.33.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Mar 2024 14:28:03 -0700 (PDT)
-Date: Fri, 15 Mar 2024 14:28:02 -0700 (PDT)
+        Fri, 15 Mar 2024 14:33:54 -0700 (PDT)
+Date: Fri, 15 Mar 2024 14:33:53 -0700 (PDT)
 From: David Rientjes <rientjes@google.com>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
-    asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
-    cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
-    dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
+To: Pasha Tatashin <pasha.tatashin@soleen.com>, joro@8bytes.org
+cc: Andrew Morton <akpm@linux-foundation.org>, alim.akhtar@samsung.com, 
+    alyssa@rosenzweig.io, asahi@lists.linux.dev, baolu.lu@linux.intel.com, 
+    bhelgaas@google.com, cgroups@vger.kernel.org, corbet@lwn.net, 
+    david@redhat.com, dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
     iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
-    joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
+    krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
     linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
     linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
     linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
@@ -69,11 +69,10 @@ cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io,
     thierry.reding@gmail.com, tj@kernel.org, tomas.mudrunka@gmail.com, 
     vdumpa@nvidia.com, wens@csie.org, will@kernel.org, yu-cheng.yu@intel.com, 
     bagasdotme@gmail.com, mkoutny@suse.com
-Subject: Re: [PATCH v5 02/11] iommu/dma: use iommu_put_pages_list() to releae
- freelist
-In-Reply-To: <20240222173942.1481394-3-pasha.tatashin@soleen.com>
-Message-ID: <34b593bb-796b-7657-8971-17d24dea4e99@google.com>
-References: <20240222173942.1481394-1-pasha.tatashin@soleen.com> <20240222173942.1481394-3-pasha.tatashin@soleen.com>
+Subject: Re: [PATCH v5 00/11] IOMMU memory observability
+In-Reply-To: <20240222173942.1481394-1-pasha.tatashin@soleen.com>
+Message-ID: <00555af4-8786-b772-7897-aef1e912b368@google.com>
+References: <20240222173942.1481394-1-pasha.tatashin@soleen.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -84,13 +83,59 @@ Content-Type: text/plain; charset=US-ASCII
 
 On Thu, 22 Feb 2024, Pasha Tatashin wrote:
 
-> Free the IOMMU page tables via iommu_put_pages_list(). The page tables
-> were allocated via iommu_alloc_* functions in architecture specific
-> places, but are released in dma-iommu if the freelist is gathered during
-> map/unmap operations into iommu_iotlb_gather data structure.
+> Pasha Tatashin (11):
+>   iommu/vt-d: add wrapper functions for page allocations
+>   iommu/dma: use iommu_put_pages_list() to releae freelist
+>   iommu/amd: use page allocation function provided by iommu-pages.h
+>   iommu/io-pgtable-arm: use page allocation function provided by
+>     iommu-pages.h
+>   iommu/io-pgtable-dart: use page allocation function provided by
+>     iommu-pages.h
+>   iommu/exynos: use page allocation function provided by iommu-pages.h
+>   iommu/rockchip: use page allocation function provided by iommu-pages.h
+>   iommu/sun50i: use page allocation function provided by iommu-pages.h
+>   iommu/tegra-smmu: use page allocation function provided by
+>     iommu-pages.h
+>   iommu: observability of the IOMMU allocations
+>   iommu: account IOMMU allocated memory
 > 
-> Currently, only iommu/intel that does that.
+>  Documentation/admin-guide/cgroup-v2.rst |   2 +-
+>  Documentation/filesystems/proc.rst      |   4 +-
+>  drivers/iommu/amd/amd_iommu.h           |   8 -
+>  drivers/iommu/amd/init.c                |  91 ++++++------
+>  drivers/iommu/amd/io_pgtable.c          |  13 +-
+>  drivers/iommu/amd/io_pgtable_v2.c       |  20 +--
+>  drivers/iommu/amd/iommu.c               |  13 +-
+>  drivers/iommu/dma-iommu.c               |   7 +-
+>  drivers/iommu/exynos-iommu.c            |  14 +-
+>  drivers/iommu/intel/dmar.c              |  16 +-
+>  drivers/iommu/intel/iommu.c             |  47 ++----
+>  drivers/iommu/intel/iommu.h             |   2 -
+>  drivers/iommu/intel/irq_remapping.c     |  16 +-
+>  drivers/iommu/intel/pasid.c             |  18 +--
+>  drivers/iommu/intel/svm.c               |  11 +-
+>  drivers/iommu/io-pgtable-arm.c          |  15 +-
+>  drivers/iommu/io-pgtable-dart.c         |  37 ++---
+>  drivers/iommu/iommu-pages.h             | 186 ++++++++++++++++++++++++
+>  drivers/iommu/rockchip-iommu.c          |  14 +-
+>  drivers/iommu/sun50i-iommu.c            |   7 +-
+>  drivers/iommu/tegra-smmu.c              |  18 ++-
+>  include/linux/mmzone.h                  |   5 +-
+>  mm/vmstat.c                             |   3 +
+>  23 files changed, 361 insertions(+), 206 deletions(-)
+>  create mode 100644 drivers/iommu/iommu-pages.h
 > 
-> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 
-Acked-by: David Rientjes <rientjes@google.com>
+Joerg, is this series anticipated to be queued up in the core branch of 
+git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git so it gets into 
+linux-next?
+
+This observability seems particularly useful so that we can monitor and 
+alert on any unexpected increases (unbounded memory growth from this 
+subsystem has in the past caused us issues before the memory is otherwise 
+not observable by host software).
+
+Or are we still waiting on code reviews from some folks that we should 
+ping?
+
+Thanks!
