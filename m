@@ -1,59 +1,60 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA463139F
-	for <linux-sunxi@lists.linux.dev>; Sun, 17 Mar 2024 01:36:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A00C61FBA
+	for <linux-sunxi@lists.linux.dev>; Sun, 17 Mar 2024 01:36:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710639369; cv=none; b=CHVaYET1T6DnwTpKAcFqAyD+OhKXYhQGSfc8SR8FlN6SV4gJ9p903Y6QTos9SrzLxyuTVqClVCO8305BhZjHZe/qc+myFM+2mKMliqBA/ZeUVIPsG180KzxnOi14ib8hMnrsUYiNz8tFVqy2S8X0htHL6i1f68Lkc+siMAyrm6M=
+	t=1710639370; cv=none; b=i+pHvQ+hFD4l38WT3eOoQcLEi26ASK6QEBJzVGeseTXcFPUj4ASJvNiab9QY0IcTGb+zRJE20fJ5icq8pvkAFJ+9eL9l7NL9cKzqli/xJtcsysph75V1g/HvfUSV6RdZt6ZdzOaWrkaSF1LL6EVJGWK+fTCPLJFw95sRCWHDETI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710639369; c=relaxed/simple;
-	bh=wT90xc5MN9pWYiCuET6gJiyUQOhBicpNzpjQPVvsBE0=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=klfrk4Amvxr/TiAi7MfplYNwkXrMVXcsPIoPZONCVYZppS2hcQdHWSeH3QWFeEdVQzAovZ1E/dmDJ3YEHRWF+2F3Q0xGoUIqm5W8ZOD90tpkY1UTN4AymlaiilDyDOJS8VURcAva1atjPx1W7i9nndsLgyAj6PVpatv2snGZ7/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EupRw5cP; arc=none smtp.client-ip=209.85.218.44
+	s=arc-20240116; t=1710639370; c=relaxed/simple;
+	bh=iqesdghEcnwOh+0QdQK2UT0V3yXb8zQ3CiPUlwu6za4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=H+0cae8E202HrFOsy2SapHnBv9emK2moeEYuK2kN4pasmu2YBCYjv/aTjfScELnpjIx4ly1TO+ztEEdHBA/uua4EU/nd/8B5jS/GC5a4fyt5vj9pangT3MBvQN/pk5//F1/QHdaRp/Sw3UpFOQPX/Jb0A7nYyp6vVRdzIkwUkC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q4lZFEVo; arc=none smtp.client-ip=209.85.218.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EupRw5cP"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a46966e9d30so201104066b.1
-        for <linux-sunxi@lists.linux.dev>; Sat, 16 Mar 2024 18:36:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q4lZFEVo"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a46b727ad3aso10019966b.2
+        for <linux-sunxi@lists.linux.dev>; Sat, 16 Mar 2024 18:36:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710639365; x=1711244165; darn=lists.linux.dev;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XJOPQTPZIdoYGlOmY3Fy/8dzV0uwF8EKc4H6FIgjX5I=;
-        b=EupRw5cP55Ymw2uk9uuu1updZfQ4upLOKfGzxijPwtx+NjtzOCr7D1kt21JfQc3+oe
-         UZt40qYsbx36YwJk9ecmwi3btnBSLT1NjeuuurmR4BIwHM4+nhzRUc21tx73V+aYHU9j
-         QUKeanamDclbzUL9D8xxw8vjoFkrAglgp6mLwJWjimRvIzY9XseBLrPX6qgenke9DGUg
-         qCm0ClFP7Ry9/NApl7pAEtQKZxqhbwocX1ksJ8MgahgJuscT1DHZrCxoLcxRb/2wiFZc
-         NLO/3zjsqjtB8WXVMQCP5brfGOGXyBahKG3z2F22ZPUzzBIObyZK/JDzCX861s1b8Sx1
-         +l6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710639365; x=1711244165;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20230601; t=1710639367; x=1711244167; darn=lists.linux.dev;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=XJOPQTPZIdoYGlOmY3Fy/8dzV0uwF8EKc4H6FIgjX5I=;
-        b=nqTU+EKKYOzQol4E1lHUasud/ZJv+eGqZQlJH7F7ADO9Jlbc6BYQ75YT+bXrnycCcy
-         KV99z7VyqQNh1kqRzjiIgQvUIzAIkOqVDkQ+yuEdaWYmG1PqKV9lcpBurwNcKfFTMPv3
-         r7/InMuKDvZNy1kXjXzZ0N0AHgD+WvL1bixYYhFQVmBhRrQSt0BwgBuazHbeWO2jyn0b
-         lyHD5pyJ4/z/pYajZ+XqshPmuduTRAkdxylYXIRp2JHV6px9JyouV4400y6swzhWJuC3
-         zDOb+aAXc3eBuRWCniwLkREOA0xhRA56E/uNdue74ZoaCXm4tvkSqR+t3MyLSZFsTW5D
-         8oHQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXVs/KLeOfw3q0xt4QVhpaqJS0bMy2TrLHqg9XmvrFaM9qooRS3JPed6p+NEs9AINGGfZbZTuZ0BBTHDSWPIiaunM+q74sMAL2bW+U=
-X-Gm-Message-State: AOJu0YxsRj06gx9vHrgrNLbewWlJ2y2pBrwmZWLguaraq/ko+XRsvbBG
-	eARoh7kvIq6mh5NMDBt9eDc0ArQBJYuDBnUQTL0muSQX7oujdyru
-X-Google-Smtp-Source: AGHT+IFoKk63r+2w89jQKSp8O06gxrMvN6aVFZ3hTGDXG5DWJLum92uJwZd39+ipO+It2noY/ika0g==
-X-Received: by 2002:a17:907:77da:b0:a46:5de0:6efa with SMTP id kz26-20020a17090777da00b00a465de06efamr5369324ejc.66.1710639364819;
-        Sat, 16 Mar 2024 18:36:04 -0700 (PDT)
+        bh=mldgZHXC40qWEZn3FORzvd3xQhVR/l/EKFy+VTj6VJI=;
+        b=Q4lZFEVoHwivnelSdlh4wakp2613U6l2aEkndLjccH1nuuWv1q84WXOiQkFIoojRA7
+         IbAFL9MkLfiy0GDmM7sXKj0G9scxWbdZvWbAQ0HF4UvZNjqLo08jXIeFJ9ZC/faW+oMC
+         6gyFgbcjwp/QhyhYzjSEq+5gRTMYEarkf/RMKuJnYhd9vyhS1nPYCT8cJFFb8QVQWpoo
+         UaEHXZfju9vuw5f39G7Pk6hPwUuobN97GUhpWfsWnIt67FYWqjfs46aQigQU4XgBCEGY
+         Ht+Daikm6YdYWiFdq8B0xNUv9bghn1HzWDD+iLPk9h+zlMTKB9ydsB1JINwEXmkHmNHB
+         4pRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710639367; x=1711244167;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mldgZHXC40qWEZn3FORzvd3xQhVR/l/EKFy+VTj6VJI=;
+        b=HoVKJls7aPw9tukFFFaZH/Uj2KaL0Y88Mc1oUYfjiPlfChWFqo5m+9CatsI5lfUDJt
+         vZ8XVIiK5+FQKAkTAFdrIU5QWJuxPXCcHYt4rJYPUFlEjDPAexzhBsXM/yS+Co9wrFUC
+         B1ChRey6xIUSoUO42O9GdRrQDJorH9Rurvftuo0IKnoOyTm+4/lKljX2XeW2EAXLOy5a
+         siid1ePQNYeFCBshF/HkDB+So/77Qx8aYIstB34qTLyWuWHPovng+AlDoivYJ7jYdqvH
+         CrdlsIAZ/EMSGB7KS0gyzRJa1yB6cmkxrEXzFY9Qimcw0vLwL2rPHpqCX9797ZjNBw4k
+         b3XQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWIBV71hwOMByi1IGjVdznz8+vhlJE5AUHBThSX5Xyptjf/4BhLY38wW7CiNWP02Ec6jLV5oZUjG/yRMiC0O3eaIFsgqFFxIAVuSi8=
+X-Gm-Message-State: AOJu0YzjZt8vq9qCoC6t9Eb6kmnH3Fl8hEyWb11GgVs0MWRaGOSlf7aS
+	A7X6/6F8DqglT3jaRdf8ES3MtsLUhMiQSASPE674vfVCYvg9LI3j
+X-Google-Smtp-Source: AGHT+IEmY2wt2cMNTQFpTQtnoJDnHefkASho/KmNPwBLag9ZY1aMF86aWic69vO6I/zBDNxWycQPhg==
+X-Received: by 2002:a17:906:684a:b0:a46:a194:bc78 with SMTP id a10-20020a170906684a00b00a46a194bc78mr1697690ejs.49.1710639366774;
+        Sat, 16 Mar 2024 18:36:06 -0700 (PDT)
 Received: from ALDERLEJK. (89-76-44-138.dynamic.chello.pl. [89.76.44.138])
-        by smtp.gmail.com with ESMTPSA id p7-20020a17090635c700b00a465b6c9a67sm3273109ejb.6.2024.03.16.18.36.03
+        by smtp.gmail.com with ESMTPSA id p7-20020a17090635c700b00a465b6c9a67sm3273109ejb.6.2024.03.16.18.36.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Mar 2024 18:36:04 -0700 (PDT)
+        Sat, 16 Mar 2024 18:36:06 -0700 (PDT)
 From: Kamil Kasperski <ressetkk@gmail.com>
-Subject: [PATCH v2 0/3] Add initial support for T95 TV boxes
-Date: Sun, 17 Mar 2024 02:33:58 +0100
-Message-Id: <20240317-add-t95-axp313-support-v2-0-e38032811758@gmail.com>
+Date: Sun, 17 Mar 2024 02:34:00 +0100
+Subject: [PATCH v2 2/3] dt-bindings: arm: sunxi: add T95 AXP313
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -62,9 +63,9 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAIZI9mUC/x2MQQqAIBAAvxJ7bqE0I/tKdJB2rb2UaIUQ/T3pN
- Mxh5oHEUTjBWD0Q+ZYkx15E1RUsm9tXRqHioBrVNbo16IjwtIU56FZjukI44onGa3KDtT0TQYl
- DZC/5H0/z+34i/XIUaAAAAA==
+Message-Id: <20240317-add-t95-axp313-support-v2-2-e38032811758@gmail.com>
+References: <20240317-add-t95-axp313-support-v2-0-e38032811758@gmail.com>
+In-Reply-To: <20240317-add-t95-axp313-support-v2-0-e38032811758@gmail.com>
 To: Rob Herring <robh@kernel.org>, 
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
  Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
@@ -75,67 +76,30 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  Kamil Kasperski <ressetkk@gmail.com>
 X-Mailer: b4 0.13.0
 
-changes since v1:
-- introduce sun50i-h616-t95.dtsi for common nodes in t95 boxes
-- validate and add cd-gpios for microsd card detect
-- add wi-fi node
-- remove mmc2 node - it's not used
-- add uart1 for bluetooth device
-- update copyright
-
-T95 is a most commonly known for being a box with a pre-installed 
-malware. It uses Allwinner H616 and comes with NAND, and DDR3 
-memory.
-
-Those TV boxes usually come with common hardware:
-- Allwinner H616 SoC
-- 2/4 GB DDR3 SDRAM (Hynix H5TQ2G43BFR)
-- 16/32/64 GB NAND flash
-- microSD slot
-- AXP305 or AXP313 PMIC depending on board revision
-- 3.5mm A/V output
-- HDMI port
-- 2x USB 2.0 ports
-- 100M ETH using Internal PHY
-- LG642 Wi-Fi and BT chip (rebranded BCM43342)
-- 7-segment display
-- DC 5V barrel jack port
-
-The board contains holes hor UART header wired to &uart0.
-&uart1 is used by bluetooth module
-
-From the DRAM specification its operation voltage is 1.5V.
-
-To: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-To: Conor Dooley <conor+dt@kernel.org>
-To: Chen-Yu Tsai <wens@csie.org>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: Samuel Holland <samuel@sholland.org>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: devicetree@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-sunxi@lists.linux.dev
+Add T95 AXP313 TV Box variant to dt-bindings.
 
 Signed-off-by: Kamil Kasperski <ressetkk@gmail.com>
 ---
-Kamil Kasperski (3):
-      dt-bindings: vendor-prefixes: add t95 string
-      dt-bindings: arm: sunxi: add T95 AXP313
-      arm64: dts: allwinner: h616: add support for T95 tv boxes
+ Documentation/devicetree/bindings/arm/sunxi.yaml | 5 +++++
+ 1 file changed, 5 insertions(+)
 
- Documentation/devicetree/bindings/arm/sunxi.yaml   |   5 +
- .../devicetree/bindings/vendor-prefixes.yaml       |   2 +
- arch/arm64/boot/dts/allwinner/Makefile             |   1 +
- arch/arm64/boot/dts/allwinner/sun50i-h616-t95.dtsi | 109 +++++++++++++++++++++
- .../dts/allwinner/sun50i-h616-t95max-axp313.dts    |  85 ++++++++++++++++
- 5 files changed, 202 insertions(+)
----
-base-commit: 4138f02288333cb596885e9af03dd3ea2de845cb
-change-id: 20240315-add-t95-axp313-support-5f3da8996edd
+diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
+index 09d835db6db5..6fe137605ba5 100644
+--- a/Documentation/devicetree/bindings/arm/sunxi.yaml
++++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
+@@ -860,6 +860,11 @@ properties:
+           - const: allwinner,sl631
+           - const: allwinner,sun8i-v3
+ 
++      - description: T95 5G (AXP313) TV Box
++        items:
++          - const: t95,t95max-axp313
++          - const: allwinner,sun50i-h616
++
+       - description: Tanix TX6
+         items:
+           - const: oranth,tanix-tx6
 
-Best regards,
 -- 
-Kamil Kasperski <ressetkk@gmail.com>
+2.34.1
 
