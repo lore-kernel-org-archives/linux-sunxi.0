@@ -1,114 +1,174 @@
-Received: from fout2-smtp.messagingengine.com (fout2-smtp.messagingengine.com [103.168.172.145])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34BD34C9B
-	for <linux-sunxi@lists.linux.dev>; Sun, 17 Mar 2024 08:41:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A3512594
+	for <linux-sunxi@lists.linux.dev>; Sun, 17 Mar 2024 14:58:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710664864; cv=none; b=uLZcoxhGA37cD/5/qDhffCGJlNDSjPzS0rFuoML0hLRT3NIgXGj6n63cVO7O2NVQHkUyAZcTu6yN6EL8BZMyZs9stEGH/tcOJ7S/DnORP17W/d+WmqYYb61HCiekfY/8KySb1L4koPg35rL6mJdSL8wFrJnr4rSatofyub2M6Hs=
+	t=1710687485; cv=none; b=X7CVOZaDYduR9/SHVvcUmxA6DBl7nbLhtFPhvIOcN5DDL1Ddhqmi5q3VbzGWAWVX4fzxtwuGciNRcZ9Bu4azJHtOK/RI+LmnYky0H941vY5ethXY+xojxPeAKFoGpNRqvw3PQ0MLBHzMkVnSFASM2CcMtO1YHmX69ZGLZUwRtso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710664864; c=relaxed/simple;
-	bh=anmDECffHNT93jRiQ0rFWIJyrxE2Iql748bcsJ3j+/w=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=EzlYCx5QnL5MoCAgRunq29k5d3KU7nd8Pf4P7an2MezKvPf+vR1rYJkj9SiCMXEWcCvysUg599d+BFiTiK7ldE4oLcLci4uDO/jBBKQlCHzAcF9omiIxCMgVqWYJ0fR9vpgXMjiWkwNuDSdBePST3sx0UWGjQ08hifuFbfDHim8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=Y1piuJph; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=nBzb41Oj; arc=none smtp.client-ip=103.168.172.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=testtoast.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
+	s=arc-20240116; t=1710687485; c=relaxed/simple;
+	bh=dQNmlwx/WspT2BDquts4YhsDpi6cW+wj50PQrWIcHX0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Wlf19zE2lVJvtddQdZR7GUVYo1z7YX+Mpdw++lWaWtD4vmZNdvcevR1WFssRifDUzudSFRF+XVJb+Ih8W3SCtYK0udaM9roSfK/iM8CjjIPUdS/R1KmfsvThCjBQiFXGOKYlb2RKYfGmYEFPuKplo8icHYv6f0Wp8msCTQPV8V8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=miABeKjH; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="Y1piuJph";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="nBzb41Oj"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfout.nyi.internal (Postfix) with ESMTP id 4D2AD13800A6;
-	Sun, 17 Mar 2024 04:41:01 -0400 (EDT)
-Received: from imap47 ([10.202.2.97])
-  by compute5.internal (MEProxy); Sun, 17 Mar 2024 04:41:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm2; t=1710664861; x=
-	1710751261; bh=iq/K40ZVnREET5uAoPChJlJ91jSHo5fC1dCAOVnA7uM=; b=Y
-	1piuJph5ONlP1Et9LIsGahW141CmZzoPrvhvUbqDWigYtnAr4PQgjP2S/D04SGa5
-	eKMD+0nCN6avXP7sDVXsVZdP4sl5M6Wj+IT08siBqa/DU9qQHX6/hhHP3ybexKgb
-	5KpIqjn1batlPMHI3koriQ/X+fTdxX0xwZsWwJKkzpbQTxeho57Ebvi0fXsT9N3n
-	cYK1FsT5R8+I4Y3FcmzgjzzCBAXngic5m2msujfAZkV7jIBvMusJvnI+sWkQ96yR
-	d8SubbLwXXKcBZTZQqDV36gDruYTGOwroDxDavc1yImEnIWCXKn6XnRjzHOLFlZ/
-	VJRROJUDka++bH5e/OMIQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1710664861; x=1710751261; bh=iq/K40ZVnREET5uAoPChJlJ91jSH
-	o5fC1dCAOVnA7uM=; b=nBzb41Oj7MHf1nwZWJi9RrtXILtmBjxlxr/8RYuKG9i/
-	IdSPx9VqMNjGpv24P76sKMIDef+S/vBqYbezffOQYrqdvQBuA3FDrN0YOUnp0/ID
-	x/DbmV2ENvl6574QAI04l8lDU7lzvor5FS1z54bNwCaKmVmGuhKexdMpLYPyAwe3
-	W5GQkDTG3hvuILXvWLC86MwAriLP7NgmrPW48H7ROh+K2bm3crdiD4Epvri4EHWe
-	j8tE+/UPMF3hydQPwrNvjGH0C8p6oqBEN6WqaCSGi9SG+XZdc7Wir0Uw31sSIkW4
-	foA85hdMHfPsSqkx+X1OpUIb7DPu8bpV/sIP67ZgnQ==
-X-ME-Sender: <xms:nKz2Za3ESRxddTFqYPDtAbRBmSSjF50N1BJvXxxu-9kCzERWuTqGdA>
-    <xme:nKz2ZdFHju_tfmeC_g_Yt-sDpYHpU_ApfiaQaLUVzGXQ0o3R1AE5M8WzoOO_1xy1r
-    DtIzPl0Oun8KDfpew>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrkeefgdduvdehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftfih
-    rghnucghrghlkhhlihhnfdcuoehrhigrnhesthgvshhtthhorghsthdrtghomheqnecugg
-    ftrfgrthhtvghrnhephedvveeigedujeeufeegffehhfffveduhfeijefgtdffteelgfet
-    ueevieduieejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homheprhihrghnsehtvghsthhtohgrshhtrdgtohhm
-X-ME-Proxy: <xmx:nKz2ZS6yJj7D0OPvxVDyRdwMNlXWu95aNEXprKpmDT3bvVqhst1G4A>
-    <xmx:nKz2Zb2d2qXcJDKzV5Q46oIyxpWTwjh7IKadcJW9ucoKv2nsi3PGiQ>
-    <xmx:nKz2ZdG7TJQg-KdS1hJADtwq7V9AqEK38p-Jy5k62K-Q1PHCfaSj3w>
-    <xmx:nKz2ZU9a_PgJenGkJlrX7j5p6gwInfMDc_9s-td7MGqaau5IqE2W8g>
-    <xmx:naz2ZdAastgVCkSx6zseZVw9CtgpdLtXZZqt3NCDuNds1Le_UVe0XQ>
-Feedback-ID: idc0145fc:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 17CE8A60078; Sun, 17 Mar 2024 04:40:59 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-300-gdee1775a43-fm-20240315.001-gdee1775a
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="miABeKjH"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-512bde3d197so3077767e87.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 17 Mar 2024 07:58:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1710687482; x=1711292282; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=90takAzy+UhOvr86bPj5srgQQEfnaD7PA320zI4kF/0=;
+        b=miABeKjHVU/k8aM5gMRy/LUzPfKEcEoWkyn+a62U5vx8JW8KUghQC5rZTSw8mwxv3x
+         M85GRSuie0mbOotLh6UO9xkgFHSwRPqWmwV903J7++unTxzobRiWwbVKIzXRT/FZ77Yp
+         yGWQ0GHFc+EEAruFiU4JYGXmeYD/pzbGLdbcJm6+TL7NXwvq6yh80qHWoVkJHtcP+tHP
+         TeXWZ+UDpVaVKPMmGXhfIOWuA3mvGW32Lv86HnAvypeKU1/CY086txDiFAIj0KWvePxS
+         OzB/N8VZ+gqhg7mupH1MwppMz0iKCTZqdi4+ZU7Ap7dHYwYxu0FVgFRB65kKwgrK7pHc
+         sPJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710687482; x=1711292282;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=90takAzy+UhOvr86bPj5srgQQEfnaD7PA320zI4kF/0=;
+        b=dT8vG7i1FYSk949QAxIPfwiJiTPINPFKgbzVU8urzWpQwMFge/qgS81D7GwT1L7IC0
+         ahdF0B/obmUj1fUncCVTS1gN45oX6gzT+Ii3qmW2vakcJzKtgMuYFXShYO8rF7z5nYWN
+         EXruP0x10oZxqkVXmFG0Vu2B8fiokaVcNrUbElhnTVP2HfV4b2nXegR1Ua3y9yad2ypn
+         GYCDJrGYgxpvNb9QduokWArRPPzPitfBJ5pS8j7M2n3q517ANDPhmnMic+t3fZeVADSI
+         nqTgfQhCrJ8Xv6T9wJ/FNBe3ov/ptc8VIXVzF41mq+huMaTjT1eQ0l6MLkDzBCj22fYZ
+         s+TQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX6oYF0YYRiSXvprlzpa+TAjylyr2tRYElT177EH+9kwI++r/6jVQclSnKT0ySzk64XvQBLahOfA2rWhe9z6tIj9r7Kuk5uFeOruMY=
+X-Gm-Message-State: AOJu0YyHOF28idezr5fS1iKBVlQEUzcMHMs1ZRtlXcjQDDb8FgigHKzo
+	QlgG2tO9G90ZANi66okU3xvPora8Ojmj8Qun3NJ1PUPMNvydzfqJpZKucZdodFs=
+X-Google-Smtp-Source: AGHT+IHuXH0t9q962THsdU/sTb0vs2h82K3hnDeNvLPqnMGOBujfZWFt4HC1tGcnBxVsK8RXFTVZPQ==
+X-Received: by 2002:ac2:4990:0:b0:513:db34:7caf with SMTP id f16-20020ac24990000000b00513db347cafmr4256094lfl.17.1710687481625;
+        Sun, 17 Mar 2024 07:58:01 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.222.97])
+        by smtp.gmail.com with ESMTPSA id h13-20020a19ca4d000000b00513b324cc32sm1302471lfj.268.2024.03.17.07.57.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 17 Mar 2024 07:58:01 -0700 (PDT)
+Message-ID: <1860c559-5a5c-4673-9d08-253f0945762b@linaro.org>
+Date: Sun, 17 Mar 2024 15:57:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <9ef4c29f-de98-4192-bf5d-1b2802496761@app.fastmail.com>
-In-Reply-To: <902ff7d3d6221f28df21c2e5b3e743671355c874.camel@realtek.com>
-References: <f3656995-b8fe-49c4-93b7-67612c685954@app.fastmail.com>
- <2afd1590823740a2b6a8f7e485a33842@realtek.com>
- <d5889133-4b8b-49bc-a26f-204ee9fcfdbb@app.fastmail.com>
- <902ff7d3d6221f28df21c2e5b3e743671355c874.camel@realtek.com>
-Date: Sun, 17 Mar 2024 21:40:39 +1300
-From: "Ryan Walklin" <ryan@testtoast.com>
-To: "Ping-Ke Shih" <pkshih@realtek.com>,
- "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>
-Cc: "linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>
-Subject: Re: [BUG] RTL8821CS panic on entering power-save mode
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] arm64: dts: allwinner: h616: add support for T95
+ tv boxes
+Content-Language: en-US
+To: Kamil Kasperski <ressetkk@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+References: <20240317-add-t95-axp313-support-v2-0-e38032811758@gmail.com>
+ <20240317-add-t95-axp313-support-v2-3-e38032811758@gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240317-add-t95-axp313-support-v2-3-e38032811758@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+On 17/03/2024 02:34, Kamil Kasperski wrote:
+> Add dtsi file for T95 tv boxes and add initial
+> support for T95 5G AXP313A variant with a board name
+> H616-T95MAX-AXP313A-v3.0
+> 
+> internal NAND chip is connected to NAND controller
+> I can't see any nand in sun50i-h616.dtsi, so access to
+> internal memory is not implemented.
+
+Please wrap commit message according to Linux coding style / submission
+process (neither too early nor over the limit):
+https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
+
+> 
+> Signed-off-by: Kamil Kasperski <ressetkk@gmail.com>
+> ---
+>  arch/arm64/boot/dts/allwinner/Makefile             |   1 +
+>  arch/arm64/boot/dts/allwinner/sun50i-h616-t95.dtsi | 109 +++++++++++++++++++++
+>  .../dts/allwinner/sun50i-h616-t95max-axp313.dts    |  85 ++++++++++++++++
+>  3 files changed, 195 insertions(+)
+> 
+
+> +
+> +	reg_vcc3v3: vcc3v3 {
+> +		/* discrete 3.3V regulator */
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "vcc-3v3";
+> +		regulator-min-microvolt = <3300000>;
+> +		regulator-max-microvolt = <3300000>;
+> +		regulator-always-on;
+> +	};
+> +
+> +	wifi_pwrseq: wifi_pwrseq {
+
+No underscores in node names. From where did you copy this code?
+
+> +		compatible = "mmc-pwrseq-simple";
+> +		clocks = <&rtc CLK_OSC32K_FANOUT>;
+> +		clock-names = "ext_clock";
+> +		pinctrl-0 = <&x32clk_fanout_pin>;
+> +		pinctrl-names = "default";
+> +		reset-gpios = <&pio 6 18 GPIO_ACTIVE_LOW>; /* PG18 */
+> +	};
+> +};
+> +
 
 
+Best regards,
+Krzysztof
 
-On Sat, 16 Mar 2024, at 2:47 AM, Ping-Ke Shih wrote:
-> This is because it is trying to enter PS mode but TX queue is still not empty.
-> If power consumption is not big deal to you, try to turn off PS by
->     iw wlan0 set power_save off
->
-> I think messages can be disappear. 
-
-I would prefer to have power-saving on as it is a portable device but this does stop the remaining messages about the queue.
-
-Finally I get extensive logging of 
-
-[ 1137.214502] Bluetooth: hci0: Out-of-order packet arrived (0 != 1)
-[ 1142.185255] Bluetooth: hci0: Out-of-order packet arrived (1 != 2)
-[ 1142.319504] Bluetooth: hci0: Out-of-order packet arrived (2 != 3)
-[ 1142.446742] Bluetooth: hci0: Out-of-order packet arrived (3 != 4)
-[ 1142.574117] Bluetooth: hci0: Out-of-order packet arrived (4 != 5)
-[ 1143.160501] Bluetooth: hci0: Out-of-order packet arrived (5 != 6)
-[ 1143.287232] Bluetooth: hci0: Out-of-order packet arrived (6 != 7)
-
-When I am running a bluetooth scan and/or connecting to a device, this seems harmless but does spam dmesg quite a bit.
-
-Thanks,
-
-Ryan
