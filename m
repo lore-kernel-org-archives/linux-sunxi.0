@@ -1,316 +1,108 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fallback13.i.mail.ru (fallback13.i.mail.ru [79.137.243.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAAEB4C65
-	for <linux-sunxi@lists.linux.dev>; Sun, 17 Mar 2024 01:36:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF20A4C9B;
+	Sun, 17 Mar 2024 08:35:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.137.243.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710639371; cv=none; b=iOM9cZhVAxZmuGEtJ7RqKNCCOKQFOE2CboQjiTMhPH4Pgopsxv2tWvsA8nnSwDVYIztrCJkkxiCmA6b4g9s40mIT+hSPs2YMI+QsMsYRM0LUGphTg5wMmVC7nn143y5kd7yWc9ot7zuE7YVWN4akr/bHnuRnw2Z7o/B1AaZOZQQ=
+	t=1710664555; cv=none; b=YKH4tFCoJlQX2yjvDWGtGqLK3U96QhWpLO+T8JF5PpqO/9AxcO+TeBhwZ5KGKfqa3s+rvxoVMk8oFdHN1iLzFRPYsXRvLEBe1D6XbuGIlvMWjvvauuutM1DCSpz8ALsJDsMwN2dcO9Pf6ji4dh/xeL+Zv2/YQfvxuamFVDzyvXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710639371; c=relaxed/simple;
-	bh=rVxcods5ZDyrWaNLRIPVF8mu6TfbQA0SDuybPSHzyCU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Ik91AX9oyDOwWDzCadla7pvvP7uoQsx5L8DMwk9rP2rFODbTCI2HLHc/c+KjYFNsv10wFKhKg+QviaPAeTANfJebhVjdn71IT7ruf3gYU2UrDj9iL4a0D6vUbos1mV0Bo8YGvxxbzB164zf4ouvpVlmqIf8jK53Hvb4PJd6QTj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GfG1OLKo; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1710664555; c=relaxed/simple;
+	bh=7E1x3Pit6kK0R6/hxJ/eUTs7x+9jBa5poEPF307Zju4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kvLmu0xjrFV2pZFn8t+NUoqtJPrYJdw3+Ytxg5RDNqFVDA4pBpNkkQ5RXbHkE+kS7nBmBXwxB53A1VYQSpFybIJH0Bao0qkmSPld1GGbChfxFozMdSk0j2AJp3789DG3QY84K65+rlhjKhyhqojZy8+Ulj3qeX6KD0OJ+xiDRpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mail.ru; spf=pass smtp.mailfrom=mail.ru; dkim=pass (2048-bit key) header.d=mail.ru header.i=@mail.ru header.b=ODLGbW28; dkim=pass (2048-bit key) header.d=mail.ru header.i=@mail.ru header.b=WIRMpSdU; arc=none smtp.client-ip=79.137.243.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mail.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GfG1OLKo"
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-51381021af1so4688031e87.0
-        for <linux-sunxi@lists.linux.dev>; Sat, 16 Mar 2024 18:36:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710639368; x=1711244168; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/XzytzZXUjo7YH6VehAfoVb/MA7UtVN4BCKXxPtpIPA=;
-        b=GfG1OLKowxiXoUDp+Wfu+l8OwA4dyh1IlPvk7vQM9jmyfa4snkOUBxrmkNsamlOyTD
-         867UJRc4qdZZdrdM+hqUSGQz1nS8AnjiFNU1Qmzy4cqNOJ/WqUkOo/v9iysbpMCo7Als
-         pCJ/EV2xiyQrapqFg0VAPeHDgNjCjtt4AxQFp5hZnvKMGbFg/ILAUDVhw0cHiq13JRs5
-         H6OQOAWEk4L8Cnu9ihcpD3BDkgXBgiPLCYoq1sttzHzR744rA5vzLA5yk+sAx56NPpyM
-         hes7XfUSrbsMctXBt8fp04f6UvJNmJiKmYsaCkPe0mmjD87wY/32e3XXeAO+t0U7R3at
-         u1cA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710639368; x=1711244168;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/XzytzZXUjo7YH6VehAfoVb/MA7UtVN4BCKXxPtpIPA=;
-        b=jAtrr8vGQIteU1fmcebSRVTzaEL0TWJtz5JmkBuW+CYKeMGOG1kqcDBi083VhZ/Sdm
-         IGOXB1XczYYuTBbkF8uEJd8Mvbl5zf7RuZrCibIC/fkyVvrgLuS0PGaPFcbpJz+cUmwH
-         mS77quFidGjDRHORHTpt6Z9zV6qEzFLCty6SahndnxMH/dIKlDMvv7FQ+GPJSo0bi4y8
-         BSSufoa0/zuRmplElpGHqVRORVe2BRNdn8W45Kqhbel16yybRcL/XD5RR+8sQ+PM7Y33
-         YcaHeZcGWVnUd9zWqe6lQpNfQpxdCqpO3QNPV2zzaVpYWnYoLlT6cON7LLp0f+4+FF8G
-         K5HQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXbKdYprwAsGfwUsYmfPHoIEFF5hUNFVmXIXZsEKZGT0L69dgyXQjZvv6FRd1uDmpYs3g0sLia6YwUy3NTjKx7B8YK9ITaE7hQg9oA=
-X-Gm-Message-State: AOJu0Yw6vutWNi4aMzbZ5inSwM2yHF0B8ZtBsQBh2PKeiCfT+OEMpt0f
-	aiDhYconZAGtqqy5m7gu4qE63gOISuFEqWHCBPF3PMkDCBpeTF7PME+vvCsJUp3X/A==
-X-Google-Smtp-Source: AGHT+IFyrKxW6qlFPCt+/ADVwRcABp8+lfhmA0g2SVUrbYaOKGC8b2vb2cWTu/b82B2sQpnwYdjEvQ==
-X-Received: by 2002:ac2:5330:0:b0:513:c488:5b5d with SMTP id f16-20020ac25330000000b00513c4885b5dmr2319287lfh.44.1710639367787;
-        Sat, 16 Mar 2024 18:36:07 -0700 (PDT)
-Received: from ALDERLEJK. (89-76-44-138.dynamic.chello.pl. [89.76.44.138])
-        by smtp.gmail.com with ESMTPSA id p7-20020a17090635c700b00a465b6c9a67sm3273109ejb.6.2024.03.16.18.36.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Mar 2024 18:36:07 -0700 (PDT)
-From: Kamil Kasperski <ressetkk@gmail.com>
-Date: Sun, 17 Mar 2024 02:34:01 +0100
-Subject: [PATCH v2 3/3] arm64: dts: allwinner: h616: add support for T95 tv
- boxes
+	dkim=pass (2048-bit key) header.d=mail.ru header.i=@mail.ru header.b="ODLGbW28";
+	dkim=pass (2048-bit key) header.d=mail.ru header.i=@mail.ru header.b="WIRMpSdU"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru; s=mail4;
+	h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc; bh=C2bvG1Uwgvum8U6oSn2ZFXWtD2RHh6nI4Y75MT72qYI=;
+	t=1710664552;x=1710754552; 
+	b=ODLGbW28VGC2zWK21rb5gX6sE53yT14QtwaHXbMaadFBcy/mJp94MR4MD5LWKyXG7wfLvvBhZ0eM3ppcf+7JT6VXmpMgY1/Wyl0revifdqyjDTdWLyiE8YvkGLdl5NoUeOJKRsg8Eil61+XQ4BVXOJHcwVEcvW5a4YjWSfTVN+4p+GwtMMy/ruuqhTsn/ceW7+VD+WCPA6Ei7BFEOuqVZn4kt75wAQK/w66gJ5eNdL0e6encfoDrZyyYAI9ZDt5gBrRtWgrvX9oVWfjLushs5RZq2I6WWqAMaxhoSRJctjCFP8ErDxz3+dpcIRRvwY+H/PgaJgmUeCAbe2B53W+LZg==;
+Received: from [10.12.4.21] (port=33312 helo=smtp42.i.mail.ru)
+	by fallback13.i.mail.ru with esmtp (envelope-from <hitechshell@mail.ru>)
+	id 1rllzd-00CMRq-3c; Sun, 17 Mar 2024 11:35:45 +0300
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru;
+	s=mail4; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:
+	To:From:From:Sender:Reply-To:To:Cc:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive:
+	X-Cloud-Ids:Disposition-Notification-To;
+	bh=C2bvG1Uwgvum8U6oSn2ZFXWtD2RHh6nI4Y75MT72qYI=; t=1710664545; x=1710754545; 
+	b=WIRMpSdU3yd9iobJPBB7UycpPVMSxJFZRb48yb9a/jYq5G53fYt6+hfuB3sZLlZnbnTK+r7BbP5
+	7aqEl35C47O6Xud3gQBR3ExCoP9veFOQATfUYvHL9f21PS3XMirKMz50T1WuKH0YFdKD1/Q6zfmLd
+	f8iI6dRguvdXHbJ+tWcgUcjmyoEIWn1QCiwNJirY3OM88y565iyow4IN9duncQqW9bHLB7QHZemMU
+	2LhXFYfbxz/DuatAEFxrR2t1IaJQHhsD5zhZmwfQeVHtUDtR6R6h9mDRrSfHWL27jcfx/2FvQMN9Y
+	PTnifunrbfEWI0N5Pn8hy+oYPg6Kd2f9+3iQ==;
+Received: by smtp42.i.mail.ru with esmtpa (envelope-from <hitechshell@mail.ru>)
+	id 1rllzO-00000003bZW-24ML; Sun, 17 Mar 2024 11:35:31 +0300
+From: Denis Burkov <hitechshell@mail.ru>
+To: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Denis Burkov <hitechshell@mail.ru>,
+	Rob Herring <robh@kernel.org>
+Subject: [PATCH v2 1/2] dt-bindings: arm: sunxi: Add PocketBook 614 Plus
+Date: Sun, 17 Mar 2024 13:34:44 +0500
+Message-ID: <20240317083445.4668-1-hitechshell@mail.ru>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240317-add-t95-axp313-support-v2-3-e38032811758@gmail.com>
-References: <20240317-add-t95-axp313-support-v2-0-e38032811758@gmail.com>
-In-Reply-To: <20240317-add-t95-axp313-support-v2-0-e38032811758@gmail.com>
-To: Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- Kamil Kasperski <ressetkk@gmail.com>
-X-Mailer: b4 0.13.0
+Content-Transfer-Encoding: 8bit
+X-Mailru-Src: smtp
+X-7564579A: B8F34718100C35BD
+X-77F55803: 4F1203BC0FB41BD987C0EE6E7F0A597D14B510CDCFC426C47375EECC9EF82252182A05F5380850401171797352F077CCA6D5EE0DB6E1EC8D60CD3A9F334C475CE73681F7A7D763F8A02D50AE20F21E99
+X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7C6068CE86C2B75F5EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637B20ACC28402695E48638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D82AD850D6F1F0A484DF8A4F223E113580CADACAB2DDE3873420879F7C8C5043D14489FFFB0AA5F4BF176DF2183F8FC7C058C1844A7A85E7B68941B15DA834481FA18204E546F3947C457EE4B4996FC546F6B57BC7E64490618DEB871D839B7333395957E7521B51C2DFABB839C843B9C08941B15DA834481F8AA50765F7900637B18CEC08E50EEB57389733CBF5DBD5E9B5C8C57E37DE458BD9DD9810294C998ED8FC6C240DEA76428AA50765F79006372E2E0CF213AC68ADD81D268191BDAD3DBD4B6F7A4D31EC0BE2F48590F00D11D6D81D268191BDAD3D78DA827A17800CE731DB45BFE237DA1FEC76A7562686271ED91E3A1F190DE8FD2E808ACE2090B5E14AD6D5ED66289B5278DA827A17800CE7A03E8F3C2D3812562EB15956EA79C166176DF2183F8FC7C0E4A630A5B664A4FF725E5C173C3A84C3F318ED4C9C90B29A35872C767BF85DA2F004C90652538430E4A6367B16DE6309
+X-C1DE0DAB: 0D63561A33F958A5C4E5BBA5B41A5FAB5002B1117B3ED6969C9E915D873D5F7CA9DAB4B68AE4D22F823CB91A9FED034534781492E4B8EEADC0A73878EBD0941BC79554A2A72441328621D336A7BC284946AD531847A6065A535571D14F44ED41
+X-C8649E89: 1C3962B70DF3F0ADE00A9FD3E00BEEDF77DD89D51EBB7742D3581295AF09D3DF87807E0823442EA2ED31085941D9CD0AF7F820E7B07EA4CFE342053CE1402531FE4D53C944477A16C17A370CEFEFECD371D802F178C025CEF62474FBACD619B06CD0533D1BDF67EDBFE8104F530FDEE61086B51C93BC5CDCCB31759AF00544ADE4FDFA4A036B0C3902C26D483E81D6BEAB6E9BFA52983102758FA77D78A604EFC3981EEBE9DB10F943082AE146A756F3
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojpAzVD49/gcM5XnRRRxGIiQ==
+X-Mailru-Sender: 4504732FDC166E0E21A896EFB29DF0C90F95B987A6AB5E38A6D5EE0DB6E1EC8D60CD3A9F334C475CA165F1893FAC5C757035CE191D947B125A92E71CC7C3152D68C1C4E17AB7C113897BD3F63E44C176075AE25EB8835B0E4F1F69ACE5C499A7A0577211E31DE16C327D77830F209D780D4ABDE8C577C2ED
+X-Mras: Ok
+X-7564579A: B8F34718100C35BD
+X-77F55803: 6242723A09DB00B485448333635D8AFAF2FD4A3C9FF394F59934010964AD860B049FFFDB7839CE9E3B76AC3706630B51D7B4E5E724E77A0749393DBEF992D08E8DDC5EEB2C396DF0
+X-7FA49CB5: 0D63561A33F958A5CE2390E67E47AD4BCFF3321AC6F65BDC7E3194F9B69BAC56CACD7DF95DA8FC8BD5E8D9A59859A8B64071617579528AACCC7F00164DA146DAFE8445B8C89999728AA50765F7900637CBA2F893EF2800639FA2833FD35BB23D2EF20D2F80756B5F868A13BD56FB6657A471835C12D1D977725E5C173C3A84C342E5C09891E4E6C3CC7F00164DA146DA6F5DAA56C3B73B23C77107234E2CFBA522CA9DD8327EE493D1AC325EA934333D6A58BF81F659395FC4224003CC83647689D4C264860C145E
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojpAzVD49/gcPmpGYHCWN8SA==
+X-Mailru-MI: 8000000000000800
+X-Mras: Ok
 
-Add dtsi file for T95 tv boxes and add initial
-support for T95 5G AXP313A variant with a board name
-H616-T95MAX-AXP313A-v3.0
+Add a new board name.
 
-internal NAND chip is connected to NAND controller
-I can't see any nand in sun50i-h616.dtsi, so access to
-internal memory is not implemented.
-
-Signed-off-by: Kamil Kasperski <ressetkk@gmail.com>
+Signed-off-by: Denis Burkov <hitechshell@mail.ru>
+Acked-by: Rob Herring <robh@kernel.org>
 ---
- arch/arm64/boot/dts/allwinner/Makefile             |   1 +
- arch/arm64/boot/dts/allwinner/sun50i-h616-t95.dtsi | 109 +++++++++++++++++++++
- .../dts/allwinner/sun50i-h616-t95max-axp313.dts    |  85 ++++++++++++++++
- 3 files changed, 195 insertions(+)
+ Documentation/devicetree/bindings/arm/sunxi.yaml | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
-index 21149b346a60..294921f12b73 100644
---- a/arch/arm64/boot/dts/allwinner/Makefile
-+++ b/arch/arm64/boot/dts/allwinner/Makefile
-@@ -42,6 +42,7 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6-mini.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-bigtreetech-cb1-manta.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-bigtreetech-pi.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-orangepi-zero2.dtb
-+dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-t95max-axp313.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-x96-mate.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-longanpi-3h.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero2w.dtb
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-t95.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616-t95.dtsi
-new file mode 100644
-index 000000000000..2af17439ba86
---- /dev/null
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-t95.dtsi
-@@ -0,0 +1,109 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+/*
-+ * Copyright (C) 2024 Kamil Kasperski <ressetkk@gmail.com>
-+ *
-+ * Common DT nodes for H616-based T95 TV boxes
-+ * There are two versions reported with different PMIC variants.
-+ */
+diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
+index 09d835db6db5..43491e7f8a5e 100644
+--- a/Documentation/devicetree/bindings/arm/sunxi.yaml
++++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
+@@ -774,6 +774,11 @@ properties:
+           - const: pocketbook,touch-lux-3
+           - const: allwinner,sun5i-a13
+ 
++      - description: PocketBook 614 Plus
++        items:
++          - const: pocketbook,614-plus
++          - const: allwinner,sun5i-a13
 +
-+#include "sun50i-h616.dtsi"
-+
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+/ {
-+	aliases {
-+		ethernet1 = &sdio_wifi;
-+		serial0 = &uart0;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial0:115200n8";
-+	};
-+
-+	reg_vcc5v: vcc5v {
-+		/* board wide 5V supply directly from the DC input */
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc-5v";
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+		regulator-always-on;
-+	};
-+
-+	reg_vcc3v3: vcc3v3 {
-+		/* discrete 3.3V regulator */
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc-3v3";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+		regulator-always-on;
-+	};
-+
-+	wifi_pwrseq: wifi_pwrseq {
-+		compatible = "mmc-pwrseq-simple";
-+		clocks = <&rtc CLK_OSC32K_FANOUT>;
-+		clock-names = "ext_clock";
-+		pinctrl-0 = <&x32clk_fanout_pin>;
-+		pinctrl-names = "default";
-+		reset-gpios = <&pio 6 18 GPIO_ACTIVE_LOW>; /* PG18 */
-+	};
-+};
-+
-+&ehci0 {
-+	status = "okay";
-+};
-+
-+&ehci2 {
-+	status = "okay";
-+};
-+
-+&ir {
-+	status = "okay";
-+};
-+
-+&mmc0 {
-+	cd-gpios = <&pio 8 16 GPIO_ACTIVE_LOW>;	/* PI16 */
-+	bus-width = <4>;
-+	status = "okay";
-+};
-+
-+&mmc1 {
-+	mmc-pwrseq = <&wifi_pwrseq>;
-+	bus-width = <4>;
-+	non-removable;
-+	status = "okay";
-+
-+	sdio_wifi: wifi@1 {
-+		reg = <1>;
-+	};
-+};
-+
-+&ohci0 {
-+	status = "okay";
-+};
-+
-+&ohci2 {
-+	status = "okay";
-+};
-+
-+&uart0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart0_ph_pins>;
-+	status = "okay";
-+};
-+
-+&uart1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart1_pins>, <&uart1_rts_cts_pins>;
-+	uart-has-rtscts;
-+	status = "okay";
-+};
-+
-+&usbotg {
-+	dr_mode = "host";	/* USB A type receptable */
-+	status = "okay";
-+};
-+
-+&usbphy {
-+	status = "okay";
-+};
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-t95max-axp313.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-t95max-axp313.dts
-new file mode 100644
-index 000000000000..c8650aca2407
---- /dev/null
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-t95max-axp313.dts
-@@ -0,0 +1,85 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+/*
-+ * Copyright (C) 2024 Kamil Kasperski <ressetkk@gmail.com>
-+ *
-+ * Configuration for T95 TV box with board label H616-T95MAX-AXP313A-v3.0
-+ */
-+
-+/dts-v1/;
-+
-+#include "sun50i-h616-t95.dtsi"
-+
-+/ {
-+	model = "T95 5G (AXP313)";
-+	compatible = "t95,t95max-axp313", "allwinner,sun50i-h616";
-+};
-+
-+&mmc0 {
-+	vmmc-supply = <&reg_dldo1>;
-+};
-+
-+&mmc1 {
-+	vmmc-supply = <&reg_dldo1>;
-+	vqmmc-supply = <&reg_aldo1>;
-+};
-+
-+&r_i2c {
-+	status = "okay";
-+
-+	axp313: pmic@36 {
-+		compatible = "x-powers,axp313a";
-+		reg = <0x36>;
-+		#interrupt-cells = <1>;
-+		interrupt-controller;
-+		interrupt-parent = <&pio>;
-+
-+		vin1-supply = <&reg_vcc5v>;
-+		vin2-supply = <&reg_vcc5v>;
-+		vin3-supply = <&reg_vcc5v>;
-+
-+		regulators {
-+			reg_aldo1: aldo1 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <1800000>;
-+				regulator-max-microvolt = <1800000>;
-+				regulator-name = "vcc1v8";
-+			};
-+
-+			reg_dldo1: dldo1 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <3300000>;
-+				regulator-max-microvolt = <3300000>;
-+				regulator-name = "vcc3v3";
-+			};
-+
-+			reg_dcdc1: dcdc1 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <810000>;
-+				regulator-max-microvolt = <990000>;
-+				regulator-name = "vdd-gpu-sys";
-+			};
-+
-+			reg_dcdc2: dcdc2 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <810000>;
-+				regulator-max-microvolt = <1100000>;
-+				regulator-name = "vdd-cpu";
-+			};
-+
-+			reg_dcdc3: dcdc3 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <1500000>;
-+				regulator-max-microvolt = <1500000>;
-+				regulator-name = "vdd-dram";
-+			};
-+		};
-+	};
-+};
-+
-+&pio {
-+	vcc-pc-supply = <&reg_aldo1>;
-+	vcc-pf-supply = <&reg_dldo1>;
-+	vcc-pg-supply = <&reg_dldo1>;
-+	vcc-ph-supply = <&reg_dldo1>;
-+	vcc-pi-supply = <&reg_dldo1>;
-+};
-
+       - description: Point of View Protab2-IPS9
+         items:
+           - const: pov,protab2-ips9
 -- 
-2.34.1
+2.43.0
 
