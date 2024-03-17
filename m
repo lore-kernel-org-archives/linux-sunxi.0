@@ -1,132 +1,116 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01C721C6A4
-	for <linux-sunxi@lists.linux.dev>; Sun, 17 Mar 2024 15:37:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCC621CD2D
+	for <linux-sunxi@lists.linux.dev>; Sun, 17 Mar 2024 16:36:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710689828; cv=none; b=KX8PNt0V8jlBzPJ3d6sPZ/G7Gpj7iwTNno8L713Lq71mY2lxZQxNs6l+2WolsdV6503kJq1DNIdSDkHd9vhwas07+cEc4SsSGk8R60sDY/njSizsitxX6dGK7fhRrfbNaykOmv4pejTmhVAZxF3ctqN/KsdhESfrQ8mTkwJGIgA=
+	t=1710693380; cv=none; b=FpNlfJaGKOGXkbnb5W1wZtMvYl2OvxyNpkbjw/V8WtxNTLSjaJUABvPEZIGhA+jgoYhISTOqydwUGAU2ZMTP1bnHYeryc4anVPawaQ7lPc4mkZM+W5jn1/P/lxl0Szq3poWYOQhmdIF7jyEDg1IxIp4xFcDg/hI634iH6ZJwDBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710689828; c=relaxed/simple;
-	bh=mINZzG8MsiPOIqLtvTwJWSlmXsjd0rm5zc6iBGJqlvk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QbnKyKHwYwTpvhB0lqaYnmR6HsLX+ZSNluonjz0S1NvAP2ZC7/Zv2xXWnDq4EebYW3J8dCY0pTVPmlPMO79u8V09XnIgjPB16aHRQjXxNhnUGIWniWN5X3uNeDwMG7uUVowaFu1WpdsQDEgc0luI1cy09aNvGrGa1IFcnYKnzr4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cTLApiSI; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1710693380; c=relaxed/simple;
+	bh=cTjsb0/BpLMT/X3BBcyyHdtQwgY4lAHAeXwhRuC8FwI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CfoYjl1uyDb5IOxqzZitjs4SvaInbZmPdQmS0CPuNxCHvTEl7hg4Wh+u3oz5TFT9QRF3nXk1AbVZEbTcDPp0Q+JBNbzh5lhgQRfH+4SuTqCNejrpY8O3d0yZelZdwcBo6v+fheqQZLgt/K+5roy9kB2PFWeQkh+MZ/fk3OTNu2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RamMtx7Y; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cTLApiSI"
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-513d9176cf9so2435067e87.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 17 Mar 2024 08:37:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RamMtx7Y"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-6e6ee9e3cffso2050403b3a.1
+        for <linux-sunxi@lists.linux.dev>; Sun, 17 Mar 2024 09:36:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710689825; x=1711294625; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TUArIiut1cWPP+AwimO/LFgXs0A/dh0M6eE5ulhPRso=;
-        b=cTLApiSIXzFHBgOYp3yFp6r0EeuT0C29CsQqquHVEtLqXvbu3+/xjrEWF6q9Xq0U8A
-         ITdimp9scvJ0pmPhHSVCeLC7/+qGZBaNaaW9X97T0HNSlt5oajIFLvM74t/5s1jwE/uI
-         gTkXMxLdYTi9/kYMeW9lR41ktXp5j25NLal0KeZoy6wNNrK94rvs6PcO+szpsASmUr3l
-         lsftYlrD/XtFWmoIjG7Va2HTgYNbLfNBhUxipt1X8CehZvW8C9gzX4TrUgkZHeCbsvnN
-         GERaClyKDO0It6GfQrn4b1GNRjMsq5wQ1tQhmZkvrWmSz6cGd1M0gYg8kJCTEZkSdgi0
-         vBlg==
+        d=gmail.com; s=20230601; t=1710693378; x=1711298178; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=OF79KXhVjtXexZ/GpI6MkY7a20tX+4xRmIvmqST+AnU=;
+        b=RamMtx7YUZy9qgxaCbgl5EQr3Jm/AvTVz9IR4aVjIrV4DJuJQa+5RugfW82yZ/mffg
+         6YfEAOeRYn1B6X7tgx8xG2Pz7k0UypwWboO+Fzi042okp9q7VTKPXnBz9WlMFK3rzqtF
+         8nNxezC5IbKFjIbwJWE9aP2claedgdQVOxLV4/SAsDqFx/yhmNUYUbAFvn1us/PkdrLB
+         YHE8+c8YN7ub7P37IUC1IK7Do4bOY6kLT1KI93wB/+96AM3MjWiD0ZB6I1ky3e/tSwF3
+         NYnNDeeRT2rcVeoGJxulJRQLCtQdTxlu1ZGvgn2p5FnBkSzhOCb3IbXms+g6SxbObsDT
+         DoTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710689825; x=1711294625;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TUArIiut1cWPP+AwimO/LFgXs0A/dh0M6eE5ulhPRso=;
-        b=VCGe2xHraWsVKnB0xvaR27XajpJmicAwxFq/dKIxR12Dclet/Oazo9EMN8H6ZvkZ0B
-         iwhBlpssMDQ/e3eY827jpkPo3Am59Bk1LiyPr93zynx7RwLNDNeVWvBzfeEOsEwLEn09
-         jqqtg6SvRlkVsock5aEyBxhUQlDqY8deST5TtZcKwFlMhMpti3cK2xDosO0nU2asyT59
-         lKgkTfQDFQDnSXiEPDMg2yrROtQeaXjidpYoffUJXHKRm7WFWoRa6v6Kz7hmE+QSXhn4
-         VL+YDhDcQm3wRhdj8Qb4GkAlgWDlnv72wPYAFWdOr0E4SdL8wxjDEMb0iDvKfnuHDb9O
-         suGw==
-X-Forwarded-Encrypted: i=1; AJvYcCW0xyNoy8pXcGBdIX4KNhfxXQ93KYy/1Fbr7tJ+ooVNX0gtiLL5LAhrsiEIBzeDMz4wGCx5C2+cYofdlOZsnsXmX49nKRfmQuxK8Tk=
-X-Gm-Message-State: AOJu0YwWgV+W1WtwzhO4S9GIOuQN9f3ouWalsvjg7G9Z/VrIwBo7Qc67
-	InNn4LQgt59bMMy4I3d4cn4mBimZGsCb6Cp1GioAeAUknzTLObsm
-X-Google-Smtp-Source: AGHT+IE8iVEBLsbeBWUw0aacjQEV/qt7NW/hXDIvCewyz3XIiPcSWcGo7/r3YlriRP4Z0ignZ10RzQ==
-X-Received: by 2002:a05:6512:3283:b0:513:c97c:d5f with SMTP id p3-20020a056512328300b00513c97c0d5fmr5528365lfe.12.1710689824967;
-        Sun, 17 Mar 2024 08:37:04 -0700 (PDT)
-Received: from [192.168.100.117] (89-76-44-138.dynamic.chello.pl. [89.76.44.138])
-        by smtp.gmail.com with ESMTPSA id t10-20020a1709064f0a00b00a46b6a8fc25sm762569eju.64.2024.03.17.08.36.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 17 Mar 2024 08:37:04 -0700 (PDT)
-Message-ID: <f4f02cb2-6263-4bd4-a798-c92c31f7b363@gmail.com>
-Date: Sun, 17 Mar 2024 16:36:50 +0100
+        d=1e100.net; s=20230601; t=1710693378; x=1711298178;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OF79KXhVjtXexZ/GpI6MkY7a20tX+4xRmIvmqST+AnU=;
+        b=N9/MRbtEwusHuJ/KObsYfcRzT0yu5H5LcUv+k5o98fskhzFDBeySIVu4Zo4LOu0pk1
+         4Eif+tHPHnPxXaYSH/foAMlshMjZNts5VD7qMeFSyKuueCgGs/OIDols/ODqEjGzFQeZ
+         2dskz5S1YAOa/stGxpbBF0NV6sGOldy60fUyizWtq+5vQf9vKEwzoI7bE+YUKarCNZA9
+         zbORyTKLzgCQLXJ/0zPWo96BEGTK0mPVppC0VmxJ8Ptzu/SFyjCQPR5hSSSoa7lX9FVk
+         L+SgVc1b75NOVZTDRM2GmwXCEQuBLvYxvhAzaKkmSDRLdLNHvL4jbFIDoyvIP49YewII
+         YvDA==
+X-Forwarded-Encrypted: i=1; AJvYcCXOLhYjnQ1tmm4baoml4MXJSfUgcRRLr3VlRV/wlUchAFue293sW5t9G4DsPZDMyOvoUkB+VJiCp0Ih+vSXZ9SmIlUkVxzW4mnaudg=
+X-Gm-Message-State: AOJu0YxXIRvqyuQNi2V+ml7dTz1oeXmXto+ruakANWxSLsjoYrHRhUhK
+	RBdZSufsqSi9e7bcNI9as1Ow/3cTjVGrMvWnoC4P5W3wetBQPqhS
+X-Google-Smtp-Source: AGHT+IGa2J0FGsz6KPc52ig70pMekzfNXoYYgf9jnNcxMqsM/th4nXVjaLrcgxRudeFE0v35xphm8A==
+X-Received: by 2002:a05:6a20:e123:b0:1a3:4ff4:219b with SMTP id kr35-20020a056a20e12300b001a34ff4219bmr9172546pzb.12.1710693378049;
+        Sun, 17 Mar 2024 09:36:18 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id p24-20020aa78618000000b006e4f311f61bsm6373725pfn.103.2024.03.17.09.36.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Mar 2024 09:36:17 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+From: Guenter Roeck <linux@roeck-us.net>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Guenter Roeck <linux@roeck-us.net>
+Subject: [PATCH] drm/sun4i: Drop COMPILE_TEST
+Date: Sun, 17 Mar 2024 09:36:15 -0700
+Message-Id: <20240317163615.563428-1-linux@roeck-us.net>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] arm64: dts: allwinner: h616: add support for T95
- tv boxes
-Content-Language: pl
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-References: <20240317-add-t95-axp313-support-v2-0-e38032811758@gmail.com>
- <20240317-add-t95-axp313-support-v2-3-e38032811758@gmail.com>
- <1860c559-5a5c-4673-9d08-253f0945762b@linaro.org>
-From: Kamil Kasperski <ressetkk@gmail.com>
-In-Reply-To: <1860c559-5a5c-4673-9d08-253f0945762b@linaro.org>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-W dniu 17.03.2024 o 15:57, Krzysztof Kozlowski pisze:
-> On 17/03/2024 02:34, Kamil Kasperski wrote:
->> Add dtsi file for T95 tv boxes and add initial
->> support for T95 5G AXP313A variant with a board name
->> H616-T95MAX-AXP313A-v3.0
->>
->> internal NAND chip is connected to NAND controller
->> I can't see any nand in sun50i-h616.dtsi, so access to
->> internal memory is not implemented.
-> Please wrap commit message according to Linux coding style / submission
-> process (neither too early nor over the limit):
-> https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
->
->> Signed-off-by: Kamil Kasperski <ressetkk@gmail.com>
->> ---
->>  arch/arm64/boot/dts/allwinner/Makefile             |   1 +
->>  arch/arm64/boot/dts/allwinner/sun50i-h616-t95.dtsi | 109 +++++++++++++++++++++
->>  .../dts/allwinner/sun50i-h616-t95max-axp313.dts    |  85 ++++++++++++++++
->>  3 files changed, 195 insertions(+)
->>
->> +
->> +	reg_vcc3v3: vcc3v3 {
->> +		/* discrete 3.3V regulator */
->> +		compatible = "regulator-fixed";
->> +		regulator-name = "vcc-3v3";
->> +		regulator-min-microvolt = <3300000>;
->> +		regulator-max-microvolt = <3300000>;
->> +		regulator-always-on;
->> +	};
->> +
->> +	wifi_pwrseq: wifi_pwrseq {
-> No underscores in node names. From where did you copy this code?
+Attempts to build the sun4i drm code on various architectures using gcc 11.x
+or older fails with
 
-arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts#L44
-Seems this one needs a fixup.
+ERROR: modpost: "__udivdi3" [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko] undefined!
 
->> +		compatible = "mmc-pwrseq-simple";
->> +		clocks = <&rtc CLK_OSC32K_FANOUT>;
->> +		clock-names = "ext_clock";
->> +		pinctrl-0 = <&x32clk_fanout_pin>;
->> +		pinctrl-names = "default";
->> +		reset-gpios = <&pio 6 18 GPIO_ACTIVE_LOW>; /* PG18 */
->> +	};
->> +};
->> +
->
-> Best regards,
-> Krzysztof
->
+This is due to commit 358e76fd613a ("drm/sun4i: hdmi: Consolidate
+atomic_check and mode_valid") which introduces a constant 64-bit divide
+operation. Some compilers / compiler versions fail to translate this
+operation into fixed code.
+
+Manual exclusion lists such as "Only build test this code on this subset of
+architectures" or "Do not test this code on this set of architectures"
+do not scale. Remove COMPILE_TEST support for the suni4 drm driver instead
+to ensure that test builds are only performed on supported architectures.
+
+Fixes: 358e76fd613a ("drm/sun4i: hdmi: Consolidate atomic_check and mode_valid")
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+---
+ drivers/gpu/drm/sun4i/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/sun4i/Kconfig b/drivers/gpu/drm/sun4i/Kconfig
+index 4741d9f6544c..015539bfda2a 100644
+--- a/drivers/gpu/drm/sun4i/Kconfig
++++ b/drivers/gpu/drm/sun4i/Kconfig
+@@ -2,7 +2,7 @@
+ config DRM_SUN4I
+ 	tristate "DRM Support for Allwinner A10 Display Engine"
+ 	depends on DRM && COMMON_CLK
+-	depends on ARCH_SUNXI || COMPILE_TEST
++	depends on ARCH_SUNXI
+ 	select DRM_GEM_DMA_HELPER
+ 	select DRM_KMS_HELPER
+ 	select DRM_PANEL
+-- 
+2.39.2
 
