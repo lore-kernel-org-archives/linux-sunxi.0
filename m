@@ -1,59 +1,59 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A3512594
-	for <linux-sunxi@lists.linux.dev>; Sun, 17 Mar 2024 14:58:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8D821CD15
+	for <linux-sunxi@lists.linux.dev>; Sun, 17 Mar 2024 14:58:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710687485; cv=none; b=X7CVOZaDYduR9/SHVvcUmxA6DBl7nbLhtFPhvIOcN5DDL1Ddhqmi5q3VbzGWAWVX4fzxtwuGciNRcZ9Bu4azJHtOK/RI+LmnYky0H941vY5ethXY+xojxPeAKFoGpNRqvw3PQ0MLBHzMkVnSFASM2CcMtO1YHmX69ZGLZUwRtso=
+	t=1710687492; cv=none; b=YJegxrI6uBfLtISWijArX4axYZ4Cd31QEJurILh+Oedvvt2d392JWMRUjGb0njTjaAGhFqTyRuIfOO5zBSQEcTVwEfNaknohrMW1cr4XN9LAmuosngJlOC7VPKY425PV8dr+ATvhP/aAa0s2e0WfPKHVD76HLPMCGSkg1kyK01s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710687485; c=relaxed/simple;
-	bh=dQNmlwx/WspT2BDquts4YhsDpi6cW+wj50PQrWIcHX0=;
+	s=arc-20240116; t=1710687492; c=relaxed/simple;
+	bh=Wgpgj/tsil/UEo00DCAcIzFZfPpa1PyAZraQdXIMIQw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Wlf19zE2lVJvtddQdZR7GUVYo1z7YX+Mpdw++lWaWtD4vmZNdvcevR1WFssRifDUzudSFRF+XVJb+Ih8W3SCtYK0udaM9roSfK/iM8CjjIPUdS/R1KmfsvThCjBQiFXGOKYlb2RKYfGmYEFPuKplo8icHYv6f0Wp8msCTQPV8V8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=miABeKjH; arc=none smtp.client-ip=209.85.167.41
+	 In-Reply-To:Content-Type; b=R9uJ/GSs8taEvhYeXRDVQa/Ka5BwIocQxQdWHr8zP9nuoF4YhDNX8mGgIIR7GLlnE/P73t9kl+w4X2OqFubhCbkd88VAeiIbUuFO1+RcOb2iKhbhGhtocbv8NF2lAxLEcUABsgOIXrNdSAnzheHQ4AablqAXtY0S2h6DZfkWLeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Oi7I0sC1; arc=none smtp.client-ip=209.85.167.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="miABeKjH"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-512bde3d197so3077767e87.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 17 Mar 2024 07:58:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Oi7I0sC1"
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-513d3746950so4186764e87.1
+        for <linux-sunxi@lists.linux.dev>; Sun, 17 Mar 2024 07:58:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710687482; x=1711292282; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1710687489; x=1711292289; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=90takAzy+UhOvr86bPj5srgQQEfnaD7PA320zI4kF/0=;
-        b=miABeKjHVU/k8aM5gMRy/LUzPfKEcEoWkyn+a62U5vx8JW8KUghQC5rZTSw8mwxv3x
-         M85GRSuie0mbOotLh6UO9xkgFHSwRPqWmwV903J7++unTxzobRiWwbVKIzXRT/FZ77Yp
-         yGWQ0GHFc+EEAruFiU4JYGXmeYD/pzbGLdbcJm6+TL7NXwvq6yh80qHWoVkJHtcP+tHP
-         TeXWZ+UDpVaVKPMmGXhfIOWuA3mvGW32Lv86HnAvypeKU1/CY086txDiFAIj0KWvePxS
-         OzB/N8VZ+gqhg7mupH1MwppMz0iKCTZqdi4+ZU7Ap7dHYwYxu0FVgFRB65kKwgrK7pHc
-         sPJQ==
+        bh=cnUoC0020r5bTr+lNRD8L5bTNjN/10QirJDrNPphTas=;
+        b=Oi7I0sC1XdEpoiXa6Y6Uv+zeYiGookiTJ5UeV5lEvvuFy09QzWC2c21JVP6wW/qLe1
+         8IdDRIxdV+lImj/W8y/c/QN6J9HQZA7kX4OD5vN5/+hnh5RMsLTb/DhkD/RNVcpe7fQq
+         qtfg3PX96trR55SSBkbSAtlC8RPW97aslXPbSp/HByjxeL09l3SHTbodQbIdeSvxD2mD
+         VnvsqrFYLQf+WWIpIui0eNCkBxFryk0JISLwQgjrHPJgcBiOmm3UGvE41WggK2lqI2/u
+         mGL/gTVPk1+epW5bz96SC7ax4SkR1VOHJvh8GCLNNXgSW4EF1lODEuCkRD2Cmb/XcRdb
+         Bxdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710687482; x=1711292282;
+        d=1e100.net; s=20230601; t=1710687489; x=1711292289;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=90takAzy+UhOvr86bPj5srgQQEfnaD7PA320zI4kF/0=;
-        b=dT8vG7i1FYSk949QAxIPfwiJiTPINPFKgbzVU8urzWpQwMFge/qgS81D7GwT1L7IC0
-         ahdF0B/obmUj1fUncCVTS1gN45oX6gzT+Ii3qmW2vakcJzKtgMuYFXShYO8rF7z5nYWN
-         EXruP0x10oZxqkVXmFG0Vu2B8fiokaVcNrUbElhnTVP2HfV4b2nXegR1Ua3y9yad2ypn
-         GYCDJrGYgxpvNb9QduokWArRPPzPitfBJ5pS8j7M2n3q517ANDPhmnMic+t3fZeVADSI
-         nqTgfQhCrJ8Xv6T9wJ/FNBe3ov/ptc8VIXVzF41mq+huMaTjT1eQ0l6MLkDzBCj22fYZ
-         s+TQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX6oYF0YYRiSXvprlzpa+TAjylyr2tRYElT177EH+9kwI++r/6jVQclSnKT0ySzk64XvQBLahOfA2rWhe9z6tIj9r7Kuk5uFeOruMY=
-X-Gm-Message-State: AOJu0YyHOF28idezr5fS1iKBVlQEUzcMHMs1ZRtlXcjQDDb8FgigHKzo
-	QlgG2tO9G90ZANi66okU3xvPora8Ojmj8Qun3NJ1PUPMNvydzfqJpZKucZdodFs=
-X-Google-Smtp-Source: AGHT+IHuXH0t9q962THsdU/sTb0vs2h82K3hnDeNvLPqnMGOBujfZWFt4HC1tGcnBxVsK8RXFTVZPQ==
-X-Received: by 2002:ac2:4990:0:b0:513:db34:7caf with SMTP id f16-20020ac24990000000b00513db347cafmr4256094lfl.17.1710687481625;
-        Sun, 17 Mar 2024 07:58:01 -0700 (PDT)
+        bh=cnUoC0020r5bTr+lNRD8L5bTNjN/10QirJDrNPphTas=;
+        b=jKXNRm5aDxdkzzNTEZMh7o8WNeigAZJiQEk8f7SN/L6WVERto9LoNnctcF7jwuStno
+         YKMIS5818fTAWLst6czvt5zvkkJb+CmSgYaivAwZetN0j7nU/KVaNeYGRDzfn1RVknta
+         J/Ch8vHWD5R3cZjacBzy/0UVIui6FAqCCiw2wIjTCiSJjnfXi8LfGZ5/sRdwzNEDSXgW
+         AfIhRCYHl5E8nwFGNCFQjvjrn/6hqHiheoKFVk/6UGBlIGyqZ3LtZjZ7HMrlkIvEXKct
+         E9qm5XKn06HXsziwmeOeSNq3J9c1U9nSQ6uAejxXHhuTJiabk5zeGijA7wHKB4n/+Vus
+         Vmgw==
+X-Forwarded-Encrypted: i=1; AJvYcCWfrj/dXa0YG/54rSNQkKfSJquVin43cV2wgDWmIUkzwSNINY0FYQJp7hdbVv/SGlg3RXO0UVZeMGRQKS68upVFL9+KlMzGLnpdSCk=
+X-Gm-Message-State: AOJu0YyMnny1Kvr+8OAnJLVV8qDNfNVYGCLq2EmXjsh0uoFB4qrpONbB
+	zS2Fqr6qyi9Pet73honGbHEDBbPKYjALAI4h/n0nujSm6PXnw9ljAliHKxvKY+0=
+X-Google-Smtp-Source: AGHT+IGoWE1zMcsFeN7st2xArCMtRMgybvaGhpAtg1sH7D/CPkbkHOMfOdL8KeyqujPeir7UCsFPhw==
+X-Received: by 2002:a19:5f56:0:b0:513:ce5f:2a2a with SMTP id a22-20020a195f56000000b00513ce5f2a2amr5733420lfj.21.1710687488926;
+        Sun, 17 Mar 2024 07:58:08 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.222.97])
-        by smtp.gmail.com with ESMTPSA id h13-20020a19ca4d000000b00513b324cc32sm1302471lfj.268.2024.03.17.07.57.59
+        by smtp.gmail.com with ESMTPSA id h13-20020a19ca4d000000b00513b324cc32sm1302471lfj.268.2024.03.17.07.58.07
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 17 Mar 2024 07:58:01 -0700 (PDT)
-Message-ID: <1860c559-5a5c-4673-9d08-253f0945762b@linaro.org>
-Date: Sun, 17 Mar 2024 15:57:58 +0100
+        Sun, 17 Mar 2024 07:58:08 -0700 (PDT)
+Message-ID: <dce98ddb-01ab-422f-a665-20f084e26434@linaro.org>
+Date: Sun, 17 Mar 2024 15:58:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -61,8 +61,7 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] arm64: dts: allwinner: h616: add support for T95
- tv boxes
+Subject: Re: [PATCH v2 1/3] dt-bindings: vendor-prefixes: add t95 string
 Content-Language: en-US
 To: Kamil Kasperski <ressetkk@gmail.com>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -72,7 +71,7 @@ To: Kamil Kasperski <ressetkk@gmail.com>, Rob Herring <robh@kernel.org>,
 Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
 References: <20240317-add-t95-axp313-support-v2-0-e38032811758@gmail.com>
- <20240317-add-t95-axp313-support-v2-3-e38032811758@gmail.com>
+ <20240317-add-t95-axp313-support-v2-1-e38032811758@gmail.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -118,56 +117,36 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240317-add-t95-axp313-support-v2-3-e38032811758@gmail.com>
+In-Reply-To: <20240317-add-t95-axp313-support-v2-1-e38032811758@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 17/03/2024 02:34, Kamil Kasperski wrote:
-> Add dtsi file for T95 tv boxes and add initial
-> support for T95 5G AXP313A variant with a board name
-> H616-T95MAX-AXP313A-v3.0
-> 
-> internal NAND chip is connected to NAND controller
-> I can't see any nand in sun50i-h616.dtsi, so access to
-> internal memory is not implemented.
-
-Please wrap commit message according to Linux coding style / submission
-process (neither too early nor over the limit):
-https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
-
+On 17/03/2024 02:33, Kamil Kasperski wrote:
+> Add vendor prefix for T95 tv boxes of unnamed brand. It's hard to
+> determine the actual vendor, so let's assume t95 as default vendor for
+> all t95-branded tv boxes.
 > 
 > Signed-off-by: Kamil Kasperski <ressetkk@gmail.com>
 > ---
->  arch/arm64/boot/dts/allwinner/Makefile             |   1 +
->  arch/arm64/boot/dts/allwinner/sun50i-h616-t95.dtsi | 109 +++++++++++++++++++++
->  .../dts/allwinner/sun50i-h616-t95max-axp313.dts    |  85 ++++++++++++++++
->  3 files changed, 195 insertions(+)
-> 
 
-> +
-> +	reg_vcc3v3: vcc3v3 {
-> +		/* discrete 3.3V regulator */
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "vcc-3v3";
-> +		regulator-min-microvolt = <3300000>;
-> +		regulator-max-microvolt = <3300000>;
-> +		regulator-always-on;
-> +	};
-> +
-> +	wifi_pwrseq: wifi_pwrseq {
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-No underscores in node names. From where did you copy this code?
 
-> +		compatible = "mmc-pwrseq-simple";
-> +		clocks = <&rtc CLK_OSC32K_FANOUT>;
-> +		clock-names = "ext_clock";
-> +		pinctrl-0 = <&x32clk_fanout_pin>;
-> +		pinctrl-names = "default";
-> +		reset-gpios = <&pio 6 18 GPIO_ACTIVE_LOW>; /* PG18 */
-> +	};
-> +};
-> +
+---
 
+This is an automated instruction, just in case, because many review tags
+are being ignored. If you know the process, you can skip it (please do
+not feel offended by me posting it here - no bad intentions intended).
+If you do not know the process, here is a short explanation:
+
+Please add Acked-by/Reviewed-by/Tested-by tags when posting new
+versions, under or above your Signed-off-by tag. Tag is "received", when
+provided in a message replied to you on the mailing list. Tools like b4
+can help here. However, there's no need to repost patches *only* to add
+the tags. The upstream maintainer will do that for tags received on the
+version they apply.
+
+https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
 
 Best regards,
 Krzysztof
