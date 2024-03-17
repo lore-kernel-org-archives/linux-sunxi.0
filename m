@@ -1,171 +1,112 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16E6B1CD3F
-	for <linux-sunxi@lists.linux.dev>; Sun, 17 Mar 2024 17:49:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E29791CFBB
+	for <linux-sunxi@lists.linux.dev>; Sun, 17 Mar 2024 18:41:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710697799; cv=none; b=Rc7rG+FHZizBoJmW1mN9U7x2K+aTdSyq7FLWePuzPcDmJh6N2b+XhK9A9PlIKOdYfl/ERavRd+slSCQI+JQlc7inEn1u1oZ/ct6144NnRMMRU9AU7+9FKSfPrtCkNFhh7KeX4F1SzhH22sEUK6Rz/e/1xSKHa5YVcP1BF7NPgPY=
+	t=1710700897; cv=none; b=SV1H/QIh6bMKsg4mLBJjPycbwlRnOrxtkkFs91IkXaSraR22e/kG0N8dMO47D9f5yqurcGjhWSmlNULpydFEbfg2iaTfPus3Gw7AhpsLlJFuLmIR0JCRtsSePzFhSAyge8IsfhB0zasY/0NMqZzK0pFCjgrZmTuib4W+yfWjdQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710697799; c=relaxed/simple;
-	bh=9Tsw1Mv4cEfYjxis8MgqOF7tSUaY2zYbnE0okhaQWUA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gQkvWsHnoRZEHKwooEuTHQjjYWZ4qL/5Tmq1Y9dcqIeoiW1afxhr8hNPOv1uStqkhmn79YLhO68OMjyMRDjOAgflkLez2qmNzAniPRhH86zvHDRxGdWPUQ+xuNX2NlljnWmloEcrD77HWHXCsY/umS474FRNe6SWxB8dgpfIWDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gxC8kEQY; arc=none smtp.client-ip=209.85.208.48
+	s=arc-20240116; t=1710700897; c=relaxed/simple;
+	bh=ievPVq366/k7C9FS5///YHG6SSY0yYH53dQltC6lQvk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XUNYZ8d470v4O0O32Zey5EKuZUnj4pRRLHQ0XLsy6bBdmF/26gGG2oWc64bDvsRe2xcOiYS6edGXqMHuScUowGGDg7wAX6ZcQMPPuEgQcHxM99q+wbuwQZSO2zwa7M3SB9IY3IA3B+rROCpMKKANRrfiR5CO6fHW9z7eiXOKH1o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Lp/aA7yW; arc=none smtp.client-ip=209.85.208.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gxC8kEQY"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-55a179f5fa1so4123308a12.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 17 Mar 2024 10:49:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Lp/aA7yW"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5649c25369aso4863839a12.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 17 Mar 2024 11:41:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710697796; x=1711302596; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=GqHGTFGtxrVLcCB7jK+IAAjPKnRgr6GzaJOMAprK42I=;
-        b=gxC8kEQYu49hYWgRDJkW5XAdAxJK6cgUCt12LyrPk4pRowxt45OP+l0tktg0+NdN/U
-         5tSdWGU/9OuG93q+COl6oHuoIi+F3n5P2ySbB0pnXcs81t1soAyHvFwLVwbiJWf+0Zyn
-         7KKXMlrEk6U6VbCNGe80eVlp5eLTCuZyAldtX/4LpwH5HXso2k9NwU8x2NGH7lQEfSCr
-         XjiukNAGCg4jjxikNsk7icZsbI/3uZVEhcJgs4Hs2KhPlJIj+VLGHMzMlwNMkQsG+iF+
-         8ZLB8Tsxz0eJbJ9jcbl3R859UbgFbHOzaHOFqA90hf06ozSbPYppdHneJcKKeDUR1Djy
-         qz+Q==
+        d=linaro.org; s=google; t=1710700894; x=1711305694; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PYFYcfKkxxQvfBESrdXEJ+GtUGfwEGsE7qAGQnRbNLI=;
+        b=Lp/aA7yWlUl7u8RjW96q6SN2bTepENJgbTmo5oDKAFQbFQnqEVY/r3Qgae9ywLnHVh
+         eQfC7d03/VK2Rcv2AquOC/3SerlwwaoABVe/TWeb5tdo2xZC/WSemdrexJUQUAVRtT04
+         ClyuPQlQDJwxO1btF+xTmGi9k8j3+RWDxYxEmQnlXm0tXSqf4vorXTvntnsEzA2qB18N
+         kRGM311dkQc6XGiHo3eb+EdQMBxVFd092Q8HRY2B899QIpNrHBFDorPcY7dDOK1VSufz
+         9c7AxbJ7DhEvhxvmEhdEJTIeUBjyKS51Crn0WGjqnwtsSDZ2/Y/Fr+/Q+y9zL3rUTWUe
+         Nhsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710697796; x=1711302596;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GqHGTFGtxrVLcCB7jK+IAAjPKnRgr6GzaJOMAprK42I=;
-        b=NzPOgKS3d80w/MFuOGq5jxzLpey0yVB0a4ZfSSIc9ugjc15aDC6jNoJROyu2IlC5ma
-         nJo2qF2+tEgRqm9Z7eMesEBRRQfhu83xHWA7nMkkrqySG4Oudx2VQhxiaXDyV2YRWdqd
-         JZulVAeh8WXYgd/4yViGdhsdaR4tdiH2P74ofnmHJOxgTV0M1kRdnwnrtFXiGOdlRYjh
-         EFhmNJXKg248z6F2dAL4Mh0kjUdEgu+1g96XpjIwNJeR1I1mAworJIvn4XPfgFYdF+Jz
-         hLxsxHqGb7CW4ZwAQrZtUzOW+IfsvGApyLFBJ74eNv4tZ3UH7rwPR5S7c1G2zDxpjd1Z
-         O2Bw==
-X-Forwarded-Encrypted: i=1; AJvYcCUm23RgwDT1MT3QDYL55JOJU47XuKoC1DZbNikCdI9B09QtdTX00q1y9Cl8taJ+TNLNm/LiNSMIkJapXneJ0XtWz34m7S+GNOIsK6c=
-X-Gm-Message-State: AOJu0YxPaQBUvb5o66QTUkROPGylLsq/a+jOyxivmZBygchnHGnQAUIs
-	IELZ8js36SmEGHHrYJfQaNGaAopAknNOf5qmkNt2buXaj6564VliLKLDmENdIVo=
-X-Google-Smtp-Source: AGHT+IFdMymfh8x2GDd1mnGfMp3CCDpnCf4x4KlyAJO2HOR41FP0saxzX1lcz5yAMCCfaCgrRbzQ/Q==
-X-Received: by 2002:a17:907:72c3:b0:a46:a92a:ed6 with SMTP id du3-20020a17090772c300b00a46a92a0ed6mr3015752ejc.20.1710697796329;
-        Sun, 17 Mar 2024 10:49:56 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.222.97])
-        by smtp.gmail.com with ESMTPSA id k23-20020a1709063e1700b00a4636d9d28dsm3956696eji.69.2024.03.17.10.49.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 17 Mar 2024 10:49:55 -0700 (PDT)
-Message-ID: <f369871a-1cd5-4dd8-8b5f-2c6492e72b8b@linaro.org>
-Date: Sun, 17 Mar 2024 18:49:53 +0100
+        d=1e100.net; s=20230601; t=1710700894; x=1711305694;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PYFYcfKkxxQvfBESrdXEJ+GtUGfwEGsE7qAGQnRbNLI=;
+        b=ccdltlROIZz2JfXc7edgmezXs1MSfqMhelylgkJqXyavjSK/D9G00zujJ+e5G0u017
+         3LyUx1/ZKdjudpeC+zMuxVVoLZNQdoOMQLwRv5NIfx6+TGPbo8vQRnAVT6dhTYg+FMnP
+         7gm/E+bh+7sM75jfprW/nctbbOffaH9NIItJXgNF4JAtTSP4eoBnPsvgAdRGZejJ/iRg
+         5LT9EbTaxMup5yOFxr7x18Imhbod8y3MDHm3bBdySYYiprOC2oPpHWM8JGYaFcUpdIZ6
+         7Y+qNoOXOn1/9npYXt31QFeCznWSh+4JkJAwA8JhfVs84cHutSpdWPFfK7/Zy04thb5/
+         Aeuw==
+X-Forwarded-Encrypted: i=1; AJvYcCWZFJvbZ1b2FzQaVg6hwh2/rWpMMtJr7iDJ339LzBnLC6OjemV9Gb17730nKziZ/JvJESHhas9SV88RX1JEW1V+8eMi2yUTipZBUik=
+X-Gm-Message-State: AOJu0YyMItq6t6Doz1kyHiohsWZLgligD9m0e/xHRqBKDuiHHS6fByoF
+	qM3ROmAbiCbBr1tNJluLdnZ+6rQupQndXTSSMUaFYKO+LxS0RQkh+RzaDzC6wU413IRk6sHAD3K
+	q
+X-Google-Smtp-Source: AGHT+IH9orftNoklMxX704C5khR5L8iNpkDOsZkslIk2tejfSQZCUvBfci0Klpf2vOV2tYXErLI+hA==
+X-Received: by 2002:a05:6402:c4e:b0:567:9306:5d0b with SMTP id cs14-20020a0564020c4e00b0056793065d0bmr8548673edb.28.1710700894186;
+        Sun, 17 Mar 2024 11:41:34 -0700 (PDT)
+Received: from krzk-bin.. ([178.197.222.97])
+        by smtp.gmail.com with ESMTPSA id p5-20020aa7d305000000b0056a2b87787dsm242877edq.37.2024.03.17.11.41.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Mar 2024 11:41:33 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Corentin Labbe <clabbe@baylibre.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 1/4] arm64: dts: allwinner: Pine H64: correctly remove reg_gmac_3v3
+Date: Sun, 17 Mar 2024 19:41:27 +0100
+Message-Id: <20240317184130.157695-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] arm64: dts: allwinner: h616: add support for T95
- tv boxes
-To: Kamil Kasperski <ressetkk@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-References: <20240317-add-t95-axp313-support-v2-0-e38032811758@gmail.com>
- <20240317-add-t95-axp313-support-v2-3-e38032811758@gmail.com>
- <1860c559-5a5c-4673-9d08-253f0945762b@linaro.org>
- <f4f02cb2-6263-4bd4-a798-c92c31f7b363@gmail.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <f4f02cb2-6263-4bd4-a798-c92c31f7b363@gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 17/03/2024 16:36, Kamil Kasperski wrote:
-> W dniu 17.03.2024 o 15:57, Krzysztof Kozlowski pisze:
->> On 17/03/2024 02:34, Kamil Kasperski wrote:
->>> Add dtsi file for T95 tv boxes and add initial
->>> support for T95 5G AXP313A variant with a board name
->>> H616-T95MAX-AXP313A-v3.0
->>>
->>> internal NAND chip is connected to NAND controller
->>> I can't see any nand in sun50i-h616.dtsi, so access to
->>> internal memory is not implemented.
->> Please wrap commit message according to Linux coding style / submission
->> process (neither too early nor over the limit):
->> https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
->>
->>> Signed-off-by: Kamil Kasperski <ressetkk@gmail.com>
->>> ---
->>>  arch/arm64/boot/dts/allwinner/Makefile             |   1 +
->>>  arch/arm64/boot/dts/allwinner/sun50i-h616-t95.dtsi | 109 +++++++++++++++++++++
->>>  .../dts/allwinner/sun50i-h616-t95max-axp313.dts    |  85 ++++++++++++++++
->>>  3 files changed, 195 insertions(+)
->>>
->>> +
->>> +	reg_vcc3v3: vcc3v3 {
->>> +		/* discrete 3.3V regulator */
->>> +		compatible = "regulator-fixed";
->>> +		regulator-name = "vcc-3v3";
->>> +		regulator-min-microvolt = <3300000>;
->>> +		regulator-max-microvolt = <3300000>;
->>> +		regulator-always-on;
->>> +	};
->>> +
->>> +	wifi_pwrseq: wifi_pwrseq {
->> No underscores in node names. From where did you copy this code?
-> 
-> arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts#L44
-> Seems this one needs a fixup.
-> 
+There is no "reg_gmac_3v3" device node in sun50i-h6-pine-h64.dts,
+although there is "gmac-3v3" with "reg_gmac_3v3" label, so let's assume
+author wanted to remove that node.  Delete node via phandle, not via
+full node path, to fix this.
 
-I see sunxi has a lot of this... I thought we fixed all mainstream
-platforms, but apparently not. I'll send a patch.
+Fixes: f33a91175029 ("arm64: dts: allwinner: add pineh64 model B")
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64-model-b.dts | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Best regards,
-Krzysztof
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64-model-b.dts b/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64-model-b.dts
+index b710f1a0f53a..1b6e5595ac6e 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64-model-b.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64-model-b.dts
+@@ -5,12 +5,12 @@
+ 
+ #include "sun50i-h6-pine-h64.dts"
+ 
++/delete-node/ &reg_gmac_3v3;
++
+ / {
+ 	model = "Pine H64 model B";
+ 	compatible = "pine64,pine-h64-model-b", "allwinner,sun50i-h6";
+ 
+-	/delete-node/ reg_gmac_3v3;
+-
+ 	wifi_pwrseq: wifi_pwrseq {
+ 		compatible = "mmc-pwrseq-simple";
+ 		reset-gpios = <&r_pio 1 3 GPIO_ACTIVE_LOW>; /* PM3 */
+-- 
+2.34.1
 
