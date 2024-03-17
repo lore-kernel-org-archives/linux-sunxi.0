@@ -1,56 +1,57 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E29791CFBB
-	for <linux-sunxi@lists.linux.dev>; Sun, 17 Mar 2024 18:41:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C42B1CFBB
+	for <linux-sunxi@lists.linux.dev>; Sun, 17 Mar 2024 18:41:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710700897; cv=none; b=SV1H/QIh6bMKsg4mLBJjPycbwlRnOrxtkkFs91IkXaSraR22e/kG0N8dMO47D9f5yqurcGjhWSmlNULpydFEbfg2iaTfPus3Gw7AhpsLlJFuLmIR0JCRtsSePzFhSAyge8IsfhB0zasY/0NMqZzK0pFCjgrZmTuib4W+yfWjdQo=
+	t=1710700900; cv=none; b=Ps+GmCeNJALJ8Udpg9Msj2o+qcPSSDXs5vmtyUE00AFIRxG62xved2FYk3wkpHCU3T5qojmqm07FOZtVgIL8bd3AqFadmkiFLSZZtoiDi6HT/TxhrYhVoZh/srlUrgFA3w7cJ7mfxRCTHC7+dgU1o2hGipUDC524vbpELk2vVU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710700897; c=relaxed/simple;
-	bh=ievPVq366/k7C9FS5///YHG6SSY0yYH53dQltC6lQvk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XUNYZ8d470v4O0O32Zey5EKuZUnj4pRRLHQ0XLsy6bBdmF/26gGG2oWc64bDvsRe2xcOiYS6edGXqMHuScUowGGDg7wAX6ZcQMPPuEgQcHxM99q+wbuwQZSO2zwa7M3SB9IY3IA3B+rROCpMKKANRrfiR5CO6fHW9z7eiXOKH1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Lp/aA7yW; arc=none smtp.client-ip=209.85.208.41
+	s=arc-20240116; t=1710700900; c=relaxed/simple;
+	bh=uijCbkb+1dpR+4weqt/k5FYLsh4Fu/4uVmg9GFfQR6Y=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=RSFc10JZv2yIao3/mPEdqTVwXgQbTi0ws0guFr0e2ienxn/APgrkri0lL6LR9rpPSqGbadVHnMjhm2zN7VR39EN9I/nYMt6r6NQ79vRbSTtXj1aEwpMfNHvyNNBTXmnt7xJ20IqndeRLHgScq8Je7Lja4t0IykL1EMcC2yq6Gak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=emSrU4a1; arc=none smtp.client-ip=209.85.208.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Lp/aA7yW"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5649c25369aso4863839a12.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 17 Mar 2024 11:41:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="emSrU4a1"
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2d4ad3a80b7so233381fa.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 17 Mar 2024 11:41:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710700894; x=1711305694; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=PYFYcfKkxxQvfBESrdXEJ+GtUGfwEGsE7qAGQnRbNLI=;
-        b=Lp/aA7yWlUl7u8RjW96q6SN2bTepENJgbTmo5oDKAFQbFQnqEVY/r3Qgae9ywLnHVh
-         eQfC7d03/VK2Rcv2AquOC/3SerlwwaoABVe/TWeb5tdo2xZC/WSemdrexJUQUAVRtT04
-         ClyuPQlQDJwxO1btF+xTmGi9k8j3+RWDxYxEmQnlXm0tXSqf4vorXTvntnsEzA2qB18N
-         kRGM311dkQc6XGiHo3eb+EdQMBxVFd092Q8HRY2B899QIpNrHBFDorPcY7dDOK1VSufz
-         9c7AxbJ7DhEvhxvmEhdEJTIeUBjyKS51Crn0WGjqnwtsSDZ2/Y/Fr+/Q+y9zL3rUTWUe
-         Nhsw==
+        d=linaro.org; s=google; t=1710700896; x=1711305696; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0kSx2fHGqVJ6vhRhHxI+7NFVscGTaFtDJuqcfzw/hSI=;
+        b=emSrU4a1x0MA+5UBIWbvuufAqcG2MeLuqeCltB/4jnwdKlS0C0sG3B7xXi1FwlJpvx
+         rp2dwcY91sSGI74baKk87q/5PEpVc+q/gfcvkmxqErxKQb7zWrnt/JhqG/+ORlTlfM68
+         LG059bcnhDEh5cn8Sd8l53Ve0VI6ZXtHsn62negSH5QkXbXODhk1+VuGi5OYeWox3M1X
+         cdefBkK0uVEpvXDViuKvDhovaPHY3mp6FEAj/T8l3fd6LYvNtvrhGfzvg8m4V87B86LS
+         6EPCfGHHYX8o1ryWMsC2Uq0OWmxtk8jx7EUd+YLQJIx9D8WwzUBJukpqZGOz59bSNABa
+         Dtzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710700894; x=1711305694;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PYFYcfKkxxQvfBESrdXEJ+GtUGfwEGsE7qAGQnRbNLI=;
-        b=ccdltlROIZz2JfXc7edgmezXs1MSfqMhelylgkJqXyavjSK/D9G00zujJ+e5G0u017
-         3LyUx1/ZKdjudpeC+zMuxVVoLZNQdoOMQLwRv5NIfx6+TGPbo8vQRnAVT6dhTYg+FMnP
-         7gm/E+bh+7sM75jfprW/nctbbOffaH9NIItJXgNF4JAtTSP4eoBnPsvgAdRGZejJ/iRg
-         5LT9EbTaxMup5yOFxr7x18Imhbod8y3MDHm3bBdySYYiprOC2oPpHWM8JGYaFcUpdIZ6
-         7Y+qNoOXOn1/9npYXt31QFeCznWSh+4JkJAwA8JhfVs84cHutSpdWPFfK7/Zy04thb5/
-         Aeuw==
-X-Forwarded-Encrypted: i=1; AJvYcCWZFJvbZ1b2FzQaVg6hwh2/rWpMMtJr7iDJ339LzBnLC6OjemV9Gb17730nKziZ/JvJESHhas9SV88RX1JEW1V+8eMi2yUTipZBUik=
-X-Gm-Message-State: AOJu0YyMItq6t6Doz1kyHiohsWZLgligD9m0e/xHRqBKDuiHHS6fByoF
-	qM3ROmAbiCbBr1tNJluLdnZ+6rQupQndXTSSMUaFYKO+LxS0RQkh+RzaDzC6wU413IRk6sHAD3K
-	q
-X-Google-Smtp-Source: AGHT+IH9orftNoklMxX704C5khR5L8iNpkDOsZkslIk2tejfSQZCUvBfci0Klpf2vOV2tYXErLI+hA==
-X-Received: by 2002:a05:6402:c4e:b0:567:9306:5d0b with SMTP id cs14-20020a0564020c4e00b0056793065d0bmr8548673edb.28.1710700894186;
-        Sun, 17 Mar 2024 11:41:34 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1710700896; x=1711305696;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0kSx2fHGqVJ6vhRhHxI+7NFVscGTaFtDJuqcfzw/hSI=;
+        b=LIQgwQd6fqxWNKYv0mVjtLQsXBdRJrpHRbr0tSNhXpp0oK1Ogw9A0ETP3OqG8f6S0U
+         MMTgun5EFFWe0Sx+zQPgvJMcccJqB3mid5WYLfuwdg4BXnrFAXsh+m6DcenrZbg4Jvtm
+         ylWOGM5ILHrWQg8uwXH6x6M6XhvHZJiYp706JZA6HwP+9diqT2H+VfI/TUo7XmBnJ9a8
+         kd5CaFSdd+X/J/scKivZJSXG0esZp3w4eaBCnM0QsjdpwRmz4Sc39ovAkxaUS73VZjVz
+         sVsf0yu1XkurZiDEUllJXoScPfWaakOy2ji3GXfRbgXksob5RBMAqLN9FeRddeOp3bdc
+         J3OQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWtX+e2BoFvCd25p+j5p3nGodtoY4B5pxtEFNuIaadgzcMorcIitjmZ6/jUMfFUZ73J0ApShsqnm8mAchvg/QFr43EDMm7Yw13Sw5w=
+X-Gm-Message-State: AOJu0YwOE/OjymPDgMy7hJ2ixL8GnltX5NfvtT/5KBF3wmQ3uqiL8Q50
+	Og8j5hT841JarhWxuvSJNiSHtYKU/t/SFnuchg/pBoerRV4AzyRmUhWZsvdME8A=
+X-Google-Smtp-Source: AGHT+IFNqPSvWdiZKpHQc7+rdmpKPim0F4Hsstpr6ypdLBl37cIBwdLxcGTew4kPk14C8fsOi6sEuw==
+X-Received: by 2002:a2e:8913:0:b0:2d2:f394:fc19 with SMTP id d19-20020a2e8913000000b002d2f394fc19mr5631126lji.27.1710700896055;
+        Sun, 17 Mar 2024 11:41:36 -0700 (PDT)
 Received: from krzk-bin.. ([178.197.222.97])
-        by smtp.gmail.com with ESMTPSA id p5-20020aa7d305000000b0056a2b87787dsm242877edq.37.2024.03.17.11.41.32
+        by smtp.gmail.com with ESMTPSA id p5-20020aa7d305000000b0056a2b87787dsm242877edq.37.2024.03.17.11.41.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Mar 2024 11:41:33 -0700 (PDT)
+        Sun, 17 Mar 2024 11:41:35 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -65,10 +66,12 @@ To: Rob Herring <robh@kernel.org>,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 1/4] arm64: dts: allwinner: Pine H64: correctly remove reg_gmac_3v3
-Date: Sun, 17 Mar 2024 19:41:27 +0100
-Message-Id: <20240317184130.157695-1-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 2/4] arm64: dts: allwinner: drop underscore in node names
+Date: Sun, 17 Mar 2024 19:41:28 +0100
+Message-Id: <20240317184130.157695-2-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240317184130.157695-1-krzysztof.kozlowski@linaro.org>
+References: <20240317184130.157695-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -77,36 +80,371 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There is no "reg_gmac_3v3" device node in sun50i-h6-pine-h64.dts,
-although there is "gmac-3v3" with "reg_gmac_3v3" label, so let's assume
-author wanted to remove that node.  Delete node via phandle, not via
-full node path, to fix this.
+Underscores should not be used in node names (dtc with W=2 warns about
+them), so replace them with hyphens.  Use also generic name for pwrseq
+node, because generic naming is favored by Devicetree spec.  All the
+clocks affected by this change use clock-output-names, so resulting
+clock name should not change.  Functional impact checked with comparing
+before/after DTBs with dtx_diff and fdtdump.
 
-Fixes: f33a91175029 ("arm64: dts: allwinner: add pineh64 model B")
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64-model-b.dts | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
+---
+
+Not tested on hardware.
+---
+ .../boot/dts/allwinner/sun50i-a64-bananapi-m64.dts     |  2 +-
+ .../arm64/boot/dts/allwinner/sun50i-a64-nanopi-a64.dts |  2 +-
+ arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino.dts |  2 +-
+ .../boot/dts/allwinner/sun50i-a64-orangepi-win.dts     |  2 +-
+ arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts  |  2 +-
+ arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts   |  2 +-
+ arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts   |  2 +-
+ arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi          | 10 +++++-----
+ .../boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts  |  2 +-
+ .../boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts     |  4 ++--
+ .../boot/dts/allwinner/sun50i-h5-orangepi-prime.dts    |  2 +-
+ .../dts/allwinner/sun50i-h5-orangepi-zero-plus.dts     |  2 +-
+ .../dts/allwinner/sun50i-h5-orangepi-zero-plus2.dts    |  2 +-
+ .../arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts |  2 +-
+ arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dts |  2 +-
+ .../boot/dts/allwinner/sun50i-h6-orangepi-lite2.dts    |  2 +-
+ arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi  |  2 +-
+ .../boot/dts/allwinner/sun50i-h6-pine-h64-model-b.dts  |  2 +-
+ arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts   |  2 +-
+ arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi           |  2 +-
+ .../dts/allwinner/sun50i-h618-transpeed-8k618-t.dts    |  2 +-
+ .../boot/dts/allwinner/sun50i-h64-remix-mini-pc.dts    |  2 +-
+ 22 files changed, 27 insertions(+), 27 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-bananapi-m64.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-bananapi-m64.dts
+index e6d5bc0f7a61..d1f415acd7b5 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a64-bananapi-m64.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-bananapi-m64.dts
+@@ -53,7 +53,7 @@ led-2 {
+ 		};
+ 	};
+ 
+-	wifi_pwrseq: wifi_pwrseq {
++	wifi_pwrseq: pwrseq {
+ 		compatible = "mmc-pwrseq-simple";
+ 		reset-gpios = <&r_pio 0 2 GPIO_ACTIVE_LOW>; /* PL2 */
+ 		clocks = <&rtc CLK_OSC32K_FANOUT>;
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-nanopi-a64.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-nanopi-a64.dts
+index 0af6dcdf7515..dec9960a7440 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a64-nanopi-a64.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-nanopi-a64.dts
+@@ -41,7 +41,7 @@ led {
+ 		};
+ 	};
+ 
+-	wifi_pwrseq: wifi_pwrseq {
++	wifi_pwrseq: pwrseq {
+ 		compatible = "mmc-pwrseq-simple";
+ 		clocks = <&rtc CLK_OSC32K_FANOUT>;
+ 		clock-names = "ext_clock";
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino.dts
+index bfb806cf6d7a..fd3794678c33 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino.dts
+@@ -52,7 +52,7 @@ reg_usb1_vbus: usb1-vbus {
+ 		status = "okay";
+ 	};
+ 
+-	wifi_pwrseq: wifi_pwrseq {
++	wifi_pwrseq: pwrseq {
+ 		compatible = "mmc-pwrseq-simple";
+ 		reset-gpios = <&r_pio 0 2 GPIO_ACTIVE_LOW>; /* PL2 */
+ 	};
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-orangepi-win.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-orangepi-win.dts
+index 4f8529d5ac00..c8303a66438d 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a64-orangepi-win.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-orangepi-win.dts
+@@ -68,7 +68,7 @@ reg_usb1_vbus: usb1-vbus {
+ 		status = "okay";
+ 	};
+ 
+-	wifi_pwrseq: wifi_pwrseq {
++	wifi_pwrseq: pwrseq {
+ 		compatible = "mmc-pwrseq-simple";
+ 		reset-gpios = <&r_pio 0 8 GPIO_ACTIVE_LOW>; /* PL8 */
+ 		clocks = <&rtc CLK_OSC32K_FANOUT>;
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts
+index 50ed2e9f10ed..6c65d5bc16ba 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts
+@@ -79,7 +79,7 @@ reg_vcc5v0: vcc5v0 {
+ 		enable-active-high;
+ 	};
+ 
+-	wifi_pwrseq: wifi_pwrseq {
++	wifi_pwrseq: pwrseq {
+ 		compatible = "mmc-pwrseq-simple";
+ 		reset-gpios = <&r_pio 0 2 GPIO_ACTIVE_LOW>; /* PL2 */
+ 	};
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts
+index 0a5607f73049..c6007df99938 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts
+@@ -98,7 +98,7 @@ vdd_bl: regulator {
+ 		enable-active-high;
+ 	};
+ 
+-	wifi_pwrseq: wifi_pwrseq {
++	wifi_pwrseq: pwrseq {
+ 		compatible = "mmc-pwrseq-simple";
+ 		reset-gpios = <&r_pio 0 2 GPIO_ACTIVE_LOW>; /* PL2 */
+ 		post-power-on-delay-ms = <200>;
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts
+index 1128030e4c25..b407e1dd08a7 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts
+@@ -74,7 +74,7 @@ reg_usb1_vbus: usb1-vbus {
+ 		status = "okay";
+ 	};
+ 
+-	wifi_pwrseq: wifi_pwrseq {
++	wifi_pwrseq: pwrseq {
+ 		compatible = "mmc-pwrseq-simple";
+ 		reset-gpios = <&r_pio 0 2 GPIO_ACTIVE_LOW>; /* PL2 */
+ 	};
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+index 57ac18738c99..7b01f68cf7f0 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+@@ -120,14 +120,14 @@ opp-432000000 {
+ 		};
+ 	};
+ 
+-	osc24M: osc24M_clk {
++	osc24M: osc24M-clk {
+ 		#clock-cells = <0>;
+ 		compatible = "fixed-clock";
+ 		clock-frequency = <24000000>;
+ 		clock-output-names = "osc24M";
+ 	};
+ 
+-	osc32k: osc32k_clk {
++	osc32k: osc32k-clk {
+ 		#clock-cells = <0>;
+ 		compatible = "fixed-clock";
+ 		clock-frequency = <32768>;
+@@ -216,21 +216,21 @@ map1 {
+ 			};
+ 
+ 			trips {
+-				cpu_alert0: cpu_alert0 {
++				cpu_alert0: cpu-alert0 {
+ 					/* milliCelsius */
+ 					temperature = <75000>;
+ 					hysteresis = <2000>;
+ 					type = "passive";
+ 				};
+ 
+-				cpu_alert1: cpu_alert1 {
++				cpu_alert1: cpu-alert1 {
+ 					/* milliCelsius */
+ 					temperature = <90000>;
+ 					hysteresis = <2000>;
+ 					type = "hot";
+ 				};
+ 
+-				cpu_crit: cpu_crit {
++				cpu_crit: cpu-crit {
+ 					/* milliCelsius */
+ 					temperature = <110000>;
+ 					hysteresis = <2000>;
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts
+index 4c3921ac236c..b69032c44557 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dts
+@@ -68,7 +68,7 @@ vdd_cpux: gpio-regulator {
+ 		states = <1100000 0>, <1300000 1>;
+ 	};
+ 
+-	wifi_pwrseq: wifi_pwrseq {
++	wifi_pwrseq: pwrseq {
+ 		compatible = "mmc-pwrseq-simple";
+ 		reset-gpios = <&r_pio 0 7 GPIO_ACTIVE_LOW>; /* PL7 */
+ 		post-power-on-delay-ms = <200>;
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts
+index a3e040da38a0..3a7ee44708a2 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts
+@@ -103,7 +103,7 @@ vdd_cpux: gpio-regulator {
+ 		states = <1100000 0x0>, <1300000 0x1>;
+ 	};
+ 
+-	wifi_pwrseq: wifi_pwrseq {
++	wifi_pwrseq: pwrseq {
+ 		compatible = "mmc-pwrseq-simple";
+ 		reset-gpios = <&r_pio 0 7 GPIO_ACTIVE_LOW>; /* PL7 */
+ 		post-power-on-delay-ms = <200>;
+@@ -170,7 +170,7 @@ &mmc1 {
+ 	non-removable;
+ 	status = "okay";
+ 
+-	rtl8189etv: sdio_wifi@1 {
++	rtl8189etv: wifi@1 {
+ 		reg = <1>;
+ 	};
+ };
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-prime.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-prime.dts
+index d7f8bad6bb98..b699bb900e13 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-prime.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-prime.dts
+@@ -85,7 +85,7 @@ reg_usb0_vbus: usb0-vbus {
+ 		status = "okay";
+ 	};
+ 
+-	wifi_pwrseq: wifi_pwrseq {
++	wifi_pwrseq: pwrseq {
+ 		compatible = "mmc-pwrseq-simple";
+ 		reset-gpios = <&pio 2 14 GPIO_ACTIVE_LOW>; /* PC14 */
+ 	};
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus.dts
+index 7ec5ac850a0d..ae85131aac9c 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus.dts
+@@ -97,7 +97,7 @@ &mmc1 {
+ 	 * Explicitly define the sdio device, so that we can add an ethernet
+ 	 * alias for it (which e.g. makes u-boot set a mac-address).
+ 	 */
+-	rtl8189ftv: sdio_wifi@1 {
++	rtl8189ftv: wifi@1 {
+ 		reg = <1>;
+ 	};
+ };
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus2.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus2.dts
+index 22530ace12d5..734481e998b8 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus2.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus2.dts
+@@ -52,7 +52,7 @@ reg_vcc3v3: vcc3v3 {
+ 		regulator-max-microvolt = <3300000>;
+ 	};
+ 
+-	wifi_pwrseq: wifi_pwrseq {
++	wifi_pwrseq: pwrseq {
+ 		compatible = "mmc-pwrseq-simple";
+ 		reset-gpios = <&pio 0 9 GPIO_ACTIVE_LOW>; /* PA9 */
+ 		post-power-on-delay-ms = <200>;
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts b/arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts
+index 381d58cea092..3be1e8c2fdb9 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts
+@@ -34,7 +34,7 @@ hdmi_con_in: endpoint {
+ 		};
+ 	};
+ 
+-	ext_osc32k: ext_osc32k_clk {
++	ext_osc32k: ext-osc32k-clk {
+ 		#clock-cells = <0>;
+ 		compatible = "fixed-clock";
+ 		clock-frequency = <32768>;
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dts b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dts
+index 6fc65e8db220..6c3bfe3d09d9 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dts
+@@ -33,7 +33,7 @@ hdmi_con_in: endpoint {
+ 		};
+ 	};
+ 
+-	ext_osc32k: ext_osc32k_clk {
++	ext_osc32k: ext-osc32k-clk {
+ 		#clock-cells = <0>;
+ 		compatible = "fixed-clock";
+ 		clock-frequency = <32768>;
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-lite2.dts b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-lite2.dts
+index fb31dcb1cb6d..a3f65a45bd26 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-lite2.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-lite2.dts
+@@ -11,7 +11,7 @@ aliases {
+ 		serial1 = &uart1; /* BT-UART */
+ 	};
+ 
+-	wifi_pwrseq: wifi_pwrseq {
++	wifi_pwrseq: pwrseq {
+ 		compatible = "mmc-pwrseq-simple";
+ 		clocks = <&rtc CLK_OSC32K_FANOUT>;
+ 		clock-names = "ext_clock";
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi
+index 92745128fcfe..13b07141c334 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi
+@@ -32,7 +32,7 @@ hdmi_con_in: endpoint {
+ 		};
+ 	};
+ 
+-	ext_osc32k: ext_osc32k_clk {
++	ext_osc32k: ext-osc32k-clk {
+ 		#clock-cells = <0>;
+ 		compatible = "fixed-clock";
+ 		clock-frequency = <32768>;
 diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64-model-b.dts b/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64-model-b.dts
-index b710f1a0f53a..1b6e5595ac6e 100644
+index 1b6e5595ac6e..66fe03910d5e 100644
 --- a/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64-model-b.dts
 +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64-model-b.dts
-@@ -5,12 +5,12 @@
- 
- #include "sun50i-h6-pine-h64.dts"
- 
-+/delete-node/ &reg_gmac_3v3;
-+
- / {
+@@ -11,7 +11,7 @@ / {
  	model = "Pine H64 model B";
  	compatible = "pine64,pine-h64-model-b", "allwinner,sun50i-h6";
  
--	/delete-node/ reg_gmac_3v3;
--
- 	wifi_pwrseq: wifi_pwrseq {
+-	wifi_pwrseq: wifi_pwrseq {
++	wifi_pwrseq: pwrseq {
  		compatible = "mmc-pwrseq-simple";
  		reset-gpios = <&r_pio 1 3 GPIO_ACTIVE_LOW>; /* PM3 */
+ 		post-power-on-delay-ms = <200>;
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts b/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts
+index 1ffd68f43f87..3910393be1f9 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts
+@@ -22,7 +22,7 @@ chosen {
+ 		stdout-path = "serial0:115200n8";
+ 	};
+ 
+-	ext_osc32k: ext_osc32k_clk {
++	ext_osc32k: ext-osc32k-clk {
+ 		#clock-cells = <0>;
+ 		compatible = "fixed-clock";
+ 		clock-frequency = <32768>;
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
+index d11e5041bae9..8a8591c4e7dd 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
+@@ -68,7 +68,7 @@ de: display-engine {
+ 		status = "disabled";
+ 	};
+ 
+-	osc24M: osc24M_clk {
++	osc24M: osc24M-clk {
+ 		#clock-cells = <0>;
+ 		compatible = "fixed-clock";
+ 		clock-frequency = <24000000>;
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts b/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts
+index ac0a2b7ea6f3..a1d0cac4d244 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts
+@@ -41,7 +41,7 @@ reg_vcc3v3: vcc3v3 {
+ 		regulator-always-on;
+ 	};
+ 
+-	wifi_pwrseq: wifi_pwrseq {
++	wifi_pwrseq: pwrseq {
+ 		compatible = "mmc-pwrseq-simple";
+ 		clocks = <&rtc CLK_OSC32K_FANOUT>;
+ 		clock-names = "ext_clock";
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h64-remix-mini-pc.dts b/arch/arm64/boot/dts/allwinner/sun50i-h64-remix-mini-pc.dts
+index b6e3c169797f..c204dd43c726 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h64-remix-mini-pc.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h64-remix-mini-pc.dts
+@@ -42,7 +42,7 @@ reg_vcc5v: regulator-5v {
+ 		regulator-always-on;
+ 	};
+ 
+-	wifi_pwrseq: wifi_pwrseq {
++	wifi_pwrseq: pwrseq {
+ 		compatible = "mmc-pwrseq-simple";
+ 		reset-gpios = <&r_pio 0 2 GPIO_ACTIVE_LOW>; /* PL2 */
+ 		post-power-on-delay-ms = <200>;
 -- 
 2.34.1
 
