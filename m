@@ -1,281 +1,180 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mx0b-0016f401.pphosted.com (mx0a-0016f401.pphosted.com [67.231.148.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C501352F6C
-	for <linux-sunxi@lists.linux.dev>; Mon, 18 Mar 2024 16:11:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710778301; cv=none; b=lo5RIDZlbtFpFPl0wqP+DCZFf7XXD1C4oTTXMpgCEQclnR/AOMPX7UziRmLiPxyQAfCXWEFSIuTR70EpOnBfjl8+DIhMECOR+YHEtQmk5i1komr+28RRVoGiaTyRbGt3ZuItoppvHvjlJ6Jwy1GgtIFq6Z2YAqly7j0+pUDHqro=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710778301; c=relaxed/simple;
-	bh=84xfgGQdhPYLNJtOqDpwXG2/hc97FrIjHbfrfTzN6qs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hV6gA6P0kvy3kLdPMq7BO4f7Bhme75JfljBZ/X2OPJJBtqCfGWThVpQ3XbG10ZXKZDndlmLLYgRejsgJV7SWX27RtRJ+KWHczfYQmq9zzP7z/05jpJfOCsEpKNmllQ/4FJKpiYRgnuiBgzN470LqPdo1K/ZkRNNy14k7DTtHSkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kaX0kFNn; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33E455A7AC
+	for <linux-sunxi@lists.linux.dev>; Mon, 18 Mar 2024 19:12:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.148.174
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1710789123; cv=fail; b=gHxqRLser/c2V62Q67K7HIolM41lpkOhtfbpop8jGP1GRC/bjFNLmNeSdZFAili7+eR8Tg8Pc2YqMigJzXAcbiGL7EnXOBLDBihe6r4avULnqHckyhvLajXq4YtV7LS3anPu/CJQrJXtAGQSqAHS7+v7VM4p6PAW7ELXs/toCEM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1710789123; c=relaxed/simple;
+	bh=TRqYiPj18U/gPqdioQFKJe+ZcbbabQxyqiQlOOmznFI=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=rU4VRvBh4A7RnA1fgzPXkD1p4i0p4AaO2t5IPDZAgSp0bbzNGOeRssW4WwY1QUTBYYn76d8xuV5jj+OjcnNYr7hhO7s9Jl3IjeY9AYz37zaJvNkr7FGKOC14SW4YtZWt0u7wh5DVY42qybFDKVyQEqMkIpBzIjNSqQnYDCjE+30=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com; spf=pass smtp.mailfrom=marvell.com; dkim=pass (1024-bit key) header.d=marvell.com header.i=@marvell.com header.b=V1zcml61; arc=fail smtp.client-ip=67.231.148.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marvell.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kaX0kFNn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710778298; x=1742314298;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=84xfgGQdhPYLNJtOqDpwXG2/hc97FrIjHbfrfTzN6qs=;
-  b=kaX0kFNnWUc1eAyNhyCJWDvMd8hydTtjYl0xxJp+AU7aS5LMUOR1SHLa
-   8/UDyuj8xGdtnU+nkQTuHnpLX9l4YquZFTSPsXWURmVIX1rS33DA7+TWU
-   6lAc6kJIsisIYbrTnJ/ANORaW+5y2WBpTd0hSOPofUQ+sLhpy+arxI0BQ
-   MrdUT7RVJEg2XiQQ6UGsx3jzez9q6bDrJUCfmWn9r1Qfy8TMsxjITViUs
-   pvyUEOhyDDweByUltMA71RPbb6sBRqVIc6dcgtWFiH6CINd7IGWOBQCBV
-   gJE5cKl+DfOdyT/id+tejEDH8j96xYkbHXMMqdpOtvd8gU8j4L9MjQU/Q
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="5536450"
-X-IronPort-AV: E=Sophos;i="6.07,134,1708416000"; 
-   d="scan'208";a="5536450"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2024 09:11:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="827781855"
-X-IronPort-AV: E=Sophos;i="6.07,134,1708416000"; 
-   d="scan'208";a="827781855"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
-  by orsmga001.jf.intel.com with SMTP; 18 Mar 2024 09:11:31 -0700
-Received: by stinkbox (sSMTP sendmail emulation); Mon, 18 Mar 2024 18:11:30 +0200
-Date: Mon, 18 Mar 2024 18:11:30 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>,
-	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Sebastian Wick <sebastian.wick@redhat.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v9 20/27] drm/connector: hdmi: Add Infoframes generation
-Message-ID: <ZfhnsgYfwe_3mpWx@intel.com>
-References: <20240311-kms-hdmi-connector-state-v9-0-d45890323344@kernel.org>
- <20240311-kms-hdmi-connector-state-v9-20-d45890323344@kernel.org>
- <ZfQFLR2xO6vUpAJ9@intel.com>
- <20240318-abstract-myna-of-exercise-adfcde@houat>
+	dkim=pass (1024-bit key) header.d=marvell.com header.i=@marvell.com header.b="V1zcml61"
+Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
+	by mx0a-0016f401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42I9gfcR010955;
+	Mon, 18 Mar 2024 12:11:46 -0700
+Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2100.outbound.protection.outlook.com [104.47.55.100])
+	by mx0a-0016f401.pphosted.com (PPS) with ESMTPS id 3wxk77hs10-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 18 Mar 2024 12:11:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ktiy+ZgBJmyOxIi1Az0qoJdMKqCrAWtRexeUNCRFeG7txkoUTetxZv5vYFDuVlinxdbAfYmWl84HzmzUmFWijelasEWqAC1kvJvY1yaaupxlh/eXSPFwvbH+rVdU5iJoWKsirwhsKdv6xdgnV5qtFEnKsO4FokxGllx/07MwgrR7IQzgaAArmEfE2k8P6ViUqnlJmClkxQ0JVIdVaOjb58nFfVwvrly+qg8x9UnaAcX9/yWLK1e5VzvyYYKyL0Dhfi3IGjm0cHTB689axw8i/79ae9vQrmT1mmgrtTciprGF5FreynJMNfPcjxS2ojtspb118EDgi40rVbgVWAA5PA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DYYvLAucVmtdCB/OeFagG82yvEcG17jclp9/MH32oqg=;
+ b=lbmWwiUgOwW35P0vQDZG0SVpr4rB8w/UI3HZd5ZtEUhxb/yXVNmyk19R/dJiNKN4SW0bWwTEJuAVjzxXcCO1QMfkx3isLxCE+CNG4DH+Xq54mj8VV3Y6RJAsd4CKw47m6Lpp21UAorLW0EYhgA2keOjRou0Ugtquvo3zR0c2omdeO6MMbq6InLq4gibiIHkQd0cEvUQaanU1H5PMxXekbcKWKevBLK1sCnf4nFriChKw/Nx9k4u+r2cGTCJUPpqESn+g5FjzpYM7Sd9CmeKsJjeOFo/bVkayB+Cpb7FN9xvSq5KiyDfdWW1InvUkZf/VlxudL/EWcKFFxichsDNggw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
+ dkim=pass header.d=marvell.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DYYvLAucVmtdCB/OeFagG82yvEcG17jclp9/MH32oqg=;
+ b=V1zcml61pGe+6hEiCVMhFx5M0UzAilLZswqI0u0n8xnoBgJefI2ymXBVQBk1sc0Rhmh0G7uhOIVDDJUk4c72GpgCODlWa9kERuprAZX0Z4yU402Hu8egPNXeH6n3z8RQAdEkmUn0k4Lzl/oKThjCRZdo5V5APKFTvTZpLyloGx8=
+Received: from SJ0PR18MB5088.namprd18.prod.outlook.com (2603:10b6:a03:437::9)
+ by CH0PR18MB4339.namprd18.prod.outlook.com (2603:10b6:610:d2::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.27; Mon, 18 Mar
+ 2024 19:11:43 +0000
+Received: from SJ0PR18MB5088.namprd18.prod.outlook.com
+ ([fe80::856b:425a:817:23ab]) by SJ0PR18MB5088.namprd18.prod.outlook.com
+ ([fe80::856b:425a:817:23ab%4]) with mapi id 15.20.7386.025; Mon, 18 Mar 2024
+ 19:11:43 +0000
+Message-ID: <8425a1a2-8453-b705-2c14-a846fa05ae21@marvell.com>
+Date: Tue, 19 Mar 2024 00:41:33 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [EXTERNAL] Re: [PATCH v2 8/8] arm64: dts: allwinner: h616: enable
+ DVFS for all boards
+Content-Language: en-US
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Yangtao Li <tiny.windzz@gmail.com>, Viresh Kumar <vireshk@kernel.org>,
+        Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        "Rafael J . Wysocki"
+ <rafael@kernel.org>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>,
+        "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+        Brandon Cheo Fusi <fusibrandon13@gmail.com>,
+        Martin Botka <martin.botka@somainline.org>,
+        Martin Botka <martin.botka1@gmail.com>
+References: <MW4PR18MB5084E8C6D673B73FC208190BC62D2@MW4PR18MB5084.namprd18.prod.outlook.com>
+ <20240318105153.2c666647@donnerap.manchester.arm.com>
+From: Amit Singh Tomar <amitsinght@marvell.com>
+In-Reply-To: <20240318105153.2c666647@donnerap.manchester.arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN3PR01CA0002.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:95::22) To SJ0PR18MB5088.namprd18.prod.outlook.com
+ (2603:10b6:a03:437::9)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240318-abstract-myna-of-exercise-adfcde@houat>
-X-Patchwork-Hint: comment
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR18MB5088:EE_|CH0PR18MB4339:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3c395e5e-1b70-4e30-85c4-08dc477f3f6d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	UUdldwt4AZuO+VpCMnR7ZC/f2Xr20UlwdHrl/09hW+Z1ybglYllxgTtGiB7gA8U1iPAKPMLUDRuhFZpXPbiH7886dkvBTAuw2EYkFOnwLsLEyNCyjgea/yCZ+tN2Yud1Bcb0FrH4rfTcH/tMTJiMe+GMptfSdSaupepCPb83RttkEqEuNwenS/Cado+9vQ3jzeXmO7ZEiqOU0zd0rAjGrzfnybfv2VANadNEkZR0jGQQG1rvPrGYNqcqmuC2666Zd71j8a2GogjFsON9AQjsq0KSzpLpqmNYK2AtnZ9WQIExcOLebjOEX/Jo7bw8CgA07vWstM1w2GIJW5TUvj33I4U63Gh4HqOHS07xnqJUHYafXdLLO7arlHqFiBvag6kxbfHn5uFAP04gTfLeDiEtrWTTkL9EQ29AtUhISd4RJ4bXrALW88op146AC2S6bJ2s2QA1m86/4uTNWoDT/q+79y/V/JUG4bzm/RAWQP1ibH/mQOHQCU0nWLl7dN7xzK78DElHUqdhCKGSa+kily4mvZ+/2ZLche5cCnUgeZbi28mUXxe3kgsaAqRjPX9jnyXlHPNBym11I8Q4kVG63O2NDHXb8CzqBtHxceV+0dkM7qXJVlSve2GTUR3GltSzKT48KP/EqZs7QB7EjMNmRt/vheJgAIM59ALTG2ZqhVUXJSU=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR18MB5088.namprd18.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(376005)(7416005)(366007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?L3RJUWdpU1JGdnRHUE9yMGpWZ09yN1c2aHloWTFKOFREcWdGMXNKbTJpSEhn?=
+ =?utf-8?B?aC9LcUp4WkxJT3ZJTXFjTmh0Ky9qQVh3cWRiOXpLQU9EdTZSU0VvUU02OFFJ?=
+ =?utf-8?B?SktyQ0hyR0JkVldpc3ZDWEQ4akp5UGUwVklDWjNYMzhqMVp1blFQUVlyTFda?=
+ =?utf-8?B?aGVGcitRc0FTSWllSmtYU0YrT1FiWUk3K2tEOG1zRkNUNHc5Y0pWUUwrdE9i?=
+ =?utf-8?B?VmQxYUFmS2ljV1RRTE0xcXdIRG9mdG5oWFFtcEZEMEN3a3A1QmpQREUyUS9M?=
+ =?utf-8?B?VzNpeWdFWFlVWVc4SFlHSHg0aDBWSDJtMEZGUlR5aDJjS0ovaWN1QzVEK1JV?=
+ =?utf-8?B?SXhNcDBtMXptQ096UHkya1EwR0tBSXFCSU1GNkdMRVZwa29YSHh6OVUrUktq?=
+ =?utf-8?B?TTNEbXV6elNHMWhGZ3hkNVRJRWJ6ckNqcDhiTE5FTkNJY3NiY1B2ZlVWVzcz?=
+ =?utf-8?B?Ri8yaVZlMzgyelZLK2kzQWNFa0hwVEh3YU9KY3FSdm90TkZ2Q2M2SmpHbm1X?=
+ =?utf-8?B?S3NHRnd6ditDWEt4clVuM2xWeUs2b3UrYVh2dXBYQ0dHSG1TOXlhcVRwN0hR?=
+ =?utf-8?B?TC9La2lIQ1NkNXdvVk5jcmhzNk9MYjBRRWY1ZEIyQWNDNWNHRE9ZZ2NnOXJn?=
+ =?utf-8?B?SmxtVmxDTkIzUFEybjZnNDh4Z2J2QzQ5OGt4dlhVVk1mQzBWMG9TcXdNY294?=
+ =?utf-8?B?L3A5MG5XaGJyMklkSE9sNHYwN1c1czhuYVA5dkUyQzIwRXpBZ1cxV2x4bXd1?=
+ =?utf-8?B?bFo4Sk0yQmF1ZnlIai9QQkNLKzF4MTFRU1IwUkdxUjNteDRQSHVrWGdOSDRx?=
+ =?utf-8?B?dTh5YnFPNE1CeUw5NHdFRUpGRDRSY3lWZzBnN2RVWnVWWG1NTjhmdUIzTEZt?=
+ =?utf-8?B?S0RhRzE5U0R5Z3poSGtuTTF3L2pxbmg5Znp2cTl2QmgvR25Sc1VLZ3F1RFI5?=
+ =?utf-8?B?dC91YWVhTmx4QTZIc3VaN1RmYTNNSGlVUWRrY1NKNkVaelp6NHlzc2JGQjFN?=
+ =?utf-8?B?OVVETXVEb21ENkRocHNDeVJVRVI5TTJNUTdXcjk4SFZrZzhuWi83MHBML1Yx?=
+ =?utf-8?B?RndsNDMxM1Z1WDgzbE1wNndyck1QajJBbXBGSzgyM0ZQUm9sa2FZeHdWdy83?=
+ =?utf-8?B?aHgxdVpFSkNkc0pTNnQ5dmEyVnhybFlWUmdWN2VKS05WQmRKQ1puR0tDY1o4?=
+ =?utf-8?B?bmFrSW1lZ2NEVFdxazQ5STBkRjNObUY2VU9QVWQyWHZqcTU4RHZFYkhwM3cv?=
+ =?utf-8?B?VEZ1bkRyd1RVRitGWDl5SWlHeTkraURhWE0vYWpFQXRFRWpseHNJbEI2R1o4?=
+ =?utf-8?B?SGo0QkxqcHozVVJQTlM5SkZVTXA4RE54NWM2V1VqcmJuOUNFNUhHRTVQemV1?=
+ =?utf-8?B?cVpVZ0NIQVVISURFSlZ5VU8vNEM2MUN2OStFMGNlUlZINEhqSFFwK3p4elhr?=
+ =?utf-8?B?NmZJVkplVEg0QnUycUFWQ2VIQ3Z4RzU4M29xRm5tY1U4R0xHd2MzRi93Z1Jo?=
+ =?utf-8?B?a1dYUjhYS1doNThDL1oybFZFTEtDcTZnY1lqNUg3VzlXZTVUYnlwYVkwU3k4?=
+ =?utf-8?B?cHJBMVkwTzAzNFFMSTBCRkZNcExKaUt1VE02a1Zmb1R6WGowM0JYM3lNTktZ?=
+ =?utf-8?B?QVlSSUJyeUNRZTNlaXJ4aDlIRkNRSXdSYzJ0R3RJeGlaOExqVlFLSzhOYTRw?=
+ =?utf-8?B?ZW5TeFJqQld0K20zK1N5bjR5ZW5zaWxvYUVWRFlydFlIVUN3K294Q2dBVzB3?=
+ =?utf-8?B?UFUzRlprVDVUbmlDTjRpc2JUTFdtYUlrWm82ZXoxZnA1WGM2djdpZWJUZm0y?=
+ =?utf-8?B?Z2xzNTdpRjdhczZWQ0pIMlRIam4xQVBkK2ZvOTZrZEFUSUovSHAvSTY0KzVK?=
+ =?utf-8?B?TE1VQkkwZTkzcnRTcTNxZG1ESDh6Tms0THR4QmZpOEZDY2FzUUFrakdaTE45?=
+ =?utf-8?B?NGh3YTZWcGJpTGdUTnkyekd5K3JrRU1DUlRzdHJKR096dEVEMU5Nc1d5WVVN?=
+ =?utf-8?B?OWVoSFNBUXlvb3ZyUkZ3eWRDY2psS3BBcFZOUkU1VzVvaU9XRjRwKy9ZQkNp?=
+ =?utf-8?B?QXJaU0Nvem9EV2xqQVovTDBXN29jM3lFY0JibnlGR2Yva28vQTMzNmxtdUZH?=
+ =?utf-8?B?UUhjeVBwODFhYlM4eDlVeHVOczgrQk1VcUdEVi83eU9zOUQ0VjZrYnR4K1hv?=
+ =?utf-8?B?T3c9PQ==?=
+X-OriginatorOrg: marvell.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3c395e5e-1b70-4e30-85c4-08dc477f3f6d
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR18MB5088.namprd18.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2024 19:11:43.4032
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xspq6J9FmD6NlbxOfKeA3mbkenOS2PEMcOw8sisttU3Y9XFpsGppc5/+PUfIxHJ7EepqmJncK/FzdFD3hbjfsw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR18MB4339
+X-Proofpoint-ORIG-GUID: 93aFjKIBn_ZMEx5V0ztb1-9OgdLt_1dM
+X-Proofpoint-GUID: 93aFjKIBn_ZMEx5V0ztb1-9OgdLt_1dM
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-18_12,2024-03-18_03,2023-05-22_02
 
-On Mon, Mar 18, 2024 at 02:49:47PM +0100, Maxime Ripard wrote:
-> Hi,
-> 
-> On Fri, Mar 15, 2024 at 10:22:05AM +0200, Ville Syrjälä wrote:
-> > On Mon, Mar 11, 2024 at 03:49:48PM +0100, Maxime Ripard wrote:
-> > > Infoframes in KMS is usually handled by a bunch of low-level helpers
-> > > that require quite some boilerplate for drivers. This leads to
-> > > discrepancies with how drivers generate them, and which are actually
-> > > sent.
-> > > 
-> > > Now that we have everything needed to generate them in the HDMI
-> > > connector state, we can generate them in our common logic so that
-> > > drivers can simply reuse what we precomputed.
-> > > 
-> > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > > ---
-> > >  drivers/gpu/drm/Kconfig                            |   1 +
-> > >  drivers/gpu/drm/drm_atomic_state_helper.c          | 323 +++++++++++++++++++++
-> > >  drivers/gpu/drm/drm_connector.c                    |  14 +
-> > >  .../gpu/drm/tests/drm_atomic_state_helper_test.c   |   1 +
-> > >  drivers/gpu/drm/tests/drm_connector_test.c         |  12 +
-> > >  include/drm/drm_atomic_state_helper.h              |   8 +
-> > >  include/drm/drm_connector.h                        | 133 +++++++++
-> > >  7 files changed, 492 insertions(+)
-> > > 
-> > > diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> > > index 872edb47bb53..ad9c467e20ce 100644
-> > > --- a/drivers/gpu/drm/Kconfig
-> > > +++ b/drivers/gpu/drm/Kconfig
-> > > @@ -97,10 +97,11 @@ config DRM_KUNIT_TEST
-> > >  	  If in doubt, say "N".
-> > >  
-> > >  config DRM_KMS_HELPER
-> > >  	tristate
-> > >  	depends on DRM
-> > > +	select DRM_DISPLAY_HDMI_HELPER
-> > >  	help
-> > >  	  CRTC helpers for KMS drivers.
-> > >  
-> > >  config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
-> > >          bool "Enable refcount backtrace history in the DP MST helpers"
-> > > diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
-> > > index e66272c0d006..2bf53666fc9d 100644
-> > > --- a/drivers/gpu/drm/drm_atomic_state_helper.c
-> > > +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-> > > @@ -36,10 +36,12 @@
-> > >  #include <drm/drm_plane.h>
-> > >  #include <drm/drm_print.h>
-> > >  #include <drm/drm_vblank.h>
-> > >  #include <drm/drm_writeback.h>
-> > >  
-> > > +#include <drm/display/drm_hdmi_helper.h>
-> > > +
-> > >  #include <linux/slab.h>
-> > >  #include <linux/dma-fence.h>
-> > >  
-> > >  /**
-> > >   * DOC: atomic state reset and initialization
-> > > @@ -912,10 +914,143 @@ hdmi_compute_config(const struct drm_connector *connector,
-> > >  	}
-> > >  
-> > >  	return -EINVAL;
-> > >  }
-> > >  
-> > > +static int hdmi_generate_avi_infoframe(const struct drm_connector *connector,
-> > > +				       struct drm_connector_state *state)
-> > > +{
-> > > +	const struct drm_display_mode *mode =
-> > > +		connector_state_get_mode(state);
-> > > +	struct drm_connector_hdmi_infoframe *infoframe =
-> > > +		&state->hdmi.infoframes.avi;
-> > > +	struct hdmi_avi_infoframe *frame =
-> > > +		&infoframe->data.avi;
-> > > +	bool is_full_range = state->hdmi.is_full_range;
-> > > +	enum hdmi_quantization_range rgb_quant_range =
-> > > +		is_full_range ? HDMI_QUANTIZATION_RANGE_FULL : HDMI_QUANTIZATION_RANGE_LIMITED;
-> > > +	int ret;
-> > > +
-> > > +	ret = drm_hdmi_avi_infoframe_from_display_mode(frame, connector, mode);
-> > > +	if (ret)
-> > > +		return ret;
-> > > +
-> > > +	frame->colorspace = state->hdmi.output_format;
-> > > +
-> > > +	drm_hdmi_avi_infoframe_quant_range(frame, connector, mode, rgb_quant_range);
-> > 
-> > drm_hdmi_avi_infoframe_quant_range() doesn't handle YCbCr currently.
-> 
-> I guess it's not really a problem anymore if we drop YUV422 selection,
-> but I'll add a comment.
-> 
-> > > +	drm_hdmi_avi_infoframe_colorimetry(frame, state);
-> > > +	drm_hdmi_avi_infoframe_bars(frame, state);
-> > > +
-> > > +	infoframe->set = true;
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > <snip>
-> > > +
-> > > +#define UPDATE_INFOFRAME(c, os, ns, i)				\
-> > > +	write_or_clear_infoframe(c,				\
-> > > +				 &(c)->hdmi.infoframes.i,	\
-> > > +				 &(os)->hdmi.infoframes.i,	\
-> > > +				 &(ns)->hdmi.infoframes.i)
-> > 
-> > This macro feels like pointless obfuscation to me.
-> 
-> I'll remove it then.
-> 
-> > <snip>
-> > > @@ -1984,20 +2063,73 @@ struct drm_connector {
-> > >  
-> > >  	/**
-> > >  	 * @hdmi: HDMI-related variable and properties.
-> > >  	 */
-> > >  	struct {
-> > > +#define DRM_CONNECTOR_HDMI_VENDOR_LEN	8
-> > > +		/**
-> > > +		 * @vendor: HDMI Controller Vendor Name
-> > > +		 */
-> > > +		unsigned char vendor[DRM_CONNECTOR_HDMI_VENDOR_LEN] __nonstring;
-> > > +
-> > > +#define DRM_CONNECTOR_HDMI_PRODUCT_LEN	16
-> > > +		/**
-> > > +		 * @product: HDMI Controller Product Name
-> > > +		 */
-> > > +		unsigned char product[DRM_CONNECTOR_HDMI_PRODUCT_LEN] __nonstring;
-> > > +
-> > >  		/**
-> > >  		 * @supported_formats: Bitmask of @hdmi_colorspace
-> > >  		 * supported by the controller.
-> > >  		 */
-> > >  		unsigned long supported_formats;
-> > >  
-> > >  		/**
-> > >  		 * @funcs: HDMI connector Control Functions
-> > >  		 */
-> > >  		const struct drm_connector_hdmi_funcs *funcs;
-> > > +
-> > > +		/**
-> > > +		 * @infoframes: Current Infoframes output by the connector
-> > > +		 */
-> > > +		struct {
-> > > +			/**
-> > > +			 * @lock: Mutex protecting against concurrent access to
-> > > +			 * the infoframes, most notably between KMS and ALSA.
-> > > +			 */
-> > > +			struct mutex lock;
-> > > +
-> > > +			/**
-> > > +			 * @audio: Current Audio Infoframes structure. Protected
-> > > +			 * by @lock.
-> > > +			 */
-> > > +			struct drm_connector_hdmi_infoframe audio;
-> > > +
-> > > +			/**
-> > > +			 * @avi: Current AVI Infoframes structure. Protected by
-> > > +			 * @lock.
-> > > +			 */
-> > > +			struct drm_connector_hdmi_infoframe avi;
-> > > +
-> > > +			/**
-> > > +			 * @hdr_drm: Current DRM (Dynamic Range and Mastering)
-> > > +			 * Infoframes structure. Protected by @lock.
-> > > +			 */
-> > > +			struct drm_connector_hdmi_infoframe hdr_drm;
-> > > +
-> > > +			/**
-> > > +			 * @spd: Current SPD Infoframes structure. Protected by
-> > > +			 * @lock.
-> > > +			 */
-> > > +			struct drm_connector_hdmi_infoframe spd;
-> > > +
-> > > +			/**
-> > > +			 * @vendor: Current HDMI Vendor Infoframes structure.
-> > > +			 * Protected by @lock.
-> > > +			 */
-> > > +			struct drm_connector_hdmi_infoframe hdmi;
-> > > +		} infoframes;
-> > >  	} hdmi;
-> > 
-> > What's the deal with this bloat? These are already tracked in the
-> > connector's state so this looks entirely redundant.
-> 
-> The next patch in this series is about adding debugfs entries to read
-> the infoframes, and thus we need to care about concurrency between
-> debugfs files accesses and commits. Copying the things we care about
-> from the state to the entity is the typical solution for that, but I
-> guess we could also take the proper locks and access the current
-> connector state.
 
-Yeah, just lock and dump the latest state. That is the only thing
-that should of interest to anyone in userspace.
+>>
+>> -----Original Message-----
+>> From: linux-arm-kernel <linux-arm-kernel-bounces@lists.infradead.org> On Behalf Of Andre Przywara
+>> Sent: Monday, March 18, 2024 6:42 AM
+>> To: Yangtao Li <tiny.windzz@gmail.com>; Viresh Kumar <vireshk@kernel.org>; Nishanth Menon <nm@ti.com>; Stephen Boyd <sboyd@kernel.org>; Rob Herring <robh+dt@kernel.org>; Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>; Conor Dooley <conor+dt@kernel.org>; Chen-Yu Tsai <wens@csie.org>; Jernej Skrabec <jernej.skrabec@gmail.com>; Samuel Holland <samuel@sholland.org>; Rafael J . Wysocki <rafael@kernel.org>
+>> Cc: linux-pm@vger.kernel.org; devicetree@vger.kernel.org; linux-sunxi@lists.linux.dev; linux-arm-kernel@lists.infradead.org; Brandon Cheo Fusi <fusibrandon13@gmail.com>; Martin Botka <martin.botka@somainline.org>; Martin Botka <martin.botka1@gmail.com>
+>> Subject: [EXTERNAL] [PATCH v2 8/8] arm64: dts: allwinner: h616: enable DVFS for all boards
+>>
+>>
+>> With the DT bindings now describing the format of the CPU OPP tables, we can include the OPP table in each board's .dts file, and specify the CPU power supply.
+>> This allows to enable DVFS, and get up to 50% of performance benefit in the highest OPP, or up to 60% power savings in the lowest OPP, compared to the fixed 1GHz @ 1.0V OPP we are running in by default
+>> at the moment.
+>> [Amit] Could you please elaborate, what test were run to see 50 % performance benefits?
+> 
+> Currently all H616 boards running mainline firmware and kernels run at a
+> fixed 1GHz CPU clock frequency. If you happen to have a good SoC (bin 1 or
+> 3), this patchset will allow you to run at 1.5 GHz, which is 50% faster.
+> So anything that scales with CPU frequency should run much quicker.
+> 
+Okay, it would be interesting to see results of some benchmark here.
 
-Also are you actually adding some kind of ad-hoc state dump things
-just for these? Why not do whatever is needed to include them in
-the normal .atomic_state_print() stuff?
+Thanks
+-Amit
 
--- 
-Ville Syrjälä
-Intel
