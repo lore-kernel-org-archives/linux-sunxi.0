@@ -1,95 +1,387 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FB0E5BAD9
-	for <linux-sunxi@lists.linux.dev>; Mon, 18 Mar 2024 23:04:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F197B5F56A
+	for <linux-sunxi@lists.linux.dev>; Mon, 18 Mar 2024 23:28:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710803046; cv=none; b=ZueQLPCVHB1lA46YkVHCHfsFAuetPxyu+wa4RNEJScFMB8Qil6SuICItHSMlB/faZWaihLhLry9B5pTxD0S6YN/w4kb/osYPLJXWbtJYUdgk0v+t1c5J2tTqza3iGdL4bdPiaRYxaOpnlgA+CTm/6wmvId/yYTbKmO9B4a9rdXc=
+	t=1710804530; cv=none; b=OkHPpUBvOsR2j3+DCO1SHic1E3nCUSIoB/qS9BKe8n/GE8I3kY/L2D4f6DFTPt5glqq88UyvlM9DkHjPCIEvwvPnFCVnSVrleUcs71QuA7jD2/se+pgzwK+4/KfCnlJCbnXmk6et1ujEJZcD2MfzujvUAxNTFBI6cytRZ8jJwLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710803046; c=relaxed/simple;
-	bh=dEnUrdYzB2esJ0bP5FqG8zL7R+wdwRz0lvaq+6mDJp8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kOQWso/1yX67NYmWZi2Z7VZiCSJHgMVD9xo+hRGvvj+uALzqtCJBkPAQat934QOcSuCg89RM/TqamdY4iyKKOkYYdbwvrLyxftaK75/nKgWX94VyU1gyWmwPRCD3dlqfu785uGsN7hMghgtbFRDdDXyiWhyYwJ9UU1wnEyWMpj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8ADA9DA7;
-	Mon, 18 Mar 2024 16:04:32 -0700 (PDT)
-Received: from minigeek.lan (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 392793F64C;
-	Mon, 18 Mar 2024 16:03:55 -0700 (PDT)
-Date: Mon, 18 Mar 2024 23:03:33 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Amit Singh Tomar <amitsinght@marvell.com>
-Cc: Yangtao Li <tiny.windzz@gmail.com>, Viresh Kumar <vireshk@kernel.org>,
- Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, "Rafael J . Wysocki"
- <rafael@kernel.org>, "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, Brandon Cheo Fusi
- <fusibrandon13@gmail.com>, Martin Botka <martin.botka@somainline.org>,
- Martin Botka <martin.botka1@gmail.com>
-Subject: Re: [EXTERNAL] Re: [PATCH v2 8/8] arm64: dts: allwinner: h616:
- enable DVFS for all boards
-Message-ID: <20240318230333.72c1b6ed@minigeek.lan>
-In-Reply-To: <8425a1a2-8453-b705-2c14-a846fa05ae21@marvell.com>
-References: <MW4PR18MB5084E8C6D673B73FC208190BC62D2@MW4PR18MB5084.namprd18.prod.outlook.com>
-	<20240318105153.2c666647@donnerap.manchester.arm.com>
-	<8425a1a2-8453-b705-2c14-a846fa05ae21@marvell.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	s=arc-20240116; t=1710804530; c=relaxed/simple;
+	bh=YpUt/4ImvuWAnLJ6H8L3Om3/A77U7GJ9Sw9foL6S6HI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=h0N6sLNIhPJvicWfBc9om6W5LsATVp+/BMtiTOyve+BhbgnJrsRYjQqtmfxb415OsCAazvbB3V0rmAJ4UPIEbLqWCa+NHeBtA7thMuyKAaViWTMQVeTlQk8w3ccKYOtM+hzVcPXfByCyIxFA4pcAyscV7B+FEB4UgUBfEn/m4KI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mzk/+CoB; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mzk/+CoB"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-33fd12a06fdso1337836f8f.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 18 Mar 2024 16:28:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710804526; x=1711409326; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Je+QHKggTjRYZ872OZO73N9y5goT8Xf/6jT0hRsCT4o=;
+        b=Mzk/+CoBN2un++4G9Hs/xzZvIEbiPXaHmqUrLMFAYKum3OxGpSwh/gHpqMgg/tRLUI
+         zFLwT8jIO6U+Nki/YB7NdbuPIJDB+9cz1dD/rkICmfu5pYQLkf6fSX1HpvMIiEmScYhS
+         6igANWOPekf2XOwkOu4RogFt7h3BFJw4TIfFAVsP6FZGWtJUhrDOJfJ0fjCsd3KxbbXU
+         HtB37OhmH7f323cFn8nj2rRf/xJfNydEXKio5VrrLVIMLUctZX8a0+VvZ+DeO5HAz7FW
+         Nhr3oCgLcCc0Evi+JgxUf3UOMaDhEm9j1mH6y2FWmfqHMZWV1r+GQvxGVira97YnGNoO
+         0GBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710804526; x=1711409326;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Je+QHKggTjRYZ872OZO73N9y5goT8Xf/6jT0hRsCT4o=;
+        b=YEUfkvVkt+jwagkOGC43TaZs6GUfIgBf2y2f330MsHe/CdAy6pf5y7i6GfBdPNSPk9
+         1QmPVo05BUUDuIe1I7hNAoRbGQKnjqmVHQE2DOOJ0JcHXoUsXPcl0sbQrPqR9cl52Es7
+         yCz6nGxEOWGX5G9S+OVxxSM7qdH/zZ3KVhyeH6GPpaCSMM6xYdhCECmGpwyQHHDcNcBY
+         A3adC9bHA5JkQidg/4T7AMkBZIYVSqBxnD1R9Vm43aksvPDa+Q+dBe+0Vn5SFK6JXYdE
+         akKOT4ZJEMg3iW2creiMM+4sXM2Jsx2C235L1oHxeN0yV/80vOlicd2LkubuR4sbuXHY
+         ELAA==
+X-Forwarded-Encrypted: i=1; AJvYcCW3G9vnYevvxXKxzk+BJqBsXC7/AW79ZpW6cocXx3KC+MoFyCupZN1tFreiFFztNn1gDGn3V4CQxhHSO0qDtrTZLUJi5N42OEgqrK8=
+X-Gm-Message-State: AOJu0Yx6DPoV8FJiJrnXV257jwNL4C4iMtF/cY2sJTl6IGOx4qQsHHel
+	MWRfdTun11GNuIu/6Gmfj7RRhsiAVWCQiCdIS3rhEOdcBe+hgiTM
+X-Google-Smtp-Source: AGHT+IFlqZHrRZvHmS9yQjhpImZ/zyxNI2T5dWJHSjNy+cI0ouMUsI93wgzihsv9I6CZENXpz65YcQ==
+X-Received: by 2002:a05:6000:932:b0:33e:c593:c03d with SMTP id cx18-20020a056000093200b0033ec593c03dmr8394069wrb.27.1710804525880;
+        Mon, 18 Mar 2024 16:28:45 -0700 (PDT)
+Received: from [192.168.100.117] (89-76-44-138.dynamic.chello.pl. [89.76.44.138])
+        by smtp.gmail.com with ESMTPSA id m24-20020aa7d358000000b0056729e902f7sm5066592edr.56.2024.03.18.16.28.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 Mar 2024 16:28:45 -0700 (PDT)
+Message-ID: <6ed87122-22ff-4d71-a6e6-06b578212f00@gmail.com>
+Date: Tue, 19 Mar 2024 00:28:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/3] arm64: dts: allwinner: h616: add support for T95
+ tv boxes
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+References: <20240317-add-t95-axp313-support-v3-0-0d63f7c23d37@gmail.com>
+ <20240317-add-t95-axp313-support-v3-3-0d63f7c23d37@gmail.com>
+ <20240318114257.46667aef@donnerap.manchester.arm.com>
+Content-Language: pl, en-GB
+From: Kamil Kasperski <ressetkk@gmail.com>
+In-Reply-To: <20240318114257.46667aef@donnerap.manchester.arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, 19 Mar 2024 00:41:33 +0530
-Amit Singh Tomar <amitsinght@marvell.com> wrote:
+W dniu 18.03.2024 o 12:42, Andre Przywara pisze:
+> On Sun, 17 Mar 2024 20:44:51 +0100
+> Kamil Kasperski <ressetkk@gmail.com> wrote:
+>
+> Hi Kamil,
+>
+> thanks a lot for putting together those patches and sending them
+> for upstream inclusion!
+>
+>> Add dtsi file for T95 tv boxes and add initial support for T95 5G AXP313A
+>> variant with a board name H616-T95MAX-AXP313A-v3.0 Internal storage is not
+>> accessible due to lack of support for H616 NAND controller.
+> Them using raw NAND is really unfortunate. I think the original T95 box
+> used eMMC?
 
-Hi,
+I'm not sure. I don't have access to the other revision of this box.
 
-> >>
-> >> With the DT bindings now describing the format of the CPU OPP tables, we can include the OPP table in each board's .dts file, and specify the CPU power supply.
-> >> This allows to enable DVFS, and get up to 50% of performance benefit in the highest OPP, or up to 60% power savings in the lowest OPP, compared to the fixed 1GHz @ 1.0V OPP we are running in by default
-> >> at the moment.
-> >> [Amit] Could you please elaborate, what test were run to see 50 % performance benefits?  
-> > 
-> > Currently all H616 boards running mainline firmware and kernels run at a
-> > fixed 1GHz CPU clock frequency. If you happen to have a good SoC (bin 1 or
-> > 3), this patchset will allow you to run at 1.5 GHz, which is 50% faster.
-> > So anything that scales with CPU frequency should run much quicker.
-> >   
-> Okay, it would be interesting to see results of some benchmark here.
+>
+>> Signed-off-by: Kamil Kasperski <ressetkk@gmail.com>
+>> ---
+>>  arch/arm64/boot/dts/allwinner/Makefile             |   1 +
+>>  arch/arm64/boot/dts/allwinner/sun50i-h616-t95.dtsi | 109 +++++++++++++++++++++
+>>  .../dts/allwinner/sun50i-h616-t95max-axp313.dts    |  85 ++++++++++++++++
+>>  3 files changed, 195 insertions(+)
+>>
+>> diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
+>> index 21149b346a60..294921f12b73 100644
+>> --- a/arch/arm64/boot/dts/allwinner/Makefile
+>> +++ b/arch/arm64/boot/dts/allwinner/Makefile
+>> @@ -42,6 +42,7 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6-mini.dtb
+>>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-bigtreetech-cb1-manta.dtb
+>>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-bigtreetech-pi.dtb
+>>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-orangepi-zero2.dtb
+>> +dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-t95max-axp313.dtb
+>>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-x96-mate.dtb
+>>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-longanpi-3h.dtb
+>>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero2w.dtb
+>> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-t95.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616-t95.dtsi
+>> new file mode 100644
+>> index 000000000000..815cf2dac24b
+>> --- /dev/null
+>> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-t95.dtsi
+>> @@ -0,0 +1,109 @@
+>> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+>> +/*
+>> + * Copyright (C) 2024 Kamil Kasperski <ressetkk@gmail.com>
+>> + *
+>> + * Common DT nodes for H616-based T95 TV boxes
+>> + * There are two versions reported with different PMIC variants.
+>> + */
+>> +
+>> +#include "sun50i-h616.dtsi"
+>> +
+>> +#include <dt-bindings/gpio/gpio.h>
+>> +#include <dt-bindings/interrupt-controller/arm-gic.h>
+>> +
+>> +/ {
+>> +	aliases {
+>> +		ethernet1 = &sdio_wifi;
+>> +		serial0 = &uart0;
+>> +	};
+>> +
+>> +	chosen {
+>> +		stdout-path = "serial0:115200n8";
+>> +	};
+>> +
+>> +	reg_vcc5v: vcc5v {
+>> +		/* board wide 5V supply directly from the DC input */
+>> +		compatible = "regulator-fixed";
+>> +		regulator-name = "vcc-5v";
+>> +		regulator-min-microvolt = <5000000>;
+>> +		regulator-max-microvolt = <5000000>;
+>> +		regulator-always-on;
+>> +	};
+>> +
+>> +	reg_vcc3v3: vcc3v3 {
+>> +		/* discrete 3.3V regulator */
+>> +		compatible = "regulator-fixed";
+>> +		regulator-name = "vcc-3v3";
+>> +		regulator-min-microvolt = <3300000>;
+>> +		regulator-max-microvolt = <3300000>;
+>> +		regulator-always-on;
+>> +	};
+>> +
+>> +	wifi_pwrseq: wifi-pwrseq {
+> Krzysztof recently sent a patch to just use "pwrseq" as the node name,
+> so can you do the same here?
+>
+> https://lore.kernel.org/linux-sunxi/20240317184130.157695-2-krzysztof.kozlowski@linaro.org/T/#u
 
-But why? This is not a performance optimisation, it's adding a missing
-feature, because the CPU was locked to 1 GHz before, for safety
-reasons, due to missing thermal and DVFS capability. Now it's able to
-run at up to 1.5 GHz, as specified.
-If you are upset about the bold claim, I can just remove it from the
-commit message, it was just a heads up that we were leaving a lot of
-performance on the table at the moment.
+Sure. I'll send v4.
 
-Posting absolute performance numbers is a tricky subject, legally, so
-please run your own: http://www.netlib.org/benchmark/linpackc.new
-$ musl-gcc -s -static -Ofast -o linpack linpack.c -lm -march=native -fno-math-errno -funsafe-math-optimizations
-$ gcc --version
-gcc (Debian 12.2.0-14) 12.2.0
-# echo userspace > /sys/devices/system/cpu/cpufreq/policy0/scaling_governor
-# echo 1008000 > /sys/devices/system/cpu/cpufreq/policy0/scaling_setspeed
-$ ./linpack
-# echo performance > /sys/devices/system/cpu/cpufreq/policy0/scaling_governor
-$ ./linpack
-$ dc -e '3k $high $low /p'
-1.498
+>
+>> +		compatible = "mmc-pwrseq-simple";
+>> +		clocks = <&rtc CLK_OSC32K_FANOUT>;
+>> +		clock-names = "ext_clock";
+>> +		pinctrl-0 = <&x32clk_fanout_pin>;
+>> +		pinctrl-names = "default";
+>> +		reset-gpios = <&pio 6 18 GPIO_ACTIVE_LOW>; /* PG18 */
+>> +	};
+>> +};
+>> +
+>> +&ehci0 {
+>> +	status = "okay";
+>> +};
+>> +
+>> +&ehci2 {
+>> +	status = "okay";
+>> +};
+>> +
+>> +&ir {
+>> +	status = "okay";
+>> +};
+>> +
+>> +&mmc0 {
+>> +	cd-gpios = <&pio 8 16 GPIO_ACTIVE_LOW>;	/* PI16 */
+>> +	bus-width = <4>;
+>> +	status = "okay";
+>> +};
+>> +
+>> +&mmc1 {
+>> +	mmc-pwrseq = <&wifi_pwrseq>;
+>> +	bus-width = <4>;
+>> +	non-removable;
+>> +	status = "okay";
+>> +
+>> +	sdio_wifi: wifi@1 {
+>> +		reg = <1>;
+>> +	};
+> So does the WiFi work with mainline drivers? IIUC the BCM43342 is not
+> supported by the existing Broadcom drivers?
+
+It's actually BCM43342/1 It System doesn't detect this chip by default.
+The most relevant message from dmesg is:
+[   14.042035] kernel: brcmfmac: brcmf_fw_alloc_request: Unknown chip BCM43342/1
+I believe that it's only a matter of missing module. I don't think it is
+supported in mainline ATM. I left it to have a wi-fi node accessible
+and detectable by kernel. If you think that it's better to remove the
+node if it's not supported I can do it.
+
+Somebody actually extracted modified precompiled module from custom
+5.15.16 rockchip kernel, which implements support for this card. There's no
+patch for it that could be submitted to mainline unfortunately ATM.
+
+I've found a patch that adds chip id strings to brcmfmac, but I would like to
+test it beforehand.
+
+>
+>> +};
+>> +
+>> +&ohci0 {
+>> +	status = "okay";
+>> +};
+>> +
+>> +&ohci2 {
+>> +	status = "okay";
+>> +};
+>> +
+>> +&uart0 {
+>> +	pinctrl-names = "default";
+>> +	pinctrl-0 = <&uart0_ph_pins>;
+>> +	status = "okay";
+>> +};
+>> +
+>> +&uart1 {
+>> +	pinctrl-names = "default";
+>> +	pinctrl-0 = <&uart1_pins>, <&uart1_rts_cts_pins>;
+>> +	uart-has-rtscts;
+>> +	status = "okay";
+> Similar question here, what is the Bluetooth situation in mainline? I
+> guess it's not supported, since you didn't put a BT node in here?
+
+I haven't tested that yet. It's partially due to lack of experience with
+DTS. I would like to figure out mainline support eventually, but for now
+I would like to just have a working foundation for these TVB.
+
+If that's also not really a wanted option to leave those nodes, I can
+remove them for now.
+
+>
+>> +};
+>> +
+>> +&usbotg {
+>> +	dr_mode = "host";	/* USB A type receptable */
+>> +	status = "okay";
+>> +};
+>> +
+>> +&usbphy {
+>> +	status = "okay";
+>> +};
+>> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-t95max-axp313.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-t95max-axp313.dts
+>> new file mode 100644
+>> index 000000000000..c8650aca2407
+>> --- /dev/null
+>> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-t95max-axp313.dts
+>> @@ -0,0 +1,85 @@
+>> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+>> +/*
+>> + * Copyright (C) 2024 Kamil Kasperski <ressetkk@gmail.com>
+>> + *
+>> + * Configuration for T95 TV box with board label H616-T95MAX-AXP313A-v3.0
+>> + */
+>> +
+>> +/dts-v1/;
+>> +
+>> +#include "sun50i-h616-t95.dtsi"
+>> +
+>> +/ {
+>> +	model = "T95 5G (AXP313)";
+>> +	compatible = "t95,t95max-axp313", "allwinner,sun50i-h616";
+>> +};
+>> +
+>> +&mmc0 {
+>> +	vmmc-supply = <&reg_dldo1>;
+>> +};
+>> +
+>> +&mmc1 {
+>> +	vmmc-supply = <&reg_dldo1>;
+>> +	vqmmc-supply = <&reg_aldo1>;
+>> +};
+>> +
+>> +&r_i2c {
+>> +	status = "okay";
+>> +
+>> +	axp313: pmic@36 {
+>> +		compatible = "x-powers,axp313a";
+>> +		reg = <0x36>;
+>> +		#interrupt-cells = <1>;
+>> +		interrupt-controller;
+>> +		interrupt-parent = <&pio>;
+> I don't think you need interrupt-parent unless you also actually specify
+> an interrupt line.
+> (But please keep #interrupt-cells and interrupt-controller.)
+
+I think you may be right. I based this part off of OPiZ3 dts, rather than
+transpeed. Will update in the v4.
+
+>
+>> +
+>> +		vin1-supply = <&reg_vcc5v>;
+>> +		vin2-supply = <&reg_vcc5v>;
+>> +		vin3-supply = <&reg_vcc5v>;
+>> +
+>> +		regulators {
+>> +			reg_aldo1: aldo1 {
+>> +				regulator-always-on;
+>> +				regulator-min-microvolt = <1800000>;
+>> +				regulator-max-microvolt = <1800000>;
+>> +				regulator-name = "vcc1v8";
+>> +			};
+>> +
+>> +			reg_dldo1: dldo1 {
+>> +				regulator-always-on;
+>> +				regulator-min-microvolt = <3300000>;
+>> +				regulator-max-microvolt = <3300000>;
+>> +				regulator-name = "vcc3v3";
+>> +			};
+>> +
+>> +			reg_dcdc1: dcdc1 {
+>> +				regulator-always-on;
+>> +				regulator-min-microvolt = <810000>;
+>> +				regulator-max-microvolt = <990000>;
+>> +				regulator-name = "vdd-gpu-sys";
+>> +			};
+>> +
+>> +			reg_dcdc2: dcdc2 {
+>> +				regulator-always-on;
+>> +				regulator-min-microvolt = <810000>;
+>> +				regulator-max-microvolt = <1100000>;
+>> +				regulator-name = "vdd-cpu";
+>> +			};
+>> +
+>> +			reg_dcdc3: dcdc3 {
+>> +				regulator-always-on;
+>> +				regulator-min-microvolt = <1500000>;
+>> +				regulator-max-microvolt = <1500000>;
+>> +				regulator-name = "vdd-dram";
+>> +			};
+>> +		};
+>> +	};
+>> +};
+>> +
+>> +&pio {
+>> +	vcc-pc-supply = <&reg_aldo1>;
+>> +	vcc-pf-supply = <&reg_dldo1>;
+>> +	vcc-pg-supply = <&reg_dldo1>;
+> So if vqmmc-supply for MMC1 is at the 1.8V from ALDO1, that must mean that
+> the whole of PortG is at 1.8V, right? So I think this would need to be
+> reg_aldo1 here.
+>
+> Apart from those minor things it looks good to me.
+>
+> Cheers,
+> Andre
+
+Good catch. Will update in v4.
 
 Cheers,
-Andre
+Kamil
+
+>> +	vcc-ph-supply = <&reg_dldo1>;
+>> +	vcc-pi-supply = <&reg_dldo1>;
+>> +};
+>>
+
