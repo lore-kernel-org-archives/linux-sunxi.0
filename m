@@ -1,312 +1,123 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5EB71EB35
-	for <linux-sunxi@lists.linux.dev>; Sun, 17 Mar 2024 19:47:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E10E18EAB
+	for <linux-sunxi@lists.linux.dev>; Mon, 18 Mar 2024 01:12:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710704879; cv=none; b=YGVXpRMWrUtoQcxxNpeLIY6oR+ELThPb7PQ/92FpUACIfbteTIZPn40PP9Cm3HlzB5mZBK675efaDTp5mzov63YPBqLlXgW4mperj7IVrk6I5He0w5DvlOJ/BPCIfnjW1fooGPByxvqbqOYC4QEzerHa658GoR+UsQTAU1Zv1lw=
+	t=1710724379; cv=none; b=OqAA82uQaYo4E84fl3xMGLvyPVUHBHDOsv8l3J8dFQWIN8kuNawrzQhEpxPCxTJRaHL6WUshRkuE3jYY5sz/KtrPU9JFa0q/btLYrSeVIw592QA4s1hzT2g6uTTYHoxjNXyUXY/A3WiFXTsdGbueL3dJOvYjbzHhwish1MvafeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710704879; c=relaxed/simple;
-	bh=bH5o0Ls9AOyqGduppu30qLhUqpfUYFjoHjQV2Ul1jzw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=VAYT5mr1tgvTqPWfG1i+ld4E7W0uHE2O4rkGwJB3kVVXFPC3ELMcPfRr/EZjo1EToCBqWxv3DblBPiem4E69VpfzKz9+cTCTTwCrNpO+BOnAhiWrS1+N9cJeNHYtTIGIMUfBoNX0Vwjqi7UodRvlV3QC0QNQmMatI/tHkvFipYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NpqMY4Cc; arc=none smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NpqMY4Cc"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-568a9c331a3so3148972a12.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 17 Mar 2024 12:47:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710704876; x=1711309676; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QRQCwW/nQLKmQ6pGsr6+Puw0CxHpioOxtWAo9XmoOKI=;
-        b=NpqMY4CcjF2tX3pjEZnv1SYf8UBz1XNfKhCNWoqi8B8wwhLCMjuSGEDjF7JO5P/Y/9
-         tECJsQdS/QJmDSCBR91JzHKS8tN6doe+WVt1SjlO69eSkFA9Drys1Tf67ar/cyblRJVE
-         GvIBCNApDW1AOlZWNk/GffIYtk+y1MoZdHRfnEi0zoiDc5fXzvZLGdqz6Uof75VOAB6X
-         a6lnSwKzx2S/qEov9fhsIQTVp1WjF4xZaLZSVqGa2aC1sHexj9w48czOnZBN28MSgZRZ
-         SVt5RfkzaEr17mOv6qnniJJgD7c4tksO4AzUSnmeAyKvNGVGezWDMHsfPtzzuKVuaFOC
-         Midg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710704876; x=1711309676;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QRQCwW/nQLKmQ6pGsr6+Puw0CxHpioOxtWAo9XmoOKI=;
-        b=QskY6yhW4YzJ0ZaVSRLlQtOSyE3Sb+2tPTNi5dlzWTb34ReBssZiZzT/g66R7BnwA0
-         I1dSJ4d0gJQHt0HBrKgys3mATCsbsJI5rpyTSAbUBTqou2HGFRJk1/h3Z3FWNIkVlFKw
-         u87k56TWan/r4ITVR5YpVMopy7ZKSbJQX0m+CIOxUAmktcSahlPq1ZkPi9G/uUTtHHaZ
-         36hXUj7+1jHcEe05/v5dT1cmb7TAHj8U7338JsVrH3EszdJWn7Vuz+RsXhVOlxhHlMrK
-         N69Upj7d8CT4QUwzz9Suk2xoAqStXbvvrg/0w4gdIC4Ti1pSmvnySCgoXabg5oRzWaRF
-         UFRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW7gUgnWlkOd4x8KuOu4wC1VMLUmXoj6ns7soRGepYL8T0Sdjjw1ncZie0bXeFisxeAUMGzxl0nJ9kc1V8pah6NjUCK+ZxMEiE7myQ=
-X-Gm-Message-State: AOJu0Yw0VnHslS7LF+70VeDMyktXUkIjpF58Edy9TtwEY7G/V0LGOdCw
-	dKWS8JmXHQJTBJBYirp8VBqhQnxB1S0sgRnmn1WIZZtnupdFSxBN
-X-Google-Smtp-Source: AGHT+IHlff9ykIwKw2Ily1s46V3oQWraesXYjGxDSDB1jS2e8r/dTUbFowzbEWJ8GI+BVLtACmtnMQ==
-X-Received: by 2002:a05:6402:28ce:b0:565:e610:c358 with SMTP id ef14-20020a05640228ce00b00565e610c358mr6416071edb.38.1710704876166;
-        Sun, 17 Mar 2024 12:47:56 -0700 (PDT)
-Received: from ALDERLEJK. (89-76-44-138.dynamic.chello.pl. [89.76.44.138])
-        by smtp.gmail.com with ESMTPSA id i24-20020aa7dd18000000b0056ac092a7fasm8234edv.87.2024.03.17.12.47.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Mar 2024 12:47:55 -0700 (PDT)
-From: Kamil Kasperski <ressetkk@gmail.com>
-Date: Sun, 17 Mar 2024 20:44:51 +0100
-Subject: [PATCH v3 3/3] arm64: dts: allwinner: h616: add support for T95 tv
- boxes
+	s=arc-20240116; t=1710724379; c=relaxed/simple;
+	bh=YQHNZw/+pDkOrdqc3nY+J/aL9vD2b94hh83lMstt3/4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=aYEuyEC4NdE7U2c32ldCaPb0X+GTk2SToxbgRP5xRKobY1tVwRfilJYEAK1DXF2j8ioFJQL1bv/Pb6x0FswWDFOmfKUxfB0Nwb6KjTFeKerrxKVy4maEd5N+tPL3q761b0Mx0OgCYHMmPxEaGQC8gqk+WigBCiaz97fWdUzS7FQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CF18A12FC;
+	Sun, 17 Mar 2024 18:13:30 -0700 (PDT)
+Received: from localhost.localdomain (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 50DA33F23F;
+	Sun, 17 Mar 2024 18:12:53 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Yangtao Li <tiny.windzz@gmail.com>,
+	Viresh Kumar <vireshk@kernel.org>,
+	Nishanth Menon <nm@ti.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>
+Cc: linux-pm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	Brandon Cheo Fusi <fusibrandon13@gmail.com>,
+	Martin Botka <martin.botka@somainline.org>,
+	Martin Botka <martin.botka1@gmail.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Sudeep Holla <sudeep.holla@arm.com>
+Subject: [PATCH v2 0/8] cpufreq: sun50i: Add Allwinner H616 support
+Date: Mon, 18 Mar 2024 01:12:20 +0000
+Message-Id: <20240318011228.2626-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.35.8
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240317-add-t95-axp313-support-v3-3-0d63f7c23d37@gmail.com>
-References: <20240317-add-t95-axp313-support-v3-0-0d63f7c23d37@gmail.com>
-In-Reply-To: <20240317-add-t95-axp313-support-v3-0-0d63f7c23d37@gmail.com>
-To: Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- Kamil Kasperski <ressetkk@gmail.com>
-X-Mailer: b4 0.13.0
+Content-Transfer-Encoding: 8bit
 
-Add dtsi file for T95 tv boxes and add initial support for T95 5G AXP313A
-variant with a board name H616-T95MAX-AXP313A-v3.0 Internal storage is not
-accessible due to lack of support for H616 NAND controller.
+This series adds cpufreq support for the Allwinner H616 SoC.
+This v2 is quite some rework compared to Martin's original series from
+about half a year ago[1].
 
-Signed-off-by: Kamil Kasperski <ressetkk@gmail.com>
----
- arch/arm64/boot/dts/allwinner/Makefile             |   1 +
- arch/arm64/boot/dts/allwinner/sun50i-h616-t95.dtsi | 109 +++++++++++++++++++++
- .../dts/allwinner/sun50i-h616-t95max-axp313.dts    |  85 ++++++++++++++++
- 3 files changed, 195 insertions(+)
+The various H616 chips are rated into different speedbins at the factory,
+the bin index is then burned into the efuses. This is very similar to the
+H6, though the location of the speedbin fuse and its encoding differs.
+Also the die revision has a say here, we can derive this from the SoC ID,
+already provided by TF-A through the SMCCC SoC ID interface.
+On top of that not all chips are qualified to reach the full 1.5GHz,
+and the BSP kernel describes different OPPs for each speedbin. This
+requires to add support for the opp-supported-hw DT property, to be able
+to describe those requirements properly.
 
-diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
-index 21149b346a60..294921f12b73 100644
---- a/arch/arm64/boot/dts/allwinner/Makefile
-+++ b/arch/arm64/boot/dts/allwinner/Makefile
-@@ -42,6 +42,7 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6-mini.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-bigtreetech-cb1-manta.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-bigtreetech-pi.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-orangepi-zero2.dtb
-+dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-t95max-axp313.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-x96-mate.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-longanpi-3h.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero2w.dtb
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-t95.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616-t95.dtsi
-new file mode 100644
-index 000000000000..815cf2dac24b
---- /dev/null
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-t95.dtsi
-@@ -0,0 +1,109 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+/*
-+ * Copyright (C) 2024 Kamil Kasperski <ressetkk@gmail.com>
-+ *
-+ * Common DT nodes for H616-based T95 TV boxes
-+ * There are two versions reported with different PMIC variants.
-+ */
-+
-+#include "sun50i-h616.dtsi"
-+
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+/ {
-+	aliases {
-+		ethernet1 = &sdio_wifi;
-+		serial0 = &uart0;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial0:115200n8";
-+	};
-+
-+	reg_vcc5v: vcc5v {
-+		/* board wide 5V supply directly from the DC input */
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc-5v";
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+		regulator-always-on;
-+	};
-+
-+	reg_vcc3v3: vcc3v3 {
-+		/* discrete 3.3V regulator */
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc-3v3";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+		regulator-always-on;
-+	};
-+
-+	wifi_pwrseq: wifi-pwrseq {
-+		compatible = "mmc-pwrseq-simple";
-+		clocks = <&rtc CLK_OSC32K_FANOUT>;
-+		clock-names = "ext_clock";
-+		pinctrl-0 = <&x32clk_fanout_pin>;
-+		pinctrl-names = "default";
-+		reset-gpios = <&pio 6 18 GPIO_ACTIVE_LOW>; /* PG18 */
-+	};
-+};
-+
-+&ehci0 {
-+	status = "okay";
-+};
-+
-+&ehci2 {
-+	status = "okay";
-+};
-+
-+&ir {
-+	status = "okay";
-+};
-+
-+&mmc0 {
-+	cd-gpios = <&pio 8 16 GPIO_ACTIVE_LOW>;	/* PI16 */
-+	bus-width = <4>;
-+	status = "okay";
-+};
-+
-+&mmc1 {
-+	mmc-pwrseq = <&wifi_pwrseq>;
-+	bus-width = <4>;
-+	non-removable;
-+	status = "okay";
-+
-+	sdio_wifi: wifi@1 {
-+		reg = <1>;
-+	};
-+};
-+
-+&ohci0 {
-+	status = "okay";
-+};
-+
-+&ohci2 {
-+	status = "okay";
-+};
-+
-+&uart0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart0_ph_pins>;
-+	status = "okay";
-+};
-+
-+&uart1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart1_pins>, <&uart1_rts_cts_pins>;
-+	uart-has-rtscts;
-+	status = "okay";
-+};
-+
-+&usbotg {
-+	dr_mode = "host";	/* USB A type receptable */
-+	status = "okay";
-+};
-+
-+&usbphy {
-+	status = "okay";
-+};
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-t95max-axp313.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-t95max-axp313.dts
-new file mode 100644
-index 000000000000..c8650aca2407
---- /dev/null
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-t95max-axp313.dts
-@@ -0,0 +1,85 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+/*
-+ * Copyright (C) 2024 Kamil Kasperski <ressetkk@gmail.com>
-+ *
-+ * Configuration for T95 TV box with board label H616-T95MAX-AXP313A-v3.0
-+ */
-+
-+/dts-v1/;
-+
-+#include "sun50i-h616-t95.dtsi"
-+
-+/ {
-+	model = "T95 5G (AXP313)";
-+	compatible = "t95,t95max-axp313", "allwinner,sun50i-h616";
-+};
-+
-+&mmc0 {
-+	vmmc-supply = <&reg_dldo1>;
-+};
-+
-+&mmc1 {
-+	vmmc-supply = <&reg_dldo1>;
-+	vqmmc-supply = <&reg_aldo1>;
-+};
-+
-+&r_i2c {
-+	status = "okay";
-+
-+	axp313: pmic@36 {
-+		compatible = "x-powers,axp313a";
-+		reg = <0x36>;
-+		#interrupt-cells = <1>;
-+		interrupt-controller;
-+		interrupt-parent = <&pio>;
-+
-+		vin1-supply = <&reg_vcc5v>;
-+		vin2-supply = <&reg_vcc5v>;
-+		vin3-supply = <&reg_vcc5v>;
-+
-+		regulators {
-+			reg_aldo1: aldo1 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <1800000>;
-+				regulator-max-microvolt = <1800000>;
-+				regulator-name = "vcc1v8";
-+			};
-+
-+			reg_dldo1: dldo1 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <3300000>;
-+				regulator-max-microvolt = <3300000>;
-+				regulator-name = "vcc3v3";
-+			};
-+
-+			reg_dcdc1: dcdc1 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <810000>;
-+				regulator-max-microvolt = <990000>;
-+				regulator-name = "vdd-gpu-sys";
-+			};
-+
-+			reg_dcdc2: dcdc2 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <810000>;
-+				regulator-max-microvolt = <1100000>;
-+				regulator-name = "vdd-cpu";
-+			};
-+
-+			reg_dcdc3: dcdc3 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <1500000>;
-+				regulator-max-microvolt = <1500000>;
-+				regulator-name = "vdd-dram";
-+			};
-+		};
-+	};
-+};
-+
-+&pio {
-+	vcc-pc-supply = <&reg_aldo1>;
-+	vcc-pf-supply = <&reg_dldo1>;
-+	vcc-pg-supply = <&reg_dldo1>;
-+	vcc-ph-supply = <&reg_dldo1>;
-+	vcc-pi-supply = <&reg_dldo1>;
-+};
+Patch 1/8 exports the SoC ID function, so that we can call it from our
+driver. Patch 2/8 blocks the affected SoCs from the generic DT cpufreq
+driver, patch 3/8 adds the DT binding documentation.
+Patch 4/8 refactors the existing speedbin determination for the H6, to
+be able to plug in the H616 version later more easily.
+Patch 5/8 adds support for the opp-supported-hw property. This is done
+in a generic way, so it's usable for other SoCs as well, and the code
+will figure out if the current DT requires use of this feature.
+Patch 6/8 then eventually adds the H616 bits to the driver, and ties
+that to the new compatible string.
+Patch 7/8 add the CPU OPP table as a .dtsi to the DT directory, the
+values in there were taken from the BSP source.
+Patch 8/8 then enables the OPPs for all boards we have DTs for.
+
+Please have a look, especially patch 5/8 might need some discussion.
+This is based on v6.8, with the THS series on top, which should reach
+mainline in the next days. I plan to send a rebased version after -rc1,
+but wanted to start the discussion early.
+
+Cheers,
+Andre
+
+[1] https://lore.kernel.org/linux-sunxi/20230904-cpufreq-h616-v1-0-b8842e525c43@somainline.org/T/#u
+
+Andre Przywara (2):
+  cpufreq: sun50i: Add support for opp_supported_hw
+  arm64: dts: allwinner: h616: enable DVFS for all boards
+
+Brandon Cheo Fusi (1):
+  cpufreq: sun50i: Refactor speed bin decoding
+
+Martin Botka (5):
+  firmware: smccc: Export revision soc_id function
+  cpufreq: dt-platdev: Blocklist Allwinner H616/618 SoCs
+  dt-bindings: opp: Describe H616 OPPs and opp-supported-hw
+  cpufreq: sun50i: Add H616 support
+  arm64: dts: allwinner: h616: Add CPU OPPs table
+
+ .../allwinner,sun50i-h6-operating-points.yaml |  89 +++++----
+ .../sun50i-h616-bigtreetech-cb1.dtsi          |   5 +
+ .../dts/allwinner/sun50i-h616-cpu-opp.dtsi    | 138 +++++++++++++
+ .../allwinner/sun50i-h616-orangepi-zero2.dts  |   5 +
+ .../dts/allwinner/sun50i-h616-x96-mate.dts    |   5 +
+ .../arm64/boot/dts/allwinner/sun50i-h616.dtsi |   4 +
+ .../allwinner/sun50i-h618-orangepi-zero2w.dts |   5 +
+ .../allwinner/sun50i-h618-orangepi-zero3.dts  |   5 +
+ .../sun50i-h618-transpeed-8k618-t.dts         |   5 +
+ drivers/cpufreq/cpufreq-dt-platdev.c          |   3 +
+ drivers/cpufreq/sun50i-cpufreq-nvmem.c        | 189 +++++++++++++++---
+ drivers/firmware/smccc/smccc.c                |   1 +
+ 12 files changed, 379 insertions(+), 75 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616-cpu-opp.dtsi
 
 -- 
-2.34.1
+2.35.8
 
