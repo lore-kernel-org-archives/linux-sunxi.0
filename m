@@ -1,44 +1,38 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83D202D045
-	for <linux-sunxi@lists.linux.dev>; Mon, 18 Mar 2024 10:51:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1563C36B1C
+	for <linux-sunxi@lists.linux.dev>; Mon, 18 Mar 2024 11:43:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710759121; cv=none; b=a5Kx3y/JRd2nVpCWT5QEdXK8pKaKKZf1C1Qm7Yf12WjIriBcEZM5/WbRAUf4dXLrBQHChb97WUJC5uS9aMxcnZVhZWCRYpBN1qHg3tibHUZu61qzJlOOMyE/WMZZQ3E12T6D6nVwBfDRnQJpBPTuVgt4JGocM+GrXz3YkylKg2U=
+	t=1710762183; cv=none; b=p00CeEJfAqIuvFFFXbayFDeWf6DjbhUeqfUjBeKt7suSmLuHg0Jd3yYgZP1XdMSydetAbf/K8NiB3wm8epV8pfvdZKsjdRJWGeS+twveKxmuVPjET+Zj8P12Ss5B9jga8T3CUvnYn0k4evcXc0D/oXcb31PGFTGXfll7uyKDNig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710759121; c=relaxed/simple;
-	bh=/JWCp5q2+nXWg7kGQTCue5qLlqIwKCcMXWzyiqkjiPo=;
+	s=arc-20240116; t=1710762183; c=relaxed/simple;
+	bh=u3IBIGiwMrtIsxvZh/YvI9+XCRfa0ixwSyRVrL93rCc=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WNnKI0vRVs6zhrzBr5IvfcYgumjDHhtot6JhQlU+9/eYsS+dD19txIul7bbfiMIslLEjyLmqL0v3UQIBu/zrqWn5LZzsvG0h7IBZOV5bogejEF6aQ274ZxbP6n9RVveOHmS0drkXpntCAu3WQX4kQlKwMyTllF1tJoChtXml0Hc=
+	 MIME-Version:Content-Type; b=NqbfzJQscW3JqXJVA20q621Wk8erUsesWE2T9VjU5S6QMDnvPo/ZaHVLo0KjPzK70ExJeO1NQASPi+r86Vawj7LAL1OEOqUUC49Rc7aWbi8e+/XA4TkeXlQBBhece6ZXMGZQhYMgV/zn2kQn+nAcNORlEC307J8s/wA+s/aYiMA=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6C3F1DA7;
-	Mon, 18 Mar 2024 03:52:33 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6B7C1DA7;
+	Mon, 18 Mar 2024 04:43:36 -0700 (PDT)
 Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 297173F762;
-	Mon, 18 Mar 2024 03:51:56 -0700 (PDT)
-Date: Mon, 18 Mar 2024 10:51:53 +0000
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E73D23F762;
+	Mon, 18 Mar 2024 04:42:59 -0700 (PDT)
+Date: Mon, 18 Mar 2024 11:42:57 +0000
 From: Andre Przywara <andre.przywara@arm.com>
-To: Amit Singh Tomar <amitsinght@marvell.com>
-Cc: Yangtao Li <tiny.windzz@gmail.com>, Viresh Kumar <vireshk@kernel.org>,
- Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
+To: Kamil Kasperski <ressetkk@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
  <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
  Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, "Rafael J . Wysocki"
- <rafael@kernel.org>, "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, Brandon Cheo Fusi
- <fusibrandon13@gmail.com>, Martin Botka <martin.botka@somainline.org>,
- Martin Botka <martin.botka1@gmail.com>
-Subject: Re: [PATCH v2 8/8] arm64: dts: allwinner: h616: enable DVFS for all
- boards
-Message-ID: <20240318105153.2c666647@donnerap.manchester.arm.com>
-In-Reply-To: <MW4PR18MB5084E8C6D673B73FC208190BC62D2@MW4PR18MB5084.namprd18.prod.outlook.com>
-References: <MW4PR18MB5084E8C6D673B73FC208190BC62D2@MW4PR18MB5084.namprd18.prod.outlook.com>
+ Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v3 3/3] arm64: dts: allwinner: h616: add support for T95
+ tv boxes
+Message-ID: <20240318114257.46667aef@donnerap.manchester.arm.com>
+In-Reply-To: <20240317-add-t95-axp313-support-v3-3-0d63f7c23d37@gmail.com>
+References: <20240317-add-t95-axp313-support-v3-0-0d63f7c23d37@gmail.com>
+	<20240317-add-t95-axp313-support-v3-3-0d63f7c23d37@gmail.com>
 Organization: ARM
 X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
@@ -50,181 +44,274 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Mon, 18 Mar 2024 04:39:46 +0000
-Amit Singh Tomar <amitsinght@marvell.com> wrote:
+On Sun, 17 Mar 2024 20:44:51 +0100
+Kamil Kasperski <ressetkk@gmail.com> wrote:
 
-Hi Amit,
+Hi Kamil,
 
-can you please try to reply using the standard quoted line prefix ('>'),
-and cut the header? I almost missed your question in here.
+thanks a lot for putting together those patches and sending them
+for upstream inclusion!
 
-> Hi,
+> Add dtsi file for T95 tv boxes and add initial support for T95 5G AXP313A
+> variant with a board name H616-T95MAX-AXP313A-v3.0 Internal storage is not
+> accessible due to lack of support for H616 NAND controller.
+
+Them using raw NAND is really unfortunate. I think the original T95 box
+used eMMC?
+
 > 
-> -----Original Message-----
-> From: linux-arm-kernel <linux-arm-kernel-bounces@lists.infradead.org> On Behalf Of Andre Przywara
-> Sent: Monday, March 18, 2024 6:42 AM
-> To: Yangtao Li <tiny.windzz@gmail.com>; Viresh Kumar <vireshk@kernel.org>; Nishanth Menon <nm@ti.com>; Stephen Boyd <sboyd@kernel.org>; Rob Herring <robh+dt@kernel.org>; Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>; Conor Dooley <conor+dt@kernel.org>; Chen-Yu Tsai <wens@csie.org>; Jernej Skrabec <jernej.skrabec@gmail.com>; Samuel Holland <samuel@sholland.org>; Rafael J . Wysocki <rafael@kernel.org>
-> Cc: linux-pm@vger.kernel.org; devicetree@vger.kernel.org; linux-sunxi@lists.linux.dev; linux-arm-kernel@lists.infradead.org; Brandon Cheo Fusi <fusibrandon13@gmail.com>; Martin Botka <martin.botka@somainline.org>; Martin Botka <martin.botka1@gmail.com>
-> Subject: [EXTERNAL] [PATCH v2 8/8] arm64: dts: allwinner: h616: enable DVFS for all boards
+> Signed-off-by: Kamil Kasperski <ressetkk@gmail.com>
+> ---
+>  arch/arm64/boot/dts/allwinner/Makefile             |   1 +
+>  arch/arm64/boot/dts/allwinner/sun50i-h616-t95.dtsi | 109 +++++++++++++++++++++
+>  .../dts/allwinner/sun50i-h616-t95max-axp313.dts    |  85 ++++++++++++++++
+>  3 files changed, 195 insertions(+)
 > 
-> 
-> With the DT bindings now describing the format of the CPU OPP tables, we can include the OPP table in each board's .dts file, and specify the CPU power supply.
-> This allows to enable DVFS, and get up to 50% of performance benefit in the highest OPP, or up to 60% power savings in the lowest OPP, compared to the fixed 1GHz @ 1.0V OPP we are running in by default
-> at the moment.
-> [Amit] Could you please elaborate, what test were run to see 50 % performance benefits?
+> diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
+> index 21149b346a60..294921f12b73 100644
+> --- a/arch/arm64/boot/dts/allwinner/Makefile
+> +++ b/arch/arm64/boot/dts/allwinner/Makefile
+> @@ -42,6 +42,7 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6-mini.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-bigtreetech-cb1-manta.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-bigtreetech-pi.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-orangepi-zero2.dtb
+> +dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-t95max-axp313.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-x96-mate.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-longanpi-3h.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero2w.dtb
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-t95.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616-t95.dtsi
+> new file mode 100644
+> index 000000000000..815cf2dac24b
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-t95.dtsi
+> @@ -0,0 +1,109 @@
+> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> +/*
+> + * Copyright (C) 2024 Kamil Kasperski <ressetkk@gmail.com>
+> + *
+> + * Common DT nodes for H616-based T95 TV boxes
+> + * There are two versions reported with different PMIC variants.
+> + */
+> +
+> +#include "sun50i-h616.dtsi"
+> +
+> +#include <dt-bindings/gpio/gpio.h>
+> +#include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +/ {
+> +	aliases {
+> +		ethernet1 = &sdio_wifi;
+> +		serial0 = &uart0;
+> +	};
+> +
+> +	chosen {
+> +		stdout-path = "serial0:115200n8";
+> +	};
+> +
+> +	reg_vcc5v: vcc5v {
+> +		/* board wide 5V supply directly from the DC input */
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "vcc-5v";
+> +		regulator-min-microvolt = <5000000>;
+> +		regulator-max-microvolt = <5000000>;
+> +		regulator-always-on;
+> +	};
+> +
+> +	reg_vcc3v3: vcc3v3 {
+> +		/* discrete 3.3V regulator */
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "vcc-3v3";
+> +		regulator-min-microvolt = <3300000>;
+> +		regulator-max-microvolt = <3300000>;
+> +		regulator-always-on;
+> +	};
+> +
+> +	wifi_pwrseq: wifi-pwrseq {
 
-Currently all H616 boards running mainline firmware and kernels run at a
-fixed 1GHz CPU clock frequency. If you happen to have a good SoC (bin 1 or
-3), this patchset will allow you to run at 1.5 GHz, which is 50% faster.
-So anything that scales with CPU frequency should run much quicker.
+Krzysztof recently sent a patch to just use "pwrseq" as the node name,
+so can you do the same here?
+
+https://lore.kernel.org/linux-sunxi/20240317184130.157695-2-krzysztof.kozlowski@linaro.org/T/#u
+
+> +		compatible = "mmc-pwrseq-simple";
+> +		clocks = <&rtc CLK_OSC32K_FANOUT>;
+> +		clock-names = "ext_clock";
+> +		pinctrl-0 = <&x32clk_fanout_pin>;
+> +		pinctrl-names = "default";
+> +		reset-gpios = <&pio 6 18 GPIO_ACTIVE_LOW>; /* PG18 */
+> +	};
+> +};
+> +
+> +&ehci0 {
+> +	status = "okay";
+> +};
+> +
+> +&ehci2 {
+> +	status = "okay";
+> +};
+> +
+> +&ir {
+> +	status = "okay";
+> +};
+> +
+> +&mmc0 {
+> +	cd-gpios = <&pio 8 16 GPIO_ACTIVE_LOW>;	/* PI16 */
+> +	bus-width = <4>;
+> +	status = "okay";
+> +};
+> +
+> +&mmc1 {
+> +	mmc-pwrseq = <&wifi_pwrseq>;
+> +	bus-width = <4>;
+> +	non-removable;
+> +	status = "okay";
+> +
+> +	sdio_wifi: wifi@1 {
+> +		reg = <1>;
+> +	};
+
+So does the WiFi work with mainline drivers? IIUC the BCM43342 is not
+supported by the existing Broadcom drivers?
+
+> +};
+> +
+> +&ohci0 {
+> +	status = "okay";
+> +};
+> +
+> +&ohci2 {
+> +	status = "okay";
+> +};
+> +
+> +&uart0 {
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&uart0_ph_pins>;
+> +	status = "okay";
+> +};
+> +
+> +&uart1 {
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&uart1_pins>, <&uart1_rts_cts_pins>;
+> +	uart-has-rtscts;
+> +	status = "okay";
+
+Similar question here, what is the Bluetooth situation in mainline? I
+guess it's not supported, since you didn't put a BT node in here?
+
+> +};
+> +
+> +&usbotg {
+> +	dr_mode = "host";	/* USB A type receptable */
+> +	status = "okay";
+> +};
+> +
+> +&usbphy {
+> +	status = "okay";
+> +};
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-t95max-axp313.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-t95max-axp313.dts
+> new file mode 100644
+> index 000000000000..c8650aca2407
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-t95max-axp313.dts
+> @@ -0,0 +1,85 @@
+> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> +/*
+> + * Copyright (C) 2024 Kamil Kasperski <ressetkk@gmail.com>
+> + *
+> + * Configuration for T95 TV box with board label H616-T95MAX-AXP313A-v3.0
+> + */
+> +
+> +/dts-v1/;
+> +
+> +#include "sun50i-h616-t95.dtsi"
+> +
+> +/ {
+> +	model = "T95 5G (AXP313)";
+> +	compatible = "t95,t95max-axp313", "allwinner,sun50i-h616";
+> +};
+> +
+> +&mmc0 {
+> +	vmmc-supply = <&reg_dldo1>;
+> +};
+> +
+> +&mmc1 {
+> +	vmmc-supply = <&reg_dldo1>;
+> +	vqmmc-supply = <&reg_aldo1>;
+> +};
+> +
+> +&r_i2c {
+> +	status = "okay";
+> +
+> +	axp313: pmic@36 {
+> +		compatible = "x-powers,axp313a";
+> +		reg = <0x36>;
+> +		#interrupt-cells = <1>;
+> +		interrupt-controller;
+> +		interrupt-parent = <&pio>;
+
+I don't think you need interrupt-parent unless you also actually specify
+an interrupt line.
+(But please keep #interrupt-cells and interrupt-controller.)
+
+> +
+> +		vin1-supply = <&reg_vcc5v>;
+> +		vin2-supply = <&reg_vcc5v>;
+> +		vin3-supply = <&reg_vcc5v>;
+> +
+> +		regulators {
+> +			reg_aldo1: aldo1 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt = <1800000>;
+> +				regulator-max-microvolt = <1800000>;
+> +				regulator-name = "vcc1v8";
+> +			};
+> +
+> +			reg_dldo1: dldo1 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt = <3300000>;
+> +				regulator-max-microvolt = <3300000>;
+> +				regulator-name = "vcc3v3";
+> +			};
+> +
+> +			reg_dcdc1: dcdc1 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt = <810000>;
+> +				regulator-max-microvolt = <990000>;
+> +				regulator-name = "vdd-gpu-sys";
+> +			};
+> +
+> +			reg_dcdc2: dcdc2 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt = <810000>;
+> +				regulator-max-microvolt = <1100000>;
+> +				regulator-name = "vdd-cpu";
+> +			};
+> +
+> +			reg_dcdc3: dcdc3 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt = <1500000>;
+> +				regulator-max-microvolt = <1500000>;
+> +				regulator-name = "vdd-dram";
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&pio {
+> +	vcc-pc-supply = <&reg_aldo1>;
+> +	vcc-pf-supply = <&reg_dldo1>;
+> +	vcc-pg-supply = <&reg_dldo1>;
+
+So if vqmmc-supply for MMC1 is at the 1.8V from ALDO1, that must mean that
+the whole of PortG is at 1.8V, right? So I think this would need to be
+reg_aldo1 here.
+
+Apart from those minor things it looks good to me.
 
 Cheers,
 Andre
 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  .../boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi      | 5 +++++
->  arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts | 5 +++++
->  arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts       | 5 +++++
->  .../arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts | 5 +++++  arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts | 5 +++++
->  .../boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts     | 5 +++++
->  6 files changed, 30 insertions(+)
+> +	vcc-ph-supply = <&reg_dldo1>;
+> +	vcc-pi-supply = <&reg_dldo1>;
+> +};
 > 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi
-> index 1fed2b46cfe87..86e58d1ed23ea 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi
-> @@ -6,6 +6,7 @@
->  /dts-v1/;
->  
->  #include "sun50i-h616.dtsi"
-> +#include "sun50i-h616-cpu-opp.dtsi"
->  
->  #include <dt-bindings/gpio/gpio.h>
->  #include <dt-bindings/interrupt-controller/arm-gic.h>
-> @@ -62,6 +63,10 @@ wifi_pwrseq: wifi-pwrseq {
->  	};
->  };
->  
-> +&cpu0 {
-> +	cpu-supply = <&reg_dcdc2>;
-> +};
-> +
->  &mmc0 {
->  	vmmc-supply = <&reg_dldo1>;
->  	/* Card detection pin is not connected */ diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-> index b5d713926a341..a360d8567f955 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-> @@ -6,12 +6,17 @@
->  /dts-v1/;
->  
->  #include "sun50i-h616-orangepi-zero.dtsi"
-> +#include "sun50i-h616-cpu-opp.dtsi"
->  
->  / {
->  	model = "OrangePi Zero2";
->  	compatible = "xunlong,orangepi-zero2", "allwinner,sun50i-h616";  };
->  
-> +&cpu0 {
-> +	cpu-supply = <&reg_dcdca>;
-> +};
-> +
->  &emac0 {
->  	allwinner,rx-delay-ps = <3100>;
->  	allwinner,tx-delay-ps = <700>;
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts
-> index 959b6fd18483b..26d25b5b59e0f 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts
-> @@ -6,6 +6,7 @@
->  /dts-v1/;
->  
->  #include "sun50i-h616.dtsi"
-> +#include "sun50i-h616-cpu-opp.dtsi"
->  
->  #include <dt-bindings/gpio/gpio.h>
->  #include <dt-bindings/interrupt-controller/arm-gic.h>
-> @@ -32,6 +33,10 @@ reg_vcc5v: vcc5v {
->  	};
->  };
->  
-> +&cpu0 {
-> +	cpu-supply = <&reg_dcdca>;
-> +};
-> +
->  &ehci0 {
->  	status = "okay";
->  };
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts
-> index 21ca1977055d9..6a4f0da972330 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts
-> @@ -6,6 +6,7 @@
->  /dts-v1/;
->  
->  #include "sun50i-h616.dtsi"
-> +#include "sun50i-h616-cpu-opp.dtsi"
->  
->  #include <dt-bindings/gpio/gpio.h>
->  #include <dt-bindings/interrupt-controller/arm-gic.h>
-> @@ -53,6 +54,10 @@ reg_vcc3v3: vcc3v3 {
->  	};
->  };
->  
-> +&cpu0 {
-> +	cpu-supply = <&reg_dcdc2>;
-> +};
-> +
->  &ehci1 {
->  	status = "okay";
->  };
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
-> index b3b1b8692125f..e1cd7572a14ce 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
-> @@ -6,12 +6,17 @@
->  /dts-v1/;
->  
->  #include "sun50i-h616-orangepi-zero.dtsi"
-> +#include "sun50i-h616-cpu-opp.dtsi"
->  
->  / {
->  	model = "OrangePi Zero3";
->  	compatible = "xunlong,orangepi-zero3", "allwinner,sun50i-h618";  };
->  
-> +&cpu0 {
-> +	cpu-supply = <&reg_dcdc2>;
-> +};
-> +
->  &emac0 {
->  	allwinner,tx-delay-ps = <700>;
->  	phy-mode = "rgmii-rxid";
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts b/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts
-> index 8ea1fd41aebaa..2dd178a164fbe 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts
-> @@ -6,6 +6,7 @@
->  /dts-v1/;
->  
->  #include "sun50i-h616.dtsi"
-> +#include "sun50i-h616-cpu-opp.dtsi"
->  
->  #include <dt-bindings/gpio/gpio.h>
->  #include <dt-bindings/interrupt-controller/arm-gic.h>
-> @@ -41,6 +42,10 @@ reg_vcc3v3: vcc3v3 {
->  	};
->  };
->  
-> +&cpu0 {
-> +	cpu-supply = <&reg_dcdc2>;
-> +};
-> +
->  &ehci0 {
->  	status = "okay";
->  };
-> --
-> 2.35.8
-> 
-> 
-
