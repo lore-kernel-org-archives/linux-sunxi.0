@@ -1,294 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D2FD7D096;
-	Tue, 19 Mar 2024 10:21:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5930E25778
+	for <linux-sunxi@lists.linux.dev>; Tue, 19 Mar 2024 17:50:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710843710; cv=none; b=SOqR/eqGprPrgIEwFdEAq6fiWawO8lX/1pyGgnNWFKava4f92LCMmOUx4cU13QBvXlpGJso83F3eUheh2WwRqTINWdE0/6Bo998FNZJ1qDp9Zl3l3tfFiUYIwEvA/L9ZZQzWWupWidiJ2/425mADx1DEOetJCnvrLwPFgLhBRLU=
+	t=1710870629; cv=none; b=mROUG+QYNRw08QvHNftd/RFkDVtNXUqMV52fkpWBfuhwy54BTvjzczcxtW5/ALBo5CfoA/0JD5Lj1pqcFdq7kcFNA2UdO7EiEfSTvU/C2apJyQOG9+aYrhswCzjzNAXoiBV1m6vuX+KZeLWNfvI/i++5/B3XFax85RH/esjud68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710843710; c=relaxed/simple;
-	bh=LQRJqrShl8lL6hDmy7i+nFgigQ3aCd966E5AFrLN2Y8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aYcMumMcROoCW5xjFG7cjWAIMRWyEu01N61TJZ521Ze9JqDbUXT8NNqz0GAfIxb1AuJIdMZujGXBrj/l36DbU+uyYUla3NUPvmMZzGK6qOMF7ZWlT3imp3wO3qrJb9Db/zMQIfiKIKWJPaJs3ctGSCMcXCwZi4ZYPgcDdnIhHow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X3dmr0PL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1710870629; c=relaxed/simple;
+	bh=FC9qHgACVBuEChJbgc+E+ma8kD4QWpYsJ/CWRaVS0Pc=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=dM5yXR+O2PKxYlS+nHfDG3/0FO8Lm8FUyVhi9Mer4ZZIi7SiLFtVNuefoOcyfzEedTjqRu1CXt5o4kVkYXJqdhl+AQLmgi7RlBKx6hz0DSI/ZAaiE0DOQ0FHFlvKlBCLMv3C79lrazYpRIyFhOQZVpPdZ1DB1lsZStWTnDewH2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mMv4LUK8; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X3dmr0PL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61254C433F1;
-	Tue, 19 Mar 2024 10:21:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710843709;
-	bh=LQRJqrShl8lL6hDmy7i+nFgigQ3aCd966E5AFrLN2Y8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=X3dmr0PLHavDuoM68/QuGgElb/8kOvBtF0DTtpAK++OG8G164ABhe+f9jC45EszTB
-	 Vs1lefCt9oyU5P53WzxO3QHshXXtv0DYzuxaTfuKUo+8yKJQ5s3WwTPP2WAD+HqjRv
-	 B/z3pDeF6O8KyQVjgywEhI083KLegBTcQzcKkTVTAvnlIv7Lg9AiM/7A+vJfX9nRd6
-	 iUt809Kkyh5bAq53RcaGdWdbDAKjlJPHJB9pH/uKrMQRSOBVTAxA49r3QyH2WRUhVW
-	 vQP95iqFE5cfQF0mH+ztO7zlAIh22ObIDKMEDkw5G+UwINPxqHMp637HmBeEDvfqA9
-	 NMCi2hrdoNsmQ==
-Date: Tue, 19 Mar 2024 11:21:47 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
-	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v9 20/27] drm/connector: hdmi: Add Infoframes generation
-Message-ID: <20240319-gabby-marigold-poodle-c5a27f@houat>
-References: <20240311-kms-hdmi-connector-state-v9-0-d45890323344@kernel.org>
- <20240311-kms-hdmi-connector-state-v9-20-d45890323344@kernel.org>
- <ZfQFLR2xO6vUpAJ9@intel.com>
- <20240318-abstract-myna-of-exercise-adfcde@houat>
- <ZfhnsgYfwe_3mpWx@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mMv4LUK8"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-563cb3ba9daso6715587a12.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 19 Mar 2024 10:50:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710870625; x=1711475425; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=90Uve//wIswBhTh9MRoH8u7ai/wsqyznS8g3f0fG1ps=;
+        b=mMv4LUK8FF34KNPO0FuB3bEP/wMHiHdkUPCh28+ApZTLz+MzYMhZ50VcvKeQR/wqZj
+         0QcjdWM88NfKFJv4ChYLNoOpl7OQsvYcHEuXIq34NCH0+51wWfNSSJDA0IQSE6V/Dz7U
+         5z9aT3bdNNjTethBfUTm1F0WQ1X7pJvEbTaQ8+u3Y+QWKts6Adim/BVM3PsKQCRjEAbR
+         HVhoGHQtOIfWcwMtLIhrPDP+t8fxmhqO4zEOWV98sKMQvdDtTFrTLm69DhQo1h5FuDan
+         xyLOiFCdAy8/lS9SrbIJ9d1DWZQ25vopcwaUQIlzayEKDnbcOKjGQ4pEp7EiwMyIxRFP
+         rl/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710870625; x=1711475425;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=90Uve//wIswBhTh9MRoH8u7ai/wsqyznS8g3f0fG1ps=;
+        b=YsrNeoECoHmm2wu8XbXHA1Hk0xrxH+DDRhvXbxSf6LIGJdhEj6iy6h8i+QMNRYjj5T
+         5MAK/Y5f90GYuWwAg14xS80j04q6nm2QSTOGic25e68NMx15BTr+0Wyu4MMcsI1OxoKg
+         kPNHR/KrLdAZWT/8sPTxu9vlN8K1Zut2SVRB1/78pyVMtE7An2Hkqo9EQpSDXPxjVqwx
+         QrdbfbshjGHbzFDqM8akVOSaBddlYcFydO0dVvRfUCURPs5uNOJq4fxq60OOt5JNbkfJ
+         57pttC/hI5a/cUOW6hc5tOfovs2w05NQ2SX3D1JKT/8X3dsoSiUI0bkzwLscsu1HrwFA
+         bpJA==
+X-Forwarded-Encrypted: i=1; AJvYcCVDGRWaA7jZ7f2rDvbjT8rKDvcokSGBTgENAETsDwRLVBUUtk1sLRjpwis5dyFwyt931mu38BIxccOO1IaG3zpVXx9Snl+/qQE0PqM=
+X-Gm-Message-State: AOJu0YxpL8h0PsBi5Gw+du4EF6fpstX1jWmb3OwnoV0V4batFWMGR2ET
+	rCkV9b3OU7wIniMRfiBxMs863IlaMuNpvqH6GEuCheAVP76fIyb4
+X-Google-Smtp-Source: AGHT+IF7vuhT7/C4Fxt4OmDcbKvKSoBM91Kwo4Ruhq+2j1nPzidv7MHrmILAqwkpq6LYy5E38Gxm7w==
+X-Received: by 2002:a05:6402:500e:b0:567:9fef:f7ee with SMTP id p14-20020a056402500e00b005679feff7eemr3011457eda.16.1710870625386;
+        Tue, 19 Mar 2024 10:50:25 -0700 (PDT)
+Received: from ALDERLEJK. (89-76-44-138.dynamic.chello.pl. [89.76.44.138])
+        by smtp.gmail.com with ESMTPSA id et5-20020a056402378500b0056ba8b68505sm84329edb.92.2024.03.19.10.50.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Mar 2024 10:50:25 -0700 (PDT)
+From: Kamil Kasperski <ressetkk@gmail.com>
+Subject: [PATCH v4 0/3] Add initial support for T95 TV boxes
+Date: Tue, 19 Mar 2024 18:50:21 +0100
+Message-Id: <20240319-add-t95-axp313-support-v4-0-6204b6d23229@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6n43iydiwru5gl6x"
-Content-Disposition: inline
-In-Reply-To: <ZfhnsgYfwe_3mpWx@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAF3Q+WUC/43NwQqDMAyA4VeRntfRNmrrTnuPsUMxVQvTltYVh
+ /juq8Jgl8FO4Q/ky0qiCdZEcilWEkyy0bopR3kqSDvoqTfUYm4imCgZ8IpqRDo3eS4eOND49N6
+ FmVYdoFZNUxtEko99MJ1dDvh2zz3YOLvwOv4ksW8/pPxFJkEZNaAYCMW5rNS1H7V9nFs3kp1M8
+ B8DmWFYQydbAQjym9m27Q2ElnE6AwEAAA==
+To: Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ Kamil Kasperski <ressetkk@gmail.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.13.0
 
+Changes in v4:
+- change wifi pwrseq node name to 'pwrseq' in sun50i-h616-t95.dtsi
+- replace vcc-pg-supply value to reg_aldo1 in &pio
 
---6n43iydiwru5gl6x
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+- Link to v3: https://lore.kernel.org/r/20240317-add-t95-axp313-support-v3-0-0d63f7c23d37@gmail.com
 
-On Mon, Mar 18, 2024 at 06:11:30PM +0200, Ville Syrj=E4l=E4 wrote:
-> On Mon, Mar 18, 2024 at 02:49:47PM +0100, Maxime Ripard wrote:
-> > Hi,
-> >=20
-> > On Fri, Mar 15, 2024 at 10:22:05AM +0200, Ville Syrj=E4l=E4 wrote:
-> > > On Mon, Mar 11, 2024 at 03:49:48PM +0100, Maxime Ripard wrote:
-> > > > Infoframes in KMS is usually handled by a bunch of low-level helpers
-> > > > that require quite some boilerplate for drivers. This leads to
-> > > > discrepancies with how drivers generate them, and which are actually
-> > > > sent.
-> > > >=20
-> > > > Now that we have everything needed to generate them in the HDMI
-> > > > connector state, we can generate them in our common logic so that
-> > > > drivers can simply reuse what we precomputed.
-> > > >=20
-> > > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > > > ---
-> > > >  drivers/gpu/drm/Kconfig                            |   1 +
-> > > >  drivers/gpu/drm/drm_atomic_state_helper.c          | 323 +++++++++=
-++++++++++++
-> > > >  drivers/gpu/drm/drm_connector.c                    |  14 +
-> > > >  .../gpu/drm/tests/drm_atomic_state_helper_test.c   |   1 +
-> > > >  drivers/gpu/drm/tests/drm_connector_test.c         |  12 +
-> > > >  include/drm/drm_atomic_state_helper.h              |   8 +
-> > > >  include/drm/drm_connector.h                        | 133 +++++++++
-> > > >  7 files changed, 492 insertions(+)
-> > > >=20
-> > > > diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> > > > index 872edb47bb53..ad9c467e20ce 100644
-> > > > --- a/drivers/gpu/drm/Kconfig
-> > > > +++ b/drivers/gpu/drm/Kconfig
-> > > > @@ -97,10 +97,11 @@ config DRM_KUNIT_TEST
-> > > >  	  If in doubt, say "N".
-> > > > =20
-> > > >  config DRM_KMS_HELPER
-> > > >  	tristate
-> > > >  	depends on DRM
-> > > > +	select DRM_DISPLAY_HDMI_HELPER
-> > > >  	help
-> > > >  	  CRTC helpers for KMS drivers.
-> > > > =20
-> > > >  config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
-> > > >          bool "Enable refcount backtrace history in the DP MST help=
-ers"
-> > > > diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gp=
-u/drm/drm_atomic_state_helper.c
-> > > > index e66272c0d006..2bf53666fc9d 100644
-> > > > --- a/drivers/gpu/drm/drm_atomic_state_helper.c
-> > > > +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-> > > > @@ -36,10 +36,12 @@
-> > > >  #include <drm/drm_plane.h>
-> > > >  #include <drm/drm_print.h>
-> > > >  #include <drm/drm_vblank.h>
-> > > >  #include <drm/drm_writeback.h>
-> > > > =20
-> > > > +#include <drm/display/drm_hdmi_helper.h>
-> > > > +
-> > > >  #include <linux/slab.h>
-> > > >  #include <linux/dma-fence.h>
-> > > > =20
-> > > >  /**
-> > > >   * DOC: atomic state reset and initialization
-> > > > @@ -912,10 +914,143 @@ hdmi_compute_config(const struct drm_connect=
-or *connector,
-> > > >  	}
-> > > > =20
-> > > >  	return -EINVAL;
-> > > >  }
-> > > > =20
-> > > > +static int hdmi_generate_avi_infoframe(const struct drm_connector =
-*connector,
-> > > > +				       struct drm_connector_state *state)
-> > > > +{
-> > > > +	const struct drm_display_mode *mode =3D
-> > > > +		connector_state_get_mode(state);
-> > > > +	struct drm_connector_hdmi_infoframe *infoframe =3D
-> > > > +		&state->hdmi.infoframes.avi;
-> > > > +	struct hdmi_avi_infoframe *frame =3D
-> > > > +		&infoframe->data.avi;
-> > > > +	bool is_full_range =3D state->hdmi.is_full_range;
-> > > > +	enum hdmi_quantization_range rgb_quant_range =3D
-> > > > +		is_full_range ? HDMI_QUANTIZATION_RANGE_FULL : HDMI_QUANTIZATION=
-_RANGE_LIMITED;
-> > > > +	int ret;
-> > > > +
-> > > > +	ret =3D drm_hdmi_avi_infoframe_from_display_mode(frame, connector=
-, mode);
-> > > > +	if (ret)
-> > > > +		return ret;
-> > > > +
-> > > > +	frame->colorspace =3D state->hdmi.output_format;
-> > > > +
-> > > > +	drm_hdmi_avi_infoframe_quant_range(frame, connector, mode, rgb_qu=
-ant_range);
-> > >=20
-> > > drm_hdmi_avi_infoframe_quant_range() doesn't handle YCbCr currently.
-> >=20
-> > I guess it's not really a problem anymore if we drop YUV422 selection,
-> > but I'll add a comment.
-> >=20
-> > > > +	drm_hdmi_avi_infoframe_colorimetry(frame, state);
-> > > > +	drm_hdmi_avi_infoframe_bars(frame, state);
-> > > > +
-> > > > +	infoframe->set =3D true;
-> > > > +
-> > > > +	return 0;
-> > > > +}
-> > > > +
-> > > <snip>
-> > > > +
-> > > > +#define UPDATE_INFOFRAME(c, os, ns, i)				\
-> > > > +	write_or_clear_infoframe(c,				\
-> > > > +				 &(c)->hdmi.infoframes.i,	\
-> > > > +				 &(os)->hdmi.infoframes.i,	\
-> > > > +				 &(ns)->hdmi.infoframes.i)
-> > >=20
-> > > This macro feels like pointless obfuscation to me.
-> >=20
-> > I'll remove it then.
-> >=20
-> > > <snip>
-> > > > @@ -1984,20 +2063,73 @@ struct drm_connector {
-> > > > =20
-> > > >  	/**
-> > > >  	 * @hdmi: HDMI-related variable and properties.
-> > > >  	 */
-> > > >  	struct {
-> > > > +#define DRM_CONNECTOR_HDMI_VENDOR_LEN	8
-> > > > +		/**
-> > > > +		 * @vendor: HDMI Controller Vendor Name
-> > > > +		 */
-> > > > +		unsigned char vendor[DRM_CONNECTOR_HDMI_VENDOR_LEN] __nonstring;
-> > > > +
-> > > > +#define DRM_CONNECTOR_HDMI_PRODUCT_LEN	16
-> > > > +		/**
-> > > > +		 * @product: HDMI Controller Product Name
-> > > > +		 */
-> > > > +		unsigned char product[DRM_CONNECTOR_HDMI_PRODUCT_LEN] __nonstrin=
-g;
-> > > > +
-> > > >  		/**
-> > > >  		 * @supported_formats: Bitmask of @hdmi_colorspace
-> > > >  		 * supported by the controller.
-> > > >  		 */
-> > > >  		unsigned long supported_formats;
-> > > > =20
-> > > >  		/**
-> > > >  		 * @funcs: HDMI connector Control Functions
-> > > >  		 */
-> > > >  		const struct drm_connector_hdmi_funcs *funcs;
-> > > > +
-> > > > +		/**
-> > > > +		 * @infoframes: Current Infoframes output by the connector
-> > > > +		 */
-> > > > +		struct {
-> > > > +			/**
-> > > > +			 * @lock: Mutex protecting against concurrent access to
-> > > > +			 * the infoframes, most notably between KMS and ALSA.
-> > > > +			 */
-> > > > +			struct mutex lock;
-> > > > +
-> > > > +			/**
-> > > > +			 * @audio: Current Audio Infoframes structure. Protected
-> > > > +			 * by @lock.
-> > > > +			 */
-> > > > +			struct drm_connector_hdmi_infoframe audio;
-> > > > +
-> > > > +			/**
-> > > > +			 * @avi: Current AVI Infoframes structure. Protected by
-> > > > +			 * @lock.
-> > > > +			 */
-> > > > +			struct drm_connector_hdmi_infoframe avi;
-> > > > +
-> > > > +			/**
-> > > > +			 * @hdr_drm: Current DRM (Dynamic Range and Mastering)
-> > > > +			 * Infoframes structure. Protected by @lock.
-> > > > +			 */
-> > > > +			struct drm_connector_hdmi_infoframe hdr_drm;
-> > > > +
-> > > > +			/**
-> > > > +			 * @spd: Current SPD Infoframes structure. Protected by
-> > > > +			 * @lock.
-> > > > +			 */
-> > > > +			struct drm_connector_hdmi_infoframe spd;
-> > > > +
-> > > > +			/**
-> > > > +			 * @vendor: Current HDMI Vendor Infoframes structure.
-> > > > +			 * Protected by @lock.
-> > > > +			 */
-> > > > +			struct drm_connector_hdmi_infoframe hdmi;
-> > > > +		} infoframes;
-> > > >  	} hdmi;
-> > >=20
-> > > What's the deal with this bloat? These are already tracked in the
-> > > connector's state so this looks entirely redundant.
-> >=20
-> > The next patch in this series is about adding debugfs entries to read
-> > the infoframes, and thus we need to care about concurrency between
-> > debugfs files accesses and commits. Copying the things we care about
-> > from the state to the entity is the typical solution for that, but I
-> > guess we could also take the proper locks and access the current
-> > connector state.
->=20
-> Yeah, just lock and dump the latest state. That is the only thing
-> that should of interest to anyone in userspace.
->=20
-> Also are you actually adding some kind of ad-hoc state dump things
-> just for these? Why not do whatever is needed to include them in
-> the normal .atomic_state_print() stuff?
+Changes in v3:
+- remove underscore from wifi_pwrseq node name in sun50i-h616-t95.dtsi
+- fix line wrap in commit message
+- Link to v2: https://lore.kernel.org/r/20240317-add-t95-axp313-support-v2-0-e38032811758@gmail.com
 
-Yeah, part of the reason for the whole thing is so we can make
-edid-decode check the sanity of generated infoframes, for both v4l2 and
-DRM. Hans has been working on it and has a prototype based on this work.
+T95 is a most commonly known for being a box with a pre-installed 
+malware. It uses Allwinner H616 and comes with NAND, and DDR3 
+memory.
 
-But you're right, we should probably add them to atomic_state_print too
+Those TV boxes usually come with common hardware:
+- Allwinner H616 SoC
+- 2/4 GB DDR3 SDRAM (Hynix H5TQ2G43BFR)
+- 16/32/64 GB NAND flash
+- microSD slot
+- AXP305 or AXP313 PMIC depending on board revision
+- 3.5mm A/V output
+- HDMI port
+- 2x USB 2.0 ports
+- 100M ETH using Internal PHY
+- LG642 Wi-Fi and BT chip (rebranded BCM43342)
+- 7-segment display
+- DC 5V barrel jack port
 
-Maxime
+The board contains holes hor UART header wired to &uart0.
+&uart1 is used by bluetooth module
 
---6n43iydiwru5gl6x
-Content-Type: application/pgp-signature; name="signature.asc"
+From the DRAM specification its operation voltage is 1.5V.
 
------BEGIN PGP SIGNATURE-----
+To: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: Chen-Yu Tsai <wens@csie.org>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: Samuel Holland <samuel@sholland.org>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-sunxi@lists.linux.dev
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZflnOgAKCRDj7w1vZxhR
-xUAqAP9osiLRyY8KJXAT50DTQ35ZRT/BcFN/QtqCr8oS2BcaLgD6Ah6rT5bLm/2W
-gzaTbZzUgiazFZ2uVZtKSGrqf8eYswM=
-=afLz
------END PGP SIGNATURE-----
+Signed-off-by: Kamil Kasperski <ressetkk@gmail.com>
+---
+Kamil Kasperski (3):
+      dt-bindings: vendor-prefixes: add t95 string
+      dt-bindings: arm: sunxi: add T95 AXP313
+      arm64: dts: allwinner: h616: add support for T95 tv boxes
 
---6n43iydiwru5gl6x--
+ Documentation/devicetree/bindings/arm/sunxi.yaml   |   5 +
+ .../devicetree/bindings/vendor-prefixes.yaml       |   2 +
+ arch/arm64/boot/dts/allwinner/Makefile             |   1 +
+ arch/arm64/boot/dts/allwinner/sun50i-h616-t95.dtsi | 109 +++++++++++++++++++++
+ .../dts/allwinner/sun50i-h616-t95max-axp313.dts    |  84 ++++++++++++++++
+ 5 files changed, 201 insertions(+)
+---
+base-commit: 4138f02288333cb596885e9af03dd3ea2de845cb
+change-id: 20240315-add-t95-axp313-support-5f3da8996edd
+
+Best regards,
+-- 
+Kamil Kasperski <ressetkk@gmail.com>
+
