@@ -1,145 +1,241 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A84338384
-	for <linux-sunxi@lists.linux.dev>; Wed, 20 Mar 2024 10:57:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BA504AEC4;
+	Wed, 20 Mar 2024 15:02:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710932234; cv=none; b=lx4hi+Nc7tG44nCDWJirBWrZbd+XaOg7mYOiI79l7h60eQwlzP6QZrpwxDQKGLK2qjUwpgVVjQvbR0Itybqc8u1QCxt9SoOsKHELL9VTPbY+ivsirW7R2Kpys/9fNG0Bl+FT8jiX9bUiG45MOkH5LuxH7nO2fH2Tpediy/cKW6E=
+	t=1710946950; cv=none; b=YmXGlkBMBMmxIpFyeIw1DgVjZrGblYSaBxn2vemsrEnJf5SQvukcncQpNFjk/VENGqBjEBPo3MrwFhy/4LNI/Yqs8Vx2K3WUB93Qn5MKL5nutyTRPdUuT+4q8zjm8AdxILQj9dI5M5qAhApF8QOLQhGOf7y5GT8HAASAcxogoyg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710932234; c=relaxed/simple;
-	bh=HwFo0+PIWPVFBEBd20yVK7SJwuUJmtieV96VhyaC6u0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fhuuhRs2YeAjACM1a0H8PnPmsqHiOBCLyJ6q8hJ1h1+eVFgfZUCh5l7F54IWkT/o38LNTOi3cODiTEgWYRr3UTE+LBEtHiQligEhMxf+CuPkQrJPHP4uWJgoODbxTSlSE5IdjOb8TFEUahOalFYC3y1ZhDloPVZnrWxoWPqDLNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0E2881007;
-	Wed, 20 Mar 2024 03:57:46 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 16DB63F762;
-	Wed, 20 Mar 2024 03:57:09 -0700 (PDT)
-Date: Wed, 20 Mar 2024 10:57:04 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Pavel =?UTF-8?B?TMO2Ymw=?= <pavel@loebl.cz>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
- linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 1/3] ARM: dts: sunxi: remove duplicated entries in
- makefile
-Message-ID: <20240320105704.25612cff@donnerap.manchester.arm.com>
-In-Reply-To: <20240320061027.4078852-1-pavel@loebl.cz>
-References: <20240320001152.4077150-1-pavel@loebl.cz>
-	<20240320061027.4078852-1-pavel@loebl.cz>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1710946950; c=relaxed/simple;
+	bh=xFMb9nTzM5f7GHI9kIML1UaEuYeBpsEmr2AAulx6QTA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XcsMY2orP9N0d8pQotpvZR6aSYlr3xt/mLlpyvNSA8OBhCAwPDVSFv/Mc9HYt65TqRtzq/jwIJvIz3+vGWKbFkAwGhfse7P+scMNrioEFSjsvjuaBrBZJZFhPUWOEMd8LetUFFd/DBqB5D7GWGL56Vc2u9MGrkDn9UnvCDz1nLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GQEvxGcS; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GQEvxGcS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2940CC433F1;
+	Wed, 20 Mar 2024 15:02:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710946950;
+	bh=xFMb9nTzM5f7GHI9kIML1UaEuYeBpsEmr2AAulx6QTA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GQEvxGcSs71CdTPbnVAjTm90KV5AD1t/DyVeasJUsZuRHpe4gewe2PNT7tkVc0Uig
+	 4605Y6tjyjoIEv4ZgdkLLqC7jmSpII+mguL6LmhIeNiXCPH0ZeIgHFY+7S/HKC7sf7
+	 tdIFQqdEU7uYtbe0zWirbZJxM7HR5erX2vgPWd9nAmnStC59uDcCKzRt+yQIj4pwDX
+	 D9v/VIFTXy20KzFYyzAntlkggsngEMkiEy3wb0rFJmdFywpsZK5W+XNZ0VKXkzTAOL
+	 RYHJDbf+Cx/ckZynxCOXYADcdWh4IBzzy9ojMhLFX17XUBkyN1gTsogzONWGTPef/O
+	 g0yV6A20oql7w==
+Date: Wed, 20 Mar 2024 10:02:28 -0500
+From: Rob Herring <robh@kernel.org>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Yangtao Li <tiny.windzz@gmail.com>, Viresh Kumar <vireshk@kernel.org>,
+	Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>, linux-pm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	Brandon Cheo Fusi <fusibrandon13@gmail.com>,
+	Martin Botka <martin.botka@somainline.org>,
+	Martin Botka <martin.botka1@gmail.com>
+Subject: Re: [PATCH v2 3/8] dt-bindings: opp: Describe H616 OPPs and
+ opp-supported-hw
+Message-ID: <20240320150228.GA1705913-robh@kernel.org>
+References: <20240318011228.2626-1-andre.przywara@arm.com>
+ <20240318011228.2626-4-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240318011228.2626-4-andre.przywara@arm.com>
 
-On Wed, 20 Mar 2024 07:10:19 +0100
-Pavel L=C3=B6bl <pavel@loebl.cz> wrote:
-
-Hi,
-
-> During introduction of DTS vendor subdirectories in 724ba6751532, sun8i
-> section of the makefile got duplicated. Clean that up.
->=20
-> Fixes: 724ba6751532 ("ARM: dts: Move .dts files to vendor sub-directories=
-")
->=20
-> Signed-off-by: Pavel L=C3=B6bl <pavel@loebl.cz>
-
-Looks good, that indeed removes the "bad" copy, with the newline mishap
-and the missing sun8i-v3s-anbernic-rg-nano.dtb line.
-
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-
-Thanks,
-Andre
-
+On Mon, Mar 18, 2024 at 01:12:23AM +0000, Andre Przywara wrote:
+> From: Martin Botka <martin.botka@somainline.org>
+> 
+> The Allwinner H616 uses a similar NVMEM based mechanism to determine the
+> silicon revision, which is required to select the right frequency /
+> voltage pair for the OPPs.
+> However it limits the maximum frequency for some speedbins, which
+> requires to introduce the opp-supported-hw property.
+> 
+> Add this property to the list of allowed properties, also drop the
+> requirement for the revision specific opp-microvolt properties, since
+> they won't be needed if using opp-supported-hw. When using this
+> property, we also might have multiple OPP nodes per frequency, so relax
+> the OPP node naming to allow a single letter suffix.
+> 
+> Also use to opportunity to adjust some wording, and drop a sentence
+> referring to the Linux driver and the OPP subsystem.
+> 
+> Shorten the existing example and add another example, showcasing the
+> opp-supported-hw property.
+> 
+> Signed-off-by: Martin Botka <martin.botka@somainline.org>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 > ---
->  arch/arm/boot/dts/allwinner/Makefile | 62 ----------------------------
->  1 file changed, 62 deletions(-)
->=20
-> diff --git a/arch/arm/boot/dts/allwinner/Makefile b/arch/arm/boot/dts/all=
-winner/Makefile
-> index 2d26c3397f14..2a4162657a2c 100644
-> --- a/arch/arm/boot/dts/allwinner/Makefile
-> +++ b/arch/arm/boot/dts/allwinner/Makefile
-> @@ -260,68 +260,6 @@ dtb-$(CONFIG_MACH_SUN8I) +=3D \
->  	sun8i-v3s-licheepi-zero.dtb \
->  	sun8i-v3s-licheepi-zero-dock.dtb \
->  	sun8i-v40-bananapi-m2-berry.dtb
-> -dtb-$(CONFIG_MACH_SUN8I) +=3D \
-> -	sun8i-a23-evb.dtb \
-> -	sun8i-a23-gt90h-v4.dtb \
-> -	sun8i-a23-inet86dz.dtb \
-> -	sun8i-a23-ippo-q8h-v5.dtb \
-> -	sun8i-a23-ippo-q8h-v1.2.dtb \
-> -	sun8i-a23-polaroid-mid2407pxe03.dtb \
-> -	sun8i-a23-polaroid-mid2809pxe04.dtb \
-> -	sun8i-a23-q8-tablet.dtb \
-> -	sun8i-a33-et-q8-v1.6.dtb \
-> -	sun8i-a33-ga10h-v1.1.dtb \
-> -	sun8i-a33-inet-d978-rev2.dtb \
-> -	sun8i-a33-ippo-q8h-v1.2.dtb \
-> -	sun8i-a33-olinuxino.dtb \
-> -	sun8i-a33-q8-tablet.dtb \
-> -	sun8i-a33-sinlinx-sina33.dtb \
-> -	sun8i-a83t-allwinner-h8homlet-v2.dtb \
-> -	sun8i-a83t-bananapi-m3.dtb \
-> -	sun8i-a83t-cubietruck-plus.dtb \
-> -	sun8i-a83t-tbs-a711.dtb \
-> -	sun8i-h2-plus-bananapi-m2-zero.dtb \
-> -	sun8i-h2-plus-libretech-all-h3-cc.dtb \
-> -	sun8i-h2-plus-orangepi-r1.dtb \
-> -	sun8i-h2-plus-orangepi-zero.dtb \
-> -	sun8i-h3-bananapi-m2-plus.dtb \
-> -	sun8i-h3-bananapi-m2-plus-v1.2.dtb \
-> -	sun8i-h3-beelink-x2.dtb \
-> -	sun8i-h3-libretech-all-h3-cc.dtb \
-> -	sun8i-h3-mapleboard-mp130.dtb \
-> -	sun8i-h3-nanopi-duo2.dtb \
-> -	sun8i-h3-nanopi-m1.dtb\
-> -	\
-> -	sun8i-h3-nanopi-m1-plus.dtb \
-> -	sun8i-h3-nanopi-neo.dtb \
-> -	sun8i-h3-nanopi-neo-air.dtb \
-> -	sun8i-h3-nanopi-r1.dtb \
-> -	sun8i-h3-orangepi-2.dtb \
-> -	sun8i-h3-orangepi-lite.dtb \
-> -	sun8i-h3-orangepi-one.dtb \
-> -	sun8i-h3-orangepi-pc.dtb \
-> -	sun8i-h3-orangepi-pc-plus.dtb \
-> -	sun8i-h3-orangepi-plus.dtb \
-> -	sun8i-h3-orangepi-plus2e.dtb \
-> -	sun8i-h3-orangepi-zero-plus2.dtb \
-> -	sun8i-h3-rervision-dvk.dtb \
-> -	sun8i-h3-zeropi.dtb \
-> -	sun8i-h3-emlid-neutis-n5h3-devboard.dtb \
-> -	sun8i-r16-bananapi-m2m.dtb \
-> -	sun8i-r16-nintendo-nes-classic.dtb \
-> -	sun8i-r16-nintendo-super-nes-classic.dtb \
-> -	sun8i-r16-parrot.dtb \
-> -	sun8i-r40-bananapi-m2-ultra.dtb \
-> -	sun8i-r40-oka40i-c.dtb \
-> -	sun8i-s3-elimo-initium.dtb \
-> -	sun8i-s3-lichee-zero-plus.dtb \
-> -	sun8i-s3-pinecube.dtb \
-> -	sun8i-t113s-mangopi-mq-r-t113.dtb \
-> -	sun8i-t3-cqa3t-bv3.dtb \
-> -	sun8i-v3-sl631-imx179.dtb \
-> -	sun8i-v3s-licheepi-zero.dtb \
-> -	sun8i-v3s-licheepi-zero-dock.dtb \
-> -	sun8i-v40-bananapi-m2-berry.dtb
->  dtb-$(CONFIG_MACH_SUN9I) +=3D \
->  	sun9i-a80-optimus.dtb \
->  	sun9i-a80-cubieboard4.dtb
+>  .../allwinner,sun50i-h6-operating-points.yaml | 89 ++++++++++---------
+>  1 file changed, 47 insertions(+), 42 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml b/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
+> index 51f62c3ae1947..d5439a3f696bc 100644
+> --- a/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
+> +++ b/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
+> @@ -13,25 +13,25 @@ maintainers:
+>  description: |
+>    For some SoCs, the CPU frequency subset and voltage value of each
+>    OPP varies based on the silicon variant in use. Allwinner Process
+> -  Voltage Scaling Tables defines the voltage and frequency value based
+> -  on the speedbin blown in the efuse combination. The
+> -  sun50i-cpufreq-nvmem driver reads the efuse value from the SoC to
+> -  provide the OPP framework with required information.
+> +  Voltage Scaling Tables define the voltage and frequency values based
+> +  on the speedbin blown in the efuse combination.
+>  
+>  allOf:
+>    - $ref: opp-v2-base.yaml#
+>  
+>  properties:
+>    compatible:
+> -    const: allwinner,sun50i-h6-operating-points
+> +    enum:
+> +      - allwinner,sun50i-h6-operating-points
+> +      - allwinner,sun50i-h616-operating-points
+>  
+>    nvmem-cells:
+>      description: |
+>        A phandle pointing to a nvmem-cells node representing the efuse
+> -      registers that has information about the speedbin that is used
+> +      register that has information about the speedbin that is used
+>        to select the right frequency/voltage value pair. Please refer
+> -      the for nvmem-cells bindings
+> -      Documentation/devicetree/bindings/nvmem/nvmem.txt and also
+> +      to the nvmem-cells bindings in
+> +      Documentation/devicetree/bindings/nvmem/nvmem.yaml and also the
+>        examples below.
+>  
+>    opp-shared: true
+> @@ -41,21 +41,23 @@ required:
+>    - nvmem-cells
+>  
+>  patternProperties:
+> -  "^opp-[0-9]+$":
+> +  "^opp-[0-9]+(-[a-z])?$":
+>      type: object
+>  
+>      properties:
+>        opp-hz: true
+>        clock-latency-ns: true
+> +      opp-microvolt: true
+> +      opp-supported-hw:
+> +        description: |
+> +          A single 32 bit bitmap value, representing compatible HW, one
+> +          bit per speed bin index.
+>  
+>      patternProperties:
+>        "^opp-microvolt-speed[0-9]$": true
+>  
+>      required:
+>        - opp-hz
+> -      - opp-microvolt-speed0
+> -      - opp-microvolt-speed1
+> -      - opp-microvolt-speed2
+>  
+>      unevaluatedProperties: false
+>  
+> @@ -77,58 +79,61 @@ examples:
+>              opp-microvolt-speed2 = <800000>;
+>          };
+>  
+> -        opp-720000000 {
+> +        opp-1080000000 {
+>              clock-latency-ns = <244144>; /* 8 32k periods */
+> -            opp-hz = /bits/ 64 <720000000>;
+> +            opp-hz = /bits/ 64 <1080000000>;
+>  
+> -            opp-microvolt-speed0 = <880000>;
+> -            opp-microvolt-speed1 = <820000>;
+> -            opp-microvolt-speed2 = <800000>;
+> +            opp-microvolt-speed0 = <1060000>;
+> +            opp-microvolt-speed1 = <880000>;
+> +            opp-microvolt-speed2 = <840000>;
+>          };
+>  
+> -        opp-816000000 {
+> +        opp-1488000000 {
+>              clock-latency-ns = <244144>; /* 8 32k periods */
+> -            opp-hz = /bits/ 64 <816000000>;
+> +            opp-hz = /bits/ 64 <1488000000>;
+>  
+> -            opp-microvolt-speed0 = <880000>;
+> -            opp-microvolt-speed1 = <820000>;
+> -            opp-microvolt-speed2 = <800000>;
+> +            opp-microvolt-speed0 = <1160000>;
+> +            opp-microvolt-speed1 = <1000000>;
+> +            opp-microvolt-speed2 = <960000>;
+>          };
+> +    };
+> +
+> +  - |
+> +    opp-table {
+> +        compatible = "allwinner,sun50i-h616-operating-points";
+> +        nvmem-cells = <&speedbin_efuse>;
+> +        opp-shared;
+>  
+> -        opp-888000000 {
+> +        opp-480000000 {
+>              clock-latency-ns = <244144>; /* 8 32k periods */
+> -            opp-hz = /bits/ 64 <888000000>;
+> +            opp-hz = /bits/ 64 <480000000>;
+>  
+> -            opp-microvolt-speed0 = <940000>;
+> -            opp-microvolt-speed1 = <820000>;
+> -            opp-microvolt-speed2 = <800000>;
+> +            opp-microvolt = <900000>;
+> +            opp-supported-hw = <0x1f>;
+>          };
+>  
+> -        opp-1080000000 {
+> +        opp-792000000-l {
+>              clock-latency-ns = <244144>; /* 8 32k periods */
+> -            opp-hz = /bits/ 64 <1080000000>;
+> +            opp-hz = /bits/ 64 <792000000>;
+>  
+> -            opp-microvolt-speed0 = <1060000>;
+> -            opp-microvolt-speed1 = <880000>;
+> -            opp-microvolt-speed2 = <840000>;
+> +            opp-microvolt = <900000>;
+> +            opp-supported-hw = <0x02>;
+>          };
+>  
+> -        opp-1320000000 {
+> +        opp-792000000-h {
+>              clock-latency-ns = <244144>; /* 8 32k periods */
+> -            opp-hz = /bits/ 64 <1320000000>;
+> +            opp-hz = /bits/ 64 <792000000>;
+>  
+> -            opp-microvolt-speed0 = <1160000>;
+> -            opp-microvolt-speed1 = <940000>;
+> -            opp-microvolt-speed2 = <900000>;
+> +            opp-microvolt = <940000>;
+> +            opp-supported-hw = <0x10>;
 
+So far, we've avoided multiple entries for a single frequency. I think 
+it would be good to maintain that.
+
+Couldn't you just do:
+
+opp-supported-hw = <0>, <0x10>, <0x02>;
+
+Where the index corresponds to speed0, speed1, speed2.
+
+If not, then I don't understand how multiple entries of opp-supported-hw 
+are supposed to work.
+
+Rob
