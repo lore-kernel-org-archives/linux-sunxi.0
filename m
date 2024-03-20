@@ -1,292 +1,107 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1D8145943
-	for <linux-sunxi@lists.linux.dev>; Wed, 20 Mar 2024 15:37:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E68856B89;
+	Wed, 20 Mar 2024 16:21:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710949066; cv=none; b=r142TBKoP3S411AD1nGAV4GE7URCu6UdDJgUlohyPRr6OOXRMd0HcMTrrOOB1uqPPRsU7cpT3TR7hDjUr5jKD1gPSI6c+9FUV/nrEecmEapKTHUFkQS8cbROVqMZ7P9Bj+U2Pf/pjfTlo/uyrB7uFkqjkGfLeGXDMQdxAYr8Es4=
+	t=1710951664; cv=none; b=BIqRYbfLJFJD9+1worGuDNRbVxxbAhOkbtG8B6WPEcXyKzsW/kp6FoRJFI3mRkvpLL763EfXqS8met5yHmG0x1RnPoc19C1eidtVR/UhX9Mo8lGmGfMEpyve+PHdv/9viNU4yH3eRu1ZeHaQ4LB5Y69jOYijXHXHq7679IEHEJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710949066; c=relaxed/simple;
-	bh=GX3wHvEKI8/4Ai1Ub8/EJN4vsGERZuQiIQ3nehWyWxk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DCjc+GXeCc2S/u4rF1gRUKedUnJqnlXFxZd26hm30abx4mNAyaPGrI4A/FIC/2NiF6h3QcQK2An7sAYygFjL86Vl4wzPBd/eZaJCtKJcAD0WwNaY98WQ8xy+d27hQLjPt5kOBsmTRqlkQ1N72eXFsIcO66IFspSkLDxSE501dyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DF2BF1007;
-	Wed, 20 Mar 2024 08:38:17 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 05FAD3F64C;
-	Wed, 20 Mar 2024 08:37:40 -0700 (PDT)
-Date: Wed, 20 Mar 2024 15:37:38 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Rob Herring <robh@kernel.org>
-Cc: Yangtao Li <tiny.windzz@gmail.com>, Viresh Kumar <vireshk@kernel.org>,
- Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, "Rafael J
- . Wysocki" <rafael@kernel.org>, linux-pm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, Brandon Cheo Fusi
- <fusibrandon13@gmail.com>, Martin Botka <martin.botka@somainline.org>,
- Martin Botka <martin.botka1@gmail.com>
-Subject: Re: [PATCH v2 3/8] dt-bindings: opp: Describe H616 OPPs and
- opp-supported-hw
-Message-ID: <20240320153738.3e2410bf@donnerap.manchester.arm.com>
-In-Reply-To: <20240320150228.GA1705913-robh@kernel.org>
-References: <20240318011228.2626-1-andre.przywara@arm.com>
-	<20240318011228.2626-4-andre.przywara@arm.com>
-	<20240320150228.GA1705913-robh@kernel.org>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1710951664; c=relaxed/simple;
+	bh=SGKbHXx9GhYI1qyjfaaZUxa8KlMBS5mpkV54mHCA1kM=;
+	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
+	 Message-Id:Subject; b=jrht+yxL7GnyQG+kkij8ZWSG24AiwihJPMmORCOQrydHx2QojCo4RPK6AH5I/PlZWVr1JT4iciPomjp8PXbKaOTPf4fOswQKNA/5gopfCBn+2ozez0bYvWyopyQcRjCJhdobq3xAp9LfLpGFRkKPZc8ul/B3I3csdhiv0tUnSZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NwgMsq53; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NwgMsq53"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD26AC433C7;
+	Wed, 20 Mar 2024 16:21:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710951664;
+	bh=SGKbHXx9GhYI1qyjfaaZUxa8KlMBS5mpkV54mHCA1kM=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=NwgMsq53JeZlshJ72slYZRRvOR7tc+DhdXbwD5Qp+SQUcOFslmSYsz3q+kzGTgt7/
+	 FB89dwh/oVZks87Kf7f+wmJihmqF+QPSzxGs9gidfF2eJJZPGcoVtOuEsIDYZrTIUd
+	 ukmy/BT+Y5o/Wvd6nKSk8PZl6XEE01GPn99jiA4Er6P4KpZ/DAgJywUjM0oW20AYIc
+	 I732n40K7zT2YiLLxpXTl0huILNUhA0L0QsfNqEDjN8vkzOkk5JUK3Bpbaqd6RqAjP
+	 sWlqIQ0izWXyjtYTbFP4qveCavJFR4mlB7iBSJpQhFvYIXb6wVEebnsLjWBqIW5opd
+	 tP5NN1AK/+TyA==
+Date: Wed, 20 Mar 2024 11:21:02 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+From: Rob Herring <robh@kernel.org>
+To: =?utf-8?q?Pavel_L=C3=B6bl?= <pavel@loebl.cz>
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
+ Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev, 
+ Chen-Yu Tsai <wens@csie.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>
+In-Reply-To: <20240320001152.4077150-1-pavel@loebl.cz>
+References: <20240320001152.4077150-1-pavel@loebl.cz>
+Message-Id: <171095148684.1943272.17283470654158577343.robh@kernel.org>
+Subject: Re: [PATCH v2 0/3] dt-bindings: arm: sunxi: Add Banana Pi P2 Zero
+ v1.1
 
-On Wed, 20 Mar 2024 10:02:28 -0500
-Rob Herring <robh@kernel.org> wrote:
 
-Hi Rob,
-
-thanks for having a look.
-
-> On Mon, Mar 18, 2024 at 01:12:23AM +0000, Andre Przywara wrote:
-> > From: Martin Botka <martin.botka@somainline.org>
-> > 
-> > The Allwinner H616 uses a similar NVMEM based mechanism to determine the
-> > silicon revision, which is required to select the right frequency /
-> > voltage pair for the OPPs.
-> > However it limits the maximum frequency for some speedbins, which
-> > requires to introduce the opp-supported-hw property.
-> > 
-> > Add this property to the list of allowed properties, also drop the
-> > requirement for the revision specific opp-microvolt properties, since
-> > they won't be needed if using opp-supported-hw. When using this
-> > property, we also might have multiple OPP nodes per frequency, so relax
-> > the OPP node naming to allow a single letter suffix.
-> > 
-> > Also use to opportunity to adjust some wording, and drop a sentence
-> > referring to the Linux driver and the OPP subsystem.
-> > 
-> > Shorten the existing example and add another example, showcasing the
-> > opp-supported-hw property.
-> > 
-> > Signed-off-by: Martin Botka <martin.botka@somainline.org>
-> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > ---
-> >  .../allwinner,sun50i-h6-operating-points.yaml | 89 ++++++++++---------
-> >  1 file changed, 47 insertions(+), 42 deletions(-)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml b/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
-> > index 51f62c3ae1947..d5439a3f696bc 100644
-> > --- a/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
-> > +++ b/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
-> > @@ -13,25 +13,25 @@ maintainers:
-> >  description: |
-> >    For some SoCs, the CPU frequency subset and voltage value of each
-> >    OPP varies based on the silicon variant in use. Allwinner Process
-> > -  Voltage Scaling Tables defines the voltage and frequency value based
-> > -  on the speedbin blown in the efuse combination. The
-> > -  sun50i-cpufreq-nvmem driver reads the efuse value from the SoC to
-> > -  provide the OPP framework with required information.
-> > +  Voltage Scaling Tables define the voltage and frequency values based
-> > +  on the speedbin blown in the efuse combination.
-> >  
-> >  allOf:
-> >    - $ref: opp-v2-base.yaml#
-> >  
-> >  properties:
-> >    compatible:
-> > -    const: allwinner,sun50i-h6-operating-points
-> > +    enum:
-> > +      - allwinner,sun50i-h6-operating-points
-> > +      - allwinner,sun50i-h616-operating-points
-> >  
-> >    nvmem-cells:
-> >      description: |
-> >        A phandle pointing to a nvmem-cells node representing the efuse
-> > -      registers that has information about the speedbin that is used
-> > +      register that has information about the speedbin that is used
-> >        to select the right frequency/voltage value pair. Please refer
-> > -      the for nvmem-cells bindings
-> > -      Documentation/devicetree/bindings/nvmem/nvmem.txt and also
-> > +      to the nvmem-cells bindings in
-> > +      Documentation/devicetree/bindings/nvmem/nvmem.yaml and also the
-> >        examples below.
-> >  
-> >    opp-shared: true
-> > @@ -41,21 +41,23 @@ required:
-> >    - nvmem-cells
-> >  
-> >  patternProperties:
-> > -  "^opp-[0-9]+$":
-> > +  "^opp-[0-9]+(-[a-z])?$":
-> >      type: object
-> >  
-> >      properties:
-> >        opp-hz: true
-> >        clock-latency-ns: true
-> > +      opp-microvolt: true
-> > +      opp-supported-hw:
-> > +        description: |
-> > +          A single 32 bit bitmap value, representing compatible HW, one
-> > +          bit per speed bin index.
-> >  
-> >      patternProperties:
-> >        "^opp-microvolt-speed[0-9]$": true
-> >  
-> >      required:
-> >        - opp-hz
-> > -      - opp-microvolt-speed0
-> > -      - opp-microvolt-speed1
-> > -      - opp-microvolt-speed2
-> >  
-> >      unevaluatedProperties: false
-> >  
-> > @@ -77,58 +79,61 @@ examples:
-> >              opp-microvolt-speed2 = <800000>;
-> >          };
-> >  
-> > -        opp-720000000 {
-> > +        opp-1080000000 {
-> >              clock-latency-ns = <244144>; /* 8 32k periods */
-> > -            opp-hz = /bits/ 64 <720000000>;
-> > +            opp-hz = /bits/ 64 <1080000000>;
-> >  
-> > -            opp-microvolt-speed0 = <880000>;
-> > -            opp-microvolt-speed1 = <820000>;
-> > -            opp-microvolt-speed2 = <800000>;
-> > +            opp-microvolt-speed0 = <1060000>;
-> > +            opp-microvolt-speed1 = <880000>;
-> > +            opp-microvolt-speed2 = <840000>;
-> >          };
-> >  
-> > -        opp-816000000 {
-> > +        opp-1488000000 {
-> >              clock-latency-ns = <244144>; /* 8 32k periods */
-> > -            opp-hz = /bits/ 64 <816000000>;
-> > +            opp-hz = /bits/ 64 <1488000000>;
-> >  
-> > -            opp-microvolt-speed0 = <880000>;
-> > -            opp-microvolt-speed1 = <820000>;
-> > -            opp-microvolt-speed2 = <800000>;
-> > +            opp-microvolt-speed0 = <1160000>;
-> > +            opp-microvolt-speed1 = <1000000>;
-> > +            opp-microvolt-speed2 = <960000>;
-> >          };
-> > +    };
-> > +
-> > +  - |
-> > +    opp-table {
-> > +        compatible = "allwinner,sun50i-h616-operating-points";
-> > +        nvmem-cells = <&speedbin_efuse>;
-> > +        opp-shared;
-> >  
-> > -        opp-888000000 {
-> > +        opp-480000000 {
-> >              clock-latency-ns = <244144>; /* 8 32k periods */
-> > -            opp-hz = /bits/ 64 <888000000>;
-> > +            opp-hz = /bits/ 64 <480000000>;
-> >  
-> > -            opp-microvolt-speed0 = <940000>;
-> > -            opp-microvolt-speed1 = <820000>;
-> > -            opp-microvolt-speed2 = <800000>;
-> > +            opp-microvolt = <900000>;
-> > +            opp-supported-hw = <0x1f>;
-> >          };
-> >  
-> > -        opp-1080000000 {
-> > +        opp-792000000-l {
-> >              clock-latency-ns = <244144>; /* 8 32k periods */
-> > -            opp-hz = /bits/ 64 <1080000000>;
-> > +            opp-hz = /bits/ 64 <792000000>;
-> >  
-> > -            opp-microvolt-speed0 = <1060000>;
-> > -            opp-microvolt-speed1 = <880000>;
-> > -            opp-microvolt-speed2 = <840000>;
-> > +            opp-microvolt = <900000>;
-> > +            opp-supported-hw = <0x02>;
-> >          };
-> >  
-> > -        opp-1320000000 {
-> > +        opp-792000000-h {
-> >              clock-latency-ns = <244144>; /* 8 32k periods */
-> > -            opp-hz = /bits/ 64 <1320000000>;
-> > +            opp-hz = /bits/ 64 <792000000>;
-> >  
-> > -            opp-microvolt-speed0 = <1160000>;
-> > -            opp-microvolt-speed1 = <940000>;
-> > -            opp-microvolt-speed2 = <900000>;
-> > +            opp-microvolt = <940000>;
-> > +            opp-supported-hw = <0x10>;  
+On Wed, 20 Mar 2024 01:11:45 +0100, Pavel Löbl wrote:
+> Adding support for Add Banana Pi P2 Zero v1.1 from Sinovoip.
 > 
-> So far, we've avoided multiple entries for a single frequency. I think 
-> it would be good to maintain that.
-
-Fair, I wasn't super happy with that either, but it still seemed better
-than the alternatives.
-
-> Couldn't you just do:
+> V2: Added Fixes: tag to 1/3 to reference the commit which introduced
+>     the duplication.
 > 
-> opp-supported-hw = <0>, <0x10>, <0x02>;
+>     Fixed all issues found by dtbs_check, except "cpu-hot-limit" regexp
+>     which is there for all H2/H3 boards.
 > 
-> Where the index corresponds to speed0, speed1, speed2.
+>     Switched back to "usb0_id_det-gpios" for role detection. In one submission
+>     Rob suggested this should be replaced with usb connector node. But as
+>     I understand the code, connector node approach is currently not supported
+>     by the sunxi phy driver.
 > 
-> If not, then I don't understand how multiple entries of opp-supported-hw 
-> are supposed to work.
+> Signed-off-by: Pavel Löbl <pavel@loebl.cz>
+> ---
+> Pavel Löbl (3):
+>   ARM: dts: sunxi: remove duplicated entries in makefile
+>   dt-bindings: arm: sunxi: Add Banana Pi P2 Zero v1.1
+>   ARM: dts: sun8i: h2+: add support for Banana Pi P2 Zero board
+> 
+>  .../devicetree/bindings/arm/sunxi.yaml        |   6 +
+>  arch/arm/boot/dts/allwinner/Makefile          |  63 +---
+>  .../sun8i-h2-plus-bananapi-p2-zero-v1.1.dts   | 287 ++++++++++++++++++
+>  3 files changed, 294 insertions(+), 62 deletions(-)
+>  create mode 100644 arch/arm/boot/dts/allwinner/sun8i-h2-plus-bananapi-p2-zero-v1.1.dts
+> 
+> --
+> 2.39.2
+> 
+> 
 
-If I got this correctly, multiple cells in opp-supported-hw are to
-describe various levels of hierarchy for a chip version, so like silicon
-mask, metal layer revision, bin, I guess? The binding doc speaks of "cuts,
-substrate and process", not really sure what that means exactly.
 
-I think currently we cannot easily combine microvolt suffixes and
-opp-supported-hw in one OPP node? I think it bails out if one
-microvolt-speed<x> property is missing, but I have to double check.
-But IIRC v1 of this series somehow pulled that off, so we can maybe bring
-it back? To end up with:
-	opp-792 {
-		opp-hz = <792000000>;
-		opp-microvolt-speed1 = <900000>;
-		opp-microvolt-speed4 = <940000>;
-		opp-supported-hw = <0x12>;
-	};
-	opp-1512 {
-		opp-hz = <1512000000>;
-		opp-microvolt = <1100000>;
-		opp-supported-hw = <0x0a>;
-	};
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
 
-I chose the way that's described in this patch because it seemed shorter,
-but I am afraid none of the versions is really nice here. What they in
-fact are is quite different OPP tables for each speedbin, with a
-different set of frequencies, for unknown reasons. Is there a way to select
-one of multiple *tables*, each with their individual, but simple set of
-voltage/freq pairs?
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
 
-This is what they look like in table format, btw:
-         0       1       2       3       4
-480     900     900     900     900     900
-600     -       -       -       -       900
-720     900     -       900     900     -
-792     -       900     -       -       940
-936     900     -       900     900     -
-1008    950     940     950     950     1020
-1104    1000    -       1000    1000    -
-1200    1050    1020    1050    1050    1100
-1320    1100    -       1100    1100    1100
-1416    1100    -       1100    1100    -
-1512    -       1100    -       1100    -
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
 
-I was wondering if we should fill those gaps, by putting in the voltage
-from the next higher OPP? Then we could use the microvolt suffixes, except
-for the last two frequencies, where we use opp-supported-hw?
+  pip3 install dtschema --upgrade
 
-Cheers,
-Andre
+
+New warnings running 'make CHECK_DTBS=y allwinner/sun8i-h2-plus-bananapi-p2-zero-v1.1.dtb' for 20240320001152.4077150-1-pavel@loebl.cz:
+
+arch/arm/boot/dts/allwinner/sun8i-h2-plus-bananapi-p2-zero-v1.1.dtb: thermal-zones: cpu-thermal:cooling-maps: 'cpu-hot-limit' does not match any of the regexes: '^map[-a-zA-Z0-9]*$', 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+
+
+
+
+
