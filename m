@@ -1,104 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B80BD79C8;
-	Thu, 21 Mar 2024 17:10:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E2A213665B
+	for <linux-sunxi@lists.linux.dev>; Thu, 21 Mar 2024 21:53:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711041053; cv=none; b=S41tDKqxnpiw+NnDC/EJ6Xcu7DdW3/PZS76Hvtjp+vvvd7+xVtDvJGD4Qe9tMy4CQM+DoDC+9QtHSeWU4NirRJ3fRRbNe5MTRgGk9wOpHNk2CqWn8CqE7flF9vyYm9GZukja/z//VsnpvPVdKRHOwKK85TWfqKChJAw657mzeIk=
+	t=1711058002; cv=none; b=Y2NMGDHLgV/P0/G1yU+xCPGT0yw+LA36EeqN4agk5bZieIwipzyzVMHfblhAfxkcPNM479tq4ICLokKT1HgR0WHlZhjcUMrJw7nLd+QvYWRitO9TZj7Wz4XjprIgBtPuNVu1D3v6L+2Psq2zjKdBrEU8ZG6kZ/ANJgefDY4RCtg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711041053; c=relaxed/simple;
-	bh=UkRBA9m/bMZZJvffQTihUXbWdPF0Er76xufEfdcCUN4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fl7QCAkxhuC7cXxQe+9CmRWWa0WNHABBQHv/WjZUVmO8ppptN+J/NEDxcHfNolcnGj5lFbBC6Q0XFCfILJTNEEIBlMRtE0V64RPYoRKvwLxrmBxFqWkwWtIUMEujU4cfSq6ykv8jn223nSzJtERHo023cG7BNbsa3NWWTmYpYc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kVFJRTie; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711058002; c=relaxed/simple;
+	bh=WcvvS3OEkLFjYszouDsgraWVfjBu7sarLCU390aYOas=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aPeHfuSlNJj9h5k2MrPhZKIS3MZlhxXnFS8dGIU0jSoLUSWDPUD3STmiqGXJvxRL6hKpIcN4DWd3QmKBisZNrYZYzHQV97eol6hpYcuyXEiP5VRd/REoiYPDHVAGPxMteIhP0RFsLns+hqbMwsRUfAHq5qOTKXPtDbjtChQgZew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=PlqQ1VCd; arc=none smtp.client-ip=95.215.58.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kVFJRTie"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8816C433F1;
-	Thu, 21 Mar 2024 17:10:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711041053;
-	bh=UkRBA9m/bMZZJvffQTihUXbWdPF0Er76xufEfdcCUN4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kVFJRTied2TKQUlnrJFstv2V+6Tbgc6Y2xON57K5nFft6DGpzAwHcMVsjE9jPaTp4
-	 eCG6telo3hioMcSp8Gw6j8hRwG18vCJdhvwgbnASXpQt0gmiEQFGoejR2PP1qswSeY
-	 dqNtG7NZ48/A60BEBj5BcCpUhOLaTrPGLkPY2E94mRvILvQ+ZFrhIFALdgkgR6/epr
-	 n6hG8lElYJxkUCPLWohcz8bA/+jhfTEO+g5GcmQW04rNY0zVr8sAdEYoiduiQTZdh/
-	 xaFxGsEPvw9YWczy+gaG54bS5u8azyVageijosILeHM5elsbNGZD6iFQ10eUeTKpNh
-	 74wCiw4gpn4hA==
-Date: Thu, 21 Mar 2024 17:10:48 +0000
-From: Lee Jones <lee@kernel.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	Samuel Holland <samuel@sholland.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Chris Morgan <macromorgan@hotmail.com>,
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 0/4] regulator: Add X-Powers AXP717 PMIC support
-Message-ID: <20240321171048.GD13211@google.com>
-References: <20240310010211.28653-1-andre.przywara@arm.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="PlqQ1VCd"
+Message-ID: <07125064-2a78-4515-bb48-655f2aec140f@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1711057998;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=U9xIbt5IRGyj4Yh6zUnaudYx8WQHO3ZjhO4k+FGux7M=;
+	b=PlqQ1VCdMmQb7CMTnF3ueOxvUYjQ2qNPWK23J+ZUf5kHQCWRjNcVhSKum6isUXV0J+FTi5
+	n/eN/oYuBh7sHBT/nWyYjuxY7t7NP5XlalCvGwwHoPYgw3boDPE9z69TpfaZgmdYBUcs5x
+	JkugC/OTPO2xUvTJTEevnUtGTAxfKcc=
+Date: Fri, 22 Mar 2024 05:53:07 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240310010211.28653-1-andre.przywara@arm.com>
+Subject: Re: [v10,20/27] drm/connector: hdmi: Add Infoframes generation
+To: Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+References: <20240321-kms-hdmi-connector-state-v10-20-e6c178361898@kernel.org>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <20240321-kms-hdmi-connector-state-v10-20-e6c178361898@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Sun, 10 Mar 2024, Andre Przywara wrote:
+Hi,
 
-> This patch series adds support for the X-Powers AXP717 PMIC, which is 
-> used recently on new boards with Allwinner SoCs.
-> Allwinner's BSP code often speaks of the AXP2202, this seems to be the
-> same chip, at least a boot0 AXP2202 driver happily drove a chip labelled
-> AXP717.
-> 
-> Patch 1 fixes a typo in some macro names for the AXP313a PMIC, I just
-> realised that during some copy&paste action. It's just an identifier
-> rename, so not a backport candidate, I'd say.
-> Patch 2 adds the compatible string to the binding document.
-> Patch 3 is the MFD part, describing the regmap and all the interrupts.
-> So far we support the regulator and power key devices, the USB and
-> charging devices will follow later.
-> Patch 4 adds the voltage regulator rails, this part is crucial to enable
-> any board using this PMIC, as we depend on those rails even for basic
-> devices.
-> 
-> Please note that I could not test this driver myself, but had success
-> messages from others. It would be good to hear from Ryan and Chris
-> here on the list, with a Tested-by: tag.
-> 
-> This series is based on next-20240308 for now. I will send a rebased
-> update after the merge window, but wanted to start discussion and review
-> now.
-> 
-> Please have a look!
-> 
-> Cheers,
-> Andre
-> 
-> Andre Przywara (4):
->   regulator: axp20x: fix typo-ed identifier
->   dt-bindings: mfd: x-powers,axp152: document AXP717
->   mfd: axp20x: add support for AXP717 PMIC
->   regulator: axp20x: add support for the AXP717
-> 
->  .../bindings/mfd/x-powers,axp152.yaml         |  2 +
->  drivers/mfd/axp20x-i2c.c                      |  2 +
->  drivers/mfd/axp20x-rsb.c                      |  1 +
->  drivers/mfd/axp20x.c                          | 90 +++++++++++++++++
->  drivers/regulator/axp20x-regulator.c          | 94 +++++++++++++++++-
->  include/linux/mfd/axp20x.h                    | 98 ++++++++++++++++++-
->  6 files changed, 277 insertions(+), 10 deletions(-)
 
-All applied and sent for build testing.  If everything works out, I'll
-send out a pull-request to an immutable branch shortly.
+On 2024/3/21 23:29, Maxime Ripard wrote:
+> Infoframes in KMS is usually handled by a bunch of low-level helpers
+> that require quite some boilerplate for drivers. This leads to
+> discrepancies with how drivers generate them, and which are actually
+> sent.
+>
+> Now that we have everything needed to generate them in the HDMI
+> connector state, we can generate them in our common logic so that
+> drivers can simply reuse what we precomputed.
+>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>   drivers/gpu/drm/Kconfig                            |   1 +
+>   drivers/gpu/drm/drm_atomic_state_helper.c          | 338 +++++++++++++++++++++
+>   drivers/gpu/drm/drm_connector.c                    |  14 +
+>   .../gpu/drm/tests/drm_atomic_state_helper_test.c   |   1 +
+>   drivers/gpu/drm/tests/drm_connector_test.c         |  12 +
+>   include/drm/drm_atomic_state_helper.h              |   8 +
+>   include/drm/drm_connector.h                        | 109 +++++++
+>   7 files changed, 483 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index 16029435b750..3d3193c7aa5f 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -97,10 +97,11 @@ config DRM_KUNIT_TEST
+>   	  If in doubt, say "N".
+>   
+>   config DRM_KMS_HELPER
+>   	tristate
+>   	depends on DRM
+> +	select DRM_DISPLAY_HDMI_HELPER
+
+Should we select DRM_DISPLAY_HELPER here? Otherwise there will have some compile error
+emerged with default config.
+
+
+: drivers/gpu/drm/drm_atomic_state_helper.o: in function `drm_atomic_helper_connector_hdmi_check':
+drm_atomic_state_helper.c:(.text+0x15e4): undefined reference to `drm_hdmi_avi_infoframe_colorimetry'
+: drm_atomic_state_helper.c:(.text+0x15f0): undefined reference to `drm_hdmi_avi_infoframe_bars'
+: drm_atomic_state_helper.c:(.text+0x1638): undefined reference to `drm_hdmi_infoframe_set_hdr_metadata'
+make[2]: *** [scripts/Makefile.vmlinux:37: vmlinux] Error 1
+
+make[1]: *** [/home/suijingfeng/UpStream/drm-tip/Makefile:1162: vmlinux] Error 2
+
+make[1]: *** Waiting for unfinished jobs....
+make: *** [Makefile:240: __sub-make] Error 2
+
+>   	help
+>   	  CRTC helpers for KMS drivers.
+>   
+>   config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
+>           bool "Enable refcount backtrace history in the DP MST helpers"
 
 -- 
-Lee Jones [李琼斯]
+Best regards,
+Sui
+
