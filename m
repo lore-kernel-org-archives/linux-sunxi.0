@@ -1,268 +1,145 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1DEC12C540;
-	Thu, 21 Mar 2024 15:30:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 567BD23778;
+	Thu, 21 Mar 2024 16:25:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711035044; cv=none; b=IlIQrbip5Kq9PkT7xOyRz+X49MOCf3v6Oo1yNHZbfqKDhmxS0RyfSYIPwfdnj+61OXjJXf8nuy4rBBQN2ro/oug/xfYbrnAfsuq89Ep7e8+BaHdO909JVzfnuejiZj3UyfDrHNR5fV+c9B33FoLrR37oBCwK4cJ2pSaFKiv3mHY=
+	t=1711038301; cv=none; b=pHwkvX5zLcQPoyTXtnOKqUqbAywZm2p1p+XGfV2E4vw9IOGzbgcnAM4YS+bVgjkfN7V97yAgqdjsivmVmzwP9g9XPL3v7Zg1k/pRP+RqbpB944wPQtYXAVgl+x48sKApiuP8WKKstknOWe2NpJaLaVNojj3YDrktSn32lLzfct8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711035044; c=relaxed/simple;
-	bh=0BOJwsJkmVC7ISwyuAdKqvHspV8sorXf1ygF6kiUUOo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=K0bXJNsX6DKnfef2Jj/LefgAOCcUbCllsDSP0crUlG38AuzaZ9i5wGCc1Qs0tqaSYPjmOmYaPsA4JMHi0xsiI3T7eKvPackerOgdMMjJUuzFdhm+kI4SzBmq9OhetDuBZdkHG2GC6g42wtE+cmDLVJHSRzOAoApdZ9aHd91IH6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZmG7GGX2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711038301; c=relaxed/simple;
+	bh=ogc/U6YBTmcb0BC3PL0tlRW7N+zLZ+qmeYO8A+GuUJM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VMjffJUqm7y3uxIiTQUx36oe8BfEBdzGdf+6Ek4fdlXYHISWs5gobBMVjsRKqVPLcSYuY8fgC65ptygGywMw6u5uh4T61YheJZznthK8IJfvKfRumsSQGeY87MgqTJNAoZBC15meuiZu1MH8FJBUBFps/CkdOJN9dKKKnT6BA+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zwl1hCY/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZmG7GGX2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65A2DC43141;
-	Thu, 21 Mar 2024 15:30:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zwl1hCY/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAFBCC433C7;
+	Thu, 21 Mar 2024 16:25:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711035043;
-	bh=0BOJwsJkmVC7ISwyuAdKqvHspV8sorXf1ygF6kiUUOo=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=ZmG7GGX2U5IClgnL/614IHFa4Vc+uz40X9fqO/LOgBkIIDzXCtOZPc3SGQkv3pGYr
-	 32hTqDhkefM6wwsVBvoHdK0XRsik2dhamU/YP2lnDxZlVW4AndYmKFrEi9/kH7TQIi
-	 JuGA2EbnZApQ5z7MGEXJ1wZ2MKC+A/TjkVh6zpFrMB8gVxlDdeqRom4V9Rk3/TgH0J
-	 TfdlCKt9+S30ZAii2qBuvhicwe1ddL8+PwcxvJ9lFrOpJYnzSN1PLjTcMytI93ZRh7
-	 xkWYJA62MK7CUCyqjyRvKsyrAz5oLN6RK4yyFxgG/X1+7qK6tDAndCsEAZ/GUKlFMt
-	 UVgpK3nKwxxSA==
+	s=k20201202; t=1711038301;
+	bh=ogc/U6YBTmcb0BC3PL0tlRW7N+zLZ+qmeYO8A+GuUJM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Zwl1hCY/3Q5C+aesvtYbUBMjYMpGrWG/uiQCilI8ysGe6Q/8ZcAZzpetMacQ991U8
+	 Y9IC0utl6SJMnak51fdEygBjIYUYms3VR2ZFBnd3kDNj2KHGdXfInl3iTgb7LIMOst
+	 CCnNgUpOyLR+dUY4jHk1sfltTr1cGdMSmUNhTUcVBe33L+5a8jU4hbypPJT8Atf6JJ
+	 EQi8g0MKwBv0lp9+oDpTUemckCfhBqTvzni+6aObQtIMME9QFk0VuH6r6DDjBQjMqi
+	 Dv5OzsKp9siW1+GYB1AbC+4npmqz802j2LIUmk7DcLf5HUNw+aLpwRWfVXurIGZzJ5
+	 Bgaya0n5FikcQ==
+Date: Thu, 21 Mar 2024 17:24:58 +0100
 From: Maxime Ripard <mripard@kernel.org>
-Date: Thu, 21 Mar 2024 16:29:23 +0100
-Subject: [PATCH v10 27/27] drm/sun4i: hdmi: Switch to HDMI connector
+To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: Frank Oltmanns <frank@oltmanns.dev>, Chen-Yu Tsai <wens@csie.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Samuel Holland <samuel@sholland.org>, Icenowy Zheng <uwu@icenowy.me>, Ondrej Jirman <x@xnux.eu>, 
+	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/sun4i: tcon: Support keeping dclk rate upon ancestor
+ clock changes
+Message-ID: <20240321-faithful-caterpillar-of-health-52d87f@houat>
+References: <20240310-tcon_keep_stable_rate-v1-1-0296b0a85c02@oltmanns.dev>
+ <20240314-careful-silky-bear-8ee43f@houat>
+ <5448341.Sb9uPGUboI@jernej-laptop>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240321-kms-hdmi-connector-state-v10-27-e6c178361898@kernel.org>
-References: <20240321-kms-hdmi-connector-state-v10-0-e6c178361898@kernel.org>
-In-Reply-To: <20240321-kms-hdmi-connector-state-v10-0-e6c178361898@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
- Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, 
- Sebastian Wick <sebastian.wick@redhat.com>, 
- =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>, 
- Sui Jingfeng <sui.jingfeng@linux.dev>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7059; i=mripard@kernel.org;
- h=from:subject:message-id; bh=0BOJwsJkmVC7ISwyuAdKqvHspV8sorXf1ygF6kiUUOo=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKl/goJzX3svWJo/8XR2u0Hx5N+9nxX3+wlslBLJuTrft
- 9Xt9vfijlIWBjEuBlkxRZYYYfMlcadmve5k45sHM4eVCWQIAxenAEyEyZORYevuFzX/U0uP3tk/
- uXfORqbE1/FLjBNvVyp+K+z3XWnTmcbI8E2fsaGlz+eydXGbLk/cPLk1c1Mkbu+7e/PW1MSqS+H
- OvAA=
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="5hh7c6ibu6zg4s6a"
+Content-Disposition: inline
+In-Reply-To: <5448341.Sb9uPGUboI@jernej-laptop>
 
-The new HDMI connector infrastructure allows to remove some boilerplate,
-especially to generate infoframes. Let's switch to it.
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Acked-by: Sui Jingfeng <sui.jingfeng@linux.dev>
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
- drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 80 ++++++++++++++++++++++------------
- 1 file changed, 51 insertions(+), 29 deletions(-)
+--5hh7c6ibu6zg4s6a
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-index 2d1880c61b50..7ac085aa0a35 100644
---- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-@@ -35,34 +35,28 @@
- 	container_of_const(e, struct sun4i_hdmi, encoder)
- 
- #define drm_connector_to_sun4i_hdmi(c)		\
- 	container_of_const(c, struct sun4i_hdmi, connector)
- 
--static int sun4i_hdmi_setup_avi_infoframes(struct sun4i_hdmi *hdmi,
--					   struct drm_display_mode *mode)
-+static int sun4i_hdmi_write_infoframe(struct drm_connector *connector,
-+				      enum hdmi_infoframe_type type,
-+				      const u8 *buffer, size_t len)
- {
--	struct hdmi_avi_infoframe frame;
--	u8 buffer[17];
--	int i, ret;
-+	struct sun4i_hdmi *hdmi = drm_connector_to_sun4i_hdmi(connector);
-+	int i;
- 
--	ret = drm_hdmi_avi_infoframe_from_display_mode(&frame,
--						       &hdmi->connector, mode);
--	if (ret < 0) {
--		DRM_ERROR("Failed to get infoframes from mode\n");
--		return ret;
-+	if (type != HDMI_INFOFRAME_TYPE_AVI) {
-+		drm_err(connector->dev,
-+			"Unsupported infoframe type: %u\n", type);
-+		return 0;
- 	}
- 
--	ret = hdmi_avi_infoframe_pack(&frame, buffer, sizeof(buffer));
--	if (ret < 0) {
--		DRM_ERROR("Failed to pack infoframes\n");
--		return ret;
--	}
--
--	for (i = 0; i < sizeof(buffer); i++)
-+	for (i = 0; i < len; i++)
- 		writeb(buffer[i], hdmi->base + SUN4I_HDMI_AVI_INFOFRAME_REG(i));
- 
- 	return 0;
-+
- }
- 
- static void sun4i_hdmi_disable(struct drm_encoder *encoder,
- 			       struct drm_atomic_state *state)
- {
-@@ -81,18 +75,22 @@ static void sun4i_hdmi_disable(struct drm_encoder *encoder,
- static void sun4i_hdmi_enable(struct drm_encoder *encoder,
- 			      struct drm_atomic_state *state)
- {
- 	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
- 	struct sun4i_hdmi *hdmi = drm_encoder_to_sun4i_hdmi(encoder);
--	struct drm_display_info *display = &hdmi->connector.display_info;
-+	struct drm_connector *connector = &hdmi->connector;
-+	struct drm_display_info *display = &connector->display_info;
-+	struct drm_connector_state *conn_state =
-+		drm_atomic_get_new_connector_state(state, connector);
-+	unsigned long long tmds_rate = conn_state->hdmi.tmds_char_rate;
- 	unsigned int x, y;
- 	u32 val = 0;
- 
- 	DRM_DEBUG_DRIVER("Enabling the HDMI Output\n");
- 
--	clk_set_rate(hdmi->mod_clk, mode->crtc_clock * 1000);
--	clk_set_rate(hdmi->tmds_clk, mode->crtc_clock * 1000);
-+	clk_set_rate(hdmi->mod_clk, tmds_rate);
-+	clk_set_rate(hdmi->tmds_clk, tmds_rate);
- 
- 	/* Set input sync enable */
- 	writel(SUN4I_HDMI_UNKNOWN_INPUT_SYNC,
- 	       hdmi->base + SUN4I_HDMI_UNKNOWN_REG);
- 
-@@ -141,11 +139,12 @@ static void sun4i_hdmi_enable(struct drm_encoder *encoder,
- 
- 	writel(val, hdmi->base + SUN4I_HDMI_VID_TIMING_POL_REG);
- 
- 	clk_prepare_enable(hdmi->tmds_clk);
- 
--	sun4i_hdmi_setup_avi_infoframes(hdmi, mode);
-+	drm_atomic_helper_connector_hdmi_update_infoframes(connector, state);
-+
- 	val |= SUN4I_HDMI_PKT_CTRL_TYPE(0, SUN4I_HDMI_PKT_AVI);
- 	val |= SUN4I_HDMI_PKT_CTRL_TYPE(1, SUN4I_HDMI_PKT_END);
- 	writel(val, hdmi->base + SUN4I_HDMI_PKT_CTRL_REG(0));
- 
- 	val = SUN4I_HDMI_VID_CTRL_ENABLE;
-@@ -194,23 +193,26 @@ static int sun4i_hdmi_connector_atomic_check(struct drm_connector *connector,
- 	struct drm_crtc_state *crtc_state = crtc->state;
- 	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
- 	enum drm_mode_status status;
- 
- 	status = sun4i_hdmi_connector_clock_valid(connector, mode,
--						  mode->clock * 1000);
-+						  conn_state->hdmi.tmds_char_rate);
- 	if (status != MODE_OK)
- 		return -EINVAL;
- 
- 	return 0;
- }
- 
- static enum drm_mode_status
- sun4i_hdmi_connector_mode_valid(struct drm_connector *connector,
- 				struct drm_display_mode *mode)
- {
--	return sun4i_hdmi_connector_clock_valid(connector, mode,
--						mode->clock * 1000);
-+	unsigned long long rate =
-+		drm_connector_hdmi_compute_mode_clock(mode, 8,
-+						      HDMI_COLORSPACE_RGB);
-+
-+	return sun4i_hdmi_connector_clock_valid(connector, mode, rate);
- }
- 
- static int sun4i_hdmi_get_modes(struct drm_connector *connector)
- {
- 	struct sun4i_hdmi *hdmi = drm_connector_to_sun4i_hdmi(connector);
-@@ -252,10 +254,15 @@ static struct i2c_adapter *sun4i_hdmi_get_ddc(struct device *dev)
- 		return ERR_PTR(-EPROBE_DEFER);
- 
- 	return ddc;
- }
- 
-+static const struct drm_connector_hdmi_funcs sun4i_hdmi_hdmi_connector_funcs = {
-+	.tmds_char_rate_valid	= sun4i_hdmi_connector_clock_valid,
-+	.write_infoframe	= sun4i_hdmi_write_infoframe,
-+};
-+
- static const struct drm_connector_helper_funcs sun4i_hdmi_connector_helper_funcs = {
- 	.atomic_check	= sun4i_hdmi_connector_atomic_check,
- 	.mode_valid	= sun4i_hdmi_connector_mode_valid,
- 	.get_modes	= sun4i_hdmi_get_modes,
- };
-@@ -273,15 +280,21 @@ sun4i_hdmi_connector_detect(struct drm_connector *connector, bool force)
- 	}
- 
- 	return connector_status_connected;
- }
- 
-+static void sun4i_hdmi_connector_reset(struct drm_connector *connector)
-+{
-+	drm_atomic_helper_connector_reset(connector);
-+	__drm_atomic_helper_connector_hdmi_reset(connector, connector->state);
-+}
-+
- static const struct drm_connector_funcs sun4i_hdmi_connector_funcs = {
- 	.detect			= sun4i_hdmi_connector_detect,
- 	.fill_modes		= drm_helper_probe_single_connector_modes,
- 	.destroy		= drm_connector_cleanup,
--	.reset			= drm_atomic_helper_connector_reset,
-+	.reset			= sun4i_hdmi_connector_reset,
- 	.atomic_duplicate_state	= drm_atomic_helper_connector_duplicate_state,
- 	.atomic_destroy_state	= drm_atomic_helper_connector_destroy_state,
- };
- 
- #ifdef CONFIG_DRM_SUN4I_HDMI_CEC
-@@ -636,14 +649,23 @@ static int sun4i_hdmi_bind(struct device *dev, struct device *master,
- 	       hdmi->base + SUN4I_HDMI_CEC);
- #endif
- 
- 	drm_connector_helper_add(&hdmi->connector,
- 				 &sun4i_hdmi_connector_helper_funcs);
--	ret = drm_connector_init_with_ddc(drm, &hdmi->connector,
--					  &sun4i_hdmi_connector_funcs,
--					  DRM_MODE_CONNECTOR_HDMIA,
--					  hdmi->ddc_i2c);
-+	ret = drmm_connector_hdmi_init(drm, &hdmi->connector,
-+				       /*
-+					* NOTE: Those are likely to be
-+					* wrong, but I couldn't find the
-+					* actual ones in the BSP.
-+					*/
-+				       "AW", "HDMI",
-+				       &sun4i_hdmi_connector_funcs,
-+				       &sun4i_hdmi_hdmi_connector_funcs,
-+				       DRM_MODE_CONNECTOR_HDMIA,
-+				       hdmi->ddc_i2c,
-+				       BIT(HDMI_COLORSPACE_RGB),
-+				       8);
- 	if (ret) {
- 		dev_err(dev,
- 			"Couldn't initialise the HDMI connector\n");
- 		goto err_cleanup_connector;
- 	}
+On Thu, Mar 14, 2024 at 06:20:58PM +0100, Jernej =C5=A0krabec wrote:
+> Dne =C4=8Detrtek, 14. marec 2024 ob 15:42:24 CET je Maxime Ripard napisal=
+(a):
+> > On Sun, Mar 10, 2024 at 02:32:29PM +0100, Frank Oltmanns wrote:
+> > > Allow the dclk to reset its rate when a rate change is initiated from=
+ an
+> > > ancestor clock. This makes it possible to no longer to get an exclusi=
+ve
+> > > lock. As a consequence, it is now possible to set new rates if
+> > > necessary, e.g. when an external display is connected.
+> > >=20
+> > > The first user of this functionality is the A64 because PLL-VIDEO0 is=
+ an
+> > > ancestor for both HDMI and TCON0. This allows to select an optimal ra=
+te
+> > > for TCON0 as long as there is no external HDMI connection. Once a cha=
+nge
+> > > in PLL-VIDEO0 is performed when an HDMI connection is established, TC=
+ON0
+> > > can react gracefully and select an optimal rate based on this the new
+> > > constraint.
+> > >=20
+> > > Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+> > > ---
+> > > I would like to make the Allwinner A64's data-clock keep its rate
+> > > when its ancestor's (pll-video0) rate changes. Keeping data-clock's r=
+ate
+> > > is required, to let the A64 drive both an LCD and HDMI display at the
+> > > same time, because both have pll-video0 as an ancestor.
+> > >=20
+> > > TCONs that use this flag store the ideal rate for their data-clock and
+> > > subscribe to be notified when data-clock changes. When rate setting h=
+as
+> > > finished (indicated by a POST_RATE_CHANGE event) the call back functi=
+on
+> > > schedules delayed work to set the data-clock's rate to the initial va=
+lue
+> > > after 100 ms. Using delayed work maks sure that the clock setting is
+> > > finished.
+> > >=20
+> > > I've implemented this functionality as a quirk, so that it is possible
+> > > to use it only for the A64.
+> > >=20
+> > > This patch supersedes [1].
+> > >=20
+> > > This work is inspired by an out-of-tree patchset [2] [3] [4].
+> > > Unfortunately, the patchset uses clk_set_rate() directly in a notifier
+> > > callback, which the following comment on clk_notifier_register()
+> > > forbids: "The callbacks associated with the notifier must not re-enter
+> > > into the clk framework by calling any top-level clk APIs." [5]
+> > > Furthermore, that out-of-tree patchset no longer works since 6.6,
+> > > because setting pll-mipi is now also resetting pll-video0 and therefo=
+re
+> > > causes a race condition.
+> >=20
+> > Workqueues don't have an upper boundary on when they execute. As we
+> > discussed multiple times, this should be solved in the clock framework
+> > itself, not bypassing it.
+>=20
+> I think TCON code still needs to be touched due to clk_rate_exclusive_get=
+()
+> calls which effectively lock whole chain. You can't have both TCONs locki=
+ng
+> rate on A64 for this to work correctly.
+>=20
+> What was original reason for clk_rate_exclusive_get()? I forgot already.
 
--- 
-2.44.0
+IIRC, it was because the D-PHY and DSI controller derive from the same
+clock, and we needed to make sure setting one wouldn't affect the other
+one.
 
+Maxime
+
+--5hh7c6ibu6zg4s6a
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZfxfWgAKCRDj7w1vZxhR
+xfv3AQDxIiMi1g+0nI7JKGoqxMzWuC13RajfFCHNbQGYsy0IBQD/XJHBNS4oJzSG
+eOlBThbUoxtCgz90wXUf/Plufp64XAE=
+=F9E+
+-----END PGP SIGNATURE-----
+
+--5hh7c6ibu6zg4s6a--
