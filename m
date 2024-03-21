@@ -1,40 +1,41 @@
-Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
+Received: from out-185.mta1.migadu.com (out-185.mta1.migadu.com [95.215.58.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E2A213665B
-	for <linux-sunxi@lists.linux.dev>; Thu, 21 Mar 2024 21:53:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 287E71C20
+	for <linux-sunxi@lists.linux.dev>; Thu, 21 Mar 2024 22:32:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711058002; cv=none; b=Y2NMGDHLgV/P0/G1yU+xCPGT0yw+LA36EeqN4agk5bZieIwipzyzVMHfblhAfxkcPNM479tq4ICLokKT1HgR0WHlZhjcUMrJw7nLd+QvYWRitO9TZj7Wz4XjprIgBtPuNVu1D3v6L+2Psq2zjKdBrEU8ZG6kZ/ANJgefDY4RCtg=
+	t=1711060377; cv=none; b=ZFUvV4aMulDI3ZehknxIrWJeFDMU/XdEclUiICXv/vqM+L43lJf86LzTFUHZxGOWASRv9pHgtU+BxHNMYOMrT5fm9mPUxYPejR1oNoHGNUZM6dmFpVL6olLJMSS03TzNLqixSMFweitTgUupipCD5dGrx6g6sI5qIO6Y7DhMwJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711058002; c=relaxed/simple;
-	bh=WcvvS3OEkLFjYszouDsgraWVfjBu7sarLCU390aYOas=;
+	s=arc-20240116; t=1711060377; c=relaxed/simple;
+	bh=LDByoXQP6mgfnNEdlwk8vFKwzCc7LziPCgnb5onUzqw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aPeHfuSlNJj9h5k2MrPhZKIS3MZlhxXnFS8dGIU0jSoLUSWDPUD3STmiqGXJvxRL6hKpIcN4DWd3QmKBisZNrYZYzHQV97eol6hpYcuyXEiP5VRd/REoiYPDHVAGPxMteIhP0RFsLns+hqbMwsRUfAHq5qOTKXPtDbjtChQgZew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=PlqQ1VCd; arc=none smtp.client-ip=95.215.58.173
+	 In-Reply-To:Content-Type; b=au4D2N7waWaVpngahEDQp5dVnjhvpmJSNHgbZJOcacC7KGaiOnj/g0Ex/q6NUrkMYDsjtxs63dshq06EErsI1kfsTTQr1Sk0TVwhuXYfhZ5t++hhlEC8XPTtpJtd3fj/QIAdT4f6WV9cTT12UCoZ54wEjH/8V04lNinxUFvxt+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=L9TjzxIn; arc=none smtp.client-ip=95.215.58.185
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="PlqQ1VCd"
-Message-ID: <07125064-2a78-4515-bb48-655f2aec140f@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="L9TjzxIn"
+Message-ID: <a757ab17-e6ca-48f0-ac15-3bd97a4b542e@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1711057998;
+	t=1711060373;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=U9xIbt5IRGyj4Yh6zUnaudYx8WQHO3ZjhO4k+FGux7M=;
-	b=PlqQ1VCdMmQb7CMTnF3ueOxvUYjQ2qNPWK23J+ZUf5kHQCWRjNcVhSKum6isUXV0J+FTi5
-	n/eN/oYuBh7sHBT/nWyYjuxY7t7NP5XlalCvGwwHoPYgw3boDPE9z69TpfaZgmdYBUcs5x
-	JkugC/OTPO2xUvTJTEevnUtGTAxfKcc=
-Date: Fri, 22 Mar 2024 05:53:07 +0800
+	bh=y/Lr4E9a605vheRZplDHsft6Dy8a9yDcfkpMMdUcuvw=;
+	b=L9TjzxInk/TWB9VgFgEsXwG/f8FNriy5FvYadItSTwGcAzvoA12wkLZQ4HgoyF2dDba9Jg
+	9uJgbyLizdtOIowlXJswVABXh0SqjoMlBM65MuohRBtPLZryPEFL5UivhGX4b6j/OLwY4o
+	zRhmZjc9BKnN5wdOGT6U55vpnnWFvWQ=
+Date: Fri, 22 Mar 2024 06:32:42 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [v10,20/27] drm/connector: hdmi: Add Infoframes generation
+Subject: Re: [v10,03/27] drm/connector: hdmi: Create an HDMI sub-state
+Content-Language: en-US
 To: Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
@@ -49,12 +50,11 @@ Cc: Hans Verkuil <hverkuil@xs4all.nl>,
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <20240321-kms-hdmi-connector-state-v10-20-e6c178361898@kernel.org>
-Content-Language: en-US
+ linux-sunxi@lists.linux.dev, Dave Stevenson <dave.stevenson@raspberrypi.com>
+References: <20240321-kms-hdmi-connector-state-v10-3-e6c178361898@kernel.org>
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <20240321-kms-hdmi-connector-state-v10-20-e6c178361898@kernel.org>
+In-Reply-To: <20240321-kms-hdmi-connector-state-v10-3-e6c178361898@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
@@ -62,59 +62,18 @@ X-Migadu-Flow: FLOW_OUT
 Hi,
 
 
-On 2024/3/21 23:29, Maxime Ripard wrote:
-> Infoframes in KMS is usually handled by a bunch of low-level helpers
-> that require quite some boilerplate for drivers. This leads to
-> discrepancies with how drivers generate them, and which are actually
-> sent.
+On 2024/3/21 23:28, Maxime Ripard wrote:
+> The next features we will need to share across drivers will need to
+> store some parameters for drivers to use, such as the selected output
+> format.
 >
-> Now that we have everything needed to generate them in the HDMI
-> connector state, we can generate them in our common logic so that
-> drivers can simply reuse what we precomputed.
+> Let's create a new connector sub-state dedicated to HDMI controllers,
+> that will eventually store everything we need.
 >
+> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
->   drivers/gpu/drm/Kconfig                            |   1 +
->   drivers/gpu/drm/drm_atomic_state_helper.c          | 338 +++++++++++++++++++++
->   drivers/gpu/drm/drm_connector.c                    |  14 +
->   .../gpu/drm/tests/drm_atomic_state_helper_test.c   |   1 +
->   drivers/gpu/drm/tests/drm_connector_test.c         |  12 +
->   include/drm/drm_atomic_state_helper.h              |   8 +
->   include/drm/drm_connector.h                        | 109 +++++++
->   7 files changed, 483 insertions(+)
->
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index 16029435b750..3d3193c7aa5f 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -97,10 +97,11 @@ config DRM_KUNIT_TEST
->   	  If in doubt, say "N".
->   
->   config DRM_KMS_HELPER
->   	tristate
->   	depends on DRM
-> +	select DRM_DISPLAY_HDMI_HELPER
 
-Should we select DRM_DISPLAY_HELPER here? Otherwise there will have some compile error
-emerged with default config.
-
-
-: drivers/gpu/drm/drm_atomic_state_helper.o: in function `drm_atomic_helper_connector_hdmi_check':
-drm_atomic_state_helper.c:(.text+0x15e4): undefined reference to `drm_hdmi_avi_infoframe_colorimetry'
-: drm_atomic_state_helper.c:(.text+0x15f0): undefined reference to `drm_hdmi_avi_infoframe_bars'
-: drm_atomic_state_helper.c:(.text+0x1638): undefined reference to `drm_hdmi_infoframe_set_hdr_metadata'
-make[2]: *** [scripts/Makefile.vmlinux:37: vmlinux] Error 1
-
-make[1]: *** [/home/suijingfeng/UpStream/drm-tip/Makefile:1162: vmlinux] Error 2
-
-make[1]: *** Waiting for unfinished jobs....
-make: *** [Makefile:240: __sub-make] Error 2
-
->   	help
->   	  CRTC helpers for KMS drivers.
->   
->   config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
->           bool "Enable refcount backtrace history in the DP MST helpers"
+Reviewed-by: Sui Jingfeng <sui.jingfeng@linux.dev>
 
 -- 
 Best regards,
