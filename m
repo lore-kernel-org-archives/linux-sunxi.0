@@ -1,143 +1,97 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8020517564
-	for <linux-sunxi@lists.linux.dev>; Fri, 22 Mar 2024 11:46:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B743E6FAE;
+	Fri, 22 Mar 2024 12:31:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711108018; cv=none; b=tpCSAGh99BEVBh+RELxOZQh468mWxlbYv24j4UIza0kFA0N/CPpF4nBWL47aDr1J2F43oo2mEUG0ib7lmgrPnRqnyUDE0V0Hr6bJsSZhITYO9diuHLw2gHxZA/maD93TzEd2T+w7tdsV8VNUzokgz8qZ4U2Zc+xuwYlN2X+kVRQ=
+	t=1711110710; cv=none; b=lWsl19rYep/tJ4yhpOz0jolMcKeCg/TAb8HOWaY7cI9av/fig/sH9qZ9pz0tgIpU2+bl4wSDVh6iypl4kN6Nqr0GQ9n4c+G55S6aUFBhfEtqwKC0TBWqiX8kXFC8ZDaYRG2G7KEiG85Wff7l5VZtWd0SNugOExPgdZNvJo0JokA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711108018; c=relaxed/simple;
-	bh=medsa2dMRB93xUxNAamarustBHMc8szL/8blQzMu2XM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=fEb23FrBKnjEpeF9XXkRglh+Gw4mTOBmhyC0FlOgNlEqmf7skVEMBC1B+UVpqQ3N4INwkHzJOmr7YuzbO9/5w2BZQ8pDqpQf7p0QKb3KUKizD5dUkt31f+TJeLI8t/fV9fQFjOSWoJsi4q/i/y2nM5X6gz0D4N0ZafqhqYjiaOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RnYpRFUX; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1711110710; c=relaxed/simple;
+	bh=QlyE6XyvtK5YH4auzoYHbK4QQ96PMKT1SN7P95GQyFY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=p2wfFPzwjGwy5r3LW6dc59lB0Q8UPnA0E/nxWKQlj4B/Od+V1QOmQMpmOmYKQm/fhfDjGB9V1O1c6+JK0jfyIUMcQuxr9Q/8LKwRsvpDgsD6pI0nvxhsZEZcfLrcufIRLKgs4sdPlkOCbW8K+CgjyINSLWHcV2eUZfdIQHpFnyY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GQncd7zO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RnYpRFUX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711108016; x=1742644016;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=medsa2dMRB93xUxNAamarustBHMc8szL/8blQzMu2XM=;
-  b=RnYpRFUXBhtxlEQSrG2flaemR1TmmDRuGq+gpeHY69uvmxFUbLoA3hZK
-   72Ta3WUOFSpfSv50e2RI59325+Dq2KXX8HS7gcXhYKLLS3Il/AFVb8gzY
-   H/t+dzMpvQzmn+5VHYY5sHBEWP3v6Ca3R/GziR68BZ7us8XbLoitkyFhL
-   JTxFLEISjxqBDVWls7zh3f6kHWWKynRxg3c6BYxi7JHD6Okv+hHSgBn8/
-   e8LR9D8thOqQbyK7V8vMaF/UTsEYE1jq0iUnStDYFCZMLW18iwFUtC9M8
-   bB7mQiEproZjsYI8uf/EzGFWme6qChDvQjw4QLoAp2Xwerz3C0QSTK4I3
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11020"; a="23604093"
-X-IronPort-AV: E=Sophos;i="6.07,145,1708416000"; 
-   d="scan'208";a="23604093"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 04:46:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,145,1708416000"; 
-   d="scan'208";a="19349726"
-Received: from ghoshsu1-mobl.ger.corp.intel.com (HELO localhost) ([10.252.55.6])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 04:46:48 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Sui Jingfeng <sui.jingfeng@linux.dev>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, Sandy Huang
- <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
- Chen-Yu Tsai
- <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick
- <sebastian.wick@redhat.com>, Ville =?utf-8?B?U3lyasOkbMOk?=
- <ville.syrjala@linux.intel.com>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GQncd7zO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09A77C433C7;
+	Fri, 22 Mar 2024 12:31:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711110710;
+	bh=QlyE6XyvtK5YH4auzoYHbK4QQ96PMKT1SN7P95GQyFY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GQncd7zOWU2lzxFreJmwqfG9yf1KhjFzLXGssQ1hhk5T0UKSaYEGZ6ary5hJPu1HU
+	 olKpkrPJ0gCBlwJ2yKEoHXBrlEbhWKNXF0R/oKjV5ZKtkd9l0hiiSuc2CVWPYyDmuv
+	 ITIfayGHMp/DzLD4GvK/BDJ9HR+FL+2mlPJPZpcAJAOcrzIXapdM82MMCdlRm/B4cm
+	 UYLTu308/ix2n/Xw6ZoJhp3FGCxTmqqraSjn9JyzqfG7c00V9Xz0iD7aztkwK5zE0J
+	 Nsby0PX8HX3EvkNXf4u+5v++RAgAThY13/Otrjznwg3v+tEVrU+qORoLhtthyf7QZV
+	 hn2yy43ReMKTA==
+Date: Fri, 22 Mar 2024 13:31:48 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Sui Jingfeng <sui.jingfeng@linux.dev>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	Sebastian Wick <sebastian.wick@redhat.com>, Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
+	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev
 Subject: Re: [v10,20/27] drm/connector: hdmi: Add Infoframes generation
-In-Reply-To: <20240322-petite-fabulous-bustard-b168ec@houat>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Message-ID: <20240322-steadfast-tanuki-from-mars-b5ea5f@houat>
 References: <20240321-kms-hdmi-connector-state-v10-20-e6c178361898@kernel.org>
  <07125064-2a78-4515-bb48-655f2aec140f@linux.dev>
- <87sf0iliyh.fsf@intel.com> <20240322-petite-fabulous-bustard-b168ec@houat>
-Date: Fri, 22 Mar 2024 13:46:42 +0200
-Message-ID: <87plvmjxp9.fsf@intel.com>
+ <20240322-loose-resourceful-bullmastiff-92cfaf@houat>
+ <7835e928-7d09-446e-91dd-13a0fa549bc2@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-
-On Fri, 22 Mar 2024, Maxime Ripard <mripard@kernel.org> wrote:
-> On Fri, Mar 22, 2024 at 11:22:14AM +0200, Jani Nikula wrote:
->> On Fri, 22 Mar 2024, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
->> > Hi,
->> >
->> >
->> > On 2024/3/21 23:29, Maxime Ripard wrote:
->> >> Infoframes in KMS is usually handled by a bunch of low-level helpers
->> >> that require quite some boilerplate for drivers. This leads to
->> >> discrepancies with how drivers generate them, and which are actually
->> >> sent.
->> >>
->> >> Now that we have everything needed to generate them in the HDMI
->> >> connector state, we can generate them in our common logic so that
->> >> drivers can simply reuse what we precomputed.
->> >>
->> >> Signed-off-by: Maxime Ripard <mripard@kernel.org>
->> >> ---
->> >>   drivers/gpu/drm/Kconfig                            |   1 +
->> >>   drivers/gpu/drm/drm_atomic_state_helper.c          | 338 +++++++++++++++++++++
->> >>   drivers/gpu/drm/drm_connector.c                    |  14 +
->> >>   .../gpu/drm/tests/drm_atomic_state_helper_test.c   |   1 +
->> >>   drivers/gpu/drm/tests/drm_connector_test.c         |  12 +
->> >>   include/drm/drm_atomic_state_helper.h              |   8 +
->> >>   include/drm/drm_connector.h                        | 109 +++++++
->> >>   7 files changed, 483 insertions(+)
->> >>
->> >> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
->> >> index 16029435b750..3d3193c7aa5f 100644
->> >> --- a/drivers/gpu/drm/Kconfig
->> >> +++ b/drivers/gpu/drm/Kconfig
->> >> @@ -97,10 +97,11 @@ config DRM_KUNIT_TEST
->> >>   	  If in doubt, say "N".
->> >>   
->> >>   config DRM_KMS_HELPER
->> >>   	tristate
->> >>   	depends on DRM
->> >> +	select DRM_DISPLAY_HDMI_HELPER
->> >
->> > Should we select DRM_DISPLAY_HELPER here? Otherwise there will have some compile error
->> > emerged with default config.
->> 
->> Can we stop abusing select instead of adding more selects to paper over
->> the issues?
->> 
->> Use select only for non-visible symbols (no prompts anywhere) and for
->> symbols with no dependencies.
->
-> I don't really have an opinion there, but it looks like all the other
-> helpers Kconfig symbols are using select everywhere, and I don't really
-> see how we could turn them into visible symbols with depends on without
-> breaking a number of defconfig.
->
-> Could you expand a bit what you have in mind here?
-
-Just my standard grumbling about the rampant select abuse.
-
-Maybe one day someone takes the hint and starts fixing things up. :p
-
-See the note under "reverse dependencies" at [1].
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ygdzto2cjdjjo7zs"
+Content-Disposition: inline
+In-Reply-To: <7835e928-7d09-446e-91dd-13a0fa549bc2@linux.dev>
 
 
-BR,
-Jani.
+--ygdzto2cjdjjo7zs
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Mar 22, 2024 at 07:13:54PM +0800, Sui Jingfeng wrote:
+> Hi,
+>=20
+>=20
+> On 2024/3/22 18:31, Maxime Ripard wrote:
+> > Which default config are you talking about? This compiles fine with all
+> > drm-misc defconfig, x86 defconfig and allmodconfig.
+>=20
+> The drm_hdmi_avi_infoframe_colorimetry() function is belong to the drm_di=
+splay_helper.ko
+> kernel module, it get called from hdmi_generate_avi_infoframe() in drm_at=
+omic_state_helper.c.
+> While drm_atomic_state_helper.c belongs to drm_kms_helper.ko. Therefore d=
+rm_kms_helper.ko
+> is dependent on drm_display_helper.ko implicitly. So we probably should s=
+elect it.
 
-[1] https://docs.kernel.org/kbuild/kconfig-language.html#menu-attributes
+Right. I was asking which config are you using to generate that build error
 
+Maxime
 
--- 
-Jani Nikula, Intel
+--ygdzto2cjdjjo7zs
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZf16MwAKCRDj7w1vZxhR
+xVPkAP9G35ser3LI9Mkz4UPsJ7hdxEY40m/H7avmJllz/P8YowD+LcjpoKgFLzQ2
+L2LkEn9vRNdhZy+7qFgJZ6RKstIwPAM=
+=B6jC
+-----END PGP SIGNATURE-----
+
+--ygdzto2cjdjjo7zs--
