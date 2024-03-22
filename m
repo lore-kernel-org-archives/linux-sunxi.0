@@ -1,62 +1,50 @@
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6166646435
-	for <linux-sunxi@lists.linux.dev>; Fri, 22 Mar 2024 13:26:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF88F664AF
+	for <linux-sunxi@lists.linux.dev>; Fri, 22 Mar 2024 13:27:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711113993; cv=none; b=C62aHbIizOGwzuFAzDdNVoLvXPDEJUs9I4HYBaI46HEeDmNFfdnFWxRWVKHOxuqQZuQgiiOlMTTAlGhkj1bcGiaOglUCkBLqwuWPRpIBkEXVnc/kv+AprhvqfE6yWfBU+1R2JzHd18AV+SC9rwZS+nbV9TdaDCQ2TUn+xTybJis=
+	t=1711114051; cv=none; b=BV+ZVfXNP2VDNL0pIJ/3iFAi1FbIQM19IR1RTbiWIaECf1QSUx3vjUZkLBxLIKDawbsYir7RaD1cZHjhgF9jplZLj49gdFT919I2HLpuOETUhBVAeteX66t9YFkSuJ2u2sWUG+826SdlRsbbmMTp9MgQ+LphdGm4x8zhP6nU13c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711113993; c=relaxed/simple;
-	bh=dkHEK5fRN4ISlL8OBFqYbKAYt0DED3N3Yfj6qrUQoVQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dkRTduvZpsx5JDyEjds+6K/jXgHHl4A/m2QiN4OGjFrR4e5XZojITBg61UEPLgP+0COKhfx04SVxxWmAzFf28ylHBZ1SpC9zG//SUueBzTfgCTaog4Zdm5uzTOAckVKnNjG7e0pOoquOtWb5dmb4LRJwMANXKLszR1zTtYO3cCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=a6wbfcte; arc=none smtp.client-ip=194.117.254.33
+	s=arc-20240116; t=1711114051; c=relaxed/simple;
+	bh=A4Mzc2nTZGdzFMcgWqISDzq4egh98/WrwYY5nCHZFUk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=PGMhFYR9xuMVqCq0MXOLHPDZdxwiI9GSgtlRWfNqV/hgdwtKIjcDgfE1vutCjjbk7BU03Y9DC4treZRK1ed0TmzwqN6RiwOf5J6l3t2Or+m6wetAWflR2c3Bb76ebvLTMgxm/LIbdj4qy38IPKQF5JuQmo5WU/IvEHnVGWPt3j8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Inynn4cA; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="a6wbfcte"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Inynn4cA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=bOf4HkOrzle/Fy
-	JG8mZHPOABnHhQv51u3vi0fpeyQ5Q=; b=a6wbfcte3+iXXCHibc+JrZzTin6dRv
-	R/KSB8hp01+LD2eYy9sHlg2rk631UWOsn12Y+n+kLseFY+llqMyTkAsXsa6SiRwh
-	MWm4LoN2zRJucl7AcBuXiztmbKc/EIBM7mZDtMCuyBPr9HgJZmeZ/QrbcrtglWHS
-	XN+P7gn2zQD/Lze6LmCDGEGHL9G2ujuVTWCU21W3oIUiV/btIhr/tqNO2UzK6c7u
-	GiqtIoKlD88U2nMoYFxi6SLiCaIBiXxhRRTMJxL3pZ9O0lWnbgR868o+Ty13YBXb
-	C70pYVUa6DcFGd/ysTyvqG2U7fdTnfOcmCXLvQLbrSiCtbkj8qjVIAVA==
-Received: (qmail 3869988 invoked from network); 22 Mar 2024 14:26:20 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 22 Mar 2024 14:26:20 +0100
-X-UD-Smtp-Session: l3s3148p1@LoLvxD8UMpNehhtF
+	:in-reply-to:references:mime-version:content-transfer-encoding;
+	 s=k1; bh=ytanu7H5eyBZ7/uQQrpibeDO0nDWqRUtTfFni6jgrYU=; b=Inynn4
+	cAKloAbOe1BMSWTKEXk7UMn0qEswaNtZvclzB3S8odDdfdfITHmo2/62ZfDZpNIR
+	8fl7Bcf9mY4DQlRcYBuLInnJiv7UNO37dnV4mCw0kboQkBLO590Br59mJNhuefCB
+	FJmIU9jS1nMraNXQjhwNKQCvJU2z6WJpvROZs/TYehnzltuqj9SJ0DR+XgGRBbtr
+	krLYxgtd0VQYdvlc2NdAZzSe/ewx7ruXzuojGVSqkQrGqXbzYFudnKeDZHLSh2XB
+	+iZh2fE7d5xyyssuuO5gBMEZNik5iPgqNvmkdXr7VqLfd61D2vxpkdfP25Zelayr
+	OzhdHCVcZJECLJZA==
+Received: (qmail 3872005 invoked from network); 22 Mar 2024 14:27:06 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 22 Mar 2024 14:27:06 +0100
+X-UD-Smtp-Session: l3s3148p1@rO+4xz8URpRehhtF
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: linux-i2c@vger.kernel.org
 Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	asahi@lists.linux.dev,
-	chrome-platform@lists.linux.dev,
-	imx@lists.linux.dev,
-	linux-actions@lists.infradead.org,
-	linux-amlogic@lists.infradead.org,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
 	linux-arm-kernel@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-mips@vger.kernel.org,
-	linux-omap@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
 	linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	openbmc@lists.ozlabs.org,
-	virtualization@lists.linux.dev
-Subject: [PATCH 00/64] i2c: reword i2c_algorithm according to newest specification
-Date: Fri, 22 Mar 2024 14:24:53 +0100
-Message-ID: <20240322132619.6389-1-wsa+renesas@sang-engineering.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 55/64] i2c: sun6i-p2wi: reword according to newest specification
+Date: Fri, 22 Mar 2024 14:25:48 +0100
+Message-ID: <20240322132619.6389-56-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240322132619.6389-1-wsa+renesas@sang-engineering.com>
+References: <20240322132619.6389-1-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -65,224 +53,95 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Okay, we need to begin somewhere...
+Match the wording of this driver wrt. the newest I2C v7, SMBus 3.2, I3C
+specifications and replace "master/slave" with more appropriate terms.
+They are also more specific because we distinguish now between a remote
+entity ("client") and a local one ("target").
 
-Start changing the wording of the I2C main header wrt. the newest I2C
-v7, SMBus 3.2, I3C specifications and replace "master/slave" with more
-appropriate terms. This first step renames the members of struct
-i2c_algorithm. Once all in-tree users are converted, the anonymous union
-will go away again. All this work will also pave the way for finally
-seperating the monolithic header into more fine-grained headers like
-"i2c/clients.h" etc. So, this is not a simple renaming-excercise but
-also a chance to update the I2C core to recent Linux standards.
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
+ drivers/i2c/busses/i2c-sun6i-p2wi.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-My motivation is to improve the I2C core API, in general. My motivation
-is not to clean each and every driver. I think this is impossible
-because register names based on official documentation will need to stay
-as they are. But the Linux-internal names should be updated IMO.
-
-That being said, I worked on 62 drivers in this series beyond plain
-renames inside 'struct i2c_algorithm' because the fruits were so
-low-hanging. Before this series, 112 files in the 'busses/' directory
-contained 'master' and/or 'slave'. After the series, only 57. Why not?
-
-Next step is updating the drivers outside the 'i2c'-folder regarding
-'struct i2c_algorithm' so we can remove the anonymous union ASAP. To be
-able to work on this with minimal dependencies, I'd like to apply this
-series between -rc1 and -rc2.
-
-I hope this will work for you guys. The changes are really minimal. If
-you are not comfortable with changes to your driver or need more time to
-review, please NACK the patch and I will drop the patch and/or address
-the issues separeately.
-
-@Andi: are you okay with this approach? It means you'd need to merge
--rc2 into your for-next branch. Or rebase if all fails.
-
-Speaking of Andi, thanks a lot to him taking care of the controller
-drivers these days. His work really gives me the freedom to work on I2C
-core issues again. Also, Renesas deserves a honorable mention here for
-increased support of my I2C activities. Thank you!
-
-If you have comments, hints, etc, please let me know.
-
-Happy hacking,
-
-   Wolfram
-
-
-Wolfram Sang (64):
-  i2c: reword i2c_algorithm according to newest specification
-  i2c: ali15x3: reword according to newest specification
-  i2c: altera: reword according to newest specification
-  i2c: amd-mp2-pci: reword according to newest specification
-  i2c: aspeed: reword according to newest specification
-  i2c: au1550: reword according to newest specification
-  i2c: bcm-iproc: reword according to newest specification
-  i2c: bcm-kona: reword according to newest specification
-  i2c: bcm2835: reword according to newest specification
-  i2c: brcmstb: reword according to newest specification
-  i2c: cadence: reword according to newest specification
-  i2c: cht-wc: reword according to newest specification
-  i2c: cp2615: reword according to newest specification
-  i2c: cpm: reword according to newest specification
-  i2c: davinci: reword according to newest specification
-  i2c: digicolor: reword according to newest specification
-  i2c: dln2: reword according to newest specification
-  i2c: eg20t: reword according to newest specification
-  i2c: emev2: reword according to newest specification
-  i2c: fsi: reword according to newest specification
-  i2c: gpio: reword according to newest specification
-  i2c: highlander: reword according to newest specification
-  i2c: hix5hd2: reword according to newest specification
-  i2c: i801: reword according to newest specification
-  i2c: ibm_iic: reword according to newest specification
-  i2c: imx-lpi2c: reword according to newest specification
-  i2c: iop3xx: reword according to newest specification
-  i2c: isch: reword according to newest specification
-  i2c: ismt: reword according to newest specification
-  i2c: ljca: reword according to newest specification
-  i2c: lpc2k: reword according to newest specification
-  i2c: ls2x: reword according to newest specification
-  i2c: mchp-pci1xxxx: reword according to newest specification
-  i2c: microchip-corei2c: reword according to newest specification
-  i2c: mlxcpld: reword according to newest specification
-  i2c: mpc: reword according to newest specification
-  i2c: mt7621: reword according to newest specification
-  i2c: mv64xxx: reword according to newest specification
-  i2c: octeon-core: reword according to newest specification
-  i2c: owl: reword according to newest specification
-  i2c: piix4: reword according to newest specification
-  i2c: powermac: reword according to newest specification
-  i2c: pxa-pci: reword according to newest specification
-  i2c: qup: reword according to newest specification
-  i2c: rcar: reword according to newest specification
-  i2c: riic: reword according to newest specification
-  i2c: rk3x: reword according to newest specification
-  i2c: sh7760: reword according to newest specification
-  i2c: sh_mobile: reword according to newest specification
-  i2c: sis5595: reword according to newest specification
-  i2c: sis630: reword according to newest specification
-  i2c: sprd: reword according to newest specification
-  i2c: st: reword according to newest specification
-  i2c: stm32f4: reword according to newest specification
-  i2c: sun6i-p2wi: reword according to newest specification
-  i2c: synquacer: reword according to newest specification
-  i2c: taos-evm: reword according to newest specification
-  i2c: tiny-usb: reword according to newest specification
-  i2c: uniphier-f: reword according to newest specification
-  i2c: uniphier: reword according to newest specification
-  i2c: viperboard: reword according to newest specification
-  i2c: xlp9xx: reword according to newest specification
-  i2c: scx200_acb: reword according to newest specification
-  i2c: reword i2c_algorithm in drivers according to newest specification
-
- drivers/i2c/busses/i2c-ali15x3.c           |  2 +-
- drivers/i2c/busses/i2c-altera.c            |  4 +-
- drivers/i2c/busses/i2c-amd-mp2-pci.c       |  8 ++--
- drivers/i2c/busses/i2c-amd-mp2-plat.c      |  2 +-
- drivers/i2c/busses/i2c-aspeed.c            | 26 +++++-----
- drivers/i2c/busses/i2c-at91-master.c       |  2 +-
- drivers/i2c/busses/i2c-at91-slave.c        |  8 ++--
- drivers/i2c/busses/i2c-au1550.c            | 14 +++---
- drivers/i2c/busses/i2c-axxia.c             | 10 ++--
- drivers/i2c/busses/i2c-bcm-iproc.c         | 20 ++++----
- drivers/i2c/busses/i2c-bcm-kona.c          | 14 +++---
- drivers/i2c/busses/i2c-bcm2835.c           |  8 ++--
- drivers/i2c/busses/i2c-brcmstb.c           | 12 ++---
- drivers/i2c/busses/i2c-cadence.c           | 14 +++---
- drivers/i2c/busses/i2c-cht-wc.c            |  8 ++--
- drivers/i2c/busses/i2c-cp2615.c            |  6 +--
- drivers/i2c/busses/i2c-cpm.c               |  4 +-
- drivers/i2c/busses/i2c-cros-ec-tunnel.c    |  2 +-
- drivers/i2c/busses/i2c-davinci.c           | 13 +++--
- drivers/i2c/busses/i2c-designware-master.c |  2 +-
- drivers/i2c/busses/i2c-designware-slave.c  |  8 ++--
- drivers/i2c/busses/i2c-digicolor.c         |  4 +-
- drivers/i2c/busses/i2c-diolan-u2c.c        |  2 +-
- drivers/i2c/busses/i2c-dln2.c              |  4 +-
- drivers/i2c/busses/i2c-eg20t.c             | 10 ++--
- drivers/i2c/busses/i2c-emev2.c             | 10 ++--
- drivers/i2c/busses/i2c-exynos5.c           |  4 +-
- drivers/i2c/busses/i2c-fsi.c               | 56 +++++++++++-----------
- drivers/i2c/busses/i2c-gpio.c              |  8 ++--
- drivers/i2c/busses/i2c-gxp.c               | 12 ++---
- drivers/i2c/busses/i2c-highlander.c        |  2 +-
- drivers/i2c/busses/i2c-hisi.c              |  4 +-
- drivers/i2c/busses/i2c-hix5hd2.c           |  4 +-
- drivers/i2c/busses/i2c-i801.c              | 12 ++---
- drivers/i2c/busses/i2c-ibm_iic.c           | 26 +++++-----
- drivers/i2c/busses/i2c-img-scb.c           |  2 +-
- drivers/i2c/busses/i2c-imx-lpi2c.c         | 10 ++--
- drivers/i2c/busses/i2c-imx.c               | 12 ++---
- drivers/i2c/busses/i2c-iop3xx.c            | 10 ++--
- drivers/i2c/busses/i2c-isch.c              |  2 +-
- drivers/i2c/busses/i2c-ismt.c              |  2 +-
- drivers/i2c/busses/i2c-jz4780.c            |  2 +-
- drivers/i2c/busses/i2c-kempld.c            |  2 +-
- drivers/i2c/busses/i2c-ljca.c              | 20 ++++----
- drivers/i2c/busses/i2c-lpc2k.c             |  8 ++--
- drivers/i2c/busses/i2c-ls2x.c              |  8 ++--
- drivers/i2c/busses/i2c-mchp-pci1xxxx.c     | 40 ++++++++--------
- drivers/i2c/busses/i2c-meson.c             |  4 +-
- drivers/i2c/busses/i2c-microchip-corei2c.c |  4 +-
- drivers/i2c/busses/i2c-mlxbf.c             |  8 ++--
- drivers/i2c/busses/i2c-mlxcpld.c           | 12 ++---
- drivers/i2c/busses/i2c-mpc.c               |  4 +-
- drivers/i2c/busses/i2c-mt65xx.c            |  2 +-
- drivers/i2c/busses/i2c-mt7621.c            | 22 ++++-----
- drivers/i2c/busses/i2c-mv64xxx.c           | 12 ++---
- drivers/i2c/busses/i2c-mxs.c               |  2 +-
- drivers/i2c/busses/i2c-nomadik.c           |  2 +-
- drivers/i2c/busses/i2c-npcm7xx.c           | 12 ++---
- drivers/i2c/busses/i2c-nvidia-gpu.c        |  4 +-
- drivers/i2c/busses/i2c-ocores.c            |  8 ++--
- drivers/i2c/busses/i2c-octeon-core.c       |  6 +--
- drivers/i2c/busses/i2c-octeon-platdrv.c    |  2 +-
- drivers/i2c/busses/i2c-omap.c              |  4 +-
- drivers/i2c/busses/i2c-opal.c              |  4 +-
- drivers/i2c/busses/i2c-owl.c               | 10 ++--
- drivers/i2c/busses/i2c-pasemi-core.c       |  2 +-
- drivers/i2c/busses/i2c-piix4.c             |  2 +-
- drivers/i2c/busses/i2c-pnx.c               |  2 +-
- drivers/i2c/busses/i2c-powermac.c          |  8 ++--
- drivers/i2c/busses/i2c-pxa-pci.c           |  2 +-
- drivers/i2c/busses/i2c-pxa.c               | 12 ++---
- drivers/i2c/busses/i2c-qcom-cci.c          |  2 +-
- drivers/i2c/busses/i2c-qcom-geni.c         |  2 +-
- drivers/i2c/busses/i2c-qup.c               |  6 +--
- drivers/i2c/busses/i2c-rcar.c              | 16 +++----
- drivers/i2c/busses/i2c-riic.c              |  6 +--
- drivers/i2c/busses/i2c-rk3x.c              | 18 +++----
- drivers/i2c/busses/i2c-robotfuzz-osif.c    |  2 +-
- drivers/i2c/busses/i2c-rzv2m.c             |  8 ++--
- drivers/i2c/busses/i2c-s3c2410.c           |  4 +-
- drivers/i2c/busses/i2c-sh7760.c            | 18 +++----
- drivers/i2c/busses/i2c-sh_mobile.c         | 12 ++---
- drivers/i2c/busses/i2c-sis5595.c           |  2 +-
- drivers/i2c/busses/i2c-sis630.c            | 16 +++----
- drivers/i2c/busses/i2c-sprd.c              | 14 +++---
- drivers/i2c/busses/i2c-st.c                | 17 +++----
- drivers/i2c/busses/i2c-stm32f4.c           |  8 ++--
- drivers/i2c/busses/i2c-stm32f7.c           | 14 +++---
- drivers/i2c/busses/i2c-sun6i-p2wi.c        | 20 ++++----
- drivers/i2c/busses/i2c-synquacer.c         | 30 ++++++------
- drivers/i2c/busses/i2c-taos-evm.c          |  2 +-
- drivers/i2c/busses/i2c-tegra-bpmp.c        |  4 +-
- drivers/i2c/busses/i2c-tegra.c             |  4 +-
- drivers/i2c/busses/i2c-thunderx-pcidrv.c   |  2 +-
- drivers/i2c/busses/i2c-tiny-usb.c          |  4 +-
- drivers/i2c/busses/i2c-uniphier-f.c        | 22 ++++-----
- drivers/i2c/busses/i2c-uniphier.c          | 12 ++---
- drivers/i2c/busses/i2c-viperboard.c        |  8 ++--
- drivers/i2c/busses/i2c-virtio.c            |  2 +-
- drivers/i2c/busses/i2c-wmt.c               |  2 +-
- drivers/i2c/busses/i2c-xiic.c              |  2 +-
- drivers/i2c/busses/i2c-xlp9xx.c            |  4 +-
- drivers/i2c/busses/scx200_acb.c            |  4 +-
- include/linux/i2c.h                        | 24 ++++++++--
- 104 files changed, 460 insertions(+), 464 deletions(-)
-
+diff --git a/drivers/i2c/busses/i2c-sun6i-p2wi.c b/drivers/i2c/busses/i2c-sun6i-p2wi.c
+index 85e035e7a1d7..bb01746738b1 100644
+--- a/drivers/i2c/busses/i2c-sun6i-p2wi.c
++++ b/drivers/i2c/busses/i2c-sun6i-p2wi.c
+@@ -10,7 +10,7 @@
+  * The P2WI controller looks like an SMBus controller which only supports byte
+  * data transfers. But, it differs from standard SMBus protocol on several
+  * aspects:
+- * - it supports only one slave device, and thus drop the address field
++ * - it supports only one client device, and thus drop the address field
+  * - it adds a parity bit every 8bits of data
+  * - only one read access is required to read a byte (instead of a write
+  *   followed by a read access in standard SMBus protocol)
+@@ -88,7 +88,7 @@ struct p2wi {
+ 	void __iomem *regs;
+ 	struct clk *clk;
+ 	struct reset_control *rstc;
+-	int slave_addr;
++	int client_addr;
+ };
+ 
+ static irqreturn_t p2wi_interrupt(int irq, void *dev_id)
+@@ -121,7 +121,7 @@ static int p2wi_smbus_xfer(struct i2c_adapter *adap, u16 addr,
+ 	struct p2wi *p2wi = i2c_get_adapdata(adap);
+ 	unsigned long dlen = P2WI_DLEN_DATA_LENGTH(1);
+ 
+-	if (p2wi->slave_addr >= 0 && addr != p2wi->slave_addr) {
++	if (p2wi->client_addr >= 0 && addr != p2wi->client_addr) {
+ 		dev_err(&adap->dev, "invalid P2WI address\n");
+ 		return -EINVAL;
+ 	}
+@@ -188,7 +188,7 @@ static int p2wi_probe(struct platform_device *pdev)
+ 	unsigned long parent_clk_freq;
+ 	u32 clk_freq = I2C_MAX_STANDARD_MODE_FREQ;
+ 	struct p2wi *p2wi;
+-	u32 slave_addr;
++	u32 client_addr;
+ 	int clk_div;
+ 	int irq;
+ 	int ret;
+@@ -207,7 +207,7 @@ static int p2wi_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	if (of_get_child_count(np) > 1) {
+-		dev_err(dev, "P2WI only supports one slave device\n");
++		dev_err(dev, "P2WI only supports one client device\n");
+ 		return -EINVAL;
+ 	}
+ 
+@@ -215,24 +215,24 @@ static int p2wi_probe(struct platform_device *pdev)
+ 	if (!p2wi)
+ 		return -ENOMEM;
+ 
+-	p2wi->slave_addr = -1;
++	p2wi->client_addr = -1;
+ 
+ 	/*
+ 	 * Authorize a p2wi node without any children to be able to use an
+ 	 * i2c-dev from userpace.
+-	 * In this case the slave_addr is set to -1 and won't be checked when
++	 * In this case the client_addr is set to -1 and won't be checked when
+ 	 * launching a P2WI transfer.
+ 	 */
+ 	childnp = of_get_next_available_child(np, NULL);
+ 	if (childnp) {
+-		ret = of_property_read_u32(childnp, "reg", &slave_addr);
++		ret = of_property_read_u32(childnp, "reg", &client_addr);
+ 		if (ret) {
+-			dev_err(dev, "invalid slave address on node %pOF\n",
++			dev_err(dev, "invalid client address on node %pOF\n",
+ 				childnp);
+ 			return -EINVAL;
+ 		}
+ 
+-		p2wi->slave_addr = slave_addr;
++		p2wi->client_addr = client_addr;
+ 	}
+ 
+ 	p2wi->regs = devm_platform_ioremap_resource(pdev, 0);
 -- 
 2.43.0
 
