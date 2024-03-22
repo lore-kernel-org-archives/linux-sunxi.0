@@ -1,147 +1,96 @@
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+Received: from out-175.mta0.migadu.com (out-175.mta0.migadu.com [91.218.175.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF88F664AF
-	for <linux-sunxi@lists.linux.dev>; Fri, 22 Mar 2024 13:27:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05A5E47A7A
+	for <linux-sunxi@lists.linux.dev>; Fri, 22 Mar 2024 14:30:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711114051; cv=none; b=BV+ZVfXNP2VDNL0pIJ/3iFAi1FbIQM19IR1RTbiWIaECf1QSUx3vjUZkLBxLIKDawbsYir7RaD1cZHjhgF9jplZLj49gdFT919I2HLpuOETUhBVAeteX66t9YFkSuJ2u2sWUG+826SdlRsbbmMTp9MgQ+LphdGm4x8zhP6nU13c=
+	t=1711117839; cv=none; b=bhT9i7VN0VHoDPe6OWKE9SAsfotv1Pu++EkjxPZyOI3RQ5GjlIW0KrR7JZJA6ObJpqeXQ8CduH+qP/F3rIPKbKhCSYHT3dJCxV6RCWeEu20rpFTN7GHFrLEdo2y6Cy35hN2hvOPQIcGbltLbCbTslLCV3aQ/cwOcTtG/GZfxSG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711114051; c=relaxed/simple;
-	bh=A4Mzc2nTZGdzFMcgWqISDzq4egh98/WrwYY5nCHZFUk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PGMhFYR9xuMVqCq0MXOLHPDZdxwiI9GSgtlRWfNqV/hgdwtKIjcDgfE1vutCjjbk7BU03Y9DC4treZRK1ed0TmzwqN6RiwOf5J6l3t2Or+m6wetAWflR2c3Bb76ebvLTMgxm/LIbdj4qy38IPKQF5JuQmo5WU/IvEHnVGWPt3j8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Inynn4cA; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	s=arc-20240116; t=1711117839; c=relaxed/simple;
+	bh=ckkugpHgNe8GIeIYxkb7EhPuXOw/jTJIfXFSmMpb8YI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=igo+doRLDkJeF1Bvx9PVRmAgmDQXgCVEq5UNun2yqkBoxYy0Cye0B715whOWc/aNSgGUk2AYeP9PrHBIsfaEsgH3z7YkS1e08LC6Qr3KtfzCzE/Tcf61jfHW5CcVfdUR2ldmliq+ULM80RgSOHpvqOyodnx8F1cUw4JmJW72vsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=vb2tIA0m; arc=none smtp.client-ip=91.218.175.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Inynn4cA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=ytanu7H5eyBZ7/uQQrpibeDO0nDWqRUtTfFni6jgrYU=; b=Inynn4
-	cAKloAbOe1BMSWTKEXk7UMn0qEswaNtZvclzB3S8odDdfdfITHmo2/62ZfDZpNIR
-	8fl7Bcf9mY4DQlRcYBuLInnJiv7UNO37dnV4mCw0kboQkBLO590Br59mJNhuefCB
-	FJmIU9jS1nMraNXQjhwNKQCvJU2z6WJpvROZs/TYehnzltuqj9SJ0DR+XgGRBbtr
-	krLYxgtd0VQYdvlc2NdAZzSe/ewx7ruXzuojGVSqkQrGqXbzYFudnKeDZHLSh2XB
-	+iZh2fE7d5xyyssuuO5gBMEZNik5iPgqNvmkdXr7VqLfd61D2vxpkdfP25Zelayr
-	OzhdHCVcZJECLJZA==
-Received: (qmail 3872005 invoked from network); 22 Mar 2024 14:27:06 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 22 Mar 2024 14:27:06 +0100
-X-UD-Smtp-Session: l3s3148p1@rO+4xz8URpRehhtF
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-i2c@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 55/64] i2c: sun6i-p2wi: reword according to newest specification
-Date: Fri, 22 Mar 2024 14:25:48 +0100
-Message-ID: <20240322132619.6389-56-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240322132619.6389-1-wsa+renesas@sang-engineering.com>
-References: <20240322132619.6389-1-wsa+renesas@sang-engineering.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="vb2tIA0m"
+Message-ID: <fe4ea866-5485-4041-9a06-5441c429b150@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1711117835;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IllocFnwNiXVGU+HouNFbx0kAsYD151iYbY5EqUrK60=;
+	b=vb2tIA0mE3RjQRmFtwRGeRNWtPVle8xwPuGz3k0mXmPbxA9+rb6RH0etsFkHhWQAK0DPpa
+	g5mehHDk0VOcMpylaYKuk/GPkLTeV+eLrTyDxbPhCe5wLBDOUZZwHJnSVNO/KTYtRNTvk5
+	0YVP778XwUltNtoGBLyTwJ0FFHUEiCo=
+Date: Fri, 22 Mar 2024 22:30:20 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: Re: [v10,20/27] drm/connector: hdmi: Add Infoframes generation
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+References: <20240321-kms-hdmi-connector-state-v10-20-e6c178361898@kernel.org>
+ <07125064-2a78-4515-bb48-655f2aec140f@linux.dev>
+ <20240322-loose-resourceful-bullmastiff-92cfaf@houat>
+ <7835e928-7d09-446e-91dd-13a0fa549bc2@linux.dev>
+ <20240322-steadfast-tanuki-from-mars-b5ea5f@houat>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <20240322-steadfast-tanuki-from-mars-b5ea5f@houat>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-Match the wording of this driver wrt. the newest I2C v7, SMBus 3.2, I3C
-specifications and replace "master/slave" with more appropriate terms.
-They are also more specific because we distinguish now between a remote
-entity ("client") and a local one ("target").
+Hi,
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- drivers/i2c/busses/i2c-sun6i-p2wi.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/i2c/busses/i2c-sun6i-p2wi.c b/drivers/i2c/busses/i2c-sun6i-p2wi.c
-index 85e035e7a1d7..bb01746738b1 100644
---- a/drivers/i2c/busses/i2c-sun6i-p2wi.c
-+++ b/drivers/i2c/busses/i2c-sun6i-p2wi.c
-@@ -10,7 +10,7 @@
-  * The P2WI controller looks like an SMBus controller which only supports byte
-  * data transfers. But, it differs from standard SMBus protocol on several
-  * aspects:
-- * - it supports only one slave device, and thus drop the address field
-+ * - it supports only one client device, and thus drop the address field
-  * - it adds a parity bit every 8bits of data
-  * - only one read access is required to read a byte (instead of a write
-  *   followed by a read access in standard SMBus protocol)
-@@ -88,7 +88,7 @@ struct p2wi {
- 	void __iomem *regs;
- 	struct clk *clk;
- 	struct reset_control *rstc;
--	int slave_addr;
-+	int client_addr;
- };
- 
- static irqreturn_t p2wi_interrupt(int irq, void *dev_id)
-@@ -121,7 +121,7 @@ static int p2wi_smbus_xfer(struct i2c_adapter *adap, u16 addr,
- 	struct p2wi *p2wi = i2c_get_adapdata(adap);
- 	unsigned long dlen = P2WI_DLEN_DATA_LENGTH(1);
- 
--	if (p2wi->slave_addr >= 0 && addr != p2wi->slave_addr) {
-+	if (p2wi->client_addr >= 0 && addr != p2wi->client_addr) {
- 		dev_err(&adap->dev, "invalid P2WI address\n");
- 		return -EINVAL;
- 	}
-@@ -188,7 +188,7 @@ static int p2wi_probe(struct platform_device *pdev)
- 	unsigned long parent_clk_freq;
- 	u32 clk_freq = I2C_MAX_STANDARD_MODE_FREQ;
- 	struct p2wi *p2wi;
--	u32 slave_addr;
-+	u32 client_addr;
- 	int clk_div;
- 	int irq;
- 	int ret;
-@@ -207,7 +207,7 @@ static int p2wi_probe(struct platform_device *pdev)
- 	}
- 
- 	if (of_get_child_count(np) > 1) {
--		dev_err(dev, "P2WI only supports one slave device\n");
-+		dev_err(dev, "P2WI only supports one client device\n");
- 		return -EINVAL;
- 	}
- 
-@@ -215,24 +215,24 @@ static int p2wi_probe(struct platform_device *pdev)
- 	if (!p2wi)
- 		return -ENOMEM;
- 
--	p2wi->slave_addr = -1;
-+	p2wi->client_addr = -1;
- 
- 	/*
- 	 * Authorize a p2wi node without any children to be able to use an
- 	 * i2c-dev from userpace.
--	 * In this case the slave_addr is set to -1 and won't be checked when
-+	 * In this case the client_addr is set to -1 and won't be checked when
- 	 * launching a P2WI transfer.
- 	 */
- 	childnp = of_get_next_available_child(np, NULL);
- 	if (childnp) {
--		ret = of_property_read_u32(childnp, "reg", &slave_addr);
-+		ret = of_property_read_u32(childnp, "reg", &client_addr);
- 		if (ret) {
--			dev_err(dev, "invalid slave address on node %pOF\n",
-+			dev_err(dev, "invalid client address on node %pOF\n",
- 				childnp);
- 			return -EINVAL;
- 		}
- 
--		p2wi->slave_addr = slave_addr;
-+		p2wi->client_addr = client_addr;
- 	}
- 
- 	p2wi->regs = devm_platform_ioremap_resource(pdev, 0);
+On 2024/3/22 20:31, Maxime Ripard wrote:
+> On Fri, Mar 22, 2024 at 07:13:54PM +0800, Sui Jingfeng wrote:
+>> Hi,
+>>
+>>
+>> On 2024/3/22 18:31, Maxime Ripard wrote:
+>>> Which default config are you talking about? This compiles fine with all
+>>> drm-misc defconfig, x86 defconfig and allmodconfig.
+>> The drm_hdmi_avi_infoframe_colorimetry() function is belong to the drm_display_helper.ko
+>> kernel module, it get called from hdmi_generate_avi_infoframe() in drm_atomic_state_helper.c.
+>> While drm_atomic_state_helper.c belongs to drm_kms_helper.ko. Therefore drm_kms_helper.ko
+>> is dependent on drm_display_helper.ko implicitly. So we probably should select it.
+> Right. I was asking which config are you using to generate that build error
+
+
+I'm using the arch/riscv/configs/defconfig, with the following module de-selected.
+
+CONFIG_DRM_RADEON
+CONFIG_DRM_NOUVEAU
+CONFIG_DRM_SUN4I
+
+  
+
+> Maxime
+
 -- 
-2.43.0
+Best regards,
+Sui
 
