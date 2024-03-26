@@ -1,75 +1,101 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0129171B5D
-	for <linux-sunxi@lists.linux.dev>; Tue, 26 Mar 2024 13:18:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E9E313C90A;
+	Tue, 26 Mar 2024 15:27:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711459117; cv=none; b=dz2JSU9aGsmVYB2/XPXSJnLT1GDcv0wKKcyTx4SuybUPdQNru8Mvg6yguVs7M1Pp2sAlFbne7nGRiFwgCF5VAxHL2eGNPHdsxVBakl0z0uOuMrdH/1b6PD0U782KYXOFW0mpHp1SBDlk04lJEJ59N3AaMQ4CViPTK8+KJ9oB+rQ=
+	t=1711466858; cv=none; b=R1yMGYpbWamlFxMGe7F+vn6ibHdbrwkCD3IPE/bKXz/5HQYbTUr5YjMFvAubts8l0Vazh/xc/TY+FCCSqosa4Z5IcmIV+DDPVp9u7CV6BZF0NJer3EwmhilvHajFn7mK2BiI19TuOagwC7KYXr7UEz809ssr4nVqJv8+553yH+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711459117; c=relaxed/simple;
-	bh=/nfUf4bHC6IkXOSSHYXmq0tI2QSlZiU0fQbaU71/T1U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hj3VPD1bpHPXoxf3ayCf4yWYYIRKBPeU+2n3pNPBeWTT/FO5MKmocW2NBgds4SyoXgdGzjpFKZXWaTBwmvmYd2wCz0Nfdh5b+1Txa79g0nVPVO3PPFZB4opp3RzKTMbvMYP8NPKXmhBva4lWLhI09zJ6IiRifP06g4JMRyLC938=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AE9442F4;
-	Tue, 26 Mar 2024 06:19:07 -0700 (PDT)
-Received: from bogus (e103737-lin.cambridge.arm.com [10.1.197.49])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 464C93F64C;
-	Tue, 26 Mar 2024 06:18:31 -0700 (PDT)
-Date: Tue, 26 Mar 2024 13:18:28 +0000
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Yangtao Li <tiny.windzz@gmail.com>, Viresh Kumar <vireshk@kernel.org>,
-	Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, linux-pm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	Brandon Cheo Fusi <fusibrandon13@gmail.com>,
-	Martin Botka <martin.botka@somainline.org>,
-	Martin Botka <martin.botka1@gmail.com>,
-	Chris Morgan <macroalpha82@gmail.com>,
-	Ryan Walklin <ryan@testtoast.com>
-Subject: Re: [PATCH v3 1/8] firmware: smccc: Export revision soc_id function
-Message-ID: <ZgLLJE0k7F3nGEuq@bogus>
-References: <20240326114743.712167-1-andre.przywara@arm.com>
- <20240326114743.712167-2-andre.przywara@arm.com>
+	s=arc-20240116; t=1711466858; c=relaxed/simple;
+	bh=lv5bA0FZ5ZAVNsfhWNcrlt0nZyurirWCe8fm49gbPRw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=MnXLEGDDK3GDXxKCnLvKHjHUp53b9UDdWTr2R2bxHOmpuJ3fhMyTRRCIObXlthWFVW3Z15cKLM24LVNZy+IN1YWdBGMu+6f7yaP6xU9YK7QlYfbgEcWz3K2+6JrQUIClFlQ5Y3Us+j6itL8Vb8fLBzCD00Vr7XJ7sUrySCPPeFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CTuDa2Bq; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CTuDa2Bq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7106C43394;
+	Tue, 26 Mar 2024 15:27:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711466858;
+	bh=lv5bA0FZ5ZAVNsfhWNcrlt0nZyurirWCe8fm49gbPRw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=CTuDa2BqxhIm3T80DmDW58q7Z+Hgm71qSDdBIsq5p2aLARE5wVAzS+H62tmaSAAQ9
+	 ddaCDvQVN4MS55bQxmVLuLedaz0bs/HjO5JWMGMXnGDIBi4XWzNO39uux2eoOVYLm3
+	 cPpQRpOBCVOLwU1fQIDav5r1ZtObb9rRJJu5AZPPaGI5RRLsJENYzihAdUbsjTmJA2
+	 L6vZtlJmiBGcAhZ/LGg1q1sR+JnR9cxY4QVpTyBXzLlNI8WTop1zWbBsvz1AFpvEP4
+	 kN8aeXBB3Au1aTZHtn3NeB80EgW2uaBbwpZrRsrw3qxXZPWkBswJy+owsjEjy/OV/o
+	 fu+B/91NXYEpg==
+From: Mark Brown <broonie@kernel.org>
+To: linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ =?utf-8?q?Ond=C5=99ej_Jirman?= <megi@xff.cz>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Arnaud Ferraris <arnaud.ferraris@collabora.com>, 
+ linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev
+In-Reply-To: <20240223015219.3618111-1-megi@xff.cz>
+References: <20240223015219.3618111-1-megi@xff.cz>
+Subject: Re: [PATCH v2 0/5] Add support for jack detection to codec present
+ in A64 SoC
+Message-Id: <171146685553.132239.7359071479425235403.b4-ty@kernel.org>
+Date: Tue, 26 Mar 2024 15:27:35 +0000
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240326114743.712167-2-andre.przywara@arm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.14-dev
 
-On Tue, Mar 26, 2024 at 11:47:36AM +0000, Andre Przywara wrote:
-> From: Martin Botka <martin.botka@somainline.org>
+On Fri, 23 Feb 2024 02:52:10 +0100, Ondřej Jirman wrote:
+> This series adds support for jack detection to this codec. I used
+> and tested this on Pinephone. It works quite nicely. I tested it
+> against Android headset mic button resistor specification.
 > 
-> The "SoC ID revision" as provided via the SMCCC SOCID interface can be
-> valuable information for drivers, when certain functionality depends
-> on a die revision, for instance.
-> One example is the sun50i-cpufreq-nvmem driver, which needs this
-> information to determine the speed bin of the SoC.
+> The patches are improved and debugged version of the original
+> ones from Arnaud Ferraris and Samuel Holland, imrpoved to better
+> handle headset button presses and with more robust plug-in/out
+> event debouncing.
 > 
-> Export the arm_smccc_get_soc_id_revision() function so that it can be
-> called by any driver.
-> 
+> [...]
 
-Assuming sun50i cpufreq driver can be built as module,
+Applied to
 
-Acked-by: Sudeep Holla <sudeep.holla@arm.com>
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
--- 
-Regards,
-Sudeep
+Thanks!
+
+[1/5] dt-bindings: sound: Add jack-type property to sun8i-a33-codec
+      (no commit info)
+[2/5] ASoC: sun50i-codec-analog: Move suspend/resume to set_bias_level
+      commit: c0454d31e05062b1c7df7eef21855ba1f56c5158
+[3/5] ASoC: sun8i-codec: Enable bus clock at STANDBY and higher bias
+      commit: c556814b926c3f16fdca3d18cac793ccf0d14c44
+[4/5] ASoC: sun50i-codec-analog: Enable jack detection on startup
+      commit: d5961e43b28668088087befbf4f7a043bd0ae65c
+[5/5] ASoC: sun8i-codec: Implement jack and accessory detection
+      commit: 21fa98f4197bb3365dda1417708b318f403c13c1
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
