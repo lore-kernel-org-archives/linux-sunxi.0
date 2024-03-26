@@ -1,142 +1,155 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 591C223B1
-	for <linux-sunxi@lists.linux.dev>; Tue, 26 Mar 2024 11:02:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EAAE5810C
+	for <linux-sunxi@lists.linux.dev>; Tue, 26 Mar 2024 11:48:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711450963; cv=none; b=IKs/QiQTpIAZQj8QcXOVRXATJUCh5L+YldLR/AutjcyYl1yXkkmQ7euwoSIUuqc3Y5W30o3lJDgdwjsegHsKjKcXLQ9ALNfFFXzf3dHiPG5NYNk/VXBnOrstD0XIuqyMl7sfRfAYa2FGKfhXQ3OqTBjQrSiwQMFiydTUXkgmpvE=
+	t=1711453725; cv=none; b=LRgTZIdO6OqYOUd52ofoqh1e5+8KFWZ22GmBhbabhR7AnbDhEEJU2trfV36g3j9718LuH4w+Fl+4Vxf+IIyQJNn7l79MBQLcfbw2jjZMQrO8Ol/vn7lOm/Fp7ZyjVIEO+P8SDnPM/LkP6KHeOX3oaWXlTs/nB+GI3aNxO4gTGvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711450963; c=relaxed/simple;
-	bh=lJZ872wzJYmtD936Nj9aY6ECjXsLe8FKlqpmsMJ7meM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=O0HKs1tLDVYioCzcaJMH7hmVuPWDphBXmI/xgAC0bYA8VS7V/ZyYWruPoMAzfG0lgRBWyN2DrJcySCxNuyC3YfBPGCWECtj27PaE5tsyFiN49BoBtAqEEeX7PC2P7ccnHFDHjjrLH31qTk+1BiERL7F3qNy5L4lHv6v+wczmvYM=
+	s=arc-20240116; t=1711453725; c=relaxed/simple;
+	bh=JhI390Gy3PttFitNsIrOZdKppqY+JuSX3Wk1NJicFz8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=VQt274FEtEFX9yGpkX4WOvcQnCLzEqutwoVBcH5pGDR8LGHEV3ALuvALjvBu3B6ybJkCVu5TsYwT5f++kM8mWnsKuq+BPA5RyulGDBls5cBR2ZiOU7+XAjLdx+R7mOc7N76/7/O2p89567xZdiYsjDWjmfVq46nBijF6sF1qY9s=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 38D4D2F4;
-	Tue, 26 Mar 2024 04:03:15 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5017A3F64C;
-	Tue, 26 Mar 2024 04:02:39 -0700 (PDT)
-Date: Tue, 26 Mar 2024 11:02:36 +0000
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6FA582F4;
+	Tue, 26 Mar 2024 04:49:15 -0700 (PDT)
+Received: from donnerap.arm.com (donnerap.manchester.arm.com [10.32.100.28])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F120F3F64C;
+	Tue, 26 Mar 2024 04:48:38 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: Rob Herring <robh@kernel.org>, Yangtao Li <tiny.windzz@gmail.com>,
- Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, Stephen Boyd
- <sboyd@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, "Rafael J . Wysocki"
- <rafael@kernel.org>, linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, Brandon
- Cheo Fusi <fusibrandon13@gmail.com>, Martin Botka
- <martin.botka@somainline.org>, Martin Botka <martin.botka1@gmail.com>
-Subject: Re: [PATCH v2 3/8] dt-bindings: opp: Describe H616 OPPs and
- opp-supported-hw
-Message-ID: <20240326110236.69ba33a8@donnerap.manchester.arm.com>
-In-Reply-To: <20240321030923.4sf3lifbmnvvidaa@vireshk-i7>
-References: <20240318011228.2626-1-andre.przywara@arm.com>
-	<20240318011228.2626-4-andre.przywara@arm.com>
-	<20240320150228.GA1705913-robh@kernel.org>
-	<20240320153738.3e2410bf@donnerap.manchester.arm.com>
-	<20240321030923.4sf3lifbmnvvidaa@vireshk-i7>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+To: Yangtao Li <tiny.windzz@gmail.com>,
+	Viresh Kumar <vireshk@kernel.org>,
+	Nishanth Menon <nm@ti.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>
+Cc: linux-pm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	Brandon Cheo Fusi <fusibrandon13@gmail.com>,
+	Martin Botka <martin.botka@somainline.org>,
+	Martin Botka <martin.botka1@gmail.com>,
+	Chris Morgan <macroalpha82@gmail.com>,
+	Ryan Walklin <ryan@testtoast.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Sudeep Holla <sudeep.holla@arm.com>
+Subject: [PATCH v3 0/8] cpufreq: sun50i: Add Allwinner H616 support
+Date: Tue, 26 Mar 2024 11:47:35 +0000
+Message-Id: <20240326114743.712167-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Thu, 21 Mar 2024 08:39:23 +0530
-Viresh Kumar <viresh.kumar@linaro.org> wrote:
+This series adds cpufreq support to the Allwinner H616 SoC.
+v3 has seen only little changes compared to v2, which contained quite
+some rework of Martin's original series from about half a year ago[1].
+Thanks for the comments on the list, I adjusted the OPP nodes as
+suggested. See below for a changelog.
 
-Hi Viresh,
+=================
+The various H616 chips seem to be qualified by production batches, and
+there is a table that translates from some efuses values to actual speed
+bin indexes. Also the die revision has a say here: we can derive this
+from the SoC ID, already provided by TF-A through the SMCCC SoC ID
+interface.
+So while the H6 had explicit speed bin indexes in the efuses, this is
+conceptually not that different, and after refactoring patch 4/8 this
+can be neatly integrated into the existing (H6) sun50i-cpufreq-nvmem
+driver.
+On top of that, not all chips are qualified to reach the full 1.5GHz,
+and the BSP kernel describes different OPPs for each speedbin. This
+requires to add support for the opp-supported-hw DT property, to be
+able to describe those requirements properly.
 
-thanks for chiming in!
+Patch 1/8 exports the SoC ID function, so that we can call it from our
+driver. Patch 2/8 blocks the affected SoCs from the generic DT cpufreq
+driver, patch 3/8 adds the DT binding documentation.
+Patch 4/8 refactors the existing speedbin determination for the H6, to
+be able to plug in the H616 version later more easily.
+Patch 5/8 adds support for the opp-supported-hw property. This is done
+in a generic way, so it's usable for other SoCs as well, and the code
+will figure out if the current DT requires use of this feature.
+Patch 6/8 then eventually adds the H616 bits to the driver, and ties
+that to the new compatible string.
+Patch 7/8 add the CPU OPP table as a .dtsi to the DT directory, the
+values in there were taken from the BSP source.
+Patch 8/8 then enables the OPPs for all boards we have DTs for.
 
-> On 20-03-24, 15:37, Andre Przywara wrote:
-> > On Wed, 20 Mar 2024 10:02:28 -0500
-> > Rob Herring <robh@kernel.org> wrote:  
-> > > On Mon, Mar 18, 2024 at 01:12:23AM +0000, Andre Przywara wrote:  
-> > > > From: Martin Botka <martin.botka@somainline.org>
-> > > > -        opp-1080000000 {
-> > > > +        opp-792000000-l {
-> > > >              clock-latency-ns = <244144>; /* 8 32k periods */
-> > > > -            opp-hz = /bits/ 64 <1080000000>;
-> > > > +            opp-hz = /bits/ 64 <792000000>;
-> > > >  
-> > > > -            opp-microvolt-speed0 = <1060000>;
-> > > > -            opp-microvolt-speed1 = <880000>;
-> > > > -            opp-microvolt-speed2 = <840000>;
-> > > > +            opp-microvolt = <900000>;
-> > > > +            opp-supported-hw = <0x02>;
-> > > >          };
-> > > >  
-> > > > -        opp-1320000000 {
-> > > > +        opp-792000000-h {
-> > > >              clock-latency-ns = <244144>; /* 8 32k periods */
-> > > > -            opp-hz = /bits/ 64 <1320000000>;
-> > > > +            opp-hz = /bits/ 64 <792000000>;
-> > > >  
-> > > > -            opp-microvolt-speed0 = <1160000>;
-> > > > -            opp-microvolt-speed1 = <940000>;
-> > > > -            opp-microvolt-speed2 = <900000>;
-> > > > +            opp-microvolt = <940000>;
-> > > > +            opp-supported-hw = <0x10>;    
-> > > 
-> > > So far, we've avoided multiple entries for a single frequency. I think 
-> > > it would be good to maintain that.  
-> > 
-> > Fair, I wasn't super happy with that either, but it still seemed better
-> > than the alternatives.
-> >   
-> > > Couldn't you just do:
-> > > 
-> > > opp-supported-hw = <0>, <0x10>, <0x02>;
-> > > 
-> > > Where the index corresponds to speed0, speed1, speed2.
-> > > 
-> > > If not, then I don't understand how multiple entries of opp-supported-hw 
-> > > are supposed to work.  
-> > 
-> > If I got this correctly, multiple cells in opp-supported-hw are to
-> > describe various levels of hierarchy for a chip version, so like silicon
-> > mask, metal layer revision, bin, I guess? The binding doc speaks of "cuts,
-> > substrate and process", not really sure what that means exactly.  
-> 
-> Right. That basically translates to hardware versions the OPP will be parsed
-> for.
-> 
-> > I think currently we cannot easily combine microvolt suffixes and
-> > opp-supported-hw in one OPP node?  
-> 
-> It should be fine.
+Based on v6.9-rc1.
 
-You are of course right, that works. I think I tried without
-opp-supported-hw before, and then the code doesn't like missing voltage
-lines.
-
-> 
-> > I think it bails out if one
-> > microvolt-speed<x> property is missing, but I have to double check.
-> > But IIRC v1 of this series somehow pulled that off, so we can maybe bring
-> > it back? To end up with:
-> > 	opp-792 {
-> > 		opp-hz = <792000000>;
-> > 		opp-microvolt-speed1 = <900000>;
-> > 		opp-microvolt-speed4 = <940000>;
-> > 		opp-supported-hw = <0x12>;
-> > 	};  
-> 
-> That's what I thought too while reading your email.. Just populate the OPP for
-> both 0x10 and 0x02 versions and let the speedN thing get you the right voltage.
-
-Yes, that works nicely. I adjusted the binding example and the actual OPP
-table accordingly. Will send a v3 shortly.
+Please have a look!
 
 Cheers,
 Andre
+
+[1] https://lore.kernel.org/linux-sunxi/20230904-cpufreq-h616-v1-0-b8842e525c43@somainline.org/T/#u
+
+Changelog v2 .. v3:
+- rebased on top of v6.9-rc1
+- drop node name suffix from DT bindings
+- drop multiple nodes per frequency in DT bindings example
+- add H700 nvmem value and OPPs
+- print warning for unknown nvmem values
+- add #cooling-cells properties to CPU DT nodes
+- use one DT node per frequency for OPP table entries
+- include OPP table for newly added Longan board
+
+Changelog v1 .. v2:
+- extend commit messages
+- add H618/H700 SoC IDs
+- fix binding compatible enum
+- fix binding documentation
+- allow additional suffix to OPP node name
+- shorten existing DT binding example
+- add another (opp-supported-hw) binding example
+- move speed bin decoding refactoring to separate patch (Brandon)
+- move opp-supported-hw support to separate patch
+- merge opp-supported-hw and microvolt suffix handling
+- rewrite OPP tables without opp-microvolt-speed suffix
+
+Andre Przywara (2):
+  cpufreq: sun50i: Add support for opp_supported_hw
+  arm64: dts: allwinner: h616: enable DVFS for all boards
+
+Brandon Cheo Fusi (1):
+  cpufreq: sun50i: Refactor speed bin decoding
+
+Martin Botka (5):
+  firmware: smccc: Export revision soc_id function
+  cpufreq: dt-platdev: Blocklist Allwinner H616/618 SoCs
+  dt-bindings: opp: Describe H616 OPPs and opp-supported-hw
+  cpufreq: sun50i: Add H616 support
+  arm64: dts: allwinner: h616: Add CPU OPPs table
+
+ .../allwinner,sun50i-h6-operating-points.yaml |  86 ++++----
+ .../sun50i-h616-bigtreetech-cb1.dtsi          |   5 +
+ .../dts/allwinner/sun50i-h616-cpu-opp.dtsi    | 125 +++++++++++
+ .../allwinner/sun50i-h616-orangepi-zero2.dts  |   5 +
+ .../dts/allwinner/sun50i-h616-x96-mate.dts    |   5 +
+ .../arm64/boot/dts/allwinner/sun50i-h616.dtsi |   8 +
+ .../sun50i-h618-longan-module-3h.dtsi         |   5 +
+ .../allwinner/sun50i-h618-orangepi-zero2w.dts |   5 +
+ .../allwinner/sun50i-h618-orangepi-zero3.dts  |   5 +
+ .../sun50i-h618-transpeed-8k618-t.dts         |   5 +
+ drivers/cpufreq/cpufreq-dt-platdev.c          |   3 +
+ drivers/cpufreq/sun50i-cpufreq-nvmem.c        | 197 +++++++++++++++---
+ drivers/firmware/smccc/smccc.c                |   1 +
+ 13 files changed, 378 insertions(+), 77 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616-cpu-opp.dtsi
+
+-- 
+2.25.1
+
