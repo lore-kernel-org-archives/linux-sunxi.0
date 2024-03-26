@@ -1,228 +1,75 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DA796BFDC
-	for <linux-sunxi@lists.linux.dev>; Tue, 26 Mar 2024 11:49:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0129171B5D
+	for <linux-sunxi@lists.linux.dev>; Tue, 26 Mar 2024 13:18:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711453747; cv=none; b=pDfjrkSpaghXeOqOnZ3hAj530N2khR2rMlG2MT6e08TuCfLL4khf+ZOv0UwbqRwamZhLy8xQxL+Bs5s9hugE7fYk+yftTvNdDxt+jebOwwyVOj8N/yd0GNEBStEB8E75clJau5L71AxkOS/qjzJuBQFE4l6YMGVfHwh2XF4SLyA=
+	t=1711459117; cv=none; b=dz2JSU9aGsmVYB2/XPXSJnLT1GDcv0wKKcyTx4SuybUPdQNru8Mvg6yguVs7M1Pp2sAlFbne7nGRiFwgCF5VAxHL2eGNPHdsxVBakl0z0uOuMrdH/1b6PD0U782KYXOFW0mpHp1SBDlk04lJEJ59N3AaMQ4CViPTK8+KJ9oB+rQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711453747; c=relaxed/simple;
-	bh=XhNk0EU5qW4iT/6uCinMLR0F/dKVzKhDelbR2BQVBqw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=akvC7GTdapRhVNoSxHaJ6mZi7KAEgoKj1K8R9LEO/CbWXPn4YBKzC39Nzi9ZuK94jk0K9/Wt0KCtJe0SNZURp3YssKSPR3Q8/rdMz8LABqckaSaNzpe0tm5HshGX9y0DeGDOy8tEES4pwMvXAPO5QcVr0s0ODiqfq216IBtnyuI=
+	s=arc-20240116; t=1711459117; c=relaxed/simple;
+	bh=/nfUf4bHC6IkXOSSHYXmq0tI2QSlZiU0fQbaU71/T1U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hj3VPD1bpHPXoxf3ayCf4yWYYIRKBPeU+2n3pNPBeWTT/FO5MKmocW2NBgds4SyoXgdGzjpFKZXWaTBwmvmYd2wCz0Nfdh5b+1Txa79g0nVPVO3PPFZB4opp3RzKTMbvMYP8NPKXmhBva4lWLhI09zJ6IiRifP06g4JMRyLC938=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C27A62F4;
-	Tue, 26 Mar 2024 04:49:38 -0700 (PDT)
-Received: from donnerap.arm.com (donnerap.manchester.arm.com [10.32.100.28])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A1A913F64C;
-	Tue, 26 Mar 2024 04:49:02 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Yangtao Li <tiny.windzz@gmail.com>,
-	Viresh Kumar <vireshk@kernel.org>,
-	Nishanth Menon <nm@ti.com>,
-	Stephen Boyd <sboyd@kernel.org>,
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AE9442F4;
+	Tue, 26 Mar 2024 06:19:07 -0700 (PDT)
+Received: from bogus (e103737-lin.cambridge.arm.com [10.1.197.49])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 464C93F64C;
+	Tue, 26 Mar 2024 06:18:31 -0700 (PDT)
+Date: Tue, 26 Mar 2024 13:18:28 +0000
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Yangtao Li <tiny.windzz@gmail.com>, Viresh Kumar <vireshk@kernel.org>,
+	Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,
+	Sudeep Holla <sudeep.holla@arm.com>,
 	Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>
-Cc: linux-pm@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, linux-pm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	Brandon Cheo Fusi <fusibrandon13@gmail.com>,
 	Martin Botka <martin.botka@somainline.org>,
 	Martin Botka <martin.botka1@gmail.com>,
 	Chris Morgan <macroalpha82@gmail.com>,
 	Ryan Walklin <ryan@testtoast.com>
-Subject: [PATCH v3 8/8] arm64: dts: allwinner: h616: enable DVFS for all boards
-Date: Tue, 26 Mar 2024 11:47:43 +0000
-Message-Id: <20240326114743.712167-9-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240326114743.712167-1-andre.przywara@arm.com>
+Subject: Re: [PATCH v3 1/8] firmware: smccc: Export revision soc_id function
+Message-ID: <ZgLLJE0k7F3nGEuq@bogus>
 References: <20240326114743.712167-1-andre.przywara@arm.com>
+ <20240326114743.712167-2-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240326114743.712167-2-andre.przywara@arm.com>
 
-With the DT bindings now describing the format of the CPU OPP tables, we
-can include the OPP table in each board's .dts file, and specify the CPU
-power supply.
-This allows to enable DVFS, and get up to 50% of performance benefit in
-the highest OPP, or up to 60% power savings in the lowest OPP, compared
-to the fixed 1GHz @ 1.0V OPP we are running in by default at the moment.
+On Tue, Mar 26, 2024 at 11:47:36AM +0000, Andre Przywara wrote:
+> From: Martin Botka <martin.botka@somainline.org>
+> 
+> The "SoC ID revision" as provided via the SMCCC SOCID interface can be
+> valuable information for drivers, when certain functionality depends
+> on a die revision, for instance.
+> One example is the sun50i-cpufreq-nvmem driver, which needs this
+> information to determine the speed bin of the SoC.
+> 
+> Export the arm_smccc_get_soc_id_revision() function so that it can be
+> called by any driver.
+> 
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- .../boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi      | 5 +++++
- arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts | 5 +++++
- arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts       | 5 +++++
- .../boot/dts/allwinner/sun50i-h618-longan-module-3h.dtsi     | 5 +++++
- .../arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts | 5 +++++
- arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts | 5 +++++
- .../boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts     | 5 +++++
- 7 files changed, 35 insertions(+)
+Assuming sun50i cpufreq driver can be built as module,
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi
-index af421ba24ce0c..d12b01c5f41b6 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi
-@@ -6,6 +6,7 @@
- /dts-v1/;
- 
- #include "sun50i-h616.dtsi"
-+#include "sun50i-h616-cpu-opp.dtsi"
- 
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/interrupt-controller/arm-gic.h>
-@@ -62,6 +63,10 @@ wifi_pwrseq: wifi-pwrseq {
- 	};
- };
- 
-+&cpu0 {
-+	cpu-supply = <&reg_dcdc2>;
-+};
-+
- &mmc0 {
- 	vmmc-supply = <&reg_dldo1>;
- 	/* Card detection pin is not connected */
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-index b5d713926a341..a360d8567f955 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-@@ -6,12 +6,17 @@
- /dts-v1/;
- 
- #include "sun50i-h616-orangepi-zero.dtsi"
-+#include "sun50i-h616-cpu-opp.dtsi"
- 
- / {
- 	model = "OrangePi Zero2";
- 	compatible = "xunlong,orangepi-zero2", "allwinner,sun50i-h616";
- };
- 
-+&cpu0 {
-+	cpu-supply = <&reg_dcdca>;
-+};
-+
- &emac0 {
- 	allwinner,rx-delay-ps = <3100>;
- 	allwinner,tx-delay-ps = <700>;
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts
-index 959b6fd18483b..26d25b5b59e0f 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts
-@@ -6,6 +6,7 @@
- /dts-v1/;
- 
- #include "sun50i-h616.dtsi"
-+#include "sun50i-h616-cpu-opp.dtsi"
- 
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/interrupt-controller/arm-gic.h>
-@@ -32,6 +33,10 @@ reg_vcc5v: vcc5v {
- 	};
- };
- 
-+&cpu0 {
-+	cpu-supply = <&reg_dcdca>;
-+};
-+
- &ehci0 {
- 	status = "okay";
- };
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-longan-module-3h.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h618-longan-module-3h.dtsi
-index 8c1263a3939e7..e92d150aaf1c1 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h618-longan-module-3h.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-longan-module-3h.dtsi
-@@ -4,6 +4,11 @@
-  */
- 
- #include "sun50i-h616.dtsi"
-+#include "sun50i-h616-cpu-opp.dtsi"
-+
-+&cpu0 {
-+	cpu-supply = <&reg_dcdc2>;
-+};
- 
- &mmc2 {
- 	pinctrl-names = "default";
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts
-index 21ca1977055d9..6a4f0da972330 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts
-@@ -6,6 +6,7 @@
- /dts-v1/;
- 
- #include "sun50i-h616.dtsi"
-+#include "sun50i-h616-cpu-opp.dtsi"
- 
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/interrupt-controller/arm-gic.h>
-@@ -53,6 +54,10 @@ reg_vcc3v3: vcc3v3 {
- 	};
- };
- 
-+&cpu0 {
-+	cpu-supply = <&reg_dcdc2>;
-+};
-+
- &ehci1 {
- 	status = "okay";
- };
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
-index b3b1b8692125f..e1cd7572a14ce 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
-@@ -6,12 +6,17 @@
- /dts-v1/;
- 
- #include "sun50i-h616-orangepi-zero.dtsi"
-+#include "sun50i-h616-cpu-opp.dtsi"
- 
- / {
- 	model = "OrangePi Zero3";
- 	compatible = "xunlong,orangepi-zero3", "allwinner,sun50i-h618";
- };
- 
-+&cpu0 {
-+	cpu-supply = <&reg_dcdc2>;
-+};
-+
- &emac0 {
- 	allwinner,tx-delay-ps = <700>;
- 	phy-mode = "rgmii-rxid";
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts b/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts
-index ac0a2b7ea6f31..a6458b7a86713 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts
-@@ -6,6 +6,7 @@
- /dts-v1/;
- 
- #include "sun50i-h616.dtsi"
-+#include "sun50i-h616-cpu-opp.dtsi"
- 
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/interrupt-controller/arm-gic.h>
-@@ -51,6 +52,10 @@ wifi_pwrseq: wifi_pwrseq {
- 	};
- };
- 
-+&cpu0 {
-+	cpu-supply = <&reg_dcdc2>;
-+};
-+
- &ehci0 {
- 	status = "okay";
- };
+Acked-by: Sudeep Holla <sudeep.holla@arm.com>
+
 -- 
-2.25.1
-
+Regards,
+Sudeep
