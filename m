@@ -1,70 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E256B1804F;
-	Tue, 26 Mar 2024 00:36:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A320D128823
+	for <linux-sunxi@lists.linux.dev>; Tue, 26 Mar 2024 03:50:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711413406; cv=none; b=s/wPuTkwcAZC/mztNgv2M9V/PhIGPAcx6w6BAsDWtQQGkl73MEWj569zN8pFjg74lXLCyU6P9lBTOatNDmpg9fgJ1E8UY8o4YBK8xE2/fqWCI5/w29HDPvH4V3FdgZIU2c95Rf7jXvPdtyhwRXvVjl4h5HVvJaR+/WeXjidT1bI=
+	t=1711425022; cv=none; b=BOOWtBEtvyk5Bek44ghVQMBAxFkJ9kFRKOkT1C31lumbWP1Aip3I92QUmadSjzKdAo2mBt1PJu/b3INDpYxSr+kGgv8lDCUhuCUKYBOL+Be1PgL5tJIeHFRbK9Gbj0ErMbY0H5qsDDAmhQNj56hf0tVZ9q3F2DS30Va2Gkzxn6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711413406; c=relaxed/simple;
-	bh=r6ja1S3WkmxWys+sE3KabUy5bKAQKHZGyKXel35g+zY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Dpc+FvOx18fHm1OGndsMDgpoQyDIMSjFGHKmGbshxy45Ao/sgRnwfvIaTWlts0nhnzwQS945Vc2ZXiv3G3xafTrYj66NuWfvwY14zz2rJ0arutkxDAPH3AAKEy1W4IQjXsK0GJeQkcJbU2848eYoUajcE0okRAQwhJFB19z6Pok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RFOy9Sck; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711425022; c=relaxed/simple;
+	bh=bctQBJg26saGhxU9s8UlkMFaCikEYQsmHPO5D2q9/BE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=rLvMHGlVaVYwihgvhsLCqHkKiwph5XikeQsoJgXcrWHUi4GyTJEdchIcinx0zs7fAGsh+Lt/QoXa5/QyAwLtaQijyYH6Nrh9kMmgSpZhS2iHOLvrDNeFiaAe9mO8oKKH8YzS7tqaNpRgU3qj2wBn6W8IHP6CMdHJm/Oq4tLJIRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org; spf=none smtp.mailfrom=jookia.org; dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b=pGuva+Ua; arc=none smtp.client-ip=95.215.58.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=jookia.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RFOy9Sck"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84803C433C7;
-	Tue, 26 Mar 2024 00:36:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711413405;
-	bh=r6ja1S3WkmxWys+sE3KabUy5bKAQKHZGyKXel35g+zY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RFOy9SckrUmOjcVY80p+Bpxbe+5dpDJq+JeaQvIywXepTed1YRXnEepoqUkHhDLDv
-	 KZQ8orGHJmcfhxU4yqXzvKwkkh03GuDsm5VknrzWZxwAeC8moegodFxeAFmHcguP3V
-	 MvMXRlBgmBX55pjBPgOUTWQbK7zrjPHUR7Ivk7miBmPv+gpyP5Ja8S02vD6UZnj61n
-	 CqfQ4NXy/CKPT7KniveufUJdSfosIbl7mM5+gISfC65C9eTYs21OyRMfhMeYTy9MAj
-	 ov2d24lOwn4Oj/ZJVUPrXNuEHsLe2pES4uVY1T8XSrKZegQunB7Zn3qmkn816MOaQo
-	 yZPbuVAYSRHAg==
-Date: Tue, 26 Mar 2024 01:36:41 +0100
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-i2c@vger.kernel.org, asahi@lists.linux.dev, 
-	chrome-platform@lists.linux.dev, imx@lists.linux.dev, linux-actions@lists.infradead.org, 
-	linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-mips@vger.kernel.org, linux-omap@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-renesas-soc@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org, 
-	linux-rpi-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
-	openbmc@lists.ozlabs.org, virtualization@lists.linux.dev
-Subject: Re: [PATCH 00/64] i2c: reword i2c_algorithm according to newest
- specification
-Message-ID: <j2l7tu24itjelylrgwe6gdsy3mfrw3dnve4rdofmri3z7xdroc@se56t5ylmdak>
-References: <20240322132619.6389-1-wsa+renesas@sang-engineering.com>
- <ug266trshvhhbsln3eoh53fmsuj3l63ziz6gavcl7rv2jhjr5t@3av5givh5n7m>
+	dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b="pGuva+Ua"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
+	t=1711425015;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=K9DFWcbSfaZCwj5K7OSlhvorCFoj07hKTzCP89IkAuA=;
+	b=pGuva+Uac4faL7cAdCOY51vt/AXVNR2AT7b/EsX4N4yx/vjM89RFH1EEGcZEH3zMLII4uc
+	TjKqbTX5GMWpmnIwbTrYuFNoBJ8SUxqFrqqbVFV0+l8METXSuEqMA6M42TLXNwhdaiWdAY
+	Av5q49y28YcZH/DQjgS3sFS8Gyk8SfXrm6AAV7KVVVTzMwzBxXceC4aOIvf3qaY5138gbf
+	MZa127VUNTNK1SaSmrOgEos5/JqP/knJyjS1MPKY8nKIX7BttNhgCo5V0dTlRIjZb/1MEx
+	TcPZX/JVDZ13nGn2bkb7MCCcvZyz30/vPq+MXSqnnQa+kbbrAwfOCLymn9bX2A==
+From: John Watts <contact@jookia.org>
+Date: Tue, 26 Mar 2024 14:50:03 +1100
+Subject: [PATCH] ASoC: sunxi: sun4i-i2s: Enable 32-bit audio formats
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ug266trshvhhbsln3eoh53fmsuj3l63ziz6gavcl7rv2jhjr5t@3av5givh5n7m>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240326-sunxi_s32-v1-1-899f71dcb1e6@jookia.org>
+X-B4-Tracking: v=1; b=H4sIAOpFAmYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDYyMz3eLSvIrM+GJjI900o8QkI9Mki1QzCwsloPqCotS0zAqwWdGxtbU
+ AUQ+OeVsAAAA=
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ John Watts <contact@jookia.org>
+X-Developer-Signature: v=1; a=openssh-sha256; t=1711425003; l=1320;
+ i=contact@jookia.org; h=from:subject:message-id;
+ bh=bctQBJg26saGhxU9s8UlkMFaCikEYQsmHPO5D2q9/BE=;
+ b=U1NIU0lHAAAAAQAAAEoAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAAAgpGuA3uho2
+ 8zVxm554DVLHyl4gq5/nBHglU5WIWN8/zYAAAAEc3NoOgAAAAZwYXRhdHQAAAAAAAAABnNoYTUx
+ MgAAAGcAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAABAWWEuABqUeoiIQmUDevKLBIs
+ 55txNImjUfXyzNdEM4lMfiVhlRL7Fz/dVUvLSegPOrhOchxP+1vRLZ0uIkvZMDQUAAOcU
+X-Developer-Key: i=contact@jookia.org; a=openssh;
+ fpr=SHA256:6LBQmZH5u7i/edmEZXzCTwCrpSevs/ZshZxNmlD1thY
+X-Migadu-Flow: FLOW_OUT
 
-Hi Wolfram,
+The I2S driver already supports and checks for 32-bit sample sizes,
+so indicate this size is available for use in the DAI driver.
 
-> > @Andi: are you okay with this approach? It means you'd need to merge
-> > -rc2 into your for-next branch. Or rebase if all fails.
-> 
-> I think it's a good plan, I'll try to support you with it.
+This change has been tested on the T113-S3, but it should work just
+fine on older hardware as get_sr checks for sample size support
+correctly according to each core's datasheet.
 
-Do you feel more comfortable if I take the patches as soon as
-they are reviewd?
+Signed-off-by: John Watts <contact@jookia.org>
+---
+This patch enables support for 32-bit audio in the sunxi I2S driver.
 
-So far I have tagged patch 1-4 and I can already merge 2,3,4 as
-long as you merge patch 1.
+I have only tested this on the Allwinner T113 but I'm fairly
+certain it will work on older boards.
+---
+ sound/soc/sunxi/sun4i-i2s.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Andi
+diff --git a/sound/soc/sunxi/sun4i-i2s.c b/sound/soc/sunxi/sun4i-i2s.c
+index a736f632bf0b..aeea852141c1 100644
+--- a/sound/soc/sunxi/sun4i-i2s.c
++++ b/sound/soc/sunxi/sun4i-i2s.c
+@@ -1103,7 +1103,8 @@ static const struct snd_soc_dai_ops sun4i_i2s_dai_ops = {
+ 
+ #define SUN4I_FORMATS	(SNDRV_PCM_FMTBIT_S16_LE | \
+ 			 SNDRV_PCM_FMTBIT_S20_LE | \
+-			 SNDRV_PCM_FMTBIT_S24_LE)
++			 SNDRV_PCM_FMTBIT_S24_LE | \
++			 SNDRV_PCM_FMTBIT_S32_LE)
+ 
+ static struct snd_soc_dai_driver sun4i_i2s_dai = {
+ 	.capture = {
+
+---
+base-commit: 72fb52fb0ac44b6a1edd9bc390e44bce3acccd26
+change-id: 20240326-sunxi_s32-f2ab25b8e688
+
+Best regards,
+-- 
+John Watts <contact@jookia.org>
+
