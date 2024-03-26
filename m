@@ -1,120 +1,70 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6D85153565;
-	Mon, 25 Mar 2024 02:13:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E256B1804F;
+	Tue, 26 Mar 2024 00:36:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711332789; cv=none; b=SApzReKVz2g0aU4LbqPSPW2h0h0UIzfDOS8yj3SB16yO1Yeoj/binlc3H9PcYIxtODK+3Tz/LbLzi6xI+1wEWyuB/VfxCCOPWrqMFM4dSJtIW/xpElWzXUFle4cdUlB7Of0DQUcxr6NVc1cm8mti21CQzFCZ4zioXpF3RlzVRAo=
+	t=1711413406; cv=none; b=s/wPuTkwcAZC/mztNgv2M9V/PhIGPAcx6w6BAsDWtQQGkl73MEWj569zN8pFjg74lXLCyU6P9lBTOatNDmpg9fgJ1E8UY8o4YBK8xE2/fqWCI5/w29HDPvH4V3FdgZIU2c95Rf7jXvPdtyhwRXvVjl4h5HVvJaR+/WeXjidT1bI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711332789; c=relaxed/simple;
-	bh=aJvg1KH6joFG6oJkgTHoc61lNEcN6UYDL94Kek/0h5A=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=KzTCJAun7M9C8eBdTcNdls0RfZD6iudWV5CE2cfxZzP83RVqEuzDUcl18iBEzrKrUXPw/aL7kw9JW9EMNCjyXTiM2xgvUKmgGoKfix4kzK0y89bzZy0LQryiEq6EUHhdEyBdlvt/Fdu43B891uhQiJVTSwiyNMvMEXxNbAbZK1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bUL61oDb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711413406; c=relaxed/simple;
+	bh=r6ja1S3WkmxWys+sE3KabUy5bKAQKHZGyKXel35g+zY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Dpc+FvOx18fHm1OGndsMDgpoQyDIMSjFGHKmGbshxy45Ao/sgRnwfvIaTWlts0nhnzwQS945Vc2ZXiv3G3xafTrYj66NuWfvwY14zz2rJ0arutkxDAPH3AAKEy1W4IQjXsK0GJeQkcJbU2848eYoUajcE0okRAQwhJFB19z6Pok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RFOy9Sck; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bUL61oDb"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 76189C43394;
-	Mon, 25 Mar 2024 02:13:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RFOy9Sck"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84803C433C7;
+	Tue, 26 Mar 2024 00:36:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711332787;
-	bh=aJvg1KH6joFG6oJkgTHoc61lNEcN6UYDL94Kek/0h5A=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=bUL61oDb/M+5KYmdH9GZAQdZT3PYKaJ010SbGP/0QAETJ2gY+Rxd19+hfItokn4fc
-	 qXm+5UshaVvnLaKO+h8US6GsQq7XoxEkTJDEVJIEaNCFv8M2uUBhoQrMAu3fisTCQo
-	 B4fRFMNeMscSki123E/z54cBRXf+v5p5HhYpLJ3jJtc1OvR7VQslOwZ36RRz8NHOez
-	 HFUH5lzzeG0rrZGBHCyr2OTeNZB2H2sILwj6OEqE53Bfd2qCAI/Z34pAg9I1JWd2Cn
-	 dq/bNtJWoCPVpzv9DjBiOxvAIfXazxrFfLBNOkzXYWWq5P+zSQavVa4Lgiia++T7N2
-	 7rjlBqvf/ljRg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 5AFA0D2D0E0;
-	Mon, 25 Mar 2024 02:13:07 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1711413405;
+	bh=r6ja1S3WkmxWys+sE3KabUy5bKAQKHZGyKXel35g+zY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RFOy9SckrUmOjcVY80p+Bpxbe+5dpDJq+JeaQvIywXepTed1YRXnEepoqUkHhDLDv
+	 KZQ8orGHJmcfhxU4yqXzvKwkkh03GuDsm5VknrzWZxwAeC8moegodFxeAFmHcguP3V
+	 MvMXRlBgmBX55pjBPgOUTWQbK7zrjPHUR7Ivk7miBmPv+gpyP5Ja8S02vD6UZnj61n
+	 CqfQ4NXy/CKPT7KniveufUJdSfosIbl7mM5+gISfC65C9eTYs21OyRMfhMeYTy9MAj
+	 ov2d24lOwn4Oj/ZJVUPrXNuEHsLe2pES4uVY1T8XSrKZegQunB7Zn3qmkn816MOaQo
+	 yZPbuVAYSRHAg==
+Date: Tue, 26 Mar 2024 01:36:41 +0100
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-i2c@vger.kernel.org, asahi@lists.linux.dev, 
+	chrome-platform@lists.linux.dev, imx@lists.linux.dev, linux-actions@lists.infradead.org, 
+	linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-mips@vger.kernel.org, linux-omap@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-renesas-soc@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+	linux-rpi-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	openbmc@lists.ozlabs.org, virtualization@lists.linux.dev
+Subject: Re: [PATCH 00/64] i2c: reword i2c_algorithm according to newest
+ specification
+Message-ID: <j2l7tu24itjelylrgwe6gdsy3mfrw3dnve4rdofmri3z7xdroc@se56t5ylmdak>
+References: <20240322132619.6389-1-wsa+renesas@sang-engineering.com>
+ <ug266trshvhhbsln3eoh53fmsuj3l63ziz6gavcl7rv2jhjr5t@3av5givh5n7m>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v6 000/164] pwm: Improve lifetime tracking for pwm_chips
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <171133278736.9916.5526869645378949035.git-patchwork-notify@kernel.org>
-Date: Mon, 25 Mar 2024 02:13:07 +0000
-References: <cover.1707900770.git.u.kleine-koenig@pengutronix.de>
-In-Reply-To: <cover.1707900770.git.u.kleine-koenig@pengutronix.de>
-To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=3Cu=2Ekleine-koenig=40pengutronix=2Ede=3E?=@ci.codeaurora.org
-Cc: linux-pwm@vger.kernel.org, corbet@lwn.net, Jonathan.Cameron@huawei.com,
- james.clark@arm.com, andriy.shevchenko@linux.intel.com, broonie@kernel.org,
- marcan@marcan.st, sven@svenpeter.dev, claudiu.beznea@tuxon.dev,
- nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
- florian.fainelli@broadcom.com, rjui@broadcom.com, sbranden@broadcom.com,
- shc_work@mail.ru, bleung@chromium.org, p.zabel@pengutronix.de,
- shawnguo@kernel.org, s.hauer@pengutronix.de, paul@crapouillou.net,
- vz@mleia.com, mika.westerberg@linux.intel.com, andy@kernel.org,
- linus.walleij@linaro.org, hdegoede@redhat.com, ilpo.jarvinen@linux.intel.com,
- matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
- neil.armstrong@linaro.org, khilman@baylibre.com, conor.dooley@microchip.com,
- daire.mcnamara@microchip.com, j.neuschaefer@gmx.net, heiko@sntech.de,
- krzysztof.kozlowski@linaro.org, palmer@dabbelt.com, paul.walmsley@sifive.com,
- mwalle@kernel.org, orsonzhai@gmail.com, baolin.wang@linux.alibaba.com,
- zhang.lyra@gmail.com, fabrice.gasnier@foss.st.com, mcoquelin.stm32@gmail.com,
- alexandre.torgue@foss.st.com, wens@csie.org, jernej.skrabec@gmail.com,
- samuel@sholland.org, hammerh0314@gmail.com, thierry.reding@gmail.com,
- jonathanh@nvidia.com, nobuhiro1.iwamatsu@toshiba.co.jp,
- sean.anderson@seco.com, michal.simek@amd.com, brgl@bgdev.pl,
- andrzej.hajda@intel.com, rfoss@kernel.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- pavel@ucw.cz, lee@kernel.org, quic_amelende@quicinc.com,
- quic_bjorande@quicinc.com, keescook@chromium.org, robh@kernel.org,
- johan@kernel.org, elder@kernel.org, gregkh@linuxfoundation.org,
- kernel@pengutronix.de, linux-doc@vger.kernel.org, alyssa@rosenzweig.io,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- groeck@chromium.org, chrome-platform@lists.linux.dev, festevam@gmail.com,
- linux-imx@nxp.com, linux-mips@vger.kernel.org, linux-gpio@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, linux-mediatek@lists.infradead.org,
- jbrunet@baylibre.com, martin.blumenstingl@googlemail.com,
- linux-amlogic@lists.infradead.org, linux-riscv@lists.infradead.org,
- linux-rockchip@lists.infradead.org, alim.akhtar@samsung.com,
- linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
- dianders@chromium.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
- greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
- gustavoars@kernel.org, linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ug266trshvhhbsln3eoh53fmsuj3l63ziz6gavcl7rv2jhjr5t@3av5givh5n7m>
 
-Hello:
+Hi Wolfram,
 
-This series was applied to chrome-platform/linux.git (for-next)
-by Uwe Kleine-König <u.kleine-koenig@pengutronix.de>:
-
-On Wed, 14 Feb 2024 10:30:47 +0100 you wrote:
-> Hello,
+> > @Andi: are you okay with this approach? It means you'd need to merge
+> > -rc2 into your for-next branch. Or rebase if all fails.
 > 
-> this is v6 of the series introducing better lifetime tracking for
-> pwmchips that addresses (for now theoretic) lifetime issues of pwm
-> chips. Addressing these is a necessary precondition to introduce chardev
-> support for PWMs.
-> 
-> [...]
+> I think it's a good plan, I'll try to support you with it.
 
-Here is the summary with links:
-  - [v6,001/164] pwm: Provide an inline function to get the parent device of a given chip
-    https://git.kernel.org/chrome-platform/c/4e59267c7a20
-  - [v6,003/164] pwm: Provide pwmchip_alloc() function and a devm variant of it
-    https://git.kernel.org/chrome-platform/c/024913dbf99f
-  - [v6,029/164] pwm: cros-ec: Change prototype of helpers to prepare further changes
-    https://git.kernel.org/chrome-platform/c/7256c2e79b8e
-  - [v6,030/164] pwm: cros-ec: Make use of pwmchip_parent() accessor
-    https://git.kernel.org/chrome-platform/c/19a568a8d3c4
-  - [v6,031/164] pwm: cros-ec: Make use of devm_pwmchip_alloc() function
-    https://git.kernel.org/chrome-platform/c/452be9421eda
+Do you feel more comfortable if I take the patches as soon as
+they are reviewd?
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+So far I have tagged patch 1-4 and I can already merge 2,3,4 as
+long as you merge patch 1.
 
-
+Andi
