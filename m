@@ -1,142 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3CD93FD4;
-	Tue, 26 Mar 2024 21:37:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42FE413D8BA
+	for <linux-sunxi@lists.linux.dev>; Tue, 26 Mar 2024 22:16:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711489038; cv=none; b=t6zY8+aRKi2DpQbPy+NVMFOyDK3d1u60lpzPKw/FtpkkpvWpZpjHcWviRDgpg7EzQGKrcZxo24plZjekoZSzoCY8ypk/LHf8pgN3CBY8DrZe5j4lFIPAp6lzsCPVZ7hembeKR920ciGoQRg67aMkvDBifRreXiCDKsBH4aemeRE=
+	t=1711491407; cv=none; b=QwgsceBP6Nu27UGam0DG5r0aPKLK6LVIhF5/Gpl2SMjOFrRvj9u9XcErQYjFQr0D+lh0lnWAJvcqV3P2ImBb1St1jNCfHoI+h7LeP6yzv2n+UnW6DFt2rSEEYN+xzcxWQv2tlw6/1S66+5mSUFAgHf6gRgoC/QI+k9c6JYUfBt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711489038; c=relaxed/simple;
-	bh=6ivBE7vx79QiGHFMd4cIu5Wx1VjWmybvGs2bLSwyU7o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f1x3VLhXOwszKkRaW9z+hjSJIVKmyHBVCJDYLmazPXMS0bzH1HVz5aLv+DFuilt+abQeXFdX7UaeGuGQOwoijfEpy4qUcdpypm9LA+l10K/J7zIJgTrHtyFt5axnk68meV2WXyoy7dC6wyxCJFzMAaZ6X/ZA/dz4fwc/d8kwnig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PQJH7DzJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711491407; c=relaxed/simple;
+	bh=1dSSE8o/7fxaic7JQ5aKoMmd7jjmFoEpVi/s2r32H28=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QOM+TPS+5mHatQsmko90TtWcBD7HqSNJLXCJlo8QfZVLCqu+AFxSFJci2rui1k/6ZgbJzpAnD5pliUmG2d16gtz+9eP2pn3qw5tIxQxdJkZ2B6k7TzlOwe3kOhl9ulFYxGYpnGMHNtJSCyQFUQORFr/5GOUC4Dhgut8Zh1Z8hcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J1ACnBgC; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PQJH7DzJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2444FC433C7;
-	Tue, 26 Mar 2024 21:37:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711489038;
-	bh=6ivBE7vx79QiGHFMd4cIu5Wx1VjWmybvGs2bLSwyU7o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PQJH7DzJZoHcnrCEgL8Q2sVNfJeWHv8k8mVelU18DN+6Vr6IYf9X5BvRvtt3cfCm6
-	 ijFjPuJWf2b+dFBk1sUUAJPwap5U2ONmvCqZ3cZiqp4jRjLirCIWUFIK0Yb7z4GUPa
-	 YZEEH1UbiwxJ7ImfLp4LvQZl23jKyvGKyjqXd2PWGCBc7lSwKvePlKkqIN41754MtV
-	 +YtCTu3QtTu/c9Go3qe0FzKmxhC6esqDzlN6M5NHTfW73uw7EdgvlHvYOzIFmqozVn
-	 jJnfD42MUgjS7LnZsnMr8iK2PRfdzHISWVBrrP+8FcD7n9oLrFqnatNiAwyQaeadmb
-	 z0xw0ScmbaZHA==
-Date: Tue, 26 Mar 2024 16:37:16 -0500
-From: Rob Herring <robh@kernel.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Yangtao Li <tiny.windzz@gmail.com>, Viresh Kumar <vireshk@kernel.org>,
-	Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>, linux-pm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	Brandon Cheo Fusi <fusibrandon13@gmail.com>,
-	Martin Botka <martin.botka@somainline.org>,
-	Martin Botka <martin.botka1@gmail.com>,
-	Chris Morgan <macroalpha82@gmail.com>,
-	Ryan Walklin <ryan@testtoast.com>
-Subject: Re: [PATCH v3 3/8] dt-bindings: opp: Describe H616 OPPs and
- opp-supported-hw
-Message-ID: <20240326213716.GA3686856-robh@kernel.org>
-References: <20240326114743.712167-1-andre.przywara@arm.com>
- <20240326114743.712167-4-andre.przywara@arm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J1ACnBgC"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a4a393b699fso44512566b.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 26 Mar 2024 15:16:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711491404; x=1712096204; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Frayo+csvFud+6F8lmDKVzF8ivbvgaqjKrnjbYcfWB0=;
+        b=J1ACnBgCEZ7gdI9XUM/LQGkhKVwV8zmOt0kXCDaFK1oeMPK2wtLFBbV8hDkpLDUwP7
+         7/9OP93eEjujzdZq0OLcs9/iD7+iqk+fj0UUnkm7nqoHFez4v3Zb3YQhZQ2j6VFiUFSf
+         QWI68byB12flE8SCl79J9v9Rz0hUgY/GZne5aP6Vg7AkTEsmVVVTJlj0pH1xGxdlbjv6
+         TdVyDiVMzuf9s+A9SjJsVQoZoNaZt4jF556WuMRggi05RQ2OoSxYkU0jVImyd98M7Al9
+         5lyCRZFnGMSSCppLE+DN6mUSkPbPjfab4cnlphBwgDCDOaFNiZAuAIO/NZ37uLNzPAfO
+         BSEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711491404; x=1712096204;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Frayo+csvFud+6F8lmDKVzF8ivbvgaqjKrnjbYcfWB0=;
+        b=YGjdYy2i+tBzwI5ZIBjbeEk8YdKpH02V2BmDsRXNVohkpWMzNicM5ECdLtv3AI9jnR
+         jdHqe/FL+4EUUwYR0jZQKhbdZWZm+xtha4Jf4Pic4Lt2FxrDjpFTAtywL6gWwXNCLuqQ
+         6Fvs/JnUz/m0wXB2EOrrfoMSoScZhZnl0tVs+/n9DZPWZfhWYrqGNyy/RjWuJnM7JfYd
+         +1vR75OJH4rG7nfeaKYft7QmbpMEvDZyyD1Q1Lpu0D7gYiaqYVFJU0TxKv5aSmQr3iFx
+         /e+kCqmDxeulPj8YBPNkPubtwS25z0mS4W4EuhexmfB2znMMWwB0nIAZayAjc+GV0aFU
+         dwUQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWkUqWgD2PMt1C+AMVRaCWORsY/hJMDeE6T8/w0WZxSLfxo7MO8zQKmkCQK564mm8B6zFOgFxylGzlFa6B3DY0yM9VncdkD2FMiRHA=
+X-Gm-Message-State: AOJu0Yz/xsQWLYsBB6EW5/qwNAnRfIfC9ttxCQxnZPskJCCnWVbRwjZY
+	1LAwEIxeZha4xgPUIKRvzzGQwnp8TcLLpHRO3xuyDd7mUUNqENiu
+X-Google-Smtp-Source: AGHT+IFT2nNhb6UgfQJfTCphu5HmlZV4ZvD9Mjgcz5Z++uTHWQbnlhi2t1X6P7AdnDcf85HK3UtIjg==
+X-Received: by 2002:a17:906:e24d:b0:a4a:39f3:b195 with SMTP id gq13-20020a170906e24d00b00a4a39f3b195mr2314395ejb.4.1711491404403;
+        Tue, 26 Mar 2024 15:16:44 -0700 (PDT)
+Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
+        by smtp.gmail.com with ESMTPSA id q5-20020a170906388500b00a473362062fsm4672367ejd.220.2024.03.26.15.16.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Mar 2024 15:16:43 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>, Corentin Labbe <clabbe@baylibre.com>,
+ Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject:
+ Re: [PATCH 1/4] arm64: dts: allwinner: Pine H64: correctly remove
+ reg_gmac_3v3
+Date: Tue, 26 Mar 2024 23:16:42 +0100
+Message-ID: <2722214.mvXUDI8C0e@jernej-laptop>
+In-Reply-To: <20240317184130.157695-1-krzysztof.kozlowski@linaro.org>
+References: <20240317184130.157695-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240326114743.712167-4-andre.przywara@arm.com>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-On Tue, Mar 26, 2024 at 11:47:38AM +0000, Andre Przywara wrote:
-> From: Martin Botka <martin.botka@somainline.org>
+Dne nedelja, 17. marec 2024 ob 19:41:27 CET je Krzysztof Kozlowski napisal(a):
+> There is no "reg_gmac_3v3" device node in sun50i-h6-pine-h64.dts,
+> although there is "gmac-3v3" with "reg_gmac_3v3" label, so let's assume
+> author wanted to remove that node.  Delete node via phandle, not via
+> full node path, to fix this.
 > 
-> Compared to the existing Allwinner H6 OPP scheme, the H616 uses a
-> similar NVMEM based mechanism to determine the silicon revision, which
-> is required to select the right frequency / voltage pair for the OPPs.
-> However it limits the maximum frequency for some speed bins, also seems
-> to not support all frequencies in all speed bins, which requires us to
-> introduce the opp-supported-hw property.
-> 
-> Add this property to the list of allowed properties, also drop the
-> requirement for the revision specific opp-microvolt properties, since
-> they might not be needed if using opp-supported-hw.
-> 
-> Also use to opportunity to adjust some wording, and drop a sentence
-> referring to the Linux driver and the OPP subsystem.
-> 
-> Shorten the existing example and add another example, showcasing the
-> opp-supported-hw property.
-> 
-> Signed-off-by: Martin Botka <martin.botka@somainline.org>
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> Fixes: f33a91175029 ("arm64: dts: allwinner: add pineh64 model B")
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+
+Best regards,
+Jernej
+
 > ---
->  .../allwinner,sun50i-h6-operating-points.yaml | 86 +++++++++----------
->  1 file changed, 42 insertions(+), 44 deletions(-)
+>  arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64-model-b.dts | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml b/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
-> index 51f62c3ae1947..d679b2e4a7199 100644
-> --- a/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
-> +++ b/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
-> @@ -13,25 +13,25 @@ maintainers:
->  description: |
->    For some SoCs, the CPU frequency subset and voltage value of each
->    OPP varies based on the silicon variant in use. Allwinner Process
-> -  Voltage Scaling Tables defines the voltage and frequency value based
-> -  on the speedbin blown in the efuse combination. The
-> -  sun50i-cpufreq-nvmem driver reads the efuse value from the SoC to
-> -  provide the OPP framework with required information.
-> +  Voltage Scaling Tables define the voltage and frequency values based
-> +  on the speedbin blown in the efuse combination.
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64-model-b.dts b/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64-model-b.dts
+> index b710f1a0f53a..1b6e5595ac6e 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64-model-b.dts
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64-model-b.dts
+> @@ -5,12 +5,12 @@
 >  
->  allOf:
->    - $ref: opp-v2-base.yaml#
+>  #include "sun50i-h6-pine-h64.dts"
 >  
->  properties:
->    compatible:
-> -    const: allwinner,sun50i-h6-operating-points
-> +    enum:
-> +      - allwinner,sun50i-h6-operating-points
-> +      - allwinner,sun50i-h616-operating-points
+> +/delete-node/ &reg_gmac_3v3;
+> +
+>  / {
+>  	model = "Pine H64 model B";
+>  	compatible = "pine64,pine-h64-model-b", "allwinner,sun50i-h6";
 >  
->    nvmem-cells:
->      description: |
->        A phandle pointing to a nvmem-cells node representing the efuse
-> -      registers that has information about the speedbin that is used
-> +      register that has information about the speedbin that is used
->        to select the right frequency/voltage value pair. Please refer
-> -      the for nvmem-cells bindings
-> -      Documentation/devicetree/bindings/nvmem/nvmem.txt and also
-> +      to the nvmem-cells bindings in
-> +      Documentation/devicetree/bindings/nvmem/nvmem.yaml and also the
->        examples below.
->  
->    opp-shared: true
-> @@ -47,15 +47,17 @@ patternProperties:
->      properties:
->        opp-hz: true
->        clock-latency-ns: true
-> +      opp-microvolt: true
-> +      opp-supported-hw:
+> -	/delete-node/ reg_gmac_3v3;
+> -
+>  	wifi_pwrseq: wifi_pwrseq {
+>  		compatible = "mmc-pwrseq-simple";
+>  		reset-gpios = <&r_pio 1 3 GPIO_ACTIVE_LOW>; /* PM3 */
+> 
 
-As this is an array, 
 
-maxItems: 1
 
-> +        description: |
 
-Don't need '|'.
-
-Otherwise,
-
-Reviewed-by: Rob Herring <robh@kernel.org>
