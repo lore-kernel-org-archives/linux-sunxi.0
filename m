@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E9E313C90A;
-	Tue, 26 Mar 2024 15:27:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAA3413CA9F;
+	Tue, 26 Mar 2024 15:27:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711466858; cv=none; b=R1yMGYpbWamlFxMGe7F+vn6ibHdbrwkCD3IPE/bKXz/5HQYbTUr5YjMFvAubts8l0Vazh/xc/TY+FCCSqosa4Z5IcmIV+DDPVp9u7CV6BZF0NJer3EwmhilvHajFn7mK2BiI19TuOagwC7KYXr7UEz809ssr4nVqJv8+553yH+Y=
+	t=1711466865; cv=none; b=cqKggLcT3e2U7TiRGpPdqaXwac4RyQIqf+RT3nOFyaJRbMAnDnQOW5pY9S7oWVLDLh34QHqWDpkjxbRdA/zh+272KtTgU575IuVOCUX54pGAR31gHuVh2c6ybjFIHY4AHEBjxzsHHUTm4J1xfU4r8qkpR1Orv24ZoEA1rkCRKTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711466858; c=relaxed/simple;
-	bh=lv5bA0FZ5ZAVNsfhWNcrlt0nZyurirWCe8fm49gbPRw=;
+	s=arc-20240116; t=1711466865; c=relaxed/simple;
+	bh=Dv7kla2wXTBWaUFc8gXermZZFBwCn4/sPhbYUztwuig=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=MnXLEGDDK3GDXxKCnLvKHjHUp53b9UDdWTr2R2bxHOmpuJ3fhMyTRRCIObXlthWFVW3Z15cKLM24LVNZy+IN1YWdBGMu+6f7yaP6xU9YK7QlYfbgEcWz3K2+6JrQUIClFlQ5Y3Us+j6itL8Vb8fLBzCD00Vr7XJ7sUrySCPPeFA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CTuDa2Bq; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=MW55uVjZW9IVMVjJB+MDlRtSo1CT3OSPgynMy1DvRo1toVihsJLCqGbdmMf4qwlR5u3p7kJuqSBL6CtW91/ytzNb2dhFX4lD904OYttRjOoOIjV119TRZB1f9zu+IRZv+0twmyFPEb04NMMx4eUHKnf3/QkdU1CFojybySwYiFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PMNxPmoG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CTuDa2Bq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7106C43394;
-	Tue, 26 Mar 2024 15:27:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PMNxPmoG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EE75C433C7;
+	Tue, 26 Mar 2024 15:27:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711466858;
-	bh=lv5bA0FZ5ZAVNsfhWNcrlt0nZyurirWCe8fm49gbPRw=;
+	s=k20201202; t=1711466864;
+	bh=Dv7kla2wXTBWaUFc8gXermZZFBwCn4/sPhbYUztwuig=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=CTuDa2BqxhIm3T80DmDW58q7Z+Hgm71qSDdBIsq5p2aLARE5wVAzS+H62tmaSAAQ9
-	 ddaCDvQVN4MS55bQxmVLuLedaz0bs/HjO5JWMGMXnGDIBi4XWzNO39uux2eoOVYLm3
-	 cPpQRpOBCVOLwU1fQIDav5r1ZtObb9rRJJu5AZPPaGI5RRLsJENYzihAdUbsjTmJA2
-	 L6vZtlJmiBGcAhZ/LGg1q1sR+JnR9cxY4QVpTyBXzLlNI8WTop1zWbBsvz1AFpvEP4
-	 kN8aeXBB3Au1aTZHtn3NeB80EgW2uaBbwpZrRsrw3qxXZPWkBswJy+owsjEjy/OV/o
-	 fu+B/91NXYEpg==
+	b=PMNxPmoGnIkKBoxMQ7NlvSusSDWPx4IQBTVlGLdiZB5Ydgg3IR9sSfFXFFvIoBrVV
+	 tckzBX7YawyPRIpxIboyttm/BMHS6MpsBphw11xVj2qFiqaQdiqn8VkjkMu8052PI8
+	 kZuNQ0/SMOslKDmWxS81GlEpikjbcTuTnPGksi77GqrrJ51JVImhkth4CpdGcO9Hlz
+	 XPsqRDphqxclYhmEcfYyWsJPFqumvDW3fvvvIMwBXm8N5dDXT6dWL6lz7vdZrbCJoz
+	 EizinUnbCcXRYVtbWxKbl+HsGeViDLfKro0uv95jmaiIbzQhwmLgAUzgh8v7FIYGBf
+	 cXLQnInvJdCWQ==
 From: Mark Brown <broonie@kernel.org>
 To: linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, 
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
@@ -35,12 +35,12 @@ Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Arnaud Ferraris <arnaud.ferraris@collabora.com>, 
  linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-sunxi@lists.linux.dev
-In-Reply-To: <20240223015219.3618111-1-megi@xff.cz>
-References: <20240223015219.3618111-1-megi@xff.cz>
-Subject: Re: [PATCH v2 0/5] Add support for jack detection to codec present
+In-Reply-To: <20240302140042.1990256-1-megi@xff.cz>
+References: <20240302140042.1990256-1-megi@xff.cz>
+Subject: Re: [PATCH v3 0/4] Add support for jack detection to codec present
  in A64 SoC
-Message-Id: <171146685553.132239.7359071479425235403.b4-ty@kernel.org>
-Date: Tue, 26 Mar 2024 15:27:35 +0000
+Message-Id: <171146686191.132239.8280140430376443574.b4-ty@kernel.org>
+Date: Tue, 26 Mar 2024 15:27:41 +0000
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -51,15 +51,16 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.14-dev
 
-On Fri, 23 Feb 2024 02:52:10 +0100, Ondřej Jirman wrote:
+On Sat, 02 Mar 2024 15:00:34 +0100, Ondřej Jirman wrote:
 > This series adds support for jack detection to this codec. I used
 > and tested this on Pinephone. It works quite nicely. I tested it
 > against Android headset mic button resistor specification.
 > 
-> The patches are improved and debugged version of the original
-> ones from Arnaud Ferraris and Samuel Holland, imrpoved to better
+> The patches are a rewritten and debugged version of the original
+> ones from Arnaud Ferraris and Samuel Holland, improved to better
 > handle headset button presses and with more robust plug-in/out
-> event debouncing.
+> event debouncing, and to use set_jack API instead of sniffing
+> the sound card widget names, to detect the type of jack connector.
 > 
 > [...]
 
@@ -69,15 +70,13 @@ Applied to
 
 Thanks!
 
-[1/5] dt-bindings: sound: Add jack-type property to sun8i-a33-codec
-      (no commit info)
-[2/5] ASoC: sun50i-codec-analog: Move suspend/resume to set_bias_level
+[1/4] ASoC: sun50i-codec-analog: Move suspend/resume to set_bias_level
       commit: c0454d31e05062b1c7df7eef21855ba1f56c5158
-[3/5] ASoC: sun8i-codec: Enable bus clock at STANDBY and higher bias
+[2/4] ASoC: sun8i-codec: Enable bus clock at STANDBY and higher bias
       commit: c556814b926c3f16fdca3d18cac793ccf0d14c44
-[4/5] ASoC: sun50i-codec-analog: Enable jack detection on startup
+[3/4] ASoC: sun50i-codec-analog: Enable jack detection on startup
       commit: d5961e43b28668088087befbf4f7a043bd0ae65c
-[5/5] ASoC: sun8i-codec: Implement jack and accessory detection
+[4/4] ASoC: sun8i-codec: Implement jack and accessory detection
       commit: 21fa98f4197bb3365dda1417708b318f403c13c1
 
 All being well this means that it will be integrated into the linux-next
