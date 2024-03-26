@@ -1,102 +1,142 @@
-Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A320D128823
-	for <linux-sunxi@lists.linux.dev>; Tue, 26 Mar 2024 03:50:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 591C223B1
+	for <linux-sunxi@lists.linux.dev>; Tue, 26 Mar 2024 11:02:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711425022; cv=none; b=BOOWtBEtvyk5Bek44ghVQMBAxFkJ9kFRKOkT1C31lumbWP1Aip3I92QUmadSjzKdAo2mBt1PJu/b3INDpYxSr+kGgv8lDCUhuCUKYBOL+Be1PgL5tJIeHFRbK9Gbj0ErMbY0H5qsDDAmhQNj56hf0tVZ9q3F2DS30Va2Gkzxn6g=
+	t=1711450963; cv=none; b=IKs/QiQTpIAZQj8QcXOVRXATJUCh5L+YldLR/AutjcyYl1yXkkmQ7euwoSIUuqc3Y5W30o3lJDgdwjsegHsKjKcXLQ9ALNfFFXzf3dHiPG5NYNk/VXBnOrstD0XIuqyMl7sfRfAYa2FGKfhXQ3OqTBjQrSiwQMFiydTUXkgmpvE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711425022; c=relaxed/simple;
-	bh=bctQBJg26saGhxU9s8UlkMFaCikEYQsmHPO5D2q9/BE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=rLvMHGlVaVYwihgvhsLCqHkKiwph5XikeQsoJgXcrWHUi4GyTJEdchIcinx0zs7fAGsh+Lt/QoXa5/QyAwLtaQijyYH6Nrh9kMmgSpZhS2iHOLvrDNeFiaAe9mO8oKKH8YzS7tqaNpRgU3qj2wBn6W8IHP6CMdHJm/Oq4tLJIRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org; spf=none smtp.mailfrom=jookia.org; dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b=pGuva+Ua; arc=none smtp.client-ip=95.215.58.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=jookia.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b="pGuva+Ua"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
-	t=1711425015;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=K9DFWcbSfaZCwj5K7OSlhvorCFoj07hKTzCP89IkAuA=;
-	b=pGuva+Uac4faL7cAdCOY51vt/AXVNR2AT7b/EsX4N4yx/vjM89RFH1EEGcZEH3zMLII4uc
-	TjKqbTX5GMWpmnIwbTrYuFNoBJ8SUxqFrqqbVFV0+l8METXSuEqMA6M42TLXNwhdaiWdAY
-	Av5q49y28YcZH/DQjgS3sFS8Gyk8SfXrm6AAV7KVVVTzMwzBxXceC4aOIvf3qaY5138gbf
-	MZa127VUNTNK1SaSmrOgEos5/JqP/knJyjS1MPKY8nKIX7BttNhgCo5V0dTlRIjZb/1MEx
-	TcPZX/JVDZ13nGn2bkb7MCCcvZyz30/vPq+MXSqnnQa+kbbrAwfOCLymn9bX2A==
-From: John Watts <contact@jookia.org>
-Date: Tue, 26 Mar 2024 14:50:03 +1100
-Subject: [PATCH] ASoC: sunxi: sun4i-i2s: Enable 32-bit audio formats
+	s=arc-20240116; t=1711450963; c=relaxed/simple;
+	bh=lJZ872wzJYmtD936Nj9aY6ECjXsLe8FKlqpmsMJ7meM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=O0HKs1tLDVYioCzcaJMH7hmVuPWDphBXmI/xgAC0bYA8VS7V/ZyYWruPoMAzfG0lgRBWyN2DrJcySCxNuyC3YfBPGCWECtj27PaE5tsyFiN49BoBtAqEEeX7PC2P7ccnHFDHjjrLH31qTk+1BiERL7F3qNy5L4lHv6v+wczmvYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 38D4D2F4;
+	Tue, 26 Mar 2024 04:03:15 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5017A3F64C;
+	Tue, 26 Mar 2024 04:02:39 -0700 (PDT)
+Date: Tue, 26 Mar 2024 11:02:36 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: Rob Herring <robh@kernel.org>, Yangtao Li <tiny.windzz@gmail.com>,
+ Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, Stephen Boyd
+ <sboyd@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, "Rafael J . Wysocki"
+ <rafael@kernel.org>, linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, Brandon
+ Cheo Fusi <fusibrandon13@gmail.com>, Martin Botka
+ <martin.botka@somainline.org>, Martin Botka <martin.botka1@gmail.com>
+Subject: Re: [PATCH v2 3/8] dt-bindings: opp: Describe H616 OPPs and
+ opp-supported-hw
+Message-ID: <20240326110236.69ba33a8@donnerap.manchester.arm.com>
+In-Reply-To: <20240321030923.4sf3lifbmnvvidaa@vireshk-i7>
+References: <20240318011228.2626-1-andre.przywara@arm.com>
+	<20240318011228.2626-4-andre.przywara@arm.com>
+	<20240320150228.GA1705913-robh@kernel.org>
+	<20240320153738.3e2410bf@donnerap.manchester.arm.com>
+	<20240321030923.4sf3lifbmnvvidaa@vireshk-i7>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240326-sunxi_s32-v1-1-899f71dcb1e6@jookia.org>
-X-B4-Tracking: v=1; b=H4sIAOpFAmYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxMDYyMz3eLSvIrM+GJjI900o8QkI9Mki1QzCwsloPqCotS0zAqwWdGxtbU
- AUQ+OeVsAAAA=
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>
-Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- John Watts <contact@jookia.org>
-X-Developer-Signature: v=1; a=openssh-sha256; t=1711425003; l=1320;
- i=contact@jookia.org; h=from:subject:message-id;
- bh=bctQBJg26saGhxU9s8UlkMFaCikEYQsmHPO5D2q9/BE=;
- b=U1NIU0lHAAAAAQAAAEoAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAAAgpGuA3uho2
- 8zVxm554DVLHyl4gq5/nBHglU5WIWN8/zYAAAAEc3NoOgAAAAZwYXRhdHQAAAAAAAAABnNoYTUx
- MgAAAGcAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAABAWWEuABqUeoiIQmUDevKLBIs
- 55txNImjUfXyzNdEM4lMfiVhlRL7Fz/dVUvLSegPOrhOchxP+1vRLZ0uIkvZMDQUAAOcU
-X-Developer-Key: i=contact@jookia.org; a=openssh;
- fpr=SHA256:6LBQmZH5u7i/edmEZXzCTwCrpSevs/ZshZxNmlD1thY
-X-Migadu-Flow: FLOW_OUT
 
-The I2S driver already supports and checks for 32-bit sample sizes,
-so indicate this size is available for use in the DAI driver.
+On Thu, 21 Mar 2024 08:39:23 +0530
+Viresh Kumar <viresh.kumar@linaro.org> wrote:
 
-This change has been tested on the T113-S3, but it should work just
-fine on older hardware as get_sr checks for sample size support
-correctly according to each core's datasheet.
+Hi Viresh,
 
-Signed-off-by: John Watts <contact@jookia.org>
----
-This patch enables support for 32-bit audio in the sunxi I2S driver.
+thanks for chiming in!
 
-I have only tested this on the Allwinner T113 but I'm fairly
-certain it will work on older boards.
----
- sound/soc/sunxi/sun4i-i2s.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+> On 20-03-24, 15:37, Andre Przywara wrote:
+> > On Wed, 20 Mar 2024 10:02:28 -0500
+> > Rob Herring <robh@kernel.org> wrote:  
+> > > On Mon, Mar 18, 2024 at 01:12:23AM +0000, Andre Przywara wrote:  
+> > > > From: Martin Botka <martin.botka@somainline.org>
+> > > > -        opp-1080000000 {
+> > > > +        opp-792000000-l {
+> > > >              clock-latency-ns = <244144>; /* 8 32k periods */
+> > > > -            opp-hz = /bits/ 64 <1080000000>;
+> > > > +            opp-hz = /bits/ 64 <792000000>;
+> > > >  
+> > > > -            opp-microvolt-speed0 = <1060000>;
+> > > > -            opp-microvolt-speed1 = <880000>;
+> > > > -            opp-microvolt-speed2 = <840000>;
+> > > > +            opp-microvolt = <900000>;
+> > > > +            opp-supported-hw = <0x02>;
+> > > >          };
+> > > >  
+> > > > -        opp-1320000000 {
+> > > > +        opp-792000000-h {
+> > > >              clock-latency-ns = <244144>; /* 8 32k periods */
+> > > > -            opp-hz = /bits/ 64 <1320000000>;
+> > > > +            opp-hz = /bits/ 64 <792000000>;
+> > > >  
+> > > > -            opp-microvolt-speed0 = <1160000>;
+> > > > -            opp-microvolt-speed1 = <940000>;
+> > > > -            opp-microvolt-speed2 = <900000>;
+> > > > +            opp-microvolt = <940000>;
+> > > > +            opp-supported-hw = <0x10>;    
+> > > 
+> > > So far, we've avoided multiple entries for a single frequency. I think 
+> > > it would be good to maintain that.  
+> > 
+> > Fair, I wasn't super happy with that either, but it still seemed better
+> > than the alternatives.
+> >   
+> > > Couldn't you just do:
+> > > 
+> > > opp-supported-hw = <0>, <0x10>, <0x02>;
+> > > 
+> > > Where the index corresponds to speed0, speed1, speed2.
+> > > 
+> > > If not, then I don't understand how multiple entries of opp-supported-hw 
+> > > are supposed to work.  
+> > 
+> > If I got this correctly, multiple cells in opp-supported-hw are to
+> > describe various levels of hierarchy for a chip version, so like silicon
+> > mask, metal layer revision, bin, I guess? The binding doc speaks of "cuts,
+> > substrate and process", not really sure what that means exactly.  
+> 
+> Right. That basically translates to hardware versions the OPP will be parsed
+> for.
+> 
+> > I think currently we cannot easily combine microvolt suffixes and
+> > opp-supported-hw in one OPP node?  
+> 
+> It should be fine.
 
-diff --git a/sound/soc/sunxi/sun4i-i2s.c b/sound/soc/sunxi/sun4i-i2s.c
-index a736f632bf0b..aeea852141c1 100644
---- a/sound/soc/sunxi/sun4i-i2s.c
-+++ b/sound/soc/sunxi/sun4i-i2s.c
-@@ -1103,7 +1103,8 @@ static const struct snd_soc_dai_ops sun4i_i2s_dai_ops = {
- 
- #define SUN4I_FORMATS	(SNDRV_PCM_FMTBIT_S16_LE | \
- 			 SNDRV_PCM_FMTBIT_S20_LE | \
--			 SNDRV_PCM_FMTBIT_S24_LE)
-+			 SNDRV_PCM_FMTBIT_S24_LE | \
-+			 SNDRV_PCM_FMTBIT_S32_LE)
- 
- static struct snd_soc_dai_driver sun4i_i2s_dai = {
- 	.capture = {
+You are of course right, that works. I think I tried without
+opp-supported-hw before, and then the code doesn't like missing voltage
+lines.
 
----
-base-commit: 72fb52fb0ac44b6a1edd9bc390e44bce3acccd26
-change-id: 20240326-sunxi_s32-f2ab25b8e688
+> 
+> > I think it bails out if one
+> > microvolt-speed<x> property is missing, but I have to double check.
+> > But IIRC v1 of this series somehow pulled that off, so we can maybe bring
+> > it back? To end up with:
+> > 	opp-792 {
+> > 		opp-hz = <792000000>;
+> > 		opp-microvolt-speed1 = <900000>;
+> > 		opp-microvolt-speed4 = <940000>;
+> > 		opp-supported-hw = <0x12>;
+> > 	};  
+> 
+> That's what I thought too while reading your email.. Just populate the OPP for
+> both 0x10 and 0x02 versions and let the speedN thing get you the right voltage.
 
-Best regards,
--- 
-John Watts <contact@jookia.org>
+Yes, that works nicely. I adjusted the binding example and the actual OPP
+table accordingly. Will send a v3 shortly.
 
+Cheers,
+Andre
