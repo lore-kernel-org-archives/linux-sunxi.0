@@ -1,69 +1,70 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41F2212BE93
-	for <linux-sunxi@lists.linux.dev>; Wed, 27 Mar 2024 12:01:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B148E158219
+	for <linux-sunxi@lists.linux.dev>; Wed, 27 Mar 2024 12:16:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711540888; cv=none; b=eXVM9lJrxTh5LXSGdaxbxQyDKsfYnFNt0VTBRhChmN5oCLzaYmremYkrm3i3L7R5bJzitpjw7BI2gL7VV7zSnUI/Ex9dRJrly9oiIm4CSWUu2ObiT41X4dY4hzzGBuKUpuxM2IpgSxb5htu/AuTykiImzb8wHJsNKpCDCkRUvpU=
+	t=1711541815; cv=none; b=uYqnIlraaGZUxKUALmnaptTog7PZYYglJO+9jSodG0EPRPf/0Se32xRL2i07zzv1upuLM4utVSApBrQubghMARpEPmBvPGnVLRY8ZPxRHrZ43u4R02n2CuSTqCPw64sQJeCf1+8BF9cbN8mlcwzS4WpGX2qwfsPm6jtvI+Y2ONU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711540888; c=relaxed/simple;
-	bh=dnDruskvW+GxkU2E2YCRG7FXCI3+PwKJTemu2mwTB2g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b5L+3h11gLYKVgPNa2nvwFSfmTexmMtP/VXkG1oWCzHDRuABh5qlWjAbETPsjJOFbC5aNeEB/1RElVZfGa90dWG2754xaUaO5i0RnjRa1cBJVZvHQu2GkVH49D5w+qW8nTzGWN/ZuyP3ZnIOe2El4+JGv8slNgop7OHCFWWJUXY=
+	s=arc-20240116; t=1711541815; c=relaxed/simple;
+	bh=hDcbCqoUsh/uSrDxeLcfI7VVyJoLbnAOut0GvCf9SsU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=c5wJW7yaNTeSxk97F4AfxUQlFIsAZLlqmEj/lkTpB+W9V+6+/qHltAjgF5zzqbcWq+pByDSWBsd/vYY+mXayqL1vCV+RdYKOB9UDUWWZQe6MyfmEBpDIPrwT8JcPK8Plr//yxqvlAyuSNHQg0MQUSmRdxPgVEXEYaeD+7WGeb14=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B30882F4;
-	Wed, 27 Mar 2024 05:02:00 -0700 (PDT)
-Received: from bogus (e103737-lin.cambridge.arm.com [10.1.197.49])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D02733F694;
-	Wed, 27 Mar 2024 05:01:23 -0700 (PDT)
-Date: Wed, 27 Mar 2024 12:01:21 +0000
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Andre Przywara <andre.przywara@arm.com>
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 41CF52F4;
+	Wed, 27 Mar 2024 05:17:26 -0700 (PDT)
+Received: from minigeek.lan (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4B1763F694;
+	Wed, 27 Mar 2024 05:16:49 -0700 (PDT)
+Date: Wed, 27 Mar 2024 12:16:40 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Sudeep Holla <sudeep.holla@arm.com>
 Cc: Samuel Holland <samuel@sholland.org>, linux-pm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Brandon Cheo Fusi <fusibrandon13@gmail.com>,
-	Martin Botka <martin.botka@somainline.org>,
-	Martin Botka <martin.botka1@gmail.com>,
-	Chris Morgan <macroalpha82@gmail.com>,
-	Ryan Walklin <ryan@testtoast.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Yangtao Li <tiny.windzz@gmail.com>,
-	Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	"Rafael J . Wysocki" <rafael@kernel.org>
+ devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, Brandon Cheo Fusi
+ <fusibrandon13@gmail.com>, Martin Botka <martin.botka@somainline.org>,
+ Martin Botka <martin.botka1@gmail.com>, Chris Morgan
+ <macroalpha82@gmail.com>, Ryan Walklin <ryan@testtoast.com>, Mark Rutland
+ <mark.rutland@arm.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, Yangtao
+ Li <tiny.windzz@gmail.com>, Viresh Kumar <vireshk@kernel.org>, Nishanth
+ Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ "Rafael J . Wysocki" <rafael@kernel.org>
 Subject: Re: [PATCH v3 6/8] cpufreq: sun50i: Add H616 support
-Message-ID: <ZgQKke6de4_5TMWC@bogus>
+Message-ID: <20240327121640.11bb5684@minigeek.lan>
+In-Reply-To: <ZgQJ1N3-JeSFwZJb@bogus>
 References: <20240326114743.712167-1-andre.przywara@arm.com>
- <20240326114743.712167-7-andre.przywara@arm.com>
- <65e86555-761e-4e26-8778-e2452876b5e4@sholland.org>
- <20240327114608.2ffca28e@minigeek.lan>
- <ZgQJ1N3-JeSFwZJb@bogus>
+	<20240326114743.712167-7-andre.przywara@arm.com>
+	<65e86555-761e-4e26-8778-e2452876b5e4@sholland.org>
+	<20240327114608.2ffca28e@minigeek.lan>
+	<ZgQJ1N3-JeSFwZJb@bogus>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZgQJ1N3-JeSFwZJb@bogus>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Mar 27, 2024 at 11:58:12AM +0000, Sudeep Holla wrote:
+On Wed, 27 Mar 2024 11:58:12 +0000
+Sudeep Holla <sudeep.holla@arm.com> wrote:
+
+Hi Sudeep,
+
 > On Wed, Mar 27, 2024 at 11:46:08AM +0000, Andre Przywara wrote:
 > > On Tue, 26 Mar 2024 22:46:27 -0500
 > > Samuel Holland <samuel@sholland.org> wrote:
 > > 
 > > Hi Samuel,
-> > 
-> > > On 3/26/24 06:47, Andre Przywara wrote:
+> >   
+> > > On 3/26/24 06:47, Andre Przywara wrote:  
 > > > > From: Martin Botka <martin.botka@somainline.org>
 > > > > 
 > > > > The Allwinner H616/H618 SoCs have different OPP tables per SoC version
@@ -107,22 +108,49 @@ On Wed, Mar 27, 2024 at 11:58:12AM +0000, Sudeep Holla wrote:
 > > > > + */
 > > > > +static u32 sun50i_h616_efuse_xlate(u32 speedbin)
 > > > > +{
-> > > > +	int ver_bits = arm_smccc_get_soc_id_revision();  
+> > > > +	int ver_bits = arm_smccc_get_soc_id_revision();    
 > > > 
-> > > This needs a Kconfig dependency on ARM_SMCCC_SOC_ID.
+> > > This needs a Kconfig dependency on ARM_SMCCC_SOC_ID.  
 > > 
 > > That was my first impulse as well, but it's actually not true:
 > > ARM_SMCCC_SOC_ID just protects the sysfs export code, not this function
 > > here. That does just depend on HAVE_ARM_SMCCC_DISCOVERY, which gets
 > > selected by ARM_GIC_V3, which gets selected by CONFIG_ARM64. So the
-> > arm64 kernel is safe.
+> > arm64 kernel is safe.  
 > 
 > It is safe to add the dependency explicitly so that if GICV3 decides to drop
 > it, this won't be affected. Thoughts ?
 
-Ignore this as this will block the ARM(32) build of the driver which I suppose
-is needed as well.
+That would be one possibility, but since there are patches on the
+list[1] that use this driver for the Allwinner D1 with RISC-V cores,
+this would need to be revisited then anyway. 
 
---
-Regards,
-Sudeep
+> > Now apart from ARM(32) (where the situation seems a bit more complex) I
+> > just realise that this would torpedo Brandon's D1 efforts, so I need to
+> > add this change I played with to provide an alternative:
+> >
+> > static int get_soc_id_revision(void)
+> > {
+> > #ifdef CONFIG_HAVE_ARM_SMCCC_DISCOVERY
+> > 	return arm_smccc_get_soc_id_revision();
+> > #else
+> > 	/* Return the value for the worse die revision, to be safe. */
+> > 	return 2;
+> > #endif
+> > }
+> > 
+> > Does that look acceptable, despite the #ifdef?
+> >   
+> 
+> if(IS_ENABLED(CONFIG_HAVE_ARM_SMCCC_DISCOVERY)) instead ?
+
+Well, but this would rely on at least the prototype to be visible,
+right? And then on the toolchain to optimise away the call, so that the
+symbol doesn't even appear in the object file?
+So would this work for the RISC-V case?
+
+Cheers,
+Andre
+
+[1]
+https://lore.kernel.org/linux-sunxi/20231218110543.64044-1-fusibrandon13@gmail.com/T/#t
