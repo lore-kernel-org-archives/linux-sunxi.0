@@ -1,138 +1,210 @@
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C89D31CAAF
-	for <linux-sunxi@lists.linux.dev>; Wed, 27 Mar 2024 08:05:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13962129E73
+	for <linux-sunxi@lists.linux.dev>; Wed, 27 Mar 2024 11:46:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711526752; cv=none; b=GR95OIIrCo6Bp24YAn6UwUvtlCW79OXISh4+b4nsjzI3DeQFieUML1wsF4YFI7JiDrqCNDIMUoegeeRhbWhhFoGTbtU/FX24x8ooVut7myzPbQ0p2RTktjGME6OHMX+DohPUcA/18QeqAhcsWEPtvjjo/8m41hPSRh0PB9Z3jKY=
+	t=1711539990; cv=none; b=j3eRTww/lwHX9kiJjK6/hdKI80+K6bON7HvY7ijxRzd40cpGslK1nhlSzKnSoMJ+wXK5ZPc10IeFMPXcox5rtrwc2TJqFbbPQsMFH02UNhjQQJTjxn+SbgXa4444trcQD1Z507/W55vmuPBaqVo3BQyoh9NUm/1cpOmrjfFAGsA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711526752; c=relaxed/simple;
-	bh=r4JXMW58E7i8lNoJ31XYYNnSGQR/YuEX7KZrH5t3UyE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SxrrbZk9Q7UWtdzKQ/ywYKXC48xrhRzmsot0iW8ymu4ZCNou4CVOq/cOVditqOOLJx5XITg5xL1Il9oGlq7EsLUksiSBpbVOwqQxfAiZk8Xx+xeN+GDJT7XrRVjyO7V5hIf+35FG9IPGr2+Fj0lH4tG5kVO3+aSHD1X3rbohp+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=FNs720Yz; arc=none smtp.client-ip=195.181.215.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="FNs720Yz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
-	t=1711526745; bh=r4JXMW58E7i8lNoJ31XYYNnSGQR/YuEX7KZrH5t3UyE=;
-	h=From:To:Cc:Subject:Date:From;
-	b=FNs720YzlUVg+LJFcaUHuBsJLiF6gKZLE6FYoYAy+4PcQed1GZnX12dX5Ot6qHu6G
-	 hdcEfh1WJ0ZNPzzeDBZwkRSz24z4wz6wDvWgcIFpTKyzGRuhrgvph+d7GcZAhVRN8y
-	 /jNXuG0LdO6JsQlDpFHHPbmhnInQNrR/JVIC1yVs=
-From: =?UTF-8?q?Ond=C5=99ej=20Jirman?= <megi@xff.cz>
-To: linux-kernel@vger.kernel.org
-Cc: Ondrej Jirman <megi@xff.cz>,
-	kernel test robot <lkp@intel.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Rob Herring <robh@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Arnaud Ferraris <arnaud.ferraris@collabora.com>,
-	linux-sound@vger.kernel.org (open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM...),
-	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner sunXi SoC support),
-	linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi SoC support)
-Subject: [PATCH] ASoC: sun8i-codec: Fix build with CONFIG_SND_JACK_INPUT_DEV disabled
-Date: Wed, 27 Mar 2024 09:05:34 +0100
-Message-ID: <20240327080542.3649840-1-megi@xff.cz>
+	s=arc-20240116; t=1711539990; c=relaxed/simple;
+	bh=Ul4yG9uNhoPlqOLn8b/P5MHv0W7DsyjvWSzXRltK4I8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qBS6tQaTE8oF8KGefs+vkAiteKvvZpmzHGxTRa+r1KCeYKXWnHKte8DqsCVpSXWqOqL7DINH2389SlKxSF+x8PBwaTqkRr2cl1Iietkt4xBcPxVpQoIyhENfi8fInGOO8TuJW+Z1pKTk4GnNe0O1enLkrPbkwMQoWdsdHqqJco4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 75A7D2F4;
+	Wed, 27 Mar 2024 04:47:01 -0700 (PDT)
+Received: from minigeek.lan (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 77E033F694;
+	Wed, 27 Mar 2024 04:46:24 -0700 (PDT)
+Date: Wed, 27 Mar 2024 11:46:08 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Samuel Holland <samuel@sholland.org>
+Cc: linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, Brandon
+ Cheo Fusi <fusibrandon13@gmail.com>, Martin Botka
+ <martin.botka@somainline.org>, Martin Botka <martin.botka1@gmail.com>,
+ Chris Morgan <macroalpha82@gmail.com>, Ryan Walklin <ryan@testtoast.com>,
+ Mark Rutland <mark.rutland@arm.com>, Lorenzo Pieralisi
+ <lpieralisi@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>, Yangtao Li
+ <tiny.windzz@gmail.com>, Viresh Kumar <vireshk@kernel.org>, Nishanth Menon
+ <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ "Rafael J . Wysocki" <rafael@kernel.org>
+Subject: Re: [PATCH v3 6/8] cpufreq: sun50i: Add H616 support
+Message-ID: <20240327114608.2ffca28e@minigeek.lan>
+In-Reply-To: <65e86555-761e-4e26-8778-e2452876b5e4@sholland.org>
+References: <20240326114743.712167-1-andre.przywara@arm.com>
+	<20240326114743.712167-7-andre.przywara@arm.com>
+	<65e86555-761e-4e26-8778-e2452876b5e4@sholland.org>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Ondrej Jirman <megi@xff.cz>
+On Tue, 26 Mar 2024 22:46:27 -0500
+Samuel Holland <samuel@sholland.org> wrote:
 
-When CONFIG_SND_JACK_INPUT_DEV is disabled, struct snd_jack doesn't
-have 'type' field. We can't rely on this field being always present,
-so store the jack_type in the codec driver itself.
+Hi Samuel,
 
-Signed-off-by: Ondrej Jirman <megi@xff.cz>
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202403261243.kcXCPAYs-lkp@intel.com/
----
-This is a followup for https://lore.kernel.org/lkml/2vhd45kylttgonosdcfn7ugwyy2vx56gijwf3ealz4tel65iqr@cs3kxrl6d2hh/
+> On 3/26/24 06:47, Andre Przywara wrote:
+> > From: Martin Botka <martin.botka@somainline.org>
+> > 
+> > The Allwinner H616/H618 SoCs have different OPP tables per SoC version
+> > and die revision. The SoC version is stored in NVMEM, as before, though
+> > encoded differently. The die revision is in a different register, in the
+> > SRAM controller. Firmware already exports that value in a standardised
+> > way, through the SMCCC SoCID mechanism. We need both values, as some chips
+> > have the same SoC version, but they don't support the same frequencies and
+> > they get differentiated by the die revision.
+> > 
+> > Add the new compatible string and tie the new translation function to
+> > it. This mechanism not only covers the original H616 SoC, but also its
+> > very close sibling SoCs H618 and H700, so add them to the list as well.
+> > 
+> > Signed-off-by: Martin Botka <martin.botka@somainline.org>
+> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > ---
+> >  drivers/cpufreq/sun50i-cpufreq-nvmem.c | 61 ++++++++++++++++++++++++++
+> >  1 file changed, 61 insertions(+)
+> > 
+> > diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+> > index bd170611c7906..f9e9fc340f848 100644
+> > --- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+> > +++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+> > @@ -10,6 +10,7 @@
+> >  
+> >  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> >  
+> > +#include <linux/arm-smccc.h>
+> >  #include <linux/cpu.h>
+> >  #include <linux/module.h>
+> >  #include <linux/nvmem-consumer.h>
+> > @@ -46,14 +47,71 @@ static u32 sun50i_h6_efuse_xlate(u32 speedbin)
+> >  		return 0;
+> >  }
+> >  
+> > +/*
+> > + * Judging by the OPP tables in the vendor BSP, the quality order of the
+> > + * returned speedbin index is 4 -> 0/2 -> 3 -> 1, from worst to best.
+> > + * 0 and 2 seem identical from the OPP tables' point of view.
+> > + */
+> > +static u32 sun50i_h616_efuse_xlate(u32 speedbin)
+> > +{
+> > +	int ver_bits = arm_smccc_get_soc_id_revision();  
+> 
+> This needs a Kconfig dependency on ARM_SMCCC_SOC_ID.
 
- sound/soc/sunxi/sun8i-codec.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+That was my first impulse as well, but it's actually not true:
+ARM_SMCCC_SOC_ID just protects the sysfs export code, not this function
+here. That does just depend on HAVE_ARM_SMCCC_DISCOVERY, which gets
+selected by ARM_GIC_V3, which gets selected by CONFIG_ARM64. So the
+arm64 kernel is safe.
+Now apart from ARM(32) (where the situation seems a bit more complex) I
+just realise that this would torpedo Brandon's D1 efforts, so I need to
+add this change I played with to provide an alternative:
 
-diff --git a/sound/soc/sunxi/sun8i-codec.c b/sound/soc/sunxi/sun8i-codec.c
-index 43795362fed0..b5dafb749c3f 100644
---- a/sound/soc/sunxi/sun8i-codec.c
-+++ b/sound/soc/sunxi/sun8i-codec.c
-@@ -232,6 +232,7 @@ struct sun8i_codec {
- 	struct delayed_work		jack_work;
- 	int				jack_irq;
- 	int				jack_status;
-+	int				jack_type;
- 	int				jack_last_sample;
- 	ktime_t				jack_hbias_ready;
- 	struct mutex			jack_mutex;
-@@ -1352,7 +1353,6 @@ static void sun8i_codec_jack_work(struct work_struct *work)
- 	struct sun8i_codec *scodec = container_of(work, struct sun8i_codec,
- 						  jack_work.work);
- 	unsigned int mdata;
--	int type_mask = scodec->jack->jack->type;
- 	int type;
- 
- 	guard(mutex)(&scodec->jack_mutex);
-@@ -1363,7 +1363,7 @@ static void sun8i_codec_jack_work(struct work_struct *work)
- 
- 		scodec->jack_last_sample = -1;
- 
--		if (type_mask & SND_JACK_MICROPHONE) {
-+		if (scodec->jack_type & SND_JACK_MICROPHONE) {
- 			/*
- 			 * If we were in disconnected state, we enable HBIAS and
- 			 * wait 600ms before reading initial HDATA value.
-@@ -1376,7 +1376,7 @@ static void sun8i_codec_jack_work(struct work_struct *work)
- 			scodec->jack_status = SUN8I_JACK_STATUS_WAITING_HBIAS;
- 		} else {
- 			snd_soc_jack_report(scodec->jack, SND_JACK_HEADPHONE,
--					    type_mask);
-+					    scodec->jack_type);
- 			scodec->jack_status = SUN8I_JACK_STATUS_CONNECTED;
- 		}
- 	} else if (scodec->jack_status == SUN8I_JACK_STATUS_WAITING_HBIAS) {
-@@ -1417,17 +1417,17 @@ static void sun8i_codec_jack_work(struct work_struct *work)
- 		if (type == SND_JACK_HEADPHONE)
- 			sun8i_codec_set_hmic_bias(scodec, false);
- 
--		snd_soc_jack_report(scodec->jack, type, type_mask);
-+		snd_soc_jack_report(scodec->jack, type, scodec->jack_type);
- 		scodec->jack_status = SUN8I_JACK_STATUS_CONNECTED;
- 	} else if (scodec->jack_status == SUN8I_JACK_STATUS_CONNECTED) {
- 		if (scodec->last_hmic_irq != SUN8I_HMIC_STS_JACK_OUT_IRQ_ST)
- 			return;
- 
- 		scodec->jack_status = SUN8I_JACK_STATUS_DISCONNECTED;
--		if (type_mask & SND_JACK_MICROPHONE)
-+		if (scodec->jack_type & SND_JACK_MICROPHONE)
- 			sun8i_codec_set_hmic_bias(scodec, false);
- 
--		snd_soc_jack_report(scodec->jack, 0, type_mask);
-+		snd_soc_jack_report(scodec->jack, 0, scodec->jack_type);
- 	}
- }
- 
-@@ -1491,7 +1491,7 @@ static irqreturn_t sun8i_codec_jack_irq(int irq, void *dev_id)
- 		if (scodec->jack_last_sample >= 0 &&
- 		    scodec->jack_last_sample == value)
- 			snd_soc_jack_report(scodec->jack, type,
--					    scodec->jack->jack->type);
-+					    scodec->jack_type);
- 
- 		scodec->jack_last_sample = value;
- 	}
--- 
-2.44.0
+static int get_soc_id_revision(void)
+{
+#ifdef CONFIG_HAVE_ARM_SMCCC_DISCOVERY
+	return arm_smccc_get_soc_id_revision();
+#else
+	/* Return the value for the worse die revision, to be safe. */
+	return 2;
+#endif
+}
+
+Does that look acceptable, despite the #ifdef?
+
+Cheers,
+Andre
+
+
+> 
+> Regards,
+> Samuel
+> 
+> > +	u32 value = 0;
+> > +
+> > +	switch (speedbin & 0xffff) {
+> > +	case 0x2000:
+> > +		value = 0;
+> > +		break;
+> > +	case 0x2400:
+> > +	case 0x7400:
+> > +	case 0x2c00:
+> > +	case 0x7c00:
+> > +		if (ver_bits != SMCCC_RET_NOT_SUPPORTED &&
+> > ver_bits <= 1) {
+> > +			/* ic version A/B */
+> > +			value = 1;
+> > +		} else {
+> > +			/* ic version C and later version */
+> > +			value = 2;
+> > +		}
+> > +		break;
+> > +	case 0x5000:
+> > +	case 0x5400:
+> > +	case 0x6000:
+> > +		value = 3;
+> > +		break;
+> > +	case 0x5c00:
+> > +		value = 4;
+> > +		break;
+> > +	case 0x5d00:
+> > +		value = 0;
+> > +		break;
+> > +	case 0x6c00:
+> > +		value = 5;
+> > +		break;
+> > +	default:
+> > +		pr_warn("sun50i-cpufreq-nvmem: unknown speed bin
+> > 0x%x, using default bin 0\n",
+> > +			speedbin & 0xffff);
+> > +		value = 0;
+> > +		break;
+> > +	}
+> > +
+> > +	return value;
+> > +}
+> > +
+> >  static struct sunxi_cpufreq_data sun50i_h6_cpufreq_data = {
+> >  	.efuse_xlate = sun50i_h6_efuse_xlate,
+> >  };
+> >  
+> > +static struct sunxi_cpufreq_data sun50i_h616_cpufreq_data = {
+> > +	.efuse_xlate = sun50i_h616_efuse_xlate,
+> > +};
+> > +
+> >  static const struct of_device_id cpu_opp_match_list[] = {
+> >  	{ .compatible = "allwinner,sun50i-h6-operating-points",
+> >  	  .data = &sun50i_h6_cpufreq_data,
+> >  	},
+> > +	{ .compatible = "allwinner,sun50i-h616-operating-points",
+> > +	  .data = &sun50i_h616_cpufreq_data,
+> > +	},
+> >  	{}
+> >  };
+> >  
+> > @@ -230,6 +288,9 @@ static struct platform_driver
+> > sun50i_cpufreq_driver = { 
+> >  static const struct of_device_id sun50i_cpufreq_match_list[] = {
+> >  	{ .compatible = "allwinner,sun50i-h6" },
+> > +	{ .compatible = "allwinner,sun50i-h616" },
+> > +	{ .compatible = "allwinner,sun50i-h618" },
+> > +	{ .compatible = "allwinner,sun50i-h700" },
+> >  	{}
+> >  };
+> >  MODULE_DEVICE_TABLE(of, sun50i_cpufreq_match_list);  
+> 
+> 
 
