@@ -1,187 +1,129 @@
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6274143C4C
-	for <linux-sunxi@lists.linux.dev>; Wed, 27 Mar 2024 19:43:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3D3F12A157
+	for <linux-sunxi@lists.linux.dev>; Wed, 27 Mar 2024 19:53:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711568617; cv=none; b=lT5xsDYtaKFfovtO2sN21QyQ5f/Amzbuj3duarNO4W+vfjmC3X4dC2D0oRq5a/56rNWBu/0w6NXuk2K08mmQj0SlXjNzkzLbfC4xHplTf/s2D9g4Z8Z3f7QaB5jecYYGZpd22Xzgs7H5dk/FqeztQ9c5+WyJULMbs8yWj1kEJNA=
+	t=1711569217; cv=none; b=Tlxr/8XgaALodYM0jaIEXfQ31v26PtPHEdvEIKbE/8h4KZlDHmeQjKKCC5oCyqmtuBKGrxeUTrea2Sgn1xsjEUQFic3mi+LS3q8IWhs8z2RqIM97TOs2rakrAqLQW9tDC/iR1wejzLR4RdK5p/hp/M0pR6ey+3HMHLZZy9FWz5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711568617; c=relaxed/simple;
-	bh=uMkOMTTCJYMqd0bOvlMSglUb5JXgQT3RbYPO6J/obB4=;
+	s=arc-20240116; t=1711569217; c=relaxed/simple;
+	bh=ljsJCTmbqL+1Z6c/Njgs93wJGruVEOG6LewDHWZFBDc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nb12AfM9/13z0lmPCA+OIggO+QlCNl3oxwIQg3dtPWjTWptw+JbV0EYoHNX6K/OyRonIYyMFqJnByaQWWCYRZF4MNWc6qVeNXHMgxEKReBS64gWWLlTKJed21Z+kjQ0w7Niw1WhMvHoGceDtP8myJNAAAQGJbhCHB+OOSJ9wFDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VqttZejG; arc=none smtp.client-ip=209.85.208.171
+	 MIME-Version:Content-Type; b=cnfOO5CqIeLxCmWGZO7H51abLRgUAKiz+DtHlZ6gWMK6euSAkr5wQM091aGMGLDNFpqeWR7ONtWTV7kkSMW3tlnpAQF6ok0RV6eMN5733BO8RX9SGPZFi+yUhzL5dTnHh6qR1KOCbh3RynORpa0a91Hla87vF+ZQ6EmmR8I7qMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UMqicsTb; arc=none smtp.client-ip=209.85.218.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VqttZejG"
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2d476d7972aso1908101fa.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 27 Mar 2024 12:43:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UMqicsTb"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a4e1566610fso10300866b.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 27 Mar 2024 12:53:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711568614; x=1712173414; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1711569214; x=1712174014; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8c64xHlCzEqyAPC97zuuo4cscMpx4AHNYnhUI1IMgUA=;
-        b=VqttZejGUoZcM9Lvm/fBoLKmtl6kJmbJf98tRkUgm8ihXZP5ej8LBCzH+RBv4q5QYD
-         CEF7N+YqAtYCpDSiH6Lx0KUHuaj6iPaou151jvp5HQq8FjzisMy4Kuz6zIlt+EZBs604
-         LFybGO7OsEfdbxON0YDpTq612m60ftOdLBgUmythZcEbFxkHv9VAZkTmjJngbj4LNPg2
-         5bapOuUFr/NGVOBfC+pgxFmq39Puz+MDA79sfnelrJUXXmOUAcmqXaPH0b3VA7G3kItT
-         SKCUxc9TWQwi4oCCk82D3g60No8QlzaxKd7LeQru5ZHg76W+4tPLkf5e4Z7mKZX9kllc
-         WQoA==
+        bh=qdNTF6Kva1P11bABP85E0dh07br2jNGfWJsQyRATEsM=;
+        b=UMqicsTb/Wwmve72fa8DgQUnBvjTDr9oynJ9KDPrKcvaTdBm7r0j6khm40NeSsWXeR
+         dudaMMPSCUdQTu44BnsxGcSAL2O5615G0mj3+yY1SDHjCBG3kAozXujv0lY0a+jWsgbl
+         BoNnsm62wlHf7UxMOYfN0qnVEiVHkC1tkAwZsI3vevNcBXAZyy6kXtx0JjXYN8dmwbu5
+         vN3//b4u8hcA6VV4eAoJu8ReJ9zoo5aX+uHNfaEj81Je78MSosDr6KmxtVEZkeaMwxWc
+         mW2JyAovco86lb3QFRJmPC7tiVrR9veqNcwwwzYLITTyrN8LxTscaKK8+HDVRKQ/uTrT
+         ORJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711568614; x=1712173414;
+        d=1e100.net; s=20230601; t=1711569214; x=1712174014;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8c64xHlCzEqyAPC97zuuo4cscMpx4AHNYnhUI1IMgUA=;
-        b=Y+HSPUKuz3AlUiyb3/EC0/RuFpR4pPMe8jHp+8FZla15EqMHNIJSyOSe/MDvv+UZgB
-         iXbw0RvYig2LnWK7HMvjeQ5PfYG1W+Xyx6/7yFks7okAcGKSZWdBNHWZSHx8W243cfG5
-         dpRkPOLRhp2U2vHZrziaF3y6cM58mhdPRa/FM6M+aMLrXh3CT4xX1QfUpg7Sca5EPWfJ
-         cq0dkgYnwelllYM5HxuBvVrCFXXiFEJl/Z0/3klYt2aU/9mMTGH0x7xrqvj/P8b+grcw
-         ROfDjIMKuggvIdwX4YUsTDA7X+f3A9fJut/tsgQdI6+O6a7QXkBKkUUKvUZVHB4jSzyL
-         HJ8g==
-X-Forwarded-Encrypted: i=1; AJvYcCXqSvtP0bbxwEB+hXC++wXrQGEtVUUH2ZAZI1h1R93AKjOIIvE9nRfEVDPvffjWTRdMtgHa9+ecZspGtoc4UmbT6nwR3GXGxCLWV/Y=
-X-Gm-Message-State: AOJu0YwHwWeF8Nm8sqNxJF1snIWEBUHZlFkRehKSgnw2lOjpTjIzr6yS
-	6LEQ0WVaaHoMrmi7WxubJ8RjOrg9z3fCih5udpqVfVgzDGhFmEgS
-X-Google-Smtp-Source: AGHT+IG9yzcV9fBkYZKDIGCOXbhoCA4Hz1gvtdCmTrhIctSfKXVoTIph0m5FtO+5obLDUuhb8mYXXA==
-X-Received: by 2002:a2e:9cd8:0:b0:2d5:9bd4:4496 with SMTP id g24-20020a2e9cd8000000b002d59bd44496mr702498ljj.50.1711568613516;
-        Wed, 27 Mar 2024 12:43:33 -0700 (PDT)
+        bh=qdNTF6Kva1P11bABP85E0dh07br2jNGfWJsQyRATEsM=;
+        b=Jn1uuPJ1Ta9rhneGK+HCq2Yz8IO5xXX1oGuUb18YMxDaz4twlySkp4g4eXXQuPbzxG
+         R6wK9E27ETQdUI5nhkT+YAmr4IyUfSOHidJqI2R1lBY/54g2ElD/7aKFqHXg/CLV7QU9
+         5IQ7PU5nOq3G1S45W5uCgEtNiP57V2jJzzAzZeCervCdDztdV4knTMbI+8dU2fKJzLP5
+         NFldPiv942k8d+hXvJI9mv9WgAt3KvaqfTmlR6V9ijEz9C7G6I79JWkrxf+Gt6LEVu95
+         9a6FNgU0jtM94UMMj7nl3c1enE3TCK8lMwEwX/B4bjzqFL5YaJC97GwYKwrZ7qILgZmG
+         fbOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXt34MoDWBcUQPGfbVy9S6sXg0PskUw7MolYejUPxJbIXr0OdlXe6PVVNpVSjXN8Le2p0rKMA3GiqcT+j+1GmiUL222qDe1Cjyeyv4=
+X-Gm-Message-State: AOJu0YygavyQ+8EErdmNpdNfr0Br3xsAUnLrayyIICYvIGdDJyksYgwh
+	KUNaIPBf5I5O3uAl9idKqJn7FdG1qsbYkwNSdSRH2KgQAi+MAaZ9
+X-Google-Smtp-Source: AGHT+IEJHCTAYc5wMgN6Si7Qw5l/pWCJQkkzN4bIwHlGrIGZr8/mrHXa8XC/hK8xrg65wMHL8M4lnw==
+X-Received: by 2002:a17:906:e59:b0:a4e:a7a:84e0 with SMTP id q25-20020a1709060e5900b00a4e0a7a84e0mr335504eji.34.1711569213895;
+        Wed, 27 Mar 2024 12:53:33 -0700 (PDT)
 Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id x1-20020a056402414100b0056c4372c161sm608546eda.55.2024.03.27.12.43.32
+        by smtp.gmail.com with ESMTPSA id z11-20020a1709060acb00b00a4733982ba9sm5757294ejf.160.2024.03.27.12.53.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Mar 2024 12:43:33 -0700 (PDT)
+        Wed, 27 Mar 2024 12:53:33 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: linux-kernel@vger.kernel.org,
- =?utf-8?B?T25kxZllag==?= Jirman <megi@xff.cz>
-Cc: Ondrej Jirman <megi@xff.cz>, kernel test robot <lkp@intel.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
  Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- Rob Herring <robh@kernel.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Arnaud Ferraris <arnaud.ferraris@collabora.com>,
- "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..."
- <linux-sound@vger.kernel.org>,
- "moderated list:ARM/Allwinner sunXi SoC support"
- <linux-arm-kernel@lists.infradead.org>,
- "open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>
-Subject:
- Re: [PATCH] ASoC: sun8i-codec: Fix build with CONFIG_SND_JACK_INPUT_DEV
- disabled
-Date: Wed, 27 Mar 2024 20:43:31 +0100
-Message-ID: <1785985.VLH7GnMWUR@jernej-laptop>
-In-Reply-To: <20240327080542.3649840-1-megi@xff.cz>
-References: <20240327080542.3649840-1-megi@xff.cz>
+ John Watts <contact@jookia.org>
+Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ John Watts <contact@jookia.org>
+Subject: Re: [PATCH] ASoC: sunxi: sun4i-i2s: Enable 32-bit audio formats
+Date: Wed, 27 Mar 2024 20:53:32 +0100
+Message-ID: <23447395.6Emhk5qWAg@jernej-laptop>
+In-Reply-To: <20240326-sunxi_s32-v1-1-899f71dcb1e6@jookia.org>
+References: <20240326-sunxi_s32-v1-1-899f71dcb1e6@jookia.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="utf-8"
 
-Dne sreda, 27. marec 2024 ob 09:05:34 CET je Ond=C5=99ej Jirman napisal(a):
-> From: Ondrej Jirman <megi@xff.cz>
->=20
-> When CONFIG_SND_JACK_INPUT_DEV is disabled, struct snd_jack doesn't
-> have 'type' field. We can't rely on this field being always present,
-> so store the jack_type in the codec driver itself.
->=20
-> Signed-off-by: Ondrej Jirman <megi@xff.cz>
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202403261243.kcXCPAYs-lkp@i=
-ntel.com/
+Dne torek, 26. marec 2024 ob 04:50:03 CET je John Watts napisal(a):
+> The I2S driver already supports and checks for 32-bit sample sizes,
+> so indicate this size is available for use in the DAI driver.
+> 
+> This change has been tested on the T113-S3, but it should work just
+> fine on older hardware as get_sr checks for sample size support
+> correctly according to each core's datasheet.
+> 
+> Signed-off-by: John Watts <contact@jookia.org>
 > ---
-> This is a followup for https://lore.kernel.org/lkml/2vhd45kylttgonosdcfn7=
-ugwyy2vx56gijwf3ealz4tel65iqr@cs3kxrl6d2hh/
->=20
->  sound/soc/sunxi/sun8i-codec.c | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
->=20
-> diff --git a/sound/soc/sunxi/sun8i-codec.c b/sound/soc/sunxi/sun8i-codec.c
-> index 43795362fed0..b5dafb749c3f 100644
-> --- a/sound/soc/sunxi/sun8i-codec.c
-> +++ b/sound/soc/sunxi/sun8i-codec.c
-> @@ -232,6 +232,7 @@ struct sun8i_codec {
->  	struct delayed_work		jack_work;
->  	int				jack_irq;
->  	int				jack_status;
-> +	int				jack_type;
+> This patch enables support for 32-bit audio in the sunxi I2S driver.
+> 
+> I have only tested this on the Allwinner T113 but I'm fairly
+> certain it will work on older boards.
+> ---
+>  sound/soc/sunxi/sun4i-i2s.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/sound/soc/sunxi/sun4i-i2s.c b/sound/soc/sunxi/sun4i-i2s.c
+> index a736f632bf0b..aeea852141c1 100644
+> --- a/sound/soc/sunxi/sun4i-i2s.c
+> +++ b/sound/soc/sunxi/sun4i-i2s.c
+> @@ -1103,7 +1103,8 @@ static const struct snd_soc_dai_ops sun4i_i2s_dai_ops = {
+>  
+>  #define SUN4I_FORMATS	(SNDRV_PCM_FMTBIT_S16_LE | \
+>  			 SNDRV_PCM_FMTBIT_S20_LE | \
+> -			 SNDRV_PCM_FMTBIT_S24_LE)
+> +			 SNDRV_PCM_FMTBIT_S24_LE | \
+> +			 SNDRV_PCM_FMTBIT_S32_LE)
 
-Where is this variable set? Below I see just usage of its value.
+I wish it would be that simple. SUN4I_FORMATS is cross section of all I2S
+variants that are supported by this driver. If you check A10, you'll see that
+it doesn't support S32.
+
+If you want to add support for S32, you'll have to add new quirk for each
+variant.
 
 Best regards,
 Jernej
 
->  	int				jack_last_sample;
->  	ktime_t				jack_hbias_ready;
->  	struct mutex			jack_mutex;
-> @@ -1352,7 +1353,6 @@ static void sun8i_codec_jack_work(struct work_struc=
-t *work)
->  	struct sun8i_codec *scodec =3D container_of(work, struct sun8i_codec,
->  						  jack_work.work);
->  	unsigned int mdata;
-> -	int type_mask =3D scodec->jack->jack->type;
->  	int type;
-> =20
->  	guard(mutex)(&scodec->jack_mutex);
-> @@ -1363,7 +1363,7 @@ static void sun8i_codec_jack_work(struct work_struc=
-t *work)
-> =20
->  		scodec->jack_last_sample =3D -1;
-> =20
-> -		if (type_mask & SND_JACK_MICROPHONE) {
-> +		if (scodec->jack_type & SND_JACK_MICROPHONE) {
->  			/*
->  			 * If we were in disconnected state, we enable HBIAS and
->  			 * wait 600ms before reading initial HDATA value.
-> @@ -1376,7 +1376,7 @@ static void sun8i_codec_jack_work(struct work_struc=
-t *work)
->  			scodec->jack_status =3D SUN8I_JACK_STATUS_WAITING_HBIAS;
->  		} else {
->  			snd_soc_jack_report(scodec->jack, SND_JACK_HEADPHONE,
-> -					    type_mask);
-> +					    scodec->jack_type);
->  			scodec->jack_status =3D SUN8I_JACK_STATUS_CONNECTED;
->  		}
->  	} else if (scodec->jack_status =3D=3D SUN8I_JACK_STATUS_WAITING_HBIAS) {
-> @@ -1417,17 +1417,17 @@ static void sun8i_codec_jack_work(struct work_str=
-uct *work)
->  		if (type =3D=3D SND_JACK_HEADPHONE)
->  			sun8i_codec_set_hmic_bias(scodec, false);
-> =20
-> -		snd_soc_jack_report(scodec->jack, type, type_mask);
-> +		snd_soc_jack_report(scodec->jack, type, scodec->jack_type);
->  		scodec->jack_status =3D SUN8I_JACK_STATUS_CONNECTED;
->  	} else if (scodec->jack_status =3D=3D SUN8I_JACK_STATUS_CONNECTED) {
->  		if (scodec->last_hmic_irq !=3D SUN8I_HMIC_STS_JACK_OUT_IRQ_ST)
->  			return;
-> =20
->  		scodec->jack_status =3D SUN8I_JACK_STATUS_DISCONNECTED;
-> -		if (type_mask & SND_JACK_MICROPHONE)
-> +		if (scodec->jack_type & SND_JACK_MICROPHONE)
->  			sun8i_codec_set_hmic_bias(scodec, false);
-> =20
-> -		snd_soc_jack_report(scodec->jack, 0, type_mask);
-> +		snd_soc_jack_report(scodec->jack, 0, scodec->jack_type);
->  	}
->  }
-> =20
-> @@ -1491,7 +1491,7 @@ static irqreturn_t sun8i_codec_jack_irq(int irq, vo=
-id *dev_id)
->  		if (scodec->jack_last_sample >=3D 0 &&
->  		    scodec->jack_last_sample =3D=3D value)
->  			snd_soc_jack_report(scodec->jack, type,
-> -					    scodec->jack->jack->type);
-> +					    scodec->jack_type);
-> =20
->  		scodec->jack_last_sample =3D value;
->  	}
->=20
+>  
+>  static struct snd_soc_dai_driver sun4i_i2s_dai = {
+>  	.capture = {
+> 
+> ---
+> base-commit: 72fb52fb0ac44b6a1edd9bc390e44bce3acccd26
+> change-id: 20240326-sunxi_s32-f2ab25b8e688
+> 
+> Best regards,
+> 
 
 
 
