@@ -1,339 +1,1376 @@
-Received: from fallback21.i.mail.ru (fallback21.i.mail.ru [79.137.243.75])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33C167C0A4;
-	Thu, 28 Mar 2024 12:30:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.137.243.75
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 919607F49E
+	for <linux-sunxi@lists.linux.dev>; Thu, 28 Mar 2024 12:54:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711629043; cv=none; b=W5RpoDq8CUD/Ej8zqJbHUI1xzFhPnXGkUYWYv1tlgFtiCZIUnWpbgDwyrsZRl8xqyiiPfokEkO/xuYplYyoU0p5DnpY9qyMoRzeJhGB7NlhKfS7O/LOXYYbj8g+EKaT75ocGJDskx/WPbD0qJFfb8J90lrBLYmFzTtLKq24I238=
+	t=1711630446; cv=none; b=TW5DOpTfeUMZmX+Xzpwb8oGuPKWwnapy5sAX9aJjpPU3sgotlGVk9CvcHYIJomPg7zCyS0VDyyUxgzWbRG0Yc5JqzxZ46WrEyOR/TuhZZ+9c9nFNz4rRpJXCeO10Hlo1foUYWBrtbrrcA+rik2hTxwQ6oMk8mV8W0M6ITmWNjQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711629043; c=relaxed/simple;
-	bh=biByVBbkAZ68MYUQKdKCJ7gN7VvvprMsFkR7uyyLIek=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=M8djdDkfcY/XDoE6fxiXgf7ZQm3Yr7pfV7az5k/8xVXaJMc568NXqy0jns0xnlSkTIIhvOoWYm7+j/J3z/wJnlljuavhnCXZuUOJLLxewmYYe+F3lTOFMrBxNOQfPdAncEQfSy3atAzOrgjih3856t2rIXgYJ0IRIPoM9ZpppJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mail.ru; spf=pass smtp.mailfrom=mail.ru; dkim=pass (2048-bit key) header.d=mail.ru header.i=@mail.ru header.b=BkDeYU+c; dkim=pass (2048-bit key) header.d=mail.ru header.i=@mail.ru header.b=2dN9LsL6; arc=none smtp.client-ip=79.137.243.75
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mail.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.ru
+	s=arc-20240116; t=1711630446; c=relaxed/simple;
+	bh=5TCpjsckKUJH2Vyyr3jKi48ADggaJQL1+D4m0WdDjNQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ACKgQJbAdAVCJwV7f4Y3zMrcQsiMKxdBDfLMPU05ob67oEG03x3klwl3KBAcp5lv5QJgIFp5+8ubPwc5GdY0ykG5ORMNLa59jqP/LKEhNjcb/wkDkCD8hlkJay8HBiAxYxil7JZoUnZHjKyNatH/z+/+fnSGd3Sop7XRXRaH48A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NpkwB71/; arc=none smtp.client-ip=209.85.219.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mail.ru header.i=@mail.ru header.b="BkDeYU+c";
-	dkim=pass (2048-bit key) header.d=mail.ru header.i=@mail.ru header.b="2dN9LsL6"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru; s=mail4;
-	h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc; bh=S+B/BwjKiFKvxR3npvOPf2lFSO7ikKYL7HdPiLZ7NvE=;
-	t=1711629040;x=1711719040; 
-	b=BkDeYU+cQsdDP2YL0kiTWxU81Uu4xbrT1xy081Y3w4L7urL8RJNH+rEmLqNB4iNv/E8HGB5k9kg/5VSqFMOfG3P2azw+X103zVrInp7A605dRxwxlIRGY8xweJPFzEqiw+F9dE7XmsMEWsXstfFGk7p99mcY1OLNx1zkcoXxDdjuyoOmHoQPj5rh2IDMlVUQ/SDwd3TK8JzzTZ1iduF3eGjmEBSc0Yy0WGr3NIWIVdPdAou/Z4Jd6AuFT6eqoR5se8dOTkC6YMKTwGr+lwCVNpUlmSGu7Ll7WksUtMWQ8CmyiPk1PvCI3L0e8iH2x9dsU48GnVV5q96Lg6+6o3io0Q==;
-Received: from [10.12.4.12] (port=46620 helo=smtp37.i.mail.ru)
-	by fallback21.i.mail.ru with esmtp (envelope-from <hitechshell@mail.ru>)
-	id 1rpotr-009cPd-Vq; Thu, 28 Mar 2024 15:30:32 +0300
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru;
-	s=mail4; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
-	Message-ID:Date:Subject:Cc:To:From:From:Sender:Reply-To:To:Cc:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive:
-	X-Cloud-Ids:Disposition-Notification-To;
-	bh=S+B/BwjKiFKvxR3npvOPf2lFSO7ikKYL7HdPiLZ7NvE=; t=1711629031; x=1711719031; 
-	b=2dN9LsL6VAaupaLT5CSDgzLNPwnT1hlYRUwOTgjEKYCOsgngk6ZM8b/6sdZXBt4j7VxrNBayscR
-	mGfSsM2tHVtOnx8zeyEfxSi/2KEMAFhjOEGHpQAe+4gg3IXex3z25xZGsZT0M2I9Umjc1H/vBh+ni
-	zF7FIWdut7wIds4tcCWT6xYzBzX1an69htiTt6gyW+88geEOsfUIL4+laQvZk65cSwdj+AOUCGxOW
-	7juI3dT/4ZinZ4axfAG/ckXk+DgRiE34E3H2LH4yU/O/bZjfVlv3vrZRYm1hwNHQEuPr5QUl9+1+j
-	WGPYu14QCDeWVPU91BWapo9x0sbEqjkWZ7YQ==;
-Received: by smtp37.i.mail.ru with esmtpa (envelope-from <hitechshell@mail.ru>)
-	id 1rpotc-0000000DGai-47UX; Thu, 28 Mar 2024 15:30:17 +0300
-From: Denis Burkov <hitechshell@mail.ru>
-To: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Denis Burkov <hitechshell@mail.ru>
-Subject: [PATCH v3 2/2] ARM: dts: sun5i: Add PocketBook 614 Plus support
-Date: Thu, 28 Mar 2024 17:29:22 +0500
-Message-ID: <20240328122922.13796-2-hitechshell@mail.ru>
-X-Mailer: git-send-email 2.43.2
-In-Reply-To: <20240328122922.13796-1-hitechshell@mail.ru>
-References: <20240328122922.13796-1-hitechshell@mail.ru>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NpkwB71/"
+Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-dcc71031680so895113276.2
+        for <linux-sunxi@lists.linux.dev>; Thu, 28 Mar 2024 05:54:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1711630441; x=1712235241; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=v1k5/f6q+Q/w1jFRkd0GjI7DV6a3ySNeWdRSbY80foE=;
+        b=NpkwB71/p7ZYG50yF1vJl4yvmFhiDQXLGGN8NOIAyOCQ6Du2+jerJObqT5I0d2s9bT
+         VbAJ3PIk0hjmm5SDNvJd6PYZ/8toRKwVOAOvdTMdgqtVI+XNmYwJTfC3e0x2ZA0zhiWf
+         rW8S/fEuaClwrzfwmj93NX9e8D/5sfsjvFeTBOSx99Nl6qc8cW90VTnF+WcDA+P7Xd9U
+         l6PlHpofSM+EPBdi/Y/EHPqpXbghYszFbiS1RElMGx4ifaHI/oDk9ExQlzgcOuygUmwc
+         B2QNjCaeoA80MetltNaY+wgkYyRvPHyW+RodZ2JNvYNBUpaKoM41uFtGxVmNC/tWqyZL
+         +UHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711630441; x=1712235241;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=v1k5/f6q+Q/w1jFRkd0GjI7DV6a3ySNeWdRSbY80foE=;
+        b=hn+DB7Z8M1D4Vss0vrVllKVmjdFp8PPGoyoX9FfIRQt3VcoTJi42Gv4dcL6/OfgXUk
+         a2kCqC/yqJn819sbMZkakyZcHmwlJEWfmv3ZrPuwAE1iJL8/9P15I5e9rH/ECQ9Ch1un
+         M4KhNMWqH6PciN0AoVXhcyeU4j7zd97Z5OBHoqczXR+sMs5Bv+5J6/1Ruseq8cpGgu9D
+         y06nKotbB13Gr9GqiV3iP/NJ+Y8mUP3XKHo/A4VY/uMbomZy0iASM0umI4Dfin6SnE6Y
+         9/snYxeVcDRr9o6dLUOuhePticzWLu7aq82XpwhAG8Yb17FgON72e3sM3TrECz1llB1z
+         KuOg==
+X-Forwarded-Encrypted: i=1; AJvYcCUY25YKFoLcl696Bw7YsBb0GhBYajZu8yi4ITcBh8ZqE1kS+op0eT3PeZyRXmqD4knp+2jwIqDLsogkBVnqce1guWbZv13I/MO3n9Q=
+X-Gm-Message-State: AOJu0Yyx52Xxstj7nA/q3cw4OWryNwnRPG2WdFEdK2v0iPb7YfInZN15
+	6Uz61KxbjDFY9lBp2VmoqtLUcG57Y5o5IdB/dS3gZ76Ja09KGw4fDWjXr61IkTp/zxZFoUHwglK
+	QxXx4/WbHdmkXzkriVmfzTP2oIifqrOFqhtxxsQ==
+X-Google-Smtp-Source: AGHT+IEm2Rq9XjvRvF1Gc4lsv4kGx5qbg+5ZM7vcXzz64h8UswdJjg7AyAejkrusteq5Jr0rDKgp2IxQuuw3+bz69NU=
+X-Received: by 2002:a25:dc0b:0:b0:dc7:46e7:7aea with SMTP id
+ y11-20020a25dc0b000000b00dc746e77aeamr2934828ybe.47.1711630441038; Thu, 28
+ Mar 2024 05:54:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailru-Src: smtp
-X-7564579A: 646B95376F6C166E
-X-77F55803: 4F1203BC0FB41BD9D135BF24EC7C3B84F4481F7E27D197A17FCA344EEC41F37C182A05F5380850402791018B19CE2E96AC8EDD30083ED68EABD0551671300EA9A8B9B88E922B8A01AC22AB14350DA595
-X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE70D53446EB66A9CE1EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637FD60A286D0BA57028638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D88578A348B1D428924079A55C0CA41286A022C9AC1DDEBF9820879F7C8C5043D14489FFFB0AA5F4BFA417C69337E82CC2CC7F00164DA146DAFE8445B8C89999728AA50765F79006370BDD70ABAC747F53389733CBF5DBD5E9C8A9BA7A39EFB766F5D81C698A659EA7CC7F00164DA146DA9985D098DBDEAEC8744B801E316CB65FF6B57BC7E6449061A352F6E88A58FB86F5D81C698A659EA73AA81AA40904B5D9A18204E546F3947C6925688D23FC3BD32D242C3BD2E3F4C64AD6D5ED66289B523666184CF4C3C14F6136E347CC761E07725E5C173C3A84C3EF25F2216630B8E3BA3038C0950A5D36B5C8C57E37DE458B330BD67F2E7D9AF16D1867E19FE14079C09775C1D3CA48CF27ED053E960B195E1DD303D21008E298D5E8D9A59859A8B6B372FE9A2E580EFC725E5C173C3A84C321525EBB4FD3283235872C767BF85DA2F004C90652538430E4A6367B16DE6309
-X-C1DE0DAB: 0D63561A33F958A5C1586EE7632EB09E5002B1117B3ED69604ECF14F73EC5F79886DC9BC01168B20823CB91A9FED034534781492E4B8EEAD577AE849BCD98940C79554A2A72441328621D336A7BC284946AD531847A6065A17B107DEF921CE79BDAD6C7F3747799A
-X-C8649E89: 1C3962B70DF3F0ADE00A9FD3E00BEEDF77DD89D51EBB7742D3581295AF09D3DF87807E0823442EA2ED31085941D9CD0AF7F820E7B07EA4CF81E79B5ADD3CD23D14395E4B0397D0A5DB3E1AFF42BE5049811E580751B9A3269E78A6DB75C3D486F212F37558E72466F36FB4147D20F1DCFBB8295D55DB7E6D8A0D2736BFC7705542BF32D1DA1046D202C26D483E81D6BEAB6E9BFA52983102758FA77D78A604EFC3981EEBE9DB10F943082AE146A756F3
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojc7pp9Ls8Ei4WbW6POvQdzA==
-X-Mailru-Sender: E694439511B4C78E046AD7819AB2A90AAEA6D0C4BD035DAC7FC47A557B39A39B8D857EAE377BB555C3E3B4F1A6D70A55A84BA7EF1BC9F5022BA6FC9A786ED693E9ED072CBE033FA67EDB6CE9DEC428A48BCC081D9D5610F38C953235E64445F45E74CC5237D64E8BE0FA792AE8F3C4805FEEDEB644C299C0ED14614B50AE0675
-X-Mras: Ok
-X-7564579A: 646B95376F6C166E
-X-77F55803: 6242723A09DB00B469FED0CC4E03BFC3F7F23553880BB0CD3D6EB06D23122212049FFFDB7839CE9E088A9832E85284855DCD599F0008ABCF0659094D96DC6C4463CD8C6E8DD2E82B
-X-7FA49CB5: 0D63561A33F958A5344BC1D64A651F68718AE15BE506B39F67808BC4A932C333CACD7DF95DA8FC8BD5E8D9A59859A8B6E8E8DEC9ADB2F68ECC7F00164DA146DAFE8445B8C89999728AA50765F7900637A3E1607A70BC73F0389733CBF5DBD5E9C8A9BA7A39EFB766F5D81C698A659EA7CC7F00164DA146DA9985D098DBDEAEC8B6617C399FBFD4B4F6B57BC7E6449061A352F6E88A58FB86F5D81C698A659EA775ECD9A6C639B01B78DA827A17800CE791607F508E813406731C566533BA786AA5CC5B56E945C8DA
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojc7pp9Ls8Ei5669jvLqPwTQ==
-X-Mailru-MI: 8000000000000800
-X-Mras: Ok
+References: <20240327160314.9982-1-apais@linux.microsoft.com> <20240327160314.9982-10-apais@linux.microsoft.com>
+In-Reply-To: <20240327160314.9982-10-apais@linux.microsoft.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Thu, 28 Mar 2024 13:53:25 +0100
+Message-ID: <CAPDyKFpuKadPQv6+61C2pE4x4FE-DUC5W6WCCPu9Nb2DnDB56g@mail.gmail.com>
+Subject: Re: [PATCH 9/9] mmc: Convert from tasklet to BH workqueue
+To: Allen Pais <apais@linux.microsoft.com>
+Cc: linux-kernel@vger.kernel.org, tj@kernel.org, keescook@chromium.org, 
+	vkoul@kernel.org, marcan@marcan.st, sven@svenpeter.dev, 
+	florian.fainelli@broadcom.com, rjui@broadcom.com, sbranden@broadcom.com, 
+	paul@crapouillou.net, Eugeniy.Paltsev@synopsys.com, 
+	manivannan.sadhasivam@linaro.org, vireshk@kernel.org, Frank.Li@nxp.com, 
+	leoyang.li@nxp.com, zw@zh-kernel.org, wangzhou1@hisilicon.com, 
+	haijie1@huawei.com, shawnguo@kernel.org, s.hauer@pengutronix.de, 
+	sean.wang@mediatek.com, matthias.bgg@gmail.com, 
+	angelogioacchino.delregno@collabora.com, afaerber@suse.de, 
+	logang@deltatee.com, daniel@zonque.org, haojian.zhuang@gmail.com, 
+	robert.jarzmik@free.fr, andersson@kernel.org, konrad.dybcio@linaro.org, 
+	orsonzhai@gmail.com, baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com, 
+	patrice.chotard@foss.st.com, linus.walleij@linaro.org, wens@csie.org, 
+	jernej.skrabec@gmail.com, peter.ujfalusi@gmail.com, kys@microsoft.com, 
+	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com, 
+	jassisinghbrar@gmail.com, mchehab@kernel.org, maintainers@bluecherrydvr.com, 
+	aubin.constans@microchip.com, manuel.lauss@gmail.com, mirq-linux@rere.qmqm.pl, 
+	jh80.chung@samsung.com, oakad@yahoo.com, hayashi.kunihiko@socionext.com, 
+	mhiramat@kernel.org, brucechang@via.com.tw, HaraldWelte@viatech.com, 
+	pierre@ossman.eu, duncan.sands@free.fr, stern@rowland.harvard.edu, 
+	oneukum@suse.com, openipmi-developer@lists.sourceforge.net, 
+	dmaengine@vger.kernel.org, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, 
+	linux-mips@vger.kernel.org, imx@lists.linux.dev, 
+	linuxppc-dev@lists.ozlabs.org, linux-mediatek@lists.infradead.org, 
+	linux-actions@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, linux-hyperv@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-mmc@vger.kernel.org, linux-omap@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-s390@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-What works:
+On Wed, 27 Mar 2024 at 17:03, Allen Pais <apais@linux.microsoft.com> wrote:
+>
+> The only generic interface to execute asynchronously in the BH context is
+> tasklet; however, it's marked deprecated and has some design flaws. To
+> replace tasklets, BH workqueue support was recently added. A BH workqueue
+> behaves similarly to regular workqueues except that the queued work items
+> are executed in the BH context.
+>
+> This patch converts drivers/infiniband/* from tasklet to BH workqueue.
+>
+> Based on the work done by Tejun Heo <tj@kernel.org>
+> Branch: https://git.kernel.org/pub/scm/linux/kernel/git/tj/wq.git for-6.10
+>
+> Signed-off-by: Allen Pais <allen.lkml@gmail.com>
 
-- Serial console
-- mmc0, mmc2 (both microSD card slots on the board)
-- All buttons (gpio and lradc based)
-- Power LED
-- PMIC
-- RTC
-- USB OTG/gadgets mode
+Overall, this makes sense to me. However, just to make things clear,
+an mmc host driver shouldn't really need the tasklet. As I understand
+it, the few remaining users are there for legacy reasons.
 
-Signed-off-by: Denis Burkov <hitechshell@mail.ru>
----
- arch/arm/boot/dts/allwinner/Makefile          |   1 +
- .../sun5i-a13-pocketbook-614-plus.dts         | 218 ++++++++++++++++++
- 2 files changed, 219 insertions(+)
- create mode 100644 arch/arm/boot/dts/allwinner/sun5i-a13-pocketbook-614-plus.dts
+At this point we have suggested to drivers to switch to use threaded
+irq handlers (and regular work queues if needed too). That said,
+what's the benefit of using the BH work queue?
 
-diff --git a/arch/arm/boot/dts/allwinner/Makefile b/arch/arm/boot/dts/allwinner/Makefile
-index 5fbb44ddacd0..6209243ad975 100644
---- a/arch/arm/boot/dts/allwinner/Makefile
-+++ b/arch/arm/boot/dts/allwinner/Makefile
-@@ -61,6 +61,7 @@ dtb-$(CONFIG_MACH_SUN5I) += \
- 	sun5i-a13-olinuxino.dtb \
- 	sun5i-a13-olinuxino-micro.dtb \
- 	sun5i-a13-pocketbook-touch-lux-3.dtb \
-+	sun5i-a13-pocketbook-614-plus.dtb \
- 	sun5i-a13-q8-tablet.dtb \
- 	sun5i-a13-utoo-p66.dtb \
- 	sun5i-gr8-chip-pro.dtb \
-diff --git a/arch/arm/boot/dts/allwinner/sun5i-a13-pocketbook-614-plus.dts b/arch/arm/boot/dts/allwinner/sun5i-a13-pocketbook-614-plus.dts
-new file mode 100644
-index 000000000000..ab8d138dc11d
---- /dev/null
-+++ b/arch/arm/boot/dts/allwinner/sun5i-a13-pocketbook-614-plus.dts
-@@ -0,0 +1,218 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * Copyright 2024 Denis Burkov <hitechshell@mail.ru>
-+ */
-+
-+/dts-v1/;
-+#include "sun5i-a13.dtsi"
-+#include "sunxi-common-regulators.dtsi"
-+
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/input/input.h>
-+#include <dt-bindings/interrupt-controller/irq.h>
-+#include <dt-bindings/leds/common.h>
-+
-+/ {
-+	model = "PocketBook 614 Plus";
-+	compatible = "pocketbook,614-plus", "allwinner,sun5i-a13";
-+
-+	aliases {
-+		serial0 = &uart1;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial0:115200n8";
-+	};
-+
-+	leds {
-+		compatible = "gpio-leds";
-+
-+		led-0 {
-+			color = <LED_COLOR_ID_WHITE>;
-+			function = LED_FUNCTION_POWER;
-+			linux,default-trigger = "default-on";
-+			gpios = <&pio 4 8 GPIO_ACTIVE_LOW>; /* PE8 */
-+		};
-+	};
-+
-+	gpio-keys {
-+		compatible = "gpio-keys";
-+
-+		key-0 {
-+			label = "Right";
-+			linux,code = <KEY_NEXT>;
-+			gpios = <&pio 6 9 GPIO_ACTIVE_LOW>; /* PG9 */
-+		};
-+
-+		key-1 {
-+			label = "Left";
-+			linux,code = <KEY_PREVIOUS>;
-+			gpios = <&pio 6 10 GPIO_ACTIVE_LOW>; /* PG10 */
-+		};
-+	};
-+
-+	reg_3v3_mmc0: regulator-mmc0 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vdd-mmc0";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+		gpio = <&pio 4 4 GPIO_ACTIVE_LOW>; /* PE4 */
-+		vin-supply = <&reg_vcc3v3>;
-+	};
-+};
-+
-+&cpu0 {
-+	cpu-supply = <&reg_dcdc2>;
-+};
-+
-+&ehci0 {
-+	status = "okay";
-+};
-+
-+&i2c0 {
-+	status = "okay";
-+
-+	axp209: pmic@34 {
-+		compatible = "x-powers,axp209";
-+		reg = <0x34>;
-+		interrupts = <0>;
-+	};
-+};
-+
-+#include "axp209.dtsi"
-+
-+&i2c1 {
-+	status = "okay";
-+
-+	pcf8563: rtc@51 {
-+		compatible = "nxp,pcf8563";
-+		reg = <0x51>;
-+		#clock-cells = <0>;
-+	};
-+};
-+
-+&lradc {
-+	vref-supply = <&reg_ldo2>;
-+	status = "okay";
-+
-+	button-300 {
-+		label = "Down";
-+		linux,code = <KEY_DOWN>;
-+		channel = <0>;
-+		voltage = <300000>;
-+	};
-+
-+	button-700 {
-+		label = "Up";
-+		linux,code = <KEY_UP>;
-+		channel = <0>;
-+		voltage = <700000>;
-+	};
-+
-+	button-1000 {
-+		label = "Left";
-+		linux,code = <KEY_LEFT>;
-+		channel = <0>;
-+		voltage = <1000000>;
-+	};
-+
-+	button-1200 {
-+		label = "Menu";
-+		linux,code = <KEY_MENU>;
-+		channel = <0>;
-+		voltage = <1200000>;
-+	};
-+
-+	button-1500 {
-+		label = "Right";
-+		linux,code = <KEY_RIGHT>;
-+		channel = <0>;
-+		voltage = <1500000>;
-+	};
-+};
-+
-+&mmc0 {
-+	vmmc-supply = <&reg_3v3_mmc0>;
-+	bus-width = <4>;
-+	cd-gpios = <&pio 6 0 GPIO_ACTIVE_LOW>; /* PG0 */
-+	status = "okay";
-+};
-+
-+&mmc2 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&mmc2_4bit_pc_pins>;
-+	vmmc-supply = <&reg_vcc3v3>;
-+	bus-width = <4>;
-+	non-removable;
-+	status = "okay";
-+};
-+
-+&ohci0 {
-+	status = "okay";
-+};
-+
-+&otg_sram {
-+	status = "okay";
-+};
-+
-+&reg_dcdc2 {
-+	regulator-always-on;
-+	regulator-min-microvolt = <1000000>;
-+	regulator-max-microvolt = <1500000>;
-+	regulator-name = "vdd-cpu";
-+};
-+
-+&reg_dcdc3 {
-+	regulator-always-on;
-+	regulator-min-microvolt = <1000000>;
-+	regulator-max-microvolt = <1400000>;
-+	regulator-name = "vdd-int-dll";
-+};
-+
-+&reg_ldo1 {
-+	regulator-name = "vdd-rtc";
-+};
-+
-+&reg_ldo2 {
-+	regulator-always-on;
-+	regulator-min-microvolt = <3000000>;
-+	regulator-max-microvolt = <3000000>;
-+	regulator-name = "avcc";
-+};
-+
-+&reg_usb0_vbus {
-+	status = "okay";
-+	gpio = <&pio 6 12 GPIO_ACTIVE_HIGH>; /* PG12 */
-+};
-+
-+&reg_usb1_vbus {
-+	gpio = <&pio 6 11 GPIO_ACTIVE_HIGH>; /* PG11 */
-+	status = "okay";
-+};
-+
-+&uart1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart1_pg_pins>;
-+	status = "okay";
-+};
-+
-+&usb_otg {
-+	dr_mode = "otg";
-+	status = "okay";
-+};
-+
-+&usb_power_supply {
-+	status = "okay";
-+};
-+
-+&battery_power_supply {
-+	status = "okay";
-+};
-+
-+&usbphy {
-+	usb0_id_det-gpios = <&pio 6 2 GPIO_ACTIVE_HIGH>; /* PG2 */
-+	usb0_vbus_det-gpios = <&axp_gpio 1 GPIO_ACTIVE_HIGH>;
-+	usb0_vbus-supply = <&reg_usb0_vbus>;
-+	usb1_vbus-supply = <&reg_usb1_vbus>;
-+	status = "okay";
-+};
--- 
-2.43.2
+Kind regards
+Uffe
 
+> ---
+>  drivers/mmc/host/atmel-mci.c                  | 35 ++++-----
+>  drivers/mmc/host/au1xmmc.c                    | 37 ++++-----
+>  drivers/mmc/host/cb710-mmc.c                  | 15 ++--
+>  drivers/mmc/host/cb710-mmc.h                  |  3 +-
+>  drivers/mmc/host/dw_mmc.c                     | 25 ++++---
+>  drivers/mmc/host/dw_mmc.h                     |  9 ++-
+>  drivers/mmc/host/omap.c                       | 17 +++--
+>  drivers/mmc/host/renesas_sdhi.h               |  3 +-
+>  drivers/mmc/host/renesas_sdhi_internal_dmac.c | 24 +++---
+>  drivers/mmc/host/renesas_sdhi_sys_dmac.c      |  9 +--
+>  drivers/mmc/host/sdhci-bcm-kona.c             |  2 +-
+>  drivers/mmc/host/tifm_sd.c                    | 15 ++--
+>  drivers/mmc/host/tmio_mmc.h                   |  3 +-
+>  drivers/mmc/host/tmio_mmc_core.c              |  4 +-
+>  drivers/mmc/host/uniphier-sd.c                | 13 ++--
+>  drivers/mmc/host/via-sdmmc.c                  | 25 ++++---
+>  drivers/mmc/host/wbsd.c                       | 75 ++++++++++---------
+>  drivers/mmc/host/wbsd.h                       | 10 +--
+>  18 files changed, 167 insertions(+), 157 deletions(-)
+>
+> diff --git a/drivers/mmc/host/atmel-mci.c b/drivers/mmc/host/atmel-mci.c
+> index dba826db739a..0a92a7fd020f 100644
+> --- a/drivers/mmc/host/atmel-mci.c
+> +++ b/drivers/mmc/host/atmel-mci.c
+> @@ -33,6 +33,7 @@
+>  #include <linux/pm.h>
+>  #include <linux/pm_runtime.h>
+>  #include <linux/pinctrl/consumer.h>
+> +#include <linux/workqueue.h>
+>
+>  #include <asm/cacheflush.h>
+>  #include <asm/io.h>
+> @@ -284,12 +285,12 @@ struct atmel_mci_dma {
+>   *     EVENT_DATA_ERROR is pending.
+>   * @stop_cmdr: Value to be loaded into CMDR when the stop command is
+>   *     to be sent.
+> - * @tasklet: Tasklet running the request state machine.
+> + * @work: Work running the request state machine.
+>   * @pending_events: Bitmask of events flagged by the interrupt handler
+> - *     to be processed by the tasklet.
+> + *     to be processed by the work.
+>   * @completed_events: Bitmask of events which the state machine has
+>   *     processed.
+> - * @state: Tasklet state.
+> + * @state: Work state.
+>   * @queue: List of slots waiting for access to the controller.
+>   * @need_clock_update: Update the clock rate before the next request.
+>   * @need_reset: Reset controller before next request.
+> @@ -363,7 +364,7 @@ struct atmel_mci {
+>         u32                     data_status;
+>         u32                     stop_cmdr;
+>
+> -       struct tasklet_struct   tasklet;
+> +       struct work_struct      work;
+>         unsigned long           pending_events;
+>         unsigned long           completed_events;
+>         enum atmel_mci_state    state;
+> @@ -761,7 +762,7 @@ static void atmci_timeout_timer(struct timer_list *t)
+>         host->need_reset = 1;
+>         host->state = STATE_END_REQUEST;
+>         smp_wmb();
+> -       tasklet_schedule(&host->tasklet);
+> +       queue_work(system_bh_wq, &host->work);
+>  }
+>
+>  static inline unsigned int atmci_ns_to_clocks(struct atmel_mci *host,
+> @@ -983,7 +984,7 @@ static void atmci_pdc_complete(struct atmel_mci *host)
+>
+>         dev_dbg(&host->pdev->dev, "(%s) set pending xfer complete\n", __func__);
+>         atmci_set_pending(host, EVENT_XFER_COMPLETE);
+> -       tasklet_schedule(&host->tasklet);
+> +       queue_work(system_bh_wq, &host->work);
+>  }
+>
+>  static void atmci_dma_cleanup(struct atmel_mci *host)
+> @@ -997,7 +998,7 @@ static void atmci_dma_cleanup(struct atmel_mci *host)
+>  }
+>
+>  /*
+> - * This function is called by the DMA driver from tasklet context.
+> + * This function is called by the DMA driver from work context.
+>   */
+>  static void atmci_dma_complete(void *arg)
+>  {
+> @@ -1020,7 +1021,7 @@ static void atmci_dma_complete(void *arg)
+>                 dev_dbg(&host->pdev->dev,
+>                         "(%s) set pending xfer complete\n", __func__);
+>                 atmci_set_pending(host, EVENT_XFER_COMPLETE);
+> -               tasklet_schedule(&host->tasklet);
+> +               queue_work(system_bh_wq, &host->work);
+>
+>                 /*
+>                  * Regardless of what the documentation says, we have
+> @@ -1033,7 +1034,7 @@ static void atmci_dma_complete(void *arg)
+>                  * haven't seen all the potential error bits yet.
+>                  *
+>                  * The interrupt handler will schedule a different
+> -                * tasklet to finish things up when the data transfer
+> +                * work to finish things up when the data transfer
+>                  * is completely done.
+>                  *
+>                  * We may not complete the mmc request here anyway
+> @@ -1765,9 +1766,9 @@ static void atmci_detect_change(struct timer_list *t)
+>         }
+>  }
+>
+> -static void atmci_tasklet_func(struct tasklet_struct *t)
+> +static void atmci_work_func(struct work_struct *t)
+>  {
+> -       struct atmel_mci        *host = from_tasklet(host, t, tasklet);
+> +       struct atmel_mci        *host = from_work(host, t, work);
+>         struct mmc_request      *mrq = host->mrq;
+>         struct mmc_data         *data = host->data;
+>         enum atmel_mci_state    state = host->state;
+> @@ -1779,7 +1780,7 @@ static void atmci_tasklet_func(struct tasklet_struct *t)
+>         state = host->state;
+>
+>         dev_vdbg(&host->pdev->dev,
+> -               "tasklet: state %u pending/completed/mask %lx/%lx/%x\n",
+> +               "work: state %u pending/completed/mask %lx/%lx/%x\n",
+>                 state, host->pending_events, host->completed_events,
+>                 atmci_readl(host, ATMCI_IMR));
+>
+> @@ -2141,7 +2142,7 @@ static irqreturn_t atmci_interrupt(int irq, void *dev_id)
+>                         dev_dbg(&host->pdev->dev, "set pending data error\n");
+>                         smp_wmb();
+>                         atmci_set_pending(host, EVENT_DATA_ERROR);
+> -                       tasklet_schedule(&host->tasklet);
+> +                       queue_work(system_bh_wq, &host->work);
+>                 }
+>
+>                 if (pending & ATMCI_TXBUFE) {
+> @@ -2210,7 +2211,7 @@ static irqreturn_t atmci_interrupt(int irq, void *dev_id)
+>                         smp_wmb();
+>                         dev_dbg(&host->pdev->dev, "set pending notbusy\n");
+>                         atmci_set_pending(host, EVENT_NOTBUSY);
+> -                       tasklet_schedule(&host->tasklet);
+> +                       queue_work(system_bh_wq, &host->work);
+>                 }
+>
+>                 if (pending & ATMCI_NOTBUSY) {
+> @@ -2219,7 +2220,7 @@ static irqreturn_t atmci_interrupt(int irq, void *dev_id)
+>                         smp_wmb();
+>                         dev_dbg(&host->pdev->dev, "set pending notbusy\n");
+>                         atmci_set_pending(host, EVENT_NOTBUSY);
+> -                       tasklet_schedule(&host->tasklet);
+> +                       queue_work(system_bh_wq, &host->work);
+>                 }
+>
+>                 if (pending & ATMCI_RXRDY)
+> @@ -2234,7 +2235,7 @@ static irqreturn_t atmci_interrupt(int irq, void *dev_id)
+>                         smp_wmb();
+>                         dev_dbg(&host->pdev->dev, "set pending cmd rdy\n");
+>                         atmci_set_pending(host, EVENT_CMD_RDY);
+> -                       tasklet_schedule(&host->tasklet);
+> +                       queue_work(system_bh_wq, &host->work);
+>                 }
+>
+>                 if (pending & (ATMCI_SDIOIRQA | ATMCI_SDIOIRQB))
+> @@ -2530,7 +2531,7 @@ static int atmci_probe(struct platform_device *pdev)
+>
+>         host->mapbase = regs->start;
+>
+> -       tasklet_setup(&host->tasklet, atmci_tasklet_func);
+> +       INIT_WORK(&host->work, atmci_work_func);
+>
+>         ret = request_irq(irq, atmci_interrupt, 0, dev_name(&pdev->dev), host);
+>         if (ret) {
+> diff --git a/drivers/mmc/host/au1xmmc.c b/drivers/mmc/host/au1xmmc.c
+> index b5a5c6a2fe8b..c86fa7d2ebb7 100644
+> --- a/drivers/mmc/host/au1xmmc.c
+> +++ b/drivers/mmc/host/au1xmmc.c
+> @@ -42,6 +42,7 @@
+>  #include <linux/leds.h>
+>  #include <linux/mmc/host.h>
+>  #include <linux/slab.h>
+> +#include <linux/workqueue.h>
+>
+>  #include <asm/io.h>
+>  #include <asm/mach-au1x00/au1000.h>
+> @@ -113,8 +114,8 @@ struct au1xmmc_host {
+>
+>         int irq;
+>
+> -       struct tasklet_struct finish_task;
+> -       struct tasklet_struct data_task;
+> +       struct work_struct finish_task;
+> +       struct work_struct data_task;
+>         struct au1xmmc_platform_data *platdata;
+>         struct platform_device *pdev;
+>         struct resource *ioarea;
+> @@ -253,9 +254,9 @@ static void au1xmmc_finish_request(struct au1xmmc_host *host)
+>         mmc_request_done(host->mmc, mrq);
+>  }
+>
+> -static void au1xmmc_tasklet_finish(struct tasklet_struct *t)
+> +static void au1xmmc_work_finish(struct work_struct *t)
+>  {
+> -       struct au1xmmc_host *host = from_tasklet(host, t, finish_task);
+> +       struct au1xmmc_host *host = from_work(host, t, finish_task);
+>         au1xmmc_finish_request(host);
+>  }
+>
+> @@ -363,9 +364,9 @@ static void au1xmmc_data_complete(struct au1xmmc_host *host, u32 status)
+>         au1xmmc_finish_request(host);
+>  }
+>
+> -static void au1xmmc_tasklet_data(struct tasklet_struct *t)
+> +static void au1xmmc_work_data(struct work_struct *t)
+>  {
+> -       struct au1xmmc_host *host = from_tasklet(host, t, data_task);
+> +       struct au1xmmc_host *host = from_work(host, t, data_task);
+>
+>         u32 status = __raw_readl(HOST_STATUS(host));
+>         au1xmmc_data_complete(host, status);
+> @@ -425,7 +426,7 @@ static void au1xmmc_send_pio(struct au1xmmc_host *host)
+>                 if (host->flags & HOST_F_STOP)
+>                         SEND_STOP(host);
+>
+> -               tasklet_schedule(&host->data_task);
+> +               queue_work(system_bh_wq, &host->data_task);
+>         }
+>  }
+>
+> @@ -505,7 +506,7 @@ static void au1xmmc_receive_pio(struct au1xmmc_host *host)
+>                 if (host->flags & HOST_F_STOP)
+>                         SEND_STOP(host);
+>
+> -               tasklet_schedule(&host->data_task);
+> +               queue_work(system_bh_wq, &host->data_task);
+>         }
+>  }
+>
+> @@ -561,7 +562,7 @@ static void au1xmmc_cmd_complete(struct au1xmmc_host *host, u32 status)
+>
+>         if (!trans || cmd->error) {
+>                 IRQ_OFF(host, SD_CONFIG_TH | SD_CONFIG_RA | SD_CONFIG_RF);
+> -               tasklet_schedule(&host->finish_task);
+> +               queue_work(system_bh_wq, &host->finish_task);
+>                 return;
+>         }
+>
+> @@ -797,7 +798,7 @@ static irqreturn_t au1xmmc_irq(int irq, void *dev_id)
+>                 IRQ_OFF(host, SD_CONFIG_NE | SD_CONFIG_TH);
+>
+>                 /* IRQ_OFF(host, SD_CONFIG_TH | SD_CONFIG_RA | SD_CONFIG_RF); */
+> -               tasklet_schedule(&host->finish_task);
+> +               queue_work(system_bh_wq, &host->finish_task);
+>         }
+>  #if 0
+>         else if (status & SD_STATUS_DD) {
+> @@ -806,7 +807,7 @@ static irqreturn_t au1xmmc_irq(int irq, void *dev_id)
+>                         au1xmmc_receive_pio(host);
+>                 else {
+>                         au1xmmc_data_complete(host, status);
+> -                       /* tasklet_schedule(&host->data_task); */
+> +                       /* queue_work(system_bh_wq, &host->data_task); */
+>                 }
+>         }
+>  #endif
+> @@ -854,7 +855,7 @@ static void au1xmmc_dbdma_callback(int irq, void *dev_id)
+>         if (host->flags & HOST_F_STOP)
+>                 SEND_STOP(host);
+>
+> -       tasklet_schedule(&host->data_task);
+> +       queue_work(system_bh_wq, &host->data_task);
+>  }
+>
+>  static int au1xmmc_dbdma_init(struct au1xmmc_host *host)
+> @@ -1039,9 +1040,9 @@ static int au1xmmc_probe(struct platform_device *pdev)
+>         if (host->platdata)
+>                 mmc->caps &= ~(host->platdata->mask_host_caps);
+>
+> -       tasklet_setup(&host->data_task, au1xmmc_tasklet_data);
+> +       INIT_WORK(&host->data_task, au1xmmc_work_data);
+>
+> -       tasklet_setup(&host->finish_task, au1xmmc_tasklet_finish);
+> +       INIT_WORK(&host->finish_task, au1xmmc_work_finish);
+>
+>         if (has_dbdma()) {
+>                 ret = au1xmmc_dbdma_init(host);
+> @@ -1091,8 +1092,8 @@ static int au1xmmc_probe(struct platform_device *pdev)
+>         if (host->flags & HOST_F_DBDMA)
+>                 au1xmmc_dbdma_shutdown(host);
+>
+> -       tasklet_kill(&host->data_task);
+> -       tasklet_kill(&host->finish_task);
+> +       cancel_work_sync(&host->data_task);
+> +       cancel_work_sync(&host->finish_task);
+>
+>         if (host->platdata && host->platdata->cd_setup &&
+>             !(mmc->caps & MMC_CAP_NEEDS_POLL))
+> @@ -1135,8 +1136,8 @@ static void au1xmmc_remove(struct platform_device *pdev)
+>                 __raw_writel(0, HOST_CONFIG2(host));
+>                 wmb(); /* drain writebuffer */
+>
+> -               tasklet_kill(&host->data_task);
+> -               tasklet_kill(&host->finish_task);
+> +               cancel_work_sync(&host->data_task);
+> +               cancel_work_sync(&host->finish_task);
+>
+>                 if (host->flags & HOST_F_DBDMA)
+>                         au1xmmc_dbdma_shutdown(host);
+> diff --git a/drivers/mmc/host/cb710-mmc.c b/drivers/mmc/host/cb710-mmc.c
+> index 0aec33b88bef..eebb6797e785 100644
+> --- a/drivers/mmc/host/cb710-mmc.c
+> +++ b/drivers/mmc/host/cb710-mmc.c
+> @@ -8,6 +8,7 @@
+>  #include <linux/module.h>
+>  #include <linux/pci.h>
+>  #include <linux/delay.h>
+> +#include <linux/workqueue.h>
+>  #include "cb710-mmc.h"
+>
+>  #define CB710_MMC_REQ_TIMEOUT_MS       2000
+> @@ -493,7 +494,7 @@ static void cb710_mmc_request(struct mmc_host *mmc, struct mmc_request *mrq)
+>         if (!cb710_mmc_command(mmc, mrq->cmd) && mrq->stop)
+>                 cb710_mmc_command(mmc, mrq->stop);
+>
+> -       tasklet_schedule(&reader->finish_req_tasklet);
+> +       queue_work(system_bh_wq, &reader->finish_req_work);
+>  }
+>
+>  static int cb710_mmc_powerup(struct cb710_slot *slot)
+> @@ -646,10 +647,10 @@ static int cb710_mmc_irq_handler(struct cb710_slot *slot)
+>         return 1;
+>  }
+>
+> -static void cb710_mmc_finish_request_tasklet(struct tasklet_struct *t)
+> +static void cb710_mmc_finish_request_work(struct work_struct *t)
+>  {
+> -       struct cb710_mmc_reader *reader = from_tasklet(reader, t,
+> -                                                      finish_req_tasklet);
+> +       struct cb710_mmc_reader *reader = from_work(reader, t,
+> +                                                      finish_req_work);
+>         struct mmc_request *mrq = reader->mrq;
+>
+>         reader->mrq = NULL;
+> @@ -718,8 +719,8 @@ static int cb710_mmc_init(struct platform_device *pdev)
+>
+>         reader = mmc_priv(mmc);
+>
+> -       tasklet_setup(&reader->finish_req_tasklet,
+> -                     cb710_mmc_finish_request_tasklet);
+> +       INIT_WORK(&reader->finish_req_work,
+> +                       cb710_mmc_finish_request_work);
+>         spin_lock_init(&reader->irq_lock);
+>         cb710_dump_regs(chip, CB710_DUMP_REGS_MMC);
+>
+> @@ -763,7 +764,7 @@ static void cb710_mmc_exit(struct platform_device *pdev)
+>         cb710_write_port_32(slot, CB710_MMC_CONFIG_PORT, 0);
+>         cb710_write_port_16(slot, CB710_MMC_CONFIGB_PORT, 0);
+>
+> -       tasklet_kill(&reader->finish_req_tasklet);
+> +       cancel_work_sync(&reader->finish_req_work);
+>
+>         mmc_free_host(mmc);
+>  }
+> diff --git a/drivers/mmc/host/cb710-mmc.h b/drivers/mmc/host/cb710-mmc.h
+> index 5e053077dbed..b35ab8736374 100644
+> --- a/drivers/mmc/host/cb710-mmc.h
+> +++ b/drivers/mmc/host/cb710-mmc.h
+> @@ -8,10 +8,11 @@
+>  #define LINUX_CB710_MMC_H
+>
+>  #include <linux/cb710.h>
+> +#include <linux/workqueue.h>
+>
+>  /* per-MMC-reader structure */
+>  struct cb710_mmc_reader {
+> -       struct tasklet_struct finish_req_tasklet;
+> +       struct work_struct finish_req_work;
+>         struct mmc_request *mrq;
+>         spinlock_t irq_lock;
+>         unsigned char last_power_mode;
+> diff --git a/drivers/mmc/host/dw_mmc.c b/drivers/mmc/host/dw_mmc.c
+> index 8e2d676b9239..ee6f892bc0d8 100644
+> --- a/drivers/mmc/host/dw_mmc.c
+> +++ b/drivers/mmc/host/dw_mmc.c
+> @@ -36,6 +36,7 @@
+>  #include <linux/regulator/consumer.h>
+>  #include <linux/of.h>
+>  #include <linux/mmc/slot-gpio.h>
+> +#include <linux/workqueue.h>
+>
+>  #include "dw_mmc.h"
+>
+> @@ -493,7 +494,7 @@ static void dw_mci_dmac_complete_dma(void *arg)
+>          */
+>         if (data) {
+>                 set_bit(EVENT_XFER_COMPLETE, &host->pending_events);
+> -               tasklet_schedule(&host->tasklet);
+> +               queue_work(system_bh_wq, &host->work);
+>         }
+>  }
+>
+> @@ -1834,7 +1835,7 @@ static enum hrtimer_restart dw_mci_fault_timer(struct hrtimer *t)
+>         if (!host->data_status) {
+>                 host->data_status = SDMMC_INT_DCRC;
+>                 set_bit(EVENT_DATA_ERROR, &host->pending_events);
+> -               tasklet_schedule(&host->tasklet);
+> +               queue_work(system_bh_wq, &host->work);
+>         }
+>
+>         spin_unlock_irqrestore(&host->irq_lock, flags);
+> @@ -2056,9 +2057,9 @@ static bool dw_mci_clear_pending_data_complete(struct dw_mci *host)
+>         return true;
+>  }
+>
+> -static void dw_mci_tasklet_func(struct tasklet_struct *t)
+> +static void dw_mci_work_func(struct work_struct *t)
+>  {
+> -       struct dw_mci *host = from_tasklet(host, t, tasklet);
+> +       struct dw_mci *host = from_work(host, t, work);
+>         struct mmc_data *data;
+>         struct mmc_command *cmd;
+>         struct mmc_request *mrq;
+> @@ -2113,7 +2114,7 @@ static void dw_mci_tasklet_func(struct tasklet_struct *t)
+>                                  * will waste a bit of time (we already know
+>                                  * the command was bad), it can't cause any
+>                                  * errors since it's possible it would have
+> -                                * taken place anyway if this tasklet got
+> +                                * taken place anyway if this work got
+>                                  * delayed. Allowing the transfer to take place
+>                                  * avoids races and keeps things simple.
+>                                  */
+> @@ -2706,7 +2707,7 @@ static void dw_mci_cmd_interrupt(struct dw_mci *host, u32 status)
+>         smp_wmb(); /* drain writebuffer */
+>
+>         set_bit(EVENT_CMD_COMPLETE, &host->pending_events);
+> -       tasklet_schedule(&host->tasklet);
+> +       queue_work(system_bh_wq, &host->work);
+>
+>         dw_mci_start_fault_timer(host);
+>  }
+> @@ -2774,7 +2775,7 @@ static irqreturn_t dw_mci_interrupt(int irq, void *dev_id)
+>                                 set_bit(EVENT_DATA_COMPLETE,
+>                                         &host->pending_events);
+>
+> -                       tasklet_schedule(&host->tasklet);
+> +                       queue_work(system_bh_wq, &host->work);
+>
+>                         spin_unlock(&host->irq_lock);
+>                 }
+> @@ -2793,7 +2794,7 @@ static irqreturn_t dw_mci_interrupt(int irq, void *dev_id)
+>                                         dw_mci_read_data_pio(host, true);
+>                         }
+>                         set_bit(EVENT_DATA_COMPLETE, &host->pending_events);
+> -                       tasklet_schedule(&host->tasklet);
+> +                       queue_work(system_bh_wq, &host->work);
+>
+>                         spin_unlock(&host->irq_lock);
+>                 }
+> @@ -3098,7 +3099,7 @@ static void dw_mci_cmd11_timer(struct timer_list *t)
+>
+>         host->cmd_status = SDMMC_INT_RTO;
+>         set_bit(EVENT_CMD_COMPLETE, &host->pending_events);
+> -       tasklet_schedule(&host->tasklet);
+> +       queue_work(system_bh_wq, &host->work);
+>  }
+>
+>  static void dw_mci_cto_timer(struct timer_list *t)
+> @@ -3144,7 +3145,7 @@ static void dw_mci_cto_timer(struct timer_list *t)
+>                  */
+>                 host->cmd_status = SDMMC_INT_RTO;
+>                 set_bit(EVENT_CMD_COMPLETE, &host->pending_events);
+> -               tasklet_schedule(&host->tasklet);
+> +               queue_work(system_bh_wq, &host->work);
+>                 break;
+>         default:
+>                 dev_warn(host->dev, "Unexpected command timeout, state %d\n",
+> @@ -3195,7 +3196,7 @@ static void dw_mci_dto_timer(struct timer_list *t)
+>                 host->data_status = SDMMC_INT_DRTO;
+>                 set_bit(EVENT_DATA_ERROR, &host->pending_events);
+>                 set_bit(EVENT_DATA_COMPLETE, &host->pending_events);
+> -               tasklet_schedule(&host->tasklet);
+> +               queue_work(system_bh_wq, &host->work);
+>                 break;
+>         default:
+>                 dev_warn(host->dev, "Unexpected data timeout, state %d\n",
+> @@ -3435,7 +3436,7 @@ int dw_mci_probe(struct dw_mci *host)
+>         else
+>                 host->fifo_reg = host->regs + DATA_240A_OFFSET;
+>
+> -       tasklet_setup(&host->tasklet, dw_mci_tasklet_func);
+> +       INIT_WORK(&host->work, dw_mci_work_func);
+>         ret = devm_request_irq(host->dev, host->irq, dw_mci_interrupt,
+>                                host->irq_flags, "dw-mci", host);
+>         if (ret)
+> diff --git a/drivers/mmc/host/dw_mmc.h b/drivers/mmc/host/dw_mmc.h
+> index 4ed81f94f7ca..d17f398a0432 100644
+> --- a/drivers/mmc/host/dw_mmc.h
+> +++ b/drivers/mmc/host/dw_mmc.h
+> @@ -17,6 +17,7 @@
+>  #include <linux/fault-inject.h>
+>  #include <linux/hrtimer.h>
+>  #include <linux/interrupt.h>
+> +#include <linux/workqueue.h>
+>
+>  enum dw_mci_state {
+>         STATE_IDLE = 0,
+> @@ -89,12 +90,12 @@ struct dw_mci_dma_slave {
+>   * @stop_cmdr: Value to be loaded into CMDR when the stop command is
+>   *     to be sent.
+>   * @dir_status: Direction of current transfer.
+> - * @tasklet: Tasklet running the request state machine.
+> + * @work: Work running the request state machine.
+>   * @pending_events: Bitmask of events flagged by the interrupt handler
+> - *     to be processed by the tasklet.
+> + *     to be processed by the work.
+>   * @completed_events: Bitmask of events which the state machine has
+>   *     processed.
+> - * @state: Tasklet state.
+> + * @state: Work state.
+>   * @queue: List of slots waiting for access to the controller.
+>   * @bus_hz: The rate of @mck in Hz. This forms the basis for MMC bus
+>   *     rate and timeout calculations.
+> @@ -194,7 +195,7 @@ struct dw_mci {
+>         u32                     data_status;
+>         u32                     stop_cmdr;
+>         u32                     dir_status;
+> -       struct tasklet_struct   tasklet;
+> +       struct work_struct      work;
+>         unsigned long           pending_events;
+>         unsigned long           completed_events;
+>         enum dw_mci_state       state;
+> diff --git a/drivers/mmc/host/omap.c b/drivers/mmc/host/omap.c
+> index 088f8ed4fdc4..d85bae7b9cba 100644
+> --- a/drivers/mmc/host/omap.c
+> +++ b/drivers/mmc/host/omap.c
+> @@ -28,6 +28,7 @@
+>  #include <linux/slab.h>
+>  #include <linux/gpio/consumer.h>
+>  #include <linux/platform_data/mmc-omap.h>
+> +#include <linux/workqueue.h>
+>
+>
+>  #define        OMAP_MMC_REG_CMD        0x00
+> @@ -105,7 +106,7 @@ struct mmc_omap_slot {
+>         u16                     power_mode;
+>         unsigned int            fclk_freq;
+>
+> -       struct tasklet_struct   cover_tasklet;
+> +       struct work_struct      cover_work;
+>         struct timer_list       cover_timer;
+>         unsigned                cover_open;
+>
+> @@ -873,18 +874,18 @@ void omap_mmc_notify_cover_event(struct device *dev, int num, int is_closed)
+>                 sysfs_notify(&slot->mmc->class_dev.kobj, NULL, "cover_switch");
+>         }
+>
+> -       tasklet_hi_schedule(&slot->cover_tasklet);
+> +       queue_work(system_bh_highpri_wq, &slot->cover_work);
+>  }
+>
+>  static void mmc_omap_cover_timer(struct timer_list *t)
+>  {
+>         struct mmc_omap_slot *slot = from_timer(slot, t, cover_timer);
+> -       tasklet_schedule(&slot->cover_tasklet);
+> +       queue_work(system_bh_wq, &slot->cover_work);
+>  }
+>
+> -static void mmc_omap_cover_handler(struct tasklet_struct *t)
+> +static void mmc_omap_cover_handler(struct work_struct *t)
+>  {
+> -       struct mmc_omap_slot *slot = from_tasklet(slot, t, cover_tasklet);
+> +       struct mmc_omap_slot *slot = from_work(slot, t, cover_work);
+>         int cover_open = mmc_omap_cover_is_open(slot);
+>
+>         mmc_detect_change(slot->mmc, 0);
+> @@ -1299,7 +1300,7 @@ static int mmc_omap_new_slot(struct mmc_omap_host *host, int id)
+>
+>         if (slot->pdata->get_cover_state != NULL) {
+>                 timer_setup(&slot->cover_timer, mmc_omap_cover_timer, 0);
+> -               tasklet_setup(&slot->cover_tasklet, mmc_omap_cover_handler);
+> +               INIT_WORK(&slot->cover_work, mmc_omap_cover_handler);
+>         }
+>
+>         r = mmc_add_host(mmc);
+> @@ -1318,7 +1319,7 @@ static int mmc_omap_new_slot(struct mmc_omap_host *host, int id)
+>                                         &dev_attr_cover_switch);
+>                 if (r < 0)
+>                         goto err_remove_slot_name;
+> -               tasklet_schedule(&slot->cover_tasklet);
+> +               queue_work(system_bh_wq, &slot->cover_work);
+>         }
+>
+>         return 0;
+> @@ -1341,7 +1342,7 @@ static void mmc_omap_remove_slot(struct mmc_omap_slot *slot)
+>         if (slot->pdata->get_cover_state != NULL)
+>                 device_remove_file(&mmc->class_dev, &dev_attr_cover_switch);
+>
+> -       tasklet_kill(&slot->cover_tasklet);
+> +       cancel_work_sync(&slot->cover_work);
+>         del_timer_sync(&slot->cover_timer);
+>         flush_workqueue(slot->host->mmc_omap_wq);
+>
+> diff --git a/drivers/mmc/host/renesas_sdhi.h b/drivers/mmc/host/renesas_sdhi.h
+> index 586f94d4dbfd..4fd2bfcacd76 100644
+> --- a/drivers/mmc/host/renesas_sdhi.h
+> +++ b/drivers/mmc/host/renesas_sdhi.h
+> @@ -11,6 +11,7 @@
+>
+>  #include <linux/dmaengine.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/workqueue.h>
+>  #include "tmio_mmc.h"
+>
+>  struct renesas_sdhi_scc {
+> @@ -67,7 +68,7 @@ struct renesas_sdhi_dma {
+>         dma_filter_fn filter;
+>         void (*enable)(struct tmio_mmc_host *host, bool enable);
+>         struct completion dma_dataend;
+> -       struct tasklet_struct dma_complete;
+> +       struct work_struct dma_complete;
+>  };
+>
+>  struct renesas_sdhi {
+> diff --git a/drivers/mmc/host/renesas_sdhi_internal_dmac.c b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
+> index 53d34c3eddce..f175f8898516 100644
+> --- a/drivers/mmc/host/renesas_sdhi_internal_dmac.c
+> +++ b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
+> @@ -336,7 +336,7 @@ static bool renesas_sdhi_internal_dmac_dma_irq(struct tmio_mmc_host *host)
+>                 writel(status ^ dma_irqs, host->ctl + DM_CM_INFO1);
+>                 set_bit(SDHI_DMA_END_FLAG_DMA, &dma_priv->end_flags);
+>                 if (test_bit(SDHI_DMA_END_FLAG_ACCESS, &dma_priv->end_flags))
+> -                       tasklet_schedule(&dma_priv->dma_complete);
+> +                       queue_work(system_bh_wq, &dma_priv->dma_complete);
+>         }
+>
+>         return status & dma_irqs;
+> @@ -351,7 +351,7 @@ renesas_sdhi_internal_dmac_dataend_dma(struct tmio_mmc_host *host)
+>         set_bit(SDHI_DMA_END_FLAG_ACCESS, &dma_priv->end_flags);
+>         if (test_bit(SDHI_DMA_END_FLAG_DMA, &dma_priv->end_flags) ||
+>             host->data->error)
+> -               tasklet_schedule(&dma_priv->dma_complete);
+> +               queue_work(system_bh_wq, &dma_priv->dma_complete);
+>  }
+>
+>  /*
+> @@ -439,9 +439,9 @@ renesas_sdhi_internal_dmac_start_dma(struct tmio_mmc_host *host,
+>         renesas_sdhi_internal_dmac_enable_dma(host, false);
+>  }
+>
+> -static void renesas_sdhi_internal_dmac_issue_tasklet_fn(unsigned long arg)
+> +static void renesas_sdhi_internal_dmac_issue_work_fn(struct work_struct *t)
+>  {
+> -       struct tmio_mmc_host *host = (struct tmio_mmc_host *)arg;
+> +       struct tmio_mmc_host *host = from_work(host, t, dma_issue);
+>         struct renesas_sdhi *priv = host_to_priv(host);
+>
+>         tmio_mmc_enable_mmc_irqs(host, TMIO_STAT_DATAEND);
+> @@ -453,7 +453,7 @@ static void renesas_sdhi_internal_dmac_issue_tasklet_fn(unsigned long arg)
+>                 /* on CMD errors, simulate DMA end immediately */
+>                 set_bit(SDHI_DMA_END_FLAG_DMA, &priv->dma_priv.end_flags);
+>                 if (test_bit(SDHI_DMA_END_FLAG_ACCESS, &priv->dma_priv.end_flags))
+> -                       tasklet_schedule(&priv->dma_priv.dma_complete);
+> +                       queue_work(system_bh_wq, &priv->dma_priv.dma_complete);
+>         }
+>  }
+>
+> @@ -483,9 +483,9 @@ static bool renesas_sdhi_internal_dmac_complete(struct tmio_mmc_host *host)
+>         return true;
+>  }
+>
+> -static void renesas_sdhi_internal_dmac_complete_tasklet_fn(unsigned long arg)
+> +static void renesas_sdhi_internal_dmac_complete_work_fn(struct work_struct *t)
+>  {
+> -       struct tmio_mmc_host *host = (struct tmio_mmc_host *)arg;
+> +       struct tmio_mmc_host *host = from_work(host, t, dam_complete);
+>
+>         spin_lock_irq(&host->lock);
+>         if (!renesas_sdhi_internal_dmac_complete(host))
+> @@ -543,12 +543,10 @@ renesas_sdhi_internal_dmac_request_dma(struct tmio_mmc_host *host,
+>         /* Each value is set to non-zero to assume "enabling" each DMA */
+>         host->chan_rx = host->chan_tx = (void *)0xdeadbeaf;
+>
+> -       tasklet_init(&priv->dma_priv.dma_complete,
+> -                    renesas_sdhi_internal_dmac_complete_tasklet_fn,
+> -                    (unsigned long)host);
+> -       tasklet_init(&host->dma_issue,
+> -                    renesas_sdhi_internal_dmac_issue_tasklet_fn,
+> -                    (unsigned long)host);
+> +       INIT_WORK(&priv->dma_priv.dma_complete,
+> +                       renesas_sdhi_internal_dmac_complete_work_fn);
+> +       INIT_WORK(&host->dma_issue,
+> +                       renesas_sdhi_internal_dmac_issue_work_fn);
+>
+>         /* Add pre_req and post_req */
+>         host->ops.pre_req = renesas_sdhi_internal_dmac_pre_req;
+> diff --git a/drivers/mmc/host/renesas_sdhi_sys_dmac.c b/drivers/mmc/host/renesas_sdhi_sys_dmac.c
+> index 9cf7f9feab72..793595ad6d02 100644
+> --- a/drivers/mmc/host/renesas_sdhi_sys_dmac.c
+> +++ b/drivers/mmc/host/renesas_sdhi_sys_dmac.c
+> @@ -312,9 +312,9 @@ static void renesas_sdhi_sys_dmac_start_dma(struct tmio_mmc_host *host,
+>         }
+>  }
+>
+> -static void renesas_sdhi_sys_dmac_issue_tasklet_fn(unsigned long priv)
+> +static void renesas_sdhi_sys_dmac_issue_work_fn(struct work_struct *t)
+>  {
+> -       struct tmio_mmc_host *host = (struct tmio_mmc_host *)priv;
+> +       struct tmio_mmc_host *host = from_work(host, t, dma_issue);
+>         struct dma_chan *chan = NULL;
+>
+>         spin_lock_irq(&host->lock);
+> @@ -401,9 +401,8 @@ static void renesas_sdhi_sys_dmac_request_dma(struct tmio_mmc_host *host,
+>                         goto ebouncebuf;
+>
+>                 init_completion(&priv->dma_priv.dma_dataend);
+> -               tasklet_init(&host->dma_issue,
+> -                            renesas_sdhi_sys_dmac_issue_tasklet_fn,
+> -                            (unsigned long)host);
+> +               INIT_WORK(&host->dma_issue,
+> +                               renesas_sdhi_sys_dmac_issue_work_fn);
+>         }
+>
+>         renesas_sdhi_sys_dmac_enable_dma(host, true);
+> diff --git a/drivers/mmc/host/sdhci-bcm-kona.c b/drivers/mmc/host/sdhci-bcm-kona.c
+> index cb9152c6a65d..974f205d479b 100644
+> --- a/drivers/mmc/host/sdhci-bcm-kona.c
+> +++ b/drivers/mmc/host/sdhci-bcm-kona.c
+> @@ -107,7 +107,7 @@ static void sdhci_bcm_kona_sd_init(struct sdhci_host *host)
+>   * Software emulation of the SD card insertion/removal. Set insert=1 for insert
+>   * and insert=0 for removal. The card detection is done by GPIO. For Broadcom
+>   * IP to function properly the bit 0 of CORESTAT register needs to be set/reset
+> - * to generate the CD IRQ handled in sdhci.c which schedules card_tasklet.
+> + * to generate the CD IRQ handled in sdhci.c which schedules card_work.
+>   */
+>  static int sdhci_bcm_kona_sd_card_emulate(struct sdhci_host *host, int insert)
+>  {
+> diff --git a/drivers/mmc/host/tifm_sd.c b/drivers/mmc/host/tifm_sd.c
+> index b5a2f2f25ad9..c6285c577db0 100644
+> --- a/drivers/mmc/host/tifm_sd.c
+> +++ b/drivers/mmc/host/tifm_sd.c
+> @@ -13,6 +13,7 @@
+>  #include <linux/highmem.h>
+>  #include <linux/scatterlist.h>
+>  #include <linux/module.h>
+> +#include <linux/workqueue.h>
+>  #include <asm/io.h>
+>
+>  #define DRIVER_NAME "tifm_sd"
+> @@ -97,7 +98,7 @@ struct tifm_sd {
+>         unsigned int          clk_div;
+>         unsigned long         timeout_jiffies;
+>
+> -       struct tasklet_struct finish_tasklet;
+> +       struct work_struct finish_work;
+>         struct timer_list     timer;
+>         struct mmc_request    *req;
+>
+> @@ -463,7 +464,7 @@ static void tifm_sd_check_status(struct tifm_sd *host)
+>                 }
+>         }
+>  finish_request:
+> -       tasklet_schedule(&host->finish_tasklet);
+> +       queue_work(system_bh_wq, &host->finish_work);
+>  }
+>
+>  /* Called from interrupt handler */
+> @@ -723,9 +724,9 @@ static void tifm_sd_request(struct mmc_host *mmc, struct mmc_request *mrq)
+>         mmc_request_done(mmc, mrq);
+>  }
+>
+> -static void tifm_sd_end_cmd(struct tasklet_struct *t)
+> +static void tifm_sd_end_cmd(struct work_struct *t)
+>  {
+> -       struct tifm_sd *host = from_tasklet(host, t, finish_tasklet);
+> +       struct tifm_sd *host = from_work(host, t, finish_work);
+>         struct tifm_dev *sock = host->dev;
+>         struct mmc_host *mmc = tifm_get_drvdata(sock);
+>         struct mmc_request *mrq;
+> @@ -960,7 +961,7 @@ static int tifm_sd_probe(struct tifm_dev *sock)
+>          */
+>         mmc->max_busy_timeout = TIFM_MMCSD_REQ_TIMEOUT_MS;
+>
+> -       tasklet_setup(&host->finish_tasklet, tifm_sd_end_cmd);
+> +       INIT_WORK(&host->finish_work, tifm_sd_end_cmd);
+>         timer_setup(&host->timer, tifm_sd_abort, 0);
+>
+>         mmc->ops = &tifm_sd_ops;
+> @@ -999,7 +1000,7 @@ static void tifm_sd_remove(struct tifm_dev *sock)
+>         writel(0, sock->addr + SOCK_MMCSD_INT_ENABLE);
+>         spin_unlock_irqrestore(&sock->lock, flags);
+>
+> -       tasklet_kill(&host->finish_tasklet);
+> +       cancel_work_sync(&host->finish_work);
+>
+>         spin_lock_irqsave(&sock->lock, flags);
+>         if (host->req) {
+> @@ -1009,7 +1010,7 @@ static void tifm_sd_remove(struct tifm_dev *sock)
+>                 host->req->cmd->error = -ENOMEDIUM;
+>                 if (host->req->stop)
+>                         host->req->stop->error = -ENOMEDIUM;
+> -               tasklet_schedule(&host->finish_tasklet);
+> +               queue_work(system_bh_wq, &host->finish_work);
+>         }
+>         spin_unlock_irqrestore(&sock->lock, flags);
+>         mmc_remove_host(mmc);
+> diff --git a/drivers/mmc/host/tmio_mmc.h b/drivers/mmc/host/tmio_mmc.h
+> index de56e6534aea..bee13acaa80f 100644
+> --- a/drivers/mmc/host/tmio_mmc.h
+> +++ b/drivers/mmc/host/tmio_mmc.h
+> @@ -21,6 +21,7 @@
+>  #include <linux/scatterlist.h>
+>  #include <linux/spinlock.h>
+>  #include <linux/interrupt.h>
+> +#include <linux/workqueue.h>
+>
+>  #define CTL_SD_CMD 0x00
+>  #define CTL_ARG_REG 0x04
+> @@ -156,7 +157,7 @@ struct tmio_mmc_host {
+>         bool                    dma_on;
+>         struct dma_chan         *chan_rx;
+>         struct dma_chan         *chan_tx;
+> -       struct tasklet_struct   dma_issue;
+> +       struct work_struct      dma_issue;
+>         struct scatterlist      bounce_sg;
+>         u8                      *bounce_buf;
+>
+> diff --git a/drivers/mmc/host/tmio_mmc_core.c b/drivers/mmc/host/tmio_mmc_core.c
+> index 93e912afd3ae..51bd2365795b 100644
+> --- a/drivers/mmc/host/tmio_mmc_core.c
+> +++ b/drivers/mmc/host/tmio_mmc_core.c
+> @@ -608,7 +608,7 @@ static void tmio_mmc_cmd_irq(struct tmio_mmc_host *host, unsigned int stat)
+>                         } else {
+>                                 tmio_mmc_disable_mmc_irqs(host,
+>                                                           TMIO_MASK_READOP);
+> -                               tasklet_schedule(&host->dma_issue);
+> +                               queue_work(system_bh_wq, &host->dma_issue);
+>                         }
+>                 } else {
+>                         if (!host->dma_on) {
+> @@ -616,7 +616,7 @@ static void tmio_mmc_cmd_irq(struct tmio_mmc_host *host, unsigned int stat)
+>                         } else {
+>                                 tmio_mmc_disable_mmc_irqs(host,
+>                                                           TMIO_MASK_WRITEOP);
+> -                               tasklet_schedule(&host->dma_issue);
+> +                               queue_work(system_bh_wq, &host->dma_issue);
+>                         }
+>                 }
+>         } else {
+> diff --git a/drivers/mmc/host/uniphier-sd.c b/drivers/mmc/host/uniphier-sd.c
+> index 1404989e6151..d1964111c393 100644
+> --- a/drivers/mmc/host/uniphier-sd.c
+> +++ b/drivers/mmc/host/uniphier-sd.c
+> @@ -17,6 +17,7 @@
+>  #include <linux/platform_device.h>
+>  #include <linux/regmap.h>
+>  #include <linux/reset.h>
+> +#include <linux/workqueue.h>
+>
+>  #include "tmio_mmc.h"
+>
+> @@ -90,9 +91,9 @@ static void uniphier_sd_dma_endisable(struct tmio_mmc_host *host, int enable)
+>  }
+>
+>  /* external DMA engine */
+> -static void uniphier_sd_external_dma_issue(struct tasklet_struct *t)
+> +static void uniphier_sd_external_dma_issue(struct work_struct *t)
+>  {
+> -       struct tmio_mmc_host *host = from_tasklet(host, t, dma_issue);
+> +       struct tmio_mmc_host *host = from_work(host, t, dma_issue);
+>         struct uniphier_sd_priv *priv = uniphier_sd_priv(host);
+>
+>         uniphier_sd_dma_endisable(host, 1);
+> @@ -199,7 +200,7 @@ static void uniphier_sd_external_dma_request(struct tmio_mmc_host *host,
+>         host->chan_rx = chan;
+>         host->chan_tx = chan;
+>
+> -       tasklet_setup(&host->dma_issue, uniphier_sd_external_dma_issue);
+> +       INIT_WORK(&host->dma_issue, uniphier_sd_external_dma_issue);
+>  }
+>
+>  static void uniphier_sd_external_dma_release(struct tmio_mmc_host *host)
+> @@ -236,9 +237,9 @@ static const struct tmio_mmc_dma_ops uniphier_sd_external_dma_ops = {
+>         .dataend = uniphier_sd_external_dma_dataend,
+>  };
+>
+> -static void uniphier_sd_internal_dma_issue(struct tasklet_struct *t)
+> +static void uniphier_sd_internal_dma_issue(struct work_struct *t)
+>  {
+> -       struct tmio_mmc_host *host = from_tasklet(host, t, dma_issue);
+> +       struct tmio_mmc_host *host = from_work(host, t, dma_issue);
+>         unsigned long flags;
+>
+>         spin_lock_irqsave(&host->lock, flags);
+> @@ -317,7 +318,7 @@ static void uniphier_sd_internal_dma_request(struct tmio_mmc_host *host,
+>
+>         host->chan_tx = (void *)0xdeadbeaf;
+>
+> -       tasklet_setup(&host->dma_issue, uniphier_sd_internal_dma_issue);
+> +       INIT_WORK(&host->dma_issue, uniphier_sd_internal_dma_issue);
+>  }
+>
+>  static void uniphier_sd_internal_dma_release(struct tmio_mmc_host *host)
+> diff --git a/drivers/mmc/host/via-sdmmc.c b/drivers/mmc/host/via-sdmmc.c
+> index ba6044b16e07..2777b773086b 100644
+> --- a/drivers/mmc/host/via-sdmmc.c
+> +++ b/drivers/mmc/host/via-sdmmc.c
+> @@ -12,6 +12,7 @@
+>  #include <linux/interrupt.h>
+>
+>  #include <linux/mmc/host.h>
+> +#include <linux/workqueue.h>
+>
+>  #define DRV_NAME       "via_sdmmc"
+>
+> @@ -307,7 +308,7 @@ struct via_crdr_mmc_host {
+>         struct sdhcreg pm_sdhc_reg;
+>
+>         struct work_struct carddet_work;
+> -       struct tasklet_struct finish_tasklet;
+> +       struct work_struct finish_work;
+>
+>         struct timer_list timer;
+>         spinlock_t lock;
+> @@ -643,7 +644,7 @@ static void via_sdc_finish_data(struct via_crdr_mmc_host *host)
+>         if (data->stop)
+>                 via_sdc_send_command(host, data->stop);
+>         else
+> -               tasklet_schedule(&host->finish_tasklet);
+> +               queue_work(system_bh_wq, &host->finish_work);
+>  }
+>
+>  static void via_sdc_finish_command(struct via_crdr_mmc_host *host)
+> @@ -653,7 +654,7 @@ static void via_sdc_finish_command(struct via_crdr_mmc_host *host)
+>         host->cmd->error = 0;
+>
+>         if (!host->cmd->data)
+> -               tasklet_schedule(&host->finish_tasklet);
+> +               queue_work(system_bh_wq, &host->finish_work);
+>
+>         host->cmd = NULL;
+>  }
+> @@ -682,7 +683,7 @@ static void via_sdc_request(struct mmc_host *mmc, struct mmc_request *mrq)
+>         status = readw(host->sdhc_mmiobase + VIA_CRDR_SDSTATUS);
+>         if (!(status & VIA_CRDR_SDSTS_SLOTG) || host->reject) {
+>                 host->mrq->cmd->error = -ENOMEDIUM;
+> -               tasklet_schedule(&host->finish_tasklet);
+> +               queue_work(system_bh_wq, &host->finish_work);
+>         } else {
+>                 via_sdc_send_command(host, mrq->cmd);
+>         }
+> @@ -848,7 +849,7 @@ static void via_sdc_cmd_isr(struct via_crdr_mmc_host *host, u16 intmask)
+>                 host->cmd->error = -EILSEQ;
+>
+>         if (host->cmd->error)
+> -               tasklet_schedule(&host->finish_tasklet);
+> +               queue_work(system_bh_wq, &host->finish_work);
+>         else if (intmask & VIA_CRDR_SDSTS_CRD)
+>                 via_sdc_finish_command(host);
+>  }
+> @@ -955,16 +956,16 @@ static void via_sdc_timeout(struct timer_list *t)
+>                                 sdhost->cmd->error = -ETIMEDOUT;
+>                         else
+>                                 sdhost->mrq->cmd->error = -ETIMEDOUT;
+> -                       tasklet_schedule(&sdhost->finish_tasklet);
+> +                       queue_work(system_bh_wq, &sdhost->finish_work);
+>                 }
+>         }
+>
+>         spin_unlock_irqrestore(&sdhost->lock, flags);
+>  }
+>
+> -static void via_sdc_tasklet_finish(struct tasklet_struct *t)
+> +static void via_sdc_work_finish(struct work_struct *t)
+>  {
+> -       struct via_crdr_mmc_host *host = from_tasklet(host, t, finish_tasklet);
+> +       struct via_crdr_mmc_host *host = from_work(host, t, finish_work);
+>         unsigned long flags;
+>         struct mmc_request *mrq;
+>
+> @@ -1005,7 +1006,7 @@ static void via_sdc_card_detect(struct work_struct *work)
+>                         pr_err("%s: Card removed during transfer!\n",
+>                                mmc_hostname(host->mmc));
+>                         host->mrq->cmd->error = -ENOMEDIUM;
+> -                       tasklet_schedule(&host->finish_tasklet);
+> +                       queue_work(system_bh_wq, &host->finish_work);
+>                 }
+>
+>                 spin_unlock_irqrestore(&host->lock, flags);
+> @@ -1051,7 +1052,7 @@ static void via_init_mmc_host(struct via_crdr_mmc_host *host)
+>
+>         INIT_WORK(&host->carddet_work, via_sdc_card_detect);
+>
+> -       tasklet_setup(&host->finish_tasklet, via_sdc_tasklet_finish);
+> +       INIT_WORK(&host->finish_work, via_sdc_work_finish);
+>
+>         addrbase = host->sdhc_mmiobase;
+>         writel(0x0, addrbase + VIA_CRDR_SDINTMASK);
+> @@ -1193,7 +1194,7 @@ static void via_sd_remove(struct pci_dev *pcidev)
+>                 sdhost->mrq->cmd->error = -ENOMEDIUM;
+>                 if (sdhost->mrq->stop)
+>                         sdhost->mrq->stop->error = -ENOMEDIUM;
+> -               tasklet_schedule(&sdhost->finish_tasklet);
+> +               queue_work(system_bh_wq, &sdhost->finish_work);
+>         }
+>         spin_unlock_irqrestore(&sdhost->lock, flags);
+>
+> @@ -1203,7 +1204,7 @@ static void via_sd_remove(struct pci_dev *pcidev)
+>
+>         del_timer_sync(&sdhost->timer);
+>
+> -       tasklet_kill(&sdhost->finish_tasklet);
+> +       cancel_work_sync(&sdhost->finish_work);
+>
+>         /* switch off power */
+>         gatt = readb(sdhost->pcictrl_mmiobase + VIA_CRDR_PCICLKGATT);
+> diff --git a/drivers/mmc/host/wbsd.c b/drivers/mmc/host/wbsd.c
+> index f0562f712d98..984e380abc71 100644
+> --- a/drivers/mmc/host/wbsd.c
+> +++ b/drivers/mmc/host/wbsd.c
+> @@ -32,6 +32,7 @@
+>  #include <linux/mmc/sd.h>
+>  #include <linux/scatterlist.h>
+>  #include <linux/slab.h>
+> +#include <linux/workqueue.h>
+>
+>  #include <asm/io.h>
+>  #include <asm/dma.h>
+> @@ -459,7 +460,7 @@ static void wbsd_empty_fifo(struct wbsd_host *host)
+>          * FIFO threshold interrupts properly.
+>          */
+>         if ((data->blocks * data->blksz - data->bytes_xfered) < 16)
+> -               tasklet_schedule(&host->fifo_tasklet);
+> +               queue_work(system_bh_wq, &host->fifo_work);
+>  }
+>
+>  static void wbsd_fill_fifo(struct wbsd_host *host)
+> @@ -524,7 +525,7 @@ static void wbsd_fill_fifo(struct wbsd_host *host)
+>          * 'FIFO empty' under certain conditions. So we
+>          * need to be a bit more pro-active.
+>          */
+> -       tasklet_schedule(&host->fifo_tasklet);
+> +       queue_work(system_bh_wq, &host->fifo_work);
+>  }
+>
+>  static void wbsd_prepare_data(struct wbsd_host *host, struct mmc_data *data)
+> @@ -746,7 +747,7 @@ static void wbsd_request(struct mmc_host *mmc, struct mmc_request *mrq)
+>         struct mmc_command *cmd;
+>
+>         /*
+> -        * Disable tasklets to avoid a deadlock.
+> +        * Disable works to avoid a deadlock.
+>          */
+>         spin_lock_bh(&host->lock);
+>
+> @@ -821,7 +822,7 @@ static void wbsd_request(struct mmc_host *mmc, struct mmc_request *mrq)
+>                  * Dirty fix for hardware bug.
+>                  */
+>                 if (host->dma == -1)
+> -                       tasklet_schedule(&host->fifo_tasklet);
+> +                       queue_work(system_bh_wq, &host->fifo_work);
+>
+>                 spin_unlock_bh(&host->lock);
+>
+> @@ -961,13 +962,13 @@ static void wbsd_reset_ignore(struct timer_list *t)
+>          * Card status might have changed during the
+>          * blackout.
+>          */
+> -       tasklet_schedule(&host->card_tasklet);
+> +       queue_work(system_bh_wq, &host->card_work);
+>
+>         spin_unlock_bh(&host->lock);
+>  }
+>
+>  /*
+> - * Tasklets
+> + * Works
+>   */
+>
+>  static inline struct mmc_data *wbsd_get_data(struct wbsd_host *host)
+> @@ -987,9 +988,9 @@ static inline struct mmc_data *wbsd_get_data(struct wbsd_host *host)
+>         return host->mrq->cmd->data;
+>  }
+>
+> -static void wbsd_tasklet_card(struct tasklet_struct *t)
+> +static void wbsd_work_card(struct work_struct *t)
+>  {
+> -       struct wbsd_host *host = from_tasklet(host, t, card_tasklet);
+> +       struct wbsd_host *host = from_work(host, t, card_work);
+>         u8 csr;
+>         int delay = -1;
+>
+> @@ -1020,7 +1021,7 @@ static void wbsd_tasklet_card(struct tasklet_struct *t)
+>                         wbsd_reset(host);
+>
+>                         host->mrq->cmd->error = -ENOMEDIUM;
+> -                       tasklet_schedule(&host->finish_tasklet);
+> +                       queue_work(system_bh_wq, &host->finish_work);
+>                 }
+>
+>                 delay = 0;
+> @@ -1036,9 +1037,9 @@ static void wbsd_tasklet_card(struct tasklet_struct *t)
+>                 mmc_detect_change(host->mmc, msecs_to_jiffies(delay));
+>  }
+>
+> -static void wbsd_tasklet_fifo(struct tasklet_struct *t)
+> +static void wbsd_work_fifo(struct work_struct *t)
+>  {
+> -       struct wbsd_host *host = from_tasklet(host, t, fifo_tasklet);
+> +       struct wbsd_host *host = from_work(host, t, fifo_work);
+>         struct mmc_data *data;
+>
+>         spin_lock(&host->lock);
+> @@ -1060,16 +1061,16 @@ static void wbsd_tasklet_fifo(struct tasklet_struct *t)
+>          */
+>         if (host->num_sg == 0) {
+>                 wbsd_write_index(host, WBSD_IDX_FIFOEN, 0);
+> -               tasklet_schedule(&host->finish_tasklet);
+> +               queue_work(system_bh_wq, &host->finish_work);
+>         }
+>
+>  end:
+>         spin_unlock(&host->lock);
+>  }
+>
+> -static void wbsd_tasklet_crc(struct tasklet_struct *t)
+> +static void wbsd_work_crc(struct work_struct *t)
+>  {
+> -       struct wbsd_host *host = from_tasklet(host, t, crc_tasklet);
+> +       struct wbsd_host *host = from_work(host, t, crc_work);
+>         struct mmc_data *data;
+>
+>         spin_lock(&host->lock);
+> @@ -1085,15 +1086,15 @@ static void wbsd_tasklet_crc(struct tasklet_struct *t)
+>
+>         data->error = -EILSEQ;
+>
+> -       tasklet_schedule(&host->finish_tasklet);
+> +       queue_work(system_bh_wq, &host->finish_work);
+>
+>  end:
+>         spin_unlock(&host->lock);
+>  }
+>
+> -static void wbsd_tasklet_timeout(struct tasklet_struct *t)
+> +static void wbsd_work_timeout(struct work_struct *t)
+>  {
+> -       struct wbsd_host *host = from_tasklet(host, t, timeout_tasklet);
+> +       struct wbsd_host *host = from_work(host, t, timeout_work);
+>         struct mmc_data *data;
+>
+>         spin_lock(&host->lock);
+> @@ -1109,15 +1110,15 @@ static void wbsd_tasklet_timeout(struct tasklet_struct *t)
+>
+>         data->error = -ETIMEDOUT;
+>
+> -       tasklet_schedule(&host->finish_tasklet);
+> +       queue_work(system_bh_wq, &host->finish_work);
+>
+>  end:
+>         spin_unlock(&host->lock);
+>  }
+>
+> -static void wbsd_tasklet_finish(struct tasklet_struct *t)
+> +static void wbsd_work_finish(struct work_struct *t)
+>  {
+> -       struct wbsd_host *host = from_tasklet(host, t, finish_tasklet);
+> +       struct wbsd_host *host = from_work(host, t, finish_work);
+>         struct mmc_data *data;
+>
+>         spin_lock(&host->lock);
+> @@ -1156,18 +1157,18 @@ static irqreturn_t wbsd_irq(int irq, void *dev_id)
+>         host->isr |= isr;
+>
+>         /*
+> -        * Schedule tasklets as needed.
+> +        * Schedule works as needed.
+>          */
+>         if (isr & WBSD_INT_CARD)
+> -               tasklet_schedule(&host->card_tasklet);
+> +               queue_work(system_bh_wq, &host->card_work);
+>         if (isr & WBSD_INT_FIFO_THRE)
+> -               tasklet_schedule(&host->fifo_tasklet);
+> +               queue_work(system_bh_wq, &host->fifo_work);
+>         if (isr & WBSD_INT_CRC)
+> -               tasklet_hi_schedule(&host->crc_tasklet);
+> +               queue_work(system_bh_highpri_wq, &host->crc_work);
+>         if (isr & WBSD_INT_TIMEOUT)
+> -               tasklet_hi_schedule(&host->timeout_tasklet);
+> +               queue_work(system_bh_highpri_wq, &host->timeout_work);
+>         if (isr & WBSD_INT_TC)
+> -               tasklet_schedule(&host->finish_tasklet);
+> +               queue_work(system_bh_wq, &host->finish_work);
+>
+>         return IRQ_HANDLED;
+>  }
+> @@ -1443,13 +1444,13 @@ static int wbsd_request_irq(struct wbsd_host *host, int irq)
+>         int ret;
+>
+>         /*
+> -        * Set up tasklets. Must be done before requesting interrupt.
+> +        * Set up works. Must be done before requesting interrupt.
+>          */
+> -       tasklet_setup(&host->card_tasklet, wbsd_tasklet_card);
+> -       tasklet_setup(&host->fifo_tasklet, wbsd_tasklet_fifo);
+> -       tasklet_setup(&host->crc_tasklet, wbsd_tasklet_crc);
+> -       tasklet_setup(&host->timeout_tasklet, wbsd_tasklet_timeout);
+> -       tasklet_setup(&host->finish_tasklet, wbsd_tasklet_finish);
+> +       INIT_WORK(&host->card_work, wbsd_work_card);
+> +       INIT_WORK(&host->fifo_work, wbsd_work_fifo);
+> +       INIT_WORK(&host->crc_work, wbsd_work_crc);
+> +       INIT_WORK(&host->timeout_work, wbsd_work_timeout);
+> +       INIT_WORK(&host->finish_work, wbsd_work_finish);
+>
+>         /*
+>          * Allocate interrupt.
+> @@ -1472,11 +1473,11 @@ static void  wbsd_release_irq(struct wbsd_host *host)
+>
+>         host->irq = 0;
+>
+> -       tasklet_kill(&host->card_tasklet);
+> -       tasklet_kill(&host->fifo_tasklet);
+> -       tasklet_kill(&host->crc_tasklet);
+> -       tasklet_kill(&host->timeout_tasklet);
+> -       tasklet_kill(&host->finish_tasklet);
+> +       cancel_work_sync(&host->card_work);
+> +       cancel_work_sync(&host->fifo_work);
+> +       cancel_work_sync(&host->crc_work);
+> +       cancel_work_sync(&host->timeout_work);
+> +       cancel_work_sync(&host->finish_work);
+>  }
+>
+>  /*
+> diff --git a/drivers/mmc/host/wbsd.h b/drivers/mmc/host/wbsd.h
+> index be30b4d8ce4c..942a64a724e4 100644
+> --- a/drivers/mmc/host/wbsd.h
+> +++ b/drivers/mmc/host/wbsd.h
+> @@ -171,11 +171,11 @@ struct wbsd_host
+>         int                     irq;            /* Interrupt */
+>         int                     dma;            /* DMA channel */
+>
+> -       struct tasklet_struct   card_tasklet;   /* Tasklet structures */
+> -       struct tasklet_struct   fifo_tasklet;
+> -       struct tasklet_struct   crc_tasklet;
+> -       struct tasklet_struct   timeout_tasklet;
+> -       struct tasklet_struct   finish_tasklet;
+> +       struct work_struct      card_work;      /* Work structures */
+> +       struct work_struct      fifo_work;
+> +       struct work_struct      crc_work;
+> +       struct work_struct      timeout_work;
+> +       struct work_struct      finish_work;
+>
+>         struct timer_list       ignore_timer;   /* Ignore detection timer */
+>  };
+> --
+> 2.17.1
+>
