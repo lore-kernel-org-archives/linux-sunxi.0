@@ -1,96 +1,91 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8128B8175E;
-	Thu, 28 Mar 2024 13:56:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61A09199BC;
+	Thu, 28 Mar 2024 14:10:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711634207; cv=none; b=Axc43XRQcA1i6B+7+oAN1dCWcvi9C+FDpija4U5BPGisn4ir/zPRgmbZmXaLwk2bgOwi+U8OlEA/8bI2xin+U8MPfPVcic0Y+uzkIGoDzuhjaXBczsWSwsxnFUcAamzgSB2dzs+OTGRFFZA3mkQXCyaZW+5gp4b+oAw/ueCyfVc=
+	t=1711635009; cv=none; b=qIJjp0eZ2eCTg5kNsgmnOSBbeXKRfhoKb358kznHmVI11k75ZWB56zM6LDUCNPLqXQXNSj8cjrZxLaqifS1ewgHafetZ2A7puweD8ahupFIiP1EM7iVA3yrkuDV1IEjWMk8XzuvlQ9egZMiY79BQaWzrXZr83jQ20pgk+fiMs28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711634207; c=relaxed/simple;
-	bh=45W0j0SQwEbF1WEVuZJq+yF57n0rEsuSxnYCwbsjyaA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LO8J3ulSd21x43OpfVp7005+T9kHqJwAdPS03JeMLjcqaM/egsCVgmILvlTXYEv2q4F12eVwIaU9gEezK2jwEs/M3ueCG11DL782uK8z/nrzxDlmcUFTQafsz3Itsl5vfFhHLyCus3nTzTdppQ3F9U2EgUBrFDtjGg0cLiQni/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=urzfM6hH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711635009; c=relaxed/simple;
+	bh=s5KJtmAmWKUosEo3Ebm8orTCkw0ur7mQwalXQJkwqws=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=SE/8J0Oi98xYOM2OXl6aObUiMpiZHWaEZh+hTubRnhqinwFmnWm0N1wnwMSvNwqSt7phOoNgIXq7sBEfkXsm4fUVapWV4rapu3sSu7R8Sc5YfGWWNAU2JOutQiR8HjzdUIS+tvO+vebjqHC+bXzAlW/ozYi9gg2dunBRXS+4AgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KgXmDPnb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="urzfM6hH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCC42C433C7;
-	Thu, 28 Mar 2024 13:56:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KgXmDPnb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16FC5C433C7;
+	Thu, 28 Mar 2024 14:10:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711634207;
-	bh=45W0j0SQwEbF1WEVuZJq+yF57n0rEsuSxnYCwbsjyaA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=urzfM6hHSgtdOcXXX0qWKjzxnEn3cHDPfy8zymXAcdjTYxLfqY5EVLs2g9kLBrenh
-	 bO1mKJWrcFoSkDNSsJzqJFH2o9JhOI4dY8RPeTJQSUCKZMGc7F31+bFAS0yBzj3QIh
-	 cDtI7yrxHsaArBjZ/3YvR2RdvLhWObk2wuo+H0xTn+JxnKTH6b8jf4enVzudHN4mP3
-	 mqkKt9nLuChV3ZGzzt/c6CNGjrkuW6+fqpQa8gH93XK/JepaWZeA41OC5Xh5L5w/gI
-	 y1fKI0ajXiepiGfDur/A2zbxANS0QfV0oLoNCOhXahhoD8aLSNkTrEFaNR3vtIXN1F
-	 CWNI3jdLTxf8Q==
-Date: Thu, 28 Mar 2024 13:56:42 +0000
+	s=k20201202; t=1711635009;
+	bh=s5KJtmAmWKUosEo3Ebm8orTCkw0ur7mQwalXQJkwqws=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=KgXmDPnbYhsBFqt4CZWTIT4k5SobP9sTISmixgcGLymR7fSKn9rEi6yyfiRCh/bl8
+	 7swApddljJ/rXxVCxbcjmH88Tq1ejmsG1Y+wxhIkv2hUTeqdDmrR5jlwCR47/C90O9
+	 BxUB/JkOP9VINoJ6LMi5EgRvxw5+GeYQDIhyAiMwdXiqftFqqa9FSOTlgCNMO1IxCa
+	 GhYDzA+wv17eS6F+kct8z/RsKuxp0DVwlwC0f64BHICe/yK8hT2w3PWG8SX7rtwdxA
+	 Iam3ZGYhxzaH1klj2DqZXoiyvfDZPWrg3G8ZRbc4k7DZT1LGk/fvLJ4PoLFUhVRDME
+	 fPHchHdgyjsjw==
 From: Mark Brown <broonie@kernel.org>
-To: John Watts <contact@jookia.org>
-Cc: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: sunxi: sun4i-i2s: Enable 32-bit audio formats
-Message-ID: <9055efa5-8da6-47b2-b2db-d1f8e02d2267@sirena.org.uk>
-References: <20240326-sunxi_s32-v1-1-899f71dcb1e6@jookia.org>
- <23447395.6Emhk5qWAg@jernej-laptop>
- <ZgTUIWh8qXH_7oxQ@titan>
+To: linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Ond=C5=99ej_Jirman?= <megi@xff.cz>
+Cc: kernel test robot <lkp@intel.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+ Arnaud Ferraris <arnaud.ferraris@collabora.com>, 
+ linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev
+In-Reply-To: <20240327080542.3649840-1-megi@xff.cz>
+References: <20240327080542.3649840-1-megi@xff.cz>
+Subject: Re: [PATCH] ASoC: sun8i-codec: Fix build with
+ CONFIG_SND_JACK_INPUT_DEV disabled
+Message-Id: <171163500582.32973.4934931714654538308.b4-ty@kernel.org>
+Date: Thu, 28 Mar 2024 14:10:05 +0000
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="mhMUzKVvsxFenEfD"
-Content-Disposition: inline
-In-Reply-To: <ZgTUIWh8qXH_7oxQ@titan>
-X-Cookie: Yes, but which self do you want to be?
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.14-dev
 
+On Wed, 27 Mar 2024 09:05:34 +0100, Ondřej Jirman wrote:
+> When CONFIG_SND_JACK_INPUT_DEV is disabled, struct snd_jack doesn't
+> have 'type' field. We can't rely on this field being always present,
+> so store the jack_type in the codec driver itself.
+> 
+> 
 
---mhMUzKVvsxFenEfD
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to
 
-On Thu, Mar 28, 2024 at 01:21:21PM +1100, John Watts wrote:
-> On Wed, Mar 27, 2024 at 08:53:32PM +0100, Jernej =C5=A0krabec wrote:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-> > I wish it would be that simple. SUN4I_FORMATS is cross section of all I=
-2S
-> > variants that are supported by this driver. If you check A10, you'll se=
-e that
-> > it doesn't support S32.
+Thanks!
 
-> > If you want to add support for S32, you'll have to add new quirk for ea=
-ch
-> > variant.
+[1/1] ASoC: sun8i-codec: Fix build with CONFIG_SND_JACK_INPUT_DEV disabled
+      commit: 559aebe45a054a479fdbd2a3dfba999ffd73cc9d
 
-> Yes, A10 doesn't support it. But it should error out in hw_params due to
-> get_sr not supporting 32-bit, no?
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-The constraints shouldn't be advertising things that hw_params() will
-error out on, sometimes there are contingent constraints that prevent
-this but something that just doesn't work isn't one of those times.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---mhMUzKVvsxFenEfD
-Content-Type: application/pgp-signature; name="signature.asc"
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
------BEGIN PGP SIGNATURE-----
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmYFdxkACgkQJNaLcl1U
-h9CE1Af+O5zsMVBYtNcP/Zpm6ZYtaVlBfArlIiMyRHh/rU2sZcHctfvD/5FpomNB
-DX+B2CXJ54QN/AzVgK7q6QcMzryuK1xOLmjs6+THEHS8Tx6w4We32P2zGuGX655C
-mqkPWGWOltacPI/1Upb0PogW3a1qfXuhvBWPtNfkaBvgBICtbrJiJyEyNHJozq2v
-n94djp24WVSRt5Jjh0u6U/1Q7Eqt0FFiBtm10J8fdHjSt81CVIYz/jw5aZgCPY7l
-NVHn77XPjEccjdx5hNGpNAEZT8ZZbIF0sC/HOKDP/OvypWpV1GRyA0Y5XwaJWnnD
-NQcO169FnkN2RGXB1nbjkBEXAUbpQQ==
-=cayw
------END PGP SIGNATURE-----
+Thanks,
+Mark
 
---mhMUzKVvsxFenEfD--
