@@ -1,127 +1,96 @@
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B53FF7EF04
-	for <linux-sunxi@lists.linux.dev>; Thu, 28 Mar 2024 13:37:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8128B8175E;
+	Thu, 28 Mar 2024 13:56:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711633045; cv=none; b=qBHck/0jgUfi8bUYpdi0EyPeIrI4C6dvRvj3E3+ySiSb4q+mnjHen+sVnRToUFxv0571ZNAFdEaBUYI9i2YeRRsQ6IX6S7iABrbu6s3+/Ns/BVKR9yrqTEOBoTaVHC87EDeNw+ET6FY7CVifRDSuxQVDOYrr4n+M6v/ieHvOMAs=
+	t=1711634207; cv=none; b=Axc43XRQcA1i6B+7+oAN1dCWcvi9C+FDpija4U5BPGisn4ir/zPRgmbZmXaLwk2bgOwi+U8OlEA/8bI2xin+U8MPfPVcic0Y+uzkIGoDzuhjaXBczsWSwsxnFUcAamzgSB2dzs+OTGRFFZA3mkQXCyaZW+5gp4b+oAw/ueCyfVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711633045; c=relaxed/simple;
-	bh=vhptj9/Vq4Rm0PoGzxaGiCJqIgDUZwkAbXDvc9ksjDI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AgN6inN/ovWlrjJszV3kOk9Gb1jIBPa0jYUZNi3OGakT8xG0bzJipNNDl0lRViN+cSJthN3n8PyMIrfYShxRNrta+z2yqrwCf9ULwx7d2dZYlCdr32Av9KkCljuanvikuF/ZzXfBTv8BRdyTKmy9/VZ7zp13K4SUpLP5oZBKYg0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SIqWtTFM; arc=none smtp.client-ip=209.85.219.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1711634207; c=relaxed/simple;
+	bh=45W0j0SQwEbF1WEVuZJq+yF57n0rEsuSxnYCwbsjyaA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LO8J3ulSd21x43OpfVp7005+T9kHqJwAdPS03JeMLjcqaM/egsCVgmILvlTXYEv2q4F12eVwIaU9gEezK2jwEs/M3ueCG11DL782uK8z/nrzxDlmcUFTQafsz3Itsl5vfFhHLyCus3nTzTdppQ3F9U2EgUBrFDtjGg0cLiQni/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=urzfM6hH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SIqWtTFM"
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-dcbcea9c261so962411276.3
-        for <linux-sunxi@lists.linux.dev>; Thu, 28 Mar 2024 06:37:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711633042; x=1712237842; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vhptj9/Vq4Rm0PoGzxaGiCJqIgDUZwkAbXDvc9ksjDI=;
-        b=SIqWtTFMnJtqqu4rJ/7MLgT7CdeN2PIerRgt0FN/tyjx45poQJrq1FkKE5Zm6DJcPO
-         JXX9/Y+EhjWDy1IIax/bvNgEdiSf5ug3MGPCGaqR3sbIB6QNf6UApGeawmXRsZEB3Eei
-         dQQchif24DT0hEvP0uazYArBzdhgPQQMq74aaZAubQmmrfb24Wyp7KBjzWa6z2YDKcXe
-         tdm32XhhH2j1vqk+j6dOXoPrPQq95HCsYVDcWspPoysQrxh91a0dutyMgwvyqtxq32z+
-         4tW90BqZyuthfpcXmwHCCdJJDBnIB0N+6KnGHiykPp/Gd/4HOUkj/lFY9HBLJ8Xd18Nv
-         x6Sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711633042; x=1712237842;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vhptj9/Vq4Rm0PoGzxaGiCJqIgDUZwkAbXDvc9ksjDI=;
-        b=UBuYb7yH2cqvvup8mVtwPCR4Y8aYQ23USLDS2Vf3Wr+EywPgAFyNgyb7+LaD0xFMRF
-         KjB1V0x/cxzD8b7zUph8maibB+yaobj6OPmN9Un+5tZa5uO5/HDd1Qvuav6xi2HH1yfK
-         n4KxqhTe0pY36iAnhgNZ7OfsJ55cAkl0aWAeLiO5+CQv2N95gFuxxr19euBq1QURQHzq
-         shmlm/L/h6IqQ7xtNxEwy+FBii0eT0EDczzJioLhaC0NKXt8oLHrUgFQx0VsbYZrOFTX
-         GMdhuDRKFTzsGqzj7OWfkiIJ7cehefnHCH4HGQ2hPn2Fztrsg8k5AdbJ79thyCQy67wW
-         rEdA==
-X-Forwarded-Encrypted: i=1; AJvYcCUkqHkdMAfjxOWCtRxBwvExGgWJjEimD46bIUVMzuDmg44S4L46DEupIIXJXmhDeL/flYa+ewc1JMUhQ9xke8jMyrx8houtIXae8q4=
-X-Gm-Message-State: AOJu0Yxon04AGF/cIK6/EdkBSYXeBhdj97Fdt12byRwlkg4CykHU2Ev4
-	IQziFGoK5kbxrCzOy8SJDZaOHjoCAbeAoRBu1n2K7r0ZtRv6kzOvWHagwGl/sA85GjdjSa7ZV5W
-	HYBlUSiraisqs/W+9ZMfSPI/Bnrr68MsKjvSdXQ==
-X-Google-Smtp-Source: AGHT+IGjGHEbsk10nKTaVGgOOQzkHc5Qm9STf87bHGVpMP0DEmjO9lKjEWUgvRJ23UvcJC23rRkiymMtwiTmbVMLRs0=
-X-Received: by 2002:a25:b9ca:0:b0:dd1:3cc1:5352 with SMTP id
- y10-20020a25b9ca000000b00dd13cc15352mr2820459ybj.15.1711633040798; Thu, 28
- Mar 2024 06:37:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="urzfM6hH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCC42C433C7;
+	Thu, 28 Mar 2024 13:56:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711634207;
+	bh=45W0j0SQwEbF1WEVuZJq+yF57n0rEsuSxnYCwbsjyaA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=urzfM6hHSgtdOcXXX0qWKjzxnEn3cHDPfy8zymXAcdjTYxLfqY5EVLs2g9kLBrenh
+	 bO1mKJWrcFoSkDNSsJzqJFH2o9JhOI4dY8RPeTJQSUCKZMGc7F31+bFAS0yBzj3QIh
+	 cDtI7yrxHsaArBjZ/3YvR2RdvLhWObk2wuo+H0xTn+JxnKTH6b8jf4enVzudHN4mP3
+	 mqkKt9nLuChV3ZGzzt/c6CNGjrkuW6+fqpQa8gH93XK/JepaWZeA41OC5Xh5L5w/gI
+	 y1fKI0ajXiepiGfDur/A2zbxANS0QfV0oLoNCOhXahhoD8aLSNkTrEFaNR3vtIXN1F
+	 CWNI3jdLTxf8Q==
+Date: Thu, 28 Mar 2024 13:56:42 +0000
+From: Mark Brown <broonie@kernel.org>
+To: John Watts <contact@jookia.org>
+Cc: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: sunxi: sun4i-i2s: Enable 32-bit audio formats
+Message-ID: <9055efa5-8da6-47b2-b2db-d1f8e02d2267@sirena.org.uk>
+References: <20240326-sunxi_s32-v1-1-899f71dcb1e6@jookia.org>
+ <23447395.6Emhk5qWAg@jernej-laptop>
+ <ZgTUIWh8qXH_7oxQ@titan>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240327160314.9982-1-apais@linux.microsoft.com>
- <20240327160314.9982-10-apais@linux.microsoft.com> <CAPDyKFpuKadPQv6+61C2pE4x4FE-DUC5W6WCCPu9Nb2DnDB56g@mail.gmail.com>
-In-Reply-To: <CAPDyKFpuKadPQv6+61C2pE4x4FE-DUC5W6WCCPu9Nb2DnDB56g@mail.gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 28 Mar 2024 14:37:09 +0100
-Message-ID: <CACRpkdZ7wAbtTUmmLCef7KnATmfZeAL26Q-gLqnGe3CdZ3+O3A@mail.gmail.com>
-Subject: Re: [PATCH 9/9] mmc: Convert from tasklet to BH workqueue
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Allen Pais <apais@linux.microsoft.com>, linux-kernel@vger.kernel.org, tj@kernel.org, 
-	keescook@chromium.org, vkoul@kernel.org, marcan@marcan.st, sven@svenpeter.dev, 
-	florian.fainelli@broadcom.com, rjui@broadcom.com, sbranden@broadcom.com, 
-	paul@crapouillou.net, Eugeniy.Paltsev@synopsys.com, 
-	manivannan.sadhasivam@linaro.org, vireshk@kernel.org, Frank.Li@nxp.com, 
-	leoyang.li@nxp.com, zw@zh-kernel.org, wangzhou1@hisilicon.com, 
-	haijie1@huawei.com, shawnguo@kernel.org, s.hauer@pengutronix.de, 
-	sean.wang@mediatek.com, matthias.bgg@gmail.com, 
-	angelogioacchino.delregno@collabora.com, afaerber@suse.de, 
-	logang@deltatee.com, daniel@zonque.org, haojian.zhuang@gmail.com, 
-	robert.jarzmik@free.fr, andersson@kernel.org, konrad.dybcio@linaro.org, 
-	orsonzhai@gmail.com, baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com, 
-	patrice.chotard@foss.st.com, wens@csie.org, jernej.skrabec@gmail.com, 
-	peter.ujfalusi@gmail.com, kys@microsoft.com, haiyangz@microsoft.com, 
-	wei.liu@kernel.org, decui@microsoft.com, jassisinghbrar@gmail.com, 
-	mchehab@kernel.org, maintainers@bluecherrydvr.com, 
-	aubin.constans@microchip.com, manuel.lauss@gmail.com, mirq-linux@rere.qmqm.pl, 
-	jh80.chung@samsung.com, oakad@yahoo.com, hayashi.kunihiko@socionext.com, 
-	mhiramat@kernel.org, brucechang@via.com.tw, HaraldWelte@viatech.com, 
-	pierre@ossman.eu, duncan.sands@free.fr, stern@rowland.harvard.edu, 
-	oneukum@suse.com, openipmi-developer@lists.sourceforge.net, 
-	dmaengine@vger.kernel.org, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, 
-	linux-mips@vger.kernel.org, imx@lists.linux.dev, 
-	linuxppc-dev@lists.ozlabs.org, linux-mediatek@lists.infradead.org, 
-	linux-actions@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, linux-hyperv@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-mmc@vger.kernel.org, linux-omap@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-s390@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="mhMUzKVvsxFenEfD"
+Content-Disposition: inline
+In-Reply-To: <ZgTUIWh8qXH_7oxQ@titan>
+X-Cookie: Yes, but which self do you want to be?
+
+
+--mhMUzKVvsxFenEfD
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 28, 2024 at 1:54=E2=80=AFPM Ulf Hansson <ulf.hansson@linaro.org=
-> wrote:
+On Thu, Mar 28, 2024 at 01:21:21PM +1100, John Watts wrote:
+> On Wed, Mar 27, 2024 at 08:53:32PM +0100, Jernej =C5=A0krabec wrote:
 
-> At this point we have suggested to drivers to switch to use threaded
-> irq handlers (and regular work queues if needed too). That said,
-> what's the benefit of using the BH work queue?
+> > I wish it would be that simple. SUN4I_FORMATS is cross section of all I=
+2S
+> > variants that are supported by this driver. If you check A10, you'll se=
+e that
+> > it doesn't support S32.
 
-Context:
-https://lwn.net/Articles/960041/
-"Tasklets, in particular, remain because they offer lower latency than
-workqueues which, since they must go through the CPU scheduler,
-can take longer to execute a deferred-work item."
+> > If you want to add support for S32, you'll have to add new quirk for ea=
+ch
+> > variant.
 
-The BH WQ is controlled by a software IRQ and quicker than an
-ordinary work item.
+> Yes, A10 doesn't support it. But it should error out in hw_params due to
+> get_sr not supporting 32-bit, no?
 
-I don't know if this little latency could actually affect any MMC
-device, I doubt it.
+The constraints shouldn't be advertising things that hw_params() will
+error out on, sometimes there are contingent constraints that prevent
+this but something that just doesn't work isn't one of those times.
 
-The other benefit IIUC is that it is easy to mechanically rewrite tasklets
-to BH workqueues and be sure that it is as fast as the tasklet, if you want
-to switch to threaded IRQ handlers or proper work, you need to write a
-lot of elaborate code and test it (preferably on real hardware).
+--mhMUzKVvsxFenEfD
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Yours,
-Linus Walleij
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmYFdxkACgkQJNaLcl1U
+h9CE1Af+O5zsMVBYtNcP/Zpm6ZYtaVlBfArlIiMyRHh/rU2sZcHctfvD/5FpomNB
+DX+B2CXJ54QN/AzVgK7q6QcMzryuK1xOLmjs6+THEHS8Tx6w4We32P2zGuGX655C
+mqkPWGWOltacPI/1Upb0PogW3a1qfXuhvBWPtNfkaBvgBICtbrJiJyEyNHJozq2v
+n94djp24WVSRt5Jjh0u6U/1Q7Eqt0FFiBtm10J8fdHjSt81CVIYz/jw5aZgCPY7l
+NVHn77XPjEccjdx5hNGpNAEZT8ZZbIF0sC/HOKDP/OvypWpV1GRyA0Y5XwaJWnnD
+NQcO169FnkN2RGXB1nbjkBEXAUbpQQ==
+=cayw
+-----END PGP SIGNATURE-----
+
+--mhMUzKVvsxFenEfD--
