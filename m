@@ -1,91 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61A09199BC;
-	Thu, 28 Mar 2024 14:10:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9336C12F39B
+	for <linux-sunxi@lists.linux.dev>; Thu, 28 Mar 2024 15:00:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711635009; cv=none; b=qIJjp0eZ2eCTg5kNsgmnOSBbeXKRfhoKb358kznHmVI11k75ZWB56zM6LDUCNPLqXQXNSj8cjrZxLaqifS1ewgHafetZ2A7puweD8ahupFIiP1EM7iVA3yrkuDV1IEjWMk8XzuvlQ9egZMiY79BQaWzrXZr83jQ20pgk+fiMs28=
+	t=1711638047; cv=none; b=a96dVSVBfPy+3o+p+sXDdCZoqLLuaC5vQMisKxojlgte+KiJ5B7dC16GZnPQGZZ5ko4xFCyEpLuWa5LGb+jbWorr9+GrOM/oR0SRLjLC9USKJXTGPyOrH0+mtNfPQzgs5au02TryraM+i3TISL7jJx38nD3H+t8kwJcRjsRMMhA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711635009; c=relaxed/simple;
-	bh=s5KJtmAmWKUosEo3Ebm8orTCkw0ur7mQwalXQJkwqws=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=SE/8J0Oi98xYOM2OXl6aObUiMpiZHWaEZh+hTubRnhqinwFmnWm0N1wnwMSvNwqSt7phOoNgIXq7sBEfkXsm4fUVapWV4rapu3sSu7R8Sc5YfGWWNAU2JOutQiR8HjzdUIS+tvO+vebjqHC+bXzAlW/ozYi9gg2dunBRXS+4AgA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KgXmDPnb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711638047; c=relaxed/simple;
+	bh=EoHim42owK348cZhl/I9M1pymb0CHHmvTuAnkh/utqo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bXc7UNNj0QNbcY8op2f8VbVOv/K/vX0s1rE+vL9CmuIaL4Ov7BUFy1A9dsQx46ll6xzw9igKTA+x+UBrB/UY5YSygufZx9VRgMxXJCmn9g7ood8PbCQgcdndaxohj/ybCAOf6laWb+MD5bEc0jsfmeVTIGIAGm5Ja4Hy5ceJLFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org; spf=none smtp.mailfrom=jookia.org; dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b=LGKHhnyS; arc=none smtp.client-ip=95.215.58.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=jookia.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KgXmDPnb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16FC5C433C7;
-	Thu, 28 Mar 2024 14:10:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711635009;
-	bh=s5KJtmAmWKUosEo3Ebm8orTCkw0ur7mQwalXQJkwqws=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=KgXmDPnbYhsBFqt4CZWTIT4k5SobP9sTISmixgcGLymR7fSKn9rEi6yyfiRCh/bl8
-	 7swApddljJ/rXxVCxbcjmH88Tq1ejmsG1Y+wxhIkv2hUTeqdDmrR5jlwCR47/C90O9
-	 BxUB/JkOP9VINoJ6LMi5EgRvxw5+GeYQDIhyAiMwdXiqftFqqa9FSOTlgCNMO1IxCa
-	 GhYDzA+wv17eS6F+kct8z/RsKuxp0DVwlwC0f64BHICe/yK8hT2w3PWG8SX7rtwdxA
-	 Iam3ZGYhxzaH1klj2DqZXoiyvfDZPWrg3G8ZRbc4k7DZT1LGk/fvLJ4PoLFUhVRDME
-	 fPHchHdgyjsjw==
-From: Mark Brown <broonie@kernel.org>
-To: linux-kernel@vger.kernel.org, 
- =?utf-8?q?Ond=C5=99ej_Jirman?= <megi@xff.cz>
-Cc: kernel test robot <lkp@intel.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
- Arnaud Ferraris <arnaud.ferraris@collabora.com>, 
- linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev
-In-Reply-To: <20240327080542.3649840-1-megi@xff.cz>
-References: <20240327080542.3649840-1-megi@xff.cz>
-Subject: Re: [PATCH] ASoC: sun8i-codec: Fix build with
- CONFIG_SND_JACK_INPUT_DEV disabled
-Message-Id: <171163500582.32973.4934931714654538308.b4-ty@kernel.org>
-Date: Thu, 28 Mar 2024 14:10:05 +0000
+	dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b="LGKHhnyS"
+Date: Fri, 29 Mar 2024 01:56:24 +1100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
+	t=1711638043;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fwp1Qw0/EtEt4456dlzV/Bdcj7tMPkZXlkry1Wr4Z8Y=;
+	b=LGKHhnySkPwGebCdv/mVHphyxvQc8crAcv2Oui6bANMhmRHEJY6K/I2Ih6ly5HFvYpnUHr
+	RaUk1/+0ZaAAyPuNk32vxYEQYx4aouN64DPVOXSzVM0WlRfOVF3VvetqnNrc7RB6mHZfUR
+	inf9ihorMeBYe1/lMJsjrHpxhqHn/RM3fcBpIbCgRU5OFMhfta4Roy8pnpjHXNQhBSuCtA
+	0ZUlE2egI+t8HpZUXQuAiqiYiO023tOnBUL8Gs0BxbWGG2YGwH2bL9q89kJuOAViz0zvBS
+	AEIE4C395ksCyP/I+kqd4xxYCwZBNHvU5GWaOirrFG3WcF3d3oxrDVehHlndWw==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: John Watts <contact@jookia.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: sunxi: sun4i-i2s: Enable 32-bit audio formats
+Message-ID: <ZgWFGHvjjGkRVubV@titan>
+References: <20240326-sunxi_s32-v1-1-899f71dcb1e6@jookia.org>
+ <23447395.6Emhk5qWAg@jernej-laptop>
+ <ZgTUIWh8qXH_7oxQ@titan>
+ <9055efa5-8da6-47b2-b2db-d1f8e02d2267@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.14-dev
+In-Reply-To: <9055efa5-8da6-47b2-b2db-d1f8e02d2267@sirena.org.uk>
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, 27 Mar 2024 09:05:34 +0100, Ondřej Jirman wrote:
-> When CONFIG_SND_JACK_INPUT_DEV is disabled, struct snd_jack doesn't
-> have 'type' field. We can't rely on this field being always present,
-> so store the jack_type in the codec driver itself.
+On Thu, Mar 28, 2024 at 01:56:42PM +0000, Mark Brown wrote:
+> On Thu, Mar 28, 2024 at 01:21:21PM +1100, John Watts wrote:
+> > On Wed, Mar 27, 2024 at 08:53:32PM +0100, Jernej Škrabec wrote:
 > 
+> > > I wish it would be that simple. SUN4I_FORMATS is cross section of all I2S
+> > > variants that are supported by this driver. If you check A10, you'll see that
+> > > it doesn't support S32.
 > 
+> > > If you want to add support for S32, you'll have to add new quirk for each
+> > > variant.
+> 
+> > Yes, A10 doesn't support it. But it should error out in hw_params due to
+> > get_sr not supporting 32-bit, no?
+> 
+> The constraints shouldn't be advertising things that hw_params() will
+> error out on, sometimes there are contingent constraints that prevent
+> this but something that just doesn't work isn't one of those times.
 
-Applied to
+Oh right! I'm not sure how I forgot about this, given I went through this
+exact discussion for my wm8782 patch.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+I'll try and get v2 patch for this soon. :)
 
-Thanks!
-
-[1/1] ASoC: sun8i-codec: Fix build with CONFIG_SND_JACK_INPUT_DEV disabled
-      commit: 559aebe45a054a479fdbd2a3dfba999ffd73cc9d
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+John.
