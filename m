@@ -1,229 +1,144 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C46EB147C8B
-	for <linux-sunxi@lists.linux.dev>; Fri, 29 Mar 2024 14:13:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC0452D781;
+	Fri, 29 Mar 2024 16:39:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711721638; cv=none; b=rmDQYeOMlknjmGYQA6Bau7pnxYrYry0CE2jlryHwJQi+XEFEnh/hjnRJUyK7D8u5bdDEE0scXqcmp9yCxmBaY9djjhGytrLsIi37CzaiPb+MqJm0zDNNkHRy+ighXQG5/JkUcm0fljeMb9pf8KySQJPYOp45KoA6CvKS49BYXgs=
+	t=1711730344; cv=none; b=jc+9bkBL2wQj3pMdI6pGRf1yh1g6kQWknddt2ymYF8jQ3fSy3k6iN6650yXpifj7sZ9OpFONQjev/G1sGNtxzuI43/EXps+kXmgu59fnBU8w95EbOseMoObcX/MBOd8t0ncmbc0uVFc1se+v+u0yqw33SKNfEwmYqoeTWkb+Xgc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711721638; c=relaxed/simple;
-	bh=dI/c1mHROAqBjShGIvaeVRKlAGYb0x1t4byX5mZUscM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=hA4ajx0QiUqNMAL2VY4ExWxaPfuGwwANJirL1voCWPKCJJto7Eezt81LYSrL8QaYlKN9cp1aX7e8bH8rklsgwERmZpM6Mcayvu+pS5Y6nAKtcMgczlMWT/IBF4reDtg2+0xDke6LvgylMF3iSjudHRrQMIx7Krxa56OSKsAkC2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9B1D115A1;
-	Fri, 29 Mar 2024 07:14:29 -0700 (PDT)
-Received: from localhost.localdomain (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B8A733F64C;
-	Fri, 29 Mar 2024 07:13:53 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Yangtao Li <tiny.windzz@gmail.com>,
-	Viresh Kumar <vireshk@kernel.org>,
-	Nishanth Menon <nm@ti.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+	s=arc-20240116; t=1711730344; c=relaxed/simple;
+	bh=mu709RK6RdUvGezRsei4fEVVFDMPGmRnjx++n5sjyL0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OAJmHWzesT5fcmCnQNJhS2UiH0VZFtmDrdxPLag8o3wp6bYMw2/bl4rr196gudTn1VkTGidnH5lc4nrgFE76iz3JCvL7KlGCv60R7zr7idekbnicm9VuQ5ZmC6xayuwCK2db1rAKY8424a/Kre+R7/+XcQtzQtkNUS7E5VW9pNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uEituwgn; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uEituwgn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 717E8C433C7;
+	Fri, 29 Mar 2024 16:39:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711730343;
+	bh=mu709RK6RdUvGezRsei4fEVVFDMPGmRnjx++n5sjyL0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uEituwgn1xxAMuURhdwt3/iaLtwEGCu1+Mclwo9+Ty7wLbaMiWmyQU0rOPlf9vJzM
+	 o13NJKluh2NnMuLRvgLiGrQVrebzv3a2gzICu48+3LXXhQ45oB4NluNbhd7SB44a70
+	 M0Wt2X6l0SJT7LJi3C8GA4V9BEhry7YR3ma4wI/3OylDT4TAEwBE8hLV/q3auS8o5H
+	 9muF3kTL6rkQ20Iba0mAQK6pIs92yEx6N2CKY/CrPm5aLVKXPn+H3gbBFziiX6OMqC
+	 zpP4PltZewjblpXJOZBFZ8cpmv8jSqFoiAAks6EZfkeP36KAWbWprPmsY2/9TNUion
+	 NxXBlJGeFB7CQ==
+Date: Fri, 29 Mar 2024 22:08:58 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Allen <allen.lkml@gmail.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Allen Pais <apais@linux.microsoft.com>,
+	linux-kernel@vger.kernel.org, Tejun Heo <tj@kernel.org>,
+	Kees Cook <keescook@chromium.org>, Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Paul Cercueil <paul@crapouillou.net>, Eugeniy.Paltsev@synopsys.com,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Viresh Kumar <vireshk@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	Leo Li <leoyang.li@nxp.com>, zw@zh-kernel.org,
+	Zhou Wang <wangzhou1@hisilicon.com>, haijie1@huawei.com,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Sean Wang <sean.wang@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
+	logang@deltatee.com, Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
 	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>
-Cc: linux-pm@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	Brandon Cheo Fusi <fusibrandon13@gmail.com>,
-	Martin Botka <martin.botka@somainline.org>,
-	Martin Botka <martin.botka1@gmail.com>,
-	Chris Morgan <macroalpha82@gmail.com>,
-	Ryan Walklin <ryan@testtoast.com>
-Subject: [PATCH v4 8/8] arm64: dts: allwinner: h616: enable DVFS for all boards
-Date: Fri, 29 Mar 2024 14:13:11 +0000
-Message-Id: <20240329141311.27158-9-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.35.8
-In-Reply-To: <20240329141311.27158-1-andre.przywara@arm.com>
-References: <20240329141311.27158-1-andre.przywara@arm.com>
+	Jernej Skrabec <jernej.skrabec@gmail.com>, peter.ujfalusi@gmail.com,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	maintainers@bluecherrydvr.com, aubin.constans@microchip.com,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Manuel Lauss <manuel.lauss@gmail.com>,
+	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+	"jh80.chung" <jh80.chung@samsung.com>, oakad@yahoo.com,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>, brucechang@via.com.tw,
+	HaraldWelte@viatech.com, pierre@ossman.eu,
+	Duncan Sands <duncan.sands@free.fr>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Oliver Neukum <oneukum@suse.com>,
+	openipmi-developer@lists.sourceforge.net, dmaengine@vger.kernel.org,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+	imx@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+	linux-mediatek@lists.infradead.org,
+	linux-actions@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org, linux-hyperv@vger.kernel.org,
+	linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
+	"linux-mmc @ vger . kernel . org" <linux-mmc@vger.kernel.org>,
+	Linux-OMAP <linux-omap@vger.kernel.org>,
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+	linux-s390@vger.kernel.org, Netdev <netdev@vger.kernel.org>,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH 2/9] dma: Convert from tasklet to BH workqueue
+Message-ID: <ZgbuotY4IX4iHm9U@matsya>
+References: <20240327160314.9982-1-apais@linux.microsoft.com>
+ <20240327160314.9982-3-apais@linux.microsoft.com>
+ <ZgUGXTKPVhrA1tam@matsya>
+ <2e9257af-c123-406b-a189-eaebeecc1d71@app.fastmail.com>
+ <ZgW3j1qkLA-QU4iM@matsya>
+ <CAOMdWSKY9D75FM3bswUfXn2o7bGtrei3G5kLt6JdcdOPDXaG8g@mail.gmail.com>
+ <678ba20b-9f1d-41cb-8a25-e716b61ffafe@app.fastmail.com>
+ <CAOMdWSKC4B8zn6N+=5DssB_BiR6JkHBEpJr0ohKb149eJvCKMQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAOMdWSKC4B8zn6N+=5DssB_BiR6JkHBEpJr0ohKb149eJvCKMQ@mail.gmail.com>
 
-With the DT bindings now describing the format of the CPU OPP tables, we
-can include the OPP table in each board's .dts file, and specify the CPU
-power supply.
-This allows to enable DVFS, and get up to 50% of performance benefit in
-the highest OPP, or up to 60% power savings in the lowest OPP, compared
-to the fixed 1GHz @ 1.0V OPP we are running in by default at the moment.
+On 28-03-24, 13:01, Allen wrote:
+> > >> > Since almost every driver associates the tasklet with the
+> > >> > dma_chan, we could go one step further and add the
+> > >> > work_queue structure directly into struct dma_chan,
+> > >> > with the wrapper operating on the dma_chan rather than
+> > >> > the work_queue.
+> > >>
+> > >> I think that is very great idea. having this wrapped in dma_chan would
+> > >> be very good way as well
+> > >>
+> > >> Am not sure if Allen is up for it :-)
+> > >
+> > >  Thanks Arnd, I know we did speak about this at LPC. I did start
+> > > working on using completion. I dropped it as I thought it would
+> > > be easier to move to workqueues.
+> >
+> > It's definitely easier to do the workqueue conversion as a first
+> > step, and I agree adding support for the completion right away is
+> > probably too much. Moving the work_struct into the dma_chan
+> > is probably not too hard though, if you leave your current
+> > approach for the cases where the tasklet is part of the
+> > dma_dev rather than the dma_chan.
+> >
+> 
+>  Alright, I will work on moving work_struck into the dma_chan and
+> leave the dma_dev as is (using bh workqueues) and post a RFC.
+> Once reviewed, I could move to the next step.
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- .../boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi      | 5 +++++
- arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts | 5 +++++
- arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts       | 5 +++++
- .../boot/dts/allwinner/sun50i-h618-longan-module-3h.dtsi     | 5 +++++
- .../arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts | 5 +++++
- arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts | 5 +++++
- .../boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts     | 5 +++++
- 7 files changed, 35 insertions(+)
+That might be better from a performance pov but the current design is a
+global tasklet and not a per chan one... We would need to carefully
+review and test this for sure
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi
-index af421ba24ce0c..d12b01c5f41b6 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi
-@@ -6,6 +6,7 @@
- /dts-v1/;
- 
- #include "sun50i-h616.dtsi"
-+#include "sun50i-h616-cpu-opp.dtsi"
- 
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/interrupt-controller/arm-gic.h>
-@@ -62,6 +63,10 @@ wifi_pwrseq: wifi-pwrseq {
- 	};
- };
- 
-+&cpu0 {
-+	cpu-supply = <&reg_dcdc2>;
-+};
-+
- &mmc0 {
- 	vmmc-supply = <&reg_dldo1>;
- 	/* Card detection pin is not connected */
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-index b5d713926a341..a360d8567f955 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-@@ -6,12 +6,17 @@
- /dts-v1/;
- 
- #include "sun50i-h616-orangepi-zero.dtsi"
-+#include "sun50i-h616-cpu-opp.dtsi"
- 
- / {
- 	model = "OrangePi Zero2";
- 	compatible = "xunlong,orangepi-zero2", "allwinner,sun50i-h616";
- };
- 
-+&cpu0 {
-+	cpu-supply = <&reg_dcdca>;
-+};
-+
- &emac0 {
- 	allwinner,rx-delay-ps = <3100>;
- 	allwinner,tx-delay-ps = <700>;
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts
-index 959b6fd18483b..26d25b5b59e0f 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts
-@@ -6,6 +6,7 @@
- /dts-v1/;
- 
- #include "sun50i-h616.dtsi"
-+#include "sun50i-h616-cpu-opp.dtsi"
- 
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/interrupt-controller/arm-gic.h>
-@@ -32,6 +33,10 @@ reg_vcc5v: vcc5v {
- 	};
- };
- 
-+&cpu0 {
-+	cpu-supply = <&reg_dcdca>;
-+};
-+
- &ehci0 {
- 	status = "okay";
- };
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-longan-module-3h.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h618-longan-module-3h.dtsi
-index 8c1263a3939e7..e92d150aaf1c1 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h618-longan-module-3h.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-longan-module-3h.dtsi
-@@ -4,6 +4,11 @@
-  */
- 
- #include "sun50i-h616.dtsi"
-+#include "sun50i-h616-cpu-opp.dtsi"
-+
-+&cpu0 {
-+	cpu-supply = <&reg_dcdc2>;
-+};
- 
- &mmc2 {
- 	pinctrl-names = "default";
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts
-index 21ca1977055d9..6a4f0da972330 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts
-@@ -6,6 +6,7 @@
- /dts-v1/;
- 
- #include "sun50i-h616.dtsi"
-+#include "sun50i-h616-cpu-opp.dtsi"
- 
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/interrupt-controller/arm-gic.h>
-@@ -53,6 +54,10 @@ reg_vcc3v3: vcc3v3 {
- 	};
- };
- 
-+&cpu0 {
-+	cpu-supply = <&reg_dcdc2>;
-+};
-+
- &ehci1 {
- 	status = "okay";
- };
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
-index b3b1b8692125f..e1cd7572a14ce 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
-@@ -6,12 +6,17 @@
- /dts-v1/;
- 
- #include "sun50i-h616-orangepi-zero.dtsi"
-+#include "sun50i-h616-cpu-opp.dtsi"
- 
- / {
- 	model = "OrangePi Zero3";
- 	compatible = "xunlong,orangepi-zero3", "allwinner,sun50i-h618";
- };
- 
-+&cpu0 {
-+	cpu-supply = <&reg_dcdc2>;
-+};
-+
- &emac0 {
- 	allwinner,tx-delay-ps = <700>;
- 	phy-mode = "rgmii-rxid";
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts b/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts
-index ac0a2b7ea6f31..a6458b7a86713 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts
-@@ -6,6 +6,7 @@
- /dts-v1/;
- 
- #include "sun50i-h616.dtsi"
-+#include "sun50i-h616-cpu-opp.dtsi"
- 
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/interrupt-controller/arm-gic.h>
-@@ -51,6 +52,10 @@ wifi_pwrseq: wifi_pwrseq {
- 	};
- };
- 
-+&cpu0 {
-+	cpu-supply = <&reg_dcdc2>;
-+};
-+
- &ehci0 {
- 	status = "okay";
- };
 -- 
-2.35.8
-
+~Vinod
