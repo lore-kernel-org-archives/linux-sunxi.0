@@ -1,125 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFC1422075;
-	Fri, 29 Mar 2024 16:39:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98919364BA
+	for <linux-sunxi@lists.linux.dev>; Fri, 29 Mar 2024 23:50:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711730379; cv=none; b=W0SvH0vhQF5Daz/mkL2FjSexSefYH+RudWNOQ9mM9pziEPMGYTFGKxWLV92lKlTFzZ4/ZvBwKl3nsGXRWqGpWwDSP2Cg2gwzkMhgceq7Mn3Bn6E1kxg4/U2K+q/Y68BX4OncRfDy9EueLLmOrqFvagA1GRau7CB9enAwYRmnRGY=
+	t=1711756251; cv=none; b=FhODccU1LT3mlTU2kcAfv5kI0yUOzluZiZraJ37pGBd+xdgcHixAOjHftXLD+qf0bq5Yu6VB4LZqqHrTOZPlFx66Y057CpXXMcbOH4ieAgqxBLlG+yr23yvvuXFOkbs94GSvp9HfSXL0Aq1XIdVBDb9Tf+fYDV4JKwn2MXU+VFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711730379; c=relaxed/simple;
-	bh=bg+h7PlnfTedz1YBjzApxZkMOAnsBGDd8/EzMTXhZfQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dFqDq9Fg2X0yRxLQCIq4kT74ICYEQkQ9Ig+AV/efNoNp6CpybpsL4e3Jyq4r4aFWahKP8xbk1E4uWsOACZiyzlpiwTBlfGuxlVcBWACjSC8KNy5BpcE1QOlHAXFaic/nr72DLOu7evcB0CXVangeKuZi8wxvigdTvQSTIgSahRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uW7qxP8y; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uW7qxP8y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4D9DC433C7;
-	Fri, 29 Mar 2024 16:39:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711730378;
-	bh=bg+h7PlnfTedz1YBjzApxZkMOAnsBGDd8/EzMTXhZfQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uW7qxP8y8ACgUR891lLqNXK4nRCSSexkXmk3NVlX/43RdUbJKhMUBo+3F7ImHHCLd
-	 EgMy3VnFONlXXBX8N/84xV65QgEoe3byfIcVSoYOnvkYvas222h0lZkI0ts/7GK5dK
-	 RXDBa+pCTcdJsCx5bNqP+0NeWpjfPDjTw0LzbJBD2TGFbdPiUtd9S2xCHSf/YkWg3h
-	 LkeVRnbJmAa4tPbrg134PWkZdQ7HBQC4t3veXbL+goDjmVnDap5Tj4fOkvn8ClJwbk
-	 uuZW1rzs8wZhLpPlp2dMwsOxB3VXY8Xf/XxfLnuX/VdqMAE2Sw5BpezoMJa9uZRiGz
-	 dYTGMY6Ps7ZVQ==
-Date: Fri, 29 Mar 2024 22:09:34 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Allen <allen.lkml@gmail.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Allen Pais <apais@linux.microsoft.com>,
-	linux-kernel@vger.kernel.org, Tejun Heo <tj@kernel.org>,
-	Kees Cook <keescook@chromium.org>, Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Paul Cercueil <paul@crapouillou.net>, Eugeniy.Paltsev@synopsys.com,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Viresh Kumar <vireshk@kernel.org>, Frank Li <Frank.Li@nxp.com>,
-	Leo Li <leoyang.li@nxp.com>, zw@zh-kernel.org,
-	Zhou Wang <wangzhou1@hisilicon.com>, haijie1@huawei.com,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Sean Wang <sean.wang@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
-	logang@deltatee.com, Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Patrice Chotard <patrice.chotard@foss.st.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>, peter.ujfalusi@gmail.com,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	maintainers@bluecherrydvr.com, aubin.constans@microchip.com,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Manuel Lauss <manuel.lauss@gmail.com>,
-	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-	"jh80.chung" <jh80.chung@samsung.com>, oakad@yahoo.com,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>, brucechang@via.com.tw,
-	HaraldWelte@viatech.com, pierre@ossman.eu, duncan.sands@free.fr,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Oliver Neukum <oneukum@suse.com>,
-	openipmi-developer@lists.sourceforge.net, dmaengine@vger.kernel.org,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-	imx@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	linux-mediatek@lists.infradead.org,
-	linux-actions@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-	"linux-mmc @ vger . kernel . org" <linux-mmc@vger.kernel.org>,
-	Linux-OMAP <linux-omap@vger.kernel.org>,
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-	linux-s390@vger.kernel.org, Netdev <netdev@vger.kernel.org>,
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH 2/9] dma: Convert from tasklet to BH workqueue
-Message-ID: <ZgbuxmxncU0-0jhA@matsya>
-References: <20240327160314.9982-1-apais@linux.microsoft.com>
- <20240327160314.9982-3-apais@linux.microsoft.com>
- <ZgUGXTKPVhrA1tam@matsya>
- <2e9257af-c123-406b-a189-eaebeecc1d71@app.fastmail.com>
- <ZgW3j1qkLA-QU4iM@matsya>
- <CAOMdWSKY9D75FM3bswUfXn2o7bGtrei3G5kLt6JdcdOPDXaG8g@mail.gmail.com>
+	s=arc-20240116; t=1711756251; c=relaxed/simple;
+	bh=TZ3uiNo5q8a7erClyx5Zij7cZ7jestMo9ToWhp0UMHU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=AujyNsoGprMuTojsKKp6/l+STYlYF+4fNvuMLvciGTysbRkE8lcGu/RFJT2JnT4GE6G7db2DteZQpb8KGqPm0YMry83yRNLpsqC/6M2ikaSEaMIiLncKZrwqarLYY3BQJ/ZeFDV7zwAgmeXclgp1hxv/DxKqVHXFPuU4tbCD8tk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E1EE9FEC;
+	Fri, 29 Mar 2024 16:51:20 -0700 (PDT)
+Received: from localhost.localdomain (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D59093F64C;
+	Fri, 29 Mar 2024 16:50:45 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Chen-Yu Tsai <wens@csie.org>,
+	Lee Jones <lee@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Ryan Walklin <ryan@testtoast.com>,
+	Chris Morgan <macroalpha82@gmail.com>
+Subject: [PATCH 0/4] regulator: Fix AXP717 PMIC support
+Date: Fri, 29 Mar 2024 23:50:29 +0000
+Message-Id: <20240329235033.25309-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.35.8
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOMdWSKY9D75FM3bswUfXn2o7bGtrei3G5kLt6JdcdOPDXaG8g@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On 28-03-24, 12:39, Allen wrote:
+Here are some fixes to the AXP717 PMIC support series. Lee put that in
+an immutable branch already, so these here go on top.
+Patch 1 contains fixes to the regulator descriptions: the LDOs had the
+wrong supply source, and two numbers were wrong. The datasheet describes
+the voltage ranges and register values differently from what our macros
+expect, in a way that literally begs for off-by-ones, so here you go.
+I don't know if that's still feasible, but it would be a good candidate
+to squash into the patch that it fixes.
 
-> > I think that is very great idea. having this wrapped in dma_chan would
-> > be very good way as well
-> >
-> > Am not sure if Allen is up for it :-)
-> 
->  Thanks Arnd, I know we did speak about this at LPC. I did start
-> working on using completion. I dropped it as I thought it would
-> be easier to move to workqueues.
-> 
-> Vinod, I would like to give this a shot and put out a RFC, I would
-> really appreciate review and feedback.
+The other three patches add the "boost" regulator, which is meant to
+provide the 5V USB VBUS power when operating from the battery. It's the
+usual trinity of binding/mfd/regulator patches.
+Again this could be squashed into the respective patches from the
+original series, if people agree.
 
-Sounds like a good plan to me
+Please have a look and test on a device, since I could not do this.
 
+Based on mfd/ib-mfd-regulator-6.10, as detailed below.
+
+Cheers,
+Andre
+
+Andre Przywara (4):
+  regulator: axp20x: AXP717: fix LDO supply rails and off-by-ones
+  dt-bindings: mfd: x-powers,axp152: add boost regulator
+  mfd: axp20x: AXP717: Add support for boost regulator
+  regulator: axp20x: AXP717: Add boost regulator
+
+ .../bindings/mfd/x-powers,axp152.yaml         |  2 +-
+ drivers/mfd/axp20x.c                          |  2 ++
+ drivers/regulator/axp20x-regulator.c          | 32 +++++++++++--------
+ include/linux/mfd/axp20x.h                    |  3 ++
+ 4 files changed, 24 insertions(+), 15 deletions(-)
+
+
+base-commit: 4cece764965020c22cff7665b18a012006359095
+prerequisite-patch-id: 2b5fb10f68e0994071fc4c7dce73db7047c23220
+prerequisite-patch-id: 5d0735de888d155b2c1cdb814e852a5852a17ec7
+prerequisite-patch-id: 29c30894b4bf0b9e1e71de065cabbd842505e248
+prerequisite-patch-id: 0ab87cbf7362b6dc2d577d2264eb9574be47b5f6
 -- 
-~Vinod
+2.35.8
+
