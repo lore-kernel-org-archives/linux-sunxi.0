@@ -1,60 +1,60 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7B9DBA4B
-	for <linux-sunxi@lists.linux.dev>; Sat, 30 Mar 2024 09:30:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D786D3BBC8
+	for <linux-sunxi@lists.linux.dev>; Sat, 30 Mar 2024 18:11:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711791011; cv=none; b=EUpPt69zn9GXB5I44MFmRnFCwHbJUmz9iRAqKK7fJ4vioMsp2lBDCaeAHlMv3PMCQIW6BhU/g8iWwriWgVRpkXYkHoWXuzNAK4vKcWTOAuU31eH//MGUc/AMssTj3//p9MY7oxs1H8QdbIWMgNkdU+8cpTtxnHk6ghJNSTLNAKw=
+	t=1711822309; cv=none; b=F8i3utQ/97C8LspsxDTVHGtUnmQILuOuajtcnIH97K7BopvFoLyPI0ORlpfcxY4/feLEDBRgfYQwV6Dpa90d5w8ProB673B2szyQkVmAsuppxHV4ezY8ioe+ZzJXeztcvF/E1bmrm8XGzbOSDQNSdqu39ncPU/DT8Q/RPpdQSIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711791011; c=relaxed/simple;
-	bh=jH74SmsUJAEsV0nlVFruv378UYB/Cp922OOCePGSRZg=;
+	s=arc-20240116; t=1711822309; c=relaxed/simple;
+	bh=uKmnAYsXvFgZ7Q0n32Ejd9rCgsyZG49+pZPlHoVVOY0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fmwKIdqG3Td5E6FhduwotNmwx/EFHum8mVJGwRWP/75x4YIukZ63raQWKQWyKe1X/hcUqIHhfWYKl8/IAQvjCcfKB1f1Rmv2cZhDNAct+lD1C8SNPP5kU20ydRlmN5AK70zPxNhPgRTxASsTdlDVU9N96j/N39QUujjQgeWsFY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AchlFrtw; arc=none smtp.client-ip=209.85.128.48
+	 In-Reply-To:Content-Type; b=ZlFFy5tjR/9IiIsMDvaPLG7vlQl6CGEgRSENKrcBqehNfrP7fAVQ6tnFk3nEsls7PodBysCtj2aWOT0qkO/hI/M7zzSfzh05sMxDHzVQ2AQ2xG62S78v6MCOGddJebchJhk536GBeXpQDiTx/21HDPDNDWLtrsJTkBZf7C489lc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TgGD5JCr; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AchlFrtw"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4148c6132b4so20731145e9.1
-        for <linux-sunxi@lists.linux.dev>; Sat, 30 Mar 2024 02:30:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TgGD5JCr"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-33d90dfe73cso1458769f8f.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 30 Mar 2024 11:11:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711791007; x=1712395807; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1711822306; x=1712427106; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=HRRPoA46ZiR7XyOWSlHygBjsRtwJEnGQX5rm2JJHl+E=;
-        b=AchlFrtwrGHvOu1RrAfvUgQavKDl8ORrRXjYBmNkmSU3ZYHy4R1VvthlC3MfiCr4ei
-         si0hm8rlVmG+UCA0BTEhZuf+SRRbnoNEyiv4/y3ubtU7b/pDWx8soLAzPoAFJhVMmhaK
-         +YcByRVn892CT01BFnDI8jWXKyLujhfR2b/OzQtPOjhTbDY2DMAmcX0J/qj9+GKgI4SM
-         jUVsGKLYQlOzVOaYSChmL69TT3H8EIbxAU4DC5hWhmAJpgUy1zIRMtuix85bz5BTQ+Hn
-         kuK4aEYrT2p9zmECGqPLS0RPOw00GaDmmTA83bH+l7OmM0Mz3FozvUT+7Nn5TwyQGfku
-         S2cQ==
+        bh=G6FfSFT0iQhQsIxQCkilA3RrGtXMgyj7X9sH1RGa6Iw=;
+        b=TgGD5JCrXvY3YzYtVbEv7doJSUEqkzVeoUxuRr4z0FSBIn/vvS97THCI+15Dk3SHlc
+         dvF9js0HVBz/9osCK+scdI+9r8int6uvYDyzofeRXYwEdrW5TieErZB/kgYfgJ9gb3iW
+         PnX29ER8kENMf0HTEBQ9r04OW6HIY/E26AQeB0ie0oO1dZBK6+RdxcUzw68v4NmKzXOH
+         Hu1uyDoazN1VaMQlBcdNL5w9keqU6LcJxpzIfcyc52MXcarFTI9Vkob9DETj3tevg5gr
+         R4fUfQ8wSv4h3opn7FjTI3h8Z9Cpksh8J5UTGSwIytuLaHUA4x+V43RSq/oGRNKlvniH
+         ereQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711791007; x=1712395807;
+        d=1e100.net; s=20230601; t=1711822306; x=1712427106;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HRRPoA46ZiR7XyOWSlHygBjsRtwJEnGQX5rm2JJHl+E=;
-        b=kj8u02OoLqwNYy1GdsyK7L1DRkBiBplenHg3R3P0laDC/T2U6TVoJ2NO/CEASnWDEU
-         A2XWmY6W1BmCnHdKQ1c0DQtHM+RKj8Hx4e1kOFOifWIsyIFAYGo2OjhU7HhV3SW14Snq
-         1IY5OvQrliMFG3Bg4KyRIQgTvwNx0kTqKmncO/voTJBydzsLgT1pXvDJhYZhH83QTD0T
-         ViXWnI59W/WuUYyfe3MKSUtfG+DmtYZ5uaHIJ4BGUT5k3rdtOjZxB23/3ARF1oD1mdc2
-         Cv7fQoHZZLSqeDKeI3fpwf+dDpxmKdoA2ulp9JSzgsN9VRJcrqHCGLyykapOsBN9+Yqz
-         CKIg==
-X-Forwarded-Encrypted: i=1; AJvYcCVT6So5sE5Tw0yfoeMjRHtjrQmez3l7nbCLEDRmudIlAqXObgf5TxlTvi2VL8gGR+QSyoYx9hJDeCVtTPNttFH7M0F3CvvkPhurxR4=
-X-Gm-Message-State: AOJu0Yzeunbey5LxNGkE4TaeX3guuCwASB4jBKwNQMtKW+wcXbsVbEVr
-	qsjgCycEJM8HUbTjcOPL/cfJOpeqMMCO6J4TWR6BFOtzOcPuhDx0ip/ekEz5etA=
-X-Google-Smtp-Source: AGHT+IHah+u5LCx3ZcD5Y1/dZi9WB0vCE4py5e+wbLVYY5CxwNe1SifSkHNOIXHvYMQJ0iRzTli54w==
-X-Received: by 2002:a5d:654c:0:b0:341:b5cc:f805 with SMTP id z12-20020a5d654c000000b00341b5ccf805mr5715381wrv.5.1711791007261;
-        Sat, 30 Mar 2024 02:30:07 -0700 (PDT)
+        bh=G6FfSFT0iQhQsIxQCkilA3RrGtXMgyj7X9sH1RGa6Iw=;
+        b=MzPxjdY8a4zKmm99XT97FiphGN9vStwlv/1wIOl1l62FSVM6aJKIDRixZBVIhSRDQA
+         sApZBPAEvk32A1AjQlZjp35nCwyz2ivLgdUnwGvJ5T395/C4hLGIB1lXdizdysh8vdec
+         meVm3cF8yRo9VzPw/o7G4YKOcALKBFvZtLi5o3evy7pifZ/0wtsEBJLHardnw0Bdwna1
+         JzPLCI369yqcLLt+SJKh0rFPlF2wZEHP/ncSIsoBW/5+tlzyruyipI+ipkrZr9Xy8IIb
+         f6xWzxSSiIhzDG5mzLWRc6LX/qTPq0uef1acp5zpXMy+sz1E+JpQngLf1gYNZyClLKRR
+         E7jg==
+X-Forwarded-Encrypted: i=1; AJvYcCWTw47YPKyxszcbD4GWBsokGbtB5GYxAgPQQxSpDwIVlcamD3gmh56Az55j/KKmy2QrIRektPRPxa9OuTMUmC44k1I53S9rKrwI3OM=
+X-Gm-Message-State: AOJu0YxUB44Mu04htt89mPrquScXyswSrbHLzsk59JOj5Yu6FR9OHGn1
+	7K2p4+SuU179DRqgXsqyIUfmlD4Xlq9LzLDqmuQOcEEiDW//3obGV8r4euiwdco=
+X-Google-Smtp-Source: AGHT+IHGNzzOcrsjxFkI3C0f3COW5wlxqzJ99dai1JoJ7cSUkHlMboIodgKoDG6p2Ld/MTdnLd8y1w==
+X-Received: by 2002:a5d:5281:0:b0:33d:754c:8daf with SMTP id c1-20020a5d5281000000b0033d754c8dafmr3980386wrv.10.1711822306407;
+        Sat, 30 Mar 2024 11:11:46 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id r10-20020a05600c35ca00b004147ec48845sm10997057wmq.26.2024.03.30.02.30.05
+        by smtp.gmail.com with ESMTPSA id dp18-20020a0560000c9200b00341de138a2esm6976538wrb.94.2024.03.30.11.11.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 30 Mar 2024 02:30:06 -0700 (PDT)
-Message-ID: <0b53cf44-b5ca-4ccc-9912-777b85f1bcbd@linaro.org>
-Date: Sat, 30 Mar 2024 10:30:05 +0100
+        Sat, 30 Mar 2024 11:11:45 -0700 (PDT)
+Message-ID: <91d398c5-c564-4889-a45a-fcf8d805bde8@linaro.org>
+Date: Sat, 30 Mar 2024 19:11:44 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -62,19 +62,15 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] dt-bindings: mfd: x-powers,axp152: add boost
- regulator
+Subject: Re: [PATCH 1/2] dt-bindings: arm: sunxi: document Tanix TX1 name
 To: Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>,
- Lee Jones <lee@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+ Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Ryan Walklin <ryan@testtoast.com>,
- Chris Morgan <macroalpha82@gmail.com>
-References: <20240329235033.25309-1-andre.przywara@arm.com>
- <20240329235033.25309-3-andre.przywara@arm.com>
+ Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>
+Cc: devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev
+References: <20240330013243.17943-1-andre.przywara@arm.com>
+ <20240330013243.17943-2-andre.przywara@arm.com>
 Content-Language: en-US
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -121,39 +117,23 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240329235033.25309-3-andre.przywara@arm.com>
+In-Reply-To: <20240330013243.17943-2-andre.przywara@arm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 30/03/2024 00:50, Andre Przywara wrote:
-> The X-Powers AXP717 contains a boost regulator, that it meant to provide
-> the 5V USB VBUS voltage when the devices operates on battery.
+On 30/03/2024 02:32, Andre Przywara wrote:
+> The Tanix TX1 is a tiny TV box with the Allwinner H313 SoC, a lower bin
+> version of the Allwinner H616. It comes with no SD card slot or Ethernet
+> port.
 > 
-> Add the name "boost" to the regexp describing the allowed node names,
-> to allow the regulator to be described in the devicetree.
+> Add the board/SoC compatible string pair to the list of known boards.
+> Since the H313 does not look different from a software point of view,
+> we keep the H616 compatible string.
 > 
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 > ---
->  Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml b/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml
-> index b8e8db0d58e9c..14ab367fc8871 100644
-> --- a/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml
-> +++ b/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml
-> @@ -274,7 +274,7 @@ properties:
->            Defines the work frequency of DC-DC in kHz.
->  
->      patternProperties:
-> -      "^(([a-f])?ldo[0-9]|dcdc[0-7a-e]|ldo(_|-)io(0|1)|(dc1)?sw|rtc(_|-)ldo|cpusldo|drivevbus|dc5ldo)$":
-> +      "^(([a-f])?ldo[0-9]|dcdc[0-7a-e]|ldo(_|-)io(0|1)|(dc1)?sw|rtc(_|-)ldo|cpusldo|drivevbus|dc5ldo|boost)$":
-
-That's not an easy to read regex...
 
 Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-If driver does not depend on _, please consider dropping (_|-).
-
 
 Best regards,
 Krzysztof
