@@ -1,94 +1,78 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD3DB1DFC6
-	for <linux-sunxi@lists.linux.dev>; Sat, 30 Mar 2024 21:40:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B88015BB
+	for <linux-sunxi@lists.linux.dev>; Sun, 31 Mar 2024 04:06:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711834843; cv=none; b=dZuOwJwxqV517v9htJjJ8bznZjgkYmdM6nIvgzQGMEzYXnHFeUpwwTnBXdkKIZElgRU1AhAZZy9YLZbZ1pbRcrC00CqHTuPTcyp7JbmNDDlrwpKVJ/BJhufV/LxmB77j72cmckd1Of5rxG+a3mI2iD4L15dFeOHVKIyr2es7Wo4=
+	t=1711857981; cv=none; b=BL1U9Yi279ME1DuiqHR/8XbAMunNfOq9YPlwCXIgsAll83pZ8E3VBjh5yJ6Uc+xRkiBIP9t4HFkFxgOwNliN59r77S4o2AwHCJAwwC1aJVi+AIarSLQEEhs+p4gFK7wP9Vzx6NKIjjWOrGGj+DezGVgm3NJdRYluz2wNmAhnVy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711834843; c=relaxed/simple;
-	bh=Sfv61GuqN9EjrEx8j81lakykRn8nhWIo5beb5aUP+Mk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Xcul9yYB2TNdwZiTcWj+aQ9L8IsltNgPG8HZwdBwLXSoxy2jw3uVIT6+t+drAxgQn+El0/d2qZhYHwwM/COHnzR5rVN2sY7r1enA00hWlrx/6/K2lnZ7E3C7cpr3fkno1s9hQJvAYc+4Z2MUUD4t7aWjhISmipW1xFYIzpSbKHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D0D29106F;
-	Sat, 30 Mar 2024 14:41:12 -0700 (PDT)
-Received: from minigeek.lan (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 114B33F64C;
-	Sat, 30 Mar 2024 14:40:37 -0700 (PDT)
-Date: Sat, 30 Mar 2024 21:40:22 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Lee Jones <lee@kernel.org>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Ryan
- Walklin <ryan@testtoast.com>, Chris Morgan <macroalpha82@gmail.com>
-Subject: Re: [PATCH 2/4] dt-bindings: mfd: x-powers,axp152: add boost
- regulator
-Message-ID: <20240330213331.68a2c145@minigeek.lan>
-In-Reply-To: <0b53cf44-b5ca-4ccc-9912-777b85f1bcbd@linaro.org>
-References: <20240329235033.25309-1-andre.przywara@arm.com>
-	<20240329235033.25309-3-andre.przywara@arm.com>
-	<0b53cf44-b5ca-4ccc-9912-777b85f1bcbd@linaro.org>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	s=arc-20240116; t=1711857981; c=relaxed/simple;
+	bh=e3bRxDH+wQoPJin/nfB62E2/Uu/KG61lMcFAauOvRdw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dUtIxRFEpNk/v9KFhsh0tfPMTuoMf3BAMU2g5Bw2qKK1AZ6XamXtSTjAk52UEbngdcKYWZEPwSIYum7AMIwxpCeT4SNVk3Cf6f6CBqMn58ZijENIgxn14cGFT5FQCMWv89KnzPaRrCp5IO76QoiSMoJHZlRtdLm8YpVXK49APSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-515b43b39fdso2658369e87.1
+        for <linux-sunxi@lists.linux.dev>; Sat, 30 Mar 2024 21:06:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711857975; x=1712462775;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=e3bRxDH+wQoPJin/nfB62E2/Uu/KG61lMcFAauOvRdw=;
+        b=XBZw0/tCCGZw8yd6ZwMdCpkoGThXoI7zLeqdBcTdw84VmVsZ1sWRNq5+IaCxlhwKi0
+         qSn0d8f/4SR/Jq8klzdmc0AsxgmW3eT3tqIzSHi+V1aKdsKT8nTKsL8WuXrCHAEjmwWQ
+         HAZ+jTFjirfFBIYuJupwcfYmZgniJGTjxfLPgBpkmObkWMu/DZMcQuVZQtZhDKMMybz2
+         NkGVk7Dj1E85FY9y5TPIX/RlS+VsiEfLEm5K+glyYN3dn7mHui237eS9pQRrOu8c54+G
+         VzmQkG/l5krtn9UU6f13IuZOrgDgztM6Sy/tDpsSw355y46pLRE+kCLjtxSkbhRM5sIs
+         bTKw==
+X-Forwarded-Encrypted: i=1; AJvYcCVM28kRP39xBrQGji3etwFZnLjMxpv8SkuZ6IMZ7BMoI8rztuRN3YQ0V7jZp8xnCsfJOoOfFq7sUxGcBCYW7FbrkREqbFVcSKka/FU=
+X-Gm-Message-State: AOJu0YxESAF65Ji1ZBN/o508PnbYRgZ01UeE5o7HjYMeZ/1EnJy1RdFA
+	5sltL34FAagRvRYqHWbXmwOC0pQlMTSDt8JWnOAclwjwllsQqKbPV1HzHmZAdHc=
+X-Google-Smtp-Source: AGHT+IHJVilozBTU3nhej8x8RaxDcsZB43iP0kmOWC3/qf+Vtf7YkZKi7fz193ju8kONx5Ws4KcsQw==
+X-Received: by 2002:a05:6512:604:b0:513:9741:1cfc with SMTP id b4-20020a056512060400b0051397411cfcmr2239701lfe.18.1711857974880;
+        Sat, 30 Mar 2024 21:06:14 -0700 (PDT)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com. [209.85.208.175])
+        by smtp.gmail.com with ESMTPSA id u9-20020ac24c29000000b005169ee7cbadsm306208lfq.303.2024.03.30.21.06.13
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 30 Mar 2024 21:06:14 -0700 (PDT)
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2d4515ec3aaso25192411fa.1
+        for <linux-sunxi@lists.linux.dev>; Sat, 30 Mar 2024 21:06:13 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU90MIAlwN/VOz3yL1gCnh53/b16t7h5+8Ba83qZCypY0fwaFx20dZs4U+GafrjGfOJM8WJ3TibaOpB9ZICJ8uAGxNG8dqTGebK/vc=
+X-Received: by 2002:a2e:a167:0:b0:2d6:b801:a85a with SMTP id
+ u7-20020a2ea167000000b002d6b801a85amr2088014ljl.23.1711857973221; Sat, 30 Mar
+ 2024 21:06:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20240330210954.100842-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20240330210954.100842-1-krzysztof.kozlowski@linaro.org>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Sun, 31 Mar 2024 12:05:59 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65vSm5i7qN4t7vsrMA1LpfLWmMBk7tbOXieQNk-egPYYA@mail.gmail.com>
+Message-ID: <CAGb2v65vSm5i7qN4t7vsrMA1LpfLWmMBk7tbOXieQNk-egPYYA@mail.gmail.com>
+Subject: Re: [PATCH] pinctrl: sunxi: sun9i-a80-r: drop driver owner assignment
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, linux-gpio@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, 30 Mar 2024 10:30:05 +0100
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+On Sun, Mar 31, 2024 at 5:10=E2=80=AFAM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> Core in platform_driver_register() already sets the .owner, so driver
+> does not need to.
+>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Hi,
-
-> On 30/03/2024 00:50, Andre Przywara wrote:
-> > The X-Powers AXP717 contains a boost regulator, that it meant to provide
-> > the 5V USB VBUS voltage when the devices operates on battery.
-> > 
-> > Add the name "boost" to the regexp describing the allowed node names,
-> > to allow the regulator to be described in the devicetree.
-> > 
-> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > ---
-> >  Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml b/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml
-> > index b8e8db0d58e9c..14ab367fc8871 100644
-> > --- a/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml
-> > +++ b/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml
-> > @@ -274,7 +274,7 @@ properties:
-> >            Defines the work frequency of DC-DC in kHz.
-> >  
-> >      patternProperties:
-> > -      "^(([a-f])?ldo[0-9]|dcdc[0-7a-e]|ldo(_|-)io(0|1)|(dc1)?sw|rtc(_|-)ldo|cpusldo|drivevbus|dc5ldo)$":
-> > +      "^(([a-f])?ldo[0-9]|dcdc[0-7a-e]|ldo(_|-)io(0|1)|(dc1)?sw|rtc(_|-)ldo|cpusldo|drivevbus|dc5ldo|boost)$":  
-> 
-> That's not an easy to read regex...
-
-TBH regexps are the least of my problems when reading bindings ;-)
-
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Thanks!
-
-> If driver does not depend on _, please consider dropping (_|-).
-
-The drivers (checked both Linux and FreeBSD) do look for a specific
-string, but it's the real old regulators that used ldo_io[01] and
-rtc_ldo, all the "newer" ones use a dash. Since this binding covers all
-of them, we can't drop this from this regexp, but rest assured we only
-go with dashes for new and upcoming devices.
-
-Thanks,
-Andre
+Acked-by: Chen-Yu Tsai <wens@csie.org>
