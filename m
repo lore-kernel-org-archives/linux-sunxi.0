@@ -1,141 +1,136 @@
-Received: from a.mx.secunet.com (a.mx.secunet.com [62.96.220.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24C2C14601B
-	for <linux-sunxi@lists.linux.dev>; Sun, 31 Mar 2024 16:02:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=62.96.220.36
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711900949; cv=fail; b=i/4VkFWCkUNIHC7wKti0R0wLHlxbSPjMdv6ypFhKQP4Yhe3HWzAbvA/GcgAQAKwX7XCJYHetLJol+z/Ibm4bdWAxeV5/Ny117T4zA90Mue1yRr1oNBzgTTx8Nbtbc7An6+hsx/uHqGTUVL6kv/nYO6Px3M/l6v/4xTzI0pHAXw0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711900949; c=relaxed/simple;
-	bh=Sfv61GuqN9EjrEx8j81lakykRn8nhWIo5beb5aUP+Mk=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JqslMueFVjEYzMGoSpG6GWLtwJBQY4xcI0V4W55A0B7aYLc7GR/qZEM9ot3AD02FpW5Id9ZqWOq8X3ZHflRgHDWlE7yAUleh6GBEKTrWR8BlqyT2u0r8hPSw+ybBnrY4ve2jWViqJLpWCBuagx9U+MWK5jwqMHVCV8pJ2hTGYQo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com; spf=fail smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=fail smtp.client-ip=62.96.220.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=arm.com
-Received: from localhost (localhost [127.0.0.1])
-	by a.mx.secunet.com (Postfix) with ESMTP id ADEB8208C4;
-	Sun, 31 Mar 2024 18:02:23 +0200 (CEST)
-X-Virus-Scanned: by secunet
-Received: from a.mx.secunet.com ([127.0.0.1])
-	by localhost (a.mx.secunet.com [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id WNgfyHDDvWW2; Sun, 31 Mar 2024 18:02:22 +0200 (CEST)
-Received: from mailout1.secunet.com (mailout1.secunet.com [62.96.220.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by a.mx.secunet.com (Postfix) with ESMTPS id 9D77D208B7;
-	Sun, 31 Mar 2024 18:02:22 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 a.mx.secunet.com 9D77D208B7
-Received: from cas-essen-01.secunet.de (unknown [10.53.40.201])
-	by mailout1.secunet.com (Postfix) with ESMTP id 903CD800055;
-	Sun, 31 Mar 2024 18:02:22 +0200 (CEST)
-Received: from mbx-essen-01.secunet.de (10.53.40.197) by
- cas-essen-01.secunet.de (10.53.40.201) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Sun, 31 Mar 2024 18:02:22 +0200
-Received: from Pickup by mbx-essen-01.secunet.de with Microsoft SMTP Server id
- 15.1.2507.17; Sun, 31 Mar 2024 15:52:45 +0000
-X-sender: <linux-kernel+bounces-125898-steffen.klassert=secunet.com@vger.kernel.org>
-X-Receiver: <steffen.klassert@secunet.com>
- ORCPT=rfc822;steffen.klassert@secunet.com NOTIFY=NEVER;
- X-ExtendedProps=BQAVABYAAgAAAAUAFAARAPDFCS25BAlDktII2g02frgPADUAAABNaWNyb3NvZnQuRXhjaGFuZ2UuVHJhbnNwb3J0LkRpcmVjdG9yeURhdGEuSXNSZXNvdXJjZQIAAAUAagAJAAEAAAAAAAAABQAWAAIAAAUAQwACAAAFAEYABwADAAAABQBHAAIAAAUAEgAPAGIAAAAvbz1zZWN1bmV0L291PUV4Y2hhbmdlIEFkbWluaXN0cmF0aXZlIEdyb3VwIChGWURJQk9IRjIzU1BETFQpL2NuPVJlY2lwaWVudHMvY249U3RlZmZlbiBLbGFzc2VydDY4YwUACwAXAL4AAACheZxkHSGBRqAcAp3ukbifQ049REI2LENOPURhdGFiYXNlcyxDTj1FeGNoYW5nZSBBZG1pbmlzdHJhdGl2ZSBHcm91cCAoRllESUJPSEYyM1NQRExUKSxDTj1BZG1pbmlzdHJhdGl2ZSBHcm91cHMsQ049c2VjdW5ldCxDTj1NaWNyb3NvZnQgRXhjaGFuZ2UsQ049U2VydmljZXMsQ049Q29uZmlndXJhdGlvbixEQz1zZWN1bmV0LERDPWRlBQAOABEABiAS9uuMOkqzwmEZDvWNNQUAHQAPAAwAAABtYngtZXNzZW4tMDIFADwAAgAADwA2AAAATWljcm9zb2Z0LkV4Y2hhbmdlLlRyYW5zcG9ydC5NYWlsUmVjaXBpZW50LkRpc3BsYXlOYW1lDwARAAAAS2xhc3NlcnQsIFN0ZWZmZW4FAAwAAgAABQBsAAIAAAUAWAAXAEoAAADwxQktuQQJQ5LSCNoNNn64Q049S2xhc3NlcnQgU3RlZmZlbixPVT1Vc2VycyxPVT1NaWdyYXRpb24sREM9c2VjdW5ldCxEQz1kZQUAJgACAAEFACIADwAxAAAAQXV0b1Jlc3BvbnNlU3VwcHJlc3M6IDANClRyYW5zbWl0SGlzdG9ye
-	TogRmFsc2UNCg8ALwAAAE1pY3Jvc29mdC5FeGNoYW5nZS5UcmFuc3BvcnQuRXhwYW5zaW9uR3JvdXBUeXBlDwAVAAAATWVtYmVyc0dyb3VwRXhwYW5zaW9uBQAjAAIAAQ==
-X-CreatedBy: MSExchange15
-X-HeloDomain: a.mx.secunet.com
-X-ExtendedProps: BQBjAAoAhFxrGbMv3AgFAGEACAABAAAABQA3AAIAAA8APAAAAE1pY3Jvc29mdC5FeGNoYW5nZS5UcmFuc3BvcnQuTWFpbFJlY2lwaWVudC5Pcmdhbml6YXRpb25TY29wZREAAAAAAAAAAAAAAAAAAAAAAAUASQACAAEFAAQAFCABAAAAHAAAAHN0ZWZmZW4ua2xhc3NlcnRAc2VjdW5ldC5jb20FAAYAAgABBQApAAIAAQ8ACQAAAENJQXVkaXRlZAIAAQUAAgAHAAEAAAAFAAMABwAAAAAABQAFAAIAAQUAYgAKAE8AAADjigAABQBkAA8AAwAAAEh1Yg==
-X-Source: SMTP:Default MBX-ESSEN-01
-X-SourceIPAddress: 62.96.220.36
-X-EndOfInjectedXHeaders: 14261
-X-Virus-Scanned: by secunet
-Received-SPF: Pass (sender SPF authorized) identity=mailfrom; client-ip=147.75.80.249; helo=am.mirrors.kernel.org; envelope-from=linux-kernel+bounces-125898-steffen.klassert=secunet.com@vger.kernel.org; receiver=steffen.klassert@secunet.com 
-DKIM-Filter: OpenDKIM Filter v2.11.0 a.mx.secunet.com 4E0B02076B
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
-ARC-Seal: i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711834844; cv=none; b=T16REM/JeJLpoXc7ElgL45TTWtiTMgynPrFBf46tlGF8vXCCm43+k5UkrSBfltzvdOj6XZjQGnnl38I8eOJmUER9LEmKMlrOcJ5UtCFoT2G2GqfSJEMd1AQnU2cmd+F/xgql5JQa5/FsWa14+2Xmv9mwG03Jta4Uudu6R246STw=
-ARC-Message-Signature: i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711834844; c=relaxed/simple;
-	bh=Sfv61GuqN9EjrEx8j81lakykRn8nhWIo5beb5aUP+Mk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eWiqO4Ji2EjrulhkN2iHrQdRuXu/yWIUA6mtsi+f+X6Ke/TUpqBVJ58ftB0LVu0Xd1QNYulCWla19cKKMW8iJ+xEhB3K/hdVeD0yV3Bd0Bhs+HPKulDrlxDl5gS5Yztast1Bs9ZVDRIUg8SD/Zahm92liwU2qYbZOMQJltrxgJ0=
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Date: Sat, 30 Mar 2024 21:40:22 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-CC: Chen-Yu Tsai <wens@csie.org>, Lee Jones <lee@kernel.org>, Liam Girdwood
-	<lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring
-	<robh@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-sunxi@lists.linux.dev>, Jernej Skrabec
-	<jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, "Ryan
- Walklin" <ryan@testtoast.com>, Chris Morgan <macroalpha82@gmail.com>
-Subject: Re: [PATCH 2/4] dt-bindings: mfd: x-powers,axp152: add boost
- regulator
-Message-ID: <20240330213331.68a2c145@minigeek.lan>
-In-Reply-To: <0b53cf44-b5ca-4ccc-9912-777b85f1bcbd@linaro.org>
-References: <20240329235033.25309-1-andre.przywara@arm.com>
-	<20240329235033.25309-3-andre.przywara@arm.com>
-	<0b53cf44-b5ca-4ccc-9912-777b85f1bcbd@linaro.org>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
-Precedence: bulk
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 320045FBA1
+	for <linux-sunxi@lists.linux.dev>; Tue,  2 Apr 2024 10:16:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1712052986; cv=none; b=DYvq5wYQdz5Bfx0GtC6vYT7s678qaMG6VOSzQgiorNbhZTrs3e5xFJxBDZ2BrFWhaQQoij2RaFN2txwWrg5psUkREHfFXkFhI+GkCk+ixR8LvBt8t6DL2jnMXmHa01aMFZB/liIv4E1dRkL8a/RG773zK4iX/by8FtZt/EVV/SU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1712052986; c=relaxed/simple;
+	bh=uzac7wtIrnnrBvtOLPs8xaD+ikoHcCxqEerEJoMcBFs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jSgveFIfu9orp9RXXglTwqFeqfCO3WFyHK2guOMwc9VrEf/jkpGY1A8Muiq7ST+QLPLuccUdpVvTaoWWN2Mwg8my+l8qiq+E94vmWH1aszsXeOBxxNYRezoDjtenIIzzh9rXA38G5uNb+Ul6vvdRGs1wJWHDIvf25fiiC/ZWLGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZiiZAHRh; arc=none smtp.client-ip=209.85.219.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZiiZAHRh"
+Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-dcc4de7d901so3942697276.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 02 Apr 2024 03:16:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1712052982; x=1712657782; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=uzac7wtIrnnrBvtOLPs8xaD+ikoHcCxqEerEJoMcBFs=;
+        b=ZiiZAHRhwtcSgxTB/tXxP7iw5yibr8flu2COZgBYM3CWmjlxlmqdzsB3AHcWetOtFy
+         Eu+zYIPGbjl2ulJH+BVje7SE8+M4PTXYHnKaC7SAtF1wEtnYMOwe+/bdFHm758kpMSxM
+         BVlZnKOU8m8/CY0nNgbyXMCx8Rn80sBbWJa5YzqyWeqGJu5NWuK3eVYYOnQ1yLeRaNyC
+         b9cxS+Bn18PVgyv0QM+bP3HdU0gdR9r58C2pcJRTAbn8BoQPb4RIXwFFTC/h2wLN69yH
+         Xm5CiHVyjWEpjfZ5XCsiCW0vHeBtLwuErmG11jm3OjQIEAI8PCJGThmR6hDXidw5+EJV
+         PY8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712052982; x=1712657782;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uzac7wtIrnnrBvtOLPs8xaD+ikoHcCxqEerEJoMcBFs=;
+        b=lLCbOMinZWpBXYZrX9JCyuD81uzA4RAKB4wqOccrtLftAfvQuBTaaD29hHc7JsDvHV
+         Av4Rydyuzso4cDl/mTzTZRy0s3CtM2X3mSAcmLiGFLNJ6S9/wyY8iSCmb1hj4Lg24j/w
+         h/Q94eyjeSCchGb7Jw8i/HPNSRZ8h4pX5Fg+HPhlDW7Xg947UgoRYiMeJLy6LBXKBCo4
+         YQwJ6wtfGRIOCo3Wcg9qgGiOOAwu8y91OefKIS4OVQlTlRneqoP3RvsNr6uqTpTgoFDT
+         MhUvW6Op0fZs1NqlDS3NEFsAYW++jXNQG6aQyMAqQVlX0UsZrPGnue8m6Q3M+Ppd+AYw
+         mVCA==
+X-Forwarded-Encrypted: i=1; AJvYcCUbQiU9hwzstd9xhvZl8qoOobkPvS+vwQ4j4PtE8uzeMJMecOfns6eNGZ+eWTNsp/r1rNWnxUbIWQ0xyWSLzgLzDPU8a/cir1ti9NE=
+X-Gm-Message-State: AOJu0Yxlq/MQZWp0fIyglplYsZsvifNedtV5mA4AV9093xw20trZ92bu
+	F20LDPqLTzLoDm0yGYk+frgFavzQJLzDqQYoBKum30q16VGoq0eeUH1o4cgKBHfxZyaXEY4ZwqX
+	XI3is8CXolsYzS/RNBzDyr2vi+HQ387FbDw49pA==
+X-Google-Smtp-Source: AGHT+IHzjYx5u+Am4EzQhN6aMsFTdxF/7ehGqP9AXe12JTbN0HclFOy9oE6Q1Tva+ZRKMaaQSSepEoCeBcfLH2AuW+A=
+X-Received: by 2002:a25:b191:0:b0:dcd:b034:b504 with SMTP id
+ h17-20020a25b191000000b00dcdb034b504mr9487652ybj.27.1712052982018; Tue, 02
+ Apr 2024 03:16:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: 2c86f778-e09b-4440-8b15-867914633a10
-Message-ID: <20240330214022.GnfiR9WhN48LcFH4bS0zNj9ck_gWwHcc1yLQhoOtblQ@z>
+References: <20240327160314.9982-1-apais@linux.microsoft.com>
+ <20240327160314.9982-10-apais@linux.microsoft.com> <CAPDyKFpuKadPQv6+61C2pE4x4FE-DUC5W6WCCPu9Nb2DnDB56g@mail.gmail.com>
+ <ZgWZDtNU4tCwqyeu@slm.duckdns.org>
+In-Reply-To: <ZgWZDtNU4tCwqyeu@slm.duckdns.org>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Tue, 2 Apr 2024 12:15:45 +0200
+Message-ID: <CAPDyKFp5KET0HR+8MwO4cf0O6W2kyFqHoKcVf5jbgBuLuQUcFA@mail.gmail.com>
+Subject: Re: [PATCH 9/9] mmc: Convert from tasklet to BH workqueue
+To: Tejun Heo <tj@kernel.org>
+Cc: Allen Pais <apais@linux.microsoft.com>, linux-kernel@vger.kernel.org, 
+	keescook@chromium.org, vkoul@kernel.org, marcan@marcan.st, sven@svenpeter.dev, 
+	florian.fainelli@broadcom.com, rjui@broadcom.com, sbranden@broadcom.com, 
+	paul@crapouillou.net, Eugeniy.Paltsev@synopsys.com, 
+	manivannan.sadhasivam@linaro.org, vireshk@kernel.org, Frank.Li@nxp.com, 
+	leoyang.li@nxp.com, zw@zh-kernel.org, wangzhou1@hisilicon.com, 
+	haijie1@huawei.com, shawnguo@kernel.org, s.hauer@pengutronix.de, 
+	sean.wang@mediatek.com, matthias.bgg@gmail.com, 
+	angelogioacchino.delregno@collabora.com, afaerber@suse.de, 
+	logang@deltatee.com, daniel@zonque.org, haojian.zhuang@gmail.com, 
+	robert.jarzmik@free.fr, andersson@kernel.org, konrad.dybcio@linaro.org, 
+	orsonzhai@gmail.com, baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com, 
+	patrice.chotard@foss.st.com, linus.walleij@linaro.org, wens@csie.org, 
+	jernej.skrabec@gmail.com, peter.ujfalusi@gmail.com, kys@microsoft.com, 
+	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com, 
+	jassisinghbrar@gmail.com, mchehab@kernel.org, maintainers@bluecherrydvr.com, 
+	aubin.constans@microchip.com, manuel.lauss@gmail.com, mirq-linux@rere.qmqm.pl, 
+	jh80.chung@samsung.com, oakad@yahoo.com, hayashi.kunihiko@socionext.com, 
+	mhiramat@kernel.org, brucechang@via.com.tw, HaraldWelte@viatech.com, 
+	pierre@ossman.eu, duncan.sands@free.fr, stern@rowland.harvard.edu, 
+	oneukum@suse.com, openipmi-developer@lists.sourceforge.net, 
+	dmaengine@vger.kernel.org, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, 
+	linux-mips@vger.kernel.org, imx@lists.linux.dev, 
+	linuxppc-dev@lists.ozlabs.org, linux-mediatek@lists.infradead.org, 
+	linux-actions@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, linux-hyperv@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-mmc@vger.kernel.org, linux-omap@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-s390@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Sat, 30 Mar 2024 10:30:05 +0100
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+On Thu, 28 Mar 2024 at 17:21, Tejun Heo <tj@kernel.org> wrote:
+>
+> Hello,
+>
+> On Thu, Mar 28, 2024 at 01:53:25PM +0100, Ulf Hansson wrote:
+> > At this point we have suggested to drivers to switch to use threaded
+> > irq handlers (and regular work queues if needed too). That said,
+> > what's the benefit of using the BH work queue?
+>
+> BH workqueues should behave about the same as tasklets which have more
+> limited interface and is subtly broken in an expensive-to-fix way (around
+> freeing in-flight work item), so the plan is to replace tasklets with BH
+> workqueues and remove tasklets from the kernel.
 
-Hi,
+Seems like a good approach!
 
-> On 30/03/2024 00:50, Andre Przywara wrote:
-> > The X-Powers AXP717 contains a boost regulator, that it meant to provide
-> > the 5V USB VBUS voltage when the devices operates on battery.
-> > 
-> > Add the name "boost" to the regexp describing the allowed node names,
-> > to allow the regulator to be described in the devicetree.
-> > 
-> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > ---
-> >  Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml b/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml
-> > index b8e8db0d58e9c..14ab367fc8871 100644
-> > --- a/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml
-> > +++ b/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml
-> > @@ -274,7 +274,7 @@ properties:
-> >            Defines the work frequency of DC-DC in kHz.
-> >  
-> >      patternProperties:
-> > -      "^(([a-f])?ldo[0-9]|dcdc[0-7a-e]|ldo(_|-)io(0|1)|(dc1)?sw|rtc(_|-)ldo|cpusldo|drivevbus|dc5ldo)$":
-> > +      "^(([a-f])?ldo[0-9]|dcdc[0-7a-e]|ldo(_|-)io(0|1)|(dc1)?sw|rtc(_|-)ldo|cpusldo|drivevbus|dc5ldo|boost)$":  
-> 
-> That's not an easy to read regex...
+>
+> The [dis]advantages of BH workqueues over threaded IRQs or regular threaded
+> workqueues are the same as when you compare them to tasklets. No thread
+> switching overhead, so latencies will be a bit tighter. Wheteher that
+> actually matters really depends on the use case. Here, the biggest advantage
+> is that it's mostly interchangeable with tasklets and can thus be swapped
+> easily.
 
-TBH regexps are the least of my problems when reading bindings ;-)
+Right, thanks for clarifying!
 
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+However, the main question is then - if/when it makes sense to use the
+BH workqueue for an mmc host driver. Unless there are some HW
+limitations, a threaded irq handler should be sufficient, I think.
 
-Thanks!
+That said, moving to threaded irq handlers is a different topic and
+doesn't prevent us from moving to BH workqueues as it seems like a
+step in the right direction.
 
-> If driver does not depend on _, please consider dropping (_|-).
-
-The drivers (checked both Linux and FreeBSD) do look for a specific
-string, but it's the real old regulators that used ldo_io[01] and
-rtc_ldo, all the "newer" ones use a dash. Since this binding covers all
-of them, we can't drop this from this regexp, but rest assured we only
-go with dashes for new and upcoming devices.
-
-Thanks,
-Andre
-
+Kind regards
+Uffe
