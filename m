@@ -1,71 +1,70 @@
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 320045FBA1
-	for <linux-sunxi@lists.linux.dev>; Tue,  2 Apr 2024 10:16:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54B4177F0B
+	for <linux-sunxi@lists.linux.dev>; Tue,  2 Apr 2024 12:25:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712052986; cv=none; b=DYvq5wYQdz5Bfx0GtC6vYT7s678qaMG6VOSzQgiorNbhZTrs3e5xFJxBDZ2BrFWhaQQoij2RaFN2txwWrg5psUkREHfFXkFhI+GkCk+ixR8LvBt8t6DL2jnMXmHa01aMFZB/liIv4E1dRkL8a/RG773zK4iX/by8FtZt/EVV/SU=
+	t=1712060732; cv=none; b=Y7pnBfVH9Uvry3t0i/Kp+dBMZNtlrBbHyDgLlD9KKW1Fw6MABrrt8R1grhvIrOs8/xzqF+TIbfy2TDiLgoWVyoHkJUpVjVx90BAmSQillrTA4cdfeU00jB346/TJjSlgj0FykLh4n3k9Ys8QZs2JhcJHem6D0AjfU8BVsNR/NJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712052986; c=relaxed/simple;
-	bh=uzac7wtIrnnrBvtOLPs8xaD+ikoHcCxqEerEJoMcBFs=;
+	s=arc-20240116; t=1712060732; c=relaxed/simple;
+	bh=p/UeUz6BQzzlTj362U5Q+0hUyUg483V1OKi+HLKX4OI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jSgveFIfu9orp9RXXglTwqFeqfCO3WFyHK2guOMwc9VrEf/jkpGY1A8Muiq7ST+QLPLuccUdpVvTaoWWN2Mwg8my+l8qiq+E94vmWH1aszsXeOBxxNYRezoDjtenIIzzh9rXA38G5uNb+Ul6vvdRGs1wJWHDIvf25fiiC/ZWLGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZiiZAHRh; arc=none smtp.client-ip=209.85.219.170
+	 To:Cc:Content-Type; b=c++p0VwvXgphpFfmR05l5aDK2IYOADfZVkc7+4u4hzqhmV/z5ZgWaze9D5ROgPxAyIKu3TJMl9rD/vjj1hJLhy5ZUY19C78V+bHvm3JA+wVWaRVGdUYN3iHQ4DQsu+WQBO/nKaf521Jd6HTQBpEd/Ustgg44L0cAvuZQSClP+sA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wD/D2Sp+; arc=none smtp.client-ip=209.85.128.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZiiZAHRh"
-Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-dcc4de7d901so3942697276.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 02 Apr 2024 03:16:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wD/D2Sp+"
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-615019cd427so11780887b3.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 02 Apr 2024 05:25:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712052982; x=1712657782; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=uzac7wtIrnnrBvtOLPs8xaD+ikoHcCxqEerEJoMcBFs=;
-        b=ZiiZAHRhwtcSgxTB/tXxP7iw5yibr8flu2COZgBYM3CWmjlxlmqdzsB3AHcWetOtFy
-         Eu+zYIPGbjl2ulJH+BVje7SE8+M4PTXYHnKaC7SAtF1wEtnYMOwe+/bdFHm758kpMSxM
-         BVlZnKOU8m8/CY0nNgbyXMCx8Rn80sBbWJa5YzqyWeqGJu5NWuK3eVYYOnQ1yLeRaNyC
-         b9cxS+Bn18PVgyv0QM+bP3HdU0gdR9r58C2pcJRTAbn8BoQPb4RIXwFFTC/h2wLN69yH
-         Xm5CiHVyjWEpjfZ5XCsiCW0vHeBtLwuErmG11jm3OjQIEAI8PCJGThmR6hDXidw5+EJV
-         PY8A==
+        d=linaro.org; s=google; t=1712060727; x=1712665527; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XYDEIQksW8zQ45WbeyUEVn5ldQ4luRyFOVVyheFSkHo=;
+        b=wD/D2Sp+g1TCnJS6lE0DEwMQfiCYNTpfpZdHSinpq364J51zeEJVqXARatwrQ9Dzre
+         e4rpdLrC/EBJUGyMc3sqviFZVddS/fzvk0WWEF6XvZaT3tMrIY7sizjb7QFQ3ReeeYu0
+         hpGVaQfh146uh06Vx+NdvWLvUzK6OMMRgHmO3OEjemmNtChjCsGzKHeqSdhc+SUyhA/E
+         hQ7IF/2BsWDJ+eSYy9GuA5c4edubvWMox3W6btKaRmUjn4lud5/jdz6IwcZWTbD8wE/X
+         Pz8OYxkeGp3MEmzclT+pwaL2k/dwPGXFVGJgvAG8XUrmgN+wy5GU5Qw98xPVsmF24kfp
+         oaqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712052982; x=1712657782;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uzac7wtIrnnrBvtOLPs8xaD+ikoHcCxqEerEJoMcBFs=;
-        b=lLCbOMinZWpBXYZrX9JCyuD81uzA4RAKB4wqOccrtLftAfvQuBTaaD29hHc7JsDvHV
-         Av4Rydyuzso4cDl/mTzTZRy0s3CtM2X3mSAcmLiGFLNJ6S9/wyY8iSCmb1hj4Lg24j/w
-         h/Q94eyjeSCchGb7Jw8i/HPNSRZ8h4pX5Fg+HPhlDW7Xg947UgoRYiMeJLy6LBXKBCo4
-         YQwJ6wtfGRIOCo3Wcg9qgGiOOAwu8y91OefKIS4OVQlTlRneqoP3RvsNr6uqTpTgoFDT
-         MhUvW6Op0fZs1NqlDS3NEFsAYW++jXNQG6aQyMAqQVlX0UsZrPGnue8m6Q3M+Ppd+AYw
-         mVCA==
-X-Forwarded-Encrypted: i=1; AJvYcCUbQiU9hwzstd9xhvZl8qoOobkPvS+vwQ4j4PtE8uzeMJMecOfns6eNGZ+eWTNsp/r1rNWnxUbIWQ0xyWSLzgLzDPU8a/cir1ti9NE=
-X-Gm-Message-State: AOJu0Yxlq/MQZWp0fIyglplYsZsvifNedtV5mA4AV9093xw20trZ92bu
-	F20LDPqLTzLoDm0yGYk+frgFavzQJLzDqQYoBKum30q16VGoq0eeUH1o4cgKBHfxZyaXEY4ZwqX
-	XI3is8CXolsYzS/RNBzDyr2vi+HQ387FbDw49pA==
-X-Google-Smtp-Source: AGHT+IHzjYx5u+Am4EzQhN6aMsFTdxF/7ehGqP9AXe12JTbN0HclFOy9oE6Q1Tva+ZRKMaaQSSepEoCeBcfLH2AuW+A=
-X-Received: by 2002:a25:b191:0:b0:dcd:b034:b504 with SMTP id
- h17-20020a25b191000000b00dcdb034b504mr9487652ybj.27.1712052982018; Tue, 02
- Apr 2024 03:16:22 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1712060727; x=1712665527;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XYDEIQksW8zQ45WbeyUEVn5ldQ4luRyFOVVyheFSkHo=;
+        b=YMrgKM7UxlbW0snhn77wmuWLCgq9r00QP6Kfvs/hD0r7nQI2fVwbLd/Zgm4dzK71nL
+         pJPSqB6l9nKhUENtULT6KjxhfWzlr+G0aIaW3RdLnK5jgGNh5+0no/Gfhdt04UvCOk7j
+         sIG9VofSK31U9bIWp7sI6WQNGUzvAtLNaPuXPDN3HzgQNoUzQhQ7mHvytfQTUckJUWvE
+         bi6mXshd4mBCnIxbJb2RvmyGH2/kYzhsDOydb8fj2YIrlEkgl8wYsPvLyVVYkda5rPLx
+         f4uOabXDdsK6Y/k+1E3nNE/MDHRbHGGr0Un29hiR7/6k4RNSfQy+9hqn3bNCnczdCL8k
+         Ga2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCV0lEuIVUdkN/CY+EA5p6JePt1RL34Fvri7fCImkrmOujxvwRCJ6JjVSOX8pMbv9zk7lfQRksGnrpGaAj2MQ3SNVXK/SupSM7KWuRs=
+X-Gm-Message-State: AOJu0YwA9W9aAloSUBfS98hc3Pu15JI8U2fR2yl1+aHtNttyQRvYs/0o
+	0mbhCU49Sqy/dMYlkT3uww/1KIicrR1HLv9yweYJdZC+R3Tq26x9bRgoMzymrRJ9qUw3IBqs5sc
+	b9St+kIT9PTELhbBlol7mXrpgk2TaT/HyTNUkUA==
+X-Google-Smtp-Source: AGHT+IFUrSspS0uEXi4Mtdf0lWq2f6Bt6/664idaePnQ5n7gs/Aofr4lkRbBJPYECBaOux5ZgxpPBc0T/C/GsKmHDRA=
+X-Received: by 2002:a5b:104:0:b0:dcc:ec02:38b0 with SMTP id
+ 4-20020a5b0104000000b00dccec0238b0mr8733778ybx.64.1712060727251; Tue, 02 Apr
+ 2024 05:25:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240327160314.9982-1-apais@linux.microsoft.com>
- <20240327160314.9982-10-apais@linux.microsoft.com> <CAPDyKFpuKadPQv6+61C2pE4x4FE-DUC5W6WCCPu9Nb2DnDB56g@mail.gmail.com>
- <ZgWZDtNU4tCwqyeu@slm.duckdns.org>
-In-Reply-To: <ZgWZDtNU4tCwqyeu@slm.duckdns.org>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Tue, 2 Apr 2024 12:15:45 +0200
-Message-ID: <CAPDyKFp5KET0HR+8MwO4cf0O6W2kyFqHoKcVf5jbgBuLuQUcFA@mail.gmail.com>
-Subject: Re: [PATCH 9/9] mmc: Convert from tasklet to BH workqueue
-To: Tejun Heo <tj@kernel.org>
-Cc: Allen Pais <apais@linux.microsoft.com>, linux-kernel@vger.kernel.org, 
-	keescook@chromium.org, vkoul@kernel.org, marcan@marcan.st, sven@svenpeter.dev, 
+References: <20240327160314.9982-1-apais@linux.microsoft.com> <20240327160314.9982-3-apais@linux.microsoft.com>
+In-Reply-To: <20240327160314.9982-3-apais@linux.microsoft.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 2 Apr 2024 14:25:15 +0200
+Message-ID: <CACRpkdaSBGe0EFm1gK-7qPK4e6T2H1dxFXjhJqO2hWCm1-bNdA@mail.gmail.com>
+Subject: Re: [PATCH 2/9] dma: Convert from tasklet to BH workqueue
+To: Allen Pais <apais@linux.microsoft.com>
+Cc: linux-kernel@vger.kernel.org, tj@kernel.org, keescook@chromium.org, 
+	vkoul@kernel.org, marcan@marcan.st, sven@svenpeter.dev, 
 	florian.fainelli@broadcom.com, rjui@broadcom.com, sbranden@broadcom.com, 
 	paul@crapouillou.net, Eugeniy.Paltsev@synopsys.com, 
 	manivannan.sadhasivam@linaro.org, vireshk@kernel.org, Frank.Li@nxp.com, 
@@ -76,61 +75,61 @@ Cc: Allen Pais <apais@linux.microsoft.com>, linux-kernel@vger.kernel.org,
 	logang@deltatee.com, daniel@zonque.org, haojian.zhuang@gmail.com, 
 	robert.jarzmik@free.fr, andersson@kernel.org, konrad.dybcio@linaro.org, 
 	orsonzhai@gmail.com, baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com, 
-	patrice.chotard@foss.st.com, linus.walleij@linaro.org, wens@csie.org, 
-	jernej.skrabec@gmail.com, peter.ujfalusi@gmail.com, kys@microsoft.com, 
-	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com, 
-	jassisinghbrar@gmail.com, mchehab@kernel.org, maintainers@bluecherrydvr.com, 
-	aubin.constans@microchip.com, manuel.lauss@gmail.com, mirq-linux@rere.qmqm.pl, 
-	jh80.chung@samsung.com, oakad@yahoo.com, hayashi.kunihiko@socionext.com, 
-	mhiramat@kernel.org, brucechang@via.com.tw, HaraldWelte@viatech.com, 
-	pierre@ossman.eu, duncan.sands@free.fr, stern@rowland.harvard.edu, 
-	oneukum@suse.com, openipmi-developer@lists.sourceforge.net, 
-	dmaengine@vger.kernel.org, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, 
-	linux-mips@vger.kernel.org, imx@lists.linux.dev, 
-	linuxppc-dev@lists.ozlabs.org, linux-mediatek@lists.infradead.org, 
-	linux-actions@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, linux-hyperv@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-mmc@vger.kernel.org, linux-omap@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-s390@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-usb@vger.kernel.org
+	patrice.chotard@foss.st.com, wens@csie.org, jernej.skrabec@gmail.com, 
+	peter.ujfalusi@gmail.com, kys@microsoft.com, haiyangz@microsoft.com, 
+	wei.liu@kernel.org, decui@microsoft.com, jassisinghbrar@gmail.com, 
+	mchehab@kernel.org, maintainers@bluecherrydvr.com, 
+	aubin.constans@microchip.com, ulf.hansson@linaro.org, manuel.lauss@gmail.com, 
+	mirq-linux@rere.qmqm.pl, jh80.chung@samsung.com, oakad@yahoo.com, 
+	hayashi.kunihiko@socionext.com, mhiramat@kernel.org, brucechang@via.com.tw, 
+	HaraldWelte@viatech.com, pierre@ossman.eu, duncan.sands@free.fr, 
+	stern@rowland.harvard.edu, oneukum@suse.com, 
+	openipmi-developer@lists.sourceforge.net, dmaengine@vger.kernel.org, 
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org, 
+	imx@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	linux-mediatek@lists.infradead.org, linux-actions@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	linux-hyperv@vger.kernel.org, linux-rdma@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-mmc@vger.kernel.org, 
+	linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-s390@vger.kernel.org, netdev@vger.kernel.org, linux-usb@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 28 Mar 2024 at 17:21, Tejun Heo <tj@kernel.org> wrote:
+Hi Allen,
+
+thanks for your patch!
+
+On Wed, Mar 27, 2024 at 5:03=E2=80=AFPM Allen Pais <apais@linux.microsoft.c=
+om> wrote:
+
+> The only generic interface to execute asynchronously in the BH context is
+> tasklet; however, it's marked deprecated and has some design flaws. To
+> replace tasklets, BH workqueue support was recently added. A BH workqueue
+> behaves similarly to regular workqueues except that the queued work items
+> are executed in the BH context.
 >
-> Hello,
+> This patch converts drivers/dma/* from tasklet to BH workqueue.
 >
-> On Thu, Mar 28, 2024 at 01:53:25PM +0100, Ulf Hansson wrote:
-> > At this point we have suggested to drivers to switch to use threaded
-> > irq handlers (and regular work queues if needed too). That said,
-> > what's the benefit of using the BH work queue?
+> Based on the work done by Tejun Heo <tj@kernel.org>
+> Branch: git://git.kernel.org/pub/scm/linux/kernel/git/tj/wq.git for-6.10
 >
-> BH workqueues should behave about the same as tasklets which have more
-> limited interface and is subtly broken in an expensive-to-fix way (around
-> freeing in-flight work item), so the plan is to replace tasklets with BH
-> workqueues and remove tasklets from the kernel.
+> Signed-off-by: Allen Pais <allen.lkml@gmail.com>
+(...)
+> diff --git a/drivers/dma/ste_dma40.c b/drivers/dma/ste_dma40.c
+(...)
+>         if (d40c->pending_tx)
+> -               tasklet_schedule(&d40c->tasklet);
+> +               queue_work(system_bh_wq, &d40c->work);
 
-Seems like a good approach!
+Why is "my" driver not allowed to use system_bh_highpri_wq?
 
->
-> The [dis]advantages of BH workqueues over threaded IRQs or regular threaded
-> workqueues are the same as when you compare them to tasklets. No thread
-> switching overhead, so latencies will be a bit tighter. Wheteher that
-> actually matters really depends on the use case. Here, the biggest advantage
-> is that it's mostly interchangeable with tasklets and can thus be swapped
-> easily.
+I can't see the reasoning between some drivers using system_bh_wq
+and others being highpri?
 
-Right, thanks for clarifying!
+Given the DMA usecase I would expect them all to be high prio.
 
-However, the main question is then - if/when it makes sense to use the
-BH workqueue for an mmc host driver. Unless there are some HW
-limitations, a threaded irq handler should be sufficient, I think.
-
-That said, moving to threaded irq handlers is a different topic and
-doesn't prevent us from moving to BH workqueues as it seems like a
-step in the right direction.
-
-Kind regards
-Uffe
+Yours,
+Linus Walleij
