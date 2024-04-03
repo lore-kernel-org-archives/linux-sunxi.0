@@ -1,151 +1,130 @@
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F58B149E14
-	for <linux-sunxi@lists.linux.dev>; Wed,  3 Apr 2024 15:32:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B83E91E520;
+	Wed,  3 Apr 2024 16:44:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712158328; cv=none; b=o0BLjLJnD7r7qDqE3ROBC47LEP8fQRkjrrvvg3PzAr2hI05otAUqjDYkOF0nmhFK0ME1qMn0Yqd08ZSoju5LpUTUuLZ08p7vxO5B1rRM06gtIEZbBul1/ZfmbLPMrqhTgIepqprQ2q05mk6lj22MpYJ6gC0doR9pWTeQgQFS2Lc=
+	t=1712162654; cv=none; b=QmThfB2uG0DjDE/oD78W99O25/ADBN99gJ4GWZA7LIZ3B1CO1yTVfZ5ECgpRSGGXOAWldz11Dkop+eY0xFFwRiTjBZesftEsgmVSBKTjLCACuug1GvdNOv0Gu6B/tQyZrPVpXo0Nnys8riSOshTc0sdk6CJ0QqbqPsW6ESwbEl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712158328; c=relaxed/simple;
-	bh=yWSydggSbm1G+VEOEgMaeofH6CeF1v5JS+YuRRk5dZ4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=S+DHIn73M7UzEpdR2kElHRkEBDXPvFV7hF2gu43H/kylIR+1qCsrvfGh6Ln9XhL+QtF65FEtd4/q5ia0a77mm6ed9z3AbMwEsF/cH32ycoe1kn0OXf1JwOhz/N6AJEPpYAWqlVlpLg28gvNKwjeOmO9ClVcf12zIfC7fgoJ6FJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev; spf=pass smtp.mailfrom=oltmanns.dev; dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b=Zj3aw+bf; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oltmanns.dev
+	s=arc-20240116; t=1712162654; c=relaxed/simple;
+	bh=M1neYOlhzngATdBbVyJaKe7fkRAK//9DrStR8GOcQu4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HZT2XFqARwF4Z+85DrgQGT9BNu/Qrhxwgl8kP7Kvm8wgPlOlU/6YaxP4O4hledGA1mkNbcaArPbCmwBNh874p01oMZ7M+zmfhwIFzX9WxPwNE6IJi2Zzcv3q9EeX9nmUg35ytnMDbJMJvOYA0YtYAitbeCsfo+gmgvjcjnhaH6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RgmwMsXH; arc=none smtp.client-ip=209.85.221.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b="Zj3aw+bf"
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4V8pdX4LwNz9t5n;
-	Wed,  3 Apr 2024 17:32:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1712158320;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=n2n+ZKpSrp4swBYXFDHQkoo9IbN9JMu4th1fbKoqZBc=;
-	b=Zj3aw+bfzHPcedx2v+nnf9eMoegQ03ywBf22sAYq1igWjyjxfWspgpEdXP+toRFDfjWILC
-	31YpGl3BaR7xvYNvRNHU+XG6npSj3PWOz1grAoSDd8y/V7hyMjH6hkiZmJCN8Yfv0HlyB8
-	OfyGMlJZ3IIx2SDx8StMvAPWOFwO3/YHN8RMPf38YqlOh90PpyydehqkyAzWHuyxEJaw0A
-	6hU4M7i8WtArjTGGwQlrZ45LqrogdpVKoRMsHLCCtCEn8elKxvrYVGOSLnTuCDRDz1sdHN
-	J41aLXX41KWhJwVppvieT755HFxfVJR6LCB3CwQebhH8TNSqGUU180kEN4PNgA==
-From: Frank Oltmanns <frank@oltmanns.dev>
-To: Michael Turquette <mturquette@baylibre.com>,  Stephen Boyd
- <sboyd@kernel.org>,  Chen-Yu Tsai <wens@csie.org>,  Jernej Skrabec
- <jernej.skrabec@gmail.com>,  Samuel Holland <samuel@sholland.org>,  Maxime
- Ripard <mripard@kernel.org>
-Cc: Guido =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>,  Purism Kernel Team
- <kernel@puri.sm>,
-  Ondrej Jirman <megi@xff.cz>,  Neil Armstrong <neil.armstrong@linaro.org>,
-  Jessica Zhang <quic_jesszhan@quicinc.com>,  Sam Ravnborg
- <sam@ravnborg.org>,  Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>,  Thomas Zimmermann
- <tzimmermann@suse.de>,  David Airlie <airlied@gmail.com>,  Daniel Vetter
- <daniel@ffwll.ch>,  Rob Herring <robh+dt@kernel.org>,  Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>,  Conor Dooley <conor+dt@kernel.org>,
-  linux-clk@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
-  linux-sunxi@lists.linux.dev,  linux-kernel@vger.kernel.org,
-  dri-devel@lists.freedesktop.org,  devicetree@vger.kernel.org,
-  stable@vger.kernel.org,  Diego Roversi <diegor@tiscali.it>,  Erico Nunes
- <nunes.erico@gmail.com>
-Subject: Re: [PATCH v4 0/5] Pinephone video out fixes (flipping between two
- frames)
-In-Reply-To: <20240310-pinephone-pll-fixes-v4-0-46fc80c83637@oltmanns.dev>
-	(Frank Oltmanns's message of "Sun, 10 Mar 2024 14:21:10 +0100")
-References: <20240310-pinephone-pll-fixes-v4-0-46fc80c83637@oltmanns.dev>
-Date: Wed, 03 Apr 2024 17:31:47 +0200
-Message-ID: <87frw2a2e4.fsf@oltmanns.dev>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RgmwMsXH"
+Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-4d8e8619f4aso9301e0c.0;
+        Wed, 03 Apr 2024 09:44:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1712162651; x=1712767451; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Aej6QFoETxeFvbQm8/sOYYAdEcWAnghw/7Ynm8n0ucQ=;
+        b=RgmwMsXHbjzKaDOljdtc6tb+kslE/qRlIaIsIrbaKnpCQCLpYYTGxsJmmtHCUNEBSf
+         HGI82OwR+Ws5ZxSkAzRPRDG6gW4ac0QHJgCaGo2fTS+DoZW4hdvz6r48cv13JGCUduIX
+         6DlD6SIgyJocfkqXv/VNj4UfvujKb2vPSaWwWRAPRMUoezUyINhfRifGfPxPITG98C/8
+         oepZ1smESLXetRfQ1EKueSr68RrDOoJdHsbaaKSPFTu4K81MlwkRaQa2kP/MuVYjtyNw
+         LEpQMg89y4ruQYHe1dgd9p0n9xN/VuzAChxs0W0rlcwqtVeDgebjvsr+iidy7QWSOTGV
+         z2UQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712162651; x=1712767451;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Aej6QFoETxeFvbQm8/sOYYAdEcWAnghw/7Ynm8n0ucQ=;
+        b=ljflk8Fno0C/nQUhP5DIZPTxs1rZzpI3v1rUp0XZU5eAvtdeP6n5DBZE9BfClNjo8W
+         b8fFEZw5iMKkCQXkR0+aSLE53kzSnysc+cAG674vb7EfAUHuEp/sRY9beFh5uY6vUZyV
+         7NFPgeZfUKBFxX+k8dw32rvPFZFblmhH1dArmBeDUvr0Jvyt5fvoIKJqLH7p49qtnGK0
+         lupKVnFd6P7oUnW/7zi9OjjJ44557v81TkBMeIX4Jgj/nFqWxtBrs6ZlGZgLWikZGwfv
+         YSX2I7SWon+yBUJMCvHLGsQcGr/NADc1BOuPXSJLSBHYCCcma8HDjqRYI9DN8iUJc64L
+         9w+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCX5NN7ajmEKKgmvtvFkxMzVSn3QdLCElTUGD+X784Ry9AYrliGmRYlSeukTTW7IZr2yRs42TCfiltwJqazfHz7zay/gt9MQDCWux8NAIOZZU4KwYklnUaMIlX5aQo1DV55sQgi2f5MHcFq7j+lUKy9srOcZih1F2Q==
+X-Gm-Message-State: AOJu0YxvNIQx6yqoymQCto4zR+qrcThB/YlastJcg34Dn8zw27AKm/gJ
+	xjqNAw3vB1r/jAUlEHQD+amDPBJsQRXvMDqwMOCpGKw84N50eQSzjuaw0nziVAZ37EbdjdNqgEX
+	t/ykQan9V05dI8JScUPJFpkkjI/Q=
+X-Google-Smtp-Source: AGHT+IFEFFEcpcdQfCxRWJYlDuuUETZ0sWBciDlGUMCvLnJmEBIY1oP87nAaJSL5QQDatxb4oTnFcly4MrzzQ8OrF5o=
+X-Received: by 2002:a05:6122:499a:b0:4d3:b326:5ae8 with SMTP id
+ ex26-20020a056122499a00b004d3b3265ae8mr10815788vkb.14.1712162651582; Wed, 03
+ Apr 2024 09:44:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Rspamd-Queue-Id: 4V8pdX4LwNz9t5n
+References: <20240327160314.9982-1-apais@linux.microsoft.com> <20240327160314.9982-2-apais@linux.microsoft.com>
+In-Reply-To: <20240327160314.9982-2-apais@linux.microsoft.com>
+From: Allen <allen.lkml@gmail.com>
+Date: Wed, 3 Apr 2024 09:43:57 -0700
+Message-ID: <CAOMdWSLavg27YZgnfE2QHjO=4RNmFx_7veAURaPG_=qWX=KMVA@mail.gmail.com>
+Subject: Re: [PATCH 1/9] hyperv: Convert from tasklet to BH workqueue
+To: Allen Pais <apais@linux.microsoft.com>
+Cc: linux-kernel@vger.kernel.org, tj@kernel.org, keescook@chromium.org, 
+	vkoul@kernel.org, marcan@marcan.st, sven@svenpeter.dev, 
+	florian.fainelli@broadcom.com, rjui@broadcom.com, sbranden@broadcom.com, 
+	paul@crapouillou.net, Eugeniy.Paltsev@synopsys.com, 
+	manivannan.sadhasivam@linaro.org, vireshk@kernel.org, Frank.Li@nxp.com, 
+	leoyang.li@nxp.com, zw@zh-kernel.org, wangzhou1@hisilicon.com, 
+	haijie1@huawei.com, shawnguo@kernel.org, s.hauer@pengutronix.de, 
+	sean.wang@mediatek.com, matthias.bgg@gmail.com, 
+	angelogioacchino.delregno@collabora.com, afaerber@suse.de, 
+	logang@deltatee.com, daniel@zonque.org, haojian.zhuang@gmail.com, 
+	robert.jarzmik@free.fr, andersson@kernel.org, konrad.dybcio@linaro.org, 
+	orsonzhai@gmail.com, baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com, 
+	patrice.chotard@foss.st.com, linus.walleij@linaro.org, wens@csie.org, 
+	jernej.skrabec@gmail.com, peter.ujfalusi@gmail.com, kys@microsoft.com, 
+	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com, 
+	jassisinghbrar@gmail.com, mchehab@kernel.org, maintainers@bluecherrydvr.com, 
+	aubin.constans@microchip.com, ulf.hansson@linaro.org, manuel.lauss@gmail.com, 
+	mirq-linux@rere.qmqm.pl, jh80.chung@samsung.com, oakad@yahoo.com, 
+	hayashi.kunihiko@socionext.com, mhiramat@kernel.org, brucechang@via.com.tw, 
+	HaraldWelte@viatech.com, pierre@ossman.eu, duncan.sands@free.fr, 
+	stern@rowland.harvard.edu, oneukum@suse.com, 
+	openipmi-developer@lists.sourceforge.net, dmaengine@vger.kernel.org, 
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org, 
+	imx@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	linux-mediatek@lists.infradead.org, linux-actions@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	linux-hyperv@vger.kernel.org, linux-rdma@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-mmc@vger.kernel.org, 
+	linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-s390@vger.kernel.org, netdev@vger.kernel.org, linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Dear clk and sunxi-ng maintainers,
-
-Patches 1-4 have been reviewed and there are no pending issues. If there
-is something else you need me to do to get this applied, please let me
-know.
-
-Thanks,
-  Frank
-
-On 2024-03-10 at 14:21:10 +0100, Frank Oltmanns <frank@oltmanns.dev> wrote:
-> On some pinephones the video output sometimes freezes (flips between two
-> frames) [1]. It seems to be that the reason for this behaviour is that
-> PLL-MIPI is outside its limits, and the GPU is not running at a fixed
-> rate.
+> The only generic interface to execute asynchronously in the BH context is
+> tasklet; however, it's marked deprecated and has some design flaws. To
+> replace tasklets, BH workqueue support was recently added. A BH workqueue
+> behaves similarly to regular workqueues except that the queued work items
+> are executed in the BH context.
 >
-> In this patch series I propose the following changes:
->   1. sunxi-ng: Adhere to the following constraints given in the
->      Allwinner A64 Manual regarding PLL-MIPI:
->       * M/N <= 3
->       * (PLL_VIDEO0)/M >= 24MHz
->       * 500MHz <= clockrate <= 1400MHz
+> This patch converts drivers/hv/* from tasklet to BH workqueue.
 >
->   2. Remove two operating points from the A64 DTS OPPs, so that the GPU
->      runs at a fixed rate of 432 MHz.
+> Based on the work done by Tejun Heo <tj@kernel.org>
+> Branch: https://git.kernel.org/pub/scm/linux/kernel/git/tj/wq.git for-6.10
 >
-> Note, that when pinning the GPU to 432 MHz the issue [1] completely
-> disappears for me. I've searched the BSP and could not find any
-> indication that supports the idea of having the three OPPs. The only
-> frequency I found in the BPSs for A64 is 432 MHz, which has also proven
-> stable for me.
->
-> I very much appreciate your feedback!
->
-> [1] https://gitlab.com/postmarketOS/pmaports/-/issues/805
->
-> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+> Signed-off-by: Allen Pais <allen.lkml@gmail.com>
 > ---
-> Changes in v4:
-> - sunxi-ng: common: Address review comments.
-> - Link to v3: https://lore.kernel.org/r/20240304-pinephone-pll-fixes-v3-0-94ab828f269a@oltmanns.dev
->
-> Changes in v3:
-> - dts: Pin GPU to 432 MHz.
-> - nkm and a64: Move minimum and maximum rate handling to the common part
->   of the sunxi-ng driver.
-> - Removed st7703 patch from series.
-> - Link to v2: https://lore.kernel.org/r/20240205-pinephone-pll-fixes-v2-0-96a46a2d8c9b@oltmanns.dev
->
-> Changes in v2:
-> - dts: Increase minimum GPU frequency to 192 MHz.
-> - nkm and a64: Add minimum and maximum rate for PLL-MIPI.
-> - nkm: Use the same approach for skipping invalid rates in
->   ccu_nkm_find_best() as in ccu_nkm_find_best_with_parent_adj().
-> - nkm: Improve names for ratio struct members and hence get rid of
->   describing comments.
-> - nkm and a64: Correct description in the commit messages: M/N <= 3
-> - Remove patches for nm as they were not needed.
-> - st7703: Rework the commit message to cover more background for the
->   change.
-> - Link to v1: https://lore.kernel.org/r/20231218-pinephone-pll-fixes-v1-0-e238b6ed6dc1@oltmanns.dev
->
-> ---
-> Frank Oltmanns (5):
->       clk: sunxi-ng: common: Support minimum and maximum rate
->       clk: sunxi-ng: a64: Set minimum and maximum rate for PLL-MIPI
->       clk: sunxi-ng: nkm: Support constraints on m/n ratio and parent rate
->       clk: sunxi-ng: a64: Add constraints on PLL-MIPI's n/m ratio and parent rate
->       arm64: dts: allwinner: a64: Run GPU at 432 MHz
->
->  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi |  8 --------
->  drivers/clk/sunxi-ng/ccu-sun50i-a64.c         | 14 +++++++++-----
->  drivers/clk/sunxi-ng/ccu_common.c             | 19 +++++++++++++++++++
->  drivers/clk/sunxi-ng/ccu_common.h             |  3 +++
->  drivers/clk/sunxi-ng/ccu_nkm.c                | 21 +++++++++++++++++++++
->  drivers/clk/sunxi-ng/ccu_nkm.h                |  2 ++
->  6 files changed, 54 insertions(+), 13 deletions(-)
-> ---
-> base-commit: dcb6c8ee6acc6c347caec1e73fb900c0f4ff9806
-> change-id: 20231218-pinephone-pll-fixes-0ccdfde273e4
->
-> Best regards,
+>  drivers/hv/channel.c      |  8 ++++----
+>  drivers/hv/channel_mgmt.c |  5 ++---
+>  drivers/hv/connection.c   |  9 +++++----
+>  drivers/hv/hv.c           |  3 +--
+>  drivers/hv/hv_balloon.c   |  4 ++--
+>  drivers/hv/hv_fcopy.c     |  8 ++++----
+>  drivers/hv/hv_kvp.c       |  8 ++++----
+>  drivers/hv/hv_snapshot.c  |  8 ++++----
+>  drivers/hv/hyperv_vmbus.h |  9 +++++----
+>  drivers/hv/vmbus_drv.c    | 19 ++++++++++---------
+>  include/linux/hyperv.h    |  2 +-
+>  11 files changed, 42 insertions(+), 41 deletions(-)
+
+Wei,
+
+ I need to send out a v2 as I did not include the second patch that
+updates drivers/pci/controller/pci-hyperv.c
+
+Thanks.
