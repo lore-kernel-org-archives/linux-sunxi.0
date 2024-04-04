@@ -1,110 +1,84 @@
-Received: from wfout4-smtp.messagingengine.com (wfout4-smtp.messagingengine.com [64.147.123.147])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9458E4642A
-	for <linux-sunxi@lists.linux.dev>; Thu,  4 Apr 2024 07:44:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17CF082876
+	for <linux-sunxi@lists.linux.dev>; Thu,  4 Apr 2024 11:40:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712216669; cv=none; b=ZKah+WLq/BohlfQYYI22rWHz/2WWYysck/43DcQjYEbdtHKWnM9FTtsqaaVwChkQeaxcnjFKhOkGOBo7Zfwg5cLspfu9z5Alrfffz9gj3bnXyzb9D9f24KxrtaSlYQeGHoybwlEhC3mUq03n3Ohts3omDdRiaS02Q9oA8syzhMg=
+	t=1712230825; cv=none; b=fEhofxxOJDau0XIQN3DcWAryMrrvpMoLKu9rvDLKZtD6xN0nSeMezmz+arfJIaJC7S9YRM8ox1ETmNAHOQS8i778FdoZ0kxKLhXqC6cR6sq4qKvxrVSvDh0r9+qkhfUJdvAzqNA9uAJXuf+5JaXs+fjmdZzyYnR18H2f9OW5Z3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712216669; c=relaxed/simple;
-	bh=W+Dq4jP2nVCkMiWd/KQ2w2Am8sgtY95tm7jMKgnkLiM=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=TiRWkUquCRmQk47btvlD18slygUFs7cgIJUvCtjlHNXhEXjeFCRVkRYLPZ6qBeN3r67Px2q2+kyprkoBmZWyWLk6rkZVfqcxvLiULi7LAO2Sjw6pos6ypGmJXpHIiVZxBPmEKjJfKIe/e7c09NIzo7qY1QhqTuE1U5zMf/qaK5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=bniGJiMB; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=dUua5pCw; arc=none smtp.client-ip=64.147.123.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=testtoast.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
+	s=arc-20240116; t=1712230825; c=relaxed/simple;
+	bh=WvmD+zW80mCHMaqxRf0H4QSSZ96J4F1GjnqGYV5LYDM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tOcajklr6e1k8QC5svDgsKAGpjzllY+InWpJlRD2yCwZl+DWLOjxcIP2kGoHyKjcx9zYNvAm8XDCrhg8uBsyhNGo16QBYlWkGOnoYsVB3ZZt0ntgVBLISzldK+uJurOYorCEl1PVQj0USIcak0HtNJ3jvMjHv73hCaoEmHJyjqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qEdCYgc+; arc=none smtp.client-ip=209.85.128.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="bniGJiMB";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="dUua5pCw"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfout.west.internal (Postfix) with ESMTP id 79AE01C000F8;
-	Thu,  4 Apr 2024 03:44:24 -0400 (EDT)
-Received: from imap47 ([10.202.2.97])
-  by compute5.internal (MEProxy); Thu, 04 Apr 2024 03:44:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm2; t=1712216663; x=
-	1712303063; bh=W+Dq4jP2nVCkMiWd/KQ2w2Am8sgtY95tm7jMKgnkLiM=; b=b
-	niGJiMBXGZvMdyWBsZkpW1LR1J8qhwtttfcMzoZUwg2Sq+lVz+Auv9bQ/AuanVTG
-	MZDF46JFdeb7OqKv/3N0c+OPX6KhwYFihR5xYfG3Xxx+RQlnRzOZ/xRCCfM9jatk
-	+OOlbCTH7/QAOhmz5VVHUc76KpyAeS1Ky/WiFJ+YhZd2AQ/9MHE5P2wYksAgQmqv
-	bixoGj2xyylKY+uQbGpIFPvje1RPF5BnNfCBK+8DAKghxkadMNjLV/0H+oBBr33b
-	nZjXFT5cSz8633xOeUJGoEAkhXRvE258SrGZRCZ9deRIiNdSLCVjPiaL8UAdr9DZ
-	pqLfy0lXHZerRFvLNNUvw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1712216663; x=1712303063; bh=W+Dq4jP2nVCkMiWd/KQ2w2Am8sgt
-	Y95tm7jMKgnkLiM=; b=dUua5pCwDb/WRGEFgAh40ue0FHjf/NeeTRtxBN/qfe5S
-	+yXV5em8pW8uM3fCTTHASxMvYCXZm/mEbmGObfYk7vVVNfFsnUVEnv5PkklTgNV9
-	mxoTnD8IrV8TDzSLSg6XrEjZSY/HLgN535LKdj8mTiP5lPdQqDJaLmTDTVVLVON4
-	oU4L9qNw+QRlQoyaK1DJd9Cu3Q4hjU0WtcJcn6ei0G5e/M4H40uguuGS71v+S8JC
-	rcmhBpMV0pVvpftyeEF0t1qF57YIjFesD3Sf1TTDDnpJZ7qVH5LML+xTmt7mqZh9
-	Y/vpxe3xgE2vhN/t+a7ZkuUblPHJVrfFdZsafaMfBQ==
-X-ME-Sender: <xms:V1oOZpoDsQlFB93kR6lIu9Gld6YmV43uwXzUlxhZMNzv9aXbod0SBA>
-    <xme:V1oOZroAiU8D6oTcfHGgF5vFlESySQr47pEhYDxY4ebEiiuEEHB6Q6mIEcbArYsn8
-    W-IeT3aN1cwJ42ZzA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudefjedguddvgecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdft
-    higrnhcuhggrlhhklhhinhdfuceorhihrghnsehtvghsthhtohgrshhtrdgtohhmqeenuc
-    ggtffrrghtthgvrhhnpeehvdevieegudejueefgeffhefhffevudfhieejgfdtffetlefg
-    teeuveeiudeijeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpehrhigrnhesthgvshhtthhorghsthdrtghomh
-X-ME-Proxy: <xmx:V1oOZmPD1OKeb8OBrS2njTLd3J8UTugBUy4mq4H5H5Aw9PtGtBWgEw>
-    <xmx:V1oOZk6PSfom6uVB4LYFJ7VO5bksTBEXNFPpudaVfwz82PN2VsnSdg>
-    <xmx:V1oOZo7cPaRW2zBto_u0K7tIjJQj5kdvLh_8bL8owfNV1fEpPXhx_Q>
-    <xmx:V1oOZsgYTXq7J_J16aVvvJ8paj2lNOK_1_d1ylD8wwCeCA8fR6yMYg>
-    <xmx:V1oOZgoTCDUm6dzFrgQA9jS-A6hMN6f9N6ALqUr4lhVDslEiVvs25VHm>
-Feedback-ID: idc0145fc:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 2CE0EA60078; Thu,  4 Apr 2024 03:44:23 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-333-gbfea15422e-fm-20240327.001-gbfea1542
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qEdCYgc+"
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-6153e169066so9635817b3.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 04 Apr 2024 04:40:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1712230822; x=1712835622; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WvmD+zW80mCHMaqxRf0H4QSSZ96J4F1GjnqGYV5LYDM=;
+        b=qEdCYgc+7hj/jozLuttl662lQe0ZJCLiPSvhQaJQN1JW/xzvl5VbBWDuKdbEmd9im8
+         L1zsb65rbMsxa16QE7yBB7GLei+qSMryZRMk+ytwFWOpgMGHPeX1WmDttc+wkT0MT48q
+         0ZSyu22BlxcAy+FdZkYWPbBOm7y7mcAcfQyoV+bza4BFdXXcOChr6SCi5wadHY6LQkEk
+         kU7t1iueNkj6ZyZRsncRuQ6W6gcvGoa/9hpaQZtvn0hODTPotC8zCvYM3L2orF+B78nK
+         s5OhZNa//bbj5qXw6e+jjtYS+pVuCSlYGYJ39ajk49XoDxgQrTOxnbbiDsclLXG4iif8
+         Wb+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712230822; x=1712835622;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WvmD+zW80mCHMaqxRf0H4QSSZ96J4F1GjnqGYV5LYDM=;
+        b=n3/HgTmEQDcvPHkHl0OutMCUfee2du6jgoMqRDuIeUfGEEAJKhLtGUJNx1BLRuRgq7
+         Vhvo5SGoEp7a3O1blscLpdVCqoCzAtm98iKFWMjilI2sVmm7QZdEcHtjc6vg5AMhMxWT
+         czPKK/CJR3efrUK6jp/pcXLjvIUd//J/3VoZCFqNWRUPjD8fGHnyXxSS6vPiZZ2GzuLe
+         GcRPk5awvaXKBcsMec5QfjoNq8LeWTd1mczuLjtnkEHzI7zUaqZi7CtiVbCCpwE5C0IG
+         wJFiUO0euKFDPBjX7PDfoTjWXbpRukeu63L2N8bjgL+UYh1d/GFLazcLp8h/cXZb8vpW
+         WARw==
+X-Forwarded-Encrypted: i=1; AJvYcCVe887MYSvGGxq5njKbBFa6dnyyM/EXKDGJQTuGYer0VvQi8BQCXXBJW0YGvkVJ7hRs7r5JgvFPh7DU3H20SP3GVEXAoZ980KM/siQ=
+X-Gm-Message-State: AOJu0YyXwQEfs+q3nJuo9KSJl2IoZl8Bclur9YiW/EZgHirHlsucfs+6
+	9AxprHzi59cP4s9e0Z8aHNij1QiA+aVPuVwcxO/RHt/P6zdO9IZKax3PP9pScvVtHdgehZMhc8X
+	HwBSAktQ3HAC7DL6nB2saPKoFbDuLkpsmYUSrLA==
+X-Google-Smtp-Source: AGHT+IGd7buOnq4d3z5iEEVkv54BdiBPBzE/CfnnmwzmaRZinGTBmvb2QLdzwpSE7CR42SbuiExNTwe5Lviz1MibIB4=
+X-Received: by 2002:a25:8206:0:b0:dcd:a9ad:7d67 with SMTP id
+ q6-20020a258206000000b00dcda9ad7d67mr2503123ybk.8.1712230822049; Thu, 04 Apr
+ 2024 04:40:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <0e021133-f8c1-457d-9079-d9c972e0e69b@app.fastmail.com>
-In-Reply-To: <20240404064027.shjqvqih7s5rnv2i@vireshk-i7>
-References: <20240329141311.27158-1-andre.przywara@arm.com>
- <20240404064027.shjqvqih7s5rnv2i@vireshk-i7>
-Date: Thu, 04 Apr 2024 20:44:02 +1300
-From: "Ryan Walklin" <ryan@testtoast.com>
-To: "Viresh Kumar" <viresh.kumar@linaro.org>,
- "Andre Przywara" <andre.przywara@arm.com>
-Cc: "Yangtao Li" <tiny.windzz@gmail.com>, "Viresh Kumar" <vireshk@kernel.org>,
- "Nishanth Menon" <nm@ti.com>, "Stephen Boyd" <sboyd@kernel.org>,
- "Rob Herring" <robh+dt@kernel.org>,
- "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
- "Conor Dooley" <conor+dt@kernel.org>, "Chen-Yu Tsai" <wens@csie.org>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>,
- "Samuel Holland" <samuel@sholland.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>, linux-pm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org,
- "Brandon Cheo Fusi" <fusibrandon13@gmail.com>,
- "Martin Botka" <martin.botka@somainline.org>,
- "Martin Botka" <martin.botka1@gmail.com>,
- "Chris Morgan" <macroalpha82@gmail.com>,
- "Mark Rutland" <mark.rutland@arm.com>,
- "Lorenzo Pieralisi" <lpieralisi@kernel.org>,
- "Sudeep Holla" <sudeep.holla@arm.com>
-Subject: Re: [PATCH v4 0/8] cpufreq: sun50i: Add Allwinner H616 support
-Content-Type: text/plain
+References: <20240330210954.100842-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20240330210954.100842-1-krzysztof.kozlowski@linaro.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 4 Apr 2024 13:40:11 +0200
+Message-ID: <CACRpkdZGMibZe1xeEBDGBZKtpw2iDhBnm4W2+Ef+KMMDG5BaCg@mail.gmail.com>
+Subject: Re: [PATCH] pinctrl: sunxi: sun9i-a80-r: drop driver owner assignment
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, linux-gpio@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 4 Apr 2024, at 7:40 PM, Viresh Kumar wrote:
-> Is it okay to merge all the changes via the cpufreq tree ?
+On Sat, Mar 30, 2024 at 10:09=E2=80=AFPM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
 
-I have tested this series with an H700-based board, and have at least one speed-bin (1.032GHz) is not supported although the governor attempts to enable it based on the opp-supported-hw bitmask, and I am unable to reach the 1.5GHz bin at 1.16v (or higher) despite it working on the vendor BSP (kernel panic at boot if enabled), so this may need some slight rework.
+> Core in platform_driver_register() already sets the .owner, so driver
+> does not need to.
+>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-I have reached out to Andre on IRC to debug.
+Patch applied!
 
-Ryan
+Yours,
+Linus Walleij
