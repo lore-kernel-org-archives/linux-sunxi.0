@@ -1,56 +1,166 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AFCE2B9B5;
-	Mon,  8 Apr 2024 06:48:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85C084AED5;
+	Mon,  8 Apr 2024 09:33:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712558928; cv=none; b=e2JXsFshDOwnJ2PYXgD9ng76j3uf8cTCgFLq5MG/G3HqpeYuAnY21npLaT2j1CM6Cgfr4PitmcMX3MusiW7YpLBY5vJhREdxI06UQOSIq+Sp6c/ubEiAZDUYpcklqaxz2BFr9Ugh2EFjbXdgMaXRUpcOk1srAwWgtDnpN81V37k=
+	t=1712568819; cv=none; b=JVWQjMZUuPIUHnKPhFTka79yyJxcl6X9ydcXWM0YSgOmd5HZwzCSOZsvF9KsbwkKhCSSWIC1oWUPPwHPvqC6TdPZjvF5BmXl48hJwMKpo/5JOakyyUnFDz3UFd6Jk2yG7XaXMfndLvZS+0/fqDkmrbwXM1pzdUjRCDyULBVJxvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712558928; c=relaxed/simple;
-	bh=fdlmo9nLEZZM0AajDxaXARTs2D2/fr2yANRzgsov9XQ=;
-	h=Message-ID:Content-Type:MIME-Version:In-Reply-To:References:
-	 Subject:From:Cc:To:Date; b=BvLT0SpLt5BDeEwDmXiCVE+mJELSt7LP9CnHR+Qk2rXJ7LniDD3lhf6s6Iwp9Yg0PHtua2okGJZoY5QLEN0kOskGL2JJmon7sIN9P+Wsd2RXYczWwqshWgf/Ykg8uBgfj6AihHpr2QcZdZ8+BhGQatG3RzkgZUjUtaNtOBllt6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PB6WFMUB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712568819; c=relaxed/simple;
+	bh=frFJy5Iffrice8TATlhPSbyjdDx4lsgbTrENNwTKGyA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=B1+u6tl6FxVJMP6soCpUBmS/EvUV93QFeF/ah5mr67oyCIFq/lpPmEKejhIiwjeLgeoje9jC7BA10riNMpAhtpuBZG3xNROtErqU0vLUbK1ctCpk0iMB2y/VwfC1WBW6KAESrokFoGjo7qgM5/atDdQsD6tHBYI08mep/inWIus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=HAJzuBNs; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PB6WFMUB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9475BC433F1;
-	Mon,  8 Apr 2024 06:48:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712558927;
-	bh=fdlmo9nLEZZM0AajDxaXARTs2D2/fr2yANRzgsov9XQ=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=PB6WFMUBsWePt6MPDVGzjykATl5kIcolPq/DLxwqs//oBCb1C/Yk/z9Of2FEs0bUq
-	 fZ16EyAYreDRW37w6FaiAvs2FGG/zKeNxkM9ELyV7TGrlAjgYOQhS0tpvW6YAFyvz8
-	 IcLsT5SP1jheavN5f5UTTd16JvwjoedFC105oS5BIhBsmy5m1+9jYm2BUcRUYI5zHw
-	 4v2XQKaZD04yAuzuIxJZArCpAwgwrEjtH4YIxP2SrAuwLAsDLwvOWtcN1FysAPMDhq
-	 +Xe9ooN4viv3dsoHK4nSFO5xV2lrZOsCxpZn1KiW3Vgep887kUpfBcp+GKVmGxpUWh
-	 1GGXb/AIOeKcA==
-Message-ID: <5b88fb4c1e02303bcbc59b92496735c9.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="HAJzuBNs"
+Received: from pps.filterd (m0353723.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 4389674X018763;
+	Mon, 8 Apr 2024 09:33:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
+ subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=pp1; bh=HRb08lOvL/RkQcGPtpnIO47HiV3JbnaC5Kla4WlkdPg=;
+ b=HAJzuBNsO2JwyXcSUPA5KKjMXoa85ATgDBDMdlUVrWrD4LTczUD9Nzq1exAuSBYIXiod
+ e0MbeFjiTJ8BhZHNrUhGGDzWKY8EITc7XduqdLDZ5GctKya+kVyoKq/IkOu0SedUx2z5
+ pQp8LeJGmQfs2CM+LTbmD/KJRvxg9VmuuBuJ1NKV4C1xxrojFpma6UqwA03Fy2zslw5J
+ vQkdyyQm/5xiBkjpSpVWZG0r2JfzA51m5ovZNnFXMysbeE8Tuv+bGvb6/0yFAENxHcVu
+ qAKQ1mFWZTC2QuNZ6UtiF13rTIvo2INwrArwDWHsJE6MYCmUQBSAMU8Fvb7Q48Tb74E1 6A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3xcahageb0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 08 Apr 2024 09:33:21 +0000
+Received: from m0353723.ppops.net (m0353723.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 4389WAD8027701;
+	Mon, 8 Apr 2024 09:33:20 GMT
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3xcahageav-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 08 Apr 2024 09:33:20 +0000
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 4388CHai022664;
+	Mon, 8 Apr 2024 09:33:19 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3xbhqnqanr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 08 Apr 2024 09:33:19 +0000
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4389XFRb40632662
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 8 Apr 2024 09:33:17 GMT
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E7ADC2004B;
+	Mon,  8 Apr 2024 09:33:14 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 43F2D20040;
+	Mon,  8 Apr 2024 09:33:11 +0000 (GMT)
+Received: from osiris (unknown [9.171.19.167])
+	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Mon,  8 Apr 2024 09:33:11 +0000 (GMT)
+Date: Mon, 8 Apr 2024 11:33:09 +0200
+From: Heiko Carstens <hca@linux.ibm.com>
+To: Allen Pais <apais@linux.microsoft.com>
+Cc: linux-kernel@vger.kernel.org, tj@kernel.org, keescook@chromium.org,
+        vkoul@kernel.org, marcan@marcan.st, sven@svenpeter.dev,
+        florian.fainelli@broadcom.com, rjui@broadcom.com,
+        sbranden@broadcom.com, paul@crapouillou.net,
+        Eugeniy.Paltsev@synopsys.com, manivannan.sadhasivam@linaro.org,
+        vireshk@kernel.org, Frank.Li@nxp.com, leoyang.li@nxp.com,
+        zw@zh-kernel.org, wangzhou1@hisilicon.com, haijie1@huawei.com,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, sean.wang@mediatek.com,
+        matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+        afaerber@suse.de, logang@deltatee.com, daniel@zonque.org,
+        haojian.zhuang@gmail.com, robert.jarzmik@free.fr, andersson@kernel.org,
+        konrad.dybcio@linaro.org, orsonzhai@gmail.com,
+        baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com,
+        patrice.chotard@foss.st.com, linus.walleij@linaro.org, wens@csie.org,
+        jernej.skrabec@gmail.com, peter.ujfalusi@gmail.com, kys@microsoft.com,
+        haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+        jassisinghbrar@gmail.com, mchehab@kernel.org,
+        maintainers@bluecherrydvr.com, aubin.constans@microchip.com,
+        ulf.hansson@linaro.org, manuel.lauss@gmail.com,
+        mirq-linux@rere.qmqm.pl, jh80.chung@samsung.com, oakad@yahoo.com,
+        hayashi.kunihiko@socionext.com, mhiramat@kernel.org,
+        brucechang@via.com.tw, HaraldWelte@viatech.com, pierre@ossman.eu,
+        duncan.sands@free.fr, stern@rowland.harvard.edu, oneukum@suse.com,
+        openipmi-developer@lists.sourceforge.net, dmaengine@vger.kernel.org,
+        asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+        linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+        imx@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+        linux-mediatek@lists.infradead.org, linux-actions@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-s390@vger.kernel.org, netdev@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH 7/9] s390: Convert from tasklet to BH workqueue
+Message-ID: <20240408093309.9447-A-hca@linux.ibm.com>
+References: <20240327160314.9982-1-apais@linux.microsoft.com>
+ <20240327160314.9982-8-apais@linux.microsoft.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240327160314.9982-8-apais@linux.microsoft.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: iEx_GL3tt0mvzHnM4XY0RznJTIWn8Sle
+X-Proofpoint-GUID: YubKogQl91W9lviSSqhJG7ZeEe8HfK38
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <87frw2a2e4.fsf@oltmanns.dev>
-References: <20240310-pinephone-pll-fixes-v4-0-46fc80c83637@oltmanns.dev> <87frw2a2e4.fsf@oltmanns.dev>
-Subject: Re: [PATCH v4 0/5] Pinephone video out fixes (flipping between two frames)
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: Guido =?utf-8?q?G=C3=BCnther?= <agx@sigxcpu.org>, Purism Kernel Team <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>, Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, stable@vger.kernel.org, Diego Roversi <diegor@tiscali.it>, Erico Nunes <nunes.erico@gmail.com>
-To: Chen-Yu Tsai <wens@csie.org>, Frank Oltmanns <frank@oltmanns.dev>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maxime Ripard <mripard@kernel.org>, Michael Turquette <mturquette@baylibre.com>, Samuel Holland <samuel@sholland.org>
-Date: Sun, 07 Apr 2024 23:48:45 -0700
-User-Agent: alot/0.10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-08_07,2024-04-05_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ priorityscore=1501 malwarescore=0 clxscore=1011 phishscore=0
+ lowpriorityscore=0 impostorscore=0 mlxscore=0 adultscore=0 spamscore=0
+ bulkscore=0 mlxlogscore=816 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2404010000 definitions=main-2404080073
 
-Quoting Frank Oltmanns (2024-04-03 08:31:47)
-> Dear clk and sunxi-ng maintainers,
->=20
-> Patches 1-4 have been reviewed and there are no pending issues. If there
-> is something else you need me to do to get this applied, please let me
-> know.
->=20
+On Wed, Mar 27, 2024 at 04:03:12PM +0000, Allen Pais wrote:
+> The only generic interface to execute asynchronously in the BH context is
+> tasklet; however, it's marked deprecated and has some design flaws. To
+> replace tasklets, BH workqueue support was recently added. A BH workqueue
+> behaves similarly to regular workqueues except that the queued work items
+> are executed in the BH context.
+> 
+> This patch converts drivers/infiniband/* from tasklet to BH workqueue.
+> 
+> Based on the work done by Tejun Heo <tj@kernel.org>
+> Branch: https://git.kernel.org/pub/scm/linux/kernel/git/tj/wq.git for-6.10
 
-I'm assuming sunxi maintainers will pick up the clk patches and send
-them to clk tree in a PR.
+I guess this dependency is a hard requirement due to commit 134874e2eee9
+("workqueue: Allow cancel_work_sync() and disable_work() from atomic contexts
+on BH work items")?
+
+> ---
+>  drivers/s390/block/dasd.c              | 42 ++++++++++++------------
+>  drivers/s390/block/dasd_int.h          | 10 +++---
+>  drivers/s390/char/con3270.c            | 27 ++++++++--------
+>  drivers/s390/crypto/ap_bus.c           | 24 +++++++-------
+>  drivers/s390/crypto/ap_bus.h           |  2 +-
+>  drivers/s390/crypto/zcrypt_msgtype50.c |  2 +-
+>  drivers/s390/crypto/zcrypt_msgtype6.c  |  4 +--
+>  drivers/s390/net/ctcm_fsms.c           |  4 +--
+>  drivers/s390/net/ctcm_main.c           | 15 ++++-----
+>  drivers/s390/net/ctcm_main.h           |  5 +--
+>  drivers/s390/net/ctcm_mpc.c            | 12 +++----
+>  drivers/s390/net/ctcm_mpc.h            |  7 ++--
+>  drivers/s390/net/lcs.c                 | 26 +++++++--------
+>  drivers/s390/net/lcs.h                 |  2 +-
+>  drivers/s390/net/qeth_core_main.c      |  2 +-
+>  drivers/s390/scsi/zfcp_qdio.c          | 45 +++++++++++++-------------
+>  drivers/s390/scsi/zfcp_qdio.h          |  9 +++---
+>  17 files changed, 117 insertions(+), 121 deletions(-)
+
+I'm asking since this patch comes with multiple compile errors. Probably due
+to lack of cross compiler tool chain on your side.
+
+If the above wouldn't be a hard dependency I'd say we could take those parts
+of your patch which are fine into the s390 tree for 6.10, fix the rest, and
+schedule that as well for 6.10 via the s390 tree.
