@@ -1,361 +1,108 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BCED16F0EF;
-	Wed, 10 Apr 2024 15:54:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39D81168DC;
+	Wed, 10 Apr 2024 18:06:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712764467; cv=none; b=O4AkYaZ1CUI5pKl5zwqmkPhd9Nq4L480WGCQ7jOYjl/93Z6TfjROqOwa7Mr72p9Z3XSGIAVoWwEdjXBSUutnx7/eutfqUKuTMWccCA2kK9xu8GOJxiXj+59Q34NjEk8N9glEbcnjE0XIUyAWf8fiBVuy5mUB/veJkMq1za4aug8=
+	t=1712772409; cv=none; b=cvVhkt10WA5E3n8qKxX3rqMgOO4Bj3zTqjq9auucAgElsxEt8UaaV8rC8ndsFiSUxeR1BuL+B2NOJKKKkJaa38RCpFG9gZXhniZeyTLxAWK2qD6p5y1aECBaBTWJjnu6rpBPdJXCW5eBMYKW/uw1tOAyVjta13wN/WjEITaT4oA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712764467; c=relaxed/simple;
-	bh=t39f7eLFC7bPkJPUbKKNMDcy78yid1G8KUgumlAm3gU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GTH5JTg6ni5KbjDziB7HNTOTc9pIgwzXDUqxLLeBRToYLDAF8UlNNiABwXuGOngAzKJIGt0bIUA+JgDgCSby53fGxCSHVM9esdkX/23HM0pdfz1+xwpq+09lF1bwFEqpvuEwppN7nzEGTu35ySc+yzG0RSO9vlCk2RThaxBFMog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vELJBzOB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712772409; c=relaxed/simple;
+	bh=9mHUvsMCvHI/lEf3R28H/lWIRLZtajg6D7uHi+gu8Xc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r8twqME6l/et37TLPfTs6QuxMvdt9P7kS9QlHkHZQK5g3sTCXs18LZdJCpCm1C9ZsnC+Z7yMWO6hrVQ94ALN3IGiPd0ZragT3bzos3XeOIH9i7FJdO7olABbuziAvCSPq9TXbf+QPPnyMeuAnC6lht+uRU2wkN3nUb2HVeARjZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Lu35qvDv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vELJBzOB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23480C433C7;
-	Wed, 10 Apr 2024 15:54:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lu35qvDv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55443C433C7;
+	Wed, 10 Apr 2024 18:06:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712764467;
-	bh=t39f7eLFC7bPkJPUbKKNMDcy78yid1G8KUgumlAm3gU=;
-	h=From:To:Cc:Subject:Date:From;
-	b=vELJBzOBnPTe29+cw7SsazoNy67wFX3Y9ir5GjG+qv2pkwVe6HzeHuJGuIB2vHmax
-	 Yzi4I1j2pBeBDXW4xWymX1oF8PMvd/yJaVWyGkbwgzyts7uEcJ5Dc9/8Fofdm73mtg
-	 k+ryuTKceKP3rIDyP7nyrXl2sy5utTJUXKfwj2KNyZIOwVJREElT3rEcpEkiZOXa4i
-	 FoD7wGyLhJ+OhIKTN0eeq6T/61GAiHI2pXz1h5FvHS51PnlHtrFDQ9pHq4NRrzP9Hf
-	 KZ+rXJfZe6sF7Gxngvjcaap6cYK3bpx/zi/w68bOhgln+w5cMDY+E+N0LDFp7wxG9D
-	 RJolproTtGsZA==
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
+	s=k20201202; t=1712772408;
+	bh=9mHUvsMCvHI/lEf3R28H/lWIRLZtajg6D7uHi+gu8Xc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Lu35qvDvmqNkvq1o9nxg+w5hL5Uh7lDNWfNvkA5+kkFTIkp1zcQ2dCvhQ7Bmyxiky
+	 srIkPzXyQsbllzfitfQ3qBA04frMons8w+N3qunJ0qiyagfuyd8VP3Wuf7DsDyJCX4
+	 sADFRrR0lpwBWt2T/VQjb2jupa0lm1/2y1SDR5He9xfnB53rtkenMoKQxAXzpQxaIg
+	 g/QgpMxZFgNPTpg/nPfDmiJRljqUaN2o19G9m8w1lUwu/8qPu2foYaJ0CJBQaut8gi
+	 mhsGnnBNyndkfB8TLRrdqBenQDhN1PWT6Wo8fCofnQbnBcmDG7c1G0chPGnp2afnGE
+	 5WTuil65Gnjfg==
+Date: Wed, 10 Apr 2024 19:06:39 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Jani Nikula <jani.nikula@intel.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
 	Samuel Holland <samuel@sholland.org>,
-	linux-clk@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH] clk: sunxi-ng: fix module autoloading
-Date: Wed, 10 Apr 2024 17:54:20 +0200
-Message-Id: <20240410155420.224157-1-krzk@kernel.org>
-X-Mailer: git-send-email 2.34.1
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Alexander Stein <alexander.stein@ew.tq-group.com>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
+	linux-sunxi@lists.linux.dev, linux-mips@vger.kernel.org,
+	kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH 0/7] drm/display: Fix display helpers depends on fallouts
+Message-ID: <117b0d3b-a60b-4bc0-9f2c-f0e4fffe634a@sirena.org.uk>
+References: <20240403-fix-dw-hdmi-kconfig-v1-0-afbc4a835c38@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="m8uHuXe8Pt8zgPJR"
+Content-Disposition: inline
+In-Reply-To: <20240403-fix-dw-hdmi-kconfig-v1-0-afbc4a835c38@kernel.org>
+X-Cookie: A bachelor is an unaltared male.
 
-Add MODULE_DEVICE_TABLE(), so modules could be properly autoloaded
-based on the alias from of_device_id table.  Clocks are considered core
-components, so usually they are built-in, however these can be built and
-used as modules on some generic kernel.
 
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
----
- drivers/clk/sunxi-ng/ccu-sun20i-d1-r.c   | 1 +
- drivers/clk/sunxi-ng/ccu-sun20i-d1.c     | 1 +
- drivers/clk/sunxi-ng/ccu-sun4i-a10.c     | 1 +
- drivers/clk/sunxi-ng/ccu-sun50i-a100-r.c | 1 +
- drivers/clk/sunxi-ng/ccu-sun50i-a100.c   | 1 +
- drivers/clk/sunxi-ng/ccu-sun50i-a64.c    | 1 +
- drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c   | 1 +
- drivers/clk/sunxi-ng/ccu-sun50i-h6.c     | 1 +
- drivers/clk/sunxi-ng/ccu-sun50i-h616.c   | 1 +
- drivers/clk/sunxi-ng/ccu-sun6i-a31.c     | 1 +
- drivers/clk/sunxi-ng/ccu-sun6i-rtc.c     | 1 +
- drivers/clk/sunxi-ng/ccu-sun8i-a23.c     | 1 +
- drivers/clk/sunxi-ng/ccu-sun8i-a33.c     | 1 +
- drivers/clk/sunxi-ng/ccu-sun8i-a83t.c    | 1 +
- drivers/clk/sunxi-ng/ccu-sun8i-de2.c     | 1 +
- drivers/clk/sunxi-ng/ccu-sun8i-h3.c      | 1 +
- drivers/clk/sunxi-ng/ccu-sun8i-r.c       | 1 +
- drivers/clk/sunxi-ng/ccu-sun8i-r40.c     | 1 +
- drivers/clk/sunxi-ng/ccu-sun8i-v3s.c     | 1 +
- drivers/clk/sunxi-ng/ccu-sun9i-a80-de.c  | 1 +
- drivers/clk/sunxi-ng/ccu-sun9i-a80-usb.c | 1 +
- drivers/clk/sunxi-ng/ccu-sun9i-a80.c     | 1 +
- drivers/clk/sunxi-ng/ccu-suniv-f1c100s.c | 1 +
- 23 files changed, 23 insertions(+)
+--m8uHuXe8Pt8zgPJR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/clk/sunxi-ng/ccu-sun20i-d1-r.c b/drivers/clk/sunxi-ng/ccu-sun20i-d1-r.c
-index 9d3ffd3fb2c1..0736f6c81269 100644
---- a/drivers/clk/sunxi-ng/ccu-sun20i-d1-r.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun20i-d1-r.c
-@@ -125,6 +125,7 @@ static const struct of_device_id sun20i_d1_r_ccu_ids[] = {
- 	{ .compatible = "allwinner,sun20i-d1-r-ccu" },
- 	{ }
- };
-+MODULE_DEVICE_TABLE(of, sun20i_d1_r_ccu_ids);
- 
- static struct platform_driver sun20i_d1_r_ccu_driver = {
- 	.probe	= sun20i_d1_r_ccu_probe,
-diff --git a/drivers/clk/sunxi-ng/ccu-sun20i-d1.c b/drivers/clk/sunxi-ng/ccu-sun20i-d1.c
-index 48a8fb2c43b7..60756aadfad6 100644
---- a/drivers/clk/sunxi-ng/ccu-sun20i-d1.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun20i-d1.c
-@@ -1394,6 +1394,7 @@ static const struct of_device_id sun20i_d1_ccu_ids[] = {
- 	{ .compatible = "allwinner,sun20i-d1-ccu" },
- 	{ }
- };
-+MODULE_DEVICE_TABLE(of, sun20i_d1_ccu_ids);
- 
- static struct platform_driver sun20i_d1_ccu_driver = {
- 	.probe	= sun20i_d1_ccu_probe,
-diff --git a/drivers/clk/sunxi-ng/ccu-sun4i-a10.c b/drivers/clk/sunxi-ng/ccu-sun4i-a10.c
-index 451ebb7c99a3..14f5c3da652b 100644
---- a/drivers/clk/sunxi-ng/ccu-sun4i-a10.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun4i-a10.c
-@@ -1481,6 +1481,7 @@ static const struct of_device_id sun4i_a10_ccu_ids[] = {
- 	},
- 	{ }
- };
-+MODULE_DEVICE_TABLE(of, sun4i_a10_ccu_ids);
- 
- static struct platform_driver sun4i_a10_ccu_driver = {
- 	.probe	= sun4i_a10_ccu_probe,
-diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-a100-r.c b/drivers/clk/sunxi-ng/ccu-sun50i-a100-r.c
-index fddd6c877cec..3b983bb59bd9 100644
---- a/drivers/clk/sunxi-ng/ccu-sun50i-a100-r.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun50i-a100-r.c
-@@ -202,6 +202,7 @@ static const struct of_device_id sun50i_a100_r_ccu_ids[] = {
- 	{ .compatible = "allwinner,sun50i-a100-r-ccu" },
- 	{ }
- };
-+MODULE_DEVICE_TABLE(of, sun50i_a100_r_ccu_ids);
- 
- static struct platform_driver sun50i_a100_r_ccu_driver = {
- 	.probe	= sun50i_a100_r_ccu_probe,
-diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-a100.c b/drivers/clk/sunxi-ng/ccu-sun50i-a100.c
-index 5f93b5526e13..38aa6e5f298e 100644
---- a/drivers/clk/sunxi-ng/ccu-sun50i-a100.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun50i-a100.c
-@@ -1264,6 +1264,7 @@ static const struct of_device_id sun50i_a100_ccu_ids[] = {
- 	{ .compatible = "allwinner,sun50i-a100-ccu" },
- 	{ }
- };
-+MODULE_DEVICE_TABLE(of, sun50i_a100_ccu_ids);
- 
- static struct platform_driver sun50i_a100_ccu_driver = {
- 	.probe	= sun50i_a100_ccu_probe,
-diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
-index 8951ffc14ff5..6edd6e90007e 100644
---- a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
-@@ -978,6 +978,7 @@ static const struct of_device_id sun50i_a64_ccu_ids[] = {
- 	{ .compatible = "allwinner,sun50i-a64-ccu" },
- 	{ }
- };
-+MODULE_DEVICE_TABLE(of, sun50i_a64_ccu_ids);
- 
- static struct platform_driver sun50i_a64_ccu_driver = {
- 	.probe	= sun50i_a64_ccu_probe,
-diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c b/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c
-index 02b28cfc5525..e2dc29fa99e7 100644
---- a/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c
-@@ -244,6 +244,7 @@ static const struct of_device_id sun50i_h6_r_ccu_ids[] = {
- 	},
- 	{ }
- };
-+MODULE_DEVICE_TABLE(of, sun50i_h6_r_ccu_ids);
- 
- static struct platform_driver sun50i_h6_r_ccu_driver = {
- 	.probe	= sun50i_h6_r_ccu_probe,
-diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h6.c b/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
-index 42568c616181..fa483bc2437a 100644
---- a/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
-@@ -1259,6 +1259,7 @@ static const struct of_device_id sun50i_h6_ccu_ids[] = {
- 	{ .compatible = "allwinner,sun50i-h6-ccu" },
- 	{ }
- };
-+MODULE_DEVICE_TABLE(of, sun50i_h6_ccu_ids);
- 
- static struct platform_driver sun50i_h6_ccu_driver = {
- 	.probe	= sun50i_h6_ccu_probe,
-diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
-index 21e918582aa5..45aae1ae5178 100644
---- a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
-@@ -1154,6 +1154,7 @@ static const struct of_device_id sun50i_h616_ccu_ids[] = {
- 	{ .compatible = "allwinner,sun50i-h616-ccu" },
- 	{ }
- };
-+MODULE_DEVICE_TABLE(of, sun50i_h616_ccu_ids);
- 
- static struct platform_driver sun50i_h616_ccu_driver = {
- 	.probe	= sun50i_h616_ccu_probe,
-diff --git a/drivers/clk/sunxi-ng/ccu-sun6i-a31.c b/drivers/clk/sunxi-ng/ccu-sun6i-a31.c
-index 0762deffb33c..8cb8cbbdbafb 100644
---- a/drivers/clk/sunxi-ng/ccu-sun6i-a31.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun6i-a31.c
-@@ -1271,6 +1271,7 @@ static const struct of_device_id sun6i_a31_ccu_ids[] = {
- 	{ .compatible = "allwinner,sun6i-a31-ccu" },
- 	{ }
- };
-+MODULE_DEVICE_TABLE(of, sun6i_a31_ccu_ids);
- 
- static struct platform_driver sun6i_a31_ccu_driver = {
- 	.probe	= sun6i_a31_ccu_probe,
-diff --git a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
-index fdc8ccc586c9..5a98c4e9e667 100644
---- a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
-@@ -336,6 +336,7 @@ static const struct of_device_id sun6i_rtc_ccu_match[] = {
- 	},
- 	{},
- };
-+MODULE_DEVICE_TABLE(of, sun6i_rtc_ccu_match);
- 
- int sun6i_rtc_ccu_probe(struct device *dev, void __iomem *reg)
- {
-diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-a23.c b/drivers/clk/sunxi-ng/ccu-sun8i-a23.c
-index e80cc3864e44..e748ad612b8f 100644
---- a/drivers/clk/sunxi-ng/ccu-sun8i-a23.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun8i-a23.c
-@@ -751,6 +751,7 @@ static const struct of_device_id sun8i_a23_ccu_ids[] = {
- 	{ .compatible = "allwinner,sun8i-a23-ccu" },
- 	{ }
- };
-+MODULE_DEVICE_TABLE(of, sun8i_a23_ccu_ids);
- 
- static struct platform_driver sun8i_a23_ccu_driver = {
- 	.probe	= sun8i_a23_ccu_probe,
-diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-a33.c b/drivers/clk/sunxi-ng/ccu-sun8i-a33.c
-index d12878a1ba9e..8a27a1777600 100644
---- a/drivers/clk/sunxi-ng/ccu-sun8i-a33.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun8i-a33.c
-@@ -823,6 +823,7 @@ static const struct of_device_id sun8i_a33_ccu_ids[] = {
- 	{ .compatible = "allwinner,sun8i-a33-ccu" },
- 	{ }
- };
-+MODULE_DEVICE_TABLE(of, sun8i_a33_ccu_ids);
- 
- static struct platform_driver sun8i_a33_ccu_driver = {
- 	.probe	= sun8i_a33_ccu_probe,
-diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-a83t.c b/drivers/clk/sunxi-ng/ccu-sun8i-a83t.c
-index 76cbd9e9e89f..93eca47935cf 100644
---- a/drivers/clk/sunxi-ng/ccu-sun8i-a83t.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun8i-a83t.c
-@@ -911,6 +911,7 @@ static const struct of_device_id sun8i_a83t_ccu_ids[] = {
- 	{ .compatible = "allwinner,sun8i-a83t-ccu" },
- 	{ }
- };
-+MODULE_DEVICE_TABLE(of, sun8i_a83t_ccu_ids);
- 
- static struct platform_driver sun8i_a83t_ccu_driver = {
- 	.probe	= sun8i_a83t_ccu_probe,
-diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-de2.c b/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
-index 6a043a0a9dd6..b0b8dba239ae 100644
---- a/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
-@@ -337,6 +337,7 @@ static const struct of_device_id sunxi_de2_clk_ids[] = {
- 	},
- 	{ }
- };
-+MODULE_DEVICE_TABLE(of, sunxi_de2_clk_ids);
- 
- static struct platform_driver sunxi_de2_clk_driver = {
- 	.probe	= sunxi_de2_clk_probe,
-diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-h3.c b/drivers/clk/sunxi-ng/ccu-sun8i-h3.c
-index 74274c17efb3..ca5739fa04f7 100644
---- a/drivers/clk/sunxi-ng/ccu-sun8i-h3.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun8i-h3.c
-@@ -1082,6 +1082,7 @@ static const struct of_device_id sun8i_h3_ccu_ids[] = {
- 	},
- 	{ }
- };
-+MODULE_DEVICE_TABLE(of, sun8i_h3_ccu_ids);
- 
- static struct platform_driver sun8i_h3_ccu_driver = {
- 	.probe	= sun8i_h3_ccu_probe,
-diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-r.c b/drivers/clk/sunxi-ng/ccu-sun8i-r.c
-index 4890a976b1a0..bac7e737db98 100644
---- a/drivers/clk/sunxi-ng/ccu-sun8i-r.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun8i-r.c
-@@ -262,6 +262,7 @@ static const struct of_device_id sun8i_r_ccu_ids[] = {
- 	},
- 	{ }
- };
-+MODULE_DEVICE_TABLE(of, sun8i_r_ccu_ids);
- 
- static struct platform_driver sun8i_r_ccu_driver = {
- 	.probe	= sun8i_r_ccu_probe,
-diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-r40.c b/drivers/clk/sunxi-ng/ccu-sun8i-r40.c
-index 31eca0d3bc1e..3774b293e74c 100644
---- a/drivers/clk/sunxi-ng/ccu-sun8i-r40.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun8i-r40.c
-@@ -1363,6 +1363,7 @@ static const struct of_device_id sun8i_r40_ccu_ids[] = {
- 	{ .compatible = "allwinner,sun8i-r40-ccu" },
- 	{ }
- };
-+MODULE_DEVICE_TABLE(of, sun8i_r40_ccu_ids);
- 
- static struct platform_driver sun8i_r40_ccu_driver = {
- 	.probe	= sun8i_r40_ccu_probe,
-diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-v3s.c b/drivers/clk/sunxi-ng/ccu-sun8i-v3s.c
-index f3ce8664b288..994258a3ad2e 100644
---- a/drivers/clk/sunxi-ng/ccu-sun8i-v3s.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun8i-v3s.c
-@@ -768,6 +768,7 @@ static const struct of_device_id sun8i_v3s_ccu_ids[] = {
- 	},
- 	{ }
- };
-+MODULE_DEVICE_TABLE(of, sun8i_v3s_ccu_ids);
- 
- static struct platform_driver sun8i_v3s_ccu_driver = {
- 	.probe	= sun8i_v3s_ccu_probe,
-diff --git a/drivers/clk/sunxi-ng/ccu-sun9i-a80-de.c b/drivers/clk/sunxi-ng/ccu-sun9i-a80-de.c
-index 1d8b1ae1619d..ae7939d3f502 100644
---- a/drivers/clk/sunxi-ng/ccu-sun9i-a80-de.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun9i-a80-de.c
-@@ -254,6 +254,7 @@ static const struct of_device_id sun9i_a80_de_clk_ids[] = {
- 	{ .compatible = "allwinner,sun9i-a80-de-clks" },
- 	{ }
- };
-+MODULE_DEVICE_TABLE(of, sun9i_a80_de_clk_ids);
- 
- static struct platform_driver sun9i_a80_de_clk_driver = {
- 	.probe	= sun9i_a80_de_clk_probe,
-diff --git a/drivers/clk/sunxi-ng/ccu-sun9i-a80-usb.c b/drivers/clk/sunxi-ng/ccu-sun9i-a80-usb.c
-index a0fb0da8f356..bfa2ff9d52a4 100644
---- a/drivers/clk/sunxi-ng/ccu-sun9i-a80-usb.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun9i-a80-usb.c
-@@ -127,6 +127,7 @@ static const struct of_device_id sun9i_a80_usb_clk_ids[] = {
- 	{ .compatible = "allwinner,sun9i-a80-usb-clks" },
- 	{ }
- };
-+MODULE_DEVICE_TABLE(of, sun9i_a80_usb_clk_ids);
- 
- static struct platform_driver sun9i_a80_usb_clk_driver = {
- 	.probe	= sun9i_a80_usb_clk_probe,
-diff --git a/drivers/clk/sunxi-ng/ccu-sun9i-a80.c b/drivers/clk/sunxi-ng/ccu-sun9i-a80.c
-index 730fd8e28014..c05805e4ad22 100644
---- a/drivers/clk/sunxi-ng/ccu-sun9i-a80.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun9i-a80.c
-@@ -1236,6 +1236,7 @@ static const struct of_device_id sun9i_a80_ccu_ids[] = {
- 	{ .compatible = "allwinner,sun9i-a80-ccu" },
- 	{ }
- };
-+MODULE_DEVICE_TABLE(of, sun9i_a80_ccu_ids);
- 
- static struct platform_driver sun9i_a80_ccu_driver = {
- 	.probe	= sun9i_a80_ccu_probe,
-diff --git a/drivers/clk/sunxi-ng/ccu-suniv-f1c100s.c b/drivers/clk/sunxi-ng/ccu-suniv-f1c100s.c
-index 0d5b60b123b7..76d3d070b2a7 100644
---- a/drivers/clk/sunxi-ng/ccu-suniv-f1c100s.c
-+++ b/drivers/clk/sunxi-ng/ccu-suniv-f1c100s.c
-@@ -565,6 +565,7 @@ static const struct of_device_id suniv_f1c100s_ccu_ids[] = {
- 	{ .compatible = "allwinner,suniv-f1c100s-ccu" },
- 	{ }
- };
-+MODULE_DEVICE_TABLE(of, suniv_f1c100s_ccu_ids);
- 
- static struct platform_driver suniv_f1c100s_ccu_driver = {
- 	.probe	= suniv_f1c100s_ccu_probe,
--- 
-2.34.1
+On Wed, Apr 03, 2024 at 12:56:18PM +0200, Maxime Ripard wrote:
+> Hi,
+>=20
+> Here's a series addressing the various regressions that were reported
+> after the Kconfig rework for the DRM display helpers.
+>=20
+> Let me know what you think,
+> Maxime
 
+Is there any news on getting the rest of this merged?  It's been more
+than a week now and the Designware display controllers are all still
+broken in -next, causing widespread breakage in CI.  For bisection
+purposes it probably makes sense for the defconfig updates to go along
+with the changes to the Kconfig for the driver...
+
+--m8uHuXe8Pt8zgPJR
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmYW1S4ACgkQJNaLcl1U
+h9DOSwf/cU2i83arQzeCO07s0n4/uba3xhNrWfvc7xN0GLO+Z8KtAnVQfRMhXF5j
+ayRYwyjGMYcJmGugvdeX68HEbnVSq3PF1F0CSIjX4ElPZ9S7Wbiik4vnL45HJP6c
+IveEkj+HqtAvILP5/07YrflUuqawBsUKDiELWs2p8AqwcpiDy4j6sMJpPZd6n9gf
+9GzlZ5KCvzOua+GmCz9skxnIsXwSIB2HQ2y2zA0hyBbte7XjFFBUE36JW/kSt4z5
+eRZ8AW4MG2hO6f/x965L+SShk1aLPhnYQXx/683Eu5MhYCGzGW7XPuGQDJJ1rAZU
+YkvZX/nVERJeD10LMsjYYPcH/8N8Cw==
+=swV+
+-----END PGP SIGNATURE-----
+
+--m8uHuXe8Pt8zgPJR--
