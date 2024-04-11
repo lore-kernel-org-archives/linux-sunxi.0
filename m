@@ -1,108 +1,94 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39D81168DC;
-	Wed, 10 Apr 2024 18:06:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 995D613BC33;
+	Thu, 11 Apr 2024 11:22:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712772409; cv=none; b=cvVhkt10WA5E3n8qKxX3rqMgOO4Bj3zTqjq9auucAgElsxEt8UaaV8rC8ndsFiSUxeR1BuL+B2NOJKKKkJaa38RCpFG9gZXhniZeyTLxAWK2qD6p5y1aECBaBTWJjnu6rpBPdJXCW5eBMYKW/uw1tOAyVjta13wN/WjEITaT4oA=
+	t=1712834547; cv=none; b=gYXBUT92NTzgpilN+fTjrA9qGQM08xyKXxeOYlnoKCzJbObf3CPyA9ajTJdafhwqjcTy1/eG9tRS2+OQ/Bfqx0m6B6oCEUdWH9k9j7h/LcTbzQJ/IIs0ejSItYx/jAaj/n8MzqlLjUee4/pxAIc21RhkauPk6vF5VTax9CYQ8Fc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712772409; c=relaxed/simple;
-	bh=9mHUvsMCvHI/lEf3R28H/lWIRLZtajg6D7uHi+gu8Xc=;
+	s=arc-20240116; t=1712834547; c=relaxed/simple;
+	bh=AboIvwKEkvx2wl+siJ2bnUL5g+OOjP+I7jd8D6N6LZk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r8twqME6l/et37TLPfTs6QuxMvdt9P7kS9QlHkHZQK5g3sTCXs18LZdJCpCm1C9ZsnC+Z7yMWO6hrVQ94ALN3IGiPd0ZragT3bzos3XeOIH9i7FJdO7olABbuziAvCSPq9TXbf+QPPnyMeuAnC6lht+uRU2wkN3nUb2HVeARjZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Lu35qvDv; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=WfWByavvYUSamEptzfR1LrIEOOdMNkm3qakS7EYNQzvukT8CN+GFlJuPULoiwNooutuOvfKL0TxBWui2NV3gxezE0W+tPLsa2xa8KbaLePIoq/IniZSigxPxGj39xKyBcjHDf3T85GSy/27UpF+/A8tZk7wLA+PxKg5T4PU9iEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EOG9CM45; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lu35qvDv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55443C433C7;
-	Wed, 10 Apr 2024 18:06:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EOG9CM45"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5807BC433C7;
+	Thu, 11 Apr 2024 11:22:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712772408;
-	bh=9mHUvsMCvHI/lEf3R28H/lWIRLZtajg6D7uHi+gu8Xc=;
+	s=k20201202; t=1712834547;
+	bh=AboIvwKEkvx2wl+siJ2bnUL5g+OOjP+I7jd8D6N6LZk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Lu35qvDvmqNkvq1o9nxg+w5hL5Uh7lDNWfNvkA5+kkFTIkp1zcQ2dCvhQ7Bmyxiky
-	 srIkPzXyQsbllzfitfQ3qBA04frMons8w+N3qunJ0qiyagfuyd8VP3Wuf7DsDyJCX4
-	 sADFRrR0lpwBWt2T/VQjb2jupa0lm1/2y1SDR5He9xfnB53rtkenMoKQxAXzpQxaIg
-	 g/QgpMxZFgNPTpg/nPfDmiJRljqUaN2o19G9m8w1lUwu/8qPu2foYaJ0CJBQaut8gi
-	 mhsGnnBNyndkfB8TLRrdqBenQDhN1PWT6Wo8fCofnQbnBcmDG7c1G0chPGnp2afnGE
-	 5WTuil65Gnjfg==
-Date: Wed, 10 Apr 2024 19:06:39 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Jani Nikula <jani.nikula@intel.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
+	b=EOG9CM45kn9Q91tY3xRKqPCxlgj/yVlitdovvmOVUhRtYAkAafiVagsDb5/Cx6aNO
+	 zDbeqdP9fS/dWGA230oszhssMMghOQ75t6bK0MbLxreVYGwmcDXv2ORVxcBo//kqMl
+	 R/94ldLCIVgVh+o2yO5ACS+QmmUwHHAfoWBQ4Ow2UQgeh84rdHu+m/h4sGatqNkQ8y
+	 MLG9LFNfaO/QNHN1TJaIxAKMV75xunq4mV8tLWdnYl1bufsKCOJz4Dr+GVxaah+GJu
+	 c0trW4/vpsPTfKhPpnp+rD40mzViXjS57hQWL9IWVFjH3MCvIeYl2+G/OeCN/tMSlF
+	 h552hEPGImvxA==
+Date: Thu, 11 Apr 2024 12:22:21 +0100
+From: Lee Jones <lee@kernel.org>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Chen-Yu Tsai <wens@csie.org>, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
 	Samuel Holland <samuel@sholland.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Alexander Stein <alexander.stein@ew.tq-group.com>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
-	linux-sunxi@lists.linux.dev, linux-mips@vger.kernel.org,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 0/7] drm/display: Fix display helpers depends on fallouts
-Message-ID: <117b0d3b-a60b-4bc0-9f2c-f0e4fffe634a@sirena.org.uk>
-References: <20240403-fix-dw-hdmi-kconfig-v1-0-afbc4a835c38@kernel.org>
+	Ryan Walklin <ryan@testtoast.com>,
+	Chris Morgan <macroalpha82@gmail.com>
+Subject: Re: [PATCH 0/4] regulator: Fix AXP717 PMIC support
+Message-ID: <20240411112221.GG1980182@google.com>
+References: <20240329235033.25309-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="m8uHuXe8Pt8zgPJR"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240403-fix-dw-hdmi-kconfig-v1-0-afbc4a835c38@kernel.org>
-X-Cookie: A bachelor is an unaltared male.
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240329235033.25309-1-andre.przywara@arm.com>
 
+On Fri, 29 Mar 2024, Andre Przywara wrote:
 
---m8uHuXe8Pt8zgPJR
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Here are some fixes to the AXP717 PMIC support series. Lee put that in
+> an immutable branch already, so these here go on top.
+> Patch 1 contains fixes to the regulator descriptions: the LDOs had the
+> wrong supply source, and two numbers were wrong. The datasheet describes
+> the voltage ranges and register values differently from what our macros
+> expect, in a way that literally begs for off-by-ones, so here you go.
+> I don't know if that's still feasible, but it would be a good candidate
+> to squash into the patch that it fixes.
+> 
+> The other three patches add the "boost" regulator, which is meant to
+> provide the 5V USB VBUS power when operating from the battery. It's the
+> usual trinity of binding/mfd/regulator patches.
+> Again this could be squashed into the respective patches from the
+> original series, if people agree.
+> 
+> Please have a look and test on a device, since I could not do this.
+> 
+> Based on mfd/ib-mfd-regulator-6.10, as detailed below.
+> 
+> Cheers,
+> Andre
+> 
+> Andre Przywara (4):
+>   regulator: axp20x: AXP717: fix LDO supply rails and off-by-ones
+>   dt-bindings: mfd: x-powers,axp152: add boost regulator
+>   mfd: axp20x: AXP717: Add support for boost regulator
+>   regulator: axp20x: AXP717: Add boost regulator
+> 
+>  .../bindings/mfd/x-powers,axp152.yaml         |  2 +-
+>  drivers/mfd/axp20x.c                          |  2 ++
+>  drivers/regulator/axp20x-regulator.c          | 32 +++++++++++--------
+>  include/linux/mfd/axp20x.h                    |  3 ++
+>  4 files changed, 24 insertions(+), 15 deletions(-)
 
-On Wed, Apr 03, 2024 at 12:56:18PM +0200, Maxime Ripard wrote:
-> Hi,
->=20
-> Here's a series addressing the various regressions that were reported
-> after the Kconfig rework for the DRM display helpers.
->=20
-> Let me know what you think,
-> Maxime
+I need an Ack from Mark before I can process these.
 
-Is there any news on getting the rest of this merged?  It's been more
-than a week now and the Designware display controllers are all still
-broken in -next, causing widespread breakage in CI.  For bisection
-purposes it probably makes sense for the defconfig updates to go along
-with the changes to the Kconfig for the driver...
-
---m8uHuXe8Pt8zgPJR
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmYW1S4ACgkQJNaLcl1U
-h9DOSwf/cU2i83arQzeCO07s0n4/uba3xhNrWfvc7xN0GLO+Z8KtAnVQfRMhXF5j
-ayRYwyjGMYcJmGugvdeX68HEbnVSq3PF1F0CSIjX4ElPZ9S7Wbiik4vnL45HJP6c
-IveEkj+HqtAvILP5/07YrflUuqawBsUKDiELWs2p8AqwcpiDy4j6sMJpPZd6n9gf
-9GzlZ5KCvzOua+GmCz9skxnIsXwSIB2HQ2y2zA0hyBbte7XjFFBUE36JW/kSt4z5
-eRZ8AW4MG2hO6f/x965L+SShk1aLPhnYQXx/683Eu5MhYCGzGW7XPuGQDJJ1rAZU
-YkvZX/nVERJeD10LMsjYYPcH/8N8Cw==
-=swV+
------END PGP SIGNATURE-----
-
---m8uHuXe8Pt8zgPJR--
+-- 
+Lee Jones [李琼斯]
