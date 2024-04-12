@@ -1,94 +1,193 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 995D613BC33;
-	Thu, 11 Apr 2024 11:22:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E33D717C98
+	for <linux-sunxi@lists.linux.dev>; Fri, 12 Apr 2024 04:11:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712834547; cv=none; b=gYXBUT92NTzgpilN+fTjrA9qGQM08xyKXxeOYlnoKCzJbObf3CPyA9ajTJdafhwqjcTy1/eG9tRS2+OQ/Bfqx0m6B6oCEUdWH9k9j7h/LcTbzQJ/IIs0ejSItYx/jAaj/n8MzqlLjUee4/pxAIc21RhkauPk6vF5VTax9CYQ8Fc=
+	t=1712895097; cv=none; b=mJ13A++faj3ZiCjbDFGDhICH298cYrfdm1xdOxoMZ35CPl/Myj54K1OK0A1KRN/ahVCXfkjJKhZ+gBU6n0ILeMMcv/g/tKVCykym/aNuA43g4/5e1bgcE6ws1D9OAJZ9Q3wNzfiEZ6AEd9ZNg8utGAyQReDD3sY5xp3VIJainTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712834547; c=relaxed/simple;
-	bh=AboIvwKEkvx2wl+siJ2bnUL5g+OOjP+I7jd8D6N6LZk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WfWByavvYUSamEptzfR1LrIEOOdMNkm3qakS7EYNQzvukT8CN+GFlJuPULoiwNooutuOvfKL0TxBWui2NV3gxezE0W+tPLsa2xa8KbaLePIoq/IniZSigxPxGj39xKyBcjHDf3T85GSy/27UpF+/A8tZk7wLA+PxKg5T4PU9iEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EOG9CM45; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712895097; c=relaxed/simple;
+	bh=194g6ODbPi6DXCUbZzbcQ+OHHq9FcyCjGD2rlljMNLM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=I8Sf8FeAEAwSEhOBMFqTiXVnVqSOc5WmQKe2kPLvAZvq28LMOQHjZJ5kqOln6HaibGxKkYQzuHLDDdbD+PQTxqjDV8wU8R7EH9rFXtaek5xAy5rET3nN7lX0sBTHvZv0W35xQ8hiMbHI5T/GRhX6HJ1moeqc1c8xFz7eMULjIGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=HtEWnHq9; arc=none smtp.client-ip=209.85.210.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EOG9CM45"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5807BC433C7;
-	Thu, 11 Apr 2024 11:22:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712834547;
-	bh=AboIvwKEkvx2wl+siJ2bnUL5g+OOjP+I7jd8D6N6LZk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EOG9CM45kn9Q91tY3xRKqPCxlgj/yVlitdovvmOVUhRtYAkAafiVagsDb5/Cx6aNO
-	 zDbeqdP9fS/dWGA230oszhssMMghOQ75t6bK0MbLxreVYGwmcDXv2ORVxcBo//kqMl
-	 R/94ldLCIVgVh+o2yO5ACS+QmmUwHHAfoWBQ4Ow2UQgeh84rdHu+m/h4sGatqNkQ8y
-	 MLG9LFNfaO/QNHN1TJaIxAKMV75xunq4mV8tLWdnYl1bufsKCOJz4Dr+GVxaah+GJu
-	 c0trW4/vpsPTfKhPpnp+rD40mzViXjS57hQWL9IWVFjH3MCvIeYl2+G/OeCN/tMSlF
-	 h552hEPGImvxA==
-Date: Thu, 11 Apr 2024 12:22:21 +0100
-From: Lee Jones <lee@kernel.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Ryan Walklin <ryan@testtoast.com>,
-	Chris Morgan <macroalpha82@gmail.com>
-Subject: Re: [PATCH 0/4] regulator: Fix AXP717 PMIC support
-Message-ID: <20240411112221.GG1980182@google.com>
-References: <20240329235033.25309-1-andre.przywara@arm.com>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="HtEWnHq9"
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-6ea1f98f3b9so319106a34.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 11 Apr 2024 21:11:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1712895094; x=1713499894; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=c4vFuc+KZXLr0HPAAI1Y3TxTNAhGubXRyuAzsTo1eCs=;
+        b=HtEWnHq9oK+CmSlJUhWnADWObMrzpB3zRlAMJmSwM28LgnVYTp+tDFTeqnOHardrFN
+         v0Kk6KkEWhrypKqqcLgaNhZthWoAbKgPPf82vnuW9su6CGG4Pmc0KAqF8kImdUbgIoqg
+         1MK+WNQPrs5IPdSaVXVfpielp+fSHnrQmVIZQH0Q1xb9VSdojgGYvZuZLazQ8yWMV+qs
+         s9ck6ZkWmJGzWmBaLf9tQllkqHjB9Ft57S9kplMaMQZQpSx9CdehrRgwrh2qWn/WUg6p
+         NoYsVEPW+N1ICFsGIJsrK1rEWUsAZvuA4NAkUYL+8e6p5TTOLwFKCDL+eSb/ENn+57wz
+         O+VA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712895094; x=1713499894;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=c4vFuc+KZXLr0HPAAI1Y3TxTNAhGubXRyuAzsTo1eCs=;
+        b=UkXlUXSdbQ0+Rm2S88yqGrYR+sY7JMVrnLz5K4qoI21UugFlZCMnNXSEIh8lqLwtud
+         s9JRmdq1lFP+31oCIGcjAzC34SWWMgCIBnPu07Jn3pjN6GfotOnmXTP1/RXU9hSENTO+
+         QJbQiR/CngmoBM/YOVf/bVEeydH+4w3DMjvqneM2133Yo/aHswlEN+YHKFl5n2ZrExTB
+         8UyC05oh8vZEuFso8y0pg0GhMsY5tEINdWp/IEC2ZvXRXabAnAMD8tFlBz0DARZyN46Q
+         /bALtiA/UIKvlSg2kyUycrBRIPWY5symT8ZOgF4KzythGb7VK2R5SbwMCoqIh0QGW4Md
+         YTxw==
+X-Forwarded-Encrypted: i=1; AJvYcCV+5gJs+mic5d2QoDi42h8A/DjccmyXGjBiubzJVoL9LOcTzT5CqD3be37HrmtPfyPPM1BApBARSejwSGmTVGobPUKFm3DSxxmxL9c=
+X-Gm-Message-State: AOJu0YznmrbPPJJI5f8psjJqAYQACfQEBSXC8ZVlS7x1gOJFz/Y67oMY
+	J2c/utEzawEpEj0qZt1di7/5dUrNHGmyDWX8adh1u5rnD9Gn40UzeUL/hx6gV1M=
+X-Google-Smtp-Source: AGHT+IFXcRrLjz2BzICl9U4RnOlnbIB1p9qCDuofL5zEbRRd7RbQN9I5ujZpsBrF05T5OBKkX8okrQ==
+X-Received: by 2002:a05:6808:a83:b0:3c5:ffa6:eaad with SMTP id q3-20020a0568080a8300b003c5ffa6eaadmr1623898oij.40.1712895093790;
+        Thu, 11 Apr 2024 21:11:33 -0700 (PDT)
+Received: from charlie.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id ka13-20020a056a00938d00b006e57247f4e5sm1949712pfb.8.2024.04.11.21.11.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Apr 2024 21:11:32 -0700 (PDT)
+From: Charlie Jenkins <charlie@rivosinc.com>
+Subject: [PATCH 00/19] riscv: Support vendor extensions and xtheadvector
+Date: Thu, 11 Apr 2024 21:11:06 -0700
+Message-Id: <20240411-dev-charlie-support_thead_vector_6_9-v1-0-4af9815ec746@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240329235033.25309-1-andre.przywara@arm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFq0GGYC/x2N0QrDIAwAf6XkeYHG2UH3K2OIaNoGRpVoZVD67
+ 5M9Hgd3JxRW4QLP4QTlJkXS3oFuA4TN7yujxM5gRmNHS4SRG3ajH2EsR85Jq6sb++gah5rUPdy
+ MNM20BOPtnSL0VFZe5PvfvN7X9QPk2l6XdgAAAA==
+To: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Paul Walmsley <paul.walmsley@sifive.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Guo Ren <guoren@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Conor Dooley <conor.dooley@microchip.com>, Evan Green <evan@rivosinc.com>, 
+ =?utf-8?q?Cl=C3=A9ment_L=C3=A9ger?= <cleger@rivosinc.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
+Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ Charlie Jenkins <charlie@rivosinc.com>, Heiko Stuebner <heiko@sntech.de>, 
+ Heiko Stuebner <heiko@sntech.de>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1712895091; l=5676;
+ i=charlie@rivosinc.com; s=20231120; h=from:subject:message-id;
+ bh=194g6ODbPi6DXCUbZzbcQ+OHHq9FcyCjGD2rlljMNLM=;
+ b=EhvZyYlJsQ3OvMXR9LRZNS0MNw+nCAiK2mU2Dzq2c9vBmPTSMtx9J5TU7CI3jKWv6Pv6x4pnE
+ PfLzDO9FtxmCmOPXd/ITlf11zybMZFjoUZT9yABJ32RPul/JV1y5wzH
+X-Developer-Key: i=charlie@rivosinc.com; a=ed25519;
+ pk=t4RSWpMV1q5lf/NWIeR9z58bcje60/dbtxxmoSfBEcs=
 
-On Fri, 29 Mar 2024, Andre Przywara wrote:
+This patch series ended up much larger than expected, please bear with
+me! The goal here is to support vendor extensions, starting at probing
+the device tree and ending with reporting to userspace.
 
-> Here are some fixes to the AXP717 PMIC support series. Lee put that in
-> an immutable branch already, so these here go on top.
-> Patch 1 contains fixes to the regulator descriptions: the LDOs had the
-> wrong supply source, and two numbers were wrong. The datasheet describes
-> the voltage ranges and register values differently from what our macros
-> expect, in a way that literally begs for off-by-ones, so here you go.
-> I don't know if that's still feasible, but it would be a good candidate
-> to squash into the patch that it fixes.
-> 
-> The other three patches add the "boost" regulator, which is meant to
-> provide the 5V USB VBUS power when operating from the battery. It's the
-> usual trinity of binding/mfd/regulator patches.
-> Again this could be squashed into the respective patches from the
-> original series, if people agree.
-> 
-> Please have a look and test on a device, since I could not do this.
-> 
-> Based on mfd/ib-mfd-regulator-6.10, as detailed below.
-> 
-> Cheers,
-> Andre
-> 
-> Andre Przywara (4):
->   regulator: axp20x: AXP717: fix LDO supply rails and off-by-ones
->   dt-bindings: mfd: x-powers,axp152: add boost regulator
->   mfd: axp20x: AXP717: Add support for boost regulator
->   regulator: axp20x: AXP717: Add boost regulator
-> 
->  .../bindings/mfd/x-powers,axp152.yaml         |  2 +-
->  drivers/mfd/axp20x.c                          |  2 ++
->  drivers/regulator/axp20x-regulator.c          | 32 +++++++++++--------
->  include/linux/mfd/axp20x.h                    |  3 ++
->  4 files changed, 24 insertions(+), 15 deletions(-)
+The main design objective was to allow vendors to operate independently
+of each other. This has been achieved by delegating vendor extensions to
+a new struct "hart_isa_vendor" which is a counterpart to "hart_isa".
 
-I need an Ack from Mark before I can process these.
+Each vendor will have their own list of extensions they support. Each
+vendor will have a "namespace" to themselves which is set at the key
+values of 0x8000 - 0x8080. It is up to the vendor's disgression how they
+wish to allocate keys in the range for their vendor extensions.
 
+Reporting to userspace follows a similar story, leveraging the hwprobe
+syscall. There is a new hwprobe key RISCV_HWPROBE_KEY_VENDOR_EXT_0 that
+is used to request supported vendor extensions. The vendor extension
+keys are disambiguated by the vendor associated with the cpumask passed
+into hwprobe. The entire 64-bit key space is available to each vendor.
+
+On to the xtheadvector specific code. xtheadvector is a custom extension
+that is based upon riscv vector version 0.7.1 [1]. All of the vector
+routines have been modified to support this alternative vector version
+based upon whether xtheadvector was determined to be supported at boot.
+I have tested this with an Allwinner Nezha board. I ran into issues
+booting the board on 6.9-rc1 so I applied these patches to 6.8. There
+are a couple of minor merge conflicts that do arrise when doing that, so
+please let me know if you have been able to boot this board with a 6.9
+kernel. I used SkiffOS [2] to manage building the image, but upgraded
+the U-Boot version to Samuel Holland's more up-to-date version [3] and
+changed out the device tree used by U-Boot with the device trees that
+are present in upstream linux and this series. Thank you Samuel for all
+of the work you did to make this task possible.
+
+To test the integration, I used the riscv vector kselftests. I modified
+the test cases to be able to more easily extend them, and then added a
+xtheadvector target that works by calling hwprobe and swapping out the
+vector asm if needed.
+
+[1] https://github.com/T-head-Semi/thead-extension-spec/blob/95358cb2cca9489361c61d335e03d3134b14133f/xtheadvector.adoc
+[2] https://github.com/skiffos/SkiffOS/tree/master/configs/allwinner/nezha
+[3] https://github.com/smaeul/u-boot/commit/2e89b706f5c956a70c989cd31665f1429e9a0b48
+
+Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+---
+Charlie Jenkins (18):
+      dt-bindings: riscv: Add vendorid and archid
+      riscv: cpufeature: Fix thead vector hwcap removal
+      dt-bindings: riscv: Add xtheadvector ISA extension description
+      riscv: dts: allwinner: Add xtheadvector to the D1/D1s devicetree
+      riscv: Fix extension subset checking
+      riscv: Extend cpufeature.c to detect vendor extensions
+      riscv: Optimize riscv_cpu_isa_extension_(un)likely()
+      riscv: Introduce vendor variants of extension helpers
+      riscv: uaccess: Add alternative for xtheadvector uaccess
+      riscv: csr: Add CSR encodings for VCSR_VXRM/VCSR_VXSAT
+      riscv: Create xtheadvector file
+      riscv: vector: Support xtheadvector save/restore
+      riscv: hwprobe: Disambiguate vector and xtheadvector in hwprobe
+      riscv: hwcap: Add v to hwcap if xtheadvector enabled
+      riscv: hwprobe: Add vendor extension probing
+      riscv: hwprobe: Document vendor extensions and xtheadvector extension
+      selftests: riscv: Fix vector tests
+      selftests: riscv: Support xtheadvector in vector tests
+
+Heiko Stuebner (1):
+      RISC-V: define the elements of the VCSR vector CSR
+
+ Documentation/arch/riscv/hwprobe.rst               |  12 +
+ Documentation/devicetree/bindings/riscv/cpus.yaml  |  11 +
+ .../devicetree/bindings/riscv/extensions.yaml      |   9 +
+ arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi      |   4 +-
+ arch/riscv/include/asm/cpufeature.h                | 143 +++++++---
+ arch/riscv/include/asm/csr.h                       |  13 +
+ arch/riscv/include/asm/hwcap.h                     |  23 ++
+ arch/riscv/include/asm/hwprobe.h                   |   4 +-
+ arch/riscv/include/asm/sbi.h                       |   2 +
+ arch/riscv/include/asm/vector.h                    | 228 ++++++++++++----
+ arch/riscv/include/asm/xtheadvector.h              |  25 ++
+ arch/riscv/include/uapi/asm/hwprobe.h              |  10 +-
+ arch/riscv/kernel/cpu.c                            |  20 ++
+ arch/riscv/kernel/cpufeature.c                     | 264 +++++++++++++++---
+ arch/riscv/kernel/kernel_mode_vector.c             |   4 +-
+ arch/riscv/kernel/sys_hwprobe.c                    |  59 ++++-
+ arch/riscv/kernel/vector.c                         |  22 +-
+ arch/riscv/lib/uaccess.S                           |   1 +
+ tools/testing/selftests/riscv/vector/.gitignore    |   3 +-
+ tools/testing/selftests/riscv/vector/Makefile      |  17 +-
+ .../selftests/riscv/vector/v_exec_initval_nolibc.c |  93 +++++++
+ tools/testing/selftests/riscv/vector/v_helpers.c   |  66 +++++
+ tools/testing/selftests/riscv/vector/v_helpers.h   |   7 +
+ tools/testing/selftests/riscv/vector/v_initval.c   |  22 ++
+ .../selftests/riscv/vector/v_initval_nolibc.c      |  68 -----
+ .../selftests/riscv/vector/vstate_exec_nolibc.c    |  20 +-
+ .../testing/selftests/riscv/vector/vstate_prctl.c  | 295 ++++++++++++---------
+ 27 files changed, 1114 insertions(+), 331 deletions(-)
+---
+base-commit: 4cece764965020c22cff7665b18a012006359095
+change-id: 20240411-dev-charlie-support_thead_vector_6_9-1591fc2a431d
 -- 
-Lee Jones [李琼斯]
+- Charlie
+
