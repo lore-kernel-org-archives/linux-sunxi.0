@@ -1,57 +1,57 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E53D14D29E
-	for <linux-sunxi@lists.linux.dev>; Fri, 12 Apr 2024 17:34:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F17F14D2B7
+	for <linux-sunxi@lists.linux.dev>; Fri, 12 Apr 2024 17:43:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712943273; cv=none; b=fBAst/7sZLnJ1ve4i6mKrs64jh4vAm895qWfdkqzg6fj12xXOV0f4FDZfepo/mEgB7x4sltyaXyPUHG5AUmEKyNg8biBRF/49wh8jduttWxfVxp+gXp6bqSN9o8o0vFOamjniZ34AfQ97j0mrtwveb4PbJhKVbf7aHfgZwPth7o=
+	t=1712943789; cv=none; b=TgfxoV9Kqv0pXmRA+X3hEQs2IfQf+y3pI4f3sLBQh9p5dP7kQ8Rh3YYd8jW64oXTnybYtOdG87iDX0qOE4LWgb4I4MoORCXKLU5zlmSDymPk4QDzj/q0P3eiZzk8famUjIVDxlqs15HBEo+tt2z0IOINuD8lqeZXQ39ScCsVxEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712943273; c=relaxed/simple;
-	bh=trPSWbts0qeWRZx2qyrUZFaFTVVwg7Cc9kvkrHlL3Yc=;
+	s=arc-20240116; t=1712943789; c=relaxed/simple;
+	bh=398UBf0wjuXyW1KRcz0N92ExG8gOAwZvnLb+5hA8430=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T8mhiujJGYMhDzISmLL16eUqwQA+gdfhVTAf+OsTsAHpLg4NVCLYJV0Qj1e3957qjQzqwe1TSgyZudvplWkT7LYts4VQfFb9yfB0y4mx+41Ss8jeTJV/cyAV9mrY4CN2BDSYz99hV+smrUYDboL7nN/EiebKbiydOI2Kwca6qvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=wLWyvp7H; arc=none smtp.client-ip=209.85.216.49
+	 Content-Type:Content-Disposition:In-Reply-To; b=WkzTvLEtUELp2vvyX9zKBEltRsdk+qeJgtdebKbq6b/Y9VDs3SttbbQYdxRRmWdqC4zw+oqAgSpYnrTOcCr4r/Qyo/ZtxT6dg26G577j4WX3xkbRoXtxU8aKjXmmBeqYPRQ5HQvA0PSJxoyrjh1bf6pK05WSnB/ccIO2A3Zk/PQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=BhvfWbTg; arc=none smtp.client-ip=209.85.214.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="wLWyvp7H"
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2a68a2b3747so774900a91.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 12 Apr 2024 10:34:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="BhvfWbTg"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1e2bbc2048eso10108295ad.3
+        for <linux-sunxi@lists.linux.dev>; Fri, 12 Apr 2024 10:43:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1712943271; x=1713548071; darn=lists.linux.dev;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1712943786; x=1713548586; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=PEydYnVIUiV6lB5t0xe0YqzJX4OVoeUrqtT1X9ALVoM=;
-        b=wLWyvp7HSsvvzKHVicSI+SmH2HfwRsgNxPU42ahPJjs+rDEv8uQW22dwuN8cV7gIiL
-         ccb/pVp+1wrGDzrUTzyuH7va60ar9sSdxlnVDP+NpIOtawk5m+4MXlT685PZNGMFYv7+
-         bDnugt5GxHA6EL3UetOCzGKioqc6gT9nUrO7v+2oRaOr7+2f06gPzGzR+GSqpVmFbB3W
-         Vzfl6DapuvegsxikLNCIR/wWZO2JwZIR1PhM67K1Fe0B6HbZ9DERUkuvLtHvfcuVyd4B
-         R/cFowbM9s8djTihiHliwT3QptZ+6N4GJqD1E+uen6+Pmqdi0grZGmBlAF5ZXLxncAwt
-         imng==
+        bh=8YRvEt+OTF00KrpCNHpUGlZ7toxHUQ85PqnBkH5iiOI=;
+        b=BhvfWbTgRkF4lW8kftl4qwaESpmelNFejTnfLo+U4w6FTyrkub/Nk9hSKwysQsmMRX
+         rB+p0qr4mRukGhlGznGYKvk83EkQr0MS2l3GLSVFd78vKB3Jn9uA347bJuknIthHFGry
+         GsfYM23MzGU3tkNkZ0dd//jUPPLpwshwextXKMYsNAD7Hwi1wksRvb6gbaW/BvywjphC
+         RBpQKCtiWzu+UpDkaioesJbnQK4voLJ4DDVARC0tF9QYe+fg/YYyZp1/Z0QShFXNDIRp
+         4R2dRswdsQnPB7NWDCh1EXVWrbxqQniQdJhJWDQN5mNf7qysSzTGI8EG9ljGafHhuPSK
+         CvUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712943271; x=1713548071;
+        d=1e100.net; s=20230601; t=1712943786; x=1713548586;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PEydYnVIUiV6lB5t0xe0YqzJX4OVoeUrqtT1X9ALVoM=;
-        b=hgXXkWMMUEuLiSyQCBJ7skrMbOhDNWo7ih/knUEJfNd5hJjgmlpWOm5S++FrNle19Y
-         bkU2rUfLUnLSQenlAZM6nVF9qVjBsCm/w9ssLJmZAJIPK0EDZUL0iRPmdBssuk8f+yPg
-         /dC5ULlCBlJcwAJJyRc0WaJc5uRqEnt2xjeZjERWO1T4YgxQiBzBI9aj2ZaJbDPWiqkH
-         bsQVZaMNUEOhWMiIDIHmT8oEk0pIfsD7A4RErOqRF9SkpBeH4KrHR2V8+kIJN4jfK14P
-         oeTD8fotHppbcOe0TEzYwO2OHDpE0WzGE7HFxXcUHVgTmnP6yPjltBQQtOjC77t+1jPc
-         lr2A==
-X-Forwarded-Encrypted: i=1; AJvYcCVpjorjhtokeFzy0BSOTRbg/J0QQqocAdKtcNPdrKnoqWHAZI7xg0v/b2g1AHohufagz5zYf+N+CcJ2HA+NcS4LkOQ+4jy5/9d53ok=
-X-Gm-Message-State: AOJu0YwrMwdj1++KFzj2cnPOBS1AHonhVHsYm3Z0jCbRdc74nucTcdST
-	rWe3WTAz/Yel0wBHtVoH2XcrUwXd1eh+zRRQUQ0KZkhstPIWQ6fCxGPXU3E6NDk=
-X-Google-Smtp-Source: AGHT+IGecMdCX/L7b/b4jRRmemcxcjENo5rWeeIe8AMz+k5W0w7mlpSYqVctJhJ2M4+aY/mVz0JUCQ==
-X-Received: by 2002:a17:90a:2cf:b0:2a5:733c:3105 with SMTP id d15-20020a17090a02cf00b002a5733c3105mr3650134pjd.26.1712943271582;
-        Fri, 12 Apr 2024 10:34:31 -0700 (PDT)
+        bh=8YRvEt+OTF00KrpCNHpUGlZ7toxHUQ85PqnBkH5iiOI=;
+        b=i/S7QO9Y8EcQESRUnNuUAkBtmCL1fxmvUWUs9FPU2ZBAb/I6kW2UBpNvlL0lgXiKkW
+         vREv6GueXr4HpX2MoSenoHvnse4MKusTpDTv9LHhAtA1se6sy5v5iA6fKdjfn6fu4TyS
+         0YVUQ9dzTYXnfal8WVVGbYRD9owyCszkLGN3f8BOOiAamECVHbdyBmEBZWu7vM9+XXPh
+         3Mkh3Izie2Up/83IaeyVIlc2vZwTJmsUtwYWu9UsWhCFXRPbOj7/iWvhP8SDibG4LGF/
+         ORzL0UkbpvoMe0650QdkXIdD5x/fSIRSV075fBGmCLonxqHEuCiJmoEa4JmwM/cGbzK+
+         4XuQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUu3pZUAcC0YNGNCi+LkyaUf7wPLL+yWY+juvNkvoBjfeg1wwadRacNI2fE5DspoyyJ3X8rCswpzFfnfxgVRDZIB6hgnrVlCFG8DkY=
+X-Gm-Message-State: AOJu0YxWL7lpXyANclJGXX2SPK810/XNic0T6Utz+tGDbwJGsMqyRp19
+	tiCZ/9YYZMsIHtLAod+Ear2AirHNaMPkG3Q5qEN4LgHEjpdecm+45aBIX6evyZY=
+X-Google-Smtp-Source: AGHT+IE1KS+cgoHgP39ECdNzoJBDC8vTl8/0G5V7240HCpKQkDUzHJq76jMWfkj5KFoeGRTzjJqSZQ==
+X-Received: by 2002:a17:902:d303:b0:1e0:bae4:48f9 with SMTP id b3-20020a170902d30300b001e0bae448f9mr3205407plc.32.1712943785937;
+        Fri, 12 Apr 2024 10:43:05 -0700 (PDT)
 Received: from ghost ([2601:647:5700:6860:121b:da6b:94f1:304])
-        by smtp.gmail.com with ESMTPSA id fs6-20020a17090af28600b002a4e331cc69sm4732571pjb.20.2024.04.12.10.34.29
+        by smtp.gmail.com with ESMTPSA id h9-20020a170902f2c900b001e0e5722788sm3287804plc.17.2024.04.12.10.43.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Apr 2024 10:34:31 -0700 (PDT)
-Date: Fri, 12 Apr 2024 10:34:28 -0700
+        Fri, 12 Apr 2024 10:43:05 -0700 (PDT)
+Date: Fri, 12 Apr 2024 10:43:02 -0700
 From: Charlie Jenkins <charlie@rivosinc.com>
 To: Conor Dooley <conor.dooley@microchip.com>
 Cc: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
@@ -69,12 +69,12 @@ Cc: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
 	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
 	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH 07/19] riscv: Optimize
- riscv_cpu_isa_extension_(un)likely()
-Message-ID: <ZhlwpKuqVkQCr6u+@ghost>
+Subject: Re: [PATCH 08/19] riscv: Introduce vendor variants of extension
+ helpers
+Message-ID: <ZhlypvTdsFPZBr08@ghost>
 References: <20240411-dev-charlie-support_thead_vector_6_9-v1-0-4af9815ec746@rivosinc.com>
- <20240411-dev-charlie-support_thead_vector_6_9-v1-7-4af9815ec746@rivosinc.com>
- <20240412-aerosol-heritage-cec1eca172fb@wendy>
+ <20240411-dev-charlie-support_thead_vector_6_9-v1-8-4af9815ec746@rivosinc.com>
+ <20240412-dwarf-shower-5a7300fcd283@wendy>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -83,58 +83,128 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240412-aerosol-heritage-cec1eca172fb@wendy>
+In-Reply-To: <20240412-dwarf-shower-5a7300fcd283@wendy>
 
-On Fri, Apr 12, 2024 at 11:40:38AM +0100, Conor Dooley wrote:
-> On Thu, Apr 11, 2024 at 09:11:13PM -0700, Charlie Jenkins wrote:
-> > When alternatives are disabled, riscv_cpu_isa_extension_(un)likely()
-> > checks if the current cpu supports the selected extension if not all
-> > cpus support the extension. It is sufficient to only check if the
-> > current cpu supports the extension.
-> > 
-> > The alternatives code to handle if all cpus support an extension is
-> > factored out into a new function to support this.
+On Fri, Apr 12, 2024 at 12:49:57PM +0100, Conor Dooley wrote:
+> On Thu, Apr 11, 2024 at 09:11:14PM -0700, Charlie Jenkins wrote:
+> > Create vendor variants of the existing extension helpers. If the
+> > existing functions were instead modified to support vendor extensions, a
+> > branch based on the ext value being greater than
+> > RISCV_ISA_VENDOR_EXT_BASE would have to be introduced. This additional
+> > branch would have an unnecessary performance impact.
 > > 
 > > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> > ---
 > 
-> >  static __always_inline bool riscv_cpu_has_extension_unlikely(int cpu, const unsigned long ext)
-> >  {
-> > -	if (IS_ENABLED(CONFIG_RISCV_ALTERNATIVE) && riscv_has_extension_unlikely(ext))
-> > -		return true;
-> > +	compiletime_assert(ext < RISCV_ISA_EXT_MAX,
-> > +			   "ext must be < RISCV_ISA_EXT_MAX");
-> >  
-> > -	return __riscv_isa_extension_available(hart_isa[cpu].isa, ext);
-> > +	if (IS_ENABLED(CONFIG_RISCV_ALTERNATIVE) && __riscv_has_extension_unlikely_alternatives(ext))
-> > +		return true;
-> > +	else
-> > +		return __riscv_isa_extension_available(hart_isa[cpu].isa, ext);
-> >  }
-> 
-> static __always_inline bool riscv_cpu_has_extension_likely(int cpu, const unsigned long ext)
-> {
-> 	if (IS_ENABLED(CONFIG_RISCV_ALTERNATIVE) && riscv_has_extension_likely(ext))
-> 		return true;
-> 
-> 	return __riscv_isa_extension_available(hart_isa[cpu].isa, ext);
-> }
-> 
-> This is the code as things stand. If alternatives are disabled, the if
-> statement becomes if (0 && foo) which will lead to the function call
-> getting constant folded away and all you end up with is the call to
-> __riscv_isa_extension_available(). Unless I am missing something, I don't
-> think this patch has any affect?
+> I've not looked at the "main" patch in the series that adds all of the
+> probing and structures for representing this info yet beyond a cursory
+> glance, but it feels like we're duplicating a bunch of infrastructure
+> here before it is necessary. The IDs are all internal to Linux, so I'd
+> rather we kept everything in the same structure until we have more than
+> a handful of vendor extensions. With this patch (and the theadpmu stuff)
+> we will have three vendor extensions which feels like a drop in the
+> bucket compared to the standard ones.
 
-Yeah I fumbled this one it appears. I got thrown off by the nested
-IS_ENABLED(CONFIG_RISCV_ALTERNATIVE). This patch eliminates the need for
-this and maybe can avoid avoid confusion in the future.
+It is not duplicating infrastructure. If we merge this into the existing
+infrastructure, we would be littering if (ext > RISCV_ISA_VENDOR_EXT_BASE)
+in __riscv_isa_extension_available. This is particularily important
+exactly because we have so few vendor extensions currently so this check
+would be irrelevant in the vast majority of cases.
+
+It is also unecessary to push off the refactoring until we have some
+"sufficient" amount of vendor extensions to deem changing the
+infrastructure when I already have the patch available here. This does
+not introduce any extra overhead to existing functions and will be able
+to support vendors into the future.
 
 - Charlie
 
 > 
-> Thanks,
-> Conor.
 > 
+> > ---
+> >  arch/riscv/include/asm/cpufeature.h | 54 +++++++++++++++++++++++++++++++++++++
+> >  arch/riscv/kernel/cpufeature.c      | 34 ++++++++++++++++++++---
+> >  2 files changed, 84 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm/cpufeature.h
+> > index db2ab037843a..8f19e3681b4f 100644
+> > --- a/arch/riscv/include/asm/cpufeature.h
+> > +++ b/arch/riscv/include/asm/cpufeature.h
+> > @@ -89,6 +89,10 @@ bool __riscv_isa_extension_available(const unsigned long *isa_bitmap, unsigned i
+> >  #define riscv_isa_extension_available(isa_bitmap, ext)	\
+> >  	__riscv_isa_extension_available(isa_bitmap, RISCV_ISA_EXT_##ext)
+> >  
+> > +bool __riscv_isa_vendor_extension_available(const unsigned long *vendor_isa_bitmap, unsigned int bit);
+> > +#define riscv_isa_vendor_extension_available(isa_bitmap, ext)	\
+> > +	__riscv_isa_vendor_extension_available(isa_bitmap, RISCV_ISA_VENDOR_EXT_##ext)
+> > +
+> >  static __always_inline bool
+> >  __riscv_has_extension_likely_alternatives(const unsigned long ext)
+> >  {
+> > @@ -117,6 +121,8 @@ __riscv_has_extension_unlikely_alternatives(const unsigned long ext)
+> >  	return true;
+> >  }
+> >  
+> > +/* Standard extension helpers */
+> > +
+> >  static __always_inline bool
+> >  riscv_has_extension_likely(const unsigned long ext)
+> >  {
+> > @@ -163,4 +169,52 @@ static __always_inline bool riscv_cpu_has_extension_unlikely(int cpu, const unsi
+> >  		return __riscv_isa_extension_available(hart_isa[cpu].isa, ext);
+> >  }
+> >  
+> > +/* Vendor extension helpers */
+> > +
+> > +static __always_inline bool
+> > +riscv_has_vendor_extension_likely(const unsigned long ext)
+> > +{
+> > +	compiletime_assert(ext < RISCV_ISA_VENDOR_EXT_MAX,
+> > +			   "ext must be < RISCV_ISA_VENDOR_EXT_MAX");
+> > +
+> > +	if (IS_ENABLED(CONFIG_RISCV_ALTERNATIVE))
+> > +		return __riscv_has_extension_likely_alternatives(ext);
+> > +	else
+> > +		return __riscv_isa_vendor_extension_available(NULL, ext);
+> > +}
+> > +
+> > +static __always_inline bool
+> > +riscv_has_vendor_extension_unlikely(const unsigned long ext)
+> > +{
+> > +	compiletime_assert(ext < RISCV_ISA_VENDOR_EXT_MAX,
+> > +			   "ext must be < RISCV_ISA_VENDOR_EXT_MAX");
+> > +
+> > +	if (IS_ENABLED(CONFIG_RISCV_ALTERNATIVE))
+> > +		return __riscv_has_extension_unlikely_alternatives(ext);
+> > +	else
+> > +		return __riscv_isa_vendor_extension_available(NULL, ext);
+> > +}
+> > +
+> > +static __always_inline bool riscv_cpu_has_vendor_extension_likely(int cpu, const unsigned long ext)
+> > +{
+> > +	compiletime_assert(ext < RISCV_ISA_VENDOR_EXT_MAX,
+> > +			   "ext must be < RISCV_ISA_VENDOR_EXT_MAX");
+> > +
+> > +	if (IS_ENABLED(CONFIG_RISCV_ALTERNATIVE))
+> > +		return __riscv_has_extension_likely_alternatives(ext);
+> > +	else
+> > +		return __riscv_isa_vendor_extension_available(hart_isa_vendor[cpu].isa, ext);
+> > +}
+> > +
+> > +static __always_inline bool riscv_cpu_has_vendor_extension_unlikely(int cpu, const unsigned long ext)
+> > +{
+> > +	compiletime_assert(ext < RISCV_ISA_VENDOR_EXT_MAX,
+> > +			   "ext must be < RISCV_ISA_VENDOR_EXT_MAX");
+> > +
+> > +	if (IS_ENABLED(CONFIG_RISCV_ALTERNATIVE))
+> > +		return __riscv_has_extension_unlikely_alternatives(ext);
+> > +	else
+> > +		return __riscv_isa_vendor_extension_available(hart_isa_vendor[cpu].isa, ext);
+> > +}
+> 
+> Same stuff about constant folding applies to these, I think these should
+> just mirror the existing functions (if needed at all).
+> 
+> Cheers,
+> Conor.
 
 
