@@ -1,51 +1,51 @@
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6CDB4D5BD
-	for <linux-sunxi@lists.linux.dev>; Fri, 12 Apr 2024 11:32:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D52E5466B
+	for <linux-sunxi@lists.linux.dev>; Fri, 12 Apr 2024 11:35:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712921522; cv=none; b=Gs1ddG19vBMM7v3cLjRF7OAdGYQHgMXJ9vYFileUiIjVzpi72ibLzOufWp7w6N1WTveQy3L9RQjfEFTAykQaZ6ahl+mE1SXZmFrvZLxSn1bZOHcuKdA1ZjwY0pd3YjcRrbfdZfCdFvz2z4UB0J22i/E1grMMmm31N57QeGMxtNQ=
+	t=1712921721; cv=none; b=LnQU+fxnLcdQZ1zCZ02wyV50grm+sZW03ybld/V4ROERI7AkMe0zyQJC6Iu+kYXhamWGZgSs5USV/+AElyriakZA69tIrtNojCwRQV01jyuC60KNhL51Fac5vXsv8mTFW3Otma3uu4e+WJxBZaV8xttyx6Ao97G0669Abkc65C8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712921522; c=relaxed/simple;
-	bh=BzJrqDFA6AyqBMFADduzWLtGiHXrJzqR3kUA+iQC510=;
+	s=arc-20240116; t=1712921721; c=relaxed/simple;
+	bh=rFo3W94iUSuQhBrmABhl4gWFChYqSdvcm2Lgae2EHdY=;
 	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ixRNcZ5ura9pySzzRnoXn/B46dsV8RB7og8mZc4/AzGFDolDCuJXBKaBv72Sh9YoPmksSktv4+RaDjyzOfE/Hn6alGpTg5Zomm9uLHoVqHMD+o7yFjt4dwZyzLESIKLLtx4sje3zkfN9Io6gBraFVtw22rVFi8YP6LvtKw/Nk74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=vJ3VhPU6; arc=none smtp.client-ip=68.232.153.233
+	 Content-Type:Content-Disposition:In-Reply-To; b=SUvFXXFN2TYhcO/Vw055oV3AL8iBMDHvkISAY+vsJ/c48cIQx4l9H3XV6bppfuOkVfP8rY3NVxbYzukmaa+tHhZyMvIjEXMlvBKAtOy4rihLgDBa9EM9reYmUu/6i3ppNOGGv9IX/zTthn1XcGBC1ogFM+ppdiAdyHhNsuXZkaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=Prz6xAi7; arc=none smtp.client-ip=68.232.153.233
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="vJ3VhPU6"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="Prz6xAi7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1712921520; x=1744457520;
+  t=1712921719; x=1744457719;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=BzJrqDFA6AyqBMFADduzWLtGiHXrJzqR3kUA+iQC510=;
-  b=vJ3VhPU63326yh4C0PS8kMlHbIdv9NrW0jWDmY1FSMmsBH8MnjY4yCza
-   NmcfMyFh7jdD5lTU0b/pPLhF1MLJSEfOglTOVNq9oIMieuh3xyQKMhgSq
-   WuHLZf7PiV68XXaOHIFllwtTfKxdPH9iNDD7DTCvIvRIRSVLxj303XOaZ
-   lwUdkLRAzapldttFR6RUqDbQSZv4Zm9TxM9yZdyyf2ZC8II0PyCSSRSkB
-   oHTDsq/evB1+Rlc++/cu/VfZsMHMo5kEtUbQPe5PCM5Mo2Q8Jp531cafD
-   WdP+5fE64RS1+RlY6n7Ey37VT4P8THCI14hVKfzyPYSgjrpBbiT26gjtx
+  bh=rFo3W94iUSuQhBrmABhl4gWFChYqSdvcm2Lgae2EHdY=;
+  b=Prz6xAi7qjyKg/jAhQ6oUohFWpGBVZJWSAiR9tJbz6cVLOnF+mKnOKLx
+   9TkWbSINfHXwZutk8pAReO8YtoyDCpD3RH4S85KHSgSzabvPxWhjWd55n
+   Fyqa02AMdBYVZLj5FqHUxirVkxgVnx38K7ah08S9hXgPu7iq8rlNSvVBb
+   KWKsXHEPWQTyC7Nd1NiIvKdKv43UaMc7aNjG5O35009WIcHpAC/BkW43V
+   PU6O+KyQJAaaFUIWw2iWVggkTbMaTxHUGUkATDM7j1GvaC4bxhmhXirDU
+   l+MV/l9dHgg0b+31E0hkKI6R+VQo2s7J+rI5D+oDrdp66dn5bG6QN9u9X
    g==;
-X-CSE-ConnectionGUID: VphaOc2hTpGpkTSDHvpbiw==
-X-CSE-MsgGUID: V1pgwBcRSfihNzKAqHlD4Q==
-X-IronPort-AV: E=Sophos;i="6.07,195,1708412400"; 
-   d="asc'?scan'208";a="20733274"
+X-CSE-ConnectionGUID: DNSnegTRQWK/aU/b9HmXRg==
+X-CSE-MsgGUID: 3ZwNcCjXROqOSmEhUdI/pw==
+X-IronPort-AV: E=Sophos;i="6.07,196,1708412400"; 
+   d="asc'?scan'208";a="20733643"
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 12 Apr 2024 04:32:00 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 12 Apr 2024 04:35:06 -0700
+Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 12 Apr 2024 04:31:27 -0700
-Received: from wendy (10.10.85.11) by chn-vm-ex02.mchp-main.com (10.10.85.144)
+ 15.1.2507.35; Fri, 12 Apr 2024 04:34:56 -0700
+Received: from wendy (10.10.85.11) by chn-vm-ex04.mchp-main.com (10.10.85.152)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35 via Frontend
- Transport; Fri, 12 Apr 2024 04:31:23 -0700
-Date: Fri, 12 Apr 2024 12:30:32 +0100
+ Transport; Fri, 12 Apr 2024 04:34:52 -0700
+Date: Fri, 12 Apr 2024 12:34:01 +0100
 From: Conor Dooley <conor.dooley@microchip.com>
 To: Charlie Jenkins <charlie@rivosinc.com>
 CC: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
@@ -61,10 +61,11 @@ CC: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
 	<palmer@rivosinc.com>, <linux-arm-kernel@lists.infradead.org>,
 	<linux-sunxi@lists.linux.dev>, <linux-doc@vger.kernel.org>,
 	<linux-kselftest@vger.kernel.org>
-Subject: Re: [PATCH 12/19] riscv: Create xtheadvector file
-Message-ID: <20240412-thirty-sacrament-db052c7fe6fe@wendy>
+Subject: Re: [PATCH 14/19] riscv: hwprobe: Disambiguate vector and
+ xtheadvector in hwprobe
+Message-ID: <20240412-moonshine-acting-0df1a90b86d2@wendy>
 References: <20240411-dev-charlie-support_thead_vector_6_9-v1-0-4af9815ec746@rivosinc.com>
- <20240411-dev-charlie-support_thead_vector_6_9-v1-12-4af9815ec746@rivosinc.com>
+ <20240411-dev-charlie-support_thead_vector_6_9-v1-14-4af9815ec746@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -72,74 +73,71 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="zwcSHVZLwjxefjz8"
+	protocol="application/pgp-signature"; boundary="CIbAOIHVm3rWkC3a"
 Content-Disposition: inline
-In-Reply-To: <20240411-dev-charlie-support_thead_vector_6_9-v1-12-4af9815ec746@rivosinc.com>
+In-Reply-To: <20240411-dev-charlie-support_thead_vector_6_9-v1-14-4af9815ec746@rivosinc.com>
 
---zwcSHVZLwjxefjz8
+--CIbAOIHVm3rWkC3a
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 11, 2024 at 09:11:18PM -0700, Charlie Jenkins wrote:
-> These definitions didn't fit anywhere nicely, so create a new file to
-> house various xtheadvector instruction encodings.
+On Thu, Apr 11, 2024 at 09:11:20PM -0700, Charlie Jenkins wrote:
+> Ensure that hwprobe does not flag "v" when xtheadvector is present.
 >=20
 > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
 > ---
->  arch/riscv/include/asm/xtheadvector.h | 25 +++++++++++++++++++++++++
->  1 file changed, 25 insertions(+)
+>  arch/riscv/kernel/sys_hwprobe.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >=20
-> diff --git a/arch/riscv/include/asm/xtheadvector.h b/arch/riscv/include/a=
-sm/xtheadvector.h
-> new file mode 100644
-> index 000000000000..348263ea164c
-> --- /dev/null
-> +++ b/arch/riscv/include/asm/xtheadvector.h
-> @@ -0,0 +1,25 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +
-> +/*
-> + * Vector 0.7.1 as used for example on T-Head Xuantie cores, uses an old=
-er
-> + * encoding for vsetvli (ta, ma vs. d1), so provide an instruction for
-> + * vsetvli	t4, x0, e8, m8, d1
-> + */
-> +#define THEAD_VSETVLI_T4X0E8M8D1	".long	0x00307ed7\n\t"
-> +#define THEAD_VSETVLI_X0X0E8M8D1	".long	0x00307057\n\t"
-> +
-> +/*
-> + * While in theory, the vector-0.7.1 vsb.v and vlb.v result in the same
-> + * encoding as the standard vse8.v and vle8.v, compilers seem to optimize
-> + * the call resulting in a different encoding and then using a value for
-> + * the "mop" field that is not part of vector-0.7.1
-> + * So encode specific variants for vstate_save and _restore.
+> diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwpr=
+obe.c
+> index 8cae41a502dd..e0a42c851511 100644
+> --- a/arch/riscv/kernel/sys_hwprobe.c
+> +++ b/arch/riscv/kernel/sys_hwprobe.c
+> @@ -69,7 +69,7 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *pair,
+>  	if (riscv_isa_extension_available(NULL, c))
+>  		pair->value |=3D RISCV_HWPROBE_IMA_C;
+> =20
+> -	if (has_vector())
+> +	if (has_vector() && !riscv_has_vendor_extension_unlikely(RISCV_ISA_VEND=
+OR_EXT_XTHEADVECTOR))
 
-This wording seems oddly familiar to me, did Heiko not write this?
+Hmm, I think this is "dangerous". has_vector() is used across the kernel
+now in several places for the in-kernel vector. I don't think that
+has_vector() should return true for the T-Head stuff given that &
+has_vector() should represent the ratified spec. I'll have to think
+about this one and how nasty this makes any of the save/restore code
+etc.
 
-> + */
-> +#define THEAD_VSB_V_V0T0		".long	0x02028027\n\t"
-> +#define THEAD_VSB_V_V8T0		".long	0x02028427\n\t"
-> +#define THEAD_VSB_V_V16T0		".long	0x02028827\n\t"
-> +#define THEAD_VSB_V_V24T0		".long	0x02028c27\n\t"
-> +#define THEAD_VLB_V_V0T0		".long	0x012028007\n\t"
-> +#define THEAD_VLB_V_V8T0		".long	0x012028407\n\t"
-> +#define THEAD_VLB_V_V16T0		".long	0x012028807\n\t"
-> +#define THEAD_VLB_V_V24T0		".long	0x012028c07\n\t"
+>  		pair->value |=3D RISCV_HWPROBE_IMA_V;
+> =20
+>  	/*
+> @@ -112,7 +112,7 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *pa=
+ir,
+>  		EXT_KEY(ZACAS);
+>  		EXT_KEY(ZICOND);
+> =20
+> -		if (has_vector()) {
+> +		if (has_vector() && !riscv_has_vendor_extension_unlikely(RISCV_ISA_VEN=
+DOR_EXT_XTHEADVECTOR)) {
+>  			EXT_KEY(ZVBB);
+>  			EXT_KEY(ZVBC);
+>  			EXT_KEY(ZVKB);
 >=20
 > --=20
 > 2.44.0
 >=20
 
---zwcSHVZLwjxefjz8
+--CIbAOIHVm3rWkC3a
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZhkbWAAKCRB4tDGHoIJi
-0nL6AQCJkh59MUri2maEyaJ1kO+VFKtPc14IkIZHwM9bajqXywD+Jf+vDHMGA2cu
-5IE2w9WyYjd8dq+NtRxdy9fp8qwtqQE=
-=mofk
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZhkcKQAKCRB4tDGHoIJi
+0gvTAP9GH7U2Z0EXFSBtL7aH2M1WCi7IEFN7jXtiPAqbISwS6wD9H4wKMr87wqkO
+InW23KBw0VsImbhAE0sE9pZfp34S4wM=
+=jT/T
 -----END PGP SIGNATURE-----
 
---zwcSHVZLwjxefjz8--
+--CIbAOIHVm3rWkC3a--
