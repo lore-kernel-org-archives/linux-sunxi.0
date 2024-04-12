@@ -1,136 +1,97 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6D21502B7
-	for <linux-sunxi@lists.linux.dev>; Fri, 12 Apr 2024 09:58:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
+Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0647453384;
+	Fri, 12 Apr 2024 10:10:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712915915; cv=none; b=Vz+u+TJlWL5//WvUwhqPSQWrQ1EiYeEat215wKSM1d7KAT7DU2QpK8MktWKU1kyFnLgtenvWKGkNtLnvZD//eC/il5dM5MoK5w65k1IWuXF+EtEiTbawx+SDVSaTcq3NeKJlyHkoxP1LU+uKBcEe3NCnpiMQTpGN3KIGPNbHPnw=
+	t=1712916619; cv=none; b=n2hMJmaXIUdCyPKIxKqycwkw8bwG++A9yWUF2tve7JS5jrsay5L21WpXLZpbQy4jWqG2vU2T7KEo1pVbWSQ6ykaCN568fchV5f9Aly2Wwh86R8OlE1fMYwVC0nuMNzjmheANhHUJg0uomGKl0AaoGZrPZX75DGVJh2il0XbKqz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712915915; c=relaxed/simple;
-	bh=QndV9TT9pmDT+fXwJI9iOQE9VYOlSdccevWqhWNEacg=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m0s/DE0NS6lmxiRYPPzTc2iyecUaSpgi41V5rT2k+GagHgVY6M4PVggQ2T9PY6/tyommsvZ9Kv759FN7WdDvbGYDhcBjlGrtKL+bFVx48uoiadji4iAkoTk2zyghQM9J/YwIItdhQXBaLKaLNBAt43sdpauMOsngK/ELNtAYM04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=hxydG2DY; arc=none smtp.client-ip=68.232.153.233
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	s=arc-20240116; t=1712916619; c=relaxed/simple;
+	bh=E+iVkylCqaTgNVotthxWDOOoCqml/4nGJOpaARXTjK0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=obYLr5ka/CzZ5wBcAYioLpi6ofINDwBNK9+5O6FlmPJWUY8nW1lD+vjj/zPnEOM+00NTqUgNZ5W/tAJsj/GyZDD/DG4L8gA91V6MCIhA3SXCnHHbWakYHX9mTs8awcTHWw2Lo/ZByg0vyqM+WjFe6Be6kF7czZcoIeJ1ZvKdDOE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=LuZbLWJP; arc=none smtp.client-ip=85.214.250.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="hxydG2DY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1712915914; x=1744451914;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QndV9TT9pmDT+fXwJI9iOQE9VYOlSdccevWqhWNEacg=;
-  b=hxydG2DY9EC4gf9jhE6POyrRgP9gVbeFSIfbtTDRlNoYlmjNkHKDWyZg
-   lGFUk5KqlVY2Sv0yT/qSMD2y2dzKI9B/4M5LJNQSlbWtj8TLy0msjE0eD
-   xwvbJLM5WzQJ3Q6n/PLrPO2YviF8UHYbHEX1p34HgTmhwjCR3t2mmBGHD
-   Lw9uuYAFksj4VHQZEvdS5t/nVd72Vz7zhCBytqZv9wxQwfoL5ycyJ/jdA
-   FM6pz1ejiW2UNcrQJ8eX9RMCctyOP6V0G8fDxpFLpTPf1FNj8Tk7TOQ9+
-   uUI/UdWagxerd3YS0v3Z9jImbhVyi4YuOveGpm2o0KxcosWYQV6QqDL3R
-   A==;
-X-CSE-ConnectionGUID: OGnVlqFaSN2/PpP1KY9laQ==
-X-CSE-MsgGUID: +7SHxj1mSZiXXuIvu13hXg==
-X-IronPort-AV: E=Sophos;i="6.07,195,1708412400"; 
-   d="asc'?scan'208";a="20723575"
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 12 Apr 2024 02:58:33 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.87.72) by
- chn-vm-ex02.mchp-main.com (10.10.87.72) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 12 Apr 2024 02:58:16 -0700
-Received: from wendy (10.10.85.11) by chn-vm-ex02.mchp-main.com (10.10.85.144)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35 via Frontend
- Transport; Fri, 12 Apr 2024 02:58:12 -0700
-Date: Fri, 12 Apr 2024 10:57:21 +0100
-From: Conor Dooley <conor.dooley@microchip.com>
-To: Charlie Jenkins <charlie@rivosinc.com>
-CC: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Paul Walmsley
-	<paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
-	<aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>, Conor Dooley
-	<conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
-	<jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Evan Green
-	<evan@rivosinc.com>, =?iso-8859-1?Q?Cl=E9ment_L=E9ger?=
-	<cleger@rivosinc.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	<shuah@kernel.org>, <linux-riscv@lists.infradead.org>,
-	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Palmer Dabbelt
-	<palmer@rivosinc.com>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-sunxi@lists.linux.dev>, <linux-doc@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>
-Subject: Re: [PATCH 01/19] dt-bindings: riscv: Add vendorid and archid
-Message-ID: <20240412-revocable-dosage-99265debe66b@wendy>
-References: <20240411-dev-charlie-support_thead_vector_6_9-v1-0-4af9815ec746@rivosinc.com>
- <20240411-dev-charlie-support_thead_vector_6_9-v1-1-4af9815ec746@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="LuZbLWJP"
+Received: from 8bytes.org (p4ffe0bdf.dip0.t-ipconnect.de [79.254.11.223])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.8bytes.org (Postfix) with ESMTPSA id 51047281A38;
+	Fri, 12 Apr 2024 12:10:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
+	s=default; t=1712916616;
+	bh=E+iVkylCqaTgNVotthxWDOOoCqml/4nGJOpaARXTjK0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LuZbLWJPGCLZJPltogQTsk4oQ9NTj4Tsj7ifX4XmlHt9dm9BjBk7wNSRnJEGBBLX0
+	 RR1K295opyq8KNseqPbA6/RWBABghoCfLVi53gLBIUssvvge/FC7qptmqVDcplhzTo
+	 XuBmaDg9QBQ/vnZqdaxAREDkzJpp0Wy4QVBWKVDHOT7296ofu/w9sV3sUJl9A78VIT
+	 Q8HYmCNyUOwMBct7Se9mdxxPDMr4hl0kzCGipNnFTmrP6p8lRL075rML4+cOeADLWK
+	 3bfKf9EbMlshGtJnw/aGnFdGxYsmOkfVQGWHlFj/MJ94e75Lh2o+bnyCKL3btAMYV6
+	 t2ODbB7AbBEpQ==
+Date: Fri, 12 Apr 2024 12:10:14 +0200
+From: Joerg Roedel <joro@8bytes.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com,
+	alyssa@rosenzweig.io, asahi@lists.linux.dev,
+	baolu.lu@linux.intel.com, bhelgaas@google.com,
+	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com,
+	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de,
+	iommu@lists.linux.dev, jernej.skrabec@gmail.com,
+	jonathanh@nvidia.com, krzysztof.kozlowski@linaro.org,
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com,
+	marcan@marcan.st, mhiramat@kernel.org, m.szyprowski@samsung.com,
+	paulmck@kernel.org, rdunlap@infradead.org, robin.murphy@arm.com,
+	samuel@sholland.org, suravee.suthikulpanit@amd.com,
+	sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org,
+	tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org,
+	will@kernel.org, yu-cheng.yu@intel.com, rientjes@google.com,
+	bagasdotme@gmail.com, mkoutny@suse.com
+Subject: Re: [PATCH v5 00/11] IOMMU memory observability
+Message-ID: <ZhkIhtTCWg6bgl1o@8bytes.org>
+References: <20240222173942.1481394-1-pasha.tatashin@soleen.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="YzIxShuT9j2BnF76"
-Content-Disposition: inline
-In-Reply-To: <20240411-dev-charlie-support_thead_vector_6_9-v1-1-4af9815ec746@rivosinc.com>
-
---YzIxShuT9j2BnF76
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240222173942.1481394-1-pasha.tatashin@soleen.com>
 
-On Thu, Apr 11, 2024 at 09:11:07PM -0700, Charlie Jenkins wrote:
-> vendorid and marchid are required during devicetree parsing to determine
-> known hardware capabilities. This parsing happens before the whole
-> system has booted, so only the boot hart is online and able to report
-> the value of its vendorid and archid.
+Pasha,
 
-I'll comment on the kernel patch, but this is not needed.
+On Thu, Feb 22, 2024 at 05:39:26PM +0000, Pasha Tatashin wrote:
+> Pasha Tatashin (11):
+>   iommu/vt-d: add wrapper functions for page allocations
+>   iommu/dma: use iommu_put_pages_list() to releae freelist
+>   iommu/amd: use page allocation function provided by iommu-pages.h
+>   iommu/io-pgtable-arm: use page allocation function provided by
+>     iommu-pages.h
+>   iommu/io-pgtable-dart: use page allocation function provided by
+>     iommu-pages.h
+>   iommu/exynos: use page allocation function provided by iommu-pages.h
+>   iommu/rockchip: use page allocation function provided by iommu-pages.h
+>   iommu/sun50i: use page allocation function provided by iommu-pages.h
+>   iommu/tegra-smmu: use page allocation function provided by
+>     iommu-pages.h
+>   iommu: observability of the IOMMU allocations
+>   iommu: account IOMMU allocated memory
 
-> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> ---
->  Documentation/devicetree/bindings/riscv/cpus.yaml | 11 +++++++++++
->  1 file changed, 11 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/riscv/cpus.yaml b/Document=
-ation/devicetree/bindings/riscv/cpus.yaml
-> index d87dd50f1a4b..c21d7374636c 100644
-> --- a/Documentation/devicetree/bindings/riscv/cpus.yaml
-> +++ b/Documentation/devicetree/bindings/riscv/cpus.yaml
-> @@ -94,6 +94,17 @@ properties:
->      description:
->        The blocksize in bytes for the Zicboz cache operations.
-> =20
-> +  riscv,vendorid:
-> +    $ref: /schemas/types.yaml#/definitions/uint64
-> +    description:
-> +      Same value as the mvendorid CSR.
-> +
-> +  riscv,archid:
-> +    $ref: /schemas/types.yaml#/definitions/uint64
-> +    description:
-> +      Same value as the marchid CSR.
-> +
-> +
->    # RISC-V has multiple properties for cache op block sizes as the sizes
->    # differ between individual CBO extensions
->    cache-op-block-size: false
->=20
-> --=20
-> 2.44.0
->=20
+Some problems with this:
 
---YzIxShuT9j2BnF76
-Content-Type: application/pgp-signature; name="signature.asc"
+  1. I get DKIM failures when downloading this patch-set with b4, can
+     you please send them via a mailserver with working DKIM?
 
------BEGIN PGP SIGNATURE-----
+  2. They don't apply to v6.9-rc3. Please rebase to that version and
+     are-send.
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZhkFgQAKCRB4tDGHoIJi
-0taCAP4tYStLi/B4J7M5neONl/q/8R8/ZSNYoUC3mB5o++Qa+gD7BOaDcH4iTfuG
-7JqZQnqsXKTRSQOes4E+V+bAkjzkYQU=
-=x06j
------END PGP SIGNATURE-----
+Thanks,
 
---YzIxShuT9j2BnF76--
+	Joerg
