@@ -1,210 +1,150 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F17F14D2B7
-	for <linux-sunxi@lists.linux.dev>; Fri, 12 Apr 2024 17:43:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99834148313
+	for <linux-sunxi@lists.linux.dev>; Fri, 12 Apr 2024 18:04:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712943789; cv=none; b=TgfxoV9Kqv0pXmRA+X3hEQs2IfQf+y3pI4f3sLBQh9p5dP7kQ8Rh3YYd8jW64oXTnybYtOdG87iDX0qOE4LWgb4I4MoORCXKLU5zlmSDymPk4QDzj/q0P3eiZzk8famUjIVDxlqs15HBEo+tt2z0IOINuD8lqeZXQ39ScCsVxEY=
+	t=1712945045; cv=none; b=FiV8pkqXcCGpB9ILxDv2oGjuYTEmnp+M1NLTibxS+6pMdB6uqAumqrn/CzzG3ySaAAWE/rAC8EKrkQau9TDF2zNNnS15P82fzqM7CXiAhzBq6IBB2N4HSnyFi7obb61kK2bgqeC9laOVL62agWl//6lwKheiBu5g9RSv4BF7EBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712943789; c=relaxed/simple;
-	bh=398UBf0wjuXyW1KRcz0N92ExG8gOAwZvnLb+5hA8430=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WkzTvLEtUELp2vvyX9zKBEltRsdk+qeJgtdebKbq6b/Y9VDs3SttbbQYdxRRmWdqC4zw+oqAgSpYnrTOcCr4r/Qyo/ZtxT6dg26G577j4WX3xkbRoXtxU8aKjXmmBeqYPRQ5HQvA0PSJxoyrjh1bf6pK05WSnB/ccIO2A3Zk/PQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=BhvfWbTg; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1712945045; c=relaxed/simple;
+	bh=pL8DEPrlq502m1lqM9mSVBGYPc5Ax5zq2wRmPF1el9E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mvZownwZqhohE8TIfYUhrD53RFKyOot5CSdz55vS5Q8QV3dBjgZA/ZlqBmtX62PauEUo4EvzUPddXseyhWLlR9dwj7Yag3gZz2qSi10r0Vhuua2jzNw+zsSrwDQHe2biG3quSle1Ll2QaEGGhGtrC6bZzZJKycwJ0rfY2+BoPa8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X5pcNZtH; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="BhvfWbTg"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1e2bbc2048eso10108295ad.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 12 Apr 2024 10:43:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X5pcNZtH"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-516a01c8490so1614032e87.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 12 Apr 2024 11:04:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1712943786; x=1713548586; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8YRvEt+OTF00KrpCNHpUGlZ7toxHUQ85PqnBkH5iiOI=;
-        b=BhvfWbTgRkF4lW8kftl4qwaESpmelNFejTnfLo+U4w6FTyrkub/Nk9hSKwysQsmMRX
-         rB+p0qr4mRukGhlGznGYKvk83EkQr0MS2l3GLSVFd78vKB3Jn9uA347bJuknIthHFGry
-         GsfYM23MzGU3tkNkZ0dd//jUPPLpwshwextXKMYsNAD7Hwi1wksRvb6gbaW/BvywjphC
-         RBpQKCtiWzu+UpDkaioesJbnQK4voLJ4DDVARC0tF9QYe+fg/YYyZp1/Z0QShFXNDIRp
-         4R2dRswdsQnPB7NWDCh1EXVWrbxqQniQdJhJWDQN5mNf7qysSzTGI8EG9ljGafHhuPSK
-         CvUQ==
+        d=gmail.com; s=20230601; t=1712945042; x=1713549842; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CocCrXTkILxb+H292FlYFL20d7nBS8XixYwTUqYokkU=;
+        b=X5pcNZtHYRjQeqB2EJnwiJ7TNuDUEz8GjDfOYeTr1+Dc+4gQ7WTUT0L4YMyae2gLI6
+         nHE1QmCpADr7K8RTfx9l+bwnxzLkMepVCvpOsk1wrENk+SALKKANoeVXl3tt18rkLPkI
+         F4/y+9Vy8IgCCu16cHTkNepluMRXlCy19+OpcP3tUh/UT3gEJccgfhBbecO99oq1NDUW
+         97mUi1AL6IS19ON2rvjT739LBFvswoiXadlra46t6em/hANlbL9dVbhB696utsE5Kr73
+         coRkXRsHMuUETG+Ecjv34xIhv0cjw15FiAM2loPb0e+17xslHRWn6mR7RjZlUmPk3FcN
+         VVBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712943786; x=1713548586;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8YRvEt+OTF00KrpCNHpUGlZ7toxHUQ85PqnBkH5iiOI=;
-        b=i/S7QO9Y8EcQESRUnNuUAkBtmCL1fxmvUWUs9FPU2ZBAb/I6kW2UBpNvlL0lgXiKkW
-         vREv6GueXr4HpX2MoSenoHvnse4MKusTpDTv9LHhAtA1se6sy5v5iA6fKdjfn6fu4TyS
-         0YVUQ9dzTYXnfal8WVVGbYRD9owyCszkLGN3f8BOOiAamECVHbdyBmEBZWu7vM9+XXPh
-         3Mkh3Izie2Up/83IaeyVIlc2vZwTJmsUtwYWu9UsWhCFXRPbOj7/iWvhP8SDibG4LGF/
-         ORzL0UkbpvoMe0650QdkXIdD5x/fSIRSV075fBGmCLonxqHEuCiJmoEa4JmwM/cGbzK+
-         4XuQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUu3pZUAcC0YNGNCi+LkyaUf7wPLL+yWY+juvNkvoBjfeg1wwadRacNI2fE5DspoyyJ3X8rCswpzFfnfxgVRDZIB6hgnrVlCFG8DkY=
-X-Gm-Message-State: AOJu0YxWL7lpXyANclJGXX2SPK810/XNic0T6Utz+tGDbwJGsMqyRp19
-	tiCZ/9YYZMsIHtLAod+Ear2AirHNaMPkG3Q5qEN4LgHEjpdecm+45aBIX6evyZY=
-X-Google-Smtp-Source: AGHT+IE1KS+cgoHgP39ECdNzoJBDC8vTl8/0G5V7240HCpKQkDUzHJq76jMWfkj5KFoeGRTzjJqSZQ==
-X-Received: by 2002:a17:902:d303:b0:1e0:bae4:48f9 with SMTP id b3-20020a170902d30300b001e0bae448f9mr3205407plc.32.1712943785937;
-        Fri, 12 Apr 2024 10:43:05 -0700 (PDT)
-Received: from ghost ([2601:647:5700:6860:121b:da6b:94f1:304])
-        by smtp.gmail.com with ESMTPSA id h9-20020a170902f2c900b001e0e5722788sm3287804plc.17.2024.04.12.10.43.04
+        d=1e100.net; s=20230601; t=1712945042; x=1713549842;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CocCrXTkILxb+H292FlYFL20d7nBS8XixYwTUqYokkU=;
+        b=HeM1+DAna/zZ9nYcdnb3vr44N6gEvQRLFdFNNGGrmxqoqthw4pK3hl42uA3Q1L5ph4
+         8WJ2TcdWSavaLqN0P8p/jnPw56itA7DYdYkMCmHpJaRG1oZvPCwJlhsbaWjl/l3Eh8HX
+         ZQGaFFlFFiQL+kklg0zPEAAgtLRRQOzI3PLMmekh2o/ksC0ucTH5LOTn1ZJmo9qYUBXN
+         vTAU4AQkaAxT2O5nfebA6qb+uIXl6C9rpPVlMkVkNh0dtFdcPVzwxq93yB/EZmSiyQne
+         66ELqeiLORxvHEXFqs0IkY78nYVOzKMZWHUx34ZjLETKCmzde9ikTijlUtunwSmzczuH
+         XpmQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXxo6EcGQM3nUxW05JKttnINV07ZSgJQFwTK1QXO31XhYIJgd4Y2fyWkOzHnacacY0lHreBW142TNF03YR4Jr2oq+fnSqDLqp2GMI4=
+X-Gm-Message-State: AOJu0YxYz5qSp2XEzpwpaqkpveaRM03jI8uY3AUCGJL7a6Li70MiIL3/
+	5CxwPDZqCsUsLrDClZh6Gg1RVTX1T6WWbAP1PVK0Esu/ZJv92/a6
+X-Google-Smtp-Source: AGHT+IE+YdnghDsV0obcJRUikyE+vRG7Z625VF2VfIjNL7bgReRC31FSjtwU16I1XuF0ATXWLD1vaw==
+X-Received: by 2002:ac2:52a9:0:b0:515:c0cb:3ca2 with SMTP id r9-20020ac252a9000000b00515c0cb3ca2mr1979670lfm.16.1712945041542;
+        Fri, 12 Apr 2024 11:04:01 -0700 (PDT)
+Received: from localhost ([95.79.241.172])
+        by smtp.gmail.com with ESMTPSA id s23-20020a197717000000b00516a25e9ce1sm576691lfc.294.2024.04.12.11.04.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Apr 2024 10:43:05 -0700 (PDT)
-Date: Fri, 12 Apr 2024 10:43:02 -0700
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: Conor Dooley <conor.dooley@microchip.com>
-Cc: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+        Fri, 12 Apr 2024 11:04:01 -0700 (PDT)
+From: Serge Semin <fancer.lancer@gmail.com>
+To: Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Yanteng Si <siyanteng@loongson.cn>
+Cc: Serge Semin <fancer.lancer@gmail.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Simon Horman <horms@kernel.org>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Evan Green <evan@rivosinc.com>,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH 08/19] riscv: Introduce vendor variants of extension
- helpers
-Message-ID: <ZhlypvTdsFPZBr08@ghost>
-References: <20240411-dev-charlie-support_thead_vector_6_9-v1-0-4af9815ec746@rivosinc.com>
- <20240411-dev-charlie-support_thead_vector_6_9-v1-8-4af9815ec746@rivosinc.com>
- <20240412-dwarf-shower-5a7300fcd283@wendy>
+	netdev@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH net 0/4] net: stmmac: Fix MAC-capabilities procedure
+Date: Fri, 12 Apr 2024 21:03:13 +0300
+Message-ID: <20240412180340.7965-1-fancer.lancer@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240412-dwarf-shower-5a7300fcd283@wendy>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Apr 12, 2024 at 12:49:57PM +0100, Conor Dooley wrote:
-> On Thu, Apr 11, 2024 at 09:11:14PM -0700, Charlie Jenkins wrote:
-> > Create vendor variants of the existing extension helpers. If the
-> > existing functions were instead modified to support vendor extensions, a
-> > branch based on the ext value being greater than
-> > RISCV_ISA_VENDOR_EXT_BASE would have to be introduced. This additional
-> > branch would have an unnecessary performance impact.
-> > 
-> > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> 
-> I've not looked at the "main" patch in the series that adds all of the
-> probing and structures for representing this info yet beyond a cursory
-> glance, but it feels like we're duplicating a bunch of infrastructure
-> here before it is necessary. The IDs are all internal to Linux, so I'd
-> rather we kept everything in the same structure until we have more than
-> a handful of vendor extensions. With this patch (and the theadpmu stuff)
-> we will have three vendor extensions which feels like a drop in the
-> bucket compared to the standard ones.
+The series got born as a result of the discussions around the recent
+Yanteng' series adding the Loongson LS7A1000, LS2K1000, LS7A2000, LS2K2000
+MACs support:
+Link: https://lore.kernel.org/netdev/fu3f6uoakylnb6eijllakeu5i4okcyqq7sfafhp5efaocbsrwe@w74xe7gb6x7p
 
-It is not duplicating infrastructure. If we merge this into the existing
-infrastructure, we would be littering if (ext > RISCV_ISA_VENDOR_EXT_BASE)
-in __riscv_isa_extension_available. This is particularily important
-exactly because we have so few vendor extensions currently so this check
-would be irrelevant in the vast majority of cases.
+In particular the Yanteng' patchset needed to implement the Loongson
+MAC-specific constraints applied to the link speed and link duplex mode.
+As a result of the discussion with Russel the next preliminary patch was
+born:
+Link: https://lore.kernel.org/netdev/df31e8bcf74b3b4ddb7ddf5a1c371390f16a2ad5.1712917541.git.siyanteng@loongson.cn
 
-It is also unecessary to push off the refactoring until we have some
-"sufficient" amount of vendor extensions to deem changing the
-infrastructure when I already have the patch available here. This does
-not introduce any extra overhead to existing functions and will be able
-to support vendors into the future.
+The patch above was a temporal solution utilized by Yanteng for further
+developments and to move on with the on-going review. This patchset is a
+refactored version of that single patch with formatting required for the
+fixes patches.
 
-- Charlie
+In particular the series starts with fixing the half-duplex-less
+constraint currently applied for all IP-cores. In fact it's specific for
+the DW QoS Eth only (DW GMAC v4.x/v5.x).
 
-> 
-> 
-> > ---
-> >  arch/riscv/include/asm/cpufeature.h | 54 +++++++++++++++++++++++++++++++++++++
-> >  arch/riscv/kernel/cpufeature.c      | 34 ++++++++++++++++++++---
-> >  2 files changed, 84 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm/cpufeature.h
-> > index db2ab037843a..8f19e3681b4f 100644
-> > --- a/arch/riscv/include/asm/cpufeature.h
-> > +++ b/arch/riscv/include/asm/cpufeature.h
-> > @@ -89,6 +89,10 @@ bool __riscv_isa_extension_available(const unsigned long *isa_bitmap, unsigned i
-> >  #define riscv_isa_extension_available(isa_bitmap, ext)	\
-> >  	__riscv_isa_extension_available(isa_bitmap, RISCV_ISA_EXT_##ext)
-> >  
-> > +bool __riscv_isa_vendor_extension_available(const unsigned long *vendor_isa_bitmap, unsigned int bit);
-> > +#define riscv_isa_vendor_extension_available(isa_bitmap, ext)	\
-> > +	__riscv_isa_vendor_extension_available(isa_bitmap, RISCV_ISA_VENDOR_EXT_##ext)
-> > +
-> >  static __always_inline bool
-> >  __riscv_has_extension_likely_alternatives(const unsigned long ext)
-> >  {
-> > @@ -117,6 +121,8 @@ __riscv_has_extension_unlikely_alternatives(const unsigned long ext)
-> >  	return true;
-> >  }
-> >  
-> > +/* Standard extension helpers */
-> > +
-> >  static __always_inline bool
-> >  riscv_has_extension_likely(const unsigned long ext)
-> >  {
-> > @@ -163,4 +169,52 @@ static __always_inline bool riscv_cpu_has_extension_unlikely(int cpu, const unsi
-> >  		return __riscv_isa_extension_available(hart_isa[cpu].isa, ext);
-> >  }
-> >  
-> > +/* Vendor extension helpers */
-> > +
-> > +static __always_inline bool
-> > +riscv_has_vendor_extension_likely(const unsigned long ext)
-> > +{
-> > +	compiletime_assert(ext < RISCV_ISA_VENDOR_EXT_MAX,
-> > +			   "ext must be < RISCV_ISA_VENDOR_EXT_MAX");
-> > +
-> > +	if (IS_ENABLED(CONFIG_RISCV_ALTERNATIVE))
-> > +		return __riscv_has_extension_likely_alternatives(ext);
-> > +	else
-> > +		return __riscv_isa_vendor_extension_available(NULL, ext);
-> > +}
-> > +
-> > +static __always_inline bool
-> > +riscv_has_vendor_extension_unlikely(const unsigned long ext)
-> > +{
-> > +	compiletime_assert(ext < RISCV_ISA_VENDOR_EXT_MAX,
-> > +			   "ext must be < RISCV_ISA_VENDOR_EXT_MAX");
-> > +
-> > +	if (IS_ENABLED(CONFIG_RISCV_ALTERNATIVE))
-> > +		return __riscv_has_extension_unlikely_alternatives(ext);
-> > +	else
-> > +		return __riscv_isa_vendor_extension_available(NULL, ext);
-> > +}
-> > +
-> > +static __always_inline bool riscv_cpu_has_vendor_extension_likely(int cpu, const unsigned long ext)
-> > +{
-> > +	compiletime_assert(ext < RISCV_ISA_VENDOR_EXT_MAX,
-> > +			   "ext must be < RISCV_ISA_VENDOR_EXT_MAX");
-> > +
-> > +	if (IS_ENABLED(CONFIG_RISCV_ALTERNATIVE))
-> > +		return __riscv_has_extension_likely_alternatives(ext);
-> > +	else
-> > +		return __riscv_isa_vendor_extension_available(hart_isa_vendor[cpu].isa, ext);
-> > +}
-> > +
-> > +static __always_inline bool riscv_cpu_has_vendor_extension_unlikely(int cpu, const unsigned long ext)
-> > +{
-> > +	compiletime_assert(ext < RISCV_ISA_VENDOR_EXT_MAX,
-> > +			   "ext must be < RISCV_ISA_VENDOR_EXT_MAX");
-> > +
-> > +	if (IS_ENABLED(CONFIG_RISCV_ALTERNATIVE))
-> > +		return __riscv_has_extension_unlikely_alternatives(ext);
-> > +	else
-> > +		return __riscv_isa_vendor_extension_available(hart_isa_vendor[cpu].isa, ext);
-> > +}
-> 
-> Same stuff about constant folding applies to these, I think these should
-> just mirror the existing functions (if needed at all).
-> 
-> Cheers,
-> Conor.
+The next patch fixes the MAC-capabilities setting up during the active
+Tx/Rx queues re-initialization procedure. Particularly the procedure
+missed the max-speed limit thus possibly activating speeds prohibited on
+the respective platforms.
 
+Third patch fixes the incorrect MAC-capabilities initialization for DW
+MAC100, DW XGMAC and DW XLGMAC devices by moving the correct
+initialization to the IP-core specific setup() methods.
+
+Final patch is just a cleanup moving the MAC-capabilities init/re-init to
+the phylink MAC-capabilities getter.
+
+That's it for now. Thanks for review and testing in advance.
+
+Signed-off-by: Serge Semin <fancer.lancer@gmail.com>
+Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+Cc: Simon Horman <horms@kernel.org>
+Cc: Huacai Chen <chenhuacai@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Samuel Holland <samuel@sholland.org>
+Cc: netdev@vger.kernel.org
+Cc: linux-stm32@st-md-mailman.stormreply.com
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-sunxi@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org
+
+Serge Semin (4):
+  net: stmmac: Apply half-duplex-less constraint for DW QoS Eth only
+  net: stmmac: Fix max-speed being ignored on queue re-init
+  net: stmmac: Fix IP-cores specific MAC capabilities
+  net: stmmac: Move MAC caps init to phylink MAC caps getter
+
+ drivers/net/ethernet/stmicro/stmmac/common.h  |  1 +
+ .../net/ethernet/stmicro/stmmac/dwmac-sun8i.c |  2 +
+ .../ethernet/stmicro/stmmac/dwmac1000_core.c  |  2 +
+ .../ethernet/stmicro/stmmac/dwmac100_core.c   |  2 +
+ .../net/ethernet/stmicro/stmmac/dwmac4_core.c |  7 ++-
+ .../ethernet/stmicro/stmmac/dwxgmac2_core.c   | 18 ++++----
+ .../net/ethernet/stmicro/stmmac/stmmac_main.c | 43 ++++++++-----------
+ 7 files changed, 38 insertions(+), 37 deletions(-)
+
+-- 
+2.43.0
 
