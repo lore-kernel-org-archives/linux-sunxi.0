@@ -1,97 +1,156 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3404B14B08C
-	for <linux-sunxi@lists.linux.dev>; Fri, 12 Apr 2024 17:07:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E155148FF8
+	for <linux-sunxi@lists.linux.dev>; Fri, 12 Apr 2024 17:12:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712941650; cv=none; b=MD1S5lKwQPm8hC0Yp6/Ql1n/m5C4X/7SLC2G+KTv4OkaOk1l76+MjlN/idGhoXoRRVv3IRLOS047thuuQ5pdoeGp8gV9r270m3eASVxSvFlKay+6h/l+9Igatvp0fjJfeQ/qwExYihExMCSr9+vdhlASGo4d68XlA17X9Rwp930=
+	t=1712941946; cv=none; b=BTJf/mmdCe4KLpjyBMMNz1JvunpFVwBL8OTfVyX6n1EH5TBxL85JCMvFBxq0qFCFppxtAlZaxQ/B01qNNMVwUzG2UtUf+japQzoYn9TjAo94L1+odibTOMzKlWEB728/BuUxUQm//ytRs9GLZ9YyCShHBuD2kf4XGAuOET8vAb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712941650; c=relaxed/simple;
-	bh=5JFuYVePpmhoWdZk8WbeOoqlnSWSkoUYiXSyfRvyGWg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ii7ELmMO6H5RwV8ZQYW66t8iJM0933uSE7mv1OQRG0gilmOzHuiFq3gljQalcCPSHmYbNR1YpLj1Fu8r6Pgz9RZIjF4ru0CJv5zq5WMugmb5hyrwPcsDNcN2AsCp/OVg8+0eYXGe9hQwHAMrYNMTQmv5mzahZ1lf77CM8VJ3dr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=NHlkspaW; arc=none smtp.client-ip=209.85.160.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1712941946; c=relaxed/simple;
+	bh=zqFAuUa4RtTLPiQXk/lFHSFz6oHcmMCx6C1nVyRW8AM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VlbTEsGjkXPcNX44Q5PX4rru4N+tei5tJI8TBg2emWZKZ/1NObsfxWX6GlyhofCOUZZ7TJIOB89SxwmlJGQwaD5iVPd3JlzsN6VImCkfjMMoLNoU4M8wIJRv3zNQn3QigbFln0UQKzsu+RiAsIg65GGaH2TdMUUBmGLHYeMC4TY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=24Ba/pgb; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="NHlkspaW"
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-434925427c6so5786471cf.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 12 Apr 2024 10:07:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="24Ba/pgb"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-6ed04c91c46so1146357b3a.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 12 Apr 2024 10:12:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1712941648; x=1713546448; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ICZfIsGcQEVbd3Zt1qoYBnvko2GDh9Nz2dJVHbfGpSA=;
-        b=NHlkspaWQX9FJJosTayErKC8rUY0/QrkhzaHcvUVug3IhOfoYmLw5RFsLg1dB5dMyk
-         OXuITzcrnEL98pK3QyREnum12sR0rcJMv2qdZhy9Ilja6PFsfSIdoXL2lqpuukjLGL0Z
-         fZEmJ+Ky4/LCsqmQHbtGKaSSFA22HPaVgEL4rDW3L0pR2Zc2ghwy6nyD4Iv7O1LNv6hA
-         lFOllqXKmjUNeUVAsEABAopg+cQtBflDQyJ0neTWnbDaEANoSJLgEumM2ErQC8eGi4kR
-         P7vhfx51tvCJONZLuMbqJy98SzoQuykUXdlg/P4YZiVojW7zp+tZ2BCewUbPtM6ulhlj
-         I0pg==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1712941943; x=1713546743; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=V6RQsJgA0sqhyVb4iUdwKlWBxVZP7PvFbdqSmnVezOg=;
+        b=24Ba/pgbuGOjk/I9uCIBnYa6/gG4/h/xMPTlNxRNAe+nd0TeNyDyr6ebv8jKaBQcp/
+         4x4KLbedciW9SSfP2JhRpt1ZrxPiLYDhtSlL9diTxVcsmz0UUbsvorve38gHP9PQ4Un4
+         fP9Tkmi/p6lK1qORmhEqmj6tYVnHIrH3M4yfXrWlYXCHXyRzxdzlYeMDyqPSoZbogLkz
+         AeUJjsyTBaGI0mn3yqH3iZRfkpo8Ve9u3tZPd29kcXWRm/HB2D6eNnm4TzmVXB/dqn8E
+         o0oCFc2g+8uRBn+dMhhJNV1Z+pBUMS73IsYOaIxmzH2FuV2vVAsf/wrSqk0eqR3JROWz
+         esuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712941648; x=1713546448;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ICZfIsGcQEVbd3Zt1qoYBnvko2GDh9Nz2dJVHbfGpSA=;
-        b=fh5tA5axCWM5JXHFP6TZKZ1m3U8yJQHc1RQ0cBmtNMqmR0cioC8H/wz36RUFlFcIJd
-         IJYOKtf93h9JTWeGnzCn/PAkCjhfqeQS3jeGb+9tmiu00hlTnXzoQ29IPX08oyCFePOy
-         3k8vkYbCnPxMeDUsiWOxy017laodXoVDHQ5J590yCABmkYBpRMzD0eQLGwCjVmSvGR1m
-         pV9Ft/nRlbC9xsjZpjj2sH6ILIV7iMNt6SDJXGwy2CNZmm5G9IDbNkYkJ/H379BTFKKE
-         yitieRmkj7uvSjJGLcV9Z/eBDYiLtTFdn7LqDrBTlJHkHqyr1eeuF+50CZOz4f1b50r6
-         2Qng==
-X-Forwarded-Encrypted: i=1; AJvYcCXuaGUayZpNkNiOnRUnSnEkVbu2Zt4dDxMqQF5nzDR3ZQxAjdrE6AqiXbxTXgE80mOYvmXLwBMzlw+zBfNGcD9Shdn5AOvp4IHZRHw=
-X-Gm-Message-State: AOJu0YyG5vQMeHFMPOrzfwoxOYw249TUEFARQDn+hPm9FhRCh4YQ5qOz
-	IDNAAxQ92XZVvG8+zEebXxD4Ka4bUtCMSyB5PDYATPF/LVt2m+Bnwxx826ckzTPR2ylfNtJFG4y
-	CR1lQ6Xif5X5PTni+EjNRD302srl7o1q3FgtbzQ==
-X-Google-Smtp-Source: AGHT+IEXzcV5Ah/di4pWjeRuzI8bp8L5qdlySBiHU1tn4/tN30fitecIDCoiEvXNx6whVxsKgO+qRvqVW4OxECf95F8=
-X-Received: by 2002:a05:622a:606:b0:434:89af:bd3b with SMTP id
- z6-20020a05622a060600b0043489afbd3bmr3794375qta.40.1712941648259; Fri, 12 Apr
- 2024 10:07:28 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1712941943; x=1713546743;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=V6RQsJgA0sqhyVb4iUdwKlWBxVZP7PvFbdqSmnVezOg=;
+        b=Aqi4f8X50fQSscFMMj9EsD+Ljwhd9RqQw8WkqNTwsgxu1h+izA56loZWVF4XoGJqZC
+         y19tgJbhXRNBedvwXlYbD07eeDyvDY2Ep8f5VK3iv4se9y5cFFcYCPm9lsngOSLzVTbL
+         abTHU8jf/wxfrb6FposfOkVR2NYfQ0aXN/jVAhExABi9lHAx7bfPwqIwboYcKhOh6+th
+         wNk/TB8/YLCsCeCpMmXGkaT0KtfBh/520zbJXzTz/Rob2yUaTwAGYdb10U8OglxAT9qo
+         a5UfXdqDRWIm7cA06IMG9YojN9SUYOqyKqKojoCs5qXhOvTtFbjZPu0zAtJYv0R7S+dy
+         gFyA==
+X-Forwarded-Encrypted: i=1; AJvYcCU/LTHYdMeGwPHk4KxPWr5fU8Ob5nPwlxtYsTthDyslmPiZVHJR7/Bh07D50P1VPhWPQlJU+06w+klG1YKvHExOAVGjgvG0L5+f7qc=
+X-Gm-Message-State: AOJu0YzMI72/nwT1tXjAIbLhWDpMLBgJyZb4NwRIsOlCeoFniCd3i+dd
+	vP9a6kqSkjM7ALgf3GgDHNHMUb72K8LJigC/S26RVMyjrUKQ9QpDTnTzJEh+NYw=
+X-Google-Smtp-Source: AGHT+IGENLLg9Nrtb+afnnQbyAqzrlHIs52avdhanWUzgTqUmFBmisUUxHkztjDQR67LUvfCdWQBaQ==
+X-Received: by 2002:a05:6a20:550a:b0:1a9:4343:765f with SMTP id ko10-20020a056a20550a00b001a94343765fmr3511412pzb.23.1712941942911;
+        Fri, 12 Apr 2024 10:12:22 -0700 (PDT)
+Received: from ghost ([2601:647:5700:6860:121b:da6b:94f1:304])
+        by smtp.gmail.com with ESMTPSA id u4-20020aa78484000000b006ed59179b14sm3114754pfn.83.2024.04.12.10.12.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Apr 2024 10:12:22 -0700 (PDT)
+Date: Fri, 12 Apr 2024 10:12:20 -0700
+From: Charlie Jenkins <charlie@rivosinc.com>
+To: Conor Dooley <conor.dooley@microchip.com>
+Cc: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Evan Green <evan@rivosinc.com>,
+	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 02/19] riscv: cpufeature: Fix thead vector hwcap removal
+Message-ID: <ZhlrdGXfSushUNTp@ghost>
+References: <20240411-dev-charlie-support_thead_vector_6_9-v1-0-4af9815ec746@rivosinc.com>
+ <20240411-dev-charlie-support_thead_vector_6_9-v1-2-4af9815ec746@rivosinc.com>
+ <20240412-tuesday-resident-d9d07e75463c@wendy>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240222173942.1481394-1-pasha.tatashin@soleen.com> <ZhkIhtTCWg6bgl1o@8bytes.org>
-In-Reply-To: <ZhkIhtTCWg6bgl1o@8bytes.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Fri, 12 Apr 2024 13:06:52 -0400
-Message-ID: <CA+CK2bCjXGTP7ie=rFtXrmRaWxn_6VmfZb5BXR13z9a3scfETg@mail.gmail.com>
-Subject: Re: [PATCH v5 00/11] IOMMU memory observability
-To: Joerg Roedel <joro@8bytes.org>
-Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
-	asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
-	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
-	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
-	iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
-	krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
-	mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
-	rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
-	suravee.suthikulpanit@amd.com, sven@svenpeter.dev, thierry.reding@gmail.com, 
-	tj@kernel.org, tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, 
-	will@kernel.org, yu-cheng.yu@intel.com, rientjes@google.com, 
-	bagasdotme@gmail.com, mkoutny@suse.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240412-tuesday-resident-d9d07e75463c@wendy>
 
-> Some problems with this:
->
->   1. I get DKIM failures when downloading this patch-set with b4, can
->      you please send them via a mailserver with working DKIM?
+On Fri, Apr 12, 2024 at 11:25:47AM +0100, Conor Dooley wrote:
+> On Thu, Apr 11, 2024 at 09:11:08PM -0700, Charlie Jenkins wrote:
+> > The riscv_cpuinfo struct that contains mvendorid and marchid is not
+> > populated until all harts are booted which happens after the DT parsing.
+> > Use the vendorid/archid values from the DT if available or assume all
+> > harts have the same values as the boot hart as a fallback.
+> > 
+> > Fixes: d82f32202e0d ("RISC-V: Ignore V from the riscv,isa DT property on older T-Head CPUs")
+> 
+> If this is our only use case for getting the mvendorid/marchid stuff
+> from dt, then I don't think we should add it. None of the devicetrees
+> that the commit you're fixing here addresses will have these properties
+> and if they did have them, they'd then also be new enough to hopefully
+> not have "v" either - the issue is they're using whatever crap the
+> vendor shipped.
 
-I was in the process of migrating from google domains to a different
-registrar, but I think now the issue is resolved. I will verify it.
+Yes, the DT those shipped with will not have the property in the DT so
+will fall back on the boot hart. The addition of the DT properties allow
+future heterogenous systems to be able to function.
 
->   2. They don't apply to v6.9-rc3. Please rebase to that version and
->      are-send.
+> If we're gonna get the information from DT, we already have something
+> that we can look at to perform the disable as the cpu compatibles give
+> us enough information to make the decision.
+> 
+> I also think that we could just cache the boot CPU's marchid/mvendorid,
+> since we already have to look at it in riscv_fill_cpu_mfr_info(), avoid
+> repeating these ecalls on all systems.
 
-I will.
+Yeah that is a minor optimization that can I can apply.
 
-Thanks,
-Pasha
+> 
+> Perhaps for now we could just look at the boot CPU alone? To my
+> knowledge the systems that this targets all have homogeneous
+> marchid/mvendorid values of 0x0.
+
+They have an mvendorid of 0x5b7.
+
+This is already falling back on the boot CPU, but that is not a solution
+that scales. Even though all systems currently have homogenous
+marchid/mvendorid I am hesitant to assert that all systems are
+homogenous without providing an option to override this. The overhead is
+looking for a field in the DT which does not seem to be impactful enough
+to prevent the addition of this option.
+
+> 
+> > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> 
+> > @@ -514,12 +521,23 @@ static void __init riscv_fill_hwcap_from_isa_string(unsigned long *isa2hwcap)
+> >  				pr_warn("Unable to find \"riscv,isa\" devicetree entry\n");
+> >  				continue;
+> >  			}
+> > +			if (of_property_read_u64(node, "riscv,vendorid", &this_vendorid) < 0) {
+> > +				pr_warn("Unable to find \"riscv,vendorid\" devicetree entry, using boot hart mvendorid instead\n");
+> 
+> This should 100% not be a warning, it's not a required property in the
+> binding.
+
+Yes definitely, thank you.
+
+- Charlie
+
+> 
+> Cheers,
+> Conor.
+> 
+> > +				this_vendorid = boot_vendorid;
+> > +			}
+> 
+
+
