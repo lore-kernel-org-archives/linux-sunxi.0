@@ -1,57 +1,57 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3881914C582
-	for <linux-sunxi@lists.linux.dev>; Fri, 12 Apr 2024 17:13:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E53D14D29E
+	for <linux-sunxi@lists.linux.dev>; Fri, 12 Apr 2024 17:34:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712942008; cv=none; b=JCrZunu+gIUw/bCBwW8M1cumUx/LrWtsemgoKaRXQz4albkm4AIhFFv2yjvg12uyHEOclSfmVNBkpN3jnUooVELgBRFAdj+4zykAW6inXpoilltC1qKQSpnWEwQAqcgxRjkeM3UWydgdfJxJB2Dm8QjKokb5qM0RhIym+91NB/Q=
+	t=1712943273; cv=none; b=fBAst/7sZLnJ1ve4i6mKrs64jh4vAm895qWfdkqzg6fj12xXOV0f4FDZfepo/mEgB7x4sltyaXyPUHG5AUmEKyNg8biBRF/49wh8jduttWxfVxp+gXp6bqSN9o8o0vFOamjniZ34AfQ97j0mrtwveb4PbJhKVbf7aHfgZwPth7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712942008; c=relaxed/simple;
-	bh=BOw65jefwZAEXrOKSe45kDD1W0vdEDtUimtMT6vNJrc=;
+	s=arc-20240116; t=1712943273; c=relaxed/simple;
+	bh=trPSWbts0qeWRZx2qyrUZFaFTVVwg7Cc9kvkrHlL3Yc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S2vKVjxjjWtdP1sn7NustqPZO6AYMItj+mEfwGS08aGxTkjfLsbdZbM2ImE4FVWpHX9sndkj+KVYa9MySz2Ok7nH7jlmkdP/W7Topidewian9/EWbeuhfp2zgS69LWAXfUf5ac6/RCo2oAKUU8vWSe4Yny67YaWFL+4W2xaJ6jM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=zPycGYoQ; arc=none smtp.client-ip=209.85.215.178
+	 Content-Type:Content-Disposition:In-Reply-To; b=T8mhiujJGYMhDzISmLL16eUqwQA+gdfhVTAf+OsTsAHpLg4NVCLYJV0Qj1e3957qjQzqwe1TSgyZudvplWkT7LYts4VQfFb9yfB0y4mx+41Ss8jeTJV/cyAV9mrY4CN2BDSYz99hV+smrUYDboL7nN/EiebKbiydOI2Kwca6qvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=wLWyvp7H; arc=none smtp.client-ip=209.85.216.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="zPycGYoQ"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-5cddfe0cb64so695293a12.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 12 Apr 2024 10:13:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="wLWyvp7H"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2a68a2b3747so774900a91.3
+        for <linux-sunxi@lists.linux.dev>; Fri, 12 Apr 2024 10:34:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1712942005; x=1713546805; darn=lists.linux.dev;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1712943271; x=1713548071; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Soc0+QXn5W8zbaSk+coOpUVEhCceV3S1TAiuN1SZpPU=;
-        b=zPycGYoQXtToRjYFY3BrQ0W3rZsQ3tl53czvtpvhphNwKkfAF4hbVxXdxbL99thBTD
-         0GbX/DQKLqIaLMVPR7rOcBmhmsqY3NzgHEHRZDYpECXdBBVJVf/puHopctrXEtDtOoIK
-         MlLITjyJCzAb2cXQVInJ/XfaCMQTDr31Aq656Msap//J5+AkVsO+h6I+Ec8HkEX87sdR
-         zZkXBPAx6jm3l0wI8j8z683yQ4WOhACdjxcb8oijpKD/QpW7RLUgLcK5JnyCCPG3uV30
-         HwsJ2ckt4y5YYIp7KpQrXd6ek72w4CJg2sF7ycsXxYTAkxdc2oWB7eNcN2V687Dg/ScW
-         nUHA==
+        bh=PEydYnVIUiV6lB5t0xe0YqzJX4OVoeUrqtT1X9ALVoM=;
+        b=wLWyvp7HSsvvzKHVicSI+SmH2HfwRsgNxPU42ahPJjs+rDEv8uQW22dwuN8cV7gIiL
+         ccb/pVp+1wrGDzrUTzyuH7va60ar9sSdxlnVDP+NpIOtawk5m+4MXlT685PZNGMFYv7+
+         bDnugt5GxHA6EL3UetOCzGKioqc6gT9nUrO7v+2oRaOr7+2f06gPzGzR+GSqpVmFbB3W
+         Vzfl6DapuvegsxikLNCIR/wWZO2JwZIR1PhM67K1Fe0B6HbZ9DERUkuvLtHvfcuVyd4B
+         R/cFowbM9s8djTihiHliwT3QptZ+6N4GJqD1E+uen6+Pmqdi0grZGmBlAF5ZXLxncAwt
+         imng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712942005; x=1713546805;
+        d=1e100.net; s=20230601; t=1712943271; x=1713548071;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Soc0+QXn5W8zbaSk+coOpUVEhCceV3S1TAiuN1SZpPU=;
-        b=K5LrHIpzlqbH7pCzwkgJOp6oaDEGKXSSJoVK3tAUg7VYzMnvNyiSfDzNFlKyZq/UK1
-         de4OE70am4wMO+lwJ2NydltZHQFxYDRvy+uy4cBnZ+81Rml9+lZ74dAThIHRJUIYOCNd
-         gpEA7yVzMxZWgk8NB/KPERGcUyl2ESRvFz0dkyG7hg33KFXcIupAz9zGrEM/misZUUSb
-         WXlwVX1AXj5UGtmm7uO3d3J2ohURZvfhlzsZ6sB9eu+73YgiMR74YpWEFYMp7xG7va5f
-         uN/5mizXLMM4F+lBl+srpcoOWn0Wbynse9VPmXJKfZs2+gybjIVcC7lMBzXePbAm0RBF
-         XnSA==
-X-Forwarded-Encrypted: i=1; AJvYcCVkqbuKVL0ngEvkQVeoltZqq2WGwY1To1GlPhqgzfmBy17Bhj9O1YyS0eifLuzKtj7P8Rm3R/c4WyMGtR1ZS9Jv3hxOd81d1IVVBEA=
-X-Gm-Message-State: AOJu0YwdOizYUaJb01NqIrVEHev+LiXNlgdld5yDFAi66xHZzIi8a+Nt
-	BNXKww8rHXwgygQ0R0f3QlPcI3qqNG72WbEzQCzHub+016wN7sfYuZQQfUw9IwE=
-X-Google-Smtp-Source: AGHT+IF776zoVnfiTTi5WIsaQ3v4fo6KtFc0W2tiXFHOJ67WtrOcZCtTV47KUhKhuAyowf9bIsmn8g==
-X-Received: by 2002:a17:90b:1001:b0:2a2:775:9830 with SMTP id gm1-20020a17090b100100b002a207759830mr3316998pjb.11.1712942005487;
-        Fri, 12 Apr 2024 10:13:25 -0700 (PDT)
+        bh=PEydYnVIUiV6lB5t0xe0YqzJX4OVoeUrqtT1X9ALVoM=;
+        b=hgXXkWMMUEuLiSyQCBJ7skrMbOhDNWo7ih/knUEJfNd5hJjgmlpWOm5S++FrNle19Y
+         bkU2rUfLUnLSQenlAZM6nVF9qVjBsCm/w9ssLJmZAJIPK0EDZUL0iRPmdBssuk8f+yPg
+         /dC5ULlCBlJcwAJJyRc0WaJc5uRqEnt2xjeZjERWO1T4YgxQiBzBI9aj2ZaJbDPWiqkH
+         bsQVZaMNUEOhWMiIDIHmT8oEk0pIfsD7A4RErOqRF9SkpBeH4KrHR2V8+kIJN4jfK14P
+         oeTD8fotHppbcOe0TEzYwO2OHDpE0WzGE7HFxXcUHVgTmnP6yPjltBQQtOjC77t+1jPc
+         lr2A==
+X-Forwarded-Encrypted: i=1; AJvYcCVpjorjhtokeFzy0BSOTRbg/J0QQqocAdKtcNPdrKnoqWHAZI7xg0v/b2g1AHohufagz5zYf+N+CcJ2HA+NcS4LkOQ+4jy5/9d53ok=
+X-Gm-Message-State: AOJu0YwrMwdj1++KFzj2cnPOBS1AHonhVHsYm3Z0jCbRdc74nucTcdST
+	rWe3WTAz/Yel0wBHtVoH2XcrUwXd1eh+zRRQUQ0KZkhstPIWQ6fCxGPXU3E6NDk=
+X-Google-Smtp-Source: AGHT+IGecMdCX/L7b/b4jRRmemcxcjENo5rWeeIe8AMz+k5W0w7mlpSYqVctJhJ2M4+aY/mVz0JUCQ==
+X-Received: by 2002:a17:90a:2cf:b0:2a5:733c:3105 with SMTP id d15-20020a17090a02cf00b002a5733c3105mr3650134pjd.26.1712943271582;
+        Fri, 12 Apr 2024 10:34:31 -0700 (PDT)
 Received: from ghost ([2601:647:5700:6860:121b:da6b:94f1:304])
-        by smtp.gmail.com with ESMTPSA id ge21-20020a17090b0e1500b002a6e67e197dsm1458645pjb.45.2024.04.12.10.13.24
+        by smtp.gmail.com with ESMTPSA id fs6-20020a17090af28600b002a4e331cc69sm4732571pjb.20.2024.04.12.10.34.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Apr 2024 10:13:24 -0700 (PDT)
-Date: Fri, 12 Apr 2024 10:13:22 -0700
+        Fri, 12 Apr 2024 10:34:31 -0700 (PDT)
+Date: Fri, 12 Apr 2024 10:34:28 -0700
 From: Charlie Jenkins <charlie@rivosinc.com>
 To: Conor Dooley <conor.dooley@microchip.com>
 Cc: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
@@ -69,12 +69,12 @@ Cc: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
 	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
 	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH 03/19] dt-bindings: riscv: Add xtheadvector ISA extension
- description
-Message-ID: <Zhlrsl7CKcl6cdSC@ghost>
+Subject: Re: [PATCH 07/19] riscv: Optimize
+ riscv_cpu_isa_extension_(un)likely()
+Message-ID: <ZhlwpKuqVkQCr6u+@ghost>
 References: <20240411-dev-charlie-support_thead_vector_6_9-v1-0-4af9815ec746@rivosinc.com>
- <20240411-dev-charlie-support_thead_vector_6_9-v1-3-4af9815ec746@rivosinc.com>
- <20240412-ream-dwarf-8cdc3d0f279c@wendy>
+ <20240411-dev-charlie-support_thead_vector_6_9-v1-7-4af9815ec746@rivosinc.com>
+ <20240412-aerosol-heritage-cec1eca172fb@wendy>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -83,51 +83,52 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240412-ream-dwarf-8cdc3d0f279c@wendy>
+In-Reply-To: <20240412-aerosol-heritage-cec1eca172fb@wendy>
 
-On Fri, Apr 12, 2024 at 11:27:23AM +0100, Conor Dooley wrote:
-> On Thu, Apr 11, 2024 at 09:11:09PM -0700, Charlie Jenkins wrote:
-> > The xtheadvector ISA extension is described on the T-Head extension spec
-> > Github page [1].
+On Fri, Apr 12, 2024 at 11:40:38AM +0100, Conor Dooley wrote:
+> On Thu, Apr 11, 2024 at 09:11:13PM -0700, Charlie Jenkins wrote:
+> > When alternatives are disabled, riscv_cpu_isa_extension_(un)likely()
+> > checks if the current cpu supports the selected extension if not all
+> > cpus support the extension. It is sufficient to only check if the
+> > current cpu supports the extension.
 > > 
-> > [1] https://github.com/T-head-Semi/thead-extension-spec/blob/master/xtheadvector.adoc
-> 
-> Link: <foo> [1]
-> 
+> > The alternatives code to handle if all cpus support an extension is
+> > factored out into a new function to support this.
 > > 
 > > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
 > > ---
-> >  Documentation/devicetree/bindings/riscv/extensions.yaml | 9 +++++++++
-> >  1 file changed, 9 insertions(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Documentation/devicetree/bindings/riscv/extensions.yaml
-> > index 468c646247aa..3fd9dcf70662 100644
-> > --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
-> > +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
-> > @@ -477,6 +477,10 @@ properties:
-> >              latency, as ratified in commit 56ed795 ("Update
-> >              riscv-crypto-spec-vector.adoc") of riscv-crypto.
-> >  
-> > +        # vendor extensions, each extension sorted alphanumerically under the
-> > +        # vendor they belong to. Vendors are sorted alphanumerically as well.
-> > +
-> > +        # Andes
-> >          - const: xandespmu
-> >            description:
-> >              The Andes Technology performance monitor extension for counter overflow
-> > @@ -484,5 +488,10 @@ properties:
-> >              Registers in the AX45MP datasheet.
-> >              https://www.andestech.com/wp-content/uploads/AX45MP-1C-Rev.-5.0.0-Datasheet.pdf
-> >  
-> > +        # T-HEAD
-> > +        - const: xtheadvector
-> > +          description:
-> > +            The T-HEAD specific 0.7.1 vector implementation.
 > 
-> This needs the link and a SHA or some other reference to the version
-> of the document.
+> >  static __always_inline bool riscv_cpu_has_extension_unlikely(int cpu, const unsigned long ext)
+> >  {
+> > -	if (IS_ENABLED(CONFIG_RISCV_ALTERNATIVE) && riscv_has_extension_unlikely(ext))
+> > -		return true;
+> > +	compiletime_assert(ext < RISCV_ISA_EXT_MAX,
+> > +			   "ext must be < RISCV_ISA_EXT_MAX");
+> >  
+> > -	return __riscv_isa_extension_available(hart_isa[cpu].isa, ext);
+> > +	if (IS_ENABLED(CONFIG_RISCV_ALTERNATIVE) && __riscv_has_extension_unlikely_alternatives(ext))
+> > +		return true;
+> > +	else
+> > +		return __riscv_isa_extension_available(hart_isa[cpu].isa, ext);
+> >  }
+> 
+> static __always_inline bool riscv_cpu_has_extension_likely(int cpu, const unsigned long ext)
+> {
+> 	if (IS_ENABLED(CONFIG_RISCV_ALTERNATIVE) && riscv_has_extension_likely(ext))
+> 		return true;
+> 
+> 	return __riscv_isa_extension_available(hart_isa[cpu].isa, ext);
+> }
+> 
+> This is the code as things stand. If alternatives are disabled, the if
+> statement becomes if (0 && foo) which will lead to the function call
+> getting constant folded away and all you end up with is the call to
+> __riscv_isa_extension_available(). Unless I am missing something, I don't
+> think this patch has any affect?
 
-Okay will add, thank you.
+Yeah I fumbled this one it appears. I got thrown off by the nested
+IS_ENABLED(CONFIG_RISCV_ALTERNATIVE). This patch eliminates the need for
+this and maybe can avoid avoid confusion in the future.
 
 - Charlie
 
@@ -135,12 +136,5 @@ Okay will add, thank you.
 > Thanks,
 > Conor.
 > 
-> > +
-> >  additionalProperties: true
-> >  ...
-> > 
-> > -- 
-> > 2.44.0
-> > 
 
 
