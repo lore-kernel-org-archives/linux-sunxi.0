@@ -1,55 +1,55 @@
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2CF714B065
-	for <linux-sunxi@lists.linux.dev>; Fri, 12 Apr 2024 17:04:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADFEA14BFA2
+	for <linux-sunxi@lists.linux.dev>; Fri, 12 Apr 2024 17:05:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712941496; cv=none; b=bd+DUK1i7EsoUKrmUqZKFt1Tw6X3nnrZrKZdPlSnXgn4syWGBqk4+LJJSgkQ1UzSBCCR5nurTCThJwukaunKydMx9jlk9aYrqy0zS2xeeRoftuPK0lyMpPS9Yf8uwhz9vUB6ADHQmMfcP1TAPkGx1dQADB/oIn1MV3Yh9JkLC8o=
+	t=1712941523; cv=none; b=uwjrj1YoMJ07im16tk3no2YjLtyIYmD+K7HHf8oxoDGRCPespwhGbquu2Oege4mMBwiVwGQcKRj9/eVU9/fhL6XIg5Xqh6qOvDx0fEm7UIr6l3Z5TqUvRkhGDXYJyeOwbqO4RhnKchxoQtzZ0R/oGI54VqEKFLtU0S2q8DeYhhY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712941496; c=relaxed/simple;
-	bh=tYOCD7qA19/JAXwkJAfYs6ERNWjQ6TGuUnce7Ev3h1g=;
+	s=arc-20240116; t=1712941523; c=relaxed/simple;
+	bh=0iWl1Io+EcPTnphzUKNTmq8fNPf9pTiT7i8KtPiB01w=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Tx1R1jYXfZ+LtwF9KSO2FukKJ6QhmtPYDYD/oUQgLQxvAcaiiBnihh1xWHON3fpneG2IZtFQn09I6vA9WjFvQClWnp6etHI4FFY75tK7raC0EhPNnfmbk3ZwvKt808uPx7rzmATqKzazIy2CFOZT+Fwu4tXklmGceI48EJHxWUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=2YRSoddN; arc=none smtp.client-ip=209.85.208.173
+	 To:Cc:Content-Type; b=EfXOlQG4G2DTskw76437F+/0le6sn1SGpRYzOHAxCsG2F3g+SRW+Hv3FA4fio/DBCA/sdb6Y3WLXaP8AqXfbBus+AgUIFNURZxrusHjpA8MW89IawLu/dz6stv3Clc90m+9VC5aLkJH5vb8Eh1+F11s7RqCCJfWYaeqAauG8YOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=VKtVvnID; arc=none smtp.client-ip=209.85.167.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="2YRSoddN"
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2d88a869ce6so12848871fa.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 12 Apr 2024 10:04:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="VKtVvnID"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-516d3776334so1484500e87.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 12 Apr 2024 10:05:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1712941493; x=1713546293; darn=lists.linux.dev;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1712941519; x=1713546319; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tYOCD7qA19/JAXwkJAfYs6ERNWjQ6TGuUnce7Ev3h1g=;
-        b=2YRSoddNJLxp5K4g5f6djI+R9X7ELL7fFaIo36J0XjUGHvNZQTy+iWrbXHwSZ+diwy
-         QnT1LKqAXw/NuUqZLWAR2XFVh++T+HE4is2J4B/UzUAKR/ItoWcCJn260K+ziMYPvWiN
-         7OCfaITAMA8eePZPzOxYmKNOS77ylsb0g3V/FYE/F121sxu3VH0O3eoP/wqQr9VNwv3j
-         f1Sj0hQYsKlqqBU9SSMnFO5/9KLjUGsxyZdYW6NGqCNfP+rechaaT0N1u4u43LH839ob
-         ACsbaM2IcQ5JUyeG9B0FqxsDmrSH+bpjnFpRUXTSVJTRWgudPTK0sOa3uluM9r1lid5F
-         Tufg==
+        bh=o2+F6Z5+nSqcwJp5/u9iM3I5euO/lGGwbVB876NJ+N8=;
+        b=VKtVvnIDKi0/wdq+5W1Wnyma4EVJCyx85yol/CrWDX8Vddc5otEZDG3ao8a3uFNOMP
+         7i8VQ2DXxvTegSzcdJZFRWPXqRK/XjSo2x8KxEc6nuj7K0QZ1lXHafLbJyspaq39h+fM
+         rdHBk/2xEU2so+rgCjU1uVLnjxvFwn289EgNfrdFiPG7hpc3T/J8WHCz+fyz65kksXz0
+         8BB6haVZwTHNdI03dp9AJgEtwHSmz+FSPrT5UayQEROWa/1MDS1m1luH9tlWQUdYBHTT
+         /dqe2DfPpy0ImybymLYH1AYYxP0OokAc8UMN073XtpiB69EmG114IfzBCEgqdT9qGvFD
+         xrww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712941493; x=1713546293;
+        d=1e100.net; s=20230601; t=1712941519; x=1713546319;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tYOCD7qA19/JAXwkJAfYs6ERNWjQ6TGuUnce7Ev3h1g=;
-        b=xFhWelemI3jjkB3Wl/UC2MDkOLgDQyrxg2efgfyWoYMsPG5XJ+fGg04psJc/VMo9BT
-         xh1A7UJlNxruoWSaQvTr/PnXhpYM7wZhhWeGJqPI90uxU4bZLmeWrui58a7M0oMuoP/+
-         Y/KzTPjuhS5nLB80draPqEjKeMW2asUki2AcAxB9UNkgoSkB2FWnrxzI9knxAZAIixm6
-         exm+JZuAlQ/QDVhKB/nboVjhiMT48nWPgm/gQkbFLJBG+qH7p10iasoWDTpiTfx7OMrA
-         W20To/fynH2ruyYn5qkA/JdYPrMaN3LTNk8JrByVfr57qrY6BkJQPYpF7r8SJwKamokp
-         8g0A==
-X-Forwarded-Encrypted: i=1; AJvYcCWIyBUh/C43+HMADIpxIknYMh46mZmOdHvQEW8xtKXZuTPq93zrDcvASihPTAwqBdm8tdDIYGuXUfIy4K/utL6QbPIRonrfg7qvzJM=
-X-Gm-Message-State: AOJu0YyzmA+qoh9JNc10s56+yNWsBo7enC+x8Nl701uA2NQ8Cve7faoM
-	kwwrhvk2iaXysstD/xMI48Z0lTwdM6hKuDcas3QXfqaI603DZB+yqMbuu04KSTUbn9MvC3iOXnZ
-	j3mJ61X2/L8UQg4nUaK3NVScRcZSspOYicV/8kQ==
-X-Google-Smtp-Source: AGHT+IEVhmpSPd185VDGAisXX5CbjlYY2cqdA2jBznkqi4gMJsx6SWiduJXurWu4KxUaLTi372RCaB93r5g8yMqVxEs=
-X-Received: by 2002:a2e:95cc:0:b0:2da:7af:e6a0 with SMTP id
- y12-20020a2e95cc000000b002da07afe6a0mr2360061ljh.38.1712941493181; Fri, 12
- Apr 2024 10:04:53 -0700 (PDT)
+        bh=o2+F6Z5+nSqcwJp5/u9iM3I5euO/lGGwbVB876NJ+N8=;
+        b=WG9fTpl73KjA9fvt4mC/M29x0EmzWZtAW3bs/ixwP7KC3pPzBqrYeqVLlJHEvNTzIc
+         Pj0P38/OisPg3wSJ9OsVEYMcwb7loDfxzlj8tDrYBG1khe9yTWe7nVouw154SRBy1qF4
+         2UxDnkVsdYX8Jqau4zzArjILMwf4huPZtLHMVOXKOaiviKDpN89y4jo/GPaw0d8HDHZb
+         CL/TxfYqL9NSeNwAUA8oD97hPXOcbxSUkSjykbMeZLOl7uf0n3FpThZI2ejOI4zx73ud
+         Z5yUburecSDhqmcOuSTmXGImE6AP/p3WGUkjcJcPgRd9CsSyTZNWbNhGZ2XLMf3CNWr4
+         04Ig==
+X-Forwarded-Encrypted: i=1; AJvYcCWZ+MEAtmZtdL8V8Mv1o++pm928fdheZwqnRb4SOrS+YeGfK1twpaBfnQ5ms10+DXIUUqo/9e/7UkmaVzz5e7QNTgWis8laf/5b09I=
+X-Gm-Message-State: AOJu0YxYDbtAvqt5gUqWAamXbGVu33tACEkMBWJWAh1bsfPTBg1zeDz9
+	43JZor8HWVBnz94CfXCdd81rLTKb3IZpVWi67fJ9BqHvt76n1YzFWPj9tfqvySoUMJrvNguoclv
+	9U1vqallTsUNxuQtWtOnNGiuvkgafib4qHqbYNg==
+X-Google-Smtp-Source: AGHT+IFTwWgekolEJQkFIbbTNtxauFKuhwni5/Gb89sRytgSj62M43pT7a0jCUkjzdpqZU6SGxa9xotVOWrotjKfpBI=
+X-Received: by 2002:a2e:9b06:0:b0:2d5:122a:4b1f with SMTP id
+ u6-20020a2e9b06000000b002d5122a4b1fmr2435885lji.43.1712941518949; Fri, 12 Apr
+ 2024 10:05:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -57,13 +57,14 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20240411-dev-charlie-support_thead_vector_6_9-v1-0-4af9815ec746@rivosinc.com>
- <20240411-dev-charlie-support_thead_vector_6_9-v1-2-4af9815ec746@rivosinc.com>
- <20240412-tuesday-resident-d9d07e75463c@wendy>
-In-Reply-To: <20240412-tuesday-resident-d9d07e75463c@wendy>
+ <20240411-dev-charlie-support_thead_vector_6_9-v1-14-4af9815ec746@rivosinc.com>
+ <20240412-moonshine-acting-0df1a90b86d2@wendy>
+In-Reply-To: <20240412-moonshine-acting-0df1a90b86d2@wendy>
 From: Evan Green <evan@rivosinc.com>
-Date: Fri, 12 Apr 2024 10:04:17 -0700
-Message-ID: <CALs-HsuMZOMpDh8kwQx6FE2mawzt+qTD-WZ6Mvhrt+hUhkZimg@mail.gmail.com>
-Subject: Re: [PATCH 02/19] riscv: cpufeature: Fix thead vector hwcap removal
+Date: Fri, 12 Apr 2024 10:04:42 -0700
+Message-ID: <CALs-HsviR8E-sRvzz7pd5eVGb4+XsAdG1hhbZOPf+m3Cu4JP_Q@mail.gmail.com>
+Subject: Re: [PATCH 14/19] riscv: hwprobe: Disambiguate vector and
+ xtheadvector in hwprobe
 To: Conor Dooley <conor.dooley@microchip.com>
 Cc: Charlie Jenkins <charlie@rivosinc.com>, Conor Dooley <conor@kernel.org>, 
 	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
@@ -80,46 +81,60 @@ Cc: Charlie Jenkins <charlie@rivosinc.com>, Conor Dooley <conor@kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 12, 2024 at 3:26=E2=80=AFAM Conor Dooley <conor.dooley@microchi=
+On Fri, Apr 12, 2024 at 4:35=E2=80=AFAM Conor Dooley <conor.dooley@microchi=
 p.com> wrote:
 >
-> On Thu, Apr 11, 2024 at 09:11:08PM -0700, Charlie Jenkins wrote:
-> > The riscv_cpuinfo struct that contains mvendorid and marchid is not
-> > populated until all harts are booted which happens after the DT parsing=
-.
-> > Use the vendorid/archid values from the DT if available or assume all
-> > harts have the same values as the boot hart as a fallback.
+> On Thu, Apr 11, 2024 at 09:11:20PM -0700, Charlie Jenkins wrote:
+> > Ensure that hwprobe does not flag "v" when xtheadvector is present.
 > >
-> > Fixes: d82f32202e0d ("RISC-V: Ignore V from the riscv,isa DT property o=
-n older T-Head CPUs")
+> > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> > ---
+> >  arch/riscv/kernel/sys_hwprobe.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hw=
+probe.c
+> > index 8cae41a502dd..e0a42c851511 100644
+> > --- a/arch/riscv/kernel/sys_hwprobe.c
+> > +++ b/arch/riscv/kernel/sys_hwprobe.c
+> > @@ -69,7 +69,7 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *pa=
+ir,
+> >       if (riscv_isa_extension_available(NULL, c))
+> >               pair->value |=3D RISCV_HWPROBE_IMA_C;
+> >
+> > -     if (has_vector())
+> > +     if (has_vector() && !riscv_has_vendor_extension_unlikely(RISCV_IS=
+A_VENDOR_EXT_XTHEADVECTOR))
 >
-> If this is our only use case for getting the mvendorid/marchid stuff
-> from dt, then I don't think we should add it. None of the devicetrees
-> that the commit you're fixing here addresses will have these properties
-> and if they did have them, they'd then also be new enough to hopefully
-> not have "v" either - the issue is they're using whatever crap the
-> vendor shipped.
-> If we're gonna get the information from DT, we already have something
-> that we can look at to perform the disable as the cpu compatibles give
-> us enough information to make the decision.
->
-> I also think that we could just cache the boot CPU's marchid/mvendorid,
-> since we already have to look at it in riscv_fill_cpu_mfr_info(), avoid
-> repeating these ecalls on all systems.
->
-> Perhaps for now we could just look at the boot CPU alone? To my
-> knowledge the systems that this targets all have homogeneous
-> marchid/mvendorid values of 0x0.
+> Hmm, I think this is "dangerous". has_vector() is used across the kernel
+> now in several places for the in-kernel vector. I don't think that
+> has_vector() should return true for the T-Head stuff given that &
+> has_vector() should represent the ratified spec. I'll have to think
+> about this one and how nasty this makes any of the save/restore code
+> etc.
 
-It's possible I'm misinterpreting, but is the suggestion to apply the
-marchid/mvendorid we find on the boot CPU and assume it's the same on
-all other CPUs? Since we're reporting the marchid/mvendorid/mimpid to
-usermode in a per-hart way, it would be better IMO if we really do
-query marchid/mvendorid/mimpid on each hart. The problem with applying
-the boot CPU's value everywhere is if we're ever wrong in the future
-(ie that assumption doesn't hold on some machine), we'll only find out
-about it after the fact. Since we reported the wrong information to
-usermode via hwprobe, it'll be an ugly userspace ABI issue to clean
-up.
+Yeah, my nose crinkled here as well. If you're having to do a
+vendorish thing in this generic spot, then others may too, suggesting
+perhaps this isn't the cleanest way to go about it. Ideally extensions
+are all additive, rather than subtractive, I guess?
 
--Evan
+
+>
+> >               pair->value |=3D RISCV_HWPROBE_IMA_V;
+> >
+> >       /*
+> > @@ -112,7 +112,7 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *=
+pair,
+> >               EXT_KEY(ZACAS);
+> >               EXT_KEY(ZICOND);
+> >
+> > -             if (has_vector()) {
+> > +             if (has_vector() && !riscv_has_vendor_extension_unlikely(=
+RISCV_ISA_VENDOR_EXT_XTHEADVECTOR)) {
+> >                       EXT_KEY(ZVBB);
+> >                       EXT_KEY(ZVBC);
+> >                       EXT_KEY(ZVKB);
+> >
+> > --
+> > 2.44.0
+> >
