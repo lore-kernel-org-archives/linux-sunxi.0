@@ -1,57 +1,57 @@
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A309114F107
-	for <linux-sunxi@lists.linux.dev>; Fri, 12 Apr 2024 18:04:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4521214F9CE
+	for <linux-sunxi@lists.linux.dev>; Fri, 12 Apr 2024 18:04:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712945049; cv=none; b=UUdMKGe+jwVPfqjL/e7FHQAHKI9MbYYr69iJMQM2yOga4v6KWIIH9H1wNoz1FNUvj1RBfi3nJJcXLhlfF860zCgWujYPSlN3S3mmrZLohSe4vPJQEksCwbQMBxyHrPH3jDDZTVEuQVLXNLFNxz8cA0vu0KAtgCMVAehsR/GPfVE=
+	t=1712945052; cv=none; b=eGHykVBqkxVhH9elxHPsFPXtWQ6gTUuieq9oXS2FqVRmBNyGNY4ulr8U8Jh8Y5W/I8JyiGAUIxsOS/6KG3GeR/cHpj1/b2VBTQJnNU9yviu/QC+iKHcn4uv4e4xHjSijk/Cl9YWpxQlTvQSPjYAw4TyRksb1UXL3Tn8UHToC8JI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712945049; c=relaxed/simple;
-	bh=H+DJg0zEQr8LzbY3dt0QnLd4raAs9+rzlHWu2fQFx4A=;
+	s=arc-20240116; t=1712945052; c=relaxed/simple;
+	bh=aNMo0yvz1nHeNP7+0UB6L1URTtu+mZYwgTmQjLMI9ps=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=E+orR2rGAlCIInQt1ZzPBxZflACTA8HZgdA+6lCoDzqK6SsxS3FXgz5a4nJabV56ryz95PrBMdOzy1e8VgsOQDrgUqzAJo9+gUFMWuWpN3fnKUWJctLzkjT3IrXPKedW8gTjWbdeXKBexTkGBd38Yr04t4O5H2E5UvskGFA4RS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a6FmzP5G; arc=none smtp.client-ip=209.85.208.179
+	 MIME-Version; b=SHS1xSOxti9De2JQsYWVHYmuBTdEjnVVgibJUVqHsU4yEyHSmysUUsCFF5NK1plpi8yIwAZNz3WxqtiZZ9pK6fM5TnZFR6EC7tNsWyA4/IdHhfwisrnrTHyn0njl/SeE1ipsR83u2/W7/myXHwLgnV7bUd2uXoEioZmK3wXeWOE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zv72hwKo; arc=none smtp.client-ip=209.85.167.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a6FmzP5G"
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2d8a2cbe1baso12898171fa.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 12 Apr 2024 11:04:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zv72hwKo"
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-516d727074eso1534820e87.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 12 Apr 2024 11:04:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712945046; x=1713549846; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1712945048; x=1713549848; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=cN13xKrisJWzHEEUXlM2Kj3W0urUTpSnKk1qxa6jOEk=;
-        b=a6FmzP5GexGcfNscYCL3VoIuKS95NgKdE6LJW64J5YRWOkPNbKDrK/0CN0dz1euaK6
-         okQM7E9cEqvdeBEWm5f+Jkrt5lLsvKlYdaWzvCBj8SVeYtvDRrUHISFJJmYXuRcYOgM3
-         pz2+FaNo+/pdtOUCXRPe/ztB5dZ/isTBfnELokvwHRYfSDYZehOU8MJHhQ71osUBlAwS
-         rmhynMtZRjfUDj13aDlEP2LgQ1UxoDO7fU8Xx76BrRvNcemv+6oLI+FYCKVcXZ2lpLBH
-         SkYEhhEzh6gejgki96d7huVJUxS8BMO1J7J/NsGagMI9udVnZBORhghPSqFyrUjmm9F1
-         S8Lg==
+        bh=ns1oG6LOVs/ZVq4Sc81vjB8AQ3EikXTsb00t4EvYj64=;
+        b=Zv72hwKohWCaPkBNrdITk8MMr2zpmLMFldEXVu5OPo3pz7tindKF2SSwg0b5N5vWK5
+         iw026J4RogEH4kAIDDSpNAyTPMHlREvz2C87QTMHsbcmUXIc7Qon8H75aJH6PIN8VZL8
+         Mu70jkCLH6R+wfQTOhgIVMNswX8BVmr0rHNw89vQ/bAQjf3oB3uqI3iNxAW04t+OHxt3
+         wi+V/TWGRr4DHiRw5BzsNZmcpYKlJPc5fVX6eH5UH0kIJLneJD5qCuOtg9EiakLstlZS
+         55PtnbAX9gnz4JKNmeijM9kEPdwKOUdwh8BzT4lLbqyTLIl+hocN8XEU1jFZDurY2r+G
+         zMxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712945046; x=1713549846;
+        d=1e100.net; s=20230601; t=1712945048; x=1713549848;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=cN13xKrisJWzHEEUXlM2Kj3W0urUTpSnKk1qxa6jOEk=;
-        b=ULFTdGvnHwcdtkZLjNoeoqan+hRToJYaCQbGHxGNxe4NthQWWxn0tc5Om9NL1Mw4mp
-         ZgGCGplzVPo7G2Cs++lXUGX7OSl4vMWJdI54lfHt1ljBoB7wQXS0fBrii98OEJB5fWG4
-         Frd8BMcf8f0FfO6bSrrhap4KFKRk611QiTt64/ecWf5wfXmrOHJg9YfDJolBh9rn8/p/
-         MYKHoGHpMQ1XoNuH3NqQprtoofU946HMvWPNsSuCfJESXvjSQMARj6ZFUQj6U3ve7KYl
-         CbsE0SlCAeSjGWKhYHHWe3kt7/JIMWUELJs2pBznzZiE6MNQO8uIz4YT3cLieMKT84qd
-         YnjQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUYMHqDOiG9FSEwpBmlGm8oWIRwzrU8iOMmLmN/k1BUWdt7Ep2OjCoooxLqHN7ylWoWvOpW/CKwqud6sRi4XHn3c1J+WiWK0HhzUZQ=
-X-Gm-Message-State: AOJu0Yx9XWRetWZklEnEoAhdp7R3nyMM5Ye+xjLpwjdb7G+4XjaYVw0f
-	I4hQpDCE2ysEvGaLMLBAzBB+NQnjLt8Aw34MUDM8iB9EtQCKQecb
-X-Google-Smtp-Source: AGHT+IEOHDnXn4A0X8osVWAoYeNfoKuOFh0OduIqkCo7A2A3nIvR3DQ2+Flg9QxnlP2QZA+Omg958Q==
-X-Received: by 2002:a05:651c:b0b:b0:2d8:3e07:5651 with SMTP id b11-20020a05651c0b0b00b002d83e075651mr3195379ljr.34.1712945045603;
-        Fri, 12 Apr 2024 11:04:05 -0700 (PDT)
+        bh=ns1oG6LOVs/ZVq4Sc81vjB8AQ3EikXTsb00t4EvYj64=;
+        b=iOsIRPxNT5EJTLDmAxG3M/E0tOsXtf5Rj12dqr++bsv6X3GLOP6qHhBv4S4jZNt38h
+         zSIduHLM6VIW8fM0XcoId+gPu42HAiDiVGY8Sb9xbjIpThJMQ01yQXzCQmJYeiVGfwSr
+         oF7mYgGprMoQTdkiPageO+3KO5ZJO7yYpjgWxH5WI0dqqxtDeLGrOHrbvhYBOrzUzsj5
+         jRfUiXZufpLqxUZxFjUvMrGLcZqEI6w277Wp8CN9cvlkNUHoVTWcNA4XIY2XGXT02fxf
+         BkAVGDSiuEEdoLAlk4SuGdCUPS4EembqMPk/2RtPe2vqzdpL0dCejZMVlDALAlHnIKUg
+         07og==
+X-Forwarded-Encrypted: i=1; AJvYcCU+3pMzgPX8MJ62rFj/wmFoTROo4ZhSeTviw6Xrn9aAiZxAR1mr2iaJ+nNhArip/g5X4zDkFbl26XnSHH9J0p6l7WtjFYCobDugcDs=
+X-Gm-Message-State: AOJu0YyKCuj0JffNyE4QJQXujCV+mHkH23zzNDjOPuZ9guPBN8aqQ2pW
+	7K+ezOqZ1V5tMuVvyxl60gKHpyFAKvxScFA6mrbgwHpqTLOEFbaC
+X-Google-Smtp-Source: AGHT+IEPxhaQXizBkl9ASIbotUhT2y0fS/NO9YBxkzcJIIW1FjddxqImEe8ftmrAW7xDAo1JjdZaVw==
+X-Received: by 2002:a05:6512:4802:b0:514:b4ca:f478 with SMTP id eo2-20020a056512480200b00514b4caf478mr1825505lfb.39.1712945048305;
+        Fri, 12 Apr 2024 11:04:08 -0700 (PDT)
 Received: from localhost ([95.79.241.172])
-        by smtp.gmail.com with ESMTPSA id f28-20020a05651c02dc00b002d2dfe8a36csm560225ljo.96.2024.04.12.11.04.04
+        by smtp.gmail.com with ESMTPSA id bi40-20020a0565120ea800b005187164f908sm386802lfb.109.2024.04.12.11.04.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Apr 2024 11:04:05 -0700 (PDT)
+        Fri, 12 Apr 2024 11:04:07 -0700 (PDT)
 From: Serge Semin <fancer.lancer@gmail.com>
 To: Alexandre Torgue <alexandre.torgue@foss.st.com>,
 	Jose Abreu <joabreu@synopsys.com>,
@@ -62,22 +62,21 @@ To: Alexandre Torgue <alexandre.torgue@foss.st.com>,
 	Russell King <linux@armlinux.org.uk>,
 	Yanteng Si <siyanteng@loongson.cn>,
 	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Michael Sit Wei Hong <michael.wei.hong.sit@intel.com>,
-	"Gan, Yi Fang" <yi.fang.gan@intel.com>
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
 Cc: Serge Semin <fancer.lancer@gmail.com>,
 	Simon Horman <horms@kernel.org>,
 	Huacai Chen <chenhuacai@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
 	netdev@vger.kernel.org,
 	linux-stm32@st-md-mailman.stormreply.com,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net 2/4] net: stmmac: Fix max-speed being ignored on queue re-init
-Date: Fri, 12 Apr 2024 21:03:15 +0300
-Message-ID: <20240412180340.7965-3-fancer.lancer@gmail.com>
+	linux-kernel@vger.kernel.org,
+	Jose Abreu <Jose.Abreu@synopsys.com>
+Subject: [PATCH net 3/4] net: stmmac: Fix IP-cores specific MAC capabilities
+Date: Fri, 12 Apr 2024 21:03:16 +0300
+Message-ID: <20240412180340.7965-4-fancer.lancer@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240412180340.7965-1-fancer.lancer@gmail.com>
 References: <20240412180340.7965-1-fancer.lancer@gmail.com>
@@ -89,48 +88,236 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-It's possible to have the maximum link speed being artificially limited on
-the platform-specific basis. It's done either by setting up the
-plat_stmmacenet_data::max_speed field or by specifying the "max-speed"
-DT-property. In such cases it's required that any specific
-MAC-capabilities re-initializations would take the limit into account. In
-particular the link speed capabilities may change during the number of
-active Tx/Rx queues re-initialization. But the currently implemented
-procedure doesn't take the speed limit into account.
+Here is the list of the MAC capabilities specific to the particular DW MAC
+IP-cores currently supported by the driver:
 
-Fix that by calling phylink_limit_mac_speed() in the
-stmmac_reinit_queues() method if the speed limitation was required in the
-same way as it's done in the stmmac_phy_setup() function.
+DW MAC100: MAC_ASYM_PAUSE | MAC_SYM_PAUSE |
+	   MAC_10 | MAC_100
 
-Fixes: 95201f36f395 ("net: stmmac: update MAC capabilities when tx queues are updated")
+DW GMAC:  MAC_ASYM_PAUSE | MAC_SYM_PAUSE |
+          MAC_10 | MAC_100 | MAC_1000
+
+Allwinner sun8i MAC: MAC_ASYM_PAUSE | MAC_SYM_PAUSE |
+                     MAC_10 | MAC_100 | MAC_1000
+
+DW QoS Eth: MAC_ASYM_PAUSE | MAC_SYM_PAUSE |
+            MAC_10 | MAC_100 | MAC_1000 | MAC_2500FD
+if there is more than 1 active Tx/Rx queues:
+	   MAC_ASYM_PAUSE | MAC_SYM_PAUSE |
+           MAC_10FD | MAC_100FD | MAC_1000FD | MAC_2500FD
+
+DW XGMAC: MAC_ASYM_PAUSE | MAC_SYM_PAUSE |
+          MAC_1000FD | MAC_2500FD | MAC_5000FD | MAC_10000FD
+
+DW XLGMAC: MAC_ASYM_PAUSE | MAC_SYM_PAUSE |
+          MAC_1000FD | MAC_2500FD | MAC_5000FD | MAC_10000FD |
+          MAC_25000FD | MAC_40000FD | MAC_50000FD | MAC_100000FD
+
+As you can see there are only two common capabilities:
+MAC_ASYM_PAUSE | MAC_SYM_PAUSE.
+Meanwhile what is currently implemented defines 10/100/1000 link speeds
+for all IP-cores, which is definitely incorrect for DW MAC100, DW XGMAC
+and DW XLGMAC devices.
+
+Seeing the flow-control is implemented as a callback for each MAC IP-core
+(see dwmac100_flow_ctrl(), dwmac1000_flow_ctrl(), sun8i_dwmac_flow_ctrl(),
+etc) and since the MAC-specific setup() method is supposed to be called
+for each available DW MAC-based device, the capabilities initialization
+can be freely moved to these setup() functions, thus correctly setting up
+the MAC-capabilities for each IP-core (including the Allwinner Sun8i). A
+new stmmac_link::caps field was specifically introduced for that so to
+have all link-specific info preserved in a single structure.
+
+Note the suggested change fixes three earlier commits at a time. The
+commit 5b0d7d7da64b ("net: stmmac: Add the missing speeds that XGMAC
+supports") permitted the 10-100 link speeds and 1G half-duplex mode for DW
+XGMAC IP-core even though it doesn't support them. The commit df7699c70c1b
+("net: stmmac: Do not cut down 1G modes") incorrectly added the MAC1000
+capability to the DW MAC100 IP-core. Similarly to the DW XGMAC the commit
+8a880936e902 ("net: stmmac: Add XLGMII support") incorrectly permitted the
+10-100 link speeds and 1G half-duplex mode for DW XLGMAC IP-core.
+
+Fixes: 5b0d7d7da64b ("net: stmmac: Add the missing speeds that XGMAC supports")
+Fixes: df7699c70c1b ("net: stmmac: Do not cut down 1G modes")
+Fixes: 8a880936e902 ("net: stmmac: Add XLGMII support")
+Suggested-by: Russell King (Oracle) <linux@armlinux.org.uk>
 Signed-off-by: Serge Semin <fancer.lancer@gmail.com>
 ---
- drivers/net/ethernet/stmicro/stmmac/stmmac_main.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/net/ethernet/stmicro/stmmac/common.h   |  1 +
+ .../net/ethernet/stmicro/stmmac/dwmac-sun8i.c  |  2 ++
+ .../ethernet/stmicro/stmmac/dwmac1000_core.c   |  2 ++
+ .../ethernet/stmicro/stmmac/dwmac100_core.c    |  2 ++
+ .../net/ethernet/stmicro/stmmac/dwmac4_core.c  | 10 ++++------
+ .../ethernet/stmicro/stmmac/dwxgmac2_core.c    | 18 ++++++++----------
+ .../net/ethernet/stmicro/stmmac/stmmac_main.c  |  7 ++++---
+ 7 files changed, 23 insertions(+), 19 deletions(-)
 
+diff --git a/drivers/net/ethernet/stmicro/stmmac/common.h b/drivers/net/ethernet/stmicro/stmmac/common.h
+index a6fefe675ef1..3b7d4ac1e7be 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/common.h
++++ b/drivers/net/ethernet/stmicro/stmmac/common.h
+@@ -553,6 +553,7 @@ extern const struct stmmac_hwtimestamp stmmac_ptp;
+ extern const struct stmmac_mode_ops dwmac4_ring_mode_ops;
+ 
+ struct mac_link {
++	u32 caps;
+ 	u32 speed_mask;
+ 	u32 speed10;
+ 	u32 speed100;
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+index b21d99faa2d0..e1b761dcfa1d 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+@@ -1096,6 +1096,8 @@ static struct mac_device_info *sun8i_dwmac_setup(void *ppriv)
+ 
+ 	priv->dev->priv_flags |= IFF_UNICAST_FLT;
+ 
++	mac->link.caps = MAC_ASYM_PAUSE | MAC_SYM_PAUSE |
++			 MAC_10 | MAC_100 | MAC_1000;
+ 	/* The loopback bit seems to be re-set when link change
+ 	 * Simply mask it each time
+ 	 * Speed 10/100/1000 are set in BIT(2)/BIT(3)
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac1000_core.c b/drivers/net/ethernet/stmicro/stmmac/dwmac1000_core.c
+index 3927609abc44..8555299443f4 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac1000_core.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac1000_core.c
+@@ -539,6 +539,8 @@ int dwmac1000_setup(struct stmmac_priv *priv)
+ 	if (mac->multicast_filter_bins)
+ 		mac->mcast_bits_log2 = ilog2(mac->multicast_filter_bins);
+ 
++	mac->link.caps = MAC_ASYM_PAUSE | MAC_SYM_PAUSE |
++			 MAC_10 | MAC_100 | MAC_1000;
+ 	mac->link.duplex = GMAC_CONTROL_DM;
+ 	mac->link.speed10 = GMAC_CONTROL_PS;
+ 	mac->link.speed100 = GMAC_CONTROL_PS | GMAC_CONTROL_FES;
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac100_core.c b/drivers/net/ethernet/stmicro/stmmac/dwmac100_core.c
+index a6e8d7bd9588..7667d103cd0e 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac100_core.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac100_core.c
+@@ -175,6 +175,8 @@ int dwmac100_setup(struct stmmac_priv *priv)
+ 	dev_info(priv->device, "\tDWMAC100\n");
+ 
+ 	mac->pcsr = priv->ioaddr;
++	mac->link.caps = MAC_ASYM_PAUSE | MAC_SYM_PAUSE |
++			 MAC_10 | MAC_100;
+ 	mac->link.duplex = MAC_CONTROL_F;
+ 	mac->link.speed10 = 0;
+ 	mac->link.speed100 = 0;
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac4_core.c b/drivers/net/ethernet/stmicro/stmmac/dwmac4_core.c
+index ec6a13e644b3..a38226d7cc6a 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac4_core.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac4_core.c
+@@ -70,14 +70,10 @@ static void dwmac4_core_init(struct mac_device_info *hw,
+ 
+ static void dwmac4_phylink_get_caps(struct stmmac_priv *priv)
+ {
+-	priv->phylink_config.mac_capabilities |= MAC_2500FD;
+-
+ 	if (priv->plat->tx_queues_to_use > 1)
+-		priv->phylink_config.mac_capabilities &=
+-			~(MAC_10HD | MAC_100HD | MAC_1000HD);
++		priv->hw->link.caps &= ~(MAC_10HD | MAC_100HD | MAC_1000HD);
+ 	else
+-		priv->phylink_config.mac_capabilities |=
+-			(MAC_10HD | MAC_100HD | MAC_1000HD);
++		priv->hw->link.caps |= (MAC_10HD | MAC_100HD | MAC_1000HD);
+ }
+ 
+ static void dwmac4_rx_queue_enable(struct mac_device_info *hw,
+@@ -1385,6 +1381,8 @@ int dwmac4_setup(struct stmmac_priv *priv)
+ 	if (mac->multicast_filter_bins)
+ 		mac->mcast_bits_log2 = ilog2(mac->multicast_filter_bins);
+ 
++	mac->link.caps = MAC_ASYM_PAUSE | MAC_SYM_PAUSE |
++			 MAC_10 | MAC_100 | MAC_1000 | MAC_2500FD;
+ 	mac->link.duplex = GMAC_CONFIG_DM;
+ 	mac->link.speed10 = GMAC_CONFIG_PS;
+ 	mac->link.speed100 = GMAC_CONFIG_FES | GMAC_CONFIG_PS;
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwxgmac2_core.c b/drivers/net/ethernet/stmicro/stmmac/dwxgmac2_core.c
+index e841e312077e..f8e7775bb633 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwxgmac2_core.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwxgmac2_core.c
+@@ -47,14 +47,6 @@ static void dwxgmac2_core_init(struct mac_device_info *hw,
+ 	writel(XGMAC_INT_DEFAULT_EN, ioaddr + XGMAC_INT_EN);
+ }
+ 
+-static void xgmac_phylink_get_caps(struct stmmac_priv *priv)
+-{
+-	priv->phylink_config.mac_capabilities |= MAC_2500FD | MAC_5000FD |
+-						 MAC_10000FD | MAC_25000FD |
+-						 MAC_40000FD | MAC_50000FD |
+-						 MAC_100000FD;
+-}
+-
+ static void dwxgmac2_set_mac(void __iomem *ioaddr, bool enable)
+ {
+ 	u32 tx = readl(ioaddr + XGMAC_TX_CONFIG);
+@@ -1540,7 +1532,6 @@ static void dwxgmac3_fpe_configure(void __iomem *ioaddr, struct stmmac_fpe_cfg *
+ 
+ const struct stmmac_ops dwxgmac210_ops = {
+ 	.core_init = dwxgmac2_core_init,
+-	.phylink_get_caps = xgmac_phylink_get_caps,
+ 	.set_mac = dwxgmac2_set_mac,
+ 	.rx_ipc = dwxgmac2_rx_ipc,
+ 	.rx_queue_enable = dwxgmac2_rx_queue_enable,
+@@ -1601,7 +1592,6 @@ static void dwxlgmac2_rx_queue_enable(struct mac_device_info *hw, u8 mode,
+ 
+ const struct stmmac_ops dwxlgmac2_ops = {
+ 	.core_init = dwxgmac2_core_init,
+-	.phylink_get_caps = xgmac_phylink_get_caps,
+ 	.set_mac = dwxgmac2_set_mac,
+ 	.rx_ipc = dwxgmac2_rx_ipc,
+ 	.rx_queue_enable = dwxlgmac2_rx_queue_enable,
+@@ -1661,6 +1651,9 @@ int dwxgmac2_setup(struct stmmac_priv *priv)
+ 	if (mac->multicast_filter_bins)
+ 		mac->mcast_bits_log2 = ilog2(mac->multicast_filter_bins);
+ 
++	mac->link.caps = MAC_ASYM_PAUSE | MAC_SYM_PAUSE |
++			 MAC_1000FD | MAC_2500FD | MAC_5000FD |
++			 MAC_10000FD;
+ 	mac->link.duplex = 0;
+ 	mac->link.speed10 = XGMAC_CONFIG_SS_10_MII;
+ 	mac->link.speed100 = XGMAC_CONFIG_SS_100_MII;
+@@ -1698,6 +1691,11 @@ int dwxlgmac2_setup(struct stmmac_priv *priv)
+ 	if (mac->multicast_filter_bins)
+ 		mac->mcast_bits_log2 = ilog2(mac->multicast_filter_bins);
+ 
++	mac->link.caps = MAC_ASYM_PAUSE | MAC_SYM_PAUSE |
++			 MAC_1000FD | MAC_2500FD | MAC_5000FD |
++			 MAC_10000FD | MAC_25000FD |
++			 MAC_40000FD | MAC_50000FD |
++			 MAC_100000FD;
+ 	mac->link.duplex = 0;
+ 	mac->link.speed1000 = XLGMAC_CONFIG_SS_1000;
+ 	mac->link.speed2500 = XLGMAC_CONFIG_SS_2500;
 diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-index dd58c21b53ee..b8a1f02398ee 100644
+index b8a1f02398ee..7c6fb14b5555 100644
 --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
 +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-@@ -7328,6 +7328,7 @@ int stmmac_reinit_queues(struct net_device *dev, u32 rx_cnt, u32 tx_cnt)
- {
- 	struct stmmac_priv *priv = netdev_priv(dev);
- 	int ret = 0, i;
-+	int max_speed;
+@@ -1225,12 +1225,11 @@ static int stmmac_phy_setup(struct stmmac_priv *priv)
+ 		xpcs_get_interfaces(priv->hw->xpcs,
+ 				    priv->phylink_config.supported_interfaces);
  
- 	if (netif_running(dev))
- 		stmmac_release(dev);
-@@ -7343,6 +7344,10 @@ int stmmac_reinit_queues(struct net_device *dev, u32 rx_cnt, u32 tx_cnt)
+-	priv->phylink_config.mac_capabilities = MAC_ASYM_PAUSE | MAC_SYM_PAUSE |
+-						MAC_10 | MAC_100 | MAC_1000;
+-
+ 	/* Get the MAC specific capabilities */
+ 	stmmac_mac_phylink_get_caps(priv);
+ 
++	priv->phylink_config.mac_capabilities = priv->hw->link.caps;
++
+ 	max_speed = priv->plat->max_speed;
+ 	if (max_speed)
+ 		phylink_limit_mac_speed(&priv->phylink_config, max_speed);
+@@ -7344,6 +7343,8 @@ int stmmac_reinit_queues(struct net_device *dev, u32 rx_cnt, u32 tx_cnt)
  
  	stmmac_mac_phylink_get_caps(priv);
  
-+	max_speed = priv->plat->max_speed;
-+	if (max_speed)
-+		phylink_limit_mac_speed(&priv->phylink_config, max_speed);
++	priv->phylink_config.mac_capabilities = priv->hw->link.caps;
 +
- 	stmmac_napi_add(dev);
- 
- 	if (netif_running(dev))
+ 	max_speed = priv->plat->max_speed;
+ 	if (max_speed)
+ 		phylink_limit_mac_speed(&priv->phylink_config, max_speed);
 -- 
 2.43.0
 
