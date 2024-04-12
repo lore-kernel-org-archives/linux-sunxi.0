@@ -1,170 +1,139 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76B73152181
-	for <linux-sunxi@lists.linux.dev>; Fri, 12 Apr 2024 21:56:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A1ED15217E
+	for <linux-sunxi@lists.linux.dev>; Fri, 12 Apr 2024 22:09:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712959013; cv=none; b=F+qn1aQ9pqVGPJLMXmCRqr4gpr7fBt6GQd94WeUBHHZOrQc2pSytF+4zA9rEFIZZ+vuhyk4hSI1eAs8AUbUB7IRQI/uaoU39tiUQYrLu7doZ6C5dXwrup6w3R9hzq95Sg20qvetg+QR6THcxCNFej3JsuMpOJZ+KlTCO+wngA7I=
+	t=1712959752; cv=none; b=Z93tWki+TKXfH3dp5lNwh6fzMJqSkdgIqSDBAdreILN0LhG5yWKwBKlMFPA4G6/eGcIme6VuzF2RCv8w/qkRNMdZkS+xd2k4uI9gFt9+iLayr5RTD80DAcjVYUJWaFDciIxxQXpYvVNr9XFE87qqk1pcbYXRw6BGLxxGRwnbz0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712959013; c=relaxed/simple;
-	bh=1PaWGfxyrHB5QHCFj3ZBI3SC8je2iOSCNdYW+yj2zZk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lRR3nPnkmq+6hk9MReS94oysuzdNIHGqDvckpSbifXEr3gNytFVw86SjLyGj3vNyiPltCUoGuvhj1WTNGbIXBmWkJOzXf6P26vwYTCYz4FW8RpqWfpQrEm/mjUAHP6EMGuDZmJTvJkYYl9gfCbyh78F+SGXgo+PbhDUG4zP7oMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=Nw1dNQfE; arc=none smtp.client-ip=209.85.214.175
+	s=arc-20240116; t=1712959752; c=relaxed/simple;
+	bh=2MgrN6DIBk4r15lQzhiuJv78bk5vHq4Hl6rKok+6bn8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HpSu+7QYbksUAVcNw8WfQ/grhlPkFHVIxV/CU9Y89ZOmBVv9zCA1SvVUiqv9r/7NGhxaN4GRmdcylyeTuq6wqkvSBFRfVBMNW06kaglxKU25N8NROmSjKNe0N0TsUBIP1f34qz+b0rHv/oy0YZIGrWKECU0lnWSqzq1kUPgsQlc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=j/4MD83n; arc=none smtp.client-ip=209.85.208.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="Nw1dNQfE"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1e504f58230so12277255ad.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 12 Apr 2024 14:56:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="j/4MD83n"
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2d715638540so16035931fa.3
+        for <linux-sunxi@lists.linux.dev>; Fri, 12 Apr 2024 15:09:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1712959012; x=1713563812; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KaHJoFfHeKcbZbr8DZBqF2w1WE3ebjk/glljyT7W9ZI=;
-        b=Nw1dNQfEigw/tqVbxiM7Fxr8aQU0DtjLW4WQrb//JNbRU1JqfvuODzOQRsduw2S8Cb
-         UJ1t85BSVyqgyFViSsFCqh3SaTwk4NP0TjHpSuBMdiNtYcEdsxjKZC8XN0JhcbZT5BNF
-         AXNJLhRYYWQ1Oz25Bk7Mgt2EJ/ZvmCB5OGNjIP114WQ5BXHGQY2bR4rZF+M7cSw7AmVZ
-         DUd/kO0a7QPkYqQUb8V21cfJ8aqulvYAYv00BGCC4k3u0KHvh44Mv0CgucSmRUR+E8p5
-         lE34tH3z7yfsEMEsEfh1y+mgxam1HMsjVfxWEomEhpwexMDfnzIXe7xkkogTUfLyNrHB
-         B4jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712959012; x=1713563812;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1712959748; x=1713564548; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KaHJoFfHeKcbZbr8DZBqF2w1WE3ebjk/glljyT7W9ZI=;
-        b=WBp9Ml/zrqii1KL/uciqoa+RJ7KpAqkNW16YTMcugVj0hZw7w8GKXyVn+I0UYc1YIH
-         1LN0/MeexOs3dehIewrnI62FC4Koj6RWhmyYU1q5CP42ZGVSGGJEYYn5lljmGXqaWsBj
-         2TnxBMJw6lVyy+A5rU0KVCfrCSWtNEyak2of2gyC+FGWfmaoxJvvF1gfm0A4dSHwf+tk
-         vOiqQhxA56XouU1zh2JCR4kdifa+R6P/VocfmEMFhDWR8U5aQ1c7W236lZD3mDRMc1Aw
-         89+AuwaQnKImEe1Qc0q/jtEQF6UYT3KhrO436ubxqNCV5TVY+/4W7t9wY3MUtBQBsnCR
-         Cn6g==
-X-Forwarded-Encrypted: i=1; AJvYcCWrJt2rLZHW5+3MZFRSz1WHbbD/bqLe9SmNSKxp/72RnYpQikc+zMVeTu8q0F0vNcvu8/LkzvNVRrngd+M4UIg4kJGaXJ57mT40utg=
-X-Gm-Message-State: AOJu0YxB3AfNFZ2LRfAfLdAxVuGmXJX0HI9qVf4t+6tkRPEHXkArmz+E
-	JepupjT5WHzwGC3oMg8H/qrNjULjwsEfLQjvS/xBuO3azmqXUL/OszfmJKYotls=
-X-Google-Smtp-Source: AGHT+IEWqFfAYkiXilmnZ21u0Vqs/Bc8kyXEc8OwbOgXHViFBz7n/2ViIbfUfkCfp7Uh0oJ1KjxbyQ==
-X-Received: by 2002:a17:903:250:b0:1e4:b1ea:23ef with SMTP id j16-20020a170903025000b001e4b1ea23efmr4487004plh.49.1712959011683;
-        Fri, 12 Apr 2024 14:56:51 -0700 (PDT)
-Received: from ghost ([50.145.13.30])
-        by smtp.gmail.com with ESMTPSA id o16-20020a170902d4d000b001e088a9e2bcsm3463749plg.292.2024.04.12.14.56.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Apr 2024 14:56:51 -0700 (PDT)
-Date: Fri, 12 Apr 2024 14:56:48 -0700
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: Conor Dooley <conor@kernel.org>
-Cc: Conor Dooley <conor.dooley@microchip.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Evan Green <evan@rivosinc.com>,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH 08/19] riscv: Introduce vendor variants of extension
- helpers
-Message-ID: <ZhmuIGX71THEuZWx@ghost>
-References: <20240411-dev-charlie-support_thead_vector_6_9-v1-0-4af9815ec746@rivosinc.com>
- <20240411-dev-charlie-support_thead_vector_6_9-v1-8-4af9815ec746@rivosinc.com>
- <20240412-dwarf-shower-5a7300fcd283@wendy>
- <ZhlypvTdsFPZBr08@ghost>
- <20240412-drab-french-55d8ff2c8cfa@spud>
- <ZhmhtLS5NuRrPOfu@ghost>
- <20240412-geranium-monotone-b47f414715d1@spud>
+        bh=+/M8t1HBqBUuifShlatgwWqMHKd8yfGcHLyOfE8iWiY=;
+        b=j/4MD83n19qsBIzraIwuzrDrSfkJEW5XSF3HUU/fgoMFCtaS+yxb4uTJt7C9HI0VsQ
+         Xl54zysp2CvDQTwVxQkqsiSCbxzrjyG2w+eXewYWHY04dYGr2NkILG2zRdObtXxlURnP
+         jKyu1lVv0tNTQWTM2qeoAO3rcPTB+AtIQXo6XWg7QpeWSmLL83gvYbcLBzKdxr59D262
+         5dtxrSJzfOQ4HMIc3sAu/iJSrb70EkWC5OS0hMOg9P9R5W7NVQBGESgXpdih+6dXX86Z
+         rVWqmYWnFvYt5rBfF69IWBnlPyQyGSvBENIzzPkzwWB2R23jQQKhrBONrTnxguDyv2Mt
+         EiCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712959748; x=1713564548;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+/M8t1HBqBUuifShlatgwWqMHKd8yfGcHLyOfE8iWiY=;
+        b=gUPbqWQJ3VL7j4UDkBnGJLIi7xBSf2jviWJCo+54EBUw8DfSbatd+idivklvP49H2C
+         Vw22Rx/b6Otv4iEZKHP3cDumjMnb2zG1dqpXw8he0ZeBF99kXhYxnLtWNcvs1rUeRsBQ
+         lRQYY8w6iBqTz/V7+A22vBlG8Mshu7Z9Zp7VEBESoGnXHwM3UhG0yDvR0a/r4BCrrmG2
+         ComwwAbH2U6H64Zweh74OZskS50wWeZPwhvrQmT9OB+9h5MRyqVmJc/4zfbPCXdSJxsj
+         f190SmNQyXnHtw0DTNUxA3p1f4TfO0usWFC/XqW+7t3I0PpMVG7VZkgKmvWqgDChEc11
+         bYBw==
+X-Forwarded-Encrypted: i=1; AJvYcCXhJqx8jdefF1gW0eDee7IftBWw7fTXLnZ+rIH22TWCNSc1+KBC+ZyPN5oE5Qso84nmwALlHpECJLKlxMk5Zhtd8wuXakt3ttVdnVM=
+X-Gm-Message-State: AOJu0YzsLztrtmuOb3BqYuaFk+Quozzkn8ELvrGlmGad8KMggidE8Idt
+	2NjRb0WurmMmNBLt7qTg+BjrsEUiOGBmjW6yrjWP+C99bJcH1ZO5sOOhQ00PquohQkaSl/Qb1CP
+	+0K6FoZiLMIdhCZl8LRERbbaDhNHmNksPYg7mBw==
+X-Google-Smtp-Source: AGHT+IF5C2wBUyoWGN92/R3KsVleYtMZwSgDPoheRn1Rem16KloXuSobCZbrLHetSul7X4faQjk9YDXOny1oTJbkyFo=
+X-Received: by 2002:a2e:9e93:0:b0:2d4:6aba:f1a3 with SMTP id
+ f19-20020a2e9e93000000b002d46abaf1a3mr2395096ljk.6.1712959747751; Fri, 12 Apr
+ 2024 15:09:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240412-geranium-monotone-b47f414715d1@spud>
+References: <20240411-dev-charlie-support_thead_vector_6_9-v1-0-4af9815ec746@rivosinc.com>
+ <20240411-dev-charlie-support_thead_vector_6_9-v1-14-4af9815ec746@rivosinc.com>
+ <20240412-moonshine-acting-0df1a90b86d2@wendy> <CALs-HsviR8E-sRvzz7pd5eVGb4+XsAdG1hhbZOPf+m3Cu4JP_Q@mail.gmail.com>
+ <Zhl717rsQ7XLBe2F@ghost>
+In-Reply-To: <Zhl717rsQ7XLBe2F@ghost>
+From: Evan Green <evan@rivosinc.com>
+Date: Fri, 12 Apr 2024 15:08:31 -0700
+Message-ID: <CALs-HsuL8A87mCRU2+1F2sEPYmZWTz_MFwAys0h=1uKhb7EYqg@mail.gmail.com>
+Subject: Re: [PATCH 14/19] riscv: hwprobe: Disambiguate vector and
+ xtheadvector in hwprobe
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: Conor Dooley <conor.dooley@microchip.com>, Conor Dooley <conor@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	=?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, linux-riscv@lists.infradead.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Palmer Dabbelt <palmer@rivosinc.com>, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 12, 2024 at 10:34:10PM +0100, Conor Dooley wrote:
-> On Fri, Apr 12, 2024 at 02:03:48PM -0700, Charlie Jenkins wrote:
-> > On Fri, Apr 12, 2024 at 09:40:03PM +0100, Conor Dooley wrote:
-> > > On Fri, Apr 12, 2024 at 10:43:02AM -0700, Charlie Jenkins wrote:
-> > > > On Fri, Apr 12, 2024 at 12:49:57PM +0100, Conor Dooley wrote:
-> > > > > On Thu, Apr 11, 2024 at 09:11:14PM -0700, Charlie Jenkins wrote:
-> > > > > > Create vendor variants of the existing extension helpers. If the
-> > > > > > existing functions were instead modified to support vendor extensions, a
-> > > > > > branch based on the ext value being greater than
-> > > > > > RISCV_ISA_VENDOR_EXT_BASE would have to be introduced. This additional
-> > > > > > branch would have an unnecessary performance impact.
-> > > > > > 
-> > > > > > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> > > > > 
-> > > > > I've not looked at the "main" patch in the series that adds all of the
-> > > > > probing and structures for representing this info yet beyond a cursory
-> > > > > glance, but it feels like we're duplicating a bunch of infrastructure
-> > > > > here before it is necessary. The IDs are all internal to Linux, so I'd
-> > > > > rather we kept everything in the same structure until we have more than
-> > > > > a handful of vendor extensions. With this patch (and the theadpmu stuff)
-> > > > > we will have three vendor extensions which feels like a drop in the
-> > > > > bucket compared to the standard ones.
-> > > > 
-> > > > It is not duplicating infrastructure. If we merge this into the existing
-> > > > infrastructure, we would be littering if (ext > RISCV_ISA_VENDOR_EXT_BASE)
-> > > > in __riscv_isa_extension_available. This is particularily important
-> > > > exactly because we have so few vendor extensions currently so this check
-> > > > would be irrelevant in the vast majority of cases.
-> > > 
-> > > That's only because of your implementation. The existing vendor extension
-> > > works fine without this littering. That's another thing actually, you
-> > > forgot to convert over the user we already have :)
-> > 
-> > Oh right, I will convert them over. The fundemental goal of this patch
-> > is to allow a way for vendors to support their own extensions without
-> > needing to populate riscv_isa_ext. This is to create separation between
-> > vendors so they do not impact each other.
-> 
-> The one that needs converting is xandespmu. As I said on the other patch
-> a minute I don't think isolating vendors for the internal representation
-> is needed and can be left in hwprobe. I also don't think we can rely on
-> a behaviour of "SiFive CPUs will always have SiFive's mvendorid" or that
-> kinda thing, I've heard talk of the SoC vendor getting their mvendorid
-> for custom CPU cores instead of the CPU vendor and it's possible for
-> the SBI implementation to "adjust" the values also.
+On Fri, Apr 12, 2024 at 11:22=E2=80=AFAM Charlie Jenkins <charlie@rivosinc.=
+com> wrote:
+>
+> On Fri, Apr 12, 2024 at 10:04:42AM -0700, Evan Green wrote:
+> > On Fri, Apr 12, 2024 at 4:35=E2=80=AFAM Conor Dooley <conor.dooley@micr=
+ochip.com> wrote:
+> > >
+> > > On Thu, Apr 11, 2024 at 09:11:20PM -0700, Charlie Jenkins wrote:
+> > > > Ensure that hwprobe does not flag "v" when xtheadvector is present.
+> > > >
+> > > > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> > > > ---
+> > > >  arch/riscv/kernel/sys_hwprobe.c | 4 ++--
+> > > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > > >
+> > > > diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sy=
+s_hwprobe.c
+> > > > index 8cae41a502dd..e0a42c851511 100644
+> > > > --- a/arch/riscv/kernel/sys_hwprobe.c
+> > > > +++ b/arch/riscv/kernel/sys_hwprobe.c
+> > > > @@ -69,7 +69,7 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe=
+ *pair,
+> > > >       if (riscv_isa_extension_available(NULL, c))
+> > > >               pair->value |=3D RISCV_HWPROBE_IMA_C;
+> > > >
+> > > > -     if (has_vector())
+> > > > +     if (has_vector() && !riscv_has_vendor_extension_unlikely(RISC=
+V_ISA_VENDOR_EXT_XTHEADVECTOR))
+> > >
+> > > Hmm, I think this is "dangerous". has_vector() is used across the ker=
+nel
+> > > now in several places for the in-kernel vector. I don't think that
+> > > has_vector() should return true for the T-Head stuff given that &
+> > > has_vector() should represent the ratified spec. I'll have to think
+> > > about this one and how nasty this makes any of the save/restore code
+> > > etc.
+> >
+> > Yeah, my nose crinkled here as well. If you're having to do a
+> > vendorish thing in this generic spot, then others may too, suggesting
+> > perhaps this isn't the cleanest way to go about it. Ideally extensions
+> > are all additive, rather than subtractive, I guess?
+>
+> This was the "easiest" way to support this but I agree this is not
+> ideal. The vector code is naturally coupled with having support for
+> "v" and I wanted to leverage that. The other concern is all of the
+> ifdefs for having V enabled. I can make all of those V or XTHEADVECTOR;
+> that will increase the surface area of xtheadvector but it is probably
+> the right(?) way to go.
 
-Okay that may be possible but that is up to the vendor when that
-happens. The vendor extensions are fundamentally different from the
-standard extensions and have even less guarantees of correctness which
-seems like it would invite more errata if multiple vendors implement the
-same vendor extensions. I can extract the code into a different file for
-each vendor so that is more clear.
+For the ifdefs, if you've got a Kconfig somewhere for THEAD_VECTOR,
+can't that just depend on the V config? We'd end up with the
+limitation that you can't add V 0.7 support without also dragging in
+V1.0 support, but that's probably fine, right?
 
-- Charlie
-
-> 
-> > xlinuxenvcfg does not fit into this scheme however. This scheme assumes
-> > that a hart cannot have multiple vendors which that extension breaks.
-> > xlinuxenvcfg is really filling a hole in the standard isa that is
-> > applicible to all vendors and does not appear in the device tree so it
-> > is okay for that to live outside this scheme.
-> 
-> Ye, xlinuxenvcfg is an internal psuedo-extension that should be treated
-> more like a standard one than something vendor.
-> 
-> > > > It is also unecessary to push off the refactoring until we have some
-> > > > "sufficient" amount of vendor extensions to deem changing the
-> > > > infrastructure when I already have the patch available here. This does
-> > > > not introduce any extra overhead to existing functions and will be able
-> > > > to support vendors into the future.
-> > > 
-> > > Yeah, maybe that's true but this was my gut reaction before reading the
-> > > other patch in detail (which I've still yet to do).
-> > 
-> > - Charlie
-> > 
-
-
+-Evan
