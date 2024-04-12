@@ -1,61 +1,36 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70E3B15219F
-	for <linux-sunxi@lists.linux.dev>; Fri, 12 Apr 2024 23:12:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 184D910F4;
+	Fri, 12 Apr 2024 23:40:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712963531; cv=none; b=HuM49sXHRMGy3DA08WOHbBUOCORaOrqt6nd3FWHUSZT70/AhwF+iCCwuedGMe8tAD6r0FJkHXe94GoiTCCTB6lepVwwr8I1PHDbTzWY0Oh9lmtS9sWsfeBf8vuCUk8p876d2zLi8ExbcZs4oIptGv+oAyAeSo/y0z44DY7n6jZ8=
+	t=1712965233; cv=none; b=th+v11f8vTPsopDz1/Aah+7DjWy46BvzMlwZwnd/f/2+Bux4om4EcPS3EqcGa+cpeZtLuyUrObRB/j/Znttd/oF8F1s3AxnejTl3QWyXsiGyNEna9rr/elBEF/tNnBI93micq5AZXUlMLQU3SYnfh59zpvRq6xrSdGnHemy7tZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712963531; c=relaxed/simple;
-	bh=6eD6soiH6MUPGUd8I4Mvj85EeM2plyQ/Tb+rZ1+4kHA=;
+	s=arc-20240116; t=1712965233; c=relaxed/simple;
+	bh=9fTY4WZx/alT8Sa+UXHnrqhnRrKl/iF6TU4j2OrIj/0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WJc5KfLwLFmVuECq6zG2m9N9SuancAYW2hW8UD6IVOzYFdeCkkUeA09ktlnD6tKW2IDKQ1+f9cmCWj2mrmP/dTHBo2xiBePDDB4DdHr4nAYa/3cuB28Us3c52P32OB8qUv/jlrWpxzI+/EOsbjv3r60YGR80OStLhVN7VS9tYGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=UdXwd/tS; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=khIr6mALESvWFhk9B8AIIKClNZ5iW9IpugBAgYbTaX548rVA7teD+RbhVFLpBu0g403yMhRX+jUERaVbwOkOfvrhlH+dm1mfRVqIxoEZ2cEB4wIR+fmX+vlhftIs/R224HJ2B5c2kYOmTgu9kgeYZNx+dIUem29xocPGjHpJ88c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IPXBUvTS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="UdXwd/tS"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6ed01c63657so1325900b3a.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 12 Apr 2024 16:12:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1712963528; x=1713568328; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=1caGThvMfvJPzIUlHYiufetvZDoAxWNNIAzMtHKofHU=;
-        b=UdXwd/tS8HLNqMx5cw6i/PMbM73XMsKGkuDGxj00Uf+7A3PS4nyiTSArcyiZzeeUQP
-         YdqeBGUjegTZSVGjiZQ6V1MdVvI+t5ae+wDbGzi1FdO9hxRQWzZs2Qhpwk4J/C2Ub7Ho
-         7rB88HxEUoLz8NIlAj5YGNr6W5mfGMHmrpGuuNlA7BCFv5W+K1PpehkBzHMonlv//m3S
-         azVjA9wEd7bmyM3NFwExFTEtWlLLN1ECFar9Rdf10bFKtTRw8jhQb2yFm5VmtbVAa1Xv
-         xQVAuEUgOYQ2uSGTsVwYL2octL2F9qmTWKo3gLsGFt8yIv0B+YljjHWzpkbltlemv+k8
-         O5FQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712963528; x=1713568328;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1caGThvMfvJPzIUlHYiufetvZDoAxWNNIAzMtHKofHU=;
-        b=VAlysIhMZTXXwT3Js789zxdFVimHo+Ks0ODf+3LbvvEAPmiZYWOt0ehIus2kSnk4kK
-         2yrQ29b1LrgI13J6iYqUqbZRrCvGX4RRM7zkckANR4Td1G+bRAVc7Uz/R9b7UG7pFczH
-         xsSYjvOhug7R8+TAnWma8zD3iBnXgEtmo3V+N/lGwO57GQqV7j21nHfrMt6vaIXA18jn
-         wBOQ1KeoTNEy38YoQpvklBN26ChWALyK1/CemKC5+tLl13hQ+PDGXtiHu9gKn3Gokezh
-         I2yPJRsHCYueSWZrR8DSqkGUQ+AxKfOclJJgmX36rv6jGzk32IcV8YN+CYX5MtHmBsP/
-         dc3g==
-X-Forwarded-Encrypted: i=1; AJvYcCX9YRp58L9nU631JCVO0Twwt5ShnALEX8E6ZZflUKb38myzEX6Y70y7d5pUUBW71hXoWpb49sscYCkGXEE6pbwMaKLcBfgY0ZcFuKE=
-X-Gm-Message-State: AOJu0YxWaFd/KhCC1E6Y7bRbhCr6pTXCQ2+XX7Pm+Tj04//glqDXQZrb
-	caJ4LnEDz2BN4SFrKC/QG1pLqQ2ZGppGLV2FtWCbv59RKzLMgXfSbRnA8ZtGG94=
-X-Google-Smtp-Source: AGHT+IHRSKv1KFWQfNLPwdryry6UpW3xo9x3BUUWYGDGKVu4lSSBw5AToNYIatXs3aj0DmNbqezqMw==
-X-Received: by 2002:a05:6a00:cd3:b0:6ed:2f52:9acd with SMTP id b19-20020a056a000cd300b006ed2f529acdmr5187064pfv.24.1712963527557;
-        Fri, 12 Apr 2024 16:12:07 -0700 (PDT)
-Received: from ghost ([50.145.13.30])
-        by smtp.gmail.com with ESMTPSA id c21-20020a62e815000000b006ed0199bd57sm3494303pfi.177.2024.04.12.16.12.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Apr 2024 16:12:06 -0700 (PDT)
-Date: Fri, 12 Apr 2024 16:12:04 -0700
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: Evan Green <evan@rivosinc.com>
-Cc: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IPXBUvTS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EDC9C113CC;
+	Fri, 12 Apr 2024 23:40:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712965232;
+	bh=9fTY4WZx/alT8Sa+UXHnrqhnRrKl/iF6TU4j2OrIj/0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IPXBUvTSeM9fF+xXpA07Gpnzgo9A4roMQAV8BMU8Tsh9iCbQaED1Slw64mRvBxR+l
+	 xpT/q0xlzSKtEP7HbPN96NZ3fSnEHd6VmNwbNSSTBjT1QsvogDycYZNb5G8ytc9y3Z
+	 l63WmrYLwUYiRLttqEDcTiRZKaQJS+5b8J59T+FLhWOZ5ajzoO7HjID3hecqtoSZ73
+	 8rWb3Byn3SqU8X0Mg3+d4S7Ugxc4cnRJtRDPzTk2wUey0Iob5bmb0ek6FurxeJggvg
+	 du6yiPVNMMZwsya5CHQHtdtjM8X0fY/3Hn+Hf1/ZB+wOxZpIaMyUvwXxHbQCo5vnML
+	 NXNVXjT7x52IA==
+Date: Sat, 13 Apr 2024 00:40:26 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: Conor Dooley <conor.dooley@microchip.com>,
+	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Paul Walmsley <paul.walmsley@sifive.com>,
 	Palmer Dabbelt <palmer@dabbelt.com>,
@@ -63,416 +38,99 @@ Cc: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Conor Dooley <conor.dooley@microchip.com>,
+	Evan Green <evan@rivosinc.com>,
 	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
 	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
 	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
 	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH 16/19] riscv: hwprobe: Add vendor extension probing
-Message-ID: <Zhm/xFBcRqSDxId+@ghost>
+Subject: Re: [PATCH 02/19] riscv: cpufeature: Fix thead vector hwcap removal
+Message-ID: <20240413-sharper-unlivable-5a65660b19e2@spud>
 References: <20240411-dev-charlie-support_thead_vector_6_9-v1-0-4af9815ec746@rivosinc.com>
- <20240411-dev-charlie-support_thead_vector_6_9-v1-16-4af9815ec746@rivosinc.com>
- <CALs-Hss=vuNgq-8bVL1DOR431qFpn-D13yFGn6yf_2saZO0FVQ@mail.gmail.com>
- <Zhl6lvZzUrCoAB8N@ghost>
- <CALs-Hsu=SLnTJ+gsGZmv7C=K8WGHRiFCn3Q=isE9+QhawcrqCw@mail.gmail.com>
- <ZhmXnUj2B1hD5QiX@ghost>
- <CALs-Hsu4m0y2zSvpZwn2znyxNMfJ5f0NpYOh9TNYB4u5=GUKxw@mail.gmail.com>
- <Zhmzzq3oedZ1LozW@ghost>
- <CALs-HssuhXr-mRui7KujqAwCU-=O+udrJ4cp-be=sFbCL0ADrA@mail.gmail.com>
+ <20240411-dev-charlie-support_thead_vector_6_9-v1-2-4af9815ec746@rivosinc.com>
+ <20240412-tuesday-resident-d9d07e75463c@wendy>
+ <ZhlrdGXfSushUNTp@ghost>
+ <20240412-eastcoast-disparity-9c9e7d178df5@spud>
+ <ZhmeLoPS+tsfqv1T@ghost>
+ <20240412-chemist-haunt-0a30a8f280ca@spud>
+ <ZhmoPuoR00aS6qZp@ghost>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="fiOPUQP1XJPUpApw"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALs-HssuhXr-mRui7KujqAwCU-=O+udrJ4cp-be=sFbCL0ADrA@mail.gmail.com>
+In-Reply-To: <ZhmoPuoR00aS6qZp@ghost>
 
-On Fri, Apr 12, 2024 at 03:50:05PM -0700, Evan Green wrote:
-> On Fri, Apr 12, 2024 at 3:21 PM Charlie Jenkins <charlie@rivosinc.com> wrote:
-> >
-> > On Fri, Apr 12, 2024 at 02:43:01PM -0700, Evan Green wrote:
-> > > On Fri, Apr 12, 2024 at 1:20 PM Charlie Jenkins <charlie@rivosinc.com> wrote:
-> > > >
-> > > > On Fri, Apr 12, 2024 at 12:07:46PM -0700, Evan Green wrote:
-> > > > > On Fri, Apr 12, 2024 at 11:17 AM Charlie Jenkins <charlie@rivosinc.com> wrote:
-> > > > > >
-> > > > > > On Fri, Apr 12, 2024 at 10:05:21AM -0700, Evan Green wrote:
-> > > > > > > On Thu, Apr 11, 2024 at 9:12 PM Charlie Jenkins <charlie@rivosinc.com> wrote:
-> > > > > > > >
-> > > > > > > > Add a new hwprobe key "RISCV_HWPROBE_KEY_VENDOR_EXT_0" which allows
-> > > > > > > > userspace to probe for the new RISCV_ISA_VENDOR_EXT_XTHEADVECTOR vendor
-> > > > > > > > extension.
-> > > > > > > >
-> > > > > > > > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> > > > > > > > ---
-> > > > > > > >  arch/riscv/include/asm/hwprobe.h      |  4 +--
-> > > > > > > >  arch/riscv/include/uapi/asm/hwprobe.h | 10 +++++-
-> > > > > > > >  arch/riscv/kernel/sys_hwprobe.c       | 59 +++++++++++++++++++++++++++++++++--
-> > > > > > > >  3 files changed, 68 insertions(+), 5 deletions(-)
-> > > > > > > >
-> > > > > > > > diff --git a/arch/riscv/include/asm/hwprobe.h b/arch/riscv/include/asm/hwprobe.h
-> > > > > > > > index 630507dff5ea..e68496b4f8de 100644
-> > > > > > > > --- a/arch/riscv/include/asm/hwprobe.h
-> > > > > > > > +++ b/arch/riscv/include/asm/hwprobe.h
-> > > > > > > > @@ -1,6 +1,6 @@
-> > > > > > > >  /* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> > > > > > > >  /*
-> > > > > > > > - * Copyright 2023 Rivos, Inc
-> > > > > > > > + * Copyright 2023-2024 Rivos, Inc
-> > > > > > > >   */
-> > > > > > > >
-> > > > > > > >  #ifndef _ASM_HWPROBE_H
-> > > > > > > > @@ -8,7 +8,7 @@
-> > > > > > > >
-> > > > > > > >  #include <uapi/asm/hwprobe.h>
-> > > > > > > >
-> > > > > > > > -#define RISCV_HWPROBE_MAX_KEY 6
-> > > > > > > > +#define RISCV_HWPROBE_MAX_KEY 7
-> > > > > > > >
-> > > > > > > >  static inline bool riscv_hwprobe_key_is_valid(__s64 key)
-> > > > > > > >  {
-> > > > > > > > diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
-> > > > > > > > index 9f2a8e3ff204..6614d3adfc75 100644
-> > > > > > > > --- a/arch/riscv/include/uapi/asm/hwprobe.h
-> > > > > > > > +++ b/arch/riscv/include/uapi/asm/hwprobe.h
-> > > > > > > > @@ -1,6 +1,6 @@
-> > > > > > > >  /* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> > > > > > > >  /*
-> > > > > > > > - * Copyright 2023 Rivos, Inc
-> > > > > > > > + * Copyright 2023-2024 Rivos, Inc
-> > > > > > > >   */
-> > > > > > > >
-> > > > > > > >  #ifndef _UAPI_ASM_HWPROBE_H
-> > > > > > > > @@ -67,6 +67,14 @@ struct riscv_hwprobe {
-> > > > > > > >  #define                RISCV_HWPROBE_MISALIGNED_UNSUPPORTED    (4 << 0)
-> > > > > > > >  #define                RISCV_HWPROBE_MISALIGNED_MASK           (7 << 0)
-> > > > > > > >  #define RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE    6
-> > > > > > > > +/*
-> > > > > > > > + * It is not possible for one CPU to have multiple vendor ids, so each vendor
-> > > > > > > > + * has its own vendor extension "namespace". The keys for each vendor starts
-> > > > > > > > + * at zero.
-> > > > > > > > + */
-> > > > > > > > +#define RISCV_HWPROBE_KEY_VENDOR_EXT_0 7
-> > > > > > > > + /* T-Head */
-> > > > > > > > +#define                RISCV_HWPROBE_VENDOR_EXT_XTHEADVECTOR   (1 << 0)
-> > > > > > > >  /* Increase RISCV_HWPROBE_MAX_KEY when adding items. */
-> > > > > > > >
-> > > > > > > >  /* Flags */
-> > > > > > > > diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwprobe.c
-> > > > > > > > index e0a42c851511..365ce7380443 100644
-> > > > > > > > --- a/arch/riscv/kernel/sys_hwprobe.c
-> > > > > > > > +++ b/arch/riscv/kernel/sys_hwprobe.c
-> > > > > > > > @@ -69,7 +69,8 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *pair,
-> > > > > > > >         if (riscv_isa_extension_available(NULL, c))
-> > > > > > > >                 pair->value |= RISCV_HWPROBE_IMA_C;
-> > > > > > > >
-> > > > > > > > -       if (has_vector() && !riscv_has_vendor_extension_unlikely(RISCV_ISA_VENDOR_EXT_XTHEADVECTOR))
-> > > > > > > > +       if (has_vector() &&
-> > > > > > > > +           !__riscv_isa_vendor_extension_available(NULL, RISCV_ISA_VENDOR_EXT_XTHEADVECTOR))
-> > > > > > > >                 pair->value |= RISCV_HWPROBE_IMA_V;
-> > > > > > > >
-> > > > > > > >         /*
-> > > > > > > > @@ -112,7 +113,8 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *pair,
-> > > > > > > >                 EXT_KEY(ZACAS);
-> > > > > > > >                 EXT_KEY(ZICOND);
-> > > > > > > >
-> > > > > > > > -               if (has_vector() && !riscv_has_vendor_extension_unlikely(RISCV_ISA_VENDOR_EXT_XTHEADVECTOR)) {
-> > > > > > > > +               if (has_vector() &&
-> > > > > > > > +                   !riscv_has_vendor_extension_unlikely(RISCV_ISA_VENDOR_EXT_XTHEADVECTOR)) {
-> > > > > > > >                         EXT_KEY(ZVBB);
-> > > > > > > >                         EXT_KEY(ZVBC);
-> > > > > > > >                         EXT_KEY(ZVKB);
-> > > > > > > > @@ -139,6 +141,55 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *pair,
-> > > > > > > >         pair->value &= ~missing;
-> > > > > > > >  }
-> > > > > > > >
-> > > > > > > > +static void hwprobe_isa_vendor_ext0(struct riscv_hwprobe *pair,
-> > > > > > > > +                                   const struct cpumask *cpus)
-> > > > > > > > +{
-> > > > > > > > +       int cpu;
-> > > > > > > > +       u64 missing = 0;
-> > > > > > > > +
-> > > > > > > > +       pair->value = 0;
-> > > > > > > > +
-> > > > > > > > +       struct riscv_hwprobe mvendorid = {
-> > > > > > > > +               .key = RISCV_HWPROBE_KEY_MVENDORID,
-> > > > > > > > +               .value = 0
-> > > > > > > > +       };
-> > > > > > > > +
-> > > > > > > > +       hwprobe_arch_id(&mvendorid, cpus);
-> > > > > > > > +
-> > > > > > > > +       /* Set value to zero if CPUs in the set do not have the same vendor. */
-> > > > > > > > +       if (mvendorid.value == -1ULL)
-> > > > > > > > +               return;
-> > > > > > > > +
-> > > > > > > > +       /*
-> > > > > > > > +        * Loop through and record vendor extensions that 1) anyone has, and
-> > > > > > > > +        * 2) anyone doesn't have.
-> > > > > > > > +        */
-> > > > > > > > +       for_each_cpu(cpu, cpus) {
-> > > > > > > > +               struct riscv_isainfo *isavendorinfo = &hart_isa_vendor[cpu];
-> > > > > > > > +
-> > > > > > > > +#define VENDOR_EXT_KEY(ext)                                                            \
-> > > > > > > > +       do {                                                                            \
-> > > > > > > > +               if (__riscv_isa_vendor_extension_available(isavendorinfo->isa,          \
-> > > > > > > > +                                                        RISCV_ISA_VENDOR_EXT_##ext))   \
-> > > > > > > > +                       pair->value |= RISCV_HWPROBE_VENDOR_EXT_##ext;                  \
-> > > > > > > > +               else                                                                    \
-> > > > > > > > +                       missing |= RISCV_HWPROBE_VENDOR_EXT_##ext;                      \
-> > > > > > > > +       } while (false)
-> > > > > > > > +
-> > > > > > > > +       /*
-> > > > > > > > +        * Only use VENDOR_EXT_KEY() for extensions which can be exposed to userspace,
-> > > > > > > > +        * regardless of the kernel's configuration, as no other checks, besides
-> > > > > > > > +        * presence in the hart_vendor_isa bitmap, are made.
-> > > > > > > > +        */
-> > > > > > > > +       VENDOR_EXT_KEY(XTHEADVECTOR);
-> > > > > > > > +
-> > > > > > > > +#undef VENDOR_EXT_KEY
-> > > > > > >
-> > > > > > > Hey Charlie,
-> > > > > > > Thanks for writing this up! At the very least I think the
-> > > > > > > THEAD-specific stuff should probably end up in its own file, otherwise
-> > > > > > > it'll get chaotic with vendors clamoring to add stuff right here.
-> > > > > >
-> > > > > > Great idea!
-> > > > > >
-> > > > > > > What do you think about this approach:
-> > > > > > >  * We leave RISCV_HWPROBE_MAX_KEY as the max key for the "generic
-> > > > > > > world", eg 6-ish
-> > > > > > >  * We define that any key above 0x8000000000000000 is in the vendor
-> > > > > > > space, so the meaning of the keys depends first on the mvendorid
-> > > > > > > value.
-> > > > > > >  * In the kernel code, each new vendor adds on to a global struct,
-> > > > > > > which might look something like:
-> > > > > > > struct hwprobe_vendor_space vendor_space[] = {
-> > > > > > >         {
-> > > > > > >                 .mvendorid = VENDOR_THEAD,
-> > > > > > >                 .max_hwprobe_key = THEAD_MAX_HWPROBE_KEY, // currently
-> > > > > > > 1 or 0x8000000000000001 with what you've got.
-> > > > > > >                 .hwprobe_fn = thead_hwprobe
-> > > > > > >         },
-> > > > > > >         ...
-> > > > > > > };
-> > > > > > >
-> > > > > > >  * A hwprobe_thead.c implements thead_hwprobe(), and is called
-> > > > > > > whenever the generic hwprobe encounters a key >=0x8000000000000000.
-> > > > > > >  * Generic code for setting up the VDSO can then still call the
-> > > > > > > vendor-specific hwprobe_fn() repeatedly with an "all CPUs" mask from
-> > > > > > > the base to max_hwprobe_key and set up the cached tables in userspace.
-> > > > > > >  * Since the VDSO data has limited space we may have to cap the number
-> > > > > > > of vendor keys we cache to be lower than max_hwprobe_key. Since the
-> > > > > > > data itself is not exposed to usermode we can raise this cap later if
-> > > > > > > needed.
-> > > > > >
-> > > > > > I know vendor extensions are kind of the "wild west" of riscv, but in
-> > > > > > spite of that I want to design a consistent API. The issue I had with
-> > > > > > having this "vendor space" for exposing vendor extensions was that this
-> > > > > > is something that is inherently the same for all vendors. I see a vendor
-> > > > > > space like this more applicable for something like
-> > > > > > "RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE" where a vendor has a specific
-> > > > > > value they would like to expose. I do agree that having a vendor space
-> > > > > > is a good design choice, but I am not convinced that vendor extensions
-> > > > > > are the proper use-case.
-> > > > > >
-> > > > > > By having RISCV_HWPROBE_KEY_VENDOR_EXT_0 we can expose the vendor
-> > > > > > extensions in the same way that standard extensions are exposed, with a
-> > > > > > bitmask representing each extension. If these are instead in the vendor
-> > > > > > space, each vendor would probably be inclined to introduce a key like
-> > > > > > RISCV_HWPROBE_KEY_THEAD_EXT_0 that returns a bitmask of all of the thead
-> > > > > > vendor extensions. This duplicated effort is what I am trying to avoid.
-> > > > > > The alternative would be that vendors have a separate key for each
-> > > > > > vendor extension they would like to expose, but that is strictly less
-> > > > > > efficient than the existing bitmask probing.
-> > > > > >
-> > > > > > Do you think that having the vendor space is appropriate for vendor
-> > > > > > extensions given my concerns?
-> > > > >
-> > > > > I do see what you're going for. It's tidy for a bitmask to just let
-> > > > > anyone allocate the next bit, but leaves you with the same problem
-> > > > > when a vendor decides they want to expose an enum, or decides they
-> > > > > want to expose a bazillion things. I think a generalized version of
-> > > >
-> > > > This patch is strictly to expose if a vendor extension is supported,
-> > > > how does exposing enums factor in here?
-> > > >
-> > > > > the approach you've written would be: simply let vendors allocate keys
-> > > > > from the same global space we're already using. My worry was that it
-> > > >
-> > > > I am missing how my proposal suggests allowing vendors to allocate keys
-> > > > in a global space.
-> > > >
-> > > > > would turn into an expansive suburban sprawl of mostly dead bits, or
-> > > > > in the case of vendor-specific keys, full of "if (mvendor_id() !=
-> > > > > MINE) return 0;". My hope with the vendored keyspace is it would keep
-> > > >
-> > > > An application will always need to check vendorid before calling hwprobe
-> > > > with a vendor-specific feature? If that hwprobe support is a key above
-> > > > 1<<63, then the application will need to pass that vendor-specific key
-> > > > and interpret the vendor-specific value. If that hwprobe support is what
-> > > > I have proposed here, then the user calls the standardized vendor
-> > > > extension hwprobe endpoint and then needs to interpret the result based
-> > > > on the vendor of the cpumask. In both cases they need to check the
-> > > > vendorid of the cpumask. In the test case I added I failed to check the
-> > > > vendorid but I should have had that.
-> > > >
-> > > > > the sprawl from polluting the general array of (hopefully valuable)
-> > > > > info with stuff that's likely to become less relevant as time passes.
-> > > > > It also lowers the bar a bit to make it easier for vendors to expose
-> > > > > bits, as they don't consume global space for everyone for all of time,
-> > > > > just themselves.
-> > > >
-> > > > The vendor keys are tied directly to the vendor. So as it grows we would
-> > > > have something like:
-> > > >
-> > > > #define RISCV_HWPROBE_KEY_VENDOR_EXT_0  7
-> > > > /* T-Head */
-> > > > #define         RISCV_HWPROBE_VENDOR_EXT_XTHEADVECTOR   (1 << 0)
-> > > > #define         RISCV_HWPROBE_VENDOR_EXT_XTHEAD2        (2 << 0)
-> > > > #define         RISCV_HWPROBE_VENDOR_EXT_XTHEAD3        (3 << 0)
-> > > > /* Vendor 2 */
-> > > > #define         RISCV_HWPROBE_VENDOR_EXT_XVENDOR1       (1 << 0)
-> > > > #define         RISCV_HWPROBE_VENDOR_EXT_XVENDOR2       (2 << 0)
-> > > > /* Vendor 3 */
-> > > > ...
-> > > >
-> > > > The keys overlap between vendors. To determine which extension a vendor
-> > > > supports, hwprobe gets data from hart_isa_vendor[cpu]. If the vendor is
-> > > > vendor 2, it is not possible for a vendor extension from vendor 3 to end
-> > > > up in there. Only the extensions from that vendor can be supported by
-> > > > that vendor's hardware.
-> > >
-> > > Gotcha. You're right I had misinterpreted this, thinking XTHEADVECTOR
-> > > was a valid bit regardless of mvendorid, and that other vendors would
-> > > have to choose new bits for their features and always return 0 for
-> > > XTHEADVECTOR. With your explanation, it seems like you're allocating
-> > > keys (in no particular order) whose meaning will change based on
-> > > mvendorid.
-> > >
-> > > I guess I'm still not convinced that saving each vendor from having to
-> > > add a VENDOR_EXT key in their keyspace is worth the sacrifice of
-> > > spraying the vendor-specific keys across the generic keyspace. Are
-> > > there advantages to having a single key whose category is similar but
-> > > whose bits are entirely vendor-defined? Maybe if I were userspace and
-> > > my feature could be satisfied equivalently by XTHEADVECTOR or
-> > > XRIVOSOTHERTHING, then I could do one hwprobe call instead of two? But
-> > > I don't think the vendors are going to be consistent enough for that
-> > > equivalency to ever prove useful. The advantages in my head of the
-> > > separate vendor keyspace are:
-> > >  * Keeps the kernel code simple: if key >= (1 >> 63)
-> > > vendor_config->do_hwprobe(), rather than having all these little calls
-> > > in each specific switch case for vendor_config->do_vendor_ext0(),
-> > > vendor_config->do_vendor_ext1(), etc.
-> >
-> > The consistency between vendors is guaranteed in this scheme. They just
-> > add the extension to hwprobe_isa_vendor_ext0. The following code is the
-> > critical code from the kernel:
-> >
-> >         for_each_cpu(cpu, cpus) {
-> >                 struct riscv_isainfo *isavendorinfo = &hart_isa_vendor[cpu];
-> >
-> > #define VENDOR_EXT_KEY(ext)                                                             \
-> >         do {                                                                            \
-> >                 if (__riscv_isa_vendor_extension_available(isavendorinfo->isa,          \
-> >                                                          RISCV_ISA_VENDOR_EXT_##ext))   \
-> >                         pair->value |= RISCV_HWPROBE_VENDOR_EXT_##ext;                  \
-> >                 else                                                                    \
-> >                         missing |= RISCV_HWPROBE_VENDOR_EXT_##ext;                      \
-> >         } while (false)
-> >
-> >         /*
-> >          * Only use VENDOR_EXT_KEY() for extensions which can be exposed to userspace,
-> >          * regardless of the kernel's configuration, as no other checks, besides
-> >          * presence in the hart_vendor_isa bitmap, are made.
-> >          */
-> >         VENDOR_EXT_KEY(XTHEADVECTOR);
-> >
-> > #undef VENDOR_EXT_KEY
-> >         }
-> >
-> >         /* Now turn off reporting features if any CPU is missing it. */
-> >         pair->value &= ~missing;
-> >
-> > The only thing a vendor will have to do is add an entry below
-> > VENDOR_EXT_KEY(XTHEADVECTOR) with their extension name (of course
-> > populating a value for the key as well). This existing code will then
-> > check if the extension is compatible with the hardware and appropriate
-> > populate the bitmask. All vendors get this functionality for "free"
-> > without needing to write the boilerplate code to expose vendor
-> > extensions through hwprobe.
-> >
-> > Now that I write this out I do see that I overlooked that this code
-> > needs to check the vendorid to ensure that the given extension is
-> > actually associated with the vendorid. This would make this more
-> > complicated but still seems like a low barrier to entry for a new
-> > vendor, as well as a standard API for getting all vendor extensions that
-> > are available on the platform regardless of which platform is being
-> > used.
-> >
-> 
-> Maybe I'll reserve judgment until I see the next spin, since we need
-> both the "conditionalize on mvendorid" part, and to move the vendor
-> stuff into a thead-specific file as discussed earlier. I'll be trying
-> to picture how this looks 10 years from now, when a bunch of vendors
-> have added dozens of extensions, and 75% of them are at that point
-> defunct baggage.
 
-Okay I will make some changes here and then we can continue this
-conversation :)
+--fiOPUQP1XJPUpApw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> > >  * It extends easily into passing other forms of vendor hwprobe info
-> > > later, rather than solving only the case of risc-v extensions now, and
-> > > then having to do this all again for each additional category of
-> > > vendor data.
-> >
-> > This is a great point. I do agree that a different solution will be
-> > necessary for arbitrary vendor data and I am all for making something
-> > future compatible. At the same time I don't want to get trapped into
-> > something that is suboptimal for the sake of doing less work later.
-> > There is no chance of any compatibility once we leave the realm of
-> > riscv extensions, so once a vendor needs something exported I would be
-> > happy to write the code to support that.
-> >
-> > >  * Similarly, it discourages future vendors from trying to squint and
-> > > find a way to make a vaguely generic sounding category for their own
-> > > hwprobe key which will ultimately only ever be filled in by them
-> > > anyway.
-> >
-> > What do you mean by this? There are no "categories" here, the vendor
-> > just writes out their extension VENDOR_EXT_KEY(XVENDOREXTENSION) and it
-> > gets shuttled to userspace on the hwprobe vendor call.
-> 
-> The category in this case is RISC-V extensions, since you've defined a
-> key whose contents are vendor-specific, but whose bits must all fit
-> the category of being a risc-v vendor extension.
-> 
-> To frame it in another light, one equivalent version from an ABI
-> perspective would be to say ok, let's put this key up into the 1<<63
-> range, but carve out a "common key" range where all vendors implement
-> the same key definitions, like this VENDOR_EXT_0 key. Is that useful,
-> or is it unnecessary structure? I think I'm of the opinion it's
-> unnecessary structure, but I'm still open to being convinced.
+On Fri, Apr 12, 2024 at 02:31:42PM -0700, Charlie Jenkins wrote:
+> On Fri, Apr 12, 2024 at 10:27:47PM +0100, Conor Dooley wrote:
+> > On Fri, Apr 12, 2024 at 01:48:46PM -0700, Charlie Jenkins wrote:
+> > > On Fri, Apr 12, 2024 at 07:47:48PM +0100, Conor Dooley wrote:
+> > > > On Fri, Apr 12, 2024 at 10:12:20AM -0700, Charlie Jenkins wrote:
 
-That makes sense, thank you for clarifying, I appreciate that
-perspective. I am coming from the direction that I want to share as much
-as possible between vendors to minimize both kernel and userspace code.
-In that sense, it is unnecessary. It would be fine to have each vendor
-define their own way of probing which vendor extensions are available.
-My inclination is that would lead to more verbosity in the
-kernel and userspace, but I too am open to be convinced.
+> > > > > This is already falling back on the boot CPU, but that is not a s=
+olution
+> > > > > that scales. Even though all systems currently have homogenous
+> > > > > marchid/mvendorid I am hesitant to assert that all systems are
+> > > > > homogenous without providing an option to override this.
+> > > >=20
+> > > > There are already is an option. Use the non-deprecated property in =
+your
+> > > > new system for describing what extesions you support. We don't need=
+ to
+> > > > add any more properties (for now at least).
+> > >=20
+> > > The issue is that it is not possible to know which vendor extensions =
+are
+> > > associated with a vendor. That requires a global namespace where each
+> > > extension can be looked up in a table. I have opted to have a
+> > > vendor-specific namespace so that vendors don't have to worry about
+> > > stepping on other vendor's toes (or the other way around). In order to
+> > > support that, the vendorid of the hart needs to be known prior.
+> >=20
+> > Nah, I think you're mixing up something like hwprobe and having
+> > namespaces there with needing namespacing on the devicetree probing side
+> > too. You don't need any vendor namespacing, it's perfectly fine (IMO)
+> > for a vendor to implement someone else's extension and I think we should
+> > allow probing any vendors extension on any CPU.
+>=20
+> I am not mixing it up. Sure a vendor can implement somebody else's
+> extension, they just need to add it to their namespace too.
 
-- Charlie
+I didn't mean that you were mixing up how your implementation worked, my
+point was that you're mixing up the hwprobe stuff which may need
+namespacing for $a{b,p}i_reason and probing from DT which does not.
+I don't think that the kernel should need to be changed at all if
+someone shows up and implements another vendor's extension - we already
+have far too many kernel changes required to display support for
+extensions and I don't welcome potential for more.
 
-> -Evan
-> 
-> >
-> > - Charlie
-> >
-> > >
-> > > -Evan
+Another thing I just thought of was systems where the SoC vendor
+implements some extension that gets communicated in the ISA string but
+is not the vendor in mvendorid in their various CPUs. I wouldn't want to
+see several different entries in structs (or several different hwprobe
+keys, but that's another story) for this situation because you're only
+allowing probing what's in the struct matching the vendorid.
+
+--fiOPUQP1XJPUpApw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZhnGaQAKCRB4tDGHoIJi
+0sbXAQDqwcw8csQEWGYwvW1DEpXXN05Grqo2xpuKvGADPYkWUgEAtM5EfnQLdtX7
+xI9bLNJaIswXp9N/DvHPHd37C0Uo1wY=
+=7ovm
+-----END PGP SIGNATURE-----
+
+--fiOPUQP1XJPUpApw--
