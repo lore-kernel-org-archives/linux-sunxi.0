@@ -1,136 +1,217 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 184D910F4;
-	Fri, 12 Apr 2024 23:40:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E0517997
+	for <linux-sunxi@lists.linux.dev>; Sat, 13 Apr 2024 00:25:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712965233; cv=none; b=th+v11f8vTPsopDz1/Aah+7DjWy46BvzMlwZwnd/f/2+Bux4om4EcPS3EqcGa+cpeZtLuyUrObRB/j/Znttd/oF8F1s3AxnejTl3QWyXsiGyNEna9rr/elBEF/tNnBI93micq5AZXUlMLQU3SYnfh59zpvRq6xrSdGnHemy7tZo=
+	t=1712967928; cv=none; b=WBQFtUHJ+3gPRl+DrRZQEz+wVoVvNPyPT+gJVY7hCVcpn58DFiLntuhAjBqz+YqlTKybzZ4iX+i3m8S15zMo2kZYE1DQNHhffPY1JM+KgBute9Uv1vGZOg0wDeFzpsqzfgON4ruXWzXIW62GYsupS6RJnRFc3IbUbb3zIitCpko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712965233; c=relaxed/simple;
-	bh=9fTY4WZx/alT8Sa+UXHnrqhnRrKl/iF6TU4j2OrIj/0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=khIr6mALESvWFhk9B8AIIKClNZ5iW9IpugBAgYbTaX548rVA7teD+RbhVFLpBu0g403yMhRX+jUERaVbwOkOfvrhlH+dm1mfRVqIxoEZ2cEB4wIR+fmX+vlhftIs/R224HJ2B5c2kYOmTgu9kgeYZNx+dIUem29xocPGjHpJ88c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IPXBUvTS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712967928; c=relaxed/simple;
+	bh=M3Sws9Xq1UzqxeHQp2ggqKkuvHy+mXvA6zrymX1lBx0=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=LyQHFt2EkG/FOmJKvzHQEmsL5uW4gX+YiU8z1POb1ZUgEmD5a1YWqBWUBfRPdyjh/sD4KCPJnRG7sE05iFefMYX0DKme75mt39TrX22Fco//slk3cniXSHO4b07V/+msrp9thQE2PMAN0c1ygsjDA9xndBCovNOrvuUMmQePACA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=aR34J9pv; arc=none smtp.client-ip=209.85.222.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IPXBUvTS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EDC9C113CC;
-	Fri, 12 Apr 2024 23:40:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712965232;
-	bh=9fTY4WZx/alT8Sa+UXHnrqhnRrKl/iF6TU4j2OrIj/0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IPXBUvTSeM9fF+xXpA07Gpnzgo9A4roMQAV8BMU8Tsh9iCbQaED1Slw64mRvBxR+l
-	 xpT/q0xlzSKtEP7HbPN96NZ3fSnEHd6VmNwbNSSTBjT1QsvogDycYZNb5G8ytc9y3Z
-	 l63WmrYLwUYiRLttqEDcTiRZKaQJS+5b8J59T+FLhWOZ5ajzoO7HjID3hecqtoSZ73
-	 8rWb3Byn3SqU8X0Mg3+d4S7Ugxc4cnRJtRDPzTk2wUey0Iob5bmb0ek6FurxeJggvg
-	 du6yiPVNMMZwsya5CHQHtdtjM8X0fY/3Hn+Hf1/ZB+wOxZpIaMyUvwXxHbQCo5vnML
-	 NXNVXjT7x52IA==
-Date: Sat, 13 Apr 2024 00:40:26 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: Conor Dooley <conor.dooley@microchip.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Evan Green <evan@rivosinc.com>,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH 02/19] riscv: cpufeature: Fix thead vector hwcap removal
-Message-ID: <20240413-sharper-unlivable-5a65660b19e2@spud>
-References: <20240411-dev-charlie-support_thead_vector_6_9-v1-0-4af9815ec746@rivosinc.com>
- <20240411-dev-charlie-support_thead_vector_6_9-v1-2-4af9815ec746@rivosinc.com>
- <20240412-tuesday-resident-d9d07e75463c@wendy>
- <ZhlrdGXfSushUNTp@ghost>
- <20240412-eastcoast-disparity-9c9e7d178df5@spud>
- <ZhmeLoPS+tsfqv1T@ghost>
- <20240412-chemist-haunt-0a30a8f280ca@spud>
- <ZhmoPuoR00aS6qZp@ghost>
+	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="aR34J9pv"
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-78d743f3654so108393985a.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 12 Apr 2024 17:25:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1712967925; x=1713572725; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dxPD9e5Q1st8MCbV2NGQC2VF5/nUXXzMpKHuTELQ6SM=;
+        b=aR34J9pv6WZ5SQvf0D2q0zn4Ka+2JApkkt+wpeWTTKBxLp1YbACyA1B0Xp+GHuwVXg
+         b86BudrTGSC+PcbRzqX3e6Q1HK6sp+fp8+E2uCD87lUBfWVLlRGIpZ0A07wm7xA/xoAD
+         EODkEflmkFdfmGAUHuacLZAEtPZ/AOlp7ih/HhaCD5ZefHedXxYFA3Oj40RGv7MvdBS7
+         LgoBGJxyGITCFPj5BmmuxZKSTh6kZChI/4/ti7EjxZrkaeb0BbjcmpAXnWWtpqHrlIAf
+         MOxratSP5ZuxbL7JoI+Jcj26tcgNjyfQjqMA+0rMGVvgYt7ZhT66+VojnkPhUL/tUIs+
+         XA3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712967925; x=1713572725;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dxPD9e5Q1st8MCbV2NGQC2VF5/nUXXzMpKHuTELQ6SM=;
+        b=duy0ku0fwAe+5FFJbkvA5lNVo9VKlNPG3/DCou3Xkt+BKKpb9Gzs6IbHChxU/INJHT
+         OoTg3s4FbZR7qyqLW5IX7ctnmND4MEMmSqF41ZjEEMQ9WAzZu4W1ZkK2EeEqWFMMhzfM
+         gVyi+4qkvFpr7lYhaTvDzOpSpVaz5VIIJ+L1QMsADeRMNO1htQ9zHwlHLCl9T+0DZm4R
+         /W5OU0D9vhzS1m2ka/JcjYVA0iXCUXYXu5wcaT+iAdqvKbsAG5hUDGJNGyJblwusr2y6
+         VKRyViI/E4410Z1daa1eQG7NCXbn+z30QqpOJPMrqyeSbINNU+P0yRZVktIgNzvFf3V/
+         EyPQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXY7lKHtLY9yXEhcvld87TMEfHbgX162gYOgsMWeMMR5WrkEg4GyNSyfO0sTwXB0rDO1nIGkdPihVKp+Y7jcjPoTwdZiQILTElCtr0=
+X-Gm-Message-State: AOJu0YwJx9vFcTZ/qc3Cq+C3fYPpXsCS9nedRPp5ZftRrs7Q+HUU776p
+	KVLOY4PH7lxXxst+az8EwGf+W3VPuVqMjLH39Qks6RjA7fyxfi/joSIUi4e75xo=
+X-Google-Smtp-Source: AGHT+IF7Vr8g4aGey5MWA+q3W7MDwSCWGzrkZkaE7zDxFxXJB774VSRb4A04gmHX15xeQKDoOQC1aA==
+X-Received: by 2002:a05:620a:c90:b0:78d:39ef:c1e4 with SMTP id q16-20020a05620a0c9000b0078d39efc1e4mr4239836qki.24.1712967925336;
+        Fri, 12 Apr 2024 17:25:25 -0700 (PDT)
+Received: from soleen.c.googlers.com.com (128.174.85.34.bc.googleusercontent.com. [34.85.174.128])
+        by smtp.gmail.com with ESMTPSA id wl25-20020a05620a57d900b0078d5fece9a6sm3053490qkn.101.2024.04.12.17.25.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Apr 2024 17:25:25 -0700 (PDT)
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+To: akpm@linux-foundation.org,
+	alim.akhtar@samsung.com,
+	alyssa@rosenzweig.io,
+	asahi@lists.linux.dev,
+	baolu.lu@linux.intel.com,
+	bhelgaas@google.com,
+	cgroups@vger.kernel.org,
+	corbet@lwn.net,
+	david@redhat.com,
+	dwmw2@infradead.org,
+	hannes@cmpxchg.org,
+	heiko@sntech.de,
+	iommu@lists.linux.dev,
+	jernej.skrabec@gmail.com,
+	jonathanh@nvidia.com,
+	joro@8bytes.org,
+	krzysztof.kozlowski@linaro.org,
+	linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	lizefan.x@bytedance.com,
+	marcan@marcan.st,
+	mhiramat@kernel.org,
+	m.szyprowski@samsung.com,
+	pasha.tatashin@soleen.com,
+	paulmck@kernel.org,
+	rdunlap@infradead.org,
+	robin.murphy@arm.com,
+	samuel@sholland.org,
+	suravee.suthikulpanit@amd.com,
+	sven@svenpeter.dev,
+	thierry.reding@gmail.com,
+	tj@kernel.org,
+	tomas.mudrunka@gmail.com,
+	vdumpa@nvidia.com,
+	wens@csie.org,
+	will@kernel.org,
+	yu-cheng.yu@intel.com,
+	rientjes@google.com,
+	bagasdotme@gmail.com,
+	mkoutny@suse.com
+Subject: [PATCH v6 00/11] IOMMU memory observability
+Date: Sat, 13 Apr 2024 00:25:11 +0000
+Message-ID: <20240413002522.1101315-1-pasha.tatashin@soleen.com>
+X-Mailer: git-send-email 2.44.0.683.g7961c838ac-goog
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="fiOPUQP1XJPUpApw"
-Content-Disposition: inline
-In-Reply-To: <ZhmoPuoR00aS6qZp@ghost>
+Content-Transfer-Encoding: 8bit
 
+----------------------------------------------------------------------
+Changelog
+----------------------------------------------------------------------
+v6:
+- Added Acked-bys
+- fixed minor spelling error
+- Synced with Linus master branch (8f2c057754b25075aa3da132cd4fd4478cdab854)
 
---fiOPUQP1XJPUpApw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+----------------------------------------------------------------------
+Description
+----------------------------------------------------------------------
+IOMMU subsystem may contain state that is in gigabytes. Majority of that
+state is iommu page tables. Yet, there is currently, no way to observe
+how much memory is actually used by the iommu subsystem.
 
-On Fri, Apr 12, 2024 at 02:31:42PM -0700, Charlie Jenkins wrote:
-> On Fri, Apr 12, 2024 at 10:27:47PM +0100, Conor Dooley wrote:
-> > On Fri, Apr 12, 2024 at 01:48:46PM -0700, Charlie Jenkins wrote:
-> > > On Fri, Apr 12, 2024 at 07:47:48PM +0100, Conor Dooley wrote:
-> > > > On Fri, Apr 12, 2024 at 10:12:20AM -0700, Charlie Jenkins wrote:
+This patch series solves this problem by adding both observability to
+all pages that are allocated by IOMMU, and also accountability, so
+admins can limit the amount if via cgroups.
 
-> > > > > This is already falling back on the boot CPU, but that is not a s=
-olution
-> > > > > that scales. Even though all systems currently have homogenous
-> > > > > marchid/mvendorid I am hesitant to assert that all systems are
-> > > > > homogenous without providing an option to override this.
-> > > >=20
-> > > > There are already is an option. Use the non-deprecated property in =
-your
-> > > > new system for describing what extesions you support. We don't need=
- to
-> > > > add any more properties (for now at least).
-> > >=20
-> > > The issue is that it is not possible to know which vendor extensions =
-are
-> > > associated with a vendor. That requires a global namespace where each
-> > > extension can be looked up in a table. I have opted to have a
-> > > vendor-specific namespace so that vendors don't have to worry about
-> > > stepping on other vendor's toes (or the other way around). In order to
-> > > support that, the vendorid of the hart needs to be known prior.
-> >=20
-> > Nah, I think you're mixing up something like hwprobe and having
-> > namespaces there with needing namespacing on the devicetree probing side
-> > too. You don't need any vendor namespacing, it's perfectly fine (IMO)
-> > for a vendor to implement someone else's extension and I think we should
-> > allow probing any vendors extension on any CPU.
->=20
-> I am not mixing it up. Sure a vendor can implement somebody else's
-> extension, they just need to add it to their namespace too.
+The system-wide observability is using /proc/meminfo:
+SecPageTables:    438176 kB
 
-I didn't mean that you were mixing up how your implementation worked, my
-point was that you're mixing up the hwprobe stuff which may need
-namespacing for $a{b,p}i_reason and probing from DT which does not.
-I don't think that the kernel should need to be changed at all if
-someone shows up and implements another vendor's extension - we already
-have far too many kernel changes required to display support for
-extensions and I don't welcome potential for more.
+Contains IOMMU and KVM memory.
 
-Another thing I just thought of was systems where the SoC vendor
-implements some extension that gets communicated in the ISA string but
-is not the vendor in mvendorid in their various CPUs. I wouldn't want to
-see several different entries in structs (or several different hwprobe
-keys, but that's another story) for this situation because you're only
-allowing probing what's in the struct matching the vendorid.
+Per-node observability:
+/sys/devices/system/node/nodeN/meminfo
+Node N SecPageTables:    422204 kB
 
---fiOPUQP1XJPUpApw
-Content-Type: application/pgp-signature; name="signature.asc"
+Contains IOMMU and KVM memory in the given NUMA node.
 
------BEGIN PGP SIGNATURE-----
+Per-node IOMMU only observability:
+/sys/devices/system/node/nodeN/vmstat
+nr_iommu_pages 105555
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZhnGaQAKCRB4tDGHoIJi
-0sbXAQDqwcw8csQEWGYwvW1DEpXXN05Grqo2xpuKvGADPYkWUgEAtM5EfnQLdtX7
-xI9bLNJaIswXp9N/DvHPHd37C0Uo1wY=
-=7ovm
------END PGP SIGNATURE-----
+Contains number of pages IOMMU allocated in the given node.
 
---fiOPUQP1XJPUpApw--
+Accountability: using sec_pagetables cgroup-v2 memory.stat entry.
+
+With the change, iova_stress[1] stops as limit is reached:
+
+$ ./iova_stress
+iova space:     0T      free memory:   497G
+iova space:     1T      free memory:   495G
+iova space:     2T      free memory:   493G
+iova space:     3T      free memory:   491G
+
+stops as limit is reached.
+
+This series encorporates suggestions that came from the discussion
+at LPC [2].
+----------------------------------------------------------------------
+[1] https://github.com/soleen/iova_stress
+[2] https://lpc.events/event/17/contributions/1466
+----------------------------------------------------------------------
+Previous versions
+v1: https://lore.kernel.org/all/20231128204938.1453583-1-pasha.tatashin@soleen.com
+v2: https://lore.kernel.org/linux-mm/20231130201504.2322355-1-pasha.tatashin@soleen.com
+v3: https://lore.kernel.org/all/20231226200205.562565-1-pasha.tatashin@soleen.com
+v4: https://lore.kernel.org/all/20240207174102.1486130-1-pasha.tatashin@soleen.com
+v5: https://lore.kernel.org/all/20240222173942.1481394-1-pasha.tatashin@soleen.com
+----------------------------------------------------------------------
+
+Pasha Tatashin (11):
+  iommu/vt-d: add wrapper functions for page allocations
+  iommu/dma: use iommu_put_pages_list() to releae freelist
+  iommu/amd: use page allocation function provided by iommu-pages.h
+  iommu/io-pgtable-arm: use page allocation function provided by
+    iommu-pages.h
+  iommu/io-pgtable-dart: use page allocation function provided by
+    iommu-pages.h
+  iommu/exynos: use page allocation function provided by iommu-pages.h
+  iommu/rockchip: use page allocation function provided by iommu-pages.h
+  iommu/sun50i: use page allocation function provided by iommu-pages.h
+  iommu/tegra-smmu: use page allocation function provided by
+    iommu-pages.h
+  iommu: observability of the IOMMU allocations
+  iommu: account IOMMU allocated memory
+
+ Documentation/admin-guide/cgroup-v2.rst |   2 +-
+ Documentation/filesystems/proc.rst      |   4 +-
+ drivers/iommu/amd/amd_iommu.h           |   8 -
+ drivers/iommu/amd/init.c                |  91 ++++++------
+ drivers/iommu/amd/io_pgtable.c          |  13 +-
+ drivers/iommu/amd/io_pgtable_v2.c       |  18 +--
+ drivers/iommu/amd/iommu.c               |  11 +-
+ drivers/iommu/dma-iommu.c               |   7 +-
+ drivers/iommu/exynos-iommu.c            |  14 +-
+ drivers/iommu/intel/dmar.c              |  16 +-
+ drivers/iommu/intel/iommu.c             |  47 ++----
+ drivers/iommu/intel/iommu.h             |   2 -
+ drivers/iommu/intel/irq_remapping.c     |  16 +-
+ drivers/iommu/intel/pasid.c             |  18 +--
+ drivers/iommu/intel/svm.c               |  11 +-
+ drivers/iommu/io-pgtable-arm.c          |  15 +-
+ drivers/iommu/io-pgtable-dart.c         |  37 ++---
+ drivers/iommu/iommu-pages.h             | 186 ++++++++++++++++++++++++
+ drivers/iommu/rockchip-iommu.c          |  14 +-
+ drivers/iommu/sun50i-iommu.c            |   7 +-
+ drivers/iommu/tegra-smmu.c              |  18 ++-
+ include/linux/mmzone.h                  |   5 +-
+ mm/vmstat.c                             |   3 +
+ 23 files changed, 359 insertions(+), 204 deletions(-)
+ create mode 100644 drivers/iommu/iommu-pages.h
+
+-- 
+2.44.0.683.g7961c838ac-goog
+
