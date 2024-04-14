@@ -1,242 +1,92 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1441A22EE9
-	for <linux-sunxi@lists.linux.dev>; Sun, 14 Apr 2024 10:48:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2BD21353F2
+	for <linux-sunxi@lists.linux.dev>; Sun, 14 Apr 2024 17:04:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713091703; cv=none; b=cRcl+JLwJdokjTbQe/Aq9A/bknHnHH21W/9PTJNivs085RtNTUDw1HrU00MPtOiIFHcrteH+UVWKzm2FlCXLE07boXbB9kHUYxyefoP87bXwwM1g8dn/5fKdW/LYVx7vjChtqKwEQmqnKD16b1j9ODLFeUfLChsZusP3a7e9Iq8=
+	t=1713114273; cv=none; b=p4oj7lxlsXmAnPeetShbMSzSfHoehTOaNqZaoWY6ILE7UsvZfLdO4aIrSz4a0DFP0Gl0iZ+kcu8AfWLKpp1BeUVWkm4Hf17ovSEt8uEERTLhbmkt1HOaWN8rd15Y/kP+E4/U3dCbG1gwkBf2EK5Nh5uc8wP4yA/KI9epCjC9wSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713091703; c=relaxed/simple;
-	bh=ppeZY3dWzDAzZxs0tI8WOxOiEzHzWsZcatHCpGuDVA8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iskWKZ6TRlgrQfHf/QXb/PcMROZcGkUou2EEywUQuxjZrLLwgVufPPGLpu4yFtOFF89yGjXzzEVluVFNw8QkyWdclIjm5Vxawvi9v2EnS25Sm6X1RtB1T2BtRuuf+wZaTjR8A6n3LR9RwsTNMy5lBWsflRdK+gfXoVMH7oGGHMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JhHAMPbE; arc=none smtp.client-ip=209.85.218.54
+	s=arc-20240116; t=1713114273; c=relaxed/simple;
+	bh=KDEOtLvgj0Gs+rRWctvmMVAUHK65DzeB1xCcVbmAjag=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NOJejiuOkDW8FNKF/BgaS4vb5aYcx6OQYjXdgu9AG7GMzqXBtGtGe44pbChz2BXDjkf9mrSiVThzcuSoL4K1oV853PPBy2ufLpzXyBax4BxXa6BkE2sMJ2HKy+eBtZs0zFDGLQT59BlDumRgDQDw/oYs1YrEnQQxp64IVxn71fQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nR/mNxvI; arc=none smtp.client-ip=209.85.161.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JhHAMPbE"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a521fd786beso289342666b.3
-        for <linux-sunxi@lists.linux.dev>; Sun, 14 Apr 2024 03:48:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nR/mNxvI"
+Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-5aa2a74c238so2024953eaf.3
+        for <linux-sunxi@lists.linux.dev>; Sun, 14 Apr 2024 10:04:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713091700; x=1713696500; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=x/mEm9VxMgunJVGx3eWq8zXkvnaXSuLo3RVjgAEd/rI=;
-        b=JhHAMPbEPrDT58iouI3HK0MOC7Q+jyA/ISY6f44RSXrwyfPp/iV5JoE5WCZRslPQqp
-         9aqDIgyyOIU/egOsyE69LUpIpU8exwFBU3ii4S5iM0JuioaxMc0OsPnnXaPohD+nNYc2
-         Ib5QIRyDoTzxlXrNS9rn5P1M/08qaulyn+Ahdb2JcxGi7SfgU1gMNUVBN20PFG0lRYmR
-         Z+fMsyE0AgpTSlYCmq3MDH5cXdbvUa7N/X33wyrqeQQAl51mNQfb84vahTeuuAe5fLHj
-         D1ksUk4KoEpWS58ayufmgmXRFBcOR32fHzuSOIk9XccjS4so2eda69OVPjrG6Fyv4kNy
-         QKKw==
+        d=gmail.com; s=20230601; t=1713114270; x=1713719070; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nEG6ZdeQXXzDaGLwOjwiQASB3UlmfQSpzsMzWbm05Uw=;
+        b=nR/mNxvIoMfX7MrOPq4coK9PtOBhp7G1OcjEu1ou1/OkIgvZbY2I/7kLQTpMmOth5w
+         jm0TTHeX69iZIAhbuUwgkripmxIkgKGp69Xd91oaJuKQSogBtTdn8mHvt1ndp1s4jqQz
+         gfchMa4/Bd4aIjy3FAkla3snoyrFkKgAwSJo2HvBhBBcZDXS4oKAF+Ib/6KGwN0KJ9r4
+         pLJpm0+yDFVeKCvbTfWwmX1NS1LFHasvm4+Zj3AK3J2r8zygA0B/J14uvixCe5zZD49Y
+         pe+uJEuXChrv1TmSHgsiVJbsWuamQn9x4T7WtSxA1Z+QwZCWlq7gI/rSvXBLz1eCE7EM
+         H/3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713091700; x=1713696500;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=x/mEm9VxMgunJVGx3eWq8zXkvnaXSuLo3RVjgAEd/rI=;
-        b=q7RXOJhH72ySKqewZZgQ/1rivMt0KTncuy1i4GWwMGcrMriLI6MxSD7RTxaP+ldS6C
-         294a+zBIhi0NVs4LPTkxYTm7erR//65VD3bUNctiwQyeUx4jqwgDK+D1gWG/9wqzEEzw
-         zWE5633F/31rxG02a0IwGNzRmCsmsx+m4FVCQIlgsiWbKuheFpy1mpVUp+0mzJlU+gRI
-         GBuy8IEYI13y7UJBF1vzhaWaSdy6XJ+W5J6FSC9bX9lA7yTd5EEkdUHSxxbgHKL5p6yP
-         rAd+IZsGF0Zqu6aWR5mVWTJayAjqxAeZIOFZw7Z43dUFcO7fJbg1vpOA3xJS/3ggkYVM
-         NSKA==
-X-Forwarded-Encrypted: i=1; AJvYcCUZwJpACW71/2m396RImaWNF29ZVG4UY0SxicRaCcpaDZeA8KEUMFjAue1krNpva8hWS+w9k+uCUdBo2qTA/jus/NPEO1hcWVBDP/M=
-X-Gm-Message-State: AOJu0YxDMHg/v2urDQtdjjT0NSN56C/JNIkngmV0VPFR37VmVoe4K4tr
-	aXmkSio7viza0qRLKLpypE9AL1AJTTiYDHdtbKTClcRXOuB3gUwR
-X-Google-Smtp-Source: AGHT+IHioJIDXt3U+RODv/eSjkVBLxKX703mo9NFte/m+z5JlwQDMaUrTXF1oC/MLZwQ0sZ4qwSY3g==
-X-Received: by 2002:a17:907:7244:b0:a52:3010:af03 with SMTP id ds4-20020a170907724400b00a523010af03mr5152756ejc.5.1713091700187;
-        Sun, 14 Apr 2024 03:48:20 -0700 (PDT)
-Received: from jernej-laptop.localnet (APN-123-252-50-gprs.simobil.net. [46.123.252.50])
-        by smtp.gmail.com with ESMTPSA id cr19-20020a170906d55300b00a46b4c09670sm4070532ejc.131.2024.04.14.03.48.18
+        d=1e100.net; s=20230601; t=1713114270; x=1713719070;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nEG6ZdeQXXzDaGLwOjwiQASB3UlmfQSpzsMzWbm05Uw=;
+        b=EMRlDniU+x4nSq32OE9zMKIiLFhJRuinPYdOHW0SU0Hs2PeftDixdS72IjoLcUkLsf
+         JBYb9xsq294QSoC67CY37wA/MDRiBnqXduFMlE3YqE7rWU17Iw62TFRmGoKGsBWRrWMs
+         qJEtq7F+oKEuX9u9ZH1Fut9Y8g00+TqP9kTMNF21W7JetJSivomX1O7ZR/qxfAll43N5
+         +jK10vus6G9ALa7hIlKvg8FJa14G4UvFGCRWVfWc6FcNrqhvbnEtUMdnIa2XdUfZ2f8B
+         eRUwz84LOT1yZcbZDWN1DsZhbNo2xRAEiXzB/U1f3IsExYOSInL3aZDxEL55a5JH02mZ
+         TKug==
+X-Gm-Message-State: AOJu0Yy+xofP2sDErfvd0q5JuMFA0YSc5m/6ocY86zagFW9/BSnv5Uby
+	GHpWelSQkTJFQL+KcEVDl/ZI1IpRYy19XnFFjFCosS7xvAhqpQ7Nwn1F/g==
+X-Google-Smtp-Source: AGHT+IF7sVlNh3TJf1SIwxZWr0CkMVJdgNNAJu9f0fI2N2s1HihoD7giU//FZLDClk1FSOhkMdicwg==
+X-Received: by 2002:a05:6870:f212:b0:22e:d463:3b53 with SMTP id t18-20020a056870f21200b0022ed4633b53mr9887531oao.11.1713114270594;
+        Sun, 14 Apr 2024 10:04:30 -0700 (PDT)
+Received: from localhost.localdomain ([75.28.21.198])
+        by smtp.gmail.com with ESMTPSA id mv5-20020a056871d04500b002338e2146f8sm1585305oac.17.2024.04.14.10.04.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Apr 2024 03:48:19 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- John Watts <contact@jookia.org>
-Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- John Watts <contact@jookia.org>
-Subject: Re: [PATCH v2] ASoC: sunxi: sun4i-i2s: Support 32-bit audio formats
-Date: Sun, 14 Apr 2024 12:48:17 +0200
-Message-ID: <1787594.VLH7GnMWUR@jernej-laptop>
-In-Reply-To: <20240403-sunxi_s32-v2-1-29ebf6ad590a@jookia.org>
-References: <20240403-sunxi_s32-v2-1-29ebf6ad590a@jookia.org>
+        Sun, 14 Apr 2024 10:04:30 -0700 (PDT)
+From: Chris Morgan <macroalpha82@gmail.com>
+To: linux-sunxi@lists.linux.dev
+Cc: devicetree@vger.kernel.org,
+	mripard@kernel.org,
+	samuel@sholland.org,
+	jernej.skrabec@gmail.com,
+	wens@csie.org,
+	conor+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	robh@kernel.org,
+	ryan@testtoast.com,
+	Chris Morgan <macromorgan@hotmail.com>
+Subject: [PATCH 0/2] Allwinner H616 NMI Controller
+Date: Sun, 14 Apr 2024 12:04:22 -0500
+Message-Id: <20240414170424.614921-1-macroalpha82@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Dne sreda, 3. april 2024 ob 05:47:35 CEST je John Watts napisal(a):
-> The I2S cores used in the H3 onwards support 32-bit sample rates.
-> Support these by adding a per-variant PCM format list.
-> 
-> Signed-off-by: John Watts <contact@jookia.org>
+From: Chris Morgan <macromorgan@hotmail.com>
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Add support for the Allwinner H616 NMI controller, which appears to be
+common IP with previous generations of the NMI. The NMI is required to
+support interrupts from the PMIC among other functions.
 
-Best regards,
-Jernej
+Chris Morgan (2):
+  dt-bindings: irq: sun7i-nmi: Add binding for the H616 NMI controller
+  arm64: dts: allwinner: h616: Add NMI device node
 
-> ---
-> This patch enables support for 32-bit audio in the sunxi I2S driver.
-> 
-> I have only tested this on the Allwinner T113 but I'm fairly
-> certain it will work on older boards.
-> ---
-> Changes in v2:
-> - Specify PCM formats for each variant instead of failing in hw_params
-> - Link to v1: https://lore.kernel.org/r/20240326-sunxi_s32-v1-1-899f71dcb1e6@jookia.org
-> ---
->  sound/soc/sunxi/sun4i-i2s.c | 33 ++++++++++++++++++++++++++++-----
->  1 file changed, 28 insertions(+), 5 deletions(-)
-> 
-> diff --git a/sound/soc/sunxi/sun4i-i2s.c b/sound/soc/sunxi/sun4i-i2s.c
-> index a736f632bf0b..59830f2a0d30 100644
-> --- a/sound/soc/sunxi/sun4i-i2s.c
-> +++ b/sound/soc/sunxi/sun4i-i2s.c
-> @@ -156,6 +156,7 @@ struct sun4i_i2s;
->  /**
->   * struct sun4i_i2s_quirks - Differences between SoC variants.
->   * @has_reset: SoC needs reset deasserted.
-> + * @pcm_formats: available PCM formats
->   * @reg_offset_txdata: offset of the tx fifo.
->   * @sun4i_i2s_regmap: regmap config to use.
->   * @field_clkdiv_mclk_en: regmap field to enable mclk output.
-> @@ -175,6 +176,7 @@ struct sun4i_i2s;
->   */
->  struct sun4i_i2s_quirks {
->  	bool				has_reset;
-> +	snd_pcm_format_t		pcm_formats;
->  	unsigned int			reg_offset_txdata;	/* TX FIFO */
->  	const struct regmap_config	*sun4i_i2s_regmap;
->  
-> @@ -1092,8 +1094,18 @@ static int sun4i_i2s_dai_probe(struct snd_soc_dai *dai)
->  	return 0;
->  }
->  
-> +static int sun4i_i2s_dai_startup(struct snd_pcm_substream *sub, struct snd_soc_dai *dai)
-> +{
-> +	struct sun4i_i2s *i2s = snd_soc_dai_get_drvdata(dai);
-> +	struct snd_pcm_runtime *runtime = sub->runtime;
-> +
-> +	return snd_pcm_hw_constraint_mask64(runtime, SNDRV_PCM_HW_PARAM_FORMAT,
-> +					    i2s->variant->pcm_formats);
-> +}
-> +
->  static const struct snd_soc_dai_ops sun4i_i2s_dai_ops = {
->  	.probe		= sun4i_i2s_dai_probe,
-> +	.startup	= sun4i_i2s_dai_startup,
->  	.hw_params	= sun4i_i2s_hw_params,
->  	.set_fmt	= sun4i_i2s_set_fmt,
->  	.set_sysclk	= sun4i_i2s_set_sysclk,
-> @@ -1101,9 +1113,10 @@ static const struct snd_soc_dai_ops sun4i_i2s_dai_ops = {
->  	.trigger	= sun4i_i2s_trigger,
->  };
->  
-> -#define SUN4I_FORMATS	(SNDRV_PCM_FMTBIT_S16_LE | \
-> -			 SNDRV_PCM_FMTBIT_S20_LE | \
-> -			 SNDRV_PCM_FMTBIT_S24_LE)
-> +#define SUN4I_FORMATS_ALL (SNDRV_PCM_FMTBIT_S16_LE | \
-> +			   SNDRV_PCM_FMTBIT_S20_LE | \
-> +			   SNDRV_PCM_FMTBIT_S24_LE | \
-> +			   SNDRV_PCM_FMTBIT_S32_LE)
->  
->  static struct snd_soc_dai_driver sun4i_i2s_dai = {
->  	.capture = {
-> @@ -1111,14 +1124,14 @@ static struct snd_soc_dai_driver sun4i_i2s_dai = {
->  		.channels_min = 1,
->  		.channels_max = 8,
->  		.rates = SNDRV_PCM_RATE_8000_192000,
-> -		.formats = SUN4I_FORMATS,
-> +		.formats = SUN4I_FORMATS_ALL,
->  	},
->  	.playback = {
->  		.stream_name = "Playback",
->  		.channels_min = 1,
->  		.channels_max = 8,
->  		.rates = SNDRV_PCM_RATE_8000_192000,
-> -		.formats = SUN4I_FORMATS,
-> +		.formats = SUN4I_FORMATS_ALL,
->  	},
->  	.ops = &sun4i_i2s_dai_ops,
->  	.symmetric_rate = 1,
-> @@ -1340,8 +1353,12 @@ static int sun4i_i2s_runtime_suspend(struct device *dev)
->  	return 0;
->  }
->  
-> +#define SUN4I_FORMATS_A10 (SUN4I_FORMATS_ALL & ~SNDRV_PCM_FMTBIT_S32_LE)
-> +#define SUN4I_FORMATS_H3 SUN4I_FORMATS_ALL
-> +
->  static const struct sun4i_i2s_quirks sun4i_a10_i2s_quirks = {
->  	.has_reset		= false,
-> +	.pcm_formats		= SUN4I_FORMATS_A10,
->  	.reg_offset_txdata	= SUN4I_I2S_FIFO_TX_REG,
->  	.sun4i_i2s_regmap	= &sun4i_i2s_regmap_config,
->  	.field_clkdiv_mclk_en	= REG_FIELD(SUN4I_I2S_CLK_DIV_REG, 7, 7),
-> @@ -1360,6 +1377,7 @@ static const struct sun4i_i2s_quirks sun4i_a10_i2s_quirks = {
->  
->  static const struct sun4i_i2s_quirks sun6i_a31_i2s_quirks = {
->  	.has_reset		= true,
-> +	.pcm_formats		= SUN4I_FORMATS_A10,
->  	.reg_offset_txdata	= SUN4I_I2S_FIFO_TX_REG,
->  	.sun4i_i2s_regmap	= &sun4i_i2s_regmap_config,
->  	.field_clkdiv_mclk_en	= REG_FIELD(SUN4I_I2S_CLK_DIV_REG, 7, 7),
-> @@ -1383,6 +1401,7 @@ static const struct sun4i_i2s_quirks sun6i_a31_i2s_quirks = {
->   */
->  static const struct sun4i_i2s_quirks sun8i_a83t_i2s_quirks = {
->  	.has_reset		= true,
-> +	.pcm_formats		= SUN4I_FORMATS_A10,
->  	.reg_offset_txdata	= SUN8I_I2S_FIFO_TX_REG,
->  	.sun4i_i2s_regmap	= &sun4i_i2s_regmap_config,
->  	.field_clkdiv_mclk_en	= REG_FIELD(SUN4I_I2S_CLK_DIV_REG, 7, 7),
-> @@ -1401,6 +1420,7 @@ static const struct sun4i_i2s_quirks sun8i_a83t_i2s_quirks = {
->  
->  static const struct sun4i_i2s_quirks sun8i_h3_i2s_quirks = {
->  	.has_reset		= true,
-> +	.pcm_formats		= SUN4I_FORMATS_H3,
->  	.reg_offset_txdata	= SUN8I_I2S_FIFO_TX_REG,
->  	.sun4i_i2s_regmap	= &sun8i_i2s_regmap_config,
->  	.field_clkdiv_mclk_en	= REG_FIELD(SUN4I_I2S_CLK_DIV_REG, 8, 8),
-> @@ -1419,6 +1439,7 @@ static const struct sun4i_i2s_quirks sun8i_h3_i2s_quirks = {
->  
->  static const struct sun4i_i2s_quirks sun50i_a64_codec_i2s_quirks = {
->  	.has_reset		= true,
-> +	.pcm_formats		= SUN4I_FORMATS_H3,
->  	.reg_offset_txdata	= SUN8I_I2S_FIFO_TX_REG,
->  	.sun4i_i2s_regmap	= &sun4i_i2s_regmap_config,
->  	.field_clkdiv_mclk_en	= REG_FIELD(SUN4I_I2S_CLK_DIV_REG, 7, 7),
-> @@ -1437,6 +1458,7 @@ static const struct sun4i_i2s_quirks sun50i_a64_codec_i2s_quirks = {
->  
->  static const struct sun4i_i2s_quirks sun50i_h6_i2s_quirks = {
->  	.has_reset		= true,
-> +	.pcm_formats		= SUN4I_FORMATS_H3,
->  	.reg_offset_txdata	= SUN8I_I2S_FIFO_TX_REG,
->  	.sun4i_i2s_regmap	= &sun50i_h6_i2s_regmap_config,
->  	.field_clkdiv_mclk_en	= REG_FIELD(SUN4I_I2S_CLK_DIV_REG, 8, 8),
-> @@ -1455,6 +1477,7 @@ static const struct sun4i_i2s_quirks sun50i_h6_i2s_quirks = {
->  
->  static const struct sun4i_i2s_quirks sun50i_r329_i2s_quirks = {
->  	.has_reset		= true,
-> +	.pcm_formats		= SUN4I_FORMATS_H3,
->  	.reg_offset_txdata	= SUN8I_I2S_FIFO_TX_REG,
->  	.sun4i_i2s_regmap	= &sun50i_h6_i2s_regmap_config,
->  	.field_clkdiv_mclk_en	= REG_FIELD(SUN4I_I2S_CLK_DIV_REG, 8, 8),
-> 
-> ---
-> base-commit: 13227c2baa6b345451128828c9c2b0ec3868bd0d
-> change-id: 20240326-sunxi_s32-f2ab25b8e688
-> 
-> Best regards,
-> 
+ .../interrupt-controller/allwinner,sun7i-a20-sc-nmi.yaml | 3 +++
+ arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi           | 9 +++++++++
+ 2 files changed, 12 insertions(+)
 
-
-
+-- 
+2.34.1
 
