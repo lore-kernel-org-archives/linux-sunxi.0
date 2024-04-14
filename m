@@ -1,134 +1,296 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 654992374C;
-	Sun, 14 Apr 2024 09:55:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32FEE2421D
+	for <linux-sunxi@lists.linux.dev>; Sun, 14 Apr 2024 10:22:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713088535; cv=none; b=q4he24DDLQYW5v5TCuf9VTfApCCHF8Hi/KutMbtXOuH1Go9+TsyhvSkcoKnRa2Xt+maNRB+ibE04ahWN/wQ+txxBmtbvY3m/zYPzIDmJrnDMmlodLGY5BdF8OecbiQxg1v4MjyecB95zL9jPfgJKIRmXlg8jXksUBPsrYwM1M5Y=
+	t=1713090145; cv=none; b=MKWSaRbN3yQyk0ZhBKPGqGxetz7biRi4oI+Y12JfNCtYXeHcu/rgzkDz+hybr0XrRpXsboPJnH2n8fJhYs7x2R5bwOCiPVwdscY+iGdjs7vlG/C+bWW4rViNnI7ieUIGqQrnInLkhhplg0soWCfLQ+Ioovd9x4B/IbqJ7HHx+nk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713088535; c=relaxed/simple;
-	bh=b3tnisE5mCthW2dJBswBPlSIzQlrQrLbNhzUABTmHY4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RXQoc0gDwrwvpnm0aZFGXOcP64IAD0xgWSBYV7n9T4iln8Bnu0eO4XS0o0si2Z20T9gAymKsMcqqDOaKuRXTWOjgr2mxOinJrjPqu8uG+bO2PwhNpcSgYo+ps5RsTZswDtDiztj6Q1i6AluxzmB9ea2bG57pSm9VF7om28nWnZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cpsl8ocR; arc=none smtp.client-ip=209.85.167.52
+	s=arc-20240116; t=1713090145; c=relaxed/simple;
+	bh=d+Uy8iPQnqE2LADkf5oxHA0iCikJqg5sNWF4qykSlG0=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qnLsTikerl8Mh4OfHZQ7RNi7IrakKpwrws3w6ckn2gfuJqEPyAcmee11+amJfhITBlRVdadNrU5h5HhjSirK5Z2vaN2qaPO604YejBwvH46VzB0zRO8Ub+QXh2Z+8LDFk5KkUHJ88a4/jCZwCyf7ArZNMviNP9KCrAAKNB+n62M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bGsl+JT4; arc=none smtp.client-ip=209.85.221.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cpsl8ocR"
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-516d487659bso2818750e87.2;
-        Sun, 14 Apr 2024 02:55:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bGsl+JT4"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-343c7fae6e4so1909818f8f.1
+        for <linux-sunxi@lists.linux.dev>; Sun, 14 Apr 2024 03:22:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713088531; x=1713693331; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1713090140; x=1713694940; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mAW8FE3757+N73ozBr48CQyvPZHQOC5ywYwUdbEQp2A=;
-        b=Cpsl8ocRgpwHLtddM2MeGfBVeExFoZtRlyIjiryVtkxNh0/eReOzfPNxqnbsRBBXb1
-         azWcJQtWm8HsjRjXMmAkIbDRdAUMs9mCOtc7Sb184NL5FzuIFJNyR8cGfNEerk0ddPgN
-         AKo8dcsSHwSj1WOeYfj/qE2BFkh41njpPVJE/4EVGoWyPUsqVXjJjsXklaCO1UJ/oSEO
-         3T+xgnJkTVAwsf1XouztuA1WnicIDTJ747xUxRsyNg3gcf44Ob+8RFbueJzIfqwwgtvR
-         k2WVqAN6VxdtdSBMCm+P5tQY3+8xeaNrbI9SR9uAEhM7hopI4yTuaBj3g/QCWHZIO5pj
-         IseA==
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lvZ6PjWc/Qm/HW2Su6f4lI8v0f5zAQ/AW1yCdaUkeqU=;
+        b=bGsl+JT4Y6IATRYU+T1O6EUo76dN1qGePGFX31BE4cHP1LvFHqfYSkXrf8ksmHYwu+
+         TEjqnppLXSHQBCexd0YVTo7rC6+hQk+agM/eFLRd8IZT7AvxnTt4GcHzH6r9kl6TAdcb
+         tfnfklLAl653LDXhCSCrTCtQujMlvlekFz+tVOcYg+UORplbmSYxiPsGpW3jvMCeA2qx
+         JfIJFbVtUUbW5m/bCLfQ7lSPxC+eaEgkku3inUzRYl2FjYPaSsJnhOa2Iauj/I9n0Gpm
+         YZJTH2bkEoJNcxwkoTPnw4C2Klt6kaNwhtb7LOcdfUAtYbSS4bqya38+oeNqllGpXPHW
+         0uEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713088531; x=1713693331;
+        d=1e100.net; s=20230601; t=1713090140; x=1713694940;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=mAW8FE3757+N73ozBr48CQyvPZHQOC5ywYwUdbEQp2A=;
-        b=cYaTRuPfrvVNwAG3gJfi/GU25RibhN6XU90Maan5cQBNJRuRyZaITh4znq/trnxOmv
-         VNFzgmB2DLHNxzlAM4VVk81aXUk3iuB2fWcefx/D9g6LwhKq0dQuFE22yarVeTuZF06i
-         I+QWhK4G+3uRLuWOTR8JMUu1O5YumCVQNdrT9pwUVWVlkyhq/3sM5XwAdHv0BMH6iGtC
-         387OYIQSV4KFUY5Cg+aLrTNXRhbMIRkSQKge6JcU8kYn9/rnzxBPNKS+cPBSwa6FvD8H
-         L77y1UX+jPWTW/dLXN5RUNzWl7PeK5Qa0m4YsKXoygjA7zZnmP1QWYurdsWpEDXfTDt1
-         ShVA==
-X-Forwarded-Encrypted: i=1; AJvYcCWokiNItaJFBCDRWJfKUGmU98417bt58Ql0sW3vh5wbD6KIzn7Pe2kybqPS4oyy9GH/zN7wxI1TXTaj1LRYOo/Wbz+ExIMlh/lcTY56GCJ4fJcvGd1FIDyJ0REHcEIo+LI=
-X-Gm-Message-State: AOJu0YyebtGimk3wlte7II7aEFyUAjlieojIWDOelRzTp9x6u1MHt6gB
-	pyDfUo63TTltNCFzB97EvMiypOBIOLb5EAZaO5PH4n5bRhuBB/Au
-X-Google-Smtp-Source: AGHT+IEEKoM/iDTJCuznVR9HiQN/AVCO8Nii+pEgbCzxUMbS3kxqr5wisBFEtwUu4Hozxm6Lwg6jLw==
-X-Received: by 2002:ac2:51b7:0:b0:516:c099:e785 with SMTP id f23-20020ac251b7000000b00516c099e785mr4409977lfk.20.1713088531265;
-        Sun, 14 Apr 2024 02:55:31 -0700 (PDT)
+        bh=lvZ6PjWc/Qm/HW2Su6f4lI8v0f5zAQ/AW1yCdaUkeqU=;
+        b=Xin85fdGPttfpEv/wlSFfrZ0aTd/cgnNuVQiG2s19wBU/ZOQuldrk6dNkPSplBiJF3
+         YRKENFSa3lBezoao32PbjmSMpbrly4O6RZVREsEASkwRIK3AKd5hF3FgYfI7yqzDYI7O
+         y/TDmnJjP7M8F9856+KQkwWS2qUTRl5puCkRDAAjEloJuKDNcTfDnHPykddvKBU8UFGk
+         +67JkefL6ccKSvHHHcmz5xzJBIqMKhCa7pf1Z4gToaWL/OYeqZ3GvitA1Him5mzGRcaL
+         5VIF83gc6OgeCxwfGG1qjfy0FE0vdswFY9fxTZfRyX/RN4zc0L/TE1FbjCOiHinecPzn
+         necQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWSgRwX7ZU5ahoFXwUmydFJwk3uSnN7mM7QiaBStt7QXD4Xi6M7QHw+oz8PkH7aH9tJ3Xnz4tes0bbPyUkvbGZI5fSgIU1lqIRln5k=
+X-Gm-Message-State: AOJu0YyxhQmHu1c8VcVifiuRnC0jtfyUMnMm4NlmfK/KVMFHW3mKTPC7
+	ogtg5taWgOLPfpieqM240jhouomLGP+vkChpfSy4LQF8DgtYsq+T
+X-Google-Smtp-Source: AGHT+IFOrs1IwxMUP5Vf0XILsSrYi91RA/AYCri784CIe1W/IiRN+JiYjMmL5qxuLVMGiCqSYO/Wyg==
+X-Received: by 2002:a5d:6802:0:b0:341:bff9:2e4f with SMTP id w2-20020a5d6802000000b00341bff92e4fmr4698824wru.44.1713090140375;
+        Sun, 14 Apr 2024 03:22:20 -0700 (PDT)
 Received: from jernej-laptop.localnet (APN-123-252-50-gprs.simobil.net. [46.123.252.50])
-        by smtp.gmail.com with ESMTPSA id f10-20020a056000128a00b003436a3cae6dsm8677094wrx.98.2024.04.14.02.55.28
+        by smtp.gmail.com with ESMTPSA id h5-20020adff4c5000000b003437a76565asm8753517wrp.25.2024.04.14.03.22.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Apr 2024 02:55:30 -0700 (PDT)
+        Sun, 14 Apr 2024 03:22:19 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Russell King <linux@armlinux.org.uk>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Maxime Ripard <mripard@kernel.org>
-Cc: Mark Brown <broonie@kernel.org>,
- Alexander Stein <alexander.stein@ew.tq-group.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
- linux-sunxi@lists.linux.dev, linux-mips@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH 5/7] ARM: configs: sunxi: Enable DRM_DW_HDMI
-Date: Sun, 14 Apr 2024 11:55:27 +0200
-Message-ID: <3289340.44csPzL39Z@jernej-laptop>
-In-Reply-To: <20240403-fix-dw-hdmi-kconfig-v1-5-afbc4a835c38@kernel.org>
+To: Matthijs Kooijman <matthijs@stdin.nl>,
+ Sebastian Fricke <sebastian.fricke@collabora.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ linux-media@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Bob Beckett <bob.beckett@collabora.com>, linux-sunxi@lists.linux.dev
+Subject: Re: media: cedrus: h264: Decoding fails or produces artifacts
+Date: Sun, 14 Apr 2024 12:22:18 +0200
+Message-ID: <3799689.kQq0lBPeGt@jernej-laptop>
+In-Reply-To: <ZhZlRpqkjMukosw4@login.tika.stderr.nl>
 References:
- <20240403-fix-dw-hdmi-kconfig-v1-0-afbc4a835c38@kernel.org>
- <20240403-fix-dw-hdmi-kconfig-v1-5-afbc4a835c38@kernel.org>
+ <ZhMNNazVsu8EXqMU@login.tika.stderr.nl>
+ <20240410095555.std6q4g223fupkju@basti-XPS-13-9310>
+ <ZhZlRpqkjMukosw4@login.tika.stderr.nl>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne sreda, 3. april 2024 ob 12:56:23 CEST je Maxime Ripard napisal(a):
-> Commit 4fc8cb47fcfd ("drm/display: Move HDMI helpers into display-helper
-> module") turned the DRM_DW_HDMI dependency of DRM_SUN8I_DW_HDMI into a
-> depends on which ended up disabling the driver in the defconfig. Make
-> sure it's still enabled.
-> 
-> Fixes: 4fc8cb47fcfd ("drm/display: Move HDMI helpers into display-helper module")
-> Reported-by: Mark Brown <broonie@kernel.org>
-> Reported-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+Hi!
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Dne sreda, 10. april 2024 ob 12:09:10 CEST je Matthijs Kooijman napisal(a):
+> Hi Sebastian,
+>=20
+> On Wed, Apr 10, 2024 at 11:55:55AM +0200, Sebastian Fricke wrote:
+> > Hey Matthijs,
+> >=20
+> > On 07.04.2024 23:16, Matthijs Kooijman wrote:
+> > > Hi,
+> > >=20
+> > > I've been chasing a decoder bug in the cedrus h264 hardware decoder a=
+nd after a
+> > > few days have been able to work around it by removing the
+> > > DMA_ATTR_NO_KERNEL_MAPPING argument when allocating the neighbour inf=
+o dma
+> > > buffer (full patch at the end of the mail):
+> > >=20
+> > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> > > @@ -581,7 +581,7 @@ static int cedrus_h264_start(struct cedrus_ctx *c=
+tx)
+> > >        ctx->codec.h264.neighbor_info_buf =3D
+> > >                dma_alloc_attrs(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZ=
+E,
+> > >                                &ctx->codec.h264.neighbor_info_buf_dma,
+> > > -                               GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPIN=
+G);
+> > > +                               GFP_KERNEL, 0);
+> > >=20
+> > > This does not seem like a proper fix to me (or maybe it is - I do not=
+ really
+> > > understand the problem yet), but it very effective.
+> >=20
+> > thanks for the patch, I don't think we can take it as due to, as you
+> > highlighted, it relies on unknown side effects. Perhaps if you or
+> > someone else in the community can investigate this further and answer
+> > some more questions we can move it forward.
+> >=20
+> > Some questions to help move the discussions along:
+> >=20
+> > - Does the platform have an IOMMU?
+> > - What does the IOMMU driver do when it sees the
+> >   DMA_ATTR_NO_KERNEL_MAPPING flag?
+> > - On the platform in question do coherent allocations get handled with
+> >   cached snooped mappings or uncached?
+> > - Does changing that flag affect any cacheablility
+> > - Does the codec block expect any particular intialized data in that
+> >   buffer?
+
+H3 doesn't have IOMMU. Removing DMA_ATTR_NO_KERNEL_MAPPING doesn't sound
+like a good issue since 32-bit ARM platform has very small address space
+reserved for virtual memory. While it can be increased, it's not ideal and
+I would rather not allocate any addresses which are not used by driver.
+
+It's interesting to see that this helps. AFAIK, only relevant action done by
+that flag is to sync caches, which makes sure that data is viewed by CPU.
+Maybe driver doesn't wait long enough in some cases? I vaguely remember
+that vendor driver is doing something for this, but I'm not sure. I have to
+check.
+
+Note, I've observed similar issues on H3 when switching between H264 and
+VP8 decoding. They both use same decoding engine. However, I haven't
+observed same issue on H6, even if IOMMU is disabled.
 
 Best regards,
 Jernej
 
-> ---
->  arch/arm/configs/sunxi_defconfig | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/arch/arm/configs/sunxi_defconfig b/arch/arm/configs/sunxi_defconfig
-> index bddc82f78942..a83d29fed175 100644
-> --- a/arch/arm/configs/sunxi_defconfig
-> +++ b/arch/arm/configs/sunxi_defconfig
-> @@ -108,10 +108,11 @@ CONFIG_DRM_SUN4I_HDMI_CEC=y
->  CONFIG_DRM_SUN8I_DW_HDMI=y
->  CONFIG_DRM_PANEL_LVDS=y
->  CONFIG_DRM_PANEL_SIMPLE=y
->  CONFIG_DRM_PANEL_EDP=y
->  CONFIG_DRM_SIMPLE_BRIDGE=y
-> +CONFIG_DRM_DW_HDMI=y
->  CONFIG_DRM_LIMA=y
->  CONFIG_FB_SIMPLE=y
->  CONFIG_BACKLIGHT_CLASS_DEVICE=y
->  CONFIG_BACKLIGHT_PWM=y
->  CONFIG_SOUND=y
-> 
-> 
+>=20
+> I have no idea about any of these, but I agree that they are good
+> questions to ask.
+>=20
+> I've CC'd linux-sunxi@lists.linux.dev in this mail, maybe someone there
+> can answer these questions for the Allwinner H3 platform.
+>=20
+>=20
+> > > The actual problem is that sometimes (about 10%-50%) the first frame
+> > > of a h264 stream incorrectly decodes, producing all-zero data in the =
+bottom
+> > > part of the frame. See attached error-green.png for an example. In so=
+me even
+> > > more rare cases, more subtle decoding errors would occur, for example=
+ a lighter
+> > > rectangle in the bottom left dark blue band in error-blue-bar.png, or=
+ some
+> > > misplaced pixels in the bottom right "noise" area (compare error-nois=
+e.png with
+> > > error-blue-bar.png to see).
+> > >=20
+> > > To reproduce:
+> > >=20
+> > > 	# Create a h264-encoded 320x240 single-frame stream
+> > > 	gst-launch-1.0 videotestsrc num-buffers=3D1 ! openh264enc ! filesink=
+ location=3Dtest.h264
+> > > 	# Decode it again using hardware decoding (repeat until seeing a bro=
+ken frame)
+> > > 	gst-launch-1.0 filesrc location=3Dtest.h264 ! v4l2slh264dec ! videoc=
+onvert ! pngenc ! filesink location=3Dtest.png
+> > >=20
+> > > I've been testing on an Orange Pi PC with an allwinner H3 running
+> > > Armbian 22.04 (based on Ubuntu Jammy), a 6.7.12 kernel (mostly with
+> > > Armbian-patched, but also clean mainline) and gstreamer
+> > > 1.20.3. The problem also occurred on older kernel versions (tested cl=
+ean
+> > > mainline down to 6.2 and then a bit earlier, but 6.1 mainline would
+> > > not boot for me). I have also observed the problem (or at least the s=
+ame
+> > > symptom) on the Armbian-patched 6.1 kernel, but there it was extremel=
+y unlikely
+> > > (saw it once in 700 or so playbacks).
+> > >=20
+> > > I've seen three variants of this issue:
+> > >=20
+> > > 1. With the 320x240 test pattern, showing the green area in the frame.
+> > >    In this case, the decoder would actually return an error IRQ status
+> > >    (VE_H264_STATUS register would be 0x10010003 or 0x70010003, instead
+> > >    of the normal 0x60000001, bit 0 is VE_H264_STATUS_SLICE_DECODE_INT,
+> > >    bit 1 is VE_H264_STATUS_DECODE_ERR_INT).
+> > >=20
+> > > 2. With the 320x240 test pattern, showing more subtle decoding errors=
+ (as
+> > >    shown in attachments).  In these cases, the IRQ status would not i=
+ndicate a
+> > >    decoding error.
+> > >=20
+> > > 3. With another test video (1920x1080) that I cannot share, there wou=
+ld
+> > >    be the same green areas (occasionally also green squares splattered
+> > >    around the frame), but *no* decoding error in the IRQ status.
+> > >=20
+> > > None of these three issues occur anymore with the workaround applied =
+(both on
+> > > clean 6.7.12 and on top of the Armbian patches), the gstreamer decodi=
+ng then
+> > > produces bit-for-bit identical results every time (tested hundreds of
+> > > decodings).
+> > >=20
+> > >=20
+> > > I have no clue why removing DMA_ATTR_NO_KERNEL_MAPPING from this
+> > > allocation helps - I just tried it on a whim when I nothing else seem=
+ed
+> > > to help. I suspect that mapping the memory into kernel space might ha=
+ve
+> > > some side effect that helps, but I am not familiar enough with either
+> > > the cedrus hardware or the DMA system to tell.
+> > >=20
+> > > I initially thought there might be an alignment issue and tried
+> > > increasing the allocation sizes of all DMA buffers to 256K (which
+> > > I think enforces a bigger alignment), but that did not help. The reas=
+on
+> > > I was looking at memory allocation (and also timing differences, but =
+no
+> > > luck there) was that bisecting pointed me at commit fec94f8c995 ("med=
+ia:
+> > > cedrus: h264: Optimize mv col buffer allocation") which seemed to make
+> > > the problem 2-4=C3=97 likely to occur (but looking back, I think I mi=
+ght have
+> > > been bisecting noise there).
+> > >=20
+> > >=20
+> > > I hope you folks can make more sense of this to figure out a proper f=
+ix.
+> > > For the short term my problem is solved (I'll just apply this patch a=
+nd ship
+> > > it), so will not be investing more time right now.
+> > >=20
+> > > If there's anything I can contribute, just let me know (I have done s=
+ome tests
+> > > with extra debug output added to the kernel, and a testscript for rep=
+eatedly
+> > > testing the decoding that I could share, and I am happy to test any
+> > > patches/hypothesis that you have).
+> > >=20
+> > > Gr.
+> > >=20
+> > > Matthijs
+> > >=20
+> > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drive=
+rs/staging/media/sunxi/cedrus/cedrus_h264.c
+> > > index dfb401df138..7cd3b6a5434 100644
+> > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> > > @@ -581,7 +581,7 @@ static int cedrus_h264_start(struct cedrus_ctx *c=
+tx)
+> > >        ctx->codec.h264.neighbor_info_buf =3D
+> > >                dma_alloc_attrs(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZ=
+E,
+> > >                                &ctx->codec.h264.neighbor_info_buf_dma,
+> > > -                               GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPIN=
+G);
+> > > +                               GFP_KERNEL, 0);
+> > >        if (!ctx->codec.h264.neighbor_info_buf) {
+> > >                ret =3D -ENOMEM;
+> > >                goto err_pic_buf;
+> > > @@ -634,7 +634,7 @@ static int cedrus_h264_start(struct cedrus_ctx *c=
+tx)
+> > >        dma_free_attrs(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
+> > >                       ctx->codec.h264.neighbor_info_buf,
+> > >                       ctx->codec.h264.neighbor_info_buf_dma,
+> > > -                      DMA_ATTR_NO_KERNEL_MAPPING);
+> > > +                      0);
+> > >=20
+> > > err_pic_buf:
+> > >        dma_free_attrs(dev->dev, ctx->codec.h264.pic_info_buf_size,
+> > > @@ -670,7 +670,7 @@ static void cedrus_h264_stop(struct cedrus_ctx *c=
+tx)
+> > >        dma_free_attrs(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
+> > >                       ctx->codec.h264.neighbor_info_buf,
+> > >                       ctx->codec.h264.neighbor_info_buf_dma,
+> > > -                      DMA_ATTR_NO_KERNEL_MAPPING);
+> > > +                      0);
+> > >        dma_free_attrs(dev->dev, ctx->codec.h264.pic_info_buf_size,
+> > >                       ctx->codec.h264.pic_info_buf,
+> > >                       ctx->codec.h264.pic_info_buf_dma,
+>=20
 
 
 
