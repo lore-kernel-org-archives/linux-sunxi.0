@@ -1,33 +1,33 @@
-Received: from out-175.mta0.migadu.com (out-175.mta0.migadu.com [91.218.175.175])
+Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 119FA225D4
-	for <linux-sunxi@lists.linux.dev>; Sun, 14 Apr 2024 07:50:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52A391CA9E
+	for <linux-sunxi@lists.linux.dev>; Sun, 14 Apr 2024 08:00:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713081042; cv=none; b=MuuNvPSUgJQjk6y3pX9VKUJQFXc78HDBz1uwHh5TPmYmLZC9wTW3UZd3yRh4eiUGzvObE3Uyy3tx62cjEjFggLH5K8TDxIqiZyP8cmKi8RYtd8UKBGRPQdXzWEBLsg1QuQRrPudoM6QX6giNaZMYLZu8val/xCB63I6WvKRzi1o=
+	t=1713081624; cv=none; b=a2D2EDkAjxcJYc9b12nShMHbUMzbX8cdM6osj2C+hdA4W3Or8PlhkefQfEzsCONBlDRXSeoUre+kJSYgviRNQ56j56c/P7DPrvSTH2Ub+V8t/IUejcAnyCnJuqA7cBoo6CS7eqyF83bAUPl/3TXl4Usb2Z/SEK+97usWca4nNMo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713081042; c=relaxed/simple;
-	bh=DlrkisTiYTTNhdGDHEA9kXqEXoDP/oRSivtOzUUYqBw=;
+	s=arc-20240116; t=1713081624; c=relaxed/simple;
+	bh=zm9RpGKAoFVClY35GVKJp2e5Go7G/KpaY5NNEyPFbrk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SqaMv07ZzOV7qJWtSHOaLwAKQOzxB+yJ/6JvKvXEN0Yl8+bhH9lMNkZoa+AjzRFaZbqJSbEIuHveJOq9SDnVTijJ+tc/YX0kGDCNm6DWgBN/yi14grwumIB8sS8xawkDuiS7AUjNSpgQB6ogv29B474IOHZGEr0vnp5pDrqE0Os=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org; spf=none smtp.mailfrom=jookia.org; dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b=xjK7upus; arc=none smtp.client-ip=91.218.175.175
+	 Content-Type:Content-Disposition:In-Reply-To; b=oS06jSq5xjwU8pBviETjySeUNxrSi8O6arDb2phaQdLx7vxuyDfkNQNDc7raEaMoO5Tqjm0A2klacpt0efqS0JDbHmgNAXEL51Vm+YGYFhAMo6GKWNyh5zddFDGOz99qtayRAyaRdMFX2VBP0atMkdvL8mijANNk5BjYDxgK0Sg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org; spf=none smtp.mailfrom=jookia.org; dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b=YjQ0vDqT; arc=none smtp.client-ip=95.215.58.189
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=jookia.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b="xjK7upus"
-Date: Sun, 14 Apr 2024 17:47:54 +1000
+	dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b="YjQ0vDqT"
+Date: Sun, 14 Apr 2024 18:00:09 +1000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
-	t=1713081039;
+	t=1713081620;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=J74iIU8vI1GkxvSB3iLi2bj3VeEbcXCRePxliDAEfkk=;
-	b=xjK7upus0wE72MAH3FpYhJbFJRk6k9oXuSSdKMhEtwSqzb6/zbXTJo2x9CGLj5QDMURXyU
-	QSTxWFQFlOU0lVPAV2lywFp9Fb4QDyDYBSAc5GMPyEf7bkc6Lx4ru8psKHeKM/hT8Lc5r7
-	EzVmjdm9jE7Po51IOJpXx1JRfQjSeRmTJDL1rTpakcWi7+/fNuEz4IXDPdd1xEHMcTN3ma
-	QckSVOPmOHhm/RXElSn9DzKNQjRwe34mm5LnF+aZ4GNVnL6lWuYfGg4rrfWVjozpIDFFo+
-	uM+qCdeCOi2COxRqod7rE93M/ymk1ls8WQjXyfhic0erPV9FttNplLH9YsKK5A==
+	bh=sfKDt/wteDbIz5a70amJfBbHPdzo9pYu3x/eiw2iAEw=;
+	b=YjQ0vDqTFTO1Q6IIY4iWhHZxwK3Fzbut0Ai0B3RsPmHcUvMWGwWhuFS6dHHD+mWCtCTdpu
+	/z+2IWSeHyq0MJTU49dExv1jXlw9B3uUUjGsoY4Yu0RD2TiTnzCpovEbUwiQXhtM0difu5
+	lUBbeDC4Wfcmcpdsb8WOenukXgTzzeONrlUzSgPrhAgvqspCaQmbs6ttEENzfaU2v9QmNg
+	1DdtMzbsE6MMC/ZBc97wGYWy47M5313hP1T1KRecf/SKeLOvqzEL4KSZTA8h2V0KqaDdAL
+	yhWl363C+BNXqCXCW9XN9JHh52DPW9isco8suypKuiBZsNM9639crimJOXcc3A==
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: John Watts <contact@jookia.org>
 To: Andre Przywara <andre.przywara@arm.com>
@@ -41,10 +41,11 @@ Cc: Chen-Yu Tsai <wens@csie.org>, Lee Jones <lee@kernel.org>,
 	Samuel Holland <samuel@sholland.org>,
 	Ryan Walklin <ryan@testtoast.com>,
 	Chris Morgan <macroalpha82@gmail.com>
-Subject: Re: [PATCH 4/4] regulator: axp20x: AXP717: Add boost regulator
-Message-ID: <ZhuKKiRBxb5Cjf9v@titan>
+Subject: Re: [PATCH 1/4] regulator: axp20x: AXP717: fix LDO supply rails and
+ off-by-ones
+Message-ID: <ZhuNCUnJri4hBOxx@titan>
 References: <20240329235033.25309-1-andre.przywara@arm.com>
- <20240329235033.25309-5-andre.przywara@arm.com>
+ <20240329235033.25309-2-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,65 +54,181 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240329235033.25309-5-andre.przywara@arm.com>
+In-Reply-To: <20240329235033.25309-2-andre.przywara@arm.com>
 X-Migadu-Flow: FLOW_OUT
 
-On Fri, Mar 29, 2024 at 11:50:33PM +0000, Andre Przywara wrote:
-> The AXP717 also contains an adjustable boost regulator, to provide the
-> 5V USB VBUS rail when running on battery.
+On Fri, Mar 29, 2024 at 11:50:30PM +0000, Andre Przywara wrote:
+> The X-Powers AXP717 PMIC has separate input supply pins for each group
+> of LDOs, so they are not all using the same DCDC1 input, as described
+> currently.
 > 
-> Add the regulator description that states the voltage range this
-> regulator can cover.
+> Replace the "supply" member of each LDO description with the respective
+> group supply name, so that the supply dependencies can be correctly
+> described in the devicetree.
+> Also fix two off-by-ones in the regulator macros, after some double
+> checking the numbers against the datasheet.
 > 
+> Fixes: d2ac3df75c3a ("regulator: axp20x: add support for the AXP717")
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
 Hi,
 
-I checked this against the AXP717 datasheet and it looks correct.
+> ---
+>  drivers/regulator/axp20x-regulator.c | 28 ++++++++++++++--------------
+>  1 file changed, 14 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/regulator/axp20x-regulator.c b/drivers/regulator/axp20x-regulator.c
+> index 34fcdd82b2eaa..3907606b091f6 100644
+> --- a/drivers/regulator/axp20x-regulator.c
+> +++ b/drivers/regulator/axp20x-regulator.c
+> @@ -140,7 +140,7 @@
+>  
+>  #define AXP717_DCDC1_NUM_VOLTAGES	88
+>  #define AXP717_DCDC2_NUM_VOLTAGES	107
+> -#define AXP717_DCDC3_NUM_VOLTAGES	104
+> +#define AXP717_DCDC3_NUM_VOLTAGES	103
+>  #define AXP717_DCDC_V_OUT_MASK		GENMASK(6, 0)
+>  #define AXP717_LDO_V_OUT_MASK		GENMASK(4, 0)
+>  
+> @@ -766,7 +766,7 @@ static const struct linear_range axp717_dcdc1_ranges[] = {
+>  static const struct linear_range axp717_dcdc2_ranges[] = {
+>  	REGULATOR_LINEAR_RANGE(500000,   0,  70,  10000),
+>  	REGULATOR_LINEAR_RANGE(1220000, 71,  87,  20000),
+> -	REGULATOR_LINEAR_RANGE(1600000, 88, 107, 100000),
+> +	REGULATOR_LINEAR_RANGE(1600000, 88, 106, 100000),
+>  };
+
+I'm not entirely sure these are correct after reading the datasheet.
+
+From what I can tell REGULATOR_LINEAR_RANGE is inclusive, so for DCDC1
+we have these ranges (we agree DCDC1 is correct, it is not affected by
+this patch):
+
+#define AXP717_DCDC1_NUM_VOLTAGES	88
+static const struct linear_range axp717_dcdc1_ranges[] = {
+	REGULATOR_LINEAR_RANGE(500000,   0, 70, 10000),
+	REGULATOR_LINEAR_RANGE(1220000, 71, 87, 20000),
+};
+
+The datasheet says this for the register:
+
+0.5~1.2V,10mV/step,71steps
+1.22~1.54V,20mV/step,17steps
+0000000: 0.50V
+0000001: 0.51V
+...
+1000110: 1.20V
+1000111: 1.22V
+1001000: 1.24V
+...
+1010111: 1.54V
+1011000~1111111: Reserve
+
+Converting to decimal:
+
+0: 0.50V (range 1 start)
+1: 0.51V
+...
+70: 1.20V (range 1 end)
+71: 1.22V (range 2 start)
+72: 1.24V
+...
+87: 1.54V (range 2 end)
+88 onwards: reserved
+
+The maximum voltages are the last value plus one (to include voltage zero).
+
+For DCDC2 after applying this patch we get:
+
+#define AXP717_DCDC2_NUM_VOLTAGES	107
+static const struct linear_range axp717_dcdc2_ranges[] = {
+	REGULATOR_LINEAR_RANGE(500000,   0,  70,  10000),
+	REGULATOR_LINEAR_RANGE(1220000, 71,  87,  20000),
+	REGULATOR_LINEAR_RANGE(1600000, 88, 106, 100000),
+};
+
+The datasheet marks the maximum value as 1101011: 3.40V, so 106 (the old
+value for range) seems correct, but the NUM_VOLTAGES seems like it
+should be bumped up to 108. I think you fixed the wrong thing here.
+
+#define AXP717_DCDC3_NUM_VOLTAGES	103
+static const struct linear_range axp717_dcdc2_ranges[] = {
+	REGULATOR_LINEAR_RANGE(500000,   0,  70,  10000),
+	REGULATOR_LINEAR_RANGE(1220000, 71,  87,  20000),
+	REGULATOR_LINEAR_RANGE(1600000, 88, 106, 100000),
+};
+
+The datasheet marks the maximum value as 1101011: 3.40V, so 106 (the old
+value for range) seems correct, but the NUM_VOLTAGES seems like it
+should be bumped up to 108. I think you fixed the wrong thing here.
+For DCDC3 after applying this patch we get:
+
+#define AXP717_DCDC3_NUM_VOLTAGES	103
+static const struct linear_range axp717_dcdc3_ranges[] = {
+	REGULATOR_LINEAR_RANGE(500000,   0,  70, 10000),
+	REGULATOR_LINEAR_RANGE(1220000, 71, 102, 20000),
+};
+
+The datasheet marks the maximum value as 1100110: 1.84V, which is 102.
+So this patch to correct the AXP717_DCDC3_NUM_VOLTAGES is correct here.
 
 John.
 
-Reviewed-by: John Watts <contact@jookia.org>
-
-> ---
->  drivers/regulator/axp20x-regulator.c | 4 ++++
->  include/linux/mfd/axp20x.h           | 1 +
->  2 files changed, 5 insertions(+)
-> 
-> diff --git a/drivers/regulator/axp20x-regulator.c b/drivers/regulator/axp20x-regulator.c
-> index 3907606b091f6..71407c5810941 100644
-> --- a/drivers/regulator/axp20x-regulator.c
-> +++ b/drivers/regulator/axp20x-regulator.c
-> @@ -143,6 +143,7 @@
->  #define AXP717_DCDC3_NUM_VOLTAGES	103
->  #define AXP717_DCDC_V_OUT_MASK		GENMASK(6, 0)
->  #define AXP717_LDO_V_OUT_MASK		GENMASK(4, 0)
-> +#define AXP717_BOOST_V_OUT_MASK		GENMASK(7, 4)
 >  
->  #define AXP803_PWR_OUT_DCDC1_MASK	BIT_MASK(0)
->  #define AXP803_PWR_OUT_DCDC2_MASK	BIT_MASK(1)
-> @@ -829,6 +830,9 @@ static const struct regulator_desc axp717_regulators[] = {
+>  static const struct linear_range axp717_dcdc3_ranges[] = {
+> @@ -790,40 +790,40 @@ static const struct regulator_desc axp717_regulators[] = {
+>  	AXP_DESC(AXP717, DCDC4, "dcdc4", "vin4", 1000, 3700, 100,
+>  		 AXP717_DCDC4_CONTROL, AXP717_DCDC_V_OUT_MASK,
+>  		 AXP717_DCDC_OUTPUT_CONTROL, BIT(3)),
+> -	AXP_DESC(AXP717, ALDO1, "aldo1", "vin1", 500, 3500, 100,
+> +	AXP_DESC(AXP717, ALDO1, "aldo1", "aldoin", 500, 3500, 100,
+>  		 AXP717_ALDO1_CONTROL, AXP717_LDO_V_OUT_MASK,
+>  		 AXP717_LDO0_OUTPUT_CONTROL, BIT(0)),
+> -	AXP_DESC(AXP717, ALDO2, "aldo2", "vin1", 500, 3500, 100,
+> +	AXP_DESC(AXP717, ALDO2, "aldo2", "aldoin", 500, 3500, 100,
+>  		 AXP717_ALDO2_CONTROL, AXP717_LDO_V_OUT_MASK,
+>  		 AXP717_LDO0_OUTPUT_CONTROL, BIT(1)),
+> -	AXP_DESC(AXP717, ALDO3, "aldo3", "vin1", 500, 3500, 100,
+> +	AXP_DESC(AXP717, ALDO3, "aldo3", "aldoin", 500, 3500, 100,
+>  		 AXP717_ALDO3_CONTROL, AXP717_LDO_V_OUT_MASK,
+>  		 AXP717_LDO0_OUTPUT_CONTROL, BIT(2)),
+> -	AXP_DESC(AXP717, ALDO4, "aldo4", "vin1", 500, 3500, 100,
+> +	AXP_DESC(AXP717, ALDO4, "aldo4", "aldoin", 500, 3500, 100,
+>  		 AXP717_ALDO4_CONTROL, AXP717_LDO_V_OUT_MASK,
+>  		 AXP717_LDO0_OUTPUT_CONTROL, BIT(3)),
+> -	AXP_DESC(AXP717, BLDO1, "bldo1", "vin1", 500, 3500, 100,
+> +	AXP_DESC(AXP717, BLDO1, "bldo1", "bldoin", 500, 3500, 100,
+>  		 AXP717_BLDO1_CONTROL, AXP717_LDO_V_OUT_MASK,
+>  		 AXP717_LDO0_OUTPUT_CONTROL, BIT(4)),
+> -	AXP_DESC(AXP717, BLDO2, "bldo2", "vin1", 500, 3500, 100,
+> +	AXP_DESC(AXP717, BLDO2, "bldo2", "bldoin", 500, 3500, 100,
+>  		 AXP717_BLDO2_CONTROL, AXP717_LDO_V_OUT_MASK,
+>  		 AXP717_LDO0_OUTPUT_CONTROL, BIT(5)),
+> -	AXP_DESC(AXP717, BLDO3, "bldo3", "vin1", 500, 3500, 100,
+> +	AXP_DESC(AXP717, BLDO3, "bldo3", "bldoin", 500, 3500, 100,
+>  		 AXP717_BLDO3_CONTROL, AXP717_LDO_V_OUT_MASK,
+>  		 AXP717_LDO0_OUTPUT_CONTROL, BIT(6)),
+> -	AXP_DESC(AXP717, BLDO4, "bldo4", "vin1", 500, 3500, 100,
+> +	AXP_DESC(AXP717, BLDO4, "bldo4", "bldoin", 500, 3500, 100,
+>  		 AXP717_BLDO4_CONTROL, AXP717_LDO_V_OUT_MASK,
+>  		 AXP717_LDO0_OUTPUT_CONTROL, BIT(7)),
+> -	AXP_DESC(AXP717, CLDO1, "cldo1", "vin1", 500, 3500, 100,
+> +	AXP_DESC(AXP717, CLDO1, "cldo1", "cldoin", 500, 3500, 100,
+>  		 AXP717_CLDO1_CONTROL, AXP717_LDO_V_OUT_MASK,
+>  		 AXP717_LDO1_OUTPUT_CONTROL, BIT(0)),
+> -	AXP_DESC(AXP717, CLDO2, "cldo2", "vin1", 500, 3500, 100,
+> +	AXP_DESC(AXP717, CLDO2, "cldo2", "cldoin", 500, 3500, 100,
+>  		 AXP717_CLDO2_CONTROL, AXP717_LDO_V_OUT_MASK,
+>  		 AXP717_LDO1_OUTPUT_CONTROL, BIT(1)),
+> -	AXP_DESC(AXP717, CLDO3, "cldo3", "vin1", 500, 3500, 100,
+> +	AXP_DESC(AXP717, CLDO3, "cldo3", "cldoin", 500, 3500, 100,
+>  		 AXP717_CLDO3_CONTROL, AXP717_LDO_V_OUT_MASK,
+>  		 AXP717_LDO1_OUTPUT_CONTROL, BIT(2)),
+> -	AXP_DESC(AXP717, CLDO4, "cldo4", "vin1", 500, 3500, 100,
+> +	AXP_DESC(AXP717, CLDO4, "cldo4", "cldoin", 500, 3500, 100,
+>  		 AXP717_CLDO4_CONTROL, AXP717_LDO_V_OUT_MASK,
+>  		 AXP717_LDO1_OUTPUT_CONTROL, BIT(3)),
 >  	AXP_DESC(AXP717, CPUSLDO, "cpusldo", "vin1", 500, 1400, 50,
->  		 AXP717_CPUSLDO_CONTROL, AXP717_LDO_V_OUT_MASK,
->  		 AXP717_LDO1_OUTPUT_CONTROL, BIT(4)),
-> +	AXP_DESC(AXP717, BOOST, "boost", "vin1", 4550, 5510, 64,
-> +		 AXP717_BOOST_CONTROL, AXP717_BOOST_V_OUT_MASK,
-> +		 AXP717_MODULE_EN_CONTROL, BIT(4)),
->  };
->  
->  /* DCDC ranges shared with AXP813 */
-> diff --git a/include/linux/mfd/axp20x.h b/include/linux/mfd/axp20x.h
-> index 4dad54fdf67ee..5e86b976c4caa 100644
-> --- a/include/linux/mfd/axp20x.h
-> +++ b/include/linux/mfd/axp20x.h
-> @@ -486,6 +486,7 @@ enum {
->  	AXP717_CLDO3,
->  	AXP717_CLDO4,
->  	AXP717_CPUSLDO,
-> +	AXP717_BOOST,
->  	AXP717_REG_ID_MAX,
->  };
->  
 > -- 
 > 2.35.8
 > 
