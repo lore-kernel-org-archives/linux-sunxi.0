@@ -1,69 +1,71 @@
 Received: from fhigh5-smtp.messagingengine.com (fhigh5-smtp.messagingengine.com [103.168.172.156])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C31421A02
-	for <linux-sunxi@lists.linux.dev>; Sun, 14 Apr 2024 08:36:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E3521AAD7
+	for <linux-sunxi@lists.linux.dev>; Sun, 14 Apr 2024 08:36:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713083784; cv=none; b=dki3qJY4CFTikeN82Wk3wxEVk1elPzR3Xr1axqTt+fe9RfjWIY4pZrY2aAWLgjHLgfazjaPqjDKIXg739nnuavlkayPsDQ1u1wcyc6JoAsKnoFGXCFAIJ/9l8BPxYBwj0e5I8VH4vrcv7X8jUtXDVpVudCbdh5G9p2S6rxqHxc8=
+	t=1713083797; cv=none; b=UVnzfV6p2Nx3svZyeRLmIDwEFjn/I9iLqTq8lPSOVd7GIPpBPbDp0V3rsr4iv67Ftd4YH3yIzbKLl4JmmO5IMbS2ZJ06Wvk3c0MiWJxq9xvOrRmuEATCIUiAHWTtarS4vAyi3sKdIn1Fsc1CjeuBCA00cAf7INmGuFIc3qV7Aa8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713083784; c=relaxed/simple;
-	bh=tR0rAHU9Ax/ZKMiDOXRZd2iNsa6a/nusyMjfuatnidY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZMub6RiiweMN3Z00o+mYfCJmUTi1fIDtPQLAigEkvd3otmvOz1yLnRhyyYkLhFCZQZj+l29AXSWMVgASyhkMm0rGYhhR0khC2pG7f33VJ5UX7EFqugdH0U/0/py5xZcK1YNLlVi4DAtgogLDw0wuoqMkM4oJvGFFGzQWBGUeFFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=HhvOVq0t; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=dKcRDWfo; arc=none smtp.client-ip=103.168.172.156
+	s=arc-20240116; t=1713083797; c=relaxed/simple;
+	bh=kQ7H69RWMAR4Y8u0ogBWDFQBri7M8OEbZsh0pCTD4WU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=kluUei5zT63e01oPsVYD+HpA5P5BZ6JAKjCEOcepiSDJhg4KUNsFjb0VvE+bt13CtDkpqcKiUlsMsIUxrEEoQCj7CJUTO8gB96eMZB4Kvqyzqwka3ubpTgus7n4itjQxBt5lneJnGuF/rcZuGfSUzFMOegPyxRIHz9v/IyAiKSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=Z+kRk5Xs; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=igAv3OgX; arc=none smtp.client-ip=103.168.172.156
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=testtoast.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="HhvOVq0t";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="dKcRDWfo"
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailfhigh.nyi.internal (Postfix) with ESMTP id 54BDF11400FD;
-	Sun, 14 Apr 2024 04:36:21 -0400 (EDT)
+	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="Z+kRk5Xs";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="igAv3OgX"
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id A55A111400FA;
+	Sun, 14 Apr 2024 04:36:35 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Sun, 14 Apr 2024 04:36:21 -0400
+  by compute7.internal (MEProxy); Sun, 14 Apr 2024 04:36:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
 	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
-	:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to; s=fm2; t=1713083781; x=1713170181; bh=QZBmqAotOO
-	cma7MOBOwouaAJ5DkzYSBJfuTxvx4nDlA=; b=HhvOVq0t2NdR8Ub9YjiEWKZw5E
-	WdhfiFnaapMdjV2KYjMSXTw70tWdUXxV1emRoxbG/M9Oac+8Po0gr3xIs/8/ZNJs
-	4CQJ8vr/C7DTAZlkLM263ND9tRJnJSehCWpX8KqXapI95Edd2m7awYRFhoUJD66N
-	pwaTArLhnUWRbV+iB8LUubq5SxSqSwFRPWfkyo4xUhL92rT9nF1V7kfhHNJ1ESnI
-	Y0btxCBv8y2mLULxtiaDY5SnokDAdhCAz+KxjijfTbgccGiRGi74qUvzFevKSEzC
-	5U1cQ3M5GZo5KVWiNRn73b4Ywxo9k6uFgeUkeTvcoVb4q5M6CcS5G6x6F9VQ==
+	:from:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm2; t=1713083795; x=
+	1713170195; bh=no+18INyDRfIg+7c2ZdetO1w+Xy4IM7mXOahyLAHfMI=; b=Z
+	+kRk5Xs8nujacGAHXv+Cx1pk4bJyedxl7zLd23eh37PRmp7TQ94uVP74XCAY2rkF
+	Hm0p1toNgZlRVtGfrVMglUxJSoGlY0bt/cM2Zq85UC55Hezk0UMA9igY2BYap6zx
+	4Eyrrgzv+8gVDaSm1wlB2GnZTtVADkmAK3v3udVbkD3GyCynwSZ/rmDY101tuT2t
+	zGkBx4KUUZroFS4xYnXnKdycniP7IG/RLWYfWCjq+/k/Mgs4hVd7VqKywixP3k35
+	Lyn4Fehv4Vy79FQorYmZChQhVbZIAmYWUV2CAuYtVD7z8UF32k4MaKxefA4vKCvM
+	IY8GdcSIwe+AlOnJpor/Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1713083781; x=1713170181; bh=QZBmqAotOOcma7MOBOwouaAJ5Dkz
-	YSBJfuTxvx4nDlA=; b=dKcRDWfomTWe1vjO0B1avfh+lmGVAmKxCfA2qtN+qQpV
-	/9bsw2kcSNhvCydA+qiDsao2O/SPA0xqd6B/ug4giuEXsqNc93j5M8WxZatXqkrx
-	kLqabBlp1kE775OFmmPdvMxdPM2lONCscc+ntGNMcfMRmUtHpAA3sjqa6VMlr50k
-	f9TEPwMElFkXODhHdTPB8/v7ZALP7xNvya+cqsof/3xlSp6Rh9DHRrzMVEIZFqjM
-	gXgqwCHrFvatprnaXiAxclRItYh4e6vrIcVMKLEkVWWNYtZ057sN7tGk1CRt2p95
-	ueKyZIoFLh7nwUqi0kAkLTfR5Q73qHsmmr6cUyhJTg==
-X-ME-Sender: <xms:hJUbZucJgvkR6nfsQQdw3BCW7RBHnl5e1slCTbhOJuWz-0ZMlRvyYQ>
-    <xme:hJUbZoPdLcy2uN8HLUNHrvayhbaC0aoF1iCsxC363VTj3pJV-0m5gDKPp0lf34fCk
-    ydR-E5TAr2NAUS0DQ>
-X-ME-Received: <xmr:hJUbZvhar-rwORUWUgeOs9IaeivH8S-P8gA4qZPe7HMo7UNbORNm5Ch1AcaYR1eyySgxlfKWP7NqobfxLEJmEToz3JxEIvfxpiSsA7tbBHiqU4qX>
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1713083795; x=
+	1713170195; bh=no+18INyDRfIg+7c2ZdetO1w+Xy4IM7mXOahyLAHfMI=; b=i
+	gAv3OgXTZ35C0KQ+E3IJXsFeepjBjSPEmKOoegYVJ4K+Ok1CD/24DEHkOTnMPFE2
+	yZ61o8NSEv+U/qWb5E6t72OLqacGLVkR6j1/ZryHQBgLKFCGL6uYybem4XYhHzB5
+	51Joj8jJru0Oa0IhTo3b/VPM5l9ZgPYevCkOxLD2RrnrM77j41K58oytbpxGS0MY
+	6OhQF2Em6Qxfh7xQkDG3AgzscYUeFelBTZrO5Wx/DScU2g7wDCdy0xnyBU4kiSjn
+	f4BDgDAjydReQyQq3l8Wv82W8wg4EfKU9XXecgszPU8u9QcVAHFCxUNp+ildxh6v
+	vhUzczHlr1eZ3j78TFRrw==
+X-ME-Sender: <xms:k5UbZl5Bax_amp2-tPQArmpwmqcLxvALfo_Z-drTDvcTyfbIxUBvYg>
+    <xme:k5UbZi5lA8xY-JDEz5-iwjAPCcPTamfyFyuX7ODfPoqRcraQEhURrTwj31wpRmVbf
+    H1Ozc2cu8QUx8r4Lw>
+X-ME-Received: <xmr:k5UbZsfAIQxe7XXCAj35vbyj1Sett394zUothdpRB1tofvLikvdioID7fmrDW_zZ05NEXA7f3dBae5pfTclU0COyfrkEm_XfVW_0zBt4RcfWGU2s>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudeiledgtdeiucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomheptfihrghnucgh
-    rghlkhhlihhnuceorhihrghnsehtvghsthhtohgrshhtrdgtohhmqeenucggtffrrghtth
-    gvrhhnpeffjeetfefgkeeukeeihfeuhefguddvtdekjeeffedtjeeuieefvdfhgeffleeh
-    leenucffohhmrghinhepghhoohhglhgvshhouhhrtggvrdgtohhmnecuvehluhhsthgvrh
-    fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprhihrghnsehtvghsthhtohgr
-    shhtrdgtohhm
-X-ME-Proxy: <xmx:hJUbZr_356mT8kWCBfxaTCjPrPKXTqK09mf_OfWSxMWoue-3kETqGg>
-    <xmx:hJUbZqvasQLXuZwxIXpmTJbdTPowCijNp27qimdk92lhmuoDKB5qBQ>
-    <xmx:hJUbZiFZulDOn5muWuSOv6pvUQqW2rFnShVMKURFGRHFCnVVC1cCUQ>
-    <xmx:hJUbZpMqdQYgWMPLvOKJr8cfOtoJcigTOvjz29Oyh40367I-vUiNmg>
-    <xmx:hZUbZiH2jPX0vSfZacyflGBtFjdWYKPoFMIDcGeFW6ovByZ_pjnz8efV>
+    cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomheptfihrghn
+    ucghrghlkhhlihhnuceorhihrghnsehtvghsthhtohgrshhtrdgtohhmqeenucggtffrrg
+    htthgvrhhnpeffheeiffegtdfgffejteevgeefkeelieelkeevueetffetteduffevgeei
+    ieehteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hrhigrnhesthgvshhtthhorghsthdrtghomh
+X-ME-Proxy: <xmx:k5UbZuJK6QsVo3qS78mdMEiRBklIk7ZsfaWhdw0Kx9A3DU19I6G9Mg>
+    <xmx:k5UbZpKyN-zw0_XAq4avHJC3ATH7kYVvVVIXLMdHNQNSI57x_dhq_Q>
+    <xmx:k5UbZnzQpFkbZIQ_8qqUT6zQ8QpIfxPdldadzw5xoQGUQE0tOrtMMg>
+    <xmx:k5UbZlK-aWtA3CxV9-57cEk_pG9dv5TiGXzI66HJmJyLbhd1YaUWFQ>
+    <xmx:k5UbZjz6P0P84o1kGmuFm1WVVquX1almojR4MjaUZIU-qBaVBuybLVcT>
 Feedback-ID: idc0145fc:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 14 Apr 2024 04:36:17 -0400 (EDT)
+ 14 Apr 2024 04:36:32 -0400 (EDT)
 From: Ryan Walklin <ryan@testtoast.com>
 To: Andre Przywara <andre.przywara@arm.com>,
 	Chen-Yu Tsai <wens@csie.org>,
@@ -76,10 +78,12 @@ To: Andre Przywara <andre.przywara@arm.com>,
 Cc: devicetree@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
 	Ryan Walklin <ryan@testtoast.com>
-Subject: [PATCH 0/4] arm64: dts: allwinner: Add Anbernic RG35XX (Plus/H/2024) support
-Date: Sun, 14 Apr 2024 20:33:43 +1200
-Message-ID: <20240414083347.131724-2-ryan@testtoast.com>
+Subject: [PATCH 1/4] dt-bindings: arm: sunxi: document Anbernic RG35XX handheld gaming device variants
+Date: Sun, 14 Apr 2024 20:33:44 +1200
+Message-ID: <20240414083347.131724-3-ryan@testtoast.com>
 X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20240414083347.131724-2-ryan@testtoast.com>
+References: <20240414083347.131724-2-ryan@testtoast.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -90,61 +94,42 @@ Content-Transfer-Encoding: 8bit
 
 From: Ryan Walklin <ryan@testtoast.com>
 
-The Anbernic RG35XX is a family of handheld gaming devices. There are 4 
-variants, of which 3 using the Allwinner H700 chip are covered by this patchset.
-The fourth (released first and named simply RG35XX) uses an Actions 
-Semiconductor ATM7039s which is a 32-bit Cortex-A9 chip with no mainline support 
-and is not covered.
-
-Common features (RG35XX-2024):
-- Allwinner H700 @ 1.5GHz (H616 variant exposing RGB LCD pins, with 4x 
-  Cortex-A53 Cores and a Mali G31 GPU)
-- 1 GB LPDDR4 DRAM
-- AXP717 PMIC (patches accepted in mfd-next - 
-  https://kernel.googlesource.com/pub/scm/linux/kernel/git/lee/mfd/+/d2ac3df75c3a995064cfac0171e082a30d8c4c66)
-- 3.5" 640x480 RGB LCD
-- Mini-HDMI, 3.5mm audio jack, mono speaker, two microSD slots and USB-C 
-  (USB 2.0) for power.
-
-RG35XX-Plus adds:
-- RTL8821CS SDIO Wifi/BT chip
-
-RG35XX-H (Horizontal form-factor) adds:
-- RTL8821CS SDIO Wifi/BT chip
-- Two analog thumbsticks
-- Second USB-C port
-- Stereo speaker
-
-Patch 1 adds the DT bindings for the board names, Patch 2 adds the -2024 device
-as a common base, Patch 3 adds Wifi/BT support for the -Plus (and -H), and Patch 
-3 adds the second USB and thumbsticks for the -H. The -H is a strict superset of
-the -Plus, which is in turn a strict superset of the -2024, so this translates 
-quite neatly. Alternatively a single DTS for the three devices could be 
-considered.
-
-LCD, HDMI, audio and GPU support are not yet ready and relying on out-of-tree 
-patches currently, so will be added once these drivers are mainlined.
-
-Ryan
+RG35XX 2024: Base version with Allwinner H700
+RG35XX Plus: Adds Wifi/BT
+RG35XX H: Adds second USB port and analog sticks to -Plus in horizontal
+          altered form factor,
 
 Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+---
+ Documentation/devicetree/bindings/arm/sunxi.yaml | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-Ryan Walklin (4):
-  dt-bindings: arm: sunxi: document Anbernic RG35XX handheld gaming
-    device variants
-  arm64: dts: allwinner: h700: Add RG35XX 2024 DTS
-  arm64: dts: allwinner: h700: Add RG35XX-Plus DTS
-  arm64: dts: allwinner: h700: Add RG35XX-H DTS
-
- .../devicetree/bindings/arm/sunxi.yaml        |  15 +
- .../sun50i-h700-anbernic-rg35xx-2024.dts      | 405 ++++++++++++++++++
- .../sun50i-h700-anbernic-rg35xx-h.dts         |  38 ++
- .../sun50i-h700-anbernic-rg35xx-plus.dts      |  63 +++
- 4 files changed, 521 insertions(+)
- create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
- create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dts
- create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dts
-
+diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
+index 09d835db6db5..fc10f54561c9 100644
+--- a/Documentation/devicetree/bindings/arm/sunxi.yaml
++++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
+@@ -56,6 +56,21 @@ properties:
+           - const: anbernic,rg-nano
+           - const: allwinner,sun8i-v3s
+ 
++      - description: Anbernic RG35XX (2024)
++      - items:
++          - const: anbernic,rg35xx-2024
++          - const: allwinner,sun50i-h700
++
++      - description: Anbernic RG35XX Plus
++      - items:
++          - const: anbernic,rg35xx-plus
++          - const: allwinner,sun50i-h700
++
++      - description: Anbernic RG35XX H
++      - items:
++          - const: anbernic,rg35xx-h
++          - const: allwinner,sun50i-h700
++
+       - description: Amarula A64 Relic
+         items:
+           - const: amarula,a64-relic
 -- 
 2.44.0
 
