@@ -1,92 +1,156 @@
-Received: from a.peacevolution.org (a.peacevolution.org [206.189.193.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB9CD135A6B
-	for <linux-sunxi@lists.linux.dev>; Sun, 14 Apr 2024 17:58:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.193.133
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 603505732B
+	for <linux-sunxi@lists.linux.dev>; Sun, 14 Apr 2024 18:37:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713117482; cv=none; b=lKnfOmISm/X6fC+anjYzbqi8wc6BWY6lpOOICc/LJYRsLlg2a4fnq/STnqALDrTIo8+k90ug/w68E9EKoJC8vU2gnwOcOiBEzuduc9grUGakY0rWIHxzxhILbNhvAWIj6vwbGGgh+tk9g+POYCewcdEYX7qDewbXa91z+U72Yok=
+	t=1713119840; cv=none; b=Ae3mCJq501NZR9goJe6Vqz05VgHUwfGVMZJrp8BOWBEgqtkM3Yv3H7RuQWUzw//XVrwRNcfLYVk1JbrDGgxWVlJY4k9qG59vsLmjYlbWV+IQFuEUFvNskomVYVN3UQUWkaW2SGnhhyTnPq/j/B6OQ/B50gDY/HZzOsidpp+RlsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713117482; c=relaxed/simple;
-	bh=IZ4ArRXGNTB7NRJq7uPcufZOTFJ3eOVFZCNrF9ub0b4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tIxJFwnuICQS9yKTnwR3vmp4Wk1T6+DeXV6Xup88dllfr6YOfV75Bv8iiYuHt/jkbYUxJilel9/LHiKc/N3ujD2THnRiQW7zPnKvDa7u4CezasxUGwTX5E0aUhjTddK2iJGuZAjLQqnBQ7OMD1+iOswCh18nNdRWZYcpbVksPF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org; spf=pass smtp.mailfrom=peacevolution.org; dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b=k60ZaVvd; arc=none smtp.client-ip=206.189.193.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=peacevolution.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b="k60ZaVvd"
-Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-	by a.peacevolution.org (Postfix) with ESMTPA id 17D3547963;
-	Sun, 14 Apr 2024 17:57:59 +0000 (UTC)
-From: Aren Moynihan <aren@peacevolution.org>
-To: Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: Aren Moynihan <aren@peacevolution.org>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Ondrej Jirman <megi@xff.cz>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	linux-iio@vger.kernel.org,
-	phone-devel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	Willow Barraco <contact@willowbarraco.fr>
-Subject: [PATCH 4/4] arm64: dts: allwinner: pinephone: Add power supply to stk3311
-Date: Sun, 14 Apr 2024 13:57:16 -0400
-Message-ID: <20240414175716.958831-4-aren@peacevolution.org>
-In-Reply-To: <20240414175716.958831-1-aren@peacevolution.org>
-References: <20240414175300.956243-1-aren@peacevolution.org>
- <20240414175716.958831-1-aren@peacevolution.org>
+	s=arc-20240116; t=1713119840; c=relaxed/simple;
+	bh=RZVfVHfiDkKN+97qkwuDrU6LAJCVY95cLG2p/+2L3JE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IeVMXMv04RNzo7R8aTCEnTBfMhbzqAhTkqC9V7FZhvkda11MLiaEkx5yHxD17qLJSaHRgAuZEeji0UBTAGUZGa+71lJOo6b6PFCup3SKz+PrIG80oxXP/0JWImBoOGOUBUnAYj57nivrMOnMs8E6/NmkxnsbjxCKAIV/1cVUFvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 01E7F339;
+	Sun, 14 Apr 2024 11:37:46 -0700 (PDT)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 119EC3F792;
+	Sun, 14 Apr 2024 11:37:15 -0700 (PDT)
+Date: Sun, 14 Apr 2024 19:37:10 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Ryan Walklin <ryan@testtoast.com>
+Cc: Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
+ Holland <samuel@sholland.org>, Chris Morgan <macromorgan@hotmail.com>,
+ devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 3/4] arm64: dts: allwinner: h700: Add RG35XX-Plus DTS
+Message-ID: <20240414193710.6ede3db4@minigeek.lan>
+In-Reply-To: <20240414083347.131724-6-ryan@testtoast.com>
+References: <20240414083347.131724-2-ryan@testtoast.com>
+	<20240414083347.131724-6-ryan@testtoast.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Authentication-Results: auth=pass smtp.auth=aren@peacevolution.org smtp.mailfrom=aren@peacevolution.org
-X-Spam-Level: ****
-X-Spamd-Bar: ++++
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=peacevolution.org;
-	s=dkim; t=1713117480;
-	h=from:subject:date:message-id:to:cc:mime-version:content-transfer-encoding:in-reply-to:references;
-	bh=6v+9LICWwNBv05pAzbiQ9LAhqjunLZ7gdVFFNyxU1mw=;
-	b=k60ZaVvdziPJhGY/EVOspCAhKUai7wJ8U9M0QTYRcu3bnqfH6ZljC0sKXdOFyl3Rc6EZtB
-	Df7jHgk5D9kypbfcvwbP+DtUUeHIWvbEHp9f4ZBDKi7YM3u1jBWct4ZQoRtneWKU/lNYxt
-	ap8ClX1qJE7r8knOQPcjvKk4JK42gBQ=
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Ondrej Jirman <megi@xff.cz>
+On Sun, 14 Apr 2024 20:33:47 +1200
+Ryan Walklin <ryan@testtoast.com> wrote:
 
-This makes the driver disable the supply during sleep.
+Hi,
 
-Signed-off-by: Ondrej Jirman <megi@xff.cz>
-Signed-off-by: Aren Moynihan <aren@peacevolution.org>
----
- arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi | 1 +
- 1 file changed, 1 insertion(+)
+> From: Ryan Walklin <ryan@testtoast.com>
+> 
+> The RG35XX-Plus adds a RTL8221CS SDIO Wifi/BT chip to the RG35XX (2024).
+> 
+> Enabled in this DTS:
+> - WiFi
+> - Bluetooth
+> - Supporting power sequence and GPIOs
+> 
+> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+> ---
+>  .../sun50i-h700-anbernic-rg35xx-plus.dts      | 63 +++++++++++++++++++
+>  1 file changed, 63 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dts
+> 
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dts b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dts
+> new file mode 100644
+> index 000000000000..b9a163ed5d0b
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dts
+> @@ -0,0 +1,63 @@
+> +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +/*
+> + * Copyright (C) 2024 Andre Przywara <andre.przywara@arm.com>.
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-index b5a232209f2b..e87bc21db316 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-@@ -250,6 +250,7 @@ light-sensor@48 {
- 		reg = <0x48>;
- 		interrupt-parent = <&pio>;
- 		interrupts = <1 0 IRQ_TYPE_EDGE_FALLING>; /* PB0 */
-+		vdd-supply = <&reg_ldo_io0>;
- 	};
- 
- 	/* Accelerometer/gyroscope */
--- 
-2.44.0
+I don't remember writing anything in here explicitly, so please remove
+this copyright line.
+
+> + * Copyright (C) 2024 Ryan Walklin <ryan@testtoast.com>.
+> + * Copyright (C) 2024 Chris Morgan <macroalpha82@gmail.com>.
+> + */
+> +
+> +/dts-v1/;
+
+That line is already in the file included next, so please remove it
+from here.
+
+> +
+> +#include "sun50i-h700-anbernic-rg35xx-2024.dts"
+> +
+> +/ {
+> +    model = "Anbernic RG35XX Plus";
+> +    compatible = "anbernic,rg35xx-plus", "allwinner,sun50i-h700";
+> +
+> +    wifi_pwrseq: wifi_pwrseq {
+> +        compatible = "mmc-pwrseq-simple";
+> +        clocks = <&rtc CLK_OSC32K_FANOUT>;
+> +        clock-names = "ext_clock";
+> +        pinctrl-0 = <&x32clk_fanout_pin>;
+> +        pinctrl-names = "default";
+> +        post-power-on-delay-ms = <200>;
+> +        reset-gpios = <&pio 6 18 GPIO_ACTIVE_LOW>; /* PG18 */
+> +    };
+> +};
+> +
+> +/* SDIO WiFi RTL8821CS, powered by CLDO4, regon=PG18, hostwake=PG15 */
+> +&mmc1 {
+> +    vmmc-supply = <&reg_cldo4>;
+> +    vqmmc-supply = <&reg_vcc1v8>;
+
+That regulator should then also provide the PIO's vcc-pg-supply. And
+maybe it should be renamed.
+
+> +    mmc-pwrseq = <&wifi_pwrseq>;
+> +    bus-width = <4>;
+> +    non-removable;
+> +    status = "okay";
+> +
+> +    sdio_wifi: wifi@1 {
+> +       reg = <1>;
+> +       interrupt-parent = <&pio>;
+> +       interrupts = <6 15 IRQ_TYPE_LEVEL_LOW>; /* PG15 */
+> +       interrupt-names = "host-wake";
+> +    };
+> +};
+> +
+> +&uart0 {
+> +    pinctrl-names = "default";
+> +    pinctrl-0 = <&uart0_ph_pins>;
+> +    status = "okay";
+> +};
+
+That would be redundant, as the node is already contained in the base
+.dts?
+
+> +
+> +/* Bluetooth RTL8821CS, RST_N: PG19, BT_WAKE: PG17, BT_HOSTWAKE: PG16 */
+> +&uart1 {
+> +    pinctrl-names = "default";
+> +    pinctrl-0 = <&uart1_pins>, <&uart1_rts_cts_pins>;
+> +    uart-has-rtscts;
+> +    status = "okay";
+> +
+> +    bluetooth {
+> +        compatible = "realtek,rtl8821cs-bt", "realtek,rtl8723bs-bt";
+> +        device-wake-gpios = <&pio 6 17 GPIO_ACTIVE_HIGH>;
+> +        enable-gpios = <&pio 6 19 GPIO_ACTIVE_HIGH>;
+> +        host-wake-gpios = <&pio 6 16 GPIO_ACTIVE_HIGH>;
+
+As usual, please add the GPIO names as a comment.
+
+Cheers,
+Andre
+
+> +    };
+> +};
 
