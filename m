@@ -1,60 +1,60 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C449220B34
-	for <linux-sunxi@lists.linux.dev>; Sun, 14 Apr 2024 09:07:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8D3C21A19
+	for <linux-sunxi@lists.linux.dev>; Sun, 14 Apr 2024 09:09:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713085645; cv=none; b=j2JNwL6/obENhCd13+z2sIza+4VvvCy1OxTFgi0yDmTHcVVYWbd4E8abA3W9PTCqHvvIxHdK9BF5ET5bU9WwYeF+8lEW9sJhzuNJXVeTUeSxbWqIp/JDoIf7+1qtYWs51seMpDFTY5CMYL6Azm1lzSqfjINpzNQwnbwRshvWbak=
+	t=1713085770; cv=none; b=T9CYM7n0bbfjTocIyp/wal4bg1kCrSvVxGuz6fmhvB3+OmuyPn5EkjqEN2JdOVOBCoxc9YJAa/M0NCKvMknCCB0vLzJGsu+5y5ZianNyAbrJ0IWoMDNU9Sgv3m5NDyIC6fqYqO8/WgbCVA3jloussCAQ0p28HRngqLZDBQQbo48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713085645; c=relaxed/simple;
-	bh=BjKU5+T5fs+RM9cbIhVQr4EcL4DjffzBvTs4ER4XO3g=;
+	s=arc-20240116; t=1713085770; c=relaxed/simple;
+	bh=Er+CYh9FHJ9mlEBjd/YOvPjUVxvuTJYwdtx5i80ga0w=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DXFt+HhzFZMfshOVXm/FL6DWQe1Kh2/HwRAEOBvM5dBShKron68Mu6tqeq65rUwnbo4BQoZD22OeBwM3wjuGxDJ6bEo5sLzP+RsI69vcHGcxEozql4RWPZYXSy2C1mCbGhbSLupqoMC+jbmfL8pgJ/kkiGyAcaGh+52ir6Wpr1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=owGK2ClT; arc=none smtp.client-ip=209.85.218.46
+	 In-Reply-To:Content-Type; b=ikPIEN3/hJO8iUTdSDEAbuNmXfuL9UkyBkj8dLCH3rqh52Y1kjJJYL6GD+NV0LeJO9w2OiHj02YMUyW1J4RFX7z5TzIQgizEel/flTPdidulOMubN08kKk7BbVsFNjBZnFC4r5JaEhp9CdvJZ2fOw8za8i9+UL1tUKlX6+3SCEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XGtKPzhZ; arc=none smtp.client-ip=209.85.218.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="owGK2ClT"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a51969e780eso294760266b.3
-        for <linux-sunxi@lists.linux.dev>; Sun, 14 Apr 2024 02:07:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XGtKPzhZ"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a51f9ad7684so143037766b.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 14 Apr 2024 02:09:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713085642; x=1713690442; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1713085767; x=1713690567; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y6ICUCQVmIfh08qGekJz3o0+EeQNUcRqwC4WLDD5uz0=;
-        b=owGK2ClTYhhUpJmmTgtxWwn6w3VrOurv6DDtsRV/Wqif5dPdx6iW+GWWCEGsJLkhGC
-         5cR6rY4J3N9Ia2lPUIHF6hj0qguzAUArHZp7VC1bxGthLxgPMMZ79Vd4KLKiWHrH5cWH
-         OsRRyCXT5/o+DVj8qjeyUNdW6qsLMzGy8Vgmogly8MBnsiBtmPZC6bXMctaNhpGKgpEO
-         tbhPnR/MmwQpFeZ61kP55YEIBl6kryVjOLSjNX77crVU5gb+JZxFHXkWhKdYXlSmW+iB
-         r839CxG8aY9o9Oxm7uTrR/Tr77ly/zv2IK8z4hFEyiL9pmctHvxKBxdKDwcdIb0HKkrs
-         kq2w==
+        bh=EMcHcmFyDnJKJzACwsJ4Nm10QcmzyItvyxrTFRQZWIs=;
+        b=XGtKPzhZvyBbDagUUw3J6fjL5FaTKHEbUCs6Hu3DR+dWnUPf+6xZDRWpc+lkmiKN9F
+         2QBfnV82PLvDmqmdwlLPSsN6RHnyEHTx56NeeYlMO53h/HRoWf5KuBjsbiKnFpu5eJaG
+         s0JD0dANyAtZEyajLqAwQC7NqNTUXTsJhIJHs77IaOS2tZolQ3Jx6JOaOMsaXs3Ccc/a
+         89lqZOBkvaSr+Mt47Q/2b7hGsFzJkL/XwRfN0pPz+VyFxA3TVootyVXd2TqSs9ewIEM/
+         6Di1uJ+qrL86LY554sjKBqurH304uPXQcrYE0C6FE2iH30eynvcgw2KaFX0DFJigKbcm
+         4xjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713085642; x=1713690442;
+        d=1e100.net; s=20230601; t=1713085767; x=1713690567;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Y6ICUCQVmIfh08qGekJz3o0+EeQNUcRqwC4WLDD5uz0=;
-        b=kUtRCYWkR+Tifa9U251j6tmNXJj5iqs79KFdbVpXQhG5U+jZQvhMGPSEfWynxbAeoC
-         XnFdJtAvMppoC1s60T7mKPAEjTyeepfAAw+cqNgzo9iLi1sGtme2uUfaZNsUEblcUIX4
-         E33hh1TX+mTZW0641R1MBSXRaqCMgAZ2jUJGgsId2wahBajTQq4YqQyT1GdIZZEOdnIo
-         sCrKAFZKhKD4MB3PBAreT/BqDfAAGTbcHMeA+pHGKGklKHKF/BJZWO5gwsaswSa7ZAcz
-         5Ob9H5JSIN4vIg14+5IvuPDdI9SGQm7EuBg8nA8m5lGYeBrGiJXhGqGSMfSGZey+R2MV
-         Sghw==
-X-Forwarded-Encrypted: i=1; AJvYcCXvCxM58UF/FiKVlKVgL9BEgQ8pPRJx3QjEyN+rfel+qmztNERU6QQd2V+mWCzle0kztzrDF9PYpkAPnxYKa1qY7GMs+KTIRGz7Tzo=
-X-Gm-Message-State: AOJu0YzbdEgEVEjuf+RBYA0Z3s3PYwlRoGLYDHFXGOecELYmUQ52L8lw
-	CGiCIJrRN1smDVG9v6J0ruLqnmR1y8+o9smHDdj1uLY8bXowhUVPSxSxwyDlf/0=
-X-Google-Smtp-Source: AGHT+IGC0zIf0EZf9Sh9GDNtGVe6hYpMrO/aUR00MO5y1rs14KedWXXN9Xt4GTFhLqc9c8E6kUqxyw==
-X-Received: by 2002:a17:907:724b:b0:a52:571c:3d7b with SMTP id ds11-20020a170907724b00b00a52571c3d7bmr1586579ejc.59.1713085641885;
-        Sun, 14 Apr 2024 02:07:21 -0700 (PDT)
+        bh=EMcHcmFyDnJKJzACwsJ4Nm10QcmzyItvyxrTFRQZWIs=;
+        b=u8w2kKvsrVy1BnutCG8N5u12KEsOvnNbyx0iq+Ib3OAlgTZ2dqsnDvFHXvOvJ8rPMQ
+         QaygyiW9dUQLb/BdwQfKJ0+7zqSgZqV82xsBpaSkD3m0dDDVT8xWYdiJegQXSNiZUV6A
+         jqNtL69C9wQItKr1V3HnaTuk6GmLHrdV5aG66u5XDlGciB/ygoeOVwI0fn0FBKiUrwDT
+         x5Fx6L9zOJiJvSGP//268DaV2ZLY9UV7xgyusN0uy1N/ByjOEK611BMy4aByQOdZUdAj
+         3OYAR3L+VjRsOb2/IJa1JqzMDPcYKU++QQFGjuYfenJnDJfaI6geDjoMuXw7jCO3pS+H
+         AasA==
+X-Forwarded-Encrypted: i=1; AJvYcCV7x1rri8V09KRQKRMAXinDGoZ24ZAMquae6z/lhsNxO+nmLZcyhLN6ua1QL4Jwvbbd4hL6BDejpgkgryYYIhFac0rO5IfYvGXpSaA=
+X-Gm-Message-State: AOJu0YxIqtveQeRWFYtCv+MB2RCUigIDyW6lfxDjjjMlvkLzwtqTupda
+	LX3WRy+vPDr5BYWau/fTtITiQWAtPLdu9FJAxbXj0+NlvwF1s0w5JVjn5Pdl4JA=
+X-Google-Smtp-Source: AGHT+IEiyMz7ZxSi4H+tn+AeFl9v/pq801XHekzVA6cf33S2t70746pnPkNOP3pue1Ml6L0cC9PC5A==
+X-Received: by 2002:a50:a6dc:0:b0:570:332:aad3 with SMTP id f28-20020a50a6dc000000b005700332aad3mr4637471edc.39.1713085767048;
+        Sun, 14 Apr 2024 02:09:27 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id gf14-20020a170906e20e00b00a51e6222200sm4000307ejb.156.2024.04.14.02.07.20
+        by smtp.gmail.com with ESMTPSA id w22-20020a170907271600b00a4e48e52ecbsm3961053ejk.198.2024.04.14.02.09.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 14 Apr 2024 02:07:21 -0700 (PDT)
-Message-ID: <78b5de01-150e-4537-b6a6-8ca0067a8359@linaro.org>
-Date: Sun, 14 Apr 2024 11:07:19 +0200
+        Sun, 14 Apr 2024 02:09:26 -0700 (PDT)
+Message-ID: <c615c0b0-3dd4-4bac-8bd5-654fd8a35d0c@linaro.org>
+Date: Sun, 14 Apr 2024 11:09:25 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -62,8 +62,7 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] dt-bindings: arm: sunxi: document Anbernic RG35XX
- handheld gaming device variants
+Subject: Re: [PATCH 2/4] arm64: dts: allwinner: h700: Add RG35XX 2024 DTS
 To: Ryan Walklin <ryan@testtoast.com>, Andre Przywara
  <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>,
  Rob Herring <robh@kernel.org>,
@@ -73,7 +72,7 @@ To: Ryan Walklin <ryan@testtoast.com>, Andre Przywara
  Chris Morgan <macromorgan@hotmail.com>
 Cc: devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev
 References: <20240414083347.131724-2-ryan@testtoast.com>
- <20240414083347.131724-3-ryan@testtoast.com>
+ <20240414083347.131724-5-ryan@testtoast.com>
 Content-Language: en-US
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -120,46 +119,224 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240414083347.131724-3-ryan@testtoast.com>
+In-Reply-To: <20240414083347.131724-5-ryan@testtoast.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 14/04/2024 10:33, Ryan Walklin wrote:
 > From: Ryan Walklin <ryan@testtoast.com>
 > 
-> RG35XX 2024: Base version with Allwinner H700
-> RG35XX Plus: Adds Wifi/BT
-> RG35XX H: Adds second USB port and analog sticks to -Plus in horizontal
->           altered form factor,
+> The base model RG35XX (2024) is a handheld gaming device based on an Allwinner 
+> H700 chip.
+> 
+> The H700 is a H616 variant (4x ARM Cortex-A53 cores @ 1.5Ghz with Mali G31 GPU) 
+> which exposes RGB LCD and NMI pins.
+> 
+> Device features:
+> - Allwinner H700 @ 1.5GHz
+> - 1GB LPDDR4 DRAM
+> - X-Powers AXP717 PMIC
+> - 3.5" 640x480 RGB LCD
+> - Two microSD slots
+> - Mini-HDMI out
+> - GPIO keypad
+> - 3.5mm headphone jack
+> 
+> Enabled in this DTS:
+> - AXP717 PMIC with regulators (interrupt controller TBC/TBD)
+> - Power LED (charge LED on device controlled directly by PMIC)
+> - Serial UART (accessible from PIN headers on the board)
+> - MMC slots
 > 
 > Signed-off-by: Ryan Walklin <ryan@testtoast.com>
 > ---
->  Documentation/devicetree/bindings/arm/sunxi.yaml | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
+>  .../sun50i-h700-anbernic-rg35xx-2024.dts      | 405 ++++++++++++++++++
+>  1 file changed, 405 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
 > 
-> diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
-> index 09d835db6db5..fc10f54561c9 100644
-> --- a/Documentation/devicetree/bindings/arm/sunxi.yaml
-> +++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
-> @@ -56,6 +56,21 @@ properties:
->            - const: anbernic,rg-nano
->            - const: allwinner,sun8i-v3s
->  
-> +      - description: Anbernic RG35XX (2024)
-> +      - items:
-> +          - const: anbernic,rg35xx-2024
-> +          - const: allwinner,sun50i-h700
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
+> new file mode 100644
+> index 000000000000..b4140d450687
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
+> @@ -0,0 +1,405 @@
+> +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +/*
+> + * Copyright (C) 2024 Andre Przywara <andre.przywara@arm.com>.
+> + * Copyright (C) 2024 Ryan Walklin <ryan@testtoast.com>.
+> + * Copyright (C) 2024 Chris Morgan <macroalpha82@gmail.com>.
+> + */
 > +
-> +      - description: Anbernic RG35XX Plus
-> +      - items:
-> +          - const: anbernic,rg35xx-plus
-> +          - const: allwinner,sun50i-h700
+> +/dts-v1/;
 > +
-> +      - description: Anbernic RG35XX H
-> +      - items:
-> +          - const: anbernic,rg35xx-h
+> +#include "sun50i-h616.dtsi"
+> +
+> +#include <dt-bindings/gpio/gpio.h>
+> +#include <dt-bindings/input/linux-event-codes.h>
+> +#include <dt-bindings/interrupt-controller/arm-gic.h>
+> +#include <dt-bindings/leds/common.h>
+> +
+> +/ {
+> +    model = "Anbernic RG35XX 2024";
+> +    compatible = "anbernic,rg35xx-2024", "allwinner,sun50i-h700";
+> +
+> +    aliases {
+> +        mmc0 = &mmc0;
+> +        mmc1 = &mmc2;
+> +        mmc2 = &mmc1;
+> +        serial0 = &uart0;
+> +    };
+> +
+> +    chosen {
+> +        stdout-path = "serial0:115200n8";
+> +    };
+> +
+> +    leds {
+> +        compatible = "gpio-leds";
+> +
+> +        led-0 {
+> +            function = LED_FUNCTION_POWER;
+> +            color = <LED_COLOR_ID_GREEN>;
+> +            gpios = <&pio 8 12 GPIO_ACTIVE_HIGH>; /* PI12 */
+> +            default-state = "on";
+> +        };
+> +    };
+> +
+> +    gpio-keys {
+> +       compatible = "gpio-keys";
+> +
+> +       keyUp {
 
-Any reason these are not just one enum with three entires?
+It does not look like you tested the DTS against bindings. Please run
+`make dtbs_check W=1` (see
+Documentation/devicetree/bindings/writing-schema.rst or
+https://www.linaro.org/blog/tips-and-tricks-for-validating-devicetree-sources-with-the-devicetree-schema/
+for instructions).
+
+No uppercase letters are allowed as node names.
+
+...
+
+> +
+> +        keyVol+ {
+
+Neither this
+
+> +            label = "Key Volume Up";
+> +            gpios = <&pio 4 1 GPIO_ACTIVE_LOW>; /* PE1 */
+> +            linux,input-type = <EV_KEY>;
+> +            linux,code = <KEY_VOLUMEUP>;
+> +        };
+> +
+> +        keyVol- {
+
+Although it is allowed but not consistent and readable.
+
+Node names should be generic. See also an explanation and list of
+examples (not exhaustive) in DT specification:
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+
+
+> +            label = "Key Volume Down";
+> +            gpios = <&pio 4 2 GPIO_ACTIVE_LOW>; /* PE2 */
+> +            linux,input-type = <EV_KEY>;
+> +            linux,code = <KEY_VOLUMEDOWN>;
+> +        };
+> +    };
+> +
+> +    reg_vcc5v: vcc5v {
+
+Use some common reasonable prefix, e.g. regulator
+
+> +        compatible = "regulator-fixed";
+> +        regulator-name = "vcc-5v";
+> +        regulator-always-on;
+> +        regulator-boot-on;
+> +        regulator-min-microvolt = <5000000>;
+> +        regulator-max-microvolt = <5000000>;
+> +    };
+> +
+> +    vcc_5v0_usb: vcc-5v0-usb { /* needs gpios */
+> +            compatible = "regulator-fixed";
+> +            regulator-name = "vcc_5v0_usb";
+> +            regulator-min-microvolt = <5000000>;
+> +            regulator-max-microvolt = <5000000>;
+> +            regulator-always-on;
+> +            regulator-boot-on;
+> +        };
+> +
+> +    reg_vcc3v3: vcc3v3 {
+> +        gpio = <&pio 4 4 GPIO_ACTIVE_HIGH>;
+> +        compatible = "regulator-fixed";
+> +        regulator-name = "vcc-3v3";
+> +        regulator-always-on;
+> +        regulator-boot-on;
+> +        regulator-min-microvolt = <3300000>;
+> +        regulator-max-microvolt = <3300000>;
+> +
+> +    };
+> +
+> +    reg_vcc1v8: vcc1v8 {
+> +        compatible = "regulator-fixed";
+> +        regulator-name = "vcc-1v8";
+> +        regulator-always-on;
+> +        regulator-min-microvolt = <1800000>;
+> +        regulator-max-microvolt = <1800000>;
+> +    };
+> +};
+> +
+> +&cpu0 {
+> +    cpu-supply = <&reg_dcdc1>;
+> +};
+> +
+> +&mmc0 {
+> +    vmmc-supply = <&reg_vcc3v3>;
+> +    disable-wp;
+> +    cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>;  /* PF6 */
+> +    bus-width = <4>;
+> +    status = "okay";
+> +};
+> +
+> +&mmc2 {
+> +    vmmc-supply = <&reg_vcc3v3>;
+> +    vqmmc-supply = <&reg_aldo1>;
+> +    cd-gpios = <&pio 4 22 GPIO_ACTIVE_LOW>; /* PE 22 */
+> +    //cd-gpios = <&pio 4 16 GPIO_ACTIVE_LOW>;  /* PE16 */
+
+Please do not add dead code without explanation.
+
+> +    bus-width = <4>;
+> +    status = "okay";
+> +};
+> +
+> +&ohci0 {
+> +    status = "okay";
+> +};
+> +
+> +&ehci1 {
+> +    status = "okay";
+> +};
+> +
+> +&i2c3 {
+> +    pinctrl-names = "default";
+> +    pinctrl-0 = <&i2c3_ph_pins>;
+> +    status = "okay";
+> +};
+> +
+> +&r_rsb {
+> +   status = "okay";
+> +
+> +   axp717: pmic@3a3 {
+> +       compatible = "x-powers,axp717";
+> +       //interrupt-controller;
+> +       //#interrupt-cells = <1>;
+> +       reg = <0x3a3>;
+> +       //interrupt-parent = <&r_intc>; /* test */
+> +       //interrupts = <0 IRQ_TYPE_LEVEL_LOW>; /* test */
+
+Keep test and dead code outside upstream submission.
+
+
 
 Best regards,
 Krzysztof
