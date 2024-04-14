@@ -1,70 +1,70 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 001992942A
-	for <linux-sunxi@lists.linux.dev>; Sun, 14 Apr 2024 10:45:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1441A22EE9
+	for <linux-sunxi@lists.linux.dev>; Sun, 14 Apr 2024 10:48:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713091506; cv=none; b=W5nX3O6+97ex7xfGOaHHu+WmeO7trT8tB9u6P+ZesGuSiGxptv00gH2JW5j2JXq1jBI6+knZ+8BEPt2F+YXRJxkAYlFAaUOm9TaegnL7NGOJUGvQDkbpHTUl3zAUSP3brCMfTT2df1Ww6Ji9OvCpM18AZ4Idzt/14nolBgJ1EoE=
+	t=1713091703; cv=none; b=cRcl+JLwJdokjTbQe/Aq9A/bknHnHH21W/9PTJNivs085RtNTUDw1HrU00MPtOiIFHcrteH+UVWKzm2FlCXLE07boXbB9kHUYxyefoP87bXwwM1g8dn/5fKdW/LYVx7vjChtqKwEQmqnKD16b1j9ODLFeUfLChsZusP3a7e9Iq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713091506; c=relaxed/simple;
-	bh=gKefZjiMLnYnDg5f1hw1XrCVXNFjprL+Y6b51gkyeJg=;
+	s=arc-20240116; t=1713091703; c=relaxed/simple;
+	bh=ppeZY3dWzDAzZxs0tI8WOxOiEzHzWsZcatHCpGuDVA8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=j1eCR47IxsvHtwjd70Sy0+GJZnEaO40wlCKpOuxH80kpO3gXtQ9O76lvAzdT6HzTQrNB0K2tJZsh9FDPrY0Rl0Z0sotM0BE9FUl1aX4QsxiJTQi43Ij2lUSlFP+ybB/HdHmqBR9jEJEUq9cvS3wzEzcwPYr9pTmDBkLEctlccjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HP3M5jxX; arc=none smtp.client-ip=209.85.208.49
+	 MIME-Version:Content-Type; b=iskWKZ6TRlgrQfHf/QXb/PcMROZcGkUou2EEywUQuxjZrLLwgVufPPGLpu4yFtOFF89yGjXzzEVluVFNw8QkyWdclIjm5Vxawvi9v2EnS25Sm6X1RtB1T2BtRuuf+wZaTjR8A6n3LR9RwsTNMy5lBWsflRdK+gfXoVMH7oGGHMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JhHAMPbE; arc=none smtp.client-ip=209.85.218.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HP3M5jxX"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-56e6a1edecfso3603497a12.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 14 Apr 2024 03:45:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JhHAMPbE"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a521fd786beso289342666b.3
+        for <linux-sunxi@lists.linux.dev>; Sun, 14 Apr 2024 03:48:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713091502; x=1713696302; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1713091700; x=1713696500; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3xCwqQBsSE1kFohvW8vRYJ8QUAAEAfzm2seE0I2e3Rk=;
-        b=HP3M5jxXvUCUEGapfQ2pWhLNyI59uDAFOmup6pYHWSKoEpWVgOVXLQ7nssuo2F/bqr
-         7+Pn/ox87/eqB+1OpH5eDGj7HHO42urBnmqLms+5yYcLjRYYLSZQiSsk5zc1EufbZbDa
-         EI4Owo7cWV0QkYY8wDtzzs3jDiRwKV4/zFW5qQ/BrTwt60ggFrrwOq7qlUgjF711gPuA
-         Ag2H3/PKcjcSFT78VKCu7CqKbKy0SgSzuNdbddDU5Z6tF4EG/uL9aK+rokloFu8YMS8o
-         2GGZOwfgLrclddN5mgoEHEH0YVSR9+hAiPWdp76u/yTAGCw6PjG43bmy2ddcyajyrlX6
-         8BDA==
+        bh=x/mEm9VxMgunJVGx3eWq8zXkvnaXSuLo3RVjgAEd/rI=;
+        b=JhHAMPbEPrDT58iouI3HK0MOC7Q+jyA/ISY6f44RSXrwyfPp/iV5JoE5WCZRslPQqp
+         9aqDIgyyOIU/egOsyE69LUpIpU8exwFBU3ii4S5iM0JuioaxMc0OsPnnXaPohD+nNYc2
+         Ib5QIRyDoTzxlXrNS9rn5P1M/08qaulyn+Ahdb2JcxGi7SfgU1gMNUVBN20PFG0lRYmR
+         Z+fMsyE0AgpTSlYCmq3MDH5cXdbvUa7N/X33wyrqeQQAl51mNQfb84vahTeuuAe5fLHj
+         D1ksUk4KoEpWS58ayufmgmXRFBcOR32fHzuSOIk9XccjS4so2eda69OVPjrG6Fyv4kNy
+         QKKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713091502; x=1713696302;
+        d=1e100.net; s=20230601; t=1713091700; x=1713696500;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3xCwqQBsSE1kFohvW8vRYJ8QUAAEAfzm2seE0I2e3Rk=;
-        b=UHW1iBbQ+beaxOXfEtZN0Uynk+8a45O3yn2KI5mf/Jt0rtxmkRYtBlH/P1zbUz3Ruk
-         scptKA2k1ghMND6iwFIwcAHs7PlA8ZPCTLDToYRkr495jEPrfRdgpbHcOu8nNieNEU3B
-         BNL/U8T+PWEnH2Zt5V4+L2Xx5sPFG7u+E+byX7oytkfipeS1/P8MBlwZ5M2XF8XUPl3t
-         Ib8BFgDQ5zIsRy+WzJNSITzJfbR9gHHhSK+5gmSBn8c+WvOAmZtPeMQbhyWsJn4mT06v
-         OCSgA2ognlS6ElUZvtzdtnOJ8+3ssfeqPVQpB9GxrBE4mafRNJPp1Lme+dm4b+QMj6e6
-         kA0A==
-X-Forwarded-Encrypted: i=1; AJvYcCXrJQhpDwLf5UiSOjhFUTl3yHzCKFcGKZn2g0iz4XlT0KU0bXlK2puEQgEbz6eO9j6fmXU3kMJBY4szsIndHoCdAe6QUOA/xtyB1yM=
-X-Gm-Message-State: AOJu0YxfoQxyk8T9Pr06J3Cps8bNwQ7pXnLpyIrEKHD8KrK5cksCe2Uz
-	qDFZ6YFSW42evBTZ8AwaGv8io6dovFXGLuE0oOlI9EYM45BQdjOq
-X-Google-Smtp-Source: AGHT+IEVRoUirRooWmBfyz2BZBw6j5wd/QGw6EfBvlmUcpDtmjnYZ4b6tAio1XgKgqrBdmiQp3X5Hg==
-X-Received: by 2002:a50:d656:0:b0:56c:5ab5:5fb7 with SMTP id c22-20020a50d656000000b0056c5ab55fb7mr5440500edj.30.1713091502122;
-        Sun, 14 Apr 2024 03:45:02 -0700 (PDT)
+        bh=x/mEm9VxMgunJVGx3eWq8zXkvnaXSuLo3RVjgAEd/rI=;
+        b=q7RXOJhH72ySKqewZZgQ/1rivMt0KTncuy1i4GWwMGcrMriLI6MxSD7RTxaP+ldS6C
+         294a+zBIhi0NVs4LPTkxYTm7erR//65VD3bUNctiwQyeUx4jqwgDK+D1gWG/9wqzEEzw
+         zWE5633F/31rxG02a0IwGNzRmCsmsx+m4FVCQIlgsiWbKuheFpy1mpVUp+0mzJlU+gRI
+         GBuy8IEYI13y7UJBF1vzhaWaSdy6XJ+W5J6FSC9bX9lA7yTd5EEkdUHSxxbgHKL5p6yP
+         rAd+IZsGF0Zqu6aWR5mVWTJayAjqxAeZIOFZw7Z43dUFcO7fJbg1vpOA3xJS/3ggkYVM
+         NSKA==
+X-Forwarded-Encrypted: i=1; AJvYcCUZwJpACW71/2m396RImaWNF29ZVG4UY0SxicRaCcpaDZeA8KEUMFjAue1krNpva8hWS+w9k+uCUdBo2qTA/jus/NPEO1hcWVBDP/M=
+X-Gm-Message-State: AOJu0YxDMHg/v2urDQtdjjT0NSN56C/JNIkngmV0VPFR37VmVoe4K4tr
+	aXmkSio7viza0qRLKLpypE9AL1AJTTiYDHdtbKTClcRXOuB3gUwR
+X-Google-Smtp-Source: AGHT+IHioJIDXt3U+RODv/eSjkVBLxKX703mo9NFte/m+z5JlwQDMaUrTXF1oC/MLZwQ0sZ4qwSY3g==
+X-Received: by 2002:a17:907:7244:b0:a52:3010:af03 with SMTP id ds4-20020a170907724400b00a523010af03mr5152756ejc.5.1713091700187;
+        Sun, 14 Apr 2024 03:48:20 -0700 (PDT)
 Received: from jernej-laptop.localnet (APN-123-252-50-gprs.simobil.net. [46.123.252.50])
-        by smtp.gmail.com with ESMTPSA id k20-20020aa7c054000000b0056ff82e54a0sm2792173edo.31.2024.04.14.03.45.00
+        by smtp.gmail.com with ESMTPSA id cr19-20020a170906d55300b00a46b4c09670sm4070532ejc.131.2024.04.14.03.48.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Apr 2024 03:45:01 -0700 (PDT)
+        Sun, 14 Apr 2024 03:48:19 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Samuel Holland <samuel@sholland.org>,
- Andre Przywara <andre.przywara@arm.com>
-Cc: devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 2/2] arm64: dts: allwinner: Add Tanix TX1 support
-Date: Sun, 14 Apr 2024 12:45:00 +0200
-Message-ID: <3215318.5fSG56mABF@jernej-laptop>
-In-Reply-To: <20240330013243.17943-3-andre.przywara@arm.com>
-References:
- <20240330013243.17943-1-andre.przywara@arm.com>
- <20240330013243.17943-3-andre.przywara@arm.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ John Watts <contact@jookia.org>
+Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ John Watts <contact@jookia.org>
+Subject: Re: [PATCH v2] ASoC: sunxi: sun4i-i2s: Support 32-bit audio formats
+Date: Sun, 14 Apr 2024 12:48:17 +0200
+Message-ID: <1787594.VLH7GnMWUR@jernej-laptop>
+In-Reply-To: <20240403-sunxi_s32-v2-1-29ebf6ad590a@jookia.org>
+References: <20240403-sunxi_s32-v2-1-29ebf6ad590a@jookia.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -74,251 +74,167 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="utf-8"
 
-Hi Andre,
-
-sorry for late reply.
-
-Dne sobota, 30. marec 2024 ob 02:32:43 CEST je Andre Przywara napisal(a):
-> The Tanix TX1 is a tiny TV box with the Allwinner H313 SoC. The box
-> features no Ethernet or an SD card slot, which makes booting from it
-> somewhat interesting: Pressing the hidden FEL button and using a USB-A
-> to USB-A cable to upload code from a host PC is one way to run mainline.
-> The box features:
-> 	- Allwinner H313 SoC (4 * Arm Cortex-A53 cores)
-> 	- 1 or 2 GB DRAM
-> 	- 8 or 16 GB eMMC flash
-> 	- SCI S9082H WiFi chip
-> 	- HDMI port
-> 	- one USB 2.0 port
-> 	- 3.5mm AV port
-> 	- barrel plug 5V DC input via barrel plug
+Dne sreda, 3. april 2024 ob 05:47:35 CEST je John Watts napisal(a):
+> The I2S cores used in the H3 onwards support 32-bit sample rates.
+> Support these by adding a per-variant PCM format list.
 > 
-> The devicetree covers most peripherals.
-> The eMMC did not work properly in HS200 speed mode, so this mode property
-> is omitted. HS-DDR seems to work fine.
-> The blue LED is connected to the same GPIO pin as the red LED, just
-> using the opposite polarity. Apparently there is no way of describing
-> this in DT, so the red LED is omitted.
-> Next to the FEL button is a hidden button, that can be pushed by using
-> something like a paperclip, through the ventilation vents of the case.
-> 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  arch/arm64/boot/dts/allwinner/Makefile        |   1 +
->  .../dts/allwinner/sun50i-h313-tanix-tx1.dts   | 184 ++++++++++++++++++
->  2 files changed, 185 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h313-tanix-tx1.dts
-> 
-> diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
-> index 294921f12b738..c8ac2823677f2 100644
-> --- a/arch/arm64/boot/dts/allwinner/Makefile
-> +++ b/arch/arm64/boot/dts/allwinner/Makefile
-> @@ -39,6 +39,7 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-pine-h64.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-pine-h64-model-b.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6-mini.dtb
-> +dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h313-tanix-tx1.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-bigtreetech-cb1-manta.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-bigtreetech-pi.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-orangepi-zero2.dtb
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h313-tanix-tx1.dts b/arch/arm64/boot/dts/allwinner/sun50i-h313-tanix-tx1.dts
-> new file mode 100644
-> index 0000000000000..622f4290057a8
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h313-tanix-tx1.dts
-> @@ -0,0 +1,184 @@
-> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> +/*
-> + * Copyright (C) 2024 Arm Ltd.
-> + */
-> +
-> +/dts-v1/;
-> +
-> +#include "sun50i-h616.dtsi"
-> +#include "sun50i-h616-cpu-opp.dtsi"
+> Signed-off-by: John Watts <contact@jookia.org>
 
-Above include doesn't exist yet. Once removed:
-
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
 
+> ---
+> This patch enables support for 32-bit audio in the sunxi I2S driver.
+> 
+> I have only tested this on the Allwinner T113 but I'm fairly
+> certain it will work on older boards.
+> ---
+> Changes in v2:
+> - Specify PCM formats for each variant instead of failing in hw_params
+> - Link to v1: https://lore.kernel.org/r/20240326-sunxi_s32-v1-1-899f71dcb1e6@jookia.org
+> ---
+>  sound/soc/sunxi/sun4i-i2s.c | 33 ++++++++++++++++++++++++++++-----
+>  1 file changed, 28 insertions(+), 5 deletions(-)
+> 
+> diff --git a/sound/soc/sunxi/sun4i-i2s.c b/sound/soc/sunxi/sun4i-i2s.c
+> index a736f632bf0b..59830f2a0d30 100644
+> --- a/sound/soc/sunxi/sun4i-i2s.c
+> +++ b/sound/soc/sunxi/sun4i-i2s.c
+> @@ -156,6 +156,7 @@ struct sun4i_i2s;
+>  /**
+>   * struct sun4i_i2s_quirks - Differences between SoC variants.
+>   * @has_reset: SoC needs reset deasserted.
+> + * @pcm_formats: available PCM formats
+>   * @reg_offset_txdata: offset of the tx fifo.
+>   * @sun4i_i2s_regmap: regmap config to use.
+>   * @field_clkdiv_mclk_en: regmap field to enable mclk output.
+> @@ -175,6 +176,7 @@ struct sun4i_i2s;
+>   */
+>  struct sun4i_i2s_quirks {
+>  	bool				has_reset;
+> +	snd_pcm_format_t		pcm_formats;
+>  	unsigned int			reg_offset_txdata;	/* TX FIFO */
+>  	const struct regmap_config	*sun4i_i2s_regmap;
+>  
+> @@ -1092,8 +1094,18 @@ static int sun4i_i2s_dai_probe(struct snd_soc_dai *dai)
+>  	return 0;
+>  }
+>  
+> +static int sun4i_i2s_dai_startup(struct snd_pcm_substream *sub, struct snd_soc_dai *dai)
+> +{
+> +	struct sun4i_i2s *i2s = snd_soc_dai_get_drvdata(dai);
+> +	struct snd_pcm_runtime *runtime = sub->runtime;
 > +
-> +#include <dt-bindings/gpio/gpio.h>
-> +#include <dt-bindings/interrupt-controller/arm-gic.h>
-> +#include <dt-bindings/input/linux-event-codes.h>
-> +#include <dt-bindings/leds/common.h>
+> +	return snd_pcm_hw_constraint_mask64(runtime, SNDRV_PCM_HW_PARAM_FORMAT,
+> +					    i2s->variant->pcm_formats);
+> +}
 > +
-> +/ {
-> +	model = "Tanix TX1";
-> +	compatible = "oranth,tanix-tx1", "allwinner,sun50i-h616";
+>  static const struct snd_soc_dai_ops sun4i_i2s_dai_ops = {
+>  	.probe		= sun4i_i2s_dai_probe,
+> +	.startup	= sun4i_i2s_dai_startup,
+>  	.hw_params	= sun4i_i2s_hw_params,
+>  	.set_fmt	= sun4i_i2s_set_fmt,
+>  	.set_sysclk	= sun4i_i2s_set_sysclk,
+> @@ -1101,9 +1113,10 @@ static const struct snd_soc_dai_ops sun4i_i2s_dai_ops = {
+>  	.trigger	= sun4i_i2s_trigger,
+>  };
+>  
+> -#define SUN4I_FORMATS	(SNDRV_PCM_FMTBIT_S16_LE | \
+> -			 SNDRV_PCM_FMTBIT_S20_LE | \
+> -			 SNDRV_PCM_FMTBIT_S24_LE)
+> +#define SUN4I_FORMATS_ALL (SNDRV_PCM_FMTBIT_S16_LE | \
+> +			   SNDRV_PCM_FMTBIT_S20_LE | \
+> +			   SNDRV_PCM_FMTBIT_S24_LE | \
+> +			   SNDRV_PCM_FMTBIT_S32_LE)
+>  
+>  static struct snd_soc_dai_driver sun4i_i2s_dai = {
+>  	.capture = {
+> @@ -1111,14 +1124,14 @@ static struct snd_soc_dai_driver sun4i_i2s_dai = {
+>  		.channels_min = 1,
+>  		.channels_max = 8,
+>  		.rates = SNDRV_PCM_RATE_8000_192000,
+> -		.formats = SUN4I_FORMATS,
+> +		.formats = SUN4I_FORMATS_ALL,
+>  	},
+>  	.playback = {
+>  		.stream_name = "Playback",
+>  		.channels_min = 1,
+>  		.channels_max = 8,
+>  		.rates = SNDRV_PCM_RATE_8000_192000,
+> -		.formats = SUN4I_FORMATS,
+> +		.formats = SUN4I_FORMATS_ALL,
+>  	},
+>  	.ops = &sun4i_i2s_dai_ops,
+>  	.symmetric_rate = 1,
+> @@ -1340,8 +1353,12 @@ static int sun4i_i2s_runtime_suspend(struct device *dev)
+>  	return 0;
+>  }
+>  
+> +#define SUN4I_FORMATS_A10 (SUN4I_FORMATS_ALL & ~SNDRV_PCM_FMTBIT_S32_LE)
+> +#define SUN4I_FORMATS_H3 SUN4I_FORMATS_ALL
 > +
-> +	aliases {
-> +		serial0 = &uart0;
-> +		ethernet0 = &sdio_wifi;
-> +	};
-> +
-> +	chosen {
-> +		stdout-path = "serial0:115200n8";
-> +	};
-> +
-> +	gpio-keys {
-> +		compatible = "gpio-keys";
-> +
-> +		key {
-> +			label = "hidden";
-> +			linux,code = <BTN_0>;
-> +			gpios = <&pio 7 9 GPIO_ACTIVE_LOW>; /* PH9 */
-> +		};
-> +	};
-> +
-> +	leds {
-> +		compatible = "gpio-leds";
-> +
-> +		led-0 {
-> +			function = LED_FUNCTION_POWER;
-> +			color = <LED_COLOR_ID_BLUE>;
-> +			gpios = <&pio 7 6 GPIO_ACTIVE_HIGH>; /* PH6 */
-> +			default-state = "on";
-> +		};
-> +	};
-> +
-> +	wifi_pwrseq: pwrseq {
-> +		compatible = "mmc-pwrseq-simple";
-> +		clocks = <&rtc CLK_OSC32K_FANOUT>;
-> +		clock-names = "ext_clock";
-> +		pinctrl-0 = <&x32clk_fanout_pin>;
-> +		pinctrl-names = "default";
-> +		reset-gpios = <&pio 6 18 GPIO_ACTIVE_LOW>; /* PG18 */
-> +	};
-> +
-> +	reg_vcc5v: vcc5v {
-> +		/* board wide 5V supply directly from the DC input */
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "vcc-5v";
-> +		regulator-min-microvolt = <5000000>;
-> +		regulator-max-microvolt = <5000000>;
-> +		regulator-always-on;
-> +	};
-> +};
-> +
-> +&cpu0 {
-> +	cpu-supply = <&reg_dcdc2>;
-> +};
-> +
-> +&ehci0 {
-> +	status = "okay";
-> +};
-> +
-> +&ir {
-> +	status = "okay";
-> +};
-> +
-> +&mmc1 {
-> +	vmmc-supply = <&reg_dldo1>;
-> +	vqmmc-supply = <&reg_aldo1>;
-> +	mmc-pwrseq = <&wifi_pwrseq>;
-> +	bus-width = <4>;
-> +	non-removable;
-> +	status = "okay";
-> +
-> +	sdio_wifi: wifi@1 {
-> +		reg = <1>;
-> +	};
-> +};
-> +
-> +&mmc2 {
-> +	vmmc-supply = <&reg_dldo1>;
-> +	vqmmc-supply = <&reg_aldo1>;
-> +	bus-width = <8>;
-> +	non-removable;
-> +	max-frequency = <100000000>;
-> +	cap-mmc-hw-reset;
-> +	mmc-ddr-1_8v;
-> +	status = "okay";
-> +};
-> +
-> +&ohci0 {
-> +	status = "okay";
-> +};
-> +
-> +&pio {
-> +	vcc-pc-supply = <&reg_aldo1>;
-> +	vcc-pf-supply = <&reg_dldo1>;
-> +	vcc-pg-supply = <&reg_aldo1>;
-> +	vcc-ph-supply = <&reg_dldo1>;
-> +	vcc-pi-supply = <&reg_dldo1>;
-> +};
-> +
-> +&r_i2c {
-> +	status = "okay";
-> +
-> +	axp313: pmic@36 {
-> +		compatible = "x-powers,axp313a";
-> +		reg = <0x36>;
-> +		#interrupt-cells = <1>;
-> +		interrupt-controller;
-> +
-> +		vin1-supply = <&reg_vcc5v>;
-> +		vin2-supply = <&reg_vcc5v>;
-> +		vin3-supply = <&reg_vcc5v>;
-> +
-> +		regulators {
-> +			/* Supplies VCC-PLL, so needs to be always on. */
-> +			reg_aldo1: aldo1 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <1800000>;
-> +				regulator-max-microvolt = <1800000>;
-> +				regulator-name = "vcc1v8";
-> +			};
-> +
-> +			/* Supplies VCC-IO, so needs to be always on. */
-> +			reg_dldo1: dldo1 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <3300000>;
-> +				regulator-max-microvolt = <3300000>;
-> +				regulator-name = "vcc3v3";
-> +			};
-> +
-> +			reg_dcdc1: dcdc1 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <810000>;
-> +				regulator-max-microvolt = <990000>;
-> +				regulator-name = "vdd-gpu-sys";
-> +			};
-> +
-> +			reg_dcdc2: dcdc2 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <810000>;
-> +				regulator-max-microvolt = <1120000>;
-> +				regulator-name = "vdd-cpu";
-> +			};
-> +
-> +			reg_dcdc3: dcdc3 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <1200000>;
-> +				regulator-max-microvolt = <1200000>;
-> +				regulator-name = "vdd-dram";
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&uart0 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&uart0_ph_pins>;
-> +	status = "okay";
-> +};
-> +
-> +&usbotg {
-> +	dr_mode = "host";       /* USB A type receptable */
-> +	status = "okay";
-> +};
-> +
-> +&usbphy {
-> +	status = "okay";
-> +};
+>  static const struct sun4i_i2s_quirks sun4i_a10_i2s_quirks = {
+>  	.has_reset		= false,
+> +	.pcm_formats		= SUN4I_FORMATS_A10,
+>  	.reg_offset_txdata	= SUN4I_I2S_FIFO_TX_REG,
+>  	.sun4i_i2s_regmap	= &sun4i_i2s_regmap_config,
+>  	.field_clkdiv_mclk_en	= REG_FIELD(SUN4I_I2S_CLK_DIV_REG, 7, 7),
+> @@ -1360,6 +1377,7 @@ static const struct sun4i_i2s_quirks sun4i_a10_i2s_quirks = {
+>  
+>  static const struct sun4i_i2s_quirks sun6i_a31_i2s_quirks = {
+>  	.has_reset		= true,
+> +	.pcm_formats		= SUN4I_FORMATS_A10,
+>  	.reg_offset_txdata	= SUN4I_I2S_FIFO_TX_REG,
+>  	.sun4i_i2s_regmap	= &sun4i_i2s_regmap_config,
+>  	.field_clkdiv_mclk_en	= REG_FIELD(SUN4I_I2S_CLK_DIV_REG, 7, 7),
+> @@ -1383,6 +1401,7 @@ static const struct sun4i_i2s_quirks sun6i_a31_i2s_quirks = {
+>   */
+>  static const struct sun4i_i2s_quirks sun8i_a83t_i2s_quirks = {
+>  	.has_reset		= true,
+> +	.pcm_formats		= SUN4I_FORMATS_A10,
+>  	.reg_offset_txdata	= SUN8I_I2S_FIFO_TX_REG,
+>  	.sun4i_i2s_regmap	= &sun4i_i2s_regmap_config,
+>  	.field_clkdiv_mclk_en	= REG_FIELD(SUN4I_I2S_CLK_DIV_REG, 7, 7),
+> @@ -1401,6 +1420,7 @@ static const struct sun4i_i2s_quirks sun8i_a83t_i2s_quirks = {
+>  
+>  static const struct sun4i_i2s_quirks sun8i_h3_i2s_quirks = {
+>  	.has_reset		= true,
+> +	.pcm_formats		= SUN4I_FORMATS_H3,
+>  	.reg_offset_txdata	= SUN8I_I2S_FIFO_TX_REG,
+>  	.sun4i_i2s_regmap	= &sun8i_i2s_regmap_config,
+>  	.field_clkdiv_mclk_en	= REG_FIELD(SUN4I_I2S_CLK_DIV_REG, 8, 8),
+> @@ -1419,6 +1439,7 @@ static const struct sun4i_i2s_quirks sun8i_h3_i2s_quirks = {
+>  
+>  static const struct sun4i_i2s_quirks sun50i_a64_codec_i2s_quirks = {
+>  	.has_reset		= true,
+> +	.pcm_formats		= SUN4I_FORMATS_H3,
+>  	.reg_offset_txdata	= SUN8I_I2S_FIFO_TX_REG,
+>  	.sun4i_i2s_regmap	= &sun4i_i2s_regmap_config,
+>  	.field_clkdiv_mclk_en	= REG_FIELD(SUN4I_I2S_CLK_DIV_REG, 7, 7),
+> @@ -1437,6 +1458,7 @@ static const struct sun4i_i2s_quirks sun50i_a64_codec_i2s_quirks = {
+>  
+>  static const struct sun4i_i2s_quirks sun50i_h6_i2s_quirks = {
+>  	.has_reset		= true,
+> +	.pcm_formats		= SUN4I_FORMATS_H3,
+>  	.reg_offset_txdata	= SUN8I_I2S_FIFO_TX_REG,
+>  	.sun4i_i2s_regmap	= &sun50i_h6_i2s_regmap_config,
+>  	.field_clkdiv_mclk_en	= REG_FIELD(SUN4I_I2S_CLK_DIV_REG, 8, 8),
+> @@ -1455,6 +1477,7 @@ static const struct sun4i_i2s_quirks sun50i_h6_i2s_quirks = {
+>  
+>  static const struct sun4i_i2s_quirks sun50i_r329_i2s_quirks = {
+>  	.has_reset		= true,
+> +	.pcm_formats		= SUN4I_FORMATS_H3,
+>  	.reg_offset_txdata	= SUN8I_I2S_FIFO_TX_REG,
+>  	.sun4i_i2s_regmap	= &sun50i_h6_i2s_regmap_config,
+>  	.field_clkdiv_mclk_en	= REG_FIELD(SUN4I_I2S_CLK_DIV_REG, 8, 8),
+> 
+> ---
+> base-commit: 13227c2baa6b345451128828c9c2b0ec3868bd0d
+> change-id: 20240326-sunxi_s32-f2ab25b8e688
+> 
+> Best regards,
 > 
 
 
