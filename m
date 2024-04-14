@@ -1,52 +1,54 @@
-Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2BD21353F2
-	for <linux-sunxi@lists.linux.dev>; Sun, 14 Apr 2024 17:04:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DC2E135416
+	for <linux-sunxi@lists.linux.dev>; Sun, 14 Apr 2024 17:04:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713114273; cv=none; b=p4oj7lxlsXmAnPeetShbMSzSfHoehTOaNqZaoWY6ILE7UsvZfLdO4aIrSz4a0DFP0Gl0iZ+kcu8AfWLKpp1BeUVWkm4Hf17ovSEt8uEERTLhbmkt1HOaWN8rd15Y/kP+E4/U3dCbG1gwkBf2EK5Nh5uc8wP4yA/KI9epCjC9wSI=
+	t=1713114273; cv=none; b=tXIooDn86t9v8x+hxrhL7WLCgdblrgJhl++akKVHuGsJOtdhx+YZejhnp6/Gas+8yottvtFroeX6a/bU1u8r4qj4JTEtgVUCK9GgPJgLsbGYRZWxrTuJVOKI4YPQG8I7kS2gxglqxlvzd90tucO6hVOmDE8cb1IniPcFNtmEMxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1713114273; c=relaxed/simple;
-	bh=KDEOtLvgj0Gs+rRWctvmMVAUHK65DzeB1xCcVbmAjag=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NOJejiuOkDW8FNKF/BgaS4vb5aYcx6OQYjXdgu9AG7GMzqXBtGtGe44pbChz2BXDjkf9mrSiVThzcuSoL4K1oV853PPBy2ufLpzXyBax4BxXa6BkE2sMJ2HKy+eBtZs0zFDGLQT59BlDumRgDQDw/oYs1YrEnQQxp64IVxn71fQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nR/mNxvI; arc=none smtp.client-ip=209.85.161.51
+	bh=YXEhGNpa8oVZCHl0FfxNlp2mxTKh3u0+yGXfKdOS484=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=SrcNfvsChDcsa/EcIHGBT43964JDKv0oYTQxNS1xQ2DWXibaFH6n87GRbAUAby/t9/Th8Ky6QZI+/lS0qI2acibuo+s1St5i88Zfxwpsjl0DCa6O1NfohvL35Vf0iZD6SxoOdMcaIRUGH8GYUVDItFwzAgMNIcH6b2H8QhbNdh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i1p1s301; arc=none smtp.client-ip=209.85.160.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nR/mNxvI"
-Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-5aa2a74c238so2024953eaf.3
-        for <linux-sunxi@lists.linux.dev>; Sun, 14 Apr 2024 10:04:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i1p1s301"
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-23333ef4a02so1856090fac.1
+        for <linux-sunxi@lists.linux.dev>; Sun, 14 Apr 2024 10:04:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713114270; x=1713719070; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nEG6ZdeQXXzDaGLwOjwiQASB3UlmfQSpzsMzWbm05Uw=;
-        b=nR/mNxvIoMfX7MrOPq4coK9PtOBhp7G1OcjEu1ou1/OkIgvZbY2I/7kLQTpMmOth5w
-         jm0TTHeX69iZIAhbuUwgkripmxIkgKGp69Xd91oaJuKQSogBtTdn8mHvt1ndp1s4jqQz
-         gfchMa4/Bd4aIjy3FAkla3snoyrFkKgAwSJo2HvBhBBcZDXS4oKAF+Ib/6KGwN0KJ9r4
-         pLJpm0+yDFVeKCvbTfWwmX1NS1LFHasvm4+Zj3AK3J2r8zygA0B/J14uvixCe5zZD49Y
-         pe+uJEuXChrv1TmSHgsiVJbsWuamQn9x4T7WtSxA1Z+QwZCWlq7gI/rSvXBLz1eCE7EM
-         H/3g==
+        d=gmail.com; s=20230601; t=1713114271; x=1713719071; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ObHT27lXyT21SeDfjBZd+Drh/cmeSjfTZH9a8XBTyDk=;
+        b=i1p1s301HVmnRBZaR25TxqdtooCLHSFbiV6xUeQLqZ3tpHYcV9ozQqu0jQi19a7Tue
+         uP3RZZGaK6XhhEW0H/HeMXmkJgbpyhHrsndRjGF5IKoQiimo2qyABHvglHfOc32X1fQY
+         8ARrG0b/vLTQv5a9TRRT5Jfei5wClQ2lMMnwY7oOpZKr1TR0BJYoRDpV+YVcJWyZOAJb
+         l1satr52Jm31CAYnGN3+QA/2q+zhS+beKKxAEw/+OtSBKY5k3XXzrC9nJ3yjBpWoo1nw
+         TQw4EML6rYFPfbnISCOdrO/Uekpz60tQ0CaAlFqLh+mzhctAQ3iqYFqYCG/5o0ABV16g
+         ne4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713114270; x=1713719070;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nEG6ZdeQXXzDaGLwOjwiQASB3UlmfQSpzsMzWbm05Uw=;
-        b=EMRlDniU+x4nSq32OE9zMKIiLFhJRuinPYdOHW0SU0Hs2PeftDixdS72IjoLcUkLsf
-         JBYb9xsq294QSoC67CY37wA/MDRiBnqXduFMlE3YqE7rWU17Iw62TFRmGoKGsBWRrWMs
-         qJEtq7F+oKEuX9u9ZH1Fut9Y8g00+TqP9kTMNF21W7JetJSivomX1O7ZR/qxfAll43N5
-         +jK10vus6G9ALa7hIlKvg8FJa14G4UvFGCRWVfWc6FcNrqhvbnEtUMdnIa2XdUfZ2f8B
-         eRUwz84LOT1yZcbZDWN1DsZhbNo2xRAEiXzB/U1f3IsExYOSInL3aZDxEL55a5JH02mZ
-         TKug==
-X-Gm-Message-State: AOJu0Yy+xofP2sDErfvd0q5JuMFA0YSc5m/6ocY86zagFW9/BSnv5Uby
-	GHpWelSQkTJFQL+KcEVDl/ZI1IpRYy19XnFFjFCosS7xvAhqpQ7Nwn1F/g==
-X-Google-Smtp-Source: AGHT+IF7sVlNh3TJf1SIwxZWr0CkMVJdgNNAJu9f0fI2N2s1HihoD7giU//FZLDClk1FSOhkMdicwg==
-X-Received: by 2002:a05:6870:f212:b0:22e:d463:3b53 with SMTP id t18-20020a056870f21200b0022ed4633b53mr9887531oao.11.1713114270594;
-        Sun, 14 Apr 2024 10:04:30 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1713114271; x=1713719071;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ObHT27lXyT21SeDfjBZd+Drh/cmeSjfTZH9a8XBTyDk=;
+        b=vvudikSbN1qIxS3ppmxb2paRRWamzO89mBiK0K/+KuJswykYC4gxq8LR6kM6/8Y9k6
+         zaKx4NQDs4L7F0OyKI0Rg0rv4zZ/yo2/f6GrpRXHL4Bf85kMC4GjdN2cVfozyBn/oiTj
+         yG9QqoXl7ctJt+Edj5TcLshD0Ih2z8emAB5Ew0ccsDG9XGDZpmRu8K69xMAOtc0g83v7
+         If75eTyF51ewjeprMOrcOFJAyWg2OGrIMS6OCDH7EUrmKWAZLjXkZ5u4Lfu7eLraWkRr
+         vKoueAi/K6Xbl2IKJtmRSKusOagd6cQtChfLmWzMjdFh7qlxG680cnjzXU6XYi8AScjp
+         SBKQ==
+X-Gm-Message-State: AOJu0YxxYoZPtsGvXBHPropEJlaqD5Igp0G5LGjxR4QFmpyfzbMWn3vz
+	oTWSrjjG0n0a28UOKs2oG7ypOkgRR0nb9XPwmWtk3qTa5kTxqu6LGMmsow==
+X-Google-Smtp-Source: AGHT+IGulgtVmD+J6yZHBmrF/AJ2RUPz+S9JKsazKmLP1Xptfx5fMuizk6xi2AeTV6L247wkQ9k4ig==
+X-Received: by 2002:a05:6871:c418:b0:22e:8868:af8a with SMTP id ch24-20020a056871c41800b0022e8868af8amr5348022oac.31.1713114271359;
+        Sun, 14 Apr 2024 10:04:31 -0700 (PDT)
 Received: from localhost.localdomain ([75.28.21.198])
-        by smtp.gmail.com with ESMTPSA id mv5-20020a056871d04500b002338e2146f8sm1585305oac.17.2024.04.14.10.04.29
+        by smtp.gmail.com with ESMTPSA id mv5-20020a056871d04500b002338e2146f8sm1585305oac.17.2024.04.14.10.04.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sun, 14 Apr 2024 10:04:30 -0700 (PDT)
 From: Chris Morgan <macroalpha82@gmail.com>
@@ -61,10 +63,12 @@ Cc: devicetree@vger.kernel.org,
 	robh@kernel.org,
 	ryan@testtoast.com,
 	Chris Morgan <macromorgan@hotmail.com>
-Subject: [PATCH 0/2] Allwinner H616 NMI Controller
-Date: Sun, 14 Apr 2024 12:04:22 -0500
-Message-Id: <20240414170424.614921-1-macroalpha82@gmail.com>
+Subject: [PATCH 1/2] dt-bindings: irq: sun7i-nmi: Add binding for the H616 NMI controller
+Date: Sun, 14 Apr 2024 12:04:23 -0500
+Message-Id: <20240414170424.614921-2-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240414170424.614921-1-macroalpha82@gmail.com>
+References: <20240414170424.614921-1-macroalpha82@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -75,18 +79,28 @@ Content-Transfer-Encoding: 8bit
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-Add support for the Allwinner H616 NMI controller, which appears to be
-common IP with previous generations of the NMI. The NMI is required to
-support interrupts from the PMIC among other functions.
+Add binding for the H616 NMI controller. This is necessary to handle
+interrupts from devices such as the internal PMIC.
 
-Chris Morgan (2):
-  dt-bindings: irq: sun7i-nmi: Add binding for the H616 NMI controller
-  arm64: dts: allwinner: h616: Add NMI device node
+Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+---
+ .../interrupt-controller/allwinner,sun7i-a20-sc-nmi.yaml       | 3 +++
+ 1 file changed, 3 insertions(+)
 
- .../interrupt-controller/allwinner,sun7i-a20-sc-nmi.yaml | 3 +++
- arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi           | 9 +++++++++
- 2 files changed, 12 insertions(+)
-
+diff --git a/Documentation/devicetree/bindings/interrupt-controller/allwinner,sun7i-a20-sc-nmi.yaml b/Documentation/devicetree/bindings/interrupt-controller/allwinner,sun7i-a20-sc-nmi.yaml
+index 83603180d8d9..4fc8b0320a31 100644
+--- a/Documentation/devicetree/bindings/interrupt-controller/allwinner,sun7i-a20-sc-nmi.yaml
++++ b/Documentation/devicetree/bindings/interrupt-controller/allwinner,sun7i-a20-sc-nmi.yaml
+@@ -32,6 +32,9 @@ properties:
+       - items:
+           - const: allwinner,sun50i-a100-nmi
+           - const: allwinner,sun9i-a80-nmi
++      - items:
++          - const: allwinner,sun50i-h616-nmi
++          - const: allwinner,sun9i-a80-nmi
+ 
+   reg:
+     maxItems: 1
 -- 
 2.34.1
 
