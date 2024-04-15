@@ -1,57 +1,57 @@
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2452E15666D
-	for <linux-sunxi@lists.linux.dev>; Mon, 15 Apr 2024 19:34:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C733D15E81D
+	for <linux-sunxi@lists.linux.dev>; Mon, 15 Apr 2024 19:34:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713209692; cv=none; b=TZtFOYvkXTZ/DjGLVjdcTn1/g1tB3m3PFP3wUR2bPqFtWJcrER1XpN+7xPTgrVeIi3oce0OS5u+W/gi/gyXS7eNo8bYGAwy9V3bIC18SxLdyewwJucRVs1lROuwouc8Gus4W1hnPVcUw8txb9BL59+vox6WBHVPwAtj685RUPC4=
+	t=1713209692; cv=none; b=ZiPGXQncTXi8mOfDMRQ9n0wKw5vCZtH+fZ7TTr/UYzbJTdRdwClo0g6tb55ztCxq69ngO72bT3nk8KrcO4mZ948VZd5bfS2EtUDe9sXuTiVKCStV0r1hqi5BFI9lFXp0+LHIvyJA+89ptDkkHV7ku6ir6IBooM1yf/asZ9+0V0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1713209692; c=relaxed/simple;
-	bh=CPsjhfr0ipRuyWvLekJtBUPBvfW5sC455CD/yQi18EY=;
+	bh=5czmFQc+cySSmdxDIBdAfSO4i/5SM7lXKFqgjNNlUHc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=jb3AdLK9EMLNx3TMTx6vA16Vg4gpaVn6cPIdbB2cNykHq11UOyVbfzhLhFhHMgJa9kiLRPjgccX1w50f1Mk+QnX2UXfUceGSi3FS8EujWEyewSEVNOrLN1LhK2uewvVY1pa+LEj4IyJCzq/biB/74Bb/eHXFMp79jteA1zizkjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=XQsnLXZv; arc=none smtp.client-ip=209.85.128.178
+	 In-Reply-To:To:Cc; b=CV2EPyFtRF7erPjoog+brM7NsETH2Sk/zgkZ1vGOQVmXQ9PbFY+6rm8AR0HAsdPHE463bR0uOjpXa9+1qj6Ih95x5Ape5T3xeMzhUy8ryvQav+QOr9q4RJXFn2ot/WWBwfNEduowbiclN1TjURIfV/hTf6oK4xtO3mJXFQX/qa8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=X4kNluV6; arc=none smtp.client-ip=209.85.222.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XQsnLXZv"
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-61ac45807cbso13624157b3.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 15 Apr 2024 12:34:48 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="X4kNluV6"
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-78edc3ad5fdso160183785a.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 15 Apr 2024 12:34:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1713209688; x=1713814488; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1713209689; x=1713814489; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=VYb6g5i4FA16yMs6Dul0lviXONeB+8pR0V9zyRVb51o=;
-        b=XQsnLXZvzqdcKi8qVYyJWxUCL3oWTiDICTvavscBgVk2qQQzy6oX91jqu1f08ucRuy
-         ySjKAw/NgGcKGr4mxhlWuyg3fYcNNZxpcEi/Uj8KD44ApWxp/0LS7F/qJ5OalDJKqBkE
-         5e2JUHEvHSQLGUKbAo63122i7iyoQ106LRJGc=
+        bh=Ysx9uvN3ilBy5tFwit8pBZpHwFo890jKkO1ecScbT94=;
+        b=X4kNluV6/jykuWlzWc1woxqg6+OBigBANV8QMPMBtVs4DLVaMl5oClj6nl2Q4E4l3U
+         VzItva3/8RQbbrC48yuwDzqJ2AdAJzPLi6D2OAvchWPeKK+B5NpO/gVU/FfckwoGE0Kd
+         zy+SnVTukRa5qNOBO7pNpHWMJNv91rJTiiPy4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713209688; x=1713814488;
+        d=1e100.net; s=20230601; t=1713209689; x=1713814489;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VYb6g5i4FA16yMs6Dul0lviXONeB+8pR0V9zyRVb51o=;
-        b=VcxtFeGo2sM3Lnq9S+LosfLmq9AxF8wH40ly48Z8iTxnIoGWCYvtGEM4foHhkarrGM
-         EAE/QpnHEEsBJlZBT13XUmFjEV3PBBxxvD4M1vxdrkOBF9AnMnVCPSHr5R1J3WIV9/NF
-         VYrHo1LiBpF3H0f7iSnLzffeorW3+dzdTbi0RcWoql0fTKL5gFjKH/rZMXNfnMeYOPL0
-         TO/CyWLh2r3nY4pdC0WmeKNA8x+SF8DZLO6dZt4uGRxdv++aV/+eeyVUrkhwcK8E9Fzz
-         P6Z9zgV9K1IoNMX2ZHUSFJkM1fPUELOI+761YecscYQaB+wWd2sM9a8UNvqFHLcxf5+5
-         6TCw==
-X-Forwarded-Encrypted: i=1; AJvYcCX70NbNfxCmQiIk9JQ+gaKbDuQ7KcwKeY6sIY7LSrYUXMtOZJNAu+5kM/jZh53A2vsUIxN/Bx71X8RhRTvU6gMCUjbor8h+De2i1/w=
-X-Gm-Message-State: AOJu0YyrisnE4emJig0DCwWRgfg29MdaueGk3yzkhaFH52oTPpRm4ALl
-	CDDWJJapy5YVjBHhXkHXLolVH72PVpq+zhoheQx6dvnAtJmvOqeYWSctBcQasA==
-X-Google-Smtp-Source: AGHT+IHXF7TrtarHgpunekvNDs6nvd1JJs+Lc0bh8dwb/yJrFpFk4KNuzD4FvIVwGteAAQA7ZBlIRw==
-X-Received: by 2002:a0d:cd01:0:b0:618:875e:2bc1 with SMTP id p1-20020a0dcd01000000b00618875e2bc1mr8806798ywd.21.1713209686523;
-        Mon, 15 Apr 2024 12:34:46 -0700 (PDT)
+        bh=Ysx9uvN3ilBy5tFwit8pBZpHwFo890jKkO1ecScbT94=;
+        b=GGyzFloiqaeJwsYkK07M75G3yGTRu28F0E9PvQAT/ZT870rGEuJk1OSGmJvyekly1a
+         0L+lIAng9+JLeHscQDyPNxruXRKQHRpiGcd/XLrdDnYzF9w1Lo3qPyyE3QufINcOeYp6
+         ysv+2BvswUAHSpU9s0iamQo5fK9jWD6tiiNlWnZ2TAUa2pbNo2GfwEdtVKROZajDjwPT
+         pSMUVkT0rqfkrudzqdpeLZxvE4gjm4tRb9uyRv9Mc3NV1wjHrdSBLBN7HSw4JBmZ4A/R
+         3kPLcAD81qvwrArw+LzuVGjK8Pfnl873eVpkCeWvuGgGwRxMT+TyowKkP7WKh1UdRd8Z
+         BF1w==
+X-Forwarded-Encrypted: i=1; AJvYcCXK7hdeP/ICspHlWcOrSEMLLrgo7RiLw06Q1kRortp+k3gqfp6qfpykuFoOMdh7HmPvDTVyhOUBlD2T9o8nNmMgq16VQxrk+hoNN+g=
+X-Gm-Message-State: AOJu0YxR1kZbyvl0u+0XY9TICVJuBfKYbaI31yCji7a5Uq59cf8bRiqF
+	FzCi6dwXR90BlFCNhY2r4JsTQOLb616ARdmwNgm2egHKFDMDIc5K4YZpjiLMDQ==
+X-Google-Smtp-Source: AGHT+IHQyP/6IMh0FCNlSBAUIYfTzsci3IX6XU70Oi2xtR2oFiLVlI4GVoQeVlX1sWvOJp1rCpFZ7g==
+X-Received: by 2002:a37:c244:0:b0:78e:f0d6:3ac0 with SMTP id j4-20020a37c244000000b0078ef0d63ac0mr1060376qkm.31.1713209688866;
+        Mon, 15 Apr 2024 12:34:48 -0700 (PDT)
 Received: from denia.c.googlers.com (114.152.245.35.bc.googleusercontent.com. [35.245.152.114])
-        by smtp.gmail.com with ESMTPSA id s26-20020ae9f71a000000b0078d3b54eb76sm6718055qkg.78.2024.04.15.12.34.45
+        by smtp.gmail.com with ESMTPSA id s26-20020ae9f71a000000b0078d3b54eb76sm6718055qkg.78.2024.04.15.12.34.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Apr 2024 12:34:46 -0700 (PDT)
+        Mon, 15 Apr 2024 12:34:48 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 15 Apr 2024 19:34:33 +0000
-Subject: [PATCH 16/35] media: au0828: Use min macro
+Date: Mon, 15 Apr 2024 19:34:35 +0000
+Subject: [PATCH 18/35] media: gspca: cpia1: Use min macro
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -60,7 +60,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240415-fix-cocci-v1-16-477afb23728b@chromium.org>
+Message-Id: <20240415-fix-cocci-v1-18-477afb23728b@chromium.org>
 References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
 In-Reply-To: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
 To: Martin Tuma <martin.tuma@digiteqautomotive.com>, 
@@ -109,29 +109,30 @@ X-Mailer: b4 0.12.4
 Simplifies the code.
 
 Found by cocci:
-drivers/media/usb/au0828/au0828-video.c:605:11-12: WARNING opportunity for min()
+drivers/media/usb/gspca/cpia1.c:607:30-31: WARNING opportunity for min()
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/usb/au0828/au0828-video.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ drivers/media/usb/gspca/cpia1.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/usb/au0828/au0828-video.c b/drivers/media/usb/au0828/au0828-video.c
-index fd9fc43d47e0..2ec49ea479d5 100644
---- a/drivers/media/usb/au0828/au0828-video.c
-+++ b/drivers/media/usb/au0828/au0828-video.c
-@@ -602,10 +602,7 @@ static inline int au0828_isoc_copy(struct au0828_dev *dev, struct urb *urb)
- 		vbi_field_size = dev->vbi_width * dev->vbi_height * 2;
- 		if (dev->vbi_read < vbi_field_size) {
- 			remain  = vbi_field_size - dev->vbi_read;
--			if (len < remain)
--				lencopy = len;
--			else
--				lencopy = remain;
-+			lencopy = umin(len, remain);
+diff --git a/drivers/media/usb/gspca/cpia1.c b/drivers/media/usb/gspca/cpia1.c
+index 5f5fa851ca64..14aaf36cde6e 100644
+--- a/drivers/media/usb/gspca/cpia1.c
++++ b/drivers/media/usb/gspca/cpia1.c
+@@ -604,10 +604,8 @@ static int find_over_exposure(int brightness)
+ 	MaxAllowableOverExposure = FLICKER_MAX_EXPOSURE - brightness -
+ 				   FLICKER_BRIGHTNESS_CONSTANT;
  
- 			if (vbi_buf != NULL)
- 				au0828_copy_vbi(dev, vbi_dma_q, vbi_buf, p,
+-	if (MaxAllowableOverExposure < FLICKER_ALLOWABLE_OVER_EXPOSURE)
+-		OverExposure = MaxAllowableOverExposure;
+-	else
+-		OverExposure = FLICKER_ALLOWABLE_OVER_EXPOSURE;
++	OverExposure = min(MaxAllowableOverExposure,
++			   FLICKER_ALLOWABLE_OVER_EXPOSURE);
+ 
+ 	return OverExposure;
+ }
 
 -- 
 2.44.0.683.g7961c838ac-goog
