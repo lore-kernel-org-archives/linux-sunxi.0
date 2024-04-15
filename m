@@ -1,35 +1,36 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFE831E528
-	for <linux-sunxi@lists.linux.dev>; Sun, 14 Apr 2024 23:37:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9F1A33FE
+	for <linux-sunxi@lists.linux.dev>; Mon, 15 Apr 2024 00:12:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713137871; cv=none; b=SuRkzSRN3fzFU0r0ajG7ZwjzTor2Dl2vIo0C0UkKzEhbX7imZmgAoCCKJLTnpYjwbtPbyPTIaKsM0gZ0nagboxnH4mS07IDL9hAnZeZBjv0yLRJ2c1ao2yUheeXAWGtC+w4dxzMwJNwK+AFd8mkelkruNTVayO6zNgGPi7bJmeY=
+	t=1713139943; cv=none; b=bqtJT19CNTRyYY6YyzhA0KVS9Ca1JfTwCIioC308leTaxsy/kbQDIyw/6/I7Khj2JY+qwrhxbyVmuhoLb6zrPY08W84TnZCBnwZhV5JCEEXvTzuMX1tnwZXmnv4fcKPoyNK7n7zYKps47WWHmku6iZPeEI+0DhLBB/fTeT3PNeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713137871; c=relaxed/simple;
-	bh=N8PN0i9XFgCzv+tjanM5VtnZi/j1SkM2FUcJrDgpBRQ=;
+	s=arc-20240116; t=1713139943; c=relaxed/simple;
+	bh=2PPfPgdcAz4o/J+ipIVptKfW7BqeAT/8tVYSnfF8l+k=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OHNwhNY3g5X4X/ZH3lm0E6RIHu8aSe/aaqN3V3kZQyrU4KMmdCHdF52C70T2JtJSCUw0Xb13xwL+RMeU4a0y8SzPr3Alh+eDcvS7DWVK6cp5BaDAJ+OPiLqmXkyzIIgSC/FKR2pgixPCRVOsswVYlGq86Qr5M/Bxcx3L+magDDw=
+	 MIME-Version:Content-Type; b=MRiLYp1CO+lwN6cEFRNhZmMDMHJuAjol1u/1KgoPoBjHeaerVYrZszZrwjK8OlxYXKMinXH0nx+Kek8Da0VOOoc8L5A4RKPZj7+1GFcg+Jw1UugqTwmQAJrGWwKQNIgspW1hwbx84mwLsKI2Y+hDGazxEOGCnZ8uA/oL9lumXrE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 73049339;
-	Sun, 14 Apr 2024 16:38:16 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 68EE2339;
+	Sun, 14 Apr 2024 17:12:48 -0700 (PDT)
 Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 557D13F64C;
-	Sun, 14 Apr 2024 16:37:46 -0700 (PDT)
-Date: Mon, 15 Apr 2024 00:37:40 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8E2573F64C;
+	Sun, 14 Apr 2024 17:12:18 -0700 (PDT)
+Date: Mon, 15 Apr 2024 01:12:11 +0100
 From: Andre Przywara <andre.przywara@arm.com>
-To: Chris Morgan <macroalpha82@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- mripard@kernel.org, samuel@sholland.org, jernej.skrabec@gmail.com,
- wens@csie.org, conor+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- robh@kernel.org, ryan@testtoast.com, Chris Morgan <macromorgan@hotmail.com>
-Subject: Re: [PATCH 2/2] arm64: dts: allwinner: h616: Add NMI device node
-Message-ID: <20240415003740.666759d0@minigeek.lan>
-In-Reply-To: <20240414170424.614921-3-macroalpha82@gmail.com>
-References: <20240414170424.614921-1-macroalpha82@gmail.com>
-	<20240414170424.614921-3-macroalpha82@gmail.com>
+To: Ryan Walklin <ryan@testtoast.com>
+Cc: Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
+ Holland <samuel@sholland.org>, Chris Morgan <macromorgan@hotmail.com>,
+ devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 4/4] arm64: dts: allwinner: h700: Add RG35XX-H DTS
+Message-ID: <20240415011211.77c643e2@minigeek.lan>
+In-Reply-To: <20240414083347.131724-7-ryan@testtoast.com>
+References: <20240414083347.131724-2-ryan@testtoast.com>
+	<20240414083347.131724-7-ryan@testtoast.com>
 Organization: Arm Ltd.
 X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
@@ -41,56 +42,100 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Sun, 14 Apr 2024 12:04:24 -0500
-Chris Morgan <macroalpha82@gmail.com> wrote:
+On Sun, 14 Apr 2024 20:33:48 +1200
+Ryan Walklin <ryan@testtoast.com> wrote:
 
-Hi Chris,
+Hi Ryan,
 
-> From: Chris Morgan <macromorgan@hotmail.com>
+> From: Ryan Walklin <ryan@testtoast.com>
 > 
-> Add device node for the H616 Non Maskable Interrupt (NMI) controller.
-
-You might want to mention that the NMI pad is not exposed on the H616 variants, but on
-the T507 and H700 packages.
-
+> The RG35XX-H adds thumbsticks, a stereo speaker, and a second USB port
+> to the RG35XX-Plus, and has a horizontal form factor.
 > 
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> Enabled in this DTS:
+> - Thumbsticks
+> - Second USB port
+> 
+> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
 > ---
->  arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi | 9 +++++++++
->  1 file changed, 9 insertions(+)
+>  .../sun50i-h700-anbernic-rg35xx-h.dts         | 38 +++++++++++++++++++
+>  1 file changed, 38 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dts
 > 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> index b2e85e52d1a1..1e066f3057be 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> @@ -775,6 +775,15 @@ r_ccu: clock@7010000 {
->  			#reset-cells = <1>;
->  		};
->  
-> +		nmi_intc: interrupt-controller@7010320 {
-> +			compatible = "allwinner,sun50i-h616-nmi",
-> +				     "allwinner,sun9i-a80-nmi";
-> +			reg = <0x07010320 0xc>;
-> +			interrupt-controller;
-> +			#interrupt-cells = <2>;
-> +			interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
-> +		};
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dts b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dts
+> new file mode 100644
+> index 000000000000..5b7de7bfc458
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dts
+> @@ -0,0 +1,38 @@
+> +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +/*
+> + * Copyright (C) 2024 Andre Przywara <andre.przywara@arm.com>.
+
+Please remove my copyright, I didn't have my hands in this. Copyrights
+are not that important anyway, since it's the license that rules.
+
+> + * Copyright (C) 2024 Ryan Walklin <ryan@testtoast.com>.
+> + * Copyright (C) 2024 Chris Morgan <macroalpha82@gmail.com>.
+> + */
 > +
+> +
+> +/dts-v1/;
 
-I can confirm that this matches the manual, and the registers behave as
-described in the A80 manual. I don't have access to a chip with the NMI
-pad exposed or used, so I cannot test this fully, but Chris'
-experiments with the AXP717 PMIC connected to that pin on on H700
-board seem to confirm that it indeed works.
+Same as in 3/4: redundant line.
 
-So with that small amendment to the commit message please take my:
+> +#include "sun50i-h700-anbernic-rg35xx-plus.dts"
+> +
+> +/ {
+> +    model = "Anbernic RG35XX H";
+> +    compatible = "anbernic,rg35xx-h", "allwinner,sun50i-h700";
+> +
+> +    gpio-keys: gpio-keys-thumb {
 
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+Is it intended to be in a separate node from the other keys? Just
+reference the existing node (below, outside of the root node) and add
+the keys in there.
+
+> +       compatible = "gpio-keys";
+> +
+> +        keyThumbLeft {
+> +            label = "GPIO Thumb Left";
+> +            gpios = <&pio 4 8 GPIO_ACTIVE_LOW>; /* PE8 */
+> +            linux,input-type = <EV_KEY>;
+> +            linux,code = <BTN_THUMBL>;
+> +        };
+> +
+> +        keyThumbRight {
+> +            label = "GPIO Thumb Right";
+> +            gpios = <&pio 4 9 GPIO_ACTIVE_LOW>; /* PE9 */
+> +            linux,input-type = <EV_KEY>;
+> +            linux,code = <BTN_THUMBR>;
+> +        };
+> +    };
+> +};
+
+I missed that in the first DTS, but you should move the 'status =
+"okay";' lines for EHCI1/OHCI1 from patch 2/4 into here, since the
+second USB port should stay disabled on those other two boards.
+
+> +
+> +&usbotg {
+> +    dr_mode = "peripheral";
+
+That looks odd. I do understand that a second USB port allows the
+first to be dedicated to OTG, but I feels still weird that the default
+for the only one on the other two boards is host.
+Can you say what the expected use case is? Are people connecting things
+like controllers to the only USB port? Otherwise I would expect this
+more to be a charging port, to which peripheral would be a better fit.
+I guess ultimately this would be "otg", but we need the AXP717 USB-C
+support for that, which is not ready yet.
+
+> +    status = "okay";
+> +};
+
+If there is an enable GPIO for VBUS, then the respective regulator
+should be referenced here.
 
 Cheers,
 Andre
-
->  		r_pio: pinctrl@7022000 {
->  			compatible = "allwinner,sun50i-h616-r-pinctrl";
->  			reg = <0x07022000 0x400>;
-
