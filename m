@@ -1,108 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8384A5FB9D;
-	Mon, 15 Apr 2024 11:21:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AF931FA1;
+	Mon, 15 Apr 2024 12:33:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713180110; cv=none; b=OKWcdSYpxHEJErXGOSllEI9ajlBynw2vFcky7YrYOmMF6HRRs2XRKu2RXTPA9JV+DTMKYJ/bA13v4if7mYR6Tji5BNSxN8RlCb0YkpheTrmwUs1Gj7u/h9gY2p7w2BZFi+kbdWRVT+3P2bk7vSxIME54soBzdfbemFVuJPbsk+g=
+	t=1713184405; cv=none; b=rzsFTX1z5vvjhduVycGBFZIP144GsXFJZrotPuoOfFTMNQCbpLSDbdC8YTN4ip9bNK6kIHMHwE+IgLQcn3M0uXvsQWu3Ju1trxSp7JIVcIdrpd3GbkvsqmSs3Tfe6noCoPNF7JQ9wTqpcsMV/vUeVugwIe18oE/4At1/glGFeJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713180110; c=relaxed/simple;
-	bh=zaeta5YRsGP9vG705wmBldVE6zWx2ubesmRsCMtwiKM=;
+	s=arc-20240116; t=1713184405; c=relaxed/simple;
+	bh=HfptntNOfLHxb9wL0IOVawcV6uR4l3OZGayJ1zAWzo4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Zh1xmuQyDj2lN66LYGaoHxbcc2CnmhKiCMRnI9TLynlcoKRTJdH9/uOGU6TTNBNRY4R72ualtvG0D8VClU/w3HeZ2H0J4WysiiDnU5v6ycQq4ErebToXMns2FeVIZoOD3zx7qooR7ccryTLm1KbcsdURCcUhziXM59smAduSrgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yyl0jw8F; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=QpM90FjiQG6c817fZcYG1KfQQyKWD1qrAj+1edg3cXIfGmWyEUT7OISK1g25zswX3P18IDfuOAW2Cp3Qgd44kSMGCEfp+p95u+mBtUD05OW2qUq0Db/6mc9hbxp4Z3EjIbd4AFPQCLIkKYHenOikPRnX/4CW3+/DeOPNsSiNyQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=FB7CdJGo; arc=none smtp.client-ip=85.214.250.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yyl0jw8F"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90F5DC113CC;
-	Mon, 15 Apr 2024 11:21:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713180110;
-	bh=zaeta5YRsGP9vG705wmBldVE6zWx2ubesmRsCMtwiKM=;
+	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="FB7CdJGo"
+Received: from 8bytes.org (p4ffe0bdf.dip0.t-ipconnect.de [79.254.11.223])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.8bytes.org (Postfix) with ESMTPSA id 1427F1C68D0;
+	Mon, 15 Apr 2024 14:33:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
+	s=default; t=1713184399;
+	bh=HfptntNOfLHxb9wL0IOVawcV6uR4l3OZGayJ1zAWzo4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Yyl0jw8FOgIlaxoOAe3p2F9YP256URFG19ccbzwnvLP+nXPKhgD5ZpMounJJGJTGl
-	 W56F7hvPz3yssyAye//nUgEICHyExmh3si6KPUCTQVp+F3t+vLFGf9crAm/lbPZ/tG
-	 oYVox67bc7RG6kHrc53DAHLbGGYZcw0qIMfntJXAZfcS1WFZVqdlHmxrcw0KYz+okp
-	 Pkrupra89W8My0fKez1OycDL7lFi3BMj9x0gWr6hV/lLIp2y2H5n0Od+vGtF3NYO0c
-	 CRzHx1TYaq8LcPQqKjZbGk4YUzmaWnW59PnqFLEdHv4oY9iqpgJNXI7PCDHsTpTWV7
-	 4/moMdyU2qz2A==
-Date: Mon, 15 Apr 2024 13:21:47 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@intel.com>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Javier Martinez Canillas <javierm@redhat.com>, Russell King <linux@armlinux.org.uk>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Samuel Holland <samuel@sholland.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	Alexander Stein <alexander.stein@ew.tq-group.com>, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev, linux-sunxi@lists.linux.dev, 
-	linux-mips@vger.kernel.org, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 0/7] drm/display: Fix display helpers depends on fallouts
-Message-ID: <20240415-sloppy-invisible-crocodile-da4545@houat>
-References: <20240403-fix-dw-hdmi-kconfig-v1-0-afbc4a835c38@kernel.org>
- <117b0d3b-a60b-4bc0-9f2c-f0e4fffe634a@sirena.org.uk>
+	b=FB7CdJGoYiLUXNXxPvv8kxRp0MDw5ZnPm7BIK3ADkbk8oSMbIlG1dOJST10Ys0iVG
+	 0qH7FXMf173WxTDGWYAj57PHdCnXDNhPtGD9jDi61cO/bs1sgIAfqFxvSoK9m2A9ss
+	 V9SsvwyT4trOUwcVoattW6RpORUYGkpdOaQm3KBj4D4r/W12fVXjh9qkHjlwypEZMm
+	 wZyw+pBBc2Nxoj847ZC+5GLtJO11Cj8rX2d0KMsV/1lstgG3Zpav64UvQflXFDpjD3
+	 cZkiC/AZwyMk/jjcSbeCrSYgzIuKoCKCfVPm6zDqV7hVX7mY/mCvW+dsSHn/oXe8DJ
+	 dyfbkCVsl9bHg==
+Date: Mon, 15 Apr 2024 14:33:17 +0200
+From: Joerg Roedel <joro@8bytes.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com,
+	alyssa@rosenzweig.io, asahi@lists.linux.dev,
+	baolu.lu@linux.intel.com, bhelgaas@google.com,
+	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com,
+	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de,
+	iommu@lists.linux.dev, jernej.skrabec@gmail.com,
+	jonathanh@nvidia.com, krzysztof.kozlowski@linaro.org,
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com,
+	marcan@marcan.st, mhiramat@kernel.org, m.szyprowski@samsung.com,
+	paulmck@kernel.org, rdunlap@infradead.org, robin.murphy@arm.com,
+	samuel@sholland.org, suravee.suthikulpanit@amd.com,
+	sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org,
+	tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org,
+	will@kernel.org, yu-cheng.yu@intel.com, rientjes@google.com,
+	bagasdotme@gmail.com, mkoutny@suse.com
+Subject: Re: [PATCH v6 00/11] IOMMU memory observability
+Message-ID: <Zh0ejbLiZT4gI3EG@8bytes.org>
+References: <20240413002522.1101315-1-pasha.tatashin@soleen.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="wn4eudraeu4chaua"
-Content-Disposition: inline
-In-Reply-To: <117b0d3b-a60b-4bc0-9f2c-f0e4fffe634a@sirena.org.uk>
-
-
---wn4eudraeu4chaua
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240413002522.1101315-1-pasha.tatashin@soleen.com>
 
-Hi Mark
+On Sat, Apr 13, 2024 at 12:25:11AM +0000, Pasha Tatashin wrote:
+> Pasha Tatashin (11):
+>   iommu/vt-d: add wrapper functions for page allocations
+>   iommu/dma: use iommu_put_pages_list() to releae freelist
+>   iommu/amd: use page allocation function provided by iommu-pages.h
+>   iommu/io-pgtable-arm: use page allocation function provided by
+>     iommu-pages.h
+>   iommu/io-pgtable-dart: use page allocation function provided by
+>     iommu-pages.h
+>   iommu/exynos: use page allocation function provided by iommu-pages.h
+>   iommu/rockchip: use page allocation function provided by iommu-pages.h
+>   iommu/sun50i: use page allocation function provided by iommu-pages.h
+>   iommu/tegra-smmu: use page allocation function provided by
+>     iommu-pages.h
+>   iommu: observability of the IOMMU allocations
+>   iommu: account IOMMU allocated memory
 
-On Wed, Apr 10, 2024 at 07:06:39PM +0100, Mark Brown wrote:
-> On Wed, Apr 03, 2024 at 12:56:18PM +0200, Maxime Ripard wrote:
-> > Hi,
-> >=20
-> > Here's a series addressing the various regressions that were reported
-> > after the Kconfig rework for the DRM display helpers.
-> >=20
-> > Let me know what you think,
-> > Maxime
->=20
-> Is there any news on getting the rest of this merged?  It's been more
-> than a week now and the Designware display controllers are all still
-> broken in -next, causing widespread breakage in CI.  For bisection
-> purposes it probably makes sense for the defconfig updates to go along
-> with the changes to the Kconfig for the driver...
+Applied to the temporary 'memory-observability' branch and part of
+iommu-next. Thanks Pasha.
 
-I was on holidays so I've admittedly hoped that it would be picked up /
-reviewed by the relevant maintainers.
-
-Aside from the changes on sunxi_defconfig, I haven't seen any review
-=66rom the relevant maintainers so I'm not sure how to merge this. Should
-we get an Acked-by from Arnd, Olof, Catalin or Will and merge everything
-through drm-misc?
-
-Maxime
-
-
---wn4eudraeu4chaua
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZh0NywAKCRAnX84Zoj2+
-dorNAX9YIzjToH375MPL7Ax5ZuueLWq41eVy07FoPTf31aMEQyEy/VR56sILKVLf
-TzYFX28BgODebjC3eC3QNfJYDoWKcB+vda0h0cCbUxE3QnqF2xMfORawm4oSmu2E
-dt3E8cNkCg==
-=f2Da
------END PGP SIGNATURE-----
-
---wn4eudraeu4chaua--
