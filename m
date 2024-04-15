@@ -1,32 +1,75 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BBFD156C55;
-	Mon, 15 Apr 2024 21:06:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C019382D93
+	for <linux-sunxi@lists.linux.dev>; Mon, 15 Apr 2024 21:07:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713215218; cv=none; b=PfXHU36jjkHUx8fwNd1DsbbPknLMFXNgJf9Kh6sM5IS+tLFxsVYHzl+H8CXUUhgQc0rV3KSmq+aETHIhbpiv+rwSHvaTxbNPOwGa8aopDm/5KYuFYGpy9ZfN8ql+qaJxjVuH4s39MS8jG4zrRJ6lw89cTWwY8Jq7uS5RDHjkPQc=
+	t=1713215276; cv=none; b=lna4lZNLrb0Zx9YvR8MWZgdKj3n5OkD05RsdhfzfHrq4SGizhW8KF85sfYKADN/XIOdEEYbu+pgWvzEFG9VfJ9tQG0BsAPvWk6/F7HhsSbwanraScd05vgo8zanKXY/a/H8+8Y0/WKMrDFI5jngzRGu8kC8rGhcbDkwXzM13tu4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713215218; c=relaxed/simple;
-	bh=QK/YnNEsRDQzA+VI9ZfCIug3P5VhevsltSl+SmjeDe0=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=hzNApZIFHBIzCRrVkeu1qlOh2GfZH1MGwgHOVmXbPfJxbTGYbfUry49ojrewFBsgfTXPRDf76xK7onjQrEAEePBYWoFQZAFzgr3uqDB5Z/xPElJIG+sO1lkwy9/toZ6f1tcDNhK1Tf9CH3BE0l77pJKDqQkGPrecjNZOe1O2qRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=fail (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=rdukYCQh reason="signature verification failed"; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1713215276; c=relaxed/simple;
+	bh=dZGyHYW2YHPRCCg2XTiPDm+RfQJLoDRhsLPv4FfLvfc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=KfcTNCE/4LKuR7GfkcTGCIt1Asc2qLncbDUM3aQvhVa3Uy38ucYXOceYCohnI4AjEOUOvK/W1ImHUHcejVu2mmrjJrsEv7YJWbkc4L2piPeUo0/IEaL1OF9F/PWLXnJGQ8P8a2Fn+gImslGOpLSs16e+Ib3D2tyDr71spaf1yj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mJYtpifx; arc=none smtp.client-ip=209.85.208.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rdukYCQh"
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1F57F497;
-	Mon, 15 Apr 2024 23:06:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1713215167;
-	bh=QK/YnNEsRDQzA+VI9ZfCIug3P5VhevsltSl+SmjeDe0=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=rdukYCQh9mMFKAPdTqd4jo4lB4a4B7xptpHd357YCY6nsrtHDE8p4O2e61Yb+mMxi
-	 yKJPDLBT5H6E9wcVtgSM3TW7Vas5B4YrUJkgnLXrP6kJ0tc0rBjudUOeDKylS3L9Le
-	 RHF8woqIolcFMRosZ1uhKhaSSd4+78XmA8SkQZdg=
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mJYtpifx"
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2dac79e350cso1401261fa.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 15 Apr 2024 14:07:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1713215272; x=1713820072; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dZGyHYW2YHPRCCg2XTiPDm+RfQJLoDRhsLPv4FfLvfc=;
+        b=mJYtpifxyLYbgfh/WDFXZ8tqRrWspOsFov3ouNwEawndcxlcJWRH1h0rizbmXrrBws
+         i6c/GAG06jqasxXDYFuof/siGJ//drpCQ3pF9hD+ZR/nRcAdqTJUi9haFFV9wMDFztek
+         CwQ+24l/kzB5b2prsLhwxiLO+SsZZ21KduGKLX4BNrMo8DPN2NG6Zk4d7l50raac7M2x
+         btIOwFhjy62aCms8aPuLU94Ngx/B7eQw1PbUxk7zp0A9CCYFNEwI9VJm7xDOa1tjYmz0
+         yFIPtZf19qN2Z0nZv7SOC/ahakyW9Y7FgLwwaOfvhuRi3OYHfjk+dWLKet8qHAtvbdFp
+         chyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713215272; x=1713820072;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dZGyHYW2YHPRCCg2XTiPDm+RfQJLoDRhsLPv4FfLvfc=;
+        b=VyClzFgK1PP4IY1Sv7ThMt1hSYuI4CbsWCKmLBL4Echz/PLmXIGY707D5zOMyRctiN
+         r7ECGbqeHeb41qzKQId/cM8sJJ1VG2Kmib/01SEr24Lp3YmjTVyFG+NSUmQK6Pdc5VUS
+         3AuuSZiV4H5JAvmUKpEA7J4AMDE0ESD3JW1VMSl2KOkYWzoi72xOZJHqiMhH2ucg73hZ
+         CM/fejfy6u2zwU7vCtthoJYUA6fITZ6J4mjW21SvRRIWRwiIotLOLZ7Cjn0ZbqgBFtKv
+         RVCTDLH01PyoGXTcAQSYeNU5TGxsg7u0R9ytFvJXrhVIkoMOmYDZUc23jhsULPQ9eapL
+         DkWw==
+X-Forwarded-Encrypted: i=1; AJvYcCXRypCYgoarO173qHXXZyOlEt4Zv6SB5B6Yvsw7cOX0VJtfUWF9W9i+S4+v3oeFxpr6zIcypOKQC58lO5Xt/9e/KGClJUnin+EQPKU=
+X-Gm-Message-State: AOJu0Yyi2yHIiEVdeWzK4cMexHQoXiLTKzWIyGX7JfcErXfJhat71qEF
+	vjxq8Q3Ov+tdTyGJZHY1YaKZmdbpXdWrbSZSetvJfNVnSK1U7B0w5ZeVg0de
+X-Google-Smtp-Source: AGHT+IErQ/YHbW+POwBNnVs+xxSRp19T+6PTSAH/8LvETVMHLcYYh9s7DrvZ4rEKVLjZxM4vADHwAg==
+X-Received: by 2002:a2e:b94e:0:b0:2d5:9703:263f with SMTP id 14-20020a2eb94e000000b002d59703263fmr5617484ljs.44.1713215271826;
+        Mon, 15 Apr 2024 14:07:51 -0700 (PDT)
+Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
+        by smtp.gmail.com with ESMTPSA id m18-20020a05600c3b1200b0041668162b45sm20796813wms.26.2024.04.15.14.07.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Apr 2024 14:07:51 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: linux-kernel@vger.kernel.org, Aren Moynihan <aren@peacevolution.org>
+Cc: Conor Dooley <conor+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Chen-Yu Tsai <wens@csie.org>, Pavel Machek <pavel@ucw.cz>,
+ devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ Miles Alan <m@milesalan.com>, Samuel Holland <samuel@sholland.org>,
+ linux-arm-kernel@lists.infradead.org, Ondrej Jirman <megi@xff.cz>,
+ Aren Moynihan <aren@peacevolution.org>
+Subject:
+ Re: [PATCH v3 2/2] arm64: dts: allwinner: pinephone: add multicolor LED node
+Date: Mon, 15 Apr 2024 23:07:50 +0200
+Message-ID: <3289584.44csPzL39Z@jernej-laptop>
+In-Reply-To: <3796126.kQq0lBPeGt@jernej-laptop>
+References:
+ <20240317004116.1473967-1-aren@peacevolution.org>
+ <20240317004116.1473967-2-aren@peacevolution.org>
+ <3796126.kQq0lBPeGt@jernej-laptop>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -34,50 +77,23 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20240415-fix-cocci-v1-4-477afb23728b@chromium.org>
-References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org> <20240415-fix-cocci-v1-4-477afb23728b@chromium.org>
-Subject: Re: [PATCH 04/35] media: uvcvideo: Use max() macro
-From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, Ricardo Ribalda <ribalda@chromium.org>
-To: Abylay Ospan <aospan@netup.ru>, Alain Volmat <alain.volmat@foss.st.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Bjorn Andersson <andersson@kernel.org>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Chen-Yu Tsai <wens@csie.org>, Dmitry Osipenko <digetx@gmail.com>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Hans Verkuil <hverkuil@xs4all.nl>, Hugues Fruchet <hugues.fruchet@foss.st.com>, Jacopo Mondi <jacopo+renesas@jmondi.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, Konrad Dybcio <konrad.dybcio@linaro.org>, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, Martin Tuma <martin.tuma@digiteqautomotive.com>, Matthi
- as Brugger <matthias.bgg@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Niklas =?utf-8?q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, Pavel Machek <pavel@ucw.cz>, Ricardo Ribalda <ribalda@chromium.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Samuel Holland <samuel@sholland.org>, Sergey Kozlov <serjk@netup.ru>, Sowjanya Komatineni <skomatineni@nvidia.com>, Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, Sylvain Petinot <sylvain.petinot@foss.st.com>, Thierry Reding <thierry.reding@gmail.com>, Vikash Garodia <quic_vgarodia@quicinc.com>
-Date: Mon, 15 Apr 2024 22:06:49 +0100
-Message-ID: <171321520986.2333277.5902882675169324919@ping.linuxembedded.co.uk>
-User-Agent: alot/0.10
+Content-Type: text/plain; charset="utf-8"
 
-Quoting Ricardo Ribalda (2024-04-15 20:34:21)
-> It makes the code slightly more clear and makes cocci incredibly happy:
+Dne torek, 26. marec 2024 ob 23:44:39 GMT +2 je Jernej =C5=A0krabec napisal=
+(a):
+> Dne nedelja, 17. marec 2024 ob 01:39:29 CET je Aren Moynihan napisal(a):
+> > The red, green, and blue LEDs currently in the device tree represent a
+> > single RGB LED on the front of the PinePhone.
+> >=20
+> > Signed-off-by: Aren Moynihan <aren@peacevolution.org>
 >=20
-> drivers/media/usb/uvc/uvc_ctrl.c:839:22-23: WARNING opportunity for max()
->=20
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/usb/uvc/uvc_ctrl.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc=
-_ctrl.c
-> index a4a987913430..4b685f883e4d 100644
-> --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> @@ -836,7 +836,7 @@ static s32 uvc_get_le_value(struct uvc_control_mappin=
-g *mapping,
->         while (1) {
->                 u8 byte =3D *data & mask;
->                 value |=3D offset > 0 ? (byte >> offset) : (byte << (-off=
-set));
-> -               bits -=3D 8 - (offset > 0 ? offset : 0);
-> +               bits -=3D 8 - max(offset, 0);
+> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-This looks semantically the same to me so:
+Applied both, thanks!
+
+Best regards,
+Jernej
 
 
-Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 
->                 if (bits <=3D 0)
->                         break;
-> =20
->=20
-> --=20
-> 2.44.0.683.g7961c838ac-goog
->
+
