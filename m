@@ -1,57 +1,57 @@
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66B9F161309
-	for <linux-sunxi@lists.linux.dev>; Mon, 15 Apr 2024 19:34:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 611631635AF
+	for <linux-sunxi@lists.linux.dev>; Mon, 15 Apr 2024 19:35:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713209701; cv=none; b=cWxIEYlyQOYJNbFiaXF6UbMtHbSWFJMpzVgJNtOlsWOQV04O1Rv9CAvwy5yXDtFCvla2JjCbwtcUaBnnRAmsAyF8kLmEJjunLNb9y/WZHC8/uP5mfXLVKr+nR5AMZvRzslliBpWX87hstEq5Q4sUW2Q/aHey1kF2QK7w9nfs7K0=
+	t=1713209703; cv=none; b=URv0wbRe9cBGuE9jFggb4MXDC9dr18SfExtNtqzkqyHsYDIThcmQgJAO4BfBEhB7xDDoFuOUFfSLsiRVIFwyU+J/s7qY0QWIU31BufA1zblM4B2zaQ4V9SvDl/cSkHXEGlZp+2p8IKwQqfdyYth+m7fRGBkj71ErXMGwalED9+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713209701; c=relaxed/simple;
-	bh=xLgrZZRlgHue6M9OsvJFWob4LMm7t7pNYu1OWpjQXlI=;
+	s=arc-20240116; t=1713209703; c=relaxed/simple;
+	bh=As2d8puekv3wE81Lbh8pk0aXTZ4wR0q1+eriDu5asDs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=svJrU0hCNM3eOQAep7AwT0uzC3Fa9Y4t8/yEjCffC07xXxTNC9RoM0GVeMBm+U4/+CIAA4wTo9RTRLbJigapxRd1gi2cwAthDvYX7JZ2xXWwMRaJps4fWYkHyHL4XwtTO7IuBs25h3CoUiO3Vj9GxM0NZx2QuX9L3Ts52ddSmPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=O8Q+spPv; arc=none smtp.client-ip=209.85.222.178
+	 In-Reply-To:To:Cc; b=hNKXj1bx1frpt3ans4lPxUX5r+ZQBUPM156BL/atsc2P1+CFfXSxisgnUTSLgAz2SP6DETAeULOhcAuwsPPY2u16vKMQlSX7nED2V3RRsdH+56LF0PKho9qpl5eu9QzS++V65KP0prpTtHpYy1Gm3di+LX7lwabo0peYc6N578g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=UzuMdrrn; arc=none smtp.client-ip=209.85.167.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="O8Q+spPv"
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-78d61a6229bso247228985a.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 15 Apr 2024 12:34:57 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="UzuMdrrn"
+Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-3c711afcd43so424328b6e.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 15 Apr 2024 12:35:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1713209696; x=1713814496; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1713209699; x=1713814499; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=LUBi0S9+ghcjER4xO9v0racZxhYV4zff+IOh7tdBF3Y=;
-        b=O8Q+spPvLxAaBPNdfJi6lWU3o4DtQNVTxhQZP6G93cGIun5FrnN/J7zsGefo4W/VPI
-         WJTirvi9qgV1g73QfwSY/Hq2LVC54MG0gqDm7cRdii9v0vNvI6fKjZTerv9aAoPQk4D7
-         gprVfhnxF02ybIhEMf5A9uxIELus+wjEEQWNo=
+        bh=Mj+/6N0GPAfvwkpBReOqoC7KAQaGgvQV6dmd/kYlEN8=;
+        b=UzuMdrrnnxGMBHOxh6eA6ntEph7SsURTKQRCB5/cvmAHtFZbwREjnkYWGnXWvY1FJJ
+         gHkpK99r+0TIEu6zFNzX2FggN+qrp2Q8T2R8IT9gTObiuUfSFcR6+0XC00QFIRy8UH6J
+         qhtXCq/yU5gSDG0ZkQ+wEIH1XQ8NFicU3GrvA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713209696; x=1713814496;
+        d=1e100.net; s=20230601; t=1713209699; x=1713814499;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=LUBi0S9+ghcjER4xO9v0racZxhYV4zff+IOh7tdBF3Y=;
-        b=bajqBTBl4B6MvJ0bWIv6k6EhMO6/FEpgNFpBfPtM3e/WtgXUo4DT0g3ord1UfJj4FK
-         1b6IdrCrn8qmEyR+Wqcg+EjQyJ5cwnOGzRi2z8HcoMCwKOszYftCK+EtSN+bCfHDhFys
-         HfViWuKMWy6VJUKOQ65JeO0HRf0gQWYDUoB+4FK2rC7ULpYwvgpg2HJHOGpr+tSYeJt3
-         0AyvIfbXnjMrrEusAF1R2OypOnn6rfAmOqYLcq44TPpAzXZxBvA/z1h9D4CPol7UV6sE
-         4DTgiwtC/d34LdsX/bHqyL1JSNIXFHQA507lkQqdt7WyK/6v2GOuxSIF0oLllZRwccI9
-         z3bg==
-X-Forwarded-Encrypted: i=1; AJvYcCVGsO3/LZPrppYhYQdJwwQHE5zrWuILZOjGh2JRAraGaTIjjKATuW7zE7sKHeCSK4j31kJYGR0IIrNAQ7Ctx+ztsYPBbGNDfBCPx6Y=
-X-Gm-Message-State: AOJu0YzJb2sQwbFjvk7TJ04NNLh0ud+nKUHaNptD5I0BQpzyL8fOOMmY
-	b5UEJ3mTABAgz3+jWu5RcYbK3I1ORRM4K4nH73wuLY9QdPWLyud5v2kEDPiypw==
-X-Google-Smtp-Source: AGHT+IENHla9VOs9zol9LIJSv1150+DgeHz4OsMQu2kACgbSSAPw34HTPzLa823VVZ1Js6TnsSST2Q==
-X-Received: by 2002:ae9:ec08:0:b0:78e:df14:19dc with SMTP id h8-20020ae9ec08000000b0078edf1419dcmr4888734qkg.20.1713209696184;
-        Mon, 15 Apr 2024 12:34:56 -0700 (PDT)
+        bh=Mj+/6N0GPAfvwkpBReOqoC7KAQaGgvQV6dmd/kYlEN8=;
+        b=v4s6KvyAIoNzLljmilCPf4Et4jI5Tf8VBl36m2gWFIPTmHUSdikiXYAempbG62ZU/3
+         FfGoupz6/dM1CYHQHQCEpzltxmMB0+G1JLf22ptK9IPdPqc2Z2ExFLKJICnuWt5RuHur
+         A5EY9PHEmI3F/KsGrwUZrOj26QyuvBaSRii/cl+dcxjst5psAIWxQGhiao+ZAF4gQsOv
+         JhAYRSKwWBtbsfJKAEncJTLDtO64bQt9xQUYMWkeUP5HiE6UwGfz+gqHrdaET22l7Hss
+         Bgr2nNq05PdImzyT3kwnTpG1PA/rXMUHk83uMTkH/KY/gkmdAKRgjM2zCRF20md6CBFS
+         yD2w==
+X-Forwarded-Encrypted: i=1; AJvYcCWjP50TfyWn1ZjYryD4F4CFzJGNfdYuIpqKnMSBUgAdQpMfiTkJGmTUAJWGI4V6QLJSPxO4D1iIWx+WRlac6dlllUmdua0ZU/J6hRA=
+X-Gm-Message-State: AOJu0YwCe5MaFZZouphxF8M+EZKNi8eyqbPwXzN+phikwxDeBp80ZT2r
+	Uv9TLu+wIQ+aBingMIkSDkXBXXyR0ukm4/hyNNStSgzB9AOGzWt5zd50ZxhJcg==
+X-Google-Smtp-Source: AGHT+IFB7ej7jQ6Y7TTKmDCBXS4WSfTxH8KcZpQzoboVm109oqWmXInnRELaaHMlCW17SN5elKNPwg==
+X-Received: by 2002:a54:480c:0:b0:3c7:c12:e2fb with SMTP id j12-20020a54480c000000b003c70c12e2fbmr5150205oij.56.1713209699409;
+        Mon, 15 Apr 2024 12:34:59 -0700 (PDT)
 Received: from denia.c.googlers.com (114.152.245.35.bc.googleusercontent.com. [35.245.152.114])
-        by smtp.gmail.com with ESMTPSA id s26-20020ae9f71a000000b0078d3b54eb76sm6718055qkg.78.2024.04.15.12.34.55
+        by smtp.gmail.com with ESMTPSA id s26-20020ae9f71a000000b0078d3b54eb76sm6718055qkg.78.2024.04.15.12.34.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Apr 2024 12:34:55 -0700 (PDT)
+        Mon, 15 Apr 2024 12:34:59 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 15 Apr 2024 19:34:42 +0000
-Subject: [PATCH 25/35] media: venus: Use the correct div_ function
+Date: Mon, 15 Apr 2024 19:34:45 +0000
+Subject: [PATCH 28/35] media: usb: cx231xx: Refator return path
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -60,7 +60,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240415-fix-cocci-v1-25-477afb23728b@chromium.org>
+Message-Id: <20240415-fix-cocci-v1-28-477afb23728b@chromium.org>
 References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
 In-Reply-To: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
 To: Martin Tuma <martin.tuma@digiteqautomotive.com>, 
@@ -106,42 +106,45 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.12.4
 
-us_per_frame does not fit in u32
+This is a nop, but let cocci now that this is not a good candidate for
+min()
 
-Found with cocci:
-drivers/media/platform/qcom/venus/venc.c:418:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_u64 instead.
+rivers/media/usb/cx231xx/cx231xx-video.c:1282:12-13: WARNING opportunity for min()
+drivers/media/usb/cx231xx/cx231xx-video.c:1328:12-13: WARNING opportunity for min()
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/platform/qcom/venus/venc.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ drivers/media/usb/cx231xx/cx231xx-video.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-index 3ec2fb8d9fab..de06e1712d09 100644
---- a/drivers/media/platform/qcom/venus/venc.c
-+++ b/drivers/media/platform/qcom/venus/venc.c
-@@ -393,7 +393,7 @@ static int venc_s_parm(struct file *file, void *fh, struct v4l2_streamparm *a)
- 	struct venus_inst *inst = to_inst(file);
- 	struct v4l2_outputparm *out = &a->parm.output;
- 	struct v4l2_fract *timeperframe = &out->timeperframe;
--	u64 us_per_frame, fps;
-+	u64 us_per_frame;
- 
- 	if (a->type != V4L2_BUF_TYPE_VIDEO_OUTPUT &&
- 	    a->type != V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
-@@ -414,11 +414,8 @@ static int venc_s_parm(struct file *file, void *fh, struct v4l2_streamparm *a)
- 	if (!us_per_frame)
+diff --git a/drivers/media/usb/cx231xx/cx231xx-video.c b/drivers/media/usb/cx231xx/cx231xx-video.c
+index 8f347bbeeb32..bbe207d72427 100644
+--- a/drivers/media/usb/cx231xx/cx231xx-video.c
++++ b/drivers/media/usb/cx231xx/cx231xx-video.c
+@@ -1279,7 +1279,10 @@ int cx231xx_g_register(struct file *file, void *priv,
+ 	default:
  		return -EINVAL;
- 
--	fps = (u64)USEC_PER_SEC;
--	do_div(fps, us_per_frame);
--
-+	inst->fps = div64_u64(USEC_PER_SEC, us_per_frame);
- 	inst->timeperframe = *timeperframe;
--	inst->fps = fps;
- 
- 	return 0;
+ 	}
+-	return ret < 0 ? ret : 0;
++
++	if (ret < 0)
++		return ret;
++	return 0;
  }
+ 
+ int cx231xx_s_register(struct file *file, void *priv,
+@@ -1325,7 +1328,10 @@ int cx231xx_s_register(struct file *file, void *priv,
+ 	default:
+ 		return -EINVAL;
+ 	}
+-	return ret < 0 ? ret : 0;
++
++	if (ret < 0)
++		return ret;
++	return 0;
+ }
+ #endif
+ 
 
 -- 
 2.44.0.683.g7961c838ac-goog
