@@ -1,91 +1,108 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AF4D193
-	for <linux-sunxi@lists.linux.dev>; Mon, 15 Apr 2024 00:14:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8384A5FB9D;
+	Mon, 15 Apr 2024 11:21:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713140086; cv=none; b=G66XPFYlcp8PC3Sj1oHx+ZMstSf2RotBS9Ciaov2WjxmXQEG7b4TaL/Vj/G89gYYXNPP8RRgK/JHLOsE+8dZIbhRpF28vrEARhsCahjwPGpfCuLso2qD8xsaVlLLwQlE3lSA5vFRfv4/7miA6gxueTuxUmBpbo5AfeMDjcKmUyM=
+	t=1713180110; cv=none; b=OKWcdSYpxHEJErXGOSllEI9ajlBynw2vFcky7YrYOmMF6HRRs2XRKu2RXTPA9JV+DTMKYJ/bA13v4if7mYR6Tji5BNSxN8RlCb0YkpheTrmwUs1Gj7u/h9gY2p7w2BZFi+kbdWRVT+3P2bk7vSxIME54soBzdfbemFVuJPbsk+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713140086; c=relaxed/simple;
-	bh=YoR9uOxSje0476YJAFfp+KDhnzxNJHjo9PEGKaVNrrU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=H+NUOfSDrrodxdIIOCXdoKIgQAoRDNj5xECA/XxmJwdVWkXkXnapJPHYJIDjLzNEKYCkAlHa+R1D6/e+4sJZuI6aXnFqIGEjIjCG/TThv6ZW8zChFjaZz43rJh4BumzzH/1ebE/mOInlxu9zK+wX8sw2lrDHtp2WKP9OTbqvg9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 03649339;
-	Sun, 14 Apr 2024 17:15:13 -0700 (PDT)
-Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6A0C83F64C;
-	Sun, 14 Apr 2024 17:14:41 -0700 (PDT)
-Date: Mon, 15 Apr 2024 01:14:35 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: "Ryan Walklin" <ryan@testtoast.com>
-Cc: "Viresh Kumar" <viresh.kumar@linaro.org>, "Yangtao Li"
- <tiny.windzz@gmail.com>, "Viresh Kumar" <vireshk@kernel.org>, "Nishanth
- Menon" <nm@ti.com>, "Stephen Boyd" <sboyd@kernel.org>, "Rob Herring"
- <robh+dt@kernel.org>, "Krzysztof Kozlowski"
- <krzysztof.kozlowski+dt@linaro.org>, "Conor Dooley" <conor+dt@kernel.org>,
- "Chen-Yu Tsai" <wens@csie.org>, "Jernej Skrabec"
- <jernej.skrabec@gmail.com>, "Samuel Holland" <samuel@sholland.org>, "Rafael
- J . Wysocki" <rafael@kernel.org>, linux-pm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, "Brandon Cheo Fusi"
- <fusibrandon13@gmail.com>, "Martin Botka" <martin.botka@somainline.org>,
- "Martin Botka" <martin.botka1@gmail.com>, "Chris Morgan"
- <macroalpha82@gmail.com>, "Mark Rutland" <mark.rutland@arm.com>, "Lorenzo
- Pieralisi" <lpieralisi@kernel.org>, "Sudeep Holla" <sudeep.holla@arm.com>
-Subject: Re: [PATCH v4 0/8] cpufreq: sun50i: Add Allwinner H616 support
-Message-ID: <20240415011435.2aeae1f1@minigeek.lan>
-In-Reply-To: <0e021133-f8c1-457d-9079-d9c972e0e69b@app.fastmail.com>
-References: <20240329141311.27158-1-andre.przywara@arm.com>
- <20240404064027.shjqvqih7s5rnv2i@vireshk-i7>
- <0e021133-f8c1-457d-9079-d9c972e0e69b@app.fastmail.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	s=arc-20240116; t=1713180110; c=relaxed/simple;
+	bh=zaeta5YRsGP9vG705wmBldVE6zWx2ubesmRsCMtwiKM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Zh1xmuQyDj2lN66LYGaoHxbcc2CnmhKiCMRnI9TLynlcoKRTJdH9/uOGU6TTNBNRY4R72ualtvG0D8VClU/w3HeZ2H0J4WysiiDnU5v6ycQq4ErebToXMns2FeVIZoOD3zx7qooR7ccryTLm1KbcsdURCcUhziXM59smAduSrgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yyl0jw8F; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yyl0jw8F"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90F5DC113CC;
+	Mon, 15 Apr 2024 11:21:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713180110;
+	bh=zaeta5YRsGP9vG705wmBldVE6zWx2ubesmRsCMtwiKM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Yyl0jw8FOgIlaxoOAe3p2F9YP256URFG19ccbzwnvLP+nXPKhgD5ZpMounJJGJTGl
+	 W56F7hvPz3yssyAye//nUgEICHyExmh3si6KPUCTQVp+F3t+vLFGf9crAm/lbPZ/tG
+	 oYVox67bc7RG6kHrc53DAHLbGGYZcw0qIMfntJXAZfcS1WFZVqdlHmxrcw0KYz+okp
+	 Pkrupra89W8My0fKez1OycDL7lFi3BMj9x0gWr6hV/lLIp2y2H5n0Od+vGtF3NYO0c
+	 CRzHx1TYaq8LcPQqKjZbGk4YUzmaWnW59PnqFLEdHv4oY9iqpgJNXI7PCDHsTpTWV7
+	 4/moMdyU2qz2A==
+Date: Mon, 15 Apr 2024 13:21:47 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@intel.com>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Javier Martinez Canillas <javierm@redhat.com>, Russell King <linux@armlinux.org.uk>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Samuel Holland <samuel@sholland.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	Alexander Stein <alexander.stein@ew.tq-group.com>, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev, linux-sunxi@lists.linux.dev, 
+	linux-mips@vger.kernel.org, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH 0/7] drm/display: Fix display helpers depends on fallouts
+Message-ID: <20240415-sloppy-invisible-crocodile-da4545@houat>
+References: <20240403-fix-dw-hdmi-kconfig-v1-0-afbc4a835c38@kernel.org>
+ <117b0d3b-a60b-4bc0-9f2c-f0e4fffe634a@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-
-On Thu, 04 Apr 2024 20:44:02 +1300
-"Ryan Walklin" <ryan@testtoast.com> wrote:
-
-Hi Ryan,
-
-> On Thu, 4 Apr 2024, at 7:40 PM, Viresh Kumar wrote:
-> > Is it okay to merge all the changes via the cpufreq tree ?  
-> 
-> I have tested this series with an H700-based board, and have at least one speed-bin (1.032GHz) is not supported although the governor attempts to enable it based on the opp-supported-hw bitmask, and I am unable to reach the 1.5GHz bin at 1.16v (or higher) despite it working on the vendor BSP (kernel panic at boot if enabled), so this may need some slight rework.
-
-Thanks for the report!
-So can you try to merge the 1.032 GHz OPP into the 1.008 GHz one? That
-would be beneficial anyways since this is the default frequency that
-U-Boot sets up.
-Should be:
-opp-1008000000 {
-....
-	opp-microvolt-speed5 = <900000>;
-	opp-supported-hw = <0x3f>;
-....
-
-As for the 1.5 GHz speed bin: We could leave that out for now if it
-causes trouble. But can you first state how you got the OPPs? I copied
-them from some table you dumped once on IRC, but it would be good to
-double check what the actual values are that the BSP kernel runs with.
-The values in the vendor DT are highly inconsistent, besides we don't
-know for sure which speed bin index the BSP is using and how this maps
-to our method.
-
-Cheers,
-Andre
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="wn4eudraeu4chaua"
+Content-Disposition: inline
+In-Reply-To: <117b0d3b-a60b-4bc0-9f2c-f0e4fffe634a@sirena.org.uk>
 
 
-> I have reached out to Andre on IRC to debug.
-> 
-> Ryan
+--wn4eudraeu4chaua
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+Hi Mark
+
+On Wed, Apr 10, 2024 at 07:06:39PM +0100, Mark Brown wrote:
+> On Wed, Apr 03, 2024 at 12:56:18PM +0200, Maxime Ripard wrote:
+> > Hi,
+> >=20
+> > Here's a series addressing the various regressions that were reported
+> > after the Kconfig rework for the DRM display helpers.
+> >=20
+> > Let me know what you think,
+> > Maxime
+>=20
+> Is there any news on getting the rest of this merged?  It's been more
+> than a week now and the Designware display controllers are all still
+> broken in -next, causing widespread breakage in CI.  For bisection
+> purposes it probably makes sense for the defconfig updates to go along
+> with the changes to the Kconfig for the driver...
+
+I was on holidays so I've admittedly hoped that it would be picked up /
+reviewed by the relevant maintainers.
+
+Aside from the changes on sunxi_defconfig, I haven't seen any review
+=66rom the relevant maintainers so I'm not sure how to merge this. Should
+we get an Acked-by from Arnd, Olof, Catalin or Will and merge everything
+through drm-misc?
+
+Maxime
+
+
+--wn4eudraeu4chaua
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZh0NywAKCRAnX84Zoj2+
+dorNAX9YIzjToH375MPL7Ax5ZuueLWq41eVy07FoPTf31aMEQyEy/VR56sILKVLf
+TzYFX28BgODebjC3eC3QNfJYDoWKcB+vda0h0cCbUxE3QnqF2xMfORawm4oSmu2E
+dt3E8cNkCg==
+=f2Da
+-----END PGP SIGNATURE-----
+
+--wn4eudraeu4chaua--
