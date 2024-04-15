@@ -1,57 +1,57 @@
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFA6C15DBBC
-	for <linux-sunxi@lists.linux.dev>; Mon, 15 Apr 2024 19:34:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0364615E1F3
+	for <linux-sunxi@lists.linux.dev>; Mon, 15 Apr 2024 19:34:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713209686; cv=none; b=dzzedqit1QNBDmjlVrNrU73VXW2GZdKSIHWW6v4XKtTi617emr/bwmOrrf+bLwsDTVon3EhHG0TroXJxMIvAwrTP2IPK0lYYNw3vAYRFjE3syLsk4YPsNP3in13in3p3IPEDZ9+wcKX5IGBfRoe2BBNIOAm+KhRa+5GLtCBzKpk=
+	t=1713209687; cv=none; b=iEZVkJDbrI39MzFPisWgxmmSzsltZNngQK1M/eksVS75YNczcfeZGLKL4zQgfGwMGrDDkXeZk5fk9jlRdjitIusvpSqt8KQFHWqYp630Vc/brkoG8O1RXf0jTeVBbRvVY5EwvNRHMCemLPdyK053RMoIgvXOuyR4s38GKUOuWo4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713209686; c=relaxed/simple;
-	bh=vSxgRS5M3phaf64us4tF/P1BMReGwUyBbCQWgHsyXyQ=;
+	s=arc-20240116; t=1713209687; c=relaxed/simple;
+	bh=MUqVtQZnq5YrPZr6pNTFJQr9fKe11JNLTSYR8M7S0M0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=hAKZL2tJNXjQO/OvAYdEQl6FscnyYs3ayz/SJMuVrB7RnYpcGU1s2hGNFjfDhUilQXRoJoqE5ycfQgckwyblpB0ocGDbSM6NRJ0e0O8yjA3w6Pe8y3Js0yIlAiTzjd8KmadXbh9TG1ah91VdTKcLTOz+FCWPU63lE/aO4lCxZUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=kFY1noiU; arc=none smtp.client-ip=209.85.210.48
+	 In-Reply-To:To:Cc; b=UijsZvzFNLH/cYuM7Z4g2YIcPYsWSgNc0uU7nnxeOOJgBjn+L7X9f6YhRiJCzYrErwsei9FtBR6w/PguehMblqsUNggi4QDytpZub3A6V+GdbQTaPwQctsh8+DLAypbV9pFMzLf2LafgP3olT/wUbPiNGR+43RpxrLLC3CfumJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=f0BhdTW4; arc=none smtp.client-ip=209.85.210.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="kFY1noiU"
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-6eb8809a44eso494173a34.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 15 Apr 2024 12:34:44 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="f0BhdTW4"
+Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-6eb7500abe3so894811a34.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 15 Apr 2024 12:34:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1713209684; x=1713814484; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1713209685; x=1713814485; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9NumvJIfF1EvDHzhvgph+fzItnp8SRnkGAbNB8M/eao=;
-        b=kFY1noiU3XhPWU7qEyk1Ocnc6Mf0t7VUXEmYZ4a/wsWoCxoyAhQ3cMyS4dJGlgFmn+
-         FiZWo7WYbllWrotiZ1oBjjvfm3nq31Ht0jBQHAGhS2vkICsRAqsKz554rTuJrhu7H5jl
-         zJz9l7TeksxbDPDdHkcKabOJFr6wzqoOSZAzw=
+        bh=9DQ62C5vkEz8a1t/8x1ghE+E9JYa6TkiF3DSBiMd/dY=;
+        b=f0BhdTW43FPSDqgjmRMH3YOrC1cmfhEPGh9sVjTMsCIzUTv4EedyPN71f8bqT+AgeZ
+         eqJzYwNHz2y1F+y/aKTziUWGcPmlb6Hov9hRZXcQjR2Oc6uVpYKuBVMmtJazjoekU0HX
+         peqpeTWefqezXZZeNc5Ru7Bsd0LxcnJ0lTziI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713209684; x=1713814484;
+        d=1e100.net; s=20230601; t=1713209685; x=1713814485;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9NumvJIfF1EvDHzhvgph+fzItnp8SRnkGAbNB8M/eao=;
-        b=XoigQsCB3ANppwjiX4qe4guOkle5bOCjvnwW0NBJE/Nu5x26eY4sRoQ+87Bj/JbDac
-         VM2EMYUY72KygOB3mztZoriBGOrZdoFMdxNKrxTlDz8izBvf/uhN8dq2fckjdNzWrP1M
-         kgkN/zNvAXgZbk4PcLIiGLyZ0/wwA3Ya2seJjk+tyX5QWovPhSOJlp00bYDgY/LtcJSS
-         ktSi35CqOeJ1WXLWeI7XR6nKO4Ed/4BWqAG8sK2RV37YZsc5uLL0yr65M2mt0VVIbVG/
-         jS3gYsfyFPlgTuHKMGcrO717Ct9aQzupSUc5eSIxp+Xpj/+31CFvlext/k8WiyxgnBk5
-         hB4g==
-X-Forwarded-Encrypted: i=1; AJvYcCXLDctkQlxTIAGczM3QHu4O/hwCH1CXpjiEKawzL/zR5v8LrnR+C+ureMWUveYhEzO7EpObT+rhJU0lPYhTfEmL/EDYjJozon1FHoc=
-X-Gm-Message-State: AOJu0YwNr+okTZrVtBgRrsZ0+sXRHdFYEgx/QKk9QB38sJOVjWywFx6g
-	ZQE2YZ4jMGMhUWjVi8v7fs6OMTfsKExKO0nSfflIrqHmLViIeP5pgk7fcNdQHw==
-X-Google-Smtp-Source: AGHT+IGDpQP0lGeeTbw+d3WHAnrIlvzGQRlawHZd8kFq+13/xBXNhp6Lzy5O5V8WuY+aqcrpA2RYcw==
-X-Received: by 2002:a9d:7991:0:b0:6eb:7c4f:d4d with SMTP id h17-20020a9d7991000000b006eb7c4f0d4dmr5274597otm.8.1713209683858;
-        Mon, 15 Apr 2024 12:34:43 -0700 (PDT)
+        bh=9DQ62C5vkEz8a1t/8x1ghE+E9JYa6TkiF3DSBiMd/dY=;
+        b=EAIi8WW8oZqLcNUUAGtcTFgEBPcX26nkkLVK0mGxMDy4bcqKZDUXmA9cLD26wlu0nO
+         dixjj1F5liwHh6MHqEQaEMP/i75gDqOjmfc/8i1IlvrIRp6Oeo+FkgeA2a9CaWVMGbbj
+         ziAQnUP5cBgtsbXO32PQjUJvim5ivYEfIj0GJMTMcwl9d8/+JYxicvSWlO5t/X3ji66l
+         3Jp1qthAZwBmqhaZ4gUCmqcwWhYq47bLg8sKsk/0l7gx5y07lGNTGAuTSYvkQCAnAf3X
+         ABlRPHDaZTLQWuW/+Bd/miJXpsfERBoZxj9nVyW5z4mEEtlAL3OTqY2uMywpjcHwj0Jl
+         ZEPg==
+X-Forwarded-Encrypted: i=1; AJvYcCVkshryPXGusmKs/3tUDf6wCqJ9XMjyGqSL60DUThmEbyjMmULYXjBKajqbFxSk99Ei31vhHwg/Q1333gVg2K/U1kLAY+NOVUiLgBE=
+X-Gm-Message-State: AOJu0YxTSy+sO5kT2K13kgMs7NoMeI0ZDBAnOdMQF5YiKgZoN++/u1dG
+	lbqzh8BdXUWuwqaPiMh33nODHCdXAGJNsGe6V3qg7woc0kbJA6XoekhCShl5nw==
+X-Google-Smtp-Source: AGHT+IEAF9806y97qmHJ2SnDYiOLkOnVwPWcqFC1NWaJsEOh0gdLwpHuhOdGRcF5Wy59Aixlf/05/w==
+X-Received: by 2002:a05:6830:100f:b0:6ea:ab3:5c1e with SMTP id a15-20020a056830100f00b006ea0ab35c1emr12447905otp.29.1713209685165;
+        Mon, 15 Apr 2024 12:34:45 -0700 (PDT)
 Received: from denia.c.googlers.com (114.152.245.35.bc.googleusercontent.com. [35.245.152.114])
-        by smtp.gmail.com with ESMTPSA id s26-20020ae9f71a000000b0078d3b54eb76sm6718055qkg.78.2024.04.15.12.34.42
+        by smtp.gmail.com with ESMTPSA id s26-20020ae9f71a000000b0078d3b54eb76sm6718055qkg.78.2024.04.15.12.34.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Apr 2024 12:34:42 -0700 (PDT)
+        Mon, 15 Apr 2024 12:34:44 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 15 Apr 2024 19:34:31 +0000
-Subject: [PATCH 14/35] media: dvb-frontends: drx39xyj: Use min macro
+Date: Mon, 15 Apr 2024 19:34:32 +0000
+Subject: [PATCH 15/35] media: netup_unidvb: Use min macro
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -60,7 +60,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240415-fix-cocci-v1-14-477afb23728b@chromium.org>
+Message-Id: <20240415-fix-cocci-v1-15-477afb23728b@chromium.org>
 References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
 In-Reply-To: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
 To: Martin Tuma <martin.tuma@digiteqautomotive.com>, 
@@ -106,53 +106,29 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.12.4
 
-Simplifies the code.
+Simplify the code.
 
 Found by cocci:
-
-drivers/media/dvb-frontends/drx39xyj/drxj.c:1447:23-24: WARNING opportunity for min()
-drivers/media/dvb-frontends/drx39xyj/drxj.c:1662:21-22: WARNING opportunity for min()
-drivers/media/dvb-frontends/drx39xyj/drxj.c:1685:24-25: WARNING opportunity for min()
+drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c:138:26-27: WARNING opportunity for min()
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/dvb-frontends/drx39xyj/drxj.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/dvb-frontends/drx39xyj/drxj.c b/drivers/media/dvb-frontends/drx39xyj/drxj.c
-index 19d8de400a68..d41ce75575bb 100644
---- a/drivers/media/dvb-frontends/drx39xyj/drxj.c
-+++ b/drivers/media/dvb-frontends/drx39xyj/drxj.c
-@@ -1444,8 +1444,7 @@ static int drxdap_fasi_read_block(struct i2c_device_addr *dev_addr,
+diff --git a/drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c b/drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c
+index 46676f2c89c7..1c885d620b75 100644
+--- a/drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c
++++ b/drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c
+@@ -135,7 +135,7 @@ static void netup_i2c_fifo_tx(struct netup_i2c *i2c)
+ 		(readw(&i2c->regs->tx_fifo.stat_ctrl) & 0x3f);
+ 	u32 msg_length = i2c->msg->len - i2c->xmit_size;
  
- 	/* Read block from I2C **************************************************** */
- 	do {
--		u16 todo = (datasize < DRXDAP_MAX_RCHUNKSIZE ?
--			      datasize : DRXDAP_MAX_RCHUNKSIZE);
-+		u16 todo = min(datasize, DRXDAP_MAX_RCHUNKSIZE);
- 
- 		bufx = 0;
- 
-@@ -1659,7 +1658,7 @@ static int drxdap_fasi_write_block(struct i2c_device_addr *dev_addr,
- 		   Address must be rewritten because HI is reset after data transport and
- 		   expects an address.
- 		 */
--		todo = (block_size < datasize ? block_size : datasize);
-+		todo = min(block_size, datasize);
- 		if (todo == 0) {
- 			u16 overhead_size_i2c_addr = 0;
- 			u16 data_block_size = 0;
-@@ -1681,9 +1680,7 @@ static int drxdap_fasi_write_block(struct i2c_device_addr *dev_addr,
- 				first_err = st;
- 			}
- 			bufx = 0;
--			todo =
--			    (data_block_size <
--			     datasize ? data_block_size : datasize);
-+			todo = min(data_block_size, datasize);
- 		}
- 		memcpy(&buf[bufx], data, todo);
- 		/* write (address if can do and) data */
+-	msg_length = (msg_length < fifo_space ? msg_length : fifo_space);
++	msg_length = min(msg_length, fifo_space);
+ 	while (msg_length--) {
+ 		data = i2c->msg->buf[i2c->xmit_size++];
+ 		writeb(data, &i2c->regs->tx_fifo.data8);
 
 -- 
 2.44.0.683.g7961c838ac-goog
