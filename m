@@ -1,55 +1,55 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 037F373500
-	for <linux-sunxi@lists.linux.dev>; Mon, 15 Apr 2024 14:05:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E7E678B50
+	for <linux-sunxi@lists.linux.dev>; Mon, 15 Apr 2024 15:06:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713189936; cv=none; b=N3XJChAolsG5p8DQOuiKV0WDQ7aVVIC2w/Ck4V9u1ysE0RHoOIHgvyyKLJuujHQafcD5KGOLV5tqX2GKjAakhTmZQxHsPogFb4JILAZ2BLEw3m8F5s4xkyNwgDASMI7KMyovA3ioM2Plp6fisfLBttsc0QekFrdNLmH9vrRn2FE=
+	t=1713193597; cv=none; b=HHvkMlmqxLtPDIx4hP7y0+f/P3GaC3hWAN9M4B4tobk1xW+1F7XW9aJ5IC9tKasWqXroGf00WoBpoCndd5BBjbKhAcPuxC+YMxLrhEF6Xt2UJXiuaa5I2lcS3STJmxIgycsG4A2WOOw5D1fGKKgAODGecIhLGa+kNjVYBmZ+9d8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713189936; c=relaxed/simple;
-	bh=C2RaXFcuh6uhrQqFZdquLpLy57EbGKkPUni9Jf4Km8E=;
+	s=arc-20240116; t=1713193597; c=relaxed/simple;
+	bh=mOsRfd5qxASFakmIqOXVcTvu3CyoQSRnAIxxp1fG+4M=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gQPDm4x5IosXjz312JCq5OUHq9IJV2631BLzYVNQDkl5TG8QANgKSyMDhsIKA8weBO5ZXyIAtG34F88QZGUvwT765EHIhMNcDInMJzxpxPOAKIMBlix0Zkn69KeUkcs1Lr9q1JCf3vROxUvd2aSA3l9VKT++PUyEkP3HIuMVd+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C8IcsbhS; arc=none smtp.client-ip=209.85.218.47
+	 To:Cc:Content-Type; b=U/BNzshQJSn5PVQ4JIVxOb0IASX1cUOvyv9KZa4lN4SNNBrCy707K7jXMcqllJEtGJ9MysmiGzGz2THQy6Y7Yfc7FCF50Vnb4EXMUAFf3hzGcGN7FwHRPEGKkrmLfj9aEiT0x7NXHuiYS0JaJcwH1ro7Z9W4vh51zMILRbLwAHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=inXSSxHf; arc=none smtp.client-ip=209.85.218.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C8IcsbhS"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a52223e004dso361923766b.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 15 Apr 2024 07:05:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="inXSSxHf"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a44665605f3so352467966b.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 15 Apr 2024 08:06:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713189929; x=1713794729; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1713193591; x=1713798391; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ce+RZRNdvY2/c7BMbLG8IKG8g7W50m+r0bqN56BPld4=;
-        b=C8IcsbhSqy7cw/r2L26kYjTJ9OC6Gr3/tJFFDY4v1gYEkGS/pLzqgeB2IO4qND31XV
-         bH876z+J8VxbHZJePVUHhC1KotiTyz3nHBemN4Qvf0LZUXlC3msUZJu2j26sVyJqFxD4
-         asVGoRqFbXMtI5aCHMord8Hf3HIEoqPe1oP8J6qmEEtoJ9JvhZDDOM30qT0zZJ1GKJJi
-         M0HMVTrzDdRieUHDS2F14AFpjSaHYdMoeuvGoT7vU5mg2EVz1rHD+w6EZrNvRxgAIEMK
-         BLQcOz5frVT7a9MAD0gdx8XAHf2Bd0JfiZsZ7bt0We7C++wClaoUzX3PF7rsas0aaOuo
-         fBUg==
+        bh=/7/TBRaaPIPtSJDv4IMqFEGZB5oTZKPTNBkY3AEKti8=;
+        b=inXSSxHfyHFNzKst/lH/tKiInDbyPC4R8ntTlV5CP6gVqVdYLYvBphXlbrGrxYWc3E
+         6INiI3Je0rHPe1auKNW2ulIz5zJpC3FbxI0Onb+vTdLVdzXkuXze06+LWeqWpjMdtNHS
+         AQmGc6vuQTk5uDEGb3WgBOnoFlbMgJg2xTIOgBmqB+dPeIv9REZiBjnf9qs2oz/r+iif
+         iYFysNbGxdkDiDEXy6HKVtFbZ34ij33J1Q0u81u9zXOHaaoxnv7EqtdKV+q/vpqARBbd
+         Id3dr3vcLzFLyDZz9SAJrS8rf7URdqkjBkD8izCBaHDBhhLxCqHk1fjlhUhXIgiBE8WQ
+         /+fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713189929; x=1713794729;
+        d=1e100.net; s=20230601; t=1713193591; x=1713798391;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Ce+RZRNdvY2/c7BMbLG8IKG8g7W50m+r0bqN56BPld4=;
-        b=vf47YQaqpcGWyX4ut300SOZnl75ZGpRZ9aTRpAyw+XY/A+iZGAbdMRCXrheQlgNoBe
-         nISzOUIXDkjReuzsYockBbNuN3WYjYZ9+Vb6RJsXKZnpGoXemKogSkfDy9nwP16SSpuJ
-         DBgshb+1iDihWJVVA7J/FdbzvXhS1AhZsyWKM4I9hwbeM1jWxGi/m0LFbbm15ur47CC8
-         cX1oJjF+UNr7ZCvO7c8Oc3Wq7QRqNnEI2/BOVb5+oYlt9rEM4ny3tzuV9fR/cqcRTBsQ
-         L7gOFmbZjWCNRdwJbH73wE8QyX+YxxWqGrmvbYQ31avpDZGYt46XtuLPdFPvDPkPgK0M
-         VGgw==
-X-Forwarded-Encrypted: i=1; AJvYcCUo49dePZp/EkEKn8r4dilhNFSqfjIvdhNEDBG2esUmyA2zML4K2kvTuf42v/C7FluiCEGOCuFQ6Lu78XF3rLvsUWe+iyJQLQUzJso=
-X-Gm-Message-State: AOJu0YycXHu0ggi15L0NCq8AD5ToWIsTYcMtRZGB1/rDwxEaobMSV1jf
-	81iL6PzGAGqW/7BjKkVQim4YvsBoJO3QKlDC2vpCyjluby6S2aszPq4d6UzgbcoBnIHziMYJZCG
-	1S9MIJ2xl9p5uh4iYyrhIP9t2oMM=
-X-Google-Smtp-Source: AGHT+IH86wMUY1Sjlbl77b74h8OkFHcq+fDgDK9uWIRulsSWUGwrIz3dHKroKOaN9XoU6ownWtnCcV0AOUGrp658hc4=
-X-Received: by 2002:a17:906:1355:b0:a4a:3441:2e2a with SMTP id
- x21-20020a170906135500b00a4a34412e2amr6807358ejb.55.1713189929060; Mon, 15
- Apr 2024 07:05:29 -0700 (PDT)
+        bh=/7/TBRaaPIPtSJDv4IMqFEGZB5oTZKPTNBkY3AEKti8=;
+        b=vHAwVLzAqtQqlr3ygMi4fha0IkKAZAuNHrKk4VfgpBbj+qD3q2ulcRNsFrP2Htt48t
+         c1HXhiR8l51U0HyxS+r9LqI652esbxu9GhkmMORI/RN7L9fyDKd0iqxaCWm8W+OUL+i8
+         z546kEjOcKJ/V/R68IKk/o2WtiBA6h8nJAtTLpy4pLWRPsOt8rv43U+c/pZttotrgD3F
+         RQYhbbw3Efr5Rl3Ltum9+v6lzfgRPOeVlFHQhMpHgUtgsntJJWvBU6P0JNFgJpCNsvLH
+         z8XUIXVdI4mYCadnZFVg9ZG29Vv3vzSFQmdFUm7PtUOsKEfnAdfXgPwBrBtER23zx5zc
+         W/Sg==
+X-Forwarded-Encrypted: i=1; AJvYcCWricDv8TwnMgqT/Nu/z0NWvNl3VZI8dI7X6keO1gtn6aLRVqq5xQPb23yHKk1EcRVIBl1ABHqgX9dDHPQDm+01Ru10h5qbf03T4LI=
+X-Gm-Message-State: AOJu0YySHhZUFWKkVgaM8iKjHQcuxPfrYwzn2DDLQm2DUJpU1WaTa3Gf
+	NfAYoEuG/g1UYzo1210s4fSI7xqblgwJ+gU3wztV5wbVuetmqbbjqXzM7fajYVssGqVL5LVnR4D
+	3EF/JxNDYWX4O2G8A61E6kgi9d0Y=
+X-Google-Smtp-Source: AGHT+IEZOaeQQWk/r3eJ/DbVb/nwCv9r/tKA3MdsC0SedQqpmw8jPxhTIbiLf3bZtwJnwgsZOK4XztHqpSaPZiAKWVk=
+X-Received: by 2002:a17:906:3fc9:b0:a51:f915:bf5a with SMTP id
+ k9-20020a1709063fc900b00a51f915bf5amr5280873ejj.75.1713193590873; Mon, 15 Apr
+ 2024 08:06:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -57,13 +57,12 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20240414175300.956243-1-aren@peacevolution.org>
- <20240414175716.958831-1-aren@peacevolution.org> <20240414175716.958831-2-aren@peacevolution.org>
-In-Reply-To: <20240414175716.958831-2-aren@peacevolution.org>
+ <20240414175716.958831-1-aren@peacevolution.org> <20240414175716.958831-3-aren@peacevolution.org>
+In-Reply-To: <20240414175716.958831-3-aren@peacevolution.org>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 15 Apr 2024 17:04:53 +0300
-Message-ID: <CAHp75VdZavToGYqLYnkKYt53HXoQxXnRER5Cn5b2==gWTvkAWQ@mail.gmail.com>
-Subject: Re: [PATCH 2/4] iio: light: stk3310: Implement vdd supply and power
- it off during suspend
+Date: Mon, 15 Apr 2024 18:05:54 +0300
+Message-ID: <CAHp75Vf_JX1Uv=_cvoiukzSaTVWbmQSW0P_nneP8C-kxX4fBXQ@mail.gmail.com>
+Subject: Re: [PATCH 3/4] iio: light: stk3310: log error if reading the chip id fails
 To: Aren Moynihan <aren@peacevolution.org>
 Cc: Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
@@ -81,69 +80,25 @@ Content-Transfer-Encoding: quoted-printable
 On Sun, Apr 14, 2024 at 8:57=E2=80=AFPM Aren Moynihan <aren@peacevolution.o=
 rg> wrote:
 >
-> From: Ondrej Jirman <megi@xff.cz>
->
-> VDD power input can be used to completely power off the chip during
-> system suspend. Do so if available.
+> If the chip isn't powered, this call is likely to return an error.
+> Without a log here the driver will silently fail to probe. Common errors
+> are ENXIO (when the chip isn't powered) and ETIMEDOUT (when the i2c bus
+> isn't powered).
 
-...
-
->  #include <linux/iio/events.h>
->  #include <linux/iio/iio.h>
->  #include <linux/iio/sysfs.h>
-
-> +#include <linux/regulator/consumer.h>
-
-Move it to be ordered and add a blank line to separate iio/*.h group.
-
-...
-
-> +       data->vdd_reg =3D devm_regulator_get_optional(&client->dev, "vdd"=
-);
-> +       if (IS_ERR(data->vdd_reg)) {
-> +               ret =3D PTR_ERR(data->vdd_reg);
-> +               if (ret =3D=3D -ENODEV)
-> +                       data->vdd_reg =3D NULL;
-
-> +               else
-
-Redundant 'else' when you follow the pattern "check for error condition fir=
-st".
-
-> +                       return dev_err_probe(&client->dev, ret,
-> +                                            "get regulator vdd failed\n"=
-);
+>         ret =3D regmap_read(data->regmap, STK3310_REG_ID, &chipid);
+> -       if (ret < 0)
+> +       if (ret < 0) {
+> +               dev_err(&client->dev, "failed to read chip id: %d", ret);
+>                 return ret;
 > +       }
 
-...
+Briefly looking at the code it seems that this one is strictly part of
+the probe phase, which means we may use
 
-> +       if (data->vdd_reg) {
-> +               ret =3D regulator_enable(data->vdd_reg);
-> +               if (ret)
-> +                       return dev_err_probe(&client->dev, ret,
-> +                                            "regulator vdd enable failed=
-\n");
-> +
-> +               usleep_range(1000, 2000);
+  return dev_err_probe(...);
 
-fsleep()
-
-> +       }
-
-...
-
->         stk3310_set_state(iio_priv(indio_dev), STK3310_STATE_STANDBY);
-> +       if (data->vdd_reg)
-> +               regulator_disable(data->vdd_reg);
-
-I forgot to check the order of freeing resources, be sure you have no
-devm_*() releases happening before this call.
-
-...
-
-> +               usleep_range(1000, 2000);
-
-fsleep()
+pattern. Yet, you may add another patch to clean up all of them:
+_probe(), _init(), _regmap_init() to use the same pattern everywhere.
 
 --=20
 With Best Regards,
