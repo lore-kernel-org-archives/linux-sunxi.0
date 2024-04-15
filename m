@@ -1,356 +1,230 @@
-Received: from wflow7-smtp.messagingengine.com (wflow7-smtp.messagingengine.com [64.147.123.142])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C71FB156F5C;
-	Mon, 15 Apr 2024 21:38:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.142
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC8651B80F
+	for <linux-sunxi@lists.linux.dev>; Mon, 15 Apr 2024 23:00:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713217138; cv=none; b=HQe0MjmleMnPkYGzQKF5lVWSuhgm0gYyMLmNRhOW/qGDwsup/IYIH9EN0rm2riU9QkXzIrwA7I762NA0I9/V/5PbxTA7Q0tBDrdSsfhA2rqmotSltsRDQooLr8apNRgwgzwr5tHwPoX2g56cIBQQF1gYjXJbMXWR22hzkmIllCg=
+	t=1713222054; cv=none; b=IOp0pw37cnQQ9tV2reHNCEunLYOJBeNRO4D0bO3BoHF+nbQ8ZSY8/jLyLFf2dv27vXsYvQdShilTksHR8K4l0Gjn45uwrh4MdpRMijb6orrABdksdl94tNG6FWERVgO7b3QAW40V9B1/sTqu9qfUOPmH/bS7K3msZmZ0S/huSfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713217138; c=relaxed/simple;
-	bh=O+dwq1aGabllwC0nEJW3VJzd9UTcfuGauOLvBy+S64o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aeyl++LkxBoH6iJQPDL3ThFgdEjycTEGva+ZQ7sWHsuUCro2+iG3MAo8R9DRX0f+F6AfJEhxOnd4SNsjxlr2ailZ59K74E1tIqCZDuK3sxSMQsBxFSwLZ1yg3DH9jBntzuZ+sikJa/tuHiXSr++Vz1kU10ke+pbaBpuoyoz/LOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=rYfFLbV8; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=r0Ip3XZ4; arc=none smtp.client-ip=64.147.123.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="rYfFLbV8";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="r0Ip3XZ4"
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailflow.west.internal (Postfix) with ESMTP id 971642CC0538;
-	Mon, 15 Apr 2024 17:38:51 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Mon, 15 Apr 2024 17:38:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1713217131;
-	 x=1713220731; bh=VEqgJ/h+V7v3psTPqF1gMgoMeOBIzIVe/6Q3RDMypvg=; b=
-	rYfFLbV8IA66mlyPr4mgJw9eboPgZrLyc7uTbyNiDXOebVwnFoplsMgqBJxNPxlR
-	XB3IngAS+HlLVvhdxXgMtuBc8scaN4bbEzBL9n8jeMTkSNGjZ4kzMmRHFFMyl8IX
-	x0OqSqYWcACEhm/rtjBHXFlj+7x7HLxbUhPQRrEif28hdQIEHARBuJxZYmtJpUs4
-	Lum2FW22u6TwYOCeYTCEi+pT0YR+UEZ054oSp8QkVfalXViffQRDfBXgB1k3Lvuq
-	EnT9ERnuQy9SgfzB6lkvUmSKVnkQYy7ZZMOI5asalXNvBIe5GzMwfHCHdoH2ySAZ
-	5Jvu19U3djr3op/JO7NCKQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1713217131; x=
-	1713220731; bh=VEqgJ/h+V7v3psTPqF1gMgoMeOBIzIVe/6Q3RDMypvg=; b=r
-	0Ip3XZ4C5SE+G4oDsyKNTbcLej/OGCO7FAvtkFLD2s2wAdMJPCjYi7Py5QigJbxF
-	JRjERZLSc+yB20J8/IDOV+/2Zggi6TduwpooKP8lkr19If1GGuKnOiX80vvrxP1t
-	URQp4B1Z6mZjeRIy9E7EDzUyqI1xpwNS+eqDth9lrMnJwVNU086oLa+gCNPn4XKU
-	7j4/NWrPyW4Vq0pyp7ozRMkAA87uXvNGewUIBndXBZnlJ6eZkA5OkHXqxSK1T7p3
-	syAdAR3wsuAiM6dO3tDkAnKvj/pgzl+tgiitJ1DmLCp2PM033uK7b9mcpkd9OkVE
-	Zb3NGns1ARzhr6omcek7w==
-X-ME-Sender: <xms:aZ4dZofuGNUKHG7JXBAUxpT-OyBPlEoGsbCHiOISb0TAmMUDHrJXfA>
-    <xme:aZ4dZqP1VGDQwMQSRNlyZhiRnwwNCTxEMedcgMiwskiC01MeKz8-cXnSz2btEs2HQ
-    9-iqoomUSuLHUCCmYE>
-X-ME-Received: <xmr:aZ4dZphggRzj_iEsoPcSb6UK0tE1wAjTZgf2RZ4fMfdy4UZgRqejVHZmq43HCRaivjtL7QsUnLDfQhnzWOZqnLHuzxoH9OM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudejfecutefuodetggdotefrodftvfcurf
-    hrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomheppfhikhhlrghs
-    ucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrg
-    hssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepfeetleeujefhueek
-    teeftdeffedvudefjeeffeehlefgvddthfevleduvedvteegnecuffhomhgrihhnpehkvg
-    hrnhgvlhdrohhrghdpfhhrvggvuggvshhkthhophdrohhrghenucevlhhushhtvghrufhi
-    iigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluh
-    hnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
-X-ME-Proxy: <xmx:aZ4dZt8c4oAktIegemZPnEWtWH6j9uNtC2d9t-6o628fWHsDDEPDOA>
-    <xmx:aZ4dZktpDkKjPSPnebNm36J2cgcl4csyXW_Lnu3sHmkjHbGQGa6CBg>
-    <xmx:aZ4dZkHTxq6XUhmnSdupOCjLVhaU9AuXzRE3LM8hM4KkSxM2IuwWYg>
-    <xmx:aZ4dZjPq_ZwhDD1ELnZLfZ3DLUCAcP6y4-GEApY0ihJX1uSAL9kNlw>
-    <xmx:ap4dZro3vy3i6DRcytb64BEdiLeaHQT0RtAsGOO4iceoWK-1bJ4TPAAp>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 15 Apr 2024 17:38:48 -0400 (EDT)
-Date: Mon, 15 Apr 2024 23:38:46 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Julia Lawall <Julia.Lawall@inria.fr>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Martin Tuma <martin.tuma@digiteqautomotive.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Hugues Fruchet <hugues.fruchet@foss.st.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Chen-Yu Tsai <wens@csie.org>,	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
-	Abylay Ospan <aospan@netup.ru>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Dmitry Osipenko <digetx@gmail.com>,
-	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Jacopo Mondi <jacopo+renesas@jmondi.org>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Pavel Machek <pavel@ucw.cz>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 00/35] media: Fix coccinelle warning/errors
-Message-ID: <20240415213846.GB3460978@ragnatech.se>
-References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
- <20240415195348.GD22954@pendragon.ideasonboard.com>
- <CANiDSCteGngbSS6CCuUxM-PQiBz0W0WfoFr2E2oH2d8qt746_A@mail.gmail.com>
- <20240415203304.GA3460978@ragnatech.se>
- <CANiDSCuR6EeR2MoSH6xtJ0G07QfJsxCb116uL8ocJnwZJSh4Dg@mail.gmail.com>
+	s=arc-20240116; t=1713222054; c=relaxed/simple;
+	bh=SaDLEK/GJzA5gn1n+hQFjSwklsdC8xkcNf7+K1rWP/8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uw5Opo78ARExbSLyjzSYePueXErYZ1YZ9HVhmvtNO95GhKz2U5YP2g7ObKlcIWudY6QqV+Qu5oc6LmWpBlD2j+94vXZrvI/7s9P0DUSe0KLzKUviz0GSqu/YF+R6aGuSL+/x5dMUt2DkcrG42K0KMMZPmZ0bPXcOhFHB8QABZSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 884652F4;
+	Mon, 15 Apr 2024 16:01:19 -0700 (PDT)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5ED923F792;
+	Mon, 15 Apr 2024 16:00:49 -0700 (PDT)
+Date: Tue, 16 Apr 2024 00:00:41 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>, Michael Turquette
+ <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
+ linux-clk@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [RFC PATCH 1/1] clk: sunxi-ng: h6-r: add GPU power domain
+Message-ID: <20240416000041.47a4ecb5@minigeek.lan>
+In-Reply-To: <CAPDyKFptmNcbOTEs052yLGLxObWy7975fgpM3Kfg1TjMPVmeyA@mail.gmail.com>
+References: <20240225160616.15001-1-andre.przywara@arm.com>
+ <20240225160616.15001-2-andre.przywara@arm.com>
+ <CAPDyKFptmNcbOTEs052yLGLxObWy7975fgpM3Kfg1TjMPVmeyA@mail.gmail.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANiDSCuR6EeR2MoSH6xtJ0G07QfJsxCb116uL8ocJnwZJSh4Dg@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Ricardo,
+On Mon, 8 Apr 2024 14:55:04 +0200
+Ulf Hansson <ulf.hansson@linaro.org> wrote:
 
-On 2024-04-15 23:16:55 +0200, Ricardo Ribalda wrote:
-> Hi Niklas
+Hi Ulf,
+
+many thanks for having a look!
+
+> On Sun, 25 Feb 2024 at 17:08, Andre Przywara <andre.przywara@arm.com> wrote:
+> >
+> > The Allwinner H616 features register 0x7010254 in the PRCM MMIO frame,
+> > where bit 0 needs to be cleared to enable operation of the Mali GPU.
+> > With this bit set (the reset default), any access to the Mali registers
+> > hangs the bus and thus the whole system. The BSP code clears this bit
+> > in U-Boot and their kernel never touches it again.  
 > 
-> On Mon, 15 Apr 2024 at 22:33, Niklas Söderlund
-> <niklas.soderlund+renesas@ragnatech.se> wrote:
+> Is the bit representing a reset or power-rail? If it's a reset, it's
+> probably better to model it like that.
+
+So there is no real documentation about this bit (or the whole "PRCM"
+device), but we are pretty sure it's a power rail and not a reset. There
+are other similar rails in neighbouring registers, and some BSP code
+hints at those being power gates. Samuel once condensed this to:
+https://github.com/crust-firmware/crust/blob/master/platform/h6/include/platform/prcm.h
+
+> > Register a power-domain device to control this bit. Since we claim this
+> > MMIO region in the H6 R-CCU driver, add the code here, so that we don't
+> > need to artificially split the MMIO range in the DT.
+> > Since there seems to be at least one other register with similar behaviour
+> > nearby (0x7010260), make the power domain take one cell, even though we
+> > only support domain #0 for now.  
+> 
+> Seems like we need some updated DT bindings too to cover this?
+
+That's right (and I mentioned this in the cover letter), but I omitted
+this from this first RFC post. I will include binding patches in the v1
+post.
+
+> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > ---
+> >  drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c | 84 ++++++++++++++++++++++++++
+> >  1 file changed, 84 insertions(+)
 > >
-> > Hi Ricardo,
+> > diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c b/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c
+> > index 02b28cfc5525e..363fb7a71e9f5 100644
+> > --- a/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c
+> > +++ b/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c
+> > @@ -4,9 +4,11 @@
+> >   */
 > >
-> > Thanks for cleaning up.
+> >  #include <linux/clk-provider.h>
+> > +#include <linux/io.h>
+> >  #include <linux/module.h>
+> >  #include <linux/of.h>
+> >  #include <linux/platform_device.h>
+> > +#include <linux/pm_domain.h>
 > >
-> > On 2024-04-15 21:58:58 +0200, Ricardo Ribalda wrote:
-> > > Hi Laurent
-> > >
-> > > On Mon, 15 Apr 2024 at 21:54, Laurent Pinchart
-> > > <laurent.pinchart@ideasonboard.com> wrote:
-> > > >
-> > > > Hi Ricardo,
-> > > >
-> > > > I'm afraid I won't have time to review any of this for the time being.
-> > > > Unless you would like me to put uvcvideo reviews on hold ;-)
-> > > >
-> > > > Jokes aside, my first reaction was that this feels like a bit of a waste
-> > > > of maintainer's time :-S
-> > >
-> > > This is part of the media-ci effort.
-> > >
-> > > It is definitely not the most fun patches to do or review, but someone
-> > > has to do it :)
-> > >
-> > > The whole idea is that we want to get as little warnings as possible
-> > > from the static analysers, after this patchset we almost achieve that.
+> >  #include "ccu_common.h"
+> >  #include "ccu_reset.h"
+> > @@ -217,6 +219,86 @@ static const struct sunxi_ccu_desc sun50i_h616_r_ccu_desc = {
+> >         .num_resets     = ARRAY_SIZE(sun50i_h616_r_ccu_resets),
+> >  };
 > >
-> > I understand and I think it's a good goal to aim for zero warnings. But
-> > some of the fixes here are IMHO not helpful, for example I find this
-> > type of change counter productive.
-> >
-> > -       return ret < 0 ? ret : 0;
+> > +#define        PD_H616_GPU_REG                 0x254
 > > +
-> > +       if (ret < 0)
-> > +               return ret;
+> > +struct sun50i_h616_ppu_pd {
+> > +       struct generic_pm_domain        genpd;
+> > +       void __iomem                    *base;
+> > +};
+> > +
+> > +#define to_sun50i_h616_ppu_pd(_genpd) \
+> > +       container_of(_genpd, struct sun50i_h616_ppu_pd, genpd)
+> > +
+> > +static bool sun50i_h616_ppu_power_status(const struct sun50i_h616_ppu_pd *pd)
+> > +{
+> > +       return !readl(pd->base + PD_H616_GPU_REG);
+> > +}
+> > +
+> > +static int sun50i_h616_ppu_pd_set_power(const struct sun50i_h616_ppu_pd *pd,
+> > +                                       bool power_on)
+> > +{
+> > +       if (power_on)
+> > +               writel(0, pd->base + PD_H616_GPU_REG);
+> > +       else
+> > +               writel(1, pd->base + PD_H616_GPU_REG);
+> > +
 > > +       return 0;
-> 
-> I was on the edge on those ones as well...
-> 
-> Maybe we can try to fix the .cocci file to ignore that pattern?
-> https://lore.kernel.org/lkml/20240415-minimax-v1-1-5feb20d66a79@chromium.org/T/#u
-
-Thanks for looking into it! I think this is a good idea.
-
-> 
-> Regards!
-> 
-> 
-> 
-> 
-> 
+> > +}
+> > +
+> > +static int sun50i_h616_ppu_pd_power_on(struct generic_pm_domain *genpd)
+> > +{
+> > +       const struct sun50i_h616_ppu_pd *pd = to_sun50i_h616_ppu_pd(genpd);
+> > +
+> > +       return sun50i_h616_ppu_pd_set_power(pd, true);
+> > +}
+> > +
+> > +static int sun50i_h616_ppu_pd_power_off(struct generic_pm_domain *genpd)
+> > +{
+> > +       const struct sun50i_h616_ppu_pd *pd = to_sun50i_h616_ppu_pd(genpd);
+> > +
+> > +       return sun50i_h616_ppu_pd_set_power(pd, false);
+> > +}
+> > +
+> > +static int sun50i_h616_register_ppu(struct platform_device *pdev,
+> > +                                   void __iomem *base)
+> > +{
+> > +       struct device *dev = &pdev->dev;
+> > +       struct genpd_onecell_data *ppu;
+> > +       struct sun50i_h616_ppu_pd *pd;
+> > +       int ret;
+> > +
+> > +       pd = devm_kzalloc(dev, sizeof(*pd), GFP_KERNEL);
+> > +       if (!pd)
+> > +               return -ENOMEM;
+> > +
+> > +       ppu = devm_kzalloc(dev, sizeof(*ppu), GFP_KERNEL);
+> > +       if (!ppu)
+> > +               return -ENOMEM;
+> > +
+> > +       ppu->domains = devm_kzalloc(dev, sizeof(*ppu->domains), GFP_KERNEL);
+> > +       if (!ppu->domains)
+> > +               return -ENOMEM;
+> > +
+> > +       ppu->num_domains = 1;
+> > +       pd->genpd.name          = "GPU";
+> > +       pd->genpd.power_off     = sun50i_h616_ppu_pd_power_off;
+> > +       pd->genpd.power_on      = sun50i_h616_ppu_pd_power_on;
+> > +       pd->base                = base;
+> > +
+> > +       ret = pm_genpd_init(&pd->genpd, NULL, !sun50i_h616_ppu_power_status(pd));
+> > +       if (ret) {
+> > +               dev_warn(dev, "Failed to add GPU power domain: %d\n", ret);
+> > +               return ret;
+> > +       }
+> > +
+> > +       ppu->domains[0] = &pd->genpd;
+> > +       ret = of_genpd_add_provider_onecell(dev->of_node, ppu);
+> > +       if (ret)
+> > +               dev_warn(dev, "Failed to add provider: %d\n", ret);
+> > +
+> > +       return 0;
+> > +}
+> > +
+> >  static int sun50i_h6_r_ccu_probe(struct platform_device *pdev)
+> >  {
+> >         const struct sunxi_ccu_desc *desc;
+> > @@ -230,6 +312,8 @@ static int sun50i_h6_r_ccu_probe(struct platform_device *pdev)
+> >         if (IS_ERR(reg))
+> >                 return PTR_ERR(reg);
 > >
-> > Maybe it's better to disable this type of checks in the linter?
-> >
-> > >
-> > > It is only 2 trivial uvc patches, I can ask someone from my team to
-> > > review it if you want and trust them ;)
-> > >
-> > > Regards!
-> > >
-> > > >
-> > > > On Mon, Apr 15, 2024 at 07:34:17PM +0000, Ricardo Ribalda wrote:
-> > > > > After this set is applied, these are the only warnings left:
-> > > > > drivers/media/pci/ivtv/ivtv-fileops.c:223:4-10: preceding lock on line 267
-> > > > > drivers/media/pci/ivtv/ivtv-fileops.c:230:3-9: preceding lock on line 267
-> > > > > drivers/media/pci/ivtv/ivtv-fileops.c:236:4-10: preceding lock on line 267
-> > > > > drivers/media/pci/ivtv/ivtv-fileops.c:245:3-9: preceding lock on line 267
-> > > > > drivers/media/pci/ivtv/ivtv-fileops.c:251:3-9: preceding lock on line 267
-> > > > > drivers/media/pci/ivtv/ivtv-fileops.c:257:3-9: preceding lock on line 267
-> > > > > drivers/media/pci/ivtv/ivtv-fileops.c:272:3-9: preceding lock on line 267
-> > > > > drivers/media/pci/ivtv/ivtv-fileops.c:598:4-10: preceding lock on line 627
-> > > > > drivers/media/pci/ivtv/ivtv-fileops.c:598:4-10: preceding lock on line 689
-> > > > > drivers/media/pci/ivtv/ivtv-fileops.c:606:3-9: preceding lock on line 627
-> > > > > drivers/media/pci/ivtv/ivtv-fileops.c:606:3-9: preceding lock on line 689
-> > > > > drivers/media/pci/ivtv/ivtv-fileops.c:648:3-9: preceding lock on line 627
-> > > > > drivers/media/pci/ivtv/ivtv-fileops.c:648:3-9: preceding lock on line 689
-> > > > > drivers/media/pci/ivtv/ivtv-fileops.c:692:4-10: preceding lock on line 689
-> > > > > drivers/media/dvb-core/dvb_frontend.c:2897:1-7: preceding lock on line 2776
-> > > > > drivers/media/dvb-core/dvb_frontend.c:2897:1-7: preceding lock on line 2786
-> > > > > drivers/media/dvb-core/dvb_frontend.c:2897:1-7: preceding lock on line 2809
-> > > > > drivers/media/dvb-frontends/stv090x.c:799:1-7: preceding lock on line 768
-> > > > > drivers/media/usb/go7007/go7007-i2c.c:125:1-7: preceding lock on line 61
-> > > > > drivers/media/rc/imon.c:1167:1-7: preceding lock on line 1153
-> > > > > drivers/media/pci/cx18/cx18-scb.h:261:22-29: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > drivers/media/platform/qcom/venus/hfi_cmds.h:77:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > drivers/media/platform/qcom/venus/hfi_cmds.h:85:5-16: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > drivers/media/platform/qcom/venus/hfi_cmds.h:154:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > drivers/media/platform/qcom/venus/hfi_cmds.h:171:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > drivers/media/platform/qcom/venus/hfi_cmds.h:180:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > drivers/media/platform/qcom/venus/hfi_cmds.h:189:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > drivers/media/platform/qcom/venus/hfi_cmds.h:201:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > drivers/media/platform/qcom/venus/hfi_cmds.h:220:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > drivers/media/platform/qcom/venus/hfi_cmds.h:230:5-16: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > drivers/media/platform/qcom/venus/hfi_helper.h:764:5-15: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > drivers/media/platform/qcom/venus/hfi_helper.h:1008:43-60: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > drivers/media/platform/qcom/venus/hfi_helper.h:1014:36-46: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > drivers/media/platform/qcom/venus/hfi_helper.h:1041:5-15: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > drivers/media/platform/qcom/venus/hfi_helper.h:1088:39-51: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > drivers/media/platform/qcom/venus/hfi_helper.h:1093:5-22: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > drivers/media/platform/qcom/venus/hfi_helper.h:1144:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > drivers/media/platform/qcom/venus/hfi_helper.h:1239:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > drivers/media/platform/qcom/venus/hfi_helper.h:1267:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > drivers/media/platform/qcom/venus/hfi_helper.h:1272:4-13: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > drivers/media/common/siano/smscoreapi.h:619:5-13: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > drivers/media/common/siano/smscoreapi.h:669:6-13: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > drivers/media/common/siano/smscoreapi.h:1049:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > drivers/media/common/siano/smscoreapi.h:1055:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > drivers/media/dvb-frontends/mxl5xx_defs.h:171:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > drivers/media/dvb-frontends/mxl5xx_defs.h:182:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > drivers/media/platform/allegro-dvt/nal-hevc.h:102:14-22: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > drivers/media/platform/xilinx/xilinx-dma.h:100:19-22: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > drivers/staging/media/atomisp/pci/atomisp_tpg.h:30:18-22: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > >
-> > > > > CI tested:
-> > > > > https://gitlab.freedesktop.org/linux-media/media-staging/-/commit/055b5211c68e721c3a7090be5373cf44859da1a7/pipelines?ref=ribalda%2Ftest-cocci
-> > > > >
-> > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > > > ---
-> > > > > Ricardo Ribalda (35):
-> > > > >       media: pci: mgb4: Refactor struct resources
-> > > > >       media: stb0899: Remove unreacheable code
-> > > > >       media: uvcvideo: Refactor iterators
-> > > > >       media: uvcvideo: Use max() macro
-> > > > >       media: go7007: Use min and max macros
-> > > > >       media: stm32-dcmipp: Remove redundant printk
-> > > > >       media: staging: sun6i-isp: Remove redundant printk
-> > > > >       media: dvb-frontends: tda18271c2dd: Remove casting during div
-> > > > >       media: v4l: async: refactor v4l2_async_create_ancillary_links
-> > > > >       staging: media: tegra-video: Use swap macro
-> > > > >       media: s2255: Use refcount_t instead of atomic_t for num_channels
-> > > > >       media: platform: mtk-mdp3: Use refcount_t for job_count
-> > > > >       media: common: saa7146: Use min macro
-> > > > >       media: dvb-frontends: drx39xyj: Use min macro
-> > > > >       media: netup_unidvb: Use min macro
-> > > > >       media: au0828: Use min macro
-> > > > >       media: flexcop-usb: Use min macro
-> > > > >       media: gspca: cpia1: Use min macro
-> > > > >       media: stk1160: Use min macro
-> > > > >       media: tegra-vde: Refactor timeout handling
-> > > > >       media: venus: Use div64_u64
-> > > > >       media: i2c: st-mipid02: Use the correct div function
-> > > > >       media: dvb-frontends: tda10048: Use the right div
-> > > > >       media: tc358746: Use the correct div_ function
-> > > > >       media: venus: Use the correct div_ function
-> > > > >       media: venus: Refator return path
-> > > > >       media: dib0700: Refator return path
-> > > > >       media: usb: cx231xx: Refator return path
-> > > > >       media: i2c: rdacm20: Refator return path
-> > > > >       media: i2c: et8ek8: Refator return path
-> > > > >       media: cx231xx: Refator return path
-> > > > >       media: si4713: Refator return path
-> > > > >       media: ttpci: Refator return path
-> > > > >       media: hdpvr: Refator return path
-> > > > >       media: venus: Refator return path
-> > > > >
-> > > > >  drivers/media/common/saa7146/saa7146_hlp.c         |  8 +++----
-> > > > >  drivers/media/dvb-frontends/drx39xyj/drxj.c        |  9 +++-----
-> > > > >  drivers/media/dvb-frontends/stb0899_drv.c          |  5 -----
-> > > > >  drivers/media/dvb-frontends/tda10048.c             |  3 +--
-> > > > >  drivers/media/dvb-frontends/tda18271c2dd.c         |  4 ++--
-> > > > >  drivers/media/i2c/et8ek8/et8ek8_driver.c           |  4 +++-
-> > > > >  drivers/media/i2c/rdacm20.c                        |  5 ++++-
-> > > > >  drivers/media/i2c/st-mipid02.c                     |  2 +-
-> > > > >  drivers/media/i2c/tc358746.c                       |  3 +--
-> > > > >  drivers/media/pci/mgb4/mgb4_core.c                 |  4 ++--
-> > > > >  drivers/media/pci/mgb4/mgb4_regs.c                 |  2 +-
-> > > > >  drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c  |  2 +-
-> > > > >  drivers/media/pci/ttpci/budget-core.c              |  5 ++++-
-> > > > >  .../media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c   | 10 ++++-----
-> > > > >  .../media/platform/mediatek/mdp3/mtk-mdp3-core.c   |  6 ++---
-> > > > >  .../media/platform/mediatek/mdp3/mtk-mdp3-core.h   |  2 +-
-> > > > >  .../media/platform/mediatek/mdp3/mtk-mdp3-m2m.c    |  6 ++---
-> > > > >  drivers/media/platform/nvidia/tegra-vde/h264.c     |  6 ++---
-> > > > >  drivers/media/platform/qcom/venus/vdec.c           | 15 +++++++------
-> > > > >  drivers/media/platform/qcom/venus/venc.c           | 19 +++++++++-------
-> > > > >  .../platform/st/stm32/stm32-dcmipp/dcmipp-core.c   |  5 +----
-> > > > >  drivers/media/radio/si4713/radio-usb-si4713.c      |  8 +++++--
-> > > > >  drivers/media/usb/au0828/au0828-video.c            |  5 +----
-> > > > >  drivers/media/usb/b2c2/flexcop-usb.c               |  5 +----
-> > > > >  drivers/media/usb/cx231xx/cx231xx-i2c.c            | 16 +++++++++----
-> > > > >  drivers/media/usb/cx231xx/cx231xx-video.c          | 10 +++++++--
-> > > > >  drivers/media/usb/dvb-usb/dib0700_core.c           |  4 +++-
-> > > > >  drivers/media/usb/go7007/go7007-fw.c               |  4 ++--
-> > > > >  drivers/media/usb/gspca/cpia1.c                    |  6 ++---
-> > > > >  drivers/media/usb/hdpvr/hdpvr-control.c            |  4 +++-
-> > > > >  drivers/media/usb/s2255/s2255drv.c                 | 20 ++++++++---------
-> > > > >  drivers/media/usb/stk1160/stk1160-video.c          | 10 ++-------
-> > > > >  drivers/media/usb/uvc/uvc_ctrl.c                   | 26 ++++++++++++----------
-> > > > >  drivers/media/v4l2-core/v4l2-async.c               |  8 +++----
-> > > > >  drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c  |  1 -
-> > > > >  drivers/staging/media/tegra-video/tegra20.c        |  9 ++------
-> > > > >  36 files changed, 132 insertions(+), 129 deletions(-)
-> > > > > ---
-> > > > > base-commit: 71b3ed53b08d87212fbbe51bdc3bf44eb8c462f8
-> > > > > change-id: 20240415-fix-cocci-2df3ef22a6f7
-> > > > >
-> > > > > Best regards,
-> > > >
-> > > > --
-> > > > Regards,
-> > > >
-> > > > Laurent Pinchart
-> > >
-> > >
-> > >
-> > > --
-> > > Ricardo Ribalda
-> >
-> > --
-> > Kind Regards,
-> > Niklas Söderlund
+> > +       sun50i_h616_register_ppu(pdev, reg);
+> > +
+> >         return devm_sunxi_ccu_probe(&pdev->dev, reg, desc);
+> >  }
+> >  
 > 
-> 
-> 
-> --
-> Ricardo Ribalda
+> In general (for maintenance reasons) it's a good idea to put genpd
+> providers under drivers/pmdomain/*. It looks like that should work
+> this case too, right?
 
--- 
-Kind Regards,
-Niklas Söderlund
+Well, this question was the main reason to mark this as an RFC.
+This patch here lives in the R-CCU driver, since this device is using
+the same MMIO frame. The manual calls this device "PRCM" (Power Reset
+Clock Management), so this covers more than just those essential
+clocks, but those were all we needed and knew about until now.
+
+For simplicity (since this is indeed just a single bit to flip), I
+put the code into this existing R-CCU driver. This avoids splitting up
+the MMIO frame (at some potentially arbitrary point), and avoids the
+churn for an extra driver and DT node.
+
+Now just last week we found another separate component in this PRCM: an
+NMI interrupt controller[1], for which we already have a separate
+binding (and driver) in the tree, so we split this MMIO range
+up anyway.
+So that means at this point we might as well make this a separate
+driver, tied to a separate DT compatible string. I originally made a
+version of this driver as a separate file in drivers/pmdomain, so will
+just dig this out and post it.
+
+Unless people disagree, then please let me know.
+
+Thanks for the comments!
+
+Cheers,
+Andre
