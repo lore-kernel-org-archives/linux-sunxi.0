@@ -1,85 +1,116 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 478941598FD;
-	Mon, 15 Apr 2024 23:43:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07F71591F9;
+	Mon, 15 Apr 2024 23:53:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713224593; cv=none; b=k3j7rmjzyAL6PxUYv1J0+DACpKjdwX25YX9cevRPcE38SoXgSmqoa/HCXXxJWH8mcQ+5MDxz2RtJ27tXeJKapMzacr/vpVaN3i90jW0ersxMhRkOgwfJueYdtQk6pKQuGHBhOW2DqCUWTIJJeWo/wK7zgjaqXgwmpxJLVEW9zuU=
+	t=1713225228; cv=none; b=aY50IK6GX+EVjIUf3TzZQNnv9bFKEQwO6OAqfLs+FifVEbrH5H4LUNP9JYRRHLPB6uI3n446sfnj5CITOvySxatlX99/upcXwoLMrnvBmpEBcVoitLYvsaBXXJXnwhwzkIXbt8Bmzc/Y9aiHuTUh+h3hpgb7rVR4uScAOc0W4dw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713224593; c=relaxed/simple;
-	bh=nSVDjyOsaXPwEFf4Masm5f7IC2GELOaFx6Wn5p9UtNU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Aq2W1Gdf6/S0m4ds6hHxkb1nzWDk/cfpQeXA9C3r6sHeOe769humK1KriRYGX2U7wTumJOlygGQ2r9etxIs8+E/j2v2KVWdggWPsb7V8Qim2r4SQJpElhV6DPt5cVDrad+8YyUa6wWS2TElLqPVh87p0DXsk/JpZCTCeWWRXIKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z3seQHi3; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713225228; c=relaxed/simple;
+	bh=Glti5hmyaExB5aURz0ZlgjDbYGJVM7NX72vmMzXnptw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hwHMwN0a3mumtyZkBOu5QpmDRk+Yln1khT0rT/roY1rM8R1AYejYT7lsINYGNZUlhLwCaWWJESOcb0Y3dNJ1IPFd/JMJLJJnfrjWytyXGVXOq0/RJYjrv3MoA7kPSlsK4bID0pNuYz1BenEIsIF+gVS6wtDHEnnTwLFBnY8RJIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZL1hpYiq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z3seQHi3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA69CC2BD11;
-	Mon, 15 Apr 2024 23:43:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZL1hpYiq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CAEFC113CC;
+	Mon, 15 Apr 2024 23:53:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713224592;
-	bh=nSVDjyOsaXPwEFf4Masm5f7IC2GELOaFx6Wn5p9UtNU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Z3seQHi3ftMKwRqU1M7bzr4We4qvJ0rgVoKLjTO6uSZMYA9OTTMGwEcZ6fbbQmtVI
-	 3kZrpyOVGeMd1TV5CNkaKmf3EDQdH56J2g/BhGeTLTkLkphvYI0Hp8BjKlChM8YHhB
-	 VYmbfFBE5vakqfGEqI0AdtqI522g93wZtfF8yld2Rvxk8jLWanTgzZeqgYshcnDGxD
-	 2qeiHOK6RHUTib9We9MNRF8GkZ7gGCWmq2T9EUhFAHpzxAi/Zw7hRoiZ+LhUTiARik
-	 etb0lJoqnKmXlsKLvk2tJE1WDDDIuwRb6LP45RmEWi2167JQ0ml/2OPthCej6amcxL
-	 lYN+YZOv8RfjQ==
+	s=k20201202; t=1713225228;
+	bh=Glti5hmyaExB5aURz0ZlgjDbYGJVM7NX72vmMzXnptw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZL1hpYiqFFDqEGcnDjrAmsFrlATUjRRZYpTwcmizOz0LFIFtZNFdvRy1mN1IFPBfc
+	 WKhjgFdNYyuXRRIP7E55JZ15scpBAphhvGyqy01JkbCkAqyPNjaq/Rb3zgvOCRtMtg
+	 U+b0hvgvCsCHj48SPclceOQU2PaC/XQX/WOL9tjvJzR7xiIZ2Py7xfsQAvhKmjezyg
+	 GBuxyh0pQMfR2gkRe2josr74QsPhHNKT8doEeokNaAHLhNRpPBHW+yEiZZDgGC0b3d
+	 D59ME0/rdlohUULjuEmzYZJ/jw3jcaRhYSrYHTXKtYYSnM33E4eOw99zTY4n6Y9uyH
+	 f+/I59nHzeKmg==
+Date: Tue, 16 Apr 2024 08:53:45 +0900
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, John Watts <contact@jookia.org>
-Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20240403-sunxi_s32-v2-1-29ebf6ad590a@jookia.org>
-References: <20240403-sunxi_s32-v2-1-29ebf6ad590a@jookia.org>
-Subject: Re: [PATCH v2] ASoC: sunxi: sun4i-i2s: Support 32-bit audio
- formats
-Message-Id: <171322459009.1659018.15608590783585175158.b4-ty@kernel.org>
-Date: Tue, 16 Apr 2024 08:43:10 +0900
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Jani Nikula <jani.nikula@intel.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Alexander Stein <alexander.stein@ew.tq-group.com>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
+	linux-sunxi@lists.linux.dev, linux-mips@vger.kernel.org,
+	kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH 0/7] drm/display: Fix display helpers depends on fallouts
+Message-ID: <Zh2+CZ2G9UOxcUaf@finisterre.sirena.org.uk>
+References: <20240403-fix-dw-hdmi-kconfig-v1-0-afbc4a835c38@kernel.org>
+ <117b0d3b-a60b-4bc0-9f2c-f0e4fffe634a@sirena.org.uk>
+ <20240415-sloppy-invisible-crocodile-da4545@houat>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="hvR5IVqVtFxbshiT"
+Content-Disposition: inline
+In-Reply-To: <20240415-sloppy-invisible-crocodile-da4545@houat>
+X-Cookie: You might have mail.
 
-On Wed, 03 Apr 2024 14:47:35 +1100, John Watts wrote:
-> The I2S cores used in the H3 onwards support 32-bit sample rates.
-> Support these by adding a per-variant PCM format list.
-> 
-> 
 
-Applied to
+--hvR5IVqVtFxbshiT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+On Mon, Apr 15, 2024 at 01:21:47PM +0200, Maxime Ripard wrote:
+> On Wed, Apr 10, 2024 at 07:06:39PM +0100, Mark Brown wrote:
 
-Thanks!
+> > Is there any news on getting the rest of this merged?  It's been more
+> > than a week now and the Designware display controllers are all still
+> > broken in -next, causing widespread breakage in CI.  For bisection
+> > purposes it probably makes sense for the defconfig updates to go along
+> > with the changes to the Kconfig for the driver...
 
-[1/1] ASoC: sunxi: sun4i-i2s: Support 32-bit audio formats
-      commit: 863f94ac5f4481a7c5665e8152d551701ac71bf3
+> I was on holidays so I've admittedly hoped that it would be picked up /
+> reviewed by the relevant maintainers.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+> Aside from the changes on sunxi_defconfig, I haven't seen any review
+> from the relevant maintainers so I'm not sure how to merge this. Should
+> we get an Acked-by from Arnd, Olof, Catalin or Will and merge everything
+> through drm-misc?
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+Sounds like a reasonable plan to me - usually it'd be the SoC
+maintainers for stuff like this but they're not on the CC, though TBH it
+seems sufficiently obvious that I doubt anyone would mind if you just
+merged things without waiting.
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+--hvR5IVqVtFxbshiT
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+-----BEGIN PGP SIGNATURE-----
 
-Thanks,
-Mark
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmYdvggACgkQJNaLcl1U
+h9AFegf/bZsYaXP8tRkdBSjyeRExVkNbru80uysU+lEbQYvxVG8vF5HBon4Llvvy
+FRg2q45T55EjATaU7/f1FDFJ3TVDtXnQ4bWRlx4dvbk5S4Hcb5XaoGmwatO6eHmX
+rQz/hduFIKhwU+82v3ND/kJYfR1f9+8dvnCdL5TblWBG4o/p21dMWJKoAOlDkAzQ
+Ygt03tBG4O46UgmwS8aPVSbv0ShId3zR/L9lYdIVvtQaK6a0CK7+5EIoS5emLKlZ
+zeXN2qxSfzaUNhhGtJ3aD0Fa76bGjFeXB54Io6f8fPawV/QkDfaxIGFf9FG/G2gq
+D7fQ+Bg6302L5j6cebEC3qW3tmxzdg==
+=U8FE
+-----END PGP SIGNATURE-----
 
+--hvR5IVqVtFxbshiT--
