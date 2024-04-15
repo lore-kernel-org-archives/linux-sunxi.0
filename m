@@ -1,71 +1,32 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EE7E156960
-	for <linux-sunxi@lists.linux.dev>; Mon, 15 Apr 2024 21:04:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BBFD156C55;
+	Mon, 15 Apr 2024 21:06:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713215088; cv=none; b=PZvF3MHSjDlLw7FA0/6G6EG6njfnLMiIIBEJuJzQd4AwCqZZ6Tkwr7myszNnIHeZlB+jMooaDr40ttFTv4vL08UVKqHWgXq+c/DwSbKDbr7jgTI+irkYXwtdFSsO8GSYQJxMMZF2qdRkuqzIbSFwpBBTfYNIS/+5IEMaw5laRIU=
+	t=1713215218; cv=none; b=PfXHU36jjkHUx8fwNd1DsbbPknLMFXNgJf9Kh6sM5IS+tLFxsVYHzl+H8CXUUhgQc0rV3KSmq+aETHIhbpiv+rwSHvaTxbNPOwGa8aopDm/5KYuFYGpy9ZfN8ql+qaJxjVuH4s39MS8jG4zrRJ6lw89cTWwY8Jq7uS5RDHjkPQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713215088; c=relaxed/simple;
-	bh=97xpVeSkjoCm8WD/aULES1/pfpLnChuVXu2gEYOb/ts=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BhvUeXpS90be49woJICKCzBOUlzv2VAx4LeGrnFt7dDW/uxWQFXM8Y1gja9l6xHqkTMy2wlmw/AkTgn+DmIdXp8bTlf/74P+eiTnQ3a1TJdug2RVZSbdTMs0dUPdYomrI8tVRn0I79k7SBRW7z6urbkhqxpH/FlCnyp+fWKyNqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ffW5y3Q6; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1713215218; c=relaxed/simple;
+	bh=QK/YnNEsRDQzA+VI9ZfCIug3P5VhevsltSl+SmjeDe0=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=hzNApZIFHBIzCRrVkeu1qlOh2GfZH1MGwgHOVmXbPfJxbTGYbfUry49ojrewFBsgfTXPRDf76xK7onjQrEAEePBYWoFQZAFzgr3uqDB5Z/xPElJIG+sO1lkwy9/toZ6f1tcDNhK1Tf9CH3BE0l77pJKDqQkGPrecjNZOe1O2qRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=fail (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=rdukYCQh reason="signature verification failed"; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ffW5y3Q6"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-41885eeb104so2764445e9.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 15 Apr 2024 14:04:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713215085; x=1713819885; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=97xpVeSkjoCm8WD/aULES1/pfpLnChuVXu2gEYOb/ts=;
-        b=ffW5y3Q6Wjc3P70EpUgiyhjanUJbVj5PZfjuO+VflRyePyoLgO3xJOOFtaVOgdaIuP
-         yVXKSffMS64umAj008UaMJWb9KMMAD7ap1GJXm+KYsMFATFTBZ8iirxP+A8toOfVIA1y
-         3xskVXeoPxEATrnW2Kv6Kg+nHCNDGldbRiWDj8zIz/B0vy22B4hbYHE4shOb3fVyASyC
-         Sml7MBHGAY/jGnd94KnJODMQDg7B1LsyOXnE9Wz0vzZh3+ucKDW6/fsNehWpbAbXquWy
-         wm00wxdEYshsmbn1E12f5mXVwNDLrgYR95YOpeNGcFMxmMSkzSfRwnSf1RvAUJxcfoTx
-         oJoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713215085; x=1713819885;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=97xpVeSkjoCm8WD/aULES1/pfpLnChuVXu2gEYOb/ts=;
-        b=RwmRKBS/nefSTt/XR8jDDceCwBWEJvI/HBMXcXPfxVEZ3pEeV8Ica5lzEvnA9Hnd9U
-         +7YKnACdsUil+gu497Z03KjhrjBfpjyuqYbViafHsBwfBjBgVmST3e8oZHSvahAbez7Y
-         7Gwqe4g6c6W6/5Eu2eQsUh1rAOHL2x62IcMcNmuB3gbrWovn0FNc1nQs8snwJ3G9wQPh
-         HmgIZU1KwMPKYXxkgwW7mfGcIW1c+q8YOyi8QhuGcSKbFwuK26J/tzrT8JK6SE5P9cD+
-         9sXiZYuM+UX7qWcPgZac86sicR1XC9sV0Sxd5e9SL05ohlDyJJn1On8IxFbqprbAY5Vo
-         VXXA==
-X-Forwarded-Encrypted: i=1; AJvYcCU7rTSKYJUdCVIe7Ns50LGHZdI5h1f/oCorULDwEEcAc1+Q48hhx0s3zoT4ouhaxTklqXNcoQPJWahFdDDPVfNgElo+KGc73cbAKdk=
-X-Gm-Message-State: AOJu0Yy7OPRzzteI/jHsXUCu4O7qClV5U6/IlnUTtZ1eU8BswZ9GsPhS
-	hOT4SBosi1aM3sYP8/7WsB8HtBFWZznPD90l4RTS9NAHoImNog/+
-X-Google-Smtp-Source: AGHT+IENL+o6WLoa1B8krTaz77tBzWXU8btV+nzk0jjj8+LBP0PzHiHWy7wFv8qmW7Yq9JylgKtHog==
-X-Received: by 2002:a05:600c:3582:b0:416:9cf8:cf05 with SMTP id p2-20020a05600c358200b004169cf8cf05mr8226650wmq.18.1713215084928;
-        Mon, 15 Apr 2024 14:04:44 -0700 (PDT)
-Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id d5-20020a05600c3ac500b0041888577f1esm857952wms.10.2024.04.15.14.04.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Apr 2024 14:04:44 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: wens@csie.org
-Cc: samuel@sholland.org, sboyd@kernel.org, linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, Chad Wagner <wagnerch42@gmail.com>
-Subject:
- Re: [PATCH] clk: sunxi-ng: h6: Reparent CPUX during PLL CPUX rate change
-Date: Mon, 15 Apr 2024 23:04:43 +0200
-Message-ID: <2929835.e9J7NaK4W3@jernej-laptop>
-In-Reply-To:
- <CAGb2v651T28yrkaAbX3ckV8gEsYXdGgHMgCb3Jdmbej2OnNyLQ@mail.gmail.com>
-References:
- <20231013181712.2128037-1-jernej.skrabec@gmail.com>
- <CAGb2v651T28yrkaAbX3ckV8gEsYXdGgHMgCb3Jdmbej2OnNyLQ@mail.gmail.com>
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rdukYCQh"
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1F57F497;
+	Mon, 15 Apr 2024 23:06:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1713215167;
+	bh=QK/YnNEsRDQzA+VI9ZfCIug3P5VhevsltSl+SmjeDe0=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=rdukYCQh9mMFKAPdTqd4jo4lB4a4B7xptpHd357YCY6nsrtHDE8p4O2e61Yb+mMxi
+	 yKJPDLBT5H6E9wcVtgSM3TW7Vas5B4YrUJkgnLXrP6kJ0tc0rBjudUOeDKylS3L9Le
+	 RHF8woqIolcFMRosZ1uhKhaSSd4+78XmA8SkQZdg=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -73,33 +34,50 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20240415-fix-cocci-v1-4-477afb23728b@chromium.org>
+References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org> <20240415-fix-cocci-v1-4-477afb23728b@chromium.org>
+Subject: Re: [PATCH 04/35] media: uvcvideo: Use max() macro
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, Ricardo Ribalda <ribalda@chromium.org>
+To: Abylay Ospan <aospan@netup.ru>, Alain Volmat <alain.volmat@foss.st.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Bjorn Andersson <andersson@kernel.org>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Chen-Yu Tsai <wens@csie.org>, Dmitry Osipenko <digetx@gmail.com>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Hans Verkuil <hverkuil@xs4all.nl>, Hugues Fruchet <hugues.fruchet@foss.st.com>, Jacopo Mondi <jacopo+renesas@jmondi.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, Konrad Dybcio <konrad.dybcio@linaro.org>, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, Martin Tuma <martin.tuma@digiteqautomotive.com>, Matthi
+ as Brugger <matthias.bgg@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Niklas =?utf-8?q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, Pavel Machek <pavel@ucw.cz>, Ricardo Ribalda <ribalda@chromium.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Samuel Holland <samuel@sholland.org>, Sergey Kozlov <serjk@netup.ru>, Sowjanya Komatineni <skomatineni@nvidia.com>, Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, Sylvain Petinot <sylvain.petinot@foss.st.com>, Thierry Reding <thierry.reding@gmail.com>, Vikash Garodia <quic_vgarodia@quicinc.com>
+Date: Mon, 15 Apr 2024 22:06:49 +0100
+Message-ID: <171321520986.2333277.5902882675169324919@ping.linuxembedded.co.uk>
+User-Agent: alot/0.10
 
-Dne sobota, 2. marec 2024 ob 12:42:11 GMT +2 je Chen-Yu Tsai napisal(a):
-> On Sat, Oct 14, 2023 at 2:17=E2=80=AFAM Jernej Skrabec <jernej.skrabec@gm=
-ail.com> wrote:
-> >
-> > While PLL CPUX clock rate change when CPU is running from it works in
-> > vast majority of cases, now and then it causes instability. This leads
-> > to system crashes and other undefined behaviour. After a lot of testing
-> > (30+ hours) while also doing a lot of frequency switches, we can't
-> > observe any instability issues anymore when doing reparenting to stable
-> > clock like 24 MHz oscillator.
-> >
-> > Fixes: 524353ea480b ("clk: sunxi-ng: add support for the Allwinner H6 C=
-CU")
-> > Reported-by: Chad Wagner <wagnerch42@gmail.com>
-> > Link: https://forum.libreelec.tv/thread/27295-orange-pi-3-lts-freezes/
-> > Tested-by: Chad Wagner <wagnerch42@gmail.com>
-> > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Quoting Ricardo Ribalda (2024-04-15 20:34:21)
+> It makes the code slightly more clear and makes cocci incredibly happy:
 >=20
-> Reviewed-by: Chen-Yu Tsai <wens@csie.org>
+> drivers/media/usb/uvc/uvc_ctrl.c:839:22-23: WARNING opportunity for max()
 >=20
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/usb/uvc/uvc_ctrl.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc=
+_ctrl.c
+> index a4a987913430..4b685f883e4d 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -836,7 +836,7 @@ static s32 uvc_get_le_value(struct uvc_control_mappin=
+g *mapping,
+>         while (1) {
+>                 u8 byte =3D *data & mask;
+>                 value |=3D offset > 0 ? (byte >> offset) : (byte << (-off=
+set));
+> -               bits -=3D 8 - (offset > 0 ? offset : 0);
+> +               bits -=3D 8 - max(offset, 0);
 
-Applied.
-
-Best regards,
-Jernej
+This looks semantically the same to me so:
 
 
+Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 
+>                 if (bits <=3D 0)
+>                         break;
+> =20
+>=20
+> --=20
+> 2.44.0.683.g7961c838ac-goog
+>
