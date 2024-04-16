@@ -1,310 +1,144 @@
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE1B084FD8
-	for <linux-sunxi@lists.linux.dev>; Tue, 16 Apr 2024 08:00:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12C16EEB7
+	for <linux-sunxi@lists.linux.dev>; Tue, 16 Apr 2024 08:47:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713254426; cv=none; b=n97RywW68T2S//UjjjIizJ3HY4fbT74BGj38ntGepCRoaZRNbEEDrW0Fl1k5IrFItPGVbAoV3n6NpnqJ/g7EuItd/w8c1t1PCXqPx3RZ4rzsCy3dPzG+OYLbizUWLxpAliT6gCJ+NtdymoJ8YKHjloZm63+4wDd+vZ2dZCgdnD0=
+	t=1713257245; cv=none; b=Gi0OhxLMVGwGZbNdfLoiIhVN/eBgeYv4tlYDUSopXjynp+ifzEUS62N3k1GTao3FJFGYWG++6HWrMFrT+VhdBAxVUvxy7FGbwPl5S07ZdCAomc3xSEcxFUAwRhkFDu7qNkYPn/hXad3mDVlz+CDT7F/tS5uLhdZpTgHem33V3M4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713254426; c=relaxed/simple;
-	bh=mLgxZjyAUp0NV/f8DGt9IaprdC+uRW+ysDIR4IryXvo=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=UlZsf9aH1vdBHiDaECvQLLDmEMx/tBb7ZkdRAlSkDXg86O9cnmVlS1GE2baDaO9ICJZvpkH5iGCr9ce+MhUOLmIzi/2NQOp3/tvf8YQiNe1Ss5v1j8QWsF34hiQcOT+9DL1n3CcJ+rcRoymgsXHrGWfzdZDB2Ed9zn78JWYvATU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=NV3om/Vu; arc=none smtp.client-ip=217.70.183.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1713257245; c=relaxed/simple;
+	bh=+YjD1kVczgIpZpwc3pkofZBwOBnPI8au9Bf6byXPai8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S8GsZGg/V2eUxjzM6SXQcsUbrIPyDrPRfloqKFtE5GifBsqjFMPV9B04xNnH4tquqxQbgoiBnLMB50D/2p16GrwRsBBwURIMnhs/uWmlfgMD5SDZ858xTnb5sF11m96jLDLSLLedYPQjv4w50FJz0GMdZyUY7udnZNoIiiQRmwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WgrEBedd; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="NV3om/Vu"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 9AA15E0012;
-	Tue, 16 Apr 2024 08:00:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1713254422;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AQNbiMLr4jYeyHOSIBnjLr8DKZRWgrbGnQddnfIMp/4=;
-	b=NV3om/VuFyHBWFyV70iAztTsjeYvR15eF47iCzTxUBC4arj/TlqTMggfwQ1bwtn0jrKnds
-	hBOXJLPkVFrx7JLYzsGn8GPmYvuOdd4WcWa9YmYD8SjRWGRqJqp0F+aK2G2mhIPqbxFYd2
-	YabIJaRgtnLGvch8lLDpTeQXw7y+JTNz+d1t93IjjespoOk6OY/1cFNJWuKlbsDwCmPHKz
-	9vtuSsO/lC3vkhnRAmLJIpCPsOkiuedFmiCVAuh/dqXD8ffX0qfZbtUjrcok2EDWPl3kw4
-	8w0fCOodmzlGLIGcxmY3u/OuVK5grNjvA1NhI6CVwn4Jtg3vvfHUWmIWWVyYgA==
-Date: Tue, 16 Apr 2024 10:00:56 +0200 (CEST)
-From: Romain Gantois <romain.gantois@bootlin.com>
-To: Serge Semin <fancer.lancer@gmail.com>
-cc: Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-    Jose Abreu <joabreu@synopsys.com>, "David S. Miller" <davem@davemloft.net>, 
-    Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-    Paolo Abeni <pabeni@redhat.com>, Russell King <linux@armlinux.org.uk>, 
-    Yanteng Si <siyanteng@loongson.cn>, 
-    Maxime Coquelin <mcoquelin.stm32@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
-    Jernej Skrabec <jernej.skrabec@gmail.com>, 
-    Samuel Holland <samuel@sholland.org>, Simon Horman <horms@kernel.org>, 
-    Huacai Chen <chenhuacai@kernel.org>, netdev@vger.kernel.org, 
-    linux-stm32@st-md-mailman.stormreply.com, 
-    linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-    linux-kernel@vger.kernel.org, Jose Abreu <Jose.Abreu@synopsys.com>
-Subject: Re: [PATCH net 3/4] net: stmmac: Fix IP-cores specific MAC
- capabilities
-In-Reply-To: <20240412180340.7965-4-fancer.lancer@gmail.com>
-Message-ID: <b1c32388-f815-469f-479d-2a67e6924350@bootlin.com>
-References: <20240412180340.7965-1-fancer.lancer@gmail.com> <20240412180340.7965-4-fancer.lancer@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WgrEBedd"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a55323f2ef9so169951366b.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 16 Apr 2024 01:47:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1713257242; x=1713862042; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=NkM0I+aW0wUUvGJQ59wWIPVhiqCpaSf/yczLNzgYK2M=;
+        b=WgrEBeddcLf5IW6zOd4IhpJuhH+WA6SpOLkdL0mlaOUaI+s6a/hk3+uX6SNAX95xF7
+         1Jym5qcB1RbU0s7A4BkSrio2/un9fDJDgcLatGoEdhSVEk3f0N2DbiG8nEYIOeyNZBNd
+         geAELlMHO4ER42Umju4PFSPZcV2uD8wFZetk9n55vJinRtDWGM3qSGZzqtslXq0di4sO
+         YKIhjexm8QJTTZ7Frj4Z5yCOPLpTx7BwvRMcFLIYt/yZhyYVLs0uNTsbdPorFQSCArdF
+         4Q0IdAqt3025N1XygL4/TpMJcfc3Wtm4pdJ9qMvplg7JBwFZSfC3rkeVpA55OIIeB9cz
+         TwYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713257242; x=1713862042;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NkM0I+aW0wUUvGJQ59wWIPVhiqCpaSf/yczLNzgYK2M=;
+        b=W/fXHpUOYLXAsoX0hHRcYnWzVLee9F4WQ2Q6W74Hgpzs/2urVz0yh0TtQJ88iSIET+
+         fHXv/L1YHb5Mr9g0VwD/cyNfGVte6HOAytaa4QQ9IB6taNfGvPs6cVU/HfDy2x/WDBp2
+         FUJBqjY+25PzQ8/G48akbo6e+B743ZO6YzCi8ptO32dScyaxIYxKQNH5+IeTJjIKU5ve
+         a2EojUXqhabTsyckS7CbuS/LtEN2x3qS4uceM9E/K+RCDTWEi3F00/lWGILhlbk7VWiA
+         8ewcDFGjzaBocT70nvdWmNVUcfu2ae3teeTgaFwo9OaErHcCsRDQkAOcnncAH+x3LD72
+         AIjg==
+X-Forwarded-Encrypted: i=1; AJvYcCXBu0tnRpmzxtf9TSiNAxj5SwJaIgeiSg37SYt2o0S6sB7Q0X2S2qgkZggVe8nLfvjv3cRDal9Tv8otuWScPGa3RYIWUaGpETRZ8qg=
+X-Gm-Message-State: AOJu0YzbNLDXjMwkdoqEqtKDOsJ/n5nKMJLSMFVtsv2HSkmFCYXNBjLl
+	zZiPsLqHss7GoeYFjNc7OEmspvRq97gG0JQVfJat0OG5dftVh0buCloxpz/8Eq0=
+X-Google-Smtp-Source: AGHT+IERiWoYGa51YbGEPmkvByvhia/eckpCcRSCGVJVNIFEmOLsj+qs5GtIOBV8MGWtuu2neCmDeg==
+X-Received: by 2002:a17:906:7145:b0:a52:8a8a:59cb with SMTP id z5-20020a170906714500b00a528a8a59cbmr2572423ejj.61.1713257242155;
+        Tue, 16 Apr 2024 01:47:22 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id x16-20020a170906135000b00a51a7832a7asm6572111ejb.199.2024.04.16.01.47.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Apr 2024 01:47:21 -0700 (PDT)
+Date: Tue, 16 Apr 2024 11:47:17 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Martin Tuma <martin.tuma@digiteqautomotive.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
+	Abylay Ospan <aospan@netup.ru>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Pavel Machek <pavel@ucw.cz>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	Oleg Drokin <green@linuxhacker.ru>
+Subject: Re: [PATCH 00/35] media: Fix coccinelle warning/errors
+Message-ID: <a003494c-a1a9-4fcd-83d8-766a75d6bbb2@moroto.mountain>
+References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-GND-Sasl: romain.gantois@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
 
-On Fri, 12 Apr 2024, Serge Semin wrote:
+In my opinion, it's better to just ignore old warnings.
 
-> Here is the list of the MAC capabilities specific to the particular DW MAC
-> IP-cores currently supported by the driver:
-> 
-> DW MAC100: MAC_ASYM_PAUSE | MAC_SYM_PAUSE |
-> 	   MAC_10 | MAC_100
-> 
-> DW GMAC:  MAC_ASYM_PAUSE | MAC_SYM_PAUSE |
->           MAC_10 | MAC_100 | MAC_1000
-> 
-> Allwinner sun8i MAC: MAC_ASYM_PAUSE | MAC_SYM_PAUSE |
->                      MAC_10 | MAC_100 | MAC_1000
-> 
-> DW QoS Eth: MAC_ASYM_PAUSE | MAC_SYM_PAUSE |
->             MAC_10 | MAC_100 | MAC_1000 | MAC_2500FD
-> if there is more than 1 active Tx/Rx queues:
-> 	   MAC_ASYM_PAUSE | MAC_SYM_PAUSE |
->            MAC_10FD | MAC_100FD | MAC_1000FD | MAC_2500FD
-> 
-> DW XGMAC: MAC_ASYM_PAUSE | MAC_SYM_PAUSE |
->           MAC_1000FD | MAC_2500FD | MAC_5000FD | MAC_10000FD
-> 
-> DW XLGMAC: MAC_ASYM_PAUSE | MAC_SYM_PAUSE |
->           MAC_1000FD | MAC_2500FD | MAC_5000FD | MAC_10000FD |
->           MAC_25000FD | MAC_40000FD | MAC_50000FD | MAC_100000FD
-> 
-> As you can see there are only two common capabilities:
-> MAC_ASYM_PAUSE | MAC_SYM_PAUSE.
-> Meanwhile what is currently implemented defines 10/100/1000 link speeds
-> for all IP-cores, which is definitely incorrect for DW MAC100, DW XGMAC
-> and DW XLGMAC devices.
-> 
-> Seeing the flow-control is implemented as a callback for each MAC IP-core
-> (see dwmac100_flow_ctrl(), dwmac1000_flow_ctrl(), sun8i_dwmac_flow_ctrl(),
-> etc) and since the MAC-specific setup() method is supposed to be called
-> for each available DW MAC-based device, the capabilities initialization
-> can be freely moved to these setup() functions, thus correctly setting up
-> the MAC-capabilities for each IP-core (including the Allwinner Sun8i). A
-> new stmmac_link::caps field was specifically introduced for that so to
-> have all link-specific info preserved in a single structure.
-> 
-> Note the suggested change fixes three earlier commits at a time. The
-> commit 5b0d7d7da64b ("net: stmmac: Add the missing speeds that XGMAC
-> supports") permitted the 10-100 link speeds and 1G half-duplex mode for DW
-> XGMAC IP-core even though it doesn't support them. The commit df7699c70c1b
-> ("net: stmmac: Do not cut down 1G modes") incorrectly added the MAC1000
-> capability to the DW MAC100 IP-core. Similarly to the DW XGMAC the commit
-> 8a880936e902 ("net: stmmac: Add XLGMII support") incorrectly permitted the
-> 10-100 link speeds and 1G half-duplex mode for DW XLGMAC IP-core.
-> 
-> Fixes: 5b0d7d7da64b ("net: stmmac: Add the missing speeds that XGMAC supports")
-> Fixes: df7699c70c1b ("net: stmmac: Do not cut down 1G modes")
-> Fixes: 8a880936e902 ("net: stmmac: Add XLGMII support")
-> Suggested-by: Russell King (Oracle) <linux@armlinux.org.uk>
-> Signed-off-by: Serge Semin <fancer.lancer@gmail.com>
-> ---
->  drivers/net/ethernet/stmicro/stmmac/common.h   |  1 +
->  .../net/ethernet/stmicro/stmmac/dwmac-sun8i.c  |  2 ++
->  .../ethernet/stmicro/stmmac/dwmac1000_core.c   |  2 ++
->  .../ethernet/stmicro/stmmac/dwmac100_core.c    |  2 ++
->  .../net/ethernet/stmicro/stmmac/dwmac4_core.c  | 10 ++++------
->  .../ethernet/stmicro/stmmac/dwxgmac2_core.c    | 18 ++++++++----------
->  .../net/ethernet/stmicro/stmmac/stmmac_main.c  |  7 ++++---
->  7 files changed, 23 insertions(+), 19 deletions(-)
-> 
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/common.h b/drivers/net/ethernet/stmicro/stmmac/common.h
-> index a6fefe675ef1..3b7d4ac1e7be 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/common.h
-> +++ b/drivers/net/ethernet/stmicro/stmmac/common.h
-> @@ -553,6 +553,7 @@ extern const struct stmmac_hwtimestamp stmmac_ptp;
->  extern const struct stmmac_mode_ops dwmac4_ring_mode_ops;
->  
->  struct mac_link {
-> +	u32 caps;
->  	u32 speed_mask;
->  	u32 speed10;
->  	u32 speed100;
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-> index b21d99faa2d0..e1b761dcfa1d 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-> @@ -1096,6 +1096,8 @@ static struct mac_device_info *sun8i_dwmac_setup(void *ppriv)
->  
->  	priv->dev->priv_flags |= IFF_UNICAST_FLT;
->  
-> +	mac->link.caps = MAC_ASYM_PAUSE | MAC_SYM_PAUSE |
-> +			 MAC_10 | MAC_100 | MAC_1000;
->  	/* The loopback bit seems to be re-set when link change
->  	 * Simply mask it each time
->  	 * Speed 10/100/1000 are set in BIT(2)/BIT(3)
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac1000_core.c b/drivers/net/ethernet/stmicro/stmmac/dwmac1000_core.c
-> index 3927609abc44..8555299443f4 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac1000_core.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac1000_core.c
-> @@ -539,6 +539,8 @@ int dwmac1000_setup(struct stmmac_priv *priv)
->  	if (mac->multicast_filter_bins)
->  		mac->mcast_bits_log2 = ilog2(mac->multicast_filter_bins);
->  
-> +	mac->link.caps = MAC_ASYM_PAUSE | MAC_SYM_PAUSE |
-> +			 MAC_10 | MAC_100 | MAC_1000;
->  	mac->link.duplex = GMAC_CONTROL_DM;
->  	mac->link.speed10 = GMAC_CONTROL_PS;
->  	mac->link.speed100 = GMAC_CONTROL_PS | GMAC_CONTROL_FES;
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac100_core.c b/drivers/net/ethernet/stmicro/stmmac/dwmac100_core.c
-> index a6e8d7bd9588..7667d103cd0e 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac100_core.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac100_core.c
-> @@ -175,6 +175,8 @@ int dwmac100_setup(struct stmmac_priv *priv)
->  	dev_info(priv->device, "\tDWMAC100\n");
->  
->  	mac->pcsr = priv->ioaddr;
-> +	mac->link.caps = MAC_ASYM_PAUSE | MAC_SYM_PAUSE |
-> +			 MAC_10 | MAC_100;
->  	mac->link.duplex = MAC_CONTROL_F;
->  	mac->link.speed10 = 0;
->  	mac->link.speed100 = 0;
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac4_core.c b/drivers/net/ethernet/stmicro/stmmac/dwmac4_core.c
-> index ec6a13e644b3..a38226d7cc6a 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac4_core.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac4_core.c
-> @@ -70,14 +70,10 @@ static void dwmac4_core_init(struct mac_device_info *hw,
->  
->  static void dwmac4_phylink_get_caps(struct stmmac_priv *priv)
->  {
-> -	priv->phylink_config.mac_capabilities |= MAC_2500FD;
-> -
->  	if (priv->plat->tx_queues_to_use > 1)
-> -		priv->phylink_config.mac_capabilities &=
-> -			~(MAC_10HD | MAC_100HD | MAC_1000HD);
-> +		priv->hw->link.caps &= ~(MAC_10HD | MAC_100HD | MAC_1000HD);
->  	else
-> -		priv->phylink_config.mac_capabilities |=
-> -			(MAC_10HD | MAC_100HD | MAC_1000HD);
-> +		priv->hw->link.caps |= (MAC_10HD | MAC_100HD | MAC_1000HD);
->  }
->  
->  static void dwmac4_rx_queue_enable(struct mac_device_info *hw,
-> @@ -1385,6 +1381,8 @@ int dwmac4_setup(struct stmmac_priv *priv)
->  	if (mac->multicast_filter_bins)
->  		mac->mcast_bits_log2 = ilog2(mac->multicast_filter_bins);
->  
-> +	mac->link.caps = MAC_ASYM_PAUSE | MAC_SYM_PAUSE |
-> +			 MAC_10 | MAC_100 | MAC_1000 | MAC_2500FD;
->  	mac->link.duplex = GMAC_CONFIG_DM;
->  	mac->link.speed10 = GMAC_CONFIG_PS;
->  	mac->link.speed100 = GMAC_CONFIG_FES | GMAC_CONFIG_PS;
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwxgmac2_core.c b/drivers/net/ethernet/stmicro/stmmac/dwxgmac2_core.c
-> index e841e312077e..f8e7775bb633 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/dwxgmac2_core.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/dwxgmac2_core.c
-> @@ -47,14 +47,6 @@ static void dwxgmac2_core_init(struct mac_device_info *hw,
->  	writel(XGMAC_INT_DEFAULT_EN, ioaddr + XGMAC_INT_EN);
->  }
->  
-> -static void xgmac_phylink_get_caps(struct stmmac_priv *priv)
-> -{
-> -	priv->phylink_config.mac_capabilities |= MAC_2500FD | MAC_5000FD |
-> -						 MAC_10000FD | MAC_25000FD |
-> -						 MAC_40000FD | MAC_50000FD |
-> -						 MAC_100000FD;
-> -}
-> -
->  static void dwxgmac2_set_mac(void __iomem *ioaddr, bool enable)
->  {
->  	u32 tx = readl(ioaddr + XGMAC_TX_CONFIG);
-> @@ -1540,7 +1532,6 @@ static void dwxgmac3_fpe_configure(void __iomem *ioaddr, struct stmmac_fpe_cfg *
->  
->  const struct stmmac_ops dwxgmac210_ops = {
->  	.core_init = dwxgmac2_core_init,
-> -	.phylink_get_caps = xgmac_phylink_get_caps,
->  	.set_mac = dwxgmac2_set_mac,
->  	.rx_ipc = dwxgmac2_rx_ipc,
->  	.rx_queue_enable = dwxgmac2_rx_queue_enable,
-> @@ -1601,7 +1592,6 @@ static void dwxlgmac2_rx_queue_enable(struct mac_device_info *hw, u8 mode,
->  
->  const struct stmmac_ops dwxlgmac2_ops = {
->  	.core_init = dwxgmac2_core_init,
-> -	.phylink_get_caps = xgmac_phylink_get_caps,
->  	.set_mac = dwxgmac2_set_mac,
->  	.rx_ipc = dwxgmac2_rx_ipc,
->  	.rx_queue_enable = dwxlgmac2_rx_queue_enable,
-> @@ -1661,6 +1651,9 @@ int dwxgmac2_setup(struct stmmac_priv *priv)
->  	if (mac->multicast_filter_bins)
->  		mac->mcast_bits_log2 = ilog2(mac->multicast_filter_bins);
->  
-> +	mac->link.caps = MAC_ASYM_PAUSE | MAC_SYM_PAUSE |
-> +			 MAC_1000FD | MAC_2500FD | MAC_5000FD |
-> +			 MAC_10000FD;
->  	mac->link.duplex = 0;
->  	mac->link.speed10 = XGMAC_CONFIG_SS_10_MII;
->  	mac->link.speed100 = XGMAC_CONFIG_SS_100_MII;
-> @@ -1698,6 +1691,11 @@ int dwxlgmac2_setup(struct stmmac_priv *priv)
->  	if (mac->multicast_filter_bins)
->  		mac->mcast_bits_log2 = ilog2(mac->multicast_filter_bins);
->  
-> +	mac->link.caps = MAC_ASYM_PAUSE | MAC_SYM_PAUSE |
-> +			 MAC_1000FD | MAC_2500FD | MAC_5000FD |
-> +			 MAC_10000FD | MAC_25000FD |
-> +			 MAC_40000FD | MAC_50000FD |
-> +			 MAC_100000FD;
->  	mac->link.duplex = 0;
->  	mac->link.speed1000 = XLGMAC_CONFIG_SS_1000;
->  	mac->link.speed2500 = XLGMAC_CONFIG_SS_2500;
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-> index b8a1f02398ee..7c6fb14b5555 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-> @@ -1225,12 +1225,11 @@ static int stmmac_phy_setup(struct stmmac_priv *priv)
->  		xpcs_get_interfaces(priv->hw->xpcs,
->  				    priv->phylink_config.supported_interfaces);
->  
-> -	priv->phylink_config.mac_capabilities = MAC_ASYM_PAUSE | MAC_SYM_PAUSE |
-> -						MAC_10 | MAC_100 | MAC_1000;
-> -
->  	/* Get the MAC specific capabilities */
->  	stmmac_mac_phylink_get_caps(priv);
->  
-> +	priv->phylink_config.mac_capabilities = priv->hw->link.caps;
-> +
->  	max_speed = priv->plat->max_speed;
->  	if (max_speed)
->  		phylink_limit_mac_speed(&priv->phylink_config, max_speed);
-> @@ -7344,6 +7343,8 @@ int stmmac_reinit_queues(struct net_device *dev, u32 rx_cnt, u32 tx_cnt)
->  
->  	stmmac_mac_phylink_get_caps(priv);
->  
-> +	priv->phylink_config.mac_capabilities = priv->hw->link.caps;
-> +
->  	max_speed = priv->plat->max_speed;
->  	if (max_speed)
->  		phylink_limit_mac_speed(&priv->phylink_config, max_speed);
-> -- 
-> 2.43.0
-> 
-> 
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
-> 
+When code is new the warnings are going to be mostly correct.  The
+original author is there and knows what the code does.  Someone has
+the hardware ready to test any changes.  High value, low burden.
 
-Reviewed-by: Romain Gantois <romain.gantois@bootlin.com>
+When the code is old only the false positives are left.  No one is
+testing the code.  It's low value, high burden.
 
-Thanks,
+Plus it puts static checker authors in a difficult place because now
+people have to work around our mistakes.  It creates animosity.
 
--- 
-Romain Gantois, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Now we have to hold ourselves to a much higher standard for false
+positives.  It sounds like I'm complaining and lazy, right?  But Oleg
+Drokin has told me previously that I spend too much time trying to
+silence false positives instead of working on new code.  He's has a
+point which is that actually we have limited amount of time and we have
+to make choices about what's the most useful thing we can do.
+
+So what I do and what the zero day bot does is we look at warnings one
+time and we re-review old warnings whenever a file is changed.
+
+Kernel developers are very good at addressing static checker warnings
+and fixing the real issues...  People sometimes ask me to create a
+database of warnings which I have reviewed but the answer is that
+anything old can be ignored.  As I write this, I've had a thought that
+instead of a database of false positives maybe we should record a
+database of real bugs to ensure that the fixes for anything real is
+applied.
+
+regards,
+dan carpenter
+
