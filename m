@@ -1,265 +1,130 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3AC1128809
-	for <linux-sunxi@lists.linux.dev>; Tue, 16 Apr 2024 11:23:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mx.gpxsee.org (mx.gpxsee.org [37.205.14.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2931C12882D;
+	Tue, 16 Apr 2024 11:30:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.205.14.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713266593; cv=none; b=hW3+QYIs+k0fxy/Vyqk7oZijOUEbIIF9B94YW0ckPcg04shJDASWgnvUyqKXtzktsH3Gs34xOWdngYVIW2+NTGwA+vhFEo/j4HWujaac/NG2mD9xwKwo5b7vEtohQJ0GZkFB5h6qiduZNj52mD9sDmK8zMYQhal0bBrP3ff/vAI=
+	t=1713267022; cv=none; b=IuCXSrQUk80KNw43jFOPEeGK0I+rFzCkyopjEuko9j4P9PDoITrcFNa47RZpdta8GJ7ayQvtBggd0Ny3H6lDUMtbaAn2xcXfONG45/IKtjHOXQqUnHm7l2X4/9cbcVFLAqBMf5fepXiDPoZ9h/10hnxRatla9KtVJY4qxbIHsaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713266593; c=relaxed/simple;
-	bh=Y3llxjIXmfW7rF8sJgQDYyWp+vAUQOKaIP1rcLgHknU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lKhoP8cwcCx1dWwcjp9M6GxwJnIv2Wrt5UNhr0G313maec5UN3kOmWbOEwttR3ZTIpF+Qw63nwQHNBId8RlFk9GP4uXXQ7W1uJt5pJhM59CQclf2Jh48LyYmIZSmYwQbHobERaO9kHiJbyNexpRRXGr2agjg9l3AovLHcTK2i3c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 463A2339;
-	Tue, 16 Apr 2024 04:23:38 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2B96B3F738;
-	Tue, 16 Apr 2024 04:23:08 -0700 (PDT)
-Date: Tue, 16 Apr 2024 12:23:05 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: John Watts <contact@jookia.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Lee Jones <lee@kernel.org>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Ryan
- Walklin <ryan@testtoast.com>, Chris Morgan <macroalpha82@gmail.com>
-Subject: Re: [PATCH 1/4] regulator: axp20x: AXP717: fix LDO supply rails and
- off-by-ones
-Message-ID: <20240416122305.3ffc2bda@donnerap.manchester.arm.com>
-In-Reply-To: <ZhuNCUnJri4hBOxx@titan>
-References: <20240329235033.25309-1-andre.przywara@arm.com>
-	<20240329235033.25309-2-andre.przywara@arm.com>
-	<ZhuNCUnJri4hBOxx@titan>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1713267022; c=relaxed/simple;
+	bh=hFklNXAFTh7lsJu6P5YapMDLqrxmPeSouEGbwGP1ixQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=m9M+QI56RbQPaxruY5yKh+nz3eHEidniZ49VU2RW6u3PlgPXbg1I1jNI1yCoFh8lUkj8ZnZDj6ZiWK3Fi8EJqrZStkEEqTdBEQ/6l5lnpUpaKi56CZbgl9j8w/JxAJ7HzW2wfyVEZCQg7Q+VdwJ/mLwgTJcVgRkRrmKmF9RdytA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org; spf=pass smtp.mailfrom=gpxsee.org; arc=none smtp.client-ip=37.205.14.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gpxsee.org
+Received: from [192.168.4.14] (unknown [62.77.71.229])
+	by mx.gpxsee.org (Postfix) with ESMTPSA id 9583E3B254;
+	Tue, 16 Apr 2024 13:30:06 +0200 (CEST)
+Message-ID: <0bea915c-ddad-44b6-ade1-187307da504b@gpxsee.org>
+Date: Tue, 16 Apr 2024 13:30:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/35] media: pci: mgb4: Refactor struct resources
+To: Ricardo Ribalda <ribalda@chromium.org>,
+ Martin Tuma <martin.tuma@digiteqautomotive.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Hugues Fruchet <hugues.fruchet@foss.st.com>,
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Chen-Yu Tsai
+ <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
+ Abylay Ospan <aospan@netup.ru>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Dmitry Osipenko <digetx@gmail.com>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Sylvain Petinot <sylvain.petinot@foss.st.com>,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ Pavel Machek <pavel@ucw.cz>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
+References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
+ <20240415-fix-cocci-v1-1-477afb23728b@chromium.org>
+Content-Language: en-US
+From: =?UTF-8?Q?Martin_T=C5=AFma?= <tumic@gpxsee.org>
+In-Reply-To: <20240415-fix-cocci-v1-1-477afb23728b@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Sun, 14 Apr 2024 18:00:09 +1000
-John Watts <contact@jookia.org> wrote:
+On 15. 04. 24 21:34, Ricardo Ribalda wrote:
+> The struct resource end field is inclusive not exclusive, this is, the
+> size is (end - start) +1.
+> 
+> Update the definitions and use the generic resource_size() function.
+> 
+> Fixes cocci check:
+> drivers/media/pci/mgb4/mgb4_regs.c:13:22-25: WARNING: Suspicious code. resource_size is maybe missing with res
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>   drivers/media/pci/mgb4/mgb4_core.c | 4 ++--
+>   drivers/media/pci/mgb4/mgb4_regs.c | 2 +-
+>   2 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/pci/mgb4/mgb4_core.c b/drivers/media/pci/mgb4/mgb4_core.c
+> index 9bcf10a77fd3..60498a5abebf 100644
+> --- a/drivers/media/pci/mgb4/mgb4_core.c
+> +++ b/drivers/media/pci/mgb4/mgb4_core.c
+> @@ -493,13 +493,13 @@ static int mgb4_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>   	struct mgb4_dev *mgbdev;
+>   	struct resource video = {
+>   		.start	= 0x0,
+> -		.end	= 0x100,
+> +		.end	= 0xff,
+>   		.flags	= IORESOURCE_MEM,
+>   		.name	= "mgb4-video",
+>   	};
+>   	struct resource cmt = {
+>   		.start	= 0x1000,
+> -		.end	= 0x1800,
+> +		.end	= 0x17ff,
+>   		.flags	= IORESOURCE_MEM,
+>   		.name	= "mgb4-cmt",
+>   	};
+> diff --git a/drivers/media/pci/mgb4/mgb4_regs.c b/drivers/media/pci/mgb4/mgb4_regs.c
+> index 53d4e4503a74..31befd722d72 100644
+> --- a/drivers/media/pci/mgb4/mgb4_regs.c
+> +++ b/drivers/media/pci/mgb4/mgb4_regs.c
+> @@ -10,7 +10,7 @@
+>   int mgb4_regs_map(struct resource *res, struct mgb4_regs *regs)
+>   {
+>   	regs->mapbase = res->start;
+> -	regs->mapsize = res->end - res->start;
+> +	regs->mapsize = resource_size(res);
+>   
+>   	if (!request_mem_region(regs->mapbase, regs->mapsize, res->name))
+>   		return -EINVAL;
+> 
 
-Hi John,
-
-many thanks for the detailed review (also on the other two patches), much
-appreciated!
-
-> On Fri, Mar 29, 2024 at 11:50:30PM +0000, Andre Przywara wrote:
-> > The X-Powers AXP717 PMIC has separate input supply pins for each group
-> > of LDOs, so they are not all using the same DCDC1 input, as described
-> > currently.
-> > 
-> > Replace the "supply" member of each LDO description with the respective
-> > group supply name, so that the supply dependencies can be correctly
-> > described in the devicetree.
-> > Also fix two off-by-ones in the regulator macros, after some double
-> > checking the numbers against the datasheet.
-> > 
-> > Fixes: d2ac3df75c3a ("regulator: axp20x: add support for the AXP717")
-> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>  
-> 
-> Hi,
-> 
-> > ---
-> >  drivers/regulator/axp20x-regulator.c | 28 ++++++++++++++--------------
-> >  1 file changed, 14 insertions(+), 14 deletions(-)
-> > 
-> > diff --git a/drivers/regulator/axp20x-regulator.c b/drivers/regulator/axp20x-regulator.c
-> > index 34fcdd82b2eaa..3907606b091f6 100644
-> > --- a/drivers/regulator/axp20x-regulator.c
-> > +++ b/drivers/regulator/axp20x-regulator.c
-> > @@ -140,7 +140,7 @@
-> >  
-> >  #define AXP717_DCDC1_NUM_VOLTAGES	88
-> >  #define AXP717_DCDC2_NUM_VOLTAGES	107
-> > -#define AXP717_DCDC3_NUM_VOLTAGES	104
-> > +#define AXP717_DCDC3_NUM_VOLTAGES	103
-> >  #define AXP717_DCDC_V_OUT_MASK		GENMASK(6, 0)
-> >  #define AXP717_LDO_V_OUT_MASK		GENMASK(4, 0)
-> >  
-> > @@ -766,7 +766,7 @@ static const struct linear_range axp717_dcdc1_ranges[] = {
-> >  static const struct linear_range axp717_dcdc2_ranges[] = {
-> >  	REGULATOR_LINEAR_RANGE(500000,   0,  70,  10000),
-> >  	REGULATOR_LINEAR_RANGE(1220000, 71,  87,  20000),
-> > -	REGULATOR_LINEAR_RANGE(1600000, 88, 107, 100000),
-> > +	REGULATOR_LINEAR_RANGE(1600000, 88, 106, 100000),
-> >  };  
-> 
-> I'm not entirely sure these are correct after reading the datasheet.
-> 
-> From what I can tell REGULATOR_LINEAR_RANGE is inclusive, so for DCDC1
-> we have these ranges (we agree DCDC1 is correct, it is not affected by
-> this patch):
-> 
-> #define AXP717_DCDC1_NUM_VOLTAGES	88
-> static const struct linear_range axp717_dcdc1_ranges[] = {
-> 	REGULATOR_LINEAR_RANGE(500000,   0, 70, 10000),
-> 	REGULATOR_LINEAR_RANGE(1220000, 71, 87, 20000),
-> };
-> 
-> The datasheet says this for the register:
-> 
-> 0.5~1.2V,10mV/step,71steps
-> 1.22~1.54V,20mV/step,17steps
-> 0000000: 0.50V
-> 0000001: 0.51V
-> ...
-> 1000110: 1.20V
-> 1000111: 1.22V
-> 1001000: 1.24V
-> ...
-> 1010111: 1.54V
-> 1011000~1111111: Reserve
-> 
-> Converting to decimal:
-> 
-> 0: 0.50V (range 1 start)
-> 1: 0.51V
-> ...
-> 70: 1.20V (range 1 end)
-> 71: 1.22V (range 2 start)
-> 72: 1.24V
-> ...
-> 87: 1.54V (range 2 end)
-> 88 onwards: reserved
-> 
-> The maximum voltages are the last value plus one (to include voltage zero).
-> 
-> For DCDC2 after applying this patch we get:
-> 
-> #define AXP717_DCDC2_NUM_VOLTAGES	107
-> static const struct linear_range axp717_dcdc2_ranges[] = {
-> 	REGULATOR_LINEAR_RANGE(500000,   0,  70,  10000),
-> 	REGULATOR_LINEAR_RANGE(1220000, 71,  87,  20000),
-> 	REGULATOR_LINEAR_RANGE(1600000, 88, 106, 100000),
-> };
-> 
-> The datasheet marks the maximum value as 1101011: 3.40V, so 106 (the old
-> value for range) seems correct, but the NUM_VOLTAGES seems like it
-> should be bumped up to 108. I think you fixed the wrong thing here.
-
-I see what you mean, though I actually looked at the number of steps
-mentioned in the first part of the register description. Now
-triple-checking this I came up with this table (generated by a spreadsheet
-to minimise human error):
-voltage	decimal	binary	
-1600	88	1011000
-1700	89	1011001
-1800	90	1011010
-1900	91	1011011
-2000	92	1011100
-2100	93	1011101
-2200	94	1011110
-2300	95	1011111
-2400	96	1100000
-2500	97	1100001
-2600	98	1100010
-2700	99	1100011
-2800	100	1100100
-2900	101	1100101
-3000	102	1100110
-3100	103	1100111
-3200	104	1101000
-3300	105	1101001
-3400	106	1101010
-
-Which means the final binary value in the datasheet is wrong, as 1101011
-would mean 3.5V.
-Also  1101010 = 106
-     -1011000 = 88
-=============
-      0010010 = 18
-and 18 * 100 + 1600 = 3400, right?
-
-This *is* admittedly quite bonkers, especially since the representations
-between the manual and the code are so different, but can you check that
-this makes sense?
-
-I discovered some other issue in the original patch (missed declaring the
-range of IRQ acknowledge registers in the MFD part), so I will send a v2 of
-this series soonish.
-
-> For DCDC3 after applying this patch we get:
-> 
-> #define AXP717_DCDC3_NUM_VOLTAGES	103
-> static const struct linear_range axp717_dcdc3_ranges[] = {
-> 	REGULATOR_LINEAR_RANGE(500000,   0,  70, 10000),
-> 	REGULATOR_LINEAR_RANGE(1220000, 71, 102, 20000),
-> };
-> 
-> The datasheet marks the maximum value as 1100110: 1.84V, which is 102.
-> So this patch to correct the AXP717_DCDC3_NUM_VOLTAGES is correct here.
-
-I agree ;-) thanks for checking!
-
-Cheers,
-Andre
-
-> >  static const struct linear_range axp717_dcdc3_ranges[] = {
-> > @@ -790,40 +790,40 @@ static const struct regulator_desc axp717_regulators[] = {
-> >  	AXP_DESC(AXP717, DCDC4, "dcdc4", "vin4", 1000, 3700, 100,
-> >  		 AXP717_DCDC4_CONTROL, AXP717_DCDC_V_OUT_MASK,
-> >  		 AXP717_DCDC_OUTPUT_CONTROL, BIT(3)),
-> > -	AXP_DESC(AXP717, ALDO1, "aldo1", "vin1", 500, 3500, 100,
-> > +	AXP_DESC(AXP717, ALDO1, "aldo1", "aldoin", 500, 3500, 100,
-> >  		 AXP717_ALDO1_CONTROL, AXP717_LDO_V_OUT_MASK,
-> >  		 AXP717_LDO0_OUTPUT_CONTROL, BIT(0)),
-> > -	AXP_DESC(AXP717, ALDO2, "aldo2", "vin1", 500, 3500, 100,
-> > +	AXP_DESC(AXP717, ALDO2, "aldo2", "aldoin", 500, 3500, 100,
-> >  		 AXP717_ALDO2_CONTROL, AXP717_LDO_V_OUT_MASK,
-> >  		 AXP717_LDO0_OUTPUT_CONTROL, BIT(1)),
-> > -	AXP_DESC(AXP717, ALDO3, "aldo3", "vin1", 500, 3500, 100,
-> > +	AXP_DESC(AXP717, ALDO3, "aldo3", "aldoin", 500, 3500, 100,
-> >  		 AXP717_ALDO3_CONTROL, AXP717_LDO_V_OUT_MASK,
-> >  		 AXP717_LDO0_OUTPUT_CONTROL, BIT(2)),
-> > -	AXP_DESC(AXP717, ALDO4, "aldo4", "vin1", 500, 3500, 100,
-> > +	AXP_DESC(AXP717, ALDO4, "aldo4", "aldoin", 500, 3500, 100,
-> >  		 AXP717_ALDO4_CONTROL, AXP717_LDO_V_OUT_MASK,
-> >  		 AXP717_LDO0_OUTPUT_CONTROL, BIT(3)),
-> > -	AXP_DESC(AXP717, BLDO1, "bldo1", "vin1", 500, 3500, 100,
-> > +	AXP_DESC(AXP717, BLDO1, "bldo1", "bldoin", 500, 3500, 100,
-> >  		 AXP717_BLDO1_CONTROL, AXP717_LDO_V_OUT_MASK,
-> >  		 AXP717_LDO0_OUTPUT_CONTROL, BIT(4)),
-> > -	AXP_DESC(AXP717, BLDO2, "bldo2", "vin1", 500, 3500, 100,
-> > +	AXP_DESC(AXP717, BLDO2, "bldo2", "bldoin", 500, 3500, 100,
-> >  		 AXP717_BLDO2_CONTROL, AXP717_LDO_V_OUT_MASK,
-> >  		 AXP717_LDO0_OUTPUT_CONTROL, BIT(5)),
-> > -	AXP_DESC(AXP717, BLDO3, "bldo3", "vin1", 500, 3500, 100,
-> > +	AXP_DESC(AXP717, BLDO3, "bldo3", "bldoin", 500, 3500, 100,
-> >  		 AXP717_BLDO3_CONTROL, AXP717_LDO_V_OUT_MASK,
-> >  		 AXP717_LDO0_OUTPUT_CONTROL, BIT(6)),
-> > -	AXP_DESC(AXP717, BLDO4, "bldo4", "vin1", 500, 3500, 100,
-> > +	AXP_DESC(AXP717, BLDO4, "bldo4", "bldoin", 500, 3500, 100,
-> >  		 AXP717_BLDO4_CONTROL, AXP717_LDO_V_OUT_MASK,
-> >  		 AXP717_LDO0_OUTPUT_CONTROL, BIT(7)),
-> > -	AXP_DESC(AXP717, CLDO1, "cldo1", "vin1", 500, 3500, 100,
-> > +	AXP_DESC(AXP717, CLDO1, "cldo1", "cldoin", 500, 3500, 100,
-> >  		 AXP717_CLDO1_CONTROL, AXP717_LDO_V_OUT_MASK,
-> >  		 AXP717_LDO1_OUTPUT_CONTROL, BIT(0)),
-> > -	AXP_DESC(AXP717, CLDO2, "cldo2", "vin1", 500, 3500, 100,
-> > +	AXP_DESC(AXP717, CLDO2, "cldo2", "cldoin", 500, 3500, 100,
-> >  		 AXP717_CLDO2_CONTROL, AXP717_LDO_V_OUT_MASK,
-> >  		 AXP717_LDO1_OUTPUT_CONTROL, BIT(1)),
-> > -	AXP_DESC(AXP717, CLDO3, "cldo3", "vin1", 500, 3500, 100,
-> > +	AXP_DESC(AXP717, CLDO3, "cldo3", "cldoin", 500, 3500, 100,
-> >  		 AXP717_CLDO3_CONTROL, AXP717_LDO_V_OUT_MASK,
-> >  		 AXP717_LDO1_OUTPUT_CONTROL, BIT(2)),
-> > -	AXP_DESC(AXP717, CLDO4, "cldo4", "vin1", 500, 3500, 100,
-> > +	AXP_DESC(AXP717, CLDO4, "cldo4", "cldoin", 500, 3500, 100,
-> >  		 AXP717_CLDO4_CONTROL, AXP717_LDO_V_OUT_MASK,
-> >  		 AXP717_LDO1_OUTPUT_CONTROL, BIT(3)),
-> >  	AXP_DESC(AXP717, CPUSLDO, "cpusldo", "vin1", 500, 1400, 50,
-> > -- 
-> > 2.35.8
-> >   
+Reviewed-by: Martin Tůma <martin.tuma@digiteqautomotive.com>
 
