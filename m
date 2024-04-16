@@ -1,130 +1,144 @@
-Received: from mx.gpxsee.org (mx.gpxsee.org [37.205.14.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2931C12882D;
-	Tue, 16 Apr 2024 11:30:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.205.14.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6D2B12882D
+	for <linux-sunxi@lists.linux.dev>; Tue, 16 Apr 2024 11:38:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713267022; cv=none; b=IuCXSrQUk80KNw43jFOPEeGK0I+rFzCkyopjEuko9j4P9PDoITrcFNa47RZpdta8GJ7ayQvtBggd0Ny3H6lDUMtbaAn2xcXfONG45/IKtjHOXQqUnHm7l2X4/9cbcVFLAqBMf5fepXiDPoZ9h/10hnxRatla9KtVJY4qxbIHsaY=
+	t=1713267514; cv=none; b=Io0McgZe34q/xbxGWm1/CXm67Ut2vQ7EXCO2+/eNaBqDzhBJxCqk/3TWVT78pzogzMOmi2ZAASXVse904L8kvWNu1/SmJKxTPXrO8UkjqAZiomw4nMRyOnLKr7p0MoH4OvmcianEgp9lnFRSgKd6ALY4WkbCkmsWACjetVqggGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713267022; c=relaxed/simple;
-	bh=hFklNXAFTh7lsJu6P5YapMDLqrxmPeSouEGbwGP1ixQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=m9M+QI56RbQPaxruY5yKh+nz3eHEidniZ49VU2RW6u3PlgPXbg1I1jNI1yCoFh8lUkj8ZnZDj6ZiWK3Fi8EJqrZStkEEqTdBEQ/6l5lnpUpaKi56CZbgl9j8w/JxAJ7HzW2wfyVEZCQg7Q+VdwJ/mLwgTJcVgRkRrmKmF9RdytA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org; spf=pass smtp.mailfrom=gpxsee.org; arc=none smtp.client-ip=37.205.14.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gpxsee.org
-Received: from [192.168.4.14] (unknown [62.77.71.229])
-	by mx.gpxsee.org (Postfix) with ESMTPSA id 9583E3B254;
-	Tue, 16 Apr 2024 13:30:06 +0200 (CEST)
-Message-ID: <0bea915c-ddad-44b6-ade1-187307da504b@gpxsee.org>
-Date: Tue, 16 Apr 2024 13:30:02 +0200
+	s=arc-20240116; t=1713267514; c=relaxed/simple;
+	bh=NIRfjbxBKlUF6UYKXQ9bPrhaNs+Ht9ITk6Oi0xFaqV0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aH0FHOolsv45f7veyorFFr1BbjmOB5Z0DsUk58Q7TNJNfAwwATF+7x/Mb00nP4aHFMDR7+3v0OjoFa4g7UPUcpuDVft5piFxzUu+nojAd766KHTho2G0lFJvQFsE2SIRhvcKpmxljpl8BGcrlWKWSHfnXoGvpCfm+ckx2uoNiuA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MlqozUKR; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MlqozUKR"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-516d2b9cd69so5205525e87.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 16 Apr 2024 04:38:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1713267511; x=1713872311; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3imXpN/x1JQtEA6zkUwudIXWS06IjOEYxP3aQIvEud0=;
+        b=MlqozUKRkriQ593p8lKdpEbZoWyNLDWAgOag4bQe2IYvHu4gOHrfrbYTkKFSIFN/Vw
+         +JsWfX8WzJO27wK/YjyxqfNusaVu6BxtXaddFUY5LAscwZ1ZuDLkqmcRY9fSJka6fYQt
+         1lcrYUqanyEeqNkFeYEuO8C+hyXtyWPh0r3XuE8wVJqGD+7RpvVka1MfL0HHGdOIoOlH
+         nJ4rf1jwQsB2mju+P3ntEUJaPAtnPex2oIPwITn7X5cBBcVlWG+HZqcYB46q/kPeCH2/
+         MFwwoC13atsfkY4lz6cHANeqbSirufd1Hsv92IUWwjRdRS3LqaU/NElDJSUO8j4ZwNgm
+         U0sA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713267511; x=1713872311;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3imXpN/x1JQtEA6zkUwudIXWS06IjOEYxP3aQIvEud0=;
+        b=W1/eyumdyeuiJ2LNLPgfs6hLLucFRRJlDphWvyMm2P372CwcfdN7u3fhGAGDpp5Tso
+         XzcqSrpz/nonHTpXJPJG+jVlXXt06e7oVt4fcmjcctSP/CStzMPZUSYA01scQmSgY8zw
+         msrqFu6fuoKWr7I4il7MOntR36nhiUR+nLzRPqJm0XZjMzcBTs/mtXaUg53qSUOriDMr
+         sTOWRG6ZgNMHxnSdW9pyFXmzg627jCTVvPA7bBvLajqSvnkZohbtC1SSgshs4oRCrzWv
+         bGTZ0mWwDUQlumw+WoykEjX/nsCu6xqO/6/7lSk7hg+vUXcRjzEa26NF5IOgt0+vuvIg
+         bOIw==
+X-Forwarded-Encrypted: i=1; AJvYcCWMRlIDa9I7acQoTIqb/a0EKza+0WGaXT2vzH9/Z/e57A7oYAgn+w92B8KOy0m/upwDWLnyT7TU7LcGz8bUDeoV+8Gs/9O/OoLWIDg=
+X-Gm-Message-State: AOJu0YyBBPRu7T+H5yrN4c3WfnFku+q4unT1NLsXUEcEzK7v3I0A3O6W
+	mMxTShxgLIbNST1l4LQbKG190fWtZ93BkbreqD0+YFna396Cbqyt
+X-Google-Smtp-Source: AGHT+IFsv1t50cVsn9xtvOjs4g4KFGJI0LdCIc6Wa6MGsoQY1SUEtRqNz2Pjjzjb2zJlDyUmdLuf3A==
+X-Received: by 2002:ac2:528c:0:b0:518:7e4a:2035 with SMTP id q12-20020ac2528c000000b005187e4a2035mr7410480lfm.45.1713267510734;
+        Tue, 16 Apr 2024 04:38:30 -0700 (PDT)
+Received: from mobilestation ([213.79.110.82])
+        by smtp.gmail.com with ESMTPSA id bp22-20020a056512159600b00518e96b85b0sm568727lfb.234.2024.04.16.04.38.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Apr 2024 04:38:30 -0700 (PDT)
+Date: Tue, 16 Apr 2024 14:38:28 +0300
+From: Serge Semin <fancer.lancer@gmail.com>
+To: Romain Gantois <romain.gantois@bootlin.com>
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Jose Abreu <joabreu@synopsys.com>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Russell King <linux@armlinux.org.uk>, 
+	Yanteng Si <siyanteng@loongson.cn>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Simon Horman <horms@kernel.org>, Huacai Chen <chenhuacai@kernel.org>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next 4/4] net: stmmac: Move MAC caps init to phylink
+ MAC caps getter
+Message-ID: <btgxb3ugs4apjvxj5hmpec3rtoxwdal7ms2z4s7pecdfefphiw@gd7ctqsh7wg2>
+References: <20240412180340.7965-1-fancer.lancer@gmail.com>
+ <20240412180340.7965-5-fancer.lancer@gmail.com>
+ <714199e5-edf2-dcbb-216b-563431d70488@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/35] media: pci: mgb4: Refactor struct resources
-To: Ricardo Ribalda <ribalda@chromium.org>,
- Martin Tuma <martin.tuma@digiteqautomotive.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Hugues Fruchet <hugues.fruchet@foss.st.com>,
- Alain Volmat <alain.volmat@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Chen-Yu Tsai
- <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
- Abylay Ospan <aospan@netup.ru>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Dmitry Osipenko <digetx@gmail.com>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Sylvain Petinot <sylvain.petinot@foss.st.com>,
- Jacopo Mondi <jacopo+renesas@jmondi.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
- Pavel Machek <pavel@ucw.cz>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
-References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
- <20240415-fix-cocci-v1-1-477afb23728b@chromium.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Martin_T=C5=AFma?= <tumic@gpxsee.org>
-In-Reply-To: <20240415-fix-cocci-v1-1-477afb23728b@chromium.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <714199e5-edf2-dcbb-216b-563431d70488@bootlin.com>
 
-On 15. 04. 24 21:34, Ricardo Ribalda wrote:
-> The struct resource end field is inclusive not exclusive, this is, the
-> size is (end - start) +1.
-> 
-> Update the definitions and use the generic resource_size() function.
-> 
-> Fixes cocci check:
-> drivers/media/pci/mgb4/mgb4_regs.c:13:22-25: WARNING: Suspicious code. resource_size is maybe missing with res
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->   drivers/media/pci/mgb4/mgb4_core.c | 4 ++--
->   drivers/media/pci/mgb4/mgb4_regs.c | 2 +-
->   2 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/pci/mgb4/mgb4_core.c b/drivers/media/pci/mgb4/mgb4_core.c
-> index 9bcf10a77fd3..60498a5abebf 100644
-> --- a/drivers/media/pci/mgb4/mgb4_core.c
-> +++ b/drivers/media/pci/mgb4/mgb4_core.c
-> @@ -493,13 +493,13 @@ static int mgb4_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->   	struct mgb4_dev *mgbdev;
->   	struct resource video = {
->   		.start	= 0x0,
-> -		.end	= 0x100,
-> +		.end	= 0xff,
->   		.flags	= IORESOURCE_MEM,
->   		.name	= "mgb4-video",
->   	};
->   	struct resource cmt = {
->   		.start	= 0x1000,
-> -		.end	= 0x1800,
-> +		.end	= 0x17ff,
->   		.flags	= IORESOURCE_MEM,
->   		.name	= "mgb4-cmt",
->   	};
-> diff --git a/drivers/media/pci/mgb4/mgb4_regs.c b/drivers/media/pci/mgb4/mgb4_regs.c
-> index 53d4e4503a74..31befd722d72 100644
-> --- a/drivers/media/pci/mgb4/mgb4_regs.c
-> +++ b/drivers/media/pci/mgb4/mgb4_regs.c
-> @@ -10,7 +10,7 @@
->   int mgb4_regs_map(struct resource *res, struct mgb4_regs *regs)
->   {
->   	regs->mapbase = res->start;
-> -	regs->mapsize = res->end - res->start;
-> +	regs->mapsize = resource_size(res);
->   
->   	if (!request_mem_region(regs->mapbase, regs->mapsize, res->name))
->   		return -EINVAL;
-> 
+Hi Romain
 
-Reviewed-by: Martin Tůma <martin.tuma@digiteqautomotive.com>
+On Tue, Apr 16, 2024 at 09:56:32AM +0200, Romain Gantois wrote:
+> Hi Serge,
+> 
+> On Fri, 12 Apr 2024, Serge Semin wrote:
+> 
+> > +static unsigned long stmmac_mac_get_caps(struct phylink_config *config,
+> > +					 phy_interface_t interface)
+> > +{
+> > +	struct stmmac_priv *priv = netdev_priv(to_net_dev(config->dev));
+> > +
+> > +	/* Get the MAC-specific capabilities */
+> > +	stmmac_mac_phylink_get_caps(priv);
+> 
+> This is a bit of a nitpick, but the terminology is quite confusing between 
+> stmmac_mac_phylink_get_caps() and stmmac_mac_get_caps().
 
+Right, the naming turns to be ambiguous "a bit".)
+
+> Ideally, we could just 
+> get rid of the whole stmmac_do_void_callback() complexity and just call 
+> phylink_get_caps() directly.
+
+No, this isn't a good solution. The local coding convention implies
+using the macro-functions implemented to execute the callbacks. We
+can't use the macros everywhere but in this place.
+
+> In the meantime, maybe renaming this to 
+> stmmac_mac_core_get_caps() would be acceptable?
+
+The name was selected to align with the rest of the PHYLINK callbacks:
+
+static const struct phylink_mac_ops stmmac_phylink_mac_ops = {
+        .mac_get_caps = stmmac_mac_get_caps,
+        .mac_select_pcs = stmmac_mac_select_pcs,
+        .mac_config = stmmac_mac_config,
+        .mac_link_down = stmmac_mac_link_down,
+        .mac_link_up = stmmac_mac_link_up,
+};
+
+So I don't think that changing it to something different would be a
+good alternative. What could be a better option is to rename the
+stmmac_ops::phylink_get_caps() callback and
+stmmac_mac_phylink_get_caps() macro-function to something like:
+
+stmmac_ops::link_update_caps()
+stmmac_mac_link_update_caps()
+
+especially seeing the callback no longer sets the phylink MAC
+capabilities directly. What do you think?
+
+-Serge(y)
+
+> 
+> Please let me know what you think.
+> 
+> Thanks,
+> 
+> -- 
+> Romain Gantois, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
