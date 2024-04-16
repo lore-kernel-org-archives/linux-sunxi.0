@@ -1,167 +1,165 @@
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 122788249A
-	for <linux-sunxi@lists.linux.dev>; Tue, 16 Apr 2024 07:38:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1093D84D14
+	for <linux-sunxi@lists.linux.dev>; Tue, 16 Apr 2024 07:44:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713253127; cv=none; b=R5xMZGbTuRqlkhAoQq5GbkWf80XG8eBX+2yglWpXEG9zODz3eLyi1uqi8I/3B0MhzWtALCy4lQCNopoqm/t9DTlD6qUIaHcvIlG4t/sZIBSd7/khco3ySmvPrMQjqGjxs3AckeJVOcZaKrZ4REKoQtb/gplpHg60Xk5RDaQ+TXk=
+	t=1713253472; cv=none; b=WB60gWnn9PkDoGA8+LFgfOKyPeyQf7gzvtntRamkocXXMo2PqR2NAn60hccYYFU5CNZ8vm4XTNU2pSsaFFz4tMUJB9TUSV+78CHmBoGmtMjemHL9vxqauu5DRuOk+ZYegkynwB0jk5PogtjstOmR/ANyYyID0x+vXGXhU9afD1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713253127; c=relaxed/simple;
-	bh=lUqDKVsxEUBpfagEiDshnVlzzuckkMYbiID+GPOBjcc=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=EDYA3czDsc9w5iehudo+lmHtm1i0+pjbN37B7ysqsXh250ASBCdKkDb1SP3fT++oFLms1wh26hdeFd+CoZnvSpatKgZO37+P2QnUZ3UrxmnPZTVeEVXvOiqiblMwNFY8ULaaBsbwnqYW9MX1AhD+v+RSDnkcRRJQVyRyOQfAHhw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=C4ZMXEEo; arc=none smtp.client-ip=217.70.183.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1713253472; c=relaxed/simple;
+	bh=y9gOE2zuKiIA3PVc9oPZQMxUqwvKVk8idGCEvr2B1w0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZO7wFxFKbMf5BsbJ+qcxoptl2M2giFV1OEAMugGGSFauibwHXYtlcl+873+abq+TgtLZWG3M0fsHzcxgKNQJOeWPR7P5Ysr+oH5mIj4XvcLR7uipt99I2TYWatMmrvpnDSyQQGsxp2CQFg1UqwgQ01N1U9dFiP53QzXty9O3504=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=smC3k8Qn; arc=none smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="C4ZMXEEo"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 8B75D2000C;
-	Tue, 16 Apr 2024 07:38:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1713253123;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1FXHS0Dan/Zrf+0lP3wL/voTzdU1rNvLhXyoXYOBuWU=;
-	b=C4ZMXEEo5ujJch9Vo0Aa5lUyCcnncL86YDaBD3U2XWGIVmm4TSzygL9U3K7eTVi4NRjLbt
-	wUC4pnKg2eM/TWwC1zboCj6aciX3Utv7bJ1KtAHQIIg/NVvf/u4kwoSfKuRUwzsbzWBOeA
-	FDJalRVH040WA8Ph101j50vGqFIzQfw5Ma+sCk2i3vQVBN/+gQ7khdcSZonK/Rz0MSciWs
-	daJ1pUXeE7GW6uDbIv+m/Q3H8NTG3hZ4DrqFi6e0ZJg2KfZR9wCG2hGEuyOkju0MVkr4O3
-	G8pi+6ZbFjPZBagjZx+DFmz90T8frlVxnpDTZRMAFNYV9XYmhDjuaSRuHb+e/Q==
-Date: Tue, 16 Apr 2024 09:39:20 +0200 (CEST)
-From: Romain Gantois <romain.gantois@bootlin.com>
-To: Serge Semin <fancer.lancer@gmail.com>
-cc: Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-    Jose Abreu <joabreu@synopsys.com>, "David S. Miller" <davem@davemloft.net>, 
-    Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-    Paolo Abeni <pabeni@redhat.com>, Russell King <linux@armlinux.org.uk>, 
-    Yanteng Si <siyanteng@loongson.cn>, 
-    Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-    Bhadram Varka <vbhadram@nvidia.com>, Simon Horman <horms@kernel.org>, 
-    Huacai Chen <chenhuacai@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-    Jernej Skrabec <jernej.skrabec@gmail.com>, 
-    Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org, 
-    linux-stm32@st-md-mailman.stormreply.com, 
-    linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-    linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net 1/4] net: stmmac: Apply half-duplex-less constraint
- for DW QoS Eth only
-In-Reply-To: <20240412180340.7965-2-fancer.lancer@gmail.com>
-Message-ID: <7db899b0-4547-2c4c-60a5-8321d698cce4@bootlin.com>
-References: <20240412180340.7965-1-fancer.lancer@gmail.com> <20240412180340.7965-2-fancer.lancer@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="smC3k8Qn"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-57009454c83so3313098a12.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 16 Apr 2024 00:44:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1713253468; x=1713858268; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=AkbPRxuJaFbf8hemSHK1ZWQRF0fsDq8QRKmW1NagRfM=;
+        b=smC3k8QnNaR9gNHM6fvKlktXLcYKjHw//+qo2wtLUoGv8kOp0jpaKBD1+liTw5fIQb
+         qTgceeMSzYKJuhuArCfyH0HnRY0lKMX4/v3dYtoOUPjHPIEUlX+oUd1UfFcCMnrppsFQ
+         SxOMjRE55vMlY/tgG0VR/4f+xlK9l1gbueDKNGDy1TuEBVaxWW+HKE0Nj353jIhgKmkF
+         ii4olDkil38aTDf7pS8cssZ3C1RtMfWetg08yktNfeUFrgy++JL/yLLT2RsmoUvC/X9i
+         NILWyEqdFD7waFB/hiNUohWw0amp1Ra9LVUKdY754FJbzMiN4Q+qsUtPY2iNDiZdv5eI
+         PpFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713253468; x=1713858268;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AkbPRxuJaFbf8hemSHK1ZWQRF0fsDq8QRKmW1NagRfM=;
+        b=EtwKgn3hW3oPbXG15cnbMZ07dzPmOfjg3VzzXYg+gILTq+rY6UTIGZ7X5eAwed7RdX
+         2vw/8wOZ8poZ5e/vQB96MRvZuflNK8zzNjS+SdKpKhad9ZDHe74KDj/dNWwfeRs6M7J4
+         W33rNe7O37q5gCgUGpOf2rHAPVe2CdI3C+yHLLKhIhplrhjfLo459l1KdquQxrAYTqcv
+         PpQWsKyrdHB5sQjCNelewYMtnSkOsNVF6ws3j/pSBNbMERuqfMcP2sBif0SQ7PHok2n0
+         5oR4fFCt1SMIT58ALTGXy6M+UbISs0GVxA5MT6IacguJyC7oYOhU/7H6BmNFOJ3cq7lx
+         t0bQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW1ss0dvgMO0lVy3joJA1uKQ+tdvncKm2/vTkuKia+mcc3Ci4U4FPUgc5EXE3rgHd+i6+yXd0fpNS8rA+dZsMePAF1w1YO+rzoJf94=
+X-Gm-Message-State: AOJu0YyxFqWSS4vLg5WLy9mNEMmEfLQN7JCy9j15VtsP5gHTPC7lSPTD
+	485w7fgpbtLfZG50JBRHYB8O81pquKe+SKx6mzNKfAB4T/eUAKEpWZU/ls/StPA=
+X-Google-Smtp-Source: AGHT+IHyv6GyLcCM7SuFRY2lQ0w+D3nRQ0Oogv+NgpwSUUhg8+w7A2aBnM/9CzYE2fZ/BNYLgCzdrg==
+X-Received: by 2002:a50:8d0b:0:b0:570:38a:57ea with SMTP id s11-20020a508d0b000000b00570038a57eamr6318788eds.33.1713253468256;
+        Tue, 16 Apr 2024 00:44:28 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id fk27-20020a056402399b00b0056e78e90a1dsm5799411edb.49.2024.04.16.00.44.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Apr 2024 00:44:28 -0700 (PDT)
+Date: Tue, 16 Apr 2024 10:44:23 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Martin Tuma <martin.tuma@digiteqautomotive.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
+	Abylay Ospan <aospan@netup.ru>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Pavel Machek <pavel@ucw.cz>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH 09/35] media: v4l: async: refactor
+ v4l2_async_create_ancillary_links
+Message-ID: <a1917f15-ba04-4d8b-8dd6-0c1bc9a498ca@moroto.mountain>
+References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
+ <20240415-fix-cocci-v1-9-477afb23728b@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-GND-Sasl: romain.gantois@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240415-fix-cocci-v1-9-477afb23728b@chromium.org>
 
-On Fri, 12 Apr 2024, Serge Semin wrote:
-
-> There are three DW MAC IP-cores which can have the multiple Tx/Rx queues
-> enabled:
-> DW GMAC v3.7+ with AV feature,
-> DW QoS Eth v4.x/v5.x,
-> DW XGMAC/XLGMAC
-> Based on the respective HW databooks, only the DW QoS Eth IP-core doesn't
-> support the half-duplex link mode in case if more than one queues enabled:
+On Mon, Apr 15, 2024 at 07:34:26PM +0000, Ricardo Ribalda wrote:
+> Return 0 without checking IS_ERR or PTR_ERR if CONFIG_MEDIA_CONTROLLER
+> is not enabled.
 > 
-> "In multiple queue/channel configurations, for half-duplex operation,
-> enable only the Q0/CH0 on Tx and Rx. For single queue/channel in
-> full-duplex operation, any queue/channel can be enabled."
+> This makes cocci happier:
 > 
-> The rest of the IP-cores don't have such constraint. Thus in order to have
-> the constraint applied for the DW QoS Eth MACs only, let's move the it'
-> implementation to the respective MAC-capabilities getter and make sure the
-> getter is called in the queues re-init procedure.
+> drivers/media/v4l2-core/v4l2-async.c:331:23-30: ERROR: PTR_ERR applied after initialization to constant on line 319
 > 
-> Fixes: b6cfffa7ad92 ("stmmac: fix DMA channel hang in half-duplex mode")
-> Signed-off-by: Serge Semin <fancer.lancer@gmail.com>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 > ---
->  .../net/ethernet/stmicro/stmmac/dwmac4_core.c |  7 +++++++
->  .../net/ethernet/stmicro/stmmac/stmmac_main.c | 19 +++----------------
->  2 files changed, 10 insertions(+), 16 deletions(-)
+>  drivers/media/v4l2-core/v4l2-async.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac4_core.c b/drivers/net/ethernet/stmicro/stmmac/dwmac4_core.c
-> index cef25efbdff9..ec6a13e644b3 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac4_core.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac4_core.c
-> @@ -71,6 +71,13 @@ static void dwmac4_core_init(struct mac_device_info *hw,
->  static void dwmac4_phylink_get_caps(struct stmmac_priv *priv)
+> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+> index 4bb073587817..e26a011c89c4 100644
+> --- a/drivers/media/v4l2-core/v4l2-async.c
+> +++ b/drivers/media/v4l2-core/v4l2-async.c
+> @@ -316,9 +316,8 @@ v4l2_async_nf_try_all_subdevs(struct v4l2_async_notifier *notifier);
+>  static int v4l2_async_create_ancillary_links(struct v4l2_async_notifier *n,
+>  					     struct v4l2_subdev *sd)
 >  {
->  	priv->phylink_config.mac_capabilities |= MAC_2500FD;
-> +
-> +	if (priv->plat->tx_queues_to_use > 1)
-> +		priv->phylink_config.mac_capabilities &=
-> +			~(MAC_10HD | MAC_100HD | MAC_1000HD);
-> +	else
-> +		priv->phylink_config.mac_capabilities |=
-> +			(MAC_10HD | MAC_100HD | MAC_1000HD);
->  }
->  
->  static void dwmac4_rx_queue_enable(struct mac_device_info *hw,
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-> index 24cd80490d19..dd58c21b53ee 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-> @@ -1198,17 +1198,6 @@ static int stmmac_init_phy(struct net_device *dev)
->  	return ret;
->  }
->  
-> -static void stmmac_set_half_duplex(struct stmmac_priv *priv)
-> -{
-> -	/* Half-Duplex can only work with single tx queue */
-> -	if (priv->plat->tx_queues_to_use > 1)
-> -		priv->phylink_config.mac_capabilities &=
-> -			~(MAC_10HD | MAC_100HD | MAC_1000HD);
-> -	else
-> -		priv->phylink_config.mac_capabilities |=
-> -			(MAC_10HD | MAC_100HD | MAC_1000HD);
-> -}
+> -	struct media_link *link = NULL;
 > -
->  static int stmmac_phy_setup(struct stmmac_priv *priv)
->  {
->  	struct stmmac_mdio_bus_data *mdio_bus_data;
-> @@ -1237,10 +1226,7 @@ static int stmmac_phy_setup(struct stmmac_priv *priv)
->  				    priv->phylink_config.supported_interfaces);
+>  #if IS_ENABLED(CONFIG_MEDIA_CONTROLLER)
+> +	struct media_link *link;
 >  
->  	priv->phylink_config.mac_capabilities = MAC_ASYM_PAUSE | MAC_SYM_PAUSE |
-> -						MAC_10FD | MAC_100FD |
-> -						MAC_1000FD;
+
+I think another way you could write this is to remove the #ifs...
+
+	struct media_link *link;
+
+	if (!IS_ENABLED(CONFIG_MEDIA_CONTROLLER))
+		return 0;
+
+	if (sd->entity.function != MEDIA_ENT_F_LENS && ...
+
+regards,
+dan carpenter
+
+>  	if (sd->entity.function != MEDIA_ENT_F_LENS &&
+>  	    sd->entity.function != MEDIA_ENT_F_FLASH)
+> @@ -326,9 +325,10 @@ static int v4l2_async_create_ancillary_links(struct v4l2_async_notifier *n,
+>  
+>  	link = media_create_ancillary_link(&n->sd->entity, &sd->entity);
+>  
+> -#endif
 > -
-> -	stmmac_set_half_duplex(priv);
-> +						MAC_10 | MAC_100 | MAC_1000;
->  
->  	/* Get the MAC specific capabilities */
->  	stmmac_mac_phylink_get_caps(priv);
-> @@ -7355,7 +7341,8 @@ int stmmac_reinit_queues(struct net_device *dev, u32 rx_cnt, u32 tx_cnt)
->  			priv->rss.table[i] = ethtool_rxfh_indir_default(i,
->  									rx_cnt);
->  
-> -	stmmac_set_half_duplex(priv);
-> +	stmmac_mac_phylink_get_caps(priv);
-> +
->  	stmmac_napi_add(dev);
->  
->  	if (netif_running(dev))
-> -- 
-> 2.43.0
+>  	return IS_ERR(link) ? PTR_ERR(link) : 0;
+> +#else
+> +	return 0;
+> +#endif
+>  }
 > 
-> 
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
-> 
-
-Reviewed-by: Romain Gantois <romain.gantois@bootlin.com>
-
-Thanks,
-
--- 
-Romain Gantois, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
