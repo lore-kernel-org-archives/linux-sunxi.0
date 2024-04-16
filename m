@@ -1,102 +1,85 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E43301292CE
-	for <linux-sunxi@lists.linux.dev>; Tue, 16 Apr 2024 12:01:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9BA012BF2A
+	for <linux-sunxi@lists.linux.dev>; Tue, 16 Apr 2024 13:21:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.178.240
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713268913; cv=none; b=ix8DA2qTeoHyEYvFiMvNKTF7lNaxH7MWdi7OAHNGNme0Qag8hzJn5SnJ2SzQHzyb1sts02j9LzOLseelRLHFr5yrn65ndKRfXVQZ02V1zpxtYSEbIDW2jky/h5WpVpVwkRoug4Z2ijU4Cqd4zmEM/lkG2zKhmUkDR5v7Qwgdf/8=
+	t=1713273672; cv=none; b=fJpjmMBbtfMLnJfwQPq9SesjKsP7cITAzTavnkCHRZ7kFrCNptjHXBfkrL36eRUSo74fDr1Ytn5Yw3PfxcqxWfhhwGR2povoFRodoWz0UcwhbKL34lWwrnn3gOMqjUPmRwWbm8qrAKbAt0KUZlS5k80x3AmYEGE1TIpN/7VCOhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713268913; c=relaxed/simple;
-	bh=y04OwjH/sbLKlcXwliMQHnCBgTseJ+PQ3aes3eUFGXQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jNbMHH9wY+jLN4IVESRdQes4EEQDWxP4jXeWTFUBgCvKYuI3G0GrWYjNnX+3e3OBJUZ5cOQzRBG9RQqWF6Ju7j2Du/ViQLCIhjyLUUB1j7SsAk57sQHiFC3ScQFM3b3yt9LSyZD2/qv4mOBjTe/W+O27QCghUnF65WfpCttnJwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=R6GDJn38; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	s=arc-20240116; t=1713273672; c=relaxed/simple;
+	bh=H9XJnECG+rehggPZBwMJ2UcoWV6pit0iZcc8APFEx6U=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=Gs2NZyAShD60MZjb3M9o5UIaKuyT6bwpaDegDMYHXpeGlGijaNWyX5oVLTvH/xSkR+i+uGAmgxv+V6i9LiThD/BBEJVBnyXV2rhNDTW/atbWbZAIjx881OojUl0rN/qYxq00xhXTAF/tBISIlJrJ6X9g01PtdYRdXIOTO1K82VM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jprFcJrV; arc=none smtp.client-ip=217.70.178.240
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="R6GDJn38"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=IsKWmq3S1tbhsPEHkpNJ+4wTjZvXqEyH5UAdmDYEQ5Q=; b=R6GDJn38hgKmNBGIc81JtA0h1Q
-	R3uScF+x+HDTqA8bIZi8vFrRKzu4vgwk6os8ntlO2z4sio2h40d5XAbu9VYldnSIq9/Uc2BFgxhWU
-	gYhHN/JWQBuDrHapNFeqQUlssHeUz7jEXzIuxbYOR+Oiam/vKXNlqS5aZKZVHPLStzH5rEMJFdeqp
-	xIQ6DJrAGZh1xsU74mUnzpwU4/s02XomHhPQoL9yiF7qk88W8YEcIa7iMY0o8e51JmSx2V1NTExas
-	kZAUfITBlX3IP8E9E9hqhJkAqpfhfBqhepNUAQFCPz8I/PhRvoptM3wQRl+1nbrmTPPkjr9jiogV0
-	sxjM8eCA==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:33062)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1rwhUv-00009J-1B;
-	Tue, 16 Apr 2024 13:01:13 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1rwhUo-0004pX-19; Tue, 16 Apr 2024 13:01:06 +0100
-Date: Tue, 16 Apr 2024 13:01:05 +0100
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Romain Gantois <romain.gantois@bootlin.com>
-Cc: Serge Semin <fancer.lancer@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Jose Abreu <joabreu@synopsys.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Yanteng Si <siyanteng@loongson.cn>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Simon Horman <horms@kernel.org>,
-	Huacai Chen <chenhuacai@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jprFcJrV"
+Received: from relay4-d.mail.gandi.net (unknown [217.70.183.196])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id 7C447C699E
+	for <linux-sunxi@lists.linux.dev>; Tue, 16 Apr 2024 13:21:03 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 1F9ABE0003;
+	Tue, 16 Apr 2024 13:20:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1713273656;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WCnKnoSsQoEAYv75BNn3l7B7yy2mGKGbl/sOd184mU0=;
+	b=jprFcJrVd9rSnrTiyxix2blgTrCU/Qlp+tzngtuXlZLiieDwzkoOldUgEDp5yVLsbulKIZ
+	CzSEXc5zzaQHSVsTI5W6AOCIkga+IsG1oFTjYI+JU7a3nor22PG5eIgHIbgpmXTpUzBalM
+	mCn64ex2Hn2WUlBRAFWl2qzVao7CKHpEBs+ucgOXjh4GH4LmArUBjbOWczTwHYK7ShMHNl
+	KmqTxXL6PM1QSO34cOPfhY+Nfw1c63wJjVcxyoZ6Vh/+Qj5UH4M+GBNyfiDllwmnsAfBBo
+	Il45EZNbkMeX3HOTXI5P3oxAe/GyR4f2LJuUEWuXGSighZKeZw4vOiEL7rntOA==
+Date: Tue, 16 Apr 2024 15:21:30 +0200 (CEST)
+From: Romain Gantois <romain.gantois@bootlin.com>
+To: Serge Semin <fancer.lancer@gmail.com>
+cc: Romain Gantois <romain.gantois@bootlin.com>, 
+    Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+    Jose Abreu <joabreu@synopsys.com>, "David S. Miller" <davem@davemloft.net>, 
+    Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+    Paolo Abeni <pabeni@redhat.com>, Russell King <linux@armlinux.org.uk>, 
+    Yanteng Si <siyanteng@loongson.cn>, 
+    Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+    Simon Horman <horms@kernel.org>, Huacai Chen <chenhuacai@kernel.org>, 
+    Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+    Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org, 
+    linux-stm32@st-md-mailman.stormreply.com, 
+    linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+    linux-kernel@vger.kernel.org
 Subject: Re: [PATCH net-next 4/4] net: stmmac: Move MAC caps init to phylink
  MAC caps getter
-Message-ID: <Zh5ogZ433lrUOi9b@shell.armlinux.org.uk>
-References: <20240412180340.7965-1-fancer.lancer@gmail.com>
- <20240412180340.7965-5-fancer.lancer@gmail.com>
- <714199e5-edf2-dcbb-216b-563431d70488@bootlin.com>
+In-Reply-To: <btgxb3ugs4apjvxj5hmpec3rtoxwdal7ms2z4s7pecdfefphiw@gd7ctqsh7wg2>
+Message-ID: <8ffb6634-6d57-8df8-90c3-aecc585395e5@bootlin.com>
+References: <20240412180340.7965-1-fancer.lancer@gmail.com> <20240412180340.7965-5-fancer.lancer@gmail.com> <714199e5-edf2-dcbb-216b-563431d70488@bootlin.com> <btgxb3ugs4apjvxj5hmpec3rtoxwdal7ms2z4s7pecdfefphiw@gd7ctqsh7wg2>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <714199e5-edf2-dcbb-216b-563431d70488@bootlin.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+Content-Type: text/plain; charset=US-ASCII
+X-GND-Sasl: romain.gantois@bootlin.com
 
-On Tue, Apr 16, 2024 at 09:56:32AM +0200, Romain Gantois wrote:
-> Hi Serge,
-> 
-> On Fri, 12 Apr 2024, Serge Semin wrote:
-> 
-> > +static unsigned long stmmac_mac_get_caps(struct phylink_config *config,
-> > +					 phy_interface_t interface)
-> > +{
-> > +	struct stmmac_priv *priv = netdev_priv(to_net_dev(config->dev));
-> > +
-> > +	/* Get the MAC-specific capabilities */
-> > +	stmmac_mac_phylink_get_caps(priv);
-> 
-> This is a bit of a nitpick, but the terminology is quite confusing between 
-> stmmac_mac_phylink_get_caps() and stmmac_mac_get_caps(). Ideally, we could just 
-> get rid of the whole stmmac_do_void_callback() complexity and just call 
-> phylink_get_caps() directly. In the meantime, maybe renaming this to 
-> stmmac_mac_core_get_caps() would be acceptable?
+On Tue, 16 Apr 2024, Serge Semin wrote:
 
-I'd prefer not to do that. If the method is called mac_get_caps() then
-I'd much rather have method implementations called foo_mac_get_caps()
-which makes grep easier.
+> So I don't think that changing it to something different would be a
+> good alternative. What could be a better option is to rename the
+> stmmac_ops::phylink_get_caps() callback and
+> stmmac_mac_phylink_get_caps() macro-function to something like:
+> 
+> stmmac_ops::link_update_caps()
+> stmmac_mac_link_update_caps()
+> 
+> especially seeing the callback no longer sets the phylink MAC
+> capabilities directly. What do you think?
 
-So... stmmac_core_mac_get_caps() would be acceptable to me.
+This seems like a good solution to me.
+
+Thanks,
 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+Romain Gantois, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
