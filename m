@@ -1,118 +1,138 @@
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A74D77658
-	for <linux-sunxi@lists.linux.dev>; Tue, 16 Apr 2024 07:32:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698B47FBA3
+	for <linux-sunxi@lists.linux.dev>; Tue, 16 Apr 2024 07:37:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713252759; cv=none; b=k2urvQKpgAjX6qbBKN+tTd3CUyfnJUE6Q55cT5co1NQXrvNN4RrT2w0ls67SyC4ePSNbSMybrMUbUV2dHPFIc8a+Sya83do9w+7JF93S225LjoPsfnD5cozsAaFCbfl3vg9WDbQ2RAuN0zfNFOj34nGEfBYX6selIyfqJQy+uwY=
+	t=1713253042; cv=none; b=EuO5yY35UZnA2nnTclbvtLAI5XbnmEujve6GhXMAFIlYRXEGudrGlE7QFKB2J86SJ3htn1S7mzxAsGiyVofuF/ZhKwDhsFDHbchT1Ov3v459lYDJcWRyXUTkr76dLDj/nvBcjebuQNzz73yA2bmh3SrMq/6Qk7ndwb/GLqznRIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713252759; c=relaxed/simple;
-	bh=FIgGURLFLfp2cIyxqCz3adqRLXcVtc3KCQ+iVrL+UIg=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=KZNdkZefQR0a8uEW2Gz7ycCTNHeSCruTZdxo28fQYUtzcWZDkIhiND2k/Iyes/RDkAn7ljooDV0Q/ybiFg8gynMQwD724ixoTQMaO1LPLMa3n5ZN83rtsLWRMz08LztJT0eWhH3e25WSbLGp6Y5PRrn0Cw/iBcM2KEO8VcQvrmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=GA0sZrWA; arc=none smtp.client-ip=217.70.183.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1713253042; c=relaxed/simple;
+	bh=BIpOJSTxOK0JfNqFwhleSJ0Efyt0sHPGszihSmkHs2A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PXZUTydT7Q6GxiFrURjw0JSqC083Z9jMtiwXNDCSfV8B56bJtJV54gPs42xGAUJUUrXrXa3Vz+aAJoKeNCKNy16HqE/Grwd4EXqA1WmnJsDJBNqUn9Gqm+/vc+LZSawF9k1r1owf0yPdvn0SWhOe57Ivv+pvqE8UBTutGKwcQyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=r25GZqHH; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="GA0sZrWA"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 275042000A;
-	Tue, 16 Apr 2024 07:32:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1713252749;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d+J9a1XsY9wVIqCw//2fmPUH+b6/wrcvkVKiCmqi9U0=;
-	b=GA0sZrWAe9372nqCrt2w7l3ynepzPOSCskMsWstQkbv2DpTvZPxFBHPt7qJ4ExbwTtq4ip
-	CrFWLht6zyQ7ZUwa91cwhKzBzmzZJ/kMkknRvUEC++beLzXMd2Xkwkc9HQWcQ3CzyGvIbL
-	xJPQyVQJRa3SUg1V8XXeJyu71kDHv5JbYQZeBFFy+1IvQNn93U7ruseGnNfN3kUTJTV7Q3
-	WBLULJmsDOZ/h82mvh+w+Il0JRcinK2JiAIYmxgh6puuvM3F7h9QlIiaey91hR/8x/QzKO
-	NNK9c6LTOEc0ftlg4mAc8IFuOIuYAXv/OfZFlWyppJh5aPCWzmG3P/goyDrRKg==
-Date: Tue, 16 Apr 2024 09:33:04 +0200 (CEST)
-From: Romain Gantois <romain.gantois@bootlin.com>
-To: Serge Semin <fancer.lancer@gmail.com>
-cc: Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-    Jose Abreu <joabreu@synopsys.com>, "David S. Miller" <davem@davemloft.net>, 
-    Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-    Paolo Abeni <pabeni@redhat.com>, Russell King <linux@armlinux.org.uk>, 
-    Yanteng Si <siyanteng@loongson.cn>, 
-    Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-    Michael Sit Wei Hong <michael.wei.hong.sit@intel.com>, 
-    "Gan, Yi Fang" <yi.fang.gan@intel.com>, Simon Horman <horms@kernel.org>, 
-    Huacai Chen <chenhuacai@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-    Jernej Skrabec <jernej.skrabec@gmail.com>, 
-    Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org, 
-    linux-stm32@st-md-mailman.stormreply.com, 
-    linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-    linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net 2/4] net: stmmac: Fix max-speed being ignored on
- queue re-init
-In-Reply-To: <20240412180340.7965-3-fancer.lancer@gmail.com>
-Message-ID: <c9b9a88b-f6ab-25ca-74c2-474c2f1c891f@bootlin.com>
-References: <20240412180340.7965-1-fancer.lancer@gmail.com> <20240412180340.7965-3-fancer.lancer@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="r25GZqHH"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a51a7d4466bso460683066b.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 16 Apr 2024 00:37:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1713253039; x=1713857839; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Vz5EFUG61C/PsBsUPlDK2q+AUqaXZYNi38q3WlwiS3E=;
+        b=r25GZqHHKkL6ksedqiee0QtxEdZKyVyzOfUSmsfEwxoHiF83OlzAKG16uULoPYHWRJ
+         n2KyYfD8Pm/g1fenobVIpRUyeUAjBfnRDWMDOIhgtDNdHwSNTlYMY4GuHaizEFxMriP5
+         ogmCctatNQbix+ELgU8KsyxWbDhgBO96tO0rRv1qhT2ZROHckKkd/5+ZnlVl1AmmzRXw
+         E4rJTMARWFds9u30ESpMRwHx4HahtT8tEMNSUkRgMwhInG12pvXUwiZGLp93yPJnuaBh
+         Xd3GtftZXgtfNKBdgpFJifyr1X7SwX68/IPXRi+6tS2ZXRvlOveBnYtfR1lav4YoTaNF
+         1vOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713253039; x=1713857839;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Vz5EFUG61C/PsBsUPlDK2q+AUqaXZYNi38q3WlwiS3E=;
+        b=hHGQ+zRUv62j/UKEUrXCgAg9ZOPvP00QCgArwdc/Ap8k3ioXo2bcDvN42Rw47YdNE8
+         K/W20p71ziZ0hC38/CVIH/N4VjgV1rpiEYjpuS8lj9P7ogaaAGLMlTnEIBbUHBCKEM6n
+         yXvg6JTj3qy3mZxVs7EW0wpFu1rLk8hxRfbTeeI+JqdCvAuunfzLSjOQsfXxitV+HxK0
+         Zg2V1ouMGK/We9k0x6hud1fnZ5bSrK6yd1ql3qL9NELlL5Z9WDrSrhDeG2HayFqa7pCK
+         9oPjAPb8DJa6cMmxLBW42ZIF0DOR0az9z80Rn5pNezqswIbv17xZcNXAL+Zvu8+lQKDf
+         WqKw==
+X-Forwarded-Encrypted: i=1; AJvYcCUPyruZSR/Vwkr9tV5NXkl6Ium8XxDDgB0mGvGSfaYJ3/o5bRQvA1U5pbCWzeswhso33C9HyoyCVn25myK6Bn1J1wN6mttdY7LSUcs=
+X-Gm-Message-State: AOJu0YzlRSKIdBGRdFCvD1QDuw/1pFKdY/9NjnybyHloMAaA5/CGrn9K
+	Y+yuk1KvK0nbQIhJJYXxYdnIzl1iCB0cPZRFgsImIkd5eEUvhqGmUtvfzuBnkcg=
+X-Google-Smtp-Source: AGHT+IF7djK9Gp7QvHWuOZzhp3iyt4a4kh6gE+5Chee7fTPBiXusYHzH5iP8LrBy89Sq7/Zoad7L6g==
+X-Received: by 2002:a17:906:3488:b0:a52:e86:ae62 with SMTP id g8-20020a170906348800b00a520e86ae62mr7767532ejb.54.1713253038496;
+        Tue, 16 Apr 2024 00:37:18 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id gt43-20020a1709072dab00b00a5242ec4573sm4507206ejc.29.2024.04.16.00.37.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Apr 2024 00:37:18 -0700 (PDT)
+Date: Tue, 16 Apr 2024 10:37:14 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Martin Tuma <martin.tuma@digiteqautomotive.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
+	Abylay Ospan <aospan@netup.ru>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Pavel Machek <pavel@ucw.cz>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH 07/35] media: staging: sun6i-isp: Remove redundant printk
+Message-ID: <b8a5cc23-240f-4fe9-9b25-b534f618506e@moroto.mountain>
+References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
+ <20240415-fix-cocci-v1-7-477afb23728b@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-GND-Sasl: romain.gantois@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240415-fix-cocci-v1-7-477afb23728b@chromium.org>
 
-
-On Fri, 12 Apr 2024, Serge Semin wrote:
-
-> It's possible to have the maximum link speed being artificially limited on
-> the platform-specific basis. It's done either by setting up the
-> plat_stmmacenet_data::max_speed field or by specifying the "max-speed"
-> DT-property. In such cases it's required that any specific
-> MAC-capabilities re-initializations would take the limit into account. In
-> particular the link speed capabilities may change during the number of
-> active Tx/Rx queues re-initialization. But the currently implemented
-> procedure doesn't take the speed limit into account.
+On Mon, Apr 15, 2024 at 07:34:24PM +0000, Ricardo Ribalda wrote:
+> platform_get_irq() already prints an error for us.
 > 
-> Fix that by calling phylink_limit_mac_speed() in the
-> stmmac_reinit_queues() method if the speed limitation was required in the
-> same way as it's done in the stmmac_phy_setup() function.
+> Found by cocci:
+> drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c:389:2-9: line 389 is redundant because platform_get_irq() already prints an error
 > 
-> Fixes: 95201f36f395 ("net: stmmac: update MAC capabilities when tx queues are updated")
-> Signed-off-by: Serge Semin <fancer.lancer@gmail.com>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 > ---
->  drivers/net/ethernet/stmicro/stmmac/stmmac_main.c | 5 +++++
->  1 file changed, 5 insertions(+)
+>  drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-> index dd58c21b53ee..b8a1f02398ee 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-> @@ -7328,6 +7328,7 @@ int stmmac_reinit_queues(struct net_device *dev, u32 rx_cnt, u32 tx_cnt)
->  {
->  	struct stmmac_priv *priv = netdev_priv(dev);
->  	int ret = 0, i;
-> +	int max_speed;
+> diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
+> index 5c0a45394cba..a6424fe7023b 100644
+> --- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
+> +++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
+> @@ -386,7 +386,6 @@ static int sun6i_isp_resources_setup(struct sun6i_isp_device *isp_dev,
 >  
->  	if (netif_running(dev))
->  		stmmac_release(dev);
-> @@ -7343,6 +7344,10 @@ int stmmac_reinit_queues(struct net_device *dev, u32 rx_cnt, u32 tx_cnt)
->  
->  	stmmac_mac_phylink_get_caps(priv);
->  
-> +	max_speed = priv->plat->max_speed;
-> +	if (max_speed)
-> +		phylink_limit_mac_speed(&priv->phylink_config, max_speed);
-> +
->  	stmmac_napi_add(dev);
->  
->  	if (netif_running(dev))
-> -- 
-> 2.43.0
-> 
-> 
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
-> 
+>  	irq = platform_get_irq(platform_dev, 0);
+>  	if (irq < 0) {
+> -		dev_err(dev, "failed to get interrupt\n");
+>  		ret = -ENXIO;
 
-Reviewed-by: Romain Gantois <romain.gantois@bootlin.com>
+This is more fall out from when irq functions used to return zero (16
+years ago).  Instead of ret = -ENXIO, set ret = irq.
+
+regards,
+dan carpenter
