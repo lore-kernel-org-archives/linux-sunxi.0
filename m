@@ -1,165 +1,86 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1093D84D14
-	for <linux-sunxi@lists.linux.dev>; Tue, 16 Apr 2024 07:44:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD1FF84DE6
+	for <linux-sunxi@lists.linux.dev>; Tue, 16 Apr 2024 07:55:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713253472; cv=none; b=WB60gWnn9PkDoGA8+LFgfOKyPeyQf7gzvtntRamkocXXMo2PqR2NAn60hccYYFU5CNZ8vm4XTNU2pSsaFFz4tMUJB9TUSV+78CHmBoGmtMjemHL9vxqauu5DRuOk+ZYegkynwB0jk5PogtjstOmR/ANyYyID0x+vXGXhU9afD1Q=
+	t=1713254160; cv=none; b=bApw1S4hDRpQefYqV/yPKrrcnMYO/eUEVZ4onME97n+2CbjuNQ7f7Z/v5e2nIy08244Z8wIGkXclAvVqynwW/PJtMXd2h6HMPNljesusjIFXpdtB9TCd4cjX50d5gQtxaDk66ivEP0ayGeboAaY9+Xs1v45F8VPf7d1NNarSiz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713253472; c=relaxed/simple;
-	bh=y9gOE2zuKiIA3PVc9oPZQMxUqwvKVk8idGCEvr2B1w0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZO7wFxFKbMf5BsbJ+qcxoptl2M2giFV1OEAMugGGSFauibwHXYtlcl+873+abq+TgtLZWG3M0fsHzcxgKNQJOeWPR7P5Ysr+oH5mIj4XvcLR7uipt99I2TYWatMmrvpnDSyQQGsxp2CQFg1UqwgQ01N1U9dFiP53QzXty9O3504=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=smC3k8Qn; arc=none smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1713254160; c=relaxed/simple;
+	bh=FNHbQiBBP8Y9Z4UhDHB1kGtf1vaeV2YhdLHMFkJwVuo=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=SpZxrvs72TJ8ElumHN3AvMjJbEQfvAaSdomwcPY24DF2P2r079ipZRiZ9ZA3BivYqAswkfaPm/YWbM4UvU6NA7/nCLST8IWsTBlK511lx2HvKlm+r1SgCeBiUWilV37KiI9wENR2EOGcySMizCO/JT8rp4ze6IoOjJhooSeduI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=LtugVChy; arc=none smtp.client-ip=217.70.183.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="smC3k8Qn"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-57009454c83so3313098a12.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 16 Apr 2024 00:44:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713253468; x=1713858268; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=AkbPRxuJaFbf8hemSHK1ZWQRF0fsDq8QRKmW1NagRfM=;
-        b=smC3k8QnNaR9gNHM6fvKlktXLcYKjHw//+qo2wtLUoGv8kOp0jpaKBD1+liTw5fIQb
-         qTgceeMSzYKJuhuArCfyH0HnRY0lKMX4/v3dYtoOUPjHPIEUlX+oUd1UfFcCMnrppsFQ
-         SxOMjRE55vMlY/tgG0VR/4f+xlK9l1gbueDKNGDy1TuEBVaxWW+HKE0Nj353jIhgKmkF
-         ii4olDkil38aTDf7pS8cssZ3C1RtMfWetg08yktNfeUFrgy++JL/yLLT2RsmoUvC/X9i
-         NILWyEqdFD7waFB/hiNUohWw0amp1Ra9LVUKdY754FJbzMiN4Q+qsUtPY2iNDiZdv5eI
-         PpFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713253468; x=1713858268;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AkbPRxuJaFbf8hemSHK1ZWQRF0fsDq8QRKmW1NagRfM=;
-        b=EtwKgn3hW3oPbXG15cnbMZ07dzPmOfjg3VzzXYg+gILTq+rY6UTIGZ7X5eAwed7RdX
-         2vw/8wOZ8poZ5e/vQB96MRvZuflNK8zzNjS+SdKpKhad9ZDHe74KDj/dNWwfeRs6M7J4
-         W33rNe7O37q5gCgUGpOf2rHAPVe2CdI3C+yHLLKhIhplrhjfLo459l1KdquQxrAYTqcv
-         PpQWsKyrdHB5sQjCNelewYMtnSkOsNVF6ws3j/pSBNbMERuqfMcP2sBif0SQ7PHok2n0
-         5oR4fFCt1SMIT58ALTGXy6M+UbISs0GVxA5MT6IacguJyC7oYOhU/7H6BmNFOJ3cq7lx
-         t0bQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW1ss0dvgMO0lVy3joJA1uKQ+tdvncKm2/vTkuKia+mcc3Ci4U4FPUgc5EXE3rgHd+i6+yXd0fpNS8rA+dZsMePAF1w1YO+rzoJf94=
-X-Gm-Message-State: AOJu0YyxFqWSS4vLg5WLy9mNEMmEfLQN7JCy9j15VtsP5gHTPC7lSPTD
-	485w7fgpbtLfZG50JBRHYB8O81pquKe+SKx6mzNKfAB4T/eUAKEpWZU/ls/StPA=
-X-Google-Smtp-Source: AGHT+IHyv6GyLcCM7SuFRY2lQ0w+D3nRQ0Oogv+NgpwSUUhg8+w7A2aBnM/9CzYE2fZ/BNYLgCzdrg==
-X-Received: by 2002:a50:8d0b:0:b0:570:38a:57ea with SMTP id s11-20020a508d0b000000b00570038a57eamr6318788eds.33.1713253468256;
-        Tue, 16 Apr 2024 00:44:28 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id fk27-20020a056402399b00b0056e78e90a1dsm5799411edb.49.2024.04.16.00.44.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Apr 2024 00:44:28 -0700 (PDT)
-Date: Tue, 16 Apr 2024 10:44:23 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Martin Tuma <martin.tuma@digiteqautomotive.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Hugues Fruchet <hugues.fruchet@foss.st.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
-	Abylay Ospan <aospan@netup.ru>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Dmitry Osipenko <digetx@gmail.com>,
-	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Jacopo Mondi <jacopo+renesas@jmondi.org>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Pavel Machek <pavel@ucw.cz>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 09/35] media: v4l: async: refactor
- v4l2_async_create_ancillary_links
-Message-ID: <a1917f15-ba04-4d8b-8dd6-0c1bc9a498ca@moroto.mountain>
-References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
- <20240415-fix-cocci-v1-9-477afb23728b@chromium.org>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="LtugVChy"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5B3FEFF802;
+	Tue, 16 Apr 2024 07:55:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1713254157;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MNHJECVaeH5Bqcxn+tWmMLACctSfkhVXpwFzee2HMAk=;
+	b=LtugVChyoDxebpXTrApSPFU1i07DT8qK9YJEwMwn/0JmI6ndkLuG22gdGgU0V+VI9K923L
+	CK6F7wKZ7kaniEyTR5uvoEug6BjcnL1a/xdRTo1RsS1ZyHpnWZ8z14QKM7oMhRF+mWiy92
+	vWxP33Z9hLCY2jjTfrGbZRZ5gTmEdY8bEl7vj1HjfNZ8dF685mQdeRCVSdB/IHcemRbh/s
+	3xvMTWwNHqrUJxfAw7f5LSxNhnI4n+aw+YjU/IwJxsHyFLkYUsvcULOiA2MmqKyVkTCXZj
+	QblLIhQt69FkaNO52lwcj+uADa+0o9vJMWZ7Sx51X+/M7rkz+wjyn/uqUU4ozQ==
+Date: Tue, 16 Apr 2024 09:56:32 +0200 (CEST)
+From: Romain Gantois <romain.gantois@bootlin.com>
+To: Serge Semin <fancer.lancer@gmail.com>
+cc: Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+    Jose Abreu <joabreu@synopsys.com>, "David S. Miller" <davem@davemloft.net>, 
+    Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+    Paolo Abeni <pabeni@redhat.com>, Russell King <linux@armlinux.org.uk>, 
+    Yanteng Si <siyanteng@loongson.cn>, 
+    Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+    Simon Horman <horms@kernel.org>, Huacai Chen <chenhuacai@kernel.org>, 
+    Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+    Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org, 
+    linux-stm32@st-md-mailman.stormreply.com, 
+    linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+    linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next 4/4] net: stmmac: Move MAC caps init to phylink
+ MAC caps getter
+In-Reply-To: <20240412180340.7965-5-fancer.lancer@gmail.com>
+Message-ID: <714199e5-edf2-dcbb-216b-563431d70488@bootlin.com>
+References: <20240412180340.7965-1-fancer.lancer@gmail.com> <20240412180340.7965-5-fancer.lancer@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240415-fix-cocci-v1-9-477afb23728b@chromium.org>
+Content-Type: text/plain; charset=US-ASCII
+X-GND-Sasl: romain.gantois@bootlin.com
 
-On Mon, Apr 15, 2024 at 07:34:26PM +0000, Ricardo Ribalda wrote:
-> Return 0 without checking IS_ERR or PTR_ERR if CONFIG_MEDIA_CONTROLLER
-> is not enabled.
-> 
-> This makes cocci happier:
-> 
-> drivers/media/v4l2-core/v4l2-async.c:331:23-30: ERROR: PTR_ERR applied after initialization to constant on line 319
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/v4l2-core/v4l2-async.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-> index 4bb073587817..e26a011c89c4 100644
-> --- a/drivers/media/v4l2-core/v4l2-async.c
-> +++ b/drivers/media/v4l2-core/v4l2-async.c
-> @@ -316,9 +316,8 @@ v4l2_async_nf_try_all_subdevs(struct v4l2_async_notifier *notifier);
->  static int v4l2_async_create_ancillary_links(struct v4l2_async_notifier *n,
->  					     struct v4l2_subdev *sd)
->  {
-> -	struct media_link *link = NULL;
-> -
->  #if IS_ENABLED(CONFIG_MEDIA_CONTROLLER)
-> +	struct media_link *link;
->  
+Hi Serge,
 
-I think another way you could write this is to remove the #ifs...
+On Fri, 12 Apr 2024, Serge Semin wrote:
 
-	struct media_link *link;
+> +static unsigned long stmmac_mac_get_caps(struct phylink_config *config,
+> +					 phy_interface_t interface)
+> +{
+> +	struct stmmac_priv *priv = netdev_priv(to_net_dev(config->dev));
+> +
+> +	/* Get the MAC-specific capabilities */
+> +	stmmac_mac_phylink_get_caps(priv);
 
-	if (!IS_ENABLED(CONFIG_MEDIA_CONTROLLER))
-		return 0;
+This is a bit of a nitpick, but the terminology is quite confusing between 
+stmmac_mac_phylink_get_caps() and stmmac_mac_get_caps(). Ideally, we could just 
+get rid of the whole stmmac_do_void_callback() complexity and just call 
+phylink_get_caps() directly. In the meantime, maybe renaming this to 
+stmmac_mac_core_get_caps() would be acceptable?
 
-	if (sd->entity.function != MEDIA_ENT_F_LENS && ...
+Please let me know what you think.
 
-regards,
-dan carpenter
+Thanks,
 
->  	if (sd->entity.function != MEDIA_ENT_F_LENS &&
->  	    sd->entity.function != MEDIA_ENT_F_FLASH)
-> @@ -326,9 +325,10 @@ static int v4l2_async_create_ancillary_links(struct v4l2_async_notifier *n,
->  
->  	link = media_create_ancillary_link(&n->sd->entity, &sd->entity);
->  
-> -#endif
-> -
->  	return IS_ERR(link) ? PTR_ERR(link) : 0;
-> +#else
-> +	return 0;
-> +#endif
->  }
-> 
+-- 
+Romain Gantois, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
