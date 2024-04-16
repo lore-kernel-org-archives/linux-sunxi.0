@@ -1,213 +1,230 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 870C812CDB2
-	for <linux-sunxi@lists.linux.dev>; Tue, 16 Apr 2024 14:09:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF9B212C47A;
+	Tue, 16 Apr 2024 15:03:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713276589; cv=none; b=kmz7tQa3JNfhGjo2vN3JPTCRNcOr34suoXk/G/6B/OB+y4hcWMLTCbg1JtmHGNXmpOJT4DZivXbxWoUWXhORZg6l4e6skMOnSqP63YZrc25oogZyYORiyJKIJYfrMSgW1QtBS2fi0XYbwDZE7JY+W2pswp4ZrQb6lT34fjIos8Q=
+	t=1713279808; cv=none; b=KPNA/zk5UcfMaSaPnr8cB/Np2gpqC9pvjstoJ9nFmgcg9c/ROw+QpjrwmfjDkjHk8zw5csA+gJFawI5xfxdeTTyOReBKqyhOUAnMbMSeGUkBLJayk/qUNrxQSHC2YFHsZEzXk5F/zN2dlAeiaPpgqHea3IZ8zKsFq/3OSLU2gA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713276589; c=relaxed/simple;
-	bh=ojzOa7PwYri2Lph1vpvafrvjeVQgZz7o4ByRzv53LDQ=;
+	s=arc-20240116; t=1713279808; c=relaxed/simple;
+	bh=0dFehR7bAofXvwdhbQHUWpVwxNS4jlbytNrjxajS/Pg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W8KOInj9mWaUHnWGGurrsOpsSLCPDk0EbycfD7rqVX4p7x2E2hKGvD0/8qCJ/J0fzNsRdrvy6fyUyrlb+o1H87ifhsaSG83et1LiPmSX4zrAWckHjpLwEzSu0Ay18xFk5h8sisEjYjcRKsUkNqii7F31ecZV0reO8XSM8VjXYNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S6Lqod8w; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=hs5MoXZHwUfWUwQj15pwRco7LA3j6dTuBf5CqMZ9YERMPKwc//W3NFqHf8SJ3L0WPOvI4zCxKisHt2fVQK3K51iU+6weopSu3AsEhVirFte9CzpgrJEKp1O9LThMk757OCHESk3Z3K3SH7/93aqsqUk+DGcwyzu1bJGtnB5qcWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d1EqWvM4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S6Lqod8w"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713276587; x=1744812587;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=ojzOa7PwYri2Lph1vpvafrvjeVQgZz7o4ByRzv53LDQ=;
-  b=S6Lqod8wk/H0CdQyh5LdJ/89c09gBwZFkYkUtUhrNWP1y4gafNVlIRax
-   sI7F/w+Wx/duU5TlsaMd1Q2fbdNH8hjs7Sy5Y44igHPw448wS7TC4wslS
-   y1o8xcHGb66aDt9F/aaTG79g/2ywigC7RUPlI+ea0VpstJDXe24UI/FyT
-   DM+xpsHBmBKHKfda4JIPiTwiuZ1kNvHBMkpMUPxRGRDcgRhX/e8uThAC+
-   kfjFO9V3z9PRKlAXYf9TTHjBWeAo4JGoJQLvcpEd3ujMDnnL2CZIDQ57x
-   x2tnEGhxCj6/bduqiTb1mHu46FsO/Wjmh0l90FdQ/W1OjNPNoA9nuhicb
-   A==;
-X-CSE-ConnectionGUID: zobgLLwEQDS8AIDHtNLYcg==
-X-CSE-MsgGUID: FusgGk9ARPSarddbVP329Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="9268394"
-X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; 
-   d="scan'208";a="9268394"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 07:09:46 -0700
-X-CSE-ConnectionGUID: eAfTqTRwTKu5nLh4//PJXQ==
-X-CSE-MsgGUID: i+B0PUP9T5awrB+Yrhqn2A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; 
-   d="scan'208";a="22333147"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
-  by fmviesa008.fm.intel.com with SMTP; 16 Apr 2024 07:09:41 -0700
-Received: by stinkbox (sSMTP sendmail emulation); Tue, 16 Apr 2024 17:09:40 +0300
-Date: Tue, 16 Apr 2024 17:09:40 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>,
-	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
-	Chen-Yu Tsai <wens@csie.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d1EqWvM4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBA14C113CE;
+	Tue, 16 Apr 2024 15:03:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713279807;
+	bh=0dFehR7bAofXvwdhbQHUWpVwxNS4jlbytNrjxajS/Pg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=d1EqWvM4R01QG++RsWmY7K55v0olQvvgXIenexsbrc4JKA4nwVfDNHbXnpJ2hODiu
+	 uKXP42Z5t3X8ceOGrFIX++T91LRgNZrljeuacqKst+uLTaMHaV99gERfLC1bHjBbod
+	 uCrU9jKaCvpAs4YTPg8bY4yfClF1wx8tsQqjMthQc5BA0EToSY6K1fPSqef/N+PSro
+	 ozaY5pPAqJBmIuxx6sHAeyRk60Mr9DyVOlmvpu+y3z4jVI9aHvcO3wiChQu9vPek6+
+	 ANtnjbfUJ/4nZQqhFLpPwXnHN61iI1y9UYuY2KOIzVPTHSIbTmXWfY9vUYJGk1R2cL
+	 GwKYqAUJQnPDg==
+Date: Tue, 16 Apr 2024 16:03:20 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Sebastian Wick <sebastian.wick@redhat.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v11 19/28] drm/connector: hdmi: Add RGB Quantization
- Range to the connector state
-Message-ID: <Zh6GpHL7k_mmsad_@intel.com>
-References: <20240326-kms-hdmi-connector-state-v11-0-c5680ffcf261@kernel.org>
- <20240326-kms-hdmi-connector-state-v11-19-c5680ffcf261@kernel.org>
+	Conor Dooley <conor.dooley@microchip.com>,
+	Evan Green <evan@rivosinc.com>,
+	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v2 01/17] riscv: cpufeature: Fix thead vector hwcap
+ removal
+Message-ID: <20240416-swipe-flattered-7cdccc01f0fe@spud>
+References: <20240415-dev-charlie-support_thead_vector_6_9-v2-0-c7d68c603268@rivosinc.com>
+ <20240415-dev-charlie-support_thead_vector_6_9-v2-1-c7d68c603268@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="RbQjJEERG41bUbGr"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240326-kms-hdmi-connector-state-v11-19-c5680ffcf261@kernel.org>
-X-Patchwork-Hint: comment
+In-Reply-To: <20240415-dev-charlie-support_thead_vector_6_9-v2-1-c7d68c603268@rivosinc.com>
 
-On Tue, Mar 26, 2024 at 04:40:23PM +0100, Maxime Ripard wrote:
-> HDMI controller drivers will need to figure out the RGB range they need
-> to configure based on a mode and property values. Let's expose that in
-> the HDMI connector state so drivers can just use that value.
-> 
-> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+
+--RbQjJEERG41bUbGr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Apr 15, 2024 at 09:11:58PM -0700, Charlie Jenkins wrote:
+> The riscv_cpuinfo struct that contains mvendorid and marchid is not
+> populated until all harts are booted which happens after the DT parsing.
+> Use the vendorid/archid values from the DT if available or assume all
+> harts have the same values as the boot hart as a fallback.
+>=20
+> Fixes: d82f32202e0d ("RISC-V: Ignore V from the riscv,isa DT property on =
+older T-Head CPUs")
+> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
 > ---
->  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 29 +++++++++++++++++++++++++
->  drivers/gpu/drm/drm_atomic.c                    |  1 +
->  include/drm/drm_connector.h                     |  6 +++++
->  3 files changed, 36 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> index c844cbeb675b..e693fe51abf5 100644
-> --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> @@ -49,10 +49,37 @@ connector_state_get_mode(const struct drm_connector_state *conn_state)
->  		return NULL;
->  
->  	return &crtc_state->mode;
+>  arch/riscv/include/asm/sbi.h   |  2 ++
+>  arch/riscv/kernel/cpu.c        | 36 ++++++++++++++++++++++++++++++++----
+>  arch/riscv/kernel/cpufeature.c | 12 ++++++++++--
+>  3 files changed, 44 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/arch/riscv/include/asm/sbi.h b/arch/riscv/include/asm/sbi.h
+> index 6e68f8dff76b..0fab508a65b3 100644
+> --- a/arch/riscv/include/asm/sbi.h
+> +++ b/arch/riscv/include/asm/sbi.h
+> @@ -370,6 +370,8 @@ static inline int sbi_remote_fence_i(const struct cpu=
+mask *cpu_mask) { return -1
+>  static inline void sbi_init(void) {}
+>  #endif /* CONFIG_RISCV_SBI */
+> =20
+> +unsigned long riscv_get_mvendorid(void);
+> +unsigned long riscv_get_marchid(void);
+>  unsigned long riscv_cached_mvendorid(unsigned int cpu_id);
+>  unsigned long riscv_cached_marchid(unsigned int cpu_id);
+>  unsigned long riscv_cached_mimpid(unsigned int cpu_id);
+> diff --git a/arch/riscv/kernel/cpu.c b/arch/riscv/kernel/cpu.c
+> index d11d6320fb0d..8c8250b98752 100644
+> --- a/arch/riscv/kernel/cpu.c
+> +++ b/arch/riscv/kernel/cpu.c
+> @@ -139,6 +139,34 @@ int riscv_of_parent_hartid(struct device_node *node,=
+ unsigned long *hartid)
+>  	return -1;
 >  }
->  
-> +static bool hdmi_is_full_range(const struct drm_connector *connector,
-> +			       const struct drm_connector_state *conn_state)
+> =20
+> +unsigned long __init riscv_get_marchid(void)
 > +{
-> +	const struct drm_display_info *display = &connector->display_info;
-
-We call this 'info' everywhere else.
-
-> +	const struct drm_display_mode *mode =
-> +		connector_state_get_mode(conn_state);
+> +	struct riscv_cpuinfo *ci =3D this_cpu_ptr(&riscv_cpuinfo);
 > +
-> +	/*
-> +	 * The Broadcast RGB property only applies to RGB format, and
-> +	 * i915 just assumes limited range for YCbCr output, so let's
-> +	 * just do the same.
-> +	 */
-> +	if (conn_state->hdmi.output_format != HDMI_COLORSPACE_RGB)
-> +		return false;
-> +
-> +	if (conn_state->hdmi.broadcast_rgb == DRM_HDMI_BROADCAST_RGB_FULL)
-> +		return true;
-> +
-> +	if (conn_state->hdmi.broadcast_rgb == DRM_HDMI_BROADCAST_RGB_LIMITED)
-> +		return false;
-> +
-> +	if (!display->is_hdmi)
-> +		return true;
-> +
-> +	return drm_default_rgb_quant_range(mode) == HDMI_QUANTIZATION_RANGE_FULL ? true : false;
-
-Pointless ?:
-
-I'd probably use a switch statement to make
-the whole thing a bit more clear.
-
-I was pondering if we could also use this from i915. But
-we'd have to turn the 'is_hdmi' part into a function
-argument since we derive that from the current crtc state
-rather than from the display info.
-
+> +#if IS_ENABLED(CONFIG_RISCV_SBI)
+> +	ci->marchid =3D sbi_spec_is_0_1() ? 0 : sbi_get_marchid();
+> +#elif IS_ENABLED(CONFIG_RISCV_M_MODE)
+> +	ci->marchid =3D csr_read(CSR_MARCHID);
+> +#else
+> +	ci->marchid =3D 0;
+> +#endif
+> +	return ci->marchid;
 > +}
 > +
->  static bool
->  sink_supports_format_bpc(const struct drm_connector *connector,
->  			 const struct drm_display_info *info,
->  			 const struct drm_display_mode *mode,
->  			 unsigned int format, unsigned int bpc)
-> @@ -307,10 +334,12 @@ int drm_atomic_helper_connector_hdmi_check(struct drm_connector *connector,
->  		drm_atomic_get_new_connector_state(state, connector);
->  	const struct drm_display_mode *mode =
->  		connector_state_get_mode(new_conn_state);
->  	int ret;
->  
-> +	new_conn_state->hdmi.is_full_range = hdmi_is_full_range(connector, new_conn_state);
+> +unsigned long __init riscv_get_mvendorid(void)
+> +{
+> +	struct riscv_cpuinfo *ci =3D this_cpu_ptr(&riscv_cpuinfo);
 > +
->  	ret = hdmi_compute_config(connector, new_conn_state, mode);
->  	if (ret)
->  		return ret;
->  
->  	if (old_conn_state->hdmi.broadcast_rgb != new_conn_state->hdmi.broadcast_rgb ||
-> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> index 3e57d98d8418..ec6c6beda5c9 100644
-> --- a/drivers/gpu/drm/drm_atomic.c
-> +++ b/drivers/gpu/drm/drm_atomic.c
-> @@ -1145,10 +1145,11 @@ static void drm_atomic_connector_print_state(struct drm_printer *p,
->  
->  	if (connector->connector_type == DRM_MODE_CONNECTOR_HDMIA ||
->  	    connector->connector_type == DRM_MODE_CONNECTOR_HDMIB) {
->  		drm_printf(p, "\tbroadcast_rgb=%s\n",
->  			   drm_hdmi_connector_get_broadcast_rgb_name(state->hdmi.broadcast_rgb));
-> +		drm_printf(p, "\tis_full_range=%c\n", state->hdmi.is_full_range ? 'y' : 'n');
->  		drm_printf(p, "\toutput_bpc=%u\n", state->hdmi.output_bpc);
->  		drm_printf(p, "\toutput_format=%s\n",
->  			   drm_hdmi_connector_get_output_format_name(state->hdmi.output_format));
->  		drm_printf(p, "\ttmds_char_rate=%llu\n", state->hdmi.tmds_char_rate);
+> +#if IS_ENABLED(CONFIG_RISCV_SBI)
+> +	ci->mvendorid =3D sbi_spec_is_0_1() ? 0 : sbi_get_mvendorid();
+> +#elif IS_ENABLED(CONFIG_RISCV_M_MODE)
+> +	ci->mvendorid =3D csr_read(CSR_MVENDORID);
+> +#else
+> +	ci->mvendorid =3D 0;
+> +#endif
+> +	return ci->mvendorid;
+> +}
+> +
+>  DEFINE_PER_CPU(struct riscv_cpuinfo, riscv_cpuinfo);
+> =20
+>  unsigned long riscv_cached_mvendorid(unsigned int cpu_id)
+> @@ -170,12 +198,12 @@ static int riscv_cpuinfo_starting(unsigned int cpu)
+>  	struct riscv_cpuinfo *ci =3D this_cpu_ptr(&riscv_cpuinfo);
+> =20
+>  #if IS_ENABLED(CONFIG_RISCV_SBI)
+> -	ci->mvendorid =3D sbi_spec_is_0_1() ? 0 : sbi_get_mvendorid();
+> -	ci->marchid =3D sbi_spec_is_0_1() ? 0 : sbi_get_marchid();
+> +	ci->mvendorid =3D ci->mvendorid ? ci->mvendorid : sbi_spec_is_0_1() ? 0=
+ : sbi_get_mvendorid();
+> +	ci->marchid =3D ci->marchid ? ci->marchid : sbi_spec_is_0_1() ? 0 : sbi=
+_get_marchid();
+
+Can we please not have double ternary stuff? This is awful to grok :(
+Can you do
+if (!ci->m*id)
+	sbi_spec_is_0_1() ? 0 : sbi_get_m*id();
+instead? I think that is much easier to understand.
+Otherwise,
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+
+Cheers,
+Conor.
+
+>  	ci->mimpid =3D sbi_spec_is_0_1() ? 0 : sbi_get_mimpid();
+>  #elif IS_ENABLED(CONFIG_RISCV_M_MODE)
+> -	ci->mvendorid =3D csr_read(CSR_MVENDORID);
+> -	ci->marchid =3D csr_read(CSR_MARCHID);
+> +	ci->mvendorid =3D ci->mvendorid ? ci->mvendorid : csr_read(CSR_MVENDORI=
+D);
+> +	ci->marchid =3D ci->marchid ? ci->marchid : csr_read(CSR_MARCHID);
+>  	ci->mimpid =3D csr_read(CSR_MIMPID);
+>  #else
+>  	ci->mvendorid =3D 0;
+> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeatur=
+e.c
+> index 3ed2359eae35..c6e27b45e192 100644
+> --- a/arch/riscv/kernel/cpufeature.c
+> +++ b/arch/riscv/kernel/cpufeature.c
+> @@ -490,6 +490,8 @@ static void __init riscv_fill_hwcap_from_isa_string(u=
+nsigned long *isa2hwcap)
+>  	struct acpi_table_header *rhct;
+>  	acpi_status status;
+>  	unsigned int cpu;
+> +	u64 boot_vendorid;
+> +	u64 boot_archid;
+> =20
+>  	if (!acpi_disabled) {
+>  		status =3D acpi_get_table(ACPI_SIG_RHCT, 0, &rhct);
+> @@ -497,6 +499,13 @@ static void __init riscv_fill_hwcap_from_isa_string(=
+unsigned long *isa2hwcap)
+>  			return;
 >  	}
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index a40eaf3a8ce4..f5e960e89de3 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -1068,10 +1068,16 @@ struct drm_connector_state {
->  		 * @broadcast_rgb: Connector property to pass the
->  		 * Broadcast RGB selection value.
->  		 */
->  		enum drm_hdmi_broadcast_rgb broadcast_rgb;
->  
-> +		/**
-> +		 * @is_full_range: Is the output supposed to use a full
-> +		 * RGB Quantization Range or not?
-> +		 */
-> +		bool is_full_range;
-
-I would say limited range is the exception so I would suggest
-flagging that instead. Feels a bit weird to flag the normal
-case. Maybe the name should also include 'rgb' to make it clear
-it only applies to RGB.
-
+> =20
+> +	/*
+> +	 * Naively assume that all harts have the same mvendorid/marchid as the
+> +	 * boot hart.
+> +	 */
+> +	boot_vendorid =3D riscv_get_mvendorid();
+> +	boot_archid =3D riscv_get_marchid();
 > +
->  		/**
->  		 * @output_bpc: Bits per color channel to output.
+>  	for_each_possible_cpu(cpu) {
+>  		struct riscv_isainfo *isainfo =3D &hart_isa[cpu];
+>  		unsigned long this_hwcap =3D 0;
+> @@ -544,8 +553,7 @@ static void __init riscv_fill_hwcap_from_isa_string(u=
+nsigned long *isa2hwcap)
+>  		 * CPU cores with the ratified spec will contain non-zero
+>  		 * marchid.
 >  		 */
->  		unsigned int output_bpc;
->  
-> 
-> -- 
+> -		if (acpi_disabled && riscv_cached_mvendorid(cpu) =3D=3D THEAD_VENDOR_I=
+D &&
+> -		    riscv_cached_marchid(cpu) =3D=3D 0x0) {
+> +		if (acpi_disabled && boot_vendorid =3D=3D THEAD_VENDOR_ID && boot_arch=
+id =3D=3D 0x0) {
+>  			this_hwcap &=3D ~isa2hwcap[RISCV_ISA_EXT_v];
+>  			clear_bit(RISCV_ISA_EXT_v, isainfo->isa);
+>  		}
+>=20
+> --=20
 > 2.44.0
+>=20
 
--- 
-Ville Syrjälä
-Intel
+--RbQjJEERG41bUbGr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZh6TOAAKCRB4tDGHoIJi
+0ugHAP9wq53A/rRMZA7YNcwk3t+YkspiOROzoX/lB6mQceQcywEA6kOQ31DLs19U
+K7NuAGuzzBkZ9AZreTReZw47pw/tXwo=
+=YaUr
+-----END PGP SIGNATURE-----
+
+--RbQjJEERG41bUbGr--
