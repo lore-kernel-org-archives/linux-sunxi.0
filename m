@@ -1,116 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07F71591F9;
-	Mon, 15 Apr 2024 23:53:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C71E5CA7A;
+	Tue, 16 Apr 2024 02:03:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713225228; cv=none; b=aY50IK6GX+EVjIUf3TzZQNnv9bFKEQwO6OAqfLs+FifVEbrH5H4LUNP9JYRRHLPB6uI3n446sfnj5CITOvySxatlX99/upcXwoLMrnvBmpEBcVoitLYvsaBXXJXnwhwzkIXbt8Bmzc/Y9aiHuTUh+h3hpgb7rVR4uScAOc0W4dw=
+	t=1713233036; cv=none; b=DIpAM4aZYoPBctTBLglO1viU8FR0POIF86p9rj5gJohJdJ++mCjaTZQVAbQDE3M//N0Ks2lq0LrYM8GVh9GOphXNkTg3Bt6UoGP5Iy31B1ELE3y4o069rO9wrB+s8Nlmx68bJJFWmwgP++3P5x21yOu4W8qtmez7Po90lzPgews=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713225228; c=relaxed/simple;
-	bh=Glti5hmyaExB5aURz0ZlgjDbYGJVM7NX72vmMzXnptw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hwHMwN0a3mumtyZkBOu5QpmDRk+Yln1khT0rT/roY1rM8R1AYejYT7lsINYGNZUlhLwCaWWJESOcb0Y3dNJ1IPFd/JMJLJJnfrjWytyXGVXOq0/RJYjrv3MoA7kPSlsK4bID0pNuYz1BenEIsIF+gVS6wtDHEnnTwLFBnY8RJIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZL1hpYiq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713233036; c=relaxed/simple;
+	bh=x2n7YztkZD11QLiH+N5XoPcJPoWlyoWKd+CrQ56g3vI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LrOnvryWjPzWPq9pC7Q0fM0yjdDUvvpFRBQJiQ9ZVayw9ZmDDhfbPpEjomAHhLWjFGrSGjQd6I54r38o7O8m3Q1CYNwUbAfr5IlR8x43JpZk/ULTs2ohBwdMcvWP4OovzE8sKXQdycmHJ3IAMfIqUSxSd59W70cRT/N1/6O9vwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=IFNxCzpK; arc=none smtp.client-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZL1hpYiq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CAEFC113CC;
-	Mon, 15 Apr 2024 23:53:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713225228;
-	bh=Glti5hmyaExB5aURz0ZlgjDbYGJVM7NX72vmMzXnptw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZL1hpYiqFFDqEGcnDjrAmsFrlATUjRRZYpTwcmizOz0LFIFtZNFdvRy1mN1IFPBfc
-	 WKhjgFdNYyuXRRIP7E55JZ15scpBAphhvGyqy01JkbCkAqyPNjaq/Rb3zgvOCRtMtg
-	 U+b0hvgvCsCHj48SPclceOQU2PaC/XQX/WOL9tjvJzR7xiIZ2Py7xfsQAvhKmjezyg
-	 GBuxyh0pQMfR2gkRe2josr74QsPhHNKT8doEeokNaAHLhNRpPBHW+yEiZZDgGC0b3d
-	 D59ME0/rdlohUULjuEmzYZJ/jw3jcaRhYSrYHTXKtYYSnM33E4eOw99zTY4n6Y9uyH
-	 f+/I59nHzeKmg==
-Date: Tue, 16 Apr 2024 08:53:45 +0900
-From: Mark Brown <broonie@kernel.org>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Jani Nikula <jani.nikula@intel.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Alexander Stein <alexander.stein@ew.tq-group.com>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
-	linux-sunxi@lists.linux.dev, linux-mips@vger.kernel.org,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 0/7] drm/display: Fix display helpers depends on fallouts
-Message-ID: <Zh2+CZ2G9UOxcUaf@finisterre.sirena.org.uk>
-References: <20240403-fix-dw-hdmi-kconfig-v1-0-afbc4a835c38@kernel.org>
- <117b0d3b-a60b-4bc0-9f2c-f0e4fffe634a@sirena.org.uk>
- <20240415-sloppy-invisible-crocodile-da4545@houat>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="IFNxCzpK"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 029581C0003;
+	Tue, 16 Apr 2024 02:03:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1713233025;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jdhfOsUByq8rUAvMMWe9XMEbUc95e1ogkd9aQZm1obo=;
+	b=IFNxCzpKpOnKB5fD2zdxHmr4+x/odprRgDb1rV44iTZF88RaqG4RxMU+ttqzXq8OrutgfO
+	VAmz+TbMrq/IY69cjJIP0da5VNZ7cKiBkq1UnoOmzgOrxs2gTErWowdwuCzROabUtkwOsS
+	ZxDJnk31eyhyeF9s34aBwWGX+UOQfnnLyXXCMrTuD6A+J7WvE/gdZYnmhqZ4H+io4spEuz
+	SsxErIMnd13MRzCr1PCtxoET2JUPs7qWnI/3IxPjFHvh5XrCHLCjwwvZlUVdA+6IazbD8v
+	/mgR8byu4c7wptGosm3glSCwJcJHIDkiErIHWN8fCCWJHdd59bPXayxzBYieug==
+Date: Tue, 16 Apr 2024 04:03:29 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Martin Tuma <martin.tuma@digiteqautomotive.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Hugues Fruchet
+ <hugues.fruchet@foss.st.com>, Alain Volmat <alain.volmat@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Paul Kocialkowski
+ <paul.kocialkowski@bootlin.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Sakari
+ Ailus <sakari.ailus@linux.intel.com>, Thierry Reding
+ <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>, Matthias Brugger
+ <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Hans Verkuil
+ <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>, Abylay Ospan
+ <aospan@netup.ru>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Dmitry
+ Osipenko <digetx@gmail.com>, Stanimir Varbanov
+ <stanimir.k.varbanov@gmail.com>, Vikash Garodia
+ <quic_vgarodia@quicinc.com>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio
+ <konrad.dybcio@linaro.org>, Benjamin Mugnier
+ <benjamin.mugnier@foss.st.com>, Sylvain Petinot
+ <sylvain.petinot@foss.st.com>, Jacopo Mondi <jacopo+renesas@jmondi.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, Laurent Pinchart
+ <laurent.pinchart+renesas@ideasonboard.com>, Niklas =?UTF-8?Q?S=C3=B6derl?=
+ =?UTF-8?Q?und?= <niklas.soderlund+renesas@ragnatech.se>, Pavel Machek
+ <pavel@ucw.cz>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH 10/35] staging: media: tegra-video: Use swap macro
+Message-ID: <20240416040329.31547d8f@booty>
+In-Reply-To: <20240415-fix-cocci-v1-10-477afb23728b@chromium.org>
+References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
+	<20240415-fix-cocci-v1-10-477afb23728b@chromium.org>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="hvR5IVqVtFxbshiT"
-Content-Disposition: inline
-In-Reply-To: <20240415-sloppy-invisible-crocodile-da4545@houat>
-X-Cookie: You might have mail.
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
+Hello Ricardo,
 
---hvR5IVqVtFxbshiT
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Mon, 15 Apr 2024 19:34:27 +0000
+Ricardo Ribalda <ribalda@chromium.org> wrote:
 
-On Mon, Apr 15, 2024 at 01:21:47PM +0200, Maxime Ripard wrote:
-> On Wed, Apr 10, 2024 at 07:06:39PM +0100, Mark Brown wrote:
+> Makes the code simpler and cocci happier:
+> 
+> drivers/staging/media/tegra-video/tegra20.c:324:44-45: WARNING opportunity for swap()
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
-> > Is there any news on getting the rest of this merged?  It's been more
-> > than a week now and the Designware display controllers are all still
-> > broken in -next, causing widespread breakage in CI.  For bisection
-> > purposes it probably makes sense for the defconfig updates to go along
-> > with the changes to the Kconfig for the driver...
+Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-> I was on holidays so I've admittedly hoped that it would be picked up /
-> reviewed by the relevant maintainers.
-
-> Aside from the changes on sunxi_defconfig, I haven't seen any review
-> from the relevant maintainers so I'm not sure how to merge this. Should
-> we get an Acked-by from Arnd, Olof, Catalin or Will and merge everything
-> through drm-misc?
-
-Sounds like a reasonable plan to me - usually it'd be the SoC
-maintainers for stuff like this but they're not on the CC, though TBH it
-seems sufficiently obvious that I doubt anyone would mind if you just
-merged things without waiting.
-
---hvR5IVqVtFxbshiT
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmYdvggACgkQJNaLcl1U
-h9AFegf/bZsYaXP8tRkdBSjyeRExVkNbru80uysU+lEbQYvxVG8vF5HBon4Llvvy
-FRg2q45T55EjATaU7/f1FDFJ3TVDtXnQ4bWRlx4dvbk5S4Hcb5XaoGmwatO6eHmX
-rQz/hduFIKhwU+82v3ND/kJYfR1f9+8dvnCdL5TblWBG4o/p21dMWJKoAOlDkAzQ
-Ygt03tBG4O46UgmwS8aPVSbv0ShId3zR/L9lYdIVvtQaK6a0CK7+5EIoS5emLKlZ
-zeXN2qxSfzaUNhhGtJ3aD0Fa76bGjFeXB54Io6f8fPawV/QkDfaxIGFf9FG/G2gq
-D7fQ+Bg6302L5j6cebEC3qW3tmxzdg==
-=U8FE
------END PGP SIGNATURE-----
-
---hvR5IVqVtFxbshiT--
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
