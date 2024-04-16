@@ -1,169 +1,217 @@
-Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2C9A3BB30
-	for <linux-sunxi@lists.linux.dev>; Tue, 16 Apr 2024 13:36:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 629F512C7FA
+	for <linux-sunxi@lists.linux.dev>; Tue, 16 Apr 2024 13:44:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713274571; cv=none; b=EIYrx9AFKSGQvaZOOCIc7eg2whkLXvFr+oCTj0nNy2T3HcS8PgoliFzJ6zRdZRbN9QduC9B8wMXL3jaWRwH+XN+JrvjakpVqHhqxST1ivRndE+tLtaeGn+nWEZpEKmHaFdufnjcHIAA8KT87vtyfzCHFYdWxoVTQO2tS8OhbuZM=
+	t=1713275069; cv=none; b=hTODmIRRJTA0hFwErqompjKuNwbZTaz4pIUtICxs+VWXMXkuf7PTnPTMDtHH5t7/yoQU6tV8WfT5uAHgFBsrhD40M4G8AAnZwe9a7hNwHaO/M4jnsbKORgI3CSMKTow28sg6snMAjrDT3qO404D8EmGhAwK/4+cm943VwsRgjVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713274571; c=relaxed/simple;
-	bh=ESXTOBerJ11ivDTEUscWQdRvIS+xShE+sRa69XlINm4=;
+	s=arc-20240116; t=1713275069; c=relaxed/simple;
+	bh=yIT1Hq1Q+QFvhkrUGnRLbVn2bvPzGMAzhArPVhVcvS4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rsN52ASXZNbNQg5OEd4ZirDman/QospMLjuf01Gxt2ZF9WEPV45zKL6HNObX1XtaHOUb3ksJEwe/t3WJvvhSdbqEky/mBmkAd3IZruTjfiTI95TRunrqMfEkIBiBdyMwk87FfZmLoiANt7q/3esoAsa8q23dW7x1ecM3yufgxSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org; spf=none smtp.mailfrom=jookia.org; dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b=WsN+inhp; arc=none smtp.client-ip=95.215.58.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=jookia.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=mTF/jLQSoagCGmHCEeJxqo96URRyb1K3lcgnIcH2P0NJi1JWqfJiWPy69gfydI5qF04RBKeeMhfyMAfZzh9gy5qByYmPwnuCeUcoVSR0jft9LZHKTKIKMzszfWSKwjdvrkq7BYzDfYhgGnx+MzJeA5YvCZXRWpxJ0lrEY9RgzKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dnEZ9Ww7; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b="WsN+inhp"
-Date: Tue, 16 Apr 2024 23:30:43 +1000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
-	t=1713274563;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Yi0/qfx4nmZfF6fdXRi1R9ZAidfFCHR7CYYCzr1ALiw=;
-	b=WsN+inhptWBlLAn4tYfGJsUTwLFrLAQSCnnMGn3U0Hj6QgcJ0wxYAoALpOZh7Oi3b5sI6g
-	ssaUcULn7c0mtcvWJpB5DP8Qxift4AYjIswvzH2NQmGSI++Cs1XukEkGoRC/byHQ7jsOMO
-	CBpOw1a/3pWu8VVA2M41nalYMiRHr3NqB8IzAnPX+iPHISnvSscRdyHTik1VSqmAuFSzAl
-	0cKjzNVkuR854rG/g0FK6mX9bCOzX9mAyPnrT3MQNEOHRQl4tzDPZwCR4Cld5ESfftonXn
-	sZ5BKACEjTG79h4w+ANMd8FiuEllga+k6ObB5tCsNVvAd/8FjNWdBw5IQmof/g==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: John Watts <contact@jookia.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, Lee Jones <lee@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dnEZ9Ww7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713275067; x=1744811067;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=yIT1Hq1Q+QFvhkrUGnRLbVn2bvPzGMAzhArPVhVcvS4=;
+  b=dnEZ9Ww7byrw/ooxpfYc3KaclMCfbp7m+MQ3x0tHkp74OGJVbfpH6IqR
+   WP/dYGWNQoy90HnQ2EiZj76Fu27nlcS+eJjqyFMECIvZ3wa3mnCuuCTNo
+   liYh7OuTA3m7M7qyChUGOWvWGrb0xobj/PKXs2EB8c4bbSyqZ2FD+Vggf
+   KvOIGz4XeazO+1fK7Zq5MXiMIunL+mGKkXYY1IsWQmpLcB90JQOX1++PE
+   stT7eayy2u/pRWLtTCPM6xN5ShQQK4LRUgdLICQn5O0jYT4hCXY9Sb0ON
+   HC6Icmbn4QgcOTkR9AINWVVvzy3tQWdSmnvcJmhASxPGl668Nq/RLIpAt
+   A==;
+X-CSE-ConnectionGUID: VaqZLHdqRxCBAE9XAGQnXA==
+X-CSE-MsgGUID: eqJBHWkfT6eVajPuDaLCaA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="8823881"
+X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; 
+   d="scan'208";a="8823881"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 06:44:26 -0700
+X-CSE-ConnectionGUID: 6KgPAxkdTZi56IQwb7BkxQ==
+X-CSE-MsgGUID: 8H3eU6/hQGW/35RqtA+D7Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; 
+   d="scan'208";a="22330276"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+  by fmviesa008.fm.intel.com with SMTP; 16 Apr 2024 06:44:15 -0700
+Received: by stinkbox (sSMTP sendmail emulation); Tue, 16 Apr 2024 16:44:14 +0300
+Date: Tue, 16 Apr 2024 16:44:14 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>,
+	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Ryan Walklin <ryan@testtoast.com>,
-	Chris Morgan <macroalpha82@gmail.com>
-Subject: Re: [PATCH 1/4] regulator: axp20x: AXP717: fix LDO supply rails and
- off-by-ones
-Message-ID: <Zh59gzEB61lNdmMh@titan>
-References: <20240329235033.25309-1-andre.przywara@arm.com>
- <20240329235033.25309-2-andre.przywara@arm.com>
- <ZhuNCUnJri4hBOxx@titan>
- <20240416122305.3ffc2bda@donnerap.manchester.arm.com>
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Sebastian Wick <sebastian.wick@redhat.com>,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v11 09/28] drm/display: hdmi: Add HDMI compute clock
+ helper
+Message-ID: <Zh6Ars8z1ESz-LQO@intel.com>
+References: <20240326-kms-hdmi-connector-state-v11-0-c5680ffcf261@kernel.org>
+ <20240326-kms-hdmi-connector-state-v11-9-c5680ffcf261@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240416122305.3ffc2bda@donnerap.manchester.arm.com>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240326-kms-hdmi-connector-state-v11-9-c5680ffcf261@kernel.org>
+X-Patchwork-Hint: comment
 
-On Tue, Apr 16, 2024 at 12:23:05PM +0100, Andre Przywara wrote:
-> On Sun, 14 Apr 2024 18:00:09 +1000
-> John Watts <contact@jookia.org> wrote:
+On Tue, Mar 26, 2024 at 04:40:13PM +0100, Maxime Ripard wrote:
+> A lot of HDMI drivers have some variation of the formula to calculate
+> the TMDS character rate from a mode, but few of them actually take all
+> parameters into account.
 > 
-> Hi John,
+> Let's create a helper to provide that rate taking all parameters into
+> account.
 > 
-> many thanks for the detailed review (also on the other two patches), much
-> appreciated!
-
-No problem!
-
-> I see what you mean, though I actually looked at the number of steps
-> mentioned in the first part of the register description. Now
-> triple-checking this I came up with this table (generated by a spreadsheet
-> to minimise human error):
-> voltage	decimal	binary	
-> 1600	88	1011000
-> 1700	89	1011001
-> 1800	90	1011010
-> 1900	91	1011011
-> 2000	92	1011100
-> 2100	93	1011101
-> 2200	94	1011110
-> 2300	95	1011111
-> 2400	96	1100000
-> 2500	97	1100001
-> 2600	98	1100010
-> 2700	99	1100011
-> 2800	100	1100100
-> 2900	101	1100101
-> 3000	102	1100110
-> 3100	103	1100111
-> 3200	104	1101000
-> 3300	105	1101001
-> 3400	106	1101010
+> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>  drivers/gpu/drm/display/drm_hdmi_helper.c | 70 +++++++++++++++++++++++++++++++
+>  include/drm/display/drm_hdmi_helper.h     |  4 ++
+>  2 files changed, 74 insertions(+)
 > 
-> Which means the final binary value in the datasheet is wrong, as 1101011
-> would mean 3.5V.
-> Also  1101010 = 106
->      -1011000 = 88
-> =============
->       0010010 = 18
-> and 18 * 100 + 1600 = 3400, right?
+> diff --git a/drivers/gpu/drm/display/drm_hdmi_helper.c b/drivers/gpu/drm/display/drm_hdmi_helper.c
+> index faf5e9efa7d3..2518dd1a07e7 100644
+> --- a/drivers/gpu/drm/display/drm_hdmi_helper.c
+> +++ b/drivers/gpu/drm/display/drm_hdmi_helper.c
+> @@ -193,5 +193,75 @@ void drm_hdmi_avi_infoframe_content_type(struct hdmi_avi_infoframe *frame,
+>  	}
+>  
+>  	frame->itc = conn_state->content_type != DRM_MODE_CONTENT_TYPE_NO_DATA;
+>  }
+>  EXPORT_SYMBOL(drm_hdmi_avi_infoframe_content_type);
+> +
+> +/**
+> + * drm_hdmi_compute_mode_clock() - Computes the TMDS Character Rate
+> + * @mode: Display mode to compute the clock for
+> + * @bpc: Bits per character
+> + * @fmt: Output Pixel Format used
+> + *
+> + * Returns the TMDS Character Rate for a given mode, bpc count and output format.
+> + *
+> + * RETURNS:
+> + * The TMDS Character Rate, in Hertz, or 0 on error.
+
+Everything generally uses kHz. Sticking to common units
+would be better.
+
+> + */
+> +unsigned long long
+> +drm_hdmi_compute_mode_clock(const struct drm_display_mode *mode,
+> +			    unsigned int bpc, enum hdmi_colorspace fmt)
+> +{
+> +	unsigned long long clock = mode->clock * 1000ULL;
+> +	unsigned int vic = drm_match_cea_mode(mode);
+> +
+> +	/*
+> +	 * CTA-861-G Spec, section 5.4 - Color Coding and Quantization
+> +	 * mandates that VIC 1 always uses 8 bpc.
+> +	 */
+> +	if (vic == 1 && bpc != 8)
+> +		return 0;
+> +
+> +	/*
+> +	 * HDMI 2.0 Spec, section 7.1 - YCbCr 4:2:0 Pixel Encoding
+> +	 * specifies that YUV420 encoding is only available for those
+> +	 * VICs.
+> +	 */
+> +	if (fmt == HDMI_COLORSPACE_YUV420 &&
+> +	    !(vic == 96 || vic == 97 || vic == 101 ||
+> +	      vic == 102 || vic == 106 || vic == 107))
+> +		return 0;
+
+I believe that is already outdated. I would just rip this out since the 
+sink is anyway required to declare for which timings it will support
+4:2:0 via the Y420CMDB/VDB data blocks (see
+drm_mode_is_420_{only,also}().
+
+> +
+> +	if (fmt == HDMI_COLORSPACE_YUV422) {
+> +		/*
+> +		 * HDMI 1.4b Spec, section 6.2.3 - Pixel Encoding Requirements
+> +		 * specifies that YUV422 is 36-bit only.
+> +		 */
+> +		if (bpc != 12)
+> +			return 0;
+> +
+> +		/*
+> +		 * HDMI 1.0 Spec, section 6.5 - Pixel Encoding
+> +		 * specifies that YUV422 requires two 12-bits components per
+> +		 * pixel clock, which is equivalent in our calculation to three
+> +		 * 8-bits components
+> +		 */
+> +		bpc = 8;
+> +	}
+> +
+> +	/*
+> +	 * HDMI 2.0 Spec, Section 7.1 - YCbCr 4:2:0 Pixel Encoding
+> +	 * specifies that YUV420 encoding is carried at a TMDS Character Rate
+> +	 * equal to half the pixel clock rate.
+> +	 */
+> +	if (fmt == HDMI_COLORSPACE_YUV420)
+> +		clock = clock / 2;
+> +
+> +	if (mode->flags & DRM_MODE_FLAG_DBLCLK)
+> +		clock = clock * 2;
+> +
+> +	clock = clock * bpc;
+> +	do_div(clock, 8);
+
+IMO one shouldn't use bare do_div(). There are
+more sensible wrappers for it.
+
+In this case I would use DIV_ROUND_CLOSEST_ULL().
+
+Although the 64bit math is not even required if you
+just stick to kHz like everyone else.
+
+> +
+> +	return clock;
+> +}
+> +EXPORT_SYMBOL(drm_hdmi_compute_mode_clock);
+> diff --git a/include/drm/display/drm_hdmi_helper.h b/include/drm/display/drm_hdmi_helper.h
+> index 76d234826e22..57e3b18c15ec 100644
+> --- a/include/drm/display/drm_hdmi_helper.h
+> +++ b/include/drm/display/drm_hdmi_helper.h
+> @@ -22,6 +22,10 @@ drm_hdmi_infoframe_set_hdr_metadata(struct hdmi_drm_infoframe *frame,
+>  				    const struct drm_connector_state *conn_state);
+>  
+>  void drm_hdmi_avi_infoframe_content_type(struct hdmi_avi_infoframe *frame,
+>  					 const struct drm_connector_state *conn_state);
+>  
+> +unsigned long long
+> +drm_hdmi_compute_mode_clock(const struct drm_display_mode *mode,
+> +			    unsigned int bpc, enum hdmi_colorspace fmt);
+> +
+>  #endif
 > 
-> This *is* admittedly quite bonkers, especially since the representations
-> between the manual and the code are so different, but can you check that
-> this makes sense?
+> -- 
+> 2.44.0
 
-I wrote a program in Python that steps through each range and prints its
-value, and according to it value 106 is 3.4V. I dumped it at the end of
-this email for anyone curious. Your math checks out too.
-
-So the datasheet must be wrong. Maybe it originally supported up to 3.5V
-and someone who doesn't know binary updated the sheet.
-
-I think you should add a note saying that the datasheet is wrong, to
-show people this isn't a bug and also save time of others trying to
-write their own drivers and check their logic. Something like this:
-
-Warning, the datasheet specifies that 3.40V is 107, which is incorrect:
-- There are only 107 steps in total, making the highest step value 106
-- 1.60V is listed as 1011000 (88 in decimal), with 18 steps after that 
-- Adding 100mV for each of the 18 steps past 1.60V gives 3.4V
-
-I think this logic convinces me at least. :)
-
-John.
-
-> I discovered some other issue in the original patch (missed declaring the
-> range of IRQ acknowledge registers in the MFD part), so I will send a v2 of
-> this series soonish.
-> 
-> > For DCDC3 after applying this patch we get:
-> > 
-> > #define AXP717_DCDC3_NUM_VOLTAGES	103
-> > static const struct linear_range axp717_dcdc3_ranges[] = {
-> > 	REGULATOR_LINEAR_RANGE(500000,   0,  70, 10000),
-> > 	REGULATOR_LINEAR_RANGE(1220000, 71, 102, 20000),
-> > };
-> > 
-> > The datasheet marks the maximum value as 1100110: 1.84V, which is 102.
-> > So this patch to correct the AXP717_DCDC3_NUM_VOLTAGES is correct here.
-> 
-> I agree ;-) thanks for checking!
-> 
-> Cheers,
-> Andre
-
----
-
-Python program:
-
-reg = 0
-value = 500
-for x in range(71):
-	print("%i: %imV" % (reg, value))
-	value += 10
-	reg += 1
-value = 1220
-for x in range(17):
-	print("%i: %imV" % (reg, value))
-	value += 20
-	reg += 1
-value = 1600
-for x in range(19):
-	print("%i: %imV" % (reg, value))
-	value += 100
-	reg += 1
+-- 
+Ville Syrjälä
+Intel
