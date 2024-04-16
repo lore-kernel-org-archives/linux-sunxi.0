@@ -1,71 +1,63 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6D2B12882D
-	for <linux-sunxi@lists.linux.dev>; Tue, 16 Apr 2024 11:38:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E43301292CE
+	for <linux-sunxi@lists.linux.dev>; Tue, 16 Apr 2024 12:01:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713267514; cv=none; b=Io0McgZe34q/xbxGWm1/CXm67Ut2vQ7EXCO2+/eNaBqDzhBJxCqk/3TWVT78pzogzMOmi2ZAASXVse904L8kvWNu1/SmJKxTPXrO8UkjqAZiomw4nMRyOnLKr7p0MoH4OvmcianEgp9lnFRSgKd6ALY4WkbCkmsWACjetVqggGI=
+	t=1713268913; cv=none; b=ix8DA2qTeoHyEYvFiMvNKTF7lNaxH7MWdi7OAHNGNme0Qag8hzJn5SnJ2SzQHzyb1sts02j9LzOLseelRLHFr5yrn65ndKRfXVQZ02V1zpxtYSEbIDW2jky/h5WpVpVwkRoug4Z2ijU4Cqd4zmEM/lkG2zKhmUkDR5v7Qwgdf/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713267514; c=relaxed/simple;
-	bh=NIRfjbxBKlUF6UYKXQ9bPrhaNs+Ht9ITk6Oi0xFaqV0=;
+	s=arc-20240116; t=1713268913; c=relaxed/simple;
+	bh=y04OwjH/sbLKlcXwliMQHnCBgTseJ+PQ3aes3eUFGXQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aH0FHOolsv45f7veyorFFr1BbjmOB5Z0DsUk58Q7TNJNfAwwATF+7x/Mb00nP4aHFMDR7+3v0OjoFa4g7UPUcpuDVft5piFxzUu+nojAd766KHTho2G0lFJvQFsE2SIRhvcKpmxljpl8BGcrlWKWSHfnXoGvpCfm+ckx2uoNiuA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MlqozUKR; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=jNbMHH9wY+jLN4IVESRdQes4EEQDWxP4jXeWTFUBgCvKYuI3G0GrWYjNnX+3e3OBJUZ5cOQzRBG9RQqWF6Ju7j2Du/ViQLCIhjyLUUB1j7SsAk57sQHiFC3ScQFM3b3yt9LSyZD2/qv4mOBjTe/W+O27QCghUnF65WfpCttnJwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=R6GDJn38; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MlqozUKR"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-516d2b9cd69so5205525e87.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 16 Apr 2024 04:38:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713267511; x=1713872311; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3imXpN/x1JQtEA6zkUwudIXWS06IjOEYxP3aQIvEud0=;
-        b=MlqozUKRkriQ593p8lKdpEbZoWyNLDWAgOag4bQe2IYvHu4gOHrfrbYTkKFSIFN/Vw
-         +JsWfX8WzJO27wK/YjyxqfNusaVu6BxtXaddFUY5LAscwZ1ZuDLkqmcRY9fSJka6fYQt
-         1lcrYUqanyEeqNkFeYEuO8C+hyXtyWPh0r3XuE8wVJqGD+7RpvVka1MfL0HHGdOIoOlH
-         nJ4rf1jwQsB2mju+P3ntEUJaPAtnPex2oIPwITn7X5cBBcVlWG+HZqcYB46q/kPeCH2/
-         MFwwoC13atsfkY4lz6cHANeqbSirufd1Hsv92IUWwjRdRS3LqaU/NElDJSUO8j4ZwNgm
-         U0sA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713267511; x=1713872311;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3imXpN/x1JQtEA6zkUwudIXWS06IjOEYxP3aQIvEud0=;
-        b=W1/eyumdyeuiJ2LNLPgfs6hLLucFRRJlDphWvyMm2P372CwcfdN7u3fhGAGDpp5Tso
-         XzcqSrpz/nonHTpXJPJG+jVlXXt06e7oVt4fcmjcctSP/CStzMPZUSYA01scQmSgY8zw
-         msrqFu6fuoKWr7I4il7MOntR36nhiUR+nLzRPqJm0XZjMzcBTs/mtXaUg53qSUOriDMr
-         sTOWRG6ZgNMHxnSdW9pyFXmzg627jCTVvPA7bBvLajqSvnkZohbtC1SSgshs4oRCrzWv
-         bGTZ0mWwDUQlumw+WoykEjX/nsCu6xqO/6/7lSk7hg+vUXcRjzEa26NF5IOgt0+vuvIg
-         bOIw==
-X-Forwarded-Encrypted: i=1; AJvYcCWMRlIDa9I7acQoTIqb/a0EKza+0WGaXT2vzH9/Z/e57A7oYAgn+w92B8KOy0m/upwDWLnyT7TU7LcGz8bUDeoV+8Gs/9O/OoLWIDg=
-X-Gm-Message-State: AOJu0YyBBPRu7T+H5yrN4c3WfnFku+q4unT1NLsXUEcEzK7v3I0A3O6W
-	mMxTShxgLIbNST1l4LQbKG190fWtZ93BkbreqD0+YFna396Cbqyt
-X-Google-Smtp-Source: AGHT+IFsv1t50cVsn9xtvOjs4g4KFGJI0LdCIc6Wa6MGsoQY1SUEtRqNz2Pjjzjb2zJlDyUmdLuf3A==
-X-Received: by 2002:ac2:528c:0:b0:518:7e4a:2035 with SMTP id q12-20020ac2528c000000b005187e4a2035mr7410480lfm.45.1713267510734;
-        Tue, 16 Apr 2024 04:38:30 -0700 (PDT)
-Received: from mobilestation ([213.79.110.82])
-        by smtp.gmail.com with ESMTPSA id bp22-20020a056512159600b00518e96b85b0sm568727lfb.234.2024.04.16.04.38.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Apr 2024 04:38:30 -0700 (PDT)
-Date: Tue, 16 Apr 2024 14:38:28 +0300
-From: Serge Semin <fancer.lancer@gmail.com>
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="R6GDJn38"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=IsKWmq3S1tbhsPEHkpNJ+4wTjZvXqEyH5UAdmDYEQ5Q=; b=R6GDJn38hgKmNBGIc81JtA0h1Q
+	R3uScF+x+HDTqA8bIZi8vFrRKzu4vgwk6os8ntlO2z4sio2h40d5XAbu9VYldnSIq9/Uc2BFgxhWU
+	gYhHN/JWQBuDrHapNFeqQUlssHeUz7jEXzIuxbYOR+Oiam/vKXNlqS5aZKZVHPLStzH5rEMJFdeqp
+	xIQ6DJrAGZh1xsU74mUnzpwU4/s02XomHhPQoL9yiF7qk88W8YEcIa7iMY0o8e51JmSx2V1NTExas
+	kZAUfITBlX3IP8E9E9hqhJkAqpfhfBqhepNUAQFCPz8I/PhRvoptM3wQRl+1nbrmTPPkjr9jiogV0
+	sxjM8eCA==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:33062)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1rwhUv-00009J-1B;
+	Tue, 16 Apr 2024 13:01:13 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1rwhUo-0004pX-19; Tue, 16 Apr 2024 13:01:06 +0100
+Date: Tue, 16 Apr 2024 13:01:05 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
 To: Romain Gantois <romain.gantois@bootlin.com>
-Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Jose Abreu <joabreu@synopsys.com>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Russell King <linux@armlinux.org.uk>, 
-	Yanteng Si <siyanteng@loongson.cn>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Simon Horman <horms@kernel.org>, Huacai Chen <chenhuacai@kernel.org>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: Serge Semin <fancer.lancer@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Yanteng Si <siyanteng@loongson.cn>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Simon Horman <horms@kernel.org>,
+	Huacai Chen <chenhuacai@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH net-next 4/4] net: stmmac: Move MAC caps init to phylink
  MAC caps getter
-Message-ID: <btgxb3ugs4apjvxj5hmpec3rtoxwdal7ms2z4s7pecdfefphiw@gd7ctqsh7wg2>
+Message-ID: <Zh5ogZ433lrUOi9b@shell.armlinux.org.uk>
 References: <20240412180340.7965-1-fancer.lancer@gmail.com>
  <20240412180340.7965-5-fancer.lancer@gmail.com>
  <714199e5-edf2-dcbb-216b-563431d70488@bootlin.com>
@@ -78,8 +70,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <714199e5-edf2-dcbb-216b-563431d70488@bootlin.com>
-
-Hi Romain
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
 On Tue, Apr 16, 2024 at 09:56:32AM +0200, Romain Gantois wrote:
 > Hi Serge,
@@ -95,50 +86,17 @@ On Tue, Apr 16, 2024 at 09:56:32AM +0200, Romain Gantois wrote:
 > > +	stmmac_mac_phylink_get_caps(priv);
 > 
 > This is a bit of a nitpick, but the terminology is quite confusing between 
-> stmmac_mac_phylink_get_caps() and stmmac_mac_get_caps().
-
-Right, the naming turns to be ambiguous "a bit".)
-
-> Ideally, we could just 
+> stmmac_mac_phylink_get_caps() and stmmac_mac_get_caps(). Ideally, we could just 
 > get rid of the whole stmmac_do_void_callback() complexity and just call 
-> phylink_get_caps() directly.
-
-No, this isn't a good solution. The local coding convention implies
-using the macro-functions implemented to execute the callbacks. We
-can't use the macros everywhere but in this place.
-
-> In the meantime, maybe renaming this to 
+> phylink_get_caps() directly. In the meantime, maybe renaming this to 
 > stmmac_mac_core_get_caps() would be acceptable?
 
-The name was selected to align with the rest of the PHYLINK callbacks:
+I'd prefer not to do that. If the method is called mac_get_caps() then
+I'd much rather have method implementations called foo_mac_get_caps()
+which makes grep easier.
 
-static const struct phylink_mac_ops stmmac_phylink_mac_ops = {
-        .mac_get_caps = stmmac_mac_get_caps,
-        .mac_select_pcs = stmmac_mac_select_pcs,
-        .mac_config = stmmac_mac_config,
-        .mac_link_down = stmmac_mac_link_down,
-        .mac_link_up = stmmac_mac_link_up,
-};
+So... stmmac_core_mac_get_caps() would be acceptable to me.
 
-So I don't think that changing it to something different would be a
-good alternative. What could be a better option is to rename the
-stmmac_ops::phylink_get_caps() callback and
-stmmac_mac_phylink_get_caps() macro-function to something like:
-
-stmmac_ops::link_update_caps()
-stmmac_mac_link_update_caps()
-
-especially seeing the callback no longer sets the phylink MAC
-capabilities directly. What do you think?
-
--Serge(y)
-
-> 
-> Please let me know what you think.
-> 
-> Thanks,
-> 
-> -- 
-> Romain Gantois, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
