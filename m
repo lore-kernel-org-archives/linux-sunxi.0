@@ -1,136 +1,127 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FE8E127E28
-	for <linux-sunxi@lists.linux.dev>; Tue, 16 Apr 2024 10:56:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E5D23FC2
+	for <linux-sunxi@lists.linux.dev>; Tue, 16 Apr 2024 11:01:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713265007; cv=none; b=UeIWKnAlj6H4tGACM2gDCn1MxmFzK5j0roQejJ2DeicdFIzj3kA75eOKYJHbuGMoLh61iFXf16Rz7I1ye2dRBtaoLqCa8qTI3bh084Smrdco46mkJZDvmnBdgINSbT3VuTZcJ77xYLft3vxY4OD2U42xL17dn0qaBI08tr9Obu4=
+	t=1713265283; cv=none; b=X/+coOffVzGgXVyrkXUyhM4TkAcD4nkxYOze1PrteKM+4PhY7X7eonEO7lnFWSc6c/bQUcXOLmJM6dqJnnx9nLUn5Jslqz+PdJR7thdTd7r005nb+Vo2CD7n7IwmM1HpjMN/pjpxwag2rfisi/hqMUtpPTmrTQmXcnlzmI2+qfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713265007; c=relaxed/simple;
-	bh=HlgZk8CvLNHX7j9hSVFcL16+f4dTN36eZ1Z1lh6hhAU=;
+	s=arc-20240116; t=1713265283; c=relaxed/simple;
+	bh=rucFRDUwhz9mjFWRhohQGSaM+EbpELVZQbhGdj40ILk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D9hMlr0er1hLKoo0LYcBxya/M30+xoaJqUevLzDNG38Lfammfreaf0znlMLdz0/zzZRFOjQGPSo1DdGTyhoMDQl/p4Ii/HchJgOZ+w3pB7QiX80BNHwq0vnoVNLj0E0nSH9Xg+kJPyX65mhdlLDT2hvErvvebkDECsfVD5Vm3h4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=R+vZO142; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=ubSRILRC6Zhw7huEqGeWcpmQMvAcCTdadpEJcKVGK4boWTvxOPUWBlvS3d7XYL0YgxXcHTpv8c4Gv9fpHcDIn57V9NEB19sTBE+eHZr/fUwN3+uO7hoG4gbIhXAQTgcsvcDi+rLyVIgAYSRRzPoO7lxhFA8Y6wX4HFyCFamOZTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SzCnTUfb; arc=none smtp.client-ip=209.85.208.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="R+vZO142"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-570097653faso2761929a12.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 16 Apr 2024 03:56:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SzCnTUfb"
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2dae975d0dcso3122951fa.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 16 Apr 2024 04:01:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713265003; x=1713869803; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=5+LvTU+20katiBQPmXC4bjjTw0g5f/3WkUMY6Jo3I4w=;
-        b=R+vZO1423FJEEFVtrD3H6YCNlnKYrMOrdkJ1Iynlu8ZtpgX/vEOWBnFPPuyWvg8J0S
-         dimB+aHLxG2qkRD8klWImwSdZxN2LHXSBRlvFALj2FEm1Vu9VFSGcHHJUcUq/bXnmTgu
-         Qu9cItJJM+X4Ez9kDQDcy7ewyQ6Ue/3POZ6BT1xL3bqlpr4lSYP5lKg4I9GtV8See5vE
-         KiMUdXP2SCAwBg7kLsRdoB4x2QxnfvybdsDmLkzbfmLtl+aCEZIZ6VYEK8PNNQpS7cH4
-         SEMgwHIWpoOvQk+gTPjIJs69myaLujyOa78pmyqFNncB7mY7JFe12CxUu32OSmEG8hjq
-         3K7Q==
+        d=gmail.com; s=20230601; t=1713265280; x=1713870080; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Ytr2gjGDi6MOUgYACZdiW0scYQdKsmNLgN4Zn17oOZo=;
+        b=SzCnTUfbQeSkUwEyGAav5tNU0/i5nYcZgmQLAVF+pC7fb3SRHxfbfQjK+CVeypXfPX
+         RBBuc1oy8XTR6HC2qp+wopjJo8berUEgnbPSgewZETbti4Vfs6JHUQbKzV5TJoQN0yZL
+         mcRoPM/6xHYrC3e4dz6pVYFSq82xbcX8F0VsneF1nT0BKLiA+flSDHcjjSeqE12Al0Ni
+         +NerGafyGTAnF577QjmKLLiWHmQAbIJBaA+4uPWMoJitygsKmndRoec9vExxdDxmPtmP
+         ymTuY8GFjA4WzEUv+zNuvWxZcEs2aObj6ajQcn27wl8NQbSnjcwvon1JTW4+GNDoszXc
+         V73Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713265003; x=1713869803;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5+LvTU+20katiBQPmXC4bjjTw0g5f/3WkUMY6Jo3I4w=;
-        b=Z9FGc4QxvrGUbmkT4OZKPyH3iEr4hcGJ02LUn9yh6aDWaAech0Fe1/GQxsJuGzxGyA
-         9QwLrllV//BguFO8yTWEXB/06el5RfVAcfhsU5qLxc4kg5j1hJyUWZ+mIhmt5s3ua8te
-         RcoNWTohVxqtMFh5GoP/UuZq8/TZMP0xG6It4xcA3wcO9lkDKVZZLWj3l0L9d1+W+baF
-         fod3LzVN4HcAkM8e/aTDRgFh/c4hueBd6tDUnzy8Os1CFH8zjrhw8TyMxg73vVUR+hGP
-         WUwWOs2IboNnjcu6yp27JrUFj3Ho9pg/rpLrPoR4WVJiYuD+uyw5YR0WtlXecvt4Eay2
-         1IRw==
-X-Forwarded-Encrypted: i=1; AJvYcCVJc384jaZQJrLdczHhae0PpMaHs8rpdzFota5ztYom4JI1pB2yP827ViBaybTHS+8PiGCxPWRsx3ZYli4G2ZTdfBDhxuuYXIXsB6Q=
-X-Gm-Message-State: AOJu0Yyhsedh0noN5PCPva2T5AHZz0cnYpZ8blmCmUUGchrv28vA+UzR
-	wKa+HRi/1wkoyPnH02VwjplzhSFoX91AtEshjpfivi1tFBq8zKniedxHX7aw7lk=
-X-Google-Smtp-Source: AGHT+IFRHzwHYV/k15VsjWZfN2SFFrEwWZL3WX+T78lKXGwI5ZHOHbWBE7IZ649XfmZzZPkChlPXBw==
-X-Received: by 2002:a50:8d19:0:b0:570:1161:111f with SMTP id s25-20020a508d19000000b005701161111fmr8339541eds.15.1713265003274;
-        Tue, 16 Apr 2024 03:56:43 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id u5-20020aa7d985000000b0057000a2cb5bsm4692942eds.18.2024.04.16.03.56.42
+        d=1e100.net; s=20230601; t=1713265280; x=1713870080;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ytr2gjGDi6MOUgYACZdiW0scYQdKsmNLgN4Zn17oOZo=;
+        b=QBqD+yJlqhYzFzdy/8o/dc0JontrjKOE5CMYhdhojPAL6tanvBIvONXBoAMBi10Oo4
+         C4o7HDNviU9GD0OV0awcREn7jvWEhG+7hw6K/hRNAHfkF8v9XO4NceforTW/yeyhHEEJ
+         Yq324LLj7lZi8JCpUJvz+r2P+OkYgZBmHbb/NtMDA42X6dX4RaBPYVpiaQyI6gaJf6d6
+         OH+qVTzduZVkAF3LJQTC/sflv957Ycbk9Zm+Mxra6xiiHDjgV+x+1n6so/JQi9NCkwzx
+         BdDjjqL8jUiZAgYq8v2CXMQhoTyW5JDhppS2XwnzB18Zulb0C85zggkr121VNxAfNyBh
+         Bddg==
+X-Forwarded-Encrypted: i=1; AJvYcCXa1dvCIvWrdMYFt+Uv4SFvqQH6GosiJt4fNoYwRs4gX1kww1jAJ1UREop4Ks6/9hGGoZgTfNbRzpwoeWnsL174P5X9pF6QwY/ref0=
+X-Gm-Message-State: AOJu0Yza/RSCnNDQaG03YLYdQu3iLgBexPy1EeX1E2rUg9FTjw2ZzDk4
+	+0KNd+CWxOojWkfj7pulEEffoCalz6U1nGcAix27HMzz8Nkn2E0O
+X-Google-Smtp-Source: AGHT+IG0D+e1m7dFn1q9C4/cK5VHSr2W95LT82IU7SVm/yesKp+FKUPQjomsggxh50eO2gSxhqVoAQ==
+X-Received: by 2002:a2e:7406:0:b0:2d9:f301:9771 with SMTP id p6-20020a2e7406000000b002d9f3019771mr654146ljc.5.1713265280208;
+        Tue, 16 Apr 2024 04:01:20 -0700 (PDT)
+Received: from mobilestation ([213.79.110.82])
+        by smtp.gmail.com with ESMTPSA id e8-20020a2e8ec8000000b002d860a40f9dsm1535007ljl.136.2024.04.16.04.01.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Apr 2024 03:56:42 -0700 (PDT)
-Date: Tue, 16 Apr 2024 13:56:38 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Martin Tuma <martin.tuma@digiteqautomotive.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Hugues Fruchet <hugues.fruchet@foss.st.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
-	Abylay Ospan <aospan@netup.ru>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Dmitry Osipenko <digetx@gmail.com>,
-	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Jacopo Mondi <jacopo+renesas@jmondi.org>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Pavel Machek <pavel@ucw.cz>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 23/35] media: dvb-frontends: tda10048: Use the right div
-Message-ID: <bb7d0078-764a-4cf9-9fcf-2e91eaf33e76@moroto.mountain>
-References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
- <20240415-fix-cocci-v1-23-477afb23728b@chromium.org>
- <97f51ae8-6672-4bd4-b55b-f02114e3d8d0@moroto.mountain>
- <CANiDSCvp9gBo6Oh31GghvcHmgBY1cYqq4uM_njFTTvQOcS1mbw@mail.gmail.com>
+        Tue, 16 Apr 2024 04:01:19 -0700 (PDT)
+Date: Tue, 16 Apr 2024 14:01:17 +0300
+From: Serge Semin <fancer.lancer@gmail.com>
+To: Paolo Abeni <pabeni@redhat.com>
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Jose Abreu <joabreu@synopsys.com>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Russell King <linux@armlinux.org.uk>, Yanteng Si <siyanteng@loongson.cn>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Simon Horman <horms@kernel.org>, 
+	Huacai Chen <chenhuacai@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next 4/4] net: stmmac: Move MAC caps init to phylink
+ MAC caps getter
+Message-ID: <uaq3tbsogvuv6vjm7ga63boltao2vvi55yzyw75z7yido2a5zr@h26npwx3pdwa>
+References: <20240412180340.7965-1-fancer.lancer@gmail.com>
+ <20240412180340.7965-5-fancer.lancer@gmail.com>
+ <9644a96d17152014c8e7f91e9786dde26f67d7a5.camel@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CANiDSCvp9gBo6Oh31GghvcHmgBY1cYqq4uM_njFTTvQOcS1mbw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <9644a96d17152014c8e7f91e9786dde26f67d7a5.camel@redhat.com>
 
-On Tue, Apr 16, 2024 at 12:39:33PM +0200, Ricardo Ribalda wrote:
-> Hi Dan
+On Tue, Apr 16, 2024 at 12:27:29PM +0200, Paolo Abeni wrote:
+> On Fri, 2024-04-12 at 21:03 +0300, Serge Semin wrote:
+> > After a set of fixes the stmmac_phy_setup() and stmmac_reinit_queues()
+> > method have turned to having some duplicated code. Let's get rid from the
+> > duplication by moving the MAC-capabilities initialization to the PHYLINK
+> > MAC-capabilities getter. The getter is called during each network device
+> > interface open/close cycle. So the MAC-capabilities will be initialized in
+> > normal device functioning and in case of the Tx/Rx queues
+> > re-initialization as the original code semantics implies.
+> > 
+> > Signed-off-by: Serge Semin <fancer.lancer@gmail.com>
 > 
-> What about going the safe way?
+> This is a net-next follow-up for the previous 3 patches
+> targeting 'net', right?
+
+Right. The last patch in the series is a cleanup patch which gets rid
+from the duplicated code by moving it to the PHYLINK MAC-capability
+getter.
+
 > 
-> --- a/drivers/media/dvb-frontends/tda10048.c
-> +++ b/drivers/media/dvb-frontends/tda10048.c
-> @@ -341,7 +341,7 @@ static int tda10048_set_wref(struct dvb_frontend
-> *fe, u32 sample_freq_hz,
->         /* t *= 2147483648 on 32bit platforms */
->         t *= (2048 * 1024);
->         t *= 1024;
-> -       z = 7 * sample_freq_hz;
-> +       z = (u64)7 * sample_freq_hz;
+> If so, you should have posted this one separately after the other would
+> have been merged back into net-next.
 
-I think your patch works, but it might be nicer without the casts.  We
-end up having the discussion where it's like "Can this hz be above 4GHz?"
-And, here, I think we're safe but a lot of stuff is pushing up against
-that limit these days...
+I thought about that initially. But since this patch content is
+connected with the rest of patches and the maintainers/reviewers may
+ask to do things differently than it's provided in the initial
+patches, I decided to submit the entire series as is but indicating
+that the last patch is intended for 'net-next'.
 
-regards,
-dan carpenter
+> 
+> We can apply the first 3 to 'net', but you will have to repost 4/4
+> after ~Thu.
 
+Agreed. I'll repost 4/4 after the initial 3 patches get to be merged
+in.
+
+Thanks
+-Serge(y)
+
+> 
+> Thanks,
+> 
+> Paolo
+> 
