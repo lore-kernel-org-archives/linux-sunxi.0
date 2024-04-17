@@ -1,124 +1,97 @@
-Received: from wfhigh8-smtp.messagingengine.com (wfhigh8-smtp.messagingengine.com [64.147.123.159])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B33D257898
-	for <linux-sunxi@lists.linux.dev>; Wed, 17 Apr 2024 09:08:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.159
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 020352207A
+	for <linux-sunxi@lists.linux.dev>; Wed, 17 Apr 2024 09:54:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713344911; cv=none; b=n7dcjHt0zbvbO2TR09Xq25j7OKFdKmFFXrgTEJ+A6qsG1dR/2GR8NXrO9k3T8el3nv9jmSGtKuICaPsyWCRLXbLfsdDX1RHvRhT1a76DtyLggOJ2zF6EWaV6fQjzjHtGyEH5RMJ41TuOCfEe2XxsilFt60hC2qnmcRaHPWg3HLk=
+	t=1713347687; cv=none; b=fjmHlpWMiHkAAgCiV8dWHQfUQq5M9to9BmRBrFMgKUMmkc6tlVcu1EIFGNe2OAkeU2oNP2gyXZMWGw57G71vG97DH4A1+gTH33hO1+5iPqLY0dQ3721F18h7O47kMqv7Xv2KBetD+VqcstW0P2RFWRw4pajqOyS92hIDwWX/67k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713344911; c=relaxed/simple;
-	bh=9wMPOGcMfFhs576IvQ/3eQ44FOciCioeMSGj1QMA970=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=r+9Gy6VzCK38Sg6ywbQPvwz7EIzqKxGv3mhW7pj2xO/nrkKgXg0MODDgSnsNSud0V6JALwEaZuLLSw6qO9WAztrl4XVO8gY3WPVTZV2GB2Vs+1CoKS8hvPZ8XUgUpzQEw4LteVCO7Mcffxr55T83E9BfyJxiZ6rfaH5bcUm39os=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=Gz9pC/K1; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=eFUw+9zF; arc=none smtp.client-ip=64.147.123.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=testtoast.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="Gz9pC/K1";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="eFUw+9zF"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfhigh.west.internal (Postfix) with ESMTP id 2E34D18000D1;
-	Wed, 17 Apr 2024 05:08:28 -0400 (EDT)
-Received: from imap47 ([10.202.2.97])
-  by compute5.internal (MEProxy); Wed, 17 Apr 2024 05:08:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm3; t=1713344907; x=
-	1713431307; bh=OEuPHp7Mhc4rHaqG5rHQ9AxcWl4mv6Ixa/oolIbFFNw=; b=G
-	z9pC/K1Ehf1HLjPxinsuFu6x94mjI0Cl/5FCeEkYwc5/qnQ1UnZ6V2jMP/zgI6WZ
-	IEpwtq7+KXQUbdlJCxncDIawRFLu7GnqNIhI/1NQ5Fsax0Bz/kBetjb9eiKaX2JY
-	JhqJyOhM8ZmoPSKMAa2NEf+M+EaKw1i6jPiyi2Abt+fuKNQOoIEnhDzcuAWJKLjc
-	n6mCw6LHPpcuw2svPhxkK2yIFhhU7ufN/yMLOF3eD8kPO0W3NuqEPCIhVXDJovBD
-	8XXiTJPBJNBwdOJ2D/eJ0iYIldIESxCJPSdbYIrNQQqgq3BXb7WK0UFbwIA4V7nD
-	7wzrXb3C1enNDv0fwxpZw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1713344907; x=1713431307; bh=OEuPHp7Mhc4rHaqG5rHQ9AxcWl4m
-	v6Ixa/oolIbFFNw=; b=eFUw+9zFwjFhdmESbiH52HE3mOdEg+cHi69gFpZVdTK+
-	tIT2cw0KirpSbooBgUJLLNSHijdRzc7P7oYrT8VuhFfdNMwo8pNewzfuT3GtFEvT
-	mr2/Vpzp+XvRXwC6wwiFaGOAnRfv3lYIn6VCydNT59XPLX/UwtzTAGzCZ068L7yY
-	/zMD1dSTinaFwzW/RVEen/mtugA/uMyat7Q4RZ4PGAnmNeO29lC2RubJLQogOyub
-	w7LaohmvS9qtt0hwyrOvduFQsoq6lksXFq/+Xch3YH1e5CyUBY+Kqf5heMHOXQ7i
-	EMHDLpDH7Z4VvA2Af97vwB8RRcq1wRwcxDxvnYmdDw==
-X-ME-Sender: <xms:i5EfZuVDiB1AQ8pYLQ2iO6TJEwkoq3PheH1fxXAsG0Qq67tv01VfBw>
-    <xme:i5EfZqnCFnWZTJ3qx9zwvA7aAKqcDrq_Ddt0O5U-OrExDRZS6G_j6umiHKV3mFS1h
-    R2a1ENPRpGdJeK0mA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudejkedguddvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftfih
-    rghnucghrghlkhhlihhnfdcuoehrhigrnhesthgvshhtthhorghsthdrtghomheqnecugg
-    ftrfgrthhtvghrnhepveefledufeffjeefleegleeuudduieeiueduvefgudfhfeegjeeh
-    jedvieehgefgnecuffhomhgrihhnpehlihhnrghrohdrohhrghdprhgvrgguthhhvgguoh
-    gtshdrihhonecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhho
-    mheprhihrghnsehtvghsthhtohgrshhtrdgtohhm
-X-ME-Proxy: <xmx:i5EfZiYQwUbaLouARbETuoRuZwO-Rpy1VjanCEd00SIRw97EbBhuQg>
-    <xmx:i5EfZlVwobAxtbA5t6uqLa6vlpREJkCuxOtnqBdpV-qfla3L45dWuw>
-    <xmx:i5EfZon2SMCSoT3VPn85pSjHUXn9MosuReSkhFoBQKxr9H544RQynA>
-    <xmx:i5EfZqeqwgGY6ryzxkGakKh4NtW2aB6tI_igAgs0z8ohb347Ajc_tw>
-    <xmx:i5EfZhc97gpbSmwu86xkUwK7j9L7jayqlT1-pTIcH_dMnpP7iVoM1ryy>
-Feedback-ID: idc0145fc:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 61F08A60079; Wed, 17 Apr 2024 05:08:27 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-379-gabd37849b7-fm-20240408.001-gabd37849
+	s=arc-20240116; t=1713347687; c=relaxed/simple;
+	bh=wxzAIZCsb6qYmZgvaeV7YE0JgPMqgrPF11FYAWXhCV4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fcKKsTF7PvqqMk7Ekj5BC4JO09RavFlWbui1znOgSpWYzO+mhqqrTIOoTdg6PCQNfXT9Ur5dCXEvy4o5LvtRSCbhTYG8dFDyW2rD1F18iO7bR8JfN1yG5M1MNKPpyFyz1Rg9AP7Hq1gmdWhvOV17pENUO7i9IOaIVUrssFytsfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5C76C339;
+	Wed, 17 Apr 2024 02:55:12 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 251963F64C;
+	Wed, 17 Apr 2024 02:54:43 -0700 (PDT)
+Date: Wed, 17 Apr 2024 10:54:39 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Ryan Walklin <ryan@testtoast.com>, Chen-Yu Tsai <wens@csie.org>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+ <samuel@sholland.org>, Chris Morgan <macromorgan@hotmail.com>,
+ devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 1/4] dt-bindings: arm: sunxi: document Anbernic RG35XX
+ handheld gaming device variants
+Message-ID: <20240417105439.2674be75@donnerap.manchester.arm.com>
+In-Reply-To: <78b5de01-150e-4537-b6a6-8ca0067a8359@linaro.org>
+References: <20240414083347.131724-2-ryan@testtoast.com>
+	<20240414083347.131724-3-ryan@testtoast.com>
+	<78b5de01-150e-4537-b6a6-8ca0067a8359@linaro.org>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <1eb4a701-e0f2-4615-aac6-53f10f762ada@app.fastmail.com>
-In-Reply-To: <c615c0b0-3dd4-4bac-8bd5-654fd8a35d0c@linaro.org>
-References: <20240414083347.131724-2-ryan@testtoast.com>
- <20240414083347.131724-5-ryan@testtoast.com>
- <c615c0b0-3dd4-4bac-8bd5-654fd8a35d0c@linaro.org>
-Date: Wed, 17 Apr 2024 21:08:07 +1200
-From: "Ryan Walklin" <ryan@testtoast.com>
-To: "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
- "Andre Przywara" <andre.przywara@arm.com>, "Chen-Yu Tsai" <wens@csie.org>,
- "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
- "Conor Dooley" <conor+dt@kernel.org>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>,
- "Samuel Holland" <samuel@sholland.org>,
- "Chris Morgan" <macromorgan@hotmail.com>
-Cc: devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 2/4] arm64: dts: allwinner: h700: Add RG35XX 2024 DTS
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-> It does not look like you tested the DTS against bindings. Please run
-> `make dtbs_check W=1` (see
-> Documentation/devicetree/bindings/writing-schema.rst or
-> https://www.linaro.org/blog/tips-and-tricks-for-validating-devicetree-sources-with-the-devicetree-schema/
-> for instructions).
->
-> No uppercase letters are allowed as node names.
+On Sun, 14 Apr 2024 11:07:19 +0200
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
 
-Apologies, this was my omission.
+Hi Krzysztof,
 
-> Node names should be generic. See also an explanation and list of
-> examples (not exhaustive) in DT specification:
-> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
->
-Noted, thanks.
+> On 14/04/2024 10:33, Ryan Walklin wrote:
+> > From: Ryan Walklin <ryan@testtoast.com>
+> > 
+> > RG35XX 2024: Base version with Allwinner H700
+> > RG35XX Plus: Adds Wifi/BT
+> > RG35XX H: Adds second USB port and analog sticks to -Plus in horizontal
+> >           altered form factor,
+> > 
+> > Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+> > ---
+> >  Documentation/devicetree/bindings/arm/sunxi.yaml | 15 +++++++++++++++
+> >  1 file changed, 15 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
+> > index 09d835db6db5..fc10f54561c9 100644
+> > --- a/Documentation/devicetree/bindings/arm/sunxi.yaml
+> > +++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
+> > @@ -56,6 +56,21 @@ properties:
+> >            - const: anbernic,rg-nano
+> >            - const: allwinner,sun8i-v3s
+> >  
+> > +      - description: Anbernic RG35XX (2024)
+> > +      - items:
+> > +          - const: anbernic,rg35xx-2024
+> > +          - const: allwinner,sun50i-h700
+> > +
+> > +      - description: Anbernic RG35XX Plus
+> > +      - items:
+> > +          - const: anbernic,rg35xx-plus
+> > +          - const: allwinner,sun50i-h700
+> > +
+> > +      - description: Anbernic RG35XX H
+> > +      - items:
+> > +          - const: anbernic,rg35xx-h  
+> 
+> Any reason these are not just one enum with three entires?
 
->> +
->> +    reg_vcc5v: vcc5v {
->
-> Use some common reasonable prefix, e.g. regulator
->
-Noted, thanks.
+I think the policy in *this* file is one entry for each device, so that we
+can attribute a device name ("Anbernic RG35XX H") to the compatible string.
+I mean otherwise we could group all H616 boards for instance into one
+entry. Don't know if this is what we want?
 
-> Please do not add dead code without explanation.
+Cheers,
+Andre
 
-Noted, thanks.
-
-Regards,
-
-Ryan
