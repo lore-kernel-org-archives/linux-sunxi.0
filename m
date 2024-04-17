@@ -1,60 +1,60 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41CAF8F72
-	for <linux-sunxi@lists.linux.dev>; Wed, 17 Apr 2024 19:22:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55EE51E48A
+	for <linux-sunxi@lists.linux.dev>; Wed, 17 Apr 2024 19:22:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713381746; cv=none; b=lRz64bYKSsikX0X2HroVkX9gwAMHE3b+pf3i1GpEewYQwAeebByWInUptoyx3WJFz6X3bs9lWSU86MLP095Vv51xa0cdZeRtYyHhHTC+Y6Xk2olibkK3qhH+JcFb/9rPyCYDwYyWuBZr0J4qn4vilEDJUnDbf1jCS7TjkRm7S0o=
+	t=1713381779; cv=none; b=NzZy96FQE8dI814u92TMjgGWghZKhIxTXvnsqpf8YRWf0tBSzUhUTJ2q/iDwA/DEOgzqz+Nncz+O1lXhRm6v43a5FsN0W8jUMSW5K+0hRzZBdp7o0Z1LVgc13eZh2SRU/rcJd0mQR9pj2L58ErR3J5Z9+xndhxC8PNB+ghNt1fI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713381746; c=relaxed/simple;
-	bh=z+Ce9DbnjRsePR4jNOyZRoMgYnx9XHKosZ8nhT+BWAw=;
+	s=arc-20240116; t=1713381779; c=relaxed/simple;
+	bh=nJnNEQdeQQ57jDWZibkD9rYJD8GKCztN4yUoTC0ua3Q=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Gv9KmsR4QSnNqci5GFDTZzQt0oLns4p18vYPJJMtR9SR+CXaLhoj1h/CmU1kln/pWcf/HdKtllsa5RGzxNxE7H3ROBSYBALzMubjhP33R2BnWmRBy6evex8bG5CAmRsGL+e/xsqxxVIpt7hkioLSEqV+PAh1XlHL18HW2aPasXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aAUaRnHD; arc=none smtp.client-ip=209.85.214.172
+	 In-Reply-To:Content-Type; b=KeJqUtYbXpwA1+jMVMiP10NAyU6PWtK04lzAo7GBSvhm5QUsBME4W8NWADLahnLc6mxoJROI4yk/D/DwNthxrlXwn9SmxTB60cedN01LggAQEerZZ/dW9m8N1xZaZfMN/JOR/Tc2HOBPP6qxm6R3uNYyRgwfO2/g0o57LW+9Bx0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GPJG53v9; arc=none smtp.client-ip=209.85.210.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aAUaRnHD"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1e4f341330fso997175ad.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 17 Apr 2024 12:22:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GPJG53v9"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-6ece8991654so128496b3a.3
+        for <linux-sunxi@lists.linux.dev>; Wed, 17 Apr 2024 12:22:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713381745; x=1713986545; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1713381778; x=1713986578; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=e07lLC3xipl/CxUox78LWe7AXy9rb8hp7FKMwF6DNOA=;
-        b=aAUaRnHDaS0LzTQudTOVd0iFV5Bko/QlXuwzjw/PkLOsTU1IPPogI1GRfNHZqEVFhF
-         NIC0p5K7lmPUbi3jSv9tC6QVe5/X30UAfC+qiED3qDYjyUFCIgXVRXTUDm5cmty/PznC
-         iNIoHsGfXCtb5AiH2Rc5uZlMpktqh85Gqr5KkOY1qf7+ZxtSIMAGp6RBU30OYCpN/8AG
-         xVSvzR7BKUolojKXw35whGDkOP6Y37YOGKQcUZpA0f7RdEzAOCqUL8izxLowcxP5Ya2h
-         4P+kOJzmz1ha50YG/9tJNphRAHSMyfr0nK2C3iHtJ7k9ReTUc2Y1T0fNmN52CUSb796g
-         VOEA==
+        bh=Wq9xVwLabUIp4c6ZmP5uA7mSaarqFyL70j0nvluua5U=;
+        b=GPJG53v9ux1XkIi43dbP+nZJ7dKmKWcZGbxH1e4CkVcCM/KrR7WoWnGQ9s12n8SRGc
+         CRuFusckZv0JtraXo16xyO9YI7QLhJCcf0gFTx65sVfWaEYbal/hwAgrGXT/P4zUnucG
+         xStKQxEun9aD7aANP9c/M49LY+KV+7/ALoQnIoHgjmpUMuBeVgvUxFJ754d9DMiBKINR
+         HcyZ357yNnkDSvMDGr58fqoB3ltq+J8rdsa7wX2yP0Y+Rr6FVUG9a2ZdGa9Cc52KXL1u
+         IOafNCr8F7+LhPIuSI4XPsjrCLkUTfFPNOKAdHj1LjqzTc2U8u0NBZpfCXplbDzRkWUP
+         oFKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713381745; x=1713986545;
+        d=1e100.net; s=20230601; t=1713381778; x=1713986578;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=e07lLC3xipl/CxUox78LWe7AXy9rb8hp7FKMwF6DNOA=;
-        b=AyeCZPS4Sel9s69ykreyoeK4uKut+DnMDr9CREqdU12NH4qvB7FgVElCSveZajQiyC
-         LEeYSSVMEcCm4EPAwnkRNv35j1jm493rqr8sfX1LviPvISoBl5J+7LaSWCic8QRNV5BA
-         Iriiz1xX5zgu5gsziROTlhOaZCgQnZZ3B7jkvWbEJ60ah1xEHGMMVsH6bO11mDz1w4qX
-         PMfaVTBCjvLB8epErhaXvDqmQCer7lgiIgrslMU7sAqPg5XhGI2Rxgt6mE5YeLn2+ZEH
-         fedak7SRc/IvvAaMPXeWW3109uTXcaBNGSzxLw1ySo4GfjphVUNp/VGPMtDeuiaANjDO
-         gbag==
-X-Forwarded-Encrypted: i=1; AJvYcCWDgF6p0yuWUZzeYtAvIjFNT2D6JMZ7TyTOR4b3QSfph6jYNZBXfiWdNC5uY/FigoomgS1f8Tk6mfLVnN7Cp/3NAKaFsC0DMmZmynE=
-X-Gm-Message-State: AOJu0YyIqd/SeFH/L3dl+LqnKQVYfaQPwJcCY0BoXRxtbKG75RNJJsm4
-	D1shS1OVoR8vnRVOCmQmE64HO9KnCNBFDV7EbW660k1Hi2DjqZE3xR6MInvOHXs=
-X-Google-Smtp-Source: AGHT+IEVYdUoem9o49l8lNKaUbCYC2Wzvl1sVqsckB/9PMVpehsVMx48aEA/tVd4qDvcw6UlD6hIig==
-X-Received: by 2002:a17:902:eccd:b0:1e5:9390:8437 with SMTP id a13-20020a170902eccd00b001e593908437mr383503plh.32.1713381744632;
-        Wed, 17 Apr 2024 12:22:24 -0700 (PDT)
-Received: from [10.36.51.174] ([24.75.208.145])
-        by smtp.gmail.com with ESMTPSA id a20-20020a170902b59400b001dddbb58d5esm11902045pls.109.2024.04.17.12.22.23
+        bh=Wq9xVwLabUIp4c6ZmP5uA7mSaarqFyL70j0nvluua5U=;
+        b=J0NBpDcZKDUMPLCWTs9kAT7H9mLHlegDPd5BmLSMWeqEHSoKT3lm9S28qHbvsD1UbJ
+         QxLlw+PiLfaEON/nwX2Y9Q/AxSN4LRBpm8uUEPz5ikgfae16aj2OlPu27LnSTeCgV//A
+         cpiQULe+40RW846cHjCElGhaFj4GA3vLFbwe6MQmW8t92EUTgMw3+QEBdBYQeS3+q2rs
+         S7/DZeNv5sG/b54RG1UBhG5FkseWbrF8BPubhFlXTIcMVMH4dImwiIEO7VLRTp2W+2pU
+         7pRw5TGpfDBhnIga957BFb2dgxyG6R0LKrGWqNlmV4yGoiRxiszADEJtylFZBtqQUUnP
+         uWZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXAvZVZFYrqh8tMpZ+VOM9WlNPH5YknWSAbpKIX1ZFljQuNLYIirKMHhyerstweYKkV4rJ90sgc5YGON3usKlgU+UYThWLKt8sGLgc=
+X-Gm-Message-State: AOJu0YwGj4HksE+xfpChbzNIBILAgsy4kJs522dBBk6+mRUDbRADqM3f
+	YIEIktudghwvoUPlgzKB3Mf6D8EHkw8K1WtG85kOo5d4uwwTPKZ5RUCawy3oahg=
+X-Google-Smtp-Source: AGHT+IHpCZ9iorWUckM+AfY914yJi7UOR8EUvyEahSdKSnOn9Tc9Fyj1s44EVltsOqBrhQ29U5OmkQ==
+X-Received: by 2002:a05:6a00:2d05:b0:6ed:de86:be57 with SMTP id fa5-20020a056a002d0500b006edde86be57mr599948pfb.25.1713381777740;
+        Wed, 17 Apr 2024 12:22:57 -0700 (PDT)
+Received: from [10.36.51.174] ([24.75.208.147])
+        by smtp.gmail.com with ESMTPSA id r13-20020aa79ecd000000b006ed045af796sm13383pfq.88.2024.04.17.12.22.57
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Apr 2024 12:22:24 -0700 (PDT)
-Message-ID: <32d6c63f-7350-4445-a10f-2d89ef9e52f4@linaro.org>
-Date: Wed, 17 Apr 2024 21:22:22 +0200
+        Wed, 17 Apr 2024 12:22:57 -0700 (PDT)
+Message-ID: <a31f5422-f668-4302-a563-0f5b9190259d@linaro.org>
+Date: Wed, 17 Apr 2024 21:22:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -64,20 +64,16 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 1/4] dt-bindings: arm: sunxi: document Anbernic RG35XX
  handheld gaming device variants
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Ryan Walklin <ryan@testtoast.com>, Chen-Yu Tsai <wens@csie.org>,
+To: Ryan Walklin <ryan@testtoast.com>, Andre Przywara
+ <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>,
  Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec
  <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- Chris Morgan <macromorgan@hotmail.com>, devicetree@vger.kernel.org,
- linux-sunxi@lists.linux.dev
+ Chris Morgan <macromorgan@hotmail.com>
+Cc: devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev
 References: <20240414083347.131724-2-ryan@testtoast.com>
  <20240414083347.131724-3-ryan@testtoast.com>
- <78b5de01-150e-4537-b6a6-8ca0067a8359@linaro.org>
- <f0b5aea5-54f6-4c3b-9c16-f7e97c58ea6d@app.fastmail.com>
- <ec2be6d0-68ea-41b5-a12c-5f926c7a8f81@linaro.org>
- <20240417145854.46827456@donnerap.manchester.arm.com>
 Content-Language: en-US
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -124,43 +120,24 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240417145854.46827456@donnerap.manchester.arm.com>
+In-Reply-To: <20240414083347.131724-3-ryan@testtoast.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 17/04/2024 15:58, Andre Przywara wrote:
-> On Wed, 17 Apr 2024 15:33:13 +0200
-> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+On 14/04/2024 10:33, Ryan Walklin wrote:
+> From: Ryan Walklin <ryan@testtoast.com>
 > 
-> Hi,
+> RG35XX 2024: Base version with Allwinner H700
+> RG35XX Plus: Adds Wifi/BT
+> RG35XX H: Adds second USB port and analog sticks to -Plus in horizontal
+>           altered form factor,
 > 
->> On 17/04/2024 11:05, Ryan Walklin wrote:
->>> Thanks for the review and feedback.
->>>   
->>>> Any reason these are not just one enum with three entires?  
->>>
->>> No, this is just to match the existing devices, are you able to point to an example elsewhere?
->>>   
->>
->> Even for variants of same boards?
->>
->> The examples are everywhere, e.g. Qualcomm or NXP.
-> 
-> We have separate entries for closely related boards (Pine64 H64 model A
-> and B), and also indeed for updated variants (the various PinePhone
-> revisions).
-> That doesn't need the stay this way, of course. We would lose a quite
-> natural way of putting a descriptive name to each compatible string (cf.
-> "Pine64 PinePhone Developer Batch (1.0)"), but if the main purpose of this
-> file is to *reserve* the compatible strings, it would indeed be shorter to
-> use enums for related boards.
-> Don't know if this would a real advantage, though.
-> 
+> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+> ---
 
-If this matches your existing practice, then it is perfectly fine for
-me. I will probably still be bringing up this question from time to
-time, because for me it blows the binding unnecessarily making it harder
-to maintain/read, but that's only matter of taste.
+With the assumption this matches existing coding style for sunxi:
+
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
