@@ -1,195 +1,165 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17BB71411FF
-	for <linux-sunxi@lists.linux.dev>; Wed, 17 Apr 2024 14:00:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5966C1411DB;
+	Wed, 17 Apr 2024 14:50:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713362422; cv=none; b=pyDf6pZB+vOa2nmXJQUPDFxOa6tw9a99MYpaJE72wKm4basTWnx6nG2OM1OtH82/tTOvWnnOMzQlSUWYDakSAb+kU2pGIfoAVbntN+d0wRbzoq6zEWPi+cuXArMV2WmgesqAeNprdlVALHhmSrAmkFTRV1sikJk2sZYeFhYlvq0=
+	t=1713365431; cv=none; b=PmZPPlZXynEAKggAjouHzX14Pdyy4w0WC0oOv0skEX3CEuXwRxaoiys2sHGc13uFK4UABAWFFnGtatfozAKoI9q7Kf9DOXJtHtGtZ9+4ljUfCc0tIirCgpyHX3W9rit+NajDFEWA9tt/CuM7Vp5L4qXWCYZGGvIxIpqm1XHPSWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713362422; c=relaxed/simple;
-	bh=TWD2L2Zr8UYsDCfzmnyou73DVYZGAWwGKJBxOFNqDtg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qOiAb5tchxBsCN4dCjcwGH+nTVpAwUIQvzjp0iQJCSgAp4dn7iAAAaz2FLqd2L/C2TM3aXC6CsnrHUz7eaQSDVjiyYRslZ4rWasLZsvKBJ1Z0+V4ZCijB4JQaulOubjtu9iObEAaCmd86l6/Kj5OfSnW8tBgm+8ZV7eGgxjvUr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SYJZ1uK1; arc=none smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1713365431; c=relaxed/simple;
+	bh=FykH/T46P+7wCQWaQbgZ5I3yQADVR9jYDVfl8lpXZM8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NfnvJLmgJ1D/1SovZLX32Y3CPm69iGic+Z7cBFHhyi4/8tOyAU2DyteJ3FI8Vw+yrVnCiKF7cMx+QFzQ8R4vkWD7fj7120JFDJ4T/E1dA3O7qc8JS5mn7kcUMi+8NNmVGG3T15RTYbkRYi6mJ82UozaqpgHpe5/tlXORW17xut8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S0TE9tNy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SYJZ1uK1"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-518a56cdc03so5127671e87.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 17 Apr 2024 07:00:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713362419; x=1713967219; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8KnMWOMZl4OlIeWKfyhTeTgh6nDBj0ThrZdjCpvV0rs=;
-        b=SYJZ1uK1nX35f1EDBa+z1R0nyVFbubDndnqK0/4Q8p0ffPO73+hZmPcdNzsXK1y6O4
-         TmCJ8xg7Z4RdhUOe/rK4BhQeByYgscn2XHyz5mAX5fMKFkUseraZ679bOZhgS3usViSO
-         DyMrYasKWMLECuBlThqjwal3V4DqiznJm3ESrJIoonBelseWp7D/GNt4woyVDjiSRalZ
-         AU0AdIUChXP5BwOKeMq9IrozpKw059t5b7CuosEnJySuL4zNp3+/dn2Cm6hDPKg8zDn7
-         H3ySCnSfrgRQgEr3e1jmZgs+s5eBmeE+0bTbZ4zGeCkRaBwXJbXDEHf693AxyhxFz/bN
-         Qdrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713362419; x=1713967219;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8KnMWOMZl4OlIeWKfyhTeTgh6nDBj0ThrZdjCpvV0rs=;
-        b=MbKRPt/4D732IcQFci8mavXrI+ayNJwhpXRRUuLuWllAnyEXV9mGTlC2Wj1mAMfHIR
-         PEzXh0sot+Mj0LJyUkgZQof/1KmWD05uQXJdceGmcKwGZcc0e2wvWwJhQT9t6szi0SWJ
-         GMEWcIouGc/ydohdZk++NaKEqeJpqdUYuYB/S9AmEy96TQ3Q8XKiFWkfoaOIOrSyTR1c
-         ET+Po+xTK9yJAd9ilAmFMOxZlSm5SfkY5qqdfJ+cbPTwYY18bpPqXQE7h/cCOmj0jZN3
-         osknJVySZ/0DctejCA9YRbTsRLcrhKUBCUqfaZxYNv4ILSJT8CKCwmKShFPG0o8n+9V1
-         o5XQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUfJKmSPgQhJ5GyNoOd1QIYPlwHd4nQeD6XL8Bm9dBqqo4IvgNVQ26DVDJiojtTaDnH4v1DSDm1oG2KmmHPBnIvpveEtl6rleOQokI=
-X-Gm-Message-State: AOJu0YwWMy06rFxLlOO6Pbdk29A34OjPC6mPhCQY9JA+uVygMU934pFk
-	M188K/5B1AmU9ombFq+cK/b6UAp4zA3B3xKT1VB96yh+8sS/Y+m4
-X-Google-Smtp-Source: AGHT+IEFwpS1qE+a87B7Ubcokq+jSyQu+NQX48mgWo7d9MJK3BT85N5w69dYy1tGNwmTeX2J7BN2jw==
-X-Received: by 2002:ac2:4d9b:0:b0:516:d33a:7571 with SMTP id g27-20020ac24d9b000000b00516d33a7571mr10745339lfe.8.1713362418928;
-        Wed, 17 Apr 2024 07:00:18 -0700 (PDT)
-Received: from localhost ([94.125.187.42])
-        by smtp.gmail.com with ESMTPSA id g20-20020a19ee14000000b00515b0706b95sm1971640lfb.17.2024.04.17.07.00.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Apr 2024 07:00:18 -0700 (PDT)
-From: Serge Semin <fancer.lancer@gmail.com>
-To: Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Jose Abreu <joabreu@synopsys.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Yanteng Si <siyanteng@loongson.cn>,
-	Romain Gantois <romain.gantois@bootlin.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>
-Cc: Serge Semin <fancer.lancer@gmail.com>,
-	Simon Horman <horms@kernel.org>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S0TE9tNy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE0ADC072AA;
+	Wed, 17 Apr 2024 14:50:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713365431;
+	bh=FykH/T46P+7wCQWaQbgZ5I3yQADVR9jYDVfl8lpXZM8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=S0TE9tNy0I6n0GmJCfpRHv5LLvD0sH8KvnXmmKZyKXPN+5gEXa1Q4AzpPYORPb1xh
+	 6FZSy9x854VCtsJj3uGAdR0tZAl4NgVGuKIpFvzOv7wQ/K1slgqe+H/pZwCHuXNc+I
+	 OdqHsqKaB1sZzrNKlgxgQSHT6SVN4ew8Xt1FvR89JkG94e9Y5WUwwr6m3CcTva7TVU
+	 axGqATm2OFiDzneSdmBmoG6CAyUFtgtaE6OtFXe+jyNkvltWV5OGGXBYFS1/HqHN+1
+	 VATui1UTMFtHkyEBpfjqFA3OoMm0FuBmS5Qtw6Vov597ADDOjsY7mHjcUEne6ZAG6x
+	 lLhgT/5aLIfzg==
+Date: Wed, 17 Apr 2024 15:50:24 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	netdev@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net-next v2 2/2] net: stmmac: Move MAC caps init to phylink MAC caps getter
-Date: Wed, 17 Apr 2024 17:00:08 +0300
-Message-ID: <20240417140013.12575-3-fancer.lancer@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240417140013.12575-1-fancer.lancer@gmail.com>
-References: <20240417140013.12575-1-fancer.lancer@gmail.com>
+	Conor Dooley <conor.dooley@microchip.com>,
+	Evan Green <evan@rivosinc.com>,
+	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v2 13/17] riscv: vector: Support xtheadvector save/restore
+Message-ID: <20240417-semisweet-willed-1ce1098d8c41@spud>
+References: <20240415-dev-charlie-support_thead_vector_6_9-v2-0-c7d68c603268@rivosinc.com>
+ <20240415-dev-charlie-support_thead_vector_6_9-v2-13-c7d68c603268@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="TWtuz8+j2Sj8ixHN"
+Content-Disposition: inline
+In-Reply-To: <20240415-dev-charlie-support_thead_vector_6_9-v2-13-c7d68c603268@rivosinc.com>
 
-After a set of recent fixes the stmmac_phy_setup() and
-stmmac_reinit_queues() methods have turned to having some duplicated code.
-Let's get rid from the duplication by moving the MAC-capabilities
-initialization to the PHYLINK MAC-capabilities getter. The getter is
-called during each network device interface open/close cycle. So the
-MAC-capabilities will be initialized in generic device open procedure and
-in case of the Tx/Rx queues re-initialization as the original code
-semantics implies.
 
-Signed-off-by: Serge Semin <fancer.lancer@gmail.com>
+--TWtuz8+j2Sj8ixHN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Apr 15, 2024 at 09:12:10PM -0700, Charlie Jenkins wrote:
+
+> diff --git a/arch/riscv/kernel/vector.c b/arch/riscv/kernel/vector.c
+> index 6727d1d3b8f2..f42eaa8178e9 100644
+> --- a/arch/riscv/kernel/vector.c
+> +++ b/arch/riscv/kernel/vector.c
+> @@ -33,10 +33,24 @@ int riscv_v_setup_vsize(void)
+>  {
+>  	unsigned long this_vsize;
+> =20
+> -	/* There are 32 vector registers with vlenb length. */
+> -	riscv_v_enable();
+> -	this_vsize =3D csr_read(CSR_VLENB) * 32;
+> -	riscv_v_disable();
+> +	/*
+> +	 * This is called before alternatives have been patched so can't use
+> +	 * riscv_has_vendor_extension_unlikely
+
+() after that function name please.
+
+> +	 */
+> +	if (has_xtheadvector_no_alternatives()) {
+> +		/*
+> +		 * Although xtheadvector states that th.vlenb exists and
+> +		 * overlaps with the vector 1.0 vlenb, an illegal instruction is
+> +		 * raised if read. These systems all currently have a fixed
+> +		 * vector length of 128, so hardcode that value.
+
+I had this written before the meeting, so pasting it anyway:
+-- >8 --
+=46rom 5ed25d0f841e755b8dd4f1f6a3ea824601758d8e Mon Sep 17 00:00:00 2001
+=46rom: Conor Dooley <conor.dooley@microchip.com>
+Date: Wed, 17 Apr 2024 14:39:36 +0100
+Subject: [PATCH] dt-bindings: riscv: cpus: add a vlen register length prope=
+rty
+
+Add a property analogous to the vlenb CSR so that software can detect
+the vector length of each CPU prior to it being brought online.
+Currently software has to assume that the vector length read from the
+boot CPU applies to all possible CPUs. On T-Head CPUs implementing
+pre-ratification vector, reading the th.vlenb CSR may produce an illegal
+instruction trap, so this property is required on such systems.
+
+Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
 ---
-
-Link: https://lore.kernel.org/netdev/20240412180340.7965-5-fancer.lancer@gmail.com/
-Changelog v2:
-- Resubmit the patch to net-next separately from the main patchset (Paolo)
+We could actually enforce the latter since we know the compatibles of
+the relevant CPUs and can tell if xtheadvector is present.
 ---
- .../net/ethernet/stmicro/stmmac/stmmac_main.c | 36 +++++++++----------
- 1 file changed, 17 insertions(+), 19 deletions(-)
+ Documentation/devicetree/bindings/riscv/cpus.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-index b810f6b69bf5..0d6cd1704e6a 100644
---- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-@@ -936,6 +936,22 @@ static void stmmac_mac_flow_ctrl(struct stmmac_priv *priv, u32 duplex)
- 			priv->pause, tx_cnt);
- }
- 
-+static unsigned long stmmac_mac_get_caps(struct phylink_config *config,
-+					 phy_interface_t interface)
-+{
-+	struct stmmac_priv *priv = netdev_priv(to_net_dev(config->dev));
+diff --git a/Documentation/devicetree/bindings/riscv/cpus.yaml b/Documentat=
+ion/devicetree/bindings/riscv/cpus.yaml
+index d067f2a468ee..2a6449a0f1d7 100644
+--- a/Documentation/devicetree/bindings/riscv/cpus.yaml
++++ b/Documentation/devicetree/bindings/riscv/cpus.yaml
+@@ -95,6 +95,12 @@ properties:
+     description:
+       The blocksize in bytes for the Zicboz cache operations.
+=20
++  riscv,vlenb:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description:
++      VLEN/8, the vector register length in bytes. This property is requir=
+ed in
++      systems where the vector register length is not identical on all har=
+ts.
 +
-+	/* Refresh the MAC-specific capabilities */
-+	stmmac_mac_update_caps(priv);
-+
-+	config->mac_capabilities = priv->hw->link.caps;
-+
-+	if (priv->plat->max_speed)
-+		phylink_limit_mac_speed(config, priv->plat->max_speed);
-+
-+	return config->mac_capabilities;
-+}
-+
- static struct phylink_pcs *stmmac_mac_select_pcs(struct phylink_config *config,
- 						 phy_interface_t interface)
- {
-@@ -1105,6 +1121,7 @@ static void stmmac_mac_link_up(struct phylink_config *config,
- }
- 
- static const struct phylink_mac_ops stmmac_phylink_mac_ops = {
-+	.mac_get_caps = stmmac_mac_get_caps,
- 	.mac_select_pcs = stmmac_mac_select_pcs,
- 	.mac_config = stmmac_mac_config,
- 	.mac_link_down = stmmac_mac_link_down,
-@@ -1204,7 +1221,6 @@ static int stmmac_phy_setup(struct stmmac_priv *priv)
- 	int mode = priv->plat->phy_interface;
- 	struct fwnode_handle *fwnode;
- 	struct phylink *phylink;
--	int max_speed;
- 
- 	priv->phylink_config.dev = &priv->dev->dev;
- 	priv->phylink_config.type = PHYLINK_NETDEV;
-@@ -1225,15 +1241,6 @@ static int stmmac_phy_setup(struct stmmac_priv *priv)
- 		xpcs_get_interfaces(priv->hw->xpcs,
- 				    priv->phylink_config.supported_interfaces);
- 
--	/* Refresh the MAC-specific capabilities */
--	stmmac_mac_update_caps(priv);
--
--	priv->phylink_config.mac_capabilities = priv->hw->link.caps;
--
--	max_speed = priv->plat->max_speed;
--	if (max_speed)
--		phylink_limit_mac_speed(&priv->phylink_config, max_speed);
--
- 	fwnode = priv->plat->port_node;
- 	if (!fwnode)
- 		fwnode = dev_fwnode(priv->device);
-@@ -7327,7 +7334,6 @@ int stmmac_reinit_queues(struct net_device *dev, u32 rx_cnt, u32 tx_cnt)
- {
- 	struct stmmac_priv *priv = netdev_priv(dev);
- 	int ret = 0, i;
--	int max_speed;
- 
- 	if (netif_running(dev))
- 		stmmac_release(dev);
-@@ -7341,14 +7347,6 @@ int stmmac_reinit_queues(struct net_device *dev, u32 rx_cnt, u32 tx_cnt)
- 			priv->rss.table[i] = ethtool_rxfh_indir_default(i,
- 									rx_cnt);
- 
--	stmmac_mac_update_caps(priv);
--
--	priv->phylink_config.mac_capabilities = priv->hw->link.caps;
--
--	max_speed = priv->plat->max_speed;
--	if (max_speed)
--		phylink_limit_mac_speed(&priv->phylink_config, max_speed);
--
- 	stmmac_napi_add(dev);
- 
- 	if (netif_running(dev))
--- 
+   # RISC-V has multiple properties for cache op block sizes as the sizes
+   # differ between individual CBO extensions
+   cache-op-block-size: false
+--=20
 2.43.0
 
+
+
+> +		 */
+> +		this_vsize =3D 128;
+> +	} else {
+> +		/* There are 32 vector registers with vlenb length. */
+> +		riscv_v_enable();
+> +		this_vsize =3D csr_read(CSR_VLENB) * 32;
+> +		riscv_v_disable();
+> +	}
+
+--TWtuz8+j2Sj8ixHN
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZh/hsAAKCRB4tDGHoIJi
+0uymAQC52tKEjWhnlrK5EZxs57FTgtZequO5iT1oxcXhr1buWwD/eH4/QhI+A7+a
+rSSXaCKwy6W28YxEUDpHe9r7Re8SMgs=
+=l2tD
+-----END PGP SIGNATURE-----
+
+--TWtuz8+j2Sj8ixHN--
