@@ -1,165 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5966C1411DB;
-	Wed, 17 Apr 2024 14:50:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D5711482E0;
+	Wed, 17 Apr 2024 15:51:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713365431; cv=none; b=PmZPPlZXynEAKggAjouHzX14Pdyy4w0WC0oOv0skEX3CEuXwRxaoiys2sHGc13uFK4UABAWFFnGtatfozAKoI9q7Kf9DOXJtHtGtZ9+4ljUfCc0tIirCgpyHX3W9rit+NajDFEWA9tt/CuM7Vp5L4qXWCYZGGvIxIpqm1XHPSWY=
+	t=1713369086; cv=none; b=gE+M6ZzFRzAI5iVtn/m+lP2xKDeCdh2EBlKbVK8ov/x4yBmQ+E/JoQV5Z0v+XSm3ylBvDUKnwxvwOdKvLIJlUkRlQs4bTXnR/4k0t6JKizn7KvUWvex/poEWeRcBICN2ps3hLgzQw8ExzsAIXo+GhaBJhWmNytjyKPhmB5N2ric=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713365431; c=relaxed/simple;
-	bh=FykH/T46P+7wCQWaQbgZ5I3yQADVR9jYDVfl8lpXZM8=;
+	s=arc-20240116; t=1713369086; c=relaxed/simple;
+	bh=edMEOEGuTlM3PAdEmFEfjl2jYJNl85TN3kgL+Uyi5vI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NfnvJLmgJ1D/1SovZLX32Y3CPm69iGic+Z7cBFHhyi4/8tOyAU2DyteJ3FI8Vw+yrVnCiKF7cMx+QFzQ8R4vkWD7fj7120JFDJ4T/E1dA3O7qc8JS5mn7kcUMi+8NNmVGG3T15RTYbkRYi6mJ82UozaqpgHpe5/tlXORW17xut8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S0TE9tNy; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=GGRtc3bEH7jt1aVNTWFjBArVOTQBpjMmm8CjGRUUSGXsn9wJaPjrHLypH7qCoSWRu+mkk3uFo2r0DAuk5gn7iLA2kSHhSs67+kzkHftmbJmvbc9+S5UHosATcs+XAQeEeft/bmruHcyHvjcr+nb9gtyPyrA1dwsdQnJPbH70s9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JZgtL9Xg; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S0TE9tNy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE0ADC072AA;
-	Wed, 17 Apr 2024 14:50:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713365431;
-	bh=FykH/T46P+7wCQWaQbgZ5I3yQADVR9jYDVfl8lpXZM8=;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JZgtL9Xg"
+Received: from pendragon.ideasonboard.com (85-76-15-230-nat.elisa-mobile.fi [85.76.15.230])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DA4CB1815;
+	Wed, 17 Apr 2024 17:50:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1713369034;
+	bh=edMEOEGuTlM3PAdEmFEfjl2jYJNl85TN3kgL+Uyi5vI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=S0TE9tNy0I6n0GmJCfpRHv5LLvD0sH8KvnXmmKZyKXPN+5gEXa1Q4AzpPYORPb1xh
-	 6FZSy9x854VCtsJj3uGAdR0tZAl4NgVGuKIpFvzOv7wQ/K1slgqe+H/pZwCHuXNc+I
-	 OdqHsqKaB1sZzrNKlgxgQSHT6SVN4ew8Xt1FvR89JkG94e9Y5WUwwr6m3CcTva7TVU
-	 axGqATm2OFiDzneSdmBmoG6CAyUFtgtaE6OtFXe+jyNkvltWV5OGGXBYFS1/HqHN+1
-	 VATui1UTMFtHkyEBpfjqFA3OoMm0FuBmS5Qtw6Vov597ADDOjsY7mHjcUEne6ZAG6x
-	 lLhgT/5aLIfzg==
-Date: Wed, 17 Apr 2024 15:50:24 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	b=JZgtL9XgcBbTfPXnFAZgCDPtfvA9dKRTMOKsCQP54tvG+vgRvyoUVmKyvHqZUW8+9
+	 LNXSsOnYHGLTgFNjFxrIi0HOt16nKFhbM2X/j3JnMIJzK5z7DcFFop4CUa4dg8LTzE
+	 vNZ8xAy3r+pQq+qAKQ6gJZoeSd1hXqjf9ytYbmBY=
+Date: Wed, 17 Apr 2024 18:51:12 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Ricardo Ribalda <ribalda@chromium.org>,
+	Martin Tuma <martin.tuma@digiteqautomotive.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Evan Green <evan@rivosinc.com>,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v2 13/17] riscv: vector: Support xtheadvector save/restore
-Message-ID: <20240417-semisweet-willed-1ce1098d8c41@spud>
-References: <20240415-dev-charlie-support_thead_vector_6_9-v2-0-c7d68c603268@rivosinc.com>
- <20240415-dev-charlie-support_thead_vector_6_9-v2-13-c7d68c603268@rivosinc.com>
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
+	Abylay Ospan <aospan@netup.ru>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Pavel Machek <pavel@ucw.cz>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	Oleg Drokin <green@linuxhacker.ru>
+Subject: Re: [PATCH 00/35] media: Fix coccinelle warning/errors
+Message-ID: <20240417155112.GQ12561@pendragon.ideasonboard.com>
+References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
+ <a003494c-a1a9-4fcd-83d8-766a75d6bbb2@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="TWtuz8+j2Sj8ixHN"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240415-dev-charlie-support_thead_vector_6_9-v2-13-c7d68c603268@rivosinc.com>
+In-Reply-To: <a003494c-a1a9-4fcd-83d8-766a75d6bbb2@moroto.mountain>
 
+On Tue, Apr 16, 2024 at 11:47:17AM +0300, Dan Carpenter wrote:
+> In my opinion, it's better to just ignore old warnings.
 
---TWtuz8+j2Sj8ixHN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I agree. Whatever checkers we enable, whatever code we test, there will
+always be false positives. A CI system needs to be able to ignore those
+false positives and only warn about new issues.
 
-On Mon, Apr 15, 2024 at 09:12:10PM -0700, Charlie Jenkins wrote:
+> When code is new the warnings are going to be mostly correct.  The
+> original author is there and knows what the code does.  Someone has
+> the hardware ready to test any changes.  High value, low burden.
+> 
+> When the code is old only the false positives are left.  No one is
+> testing the code.  It's low value, high burden.
+> 
+> Plus it puts static checker authors in a difficult place because now
+> people have to work around our mistakes.  It creates animosity.
+> 
+> Now we have to hold ourselves to a much higher standard for false
+> positives.  It sounds like I'm complaining and lazy, right?  But Oleg
+> Drokin has told me previously that I spend too much time trying to
+> silence false positives instead of working on new code.  He's has a
+> point which is that actually we have limited amount of time and we have
+> to make choices about what's the most useful thing we can do.
+> 
+> So what I do and what the zero day bot does is we look at warnings one
+> time and we re-review old warnings whenever a file is changed.
+> 
+> Kernel developers are very good at addressing static checker warnings
+> and fixing the real issues...  People sometimes ask me to create a
+> database of warnings which I have reviewed but the answer is that
+> anything old can be ignored.  As I write this, I've had a thought that
+> instead of a database of false positives maybe we should record a
+> database of real bugs to ensure that the fixes for anything real is
+> applied.
 
-> diff --git a/arch/riscv/kernel/vector.c b/arch/riscv/kernel/vector.c
-> index 6727d1d3b8f2..f42eaa8178e9 100644
-> --- a/arch/riscv/kernel/vector.c
-> +++ b/arch/riscv/kernel/vector.c
-> @@ -33,10 +33,24 @@ int riscv_v_setup_vsize(void)
->  {
->  	unsigned long this_vsize;
-> =20
-> -	/* There are 32 vector registers with vlenb length. */
-> -	riscv_v_enable();
-> -	this_vsize =3D csr_read(CSR_VLENB) * 32;
-> -	riscv_v_disable();
-> +	/*
-> +	 * This is called before alternatives have been patched so can't use
-> +	 * riscv_has_vendor_extension_unlikely
+-- 
+Regards,
 
-() after that function name please.
-
-> +	 */
-> +	if (has_xtheadvector_no_alternatives()) {
-> +		/*
-> +		 * Although xtheadvector states that th.vlenb exists and
-> +		 * overlaps with the vector 1.0 vlenb, an illegal instruction is
-> +		 * raised if read. These systems all currently have a fixed
-> +		 * vector length of 128, so hardcode that value.
-
-I had this written before the meeting, so pasting it anyway:
--- >8 --
-=46rom 5ed25d0f841e755b8dd4f1f6a3ea824601758d8e Mon Sep 17 00:00:00 2001
-=46rom: Conor Dooley <conor.dooley@microchip.com>
-Date: Wed, 17 Apr 2024 14:39:36 +0100
-Subject: [PATCH] dt-bindings: riscv: cpus: add a vlen register length prope=
-rty
-
-Add a property analogous to the vlenb CSR so that software can detect
-the vector length of each CPU prior to it being brought online.
-Currently software has to assume that the vector length read from the
-boot CPU applies to all possible CPUs. On T-Head CPUs implementing
-pre-ratification vector, reading the th.vlenb CSR may produce an illegal
-instruction trap, so this property is required on such systems.
-
-Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
----
-We could actually enforce the latter since we know the compatibles of
-the relevant CPUs and can tell if xtheadvector is present.
----
- Documentation/devicetree/bindings/riscv/cpus.yaml | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/riscv/cpus.yaml b/Documentat=
-ion/devicetree/bindings/riscv/cpus.yaml
-index d067f2a468ee..2a6449a0f1d7 100644
---- a/Documentation/devicetree/bindings/riscv/cpus.yaml
-+++ b/Documentation/devicetree/bindings/riscv/cpus.yaml
-@@ -95,6 +95,12 @@ properties:
-     description:
-       The blocksize in bytes for the Zicboz cache operations.
-=20
-+  riscv,vlenb:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description:
-+      VLEN/8, the vector register length in bytes. This property is requir=
-ed in
-+      systems where the vector register length is not identical on all har=
-ts.
-+
-   # RISC-V has multiple properties for cache op block sizes as the sizes
-   # differ between individual CBO extensions
-   cache-op-block-size: false
---=20
-2.43.0
-
-
-
-> +		 */
-> +		this_vsize =3D 128;
-> +	} else {
-> +		/* There are 32 vector registers with vlenb length. */
-> +		riscv_v_enable();
-> +		this_vsize =3D csr_read(CSR_VLENB) * 32;
-> +		riscv_v_disable();
-> +	}
-
---TWtuz8+j2Sj8ixHN
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZh/hsAAKCRB4tDGHoIJi
-0uymAQC52tKEjWhnlrK5EZxs57FTgtZequO5iT1oxcXhr1buWwD/eH4/QhI+A7+a
-rSSXaCKwy6W28YxEUDpHe9r7Re8SMgs=
-=l2tD
------END PGP SIGNATURE-----
-
---TWtuz8+j2Sj8ixHN--
+Laurent Pinchart
