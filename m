@@ -1,97 +1,167 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 020352207A
-	for <linux-sunxi@lists.linux.dev>; Wed, 17 Apr 2024 09:54:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69FFE13D265;
+	Wed, 17 Apr 2024 12:58:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713347687; cv=none; b=fjmHlpWMiHkAAgCiV8dWHQfUQq5M9to9BmRBrFMgKUMmkc6tlVcu1EIFGNe2OAkeU2oNP2gyXZMWGw57G71vG97DH4A1+gTH33hO1+5iPqLY0dQ3721F18h7O47kMqv7Xv2KBetD+VqcstW0P2RFWRw4pajqOyS92hIDwWX/67k=
+	t=1713358718; cv=none; b=DTPHQEVPbHEmAZ1BFvSfMIm6+rqT9O0gOQazw2hRmak1Vc9XdVhIQhOm6Yy/PUgypMk5wODixnGzk+0rTB5+pIZmhOtdtsz1a4brijezgQHF+Fdg+m7CkwlTUaLfRGzEQ/o3QmsgQhdt3IqGO4F2Ik5VH5IycDUa5xB+xmvuJcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713347687; c=relaxed/simple;
-	bh=wxzAIZCsb6qYmZgvaeV7YE0JgPMqgrPF11FYAWXhCV4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fcKKsTF7PvqqMk7Ekj5BC4JO09RavFlWbui1znOgSpWYzO+mhqqrTIOoTdg6PCQNfXT9Ur5dCXEvy4o5LvtRSCbhTYG8dFDyW2rD1F18iO7bR8JfN1yG5M1MNKPpyFyz1Rg9AP7Hq1gmdWhvOV17pENUO7i9IOaIVUrssFytsfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5C76C339;
-	Wed, 17 Apr 2024 02:55:12 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 251963F64C;
-	Wed, 17 Apr 2024 02:54:43 -0700 (PDT)
-Date: Wed, 17 Apr 2024 10:54:39 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Ryan Walklin <ryan@testtoast.com>, Chen-Yu Tsai <wens@csie.org>, Rob
- Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>, Chris Morgan <macromorgan@hotmail.com>,
- devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 1/4] dt-bindings: arm: sunxi: document Anbernic RG35XX
- handheld gaming device variants
-Message-ID: <20240417105439.2674be75@donnerap.manchester.arm.com>
-In-Reply-To: <78b5de01-150e-4537-b6a6-8ca0067a8359@linaro.org>
-References: <20240414083347.131724-2-ryan@testtoast.com>
-	<20240414083347.131724-3-ryan@testtoast.com>
-	<78b5de01-150e-4537-b6a6-8ca0067a8359@linaro.org>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1713358718; c=relaxed/simple;
+	bh=mRlRkorupNuv+TJWx/y+uXXu1O9+ZgMbFD+YQNFOBqM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=VDb6DguBrBLBvFu0h+BkC/h5HMoDb6Og+MV/on2CttNnflxrWK3lIbk+jP74p2kM8jnLHrsk6gzVUQD3Oper7deXYGVvkW5ofaNQKvVxw9qJueRx8l1LLDQsGtL3La464IwOgrsW8KI6rEkxvBIxccXUnqYs4U0Og8g/wnU7H9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=ortz7J2e; arc=none smtp.client-ip=91.207.212.93
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="ortz7J2e"
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 43HClsCK003624;
+	Wed, 17 Apr 2024 14:57:28 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	selector1; bh=Oy6ydHY6pQ8DYm8xK8PeLsM+pd6WltoQh0mGRUSj86E=; b=or
+	tz7J2eIpRjwTS6nxsow94Im5O+PJ8pyQKEzgQC9x+TEQyuiVxirXsxSqUmOFi5z6
+	j9JuaMCVAueB7+ptBoHkZGcb+q5wgjo9DutZh3e/xcZNv9ir2WSLw5Tx3J4ORSCe
+	EA73ib1bb2NSzUytaI+3EJVy3k1Q1gI0fSP3IQEsjwu2YJe3ZCZaDZ9kzaEBLiHp
+	IczYev9vu0LgIHwFgY0toURY1M4EinAS1+idFQEUfhYnNuSSXU5+tp4rEI3eP1EF
+	QiCs84WlUXA+URlFhvVZDuDiVG8dZypP1QlE91pV8tkChGQWA45K8voZ9I1+fYd5
+	RRPfPDBlEjqpZ5kxlIMg==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3xgecyea3g-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 17 Apr 2024 14:57:28 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id E01244002D;
+	Wed, 17 Apr 2024 14:57:10 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id E51CB214D29;
+	Wed, 17 Apr 2024 14:55:47 +0200 (CEST)
+Received: from [10.130.72.241] (10.130.72.241) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Wed, 17 Apr
+ 2024 14:55:46 +0200
+Message-ID: <ea60a9e8-6240-4a0a-a224-e132b67160b1@foss.st.com>
+Date: Wed, 17 Apr 2024 14:55:45 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 22/35] media: i2c: st-mipid02: Use the correct div
+ function
+To: Ricardo Ribalda <ribalda@chromium.org>,
+        Martin Tuma
+	<martin.tuma@digiteqautomotive.com>,
+        Mauro Carvalho Chehab
+	<mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Hugues Fruchet
+	<hugues.fruchet@foss.st.com>,
+        Alain Volmat <alain.volmat@foss.st.com>,
+        Maxime
+ Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue
+	<alexandre.torgue@foss.st.com>,
+        Paul Kocialkowski
+	<paul.kocialkowski@bootlin.com>,
+        Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec
+	<jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Sakari
+ Ailus <sakari.ailus@linux.intel.com>,
+        Thierry Reding
+	<thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Sowjanya
+ Komatineni <skomatineni@nvidia.com>,
+        Luca Ceresoli
+	<luca.ceresoli@bootlin.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+        Hans
+ Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
+        Abylay Ospan
+	<aospan@netup.ru>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Dmitry
+ Osipenko <digetx@gmail.com>,
+        Stanimir Varbanov
+	<stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Bjorn Andersson
+	<andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Sylvain
+ Petinot <sylvain.petinot@foss.st.com>,
+        Jacopo Mondi
+	<jacopo+renesas@jmondi.org>,
+        Kieran Bingham
+	<kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart
+	<laurent.pinchart+renesas@ideasonboard.com>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+        Pavel Machek <pavel@ucw.cz>
+CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-staging@lists.linux.dev>, <linux-sunxi@lists.linux.dev>,
+        <linux-tegra@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
+        <linux-arm-msm@vger.kernel.org>
+References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
+ <20240415-fix-cocci-v1-22-477afb23728b@chromium.org>
+Content-Language: en-US
+From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+In-Reply-To: <20240415-fix-cocci-v1-22-477afb23728b@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-17_10,2024-04-16_01,2023-05-22_02
 
-On Sun, 14 Apr 2024 11:07:19 +0200
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+Hi Ricardo,
 
-Hi Krzysztof,
+Thanks a lot.
+Reviewed-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
 
-> On 14/04/2024 10:33, Ryan Walklin wrote:
-> > From: Ryan Walklin <ryan@testtoast.com>
-> > 
-> > RG35XX 2024: Base version with Allwinner H700
-> > RG35XX Plus: Adds Wifi/BT
-> > RG35XX H: Adds second USB port and analog sticks to -Plus in horizontal
-> >           altered form factor,
-> > 
-> > Signed-off-by: Ryan Walklin <ryan@testtoast.com>
-> > ---
-> >  Documentation/devicetree/bindings/arm/sunxi.yaml | 15 +++++++++++++++
-> >  1 file changed, 15 insertions(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
-> > index 09d835db6db5..fc10f54561c9 100644
-> > --- a/Documentation/devicetree/bindings/arm/sunxi.yaml
-> > +++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
-> > @@ -56,6 +56,21 @@ properties:
-> >            - const: anbernic,rg-nano
-> >            - const: allwinner,sun8i-v3s
-> >  
-> > +      - description: Anbernic RG35XX (2024)
-> > +      - items:
-> > +          - const: anbernic,rg35xx-2024
-> > +          - const: allwinner,sun50i-h700
-> > +
-> > +      - description: Anbernic RG35XX Plus
-> > +      - items:
-> > +          - const: anbernic,rg35xx-plus
-> > +          - const: allwinner,sun50i-h700
-> > +
-> > +      - description: Anbernic RG35XX H
-> > +      - items:
-> > +          - const: anbernic,rg35xx-h  
+On 4/15/24 21:34, Ricardo Ribalda wrote:
+> link_freq does not fit in 32 bits.
 > 
-> Any reason these are not just one enum with three entires?
+> Found by cocci:
+> drivers/media/i2c/st-mipid02.c:329:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_s64 instead.
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/i2c/st-mipid02.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/i2c/st-mipid02.c b/drivers/media/i2c/st-mipid02.c
+> index f250640729ca..93a40bfda1af 100644
+> --- a/drivers/media/i2c/st-mipid02.c
+> +++ b/drivers/media/i2c/st-mipid02.c
+> @@ -326,7 +326,7 @@ static int mipid02_configure_from_rx_speed(struct mipid02_dev *bridge,
+>  	}
+>  
+>  	dev_dbg(&client->dev, "detect link_freq = %lld Hz", link_freq);
+> -	do_div(ui_4, link_freq);
+> +	ui_4 = div64_s64(ui_4, link_freq);
+>  	bridge->r.clk_lane_reg1 |= ui_4 << 2;
+>  
+>  	return 0;
+> 
 
-I think the policy in *this* file is one entry for each device, so that we
-can attribute a device name ("Anbernic RG35XX H") to the compatible string.
-I mean otherwise we could group all H616 boards for instance into one
-entry. Don't know if this is what we want?
+-- 
+Regards,
 
-Cheers,
-Andre
-
+Benjamin
