@@ -1,107 +1,163 @@
-Received: from out-185.mta1.migadu.com (out-185.mta1.migadu.com [95.215.58.185])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12BF052F63
-	for <linux-sunxi@lists.linux.dev>; Wed, 17 Apr 2024 05:14:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9664183A18
+	for <linux-sunxi@lists.linux.dev>; Wed, 17 Apr 2024 08:36:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713330901; cv=none; b=s0woFfF6yePP9hoWf41s8wA3oV8Gg1NY3ypgWeoyaOrPOyLoTp91rV70s8zqyf62CI1ojIhTZBBkSMk+alqSilMrUF4DCU+b0i0fUQZ1FMehdIGT9wHMRdkoPVy5Vt0Pn2v2DhtA5plRZOBmy2Um2gB+aDmn2Tw55SEsVv05Wis=
+	t=1713342991; cv=none; b=LjfyX0lMOREL/kHwFRNXaDMdalLFgDpqO87+j0SA6lhjvOTZrXWyVpUyb/g7tCiO3Z0jfHbH3Af7pqGDaFKQOcY8PpcTqyxchpOLBM8/JxilmYISaQ5cu/NITUEQITEACAi9xRvkSFMecLZGNDXvgqUKTwqYu1Bl2wA2YqdlMTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713330901; c=relaxed/simple;
-	bh=ejYuVDMK8hQ3c3/RJmhQWa4DT0PpOPzvnbD7CuzTmag=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Mp/5YF8t8Q5ocKZqUMPf2sAXktBqHBFA6W98Jw6pfVsphsoH8JKUHG/blhrG4bLjidqe581bSDrmOA6KBCkH28UOPIM8CCIIVTvWB/Mb6S/5Yd90NUietrx1GXnlH4B6qXJlQHDZH2e052VYiXFZvWTC1y2z9TIxmie4CeakqUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org; spf=none smtp.mailfrom=jookia.org; dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b=yV0cmB0j; arc=none smtp.client-ip=95.215.58.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=jookia.org
+	s=arc-20240116; t=1713342991; c=relaxed/simple;
+	bh=jLrSv3mDwVJf7c0urmHft4NujHyUwpP7/8/epSXi7WY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B4aXBb92PcshUsDHtwk4Sqp8jzlJCs8Kha+a0D7xOh4lJ2X5B7LW6gx00wExTWNJ600Ahl43ArljR4CXF5l7dhCT9+TruR50BYBJwJfCJREQa14H0CfZFPw2Er2kK/k7mihLUENar8pSRdYdtofHd8w6LikoOUt18qP57Sb1Nn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=msIiW8RA; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b="yV0cmB0j"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
-	t=1713330896;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=+wO2NVJgGgKxL9AnuBOvlzeMvS5QSt87gBINoPwNkwE=;
-	b=yV0cmB0juL+gE4drGnEPB+Xk5XISypajXJXqLKpewPtGxn4U+IS7Zsfv9xgrhLvHVRljhd
-	/YAmLU+jDFgpV8fbY0JjP7Lq0fd3A4Rug6xYw2Xz+thgXdwe1EWLjykviCKDEvBTFBxZVY
-	65Y3HMcWmCh6MLGO7J28vBoVANlKoU5gvyQA0Y+P+azWNXK494UrVXoubWHbwLLwOOuhzB
-	sIkfP5DFotpKQZWdwlLW4P1hVoA8PwyJMKcix+fgc0zS16cjVVYDBMVNrwErWAlGmu3oIr
-	2m+rUm3qj8OiEOS92HavDCnPNeO+KzdqYwMqBNjVo9no3b1AXIFsGCFLerHqEA==
-From: John Watts <contact@jookia.org>
-Date: Wed, 17 Apr 2024 15:14:43 +1000
-Subject: [PATCH] ASoC: sunxi: sun4i-i2s: Fix pcm_formats type specification
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="msIiW8RA"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a5252e5aa01so508530866b.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 17 Apr 2024 01:36:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1713342988; x=1713947788; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=iQiui35tGbgrLHrxJlWNcYO7KRQh2YZtezQ4w5QZix0=;
+        b=msIiW8RAIbJ0/vJU7AAR6FIRdSMEEoWoza778VFyx8/jk/iqg5wvs7qhs7YAuMkP17
+         ynfzGhLN61S59PwHDPTiI/sANjYqXUtKes9VRk8H03VFhlRr7EeeLNoAMxXwxE+YJV4X
+         4e4RAg0kgaumOAKPAIwYYtpCLM4wayAgexCNwyVTbxfgV683L2gsn7GM66eHqNb0NkyQ
+         yFwRrymd6nZ80d6xBSMNnhiXS40qZiH1qM8Xmr251JUlaWR2ttE05ElMTUem/+DmM6rP
+         /ZY4+bAgktONNY2UCzrJCMJwawcAw62KGO6NpwAZEyrjpGlTjoq7APXhrTBix+zOEefE
+         anaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713342988; x=1713947788;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iQiui35tGbgrLHrxJlWNcYO7KRQh2YZtezQ4w5QZix0=;
+        b=hlvIvCKSw3s0FzAnwBwrvRk1hr8Qd8WGaOB69bUOGYeC5geHFhRnvlA0gIuEw4K2lh
+         NwIb5VnNF4605cFIgGZQOM9uDb6iMWABGrq+Xrr2xQqcs8FD5d0QzM46tTvCgPc6umo9
+         qCO7ZRFF3REL7mpmUapGDGO702dTQkT5zKQJ6HuY2xLV8QSkR0NTPb9ilSVKNbaf68Jf
+         yFMfS4rd4lFXSVaOM62ZAtxNW817RTII2vx3x1pzHV7hhWQWhZcW2bU6D2ZZy/NWGi5q
+         0b92fWPmiRUWQ5yYwiHPST/nZpNFV7GbHLf6F/ev4afPdytCsl6za3M052rC2g8BpCaG
+         pj0A==
+X-Forwarded-Encrypted: i=1; AJvYcCWcEVQK1iSPAFRC7knp/lv5AoP1i9URFiRv3rXsWLGjRNaJ9HBLOzw1ZmLZm0jpF2freV0YGhHQUiONTDhTgnkkUWaV96cIXMBQS0k=
+X-Gm-Message-State: AOJu0YyQpLHVVXUZq6HHrfTSO5wprvOkioCVDasPpzh2hKRc1y7jX5se
+	X+nZcrOB/wTzdzG7cZWsMYd1c0XkkQ8s6CF0bCBr6VJmbjPi6VTuu23CO1pTu6s=
+X-Google-Smtp-Source: AGHT+IGcBOrF6dlMwP4LWwT62iTJu3n3+RD0VmgZxc7ueD6NugKm/u+kb1GXFPPYn+h8dHTWajk2Vg==
+X-Received: by 2002:a17:907:846:b0:a52:6fcb:564a with SMTP id ww6-20020a170907084600b00a526fcb564amr5823920ejb.9.1713342987569;
+        Wed, 17 Apr 2024 01:36:27 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id cw21-20020a170906479500b00a52182471a2sm7905680ejc.13.2024.04.17.01.36.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Apr 2024 01:36:27 -0700 (PDT)
+Date: Wed, 17 Apr 2024 11:36:23 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Martin Tuma <martin.tuma@digiteqautomotive.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
+	Abylay Ospan <aospan@netup.ru>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Pavel Machek <pavel@ucw.cz>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH 25/35] media: venus: Use the correct div_ function
+Message-ID: <06113ffe-11bd-4c73-aff7-5e55aa8e3edc@moroto.mountain>
+References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
+ <20240415-fix-cocci-v1-25-477afb23728b@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240417-sunxi_s32_fix-v1-1-d82e451565c0@jookia.org>
-X-B4-Tracking: v=1; b=H4sIAMJaH2YC/x2MQQqAIBAAvxJ7TjBdCfpKRGSttRcLl0KQ/p50n
- IGZAkKJSWBoCiR6WPiMFbq2gfVY4k6Kt8pgtEGNXa/kjplnsWYOnBUFZx161MEj1OZKVPX/G6f
- 3/QDEL4kjXwAAAA==
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>
-Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- kernel test robot <lkp@intel.com>, John Watts <contact@jookia.org>
-X-Developer-Signature: v=1; a=openssh-sha256; t=1713330884; l=1490;
- i=contact@jookia.org; h=from:subject:message-id;
- bh=ejYuVDMK8hQ3c3/RJmhQWa4DT0PpOPzvnbD7CuzTmag=;
- b=U1NIU0lHAAAAAQAAAEoAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAAAgpGuA3uho2
- 8zVxm554DVLHyl4gq5/nBHglU5WIWN8/zYAAAAEc3NoOgAAAAZwYXRhdHQAAAAAAAAABnNoYTUx
- MgAAAGcAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAABA0GgHA+q2gKda09EGULTSaiS
- 2/DdtY5KQbmfXmCRvUveV9K+PrfFhcZr7UTMaGjmtXlHZf8vs8mEGa+TKZk6GDgUAAOoA
-X-Developer-Key: i=contact@jookia.org; a=openssh;
- fpr=SHA256:6LBQmZH5u7i/edmEZXzCTwCrpSevs/ZshZxNmlD1thY
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240415-fix-cocci-v1-25-477afb23728b@chromium.org>
 
-pcm_formats should be a u64 as it is a SNDRV_PCM_FMTBIT_* not a
-SNDRV_PCM_FORMAT_*.
+On Mon, Apr 15, 2024 at 07:34:42PM +0000, Ricardo Ribalda wrote:
+> us_per_frame does not fit in u32
+> 
 
-Also fix a small grammar error while we're here.
+drivers/media/platform/qcom/venus/venc.c
+   391  static int venc_s_parm(struct file *file, void *fh, struct v4l2_streamparm *a)
+   392  {
+   393          struct venus_inst *inst = to_inst(file);
+   394          struct v4l2_outputparm *out = &a->parm.output;
+   395          struct v4l2_fract *timeperframe = &out->timeperframe;
+   396          u64 us_per_frame, fps;
+   397  
+   398          if (a->type != V4L2_BUF_TYPE_VIDEO_OUTPUT &&
+   399              a->type != V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
+   400                  return -EINVAL;
+   401  
+   402          memset(out->reserved, 0, sizeof(out->reserved));
+   403  
+   404          if (!timeperframe->denominator)
+   405                  timeperframe->denominator = inst->timeperframe.denominator;
+   406          if (!timeperframe->numerator)
+   407                  timeperframe->numerator = inst->timeperframe.numerator;
+   408  
+   409          out->capability = V4L2_CAP_TIMEPERFRAME;
+   410  
+   411          us_per_frame = timeperframe->numerator * (u64)USEC_PER_SEC;
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+It looks like in some drivers this multiply can go over U32_MAX.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202404170103.ySYwieqi-lkp@intel.com/
-Signed-off-by: John Watts <contact@jookia.org>
----
-This is a quick fix for a type error found by the kernel test robot.
----
- sound/soc/sunxi/sun4i-i2s.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+   412          do_div(us_per_frame, timeperframe->denominator);
+                       ^^^^^^^^^^^^
+But after this divide, then we're under 1,000,000 again.  Otherwise the
+FPS is zero.  So maybe the right thing to do is:
 
-diff --git a/sound/soc/sunxi/sun4i-i2s.c b/sound/soc/sunxi/sun4i-i2s.c
-index 59830f2a0d30..5f8d979585b6 100644
---- a/sound/soc/sunxi/sun4i-i2s.c
-+++ b/sound/soc/sunxi/sun4i-i2s.c
-@@ -156,7 +156,7 @@ struct sun4i_i2s;
- /**
-  * struct sun4i_i2s_quirks - Differences between SoC variants.
-  * @has_reset: SoC needs reset deasserted.
-- * @pcm_formats: available PCM formats
-+ * @pcm_formats: available PCM formats.
-  * @reg_offset_txdata: offset of the tx fifo.
-  * @sun4i_i2s_regmap: regmap config to use.
-  * @field_clkdiv_mclk_en: regmap field to enable mclk output.
-@@ -176,7 +176,7 @@ struct sun4i_i2s;
-  */
- struct sun4i_i2s_quirks {
- 	bool				has_reset;
--	snd_pcm_format_t		pcm_formats;
-+	u64				pcm_formats;
- 	unsigned int			reg_offset_txdata;	/* TX FIFO */
- 	const struct regmap_config	*sun4i_i2s_regmap;
- 
+	inst->fps = USEC_PER_SEC / (u32)us_per_frame;
 
----
-base-commit: 66e4190e92ce0e4a50b2f6be0e5f5b2e47e072f4
-change-id: 20240417-sunxi_s32_fix-ef5354b40fb4
+   413  
+   414          if (!us_per_frame)
+   415                  return -EINVAL;
+   416  
+   417          fps = (u64)USEC_PER_SEC;
+   418          do_div(fps, us_per_frame);
+   419  
+   420          inst->timeperframe = *timeperframe;
+   421          inst->fps = fps;
+   422  
+   423          return 0;
+   424  }
 
-Best regards,
--- 
-John Watts <contact@jookia.org>
+regards,
+dan carpenter
 
