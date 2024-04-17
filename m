@@ -1,57 +1,57 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 599EB140E46
-	for <linux-sunxi@lists.linux.dev>; Wed, 17 Apr 2024 14:00:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17BB71411FF
+	for <linux-sunxi@lists.linux.dev>; Wed, 17 Apr 2024 14:00:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713362421; cv=none; b=erA4j6/7+fXnQd4hYNO8HhpJxzlAEy5bwDANvOPtUWz0gOVtORir7508E7q9/CkXmxbVsG7NZjDWSxcHOoLxHa64e2NuYRDYKnh86Qhs53vtUKfKnRZBD0Lf0mQApNKb0EaonOos47JjpTXAWIiftaWkxfeyMeJd9hkb6gjNDfs=
+	t=1713362422; cv=none; b=pyDf6pZB+vOa2nmXJQUPDFxOa6tw9a99MYpaJE72wKm4basTWnx6nG2OM1OtH82/tTOvWnnOMzQlSUWYDakSAb+kU2pGIfoAVbntN+d0wRbzoq6zEWPi+cuXArMV2WmgesqAeNprdlVALHhmSrAmkFTRV1sikJk2sZYeFhYlvq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713362421; c=relaxed/simple;
-	bh=LMVQWGUTFa6R1Mmddy9P7trPn/rz+V8Mg0Tt5yij26E=;
+	s=arc-20240116; t=1713362422; c=relaxed/simple;
+	bh=TWD2L2Zr8UYsDCfzmnyou73DVYZGAWwGKJBxOFNqDtg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ITxPIcyX4m65jrkpVhUMpEvkMKbRJeCTS9Wf1a+XOP/uSlHl6vn2NgroUQnp8WQsYUQqhkKS/CMNy1ZFHuSoTrXeRkK+43UeCJQNaiXl37MOQLAH4moBF+bgHbJQ9ng2iMPH1+gHqiXgpFxD/m7BWIuR7WfLNRKVatQRk3aiLaM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MAVoj8WD; arc=none smtp.client-ip=209.85.208.177
+	 MIME-Version; b=qOiAb5tchxBsCN4dCjcwGH+nTVpAwUIQvzjp0iQJCSgAp4dn7iAAAaz2FLqd2L/C2TM3aXC6CsnrHUz7eaQSDVjiyYRslZ4rWasLZsvKBJ1Z0+V4ZCijB4JQaulOubjtu9iObEAaCmd86l6/Kj5OfSnW8tBgm+8ZV7eGgxjvUr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SYJZ1uK1; arc=none smtp.client-ip=209.85.167.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MAVoj8WD"
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2d717603aa5so68642591fa.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 17 Apr 2024 07:00:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SYJZ1uK1"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-518a56cdc03so5127671e87.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 17 Apr 2024 07:00:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713362417; x=1713967217; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1713362419; x=1713967219; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wCuHkgJvG5roUfAj93LLXibybGnOYsen6TK2djTp+uM=;
-        b=MAVoj8WDPBjnwDC18py1c9q7lLT3rR8kwC0FDngH+8xX1wasni3TYHEiiec6awpBoT
-         q61gMZ73FuF7FythQkE1uRi+mspAXOQpHys4FzGp77cZ+bpfO+i6ypE8rZLuCr5h0Zvf
-         qxhspGNvHBs5JTqq4c1RqyEAtJKeb8c/FCINwr/rtiK+rqKQXScLBR0icBTvj6BPrmvA
-         UCskxwmqINjy7YGqrKyB3Yo/+nKxtCDS+SPv8IeBkh67ChCtIvhD2kh2uqg5X/EN8Zy9
-         nx5Ksnf1LYgSh45IGxNAgRazCq0EQNC9/LfBoQce6GMjbkrEa6rKjDgiNweTsu83M5uD
-         b/nQ==
+        bh=8KnMWOMZl4OlIeWKfyhTeTgh6nDBj0ThrZdjCpvV0rs=;
+        b=SYJZ1uK1nX35f1EDBa+z1R0nyVFbubDndnqK0/4Q8p0ffPO73+hZmPcdNzsXK1y6O4
+         TmCJ8xg7Z4RdhUOe/rK4BhQeByYgscn2XHyz5mAX5fMKFkUseraZ679bOZhgS3usViSO
+         DyMrYasKWMLECuBlThqjwal3V4DqiznJm3ESrJIoonBelseWp7D/GNt4woyVDjiSRalZ
+         AU0AdIUChXP5BwOKeMq9IrozpKw059t5b7CuosEnJySuL4zNp3+/dn2Cm6hDPKg8zDn7
+         H3ySCnSfrgRQgEr3e1jmZgs+s5eBmeE+0bTbZ4zGeCkRaBwXJbXDEHf693AxyhxFz/bN
+         Qdrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713362417; x=1713967217;
+        d=1e100.net; s=20230601; t=1713362419; x=1713967219;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wCuHkgJvG5roUfAj93LLXibybGnOYsen6TK2djTp+uM=;
-        b=BkWgV/GcMOk5RJFaqbZSPJckUZmS9CKyl3uKHl/rRpaeWJxtJzZyJe0h0qemNNeEGt
-         DKFAOSwuwi+XTJI9KXhnUPcXZ52RSKh0+NC2ciDdmtGH+6jfnKbTufWUxJH80d2wF06L
-         XftAQi+Loq05ohI8/hZOMEAFolTG31yyXXW43jY6+pyb5vNVCR4bgkc9LkyA8Xoceq+9
-         Mdqlw+l8v30QbgwWo0Ei+jQLOnzpKMyAazBD4OHUGy9Op2Y7IJRWg5pxsOCp+Ri7ep3k
-         uYXK1xvY4IhnFdJHXYizrvT+vVlT3nyr2MWdsJ4f1H+PvCjAmN+PJnpjmngnSoF7Y2wR
-         pGPw==
-X-Forwarded-Encrypted: i=1; AJvYcCVOP5WYrwvOiDfwtYNveRSrgx8qT7LmKH8lbJNHeY+94pdOMobKgeQQufnnbVm3Og2BCeargEaIqLSVIEXEup6JFeSkk///rbj//Ws=
-X-Gm-Message-State: AOJu0YyDooY6LMUcpaEL+nAbScO+vUapSDiN9wgU41AeakiSKlt7+fKu
-	zjJbdWigfaWDiciYQfEooZPRx+87UGVhuQ46/yhV8sLN/nKFIwpM
-X-Google-Smtp-Source: AGHT+IHZISTn2b4MdatLv09pVqgN8Rj/zh3VicITjG9ZAtAiCv8/i6AUH8xtyM+z/+qSzfgj1akGPQ==
-X-Received: by 2002:a05:6512:1150:b0:516:ced5:3afa with SMTP id m16-20020a056512115000b00516ced53afamr14396995lfg.5.1713362417376;
-        Wed, 17 Apr 2024 07:00:17 -0700 (PDT)
+        bh=8KnMWOMZl4OlIeWKfyhTeTgh6nDBj0ThrZdjCpvV0rs=;
+        b=MbKRPt/4D732IcQFci8mavXrI+ayNJwhpXRRUuLuWllAnyEXV9mGTlC2Wj1mAMfHIR
+         PEzXh0sot+Mj0LJyUkgZQof/1KmWD05uQXJdceGmcKwGZcc0e2wvWwJhQT9t6szi0SWJ
+         GMEWcIouGc/ydohdZk++NaKEqeJpqdUYuYB/S9AmEy96TQ3Q8XKiFWkfoaOIOrSyTR1c
+         ET+Po+xTK9yJAd9ilAmFMOxZlSm5SfkY5qqdfJ+cbPTwYY18bpPqXQE7h/cCOmj0jZN3
+         osknJVySZ/0DctejCA9YRbTsRLcrhKUBCUqfaZxYNv4ILSJT8CKCwmKShFPG0o8n+9V1
+         o5XQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUfJKmSPgQhJ5GyNoOd1QIYPlwHd4nQeD6XL8Bm9dBqqo4IvgNVQ26DVDJiojtTaDnH4v1DSDm1oG2KmmHPBnIvpveEtl6rleOQokI=
+X-Gm-Message-State: AOJu0YwWMy06rFxLlOO6Pbdk29A34OjPC6mPhCQY9JA+uVygMU934pFk
+	M188K/5B1AmU9ombFq+cK/b6UAp4zA3B3xKT1VB96yh+8sS/Y+m4
+X-Google-Smtp-Source: AGHT+IEFwpS1qE+a87B7Ubcokq+jSyQu+NQX48mgWo7d9MJK3BT85N5w69dYy1tGNwmTeX2J7BN2jw==
+X-Received: by 2002:ac2:4d9b:0:b0:516:d33a:7571 with SMTP id g27-20020ac24d9b000000b00516d33a7571mr10745339lfe.8.1713362418928;
+        Wed, 17 Apr 2024 07:00:18 -0700 (PDT)
 Received: from localhost ([94.125.187.42])
-        by smtp.gmail.com with ESMTPSA id g11-20020a0565123b8b00b00518f53da2dfsm890439lfv.291.2024.04.17.07.00.16
+        by smtp.gmail.com with ESMTPSA id g20-20020a19ee14000000b00515b0706b95sm1971640lfb.17.2024.04.17.07.00.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Apr 2024 07:00:17 -0700 (PDT)
+        Wed, 17 Apr 2024 07:00:18 -0700 (PDT)
 From: Serge Semin <fancer.lancer@gmail.com>
 To: Alexandre Torgue <alexandre.torgue@foss.st.com>,
 	Jose Abreu <joabreu@synopsys.com>,
@@ -74,9 +74,9 @@ Cc: Serge Semin <fancer.lancer@gmail.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH net-next v2 1/2] net: stmmac: Rename phylink_get_caps() callback to update_caps()
-Date: Wed, 17 Apr 2024 17:00:07 +0300
-Message-ID: <20240417140013.12575-2-fancer.lancer@gmail.com>
+Subject: [PATCH net-next v2 2/2] net: stmmac: Move MAC caps init to phylink MAC caps getter
+Date: Wed, 17 Apr 2024 17:00:08 +0300
+Message-ID: <20240417140013.12575-3-fancer.lancer@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240417140013.12575-1-fancer.lancer@gmail.com>
 References: <20240417140013.12575-1-fancer.lancer@gmail.com>
@@ -88,10 +88,14 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Since recent commits the stmmac_ops::phylink_get_caps() callback has no
-longer been responsible for the phylink MAC capabilities getting, but
-merely updates the MAC capabilities in the mac_device_info::link::caps
-field. Rename the callback to comply with the what the method does now.
+After a set of recent fixes the stmmac_phy_setup() and
+stmmac_reinit_queues() methods have turned to having some duplicated code.
+Let's get rid from the duplication by moving the MAC-capabilities
+initialization to the PHYLINK MAC-capabilities getter. The getter is
+called during each network device interface open/close cycle. So the
+MAC-capabilities will be initialized in generic device open procedure and
+in case of the Tx/Rx queues re-initialization as the original code
+semantics implies.
 
 Signed-off-by: Serge Semin <fancer.lancer@gmail.com>
 
@@ -99,104 +103,93 @@ Signed-off-by: Serge Semin <fancer.lancer@gmail.com>
 
 Link: https://lore.kernel.org/netdev/20240412180340.7965-5-fancer.lancer@gmail.com/
 Changelog v2:
-- This is a new patch created based on the discussion around patch #4 in
-  the series above.
+- Resubmit the patch to net-next separately from the main patchset (Paolo)
 ---
- drivers/net/ethernet/stmicro/stmmac/dwmac4_core.c | 8 ++++----
- drivers/net/ethernet/stmicro/stmmac/hwif.h        | 8 ++++----
- drivers/net/ethernet/stmicro/stmmac/stmmac_main.c | 6 +++---
- 3 files changed, 11 insertions(+), 11 deletions(-)
+ .../net/ethernet/stmicro/stmmac/stmmac_main.c | 36 +++++++++----------
+ 1 file changed, 17 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac4_core.c b/drivers/net/ethernet/stmicro/stmmac/dwmac4_core.c
-index a38226d7cc6a..b25774d69195 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac4_core.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac4_core.c
-@@ -68,7 +68,7 @@ static void dwmac4_core_init(struct mac_device_info *hw,
- 		init_waitqueue_head(&priv->tstamp_busy_wait);
- }
- 
--static void dwmac4_phylink_get_caps(struct stmmac_priv *priv)
-+static void dwmac4_update_caps(struct stmmac_priv *priv)
- {
- 	if (priv->plat->tx_queues_to_use > 1)
- 		priv->hw->link.caps &= ~(MAC_10HD | MAC_100HD | MAC_1000HD);
-@@ -1190,7 +1190,7 @@ static void dwmac4_set_hw_vlan_mode(struct mac_device_info *hw)
- 
- const struct stmmac_ops dwmac4_ops = {
- 	.core_init = dwmac4_core_init,
--	.phylink_get_caps = dwmac4_phylink_get_caps,
-+	.update_caps = dwmac4_update_caps,
- 	.set_mac = stmmac_set_mac,
- 	.rx_ipc = dwmac4_rx_ipc_enable,
- 	.rx_queue_enable = dwmac4_rx_queue_enable,
-@@ -1235,7 +1235,7 @@ const struct stmmac_ops dwmac4_ops = {
- 
- const struct stmmac_ops dwmac410_ops = {
- 	.core_init = dwmac4_core_init,
--	.phylink_get_caps = dwmac4_phylink_get_caps,
-+	.update_caps = dwmac4_update_caps,
- 	.set_mac = stmmac_dwmac4_set_mac,
- 	.rx_ipc = dwmac4_rx_ipc_enable,
- 	.rx_queue_enable = dwmac4_rx_queue_enable,
-@@ -1284,7 +1284,7 @@ const struct stmmac_ops dwmac410_ops = {
- 
- const struct stmmac_ops dwmac510_ops = {
- 	.core_init = dwmac4_core_init,
--	.phylink_get_caps = dwmac4_phylink_get_caps,
-+	.update_caps = dwmac4_update_caps,
- 	.set_mac = stmmac_dwmac4_set_mac,
- 	.rx_ipc = dwmac4_rx_ipc_enable,
- 	.rx_queue_enable = dwmac4_rx_queue_enable,
-diff --git a/drivers/net/ethernet/stmicro/stmmac/hwif.h b/drivers/net/ethernet/stmicro/stmmac/hwif.h
-index 7be04b54738b..90384db228b5 100644
---- a/drivers/net/ethernet/stmicro/stmmac/hwif.h
-+++ b/drivers/net/ethernet/stmicro/stmmac/hwif.h
-@@ -308,8 +308,8 @@ struct stmmac_est;
- struct stmmac_ops {
- 	/* MAC core initialization */
- 	void (*core_init)(struct mac_device_info *hw, struct net_device *dev);
--	/* Get phylink capabilities */
--	void (*phylink_get_caps)(struct stmmac_priv *priv);
-+	/* Update MAC capabilities */
-+	void (*update_caps)(struct stmmac_priv *priv);
- 	/* Enable the MAC RX/TX */
- 	void (*set_mac)(void __iomem *ioaddr, bool enable);
- 	/* Enable and verify that the IPC module is supported */
-@@ -430,8 +430,8 @@ struct stmmac_ops {
- 
- #define stmmac_core_init(__priv, __args...) \
- 	stmmac_do_void_callback(__priv, mac, core_init, __args)
--#define stmmac_mac_phylink_get_caps(__priv) \
--	stmmac_do_void_callback(__priv, mac, phylink_get_caps, __priv)
-+#define stmmac_mac_update_caps(__priv) \
-+	stmmac_do_void_callback(__priv, mac, update_caps, __priv)
- #define stmmac_mac_set(__priv, __args...) \
- 	stmmac_do_void_callback(__priv, mac, set_mac, __args)
- #define stmmac_rx_ipc(__priv, __args...) \
 diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-index 7c6fb14b5555..b810f6b69bf5 100644
+index b810f6b69bf5..0d6cd1704e6a 100644
 --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
 +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-@@ -1225,8 +1225,8 @@ static int stmmac_phy_setup(struct stmmac_priv *priv)
+@@ -936,6 +936,22 @@ static void stmmac_mac_flow_ctrl(struct stmmac_priv *priv, u32 duplex)
+ 			priv->pause, tx_cnt);
+ }
+ 
++static unsigned long stmmac_mac_get_caps(struct phylink_config *config,
++					 phy_interface_t interface)
++{
++	struct stmmac_priv *priv = netdev_priv(to_net_dev(config->dev));
++
++	/* Refresh the MAC-specific capabilities */
++	stmmac_mac_update_caps(priv);
++
++	config->mac_capabilities = priv->hw->link.caps;
++
++	if (priv->plat->max_speed)
++		phylink_limit_mac_speed(config, priv->plat->max_speed);
++
++	return config->mac_capabilities;
++}
++
+ static struct phylink_pcs *stmmac_mac_select_pcs(struct phylink_config *config,
+ 						 phy_interface_t interface)
+ {
+@@ -1105,6 +1121,7 @@ static void stmmac_mac_link_up(struct phylink_config *config,
+ }
+ 
+ static const struct phylink_mac_ops stmmac_phylink_mac_ops = {
++	.mac_get_caps = stmmac_mac_get_caps,
+ 	.mac_select_pcs = stmmac_mac_select_pcs,
+ 	.mac_config = stmmac_mac_config,
+ 	.mac_link_down = stmmac_mac_link_down,
+@@ -1204,7 +1221,6 @@ static int stmmac_phy_setup(struct stmmac_priv *priv)
+ 	int mode = priv->plat->phy_interface;
+ 	struct fwnode_handle *fwnode;
+ 	struct phylink *phylink;
+-	int max_speed;
+ 
+ 	priv->phylink_config.dev = &priv->dev->dev;
+ 	priv->phylink_config.type = PHYLINK_NETDEV;
+@@ -1225,15 +1241,6 @@ static int stmmac_phy_setup(struct stmmac_priv *priv)
  		xpcs_get_interfaces(priv->hw->xpcs,
  				    priv->phylink_config.supported_interfaces);
  
--	/* Get the MAC specific capabilities */
--	stmmac_mac_phylink_get_caps(priv);
-+	/* Refresh the MAC-specific capabilities */
-+	stmmac_mac_update_caps(priv);
+-	/* Refresh the MAC-specific capabilities */
+-	stmmac_mac_update_caps(priv);
+-
+-	priv->phylink_config.mac_capabilities = priv->hw->link.caps;
+-
+-	max_speed = priv->plat->max_speed;
+-	if (max_speed)
+-		phylink_limit_mac_speed(&priv->phylink_config, max_speed);
+-
+ 	fwnode = priv->plat->port_node;
+ 	if (!fwnode)
+ 		fwnode = dev_fwnode(priv->device);
+@@ -7327,7 +7334,6 @@ int stmmac_reinit_queues(struct net_device *dev, u32 rx_cnt, u32 tx_cnt)
+ {
+ 	struct stmmac_priv *priv = netdev_priv(dev);
+ 	int ret = 0, i;
+-	int max_speed;
  
- 	priv->phylink_config.mac_capabilities = priv->hw->link.caps;
- 
-@@ -7341,7 +7341,7 @@ int stmmac_reinit_queues(struct net_device *dev, u32 rx_cnt, u32 tx_cnt)
+ 	if (netif_running(dev))
+ 		stmmac_release(dev);
+@@ -7341,14 +7347,6 @@ int stmmac_reinit_queues(struct net_device *dev, u32 rx_cnt, u32 tx_cnt)
  			priv->rss.table[i] = ethtool_rxfh_indir_default(i,
  									rx_cnt);
  
--	stmmac_mac_phylink_get_caps(priv);
-+	stmmac_mac_update_caps(priv);
+-	stmmac_mac_update_caps(priv);
+-
+-	priv->phylink_config.mac_capabilities = priv->hw->link.caps;
+-
+-	max_speed = priv->plat->max_speed;
+-	if (max_speed)
+-		phylink_limit_mac_speed(&priv->phylink_config, max_speed);
+-
+ 	stmmac_napi_add(dev);
  
- 	priv->phylink_config.mac_capabilities = priv->hw->link.caps;
- 
+ 	if (netif_running(dev))
 -- 
 2.43.0
 
