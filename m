@@ -1,131 +1,173 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72B9725619
-	for <linux-sunxi@lists.linux.dev>; Wed, 17 Apr 2024 20:27:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A6C71B94D
+	for <linux-sunxi@lists.linux.dev>; Wed, 17 Apr 2024 22:00:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713385663; cv=none; b=uzEMiW52bMmWgJTrDJ+IWpmr9yhnz6yS2nRO8TiRQ/d7AQ5YQGdzenrhrF1Iy6xYRYjR/yh3Al2oKbHdAln+B1bReUOKO1Cj21EW9H02aq/wq0r4dK4oOEH6XLHOBanJI2WnXuv9LCOm6qxGxiF0/SfFjT6X4dG6mIYlDgPw+WE=
+	t=1713391218; cv=none; b=ij080FnskNVZ/0rG1TlwlkuAuKgF8+fiFscDSkpotft77ci0WJkBNBx5/Gd+suYTRyfe3OJORuvffpj4vpNoT+eRuSEENsx3GCisRfx/1FAQ8bntL4N0WrN6Y4flLgcYC7Vgg9EieUhn9ajltVQvrTALN3WCHurFqlnwthGHH8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713385663; c=relaxed/simple;
-	bh=Z9pNx1Mt7ZGOKQJxFKT2T5nxfBwahM5BD/lPw2d3TJ8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=c6/QDmDpS8Bz+bB9c1pLIps1+FDVfoP/ot5/6C3NFwZVGNpmG0ZuUd2cMXnHZv94/9FPJEbGBKWj6lyZchOszQx0pn/pmFOCf8RLb9nYbp/gk7TUVWZLHqXqUz7mAin7+sB1TV42aEoPlv7PsUszSuplwzhPoD4OvvqDNx/yhQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RPUj5cQe; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1713391218; c=relaxed/simple;
+	bh=y60YK/Ker0fujTzSEW4X61Wqj5tFfBJ72FsvVhhhsmo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nZOZizoHxyzjaCLMyJaXk1p3oE1TPoWrM4Hz9oHbDcPSVOY4WTtI6g/cw18zvd7DV/W7qzMCiiaiiyBpzbeTgeQHfI5NE02Iv3s0r5hvC82ddy5VEmNwt3fJ+57HNeyT1jItI30u3IKf7HT42Z1UonQ4c9eizQVbHIzsWUXbWIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=O91RqZ1E; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RPUj5cQe"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-518f8a69f82so89834e87.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 17 Apr 2024 13:27:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="O91RqZ1E"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-6ed20fb620fso264000b3a.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 17 Apr 2024 15:00:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713385658; x=1713990458; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wogXkpt1TDERRUg+fbxNgUqpjHmEeqKge3cy0SLNVDM=;
-        b=RPUj5cQeLS4KI+BOlE87xsaehqTr5IKkQCBjRd7qfk1pSm5kj7tBUdD88nFcWxHxF9
-         eI6SWZ+Vnrp+PtKPp3gn/22l7aO4jOkifstoE2377mYX7gx1e+Ds3ODWrP+p2o71T81R
-         rqZu9W5ZqwkcJlSYxd5oVh937hYaqeFI7/aUtwtPRG1S9kRS2AJpHv1J1uPyfwFsio6r
-         P+K+Jxx4w7bdCEmbmi2vOrbIufFn8/cyP1MOEqfMZv0zWtN5Y89joAwdT0CyuWFHhCu3
-         2Y0xCqVFHqFuPLwvtJ9oLTUz8WIs63adAXG63pAgIwbVdHG8DmSCqWWbzk5bLXIMhfBF
-         XlBw==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1713391216; x=1713996016; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=uQ2asP1T1xuvOSck++wQC9ZSwwPqaUNm6JnqVfU5CKQ=;
+        b=O91RqZ1E5I2Yit/uKbiQxoPz0CDDVhMUI3u6THF2iqtUoV1daHQAq6jJ9RYtsjbcAG
+         YnLHi9sVwbsAqu90jf1InW2XVRCGEDB9PkI86K1LnvmpvMcplLpP3kja1cmVcVtMhCpg
+         B3CdBp4UTrPHNWilHAjlMzHujXeHjzCTIzGlDKmy8kF+aKbRrTYzCbg6XvNTi1PkeoM0
+         UENMkOdQpRTpyvxZgDndvVD+jckOMtcd3SHXfaYgys/EWjC+TnrVxG948QKW/WB3sB6f
+         P30e9LljWTJdtlmexvJ78OGF2AHAzq6zjzHDY9Cgrm9uKdhB9w2J45HvABq1XCL9hQgc
+         ydBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713385658; x=1713990458;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wogXkpt1TDERRUg+fbxNgUqpjHmEeqKge3cy0SLNVDM=;
-        b=Q2fFmbd213TxAqTCrHEaEZ4GlV8T1exc+cPJ5fdJ79h5jQT8P2+VwkoF229lXOa99L
-         MYaEB9IMnrPtVoSiCW1uHN5mZMNu/3fwJj6jffe2ycc7n8XxRDSWYAdShUpPodH1lAoM
-         rq4R8uULhViJlxowkZElSBaAx2fj0qwgn1qdzY5pEGw0iJiWU2SvIMtf2KZy2wQOJcJ/
-         9hPadZJpr3ZRLq2+tAuRvOOxCWaS1woh8KgDB92siZ1pmSVM5SgrFvVZH6vI7KnxzEGj
-         CkNMPM0OqloOjxguu8OTyMVMfoh4M5i3UbgHorRSd/qNpeD6gdvnrO+8RUj9hFvCkjA1
-         FBYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUSL/imxoFJ3DIB29LtP730sKYbcbByhOtnnsL3jBQjFSHRpyGv/ZRfQ/16yX/gjaGRNO9XAmECnNox1mBh47URnKhDejWBDxMr4Jk=
-X-Gm-Message-State: AOJu0Yzg8cA3MEOOGmSXaGtD72jZvoro0DgdZAzv+aIeDNmRSNxF8pZp
-	tz7qQu+A4fUhQG86yhNTyBxwt+3Jet8eOQaAYnc+PHwJWqhuj9e1H/Uz8Q==
-X-Google-Smtp-Source: AGHT+IG/8iinXPJHUp/FHMLm9h7bKgFee2CBaZRIwsGGMcMcE1cL9w9/psU5OtGrj9VtdAuVdUaNlg==
-X-Received: by 2002:a05:6512:158d:b0:519:591b:6d7a with SMTP id bp13-20020a056512158d00b00519591b6d7amr311208lfb.7.1713385658245;
-        Wed, 17 Apr 2024 13:27:38 -0700 (PDT)
-Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id s3-20020a056402164300b00562d908daf4sm1565edx.84.2024.04.17.13.27.37
+        d=1e100.net; s=20230601; t=1713391216; x=1713996016;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uQ2asP1T1xuvOSck++wQC9ZSwwPqaUNm6JnqVfU5CKQ=;
+        b=KppB5ccquDzGEg+SNZQ1pdMghOi7IvPtU/tDGp0arX/PXEp5XGL1o4yLAyeHYU27aR
+         +yMVbdIcBXZclNBLZkKDNPQ2MtDb1yfQ8EWM3p8YfZ2lWfwftfT5T4drLbXwNKoTfD++
+         hAYpQ+eBnS8eg9pNN7UhRBGtBk/xMq9TgLgqptiyiknathdiAKnbbY2Iv7CH/jxynE0q
+         5cmHu0xPGZJjKaNKwPgEzg8z2ljtYcNPUPlW+lLbxOKpCXNp09yRh9ClEp7ZNOwudok/
+         5c7kO+VGYopH+WWXfMJXOVVPYyCypSajB+QzQaIs3XtqLL8QFDZZ2Qdyrickw7Xv2ol6
+         /LJg==
+X-Forwarded-Encrypted: i=1; AJvYcCVDPPUhO/EGuh8+2ntplnP7nEEVfJpN6pIJ7/KF5HgIYFaIk5s1FPyVf8ENa4XdHUZ4WMJTOg3ohQWnAVlnY6mwjHvW4ulVBRzIAU8=
+X-Gm-Message-State: AOJu0YxSF11JfeiNeR3U1jP/r3eEEyYpPINYV/7ddDP2R/7m6xTJVhEO
+	gYRJAZqQIZNxyKZORQD9Gj56t3Vr2ySiUbjvgv1N01ktZFA3fRy/M2Q1Wa6+AbY=
+X-Google-Smtp-Source: AGHT+IEiDU5SQjuL7+0vdKdkoS1KFGY8onYhPVJwXQzy7eXZ9mhuURRy3tq7dfxgiflxBiFa6A84tg==
+X-Received: by 2002:a05:6a21:3381:b0:1aa:6ddb:4adf with SMTP id yy1-20020a056a21338100b001aa6ddb4adfmr1271607pzb.39.1713391214298;
+        Wed, 17 Apr 2024 15:00:14 -0700 (PDT)
+Received: from ghost ([50.145.13.30])
+        by smtp.gmail.com with ESMTPSA id j18-20020a62e912000000b006e681769ee0sm151780pfh.145.2024.04.17.15.00.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Apr 2024 13:27:37 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- John Watts <contact@jookia.org>
-Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- kernel test robot <lkp@intel.com>, John Watts <contact@jookia.org>
-Subject:
- Re: [PATCH] ASoC: sunxi: sun4i-i2s: Fix pcm_formats type specification
-Date: Wed, 17 Apr 2024 22:27:36 +0200
-Message-ID: <1928580.taCxCBeP46@jernej-laptop>
-In-Reply-To: <20240417-sunxi_s32_fix-v1-1-d82e451565c0@jookia.org>
-References: <20240417-sunxi_s32_fix-v1-1-d82e451565c0@jookia.org>
+        Wed, 17 Apr 2024 15:00:13 -0700 (PDT)
+Date: Wed, 17 Apr 2024 15:00:07 -0700
+From: Charlie Jenkins <charlie@rivosinc.com>
+To: Conor Dooley <conor@kernel.org>
+Cc: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Evan Green <evan@rivosinc.com>,
+	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v2 13/17] riscv: vector: Support xtheadvector save/restore
+Message-ID: <ZiBGZ9UOpYm3Grvh@ghost>
+References: <20240415-dev-charlie-support_thead_vector_6_9-v2-0-c7d68c603268@rivosinc.com>
+ <20240415-dev-charlie-support_thead_vector_6_9-v2-13-c7d68c603268@rivosinc.com>
+ <20240417-semisweet-willed-1ce1098d8c41@spud>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240417-semisweet-willed-1ce1098d8c41@spud>
 
-Dne sreda, 17. april 2024 ob 07:14:43 GMT +2 je John Watts napisal(a):
-> pcm_formats should be a u64 as it is a SNDRV_PCM_FMTBIT_* not a
-> SNDRV_PCM_FORMAT_*.
+On Wed, Apr 17, 2024 at 03:50:24PM +0100, Conor Dooley wrote:
+> On Mon, Apr 15, 2024 at 09:12:10PM -0700, Charlie Jenkins wrote:
 > 
-> Also fix a small grammar error while we're here.
+> > diff --git a/arch/riscv/kernel/vector.c b/arch/riscv/kernel/vector.c
+> > index 6727d1d3b8f2..f42eaa8178e9 100644
+> > --- a/arch/riscv/kernel/vector.c
+> > +++ b/arch/riscv/kernel/vector.c
+> > @@ -33,10 +33,24 @@ int riscv_v_setup_vsize(void)
+> >  {
+> >  	unsigned long this_vsize;
+> >  
+> > -	/* There are 32 vector registers with vlenb length. */
+> > -	riscv_v_enable();
+> > -	this_vsize = csr_read(CSR_VLENB) * 32;
+> > -	riscv_v_disable();
+> > +	/*
+> > +	 * This is called before alternatives have been patched so can't use
+> > +	 * riscv_has_vendor_extension_unlikely
 > 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202404170103.ySYwieqi-lkp@intel.com/
-> Signed-off-by: John Watts <contact@jookia.org>
-
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-
-Best regards,
-Jernej
-
+> () after that function name please.
+> 
+> > +	 */
+> > +	if (has_xtheadvector_no_alternatives()) {
+> > +		/*
+> > +		 * Although xtheadvector states that th.vlenb exists and
+> > +		 * overlaps with the vector 1.0 vlenb, an illegal instruction is
+> > +		 * raised if read. These systems all currently have a fixed
+> > +		 * vector length of 128, so hardcode that value.
+> 
+> I had this written before the meeting, so pasting it anyway:
+> -- >8 --
+> From 5ed25d0f841e755b8dd4f1f6a3ea824601758d8e Mon Sep 17 00:00:00 2001
+> From: Conor Dooley <conor.dooley@microchip.com>
+> Date: Wed, 17 Apr 2024 14:39:36 +0100
+> Subject: [PATCH] dt-bindings: riscv: cpus: add a vlen register length property
+> 
+> Add a property analogous to the vlenb CSR so that software can detect
+> the vector length of each CPU prior to it being brought online.
+> Currently software has to assume that the vector length read from the
+> boot CPU applies to all possible CPUs. On T-Head CPUs implementing
+> pre-ratification vector, reading the th.vlenb CSR may produce an illegal
+> instruction trap, so this property is required on such systems.
+> 
+> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
 > ---
-> This is a quick fix for a type error found by the kernel test robot.
+> We could actually enforce the latter since we know the compatibles of
+> the relevant CPUs and can tell if xtheadvector is present.
 > ---
->  sound/soc/sunxi/sun4i-i2s.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  Documentation/devicetree/bindings/riscv/cpus.yaml | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
-> diff --git a/sound/soc/sunxi/sun4i-i2s.c b/sound/soc/sunxi/sun4i-i2s.c
-> index 59830f2a0d30..5f8d979585b6 100644
-> --- a/sound/soc/sunxi/sun4i-i2s.c
-> +++ b/sound/soc/sunxi/sun4i-i2s.c
-> @@ -156,7 +156,7 @@ struct sun4i_i2s;
->  /**
->   * struct sun4i_i2s_quirks - Differences between SoC variants.
->   * @has_reset: SoC needs reset deasserted.
-> - * @pcm_formats: available PCM formats
-> + * @pcm_formats: available PCM formats.
->   * @reg_offset_txdata: offset of the tx fifo.
->   * @sun4i_i2s_regmap: regmap config to use.
->   * @field_clkdiv_mclk_en: regmap field to enable mclk output.
-> @@ -176,7 +176,7 @@ struct sun4i_i2s;
->   */
->  struct sun4i_i2s_quirks {
->  	bool				has_reset;
-> -	snd_pcm_format_t		pcm_formats;
-> +	u64				pcm_formats;
->  	unsigned int			reg_offset_txdata;	/* TX FIFO */
->  	const struct regmap_config	*sun4i_i2s_regmap;
+> diff --git a/Documentation/devicetree/bindings/riscv/cpus.yaml b/Documentation/devicetree/bindings/riscv/cpus.yaml
+> index d067f2a468ee..2a6449a0f1d7 100644
+> --- a/Documentation/devicetree/bindings/riscv/cpus.yaml
+> +++ b/Documentation/devicetree/bindings/riscv/cpus.yaml
+> @@ -95,6 +95,12 @@ properties:
+>      description:
+>        The blocksize in bytes for the Zicboz cache operations.
 >  
+> +  riscv,vlenb:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      VLEN/8, the vector register length in bytes. This property is required in
+> +      systems where the vector register length is not identical on all harts.
+> +
+>    # RISC-V has multiple properties for cache op block sizes as the sizes
+>    # differ between individual CBO extensions
+>    cache-op-block-size: false
+> -- 
+> 2.43.0
 > 
-> ---
-> base-commit: 66e4190e92ce0e4a50b2f6be0e5f5b2e47e072f4
-> change-id: 20240417-sunxi_s32_fix-ef5354b40fb4
 > 
-> Best regards,
 > 
+> > +		 */
+> > +		this_vsize = 128;
+> > +	} else {
+> > +		/* There are 32 vector registers with vlenb length. */
+> > +		riscv_v_enable();
+> > +		this_vsize = csr_read(CSR_VLENB) * 32;
+> > +		riscv_v_disable();
+> > +	}
 
+Thank you for this, I can add this patch to my v3.
 
-
+- Charlie
 
