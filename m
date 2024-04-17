@@ -1,104 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B63213F42D;
-	Wed, 17 Apr 2024 13:42:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5FD113FD63
+	for <linux-sunxi@lists.linux.dev>; Wed, 17 Apr 2024 13:58:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713361369; cv=none; b=s1eVofJMpRFwv78YN4aOgmSyuOFrjRBvhNoo5F5G1BWtV6Q53aSkh5tr1KXr7ZDBk+8a/BiJ0W73yNLjOoqIGEo1OEoeFXy1XsM83vpKuM1NHUDzY5ms/kwIs5yIX3YaabiSibKrN7132JDB/0GEecku8ArOkijM4k1BgZbRrc0=
+	t=1713362341; cv=none; b=ggS2t2Ssp44mmsjgau03Vd//FRLu11LYrJxp0wvB3Valft7A2MI0v1bERlylR25kaBrGY3nV+Y5T7++H2UnMxPR/PxzksF7ERJ8ie9RoIS81jdSpFtwUzBWJZr7hI6RudxLstPMTqwfFjnS532dkaQ2YQvqgFlSXmKgi0HrrYXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713361369; c=relaxed/simple;
-	bh=exPu4RcMsk/1+QRfafTnptMZ6ljl6Uz5WGS7JHUbSG0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=egP+pxChIbjkio5fh0Qp70ri3zC5f3//VplYa1aSJgOCWj2DWBFR0V4gP2y/nt/eEcVygegi7zFbvENH/T4mukcWaAUOYL172cD8mRcwcBi4h2zxWm9jcM3XPvqVLCbMfESFY+YEAUEkVsXXa2wYK+prjJadzekarrEkDHPlH9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uxe+qeP1; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uxe+qeP1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D799C3277B;
-	Wed, 17 Apr 2024 13:42:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713361368;
-	bh=exPu4RcMsk/1+QRfafTnptMZ6ljl6Uz5WGS7JHUbSG0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uxe+qeP1yFDPT1hD9RgNKZpz03zbMYoYMhxqPRwisGF9SsPrzxEkUxX75wQv3zBhA
-	 BRx4qPfoMxWPdmJwOIK9wFA+qQYzEG1dHt/VODsEgTHspeEyo2FRzPdK/fhuAus2Q8
-	 ylR0jMTstUpWiASwRHCg56D+AUdM2rw88Zawp5HQxNXB+vJajPhhiKr+NK9Y/hMrkH
-	 P5SN9ZALpHHXlYBftOidVumzDmLewTgO400T9jwqyCuXvtQ/odwwW1dahLq0xrtTMx
-	 KE+MFqbTrbccApemLfMPMIb0sr3ngW/lgmXlnzVM1lPk7ua6IcTNR3De9KsJ29aUhp
-	 8KxeJSNxWvmBQ==
-Date: Wed, 17 Apr 2024 14:42:41 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Evan Green <evan@rivosinc.com>,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v2 06/17] riscv: Extend cpufeature.c to detect vendor
- extensions
-Message-ID: <20240417-automaker-baton-bd816e1bd975@spud>
-References: <20240415-dev-charlie-support_thead_vector_6_9-v2-0-c7d68c603268@rivosinc.com>
- <20240415-dev-charlie-support_thead_vector_6_9-v2-6-c7d68c603268@rivosinc.com>
+	s=arc-20240116; t=1713362341; c=relaxed/simple;
+	bh=LWkTk7CJZ298OX2BHh1YwAZQVrBGrq8/jaBno+Mjxr8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Umpn5kbGhq32SCO8dLqYpXNjOcj9EYcErnODFes7RuOcmqjJye2CGswuoohwSvly2LY2OmTy3ljRodGAZmyeSaMWe1lfN5uvLkVcn99YqQiKO01QBI54aNwsds7G8k6iUEstSdgkhFZ7TjagimDFslZXLbN8z26iif0P9tahuSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CE1C6339;
+	Wed, 17 Apr 2024 06:59:26 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7BCBE3F738;
+	Wed, 17 Apr 2024 06:58:57 -0700 (PDT)
+Date: Wed, 17 Apr 2024 14:58:54 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Ryan Walklin <ryan@testtoast.com>, Chen-Yu Tsai <wens@csie.org>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+ <samuel@sholland.org>, Chris Morgan <macromorgan@hotmail.com>,
+ devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 1/4] dt-bindings: arm: sunxi: document Anbernic RG35XX
+ handheld gaming device variants
+Message-ID: <20240417145854.46827456@donnerap.manchester.arm.com>
+In-Reply-To: <ec2be6d0-68ea-41b5-a12c-5f926c7a8f81@linaro.org>
+References: <20240414083347.131724-2-ryan@testtoast.com>
+	<20240414083347.131724-3-ryan@testtoast.com>
+	<78b5de01-150e-4537-b6a6-8ca0067a8359@linaro.org>
+	<f0b5aea5-54f6-4c3b-9c16-f7e97c58ea6d@app.fastmail.com>
+	<ec2be6d0-68ea-41b5-a12c-5f926c7a8f81@linaro.org>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="p0QSKblu8bR1+Anb"
-Content-Disposition: inline
-In-Reply-To: <20240415-dev-charlie-support_thead_vector_6_9-v2-6-c7d68c603268@rivosinc.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Wed, 17 Apr 2024 15:33:13 +0200
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
 
---p0QSKblu8bR1+Anb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Mon, Apr 15, 2024 at 09:12:03PM -0700, Charlie Jenkins wrote:
+> On 17/04/2024 11:05, Ryan Walklin wrote:
+> > Thanks for the review and feedback.
+> >   
+> >> Any reason these are not just one enum with three entires?  
+> > 
+> > No, this is just to match the existing devices, are you able to point to an example elsewhere?
+> >   
+> 
+> Even for variants of same boards?
+> 
+> The examples are everywhere, e.g. Qualcomm or NXP.
 
-> @@ -351,6 +343,14 @@ static void __init riscv_parse_isa_string(unsigned l=
-ong *this_hwcap, struct risc
->  		bool ext_long =3D false, ext_err =3D false;
-> =20
->  		switch (*ext) {
-> +		case 'x':
-> +		case 'X':
-> +			pr_warn("Vendor extensions are ignored in riscv,isa. Use riscv,isa-ex=
-tensions instead.");
+We have separate entries for closely related boards (Pine64 H64 model A
+and B), and also indeed for updated variants (the various PinePhone
+revisions).
+That doesn't need the stay this way, of course. We would lose a quite
+natural way of putting a descriptive name to each compatible string (cf.
+"Pine64 PinePhone Developer Batch (1.0)"), but if the main purpose of this
+file is to *reserve* the compatible strings, it would indeed be shorter to
+use enums for related boards.
+Don't know if this would a real advantage, though.
 
-Was looking for something and noticed this - pr_warn_once() I think.
-
-> +			/*
-> +			 * In canonical order, the remaining extensions in the
-> +			 * isa string will be vendor extensions so exit.
-> +			 */
-> +			break;
->  		case 's':
->  			/*
->  			 * Workaround for invalid single-letter 's' & 'u' (QEMU).
-
---p0QSKblu8bR1+Anb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZh/R0QAKCRB4tDGHoIJi
-0vzZAQCEhpBLtL/EDT9fUbss6os6B1Bq+MiUtQnftDZaXWVoyAD+LTrtP2tTsvuJ
-r6qruyvOjKVA6j/gDB5rHH3TKzICzwk=
-=MO+X
------END PGP SIGNATURE-----
-
---p0QSKblu8bR1+Anb--
+Cheers,
+Andre
