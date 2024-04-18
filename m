@@ -1,178 +1,54 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 666AA15E5DB
-	for <linux-sunxi@lists.linux.dev>; Thu, 18 Apr 2024 11:33:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8220F15DBBB
+	for <linux-sunxi@lists.linux.dev>; Thu, 18 Apr 2024 11:51:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713440018; cv=none; b=dhkMolUBrxaXGB0/sW0tYYkNPeo5kP0PPLKukOd5UiSYf4zMCy9aBLHnEF6tiiySWMymJFOFdmwW3uCFy8POObUcxyNab9Xe9Wytl9Yxyg9SRTWcgeOEpI5rlKuXvzhShOixdDCVThZumijeYuPY42Wr3zXbFXI6so1CRcBcmW4=
+	t=1713441105; cv=none; b=SXOq8ieZ4C0mSmg3n6StKJmBdnxqP+vBrG46ATuf2amnRT8M1fDS+7SDQX9AVS6ZUkzgtWx+Tw1b7a4l7G1nTk1Ug19bUx2YaUCaQdENRYu3d3Y/LpnTgAXRwXTQ91k4kC8VwUBdq1ZptyZAogVvrR6ZLBtBPgkAr/ZQupYSvEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713440018; c=relaxed/simple;
-	bh=S0Qtd48tNRGLbVj/o0e5qeU3ZyCGi6a1vbQ/5oxDT60=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=lmF/czwAabsWUHBdbakzpKU9bI4UFJzA1KbZm8FCDYZjGdFC1AbiqQAGD9VmZwy050mZcphkgv/UcRDzfdUbt8wxyboR2Cfut50wmtU33XKwSo1ryiOyYe2+/mL+/4N+RKNghzAJvtbw3RqbKWxcIDyooH3wgAcOQqKXEWUvrmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=T2l9eKaE; arc=none smtp.client-ip=217.70.183.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1713441105; c=relaxed/simple;
+	bh=kKCBekfE4dBm8z1f/Jm+KxsNndEKb4bU3RKDH6Hjj6g=;
+	h=Message-ID:Date:From:To:Subject:In-Reply-To:References:Cc; b=NenlM6OovCncrr814XSCaOvYlJp/eFX+K6xxB/ij/HrIzR5Rzyk7IgIuGwE8rrtXlftyKgmIH0qycqTwOPp3kn6Ukb8CRpdjpA3KW41E7Wel39eDXxFn7ffQRji8jOZETwE5vs2FfEUWYkAUveJUYPJ1DqW4P6hsT5NDKnO8zZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rffD6A7o; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="T2l9eKaE"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 920941BF206;
-	Thu, 18 Apr 2024 11:33:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1713440011;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=k2t0MvM3jxvWGhN7eeYzckVy+rZfzBeuSxhEQgyjStA=;
-	b=T2l9eKaEQOh/hyimKIEDxMZ3Pn2pDXPAXRc6Qs194CynWl621S9CfaOzn6J8yWwAChl1jW
-	6Gb+U3xdQ2nN+H+Ysdo6Qx09jkQwPkQTnr6LFj7rJId12SmbDAjXcoJPII3SRN2jP1f2B+
-	/dVv8tiIq2ipOXEoZzZqlVcqNnEkqRvNhaWFlN5crMPdIQBVSvUTYWNwmJFFTGMVzAar2y
-	I1TVf87X3GglcePbiTlFkxGZ47pD+scs1RDbffKxXfn7A4dYhcKjcCG22uXUu9t8cEi/UZ
-	n0yxF39bBWUQb+89HQW7W3WSfvdJNqlMQy/aycd3D3XMtuoTe2fKuZ4xRMlYiQ==
-Date: Thu, 18 Apr 2024 13:34:06 +0200 (CEST)
-From: Romain Gantois <romain.gantois@bootlin.com>
-To: Serge Semin <fancer.lancer@gmail.com>
-cc: Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-    Jose Abreu <joabreu@synopsys.com>, "David S. Miller" <davem@davemloft.net>, 
-    Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-    Paolo Abeni <pabeni@redhat.com>, Russell King <linux@armlinux.org.uk>, 
-    Yanteng Si <siyanteng@loongson.cn>, 
-    Romain Gantois <romain.gantois@bootlin.com>, 
-    Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-    Simon Horman <horms@kernel.org>, Huacai Chen <chenhuacai@kernel.org>, 
-    Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-    Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org, 
-    linux-stm32@st-md-mailman.stormreply.com, 
-    linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-    linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v2 2/2] net: stmmac: Move MAC caps init to
- phylink MAC caps getter
-In-Reply-To: <20240417140013.12575-3-fancer.lancer@gmail.com>
-Message-ID: <c441691f-906d-4f44-10c8-3d8437cd3833@bootlin.com>
-References: <20240417140013.12575-1-fancer.lancer@gmail.com> <20240417140013.12575-3-fancer.lancer@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rffD6A7o"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8425BC113CC;
+	Thu, 18 Apr 2024 11:51:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713441105;
+	bh=kKCBekfE4dBm8z1f/Jm+KxsNndEKb4bU3RKDH6Hjj6g=;
+	h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
+	b=rffD6A7ofnfKBlgVlvRl2XWBz+IYAt333b6i5WV2mHAc+C9cWVR/YhwKwJW7lNLxT
+	 /10+eZ9/CTsp2RhHOiiEe7C21o2C9NA1rrV8J1a+BvmFyymtrzKoUE4rzUWp7p5f2d
+	 LRfiJ2wfXunXljxkJVo7Ct1t1Lfy0hGN8yPRMcL+ouvyVuXVbvw+XTuFl7IhtYbPkt
+	 yLtsboXmBh8UDiAjo3IWSk96/Io/0p9jnsL8AMASFNHIJrA5DXP47SB35RMCGwAPNA
+	 hmtHRkIz2ouSec+Nmw6GrDsHmOi3kH8T8N8IRS5xghrJDljT+digmP2HqL/xmLUptG
+	 nrWfbSRy6JfOg==
+Message-ID: <aa328a01f193821ea324bb00248e03ce@kernel.org>
+Date: Thu, 18 Apr 2024 11:51:42 +0000
+From: "Maxime Ripard" <mripard@kernel.org>
+To: "Jani Nikula" <jani.nikula@intel.com>
+Subject: Re: [PATCH 06/15] drm/sun4i: hdmi: switch to struct drm_edid
+In-Reply-To: <0967dde8ae35cd58ab8ea58397d514bb9df29fd1.1713273659.git.jani.nikula@intel.com>
+References: <0967dde8ae35cd58ab8ea58397d514bb9df29fd1.1713273659.git.jani.nikula@intel.com>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, "Chen-Yu
+ Tsai" <wens@csie.org>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maxime
+ Ripard" <mripard@kernel.org>, "Samuel Holland" <samuel@sholland.org>
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-GND-Sasl: romain.gantois@bootlin.com
 
-On Wed, 17 Apr 2024, Serge Semin wrote:
-
-> After a set of recent fixes the stmmac_phy_setup() and
-> stmmac_reinit_queues() methods have turned to having some duplicated code.
-> Let's get rid from the duplication by moving the MAC-capabilities
-> initialization to the PHYLINK MAC-capabilities getter. The getter is
-> called during each network device interface open/close cycle. So the
-> MAC-capabilities will be initialized in generic device open procedure and
-> in case of the Tx/Rx queues re-initialization as the original code
-> semantics implies.
+On Tue, 16 Apr 2024 16:22:20 +0300, Jani Nikula wrote:
+> Prefer struct drm_edid based functions over struct edid.
 > 
-> Signed-off-by: Serge Semin <fancer.lancer@gmail.com>
-> 
-> ---
-> 
-> Link: https://lore.kernel.org/netdev/20240412180340.7965-5-fancer.lancer@gmail.com/
-> Changelog v2:
-> - Resubmit the patch to net-next separately from the main patchset (Paolo)
-> ---
->  .../net/ethernet/stmicro/stmmac/stmmac_main.c | 36 +++++++++----------
->  1 file changed, 17 insertions(+), 19 deletions(-)
-> 
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-> index b810f6b69bf5..0d6cd1704e6a 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-> @@ -936,6 +936,22 @@ static void stmmac_mac_flow_ctrl(struct stmmac_priv *priv, u32 duplex)
->  			priv->pause, tx_cnt);
->  }
->  
-> +static unsigned long stmmac_mac_get_caps(struct phylink_config *config,
-> +					 phy_interface_t interface)
-> +{
-> +	struct stmmac_priv *priv = netdev_priv(to_net_dev(config->dev));
-> +
-> +	/* Refresh the MAC-specific capabilities */
-> +	stmmac_mac_update_caps(priv);
-> +
-> +	config->mac_capabilities = priv->hw->link.caps;
-> +
-> +	if (priv->plat->max_speed)
-> +		phylink_limit_mac_speed(config, priv->plat->max_speed);
-> +
-> +	return config->mac_capabilities;
-> +}
-> +
->  static struct phylink_pcs *stmmac_mac_select_pcs(struct phylink_config *config,
->  						 phy_interface_t interface)
->  {
-> @@ -1105,6 +1121,7 @@ static void stmmac_mac_link_up(struct phylink_config *config,
->  }
->  
->  static const struct phylink_mac_ops stmmac_phylink_mac_ops = {
-> +	.mac_get_caps = stmmac_mac_get_caps,
->  	.mac_select_pcs = stmmac_mac_select_pcs,
->  	.mac_config = stmmac_mac_config,
->  	.mac_link_down = stmmac_mac_link_down,
-> @@ -1204,7 +1221,6 @@ static int stmmac_phy_setup(struct stmmac_priv *priv)
->  	int mode = priv->plat->phy_interface;
->  	struct fwnode_handle *fwnode;
->  	struct phylink *phylink;
-> -	int max_speed;
->  
->  	priv->phylink_config.dev = &priv->dev->dev;
->  	priv->phylink_config.type = PHYLINK_NETDEV;
-> @@ -1225,15 +1241,6 @@ static int stmmac_phy_setup(struct stmmac_priv *priv)
->  		xpcs_get_interfaces(priv->hw->xpcs,
->  				    priv->phylink_config.supported_interfaces);
->  
-> -	/* Refresh the MAC-specific capabilities */
-> -	stmmac_mac_update_caps(priv);
-> -
-> -	priv->phylink_config.mac_capabilities = priv->hw->link.caps;
-> -
-> -	max_speed = priv->plat->max_speed;
-> -	if (max_speed)
-> -		phylink_limit_mac_speed(&priv->phylink_config, max_speed);
-> -
->  	fwnode = priv->plat->port_node;
->  	if (!fwnode)
->  		fwnode = dev_fwnode(priv->device);
-> @@ -7327,7 +7334,6 @@ int stmmac_reinit_queues(struct net_device *dev, u32 rx_cnt, u32 tx_cnt)
->  {
->  	struct stmmac_priv *priv = netdev_priv(dev);
->  	int ret = 0, i;
-> -	int max_speed;
->  
->  	if (netif_running(dev))
->  		stmmac_release(dev);
-> @@ -7341,14 +7347,6 @@ int stmmac_reinit_queues(struct net_device *dev, u32 rx_cnt, u32 tx_cnt)
->  			priv->rss.table[i] = ethtool_rxfh_indir_default(i,
->  									rx_cnt);
->  
-> -	stmmac_mac_update_caps(priv);
-> -
-> -	priv->phylink_config.mac_capabilities = priv->hw->link.caps;
-> -
-> -	max_speed = priv->plat->max_speed;
-> -	if (max_speed)
-> -		phylink_limit_mac_speed(&priv->phylink_config, max_speed);
-> -
->  	stmmac_napi_add(dev);
->  
->  	if (netif_running(dev))
-> -- 
-> 2.43.0
-> 
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 > 
 
-Reviewed-by: Romain Gantois <romain.gantois@bootlin.com>
+Acked-by: Maxime Ripard <mripard@kernel.org>
 
-Thanks,
-
--- 
-Romain Gantois, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Thanks!
+Maxime
