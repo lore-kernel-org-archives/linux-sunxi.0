@@ -1,172 +1,112 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 877E84D9E8;
-	Thu, 18 Apr 2024 15:46:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F087216D4C8
+	for <linux-sunxi@lists.linux.dev>; Thu, 18 Apr 2024 15:56:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713455205; cv=none; b=YR//jvise81xYQ2aQEMmbPtmnrRDx4bZGp6Um27E4jtfc0u6ohLe78f/y0pGsRg17q7oCwr49QPSB9bUi2P2ovbsF/is64C/Cc20yLaeKWJtZBOfYOwLuZmFub/QKrPv3EgnyriyPBeod7z4cxdK6YST2cyBlqwNRh/QPl3nMf0=
+	t=1713455810; cv=none; b=Q10LPA9yRCL+0AWXzGrHl1/HFTDvnCM9WGYug+QwqspZte7GaxcrUZ3I/QS2bAktnxv3BzZbSGv4SYv1aRdYd4l2f6Vtt5/auNKTmCsf/8kPoywl6oGLn0rHmu0MsOGV1kR6LZM5EHBrnmuwGkkgpxHuSQn3ptK2iW8UR/nwk/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713455205; c=relaxed/simple;
-	bh=K6H40zZOBruNXEKy+mLBxL40J3Voj2XWEqqGuvJ9w94=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VfVRCHVMHNoh9wGLSl4uMOSmJROR8cKJdQYUjvElGmsW/wkiKcZqQx570pEsg6O15wwQ7y12722j5dbSyH0ZIEE2auO+fa1uiNhnzkJqgCa0Lb2JpDB8ZnebOYXznVgx5eOrAws7/H/yqow9cd68DaSZSgyBnyD5QDfhW7jmF8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=mNiKJAJD; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1713455810; c=relaxed/simple;
+	bh=aBUT2+pQDzYwiVZKUr+Rvc3cYxV7V4n7dBGY3Vt9cNM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dxU5bt75kgLHZzrf338bXiHz3YasJfvsje+B2MHB5NEJGhEzTyPXSzwMTR6InmdS/1WJEYkIQVSeNojuYjxcn/ZcNLoM/bEX+rkZzk/U/psSYg41v3hxNRZ9VCZ9npZJLJ9Gzw2YIwpZOW1lXlptsJ1BBSif0BSrFJpC8S2uyL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PRH3T1cL; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mNiKJAJD"
-Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2A03C802;
-	Thu, 18 Apr 2024 17:45:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1713455153;
-	bh=K6H40zZOBruNXEKy+mLBxL40J3Voj2XWEqqGuvJ9w94=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mNiKJAJDsTkJYMYK4ZtsZ9zlV7xPYE85xk9V7yAnZZ4lXnvj+UhwJ4fKqYaFra0Xc
-	 2eBi44CBZWoMWyMkwDoCJV3GUcE9zfI7hzMI60oHIg/o5NGSS92iXbFgMGqv+gOkZe
-	 2N/SspWfXOLe5x5IbsUKTfY8A/Ga1vjvyZkxLsrw=
-Date: Thu, 18 Apr 2024 18:46:33 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>,
-	Martin Tuma <martin.tuma@digiteqautomotive.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Hugues Fruchet <hugues.fruchet@foss.st.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
-	Abylay Ospan <aospan@netup.ru>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Dmitry Osipenko <digetx@gmail.com>,
-	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Jacopo Mondi <jacopo+renesas@jmondi.org>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Pavel Machek <pavel@ucw.cz>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	Oleg Drokin <green@linuxhacker.ru>
-Subject: Re: [PATCH 00/35] media: Fix coccinelle warning/errors
-Message-ID: <20240418154633.GD31776@pendragon.ideasonboard.com>
-References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
- <a003494c-a1a9-4fcd-83d8-766a75d6bbb2@moroto.mountain>
- <20240417155112.GQ12561@pendragon.ideasonboard.com>
- <CANiDSCs_qOXkhzuL+cFhpw0hvFMwU0TYyN2B5ZdAStb96TTKFA@mail.gmail.com>
- <20240418105310.GV12561@pendragon.ideasonboard.com>
- <CANiDSCuS3KQK9H37sDZJ+mcqheNSh7NBwchS3dPccVXcPTSNRA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PRH3T1cL"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-518e2283bd3so1537672e87.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 18 Apr 2024 08:56:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1713455807; x=1714060607; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yVAgtcipfkcWMHjlW6nU5upWM2mMxhSXqMN6JngOSHk=;
+        b=PRH3T1cLcldtMQEs45XwkXs06S39J5TUmblB0eNWA3mjW5v68NPfoL78z1poXFbdAN
+         WKt/yRwWze0kbagrinfSJWwKwv0UXj27dvhet+LU83l7agYjuebhNogS0ZiyAdmC1XXp
+         8shgEU9E9255q72EloKYeH6VO79nuqIyH3q5aWVVnFDMykkuthprKxd5GTQ6UnBuVboW
+         ysPtdhdhCXOJjQhcjLBU36f6AHuOi1NKBncctHcsew3/CXdlrF4iDTqidV4upKRTsu0e
+         RTv5p1RNWn6944QB8DayJM5VVtQQTIIOZijKJsZfbQmQAA1VOz9ccsegmoQJS21Et+a8
+         jHUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713455807; x=1714060607;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yVAgtcipfkcWMHjlW6nU5upWM2mMxhSXqMN6JngOSHk=;
+        b=lkgWbodGDp0xLWF0xrRx/KOIoBBzyw7xsnJb71fYOoyAM3gQyVv4y0MCTNY5l54Etd
+         5G3slc1XYIhx0VDHeyOZaK8+qGs/zJDELlGVf4ICASMreWQWDpIFFbULWCLrf2/pcNdx
+         oa/g1krTtrNMf1jpOjenqPlhN5Y+f7EsHw3WEPDedFZmyTFwMXZ7a0f1MjKuc3bVe+5s
+         I1caAhFuCSmOArtuz0+4Mixnff+uhiMdodzJIxptVwBRkORxN9A5GsWRAf6qV7/dJwi2
+         GWL17p7ieGFZZiVyo5swmURqz04um4JF5Yl3qkpsdJvoTVZAL/QcU7ykE9717cqx9xFf
+         UapA==
+X-Forwarded-Encrypted: i=1; AJvYcCWWYUMA+owNI0+pwffV2H4FCcn56sPGtl77uX7dpZt/4twS/O3O4xK7yDGVRpda9IDr5i2bbziIpiiqx2CfAb9TajcPJjCHf5Hb1sE=
+X-Gm-Message-State: AOJu0YwlUDfjXiY0Ae+b/4cW83vJwLVCui7GpTOPYD2vFd2RnG11v6S/
+	QuJbRVBur8RF0J2bBvLDyyu2JH73JNvT6MRLQorJ71gOLYS/VA/SzuCgui4YAIwFhdbzggJpm9n
+	0oJOv97+pC9x25/GBwRzAIUvAVUg=
+X-Google-Smtp-Source: AGHT+IG1UvVvPMawq0PN1G95h2KMXcAMXcVnwWBMLVJAP/s7QKISoICSyXIA62E97yFHemf7G8s5MxQ9F1kvhWxIZAo=
+X-Received: by 2002:a2e:8383:0:b0:2da:b1fc:8095 with SMTP id
+ x3-20020a2e8383000000b002dab1fc8095mr2163555ljg.7.1713455806891; Thu, 18 Apr
+ 2024 08:56:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CANiDSCuS3KQK9H37sDZJ+mcqheNSh7NBwchS3dPccVXcPTSNRA@mail.gmail.com>
+References: <20240414175300.956243-1-aren@peacevolution.org>
+ <20240414175716.958831-1-aren@peacevolution.org> <20240414175716.958831-2-aren@peacevolution.org>
+ <CAHp75VdZavToGYqLYnkKYt53HXoQxXnRER5Cn5b2==gWTvkAWQ@mail.gmail.com> <xxeg3as5m5vmmu6fbjujcnvchrerxs2rr42nloirwsktbv4r57@vpxtxblxmspl>
+In-Reply-To: <xxeg3as5m5vmmu6fbjujcnvchrerxs2rr42nloirwsktbv4r57@vpxtxblxmspl>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Thu, 18 Apr 2024 18:56:09 +0300
+Message-ID: <CAHp75Veoibnk2pYuAY-T+u=8t7ackQ8zBjxSHcWb1AeHnq84yQ@mail.gmail.com>
+Subject: Re: [PATCH 2/4] iio: light: stk3310: Implement vdd supply and power
+ it off during suspend
+To: Aren <aren@peacevolution.org>
+Cc: Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Ondrej Jirman <megi@xff.cz>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+	linux-iio@vger.kernel.org, phone-devel@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	Willow Barraco <contact@willowbarraco.fr>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Ricardo,
+On Thu, Apr 18, 2024 at 6:06=E2=80=AFPM Aren <aren@peacevolution.org> wrote=
+:
+> On Mon, Apr 15, 2024 at 05:04:53PM +0300, Andy Shevchenko wrote:
+> > On Sun, Apr 14, 2024 at 8:57=E2=80=AFPM Aren Moynihan <aren@peacevoluti=
+on.org> wrote:
 
-On Thu, Apr 18, 2024 at 04:51:06PM +0200, Ricardo Ribalda wrote:
-> On Thu, 18 Apr 2024 at 12:53, Laurent Pinchart wrote:
-> > On Wed, Apr 17, 2024 at 06:19:14PM +0200, Ricardo Ribalda wrote:
-> > > On Wed, 17 Apr 2024 at 17:51, Laurent Pinchart wrote:
-> > > > On Tue, Apr 16, 2024 at 11:47:17AM +0300, Dan Carpenter wrote:
-> > > > > In my opinion, it's better to just ignore old warnings.
-> > > >
-> > > > I agree. Whatever checkers we enable, whatever code we test, there will
-> > > > always be false positives. A CI system needs to be able to ignore those
-> > > > false positives and only warn about new issues.
-> > >
-> > > We already have support for that:
-> > > https://gitlab.freedesktop.org/linux-media/media-ci/-/tree/main/testdata/static?ref_type=heads
+...
+
+> > >         stk3310_set_state(iio_priv(indio_dev), STK3310_STATE_STANDBY)=
+;
+> > > +       if (data->vdd_reg)
+> > > +               regulator_disable(data->vdd_reg);
 > >
-> > Those are manually written filters. Would it be possible to reduce the
-> > manual step to flagging something as a false positive, and have a
-> > machine build the filters ?
-> 
-> Do you expect that the list of exceptions will grow?
-> 
-> I hope that once the CI is in place we will fix the warnings before
-> they land in the tree.
+> > I forgot to check the order of freeing resources, be sure you have no
+> > devm_*() releases happening before this call.
+>
+> If I understand what you're saying, this should be fine. The driver just
+> uses devm to clean up acquired resources after remove is called. Or am I
+> missing something and resources could be freed before calling
+> stk3310_remove?
 
-Any static checker is bound to produce false positives. Some of them can
-be addressed by improving the checker, others by modifying the source
-code, but in some cases the first option would be too difficult and the
-second would reduce readability of the code. I thus thing the list of
-accepted false positives will grow over time.
+I'm not objecting to that. The point here is that the resources should
+be freed in the reversed order. devm-allocated resources are deferred
+to be freed after the explicit driver ->remove() callback. At the end
+it should not interleave with each other, i.o.w. it should be
+probe: devm followed by non-devm
+remove: non-devm only.
 
-> > > But it would be great if those lists were as small as possible:
-> > >
-> > > - If we have a lot of warnings, two error messages can be combined and
-> > > will scape the filters
-> > > eg:
-> > > print(AAAA);
-> > > print(BBBB);
-> > > > AABBBAAB
-> > >
-> > > - The filters might hide new errors if they are too broad
-> > >
-> > >
-> > > Most of the patches in this series are simple and make a nicer code:
-> > > Eg the non return minmax() ,
-> > > Other patches show real integer overflows.
-> > >
-> > > Now that the patches are ready, let's bite the bullet and try to
-> > > reduce our technical debt.
-> > >
-> > > > > When code is new the warnings are going to be mostly correct.  The
-> > > > > original author is there and knows what the code does.  Someone has
-> > > > > the hardware ready to test any changes.  High value, low burden.
-> > > > >
-> > > > > When the code is old only the false positives are left.  No one is
-> > > > > testing the code.  It's low value, high burden.
-> > > > >
-> > > > > Plus it puts static checker authors in a difficult place because now
-> > > > > people have to work around our mistakes.  It creates animosity.
-> > > > >
-> > > > > Now we have to hold ourselves to a much higher standard for false
-> > > > > positives.  It sounds like I'm complaining and lazy, right?  But Oleg
-> > > > > Drokin has told me previously that I spend too much time trying to
-> > > > > silence false positives instead of working on new code.  He's has a
-> > > > > point which is that actually we have limited amount of time and we have
-> > > > > to make choices about what's the most useful thing we can do.
-> > > > >
-> > > > > So what I do and what the zero day bot does is we look at warnings one
-> > > > > time and we re-review old warnings whenever a file is changed.
-> > > > >
-> > > > > Kernel developers are very good at addressing static checker warnings
-> > > > > and fixing the real issues...  People sometimes ask me to create a
-> > > > > database of warnings which I have reviewed but the answer is that
-> > > > > anything old can be ignored.  As I write this, I've had a thought that
-> > > > > instead of a database of false positives maybe we should record a
-> > > > > database of real bugs to ensure that the fixes for anything real is
-> > > > > applied.
-
--- 
-Regards,
-
-Laurent Pinchart
+--=20
+With Best Regards,
+Andy Shevchenko
