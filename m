@@ -1,229 +1,172 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CAFA516EBEA
-	for <linux-sunxi@lists.linux.dev>; Thu, 18 Apr 2024 15:44:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 877E84D9E8;
+	Thu, 18 Apr 2024 15:46:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713455082; cv=none; b=AMtMqK9kCQCNsCvajckc9zFMsmJAeTj3ge/uT+77OAHHBO0icSul4EELXurqdYTAn6fco6zLVYZxpmKDtcZyjEN5DJ3hAKJJDyhd4UJ/0fpuxcSiCgMp7Xsx7QJHk4TgGDQQa2kO2ovb+0x0KlhzxR5A3VXp3+Le83pLUAWaiyk=
+	t=1713455205; cv=none; b=YR//jvise81xYQ2aQEMmbPtmnrRDx4bZGp6Um27E4jtfc0u6ohLe78f/y0pGsRg17q7oCwr49QPSB9bUi2P2ovbsF/is64C/Cc20yLaeKWJtZBOfYOwLuZmFub/QKrPv3EgnyriyPBeod7z4cxdK6YST2cyBlqwNRh/QPl3nMf0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713455082; c=relaxed/simple;
-	bh=O0LPMHNqdvsZFgS4l8ZlQ8y4bhAHdootSKDdUTNWdyo=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ovTfM8q0IPXl3MD9wBRQibAt7arNITUruJtWUV6qcXfb3HsaZFjWFuyAw3Q5Uy8Vz93RpII1nbIKzZBsW8nFxqaMj7i2zfmVtzWVUtIxOwX3kwWtc0YUiBWpx8qiQ39gTB9sJREiraYAqMN61psKi24glM3w5CHjc7Lmju0jLIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3D447339;
-	Thu, 18 Apr 2024 08:45:08 -0700 (PDT)
-Received: from donnerap.arm.com (donnerap.manchester.arm.com [10.32.100.28])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D26093F738;
-	Thu, 18 Apr 2024 08:44:37 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Yangtao Li <tiny.windzz@gmail.com>,
-	Viresh Kumar <vireshk@kernel.org>,
-	Nishanth Menon <nm@ti.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+	s=arc-20240116; t=1713455205; c=relaxed/simple;
+	bh=K6H40zZOBruNXEKy+mLBxL40J3Voj2XWEqqGuvJ9w94=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VfVRCHVMHNoh9wGLSl4uMOSmJROR8cKJdQYUjvElGmsW/wkiKcZqQx570pEsg6O15wwQ7y12722j5dbSyH0ZIEE2auO+fa1uiNhnzkJqgCa0Lb2JpDB8ZnebOYXznVgx5eOrAws7/H/yqow9cd68DaSZSgyBnyD5QDfhW7jmF8g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=mNiKJAJD; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mNiKJAJD"
+Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2A03C802;
+	Thu, 18 Apr 2024 17:45:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1713455153;
+	bh=K6H40zZOBruNXEKy+mLBxL40J3Voj2XWEqqGuvJ9w94=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mNiKJAJDsTkJYMYK4ZtsZ9zlV7xPYE85xk9V7yAnZZ4lXnvj+UhwJ4fKqYaFra0Xc
+	 2eBi44CBZWoMWyMkwDoCJV3GUcE9zfI7hzMI60oHIg/o5NGSS92iXbFgMGqv+gOkZe
+	 2N/SspWfXOLe5x5IbsUKTfY8A/Ga1vjvyZkxLsrw=
+Date: Thu, 18 Apr 2024 18:46:33 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>,
+	Martin Tuma <martin.tuma@digiteqautomotive.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>
-Cc: linux-pm@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	Brandon Cheo Fusi <fusibrandon13@gmail.com>,
-	Martin Botka <martin.botka@somainline.org>,
-	Martin Botka <martin.botka1@gmail.com>,
-	Chris Morgan <macroalpha82@gmail.com>,
-	Ryan Walklin <ryan@testtoast.com>
-Subject: [PATCH v5 8/8] arm64: dts: allwinner: h616: enable DVFS for all boards
-Date: Thu, 18 Apr 2024 16:44:08 +0100
-Message-Id: <20240418154408.1740047-9-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240418154408.1740047-1-andre.przywara@arm.com>
-References: <20240418154408.1740047-1-andre.przywara@arm.com>
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
+	Abylay Ospan <aospan@netup.ru>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Pavel Machek <pavel@ucw.cz>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	Oleg Drokin <green@linuxhacker.ru>
+Subject: Re: [PATCH 00/35] media: Fix coccinelle warning/errors
+Message-ID: <20240418154633.GD31776@pendragon.ideasonboard.com>
+References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
+ <a003494c-a1a9-4fcd-83d8-766a75d6bbb2@moroto.mountain>
+ <20240417155112.GQ12561@pendragon.ideasonboard.com>
+ <CANiDSCs_qOXkhzuL+cFhpw0hvFMwU0TYyN2B5ZdAStb96TTKFA@mail.gmail.com>
+ <20240418105310.GV12561@pendragon.ideasonboard.com>
+ <CANiDSCuS3KQK9H37sDZJ+mcqheNSh7NBwchS3dPccVXcPTSNRA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CANiDSCuS3KQK9H37sDZJ+mcqheNSh7NBwchS3dPccVXcPTSNRA@mail.gmail.com>
 
-With the DT bindings now describing the format of the CPU OPP tables, we
-can include the OPP table in each board's .dts file, and specify the CPU
-power supply.
-This allows to enable DVFS, and get up to 50% of performance benefit in
-the highest OPP, or up to 60% power savings in the lowest OPP, compared
-to the fixed 1GHz @ 1.0V OPP we are running in by default at the moment.
+Hi Ricardo,
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- .../boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi      | 5 +++++
- arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts | 5 +++++
- arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts       | 5 +++++
- .../boot/dts/allwinner/sun50i-h618-longan-module-3h.dtsi     | 5 +++++
- .../arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts | 5 +++++
- arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts | 5 +++++
- .../boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts     | 5 +++++
- 7 files changed, 35 insertions(+)
+On Thu, Apr 18, 2024 at 04:51:06PM +0200, Ricardo Ribalda wrote:
+> On Thu, 18 Apr 2024 at 12:53, Laurent Pinchart wrote:
+> > On Wed, Apr 17, 2024 at 06:19:14PM +0200, Ricardo Ribalda wrote:
+> > > On Wed, 17 Apr 2024 at 17:51, Laurent Pinchart wrote:
+> > > > On Tue, Apr 16, 2024 at 11:47:17AM +0300, Dan Carpenter wrote:
+> > > > > In my opinion, it's better to just ignore old warnings.
+> > > >
+> > > > I agree. Whatever checkers we enable, whatever code we test, there will
+> > > > always be false positives. A CI system needs to be able to ignore those
+> > > > false positives and only warn about new issues.
+> > >
+> > > We already have support for that:
+> > > https://gitlab.freedesktop.org/linux-media/media-ci/-/tree/main/testdata/static?ref_type=heads
+> >
+> > Those are manually written filters. Would it be possible to reduce the
+> > manual step to flagging something as a false positive, and have a
+> > machine build the filters ?
+> 
+> Do you expect that the list of exceptions will grow?
+> 
+> I hope that once the CI is in place we will fix the warnings before
+> they land in the tree.
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi
-index af421ba24ce0c..d12b01c5f41b6 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi
-@@ -6,6 +6,7 @@
- /dts-v1/;
- 
- #include "sun50i-h616.dtsi"
-+#include "sun50i-h616-cpu-opp.dtsi"
- 
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/interrupt-controller/arm-gic.h>
-@@ -62,6 +63,10 @@ wifi_pwrseq: wifi-pwrseq {
- 	};
- };
- 
-+&cpu0 {
-+	cpu-supply = <&reg_dcdc2>;
-+};
-+
- &mmc0 {
- 	vmmc-supply = <&reg_dldo1>;
- 	/* Card detection pin is not connected */
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-index b5d713926a341..a360d8567f955 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-@@ -6,12 +6,17 @@
- /dts-v1/;
- 
- #include "sun50i-h616-orangepi-zero.dtsi"
-+#include "sun50i-h616-cpu-opp.dtsi"
- 
- / {
- 	model = "OrangePi Zero2";
- 	compatible = "xunlong,orangepi-zero2", "allwinner,sun50i-h616";
- };
- 
-+&cpu0 {
-+	cpu-supply = <&reg_dcdca>;
-+};
-+
- &emac0 {
- 	allwinner,rx-delay-ps = <3100>;
- 	allwinner,tx-delay-ps = <700>;
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts
-index 959b6fd18483b..26d25b5b59e0f 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts
-@@ -6,6 +6,7 @@
- /dts-v1/;
- 
- #include "sun50i-h616.dtsi"
-+#include "sun50i-h616-cpu-opp.dtsi"
- 
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/interrupt-controller/arm-gic.h>
-@@ -32,6 +33,10 @@ reg_vcc5v: vcc5v {
- 	};
- };
- 
-+&cpu0 {
-+	cpu-supply = <&reg_dcdca>;
-+};
-+
- &ehci0 {
- 	status = "okay";
- };
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-longan-module-3h.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h618-longan-module-3h.dtsi
-index 8c1263a3939e7..e92d150aaf1c1 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h618-longan-module-3h.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-longan-module-3h.dtsi
-@@ -4,6 +4,11 @@
-  */
- 
- #include "sun50i-h616.dtsi"
-+#include "sun50i-h616-cpu-opp.dtsi"
-+
-+&cpu0 {
-+	cpu-supply = <&reg_dcdc2>;
-+};
- 
- &mmc2 {
- 	pinctrl-names = "default";
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts
-index 21ca1977055d9..6a4f0da972330 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts
-@@ -6,6 +6,7 @@
- /dts-v1/;
- 
- #include "sun50i-h616.dtsi"
-+#include "sun50i-h616-cpu-opp.dtsi"
- 
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/interrupt-controller/arm-gic.h>
-@@ -53,6 +54,10 @@ reg_vcc3v3: vcc3v3 {
- 	};
- };
- 
-+&cpu0 {
-+	cpu-supply = <&reg_dcdc2>;
-+};
-+
- &ehci1 {
- 	status = "okay";
- };
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
-index b3b1b8692125f..e1cd7572a14ce 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
-@@ -6,12 +6,17 @@
- /dts-v1/;
- 
- #include "sun50i-h616-orangepi-zero.dtsi"
-+#include "sun50i-h616-cpu-opp.dtsi"
- 
- / {
- 	model = "OrangePi Zero3";
- 	compatible = "xunlong,orangepi-zero3", "allwinner,sun50i-h618";
- };
- 
-+&cpu0 {
-+	cpu-supply = <&reg_dcdc2>;
-+};
-+
- &emac0 {
- 	allwinner,tx-delay-ps = <700>;
- 	phy-mode = "rgmii-rxid";
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts b/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts
-index a1d0cac4d2441..d6631bfe629fa 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts
-@@ -6,6 +6,7 @@
- /dts-v1/;
- 
- #include "sun50i-h616.dtsi"
-+#include "sun50i-h616-cpu-opp.dtsi"
- 
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/interrupt-controller/arm-gic.h>
-@@ -51,6 +52,10 @@ wifi_pwrseq: pwrseq {
- 	};
- };
- 
-+&cpu0 {
-+	cpu-supply = <&reg_dcdc2>;
-+};
-+
- &ehci0 {
- 	status = "okay";
- };
+Any static checker is bound to produce false positives. Some of them can
+be addressed by improving the checker, others by modifying the source
+code, but in some cases the first option would be too difficult and the
+second would reduce readability of the code. I thus thing the list of
+accepted false positives will grow over time.
+
+> > > But it would be great if those lists were as small as possible:
+> > >
+> > > - If we have a lot of warnings, two error messages can be combined and
+> > > will scape the filters
+> > > eg:
+> > > print(AAAA);
+> > > print(BBBB);
+> > > > AABBBAAB
+> > >
+> > > - The filters might hide new errors if they are too broad
+> > >
+> > >
+> > > Most of the patches in this series are simple and make a nicer code:
+> > > Eg the non return minmax() ,
+> > > Other patches show real integer overflows.
+> > >
+> > > Now that the patches are ready, let's bite the bullet and try to
+> > > reduce our technical debt.
+> > >
+> > > > > When code is new the warnings are going to be mostly correct.  The
+> > > > > original author is there and knows what the code does.  Someone has
+> > > > > the hardware ready to test any changes.  High value, low burden.
+> > > > >
+> > > > > When the code is old only the false positives are left.  No one is
+> > > > > testing the code.  It's low value, high burden.
+> > > > >
+> > > > > Plus it puts static checker authors in a difficult place because now
+> > > > > people have to work around our mistakes.  It creates animosity.
+> > > > >
+> > > > > Now we have to hold ourselves to a much higher standard for false
+> > > > > positives.  It sounds like I'm complaining and lazy, right?  But Oleg
+> > > > > Drokin has told me previously that I spend too much time trying to
+> > > > > silence false positives instead of working on new code.  He's has a
+> > > > > point which is that actually we have limited amount of time and we have
+> > > > > to make choices about what's the most useful thing we can do.
+> > > > >
+> > > > > So what I do and what the zero day bot does is we look at warnings one
+> > > > > time and we re-review old warnings whenever a file is changed.
+> > > > >
+> > > > > Kernel developers are very good at addressing static checker warnings
+> > > > > and fixing the real issues...  People sometimes ask me to create a
+> > > > > database of warnings which I have reviewed but the answer is that
+> > > > > anything old can be ignored.  As I write this, I've had a thought that
+> > > > > instead of a database of false positives maybe we should record a
+> > > > > database of real bugs to ensure that the fixes for anything real is
+> > > > > applied.
+
 -- 
-2.25.1
+Regards,
 
+Laurent Pinchart
