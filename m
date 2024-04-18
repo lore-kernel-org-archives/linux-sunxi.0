@@ -1,99 +1,88 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEAE01C17
-	for <linux-sunxi@lists.linux.dev>; Thu, 18 Apr 2024 00:08:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00BAB10FA;
+	Thu, 18 Apr 2024 00:48:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713398882; cv=none; b=kCXpKHk0KOSoilsDaQEW0kW7RWW2WLYZLZOn5Y8+vUdpkRj6EXG7vpUNZduUH6HwMq0xUEzMrQG68iw9gK0EdfaHWXhY79PCkDNMExtgjZgV4Lm4Bx7zEiatMrYFcl1xfi4hypweM+ROjCFDjMGkx5cZhc0X7tYCRGCvkOQeQGY=
+	t=1713401295; cv=none; b=RnKK7lWvwNCRYquKrD4sBsmeUDQRb48ab5E6C9wWRWgy2BFrAqBCbSPC6noOXG0mOpeOu40DjMIlkX0xIPdQ9ABlouvUTjsmu73uMXXr3D3WJzvKa4CEJ5KZ5VkVeMuq3SmFH9d73l40coIkTcllzr7Lp2CMpo95LDAeZkRfl38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713398882; c=relaxed/simple;
-	bh=pNMLP2XljnVQrqZ2lrSd7qiYZqdaEDsGRxIUHbQ8coc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=JtRBJBNQKo23rFyUWvn8XM5ZE4SvTEt2FksK/SA7ve8tcfTsNGYuI6NMgN5FE2M/ztlmjQij46ebvnRMttMQIbbtGue+iwH8F7Nlc7XYLXdZgWgZhFn6mNgQVj+i0t9wD4PO/2MRFK5vCCXYAIN2qJrE0tT2Phw9Y5I2YbQL3dw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 25912DA7;
-	Wed, 17 Apr 2024 17:08:28 -0700 (PDT)
-Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 622763F64C;
-	Wed, 17 Apr 2024 17:07:58 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Chen-Yu Tsai <wens@csie.org>,
-	Lee Jones <lee@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Ryan Walklin <ryan@testtoast.com>,
-	Chris Morgan <macroalpha82@gmail.com>
-Subject: [PATCH v2 5/5] regulator: axp20x: AXP717: Add boost regulator
-Date: Thu, 18 Apr 2024 01:07:36 +0100
-Message-Id: <20240418000736.24338-6-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.35.8
-In-Reply-To: <20240418000736.24338-1-andre.przywara@arm.com>
-References: <20240418000736.24338-1-andre.przywara@arm.com>
+	s=arc-20240116; t=1713401295; c=relaxed/simple;
+	bh=xPnahfmQIFca6y8E5nvS97ElmYlbcx7YSzNHDH6T6YY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=uqw9tst6eaeZjLnfSy1Km0BrcSsW1xD5ZpAnINkVKiftLx2+mk0NPrjHInK03uhaHC5PeE2N2ZtKB/SCzczb6m2z/H3HLGdsRh0yJ8hjPlL6ozosOOdxOCrf+dQB+/Z413TnwEPDaHvmG0nGpdnBN1NWKU0HUQuK+dFmnMY35iI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gls3g7qO; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gls3g7qO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8C1EC116B1;
+	Thu, 18 Apr 2024 00:48:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713401294;
+	bh=xPnahfmQIFca6y8E5nvS97ElmYlbcx7YSzNHDH6T6YY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=gls3g7qOVJtjW4NLZUhz6lIM1d8H9jORz0wp7oR86eulbx0ggQzxPdhjyqqD0p5ft
+	 4hUH68K/8ukL5SJvEGmduaayieszdweSbHH2/p1CT8cgrcRWRe2ikoY6WisBp41uF9
+	 umnrW2xQdFhJFfYepc6i84c7DEQq2t6bJAM0+WaB43o4Y5Hibs7xiO+/f/KsqhNrTg
+	 rTSt81pGVa+KF2F4u1qFpn2rjIrRCI0RLsujCcvhKbOqgDXR0S34W4NcusEyE87ICd
+	 YNPZ+ANddqKxPerK69JGnvPMgwcFq3cKx6jHpyZpZ83mosIy7o1jPQWtqcTJwtLtYG
+	 KIHdVKY/eo+LA==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, John Watts <contact@jookia.org>
+Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ kernel test robot <lkp@intel.com>
+In-Reply-To: <20240417-sunxi_s32_fix-v1-1-d82e451565c0@jookia.org>
+References: <20240417-sunxi_s32_fix-v1-1-d82e451565c0@jookia.org>
+Subject: Re: [PATCH] ASoC: sunxi: sun4i-i2s: Fix pcm_formats type
+ specification
+Message-Id: <171340129170.1712879.4402908289231209104.b4-ty@kernel.org>
+Date: Thu, 18 Apr 2024 09:48:11 +0900
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev
 
-The AXP717 also contains an adjustable boost regulator, to provide the
-5V USB VBUS rail when running on battery.
+On Wed, 17 Apr 2024 15:14:43 +1000, John Watts wrote:
+> pcm_formats should be a u64 as it is a SNDRV_PCM_FMTBIT_* not a
+> SNDRV_PCM_FORMAT_*.
+> 
+> Also fix a small grammar error while we're here.
+> 
+> 
 
-Add the regulator description that states the voltage range this
-regulator can cover.
+Applied to
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-Reviewed-by: John Watts <contact@jookia.org>
----
- drivers/regulator/axp20x-regulator.c | 4 ++++
- include/linux/mfd/axp20x.h           | 1 +
- 2 files changed, 5 insertions(+)
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-diff --git a/drivers/regulator/axp20x-regulator.c b/drivers/regulator/axp20x-regulator.c
-index f3c447ecdc3bf..20bef3971feca 100644
---- a/drivers/regulator/axp20x-regulator.c
-+++ b/drivers/regulator/axp20x-regulator.c
-@@ -143,6 +143,7 @@
- #define AXP717_DCDC3_NUM_VOLTAGES	103
- #define AXP717_DCDC_V_OUT_MASK		GENMASK(6, 0)
- #define AXP717_LDO_V_OUT_MASK		GENMASK(4, 0)
-+#define AXP717_BOOST_V_OUT_MASK		GENMASK(7, 4)
- 
- #define AXP803_PWR_OUT_DCDC1_MASK	BIT_MASK(0)
- #define AXP803_PWR_OUT_DCDC2_MASK	BIT_MASK(1)
-@@ -834,6 +835,9 @@ static const struct regulator_desc axp717_regulators[] = {
- 	AXP_DESC(AXP717, CPUSLDO, "cpusldo", "vin1", 500, 1400, 50,
- 		 AXP717_CPUSLDO_CONTROL, AXP717_LDO_V_OUT_MASK,
- 		 AXP717_LDO1_OUTPUT_CONTROL, BIT(4)),
-+	AXP_DESC(AXP717, BOOST, "boost", "vin1", 4550, 5510, 64,
-+		 AXP717_BOOST_CONTROL, AXP717_BOOST_V_OUT_MASK,
-+		 AXP717_MODULE_EN_CONTROL, BIT(4)),
- };
- 
- /* DCDC ranges shared with AXP813 */
-diff --git a/include/linux/mfd/axp20x.h b/include/linux/mfd/axp20x.h
-index 4dad54fdf67ee..5e86b976c4caa 100644
---- a/include/linux/mfd/axp20x.h
-+++ b/include/linux/mfd/axp20x.h
-@@ -486,6 +486,7 @@ enum {
- 	AXP717_CLDO3,
- 	AXP717_CLDO4,
- 	AXP717_CPUSLDO,
-+	AXP717_BOOST,
- 	AXP717_REG_ID_MAX,
- };
- 
--- 
-2.35.8
+Thanks!
+
+[1/1] ASoC: sunxi: sun4i-i2s: Fix pcm_formats type specification
+      commit: 9be51470d514eb20d4ce29684cf933ef1c5fff48
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
