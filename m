@@ -1,88 +1,99 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FE4183CAE
-	for <linux-sunxi@lists.linux.dev>; Wed, 17 Apr 2024 22:59:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95DE410FA
+	for <linux-sunxi@lists.linux.dev>; Thu, 18 Apr 2024 00:07:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713394743; cv=none; b=Tg3Nv+7KabHHdYaA4usJYJWGa84Q6GjF0uy5Pb81AqSyRrvpyYEhLmkshxSho+O43U2bS1CEP3S7UxSn54tCAH+p/sDlrU6iw33sVkZFQDp+AcZer8xD2lkdNYKIcsGzQBbW/FlPjFA/WmcRnzArmX9UQRCS52/lgtf22DPTxFs=
+	t=1713398872; cv=none; b=S9EiULo1IC8M6pM77LP1lLDLEMvIk6M58TC98Qno0crjKwoWMk3XgC9gjl4xljL6V1tq5zNishzsUxYD/bWRqnrVtstk/OecaAE8zEoq35r0/YPv9Bi3dcQ1DST5fq/XYXNEF8qjQ26rFhprY6kwyF2cQTSeBP5ebrFr86OFQxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713394743; c=relaxed/simple;
-	bh=6EV6uarjLYYDBWbSCEP741zg032Z+wl87/udIspl27U=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dZD+cpp78Ux3vxxpHYtre32YUDE7DSpKeQ/VZ/OlQ9yTJXogh0bE/jvpyDfYSg3mmUERVjDUmE4o6T4PbPDg8Ef6QamT5iEBJztUwuE157kCjZHXKhEZ+jm7e4XaXHYU6KsPW2Ea/06HmQNVI97zOmTFX3L3hx4avSk6mZLlEnQ=
+	s=arc-20240116; t=1713398872; c=relaxed/simple;
+	bh=KCFtt4+CJgY99XrUpZ/t3/3glu1QWpH5Pg1MJ7tRmVs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=lESyRCvu7gV15hljmHlnBeB85M7g3wVILdbJu6H2el7Kno6JhSz7+6UOgvBRgC7lDv+Mq0BIuc/MCLl5/QqYYBzU0swjXGEJVPWDJaqOKjhqIRZv930mkM4YFDKOdO/c6Ok/OXoJ10XvHC1P9R/diKpqtb1DnneAAklbgzMbkRU=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 19F50339;
-	Wed, 17 Apr 2024 15:59:29 -0700 (PDT)
-Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4CD213F738;
-	Wed, 17 Apr 2024 15:58:59 -0700 (PDT)
-Date: Wed, 17 Apr 2024 23:58:50 +0100
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 82804339;
+	Wed, 17 Apr 2024 17:08:16 -0700 (PDT)
+Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BCFD43F64C;
+	Wed, 17 Apr 2024 17:07:46 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
-To: Chris Morgan <macroalpha82@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org, linux-iio@vger.kernel.org,
- p.zabel@pengutronix.de, sboyd@kernel.org, mturquette@baylibre.com,
- samuel@sholland.org, jernej.skrabec@gmail.com, wens@csie.org,
- conor+dt@kernel.org, krzk+dt@kernel.org, robh@kernel.org, Chris Morgan
- <macromorgan@hotmail.com>
-Subject: Re: [PATCH 3/3] arm64: dts: allwinner: h616: Add GPADC device node
-Message-ID: <20240417235850.15ab1a62@minigeek.lan>
-In-Reply-To: <20240417170423.20640-4-macroalpha82@gmail.com>
-References: <20240417170423.20640-1-macroalpha82@gmail.com>
-	<20240417170423.20640-4-macroalpha82@gmail.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+To: Chen-Yu Tsai <wens@csie.org>,
+	Lee Jones <lee@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Ryan Walklin <ryan@testtoast.com>,
+	Chris Morgan <macroalpha82@gmail.com>
+Subject: [PATCH v2 0/5] regulator: Fix AXP717 PMIC support
+Date: Thu, 18 Apr 2024 01:07:31 +0100
+Message-Id: <20240418000736.24338-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.35.8
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Wed, 17 Apr 2024 12:04:23 -0500
-Chris Morgan <macroalpha82@gmail.com> wrote:
+This is v2 of the fixes to the AXP717 PMIC support series. Lee put the
+original patches in an immutable branch already, so these here go on top.
+Patch 1 is new in v2, and adds the IRQ status and acknowledge registers
+to the writable range. Thanks to Chris for pointing this out.
+Patch 2 contains fixes to the regulator descriptions: the LDOs had the
+wrong supply source, and two numbers were wrong. The datasheet describes
+the voltage ranges and register values differently from what our macros
+expect, in a way that literally begs for off-by-ones, so here you go.
+Also there is an actual wrong number in the datasheet, add a comment to
+document this.
+I don't know if that's still feasible, but those two patches would be a
+good candidate to squash into the patches that they fix.
 
-> From: Chris Morgan <macromorgan@hotmail.com>
-> 
-> The H616 has a GPADC controller which is identical to the one found on
-> the D1/T113s/R329/T507 SoCs.
+The other three patches add the "boost" regulator, which is meant to
+provide the 5V USB VBUS power when operating from the battery. It's the
+usual trinity of binding/mfd/regulator patches.
+Again this could be squashed into the respective patches from the
+original series, if people agree.
 
-Compared against the manual:
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+Please have a look and test!
+
+Based on mfd/ib-mfd-regulator-6.10, as detailed below.
 
 Cheers,
 Andre
 
+Changelog v1 .. v2:
+- add tags
+- add patch to add missing IRQ ack register range
+- add comment to document bug in datasheet
 
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> ---
->  arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> index b2e85e52d1a1..3da37948b89f 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> @@ -581,6 +581,17 @@ spdif: spdif@5093000 {
->  			status = "disabled";
->  		};
->  
-> +		gpadc: adc@5070000 {
-> +			compatible = "allwinner,sun50i-h616-gpadc",
-> +				     "allwinner,sun20i-d1-gpadc";
-> +			reg = <0x05070000 0x400>;
-> +			clocks = <&ccu CLK_BUS_GPADC>;
-> +			resets = <&ccu RST_BUS_GPADC>;
-> +			interrupts = <GIC_SPI 18 IRQ_TYPE_LEVEL_HIGH>;
-> +			status = "disabled";
-> +			#io-channel-cells = <1>;
-> +		};
-> +
->  		ths: thermal-sensor@5070400 {
->  			compatible = "allwinner,sun50i-h616-ths";
->  			reg = <0x05070400 0x400>;
+Andre Przywara (5):
+  mfd: axp20x: AXP717: Fix missing IRQ status registers range
+  regulator: axp20x: AXP717: fix LDO supply rails and off-by-ones
+  dt-bindings: mfd: x-powers,axp152: add boost regulator
+  mfd: axp20x: AXP717: Add support for boost regulator
+  regulator: axp20x: AXP717: Add boost regulator
+
+ .../bindings/mfd/x-powers,axp152.yaml         |  2 +-
+ drivers/mfd/axp20x.c                          |  3 ++
+ drivers/regulator/axp20x-regulator.c          | 37 ++++++++++++-------
+ include/linux/mfd/axp20x.h                    |  3 ++
+ 4 files changed, 30 insertions(+), 15 deletions(-)
+
+
+base-commit: 4cece764965020c22cff7665b18a012006359095
+prerequisite-patch-id: 2b5fb10f68e0994071fc4c7dce73db7047c23220
+prerequisite-patch-id: 5d0735de888d155b2c1cdb814e852a5852a17ec7
+prerequisite-patch-id: 29c30894b4bf0b9e1e71de065cabbd842505e248
+prerequisite-patch-id: 0ab87cbf7362b6dc2d577d2264eb9574be47b5f6
+-- 
+2.35.8
 
