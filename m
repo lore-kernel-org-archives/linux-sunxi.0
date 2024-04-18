@@ -1,173 +1,82 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8384815E5B6;
-	Thu, 18 Apr 2024 11:04:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDEAD15E5AB
+	for <linux-sunxi@lists.linux.dev>; Thu, 18 Apr 2024 11:16:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713438292; cv=none; b=LkoESuy9BWbBYA/6/lEWsx0qgQoz1yTzh5NCWIzMukkJelF9O0chR2dQ+3YieZhx3SO1SoHOw1Ca8I7+QGsntZ0+GP5tCDJlPeg3C7C5yJ6W0yYKxZIICAHZjSwatBobZ1T9Dl4cLK9P8EJp368agrVzPi/h8Youin6Tgt7xxxQ=
+	t=1713439011; cv=none; b=h23pFigJ4yk19Z8s9+UVL1OGZSQ5QH9fcNr3D9q4jLls8UsMprJ7BYolaf+6TFRvLdU6cI+MbuqVKtCEOkENFU20PQ7/1vmFdd/vMHurwHLOIwjnKlziF90LsTx2x2iAC7I5B5WkI0UIxvdzUC9HrWW2fabCYOsRa4ppmw/mUXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713438292; c=relaxed/simple;
-	bh=nVrJ30MzRcVeLHpwfXp7hOiRaAkKYzwTLRPhrFm0ixw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=alSGiumo+V9k2YRcQ2BaJNgIho4VRcDW+xSghTRst7h4GPLohSpZ3he6b4n3Cc4gEYjui15HX5qf7cU+Po39AsxsR6EQT3yatq8JQd3FJlJtz70LsuE/DDLNYqhpyw5VhkN40D5KnRpjQdgpebrfJyVOHa5POm7D0Udh7m229Sk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZGildrEZ; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZGildrEZ"
-Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8ACEBC8E;
-	Thu, 18 Apr 2024 13:03:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1713438237;
-	bh=nVrJ30MzRcVeLHpwfXp7hOiRaAkKYzwTLRPhrFm0ixw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZGildrEZ8PscbwJPkrVEQ9AVQQ5ZqsFtIzLjmF9plRRPHNE6nYXij+2WJ4wHeQ/Vt
-	 tbErl0bgSpuTcVcaqqltDwf7r27d4aQqy4R23+6SvyevGzwbJqe+dJwie8wJOCDzuq
-	 WkVX5b8VtifCgZq58ru+v0enMsxJOUVui5DkYPqU=
-Date: Thu, 18 Apr 2024 14:04:38 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Martin Tuma <martin.tuma@digiteqautomotive.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Hugues Fruchet <hugues.fruchet@foss.st.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
-	Abylay Ospan <aospan@netup.ru>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Dmitry Osipenko <digetx@gmail.com>,
-	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Jacopo Mondi <jacopo+renesas@jmondi.org>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Pavel Machek <pavel@ucw.cz>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 03/35] media: uvcvideo: Refactor iterators
-Message-ID: <20240418110438.GX12561@pendragon.ideasonboard.com>
-References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
- <20240415-fix-cocci-v1-3-477afb23728b@chromium.org>
+	s=arc-20240116; t=1713439011; c=relaxed/simple;
+	bh=OyCllvAsE01qdFgOdvtS6usRklZOgOwrr5mtH7cN8Yc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NhzmYlBfWI7NgxwOIDGzX4io6KfWG5wZOoGJqAJMdvsehZYCM1tMKNXemAgBpQPcwRSlP7qJA3aop7h9zrWj3OFnCgm+sx1uXI0+gPHb+mlwylAYgIiEgj0nNdoSdfCBxRvPDA3EJdRUv8jIV3GJQbNt/OFBzSLbtgXtBF9jErg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E13D2339;
+	Thu, 18 Apr 2024 04:17:16 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5A2CB3F792;
+	Thu, 18 Apr 2024 04:16:46 -0700 (PDT)
+Date: Thu, 18 Apr 2024 12:16:42 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: "Ryan Walklin" <ryan@testtoast.com>, "Viresh Kumar"
+ <viresh.kumar@linaro.org>
+Cc: "Yangtao Li" <tiny.windzz@gmail.com>, "Viresh Kumar"
+ <vireshk@kernel.org>, "Nishanth Menon" <nm@ti.com>, "Stephen Boyd"
+ <sboyd@kernel.org>, "Rob Herring" <robh+dt@kernel.org>, "Krzysztof
+ Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, "Conor Dooley"
+ <conor+dt@kernel.org>, "Chen-Yu Tsai" <wens@csie.org>, "Jernej Skrabec"
+ <jernej.skrabec@gmail.com>, "Samuel Holland" <samuel@sholland.org>, "Rafael
+ J . Wysocki" <rafael@kernel.org>, linux-pm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, "Brandon Cheo Fusi"
+ <fusibrandon13@gmail.com>, "Martin Botka" <martin.botka@somainline.org>,
+ "Martin Botka" <martin.botka1@gmail.com>, "Chris Morgan"
+ <macroalpha82@gmail.com>, "Mark Rutland" <mark.rutland@arm.com>, "Lorenzo
+ Pieralisi" <lpieralisi@kernel.org>, "Sudeep Holla" <sudeep.holla@arm.com>
+Subject: Re: [PATCH v4 0/8] cpufreq: sun50i: Add Allwinner H616 support
+Message-ID: <20240418121642.53208fab@donnerap.manchester.arm.com>
+In-Reply-To: <0e021133-f8c1-457d-9079-d9c972e0e69b@app.fastmail.com>
+References: <20240329141311.27158-1-andre.przywara@arm.com>
+	<20240404064027.shjqvqih7s5rnv2i@vireshk-i7>
+	<0e021133-f8c1-457d-9079-d9c972e0e69b@app.fastmail.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240415-fix-cocci-v1-3-477afb23728b@chromium.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Ricardo,
+On Thu, 04 Apr 2024 20:44:02 +1300
+"Ryan Walklin" <ryan@testtoast.com> wrote:
 
-Thank you for the patch.
+Hi Viresh, Ryan,
 
-On Mon, Apr 15, 2024 at 07:34:20PM +0000, Ricardo Ribalda wrote:
-> Avoid using the iterators after the list_for_each() constructs.
-> This patch should be a NOP, but makes cocci, happier:
+> On Thu, 4 Apr 2024, at 7:40 PM, Viresh Kumar wrote:
+> > Is it okay to merge all the changes via the cpufreq tree ?  
 > 
-> drivers/media/usb/uvc/uvc_ctrl.c:1861:44-50: ERROR: invalid reference to the index variable of the iterator on line 1850
-> drivers/media/usb/uvc/uvc_ctrl.c:2195:17-23: ERROR: invalid reference to the index variable of the iterator on line 2179
+> I have tested this series with an H700-based board, and have at least one speed-bin (1.032GHz) is not supported although the governor attempts to enable it based on the opp-supported-hw bitmask, and I am unable to reach the 1.5GHz bin at 1.16v (or higher) despite it working on the vendor BSP (kernel panic at boot if enabled), so this may need some slight rework.
 > 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/usb/uvc/uvc_ctrl.c | 24 +++++++++++++-----------
->  1 file changed, 13 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> index e59a463c2761..a4a987913430 100644
-> --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> @@ -1850,16 +1850,18 @@ int __uvc_ctrl_commit(struct uvc_fh *handle, int rollback,
->  	list_for_each_entry(entity, &chain->entities, chain) {
+> I have reached out to Andre on IRC to debug.
 
-If we really want to ensure the iterator won't be used after the loop,
-it could be declared in the loop statement itself, now that the kernel
-has switched to a newer C version.
+So those test results look odd, especially since it seems to work on the
+BSP. I don't want to jeopardise this series over the oddity on this
+variant, so I am dropping the H700 specific speed bin for now. Not
+directly matching any known SoC variant now, it will fall back to bin 0,
+which gives us some safe values. We lose the highest OPP (1.5 GHz),
+but this was exactly the problematic one in the testing, so it's not a
+great loss.
+Once we have worked out what's really going on there, we can easily add a
+well tested OPP set later, to get the 1.5 GHz back.
 
->  		ret = uvc_ctrl_commit_entity(chain->dev, entity, rollback,
->  					     &err_ctrl);
-> -		if (ret < 0)
-> +		if (ret < 0) {
-> +			if (ctrls)
-> +				ctrls->error_idx =
-> +					uvc_ctrl_find_ctrl_idx(entity, ctrls,
-> +							       err_ctrl);
->  			goto done;
-> +		}
->  	}
->  
->  	if (!rollback)
->  		uvc_ctrl_send_events(handle, ctrls->controls, ctrls->count);
->  done:
-> -	if (ret < 0 && ctrls)
-> -		ctrls->error_idx = uvc_ctrl_find_ctrl_idx(entity, ctrls,
-> -							  err_ctrl);
->  	mutex_unlock(&chain->ctrl_mutex);
->  	return ret;
->  }
-> @@ -2165,7 +2167,7 @@ static int uvc_ctrl_init_xu_ctrl(struct uvc_device *dev,
->  int uvc_xu_ctrl_query(struct uvc_video_chain *chain,
->  	struct uvc_xu_control_query *xqry)
->  {
-> -	struct uvc_entity *entity;
-> +	struct uvc_entity *entity, *iter;
->  	struct uvc_control *ctrl;
->  	unsigned int i;
->  	bool found;
-> @@ -2175,16 +2177,16 @@ int uvc_xu_ctrl_query(struct uvc_video_chain *chain,
->  	int ret;
->  
->  	/* Find the extension unit. */
-> -	found = false;
-> -	list_for_each_entry(entity, &chain->entities, chain) {
-> -		if (UVC_ENTITY_TYPE(entity) == UVC_VC_EXTENSION_UNIT &&
-> -		    entity->id == xqry->unit) {
-> -			found = true;
-> +	entity = NULL;
-> +	list_for_each_entry(iter, &chain->entities, chain) {
+Will send a v5 shortly.
 
-Same here, iter could be declared in the loop.
+Cheers,
+Andre
 
-> +		if (UVC_ENTITY_TYPE(iter) == UVC_VC_EXTENSION_UNIT &&
-> +		    iter->id == xqry->unit) {
-> +			entity = iter;
->  			break;
->  		}
->  	}
->  
-> -	if (!found) {
-> +	if (!entity) {
->  		uvc_dbg(chain->dev, CONTROL, "Extension unit %u not found\n",
->  			xqry->unit);
->  		return -ENOENT;
-> 
 
--- 
-Regards,
-
-Laurent Pinchart
