@@ -1,211 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from a.peacevolution.org (a.peacevolution.org [206.189.193.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 693711494B2;
-	Thu, 18 Apr 2024 16:33:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F32721649D1
+	for <linux-sunxi@lists.linux.dev>; Thu, 18 Apr 2024 17:50:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.193.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713458037; cv=none; b=Rrp5ZABkFOwsfUL+57W6fUzxeDb8Y2etzWEBqe7YWh8GNZjpbCRb/tCb4DcCQLhsdpskinmz53okxzu1teVubZWuim7m9G5rA+kr3sb5Y4WfKqu9x6vw8pAGBHgHq7xjgME1+Y6yUUkbEoEiitA7sx4UiJ7CjENbxQthpGBZXbE=
+	t=1713462658; cv=none; b=QF6xlZwM0wlt36le8IEhSSCjMF5MEHDK1tKtnslE98zQbogJB3f3SHrGhoMdwchm+nFBidncFUfI+3ET/QXhvGMldzTYULptHdMRwCQTZEYvmKIE6tTl4qT10i3bfPocrlR3oJTEzymHmQIpIoOU5No3c5ZDB42L2CFwzxYkjXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713458037; c=relaxed/simple;
-	bh=lArloNKVKGEPKb6sLd3btLeNdS79IuMsK6F6Ge4DTP4=;
+	s=arc-20240116; t=1713462658; c=relaxed/simple;
+	bh=rNe8Fy7Y8K2hLaFXzMJJFlHwm2uFh2o7gtVK7iibMas=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dxOGdD0Z1OIA4GumObY5RTcEZsnlZ4iQMEl0jKZZkUyCFfe/zAl1BJy6z88J5n1+HUaaFYIJBnwVJchisYK1wvkiE56N5s1OI9bVDzMWn1o28YYGooNDSS3lszzdyppNgTRgODieuvpSRE6uToMNq6SizQAC1yE4Tec+jEeN/Ck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SmzhN8RY; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=pi+rUf/bPmCQ5HVbtgTSotIG1D2NFTpy2LMzVFJ40gy5iVFsrt7vIFK+Pt2/ARRbfEZkF+RkJcv3AnkXre81X+jVFkw3hpZIzKLvF+Fz9anA7gUQpQIdgsmrdSCSloO4mMWOkIDi28z+LJUgEXxQch8KvsN8hMlD07W8fPqbB10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org; spf=pass smtp.mailfrom=peacevolution.org; dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b=dR1AH/e9; arc=none smtp.client-ip=206.189.193.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=peacevolution.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SmzhN8RY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A046BC113CC;
-	Thu, 18 Apr 2024 16:33:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713458037;
-	bh=lArloNKVKGEPKb6sLd3btLeNdS79IuMsK6F6Ge4DTP4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SmzhN8RYacSUvgmQeoSoei5bqe+spnwnlZfh3M/5/2LphAsoTy3X4yDNKUr+kZjOP
-	 nI0GUpxnlrDcVtXz+2C2GDMRMcaYoupRC+vwqbixVNYW4O5NZRoV9ROmQp6WigP2Fl
-	 t9vpZxB85aIoGbE8IH878QDLPSg7WdqjGxSQKAsQmNervesyvQvVJdtcVT92gND8Hp
-	 OrEs566wYq0tBLwzGRcI7M9vwdTElQ+NWCqgQTLv19g7AafiALvoigjgN73I3vj8eC
-	 5h8fooNygIBvJ6jTi9EYpXgRpuQDti2BMJsvmDnne0PGqJSFdCPbNGETCdelbl4o+J
-	 /I4Qof48Leebw==
-Date: Thu, 18 Apr 2024 18:33:54 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
-	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v11 09/28] drm/display: hdmi: Add HDMI compute clock
- helper
-Message-ID: <20240418-spiritual-loyal-hornet-2fbbfd@houat>
-References: <20240326-kms-hdmi-connector-state-v11-0-c5680ffcf261@kernel.org>
- <20240326-kms-hdmi-connector-state-v11-9-c5680ffcf261@kernel.org>
- <Zh6Ars8z1ESz-LQO@intel.com>
+	dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b="dR1AH/e9"
+Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
+	by a.peacevolution.org (Postfix) with ESMTPA id 56A0444E48;
+	Thu, 18 Apr 2024 17:50:54 +0000 (UTC)
+Date: Thu, 18 Apr 2024 13:50:52 -0400
+From: Aren <aren@peacevolution.org>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Ondrej Jirman <megi@xff.cz>, 
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, linux-iio@vger.kernel.org, phone-devel@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	Willow Barraco <contact@willowbarraco.fr>
+Subject: Re: [PATCH 2/4] iio: light: stk3310: Implement vdd supply and power
+ it off during suspend
+Message-ID: <fvuaq2yo4jh6jc3cklkvatr5r5du2jzmqblvvkpkpmxdt7e2ys@345lrhtnipfw>
+References: <20240414175300.956243-1-aren@peacevolution.org>
+ <20240414175716.958831-1-aren@peacevolution.org>
+ <20240414175716.958831-2-aren@peacevolution.org>
+ <CAHp75VdZavToGYqLYnkKYt53HXoQxXnRER5Cn5b2==gWTvkAWQ@mail.gmail.com>
+ <xxeg3as5m5vmmu6fbjujcnvchrerxs2rr42nloirwsktbv4r57@vpxtxblxmspl>
+ <CAHp75Veoibnk2pYuAY-T+u=8t7ackQ8zBjxSHcWb1AeHnq84yQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="wahmhb7ukfwggb5k"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Zh6Ars8z1ESz-LQO@intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHp75Veoibnk2pYuAY-T+u=8t7ackQ8zBjxSHcWb1AeHnq84yQ@mail.gmail.com>
+X-Spamd-Bar: /
+Authentication-Results: auth=pass smtp.auth=aren@peacevolution.org smtp.mailfrom=aren@peacevolution.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=peacevolution.org;
+	s=dkim; t=1713462655;
+	h=from:subject:date:message-id:to:cc:mime-version:content-type:content-transfer-encoding:in-reply-to:references;
+	bh=CpuYA2U5zadpTrpInLy8Sg85CTz03F2QsvGOdLrnGeA=;
+	b=dR1AH/e9KzKYSyF/GUm1Q6nVED2/EsOuZ8Eg5UhDFIPVJCfWquLu9qcFxv4fT5yrlV+xzm
+	ojtYymcNuCN6xCcAxKJDRHfnSRZQX8u4hFFQQCvSlHIUfPI4922XfZoe92YYAWUBmUogiU
+	w+yBRCWIPEw/51bWz81gYO3NGCwo6XU=
 
+On Thu, Apr 18, 2024 at 06:56:09PM +0300, Andy Shevchenko wrote:
+> On Thu, Apr 18, 2024 at 6:06 PM Aren <aren@peacevolution.org> wrote:
+> > On Mon, Apr 15, 2024 at 05:04:53PM +0300, Andy Shevchenko wrote:
+> > > On Sun, Apr 14, 2024 at 8:57 PM Aren Moynihan <aren@peacevolution.org> wrote:
+> 
+> ...
+> 
+> > > >         stk3310_set_state(iio_priv(indio_dev), STK3310_STATE_STANDBY);
+> > > > +       if (data->vdd_reg)
+> > > > +               regulator_disable(data->vdd_reg);
+> > >
+> > > I forgot to check the order of freeing resources, be sure you have no
+> > > devm_*() releases happening before this call.
+> >
+> > If I understand what you're saying, this should be fine. The driver just
+> > uses devm to clean up acquired resources after remove is called. Or am I
+> > missing something and resources could be freed before calling
+> > stk3310_remove?
+> 
+> I'm not objecting to that. The point here is that the resources should
+> be freed in the reversed order. devm-allocated resources are deferred
+> to be freed after the explicit driver ->remove() callback. At the end
+> it should not interleave with each other, i.o.w. it should be
+> probe: devm followed by non-devm
+> remove: non-devm only.
 
---wahmhb7ukfwggb5k
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I think what you're describing is already the case, with the exception
+of parts of the probe function not changed in this patch mixing
+acquiring resources through devm with configuring the device.
 
-On Tue, Apr 16, 2024 at 04:44:14PM +0300, Ville Syrj=E4l=E4 wrote:
-> On Tue, Mar 26, 2024 at 04:40:13PM +0100, Maxime Ripard wrote:
-> > A lot of HDMI drivers have some variation of the formula to calculate
-> > the TMDS character rate from a mode, but few of them actually take all
-> > parameters into account.
-> >=20
-> > Let's create a helper to provide that rate taking all parameters into
-> > account.
-> >=20
-> > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > ---
-> >  drivers/gpu/drm/display/drm_hdmi_helper.c | 70 +++++++++++++++++++++++=
-++++++++
-> >  include/drm/display/drm_hdmi_helper.h     |  4 ++
-> >  2 files changed, 74 insertions(+)
-> >=20
-> > diff --git a/drivers/gpu/drm/display/drm_hdmi_helper.c b/drivers/gpu/dr=
-m/display/drm_hdmi_helper.c
-> > index faf5e9efa7d3..2518dd1a07e7 100644
-> > --- a/drivers/gpu/drm/display/drm_hdmi_helper.c
-> > +++ b/drivers/gpu/drm/display/drm_hdmi_helper.c
-> > @@ -193,5 +193,75 @@ void drm_hdmi_avi_infoframe_content_type(struct hd=
-mi_avi_infoframe *frame,
-> >  	}
-> > =20
-> >  	frame->itc =3D conn_state->content_type !=3D DRM_MODE_CONTENT_TYPE_NO=
-_DATA;
-> >  }
-> >  EXPORT_SYMBOL(drm_hdmi_avi_infoframe_content_type);
-> > +
-> > +/**
-> > + * drm_hdmi_compute_mode_clock() - Computes the TMDS Character Rate
-> > + * @mode: Display mode to compute the clock for
-> > + * @bpc: Bits per character
-> > + * @fmt: Output Pixel Format used
-> > + *
-> > + * Returns the TMDS Character Rate for a given mode, bpc count and out=
-put format.
-> > + *
-> > + * RETURNS:
-> > + * The TMDS Character Rate, in Hertz, or 0 on error.
->=20
-> Everything generally uses kHz. Sticking to common units
-> would be better.
-
-Not everything, no. The clock framework is using Hz for example, and on
-drm-misc drivers it's usually going to be the consumer of that field.
-
-And there's almost 200 hits on mode->clock * 1000 in drivers/gpu/drm as
-of today, including some in i915. This is a bit less than a third of all
-the mode->clock usage, including the one that are unit-neutral (like
-comparisons between two mode->clock fields).
-
-Given how the rest of the DRM code is structured, yes, there's going to
-be some impedance mismatch, but it's really not as clear cut as you make
-it to be.
-
-> > + */
-> > +unsigned long long
-> > +drm_hdmi_compute_mode_clock(const struct drm_display_mode *mode,
-> > +			    unsigned int bpc, enum hdmi_colorspace fmt)
-> > +{
-> > +	unsigned long long clock =3D mode->clock * 1000ULL;
-> > +	unsigned int vic =3D drm_match_cea_mode(mode);
-> > +
-> > +	/*
-> > +	 * CTA-861-G Spec, section 5.4 - Color Coding and Quantization
-> > +	 * mandates that VIC 1 always uses 8 bpc.
-> > +	 */
-> > +	if (vic =3D=3D 1 && bpc !=3D 8)
-> > +		return 0;
-> > +
-> > +	/*
-> > +	 * HDMI 2.0 Spec, section 7.1 - YCbCr 4:2:0 Pixel Encoding
-> > +	 * specifies that YUV420 encoding is only available for those
-> > +	 * VICs.
-> > +	 */
-> > +	if (fmt =3D=3D HDMI_COLORSPACE_YUV420 &&
-> > +	    !(vic =3D=3D 96 || vic =3D=3D 97 || vic =3D=3D 101 ||
-> > +	      vic =3D=3D 102 || vic =3D=3D 106 || vic =3D=3D 107))
-> > +		return 0;
->=20
-> I believe that is already outdated. I would just rip this out since the=
-=20
-> sink is anyway required to declare for which timings it will support
-> 4:2:0 via the Y420CMDB/VDB data blocks (see
-> drm_mode_is_420_{only,also}().
-
-Should we use drm_mode_is_420() then or rip it out entirely?
-
-> > +
-> > +	if (fmt =3D=3D HDMI_COLORSPACE_YUV422) {
-> > +		/*
-> > +		 * HDMI 1.4b Spec, section 6.2.3 - Pixel Encoding Requirements
-> > +		 * specifies that YUV422 is 36-bit only.
-> > +		 */
-> > +		if (bpc !=3D 12)
-> > +			return 0;
-> > +
-> > +		/*
-> > +		 * HDMI 1.0 Spec, section 6.5 - Pixel Encoding
-> > +		 * specifies that YUV422 requires two 12-bits components per
-> > +		 * pixel clock, which is equivalent in our calculation to three
-> > +		 * 8-bits components
-> > +		 */
-> > +		bpc =3D 8;
-> > +	}
-> > +
-> > +	/*
-> > +	 * HDMI 2.0 Spec, Section 7.1 - YCbCr 4:2:0 Pixel Encoding
-> > +	 * specifies that YUV420 encoding is carried at a TMDS Character Rate
-> > +	 * equal to half the pixel clock rate.
-> > +	 */
-> > +	if (fmt =3D=3D HDMI_COLORSPACE_YUV420)
-> > +		clock =3D clock / 2;
-> > +
-> > +	if (mode->flags & DRM_MODE_FLAG_DBLCLK)
-> > +		clock =3D clock * 2;
-> > +
-> > +	clock =3D clock * bpc;
-> > +	do_div(clock, 8);
->=20
-> IMO one shouldn't use bare do_div(). There are
-> more sensible wrappers for it.
->=20
-> In this case I would use DIV_ROUND_CLOSEST_ULL().
-
-Ack.
-
-Thanks!
-Maxime
-
-
---wahmhb7ukfwggb5k
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZiFLagAKCRAnX84Zoj2+
-dlldAX9qCzh/RA7mK7FqSsjMey+9M1jDrHEO4/u17NwCJ+/AYaHi+wppWxmtK+K+
-sLdIITcBgOE4oCoHKzJp+1JalYFdUKenCg0IWTcdxL0i3zyaXi9LePr+JzQS6ptm
-EHgy3onxJA==
-=/Ryj
------END PGP SIGNATURE-----
-
---wahmhb7ukfwggb5k--
+I hope I'm not being dense, thanks for the clarification
+ - Aren
