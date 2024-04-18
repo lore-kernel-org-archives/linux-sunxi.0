@@ -1,144 +1,166 @@
-Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazolkn19011003.outbound.protection.outlook.com [52.103.2.3])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 762E016C688
-	for <linux-sunxi@lists.linux.dev>; Thu, 18 Apr 2024 15:22:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.2.3
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713453726; cv=fail; b=Srf2gCmn5irrt6DJAy/n5E49L+5jvAoU+PnXXP3R2eUti2bzOOMKck/8Ybx1aQJKtwp11mc2rKFAAUfB0flRy+ImKAalhLVCXMBXTW3SrSdBMjSNvXnU8cvddCfUkE6XVEzDt4hgsIJqlbvdplY2KxPRPTy/ktQu5UTAozM95I8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713453726; c=relaxed/simple;
-	bh=6nEnePp0Ld6EyteoeD6jjDNGKcySXPFzqihydlieu9Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=nQL6YY0YcmP/P7E92fHyW7wWQEwAVwt+y16TI9jfZMT+K3g1GiNkLnv5/vMkGmmWDUuCkDRqi+mIs5irbIdH0qKnhCjQf36bKmukK0RXCpjmu1R2xWYA/z/mIWxfwyRreyD6KVaIx2ttRkHrcsF5XrRTWdcGe4A89fnBMWfJDEY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com; spf=pass smtp.mailfrom=hotmail.com; dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b=ErrhPbxu; arc=fail smtp.client-ip=52.103.2.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hotmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b="ErrhPbxu"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Kj2cPjeHuuyZGarHYBMZYpCJ4CGv79ZVWxjHHAZuiHN4/sa6HvuXZrby5df9V9U4uJIR0w19p3EURiskXeLnuDmuzTX8opB7/PgG8GhNCfNtrgrOP7+lUsp5c45Mh4TWTv0yu8jdD5NEIX3sHmMy1hctcuCHofPItFFgihj5TlocSqhY3Zgvugen3zUtL754nE9MfRCiWoAw/JLPsetsuX6Lwz/jmkZiaMj4e1jf/OzMBTfNPbGesRA7yfmtMLFnoFFsahMzq9f7aOm/yEW6WvHDhJuerWqeJcXb7gVMwsiSU+bMA65f77nAWdnXJB5MNJcuf41Ay70/mymKcUIqZw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8IxiV5t6usA7D9F0EmSLqND0VEC/srdFemvbh+cbZgA=;
- b=JVmzXjITmsB0bhkgVXT4C1eqUN80oPSoXFGfrSRwuF0mZjgmD9ONfAmA0iSw9mUj5TS3FvFf1xoKtifKH/oNhvTNwyvC/CC/T3rgCGpxpPs58KGkgtjDAdhlyFnSAfYP6vS6i1hMzzqlDocUkww06y8+EiJEmsQSFVsV2+aUnht9oJMyoTfgtFWbDEiAvWQJ+2ZWenb0DrTeNiuTgpbDjlBRp6p1ZlcdTcobYGyQSpORrbrbIcvuXPmdbFqir7i53j2m5J2WQZcBsbUVcy/Behlp+ezeZrFetqovPpHpGYZHPwRytKhRQ6Lzu+quYA2uU+T71MmbBdlzNHv1sbjMgw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8IxiV5t6usA7D9F0EmSLqND0VEC/srdFemvbh+cbZgA=;
- b=ErrhPbxuvM4OcRKlzhTqUIb3wBUcF/OFOxm/qmb6kZ4IBNuit4Os6NMW4ls5zMBeMCH0HZ4emFYlt+5uPt+KzSR47lrk5EeGJXhhHbf7sESqIJod/V2UDQNLEwwbGg1IpuipjzI2F49Ky9FXV+bv+r5S83Dyef1zuH8uYlPG+8k90v7dEqp2qZqM3JgougqQGFLfrRcUe6rgi1TkzeHcFbQkLHbbuBQHtestJAs32M0mkmZNG/GzY+dYp/drydtw+bObeEsQgJyjzQN3zu2mqWkwQkmpdjQEDpnH0AVrthn9Qh/GPBq1oCTsMKS9lzzOAkHYhHZaPYnqYO4UFni1uw==
-Received: from DM4PR05MB9229.namprd05.prod.outlook.com (2603:10b6:8:88::20) by
- SJ0PR05MB9302.namprd05.prod.outlook.com (2603:10b6:a03:44c::5) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7472.37; Thu, 18 Apr 2024 15:22:01 +0000
-Received: from DM4PR05MB9229.namprd05.prod.outlook.com
- ([fe80::12a8:4f88:32b0:9407]) by DM4PR05MB9229.namprd05.prod.outlook.com
- ([fe80::12a8:4f88:32b0:9407%6]) with mapi id 15.20.7472.037; Thu, 18 Apr 2024
- 15:22:01 +0000
-Date: Thu, 18 Apr 2024 10:21:58 -0500
-From: Chris Morgan <macromorgan@hotmail.com>
-To: Rob Herring <robh@kernel.org>
-Cc: Andre Przywara <andre.przywara@arm.com>,
-	Chris Morgan <macroalpha82@gmail.com>, linux-sunxi@lists.linux.dev,
-	linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-iio@vger.kernel.org, p.zabel@pengutronix.de, sboyd@kernel.org,
-	mturquette@baylibre.com, samuel@sholland.org,
-	jernej.skrabec@gmail.com, wens@csie.org, conor+dt@kernel.org,
-	krzk+dt@kernel.org
-Subject: Re: [PATCH 2/3] dt-bindings: iio: adc: Add GPADC for Allwinner H616
-Message-ID:
- <DM4PR05MB92297515415B77F307DFB46DA50E2@DM4PR05MB9229.namprd05.prod.outlook.com>
-References: <20240417170423.20640-1-macroalpha82@gmail.com>
- <20240417170423.20640-3-macroalpha82@gmail.com>
- <20240417234957.2fcd14bb@minigeek.lan>
- <20240418151650.GA1824475-robh@kernel.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240418151650.GA1824475-robh@kernel.org>
-X-TMN: [+xLSvDM7Y2rYkhBmdQ3RFgm+oM2MVh+Y]
-X-ClientProxiedBy: DS0PR17CA0006.namprd17.prod.outlook.com
- (2603:10b6:8:191::22) To DM4PR05MB9229.namprd05.prod.outlook.com
- (2603:10b6:8:88::20)
-X-Microsoft-Original-Message-ID: <ZiE6lizBcJrA28Kg@wintermute.localhost.fail>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1C2116E876
+	for <linux-sunxi@lists.linux.dev>; Thu, 18 Apr 2024 15:44:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713455059; cv=none; b=UBBZcS3SBImmWGNWyJ8caB0UyRqEHDScAvwzq6Qg4RMcCzI/0/Vsa+6snFG7Tird9anOw5OjfkSKvQd8CeANTnAItspPLcg9HDGgLdo9N4pbj14QcSM5qEFiYM1Aswx4b+2zMG0aHOyibXuYG4hWtwGC9yR8LXZNvQ7o5hpfggY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713455059; c=relaxed/simple;
+	bh=G7UQjtdgVtYBBELhcYsNp8ZX5A0fKFA28wKIrW/pM3s=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ccfXz6S2SeWzTvjlwGkJu4gxDIwK+3qtKV5ce8qnDrTyI+hWjcwrhX8+XWrynpMU2YgleS4Tk2aoOn5/i/+l1JvyxFMB7JkqoDozy6W4h6RzHNOYtam8t2vf+RymYooySwZab3w3dCMZ/Kmlr9CYewsehAgb96Szvs2bZ6UIJv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E42B3339;
+	Thu, 18 Apr 2024 08:44:44 -0700 (PDT)
+Received: from donnerap.arm.com (donnerap.manchester.arm.com [10.32.100.28])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 307253F738;
+	Thu, 18 Apr 2024 08:44:14 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Yangtao Li <tiny.windzz@gmail.com>,
+	Viresh Kumar <vireshk@kernel.org>,
+	Nishanth Menon <nm@ti.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>
+Cc: linux-pm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	Brandon Cheo Fusi <fusibrandon13@gmail.com>,
+	Martin Botka <martin.botka@somainline.org>,
+	Martin Botka <martin.botka1@gmail.com>,
+	Chris Morgan <macroalpha82@gmail.com>,
+	Ryan Walklin <ryan@testtoast.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Sudeep Holla <sudeep.holla@arm.com>
+Subject: [PATCH v5 0/8]  cpufreq: sun50i: Add Allwinner H616 support
+Date: Thu, 18 Apr 2024 16:44:00 +0100
+Message-Id: <20240418154408.1740047-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR05MB9229:EE_|SJ0PR05MB9302:EE_
-X-MS-Office365-Filtering-Correlation-Id: 91c3e420-f62e-4e93-2a10-08dc5fbb4b7c
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	vJEmduisCrWkyOcn+gr8aXQbjO4ns75JCUCala0I/FM9SWDNIPu2MHE012xnXmKpds0Fx2TKE4RVSV/LXBW4U4dqO2jEvyWDe9RlvufV9TufdUclszmOHBrSyF9TnaR7te31TAmgM2qc/Cf+g2jDxe8h3RY7x7Qfj4Xrj0wrDaKR/RTNOGG0kK++EOKTnnSPOdM70tXnOV6Fn0dVPVuiNqtbuYxUHttMfhGF7AvAHqkZ8Ufzlc22ca3nz21j4CiuRa3My5MYZKhRBM3Wt3J+4XabuuuDY34nyWrbCa6ldoOtQSjUUfSL/O71TRtaOS7ilLsOuepjZIMmCeUyCXlvh8TUMT+ENtzthbb2uwNKMmaxeFIt5R3avk1nQUhc+Jwrdil2C2E0e0/xk+Uov6xIIlP4Aizhud6qfCkW37ONXqJw9zM542UxRJUaBa2O7z/TYy0JusK79l9kThW2+aK6AT8Ehz/K3laSKnXc1OKm/SnnCqcwt5DOujCa35+DH3SX9duNPHbeMP7tACjBe1DKnCLUXIbffzwewidUharPFcd6sHDAqSP2GZ+rIIB1Z2Iz
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?KjlirQv1bSpsRHI6rMSr4VCXJA7G9SoGZXQCUU/79qAJ0AgqX++1qNwjPgcf?=
- =?us-ascii?Q?5Pe+n3FUyxSUYfe1tk3X0Arwn2FILsXrAcvACyQzgPmxN+p7G0y00kXQRxDp?=
- =?us-ascii?Q?jqYdFRpKZc1hphFkrlrQEcSvkJ3QtRm/3FzT1BFLf/+STn8T1kImzjm2GF0H?=
- =?us-ascii?Q?q3RkZ69gzA20lTGjEzmpTg4FECUIfrMG2hEhFX763WTey5ZKkyxedbdGQDHp?=
- =?us-ascii?Q?kSUA7as+x93pTKNZH2Y7fr8BafzY4X2GSaDFnRhu0JRNyxeWti0/tNBNm5J8?=
- =?us-ascii?Q?Ie5b8957g1szm8fXPd409T0SlsBxf7OjsoiV1LJ1r00tPPELqaJFCmeQ+/JO?=
- =?us-ascii?Q?dMO4wqMuv4suwbThhxIzqhbYZSrN0al+OuDZljHPHrI/QunxMhzlFvkybszD?=
- =?us-ascii?Q?50nJdJx/LmcezxmbmDF/06UJ7tNuLzV5n3a2iIlMC0oIF+X2o7NDtsq4cn2v?=
- =?us-ascii?Q?0zZc0cHnm4IXo/uhFQXxEJnl3Z1ffYn/5x9JR/oumerbxwNLJ749lKMkgxa+?=
- =?us-ascii?Q?tR4VX0sMBQ4RVtXOALXJWqhclmCyYHmJYSWlyhm7BWI9SYm1l/KKDQ4OAgug?=
- =?us-ascii?Q?TqkK+YWv7HAJDJdedZjnahOj0JF/lTReuZku0TlcJhzbCJ4CzspXV+SSnsvO?=
- =?us-ascii?Q?4gDOAa5mPiABwD+jgidCjey0siPvvIhTREntwpTLNqZZeSZgU1XiYZABvJGn?=
- =?us-ascii?Q?JjkZEWkvDPqpdRtwbbTN09jsSUrdvL+TXfrtulKCBQcRhujjtcyBP/8Foiyb?=
- =?us-ascii?Q?fTR3Vsc/MpRAp3PzU5de7GSFP+rehdY5Dkz2l0xKpALlGJywKRh7Z0gAA13D?=
- =?us-ascii?Q?Mh3Kh08cLr19COpM9MzEOR9a+MwObl4R9xh4DIAi0+5HzLB1CurAPDHgC/Ft?=
- =?us-ascii?Q?64j5rihv0IuOmYh+ruUJCTdKbhJXiKctKcj7haGW3v68pa0U4yzLTF8OoFpS?=
- =?us-ascii?Q?x/+MFKo19KvgAU9v5nI1/fuBwfM8goUIVf0ZjnefRaMh2N8jxgRzMASiVlkF?=
- =?us-ascii?Q?+MkxCZ3FKJT0Q8Ca5A1zgJyv1UgP368z1tlM5GsQd65Iw4gyBNaYCAvk896/?=
- =?us-ascii?Q?Wj+IQyr72DVkXB//GnY/oL4OoukSbpsJDE3hb99f4agUKFgdQdAoJR1qd2IQ?=
- =?us-ascii?Q?zZul3027QfGXAXsgXPN+1P8vm/+DKearwGgZPP4t4/+jiC7EEUXQAD7Pl4Qb?=
- =?us-ascii?Q?ehL9FZmYPfOcCxGYRP0PZrcq6Vs8v5qCnFK9svQlThuQ4Y9/0OItfVysPYo?=
- =?us-ascii?Q?=3D?=
-X-OriginatorOrg: sct-15-20-4823-7-msonline-outlook-84f76.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 91c3e420-f62e-4e93-2a10-08dc5fbb4b7c
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR05MB9229.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Apr 2024 15:22:01.3202
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR05MB9302
+Content-Transfer-Encoding: 8bit
 
-On Thu, Apr 18, 2024 at 10:16:50AM -0500, Rob Herring wrote:
-> On Wed, Apr 17, 2024 at 11:49:57PM +0100, Andre Przywara wrote:
-> > On Wed, 17 Apr 2024 12:04:22 -0500
-> > Chris Morgan <macroalpha82@gmail.com> wrote:
-> > 
-> > Hi,
-> > 
-> > > From: Chris Morgan <macromorgan@hotmail.com>
-> > > 
-> > > Add support for the GPADC for the Allwinner H616. It is identical to
-> > > the existing ADC for the D1/T113s/R329/T507 SoCs.
-> > 
-> > The H616 is using the same die as the T507 and the H700, and since the
-> > T507 is already mentioned in the commit message for the original
-> > binding, I wonder if we actually need a new compatible?
-> 
-> For same die, I would say no you don't. But adding a compatible is fine, 
-> too.
-> 
-> Rob
+This series adds cpufreq support to the Allwinner H616 SoC.
+v5 just removes the explicit H700 speedbin support, as this proved to be
+problematic/unstable in testing. The rest is the same as v4.
+This is based on Martin's original series from about half a year ago[1].
+Thanks for the comments on the list!
+See below for a changelog.
 
-I've been burned before, if it's just the same to you I'd like to do a
-compatible. But I will defer to the experts on this matter.
+=================
+The various H616 chips seem to be qualified by production batches, and
+there is a table that translates from some efuses values to actual speed
+bin indexes. Also the die revision has a say here: we can derive this
+from the SoC ID, already provided by TF-A through the SMCCC SoC ID
+interface.
+So while the H6 had explicit speed bin indexes in the efuses, this is
+conceptually not that different, and after refactoring patch 4/8 this
+can be neatly integrated into the existing (H6) sun50i-cpufreq-nvmem
+driver.
+On top of that, not all chips are qualified to reach the full 1.5GHz,
+and the BSP kernel describes different OPPs for each speedbin. This
+requires to add support for the opp-supported-hw DT property, to be
+able to describe those requirements properly.
 
-Also if there is a more compact way of expressing this while still
-maintaining backwards compatibility please let me know. Otherwise,
-I'm okay with this if you all are (it passes dt_binding_check,
-yamllint, and checkpatch.pl so I'm okay with it if you are).
+Patch 1/8 exports the SoC ID function, so that we can call it from our
+driver. Patch 2/8 blocks the affected SoCs from the generic DT cpufreq
+driver, patch 3/8 adds the DT binding documentation.
+Patch 4/8 refactors the existing speedbin determination for the H6, to
+be able to plug in the H616 version later more easily.
+Patch 5/8 adds support for the opp-supported-hw property. This is done
+in a generic way, so it's usable for other SoCs as well, and the code
+will figure out if the current DT requires use of this feature.
+Patch 6/8 then eventually adds the H616 bits to the driver, and ties
+that to the new compatible string.
+Patch 7/8 add the CPU OPP table as a .dtsi to the DT directory, the
+values in there were taken from the BSP source.
+Patch 8/8 then enables the OPPs for all boards we have DTs for.
 
-Chris
+Based on sunxi/for-next, which is based on v6.9-rc1.
+
+Please have a look!
+
+Cheers,
+Andre
+
+[1] https://lore.kernel.org/linux-sunxi/20230904-cpufreq-h616-v1-0-b8842e525c43@somainline.org/T/#u
+
+Changelog v4 .. v5:
+- remove H700 nvmem value and OPPs
+
+Changelog v3 .. v4:
+- add Review and Ack tags
+- allow to compile without CONFIG_HAVE_ARM_SMCCC_DISCOVERY
+- limit opp-supported-hw array length to 1
+- drop unneeded pipe after description in binding
+- reorder variables in reverse christmas tree in refactor patch
+
+Changelog v2 .. v3:
+- rebased on top of v6.9-rc1
+- drop node name suffix from DT bindings
+- drop multiple nodes per frequency in DT bindings example
+- add H700 nvmem value and OPPs
+- print warning for unknown nvmem values
+- add #cooling-cells properties to CPU DT nodes
+- use one DT node per frequency for OPP table entries
+- include OPP table for newly added Longan board
+
+Changelog v1 .. v2:
+- extend commit messages
+- add H618/H700 SoC IDs
+- fix binding compatible enum
+- fix binding documentation
+- allow additional suffix to OPP node name
+- shorten existing DT binding example
+- add another (opp-supported-hw) binding example
+- move speed bin decoding refactoring to separate patch (Brandon)
+- move opp-supported-hw support to separate patch
+- merge opp-supported-hw and microvolt suffix handling
+- rewrite OPP tables without opp-microvolt-speed suffix
+
+Andre Przywara (2):
+  cpufreq: sun50i: Add support for opp_supported_hw
+  arm64: dts: allwinner: h616: enable DVFS for all boards
+
+Brandon Cheo Fusi (1):
+  cpufreq: sun50i: Refactor speed bin decoding
+
+Martin Botka (5):
+  firmware: smccc: Export revision soc_id function
+  cpufreq: dt-platdev: Blocklist Allwinner H616/618 SoCs
+  dt-bindings: opp: Describe H616 OPPs and opp-supported-hw
+  cpufreq: sun50i: Add H616 support
+  arm64: dts: allwinner: h616: Add CPU OPPs table
+
+ .../allwinner,sun50i-h6-operating-points.yaml |  87 ++++----
+ .../sun50i-h616-bigtreetech-cb1.dtsi          |   5 +
+ .../dts/allwinner/sun50i-h616-cpu-opp.dtsi    | 115 ++++++++++
+ .../allwinner/sun50i-h616-orangepi-zero2.dts  |   5 +
+ .../dts/allwinner/sun50i-h616-x96-mate.dts    |   5 +
+ .../arm64/boot/dts/allwinner/sun50i-h616.dtsi |   8 +
+ .../sun50i-h618-longan-module-3h.dtsi         |   5 +
+ .../allwinner/sun50i-h618-orangepi-zero2w.dts |   5 +
+ .../allwinner/sun50i-h618-orangepi-zero3.dts  |   5 +
+ .../sun50i-h618-transpeed-8k618-t.dts         |   5 +
+ drivers/cpufreq/cpufreq-dt-platdev.c          |   3 +
+ drivers/cpufreq/sun50i-cpufreq-nvmem.c        | 203 +++++++++++++++---
+ drivers/firmware/smccc/smccc.c                |   1 +
+ 13 files changed, 375 insertions(+), 77 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616-cpu-opp.dtsi
+
+-- 
+2.25.1
+
