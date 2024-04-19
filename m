@@ -1,196 +1,235 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 382C379DC5
-	for <linux-sunxi@lists.linux.dev>; Fri, 19 Apr 2024 09:04:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3242A7BB01
+	for <linux-sunxi@lists.linux.dev>; Fri, 19 Apr 2024 09:49:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713517451; cv=none; b=XzrG9ctbEBk+YRCXMCbEK35j36XDTEg01JG8FS9rPoS4Txdtbw5eH3atANyIkGRAsJrZTRD/hcEtXBZgR2j0ArguJG7PmkVKeGXc6gZl7ly02E4uIoynu2rtlt9oTXY4qGw5mnYZGd5oJBHxH8RkRb3xXm9upJpptKYToo6syVw=
+	t=1713520162; cv=none; b=J5ELeIse63OeijyPtf93gzzUAzAvuZyOuFS42RhbX9yetgemBvYWQLVBHwWicb6706NM9XMutGsoNnjR0rR5Qm4P1vAwycIPencSwN00wjZwH0sMvcucC3Cp3hWGPN2oc6i3EuA8Xi2ge+bh7zMfThrxAQPLQqfy09jEyau5n3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713517451; c=relaxed/simple;
-	bh=yYoDQShDvmrOZ9K2+7B7afIlK5+dkxlsEVPcBywafew=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Grs+LnMfkUckmP3gBGEo72evk+4qagvCCimbBZr7VGRBN2Qxj/P/rLXfovudsbfMm2vwoxfxwE3eCmHVVMN/x51c/oZPj3LXwo7GBf8r0OEKLhD2el3xuJFWpYgT2EIc4AZGEovV+Ia+wiJ0sMxXvnC80OCxTY5Nebmw4TbAEx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WLlp5d/8; arc=none smtp.client-ip=209.85.208.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1713520162; c=relaxed/simple;
+	bh=pKDV/DDljfYbyJBEoKPsy5J2SxcCvPCQTO74udVktBA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=NBt+PdMCl8Lid79jl6jATh9z0ICOjKafsstwnGOQhwiu3Y+rf4CpTQd0Ixxypf1ae83UdjsTf6RwG3tVLetxXsLN3Yv6+zBTxjTNeVvKq7FW7suppmIM/bpF6gN8Ykt5tm2NS1exTkgOws0Ze65L/MbxcOmO0pjOfz6Bvb7R/PU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=eE9qso9a; arc=none smtp.client-ip=209.85.222.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WLlp5d/8"
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2da01cb187cso31191751fa.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 19 Apr 2024 02:04:09 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="eE9qso9a"
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-78f0440656eso106840785a.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 19 Apr 2024 02:49:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713517448; x=1714122248; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rgMQYr4oV4JNndEuD2biU5vQV/pnebRAnRkbrVejXaA=;
-        b=WLlp5d/8yzpD/C1vnA1U25EnsAImDJIZ4ijqRR3yp1uHOjol3dSkdKQm2L+UfNOUYC
-         VlHBnANVDwfJFFjFzf06+2lroO2k3scg+HNznijfN4pYoTQ4wRFoghqUxDzxDAbKtt7w
-         ltMFq3vxcdTCpD2w3PmTiGuttlFKE7AV4e1pP1fT67fc1zaNe1oOQZROhR9ScbY5CIXz
-         KsVK8hc0pZVxf4AKbS2qocfRbEZcw+GKjlifMbC0S9VXxKN26ndHwOSBx1gbuCe0w+tB
-         SW2MvzKVVOFFpeMiv+Qq5UFMQC2b+qRjxg4oRzlpMhD/RCo9ZYYyCs06k+TqD9U7/I/k
-         +chg==
+        d=chromium.org; s=google; t=1713520158; x=1714124958; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cRNZApPOWNGUw9rh6uD/J/LwtHi/yERWjgUEfHZaap4=;
+        b=eE9qso9aokpYcCZuAgtJLJv65fOHo7p8yaLpvMlzEnLiSVDk9jTGlvhZhC1rFScIZU
+         JExXovyEZSPn2iEurzwYV6z56Z+2KnUT9waeOMpLgRBWkEZkimhH3taLsnoouphwGha2
+         nHAQjYCtnBT1/M5ddMIaY1MmlOwyAyJc5H6Qg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713517448; x=1714122248;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rgMQYr4oV4JNndEuD2biU5vQV/pnebRAnRkbrVejXaA=;
-        b=X4Lh5twZcCwq1PlCXVbVCibXNBdUB4zoGXNt9gN6FGtWGogbD0jnNRFnr972kGaA3H
-         4AWVmKugKcIOieVwm2ecBBvN7nHgsZanSCswCA5LtGsPbfStoB0xzol1E+O4g6jOS41P
-         I1yFT+lobKnSCrTtsHnk4Wr7h4T2KZHzaNIXkcJNLqo6M/9cjqz8rDuyrlF+rNUkTgC4
-         9AkmY/uMWforDBO0OJ4FZWCw1EkQKAODKKbfSGNnNfCR5bn+r8TF83Lz+PiltrRLLG6a
-         kvcPY5hRZyFHGsbG4OwsoKn6NX3ptxUhVy7ShjUnO2iK3Fh2rNW6BOxUTj1e1XO7n9S9
-         8HwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUeOqOndg2KPeTn0worSYktODhV9KB9zt9qqbG+QfM02exHu0rEMR7xFRlk+6ZpgAFDR6/Dgdh+ciJw9nFljCbeu8Z9+3ttw6rsYQU=
-X-Gm-Message-State: AOJu0YzCA3tVihBs72YZJ+vGFTDbDp9oFMv5GAPSZ1FdMH/s8lx5hvQM
-	E5eQ+IB5EwPPwExOj6rNHx2y8LB4umW4eHQ41PBPJMaOxDNb0rX8
-X-Google-Smtp-Source: AGHT+IHQi06xeUbRVNwJPi1rGkVQYXntNtrD89Vy0P8/uMlqN9zH9EDGdcfcGdRrkx/08kp0eZERLQ==
-X-Received: by 2002:a2e:2a46:0:b0:2d4:7455:89f6 with SMTP id q67-20020a2e2a46000000b002d4745589f6mr1137769ljq.40.1713517448297;
-        Fri, 19 Apr 2024 02:04:08 -0700 (PDT)
-Received: from localhost (srv1.baikalchip.ru. [87.245.175.227])
-        by smtp.gmail.com with ESMTPSA id h25-20020a2e3a19000000b002da968f03f9sm520526lja.89.2024.04.19.02.04.07
+        d=1e100.net; s=20230601; t=1713520158; x=1714124958;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cRNZApPOWNGUw9rh6uD/J/LwtHi/yERWjgUEfHZaap4=;
+        b=vZ+si2rTxDo6XbgypGjbI660TIsdk6326Bnn1uLM0Nx0ULjCxJpWcJc872FSFst/vU
+         qgmqOYj74HZOIH7pKccel0UWumqxjV5mHnL9HqEqnSZ2ZSdkx+DudOfDAW04DJ26cZl+
+         xpCZq4ri39uxfF8eznG7BCKAfG4cdxkunYelARmPVl5zzogFrzouH9e7FIuIOB0DaarE
+         2ygJdV8s2aaYJbyXbftGQ7NasUv5sQ7DAayo2bcpOw4GmJJbgKi+wyFUSxBTw++j0juR
+         pxaHNjtXR9GqT9Gooy221t8z2GkooKS7yUcaLpQIZWyokhoczGEz+2bN1be72+TLKRli
+         qU/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUGUWEtn8oQpdoMHtzgiW2D4pGQ4zZmAz/dtmzZBYzRPntZjwu3B7o5oaRDyFyJ479cdNu397zo3hD2NDBhgea0xfpks7tZiJ2E6lY=
+X-Gm-Message-State: AOJu0Yz10QA1PrfdlOCgvqs2h5mjgWlQqigDLuIZZ1ky83usxYiEoLTE
+	QxTe43E+Iux+kJ+kl36hOH78H1e9l1l2fwmzU57llr20sZQad8Bvng1+DM3fbw==
+X-Google-Smtp-Source: AGHT+IEwFEqraeOqWxkPQAAFkUs5oWfyDBRxF4A8wk2qhAECZd6CFNAdYxUvmXxXTuoou68/E0VA+g==
+X-Received: by 2002:a05:620a:5a4f:b0:78d:6c05:b498 with SMTP id wx15-20020a05620a5a4f00b0078d6c05b498mr1754759qkn.14.1713520158006;
+        Fri, 19 Apr 2024 02:49:18 -0700 (PDT)
+Received: from denia.c.googlers.com (114.152.245.35.bc.googleusercontent.com. [35.245.152.114])
+        by smtp.gmail.com with ESMTPSA id dt14-20020a05620a478e00b0078d735ca917sm1434532qkb.123.2024.04.19.02.49.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Apr 2024 02:04:07 -0700 (PDT)
-From: Serge Semin <fancer.lancer@gmail.com>
-To: Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Jose Abreu <joabreu@synopsys.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Yanteng Si <siyanteng@loongson.cn>,
-	Romain Gantois <romain.gantois@bootlin.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>
-Cc: Serge Semin <fancer.lancer@gmail.com>,
-	Simon Horman <horms@kernel.org>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	netdev@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND net-next v3 2/2] net: stmmac: Move MAC caps init to phylink MAC caps getter
-Date: Fri, 19 Apr 2024 12:03:06 +0300
-Message-ID: <20240419090357.5547-3-fancer.lancer@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240419090357.5547-1-fancer.lancer@gmail.com>
-References: <20240419090357.5547-1-fancer.lancer@gmail.com>
+        Fri, 19 Apr 2024 02:49:17 -0700 (PDT)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH v2 00/26] media: Fix coccinelle warning/errors
+Date: Fri, 19 Apr 2024 09:47:46 +0000
+Message-Id: <20240419-fix-cocci-v2-0-2119e692309c@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAMI9ImYC/22MQQ7CIBBFr9LMWgxMUYwr72G6oBTKLFrMoETTc
+ Hexa5fv/5e3QfZMPsO124B9oUxpbYCHDly06+wFTY0BJWqp1UkEeguXnCOBU+h9QLTnYKD5D/b
+ t3Fv3oXGk/Ez82dNF/dZ/laKEFNoYG0bsDV7Gm4ucFnotx8QzDLXWL2eD/W6lAAAA
+To: Martin Tuma <martin.tuma@digiteqautomotive.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Hugues Fruchet <hugues.fruchet@foss.st.com>, 
+ Alain Volmat <alain.volmat@foss.st.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Sowjanya Komatineni <skomatineni@nvidia.com>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>, 
+ Abylay Ospan <aospan@netup.ru>, 
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
+ Dmitry Osipenko <digetx@gmail.com>, 
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
+ Sylvain Petinot <sylvain.petinot@foss.st.com>, 
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
+ Vikash Garodia <quic_vgarodia@quicinc.com>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-stm32@st-md-mailman.stormreply.com, 
+ linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, 
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+ Ricardo Ribalda <ribalda@chromium.org>, 
+ Sergey Senozhatsky <senozhatsky@chromium.org>, 
+ Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+ Dan Carpenter <dan.carpenter@linaro.org>
+X-Mailer: b4 0.12.4
 
-After a set of recent fixes the stmmac_phy_setup() and
-stmmac_reinit_queues() methods have turned to having some duplicated code.
-Let's get rid from the duplication by moving the MAC-capabilities
-initialization to the PHYLINK MAC-capabilities getter. The getter is
-called during each network device interface open/close cycle. So the
-MAC-capabilities will be initialized in generic device open procedure and
-in case of the Tx/Rx queues re-initialization as the original code
-semantics implies.
+After this set is applied, these are the only warnings left:
+drivers/media/pci/ivtv/ivtv-fileops.c:223:4-10: preceding lock on line 267
+drivers/media/pci/ivtv/ivtv-fileops.c:230:3-9: preceding lock on line 267
+drivers/media/pci/ivtv/ivtv-fileops.c:236:4-10: preceding lock on line 267
+drivers/media/pci/ivtv/ivtv-fileops.c:245:3-9: preceding lock on line 267
+drivers/media/pci/ivtv/ivtv-fileops.c:251:3-9: preceding lock on line 267
+drivers/media/pci/ivtv/ivtv-fileops.c:257:3-9: preceding lock on line 267
+drivers/media/pci/ivtv/ivtv-fileops.c:272:3-9: preceding lock on line 267
+drivers/media/pci/ivtv/ivtv-fileops.c:598:4-10: preceding lock on line 627
+drivers/media/pci/ivtv/ivtv-fileops.c:598:4-10: preceding lock on line 689
+drivers/media/pci/ivtv/ivtv-fileops.c:606:3-9: preceding lock on line 627
+drivers/media/pci/ivtv/ivtv-fileops.c:606:3-9: preceding lock on line 689
+drivers/media/pci/ivtv/ivtv-fileops.c:648:3-9: preceding lock on line 627
+drivers/media/pci/ivtv/ivtv-fileops.c:648:3-9: preceding lock on line 689
+drivers/media/pci/ivtv/ivtv-fileops.c:692:4-10: preceding lock on line 689
+drivers/media/dvb-core/dvb_frontend.c:2897:1-7: preceding lock on line 2776
+drivers/media/dvb-core/dvb_frontend.c:2897:1-7: preceding lock on line 2786
+drivers/media/dvb-core/dvb_frontend.c:2897:1-7: preceding lock on line 2809
+drivers/media/dvb-frontends/stv090x.c:799:1-7: preceding lock on line 768
+drivers/media/usb/go7007/go7007-i2c.c:125:1-7: preceding lock on line 61
+drivers/media/rc/imon.c:1167:1-7: preceding lock on line 1153
+drivers/media/pci/cx18/cx18-scb.h:261:22-29: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_cmds.h:77:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_cmds.h:85:5-16: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_cmds.h:154:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_cmds.h:171:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_cmds.h:180:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_cmds.h:189:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_cmds.h:201:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_cmds.h:220:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_cmds.h:230:5-16: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_helper.h:764:5-15: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_helper.h:1008:43-60: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_helper.h:1014:36-46: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_helper.h:1041:5-15: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_helper.h:1088:39-51: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_helper.h:1093:5-22: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_helper.h:1144:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_helper.h:1239:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_helper.h:1267:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_helper.h:1272:4-13: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/common/siano/smscoreapi.h:619:5-13: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/common/siano/smscoreapi.h:669:6-13: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/common/siano/smscoreapi.h:1049:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/common/siano/smscoreapi.h:1055:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/dvb-frontends/mxl5xx_defs.h:171:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/dvb-frontends/mxl5xx_defs.h:182:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/allegro-dvt/nal-hevc.h:102:14-22: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/xilinx/xilinx-dma.h:100:19-22: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/staging/media/atomisp/pci/atomisp_tpg.h:30:18-22: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
 
-Signed-off-by: Serge Semin <fancer.lancer@gmail.com>
-Reviewed-by: Romain Gantois <romain.gantois@bootlin.com>
+CI tested:
+https://gitlab.freedesktop.org/linux-media/media-staging/-/commit/055b5211c68e721c3a7090be5373cf44859da1a7/pipelines?ref=ribalda%2Ftest-cocci
+
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+Changes in v2:
+- Remove all the min() retval, and send a patch for cocci:  https://lore.kernel.org/lkml/20240415-minimax-v1-1-5feb20d66a79@chromium.org/T/#u
+- platform_get_irq() cannot return 0, fix that (Thanks Dan).
+- Fix stb0800 patch. chip_id can be 0 (Thanks Dan).
+- Use runtime (IS_ENABLED), code looks nicer. (Thanks Dan).
+- Do not replace do_div for venus (Thanks Dan).
+- Do not replace do_div for tda10048 (Thanks Dan).
+- Link to v1: https://lore.kernel.org/r/20240415-fix-cocci-v1-0-477afb23728b@chromium.org
 
 ---
+Ricardo Ribalda (26):
+      media: pci: mgb4: Refactor struct resources
+      media: stb0899: Simplify check
+      media: uvcvideo: Refactor iterators
+      media: uvcvideo: Use max() macro
+      media: go7007: Use min and max macros
+      media: stm32-dcmipp: Remove redundant printk
+      media: staging: sun6i-isp: Remove redundant printk
+      media: dvb-frontends: tda18271c2dd: Remove casting during div
+      media: v4l: async: refactor v4l2_async_create_ancillary_links
+      staging: media: tegra-video: Use swap macro
+      media: s2255: Use refcount_t instead of atomic_t for num_channels
+      media: platform: mtk-mdp3: Use refcount_t for job_count
+      media: common: saa7146: Use min macro
+      media: dvb-frontends: drx39xyj: Use min macro
+      media: netup_unidvb: Use min macro
+      media: au0828: Use min macro
+      media: flexcop-usb: Use min macro
+      media: gspca: cpia1: Use min macro
+      media: stk1160: Use min macro
+      media: tegra-vde: Refactor timeout handling
+      media: i2c: st-mipid02: Use the correct div function
+      media: tc358746: Use the correct div_ function
+      media: venus: vdec: Make explicit the range of us_per_frame
+      media: venus: venc: Make explicit the range of us_per_frame
+      media: dvb-frontends: tda10048: Fix integer overflow
+      media: dvb-frontends: tda10048: Make explicit the range of z.
 
-Link: https://lore.kernel.org/netdev/20240412180340.7965-5-fancer.lancer@gmail.com/
-Changelog v2:
-- Resubmit the patch to net-next separately from the main patchset (Paolo)
+ drivers/media/common/saa7146/saa7146_hlp.c         |  8 +++----
+ drivers/media/dvb-frontends/drx39xyj/drxj.c        |  9 +++-----
+ drivers/media/dvb-frontends/stb0899_drv.c          |  2 +-
+ drivers/media/dvb-frontends/tda10048.c             | 13 +++++++----
+ drivers/media/dvb-frontends/tda18271c2dd.c         |  4 ++--
+ drivers/media/i2c/st-mipid02.c                     |  2 +-
+ drivers/media/i2c/tc358746.c                       |  3 +--
+ drivers/media/pci/mgb4/mgb4_core.c                 |  4 ++--
+ drivers/media/pci/mgb4/mgb4_regs.c                 |  2 +-
+ drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c  |  2 +-
+ .../media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c   | 10 ++++-----
+ .../media/platform/mediatek/mdp3/mtk-mdp3-core.c   |  6 ++---
+ .../media/platform/mediatek/mdp3/mtk-mdp3-core.h   |  2 +-
+ .../media/platform/mediatek/mdp3/mtk-mdp3-m2m.c    |  6 ++---
+ drivers/media/platform/nvidia/tegra-vde/h264.c     |  6 ++---
+ drivers/media/platform/qcom/venus/vdec.c           |  7 ++----
+ drivers/media/platform/qcom/venus/venc.c           |  7 ++----
+ .../platform/st/stm32/stm32-dcmipp/dcmipp-core.c   |  7 ++----
+ drivers/media/usb/au0828/au0828-video.c            |  5 +----
+ drivers/media/usb/b2c2/flexcop-usb.c               |  5 +----
+ drivers/media/usb/go7007/go7007-fw.c               |  4 ++--
+ drivers/media/usb/gspca/cpia1.c                    |  6 ++---
+ drivers/media/usb/s2255/s2255drv.c                 | 20 ++++++++---------
+ drivers/media/usb/stk1160/stk1160-video.c          | 10 ++-------
+ drivers/media/usb/uvc/uvc_ctrl.c                   | 26 ++++++++++++----------
+ drivers/media/v4l2-core/v4l2-async.c               |  7 +++---
+ drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c  |  3 +--
+ drivers/staging/media/tegra-video/tegra20.c        |  9 ++------
+ 28 files changed, 84 insertions(+), 111 deletions(-)
 ---
- .../net/ethernet/stmicro/stmmac/stmmac_main.c | 36 +++++++++----------
- 1 file changed, 17 insertions(+), 19 deletions(-)
+base-commit: 836e2548524d2dfcb5acaf3be78f203b6b4bde6f
+change-id: 20240415-fix-cocci-2df3ef22a6f7
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-index b810f6b69bf5..0d6cd1704e6a 100644
---- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-@@ -936,6 +936,22 @@ static void stmmac_mac_flow_ctrl(struct stmmac_priv *priv, u32 duplex)
- 			priv->pause, tx_cnt);
- }
- 
-+static unsigned long stmmac_mac_get_caps(struct phylink_config *config,
-+					 phy_interface_t interface)
-+{
-+	struct stmmac_priv *priv = netdev_priv(to_net_dev(config->dev));
-+
-+	/* Refresh the MAC-specific capabilities */
-+	stmmac_mac_update_caps(priv);
-+
-+	config->mac_capabilities = priv->hw->link.caps;
-+
-+	if (priv->plat->max_speed)
-+		phylink_limit_mac_speed(config, priv->plat->max_speed);
-+
-+	return config->mac_capabilities;
-+}
-+
- static struct phylink_pcs *stmmac_mac_select_pcs(struct phylink_config *config,
- 						 phy_interface_t interface)
- {
-@@ -1105,6 +1121,7 @@ static void stmmac_mac_link_up(struct phylink_config *config,
- }
- 
- static const struct phylink_mac_ops stmmac_phylink_mac_ops = {
-+	.mac_get_caps = stmmac_mac_get_caps,
- 	.mac_select_pcs = stmmac_mac_select_pcs,
- 	.mac_config = stmmac_mac_config,
- 	.mac_link_down = stmmac_mac_link_down,
-@@ -1204,7 +1221,6 @@ static int stmmac_phy_setup(struct stmmac_priv *priv)
- 	int mode = priv->plat->phy_interface;
- 	struct fwnode_handle *fwnode;
- 	struct phylink *phylink;
--	int max_speed;
- 
- 	priv->phylink_config.dev = &priv->dev->dev;
- 	priv->phylink_config.type = PHYLINK_NETDEV;
-@@ -1225,15 +1241,6 @@ static int stmmac_phy_setup(struct stmmac_priv *priv)
- 		xpcs_get_interfaces(priv->hw->xpcs,
- 				    priv->phylink_config.supported_interfaces);
- 
--	/* Refresh the MAC-specific capabilities */
--	stmmac_mac_update_caps(priv);
--
--	priv->phylink_config.mac_capabilities = priv->hw->link.caps;
--
--	max_speed = priv->plat->max_speed;
--	if (max_speed)
--		phylink_limit_mac_speed(&priv->phylink_config, max_speed);
--
- 	fwnode = priv->plat->port_node;
- 	if (!fwnode)
- 		fwnode = dev_fwnode(priv->device);
-@@ -7327,7 +7334,6 @@ int stmmac_reinit_queues(struct net_device *dev, u32 rx_cnt, u32 tx_cnt)
- {
- 	struct stmmac_priv *priv = netdev_priv(dev);
- 	int ret = 0, i;
--	int max_speed;
- 
- 	if (netif_running(dev))
- 		stmmac_release(dev);
-@@ -7341,14 +7347,6 @@ int stmmac_reinit_queues(struct net_device *dev, u32 rx_cnt, u32 tx_cnt)
- 			priv->rss.table[i] = ethtool_rxfh_indir_default(i,
- 									rx_cnt);
- 
--	stmmac_mac_update_caps(priv);
--
--	priv->phylink_config.mac_capabilities = priv->hw->link.caps;
--
--	max_speed = priv->plat->max_speed;
--	if (max_speed)
--		phylink_limit_mac_speed(&priv->phylink_config, max_speed);
--
- 	stmmac_napi_add(dev);
- 
- 	if (netif_running(dev))
+Best regards,
 -- 
-2.43.0
+Ricardo Ribalda <ribalda@chromium.org>
 
