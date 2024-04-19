@@ -1,57 +1,58 @@
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C55DB7F469
-	for <linux-sunxi@lists.linux.dev>; Fri, 19 Apr 2024 09:49:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 004D37F7C5
+	for <linux-sunxi@lists.linux.dev>; Fri, 19 Apr 2024 09:49:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713520167; cv=none; b=PC8aU6/oUskKOGqK2QaT7xz7fUOJKtrUO4B54SuaYTkFv1v6sFS3KNpMAQDiIgS/WrtJcO5Pelj1Qb7N8o9syatN9soF0GKPnFPxOxIuocwZQ2ejd3FS5S87HpfQuS6GM0eKmEJj+mRfepeJGomvhqBIkenKlRZe281UJvtcLIk=
+	t=1713520168; cv=none; b=JFJCe8syACOGTDLHmL4XGCkA/ZtTc/DTCsWqCum5ldANjff0pPpi9yiMav7VbcaocV0J9ULkFq7hZa/L6yXf5ZHXQTTv61F2xxGJD1rPdDfVgueixo0lZMncvHc9QF140jc1N0kIwS0D1qme+FCWuN7qpQ2OvpPkqC5OTnRW6mg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713520167; c=relaxed/simple;
-	bh=4VxVD/ZvDgbL8FzmgqVV94mI8OoBWP6NSF7Mr+JIpbc=;
+	s=arc-20240116; t=1713520168; c=relaxed/simple;
+	bh=8VkIhJC4qRo1P5qjabF5E6wLqOZFDXI1jx3/GEL4npI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=K70uUO1aBWzvSWyXbQGaGGGKnwKB5cgtdy87AQSvndaaxxRUpAEmmiAL+X8GS+bIjCv6nxnDhskdnrNS4SocHmGo9yu3KXgEkI3TjRgCwdTvOiPGh80UAaVw2sN/irEzkf5laOHmMd8GS9WHctASwdsyjtDnGdlX3JIVSzG7xlY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Pe0kvqpD; arc=none smtp.client-ip=209.85.222.182
+	 In-Reply-To:To:Cc; b=S++5+r705tgJBK2aYBv01IpkZEQlZeD937zrUCf1nVfseKUOvq879ddiqf1lGlKG+j1I3TgCrzBw28MczAusuPAG1fW9PEdVat/coWPMbymSSufBUe4LEwBG0cYx4VGNz4fXnseKTXIoUYJXgt/QRf9NxvO/dApAW/OTwEMmTDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ROTdKkiJ; arc=none smtp.client-ip=209.85.222.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Pe0kvqpD"
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-78f0417b36bso122475085a.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 19 Apr 2024 02:49:25 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ROTdKkiJ"
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-78f0e3b6feeso68863085a.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 19 Apr 2024 02:49:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1713520165; x=1714124965; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1713520166; x=1714124966; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2ANA0Ymw4Lt0Uz9R7FMbv4c7Ba86EanvWiJ79X90fJk=;
-        b=Pe0kvqpDUpm/MuV/9z1U9A8d9V7Z3kSzfzK8W1tDds4IfaWm36Igoetp5fGWjdYwq2
-         FLCgBi9WqW5H+ZNIimvOGl4NYm0gXxrBfrQkMYGfFE/UYJYtWOPkncodUthakUa+KMOc
-         /Amu/WI2PQqbfufN1n3SzWipq55gEZCt8BB+0=
+        bh=r6LFW19gEC+T0JWPpzdeGsrE8gqRTr2t8fOHXzLwHuc=;
+        b=ROTdKkiJo7xIrZZcXkTjPNRjz9fzGpX7tWzINDD95sr3QTW0WnY94AwidQJAGUzdPj
+         mus8NGCqdFLhfa36WdqOUWR5Bmn5ZOg2OOtGbEPlxjyiivZnArCKmib2KzCh8CRPzqhh
+         phpJogi4dAgBQMTEV/bzuyIGdzthSsie2PsE8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713520165; x=1714124965;
+        d=1e100.net; s=20230601; t=1713520166; x=1714124966;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2ANA0Ymw4Lt0Uz9R7FMbv4c7Ba86EanvWiJ79X90fJk=;
-        b=C1rMA6WiTEEF5VAcPVYJJJ2bc2COKlrs7pF75CG/pfiYFftF5W2T6cp38sxpnXUMUX
-         C5W5y5yDn6BFgE6Tq2vbC1D4B1dgjTPW6XeDRFAVxhTAEYe0KRT1jaYi/4Qh6IUPmTfQ
-         2sFQtjJwL/5mkhProT1BWlwoWl38SM4eiD9/xMQVDhYlIvVz5VmspOTepCB/grsCfJMv
-         N+zlLA7ivyLS0hKD4SHd2fcZj+p4fKfKl7HEIrmeZ0vzjoiiX0BfBoibB0QYMIQYawIG
-         q/vmY2RAybbZMc6qrp8/cqBVSluRrpHxeEy8iYCBDVr5Inii2WaSIPXgkK2V9mHvaUbS
-         mhww==
-X-Forwarded-Encrypted: i=1; AJvYcCWuF/1pNHcVh75udcOzwHrC8C+K+o8XCvLaHlKuYT9BnIQN6PDQACXVQ10uQg+h3eGkbWxW3qkzlyytxv77syUugiG0A8DGYp2gWMo=
-X-Gm-Message-State: AOJu0YzhBSU4tKwkaOhGC4Wt8jVy18Ti6+jWNh5P3mzmNmPspgN5D0Gh
-	qXtRL6fOIo11j2Efde6rD0aO33eUN7j5DQ1d10XhXc4M7A2GRYwlxVp5Hymwtg==
-X-Google-Smtp-Source: AGHT+IHomIgtJUPKBWZHNjcgUxdMC59m2s0CnNC81cRH7k5Yf23XSr3oTpLeoFOU8oA9VPTqHwEHeQ==
-X-Received: by 2002:a05:620a:984:b0:78d:6b8e:18d with SMTP id x4-20020a05620a098400b0078d6b8e018dmr1691369qkx.64.1713520164849;
-        Fri, 19 Apr 2024 02:49:24 -0700 (PDT)
+        bh=r6LFW19gEC+T0JWPpzdeGsrE8gqRTr2t8fOHXzLwHuc=;
+        b=As7Wvju/byaxJIxN/pjBg26MW2vc0rHHrpATp9r/0lAvmHR/ieAxHBeZpQjbpRUPnp
+         Y8f2UUOWD69yn057d4KvPOx2qfzbBptK3+75FjTTB/6jYHSB0mfTZ4IehkiRVQAjcBJx
+         rxMnHsry1Yf1QhvE6AONx7eQnquFGCHm3ZEzRATLN45wcSuVw0NMbUQvz4zG3KYgKwJT
+         X1PSwmqq5k8vreDJUKFbP/qoquYbU4WbtrFQoKr4yL39Ph8aZgT9+B7HRFnjrwX3ym2d
+         oaiURXU/TZEc2FzgeAKr6/KxMeEqtExktoPqumEU5jyMYV/eoMiuPsd67iH8vVPLlwJz
+         tIhQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXKNEH/NCsazfRmqPIsxuJfIGM5GaMpDQ1I28CRR7q5YeVPPA72V+BoL7fZyMkeSHvSOAQQQWXFf2Uj3r/xbtzK3yplOWd0Tmhl08M=
+X-Gm-Message-State: AOJu0YwAcqvlSlK9d96mjOdGZ28tmEQbsbXXRhHYzwIQhKy+F40TX1yX
+	ohy7zaS+KLVgRGzbJMXMHUCG0vOSyCNlZOCrhFyxZ2cKMB+KYM2hHg3Rx8q8OEcecFHJ/g0VUjL
+	RyQ==
+X-Google-Smtp-Source: AGHT+IHUtLmGGbi8XMjkj1WeDSrpOuo1PYSYaSFswG+8Ppa9nSbCTEFJOTOGzt08rmRjKE1fcvdYDA==
+X-Received: by 2002:a05:620a:4586:b0:78d:70c7:af with SMTP id bp6-20020a05620a458600b0078d70c700afmr2461486qkb.13.1713520166155;
+        Fri, 19 Apr 2024 02:49:26 -0700 (PDT)
 Received: from denia.c.googlers.com (114.152.245.35.bc.googleusercontent.com. [35.245.152.114])
-        by smtp.gmail.com with ESMTPSA id dt14-20020a05620a478e00b0078d735ca917sm1434532qkb.123.2024.04.19.02.49.23
+        by smtp.gmail.com with ESMTPSA id dt14-20020a05620a478e00b0078d735ca917sm1434532qkb.123.2024.04.19.02.49.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Apr 2024 02:49:23 -0700 (PDT)
+        Fri, 19 Apr 2024 02:49:25 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Fri, 19 Apr 2024 09:47:50 +0000
-Subject: [PATCH v2 04/26] media: uvcvideo: Use max() macro
+Date: Fri, 19 Apr 2024 09:47:51 +0000
+Subject: [PATCH v2 05/26] media: go7007: Use min and max macros
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -60,7 +61,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240419-fix-cocci-v2-4-2119e692309c@chromium.org>
+Message-Id: <20240419-fix-cocci-v2-5-2119e692309c@chromium.org>
 References: <20240419-fix-cocci-v2-0-2119e692309c@chromium.org>
 In-Reply-To: <20240419-fix-cocci-v2-0-2119e692309c@chromium.org>
 To: Martin Tuma <martin.tuma@digiteqautomotive.com>, 
@@ -97,35 +98,34 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, 
  linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
  linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
- Ricardo Ribalda <ribalda@chromium.org>, 
- Sergey Senozhatsky <senozhatsky@chromium.org>, 
- Kieran Bingham <kieran.bingham@ideasonboard.com>
+ Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.12.4
 
-It makes the code slightly more clear and makes cocci incredibly happy:
+It makes the code simpler and cocci happier:
 
-drivers/media/usb/uvc/uvc_ctrl.c:839:22-23: WARNING opportunity for max()
+drivers/media/usb/go7007/go7007-fw.c:1292:14-15: WARNING opportunity for max()
+drivers/media/usb/go7007/go7007-fw.c:1293:14-15: WARNING opportunity for min()
 
-Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
-Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/usb/uvc/uvc_ctrl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/usb/go7007/go7007-fw.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index a4a987913430..4b685f883e4d 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -836,7 +836,7 @@ static s32 uvc_get_le_value(struct uvc_control_mapping *mapping,
- 	while (1) {
- 		u8 byte = *data & mask;
- 		value |= offset > 0 ? (byte >> offset) : (byte << (-offset));
--		bits -= 8 - (offset > 0 ? offset : 0);
-+		bits -= 8 - max(offset, 0);
- 		if (bits <= 0)
- 			break;
- 
+diff --git a/drivers/media/usb/go7007/go7007-fw.c b/drivers/media/usb/go7007/go7007-fw.c
+index 018019ba47d4..86ce593e0c54 100644
+--- a/drivers/media/usb/go7007/go7007-fw.c
++++ b/drivers/media/usb/go7007/go7007-fw.c
+@@ -1289,8 +1289,8 @@ static int avsync_to_package(struct go7007 *go, __le16 *code, int space)
+ 		0xbf99,		(u16)((-adjratio) >> 16),
+ 		0xbf92,		0,
+ 		0xbf93,		0,
+-		0xbff4,		f1 > f2 ? f1 : f2,
+-		0xbff5,		f1 < f2 ? f1 : f2,
++		0xbff4,		max(f1, f2),
++		0xbff5,		min(f1, f2),
+ 		0xbff6,		f1 < f2 ? ratio : ratio + 1,
+ 		0xbff7,		f1 > f2 ? ratio : ratio + 1,
+ 		0xbff8,		0,
 
 -- 
 2.44.0.769.g3c40516874-goog
