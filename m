@@ -1,120 +1,143 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB95243AA1
-	for <linux-sunxi@lists.linux.dev>; Fri, 19 Apr 2024 08:58:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BED5E651B6
+	for <linux-sunxi@lists.linux.dev>; Fri, 19 Apr 2024 09:04:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713517128; cv=none; b=hhzQY3KtQFQ3pn2JBQ7Sy3e3Xb00WxPFPC+jgooXFO7xNqL1iEQpQB0RRg3wW8fhzHXavZVem+84JkYj87Np5HCfLdvYCQnDjNdW9sodb7i4YVl1qh8nyOxWpYXZbR+DfVsXKpDb0oO545a7IoIOSfrE8l1J6DMTu5ySCf7QO1M=
+	t=1713517448; cv=none; b=XALbm/u4O473Dgb+y/u+RdbT1i6fnHLr4YdZL/EbOpChw+OyJ52Qfa85ywAwxI+fsH5VZb29W1GONLFaZie18zvV+YLcsphqpRCyrWBpHcM1wLq1G1OI41R0Kest74Ehl8PhcArEEHgon0qkOEaGpo05C/JLz18i2x5TI7UI4gg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713517128; c=relaxed/simple;
-	bh=jgbeBRVzeXMYSheG4ZQAneV/ODr+RugakD1+LtLxDCA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W2Rbmu/pHaB3Rh//wbeS7euiNnIAVS+CfjlF8PyG3Bo0p9uBQLcg28ViDxX1nX0rS+v3A9kNlBFu/2svYZiRBJiLkr5cDMwp29eWqrhle0GLJ4DGBrhc6wnTMtlu1kEYBnxIi2HbAXVlOPKPxAAVaErkdJ1JlP+9mDhvsP1UCEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ORDNi5+d; arc=none smtp.client-ip=209.85.208.177
+	s=arc-20240116; t=1713517448; c=relaxed/simple;
+	bh=nyEbjzkCc7+KWWvrhINgBitJsBsfmKTLRX81KrOL4UY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RukL6C28wHp8wBLayz6g55k1okdoTKdwHykPh+qbn9Q09yvLMkURcEjuNsL4r9i57Y8zFC9A4G5UupX3o5KT8E0W52zcQWr1Hb3YTeTd4dQk/nmrY3RhCuZ4kFSYwEBN48EG7BMsF8ZfNtTo6jNqNPgHisBzIV6vDtZtRqrYvx0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aRal/ACB; arc=none smtp.client-ip=209.85.208.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ORDNi5+d"
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2d872102372so22937011fa.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 19 Apr 2024 01:58:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aRal/ACB"
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2d895138ce6so26180891fa.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 19 Apr 2024 02:04:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713517125; x=1714121925; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NkPkWZD+fDDhemy2LIDiT55F/PO/TI//Q041lLZQk+c=;
-        b=ORDNi5+dnkT3rExmc1XhaVfHBpQZ+aIwl7sPKSQlDB7FEdqjqECPTUMRf9msb6I6WP
-         tztaKh8H6KXIqVsijgWiy7OjAlw0bcg6RopdVtRtBDmyVkoiXSeRs3oSMCwJmI4fDSBD
-         OUG/Px8R7+s1Yivd8dLBU+ESq/sm++sNPLoEXCOJD3VNtC2COdLXNM6mxkmXJBXLRRYZ
-         sQRRHXniI5KSb9UzRKlGMQNJWHg36NPzH0OxxWJCH9zeBaqpq8XNCHtfZBAUe8oF3GqE
-         NOP7F4xWRGZJqxlRstMQezzMtuSZiWLy439mh5aUCpENnCGcDxYBzFsVHMjXL3lDk2Ma
-         Gpxw==
+        d=gmail.com; s=20230601; t=1713517445; x=1714122245; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RZYagrKgL3oRgietAYozGj1whRQiP+RdxmQVuv0PkQ4=;
+        b=aRal/ACB8bcnzSKCBSkjNmeF1T5creDyHoeaP9IVxk8C/obU+6rPOZ86qIoJ5rzLmy
+         XxNysE136/uShilYQ05nfaa16l5ckwndLZXyyV9gcpshK9LxiATWUqRVPhaL4CUMHEub
+         xC2OKxlKjXhRy56o7mlsj5HFIZAmE39n30Gj52QOahK6Qk+aINQPHQ6V9uJPrmkevQ83
+         y/Za9Vp9fJUnoVxN5rS99f3dBnYBjOyRmvll4th7zSZx8GSI2v8wsRZhanfrUQgzNG7Q
+         zYg2fWj2v2XyoeEICv8h0LF4PFe2uQ84euMg8TYc/e/e88k4WAOSyDQHaWPngolRj90P
+         ziAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713517125; x=1714121925;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NkPkWZD+fDDhemy2LIDiT55F/PO/TI//Q041lLZQk+c=;
-        b=tDg/4/2c3OK1UxQR7uybhDIY2F2RvbLUjwvSA1MFUmLEgzPhjhe5NL6QIX4RtmN0xy
-         yX0IE0QI+IyvjOKQbweNNiQ2iLxI6gz6GSxNi/4TCwKuq9CmmffRamYdewxsSbVvZ5un
-         z5Xt1OacgylcMhpBQ0eOiSnHmd/X2EIPcGx+iPtnTsXmZL/qSbVh+1yWnXABKhC+FHRp
-         a2aSXXYtDSjqdmBN6bCEsTx/PKqvQmAj9jXcdMQQN+wPEIm+gFc3CiWwRixIguNLUcmC
-         ZFRvNiANymN6V5oa/6wBOjilOUwVcY+9IeIIR+SyemVfKa4tlphPFSGi/1znzq664Cc1
-         ADDg==
-X-Forwarded-Encrypted: i=1; AJvYcCVG1YlGl6kaL3QUmCLdjnhAfHzyAZ+B1FMP6mJFO1R/F90SgKVBfKlSAiL7kKRUrASlJNPjT84MVBUtDCFNAJWKW0Ww5iwKwSQMcAE=
-X-Gm-Message-State: AOJu0YzQqvARPGf9ylC4ElVbcrc6GxLEXibkWEgOMHT1YSxOeL7/hgHw
-	HNy0GV1BcVqIU4MrIqv20F/lFGUGd4bWAHTE2tPe6WQsgWZY4Spw
-X-Google-Smtp-Source: AGHT+IG9jaQLQRx7GI8egozbRcyQnR4eJjjPqvTksThvItCQ/0Y3ypRISV37b291kfO+3oDXaYzPfw==
-X-Received: by 2002:a19:6442:0:b0:51a:ae0a:26dd with SMTP id b2-20020a196442000000b0051aae0a26ddmr786111lfj.28.1713517124659;
-        Fri, 19 Apr 2024 01:58:44 -0700 (PDT)
-Received: from mobilestation.baikal.int (srv1.baikalchip.ru. [87.245.175.227])
-        by smtp.gmail.com with ESMTPSA id m24-20020a056512359800b0051950b8252asm606303lfr.240.2024.04.19.01.58.43
+        d=1e100.net; s=20230601; t=1713517445; x=1714122245;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RZYagrKgL3oRgietAYozGj1whRQiP+RdxmQVuv0PkQ4=;
+        b=lFV7lsM71B7P1e2OwfQ8TP5POBd8NrJUfkWRBDbRxpdvftZtCCk/yaoGe3tanes4SX
+         r13vHsgw/8JOAp8r6UmYz4GX6lxfyomSYtLzalo2DdrzZ36kYgD04pFEwWgUs9NYl/dn
+         KeTFCm4Jsw+cRRF9Gmz1xWuy1ZR603aVehfRTks6dbd9qNHKFWaam1QKY/cIXDBRTWsg
+         UdMy0AVMX4zJcK6qlwrTaDn2/UMU2HcVjC0u7VlqcE5QeMXuT+fpxbvcmTbSJVePPLnK
+         PaiiNAHiim7K+p84PzsPRttLwoZ5yOtV87CAYa8DZMAsD4yxyKcWwDTE80gPGDq+FfH3
+         3Thw==
+X-Forwarded-Encrypted: i=1; AJvYcCX73drL+uypDnSAi2+T5T5eQT7ra8+9VzhWZbJ/4g0XyZX8kcm5Uhh6Xup1t3DHzk7rsf+Q0mQ1SeYe8y0F8Ny/6SFdfwZ5dFSoQUo=
+X-Gm-Message-State: AOJu0YzPo+NDC55nbeEOvbQcr3ydl5xBa8OBmGb52BkNixt/kYln3ihD
+	Zdpvn+bIv8BxPIegfK9WjNPzCbyMZthvFv0wdKxM3S30xh6yZG4W
+X-Google-Smtp-Source: AGHT+IGg1RrYLe0BtHyA885HiTeG8lWReO6DWGy/i3pNp212dINrX0hNxqF4nt96xYKpLfOiYPULBQ==
+X-Received: by 2002:a2e:b90d:0:b0:2d8:a921:dfbf with SMTP id b13-20020a2eb90d000000b002d8a921dfbfmr863882ljb.19.1713517444592;
+        Fri, 19 Apr 2024 02:04:04 -0700 (PDT)
+Received: from localhost (srv1.baikalchip.ru. [87.245.175.227])
+        by smtp.gmail.com with ESMTPSA id b10-20020a05651c032a00b002dcafaa0993sm355004ljp.14.2024.04.19.02.04.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Apr 2024 01:58:44 -0700 (PDT)
-Date: Fri, 19 Apr 2024 11:58:42 +0300
+        Fri, 19 Apr 2024 02:04:04 -0700 (PDT)
 From: Serge Semin <fancer.lancer@gmail.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Jose Abreu <joabreu@synopsys.com>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
-	Russell King <linux@armlinux.org.uk>, Yanteng Si <siyanteng@loongson.cn>, 
-	Romain Gantois <romain.gantois@bootlin.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Simon Horman <horms@kernel.org>, Huacai Chen <chenhuacai@kernel.org>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v2 0/2] net: stmmac: Fix MAC-capabilities
- procedure
-Message-ID: <axq6v6ya7nuov6x6vdjlp45i7bjdo2tkmmiuytye456fszycal@bkixd6ruplr7>
-References: <20240417140013.12575-1-fancer.lancer@gmail.com>
- <20240418185328.79c38358@kernel.org>
+To: Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Yanteng Si <siyanteng@loongson.cn>,
+	Romain Gantois <romain.gantois@bootlin.com>
+Cc: Serge Semin <fancer.lancer@gmail.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Simon Horman <horms@kernel.org>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	netdev@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH RESEND net-next v3 0/2] net: stmmac: Fix MAC-capabilities procedure
+Date: Fri, 19 Apr 2024 12:03:04 +0300
+Message-ID: <20240419090357.5547-1-fancer.lancer@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240418185328.79c38358@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Apr 18, 2024 at 06:53:28PM -0700, Jakub Kicinski wrote:
-> On Wed, 17 Apr 2024 17:00:06 +0300 Serge Semin wrote:
-> > The series got born as a result of the discussions around the recent
-> > Yanteng' series adding the Loongson LS7A1000, LS2K1000, LS7A2000, LS2K2000
-> > MACs support:
-> > Link: https://lore.kernel.org/netdev/fu3f6uoakylnb6eijllakeu5i4okcyqq7sfafhp5efaocbsrwe@w74xe7gb6x7p
-> > 
-> > In particular the Yanteng' patchset needed to implement the Loongson
-> > MAC-specific constraints applied to the link speed and link duplex mode.
-> > As a result of the discussion with Russel the next preliminary patch was
-> > born:
-> > Link: https://lore.kernel.org/netdev/df31e8bcf74b3b4ddb7ddf5a1c371390f16a2ad5.1712917541.git.siyanteng@loongson.cn
-> > 
-> > The patch above was a temporal solution utilized by Yanteng for further
-> > developments and to move on with the on-going review. This patchset is a
-> > refactored version of that single patch with formatting required for the
-> > fixes patches.
-> > 
-> > The main part of the series has already been merged in on v1 stage. The
-> > leftover is the cleanup patches which rename
-> > stmmac_ops::phylink_get_caps() callback to stmmac_ops::update_caps() and
-> > move the MAC-capabilities init/re-init to the phylink MAC-capabilities
-> > getter.
-> 
+The series got born as a result of the discussions around the recent
+Yanteng' series adding the Loongson LS7A1000, LS2K1000, LS7A2000, LS2K2000
+MACs support:
+Link: https://lore.kernel.org/netdev/fu3f6uoakylnb6eijllakeu5i4okcyqq7sfafhp5efaocbsrwe@w74xe7gb6x7p
 
-> According to the build bot it didn't apply at the time of posting :S
+In particular the Yanteng' patchset needed to implement the Loongson
+MAC-specific constraints applied to the link speed and link duplex mode.
+As a result of the discussion with Russel the next preliminary patch was
+born:
+Link: https://lore.kernel.org/netdev/df31e8bcf74b3b4ddb7ddf5a1c371390f16a2ad5.1712917541.git.siyanteng@loongson.cn
 
-Most likely it happened because the first three patches
-https://lore.kernel.org/netdev/20240412180340.7965-1-fancer.lancer@gmail.com/
-hadn't been merged in yet back then. They are now.
+The patch above was a temporal solution utilized by Yanteng for further
+developments and to move on with the on-going review. This patchset is a
+refactored version of that single patch with formatting required for the
+fixes patches.
 
-> It does apply now but the bot doesn't have a "retry now" button.
-> Could you repost?
+The main part of the series has already been merged in on v1 stage. The
+leftover is the cleanup patches which rename
+stmmac_ops::phylink_get_caps() callback to stmmac_ops::update_caps() and
+move the MAC-capabilities init/re-init to the phylink MAC-capabilities
+getter.
 
-Sure. I'll do that in an instant.
+Link: https://lore.kernel.org/netdev/20240412180340.7965-1-fancer.lancer@gmail.com/
+Changelog v2:
+- Add a new patch (Romain):
+  [PATCH net-next v2 1/2] net: stmmac: Rename phylink_get_caps() callback to update_caps()
+- Resubmit the leftover patches to net-next tree (Paolo).
 
--Serge(y)
+Link: https://lore.kernel.org/netdev/20240417140013.12575-1-fancer.lancer@gmail.com/
+Changelog v3:
+- Just resubmit (Jakub).
 
-> -- 
-> pw-bot: cr
+Signed-off-by: Serge Semin <fancer.lancer@gmail.com>
+Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+Cc: Simon Horman <horms@kernel.org>
+Cc: Huacai Chen <chenhuacai@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Samuel Holland <samuel@sholland.org>
+Cc: netdev@vger.kernel.org
+Cc: linux-stm32@st-md-mailman.stormreply.com
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-sunxi@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org
+
+Serge Semin (2):
+  net: stmmac: Rename phylink_get_caps() callback to update_caps()
+  net: stmmac: Move MAC caps init to phylink MAC caps getter
+
+ .../net/ethernet/stmicro/stmmac/dwmac4_core.c |  8 ++---
+ drivers/net/ethernet/stmicro/stmmac/hwif.h    |  8 ++---
+ .../net/ethernet/stmicro/stmmac/stmmac_main.c | 36 +++++++++----------
+ 3 files changed, 25 insertions(+), 27 deletions(-)
+
+-- 
+2.43.0
+
