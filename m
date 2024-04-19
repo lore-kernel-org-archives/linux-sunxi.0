@@ -1,57 +1,57 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CE46823A6
-	for <linux-sunxi@lists.linux.dev>; Fri, 19 Apr 2024 09:49:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DBCE86131
+	for <linux-sunxi@lists.linux.dev>; Fri, 19 Apr 2024 09:49:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713520176; cv=none; b=V3Bm5NEimuYMGn0khpWrzW5/LHmTxiMJvorzKbusfXSRxOkZPIcit1WNSPG7uoAJQ/X+6hHssfUY9z4A7Lg7Kq+YUBVNyJzRFzPYVFGVsqFC4XNzmcPB07mGhKnRrm+aT3bQKk2nr+5jMdZb+LViLbWngNQmM9TXwujGVb1+0Ok=
+	t=1713520178; cv=none; b=ET+QVWsWP6XL44kuZUPMidv3kcZ7y96q+Z0WmJkx3R4e2G8WiVLTviSXCDrD0XXpDLPxIepKMwA0DTHE1sqj2Mc7J1sSsB+Zk1ZezYO0iiDFjvRGUCpAaBQhnBWy4ivXyNZQzfDloMbSrXzv16iUGM4nlIXiDHeFSxRibgDOpoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713520176; c=relaxed/simple;
-	bh=+AXbzIt1DCOyX+j9nTM1S5LGWAW6l5Ne8tHYdxY2P08=;
+	s=arc-20240116; t=1713520178; c=relaxed/simple;
+	bh=0VmWOq0FNED2TWNE7G/mZoZRSR2zskQMt81gS2SxLNQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=dPDu+CCuMB0YgODHQgYgUNvlv1CfEkZxNazgllRCzmvpl9y6aXDLGi3Qt9RAnFKR75onxGuaFIN2WihLvQoejevRczXgbrIy/Pnii/xy4ckZcfo5eHzx2XElnPKhLmjOhAjyXT2Gq1vItpgFsgwCoRY4ZsrWidPrDjPByO80Pjo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=PHkvNfMt; arc=none smtp.client-ip=209.85.222.179
+	 In-Reply-To:To:Cc; b=KdkjlwKvWVr9MLrmaUUcH5C0DXCkqPZ1Ddq3WRbv2DDgLHVxKIEE0Rjx/KqpOClzGOvQ77cAx1UOBgs2uEM1A6sx8ErO1L2t4bmnNk16zSMzX0yFXqiCNRP28H0xMbSJKwR6HXbkU7LXZ8K8aybxn1vqfAs0Aj5k1pM3V3KZoYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=JH6cJomF; arc=none smtp.client-ip=209.85.222.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="PHkvNfMt"
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-78f03917484so111326285a.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 19 Apr 2024 02:49:31 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="JH6cJomF"
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-78f0593f45dso121286385a.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 19 Apr 2024 02:49:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1713520171; x=1714124971; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1713520174; x=1714124974; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=I5MK517M661jXeUTMXVPJlov9z4l8/dISyr2IlNuzMY=;
-        b=PHkvNfMt+yhkKFXBhDQ1C7zNcBWvW/OMJHeXcysrNCLKDhozDdxvvf8fiNG0Te0ttI
-         EovvriuiRfiIoeH+Mj6SkNbp39VmqzE4qEK/N4iIdbXhY6TPHwmC8pbYgCHWeZe1Nv5p
-         cOwwQNJdWkjMzjF/oDZTc2rgOUG/EMuTjqJgM=
+        bh=0jv41cPIK92ur4lysOBbsHOVURXwH8FRVBK0KQUkRX8=;
+        b=JH6cJomFzrgaFD9Ne1Q0ey8RONj/JxSAexlXqMCJzx2CASWCYQacmOLl1f6XfmFE/4
+         7oVeKdpasCv548XmiB5A6P5DTWI2m8KTyRT5uiADujzvBQTol9LLfGvDX1mPm7exJnf5
+         gxmTsITXbLv/bP8GeZO4Fo7k1E+pKgXyJ4pEE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713520171; x=1714124971;
+        d=1e100.net; s=20230601; t=1713520174; x=1714124974;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=I5MK517M661jXeUTMXVPJlov9z4l8/dISyr2IlNuzMY=;
-        b=vp55VuAGclcebcxFVnHi+KUBGMrWpwSxBKEVIkFSD5F3DjkOL9Ex8/I2q+ze7tEaSl
-         ORC9zGJdBb74D3/6Pn/Z9Z/v11kzauxHinhgOdaanjJdZkpAbSFv0a55Rrm2YVJgTUki
-         3kSXu7zmbLxfWcZAVbXxc7jx5OAOuuTq3i8PI5VF9hYpY1wX2QToiMNOsmyyrQYimX5s
-         t+s0iovwH8GiK0sOtqbwDuzpHRkIxtkcgnzTA9ZOHO34udUAf9IyghWlaIzGmedxA3Uc
-         c7M5OnEpDDkfm+D33g2KmHOQeUtqF2igvnv3qbbiUDBnJl42zAqe9eikFPrqckjA5d5v
-         21yw==
-X-Forwarded-Encrypted: i=1; AJvYcCV9pkLzwEWAf9KTTAYo+SLR+NJHNBvevg99K0BQ41CvXUCb2e2vFVitD87QppOzIJUjTWmDl7KjZzxenG26r8LCLJ35lX1BAPycSCo=
-X-Gm-Message-State: AOJu0YwvONtGiIu9lvHwPoVvlhPz9e1hZaQ6XnWJRiOyzPIjzBeBaEVw
-	SrLabl/0fVBY/OVaEIuu7sIAEnJAGR8oGZnvf6nut6QNq6dXUPQBzCEmTn0QXQ==
-X-Google-Smtp-Source: AGHT+IGTA8hVputhy9D1xoHe1Hnr3yG2C7dQHpLq8IKH//vLRvJ+A58aCJR9JO6Y/w8HTYrMtJHvqA==
-X-Received: by 2002:a05:620a:1da6:b0:78d:5065:c5df with SMTP id pj38-20020a05620a1da600b0078d5065c5dfmr1596268qkn.18.1713520171055;
-        Fri, 19 Apr 2024 02:49:31 -0700 (PDT)
+        bh=0jv41cPIK92ur4lysOBbsHOVURXwH8FRVBK0KQUkRX8=;
+        b=PRHJxlF5VgEfIHXVtrLTc7NY7pUi8XWhkDUTsHq6CWzSNNgzNV3c58gvTj1kUw6GeS
+         IYayP/qB8YCIzgQRqet8OK1OfztdETcskl5E5yL6p9BeBoMqEkq++NEJZAi1n3mXp5eD
+         v1iyoBYE6hXYtfaQZWaUM6mkNmylt079hkfeXZdrH3TVV9j8aqp3IEug8AekQyIKxC2+
+         MYKdlJGGL3TrdfJuB/h3uAk65N9MZmiFA34VKx84dDHuowWdusUqgcWb4aFDmgucWjYc
+         AObMz3Sv7xU4kZRzMVbkL9cVBrI/ky81TIa4HpXCg3e9OHgqgiOpn4Xdxv0lBLNqyBiT
+         e6LA==
+X-Forwarded-Encrypted: i=1; AJvYcCVJNgMb9SUzh+YJe/VV3eYncLblXcxR48St8CEY3g1M8oa4EuAqODoN4Nb12ERalITyt3KnDwm8HcFj9Bt9qDSj0pJN0YmOMEC+4tE=
+X-Gm-Message-State: AOJu0YxVmvd0Gfoabsaqh5cmLxCPwiD0knHJd3M2dVU3+WM/bxuc9aQD
+	q5YQPWmWUk3w9JDyNJl4K8XrXn0V+/UJpIjWLqZTS9spjfz2PLw30CRwHt9bBQ==
+X-Google-Smtp-Source: AGHT+IETv5IUoGgWksFs9Z+Dm4pcXtdl0bT854ihOygqGrbXzgeian082aGVpKk3VnS1RI+F74x9Bg==
+X-Received: by 2002:a05:620a:4694:b0:78e:d2ff:a108 with SMTP id bq20-20020a05620a469400b0078ed2ffa108mr2287614qkb.0.1713520174478;
+        Fri, 19 Apr 2024 02:49:34 -0700 (PDT)
 Received: from denia.c.googlers.com (114.152.245.35.bc.googleusercontent.com. [35.245.152.114])
-        by smtp.gmail.com with ESMTPSA id dt14-20020a05620a478e00b0078d735ca917sm1434532qkb.123.2024.04.19.02.49.30
+        by smtp.gmail.com with ESMTPSA id dt14-20020a05620a478e00b0078d735ca917sm1434532qkb.123.2024.04.19.02.49.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Apr 2024 02:49:30 -0700 (PDT)
+        Fri, 19 Apr 2024 02:49:34 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Fri, 19 Apr 2024 09:47:56 +0000
-Subject: [PATCH v2 10/26] staging: media: tegra-video: Use swap macro
+Date: Fri, 19 Apr 2024 09:47:59 +0000
+Subject: [PATCH v2 13/26] media: common: saa7146: Use min macro
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -60,7 +60,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240419-fix-cocci-v2-10-2119e692309c@chromium.org>
+Message-Id: <20240419-fix-cocci-v2-13-2119e692309c@chromium.org>
 References: <20240419-fix-cocci-v2-0-2119e692309c@chromium.org>
 In-Reply-To: <20240419-fix-cocci-v2-0-2119e692309c@chromium.org>
 To: Martin Tuma <martin.tuma@digiteqautomotive.com>, 
@@ -100,36 +100,53 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.12.4
 
-Makes the code simpler and cocci happier:
+Simplifies the code. Found by cocci:
 
-drivers/staging/media/tegra-video/tegra20.c:324:44-45: WARNING opportunity for swap()
+drivers/media/common/saa7146/saa7146_hlp.c:125:36-37: WARNING opportunity for min()
+drivers/media/common/saa7146/saa7146_hlp.c:154:41-42: WARNING opportunity for min()
+drivers/media/common/saa7146/saa7146_hlp.c:286:35-36: WARNING opportunity for min()
+drivers/media/common/saa7146/saa7146_hlp.c:289:35-36: WARNING opportunity for min()
 
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/staging/media/tegra-video/tegra20.c | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+ drivers/media/common/saa7146/saa7146_hlp.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/staging/media/tegra-video/tegra20.c
-index 630e2ff987a3..7b8f8f810b35 100644
---- a/drivers/staging/media/tegra-video/tegra20.c
-+++ b/drivers/staging/media/tegra-video/tegra20.c
-@@ -317,13 +317,8 @@ static void tegra20_channel_queue_setup(struct tegra_vi_channel *chan)
- 		chan->addr_offset_v = chan->addr_offset_u + stride * height / 4;
+diff --git a/drivers/media/common/saa7146/saa7146_hlp.c b/drivers/media/common/saa7146/saa7146_hlp.c
+index 7569d8cdd4d8..fe3348af543e 100644
+--- a/drivers/media/common/saa7146/saa7146_hlp.c
++++ b/drivers/media/common/saa7146/saa7146_hlp.c
+@@ -122,7 +122,7 @@ static int calculate_h_scale_registers(struct saa7146_dev *dev,
+ 	xacm = 0;
  
- 		/* For YVU420, we swap the locations of the U and V planes. */
--		if (chan->format.pixelformat == V4L2_PIX_FMT_YVU420) {
--			unsigned long temp;
--
--			temp = chan->addr_offset_u;
--			chan->addr_offset_u = chan->addr_offset_v;
--			chan->addr_offset_v = temp;
--		}
-+		if (chan->format.pixelformat == V4L2_PIX_FMT_YVU420)
-+			swap(chan->addr_offset_u, chan->addr_offset_v);
+ 	/* set horizontal filter parameters (CXY = CXUV) */
+-	cxy = hps_h_coeff_tab[( (xpsc - 1) < 63 ? (xpsc - 1) : 63 )].hps_coeff;
++	cxy = hps_h_coeff_tab[min(xpsc - 1, 63)].hps_coeff;
+ 	cxuv = cxy;
  
- 		chan->start_offset_u = chan->addr_offset_u;
- 		chan->start_offset_v = chan->addr_offset_v;
+ 	/* calculate and set horizontal fine scale (xsci) */
+@@ -151,7 +151,7 @@ static int calculate_h_scale_registers(struct saa7146_dev *dev,
+ 		xacm = 0;
+ 		/* get best match in the table of attenuations
+ 		   for horizontal scaling */
+-		h_atten = hps_h_coeff_tab[( (xpsc - 1) < 63 ? (xpsc - 1) : 63 )].weight_sum;
++		h_atten = hps_h_coeff_tab[min(xpsc - 1, 63)].weight_sum;
+ 
+ 		for (i = 0; h_attenuation[i] != 0; i++) {
+ 			if (h_attenuation[i] >= h_atten)
+@@ -283,10 +283,10 @@ static int calculate_v_scale_registers(struct saa7146_dev *dev, enum v4l2_field
+ 		}
+ 
+ 		/* get filter coefficients for cya, cyb from table hps_v_coeff_tab */
+-		cya_cyb = hps_v_coeff_tab[ (yacl < 63 ? yacl : 63 ) ].hps_coeff;
++		cya_cyb = hps_v_coeff_tab[min(yacl, 63)].hps_coeff;
+ 
+ 		/* get best match in the table of attenuations for vertical scaling */
+-		v_atten = hps_v_coeff_tab[ (yacl < 63 ? yacl : 63 ) ].weight_sum;
++		v_atten = hps_v_coeff_tab[min(yacl, 63)].weight_sum;
+ 
+ 		for (i = 0; v_attenuation[i] != 0; i++) {
+ 			if (v_attenuation[i] >= v_atten)
 
 -- 
 2.44.0.769.g3c40516874-goog
