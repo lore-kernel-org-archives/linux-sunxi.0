@@ -1,58 +1,58 @@
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9397D130AD2
-	for <linux-sunxi@lists.linux.dev>; Fri, 19 Apr 2024 09:49:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D527D131181
+	for <linux-sunxi@lists.linux.dev>; Fri, 19 Apr 2024 09:49:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713520189; cv=none; b=CcjXqJw+ApgHO2VokT1hURJybj/vBk4R7gzn2EdV4l682TO8iskKif1PGg0k1Ah4tV5TIx8BFq0G1wpariryxWHDT66Vup9YkHvjdGYr1ngd3E7X+UsqW4hhGp+MLQRRv3SexToEFazIWCqqcuFZ1YTtNpekai0e8/X1CvkGkO8=
+	t=1713520190; cv=none; b=V5QuGqrO6t8VsQt0aUAz3JMB3jpbXnoYk3K7hezrIpyKg8JmPwoXHq0KnNv6LsujTMVc+c+C4EuWo+GvtPi9hklA7EnnZN8y1sRj+txTf5op5PExjTU0+YLuJ+jXvvSmIW3LX7wLUSXzO3M3VA2sKDGKi/8OMtETXe55cWr/yGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713520189; c=relaxed/simple;
-	bh=gRjENzF1lqbj9nmqwtSdvwXeaHcWhTIjXKxE/9NkEPk=;
+	s=arc-20240116; t=1713520190; c=relaxed/simple;
+	bh=o6W/vqiRX5/Lnl4n/KralCP6cqo+hBRj8ijp3AUHwA0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=UkdUz2egz/QGL0pJGes7tC+NSg8ZXnY+DkUMQR5RJ2Zb5785J/k/GwiCA0j84N7yC2GScC8BX9A9lwLT4lCEKJcyPdJNfFiXypAQ0EJd9/EsbQhxiPHO0IXCmQRIAkx4E57mgCy2G6QNMVuoapf9mIvca94ZXW67UKmMIbLXiyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=gUFElABs; arc=none smtp.client-ip=209.85.222.180
+	 In-Reply-To:To:Cc; b=B9RAyySapB5YI5jVN7ab6/E7n+/OoY+ao8yYTAL1ckRjkjgaz4LRsuS9vr/R+7jQDPJ9d79aGJhfYI0Suemljx1USt+/R9LlGxAWaeu7ws4/sZxPeqxSGNOHeFgXr+LXQNnIxo8YGFOMBIqZ8NZVvrHL8nc+zi8Zvv7JXvWB+gg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=lJr8Zpdb; arc=none smtp.client-ip=209.85.222.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="gUFElABs"
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-78f05afc8d6so120969885a.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 19 Apr 2024 02:49:47 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="lJr8Zpdb"
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-78ef59a369bso123605985a.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 19 Apr 2024 02:49:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1713520186; x=1714124986; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1713520188; x=1714124988; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=lvwwtJ325ZfoqM3HPbRlOXyIZjp4qomL5UkM84Use0I=;
-        b=gUFElABsgNgRMaTDb210I50raU91nCyM9NbYtT9LurZ0ZBwysm4gNjZ/yFyb5YcRkY
-         0eDhSiATyNOK6tguf2qKnRbNMWuztQaIN9+YBH0EO/SSKBhLQI/M3kmEEFnN6Sn+XTFT
-         FAM3WEGlVEk+evJI7VuZQEqKd+AHbuylPyC7w=
+        bh=vmuUSFnHzqjHSVO6x2xCi4IdU77yIJvh23Ivq0XCHvQ=;
+        b=lJr8ZpdbIVsPmke9Z5LBGv2kRkZ9JdLs0s1xGn4L1pM2oQD4DGGKpQcUPdqer8/hwx
+         3AFBahSE/CnECiSvM4mq+cBzbYC1ca+JKG1DMsraycSIuwnbUSRpOvyh4393wmWDmCel
+         EkF2y6ax19PwcTGcDCKFSqZXTi15jFa3CacHU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713520186; x=1714124986;
+        d=1e100.net; s=20230601; t=1713520188; x=1714124988;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=lvwwtJ325ZfoqM3HPbRlOXyIZjp4qomL5UkM84Use0I=;
-        b=j2PxzotsIa2p9F8EDv4RJC0ax5F+ItBp9MUON+0c/+wJnR/rKNEntoL3MRHqyG6bfp
-         T2gk4GbBzbRmWaJL/dfp48TGawlDM4sAsIq81HNxSQ4dKiVNEjgUrvn6Dzq7rvx6LjAc
-         97U6jQldaekVkOfKDcG5o+eTPIcCIaEF886uwj01oJ5huuz+V3E4wJke7HzWuAYGkm7P
-         NAFpYjAg7cQp/R26TucJs49j3fAXuudkMozUbx2+e0Hj8vyx4Iq9/9mbIP2FvyZN2tFv
-         r/u23Pr8Piji+lJYak5mtWHJRXK6JEWm9eCBUK3qs2mH72RvecX77XMh4ft3e7c9zOn5
-         sEQw==
-X-Forwarded-Encrypted: i=1; AJvYcCXSOAI3uYCLpmBgZTO0kUE1XyBcCNET0huNk1WFdW/OCVUw2zo3yRDdUAOpq0SI3h9D3XN2Ch8J0nxFuFs5kee+kmA7jdrHLpiuj50=
-X-Gm-Message-State: AOJu0Yy0N055gp0gUFpAAv3B8j7IZaUIzjuRDDqoVLyVWWg1FzqDP1bJ
-	kmZsfO054D7ZCq0b08kOIMJ1jbACgp4W8p7O8pqhCavI9p1+QHAfJGxrNr03LA==
-X-Google-Smtp-Source: AGHT+IGW/Q/7qXEnuhzqs7M7AiVQTUVEbbMcTlOeO8lJn5AB3n8uUiRJEECQ6N2ghfLB4OyUBOtkcQ==
-X-Received: by 2002:a05:620a:1238:b0:78f:1622:5a96 with SMTP id v24-20020a05620a123800b0078f16225a96mr1817957qkj.39.1713520186635;
-        Fri, 19 Apr 2024 02:49:46 -0700 (PDT)
+        bh=vmuUSFnHzqjHSVO6x2xCi4IdU77yIJvh23Ivq0XCHvQ=;
+        b=RYX3uN3BBpiSg+cYNihENusAZzcBQKlBlMHpZCBnL6M/wSjMOjuwoH7TOVk4VbL7ci
+         M1xMXu7T5Ip187RqOza9p6yr4KHYC1sT4+iGE0zZI4wQP1YQNnT1WtKhW6RkQLtoX4+A
+         KvsD/MeL6ZglGc+Qz7suL/j/xg4pc+F4uzzejqoIGTuxHl+//csBIEqxMVXJgM3/GbAK
+         LoxZKkbH8V9a7ZosJsaSw19vexL4hA8bHGRAhGo+NeUm98KWl1sxmJHtpA9UTheRlT1M
+         L1FxVl/Sb1lMxHSbojIjCPsqFMv8LITZCmrbJAxuQfR5AP7qkNnEbagYo/wmwBr1ugDn
+         0ShA==
+X-Forwarded-Encrypted: i=1; AJvYcCU4EiT5wJ9u70cuZMIgjSE8mSJkM6AiO8jdlxc+uFN6zDnzMWt8HSY+8zRDUbzd4o0H2S+Cl+mJCcNFWi9+2AU0g9TcLgI9uRXUEG4=
+X-Gm-Message-State: AOJu0Yzgeup2jNft1zNwPVEFuco8nh5+vGeQamLtoI4QxROolYWFLxXh
+	HRDvXvG54WPXZXBWey2OPWql9Id2f8F4ybs8qrTWzlT3TZNffVGiclAZOAWX6Q==
+X-Google-Smtp-Source: AGHT+IGwmCCN5wh4NaLa8aArMkOF/G4Igcbkk8uWKtclUOXaJ3Z6Gx5Noog7Zc3uSUISJQ5MgoV6TQ==
+X-Received: by 2002:ae9:f50d:0:b0:78f:1044:bcc8 with SMTP id o13-20020ae9f50d000000b0078f1044bcc8mr1806809qkg.61.1713520187814;
+        Fri, 19 Apr 2024 02:49:47 -0700 (PDT)
 Received: from denia.c.googlers.com (114.152.245.35.bc.googleusercontent.com. [35.245.152.114])
-        by smtp.gmail.com with ESMTPSA id dt14-20020a05620a478e00b0078d735ca917sm1434532qkb.123.2024.04.19.02.49.45
+        by smtp.gmail.com with ESMTPSA id dt14-20020a05620a478e00b0078d735ca917sm1434532qkb.123.2024.04.19.02.49.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Apr 2024 02:49:46 -0700 (PDT)
+        Fri, 19 Apr 2024 02:49:47 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Fri, 19 Apr 2024 09:48:10 +0000
-Subject: [PATCH v2 24/26] media: venus: venc: Make explicit the range of
- us_per_frame
+Date: Fri, 19 Apr 2024 09:48:11 +0000
+Subject: [PATCH v2 25/26] media: dvb-frontends: tda10048: Fix integer
+ overflow
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -61,7 +61,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240419-fix-cocci-v2-24-2119e692309c@chromium.org>
+Message-Id: <20240419-fix-cocci-v2-25-2119e692309c@chromium.org>
 References: <20240419-fix-cocci-v2-0-2119e692309c@chromium.org>
 In-Reply-To: <20240419-fix-cocci-v2-0-2119e692309c@chromium.org>
 To: Martin Tuma <martin.tuma@digiteqautomotive.com>, 
@@ -98,46 +98,48 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, 
  linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
  linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
- Ricardo Ribalda <ribalda@chromium.org>
+ Ricardo Ribalda <ribalda@chromium.org>, 
+ Dan Carpenter <dan.carpenter@linaro.org>
 X-Mailer: b4 0.12.4
 
-Unless the fps is smaller than 0.000232829 fps, this fits in a 32 bit
-number. Make that explicit.
+state->xtal_hz can be up to 16M, so it can overflow a 32 bit integer
+when multiplied by pll_mfactor.
 
-Found with cocci:
-drivers/media/platform/qcom/venus/venc.c:418:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_u64 instead.
+Create a new 64 bit variable to hold the calculations.
 
+Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/platform/qcom/venus/venc.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ drivers/media/dvb-frontends/tda10048.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-index 3ec2fb8d9fab..f87e33a34610 100644
---- a/drivers/media/platform/qcom/venus/venc.c
-+++ b/drivers/media/platform/qcom/venus/venc.c
-@@ -393,7 +393,7 @@ static int venc_s_parm(struct file *file, void *fh, struct v4l2_streamparm *a)
- 	struct venus_inst *inst = to_inst(file);
- 	struct v4l2_outputparm *out = &a->parm.output;
- 	struct v4l2_fract *timeperframe = &out->timeperframe;
--	u64 us_per_frame, fps;
-+	u64 us_per_frame;
+diff --git a/drivers/media/dvb-frontends/tda10048.c b/drivers/media/dvb-frontends/tda10048.c
+index 5d5e4e9e4422..3e725cdcc66b 100644
+--- a/drivers/media/dvb-frontends/tda10048.c
++++ b/drivers/media/dvb-frontends/tda10048.c
+@@ -410,6 +410,7 @@ static int tda10048_set_if(struct dvb_frontend *fe, u32 bw)
+ 	struct tda10048_config *config = &state->config;
+ 	int i;
+ 	u32 if_freq_khz;
++	u64 sample_freq;
  
- 	if (a->type != V4L2_BUF_TYPE_VIDEO_OUTPUT &&
- 	    a->type != V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
-@@ -414,11 +414,8 @@ static int venc_s_parm(struct file *file, void *fh, struct v4l2_streamparm *a)
- 	if (!us_per_frame)
- 		return -EINVAL;
+ 	dprintk(1, "%s(bw = %d)\n", __func__, bw);
  
--	fps = (u64)USEC_PER_SEC;
--	do_div(fps, us_per_frame);
--
-+	inst->fps = USEC_PER_SEC / (u32)us_per_frame;
- 	inst->timeperframe = *timeperframe;
--	inst->fps = fps;
+@@ -451,9 +452,11 @@ static int tda10048_set_if(struct dvb_frontend *fe, u32 bw)
+ 	dprintk(1, "- pll_pfactor = %d\n", state->pll_pfactor);
  
- 	return 0;
- }
+ 	/* Calculate the sample frequency */
+-	state->sample_freq = state->xtal_hz * (state->pll_mfactor + 45);
+-	state->sample_freq /= (state->pll_nfactor + 1);
+-	state->sample_freq /= (state->pll_pfactor + 4);
++	sample_freq = state->xtal_hz;
++	sample_freq *= state->pll_mfactor + 45;
++	do_div(sample_freq, state->pll_nfactor + 1);
++	do_div(sample_freq, state->pll_pfactor + 4);
++	state->sample_freq = sample_freq;
+ 	dprintk(1, "- sample_freq = %d\n", state->sample_freq);
+ 
+ 	/* Update the I/F */
 
 -- 
 2.44.0.769.g3c40516874-goog
