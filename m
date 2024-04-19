@@ -1,80 +1,73 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A8192E405
-	for <linux-sunxi@lists.linux.dev>; Fri, 19 Apr 2024 07:14:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB95243AA1
+	for <linux-sunxi@lists.linux.dev>; Fri, 19 Apr 2024 08:58:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713510895; cv=none; b=jgNh14y/e8rp7LJGEyFyYzvSnxSFq9x5CMjgCfZMXn7D3xE7t2qIEtm5n02YAeuMnDpvcg37fYyLoNjE7v/PUN06/Mjv/cgqnTUcDpQM5jVJdwgOf6zrx8EdBQQ5VfuzQ0zUvK36psZi22kZ5qv+0CUz3+iI6X58K42QJIhw3QQ=
+	t=1713517128; cv=none; b=hhzQY3KtQFQ3pn2JBQ7Sy3e3Xb00WxPFPC+jgooXFO7xNqL1iEQpQB0RRg3wW8fhzHXavZVem+84JkYj87Np5HCfLdvYCQnDjNdW9sodb7i4YVl1qh8nyOxWpYXZbR+DfVsXKpDb0oO545a7IoIOSfrE8l1J6DMTu5ySCf7QO1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713510895; c=relaxed/simple;
-	bh=EZwRuBKu4HxxbNeubieqwDvAk4cYLZBGNhSv/CphZBU=;
+	s=arc-20240116; t=1713517128; c=relaxed/simple;
+	bh=jgbeBRVzeXMYSheG4ZQAneV/ODr+RugakD1+LtLxDCA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TdBJvNBT/mj4NAAoHXYgZJM69UUS3Pz44RTwcVjqVNXBcVcYeUIEQTEBJYIL2xWzXKjxgL1gpLMmF8+eT44TsUycZErawxIwJnOPFQGlOAMfSd4K6VP8tP7ptXzN3useXg9e1Z86nXJlhQrRA0+YdycrHG9X13m472FPyOiwF+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ApmnpyMS; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=W2Rbmu/pHaB3Rh//wbeS7euiNnIAVS+CfjlF8PyG3Bo0p9uBQLcg28ViDxX1nX0rS+v3A9kNlBFu/2svYZiRBJiLkr5cDMwp29eWqrhle0GLJ4DGBrhc6wnTMtlu1kEYBnxIi2HbAXVlOPKPxAAVaErkdJ1JlP+9mDhvsP1UCEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ORDNi5+d; arc=none smtp.client-ip=209.85.208.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ApmnpyMS"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-6f07de6ab93so1723990b3a.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 19 Apr 2024 00:14:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ORDNi5+d"
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2d872102372so22937011fa.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 19 Apr 2024 01:58:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713510894; x=1714115694; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1713517125; x=1714121925; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Vhc6CEa4yodPk95tSkHjVnxQry4y1AM9/vzU+jumnV8=;
-        b=ApmnpyMS2LoaTTVdfmG9nl5jIDuEsz95YDV6w5eHQUzFDQpCkDN5s0Cp47khoKXkNV
-         f/nMSBck8jroArqd1j748OwqCfUYk4i3AaBKAE3xJIIM3vS2HQ3A3IoFmSRx1bbz2o/W
-         TCVBvaCEqKd/RqgIRiPH8W70soF+BdIt4aDxGqb5n+xvBTFzwmFqH3g52gLxeQD+M5aY
-         00dSxPMHvdh2cbKGcjFP5mPO+aIsNwMcjS8cVwGg/a3NDdoE2O+dikNQQ5UWF/IVTXOF
-         p/q7A8cLcj6pGbuLj8AEjgk0/25WSdf2O1Qe0cmGBig9QEz/piTNs5JFMcqrsAhGRn0N
-         aCTg==
+        bh=NkPkWZD+fDDhemy2LIDiT55F/PO/TI//Q041lLZQk+c=;
+        b=ORDNi5+dnkT3rExmc1XhaVfHBpQZ+aIwl7sPKSQlDB7FEdqjqECPTUMRf9msb6I6WP
+         tztaKh8H6KXIqVsijgWiy7OjAlw0bcg6RopdVtRtBDmyVkoiXSeRs3oSMCwJmI4fDSBD
+         OUG/Px8R7+s1Yivd8dLBU+ESq/sm++sNPLoEXCOJD3VNtC2COdLXNM6mxkmXJBXLRRYZ
+         sQRRHXniI5KSb9UzRKlGMQNJWHg36NPzH0OxxWJCH9zeBaqpq8XNCHtfZBAUe8oF3GqE
+         NOP7F4xWRGZJqxlRstMQezzMtuSZiWLy439mh5aUCpENnCGcDxYBzFsVHMjXL3lDk2Ma
+         Gpxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713510894; x=1714115694;
+        d=1e100.net; s=20230601; t=1713517125; x=1714121925;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Vhc6CEa4yodPk95tSkHjVnxQry4y1AM9/vzU+jumnV8=;
-        b=nDQhqAauOYtubJXLosxspoQIs5NW0myOAkJjbrPNlYVsLQybBIboPU8Iitt+t/5q5S
-         xMwtW0ucIfbp1Csi1cCnTq3KHmbYV1CQQh1WNWOraSdGCYWoFIBARQWdG4YX97+wXUMl
-         2rvidnthBGwC2/9RJrekMSJ2eeE7ZVjbX7pVMmQFqwBN9Zp/XoKMI3MIdW9aMJ+XLyNr
-         8GgGqgtsyNfGojtGqmDOal2VS1mZN9/G/c7CCzZKDJneysbndZMD7zmBDVykHlE1fJTd
-         cTmioiog6mcc0tUMOEScpBUS0L0SRFi2QJeDaFd3NjTzaOcpf7cerYKEjVMIOlC9JkzW
-         tLFA==
-X-Forwarded-Encrypted: i=1; AJvYcCWSEKMeK1fydPXrytY7JHavcEqueua3Og9TBVRiigCYOykf0MssS5YoXNjqYWld0NCcRcElK3gM7bNxYePf+g00XFGgfZUjIpsy8tk=
-X-Gm-Message-State: AOJu0YzZdlxsU9pJ8UZP8qCG3yB5q0kFJoYABaNuEA7ql2i+uQO878hC
-	kaZMLPMqP1lnLquOsM+9X417H1T0B2iqCLBT3jCCD3PWF5ajVDdqOqdPkXgUUw8=
-X-Google-Smtp-Source: AGHT+IHGlJ8scQEEw8KQoTd3yaIXAQBiHEVN0IdsvDfwSNRbMjqmNmjhmzpulIebiPmnvU8XHjhvQw==
-X-Received: by 2002:a05:6a21:996:b0:1a1:878d:d3f6 with SMTP id li22-20020a056a21099600b001a1878dd3f6mr1196467pzb.26.1713510893725;
-        Fri, 19 Apr 2024 00:14:53 -0700 (PDT)
-Received: from localhost ([122.172.87.52])
-        by smtp.gmail.com with ESMTPSA id g11-20020aa7818b000000b006ecfd0bf326sm1051144pfi.99.2024.04.19.00.14.52
+        bh=NkPkWZD+fDDhemy2LIDiT55F/PO/TI//Q041lLZQk+c=;
+        b=tDg/4/2c3OK1UxQR7uybhDIY2F2RvbLUjwvSA1MFUmLEgzPhjhe5NL6QIX4RtmN0xy
+         yX0IE0QI+IyvjOKQbweNNiQ2iLxI6gz6GSxNi/4TCwKuq9CmmffRamYdewxsSbVvZ5un
+         z5Xt1OacgylcMhpBQ0eOiSnHmd/X2EIPcGx+iPtnTsXmZL/qSbVh+1yWnXABKhC+FHRp
+         a2aSXXYtDSjqdmBN6bCEsTx/PKqvQmAj9jXcdMQQN+wPEIm+gFc3CiWwRixIguNLUcmC
+         ZFRvNiANymN6V5oa/6wBOjilOUwVcY+9IeIIR+SyemVfKa4tlphPFSGi/1znzq664Cc1
+         ADDg==
+X-Forwarded-Encrypted: i=1; AJvYcCVG1YlGl6kaL3QUmCLdjnhAfHzyAZ+B1FMP6mJFO1R/F90SgKVBfKlSAiL7kKRUrASlJNPjT84MVBUtDCFNAJWKW0Ww5iwKwSQMcAE=
+X-Gm-Message-State: AOJu0YzQqvARPGf9ylC4ElVbcrc6GxLEXibkWEgOMHT1YSxOeL7/hgHw
+	HNy0GV1BcVqIU4MrIqv20F/lFGUGd4bWAHTE2tPe6WQsgWZY4Spw
+X-Google-Smtp-Source: AGHT+IG9jaQLQRx7GI8egozbRcyQnR4eJjjPqvTksThvItCQ/0Y3ypRISV37b291kfO+3oDXaYzPfw==
+X-Received: by 2002:a19:6442:0:b0:51a:ae0a:26dd with SMTP id b2-20020a196442000000b0051aae0a26ddmr786111lfj.28.1713517124659;
+        Fri, 19 Apr 2024 01:58:44 -0700 (PDT)
+Received: from mobilestation.baikal.int (srv1.baikalchip.ru. [87.245.175.227])
+        by smtp.gmail.com with ESMTPSA id m24-20020a056512359800b0051950b8252asm606303lfr.240.2024.04.19.01.58.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Apr 2024 00:14:53 -0700 (PDT)
-Date: Fri, 19 Apr 2024 12:44:50 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Yangtao Li <tiny.windzz@gmail.com>, Viresh Kumar <vireshk@kernel.org>,
-	Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>, linux-pm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	Brandon Cheo Fusi <fusibrandon13@gmail.com>,
-	Martin Botka <martin.botka@somainline.org>,
-	Martin Botka <martin.botka1@gmail.com>,
-	Chris Morgan <macroalpha82@gmail.com>,
-	Ryan Walklin <ryan@testtoast.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Sudeep Holla <sudeep.holla@arm.com>
-Subject: Re: [PATCH v5 0/8]  cpufreq: sun50i: Add Allwinner H616 support
-Message-ID: <20240419071450.7aiheeoyq35yjoo7@vireshk-i7>
-References: <20240418154408.1740047-1-andre.przywara@arm.com>
+        Fri, 19 Apr 2024 01:58:44 -0700 (PDT)
+Date: Fri, 19 Apr 2024 11:58:42 +0300
+From: Serge Semin <fancer.lancer@gmail.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Jose Abreu <joabreu@synopsys.com>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
+	Russell King <linux@armlinux.org.uk>, Yanteng Si <siyanteng@loongson.cn>, 
+	Romain Gantois <romain.gantois@bootlin.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Simon Horman <horms@kernel.org>, Huacai Chen <chenhuacai@kernel.org>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v2 0/2] net: stmmac: Fix MAC-capabilities
+ procedure
+Message-ID: <axq6v6ya7nuov6x6vdjlp45i7bjdo2tkmmiuytye456fszycal@bkixd6ruplr7>
+References: <20240417140013.12575-1-fancer.lancer@gmail.com>
+ <20240418185328.79c38358@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -83,17 +76,45 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240418154408.1740047-1-andre.przywara@arm.com>
+In-Reply-To: <20240418185328.79c38358@kernel.org>
 
-On 18-04-24, 16:44, Andre Przywara wrote:
-> This series adds cpufreq support to the Allwinner H616 SoC.
-> v5 just removes the explicit H700 speedbin support, as this proved to be
-> problematic/unstable in testing. The rest is the same as v4.
-> This is based on Martin's original series from about half a year ago[1].
-> Thanks for the comments on the list!
-> See below for a changelog.
+On Thu, Apr 18, 2024 at 06:53:28PM -0700, Jakub Kicinski wrote:
+> On Wed, 17 Apr 2024 17:00:06 +0300 Serge Semin wrote:
+> > The series got born as a result of the discussions around the recent
+> > Yanteng' series adding the Loongson LS7A1000, LS2K1000, LS7A2000, LS2K2000
+> > MACs support:
+> > Link: https://lore.kernel.org/netdev/fu3f6uoakylnb6eijllakeu5i4okcyqq7sfafhp5efaocbsrwe@w74xe7gb6x7p
+> > 
+> > In particular the Yanteng' patchset needed to implement the Loongson
+> > MAC-specific constraints applied to the link speed and link duplex mode.
+> > As a result of the discussion with Russel the next preliminary patch was
+> > born:
+> > Link: https://lore.kernel.org/netdev/df31e8bcf74b3b4ddb7ddf5a1c371390f16a2ad5.1712917541.git.siyanteng@loongson.cn
+> > 
+> > The patch above was a temporal solution utilized by Yanteng for further
+> > developments and to move on with the on-going review. This patchset is a
+> > refactored version of that single patch with formatting required for the
+> > fixes patches.
+> > 
+> > The main part of the series has already been merged in on v1 stage. The
+> > leftover is the cleanup patches which rename
+> > stmmac_ops::phylink_get_caps() callback to stmmac_ops::update_caps() and
+> > move the MAC-capabilities init/re-init to the phylink MAC-capabilities
+> > getter.
+> 
 
-Applied. Thanks.
+> According to the build bot it didn't apply at the time of posting :S
 
--- 
-viresh
+Most likely it happened because the first three patches
+https://lore.kernel.org/netdev/20240412180340.7965-1-fancer.lancer@gmail.com/
+hadn't been merged in yet back then. They are now.
+
+> It does apply now but the bot doesn't have a "retry now" button.
+> Could you repost?
+
+Sure. I'll do that in an instant.
+
+-Serge(y)
+
+> -- 
+> pw-bot: cr
