@@ -1,92 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7890A625;
-	Sat, 20 Apr 2024 13:06:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9B0A262A8
+	for <linux-sunxi@lists.linux.dev>; Sat, 20 Apr 2024 22:47:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713618412; cv=none; b=I4ftQ8+xB2hojlZKW6bjRBQgmEKflof/hzTmIuE+7eLMYbOId7KfGFuKAyNX474MOpUsrgvFtd+8vWSqKj+ZAeB3q7h7hNXYyH768ZJaMhv1FaGRTqGPag8kCKEmGG0Obo6Th7yVXAXhvTA0m4oNVvcRzDYPhcCbaVKVueoGtuA=
+	t=1713653229; cv=none; b=FjYKwzJHK8LWtQyrbEm7Y7ISj9gvEWZhOfbegPTCFqeEwLPq0gGIiRb6Sas+mseBBSzwqB3vDhVhlHF6vaV3aGAiIVgSiIC4PLs4dkx2c7G5jgXoIUdVRBayJkeycHkvoYj7JvGB5NbjXt+JzKohYGnpKOtCE14/UJmGQeqIvII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713618412; c=relaxed/simple;
-	bh=N4vN3xcboLIjcxz6Bmykno3uW1Git1Vd/uH85dY0LS4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KhZRo4qIKXAZbo+hFdGUpig+LvKJh8BMmCp3qwGleuvjgPKbd5540vSpp3Vb+p2/9lG0oJZGFHptpvfRJf5R09ZoAh4fI/mkvjKf+YSpPx9P5LahHK6jkOcV9F2rNpZ21jN1yAUzK8q+xH79MuaT+1xpmdQMlkCPtQtw7+iIe4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QYK0GRP+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713653229; c=relaxed/simple;
+	bh=7rus6XVRgap7s1soDiF1cXI8lMxTwZlFAZbG+UDBkQ0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=f+plNBxPqevr4RP2SUQoFq8spKK3vHBH6wIX8zWD2A4dPeReoXx9XajTbcoEc6XnEpAiBlIsTO7DLcpwezpqJLr8tiBRN4Ca3Ry3I5KUa12Q8fIPuCnplhF0GwKUKuQK02OZ3Mt8mhXZ+uB21McoOUM4esPM3wD/5ojyp5FIClU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HOc9ahJA; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QYK0GRP+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11066C072AA;
-	Sat, 20 Apr 2024 13:06:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713618412;
-	bh=N4vN3xcboLIjcxz6Bmykno3uW1Git1Vd/uH85dY0LS4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=QYK0GRP+m4Cct/mfSzhcXZFYfRmR4F4A+nQncYRYOW4DLMxbJD1BE6SRBD5xV3Ofe
-	 2AjUjcCbiirX6iZYY4zEy4l2OUgWpnIsAUJlcPCpiHGaKycKG8VBDlILk9ayDo9A6A
-	 KDZWM8ASfUMcg0JPPReGhFT20Gsv2bjRw0Y2FAQbWO4ZAWuxirTDbncjL4DkBDEFDk
-	 IdLMFknMJUF1YYTiqY1nxHbmhbGEgFW5SzrbAenic1DgQizC4uHO+BO52ZIYKakqvD
-	 0rQeDLmpxu9cMQ5mF/SipssCiD86PA9pQBwYyAIabut3WzfHLti89sxmhG5GLM73FD
-	 AXo64nLedJ//A==
-Date: Sat, 20 Apr 2024 14:06:35 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Aren Moynihan <aren@peacevolution.org>, Lars-Peter Clausen
- <lars@metafoo.de>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Ondrej Jirman <megi@xff.cz>, Uwe
- =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@pengutronix.de>,
- linux-iio@vger.kernel.org, phone-devel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, Willow
- Barraco <contact@willowbarraco.fr>
-Subject: Re: [PATCH 3/4] iio: light: stk3310: log error if reading the chip
- id fails
-Message-ID: <20240420140635.6dffa2fb@jic23-huawei>
-In-Reply-To: <CAHp75Vf_JX1Uv=_cvoiukzSaTVWbmQSW0P_nneP8C-kxX4fBXQ@mail.gmail.com>
-References: <20240414175300.956243-1-aren@peacevolution.org>
-	<20240414175716.958831-1-aren@peacevolution.org>
-	<20240414175716.958831-3-aren@peacevolution.org>
-	<CAHp75Vf_JX1Uv=_cvoiukzSaTVWbmQSW0P_nneP8C-kxX4fBXQ@mail.gmail.com>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HOc9ahJA"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3476dcd9c46so2267790f8f.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 20 Apr 2024 15:47:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1713653226; x=1714258026; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fHqxIncYJ8egtEQrph9tKgbaWj8ag9453EB89pr+LvE=;
+        b=HOc9ahJA/Qqh6Aa/qyQqzY7iJI+P3J3igL0Vp+irxb4mY1uDN6nz1eqlIOeEmPMCBa
+         4Jbq24X6LbWUCBb/cHBZHPtkS6wYcAVdHd/fpkABqOgfzZhc4f1YI4sNewVtgkHi+F0M
+         5LwxsmKxi9LjXk9DMyNuHZ4To+BnSstFXBM/UjYOKtwHgifBVOQCZwvcp6kLlNRj/P2g
+         0AF5IDEvJAd4AUDIugoGBtg4c5Of+eT2DPVy0883QOpKpK8dITTa2itMBdArEvWjeDyM
+         Hodh3VUCevdobB+uwbtRROjIZJ2wgoVE6iB1K6tMAVHw4ZMH2L9nTE6ZUADPoACDjJu3
+         k8JA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713653226; x=1714258026;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fHqxIncYJ8egtEQrph9tKgbaWj8ag9453EB89pr+LvE=;
+        b=rFX0ViGXK2pPP83qDRgMrpCSYNEVhgUvFLS0rgz0i7CcVVoOcEvha+BH+Ci0w21FL3
+         EnKkoQb51eelDmmVEPh0bwt2ueyhEaghbUZZGANKbu+7+eve4aIdcIsA5HXJt0jCMHEE
+         7wfthKPSQCB47BJ1EfOhu2muRrmAyEdEZIt2ve77POPwM3freM3Uh717POgrvrm9bQUf
+         QMraE55n7OjBbQPu351vg3fQWIsET8mcBjJwme4Qe8i7A5jlCHdTmBPLvEZzymvuM4T8
+         fVAYDLVkBrkIDwLvoGlWU9yCn0IidNa5GhhCVj7yAIAPnqRAZi2+FIrpqq4RbEtl9Rzi
+         Ynig==
+X-Forwarded-Encrypted: i=1; AJvYcCU2w7SLPWpcMdg6PN3jVy+xGMYzfCqw4I8XqamKZ7ZNczX6mw0dkodxL9bJqQZKa/nklLJTJTiqkwe557WCsaPTWzrR0cG/h/Vt0Ro=
+X-Gm-Message-State: AOJu0YzF3YtbANYIjrkLTyiB4c3uW+1/PqiyF2x7i8OPvnQ3qJOXZtV1
+	US1j7zUXLEFKKo7SqSzag0nEusbCjD9Q2rrN8XkwjgYAePFeEtQPufN8fysc4NY=
+X-Google-Smtp-Source: AGHT+IGtPzW/+9lmMVQCxqN2UztagHO9wsOjvQj41cl+HJwvySkknf0HE8sKI3A2uzyMihcZkv08Sw==
+X-Received: by 2002:a05:6000:2c2:b0:346:758e:5f29 with SMTP id o2-20020a05600002c200b00346758e5f29mr4624994wry.60.1713653226127;
+        Sat, 20 Apr 2024 15:47:06 -0700 (PDT)
+Received: from [192.168.0.102] ([176.61.106.68])
+        by smtp.gmail.com with ESMTPSA id fc14-20020a05600c524e00b004161af729f4sm11399884wmb.31.2024.04.20.15.47.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 20 Apr 2024 15:47:05 -0700 (PDT)
+Message-ID: <0b5c6091-e47c-4d24-a13a-2b5ad1b9cfb8@linaro.org>
+Date: Sat, 20 Apr 2024 23:47:01 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 23/26] media: venus: vdec: Make explicit the range of
+ us_per_frame
+To: Ricardo Ribalda <ribalda@chromium.org>,
+ Martin Tuma <martin.tuma@digiteqautomotive.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Hugues Fruchet <hugues.fruchet@foss.st.com>,
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Chen-Yu Tsai
+ <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
+ Abylay Ospan <aospan@netup.ru>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Dmitry Osipenko <digetx@gmail.com>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Sylvain Petinot <sylvain.petinot@foss.st.com>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
+References: <20240419-fix-cocci-v2-0-2119e692309c@chromium.org>
+ <20240419-fix-cocci-v2-23-2119e692309c@chromium.org>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20240419-fix-cocci-v2-23-2119e692309c@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, 15 Apr 2024 18:05:54 +0300
-Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
+On 19/04/2024 10:48, Ricardo Ribalda wrote:
+> Unless the fps is smaller than 0.000232829 fps, this fits in a 32 bit
+> number. Make that explicit.
+> 
+> Found by cocci:
+> drivers/media/platform/qcom/venus/vdec.c:488:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_u64 instead.
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>   drivers/media/platform/qcom/venus/vdec.c | 7 ++-----
+>   1 file changed, 2 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+> index 29130a9441e7..2b2874aedb2d 100644
+> --- a/drivers/media/platform/qcom/venus/vdec.c
+> +++ b/drivers/media/platform/qcom/venus/vdec.c
+> @@ -464,7 +464,7 @@ static int vdec_s_parm(struct file *file, void *fh, struct v4l2_streamparm *a)
+>   	struct venus_inst *inst = to_inst(file);
+>   	struct v4l2_captureparm *cap = &a->parm.capture;
+>   	struct v4l2_fract *timeperframe = &cap->timeperframe;
+> -	u64 us_per_frame, fps;
+> +	u64 us_per_frame;
+>   
+>   	if (a->type != V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE &&
+>   	    a->type != V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
+> @@ -484,10 +484,7 @@ static int vdec_s_parm(struct file *file, void *fh, struct v4l2_streamparm *a)
+>   	if (!us_per_frame)
+>   		return -EINVAL;
+>   
+> -	fps = (u64)USEC_PER_SEC;
+> -	do_div(fps, us_per_frame);
+> -
+> -	inst->fps = fps;
+> +	inst->fps = USEC_PER_SEC / (u32)us_per_frame;
+>   	inst->timeperframe = *timeperframe;
+>   
+>   	return 0;
+> 
 
-> On Sun, Apr 14, 2024 at 8:57=E2=80=AFPM Aren Moynihan <aren@peacevolution=
-.org> wrote:
-> >
-> > If the chip isn't powered, this call is likely to return an error.
-> > Without a log here the driver will silently fail to probe. Common errors
-> > are ENXIO (when the chip isn't powered) and ETIMEDOUT (when the i2c bus
-> > isn't powered). =20
->=20
-> >         ret =3D regmap_read(data->regmap, STK3310_REG_ID, &chipid);
-> > -       if (ret < 0)
-> > +       if (ret < 0) {
-> > +               dev_err(&client->dev, "failed to read chip id: %d", ret=
-);
-> >                 return ret;
-> > +       } =20
->=20
-> Briefly looking at the code it seems that this one is strictly part of
-> the probe phase, which means we may use
->=20
->   return dev_err_probe(...);
->=20
-> pattern. Yet, you may add another patch to clean up all of them:
-> _probe(), _init(), _regmap_init() to use the same pattern everywhere.
->=20
-
-Yes, a precursor patch to use dev_err_probe() throughout the probe only
-functions in this driver would be excellent.
-
-Jonathan
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
