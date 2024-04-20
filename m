@@ -1,75 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from wfout5-smtp.messagingengine.com (wfout5-smtp.messagingengine.com [64.147.123.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B68CEAE5;
-	Sat, 20 Apr 2024 10:10:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 934D62563
+	for <linux-sunxi@lists.linux.dev>; Sat, 20 Apr 2024 10:43:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713607849; cv=none; b=YNeLDafNzPwekhx66cJj4FFCO+SKRVSu0lqpYhaPiV5sFOXFD+CmBk4NmfKvEQFgbz/I8f/DgVwvzp1KSGt0p9aO8rdbbD+lgKaC1p5QcKJ6w8lYOgdSnGthAC7NX84ytHoJ/PUBuFsesB55BklfbG2viSt+ZqyQv6Lg/5IBxZs=
+	t=1713609815; cv=none; b=kxtbHYtcnW8ZsrXxbbDVefh6PhkxXltLxQ4n4QlSw2OeL7NY48OPmN0yITBoEa/NAIiWzoyp6x+DDvgC4HSmn10lM8LfX7m+wtpM8WgTW2DYGTRMse1YOFF/CQVMP2LGy5g192/2rgHzO3++8H4hscSa5RQt1kMLNNz8wuG0eoc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713607849; c=relaxed/simple;
-	bh=uk0pVEWCGbr3TBbjkduaSqh9FacH2xhZgqD7X6xJQUQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IaHXmCIHmjaDsTnUbEQ6c4uDquMzfKCoTPqdCAB+4vV8VYGRD/IedLpicO6AHyZp3CHq4W6qUwwAOldv6QSKoTne7OVVVISC+g3j1ZOO6jC4VFJxn85WMzq/H0+B8i6+++Xys5k8tSs5Y0mawHEEszkGQJjJLtsYlrUrzEvATVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AT3+ivAw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713609815; c=relaxed/simple;
+	bh=AL+/tOVJr0LIManyjh9wLnfwMcwYYMLA68W+dcUQvuw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=g1eme3AhQE3FJXOlMM/yLOFrmBJeNM3YG2ePgdKZz6pNAzQW+djJyBmkaT8s62MUEut5Lf39ME/NdajZQkpkZZmqo1px3mwBTqphSnFaXYu8OST/OJQQ1+7LZQwx3WHWEp0VdG7aT4bRDziZiMhWCEQ4UnkDFDkQPWu7RQIVsjE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=jv8C1R9Z; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=T431UlSk; arc=none smtp.client-ip=64.147.123.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=testtoast.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AT3+ivAw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 720D6C072AA;
-	Sat, 20 Apr 2024 10:10:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713607848;
-	bh=uk0pVEWCGbr3TBbjkduaSqh9FacH2xhZgqD7X6xJQUQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=AT3+ivAwM9+Gvs9pmXWfbISAc5nlQtPxhT5HzkTQm090zDk0692NY2InqWSh0HGLq
-	 Yrd6r3ct9lkGhZM3s6hdIJqVEH2/ahZ10Wyz7YDXTpTnB90RpxtcPo23EYbXosZA7u
-	 son/yySLzsagddbwelMaqyZKOSlxa9Xz8dd7dd22GmmArY5f3ounV4VaXYLL5yfBNx
-	 WEEO3D+6qmGBcm4tNZ1Hc1MB8be0PIaRR8pYVRvs60jzyOj2QRYUwcTK4rtfFuilDT
-	 PSI5CZzqguFtLBmJU+kFjhMXkyWXnwgrl+M+ib6tJkx/TvL8J4v7pwpu+e8HNLWukX
-	 7NOh1Ip88Ysfw==
-Date: Sat, 20 Apr 2024 11:10:32 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Cc: Chris Morgan <macroalpha82@gmail.com>, sboyd@kernel.org,
- conor+dt@kernel.org, devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-iio@vger.kernel.org, Chris Morgan <macromorgan@hotmail.com>,
- wens@csie.org, mturquette@baylibre.com, samuel@sholland.org,
- linux-sunxi@lists.linux.dev, jernej.skrabec@gmail.com, krzk+dt@kernel.org,
- p.zabel@pengutronix.de
-Subject: Re: [PATCH 2/3] dt-bindings: iio: adc: Add GPADC for Allwinner H616
-Message-ID: <20240420111032.5d9d94c9@jic23-huawei>
-In-Reply-To: <171345342441.1843687.15293376169534019509.robh@kernel.org>
-References: <20240417170423.20640-1-macroalpha82@gmail.com>
-	<20240417170423.20640-3-macroalpha82@gmail.com>
-	<171345342441.1843687.15293376169534019509.robh@kernel.org>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="jv8C1R9Z";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="T431UlSk"
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
+	by mailfout.west.internal (Postfix) with ESMTP id D47CC1C000C1;
+	Sat, 20 Apr 2024 06:43:31 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute7.internal (MEProxy); Sat, 20 Apr 2024 06:43:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
+	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
+	:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to; s=fm3; t=1713609811; x=1713696211; bh=92hzw2yJ8J
+	N1p9dBELrZE4K4PO55lW1xwepgcYSmPEc=; b=jv8C1R9ZiZ83bsD1TTvn0jEZmh
+	Dl0gQKFdMXuQWe5MbekPJ3o3mD7lyjj+1aK6Q3HNB282ImayYQSxngSqobz1CKwS
+	u/wreim5BewpjA3GNMpNgR/9FS+IyCAtekbtJwCpMRYQJiOdpF/prQd+huY9fENI
+	njYBLZAmGX6KoNlCkecm2/pNhM25CEqpL7pKlz7ZH4nbSAk5kO8St25LmjVZ59sc
+	xi9T4p5oXpRqRfNyFqAt/hbTMG0qnQVD1FPs3HVJd6m1l1xie3gPFybMmzkLpl4U
+	o8hVlwNv1KM/m6+zZjY5PNIyPhfU23l8jOGyZ71bM1UqnfEPncRV8gYekIUw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1713609811; x=1713696211; bh=92hzw2yJ8JN1p9dBELrZE4K4PO55
+	lW1xwepgcYSmPEc=; b=T431UlSkypbP5ZVou7nujGiaFsRdsDn0rvO4fY4o1qt/
+	wLW7TNWzhcG5bicEzdTEPNrq4oRulKsTBEYC5zGSaOBybLGVYBaMZua7py4IH2pc
+	iKC42bAF+TRqFCVsJX+FemUn03PB1/0uTpaHu0IHq44ficze3hJuGEpK81BIBbJo
+	DB5k0GoUOaGktaq+JG6VwpVkDBc8ZoEYi/ghSQr57hWz0cMH7sz9wswzVjgJOW1l
+	C8z1Lxth3F0bAxjqir90z1k68Iehwm5w7Yy5JKSB1EmoEyZpYMRC+vc7SZseg5No
+	2xUuFFCXSx/jRpJR0AwuKMkCgEtO32ZYnD4iLMmWpQ==
+X-ME-Sender: <xms:UpwjZu4CuIw6_MYdsN_oLTci7-wlm4NugeoeGUcOY8jf5cNp5eKl-g>
+    <xme:UpwjZn4vWZyZ6F6qOOhBNixJ1z_m-G09srxUaAvDsTc8tAeFnBg9VvI4gEh9KJIji
+    52f_3PGsEVtcJZ1SA>
+X-ME-Received: <xmr:UpwjZtfELLaIkUZBlYUCPgxCIqPWS3I7TGQrOC_vONJd1bgywQS_RcijfhVW5FHBjxUrYzoZtLz21WFkhkPs7h2uKwY4jHW7vetDFmOAvhBazGPp>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudekgedgfeduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomheptfihrghnucgh
+    rghlkhhlihhnuceorhihrghnsehtvghsthhtohgrshhtrdgtohhmqeenucggtffrrghtth
+    gvrhhnpeduvdeuudeugedtueffteevveegheehvdfhfeduudevkefggfeftdehgeethffh
+    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehrhi
+    grnhesthgvshhtthhorghsthdrtghomh
+X-ME-Proxy: <xmx:UpwjZrJlAPet1mEjR5YbHo4eWWvtEo5aVEUa6DEVaer5LJ-xdNeaBA>
+    <xmx:UpwjZiL95N4RS7plLG31d8xzYO1jetZnw2I6YUIporMIAUbPTsm1yA>
+    <xmx:UpwjZszvKvsVUT2SYUKJCbIZY3wphUjA0VcD4gbanvUNc609pDrtig>
+    <xmx:UpwjZmLzZu9ivmcRL0R2ucidEp_GxTuabP3hO0PCAQ_sCuwa_Ef5Tw>
+    <xmx:U5wjZoyNzILcmLnl8XcML_cxbI6hyFv49Rc01mfUYuuKV9S3LFB0CP9G>
+Feedback-ID: idc0145fc:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 20 Apr 2024 06:43:27 -0400 (EDT)
+From: Ryan Walklin <ryan@testtoast.com>
+To: Andre Przywara <andre.przywara@arm.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Chris Morgan <macromorgan@hotmail.com>
+Cc: devicetree@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	Ryan Walklin <ryan@testtoast.com>
+Subject: [PATCH v2 0/5] *** SUBJECT HERE ***
+Date: Sat, 20 Apr 2024 22:40:37 +1200
+Message-ID: <20240420104042.334259-1-ryan@testtoast.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Thu, 18 Apr 2024 10:17:33 -0500
-Rob Herring <robh@kernel.org> wrote:
+*** BLURB HERE ***
 
-> On Wed, 17 Apr 2024 12:04:22 -0500, Chris Morgan wrote:
-> > From: Chris Morgan <macromorgan@hotmail.com>
-> > 
-> > Add support for the GPADC for the Allwinner H616. It is identical to
-> > the existing ADC for the D1/T113s/R329/T507 SoCs.
-> > 
-> > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> > ---
-> >  .../bindings/iio/adc/allwinner,sun20i-d1-gpadc.yaml      | 9 +++++++--
-> >  1 file changed, 7 insertions(+), 2 deletions(-)
-> >   
-> 
-> Acked-by: Rob Herring (Arm) <robh@kernel.org>
-> 
-> 
+Ryan Walklin (5):
+  dt-bindings: arm: sunxi: document Anbernic RG35XX handheld gaming
+    device variants
+  arm64: dts: allwinner: h700: Add RG35XX 2024 DTS
+  arm64: dts: allwinner: h700: Add RG35XX-Plus DTS
+  arm64: dts: allwinner: h700: Add RG35XX-H DTS
+  arm64: dts: allwinner: h700: Add RG35XX DTBs to Makefile
 
-Applied this patch to the IIO tree.
+ .../devicetree/bindings/arm/sunxi.yaml        |  15 +
+ arch/arm64/boot/dts/allwinner/Makefile        |   3 +
+ .../sun50i-h700-anbernic-rg35xx-2024.dts      | 375 ++++++++++++++++++
+ .../sun50i-h700-anbernic-rg35xx-h.dts         | 126 ++++++
+ .../sun50i-h700-anbernic-rg35xx-plus.dts      |  53 +++
+ 5 files changed, 572 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dts
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dts
 
-Jonathan
+-- 
+2.44.0
+
