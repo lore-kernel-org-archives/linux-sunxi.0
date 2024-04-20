@@ -1,101 +1,75 @@
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 700F0129E86
-	for <linux-sunxi@lists.linux.dev>; Fri, 19 Apr 2024 13:42:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B68CEAE5;
+	Sat, 20 Apr 2024 10:10:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713534132; cv=none; b=XADYvV2d6e+i0OAQAkHNonneuTC8mwbokrLpOYkBLD4bKYq3BXqrw68qVKcFZIQHd2HGhHsrI7n8ddQl9zC/nEUC++5qGgHh5zYAT5awnha9yjZfFonTerMZEiKYNK9ThS1IGW0lqIlxFP/AtaRWVhSLIOqItEd9apFYCZmNXdY=
+	t=1713607849; cv=none; b=YNeLDafNzPwekhx66cJj4FFCO+SKRVSu0lqpYhaPiV5sFOXFD+CmBk4NmfKvEQFgbz/I8f/DgVwvzp1KSGt0p9aO8rdbbD+lgKaC1p5QcKJ6w8lYOgdSnGthAC7NX84ytHoJ/PUBuFsesB55BklfbG2viSt+ZqyQv6Lg/5IBxZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713534132; c=relaxed/simple;
-	bh=m+aW3ZV1GbE1e9yfgDFlcGvNARGgqlrucJS6VWZSudI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WRsVB8jUdkLO2DaOnKMqO5gbFCujxM3BS9aZXWC/Wp9AV61CxzlKwOZW6uBE1AUP4YWZ+JvYfYVDqzkVa4NHNY7V99zT6sIV8pAidrJLTC6lqnP+qqMQFqJ3Ts2S/M7tagHeCpsR2qV5O0pU7dxQogNEUe3fLeu+mkFzS3vnreM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=P5wnIWlP; arc=none smtp.client-ip=195.181.215.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
+	s=arc-20240116; t=1713607849; c=relaxed/simple;
+	bh=uk0pVEWCGbr3TBbjkduaSqh9FacH2xhZgqD7X6xJQUQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IaHXmCIHmjaDsTnUbEQ6c4uDquMzfKCoTPqdCAB+4vV8VYGRD/IedLpicO6AHyZp3CHq4W6qUwwAOldv6QSKoTne7OVVVISC+g3j1ZOO6jC4VFJxn85WMzq/H0+B8i6+++Xys5k8tSs5Y0mawHEEszkGQJjJLtsYlrUrzEvATVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AT3+ivAw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="P5wnIWlP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
-	t=1713533777; bh=m+aW3ZV1GbE1e9yfgDFlcGvNARGgqlrucJS6VWZSudI=;
-	h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
-	b=P5wnIWlPxezCqS2wvKd6KcgnwYxU+XsjnFt1xIkJTx20A17TE15EBcLuNpCOoDYTg
-	 emXzPzvLZcjc6Xsxsz7PDpNeXjd2K7Umcx+vH7JxALRvh9aTEY9SA5u8qu+mh959mq
-	 HcUbOxybGwzDSnFgggrKIbiola9mUZSyr2J8ISbc=
-Date: Fri, 19 Apr 2024 15:36:17 +0200
-From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
-To: linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>, 
-	Chen-Yu Tsai <wens@csie.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 0/3] Move blender setup from individual planes to crtc
- commit in sun4i-drm
-Message-ID: <wynuwtyn2skchb7gc5qixql2pxnb2nqvbmrda6s53u7nt5ki7n@hqb46kttkhee>
-Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, 
-	linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev
-X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
- <https://xff.cz/key.txt>
-References: <20240224150604.3855534-1-megi@xff.cz>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AT3+ivAw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 720D6C072AA;
+	Sat, 20 Apr 2024 10:10:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713607848;
+	bh=uk0pVEWCGbr3TBbjkduaSqh9FacH2xhZgqD7X6xJQUQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=AT3+ivAwM9+Gvs9pmXWfbISAc5nlQtPxhT5HzkTQm090zDk0692NY2InqWSh0HGLq
+	 Yrd6r3ct9lkGhZM3s6hdIJqVEH2/ahZ10Wyz7YDXTpTnB90RpxtcPo23EYbXosZA7u
+	 son/yySLzsagddbwelMaqyZKOSlxa9Xz8dd7dd22GmmArY5f3ounV4VaXYLL5yfBNx
+	 WEEO3D+6qmGBcm4tNZ1Hc1MB8be0PIaRR8pYVRvs60jzyOj2QRYUwcTK4rtfFuilDT
+	 PSI5CZzqguFtLBmJU+kFjhMXkyWXnwgrl+M+ib6tJkx/TvL8J4v7pwpu+e8HNLWukX
+	 7NOh1Ip88Ysfw==
+Date: Sat, 20 Apr 2024 11:10:32 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Rob Herring <robh@kernel.org>
+Cc: Chris Morgan <macroalpha82@gmail.com>, sboyd@kernel.org,
+ conor+dt@kernel.org, devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-iio@vger.kernel.org, Chris Morgan <macromorgan@hotmail.com>,
+ wens@csie.org, mturquette@baylibre.com, samuel@sholland.org,
+ linux-sunxi@lists.linux.dev, jernej.skrabec@gmail.com, krzk+dt@kernel.org,
+ p.zabel@pengutronix.de
+Subject: Re: [PATCH 2/3] dt-bindings: iio: adc: Add GPADC for Allwinner H616
+Message-ID: <20240420111032.5d9d94c9@jic23-huawei>
+In-Reply-To: <171345342441.1843687.15293376169534019509.robh@kernel.org>
+References: <20240417170423.20640-1-macroalpha82@gmail.com>
+	<20240417170423.20640-3-macroalpha82@gmail.com>
+	<171345342441.1843687.15293376169534019509.robh@kernel.org>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240224150604.3855534-1-megi@xff.cz>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On Thu, 18 Apr 2024 10:17:33 -0500
+Rob Herring <robh@kernel.org> wrote:
 
-On Sat, Feb 24, 2024 at 04:05:57PM GMT, megi xff wrote:
-> From: Ondrej Jirman <megi@xff.cz>
+> On Wed, 17 Apr 2024 12:04:22 -0500, Chris Morgan wrote:
+> > From: Chris Morgan <macromorgan@hotmail.com>
+> > 
+> > Add support for the GPADC for the Allwinner H616. It is identical to
+> > the existing ADC for the D1/T113s/R329/T507 SoCs.
+> > 
+> > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> > ---
+> >  .../bindings/iio/adc/allwinner,sun20i-d1-gpadc.yaml      | 9 +++++++--
+> >  1 file changed, 7 insertions(+), 2 deletions(-)
+> >   
 > 
-> This series refactors blender setup from individual planes to a common
-> place where it can be performed at once and is easier to reason about.
+> Acked-by: Rob Herring (Arm) <robh@kernel.org>
 > 
-> In the process this fixes a few bugs that allowed blender pipes to be
-> disabled while corresponding DRM planes were requested to be enabled.
 > 
-> Please take a look. :)
-> 
-> v2:
-> - use regmap_write where possible
-> - add review tags
 
-It would be nice to have this applied.
+Applied this patch to the IIO tree.
 
-Kind regards,
-	o.
-
-> Thank you very much,
-> 	Ondřej Jirman
-> 
-> Ondrej Jirman (3):
->   drm/sun4i: Unify sun8i_*_layer structs
->   drm/sun4i: Add more parameters to sunxi_engine commit callback
->   drm/sun4i: Fix layer zpos change/atomic modesetting
-> 
->  drivers/gpu/drm/sun4i/sun4i_backend.c  |  4 +-
->  drivers/gpu/drm/sun4i/sun4i_crtc.c     |  2 +-
->  drivers/gpu/drm/sun4i/sun8i_mixer.c    | 70 ++++++++++++++++++++-
->  drivers/gpu/drm/sun4i/sun8i_mixer.h    | 20 ++++++
->  drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 85 +++----------------------
->  drivers/gpu/drm/sun4i/sun8i_ui_layer.h | 20 ++----
->  drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 86 +++-----------------------
->  drivers/gpu/drm/sun4i/sun8i_vi_layer.h | 20 ++----
->  drivers/gpu/drm/sun4i/sunxi_engine.h   | 13 +++-
->  9 files changed, 125 insertions(+), 195 deletions(-)
-> 
-> -- 
-> 2.44.0
-> 
+Jonathan
