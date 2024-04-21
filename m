@@ -1,129 +1,178 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailout12.t-online.de (mailout12.t-online.de [194.25.134.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3CDB219F9
-	for <linux-sunxi@lists.linux.dev>; Sun, 21 Apr 2024 20:11:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58EB343AC1
+	for <linux-sunxi@lists.linux.dev>; Sun, 21 Apr 2024 20:20:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.25.134.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713730278; cv=none; b=F4Sg9Zdy65dx0ff4UNr/GkwtUETiwpuBe4HrvMnSDk8AjiJuApnge7GxVnzdDLxorZbbrTuVoKyJuNgxuxitmmRTK0zy9hR+8yoi8dGELeeRQvd7rRIazJ1ROR8MhUNXSmtEIv4bsMtVtSRYfZLcmVZ2yK5k8RM5D2UHmpaXWRg=
+	t=1713730847; cv=none; b=Gl+9O2KQhZogc/8dtttEBNjyLquLa7xfB++Z/gXhBFVcaMYe6X2o+AZcfnrBBHKsxTvGmq2dbP5NUTI0ldrE/X7Vzqg8FJDaUceW6J+l2OOy8gxUNO7GPICxmkFphWmT0IioVUwCkXnz9lT295G2jpMyavqxRN9l2rYruhPxx2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713730278; c=relaxed/simple;
-	bh=qqMBfA0N+w7XGWIBhraZ8GVSy/adytCb55VV+xgaTUA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=n3TJW5F5RHw7kuTJZiusG2oH7U51q55IDfZS7syuJs4SJfPplVbZc6haneeATw6RvUPzc1vSehQClj0/XtlSZQd8sS/EoVCLGkk7bun0RpwX8CPpxd21r0UrxKNYIMHJNYmCjB3NzvW+t+YMsUCTx/zTnBbf5/WrxV5y7a5AH2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jp07JjHY; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jp07JjHY"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-34a32ba1962so2503845f8f.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 21 Apr 2024 13:11:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713730275; x=1714335075; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3RwdqOtr//AaV24LaG86NV9h5snzCvAUKPrjQ8vmFB8=;
-        b=Jp07JjHYdShVeUPn3Eg7+BPFf09qcbFCPnOlk77FJ7QrdJOzvzXL1xdaCH0oN+P+WS
-         CQMEOCCtrjc4UkPSvHtPjD/6PXd0EiNgjqMtHX9K8fujM3COA1wQ6BANWO1fa1m1p+xA
-         PUGUF5M15vQwfw3xRmHvRQElJRBqzRdnRoq8wvcQ/P5MSn3y1UXIwMSlfae0YYWjSH4G
-         9vyYUgii2YVCPgddkovIog17/w6UHmuCQx3F3hWFkTFHM1g6IxZ/FulwxSDEzH4rQq53
-         CmhC7DATKEtDAvYvnH36EjySHGbGVDAvQM0nABMplNGPoPWGZ8z1HaqDUMYMCC/5LKZu
-         M1Rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713730275; x=1714335075;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3RwdqOtr//AaV24LaG86NV9h5snzCvAUKPrjQ8vmFB8=;
-        b=n5V6hT0s3ymmxamxltUZLXiZ1lmk6eIzWQqpmZv/QHMisDxK5p0UmsEFMz4pStg5lL
-         ykVQEdAjOHkDkhDpMREGThZrzCqT3k3enoZsZTAH2Zk04alPxq0U005udhbVYAMuVKG2
-         Bd58fe21J2WPzZT56Mgxqi4C4y4OIYB5AgYfVou+kwtB1JQw/0b61Uh876qWm+R2Ujrv
-         MEs/+A7m0F5g4s1QXIzvT6y6zpxgyTaoHFPP8qUp8MJQQoD8xO5BDiEykZo5t77/kEqM
-         qsnNdMd4vubiE0ZtacxTLHp+ieCTSUeYYbqwr3ntN6gsDFeflGc8uRWD7qgpYSsH2C1r
-         id5A==
-X-Gm-Message-State: AOJu0YzgoVIxQi0T/VF9UA2fMcUZ8ngmP90f/QQ6w5s3A3yfLh0Y1Oss
-	Q7EES+LKWyZbrwFbuhlsaIu0s+RL67CTk6yDjGjuxVZCsVVHeh0p
-X-Google-Smtp-Source: AGHT+IEqk4KI+7BlHqF5IqUldRnCMFoNl4zIRAo51MUO37B3RZ51InldpXjYE1nGvwIC7tRm4HdxIg==
-X-Received: by 2002:adf:ff8e:0:b0:34a:56e7:5cc4 with SMTP id j14-20020adfff8e000000b0034a56e75cc4mr5418624wrr.2.1713730275182;
-        Sun, 21 Apr 2024 13:11:15 -0700 (PDT)
-Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id w20-20020adfe054000000b0034a366f26b0sm8488295wrh.87.2024.04.21.13.11.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Apr 2024 13:11:14 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Andre Przywara <andre.przywara@arm.com>
-Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-Subject: Re: [PATCH v2 0/2] arm64: dts: allwinner: Add Tanix TX1 support
-Date: Sun, 21 Apr 2024 22:11:13 +0200
-Message-ID: <13495191.uLZWGnKmhe@jernej-laptop>
-In-Reply-To: <20240418104942.1556914-1-andre.przywara@arm.com>
-References: <20240418104942.1556914-1-andre.przywara@arm.com>
+	s=arc-20240116; t=1713730847; c=relaxed/simple;
+	bh=7ulEOlS3JkhNXQTRzN6bH+s/Benk94+XyHnjn00QtVU=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=vD4YOsBAVQGD/kDiK3VLPA+KfbR/nwbf3gmfVRk49YbSEZ/eeuSJnUUaU+C9M/HtH8eS9AQxlAoEXCtJAKhSSEx3oYdM5FJefJld9BR8SGJc9d85s52l1qTvuuuYi6qOexXJwxJZe3yP6q6Y5hZe6GP9nyboyOGTLkh/ztaMvhg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=t-online.de; spf=pass smtp.mailfrom=t-online.de; arc=none smtp.client-ip=194.25.134.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=t-online.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=t-online.de
+Received: from fwd78.aul.t-online.de (fwd78.aul.t-online.de [10.223.144.104])
+	by mailout12.t-online.de (Postfix) with SMTP id 2E71317285;
+	Sun, 21 Apr 2024 22:15:06 +0200 (CEST)
+Received: from delle.local ([77.47.123.226]) by fwd78.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1rydaZ-2KqNDU0; Sun, 21 Apr 2024 22:15:03 +0200
+Message-ID: <1422c0bcf359a0dcbe09c8954aa4c723511463d0.camel@t-online.de>
+Subject: Re: [PATCH v2 1/1] drivers/rtc: rtc-sun6i: AutoCal Internal OSC
+ Clock
+From: Alois Fertl <A.Fertl@t-online.de>
+To: Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>, 
+	a.zummo@towertech.it
+Cc: alexandre.belloni@bootlin.com, wens@csie.org, samuel@sholland.org, 
+	linux-rtc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Date: Sun, 21 Apr 2024 22:14:55 +0200
+In-Reply-To: <6035510.lOV4Wx5bFT@jernej-laptop>
+References: <20240421183633.117326-1-a.fertl@t-online.de>
+	 <6035510.lOV4Wx5bFT@jernej-laptop>
+Content-Type: text/plain; charset="ISO-8859-15"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+X-TOI-EXPURGATEID: 150726::1713730503-1FFFCD4A-8CF207E9/0/0 CLEAN NORMAL
+X-TOI-MSGID: 428dd07f-58e2-4c9b-a4dc-ecb5c5a5ae97
 
-Dne =C4=8Detrtek, 18. april 2024 ob 12:49:40 GMT +2 je Andre Przywara napis=
-al(a):
-> v2 just removes the premature OPP header inclusion, and adds tags,
-> otherwise it's the same as the previous post. Based on sunxi/for-next.
+On Sun, 2024-04-21 at 21:57 +0200, Jernej =A6krabec wrote:
+> Dne nedelja, 21. april 2024 ob 20:36:33 GMT +2 je Alois Fertl
+> napisal(a):
+> > I have a M98-8K PLUS Magcubic TV-Box based on the Allwinner H618
+> > SOC.
+> > On board is a Sp6330 wifi/bt module that requires a 32kHz clock to
+> > operate correctly. Without this change the clock from the SOC is
+> > ~29kHz and BT module does not start up. The patch enables the
+> > Internal
+> > OSC Clock Auto Calibration of the H616/H618 which than provides the
+> > necessary 32kHz and the BT module initializes successfully.
+> > Add a flag and set it for H6 AND H616. The H618 is the same as H616
+> > regarding rtc.
+> >=20
+> > v1->v2
+> > - add flag and activate for H6 AND H616
 >=20
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> Tanix TX1 is a tiny TV box (60% of a credit card) with an Allwinner
-> H313 SoC. This seems to be the same as the H616, just the "bad bin"
-> version, limited to 1.3 GHz.
-> The box has no Ethernet or SD card slot, which makes booting from it
-> somewhat interesting: Pressing the hidden FEL button and using a USB-A
-> to USB-A cable to upload code from a host PC is one way to run mainline.
-> The box features a minimal set of peripherals: one USB port, 8 or 16GB
-> of eMMC, an HDMI port and an (unsupported) SCI S9082H WiFi chip.
+> Please move changelog below --- line.
+Thanks for reviewing, will move the changelog
 >=20
-> Patch 1 adds the DT binding for the board compatible, I refrained from
-> using the H313 name here, since it seems to be functionally identical to
-> the H616.
-> Patch 2 adds the devicetree.
+> >=20
+> > Signed-off-by: Alois Fertl <a.fertl@t-online.de>
+> > ---
+> > =A0drivers/rtc/rtc-sun6i.c | 16 +++++++++++++++-
+> > =A01 file changed, 15 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
+> > index e0b85a0d5645..5d0c917b2099 100644
+> > --- a/drivers/rtc/rtc-sun6i.c
+> > +++ b/drivers/rtc/rtc-sun6i.c
+> > @@ -42,6 +42,11 @@
+> > =A0
+> > =A0#define SUN6I_LOSC_CLK_PRESCAL=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A00x0008
+> > =A0
+> > +#define SUN6I_LOSC_CLK_AUTO_CAL=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A00x000c
+> > +#define SUN6I_LOSC_CLK_AUTO_CAL_16MS=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0B=
+IT(2)
+> > +#define SUN6I_LOSC_CLK_AUTO_CAL_EANABLE=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0BIT(1)
 >=20
-> There is a blue and a red LED, both connected to the same GPIO pin, but
-> with different polarities, so it's only either one of them enabled.
-> I did not find a way to describe this in DT, so I omitted the red LED.
+> EANABLE -> ENABLE
+yes sure
 >=20
-> Please have a look!
-
-Applied, thanks!
-
-Best regards,
-Jernej
-
+> > +#define SUN6I_LOSC_CLK_AUTO_CAL_SEL_CAL=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0BIT(0)
+> > +
+> > =A0/* RTC */
+> > =A0#define SUN6I_RTC_YMD=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A00x0010
+> > =A0#define SUN6I_RTC_HMS=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A00x0014
+> > @@ -126,7 +131,6 @@
+> > =A0 *=A0=A0=A0=A0 registers (R40, H6)
+> > =A0 *=A0=A0 - SYS power domain controls (R40)
+> > =A0 *=A0=A0 - DCXO controls (H6)
+> > - *=A0=A0 - RC oscillator calibration (H6)
+> > =A0 *
+> > =A0 * These functions are not covered by this driver.
+> > =A0 */
+> > @@ -138,6 +142,7 @@ struct sun6i_rtc_clk_data {
+> > =A0=A0=A0=A0=A0=A0=A0=A0unsigned int has_losc_en : 1;
+> > =A0=A0=A0=A0=A0=A0=A0=A0unsigned int has_auto_swt : 1;
+> > =A0=A0=A0=A0=A0=A0=A0=A0unsigned int no_ext_losc : 1;
+> > +=A0=A0=A0=A0=A0=A0=A0unsigned int has_auto_cal : 1;
+> > =A0};
+> > =A0
+> > =A0#define RTC_LINEAR_DAY=A0BIT(0)
+> > @@ -268,6 +273,13 @@ static void __init sun6i_rtc_clk_init(struct
+> > device_node *node,
+> > =A0=A0=A0=A0=A0=A0=A0=A0}
+> > =A0=A0=A0=A0=A0=A0=A0=A0writel(reg, rtc->base + SUN6I_LOSC_CTRL);
+> > =A0
+> > +=A0=A0=A0=A0=A0=A0=A0if (rtc->data->has_auto_cal) {
+> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0/* Enable internal OSC cl=
+ock auto calibration */
+> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0reg =3D (SUN6I_LOSC_CLK_A=
+UTO_CAL_16MS |
+> > SUN6I_LOSC_CLK_AUTO_CAL_EANABLE |
+> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0SUN6I_LOSC_CLK_AUTO_CAL_SEL_CAL);
 >=20
-> Cheers,
-> Andre
+> Remove parenthesis and fix indentation. Since macro names are pretty
+> long,
+> maybe put one per line.
+will do so
 >=20
-> Changelog v1 .. v2:
-> - add tags
-> - remove premature opp.dtsi inclusion
+> Is this safe to be done even on the boards with external 32k crystal?
+Can't tell for sure. I don't have a H6 board. But I would think that
+it's even required because H6 has a feature to autoswitch clock source
+if the external is detected to have failed.
 >=20
-> Andre Przywara (2):
->   dt-bindings: arm: sunxi: document Tanix TX1 name
->   arm64: dts: allwinner: Add Tanix TX1 support
+> Best regards,
+> Jernej
+Thanks and regards,
+Alois
 >=20
->  .../devicetree/bindings/arm/sunxi.yaml        |   5 +
->  arch/arm64/boot/dts/allwinner/Makefile        |   1 +
->  .../dts/allwinner/sun50i-h313-tanix-tx1.dts   | 183 ++++++++++++++++++
->  3 files changed, 189 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h313-tanix-tx1.d=
-ts
+> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0writel(reg, rtc->base + S=
+UN6I_LOSC_CLK_AUTO_CAL);
+> > +=A0=A0=A0=A0=A0=A0=A0}
+> > +
+> > =A0=A0=A0=A0=A0=A0=A0=A0/* Yes, I know, this is ugly. */
+> > =A0=A0=A0=A0=A0=A0=A0=A0sun6i_rtc =3D rtc;
+> > =A0
+> > @@ -380,6 +392,7 @@ static const struct sun6i_rtc_clk_data
+> > sun50i_h6_rtc_data =3D {
+> > =A0=A0=A0=A0=A0=A0=A0=A0.has_out_clk =3D 1,
+> > =A0=A0=A0=A0=A0=A0=A0=A0.has_losc_en =3D 1,
+> > =A0=A0=A0=A0=A0=A0=A0=A0.has_auto_swt =3D 1,
+> > +=A0=A0=A0=A0=A0=A0=A0.has_auto_cal =3D 1,
+> > =A0};
+> > =A0
+> > =A0static void __init sun50i_h6_rtc_clk_init(struct device_node
+> > *node)
+> > @@ -395,6 +408,7 @@ static const struct sun6i_rtc_clk_data
+> > sun50i_h616_rtc_data =3D {
+> > =A0=A0=A0=A0=A0=A0=A0=A0.has_prescaler =3D 1,
+> > =A0=A0=A0=A0=A0=A0=A0=A0.has_out_clk =3D 1,
+> > =A0=A0=A0=A0=A0=A0=A0=A0.no_ext_losc =3D 1,
+> > +=A0=A0=A0=A0=A0=A0=A0.has_auto_cal =3D 1,
+> > =A0};
+> > =A0
+> > =A0static void __init sun50i_h616_rtc_clk_init(struct device_node
+> > *node)
+> >=20
 >=20
 >=20
-
-
-
+>=20
+>=20
 
