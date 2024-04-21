@@ -1,69 +1,68 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B2D3FB88
-	for <linux-sunxi@lists.linux.dev>; Sun, 21 Apr 2024 20:06:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3CDB219F9
+	for <linux-sunxi@lists.linux.dev>; Sun, 21 Apr 2024 20:11:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713730009; cv=none; b=SQTaRwLlvUoDExbouy00Ijk9jnI30G+tT8nM4S1NOEVr0vWCLBkTjzM6hy//Bft28ZnglsYhCDRxObPZXVuTj5NX2cdg2sYOt0wFy7bgomU7JpsPD4wFg6NgUf7+pEyloJuzFnoAjVukL6IY5O6h4gomZzwxqGcpenbKq0lsKVM=
+	t=1713730278; cv=none; b=F4Sg9Zdy65dx0ff4UNr/GkwtUETiwpuBe4HrvMnSDk8AjiJuApnge7GxVnzdDLxorZbbrTuVoKyJuNgxuxitmmRTK0zy9hR+8yoi8dGELeeRQvd7rRIazJ1ROR8MhUNXSmtEIv4bsMtVtSRYfZLcmVZ2yK5k8RM5D2UHmpaXWRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713730009; c=relaxed/simple;
-	bh=hgojV3GIIl3CJ/W+5Aj/j6JOXjVVVtp4oVkpIJvA5Lc=;
+	s=arc-20240116; t=1713730278; c=relaxed/simple;
+	bh=qqMBfA0N+w7XGWIBhraZ8GVSy/adytCb55VV+xgaTUA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QJGuTNm9bcBjNyNE4VIdwjEFVaxgrC6LeYjpIZMl+p0DcRyg4n0SaHoMdLaDxz/9La/XiqOvWCzot7s99QjtfYWMlO1ADw4k0u5AZOg3CIb0mp+12dC2hjMDIlDXh7q+clkj1IzL1ioHxQxw2jKuKTywLjYbnwRX8QjH2A7fCQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JPyrWwNr; arc=none smtp.client-ip=209.85.128.48
+	 MIME-Version:Content-Type; b=n3TJW5F5RHw7kuTJZiusG2oH7U51q55IDfZS7syuJs4SJfPplVbZc6haneeATw6RvUPzc1vSehQClj0/XtlSZQd8sS/EoVCLGkk7bun0RpwX8CPpxd21r0UrxKNYIMHJNYmCjB3NzvW+t+YMsUCTx/zTnBbf5/WrxV5y7a5AH2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jp07JjHY; arc=none smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JPyrWwNr"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-417f5268b12so38460925e9.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 21 Apr 2024 13:06:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jp07JjHY"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-34a32ba1962so2503845f8f.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 21 Apr 2024 13:11:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713730006; x=1714334806; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1713730275; x=1714335075; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jL23OrHQEvtzokbYyBc6E+JAMoW6a1hpEFDs+++zhYo=;
-        b=JPyrWwNr33LzZTjzV/UiPz6n2F8uDEMTqp6GOfEOd+eVDMut0keAJhcIpn/hYQTq76
-         wcbsFrKL/uTui66lo71IvZX3pceFyzypQGdUAP1Y0fxOES3C+4Bo2f4IDgUcAazCHDiV
-         nBkzmnTBNY59KzdTW0tklRzQNvh2wUi42FogJCQph7FSOEKHAFk6QHVXFiV1NHxVivTD
-         veksKnLX1bEpAjnSwZXhCvWkNomaXs9LLjesiz8Wma90VgoQk40k+aCAtsOEQwqRZcXh
-         FyxSW3nB8tXwm77xQDENwpPzgHSQvGR3Ec5gCLthuQHuk3J0UpDxDZf8SkmrrzKFTtKq
-         1bsw==
+        bh=3RwdqOtr//AaV24LaG86NV9h5snzCvAUKPrjQ8vmFB8=;
+        b=Jp07JjHYdShVeUPn3Eg7+BPFf09qcbFCPnOlk77FJ7QrdJOzvzXL1xdaCH0oN+P+WS
+         CQMEOCCtrjc4UkPSvHtPjD/6PXd0EiNgjqMtHX9K8fujM3COA1wQ6BANWO1fa1m1p+xA
+         PUGUF5M15vQwfw3xRmHvRQElJRBqzRdnRoq8wvcQ/P5MSn3y1UXIwMSlfae0YYWjSH4G
+         9vyYUgii2YVCPgddkovIog17/w6UHmuCQx3F3hWFkTFHM1g6IxZ/FulwxSDEzH4rQq53
+         CmhC7DATKEtDAvYvnH36EjySHGbGVDAvQM0nABMplNGPoPWGZ8z1HaqDUMYMCC/5LKZu
+         M1Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713730006; x=1714334806;
+        d=1e100.net; s=20230601; t=1713730275; x=1714335075;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jL23OrHQEvtzokbYyBc6E+JAMoW6a1hpEFDs+++zhYo=;
-        b=NAj5kiFAXvN8gGYayhgTMqhDmjn6YVB88+VkvCtSVIAmr+9sWnhoj9j6djSeL9X7XC
-         ojjp41IFj1yzH/kKt3b1dkOyYHtXM3WtR2MPXFIHjJ5gv1si9kAE5reWydjWfUhgsTkf
-         5EDtMeOdvBvRYmBx0xuX7FmSa/DjDNqa8Xbvvih5sDtSk0lVvzdyq9bFfT8qKzWIDl6x
-         w5/67oC0SOeLIyJ0PtdoVZf7F1p/WQCuKdmktn1Nf41nh8bppYPmjBDMhTN5i8UAf1tm
-         PCGWPyjrfa5O9giJqB4pbepkZpEON9+k+ypKNeNQsrs9qV/nPtJD7K6tw20msvMnjRZq
-         vk8Q==
-X-Gm-Message-State: AOJu0YxkpUOVwnYbfLYhv2uI7kWoWmEhyUpZKZU+FbDKzVmGmWlecW9p
-	go3aID0FopKxRiPCO7iCWp9d01DL7iPMQSVD6qdAbfkhpYq+dbHjeuXtXQ==
-X-Google-Smtp-Source: AGHT+IGHSK1GUn0NJtEnOV4tdeXl3xAjml5XChwI32E0WIECeOtZb6ab6z+4WxvRuVKu1qbxxIXFsA==
-X-Received: by 2002:a05:600c:4f41:b0:41a:ea0:4bbc with SMTP id m1-20020a05600c4f4100b0041a0ea04bbcmr3348701wmq.38.1713730006401;
-        Sun, 21 Apr 2024 13:06:46 -0700 (PDT)
+        bh=3RwdqOtr//AaV24LaG86NV9h5snzCvAUKPrjQ8vmFB8=;
+        b=n5V6hT0s3ymmxamxltUZLXiZ1lmk6eIzWQqpmZv/QHMisDxK5p0UmsEFMz4pStg5lL
+         ykVQEdAjOHkDkhDpMREGThZrzCqT3k3enoZsZTAH2Zk04alPxq0U005udhbVYAMuVKG2
+         Bd58fe21J2WPzZT56Mgxqi4C4y4OIYB5AgYfVou+kwtB1JQw/0b61Uh876qWm+R2Ujrv
+         MEs/+A7m0F5g4s1QXIzvT6y6zpxgyTaoHFPP8qUp8MJQQoD8xO5BDiEykZo5t77/kEqM
+         qsnNdMd4vubiE0ZtacxTLHp+ieCTSUeYYbqwr3ntN6gsDFeflGc8uRWD7qgpYSsH2C1r
+         id5A==
+X-Gm-Message-State: AOJu0YzgoVIxQi0T/VF9UA2fMcUZ8ngmP90f/QQ6w5s3A3yfLh0Y1Oss
+	Q7EES+LKWyZbrwFbuhlsaIu0s+RL67CTk6yDjGjuxVZCsVVHeh0p
+X-Google-Smtp-Source: AGHT+IEqk4KI+7BlHqF5IqUldRnCMFoNl4zIRAo51MUO37B3RZ51InldpXjYE1nGvwIC7tRm4HdxIg==
+X-Received: by 2002:adf:ff8e:0:b0:34a:56e7:5cc4 with SMTP id j14-20020adfff8e000000b0034a56e75cc4mr5418624wrr.2.1713730275182;
+        Sun, 21 Apr 2024 13:11:15 -0700 (PDT)
 Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id l16-20020a05600c4f1000b0041a1fee2854sm3699213wmq.17.2024.04.21.13.06.45
+        by smtp.gmail.com with ESMTPSA id w20-20020adfe054000000b0034a366f26b0sm8488295wrh.87.2024.04.21.13.11.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Apr 2024 13:06:46 -0700 (PDT)
+        Sun, 21 Apr 2024 13:11:14 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: linux-sunxi@lists.linux.dev, Chris Morgan <macroalpha82@gmail.com>
-Cc: devicetree@vger.kernel.org, mripard@kernel.org, wens@csie.org,
- conor+dt@kernel.org, krzk+dt@kernel.org, robh@kernel.org, tglx@linutronix.de,
- Chris Morgan <macromorgan@hotmail.com>,
- Andre Przywara <andre.przywara@arm.com>
-Subject: Re: [PATCH V2 2/2] arm64: dts: allwinner: h616: Add NMI device node
-Date: Sun, 21 Apr 2024 22:06:45 +0200
-Message-ID: <1882404.tdWV9SEqCh@jernej-laptop>
-In-Reply-To: <20240418181615.1370179-3-macroalpha82@gmail.com>
-References:
- <20240418181615.1370179-1-macroalpha82@gmail.com>
- <20240418181615.1370179-3-macroalpha82@gmail.com>
+To: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Andre Przywara <andre.przywara@arm.com>
+Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+ Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+Subject: Re: [PATCH v2 0/2] arm64: dts: allwinner: Add Tanix TX1 support
+Date: Sun, 21 Apr 2024 22:11:13 +0200
+Message-ID: <13495191.uLZWGnKmhe@jernej-laptop>
+In-Reply-To: <20240418104942.1556914-1-andre.przywara@arm.com>
+References: <20240418104942.1556914-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -73,47 +72,56 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne =C4=8Detrtek, 18. april 2024 ob 20:16:15 GMT +2 je Chris Morgan napisal=
-(a):
-> From: Chris Morgan <macromorgan@hotmail.com>
+Dne =C4=8Detrtek, 18. april 2024 ob 12:49:40 GMT +2 je Andre Przywara napis=
+al(a):
+> v2 just removes the premature OPP header inclusion, and adds tags,
+> otherwise it's the same as the previous post. Based on sunxi/for-next.
 >=20
-> Add device node for the H616 Non Maskable Interrupt (NMI) controller.
-> This controller is present on all H616 boards and derivatives such as
-> the T507 and H700. Note that on the H616 no NMI pad is exposed.
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> Tanix TX1 is a tiny TV box (60% of a credit card) with an Allwinner
+> H313 SoC. This seems to be the same as the H616, just the "bad bin"
+> version, limited to 1.3 GHz.
+> The box has no Ethernet or SD card slot, which makes booting from it
+> somewhat interesting: Pressing the hidden FEL button and using a USB-A
+> to USB-A cable to upload code from a host PC is one way to run mainline.
+> The box features a minimal set of peripherals: one USB port, 8 or 16GB
+> of eMMC, an HDMI port and an (unsupported) SCI S9082H WiFi chip.
 >=20
-> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> Patch 1 adds the DT binding for the board compatible, I refrained from
+> using the H313 name here, since it seems to be functionally identical to
+> the H616.
+> Patch 2 adds the devicetree.
+>=20
+> There is a blue and a red LED, both connected to the same GPIO pin, but
+> with different polarities, so it's only either one of them enabled.
+> I did not find a way to describe this in DT, so I omitted the red LED.
+>=20
+> Please have a look!
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Applied, thanks!
 
 Best regards,
 Jernej
 
-> ---
->  arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi | 9 +++++++++
->  1 file changed, 9 insertions(+)
 >=20
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/=
-boot/dts/allwinner/sun50i-h616.dtsi
-> index b2e85e52d1a1..1e066f3057be 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> @@ -775,6 +775,15 @@ r_ccu: clock@7010000 {
->  			#reset-cells =3D <1>;
->  		};
-> =20
-> +		nmi_intc: interrupt-controller@7010320 {
-> +			compatible =3D "allwinner,sun50i-h616-nmi",
-> +				     "allwinner,sun9i-a80-nmi";
-> +			reg =3D <0x07010320 0xc>;
-> +			interrupt-controller;
-> +			#interrupt-cells =3D <2>;
-> +			interrupts =3D <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
-> +		};
-> +
->  		r_pio: pinctrl@7022000 {
->  			compatible =3D "allwinner,sun50i-h616-r-pinctrl";
->  			reg =3D <0x07022000 0x400>;
+> Cheers,
+> Andre
+>=20
+> Changelog v1 .. v2:
+> - add tags
+> - remove premature opp.dtsi inclusion
+>=20
+> Andre Przywara (2):
+>   dt-bindings: arm: sunxi: document Tanix TX1 name
+>   arm64: dts: allwinner: Add Tanix TX1 support
+>=20
+>  .../devicetree/bindings/arm/sunxi.yaml        |   5 +
+>  arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+>  .../dts/allwinner/sun50i-h313-tanix-tx1.dts   | 183 ++++++++++++++++++
+>  3 files changed, 189 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h313-tanix-tx1.d=
+ts
+>=20
 >=20
 
 
