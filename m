@@ -1,313 +1,333 @@
-Received: from wfhigh8-smtp.messagingengine.com (wfhigh8-smtp.messagingengine.com [64.147.123.159])
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11olkn2083.outbound.protection.outlook.com [40.92.18.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE3821FA4
-	for <linux-sunxi@lists.linux.dev>; Sun, 21 Apr 2024 02:28:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.159
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713666528; cv=none; b=ZSWEkAVhqkTTFgTowPxLPj5X3Djgv8nPkj8h9zber8ZyTkoNZuk/tDiR2KOvzth1p8f2STD9ex7E36Q8FhtK7hOVS3rgdE9bIXggC8drmiEyYLozHJx6ekwLDKY3kO1ZxA2L3zmdlcatAIaRoPChE3PdoCFQYYw/L6qk+Ut12m8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713666528; c=relaxed/simple;
-	bh=3Rt2OBhP0cEcrvnhi7V4gf+6t7xnxeyqLi1He5ac8FI=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=L67WXIYj/rdQ859VDmuWQicCaTmb7I43+TRmccaRLFrP/facn2ETIMTuDIY2V/K0NQoaa8XkkWEX8sKkon/SmAlPPjf3T1ICvAwSNgCrTLLTy1DmLmywxvRTpYl9xK1cJpYppJPV9e/IjmvOSnTIFFAY3a7Jjq5a9kzCxUnGPRs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=hSGqwe+7; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ekmvzWuV; arc=none smtp.client-ip=64.147.123.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=testtoast.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C23817E9
+	for <linux-sunxi@lists.linux.dev>; Sun, 21 Apr 2024 03:09:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.18.83
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713668993; cv=fail; b=twxaUCZQKnm980bU2I/AjKNhJwQhMlmEYefXHi0x1XEGp54oyigKuJnj1tLmki5joOoY96ykAIj/SwnKvTaV0a3+RkOlpzOxSXnztqoFRZL7rHkYLkCUpqoaGIPcZoNnqXc3xFNrxrbhUtpaYzeADTEYDKLV51lq67smJo2fguw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713668993; c=relaxed/simple;
+	bh=2m+WjXAGJpNsvXO3+7cCPj+CMB/iazlhE+xk616MZMU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=Kq5dDp6+sjYU35OaPoMA+JHbmvyk+0xq1opUm4Pg8oopKi3++vcxPS56T91pG1t35f3ydBAGshB+YQlOPNMY9YSIaaIti/0cK4gNU6+j43QZtEK+c7VYB2ClVdUOntqKdxjR5V48cREBCHK4b7oSjqiRyL94CPxG2cZF+jQ8F6E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com; spf=pass smtp.mailfrom=hotmail.com; dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b=ZqAby0m/; arc=fail smtp.client-ip=40.92.18.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hotmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="hSGqwe+7";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ekmvzWuV"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfhigh.west.internal (Postfix) with ESMTP id 30E0E180012B;
-	Sat, 20 Apr 2024 22:28:45 -0400 (EDT)
-Received: from imap47 ([10.202.2.97])
-  by compute5.internal (MEProxy); Sat, 20 Apr 2024 22:28:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm3; t=1713666524; x=
-	1713752924; bh=+xY/lMR+j7DPEToGaOlAuhZZE6oyfJeV5TaEs29LqB8=; b=h
-	SGqwe+76vg7J4LvO+tlKHna4VxbwFaHeeK1IdwxFYMjMWqJAOHDL96053xGTK4Ai
-	7PZYDzrgrqmzI35Mzasfyo/mo0m6PMwbIE8c/D1gJgTztTYQFkv3eCQqkiX2dDLn
-	UEgKhxRcu/Y5sSQQqLn0nPEzkoboTaAblgNFzcYT1GsD2d4PZ1rXzsfIMWp+JF7P
-	usRf2ONLGs3XKiLJQJE29YilFOJ9O0f5zFEueVqVIWacu6SOCqWykuOrSzcJEAhH
-	Wktztcbu86uBnyIIR/W8HEmd9gdqX+LiJPOJC6XAaX3pRRfL7ps4MjNJB/fIOcp1
-	IXjq2EmNIlU+3geKIl5Yg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1713666524; x=1713752924; bh=+xY/lMR+j7DPEToGaOlAuhZZE6oy
-	fJeV5TaEs29LqB8=; b=ekmvzWuVcjPaB8F94pHl7K3x3Jw5V3KcwyCxIqpfLkoL
-	V4cx5egAPzfCkQ65EPv6SXTYUABhof4KufxWEuXibZwwhqTiPx/UPJGRikOOPRJE
-	NLNG2lGPz9zhSqPS9AAQbaIsydCuVnua2FOL7Rjek7alE3xljutT6zUjjwMDA5KD
-	dYcu2GBPB7Eefn+19u44KYAMOpteyZtfJnp/vHxkKN+ynqJmjouH9Pwp21Kz5uet
-	HqJT/0cLFsL7y7PjNTclhIbMa4UumnSDKlyVDWQzYeHEL0XlmPk6tyUbDnAVd7Eh
-	q5QSQlAd7N9npfl2ZHb1FpIOHh6gR7qbszQBF4AGSw==
-X-ME-Sender: <xms:3HkkZv-xdxtr_5Jvf2s_1ExXhEKjsqvGIXrxA7qW8vSBLF2SZwFXcw>
-    <xme:3HkkZrv_67z_hNg6FYDSXZswwqMiG71wzD5Op4y-ihKzZ9XqQnT464UYarvmu9sFn
-    AU7RJqA-xqQspsHZw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudekhedgheekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftfih
-    rghnucghrghlkhhlihhnfdcuoehrhigrnhesthgvshhtthhorghsthdrtghomheqnecugg
-    ftrfgrthhtvghrnhepjedvudegieejheetudejkeffieeigefhveeiteekjeekgfevkedv
-    iedttedvtedunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghruf
-    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehrhigrnhesthgvshhtthhorghs
-    thdrtghomh
-X-ME-Proxy: <xmx:3HkkZtA8Alovnhn2WD902_ukHVTwdl4wHfOYnVSjm7DVNwL2HO4byw>
-    <xmx:3HkkZrcwOgq7fm1Jd5W1k4jPMlZDoAZXLFRLpwrCHUVFVGwYi5u8eg>
-    <xmx:3HkkZkPsgnk5QcZiae9MLAAVe9DqUBN7P18CL_ASknGe4rJmRQE6ew>
-    <xmx:3HkkZtlmrcXoK3MrFUZ2b8-ooAzt5mKHWY9y7iQq88CzhRhRvjrepA>
-    <xmx:3HkkZjrtKN2eCTry93Rz7pMA7BBvMSeYSUpQXhbPmmYJCIYvDI_I6Oso>
-Feedback-ID: idc0145fc:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 4FF43A6149F; Sat, 20 Apr 2024 22:28:44 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-379-gabd37849b7-fm-20240408.001-gabd37849
+	dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b="ZqAby0m/"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QXqHdvSubc5M9pyo22MazFXBAATWqfyhunFDvSgdSNf/vLNC+cbZr5n31z1U7c7P8QwIjD5GhOUYLAFbDRefdpamGzsAwiauy6yAt96AV1iZ5iuReGyvwxdXBbsauB9l3T/n6ardePlbF9HBomvOVOYIQk+BBci1sZPeoH3dj958LeC0YNhNWCB8T+JxX18siiQBZ4Tg0/Mu50vqUJFkouHxURm9mUlOOR2kREeLofDubMV43xX+OaQ2i+0oSm7a+ZRZ9FPh/3RYPTHndprSqVR8d7hBX9B4Z50QfuS9YEADHBgU0SMCjZV9JrAdecRO88QlzE0LsvnLHWMXM+Mj3w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Yg4gTLm9gCUPuc3RAGWth6YFI7OSKa7aRyZ08k/W8A0=;
+ b=avb3pZ3tmwQBBDx71opuNVKV7dFLFe6+MhHwjKprCauPshy43qFGaqa9n01iKuzAMjtc9q8EHtq1S342f49XogW+WRVzvANPN93onZiouGrRFWXHId0uBWEgOHd3dAwEeGI5EdnsrwrwzYev9MYvkAYlMZaaysmeIOvdFz3nOzap1JzIt8hUTHXNBXeKznAQjiUDw0VzX90NIezFEIXp6hkXfwmOWB8NqvfxOTcTHLzzIdC5dJ2YR1fWjFfjGsV2PYr3DTUlPRwRXzRw+f9nFSdUna6bjJDcVdjL609TUWGbtr2Vd3HBaQxTMRX81YnytXeMJ4Z9EkOaD8G96rK8Rg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Yg4gTLm9gCUPuc3RAGWth6YFI7OSKa7aRyZ08k/W8A0=;
+ b=ZqAby0m/WtS6/CiUeiauuaI1iB6jWcv1wlGv0gDZEZ2wNCnPYc1mHQmNzzwb/MJ2JJtfT1p9YwJdu5/Vhc/mbus8mXAnlHCd7M7GBIjHUVn1PEGpO2XLM72+ucJrVir9S4oqddFtfTix5LEJ4qn419hsceC6fmfW995cQIGufM0k2qRuYYR5gfygXUe3D8yCeThdGVEjTRJFvlUOuFVQ928xXTYyAMGRnJaAr6/RJ047TnyHLmiAOMxP9bLwuWG74bSOq9eG1kmBpMkiGXxd1PJrc5MO2ITKjvmJNgOkiwqRbXMkh0qwDcKSpoziGCIvBYMWB+yipazQa8A2xm1iCQ==
+Received: from DM4PR05MB9229.namprd05.prod.outlook.com (2603:10b6:8:88::20) by
+ PH0PR05MB8415.namprd05.prod.outlook.com (2603:10b6:510:ca::18) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7472.44; Sun, 21 Apr 2024 03:09:43 +0000
+Received: from DM4PR05MB9229.namprd05.prod.outlook.com
+ ([fe80::12a8:4f88:32b0:9407]) by DM4PR05MB9229.namprd05.prod.outlook.com
+ ([fe80::12a8:4f88:32b0:9407%6]) with mapi id 15.20.7472.037; Sun, 21 Apr 2024
+ 03:09:43 +0000
+Date: Sat, 20 Apr 2024 22:09:40 -0500
+From: Chris Morgan <macromorgan@hotmail.com>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Ryan Walklin <ryan@testtoast.com>, Chen-Yu Tsai <wens@csie.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 4/5] arm64: dts: allwinner: h700: Add RG35XX-H DTS
+Message-ID:
+ <DM4PR05MB9229B7D4654478D28D1BC2B6A5132@DM4PR05MB9229.namprd05.prod.outlook.com>
+References: <20240420104354.334947-5-ryan@testtoast.com>
+ <20240420104354.334947-10-ryan@testtoast.com>
+ <20240421020627.6d186f8f@minigeek.lan>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240421020627.6d186f8f@minigeek.lan>
+X-TMN: [vXIg1AqbCbOOxR47jkLEiWsvKsAjEmdb]
+X-ClientProxiedBy: SN1PR12CA0075.namprd12.prod.outlook.com
+ (2603:10b6:802:20::46) To DM4PR05MB9229.namprd05.prod.outlook.com
+ (2603:10b6:8:88::20)
+X-Microsoft-Original-Message-ID: <ZiSDdKnR2PWjxqb5@wintermute.localhost.fail>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <275d01fe-1360-4e9b-80c1-2029fce4b2a5@app.fastmail.com>
-In-Reply-To: <20240421014920.4946a5ce@minigeek.lan>
-References: <20240420104354.334947-5-ryan@testtoast.com>
- <20240420104354.334947-8-ryan@testtoast.com>
- <20240421014920.4946a5ce@minigeek.lan>
-Date: Sun, 21 Apr 2024 14:28:22 +1200
-From: "Ryan Walklin" <ryan@testtoast.com>
-To: "Andre Przywara" <andre.przywara@arm.com>
-Cc: "Chen-Yu Tsai" <wens@csie.org>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
- "Conor Dooley" <conor+dt@kernel.org>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>,
- "Samuel Holland" <samuel@sholland.org>,
- "Chris Morgan" <macromorgan@hotmail.com>, devicetree@vger.kernel.org,
- linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 2/5] arm64: dts: allwinner: h700: Add RG35XX 2024 DTS
-Content-Type: text/plain
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR05MB9229:EE_|PH0PR05MB8415:EE_
+X-MS-Office365-Filtering-Correlation-Id: d75781d1-f575-4c09-2731-08dc61b07db7
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	O1LB6nPjHHgNU0/NDsFYDSv/owX7xRJnqCfxLrYEqtSlZXzoAaXOkpHaJvoLF47GpUH53bQoCrWsK4mLfFQvV1My+zQPIX8gnlXu3+QrSL/XzKIsBlSvqy1uSBTttlAmNXBtwxbcRemjWK6MrFFSS6daZ0G56DAbMvXEnmlv0emDaC3b1doagqHfCbOUF9qALUo4zV7IYf9vku4L+A0hpNsZgVTCIEUTQB+NFZLh2aPM7vDZrPPIwhr9R9G/f5BZ+g/iQnrTjSwu5NWs1Gq7HOOI7PNfq5dhlgu1Hc3A4JvU8CCbxV8STtA/H8ZA7d20TK/8bP15LqZOwrzdPLo+zAxxmsNJAqLHeiFj37x0TggsTrk3m4X9bsd+burwu342fF+KJD/3RDt/GHEdCHGEZYPecW4BsS6+SAyAGP6UngEqkGCt30EUDcDRDExv6EolW6cy5cY8KHNVs5CMadFcw7zX46SOhr6lNlzTkoGcLyZ/pp3ZPhnCA8MFnV3jWMLy/R2t+f90VzzFIIPJxi+IwY8xT1W/LzksDZ2Z/z5mki3zjwpoxtpYfUR4hFc8T0+2QPpT+MOEnq1qj8uCRhevWDsrF8wtqKkO+7QAUYHqVC5K4w0POEB/EWyo2033uJ4A3TeEvnaMBU3k2/EEu1l5TbqFk69WbKR8a1V/yISJOEU=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?JQX1BGYe41RfRbBfibbMs25iCQLJ2VOJ1fr/VJ+ZFefpqskscAH5GwgRpy4S?=
+ =?us-ascii?Q?XUXFO5D0oezBSd/Kz2DfuHXVAIv3cEbYisUEdrHCF0rQeY+UrXZx+x1BWiKy?=
+ =?us-ascii?Q?ty6e4E8kqvwRxGkzXbbh1eYL3vYKj2O1uGo0unrjfli+3nV95KXmSDPllQ7+?=
+ =?us-ascii?Q?uiI2WjNF09W7f9STPYE7fbXiIKXc7l6OLUqr8gLv7jdPvGOyPKNuF93S+klo?=
+ =?us-ascii?Q?xx9eIHpTpfV+xuv+/reY8nA+UCabvvmSC0/CCyzkzmKFn2JI33rNdoU1jKu5?=
+ =?us-ascii?Q?LEmUPsh1DbXznQ8XRxn/vZb+5Y9jOxvOjHY1TzBchVEAmbHQvPSFJFEc6bI7?=
+ =?us-ascii?Q?n4AHEsmAn9qa2YQUeGVn4NzhPp0FEppUpT7NuzTrEY+Xgk70BNvn74NpLy0C?=
+ =?us-ascii?Q?DasM19PSwlxc9p/iM/4UttKXZQnf4RtQkMGtt6maIX1ccoDNp8O6/jnV67vA?=
+ =?us-ascii?Q?y25QQXm77M7RjZ65xuF7S3/FpQwPVuuud3J3Oy2+DQGyVABX0YcRc8ie1mDc?=
+ =?us-ascii?Q?ApNRCbjtEtey503ZX7PRzmYdWiX7z9yZ9ZLNf4pbSDeyErHIXSBjiL5EoEBC?=
+ =?us-ascii?Q?mDrQUUmKovaH/QhA0q3olPcRdfmWX2z+ohv7IoRMUw2gl03o9RFyysYwHkaq?=
+ =?us-ascii?Q?JnyUwRfneDNnCGO10Kep+mOAFCpKbMPkWEdwxPtPeh0A0G09qbEJdza2EKY+?=
+ =?us-ascii?Q?iaBbrtAITFvwcR+3HTD4lbs3g6DoYNUHdObT9Wzk379kFPKVUj90ueEOATjK?=
+ =?us-ascii?Q?g9ATJJLAu4ln56ulRg8Y+0guH7ziE+C5/IAh5r1qn4ED31dYuTTixM2FhHZY?=
+ =?us-ascii?Q?dwNAvDjmylryzIao/LQzGY4zNzG4lLIc81yllZkpCPuwSW0EtuAhm2XKy5L6?=
+ =?us-ascii?Q?oHTYL1gUuPti01lA89LiFF/n1HccHn5Vxdzohb63/YsmJal5ndOqGSDFVy7P?=
+ =?us-ascii?Q?Nt1N+y5R93qoayv2OtBQxPYSDXR5l1xXTrQwnqbdD8AWdk+bv44OmZe5O4lH?=
+ =?us-ascii?Q?YC4xScFxiVYGbVJkzxJ5mTwCkBxFCGJXVGVNKjkpyare/UcCmbGW1MK1j7Az?=
+ =?us-ascii?Q?XUPr2dJGQEDNKgvrALdiVMOB+Ji8YV2zKiD+babCst3B/2Qhz8Add1WQX6AU?=
+ =?us-ascii?Q?NWAZn8ITDNNn/6GUfyMGgiBIxzOJefcoBPlS2ZZKMSBt/+7w01n8tx2UQKFk?=
+ =?us-ascii?Q?ysDY9EmQ1R44mevwi0QGeeVHFLfShf7XrgKvrnIrkZ/OrjE1frb+sT6zk3M?=
+ =?us-ascii?Q?=3D?=
+X-OriginatorOrg: sct-15-20-4823-7-msonline-outlook-84f76.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: d75781d1-f575-4c09-2731-08dc61b07db7
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR05MB9229.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2024 03:09:43.4136
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR05MB8415
 
-
-On Sun, 21 Apr 2024, at 12:49 PM, Andre Przywara wrote:
-> On Sat, 20 Apr 2024 22:43:56 +1200
+On Sun, Apr 21, 2024 at 02:06:27AM +0100, Andre Przywara wrote:
+> On Sat, 20 Apr 2024 22:43:58 +1200
 > Ryan Walklin <ryan@testtoast.com> wrote:
->
-> Hi Ryan,
->
-> many thanks for the respin and the changes! We are getting there ...
+> 
+> Hi,
+> 
+> > The RG35XX-H adds thumbsticks, a stereo speaker, and a second USB port to the RG35XX-Plus, and has a horizontal form factor.
+> > 
+> > Enabled in this DTS:
+> > - Thumbsticks
+> > - Second USB port
+> > 
+> > Changelog v1..v2:
+> > - Update copyright
+> > - Spaces -> Tabs
+> > - Add GP ADC joystick axes and mux [1]
+> > - Add EHCI/OHCI1 for second USB port and add vbus supply
+> > 
+> > Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+> > 
+> > [1]: https://lore.kernel.org/linux-sunxi/20240417170423.20640-1-macroalpha82@gmail.com/T/#t
+> 
+> As mention on patch 2/5, this might be better an optional dependency,
+> so the GPADC part might be a separate patch.
+> 
+> > 
+> > Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+> > ---
+> >  .../sun50i-h700-anbernic-rg35xx-h.dts         | 126 ++++++++++++++++++
+> >  1 file changed, 126 insertions(+)
+> >  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dts
+> > 
+> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dts b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dts
+> > new file mode 100644
+> > index 000000000000..d62cf5cd9d9b
+> > --- /dev/null
+> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dts
+> > @@ -0,0 +1,126 @@
+> > +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +/*
+> > + * Copyright (C) 2024 Ryan Walklin <ryan@testtoast.com>.
+> > + * Copyright (C) 2024 Chris Morgan <macroalpha82@gmail.com>.
+> > + */
+> > +
+> > +#include "sun50i-h700-anbernic-rg35xx-plus.dts"
+> > +
+> > +/ {
+> > +	model = "Anbernic RG35XX H";
+> > +	compatible = "anbernic,rg35xx-h", "allwinner,sun50i-h700";
+> > +
+> > +	adc-joystick {
+> > +		compatible = "adc-joystick";
+> > +		io-channels = <&adc_mux 0>,
+> > +				  <&adc_mux 1>,
+> > +				  <&adc_mux 2>,
+> > +				  <&adc_mux 3>;
+> > +		pinctrl-0 = <&joy_mux_pin>;
+> > +		pinctrl-names = "default";
+> > +		poll-interval = <60>;
+> > +		#address-cells = <1>;
+> > +		#size-cells = <0>;
+> > +
+> > +		axis@0 {
+> > +			reg = <0>;
+> > +			abs-flat = <32>;
+> > +			abs-fuzz = <32>;
+> > +			abs-range = <4096 0>;
+> > +			linux,code = <ABS_X>;
+> > +		};
+> > +
+> > +		axis@1 {
+> > +			reg = <1>;
+> > +			abs-flat = <32>;
+> > +			abs-fuzz = <32>;
+> > +			abs-range = <0 4096>;
+> > +			linux,code = <ABS_Y>;
+> > +		};
+> > +
+> > +		axis@2 {
+> > +			reg = <2>;
+> > +			abs-flat = <32>;
+> > +			abs-fuzz = <32>;
+> > +			abs-range = <0 4096>;
+> > +			linux,code = <ABS_RX>;
+> > +		};
+> > +
+> > +		axis@3 {
+> > +			reg = <3>;
+> > +			abs-flat = <32>;
+> > +			abs-fuzz = <32>;
+> > +			abs-range = <4096 0>;
+> > +			linux,code = <ABS_RY>;
+> > +		};
+> > +	};
+> > +
+> > +	adc_mux: adc-mux {
+> > +		compatible = "io-channel-mux";
+> > +		channels = "left_x", "left_y", "right_x", "right_y";
+> > +		#io-channel-cells = <1>;
+> > +		io-channels = <&gpadc 0>;
+> > +		io-channel-names = "parent";
+> > +		mux-controls = <&gpio_mux>;
+> > +		settle-time-us = <100>;
+> > +	};
+> > +
+> > +	gpio_keys: gpio-keys-thumb {
+> 
+> Is there any reason to not just use the existing gpio-keys node?
+> Either put a label on it in patch 2/5, and reference that below,
+> outside of the root node, or use an absolute path reference.
 
-Thanks for the review!
+I would also second just putting an alias and adding these to it.
+I myself as a preference tend to set the GPIO volume buttons as
+a seperate node only so I can enable key repeat on them, otherwise
+one node is best.
 
->> 
->> [1]: https://lore.kernel.org/linux-sunxi/20240419071450.7aiheeoyq35yjoo7@vireshk-i7/T/#t
->> [2]: https://lore.kernel.org/linux-sunxi/20240418181615.1370179-1-macroalpha82@gmail.com/T/#t
->
-> As those are dependencies, but WIP, this gets a bit tricky:
-> - cpufreq is pretty far, but comes through a different tree. I suggest
->   you drop the cpu-opp.dtsi include, to not complicate things. We can
->   add this later as a fix, once this OPP file has reached the master
->   tree.
+> 
+> > +		compatible = "gpio-keys";
+> > +
+> > +		button-thumbl {
+> > +			label = "GPIO Thumb Left";
+> > +			gpios = <&pio 4 8 GPIO_ACTIVE_LOW>; /* PE8 */
+> > +			linux,input-type = <EV_KEY>;
+> > +			linux,code = <BTN_THUMBL>;
+> > +		};
+> > +
+> > +		button-thumbr {
+> > +			label = "GPIO Thumb Right";
+> > +			gpios = <&pio 4 9 GPIO_ACTIVE_LOW>; /* PE9 */
+> > +			linux,input-type = <EV_KEY>;
+> > +			linux,code = <BTN_THUMBR>;
+> > +		};
+> > +	};
+> > +
+> > +	gpio_mux: mux-controller {
+> > +		compatible = "gpio-mux";
+> > +		mux-gpios = <&pio 8 1 GPIO_ACTIVE_LOW>,
+> > +				<&pio 8 2 GPIO_ACTIVE_LOW>; /* PI1, PI2 */
+> > +		#mux-control-cells = <0>;
+> > +	};
+> > +};
+> > +
+> > +&gpadc {
+> > +	#address-cells = <1>;
+> > +	#size-cells = <0>;
+> > +	status = "okay";
+> > +
+> > +	channel@0 {
+> > +		reg = <0>;
+> > +	};
+> > +};
+> > +
+> > +&pio {
 
-Done, thanks. Have also not increased the DCDC1 voltage to 1.16v for 1.5GHz as it's not yet working (and technically out of spec for the SoC) but will relook at the vendor BSP once this set is merged.
+After extensive testing with a multimeter and fudging the regulator
+voltages up or down, I've been able to figure out the regulator
+assignments for each of the different power domains. Schematics would
+have helped, but sadly this had to be done the hard way. Based on
+past experience with Anbernic I would strongly suspect all devices
+have this assignment, but I know for sure my  35XXH does.
 
-> - The NMI binding and DT node seem important, but have not been merged
->   yet. I suggest to mention them as a requirement. 
+        vcc-pa-supply = <&reg_cldo3>;
+        vcc-pc-supply = <&reg_cldo3>;
+        vcc-pe-supply = <&reg_cldo3>;
+        vcc-pf-supply = <&reg_cldo3>;
+        vcc-pg-supply = <&reg_aldo4>;
+        vcc-ph-supply = <&reg_cldo3>;
+        vcc-pi-supply = <&reg_cldo3>;
 
-Done, thanks.
+On my board the reg_cldo3 is a constant 3.3v output, and the reg_aldo4
+is a constant 1.8v output.
 
-> - The GPADC (in the later patch) is similar, but it is not as critical
->   as the NMI. 
+> > +	joy_mux_pin: joy-mux-pin {
+> > +		pins = "PI0";
+> > +		function = "gpio_out";
+> > +	};
+> > +};
+> > +
+> > +&ehci1 {
+> > +	status = "okay";
+> > +};
+> > +
+> > +&ohci1 {
+> > +	status = "okay";
+> > +};
+> > +
+> > +&usbotg {
+> > +	dr_mode = "peripheral";
+> > +	status = "okay";
+> > +};
+> > +
+> > +&usbphy {
+> > +	usb1_vbus-supply = <&reg_vcc_usb>;
+> 
+> This is the dodgy USB supply chain. Any chance we can narrow this down,
+> to maybe one GPIO controlled regulator? Also, where does the boost
+> controller come into play here?
 
-Will pull this out separately, as you say its only required for the joysticks on the -H.
+I haven't figured out the boost regulator yet, but for the host port
+I've been able to ascertain there's no less than 2 GPIO controlled
+regulators in play. PE5 must be driven high or the USB host port will
+not power on at all. If PE5 is driven high then the port kicks on, but
+at 3.3v. Once I also enable PI7 the port then reaches 4.6v. I'm not sure
+how to get it to a proper 5v yet, I'm still working that part out.
 
->> +	reg_vcc_usb: regulator-vcc-5v0-usb {
->> +		compatible = "regulator-fixed";
->> +		enable-active-high;
->> +		gpio = <&pio 8 7 GPIO_ACTIVE_HIGH>; /* PI7 */
->> +		regulator-name = "vcc_5v0_usb";
->> +		regulator-min-microvolt = <5000000>;
->> +		regulator-max-microvolt = <5000000>;
->> +		vin-supply = <&vcc_3v3_usb>;
->
-> This looks wrong, see below.
->
->> +	};
->> +
->> +	vcc_3v3_usb: vcc-3v3-usb {
->> +		compatible = "regulator-fixed";
->> +		enable-active-high;
->> +		gpio = <&pio 4 5 GPIO_ACTIVE_HIGH>; /* PE5 */
->> +		regulator-always-on;
->> +		regulator-boot-on;
->
-> There seems to be something off with this one. First, it seems odd that
-> an always-on regulator is GPIO controlled, as this surely means it's
-> not enabled at reset time (because the GPIO is initially HighZ and thus
-> not enabled). So who turns this on? Most likely it's the kernel? What
-> happens if we turn this off (or leave it off)?
+Maybe PE5 is a reset of some kind that's active low, I don't know. I
+just know so far/for sure that if PE5 is low then nothing registers on
+the USB host port; if PE5 is high but PI7 is low the port sort-of works
+at 3.3v, and if both PE5 and PI7 are high the port works consistently
+and at 4.6v.
 
-This makes more sense with that explanation, thanks. Taking a while to get my head round how the power distribution is done in the embedded space.
-
->
-> Secondly, why is this 3.3V (both by name and voltage), but then
-> supplies the 5.0V USB VBUS?
-> And given that this is chained with reg_vcc_usb above, are those really
-> two regulators, controlled by two GPIOs?
->
->> +		regulator-name = "vcc_3v3_usb";
->> +		regulator-max-microvolt = <3300000>;
->> +		regulator-min-microvolt = <3300000>;
->> +	};
->> +
->> +	reg_vcc5v: regulator-vcc5v { /* USB-C power input */
->> +		compatible = "regulator-fixed";
->> +		regulator-name = "vcc-5v";
->> +		regulator-min-microvolt = <5000000>;
->> +		regulator-max-microvolt = <5000000>;
->> +	};
-
-Will do some more work on this and try and figure it out. The USB and second SD are not working well currently, probably this is why.
->> +
->> +	reg_pll_dcx0: regulator-pll-dcx0 {
->
-> It's DCXO (letter "oh", not zero): digitally controlled/compensated
-> crystal *o*scillator.
-
-D'oh! Had to google PLL, should have googled this too.
-
->
->> +		compatible = "regulator-fixed";
->> +		regulator-always-on;
->> +		regulator-name = "vcc-pll";
->> +		regulator-min-microvolt = <1800000>;
->> +		regulator-max-microvolt = <1800000>;
->> +	};
->
-> That one looks odd as well. While there might be a discrete regulator
-> (what this node is describing), I doubt it, since the AXP717 has plenty
-> of rails. In particular I am not sure if that fixed one would supply
-> PortG (mainly WiFi), which seems unneeded for the boot process, and
-> surely we want that switchable to save power if the WiFi is not needed.
->
-> You also have a VCC-PLL regulator below (BLDO2).
-> So please try to drop this regulator, I am pretty sure there is an AXP
-> rail that powers the WiFi.
-
-Makes sense, will dig into the vendor BSP.
->
-> See below for more on this.
->
-
->> +
->> +&mmc2 {
->> +	vmmc-supply = <&reg_vcc_sd2>;
->> +	vqmmc-supply = <&reg_aldo1>;
->> +	cd-gpios = <&pio 4 22 GPIO_ACTIVE_LOW>; /* PE22 */
->> +	bus-width = <4>;
->> +	status = "okay";
->> +};
->
-> This one seems more plausible. To confirm this, you could not use
-> reg_vcc_sd2 anywhere, and use some other 3.3V supply for vmmc, which
-> should break operation on the second SD card. Then just swap
-> reg_vcc_sd2 back in, and if it starts working again, we have confirmation.
->
-In hindsight this is taken from the vendor BSP, so I think is correct but will do some testing.
-
->> +		x-powers,drive-vbus-en;
->
-> Remove this last line, the AXP717 binding does not support this, and the
-> Linux driver doesn't implement this, as the AXP717 does not seem to
-> have this functionality.
-
-Thanks, fixed.
-
->> +
->> +			reg_aldo3: aldo3 {
->> +				regulator-always-on;
->> +				regulator-boot-on;
->
-> Please remove this last line, it doesn't make sense in this context. Cf.
-> Documentation//devicetree/bindings/regulator/regulator.yaml.
-> I think the same applies to the other uses throughout this file.
->
->> +				regulator-min-microvolt = <500000>;
->> +				regulator-max-microvolt = <3500000>;
->
-> This is not right. What is the voltage of this rail? The kernel should
-> tell you what was set in the register, through regulator_summary, or you
-> check what's the voltage on a BSP system.
->
->> +				regulator-name = "axp717-aldo3";
->
-> If the system dies when you remove always-on, you might have found some
-> essential supply. Candidates for consumers are listed in the
-> H616 or T5 series datasheet. Matching the voltage might give you an
-> idea. Then use this consumer as the name.
->
->> +			};
->> +
->> +			reg_aldo4: aldo4 {
->
-> Same for this one: Please remove regulator-boot-on, fix the voltage,
-> and provide some rationale why this needs to be on.
-
-Thanks, will get the correct voltages. It turns out ALDO3/4 are both needed, but CPUSLDO is not. Will try and figure out what they are supplying.
-
->> +
->> +			reg_boost: boost {
->> +				regulator-min-microvolt = <5126000>;
->> +				regulator-max-microvolt = <5126000>;
->
-> It might be better to use a range, say 5.0V till 5.2V. The
-> kernel will then just continue using the default, which seems to be this
-> 5.126V (5440mV + 9 * 64mV).
-
-Thanks, fixed.
-
->> +
->> +&pio {
->> +	vcc-pg-supply = <&reg_pll_dcx0>;
->
-> As mentioned above, it seems unlikely to be a fixed regulator. If in
-> doubt, leave them out, they are not essential for the operation.
->
-Will do for now, thanks.
->> +};
->> +
->> +/* the AXP717 has USB type-C role switch functionality, to be implemented */
->
-> Replace "to be implemented" with "not yet described by the binding".
-> This is DT land, so we don't care about implementations or the Linux
-> kernel, it's all about DTs and DT bindings.
->
->> +&usbotg {
->> +	dr_mode = "host";   /* USB type-C receptable */
->
-> So does this really work? It seems wrong to make this unconditional,
-> given this is the only way to charge the device. When power is supplied
-> through the USB-C port, surely driving VBUS from the board sounds
-> wrong. Unless you have a killer feature for a host port, I think
-> without working role switching, "peripheral" would be the safer
-> choice.
->
->> +	status = "okay";
->> +};
->> +
->> +&usbphy {
->> +	usb0_vbus-supply = <&reg_vcc_usb>;
->
-> When you stick to "peripheral" above, you should drop this line for
-> now, especially since this regulator chain looks quite suspicious still.
->
-Thanks, fixed.
+> 
 > Cheers,
 > Andre
+> 
+> > +};
+> 
 
-Thanks again for the review! Will post up a v3 after some more thought about the regulators.
-
-Ryan
+Thank you,
+Chris
