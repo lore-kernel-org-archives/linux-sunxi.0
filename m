@@ -1,60 +1,61 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95A24D50F
-	for <linux-sunxi@lists.linux.dev>; Sun, 21 Apr 2024 01:04:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95A87EAD6
+	for <linux-sunxi@lists.linux.dev>; Sun, 21 Apr 2024 01:04:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713661496; cv=none; b=MxxO8vP3qsaIzSiLNjHZrrga2D4YzzsYdXRYuiFmQuIi8+Xk7IHi4yj79wq1MgLqkmQzzB0lGsb8clA9mxyl0pgswn2UW4ZFfoO5+FC+YzHxujb96U+X1PqSui46uB2mYOASdbs8i3/PBfybRcRS0LgChGu4TknBdFD+qryr2n4=
+	t=1713661496; cv=none; b=Se3ycPE9Px6OlXnz8HcjiSfzAwgZdJfHcvKHWlhSk8OEXPxaBhWiynb4oOKSNVaMwuMNRL/0FhqjkAXXOXQOSDtaLSCj4qLq/P+oD07L7etfujU9wk4gjrvhRrLyDCrisl63yXKrkYUUQ/WuPOmJtksvv0TrUIAGroEFOFqSj2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1713661496; c=relaxed/simple;
-	bh=2wg73hE7GfHtQm3h56N22EjVsvIgG2uOGknAS+HQCok=;
+	bh=eg5f+2eUdPorsjTg1AXnvbZp1Gz8QKwXU/sn4bArQ/o=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=f9Aj6/fWnyihwTkE7KqM8wOPbap5zlSg09SCOAlRgBsd0smW/AeOp+ClsnvP5of/ild0O3YDp/oKqTT+5thXxcxFPcgJNQiyPhh4lgTjB8DBpzUKsv708Vmyb8MOOctZF8OJAsuYWsgMdX8HmgB27WlOMhV1XkUILuNXofl1t/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=Wpwv6rMV; arc=none smtp.client-ip=209.85.216.54
+	 In-Reply-To:To:Cc; b=R+24v96KQa1tSUTlJHsvsib8zVRYmpCK49gLfGe2AYNiAKLI58QzkYsSjMALFqpwJ0ZrTfL7svZqX7ijnY19UWr+Yq18EmFRB5DwG3jwq1HNWQWRUjz/fbxLxf9nqlND6S+heojpOgdgBRkDpw0RRalCBrt+byOkIKZUnB4nCD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=k24TbiXG; arc=none smtp.client-ip=209.85.210.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="Wpwv6rMV"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2a2d248a2e1so3016509a91.0
-        for <linux-sunxi@lists.linux.dev>; Sat, 20 Apr 2024 18:04:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="k24TbiXG"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-6ed04c91c46so3229531b3a.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 20 Apr 2024 18:04:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1713661493; x=1714266293; darn=lists.linux.dev;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1713661495; x=1714266295; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=EwiZxNeYR2dsOfUqNH+FhNResBaJwUAOM6PgWjZ96ng=;
-        b=Wpwv6rMVYeBSDkB6bGGKehW++u8qxZhVYWMw+z3B84jGpOBFMkgLdyqOoxPM1ZOISS
-         Nju+H6XGYW0nVGPquoWCGaQH+WBwXMuBlASVzBJa4Cg+uqAJvhKJQ/mum/9MD7kHqvJJ
-         eRLTrU3MWgwBL+eGH63QMlAKxFpAam+zDuMCrrnpPGqJFI5Q4kLwLAc6AZJBFNKjV/AS
-         TmTMdIpQThRjLA/dAJkfD864Xbtvs5ArmshIL8jSCHyS+EB7t1YoNMQ2PxWw6o2XlWh1
-         Qk1QrJIZnN+TjNdv9moZtDeaD2OTpiZayg/0uyyKC/dR6EaL0FvsOXh+GzIpAnThgiiH
-         /1rA==
+        bh=Xb9tww82u8GPwb/D9ZGp2c9YRfA1MZ53TtnEydxWwQE=;
+        b=k24TbiXGSc3BnObaWYPzbP4m6SWAnAq7kv2mYAjz67+a9jFOpp82FMzdYl85p4Vy4k
+         oAj00ca4cYucEoakKTMfT2TfyI3zlJqod0W3lfZWgfrKISXlNeNt++CW5ImoL8yCiRjX
+         fghEhf8W0xecmwca0PjjTdvXR/DQMGKzJCHbofqxaNMwxpuZF6nr2K9+wHpsEtAO5mpX
+         M0dT+/ubLnupZHwKIL4xN120wm81fgFxglLZUn+2hxQVeqO2D479SPWIzZlX5GT3/w6L
+         RSZN/lcVQOXekuVC68f1nRvRmSXZUk9UjcevgdlI3iCFHuYQ3nQHB/IOwIE/YGbMIp/Q
+         ebkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713661493; x=1714266293;
+        d=1e100.net; s=20230601; t=1713661495; x=1714266295;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=EwiZxNeYR2dsOfUqNH+FhNResBaJwUAOM6PgWjZ96ng=;
-        b=BFUPfdL2bvb9dOZFqJ25qHlTpf+WpfdsViwYB3nUbOeu3hTiYyRH+SqHX8g/JcN7S8
-         Klz02UnsMUtMAqHQt8unftPf8uwFVXW1Q/X1/E0wp55fw1lOKN9SP1c+yvW/vJtvQAOL
-         ACGKokgMQK2tqvyI3TQw3trD+4X7loe5N3m+QFBvia0gNxpCpOZm1bLZyT5J54Vhbz+S
-         GRDNYxKAZF6kjeFmANglEOjocNB5DCr3riO4/5Rq0ktpIezu9J9jyFtVEtZA3Uh9vjv8
-         FoH6xrMjlr8hfVd4TIEBlPbFCjfso8pF4gdeApHr3BtLuJeyPyybyXnFKmu15z3Pqq6n
-         wKmQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWLznAq2PVejwta1pjUgtqNHFe1jesNWqYXx8liHGGEZcn8IgdhIhgz/pILqJRKwQm5WoalbEvVd5G0FHXzoEw2STui1MKHheUogtY=
-X-Gm-Message-State: AOJu0YxMmMxtFI89JaL/zzDtT0jwV2sgFPfuNbmGzy576jY3DRW9tVbE
-	5QVQFrbl3RtEWgI4Bz3Hurh2jsF9V/thG8aZVMoatjYy1pOEmMmD+0YO1YxfYVU=
-X-Google-Smtp-Source: AGHT+IHEqlVr8XjJq/bey4tfJdpqb4xpHnlnsfP9yuzhwez6j8pGLKCeBHJDB6I2Vja1k1/DoW2S5Q==
-X-Received: by 2002:a17:90b:3651:b0:2ac:e2c6:3d40 with SMTP id nh17-20020a17090b365100b002ace2c63d40mr4937324pjb.18.1713661492951;
-        Sat, 20 Apr 2024 18:04:52 -0700 (PDT)
+        bh=Xb9tww82u8GPwb/D9ZGp2c9YRfA1MZ53TtnEydxWwQE=;
+        b=lLQvUMTsts2Rx8Ftx3vd0vb8G0PywpIZLV+Kb8IDHNCf3molu802mRBpuwC6/G6CWf
+         zpfBM985erX62yUee29uHgQgbBv6Bz/41+SKDWPlz68bL3ghuZUaO87l65uboFZHRbgN
+         pPYrEbWHr0KVl7RPLJrwXegZdIXa1gH3Do8bXEgRJJa/J0K7pYAPWsWJnbAc7F30gxIE
+         XYmQn29c03KZUhZIspFD9icfJPxyfaqumJ7/XpfdzO+ey5VuMze2sZJIY9nk5buRdIqZ
+         FgTAHX/fFBGVoNHrUKNVyKW8W08jTkQZE8yEf7Kgh5MFSNj/IV92sZxxHzB5BbJblvmQ
+         2EyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW+X+j3iCeAyHQJv0ohTArTtA71yH8wNUiGe7Y0myeHa4cLXtkG4GVaacquATVQByt70iKPDa3lrpBkWBjitScerxOMQquy8P8NtVM=
+X-Gm-Message-State: AOJu0Yw0lREAsbf8avu/NwztyRpY3nN2eG9zhL5n1Gk270taC8SSfq58
+	kCdP61qCREXaDI6CvqPwSWBUaJ9BOf4O4j+XH33kGsBqL9t+2b2uFsg2R23+SvI=
+X-Google-Smtp-Source: AGHT+IEFz0EIsCfMN1kGF/wQXfftvTTUxdm975Lo9/cXHpjBlb+AqzCdg7gjhE8/LDpE+0gp44E+1A==
+X-Received: by 2002:a05:6a00:10d4:b0:6ea:d114:5ea1 with SMTP id d20-20020a056a0010d400b006ead1145ea1mr8547967pfu.17.1713661495007;
+        Sat, 20 Apr 2024 18:04:55 -0700 (PDT)
 Received: from charlie.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d6-20020a63d646000000b005dc8702f0a9sm5249627pgj.1.2024.04.20.18.04.50
+        by smtp.gmail.com with ESMTPSA id d6-20020a63d646000000b005dc8702f0a9sm5249627pgj.1.2024.04.20.18.04.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Apr 2024 18:04:51 -0700 (PDT)
+        Sat, 20 Apr 2024 18:04:54 -0700 (PDT)
 From: Charlie Jenkins <charlie@rivosinc.com>
-Date: Sat, 20 Apr 2024 18:04:36 -0700
-Subject: [PATCH v3 04/17] riscv: vector: Use vlenb from DT
+Date: Sat, 20 Apr 2024 18:04:37 -0700
+Subject: [PATCH v3 05/17] riscv: dts: allwinner: Add xtheadvector to the
+ D1/D1s devicetree
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -63,7 +64,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240420-dev-charlie-support_thead_vector_6_9-v3-4-67cff4271d1d@rivosinc.com>
+Message-Id: <20240420-dev-charlie-support_thead_vector_6_9-v3-5-67cff4271d1d@rivosinc.com>
 References: <20240420-dev-charlie-support_thead_vector_6_9-v3-0-67cff4271d1d@rivosinc.com>
 In-Reply-To: <20240420-dev-charlie-support_thead_vector_6_9-v3-0-67cff4271d1d@rivosinc.com>
 To: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
@@ -82,113 +83,36 @@ Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
  linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
  Charlie Jenkins <charlie@rivosinc.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1713661481; l=3089;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1713661481; l=904;
  i=charlie@rivosinc.com; s=20231120; h=from:subject:message-id;
- bh=2wg73hE7GfHtQm3h56N22EjVsvIgG2uOGknAS+HQCok=;
- b=oM9AC2pUhODrL99+ED3B1dn5wieUo9QyYC4T1kj5tzYQfCtIJrkTGR8vysGpRIw+kQlGk+mi7
- bsmO7wcPIwDB1FbAfGYW4T6Jm4ic0X5z8Xk03t1wB+GrmxR6X8cHp4S
+ bh=eg5f+2eUdPorsjTg1AXnvbZp1Gz8QKwXU/sn4bArQ/o=;
+ b=kZB/gcvpdY88mM3BCpDWs4dP4AKzfkcUQrEei7evf3AAbBAZdLZh9RDC+cGSOoMpXUpY+epQ/
+ BrXAER33w+vB259xFs7+rySg+Y/OSVCHSvRLoNArK0nYqNYuINYlX8t
 X-Developer-Key: i=charlie@rivosinc.com; a=ed25519;
  pk=t4RSWpMV1q5lf/NWIeR9z58bcje60/dbtxxmoSfBEcs=
 
-If vlenb is provided in the device tree, prefer that over reading the
-vlenb csr.
+The D1/D1s SoCs support xtheadvector so it can be included in the
+devicetree. Also include vlenb for the cpu.
 
 Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
 ---
- arch/riscv/include/asm/cpufeature.h |  2 ++
- arch/riscv/kernel/cpufeature.c      | 26 ++++++++++++++++++++++++++
- arch/riscv/kernel/vector.c          | 13 +++++++++----
- 3 files changed, 37 insertions(+), 4 deletions(-)
+ arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm/cpufeature.h
-index 347805446151..809f61ffb667 100644
---- a/arch/riscv/include/asm/cpufeature.h
-+++ b/arch/riscv/include/asm/cpufeature.h
-@@ -31,6 +31,8 @@ DECLARE_PER_CPU(struct riscv_cpuinfo, riscv_cpuinfo);
- /* Per-cpu ISA extensions. */
- extern struct riscv_isainfo hart_isa[NR_CPUS];
+diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+index 64c3c2e6cbe0..50c9f4ec8a7f 100644
+--- a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
++++ b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+@@ -27,7 +27,8 @@ cpu0: cpu@0 {
+ 			riscv,isa = "rv64imafdc";
+ 			riscv,isa-base = "rv64i";
+ 			riscv,isa-extensions = "i", "m", "a", "f", "d", "c", "zicntr", "zicsr",
+-					       "zifencei", "zihpm";
++					       "zifencei", "zihpm", "xtheadvector";
++			riscv,vlenb = <128>;
+ 			#cooling-cells = <2>;
  
-+extern u32 riscv_vlenb_dt[NR_CPUS];
-+
- void riscv_user_isa_enable(void);
- 
- #if defined(CONFIG_RISCV_MISALIGNED)
-diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
-index c6e27b45e192..48874aac4871 100644
---- a/arch/riscv/kernel/cpufeature.c
-+++ b/arch/riscv/kernel/cpufeature.c
-@@ -35,6 +35,8 @@ static DECLARE_BITMAP(riscv_isa, RISCV_ISA_EXT_MAX) __read_mostly;
- /* Per-cpu ISA extensions. */
- struct riscv_isainfo hart_isa[NR_CPUS];
- 
-+u32 riscv_vlenb_dt[NR_CPUS];
-+
- /**
-  * riscv_isa_extension_base() - Get base extension word
-  *
-@@ -656,6 +658,28 @@ static int __init riscv_isa_fallback_setup(char *__unused)
- early_param("riscv_isa_fallback", riscv_isa_fallback_setup);
- #endif
- 
-+static void riscv_set_vlenb_from_dt(void)
-+{
-+	int cpu;
-+
-+	for_each_possible_cpu(cpu) {
-+		struct device_node *cpu_node;
-+
-+		cpu_node = of_cpu_device_node_get(cpu);
-+		if (!cpu_node) {
-+			pr_warn("Unable to find cpu node\n");
-+			continue;
-+		}
-+
-+		if (!of_property_read_u32(cpu_node, "riscv,vlenb", &riscv_vlenb_dt[cpu])) {
-+			of_node_put(cpu_node);
-+			continue;
-+		}
-+
-+		of_node_put(cpu_node);
-+	}
-+}
-+
- void __init riscv_fill_hwcap(void)
- {
- 	char print_str[NUM_ALPHA_EXTS + 1];
-@@ -675,6 +699,8 @@ void __init riscv_fill_hwcap(void)
- 	} else {
- 		int ret = riscv_fill_hwcap_from_ext_list(isa2hwcap);
- 
-+		riscv_set_vlenb_from_dt();
-+
- 		if (ret && riscv_isa_fallback) {
- 			pr_info("Falling back to deprecated \"riscv,isa\"\n");
- 			riscv_fill_hwcap_from_isa_string(isa2hwcap);
-diff --git a/arch/riscv/kernel/vector.c b/arch/riscv/kernel/vector.c
-index 6727d1d3b8f2..fb7f3ca80d9e 100644
---- a/arch/riscv/kernel/vector.c
-+++ b/arch/riscv/kernel/vector.c
-@@ -32,11 +32,16 @@ EXPORT_SYMBOL_GPL(riscv_v_vsize);
- int riscv_v_setup_vsize(void)
- {
- 	unsigned long this_vsize;
-+	int cpu = smp_processor_id();
- 
--	/* There are 32 vector registers with vlenb length. */
--	riscv_v_enable();
--	this_vsize = csr_read(CSR_VLENB) * 32;
--	riscv_v_disable();
-+	if (riscv_vlenb_dt[cpu]) {
-+		this_vsize = riscv_vlenb_dt[cpu];
-+	} else {
-+		/* There are 32 vector registers with vlenb length. */
-+		riscv_v_enable();
-+		this_vsize = csr_read(CSR_VLENB) * 32;
-+		riscv_v_disable();
-+	}
- 
- 	if (!riscv_v_vsize) {
- 		riscv_v_vsize = this_vsize;
+ 			cpu0_intc: interrupt-controller {
 
 -- 
 2.44.0
