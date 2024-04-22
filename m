@@ -1,22 +1,23 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBA7B154C16
-	for <linux-sunxi@lists.linux.dev>; Mon, 22 Apr 2024 16:45:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F6F7154C1C
+	for <linux-sunxi@lists.linux.dev>; Mon, 22 Apr 2024 16:45:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713804321; cv=none; b=NfaxT2Q0/bxZ7Kl7l5/qhhQGqjWdg3rUZlgvkru/hiMssC8BkMhLpWr8JnfHbwK7gTC54NTfJYJ29xfgyewEt/ffFPWnPEKkEylEzdm5NmG2fUbFi9X7H2Xk0ttQrIL8Jq29HBtpOX5TrjKSO0klGi506t6VakHn/G6bDtkX0As=
+	t=1713804322; cv=none; b=eGnuxJQbgUlvTkovlGG7hrRdYkQj9T0qEbXaW3FmP7uKVqe4HswdwGggVamXVxpK+Gu4Zh3BxGUQIef9ILnoH5+defFoPHhYEWql7NzkCUeqKoEBK7rW4KGTqBTJ2V2KASt1o+/WXurN6Zape0DLh5w8GXIphXFte/U8bEXDia4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713804321; c=relaxed/simple;
-	bh=bDfz8x91zE22UkKEC6UGD7/fU46MiX1k/M7h9i6afrg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Jgn91xu2sdn+vVCEyPFdEj7unZSPEJ16SaTsL4FD6/FAjx4SgEAutRn8z2aPhyS75198hqX+N9JHm2gIb1+97TFu8ZlEXeZXl4rCyDSlTtpNNLZrE+Jk1MSXOBS9DepVVSEyorHMfFe/XBXHNbcUBU2AeyXOcu7rspXaTcjxTpo=
+	s=arc-20240116; t=1713804322; c=relaxed/simple;
+	bh=ZU0AzmRKXx2ANsoOAmMx/xfzzuDiR1+nvvVSbTt2Jxk=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=P608ElH8x0I5AqtKAFNbBszNQ9FlWpZiMUgmYtRSappMVbmVwWnKVvnkEiTINBGSdx6DI0JLrdfeWC2T1kP+OkELCk0w4I+VAsRpAgDXJbwqnBxH8j5Du6sFNuxG1PNPXHKOoIFpNqDUulHCB5ipjlgRWbQ855wHf50FVfHgPiE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 246FD339;
-	Mon, 22 Apr 2024 09:45:47 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2D0A31063;
+	Mon, 22 Apr 2024 09:45:49 -0700 (PDT)
 Received: from donnerap.arm.com (donnerap.manchester.arm.com [10.32.100.28])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1DF253F7BD;
-	Mon, 22 Apr 2024 09:45:17 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 274773F7BD;
+	Mon, 22 Apr 2024 09:45:19 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Hans de Goede <hdegoede@redhat.com>,
 	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
@@ -31,10 +32,12 @@ Cc: linux-input@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	James McGregor <jamcgregor@protonmail.com>
-Subject: [PATCH 0/2] arm64: dts: allwinner: H616: Add LRADC
-Date: Mon, 22 Apr 2024 17:45:09 +0100
-Message-Id: <20240422164511.2488261-1-andre.przywara@arm.com>
+Subject: [PATCH 1/2] dt-bindings: input: sun4i-lradc-keys: Add H616 compatible
+Date: Mon, 22 Apr 2024 17:45:10 +0100
+Message-Id: <20240422164511.2488261-2-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240422164511.2488261-1-andre.przywara@arm.com>
+References: <20240422164511.2488261-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,26 +48,32 @@ Content-Transfer-Encoding: 8bit
 
 From: James McGregor <jamcgregor@protonmail.com>
 
-The Allwinner H616 series of SoCs have a low-rate ADC (LRADC) with
-6-bit resolution and one input channel. They're compatible with the
-existing drivers, so it only needs to be enabled in the DT.
+The Allwinner H616 SoC has an LRADC which is compatible with the
+versions in existing SoCs.
+Add a compatible string for H616, with the R329 fallback. This is the
+same as the D1, so put them into an enum.
 
-Add an LRADC node to the H616 .dtsi, so board DTs can use them by
-adding 'status = "okay";'.
+Signed-off-by: James McGregor <jamcgregor@protonmail.com>
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+---
+ .../bindings/input/allwinner,sun4i-a10-lradc-keys.yaml        | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-This was tested on an OrangePi Zero 2W by attaching an expansion board
-with two key buttons connected to the LRADC, and adding them to the DT.
-/dev/input/event0 then properly reported the button presses. The patches
-are based off sunxi/for-next.
-
-James McGregor (2):
-  dt-bindings: input: sum4i-lradc-keys: Add H616 compatible
-  ARM: dts: sun50i: Add LRADC node
-
- .../bindings/input/allwinner,sun4i-a10-lradc-keys.yaml |  4 +++-
- arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi         | 10 ++++++++++
- 2 files changed, 13 insertions(+), 1 deletion(-)
-
+diff --git a/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml b/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml
+index c384bf0bb25d..8cb5820774e0 100644
+--- a/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml
++++ b/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml
+@@ -22,7 +22,9 @@ properties:
+           - const: allwinner,sun8i-a83t-r-lradc
+       - const: allwinner,sun50i-r329-lradc
+       - items:
+-          - const: allwinner,sun20i-d1-lradc
++          - enum:
++              - allwinner,sun50i-h616-lradc
++              - allwinner,sun20i-d1-lradc
+           - const: allwinner,sun50i-r329-lradc
+ 
+   reg:
 -- 
 2.34.1
 
