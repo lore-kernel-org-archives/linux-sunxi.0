@@ -1,86 +1,86 @@
-Received: from mail-177131.yeah.net (mail-177131.yeah.net [123.58.177.131])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D81E101D5;
-	Mon, 22 Apr 2024 03:58:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=123.58.177.131
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02C823FB9A
+	for <linux-sunxi@lists.linux.dev>; Mon, 22 Apr 2024 06:28:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713758286; cv=none; b=EAKTXi3rfnWLp2RnthKcAptTUKq0231jfXZv6VncuUe1yszIU8XYeuRuuLdh8hVrUjdr+mo7LSSG6mmY7+qhHceEbFJ4gO18LWf4jDntE2mJRtC0MsIKS37tbrb5nLlEo6u1Etoh1fbpSlTJIO6QZL1IfK5PtrJz22R1Ko9CBPA=
+	t=1713767286; cv=none; b=L+pOQ+WM0ENgSOLZ4p9881hpd01pMEQDs5Gxnpq6/GZsBOeMq+cpAIaQvpULUIGCtNi8yEmG4pI+jQV3Lv7PZBgq2ifggMDs3ioOrwKjt1BX6h6wwxRArc5+vHwthSLwstB0Hk1dFXCjsv9B9mNbpfm40VJsiDd9zG9KxEPIeSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713758286; c=relaxed/simple;
-	bh=74DDXzIMt+qGRJSOmzuMZBwtJRLIogdL8tSrRW8MmsA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ihR2GeXRgMUJO1R6VLYelbnueniwE6Krt9ZGzJE66RotOU2oondF6sQ/0UKWD9Q2BQEKhhmFuSls9T0teManxSezANiPaKCn300gdRSTqIdQw8YKneffN+ABerFyx1FdRyonXRGt446+HtoUyZlKLWNCzN5hfFLtENJjwqzQq3c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net; spf=pass smtp.mailfrom=yeah.net; dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b=VPy8bsJE; arc=none smtp.client-ip=123.58.177.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yeah.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b="VPy8bsJE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yeah.net;
-	s=s110527; h=Date:From:Subject:Message-ID:MIME-Version:
-	Content-Type; bh=tz47OXMk6zbzBGF1ySQDbEiSUSoHnPDqD9rcCDIH3/o=;
-	b=VPy8bsJEtjhzPsrf057kTfxn2QcwPsyLbEVeyhEsMSlK1s6rOKafjwW1tFiiXn
-	BJzxCWUZ19e2Y3C1m3C9snT+A1us0lCGXrTutHQS0mIMD7kHaG1J3L1xyb9+9UsR
-	k5LTxpbP8FNwbH+D37t/J+5ZPUoN9EXp4qxqlsRVJmVDQ=
-Received: from dragon (unknown [223.68.79.243])
-	by smtp1 (Coremail) with SMTP id ClUQrABHzw5N3yVmRawrAw--.30849S3;
-	Mon, 22 Apr 2024 11:53:50 +0800 (CST)
-Date: Mon, 22 Apr 2024 11:53:49 +0800
-From: Shawn Guo <shawnguo2@yeah.net>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Jani Nikula <jani.nikula@intel.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Mark Brown <broonie@kernel.org>,
-	Alexander Stein <alexander.stein@ew.tq-group.com>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
-	linux-sunxi@lists.linux.dev, linux-mips@vger.kernel.org
-Subject: Re: [PATCH 3/7] ARM: configs: imx_v6_v7: Enable DRM_DW_HDMI
-Message-ID: <ZiXfTfNoc0/2XL9s@dragon>
-References: <20240403-fix-dw-hdmi-kconfig-v1-0-afbc4a835c38@kernel.org>
- <20240403-fix-dw-hdmi-kconfig-v1-3-afbc4a835c38@kernel.org>
+	s=arc-20240116; t=1713767286; c=relaxed/simple;
+	bh=3nJxs6KDCzEvXDgS/hhsIWpVpzHE7gksU4iMi6yQ1hk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=t4dmNAmKlgGzuQZI79cM6ihlASdbOpVg16IJvQpNX3+colh8IU46OCkNU6pci+AbLvpOTv5GJ9saxNqJV5+NP0VKz1J2+iyRobJQpXH18a3TMcSZrObiAGRnGOwI+9fHidYKPtulmaa84i54/xDY1Ks9wZgm7BZDp/BcLGieWao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-51b09c3a111so1224558e87.1
+        for <linux-sunxi@lists.linux.dev>; Sun, 21 Apr 2024 23:28:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713767282; x=1714372082;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=3nJxs6KDCzEvXDgS/hhsIWpVpzHE7gksU4iMi6yQ1hk=;
+        b=tKH6jjqJXImCN8l+FiSMBAtwgCUjCtTB9dv9XRhhufBL6e5E+b6gJJFlsd+mEMCj9B
+         lkAJp9WF/O9ke7q9e9H8it9Zlu4+CU3vXjAlemNvksWuLeP9+94NCztOCq2/THT6SglC
+         qP8wPKdg0ggWDtzwWXIMbqblRDIwRwcNzoibUvRIQi688EDOXSti2qFlY6PZl7CDfvDK
+         6uoUMSwkWW1BemEW2I0ULxvDyRoCq9pkp/Ci/2k27+/Xr9TfJH4bgbJ1DAqhsi5BboHL
+         79IaL8kKl9CdMrhkQyFU9OsCs58R5qUMk1CNYAYdARUs+CRayG/G5EmX9sVlm6Ws7zPT
+         36cQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUi+Y5OV/LfJnqWYwwsBTYwxSoPaK3WZleKHozyj87J3aliwcUUSvc/9SAGznJp/RpVeryGx0hSSy8nNfGj0CsgPK8YBRBO2ocjlrQ=
+X-Gm-Message-State: AOJu0YyeucIddQc5pHkRp3QimNbzETtMrJCtH4+iUCmXh/HX4qJ/o5nb
+	bOGX1fTsVTKiuCGa1jKfINU3p1zDveEUICuQcjfNfqfrb6+qeD5yTm0jFhaTmCY=
+X-Google-Smtp-Source: AGHT+IEb5GDV+/edd7GfAH8h31kujgdKfNA1DoGzRIr0i6qH9k/b8j+olUfEyHimCUV4s3Sz6y5qvA==
+X-Received: by 2002:a2e:9cc9:0:b0:2d8:930c:bbfa with SMTP id g9-20020a2e9cc9000000b002d8930cbbfamr5282883ljj.5.1713767282099;
+        Sun, 21 Apr 2024 23:28:02 -0700 (PDT)
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com. [209.85.208.181])
+        by smtp.gmail.com with ESMTPSA id x6-20020a2e7c06000000b002da179d8d25sm1322152ljc.64.2024.04.21.23.28.01
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 21 Apr 2024 23:28:01 -0700 (PDT)
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2d895e2c6efso60507371fa.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 21 Apr 2024 23:28:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXWtSeVjV81lqV3Ft5NWTxoa6W6HJcfIaDHL+MTNz3QW6wRAfd436jfjwjGs5gGxERkJfsxuOUOOzSUQZQBwrKRGo37WpwJ5cljSf4=
+X-Received: by 2002:a05:651c:608:b0:2dd:97e:3481 with SMTP id
+ k8-20020a05651c060800b002dd097e3481mr3120608lje.51.1713767281436; Sun, 21 Apr
+ 2024 23:28:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240403-fix-dw-hdmi-kconfig-v1-3-afbc4a835c38@kernel.org>
-X-CM-TRANSID:ClUQrABHzw5N3yVmRawrAw--.30849S3
-X-Coremail-Antispam: 1Uf129KBjvdXoW5Kr4Duw13uw1UuF1UAF13urg_yoWxGwcEyF
-	yxKrn7Zr15Za4jyw15KFZavrsa93WUWFn8X3yUKrW3WFn8XF45Ar4kt34Sywn7Z3WIyrsr
-	CFs5J3Wvyw4IvjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUbco7JUUUUU==
-X-CM-SenderInfo: pvkd40hjxrjqh1hdxhhqhw/1tbiBQ7IZVsVCfARMAAAsw
+References: <285de20a187f3e4baeb28f639b5bf55e914a3821.1713756666.git.viresh.kumar@linaro.org>
+In-Reply-To: <285de20a187f3e4baeb28f639b5bf55e914a3821.1713756666.git.viresh.kumar@linaro.org>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Sun, 21 Apr 2024 23:27:50 -0700
+X-Gmail-Original-Message-ID: <CAGb2v66X94Y0zkHxNLb1KCoCR+q+z-mCm_21eUJ_C7D_srhDkw@mail.gmail.com>
+Message-ID: <CAGb2v66X94Y0zkHxNLb1KCoCR+q+z-mCm_21eUJ_C7D_srhDkw@mail.gmail.com>
+Subject: Re: [PATCH] cpufreq: sun50i: Fix build warning around snprint()
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Yangtao Li <tiny.windzz@gmail.com>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, linux-pm@vger.kernel.org, 
+	Vincent Guittot <vincent.guittot@linaro.org>, kernel test robot <lkp@intel.com>, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 03, 2024 at 12:56:21PM +0200, Maxime Ripard wrote:
-> Commit 4fc8cb47fcfd ("drm/display: Move HDMI helpers into display-helper
-> module") turned the DRM_DW_HDMI dependency of DRM_IMX_HDMI into a
-> depends on which ended up disabling the driver in the defconfig. Make
-> sure it's still enabled.
-> 
-> Fixes: 4fc8cb47fcfd ("drm/display: Move HDMI helpers into display-helper module")
-> Reported-by: Mark Brown <broonie@kernel.org>
-> Reported-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+On Sun, Apr 21, 2024 at 8:31=E2=80=AFPM Viresh Kumar <viresh.kumar@linaro.o=
+rg> wrote:
+>
+> The Sun50i driver generates a warning with W=3D1:
+>
+> warning: '%d' directive output may be truncated writing between 1 and 10 =
+bytes into a region of size 2 [-Wformat-truncation=3D]
+>
+> Fix it by allocating a big enough array to print an integer.
+>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202404191715.LDwMm2gP-lkp@i=
+ntel.com/
+> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
 
-Acked-by: Shawn Guo <shawnguo@kernel.org>
-
+Acked-by: Chen-Yu Tsai <wens@csie.org>
