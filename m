@@ -1,35 +1,30 @@
-Received: from mail.schimsalabim.eu (vps01.schimsalabim.eu [85.214.219.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44420502A8
-	for <linux-sunxi@lists.linux.dev>; Mon, 22 Apr 2024 15:43:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.219.45
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAECF14F11B
+	for <linux-sunxi@lists.linux.dev>; Mon, 22 Apr 2024 16:22:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713800628; cv=none; b=hkSB9g/g5YrUszgDHrKUGEV6i259sHsoNMc8ObSYaWBAzTtoTmf6NlROsmKRlwQ6JYtsiaYb1BA1UmUc2igZ8VVazsFBEFnWF7mDQvi6dDRVcP8zOiBPSmu/I4kIfvE14NXFjAxab2cUgmFhWBMdm1zir9FQQmaB6cqz3Y3z/dc=
+	t=1713802976; cv=none; b=vGFfDo+Ei46r6xz/uN6EugwOoPowPmtlumlUsVM04Vp1w7FK8UmS5JrsrBYa68PJafgUwtsQHEzVV0rLnnKkA+NN9NrWVngk69OVLFwbVj7eY1+BCjR/HRysvb2amJjBfgq6nTtmx42NUx3KaErjO2SfMyRBbgjVMUpXRWmXWns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713800628; c=relaxed/simple;
-	bh=F/+y69IMWZmu8UjWDvp6UxTy1wPIZeZF1pVBGeoqVHM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Nu7KFnULxO5102PoDHsRXummsAxEQax0WzYMHG+Fb9aq/c4H8V9JlzE6g58tE25n9DT+yFU5xbOiKqZMt/H5z3sNDumrHpTnRblxe4VEjbf7fP6QXjAmkwHP8a937KupNdgk6cm18kgOsCZLaRnMm/5FX6mTIr1LPikiMq5NxpI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=schimsalabim.eu; spf=pass smtp.mailfrom=schimsalabim.eu; arc=none smtp.client-ip=85.214.219.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=schimsalabim.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=schimsalabim.eu
-Received: from localhost.localdomain (82-217-109-137.cable.dynamic.v4.ziggo.nl [82.217.109.137])
-	(authenticated bits=0)
-	by h2374449.stratoserver.net (8.14.7/8.14.7) with ESMTP id 43MF2Io9001087
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 22 Apr 2024 17:02:24 +0200
-From: Joao Schim <joao@schimsalabim.eu>
-To: Ban Tao <fengzheng923@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: sunxi: DMIC: Add controls for adjusting the mic gains
-Date: Mon, 22 Apr 2024 17:02:13 +0200
-Message-Id: <20240422150213.4040734-1-joao@schimsalabim.eu>
+	s=arc-20240116; t=1713802976; c=relaxed/simple;
+	bh=9LNX/GVg3mprqLQ3yhPce8FwkD+Nk/O9bMgdFPKders=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=PNUZLEY7giRhPGAo/i12hHw8I8DF/LY/6mFivc4aytgr7wW/Q/S4U+sEr2QzavVCkiH5asbARj/XPqIaSEzloAgrlMdxI7sWe0EOAmhCo8dw+D3Bw4H9Hsh3cNjUozX6so5yNBFeMb483qhovHWy82wl9C88uk+KuVIurapoyQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 61D12339;
+	Mon, 22 Apr 2024 09:23:22 -0700 (PDT)
+Received: from donnerap.arm.com (donnerap.manchester.arm.com [10.32.100.28])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5D4A83F7BD;
+	Mon, 22 Apr 2024 09:22:53 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Tom Rini <trini@konsulko.com>
+Cc: u-boot@lists.denx.de,
+	linux-sunxi@lists.linux.dev,
+	Maksim Kiselev <bigunclemax@gmail.com>
+Subject: Pull request: u-boot-sunxi/master for v2024.07
+Date: Mon, 22 Apr 2024 17:22:49 +0100
+Message-Id: <20240422162249.2479071-1-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -39,75 +34,69 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The AllWinner H6 and later SoCs that sport a DMIC block contain a set of registers to control
-the gain (left + right) of each of the four supported channels.
+Hi Tom,
 
-Add ASoC controls for changing each of the stereo channel gains using alsamixer and alike
----
- sound/soc/sunxi/sun50i-dmic.c | 34 ++++++++++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+as per the usual late ;-) please pull the sunxi/master branch, containing
+some 2024.07 changes for Allwinner. Not many and nothing really exciting
+this time: there are more patches in fly, but they are not ready yet.
+I will also send some DT updates and new board defconfig files later, once
+they have seen the list. I am aware of the USB rebasing repo efforts,
+but would like to see how this plays out, also we have one compatibility
+issue that I painstakingly work around in the U-Boot tree for the last three
+years or so. So for now I stick to the previous approach.
 
-diff --git a/sound/soc/sunxi/sun50i-dmic.c b/sound/soc/sunxi/sun50i-dmic.c
-index c76628bc86c6..f8613d8c3462 100644
---- a/sound/soc/sunxi/sun50i-dmic.c
-+++ b/sound/soc/sunxi/sun50i-dmic.c
-@@ -14,6 +14,7 @@
- #include <sound/dmaengine_pcm.h>
- #include <sound/pcm_params.h>
- #include <sound/soc.h>
-+#include <sound/tlv.h>
- 
- #define SUN50I_DMIC_EN_CTL			(0x00)
- 	#define SUN50I_DMIC_EN_CTL_GLOBE			BIT(8)
-@@ -43,6 +44,17 @@
- 	#define SUN50I_DMIC_CH_NUM_N_MASK			GENMASK(2, 0)
- #define SUN50I_DMIC_CNT				(0x2c)
- 	#define SUN50I_DMIC_CNT_N				(1 << 0)
-+#define SUN50I_DMIC_D0D1_VOL_CTR		(0x30)
-+	#define SUN50I_DMIC_D0D1_VOL_CTR_0R			(0)
-+	#define SUN50I_DMIC_D0D1_VOL_CTR_0L			(8)
-+	#define SUN50I_DMIC_D0D1_VOL_CTR_1R			(16)
-+	#define SUN50I_DMIC_D0D1_VOL_CTR_1L			(24)
-+#define SUN50I_DMIC_D2D3_VOL_CTR                (0x34)
-+        #define SUN50I_DMIC_D2D3_VOL_CTR_2R                     (0)
-+        #define SUN50I_DMIC_D2D3_VOL_CTR_2L                     (8)
-+        #define SUN50I_DMIC_D2D3_VOL_CTR_3R                     (16)
-+        #define SUN50I_DMIC_D2D3_VOL_CTR_3L                     (24)
-+
- #define SUN50I_DMIC_HPF_CTRL			(0x38)
- #define SUN50I_DMIC_VERSION			(0x50)
- 
-@@ -273,8 +285,30 @@ static const struct of_device_id sun50i_dmic_of_match[] = {
- };
- MODULE_DEVICE_TABLE(of, sun50i_dmic_of_match);
- 
-+static const DECLARE_TLV_DB_SCALE(sun50i_dmic_vol_scale, -12000, 75, 1);
-+
-+static const struct snd_kcontrol_new sun50i_dmic_controls[] = {
-+
-+        SOC_DOUBLE_TLV("DMIC Channel 0 Capture Volume", SUN50I_DMIC_D0D1_VOL_CTR,
-+                       SUN50I_DMIC_D0D1_VOL_CTR_0L, SUN50I_DMIC_D0D1_VOL_CTR_0R,
-+                       0xFF, 0, sun50i_dmic_vol_scale),
-+        SOC_DOUBLE_TLV("DMIC Channel 1 Capture Volume", SUN50I_DMIC_D0D1_VOL_CTR,
-+                       SUN50I_DMIC_D0D1_VOL_CTR_1L, SUN50I_DMIC_D0D1_VOL_CTR_1R,
-+                       0xFF, 0, sun50i_dmic_vol_scale),
-+        SOC_DOUBLE_TLV("DMIC Channel 2 Capture Volume", SUN50I_DMIC_D2D3_VOL_CTR,
-+                       SUN50I_DMIC_D2D3_VOL_CTR_2L, SUN50I_DMIC_D2D3_VOL_CTR_2R,
-+                       0xFF, 0, sun50i_dmic_vol_scale),
-+        SOC_DOUBLE_TLV("DMIC Channel 3 Capture Volume", SUN50I_DMIC_D2D3_VOL_CTR,
-+                       SUN50I_DMIC_D2D3_VOL_CTR_3L, SUN50I_DMIC_D2D3_VOL_CTR_3R,
-+                       0xFF, 0, sun50i_dmic_vol_scale),
-+
-+
-+};
-+
- static const struct snd_soc_component_driver sun50i_dmic_component = {
- 	.name           = "sun50i-dmic",
-+	.controls	= sun50i_dmic_controls,
-+	.num_controls	= ARRAY_SIZE(sun50i_dmic_controls),
- };
- 
- static int sun50i_dmic_runtime_suspend(struct device *dev)
--- 
-2.25.1
+So now just some easy changes: support for USB peripheral mode on the
+Allwinner F1C100s, T113-s3 SPI boot support, and some SPL cleanup patches.
+
+The branch passed the gitlab CI run, and brief boot testing on some boards
+didn't turn up any issues.
+
+Please pull!
+
+Cheers,
+Andre
+
+==================
+The following changes since commit c08685289171e68afd4bae2eb2e279cdc49a407d:
+
+  Merge tag 'u-boot-imx-master-20240420' of https://gitlab.denx.de/u-boot/custodians/u-boot-imx (2024-04-20 15:16:17 -0600)
+
+are available in the Git repository at:
+
+  https://source.denx.de/u-boot/custodians/u-boot-sunxi.git master
+
+for you to fetch changes up to 192c5c9e51c1ef100c3d027d253ffad26ff75a68:
+
+  sunxi: sun9i: make more clock functions SPL only (2024-04-22 01:12:26 +0100)
+
+----------------------------------------------------------------
+Andre Przywara (9):
+      usb: musb-new: add Allwinner F1C100s support
+      sunxi: move #ifdef guards around tzpc_init() to header file
+      sunxi: remove unneeded i2c_init_board() call for U-Boot proper
+      sunxi: compile clock.c for SPL only
+      sunxi: sun4i: make more clock functions SPL only
+      sunxi: sun6i: make more clock functions SPL only
+      sunxi: sun50i_h6: make more clock functions SPL only
+      sunxi: sun8i_a83t: make more clock functions SPL only
+      sunxi: sun9i: make more clock functions SPL only
+
+Maksim Kiselev (1):
+      sunxi: SPL SPI: Add SPI boot support for the Allwinner R528/T113 SoCs
+
+ arch/arm/include/asm/arch-sunxi/clock_sun9i.h |  3 -
+ arch/arm/include/asm/arch-sunxi/tzpc.h        |  6 ++
+ arch/arm/mach-sunxi/Kconfig                   |  2 +-
+ arch/arm/mach-sunxi/Makefile                  |  2 +-
+ arch/arm/mach-sunxi/board.c                   |  2 -
+ arch/arm/mach-sunxi/clock.c                   |  2 -
+ arch/arm/mach-sunxi/clock_sun4i.c             |  5 +-
+ arch/arm/mach-sunxi/clock_sun50i_h6.c         | 57 ++++++++--------
+ arch/arm/mach-sunxi/clock_sun6i.c             |  3 +-
+ arch/arm/mach-sunxi/clock_sun8i_a83t.c        |  5 +-
+ arch/arm/mach-sunxi/clock_sun9i.c             | 97 +++++++++++++--------------
+ arch/arm/mach-sunxi/spl_spi_sunxi.c           | 78 +++++++++++++++------
+ board/sunxi/board.c                           |  9 +--
+ drivers/usb/musb-new/sunxi.c                  | 16 +++++
+ 14 files changed, 163 insertions(+), 124 deletions(-)
 
