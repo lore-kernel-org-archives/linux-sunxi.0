@@ -1,143 +1,105 @@
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 750E11552E8
-	for <linux-sunxi@lists.linux.dev>; Mon, 22 Apr 2024 19:36:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F1A11CF9B
+	for <linux-sunxi@lists.linux.dev>; Mon, 22 Apr 2024 22:40:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713814570; cv=none; b=IDRWWhLEO+0e4NiwdS1w6scuA415j8ETcmuqX5NgIrK7/3CbFKXFm9nnJVZ2tK+gtZd8aNLNGTztoxykCAAHUCwz/FFcrUzjJsdTahYabN63HepTTOXbrxRP0GQWJbj8xBvGZIzfmYMMcas7jhvspDjU0fbKc71M27FS+gO75fY=
+	t=1713825617; cv=none; b=MxTfLUF4cYkWO8w7ZuQZEb8E4XIN4b8VZ4epAV9ZLmxRFosaYYWIWs/SGmibbUb11HO3PgXN7X88mp3bKb9nrqwR6KnRItChPsfNtCL0rU0YpAgRVUDitO4FDpalRNGxHHLyBEUAnQAwGS1edDanu3EiKvanPVERgZZpK0D1VAc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713814570; c=relaxed/simple;
-	bh=9vCzfOIrtmy+XJEVb+v/cTogANQ41MM1vR8sl3rZsYI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CBtzLWNHTPSNm4W3CyDI2tYvxaRAIO/aVVbAKA7VpGNhSyP+yHCl2+8wJyi3SQBj/t43WA1DeQLBe1SAe0Y580gCia9LZYX2Sty/ISE6R9cMvRSfqqui8WVfpQxlJFMThpkh2vtC81m5E/ELwqdq0y9ANUsrJe01ssTOCjb54mA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=konsulko.com; spf=pass smtp.mailfrom=konsulko.com; dkim=pass (1024-bit key) header.d=konsulko.com header.i=@konsulko.com header.b=J+Th5s6h; arc=none smtp.client-ip=209.85.222.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=konsulko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=konsulko.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=konsulko.com header.i=@konsulko.com header.b="J+Th5s6h"
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-78efd0fcec4so313587485a.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 22 Apr 2024 12:36:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1713814567; x=1714419367; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=DF/I6quatRoc3ag0yaUOIEgEeEu6NMjECCT6xBETE5U=;
-        b=J+Th5s6hLuKL3X6a8KWxsu3XP5InduolSewos4Vixfg3bvaC8z5It9amf7L6Zero41
-         cEBiFEAhuV/kQCZyXgaJrGqs/5GvP5sOg3pE4X9CIrZ0VJmbAXm/1tCYqRjbTqLuTpop
-         ZvRF8LDcqMNnBzXynDEZPKtxn0oqeCb6ekKV0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713814567; x=1714419367;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DF/I6quatRoc3ag0yaUOIEgEeEu6NMjECCT6xBETE5U=;
-        b=tTT0ITntwk385l11ByzdK2pWmJZ/FMxv1WDqLFK1v0kxhP55DDc3cyKglqYgMzpSzm
-         cqEJPz/4Nh8ovDVTI53TE4NNjNa1UdiYF/qhgH1Ojkzf66QZsPlM/9G+J521GdA9CIH2
-         qzZ79CkLpvWWmDNYq/wX0E3i/yaRcn8sgr2GVixi+dtr/vlidZEjdj3eguEmJUu3qi2y
-         R0npdzza7qnSJwn034JAaAM0PkKoijTXSLrqshzkbszj95m+gnSfdEOrsXyTw1xiJxKu
-         +RMkFAls+hrfcYUKYc796RdAQa9sfrWlDcwpn0uzThkBVHQcfxau/wG7gS69K9bOTF29
-         BwZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUfncr31TyTz1dh2y0u+i7eFhOzy6IsAvcTepN7Ks15D+l8aEKK2mDG4O4eEL3KsTb/8cRtPiHjiaWWo6Tc6dFNk6zYppilJRpn+/0=
-X-Gm-Message-State: AOJu0YyU5M7zuMPmBez7RtA5WnUquY+E0IA/HAgsEtesPV0IJw95kssA
-	4+lvhe/ED+lfK66ictJTvh/IJFlaM+LPU8l6gOH7RJlJjLcWv2rJ2UqLishUIKT+x1PrqQmuTzl
-	HmVN05g==
-X-Google-Smtp-Source: AGHT+IGi2bLPK+imHcsb+ZRw/yqq6XzBaKYtO8+c5Q2s30wosf3S6gA9F7+JiNUtfeK9XojzPnSCGw==
-X-Received: by 2002:a05:620a:13d7:b0:78e:d2e7:3e9e with SMTP id g23-20020a05620a13d700b0078ed2e73e9emr12818086qkl.68.1713814567423;
-        Mon, 22 Apr 2024 12:36:07 -0700 (PDT)
-Received: from bill-the-cat ([187.144.98.216])
-        by smtp.gmail.com with ESMTPSA id t26-20020a05620a035a00b0078f04e04842sm4520931qkm.132.2024.04.22.12.36.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Apr 2024 12:36:06 -0700 (PDT)
-Date: Mon, 22 Apr 2024 13:36:04 -0600
-From: Tom Rini <trini@konsulko.com>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: u-boot@lists.denx.de, linux-sunxi@lists.linux.dev,
-	Maksim Kiselev <bigunclemax@gmail.com>
-Subject: Re: Pull request: u-boot-sunxi/master for v2024.07
-Message-ID: <20240422193604.GW1054907@bill-the-cat>
-References: <20240422162249.2479071-1-andre.przywara@arm.com>
+	s=arc-20240116; t=1713825617; c=relaxed/simple;
+	bh=YYWQ72Ji1mlYlNcfWfkUgczygjka+1APIsmWDrb2QZ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hLk5afU3x1szjsvz29ZSVsmeCR3ja5kuJcBxUHlbbdyVT70FHaG8xvDodcS/mwhMl9xI1OoqJHALTm6gi0TVETV15NN/c3gBzFLn1DDLg+/69QuP5riYgd3cpU9jFnYiITBMH+BaXtaiY/YSQj8+2CSqGqqhf8lvxqP5QNWwPac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4F569339;
+	Mon, 22 Apr 2024 15:40:42 -0700 (PDT)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6ABA13F7BD;
+	Mon, 22 Apr 2024 15:40:12 -0700 (PDT)
+Date: Mon, 22 Apr 2024 23:39:58 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Yangtao Li
+ <tiny.windzz@gmail.com>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ linux-pm@vger.kernel.org, Vincent Guittot <vincent.guittot@linaro.org>,
+ kernel test robot <lkp@intel.com>, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] cpufreq: sun50i: Fix build warning around snprint()
+Message-ID: <20240422233958.0e2d992c@minigeek.lan>
+In-Reply-To: <285de20a187f3e4baeb28f639b5bf55e914a3821.1713756666.git.viresh.kumar@linaro.org>
+References: <285de20a187f3e4baeb28f639b5bf55e914a3821.1713756666.git.viresh.kumar@linaro.org>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="WDRV1FOWGBTEcE9f"
-Content-Disposition: inline
-In-Reply-To: <20240422162249.2479071-1-andre.przywara@arm.com>
-X-Clacks-Overhead: GNU Terry Pratchett
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Mon, 22 Apr 2024 09:01:09 +0530
+Viresh Kumar <viresh.kumar@linaro.org> wrote:
 
---WDRV1FOWGBTEcE9f
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Mon, Apr 22, 2024 at 05:22:49PM +0100, Andre Przywara wrote:
+> The Sun50i driver generates a warning with W=1:
+> 
+> warning: '%d' directive output may be truncated writing between 1 and 10 bytes into a region of size 2 [-Wformat-truncation=]
+> 
+> Fix it by allocating a big enough array to print an integer.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202404191715.LDwMm2gP-lkp@intel.com/
+> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
 
-> Hi Tom,
->=20
-> as per the usual late ;-) please pull the sunxi/master branch, containing
-> some 2024.07 changes for Allwinner. Not many and nothing really exciting
-> this time: there are more patches in fly, but they are not ready yet.
-> I will also send some DT updates and new board defconfig files later, once
-> they have seen the list. I am aware of the USB rebasing repo efforts,
-> but would like to see how this plays out, also we have one compatibility
-> issue that I painstakingly work around in the U-Boot tree for the last th=
-ree
-> years or so. So for now I stick to the previous approach.
->=20
-> So now just some easy changes: support for USB peripheral mode on the
-> Allwinner F1C100s, T113-s3 SPI boot support, and some SPL cleanup patches.
->=20
-> The branch passed the gitlab CI run, and brief boot testing on some boards
-> didn't turn up any issues.
->=20
-> Please pull!
->=20
-> Cheers,
-> Andre
->=20
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> The following changes since commit c08685289171e68afd4bae2eb2e279cdc49a40=
-7d:
->=20
->   Merge tag 'u-boot-imx-master-20240420' of https://gitlab.denx.de/u-boot=
-/custodians/u-boot-imx (2024-04-20 15:16:17 -0600)
->=20
-> are available in the Git repository at:
->=20
->   https://source.denx.de/u-boot/custodians/u-boot-sunxi.git master
->=20
-> for you to fetch changes up to 192c5c9e51c1ef100c3d027d253ffad26ff75a68:
->=20
->   sunxi: sun9i: make more clock functions SPL only (2024-04-22 01:12:26 +=
-0100)
->=20
+For the records: as it stands right now, "speed" will always be smaller
+than 10 at the moment, but it's indeed better to play safe here.
+So the fix makes sense to me and fixes the issue:
 
-Applied to u-boot/master, thanks!
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+Tested-by: Andre Przywara <andre.przywara@arm.com>
 
---=20
-Tom
+Cheers,
+Andre
 
---WDRV1FOWGBTEcE9f
-Content-Type: application/pgp-signature; name="signature.asc"
+> ---
+>  drivers/cpufreq/sun50i-cpufreq-nvmem.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+> index 30e5c337611c..cd50cea16a87 100644
+> --- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+> +++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+> @@ -19,8 +19,6 @@
+>  #include <linux/pm_opp.h>
+>  #include <linux/slab.h>
+>  
+> -#define MAX_NAME_LEN	7
+> -
+>  #define NVMEM_MASK	0x7
+>  #define NVMEM_SHIFT	5
+>  
+> @@ -208,7 +206,7 @@ static int sun50i_cpufreq_get_efuse(void)
+>  static int sun50i_cpufreq_nvmem_probe(struct platform_device *pdev)
+>  {
+>  	int *opp_tokens;
+> -	char name[MAX_NAME_LEN];
+> +	char name[] = "speedXXXXXXXXXXX"; /* Integers can take 11 chars max */
+>  	unsigned int cpu, supported_hw;
+>  	struct dev_pm_opp_config config = {};
+>  	int speed;
+> @@ -235,7 +233,7 @@ static int sun50i_cpufreq_nvmem_probe(struct platform_device *pdev)
+>  		config.supported_hw_count = 1;
+>  	}
+>  
+> -	snprintf(name, MAX_NAME_LEN, "speed%d", speed);
+> +	snprintf(name, sizeof(name), "speed%d", speed);
+>  	config.prop_name = name;
+>  
+>  	for_each_possible_cpu(cpu) {
 
------BEGIN PGP SIGNATURE-----
-
-iQGzBAABCgAdFiEEGjx/cOCPqxcHgJu/FHw5/5Y0tywFAmYmvCEACgkQFHw5/5Y0
-tyw37gv7B5nLpp2WPfUwWL0eb9wrRNjio+xj27GUSGBCxIaPKel2Tvde+VCNHEQY
-BWT/wiq4EpOHkxQjrQp1LjpwTBoUfWwqalW47oxxtRl6UAxVVwUgYO9l0R3yN79I
-9664nxwSmu1zcgwkVT/I4ZYq3npZkD3z0WtLKjNy18UN4QxUddzTlN/kN/kSi2zl
-XAiC6wM+nrkilIO5IXmf9222dhCa3l9nqQxGw5JtyTZv5kPOA8LF05jZVlhTcHGV
-FIv5XZEURHBBrIdkDSulPgyQL/iLcFdsqtRIPT4Ll1ucWsxGJUrEwWbdolIzAzc4
-cHLwMVH5FvghhDfkFeLfBCB1QeN8ZvCGu3Oe7oHTHmvBmUR3x+MJvCQn8gRx89Ae
-5b4y08C/PdzKuv3FkLZ/JWzVSywlfbCSGwK/fGkW8AzmOSK7jADLid/1O34k4s9I
-9yMKkwqKacgaRBCLXaRKSWyl0lQbAdQYCDKAAtuDu+GaIOicuxT5mmT3A7r5++4S
-UmjtfhIt
-=Pifb
------END PGP SIGNATURE-----
-
---WDRV1FOWGBTEcE9f--
