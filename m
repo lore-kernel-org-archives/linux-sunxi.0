@@ -1,124 +1,114 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF36F12E1EA
-	for <linux-sunxi@lists.linux.dev>; Tue, 23 Apr 2024 12:49:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35B0D78285
+	for <linux-sunxi@lists.linux.dev>; Tue, 23 Apr 2024 12:51:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713876556; cv=none; b=btTESF4bAb7DicyYr8VGJ4MIvmN3bQHNLhOedmZWH4R/RcXmw0DsmvK8wA2dSAFxtzobOZHVqToa6WKOQ+S7CcxJ0fJEufNbf0vJehKBjoL1tolwIi8r+pkL2cztdrd+asODB5mogD/icFh/0Qk2BrQ+wN5Bky7WXPph85yjbZg=
+	t=1713876672; cv=none; b=EF9485M7YpIY/IJ/efrGFrCkakY1tPL0kKuteqhc/uZHRMwOJ+3p7J4NVUd+27CILwvFvOMxGtiwEhcVysBUUjZBOJDkj/zcAMQ8pDfShcWzC2MfDaIoHQB7YJs7IWEMBnzwpURNbxCUx60gJEoGvT+DcqXkl3idskiZa44M1eg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713876556; c=relaxed/simple;
-	bh=XQeZr6E7rXhe/VT+k28qSPXYBkfsY+98/EcL4uCWgDU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UY7NE4OqXvQ3dw1mNAu4AIobYd+zsiNIeixAzdw0qwJKmMclLGfnoVTUKSn8N5R6ki3xdzQDNbyjXBwJQKJ6lNIXPCtau9CG2r0ZkiZHpX5KC3zX38qsNp6GdS8DxTosBZCJIiMTOxFNtaunl14M8D5g025aomfk6BRYadldNkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AbgjxAC1; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AbgjxAC1"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-343c7fae6e4so4898952f8f.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 23 Apr 2024 05:49:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713876553; x=1714481353; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=GtCF0d5TRfvf1gJjlek+SkbwLI/L240GdEgYBnOFyEs=;
-        b=AbgjxAC1r6vbhckl7BHZjqn32OQHuuhAtNfWDlDLnzSzKHkw5cWz1jGjnCz67S4OpT
-         K2YZq42Nd1EoEt1jutJz5wZXmGc3nhQxopDmqaCjnXdXGuUmdsTxJaV9oPGLuYKytLNf
-         FVBhG9LAMv5eLyXuajfx07seIXLza9vdkuzx2Sd5hnuW56PT5sipn3U2tTRJNzG12mCJ
-         JGB9a4V453G6rILoM8MyTLaMed8rfTkdPgBEEekGIiTN719keW2Gqmy5b9AiUh/BMIsG
-         GNBWErEz7oVVprcubtlwtXXJSX47qKzWQonoucYVz1/OuQsa1nPUFYykJReg2tQH19lf
-         N3qA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713876553; x=1714481353;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GtCF0d5TRfvf1gJjlek+SkbwLI/L240GdEgYBnOFyEs=;
-        b=E0QWZT/nNkdLCPfTAbK8l0bOaUW83ULuK//TDUxWKY2MNwDiPygqD8y0VVhkw4IxPw
-         Ap5bW45RET00+ngme3fiysBocoqzX3tz9DgC25Ju7VHZJdJhPafpMBaQxbglofFYjngj
-         Z0sb6D2GzQNci/1qj8kh6ubMG0Rt7EG4xt4JNa0nFebMkgV7+oCKz4QjHEAU+BBc5Jq7
-         9Ek6vaYGbTgxiRUhi02+TtDPUQwaREY9b8Hau+2T+MxUEuL8orWqiqQJf4IbcsU3R0zC
-         EwSlQoTjJt/Vsb+2slMyIet6wfrTCF+gHt00BcX9m9BqJ+Eo6hzdJmr1Jz6vwWzGUBAl
-         N5Jg==
-X-Forwarded-Encrypted: i=1; AJvYcCWsaFCNpvqylSXKhheTbmZWDee7Yz9+3mEkqRPdqRaM/fzLi8indsxJeqEFLPQ46oRoIqim+goCyt92BPzcMwhtYJLjz9htOH+Y49Q=
-X-Gm-Message-State: AOJu0Yzu4SvV9TPkslIxJY4Wo+GgNijq8D1al25UJd5hIGqEuRuV0Ksc
-	fJuIjPp1Lx9BAQHz8EVYjd4t4Il/hqu1W6CVpaVgkwRwUFv40B/+6J4iqhm4KPw=
-X-Google-Smtp-Source: AGHT+IFQ/wvfOsFaUdKh98XxWAyZjDTRY072QmJCxCCxJbX9yzwrMnJqlpUXpbY2Dl+AdrwFqOGXDg==
-X-Received: by 2002:a05:6000:1e89:b0:34a:9afe:76f with SMTP id dd9-20020a0560001e8900b0034a9afe076fmr5609928wrb.30.1713876553387;
-        Tue, 23 Apr 2024 05:49:13 -0700 (PDT)
-Received: from [192.168.0.102] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id y18-20020a056000109200b00343300a4eb8sm13594089wrw.49.2024.04.23.05.49.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Apr 2024 05:49:12 -0700 (PDT)
-Message-ID: <515e2718-7e1b-42c0-9d61-a10d00f12a31@linaro.org>
-Date: Tue, 23 Apr 2024 13:49:11 +0100
+	s=arc-20240116; t=1713876672; c=relaxed/simple;
+	bh=2E6SRIyA73cjTpevRa1WmA6oQJTuq8bhZKn4jV3QIk8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UctesoFmPL97r0ehpU0ZijwW5bYFtyjGx0B/u642H26/fkNFpVibMFpSiVTfGIcjRH+/3l7wj5+blgOhpCNKKeCV/dv4jMv3lJtPUKPLkDucID4q8pvgn8ME1B6pjKYp48xjKa0ce1AiEkTlWIwLap7NyBeNT84m9pvS0bFLIQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A4272339;
+	Tue, 23 Apr 2024 05:51:38 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D6E3B3F64C;
+	Tue, 23 Apr 2024 05:51:08 -0700 (PDT)
+Date: Tue, 23 Apr 2024 13:51:06 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Hans de Goede <hdegoede@redhat.com>, Dmitry Torokhov
+ <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+ <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, James
+ McGregor <jamcgregor@protonmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: input: sun4i-lradc-keys: Add H616
+ compatible
+Message-ID: <20240423135106.02ab4473@donnerap.manchester.arm.com>
+In-Reply-To: <f2021c5d-25fa-4bdf-8f8c-b0bc271eb54e@linaro.org>
+References: <20240422164511.2488261-1-andre.przywara@arm.com>
+	<20240422164511.2488261-2-andre.przywara@arm.com>
+	<20240423111502.6e068887@donnerap.manchester.arm.com>
+	<f2021c5d-25fa-4bdf-8f8c-b0bc271eb54e@linaro.org>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 13/35] media: common: saa7146: Use min macro
-To: Ricardo Ribalda <ribalda@chromium.org>,
- Martin Tuma <martin.tuma@digiteqautomotive.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Hugues Fruchet <hugues.fruchet@foss.st.com>,
- Alain Volmat <alain.volmat@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Chen-Yu Tsai
- <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
- Abylay Ospan <aospan@netup.ru>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Dmitry Osipenko <digetx@gmail.com>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Sylvain Petinot <sylvain.petinot@foss.st.com>,
- Jacopo Mondi <jacopo+renesas@jmondi.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
- Pavel Machek <pavel@ucw.cz>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
-References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
- <20240415-fix-cocci-v1-13-477afb23728b@chromium.org>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20240415-fix-cocci-v1-13-477afb23728b@chromium.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 15/04/2024 20:34, Ricardo Ribalda wrote:
-> Simplifies the code. Found by cocci:
-> 
-> drivers/media/common/saa7146/saa7146_hlp.c:125:36-37: WARNING opportunity for min()
-> drivers/media/common/saa7146/saa7146_hlp.c:154:41-42: WARNING opportunity for min()
-> drivers/media/common/saa7146/saa7146_hlp.c:286:35-36: WARNING opportunity for min()
-> drivers/media/common/saa7146/saa7146_hlp.c:289:35-36: WARNING opportunity for min()
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+On Tue, 23 Apr 2024 14:18:23 +0200
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Hi,
+
+> On 23/04/2024 12:15, Andre Przywara wrote:
+> > On Mon, 22 Apr 2024 17:45:10 +0100
+> > Andre Przywara <andre.przywara@arm.com> wrote:
+> > 
+> > Hi,
+> >   
+> >> From: James McGregor <jamcgregor@protonmail.com>
+> >>
+> >> The Allwinner H616 SoC has an LRADC which is compatible with the
+> >> versions in existing SoCs.
+> >> Add a compatible string for H616, with the R329 fallback. This is the
+> >> same as the D1, so put them into an enum.
+> >>
+> >> Signed-off-by: James McGregor <jamcgregor@protonmail.com>
+> >> Signed-off-by: Andre Przywara <andre.przywara@arm.com>  
+> > 
+> > Compared the descriptions in the manual between the R392 and the H616, they
+> > look the same:
+> > 
+> > Reviewed-by: Andre Przywara <andre.przywara@arm.com>  
+> 
+> Why do you review your own patches? Does it mean that you contribute
+> code which you did not review before?
+
+I just merely sent the code on behalf of James, because he had trouble
+with the email setup (Protonmail has no SMTP), but didn't want to delay
+the post any longer.
+
+> This is odd process.
+
+I agree, I would have liked it more if James would have sent it himself,
+and then my review would look more natural, but with my review I
+wanted to explicitly point out the technical correctness. Besides: I found
+this ordering issue in the other patch only after sending, so needed to
+somehow respond anyway.
+Also I wanted to make the process transparent: someone posts a patch (in
+this case via a proxy), then it gets reviewed.
+
+> Your Review is implied by sending the patch.
+
+Is that really true? I was under the impression that sending is
+independent from review. I mean I doubt that every maintainer sending
+patches up the chain (when they add their SoB) implies a *review*? Surely
+they do agree on the patch (also typically expressed by an Ack), otherwise
+they wouldn't send it, but a "review" is still a different thing.
+The Linux history has both Rb + SoB from the same person and just SoB
+signatures, so I assume that it's not implied.
+
+> And you have there SoB which indicates you sent it...
+
+Yes, but SoB just means I sign off on the legal aspects: that I got the
+patches legally, compliant with the GPL, and that I am fine with and
+allowed to release them under GPL conditions.
+That does not include any code review aspect, AFAICT.
+
+Happy to hear other opinions, but this is my interpretation.
+
+Cheers,
+Andre
