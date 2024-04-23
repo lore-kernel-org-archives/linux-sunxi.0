@@ -1,85 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from a.peacevolution.org (a.peacevolution.org [206.189.193.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31A6714387C
-	for <linux-sunxi@lists.linux.dev>; Tue, 23 Apr 2024 21:23:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD0B11E898
+	for <linux-sunxi@lists.linux.dev>; Tue, 23 Apr 2024 22:41:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.193.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713907395; cv=none; b=GoRYLj2sYqBJMh6FOKHB86lkddEenQcGXJSSud077mkqH1lEiXh1ElUVSTBszpOOky4MK6qXxfvThRQb+pjb/CGAXBF57SDIm7DfN9n9NQsLqJPJIjC9Wli/ngJ2M+/m3riobUXS6lEq4hRqSYets6F3fYPXQjIcIcURuwE49HY=
+	t=1713912077; cv=none; b=De7kJ+ZpuAW5hcuhwxnOe+OuYMNmaMmUyKtU8EQ0y1s4rAeNZLe7aSkdiEm8e9oZfzbmrUKVlGqfvtgkzOBxNgXumwZRS+DCFFcn1CDMn2KsQAbd6e8Jv3Sw3YmiA53D1rzN9+HKLq+qFAk7IEZnR0Zw/ukYdMAZFkgEzH8qYDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713907395; c=relaxed/simple;
-	bh=HK0ujPxp34qpwUxMtRk5RYEckAapSdQ4K+GXdVo0Cqk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eSXItm+1JCbjurSZSdXpvrEHNK1ZTAt09tSYNCat+mOVl9fH42v7LG9z93J++x0ucSxfBVq09/2PiDK6s2fmheFpJa6x27jgAmg4zdBFkuJS+Td/m0sTMONcgIMY8h8DWmFzDokdBZjWuJs0yrxChGRvhIkUmPmNJ1qR56CaMBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pUQzFste; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713912077; c=relaxed/simple;
+	bh=VgV+qCaKdW6B3jmUvzPURLXsRQqGq9RRxeY0w6UalFg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ceb8CXiQNcTGt1ZcP5FiRh92TBdnrDdisMkB/c7vsOmbM67i4mmaaThOZIMG4MqvxfaetPBuiFYzgBBAG+mZg0RCGkC8OV3ceCbrLhdMDoDv54QZvMNGckx6TkMSjeda73gI+qQKFEJ1ZfGke2UEqcaF5jeuwxL3pGy9s1wcwyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org; spf=pass smtp.mailfrom=peacevolution.org; dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b=UbPW8/Oo; arc=none smtp.client-ip=206.189.193.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=peacevolution.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pUQzFste"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4335C32781
-	for <linux-sunxi@lists.linux.dev>; Tue, 23 Apr 2024 21:23:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713907394;
-	bh=HK0ujPxp34qpwUxMtRk5RYEckAapSdQ4K+GXdVo0Cqk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=pUQzFstejbk7piPmipfGwzTsvsQHb+BJz6gxaBOD9wBGu5ujIXaTvilrhWrPzFKUs
-	 funigVyrZSsZBNfVpQyPAbu6N9p+q/76Ero/rE/BA6k5jlJZFc/qq8uJUfdSh9iLbj
-	 ZX8L3YWHwvOvVnB++kQajXwIJVyXE0C529BLCEU2RQgULWDl3c51p76+8q6O/wkz0H
-	 iaRbdoTSoAamZHl1VPdKxgkB953B83K1TFMT/C6TzROLXyT7DPYGVAKsfKU2ZKw4WO
-	 bf55Q0KIHKHXhhkoK7RRC+4Lvb/9+pascEU22Qjybg9dAFYD3TLHWe9rIae4JCqpjt
-	 pvO4wjKZbvJPg==
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-51bafbe7509so1541096e87.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 23 Apr 2024 14:23:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVwCecV0TTHZ0aEk7QrmLC+pwAtJ7bmsE4wotrJjywdZ+1mYa2vYGCHDIq3gRpVZlANfVUIA+NvSOdqeFV4De/jNrtaQLnbVQe71nc=
-X-Gm-Message-State: AOJu0YxHZmp4y7lokm04+AhPgPU3pHeb8p6ZQSPeNDbZc/kBysxSxWHp
-	CMJAy2O2if3b1fGCm6CP4sbxBQqG5dlRZ5w2K8D0qyukzNVbcqteOoM84lsZTvj667gmWsjypxE
-	4jaWwALHfXQolFRFABglCcOdThg==
-X-Google-Smtp-Source: AGHT+IFSEy7Ntcs8kO5E/YWUotyQAYiFUv1GQFB5gLdH1tA5hJgWZew7wv8o02kRNGivuEr/W3u5Ti11wEYzT1Mnyl4=
-X-Received: by 2002:a05:6512:601:b0:519:611f:df49 with SMTP id
- b1-20020a056512060100b00519611fdf49mr524205lfe.69.1713907393154; Tue, 23 Apr
- 2024 14:23:13 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b="UbPW8/Oo"
+Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
+	by a.peacevolution.org (Postfix) with ESMTPA id 5E54147A02;
+	Tue, 23 Apr 2024 22:41:08 +0000 (UTC)
+From: Aren Moynihan <aren@peacevolution.org>
+To: Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: Aren Moynihan <aren@peacevolution.org>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Ondrej Jirman <megi@xff.cz>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-iio@vger.kernel.org,
+	phone-devel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	Willow Barraco <contact@willowbarraco.fr>
+Subject: [PATCH v2 0/6] iio: light: stk3310: support powering off during suspend
+Date: Tue, 23 Apr 2024 18:33:03 -0400
+Message-ID: <20240423223309.1468198-2-aren@peacevolution.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240317184130.157695-1-krzysztof.kozlowski@linaro.org> <20240317184130.157695-4-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20240317184130.157695-4-krzysztof.kozlowski@linaro.org>
-From: Rob Herring <robh@kernel.org>
-Date: Tue, 23 Apr 2024 16:23:00 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJfT-jui5P56CO4Fr37kr5iNN8dpxt8ecKeFmdVGnRYbA@mail.gmail.com>
-Message-ID: <CAL_JsqJfT-jui5P56CO4Fr37kr5iNN8dpxt8ecKeFmdVGnRYbA@mail.gmail.com>
-Subject: Re: [PATCH 4/4] arm: dts: allwinner: drop underscore in node names
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Corentin Labbe <clabbe@baylibre.com>, 
-	Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Authentication-Results: auth=pass smtp.auth=aren@peacevolution.org smtp.mailfrom=aren@peacevolution.org
+X-Spam-Level: ****
+X-Spamd-Bar: ++++
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=peacevolution.org;
+	s=dkim; t=1713912069;
+	h=from:subject:date:message-id:to:cc:mime-version:content-transfer-encoding;
+	bh=a7PU4WDv6YB/7pbWHelv2hIhCcSRKNyFO0apkn1vY0U=;
+	b=UbPW8/OogtAEjAnzCYyz7x4fhb0ccUmtFHS+FaUiEgQl2dvZqlxDNioLZAlOQdMLH11n0O
+	3mmaOoPG+U68t1SVf2nsljrqSyC4FkdDksSU+a9Dfg7I1+WT6swV830ha0br1xEmKE2hDX
+	EwF8D+s1kB33T4XVo6C3ICNK0XqKsEs=
 
-On Sun, Mar 17, 2024 at 1:41=E2=80=AFPM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> Underscores should not be used in node names (dtc with W=3D2 warns about
-> them), so replace them with hyphens.  Use also generic name for pwrseq
-> node, because generic naming is favored by Devicetree spec.  All the
-> clocks affected by this change use clock-output-names, so resulting
-> clock name should not change.  Functional impact checked with comparing
-> before/after DTBs with dtx_diff and fdtdump.
->
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In the Pine64 PinePhone, the stk3310 chip is powered by a regulator that is
+disabled at system boot and can be shut off during suspend. To ensure that
+the chip properly initializes, both after boot and suspend, we need to
+manage this regulator.
 
-This adds warnings:
+Additionally if the chip is shut off in suspend, we need to make sure that
+it gets reinitialized with the same parameters after resume.
 
-13  prcm@1f01400: 'ahb0-clk', 'apb0-clk', 'apb0-gates-clk',
-'apb0-rst', 'ar100-clk', 'ir-clk' do not match any of the regexes:
-'^.*_(clk|rst)$', 'pinctrl-[0-9]+'
+Major changes in v2:
+ - Add handling of the IR LED. I was hesitant to include this as it is the
+   same as pull-up regulator for the i2c bus on the hardware I have, so I
+   can't test it well. I think leaving it out is more likely to cause
+   issues than including it.
+ - Convert stk3310 to use dev_err_probe for errors.
+ - Always enable / disable regulators and rely on dummy devices if they're
+   not specified.
+ - more listed in individual patches
 
-Since we documented it with underscores, I'd say just leave these at
-least until if/when we define some standard names. I'd prefer we spend
-time reducing warnings from the common schema. I'm looking at
-root-node.yaml. simple-bus.yaml generates a lot too.
+Aren Moynihan (4):
+  dt-bindings: iio: light: stk33xx: add vdd and leda regulators
+  iio: light: stk3310: Manage LED power supply
+  iio: light: stk3310: use dev_err_probe where possible
+  iio: light: stk3310: log error if reading the chip id fails
 
-Rob
+Ondrej Jirman (2):
+  iio: light: stk3310: Implement vdd supply and power it off during
+    suspend
+  arm64: dts: allwinner: pinephone: Add power supplies to stk3311
+
+ .../bindings/iio/light/stk33xx.yaml           |   4 +
+ .../dts/allwinner/sun50i-a64-pinephone.dtsi   |   2 +
+ drivers/iio/light/stk3310.c                   | 116 +++++++++++++-----
+ 3 files changed, 94 insertions(+), 28 deletions(-)
+
+-- 
+2.44.0
+
