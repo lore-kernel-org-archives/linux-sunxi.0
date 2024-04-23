@@ -1,180 +1,128 @@
-Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFBA4E574
-	for <linux-sunxi@lists.linux.dev>; Tue, 23 Apr 2024 01:00:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C88EFC18
+	for <linux-sunxi@lists.linux.dev>; Tue, 23 Apr 2024 01:38:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713834029; cv=none; b=idhrlpsgmwSwzYiY5HfZ+l349FxH85n3KXFiLKqcpV124JiF/CVxF9M35/DE+1uN5nKTuysEo6nAUh94K3iTFxipjHj5wpMizXFpUNPMikI2600ZpPbXG7iMu/w8Qyj8ut520xjNHL1KRqUUrawj+6KnWrTqYKra6b7aUjbYNjI=
+	t=1713836318; cv=none; b=tUZ42HMX4qWJHwYxsvfmbXOx2jAQZBDSnq+uLIVlzpcgZc8oHZo2W36lqD2xlh3PzihCG73eSBXmQAkqVumMo2hvw2ZLPg5TSBHzGBgVeSYQvvQ+gUQWk1JYe77zyjCAktBItQiPbSX2t73/9C4YrSwnfpcuCOOU4YHtqpFkiow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713834029; c=relaxed/simple;
-	bh=KGEaVSgegAft3nYNYK9EYCKpbfBuKrk5VXpJPxpMFlE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=CGBwpbUIl44dnq18z0FGaFWGG5uEoXMUQs0mGCo/i4/faF2gG+YT9LdeFRPhKf/jcGyKkZbLv6uPrDkVobdE9EuypsBR+gpqdiVjgaoZzkfBKLhbMl3XdB+8+El3EBkp7FVjOE+bgtWgwB9xef+XmUZAFdTuhcolh5+mIBE6O90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=bGD6OuMS; arc=none smtp.client-ip=116.203.91.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
+	s=arc-20240116; t=1713836318; c=relaxed/simple;
+	bh=C7wCWBdC6TfEVr3TjcsdkpMwWzcgG7xcQ19WyXxt6JQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HGBJtE0PcpVVNRAh/6GIuE8NxOB4w7AbytAgdMqLPpIIluz+jkPyp93GpnsXOb8JiQ0Vh0h216MT2X6FFh2nWVLnLJS49cIVQg/WLScH8J5kqxgFIZWF2byG0V9wkFFJ+3sSHFWXI6S57igj/dKE5/inRZr75Dq2PRR+tFJ9jIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cz7dppGG; arc=none smtp.client-ip=209.85.161.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="bGD6OuMS"
-From: Dragan Simic <dsimic@manjaro.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
-	t=1713834025;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xaGNaaJsi50mZ8vWxsRljFanZ5oeKwmG+YpjSdoLUDg=;
-	b=bGD6OuMSBh4guc7XcN19L4CsrUsv/rL/LyvRaLj9heMubELOFRcC5RzJj3kIf/8C5cpJ8/
-	6ABIIx4sRouxeUDTCELc3PAp6jBn5HNv9G4DO5T8hrQreUymNuX6GhiwDjDEkY0o44Azxc
-	1OWgpOhyIXlbpomezuGURFMNEQUVjd2RyIdXHI29ejo3GZD6Zg00OF+XJgbF5XzxO9IpcK
-	H6mQyJ4MTPedEgzqbnBm8nXCHZ/aP8LwK6/oh3iuToHHn+WdbeLF5WnEDtmIn93iQuWba5
-	biSbNT64qB+uYqKpkkt80Q55LOkNVX3OZWmuBHE0v13u91vVJPPbitPpo18B3Q==
-To: linux-sunxi@lists.linux.dev
-Cc: wens@csie.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	robh+dt@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	linux-kernel@vger.kernel.org,
-	didi.debian@cknow.org,
-	Marek Kraus <gamiee@pine64.org>
-Subject: [PATCH 2/2] arm64: dts: allwinner: Correct the model names for Pine64 boards
-Date: Tue, 23 Apr 2024 03:00:20 +0200
-Message-Id: <f4a7e60040aa7cc1ad346bd1cc35b64256413858.1713833436.git.dsimic@manjaro.org>
-In-Reply-To: <d2943d9f4c99a239f86188eaf45a73972685c255.1713833436.git.dsimic@manjaro.org>
-References: <d2943d9f4c99a239f86188eaf45a73972685c255.1713833436.git.dsimic@manjaro.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cz7dppGG"
+Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-5ac8c73cf88so3301662eaf.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 22 Apr 2024 18:38:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1713836315; x=1714441115; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0rtki28GfeCNBbS4WQvcAXIspTIGgU1gSHxdtSjsBoQ=;
+        b=cz7dppGGErf+RObqU3nbsItvQMUCJ6BmHSBKMisGK0vny0fHextQnMTSL10+Iw5H6w
+         lfodLSSr6wkuSXV6oTlkXXX4tJA/SX5dr0zPHML7d4nKAWkS0gO/S1eWxEwzWSnNxoKg
+         BB917I9/nFVlfRACgS31dYOIJkEY27Lh8H+V9NoQbZiA3tk5Dm5SX81VBD70a6ccdnP5
+         tJSADgZsayStTG8uFz92zrdo7JaEU0Z1M9XeoLkG59IlSwv6bdSHOg3g630mrEWfXEVO
+         ppK/krCtuGYVqpo9Y3bGO4k/V7viqNscuvG2U33Wbl6OpvdglPkeQcgjcodwJ3WNidM8
+         cpvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713836315; x=1714441115;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0rtki28GfeCNBbS4WQvcAXIspTIGgU1gSHxdtSjsBoQ=;
+        b=v/+4ONqAWmV4tgpzXtK2oN72RkW9ek5cg3BMPb5PTX8kg9PODBRTSyXBst2q9sXAAF
+         iQcbRikwZR19SH7aKTbwDe/RvGGoRvW/TFrIAb6AG57cSXsikjTt6XQ8VjBmwh/kgvMT
+         XYkyLg8e1hxaRkj+rYPuoeAqiYnk1IZA3a4DBwa4hu6onmJyOySc8SSY3fInSgb9yqxS
+         GgI4E0sgwPFAlej1n7qnW9iJl28sr1Tdk+WPvBUh+nd91oS9JpdUzXDKsdoq1mTPhrao
+         TYJWnfyqur+vXb5y5mB3hR6XDmg3ZcP2GgvqiMpsJq6daBkfoaIVG/nioVP1MNmHiwkn
+         CeqA==
+X-Forwarded-Encrypted: i=1; AJvYcCXnKYpYj9+2MPO+6JL1yxdYkIqrFj5pW1aHuRqkwjirhyqRTNH7Uo/tmZOE2ZNsiGmmDitDfNAsClZbVqCNd3hztDayPAp5x7wucsU=
+X-Gm-Message-State: AOJu0Yw0UV3AyFwssqzeXXj56oZDlcu5yZ0RZpHywPya+UuFDbQidf1w
+	c3ZjBUqVQfkM+MPTOB9qMPI9pUfB0zZsbTkqEFZCPR5mam/owAGhGCOlhagDc6Z/U6PhDLq2xME
+	CU8IFT9EKP3avVU5gIlXMxUYAEfE=
+X-Google-Smtp-Source: AGHT+IG1zcBxOQ8bycSUmKLWA3VWv8PCkHeLT1dbvOXgXVbRhgdUjlCXa+0aqQsTbjhbjt6Hejy2UbCBtX5QmIR2nMk=
+X-Received: by 2002:a05:6358:9792:b0:183:fb11:adeb with SMTP id
+ f18-20020a056358979200b00183fb11adebmr15644866rwb.21.1713836315176; Mon, 22
+ Apr 2024 18:38:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
+References: <285de20a187f3e4baeb28f639b5bf55e914a3821.1713756666.git.viresh.kumar@linaro.org>
+In-Reply-To: <285de20a187f3e4baeb28f639b5bf55e914a3821.1713756666.git.viresh.kumar@linaro.org>
+From: Julian Calaby <julian.calaby@gmail.com>
+Date: Tue, 23 Apr 2024 11:38:24 +1000
+Message-ID: <CAGRGNgWHkVkOP13jh-w1KQYeR_yeq1JgOt9a+R40F8DGYKMtkg@mail.gmail.com>
+Subject: Re: [PATCH] cpufreq: sun50i: Fix build warning around snprint()
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Yangtao Li <tiny.windzz@gmail.com>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, linux-pm@vger.kernel.org, 
+	Vincent Guittot <vincent.guittot@linaro.org>, kernel test robot <lkp@intel.com>, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Correct the model names of a few Pine64 boards and devices, according
-to their official names used on the Pine64 wiki.  This ensures consistency
-between the officially used names and the names in the source code.
+Hi Viresh,
 
-Cc: Marek Kraus <gamiee@pine64.org>
-Signed-off-by: Dragan Simic <dsimic@manjaro.org>
----
+On Mon, Apr 22, 2024 at 1:31=E2=80=AFPM Viresh Kumar <viresh.kumar@linaro.o=
+rg> wrote:
+>
+> The Sun50i driver generates a warning with W=3D1:
+>
+> warning: '%d' directive output may be truncated writing between 1 and 10 =
+bytes into a region of size 2 [-Wformat-truncation=3D]
+>
+> Fix it by allocating a big enough array to print an integer.
+>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202404191715.LDwMm2gP-lkp@i=
+ntel.com/
+> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
 
-Notes:
-    This completes the correction of the model names of the Pine64 boards
-    and devices, which was started with the Pine64 boards and devices based
-    on Rockchip SoCs. [1]
-    
-    These improvements may cause certain issues if some scripts misuse
-    /proc/device-tree/model to detect the board they're executed on.  Though,
-    the right way to detect a board is to use /proc/device-tree/compatible
-    instead, because its contents is part of the ABI.  Such scripts, if they
-    actually exist in the field, should be improved to use the right way to
-    detect the board model.
-    
-    [1] https://lore.kernel.org/linux-rockchip/06ce014a1dedff11a785fe523056b3b8ffdf21ee.1713832790.git.dsimic@manjaro.org/
+This'll absolutely fix the issue here, so:
 
- arch/arm64/boot/dts/allwinner/sun50i-a64-pine64-lts.dts         | 2 +-
- arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts           | 2 +-
- .../boot/dts/allwinner/sun50i-a64-pinetab-early-adopter.dts     | 2 +-
- arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts            | 2 +-
- arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dts   | 2 +-
- arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64-model-b.dts    | 2 +-
- arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts            | 2 +-
- 7 files changed, 7 insertions(+), 7 deletions(-)
+Reviewed-by: Julian Calaby <julian.calaby@gmail.com>
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pine64-lts.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-pine64-lts.dts
-index 596a25907432..4aab1f98fac7 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pine64-lts.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pine64-lts.dts
-@@ -5,7 +5,7 @@
- #include "sun50i-a64-sopine-baseboard.dts"
- 
- / {
--	model = "Pine64 LTS";
-+	model = "Pine64 A64 LTS";
- 	compatible = "pine64,pine64-lts", "allwinner,sun50i-r18",
- 		     "allwinner,sun50i-a64";
- 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts
-index 50ed2e9f10ed..a3c1752fc5d8 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts
-@@ -13,7 +13,7 @@
- #include <dt-bindings/pwm/pwm.h>
- 
- / {
--	model = "Pinebook";
-+	model = "Pine64 Pinebook";
- 	compatible = "pine64,pinebook", "allwinner,sun50i-a64";
- 	chassis-type = "laptop";
- 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab-early-adopter.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab-early-adopter.dts
-index 6265360ce623..86cc85eb3d48 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab-early-adopter.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab-early-adopter.dts
-@@ -9,7 +9,7 @@
- #include "sun50i-a64-pinetab.dts"
- 
- / {
--	model = "PineTab, Early Adopter's version";
-+	model = "Pine64 PineTab Early Adopter";
- 	compatible = "pine64,pinetab-early-adopter", "allwinner,sun50i-a64";
- };
- 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts
-index 0a5607f73049..ebeb04156eb6 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts
-@@ -14,7 +14,7 @@
- #include <dt-bindings/pwm/pwm.h>
- 
- / {
--	model = "PineTab, Development Sample";
-+	model = "Pine64 PineTab Developer Sample";
- 	compatible = "pine64,pinetab", "allwinner,sun50i-a64";
- 	chassis-type = "tablet";
- 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dts
-index 5e66ce1a334f..411d97610be9 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dts
-@@ -8,7 +8,7 @@
- #include "sun50i-a64-sopine.dtsi"
- 
- / {
--	model = "SoPine with baseboard";
-+	model = "Pine64 SOPine on Baseboard carrier board";
- 	compatible = "pine64,sopine-baseboard", "pine64,sopine",
- 		     "allwinner,sun50i-a64";
- 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64-model-b.dts b/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64-model-b.dts
-index b710f1a0f53a..52d81ff0d77d 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64-model-b.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64-model-b.dts
-@@ -6,7 +6,7 @@
- #include "sun50i-h6-pine-h64.dts"
- 
- / {
--	model = "Pine H64 model B";
-+	model = "Pine64 H64 Model B";
- 	compatible = "pine64,pine-h64-model-b", "allwinner,sun50i-h6";
- 
- 	/delete-node/ reg_gmac_3v3;
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts b/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts
-index 1ffd68f43f87..f8b524d02429 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts
-@@ -9,7 +9,7 @@
- #include <dt-bindings/gpio/gpio.h>
- 
- / {
--	model = "Pine H64 model A";
-+	model = "Pine64 H64 Model A";
- 	compatible = "pine64,pine-h64", "allwinner,sun50i-h6";
- 
- 	aliases {
+However:
+
+> ---
+>  drivers/cpufreq/sun50i-cpufreq-nvmem.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun=
+50i-cpufreq-nvmem.c
+> index 30e5c337611c..cd50cea16a87 100644
+> --- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+> +++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+> @@ -208,7 +206,7 @@ static int sun50i_cpufreq_get_efuse(void)
+>  static int sun50i_cpufreq_nvmem_probe(struct platform_device *pdev)
+>  {
+>         int *opp_tokens;
+> -       char name[MAX_NAME_LEN];
+> +       char name[] =3D "speedXXXXXXXXXXX"; /* Integers can take 11 chars=
+ max */
+
+Would it make sense to just set a static length for the string here,
+say 17-20 characters and add a comment explaining the number, say: /*
+"speed" + 11 chars for the int */
+
+The string constant, while it'll probably be optimised away, seems
+weird and wasteful.
+
+Thanks,
+
+--=20
+Julian Calaby
+
+Email: julian.calaby@gmail.com
+Profile: http://www.google.com/profiles/julian.calaby/
