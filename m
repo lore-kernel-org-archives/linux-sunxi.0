@@ -1,24 +1,24 @@
 Received: from a.peacevolution.org (a.peacevolution.org [206.189.193.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67AC52E63B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7015D2E646
 	for <linux-sunxi@lists.linux.dev>; Tue, 23 Apr 2024 22:41:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.193.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713912079; cv=none; b=QCXwQyuMAEjm3T++ok+0qYh3hDPayBgoAWSIDMYr1+N05o1PLNFcaD8b4ufcO6uOiXoFpOJfLlTlBcSfgeGweLtYqn/bmnM+tz3MFHXejs7YXtgsSyEFf69FkhFovemF9Yj61LZj5rvR56ZkyQ7d+5mWJEbqSCwmic8BOUUmMUc=
+	t=1713912079; cv=none; b=MrBBFKkRJERMT9HXimxPAeIdXarlMqiwYgEDPPG2pyB1FseGRuNEG0lmFaV68UlyqQ1qddsMxV31g4E5c+FLm1mkJSvAMOY0bz1aEOU5JOrB9rUnmfay1krvQGV09UVTNCxA6OSm5ZQB86YWcKDpbYX+abklnUv+XeD0FQy2LOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1713912079; c=relaxed/simple;
-	bh=9N73cNhfVQaoSJ0DN5ep872w+52N5ZGu7OsFMCg9whc=;
+	bh=MfSd1egszYJN6TT1Fc9meDkLwyCYgqTRaV8UU9a38nA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rcHRWRxPN1+I0DvKDmgWCTvhx7XPKKpYmJ3zsAwfnldhTyuoxXqTeN8SNxg02ggQP9MlDmENRKT54NAwXs2na+ZW35lh4Wmg93y/YUBUFDMJoOcUw7W0lnzg2JOJpS3j5O13OQKouChqcloSVjHHsnfmSs0ZZQUqMgTy/D0fjcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org; spf=pass smtp.mailfrom=peacevolution.org; dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b=ABT0QfHC; arc=none smtp.client-ip=206.189.193.133
+	 MIME-Version; b=hetloJYm+y79Q0l4gQXUOmtsgsn4lvZGexYe9RD6I/uNpQETI7+kWz7/F3VD8VQyOEO5Pc1gwP3Ch1MixXxfJDpTktKgeM7/CzX//ZwxnltfEJ5gf2vfpziiDyHv8YActTbCW12EWth21i7K/GGo+aow34XMUUyw2tABCzJE/kg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org; spf=pass smtp.mailfrom=peacevolution.org; dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b=bI5ZZXB9; arc=none smtp.client-ip=206.189.193.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=peacevolution.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b="ABT0QfHC"
+	dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b="bI5ZZXB9"
 Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-	by a.peacevolution.org (Postfix) with ESMTPA id 045F847A5D;
-	Tue, 23 Apr 2024 22:41:14 +0000 (UTC)
+	by a.peacevolution.org (Postfix) with ESMTPA id 55DCF47A61;
+	Tue, 23 Apr 2024 22:41:16 +0000 (UTC)
 From: Aren Moynihan <aren@peacevolution.org>
 To: Jonathan Cameron <jic23@kernel.org>,
 	Lars-Peter Clausen <lars@metafoo.de>,
@@ -41,9 +41,9 @@ Cc: Aren Moynihan <aren@peacevolution.org>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	Willow Barraco <contact@willowbarraco.fr>
-Subject: [PATCH v2 5/6] iio: light: stk3310: log error if reading the chip id fails
-Date: Tue, 23 Apr 2024 18:33:08 -0400
-Message-ID: <20240423223309.1468198-7-aren@peacevolution.org>
+Subject: [PATCH v2 6/6] arm64: dts: allwinner: pinephone: Add power supplies to stk3311
+Date: Tue, 23 Apr 2024 18:33:09 -0400
+Message-ID: <20240423223309.1468198-8-aren@peacevolution.org>
 In-Reply-To: <20240423223309.1468198-2-aren@peacevolution.org>
 References: <20240423223309.1468198-2-aren@peacevolution.org>
 Precedence: bulk
@@ -54,44 +54,44 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Authentication-Results: auth=pass smtp.auth=aren@peacevolution.org smtp.mailfrom=aren@peacevolution.org
-X-Spam-Level: **
-X-Spamd-Bar: ++
+X-Spam-Level: ****
+X-Spamd-Bar: ++++
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=peacevolution.org;
-	s=dkim; t=1713912076;
+	s=dkim; t=1713912077;
 	h=from:subject:date:message-id:to:cc:mime-version:content-transfer-encoding:in-reply-to:references;
-	bh=UWXpr+mFtuZWn0I9z7i9pNE5fb1S4ZmF1FsSOEaCDY8=;
-	b=ABT0QfHCstWYlhb5huxIJr/n4qDSVSFsxksisDcoy3ke6S+gPj0FLQ37n2R9UXskuwaobf
-	y6Nk9MNPJNNQr8PC1RVGVYnxF5Wb1UCfumq6VIxnyBxM2yJ7+VMnjFW0nXYR4ooduh1sVD
-	6ImTZmNEn0X9UhpNjNfl71M4isz1flk=
+	bh=FlEhwg2fHnQSDRwailCy+HoHae1eW6OjDstY8iNJk/g=;
+	b=bI5ZZXB9QPh5La2pxna6jqgxznrqm3ptb7Uv1iUqmd6Zb5pLCVBzRnKlAh9iZn3bszE+/V
+	ACERH365ljdbaPRNR53Sp2P9OY6sDfCF83tL6n7oKHDWwDT4gRJgPl/jM8wd7TRawVhajI
+	0SqZ7lX8t711Nc2ZtzckwF+JSjOpRU8=
 
-If the chip isn't powered, this call is likely to return an error.
-Without a log here the driver will silently fail to probe. Common errors
-are ENXIO (when the chip isn't powered) and ETIMEDOUT (when the i2c bus
-isn't powered).
+From: Ondrej Jirman <megi@xff.cz>
 
+This makes the driver disable the supply during sleep.
+
+Signed-off-by: Ondrej Jirman <megi@xff.cz>
 Signed-off-by: Aren Moynihan <aren@peacevolution.org>
 ---
 
 Notes:
     Changes in v2:
-     - use dev_err_probe
+     - add leda-supply
 
- drivers/iio/light/stk3310.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/iio/light/stk3310.c b/drivers/iio/light/stk3310.c
-index c56c6298d292..6ee6f145a6d5 100644
---- a/drivers/iio/light/stk3310.c
-+++ b/drivers/iio/light/stk3310.c
-@@ -475,7 +475,7 @@ static int stk3310_init(struct iio_dev *indio_dev)
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+index b5a232209f2b..51ab1db95f81 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+@@ -250,6 +250,8 @@ light-sensor@48 {
+ 		reg = <0x48>;
+ 		interrupt-parent = <&pio>;
+ 		interrupts = <1 0 IRQ_TYPE_EDGE_FALLING>; /* PB0 */
++		vdd-supply = <&reg_ldo_io0>;
++		leda-supply = <&reg_dldo1>;
+ 	};
  
- 	ret = regmap_read(data->regmap, STK3310_REG_ID, &chipid);
- 	if (ret < 0)
--		return ret;
-+		return dev_err_probe(&client->dev, ret, "failed to read chip id\n");
- 
- 	if (chipid != STK3310_CHIP_ID_VAL &&
- 	    chipid != STK3311_CHIP_ID_VAL &&
+ 	/* Accelerometer/gyroscope */
 -- 
 2.44.0
 
