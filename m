@@ -1,105 +1,173 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F1A11CF9B
-	for <linux-sunxi@lists.linux.dev>; Mon, 22 Apr 2024 22:40:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from out-175.mta0.migadu.com (out-175.mta0.migadu.com [91.218.175.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB7A1A21
+	for <linux-sunxi@lists.linux.dev>; Tue, 23 Apr 2024 00:10:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713825617; cv=none; b=MxTfLUF4cYkWO8w7ZuQZEb8E4XIN4b8VZ4epAV9ZLmxRFosaYYWIWs/SGmibbUb11HO3PgXN7X88mp3bKb9nrqwR6KnRItChPsfNtCL0rU0YpAgRVUDitO4FDpalRNGxHHLyBEUAnQAwGS1edDanu3EiKvanPVERgZZpK0D1VAc=
+	t=1713831039; cv=none; b=qDT+7IXrSKOLlX6na0sP1O2TJuCaLFXrLSfZW/x9NONUatXB+mQxZdiZGq7qEQUhuPyf74LQ8BU+6IH8nP0FhM/ZRIf9jGsOhGZ+Dxo78k8FzwPwrsq2ZfBQCgJvuCRlFliMKsusg1r8Thp6PJCdsVqrnjpRjypLwfpCYLo1jyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713825617; c=relaxed/simple;
-	bh=YYWQ72Ji1mlYlNcfWfkUgczygjka+1APIsmWDrb2QZ0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hLk5afU3x1szjsvz29ZSVsmeCR3ja5kuJcBxUHlbbdyVT70FHaG8xvDodcS/mwhMl9xI1OoqJHALTm6gi0TVETV15NN/c3gBzFLn1DDLg+/69QuP5riYgd3cpU9jFnYiITBMH+BaXtaiY/YSQj8+2CSqGqqhf8lvxqP5QNWwPac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4F569339;
-	Mon, 22 Apr 2024 15:40:42 -0700 (PDT)
-Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6ABA13F7BD;
-	Mon, 22 Apr 2024 15:40:12 -0700 (PDT)
-Date: Mon, 22 Apr 2024 23:39:58 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Yangtao Li
- <tiny.windzz@gmail.com>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- linux-pm@vger.kernel.org, Vincent Guittot <vincent.guittot@linaro.org>,
- kernel test robot <lkp@intel.com>, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] cpufreq: sun50i: Fix build warning around snprint()
-Message-ID: <20240422233958.0e2d992c@minigeek.lan>
-In-Reply-To: <285de20a187f3e4baeb28f639b5bf55e914a3821.1713756666.git.viresh.kumar@linaro.org>
-References: <285de20a187f3e4baeb28f639b5bf55e914a3821.1713756666.git.viresh.kumar@linaro.org>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	s=arc-20240116; t=1713831039; c=relaxed/simple;
+	bh=DddfLvBrYl9mrWkgY8ASnmpcK/f4Mq5McEMvf2HvzZo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cqLNbTnm7WYX1oVzyqgxAFvMhcffhleW2IKPmoU5XRfoqkmCVWjHlJAru4PRT3RgtLQ/HMt7d7xkGV9j4ez3NT9Tr1fV2jVaKbCIaTcTSJFYKTjGiNO2vvWKTqF/Vwr+YY7WCtkIQKwjaUWMxD9FaNIH3P05BKEvu+/2cHLQI7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org; spf=none smtp.mailfrom=jookia.org; dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b=sdTj0rJt; arc=none smtp.client-ip=91.218.175.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=jookia.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b="sdTj0rJt"
+Date: Tue, 23 Apr 2024 10:09:12 +1000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
+	t=1713831034;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wxMsnwwgYTRpN+n1pAjIWgxOeAtkZF/bH9vNkvOLnY8=;
+	b=sdTj0rJtuoSGbqhR8idHk8Cp/R6XUfuuNCggnswID6iZ94iIvEg1Jb3xnE8uLJnj+vupOt
+	Vt91S+1GWsKuWilWbXyMaJ1m4SDb8y7swQ1H+cc3lvxvg6qk9NKP36U/hVFNNChssonsJD
+	D1CFHCxU734bS7q+2y5Q07z78DA7+yFvknKDRfaRMMBahqSk8YqdX6KY1Ys02tYPvTZcVj
+	BZWjbR98/9tth+DqrFcXCcRn6cCaTpKWWycqvSNuWPVvCuHb6pM4sdJejls3dp55y6xu9l
+	mFSFOvXUF3wF/Swfiq/o7ZyhoxbWvPIoUFXD8p9Ce6UpIBwslZ5EEFQYbc2AJA==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: John Watts <contact@jookia.org>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Chen-Yu Tsai <wens@csie.org>, Lee Jones <lee@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Ryan Walklin <ryan@testtoast.com>,
+	Chris Morgan <macroalpha82@gmail.com>
+Subject: Re: [PATCH v2 2/5] regulator: axp20x: AXP717: fix LDO supply rails
+ and off-by-ones
+Message-ID: <Zib8KOXwqJT3ftHm@titan>
+References: <20240418000736.24338-1-andre.przywara@arm.com>
+ <20240418000736.24338-3-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240418000736.24338-3-andre.przywara@arm.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, 22 Apr 2024 09:01:09 +0530
-Viresh Kumar <viresh.kumar@linaro.org> wrote:
+On Thu, Apr 18, 2024 at 01:07:33AM +0100, Andre Przywara wrote:
+> The X-Powers AXP717 PMIC has separate input supply pins for each group
+> of LDOs, so they are not all using the same DCDC1 input, as described
+> currently.
+> 
+> Replace the "supply" member of each LDO description with the respective
+> group supply name, so that the supply dependencies can be correctly
+> described in the devicetree.
+> 
+> Also fix two off-by-ones in the regulator macros, after some double
+> checking the numbers against the datasheet. This uncovered a bug in the
+> datasheet: add a comment to document this.
 
 Hi,
 
-> The Sun50i driver generates a warning with W=1:
+This looks a lot better with the comment.
+
+John.
+
+Reviewed-by: John Watts <contact@jookia.org>
+
 > 
-> warning: '%d' directive output may be truncated writing between 1 and 10 bytes into a region of size 2 [-Wformat-truncation=]
-> 
-> Fix it by allocating a big enough array to print an integer.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202404191715.LDwMm2gP-lkp@intel.com/
-> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
-
-For the records: as it stands right now, "speed" will always be smaller
-than 10 at the moment, but it's indeed better to play safe here.
-So the fix makes sense to me and fixes the issue:
-
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-Tested-by: Andre Przywara <andre.przywara@arm.com>
-
-Cheers,
-Andre
-
+> Fixes: d2ac3df75c3a ("regulator: axp20x: add support for the AXP717")
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 > ---
->  drivers/cpufreq/sun50i-cpufreq-nvmem.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
+>  drivers/regulator/axp20x-regulator.c | 33 ++++++++++++++++------------
+>  1 file changed, 19 insertions(+), 14 deletions(-)
 > 
-> diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-> index 30e5c337611c..cd50cea16a87 100644
-> --- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-> +++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-> @@ -19,8 +19,6 @@
->  #include <linux/pm_opp.h>
->  #include <linux/slab.h>
+> diff --git a/drivers/regulator/axp20x-regulator.c b/drivers/regulator/axp20x-regulator.c
+> index 34fcdd82b2eaa..f3c447ecdc3bf 100644
+> --- a/drivers/regulator/axp20x-regulator.c
+> +++ b/drivers/regulator/axp20x-regulator.c
+> @@ -140,7 +140,7 @@
 >  
-> -#define MAX_NAME_LEN	7
-> -
->  #define NVMEM_MASK	0x7
->  #define NVMEM_SHIFT	5
+>  #define AXP717_DCDC1_NUM_VOLTAGES	88
+>  #define AXP717_DCDC2_NUM_VOLTAGES	107
+> -#define AXP717_DCDC3_NUM_VOLTAGES	104
+> +#define AXP717_DCDC3_NUM_VOLTAGES	103
+>  #define AXP717_DCDC_V_OUT_MASK		GENMASK(6, 0)
+>  #define AXP717_LDO_V_OUT_MASK		GENMASK(4, 0)
 >  
-> @@ -208,7 +206,7 @@ static int sun50i_cpufreq_get_efuse(void)
->  static int sun50i_cpufreq_nvmem_probe(struct platform_device *pdev)
->  {
->  	int *opp_tokens;
-> -	char name[MAX_NAME_LEN];
-> +	char name[] = "speedXXXXXXXXXXX"; /* Integers can take 11 chars max */
->  	unsigned int cpu, supported_hw;
->  	struct dev_pm_opp_config config = {};
->  	int speed;
-> @@ -235,7 +233,7 @@ static int sun50i_cpufreq_nvmem_probe(struct platform_device *pdev)
->  		config.supported_hw_count = 1;
->  	}
+> @@ -763,10 +763,15 @@ static const struct linear_range axp717_dcdc1_ranges[] = {
+>  	REGULATOR_LINEAR_RANGE(1220000, 71, 87, 20000),
+>  };
 >  
-> -	snprintf(name, MAX_NAME_LEN, "speed%d", speed);
-> +	snprintf(name, sizeof(name), "speed%d", speed);
->  	config.prop_name = name;
+> +/*
+> + * The manual says that the last voltage is 3.4V, encoded as 0b1101011 (107),
+> + * but every other method proves that this is wrong, so it's really 106 that
+> + * programs the final 3.4V.
+> + */
+>  static const struct linear_range axp717_dcdc2_ranges[] = {
+>  	REGULATOR_LINEAR_RANGE(500000,   0,  70,  10000),
+>  	REGULATOR_LINEAR_RANGE(1220000, 71,  87,  20000),
+> -	REGULATOR_LINEAR_RANGE(1600000, 88, 107, 100000),
+> +	REGULATOR_LINEAR_RANGE(1600000, 88, 106, 100000),
+>  };
 >  
->  	for_each_possible_cpu(cpu) {
-
+>  static const struct linear_range axp717_dcdc3_ranges[] = {
+> @@ -790,40 +795,40 @@ static const struct regulator_desc axp717_regulators[] = {
+>  	AXP_DESC(AXP717, DCDC4, "dcdc4", "vin4", 1000, 3700, 100,
+>  		 AXP717_DCDC4_CONTROL, AXP717_DCDC_V_OUT_MASK,
+>  		 AXP717_DCDC_OUTPUT_CONTROL, BIT(3)),
+> -	AXP_DESC(AXP717, ALDO1, "aldo1", "vin1", 500, 3500, 100,
+> +	AXP_DESC(AXP717, ALDO1, "aldo1", "aldoin", 500, 3500, 100,
+>  		 AXP717_ALDO1_CONTROL, AXP717_LDO_V_OUT_MASK,
+>  		 AXP717_LDO0_OUTPUT_CONTROL, BIT(0)),
+> -	AXP_DESC(AXP717, ALDO2, "aldo2", "vin1", 500, 3500, 100,
+> +	AXP_DESC(AXP717, ALDO2, "aldo2", "aldoin", 500, 3500, 100,
+>  		 AXP717_ALDO2_CONTROL, AXP717_LDO_V_OUT_MASK,
+>  		 AXP717_LDO0_OUTPUT_CONTROL, BIT(1)),
+> -	AXP_DESC(AXP717, ALDO3, "aldo3", "vin1", 500, 3500, 100,
+> +	AXP_DESC(AXP717, ALDO3, "aldo3", "aldoin", 500, 3500, 100,
+>  		 AXP717_ALDO3_CONTROL, AXP717_LDO_V_OUT_MASK,
+>  		 AXP717_LDO0_OUTPUT_CONTROL, BIT(2)),
+> -	AXP_DESC(AXP717, ALDO4, "aldo4", "vin1", 500, 3500, 100,
+> +	AXP_DESC(AXP717, ALDO4, "aldo4", "aldoin", 500, 3500, 100,
+>  		 AXP717_ALDO4_CONTROL, AXP717_LDO_V_OUT_MASK,
+>  		 AXP717_LDO0_OUTPUT_CONTROL, BIT(3)),
+> -	AXP_DESC(AXP717, BLDO1, "bldo1", "vin1", 500, 3500, 100,
+> +	AXP_DESC(AXP717, BLDO1, "bldo1", "bldoin", 500, 3500, 100,
+>  		 AXP717_BLDO1_CONTROL, AXP717_LDO_V_OUT_MASK,
+>  		 AXP717_LDO0_OUTPUT_CONTROL, BIT(4)),
+> -	AXP_DESC(AXP717, BLDO2, "bldo2", "vin1", 500, 3500, 100,
+> +	AXP_DESC(AXP717, BLDO2, "bldo2", "bldoin", 500, 3500, 100,
+>  		 AXP717_BLDO2_CONTROL, AXP717_LDO_V_OUT_MASK,
+>  		 AXP717_LDO0_OUTPUT_CONTROL, BIT(5)),
+> -	AXP_DESC(AXP717, BLDO3, "bldo3", "vin1", 500, 3500, 100,
+> +	AXP_DESC(AXP717, BLDO3, "bldo3", "bldoin", 500, 3500, 100,
+>  		 AXP717_BLDO3_CONTROL, AXP717_LDO_V_OUT_MASK,
+>  		 AXP717_LDO0_OUTPUT_CONTROL, BIT(6)),
+> -	AXP_DESC(AXP717, BLDO4, "bldo4", "vin1", 500, 3500, 100,
+> +	AXP_DESC(AXP717, BLDO4, "bldo4", "bldoin", 500, 3500, 100,
+>  		 AXP717_BLDO4_CONTROL, AXP717_LDO_V_OUT_MASK,
+>  		 AXP717_LDO0_OUTPUT_CONTROL, BIT(7)),
+> -	AXP_DESC(AXP717, CLDO1, "cldo1", "vin1", 500, 3500, 100,
+> +	AXP_DESC(AXP717, CLDO1, "cldo1", "cldoin", 500, 3500, 100,
+>  		 AXP717_CLDO1_CONTROL, AXP717_LDO_V_OUT_MASK,
+>  		 AXP717_LDO1_OUTPUT_CONTROL, BIT(0)),
+> -	AXP_DESC(AXP717, CLDO2, "cldo2", "vin1", 500, 3500, 100,
+> +	AXP_DESC(AXP717, CLDO2, "cldo2", "cldoin", 500, 3500, 100,
+>  		 AXP717_CLDO2_CONTROL, AXP717_LDO_V_OUT_MASK,
+>  		 AXP717_LDO1_OUTPUT_CONTROL, BIT(1)),
+> -	AXP_DESC(AXP717, CLDO3, "cldo3", "vin1", 500, 3500, 100,
+> +	AXP_DESC(AXP717, CLDO3, "cldo3", "cldoin", 500, 3500, 100,
+>  		 AXP717_CLDO3_CONTROL, AXP717_LDO_V_OUT_MASK,
+>  		 AXP717_LDO1_OUTPUT_CONTROL, BIT(2)),
+> -	AXP_DESC(AXP717, CLDO4, "cldo4", "vin1", 500, 3500, 100,
+> +	AXP_DESC(AXP717, CLDO4, "cldo4", "cldoin", 500, 3500, 100,
+>  		 AXP717_CLDO4_CONTROL, AXP717_LDO_V_OUT_MASK,
+>  		 AXP717_LDO1_OUTPUT_CONTROL, BIT(3)),
+>  	AXP_DESC(AXP717, CPUSLDO, "cpusldo", "vin1", 500, 1400, 50,
+> -- 
+> 2.35.8
+> 
