@@ -1,129 +1,85 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1985736AF8
-	for <linux-sunxi@lists.linux.dev>; Tue, 23 Apr 2024 23:16:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6B57634
+	for <linux-sunxi@lists.linux.dev>; Wed, 24 Apr 2024 00:18:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713914206; cv=none; b=SfvjPZSf2y0vbysvtuU73BjfIb1hqw28v1GLBUCzw7s4jgrlQX4mfSp/5Df9mU9WvifSm6aIy5iyB2sD6PPUuu1ETxHwZC+6967GESbZuadKpVTtFgdD8VTQ5XSm8sXAjLBUlpxz2xCp+jMQTE3yaPL/PSkOsV+DcmuLvxo+NYo=
+	t=1713917910; cv=none; b=pdqX5ZtgMX0r4HQrPgKsLMRN3oYO3b4r3hT8bBFMpsdg3Kh6mggF66oNganMOIM4jqRjkZTcUPTgknQimeW9SEGqCecQ5amzlgRADMDA2mQiepkh+iQ2BRKuSkVulhAzT0K/6qqqipjm0mz+xqVjKAIx8OXgY+2OnYFH3iDvL+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713914206; c=relaxed/simple;
-	bh=7wftDFTjIIAwQlVxhCOtE1A7It3KWm3iQw5DK5y64pw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OzMnK2vxRjbCwlRoZqFrw33y02+pev6xcCRlz25Q5hFA6bT2SPCEbBGHfHFsrpgRYVrzelrUbDA3GGgqQ0ltkAtKQsNsbDZVcNTViNS0fp3hvWlQpmBu85cwSaW5Adv92fu/gOTJLxe5oUT7yiFSpS1zTxXpyrLv9tT56FE/Mak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QP0CNZ8P; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QP0CNZ8P"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-51ab4ee9df8so6393012e87.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 23 Apr 2024 16:16:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713914203; x=1714519003; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aca9K8EpXVseGVnleC7T/tkn8XH23MGY+cAgNNEhNds=;
-        b=QP0CNZ8PijHm/odDtzi3uAFRCyjC9zsYk3Ug9JGDq3v/bpXnfra7J/Qz7HUE4Y3914
-         OokByLiaBBDglGJ48UPBc/dzWxl3SOeYz4UrCGExAOipkaznX/9Xk/ErvVKcGOuVa+b3
-         flDEX8WHulcyAtrMfQH3T9wXrS5mvRuYMO59ClnjQPeWSBAdy8J/VO0+CMl4ZloxvTrf
-         Mbra/gicSyuYdh9dAMkS0O8+1oY3lNu60OovF2t+D0KRLB3sxambSuJyiYkRz3+Dvoz7
-         /+obgLecVqrXd1qELs3u+PVYZdEUPDG66EEdwBPmQtMXJvUv14XbQhba+ED9SsLGVASA
-         EIwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713914203; x=1714519003;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aca9K8EpXVseGVnleC7T/tkn8XH23MGY+cAgNNEhNds=;
-        b=s4d7D8caBuLPigEjj3LseJD+RmPZsv6586aeJZgCc2Ti15wukvHCOZGOJjXo6MRObR
-         BxJMo50WVk6thmRyp4WgiMsTzjaiFv9ustddssuveMOq3YvQnruaHQTX88N3cXvDAIHG
-         QLgOi81A7a2NA3+qSDNTuqMU9MV49S8IoBm8JWJSg7WsU+w7yZ1+050fPKKRkKkV4y8S
-         JvAzcE5V23WvbB5sMn2QjD5rGBJ1JtJ539zKjMU4K+TFKn3UOW19OvHa9lKMEkKXWAvV
-         cSDcmDfLRF41nO6+8C+4RyhL0c7u1SnA6RoSGSUOs/KXYiQKnoUOxLgCAJljHAo2uADm
-         UaAA==
-X-Forwarded-Encrypted: i=1; AJvYcCWhJEf4CU9t9OVMJaFssSU2NTaARXXCelLQvNvLFnXYy9m2GDVI89PzKd3C87tyP0JBXdAbToEp9JBMaB+TladEBRtQdY8Y0wNWM1Q=
-X-Gm-Message-State: AOJu0YwIABwDvtUOjgCuHG4Nr8M9Hx1/nLKWP6aHpN75IgSYgHoG3Frb
-	c8yln6PLV2wZi4Csm8ZZ7v1ikJuLztwQaWb5DAK0zAkRcbaC3cvUm7aG9ZbTZUbCXpJZqFDthzK
-	PIfJkpqhF4DWbQFUjp4KB8Kw1ZvU=
-X-Google-Smtp-Source: AGHT+IH10mlUfrVcAQ8LqIHHv7aiYPpNjEMy52tN6YA8d6VSedLkjWnBjwpaw//pCrnhLX3kZ6HsfrXhTzJKHNzrtK8=
-X-Received: by 2002:a19:ca08:0:b0:51a:f3b9:f774 with SMTP id
- a8-20020a19ca08000000b0051af3b9f774mr637571lfg.21.1713914202904; Tue, 23 Apr
- 2024 16:16:42 -0700 (PDT)
+	s=arc-20240116; t=1713917910; c=relaxed/simple;
+	bh=Kwxoqslf+5MDAcU18TovITR5A/HZvn4uDwX9E09Ey+U=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=fYi4kVxkNSRgKOWPcKPjDwyfWkOBxTFMuVlVaLJMeZWohLTTwlJ9ypo2yuP1dp4qACswRCYJQH7hnSzDWRHUYaOAQpc2s6gnSV8ljC0g1v0EE45pn5T5waPZSiB1sJo7ag7R0ZJwFU+DBGsATHTlup6FI5nVR6/elxespUJHL3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 33D93339;
+	Tue, 23 Apr 2024 17:18:54 -0700 (PDT)
+Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B38123F7BD;
+	Tue, 23 Apr 2024 17:18:25 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Cc: u-boot@lists.denx.de,
+	linux-sunxi@lists.linux.dev,
+	Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+Subject: [PATCH 0/4] sunxi: devicetree updates plus new boards
+Date: Wed, 24 Apr 2024 01:18:04 +0100
+Message-Id: <20240424001808.14388-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.35.8
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240423223309.1468198-2-aren@peacevolution.org> <20240423223309.1468198-4-aren@peacevolution.org>
-In-Reply-To: <20240423223309.1468198-4-aren@peacevolution.org>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Wed, 24 Apr 2024 02:16:06 +0300
-Message-ID: <CAHp75VeRDSPvpmSbUyZPp0RMoTOE193U2ma18qxv_qZQKLCq8g@mail.gmail.com>
-Subject: Re: [PATCH v2 2/6] iio: light: stk3310: Implement vdd supply and
- power it off during suspend
-To: Aren Moynihan <aren@peacevolution.org>
-Cc: Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Ondrej Jirman <megi@xff.cz>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
-	linux-iio@vger.kernel.org, phone-devel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	Willow Barraco <contact@willowbarraco.fr>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 24, 2024 at 1:41=E2=80=AFAM Aren Moynihan <aren@peacevolution.o=
-rg> wrote:
->
-> From: Ondrej Jirman <megi@xff.cz>
->
-> VDD power input can be used to completely power off the chip during
-> system suspend. Do so if available.
+This updates the Allwinner related devicetree files from the Linux
+kernel repository. The files were taken from Linux v6.9-rc4, and
+adjusted to increase compatibility with older kernels.
 
-...
+This also adds board support for two new devices: the old Remix Mini PC,
+a TV box like "Android desktop" device from 2015, and the Tanix TX1,
+which is a tiny TV box with an H313 SoC.
+The DT for the latter is preliminary for now, as it hasn't been merged
+into Linus' tree yet - though that's supposed to happen in about a few
+weeks time.
 
->         ret =3D stk3310_init(indio_dev);
->         if (ret < 0)
-> -               return ret;
-> +               goto err_vdd_disable;
+Please have a look!
 
-This is wrong. You will have the regulator being disabled _before_
-IRQ. Note, that the original code likely has a bug which sets states
-before disabling IRQ and removing a handler.
+Cheers,
+Andre
 
-Side note, you may make the driver neater with help of
+Andre Przywara (4):
+  sunxi: dts: arm/arm64: update devicetree files from Linux-v6.9-rc4
+  sunxi: a64: Add Remix Mini PC support
+  [DO NOT MERGE] sunxi: dts: arm64: add Tanix TX1 DT from Linux
+  sunxi: H616: add Tanix TX1 support
 
-  struct device *dev =3D &client->dev;
+ arch/arm/dts/Makefile                         |   4 +-
+ arch/arm/dts/sun50i-h313-tanix-tx1.dts        | 183 +++++++++
+ arch/arm/dts/sun50i-h6-beelink-gs1.dts        |   2 +
+ arch/arm/dts/sun50i-h6-tanix.dtsi             |   2 +
+ arch/arm/dts/sun50i-h6.dtsi                   |   7 +-
+ .../dts/sun50i-h616-bigtreetech-cb1-manta.dts |   2 +-
+ arch/arm/dts/sun50i-h616-bigtreetech-cb1.dtsi |   4 +-
+ arch/arm/dts/sun50i-h616-bigtreetech-pi.dts   |   2 +-
+ arch/arm/dts/sun50i-h616.dtsi                 | 155 ++++++++
+ .../arm/dts/sun50i-h618-longan-module-3h.dtsi |  75 ++++
+ arch/arm/dts/sun50i-h618-longanpi-3h.dts      | 144 +++++++
+ .../arm/dts/sun50i-h618-transpeed-8k618-t.dts |  23 ++
+ arch/arm/dts/sun50i-h64-remix-mini-pc.dts     | 356 ++++++++++++++++++
+ arch/arm/dts/sun8i-r40-feta40i.dtsi           |   7 +
+ configs/remix-mini-pc_defconfig               |  14 +
+ configs/tanix_tx1_defconfig                   |  25 ++
+ 16 files changed, 996 insertions(+), 9 deletions(-)
+ create mode 100644 arch/arm/dts/sun50i-h313-tanix-tx1.dts
+ create mode 100644 arch/arm/dts/sun50i-h618-longan-module-3h.dtsi
+ create mode 100644 arch/arm/dts/sun50i-h618-longanpi-3h.dts
+ create mode 100644 arch/arm/dts/sun50i-h64-remix-mini-pc.dts
+ create mode 100644 configs/remix-mini-pc_defconfig
+ create mode 100644 configs/tanix_tx1_defconfig
 
-defined in this patch.
+-- 
+2.35.8
 
-...
-
->  static int stk3310_suspend(struct device *dev)
->  {
->         struct stk3310_data *data;
-
->         data =3D iio_priv(i2c_get_clientdata(to_i2c_client(dev)));
-
-Side note: This may be updated (in a separate change) to use
-dev_get_drvdata() directly.
-
-Jonathan, do we have something like iio_priv_from_drvdata(struct
-device *dev)? Seems many drivers may utilise it.
-
->  }
-
-...
-
->  static int stk3310_resume(struct device *dev)
-
-Ditto.
-
---
-With Best Regards,
-Andy Shevchenko
