@@ -1,60 +1,60 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E13913B5A6
-	for <linux-sunxi@lists.linux.dev>; Wed, 24 Apr 2024 04:28:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A356114533E
+	for <linux-sunxi@lists.linux.dev>; Wed, 24 Apr 2024 04:42:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713932901; cv=none; b=atJs35HFyVy9jd/2QS2qEWtI5blPLaWMFmRyIqP/6TtigqSP5gmSD1IE5P8oqbQSE4g7bJRNSinDl5244x8F8sKZQC1NLvnZ6mx6UwdOxCNtGly9Eja9OG7h9CHdx9sJ5gfDZQZ4OeNNADBjQSES7k0caS21U7IkaxNKItxzY3Y=
+	t=1713933723; cv=none; b=aFCWWFy7M++oD/Ti/F70GPTbXbWAK298fI6gai1a5StEuiiqzC101KrTS83Cr0JA4KSRKIMFtmMPdFvPqBpFvyWfp2n1CJrLTyZQz5OXbROsjVGnisP6AdKjBfVTf8xcUceEAOGzL6YjmTEfToS32mhoy9/fNgzGdj22IPZub7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713932901; c=relaxed/simple;
-	bh=K2uPx8Z39cowyd3CKs/kv0/GPxaVvKugF3Okmkjpnuw=;
+	s=arc-20240116; t=1713933723; c=relaxed/simple;
+	bh=JM2B4kYxrGaJc2NKMceh1oRnw+RaynWIsgZzr48AKAk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OxKcZiCv5yzFd9Y2NPy0VHY8DY1LrFmX57mwE6IjUlJTnVL0FISl7d3W/GVwojjyNjIbehhinJnHBeAsSAfLkHKQMwPxz7WzLmxAgwGC/5rZ6M9B2JYWpYdvSlYxg/DVnKX0NQo0+GGtnN2EiKu5tUHrE+K6ETTBcBCZwIs9oWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JP1SzHBH; arc=none smtp.client-ip=209.85.218.50
+	 In-Reply-To:Content-Type; b=l1jmPcXmVYizkw7VLZN3bL8z2qT0J57NWMEWR/8VTwlf7PNHDJJOwyRHxLjL003WPj56vqFZrwSykIBVuCHuzqnTjgR8sY+wzWhGt4A32ePo+gyzh/GQW6yVXQgEwLBht9rjdN8v8WenK/36fUVPDaW4jI6w/WohGmuJlfeT34k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=e1OT888T; arc=none smtp.client-ip=209.85.208.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JP1SzHBH"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a58989cd1f8so2450266b.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 23 Apr 2024 21:28:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="e1OT888T"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-56e78970853so915846a12.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 23 Apr 2024 21:42:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713932898; x=1714537698; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1713933719; x=1714538519; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=R8Fs3EjOdj6derBzQe4RlSevlHJghueWR0mNYiVQCo8=;
-        b=JP1SzHBH+NkCpaOlmE8DpLpdOB/wWMrmLVjC1c5T5tXaoK/lRX0JcIww8SNA85DQ0C
-         MEb5SwKMJwmhTklncWN/WhSXwqU4QKSKIbJvVLv0X5JEn3AQwgStdHPOTL47Ph4vC8fY
-         nQCpGp6jiA+7pzcVFht1lLaOftB8yCumKxnHOgqOfRqSWkk/gJ1QLpfdRAq4oppKQk2v
-         7jClANCUTVi8say07vbyYavnSZlF4Jts1gmbhVW3xfvG4of7v+1nkoMqYdX5P4tTyt5r
-         6WD8vZgyJ54jXajVqdccsVM67U0ubYYMC/BQT8eFuO44diqaWpB/BP8RyqUHtXu52rLQ
-         /FsQ==
+        bh=T612ryKrlD1lLpjfSdxqiGKjKbEdGbmwSDBv0V/5m2o=;
+        b=e1OT888TYWUQicKCq51ezmu9FFsHqXwfCeu3fDOOV0j4VpUjK7tovGzjdV1pTyw9oD
+         uwKYg5EFFt35zRQhzIe6HK5Gm9d28EMMwqZo7CgMAEKNdqq0EtI6YA5j+wpOB2b7Me1m
+         EqpHWc7air6NKxTLxnZJgxLVABaE8Sfzd1P/2two/NXBF5dfrB//KwXinMO9C7mfnLk0
+         ODCxDRD70fYIOiYUoWS8aGZwrGZ4brQ1BrFr34EAYKLgBuvrJzvZMWlC/i6u8/8JT4pK
+         2UHrk5uaxDuBGNOlV9k+Ry19uFM2Y0I3fVflnkHbCdZR59SIgC51l65lzHF92kXVe4jt
+         htqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713932898; x=1714537698;
+        d=1e100.net; s=20230601; t=1713933719; x=1714538519;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=R8Fs3EjOdj6derBzQe4RlSevlHJghueWR0mNYiVQCo8=;
-        b=SP/7Ar8qExsGCprYQR31k1M6RX9PiynfQmZfTmHdzmyZUa5WTU4//QWDhLMBB9VCor
-         W9ieEdFgHppC2vP1HK2ob2/Xb9uqU31m1aA7n3pWJYwxGOAR2nW/DFnu+jax/XrmTpff
-         jq1wH0p+iHKlfEZtPIsRtfaE5N6IG0HNQf7obeVKv9iJTkLI2OF+fbuxPHAAKzm2XYMJ
-         FCX7j55GjUfH1iHmn2lx6XqGPxutDOXRkaQiJBgdxlPaVxdWh7hR7a8EvHHK6TsZKqJb
-         EeIVyxuhBn140wHKnpSnkUpKZHGgZ30TQLCTGcFE/YmDAmK6wCVoBtoZ3vAHOcdT8jD4
-         MqdA==
-X-Forwarded-Encrypted: i=1; AJvYcCU5W40K64WZ3WHkGYG1mcDwfHhqBq5pXkO12InmZtgm+im3fjqyhF7QnLjWTY3LW6eX9GdAmnDdnv1sn+OcIregnIM4WBp4bUeJe2A=
-X-Gm-Message-State: AOJu0YxVyu/vCE1MN6cgz8Z10aie7LmWv7e2FPwCjyhJUyxhlUfTGKd1
-	D/8T/a/WxkW6gOn+S5BXEU4treV9CIi1sgXYNyqFq4GyDfF+TDcAd1eOcTkBo6k=
-X-Google-Smtp-Source: AGHT+IHhibC5y0u82AOKA3V0ahASy6QI1S46tkSYPwpI/AUogp7DUC0A/o5LtZczFgCVrCna43jbXg==
-X-Received: by 2002:a17:906:d206:b0:a4d:fcc9:905c with SMTP id w6-20020a170906d20600b00a4dfcc9905cmr657577ejz.20.1713932898280;
-        Tue, 23 Apr 2024 21:28:18 -0700 (PDT)
+        bh=T612ryKrlD1lLpjfSdxqiGKjKbEdGbmwSDBv0V/5m2o=;
+        b=erMB1IH2WKbsEaKkH4u2IWA8hQO4YbGK26VLkv7b8JoRkSsnXMJoOVI53woYB/3s8o
+         A7yzyhXhPnMaOeItMbYBbhX75aKGvlCoEBU7FWafXJ632p1RAyzHIVz0tv3G9tyf3T7w
+         J4Q2xW2EEjoOK8t0h1GKoM9ZQExoUgHSJfmASwfkMSdhSHCx9n/4AtWLXML52mhk1knZ
+         qwL15CsSbcjg3GA34w0Vgltv06teb7oSZrC59ptgvN3EDCGVvAuV9ZfuEGEtrzIj/qGW
+         mdABMMR4OzwxBaZ0RFL0w/2UjEWcXR1tqe3dQV7qJc61kgqnkiMpBj46IBae3sddXAnq
+         S/VQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVk3a7glcvD2lAdlQRY/PW/dTAlwf1wezXVJsC4WcuTsXRSPPDEZUm4Z+WUk5FDI6imZPlI3oF4PSclDZwHn0+q4ezOAJ1AKErFymE=
+X-Gm-Message-State: AOJu0YyPBDOJ6rh64mykaD38IgQvulHsifmc1Xe73JM4x6Y4t9kbifVD
+	BaPGyKxD4/Zx1wBpAyN8PMCpBcu76TPDG6xdEfk5gWssP7Lu4Zouxs77B9dpClI=
+X-Google-Smtp-Source: AGHT+IEWv2JsYX9rqRAcHeowDL82ULxOjn8wnAPDfjrZp9nCUz2OxSDSf4uSTZAXJ6WLLd6R3+ndew==
+X-Received: by 2002:a05:6402:c05:b0:570:1fc5:72f6 with SMTP id co5-20020a0564020c0500b005701fc572f6mr4650224edb.0.1713933718812;
+        Tue, 23 Apr 2024 21:41:58 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id bb6-20020a1709070a0600b00a55b020a821sm3841045ejc.13.2024.04.23.21.28.16
+        by smtp.gmail.com with ESMTPSA id g1-20020aa7c841000000b0056e718795f8sm7351315edt.36.2024.04.23.21.41.57
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Apr 2024 21:28:17 -0700 (PDT)
-Message-ID: <7d08f521-bdc9-4122-a636-a0a2c5bc328b@linaro.org>
-Date: Wed, 24 Apr 2024 06:28:15 +0200
+        Tue, 23 Apr 2024 21:41:58 -0700 (PDT)
+Message-ID: <1d2412d5-a05d-4d1e-8d50-53a068b90931@linaro.org>
+Date: Wed, 24 Apr 2024 06:41:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -62,24 +62,18 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/6] dt-bindings: iio: light: stk33xx: add vdd and leda
- regulators
-To: Aren Moynihan <aren@peacevolution.org>,
- Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+Subject: Re: [PATCH 4/4] arm: dts: allwinner: drop underscore in node names
+To: Rob Herring <robh@kernel.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, Ondrej Jirman <megi@xff.cz>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- linux-iio@vger.kernel.org, phone-devel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Samuel Holland <samuel@sholland.org>, Corentin Labbe <clabbe@baylibre.com>,
+ Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- Willow Barraco <contact@willowbarraco.fr>
-References: <20240423223309.1468198-2-aren@peacevolution.org>
- <20240423223309.1468198-3-aren@peacevolution.org>
+ linux-kernel@vger.kernel.org
+References: <20240317184130.157695-1-krzysztof.kozlowski@linaro.org>
+ <20240317184130.157695-4-krzysztof.kozlowski@linaro.org>
+ <CAL_JsqJfT-jui5P56CO4Fr37kr5iNN8dpxt8ecKeFmdVGnRYbA@mail.gmail.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Language: en-US
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -126,20 +120,36 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240423223309.1468198-3-aren@peacevolution.org>
+In-Reply-To: <CAL_JsqJfT-jui5P56CO4Fr37kr5iNN8dpxt8ecKeFmdVGnRYbA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 24/04/2024 00:33, Aren Moynihan wrote:
-> stk3310 and stk3311 are typically connected to power supplies for the
-> chip (vdd) and the infrared LED (leda). Add properties so we can power
-> these up / down appropriately.
+On 23/04/2024 23:23, Rob Herring wrote:
+> On Sun, Mar 17, 2024 at 1:41 PM Krzysztof Kozlowski
+> <krzysztof.kozlowski@linaro.org> wrote:
+>>
+>> Underscores should not be used in node names (dtc with W=2 warns about
+>> them), so replace them with hyphens.  Use also generic name for pwrseq
+>> node, because generic naming is favored by Devicetree spec.  All the
+>> clocks affected by this change use clock-output-names, so resulting
+>> clock name should not change.  Functional impact checked with comparing
+>> before/after DTBs with dtx_diff and fdtdump.
+>>
+>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > 
-> Signed-off-by: Aren Moynihan <aren@peacevolution.org>
-> ---
+> This adds warnings:
 > 
+> 13  prcm@1f01400: 'ahb0-clk', 'apb0-clk', 'apb0-gates-clk',
+> 'apb0-rst', 'ar100-clk', 'ir-clk' do not match any of the regexes:
+> '^.*_(clk|rst)$', 'pinctrl-[0-9]+'
+> 
+> Since we documented it with underscores, I'd say just leave these at
+> least until if/when we define some standard names. I'd prefer we spend
+> time reducing warnings from the common schema. I'm looking at
+> root-node.yaml. simple-bus.yaml generates a lot too.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Uh, this was already picked up. I will send patch for schema, thanks for
+the report.
 
 Best regards,
 Krzysztof
