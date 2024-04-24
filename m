@@ -1,118 +1,143 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC33515EFDB
-	for <linux-sunxi@lists.linux.dev>; Wed, 24 Apr 2024 15:21:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C8D715FA7D
+	for <linux-sunxi@lists.linux.dev>; Wed, 24 Apr 2024 15:36:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713972081; cv=none; b=CDGG1Ahuu8xKI/IT0F/SdvNxXzKgIjZSnN9SNYfufbW23QtQpLFeeMBgzD9N85k2mzh7rWHf0E9lZmaPEgcDfu5jR4KachURPCYKajxDqxaxM1dRMeeihe1KHpcmOK6pE8M+3N0DQOtU80gmjCb7BDDuwJsfX+5b127WUNU8NMo=
+	t=1713972986; cv=none; b=duTtINc1q7EyS6gRuY4W+EbYAsvRsU5anz0y3QCB4wUGdaAXqh9jCODJIFTvv1g0WsGwbFx9WjvhZB522F8p0ydSHspLQehQZKxJ+wPk7fJgfHetl4sO7aWNW8X9iNPZnoAyP553tVse4j/jBg6VyGkDNCS814K32Mickuml8vg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713972081; c=relaxed/simple;
-	bh=die5GEdR93SZJIrj+6mbvz6RS0d1bUoi/TXLw5RP8dI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=K5+nVxqiPT/AU8ow28gJ2Id69QLVwshDhULOHMhHfQnuexEENCDRAJX5V5EOF20PTOJwactcqZsqoD72p/W0UeO/gBK1P3Kc36Eu0TFG6YciTF1uUOQwvpjlTCyS5UeQliXiHEWyPoFYMJumAGJbL+zMKv+JWT7kqYUJdqEZIJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=meMwpUFd; arc=none smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1713972986; c=relaxed/simple;
+	bh=H/kqbfAVoGFvlhHgdIzd+BSw/1qG8jsiW3DecnDx3PQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cHNlEgmB8q3kbtrQ6legPvlpmZ0yT9WGyLslG0gWuoT4iYi1WzMExxEeK7RmsgnkoVhlaYuFL/188Xf6qVIcJp74+jFhkDewg9ZJb85NyxyO+Qprfez+lVYf2F799UU5S9TWIMEzemcIz34S2RWAGbfFutmbRQRuw+UY7hIeSvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=dJ5YV0h/; arc=none smtp.client-ip=209.85.128.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="meMwpUFd"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-56e37503115so6156940a12.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 24 Apr 2024 08:21:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="dJ5YV0h/"
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-61b3be24dd9so517067b3.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 24 Apr 2024 08:36:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713972078; x=1714576878; darn=lists.linux.dev;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Xmbep3Wj2edBDGZAic+hg2xj7nE0C73pjSQNpMAXt4k=;
-        b=meMwpUFd8xs8OlgrDaqlyGAlRr1WYBuB6XTyJUCK2seZtYZj/sVDoG7nHcDi+bcWiC
-         4+3HVSFnXuvkN/pmciCHKJJKeLDzYuOG/XPiGSZIrJqz8NulFo0rnkNrUo7nGVapH9pD
-         IoycWWw133y5phpfjSUdbaEuMh3goJNpfvdbVR2tvOKyBIkDR+RG5xhXL9Tk65HxvOzh
-         JJlqVbgy0nDY+Gf9FWYe34BY8l5PDCRNlPb+cBhhtaYl+54fdrPLicRJPfxTwDu8nM7u
-         LHYo2rTCDOICOTG+kEUvNV4pDk/HyqqcL9ToDWT2tA6wXPqqJggeKeEq6w/UqqU/a1lD
-         rDvg==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1713972982; x=1714577782; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=UOeTFyyci3z7BUZ6gEboB6kicq7JHa28+x4pg4U/L9Q=;
+        b=dJ5YV0h/rZUN2VCfrSqppogDjRFbZo0//t9FDS9zm1LDReU2M7fBcXu1DNK0CmOj9d
+         1KiuPKplQZvpOFp8UAZhyPZAaZyizfTcswzY1gvRS2AcCXxim8u7RLZPPwMm+2ApTy7p
+         iWWBVSz1dbrz49/Wi+5eum5xv9DyXBtOGc0pWvbHHolb16qW1mAj/YA3JcqJeRcaRVt/
+         CCNBL76NShzNx1qgISsL2XJrmTWRhtqON5mwy3D4Cmlqwl0Zt0XaBwUcbFiLzc5O/WtE
+         +IAteyAmopiP8KQaUOnO5Tr/SIfW5OD8JmHKmXRXbrr4EvSmFnSNgVAfMIio74B1P2aY
+         XPNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713972078; x=1714576878;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Xmbep3Wj2edBDGZAic+hg2xj7nE0C73pjSQNpMAXt4k=;
-        b=ElKCrupHhydiGy3lODmpWNY3K8H4Zy6szIB3Q40vj1/w90T/IUM6/sUoM5sMW6s3S7
-         k0eqmrrmFNbhu5fiX5U2PUdy7BRFckt/ZU5GzK9Eo1dSj92PaISC1+q/wUkcnK8ur2VH
-         l7Th8culZ1/GxcL8pogGlaiAUuegcdpIyCU/Lat6mIcj4cs7Lz+wVoleGm3oO06+hJIp
-         9wsnYe9WceP+inCNEuTzeHyxKk+/v40hXjwBrLSpn8P3/41FW4mRY1TNhit2erKK773M
-         1fJEtRd+s7OuhMy0xkdvNbolaC8ZIQ0Q/qjRKHBQHDgDHGBvZ3oPXs44iXRE2zSgfdkA
-         NoUQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUCX4hF4bMiLaahThpq0PVfKTDKRW3C5hubwXu+KvONJsKfsutKMaKTYHhvvDFGyoFleTE/LAyz/x/XIGB85DvrIxSx5OkhATtJUnY=
-X-Gm-Message-State: AOJu0YyLW99fszaVHO5vIpfdAO43Su9aEfz+8lTPsxIBYYF+fwuAoUyC
-	u/Q7G/jxCmEp2A37k/Je7DwEg7G2iXKvkkOME/ApR+RK58TldkSs0AZC8078M4vhwrWYrOVagnp
-	TCQM4qYM3A2C7X0hLi1X2e0Mzin4=
-X-Google-Smtp-Source: AGHT+IGQUEPZE3TBNrB7jm9cFv207FSC0kpyhsF+3dnUvHUba9LKAV3qWkn9Wz5L3PgDviOeIm6K6r9u4HEv/wd6LO4=
-X-Received: by 2002:a17:906:308c:b0:a51:8d60:215a with SMTP id
- 12-20020a170906308c00b00a518d60215amr1836143ejv.27.1713972077907; Wed, 24 Apr
- 2024 08:21:17 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1713972982; x=1714577782;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UOeTFyyci3z7BUZ6gEboB6kicq7JHa28+x4pg4U/L9Q=;
+        b=b9Yu8NkjqNH7LnBj1xLs3oDt4a7sSyt8iPc52xIf7ljquK8eheUL8vMovkr2psmwqJ
+         gynahc1w/LslGyXvE61uZuHx3TJM3qm6yXG4A9F8OfVfQVbZAcQ9OGXdmcMH3iktF1Sd
+         gnvAJJZb0L/YYAO3D4Lwa9MFH4eydZfOBGdaQOdjIYpEONPz48q8lHMCNEIwea/kMjNb
+         ejJ1owK/DbAXhDSg3GdxjoNhKn8cQFx2jYOo2MWdbG/aW8qiKj8zUMmw/UOSHnN47yEo
+         H4nqu7dzTGeR69VINb/8ZYghxhO1bPXQ7sZ0TWdhs7xU+F32X/9vyvC0FADKOe9Mh+UN
+         g/Ug==
+X-Forwarded-Encrypted: i=1; AJvYcCVkgLTEPGsfsDQrkiXkgpguaEoB8DHW0x1GsIwW5wU9a08V4zfmmdW8rz/mkE2xqPFhBREPtU12hrmOYGpBXZcFMTU0GmvyrLtiC6I=
+X-Gm-Message-State: AOJu0YySE71l16FvAeAFibQ9dLSoP/Mv257XDc2xMv95ZaZmY6jMcB7a
+	8TLl3PFb/X1Zm9WsNOZGXUAxyH/dwQcQ4pXOgd7zqZRJzfGaOyRIjBZLdLCdCuc=
+X-Google-Smtp-Source: AGHT+IGUqY1hEYLyvR7VYD34HR40H5BCTS3NDhpEtJYnVydiqbsmxy3Dkl9KuCGBuZqe3HcyqLC03w==
+X-Received: by 2002:a0d:cc12:0:b0:618:88d1:f15f with SMTP id o18-20020a0dcc12000000b0061888d1f15fmr73152ywd.0.1713972982354;
+        Wed, 24 Apr 2024 08:36:22 -0700 (PDT)
+Received: from ghost ([50.146.0.2])
+        by smtp.gmail.com with ESMTPSA id j82-20020a819255000000b0061ad72dd577sm2417745ywg.112.2024.04.24.08.36.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Apr 2024 08:36:21 -0700 (PDT)
+Date: Wed, 24 Apr 2024 11:36:19 -0400
+From: Charlie Jenkins <charlie@rivosinc.com>
+To: Conor Dooley <conor@kernel.org>
+Cc: Alexandre Ghiti <alex@ghiti.fr>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Evan Green <evan@rivosinc.com>,
+	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v3 06/17] riscv: Fix extension subset checking
+Message-ID: <Zikm80mmHFYoaAOF@ghost>
+References: <20240420-dev-charlie-support_thead_vector_6_9-v3-0-67cff4271d1d@rivosinc.com>
+ <20240420-dev-charlie-support_thead_vector_6_9-v3-6-67cff4271d1d@rivosinc.com>
+ <6c624361-a968-498b-a9fb-ea2aaec70ce8@ghiti.fr>
+ <20240424-wildly-goofy-c81aac6f8cd7@spud>
+ <ZikhpEgEoMX/rObu@ghost>
+ <20240424-gondola-cosmic-b7a02b2a8619@spud>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240423223309.1468198-2-aren@peacevolution.org>
- <20240423223309.1468198-4-aren@peacevolution.org> <CAHp75VeRDSPvpmSbUyZPp0RMoTOE193U2ma18qxv_qZQKLCq8g@mail.gmail.com>
- <5qqil7ltqhdeabml6toqpcy773uhjxgwaz3txpy4kv4sz55o2y@hmar674eey7s>
-In-Reply-To: <5qqil7ltqhdeabml6toqpcy773uhjxgwaz3txpy4kv4sz55o2y@hmar674eey7s>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Wed, 24 Apr 2024 18:20:41 +0300
-Message-ID: <CAHp75VdR9HtWbSif+j8QHX5zG9xPF1GzUFY2s-0OjD3RAWD9-Q@mail.gmail.com>
-Subject: Re: [PATCH v2 2/6] iio: light: stk3310: Implement vdd supply and
- power it off during suspend
-To: =?UTF-8?Q?Ond=C5=99ej_Jirman?= <megi@xff.cz>, 
-	Andy Shevchenko <andy.shevchenko@gmail.com>, Aren Moynihan <aren@peacevolution.org>, 
-	Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
-	linux-iio@vger.kernel.org, phone-devel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	Willow Barraco <contact@willowbarraco.fr>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240424-gondola-cosmic-b7a02b2a8619@spud>
 
-On Wed, Apr 24, 2024 at 3:59=E2=80=AFPM Ond=C5=99ej Jirman <megi@xff.cz> wr=
-ote:
-> On Wed, Apr 24, 2024 at 02:16:06AM GMT, Andy Shevchenko wrote:
-> > On Wed, Apr 24, 2024 at 1:41=E2=80=AFAM Aren Moynihan <aren@peacevoluti=
-on.org> wrote:
+On Wed, Apr 24, 2024 at 04:21:05PM +0100, Conor Dooley wrote:
+> On Wed, Apr 24, 2024 at 11:13:40AM -0400, Charlie Jenkins wrote:
+> > On Wed, Apr 24, 2024 at 03:51:54PM +0100, Conor Dooley wrote:
+> > > On Wed, Apr 24, 2024 at 04:22:02PM +0200, Alexandre Ghiti wrote:
+> > > > Hi Charlie,
+> > > > 
+> > > > On 21/04/2024 03:04, Charlie Jenkins wrote:
+> > > > > This loop is supposed to check if ext->subset_ext_ids[j] is valid, rather
+> > > > > than if ext->subset_ext_ids[i] is valid, before setting the extension
+> > > > > id ext->subset_ext_ids[j] in isainfo->isa.
+> > > > > 
+> > > > > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> > > > > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> > > > > Fixes: 0d8295ed975b ("riscv: add ISA extension parsing for scalar crypto")
+> > > > > ---
+> > > > >   arch/riscv/kernel/cpufeature.c | 2 +-
+> > > > >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > > 
+> > > > > diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
+> > > > > index 48874aac4871..b537731cadef 100644
+> > > > > --- a/arch/riscv/kernel/cpufeature.c
+> > > > > +++ b/arch/riscv/kernel/cpufeature.c
+> > > > > @@ -609,7 +609,7 @@ static int __init riscv_fill_hwcap_from_ext_list(unsigned long *isa2hwcap)
+> > > > >   			if (ext->subset_ext_size) {
+> > > > >   				for (int j = 0; j < ext->subset_ext_size; j++) {
+> > > > > -					if (riscv_isa_extension_check(ext->subset_ext_ids[i]))
+> > > > > +					if (riscv_isa_extension_check(ext->subset_ext_ids[j]))
+> > > > >   						set_bit(ext->subset_ext_ids[j], isainfo->isa);
+> > > > >   				}
+> > > > >   			}
+> > > > > 
+> > > > 
+> > > > I think this should go into -fixes, let's check with Palmer if he wants to
+> > > > take this patch only or if you should send the patch on its own.
+> > > 
+> > > I think splitting out this and patch 1 into a new series targeting fixes
+> > > would probably make things clearer?
+> > 
+> > Okay I can do that. I will give it a bit more time before I send this
+> > series split into two to allow time for the rest of the patches to
+> > gather comments so I avoid sending too many duplicate patches.
+> 
+> Ye, I do hope to get back to this series later in the week when I have
+> time to actually read through all of the patches in detail.
+> 
+> However, you wouldn't have to resend both parts of the series - you can
+> just split out the fixes portion and send that, leaving the rest of the
+> series sitting on the list to gather comments.
 
-...
+Oh cool, I will send those two patches out in their own series then.
 
-> > >         ret =3D stk3310_init(indio_dev);
-> > >         if (ret < 0)
-> > > -               return ret;
-> > > +               goto err_vdd_disable;
-> >
-> > This is wrong. You will have the regulator being disabled _before_
-> > IRQ. Note, that the original code likely has a bug which sets states
-> > before disabling IRQ and removing a handler.
->
-> How so? stk3310_init is called before enabling the interrupt.
+- Charlie
 
-Exactly, IRQ is registered with devm and hence the error path and
-remove stages will got it in a wrong order.
-
-> Original code has a bug that IRQ is enabled before registering the
-> IIO device,
-
-Indeed, but this is another bug.
-
-> so if IRQ is triggered before registration, iio_push_event
-> from IRQ handler may be called on a not yet registered IIO device.
->
-> Never saw it happen, though. :)
-
-Because nobody cares enough to enable DEBUG_SHIRQ.
-
---=20
-With Best Regards,
-Andy Shevchenko
