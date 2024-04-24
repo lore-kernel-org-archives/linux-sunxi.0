@@ -1,90 +1,114 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FFA01422AF
-	for <linux-sunxi@lists.linux.dev>; Wed, 24 Apr 2024 15:53:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B60B7161326
+	for <linux-sunxi@lists.linux.dev>; Wed, 24 Apr 2024 16:14:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713973993; cv=none; b=shpI6HKoTwnRdA6pb+NgWa5CMjFvGGAlswLqbYKTOXvdhPTxr+yA7r7cdqCDCvyU+DZpGPYb7p7nyjRAMfJhI07GmAgku2SwyQt1lQTENQ8MAUV6iHgp0fs/brEsMR++2JC4MsfWYhsV18BIp7cBMTfbg+UcW9lbJ5MVJpjksRI=
+	t=1713975256; cv=none; b=KsEvxqAJW52DRQKa4E7lD6iMbFCsy5cHW+wenSY1Nuomq3m3HyyW35uTFoO3ZEapoNaxf3u8I1TsdLhpkMzNcb/m9sRGXszQ13IBjWh89ItGz+YnLlZX0hVnDYgz6PgZANh349++pflSctQOdlsGsSqwt222qrgeHHsvwkbJg8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713973993; c=relaxed/simple;
-	bh=cqQlTJYlnxpdMp1tQKkUwfXxp9N7FIOvRmzCX75X7js=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LlpxOscILPTWY2s9vNkcCHF2ImJbJMwV48J7ju6t8kJESXBhfdhguXx3I6xh4lSxbKJz7BkE2ongSAM0PAjrB481lfuY7FuCw9PSXT2fdm8eiV+PrU4lFLA0INuV17u7MCBc4k4tln+kX5WogFfh5eGHRI9nEXrXIJRwPh2Y8Gc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 709531063;
-	Wed, 24 Apr 2024 08:53:39 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1D0143F73F;
-	Wed, 24 Apr 2024 08:53:10 -0700 (PDT)
-Date: Wed, 24 Apr 2024 16:53:07 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Yangtao Li <tiny.windzz@gmail.com>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, Chen-Yu Tsai
- <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>, linux-pm@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] cpufreq: sun50i: fix error returns in
- dt_has_supported_hw()
-Message-ID: <20240424165307.16f45b21@donnerap.manchester.arm.com>
-In-Reply-To: <9bfe5703-b39b-4d98-9995-f6a7d0ea558d@moroto.mountain>
-References: <9bfe5703-b39b-4d98-9995-f6a7d0ea558d@moroto.mountain>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1713975256; c=relaxed/simple;
+	bh=A6NNMZIxwRDoaqJP/sVaKEK1Sqp369lZtQwhGk7s/xk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sesQFRrhsg8bJ+BlkG+TDGvQNsEs7L6IjUusb92uC/Gge2qAhBiPX3EyGFyI/YdaW1UszR2+PZs5fJFZ/lWPgiyyJZL/ML+x/E+g38kdHOcTd3wFiBdHLUeZ7/BA/NYbdCAiM2xvnCXc9mM7vRFroZNWChp9OPi3WDlgU7B72EM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=AV16uSg1; arc=none smtp.client-ip=195.181.215.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="AV16uSg1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
+	t=1713975251; bh=A6NNMZIxwRDoaqJP/sVaKEK1Sqp369lZtQwhGk7s/xk=;
+	h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
+	b=AV16uSg1wFnhhvZ4t52YPzs2VQRUqhd4lB5Bvib4MOLVgu2EzYQZUZbn+LF1IN4nm
+	 xqH7wwuUVHdQmNDONHXeErqKyB+ICIo3BA6DSSrQsHn0Xub7zsvxqEjCd8iKzKp1Ob
+	 ux/KQ/cWf9JiNaLdYggxsWhVALFmPpGN/r7Fl+js=
+Date: Wed, 24 Apr 2024 18:14:10 +0200
+From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Aren Moynihan <aren@peacevolution.org>, 
+	Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, linux-iio@vger.kernel.org, phone-devel@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	Willow Barraco <contact@willowbarraco.fr>
+Subject: Re: [PATCH v2 2/6] iio: light: stk3310: Implement vdd supply and
+ power it off during suspend
+Message-ID: <xxbwdl6ebvut3u7qhzfy65e4eheixghqe7yn4qemyuowxyxj5a@r2wa2b7bhw2x>
+Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, 
+	Andy Shevchenko <andy.shevchenko@gmail.com>, Aren Moynihan <aren@peacevolution.org>, 
+	Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, linux-iio@vger.kernel.org, phone-devel@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	Willow Barraco <contact@willowbarraco.fr>
+X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
+ <https://xff.cz/key.txt>
+References: <20240423223309.1468198-2-aren@peacevolution.org>
+ <20240423223309.1468198-4-aren@peacevolution.org>
+ <CAHp75VeRDSPvpmSbUyZPp0RMoTOE193U2ma18qxv_qZQKLCq8g@mail.gmail.com>
+ <5qqil7ltqhdeabml6toqpcy773uhjxgwaz3txpy4kv4sz55o2y@hmar674eey7s>
+ <CAHp75VdR9HtWbSif+j8QHX5zG9xPF1GzUFY2s-0OjD3RAWD9-Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHp75VdR9HtWbSif+j8QHX5zG9xPF1GzUFY2s-0OjD3RAWD9-Q@mail.gmail.com>
 
-On Wed, 24 Apr 2024 14:40:11 +0300
-Dan Carpenter <dan.carpenter@linaro.org> wrote:
-
-Hi Dan,
-
-thanks for having a look!
-
-> The dt_has_supported_hw() function returns type bool.  That means these
-> negative error codes are cast to true but the function should return
-> false instead.
-
-Ouch, of course! I refactored the function during development, but missed
-that part.
-
-> Fixes: fa5aec9561cf ("cpufreq: sun50i: Add support for opp_supported_hw")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-
-Thanks,
-Andre
-
-> ---
->  drivers/cpufreq/sun50i-cpufreq-nvmem.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+On Wed, Apr 24, 2024 at 06:20:41PM GMT, Andy Shevchenko wrote:
+> On Wed, Apr 24, 2024 at 3:59 PM Ondřej Jirman <megi@xff.cz> wrote:
+> > On Wed, Apr 24, 2024 at 02:16:06AM GMT, Andy Shevchenko wrote:
+> > > On Wed, Apr 24, 2024 at 1:41 AM Aren Moynihan <aren@peacevolution.org> wrote:
 > 
-> diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-> index cd50cea16a87..0b882765cd66 100644
-> --- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-> +++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-> @@ -136,11 +136,11 @@ static bool dt_has_supported_hw(void)
->  
->  	cpu_dev = get_cpu_device(0);
->  	if (!cpu_dev)
-> -		return -ENODEV;
-> +		return false;
->  
->  	np = dev_pm_opp_of_get_opp_desc_node(cpu_dev);
->  	if (!np)
-> -		return -ENOENT;
-> +		return false;
->  
->  	for_each_child_of_node(np, opp) {
->  		if (of_find_property(opp, "opp-supported-hw", NULL)) {
+> ...
+> 
+> > > >         ret = stk3310_init(indio_dev);
+> > > >         if (ret < 0)
+> > > > -               return ret;
+> > > > +               goto err_vdd_disable;
+> > >
+> > > This is wrong. You will have the regulator being disabled _before_
+> > > IRQ. Note, that the original code likely has a bug which sets states
+> > > before disabling IRQ and removing a handler.
+> >
+> > How so? stk3310_init is called before enabling the interrupt.
+> 
+> Exactly, IRQ is registered with devm and hence the error path and
+> remove stages will got it in a wrong order.
 
+Makes no sense. IRQ is not enabled here, yet. So in error path, the code will
+just disable the regulator and devm will unref it later on. IRQ doesn't enter
+the picture here at all in the error path.
+
+> > Original code has a bug that IRQ is enabled before registering the
+> > IIO device,
+> 
+> Indeed, but this is another bug.
+> 
+> > so if IRQ is triggered before registration, iio_push_event
+> > from IRQ handler may be called on a not yet registered IIO device.
+> >
+> > Never saw it happen, though. :)
+> 
+> Because nobody cares enough to enable DEBUG_SHIRQ.
+
+Nice debug tool. I bet it makes quite a mess when enabled. :)
+
+Kind regards,
+	o.
+
+> -- 
+> With Best Regards,
+> Andy Shevchenko
