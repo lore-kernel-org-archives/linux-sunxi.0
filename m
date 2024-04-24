@@ -1,101 +1,146 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC0437FF
-	for <linux-sunxi@lists.linux.dev>; Wed, 24 Apr 2024 00:18:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E13913B5A6
+	for <linux-sunxi@lists.linux.dev>; Wed, 24 Apr 2024 04:28:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713917914; cv=none; b=YsYj5J+xvvyKvSD4AaVQAlmMWPDhKLdUPaPdfAyfNbFlHUprOTIu73GOm+Ph6gYzdYbqx7RseaOYGQzu9i9iqZs1fj2BCvUXC+MRye5VdtP3Vb4taFJVm+pd/nI4WQzUP+BOl+JDifbFZAHQXUIKy/295ZUWFIedEAgmZBDQs0U=
+	t=1713932901; cv=none; b=atJs35HFyVy9jd/2QS2qEWtI5blPLaWMFmRyIqP/6TtigqSP5gmSD1IE5P8oqbQSE4g7bJRNSinDl5244x8F8sKZQC1NLvnZ6mx6UwdOxCNtGly9Eja9OG7h9CHdx9sJ5gfDZQZ4OeNNADBjQSES7k0caS21U7IkaxNKItxzY3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713917914; c=relaxed/simple;
-	bh=/si1hQZ6xgY+33rgQKNe6hEDtbU8unAt6GDsbxNB12k=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=lNYlcrdyk7F5ayPL9ag/zKJK0KqofD/xW8Kanc3hFXXr9sCSXAQFsRcvquAqowvWfbtDYtMAooxTppG/sagMpFBnQ75h1dpDs8RO62HW8tAFHGQfwC/Mxv1IjFuPOBzAn99AVseS/NpuRx8+e004hwj6BTjJo2lrMCK9FMy3b9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EF948339;
-	Tue, 23 Apr 2024 17:18:58 -0700 (PDT)
-Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7D9493F7BD;
-	Tue, 23 Apr 2024 17:18:30 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Cc: u-boot@lists.denx.de,
-	linux-sunxi@lists.linux.dev,
-	Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-Subject: [PATCH 4/4] sunxi: H616: add Tanix TX1 support
-Date: Wed, 24 Apr 2024 01:18:08 +0100
-Message-Id: <20240424001808.14388-5-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.35.8
-In-Reply-To: <20240424001808.14388-1-andre.przywara@arm.com>
-References: <20240424001808.14388-1-andre.przywara@arm.com>
+	s=arc-20240116; t=1713932901; c=relaxed/simple;
+	bh=K2uPx8Z39cowyd3CKs/kv0/GPxaVvKugF3Okmkjpnuw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OxKcZiCv5yzFd9Y2NPy0VHY8DY1LrFmX57mwE6IjUlJTnVL0FISl7d3W/GVwojjyNjIbehhinJnHBeAsSAfLkHKQMwPxz7WzLmxAgwGC/5rZ6M9B2JYWpYdvSlYxg/DVnKX0NQo0+GGtnN2EiKu5tUHrE+K6ETTBcBCZwIs9oWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JP1SzHBH; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JP1SzHBH"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a58989cd1f8so2450266b.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 23 Apr 2024 21:28:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1713932898; x=1714537698; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=R8Fs3EjOdj6derBzQe4RlSevlHJghueWR0mNYiVQCo8=;
+        b=JP1SzHBH+NkCpaOlmE8DpLpdOB/wWMrmLVjC1c5T5tXaoK/lRX0JcIww8SNA85DQ0C
+         MEb5SwKMJwmhTklncWN/WhSXwqU4QKSKIbJvVLv0X5JEn3AQwgStdHPOTL47Ph4vC8fY
+         nQCpGp6jiA+7pzcVFht1lLaOftB8yCumKxnHOgqOfRqSWkk/gJ1QLpfdRAq4oppKQk2v
+         7jClANCUTVi8say07vbyYavnSZlF4Jts1gmbhVW3xfvG4of7v+1nkoMqYdX5P4tTyt5r
+         6WD8vZgyJ54jXajVqdccsVM67U0ubYYMC/BQT8eFuO44diqaWpB/BP8RyqUHtXu52rLQ
+         /FsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713932898; x=1714537698;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=R8Fs3EjOdj6derBzQe4RlSevlHJghueWR0mNYiVQCo8=;
+        b=SP/7Ar8qExsGCprYQR31k1M6RX9PiynfQmZfTmHdzmyZUa5WTU4//QWDhLMBB9VCor
+         W9ieEdFgHppC2vP1HK2ob2/Xb9uqU31m1aA7n3pWJYwxGOAR2nW/DFnu+jax/XrmTpff
+         jq1wH0p+iHKlfEZtPIsRtfaE5N6IG0HNQf7obeVKv9iJTkLI2OF+fbuxPHAAKzm2XYMJ
+         FCX7j55GjUfH1iHmn2lx6XqGPxutDOXRkaQiJBgdxlPaVxdWh7hR7a8EvHHK6TsZKqJb
+         EeIVyxuhBn140wHKnpSnkUpKZHGgZ30TQLCTGcFE/YmDAmK6wCVoBtoZ3vAHOcdT8jD4
+         MqdA==
+X-Forwarded-Encrypted: i=1; AJvYcCU5W40K64WZ3WHkGYG1mcDwfHhqBq5pXkO12InmZtgm+im3fjqyhF7QnLjWTY3LW6eX9GdAmnDdnv1sn+OcIregnIM4WBp4bUeJe2A=
+X-Gm-Message-State: AOJu0YxVyu/vCE1MN6cgz8Z10aie7LmWv7e2FPwCjyhJUyxhlUfTGKd1
+	D/8T/a/WxkW6gOn+S5BXEU4treV9CIi1sgXYNyqFq4GyDfF+TDcAd1eOcTkBo6k=
+X-Google-Smtp-Source: AGHT+IHhibC5y0u82AOKA3V0ahASy6QI1S46tkSYPwpI/AUogp7DUC0A/o5LtZczFgCVrCna43jbXg==
+X-Received: by 2002:a17:906:d206:b0:a4d:fcc9:905c with SMTP id w6-20020a170906d20600b00a4dfcc9905cmr657577ejz.20.1713932898280;
+        Tue, 23 Apr 2024 21:28:18 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.223.16])
+        by smtp.gmail.com with ESMTPSA id bb6-20020a1709070a0600b00a55b020a821sm3841045ejc.13.2024.04.23.21.28.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 Apr 2024 21:28:17 -0700 (PDT)
+Message-ID: <7d08f521-bdc9-4122-a636-a0a2c5bc328b@linaro.org>
+Date: Wed, 24 Apr 2024 06:28:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/6] dt-bindings: iio: light: stk33xx: add vdd and leda
+ regulators
+To: Aren Moynihan <aren@peacevolution.org>,
+ Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, Ondrej Jirman <megi@xff.cz>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ linux-iio@vger.kernel.org, phone-devel@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ Willow Barraco <contact@willowbarraco.fr>
+References: <20240423223309.1468198-2-aren@peacevolution.org>
+ <20240423223309.1468198-3-aren@peacevolution.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Language: en-US
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240423223309.1468198-3-aren@peacevolution.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The Tanix TX1 is a tiny TV box, featuring the Allwinner H313 SoC with up
-to 2GB of DRAM and 16GB of eMMC. There is no SD card or Ethernet port on
-this small device, but it can be booted via the USB debug "FEL" mode.
-The bootloader could then be written to the eMMC.
+On 24/04/2024 00:33, Aren Moynihan wrote:
+> stk3310 and stk3311 are typically connected to power supplies for the
+> chip (vdd) and the infrared LED (leda). Add properties so we can power
+> these up / down appropriately.
+> 
+> Signed-off-by: Aren Moynihan <aren@peacevolution.org>
+> ---
+> 
 
-Add the defconfig for that board, and add the devicetree file to the
-Makefile, for it to be built.
-The DRAM parameters were taken from the vendor firmware on the eMMC.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- arch/arm/dts/Makefile       |  1 +
- configs/tanix_tx1_defconfig | 25 +++++++++++++++++++++++++
- 2 files changed, 26 insertions(+)
- create mode 100644 configs/tanix_tx1_defconfig
-
-diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
-index 127345975ef..69b0d6a9ad7 100644
---- a/arch/arm/dts/Makefile
-+++ b/arch/arm/dts/Makefile
-@@ -779,6 +779,7 @@ dtb-$(CONFIG_MACH_SUN50I_H6) += \
- 	sun50i-h6-tanix-tx6.dtb \
- 	sun50i-h6-tanix-tx6-mini.dtb
- dtb-$(CONFIG_MACH_SUN50I_H616) += \
-+	sun50i-h313-tanix-tx1.dtb \
- 	sun50i-h616-orangepi-zero2.dtb \
- 	sun50i-h618-orangepi-zero2w.dtb \
- 	sun50i-h618-orangepi-zero3.dtb \
-diff --git a/configs/tanix_tx1_defconfig b/configs/tanix_tx1_defconfig
-new file mode 100644
-index 00000000000..9915fff4a00
---- /dev/null
-+++ b/configs/tanix_tx1_defconfig
-@@ -0,0 +1,25 @@
-+CONFIG_ARM=y
-+CONFIG_ARCH_SUNXI=y
-+CONFIG_DEFAULT_DEVICE_TREE="sun50i-h313-tanix-tx1"
-+CONFIG_SPL=y
-+CONFIG_DRAM_SUN50I_H616_DX_ODT=0x06060606
-+CONFIG_DRAM_SUN50I_H616_DX_DRI=0x0d0d0d0d
-+CONFIG_DRAM_SUN50I_H616_CA_DRI=0x1919
-+CONFIG_DRAM_SUN50I_H616_ODT_EN=0x9988eeee
-+CONFIG_DRAM_SUN50I_H616_TPR6=0x2fb08080
-+CONFIG_DRAM_SUN50I_H616_TPR10=0x402f4469
-+CONFIG_DRAM_SUN50I_H616_TPR11=0x0e0f0d0d
-+CONFIG_DRAM_SUN50I_H616_TPR12=0x11131213
-+CONFIG_MACH_SUN50I_H616=y
-+CONFIG_SUNXI_DRAM_H616_LPDDR3=y
-+CONFIG_R_I2C_ENABLE=y
-+# CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
-+CONFIG_SPL_I2C=y
-+CONFIG_SPL_SYS_I2C_LEGACY=y
-+CONFIG_SYS_I2C_MVTWSI=y
-+CONFIG_SYS_I2C_SLAVE=0x7f
-+CONFIG_SYS_I2C_SPEED=400000
-+CONFIG_AXP313_POWER=y
-+CONFIG_AXP_DCDC3_VOLT=1200
-+CONFIG_USB_EHCI_HCD=y
-+CONFIG_USB_OHCI_HCD=y
--- 
-2.35.8
+Best regards,
+Krzysztof
 
