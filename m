@@ -1,166 +1,148 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBEBB179AE
-	for <linux-sunxi@lists.linux.dev>; Wed, 24 Apr 2024 18:42:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD3A52C6B9;
+	Wed, 24 Apr 2024 18:46:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713984154; cv=none; b=GdT7rZ+7EEj2mt7SOHm5WS4R/L2e+suPioQtjEtWEZfe8aQpA3sCOzD7HJrLvrN+REfzVuZJHTRp3g2P7dK8Xx3WBEfAV1xdFF2EFRQZXhd7i7x3pLS0SwEsDRs8X2abyw49F3YKnU8UjIl03hPGmCxyZnj9EYdytXeFjC+d6pc=
+	t=1713984375; cv=none; b=RAu54teeD9kAAMaJjGcEuQDZqSZliYuGCOmx793yABGV+HhvNjwfyn1shpKf+9tYl8kyASmqgvCUcaPPA7HqvgCOlVN6RcpVhjw27TaDUHRz/93M4i+bJWx8fjX39f6mjLVxkb7T4an/w4dbEiyCW5X57LnjDTLyiXuiFEpT6gM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713984154; c=relaxed/simple;
-	bh=Itcg+Jd23ZQ0QilHdje/jSd9t3UqWVBHp9CbQrEwRDY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ekXTFcIgRJTYAOecdC1AhAZinbchOnxZ/Sy6qyG4V5aBZj+WvCBaCegDMjZWRBf6zKfBd+ze/EFrCQgXgPgG5hqGVw962WEwOnKfkyj0a/xtsT1KfX1KwlScr/H9ru3CZcrTZN1hSKzPLgX9Y2mmzgQ5kppvMVFM5/IOAOb/R7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iPvb4Fg9; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1713984375; c=relaxed/simple;
+	bh=s3FyBov567J2QGOwzCsWd6sbv2/5L8BTtQKZYmfBE4o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Kapv5xRaYq6NC5/debLv1gpGjjSRG8TmerKjC+tXnxjK/j8vEvXMNmV/2YPU/F/QW5rKHWTg1gaV+TK6hHPYKhAkE/XSRdGt1h5UUj4v2QbCjZshhDYUQ5FqMS7zjdIaQNMAQfP4QPeRZivJp7AuxoFRVFY+XMja82DRhj8AuAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LyWtD7Hh; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iPvb4Fg9"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-571c22d9de4so114283a12.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 24 Apr 2024 11:42:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713984151; x=1714588951; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ol9krzBmTOyIuy1ft27l71rabBxmYrw1+e+89jby570=;
-        b=iPvb4Fg9TurPEfdOJvZdXRqa7VOmPgwzjtSD52l3qDAmUV9zQiVsUK6lNzUmxX5nPR
-         y1GvOthhBrknDCNSB0ZeS4wwLLYkyCieFU7lqEiBRVA7zs/Iv3VCQhoA9rwkzaJXr1m5
-         85llMP9asaVfosVV4fRGJ6UIZfHNn3T0gJF4WKii/GoftYER8gwdhg98EcFOk4L0nijd
-         Vw34APnGzK0iD/6oMDTPzaPQJ132HDpejj84hdAwqEiXEGBfO3pqSqFgoNLEOq8/qY+Q
-         tqxHdgt2+S/Bici7DS3rOtMhKMezu7ULzAQcTcim9o6Ult+HHhy9rSmUtZVSlt/QnB5Z
-         AqOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713984151; x=1714588951;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ol9krzBmTOyIuy1ft27l71rabBxmYrw1+e+89jby570=;
-        b=DTf9QGk3/y6IFL3QwcUsKAC4d+Zj7w6jX7hqbf+OZ9xurL9YV8uqg9sQ56JR2LT/5I
-         G6Ivm8WcGlWqXW/tki7Q3XK/vE98WV1EEJ1JTsA7RabbYU+Z0vp0rkYeZ1dJkAP2ALEy
-         3shYbnmFdbRQCDOqq2mKSfHMNhN6FPQ/eXPKhwQHxotG5bruVVwVSC6DYh/rm69aud2M
-         yH+DQx+T5x+0jaSEvn1B0MsOrB4DFP9A793gwUfTU94f8gTlNwYmasqD2zMI1muDWbFZ
-         I704JVOFx/qMgPK3hIMFaoq/18l6vrND3LF8/wR9cf2MLHufdEwy7GnRbNS3X9O1hUC7
-         QXzg==
-X-Forwarded-Encrypted: i=1; AJvYcCXfgE9RJL+b4qjgR094Llx4od44Td+XKkFMBxIkywo5yMQpktnGeeh28+EqDOWSsCZdL9dO2xJEEGRvDpGT3CgjaM/WH+kqky8TM0g=
-X-Gm-Message-State: AOJu0Yz4Z5EQeEm5bhsi81+kmCi0lCSH0WTv9yC4fB51Z3noBZvQfjKv
-	lib6sHH8P/9ps5qsZLboDReNavgFs+jyglmdzV7/ECgCBVyoZeWE
-X-Google-Smtp-Source: AGHT+IFJqfBO5mQOjDTG16NEhTc1tvbEXpcR5UL3y/xbDmPZLBWl1fVr9z9AG8k1xyje5QaUGr0gWw==
-X-Received: by 2002:a50:9e64:0:b0:566:2f24:b063 with SMTP id z91-20020a509e64000000b005662f24b063mr2220945ede.23.1713984150928;
-        Wed, 24 Apr 2024 11:42:30 -0700 (PDT)
-Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id j2-20020aa7de82000000b005720e083878sm3644714edv.49.2024.04.24.11.42.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Apr 2024 11:42:30 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Ban Tao <fengzheng923@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>, Joao Schim <joao@schimsalabim.eu>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject:
- Re: [PATCH] ASoC: sunxi: DMIC: Add controls for adjusting the mic gains
-Date: Wed, 24 Apr 2024 20:42:29 +0200
-Message-ID: <5772237.DvuYhMxLoT@jernej-laptop>
-In-Reply-To: <20240422150213.4040734-1-joao@schimsalabim.eu>
-References: <20240422150213.4040734-1-joao@schimsalabim.eu>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LyWtD7Hh"
+Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4E133B1;
+	Wed, 24 Apr 2024 20:45:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1713984318;
+	bh=s3FyBov567J2QGOwzCsWd6sbv2/5L8BTtQKZYmfBE4o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LyWtD7HhQFhNcsJLXImxTlEO9zSrnA0XXnPz447uiAF/Ub8UwT4XZ+hvcyDUMkod9
+	 TdsIHxHej3MnvOv6+cPx44pYbMUETYoC3ESpbOJODQu+8+i6ZJdk+ZjLuVIbDD+Fvz
+	 VrWw2zwvUmUkCU8m2caH9M+pJwe1tu3zoTtTA6F4=
+Date: Wed, 24 Apr 2024 21:46:03 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Martin Tuma <martin.tuma@digiteqautomotive.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Sergey Kozlov <serjk@netup.ru>, Abylay Ospan <aospan@netup.ru>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH v2 09/26] media: v4l: async: refactor
+ v4l2_async_create_ancillary_links
+Message-ID: <20240424184603.GA6282@pendragon.ideasonboard.com>
+References: <20240419-fix-cocci-v2-0-2119e692309c@chromium.org>
+ <20240419-fix-cocci-v2-9-2119e692309c@chromium.org>
+ <40b9c015-8ccf-4313-800a-ecae9aa8cc27@xs4all.nl>
+ <ZilMu614pUAzEGTa@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ZilMu614pUAzEGTa@kekkonen.localdomain>
 
-Hi Joao,
-
-Dne ponedeljek, 22. april 2024 ob 17:02:13 GMT +2 je Joao Schim napisal(a):
-> The AllWinner H6 and later SoCs that sport a DMIC block contain a set of registers to control
-> the gain (left + right) of each of the four supported channels.
+On Wed, Apr 24, 2024 at 06:17:31PM +0000, Sakari Ailus wrote:
+> On Wed, Apr 24, 2024 at 12:55:20PM +0200, Hans Verkuil wrote:
+> > On 19/04/2024 11:47, Ricardo Ribalda wrote:
+> > > Return 0 without checking IS_ERR or PTR_ERR if CONFIG_MEDIA_CONTROLLER
+> > > is not enabled.
+> > > 
+> > > This makes cocci happier:
+> > > 
+> > > drivers/media/v4l2-core/v4l2-async.c:331:23-30: ERROR: PTR_ERR applied after initialization to constant on line 319
+> > > 
+> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > ---
+> > >  drivers/media/v4l2-core/v4l2-async.c | 7 +++----
+> > >  1 file changed, 3 insertions(+), 4 deletions(-)
+> > > 
+> > > diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+> > > index 4bb073587817..915a9f3ea93c 100644
+> > > --- a/drivers/media/v4l2-core/v4l2-async.c
+> > > +++ b/drivers/media/v4l2-core/v4l2-async.c
+> > > @@ -316,9 +316,10 @@ v4l2_async_nf_try_all_subdevs(struct v4l2_async_notifier *notifier);
+> > >  static int v4l2_async_create_ancillary_links(struct v4l2_async_notifier *n,
+> > >  					     struct v4l2_subdev *sd)
+> > >  {
+> > > -	struct media_link *link = NULL;
+> > > +	struct media_link *link;
+> > >  
+> > > -#if IS_ENABLED(CONFIG_MEDIA_CONTROLLER)
+> > > +	if (!IS_ENABLED(CONFIG_MEDIA_CONTROLLER))
+> > > +		return 0;
+> > >  
+> > >  	if (sd->entity.function != MEDIA_ENT_F_LENS &&
+> > >  	    sd->entity.function != MEDIA_ENT_F_FLASH)
+> > > @@ -326,8 +327,6 @@ static int v4l2_async_create_ancillary_links(struct v4l2_async_notifier *n,
+> > >  
+> > >  	link = media_create_ancillary_link(&n->sd->entity, &sd->entity);
+> > >  
+> > > -#endif
+> > > -
+> > >  	return IS_ERR(link) ? PTR_ERR(link) : 0;
+> > >  }
+> > 
+> > I think I would prefer:
+> > 
+> > static int v4l2_async_create_ancillary_links(struct v4l2_async_notifier *n,
+> > 					     struct v4l2_subdev *sd)
+> > {
+> > #if IS_ENABLED(CONFIG_MEDIA_CONTROLLER)
+> > 	struct media_link *link;
+> > 
+> > 	...
+> > 
+> > 	return IS_ERR(link) ? PTR_ERR(link) : 0;
+> > #else
+> > 	return 0;
+> > #endif
+> > }
+> > 
 > 
-> Add ASoC controls for changing each of the stereo channel gains using alsamixer and alike
+> Me, too.
 
-Add SoB tag.
+I actually prefer Ricardo's proposal :-)
 
-> ---
->  sound/soc/sunxi/sun50i-dmic.c | 34 ++++++++++++++++++++++++++++++++++
->  1 file changed, 34 insertions(+)
-> 
-> diff --git a/sound/soc/sunxi/sun50i-dmic.c b/sound/soc/sunxi/sun50i-dmic.c
-> index c76628bc86c6..f8613d8c3462 100644
-> --- a/sound/soc/sunxi/sun50i-dmic.c
-> +++ b/sound/soc/sunxi/sun50i-dmic.c
-> @@ -14,6 +14,7 @@
->  #include <sound/dmaengine_pcm.h>
->  #include <sound/pcm_params.h>
->  #include <sound/soc.h>
-> +#include <sound/tlv.h>
->  
->  #define SUN50I_DMIC_EN_CTL			(0x00)
->  	#define SUN50I_DMIC_EN_CTL_GLOBE			BIT(8)
-> @@ -43,6 +44,17 @@
->  	#define SUN50I_DMIC_CH_NUM_N_MASK			GENMASK(2, 0)
->  #define SUN50I_DMIC_CNT				(0x2c)
->  	#define SUN50I_DMIC_CNT_N				(1 << 0)
-> +#define SUN50I_DMIC_D0D1_VOL_CTR		(0x30)
-> +	#define SUN50I_DMIC_D0D1_VOL_CTR_0R			(0)
-> +	#define SUN50I_DMIC_D0D1_VOL_CTR_0L			(8)
-> +	#define SUN50I_DMIC_D0D1_VOL_CTR_1R			(16)
-> +	#define SUN50I_DMIC_D0D1_VOL_CTR_1L			(24)
-> +#define SUN50I_DMIC_D2D3_VOL_CTR                (0x34)
-> +        #define SUN50I_DMIC_D2D3_VOL_CTR_2R                     (0)
-> +        #define SUN50I_DMIC_D2D3_VOL_CTR_2L                     (8)
-> +        #define SUN50I_DMIC_D2D3_VOL_CTR_3R                     (16)
-> +        #define SUN50I_DMIC_D2D3_VOL_CTR_3L                     (24)
-> +
->  #define SUN50I_DMIC_HPF_CTRL			(0x38)
->  #define SUN50I_DMIC_VERSION			(0x50)
->  
-> @@ -273,8 +285,30 @@ static const struct of_device_id sun50i_dmic_of_match[] = {
->  };
->  MODULE_DEVICE_TABLE(of, sun50i_dmic_of_match);
->  
-> +static const DECLARE_TLV_DB_SCALE(sun50i_dmic_vol_scale, -12000, 75, 1);
+-- 
+Regards,
 
-DECLARE_TLV_DB_SCALE is old name, SNDRV_CTL_TLVD_DECLARE_DB_SCALE should be
-used instead.
-
-Other than that, it looks fine.
-
-Best regards,
-Jernej
-
-> +
-> +static const struct snd_kcontrol_new sun50i_dmic_controls[] = {
-> +
-> +        SOC_DOUBLE_TLV("DMIC Channel 0 Capture Volume", SUN50I_DMIC_D0D1_VOL_CTR,
-> +                       SUN50I_DMIC_D0D1_VOL_CTR_0L, SUN50I_DMIC_D0D1_VOL_CTR_0R,
-> +                       0xFF, 0, sun50i_dmic_vol_scale),
-> +        SOC_DOUBLE_TLV("DMIC Channel 1 Capture Volume", SUN50I_DMIC_D0D1_VOL_CTR,
-> +                       SUN50I_DMIC_D0D1_VOL_CTR_1L, SUN50I_DMIC_D0D1_VOL_CTR_1R,
-> +                       0xFF, 0, sun50i_dmic_vol_scale),
-> +        SOC_DOUBLE_TLV("DMIC Channel 2 Capture Volume", SUN50I_DMIC_D2D3_VOL_CTR,
-> +                       SUN50I_DMIC_D2D3_VOL_CTR_2L, SUN50I_DMIC_D2D3_VOL_CTR_2R,
-> +                       0xFF, 0, sun50i_dmic_vol_scale),
-> +        SOC_DOUBLE_TLV("DMIC Channel 3 Capture Volume", SUN50I_DMIC_D2D3_VOL_CTR,
-> +                       SUN50I_DMIC_D2D3_VOL_CTR_3L, SUN50I_DMIC_D2D3_VOL_CTR_3R,
-> +                       0xFF, 0, sun50i_dmic_vol_scale),
-> +
-> +
-> +};
-> +
->  static const struct snd_soc_component_driver sun50i_dmic_component = {
->  	.name           = "sun50i-dmic",
-> +	.controls	= sun50i_dmic_controls,
-> +	.num_controls	= ARRAY_SIZE(sun50i_dmic_controls),
->  };
->  
->  static int sun50i_dmic_runtime_suspend(struct device *dev)
-> 
-
-
-
-
+Laurent Pinchart
