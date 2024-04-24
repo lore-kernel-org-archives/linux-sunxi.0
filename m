@@ -1,31 +1,31 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E40477EF
-	for <linux-sunxi@lists.linux.dev>; Wed, 24 Apr 2024 00:18:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF3D0363
+	for <linux-sunxi@lists.linux.dev>; Wed, 24 Apr 2024 00:18:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713917911; cv=none; b=LalQ7m1/D7V85KL4wjIqnI5Gwp4LjNc12vwIM6rVh/2f4zTHsyD46y+R5NFA+t9JKU0EbAMC4TW8rRd3YbJWJu4WqZrjFgXtAZ78tU5wZQz3D/XaSrKpFuvIojp/U0MuxOvurExINIgm2JyhX2AA8LUHj35Dsy4SQI84hZI1Dow=
+	t=1713917912; cv=none; b=PPztJNZ7jxe1TjrrCymXb1YA0k1YMataxGMoGkRFrRwZ/CQCvzN8GAXfud5HAs78A4j1iP45F9VC/5Mh82JbTuX09dj5uJHPDFbOwGlUfK7IV1SoixEk2OG63ieZIr1M/xaSbhVcKIPM9JRfkGc3lhXkA9JKkAeOjS1TtQzwPOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713917911; c=relaxed/simple;
-	bh=7wjFrlFHZSByRTa3+AMyl3YaN0KZ0rT76yHwoHU3H08=;
+	s=arc-20240116; t=1713917912; c=relaxed/simple;
+	bh=ezxTi02RpRBlBLhU/2oK82P3H5JuqqHHAAjW01ZW7m8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=FlufIH5CvzWBKwnSPgio+m/Ma02huYQlT3Un5Y0dhPXxp/raJZGGBt0iajjDx/HTChpIm2fEuOd19lNpUDFugRGYBy6GOOaMLM/jQeol42RxWM66l9K4AWhnRap1RiHqKMS0oXV6c1HOYPCVN1A7g6ICPeITxW6FtB7tylzo2k0=
+	 MIME-Version; b=IfMj8fvEfDG9W/qANti6EBTJP7bWi6WqxY96OmGS4sLAMI43smEHmLiZjDDLELaZj0eQfqPph+g3ksC9qCoDdJSIcS1C6A0O83L4ZA/OfkrhPu+w8d1nqoEpmON/0Anjm2Z3YI1en1wRLeKEu1iOnQpjsR+Xt76eOgpghH3H/VM=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BE3B71042;
-	Tue, 23 Apr 2024 17:18:56 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D70541063;
+	Tue, 23 Apr 2024 17:18:57 -0700 (PDT)
 Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3FE2D3F7BD;
-	Tue, 23 Apr 2024 17:18:28 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 64D423F7BD;
+	Tue, 23 Apr 2024 17:18:29 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Jagan Teki <jagan@amarulasolutions.com>
 Cc: u-boot@lists.denx.de,
 	linux-sunxi@lists.linux.dev,
 	Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-Subject: [PATCH 2/4] sunxi: a64: Add Remix Mini PC support
-Date: Wed, 24 Apr 2024 01:18:06 +0100
-Message-Id: <20240424001808.14388-3-andre.przywara@arm.com>
+Subject: [PATCH 3/4] [DO NOT MERGE] sunxi: dts: arm64: add Tanix TX1 DT from Linux
+Date: Wed, 24 Apr 2024 01:18:07 +0100
+Message-Id: <20240424001808.14388-4-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.35.8
 In-Reply-To: <20240424001808.14388-1-andre.przywara@arm.com>
 References: <20240424001808.14388-1-andre.przywara@arm.com>
@@ -37,58 +37,207 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Remix Mini PC is a "mini computer" using the Allwinner H64 SoC,
-which appears to be just a relabelled A64. It was launched in 2015 by
-the now defunct company Jide, and shipped with a desktop optimised
-version of Android. Its appearance and feature set is close to a
-typical TV box.
-
-The devicetree file has been imported from the Linux tree already, so
-just add a defconfig and enable the DTB build in the Makefile. The SoC
-has the "secure boot" fuse burnt, so we need to generate a TOC0 image
-instead of the standard Allwinner eGON image format for the SPL.
+Add the board DT file for the Tanix TX1 TV box, with the H313 SoC.
+This has been taken from the sunxi/for-next tree, though it has not been
+merged into any other tree yet.
+So this is a placeholder for now, to enable the board support, and will be
+superseded by the regular sync of the DT files later.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- arch/arm/dts/Makefile           |  3 ++-
- configs/remix-mini-pc_defconfig | 14 ++++++++++++++
- 2 files changed, 16 insertions(+), 1 deletion(-)
- create mode 100644 configs/remix-mini-pc_defconfig
+ arch/arm/dts/sun50i-h313-tanix-tx1.dts | 183 +++++++++++++++++++++++++
+ 1 file changed, 183 insertions(+)
+ create mode 100644 arch/arm/dts/sun50i-h313-tanix-tx1.dts
 
-diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
-index b1c9c6222e5..127345975ef 100644
---- a/arch/arm/dts/Makefile
-+++ b/arch/arm/dts/Makefile
-@@ -801,7 +801,8 @@ dtb-$(CONFIG_MACH_SUN50I) += \
- 	sun50i-a64-pinephone-1.2.dtb \
- 	sun50i-a64-pinetab.dtb \
- 	sun50i-a64-sopine-baseboard.dtb \
--	sun50i-a64-teres-i.dtb
-+	sun50i-a64-teres-i.dtb \
-+	sun50i-h64-remix-mini-pc.dtb
- dtb-$(CONFIG_MACH_SUN9I) += \
- 	sun9i-a80-optimus.dtb \
- 	sun9i-a80-cubieboard4.dtb \
-diff --git a/configs/remix-mini-pc_defconfig b/configs/remix-mini-pc_defconfig
+diff --git a/arch/arm/dts/sun50i-h313-tanix-tx1.dts b/arch/arm/dts/sun50i-h313-tanix-tx1.dts
 new file mode 100644
-index 00000000000..fa427a027f8
+index 00000000000..bb2cde59bd0
 --- /dev/null
-+++ b/configs/remix-mini-pc_defconfig
-@@ -0,0 +1,14 @@
-+CONFIG_ARM=y
-+CONFIG_ARCH_SUNXI=y
-+CONFIG_DEFAULT_DEVICE_TREE="sun50i-h64-remix-mini-pc"
-+CONFIG_SPL=y
-+CONFIG_MACH_SUN50I=y
-+CONFIG_DRAM_CLK=672
-+CONFIG_DRAM_ZQ=4013533
-+CONFIG_MMC_SUNXI_SLOT_EXTRA=2
-+CONFIG_SPL_IMAGE_TYPE_SUNXI_TOC0=y
-+# CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
-+CONFIG_CMD_POWEROFF=y
-+CONFIG_SUPPORT_EMMC_BOOT=y
-+CONFIG_USB_EHCI_HCD=y
-+CONFIG_USB_OHCI_HCD=y
++++ b/arch/arm/dts/sun50i-h313-tanix-tx1.dts
+@@ -0,0 +1,183 @@
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
++/*
++ * Copyright (C) 2024 Arm Ltd.
++ */
++
++/dts-v1/;
++
++#include "sun50i-h616.dtsi"
++
++#include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/interrupt-controller/arm-gic.h>
++#include <dt-bindings/input/linux-event-codes.h>
++#include <dt-bindings/leds/common.h>
++
++/ {
++	model = "Tanix TX1";
++	compatible = "oranth,tanix-tx1", "allwinner,sun50i-h616";
++
++	aliases {
++		serial0 = &uart0;
++		ethernet0 = &sdio_wifi;
++	};
++
++	chosen {
++		stdout-path = "serial0:115200n8";
++	};
++
++	gpio-keys {
++		compatible = "gpio-keys";
++
++		key {
++			label = "hidden";
++			linux,code = <BTN_0>;
++			gpios = <&pio 7 9 GPIO_ACTIVE_LOW>; /* PH9 */
++		};
++	};
++
++	leds {
++		compatible = "gpio-leds";
++
++		led-0 {
++			function = LED_FUNCTION_POWER;
++			color = <LED_COLOR_ID_BLUE>;
++			gpios = <&pio 7 6 GPIO_ACTIVE_HIGH>; /* PH6 */
++			default-state = "on";
++		};
++	};
++
++	wifi_pwrseq: pwrseq {
++		compatible = "mmc-pwrseq-simple";
++		clocks = <&rtc CLK_OSC32K_FANOUT>;
++		clock-names = "ext_clock";
++		pinctrl-0 = <&x32clk_fanout_pin>;
++		pinctrl-names = "default";
++		reset-gpios = <&pio 6 18 GPIO_ACTIVE_LOW>; /* PG18 */
++	};
++
++	reg_vcc5v: vcc5v {
++		/* board wide 5V supply directly from the DC input */
++		compatible = "regulator-fixed";
++		regulator-name = "vcc-5v";
++		regulator-min-microvolt = <5000000>;
++		regulator-max-microvolt = <5000000>;
++		regulator-always-on;
++	};
++};
++
++&cpu0 {
++	cpu-supply = <&reg_dcdc2>;
++};
++
++&ehci0 {
++	status = "okay";
++};
++
++&ir {
++	status = "okay";
++};
++
++&mmc1 {
++	vmmc-supply = <&reg_dldo1>;
++	vqmmc-supply = <&reg_aldo1>;
++	mmc-pwrseq = <&wifi_pwrseq>;
++	bus-width = <4>;
++	non-removable;
++	status = "okay";
++
++	sdio_wifi: wifi@1 {
++		reg = <1>;
++	};
++};
++
++&mmc2 {
++	vmmc-supply = <&reg_dldo1>;
++	vqmmc-supply = <&reg_aldo1>;
++	bus-width = <8>;
++	non-removable;
++	max-frequency = <100000000>;
++	cap-mmc-hw-reset;
++	mmc-ddr-1_8v;
++	status = "okay";
++};
++
++&ohci0 {
++	status = "okay";
++};
++
++&pio {
++	vcc-pc-supply = <&reg_aldo1>;
++	vcc-pf-supply = <&reg_dldo1>;
++	vcc-pg-supply = <&reg_aldo1>;
++	vcc-ph-supply = <&reg_dldo1>;
++	vcc-pi-supply = <&reg_dldo1>;
++};
++
++&r_i2c {
++	status = "okay";
++
++	axp313: pmic@36 {
++		compatible = "x-powers,axp313a";
++		reg = <0x36>;
++		#interrupt-cells = <1>;
++		interrupt-controller;
++
++		vin1-supply = <&reg_vcc5v>;
++		vin2-supply = <&reg_vcc5v>;
++		vin3-supply = <&reg_vcc5v>;
++
++		regulators {
++			/* Supplies VCC-PLL, so needs to be always on. */
++			reg_aldo1: aldo1 {
++				regulator-always-on;
++				regulator-min-microvolt = <1800000>;
++				regulator-max-microvolt = <1800000>;
++				regulator-name = "vcc1v8";
++			};
++
++			/* Supplies VCC-IO, so needs to be always on. */
++			reg_dldo1: dldo1 {
++				regulator-always-on;
++				regulator-min-microvolt = <3300000>;
++				regulator-max-microvolt = <3300000>;
++				regulator-name = "vcc3v3";
++			};
++
++			reg_dcdc1: dcdc1 {
++				regulator-always-on;
++				regulator-min-microvolt = <810000>;
++				regulator-max-microvolt = <990000>;
++				regulator-name = "vdd-gpu-sys";
++			};
++
++			reg_dcdc2: dcdc2 {
++				regulator-always-on;
++				regulator-min-microvolt = <810000>;
++				regulator-max-microvolt = <1120000>;
++				regulator-name = "vdd-cpu";
++			};
++
++			reg_dcdc3: dcdc3 {
++				regulator-always-on;
++				regulator-min-microvolt = <1200000>;
++				regulator-max-microvolt = <1200000>;
++				regulator-name = "vdd-dram";
++			};
++		};
++	};
++};
++
++&uart0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&uart0_ph_pins>;
++	status = "okay";
++};
++
++&usbotg {
++	dr_mode = "host";       /* USB A type receptable */
++	status = "okay";
++};
++
++&usbphy {
++	status = "okay";
++};
 -- 
 2.35.8
 
