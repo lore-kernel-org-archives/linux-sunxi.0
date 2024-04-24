@@ -1,73 +1,72 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B46BA2263A
-	for <linux-sunxi@lists.linux.dev>; Wed, 24 Apr 2024 18:58:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9E202B9DD
+	for <linux-sunxi@lists.linux.dev>; Wed, 24 Apr 2024 19:01:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713985098; cv=none; b=qiWnEhVQXcSQ9lEPhTrUqCutty306IhR9pluEAlVIGfF3QtCGI80Mrqin0aHxn4ovFsBpx8y2JKNufa+7vzc8Gg5+8irpCXJ5d0rb37kH/yem3bUVpdQPZ87lMY4ASH2PkenWgqvQ6eaS6GkCodArDajLA1NnPyoTJgx/xMcapc=
+	t=1713985282; cv=none; b=kbBvmdaXRRnd8v+17lXf6D0IdXXPcaBZQmZVc3VQ/8sd+40Pn6M+ChPQA7C97FEu/9+XwSSc7jb2dq42KksR9lJNwi+4Cj5DWsZRaUboXL8/xuhwKg2rKfXhZPxettd0GV5uKX9A01HcBceOZl1J73PUZUaFFsipcj9XabU9f/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713985098; c=relaxed/simple;
-	bh=HCt7b5jZVpt+S9X/iE7IN+XtRTt3TR+LfOAu0uJIZiY=;
+	s=arc-20240116; t=1713985282; c=relaxed/simple;
+	bh=wEniXoUp5G9HRaTQlppl6YOqzKstdjiCVhjp8WFbrik=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PjCwifQzLqz2YaudRNrw3EqqhtENhubTQQjHFAlfYmFmTJjIX/xBZcdE/SCL6lHjxAph+EG+D4b/2IWWVGfZfvoxhbCllfhyZW8Bg0eCvrOfThyZ/hr/EqMmIeMDmwdCl2hLW2mdZkBUAuvQjxTVTVPcFePMR5sePugW5y9jhMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XjZx4qvy; arc=none smtp.client-ip=209.85.208.52
+	 MIME-Version:Content-Type; b=LpLc+A5Qu0tOyu17Uk1YlxTIczZBJeA7TVk0V5hbNhg38Ny74ZJ54l14z0z2zP89wnBXSp9e1KsT0d1CRpnpMXKJEPQdkcRJ1xfApk2uWkxYOXuCcJuqjDQABSPzzGVzgpcxVqb365Ont3d7W53Qf35bMoShDFtkSTavYNtLnmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VPlnv0+r; arc=none smtp.client-ip=209.85.218.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XjZx4qvy"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-56e1baf0380so147827a12.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 24 Apr 2024 11:58:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VPlnv0+r"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a58a36008ceso28873266b.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 24 Apr 2024 12:01:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713985095; x=1714589895; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1713985279; x=1714590079; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DwvbZeXK2LmNo0b/liHJV6gTDtg1IGPQpDm4DyK4ylU=;
-        b=XjZx4qvyZcqP02Cr0+ZfthiAl6fCy5EbzQyZCEjFXge00Cg51afrE+npGRIulzF5Wx
-         eeCMtaZpOQ7xUEH38IBFJP5TuP2eKwx6H5xpe9FwSV6jMyp52ezZBm+5/XdOurlsqZZQ
-         UN4sjs9ie1NHIhgG0zXpE7uW2gJQaJR3RRrMw/3DvD/6UQLxy+bsRaoihG/lSMgwnIkc
-         /HzQZ5G+DRasV0EwtddZFiAl6vrYi8zU1zwh97GdlH6NP+sejr4hycSlO0U3JRFZbvdQ
-         WM30wOd8x3dtWuttsTCB6+HGHfdu079l2Mjfnx6V6TSkBTYGDqNv4h0FH93O8pm5Jf0Y
-         KOQA==
+        bh=sYb6lahma9ESsvjNNop/lnhNH+5GGNP092pV3MTMbcg=;
+        b=VPlnv0+r0DkqQUiPZUdiTXRR563z7WKulruiN+6NYBeUeOuMo65qTxABgpWkAo/bEY
+         rbm2pBQ6OeXXmPPpBBWeftwJ+EjfSc+RN8ZHGNJbT/dif2xu4l/YbB9nuK7zEjtvhM8T
+         0DzBcbJJBiWvVQ5vdYiYA0QqktOaaLUjQ02jRyqOr5UlIVNtez5rdYDy66s6ds1i8pNN
+         +w2kerxmF885bbuORbhGTmyHjAdvTgEyL4lrZvnqR0CQr3e7h112umpijZVhrgyKXswj
+         64x+RXo+gi1yvIxj7xIiWT7CHPoCUnr8eN30rrhqUO3ye572ywXAH2qyPbjGbjTwgtOU
+         Tt8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713985095; x=1714589895;
+        d=1e100.net; s=20230601; t=1713985279; x=1714590079;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DwvbZeXK2LmNo0b/liHJV6gTDtg1IGPQpDm4DyK4ylU=;
-        b=o41jp64QWj8DatLXcOx8zOe+7hvH+roaarGrK5RTxiEBHwI12Q+n/GnWGmdVo8qhh9
-         jTLcsW9v5nMFrgtAsDq3h0V3I+SJmfOGByCSu69bqddmqEJFAU1wc5RlgsdYB1TSPrkX
-         hJHWh/usyWQvryEO87AxPszPb7FNf+GGSPo48o1zipRPUkfXC9/uUDicKgl5TFPIuwYQ
-         /fpaNP7oRjJkuChVtNhH08OZ2zWUJulvOAs0yeEgX+p09fTuBuIZUcLb3g+asYeHkKuy
-         3N/9zyhW5DDngy08emcoVi0I6323vKo7hovrdoxMgJvtPRG/RI2HVPxlR7YNlTfR24RI
-         p0sA==
-X-Forwarded-Encrypted: i=1; AJvYcCUNnBGrtrzB8fCpzx+8G2pHKbFqNh3R4JfS8M6ediHT10UP8w+DtQly+ftSNzXG256n/bNNN9zo/hNLRk4YhxqRLX/YYaFZ+RmG6AA=
-X-Gm-Message-State: AOJu0YxQt2puXrYg6SVpvjWhOBq2SswQdQaOpklfAQxD/sztYqTrsroo
-	LvzLu8uLrRAFIWigE+qyFPYebQvVPXiQCctYoNIo5GhsyLs5v0Vp
-X-Google-Smtp-Source: AGHT+IFFeaRzMd/7Smdm00f104rcu/P7ErgzU3rDoChCfzP3EQsfV2DOJK5NtUDrizGxdpXgYZNMBQ==
-X-Received: by 2002:a50:c90a:0:b0:572:3cc4:2dcf with SMTP id o10-20020a50c90a000000b005723cc42dcfmr95098edh.14.1713985094787;
-        Wed, 24 Apr 2024 11:58:14 -0700 (PDT)
+        bh=sYb6lahma9ESsvjNNop/lnhNH+5GGNP092pV3MTMbcg=;
+        b=ilPJA59oTfjViytO2d/dsMkoXS+TwjHS4kcLw2sFCqj59LDd01Ek9nzscHKLN0hgBG
+         Q+VyKvyxDq2RDAAOMOdLD2D5JwmVNoNK90jG/4799SpkIThHpps76DoQHzae+nP0TiQp
+         xAZ4Xo7rZeTZJgOLRZ1upLuR5vJkPWnfpLuBx9plwcIoWs4Zo2yLJ7LTR3SMYWt+6zCM
+         gtrVDy/LbLFMnZlwRfz36D+rc+c+7UXNxjHbO79VYJEDc975qdZlsh9y5shbFVQCDkn5
+         PlDZOXvjw+5h52/ONKfZzuE+Y+PPprw2qt3+fRQ0gwQCYlyAK/KCdsSv1E6ej7vq7dC/
+         PdrQ==
+X-Forwarded-Encrypted: i=1; AJvYcCViZ9TSkkLqqMNpBzrN72Wji4k9xoXBo2a6C9/zY3dY6eLFUtKMN1+DjfIt2LZu7XXhxplFcggmBURf0OjxJlRHMa6ZpjGAA+V81JQ=
+X-Gm-Message-State: AOJu0YzLdkEdZEVURhzE9/AOO5bxLe/hPowx42/jL3OAvRNUxhVVNjo1
+	wLJ8Nmce/4n4WLgqJD7QWq8QTQXMqi9+VQ/WTgN8cJTg7B6Piv9w
+X-Google-Smtp-Source: AGHT+IGU+Yholg1eeeqBHS1/XbClARTXKkmiXuj6aUAvmgHd37s0Jp93MObOLF9sK0NFXS2Ld+XqaA==
+X-Received: by 2002:a17:907:7241:b0:a58:a2f7:85e9 with SMTP id ds1-20020a170907724100b00a58a2f785e9mr1130309ejc.34.1713985278550;
+        Wed, 24 Apr 2024 12:01:18 -0700 (PDT)
 Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id ij6-20020a056402158600b005705bfeeb27sm8103284edb.66.2024.04.24.11.58.13
+        by smtp.gmail.com with ESMTPSA id hg7-20020a170906f34700b00a4e5a6b57a2sm8624325ejb.163.2024.04.24.12.01.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Apr 2024 11:58:14 -0700 (PDT)
+        Wed, 24 Apr 2024 12:01:17 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
+To: Andre Przywara <andre.przywara@arm.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Yangtao Li <tiny.windzz@gmail.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>, linux-pm@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
 Subject:
- Re: [PATCH] dt-bindings: mfd: allwinner,sun6i-a31-prcm: Use hyphens in node
- names
-Date: Wed, 24 Apr 2024 20:58:13 +0200
-Message-ID: <2320577.ElGaqSPkdT@jernej-laptop>
-In-Reply-To: <20240424045521.31857-1-krzysztof.kozlowski@linaro.org>
-References: <20240424045521.31857-1-krzysztof.kozlowski@linaro.org>
+ Re: [PATCH] cpufreq: sun50i: fix error returns in dt_has_supported_hw()
+Date: Wed, 24 Apr 2024 21:01:16 +0200
+Message-ID: <1882679.tdWV9SEqCh@jernej-laptop>
+In-Reply-To: <9bfe5703-b39b-4d98-9995-f6a7d0ea558d@moroto.mountain>
+References: <9bfe5703-b39b-4d98-9995-f6a7d0ea558d@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -77,19 +76,13 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="utf-8"
 
-Dne sreda, 24. april 2024 ob 06:55:21 GMT +2 je Krzysztof Kozlowski napisal(a):
-> Underscores should not be used in node names (dtc with W=2 warns about
-> them), so replace them with hyphens.  This should have no impact on
-> known users: Linux MFD driver does not care about children node names.
-> DTS was already adjusted in commit 0f47ef3ff1bd ("arm: dts: allwinner: drop
-> underscore in node names"), so without this change, we observe
-> dtbs_check warnings:
+Dne sreda, 24. april 2024 ob 13:40:11 GMT +2 je Dan Carpenter napisal(a):
+> The dt_has_supported_hw() function returns type bool.  That means these
+> negative error codes are cast to true but the function should return
+> false instead.
 > 
->   sun6i-a31s-colorfly-e708-q1.dtb: prcm@1f01400: 'ahb0-clk', 'apb0-clk', 'apb0-gates-clk', 'apb0-rst', 'ar100-clk', 'ir-clk' do not match any of the regexes: '^.*_(clk|rst)$', 'pinctrl-[0-9]+'
-> 
-> Reported-by: Rob Herring <robh@kernel.org>
-> Closes: https://lore.kernel.org/all/CAL_JsqJfT-jui5P56CO4Fr37kr5iNN8dpxt8ecKeFmdVGnRYbA@mail.gmail.com/
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Fixes: fa5aec9561cf ("cpufreq: sun50i: Add support for opp_supported_hw")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 
 Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
@@ -97,74 +90,27 @@ Best regards,
 Jernej
 
 > ---
->  .../bindings/mfd/allwinner,sun6i-a31-prcm.yaml     | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
+>  drivers/cpufreq/sun50i-cpufreq-nvmem.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/mfd/allwinner,sun6i-a31-prcm.yaml b/Documentation/devicetree/bindings/mfd/allwinner,sun6i-a31-prcm.yaml
-> index 8789e3639ff7..ca0e9f1f2354 100644
-> --- a/Documentation/devicetree/bindings/mfd/allwinner,sun6i-a31-prcm.yaml
-> +++ b/Documentation/devicetree/bindings/mfd/allwinner,sun6i-a31-prcm.yaml
-> @@ -20,7 +20,7 @@ properties:
->      maxItems: 1
+> diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+> index cd50cea16a87..0b882765cd66 100644
+> --- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+> +++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+> @@ -136,11 +136,11 @@ static bool dt_has_supported_hw(void)
 >  
->  patternProperties:
-> -  "^.*_(clk|rst)$":
-> +  "^.*-(clk|rst)$":
->      type: object
->      unevaluatedProperties: false
+>  	cpu_dev = get_cpu_device(0);
+>  	if (!cpu_dev)
+> -		return -ENODEV;
+> +		return false;
 >  
-> @@ -171,7 +171,7 @@ examples:
->          compatible = "allwinner,sun6i-a31-prcm";
->          reg = <0x01f01400 0x200>;
+>  	np = dev_pm_opp_of_get_opp_desc_node(cpu_dev);
+>  	if (!np)
+> -		return -ENOENT;
+> +		return false;
 >  
-> -        ar100: ar100_clk {
-> +        ar100: ar100-clk {
->              compatible = "allwinner,sun6i-a31-ar100-clk";
->              #clock-cells = <0>;
->              clocks = <&rtc 0>, <&osc24M>,
-> @@ -180,7 +180,7 @@ examples:
->              clock-output-names = "ar100";
->          };
->  
-> -        ahb0: ahb0_clk {
-> +        ahb0: ahb0-clk {
->              compatible = "fixed-factor-clock";
->              #clock-cells = <0>;
->              clock-div = <1>;
-> @@ -189,14 +189,14 @@ examples:
->              clock-output-names = "ahb0";
->          };
->  
-> -        apb0: apb0_clk {
-> +        apb0: apb0-clk {
->              compatible = "allwinner,sun6i-a31-apb0-clk";
->              #clock-cells = <0>;
->              clocks = <&ahb0>;
->              clock-output-names = "apb0";
->          };
->  
-> -        apb0_gates: apb0_gates_clk {
-> +        apb0_gates: apb0-gates-clk {
->              compatible = "allwinner,sun6i-a31-apb0-gates-clk";
->              #clock-cells = <1>;
->              clocks = <&apb0>;
-> @@ -206,14 +206,14 @@ examples:
->                                   "apb0_i2c";
->          };
->  
-> -        ir_clk: ir_clk {
-> +        ir_clk: ir-clk {
->              #clock-cells = <0>;
->              compatible = "allwinner,sun4i-a10-mod0-clk";
->              clocks = <&rtc 0>, <&osc24M>;
->              clock-output-names = "ir";
->          };
->  
-> -        apb0_rst: apb0_rst {
-> +        apb0_rst: apb0-rst {
->              compatible = "allwinner,sun6i-a31-clock-reset";
->              #reset-cells = <1>;
->          };
+>  	for_each_child_of_node(np, opp) {
+>  		if (of_find_property(opp, "opp-supported-hw", NULL)) {
 > 
 
 
