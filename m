@@ -1,84 +1,152 @@
-Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15360157A58
-	for <linux-sunxi@lists.linux.dev>; Wed, 24 Apr 2024 06:38:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEB821581E7
+	for <linux-sunxi@lists.linux.dev>; Wed, 24 Apr 2024 07:42:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713940735; cv=none; b=LSuOwTM0Kj++8OuSgZYQm1Jrrgcqqyi0q47JcVhiaVIk+imNbuYCxMtAHVCVbBu9VAoLmkRLiyD0Lui1rrvAYlpEy1zOq0wPgjQe9sEgJdE9PHYU48TOs8lmOMUf1W/wJgE1J5zqlVTFYDeMRx4mA2o3PIEcAP8CEQGEWYBOxSo=
+	t=1713944573; cv=none; b=AmaGzxT4+HdK0irHc7n6SRE2028gbEWwMJTH3j1kx58t0UBnJgN3qliQMFiW9UDuZGFO/O/ZoUWe2exnWGRhj3QFf3SpP/7It+ggQb8fEDBdIKbXi0hLxamWAbVEzNkIWU5P7p+EBv1YdeD4eJnN75EXFWwZ6iGJezGPXe18QiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713940735; c=relaxed/simple;
-	bh=rC5tzq4Cf7BvDJ7FwCyol72j79dOirBMRNP7eb69s6c=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=fRIBc4aKuWypKCKfHoG7ajiTaS2I4AQT6USohupvS+EjkJsEnm13wqn4FFSLx8M5zMT8nu/eeLNCBB+tX4eagjvNAU/I4MzCmzXPLlFhLv8p44Ld0SIzTdm6EFz5hysjGidFKkYmtK8s35OEUQwKRq4nd+c9pOlmQF6QyUJuZak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=DiOyv9zD; arc=none smtp.client-ip=116.203.91.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
+	s=arc-20240116; t=1713944573; c=relaxed/simple;
+	bh=KEOY/H38r2q4LMqOZqaCRp80aSw3OHhkx+jVNw2tNvc=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=rEFRvDrDxk9EyIGPWi1dCLAXSY5UaMWZNiUNl8PbGFV1TLiNNC/3DmVfmm3OQVJ3uLMZEmmv/bKqmWrj7FFZL3/YnHTpFXKe8yP3bc6r/Ue6oZX/fz3BMCdFsYBUTOj9noD/nyyBNQGHFQrw854OD3goZEMthRsHCxDGrm897Mo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--joychakr.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=IwF/zSks; arc=none smtp.client-ip=209.85.128.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--joychakr.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="DiOyv9zD"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="IwF/zSks"
+Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-61ab173fe00so128958267b3.3
+        for <linux-sunxi@lists.linux.dev>; Wed, 24 Apr 2024 00:42:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1713944571; x=1714549371; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Zl0sYd+valIIqLNedoYvnicwykqmWgTtyjDljuZmiec=;
+        b=IwF/zSkshZxpEFImSnUIbUvbzWL1Bxx8gzyBWL8Oq4Bu5XK4FOtyLVZ3XTblZWzUdz
+         gwikX0cJJIohNHNf/HVE4+DL//XjBhoTT+ZDr4qdT76bcIk/DwuLN+dDu2EyYvKEMK4p
+         qHeCEySticBUaNY3L+nTAiiyG577Fw3FkbvDxXjEXiiuOm3qvVkhJWp2fZdS0jiPaLDY
+         2x11D8fcg9iWLw/NFMQld9vhlpoxZHaTHc0v65totSmD+JJelGb51/Wl/OOXl7eMqY7N
+         RbR0e98ISePSFSzXYh64+9wx3Rm4rt+Yf1MiEdStknML7VIhsyfQKq7KAjT3+Iq7twQ2
+         ZqFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713944571; x=1714549371;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Zl0sYd+valIIqLNedoYvnicwykqmWgTtyjDljuZmiec=;
+        b=plqgVU7VssiOFLmvxZVmoSZ60rnP9Wyh4QToWbW9aUpJz8oeGQ+7aapDwBxFTF+A2U
+         2jBle2htMsX42MSkDAwZqPlc/UeCI1NHjbe+hAD/KVjlZLllClYyqxbGRd77XGYHxyML
+         HdPCL9BuLhgbN2DBdNHY6EldW0mcyRLROp+8/1wmpgBu019vdUqLvkGteoNnh1E9dkwv
+         Z1rlgy+hEEg63CR/maZ5DGKWukzg2zRhEuWYBy56QAx8w8EyiUifW+bozeeaDsV1lxln
+         HnUpf2wQymls0RsXgLL+Do0iDNH9WcWgiWkdfYttQ9J2KSwuLDnDjt5igtiOy66dfqzq
+         o5+w==
+X-Forwarded-Encrypted: i=1; AJvYcCXrhynlSOvDbU/yLp0aMEKro1YeA0BmBdO+HWAjfTMIqMz9W9kY0PBcHag+BuznxD/tlAwvu1GP3tMIaHLuU8p3W7BPV6POln4eDJs=
+X-Gm-Message-State: AOJu0Yxg1i/J4Vqebn01wOFTvW/EKh6EwTjjsVR/WCkb5tOonu5EmJSl
+	dSm2tfSx3pR4H+Dx0S4fB+9WU1wefrFJ6+9UAzKCKtAclU6cMv7P5M0BxC1fWzBPFL9szG+xzh1
+	2MxvFqX9WYw==
+X-Google-Smtp-Source: AGHT+IHAgakRN1GMcYnGCFXgcp0S6jDEiv/2+gY/KRM4h43j6n7j458O2RZcU7HXGWBkkYoEbxUyhX44RKGCPA==
+X-Received: from joychakr.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:6ea])
+ (user=joychakr job=sendgmr) by 2002:a05:6902:154f:b0:de5:1f88:ae4e with SMTP
+ id r15-20020a056902154f00b00de51f88ae4emr651015ybu.2.1713944570760; Wed, 24
+ Apr 2024 00:42:50 -0700 (PDT)
+Date: Wed, 24 Apr 2024 07:42:41 +0000
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
-	t=1713940730;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=l1Vyu63Q32QupR65EIJSgXlEhYqlOuM5tRxkdyCNnd0=;
-	b=DiOyv9zDyJ/aamVdfT4tePMfcY2KersMVVY9qgLWqzG2BYz4ldDtGia/O9Ed4yyuGg+B07
-	+3+Y4fuhKHWpnfj5vRCXecc+ToniL6+1nF/0OHnHtrW9rbTmuHKFgyr7fJaW1NE7MpADTd
-	uHjKIXmhQH6WR1nfBdBaaW/crpNTCG+SbWOV2LS4+pjUtX7IffjMUMFhuRy3X5f+jWLhE0
-	Gx9halomoRA1gQKLmMNkRG+ejrHxj1DyaALcYMrA7ttfp5fWY21qrP1WNMnAumbib2+wor
-	Mq6t2YNo5NPA1E8AqAs1kT9g5h1BuNspcwIcFjzlA8AghJsHR01ktbWVYLyOag==
-Date: Wed, 24 Apr 2024 08:38:49 +0200
-From: Dragan Simic <dsimic@manjaro.org>
-To: Rob Herring <robh@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, samuel@sholland.org,
- conor+dt@kernel.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, robh+dt@kernel.org,
- jernej.skrabec@gmail.com, wens@csie.org, Marek Kraus <gamiee@pine64.org>,
- didi.debian@cknow.org, krzk+dt@kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: arm: sunxi: Correct the descriptions for
- Pine64 boards
-In-Reply-To: <171388501868.266715.5097987585598723774.robh@kernel.org>
-References: <d2943d9f4c99a239f86188eaf45a73972685c255.1713833436.git.dsimic@manjaro.org>
- <171388501868.266715.5097987585598723774.robh@kernel.org>
-Message-ID: <23b4798c1e116706f6b48cdd4e05e9ef@manjaro.org>
-X-Sender: dsimic@manjaro.org
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.44.0.769.g3c40516874-goog
+Message-ID: <20240424074242.519895-1-joychakr@google.com>
+Subject: [PATCH v2 0/1] nvmem: Handle actual amount of data read/written by suppliers
+From: Joy Chakraborty <joychakr@google.com>
+To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	NXP Linux Team <linux-imx@nxp.com>, Vladimir Zapolskiy <vz@mleia.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
+	Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Heiko Stuebner <heiko@sntech.de>, Orson Zhai <orsonzhai@gmail.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Vincent Shih <vincent.sunplus@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Rafal Milecki <rafal@milecki.pl>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Michal Simek <michal.simek@amd.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-amlogic@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
+	manugautam@google.com, Joy Chakraborty <joychakr@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 2024-04-23 17:10, Rob Herring wrote:
-> On Tue, 23 Apr 2024 03:00:19 +0200, Dragan Simic wrote:
->> Correct the descriptions of a few Pine64 boards and devices, according
->> to their official names used on the Pine64 wiki.  This ensures 
->> consistency
->> between the officially used names and the names in the source code.
->> 
->> Cc: Marek Kraus <gamiee@pine64.org>
->> Signed-off-by: Dragan Simic <dsimic@manjaro.org>
->> ---
->> 
->> Notes:
->>     This completes the correction of the descriptions of the Pine64 
->> boards
->>     and devices, which was started with the Pine64 boards and devices 
->> based
->>     on Rockchip SoCs. [1]
->> 
->>     [1] 
->> https://lore.kernel.org/linux-rockchip/ec124dab2b1a8776aa39177ecce34babca3a50e2.1713832790.git.dsimic@manjaro.org/
->> 
->>  Documentation/devicetree/bindings/arm/sunxi.yaml | 12 ++++++------
->>  1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+This Patch series stems from discussions in patchset,
+"[PATCH v2] nvmem: rmem: Fix return value of rmem_read()"
+(https://lore.kernel.org/all/20240206042408.224138-1-joychakr@google.com/).
+Where we come across the fact that currently the nvmem suppliers do not
+actually let the core know how much data has been actually read or written.
+Instead they are expected to return 0 for success and the core assumes that
+the amount of data written is equal to what the core has requested.
 
-Thanks!
+On addition this patchset will also add some guards and checks based on the
+count of data returned by the nvmem supplier.
+---
+V2 Changes : Rebase on for-next.
+---
+V1 Changes : Change read/write callback prototype to ssize_t and
+supplier changes to accomodate the same with core checks and bounds.
+---
+
+Joy Chakraborty (1):
+  nvmem: Change return type of reg read/write to ssize_t
+
+ drivers/nvmem/apple-efuses.c        |  7 +--
+ drivers/nvmem/bcm-ocotp.c           | 12 ++---
+ drivers/nvmem/brcm_nvram.c          | 10 ++--
+ drivers/nvmem/core.c                | 83 +++++++++++++----------------
+ drivers/nvmem/imx-iim.c             |  6 +--
+ drivers/nvmem/imx-ocotp-ele.c       |  4 +-
+ drivers/nvmem/imx-ocotp-scu.c       | 12 ++---
+ drivers/nvmem/imx-ocotp.c           | 10 ++--
+ drivers/nvmem/jz4780-efuse.c        |  7 +--
+ drivers/nvmem/lan9662-otpc.c        | 12 ++---
+ drivers/nvmem/layerscape-sfp.c      | 11 ++--
+ drivers/nvmem/lpc18xx_eeprom.c      | 14 ++---
+ drivers/nvmem/lpc18xx_otp.c         |  6 +--
+ drivers/nvmem/meson-efuse.c         | 22 +++++---
+ drivers/nvmem/meson-mx-efuse.c      |  6 +--
+ drivers/nvmem/microchip-otpc.c      |  6 +--
+ drivers/nvmem/mtk-efuse.c           |  6 +--
+ drivers/nvmem/mxs-ocotp.c           |  7 +--
+ drivers/nvmem/nintendo-otp.c        |  6 +--
+ drivers/nvmem/qcom-spmi-sdam.c      | 12 ++---
+ drivers/nvmem/qfprom.c              | 14 ++---
+ drivers/nvmem/qoriq-efuse.c         |  6 +--
+ drivers/nvmem/rave-sp-eeprom.c      | 18 +++----
+ drivers/nvmem/rmem.c                |  4 +-
+ drivers/nvmem/rockchip-efuse.c      | 19 +++----
+ drivers/nvmem/rockchip-otp.c        | 19 +++----
+ drivers/nvmem/sc27xx-efuse.c        |  3 +-
+ drivers/nvmem/sec-qfprom.c          |  4 +-
+ drivers/nvmem/snvs_lpgpr.c          | 17 +++---
+ drivers/nvmem/sprd-efuse.c          |  8 +--
+ drivers/nvmem/stm32-bsec-optee-ta.c | 12 ++---
+ drivers/nvmem/stm32-bsec-optee-ta.h | 20 +++----
+ drivers/nvmem/stm32-romem.c         | 26 ++++-----
+ drivers/nvmem/sunplus-ocotp.c       |  4 +-
+ drivers/nvmem/sunxi_sid.c           | 15 +++---
+ drivers/nvmem/u-boot-env.c          |  6 +--
+ drivers/nvmem/uniphier-efuse.c      |  6 +--
+ drivers/nvmem/vf610-ocotp.c         |  7 +--
+ drivers/nvmem/zynqmp_nvmem.c        | 13 ++---
+ include/linux/nvmem-provider.h      |  4 +-
+ 40 files changed, 253 insertions(+), 231 deletions(-)
+
+-- 
+2.44.0.769.g3c40516874-goog
+
