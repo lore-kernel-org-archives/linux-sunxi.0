@@ -1,68 +1,76 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78A0515A4A1
-	for <linux-sunxi@lists.linux.dev>; Wed, 24 Apr 2024 11:40:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB1C62F52;
+	Wed, 24 Apr 2024 12:34:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713958820; cv=none; b=BsZ+WlfGORPLE3p1WAWWvB+uRA4nlu93p2GwBCajX2cNNG5aCckS+Yo0Y02OcE/YZWZx9BteZceigXOnVgN41Z6QKL+7ule+kvLqYiCi5ZEhM0AMazO2IAr8dok5oWoCsouQTn346gKggCYetMntq4ScgSwqdxsr8l9egA3AbLo=
+	t=1713962060; cv=none; b=Dpt91R99hQSfUSvaBZa1XxNq0k8AC32HK/sZYZxPUqjtkY9blHWxSyWAhMjSp6y0amu33K2MQYAiwWLI3ccSjNx8d0YVyDE7gGdYpgVXoxG5scpSi8SqbdOB0dw6n6bGskhnpb4+UFALjL14Q73hISx+Wk2M11/ZNK6vjSKfqgo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713958820; c=relaxed/simple;
-	bh=uPxQKTFjx1OojfL3XIvuRwqZqEHhetjhGQ/QNoCE0cs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dpAQHU4J7MBa3RBhknztr0YwQnMkPHZgzk88AtfaYCQqVN8KbpjP54InTx8zBkMjSQ+SwIyMNlOuq2sNux2S1gIm3vcyhazOkoAIo2Vzn1WOCCW0ftZH3ogIugHjUo2gk+NHQCglvAEjLscmiXzzWkJ1/0hm/AqBEpjwV6ADNFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PXLFYk/f; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1713962060; c=relaxed/simple;
+	bh=RdEzfGHr6mIGf1fmDgMivz/m+lwL7VuuP84qTo4VLCg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n++XyMaNwyqcxWbYPG/NoNTGAHwZBsUtPktLJOmK9gXGfhV3nVm+ijbBsrHp2B7S25j1EXlT8WvdMm63WuKJXyiBtnMEO79R0CYjxGw7jQIBH46kCQ7oSo+W1tu2tqZOroy+xDjavTrtG86Vn62cjgiyPehIgnj+UK97IM4h9xM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=anduGsq3; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PXLFYk/f"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-346b146199eso5347277f8f.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 24 Apr 2024 04:40:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713958817; x=1714563617; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lWMfbfXnYK3fqv0yrgeedC9giNqOZfecY/EM1i6Y9pw=;
-        b=PXLFYk/fHu/VghJbeZcB9ek/b/VxvvZgFsseKe+O6Q3buQv8XStrzSNwZy31lUTcpF
-         bEJOgx2kba8F3rjoKHdrnPPhAdk4SsY9x4oygqV6ps/KYrs/IbK3y8pJiJ8QVC7I9GYp
-         BOW/olPYzCWtLPSKGXdG6s+9V4Kb2oaXyFCepoSz38a3FQB1v/UZ1br6EtWyfAzD2JGv
-         UjdXvUqxg3YVQcOUfSOk8u5I0mW/JI8IZFJhp9KvZ8sW6dD8L0hE3nWCjHJCtWEho6Mk
-         VBChfrsMPaGT9uIBWHPIuqpiJy026nQCMTL2q38rFSo/8bF6cJAGqrU+Tj/N7flDHKWs
-         qjkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713958817; x=1714563617;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lWMfbfXnYK3fqv0yrgeedC9giNqOZfecY/EM1i6Y9pw=;
-        b=DPLIG4v7Z/cQLe2IF+meNniPst2LGd/jDhT0b/raAoK1tuXBpRa+bI9lY3lFaUTM4s
-         zR9D1nYE30ol7/NUR2dq7BWz4weW6SH+ftFGe+wPjII1iTvYHXOFHJYJZSSSu64EwAMH
-         Cq1ZVHPnAk7LDqaudnMJuiHUhUNa4usS6mAFuHh4YpECBxv39cVbX/5m2MUTSiupvjNK
-         Jg33dMqoMkdSgJtC5Kwk4ulb4YmNFpGsn6F+upmUpF6/qWP67GyXrFh0Usgb6n2Oh3Jy
-         oCjOU38Sd3zIhXQ5ySIu+wjCjlI44XO4Qz9NqTvzYHiJca6ViJ40f4qhO45uRw/dMZv4
-         ZWHg==
-X-Forwarded-Encrypted: i=1; AJvYcCUFuZyyTMpLDK+gVQk/kUsCZB5V79dZr/991e7Oy1Zv3Ve0ZsEKAaEm+OM4+NOq2FXY2gn1JrgureDkLvqfy6UlDmwhljPKuNs1bqI=
-X-Gm-Message-State: AOJu0Ywt5iRZgOO4pi2BeNJinvP3kDhMu3nWIyBBNEd1VUJpS1PNdnuR
-	zqgtV17saccP4YFR7fbhGI/ZXihMejzActMVpyVQnPeEQU7ByugK+PFTVkd235I=
-X-Google-Smtp-Source: AGHT+IEWJT/8VK6y4z/3yPVqZFVfOmJf5zYfnoJ8CK24bfiYAkNVefNagGs454ZH+JH0euJmK90N9w==
-X-Received: by 2002:a5d:568d:0:b0:34a:9b75:cb95 with SMTP id f13-20020a5d568d000000b0034a9b75cb95mr1449964wrv.37.1713958816645;
-        Wed, 24 Apr 2024 04:40:16 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id d4-20020adfe2c4000000b0034a3a0a753asm15306805wrj.100.2024.04.24.04.40.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Apr 2024 04:40:16 -0700 (PDT)
-Date: Wed, 24 Apr 2024 14:40:11 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Yangtao Li <tiny.windzz@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Chen-Yu Tsai <wens@csie.org>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="anduGsq3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713962059; x=1745498059;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RdEzfGHr6mIGf1fmDgMivz/m+lwL7VuuP84qTo4VLCg=;
+  b=anduGsq337SRfbmlA2MCkUFDibNWfvsh74GpWW33bXD0uG+vZcDSBilm
+   HiquZ5CzdGe0C/NSxW9rmQ0EZDjTG47ghNHG5BWbYLqsCYQKz2SDD7K6u
+   mnX7Ktk00STFYRIt9iSqAbXm1JWI9ZQnujBZKvKlSHm97xRFNY3gct6Mu
+   2mbqD5uTU6ITio4OQ23zbajPxWOEK3YbrHy0M3Hu1Olc9DfKeTxyVc3Bi
+   0VTiMrzwthYKLUl7CNL+eNZ0EcYh6nwB1S/6B6n4RB9lchWh/28c32AZZ
+   KUSpL5y6FNDryjjF/PjaHRSIAPjnBuhOXdyTIhFlGBm+YN9IjSdRoXH8X
+   g==;
+X-CSE-ConnectionGUID: mwCV49PPQRicZ5UD/p1Fgw==
+X-CSE-MsgGUID: Ly1K3rXJT1OyHaXXHdXT9A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="9811285"
+X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; 
+   d="scan'208";a="9811285"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 05:34:18 -0700
+X-CSE-ConnectionGUID: UXB9MMOrRbiJGz+VZuSSzg==
+X-CSE-MsgGUID: /K5OmW/RRKu88J3t3Vt0qw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; 
+   d="scan'208";a="24585850"
+Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 24 Apr 2024 05:34:12 -0700
+Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rzbpB-0001Dq-2r;
+	Wed, 24 Apr 2024 12:34:09 +0000
+Date: Wed, 24 Apr 2024 20:34:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Aren Moynihan <aren@peacevolution.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, linux-pm@vger.kernel.org,
+	Samuel Holland <samuel@sholland.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Aren Moynihan <aren@peacevolution.org>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Ondrej Jirman <megi@xff.cz>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-iio@vger.kernel.org, phone-devel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: [PATCH] cpufreq: sun50i: fix error returns in dt_has_supported_hw()
-Message-ID: <9bfe5703-b39b-4d98-9995-f6a7d0ea558d@moroto.mountain>
+	Willow Barraco <contact@willowbarraco.fr>
+Subject: Re: [PATCH v2 2/6] iio: light: stk3310: Implement vdd supply and
+ power it off during suspend
+Message-ID: <202404242057.PUDY5RB1-lkp@intel.com>
+References: <20240423223309.1468198-4-aren@peacevolution.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -71,36 +79,133 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+In-Reply-To: <20240423223309.1468198-4-aren@peacevolution.org>
 
-The dt_has_supported_hw() function returns type bool.  That means these
-negative error codes are cast to true but the function should return
-false instead.
+Hi Aren,
 
-Fixes: fa5aec9561cf ("cpufreq: sun50i: Add support for opp_supported_hw")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- drivers/cpufreq/sun50i-cpufreq-nvmem.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+kernel test robot noticed the following build warnings:
 
-diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-index cd50cea16a87..0b882765cd66 100644
---- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-+++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-@@ -136,11 +136,11 @@ static bool dt_has_supported_hw(void)
- 
- 	cpu_dev = get_cpu_device(0);
- 	if (!cpu_dev)
--		return -ENODEV;
-+		return false;
- 
- 	np = dev_pm_opp_of_get_opp_desc_node(cpu_dev);
- 	if (!np)
--		return -ENOENT;
-+		return false;
- 
- 	for_each_child_of_node(np, opp) {
- 		if (of_find_property(opp, "opp-supported-hw", NULL)) {
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on sunxi/sunxi/for-next robh/for-next linus/master v6.9-rc5 next-20240423]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Aren-Moynihan/dt-bindings-iio-light-stk33xx-add-vdd-and-leda-regulators/20240424-064250
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20240423223309.1468198-4-aren%40peacevolution.org
+patch subject: [PATCH v2 2/6] iio: light: stk3310: Implement vdd supply and power it off during suspend
+config: arm64-randconfig-001-20240424 (https://download.01.org/0day-ci/archive/20240424/202404242057.PUDY5RB1-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 5ef5eb66fb428aaf61fb51b709f065c069c11242)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240424/202404242057.PUDY5RB1-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404242057.PUDY5RB1-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/iio/light/stk3310.c:10:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/iio/light/stk3310.c:615:38: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
+     615 |                 return dev_err_probe(&client->dev, ret, "get regulator vdd failed\n");
+         |                                                    ^~~
+   drivers/iio/light/stk3310.c:594:9: note: initialize the variable 'ret' to silence this warning
+     594 |         int ret;
+         |                ^
+         |                 = 0
+   2 warnings generated.
+
+
+vim +/ret +615 drivers/iio/light/stk3310.c
+
+   591	
+   592	static int stk3310_probe(struct i2c_client *client)
+   593	{
+   594		int ret;
+   595		struct iio_dev *indio_dev;
+   596		struct stk3310_data *data;
+   597	
+   598		indio_dev = devm_iio_device_alloc(&client->dev, sizeof(*data));
+   599		if (!indio_dev) {
+   600			dev_err(&client->dev, "iio allocation failed!\n");
+   601			return -ENOMEM;
+   602		}
+   603	
+   604		data = iio_priv(indio_dev);
+   605		data->client = client;
+   606		i2c_set_clientdata(client, indio_dev);
+   607	
+   608		device_property_read_u32(&client->dev, "proximity-near-level",
+   609					 &data->ps_near_level);
+   610	
+   611		mutex_init(&data->lock);
+   612	
+   613		data->vdd_reg = devm_regulator_get(&client->dev, "vdd");
+   614		if (IS_ERR(data->vdd_reg))
+ > 615			return dev_err_probe(&client->dev, ret, "get regulator vdd failed\n");
+   616	
+   617		ret = stk3310_regmap_init(data);
+   618		if (ret < 0)
+   619			return ret;
+   620	
+   621		indio_dev->info = &stk3310_info;
+   622		indio_dev->name = STK3310_DRIVER_NAME;
+   623		indio_dev->modes = INDIO_DIRECT_MODE;
+   624		indio_dev->channels = stk3310_channels;
+   625		indio_dev->num_channels = ARRAY_SIZE(stk3310_channels);
+   626	
+   627		ret = regulator_enable(data->vdd_reg);
+   628		if (ret)
+   629			return dev_err_probe(&client->dev, ret,
+   630					     "regulator vdd enable failed\n");
+   631	
+   632		/* we need a short delay to allow the chip time to power on */
+   633		fsleep(1000);
+   634	
+   635		ret = stk3310_init(indio_dev);
+   636		if (ret < 0)
+   637			goto err_vdd_disable;
+   638	
+   639		if (client->irq > 0) {
+   640			ret = devm_request_threaded_irq(&client->dev, client->irq,
+   641							stk3310_irq_handler,
+   642							stk3310_irq_event_handler,
+   643							IRQF_TRIGGER_FALLING |
+   644							IRQF_ONESHOT,
+   645							STK3310_EVENT, indio_dev);
+   646			if (ret < 0) {
+   647				dev_err(&client->dev, "request irq %d failed\n",
+   648					client->irq);
+   649				goto err_standby;
+   650			}
+   651		}
+   652	
+   653		ret = iio_device_register(indio_dev);
+   654		if (ret < 0) {
+   655			dev_err(&client->dev, "device_register failed\n");
+   656			goto err_standby;
+   657		}
+   658	
+   659		return 0;
+   660	
+   661	err_standby:
+   662		stk3310_set_state(data, STK3310_STATE_STANDBY);
+   663	err_vdd_disable:
+   664		regulator_disable(data->vdd_reg);
+   665		return ret;
+   666	}
+   667	
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
