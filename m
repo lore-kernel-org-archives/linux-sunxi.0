@@ -1,128 +1,93 @@
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5CEF15B57E
-	for <linux-sunxi@lists.linux.dev>; Wed, 24 Apr 2024 12:59:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E74315E5C9
+	for <linux-sunxi@lists.linux.dev>; Wed, 24 Apr 2024 14:22:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713963599; cv=none; b=A5jDNZ44oONk38aZ5CMlWTCvRjVT2NRl+8N39KGMdVYVpBVCxwyIGSC9u7+cKF9wM6iIMhsN/9KPsCs18VhZCyn1jjBazEf5vYlde9z5fit18mIOzZfKWArsR/XdW6UJ13tFf9C5+cqnWS/LlxIytthZYRrun/gCohT1FH0NMLE=
+	t=1713968531; cv=none; b=X0/cXXvOB+3zbQ9aOT0m69bjHVgRiK38lmguFiWNJ3VHaxPzybJY4kmI3C9cuzrzMHMb3Ztb0d6q+ReugQM2zbM7Q/fQVJuUXEtklVvptFYj6YovKli51bZNLBfw9+MgKMNC38H2AsWETguf1y/nND8Gu0Z+OltsH2o5pX3OCyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713963599; c=relaxed/simple;
-	bh=kamfKpDUAuUVYKc3JD6fhJN/bs5aaqGFBEBTvufzKSA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ciHFUfx0mWhSGKhwwTSETTe8YoV+1zgR/0krI7gdcBhm85O5LjbILd9JJnFtaKFqYTCR8YvMhQcerRlVSKVd8x7OdIMIg4u5OVDi5c7tZEZR/Jx5Xn4hSiNCopLsTE+tOe8b3vaHliEP7W1jeACDo91YPMc9Bh1YQVB8OxU9kb0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=m2Opc8GE; arc=none smtp.client-ip=195.181.215.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="m2Opc8GE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
-	t=1713963589; bh=kamfKpDUAuUVYKc3JD6fhJN/bs5aaqGFBEBTvufzKSA=;
-	h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
-	b=m2Opc8GEH5y1OCPgcUHTFE55CkaXhDFNC4qU5zJuox4opmWh69YhB6n2wMWjbLBew
-	 iA9GtdDPXTHD7fXEV5ewxEJen0QK5Byy+ZQrWJWDnxEvXD2onLoNfnFu1kqiijSerA
-	 m/BxquIGSzeUxD7Eitsp/l5Uuxbg6yxVAETYL/EE=
-Date: Wed, 24 Apr 2024 14:59:48 +0200
-From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Aren Moynihan <aren@peacevolution.org>, 
-	Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, linux-iio@vger.kernel.org, phone-devel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	Willow Barraco <contact@willowbarraco.fr>
-Subject: Re: [PATCH v2 2/6] iio: light: stk3310: Implement vdd supply and
- power it off during suspend
-Message-ID: <5qqil7ltqhdeabml6toqpcy773uhjxgwaz3txpy4kv4sz55o2y@hmar674eey7s>
-Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, 
-	Andy Shevchenko <andy.shevchenko@gmail.com>, Aren Moynihan <aren@peacevolution.org>, 
-	Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, linux-iio@vger.kernel.org, phone-devel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	Willow Barraco <contact@willowbarraco.fr>
-X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
- <https://xff.cz/key.txt>
-References: <20240423223309.1468198-2-aren@peacevolution.org>
- <20240423223309.1468198-4-aren@peacevolution.org>
- <CAHp75VeRDSPvpmSbUyZPp0RMoTOE193U2ma18qxv_qZQKLCq8g@mail.gmail.com>
+	s=arc-20240116; t=1713968531; c=relaxed/simple;
+	bh=bKd7H00rDt0Or6kdVYu+lE7iFOzMdHEuVtRzVbC9rds=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qVp0gxO5cukfsaETSVj9bp/HLxPWx6xTTRiNekhvnkw6q+XRwr4KXxpKvGo2TvOauISHboL28MC44pvIO6B2tfnw9/xRrP8Tj4aL2QQKnXFulIWm1NaPoJYFO6g9o/aDB+IM+H6GezT3H15cT0zTNfraj3VSXQvNHUP/72qtx/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 2E576FF809;
+	Wed, 24 Apr 2024 14:22:02 +0000 (UTC)
+Message-ID: <6c624361-a968-498b-a9fb-ea2aaec70ce8@ghiti.fr>
+Date: Wed, 24 Apr 2024 16:22:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHp75VeRDSPvpmSbUyZPp0RMoTOE193U2ma18qxv_qZQKLCq8g@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 06/17] riscv: Fix extension subset checking
+Content-Language: en-US
+To: Charlie Jenkins <charlie@rivosinc.com>, Conor Dooley <conor@kernel.org>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Guo Ren <guoren@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Conor Dooley <conor.dooley@microchip.com>, Evan Green <evan@rivosinc.com>,
+ =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
+Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+References: <20240420-dev-charlie-support_thead_vector_6_9-v3-0-67cff4271d1d@rivosinc.com>
+ <20240420-dev-charlie-support_thead_vector_6_9-v3-6-67cff4271d1d@rivosinc.com>
+From: Alexandre Ghiti <alex@ghiti.fr>
+In-Reply-To: <20240420-dev-charlie-support_thead_vector_6_9-v3-6-67cff4271d1d@rivosinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: alex@ghiti.fr
 
-On Wed, Apr 24, 2024 at 02:16:06AM GMT, Andy Shevchenko wrote:
-> On Wed, Apr 24, 2024 at 1:41 AM Aren Moynihan <aren@peacevolution.org> wrote:
-> >
-> > From: Ondrej Jirman <megi@xff.cz>
-> >
-> > VDD power input can be used to completely power off the chip during
-> > system suspend. Do so if available.
-> 
-> ...
-> 
-> >         ret = stk3310_init(indio_dev);
-> >         if (ret < 0)
-> > -               return ret;
-> > +               goto err_vdd_disable;
-> 
-> This is wrong. You will have the regulator being disabled _before_
-> IRQ. Note, that the original code likely has a bug which sets states
-> before disabling IRQ and removing a handler.
+Hi Charlie,
 
-How so? stk3310_init is called before enabling the interrupt.
+On 21/04/2024 03:04, Charlie Jenkins wrote:
+> This loop is supposed to check if ext->subset_ext_ids[j] is valid, rather
+> than if ext->subset_ext_ids[i] is valid, before setting the extension
+> id ext->subset_ext_ids[j] in isainfo->isa.
+>
+> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> Fixes: 0d8295ed975b ("riscv: add ISA extension parsing for scalar crypto")
+> ---
+>   arch/riscv/kernel/cpufeature.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
+> index 48874aac4871..b537731cadef 100644
+> --- a/arch/riscv/kernel/cpufeature.c
+> +++ b/arch/riscv/kernel/cpufeature.c
+> @@ -609,7 +609,7 @@ static int __init riscv_fill_hwcap_from_ext_list(unsigned long *isa2hwcap)
+>   
+>   			if (ext->subset_ext_size) {
+>   				for (int j = 0; j < ext->subset_ext_size; j++) {
+> -					if (riscv_isa_extension_check(ext->subset_ext_ids[i]))
+> +					if (riscv_isa_extension_check(ext->subset_ext_ids[j]))
+>   						set_bit(ext->subset_ext_ids[j], isainfo->isa);
+>   				}
+>   			}
+>
 
-Original code has a bug that IRQ is enabled before registering the
-IIO device, so if IRQ is triggered before registration, iio_push_event
-from IRQ handler may be called on a not yet registered IIO device.
+I think this should go into -fixes, let's check with Palmer if he wants 
+to take this patch only or if you should send the patch on its own.
 
-Never saw it happen, though. :)
+You can add:
 
-kind regards,
-	o.
+Reviewed-by: Alexandre Ghiti <alexghiti@rivosinc.com>
 
-> Side note, you may make the driver neater with help of
-> 
->   struct device *dev = &client->dev;
-> 
-> defined in this patch.
-> 
-> ...
-> 
-> >  static int stk3310_suspend(struct device *dev)
-> >  {
-> >         struct stk3310_data *data;
-> 
-> >         data = iio_priv(i2c_get_clientdata(to_i2c_client(dev)));
-> 
-> Side note: This may be updated (in a separate change) to use
-> dev_get_drvdata() directly.
-> 
-> Jonathan, do we have something like iio_priv_from_drvdata(struct
-> device *dev)? Seems many drivers may utilise it.
-> 
-> >  }
-> 
-> ...
-> 
-> >  static int stk3310_resume(struct device *dev)
-> 
-> Ditto.
-> 
-> --
-> With Best Regards,
-> Andy Shevchenko
+Thanks,
+
+Alex
+
+
