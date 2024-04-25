@@ -1,195 +1,181 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wfhigh6-smtp.messagingengine.com (wfhigh6-smtp.messagingengine.com [64.147.123.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30BD83B796
-	for <linux-sunxi@lists.linux.dev>; Thu, 25 Apr 2024 05:31:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C8343BBE8
+	for <linux-sunxi@lists.linux.dev>; Thu, 25 Apr 2024 05:39:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714023114; cv=none; b=MpyV4snBeJkOIFevMh+guEf0F7Z1YFSfmnf9U3bBeZ/6C72MCnGKzbaP+xFyLnCJA9horfv6lG7mQS0LLAWlxoEaJKdbPzAVgQ3nAzFjObBZ/8lelNNdZCmt59h3fup6krClLt3p4EXHy2lq+y8gMig44cLsnB/Nhv13MqRcV9o=
+	t=1714023595; cv=none; b=smNCX8tWa1esPjYqAAVdkvBF2U0em3KScebOezc3gkQN8AJFoHyKnXrerfXhT946+lg5NPkpb85iLI4tZoEU93r7dfGu8WFCKHUxwOKeZK1kd90sTajG+1St4kfSwdArS+gMK7Q9lWAOTYUng3+Zm6e0oSD35q1W94XHj24NahU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714023114; c=relaxed/simple;
-	bh=nVBrL7YJuNzCkb+t0TQFbZ+nLpcpPgHNZvsiUTjW2s0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=Rd1pnHOZ9Eur0A0v8zz+VupCZO+eydfrjCq57aMHnUpFA+k+fqfNpvrGqlTp7Mpekf4bJk+7igC7g1MnlOoWZJusfy6XPuCH6xvIMrh0NtxIq/KzjP/+W328TtK6IanDrXwZMWB0pRczKMK33kwzpbzRNZlyyhYM4rcA95eb5bQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vbV3Qhhv; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1714023595; c=relaxed/simple;
+	bh=G+Pq9WK+Pf3AsXknbqoKgSyofmS2y1qL8CXJIT+xHcI=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=cMRtfJJn7BhDzlm/2z8Zr28I9OT2bztXnObPPmKgZhHA1AeNqfoAJVzBWS4tjYmK/chvfaFmdUyqaoVObiVPXnn06VSEPABZCWLyQd5tF8gHys9eHFOuV7DBLtOeEBsso8TgKTTTqP0gPAwJ6SeAiG+Ku+rNg6//+zid2+Y8FAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=N8PVrIr0; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=hAMh3WM/; arc=none smtp.client-ip=64.147.123.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=testtoast.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vbV3Qhhv"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-41b5aed246dso145e9.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 24 Apr 2024 22:31:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1714023091; x=1714627891; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=cMmQUcIVgSzWuW2ZWEiFPzqJ+do6tt+UV73InjD+R7U=;
-        b=vbV3QhhvfbDjCX3Gil9ppm4BLTVLKRM/A2mmYdMG2IgTYSrVdUxloTnfalEZOvhlum
-         DtB+vsiPp9gfSevevQk7p+nMmDMOavvQHbVRZd7eOTaoCUkhQxziZ25BZPUoQtzPVnij
-         rv1SELXlQxnDQ1QWziRKqqHMz9v9+p2jEVBKAZhd+m+kVRr1bZ3KuVoCsLyuCorPBvuS
-         fvIU7OJTUAqHYCVc6ZmVmRyk4e1pmbclu6d4iMRsQTWs7XU8nXlGM2rw1MDqmwK8DXeJ
-         irfswBVKVC0TCmKu2d0pYsD/yLJImcx6ZIWgISlrCqO7MPKxmasLBzXUaD9vvtMSLSb5
-         R4eQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714023091; x=1714627891;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cMmQUcIVgSzWuW2ZWEiFPzqJ+do6tt+UV73InjD+R7U=;
-        b=Q75CkbFxsjcqbJ16cMTs8NLecWRV6FEn/zJlx4vej0c2uTxXR2iAcppkaw0PeMLMB+
-         xF4XeVcMjmwylU1eQ4TUUUO8efB4vtjTUEd+ZnnMMgHsrQuyNAo7JzMRDjmbyLuxjpUl
-         rl6vYhGCcTosE0lpcNSs/XbrNI5xuVyHfUgBzX9N4u90bV2EOyg4Z8X6uVd8z4TbeP3i
-         j4QlCnefXehBsbsOQCofNauLk4zyia/u6Omntm9beZG5XTEL++jQ5znkDd5qb4iqCyHC
-         KPny7MhOzMirC/aZkKw+wycBsjb+N3aI66TVPxbxaQZYM1s7Eii6leq3rSotR4YnEHAw
-         mkSw==
-X-Forwarded-Encrypted: i=1; AJvYcCUMjOCKg4rNYT4tC1dcDY2lzXXxN9/PjZLCPY9vYuNWR6obZc7tjmMwsQeJ4AZZ9D10xVRTqWnGL4IdLWmGDQlTO5y0OKnijVMf8/Q=
-X-Gm-Message-State: AOJu0Yx7+yeKqtshJVnZe06xeh5LgrYdTequwka+AKhd8aIXL4dbeuUx
-	kOfpEdKChWfC3pa5FTUJcjseOnXhMuy/7eZ5QJjnGfDLdLjpiGGJvVJZtrGzE2g=
-X-Google-Smtp-Source: AGHT+IGnkVtA5Wtwo7q3DYXIHysN+Cu0EJxSPiMeca2h/hO/A4Gzv4GhNLke0XTi2A49j9T/1rc+tw==
-X-Received: by 2002:a05:600c:4f8f:b0:418:58ac:7477 with SMTP id n15-20020a05600c4f8f00b0041858ac7477mr3171421wmq.30.1714023090830;
-        Wed, 24 Apr 2024 22:31:30 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id fj3-20020a05600c0c8300b00416b2cbad06sm29941718wmb.41.2024.04.24.22.31.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Apr 2024 22:31:30 -0700 (PDT)
-Date: Thu, 25 Apr 2024 08:31:26 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Aren Moynihan <aren@peacevolution.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Aren Moynihan <aren@peacevolution.org>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Ondrej Jirman <megi@xff.cz>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	linux-iio@vger.kernel.org, phone-devel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	Willow Barraco <contact@willowbarraco.fr>
-Subject: Re: [PATCH v2 2/6] iio: light: stk3310: Implement vdd supply and
- power it off during suspend
-Message-ID: <b47ad9a6-2b17-497f-ac2d-33ffec1b2750@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="N8PVrIr0";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="hAMh3WM/"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfhigh.west.internal (Postfix) with ESMTP id B632B180014E;
+	Thu, 25 Apr 2024 01:39:52 -0400 (EDT)
+Received: from imap47 ([10.202.2.97])
+  by compute5.internal (MEProxy); Thu, 25 Apr 2024 01:39:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm3; t=1714023592; x=
+	1714109992; bh=8CrF5G9B7rbf4ywUM/FE/UWCnhlsJxP5TcR1bLPuTww=; b=N
+	8PVrIr0RDlNz+hVpwsiqMQEbY9v0XkWjGEccBHNdTo1PUcp2LmxJcNCA76K9hylN
+	hjMGZZPAcWL84sdqim0dSJ1r0njVFq7VSdyiypTL+UCgi5AgLoHjhGpk9qY5C+Ek
+	BHXn5AKIrLo9BweY3vd/1nclLYTdkKOyhtoXUSHAhEknfzBOhyYi/JicuN9x83Ol
+	QJvKEhhHsl8qizNWOR458MzgWQzE5qot+BB6g1sd+Njr6rjchpc8YPizl60Xq2oB
+	0fUzbtUIqeOpD7d6id3l56IaFpSI4SoEFh0slL40sP9vP5foHNSLdYNsIbyByw5y
+	qjDCU9E793KwvcOpSJY/Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1714023592; x=1714109992; bh=8CrF5G9B7rbf4ywUM/FE/UWCnhls
+	JxP5TcR1bLPuTww=; b=hAMh3WM/ROdjXX0Spdbkz4uBo+qjh3m2Ud9y5ARpkZmt
+	EGdM6fESOMYGT3AsLS6el+lbSZzfdU85qP8LRbedda1gQtfVCw2P5J5k3FS1woXt
+	TSXrboInUcAFQvKdfx3oqRCNPIlFFQaHFzipO6BFkoJu5chW6exlyNawN9NUMoHE
+	7aksvuVaYicLOgo1H4T6Djcm6o8noEflYcpwJFiXAg1bKig7Stnd21PhjjIMJh/3
+	0LYzi+3gt52BBVh9Rhf3yNDeAfd/e05eb6Ml15Wvw1bVznS4wBBlyfe4lfwtJWmx
+	a42VCrOac0lcJFr0wthvMM7p1PN+bf5xAlToUhGYlA==
+X-ME-Sender: <xms:p-wpZi5zLL0j5Wd7ClYP2Pysa1sngz0kW0b7PT2pg-BwLUVqnopzig>
+    <xme:p-wpZr56xtUUknIGfc8R1UnfDY_GqjK0bU2Wq7MSy_UQh3AWZMCXuaw69s0CFNSSK
+    3oMdBg97HL4SkddVw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudeliedguddtudcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdft
+    higrnhcuhggrlhhklhhinhdfuceorhihrghnsehtvghsthhtohgrshhtrdgtohhmqeenuc
+    ggtffrrghtthgvrhhnpeehvdevieegudejueefgeffhefhffevudfhieejgfdtffetlefg
+    teeuveeiudeijeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehrhigrnhesthgvshhtthhorghsthdrtghomh
+X-ME-Proxy: <xmx:p-wpZhdPUTruPxbM1DpQ9GsoBCaHNjP_PwScaK1gDvVcnRNhTRDqFw>
+    <xmx:p-wpZvLCxAGSQzizPxAuUYbSdVQjU1zpgd2tQrKSR2DQJVWPaNLD-w>
+    <xmx:p-wpZmIxSFf_l1IZ49rlZrnQxkKClYbWMbNOluzKhW4LyS549wI-Ew>
+    <xmx:p-wpZgyvWQkqnjE8-jZv_GHf8ey0m0QEeeij78-UBpJ8pI7JiDBwPw>
+    <xmx:qOwpZl8rXh-3Z1oIvihcYGTsnOCS6nEpAtc6Pyd4o9li_QamkdsTaCFe>
+Feedback-ID: idc0145fc:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id A6FF4A60078; Thu, 25 Apr 2024 01:39:51 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-386-g4cb8e397f9-fm-20240415.001-g4cb8e397
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240423223309.1468198-4-aren@peacevolution.org>
+Message-Id: <429b3f1e-c42e-481b-adee-56852243535a@app.fastmail.com>
+In-Reply-To: 
+ <DM4PR05MB9229EE6BE60831DFD6C37A62A5172@DM4PR05MB9229.namprd05.prod.outlook.com>
+References: <20240424110947.9057-1-ryan@testtoast.com>
+ <20240424110947.9057-3-ryan@testtoast.com>
+ <20240425012559.44528ee9@minigeek.lan>
+ <DM4PR05MB9229EE6BE60831DFD6C37A62A5172@DM4PR05MB9229.namprd05.prod.outlook.com>
+Date: Thu, 25 Apr 2024 17:39:31 +1200
+From: "Ryan Walklin" <ryan@testtoast.com>
+To: "Andre Przywara" <andre.przywara@arm.com>
+Cc: "Chen-Yu Tsai" <wens@csie.org>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+ "Conor Dooley" <conor+dt@kernel.org>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+ "Samuel Holland" <samuel@sholland.org>, devicetree@vger.kernel.org,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v3 2/4] arm64: dts: allwinner: h700: Add RG35XX 2024 DTS
+Content-Type: text/plain
 
-Hi Aren,
+On Thu, 25 Apr 2024, at 1:58 PM, Chris Morgan wrote:
+> On Thu, Apr 25, 2024 at 01:25:59AM +0100, Andre Przywara wrote:
+>> On Wed, 24 Apr 2024 23:09:45 +1200
+>> Ryan Walklin <ryan@testtoast.com> wrote:
+>> 
+>> Hi Ryan (and Chris),
+>> 
+>> many thanks for the changes, that looks really close now. Only a few
+>> smaller comments this time.
+>> 
+Thanks both for the review.
 
-kernel test robot noticed the following build warnings:
+>> > +&mmc2 {
+>> > +	vmmc-supply = <&reg_cldo4>;
+>> > +	vqmmc-supply = <&reg_aldo1>;
+>> 
+>> This is now fixed to 1.8V, which doesn't look right. Either it's not
+>> the right regulator, or you should extend its range to cover 3.3V as
+>> well.
+>
+> The IO is fixed at 1.8v (both the SDIO pins and the UART1 pins for
+> bluetooth). If you raise this regulator too high the system becomes
+> unstable.
+>
+Ideally LV signalling would work for UHS but unsure if that is achievable. FWIW the vendor BSP does refer to the vqmmc supply being ALDO1 but allows a range up to 3.5v. Will test out a 3.3v max and confirm it is unstable.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Aren-Moynihan/dt-bindings-iio-light-stk33xx-add-vdd-and-leda-regulators/20240424-064250
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20240423223309.1468198-4-aren%40peacevolution.org
-patch subject: [PATCH v2 2/6] iio: light: stk3310: Implement vdd supply and power it off during suspend
-config: i386-randconfig-141-20240424 (https://download.01.org/0day-ci/archive/20240425/202404251021.4OPER3OS-lkp@intel.com/config)
-compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
+>> > +&r_rsb {
+>> > +   status = "okay";
+>> 
+>> This is indented with spaces, not a tab.
+Fixed, ta.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202404251021.4OPER3OS-lkp@intel.com/
+>> > +		regulators {
+>> > +			reg_dcdc1: dcdc1 {
+>> > +				regulator-always-on;
+>> > +				regulator-boot-on;
+>> 
+>> boot-on doesn't make much sense here: that allows it to be turned off,
+>> which we don't want. Also the binding documentation in regulator.yaml
+>> says that it's only intended "where software cannot read the state of
+>> the regulator", which is not true here.
+>> regulator-always-on is all we need - technically speaking not even
+>> that, since cpu0 is a consumer, but we need to play safe here.
 
-smatch warnings:
-drivers/iio/light/stk3310.c:615 stk3310_probe() error: uninitialized symbol 'ret'.
+Thanks for the explanation, this and others fixed.
 
-vim +/ret +615 drivers/iio/light/stk3310.c
+>> > +			reg_aldo3: aldo3 {
+>> > +				regulator-always-on;
+>> > +				regulator-min-microvolt = <1800000>;
+>> > +				regulator-max-microvolt = <1800000>;
+>> > +				regulator-name = "axp717-aldo3";
+>> 
+>> So do we know for sure that's critical? And do we have any clue what
+>> this supplies?
+>> There is AVCC, VCC_HDMI, VCC_TV, VCC_RTC, all at 1.8V. The middle two
+>> are not critical.
+>> 
+Unsure currently, but can try with the HDMI patchset and see if I can identify VCC_HDMI at least. At least one of the audio-codec-connected regulators is presumably AVCC for the amp.
 
-9046d80dce04c6 Uwe Kleine-König 2022-11-18  592  static int stk3310_probe(struct i2c_client *client)
-be9e6229d67696 Tiberiu Breana   2015-04-27  593  {
-be9e6229d67696 Tiberiu Breana   2015-04-27  594  	int ret;
-be9e6229d67696 Tiberiu Breana   2015-04-27  595  	struct iio_dev *indio_dev;
-be9e6229d67696 Tiberiu Breana   2015-04-27  596  	struct stk3310_data *data;
-be9e6229d67696 Tiberiu Breana   2015-04-27  597  
-be9e6229d67696 Tiberiu Breana   2015-04-27  598  	indio_dev = devm_iio_device_alloc(&client->dev, sizeof(*data));
-be9e6229d67696 Tiberiu Breana   2015-04-27  599  	if (!indio_dev) {
-be9e6229d67696 Tiberiu Breana   2015-04-27  600  		dev_err(&client->dev, "iio allocation failed!\n");
-be9e6229d67696 Tiberiu Breana   2015-04-27  601  		return -ENOMEM;
-be9e6229d67696 Tiberiu Breana   2015-04-27  602  	}
-be9e6229d67696 Tiberiu Breana   2015-04-27  603  
-be9e6229d67696 Tiberiu Breana   2015-04-27  604  	data = iio_priv(indio_dev);
-be9e6229d67696 Tiberiu Breana   2015-04-27  605  	data->client = client;
-be9e6229d67696 Tiberiu Breana   2015-04-27  606  	i2c_set_clientdata(client, indio_dev);
-d6ecb01583d4e0 Arnaud Ferraris  2022-04-20  607  
-d6ecb01583d4e0 Arnaud Ferraris  2022-04-20  608  	device_property_read_u32(&client->dev, "proximity-near-level",
-d6ecb01583d4e0 Arnaud Ferraris  2022-04-20  609  				 &data->ps_near_level);
-d6ecb01583d4e0 Arnaud Ferraris  2022-04-20  610  
-be9e6229d67696 Tiberiu Breana   2015-04-27  611  	mutex_init(&data->lock);
-be9e6229d67696 Tiberiu Breana   2015-04-27  612  
-dd231c1d219f6b Ondrej Jirman    2024-04-23  613  	data->vdd_reg = devm_regulator_get(&client->dev, "vdd");
-dd231c1d219f6b Ondrej Jirman    2024-04-23  614  	if (IS_ERR(data->vdd_reg))
-dd231c1d219f6b Ondrej Jirman    2024-04-23 @615  		return dev_err_probe(&client->dev, ret, "get regulator vdd failed\n");
+>> > +			};
+>> > +
+>> > +			reg_aldo4: aldo4 { /* 5096000.codec */
+>> > +				regulator-always-on;
+>> 
+>> Is that necessary? What happens if that is turned off? Looks like only
+>> the WiFi and potentially audio is affected? I think it can go then,
+>> also pg-supply would reference it, so it would effectively be enabled
+>> anyways.
+>
+> I think this does something critical, as in my testing tinkering with
+> this regulator or turning it off locks up the system.
 
-s/ret/PTR_ERR(data->vdd_reg)/
+Agreed, unclear what else it is powering but at least the G-bank of GPIOs and also possibly VCC18_DRAM for the DRAM controller?
 
-dd231c1d219f6b Ondrej Jirman    2024-04-23  616  
-be9e6229d67696 Tiberiu Breana   2015-04-27  617  	ret = stk3310_regmap_init(data);
-be9e6229d67696 Tiberiu Breana   2015-04-27  618  	if (ret < 0)
-be9e6229d67696 Tiberiu Breana   2015-04-27  619  		return ret;
-be9e6229d67696 Tiberiu Breana   2015-04-27  620  
-be9e6229d67696 Tiberiu Breana   2015-04-27  621  	indio_dev->info = &stk3310_info;
-be9e6229d67696 Tiberiu Breana   2015-04-27  622  	indio_dev->name = STK3310_DRIVER_NAME;
-be9e6229d67696 Tiberiu Breana   2015-04-27  623  	indio_dev->modes = INDIO_DIRECT_MODE;
-be9e6229d67696 Tiberiu Breana   2015-04-27  624  	indio_dev->channels = stk3310_channels;
-be9e6229d67696 Tiberiu Breana   2015-04-27  625  	indio_dev->num_channels = ARRAY_SIZE(stk3310_channels);
-be9e6229d67696 Tiberiu Breana   2015-04-27  626  
-dd231c1d219f6b Ondrej Jirman    2024-04-23  627  	ret = regulator_enable(data->vdd_reg);
-dd231c1d219f6b Ondrej Jirman    2024-04-23  628  	if (ret)
-dd231c1d219f6b Ondrej Jirman    2024-04-23  629  		return dev_err_probe(&client->dev, ret,
-dd231c1d219f6b Ondrej Jirman    2024-04-23  630  				     "regulator vdd enable failed\n");
-dd231c1d219f6b Ondrej Jirman    2024-04-23  631  
-dd231c1d219f6b Ondrej Jirman    2024-04-23  632  	/* we need a short delay to allow the chip time to power on */
-dd231c1d219f6b Ondrej Jirman    2024-04-23  633  	fsleep(1000);
-dd231c1d219f6b Ondrej Jirman    2024-04-23  634  
-be9e6229d67696 Tiberiu Breana   2015-04-27  635  	ret = stk3310_init(indio_dev);
-be9e6229d67696 Tiberiu Breana   2015-04-27  636  	if (ret < 0)
-dd231c1d219f6b Ondrej Jirman    2024-04-23  637  		goto err_vdd_disable;
-be9e6229d67696 Tiberiu Breana   2015-04-27  638  
-6839c1b0700a79 Octavian Purdila 2015-09-23  639  	if (client->irq > 0) {
-3dd477acbdd1f1 Tiberiu Breana   2015-04-27  640  		ret = devm_request_threaded_irq(&client->dev, client->irq,
-3dd477acbdd1f1 Tiberiu Breana   2015-04-27  641  						stk3310_irq_handler,
-3dd477acbdd1f1 Tiberiu Breana   2015-04-27  642  						stk3310_irq_event_handler,
-3dd477acbdd1f1 Tiberiu Breana   2015-04-27  643  						IRQF_TRIGGER_FALLING |
-3dd477acbdd1f1 Tiberiu Breana   2015-04-27  644  						IRQF_ONESHOT,
-3dd477acbdd1f1 Tiberiu Breana   2015-04-27  645  						STK3310_EVENT, indio_dev);
-7c7a9eeaa335df Hartmut Knaack   2015-07-09  646  		if (ret < 0) {
-3dd477acbdd1f1 Tiberiu Breana   2015-04-27  647  			dev_err(&client->dev, "request irq %d failed\n",
-3dd477acbdd1f1 Tiberiu Breana   2015-04-27  648  				client->irq);
-7c7a9eeaa335df Hartmut Knaack   2015-07-09  649  			goto err_standby;
-7c7a9eeaa335df Hartmut Knaack   2015-07-09  650  		}
-3dd477acbdd1f1 Tiberiu Breana   2015-04-27  651  	}
-3dd477acbdd1f1 Tiberiu Breana   2015-04-27  652  
-037e966f2d6389 Hartmut Knaack   2015-07-09  653  	ret = iio_device_register(indio_dev);
-037e966f2d6389 Hartmut Knaack   2015-07-09  654  	if (ret < 0) {
-037e966f2d6389 Hartmut Knaack   2015-07-09  655  		dev_err(&client->dev, "device_register failed\n");
-7c7a9eeaa335df Hartmut Knaack   2015-07-09  656  		goto err_standby;
-037e966f2d6389 Hartmut Knaack   2015-07-09  657  	}
-037e966f2d6389 Hartmut Knaack   2015-07-09  658  
-7c7a9eeaa335df Hartmut Knaack   2015-07-09  659  	return 0;
-7c7a9eeaa335df Hartmut Knaack   2015-07-09  660  
-7c7a9eeaa335df Hartmut Knaack   2015-07-09  661  err_standby:
-7c7a9eeaa335df Hartmut Knaack   2015-07-09  662  	stk3310_set_state(data, STK3310_STATE_STANDBY);
-dd231c1d219f6b Ondrej Jirman    2024-04-23  663  err_vdd_disable:
-dd231c1d219f6b Ondrej Jirman    2024-04-23  664  	regulator_disable(data->vdd_reg);
-be9e6229d67696 Tiberiu Breana   2015-04-27  665  	return ret;
-be9e6229d67696 Tiberiu Breana   2015-04-27  666  }
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>> > +			reg_cldo1: cldo1 { /* 5096000.codec */
+>> > +				/* unused */
+>> > +				regulator-min-microvolt = <3300000>;
+>> > +				regulator-max-microvolt = <3300000>;
+>> 
+>> Looks a bit odd to have an "unused" comment, but also a voltage range
+>> specified. Judging from the comment this might be supplying some audio
+>> circuitry, which we don't need at the moment?
 
+Thanks, have removed the range for now.
+
+Ryan
