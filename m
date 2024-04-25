@@ -1,93 +1,195 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89A1E39FD6
-	for <linux-sunxi@lists.linux.dev>; Thu, 25 Apr 2024 05:08:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30BD83B796
+	for <linux-sunxi@lists.linux.dev>; Thu, 25 Apr 2024 05:31:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714021712; cv=none; b=uXjPn4HIhaiOR+molgHxMW/b95PtPMdbqUedRP73UZ5uGRLrpJnvfiqiRzfM2Odm2kxL1zno9f2KDXItNKEhjbcRepnLbSzJOFF415SU0VpdA664t8QaxI5j+qsmp6iczdbwSVixswbSyexbefn87RLwDbzbnmzHbNgygu1R9nY=
+	t=1714023114; cv=none; b=MpyV4snBeJkOIFevMh+guEf0F7Z1YFSfmnf9U3bBeZ/6C72MCnGKzbaP+xFyLnCJA9horfv6lG7mQS0LLAWlxoEaJKdbPzAVgQ3nAzFjObBZ/8lelNNdZCmt59h3fup6krClLt3p4EXHy2lq+y8gMig44cLsnB/Nhv13MqRcV9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714021712; c=relaxed/simple;
-	bh=N4Ty+El9tAcjw3QBXTN044KOd3tT2Ym9s58oTkqWx9s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Uv4dh9mNitzVkxSKC/6fwyzlIKijglsd/mZ6iiM/x2KkYl/4PVmdLHd11wCNPR6vw7Cw0yZ+iU4zIy1e7VNuSxlSt+ar0hvWFvkSF4ZVeKj46SBJnKdnrt4l480Gwz/+Rc/KyTSkjn+6vN2trwwPJuXJBr221hW/MNgnkN1LV/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vRBbbXmt; arc=none smtp.client-ip=209.85.214.182
+	s=arc-20240116; t=1714023114; c=relaxed/simple;
+	bh=nVBrL7YJuNzCkb+t0TQFbZ+nLpcpPgHNZvsiUTjW2s0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=Rd1pnHOZ9Eur0A0v8zz+VupCZO+eydfrjCq57aMHnUpFA+k+fqfNpvrGqlTp7Mpekf4bJk+7igC7g1MnlOoWZJusfy6XPuCH6xvIMrh0NtxIq/KzjP/+W328TtK6IanDrXwZMWB0pRczKMK33kwzpbzRNZlyyhYM4rcA95eb5bQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vbV3Qhhv; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vRBbbXmt"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1e4266673bbso4794615ad.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 24 Apr 2024 22:08:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vbV3Qhhv"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-41b5aed246dso145e9.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 24 Apr 2024 22:31:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1714021711; x=1714626511; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qrmw5y3+0dGAzUFADTeqpuhqYtgOQVDO3UIxdvuDfY8=;
-        b=vRBbbXmtgk6wEtC6e9OmRqiLyLekuethH5PaqXF1WgpSOaPYLKj0yc+SQrZX82MAlY
-         qXWApZiCqVjgEPNYaGxUcubg4IV068m8/hkBeNSVBwArzK0tSMRh11mlu1GK5UGDI2Du
-         tVkURgpWyzj+/Lrya7yjOOnQIZdbWQdZnxr3Taarv3ynCTZnoc8eV2As3p0yCF9AvXcO
-         nN4BYNPcKxWZUF9baXcU3+1ydJ8yilXgQVD83HwaKJESBp9oV/WXI33Z8Nw6aSLiJ2Nq
-         +G5rDNTfA7QrafCs3nri1tODFqMNPLanWzrr/Gk9DQgfUziTr+ec23TJYGk87EBUiSA+
-         nWDQ==
+        d=linaro.org; s=google; t=1714023091; x=1714627891; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=cMmQUcIVgSzWuW2ZWEiFPzqJ+do6tt+UV73InjD+R7U=;
+        b=vbV3QhhvfbDjCX3Gil9ppm4BLTVLKRM/A2mmYdMG2IgTYSrVdUxloTnfalEZOvhlum
+         DtB+vsiPp9gfSevevQk7p+nMmDMOavvQHbVRZd7eOTaoCUkhQxziZ25BZPUoQtzPVnij
+         rv1SELXlQxnDQ1QWziRKqqHMz9v9+p2jEVBKAZhd+m+kVRr1bZ3KuVoCsLyuCorPBvuS
+         fvIU7OJTUAqHYCVc6ZmVmRyk4e1pmbclu6d4iMRsQTWs7XU8nXlGM2rw1MDqmwK8DXeJ
+         irfswBVKVC0TCmKu2d0pYsD/yLJImcx6ZIWgISlrCqO7MPKxmasLBzXUaD9vvtMSLSb5
+         R4eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714021711; x=1714626511;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qrmw5y3+0dGAzUFADTeqpuhqYtgOQVDO3UIxdvuDfY8=;
-        b=BI8nEeIfO0EvKFbKx/TS0szqlLmVXZnti0gZpBwDxxMRzDb6AeoSi/C2M8HTgJfDQu
-         yVxR6pE0nBLYZw/A1GcvhlsLQlgQ3jMikiq36dcb1FTHL1F5anR5mEcOrsoN95RZ40ql
-         FJSSmLUtdzoA3eLLv1osSRMaLOmpLIJtAj8d76QY1seB6WOh62ciw8L9OWKMKtCcFjmI
-         QMSD3AI4mRa/BKEn62OE4h//7dyjcpMRitHKWNrVdxijQ8BOP2X8g8kvg2UZE/XXxE36
-         pyx2nSrIpnsVbOpQ2xTnahcREZJ5bLzmGkB4CR0dPLR8sbxLYiBr9uDF6SVsPxIhgmNs
-         ArUQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUzq6cV+rcgFGXmEU3q05zeSnIsJwEtFcVMurXv4reCJ19ROHjrXpjJK7IQ3jBTPza/qZYL6vFY7b+3OjhYKMtLUuYVzd9BcHxqutU=
-X-Gm-Message-State: AOJu0YxsRCOVK2sc5K5H9db+KD+kRbE02Le1RnqRj9cz3Ld/CcI6GFFS
-	eZAH/QvpcTkYLyFFjh36jAk1LdDkoloUu6oaD9ePiQp0mNVpQF5RlQirpikWov8=
-X-Google-Smtp-Source: AGHT+IH96vmh25j6BBEQazt7ICu3yODBTiA7HitL6kUOUPKSDrXvwY+WRBVCOtppGPgOl5/xC362JA==
-X-Received: by 2002:a17:903:41cf:b0:1e3:e1e8:bb5 with SMTP id u15-20020a17090341cf00b001e3e1e80bb5mr6077593ple.28.1714021710657;
-        Wed, 24 Apr 2024 22:08:30 -0700 (PDT)
-Received: from localhost ([122.172.87.52])
-        by smtp.gmail.com with ESMTPSA id y17-20020a17090322d100b001e5572a99c3sm12756023plg.207.2024.04.24.22.08.29
+        d=1e100.net; s=20230601; t=1714023091; x=1714627891;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cMmQUcIVgSzWuW2ZWEiFPzqJ+do6tt+UV73InjD+R7U=;
+        b=Q75CkbFxsjcqbJ16cMTs8NLecWRV6FEn/zJlx4vej0c2uTxXR2iAcppkaw0PeMLMB+
+         xF4XeVcMjmwylU1eQ4TUUUO8efB4vtjTUEd+ZnnMMgHsrQuyNAo7JzMRDjmbyLuxjpUl
+         rl6vYhGCcTosE0lpcNSs/XbrNI5xuVyHfUgBzX9N4u90bV2EOyg4Z8X6uVd8z4TbeP3i
+         j4QlCnefXehBsbsOQCofNauLk4zyia/u6Omntm9beZG5XTEL++jQ5znkDd5qb4iqCyHC
+         KPny7MhOzMirC/aZkKw+wycBsjb+N3aI66TVPxbxaQZYM1s7Eii6leq3rSotR4YnEHAw
+         mkSw==
+X-Forwarded-Encrypted: i=1; AJvYcCUMjOCKg4rNYT4tC1dcDY2lzXXxN9/PjZLCPY9vYuNWR6obZc7tjmMwsQeJ4AZZ9D10xVRTqWnGL4IdLWmGDQlTO5y0OKnijVMf8/Q=
+X-Gm-Message-State: AOJu0Yx7+yeKqtshJVnZe06xeh5LgrYdTequwka+AKhd8aIXL4dbeuUx
+	kOfpEdKChWfC3pa5FTUJcjseOnXhMuy/7eZ5QJjnGfDLdLjpiGGJvVJZtrGzE2g=
+X-Google-Smtp-Source: AGHT+IGnkVtA5Wtwo7q3DYXIHysN+Cu0EJxSPiMeca2h/hO/A4Gzv4GhNLke0XTi2A49j9T/1rc+tw==
+X-Received: by 2002:a05:600c:4f8f:b0:418:58ac:7477 with SMTP id n15-20020a05600c4f8f00b0041858ac7477mr3171421wmq.30.1714023090830;
+        Wed, 24 Apr 2024 22:31:30 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id fj3-20020a05600c0c8300b00416b2cbad06sm29941718wmb.41.2024.04.24.22.31.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Apr 2024 22:08:30 -0700 (PDT)
-Date: Thu, 25 Apr 2024 10:38:28 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Andre Przywara <andre.przywara@arm.com>,
-	Yangtao Li <tiny.windzz@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
+        Wed, 24 Apr 2024 22:31:30 -0700 (PDT)
+Date: Thu, 25 Apr 2024 08:31:26 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Aren Moynihan <aren@peacevolution.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, linux-pm@vger.kernel.org,
+	Samuel Holland <samuel@sholland.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Aren Moynihan <aren@peacevolution.org>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Ondrej Jirman <megi@xff.cz>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-iio@vger.kernel.org, phone-devel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] cpufreq: sun50i: fix error returns in
- dt_has_supported_hw()
-Message-ID: <20240425050828.iqs7cjslxvb2fzn5@vireshk-i7>
-References: <9bfe5703-b39b-4d98-9995-f6a7d0ea558d@moroto.mountain>
+	Willow Barraco <contact@willowbarraco.fr>
+Subject: Re: [PATCH v2 2/6] iio: light: stk3310: Implement vdd supply and
+ power it off during suspend
+Message-ID: <b47ad9a6-2b17-497f-ac2d-33ffec1b2750@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <9bfe5703-b39b-4d98-9995-f6a7d0ea558d@moroto.mountain>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240423223309.1468198-4-aren@peacevolution.org>
 
-On 24-04-24, 14:40, Dan Carpenter wrote:
-> The dt_has_supported_hw() function returns type bool.  That means these
-> negative error codes are cast to true but the function should return
-> false instead.
-> 
-> Fixes: fa5aec9561cf ("cpufreq: sun50i: Add support for opp_supported_hw")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> ---
->  drivers/cpufreq/sun50i-cpufreq-nvmem.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+Hi Aren,
 
-Applied. Thanks.
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Aren-Moynihan/dt-bindings-iio-light-stk33xx-add-vdd-and-leda-regulators/20240424-064250
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20240423223309.1468198-4-aren%40peacevolution.org
+patch subject: [PATCH v2 2/6] iio: light: stk3310: Implement vdd supply and power it off during suspend
+config: i386-randconfig-141-20240424 (https://download.01.org/0day-ci/archive/20240425/202404251021.4OPER3OS-lkp@intel.com/config)
+compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202404251021.4OPER3OS-lkp@intel.com/
+
+smatch warnings:
+drivers/iio/light/stk3310.c:615 stk3310_probe() error: uninitialized symbol 'ret'.
+
+vim +/ret +615 drivers/iio/light/stk3310.c
+
+9046d80dce04c6 Uwe Kleine-König 2022-11-18  592  static int stk3310_probe(struct i2c_client *client)
+be9e6229d67696 Tiberiu Breana   2015-04-27  593  {
+be9e6229d67696 Tiberiu Breana   2015-04-27  594  	int ret;
+be9e6229d67696 Tiberiu Breana   2015-04-27  595  	struct iio_dev *indio_dev;
+be9e6229d67696 Tiberiu Breana   2015-04-27  596  	struct stk3310_data *data;
+be9e6229d67696 Tiberiu Breana   2015-04-27  597  
+be9e6229d67696 Tiberiu Breana   2015-04-27  598  	indio_dev = devm_iio_device_alloc(&client->dev, sizeof(*data));
+be9e6229d67696 Tiberiu Breana   2015-04-27  599  	if (!indio_dev) {
+be9e6229d67696 Tiberiu Breana   2015-04-27  600  		dev_err(&client->dev, "iio allocation failed!\n");
+be9e6229d67696 Tiberiu Breana   2015-04-27  601  		return -ENOMEM;
+be9e6229d67696 Tiberiu Breana   2015-04-27  602  	}
+be9e6229d67696 Tiberiu Breana   2015-04-27  603  
+be9e6229d67696 Tiberiu Breana   2015-04-27  604  	data = iio_priv(indio_dev);
+be9e6229d67696 Tiberiu Breana   2015-04-27  605  	data->client = client;
+be9e6229d67696 Tiberiu Breana   2015-04-27  606  	i2c_set_clientdata(client, indio_dev);
+d6ecb01583d4e0 Arnaud Ferraris  2022-04-20  607  
+d6ecb01583d4e0 Arnaud Ferraris  2022-04-20  608  	device_property_read_u32(&client->dev, "proximity-near-level",
+d6ecb01583d4e0 Arnaud Ferraris  2022-04-20  609  				 &data->ps_near_level);
+d6ecb01583d4e0 Arnaud Ferraris  2022-04-20  610  
+be9e6229d67696 Tiberiu Breana   2015-04-27  611  	mutex_init(&data->lock);
+be9e6229d67696 Tiberiu Breana   2015-04-27  612  
+dd231c1d219f6b Ondrej Jirman    2024-04-23  613  	data->vdd_reg = devm_regulator_get(&client->dev, "vdd");
+dd231c1d219f6b Ondrej Jirman    2024-04-23  614  	if (IS_ERR(data->vdd_reg))
+dd231c1d219f6b Ondrej Jirman    2024-04-23 @615  		return dev_err_probe(&client->dev, ret, "get regulator vdd failed\n");
+
+s/ret/PTR_ERR(data->vdd_reg)/
+
+dd231c1d219f6b Ondrej Jirman    2024-04-23  616  
+be9e6229d67696 Tiberiu Breana   2015-04-27  617  	ret = stk3310_regmap_init(data);
+be9e6229d67696 Tiberiu Breana   2015-04-27  618  	if (ret < 0)
+be9e6229d67696 Tiberiu Breana   2015-04-27  619  		return ret;
+be9e6229d67696 Tiberiu Breana   2015-04-27  620  
+be9e6229d67696 Tiberiu Breana   2015-04-27  621  	indio_dev->info = &stk3310_info;
+be9e6229d67696 Tiberiu Breana   2015-04-27  622  	indio_dev->name = STK3310_DRIVER_NAME;
+be9e6229d67696 Tiberiu Breana   2015-04-27  623  	indio_dev->modes = INDIO_DIRECT_MODE;
+be9e6229d67696 Tiberiu Breana   2015-04-27  624  	indio_dev->channels = stk3310_channels;
+be9e6229d67696 Tiberiu Breana   2015-04-27  625  	indio_dev->num_channels = ARRAY_SIZE(stk3310_channels);
+be9e6229d67696 Tiberiu Breana   2015-04-27  626  
+dd231c1d219f6b Ondrej Jirman    2024-04-23  627  	ret = regulator_enable(data->vdd_reg);
+dd231c1d219f6b Ondrej Jirman    2024-04-23  628  	if (ret)
+dd231c1d219f6b Ondrej Jirman    2024-04-23  629  		return dev_err_probe(&client->dev, ret,
+dd231c1d219f6b Ondrej Jirman    2024-04-23  630  				     "regulator vdd enable failed\n");
+dd231c1d219f6b Ondrej Jirman    2024-04-23  631  
+dd231c1d219f6b Ondrej Jirman    2024-04-23  632  	/* we need a short delay to allow the chip time to power on */
+dd231c1d219f6b Ondrej Jirman    2024-04-23  633  	fsleep(1000);
+dd231c1d219f6b Ondrej Jirman    2024-04-23  634  
+be9e6229d67696 Tiberiu Breana   2015-04-27  635  	ret = stk3310_init(indio_dev);
+be9e6229d67696 Tiberiu Breana   2015-04-27  636  	if (ret < 0)
+dd231c1d219f6b Ondrej Jirman    2024-04-23  637  		goto err_vdd_disable;
+be9e6229d67696 Tiberiu Breana   2015-04-27  638  
+6839c1b0700a79 Octavian Purdila 2015-09-23  639  	if (client->irq > 0) {
+3dd477acbdd1f1 Tiberiu Breana   2015-04-27  640  		ret = devm_request_threaded_irq(&client->dev, client->irq,
+3dd477acbdd1f1 Tiberiu Breana   2015-04-27  641  						stk3310_irq_handler,
+3dd477acbdd1f1 Tiberiu Breana   2015-04-27  642  						stk3310_irq_event_handler,
+3dd477acbdd1f1 Tiberiu Breana   2015-04-27  643  						IRQF_TRIGGER_FALLING |
+3dd477acbdd1f1 Tiberiu Breana   2015-04-27  644  						IRQF_ONESHOT,
+3dd477acbdd1f1 Tiberiu Breana   2015-04-27  645  						STK3310_EVENT, indio_dev);
+7c7a9eeaa335df Hartmut Knaack   2015-07-09  646  		if (ret < 0) {
+3dd477acbdd1f1 Tiberiu Breana   2015-04-27  647  			dev_err(&client->dev, "request irq %d failed\n",
+3dd477acbdd1f1 Tiberiu Breana   2015-04-27  648  				client->irq);
+7c7a9eeaa335df Hartmut Knaack   2015-07-09  649  			goto err_standby;
+7c7a9eeaa335df Hartmut Knaack   2015-07-09  650  		}
+3dd477acbdd1f1 Tiberiu Breana   2015-04-27  651  	}
+3dd477acbdd1f1 Tiberiu Breana   2015-04-27  652  
+037e966f2d6389 Hartmut Knaack   2015-07-09  653  	ret = iio_device_register(indio_dev);
+037e966f2d6389 Hartmut Knaack   2015-07-09  654  	if (ret < 0) {
+037e966f2d6389 Hartmut Knaack   2015-07-09  655  		dev_err(&client->dev, "device_register failed\n");
+7c7a9eeaa335df Hartmut Knaack   2015-07-09  656  		goto err_standby;
+037e966f2d6389 Hartmut Knaack   2015-07-09  657  	}
+037e966f2d6389 Hartmut Knaack   2015-07-09  658  
+7c7a9eeaa335df Hartmut Knaack   2015-07-09  659  	return 0;
+7c7a9eeaa335df Hartmut Knaack   2015-07-09  660  
+7c7a9eeaa335df Hartmut Knaack   2015-07-09  661  err_standby:
+7c7a9eeaa335df Hartmut Knaack   2015-07-09  662  	stk3310_set_state(data, STK3310_STATE_STANDBY);
+dd231c1d219f6b Ondrej Jirman    2024-04-23  663  err_vdd_disable:
+dd231c1d219f6b Ondrej Jirman    2024-04-23  664  	regulator_disable(data->vdd_reg);
+be9e6229d67696 Tiberiu Breana   2015-04-27  665  	return ret;
+be9e6229d67696 Tiberiu Breana   2015-04-27  666  }
 
 -- 
-viresh
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
