@@ -1,24 +1,24 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9CAA80C
-	for <linux-sunxi@lists.linux.dev>; Thu, 25 Apr 2024 00:32:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF30580C
+	for <linux-sunxi@lists.linux.dev>; Thu, 25 Apr 2024 00:36:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714005157; cv=none; b=NWwA4Ry6jyfyeBkclJoWkcN6uubbKZ70NFtJ2ceZvYmZ7zxTBWyYn9wHLHNGx3jABxRZZImBVUjkPQKcnn9CUpLe/gZYjwrF80UD91TEaqxhi7CkGwvh8laNZCjGi2H39tcyeSt5EfqhxjxVUuklLn2tsedlIvQsMag7xqpoeMQ=
+	t=1714005379; cv=none; b=iCKFR/RW7ZMjTKhUyXv8NAiG/UzOpWwsYHzc5WxieJAO8ZuQNjk+soVDfo+Xv/yLXefqkqHTr3UM/PEInhrY//FQTiFczjKtWRpRXI6+pGdQvr03iin/A0VeYQijIBsz7nOcz7IIJ0UxVmIFJXgxPQLYUKVEEmSQAQ0CzHQ3HA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714005157; c=relaxed/simple;
-	bh=5H/Z7gM89SZUIXEIwFJ70MkbFoxa3IkTi9/ZcuM4h/o=;
+	s=arc-20240116; t=1714005379; c=relaxed/simple;
+	bh=Pk/sHrPl6C3mqNZupy8ctRKT5NWa/ZiuI+NX9d52oUY=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sT3xps8NGMF1uHqWp/+TIBKzt5McToJeAobt5rfjzFWaHksvwj8sI0yNdrblkDE9Skwzn8d1RGORGxoz7VAH9Bf4XLQfr8Ybqe4mvSZs+V3fZWRHu+kOd8E1mRJkRUGhJplew4m/11uUImWS3Ggayymp37oatj7NIcZw0aCc8U0=
+	 MIME-Version:Content-Type; b=ZKTwP9Yr8Hv7fUs8BvX2kOADJgvFIJ4wb/pGgin2t4aO3MItZMQAXhn6E8zUkBlmkbw631FGdUcbV7y6A4bMWLIIXcn8+nav2VU9lq4tzdovMHUDx/LfH7Ky7G39AksCcJImyuDvAa91rp+3OK766scYM703Mdq7sCahJEK4GIA=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 966451007;
-	Wed, 24 Apr 2024 17:33:02 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1B4401007;
+	Wed, 24 Apr 2024 17:36:45 -0700 (PDT)
 Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 33F9B3F7BD;
-	Wed, 24 Apr 2024 17:32:33 -0700 (PDT)
-Date: Thu, 25 Apr 2024 01:32:12 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AB4E13F7BD;
+	Wed, 24 Apr 2024 17:36:15 -0700 (PDT)
+Date: Thu, 25 Apr 2024 01:35:59 +0100
 From: Andre Przywara <andre.przywara@arm.com>
 To: Ryan Walklin <ryan@testtoast.com>
 Cc: Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh@kernel.org>, Krzysztof
@@ -26,11 +26,11 @@ Cc: Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh@kernel.org>, Krzysztof
  <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
  Holland <samuel@sholland.org>, Chris Morgan <macromorgan@hotmail.com>,
  devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v3 3/4] arm64: dts: allwinner: h700: Add RG35XX-Plus DTS
-Message-ID: <20240425013212.0318bf72@minigeek.lan>
-In-Reply-To: <20240424110947.9057-4-ryan@testtoast.com>
+Subject: Re: [PATCH v3 4/4] arm64: dts: allwinner: h700: Add RG35XX-H DTS
+Message-ID: <20240425013559.5b5d1fe4@minigeek.lan>
+In-Reply-To: <20240424110947.9057-5-ryan@testtoast.com>
 References: <20240424110947.9057-1-ryan@testtoast.com>
-	<20240424110947.9057-4-ryan@testtoast.com>
+	<20240424110947.9057-5-ryan@testtoast.com>
 Organization: Arm Ltd.
 X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
@@ -42,113 +42,107 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Wed, 24 Apr 2024 23:09:46 +1200
+On Wed, 24 Apr 2024 23:09:47 +1200
 Ryan Walklin <ryan@testtoast.com> wrote:
 
-Hi,
-
-> The RG35XX-Plus adds a RTL8221CS SDIO Wifi/BT chip to the RG35XX (2024).
+> The RG35XX-H adds thumbsticks, a stereo speaker, and a second USB port to the RG35XX-Plus, and has a horizontal form factor.
 > 
 > Enabled in this DTS:
-> - WiFi
-> - Bluetooth
-> - Supporting power sequence and GPIOs
+> - Thumbsticks
+> - Second USB port
 > 
 > Signed-off-by: Ryan Walklin <ryan@testtoast.com>
 > ---
 > Changelog v1..v2:
 > - Update copyright
 > - Spaces -> Tabs
-> - Remove redundant &uart0 node and DTS version tag
-> - Add GPIO bank comments
-> - Use generic pwrseq name
+> - Add GP ADC joystick axes and mux [1]
+> - Add EHCI/OHCI1 for second USB port and add vbus supply
 > 
 > Changelog v2..v3:
 > - Add DTB to Makefile
-> - Correct Wifi vqmmc-supply to ALDO4
-> - Move changelog below fold-line
+> - Remove USB vbus supply
+> - Remove GPADC joysticks until required patches land [1]
+> - Move thumbsticks into existing gpio gamepad node
+> - Move changelog and links below fold-line
+> 
+> [1]: https://lore.kernel.org/linux-sunxi/20240417170423.20640-1-macroalpha82@gmail.com/T/#t
 > 
 > ---
 >  arch/arm64/boot/dts/allwinner/Makefile        |  1 +
->  .../sun50i-h700-anbernic-rg35xx-plus.dts      | 53 +++++++++++++++++++
->  2 files changed, 54 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dts
+>  .../sun50i-h700-anbernic-rg35xx-h.dts         | 46 +++++++++++++++++++
+>  2 files changed, 47 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dts
 > 
 > diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
-> index 6f997157968e..4217328b1889 100644
+> index 4217328b1889..c2c871d8b71e 100644
 > --- a/arch/arm64/boot/dts/allwinner/Makefile
 > +++ b/arch/arm64/boot/dts/allwinner/Makefile
-> @@ -48,3 +48,4 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero2w.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero3.dtb
+> @@ -49,3 +49,4 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero3.dtb
 >  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-transpeed-8k618-t.dtb
 >  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-2024.dtb
-> +dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-plus.dtb
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dts b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dts
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-plus.dtb
+> +dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-h.dtb
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dts b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dts
 > new file mode 100644
-> index 000000000000..7e9d45eccb10
+> index 000000000000..3f4435ff9b71
 > --- /dev/null
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dts
-> @@ -0,0 +1,53 @@
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dts
+> @@ -0,0 +1,46 @@
 > +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > +/*
 > + * Copyright (C) 2024 Ryan Walklin <ryan@testtoast.com>.
+> + * Copyright (C) 2024 Chris Morgan <macroalpha82@gmail.com>.
 > + */
 > +
-> +#include "sun50i-h700-anbernic-rg35xx-2024.dts"
+> +#include "sun50i-h700-anbernic-rg35xx-plus.dts"
 > +
 > +/ {
-> +	model = "Anbernic RG35XX Plus";
-> +	compatible = "anbernic,rg35xx-plus", "allwinner,sun50i-h700";
+> +	model = "Anbernic RG35XX H";
+> +	compatible = "anbernic,rg35xx-h", "allwinner,sun50i-h700";
+> +};
 > +
-> +	wifi_pwrseq: pwrseq {
-> +		compatible = "mmc-pwrseq-simple";
-> +		clocks = <&rtc CLK_OSC32K_FANOUT>;
-> +		clock-names = "ext_clock";
-> +		pinctrl-0 = <&x32clk_fanout_pin>;
-> +		pinctrl-names = "default";
-> +		post-power-on-delay-ms = <200>;
-> +		reset-gpios = <&pio 6 18 GPIO_ACTIVE_LOW>; /* PG18 */
+> +&gpio_keys_gamepad {
+> +
+> +	button-thumbl {
+> +		label = "GPIO Thumb Left";
+> +		gpios = <&pio 4 8 GPIO_ACTIVE_LOW>; /* PE8 */
+> +		linux,input-type = <EV_KEY>;
+> +		linux,code = <BTN_THUMBL>;
+> +	};
+> +
+> +	button-thumbr {
+> +		label = "GPIO Thumb Right";
+> +		gpios = <&pio 4 9 GPIO_ACTIVE_LOW>; /* PE9 */
+> +		linux,input-type = <EV_KEY>;
+> +		linux,code = <BTN_THUMBR>;
 > +	};
 > +};
 > +
-> +/* SDIO WiFi RTL8821CS */
-> +&mmc1 {
-> +	vmmc-supply = <&reg_cldo4>;
-> +	vqmmc-supply = <&reg_aldo4>;
-> +	mmc-pwrseq = <&wifi_pwrseq>;
-> +	bus-width = <4>;
-> +	non-removable;
+> +&ehci1 {
 > +	status = "okay";
+> +};
 > +
-> +	sdio_wifi: wifi@1 {
-> +	   reg = <1>;
-> +	   interrupt-parent = <&pio>;
-> +	   interrupts = <6 15 IRQ_TYPE_LEVEL_LOW>; /* PG15 */
-> +	   interrupt-names = "host-wake";
+> +&ohci1 {
+> +	status = "okay";
+> +};
+> +
+> +&usbotg {
+> +	dr_mode = "peripheral";
+> +	status = "okay";
+> +};
+> +
+> +&usbphy {
+> +	status = "okay";
+> +};
 
-Those four lines here need to be indented with two tabs.
+Those two nodes look redundant, since they exist already in the base
+.dts. I guess &usbphy needs to be adjusted later, but &usbotg is likely
+to stay the same? Anyway, it doesn't really hurt, so:
 
-With that fixed:
 Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 
 Cheers,
 Andre
 
-> +	};
-> +};
-> +
-> +/* Bluetooth RTL8821CS */
-> +&uart1 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&uart1_pins>, <&uart1_rts_cts_pins>;
-> +	uart-has-rtscts;
-> +	status = "okay";
-> +
-> +	bluetooth {
-> +		compatible = "realtek,rtl8821cs-bt", "realtek,rtl8723bs-bt";
-> +		device-wake-gpios = <&pio 6 17 GPIO_ACTIVE_HIGH>; /* PG17 */
-> +		enable-gpios = <&pio 6 19 GPIO_ACTIVE_HIGH>; /* PG19 */
-> +		host-wake-gpios = <&pio 6 16 GPIO_ACTIVE_HIGH>; /* PG16 */
-> +	};
-> +};
 
