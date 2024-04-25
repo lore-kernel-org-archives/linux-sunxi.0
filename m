@@ -1,63 +1,42 @@
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from a.peacevolution.org (a.peacevolution.org [206.189.193.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E0AD7443E
-	for <linux-sunxi@lists.linux.dev>; Wed, 24 Apr 2024 20:00:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E963368
+	for <linux-sunxi@lists.linux.dev>; Thu, 25 Apr 2024 00:01:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.193.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713988851; cv=none; b=VmB3PbAbobBdzb/DcOMgHlLY9lrqNYuwZSvVtQ7bgKUNhbmlypIse1JSQgzOrY3jOFoivJsxjEyDb8bErcE7YyXRMTF7PTY+E3WPr14nh8qU7vBC9yGqSNhsi3aAzHb1aMR6RXXYyu5D9x/BmbYz1DVz06JYnShhSsbxeGPxRJs=
+	t=1714003267; cv=none; b=m/JZKHfDQFKZuhavB+SBOYcYoEJGkJ9/jQEDtE5wPHR3b4LpkC0m8U3UVYZ8Xp0PmD0inhxVWLz4qVYzqIZmsAJTwDM92yr/HAcoTmnliX4AGjHdyHr0FpBJNIl1rd1GdV2W/LeIRqSLusVndEzH+rKm4PVuY6W4uf6BqffIh1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713988851; c=relaxed/simple;
-	bh=PDAVfIibszca/yt5F0VeGPq35/5g0qR5+vGvPxJ0lMo=;
+	s=arc-20240116; t=1714003267; c=relaxed/simple;
+	bh=YK8ZVJPPSgK6IuSHNRED/Qsya04fG5N0aal1ljRlwDM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MXXZsoc2mT9KwVvAb8Y4akihtsbSljFBfIRR0sayJmlYCUVdOlp1pg8mfW/hyO6SUCv9Fb8p6OKF4OgFz7ShfG0fn0Gkj38MAfDs0JoSiiSiBTpwf/I5Lb7VM52+QjSHY1lC1Pgti0+jwVqLJADDiGu+HE7kFKIhWL9ywdrdBbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=ymkNnORv; arc=none smtp.client-ip=195.181.215.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=qL0tdAwaOcHGk2GrOPdpmx89YZlqIEPK19V/Zowb1pD7dFOkmIrjUDT02KPlLNWOMKo7NrNos6vB0oOIUwCuW6x2iN3jHt68PyuhGXw5ktxnBrf6+Osw/mzvbBx6f+DuvKU0Qd+QxWGoM9arwIEZinuJx5L583p0H2kCiqB+4xk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org; spf=pass smtp.mailfrom=peacevolution.org; dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b=LiPBsvRd; arc=none smtp.client-ip=206.189.193.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peacevolution.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=peacevolution.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="ymkNnORv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
-	t=1713988846; bh=PDAVfIibszca/yt5F0VeGPq35/5g0qR5+vGvPxJ0lMo=;
-	h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
-	b=ymkNnORv5kDLrd8/rlrBZZrrDJyZnYn+T8AGN7ULKjl1Wmvh8aueVYmyyBN7p7ewp
-	 HN8PsOhzxULWUwjATSjr+cm8JwHSo8EQafnc1o53AkS2UWHDY9SwfzMdMzByio7hwl
-	 xN6e7C6J0BM25jsAMs6NjvdDcsMzFpn/R1ivHTdQ=
-Date: Wed, 24 Apr 2024 22:00:46 +0200
-From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
+	dkim=pass (1024-bit key) header.d=peacevolution.org header.i=@peacevolution.org header.b="LiPBsvRd"
+Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
+	by a.peacevolution.org (Postfix) with ESMTPA id 7A2A247A38;
+	Thu, 25 Apr 2024 00:00:56 +0000 (UTC)
+Date: Wed, 24 Apr 2024 20:00:53 -0400
+From: Aren <aren@peacevolution.org>
 To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Aren Moynihan <aren@peacevolution.org>, 
-	Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+Cc: Jonathan Cameron <jic23@kernel.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
 	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Ondrej Jirman <megi@xff.cz>, 
 	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, linux-iio@vger.kernel.org, phone-devel@vger.kernel.org, 
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
 	Willow Barraco <contact@willowbarraco.fr>
 Subject: Re: [PATCH v2 2/6] iio: light: stk3310: Implement vdd supply and
  power it off during suspend
-Message-ID: <yl4b23gclij2jqyxlqkmfmct4vlz6gotwfgbpkisgz2fuuh7uv@rbynxmitzjog>
-Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, 
-	Andy Shevchenko <andy.shevchenko@gmail.com>, Aren Moynihan <aren@peacevolution.org>, 
-	Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, linux-iio@vger.kernel.org, phone-devel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	Willow Barraco <contact@willowbarraco.fr>
-X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
- <https://xff.cz/key.txt>
+Message-ID: <djxnxb6zcg7r4pl6gicjkcmqp6zodm24tq5cwejlwidzmtvf5x@3fqdvbc7whul>
 References: <20240423223309.1468198-2-aren@peacevolution.org>
  <20240423223309.1468198-4-aren@peacevolution.org>
  <CAHp75VeRDSPvpmSbUyZPp0RMoTOE193U2ma18qxv_qZQKLCq8g@mail.gmail.com>
- <5qqil7ltqhdeabml6toqpcy773uhjxgwaz3txpy4kv4sz55o2y@hmar674eey7s>
- <CAHp75VdR9HtWbSif+j8QHX5zG9xPF1GzUFY2s-0OjD3RAWD9-Q@mail.gmail.com>
- <xxbwdl6ebvut3u7qhzfy65e4eheixghqe7yn4qemyuowxyxj5a@r2wa2b7bhw2x>
- <CAHp75VejwJ7h5jaNL+VL7FE4UMbTEP3QA1E=_y-1PSrz99zBKQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -67,65 +46,70 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHp75VejwJ7h5jaNL+VL7FE4UMbTEP3QA1E=_y-1PSrz99zBKQ@mail.gmail.com>
+In-Reply-To: <CAHp75VeRDSPvpmSbUyZPp0RMoTOE193U2ma18qxv_qZQKLCq8g@mail.gmail.com>
+X-Spamd-Bar: /
+Authentication-Results: auth=pass smtp.auth=aren@peacevolution.org smtp.mailfrom=aren@peacevolution.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=peacevolution.org;
+	s=dkim; t=1714003257;
+	h=from:subject:date:message-id:to:cc:mime-version:content-type:content-transfer-encoding:in-reply-to:references;
+	bh=hsQaSgt/dWJwaX3rAci/jyhFbRrZYWXtUE6c6yp+e0s=;
+	b=LiPBsvRdEn3iltMiuPVD2b/4acdmis9HqCbFJnqStx+wTdODZwAd4Lc8uC1s/Sp2tXGvKv
+	7wqZf2bJET+q0VlHXBhd5fjgMm5rkaFCHTklFy8jpT968iftpUi7eM+9wKWaWirwDrKoPY
+	PT/UTF3sLvpEDML5Xhf39GimEbIT5qs=
 
-On Wed, Apr 24, 2024 at 08:31:27PM GMT, Andy Shevchenko wrote:
-> On Wed, Apr 24, 2024 at 7:14 PM Ondřej Jirman <megi@xff.cz> wrote:
-> > On Wed, Apr 24, 2024 at 06:20:41PM GMT, Andy Shevchenko wrote:
-> > > On Wed, Apr 24, 2024 at 3:59 PM Ondřej Jirman <megi@xff.cz> wrote:
-> > > > On Wed, Apr 24, 2024 at 02:16:06AM GMT, Andy Shevchenko wrote:
-> > > > > On Wed, Apr 24, 2024 at 1:41 AM Aren Moynihan <aren@peacevolution.org> wrote:
+On Wed, Apr 24, 2024 at 02:16:06AM +0300, Andy Shevchenko wrote:
+> On Wed, Apr 24, 2024 at 1:41 AM Aren Moynihan <aren@peacevolution.org> wrote:
+> >
+> > From: Ondrej Jirman <megi@xff.cz>
+> >
+> > VDD power input can be used to completely power off the chip during
+> > system suspend. Do so if available.
 > 
 > ...
 > 
-> > > > > >         ret = stk3310_init(indio_dev);
-> > > > > >         if (ret < 0)
-> > > > > > -               return ret;
-> > > > > > +               goto err_vdd_disable;
-> > > > >
-> > > > > This is wrong. You will have the regulator being disabled _before_
-> > > > > IRQ. Note, that the original code likely has a bug which sets states
-> > > > > before disabling IRQ and removing a handler.
-> > > >
-> > > > How so? stk3310_init is called before enabling the interrupt.
-> > >
-> > > Exactly, IRQ is registered with devm and hence the error path and
-> > > remove stages will got it in a wrong order.
-> >
-> > Makes no sense.
+> >         ret = stk3310_init(indio_dev);
+> >         if (ret < 0)
+> > -               return ret;
+> > +               goto err_vdd_disable;
 > 
-> Huh?!
-> 
-> > IRQ is not enabled here, yet. So in error path, the code will
-> > just disable the regulator and devm will unref it later on. IRQ doesn't enter
-> > the picture here at all in the error path.
-> 
-> Error path _after_ IRQ handler has been _successfully_ installed.
-> And complete ->remove() stage.
+> This is wrong. You will have the regulator being disabled _before_
+> IRQ. Note, that the original code likely has a bug which sets states
+> before disabling IRQ and removing a handler.
 
-Allright. So fixing the other issue I mentioned will fix this one too, because
-there will be no error path after IRQ enable, then.
+Oh! now I see the issue you were talking about last time around. I
+expect that means the irq shouldn't be managed with devres, so it can be
+the first thing freed in the remove function (I haven't checked the docs
+to see if there's an easier way yet).
 
-kind regards,
-	o.
+I'll add a patch to fix the order of the handling of the irq (both this and
+the issue Ondřej brought up).
 
-> > > > Original code has a bug that IRQ is enabled before registering the
-> > > > IIO device,
-> > >
-> > > Indeed, but this is another bug.
-> > >
-> > > > so if IRQ is triggered before registration, iio_push_event
-> > > > from IRQ handler may be called on a not yet registered IIO device.
-> > > >
-> > > > Never saw it happen, though. :)
-> > >
-> > > Because nobody cares enough to enable DEBUG_SHIRQ.
-> >
-> > Nice debug tool. I bet it makes quite a mess when enabled. :)
+> Side note, you may make the driver neater with help of
 > 
-> FWIW, I have had it enabled for ages, but I have only a few devices,
-> so I fixed a few cases in the past WRT shared IRQ issues.
+>   struct device *dev = &client->dev;
 > 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
+> defined in this patch.
+
+Good point, it's minor, but it should be a net improvement.
+
+> ...
+> 
+> >  static int stk3310_suspend(struct device *dev)
+> >  {
+> >         struct stk3310_data *data;
+> 
+> >         data = iio_priv(i2c_get_clientdata(to_i2c_client(dev)));
+> 
+> Side note: This may be updated (in a separate change) to use
+> dev_get_drvdata() directly.
+> 
+> Jonathan, do we have something like iio_priv_from_drvdata(struct
+> device *dev)? Seems many drivers may utilise it.
+> 
+
+At this rate I'm going to need to split off a separate style / code
+cleanup series so I don't keep introducing dumb bugs while rebasing this
+one.
+
+Thank you for your time
+ - Aren
