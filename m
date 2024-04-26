@@ -1,57 +1,57 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCA0B148FE6
-	for <linux-sunxi@lists.linux.dev>; Fri, 26 Apr 2024 16:06:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3C89148FF6
+	for <linux-sunxi@lists.linux.dev>; Fri, 26 Apr 2024 16:07:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714147564; cv=none; b=BPoX8zbbEDfSyplXT3zLGhV7hggMOZhH0JlmMbjkaNIZ5KZcWgcdZBBaHJVP50YwOSCjdM7mYxOfgHJnHd5s0AlAm8MK7FymcF1ptI3avnwScyKRYnJZaOVeiLUqtxaAmbqInpBGeWpeZZqsOQVCgfW5ngKVVytDx3bS4R20Vok=
+	t=1714147668; cv=none; b=uiRwuvchAX/YVa2NYjuvowfyI/QU1R09xgzirpzLO/gVn5l9S0dUoyuEeUAbbinnqOj8Q/JZyyJNN6tKhnPB1LJTJSmBCvjNyjR+cQtCokIDMG6xLXbrLzt8nU+00H4GrR4jYXWhj21OsddrdfYrCDQ/3uUO5DgG6sXkw/xYbsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714147564; c=relaxed/simple;
-	bh=G70njpUzltHirqMDt+qUGmfxB4e2EJ7vG9+cIWMSu9E=;
+	s=arc-20240116; t=1714147668; c=relaxed/simple;
+	bh=Ov5uUPnrz3wAws4wWrFyH7JPRH8FOtLsH3Miyh1IPmw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bExLU+4X+8uLYPv6bPjAC6ia9JcxKzuc+NJ3R5yEenuhOwKvVjLhpBQYv8BM8SduiTqU4v14QqzmH3DVR/y/OaF2omB9nUO4qdZo42gbIzPbGdAiX1dv02kBo82Rtfrl9Gs++yuJlMSmoyyzBWM/Kx6VJiI4ombrSSyvJJ407Qc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K7ShaMDt; arc=none smtp.client-ip=209.85.221.52
+	 MIME-Version:Content-Type; b=ErpZjbyF01bDtboK0ctRBnpbMbCLUfbawGN8mAzhxa584vSK1xl4Yxl+rdXSCzQELI+LxAKr/G5NNs6iPhN2eOKEKRs9CZ0maDi9lUVRpMiC7KxhetVWjiFbsQE6/S0bUHHBqhJX6iQ+nmYWnS3yOa8WsVZnjBPIB+YBhGqzypE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SD57lwnK; arc=none smtp.client-ip=209.85.221.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K7ShaMDt"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-34a7e47d164so1661670f8f.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 26 Apr 2024 09:06:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SD57lwnK"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-34782453ffdso2164190f8f.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 26 Apr 2024 09:07:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714147561; x=1714752361; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1714147664; x=1714752464; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BreyMNwH07eEsN1UQMlqTNbeq4uFPEeBPKL0N+e7pEE=;
-        b=K7ShaMDtfmZ5KMJOC1Hv0gOqwiEfd1YRizmFOoJomr1OMB/KgqVI830/sHKQ1laCWD
-         n3ItBxLJ95CPOVYacXHUHkoUkaIFPSfcWdtqQz0B/QpD0YE7t5/yLCGxCSZnRwV4YTeR
-         2/OO6uQMyU2PACcjmWnInqQ6BWGZ20Yt7ACP38b/VOpsOq5ayHvXBbTrqMCrU8nRvijl
-         lp/72fq+4ybEYQOz8HrD55aCp8EUi+T+yhgOJlxJn7RdnsGOmeEBOchnAHCs0gyI4345
-         G/RdVAOE2MfLnrpvvKUYuZfvc75mP8lzyllNxUVvpO3ewWty9WQKknP3O5LEerBYEdaT
-         rv/Q==
+        bh=e98uEa894yCRMEcpOdy/aYqOMPHaErz9efzMY9n7gOU=;
+        b=SD57lwnKFAVZpfYIo/Vd74fngeZsUD2na/196XHfapmx0WfE2/XXixJDMeHUaoQa9i
+         DXyWZsU9DBjO5fhzLDdKTe1WqX3iBnO4FP0EFLgEkb++dA41Ny6NjofXYvcRJmZ/UvGf
+         VeP/dl/RWT4zR1lUD2+RZ4doPIrTTtfOhAYZxq1fIUE91v5yf6LLUmbvgr7L4byEUxIv
+         jm7AH4oVkqiIf9lGEWGcP9Ky5kMVkUvCIaOPwvIMQDjRYOx97bwB2a/cqX8pJIGQ4Lam
+         6x9pNlQ4dbQe+JW2Lb8oO/gWwgLHdfzpcPpKlkC2qu9U2Rh7co/MYN9Gs6217v5y+2aO
+         TDRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714147561; x=1714752361;
+        d=1e100.net; s=20230601; t=1714147664; x=1714752464;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=BreyMNwH07eEsN1UQMlqTNbeq4uFPEeBPKL0N+e7pEE=;
-        b=ZZ3HT84kDNJ8VeHHVTb1jcZBECgg0KDVxg9/Rxli1guYfb10rLG1Mn3CvjwsyWSM8z
-         /UzHfg2nKUqLG3ILIp6cCbnsmyi5xtmfn7CmIIiLbVTFcO+apdFb21p5QdRUtGdo7rz6
-         6NSsi70YCRLgSxc9wQfuSmlGoEjI1OcEXnCTmdqgvVn6rcqXSrHO/fCdbrfPJuywZpeg
-         majvW2mC3Kl/v0JxpEO/hCsJuXuu46g/UicMvDhY7xYUocoO4j7tE7SlAfRvlaA0yttN
-         ODr6rMFgnhTzlOKRMnvlJC4dH3NwJI9ujLjzB1VlcLIND/lQY+3giYBjfGE1yUJy2OIx
-         1Scg==
-X-Forwarded-Encrypted: i=1; AJvYcCVC1rQXeIH02zHDvhdXTTkJeh9T72vDzFsTa7SpSLjA8jWtRqFayyVMYRrMOmGZKesQirHmptkGsvHUu79JVP0ZpuYFzWvcPHKgF2k=
-X-Gm-Message-State: AOJu0YwyCIb3TmQ9esw/Smh4DWux+HZe8B3nHReLRlnWxHp0ezQYGFb+
-	JftADkAb1SeIrpDqU+YDxU8krXhJDt1mlVkyucto+BHwUpxZW2QZ
-X-Google-Smtp-Source: AGHT+IECHS/Q1s2GT5uX6QAsT6giook1s8zUG6WiMLTJS0ugML+6jElcEYiKcdXAdQ9bH6B20F6N1g==
-X-Received: by 2002:a5d:5b8d:0:b0:349:fc93:1e2 with SMTP id df13-20020a5d5b8d000000b00349fc9301e2mr11526wrb.9.1714147561072;
-        Fri, 26 Apr 2024 09:06:01 -0700 (PDT)
+        bh=e98uEa894yCRMEcpOdy/aYqOMPHaErz9efzMY9n7gOU=;
+        b=r12nnyuuZndssZNyMQy3gxU5+WRW6E6IEj77ya3VKn2QyKeP9AqCmO7c8bwQ7rJ2yh
+         oAO5edv2sfFjA981BWZapLnw3pz6xBfjpZtMpARt0J1ddgGkBAH4dc9KDbm33U5iejOc
+         HSZla5p5h8a9E3dqbBNEydmN6Zj0g0CwexC5VTrcC1EskoG5mxu8l4vRZwEhQCN8R2JB
+         cwAEoo8luw7pUe8mTrygpzRvv3Vhiqs3xhCrxQB/5em3MOCbpeLAW4N9CDFoaQPUgWWN
+         JQUjzbIFeJ28613FtBSZJoRCieX/I5LCNS4Q5f7GnV2bjZXUqQy7VGxXhMwHLYwJA/JM
+         9jXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWqrujnwesxLg4VyZJXLQkiv5gWyV7weHZD6fIS4Q0Lh2w1jPZj+EVi5DhrwjCVb+Kq7/qjELFM9KY+dGN3efMfnI1VxeEJF8Cee5o=
+X-Gm-Message-State: AOJu0Yx51h4dtxNHLZ14lCrKdetpgPX+WPuoIMCI4XjzxVyGrdPXARj4
+	5EvJgpvLNWE3MrLzAWwPa0I/eneONRQcMe7BeVqkGRDOjp0yL0ZU
+X-Google-Smtp-Source: AGHT+IFPsYon1jXLWFTL68+Mkma0tqyi5dVEaECddz1D4hvd9+t9cZxPgeJo7xRi8H9x71Ea+jLy9A==
+X-Received: by 2002:adf:fecf:0:b0:343:734e:73d1 with SMTP id q15-20020adffecf000000b00343734e73d1mr2440243wrs.37.1714147664042;
+        Fri, 26 Apr 2024 09:07:44 -0700 (PDT)
 Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id e4-20020adff344000000b0034349225fbcsm22655082wrp.114.2024.04.26.09.06.00
+        by smtp.gmail.com with ESMTPSA id c11-20020adffb0b000000b0034b1a91be72sm10834913wrr.14.2024.04.26.09.07.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Apr 2024 09:06:00 -0700 (PDT)
+        Fri, 26 Apr 2024 09:07:43 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>,
  Rob Herring <robh@kernel.org>,
@@ -60,13 +60,13 @@ To: Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>,
  Chris Morgan <macromorgan@hotmail.com>, Ryan Walklin <ryan@testtoast.com>
 Cc: devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
  Ryan Walklin <ryan@testtoast.com>
-Subject: Re: [PATCH v4 3/4] arm64: dts: allwinner: h700: Add RG35XX-Plus DTS
-Date: Fri, 26 Apr 2024 18:05:59 +0200
-Message-ID: <2602381.Lt9SDvczpP@jernej-laptop>
-In-Reply-To: <20240426095141.13602-5-ryan@testtoast.com>
+Subject: Re: [PATCH v4 4/4] arm64: dts: allwinner: h700: Add RG35XX-H DTS
+Date: Fri, 26 Apr 2024 18:07:42 +0200
+Message-ID: <2187659.Mh6RI2rZIc@jernej-laptop>
+In-Reply-To: <20240426095141.13602-6-ryan@testtoast.com>
 References:
  <20240426095141.13602-2-ryan@testtoast.com>
- <20240426095141.13602-5-ryan@testtoast.com>
+ <20240426095141.13602-6-ryan@testtoast.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -76,112 +76,101 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="utf-8"
 
-Dne petek, 26. april 2024 ob 11:51:41 GMT +2 je Ryan Walklin napisal(a):
-> The RG35XX-Plus adds a RTL8221CS SDIO Wifi/BT chip to the RG35XX (2024).
+Dne petek, 26. april 2024 ob 11:51:42 GMT +2 je Ryan Walklin napisal(a):
+> The RG35XX-H adds thumbsticks, a stereo speaker, and a second USB port to the RG35XX-Plus, and has a horizontal form factor.
 > 
 > Enabled in this DTS:
-> - WiFi
-> - Bluetooth
-> - Supporting power sequence and GPIOs
+> - Thumbsticks
+> - Second USB port
 > 
 > Signed-off-by: Ryan Walklin <ryan@testtoast.com>
 > Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+> Changelog v1..v2:
+> - Update copyright
+> - Spaces -> Tabs
+> - Add GP ADC joystick axes and mux [1]
+> - Add EHCI/OHCI1 for second USB port and add vbus supply
+> 
+> Changelog v2..v3:
+> - Add DTB to Makefile
+> - Remove USB vbus supply
+> - Remove GPADC joysticks until required patches land [1]
+> - Move thumbsticks into existing gpio gamepad node
+> - Move changelog and links below fold-line
+> 
+> Changelog v3..v4:
+> - Remove redundant USB OTG and PHY nodes.
+> 
+> [1]: https://lore.kernel.org/linux-sunxi/20240417170423.20640-1-macroalpha82@gmail.com/T/#t
+> 
+> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+> ---
+>  arch/arm64/boot/dts/allwinner/Makefile        |  1 +
+>  .../sun50i-h700-anbernic-rg35xx-h.dts         | 37 +++++++++++++++++++
+>  2 files changed, 38 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dts
+> 
+> diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
+> index 4217328b1889..c2c871d8b71e 100644
+> --- a/arch/arm64/boot/dts/allwinner/Makefile
+> +++ b/arch/arm64/boot/dts/allwinner/Makefile
+> @@ -49,3 +49,4 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero3.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-transpeed-8k618-t.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-2024.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-plus.dtb
+> +dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-h.dtb
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dts b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dts
+> new file mode 100644
+> index 000000000000..fd581360e987
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dts
+> @@ -0,0 +1,37 @@
+> +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +/*
+> + * Copyright (C) 2024 Ryan Walklin <ryan@testtoast.com>.
+> + * Copyright (C) 2024 Chris Morgan <macroalpha82@gmail.com>.
+> + */
+> +
+> +#include "sun50i-h700-anbernic-rg35xx-plus.dts"
+> +
+> +/ {
+> +	model = "Anbernic RG35XX H";
+> +	compatible = "anbernic,rg35xx-h", "allwinner,sun50i-h700";
+> +};
+> +
+> +&gpio_keys_gamepad {
+> +
 
+Remove empty line.
+
+With that:
 Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
 
-> ---
-> Changelog v1..v2:
-> - Update copyright
-> - Spaces -> Tabs
-> - Remove redundant &uart0 node and DTS version tag
-> - Add GPIO bank comments
-> - Use generic pwrseq name
-> 
-> Changelog v2..v3:
-> - Add DTB to Makefile
-> - Correct Wifi vqmmc-supply to ALDO4
-> - Move changelog below fold-line
-> 
-> Changelog v3..v4:
-> - Fix sdio_wifi node indent
-> 
-> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
-> ---
->  arch/arm64/boot/dts/allwinner/Makefile        |  1 +
->  .../sun50i-h700-anbernic-rg35xx-plus.dts      | 53 +++++++++++++++++++
->  2 files changed, 54 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dts
-> 
-> diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
-> index 6f997157968e..4217328b1889 100644
-> --- a/arch/arm64/boot/dts/allwinner/Makefile
-> +++ b/arch/arm64/boot/dts/allwinner/Makefile
-> @@ -48,3 +48,4 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero2w.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero3.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-transpeed-8k618-t.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-2024.dtb
-> +dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-plus.dtb
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dts b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dts
-> new file mode 100644
-> index 000000000000..60a8e4922103
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dts
-> @@ -0,0 +1,53 @@
-> +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +/*
-> + * Copyright (C) 2024 Ryan Walklin <ryan@testtoast.com>.
-> + */
+> +	button-thumbl {
+> +		label = "GPIO Thumb Left";
+> +		gpios = <&pio 4 8 GPIO_ACTIVE_LOW>; /* PE8 */
+> +		linux,input-type = <EV_KEY>;
+> +		linux,code = <BTN_THUMBL>;
+> +	};
 > +
-> +#include "sun50i-h700-anbernic-rg35xx-2024.dts"
-> +
-> +/ {
-> +	model = "Anbernic RG35XX Plus";
-> +	compatible = "anbernic,rg35xx-plus", "allwinner,sun50i-h700";
-> +
-> +	wifi_pwrseq: pwrseq {
-> +		compatible = "mmc-pwrseq-simple";
-> +		clocks = <&rtc CLK_OSC32K_FANOUT>;
-> +		clock-names = "ext_clock";
-> +		pinctrl-0 = <&x32clk_fanout_pin>;
-> +		pinctrl-names = "default";
-> +		post-power-on-delay-ms = <200>;
-> +		reset-gpios = <&pio 6 18 GPIO_ACTIVE_LOW>; /* PG18 */
+> +	button-thumbr {
+> +		label = "GPIO Thumb Right";
+> +		gpios = <&pio 4 9 GPIO_ACTIVE_LOW>; /* PE9 */
+> +		linux,input-type = <EV_KEY>;
+> +		linux,code = <BTN_THUMBR>;
 > +	};
 > +};
 > +
-> +/* SDIO WiFi RTL8821CS */
-> +&mmc1 {
-> +	vmmc-supply = <&reg_cldo4>;
-> +	vqmmc-supply = <&reg_aldo4>;
-> +	mmc-pwrseq = <&wifi_pwrseq>;
-> +	bus-width = <4>;
-> +	non-removable;
+> +&ehci1 {
 > +	status = "okay";
-> +
-> +	sdio_wifi: wifi@1 {
-> +		reg = <1>;
-> +		interrupt-parent = <&pio>;
-> +		interrupts = <6 15 IRQ_TYPE_LEVEL_LOW>; /* PG15 */
-> +		interrupt-names = "host-wake";
-> +	};
 > +};
 > +
-> +/* Bluetooth RTL8821CS */
-> +&uart1 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&uart1_pins>, <&uart1_rts_cts_pins>;
-> +	uart-has-rtscts;
+> +&ohci1 {
 > +	status = "okay";
-> +
-> +	bluetooth {
-> +		compatible = "realtek,rtl8821cs-bt", "realtek,rtl8723bs-bt";
-> +		device-wake-gpios = <&pio 6 17 GPIO_ACTIVE_HIGH>; /* PG17 */
-> +		enable-gpios = <&pio 6 19 GPIO_ACTIVE_HIGH>; /* PG19 */
-> +		host-wake-gpios = <&pio 6 16 GPIO_ACTIVE_HIGH>; /* PG16 */
-> +	};
 > +};
 > 
 
