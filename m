@@ -1,69 +1,72 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C6D51494A6
-	for <linux-sunxi@lists.linux.dev>; Fri, 26 Apr 2024 15:50:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B9F13F434
+	for <linux-sunxi@lists.linux.dev>; Fri, 26 Apr 2024 15:55:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714146652; cv=none; b=Rw7yVoTccdp+jSJPi5ZR1hPdsw+AR93f9P8gGepQ+QbwB+WAbdCfGsZQww9n2l/POMiCe4Ld20woH/AmgUEOD3Dn/0TrR7CuS1UBShiv1o1pbzdWFh7yGVsQ6qI0zma414ArYCUsLVQXiD/QgV+XmTy7Qz7z5Y3V1PioSekTF/Y=
+	t=1714146928; cv=none; b=sk1Lyc4/ehjSapqAGu788/LjNIfzhlGArYFuthsVL3w4EgkrQCeuhhJpP5c37VWprOD9LesSUvpSMd4JchUnVFqvgqzieN1KXpv8EzHkVsnDxgOXZfrG6mZOcd/S5s7mZIUV2+ZCNvVJ5qab7b+UMu5aBqFeqa1PwzvEzIoAAh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714146652; c=relaxed/simple;
-	bh=HEZxzTUlvfAvWH362AImClgysiczjyTH9oIQoyBYXfQ=;
+	s=arc-20240116; t=1714146928; c=relaxed/simple;
+	bh=R552gqWNJHZn9L65Cyy8omEewrrApbUPGnkr7rZCQRg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GGc2XbaekWUez33TxIY1OQloUuASbMioTg1BJdbPjmS6oJfjRCN0Pg2bZkWUgm07ylWcDT4rREj4jWVFoQMWUekp7ZvL5o4WwiUkP7bL82P3OSV+9K9GuRrpWPQTPIIWrWV7Xo5Rizl6h2ufm05gNpom4grwsI9N6qQsMZgJVCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g+IMj0q9; arc=none smtp.client-ip=209.85.221.47
+	 MIME-Version:Content-Type; b=aJKmtAIPxRREqb4mgQmpsdkHfkJkNiojpNYwhxXsfGenBUvGUiGsEQlUD8f/xJx4Y1NJB4jYGJgtpKDV2mEcOQRovmTLWuN6UAACorLfIky08N6z95zpwlSVT6VO5tjIB4PTe4nqGr9RsylfU93hUkON8hNmiU2NB9pR1jZIKEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T8MGNhCG; arc=none smtp.client-ip=209.85.208.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g+IMj0q9"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-34be34b3296so1777353f8f.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 26 Apr 2024 08:50:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T8MGNhCG"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5724f26b8c9so2251813a12.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 26 Apr 2024 08:55:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714146650; x=1714751450; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1714146924; x=1714751724; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dwBRvxZJTvr5sS2FaOQcws8h2pvQvln9cuhoPBlSIXg=;
-        b=g+IMj0q9dC0n7CJ45cghAih1ywGqx5tkFSmJTqU7uwEcy/t0bpSc3KDaVN0eSDB8Mj
-         0LBMJ4ujYQ+qBVwz3v7uOlBkTDheQ0YGHIiMCgNM9q/G14nxtUvM4T93R0dSLh8mrefg
-         fLFlcEQnyPB2z2GncHhtsPaYatlbcmeKgLnBdOKs/ouWjRkpZZk/9vwVtFxItFQldE8P
-         w48gHAkR4piwFuJEWWHI1xRFODgEnOusEY2kK/z5FWuTU20LV+JbwDjXO82sWaCfF0Hf
-         Oigj9Ytbb1LUGVHf220Ci2QDalczkdfJwmtZzKNmQ0DDxKapdowYiycyU+d+dt3FPpGX
-         hkjw==
+        bh=WuLZ5h4UDTyIGwOk9Qx6MEQfh9GVeoIO6Zvp7oy1X30=;
+        b=T8MGNhCGJhOWHwB1CazM5tVKyyk82mBt/Yv5GS9EmnblYxqlXkwkDnN0CO1pLLQ/G8
+         G1ltNb7DR5kwhVz1An6Hkmn+T6cKQNA3rowtYyonMLjHnains0RIdfCX/W2uj01NV/2J
+         0t6AKo4cSzW6OlQRyr0af9zOavJ/gsBIJdT4g+KhSQtYoS/gvTGI+bhsk+q3nGJikZS9
+         tQq//f/EsUvNEsgelKJFYsTdxbrNmq4T4VfV3fBZ5bj0xhHxaJPJLJ0UktQgMOrQdqR1
+         YQz3gzvwyZC/ijj6eKMdySoshQDsL9NfMTo9w0l9uGwxHIxg+N3MG32p81sw6g/53LMx
+         MboA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714146650; x=1714751450;
+        d=1e100.net; s=20230601; t=1714146924; x=1714751724;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=dwBRvxZJTvr5sS2FaOQcws8h2pvQvln9cuhoPBlSIXg=;
-        b=WGFJQ+MKk+cX+R5nN6mRB1x1xCeyDxbAICo/aj0dyC6TxgjGXLooNO5xMIxBJk+4gS
-         l5fz2TfW6LW9siSIGhpUGvuYsYPIL7fsi5M9GScIWwfStb+PEuyk1c8BYxmkiITncjqQ
-         6INWNeKIF6nhZ5DvPG7dnRe//lWVw2w8vi/K94REv1QV4Hy0jNG19RfjiM6NYEYkl4zG
-         8SHCkZ4Oeq2cAdIVYEIWDsl7JLEdmpqbwvHca4Jgrpc6K6h4bwPmO5Rp+ToUfMdYuF/p
-         mped1nXcWUKufChQpaKhzzF7pi98oHDqwUdCXRwBa9OD9dx2ZeEySVfUCiOTY2uRsStH
-         2s2g==
-X-Gm-Message-State: AOJu0Yy/A+2luPzvGyCDCmyqsOWKNPQwPIif44DehAP1SmNVvF5dZ9/T
-	v6g11avWN83psDKTkYCjrc7l4umvmL6KfEn7LVW8wGTGiRN9gkHoZOyc4Dvj
-X-Google-Smtp-Source: AGHT+IFSkQKVS4L9bRnLMqiPlSV4hCkr22LUrY8PWUZrtmGGbHNA7rl6TvT9/JKufs9BvNl9wJkCgQ==
-X-Received: by 2002:a05:6000:719:b0:34a:48a0:fa70 with SMTP id bs25-20020a056000071900b0034a48a0fa70mr3350287wrb.40.1714146649673;
-        Fri, 26 Apr 2024 08:50:49 -0700 (PDT)
+        bh=WuLZ5h4UDTyIGwOk9Qx6MEQfh9GVeoIO6Zvp7oy1X30=;
+        b=iHN2WKvld2gICajDbVlQP3c1fmu5C+qc/a2itxdXVtloUfAulYJ5FTgm67u9hQ4CSN
+         BB/DEkWFF/HjB8uE10n0BHoDzjZEqZuZQQplfndKlHt+uWNLT83YQOhT5+qr2zlKtdPm
+         22JTaw+1ucJe8+VUSHmT4m84dvs3N452JPbqtyZn2nfYS6an9p4/wqICS1q8CIGQkpCE
+         qXSZ/1a7ucyfLR1YOFjIbafz9kVJv7VkTz8yMSs/NfhhnCqOGZHKBT5ho04b1uq01EpX
+         BJVrumBqJNZSP0NK22NbuJ6G4qQ0tQh0gz1nIr3x9uWX2+BDonqVmIuPaY88RE4vwmUV
+         PKRg==
+X-Forwarded-Encrypted: i=1; AJvYcCWf/jbfMkxNGUn8oIAuMi9aoh1Q9qAFqoBnR1LEZS8K9t1PzHAsX0vpLi1gV8sf/5kieLusypDgUHP7xt03luTDUR2O+hgm4xcuu+U=
+X-Gm-Message-State: AOJu0YzXm2/Rz6J9cxasd1UpcwKyDqwK8U2FTRfIsOHIIHeP45SgHQOm
+	qzGldKqCwsFdLEeDaf8xIvte2FWDd00+KETGqufCg5doA808lCCL
+X-Google-Smtp-Source: AGHT+IFj8fUr2cSimby0ODgwi6aNH+15SSzp6GftKON0Zrzpl9KfbD23xqMHzKHbC/gJf0xZhOMNrQ==
+X-Received: by 2002:a17:906:7181:b0:a58:a4d2:372d with SMTP id h1-20020a170906718100b00a58a4d2372dmr2463265ejk.10.1714146923980;
+        Fri, 26 Apr 2024 08:55:23 -0700 (PDT)
 Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id q30-20020adfb19e000000b0034a9addd4e6sm17704489wra.81.2024.04.26.08.50.48
+        by smtp.gmail.com with ESMTPSA id c19-20020a170906155300b00a526a99ccecsm10655843ejd.42.2024.04.26.08.55.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Apr 2024 08:50:49 -0700 (PDT)
+        Fri, 26 Apr 2024 08:55:23 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: linux-sunxi@lists.linux.dev, Chris Morgan <macroalpha82@gmail.com>
-Cc: devicetree@vger.kernel.org, mripard@kernel.org, wens@csie.org,
- conor+dt@kernel.org, krzk+dt@kernel.org, robh@kernel.org, tglx@linutronix.de,
- Chris Morgan <macromorgan@hotmail.com>,
- Andre Przywara <andre.przywara@arm.com>
-Subject: Re: [PATCH V2 2/2] arm64: dts: allwinner: h616: Add NMI device node
-Date: Fri, 26 Apr 2024 17:50:48 +0200
-Message-ID: <3217281.5fSG56mABF@jernej-laptop>
-In-Reply-To: <20240418181615.1370179-3-macroalpha82@gmail.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Samuel Holland <samuel@sholland.org>, linux-leds@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+ Lee Jones <lee@kernel.org>, Chen-Yu Tsai <wens@csie.org>
+Subject:
+ Re: [PATCH v1 1/1] leds: sun50i-a100: Use match_string() helper to simplify
+ the code
+Date: Fri, 26 Apr 2024 17:55:22 +0200
+Message-ID: <8403927.NyiUUSuA9g@jernej-laptop>
+In-Reply-To: <ZivMCljzog7z_SgZ@smile.fi.intel.com>
 References:
- <20240418181615.1370179-1-macroalpha82@gmail.com>
- <20240418181615.1370179-3-macroalpha82@gmail.com>
+ <20240426152515.872917-1-andriy.shevchenko@linux.intel.com>
+ <3557566.iIbC2pHGDl@jernej-laptop> <ZivMCljzog7z_SgZ@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -73,49 +76,37 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne =C4=8Detrtek, 18. april 2024 ob 20:16:15 GMT +2 je Chris Morgan napisal=
+Dne petek, 26. april 2024 ob 17:45:14 GMT +2 je Andy Shevchenko napisal(a):
+> On Fri, Apr 26, 2024 at 05:37:42PM +0200, Jernej =C5=A0krabec wrote:
+> > Dne petek, 26. april 2024 ob 17:25:15 GMT +2 je Andy Shevchenko napisal=
 (a):
-> From: Chris Morgan <macromorgan@hotmail.com>
 >=20
-> Add device node for the H616 Non Maskable Interrupt (NMI) controller.
-> This controller is present on all H616 boards and derivatives such as
-> the T507 and H700. Note that on the H616 no NMI pad is exposed.
+> ...
 >=20
-> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> > > +		return dev_err_probe(dev, i, "Bad pixel format '%s'\n", format);
+> >=20
+> > I know that old code used dev_err_probe() without reason, but could you=
+ change
+> > it to ordinary dev_err()?
+>=20
+> First of all, it's out of scope of _this_ patch.
+>=20
+> > dev_err_probe() is useful only when return code could be -EPROBE_DEFER.
+>=20
+> This is simply not true. We are trying to have a uniform output in ->prob=
+e()
+> and even documentation for dev_err_probe() was changed long time ago to
+> encourage using it for non deferred probe cases.
+>=20
+> > This is clearly not the case here.
+>=20
+> Is it a problem?
 
-Applied, thanks!
+Sorry, I missed added note for non -EPROBE_DEFER cases.
+
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
-
-> ---
->  arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi | 9 +++++++++
->  1 file changed, 9 insertions(+)
->=20
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/=
-boot/dts/allwinner/sun50i-h616.dtsi
-> index b2e85e52d1a1..1e066f3057be 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> @@ -775,6 +775,15 @@ r_ccu: clock@7010000 {
->  			#reset-cells =3D <1>;
->  		};
-> =20
-> +		nmi_intc: interrupt-controller@7010320 {
-> +			compatible =3D "allwinner,sun50i-h616-nmi",
-> +				     "allwinner,sun9i-a80-nmi";
-> +			reg =3D <0x07010320 0xc>;
-> +			interrupt-controller;
-> +			#interrupt-cells =3D <2>;
-> +			interrupts =3D <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
-> +		};
-> +
->  		r_pio: pinctrl@7022000 {
->  			compatible =3D "allwinner,sun50i-h616-r-pinctrl";
->  			reg =3D <0x07022000 0x400>;
->=20
-
-
 
 
