@@ -1,112 +1,80 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81A93824B3
-	for <linux-sunxi@lists.linux.dev>; Fri, 26 Apr 2024 16:33:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529F06BFB1;
+	Fri, 26 Apr 2024 16:41:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714149199; cv=none; b=j/pL5GNSj6zPehvWvnSLbGF8nXwW3lyAiqtGyYyjkv0PzqO3gRD7LNDYTb4b66/S2Kd/UIviHRyPg3c9O9Suillrco6Gon4YUJR9p5+IURnSgBB4+iFh59D/diiFjbUTcK2xUS0P62F9nnncrj/gtstoL5Mpmvgtq0KqFar9lK4=
+	t=1714149709; cv=none; b=h/1dYWowPdMb8U7MkBNSb7qVGiq6LMeXC/vWFPocjXuxEtcw4A2Sc5XxwNbUcTw6gNweGuNscMg/1bY4uCxEwm+xytZM/xccH7kKRzbBNGAl6nL9O9u2xHGsBrapuIfeOyJpo1aezvUY8uiYShlyIV+44SlKsveIlnvvfsjxIFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714149199; c=relaxed/simple;
-	bh=5wObAx7pU4rmk/jDQAZhcRGAbFX+y+N7wcbVVWc1/3U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FLMBxzOXudS1IVqNmJ6mFrMFFl2hBQXmOOeAn98AKW6jjHOYwzL+GaZoztHApBDa8A0+u+gPRhBoV1M/QbWXn+SK3UC6WNhEXj9hYnNl1HDPQTkgD+PGlBo1mRPm6aosPIXTOQnmE2+jW1qjUVNr0Lvx5lcvNPoPFXdiEIcZoNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IH7Ns+tZ; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1714149709; c=relaxed/simple;
+	bh=vK8IJTYpHItgQcPNQD252lOsNwqRtnalrXG7tCv83JY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=UlsecsAYwnR0CYOjbgzA/+IeEDkCEYXotrgXKrPyHtb4h7XhC+s85ppCNznSyj7ff4dQlYTfSmpgrhWq9ta6MV57DCNREZa566+sXbr+CPpitEcgJuLcyC6eMKQpQLXKz0aVI7eb863JJ9n0iRvnooCclvS7AN18ziLj9n0tbNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kgjeFEtl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IH7Ns+tZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714149198; x=1745685198;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=5wObAx7pU4rmk/jDQAZhcRGAbFX+y+N7wcbVVWc1/3U=;
-  b=IH7Ns+tZz+NoqNpLWMCL78NqBPVyv33qDPXlrth233acrEk90zArqTY+
-   PK7mmF+Zt82Rl1KGsyykrGiKiMj51p60wqBb2sJ+cfqAaV41Yk3wRH0y9
-   rEK1LXMmAYQTl4BNLjNwO4klKWlhTAqBfMcBQrX41OEZpSMDeFB0NcuEU
-   7GVWi0gfB+pc/h0Qzz0NFj1zjqcvhvNJw1mhYvAcT/zKczT+fDjngsm1W
-   Pog/dm54BQESIdzqOlgY22evmTD7vhgk0I6jPlnPlPn9UH5ZlDkq/H5PI
-   o7tKtUMSDm1SBgLB6WlDbpXZTlWXEtSugnc7DGc0ck14b5NnzkkPSUwd+
-   g==;
-X-CSE-ConnectionGUID: wDHIJDD5ToWTbnCXE5z/Mw==
-X-CSE-MsgGUID: ZF9SrqKIT+CDUOXBT/rW6Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="21299056"
-X-IronPort-AV: E=Sophos;i="6.07,233,1708416000"; 
-   d="scan'208";a="21299056"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 09:33:17 -0700
-X-CSE-ConnectionGUID: GrHn9nksTE+kgmSKxHHj+Q==
-X-CSE-MsgGUID: oqLZWI5HQyK6FZgPEVDJWA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,233,1708416000"; 
-   d="scan'208";a="25470044"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 09:33:09 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1s0OVT-00000001OBZ-2UXq;
-	Fri, 26 Apr 2024 19:33:03 +0300
-Date: Fri, 26 Apr 2024 19:33:03 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: Samuel Holland <samuel@sholland.org>, linux-leds@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>, Chen-Yu Tsai <wens@csie.org>
-Subject: Re: [PATCH v1 1/1] leds: sun50i-a100: Use match_string() helper to
- simplify the code
-Message-ID: <ZivXP-tdrLXriHOE@smile.fi.intel.com>
-References: <20240426152515.872917-1-andriy.shevchenko@linux.intel.com>
- <3557566.iIbC2pHGDl@jernej-laptop>
- <ZivMCljzog7z_SgZ@smile.fi.intel.com>
- <8403927.NyiUUSuA9g@jernej-laptop>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kgjeFEtl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DC65C116B1;
+	Fri, 26 Apr 2024 16:41:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714149708;
+	bh=vK8IJTYpHItgQcPNQD252lOsNwqRtnalrXG7tCv83JY=;
+	h=Date:From:To:Cc:Subject:From;
+	b=kgjeFEtlNyCr6lf4+6MT4/FLie3CAqkS3iTKdaailhdqR3W2HtFVDaP/RCT172vbC
+	 bIiQZ3izjiU82Uq3yGwwXg38q1tRpfGgcmr8NEMZ4BaRI0HoG3AEtltpKYdfHyZ543
+	 sBsYOnlbN1cNWF2yCL6Th52HU+w2nYmuzYCViSXRv1ulL5HTXib/wNQ1D9xp9+4HOh
+	 AMDUYvIaR0cV/wY5OGJ6rh6uer0VbjWD41zHzod3FGP5xYI8y/CmxCPrZoW0zFa+Gh
+	 ItEOANBhyrSrJPUlhK00+tp87/giUd5Dd8BNttIF0IwdSXbc94x3UXA6/Ox8Zdduav
+	 90Z7sr28QGljg==
+Date: Fri, 26 Apr 2024 18:41:44 +0200
+From: Jernej Skrabec <jernej@kernel.org>
+To: mturquette@baylibre.com, sboyd@kernel.org
+Cc: wens@csie.org, samuel@sholland.org, linux-clk@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: [GIT PULL] Allwinner clock fixes for 6.9
+Message-ID: <20240426164144.GA100911@jernej-laptop>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8403927.NyiUUSuA9g@jernej-laptop>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Fri, Apr 26, 2024 at 05:55:22PM +0200, Jernej Škrabec wrote:
-> Dne petek, 26. april 2024 ob 17:45:14 GMT +2 je Andy Shevchenko napisal(a):
-> > On Fri, Apr 26, 2024 at 05:37:42PM +0200, Jernej Škrabec wrote:
-> > > Dne petek, 26. april 2024 ob 17:25:15 GMT +2 je Andy Shevchenko napisal(a):
+Hi!
 
-...
+Please pull following clock fixes for 6.9.
 
-> > > > +		return dev_err_probe(dev, i, "Bad pixel format '%s'\n", format);
-> > > 
-> > > I know that old code used dev_err_probe() without reason, but could you change
-> > > it to ordinary dev_err()?
-> > 
-> > First of all, it's out of scope of _this_ patch.
-> > 
-> > > dev_err_probe() is useful only when return code could be -EPROBE_DEFER.
-> > 
-> > This is simply not true. We are trying to have a uniform output in ->probe()
-> > and even documentation for dev_err_probe() was changed long time ago to
-> > encourage using it for non deferred probe cases.
-> > 
-> > > This is clearly not the case here.
-> > 
-> > Is it a problem?
-> 
-> Sorry, I missed added note for non -EPROBE_DEFER cases.
+Best regards,
+Jernej
 
-No problem.
+The following changes since commit 4cece764965020c22cff7665b18a012006359095:
 
-> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+  Linux 6.9-rc1 (2024-03-24 14:10:05 -0700)
 
-Thank you for the review!
+are available in the Git repository at:
 
--- 
-With Best Regards,
-Andy Shevchenko
+  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-clk-fixes-for-6.9-1
 
+for you to fetch changes up to 69f16d9b789821183d342719d2ebd4a5ac7178bc:
 
+  clk: sunxi-ng: a64: Set minimum and maximum rate for PLL-MIPI (2024-04-15 23:21:56 +0200)
+
+----------------------------------------------------------------
+- fix H6 CPU rate change via reparenting
+- set A64 MIPI PLL min & max rate
+
+----------------------------------------------------------------
+Frank Oltmanns (2):
+      clk: sunxi-ng: common: Support minimum and maximum rate
+      clk: sunxi-ng: a64: Set minimum and maximum rate for PLL-MIPI
+
+Jernej Skrabec (1):
+      clk: sunxi-ng: h6: Reparent CPUX during PLL CPUX rate change
+
+ drivers/clk/sunxi-ng/ccu-sun50i-a64.c |  2 ++
+ drivers/clk/sunxi-ng/ccu-sun50i-h6.c  | 19 +++++++++++++++++--
+ drivers/clk/sunxi-ng/ccu_common.c     | 19 +++++++++++++++++++
+ drivers/clk/sunxi-ng/ccu_common.h     |  3 +++
+ 4 files changed, 41 insertions(+), 2 deletions(-)
