@@ -1,144 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD2E1DFED;
-	Fri, 26 Apr 2024 16:25:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81A93824B3
+	for <linux-sunxi@lists.linux.dev>; Fri, 26 Apr 2024 16:33:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714148727; cv=none; b=nyr7EuHB5Cep3knjhPyXp7OGH4miYGBk7JsvzNIxi9j2gEd5a3iru56xXpGhwCF8/FIp92zFUwNnlm+zACChYrdLmNHtyQfRnLQIsmwK+zTElNzol/4aUlTPgaUZv6EBWwp4BCqF+CNQlWBSCUTTiE6ZBGuVoPX5uU16f93QEBw=
+	t=1714149199; cv=none; b=j/pL5GNSj6zPehvWvnSLbGF8nXwW3lyAiqtGyYyjkv0PzqO3gRD7LNDYTb4b66/S2Kd/UIviHRyPg3c9O9Suillrco6Gon4YUJR9p5+IURnSgBB4+iFh59D/diiFjbUTcK2xUS0P62F9nnncrj/gtstoL5Mpmvgtq0KqFar9lK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714148727; c=relaxed/simple;
-	bh=115os4ZbmsDyr8IcVI++ZT4rfl/lG18N3YGeEEwRbs8=;
+	s=arc-20240116; t=1714149199; c=relaxed/simple;
+	bh=5wObAx7pU4rmk/jDQAZhcRGAbFX+y+N7wcbVVWc1/3U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SwL90AxiWVOwbYq5V2bEe0FOzG0wAvCi4fR0eNjJ/taCDMmh8ulhPvvZwC9O9JZjjjCE34Ty+74xchF48zf+uF6WVTWKHGol26hb2U/GxYu21uhWbU7kaHYw7PKrMgtAle3lkZ7gohV5VvsQXJ12KOnTnDvpartVlXZH7wVQy+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mrysoNhZ; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=FLMBxzOXudS1IVqNmJ6mFrMFFl2hBQXmOOeAn98AKW6jjHOYwzL+GaZoztHApBDa8A0+u+gPRhBoV1M/QbWXn+SK3UC6WNhEXj9hYnNl1HDPQTkgD+PGlBo1mRPm6aosPIXTOQnmE2+jW1qjUVNr0Lvx5lcvNPoPFXdiEIcZoNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IH7Ns+tZ; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mrysoNhZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 673CCC113CD;
-	Fri, 26 Apr 2024 16:25:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714148726;
-	bh=115os4ZbmsDyr8IcVI++ZT4rfl/lG18N3YGeEEwRbs8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mrysoNhZl/2rj5EmyPUxvne4oOcCBvgT7FwXv0B4qEZLA2jUuBiMT+Pr00XjxUudr
-	 F73EfI2exm1yIlq/9kiwYzitcBk7FA3SkwYa2biMKrRLz2jye0hyB9NYWeRpCYleRh
-	 7GgXwMDopM+45H9xSM766w80njApyOPHcaI0cHzOShkgg3VlHCxI3FhBNJOovBhe5T
-	 p9A0WrvyAlgEFfURIKB8i21Dp5vQInsmtbx5lL85VD9p1B18Gr8aJ38hhZRA0PAbcs
-	 rHk6vG45aPqXMmgHMq2QPlbfRr35oW4Yyjz8iUe2m4aSNwzMQOKtoQZkg51qF6vK7B
-	 rW4xYAn2q2gVA==
-Date: Fri, 26 Apr 2024 17:25:20 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Evan Green <evan@rivosinc.com>,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IH7Ns+tZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714149198; x=1745685198;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=5wObAx7pU4rmk/jDQAZhcRGAbFX+y+N7wcbVVWc1/3U=;
+  b=IH7Ns+tZz+NoqNpLWMCL78NqBPVyv33qDPXlrth233acrEk90zArqTY+
+   PK7mmF+Zt82Rl1KGsyykrGiKiMj51p60wqBb2sJ+cfqAaV41Yk3wRH0y9
+   rEK1LXMmAYQTl4BNLjNwO4klKWlhTAqBfMcBQrX41OEZpSMDeFB0NcuEU
+   7GVWi0gfB+pc/h0Qzz0NFj1zjqcvhvNJw1mhYvAcT/zKczT+fDjngsm1W
+   Pog/dm54BQESIdzqOlgY22evmTD7vhgk0I6jPlnPlPn9UH5ZlDkq/H5PI
+   o7tKtUMSDm1SBgLB6WlDbpXZTlWXEtSugnc7DGc0ck14b5NnzkkPSUwd+
+   g==;
+X-CSE-ConnectionGUID: wDHIJDD5ToWTbnCXE5z/Mw==
+X-CSE-MsgGUID: ZF9SrqKIT+CDUOXBT/rW6Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="21299056"
+X-IronPort-AV: E=Sophos;i="6.07,233,1708416000"; 
+   d="scan'208";a="21299056"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 09:33:17 -0700
+X-CSE-ConnectionGUID: GrHn9nksTE+kgmSKxHHj+Q==
+X-CSE-MsgGUID: oqLZWI5HQyK6FZgPEVDJWA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,233,1708416000"; 
+   d="scan'208";a="25470044"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 09:33:09 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1s0OVT-00000001OBZ-2UXq;
+	Fri, 26 Apr 2024 19:33:03 +0300
+Date: Fri, 26 Apr 2024 19:33:03 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: Samuel Holland <samuel@sholland.org>, linux-leds@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v3 09/17] riscv: drivers: Convert xandespmu to use the
- vendor extension framework
-Message-ID: <20240426-venue-maximum-f78ac451b146@spud>
-References: <20240420-dev-charlie-support_thead_vector_6_9-v3-0-67cff4271d1d@rivosinc.com>
- <20240420-dev-charlie-support_thead_vector_6_9-v3-9-67cff4271d1d@rivosinc.com>
+	linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>, Chen-Yu Tsai <wens@csie.org>
+Subject: Re: [PATCH v1 1/1] leds: sun50i-a100: Use match_string() helper to
+ simplify the code
+Message-ID: <ZivXP-tdrLXriHOE@smile.fi.intel.com>
+References: <20240426152515.872917-1-andriy.shevchenko@linux.intel.com>
+ <3557566.iIbC2pHGDl@jernej-laptop>
+ <ZivMCljzog7z_SgZ@smile.fi.intel.com>
+ <8403927.NyiUUSuA9g@jernej-laptop>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="yY5dZCAicSqxniow"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240420-dev-charlie-support_thead_vector_6_9-v3-9-67cff4271d1d@rivosinc.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8403927.NyiUUSuA9g@jernej-laptop>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+
+On Fri, Apr 26, 2024 at 05:55:22PM +0200, Jernej Škrabec wrote:
+> Dne petek, 26. april 2024 ob 17:45:14 GMT +2 je Andy Shevchenko napisal(a):
+> > On Fri, Apr 26, 2024 at 05:37:42PM +0200, Jernej Škrabec wrote:
+> > > Dne petek, 26. april 2024 ob 17:25:15 GMT +2 je Andy Shevchenko napisal(a):
+
+...
+
+> > > > +		return dev_err_probe(dev, i, "Bad pixel format '%s'\n", format);
+> > > 
+> > > I know that old code used dev_err_probe() without reason, but could you change
+> > > it to ordinary dev_err()?
+> > 
+> > First of all, it's out of scope of _this_ patch.
+> > 
+> > > dev_err_probe() is useful only when return code could be -EPROBE_DEFER.
+> > 
+> > This is simply not true. We are trying to have a uniform output in ->probe()
+> > and even documentation for dev_err_probe() was changed long time ago to
+> > encourage using it for non deferred probe cases.
+> > 
+> > > This is clearly not the case here.
+> > 
+> > Is it a problem?
+> 
+> Sorry, I missed added note for non -EPROBE_DEFER cases.
+
+No problem.
+
+> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+
+Thank you for the review!
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
---yY5dZCAicSqxniow
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Sat, Apr 20, 2024 at 06:04:41PM -0700, Charlie Jenkins wrote:
-> Migrate xandespmu out of riscv_isa_ext and into a new Andes-specific
-> vendor namespace.
-> diff --git a/drivers/perf/riscv_pmu_sbi.c b/drivers/perf/riscv_pmu_sbi.c
-> index 8cbe6e5f9c39..84760ce61e03 100644
-> --- a/drivers/perf/riscv_pmu_sbi.c
-> +++ b/drivers/perf/riscv_pmu_sbi.c
-> @@ -24,6 +24,8 @@
->  #include <asm/errata_list.h>
->  #include <asm/sbi.h>
->  #include <asm/cpufeature.h>
-> +#include <asm/vendorid_list.h>
-> +#include <asm/vendor_extensions/andes.h>
-> =20
->  #define ALT_SBI_PMU_OVERFLOW(__ovl)					\
->  asm volatile(ALTERNATIVE_2(						\
-> @@ -32,7 +34,7 @@ asm volatile(ALTERNATIVE_2(						\
->  		THEAD_VENDOR_ID, ERRATA_THEAD_PMU,			\
->  		CONFIG_ERRATA_THEAD_PMU,				\
->  	"csrr %0, " __stringify(ANDES_CSR_SCOUNTEROF),			\
-> -		0, RISCV_ISA_EXT_XANDESPMU,				\
-> +		ANDES_VENDOR_ID, RISCV_ISA_VENDOR_EXT_XANDESPMU,	\
->  		CONFIG_ANDES_CUSTOM_PMU)				\
->  	: "=3Dr" (__ovl) :						\
->  	: "memory")
-> @@ -41,7 +43,7 @@ asm volatile(ALTERNATIVE_2(						\
->  asm volatile(ALTERNATIVE(						\
->  	"csrc " __stringify(CSR_IP) ", %0\n\t",				\
->  	"csrc " __stringify(ANDES_CSR_SLIP) ", %0\n\t",			\
-> -		0, RISCV_ISA_EXT_XANDESPMU,				\
-> +		ANDES_VENDOR_ID, RISCV_ISA_VENDOR_EXT_XANDESPMU,	\
->  		CONFIG_ANDES_CUSTOM_PMU)				\
->  	: : "r"(__irq_mask)						\
->  	: "memory")
-> @@ -837,7 +839,7 @@ static int pmu_sbi_setup_irqs(struct riscv_pmu *pmu, =
-struct platform_device *pde
->  		   riscv_cached_mimpid(0) =3D=3D 0) {
->  		riscv_pmu_irq_num =3D THEAD_C9XX_RV_IRQ_PMU;
->  		riscv_pmu_use_irq =3D true;
-> -	} else if (riscv_isa_extension_available(NULL, XANDESPMU) &&
-> +	} else if (riscv_isa_vendor_extension_available(-1, XANDESPMU) &&
-
-What's the rationale for this not using riscv_has_extension_unlikely()?
-Happens once in probe so don't bother? I forget if we discussed it when
-the code was added, but it would save us from the NULL/-1 syntax,
-neither of which I think is a good interface.
-
-Also, I'd prob drop the "drivers" from $subject.
-
-I'll come back and look at the rest of this Monday, it's a sunny Friday
-here and I've still got my devicetree patch queue to clear..
-
-Cheers,
-Conor.
-
->  		   IS_ENABLED(CONFIG_ANDES_CUSTOM_PMU)) {
->  		riscv_pmu_irq_num =3D ANDES_SLI_CAUSE_BASE + ANDES_RV_IRQ_PMOVI;
->  		riscv_pmu_use_irq =3D true;
->=20
-> --=20
-> 2.44.0
->=20
-
---yY5dZCAicSqxniow
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZivVcAAKCRB4tDGHoIJi
-0q5xAQCe2FA1+i41mmMJDi5wo0K0launNVhNkUuTkEaiFR0IhAD/Ym63WbkJOpJ0
-Y1cgyr29/q9i4AU76MmaZX7FfGD9pAU=
-=pgke
------END PGP SIGNATURE-----
-
---yY5dZCAicSqxniow--
