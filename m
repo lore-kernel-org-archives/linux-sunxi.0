@@ -1,129 +1,100 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B2884E0E
-	for <linux-sunxi@lists.linux.dev>; Fri, 26 Apr 2024 15:37:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1204148FE5
+	for <linux-sunxi@lists.linux.dev>; Fri, 26 Apr 2024 15:45:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714145866; cv=none; b=Hblt+VIY//SGk4vob2P2ueNkqrhqcRlbp6/fQfnRigF3dmvzsSTJBznji8C3iUF7rvpgLXsdY6WibCjZSozi4TpYJ81uxY1HG2+1+lyb/KdAZXIaSE0FJxP4zoSyPHEIH+POWER3MN2Xx2oNAthdG1aL0E5sM2LtsEFcz4XOZpc=
+	t=1714146323; cv=none; b=GovL7xmeGUPSDesLZvh4LJfuwL60VQFhOksXe5b9kgodOIQS2kqbT0EbNxKx8AukJ6tMiPYs/3JgwKxZyq/Nzn3lbT/5V95JUG9lQkVZjw5+7NdKeYJw3Y+egNTvO4NcIg4lIqgfubPmdkclevaM9L5sVWMnWwZdUPBtfgzRw/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714145866; c=relaxed/simple;
-	bh=Rck3V7A+RmzHoKveKNNk6Uc4pHjWyyyyaJfC/10inZ4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=B/slYgDpoaLXgqlopv3EAx1jPqLhFFfcGzj5vbERIfscMEVSUTMXmeYRj/gLUrQETwn6JeUz2u3U3qfY0HKcA0q+tY4105s3NvobaH4AcobNnbA+URRPCspani788BNb5qVKuoTllp2JeTtZU0z76Vyt9a6IAIbXBbmE5xuY4FI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d3iDFSWN; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1714146323; c=relaxed/simple;
+	bh=3q1rFP3fkaatP7Ce6Ut88qG5Pe9hnHyuLRWNk6LfS88=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kjowSdSgTqQWNvECRScvim9V/WTbCedjRRaM60UI8Yg/kPIiFyE2ovnpU6QZylyWTfgHM+4PBODNGbrTi1x+p75hjLJOQTiz850l3T6IPIAkTBS3P5S9nbKxaTA0DRBAmBZdy6ZTGZsq0CHVRnhf+o/GQ4cJG+qzNzJI4KHpmgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jX+fdv+m; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d3iDFSWN"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-41ba1ba55e8so4171705e9.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 26 Apr 2024 08:37:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714145863; x=1714750663; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0fnllMvw5rV4aVeEqjprC/GqDGLK/jA5NIktH0d4s7A=;
-        b=d3iDFSWN9BiVSkHKUsWOeZwTOT8QzF7Wee63wnCr8t6Ydas+uBmqOjJT/BLTqyS1oQ
-         JYP7z3fuwPXuebvH3Ygl1Ib0DZV47zF7KTvLRdGaxdxlvf5jiesantPuz7kpOjFjzXrP
-         3q2vbVxwEqHBxwSax7LwSkT2kW4ctC+oqD+1REC/kSGZcRT6GRBktlqy7OriHREANiWW
-         Wb13yk3x0vVGlBw6hMBefguRk4EI4SFCJSZMxonqPAnKNy2HFnad+Mm+eBK8XGsqvImo
-         VAC07NZ9Wut0pw4qGgqugq1vwHjce2XJNyNw8ah8uPIp++hn4+yGHj251gViIaJhMwt5
-         1mDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714145863; x=1714750663;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0fnllMvw5rV4aVeEqjprC/GqDGLK/jA5NIktH0d4s7A=;
-        b=YRRzd9QLMtwLRifl2aquTRIUH2uh15iYnrd0as3cNtRaf++1gyJiQ+yyyUrLKzXBKj
-         NpIibSLVPnii0d4nnrHMThjFi3GVLcPinaAFTO81Sr0hhiP4JMiZHQrqmHPMdfoLxckv
-         E8mydkD+omMbv9y1ZlNgXv2Iqft9ly5h2V3PkH6HMPuTIY7NvPNciIfqqSCjNNy8t4zC
-         YhzKK+olM8+l8YFDg4Znud8MvKcMpkPxG2e0oXAFGqNsHhQ7D5nV05cMUVwqRpc+h79q
-         0iwqCCSR5VXUqUhfA1qb5+Ie0BRhwDXlx6ii47TuvsYJM91waIT+2a6zKdoztNaymRkV
-         Q+pg==
-X-Forwarded-Encrypted: i=1; AJvYcCU0ep4raUMEoHbxjPfiscEM6ZyPLnMMYRqGPDuTzWnmcCxcwFyvTznAE6HayVONCQU+J80ugP9iYajuKofH7eTTCDmWs0rsr6FzCwk=
-X-Gm-Message-State: AOJu0YxwKMOECD/J4XPQmMeCc63fQJ56hj6rMT4ZP5m8ZmlkOiKMPACz
-	7g9qskfSGDR0JJbzUfA/6yqHoJlqcZpqKFu9RJMO5gmAuUJfm/cj
-X-Google-Smtp-Source: AGHT+IF86aCF2y03zjD72DabiUs318EzT1BZ/WTa9OJV2HjgTF93fx7CNQA08TDph3S28W4TYeipuA==
-X-Received: by 2002:a05:600c:1988:b0:41a:7ab1:fd98 with SMTP id t8-20020a05600c198800b0041a7ab1fd98mr2473420wmq.21.1714145863392;
-        Fri, 26 Apr 2024 08:37:43 -0700 (PDT)
-Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id w17-20020a05600c475100b004162d06768bsm35189838wmo.21.2024.04.26.08.37.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Apr 2024 08:37:43 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Samuel Holland <samuel@sholland.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>
-Subject:
- Re: [PATCH v1 1/1] leds: sun50i-a100: Use match_string() helper to simplify
- the code
-Date: Fri, 26 Apr 2024 17:37:42 +0200
-Message-ID: <3557566.iIbC2pHGDl@jernej-laptop>
-In-Reply-To: <20240426152515.872917-1-andriy.shevchenko@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jX+fdv+m"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714146322; x=1745682322;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=3q1rFP3fkaatP7Ce6Ut88qG5Pe9hnHyuLRWNk6LfS88=;
+  b=jX+fdv+maG1jCfhEv+k6iK/shwOK0AUioa5fRQ+oRfltFiYEU7A3cs6N
+   fQEV5XzunP2PBAKGB/pfc+r3MBpDchuX90Rrx3H4kta+zMjOHEeK55IVt
+   RBdjSKpz+F2GuuC7qNSbbiuaGS1QwOej0VprikuDjLZG8M57vJvZTk9e7
+   VtF79/Iq0t+1e1xh1TNAXPPoDhcsmRZlEWrNIN3EphK5xZEeOOhtwHhTR
+   oz7XRyNcR5M88xiNyHMKMV+tSnzDw4F49Wdk7LLBRZxzrj6707podIF22
+   YMdUqMob5HpTZnUtBl+dJzhWkag3fXyIcc8nq/jGijX3kgvDbwe7KZqW+
+   A==;
+X-CSE-ConnectionGUID: YmGjy9xzQo6WMBxCiEEZ/w==
+X-CSE-MsgGUID: yNu2aKXpTiGNzxrTANOOfw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="13674281"
+X-IronPort-AV: E=Sophos;i="6.07,233,1708416000"; 
+   d="scan'208";a="13674281"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 08:45:20 -0700
+X-CSE-ConnectionGUID: HgJh5Oz/QCykWNGoswnlEQ==
+X-CSE-MsgGUID: WUOakU+kRoCAt0hmLCwqCQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,233,1708416000"; 
+   d="scan'208";a="25531266"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 08:45:18 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1s0NlD-00000001Mo4-0ney;
+	Fri, 26 Apr 2024 18:45:15 +0300
+Date: Fri, 26 Apr 2024 18:45:14 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: Samuel Holland <samuel@sholland.org>, linux-leds@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>, Chen-Yu Tsai <wens@csie.org>
+Subject: Re: [PATCH v1 1/1] leds: sun50i-a100: Use match_string() helper to
+ simplify the code
+Message-ID: <ZivMCljzog7z_SgZ@smile.fi.intel.com>
 References: <20240426152515.872917-1-andriy.shevchenko@linux.intel.com>
+ <3557566.iIbC2pHGDl@jernej-laptop>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3557566.iIbC2pHGDl@jernej-laptop>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Dne petek, 26. april 2024 ob 17:25:15 GMT +2 je Andy Shevchenko napisal(a):
-> match_string() returns the array index of a matching string.
-> Use it instead of the open-coded implementation.
+On Fri, Apr 26, 2024 at 05:37:42PM +0200, Jernej Škrabec wrote:
+> Dne petek, 26. april 2024 ob 17:25:15 GMT +2 je Andy Shevchenko napisal(a):
+
+...
+
+> > +		return dev_err_probe(dev, i, "Bad pixel format '%s'\n", format);
 > 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->  drivers/leds/leds-sun50i-a100.c | 14 ++++++--------
->  1 file changed, 6 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/leds/leds-sun50i-a100.c b/drivers/leds/leds-sun50i-a100.c
-> index 62d21c3a3575..119eff9471f0 100644
-> --- a/drivers/leds/leds-sun50i-a100.c
-> +++ b/drivers/leds/leds-sun50i-a100.c
-> @@ -252,18 +252,16 @@ static int sun50i_a100_ledc_parse_format(struct device *dev,
->  					 struct sun50i_a100_ledc *priv)
->  {
->  	const char *format = "grb";
-> -	u32 i;
-> +	int i;
->  
->  	device_property_read_string(dev, "allwinner,pixel-format", &format);
->  
-> -	for (i = 0; i < ARRAY_SIZE(sun50i_a100_ledc_formats); i++) {
-> -		if (!strcmp(format, sun50i_a100_ledc_formats[i])) {
-> -			priv->format = i;
-> -			return 0;
-> -		}
-> -	}
-> +	i = match_string(sun50i_a100_ledc_formats, ARRAY_SIZE(sun50i_a100_ledc_formats), format);
-> +	if (i < 0)
-> +		return dev_err_probe(dev, i, "Bad pixel format '%s'\n", format);
+> I know that old code used dev_err_probe() without reason, but could you change
+> it to ordinary dev_err()?
 
-I know that old code used dev_err_probe() without reason, but could you change
-it to ordinary dev_err()? dev_err_probe() is useful only when return code could
-be -EPROBE_DEFER. This is clearly not the case here.
+First of all, it's out of scope of _this_ patch.
 
-Best regards,
-Jernej
+> dev_err_probe() is useful only when return code could be -EPROBE_DEFER.
 
->  
-> -	return dev_err_probe(dev, -EINVAL, "Bad pixel format '%s'\n", format);
-> +	priv->format = i;
-> +	return 0;
->  }
->  
->  static void sun50i_a100_ledc_set_format(struct sun50i_a100_ledc *priv)
-> 
+This is simply not true. We are trying to have a uniform output in ->probe()
+and even documentation for dev_err_probe() was changed long time ago to
+encourage using it for non deferred probe cases.
 
+> This is clearly not the case here.
 
+Is it a problem?
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
