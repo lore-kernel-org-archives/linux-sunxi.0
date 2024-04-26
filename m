@@ -1,496 +1,327 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCA06149C4B;
-	Fri, 26 Apr 2024 16:00:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4203214D447
+	for <linux-sunxi@lists.linux.dev>; Fri, 26 Apr 2024 16:00:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714147243; cv=none; b=XT6Vn2vJ0kgmLbpLtroIEmCTMf1WowI7JqUk5q0TT6GRK3WYw3itOFIGPXSF/cruzDZDNt8HloALn+Af0o/VX1EdMOZYJAGsOjBjRCjk89g/erFJH0r1Isi0cmCEuXAOAoveLDaiOv47W96+AyjDvGNhoM3pH1/0Y2vLkIjP6GY=
+	t=1714147248; cv=none; b=KDTTBG6JQUKtoqZ4vjCTl5/k/xw9UV8pI/H9Q7WhTNkPPIN+fLVvvl98s400b9iNg3AER11xR/h+AlEthK3Uyf19YwTrcs194Y9uSVD+oYtfOVBoo0qySl2eolvm2NIs/1L/MPjlS9hBQO6Yd5Ce355ouj660U4YRokt/AuA2Rs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714147243; c=relaxed/simple;
-	bh=UKvN2wqdYwQy09pu/qhnWflqex3IoAGs2WJzELlg6Io=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bRI8dJs8SyvzDwThS+yMwc0p5XBxUR7PJjQCY3VJOriNEs3RcQiWhX7yYQZIbEnZu8bZExk6rfiGuaX8Qw03hj4bRPeYCwteqWVMN+4g5W0tG8zWU/Dfkg52BNrld6XTEudyR/4B8M/c+7vlOs/SALXzzLJ1SrCMrS2qD6kBs+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rdhps90n; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1714147248; c=relaxed/simple;
+	bh=pxFWYzuScExToe/5sz8/JsPsDR/OMzXy9nFBpgSKQBU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cGfPyF06OtUDWZhefA8l18a/23GQsXs7N+fS5Szqiwqdfee5nkWcxJYB9ppS3wTEICTlpeBXg1sOmNZFUxik81WBmHeI/fKTFifhRboAo5ioh3IY3Hkdn9/P84uSXpCjTTU/TRoMuwP022TiEkogeMOY8jLyxkpV7P09vs0FPNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nfM+0Cc7; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rdhps90n"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2B07C113CD;
-	Fri, 26 Apr 2024 16:00:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714147243;
-	bh=UKvN2wqdYwQy09pu/qhnWflqex3IoAGs2WJzELlg6Io=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rdhps90nAvGB15Gl4zA0ihH/VZEzcpCpWyY3F2ToaDPEHEWvP0XSf462JNhwxd8sj
-	 Iw4HYtt4AUvR321Pq8F+imU0pGuLjOrjvbAIO+qCE5+i/a3t/n+DRuZlX5dQBG7KWu
-	 IeOqCFOSdtv5hzi1xkTIvq1XX6bJfAHxMBfi2kuwKjF2qjEsIBWCfhOxUm+XBRi7Lw
-	 PXb03SL4tJ+dyhFCLfkE7yzYWW2muGW/cSs8NWxPLDBt1cKZfE2dd2Ma/IHDImgkUv
-	 gREzezAZzBRLsvOd/heCl3/7HVn+0Bx/DNJLICNCtymDJ5Ru7tzM9BXB7DRX4zAGI7
-	 1Ap9aT6BmGxsg==
-Date: Fri, 26 Apr 2024 17:00:36 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Evan Green <evan@rivosinc.com>,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v3 07/17] riscv: Extend cpufeature.c to detect vendor
- extensions
-Message-ID: <20240426-blank-venus-3c902a2a0843@spud>
-References: <20240420-dev-charlie-support_thead_vector_6_9-v3-0-67cff4271d1d@rivosinc.com>
- <20240420-dev-charlie-support_thead_vector_6_9-v3-7-67cff4271d1d@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nfM+0Cc7"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-34b1e35155aso2462977f8f.3
+        for <linux-sunxi@lists.linux.dev>; Fri, 26 Apr 2024 09:00:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714147245; x=1714752045; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=N2i6IDHJ6BXdTUMAefYr9K5o9rastdFOrRcDyTPE3s0=;
+        b=nfM+0Cc7BwuIw0C9ScukTWGYCAKPp98HvJL5Wy0KqpLlz83iy8pRQ+4ct24mKATcfF
+         IlUTuIURJwOoXkzx5kb5w7hbSvs/MgXHGxijIHhukBH1i5d7KBrephEu7hFbiw37hgbX
+         LgwvUdv+SNgE1UC+LISqACk4RdHgwCstMpOFXefvl5Vag3m3i/wbUvN6yBLtlfXhi2Qm
+         35FrDTRknJgTbnEIi8a1I0bN3NlDo9Py8NYIhW4MWjuFnRivRbyNZeE6GM9HELkepspw
+         kQZ//s+m4Zw1s18npkJRHfbisTKNp/7tdPXR5vGLSDnVPquraH23F8/ysE89MUXmlW+w
+         PC6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714147245; x=1714752045;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=N2i6IDHJ6BXdTUMAefYr9K5o9rastdFOrRcDyTPE3s0=;
+        b=GUC7VJ8iJ8LJjeS702aJykrYu4gryxmbC3B7QBNoG60STEu4xBaMYNXSCHdaVA9em0
+         FNNUKUlTjTokxCyGz0YqJ7nM8LnRqK7jmx4eajY6HXd9azX93eY27tJolYWGMtt+Wfzi
+         AXfbq5Kp3IYnIH2VAQ5Tm+kKrL7VCB/nLnXmMDI6PI9i9s7T/JuguctIW9Z8C38eeAuw
+         irOdygbD3g0jYa27bql/gGmIR2vASOQyhCK2ddEcdjWVrpmYV25Om6yASiClOyBAIZoO
+         wUzwfFyv+PzlHa+XKCi9QkHih0huNBh26Ac7I8QFMG+laq2TnBLqOmnl5U2k3EjfJ/Cp
+         b3Pg==
+X-Forwarded-Encrypted: i=1; AJvYcCUYTQePTZ5O/wkW2Ww3IS2fw5IyV5t6S4ozIhcL9ahGx1l0XEXIcEh/swCSH7PYYA05l3xmLgrau9DanEaU2Xe3lda/pjjjAiexhTc=
+X-Gm-Message-State: AOJu0YwUFfrAy+Ww7V07w/yQpV3jdbphswOb52gNWfKwzT+MNwVrklAV
+	/0T6DpwAS9xA0blH0j3kfMwwZLYQiYK3lJ31IAQ6K0G0+mgbBE9F
+X-Google-Smtp-Source: AGHT+IETKfB1bBcbf9JdvPjFfWZRURzpxDlWSSci1yxqzkB6tko+WsU1aUT0W8/PmlrylYvlnd8Wdw==
+X-Received: by 2002:a5d:6682:0:b0:34b:58a2:dead with SMTP id l2-20020a5d6682000000b0034b58a2deadmr2581635wru.33.1714147244329;
+        Fri, 26 Apr 2024 09:00:44 -0700 (PDT)
+Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
+        by smtp.gmail.com with ESMTPSA id b7-20020adff907000000b0034b3394f0e1sm12219703wrr.10.2024.04.26.09.00.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Apr 2024 09:00:43 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ Chris Morgan <macromorgan@hotmail.com>, Ryan Walklin <ryan@testtoast.com>
+Cc: devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ Ryan Walklin <ryan@testtoast.com>
+Subject: Re: [PATCH v4 2/4] arm64: dts: allwinner: h700: Add RG35XX 2024 DTS
+Date: Fri, 26 Apr 2024 18:00:42 +0200
+Message-ID: <1886997.CQOukoFCf9@jernej-laptop>
+In-Reply-To: <20240426095141.13602-4-ryan@testtoast.com>
+References:
+ <20240426095141.13602-2-ryan@testtoast.com>
+ <20240426095141.13602-4-ryan@testtoast.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="2rtR2VBIdFcn7ltG"
-Content-Disposition: inline
-In-Reply-To: <20240420-dev-charlie-support_thead_vector_6_9-v3-7-67cff4271d1d@rivosinc.com>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-
---2rtR2VBIdFcn7ltG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Sat, Apr 20, 2024 at 06:04:39PM -0700, Charlie Jenkins wrote:
-> Separate vendor extensions out into one struct per vendor
-> instead of adding vendor extensions onto riscv_isa_ext.
->=20
-> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+Dne petek, 26. april 2024 ob 11:51:40 GMT +2 je Ryan Walklin napisal(a):
+> The base model RG35XX (2024) is a handheld gaming device based on an Allwinner H700 chip.
+> 
+> The H700 is a H616 variant (4x ARM Cortex-A53 cores @ 1.5Ghz with Mali G31 GPU) which exposes RGB LCD and NMI pins.
+> 
+> Device features:
+> - Allwinner H700 @ 1.5GHz
+> - 1GB LPDDR4 DRAM
+> - X-Powers AXP717 PMIC
+> - 3.5" 640x480 RGB LCD
+> - Two microSD slots
+> - Mini-HDMI out
+> - GPIO keypad
+> - 3.5mm headphone jack
+> - USB-C charging port
+> 
+> Enabled in this DTS:
+> - AXP717 PMIC with RSB serial interface, regulators and NMI interrupt controller
+> - Power LED (charge LED on device controlled directly by PMIC)
+> - Serial UART (accessible from headers on the board)
+> - MMC slots
+> 
+> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
 > ---
->  arch/riscv/Kconfig                               |  2 +
->  arch/riscv/Kconfig.vendor                        |  9 +++
->  arch/riscv/include/asm/cpufeature.h              | 18 ++++++
->  arch/riscv/include/asm/vendor_extensions.h       | 26 ++++++++
->  arch/riscv/include/asm/vendor_extensions/thead.h | 19 ++++++
->  arch/riscv/kernel/Makefile                       |  2 +
->  arch/riscv/kernel/cpufeature.c                   | 75 +++++++++++++++++-=
-------
->  arch/riscv/kernel/vendor_extensions.c            | 18 ++++++
->  arch/riscv/kernel/vendor_extensions/Makefile     |  3 +
->  arch/riscv/kernel/vendor_extensions/thead.c      | 36 ++++++++++++
->  10 files changed, 188 insertions(+), 20 deletions(-)
->=20
-> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-> index be09c8836d56..fec86fba3acd 100644
-> --- a/arch/riscv/Kconfig
-> +++ b/arch/riscv/Kconfig
-> @@ -759,6 +759,8 @@ config RISCV_EFFICIENT_UNALIGNED_ACCESS
-> =20
->  endchoice
-> =20
-> +source "arch/riscv/Kconfig.vendor"
-> +
->  endmenu # "Platform type"
-> =20
->  menu "Kernel features"
-> diff --git a/arch/riscv/Kconfig.vendor b/arch/riscv/Kconfig.vendor
+> Changelog v1..v2:
+> - Update copyright
+> - Spaces -> Tabs
+> - Add cpufreq support
+> - Remove MMC aliases
+> - Fix GPIO button and regulator node names
+> - Note unused AXP717 regulators
+> - Update regulators for SD slots
+> - Remove unused I2C3 device
+> - Update NMI interrupt controller for AXP717, requires H616 support patch in dt-next [1]
+> - Add chassis-type
+> - Address USB EHCI/OHCI0 correctly and add usb vbus supply
+> - Add PIO vcc-pg-supply
+> - Correct boost regulator voltage and name
+> 
+> Changelog v2..v3:
+> - Remove cpufreq support (patch still pending for 6.10, will followup with enablement patch once opp table merged)
+> - Add dtb to Makefile
+> - Remove unnecessary duplicated PLL regulator
+> - Remove unimplemented/not-present drive-vbus feature from AXP717
+> - Rename CLDO3 to "vcc-io", inferring function from board testing by Chris Morgan
+> - Correct MMC1 vmmc-supply to CLDO3 and MMC2 to CLDO4
+> - Reduce DCDC1 "vdd-cpu" supply voltage range to 0.9v-1.1v to match lowest OPP voltage
+> - Identify DCDC2 as GPU supply - rename to "vdd-gpu-sys", remove always-on and use fixed 0.94v voltage
+> - Fix indentation
+> - Correct boot/always-on states and voltages for various regulators from vendor BSP
+> - Change USB-OTG mode to "peripheral" and correct comment
+> - Correct and add remaining PIO supplies
+> - Move volume key GPIOs to separate block to allow key repeat
+> - Alphabetically orrder gamepad GPIOs
+> - Move changelog and links below fold-line
+> - Remove USB 3.3v VCC-USB and VCC-SD2 regulators pending further hardware investigation (to be submitted as subsequent patch)
+> - Constrain boost regulator voltage to 5.0v to 5.2v to capture default voltage of 5.126v
+> 
+> Changelog v3..v4:
+> - Cluster USB nodes
+> - Do not define voltage range for currently unused CLDO1 (connected to audio codec according to vendor BSP - driver not yet implemented) and ALDO3 (1.8v).
+> - Note voltages set for currently unused regulators from vendor BSP in comments to aid identification
+> - Remove regulator-boot-on from several regulators where it was not required
+> - Fix indentation
+> - Add "disable-wp" for SD2 as for SD1 (doesn't make sense for micro-SD)
+> - Restore fixed 3.3v regulator for SD2 (vcc_3v3_sd2), which is required for SD2 to function. CLDO4 appears to be the 1.8v supply required for low-voltage UHS-I signalling, however a GPIO pin to switch between the supplies is not yet confirmed (likely PE4) and will be implemented in a subsequent patch.
+> 
+> [1]: https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git/commit/?h=dt/next&id=d47bca77bf3ab475c33b3929c33c80aeb49df35c
+> 
+> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+> ---
+>  arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+>  .../sun50i-h700-anbernic-rg35xx-2024.dts      | 347 ++++++++++++++++++
+>  2 files changed, 348 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
+> 
+> diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
+> index 21149b346a60..6f997157968e 100644
+> --- a/arch/arm64/boot/dts/allwinner/Makefile
+> +++ b/arch/arm64/boot/dts/allwinner/Makefile
+> @@ -47,3 +47,4 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-longanpi-3h.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero2w.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero3.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-transpeed-8k618-t.dtb
+> +dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-2024.dtb
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
 > new file mode 100644
-> index 000000000000..d57254f28ea6
+> index 000000000000..112605561e92
 > --- /dev/null
-> +++ b/arch/riscv/Kconfig.vendor
-> @@ -0,0 +1,9 @@
-> +config RISCV_ISA_VENDOR_EXT_THEAD
-> +	bool "T-Head vendor extension support"
-> +	default y
-> +	help
-> +	  Say N here if you want to disable all T-Head vendor extension
-> +	  support. This will cause any T-Head vendor extensions that are
-> +	  requested by hardware probing to be ignored.
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
+
+<snip>
+
 > +
-> +	  If you don't know what to do here, say Y.
-> diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm=
-/cpufeature.h
-> index 809f61ffb667..db6a6d7d6b2e 100644
-> --- a/arch/riscv/include/asm/cpufeature.h
-> +++ b/arch/riscv/include/asm/cpufeature.h
-> @@ -35,6 +35,24 @@ extern u32 riscv_vlenb_dt[NR_CPUS];
-> =20
->  void riscv_user_isa_enable(void);
-> =20
-> +#define _RISCV_ISA_EXT_DATA(_name, _id, _subset_exts, _subset_exts_size)=
- {	\
-> +	.name =3D #_name,								\
-> +	.property =3D #_name,							\
-> +	.id =3D _id,								\
-> +	.subset_ext_ids =3D _subset_exts,						\
-> +	.subset_ext_size =3D _subset_exts_size					\
-> +}
+> +&r_rsb {
+> +	status = "okay";
 > +
-> +#define __RISCV_ISA_EXT_DATA(_name, _id) _RISCV_ISA_EXT_DATA(_name, _id,=
- NULL, 0)
+> +	axp717: pmic@3a3 {
+> +		compatible = "x-powers,axp717";
+> +		reg = <0x3a3>;
+> +		interrupt-controller;
+> +		#interrupt-cells = <1>;
+> +		interrupt-parent = <&nmi_intc>;
+> +		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
 > +
-> +/* Used to declare pure "lasso" extension (Zk for instance) */
-> +#define __RISCV_ISA_EXT_BUNDLE(_name, _bundled_exts) \
-> +	_RISCV_ISA_EXT_DATA(_name, RISCV_ISA_EXT_INVALID, _bundled_exts, ARRAY_=
-SIZE(_bundled_exts))
+> +		vin1-supply = <&reg_vcc5v>;
+> +		vin2-supply = <&reg_vcc5v>;
+> +		vin3-supply = <&reg_vcc5v>;
+> +		vin4-supply = <&reg_vcc5v>;
 > +
-> +/* Used to declare extensions that are a superset of other extensions (Z=
-vbb for instance) */
-> +#define __RISCV_ISA_EXT_SUPERSET(_name, _id, _sub_exts) \
-> +	_RISCV_ISA_EXT_DATA(_name, _id, _sub_exts, ARRAY_SIZE(_sub_exts))
+> +		regulators {
+> +			reg_dcdc1: dcdc1 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt = <900000>;
+> +				regulator-max-microvolt = <1100000>;
+> +				regulator-name = "vdd-cpu";
+> +			};
 > +
->  #if defined(CONFIG_RISCV_MISALIGNED)
->  bool check_unaligned_access_emulated_all_cpus(void);
->  void unaligned_emulation_finish(void);
-> diff --git a/arch/riscv/include/asm/vendor_extensions.h b/arch/riscv/incl=
-ude/asm/vendor_extensions.h
-> new file mode 100644
-> index 000000000000..0af1ddd0af70
-> --- /dev/null
-> +++ b/arch/riscv/include/asm/vendor_extensions.h
-> @@ -0,0 +1,26 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright 2024 Rivos, Inc
-> + */
+> +			reg_dcdc2: dcdc2 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt = <940000>;
+> +				regulator-max-microvolt = <940000>;
+> +				regulator-name = "vdd-gpu-sys";
+> +			};
 > +
-> +#ifndef _ASM_VENDOR_EXTENSIONS_H
-> +#define _ASM_VENDOR_EXTENSIONS_H
+> +			reg_dcdc3: dcdc3 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt = <1100000>;
+> +				regulator-max-microvolt = <1100000>;
+> +				regulator-name = "vdd-dram";
+> +			};
 > +
-> +#include <asm/cpufeature.h>
+> +			reg_aldo1: aldo1 { /* SDC2 */
+> +				regulator-min-microvolt = <1800000>;
+> +				regulator-max-microvolt = <1800000>;
+> +				regulator-name = "vcc-sd2";
+> +			};
 > +
-> +#include <linux/array_size.h>
-> +#include <linux/types.h>
+> +			reg_aldo2: aldo2 {
+> +				/* 1.8v - unused */
+> +			};
 > +
-> +struct riscv_isa_vendor_ext_data_list {
-> +	const struct riscv_isa_ext_data *ext_data;
-> +	struct riscv_isainfo *per_hart_vendor_bitmap;
-> +	unsigned long *vendor_bitmap;
-> +	const size_t ext_data_count;
-> +	const size_t bitmap_size;
+> +			reg_aldo3: aldo3 {
+> +				/* 1.8v - unused */
+> +			};
+> +
+> +			reg_aldo4: aldo4 { /* 5096000.codec */
+
+Above comment doesn't make any sense. Remove it.
+
+Best regards,
+Jernej
+
+> +				regulator-min-microvolt = <1800000>;
+> +				regulator-max-microvolt = <1800000>;
+> +				regulator-name = "vcc-pg";
+> +			};
+> +
+> +			reg_bldo1: bldo1 {
+> +				/* 1.8v - unused */
+> +			};
+> +
+> +			reg_bldo2: bldo2 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt = <1800000>;
+> +				regulator-max-microvolt = <1800000>;
+> +				regulator-name = "vcc-pll";
+> +			};
+> +
+> +			reg_bldo3: bldo3 {
+> +				/* 2.8v - unused */
+> +			};
+> +
+> +			reg_bldo4: bldo4 {
+> +				/* 1.2v - unused */
+> +			};
+> +
+> +			reg_cldo1: cldo1 {
+> +				/* 3.3v - audio codec - not yet implemented */
+> +			};
+> +
+> +			reg_cldo2: cldo2 {
+> +				/* 3.3v - unused */
+> +			};
+> +
+> +			reg_cldo3: cldo3 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt = <3300000>;
+> +				regulator-max-microvolt = <3300000>;
+> +				regulator-name = "vcc-io";
+> +			};
+> +
+> +			reg_cldo4: cldo4 {
+> +				regulator-min-microvolt = <3300000>;
+> +				regulator-max-microvolt = <3300000>;
+> +				regulator-name = "vcc-wifi";
+> +			};
+> +
+> +			reg_boost: boost {
+> +				regulator-min-microvolt = <5000000>;
+> +				regulator-max-microvolt = <5200000>;
+> +				regulator-name = "boost";
+> +			};
+> +
+> +			reg_cpusldo: cpusldo {
+> +				/* unused */
+> +			};
+> +		};
+> +	};
 > +};
 > +
-> +extern const struct riscv_isa_vendor_ext_data_list *riscv_isa_vendor_ext=
-_list[];
-> +
-> +extern const size_t riscv_isa_vendor_ext_list_size;
-> +
-> +#endif /* _ASM_VENDOR_EXTENSIONS_H */
-> diff --git a/arch/riscv/include/asm/vendor_extensions/thead.h b/arch/risc=
-v/include/asm/vendor_extensions/thead.h
-> new file mode 100644
-> index 000000000000..92eec729888d
-> --- /dev/null
-> +++ b/arch/riscv/include/asm/vendor_extensions/thead.h
-> @@ -0,0 +1,19 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#ifndef _ASM_RISCV_VENDOR_EXTENSIONS_THEAD_H
-> +#define _ASM_RISCV_VENDOR_EXTENSIONS_THEAD_H
-> +
-> +#include <asm/vendor_extensions.h>
-> +
-> +#include <linux/types.h>
-> +
-> +#define RISCV_ISA_VENDOR_EXT_XTHEADVECTOR		0
-> +
-> +/*
-> + * Extension keys should be strictly less than max.
-> + * It is safe to increment this when necessary.
-> + */
-> +#define RISCV_ISA_VENDOR_EXT_MAX_THEAD			32
-> +
-> +extern const struct riscv_isa_vendor_ext_data_list riscv_isa_vendor_ext_=
-list_thead;
-> +
-> +#endif
-> diff --git a/arch/riscv/kernel/Makefile b/arch/riscv/kernel/Makefile
-> index 81d94a8ee10f..53361c50fb46 100644
-> --- a/arch/riscv/kernel/Makefile
-> +++ b/arch/riscv/kernel/Makefile
-> @@ -58,6 +58,8 @@ obj-y	+=3D riscv_ksyms.o
->  obj-y	+=3D stacktrace.o
->  obj-y	+=3D cacheinfo.o
->  obj-y	+=3D patch.o
-> +obj-y	+=3D vendor_extensions.o
-> +obj-y	+=3D vendor_extensions/
->  obj-y	+=3D probes/
->  obj-y	+=3D tests/
->  obj-$(CONFIG_MMU) +=3D vdso.o vdso/
-> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeatur=
-e.c
-> index b537731cadef..c9f36822e337 100644
-> --- a/arch/riscv/kernel/cpufeature.c
-> +++ b/arch/riscv/kernel/cpufeature.c
-> @@ -24,6 +24,7 @@
->  #include <asm/processor.h>
->  #include <asm/sbi.h>
->  #include <asm/vector.h>
-> +#include <asm/vendor_extensions.h>
-> =20
->  #define NUM_ALPHA_EXTS ('z' - 'a' + 1)
-> =20
-> @@ -102,24 +103,6 @@ static bool riscv_isa_extension_check(int id)
->  	return true;
->  }
-> =20
-> -#define _RISCV_ISA_EXT_DATA(_name, _id, _subset_exts, _subset_exts_size)=
- {	\
-> -	.name =3D #_name,								\
-> -	.property =3D #_name,							\
-> -	.id =3D _id,								\
-> -	.subset_ext_ids =3D _subset_exts,						\
-> -	.subset_ext_size =3D _subset_exts_size					\
-> -}
-> -
-> -#define __RISCV_ISA_EXT_DATA(_name, _id) _RISCV_ISA_EXT_DATA(_name, _id,=
- NULL, 0)
-> -
-> -/* Used to declare pure "lasso" extension (Zk for instance) */
-> -#define __RISCV_ISA_EXT_BUNDLE(_name, _bundled_exts) \
-> -	_RISCV_ISA_EXT_DATA(_name, RISCV_ISA_EXT_INVALID, _bundled_exts, ARRAY_=
-SIZE(_bundled_exts))
-> -
-> -/* Used to declare extensions that are a superset of other extensions (Z=
-vbb for instance) */
-> -#define __RISCV_ISA_EXT_SUPERSET(_name, _id, _sub_exts) \
-> -	_RISCV_ISA_EXT_DATA(_name, _id, _sub_exts, ARRAY_SIZE(_sub_exts))
-> -
->  static const unsigned int riscv_zk_bundled_exts[] =3D {
->  	RISCV_ISA_EXT_ZBKB,
->  	RISCV_ISA_EXT_ZBKC,
-> @@ -353,6 +336,14 @@ static void __init riscv_parse_isa_string(unsigned l=
-ong *this_hwcap, struct risc
->  		bool ext_long =3D false, ext_err =3D false;
-> =20
->  		switch (*ext) {
-> +		case 'x':
-> +		case 'X':
-> +			pr_warn("Vendor extensions are ignored in riscv,isa. Use riscv,isa-ex=
-tensions instead.");
-
-I think I pointed out before that this should only really warn once, not
-once per extension per cpu. pr_warn_once() please.
-
-> +			/*
-> +			 * In canonical order, the remaining extensions in the
-> +			 * isa string will be vendor extensions so exit.
-> +			 */
-
-Yeah, but the binding doesn't require canonical order, so please don't
-exit & just move along to the next extension.
-
-> +			break;
->  		case 's':
->  			/*
->  			 * Workaround for invalid single-letter 's' & 'u' (QEMU).
-> @@ -368,8 +359,6 @@ static void __init riscv_parse_isa_string(unsigned lo=
-ng *this_hwcap, struct risc
->  			}
->  			fallthrough;
->  		case 'S':
-> -		case 'x':
-> -		case 'X':
->  		case 'z':
->  		case 'Z':
->  			/*
-> @@ -580,6 +569,48 @@ static void __init riscv_fill_hwcap_from_isa_string(=
-unsigned long *isa2hwcap)
->  		acpi_put_table((struct acpi_table_header *)rhct);
->  }
-> =20
-> +static void __init riscv_add_cpu_vendor_ext(struct device_node *cpu_node=
-, int cpu)
-
-Can we have a consistent naming here? The other functions are using
-"fill".
-
-> +{
-> +	for (int i =3D 0; i < riscv_isa_vendor_ext_list_size; i++) {
-> +		const struct riscv_isa_vendor_ext_data_list *ext_list =3D riscv_isa_ve=
-ndor_ext_list[i];
-> +
-> +		for (int j =3D 0; j < ext_list->ext_data_count; j++) {
-> +			const struct riscv_isa_ext_data ext =3D ext_list->ext_data[j];
-> +			struct riscv_isainfo *isavendorinfo =3D &ext_list->per_hart_vendor_bi=
-tmap[cpu];
-> +
-> +			if (of_property_match_string(cpu_node, "riscv,isa-extensions",
-> +						     ext.property) < 0)
-> +				continue;
-> +
-> +			/*
-> +			 * Assume that subset extensions are all members of the
-> +			 * same vendor.
-> +			 */
-> +			if (ext.subset_ext_size)
-> +				for (int k =3D 0; k < ext.subset_ext_size; k++)
-> +					set_bit(ext.subset_ext_ids[k], isavendorinfo->isa);
-> +
-> +			set_bit(ext.id, isavendorinfo->isa);
-> +		}
-> +	}
-> +}
-> +
-> +static void __init set_riscv_isa_vendor(int cpu)
-
-Again, consistent naming here would have riscv_isa_set...
-And it's not setting a vendor, can you pick a name that matches the
-action that the function is actually taking please?
-riscv_isa_set_vendor_bitmask() or w/e.
-
-Also, you've added Kconfig options for the different vendors but this
-code is unconditionally compiled. Do we need to have a hidden Kconfig
-option that all of the vendor options select that gets all of this new
-code culled when none of them are enabled? Could just be as simple as
-if (!IS_ENABLED(CONFIG_FOO))
-	return;
-in these functions in cpufeature.c?
-
-> +{
-> +	for (int i =3D 0; i < riscv_isa_vendor_ext_list_size; i++) {
-> +		const struct riscv_isa_vendor_ext_data_list *ext_list =3D riscv_isa_ve=
-ndor_ext_list[i];
-> +
-> +		if (bitmap_empty(ext_list->vendor_bitmap, ext_list->bitmap_size))
-> +			bitmap_copy(ext_list->vendor_bitmap,
-> +				    ext_list->per_hart_vendor_bitmap[cpu].isa,
-> +				    ext_list->bitmap_size);
-> +		else
-> +			bitmap_and(ext_list->vendor_bitmap, ext_list->vendor_bitmap,
-> +				   ext_list->per_hart_vendor_bitmap[cpu].isa,
-> +				   ext_list->bitmap_size);
-> +	}
-> +}
-> +
->  static int __init riscv_fill_hwcap_from_ext_list(unsigned long *isa2hwca=
-p)
->  {
->  	unsigned int cpu;
-> @@ -623,6 +654,8 @@ static int __init riscv_fill_hwcap_from_ext_list(unsi=
-gned long *isa2hwcap)
->  			}
->  		}
-> =20
-> +		riscv_add_cpu_vendor_ext(cpu_node, cpu);
-> +
->  		of_node_put(cpu_node);
-> =20
->  		/*
-> @@ -638,6 +671,8 @@ static int __init riscv_fill_hwcap_from_ext_list(unsi=
-gned long *isa2hwcap)
->  			bitmap_copy(riscv_isa, isainfo->isa, RISCV_ISA_EXT_MAX);
->  		else
->  			bitmap_and(riscv_isa, riscv_isa, isainfo->isa, RISCV_ISA_EXT_MAX);
-> +
-> +		set_riscv_isa_vendor(cpu);
->  	}
-> =20
->  	if (bitmap_empty(riscv_isa, RISCV_ISA_EXT_MAX))
-> diff --git a/arch/riscv/kernel/vendor_extensions.c b/arch/riscv/kernel/ve=
-ndor_extensions.c
-> new file mode 100644
-> index 000000000000..f76cb3013c2d
-> --- /dev/null
-> +++ b/arch/riscv/kernel/vendor_extensions.c
-> @@ -0,0 +1,18 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright 2024 Rivos, Inc
-> + */
-> +
-> +#include <asm/vendor_extensions.h>
-> +#include <asm/vendor_extensions/thead.h>
-> +
-> +#include <linux/array_size.h>
-> +#include <linux/types.h>
-> +
-> +const struct riscv_isa_vendor_ext_data_list *riscv_isa_vendor_ext_list[]=
- =3D {
-> +#ifdef CONFIG_RISCV_ISA_VENDOR_EXT_THEAD
-> +	&riscv_isa_vendor_ext_list_thead,
-> +#endif
+> +&uart0 {
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&uart0_ph_pins>;
+> +	status = "okay";
 > +};
 > +
-> +const size_t riscv_isa_vendor_ext_list_size =3D ARRAY_SIZE(riscv_isa_ven=
-dor_ext_list);
-> diff --git a/arch/riscv/kernel/vendor_extensions/Makefile b/arch/riscv/ke=
-rnel/vendor_extensions/Makefile
-> new file mode 100644
-> index 000000000000..3383066baaab
-> --- /dev/null
-> +++ b/arch/riscv/kernel/vendor_extensions/Makefile
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +
-> +obj-$(CONFIG_RISCV_ISA_VENDOR_EXT_THEAD)	+=3D thead.o
-> diff --git a/arch/riscv/kernel/vendor_extensions/thead.c b/arch/riscv/ker=
-nel/vendor_extensions/thead.c
-> new file mode 100644
-> index 000000000000..a0a47414ed22
-> --- /dev/null
-> +++ b/arch/riscv/kernel/vendor_extensions/thead.c
-> @@ -0,0 +1,36 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +
-> +#include <asm/cpufeature.h>
-> +#include <asm/vendor_extensions.h>
-> +#include <asm/vendor_extensions/thead.h>
-> +
-> +#include <linux/array_size.h>
-> +#include <linux/types.h>
-> +
-> +/* All T-Head vendor extensions supported in Linux */
-> +const struct riscv_isa_ext_data riscv_isa_vendor_ext_thead[] =3D {
-> +	_RISCV_ISA_EXT_DATA(xtheadvector, RISCV_ISA_VENDOR_EXT_XTHEADVECTOR, NU=
-LL, 0),
+> +&pio {
+> +	vcc-pa-supply = <&reg_cldo3>;
+> +	vcc-pc-supply = <&reg_cldo3>;
+> +	vcc-pe-supply = <&reg_cldo3>;
+> +	vcc-pf-supply = <&reg_cldo3>;
+> +	vcc-pg-supply = <&reg_aldo4>;
+> +	vcc-ph-supply = <&reg_cldo3>;
+> +	vcc-pi-supply = <&reg_cldo3>;
 > +};
 > +
-> +/*
-> + * The first member of this struct must be a bitmap named isa so it can =
-be
-> + * compatible with riscv_isainfo even though the sizes of the bitmaps ma=
-y be
-> + * different.
-> + */
-> +struct riscv_isavendorinfo_thead {
-> +	DECLARE_BITMAP(isa, RISCV_ISA_VENDOR_EXT_MAX_THEAD);
+> +&ohci0 {
+> +	status = "okay";
 > +};
 > +
-> +/* Hart specific T-Head vendor extension support */
-> +static struct riscv_isavendorinfo_thead hart_vendorinfo_thead[NR_CPUS];
-> +
-> +/* Set of T-Head vendor extensions supported on all harts */
-> +DECLARE_BITMAP(vendorinfo_thead, RISCV_ISA_VENDOR_EXT_MAX_THEAD);
-> +
-> +const struct riscv_isa_vendor_ext_data_list riscv_isa_vendor_ext_list_th=
-ead =3D {
-> +	.ext_data =3D riscv_isa_vendor_ext_thead,
-> +	.per_hart_vendor_bitmap =3D (struct riscv_isainfo *)hart_vendorinfo_the=
-ad,
-> +	.vendor_bitmap =3D vendorinfo_thead,
-> +	.ext_data_count =3D ARRAY_SIZE(riscv_isa_vendor_ext_thead),
-> +	.bitmap_size =3D RISCV_ISA_VENDOR_EXT_MAX_THEAD
+> +&ehci0 {
+> +	status = "okay";
 > +};
->=20
-> --=20
-> 2.44.0
->=20
+> +
+> +/* the AXP717 has USB type-C role switch functionality, not yet described by the binding */
+> +&usbotg {
+> +	dr_mode = "peripheral";   /* USB type-C receptable */
+> +	status = "okay";
+> +};
+> +
+> +&usbphy {
+> +	status = "okay";
+> +};
+> 
 
---2rtR2VBIdFcn7ltG
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZivPpAAKCRB4tDGHoIJi
-0iiIAQDi3Ga8wKhviEiVR066I+z0PpDhTc8XrV9nKF7e8El8wQD+KikaPz7Bg03w
-FCxOkfQyWHAZyJPLkbdhGxAa5NObTAk=
-=HVWe
------END PGP SIGNATURE-----
 
---2rtR2VBIdFcn7ltG--
