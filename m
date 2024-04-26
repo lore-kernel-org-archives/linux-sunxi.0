@@ -1,39 +1,43 @@
-Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch [185.70.40.134])
+Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAFEE13E3F5
-	for <linux-sunxi@lists.linux.dev>; Fri, 26 Apr 2024 09:29:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.134
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8632513EFEC
+	for <linux-sunxi@lists.linux.dev>; Fri, 26 Apr 2024 09:29:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714123786; cv=none; b=eLksjxRoZXXZV6iALQ8MuKsldcBuP+KA4nHNp8a6cx5xJyx73gXvy0Hk9bMQbqRuKvaeScxk4FkxnqQonfHO+KeCP74XLWLqYGWezVXSRFhG5KjpB4wltpiMl8Bt4syihl968vusuyXvTTIIgpmxA2xHzzrCIcXxZI5OK3/rshc=
+	t=1714123790; cv=none; b=FJtClDGJ4I5hbPDht8w4+ZV3tvH2m8E+hEkqRIdiimZre5dnnuAdf3/eU/8ktkgY/OuiU1sMFZxl/1sVqNotdBcjGxA91JwkhXDR6I/7A5j9m7nIhAENtB51ymYbbZbXAF24c1z+N1EAYvbLF3873Y72KcEFwvjvVQ/OP0Y9wNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714123786; c=relaxed/simple;
-	bh=vhWL4TsMiT+ueSiMq1eCaqx+bCRNFM69v9SBRH83wRo=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Dva5cARz1aZ17Wm5DOOrS0I5SQrhnl7Fe2gdSeJeO6kqCKqlxFYdna/JeELlq4D7QusQagBsIqhNDo6l4YgQwVJXhOiRCa5WRzidBBa0kAhGSDb8l8vL1NRpJCamDrFbFqQpeLkrKXxBitQau2Wq6DVVDLFyDYMBYuhQkspy/04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=Lejg8FGi; arc=none smtp.client-ip=185.70.40.134
+	s=arc-20240116; t=1714123790; c=relaxed/simple;
+	bh=//JbgZIN5eANcv7g5vxwtcD1t2hO+SxCxCUYY82lA5c=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GdauNJlJaIEJP1iBhOUaMUXpPAx21DIyDqz5H3rQ5fHjdu9nPZE0KWA8UG6RO8btcce5fOx8zaotPvlz153hQJa4URDd+yOGe85YG2GKpOVpapahf2Dxlt/c4JP1pfvPU2GSmIR8lE0wZRl0Wsl1GjZyF49I1qkCF30FAOZmTNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=Mx0eGEJe; arc=none smtp.client-ip=185.70.43.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="Lejg8FGi"
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="Mx0eGEJe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1714123782; x=1714382982;
-	bh=GoXvkl2agTiWSX6jA4XFU4wprNl2DE0VQkVFPmYL2qk=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=Lejg8FGizAWCV2U9FFtlck8B5Ty6U0utO5x7Lb5JnDHwwFKOMXdsB1+yozgiSIcdF
-	 Ubk+DFi2BZ5E4m9vUums8ePOT7jlytuLFonmFNbiQP2U0mFPS/ldnh/k5Iw/MkJWUS
-	 GQLG58j477/ImUyVujjZoa+pnd4EKlV0c+LE4CY8lKEdEE+vc5+L3D9dN+n2y45Fjd
-	 M1m6PJi9Nhpx1ocE9We4+jiaq5/s+uTspoifmGN5CYYqk0LOcU4OKXW0VYE1WY84Ea
-	 gMSwgum48PGD4jU2tqd5SEWIOZm3lcZzXiQ6TZakPw55OEbVNeEY/ZdzCWrEI0/T1M
-	 fW2zYARj4s4Pg==
-Date: Fri, 26 Apr 2024 09:29:37 +0000
+	s=protonmail3; t=1714123785; x=1714382985;
+	bh=fybKVaKmnUC3dUBy4JewKRS5M3R47IsoL2CFDwlfp3o=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=Mx0eGEJe+h+Xtr/Ey/xqJsEFoyfzQHbxg7UrnPDWc86VPcbd9EXiHReASIp52owqa
+	 U7GUzcuCx5WVIjF5as/B6TZt87/S4NzOn4ntJPR9eO5uea2Nl70YVoWvFfIK8orVXv
+	 Vlf1gOYZ/EOJiBaw6i57bqGL+t79RpE0IcKPbDbW4eNWdnOBJ+me1Gpgzrx7J8lTvO
+	 18WI8ex/S4kZtiLMbd8C5Vb1r+pV6wANCz571tlSyB8FJDmVv2Jzz1C0CrFb9NFhHm
+	 saESE6mg3NnpXeF1nTV3Vur/K826po8/9j4EvjuKoX7RgvuD+5iD3DYNvVq4Lm8mCK
+	 vV6hfgnvCqsOw==
+Date: Fri, 26 Apr 2024 09:29:41 +0000
 To: Hans de Goede <hdegoede@redhat.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Andre Przywara <andre.przywara@arm.com>
 From: James McGregor <jamcgregor@protonmail.com>
 Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: [PATCH v2 0/2] arm64: dts: allwinner: H616: Add LRADC
-Message-ID: <20240426092924.15489-1-jamcgregor@protonmail.com>
+Subject: [PATCH v2 1/2] dt-bindings: input: sun4i-lradc-keys: Add H616 compatible
+Message-ID: <20240426092924.15489-2-jamcgregor@protonmail.com>
+In-Reply-To: <20240426092924.15489-1-jamcgregor@protonmail.com>
+References: <20240426092924.15489-1-jamcgregor@protonmail.com>
 Feedback-ID: 83670259:user:proton
-X-Pm-Message-ID: 06a1c2158f7c5eab9994d2a7991a6038f3e8a336
+X-Pm-Message-ID: 83c881e8b3b3daa2d68e189fcdf822d5184f637b
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -43,29 +47,36 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Version 2 moves the LRADC DT node to the right place. It was out of
-order before.
+The Allwinner H616 SoC has an LRADC which is compatible with the
+versions in existing SoCs.
+Add a compatible string for H616, with the R329 fallback. This is the
+same as the D1, so put them into an enum.
 
-The Allwinner H616 series of SoCs have a low-rate ADC (LRADC) with
-6-bit resolution and one input channel. They're compatible with the
-existing drivers, so it only needs to be enabled in the DT.
+Signed-off-by: James McGregor <jamcgregor@protonmail.com>
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+---
+ .../bindings/input/allwinner,sun4i-a10-lradc-keys.yaml        | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Add an LRADC node to the H616 .dtsi, so board DTs can use them by
-adding 'status =3D "okay";'.
-
-This was tested on an OrangePi Zero 2W by attaching an expansion board
-with two key buttons connected to the LRADC, and adding them to the DT.
-/dev/input/event0 then properly reported the button presses. The patches
-are based off sunxi/for-next.
-
-James McGregor (2):
-  dt-bindings: input: sun4i-lradc-keys: Add H616 compatible
-  ARM: dts: sun50i: Add LRADC node
-
- .../bindings/input/allwinner,sun4i-a10-lradc-keys.yaml |  4 +++-
- arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi         | 10 ++++++++++
- 2 files changed, 13 insertions(+), 1 deletion(-)
-
+diff --git a/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lr=
+adc-keys.yaml b/Documentation/devicetree/bindings/input/allwinner,sun4i-a10=
+-lradc-keys.yaml
+index c384bf0bb25d..6bdb8040be65 100644
+--- a/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-key=
+s.yaml
++++ b/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-key=
+s.yaml
+@@ -22,7 +22,9 @@ properties:
+           - const: allwinner,sun8i-a83t-r-lradc
+       - const: allwinner,sun50i-r329-lradc
+       - items:
+-          - const: allwinner,sun20i-d1-lradc
++          - enum:
++              - allwinner,sun50i-h616-lradc
++              - allwinner,sun20i-d1-lradc
+           - const: allwinner,sun50i-r329-lradc
+=20
+   reg:
 --=20
 2.34.1
 
