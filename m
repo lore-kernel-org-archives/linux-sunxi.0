@@ -1,57 +1,57 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB74F158DB5
-	for <linux-sunxi@lists.linux.dev>; Fri, 26 Apr 2024 17:03:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5846168AE6
+	for <linux-sunxi@lists.linux.dev>; Fri, 26 Apr 2024 18:00:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714150989; cv=none; b=C6y0WMwETYUgAeSpXs5h0RaARPyznuwTQhWEPSIk3LZBX4uek4pTM6ks+ZGIdp/yL9DFxtmRvtz87Hxht8XyGYdCSVNEXMWWUVlW7EVQgrzWH40Rk5W1II68qZxbAxw4xvu5nUKyCfpMoK4dm+RLUiH0nKG60fJOTeqVwP/qlmQ=
+	t=1714154428; cv=none; b=kfphiQZu9xIQZFENt0tavYuH8w2z67cE9VJl3WQr/2Vm9b3sLAPbyfQCC5r0Pwms50E/4M8aTn0QT6REcV132CyFNltwrRwU8eg/X9cgCfyqdI+83K8y3RO4btBVCQ8JAwIINtgwowQK/TCQebANHIj3QFjsRcm3wRqPIwXMO+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714150989; c=relaxed/simple;
-	bh=IIUidfl+uxE8HqCjRrfbr3H1JmrlbwQllqwYZd4nwsU=;
+	s=arc-20240116; t=1714154428; c=relaxed/simple;
+	bh=P6eYzko4VaPs6W10KnYtq4BUZdBeGoDwOJYD9bFKqok=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=atV7kw0tKGf2S6yMalsgw3SgTBE9Cw354uKxfl3qpUe6R8tkmsp/VjeIXb0Wl50T4ixD+uT44iME4jzvd/EzhlGDgxYpx6i5Iox3AyleB+bAhTeguOgDuFMtE3TNRyUVnmvnD9aNyTmdMIktEHrFeGuyBodDdm0taTenICEv+08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=Iv9apZaW; arc=none smtp.client-ip=209.85.210.178
+	 Content-Type:Content-Disposition:In-Reply-To; b=SDNz6yDhX1fDirXqrEzzlj0G77kfrIdp44rtyVCRBOItbJdIchcEUPtnvvKUEJbFfp5sfjYAE/T4cyhfWPkz9wxWSCZBszW8cK/yasADqu8/c6uPJcS7wL7MXmsQYbCn7cPj8AWXsH8FIjh1F7fEf0mQ+HZ0TuECrJ4g1qao0F8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=HlwJ3B9F; arc=none smtp.client-ip=209.85.210.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="Iv9apZaW"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-6ed691fb83eso2041170b3a.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 26 Apr 2024 10:03:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="HlwJ3B9F"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-6ed04c91c46so2391833b3a.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 26 Apr 2024 11:00:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1714150987; x=1714755787; darn=lists.linux.dev;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1714154426; x=1714759226; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=iQOEs8kmpRBE5AbT4DjWE8lg43hpZ4efabp/bR8JqV4=;
-        b=Iv9apZaW12LjbWxHK3wcgQ8X9i6v4K7ZyPEQKRGMxZMJ/jDrZvTMDlTN9NOd7atuQV
-         QBEy45Fxv28SmK4oh5st4W3gxla/oMLYA+QFWynvwC9XOKlyohjSAXQU8QrpG7ibTOwU
-         Jfd6ZE0GMV+edsLUECf3fxxyRm+YjukAYq1SF7FOJHOfoZPGKxFkR+yPsdXDmXhQgOMr
-         HA3oYqJFxIMAw4EDOAvIo8oQlHbIFeDfoJDIeAJPiHBJ62t+StbVVT6xByc6keytIfrl
-         Ev1G25EnYmJYVbmwXJ1V9oHqh9mD1QqHAnwdkQoVXKzzGuVEIyrmd7QAaXivYAW2kEzh
-         /hzw==
+        bh=tn4hIIaFDO89bEhYdNGg8VnD0i4DoKPoq4DbLbPR41Y=;
+        b=HlwJ3B9FW7N26GIVUp5Y7KnNTx5BigSfhZ7pYjtYwJQ8cWso4uEu9NG4EMErT+W+9u
+         Z0nOUe+Ckzt+WEF7hcVbiDsL5wnS0zgR49lwSnrEP3wOuytCrAjHkkkB2B44KAt0h/3X
+         qwoNwGgOsupoOOnmvCpodskIdW9w081pc+l3i2M9DBCoqAva0AlZy0MngHnYsqa0VqAt
+         UFgwq8Y7wzuN44X/XcbuniIrkE2SfMHkHIB9OUgBZjdFkoq+TS2vQ9ztI3LctQT6tk5O
+         VSPvI0dS6gTwaaRwvwh9mw213FBmvRUtU4mFyWiYHSJrL67Ie3BuI7TDh6A1VJ73LaPG
+         1R/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714150987; x=1714755787;
+        d=1e100.net; s=20230601; t=1714154426; x=1714759226;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=iQOEs8kmpRBE5AbT4DjWE8lg43hpZ4efabp/bR8JqV4=;
-        b=gtyFeJ97jj1KpbYb+cE2UNbGdXyHizdO2+Il5s2t44OfZe2CH6/5x3i7WCwEMqfcdS
-         wSPnDq09e6TnFV3o+WCleCUt0kK1Vb9mZIpAgoE26kNvzgOqbgMFjEWzcpyXXF94yquE
-         s4ocKt4y9Twtq46rnhnKo80x9hB0/KtH2YvtIwmfCgGYyOfJITdq7NFnrUZO/OEKF6zj
-         3wYIcvedukN3TSQQ2QqK+wcqEYiAb66Q6fttZwGhaIRPtiqQ8PtMuag0DBMR4EbiZpv8
-         JtePf9JFXAtW5d9vMnryd1B3Bh44wcT+2zoPfBpFX1nA6FGSGLCJ7djzel2kgyzRyDdi
-         zuVg==
-X-Forwarded-Encrypted: i=1; AJvYcCWZH2WWQ7LVo58jLMLlWlfd9A7SDG05mmvVhzxbvFb2dmZdsoOvCUOnJSz0/AuDVQ/CXbIvFuqF7qpvkAhirnXCLeVhfqKMvmXDKBM=
-X-Gm-Message-State: AOJu0Yxmd+ZmsnlUkmb2pZ35IyC7E+6cbXLTM5wDdLj4tzZEsqe57j+9
-	ez4joIhpah7MS4smd3EspeJtIvduxkyJG1MAEboY5qhhQUm7JXmqSb/11Fu59QI=
-X-Google-Smtp-Source: AGHT+IFR6N5kNo831LY2QDvVk1TR2PcWNxJi2WUcYOuXc/kYMYtASUjQSOGqHJvgWIKCX9dNVAjTRg==
-X-Received: by 2002:a05:6a20:1050:b0:1ad:7c58:6a74 with SMTP id gt16-20020a056a20105000b001ad7c586a74mr3664735pzc.23.1714150986909;
-        Fri, 26 Apr 2024 10:03:06 -0700 (PDT)
+        bh=tn4hIIaFDO89bEhYdNGg8VnD0i4DoKPoq4DbLbPR41Y=;
+        b=AgO/kgY9HiUIQlXPxzB/uxrotBD5qshs40AXT+80PVb3XaCdEms476m8g9SrYo+MBi
+         GYJRQAm0LAuUtYL3WdPO9j7YJeoAwuZD/Fc2dnx68MVovdJ7GbtfSLQKMFwp9CTIM3fO
+         /f0wnetsvvwEcT3ZStnoUzToxFJ8Vxh1Q7bCNeu1CtiyuzBkZgp0aHyjC5emK8ntd2T/
+         CIFuPbvHoNNw/V32hw8W4eZd92FHFsT1i7sdmo9YWQP3qcnHX69LZtZTl7j+vzJ/+U8q
+         mwN+VstQx5Vx+UII2t6DSidWNvepc/S4CYBRfGtMTT8fE18HWsm7hcgOYd9zAoMreqY/
+         /rjg==
+X-Forwarded-Encrypted: i=1; AJvYcCVYu7d9ZmQO1UwDXX6b0QdNPAPoQzA3ESg0hwdJjIOJAhRKXiOjXDEuFcAdXshW/nYZtb1XHTHwmpanPV77XQsfU7ydP1mPDX+mtqQ=
+X-Gm-Message-State: AOJu0YyIVx/xOoCsqd2kmNu4JL8roA9o0cKEos4WOFKj1oGqNTp7Bk2/
+	6Nm11rafdOkhSd478ApEXxLeWEstKKp16p4pCRf6t6RQw9lMc4SOBhCAOiHkVoo=
+X-Google-Smtp-Source: AGHT+IHFaHUfzIdsVON10udpj4k0R6AShmNjpmsi2MAp0VzVt+P/lJBmSb+0VE4ppsKqIVOLpXhhJw==
+X-Received: by 2002:a05:6a00:1311:b0:6f0:c214:7974 with SMTP id j17-20020a056a00131100b006f0c2147974mr4612048pfu.12.1714154424601;
+        Fri, 26 Apr 2024 11:00:24 -0700 (PDT)
 Received: from ghost ([2601:647:5700:6860:4d29:d34e:e48:a550])
-        by smtp.gmail.com with ESMTPSA id i6-20020aa787c6000000b006e6b52eb59asm15022967pfo.126.2024.04.26.10.03.04
+        by smtp.gmail.com with ESMTPSA id c6-20020a633506000000b005f034b4d123sm12849740pga.24.2024.04.26.11.00.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Apr 2024 10:03:06 -0700 (PDT)
-Date: Fri, 26 Apr 2024 10:03:02 -0700
+        Fri, 26 Apr 2024 11:00:24 -0700 (PDT)
+Date: Fri, 26 Apr 2024 11:00:20 -0700
 From: Charlie Jenkins <charlie@rivosinc.com>
 To: Conor Dooley <conor@kernel.org>
 Cc: Rob Herring <robh@kernel.org>,
@@ -70,12 +70,12 @@ Cc: Rob Herring <robh@kernel.org>,
 	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
 	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v3 04/17] riscv: vector: Use vlenb from DT
-Message-ID: <ZiveRt5Ebw0dvO5h@ghost>
+Subject: Re: [PATCH v3 07/17] riscv: Extend cpufeature.c to detect vendor
+ extensions
+Message-ID: <ZivrtDIooQKXobsw@ghost>
 References: <20240420-dev-charlie-support_thead_vector_6_9-v3-0-67cff4271d1d@rivosinc.com>
- <20240420-dev-charlie-support_thead_vector_6_9-v3-4-67cff4271d1d@rivosinc.com>
- <20240426-unfocused-amount-e4e74e66962f@spud>
- <20240426-unfixed-mournful-0a71fb3972b4@spud>
+ <20240420-dev-charlie-support_thead_vector_6_9-v3-7-67cff4271d1d@rivosinc.com>
+ <20240426-blank-venus-3c902a2a0843@spud>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -84,146 +84,403 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240426-unfixed-mournful-0a71fb3972b4@spud>
+In-Reply-To: <20240426-blank-venus-3c902a2a0843@spud>
 
-On Fri, Apr 26, 2024 at 05:21:16PM +0100, Conor Dooley wrote:
-> On Fri, Apr 26, 2024 at 04:17:52PM +0100, Conor Dooley wrote:
-> > On Sat, Apr 20, 2024 at 06:04:36PM -0700, Charlie Jenkins wrote:
-> > > If vlenb is provided in the device tree, prefer that over reading the
-> > > vlenb csr.
-> > > 
-> > > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> > > ---
-> > >  arch/riscv/include/asm/cpufeature.h |  2 ++
-> > >  arch/riscv/kernel/cpufeature.c      | 26 ++++++++++++++++++++++++++
-> > >  arch/riscv/kernel/vector.c          | 13 +++++++++----
-> > >  3 files changed, 37 insertions(+), 4 deletions(-)
-> > > 
-> > > diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm/cpufeature.h
-> > > index 347805446151..809f61ffb667 100644
-> > > --- a/arch/riscv/include/asm/cpufeature.h
-> > > +++ b/arch/riscv/include/asm/cpufeature.h
-> > > @@ -31,6 +31,8 @@ DECLARE_PER_CPU(struct riscv_cpuinfo, riscv_cpuinfo);
-> > >  /* Per-cpu ISA extensions. */
-> > >  extern struct riscv_isainfo hart_isa[NR_CPUS];
-> > >  
-> > > +extern u32 riscv_vlenb_dt[NR_CPUS];
-> > > +
-> > >  void riscv_user_isa_enable(void);
-> > >  
-> > >  #if defined(CONFIG_RISCV_MISALIGNED)
-> > > diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
-> > > index c6e27b45e192..48874aac4871 100644
-> > > --- a/arch/riscv/kernel/cpufeature.c
-> > > +++ b/arch/riscv/kernel/cpufeature.c
-> > > @@ -35,6 +35,8 @@ static DECLARE_BITMAP(riscv_isa, RISCV_ISA_EXT_MAX) __read_mostly;
-> > >  /* Per-cpu ISA extensions. */
-> > >  struct riscv_isainfo hart_isa[NR_CPUS];
-> > >  
-> > > +u32 riscv_vlenb_dt[NR_CPUS];
-> > > +
-> > >  /**
-> > >   * riscv_isa_extension_base() - Get base extension word
-> > >   *
-> > > @@ -656,6 +658,28 @@ static int __init riscv_isa_fallback_setup(char *__unused)
-> > >  early_param("riscv_isa_fallback", riscv_isa_fallback_setup);
-> > >  #endif
-> > >  
-> > > +static void riscv_set_vlenb_from_dt(void)
+On Fri, Apr 26, 2024 at 05:00:36PM +0100, Conor Dooley wrote:
+> On Sat, Apr 20, 2024 at 06:04:39PM -0700, Charlie Jenkins wrote:
+> > Separate vendor extensions out into one struct per vendor
+> > instead of adding vendor extensions onto riscv_isa_ext.
 > > 
-> > I'd expect to see a name here that had "of" in it, not "dt".
+> > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> > ---
+> >  arch/riscv/Kconfig                               |  2 +
+> >  arch/riscv/Kconfig.vendor                        |  9 +++
+> >  arch/riscv/include/asm/cpufeature.h              | 18 ++++++
+> >  arch/riscv/include/asm/vendor_extensions.h       | 26 ++++++++
+> >  arch/riscv/include/asm/vendor_extensions/thead.h | 19 ++++++
+> >  arch/riscv/kernel/Makefile                       |  2 +
+> >  arch/riscv/kernel/cpufeature.c                   | 75 +++++++++++++++++-------
+> >  arch/riscv/kernel/vendor_extensions.c            | 18 ++++++
+> >  arch/riscv/kernel/vendor_extensions/Makefile     |  3 +
+> >  arch/riscv/kernel/vendor_extensions/thead.c      | 36 ++++++++++++
+> >  10 files changed, 188 insertions(+), 20 deletions(-)
+> > 
+> > diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> > index be09c8836d56..fec86fba3acd 100644
+> > --- a/arch/riscv/Kconfig
+> > +++ b/arch/riscv/Kconfig
+> > @@ -759,6 +759,8 @@ config RISCV_EFFICIENT_UNALIGNED_ACCESS
+> >  
+> >  endchoice
+> >  
+> > +source "arch/riscv/Kconfig.vendor"
+> > +
+> >  endmenu # "Platform type"
+> >  
+> >  menu "Kernel features"
+> > diff --git a/arch/riscv/Kconfig.vendor b/arch/riscv/Kconfig.vendor
+> > new file mode 100644
+> > index 000000000000..d57254f28ea6
+> > --- /dev/null
+> > +++ b/arch/riscv/Kconfig.vendor
+> > @@ -0,0 +1,9 @@
+> > +config RISCV_ISA_VENDOR_EXT_THEAD
+> > +	bool "T-Head vendor extension support"
+> > +	default y
+> > +	help
+> > +	  Say N here if you want to disable all T-Head vendor extension
+> > +	  support. This will cause any T-Head vendor extensions that are
+> > +	  requested by hardware probing to be ignored.
+> > +
+> > +	  If you don't know what to do here, say Y.
+> > diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm/cpufeature.h
+> > index 809f61ffb667..db6a6d7d6b2e 100644
+> > --- a/arch/riscv/include/asm/cpufeature.h
+> > +++ b/arch/riscv/include/asm/cpufeature.h
+> > @@ -35,6 +35,24 @@ extern u32 riscv_vlenb_dt[NR_CPUS];
+> >  
+> >  void riscv_user_isa_enable(void);
+> >  
+> > +#define _RISCV_ISA_EXT_DATA(_name, _id, _subset_exts, _subset_exts_size) {	\
+> > +	.name = #_name,								\
+> > +	.property = #_name,							\
+> > +	.id = _id,								\
+> > +	.subset_ext_ids = _subset_exts,						\
+> > +	.subset_ext_size = _subset_exts_size					\
+> > +}
+> > +
+> > +#define __RISCV_ISA_EXT_DATA(_name, _id) _RISCV_ISA_EXT_DATA(_name, _id, NULL, 0)
+> > +
+> > +/* Used to declare pure "lasso" extension (Zk for instance) */
+> > +#define __RISCV_ISA_EXT_BUNDLE(_name, _bundled_exts) \
+> > +	_RISCV_ISA_EXT_DATA(_name, RISCV_ISA_EXT_INVALID, _bundled_exts, ARRAY_SIZE(_bundled_exts))
+> > +
+> > +/* Used to declare extensions that are a superset of other extensions (Zvbb for instance) */
+> > +#define __RISCV_ISA_EXT_SUPERSET(_name, _id, _sub_exts) \
+> > +	_RISCV_ISA_EXT_DATA(_name, _id, _sub_exts, ARRAY_SIZE(_sub_exts))
+> > +
+> >  #if defined(CONFIG_RISCV_MISALIGNED)
+> >  bool check_unaligned_access_emulated_all_cpus(void);
+> >  void unaligned_emulation_finish(void);
+> > diff --git a/arch/riscv/include/asm/vendor_extensions.h b/arch/riscv/include/asm/vendor_extensions.h
+> > new file mode 100644
+> > index 000000000000..0af1ddd0af70
+> > --- /dev/null
+> > +++ b/arch/riscv/include/asm/vendor_extensions.h
+> > @@ -0,0 +1,26 @@
+> > +/* SPDX-License-Identifier: GPL-2.0-only */
+> > +/*
+> > + * Copyright 2024 Rivos, Inc
+> > + */
+> > +
+> > +#ifndef _ASM_VENDOR_EXTENSIONS_H
+> > +#define _ASM_VENDOR_EXTENSIONS_H
+> > +
+> > +#include <asm/cpufeature.h>
+> > +
+> > +#include <linux/array_size.h>
+> > +#include <linux/types.h>
+> > +
+> > +struct riscv_isa_vendor_ext_data_list {
+> > +	const struct riscv_isa_ext_data *ext_data;
+> > +	struct riscv_isainfo *per_hart_vendor_bitmap;
+> > +	unsigned long *vendor_bitmap;
+> > +	const size_t ext_data_count;
+> > +	const size_t bitmap_size;
+> > +};
+> > +
+> > +extern const struct riscv_isa_vendor_ext_data_list *riscv_isa_vendor_ext_list[];
+> > +
+> > +extern const size_t riscv_isa_vendor_ext_list_size;
+> > +
+> > +#endif /* _ASM_VENDOR_EXTENSIONS_H */
+> > diff --git a/arch/riscv/include/asm/vendor_extensions/thead.h b/arch/riscv/include/asm/vendor_extensions/thead.h
+> > new file mode 100644
+> > index 000000000000..92eec729888d
+> > --- /dev/null
+> > +++ b/arch/riscv/include/asm/vendor_extensions/thead.h
+> > @@ -0,0 +1,19 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +#ifndef _ASM_RISCV_VENDOR_EXTENSIONS_THEAD_H
+> > +#define _ASM_RISCV_VENDOR_EXTENSIONS_THEAD_H
+> > +
+> > +#include <asm/vendor_extensions.h>
+> > +
+> > +#include <linux/types.h>
+> > +
+> > +#define RISCV_ISA_VENDOR_EXT_XTHEADVECTOR		0
+> > +
+> > +/*
+> > + * Extension keys should be strictly less than max.
+> > + * It is safe to increment this when necessary.
+> > + */
+> > +#define RISCV_ISA_VENDOR_EXT_MAX_THEAD			32
+> > +
+> > +extern const struct riscv_isa_vendor_ext_data_list riscv_isa_vendor_ext_list_thead;
+> > +
+> > +#endif
+> > diff --git a/arch/riscv/kernel/Makefile b/arch/riscv/kernel/Makefile
+> > index 81d94a8ee10f..53361c50fb46 100644
+> > --- a/arch/riscv/kernel/Makefile
+> > +++ b/arch/riscv/kernel/Makefile
+> > @@ -58,6 +58,8 @@ obj-y	+= riscv_ksyms.o
+> >  obj-y	+= stacktrace.o
+> >  obj-y	+= cacheinfo.o
+> >  obj-y	+= patch.o
+> > +obj-y	+= vendor_extensions.o
+> > +obj-y	+= vendor_extensions/
+> >  obj-y	+= probes/
+> >  obj-y	+= tests/
+> >  obj-$(CONFIG_MMU) += vdso.o vdso/
+> > diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
+> > index b537731cadef..c9f36822e337 100644
+> > --- a/arch/riscv/kernel/cpufeature.c
+> > +++ b/arch/riscv/kernel/cpufeature.c
+> > @@ -24,6 +24,7 @@
+> >  #include <asm/processor.h>
+> >  #include <asm/sbi.h>
+> >  #include <asm/vector.h>
+> > +#include <asm/vendor_extensions.h>
+> >  
+> >  #define NUM_ALPHA_EXTS ('z' - 'a' + 1)
+> >  
+> > @@ -102,24 +103,6 @@ static bool riscv_isa_extension_check(int id)
+> >  	return true;
+> >  }
+> >  
+> > -#define _RISCV_ISA_EXT_DATA(_name, _id, _subset_exts, _subset_exts_size) {	\
+> > -	.name = #_name,								\
+> > -	.property = #_name,							\
+> > -	.id = _id,								\
+> > -	.subset_ext_ids = _subset_exts,						\
+> > -	.subset_ext_size = _subset_exts_size					\
+> > -}
+> > -
+> > -#define __RISCV_ISA_EXT_DATA(_name, _id) _RISCV_ISA_EXT_DATA(_name, _id, NULL, 0)
+> > -
+> > -/* Used to declare pure "lasso" extension (Zk for instance) */
+> > -#define __RISCV_ISA_EXT_BUNDLE(_name, _bundled_exts) \
+> > -	_RISCV_ISA_EXT_DATA(_name, RISCV_ISA_EXT_INVALID, _bundled_exts, ARRAY_SIZE(_bundled_exts))
+> > -
+> > -/* Used to declare extensions that are a superset of other extensions (Zvbb for instance) */
+> > -#define __RISCV_ISA_EXT_SUPERSET(_name, _id, _sub_exts) \
+> > -	_RISCV_ISA_EXT_DATA(_name, _id, _sub_exts, ARRAY_SIZE(_sub_exts))
+> > -
+> >  static const unsigned int riscv_zk_bundled_exts[] = {
+> >  	RISCV_ISA_EXT_ZBKB,
+> >  	RISCV_ISA_EXT_ZBKC,
+> > @@ -353,6 +336,14 @@ static void __init riscv_parse_isa_string(unsigned long *this_hwcap, struct risc
+> >  		bool ext_long = false, ext_err = false;
+> >  
+> >  		switch (*ext) {
+> > +		case 'x':
+> > +		case 'X':
+> > +			pr_warn("Vendor extensions are ignored in riscv,isa. Use riscv,isa-extensions instead.");
 > 
-> Also, "set" - I think "get" is more suitable here given that this
-> doesn't actually set the vlen, we only do any setting later on in
-> riscv_v_set_vsize().
+> I think I pointed out before that this should only really warn once, not
+> once per extension per cpu. pr_warn_once() please.
 > 
-> > 
-> > > +{
-> > > +	int cpu;
-> > > +
-> > > +	for_each_possible_cpu(cpu) {
-> > > +		struct device_node *cpu_node;
-> > > +
-> > > +		cpu_node = of_cpu_device_node_get(cpu);
-> > > +		if (!cpu_node) {
-> > > +			pr_warn("Unable to find cpu node\n");
-> > > +			continue;
-> > > +		}
-> > > +
-> > > +		if (!of_property_read_u32(cpu_node, "riscv,vlenb", &riscv_vlenb_dt[cpu])) {
-> > > +			of_node_put(cpu_node);
-> > > +			continue;
-> > > +		}
-> > > +
-> > > +		of_node_put(cpu_node);
-> > > +	}
-> > > +}
-> > > +
-> > >  void __init riscv_fill_hwcap(void)
-> > >  {
-> > >  	char print_str[NUM_ALPHA_EXTS + 1];
-> > > @@ -675,6 +699,8 @@ void __init riscv_fill_hwcap(void)
-> > >  	} else {
-> > >  		int ret = riscv_fill_hwcap_from_ext_list(isa2hwcap);
-> > >  
-> > > +		riscv_set_vlenb_from_dt();
-> > 
-> > Hmm, I think we can go a step further here. We know all of the CPUs
-> > widths by the time we get to the first call to riscv_v_setup_vsize(), can
-> > we examine the whole list and decide not to enable vector if they do
-> > not match, rather than continuing and failing to online CPUs that having
-> > the mismatched size?
-> > 
-> > I guess that can go into the `if (elf_hwcap & COMPAT_HWCAP_ISA_V)`
-> > condition we already have, and would require clearing the bit from the
-> > mask we have at the moment.
 
-Good point, thank you. Since this is not supported with ACPI, I will
-clear the COMPAT_HWCAP_ISA_V bit from elf_hwcap if
-riscv_set_vlenb_from_dt() (which will be renamed) determines that the
-the riscv,vlenb field changes between CPU entries. 
+Yes that slipped my mind, thank you for reminding me.
+
+> > +			/*
+> > +			 * In canonical order, the remaining extensions in the
+> > +			 * isa string will be vendor extensions so exit.
+> > +			 */
+> 
+> Yeah, but the binding doesn't require canonical order, so please don't
+> exit & just move along to the next extension.
+> 
+
+Oh! I will remove that then.
+
+> > +			break;
+> >  		case 's':
+> >  			/*
+> >  			 * Workaround for invalid single-letter 's' & 'u' (QEMU).
+> > @@ -368,8 +359,6 @@ static void __init riscv_parse_isa_string(unsigned long *this_hwcap, struct risc
+> >  			}
+> >  			fallthrough;
+> >  		case 'S':
+> > -		case 'x':
+> > -		case 'X':
+> >  		case 'z':
+> >  		case 'Z':
+> >  			/*
+> > @@ -580,6 +569,48 @@ static void __init riscv_fill_hwcap_from_isa_string(unsigned long *isa2hwcap)
+> >  		acpi_put_table((struct acpi_table_header *)rhct);
+> >  }
+> >  
+> > +static void __init riscv_add_cpu_vendor_ext(struct device_node *cpu_node, int cpu)
+> 
+> Can we have a consistent naming here? The other functions are using
+> "fill".
+
+I will rename it "riscv_fill_cpu_vendor_ext"
+
+> 
+> > +{
+> > +	for (int i = 0; i < riscv_isa_vendor_ext_list_size; i++) {
+> > +		const struct riscv_isa_vendor_ext_data_list *ext_list = riscv_isa_vendor_ext_list[i];
+> > +
+> > +		for (int j = 0; j < ext_list->ext_data_count; j++) {
+> > +			const struct riscv_isa_ext_data ext = ext_list->ext_data[j];
+> > +			struct riscv_isainfo *isavendorinfo = &ext_list->per_hart_vendor_bitmap[cpu];
+> > +
+> > +			if (of_property_match_string(cpu_node, "riscv,isa-extensions",
+> > +						     ext.property) < 0)
+> > +				continue;
+> > +
+> > +			/*
+> > +			 * Assume that subset extensions are all members of the
+> > +			 * same vendor.
+> > +			 */
+> > +			if (ext.subset_ext_size)
+> > +				for (int k = 0; k < ext.subset_ext_size; k++)
+> > +					set_bit(ext.subset_ext_ids[k], isavendorinfo->isa);
+> > +
+> > +			set_bit(ext.id, isavendorinfo->isa);
+> > +		}
+> > +	}
+> > +}
+> > +
+> > +static void __init set_riscv_isa_vendor(int cpu)
+> 
+> Again, consistent naming here would have riscv_isa_set...
+> And it's not setting a vendor, can you pick a name that matches the
+> action that the function is actually taking please?
+> riscv_isa_set_vendor_bitmask() or w/e.
+> 
+
+How about "riscv_fill_vendor_ext_list"
+
+> Also, you've added Kconfig options for the different vendors but this
+> code is unconditionally compiled. Do we need to have a hidden Kconfig
+> option that all of the vendor options select that gets all of this new
+> code culled when none of them are enabled? Could just be as simple as
+> if (!IS_ENABLED(CONFIG_FOO))
+> 	return;
+> in these functions in cpufeature.c?
+
+That is a good idea, I can add that.
 
 - Charlie
 
-> > 
-> > Cheers,
-> > Conor.
-> > 
-> > > +
-> > >  		if (ret && riscv_isa_fallback) {
-> > >  			pr_info("Falling back to deprecated \"riscv,isa\"\n");
-> > >  			riscv_fill_hwcap_from_isa_string(isa2hwcap);
-> > > diff --git a/arch/riscv/kernel/vector.c b/arch/riscv/kernel/vector.c
-> > > index 6727d1d3b8f2..fb7f3ca80d9e 100644
-> > > --- a/arch/riscv/kernel/vector.c
-> > > +++ b/arch/riscv/kernel/vector.c
-> > > @@ -32,11 +32,16 @@ EXPORT_SYMBOL_GPL(riscv_v_vsize);
-> > >  int riscv_v_setup_vsize(void)
-> > >  {
-> > >  	unsigned long this_vsize;
-> > > +	int cpu = smp_processor_id();
-> > >  
-> > > -	/* There are 32 vector registers with vlenb length. */
-> > > -	riscv_v_enable();
-> > > -	this_vsize = csr_read(CSR_VLENB) * 32;
-> > > -	riscv_v_disable();
-> > > +	if (riscv_vlenb_dt[cpu]) {
-> > > +		this_vsize = riscv_vlenb_dt[cpu];
-> > 
-> > > +	} else {
-> > > +		/* There are 32 vector registers with vlenb length. */
-> > > +		riscv_v_enable();
-> > > +		this_vsize = csr_read(CSR_VLENB) * 32;
-> > > +		riscv_v_disable();
-> > > +	}
-> > >  
-> > >  	if (!riscv_v_vsize) {
-> > >  		riscv_v_vsize = this_vsize;
-> > > 
-> > > -- 
-> > > 2.44.0
-> > > 
 > 
-> 
+> > +{
+> > +	for (int i = 0; i < riscv_isa_vendor_ext_list_size; i++) {
+> > +		const struct riscv_isa_vendor_ext_data_list *ext_list = riscv_isa_vendor_ext_list[i];
+> > +
+> > +		if (bitmap_empty(ext_list->vendor_bitmap, ext_list->bitmap_size))
+> > +			bitmap_copy(ext_list->vendor_bitmap,
+> > +				    ext_list->per_hart_vendor_bitmap[cpu].isa,
+> > +				    ext_list->bitmap_size);
+> > +		else
+> > +			bitmap_and(ext_list->vendor_bitmap, ext_list->vendor_bitmap,
+> > +				   ext_list->per_hart_vendor_bitmap[cpu].isa,
+> > +				   ext_list->bitmap_size);
+> > +	}
+> > +}
+> > +
+> >  static int __init riscv_fill_hwcap_from_ext_list(unsigned long *isa2hwcap)
+> >  {
+> >  	unsigned int cpu;
+> > @@ -623,6 +654,8 @@ static int __init riscv_fill_hwcap_from_ext_list(unsigned long *isa2hwcap)
+> >  			}
+> >  		}
+> >  
+> > +		riscv_add_cpu_vendor_ext(cpu_node, cpu);
+> > +
+> >  		of_node_put(cpu_node);
+> >  
+> >  		/*
+> > @@ -638,6 +671,8 @@ static int __init riscv_fill_hwcap_from_ext_list(unsigned long *isa2hwcap)
+> >  			bitmap_copy(riscv_isa, isainfo->isa, RISCV_ISA_EXT_MAX);
+> >  		else
+> >  			bitmap_and(riscv_isa, riscv_isa, isainfo->isa, RISCV_ISA_EXT_MAX);
+> > +
+> > +		set_riscv_isa_vendor(cpu);
+> >  	}
+> >  
+> >  	if (bitmap_empty(riscv_isa, RISCV_ISA_EXT_MAX))
+> > diff --git a/arch/riscv/kernel/vendor_extensions.c b/arch/riscv/kernel/vendor_extensions.c
+> > new file mode 100644
+> > index 000000000000..f76cb3013c2d
+> > --- /dev/null
+> > +++ b/arch/riscv/kernel/vendor_extensions.c
+> > @@ -0,0 +1,18 @@
+> > +// SPDX-License-Identifier: GPL-2.0-only
+> > +/*
+> > + * Copyright 2024 Rivos, Inc
+> > + */
+> > +
+> > +#include <asm/vendor_extensions.h>
+> > +#include <asm/vendor_extensions/thead.h>
+> > +
+> > +#include <linux/array_size.h>
+> > +#include <linux/types.h>
+> > +
+> > +const struct riscv_isa_vendor_ext_data_list *riscv_isa_vendor_ext_list[] = {
+> > +#ifdef CONFIG_RISCV_ISA_VENDOR_EXT_THEAD
+> > +	&riscv_isa_vendor_ext_list_thead,
+> > +#endif
+> > +};
+> > +
+> > +const size_t riscv_isa_vendor_ext_list_size = ARRAY_SIZE(riscv_isa_vendor_ext_list);
+> > diff --git a/arch/riscv/kernel/vendor_extensions/Makefile b/arch/riscv/kernel/vendor_extensions/Makefile
+> > new file mode 100644
+> > index 000000000000..3383066baaab
+> > --- /dev/null
+> > +++ b/arch/riscv/kernel/vendor_extensions/Makefile
+> > @@ -0,0 +1,3 @@
+> > +# SPDX-License-Identifier: GPL-2.0-only
+> > +
+> > +obj-$(CONFIG_RISCV_ISA_VENDOR_EXT_THEAD)	+= thead.o
+> > diff --git a/arch/riscv/kernel/vendor_extensions/thead.c b/arch/riscv/kernel/vendor_extensions/thead.c
+> > new file mode 100644
+> > index 000000000000..a0a47414ed22
+> > --- /dev/null
+> > +++ b/arch/riscv/kernel/vendor_extensions/thead.c
+> > @@ -0,0 +1,36 @@
+> > +// SPDX-License-Identifier: GPL-2.0-only
+> > +
+> > +#include <asm/cpufeature.h>
+> > +#include <asm/vendor_extensions.h>
+> > +#include <asm/vendor_extensions/thead.h>
+> > +
+> > +#include <linux/array_size.h>
+> > +#include <linux/types.h>
+> > +
+> > +/* All T-Head vendor extensions supported in Linux */
+> > +const struct riscv_isa_ext_data riscv_isa_vendor_ext_thead[] = {
+> > +	_RISCV_ISA_EXT_DATA(xtheadvector, RISCV_ISA_VENDOR_EXT_XTHEADVECTOR, NULL, 0),
+> > +};
+> > +
+> > +/*
+> > + * The first member of this struct must be a bitmap named isa so it can be
+> > + * compatible with riscv_isainfo even though the sizes of the bitmaps may be
+> > + * different.
+> > + */
+> > +struct riscv_isavendorinfo_thead {
+> > +	DECLARE_BITMAP(isa, RISCV_ISA_VENDOR_EXT_MAX_THEAD);
+> > +};
+> > +
+> > +/* Hart specific T-Head vendor extension support */
+> > +static struct riscv_isavendorinfo_thead hart_vendorinfo_thead[NR_CPUS];
+> > +
+> > +/* Set of T-Head vendor extensions supported on all harts */
+> > +DECLARE_BITMAP(vendorinfo_thead, RISCV_ISA_VENDOR_EXT_MAX_THEAD);
+> > +
+> > +const struct riscv_isa_vendor_ext_data_list riscv_isa_vendor_ext_list_thead = {
+> > +	.ext_data = riscv_isa_vendor_ext_thead,
+> > +	.per_hart_vendor_bitmap = (struct riscv_isainfo *)hart_vendorinfo_thead,
+> > +	.vendor_bitmap = vendorinfo_thead,
+> > +	.ext_data_count = ARRAY_SIZE(riscv_isa_vendor_ext_thead),
+> > +	.bitmap_size = RISCV_ISA_VENDOR_EXT_MAX_THEAD
+> > +};
+> > 
+> > -- 
+> > 2.44.0
+> > 
 
 
