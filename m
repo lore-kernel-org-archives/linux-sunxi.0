@@ -1,109 +1,83 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55439824B3
-	for <linux-sunxi@lists.linux.dev>; Fri, 26 Apr 2024 15:25:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6D8614901F;
+	Fri, 26 Apr 2024 15:36:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714145133; cv=none; b=ui18OOC52py7wEVrX/Q28EP2xt2cr5JFvfleVm8MHjrroL5yJ2WA2R8SAmKcu1qNXZALlaHBGgTsCcOSA1FD3PewD/hO8BCeO+XQt9NrwMQ9MuerjTFWesFBpwQQAjXEDZOO4t1z3ocf9QEefbD3w1UM37wdKCNbPxvJ6Cxb04E=
+	t=1714145770; cv=none; b=e6MsW/1cNS6gfo3RnnpqDctXxHM4+woDNRhD1JEuugoP2vApH7mBiRxdXpbClMwVzoIC4UGfnxb77PGcJq4/zwyJxIoBioYI+6Z/tK9gQyUheju0Tc2sETuI9Bz2F358paQw08wr14pZou1DyHhTF3i9HiYZ/AyGm7vYRt8EYZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714145133; c=relaxed/simple;
-	bh=IL2++mNo2aq1MBXdWEeDx4hUUCVamp5GSDIQcKWJuhY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Kxgcp9KRy6ohxOASAHAKkeUdDhZf5JgU6QroeMhQNGrP3ORiGsE35jLHPAmQ3sfR7aP7tl/RrRcNalMbweOl4b1TJxnfVXaCJcLo3lo7a+NawimMxX5ivRD5qdnhZV1/MrNrGFJnOhH0SThYevzjrk1UIeToWO6kS09x6COMmzk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M2xr+VWG; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1714145770; c=relaxed/simple;
+	bh=HPIphAQxeZzpTfRdrlFxSkbXT7u5cVbL25YurlmJS8g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jLIWdZwjIJR+DoiHGp6Mp2OsWnz3i5kDsdsFh65oos1JBUfy2BpCOwoJHAd7/YdIhqO969mxgal+EV9Hyt8rV/2Dx5RZWeEz8VyXo4DGRO6UXxtvD2dbQlipo55QCjcsTd3c5bouihf/esPtmojnkRP+hC94Sz7LY9a5gJKJuPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CFXZNW3R; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M2xr+VWG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714145132; x=1745681132;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=IL2++mNo2aq1MBXdWEeDx4hUUCVamp5GSDIQcKWJuhY=;
-  b=M2xr+VWGqNr2dvsUwuK22+w7RP2BSgr0mus1hNZvn8FR7GZoW9qJo2kJ
-   CrebwCPFs49pdn9XCmR61CTCjdlcYXxGGjaiwwmH7i1bwNVkazT2CW7YO
-   AaHiwtNLbuh9OnD1UCkBegioPtGcNV1KXW2U2dwQ2KeqGYYK+8BKfH48p
-   prGRXfJ/NnbNoqud/k9lNISDaIBg5BHXnGUWNwQrhXqRG+OktyXN9gjEG
-   NrjssjMj9HwTVHKpq81l3e08blsL0xgLg+o1RwasVeCEnor/dH1XE8tRn
-   WudswthYt4AwskQeF+8umedoWQMohKj0To4lI5opGg1Vq5FZX0XrvQcdb
-   g==;
-X-CSE-ConnectionGUID: 5krPqm0WSQeIGoOMF/yhrA==
-X-CSE-MsgGUID: Twwxw9jgSBa382TySXpGkQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="10005887"
-X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; 
-   d="scan'208";a="10005887"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 08:25:32 -0700
-X-CSE-ConnectionGUID: 1bBkQqt7QkSddjdFx/K+hg==
-X-CSE-MsgGUID: AtZdl5jVTUSEYoTRDvhmlw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; 
-   d="scan'208";a="30084013"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa004.fm.intel.com with ESMTP; 26 Apr 2024 08:25:30 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 1DFF01CB; Fri, 26 Apr 2024 18:25:28 +0300 (EEST)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Samuel Holland <samuel@sholland.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-leds@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CFXZNW3R"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12366C2BD10;
+	Fri, 26 Apr 2024 15:36:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714145770;
+	bh=HPIphAQxeZzpTfRdrlFxSkbXT7u5cVbL25YurlmJS8g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CFXZNW3RspF6m1NZBikG6xkmt8VwnsiHjnwZ9VVCDHtnu4/mm3JFnt1WcpyEOa3M8
+	 +PRuRV0Sj+6auqQAbeBdGQACoudJZl0vo4T06E1W4cMAAQj1V80UZQ3lACC36KXyIe
+	 D7I1jaoQOP9B9zrC6FQbvyV4iAWmuiW9FVHNTTEtJ5KIKlEzDVFOtH8SpfjkrZ3nyM
+	 VVROtwI+8r1gOpOdaxh066BRa1BXGEuPrBv1mBe86bKVkgFLxZALjPvYhcS/jBsrMs
+	 SpYwSH0oR6nDh9fSH7hrarQlN/Cii6AWS3db/H48VeQGcHwYuWWfrhuJr5bW1HOnv6
+	 2PuHCpdxsgVkQ==
+Date: Fri, 26 Apr 2024 10:36:07 -0500
+From: Rob Herring <robh@kernel.org>
+To: James McGregor <jamcgregor@protonmail.com>
+Cc: linux-input@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Andre Przywara <andre.przywara@arm.com>,
 	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v1 1/1] leds: sun50i-a100: Use match_string() helper to simplify the code
-Date: Fri, 26 Apr 2024 18:25:15 +0300
-Message-ID: <20240426152515.872917-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.43.0.rc1.1336.g36b5255a03ac
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: input: sun4i-lradc-keys: Add H616
+ compatible
+Message-ID: <171414571220.1955030.12605658865806218849.robh@kernel.org>
+References: <20240426092924.15489-1-jamcgregor@protonmail.com>
+ <20240426092924.15489-2-jamcgregor@protonmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240426092924.15489-2-jamcgregor@protonmail.com>
 
-match_string() returns the array index of a matching string.
-Use it instead of the open-coded implementation.
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/leds/leds-sun50i-a100.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+On Fri, 26 Apr 2024 09:29:41 +0000, James McGregor wrote:
+> The Allwinner H616 SoC has an LRADC which is compatible with the
+> versions in existing SoCs.
+> Add a compatible string for H616, with the R329 fallback. This is the
+> same as the D1, so put them into an enum.
+> 
+> Signed-off-by: James McGregor <jamcgregor@protonmail.com>
+> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  .../bindings/input/allwinner,sun4i-a10-lradc-keys.yaml        | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
 
-diff --git a/drivers/leds/leds-sun50i-a100.c b/drivers/leds/leds-sun50i-a100.c
-index 62d21c3a3575..119eff9471f0 100644
---- a/drivers/leds/leds-sun50i-a100.c
-+++ b/drivers/leds/leds-sun50i-a100.c
-@@ -252,18 +252,16 @@ static int sun50i_a100_ledc_parse_format(struct device *dev,
- 					 struct sun50i_a100_ledc *priv)
- {
- 	const char *format = "grb";
--	u32 i;
-+	int i;
- 
- 	device_property_read_string(dev, "allwinner,pixel-format", &format);
- 
--	for (i = 0; i < ARRAY_SIZE(sun50i_a100_ledc_formats); i++) {
--		if (!strcmp(format, sun50i_a100_ledc_formats[i])) {
--			priv->format = i;
--			return 0;
--		}
--	}
-+	i = match_string(sun50i_a100_ledc_formats, ARRAY_SIZE(sun50i_a100_ledc_formats), format);
-+	if (i < 0)
-+		return dev_err_probe(dev, i, "Bad pixel format '%s'\n", format);
- 
--	return dev_err_probe(dev, -EINVAL, "Bad pixel format '%s'\n", format);
-+	priv->format = i;
-+	return 0;
- }
- 
- static void sun50i_a100_ledc_set_format(struct sun50i_a100_ledc *priv)
--- 
-2.43.0.rc1.1336.g36b5255a03ac
+
+Please add Acked-by/Reviewed-by tags when posting new versions. However,
+there's no need to repost patches *only* to add the tags. The upstream
+maintainer will do that for acks received on the version they apply.
+
+If a tag was not added on purpose, please state why and what changed.
+
+Missing tags:
+
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
+
+
 
