@@ -1,112 +1,163 @@
-Received: from fhigh6-smtp.messagingengine.com (fhigh6-smtp.messagingengine.com [103.168.172.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F1EF5102F
-	for <linux-sunxi@lists.linux.dev>; Sun, 28 Apr 2024 08:41:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A90255C22
+	for <linux-sunxi@lists.linux.dev>; Sun, 28 Apr 2024 11:40:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714293695; cv=none; b=VG643VHwYTUxcX6S1ND/avtYQtIWAl+bMPkaG2FA2ZgGJUdDB4YJM9RjPdH2ZKQ/H2S73qqOXPsaQRdgIA1rfmGYQpLDMhUFLJNMWbO+JeY8hj2pydBRvj6nUo/F1/vfIJsZcmIJ33Adu8oaG1LjhaqGT1e69Jwb8rNvcwbJlK4=
+	t=1714304451; cv=none; b=lahyDxjH7NcWy3PoXRL+kJ4lpbBZ33/KGMmFnurHEUJiwayqAV/6QCZ/eDcdIn/Gcqjc/FviAIU6IPQeRWjEpEVwMbS1swJXflHD7wM0Nb7b2SobrHx1u9jK6bpSy7GWwYIsK7ft40wRckjaT2bX6dBkUjMgZSJj/ebLPLdyRls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714293695; c=relaxed/simple;
-	bh=lkK4uPbqGbrBOS0JE9U2l/zksGsHzDvqTknalrJj0Fs=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=g3lMqpwADXwMC1D1eBXBwKoxnoQIyx8Ch/f+ACDwqt4zdvI/pJjFDwQOSpfLrwf1gDWfKjdO/+/a2cw/guQTU10hzS5YRh5tHhk9wE974t2XG1z+T9UuPHfKb+9jqZTylM1utYx3pb/sAFtqFKYutXRE6o60Y+Zk75PKCpmoiiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=HxZkDkvp; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=HvzgjPbQ; arc=none smtp.client-ip=103.168.172.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=testtoast.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
+	s=arc-20240116; t=1714304451; c=relaxed/simple;
+	bh=4qMEkoFsIAMskrIOxbExs0rTAt41YA8CssKoQ++e7tI=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=C8iD6Qcieye/hswARHYO67uKxfFER4QpjLbDYME3J8AwHwnqyIcMkIQcnygAuB3dEpY4AUlViQ2+wCEnR0y40Zna9YM1eCYPscIcv6HflR/Tc5d1NWag/kL/7sqallJdZhUNyFMyRK0AnUf/yAspp7Qhz1vx787c5HGjGEihQ1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=jEsaHxT+; arc=none smtp.client-ip=116.203.91.91
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="HxZkDkvp";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="HvzgjPbQ"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfhigh.nyi.internal (Postfix) with ESMTP id 4D3D111400B2;
-	Sun, 28 Apr 2024 04:41:32 -0400 (EDT)
-Received: from imap47 ([10.202.2.97])
-  by compute5.internal (MEProxy); Sun, 28 Apr 2024 04:41:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm3; t=1714293692; x=
-	1714380092; bh=HLOUbLQEM816UDtN/Z+3niss/HQf6m2iH7S3MerGxMU=; b=H
-	xZkDkvpPbYOcwgcgz6S2ONRuilhMMukIvZFzCHfkQziCb+7IAQnhRjomeB9rXdR9
-	1B2e8ZAqI2e0h86cpU9Gz5ZrHUKWyJo+lIV0lzbEkZdolFVQi5yfJ2fCrMl847SP
-	ZcGSdpVxz+lYV/T4xhKjOyQKz3mEBOedEvjxn6P2k8FVQpN6Oy83x6JtPre6ye6f
-	wQ+Cve1KMLwiUpZm/UGRcZpAOSmvvAIlgwAWrCDLfAmenCPOyVw1KRt6q0dfyJZR
-	ICCWSFnYTNFn9UvEbc0dwivcyzAkvWu+Z/HLWtZhRluRQ0XT03+MUlqkFjoI6tPI
-	J8c9ARQjUkMaGFHfDEApg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1714293692; x=1714380092; bh=HLOUbLQEM816UDtN/Z+3niss/HQf
-	6m2iH7S3MerGxMU=; b=HvzgjPbQstttBLtvZ+IeOVlyGpj1Yaza9Mqg2Q38qbsu
-	iPs5dirPK00X5zJdW5VrW7aFfLgTf0/Z5u61DXVJhqhxHvVb5V7db5FssDIrnX1f
-	Iuhf5s2ZjxCPERJpF5mKPBYi/2rcVy1DKLSvf7eN6mJ4QIS0fy5S9ZHakhXEhsZV
-	HbqZCXCvSV8RJVIZjRbOHADcX3cFvy7viJObAIHdCF6SSbf33j7r9ORqiNVWFPrg
-	U9RtiwFngaSWzWsK1LUUKg06UHBc+KQu/T+cJPAvT/T8HLjoGFuPBHWF8l3Fsmwr
-	s+HYSGuLLV5troz/uWA9OWUKK0mF3zwiwO0lY/FP1A==
-X-ME-Sender: <xms:ugsuZvrK1-NBWIB2JyCyh9ADluVaQZiIdC6BCF-O6QhNzynrL4DH4g>
-    <xme:ugsuZpokrBWOvW5PbwLDzyqoU2k9kkKPQPP-UGBsu3p74HBNErCali7fCIKw9hOcm
-    o0yZlUT4JWVidrzzg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvddtgedgfeeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftfih
-    rghnucghrghlkhhlihhnfdcuoehrhigrnhesthgvshhtthhorghsthdrtghomheqnecugg
-    ftrfgrthhtvghrnhephedvveeigedujeeufeegffehhfffveduhfeijefgtdffteelgfet
-    ueevieduieejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homheprhihrghnsehtvghsthhtohgrshhtrdgtohhm
-X-ME-Proxy: <xmx:ugsuZsNJhiToTnooM0xGudYXA9Cm9LBjP2IHNQlfgI0k4EEhIhDi8w>
-    <xmx:ugsuZi4GGpLLEw3zTk3Bhu8PBwuLQLwrG8kJcbddTYvbIacwqrFsug>
-    <xmx:ugsuZu65TWkG1d_8NTDBM9VfxLysf25u1r2H4qhvmcqDA1WQgJ4qmQ>
-    <xmx:ugsuZqiacvcWDndtGaIgbyx-T1Jl2t_S9rRZSOYu_s_TJHgFaHequw>
-    <xmx:vAsuZhKagxFAON1L0uCORbG4aieX2zyruBqPyBxWslAPBld9zBsOUR2g>
-Feedback-ID: idc0145fc:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 9CEF4A60078; Sun, 28 Apr 2024 04:41:30 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-386-g4cb8e397f9-fm-20240415.001-g4cb8e397
+	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="jEsaHxT+"
+From: Dragan Simic <dsimic@manjaro.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
+	t=1714304445;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=s+4FNoNxkXA3lHy8/kRgdBQW+poGAHHKvQpgJQdlQzY=;
+	b=jEsaHxT+V7ZWLuIP9v2cO19KyNFujzleqGJpnDYNHiyJob6YQ7BzSsV7/N395OiVCfIAq1
+	2hSNW7wP8AnRvx89AWDIw+V85XW16UeM7V2yNgk2CBznDIPjWUHsSaTzdKScuD+Syu54Oy
+	pygVa0IRc7R4gJOIIGZZHvODzQFKxvFGR2csicLxLPPiLTvYQWan+mTxAmz6L3/MurqVid
+	+vI1qM0VfMBMv+Oqnt+Ytyz9oVrWZTHonr0OJrPxQ6JIu2YhugOGrikKt9u04pj0SqIGfB
+	HCX+F3TjtNjN/Iy/CToO6eygIDfRf34M/id8Gs5to+pBSXbwQAEAdARXI2i2IA==
+To: linux-sunxi@lists.linux.dev
+Cc: wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] arm64: dts: allwinner: Add cache information to the SoC dtsi for H6
+Date: Sun, 28 Apr 2024 13:40:36 +0200
+Message-Id: <49abb93000078c692c48c0a65ff677893909361a.1714304071.git.dsimic@manjaro.org>
+In-Reply-To: <6a772756c2c677dbdaaab4a2c71a358d8e4b27e9.1714304058.git.dsimic@manjaro.org>
+References: <6a772756c2c677dbdaaab4a2c71a358d8e4b27e9.1714304058.git.dsimic@manjaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <c17d163e-29cc-4049-985e-d1ef91d764cb@app.fastmail.com>
-In-Reply-To: <20240418000736.24338-1-andre.przywara@arm.com>
-References: <20240418000736.24338-1-andre.przywara@arm.com>
-Date: Sun, 28 Apr 2024 20:41:10 +1200
-From: "Ryan Walklin" <ryan@testtoast.com>
-To: "Andre Przywara" <andre.przywara@arm.com>, "Chen-Yu Tsai" <wens@csie.org>,
- "Lee Jones" <lee@kernel.org>, "Liam Girdwood" <lgirdwood@gmail.com>,
- "Mark Brown" <broonie@kernel.org>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
- "Conor Dooley" <conor+dt@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev, "Jernej Skrabec" <jernej.skrabec@gmail.com>,
- "Samuel Holland" <samuel@sholland.org>,
- "Chris Morgan" <macroalpha82@gmail.com>
-Subject: Re: [PATCH v2 0/5] regulator: Fix AXP717 PMIC support
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Authentication-Results: ORIGINATING;
+	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
 
-On Thu, 18 Apr 2024, at 12:07 PM, Andre Przywara wrote:
-> This is v2 of the fixes to the AXP717 PMIC support series. 
-<snip>
-> I don't know if that's still feasible, but those two patches would be a
-> good candidate to squash into the patches that they fix.
->
-> The other three patches add the "boost" regulator, which is meant to
-> provide the 5V USB VBUS power when operating from the battery. It's the
-> usual trinity of binding/mfd/regulator patches.
-> Again this could be squashed into the respective patches from the
-> original series, if people agree.
->
-> Please have a look and test!
->
-> Based on mfd/ib-mfd-regulator-6.10, as detailed below.
+Add missing cache information to the Allwinner H6 SoC dtsi, to allow
+the userspace, which includes lscpu(1) that uses the virtual files provided
+by the kernel under the /sys/devices/system/cpu directory, to display the
+proper H6 cache information.
 
-Looks good here, RSB communication, regulator and 5v boost support configured via DT working well on my H700 board, established by a combination of successful device bringup and kernel reporting. Concur with the request to be squashed into the mfd-next tree for 6.10 if possible, thanks!
+Adding the cache information to the H6 SoC dtsi also makes the following
+warning message in the kernel log go away:
 
-Ryan
+  cacheinfo: Unable to detect cache hierarchy for CPU 0
 
-Tested-by: Ryan Walklin <ryan@testtoast,com>
+The cache parameters for the H6 dtsi were obtained and partially derived
+by hand from the cache size and layout specifications found in the following
+datasheets and technical reference manuals:
+
+  - Allwinner H6 V200 datasheet, version 1.1
+  - ARM Cortex-A53 revision r0p3 TRM, version E
+
+For future reference, here's a brief summary of the documentation:
+
+  - All caches employ the 64-byte cache line length
+  - Each Cortex-A53 core has 32 KB of L1 2-way, set-associative instruction
+    cache and 32 KB of L1 4-way, set-associative data cache
+  - The entire SoC has 512 KB of unified L2 16-way, set-associative cache
+
+Signed-off-by: Dragan Simic <dsimic@manjaro.org>
+---
+ arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi | 37 ++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
+index d11e5041bae9..1a63066396e8 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
+@@ -29,36 +29,73 @@ cpu0: cpu@0 {
+ 			clocks = <&ccu CLK_CPUX>;
+ 			clock-latency-ns = <244144>; /* 8 32k periods */
+ 			#cooling-cells = <2>;
++			i-cache-size = <0x8000>;
++			i-cache-line-size = <64>;
++			i-cache-sets = <256>;
++			d-cache-size = <0x8000>;
++			d-cache-line-size = <64>;
++			d-cache-sets = <128>;
++			next-level-cache = <&l2_cache>;
+ 		};
+ 
+ 		cpu1: cpu@1 {
+ 			compatible = "arm,cortex-a53";
+ 			device_type = "cpu";
+ 			reg = <1>;
+ 			enable-method = "psci";
+ 			clocks = <&ccu CLK_CPUX>;
+ 			clock-latency-ns = <244144>; /* 8 32k periods */
+ 			#cooling-cells = <2>;
++			i-cache-size = <0x8000>;
++			i-cache-line-size = <64>;
++			i-cache-sets = <256>;
++			d-cache-size = <0x8000>;
++			d-cache-line-size = <64>;
++			d-cache-sets = <128>;
++			next-level-cache = <&l2_cache>;
+ 		};
+ 
+ 		cpu2: cpu@2 {
+ 			compatible = "arm,cortex-a53";
+ 			device_type = "cpu";
+ 			reg = <2>;
+ 			enable-method = "psci";
+ 			clocks = <&ccu CLK_CPUX>;
+ 			clock-latency-ns = <244144>; /* 8 32k periods */
+ 			#cooling-cells = <2>;
++			i-cache-size = <0x8000>;
++			i-cache-line-size = <64>;
++			i-cache-sets = <256>;
++			d-cache-size = <0x8000>;
++			d-cache-line-size = <64>;
++			d-cache-sets = <128>;
++			next-level-cache = <&l2_cache>;
+ 		};
+ 
+ 		cpu3: cpu@3 {
+ 			compatible = "arm,cortex-a53";
+ 			device_type = "cpu";
+ 			reg = <3>;
+ 			enable-method = "psci";
+ 			clocks = <&ccu CLK_CPUX>;
+ 			clock-latency-ns = <244144>; /* 8 32k periods */
+ 			#cooling-cells = <2>;
++			i-cache-size = <0x8000>;
++			i-cache-line-size = <64>;
++			i-cache-sets = <256>;
++			d-cache-size = <0x8000>;
++			d-cache-line-size = <64>;
++			d-cache-sets = <128>;
++			next-level-cache = <&l2_cache>;
++		};
++
++		l2_cache: l2-cache {
++			compatible = "cache";
++			cache-level = <2>;
++			cache-unified;
++			cache-size = <0x80000>;
++			cache-line-size = <64>;
++			cache-sets = <512>;
+ 		};
+ 	};
+ 
