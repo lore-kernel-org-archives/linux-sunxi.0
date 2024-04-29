@@ -1,122 +1,287 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14B71537E4
-	for <linux-sunxi@lists.linux.dev>; Mon, 29 Apr 2024 12:16:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAD677BB13
+	for <linux-sunxi@lists.linux.dev>; Mon, 29 Apr 2024 13:51:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714392969; cv=none; b=fMW2pVGuALE+ZNu/nqUwhyY4lgVR43EKbmAaqhEojXwLUVe4DlfLKC6JyLN1/oIOo68cI6cNoteQepEOAKijaCpkkdluFqo/K+amhrXO9Sa/3pP4HNYY/vFetvzMnKLqZxMjgUY3l00aSa4WOXTlBEYNL3QNDkB3u99LjZqxLlM=
+	t=1714398690; cv=none; b=dZ4gvBI66odEiXVkq++7Rk/iLM2sgRntioLXGZbXA1yKiDK6Is9eRxEs74iIPBik9Iye/E1Kzb4WSxVAEQgdlnOG7FKuVwV3wdnIrx4uDzCJcd9TNbPTRAazuoo1YnZUTsTZUvr/aqhv1wGR38/tk2omC+lA8jLWiCgVu1JUR58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714392969; c=relaxed/simple;
-	bh=3f7kFrWN9PnhKtMaJl5LG1KYsuwVsMgdCCXo9ToFZnQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jtSARl+B8oCzbmtd6pukGB/5cw+BHZKYHzEo4SCLA1+OYFxBNsXdt3dYLcElU+5SLH5w2w2zg69IHZpNrVNERgpYB6g70g8M+S9bqGj1RMma+PvN+NvWOwqXmIzlFn4+0t3JGfAImmpROr6Hj+j3lJPFe+nM/X/4mL8yFsSKr6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 286752F4;
-	Mon, 29 Apr 2024 05:16:31 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 18BFB3F73F;
-	Mon, 29 Apr 2024 05:16:02 -0700 (PDT)
-Date: Mon, 29 Apr 2024 13:16:00 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-spi@vger.kernel.org, Mark Brown <broonie@kernel.org>, Chen-Yu Tsai
- <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 7/8] spi: sun6i: use 'time_left' variable with
- wait_for_completion_timeout()
-Message-ID: <20240429131600.4e910d8a@donnerap.manchester.arm.com>
-In-Reply-To: <20240429112843.67628-8-wsa+renesas@sang-engineering.com>
-References: <20240429112843.67628-1-wsa+renesas@sang-engineering.com>
-	<20240429112843.67628-8-wsa+renesas@sang-engineering.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1714398690; c=relaxed/simple;
+	bh=b7Rg1QyyNp473bNWrsPGhu6YROme/S3QIe4I6xPMgrw=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=GavN+UKVpJ6QrSWbu5W17FapAPRBav9IXk5mwdOxY3d3VszT4cpqFVdXW0X5qyQ2hTOVyAJxR8cR0NcdmCIuplalNPqPYJwfkWA+ipG93eRMg7fYJx2aPfaqfv/6E3vSonhZcTjwDj+3P43PtXr8vPi63EvsRlBtx3lL2LWUMmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=MFPwtNQR; arc=none smtp.client-ip=116.203.91.91
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="MFPwtNQR"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
+	t=1714398684;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5YSn6AgyIXRGau81MN3D1/UxkQL5cT1aZKXSLaJirts=;
+	b=MFPwtNQRuOOkgnq58Vrp262/QR28weK3CTp7uOtSQGrJ+B3I1NyvN+srZ+FYWxDK/WGk96
+	/DGS2DnHkYxDzZ7dicu6yaFpwj4rCB4lV8Nvwv42dDfqAG2UOci1Y1ggHhSG8cgk8sJDQQ
+	aGhzaV1KSxVIEjf68TXhWrVgMdBKkxEFjD7L9vNj+5Smryl7gQ0ei8+UHoRMlJMDeg766A
+	rRRtpUQ8kfdaGjwXZkIbguFjU5o5qOpr7Y+0AHMLe38fFt8NK29Do1DWw6HuQT2ctMUWPD
+	9g8bLBiNo4676hTW3rTcONhAwgrFGDJA9BL25pyQgvWZLX6mcZ2YpOZ2E/Qvtg==
+Date: Mon, 29 Apr 2024 15:51:23 +0200
+From: Dragan Simic <dsimic@manjaro.org>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: linux-sunxi@lists.linux.dev, wens@csie.org, jernej.skrabec@gmail.com,
+ samuel@sholland.org, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] arm64: dts: allwinner: Add cache information to the SoC
+ dtsi for A64
+In-Reply-To: <20240429113321.1f4da653@donnerap.manchester.arm.com>
+References: <6a772756c2c677dbdaaab4a2c71a358d8e4b27e9.1714304058.git.dsimic@manjaro.org>
+ <20240429113321.1f4da653@donnerap.manchester.arm.com>
+Message-ID: <789ac34fc2e0329210b4cfe73eb30bec@manjaro.org>
+X-Sender: dsimic@manjaro.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
 Content-Transfer-Encoding: 7bit
+Authentication-Results: ORIGINATING;
+	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
 
-On Mon, 29 Apr 2024 13:28:40 +0200
-Wolfram Sang <wsa+renesas@sang-engineering.com> wrote:
+Hello Andre,
 
-Hi,
+On 2024-04-29 12:33, Andre Przywara wrote:
+> On Sun, 28 Apr 2024 13:40:35 +0200
+> Dragan Simic <dsimic@manjaro.org> wrote:
+> thanks for taking care of this!
 
-> There is a confusing pattern in the kernel to use a variable named 'timeout' to
-> store the result of wait_for_completion_timeout() causing patterns like:
+Thank you for reviewing my patch!
+
+>> Add missing cache information to the Allwinner A64 SoC dtsi, to allow
+>> the userspace, which includes lscpu(1) that uses the virtual files 
+>> provided
+>> by the kernel under the /sys/devices/system/cpu directory, to display 
+>> the
+>> proper A64 cache information.
+>> 
+>> While there, use a more self-descriptive label for the L2 cache node, 
+>> which
+>> also makes it more consistent with other SoC dtsi files.
+>> 
+>> The cache parameters for the A64 dtsi were obtained and partially 
+>> derived
+>> by hand from the cache size and layout specifications found in the 
+>> following
+>> datasheets and technical reference manuals:
+>> 
+>>   - Allwinner A64 datasheet, version 1.1
+>>   - ARM Cortex-A53 revision r0p3 TRM, version E
+>> 
+>> For future reference, here's a brief summary of the documentation:
+>> 
+>>   - All caches employ the 64-byte cache line length
+>>   - Each Cortex-A53 core has 32 KB of L1 2-way, set-associative 
+>> instruction
+>>     cache and 32 KB of L1 4-way, set-associative data cache
+>>   - The entire SoC has 512 KB of unified L2 16-way, set-associative 
+>> cache
 > 
-> 	timeout = wait_for_completion_timeout(...)
-> 	if (!timeout) return -ETIMEDOUT;
+> So that looks correct when checking the manuals, and the per-CPU
+> entries below match both between themselves and with that description
+> above.
+> However I have some level of distrust towards the Allwinner manuals,
+> regarding the cache sizes (which are chosen by Allwinner).
+
+Quite frankly, I was surprised a bit to see that the A64 contains
+512 KB of L2 cache.  IMHO, that's quite a lot for an SoC that was
+advertised primarily as a cost-effective solution.
+
+> So while I haven't measured this myself, nor checked the cache type
+> registers, tinymembench's memory latency test supports those sizes are
+> correct:
+> https://github.com/ssvb/tinymembench/wiki/PINE64-(Allwinner-A64)
+
+Ah, that's a nice benchmark report.  Let me copy & paste the most
+relevant part of that report below, just for future reference in
+case that web page becomes inaccessible at some point:
+
+==========================================================================
+== Memory latency test                                                  
+==
+==                                                                      
+==
+== Average time is measured for random memory accesses in the buffers   
+==
+== of different sizes. The larger is the buffer, the more significant   
+==
+== are relative contributions of TLB, L1/L2 cache misses and SDRAM      
+==
+== accesses. For extremely large buffer sizes we are expecting to see   
+==
+== page table walk with several requests to SDRAM for almost every      
+==
+== memory access (though 64MiB is not nearly large enough to experience 
+==
+== this effect to its fullest).                                         
+==
+==                                                                      
+==
+== Note 1: All the numbers are representing extra time, which needs to  
+==
+==         be added to L1 cache latency. The cycle timings for L1 cache 
+==
+==         latency can be usually found in the processor documentation. 
+==
+== Note 2: Dual random read means that we are simultaneously performing 
+==
+==         two independent memory accesses at a time. In the case if    
+==
+==         the memory subsystem can't handle multiple outstanding       
+==
+==         requests, dual random read has the same timings as two       
+==
+==         single reads performed one after another.                    
+==
+==========================================================================
+
+block size : single random read / dual random read, [MADV_NOHUGEPAGE]
+       1024 :    0.0 ns          /     0.0 ns
+       2048 :    0.0 ns          /     0.0 ns
+       4096 :    0.0 ns          /     0.0 ns
+       8192 :    0.0 ns          /     0.0 ns
+      16384 :    0.0 ns          /     0.0 ns
+      32768 :    0.0 ns          /     0.0 ns
+      65536 :    5.9 ns          /    10.0 ns
+     131072 :    9.1 ns          /    14.0 ns
+     262144 :   10.7 ns          /    15.5 ns
+     524288 :   12.7 ns          /    17.7 ns
+    1048576 :   92.8 ns          /   143.2 ns
+    2097152 :  134.9 ns          /   184.4 ns
+    4194304 :  163.5 ns          /   207.1 ns
+    8388608 :  178.6 ns          /   217.6 ns
+   16777216 :  187.5 ns          /   223.7 ns
+   33554432 :  192.8 ns          /   228.0 ns
+   67108864 :  195.8 ns          /   230.7 ns
+
+block size : single random read / dual random read, [MADV_HUGEPAGE]
+       1024 :    0.0 ns          /     0.0 ns
+       2048 :    0.0 ns          /     0.0 ns
+       4096 :    0.0 ns          /     0.0 ns
+       8192 :    0.0 ns          /     0.0 ns
+      16384 :    0.0 ns          /     0.0 ns
+      32768 :    0.0 ns          /     0.0 ns
+      65536 :    5.9 ns          /    10.0 ns
+     131072 :    9.1 ns          /    14.0 ns
+     262144 :   10.7 ns          /    15.6 ns
+     524288 :   12.6 ns          /    17.8 ns
+    1048576 :   92.7 ns          /   142.6 ns
+    2097152 :  134.7 ns          /   184.3 ns
+    4194304 :  155.8 ns          /   198.4 ns
+    8388608 :  166.4 ns          /   203.8 ns
+   16777216 :  171.6 ns          /   206.0 ns
+   33554432 :  174.2 ns          /   206.9 ns
+   67108864 :  175.4 ns          /   207.4 ns
+
+>> Signed-off-by: Dragan Simic <dsimic@manjaro.org>
 > 
-> with all kinds of permutations. Use 'time_left' as a variable to make the code
-> self explaining.
-> 
-> Fix to the proper variable type 'unsigned long' while here.
-> 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->  drivers/spi/spi-sun6i.c | 17 +++++++++--------
->  1 file changed, 9 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/spi/spi-sun6i.c b/drivers/spi/spi-sun6i.c
-> index cd018ea1abf1..7bbe7ea0d66a 100644
-> --- a/drivers/spi/spi-sun6i.c
-> +++ b/drivers/spi/spi-sun6i.c
-> @@ -277,7 +277,8 @@ static int sun6i_spi_transfer_one(struct spi_controller *host,
->  				  struct spi_transfer *tfr)
->  {
->  	struct sun6i_spi *sspi = spi_controller_get_devdata(host);
-> -	unsigned int div, div_cdr1, div_cdr2, timeout;
-> +	unsigned int div, div_cdr1, div_cdr2;
-> +	unsigned long time_left;
->  	unsigned int start, end, tx_time;
->  	unsigned int trig_level;
->  	unsigned int tx_len = 0, rx_len = 0, nbits = 0;
-> @@ -488,26 +489,26 @@ static int sun6i_spi_transfer_one(struct spi_controller *host,
->  
->  	tx_time = spi_controller_xfer_timeout(host, tfr);
->  	start = jiffies;
-> -	timeout = wait_for_completion_timeout(&sspi->done,
-> -					      msecs_to_jiffies(tx_time));
-> +	time_left = wait_for_completion_timeout(&sspi->done,
-> +						msecs_to_jiffies(tx_time));
->  
->  	if (!use_dma) {
->  		sun6i_spi_drain_fifo(sspi);
->  	} else {
-> -		if (timeout && rx_len) {
-> +		if (time_left && rx_len) {
->  			/*
->  			 * Even though RX on the peripheral side has finished
->  			 * RX DMA might still be in flight
->  			 */
-> -			timeout = wait_for_completion_timeout(&sspi->dma_rx_done,
-> -							      timeout);
-> -			if (!timeout)
-> +			time_left = wait_for_completion_timeout(&sspi->dma_rx_done,
-> +							      time_left);
+> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 
-Nit: indentation is off here. Regardless:
+Thanks!
 
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-
-Cheers,
-Andre
-
-> +			if (!time_left)
->  				dev_warn(&host->dev, "RX DMA timeout\n");
->  		}
->  	}
->  
->  	end = jiffies;
-> -	if (!timeout) {
-> +	if (!time_left) {
->  		dev_warn(&host->dev,
->  			 "%s: timeout transferring %u bytes@%iHz for %i(%i)ms",
->  			 dev_name(&spi->dev), tfr->len, tfr->speed_hz,
-
+>> ---
+>>  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 37 
+>> ++++++++++++++++---
+>>  1 file changed, 32 insertions(+), 5 deletions(-)
+>> 
+>> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi 
+>> b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+>> index 57ac18738c99..86074d03afa9 100644
+>> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+>> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+>> @@ -51,49 +51,76 @@ cpu0: cpu@0 {
+>>  			device_type = "cpu";
+>>  			reg = <0>;
+>>  			enable-method = "psci";
+>> -			next-level-cache = <&L2>;
+>>  			clocks = <&ccu CLK_CPUX>;
+>>  			clock-names = "cpu";
+>>  			#cooling-cells = <2>;
+>> +			i-cache-size = <0x8000>;
+>> +			i-cache-line-size = <64>;
+>> +			i-cache-sets = <256>;
+>> +			d-cache-size = <0x8000>;
+>> +			d-cache-line-size = <64>;
+>> +			d-cache-sets = <128>;
+>> +			next-level-cache = <&l2_cache>;
+>>  		};
+>> 
+>>  		cpu1: cpu@1 {
+>>  			compatible = "arm,cortex-a53";
+>>  			device_type = "cpu";
+>>  			reg = <1>;
+>>  			enable-method = "psci";
+>> -			next-level-cache = <&L2>;
+>>  			clocks = <&ccu CLK_CPUX>;
+>>  			clock-names = "cpu";
+>>  			#cooling-cells = <2>;
+>> +			i-cache-size = <0x8000>;
+>> +			i-cache-line-size = <64>;
+>> +			i-cache-sets = <256>;
+>> +			d-cache-size = <0x8000>;
+>> +			d-cache-line-size = <64>;
+>> +			d-cache-sets = <128>;
+>> +			next-level-cache = <&l2_cache>;
+>>  		};
+>> 
+>>  		cpu2: cpu@2 {
+>>  			compatible = "arm,cortex-a53";
+>>  			device_type = "cpu";
+>>  			reg = <2>;
+>>  			enable-method = "psci";
+>> -			next-level-cache = <&L2>;
+>>  			clocks = <&ccu CLK_CPUX>;
+>>  			clock-names = "cpu";
+>>  			#cooling-cells = <2>;
+>> +			i-cache-size = <0x8000>;
+>> +			i-cache-line-size = <64>;
+>> +			i-cache-sets = <256>;
+>> +			d-cache-size = <0x8000>;
+>> +			d-cache-line-size = <64>;
+>> +			d-cache-sets = <128>;
+>> +			next-level-cache = <&l2_cache>;
+>>  		};
+>> 
+>>  		cpu3: cpu@3 {
+>>  			compatible = "arm,cortex-a53";
+>>  			device_type = "cpu";
+>>  			reg = <3>;
+>>  			enable-method = "psci";
+>> -			next-level-cache = <&L2>;
+>>  			clocks = <&ccu CLK_CPUX>;
+>>  			clock-names = "cpu";
+>>  			#cooling-cells = <2>;
+>> +			i-cache-size = <0x8000>;
+>> +			i-cache-line-size = <64>;
+>> +			i-cache-sets = <256>;
+>> +			d-cache-size = <0x8000>;
+>> +			d-cache-line-size = <64>;
+>> +			d-cache-sets = <128>;
+>> +			next-level-cache = <&l2_cache>;
+>>  		};
+>> 
+>> -		L2: l2-cache {
+>> +		l2_cache: l2-cache {
+>>  			compatible = "cache";
+>>  			cache-level = <2>;
+>>  			cache-unified;
+>> +			cache-size = <0x80000>;
+>> +			cache-line-size = <64>;
+>> +			cache-sets = <512>;
+>>  		};
+>>  	};
