@@ -1,52 +1,37 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DE2110F1;
-	Sun, 28 Apr 2024 16:53:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D96D3A1C5
+	for <linux-sunxi@lists.linux.dev>; Mon, 29 Apr 2024 10:33:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714323231; cv=none; b=VsQ4pxQ1a8AC6kh0BueKaKqqtjAxFDYxcBhQDS+BV5dnP8m51emS9J5PB/yvbfxgwKKscEpEZDDt1KrDUUiF8aeOuq7T6KRiDQUUlA3Yr1ZWtJ597+Tv/Y4G4BlXBYkYId8i3Y1ifbIIb8tY9wjGS6AKogekhZBGxPIpRNzcdn4=
+	t=1714386809; cv=none; b=aCRkZ3ztHdyWUBNqa15o7bTpGVvzDomlE0tNj9jtVKUX2EHycwCpK3PHB22B51GAT9oWzyBpVVHupR1R1Ap9CUjj4rD9H2juO0z8FI/QGRLYJbHiJTDvug5V5CkGK6qQIu+6JzTgLHzN86uA8zUJHERghZr5no4GO1r9zxM1Brk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714323231; c=relaxed/simple;
-	bh=vKlq852Mkt2LdjN+6R/Og0QA2JGqOCAcs1MaQ4RQDnc=;
+	s=arc-20240116; t=1714386809; c=relaxed/simple;
+	bh=oupRboKjBufdsvm0Be1u/ags3rlLK/JIk49zQPYmDH8=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iq9N/Ne1ywXDDTybXZqiX1MuUj2jg3uKbOtoyn2f58ICtJHnLKGTo5whViKxenyAvqRMb5gSVkhsuLwoB8L6Jr53kfpwEPSHicf1jXrvTQM/M1nwvQNvJ43lxaxy1kN2DTUQfKPolD6j4DLAomzavLdQGYEHKBy7WlkmWQHgck8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LjR61GuM; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LjR61GuM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A048C113CC;
-	Sun, 28 Apr 2024 16:53:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714323231;
-	bh=vKlq852Mkt2LdjN+6R/Og0QA2JGqOCAcs1MaQ4RQDnc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=LjR61GuMEFGAu419qGiabMclqWpfYwDouS36biVw7/fRhxjf2g4HgGKM8NUteeSZz
-	 JLeRT6vNf70R+Uvx7Ke8EzX01G8z5BwsfRDVnblc2Mx5uH/GhL/g+6QK0bVoasYoa3
-	 scxwyecrhm9CLsnpZsVtalzmmNDr0HTP/vpeT8iyiq/cYnKgFfpRj5RF0zdL3LKtty
-	 aLWyMXoNDTbCC3DUBkJE3wHHgSX5AlhrwS8J1q3m72uJYJpEbDBFTXJWG93QS0JvDp
-	 LcU0xG+a1b0MM8xJepL9Fdlj50PP8nSrQzI1C5o8MtP7Uwg9/CdG78Pmxx5L8YvIau
-	 aM85Mca+qEjzw==
-Date: Sun, 28 Apr 2024 17:53:37 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Aren Moynihan <aren@peacevolution.org>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Liam
- Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Andy
- Shevchenko <andy.shevchenko@gmail.com>, Ondrej Jirman <megi@xff.cz>, Uwe
- =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@pengutronix.de>,
- linux-iio@vger.kernel.org, phone-devel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, Willow
- Barraco <contact@willowbarraco.fr>
-Subject: Re: [PATCH v2 2/6] iio: light: stk3310: Implement vdd supply and
- power it off during suspend
-Message-ID: <20240428175337.61850e2a@jic23-huawei>
-In-Reply-To: <20240423223309.1468198-4-aren@peacevolution.org>
-References: <20240423223309.1468198-2-aren@peacevolution.org>
-	<20240423223309.1468198-4-aren@peacevolution.org>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+	 MIME-Version:Content-Type; b=ANkyprROwmlC/fwbxh1B2qCwssGMZL8jxSfZwnSU+JmF5CjioSEarVSTlGMluTThiFe0MBWy7y8bgU7duye5IVtXps9lGqCCwjd7TQO++PNmDW6uIzR1AtkcFcqsn0UyX3LrwztsgxRQxAhMafMa0xOdAHJ/QhzDpgHktO7ULTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2B5832F4;
+	Mon, 29 Apr 2024 03:33:53 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D13E23F793;
+	Mon, 29 Apr 2024 03:33:24 -0700 (PDT)
+Date: Mon, 29 Apr 2024 11:33:21 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Dragan Simic <dsimic@manjaro.org>
+Cc: linux-sunxi@lists.linux.dev, wens@csie.org, jernej.skrabec@gmail.com,
+ samuel@sholland.org, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] arm64: dts: allwinner: Add cache information to the SoC
+ dtsi for A64
+Message-ID: <20240429113321.1f4da653@donnerap.manchester.arm.com>
+In-Reply-To: <6a772756c2c677dbdaaab4a2c71a358d8e4b27e9.1714304058.git.dsimic@manjaro.org>
+References: <6a772756c2c677dbdaaab4a2c71a358d8e4b27e9.1714304058.git.dsimic@manjaro.org>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -56,161 +41,141 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Tue, 23 Apr 2024 18:33:05 -0400
-Aren Moynihan <aren@peacevolution.org> wrote:
+On Sun, 28 Apr 2024 13:40:35 +0200
+Dragan Simic <dsimic@manjaro.org> wrote:
 
-> From: Ondrej Jirman <megi@xff.cz>
-> 
-> VDD power input can be used to completely power off the chip during
-> system suspend. Do so if available.
-> 
-> Signed-off-by: Ondrej Jirman <megi@xff.cz>
-> Signed-off-by: Aren Moynihan <aren@peacevolution.org>
+Hi,
 
-Suggestions inline.  Key thing is take the whole thing devm_ managed
-and your life gets much easier.  It is mixing the two approaches that
-causes problems and often the best plan is to do everything in probe/remove
-with devm_ calls to do the cleanup for you.
+thanks for taking care of this!
+
+> Add missing cache information to the Allwinner A64 SoC dtsi, to allow
+> the userspace, which includes lscpu(1) that uses the virtual files provided
+> by the kernel under the /sys/devices/system/cpu directory, to display the
+> proper A64 cache information.
+> 
+> While there, use a more self-descriptive label for the L2 cache node, which
+> also makes it more consistent with other SoC dtsi files.
+> 
+> The cache parameters for the A64 dtsi were obtained and partially derived
+> by hand from the cache size and layout specifications found in the following
+> datasheets and technical reference manuals:
+> 
+>   - Allwinner A64 datasheet, version 1.1
+>   - ARM Cortex-A53 revision r0p3 TRM, version E
+> 
+> For future reference, here's a brief summary of the documentation:
+> 
+>   - All caches employ the 64-byte cache line length
+>   - Each Cortex-A53 core has 32 KB of L1 2-way, set-associative instruction
+>     cache and 32 KB of L1 4-way, set-associative data cache
+>   - The entire SoC has 512 KB of unified L2 16-way, set-associative cache
+
+So that looks correct when checking the manuals, and the per-CPU
+entries below match both between themselves and with that description
+above.
+However I have some level of distrust towards the Allwinner manuals,
+regarding the cache sizes (which are chosen by Allwinner).
+So while I haven't measured this myself, nor checked the cache type
+registers, tinymembench's memory latency test supports those sizes are
+correct:
+https://github.com/ssvb/tinymembench/wiki/PINE64-(Allwinner-A64)
+
+> Signed-off-by: Dragan Simic <dsimic@manjaro.org>
+
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+
+Cheers,
+Andre
 
 > ---
+>  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 37 ++++++++++++++++---
+>  1 file changed, 32 insertions(+), 5 deletions(-)
 > 
-> Notes:
->     Changes in v2:
->      - always enable / disable regulators and rely on a dummy regulator if
->        one isn't specified
->      - replace usleep_range with fsleep
->      - reorder includes so iio headers are last
->      - add missing error handling to resume
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+> index 57ac18738c99..86074d03afa9 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+> @@ -51,49 +51,76 @@ cpu0: cpu@0 {
+>  			device_type = "cpu";
+>  			reg = <0>;
+>  			enable-method = "psci";
+> -			next-level-cache = <&L2>;
+>  			clocks = <&ccu CLK_CPUX>;
+>  			clock-names = "cpu";
+>  			#cooling-cells = <2>;
+> +			i-cache-size = <0x8000>;
+> +			i-cache-line-size = <64>;
+> +			i-cache-sets = <256>;
+> +			d-cache-size = <0x8000>;
+> +			d-cache-line-size = <64>;
+> +			d-cache-sets = <128>;
+> +			next-level-cache = <&l2_cache>;
+>  		};
+>  
+>  		cpu1: cpu@1 {
+>  			compatible = "arm,cortex-a53";
+>  			device_type = "cpu";
+>  			reg = <1>;
+>  			enable-method = "psci";
+> -			next-level-cache = <&L2>;
+>  			clocks = <&ccu CLK_CPUX>;
+>  			clock-names = "cpu";
+>  			#cooling-cells = <2>;
+> +			i-cache-size = <0x8000>;
+> +			i-cache-line-size = <64>;
+> +			i-cache-sets = <256>;
+> +			d-cache-size = <0x8000>;
+> +			d-cache-line-size = <64>;
+> +			d-cache-sets = <128>;
+> +			next-level-cache = <&l2_cache>;
+>  		};
+>  
+>  		cpu2: cpu@2 {
+>  			compatible = "arm,cortex-a53";
+>  			device_type = "cpu";
+>  			reg = <2>;
+>  			enable-method = "psci";
+> -			next-level-cache = <&L2>;
+>  			clocks = <&ccu CLK_CPUX>;
+>  			clock-names = "cpu";
+>  			#cooling-cells = <2>;
+> +			i-cache-size = <0x8000>;
+> +			i-cache-line-size = <64>;
+> +			i-cache-sets = <256>;
+> +			d-cache-size = <0x8000>;
+> +			d-cache-line-size = <64>;
+> +			d-cache-sets = <128>;
+> +			next-level-cache = <&l2_cache>;
+>  		};
+>  
+>  		cpu3: cpu@3 {
+>  			compatible = "arm,cortex-a53";
+>  			device_type = "cpu";
+>  			reg = <3>;
+>  			enable-method = "psci";
+> -			next-level-cache = <&L2>;
+>  			clocks = <&ccu CLK_CPUX>;
+>  			clock-names = "cpu";
+>  			#cooling-cells = <2>;
+> +			i-cache-size = <0x8000>;
+> +			i-cache-line-size = <64>;
+> +			i-cache-sets = <256>;
+> +			d-cache-size = <0x8000>;
+> +			d-cache-line-size = <64>;
+> +			d-cache-sets = <128>;
+> +			next-level-cache = <&l2_cache>;
+>  		};
+>  
+> -		L2: l2-cache {
+> +		l2_cache: l2-cache {
+>  			compatible = "cache";
+>  			cache-level = <2>;
+>  			cache-unified;
+> +			cache-size = <0x80000>;
+> +			cache-line-size = <64>;
+> +			cache-sets = <512>;
+>  		};
+>  	};
+>  
 > 
->  drivers/iio/light/stk3310.c | 49 ++++++++++++++++++++++++++++++++++---
->  1 file changed, 46 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/iio/light/stk3310.c b/drivers/iio/light/stk3310.c
-> index 7b71ad71d78d..a0547eeca3e3 100644
-> --- a/drivers/iio/light/stk3310.c
-> +++ b/drivers/iio/light/stk3310.c
-> @@ -13,6 +13,8 @@
->  #include <linux/module.h>
->  #include <linux/mod_devicetable.h>
->  #include <linux/regmap.h>
-> +#include <linux/regulator/consumer.h>
-> +
->  #include <linux/iio/events.h>
->  #include <linux/iio/iio.h>
->  #include <linux/iio/sysfs.h>
-> @@ -117,6 +119,7 @@ struct stk3310_data {
->  	struct regmap_field *reg_int_ps;
->  	struct regmap_field *reg_flag_psint;
->  	struct regmap_field *reg_flag_nf;
-> +	struct regulator *vdd_reg;
->  };
->  
->  static const struct iio_event_spec stk3310_events[] = {
-> @@ -607,6 +610,10 @@ static int stk3310_probe(struct i2c_client *client)
->  
->  	mutex_init(&data->lock);
->  
-> +	data->vdd_reg = devm_regulator_get(&client->dev, "vdd");
-> +	if (IS_ERR(data->vdd_reg))
-> +		return dev_err_probe(&client->dev, ret, "get regulator vdd failed\n");
-> +
->  	ret = stk3310_regmap_init(data);
->  	if (ret < 0)
->  		return ret;
-> @@ -617,9 +624,17 @@ static int stk3310_probe(struct i2c_client *client)
->  	indio_dev->channels = stk3310_channels;
->  	indio_dev->num_channels = ARRAY_SIZE(stk3310_channels);
->  
-> +	ret = regulator_enable(data->vdd_reg);
-> +	if (ret)
-> +		return dev_err_probe(&client->dev, ret,
-> +				     "regulator vdd enable failed\n");
-> +
-> +	/* we need a short delay to allow the chip time to power on */
-> +	fsleep(1000);
-> +
->  	ret = stk3310_init(indio_dev);
->  	if (ret < 0)
-> -		return ret;
-> +		goto err_vdd_disable;
->  
->  	if (client->irq > 0) {
->  		ret = devm_request_threaded_irq(&client->dev, client->irq,
-> @@ -645,32 +660,60 @@ static int stk3310_probe(struct i2c_client *client)
->  
->  err_standby:
->  	stk3310_set_state(data, STK3310_STATE_STANDBY);
-
-Move this handling to a devm_add_action_or_reset() callback in a precursor patch.
-That will fix the current ordering issue wrt to the irq registration.
-
-Then use devm_iio_device_register() in that precursor patch.
-
-> +err_vdd_disable:
-> +	regulator_disable(data->vdd_reg);
-
-Add a devm_add_action_or_reset() callback to disable this regulator in this patch.
-Register that just after the enable.
-
-That way the ordering will be maintained for all calls.
->  	return ret;
->  }
->  
->  static void stk3310_remove(struct i2c_client *client)
->  {
->  	struct iio_dev *indio_dev = i2c_get_clientdata(client);
-> +	struct stk3310_data *data = iio_priv(indio_dev);
->  
->  	iio_device_unregister(indio_dev);
->  	stk3310_set_state(iio_priv(indio_dev), STK3310_STATE_STANDBY);
-> +	regulator_disable(data->vdd_reg);
-
-With above suggested changes, you can drop the remove function entirely.
-
->  }
->  
->  static int stk3310_suspend(struct device *dev)
->  {
->  	struct stk3310_data *data;
-> +	int ret;
->  
->  	data = iio_priv(i2c_get_clientdata(to_i2c_client(dev)));
->  
-> -	return stk3310_set_state(data, STK3310_STATE_STANDBY);
-> +	ret = stk3310_set_state(data, STK3310_STATE_STANDBY);
-> +	if (ret)
-> +		return ret;
-> +
-> +	regcache_mark_dirty(data->regmap);
-> +	regulator_disable(data->vdd_reg);
-> +
-> +	return 0;
->  }
->  
->  static int stk3310_resume(struct device *dev)
->  {
-> -	u8 state = 0;
->  	struct stk3310_data *data;
-> +	u8 state = 0;
-> +	int ret;
->  
->  	data = iio_priv(i2c_get_clientdata(to_i2c_client(dev)));
-> +
-> +	ret = regulator_enable(data->vdd_reg);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to re-enable regulator vdd\n");
-> +		return ret;
-> +	}
-> +
-> +	fsleep(1000);
-> +
-> +	ret = regcache_sync(data->regmap);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to restore registers: %d\n", ret);
-> +		return ret;
-> +	}
-> +
->  	if (data->ps_enabled)
->  		state |= STK3310_STATE_EN_PS;
->  	if (data->als_enabled)
 
