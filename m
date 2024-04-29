@@ -1,57 +1,57 @@
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CB8B84FD2
-	for <linux-sunxi@lists.linux.dev>; Mon, 29 Apr 2024 15:05:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3C4F81AD2
+	for <linux-sunxi@lists.linux.dev>; Mon, 29 Apr 2024 15:05:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714403106; cv=none; b=q1UcjEKwFiGbYyZuRSPdjlgjw1YD5jIa/81vfesYqwSRAFdM4+bwflREN56cIa2MEa4uQvTxsxTXbgA+dOYp8htpkPHFxZk0adhSq5NlsbNpbQEk1Z4EZBdO6HEE7FkhUyWfHdg1dC+3PsflZcOFcCY22YS8vhzfHKKlOMqSwGA=
+	t=1714403108; cv=none; b=rkVi/Ia2oYm5h6CJP816XK4bgOWVQQtv7cUxGChl6X6zpawnQuCdjn1yghabb60QVp5ibhFOdkpfDK0UoISs5f1l1P1hUYfoeYyU7oC1LvgXTEHlhgir9g3KNzwCS6yj+SmnqwfhFHv6CE4/DWjRlKRwLtscomyA6h7G5gvnp2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714403106; c=relaxed/simple;
-	bh=/GjVSD6SioMDjZElg1Hs94tKxcIDWbAsQoWFdXy84sY=;
+	s=arc-20240116; t=1714403108; c=relaxed/simple;
+	bh=1j0StfCVwtH5LoYMUWVtbp8TzQTzEnDFIjwyMu0303U=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ovzJxsEhhuU/q9kunLEXRytuoa/KKPBY+ALn9aHJp+u5IjeqjM4ICQ1mqIcx3MzxrfWoU5OOGfkQVVyC3g9KQXTbpNDYrC/+nZZ/RUXARvvce/RA9kkQ2Vo8+/kpBoy2nOrx1RbDqvUSk0rc+HyjLBSvJIMy/bswiP6o6BF5+RM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=A4u80qSX; arc=none smtp.client-ip=209.85.222.182
+	 In-Reply-To:To:Cc; b=W+FMoMuzzB/KyP5XTsL2AZJFNt2xqN+dbi8YYyzAtVts5/39nxEqb3EiCa80gLuGWPjbZuskwqvFKJXv4X1eM0oRd88x7HcJSRDx7WMZL34V5UksEDzEYPDRJhm8gMt6TkgwNViWmqWzQuINPJDmNCwO63TyadVafFAD1u8Wxlw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=iCN+flfy; arc=none smtp.client-ip=209.85.222.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="A4u80qSX"
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-78f05341128so332486885a.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 29 Apr 2024 08:05:01 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="iCN+flfy"
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-78f04581a66so304373385a.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 29 Apr 2024 08:05:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1714403101; x=1715007901; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1714403102; x=1715007902; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=7GlL3qsiOGQC7mYG6gX2GhOJ6HGHUo3zfWR8UxyLbWA=;
-        b=A4u80qSX2eGWqZ0O40lqVDdkd9qUX8QU9rE+tbFWQ8sWX+7gngVyOedDSzCOI4ibT8
-         j5S70C0kvQ5EHF86ir9PJwR1iBnexWpCtdQO8pUnVJ9j1g9QhGpsqSGefxXxHD84rADp
-         DjBJUtCUrYFHOewYDYoIDGAO4v76qDJaYH69U=
+        bh=WOR8+WeMkxm0czNaQrlO8zy4rfkYFKnx5dqFso5t3cA=;
+        b=iCN+flfyPrmCkFUsn3DnYnYW/AUDpqLcb7PJdZFpy1w5PIEFn+N3gmUBgkVnVFj1Ms
+         +fJzqJYcazrtZKbAQhYym8yqRG96gjbzTwsj4u3OCeMu76L8ymPbCgTyFVSX3yBSF+xG
+         ZmUheFkYBs0SGgbi61zm3FACnBHUn2DjjZXj0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714403101; x=1715007901;
+        d=1e100.net; s=20230601; t=1714403102; x=1715007902;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=7GlL3qsiOGQC7mYG6gX2GhOJ6HGHUo3zfWR8UxyLbWA=;
-        b=XYLi9P0uQKOuRd2aaXcjwoa6pr2g3CTNXYF2M5qBa5WRZqBNX7n0eearVezRvN0MOM
-         ml68c7Kyv3m1zjuelWCRi4IVh7SuqIJtEfO7/1INpgjk+DJr6d/0VNDEJDvC5MmZu+UZ
-         TN0whnN1b8bdDiaenGzSQpNPvLKLTIyD4r8Pq9/cpLfDGWWakob0RcXOJ4CR1Ix/zn3a
-         LA8qcYog7ZHy1LFCYzBJhnGw/SWiLXscDSMcSPyxcMSROniuitcfe75rG9ja1kxgx33E
-         5flJR0s6q1cKs6U1S6SdKlD7MaFDkwa7iZyr3LyE5rgoACAUXcxcI3MuAr29Mt/TnlFk
-         QHJA==
-X-Forwarded-Encrypted: i=1; AJvYcCVZ/XbeA+9bRoVImViAvJp7crQ9tEuyzc4CM1ue3hy0blvD4EZrVWju8T9FVvR+Uu606YtkZK//x3PaRTrcKXlXK3Ta6+OVlT33jyw=
-X-Gm-Message-State: AOJu0YytfjvUJR/cEmaJHFs6W4r09+CS4NloXSSjQsNRNAJccUi9S+nj
-	SS1xktL8UB9qhjnvdj1EoQyGqP4l8pqid7574W2c1cnqoCp27JpuhK7BrfHFqA==
-X-Google-Smtp-Source: AGHT+IHEbQ6k/spB/F4rjxeKOljXK5qMBOo6nR8m19hLRAfwF8PZ7AqOGD/HUUCFVnU+KrmkTId48g==
-X-Received: by 2002:a05:620a:28c5:b0:790:ed33:5b91 with SMTP id l5-20020a05620a28c500b00790ed335b91mr5568169qkp.56.1714403100578;
-        Mon, 29 Apr 2024 08:05:00 -0700 (PDT)
+        bh=WOR8+WeMkxm0czNaQrlO8zy4rfkYFKnx5dqFso5t3cA=;
+        b=POxUMz9Espi6X0JSPP4gFTq3C4tTtc5IkFVJ2zslZMIoV9dKyDNtIFUv9MlgIXPFBr
+         RZTyVpvtwJwfOWaKXSRgUvYbjNx6H7/lg72XsGcC6InnDmQVTFtVOWnNupq/nkxmIksA
+         XjPS6qEGQ453J0i+4XJqkkiBf3OgWqs7rHwR878kTcgpeJUvJVzsAoDTrIaJOyjtHgxi
+         MKhntaYCL7U2I+JU5PdMmlUqdS0byozLPn9K5TTG7kIchOgFo0CDlBuvgpRVO4RSpf9E
+         Lt+yPdrhaQW2FPMSLDJsUdXQT78kQZwQpLF6IVyAfh8MRZW2N/4Q4IBArJL2C0mVjVH7
+         iq9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXYNMcfjkaA5zQotl0Ccn6R3YKJT4Z6mtnyb1+7qvNrCXlv+NW9LhzlA/HoOUKQpTlMt1A93AlXPdXr52vdZblRxKlfOMZz0MNlWWU=
+X-Gm-Message-State: AOJu0YwOD+8AZo152XFsQAivGYhl60Ro7+QR0LMgbZHDe5+kZuPRIZL+
+	7J953JsCEkX6FcT2rHfXVHXqSrMoBcbhJGJKPKwtaEjB/VgXuPeDTOx8oYtu8g==
+X-Google-Smtp-Source: AGHT+IFvqATO8BLnIi9vdu5lMT65HlpTVBjzYUMzQ45Qpvw3JFM44+jkXB+KR4H073WWP4wnEfgBGQ==
+X-Received: by 2002:a05:620a:70d9:b0:790:ac08:8d4d with SMTP id vk25-20020a05620a70d900b00790ac088d4dmr11390058qkn.57.1714403102367;
+        Mon, 29 Apr 2024 08:05:02 -0700 (PDT)
 Received: from denia.c.googlers.com (114.152.245.35.bc.googleusercontent.com. [35.245.152.114])
-        by smtp.gmail.com with ESMTPSA id p7-20020a05620a056700b0078d3b9139edsm10568591qkp.97.2024.04.29.08.04.59
+        by smtp.gmail.com with ESMTPSA id p7-20020a05620a056700b0078d3b9139edsm10568591qkp.97.2024.04.29.08.05.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Apr 2024 08:05:00 -0700 (PDT)
+        Mon, 29 Apr 2024 08:05:02 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 29 Apr 2024 15:04:56 +0000
-Subject: [PATCH v3 17/26] media: flexcop-usb: Use min macro
+Date: Mon, 29 Apr 2024 15:04:58 +0000
+Subject: [PATCH v3 19/26] media: stk1160: Use min macro
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -60,7 +60,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240429-fix-cocci-v3-17-3c4865f5a4b0@chromium.org>
+Message-Id: <20240429-fix-cocci-v3-19-3c4865f5a4b0@chromium.org>
 References: <20240429-fix-cocci-v3-0-3c4865f5a4b0@chromium.org>
 In-Reply-To: <20240429-fix-cocci-v3-0-3c4865f5a4b0@chromium.org>
 To: Martin Tuma <martin.tuma@digiteqautomotive.com>, 
@@ -100,32 +100,46 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.12.4
 
-Simplifies the code.
+Instead of a custom min() implementation, use the real macro.
 
-Found by cocci:
-drivers/media/usb/b2c2/flexcop-usb.c:201:8-9: WARNING opportunity for min()
+Mitigates the following cocci WARNINGs:
+drivers/media/usb/stk1160/stk1160-video.c:133:12-13: WARNING opportunity for min()
+drivers/media/usb/stk1160/stk1160-video.c:176:13-14: WARNING opportunity for min()
 
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/usb/b2c2/flexcop-usb.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ drivers/media/usb/stk1160/stk1160-video.c | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/media/usb/b2c2/flexcop-usb.c b/drivers/media/usb/b2c2/flexcop-usb.c
-index 43dd3c932a85..90f1aea99dac 100644
---- a/drivers/media/usb/b2c2/flexcop-usb.c
-+++ b/drivers/media/usb/b2c2/flexcop-usb.c
-@@ -197,10 +197,7 @@ static int flexcop_usb_memory_req(struct flexcop_usb *fc_usb,
- 		return -EINVAL;
- 	}
- 	for (i = 0; i < len;) {
--		pagechunk =
--			wMax < bytes_left_to_read_on_page(addr, len) ?
--				wMax :
--				bytes_left_to_read_on_page(addr, len);
-+		pagechunk = min(wMax, bytes_left_to_read_on_page(addr, len));
- 		deb_info("%x\n",
- 			(addr & V8_MEMORY_PAGE_MASK) |
- 				(V8_MEMORY_EXTENDED*extended));
+diff --git a/drivers/media/usb/stk1160/stk1160-video.c b/drivers/media/usb/stk1160/stk1160-video.c
+index e79c45db60ab..9cbd957ecc90 100644
+--- a/drivers/media/usb/stk1160/stk1160-video.c
++++ b/drivers/media/usb/stk1160/stk1160-video.c
+@@ -130,10 +130,7 @@ void stk1160_copy_video(struct stk1160 *dev, u8 *src, int len)
+ 	dst += linesdone * bytesperline * 2 + lineoff;
+ 
+ 	/* Copy the remaining of current line */
+-	if (remain < (bytesperline - lineoff))
+-		lencopy = remain;
+-	else
+-		lencopy = bytesperline - lineoff;
++	lencopy = min(remain, bytesperline - lineoff);
+ 
+ 	/*
+ 	 * Check if we have enough space left in the buffer.
+@@ -178,10 +175,7 @@ void stk1160_copy_video(struct stk1160 *dev, u8 *src, int len)
+ 		src += lencopy;
+ 
+ 		/* Copy one line at a time */
+-		if (remain < bytesperline)
+-			lencopy = remain;
+-		else
+-			lencopy = bytesperline;
++		lencopy = min(remain, bytesperline);
+ 
+ 		/*
+ 		 * Check if we have enough space left in the buffer.
 
 -- 
 2.44.0.769.g3c40516874-goog
