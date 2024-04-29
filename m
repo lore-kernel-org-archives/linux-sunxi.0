@@ -1,57 +1,58 @@
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACBD1127B60
-	for <linux-sunxi@lists.linux.dev>; Mon, 29 Apr 2024 15:05:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC7871292D8
+	for <linux-sunxi@lists.linux.dev>; Mon, 29 Apr 2024 15:05:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714403108; cv=none; b=NKJcWnDDfo2vJt9bPoinI0xp/k4xWL2ZXzXmwL9oDYNDA67VhywSQh4YDAtJrEnlZW9TIKqK7lIC9a6SiDHpih0x174rXr+d2uqwGmRJKY9QGgaSD+VLDjj3fSo2F0+P51W2z8FKajD0r/4Y9JLgdWiOl347nYCe/IjfLAk0Iy8=
+	t=1714403110; cv=none; b=ZBJt5ddmfkLEPMDYk/EAZFw7DM/28XF2yDLrVRalAtaR6GWMAJ3frHm1UzCTu/fa8rpXGQHmEGkRbVEAgAWT+86Ld1yuQHh2Dd65SJ/9SN/ElMdi0jSSEWoUD68Zs4tGRnnE/enPmyKSfR/rGnWM5kWqFMjo6DuuSDxhslyrDgw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714403108; c=relaxed/simple;
-	bh=NKspkx+WjefJTC0T9GdQgMYdznykMk+osWwLYrp0b/0=;
+	s=arc-20240116; t=1714403110; c=relaxed/simple;
+	bh=m351M6HyiT8IWLkyID5itxiSqWILJmFaZ7lxVFnP6BY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=j5mOpm/DG20vJ0HV9qTZR7MeFjv4fSZpkPlkSZAGUX2LT+LLu2lGO78+ijin17yGvRksi3luUkZk9Po1BXRoighEu/lmTJodcMkj1B32lykIQNiqlVfnU0FkYKcWgr065jB/RjgLYTVhVrwK33hwoy+53ZKYWdO2TsOzi9P/4bg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=e7Lmf2bd; arc=none smtp.client-ip=209.85.222.169
+	 In-Reply-To:To:Cc; b=hm3OKx3ijmN/bEiLEAQ+RYhnNIDcj38E3H1p/bqPNrsG9sARiD+VDsyHGL4BuYBVaGNFHlENpJad9DTMsdVNFBS7ef2ziISjk2+M3N1bP+xgOJB2d0u2YeRuC22O19M+5vuMXdDNjtBVgqAtZtSyGLwcRub2JgbkijZ3Zcw+AfM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Y4WN6Aac; arc=none smtp.client-ip=209.85.160.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="e7Lmf2bd"
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-78f05e56cb3so285697385a.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 29 Apr 2024 08:05:03 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Y4WN6Aac"
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-22ed075a629so1661017fac.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 29 Apr 2024 08:05:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1714403102; x=1715007902; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1714403103; x=1715007903; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=kyue/FRqn/p1WnqrFE53P+Zy+G2t8IVLierFxkwHoc8=;
-        b=e7Lmf2bdGkxW6sZkjjr+tJX3IyWIQdTrTt6jQUrjiSrMOSg/jwKQWAY+zHZiG685fp
-         Uyh3hzngR6AXmi06D5aJjoSCyLLi6pWWmzaRdb70bKECg4mTcXJ38vkcIKoLBK0cuMwt
-         wVMM0TckTkXGHuyYVmt8CFbOWi33e0A/GxW58=
+        bh=gMpzOFCFY/OFyCB78Iqov2ITRER3c7lueX7XaC40UJk=;
+        b=Y4WN6AacIzV87VDZuQaNhXowEfSZZpP12DILJJuXTg0C/YUp39r4lTtFQfIb3pMMaa
+         g23snBaJxBgSrIKbYHDHBln0mH1GryoG4i7TMgW9WtDDqG8ilFP0QYj8ZZ1dKOUyUGEp
+         bC7132xCBIgTF+3oW5X4tordRUdwGFY/eMAt8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714403102; x=1715007902;
+        d=1e100.net; s=20230601; t=1714403103; x=1715007903;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kyue/FRqn/p1WnqrFE53P+Zy+G2t8IVLierFxkwHoc8=;
-        b=QDYf4fui8JuhpuCWL/yaOP3o2JUggVNyMn5tsxb+DFegKPOOTmaRgI0NF4jcSIQDCt
-         wuCLQ3uDV9hWC29KPsblnxMlxsJBQs02TshXhCUwk0TelLol/WNtUOheqrTEtcGjCLeN
-         dMhWqENqGcmAuddPgGTCDFMsvMPHdL/hMyxhxTbCGHg9e6EbK9+fflCfLhz4SRjqcg52
-         44sl1mSP50xc92A0CyWBgASwZxVDpZU5CyOw6BAKZ822THjysBO+qgAtemkICVFyNifz
-         fk8bLKe+y5D2VCtMSrCSoqlQe8A7Vf2C+py3qAYwjsDGU6MZ4eHDFR8lmTUmAUWaGBKC
-         18yQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUrTyA/l8hGpe+ZcPUK2E7wGtD3VOkf0Pc03Bv1weLRFqaJgZMXo0/J/XeJs/3PSYiub/6ZO+hajsdsr/aCw0csfMDkU+5WCee8sg8=
-X-Gm-Message-State: AOJu0YzRWTsM0teliyhi4r40FV6r08E9IRiQvmNZWMrq35QH9+49ODVh
-	axIkn/zx3+h3AhSdLBFPuv3Kfc8i0EcVkxOK1x01dIVJtDD18SA4OE0wbB5+rw==
-X-Google-Smtp-Source: AGHT+IGL4vooVVR+0mzZmPQqvYaly6q1aVJv7Kw4xqkfiCYuQPEweu/zlD5u/57ahvXotSjFXGqNNw==
-X-Received: by 2002:a05:620a:2059:b0:790:a36b:477d with SMTP id d25-20020a05620a205900b00790a36b477dmr9906478qka.35.1714403101530;
-        Mon, 29 Apr 2024 08:05:01 -0700 (PDT)
+        bh=gMpzOFCFY/OFyCB78Iqov2ITRER3c7lueX7XaC40UJk=;
+        b=qZ4b2ktqLoYDeVpvO6Rfz/H/K4O+oKVSrP8rnZec796+OJS8/zs4FjIxp/C/6bZNsA
+         8uCbvEne/X7inwfyiCEe1YjGS4QjaPSwquBYnWRb577slG1SKrEJ7O54nruU9LVq7M5P
+         MAM6/VzqorvXbPQej8DNy8MtFQkk4Ue9VQcNSu1coP5MML7jcOkOpsrRktIt02pg+yf5
+         nOJwATktAreBztYKJVBcEAPOHAm2HEAt1WjWI4ia6cUukMZGKL1ep50OjfGPMe/mMVwW
+         b0QzwCySeuPFWoYa3KMbH7wMvDclGjqbSXEmYZtLLxmVTHVJ1oUZQcZex9pp8baNpIA/
+         q6LQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXZZAVmKmyVO29cIrO2VmPz+pS27Y78ABSx+Cs6FOr0iYQFml79bZxNJxtMs+jxZFsxktRBXlL9AFhXsM2jhBYR+RnOUphKIr23uU4=
+X-Gm-Message-State: AOJu0YwfI37Sxrp63i/Yc17XyzpSf5zCSz7pIQHPfZ83nbT9uFkubCIi
+	nJyMcjJPjCzcTY2DQ5EUwq7Lgs9FuQkCpceCnXwioqR4Ite1godJGr0Pbwv7AbH5TUB0Qbzc7Zw
+	=
+X-Google-Smtp-Source: AGHT+IFhJl+kGtaYhV7Q9Gv3xiaVng6RdI8g6vF7vUpIJM3CzWksrp2O5EtILgQd8YzMcEQUTtUSrA==
+X-Received: by 2002:a05:6870:701f:b0:22e:d258:bc43 with SMTP id u31-20020a056870701f00b0022ed258bc43mr12416234oae.42.1714403103424;
+        Mon, 29 Apr 2024 08:05:03 -0700 (PDT)
 Received: from denia.c.googlers.com (114.152.245.35.bc.googleusercontent.com. [35.245.152.114])
-        by smtp.gmail.com with ESMTPSA id p7-20020a05620a056700b0078d3b9139edsm10568591qkp.97.2024.04.29.08.05.00
+        by smtp.gmail.com with ESMTPSA id p7-20020a05620a056700b0078d3b9139edsm10568591qkp.97.2024.04.29.08.05.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Apr 2024 08:05:01 -0700 (PDT)
+        Mon, 29 Apr 2024 08:05:02 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 29 Apr 2024 15:04:57 +0000
-Subject: [PATCH v3 18/26] media: gspca: cpia1: Use min macro
+Date: Mon, 29 Apr 2024 15:04:59 +0000
+Subject: [PATCH v3 20/26] media: tegra-vde: Refactor timeout handling
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -60,7 +61,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240429-fix-cocci-v3-18-3c4865f5a4b0@chromium.org>
+Message-Id: <20240429-fix-cocci-v3-20-3c4865f5a4b0@chromium.org>
 References: <20240429-fix-cocci-v3-0-3c4865f5a4b0@chromium.org>
 In-Reply-To: <20240429-fix-cocci-v3-0-3c4865f5a4b0@chromium.org>
 To: Martin Tuma <martin.tuma@digiteqautomotive.com>, 
@@ -100,33 +101,39 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.12.4
 
-Simplifies the code.
+Reorder the branches a bit, so cocci stops complaining about the code.
 
-Found by cocci:
-drivers/media/usb/gspca/cpia1.c:607:30-31: WARNING opportunity for min()
+drivers/media/platform/nvidia/tegra-vde/h264.c:645:20-21: WARNING opportunity for min()
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/usb/gspca/cpia1.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/media/platform/nvidia/tegra-vde/h264.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/usb/gspca/cpia1.c b/drivers/media/usb/gspca/cpia1.c
-index 5f5fa851ca64..14aaf36cde6e 100644
---- a/drivers/media/usb/gspca/cpia1.c
-+++ b/drivers/media/usb/gspca/cpia1.c
-@@ -604,10 +604,8 @@ static int find_over_exposure(int brightness)
- 	MaxAllowableOverExposure = FLICKER_MAX_EXPOSURE - brightness -
- 				   FLICKER_BRIGHTNESS_CONSTANT;
+diff --git a/drivers/media/platform/nvidia/tegra-vde/h264.c b/drivers/media/platform/nvidia/tegra-vde/h264.c
+index 204e474d57f7..cfea5572a1b8 100644
+--- a/drivers/media/platform/nvidia/tegra-vde/h264.c
++++ b/drivers/media/platform/nvidia/tegra-vde/h264.c
+@@ -633,7 +633,9 @@ static int tegra_vde_decode_end(struct tegra_vde *vde)
  
--	if (MaxAllowableOverExposure < FLICKER_ALLOWABLE_OVER_EXPOSURE)
--		OverExposure = MaxAllowableOverExposure;
--	else
--		OverExposure = FLICKER_ALLOWABLE_OVER_EXPOSURE;
-+	OverExposure = min(MaxAllowableOverExposure,
-+			   FLICKER_ALLOWABLE_OVER_EXPOSURE);
+ 	timeout = wait_for_completion_interruptible_timeout(
+ 			&vde->decode_completion, msecs_to_jiffies(1000));
+-	if (timeout == 0) {
++	if (timeout < 0) {
++		ret = timeout;
++	} else if (timeout == 0) {
+ 		bsev_ptr = tegra_vde_readl(vde, vde->bsev, 0x10);
+ 		macroblocks_nb = tegra_vde_readl(vde, vde->sxe, 0xC8) & 0x1FFF;
+ 		read_bytes = bsev_ptr ? bsev_ptr - vde->bitstream_data_addr : 0;
+@@ -642,8 +644,6 @@ static int tegra_vde_decode_end(struct tegra_vde *vde)
+ 			read_bytes, macroblocks_nb);
  
- 	return OverExposure;
- }
+ 		ret = -EIO;
+-	} else if (timeout < 0) {
+-		ret = timeout;
+ 	} else {
+ 		ret = 0;
+ 	}
 
 -- 
 2.44.0.769.g3c40516874-goog
