@@ -1,139 +1,134 @@
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE0EC12838A
-	for <linux-sunxi@lists.linux.dev>; Mon, 29 Apr 2024 15:05:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C2F581723
+	for <linux-sunxi@lists.linux.dev>; Mon, 29 Apr 2024 15:19:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714403124; cv=none; b=V/fEdo4RGXxTGSbYKSks+eRjY55H1ajObotm8TcwX2kMsZOIRduvcwp4HdMVvObfSj8IV2XfSleMeqcevgID6Q2BPGLwsnB0yihtZQ2pQiKMjhAzcerogl53jGEqPV9Jo7nIsEOy129CTDjlxwogkUVFgxel88NIJcvdjMv5FHA=
+	t=1714403975; cv=none; b=Zko0w0C1BE0H0mYHs6YDsnX3b4+yuNiIrE75HFB2yI0p5u63aVguuQSzpc5UGc/Zmfs3b0dRRwlIIzHiJUDNQXdAKbRX1KlRFnaU1V4THMmk/jZqRj39miiOqHO1sQ+RFgaAty7OGZUdsDtdOzpCVegaUx4UiRyjLFRfCBErlhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714403124; c=relaxed/simple;
-	bh=17e3seaVPIolCVRnz9dvrXMTILwJmsuH1BK6VcvWdM0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=iZiCYnUEqu64VFB+Fd79fri1NYFndsIofp7rC6v7e/MxS67U25ysYkq5wmTW4rCj+ZBLHyjt+Hi1fEb9kUwK785Gr9RnfIjgoptm+G5dbTQfgxKMjImc6vV9JdiVpEhzCegESAlUuNQgqIDg9J2dO27pjEVZjSvBfoabA78GsMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=WrJjTdcg; arc=none smtp.client-ip=209.85.222.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1714403975; c=relaxed/simple;
+	bh=Lq3bIjU4eSarBTAXtS8WyC+NFdUGRQk6vzmvx4W4Ff4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rPl4zMww9vfUgjLxt5yU+YdhQrLjGUy7ElmGdmA2j3T3IsLzYdH1yT5a34A+REcRvMUr0u8DP9UGzG+rQwHxNP2tPx7vuMMTJr0+LpnYOJdrz7dac7ZVktVYbJMweAdiY1/pbyNPdYJEGcR18CYRyGpektz1e7B1KOXaLKmJAnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BRi2F9fi; arc=none smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="WrJjTdcg"
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-78edc0f9636so308060685a.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 29 Apr 2024 08:05:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BRi2F9fi"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5708d8beec6so5737274a12.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 29 Apr 2024 08:19:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1714403111; x=1715007911; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=STqazHEagBxWlHC69lQFp5WbvQ2Sdx8rB6+uKcUB0cU=;
-        b=WrJjTdcgFXzhMYcZ0zkZ9bJk/1MICWQ01Q/OCH0piecAlKcsbmCShyvHGipEOECNNQ
-         IAj2KHf5CX/tM32NY1d/ewmA45BZJSz+oCaF2V9g1aUjvtgXDVyZw7NWplTWbxPgG8sU
-         FpnjoejH/ME1Ova4ES0OocnIsmMbZolmvuceA=
+        d=gmail.com; s=20230601; t=1714403972; x=1715008772; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=S9C3JVcEDpwsOADlHUtbqCqSAuCy7fwWOq+zvdoWz3k=;
+        b=BRi2F9fip1iHsWJ+N9eifAa7+bUjBjwe4Eg7KdUq5rB6G94PTdYXGVgBc7KKUJd2xE
+         f3DkXhTHWuwZ5Jq8uBKV/Xg4ND3Rv3vWICAKkfYwMy5nnExnnMCv6nXxbYnzUWp43iY9
+         Ym2sp/CRxhHpraAjv0tzNjMmFNz97u43sKnMRS/SnHDejdbHY70Svu88Jmi8wfVtN0T2
+         K4QA2csStK+iqptLNxWix2W/xAsX5gDCiAWpzhfxrJEpLUmoaAIw/ebWy7O5kSMbdoW4
+         2OuVj83jKRUAsV0qXSRfilUttEWBq09Pck3lAGXxFp8Vju/v33W0brmPSB3uQwrS1GOb
+         LhfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714403111; x=1715007911;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1714403972; x=1715008772;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=STqazHEagBxWlHC69lQFp5WbvQ2Sdx8rB6+uKcUB0cU=;
-        b=LeXiwXNf8afplJOOetw0jIdRwSvFiLrb0R7PIRhMhLUhJT1aucdwMDfoCncl6txfHW
-         h5sdqdbcOgf6M92nQ/KkqQWsAQn5j0BLhTc7lyGMv1gX7Ft18wlR6qxtTInf80T9gHP+
-         MOUfUNdqt1Jy59d2/Z0PUZQ9iERvz8GZ1MyWnIAg4ac+mrA6ePzFhZUGXolfQk7CToXe
-         lpaDkXrNqmm0D+k/1HpwW5Y1ZmLko9cWg1BXmsFc/M2vpi1nNmc66iJvtJvQxduROgR1
-         HYmOIBRjrYuqXR7x2qLvv37U6nnqG5Wtpn4BwsCONCgKueY9vLqnCWu1YaYp2h9DrfE9
-         C2EQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWdZVE5ZlrgpqjqK7AvrUDyEQUx4NjDzLdtQlBmoEXX8O4/4ik2cNrUgzz3PUiVO2YjK/fvdWjP93/7RyTqIDv7pdqY8QQo0K0E5dU=
-X-Gm-Message-State: AOJu0YyF/wOqYLgJp02Zd6UXv6v4SVWq91cqX5wF7bqsHzTTJ0UyY1Dv
-	q81+WekAXn/9OloRFPLVm2UFiW5e/x9PdPPhNwUcsE7AktgxbGcVm2MALFuMqA==
-X-Google-Smtp-Source: AGHT+IHvPitwm/34xW/kQUa8TA8n6UCg3fwO9ex2lf7MaH+MC5XxlTHiUGq0Riy9QnEe78dxXREmpg==
-X-Received: by 2002:a05:620a:5e48:b0:790:c81e:7840 with SMTP id ya8-20020a05620a5e4800b00790c81e7840mr6919928qkn.12.1714403111405;
-        Mon, 29 Apr 2024 08:05:11 -0700 (PDT)
-Received: from denia.c.googlers.com (114.152.245.35.bc.googleusercontent.com. [35.245.152.114])
-        by smtp.gmail.com with ESMTPSA id p7-20020a05620a056700b0078d3b9139edsm10568591qkp.97.2024.04.29.08.05.10
+        bh=S9C3JVcEDpwsOADlHUtbqCqSAuCy7fwWOq+zvdoWz3k=;
+        b=RdkKYDvZhk9KdinuOtV8zbwd5YvjLWFW3zdAaq/gg0ILsj3isG4k3BF8p3bLhfH3DF
+         OKwRD9xrShmPICmM0qDZjCo1nNL3ckJXb+h5uP/bOPuKID5tDsb3QEcYqooQ7SKWU25k
+         9P9Kiv57NDpyqeiLV98YLDYjR3z04GxobQOtQY1FlfX68CFDGHUwEsLrjljDhj2qZ6QH
+         Ff8PQlYN57vd1LEmwUIyCsFVNNAu+aGtXMbu5kYBJKgDZZhSOwlROIJ9eZnfqrsSkXjg
+         MDEjUQt/g8SuqKlXtFk6/ADtcShAmQh+p4n2eVQZotwz2gfHojDLuCTEwloKDjYrpozH
+         v5KQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVcKgNCbRMr5WJGbGOCI41Mkl1ZTTyo7T2KvT+YqPc2b0V8/iqGXw/vXVj56xwhx5+PoaIzMX7XYyN/nmep/p+A/iHeLb255/d3UHY=
+X-Gm-Message-State: AOJu0YzYh9XgeQ4y4Ib1bIyemlvwTma3lvERmZIPftpGAuCnU94dOVw+
+	oND9n+rQu4K6TR1vqwdinyPHhcDPPdL6x/lSsg54ps9SiKqqTQmL
+X-Google-Smtp-Source: AGHT+IG9T5aL2XPvLCDwTfqYe8F/ZRUPCN2K8XAmythmr2DqFYhUB73oLbiJ/x39cBvXRLd32dGw9g==
+X-Received: by 2002:a05:6402:1d9b:b0:572:664c:83f2 with SMTP id dk27-20020a0564021d9b00b00572664c83f2mr5493405edb.27.1714403972190;
+        Mon, 29 Apr 2024 08:19:32 -0700 (PDT)
+Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
+        by smtp.gmail.com with ESMTPSA id es21-20020a056402381500b005725c56b35bsm3568025edb.71.2024.04.29.08.19.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Apr 2024 08:05:11 -0700 (PDT)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 29 Apr 2024 15:05:05 +0000
-Subject: [PATCH v3 26/26] media: dvb-frontends: tda10048: Make the range of
- z explicit.
+        Mon, 29 Apr 2024 08:19:31 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: linux-spi@vger.kernel.org, Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Mark Brown <broonie@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject:
+ Re: [PATCH 6/8] spi: sun4i: use 'time_left' variable with
+ wait_for_completion_timeout()
+Date: Mon, 29 Apr 2024 17:19:30 +0200
+Message-ID: <4560843.LvFx2qVVIh@jernej-laptop>
+In-Reply-To: <20240429112843.67628-7-wsa+renesas@sang-engineering.com>
+References:
+ <20240429112843.67628-1-wsa+renesas@sang-engineering.com>
+ <20240429112843.67628-7-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240429-fix-cocci-v3-26-3c4865f5a4b0@chromium.org>
-References: <20240429-fix-cocci-v3-0-3c4865f5a4b0@chromium.org>
-In-Reply-To: <20240429-fix-cocci-v3-0-3c4865f5a4b0@chromium.org>
-To: Martin Tuma <martin.tuma@digiteqautomotive.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Hugues Fruchet <hugues.fruchet@foss.st.com>, 
- Alain Volmat <alain.volmat@foss.st.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, 
- Sowjanya Komatineni <skomatineni@nvidia.com>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>, 
- Abylay Ospan <aospan@netup.ru>, 
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
- Dmitry Osipenko <digetx@gmail.com>, 
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
- Sylvain Petinot <sylvain.petinot@foss.st.com>, 
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
- Vikash Garodia <quic_vgarodia@quicinc.com>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-stm32@st-md-mailman.stormreply.com, 
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, 
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
- linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
- Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.12.4
 
-We do not expect the sample_freq to be over 613MHz.
+Dne ponedeljek, 29. april 2024 ob 13:28:39 GMT +2 je Wolfram Sang napisal(a):
+> There is a confusing pattern in the kernel to use a variable named 'timeout' to
+> store the result of wait_for_completion_timeout() causing patterns like:
+> 
+> 	timeout = wait_for_completion_timeout(...)
+> 	if (!timeout) return -ETIMEDOUT;
+> 
+> with all kinds of permutations. Use 'time_left' as a variable to make the code
+> self explaining.
+> 
+> Fix to the proper variable type 'unsigned long' while here.
+> 
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Found by cocci:
-drivers/media/dvb-frontends/tda10048.c:345:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_u64 instead.
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/dvb-frontends/tda10048.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Best regards,
+Jernej
 
-diff --git a/drivers/media/dvb-frontends/tda10048.c b/drivers/media/dvb-frontends/tda10048.c
-index 3e725cdcc66b..1886f733dbbf 100644
---- a/drivers/media/dvb-frontends/tda10048.c
-+++ b/drivers/media/dvb-frontends/tda10048.c
-@@ -328,7 +328,8 @@ static int tda10048_set_wref(struct dvb_frontend *fe, u32 sample_freq_hz,
- 			     u32 bw)
- {
- 	struct tda10048_state *state = fe->demodulator_priv;
--	u64 t, z;
-+	u32 z;
-+	u64 t;
- 
- 	dprintk(1, "%s()\n", __func__);
- 
-@@ -341,6 +342,7 @@ static int tda10048_set_wref(struct dvb_frontend *fe, u32 sample_freq_hz,
- 	/* t *= 2147483648 on 32bit platforms */
- 	t *= (2048 * 1024);
- 	t *= 1024;
-+	/* Sample frequency is under 613MHz */
- 	z = 7 * sample_freq_hz;
- 	do_div(t, z);
- 	t += 5;
+> ---
+>  drivers/spi/spi-sun4i.c | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/spi/spi-sun4i.c b/drivers/spi/spi-sun4i.c
+> index 11d8bd27b3e9..2ee6755b43f5 100644
+> --- a/drivers/spi/spi-sun4i.c
+> +++ b/drivers/spi/spi-sun4i.c
+> @@ -206,7 +206,8 @@ static int sun4i_spi_transfer_one(struct spi_controller *host,
+>  				  struct spi_transfer *tfr)
+>  {
+>  	struct sun4i_spi *sspi = spi_controller_get_devdata(host);
+> -	unsigned int mclk_rate, div, timeout;
+> +	unsigned int mclk_rate, div;
+> +	unsigned long time_left;
+>  	unsigned int start, end, tx_time;
+>  	unsigned int tx_len = 0;
+>  	int ret = 0;
+> @@ -327,10 +328,10 @@ static int sun4i_spi_transfer_one(struct spi_controller *host,
+>  
+>  	tx_time = max(tfr->len * 8 * 2 / (tfr->speed_hz / 1000), 100U);
+>  	start = jiffies;
+> -	timeout = wait_for_completion_timeout(&sspi->done,
+> -					      msecs_to_jiffies(tx_time));
+> +	time_left = wait_for_completion_timeout(&sspi->done,
+> +						msecs_to_jiffies(tx_time));
+>  	end = jiffies;
+> -	if (!timeout) {
+> +	if (!time_left) {
+>  		dev_warn(&host->dev,
+>  			 "%s: timeout transferring %u bytes@%iHz for %i(%i)ms",
+>  			 dev_name(&spi->dev), tfr->len, tfr->speed_hz,
+> 
 
--- 
-2.44.0.769.g3c40516874-goog
+
+
 
