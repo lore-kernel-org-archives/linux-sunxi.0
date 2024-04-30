@@ -1,145 +1,106 @@
-Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F312212C805
-	for <linux-sunxi@lists.linux.dev>; Tue, 30 Apr 2024 11:10:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F09012CD90
+	for <linux-sunxi@lists.linux.dev>; Tue, 30 Apr 2024 11:41:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714475450; cv=none; b=g2MJg6hsfZ3G2kvwqaitQvU7NvyaAOPRBvltPwc4Y77K8DpFgMAloEEb8HCCGjtB8ADYjdE2JR7+wkJ9UHPbYvRYsRrwEChop3bvKkonsGInr/2k1VDvonapC9kucZZrL9ftJtsJckBng8i6UghMQMOuIoGKrT0roVqUpgZQ/fM=
+	t=1714477314; cv=none; b=R9P9sBcfsiaw6mWt5lhj95V8IqkHnydP/UhG+PrK/aO/hwssD0HQ9sUzq67bxghWTH+1qmO5kbjNL5U746AIyY/8uDdnrTWgI16ewnj6ERxdfK5IXmeCf+/pO5fQNZtjMjVtmKpSbybeFLjk8kV5e2p3ZJiSxm/fVoKi21QnV7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714475450; c=relaxed/simple;
-	bh=5aMGY4TetrWZPSPC+bg6GoYf1PBtEi/MdRkPeSHwBkA=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=U7I9B03/B49JrBFTn2nBP640hySMojQCBXaqovYUbv/kQ8In8qx1c0nh2uOzsoiJuF0OxIuLqqeKQTiYAHeUXTsxBj6UyzLWQihwXdCK9cCQmgpsoJJxDEnoiV//N1idQZcqhD7wFImKQ+u4z8TbCcOfqZ02EaMO4HAQPiIKnRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=O0R+Fag+; arc=none smtp.client-ip=116.203.91.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
+	s=arc-20240116; t=1714477314; c=relaxed/simple;
+	bh=buuRF42DJssebm7HzkIfm5mRwFuurTcBlXSr2N2zCB0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VHRt6Edg4KOz6JNxSHNp/U5OZOP2jhtV0VLUINb2Wwii/dl2kQAGWNyF8eERpyqiVofm4J/0wQB1syJp5qzCUwiRDa8oO2SFoHWJb6gYdPl6An1VIjaRAVgh2QNmNRykrlG0anlpwCrnzOAYGNVzetlsyw5iKEwCVbeOrmxbB9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=YVaScdHd; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="O0R+Fag+"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="YVaScdHd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=kPt/8jXnSYDJet
+	xC6X9ogQ5fhnFm9dtkiEVM3GdRJns=; b=YVaScdHdY4NjORBPNe4rjE3++GOIgS
+	mp3Xp40IjXOJL79qL/N5AuU9Kuw/D7jU7bTQlh92OMpduNDuJmGpfMy0F1G3hmPy
+	ItucPd/CXExTI3q97YTlNii0io20qNExkKqc7vGJgcwhkOmpusUZ7HohfE1yEKXZ
+	7nHdANP5rHWiEZupg3j8cWwPY8CAGgREcLwZcjE16z7WrBdYZfTUNyOaDGTFc2Ju
+	F331rzsBI5SLvh5CZCWqzg3sNGhfysNDIXxkPttln6oqKMckPnNeSVVOQYwtY0VE
+	utfvK3wLlflit7svPcNnW0jr+9XbqAZyVq6aQAxnMGDWj2zAkROVvheA==
+Received: (qmail 2617714 invoked from network); 30 Apr 2024 13:41:43 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 30 Apr 2024 13:41:43 +0200
+X-UD-Smtp-Session: l3s3148p1@99ih2k4XpOhehhrb
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-spi@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	imx@lists.linux.dev,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	Mark Brown <broonie@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>
+Subject: [PATCH v2 0/8] spi: use 'time_left' instead of 'timeout' with wait_for_*() functions
+Date: Tue, 30 Apr 2024 13:41:32 +0200
+Message-ID: <20240430114142.28551-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
-	t=1714475442;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KXKLEl88NqVHxINvq3HuX4hPm4pXSq+keAJ00os/VHk=;
-	b=O0R+Fag+OueqMCr1y90NL/AmfeM6wv77ctNtGipqjYYIKDwMFsAA+Bo+CFUhoucBanply6
-	SS+IUhjNc+Q0fQU69owBtO078NT5rWHaD7JOddHiO7on9Lrb7wtLwGxMr0zFafdThiYGoV
-	8ubR3tayTpRouA48EuchTCqZzMz9ciehSHajzmA1ZoB11iTOnVgObRTjQOcoWmn+jfrgKY
-	lvUbhkg52K+H5O2n/K9tqbPtVpwUEVTAs6b4Ev8G+13A7PQZK+4KMbbTWAtK9vKJMqXY49
-	tzJFSvrvFjfVKfTh2q4WQzTnbT50INSp/NRHBfAEsf7TigpL+rwL+1uviMh77g==
-Date: Tue, 30 Apr 2024 13:10:41 +0200
-From: Dragan Simic <dsimic@manjaro.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: linux-sunxi@lists.linux.dev, wens@csie.org, jernej.skrabec@gmail.com,
- samuel@sholland.org, linux-arm-kernel@lists.infradead.org,
- devicetree@vger.kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] arm64: dts: allwinner: Add cache information to the SoC
- dtsi for H6
-In-Reply-To: <20240430114627.0cfcd14a@donnerap.manchester.arm.com>
-References: <6a772756c2c677dbdaaab4a2c71a358d8e4b27e9.1714304058.git.dsimic@manjaro.org>
- <49abb93000078c692c48c0a65ff677893909361a.1714304071.git.dsimic@manjaro.org>
- <20240430001002.4797e4e3@minigeek.lan>
- <6fdeb49d57ccccca62e4f43dbe9475e3@manjaro.org>
- <20240430114627.0cfcd14a@donnerap.manchester.arm.com>
-Message-ID: <f4f4163d908c95d2a3f6f48bc3d7de49@manjaro.org>
-X-Sender: dsimic@manjaro.org
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
+Content-Transfer-Encoding: 8bit
 
-Hello Andre,
+There is a confusing pattern in the kernel to use a variable named 'timeout' to
+store the result of wait_for_*() functions causing patterns like:
 
-On 2024-04-30 12:46, Andre Przywara wrote:
-> On Tue, 30 Apr 2024 02:01:42 +0200
-> Dragan Simic <dsimic@manjaro.org> wrote:
->> On 2024-04-30 01:10, Andre Przywara wrote:
->> > On Sun, 28 Apr 2024 13:40:36 +0200
->> > Dragan Simic <dsimic@manjaro.org> wrote:
->> >
->> >> Add missing cache information to the Allwinner H6 SoC dtsi, to allow
->> >> the userspace, which includes lscpu(1) that uses the virtual files
->> >> provided
->> >> by the kernel under the /sys/devices/system/cpu directory, to display
->> >> the
->> >> proper H6 cache information.
->> >>
->> >> Adding the cache information to the H6 SoC dtsi also makes the
->> >> following
->> >> warning message in the kernel log go away:
->> >>
->> >>   cacheinfo: Unable to detect cache hierarchy for CPU 0
->> >>
->> >> The cache parameters for the H6 dtsi were obtained and partially
->> >> derived
->> >> by hand from the cache size and layout specifications found in the
->> >> following
->> >> datasheets and technical reference manuals:
->> >>
->> >>   - Allwinner H6 V200 datasheet, version 1.1
->> >>   - ARM Cortex-A53 revision r0p3 TRM, version E
->> >>
->> >> For future reference, here's a brief summary of the documentation:
->> >>
->> >>   - All caches employ the 64-byte cache line length
->> >>   - Each Cortex-A53 core has 32 KB of L1 2-way, set-associative
->> >> instruction
->> >>     cache and 32 KB of L1 4-way, set-associative data cache
->> >>   - The entire SoC has 512 KB of unified L2 16-way, set-associative
->> >> cache
->> >>
->> >> Signed-off-by: Dragan Simic <dsimic@manjaro.org>
->> >
->> > I can confirm that the data below matches the manuals, but also the
->> > decoding of the architectural cache type registers (CCSIDR_EL1):
->> >   L1D: 32 KB: 128 sets, 4 way associative, 64 bytes/line
->> >   L1I: 32 KB: 256 sets, 2 way associative, 64 bytes/line
->> >   L2: 512 KB: 512 sets, 16 way associative, 64 bytes/line
->> 
->> Thank you very much for reviewing my patch in such a detailed way!
->> It's good to know that the values in the Allwinner datasheets match
->> with the observed reality, so to speak. :)
-> 
-> YW, and yes, I like to double check things when it comes to Allwinner
-> documentation ;-) And it was comparably easy for this problem.
+        timeout = wait_for_completion_timeout(...)
+        if (!timeout) return -ETIMEDOUT;
 
-Double checking is always good, IMHO. :)
+with all kinds of permutations. Use 'time_left' as a variable to make the code
+obvious and self explaining.
 
-> Out of curiosity: what triggered that patch? Trying to get rid of false
-> warning/error messages?
+This is part of a tree-wide series. The rest of the patches can be found here
+(some parts may still be WIP):
 
-Yes, one of the motivators was to get rid of the false kernel warning,
-and the other was to have the cache information nicely available through
-lscpu(1).  I already did the same for a few Rockchip SoCs, [1][2][3] so
-a couple of Allwinner SoCs were the next on my mental TODO list. :)
+git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/time_left
 
-> And do you plan to address the H616 as well? It's a bit more tricky 
-> there,
-> since there are two die revisions out: one with 256(?)KB of L2, one 
-> with
-> 1MB(!). We know how to tell them apart, so I could provide some TF-A 
-> code
-> to patch that up in the DT. The kernel DT copy could go with 256KB 
-> then.
+Because these patches are generated, I audit them before sending. This is why I
+will send series step by step. Build bot is happy with these patches, though.
+No functional changes intended.
 
-I have no boards based on the Allwinner H616, so it wasn't on my radar.
-Though, I'd be happy to prepare and submit a similar kernel patch for
-the H616, if you'd then take it further and submit a TF-A patch that
-fixes the DT according to the detected die revision?  Did I understand
-the plan right?
+Changes since v1:
+* tags added (thanks!)
+* white space issue in sun6i driver fixed
+* add maintainers to coverletter
 
-[1] 
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=67a6a98575974416834c2294853b3814376a7ce7
-[2] 
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=8612169a05c5e979af033868b7a9b177e0f9fcdf
-[3] 
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=b72633ba5cfa932405832de25d0f0a11716903b4
+Wolfram Sang (8):
+  spi: armada-3700: use 'time_left' variable with
+    wait_for_completion_timeout()
+  spi: fsl-lpspi: use 'time_left' variable with
+    wait_for_completion_timeout()
+  spi: imx: use 'time_left' variable with wait_for_completion_timeout()
+  spi: pic32-sqi: use 'time_left' variable with
+    wait_for_completion_timeout()
+  spi: pic32: use 'time_left' variable with
+    wait_for_completion_timeout()
+  spi: sun4i: use 'time_left' variable with
+    wait_for_completion_timeout()
+  spi: sun6i: use 'time_left' variable with
+    wait_for_completion_timeout()
+  spi: xlp: use 'time_left' variable with wait_for_completion_timeout()
+
+ drivers/spi/spi-armada-3700.c |  8 ++++----
+ drivers/spi/spi-fsl-lpspi.c   | 14 +++++++-------
+ drivers/spi/spi-imx.c         | 20 ++++++++++----------
+ drivers/spi/spi-pic32-sqi.c   |  6 +++---
+ drivers/spi/spi-pic32.c       |  6 +++---
+ drivers/spi/spi-sun4i.c       |  9 +++++----
+ drivers/spi/spi-sun6i.c       | 17 +++++++++--------
+ drivers/spi/spi-xlp.c         |  8 ++++----
+ 8 files changed, 45 insertions(+), 43 deletions(-)
+
+-- 
+2.43.0
+
