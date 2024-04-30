@@ -1,60 +1,60 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31AF4178CE2
-	for <linux-sunxi@lists.linux.dev>; Tue, 30 Apr 2024 14:02:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C87861BED62
+	for <linux-sunxi@lists.linux.dev>; Tue, 30 Apr 2024 14:02:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714485767; cv=none; b=CcD2N+ML0QOkFGOdvid3f3B539l4xZ0REX06/0AHNHnMPk6Fvw5hU4u4zYOxvDK5jnFcyyi+mVEu5cf8u588iPWwjA+Fq6+kFOlcC44P5Sqtwumxdah3VqPWfdfvkjfclnN/wIQcrDbAvN7wlEIo70LZSpdG0ZSiFPxkKhEe1KY=
+	t=1714485770; cv=none; b=BH1X3vcoBo5kmbwOeqnDVI6bIY5ZOxnHZxh6ZEomc2kKvMcp9RvVY7lqWzHDoIlx/lqmM0F/uQhFk2TKttBU8XLnjzDD8jHGlut4PweJffSOujyN587cxZ/QLlB5KYBvS4ZmSm4Hqv8LILjT6xvNbl3TWFoLxjHEGDs534xe2rY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714485767; c=relaxed/simple;
-	bh=WaTWh6A8XvKFs+19MMAHdgA+abbpsyoPq1iDSypgs+0=;
+	s=arc-20240116; t=1714485770; c=relaxed/simple;
+	bh=eDseprbctVXAhiZOvRsQsRjQ1srjlolDCUwu7Poiuqc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=lJYSH1RpM1sizuBEwhxGKFXmmoWOfyu7Bf4sGzZdgLmB4lX3nFQWhtq5V3nMrD3PRf8tEy8+0EeRiEAdLP/HJ+ypC9/b5cUSq8g6MGTYO4t6iCZGPwoyAIpi6Pd3MryGp7JgVaS1GunB98YqMzYglVeQckUN9kuvWFmQgVrMxYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qnE483vi; arc=none smtp.client-ip=209.85.218.47
+	 In-Reply-To:To:Cc; b=qu3yOzliOEsrkqzXUqTdJNxZtjlZFSjStCwjoQIz9fIb5I+qEAvhrWNPBrLfu9dOhnibmXrKRKRrMGbEqGpSqL+C8xTHUIkxsnObEsRrmwtkM3YxzhJQaK0D82r7jCACFMvL8sHg9ebwis87pIULsAoFzcdpMv6goKQnwS7WuPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dT6ft9JB; arc=none smtp.client-ip=209.85.208.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qnE483vi"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a58d0aea14cso536751666b.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 30 Apr 2024 07:02:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dT6ft9JB"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-56e78970853so11148407a12.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 30 Apr 2024 07:02:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1714485764; x=1715090564; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1714485767; x=1715090567; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=5Lk1lue097q/WOSyrBvWDsG60XQkpuZqlzoh3fFX8H4=;
-        b=qnE483viHUpigT75k9mrks8zIHLfCxjqZ6DP86hFi8ovmgtsHMhRn33YS16hpsq5jK
-         xJb9f3v9FDoTddi2gGvAp+0E2ee35WPW58SdAK5LzUBssD/8nuR+zPojbmpp0N6NEgu9
-         prEEPTbtDEDQ+6kJu+vqq/cyVfS0eMUHpoDwj4o/o6unRfRDd489Lif3OZBpeLcNS+PR
-         XPVhZMOKaYbsZg61HI2SVTa/fUBDEKdZCtVWjZcuKJ8OOtb89utpXpI5jHfE4pMeme5F
-         /1WvfqCaUKsEzJk/sicV5p3rlLIK5ogIK42vfdumaxqkM+fEHa9RFgcMK/KyHxYdLGKA
-         RhMg==
+        bh=sVmB3IwNsO++LEmxsGA1Of52OGeiLTZOoIEqlaO4Y6U=;
+        b=dT6ft9JBbj8/uIuL5Zw3h6mPteSSr6cUnOu4ipewWRjMEW4E3wAR5CGjm2jTUQTMoD
+         uzeQp6dDBCY7DiLqkLZK1i58puVEblnkhOFv85HVjZ35YXzd5P5SrrH7fufaP+lqb5E9
+         hCIrRloDD+bV/kMnquCpsnyEiMgC/2/VqoEK3GY8VbnJnik7Oym+N8PN4+bqc+Ub29Id
+         FnEISDerPngUdivs1MXuDBuyEnTw8WUgj4kQKj0ABO2NH986A9I4pJQQGp2T1Sk6dmrd
+         5mhezM3VgfX2oIMbVoRtQhKihQXC8FQMK7ms+q2OGVxVvNLnHKGsacOzYReSt7ldYx+B
+         NOqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714485764; x=1715090564;
+        d=1e100.net; s=20230601; t=1714485767; x=1715090567;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=5Lk1lue097q/WOSyrBvWDsG60XQkpuZqlzoh3fFX8H4=;
-        b=UX3DWhohT0cfS7Dev/vNFx47pBIikbbBa5HASB2M4Q/VAROI21QHGrOXTechUK7zCh
-         1Wq2PuMyxsJzWeohUc38iKtQD3Jc9/AxisYjq3CdC+DG0Ln/DzWhalJ2rtL7oULMC6D5
-         R7kMDLIAfpmwqxHMRqzI5oI3B/WnSmZIrVi09FcOk8FR2O0u1ofuxwf8qz4SNbi5lLOQ
-         ceXkqFUXqeGUTpi4eE4DHBZcevD2/hOOH5LmPKmD/Qc+nmx9ZXnznaiu1S4fRIXP99fG
-         7RGogWvJDAOR0oxJa1msikCv4qdgSYU0GRHXaNmgIstKXnb3v4m/4Rsj3zhdaQgfzLru
-         vcLQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX+cEztjeNcy4edbkN6ObqkhierVSSIp4RQ9J1s4cV7X/sPZNNEpAl9fMQrJiQ50+y2B+SHNgkCv2T4P+Lib7k6wDJcNn/fTYH4RSs=
-X-Gm-Message-State: AOJu0YyDw5V80QEYj67DlXtk0qfSF0iWD7j44oS9ZtDI2V4E8Kh7iX4z
-	8U6b7bMDJJ++/D6doMqQ6lBjNmeODas1lBCdZ001SPq03GSDOt6w+8rz/g+B504=
-X-Google-Smtp-Source: AGHT+IEe6L8iR4uGhiIxTqGIW4asn+4q9EAd3lfdb1piiCjrm73a/9Wg4NOc67T8NvbSyWss22Ri9g==
-X-Received: by 2002:a17:906:ff42:b0:a55:b345:63ec with SMTP id zo2-20020a170906ff4200b00a55b34563ecmr2134852ejb.15.1714485764472;
-        Tue, 30 Apr 2024 07:02:44 -0700 (PDT)
+        bh=sVmB3IwNsO++LEmxsGA1Of52OGeiLTZOoIEqlaO4Y6U=;
+        b=v3etmIOF9i6L4QjPxJHcIafoN9ycmfk0KMtVW2gLwcW5ym5Zzecpctf8ezXbe27Qth
+         BC+SMikJ+I2N9AaLxZSqbB33Ok+HEkVrmJuF/KQ9+1r3UjOVp78E0fLxzNrKCoNwy/tn
+         dPy4ivTj7BJznW5Cz6N+D88OUVJTsAtYhLNniITqnRKrd3gP6ofDgmo4tM1rXBIEwgfX
+         RslZNos+XmZqgcKLD/YejanPZGT81L1pW0FspykcWrTr8vGIKWacSbT+XLqjU5siesk2
+         2G4DklUrXrUWLTKQFx3wh4GIqFOQoOcsqPe3I3BD3fzPBaP3GyeGCnvIvrK2aYMIxbMr
+         ke/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUvrn1+N1zApeL4FiD09Ov7WZcu21CgTnvY9biU6pWo6ANIL5EANlESINdLTWGcSuH9qBeqOku5CjWAsB9yPpjkkcqx4uMADEovBzw=
+X-Gm-Message-State: AOJu0YxLR4jbHEcbti0ZWDERPxwgTfeDvm3ItY5a00mJrGv4fOFmzGkF
+	l1B/P+jRS34gqe4ufzUB4HEXyzEz7G6cqEheelnZvddHEU1KqkN0aK2BYCTMbO0=
+X-Google-Smtp-Source: AGHT+IFp03X1JFPDrIujOHhWiOUjRy/996U+B0l6yK76tZHW13kgA6dvKPQweqrNY0l31/l3LaTzjw==
+X-Received: by 2002:a17:906:3ac3:b0:a58:ebdd:8aa4 with SMTP id z3-20020a1709063ac300b00a58ebdd8aa4mr2360562ejd.20.1714485766998;
+        Tue, 30 Apr 2024 07:02:46 -0700 (PDT)
 Received: from [127.0.1.1] ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id pv27-20020a170907209b00b00a5940af3f67sm31434ejb.16.2024.04.30.07.02.42
+        by smtp.gmail.com with ESMTPSA id pv27-20020a170907209b00b00a5940af3f67sm31434ejb.16.2024.04.30.07.02.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Apr 2024 07:02:43 -0700 (PDT)
+        Tue, 30 Apr 2024 07:02:46 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Tue, 30 Apr 2024 16:02:12 +0200
-Subject: [PATCH 03/13] ASoC: ti: Use snd_soc_substream_to_rtd() for
+Date: Tue, 30 Apr 2024 16:02:13 +0200
+Subject: [PATCH 04/13] ASoC: arm: Use snd_soc_substream_to_rtd() for
  accessing private_data
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -64,7 +64,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240430-asoc-snd-substream-clean-v1-3-6f8a8902b479@linaro.org>
+Message-Id: <20240430-asoc-snd-substream-clean-v1-4-6f8a8902b479@linaro.org>
 References: <20240430-asoc-snd-substream-clean-v1-0-6f8a8902b479@linaro.org>
 In-Reply-To: <20240430-asoc-snd-substream-clean-v1-0-6f8a8902b479@linaro.org>
 To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
@@ -98,21 +98,21 @@ Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
  linux-sunxi@lists.linux.dev, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=704;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1205;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=WaTWh6A8XvKFs+19MMAHdgA+abbpsyoPq1iDSypgs+0=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmMPnvj78Se5sQ1IGtmZPj3Apt3l8lrraNbdATP
- 5UZknZzzu2JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZjD57wAKCRDBN2bmhouD
- 1/rKEACNiDDDmi+VKdGySua5uR69g1WVV9N9njkaGa6BQYvqocDTXh2A5T950fbqbmHniXfNShS
- JZsCqqwu5KxhFaDGF7+cJT9d8h+f+7+N7XdkXJiLCDqED/vhEdXSK+RJxvjyb2UGCtkF2vXvq3I
- qq11t/wIu9DJwANQ/5NqaRpQUsdJGIYQrngiCXGTVr86HT4kWz6cB50Fq2Rc1Nwer1MNbFgNXPD
- EjdcTuqvqRJxRoo0qJQ1uv5PK8ANQ1WI38IhHUgC9cSPyb8BjmRNwBk/6M8bqGZXxd2GI3h0DzD
- 8V7Ep+O/4i5WkC/o/RdS0k/Jvzkfl794WdVSrh5ko0yoTWBfgLKB0pDzT5Td5wsGDLH4nLzQX/V
- 5FUZJy3lvXFB5nrv9g3mS+E8KOagd4bqA8hkkVqkp5amB7IyjqR87us8YZTtD99ZhtHJ8VBMkd+
- fbJwxHjx4G4Tlbdh0zvD3QybwWSvS6+wPWtlX37WjHLAiWt8YIsZU7wDGSPZJGubhB71ork6bJk
- ATYI7HLcuqJT/iIWO4n1K+oIgsMbXTSo/c+WM1q9Tc22MWyviROO784jazEoZ1HWS2txtvOqMzf
- OBzZt/XtPghj+yRRLI6/+9SDQsMxuhH//frbs22BShcGa8gdvXz3dj2VkoB0xwDtpQ8OPZ7XHdl
- o8rt6UoEwW2rmsw==
+ bh=eDseprbctVXAhiZOvRsQsRjQ1srjlolDCUwu7Poiuqc=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmMPnwqTKqjOWhyghuqcWCQALMCLVh7T8zMCEGN
+ dvM+Z0GdNKJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZjD58AAKCRDBN2bmhouD
+ 18RiD/4qLIFwqpuprQ1tMuUxq4zKnCWe3121KK341e3C6K9aJyN/BTLnFTKGCeHCS8O34sFL66W
+ T7sO0tVkpzvEVFOfhdAxTxVSNxk8b8r6nlylo9rzqkM9QzU1SQsGJxog0QKojxAO0I6sntjpOI1
+ C4eLl6KKsV1j1hvxU76kJP6e32eMeIdiZaAxMmQsQSK0v013+TK6DZ0Pzoka7GW21s3JFCovROF
+ vXxmHvtZZeMHmbCCg5y/XZBWunSMfsNrjjgO+mIu7XV7gkK7P9MQYjLZJqqQZ+vhoD2Qg9UAnk7
+ OQE9DLavtk9A5wwayHHudVq/E4K3OsGqYV+1R5o5G1+IXBsr5pk5VcYEwd60z1VKxXXSO/b83Yc
+ ENbgYWPE1yLUGcTgo4uG5za0uVWxDFi/b7wDRbmmROHuH09+9ryGv2cvKPGHQDn8f6u5L/cH8NS
+ Ks+CcsLhi9wVjDnpMDTWNA/8OLpqgOgk1oqEI3Ef0cIjYKbQDoqPj8qg/30LXXJWsi3ixd/UGXX
+ LNNqCHmIDRExk6Qjid/ky+fQP2yP3ITflnWYCAlkkGB6jsfhk/qkiIbv4uytjIVSSs+x9OJUdPk
+ 73ZmPvgfk/AnUFwJpDnK2XdUlBKSk6Z3H5g0na7JWMYATpXKrxMAJjcyW1bMqbdfGqkv8gNWzrz
+ mSfEosfDuUmcoLg==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
@@ -120,22 +120,31 @@ Do not open-code snd_soc_substream_to_rtd().
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- sound/soc/ti/omap-hdmi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/arm/pxa2xx-pcm-lib.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/ti/omap-hdmi.c b/sound/soc/ti/omap-hdmi.c
-index 4513b527ab97..639bc83f4263 100644
---- a/sound/soc/ti/omap-hdmi.c
-+++ b/sound/soc/ti/omap-hdmi.c
-@@ -40,7 +40,7 @@ struct hdmi_audio_data {
- static
- struct hdmi_audio_data *card_drvdata_substream(struct snd_pcm_substream *ss)
+diff --git a/sound/arm/pxa2xx-pcm-lib.c b/sound/arm/pxa2xx-pcm-lib.c
+index 51d2ff80df16..571e9d909cdf 100644
+--- a/sound/arm/pxa2xx-pcm-lib.c
++++ b/sound/arm/pxa2xx-pcm-lib.c
+@@ -33,7 +33,7 @@ int pxa2xx_pcm_hw_params(struct snd_pcm_substream *substream,
+ 			 struct snd_pcm_hw_params *params)
  {
--	struct snd_soc_pcm_runtime *rtd = ss->private_data;
-+	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(ss);
+ 	struct dma_chan *chan = snd_dmaengine_pcm_get_chan(substream);
+-	struct snd_soc_pcm_runtime *rtd = substream->private_data;
++	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+ 	struct snd_dmaengine_dai_dma_data *dma_params;
+ 	struct dma_slave_config config;
+ 	int ret;
+@@ -79,7 +79,7 @@ EXPORT_SYMBOL(pxa2xx_pcm_prepare);
  
- 	return snd_soc_card_get_drvdata(rtd->card);
- }
+ int pxa2xx_pcm_open(struct snd_pcm_substream *substream)
+ {
+-	struct snd_soc_pcm_runtime *rtd = substream->private_data;
++	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+ 	struct snd_pcm_runtime *runtime = substream->runtime;
+ 	struct snd_dmaengine_dai_dma_data *dma_params;
+ 	int ret;
 
 -- 
 2.43.0
