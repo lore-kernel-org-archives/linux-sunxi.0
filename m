@@ -1,125 +1,187 @@
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A82F1411E1
-	for <linux-sunxi@lists.linux.dev>; Tue, 30 Apr 2024 11:41:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 323AB175579
+	for <linux-sunxi@lists.linux.dev>; Tue, 30 Apr 2024 14:02:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714477319; cv=none; b=F9BSy7L70a+hjG7ywWHY9k1OXptt6DDIxMvdCDFKSyKssAV8BM7Tnf42qCZA9Haho4vEAszqTkSss2zVHVjreqRp3GP5K7NGPWtLGhyQkEL6tmLCiRGRWiyimuI1ONzN913/68oqWVwcvKK5Mpj5L4zLEQPM/nInt+aHwMeGXCY=
+	t=1714485760; cv=none; b=GkhxXnjzksxEbpA9ipzmZ9YLnQD88F8e6vOJjYMWhAx5rQgUx+twVu8IYT9NBIryNGFGmhmErvo4EunpZvXDHh25DBLIFIipokmwBimyRM0ptURjt1myLoA09X0covOxmL0oKprvcqFP4PuBDkKK7ouF4D072NARujoPq5ByD90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714477319; c=relaxed/simple;
-	bh=hcbx56Y5k3mfmOycKnABdCI4HKZUNrDJD2fERcGh1U0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RJGj7veFQBCLJY5juyeFFrJn/gzmHrWwTkmnmtyYekmtGEUh1Z1Rjk1hKPh3cvfuAfr0AeusCJE1gINWCWr33iHU9WEP/opLJcMjoIFNswAum9p9qfQepHuOjwR3V7l3RVKTktGMoRpUE47N/kT3NqjI8Rr2UCgDAMkUiUBR8Fk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=agg2mMQU; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	s=arc-20240116; t=1714485760; c=relaxed/simple;
+	bh=nmVD9KKu0onQCo4+scSWvtThsneJsuva2ZwAC2itQ+Q=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=HSi5U6OevATeHilpNQHhcPRE+nuMTJ3bnXPGE53+jqcmuYF3uEF96yhs2hR4PMqR2SQTCes6OHYj6rSlK4RSPWse9S302ZALjHkYjusbVjLkSS0Fbeq96nZEMLWtc7eW0jEkESEAULs9zQV0JBkqe+2I9hb3g1IFBpz3I8mhDDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=V8bBXzfH; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="agg2mMQU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=LfhC74UTazCJF1AHQxec+FPBKj436LgBlykgn19Hkp8=; b=agg2mM
-	QUq/qw/CPUMg3MUlGvabUhtC3Av3vJWr05yK4cm/qZbclwHuATMGEV444n04qDeM
-	htXBcmEfA0ayOffXkVHPpBPKqP6O0aEL8e34tJ+EXgYgWmUbF7D0J+hpDA1FN5PW
-	1XUO22VdoP7TI+cG/fJGnIV0WQz5McR7UCUL4BL+KebYBpmcfzcDqs+UW1FqbiNC
-	Xocud5Lobpl4xnSyIHwgGqodQo5T4ctEUpIdFVC7RDF1/pxDO/Q+ZW22o2tX+981
-	UURil3X0J5nEZRrmiLdBKEtjaSid9F6yh8EvVNU1GdUwUxhXnJBITijIKtG33Gt3
-	opmfO5UsXuEV2nEg==
-Received: (qmail 2617931 invoked from network); 30 Apr 2024 13:41:49 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 30 Apr 2024 13:41:49 +0200
-X-UD-Smtp-Session: l3s3148p1@WnT/2k4X4Ohehhrb
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-spi@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Mark Brown <broonie@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 7/8] spi: sun6i: use 'time_left' variable with wait_for_completion_timeout()
-Date: Tue, 30 Apr 2024 13:41:39 +0200
-Message-ID: <20240430114142.28551-8-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240430114142.28551-1-wsa+renesas@sang-engineering.com>
-References: <20240430114142.28551-1-wsa+renesas@sang-engineering.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="V8bBXzfH"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-51abd9fcbf6so9617011e87.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 30 Apr 2024 07:02:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1714485756; x=1715090556; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7ziKPpXLYR2zn3+NU5Pk66H9ism9mr6GLdkSFbxKAZ4=;
+        b=V8bBXzfHDX9pL1KyEezB0I473CEyrVu9KfKU+Qfe14IH4DwZPUS1sq3TcSLMti5S0R
+         jT2OaCGqfdOcCgtZHJMv6bPvt3N1aWtTk3RvYZKvvy2YpjUAjKhwTgnKFPrKO+aJaLE+
+         fronnNugIt9P8vyjb1p8lmeYSUE1A4UtbI7v2edtZKax4RDRkyJKrSjbIWzaXVTz41yd
+         ZQEnKIlXbFWeQZfydRC8m2ryG5p3eR0jAzWcXs1VS/g+Sl77cpTWmT1izKpNL4tfUNeK
+         /fqwohWS4faDkdoR71zDkvoYDniqW7pSSunQN7XDQX4XXppgsUZVmeYlnQv/4qqwBocA
+         +/tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714485756; x=1715090556;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7ziKPpXLYR2zn3+NU5Pk66H9ism9mr6GLdkSFbxKAZ4=;
+        b=HKtOUFUPivyXGoJKLOK8s6zBydo6Q49cIQvY1twp3DjdPNlueY6Q1yqEyTwtsew5ce
+         lzFqK/RSiPhbeq0VQ8h26BbmpKD2mVHsWPtB/0jmp8mPjppyDnGNynsrg3O3mATsARRI
+         jZDNAfvumz6VRnL7JBnoUjkQ6oaenS93+biYRR9/0mN/AJxPWKBS07dszYBRpxB5rEmf
+         TbgfOcdE8d/CYj2PQwU1kVYTOTPNvKLwpxQlerixDiFKXQyi5q9Lfnz3uTOScuCxRWDV
+         AQswz5RjqBACTD5TGplLStHj5kGwgJCrMLx7PMgbN4HacxloSyP2iXqavGfrlWWeb1XS
+         4hkg==
+X-Forwarded-Encrypted: i=1; AJvYcCVi60uCIXjErH3bmO7x+8FgmvmvvE25ut9lGNwaZ9F3gHSn+Gyuw0eKqvvt5MRGYThqn+lWmRp1PhEF6tUlQmlZNTlbPvG/FveKOz8=
+X-Gm-Message-State: AOJu0YyS7FpW2uzxuZbtyHO4g3Qq7bGP7pbUpj2RW1Fpo8hrSGIQy3cA
+	xBLW4Yk8nHF2J/IRnoZgd46OZLGw2FxKLWEi5eETEKYat2SbgYREBLav6i354js=
+X-Google-Smtp-Source: AGHT+IFxX6RMrPFkE+iKjGFWGX6uNErIhwrc6ioCbIidZRB0tmw4GxAmrC5NZWl96iLeoUrVLfRGvw==
+X-Received: by 2002:ac2:47f0:0:b0:51d:70d9:f844 with SMTP id b16-20020ac247f0000000b0051d70d9f844mr5882908lfp.22.1714485756019;
+        Tue, 30 Apr 2024 07:02:36 -0700 (PDT)
+Received: from [127.0.1.1] ([178.197.223.16])
+        by smtp.gmail.com with ESMTPSA id pv27-20020a170907209b00b00a5940af3f67sm31434ejb.16.2024.04.30.07.02.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Apr 2024 07:02:35 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 00/13] ASoC: Use snd_soc_substream_to_rtd() for accessing
+ private_data
+Date: Tue, 30 Apr 2024 16:02:09 +0200
+Message-Id: <20240430-asoc-snd-substream-clean-v1-0-6f8a8902b479@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOL5MGYC/x3MTQrCMBBA4auUWTuQxEhqryIu8jPRgZqUTBWh5
+ O4Gl9/ivQOEGpPAMh3Q6MPCtQzo0wTx6cuDkNMwGGWssmeFXmpEKQnlHWRv5F8YV/IFr8YGp12
+ a88XCyLdGmb//9e3e+w9CANGvagAAAA==
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Peter Ujfalusi <peter.ujfalusi@gmail.com>, 
+ Jarkko Nikula <jarkko.nikula@bitmer.com>, Daniel Mack <daniel@zonque.org>, 
+ Haojian Zhuang <haojian.zhuang@gmail.com>, 
+ Robert Jarzmik <robert.jarzmik@free.fr>, 
+ Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
+ Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Jerome Brunet <jbrunet@baylibre.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Kevin Hilman <khilman@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, 
+ Ban Tao <fengzheng923@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org, 
+ linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linuxppc-dev@lists.ozlabs.org, imx@lists.linux.dev, 
+ linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3547;
+ i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
+ bh=nmVD9KKu0onQCo4+scSWvtThsneJsuva2ZwAC2itQ+Q=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmMPnp5GgNlhBx+/I3aG9tNIg/czLIulpjsgqB+
+ gIo9+t++USJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZjD56QAKCRDBN2bmhouD
+ 1/7LEACEfk8kijEA2LTMQcsqwb/zKSF+KUnI8xKuCriVzrabC5ANnLec53cOfXlJiZr0ORRQZu1
+ 470KfeDgCK0rPa+5rmHArn0RjNORLJGv3UY9o33TRjgnRKnhemsjjVBOY2q2aSGa12PGCdgZZ2W
+ 9lYT6gbghyhPF8NwejTYWU67cXXHzw57qZrigi06wTI2UMEzGCAPqjVhM2lDMHiEyCTYsFh5fZC
+ rR2QeMZ5pK1z03KZd5SaMByAHa4DJKQOESKs+zVprbQfv5lzpQpn0EVjmxu4IuLRoQxBzfNJhPt
+ 36FgoerUfQRcpNoGC21+oBlav8jvX4KPs07WDOuNAmbmOtgXCpWnMgFcFwHmF3waXKQHwzOjK+/
+ 2KrHGzOUV9Xbz/fFxxDvcrJ9KdrqfbWpHM0xl7iwulLPWb1KsQr+/NFKNg6MfijGBKz4sC0Zqt8
+ vQP4on/GzYRbye0DENyAmvUZGrWaBcF6ARh875j/Wtbgf4akwjlz1IziblIY+5XW/H1pl10EmuK
+ rZVUZawHpK9VaDDe13ybwYLFC6jLwchoLTS52Pq2adjWzHJ+DAX0kMA60ACfugVQyPnugr0zBEz
+ B7kqe01ESwCaFe3059W+GzYuXFpqQpOOJOqIoNfu7R23l0QqyopaR9hd/2Y62EwfsI/mkovGRET
+ HqyQWjcO1YItmKQ==
+X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
+ fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
-There is a confusing pattern in the kernel to use a variable named 'timeout' to
-store the result of wait_for_completion_timeout() causing patterns like:
+Hi,
 
-	timeout = wait_for_completion_timeout(...)
-	if (!timeout) return -ETIMEDOUT;
+Do not open-code snd_soc_substream_to_rtd() when accessing
+snd_pcm_substream->private_data.  This makes code more consistent with
+rest of ASoC and allows in the future to move the field to any other
+place or add additional checks in snd_soc_substream_to_rtd().
 
-with all kinds of permutations. Use 'time_left' as a variable to make the code
-self explaining.
+Best regards,
+Krzysztof
 
-Fix to the proper variable type 'unsigned long' while here.
-
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 ---
- drivers/spi/spi-sun6i.c | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+Krzysztof Kozlowski (13):
+      ASoC: qcom: Use snd_soc_substream_to_rtd() for accessing private_data
+      ASoC: tegra: Use snd_soc_substream_to_rtd() for accessing private_data
+      ASoC: ti: Use snd_soc_substream_to_rtd() for accessing private_data
+      ASoC: arm: Use snd_soc_substream_to_rtd() for accessing private_data
+      ASoC: amd: Use snd_soc_substream_to_rtd() for accessing private_data
+      ASoC: fsl: Use snd_soc_substream_to_rtd() for accessing private_data
+      ASoC: img: Use snd_soc_substream_to_rtd() for accessing private_data
+      ASoC: kirkwood: Use snd_soc_substream_to_rtd() for accessing private_data
+      ASoC: loongson: Use snd_soc_substream_to_rtd() for accessing private_data
+      ASoC: mediatek: Use snd_soc_substream_to_rtd() for accessing private_data
+      ASoC: meson: Use snd_soc_substream_to_rtd() for accessing private_data
+      ASoC: samsung: Use snd_soc_substream_to_rtd() for accessing private_data
+      ASoC: sunxi: Use snd_soc_substream_to_rtd() for accessing private_data
 
-diff --git a/drivers/spi/spi-sun6i.c b/drivers/spi/spi-sun6i.c
-index cd018ea1abf1..5c26bf056293 100644
---- a/drivers/spi/spi-sun6i.c
-+++ b/drivers/spi/spi-sun6i.c
-@@ -277,7 +277,8 @@ static int sun6i_spi_transfer_one(struct spi_controller *host,
- 				  struct spi_transfer *tfr)
- {
- 	struct sun6i_spi *sspi = spi_controller_get_devdata(host);
--	unsigned int div, div_cdr1, div_cdr2, timeout;
-+	unsigned int div, div_cdr1, div_cdr2;
-+	unsigned long time_left;
- 	unsigned int start, end, tx_time;
- 	unsigned int trig_level;
- 	unsigned int tx_len = 0, rx_len = 0, nbits = 0;
-@@ -488,26 +489,26 @@ static int sun6i_spi_transfer_one(struct spi_controller *host,
- 
- 	tx_time = spi_controller_xfer_timeout(host, tfr);
- 	start = jiffies;
--	timeout = wait_for_completion_timeout(&sspi->done,
--					      msecs_to_jiffies(tx_time));
-+	time_left = wait_for_completion_timeout(&sspi->done,
-+						msecs_to_jiffies(tx_time));
- 
- 	if (!use_dma) {
- 		sun6i_spi_drain_fifo(sspi);
- 	} else {
--		if (timeout && rx_len) {
-+		if (time_left && rx_len) {
- 			/*
- 			 * Even though RX on the peripheral side has finished
- 			 * RX DMA might still be in flight
- 			 */
--			timeout = wait_for_completion_timeout(&sspi->dma_rx_done,
--							      timeout);
--			if (!timeout)
-+			time_left = wait_for_completion_timeout(&sspi->dma_rx_done,
-+								time_left);
-+			if (!time_left)
- 				dev_warn(&host->dev, "RX DMA timeout\n");
- 		}
- 	}
- 
- 	end = jiffies;
--	if (!timeout) {
-+	if (!time_left) {
- 		dev_warn(&host->dev,
- 			 "%s: timeout transferring %u bytes@%iHz for %i(%i)ms",
- 			 dev_name(&spi->dev), tfr->len, tfr->speed_hz,
+ sound/arm/pxa2xx-pcm-lib.c                 |  4 ++--
+ sound/soc/amd/acp/acp-mach-common.c        |  2 +-
+ sound/soc/amd/acp3x-rt5682-max9836.c       |  2 +-
+ sound/soc/amd/ps/ps-sdw-dma.c              |  2 +-
+ sound/soc/fsl/fsl-asoc-card.c              |  2 +-
+ sound/soc/fsl/imx-card.c                   |  6 +++---
+ sound/soc/fsl/imx-hdmi.c                   |  2 +-
+ sound/soc/fsl/imx-pcm-rpmsg.c              |  6 +++---
+ sound/soc/img/img-i2s-in.c                 |  2 +-
+ sound/soc/img/img-i2s-out.c                |  2 +-
+ sound/soc/kirkwood/kirkwood-dma.c          |  2 +-
+ sound/soc/loongson/loongson_card.c         |  2 +-
+ sound/soc/loongson/loongson_dma.c          |  2 +-
+ sound/soc/mediatek/mt7986/mt7986-afe-pcm.c |  4 ++--
+ sound/soc/mediatek/mt8186/mt8186-afe-pcm.c | 14 +++++++-------
+ sound/soc/mediatek/mt8186/mt8186-mt6366.c  |  2 +-
+ sound/soc/mediatek/mt8188/mt8188-afe-pcm.c |  8 ++++----
+ sound/soc/mediatek/mt8188/mt8188-mt6359.c  |  6 +++---
+ sound/soc/mediatek/mt8195/mt8195-afe-pcm.c | 10 +++++-----
+ sound/soc/mediatek/mt8195/mt8195-mt6359.c  |  4 ++--
+ sound/soc/meson/aiu-fifo.c                 |  2 +-
+ sound/soc/meson/axg-fifo.c                 |  2 +-
+ sound/soc/qcom/apq8016_sbc.c               |  4 ++--
+ sound/soc/qcom/qdsp6/q6apm-dai.c           |  2 +-
+ sound/soc/qcom/sc7180.c                    | 10 +++++-----
+ sound/soc/qcom/sc7280.c                    | 12 ++++++------
+ sound/soc/qcom/sc8280xp.c                  |  8 ++++----
+ sound/soc/qcom/sdw.c                       |  8 ++++----
+ sound/soc/qcom/sm8250.c                    | 10 +++++-----
+ sound/soc/qcom/x1e80100.c                  |  8 ++++----
+ sound/soc/samsung/midas_wm1811.c           |  2 +-
+ sound/soc/sunxi/sun50i-dmic.c              |  2 +-
+ sound/soc/tegra/tegra_asoc_machine.c       |  2 +-
+ sound/soc/tegra/tegra_pcm.c                |  6 +++---
+ sound/soc/ti/omap-hdmi.c                   |  2 +-
+ 35 files changed, 82 insertions(+), 82 deletions(-)
+---
+base-commit: 82415cf72c7e224be7a6496f3a53c0b365c2fe9d
+change-id: 20240430-asoc-snd-substream-clean-924b717d8f54
+
+Best regards,
 -- 
-2.43.0
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
