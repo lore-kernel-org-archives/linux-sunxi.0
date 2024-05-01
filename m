@@ -1,123 +1,157 @@
-Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B436495E5
-	for <linux-sunxi@lists.linux.dev>; Wed,  1 May 2024 05:43:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 612B550A93
+	for <linux-sunxi@lists.linux.dev>; Wed,  1 May 2024 09:31:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714542195; cv=none; b=pivgVxZlae85rQukD7XQvBFXFMjzt9RLhLdz7aQjQkSa+cP0lyG3Cut8iofnnXJ3U2dJQIDWAH4YfE0vFP31CeJjw8voNoL7M4x7yEfRjbkszD0IfsKWItL1elx+r1UE/hemdOfdKQLlux/VgXz/N4gCoiHY7ollNN2jdlH2sso=
+	t=1714555867; cv=none; b=rXK/KrNfvC329AkVsXCAQICVUR1DteaneUae9S2zEbDQltQCZrefQ73gMxkVLBOklm7OKKDk8GC1tFhABR/+lbBzOWsnZGYIU8/aN6LnZbLKtSnfM2jrFfxfOJWlpTww8jtuSqBx7YItDWimsrvvHH6lXt+BJTOMXBx6JU5nNHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714542195; c=relaxed/simple;
-	bh=26r+LT/6atmj9opecbx4FJ7PWFVD5JLfAoCCwRN2W1M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fMp3Tv+RSU9ihtffMrNL1Mts2+z8KXrMWl8+lLNCKxFN7ZXcOIU+aFgeOEcV9hQOjEXQ7xb8G1zbLhyOwmQu6idh91J6DV3Qzl/myIhIOxzaudOGwgnF+JTyCi+fDZvj9sAIKO+xOuKDFhv503kc/vEuxItH6gy3/hszPkO3scM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org; spf=none smtp.mailfrom=jookia.org; dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b=Y424BfbC; arc=none smtp.client-ip=91.218.175.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=jookia.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b="Y424BfbC"
-Date: Wed, 1 May 2024 15:42:44 +1000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
-	t=1714542190;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=I0JjuJfRwN3PxzuU5OJDvRQPhrTURiBh6iup5xIVpTE=;
-	b=Y424BfbCPAvaTiEHva+EjwrF+C76RSvznwiqdRgCuCqTxRnj4CPCMnZcgRxIj6IJHGoWfH
-	QDA+QESm21J7Owl6Nwa43JtUtBul3458OjK+OWjihWPXsis2nkQ35huVIS2GaA+EYM92bo
-	pSi6wkVCU6jXLeu40QYL6P5vfcGM/B1CzZr6tFHol2LsuCNthYca4DosTY7W8q/uO1Y0oB
-	dsdOKMr7KJobIGPIBnci+tvmJ2r7NGGYg0swk/u4gxbde7uajDO3S8ZtWd1PLIOYmAUHX5
-	AVpikoE3IjpRbzcw/aqXp5G6Ink/LHb/tylAKunqkzV7dKkd1tifPeDv+/rSGQ==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: John Watts <contact@jookia.org>
-To: Aleksandr Shubin <privatesub2@gmail.com>
-Cc: linux-kernel@vger.kernel.org,
-	Brandon Cheo Fusi <fusibrandon13@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	Maksim Kiselev <bigunclemax@gmail.com>, linux-pwm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v8 2/3] pwm: Add Allwinner's D1/T113-S3/R329 SoCs PWM
- support
-Message-ID: <ZjHWVEbzQ1udTcmQ@titan>
-References: <20240131125920.2879433-1-privatesub2@gmail.com>
- <20240131125920.2879433-3-privatesub2@gmail.com>
+	s=arc-20240116; t=1714555867; c=relaxed/simple;
+	bh=/WvfKNTqeV3Kh/V7Imy68oPA+fzwWDSPALr2nzaFSR4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QvMwewnaAfEkAvxCb/KE50AjEE1IkTiqYzTCyRcOu6YmjWjcCmVsyc+7DKByrGjOndyAMJHv8DQGKnXnvofka+VzcIY+7KBI0UfRTUMQfh/qj74XMCLW5X4qJ/J9c8LsjysWyVgDHECwB7aIjf4OdS95zV6Jo9TeEnnsSyrPnu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8D9AA2F4;
+	Wed,  1 May 2024 02:31:30 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E87563F793;
+	Wed,  1 May 2024 02:31:02 -0700 (PDT)
+Date: Wed, 1 May 2024 10:30:59 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Dragan Simic <dsimic@manjaro.org>
+Cc: linux-sunxi@lists.linux.dev, wens@csie.org, jernej.skrabec@gmail.com,
+ samuel@sholland.org, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] arm64: dts: allwinner: Add cache information to the SoC
+ dtsi for H6
+Message-ID: <20240501103059.10a8f7de@donnerap.manchester.arm.com>
+In-Reply-To: <f4f4163d908c95d2a3f6f48bc3d7de49@manjaro.org>
+References: <6a772756c2c677dbdaaab4a2c71a358d8e4b27e9.1714304058.git.dsimic@manjaro.org>
+	<49abb93000078c692c48c0a65ff677893909361a.1714304071.git.dsimic@manjaro.org>
+	<20240430001002.4797e4e3@minigeek.lan>
+	<6fdeb49d57ccccca62e4f43dbe9475e3@manjaro.org>
+	<20240430114627.0cfcd14a@donnerap.manchester.arm.com>
+	<f4f4163d908c95d2a3f6f48bc3d7de49@manjaro.org>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240131125920.2879433-3-privatesub2@gmail.com>
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On Tue, 30 Apr 2024 13:10:41 +0200
+Dragan Simic <dsimic@manjaro.org> wrote:
 
-On Wed, Jan 31, 2024 at 03:59:15PM +0300, Aleksandr Shubin wrote:
-> +	if (state->polarity != pwm->state.polarity ||
-> +	    state->duty_cycle != pwm->state.duty_cycle ||
-> +	    state->period != pwm->state.period) {
-> +		ctl = sun20i_pwm_readl(sun20i_chip, SUN20I_PWM_CTL(pwm->hwpwm));
-> +		clk_cfg = sun20i_pwm_readl(sun20i_chip, SUN20I_PWM_CLK_CFG(pwm->hwpwm));
-> +		hosc_rate = clk_get_rate(sun20i_chip->clk_hosc);
-> +		bus_rate = clk_get_rate(sun20i_chip->clk_apb0);
-> +		if (pwm_en & SUN20I_PWM_ENABLE_EN(pwm->hwpwm ^ 1)) {
-> +			/* if the neighbor channel is enable, check period only */
-> +			use_bus_clk = FIELD_GET(SUN20I_PWM_CLK_CFG_SRC, clk_cfg) != 0;
-> +			val = mul_u64_u64_div_u64(state->period,
-> +						  (use_bus_clk ? bus_rate : hosc_rate),
-> +						  NSEC_PER_SEC);
-> +
-> +			div_m = FIELD_GET(SUN20I_PWM_CLK_CFG_DIV_M, clk_cfg);
-> +		} else {
-> +			/* check period and select clock source */
-> +			use_bus_clk = false;
-> +			val = mul_u64_u64_div_u64(state->period, hosc_rate, NSEC_PER_SEC);
-> +			if (val <= 1) {
-> +				use_bus_clk = true;
-> +				val = mul_u64_u64_div_u64(state->period, bus_rate, NSEC_PER_SEC);
-> +				if (val <= 1) {
-> +					ret = -EINVAL;
-> +					goto unlock_mutex;
-> +				}
-> +			}
-> +			div_m = fls(DIV_ROUND_DOWN_ULL(val, SUN20I_PWM_MAGIC));
-> +			if (div_m > SUN20I_PWM_CLK_DIV_M_MAX) {
-> +				ret = -EINVAL;
-> +				goto unlock_mutex;
-> +			}
-> +
-> +			/* set up the CLK_DIV_M and clock CLK_SRC */
-> +			clk_cfg = FIELD_PREP(SUN20I_PWM_CLK_CFG_DIV_M, div_m);
-> +			clk_cfg |= FIELD_PREP(SUN20I_PWM_CLK_CFG_SRC, use_bus_clk);
-> +
-> +			sun20i_pwm_writel(sun20i_chip, clk_cfg, SUN20I_PWM_CLK_CFG(pwm->hwpwm));
-> +		}
-
-If I'm reading this correctly, for each PWM pair you set the clock once.
-Wouldn't this mean that the order of setting PWMs would affect the accuracy?
-It would be good to note this down perhaps?
-
-John.
-
-> -- 
-> 2.25.1
+> Hello Andre,
 > 
+> On 2024-04-30 12:46, Andre Przywara wrote:
+> > On Tue, 30 Apr 2024 02:01:42 +0200
+> > Dragan Simic <dsimic@manjaro.org> wrote:  
+> >> On 2024-04-30 01:10, Andre Przywara wrote:  
+> >> > On Sun, 28 Apr 2024 13:40:36 +0200
+> >> > Dragan Simic <dsimic@manjaro.org> wrote:
+> >> >  
+> >> >> Add missing cache information to the Allwinner H6 SoC dtsi, to allow
+> >> >> the userspace, which includes lscpu(1) that uses the virtual files
+> >> >> provided
+> >> >> by the kernel under the /sys/devices/system/cpu directory, to display
+> >> >> the
+> >> >> proper H6 cache information.
+> >> >>
+> >> >> Adding the cache information to the H6 SoC dtsi also makes the
+> >> >> following
+> >> >> warning message in the kernel log go away:
+> >> >>
+> >> >>   cacheinfo: Unable to detect cache hierarchy for CPU 0
+> >> >>
+> >> >> The cache parameters for the H6 dtsi were obtained and partially
+> >> >> derived
+> >> >> by hand from the cache size and layout specifications found in the
+> >> >> following
+> >> >> datasheets and technical reference manuals:
+> >> >>
+> >> >>   - Allwinner H6 V200 datasheet, version 1.1
+> >> >>   - ARM Cortex-A53 revision r0p3 TRM, version E
+> >> >>
+> >> >> For future reference, here's a brief summary of the documentation:
+> >> >>
+> >> >>   - All caches employ the 64-byte cache line length
+> >> >>   - Each Cortex-A53 core has 32 KB of L1 2-way, set-associative
+> >> >> instruction
+> >> >>     cache and 32 KB of L1 4-way, set-associative data cache
+> >> >>   - The entire SoC has 512 KB of unified L2 16-way, set-associative
+> >> >> cache
+> >> >>
+> >> >> Signed-off-by: Dragan Simic <dsimic@manjaro.org>  
+> >> >
+> >> > I can confirm that the data below matches the manuals, but also the
+> >> > decoding of the architectural cache type registers (CCSIDR_EL1):
+> >> >   L1D: 32 KB: 128 sets, 4 way associative, 64 bytes/line
+> >> >   L1I: 32 KB: 256 sets, 2 way associative, 64 bytes/line
+> >> >   L2: 512 KB: 512 sets, 16 way associative, 64 bytes/line  
+> >> 
+> >> Thank you very much for reviewing my patch in such a detailed way!
+> >> It's good to know that the values in the Allwinner datasheets match
+> >> with the observed reality, so to speak. :)  
+> > 
+> > YW, and yes, I like to double check things when it comes to Allwinner
+> > documentation ;-) And it was comparably easy for this problem.  
 > 
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+> Double checking is always good, IMHO. :)
+> 
+> > Out of curiosity: what triggered that patch? Trying to get rid of false
+> > warning/error messages?  
+> 
+> Yes, one of the motivators was to get rid of the false kernel warning,
+> and the other was to have the cache information nicely available through
+> lscpu(1).  I already did the same for a few Rockchip SoCs, [1][2][3] so
+> a couple of Allwinner SoCs were the next on my mental TODO list. :)
+
+Thanks for doing this!
+
+> > And do you plan to address the H616 as well? It's a bit more tricky 
+> > there,
+> > since there are two die revisions out: one with 256(?)KB of L2, one 
+> > with
+> > 1MB(!). We know how to tell them apart, so I could provide some TF-A 
+> > code
+> > to patch that up in the DT. The kernel DT copy could go with 256KB 
+> > then.  
+> 
+> I have no boards based on the Allwinner H616, so it wasn't on my radar.
+> Though, I'd be happy to prepare and submit a similar kernel patch for
+> the H616, if you'd then take it further and submit a TF-A patch that
+> fixes the DT according to the detected die revision?  Did I understand
+> the plan right?
+
+Yes, that was the idea. I have a working version of that TF-A patch now,
+just need to figure out some details about the best way to only build this
+for the H616 port.
+
+Neither the data sheet nor the user manual mention the cache sizes for the
+H616, but I checked the CSSIDR_EL1 register readouts on both an old H616
+and a new H618, and they confirm that the former has 256 KB L2, and the
+latter 1MB. Also I ran tinymembench on two boards to confirm this,
+community benchmarks results are available here:
+https://github.com/ThomasKaiser/sbc-bench/blob/master/Results.md
+The OrangePi Zero2 and OrangePi Zero3 are good examples, respectively.
+Associativity and cache line size are dictated by the Arm Cortex cores,
+and the L1I & L1D sizes are the same as in the other SoCs.
+
+Cheers,
+Andre
+
+> [1] 
+> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=67a6a98575974416834c2294853b3814376a7ce7
+> [2] 
+> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=8612169a05c5e979af033868b7a9b177e0f9fcdf
+> [3] 
+> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=b72633ba5cfa932405832de25d0f0a11716903b4
+
