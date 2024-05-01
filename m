@@ -1,57 +1,57 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A71817548
-	for <linux-sunxi@lists.linux.dev>; Wed,  1 May 2024 17:05:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99D03FBE8
+	for <linux-sunxi@lists.linux.dev>; Wed,  1 May 2024 17:06:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714583104; cv=none; b=NvIeK1W9QcoFDmae9KUejHRdOaiLqWFUxGkT9t1nwi5GXLczZhuyV/YSJb58RS1b/jwaJphziSBmdS4xtpBuwkfzNOK2h+rfyImJ+N1hhnODkiJYtQ3gDSAKZem7C+C3rU414v5qDLMnBkNJdfAN8wBmmo6Xh46XXYDnQagBofw=
+	t=1714583183; cv=none; b=jeIQ5Usxt9P6x2eWXD7yol5N8NfcBDXvjMlYuV+MzJBM5JOFmDh3hDiP+1Fs0Og+BPlqM5WveGxqtoQ0ecSOHvwMTrxZUnFAy8xuusdpPfI0qAGdDVVjAyWCF7PVdmaF1cc/1f7lK/qoUtkq+wUQmOqzC7sO6FfjVmsClBnXWUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714583104; c=relaxed/simple;
-	bh=+MZIPJ0cp2Hrp3rYs7+GS9g8KSXuc61Ijyz78JQ904Y=;
+	s=arc-20240116; t=1714583183; c=relaxed/simple;
+	bh=pqU7oYGJgnj9NuhHq21MW2iYlmXEJsCtkyhRbZQMx0c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K4Er9aqZfW334d5HFUq0uC+KhVRj0uwSs4JaIgEHJ3AEsHyKSrZk/ucQHPbbQLHtevCwxUF86ldgipEIu7lFBcRNp3vGY1+eOJK8skXU71P9WX0dMkZ1A8JbWGQmZQvlVv9aUqiuw9WtI8wKP7lZ/bZMeLZH6ImORV5Yqgkypw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=QIodr6M3; arc=none smtp.client-ip=209.85.214.179
+	 Content-Type:Content-Disposition:In-Reply-To; b=tLWMcl9XlAGqlAiIozOXQQzu9Dkym/KBOHR0SRYiXUIaIO6EoK3I2s5Dnx7P6TVMwA3QjPKJs/F0VFU25xT18zcKz0yK/FWv1OJoClyYW38JA6BPqO9Bkdmrn9xEC0tLWzkbO326kFbeUpLgSlF8KcYb5pHQh1rbpU326FqkHI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=fhO70KNh; arc=none smtp.client-ip=209.85.216.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="QIodr6M3"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1e51398cc4eso62273735ad.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 01 May 2024 10:05:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="fhO70KNh"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-2b273cbbdfdso1592313a91.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 01 May 2024 10:06:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1714583102; x=1715187902; darn=lists.linux.dev;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1714583182; x=1715187982; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ElGjJ6DhmRlqGsY+eiWz/anA6sw6bSbldqs1mMMSdXY=;
-        b=QIodr6M3noFWLVBnXB5ZnsLhOlkHfmUsvfi1mijzTfWbFreVQUok6tU1MUUqquF5qO
-         Duj5gaPV0ulw0gG9TdJOGqNzMDoZLB94M+WkX9EwUi66WYXgEV21hcfBXijgokpTPZKT
-         KOk/Pt09jafMOTx/6l+iqdcoum2x5KTefHC4XYKaM1lQ6Rx5uEPaVchmNCZ1zwazPsmf
-         qiq200Q61VNWVhsS+payVNYfgcEAoCDIOJ3Jv88QuTWQ0ahwJxP7mGcwARyBbf2vu/1E
-         uG0AyXJaHPiA+yJI7CFaMoGR9wPYccPdBljnXoCxAZIpT6nTgizGKt+yEyJLakw6Fgny
-         zGpA==
+        bh=ulUTnrt0/o6KrpYj4/lKXwggI1Tcz4XFzc+8cliUI0c=;
+        b=fhO70KNh3wU2+DKPs5kVvRiMJwyitl6WHDj1upOcA6xc22MCkvb3BpwaqdRjlZbjQp
+         x3n+9gJEyr/ASltdZSYIjKLcWy+MZd+SFg/0vW3posPjB/0Krk21TbVUkFdy/l6fPRIA
+         7yMAeBlUipsytMG5USMarmYxEWhUhx7vXstR4+fMPe6/ttQo8Hk0sZMT/+jB7m3hVupA
+         0qkhUTG3v98eOXM8ZScDL88U5+6zNHE+vDJbnPylCzVsoMNjZOZdNu83vwmJ4v82LMdD
+         WE9ZZEWNROp1ijVk8e7Azitf0Co2S6C45cCb5bqaSb0CjI393RHNcHIOj0YIk2GU6t4M
+         NWfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714583102; x=1715187902;
+        d=1e100.net; s=20230601; t=1714583182; x=1715187982;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ElGjJ6DhmRlqGsY+eiWz/anA6sw6bSbldqs1mMMSdXY=;
-        b=V4i7aDIH8vwKGloz82nXiJvI0DydhVoXnaGtKYb+5GVA7matF0GT7qlxngl/Tbuzg5
-         2UcGdePiptVVcwLP6gYwaRThHLilXGfQMZpqP4hmsMx5Dv+VPbQei47uAH1km78FSi5I
-         v+F507/q50yC0pXKxsth23ZSV3i0cm65DFfrHM66e+WP03qYBQz83LxR93ZlvVBnzRY8
-         3mYgJfLjOnplciMqUHJPtOxLLXBEGay41flBsjMpspQqzlA/41mDO5GdpS21Gq6ADHqF
-         1gEmqBzi/3HCBblhmX198bXzRoXcIiO2NodwtpPYRFQNN94QtLluS9ro98jQ8HXbivQ7
-         +rAg==
-X-Forwarded-Encrypted: i=1; AJvYcCXWBwnSujirNzxpROYJR0vY0HUJxsdGl6YtvcoTXtnWV4nItHTqIOjv3NMq0/kW1RNMvxnlOqLHebKVcdTYzYhJIHlmAPj24YR1Gs0=
-X-Gm-Message-State: AOJu0Yw23pbVhE8i2wIwDqQGJM67NKTj86Ke28gxVSf+OqAqHVHuDoW6
-	9Gw9Wh5jX8VgxHZ6NCCb6/v3oDO7LtPOv5EBP6b0IkdbIZMP59DGAcSGurR/47M=
-X-Google-Smtp-Source: AGHT+IFvczd8ByrKjRpEmw2Tm8e/A7jIBRbW9BHOckqa6SdF3HlIzepIjpMlwHXG9pT5WMnsKMpNHw==
-X-Received: by 2002:a17:902:e54f:b0:1eb:dae:bdab with SMTP id n15-20020a170902e54f00b001eb0daebdabmr3974726plf.46.1714583102382;
-        Wed, 01 May 2024 10:05:02 -0700 (PDT)
+        bh=ulUTnrt0/o6KrpYj4/lKXwggI1Tcz4XFzc+8cliUI0c=;
+        b=NABn/h/JAjPHoqNqBGyTowD4Zt9x7rZLIJrnBEDNzBsxLDRlU8NhFbMu6zVJaqGhF2
+         YDKVX7BWuyZ1gHNzrw+pQacvlp0SEtvvfazhXtUHD3L1Go15Mjg0B0aXIDYIwbSL78fk
+         4++JHH6Bc4YxpIqpi/OJvetqrEsQsKXkCI6RUfoatM+3+I/hvNW1uaqoarb3bXKkE3ZL
+         40y7KKaYqOLjqCOgilSXX3uLUp+V/WPi8VsiYDgR/pOVHiBrabCPjxR0PJPM65T6bI2a
+         MWfdzPfuf3joqQqovqnnuHI2LSGwTzE+B7t3lXhxP/9I5Tu3KyaoidI9QYBfiqn0Mx82
+         Me7Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVV10qb0Cyq7TXM2cQJUsJCBNqFLRC/5JNsyq0E+oGHYT0RvUSwaE1iYL0NjCOLREdsJ/0lHNUkrsaJQT+ZSlq3F5qjD6XMx7EVNE0=
+X-Gm-Message-State: AOJu0YweCn9B3wftnLOEXw6ARMAasHBgoXDMC5BkGEBPdx+UloFOBDYx
+	mwKUztqVSfXe4XkJ/NtAFT32IAIoutf79dSj6PCe/al7DaAm38fB9TtuocFJ1B8=
+X-Google-Smtp-Source: AGHT+IGbQ99FfsOuQfbPD1HKb4OFUev7bCmbhruunbIFw2+vddc7cv9+d7D2Uj+7TUiDOOY0K6p1lQ==
+X-Received: by 2002:a17:90a:f493:b0:2b2:d001:db41 with SMTP id bx19-20020a17090af49300b002b2d001db41mr2837033pjb.40.1714583181995;
+        Wed, 01 May 2024 10:06:21 -0700 (PDT)
 Received: from ghost ([2601:647:5700:6860:1dcc:e03e:dc61:895d])
-        by smtp.gmail.com with ESMTPSA id s1-20020a170902ea0100b001e3d2314f3csm24412023plg.141.2024.05.01.10.05.00
+        by smtp.gmail.com with ESMTPSA id db5-20020a17090ad64500b002a53b33afa3sm1593854pjb.8.2024.05.01.10.06.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 May 2024 10:05:02 -0700 (PDT)
-Date: Wed, 1 May 2024 10:04:58 -0700
+        Wed, 01 May 2024 10:06:21 -0700 (PDT)
+Date: Wed, 1 May 2024 10:06:18 -0700
 From: Charlie Jenkins <charlie@rivosinc.com>
 To: Conor Dooley <conor@kernel.org>
 Cc: Rob Herring <robh@kernel.org>,
@@ -72,10 +72,10 @@ Cc: Rob Herring <robh@kernel.org>,
 	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
 Subject: Re: [PATCH v4 05/16] riscv: Extend cpufeature.c to detect vendor
  extensions
-Message-ID: <ZjJ2Omhynz02mAGk@ghost>
+Message-ID: <ZjJ2irS2ornhzeYc@ghost>
 References: <20240426-dev-charlie-support_thead_vector_6_9-v4-0-b692f3c516ec@rivosinc.com>
  <20240426-dev-charlie-support_thead_vector_6_9-v4-5-b692f3c516ec@rivosinc.com>
- <20240501-chastise-gecko-342f2c35cfc1@spud>
+ <20240501-pelican-throwaway-da84be7dac30@spud>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -84,85 +84,73 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240501-chastise-gecko-342f2c35cfc1@spud>
+In-Reply-To: <20240501-pelican-throwaway-da84be7dac30@spud>
 
-On Wed, May 01, 2024 at 11:46:07AM +0100, Conor Dooley wrote:
+On Wed, May 01, 2024 at 12:19:34PM +0100, Conor Dooley wrote:
 > On Fri, Apr 26, 2024 at 02:29:19PM -0700, Charlie Jenkins wrote:
-> > Separate vendor extensions out into one struct per vendor
-> > instead of adding vendor extensions onto riscv_isa_ext.
-> > 
-> > Add a hidden config RISCV_ISA_VENDOR_EXT to conditionally include this
-> > code.
-> > 
-> > The xtheadvector vendor extension is added using these changes.
-> 
-> This mostly looks good to me, thanks for the updates. There's one thing
-> that I think is wrong, but I need to test and will get back to you on...
-> 
-> > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> > ---
-> >  arch/riscv/Kconfig                               |  2 +
-> >  arch/riscv/Kconfig.vendor                        | 19 ++++++
-> >  arch/riscv/include/asm/cpufeature.h              | 18 ++++++
-> >  arch/riscv/include/asm/vendor_extensions.h       | 26 ++++++++
-> >  arch/riscv/include/asm/vendor_extensions/thead.h | 19 ++++++
-> >  arch/riscv/kernel/Makefile                       |  2 +
-> >  arch/riscv/kernel/cpufeature.c                   | 77 ++++++++++++++++++------
-> >  arch/riscv/kernel/vendor_extensions.c            | 18 ++++++
-> >  arch/riscv/kernel/vendor_extensions/Makefile     |  3 +
-> >  arch/riscv/kernel/vendor_extensions/thead.c      | 36 +++++++++++
-> >  10 files changed, 200 insertions(+), 20 deletions(-)
-> > 
-> > diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-> > index be09c8836d56..fec86fba3acd 100644
-> > --- a/arch/riscv/Kconfig
-> > +++ b/arch/riscv/Kconfig
-> > @@ -759,6 +759,8 @@ config RISCV_EFFICIENT_UNALIGNED_ACCESS
+> > @@ -353,6 +336,10 @@ static void __init riscv_parse_isa_string(unsigned long *this_hwcap, struct risc
+> >  		bool ext_long = false, ext_err = false;
 > >  
-> >  endchoice
-> >  
-> > +source "arch/riscv/Kconfig.vendor"
-> > +
-> >  endmenu # "Platform type"
-> >  
-> >  menu "Kernel features"
-> > diff --git a/arch/riscv/Kconfig.vendor b/arch/riscv/Kconfig.vendor
-> > new file mode 100644
-> > index 000000000000..4fc86810af1d
-> > --- /dev/null
-> > +++ b/arch/riscv/Kconfig.vendor
-> > @@ -0,0 +1,19 @@
-> > +menu "Vendor extensions"
-> > +
-> > +config RISCV_ISA_VENDOR_EXT
-> > +	bool
-> > +
-> > +menu "T-Head"
-> > +config RISCV_ISA_VENDOR_EXT_THEAD
-> > +	bool "T-Head vendor extension support"
-> > +	select RISCV_ISA_VENDOR_EXT
-> > +	default y
-> > +	help
-> > +	  Say N here if you want to disable all T-Head vendor extension
-> > +	  support. This will cause any T-Head vendor extensions that are
-> > +	  requested to be ignored.
+> >  		switch (*ext) {
+> > +		case 'x':
+> > +		case 'X':
+> > +			pr_warn_once("Vendor extensions are ignored in riscv,isa. Use riscv,isa-extensions instead.");
+> > +			continue;
 > 
-> What does "requested to be ignored" mean to a punter configuring a
-> kernel? I'd expect this to be something like:
+> Yeah, so this is not right - you need to find the end of the extension
+> before containing - for example if I had a system with
+> rv64imafdcxconorkwe, you get something like:
+> [    0.000000] CPU with hartid=0 is not available
+> [    0.000000] Falling back to deprecated "riscv,isa"
+> [    0.000000] Vendor extensions are ignored in riscv,isa. Use riscv,isa-extensions instead.
+> [    0.000000] riscv: base ISA extensions acdefikmnorw
+> [    0.000000] riscv: ELF capabilities acdfim
 > 
-> "Say N here to disable detection of and support for all T-Head vendor
-> extensions. Without this option enabled, T-Head vendor extensions will
-> not be detected at boot and their presence not reported to userspace."
+> kwe are all pretty safe letters, but suppose one was a v..
+> I think you can just yoink the code from the s/z case:
 
-Sounds great I will change to that.
+Oh right, I forgot about that.
+
+> 
+> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
+> index 20bc9ba6b7a2..4daedba7961f 100644
+> --- a/arch/riscv/kernel/cpufeature.c
+> +++ b/arch/riscv/kernel/cpufeature.c
+> @@ -338,8 +338,19 @@ static void __init riscv_parse_isa_string(unsigned long *this_hwcap, struct risc
+>  		switch (*ext) {
+>  		case 'x':
+>  		case 'X':
+> -			pr_warn_once("Vendor extensions are ignored in riscv,isa. Use riscv,isa-extensions instead.");
+> -			continue;
+> +			if (acpi_disabled)
+> +				pr_warn_once("Vendor extensions are ignored in riscv,isa. Use riscv,isa-extensions instead.");
+> +			/*
+> +			 * To skip an extension, we find its end.
+> +			 * As multi-letter extensions must be split from other multi-letter
+> +			 * extensions with an "_", the end of a multi-letter extension will
+> +			 * either be the null character or the "_" at the start of the next
+> +			 * multi-letter extension.
+> +			 */
+> +			for (; *isa && *isa != '_'; ++isa)
+> +				;
+> +			ext_err = true;
+> +			break;
+>  		case 's':
+>  			/*
+>  			 * Workaround for invalid single-letter 's' & 'u' (QEMU).
+> 
+> You'll note that I made the dt property error dt only, this function
+> gets called for ACPI too. I think the skip is pretty safe there though
+> at the moment, we've not established any meanings yet for vendor stuff
+> on ACPI.
+> I think breaking is probably better than using continue - we get the _
+> skip from outside the switch statement out of that. And ye, I am lazy
+> so I kept it as a for loop.
+
+Awesome, thanks!
 
 - Charlie
 
-> 
-> In general, I'd expect something that needs some support in the kernel
-> (like vector) to function to have a dedicated option, but the likes of
-> their Zba variant could be detected and reported via hwprobe et al
-> once RISCV_ISA_VENDOR_EXT_THEAD is enabled.
 > 
 > Cheers,
 > Conor.
