@@ -1,157 +1,231 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 612B550A93
-	for <linux-sunxi@lists.linux.dev>; Wed,  1 May 2024 09:31:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 930CED520;
+	Wed,  1 May 2024 10:31:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714555867; cv=none; b=rXK/KrNfvC329AkVsXCAQICVUR1DteaneUae9S2zEbDQltQCZrefQ73gMxkVLBOklm7OKKDk8GC1tFhABR/+lbBzOWsnZGYIU8/aN6LnZbLKtSnfM2jrFfxfOJWlpTww8jtuSqBx7YItDWimsrvvHH6lXt+BJTOMXBx6JU5nNHI=
+	t=1714559512; cv=none; b=lsIPGrcB8Njd/R8HOWAI4UPSiKPauaEKhAf9wiSkycgbNpk4qBttjBQrK7XNUlNk16qv/AQ2dtGkajwLmrjFKnAtVgoxUxYHc74hXGo5xJ3CQIrHRjTcGyHCCI7C94/RRvmKIPZvvwfuprftmSFxNUrPTIMmDanufhELaIWOPRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714555867; c=relaxed/simple;
-	bh=/WvfKNTqeV3Kh/V7Imy68oPA+fzwWDSPALr2nzaFSR4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QvMwewnaAfEkAvxCb/KE50AjEE1IkTiqYzTCyRcOu6YmjWjcCmVsyc+7DKByrGjOndyAMJHv8DQGKnXnvofka+VzcIY+7KBI0UfRTUMQfh/qj74XMCLW5X4qJ/J9c8LsjysWyVgDHECwB7aIjf4OdS95zV6Jo9TeEnnsSyrPnu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8D9AA2F4;
-	Wed,  1 May 2024 02:31:30 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E87563F793;
-	Wed,  1 May 2024 02:31:02 -0700 (PDT)
-Date: Wed, 1 May 2024 10:30:59 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Dragan Simic <dsimic@manjaro.org>
-Cc: linux-sunxi@lists.linux.dev, wens@csie.org, jernej.skrabec@gmail.com,
- samuel@sholland.org, linux-arm-kernel@lists.infradead.org,
- devicetree@vger.kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] arm64: dts: allwinner: Add cache information to the SoC
- dtsi for H6
-Message-ID: <20240501103059.10a8f7de@donnerap.manchester.arm.com>
-In-Reply-To: <f4f4163d908c95d2a3f6f48bc3d7de49@manjaro.org>
-References: <6a772756c2c677dbdaaab4a2c71a358d8e4b27e9.1714304058.git.dsimic@manjaro.org>
-	<49abb93000078c692c48c0a65ff677893909361a.1714304071.git.dsimic@manjaro.org>
-	<20240430001002.4797e4e3@minigeek.lan>
-	<6fdeb49d57ccccca62e4f43dbe9475e3@manjaro.org>
-	<20240430114627.0cfcd14a@donnerap.manchester.arm.com>
-	<f4f4163d908c95d2a3f6f48bc3d7de49@manjaro.org>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1714559512; c=relaxed/simple;
+	bh=6DBbHrkfxS0tiwHrPZgT+bjTP/LQ6KTVWXOSl9oS0uw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GKJbMJNsr0yj38pAKqBpiKs5xQVbQQcuAfZ1cZgyJeNFz6vZH5R1M1Bjg5cJ+u7FfyeUlomXxchX8lZcMhZpVaiiviHdvt9yA2Ram5bt/8vSvcWnLcGFiQxSk12Dog9QMSSBUec2cKXbCUBHjyemEprVjYo07NmYuDdmpflJsZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U5ee8bwg; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U5ee8bwg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87259C113CC;
+	Wed,  1 May 2024 10:31:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714559512;
+	bh=6DBbHrkfxS0tiwHrPZgT+bjTP/LQ6KTVWXOSl9oS0uw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=U5ee8bwgBLBCu4DumpOEAERsjw3ZbAP1XblSkz9aVFKZGtMgCFTiA0pxj3GXTowo2
+	 7ckb1Z6BdjEoy5msRFbdI7BAYmKf3htSei2B1D+T+yu7FP0PpQaNy/3aUaePzp97sH
+	 cKmbeqTesHi0Ye71vJBxFoyAGSy1+14roh4mNDgO4HIUFKck3ZWyiaPStY1bnoEVLR
+	 X+s8MeH8GU3OZ/Bbz6IXbIwrDt+H/pAnwRuBeq5KVjdgFCzLaJJOUDaF7GmMYbxq0+
+	 c/FTazQwk1znasxvU2OYJorZPiHHCvI29cVf3yfADDUqbsf5qSiQcr3P/qB1DuRqmk
+	 iHHbtFC1LN2rw==
+Date: Wed, 1 May 2024 11:31:45 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Evan Green <evan@rivosinc.com>,
+	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v4 03/16] riscv: vector: Use vlenb from DT
+Message-ID: <20240501-showroom-rephrase-66c0929011b3@spud>
+References: <20240426-dev-charlie-support_thead_vector_6_9-v4-0-b692f3c516ec@rivosinc.com>
+ <20240426-dev-charlie-support_thead_vector_6_9-v4-3-b692f3c516ec@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="SnPvkgTlHmJo6buD"
+Content-Disposition: inline
+In-Reply-To: <20240426-dev-charlie-support_thead_vector_6_9-v4-3-b692f3c516ec@rivosinc.com>
 
-On Tue, 30 Apr 2024 13:10:41 +0200
-Dragan Simic <dsimic@manjaro.org> wrote:
 
-> Hello Andre,
-> 
-> On 2024-04-30 12:46, Andre Przywara wrote:
-> > On Tue, 30 Apr 2024 02:01:42 +0200
-> > Dragan Simic <dsimic@manjaro.org> wrote:  
-> >> On 2024-04-30 01:10, Andre Przywara wrote:  
-> >> > On Sun, 28 Apr 2024 13:40:36 +0200
-> >> > Dragan Simic <dsimic@manjaro.org> wrote:
-> >> >  
-> >> >> Add missing cache information to the Allwinner H6 SoC dtsi, to allow
-> >> >> the userspace, which includes lscpu(1) that uses the virtual files
-> >> >> provided
-> >> >> by the kernel under the /sys/devices/system/cpu directory, to display
-> >> >> the
-> >> >> proper H6 cache information.
-> >> >>
-> >> >> Adding the cache information to the H6 SoC dtsi also makes the
-> >> >> following
-> >> >> warning message in the kernel log go away:
-> >> >>
-> >> >>   cacheinfo: Unable to detect cache hierarchy for CPU 0
-> >> >>
-> >> >> The cache parameters for the H6 dtsi were obtained and partially
-> >> >> derived
-> >> >> by hand from the cache size and layout specifications found in the
-> >> >> following
-> >> >> datasheets and technical reference manuals:
-> >> >>
-> >> >>   - Allwinner H6 V200 datasheet, version 1.1
-> >> >>   - ARM Cortex-A53 revision r0p3 TRM, version E
-> >> >>
-> >> >> For future reference, here's a brief summary of the documentation:
-> >> >>
-> >> >>   - All caches employ the 64-byte cache line length
-> >> >>   - Each Cortex-A53 core has 32 KB of L1 2-way, set-associative
-> >> >> instruction
-> >> >>     cache and 32 KB of L1 4-way, set-associative data cache
-> >> >>   - The entire SoC has 512 KB of unified L2 16-way, set-associative
-> >> >> cache
-> >> >>
-> >> >> Signed-off-by: Dragan Simic <dsimic@manjaro.org>  
-> >> >
-> >> > I can confirm that the data below matches the manuals, but also the
-> >> > decoding of the architectural cache type registers (CCSIDR_EL1):
-> >> >   L1D: 32 KB: 128 sets, 4 way associative, 64 bytes/line
-> >> >   L1I: 32 KB: 256 sets, 2 way associative, 64 bytes/line
-> >> >   L2: 512 KB: 512 sets, 16 way associative, 64 bytes/line  
-> >> 
-> >> Thank you very much for reviewing my patch in such a detailed way!
-> >> It's good to know that the values in the Allwinner datasheets match
-> >> with the observed reality, so to speak. :)  
-> > 
-> > YW, and yes, I like to double check things when it comes to Allwinner
-> > documentation ;-) And it was comparably easy for this problem.  
-> 
-> Double checking is always good, IMHO. :)
-> 
-> > Out of curiosity: what triggered that patch? Trying to get rid of false
-> > warning/error messages?  
-> 
-> Yes, one of the motivators was to get rid of the false kernel warning,
-> and the other was to have the cache information nicely available through
-> lscpu(1).  I already did the same for a few Rockchip SoCs, [1][2][3] so
-> a couple of Allwinner SoCs were the next on my mental TODO list. :)
+--SnPvkgTlHmJo6buD
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for doing this!
+On Fri, Apr 26, 2024 at 02:29:17PM -0700, Charlie Jenkins wrote:
+> If vlenb is provided in the device tree, prefer that over reading the
+> vlenb csr.
+>=20
+> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> ---
+>  arch/riscv/include/asm/cpufeature.h |  2 ++
+>  arch/riscv/kernel/cpufeature.c      | 43 +++++++++++++++++++++++++++++++=
+++++++
+>  arch/riscv/kernel/vector.c          | 12 ++++++++++-
+>  3 files changed, 56 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm=
+/cpufeature.h
+> index 347805446151..0c4f08577015 100644
+> --- a/arch/riscv/include/asm/cpufeature.h
+> +++ b/arch/riscv/include/asm/cpufeature.h
+> @@ -31,6 +31,8 @@ DECLARE_PER_CPU(struct riscv_cpuinfo, riscv_cpuinfo);
+>  /* Per-cpu ISA extensions. */
+>  extern struct riscv_isainfo hart_isa[NR_CPUS];
+> =20
+> +extern u32 riscv_vlenb_of;
+> +
+>  void riscv_user_isa_enable(void);
+> =20
+>  #if defined(CONFIG_RISCV_MISALIGNED)
+> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeatur=
+e.c
+> index 3ed2359eae35..8158f34c3e36 100644
+> --- a/arch/riscv/kernel/cpufeature.c
+> +++ b/arch/riscv/kernel/cpufeature.c
+> @@ -35,6 +35,8 @@ static DECLARE_BITMAP(riscv_isa, RISCV_ISA_EXT_MAX) __r=
+ead_mostly;
+>  /* Per-cpu ISA extensions. */
+>  struct riscv_isainfo hart_isa[NR_CPUS];
+> =20
+> +u32 riscv_vlenb_of;
+> +
+>  /**
+>   * riscv_isa_extension_base() - Get base extension word
+>   *
+> @@ -648,6 +650,42 @@ static int __init riscv_isa_fallback_setup(char *__u=
+nused)
+>  early_param("riscv_isa_fallback", riscv_isa_fallback_setup);
+>  #endif
+> =20
+> +static int riscv_homogeneous_vlenb(void)
 
-> > And do you plan to address the H616 as well? It's a bit more tricky 
-> > there,
-> > since there are two die revisions out: one with 256(?)KB of L2, one 
-> > with
-> > 1MB(!). We know how to tell them apart, so I could provide some TF-A 
-> > code
-> > to patch that up in the DT. The kernel DT copy could go with 256KB 
-> > then.  
-> 
-> I have no boards based on the Allwinner H616, so it wasn't on my radar.
-> Though, I'd be happy to prepare and submit a similar kernel patch for
-> the H616, if you'd then take it further and submit a TF-A patch that
-> fixes the DT according to the detected die revision?  Did I understand
-> the plan right?
+Without a verb, this function name is rather odd.
 
-Yes, that was the idea. I have a working version of that TF-A patch now,
-just need to figure out some details about the best way to only build this
-for the H616 port.
+> +{
+> +	int cpu;
+> +	u32 prev_vlenb =3D 0;
+> +	u32 vlenb;
+> +
+> +	for_each_possible_cpu(cpu) {
+> +		struct device_node *cpu_node;
+> +
+> +		cpu_node =3D of_cpu_device_node_get(cpu);
+> +		if (!cpu_node) {
+> +			pr_warn("Unable to find cpu node\n");
+> +			continue;
 
-Neither the data sheet nor the user manual mention the cache sizes for the
-H616, but I checked the CSSIDR_EL1 register readouts on both an old H616
-and a new H618, and they confirm that the former has 256 KB L2, and the
-latter 1MB. Also I ran tinymembench on two boards to confirm this,
-community benchmarks results are available here:
-https://github.com/ThomasKaiser/sbc-bench/blob/master/Results.md
-The OrangePi Zero2 and OrangePi Zero3 are good examples, respectively.
-Associativity and cache line size are dictated by the Arm Cortex cores,
-and the L1I & L1D sizes are the same as in the other SoCs.
+Hmm, if we fail to find the cpu node, then shouldn't we be returning an
+error?
+
+> +		}
+> +
+> +		if (of_property_read_u32(cpu_node, "riscv,vlenb", &vlenb)) {
+> +			of_node_put(cpu_node);
+> +
+> +			if (prev_vlenb)
+> +				return -1;
+
+Can you return an errno here and below please?
+
+> +			continue;
+> +		}
+> +
+> +		if (prev_vlenb && vlenb !=3D prev_vlenb) {
+> +			of_node_put(cpu_node);
+> +			return -1;
+> +		}
+> +
+> +		prev_vlenb =3D vlenb;
+> +		of_node_put(cpu_node);
+> +	}
+> +
+> +	riscv_vlenb_of =3D vlenb;
+> +	return 0;
+> +}
+> +
+>  void __init riscv_fill_hwcap(void)
+>  {
+>  	char print_str[NUM_ALPHA_EXTS + 1];
+> @@ -671,6 +709,11 @@ void __init riscv_fill_hwcap(void)
+>  			pr_info("Falling back to deprecated \"riscv,isa\"\n");
+>  			riscv_fill_hwcap_from_isa_string(isa2hwcap);
+>  		}
+> +
+> +		if (riscv_homogeneous_vlenb() < 0) {
+> +			pr_warn("RISCV_ISA_V only supports one vlenb on SMP systems. Please e=
+nsure that the riscv,vlenb devicetree property is the same across all CPUs.=
+ Either all CPUs must have the riscv,vlenb property, or none. If no CPUs in=
+ the devicetree use riscv,vlenb then vlenb will be probed from the vlenb CS=
+R. Disabling vector.\n");
+
+Oh dear, that's a bit unwieldy... I think you could get away with a far
+more basic message - and you should be able to break this over lines,
+adjacent string literals should get concatenated.
+I'd probably say something like "unsupported heterogeneous vlen detected,
+vector extension disabled", however we should actually check that the
+vector extension has been detected on all CPUs and that kernel support
+for vector is enabled before emitting a warning for this.
 
 Cheers,
-Andre
+Conor.
 
-> [1] 
-> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=67a6a98575974416834c2294853b3814376a7ce7
-> [2] 
-> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=8612169a05c5e979af033868b7a9b177e0f9fcdf
-> [3] 
-> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=b72633ba5cfa932405832de25d0f0a11716903b4
+> +			elf_hwcap &=3D ~COMPAT_HWCAP_ISA_V;
+> +		}
+>  	}
+> =20
+>  	/*
+> diff --git a/arch/riscv/kernel/vector.c b/arch/riscv/kernel/vector.c
+> index 6727d1d3b8f2..e04586cdb7f0 100644
+> --- a/arch/riscv/kernel/vector.c
+> +++ b/arch/riscv/kernel/vector.c
+> @@ -33,7 +33,17 @@ int riscv_v_setup_vsize(void)
+>  {
+>  	unsigned long this_vsize;
+> =20
+> -	/* There are 32 vector registers with vlenb length. */
+> +	/*
+> +	 * There are 32 vector registers with vlenb length.
+> +	 *
+> +	 * If the riscv,vlenb property was provided by the firmware, use that
+> +	 * instead of probing the CSRs.
+> +	 */
+> +	if (riscv_vlenb_of) {
+> +		this_vsize =3D riscv_vlenb_of * 32;
+> +		return 0;
+> +	}
+> +
+>  	riscv_v_enable();
+>  	this_vsize =3D csr_read(CSR_VLENB) * 32;
+>  	riscv_v_disable();
+>=20
+> --=20
+> 2.44.0
+>=20
 
+--SnPvkgTlHmJo6buD
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZjIaEQAKCRB4tDGHoIJi
+0hNBAP9YH38VakJjIeXqwOnQlJJWTLPRdPDQPf5eTY+Ir67I6QEA8WCxzjgKtaAO
+OCpGug+WIcHcZlm8J+isXxxHhyQ9TwQ=
+=T1wq
+-----END PGP SIGNATURE-----
+
+--SnPvkgTlHmJo6buD--
