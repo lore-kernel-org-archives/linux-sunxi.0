@@ -1,47 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0913F537E7;
-	Thu,  2 May 2024 09:37:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85B55537E7;
+	Thu,  2 May 2024 09:38:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714642661; cv=none; b=CzAq5gxD1ylz4c5qJHRmAog2GSgvDGkyY/QR+OnsOI7ea84RqpUx1T3Uq25vwBfv2HwT8Ba9cbivZOIgA4cwqeTop2a0aV4VzWU6+z0t75eWtrn1gcYonsye/5HakZVDRy8SW5q7xQDY55PnAkF3uYbI8oCe4oPe2IMXFTWxjmE=
+	t=1714642722; cv=none; b=qAbszB4wRJbrYM11103WXqRMRJvb55lrFayxbsVtPvVEOeki2+6wu5A/f8lCnWo2OA6hRcM9wrqDlh/o2P1nxh17JA7GHGXKZztIO/0RJ2oOqhfQdDnYF8liT+5DCS4Xe9/+G7rp+UNsCKAyzzh8SjabRFpAfgdJR4KkMoupQ4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714642661; c=relaxed/simple;
-	bh=RnY2mHcy5s3RJThqemCEECImstQv/0eAsLqYWQqx2tU=;
+	s=arc-20240116; t=1714642722; c=relaxed/simple;
+	bh=XwHxRHno9d682eEmga3lxYLCiiBJCv6+R/4CNOK+wX0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bbbFj2yQZQlJMe4WEJsXAL+MvjhnOxSwHztiJiRZghZ3tr03+jkoJ/h7nJbc4nAYY2m2l2v2dIS005qfUqiQCTZl+wcuWdMbWryp1P1cdcxiXKLNeFW1EP7P1SK8T66W2JLwrX0794IBs7j6BcBKmuFvPCdA/x1acw80Sj3py0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lPPwQXi9; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=YxqrEt9huZuAjHWUY18hSbVDfaa5l0d4UKXo3nomNGGm0fkV3R0QcrHIOVLGPS0ebURHxYApQngQEurKhQI7jgmimpA5sLnORPDETw/BuLkoikfxyS3JXruPcObXcSiydaKCUTMz4hoV1KOdNBjRNl2JcSoNELD9XnxxpgPBR60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nLhl8z8D; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lPPwQXi9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 121A3C113CC;
-	Thu,  2 May 2024 09:37:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nLhl8z8D"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09867C113CC;
+	Thu,  2 May 2024 09:38:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714642660;
-	bh=RnY2mHcy5s3RJThqemCEECImstQv/0eAsLqYWQqx2tU=;
+	s=k20201202; t=1714642722;
+	bh=XwHxRHno9d682eEmga3lxYLCiiBJCv6+R/4CNOK+wX0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lPPwQXi98HzM6jGfYAgRqIcHBMr9YrZ2xhPPAoEhJLzoahliDjqS3qpsyi2mfOT4O
-	 Pe82VCZWek9mTR+2lZiCVfKgXKFBZefcSPB4+b+p1CjvAkK5iWtqdMAdoUh9usYNEy
-	 9MnuVkkEo3HxLawUhyJm9jQw3/dvS8+8QnJEkBrYADACam70584lD2tuGEfiGYp+zw
-	 cac9fuMh0OloP5KWjOT8dowYHtF/GM6vfIrPFtEBTDdqXxdKhkde5Y0xkFmTzCpGOl
-	 EgAw8t40lhq6PpYIaO4jtqRthLAHg+twcsgXqRsudn0b9vnzKi/LU0TOi7I7BqzP/Q
-	 s86gdo75JZJhg==
-Date: Thu, 2 May 2024 10:37:35 +0100
+	b=nLhl8z8DuaSnTjuZGogLydgg4R4bcI98TltjMLHpguwa7qSlHd5lA5366poMcdzW7
+	 TKjMO3MC7bfMEt++e+lm5i+Sf7+L4kBM75fIrBpJvFP7BLzEVPeFyAlO5Savpt4tQY
+	 PVlydbsz5J1Xu+hp3U4pkuftnuKfAHJu9famHkJj3lg/YoUViQqh8Cg/WAFwlk4DzL
+	 la3KLy8Oz5az2PF2bOJ9kqq7w1n4MERBzr2tfRvzFgXaIaM+wUtb99DD2zgfQwXsMI
+	 w6Tbbpp3AdMLfzymN6O+Gg7uC5AkPkH6RnOlpNIjGw/4CiHQ3sP/InDrGp931wLf+k
+	 sCUT5FGI8cuDg==
+Date: Thu, 2 May 2024 10:38:36 +0100
 From: Lee Jones <lee@kernel.org>
-To: Ryan Walklin <ryan@testtoast.com>
+To: Mark Brown <broonie@kernel.org>
 Cc: Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
+	Ryan Walklin <ryan@testtoast.com>,
 	Chris Morgan <macroalpha82@gmail.com>
 Subject: Re: [PATCH v2 0/5] regulator: Fix AXP717 PMIC support
-Message-ID: <20240502093735.GK5338@google.com>
+Message-ID: <20240502093836.GL5338@google.com>
 References: <20240418000736.24338-1-andre.przywara@arm.com>
- <c17d163e-29cc-4049-985e-d1ef91d764cb@app.fastmail.com>
+ <ZidE5UcQ6XSc0YBI@finisterre.sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -51,35 +51,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <c17d163e-29cc-4049-985e-d1ef91d764cb@app.fastmail.com>
+In-Reply-To: <ZidE5UcQ6XSc0YBI@finisterre.sirena.org.uk>
 
-On Sun, 28 Apr 2024, Ryan Walklin wrote:
+On Tue, 23 Apr 2024, Mark Brown wrote:
 
-> On Thu, 18 Apr 2024, at 12:07 PM, Andre Przywara wrote:
-> > This is v2 of the fixes to the AXP717 PMIC support series. 
-> <snip>
-> > I don't know if that's still feasible, but those two patches would be a
-> > good candidate to squash into the patches that they fix.
-> >
-> > The other three patches add the "boost" regulator, which is meant to
-> > provide the 5V USB VBUS power when operating from the battery. It's the
-> > usual trinity of binding/mfd/regulator patches.
-> > Again this could be squashed into the respective patches from the
-> > original series, if people agree.
-> >
-> > Please have a look and test!
-> >
-> > Based on mfd/ib-mfd-regulator-6.10, as detailed below.
+> On Thu, Apr 18, 2024 at 01:07:31AM +0100, Andre Przywara wrote:
+> > This is v2 of the fixes to the AXP717 PMIC support series. Lee put the
+> > original patches in an immutable branch already, so these here go on top.
+> > Patch 1 is new in v2, and adds the IRQ status and acknowledge registers
 > 
-> Looks good here, RSB communication, regulator and 5v boost support configured via DT working well on my H700 board, established by a combination of successful device bringup and kernel reporting. Concur with the request to be squashed into the mfd-next tree for 6.10 if possible, thanks!
-> 
-> Ryan
-> 
-> Tested-by: Ryan Walklin <ryan@testtoast,com>
+> Lee, this looks like more of a regulator series than a MFD one (it's got
+> a couple of small updates to the MFD but it's mainly focused on the
+> regualtor functionality) so it probably makes sense to merge via the
+> regulator tree?
 
-This doesn't look like a valid email address.
+I'm fine with it.
 
-Did you manually type it out?  I suggest against doing that.
+Please ensure a succinct immutable branch is available in case of future conflicts.
 
 -- 
 Lee Jones [李琼斯]
