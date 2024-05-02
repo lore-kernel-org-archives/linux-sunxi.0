@@ -1,106 +1,85 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C969D527;
-	Thu,  2 May 2024 03:57:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0913F537E7;
+	Thu,  2 May 2024 09:37:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714622228; cv=none; b=tTAKz/+WOZyb8h4kwmeWSCyOY3ywzw7l1s53a9urHNZzTK9uyXpiE/O7q8njvw5QAEQzVmRbp8DZmE2tRXsViSWkGbnQwz2OsNd4uNqZ5f4dP5FoLIrySY7V5Ua5AM9GKQMcBVvSliUhIeFDZSwAJujyGOZgt1sCABGKB87ZjiE=
+	t=1714642661; cv=none; b=CzAq5gxD1ylz4c5qJHRmAog2GSgvDGkyY/QR+OnsOI7ea84RqpUx1T3Uq25vwBfv2HwT8Ba9cbivZOIgA4cwqeTop2a0aV4VzWU6+z0t75eWtrn1gcYonsye/5HakZVDRy8SW5q7xQDY55PnAkF3uYbI8oCe4oPe2IMXFTWxjmE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714622228; c=relaxed/simple;
-	bh=GhLrb4LsugJQdErEM1U3FioSUcGebSzbtNTOsJjlJe4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=NyxhD/CZLilmQiTN0JjGbFUS1w9OjahbhGtZKiNfUUV/BC7bjEdPkbAAjGfIjnmBWW7Q2YkqJXtzTE9NVQyb9LtgbRoxfVVX7Yr9OcPPDFhQ18s4zoJEgyKWNJPrMnsbXcR/vh+N0nUvr+PuYzvQe6udGpFMj3S7nfzudMIv9XM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h4uBsHfv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1714642661; c=relaxed/simple;
+	bh=RnY2mHcy5s3RJThqemCEECImstQv/0eAsLqYWQqx2tU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bbbFj2yQZQlJMe4WEJsXAL+MvjhnOxSwHztiJiRZghZ3tr03+jkoJ/h7nJbc4nAYY2m2l2v2dIS005qfUqiQCTZl+wcuWdMbWryp1P1cdcxiXKLNeFW1EP7P1SK8T66W2JLwrX0794IBs7j6BcBKmuFvPCdA/x1acw80Sj3py0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lPPwQXi9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h4uBsHfv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0964C4AF4D;
-	Thu,  2 May 2024 03:57:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lPPwQXi9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 121A3C113CC;
+	Thu,  2 May 2024 09:37:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714622227;
-	bh=GhLrb4LsugJQdErEM1U3FioSUcGebSzbtNTOsJjlJe4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=h4uBsHfvJ70gB5079HVXd1JVMXmwd4oeFaHxkutp2sUdk77EGI7ruVtyss9OVDqT3
-	 QARmiCfSHZFhcyA9BOqIB1qO0gTPUiRdyPwKgpPZf3Bqyf06T9zUam+Q1U4L20wuMO
-	 36ApLDr/oOoA0l/4D5r2Pr/4RlZN1Nv2v3xhfHncs6dAGjaWF7hSTdacRF9Lp/WF7j
-	 Q304t34WpWbaG47iBOzK0jx9ZZFJGzzVrAjpeLlvI6/f1KA2AxsDbJCTwbqk9FaseM
-	 drOrMnCYezj1Y6ZWcaEOVgvRIELSS0lPK8dSiMc9qm42X9QwZ2Eqborw9owLEP7mZz
-	 Lev8AaSUdZNNw==
-From: Mark Brown <broonie@kernel.org>
-To: linux-spi@vger.kernel.org, 
- Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, imx@lists.linux.dev, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-sunxi@lists.linux.dev, Samuel Holland <samuel@sholland.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>
-In-Reply-To: <20240430114142.28551-1-wsa+renesas@sang-engineering.com>
-References: <20240430114142.28551-1-wsa+renesas@sang-engineering.com>
-Subject: Re: [PATCH v2 0/8] spi: use 'time_left' instead of 'timeout' with
- wait_for_*() functions
-Message-Id: <171462222567.1904471.14171309243632895183.b4-ty@kernel.org>
-Date: Thu, 02 May 2024 12:57:05 +0900
+	s=k20201202; t=1714642660;
+	bh=RnY2mHcy5s3RJThqemCEECImstQv/0eAsLqYWQqx2tU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lPPwQXi98HzM6jGfYAgRqIcHBMr9YrZ2xhPPAoEhJLzoahliDjqS3qpsyi2mfOT4O
+	 Pe82VCZWek9mTR+2lZiCVfKgXKFBZefcSPB4+b+p1CjvAkK5iWtqdMAdoUh9usYNEy
+	 9MnuVkkEo3HxLawUhyJm9jQw3/dvS8+8QnJEkBrYADACam70584lD2tuGEfiGYp+zw
+	 cac9fuMh0OloP5KWjOT8dowYHtF/GM6vfIrPFtEBTDdqXxdKhkde5Y0xkFmTzCpGOl
+	 EgAw8t40lhq6PpYIaO4jtqRthLAHg+twcsgXqRsudn0b9vnzKi/LU0TOi7I7BqzP/Q
+	 s86gdo75JZJhg==
+Date: Thu, 2 May 2024 10:37:35 +0100
+From: Lee Jones <lee@kernel.org>
+To: Ryan Walklin <ryan@testtoast.com>
+Cc: Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Chris Morgan <macroalpha82@gmail.com>
+Subject: Re: [PATCH v2 0/5] regulator: Fix AXP717 PMIC support
+Message-ID: <20240502093735.GK5338@google.com>
+References: <20240418000736.24338-1-andre.przywara@arm.com>
+ <c17d163e-29cc-4049-985e-d1ef91d764cb@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c17d163e-29cc-4049-985e-d1ef91d764cb@app.fastmail.com>
 
-On Tue, 30 Apr 2024 13:41:32 +0200, Wolfram Sang wrote:
-> There is a confusing pattern in the kernel to use a variable named 'timeout' to
-> store the result of wait_for_*() functions causing patterns like:
+On Sun, 28 Apr 2024, Ryan Walklin wrote:
+
+> On Thu, 18 Apr 2024, at 12:07 PM, Andre Przywara wrote:
+> > This is v2 of the fixes to the AXP717 PMIC support series. 
+> <snip>
+> > I don't know if that's still feasible, but those two patches would be a
+> > good candidate to squash into the patches that they fix.
+> >
+> > The other three patches add the "boost" regulator, which is meant to
+> > provide the 5V USB VBUS power when operating from the battery. It's the
+> > usual trinity of binding/mfd/regulator patches.
+> > Again this could be squashed into the respective patches from the
+> > original series, if people agree.
+> >
+> > Please have a look and test!
+> >
+> > Based on mfd/ib-mfd-regulator-6.10, as detailed below.
 > 
->         timeout = wait_for_completion_timeout(...)
->         if (!timeout) return -ETIMEDOUT;
+> Looks good here, RSB communication, regulator and 5v boost support configured via DT working well on my H700 board, established by a combination of successful device bringup and kernel reporting. Concur with the request to be squashed into the mfd-next tree for 6.10 if possible, thanks!
 > 
-> with all kinds of permutations. Use 'time_left' as a variable to make the code
-> obvious and self explaining.
+> Ryan
 > 
-> [...]
+> Tested-by: Ryan Walklin <ryan@testtoast,com>
 
-Applied to
+This doesn't look like a valid email address.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+Did you manually type it out?  I suggest against doing that.
 
-Thanks!
-
-[1/8] spi: armada-3700: use 'time_left' variable with wait_for_completion_timeout()
-      commit: 7dbbbb1206dd0b695b9a76d3b758c8a689f1aa52
-[2/8] spi: fsl-lpspi: use 'time_left' variable with wait_for_completion_timeout()
-      commit: eef51e99f7b9ecc903a3a9ad9e7ca84dc35c3f52
-[3/8] spi: imx: use 'time_left' variable with wait_for_completion_timeout()
-      commit: eaeac043ab842d2e84616ff0412eec0121c1758c
-[4/8] spi: pic32-sqi: use 'time_left' variable with wait_for_completion_timeout()
-      commit: a7c79e50a26cb619400ccc6294dbd7d8c24a0341
-[5/8] spi: pic32: use 'time_left' variable with wait_for_completion_timeout()
-      commit: e66480aed4a194f278da1e46ec45221b3983216f
-[6/8] spi: sun4i: use 'time_left' variable with wait_for_completion_timeout()
-      commit: 34bed8a33f3a4f69b0ef584ef49f04a671a4a5c2
-[7/8] spi: sun6i: use 'time_left' variable with wait_for_completion_timeout()
-      commit: 83a3f1ba60d6e2f73c9dd2627a8ce41867dbc46b
-[8/8] spi: xlp: use 'time_left' variable with wait_for_completion_timeout()
-      commit: 594aa75d6bdda85b5fd027a5056d8cd1345c1db3
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+-- 
+Lee Jones [李琼斯]
