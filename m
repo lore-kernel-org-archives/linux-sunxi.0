@@ -1,214 +1,116 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68D54157A4F;
-	Fri,  3 May 2024 16:59:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B48D8495;
+	Fri,  3 May 2024 17:01:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714755580; cv=none; b=Ju7EKA/KDCIyeLhciAMnui4RlVlc3Qo2qXPY+QhbQgtXK3qqg+fTd3sF7wSIam4FhDrSzrBMCtyAznlF10DkEywZr0G2loyi7zu3nMmsMFjlNDZjYo6Cr29DaLb+N2NcI+SAaODWNDk8HfyhCZE2NUwSpeCDLVgwBfA7zf84xdQ=
+	t=1714755699; cv=none; b=XGIGzypCnCap+M8YKdwgMxuyu2BaH6u5PR/jbI0Z/Mogy6GwHM11iVy/ge/mJjgykk/rvYmACHLiVKCoPN/1k9LoqoPjryRTtiqSDA/ha0trYSFw8JXZPBNDqy/EFdThzql6VjSCDAh8eBgzHlHPxp0fWIxbQ3Rm1Nd//TTlr+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714755580; c=relaxed/simple;
-	bh=vvcBvT6k7MW9lcqkcTuHTUlXRCysGywOkQMNFUqI1HM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SYNi/fey5p6lBiSY3e873qiz5YA59e03nQI+wjS3n3n0jdwHH8sFZJzUq9ggQDNfswHB2nFzM987Xl3FIn91x/4v4EEjhAYGWQ96W5rghjrCRb0/yDESyApfeUnCsHivljadneC6a8e1mFtxjWV9dJboaGIeRM62Z7lcNTUf648=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iSZFWd59; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1714755699; c=relaxed/simple;
+	bh=+yflGw8lFPTunnW6GGmdYjuR3pV0ADDhPZKgYdcwOCA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DYybLAJ5JNxhAuEsTH+8emHluAJwAD7rLKdhhQj5wubYLHdPq+03cL0xA/x4Dl/8yC+LmS2/DcJHigZkjueDXyevmjh/WFqtED1qq6gfnKFnsLpEwmDFK6vl89mNrSkucMrwqfHV8FuDwCiAxzBCOhmySmUiCnNoWOHd0AxFYAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SdcqKSqH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iSZFWd59"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 628B6C116B1;
-	Fri,  3 May 2024 16:59:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SdcqKSqH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07375C116B1;
+	Fri,  3 May 2024 17:01:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714755579;
-	bh=vvcBvT6k7MW9lcqkcTuHTUlXRCysGywOkQMNFUqI1HM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iSZFWd59XXPmDZD6g5k7lZqj9fhC5u3o0luW/c5v43i4PLwlWbXjXuiY7N/3Fvkza
-	 yiQ37uooXGmhvimq+ipEQWfK3NPQfx/1/tD4/5/ogAOlsLqeUlrpsHPE6dANieeQFC
-	 cge9SuF/YFnaDxfmcjxIXZJwozDA3V84vpeebfsY8I1LS3xbISHfZ/gRHKADcqGQh9
-	 u9WMYt2Ddy2vLdxSJddz61dweY5vVxx5LBfKA88HfgdsszY8mhgovfZGHgBBbsD229
-	 THtCmjgqQ7EmoIuIH2J/WBAM39ocQQ2jpO73EWTR7nmDgZuqhvw6UWwiBT7RfznI2N
-	 6p8Gzjc+xmlug==
-Date: Fri, 3 May 2024 17:59:33 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Evan Green <evan@rivosinc.com>,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v5 03/17] riscv: vector: Use vlenb from DT
-Message-ID: <20240503-zippy-skeletal-e5f63c9f17c1@spud>
-References: <20240502-dev-charlie-support_thead_vector_6_9-v5-0-d1b5c013a966@rivosinc.com>
- <20240502-dev-charlie-support_thead_vector_6_9-v5-3-d1b5c013a966@rivosinc.com>
+	s=k20201202; t=1714755698;
+	bh=+yflGw8lFPTunnW6GGmdYjuR3pV0ADDhPZKgYdcwOCA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=SdcqKSqHqLXVPXOUPiWd2R67qp5j/76q2UzwvrVQSWyfysPNCT+eFY+5blSiWERjt
+	 4Werw1VUsRnoal0SKJ5xeaVHZlVTOf4clATdeR/7DofXiJz0QtigfrwWh6N3Whi2s9
+	 ZwH4lhMdKoBelJ4SkB1UiVfWwrCOrGccbPTAqt7mOSaLcJkDMQUpCnID2mrQlk86Mg
+	 2ROg9Ioisv4Kg1mz3vxyZZIRVCwtjQo/sYfTsEfJXPsEV7db97895epyCPru6p23Sy
+	 r1UD/dR65V/G0T9nTy73srU7WxExDgmqc3lI8MNaqW6J3xWviNcEi1EVOijXjS6HR0
+	 hWEqKHed0H5dA==
+Message-ID: <ad9ff9ea-2c0e-40ac-9068-ece9937b80c8@kernel.org>
+Date: Fri, 3 May 2024 19:01:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="Jm1skXhSfPF6Cfdj"
-Content-Disposition: inline
-In-Reply-To: <20240502-dev-charlie-support_thead_vector_6_9-v5-3-d1b5c013a966@rivosinc.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dt-bindings: arm: sunxi: Fix incorrect '-' usage
+To: "Rob Herring (Arm)" <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>,
+ Ryan Walklin <ryan@testtoast.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20240503154402.967632-1-robh@kernel.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240503154402.967632-1-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-
---Jm1skXhSfPF6Cfdj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, May 02, 2024 at 09:46:38PM -0700, Charlie Jenkins wrote:
-> If vlenb is provided in the device tree, prefer that over reading the
-> vlenb csr.
->=20
-> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+On 03/05/2024 17:44, Rob Herring (Arm) wrote:
+> Commit 6bc6bf8a940a ("dt-bindings: arm: sunxi: document Anbernic RG35XX
+> handheld gaming device variants") mistakenly added '-' on each line
+> which created empty (i.e. description only) schemas matching anything.
+> This causes validation to fail on all the root node compatibles as
+> there are multiple oneOf clauses passing.
+> 
+> Fixes: 6bc6bf8a940a ("dt-bindings: arm: sunxi: document Anbernic RG35XX handheld gaming device variants")
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 > ---
->  arch/riscv/include/asm/cpufeature.h |  2 ++
->  arch/riscv/kernel/cpufeature.c      | 43 +++++++++++++++++++++++++++++++=
-++++++
->  arch/riscv/kernel/vector.c          | 12 ++++++++++-
->  3 files changed, 56 insertions(+), 1 deletion(-)
->=20
-> diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm=
-/cpufeature.h
-> index 347805446151..0c4f08577015 100644
-> --- a/arch/riscv/include/asm/cpufeature.h
-> +++ b/arch/riscv/include/asm/cpufeature.h
-> @@ -31,6 +31,8 @@ DECLARE_PER_CPU(struct riscv_cpuinfo, riscv_cpuinfo);
->  /* Per-cpu ISA extensions. */
->  extern struct riscv_isainfo hart_isa[NR_CPUS];
-> =20
-> +extern u32 riscv_vlenb_of;
-> +
->  void riscv_user_isa_enable(void);
-> =20
->  #if defined(CONFIG_RISCV_MISALIGNED)
-> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeatur=
-e.c
-> index 3ed2359eae35..12c79db0b0bb 100644
-> --- a/arch/riscv/kernel/cpufeature.c
-> +++ b/arch/riscv/kernel/cpufeature.c
-> @@ -35,6 +35,8 @@ static DECLARE_BITMAP(riscv_isa, RISCV_ISA_EXT_MAX) __r=
-ead_mostly;
->  /* Per-cpu ISA extensions. */
->  struct riscv_isainfo hart_isa[NR_CPUS];
-> =20
-> +u32 riscv_vlenb_of;
-> +
->  /**
->   * riscv_isa_extension_base() - Get base extension word
->   *
-> @@ -648,6 +650,42 @@ static int __init riscv_isa_fallback_setup(char *__u=
-nused)
->  early_param("riscv_isa_fallback", riscv_isa_fallback_setup);
->  #endif
-> =20
-> +static int has_riscv_homogeneous_vlenb(void)
-> +{
-> +	int cpu;
-> +	u32 prev_vlenb =3D 0;
-> +	u32 vlenb;
-> +
-> +	for_each_possible_cpu(cpu) {
-> +		struct device_node *cpu_node;
-> +
-> +		cpu_node =3D of_cpu_device_node_get(cpu);
-> +		if (!cpu_node) {
-> +			pr_warn("Unable to find cpu node\n");
-> +			return -ENOENT;
-> +		}
-> +
-> +		if (of_property_read_u32(cpu_node, "riscv,vlenb", &vlenb)) {
-> +			of_node_put(cpu_node);
-> +
-> +			if (prev_vlenb)
-> +				return -ENOENT;
-> +			continue;
-> +		}
-> +
-> +		if (prev_vlenb && vlenb !=3D prev_vlenb) {
-> +			of_node_put(cpu_node);
-> +			return -ENOENT;
-> +		}
-> +
-> +		prev_vlenb =3D vlenb;
-> +		of_node_put(cpu_node);
-> +	}
-> +
-> +	riscv_vlenb_of =3D vlenb;
-> +	return 0;
-> +}
-> +
->  void __init riscv_fill_hwcap(void)
->  {
->  	char print_str[NUM_ALPHA_EXTS + 1];
-> @@ -671,6 +709,11 @@ void __init riscv_fill_hwcap(void)
->  			pr_info("Falling back to deprecated \"riscv,isa\"\n");
->  			riscv_fill_hwcap_from_isa_string(isa2hwcap);
->  		}
-> +
-> +		if (elf_hwcap & COMPAT_HWCAP_ISA_V && has_riscv_homogeneous_vlenb() < =
-0) {
+>  Documentation/devicetree/bindings/arm/sunxi.yaml | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
 
-I still think this isn't quite right, as it will emit a warning when
-RISCV_ISA_V is disabled. The simplest thing to do probably is just
-add an `if (IS_ENABLED(CONFIG_RISCV_ISA_V) return 0` shortcut the to
-function? It'll get disabled a few lines later so I think a zero is
-safe.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-> +			pr_warn("Unsupported heterogeneous vlen detected, vector extension di=
-sabled.\n");
-> +			elf_hwcap &=3D ~COMPAT_HWCAP_ISA_V;
-> +		}
->  	}
-> =20
->  	/*
-> diff --git a/arch/riscv/kernel/vector.c b/arch/riscv/kernel/vector.c
-> index 6727d1d3b8f2..e04586cdb7f0 100644
-> --- a/arch/riscv/kernel/vector.c
-> +++ b/arch/riscv/kernel/vector.c
-> @@ -33,7 +33,17 @@ int riscv_v_setup_vsize(void)
->  {
->  	unsigned long this_vsize;
-> =20
-> -	/* There are 32 vector registers with vlenb length. */
-> +	/*
-> +	 * There are 32 vector registers with vlenb length.
-> +	 *
-> +	 * If the riscv,vlenb property was provided by the firmware, use that
-> +	 * instead of probing the CSRs.
-> +	 */
-> +	if (riscv_vlenb_of) {
-> +		this_vsize =3D riscv_vlenb_of * 32;
-> +		return 0;
-> +	}
-> +
->  	riscv_v_enable();
->  	this_vsize =3D csr_read(CSR_VLENB) * 32;
->  	riscv_v_disable();
->=20
-> --=20
-> 2.44.0
->=20
+Best regards,
+Krzysztof
 
---Jm1skXhSfPF6Cfdj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZjUX9QAKCRB4tDGHoIJi
-0rXxAQDDUnlsnbkBc4xorvMXBorwh8UuxTwps60RTP8U5kKaKwD/RTwTniatfEGc
-LN74K3N4cTgYcOwsuNu6rNRBb5lk5Ao=
-=d5rs
------END PGP SIGNATURE-----
-
---Jm1skXhSfPF6Cfdj--
