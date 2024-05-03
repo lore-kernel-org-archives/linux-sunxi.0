@@ -1,128 +1,193 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh1-smtp.messagingengine.com (fhigh1-smtp.messagingengine.com [103.168.172.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 671FD14BF85;
-	Fri,  3 May 2024 10:28:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C19C7E766
+	for <linux-sunxi@lists.linux.dev>; Fri,  3 May 2024 11:02:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714732094; cv=none; b=g6U9v2B13qKiqDKuezJb2bopsScZ8qqaKdumrSMi7kbD4Dc68W2Pe66F7tB8Az8rUuPrQcGRx3JvBXQgt2BETE7BGxYhooXViwVzokMhYfv7gghwbOUicw1W94OPk6RkdubS/H74+0jrBbOoi1KkexmFlfYy61LUsun/R+eWw8A=
+	t=1714734179; cv=none; b=lmalJXZzqZTcPQKHpU5u17dmpqFaYcCZn5y+qieyZp9kJGOXiegLHWXO4AkSkF/etJHy1I8xTdoQZkQwcMNGquGyVcjK/0X3PxskcrxUrruI36lKqlbuj6iSLQy5JSGmfMNg1hCZIoQenD7OKBDeFPb6iH9h1kHOT4hkx5Uq7Og=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714732094; c=relaxed/simple;
-	bh=OntdBaerXi3AJ/zLXyZcNtMvP/PzL6ZafwOb4BeMmI8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PffkdFOFJaZ9ggqMuDg6SwkKmpcyCvwNIkTX4kWEmGCoPj3jkzFfSbfFrOG1S+bf1g6I8T8sU+BE1SCMv/q4kAShqhK2uhHRzxbyUQcs9dT9jSUDRAS2F6EbKLtffiBfU/DpnM4ruK3YvokqISH7QZREkCVYpKOA5XA0h4c6Fe0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CVexwY3l; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1714734179; c=relaxed/simple;
+	bh=TsCFM63eKP42FnJYo/uWySHDpmwB7xakh15jSMvBbwg=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=R5hcv3uq2HKOOGw+4dZcgW9EA3CzJCpKNa2DUu1U5W9g6pLWk53Iy0z6yRD1dRHvIBCnTYMURobXFkCYS61rMe8gilWopl8oTH/HPzMKeHXZfcoV/Gtjk6soL+e9otXSoyRTbuMUPh4pLccWv+dvWdX/MldEp4saWn3+vCA0Feo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=cXzNY9OP; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=QPMoH4cp; arc=none smtp.client-ip=103.168.172.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=testtoast.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CVexwY3l"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86C52C116B1;
-	Fri,  3 May 2024 10:28:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714732094;
-	bh=OntdBaerXi3AJ/zLXyZcNtMvP/PzL6ZafwOb4BeMmI8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=CVexwY3lU9pEyrjVDtImt5My3VLqjq0O6pu4tXHAYXra+R/yyivA0NvhfTLZ09e0A
-	 cxbBIdKBwsREn30DGoNQVdBGNnjfuk75/VpipXdN/6ZvWZCfIKVtqVsOxiXD66T88L
-	 3sCcvCfpeYvNOoP9K2/otFr5CSejsUV24l3x7xiLmlJ2OYwtrX4t6Z6ZRbVrQ+yG7x
-	 8TpvvQD0STMgj41jXX4MiXNiccAK0MNa6GSxqKlDQTZ05zw2Bzltst6RLpU6SK1jGx
-	 3MalcpgYNan36bYB7hjf438rPRn0mK7fZRYgacV4KlzCbym7pY6M6KQ7QdGTsVih8M
-	 SjyAg0MIerKAg==
-Date: Fri, 3 May 2024 11:27:58 +0100
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Martin Tuma <martin.tuma@digiteqautomotive.com>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Hugues Fruchet
- <hugues.fruchet@foss.st.com>, Alain Volmat <alain.volmat@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Paul Kocialkowski
- <paul.kocialkowski@bootlin.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Sakari
- Ailus <sakari.ailus@linux.intel.com>, Thierry Reding
- <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>, Luca Ceresoli
- <luca.ceresoli@bootlin.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Hans
- Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>, Abylay Ospan
- <aospan@netup.ru>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Dmitry
- Osipenko <digetx@gmail.com>, Benjamin Mugnier
- <benjamin.mugnier@foss.st.com>, Sylvain Petinot
- <sylvain.petinot@foss.st.com>, Stanimir Varbanov
- <stanimir.k.varbanov@gmail.com>, Vikash Garodia
- <quic_vgarodia@quicinc.com>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio
- <konrad.dybcio@linaro.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v3 26/26] media: dvb-frontends: tda10048: Make the range
- of z explicit.
-Message-ID: <20240503112758.763d8d31@sal.lan>
-In-Reply-To: <20240429-fix-cocci-v3-26-3c4865f5a4b0@chromium.org>
-References: <20240429-fix-cocci-v3-0-3c4865f5a4b0@chromium.org>
-	<20240429-fix-cocci-v3-26-3c4865f5a4b0@chromium.org>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="cXzNY9OP";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="QPMoH4cp"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id 998251140083;
+	Fri,  3 May 2024 07:02:55 -0400 (EDT)
+Received: from imap47 ([10.202.2.97])
+  by compute5.internal (MEProxy); Fri, 03 May 2024 07:02:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm3; t=1714734175; x=
+	1714820575; bh=gsI9WknztWe0nMLhlyAgKSwHPdRaeFquYlqHeApfjKg=; b=c
+	XzNY9OPH4GZ08nNTofj+WQHBq8XZf/vidh9Lcyjv6Moklj2VUD956rwtTyVwT2QM
+	43LUM0o5n8dMH+0OGTC1M1iR72sw6VcCcqsfkPB1CdE3OCOQ13OCI56QKAX7VRwW
+	J5MUEm6RXqQZjt/u/JzKE9CWO5BgX6GtEc3z4BZC6nAuKGUNDGho1SfnO79uvkBu
+	1C4eiD3S1eQizWjpTj0J+V9/X6idNZ2PCL9UVzifF6Jvi3+gntJS8LqgD1HD8mH9
+	FEGL/CeqgqRnsH/CaVBWaXw0N3Gji4Yhdc5kzEWngVgfmb/hXCAO66q46rb5vchD
+	l0CVGc0WvyKetHXQfPiFA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1714734175; x=1714820575; bh=gsI9WknztWe0nMLhlyAgKSwHPdRa
+	eFquYlqHeApfjKg=; b=QPMoH4cpoE06V4hyx7atf5DkCoR4r2UaomQ3G7W08i1j
+	RJxM0lC+ULy1LuBHfuNmuzf/o45xyH8aKyhytKbX1wTZM49CDt5nmdiJCf7Nrsri
+	0XaNjSPZ7uTvXKAepAjhyaZOnw5GaPeA4XDTdRFa12qS470fYrdl5gpve/FyWQmy
+	qbTjOqgEYFNGeSegx9SxPLygMzWBYrEFtNeuzoYtZZcLhirRKD0DOsQVZtc/aAkr
+	TyNpDB3um65kRy8g0be/Og4hMvbh1BBcUzDOds0+uaSMR+V2Qn1ra38zFKDrOzV0
+	E+TTpbg8ykWRTDHIu/qtsP9yFaA+UIdoJ0OrMpowew==
+X-ME-Sender: <xms:XsQ0ZuZLnJBcqY6B2CULfdE-G65RgmjBvX95gXs93c1PGQNLOdDxCQ>
+    <xme:XsQ0ZhYRu7KE9rZw2hbZnHQao6d-oseE3nTWCXIWZOnDjreKcW38I8yXpUHZ8zJj7
+    Rr4LXPl-FZnb4S1mA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvddvtddgfeegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftfih
+    rghnucghrghlkhhlihhnfdcuoehrhigrnhesthgvshhtthhorghsthdrtghomheqnecugg
+    ftrfgrthhtvghrnhephedvveeigedujeeufeegffehhfffveduhfeijefgtdffteelgfet
+    ueevieduieejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homheprhihrghnsehtvghsthhtohgrshhtrdgtohhm
+X-ME-Proxy: <xmx:XsQ0Zo9iqPZYKlTVS_9ljU5U9Oi84L971tms_SZQYEHrnOZcXr9g6g>
+    <xmx:XsQ0Zgrd9XC4CeLrivabeZ90YIBnhU-dq5RrAasPQZmlBFtoMNKqHA>
+    <xmx:XsQ0ZprdwaoFi0MP5DwQq5ZBZtFkOhj5n5JE6ZaiIHgd7QT3K87EwQ>
+    <xmx:XsQ0ZuRSgjgmvEt9o-FG-b6L_jjmucGCl1MtbfycD8HCg92EMupM6g>
+    <xmx:X8Q0ZtcMAXJsLLvI-4Pbk-LQ63UnSRpzZx35A9I__qkBjSz_1mw35tR3>
+Feedback-ID: idc0145fc:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id C13CBA60078; Fri,  3 May 2024 07:02:54 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-417-gddc99d37d-fm-hotfix-20240424.001-g2c179674
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Message-Id: <fde9c98a-e14d-4c03-91ab-0cdc209a1763@app.fastmail.com>
+In-Reply-To: <20240502180736.7330-1-a.fertl@t-online.de>
+References: <20240502180736.7330-1-a.fertl@t-online.de>
+Date: Fri, 03 May 2024 23:02:13 +1200
+From: "Ryan Walklin" <ryan@testtoast.com>
+To: "Alois Fertl" <a.fertl@t-online.de>, a.zummo@towertech.it
+Cc: alexandre.belloni@bootlin.com, "Chen-Yu Tsai" <wens@csie.org>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+ "Samuel Holland" <samuel@sholland.org>, linux-rtc@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/1] drivers/rtc: rtc-sun6i: AutoCal Internal OSC Clock
+Content-Type: text/plain
 
-Em Mon, 29 Apr 2024 15:05:05 +0000
-Ricardo Ribalda <ribalda@chromium.org> escreveu:
+Hi Alois,
 
-> We do not expect the sample_freq to be over 613MHz.
-> 
-> Found by cocci:
-> drivers/media/dvb-frontends/tda10048.c:345:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_u64 instead.
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+On Fri, 3 May 2024, at 6:07 AM, Alois Fertl wrote:
+> I have a M98-8K PLUS Magcubic TV-Box based on the Allwinner H618 SOC.
+> On board is a Sp6330 wifi/bt module that requires a 32kHz clock to
+> operate correctly. Without this change the clock from the SOC is
+> ~29kHz and BT module does not start up. The patch enables the Internal
+> OSC Clock Auto Calibration of the H616/H618 which than provides the
+> necessary 32kHz and the BT module initializes successfully.
+> Add a flag and set it for H6 AND H616. The H618 is the same as H616
+> regarding rtc.
+>
+> Signed-off-by: Alois Fertl <a.fertl@t-online.de>
 > ---
->  drivers/media/dvb-frontends/tda10048.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> v1->v2
+> - add flag and activate for H6 AND H616
+>
+> v2->v3
+> - correct findings from review
+>
+> I was hoping to get some feedback regarding the situation on H6,
+> where an external 32k crystal can be present.
+> From what I understand from the H6 manual there should be no
+> conflict as one can select which souce will drive the output.
+> Should certainly be tested but I don`t have H6 hardware.
+>
+>  drivers/rtc/rtc-sun6i.c | 17 ++++++++++++++++-
+>
+>  1 file changed, 16 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
+> index e0b85a0d5645..20e81ccdef29 100644
+> --- a/drivers/rtc/rtc-sun6i.c
+> +++ b/drivers/rtc/rtc-sun6i.c
+> @@ -42,6 +42,11 @@
 > 
-> diff --git a/drivers/media/dvb-frontends/tda10048.c b/drivers/media/dvb-frontends/tda10048.c
-> index 3e725cdcc66b..1886f733dbbf 100644
-> --- a/drivers/media/dvb-frontends/tda10048.c
-> +++ b/drivers/media/dvb-frontends/tda10048.c
-> @@ -328,7 +328,8 @@ static int tda10048_set_wref(struct dvb_frontend *fe, u32 sample_freq_hz,
->  			     u32 bw)
->  {
->  	struct tda10048_state *state = fe->demodulator_priv;
-> -	u64 t, z;
-> +	u32 z;
-> +	u64 t;
->  
->  	dprintk(1, "%s()\n", __func__);
->  
-> @@ -341,6 +342,7 @@ static int tda10048_set_wref(struct dvb_frontend *fe, u32 sample_freq_hz,
->  	/* t *= 2147483648 on 32bit platforms */
->  	t *= (2048 * 1024);
->  	t *= 1024;
-> +	/* Sample frequency is under 613MHz */
+>  #define SUN6I_LOSC_CLK_PRESCAL			0x0008
+> 
+> +#define SUN6I_LOSC_CLK_AUTO_CAL			0x000c
+> +#define SUN6I_LOSC_CLK_AUTO_CAL_16MS		BIT(2)
+> +#define SUN6I_LOSC_CLK_AUTO_CAL_ENABLE		BIT(1)
+> +#define SUN6I_LOSC_CLK_AUTO_CAL_SEL_CAL		BIT(0)
+> +
+>  /* RTC */
+>  #define SUN6I_RTC_YMD				0x0010
+>  #define SUN6I_RTC_HMS				0x0014
+> @@ -126,7 +131,6 @@
+>   *     registers (R40, H6)
+>   *   - SYS power domain controls (R40)
+>   *   - DCXO controls (H6)
+> - *   - RC oscillator calibration (H6)
+>   *
+>   * These functions are not covered by this driver.
+>   */
+> @@ -138,6 +142,7 @@ struct sun6i_rtc_clk_data {
+>  	unsigned int has_losc_en : 1;
+>  	unsigned int has_auto_swt : 1;
+>  	unsigned int no_ext_losc : 1;
+> +	unsigned int has_auto_cal : 1;
+>  };
+> 
+>  #define RTC_LINEAR_DAY	BIT(0)
+> @@ -268,6 +273,14 @@ static void __init sun6i_rtc_clk_init(struct 
+> device_node *node,
+>  	}
+>  	writel(reg, rtc->base + SUN6I_LOSC_CTRL);
+> 
+> +	if (rtc->data->has_auto_cal) {
+> +		/* Enable internal OSC clock auto calibration */
+> +		reg = SUN6I_LOSC_CLK_AUTO_CAL_16MS |
+> +			SUN6I_LOSC_CLK_AUTO_CAL_ENABLE |
+> +			SUN6I_LOSC_CLK_AUTO_CAL_SEL_CAL;
+> +		writel(reg, rtc->base + SUN6I_LOSC_CLK_AUTO_CAL);
+> +	}
+> +
+>  	/* Yes, I know, this is ugly. */
+>  	sun6i_rtc = rtc;
+> 
+> @@ -380,6 +393,7 @@ static const struct sun6i_rtc_clk_data 
+> sun50i_h6_rtc_data = {
+>  	.has_out_clk = 1,
+>  	.has_losc_en = 1,
+>  	.has_auto_swt = 1,
+> +	.has_auto_cal = 1,
+>  };
+> 
+>  static void __init sun50i_h6_rtc_clk_init(struct device_node *node)
 
-Are you sure about that? Some DVB devices have very high frequency 
-clocks, specially if they're also used for satellite, so I can't
-be sure by just looking at the driver's code.
+I tried to test this with my H700 board but this struct is not actually in any mainline kernel and looks like it is from an earlier version of the H616 RTC changes which was never actually merged? Talked to Andre on IRC and he thinks the H6 and H616 RTC clocks *should* be equivalent.
 
-Also, we had already a bunch of regressions with "fixes" like this
-that actually broke frontend drivers.
-
-If you're sure, please add a note at the description mentioning 
-on what part of the datasheet you got it.
-
-Otherwise, let's stick with the current code and address cocci
-warning on a different way.
+> @@ -395,6 +409,7 @@ static const struct sun6i_rtc_clk_data 
+> sun50i_h616_rtc_data = {
+>  	.has_prescaler = 1,
+>  	.has_out_clk = 1,
+>  	.no_ext_losc = 1,
+> +	.has_auto_cal = 1,
+>  };
+> 
+>  static void __init sun50i_h616_rtc_clk_init(struct device_node *node)
+> -- 
+> 2.39.2
 
 Regards,
-Mauro
 
-PS.: I partially applied this patch series. I left a few
-patches out of the merge to let other people review/comment
-(and/or for me to take a deeper look later on).
-
-Regards,
-Mauro
+Ryan
