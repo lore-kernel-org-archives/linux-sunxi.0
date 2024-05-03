@@ -1,200 +1,148 @@
 Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B697E14EC61
-	for <linux-sunxi@lists.linux.dev>; Fri,  3 May 2024 09:09:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0803814F110
+	for <linux-sunxi@lists.linux.dev>; Fri,  3 May 2024 09:13:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714727397; cv=none; b=ZPIZOJ7XfAgRIuUuMSltFv9EhM4lIt47ratoNaN6iahJFpT9aw58AmpnmvCGrFsVCSA8/7QaZqx95hTIfiuK7Wf5/drVwNz445cpcNLduG3ZZ8bz2+ZWmaxtSrBg25zEUQLxMA+UVqioAy0F1TjGcoJGdJTfH5bOrHNdeVU9ppo=
+	t=1714727611; cv=none; b=KGKiLscOx81tUdRn0/o/u/kQZmaEkCRG3PasEfq0oyprc5Ye1VTcAvb+KNyPQL0nJ5u+aRq6KnjBrK8Xk1s3LhP85q4oMIlN4qWCJrdyWtaoFEkA7zi02YE25ibmUX9T20I9FcNZX9JXDLhMFUmL0F/7g5YG/k5T6o4yHsZZmeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714727397; c=relaxed/simple;
-	bh=nEL4G7PhDEc/Zx1IkbEq9WSzOu6qYRaQ+lxf10JQ2U4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=UOwxkoP+KQqahrou8DyA36src5St5nr5OLUO1kMCt48Qk9TmbhOpiWdQZvFxhD96Yd8FDmh2NBj6kfhxRGfrPk94S4yrYnwS01UEQ0/34Zhoc2jzqDT6yTmWOVPbJkKAc5ezX1cfUFOx5OJD+KE4VTap7x3ml+nSN1lxH37hGhk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=dc4vYj6f; arc=none smtp.client-ip=116.203.91.91
+	s=arc-20240116; t=1714727611; c=relaxed/simple;
+	bh=ajq61w3XeSrOvYWq/kaLNW4teboeeYU4DGvFgasUAZI=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=Wr/4HSgrL1tosKN0UrzcnpKx76hJ44Js2OT+YyC5BPcru2sEGolnxC6LwV6wxaMO9YFvzsRhGl14CxixDZHlMO4cFmLxKgoET/bMRKzJAz2TW6OpE60qqmtm8rLStPm3Jgf6dNkCn5D+P6pPSxFZsAEVMTpVs1lqBspHktViTsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=nPpgj1xr; arc=none smtp.client-ip=116.203.91.91
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="dc4vYj6f"
-From: Dragan Simic <dsimic@manjaro.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
-	t=1714727392;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=MjEx/8Jhqu50A+F4dmxrKpreeNGGtv+njLvY/BSbw3o=;
-	b=dc4vYj6fJdV3pmxnTV8NyiwI/NQ3i5cE36Z1mPyPNBnruOi6h6PIrnOfxwD5xN/WtzMrw9
-	UmaLrmaFPRvP6wVnH6pV5pnm9pKcFZ/BsxxYv5Up7XyyFeFJ/CSgIVs+zRmr+K15+k75nJ
-	GvtPQ+ipBQq+Ea5W3AoOkM0qENYubvqJcuVtAyj4vOgdvFOr07+/yCevEFT2z6VBbqMqHD
-	BkLy8jzrzkurUeXO1giEnLjkf21aKXl9/qxUouZIYLhmXJgAXU/NQ3OZ5jq40YW3dhpw+D
-	NoMP+8xN9wQacPY1pZEGkR+cAS7qaHrrWg8UwakEqJNh1df0qyJwY2tjFCW29g==
-To: linux-sunxi@lists.linux.dev
-Cc: wens@csie.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	linux-kernel@vger.kernel.org,
-	Andre Przywara <andre.przywara@arm.com>
-Subject: [PATCH] arm64: dts: allwinner: Add cache information to the SoC dtsi for H616
-Date: Fri,  3 May 2024 11:09:41 +0200
-Message-Id: <9d52e6d338a059618d894abb0764015043330c2b.1714727227.git.dsimic@manjaro.org>
+	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="nPpgj1xr"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
+	t=1714727608;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8ysi4/6mJffFRduXa16ZIuufstygaWK7u/+mOtVPgE4=;
+	b=nPpgj1xrY/kTGRTi9T4s4am9azFUjdVzBE5Yfe3NIaSZORrVUqMSU0ZkbITqGXMi8nDvpP
+	nuMEZs5wrMz6VuYOUy4gzvMj35B6gi4DE/ajmA5dEPLQOYLMnG08idjv4N00KProdSGoGV
+	zZRwefs1HGDyb9EKJV6rgenLBFfWJfkvl3kYqgJaFPYMia67cvUDQ/NwbYruvjgnWyI5HQ
+	FBrlWL3QqbZMgBVoBQszC0qX/7eE78atgSAOeCtOyiLPHhv4FDEs81opHXQ3PtgEWO7nt0
+	Fw0J3XrV0cjWpWO6UkCRQJg4NEpIIgn2Y9dEvOMiJMp5Lxd09EJ+FE276+caRw==
+Date: Fri, 03 May 2024 11:13:28 +0200
+From: Dragan Simic <dsimic@manjaro.org>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: linux-sunxi@lists.linux.dev, wens@csie.org, jernej.skrabec@gmail.com,
+ samuel@sholland.org, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] arm64: dts: allwinner: Add cache information to the SoC
+ dtsi for H6
+In-Reply-To: <20240501103059.10a8f7de@donnerap.manchester.arm.com>
+References: <6a772756c2c677dbdaaab4a2c71a358d8e4b27e9.1714304058.git.dsimic@manjaro.org>
+ <49abb93000078c692c48c0a65ff677893909361a.1714304071.git.dsimic@manjaro.org>
+ <20240430001002.4797e4e3@minigeek.lan>
+ <6fdeb49d57ccccca62e4f43dbe9475e3@manjaro.org>
+ <20240430114627.0cfcd14a@donnerap.manchester.arm.com>
+ <f4f4163d908c95d2a3f6f48bc3d7de49@manjaro.org>
+ <20240501103059.10a8f7de@donnerap.manchester.arm.com>
+Message-ID: <5aeb266ce1aa0ad3dd1d7261eac3b3d2@manjaro.org>
+X-Sender: dsimic@manjaro.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 Authentication-Results: ORIGINATING;
 	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
 
-Add missing cache information to the Allwinner H616 SoC dtsi, to allow
-the userspace, which includes lscpu(1) that uses the virtual files provided
-by the kernel under the /sys/devices/system/cpu directory, to display the
-proper H616 cache information.
+Hello Andre,
 
-Adding the cache information to the H616 SoC dtsi also makes the following
-warning message in the kernel log go away:
+On 2024-05-01 11:30, Andre Przywara wrote:
+> On Tue, 30 Apr 2024 13:10:41 +0200
+> Dragan Simic <dsimic@manjaro.org> wrote:
+>> On 2024-04-30 12:46, Andre Przywara wrote:
+>> > On Tue, 30 Apr 2024 02:01:42 +0200
+>> > Dragan Simic <dsimic@manjaro.org> wrote:
+>> >> Thank you very much for reviewing my patch in such a detailed way!
+>> >> It's good to know that the values in the Allwinner datasheets match
+>> >> with the observed reality, so to speak. :)
+>> >
+>> > YW, and yes, I like to double check things when it comes to Allwinner
+>> > documentation ;-) And it was comparably easy for this problem.
+>> 
+>> Double checking is always good, IMHO. :)
+>> 
+>> > Out of curiosity: what triggered that patch? Trying to get rid of false
+>> > warning/error messages?
+>> 
+>> Yes, one of the motivators was to get rid of the false kernel warning,
+>> and the other was to have the cache information nicely available 
+>> through
+>> lscpu(1).  I already did the same for a few Rockchip SoCs, [1][2][3] 
+>> so
+>> a couple of Allwinner SoCs were the next on my mental TODO list. :)
+> 
+> Thanks for doing this!
 
-  cacheinfo: Unable to detect cache hierarchy for CPU 0
+I'm glad that you like all these patches. :)
 
-Rather conspicuously, almost no cache-related information is available in
-the publicly available Allwinner H616 datasheet (version 1.0) and H616 user
-manual (version 1.0).  Thus, the cache parameters for the H616 SoC dtsi were
-obtained and derived by hand from the cache size and layout specifications
-found in the following technical reference manual, and from the cache size
-and die revision hints available from the following community-provided data
-and memory subsystem benchmarks:
+>>> And do you plan to address the H616 as well? It's a bit more tricky 
+>>> there,
+>>> since there are two die revisions out: one with 256(?)KB of L2, one 
+>>> with
+>>> 1MB(!). We know how to tell them apart, so I could provide some TF-A 
+>>> code
+>>> to patch that up in the DT. The kernel DT copy could go with 256KB 
+>>> then.
+>> 
+>> I have no boards based on the Allwinner H616, so it wasn't on my 
+>> radar.
+>> Though, I'd be happy to prepare and submit a similar kernel patch for
+>> the H616, if you'd then take it further and submit a TF-A patch that
+>> fixes the DT according to the detected die revision?  Did I understand
+>> the plan right?
+> 
+> Yes, that was the idea. I have a working version of that TF-A patch 
+> now,
+> just need to figure out some details about the best way to only build 
+> this
+> for the H616 port.
 
-  - ARM Cortex-A53 revision r0p4 TRM, version J
-  - Summary of the two available H616 die revisions and their differences
-    in cache sizes observed from the CSSIDR_EL1 register readouts, provided
-    by Andre Przywara [1][2]
-  - Tinymembench benchmark results of the H616-based OrangePi Zero 2 SBC,
-    provided by Thomas Kaiser [3]
+Nice, the kernel patch for the H616 SoC dtsi is now on the list, [4]
+please have a look.  Please let me know when your follow-up TF-A patch
+gets submitted upstream, so I can watch it.
 
-For future reference, here's a brief summary of the available documentation
-and the community-provided data and memory subsystem benchmarks:
+> Neither the data sheet nor the user manual mention the cache sizes for 
+> the
+> H616, but I checked the CSSIDR_EL1 register readouts on both an old 
+> H616
+> and a new H618, and they confirm that the former has 256 KB L2, and the
+> latter 1MB.
 
-  - All caches employ the 64-byte cache line length
-  - Each Cortex-A53 core has 32 KB of L1 2-way, set-associative instruction
-    cache and 32 KB of L1 4-way, set-associative data cache
-  - The size of the L2 cache depends on the actual H616 die revision (there
-    are two die revisions), so the entire SoC can have either 256 KB or 1 MB
-    of unified L2 16-way, set-associative cache [1]
+Oh wow, 1 MB of L2 cache is quite a lot for such an SoC, which is
+actually very nice to see.  Thumbs up for Allwinner not skimping on
+the L2 cache in that H616 die revision. :)
 
-Also for future reference, here's the relevant excerpt from the community-
-provided H616 memory subsystem benchmark, [3] which confirms that 32 KB and
-256 KB are the L1 data and L2 cache sizes, respectively:
+> Also I ran tinymembench on two boards to confirm this,
+> community benchmarks results are available here:
+> https://github.com/ThomasKaiser/sbc-bench/blob/master/Results.md
+> The OrangePi Zero2 and OrangePi Zero3 are good examples, respectively.
+> Associativity and cache line size are dictated by the Arm Cortex cores,
+> and the L1I & L1D sizes are the same as in the other SoCs.
 
-    block size : single random read / dual random read
-          1024 :    0.0 ns          /     0.0 ns
-          2048 :    0.0 ns          /     0.0 ns
-          4096 :    0.0 ns          /     0.0 ns
-          8192 :    0.0 ns          /     0.0 ns
-         16384 :    0.0 ns          /     0.0 ns
-         32768 :    0.0 ns          /     0.0 ns
-         65536 :    4.3 ns          /     7.3 ns
-        131072 :    6.6 ns          /    10.5 ns
-        262144 :    9.8 ns          /    15.2 ns
-        524288 :   91.8 ns          /   142.9 ns
-       1048576 :  138.6 ns          /   188.3 ns
-       2097152 :  163.0 ns          /   204.8 ns
-       4194304 :  178.8 ns          /   213.5 ns
-       8388608 :  187.1 ns          /   217.9 ns
-      16777216 :  192.2 ns          /   220.9 ns
-      33554432 :  196.5 ns          /   224.0 ns
-      67108864 :  215.7 ns          /   259.5 ns
+I've included the most important benchmark results in the H616 SoC
+dtsi patch, [4] which actually now serves as an additional reference
+for the cache sizes.
 
-The changes introduced to the H616 SoC dtsi by this patch specify 256 KB as
-the L2 cache size.  As outlined by Andre Przywara, [2] a follow-up TF-A patch
-will perform runtime adjustment of the device tree data, making the correct
-L2 cache size of 1 MB present in the device tree for the boards based on the
-revision of H616 that actually provides 1 MB of L2 cache.
-
-[1] https://lore.kernel.org/linux-sunxi/20240430114627.0cfcd14a@donnerap.manchester.arm.com/
-[2] https://lore.kernel.org/linux-sunxi/20240501103059.10a8f7de@donnerap.manchester.arm.com/
-[3] https://raw.githubusercontent.com/ThomasKaiser/sbc-bench/master/results/4knM.txt
-
-Suggested-by: Andre Przywara <andre.przywara@arm.com>
-Helped-by: Andre Przywara <andre.przywara@arm.com>
-Signed-off-by: Dragan Simic <dsimic@manjaro.org>
----
- .../arm64/boot/dts/allwinner/sun50i-h616.dtsi | 37 +++++++++++++++++++
- 1 file changed, 37 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-index b2e85e52d1a1..4faed88d8909 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-@@ -26,30 +26,67 @@ cpu0: cpu@0 {
- 			reg = <0>;
- 			enable-method = "psci";
- 			clocks = <&ccu CLK_CPUX>;
-+			i-cache-size = <0x8000>;
-+			i-cache-line-size = <64>;
-+			i-cache-sets = <256>;
-+			d-cache-size = <0x8000>;
-+			d-cache-line-size = <64>;
-+			d-cache-sets = <128>;
-+			next-level-cache = <&l2_cache>;
- 		};
- 
- 		cpu1: cpu@1 {
- 			compatible = "arm,cortex-a53";
- 			device_type = "cpu";
- 			reg = <1>;
- 			enable-method = "psci";
- 			clocks = <&ccu CLK_CPUX>;
-+			i-cache-size = <0x8000>;
-+			i-cache-line-size = <64>;
-+			i-cache-sets = <256>;
-+			d-cache-size = <0x8000>;
-+			d-cache-line-size = <64>;
-+			d-cache-sets = <128>;
-+			next-level-cache = <&l2_cache>;
- 		};
- 
- 		cpu2: cpu@2 {
- 			compatible = "arm,cortex-a53";
- 			device_type = "cpu";
- 			reg = <2>;
- 			enable-method = "psci";
- 			clocks = <&ccu CLK_CPUX>;
-+			i-cache-size = <0x8000>;
-+			i-cache-line-size = <64>;
-+			i-cache-sets = <256>;
-+			d-cache-size = <0x8000>;
-+			d-cache-line-size = <64>;
-+			d-cache-sets = <128>;
-+			next-level-cache = <&l2_cache>;
- 		};
- 
- 		cpu3: cpu@3 {
- 			compatible = "arm,cortex-a53";
- 			device_type = "cpu";
- 			reg = <3>;
- 			enable-method = "psci";
- 			clocks = <&ccu CLK_CPUX>;
-+			i-cache-size = <0x8000>;
-+			i-cache-line-size = <64>;
-+			i-cache-sets = <256>;
-+			d-cache-size = <0x8000>;
-+			d-cache-line-size = <64>;
-+			d-cache-sets = <128>;
-+			next-level-cache = <&l2_cache>;
-+		};
-+
-+		l2_cache: l2-cache {
-+			compatible = "cache";
-+			cache-level = <2>;
-+			cache-unified;
-+			cache-size = <0x40000>;
-+			cache-line-size = <64>;
-+			cache-sets = <256>;
- 		};
- 	};
- 
+[1] 
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=67a6a98575974416834c2294853b3814376a7ce7
+[2] 
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=8612169a05c5e979af033868b7a9b177e0f9fcdf
+[3] 
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=b72633ba5cfa932405832de25d0f0a11716903b4
+[4] 
+https://lore.kernel.org/linux-sunxi/9d52e6d338a059618d894abb0764015043330c2b.1714727227.git.dsimic@manjaro.org/
