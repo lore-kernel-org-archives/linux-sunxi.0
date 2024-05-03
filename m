@@ -1,153 +1,92 @@
-Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52EF61AACA;
-	Fri,  3 May 2024 14:08:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E6C14D9FD;
+	Fri,  3 May 2024 15:44:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714745336; cv=none; b=Llze69bZb3e/wfPFI2uYT0CNYnmfKgpjT/9NheUPIM3oJLQxOu62rVxS8VTHVHiC0jIP7UFlD9oylORZT9UZWrek61/tmXVtoHbCS9tuN4YMo6BW+j17Ft+wo3opbHqoGYTAsTpLZyuSMEw0t/KsFx7eOdL/jXpjBj1HRAbsUJQ=
+	t=1714751048; cv=none; b=N0R8jM/4SN4v5nt2syXyu2dy0fsjOG/fW0mOLCGPT5yLjNHunA1DS/2OPUOTREBwKRooM6OyKU9dcA61Q0LMRwjX5Gy13FgW+Ra2gMwPnyUOCJgg6wlNqHpx01V+jZosHVGR2Xtsngc6g0O2HsjDFRuGVNANv+0Q3tBvYMALKVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714745336; c=relaxed/simple;
-	bh=+kPnKcYBQEaIz35grdcmnn1EGJxQ/kAtMsbVmsDrItw=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=hs6iw0g8QEqGbD//pg/CszJF7eHdwtdBPZ3Fbbhsk+O5wtuA1Yaz9uO3mQnzyCuepmagZKppV9Fq9vDsFi2SXTby0EiOlHVjrM8P7wwhjN4iT9H3rYih5QsfdJ/+0VEQemLE2Fy2cklY1nHbA9des7HuDOQxj13eTSAa2++HWvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=mAarC0LY; arc=none smtp.client-ip=116.203.91.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
+	s=arc-20240116; t=1714751048; c=relaxed/simple;
+	bh=hsXOfi4iNd1CKAF+jsU187xcPJDgAO6eNnEnqzte8lg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mQfi+zDqiKdujBljWVA/DRm1/f/xPSFVIJ5th0uejmHcAPCcPyNQ2q+mueu2uFvftm+o4FsZTVqHtKXqpxBQlt1Z2RxJhxiLNbAdN76msiP03RMBmjupDYpkDlLVVqByTWTeOd/u+Ei0suwvQW1SGuFdoF9UVqsn4nVnzOMtHfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UvoPqICl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="mAarC0LY"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UvoPqICl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B589C32789;
+	Fri,  3 May 2024 15:44:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714751047;
+	bh=hsXOfi4iNd1CKAF+jsU187xcPJDgAO6eNnEnqzte8lg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=UvoPqIClABoxUJ4TpD01WrXqC9ETMFAJEIhu4HU1/4OV5Aw2K3SF38Jtz/SAo/P5r
+	 IZnh0Mlx9mLGqvtABoGmKu43SeUBeOXKPhRw9lemKLj9Y7Di0Fw+bUjOyHSdGPxz6c
+	 ai+mbLZODt8QpB3vTV/UIkdum1RIlhGX/U8/UM7eNW51yJfP6smQUeYxZDs8AWoEL/
+	 eEK1gz1V/bj81lkOZ/jOQiKKN8AxjjYPX2vtHBOI6ecpJH30x6zRYLePGr85vW5DLC
+	 su7Na8S7+ZTOu/BkD/ofIQEDg9gcmeuhArg3dfnf+f5ZhBs5ouaLMZzSxC/jC/DSos
+	 EEU0rlJUWigyw==
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Ryan Walklin <ryan@testtoast.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] dt-bindings: arm: sunxi: Fix incorrect '-' usage
+Date: Fri,  3 May 2024 10:44:02 -0500
+Message-ID: <20240503154402.967632-1-robh@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
-	t=1714745331;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3C+MgtjD5FFzr1H8ErTkKFFC7gX/7QwO2uuYNs38Akc=;
-	b=mAarC0LY0zCqC2ZrO6f/B0kd24XVsuHukHHUkTxv8x6uP89ukwITU0O3Ynvicd1D1E9pAe
-	IO3tmU10O6igCP8QZy19eeUc6Ld3IxJqvuNP1A5HBT6M5ThYS4BpN1w2gd1THv6O1jAK7/
-	ezGJ5lRjzzWduiC7DpEa6et6y5QamPHTjx/cHxFoa92YbVL3l6ufWF1RIr8LLxjgxMNHq8
-	xLmLl+oEm7sIthlsxDBs1Nx//ZO6J02vTNuOw0f8VgzJgXGDL/8MklHPqBILGlrXprDE9w
-	hibkEuHJ/OUQOHG1dbrTz8I/N/GLzP9y5rNue5qKcnd9Fy1V2tSamIAR/DWm+g==
-Date: Fri, 03 May 2024 16:08:48 +0200
-From: Dragan Simic <dsimic@manjaro.org>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Martin Tuma <martin.tuma@digiteqautomotive.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hugues Fruchet
- <hugues.fruchet@foss.st.com>, Alain Volmat <alain.volmat@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Paul Kocialkowski
- <paul.kocialkowski@bootlin.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Sakari
- Ailus <sakari.ailus@linux.intel.com>, Thierry Reding
- <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, Sowjanya
- Komatineni <skomatineni@nvidia.com>, Luca Ceresoli
- <luca.ceresoli@bootlin.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Hans
- Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>, Abylay Ospan
- <aospan@netup.ru>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Dmitry
- Osipenko <digetx@gmail.com>, Benjamin Mugnier
- <benjamin.mugnier@foss.st.com>, Sylvain Petinot
- <sylvain.petinot@foss.st.com>, Stanimir Varbanov
- <stanimir.k.varbanov@gmail.com>, Vikash Garodia <quic_vgarodia@quicinc.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Bjorn Andersson
- <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v3 26/26] media: dvb-frontends: tda10048: Make the range
- of z explicit.
-In-Reply-To: <CANiDSCsU+jgYkUmHZOC8xPsL2DbgU7_sWrby1bQAXQNnp+g6Bg@mail.gmail.com>
-References: <20240429-fix-cocci-v3-0-3c4865f5a4b0@chromium.org>
- <20240429-fix-cocci-v3-26-3c4865f5a4b0@chromium.org>
- <20240503112758.763d8d31@sal.lan>
- <c4287024-8012-458d-9829-15ffbceb25cf@moroto.mountain>
- <CANiDSCsU+jgYkUmHZOC8xPsL2DbgU7_sWrby1bQAXQNnp+g6Bg@mail.gmail.com>
-Message-ID: <fe95e3c3a89de4566a4eb53ca8b26c25@manjaro.org>
-X-Sender: dsimic@manjaro.org
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
+Content-Transfer-Encoding: 8bit
 
-Hello Ricardo,
+Commit 6bc6bf8a940a ("dt-bindings: arm: sunxi: document Anbernic RG35XX
+handheld gaming device variants") mistakenly added '-' on each line
+which created empty (i.e. description only) schemas matching anything.
+This causes validation to fail on all the root node compatibles as
+there are multiple oneOf clauses passing.
 
-On 2024-05-03 13:56, Ricardo Ribalda wrote:
-> I am trying to get the DS, but
-> https://www.nxp.com/acrobat_download/literature/9397/75015931.pdf is a
-> dead links now.
-> 
-> Anyone have access to the datasheet?
+Fixes: 6bc6bf8a940a ("dt-bindings: arm: sunxi: document Anbernic RG35XX handheld gaming device variants")
+Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+---
+ Documentation/devicetree/bindings/arm/sunxi.yaml | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-It's kind of available on the link below, but for some strange reason
-the download fails after downloading the first 128 KB or so.
+diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
+index c6d0d8d81ed4..c2a158b75e49 100644
+--- a/Documentation/devicetree/bindings/arm/sunxi.yaml
++++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
+@@ -57,17 +57,17 @@ properties:
+           - const: allwinner,sun8i-v3s
+ 
+       - description: Anbernic RG35XX (2024)
+-      - items:
++        items:
+           - const: anbernic,rg35xx-2024
+           - const: allwinner,sun50i-h700
+ 
+       - description: Anbernic RG35XX Plus
+-      - items:
++        items:
+           - const: anbernic,rg35xx-plus
+           - const: allwinner,sun50i-h700
+ 
+       - description: Anbernic RG35XX H
+-      - items:
++        items:
+           - const: anbernic,rg35xx-h
+           - const: allwinner,sun50i-h700
+ 
+-- 
+2.43.0
 
-https://web.archive.org/web/20080907185532/https://www.nxp.com/acrobat_download/literature/9397/75015931.pdf
-
-
-> On Fri, 3 May 2024 at 13:55, Dan Carpenter <dan.carpenter@linaro.org> 
-> wrote:
->> 
->> On Fri, May 03, 2024 at 11:27:58AM +0100, Mauro Carvalho Chehab wrote:
->> > Em Mon, 29 Apr 2024 15:05:05 +0000
->> > Ricardo Ribalda <ribalda@chromium.org> escreveu:
->> >
->> > > We do not expect the sample_freq to be over 613MHz.
->> > >
->> > > Found by cocci:
->> > > drivers/media/dvb-frontends/tda10048.c:345:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_u64 instead.
->> > >
->> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
->> > > ---
->> > >  drivers/media/dvb-frontends/tda10048.c | 4 +++-
->> > >  1 file changed, 3 insertions(+), 1 deletion(-)
->> > >
->> > > diff --git a/drivers/media/dvb-frontends/tda10048.c b/drivers/media/dvb-frontends/tda10048.c
->> > > index 3e725cdcc66b..1886f733dbbf 100644
->> > > --- a/drivers/media/dvb-frontends/tda10048.c
->> > > +++ b/drivers/media/dvb-frontends/tda10048.c
->> > > @@ -328,7 +328,8 @@ static int tda10048_set_wref(struct dvb_frontend *fe, u32 sample_freq_hz,
->> > >                          u32 bw)
->> > >  {
->> > >     struct tda10048_state *state = fe->demodulator_priv;
->> > > -   u64 t, z;
->> > > +   u32 z;
->> > > +   u64 t;
->> > >
->> > >     dprintk(1, "%s()\n", __func__);
->> > >
->> > > @@ -341,6 +342,7 @@ static int tda10048_set_wref(struct dvb_frontend *fe, u32 sample_freq_hz,
->> > >     /* t *= 2147483648 on 32bit platforms */
->> > >     t *= (2048 * 1024);
->> > >     t *= 1024;
->> > > +   /* Sample frequency is under 613MHz */
->> >
->> > Are you sure about that? Some DVB devices have very high frequency
->> > clocks, specially if they're also used for satellite, so I can't
->> > be sure by just looking at the driver's code.
->> >
->> > Also, we had already a bunch of regressions with "fixes" like this
->> > that actually broke frontend drivers.
->> 
->> This patch preserves the existing behavior. The sample_freq_hz 
->> variable
->> is a u32 so, in the original code, z couldn't have been more than
->> U32_MAX even though it was declared as a u64.
->> 
->> It's possible that the original code was wrong.  We have seen that in
->> other places in this patchset.  Adding a note about the datasheet is
->> also a good idea.
->> 
->> regards,
->> dan carpenter
->> 
