@@ -1,104 +1,127 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A765157E94
-	for <linux-sunxi@lists.linux.dev>; Fri,  3 May 2024 17:40:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A5FA41A80
+	for <linux-sunxi@lists.linux.dev>; Fri,  3 May 2024 17:52:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714758028; cv=none; b=jl3+ThTvQCXL/8MsmzMeWlUEjo1LQszUg7uKM2VVf+OsdqZ6rgvJS5MfOMx36PIP6ThjtamNP9WdKukSwy2LLTNDifjK6sU8iNLcowiQZ1YMMf7uQIgA6LpFwhHHl9l50Ykoy9tHqpNt7kp28aeqV6grd0lA/H3c8Hy285eEaOQ=
+	t=1714758760; cv=none; b=qJSnOIcK1/jbpfgf/crPOL9vh35KehHiAhzQnoLzfiSJqw1zjVj7R6mDy3zts2GA2//53/I9VDmvatH1HLZTkFIk41+IIYVurEIVdFVnZ6lx1ye6G6wpDMLV8wZdUAqCC05MqukTQvPbSRGymLrAeOacIP2PlI82uCMuCuet+IA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714758028; c=relaxed/simple;
-	bh=iLNBKvxVPf32Od+3zH9ykAeTIbVNWQIlPDyS4l7HpGI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aZJHT3GJwXQUThpygs1emDDAzFqubGaK5o+JgJtU8WXK+wlTe+qjf3o2zbMovafzN8/Vri8cbfLG/kWHyZuugJvnPDXoEDV2k6111gtYY828SB+09GdPxMvsffkJw0R/VCUkaxdl8jbkMjPJ+NBhmKKBM1AC7pZ3sz7VWYVO+P8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=EKOJkaUd; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1714758760; c=relaxed/simple;
+	bh=26lFkDSslFUBARmxaoBwnZXKXDz1wLRsTHBw5LcZKiA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=SZo6DDgcq+IilL7pykr30HssX6FELnLBIy/Fn2cgQ8xlpdkMfXfmgHCfTEtBNHEHRjkN8KUkRHvQJ88N4T11WQEvan3URdX665M9sBQBKNsAzdq45Mrgs7wdZ/bQLNFpYgBhYM6HBGgFuV9OpCs326zIAv156rGoP+QnbOO/kCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ACpi2cnB; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="EKOJkaUd"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-6f0aeee172dso2360788b3a.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 03 May 2024 10:40:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ACpi2cnB"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a5991a443b1so211911566b.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 03 May 2024 10:52:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1714758027; x=1715362827; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/82xQUaKpHFd5ja9o3RWf5MPJG6Dng7hHHVkQIw1XvM=;
-        b=EKOJkaUdTnNuVyyIY2j7C6wrriynRBQv2SL8EpfLLi6sevmz8tvwpG61o/ELeEI75w
-         JsZuhB2HUob1/iw6geD6f9x1MzxOfsTuLoQa7H2AVZyxFUbwbLV1VDdtsjkP+c72Ck2e
-         FkIt8wdKqlo+6MsgXdJeOUZhkpqlkTsILtm6bA0LSIF3fkLCiMHeLggz1EEMLJ274e4N
-         GMpRldyi1oAq6iGp/aiHiwQEKM/VwxzDVPLfPvDWo41oWTvFHCI+3+h7dF3onZZu/lZV
-         Jg1DFQy2Czf4y/uU8+NIEJwMp5NPNsaBr0va6GWfp876DDxlbTL0KGHMO4TAlyQQTCd5
-         A3/Q==
+        d=gmail.com; s=20230601; t=1714758757; x=1715363557; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=S5Lj7EMp57A1ZOWJ8YtZlI8QLrZzM8FZK+WR00Wk7Lw=;
+        b=ACpi2cnBRhOulxjzJkgFsGI70irNcF0pfAVdoMohMtFIuw6fup5I+VPfoN/zu0Knje
+         mtLVSMK6JpQF/3r3lAwOjT6Bw44TWn6pZ015pQSHnBV62HDn0uHdGs35EGG+XcsSULzZ
+         Cgzk0zTOfeYYxvsB1tnavtkw9IpLF1ce9edaW5Mqo7dUkIzCi/XWsnzhOh0w/agaWSkr
+         145YPKO2DfdmZakLeI5SUi9Umtc8Nzugnmc3VMUins4C5clBHp+lb3Dlj0WSc5KxaxK2
+         mjQV2oNHeB6cEG4Zezc/NE60dhbr3BWhEeGFLcOCf6pvPYXxaB+24D2yLlkiPzEy7qyf
+         AmEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714758027; x=1715362827;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/82xQUaKpHFd5ja9o3RWf5MPJG6Dng7hHHVkQIw1XvM=;
-        b=aUIWMsDTflpZV/5YKXaftVv1k7R6WGgPn0M1hWWKXmb04LNVFv35k3laLAiVmc0Axw
-         dbwIzkvXTjmJOf/GcVR1OsdlE8XRqlaIqKEtR8ZD+J5QpSfKcc81R/cW8fp5xapy/LyS
-         4VrgiH0L6VnkA2xa7DcZZzdfEPnEuTVst6aOzXQY7zcMPQ73jIMBKUaZ4tpFvIfod2rW
-         cleAFyAuWAmc/NkrPb33vg9IDTTxzWQdR8CeVMPQq+60W0c6rce5BeJTanMLyRWaR/+V
-         i5muWV+g+QEcRUIIcmqx5LEE3M/0YbpHBurQjbsrlOvzIyzZBS1BjhqdMG1T4bKiOlHX
-         q7Lg==
-X-Forwarded-Encrypted: i=1; AJvYcCVoXTtBqST0a/vwdDW+6p6FkOE/hxXD/dmGUZWEWci37KeE9jXrPaw+KfdzWdhiqyxUW8oiyLi4lV03kdFQqEYrFVLdTLFZOoXOfpM=
-X-Gm-Message-State: AOJu0YwyQIX+3QPmGJyurjwena98wz/MTrWhSSB6C6uVQpoKHTj8NQk/
-	g7xIKZTA5zVKomxVTEskTgfB5y03skryDCz7hWCjIeXw0+1nfHUs49eDLx3ZByM=
-X-Google-Smtp-Source: AGHT+IFdJAuZ+3YLpENTV6h8pL82+IWNvGqri0KuLJzvvm8LygTuWoEoOCSYyZZSLsJ7Yq+5DGYxOA==
-X-Received: by 2002:a05:6a00:27a1:b0:6ea:c7bd:90e3 with SMTP id bd33-20020a056a0027a100b006eac7bd90e3mr4451974pfb.14.1714758026783;
-        Fri, 03 May 2024 10:40:26 -0700 (PDT)
-Received: from ghost ([2601:647:5700:6860:f8a2:eea3:33:d368])
-        by smtp.gmail.com with ESMTPSA id m8-20020a634c48000000b0061ea00c2aefsm954888pgl.55.2024.05.03.10.40.24
+        d=1e100.net; s=20230601; t=1714758757; x=1715363557;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=S5Lj7EMp57A1ZOWJ8YtZlI8QLrZzM8FZK+WR00Wk7Lw=;
+        b=LjRPSf7yuCSvxea9+bNyTfwLDZAumWbzFGiL4RJb3uJdEEPRQ4jgjT3qUKeVjz4CDc
+         v0gdf1FGeCT6Fah+P63+JOYKdhfUZwbXwsASoXvT+61xKBOo/yKHGfoJMofENeaVNMkr
+         zLQL08vUCeK9suYFK36U9IZ2TpOu1fg7p1bnff9PnqbhYHRcpQbd97RCMIuZNjQ0RRUE
+         2uVKOppcGTQRrRX32SWSR0cmAdVCJ8rAUvo7Q9Veg/RaVET6QtsqFw2BN+5fZUR6YhGN
+         6Pqv+m5kw4dch9mYXnwXEZAHEYySFVHpONztDAlCoftgS0eTWJZ6CpsssoAv3B+ksLnj
+         K8xQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVRGw7FDHCfATlPreO44FPSoBRCqpbvZk2eHbRP8OHsQeXnQZpHtfNzyxIm1C5rasNWLL8uDq+V4fizjLrw1JbMcH0bUV3cuKUQo/8=
+X-Gm-Message-State: AOJu0YxBRznAKcpue+VDzopPUUKG+MJ/FadYGb4g/h+1Ivzd6XwUss8V
+	uUIrWL0+9wAD22mn1Sqm2DaxkOlpntT+2/L8i7/27xnp7T0SDJDZ
+X-Google-Smtp-Source: AGHT+IF4dsd0FfkWVX3KX+wiy07pKW/AhU4MNhSgBTpRv5E/JETN74/vLWBFDE0BMS4HIFD2W3PVxQ==
+X-Received: by 2002:a50:a696:0:b0:568:d5e7:37a1 with SMTP id e22-20020a50a696000000b00568d5e737a1mr2215751edc.36.1714758756804;
+        Fri, 03 May 2024 10:52:36 -0700 (PDT)
+Received: from [127.0.1.1] (84-115-213-47.cable.dynamic.surfer.at. [84.115.213.47])
+        by smtp.gmail.com with ESMTPSA id q28-20020a50aa9c000000b00572469a7948sm1968368edc.45.2024.05.03.10.52.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 May 2024 10:40:25 -0700 (PDT)
-Date: Fri, 3 May 2024 10:40:23 -0700
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: Conor Dooley <conor@kernel.org>
-Cc: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Evan Green <evan@rivosinc.com>,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v5 03/17] riscv: vector: Use vlenb from DT
-Message-ID: <ZjUhh4tts6+0yfB/@ghost>
-References: <20240502-dev-charlie-support_thead_vector_6_9-v5-0-d1b5c013a966@rivosinc.com>
- <20240502-dev-charlie-support_thead_vector_6_9-v5-3-d1b5c013a966@rivosinc.com>
- <20240503-zippy-skeletal-e5f63c9f17c1@spud>
- <ZjUbpKKobaLXhqPz@ghost>
- <20240503-reviver-unify-b07f33cb6053@spud>
+        Fri, 03 May 2024 10:52:36 -0700 (PDT)
+From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Subject: [PATCH 0/2] cpufreq: sun50i: fix memory leak and remove
+ of_node_put()
+Date: Fri, 03 May 2024 19:52:31 +0200
+Message-Id: <20240503-sun50i-cpufreq-nvmem-cleanup-v1-0-0a2352cac46b@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240503-reviver-unify-b07f33cb6053@spud>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAF8kNWYC/x3MwQqDMAwA0F+RnBeIrpXhr8gOpaYa0Ky2VAbiv
+ 1s8vss7IXMSzjA0JyQ+JMtPK9pXA35xOjPKVA0ddYYsvTEXtSToYwmJd9Rj4w39yk5LREPO+PA
+ JzvYT1CImDvJ/+vF7XTdx4KIFbgAAAA==
+To: Yangtao Li <tiny.windzz@gmail.com>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Viresh Kumar <viresh.kumar@linaro.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Andre Przywara <andre.przywara@arm.com>, 
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>
+X-Mailer: b4 0.14-dev
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1714758755; l=1729;
+ i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
+ bh=26lFkDSslFUBARmxaoBwnZXKXDz1wLRsTHBw5LcZKiA=;
+ b=SAyC1/2rpo7KrfqQ3wLlae9m8UXTOYb4VAe330AWXXwusl1ENis3BtDioVvV8r8YDz5yvQHKR
+ QzpMy9YoqUzBxOEAK9wzbzCFss4+EKjtvl/cpdv2TW5D/WLnigd2ZJ6
+X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
+ pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
 
-On Fri, May 03, 2024 at 06:26:58PM +0100, Conor Dooley wrote:
-> On Fri, May 03, 2024 at 10:15:16AM -0700, Charlie Jenkins wrote:
-> > The DT is improperly
-> > formatted since it has heterogeneous vlenb entries and has V enabled,
-> > but since the user disabled V in the kernel skipping the warning is
-> > reasonable.
-> 
-> I wouldn't go as far as "improperly formatted", as if the harts really
-> do have differing vector lengths, it's correctly formatted. It's just
-> not something we support in Linux.
+This series fixes a memory leak by means of the _scoped version of the
+for_each_child_of_node() loop, which was recently introduced with
+34af4554fb0c ("of: Introduce for_each_*_child_of_node_scoped() to
+automate of_node_put() handling").
 
-Fair enough, not supported is a better term here.
+The new approach is still not widely used, but this might be a good
+occasion to use it in a driver because it actually fixes a bug, and
+the loop is rather simple.
 
-- Charlie
+The creator of the new macro was added to the discussion in case the
+new approach is still not mature enough, even for such simple case.
+
+Additionally, the existing uses of of_node_put() have been removed to
+favour the _free() cleanup handler, which reduces the chances of having
+any other memory leak because some of_node_put() is missing as well as
+simplifies the current code.
+
+I don't have the real hardware to test the series, so I "faked" the node
+in a device tree for an arm64 device (Rockchip) and hacked the driver
+to get to run dt_has_supported_hw(). The new implementation works as
+expected, but if someone wants to test it with the proper SoC,
+additional tests are always welcome. The same applies for the removals
+of of_node_put().
+
+Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+---
+Javier Carrasco (2):
+      cpufreq: sun50i: fix memory leak in dt_has_supported_hw()
+      cpufreq: sun50i: replace of_node_put() with automatic cleanup handler
+
+ drivers/cpufreq/sun50i-cpufreq-nvmem.c | 27 +++++++++------------------
+ 1 file changed, 9 insertions(+), 18 deletions(-)
+---
+base-commit: 9221b2819b8a4196eecf5476d66201be60fbcf29
+change-id: 20240503-sun50i-cpufreq-nvmem-cleanup-40a4cf8fa56d
+
+Best regards,
+-- 
+Javier Carrasco <javier.carrasco.cruz@gmail.com>
 
