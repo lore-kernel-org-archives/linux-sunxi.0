@@ -1,208 +1,173 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D673B57CAE;
-	Sat,  4 May 2024 08:25:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E922939FD9;
+	Sat,  4 May 2024 14:18:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714811151; cv=none; b=tEwoob+G8Sc/Oxiw3au/0NUnsMqrWWEAP1LMUOAf/11hSq4vPkaPSKl5CEhj8tVA/XTUft3TCaSVBL4XMjlAi/4+NvDtQ9JS/Z7muooBFB8Ek7W2tblMaAdCQq85sRoNfVEuxubDZxUMmjnw4h/Euk/2E8MgxxF3dgeWUmdsf8I=
+	t=1714832338; cv=none; b=DwvMrb0lWSJkgOlL1RnhKZF/fdBScvuuh7LxUzcFmfcwnddLZ4XFQ7tN29gR7CzUVxLVtsyFp6M+9DIDpXL20jfMyihHfmOH5T5WEmHbtekS6rtlZleDxOm9fqt2gC5p/hYxo644Sr4a8HPQZpKNvb/+6ykvDQJNaxG5Qpw3xW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714811151; c=relaxed/simple;
-	bh=fLeV6TQVWA84Es9rMG8vcDpeqrwOawiwQupR9rySaYE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TXIBzkWbW39eMdByYkaNObAsRxyBHrs693ZNELoU/f0GwEbNi0zjIVUIVDwv1mU2AfjgmJtsjqA79hcfD+dNBQm/S1puTKy3/wRddanI6r6GG0BLyJwokWmXb8x36fFdozI8zr2x+uIc1/5OVn1zj4G+MplsKLOV1mFLDrnGLK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 164C3C072AA;
-	Sat,  4 May 2024 08:25:43 +0000 (UTC)
-Message-ID: <5780ea67-eff1-4c0e-9443-1cd7d61aa581@xs4all.nl>
-Date: Sat, 4 May 2024 10:25:42 +0200
+	s=arc-20240116; t=1714832338; c=relaxed/simple;
+	bh=w6bn/4no8NMVEJqPP561BcxXipVz/9y/dItL/1UBPSY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=szivVnzZ6f1pzVAPUv2OItJDKGjGHxGtanoKnuNlV/auFSkWQvJj72/Bg9lif6tJAp/Ll13MWSQaw2MLaZMEdTH6bgWhO+lSBMZpSXB7LHBD5C0Px9vuC/03iI+tjCRkyWgxttUjXdhFrEkGOBv65xNnyFQlxCPd1HFGFZ+uOXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=oc2a49Dv; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="oc2a49Dv"
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 85A2D33D;
+	Sat,  4 May 2024 16:17:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1714832273;
+	bh=w6bn/4no8NMVEJqPP561BcxXipVz/9y/dItL/1UBPSY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oc2a49DvYCMivQW8QKuerCPDE3NB3M4O9gQMO9h7ew1S3EyQGPeuVqDZMxOQ0Rhx8
+	 noPhHVWfaI4WgcUwRiPdTUdxX6QxUwk259ygX79+BNPafprI95tRigE5Hftkcr53OA
+	 fLFvCGMtvo6Bbhyh2FDfgLBjJcV+gwxbyscJXnXg=
+Date: Sat, 4 May 2024 17:18:45 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Julien Massot <julien.massot@collabora.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Yong Zhi <yong.zhi@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
+	Dan Scally <djrscally@gmail.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Eugen Hristev <eugen.hristev@collabora.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Maxime Ripard <mripard@kernel.org>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Martin Kepplinger <martink@posteo.de>,
+	Purism Kernel Team <kernel@puri.sm>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Robert Foss <rfoss@kernel.org>,
+	Todor Tomov <todor.too@gmail.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Dafna Hirschfeld <dafna@fastmail.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Yong Deng <yong.deng@magewell.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Benoit Parrot <bparrot@ti.com>, Jai Luthra <j-luthra@ti.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Michal Simek <michal.simek@amd.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev, linux-staging@lists.linux.dev,
+	linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 0/2] Introduce v4l2_async_nf_unregister_cleanup
+Message-ID: <20240504141845.GC24548@pendragon.ideasonboard.com>
+References: <20240502-master-v1-0-8bd109c6a3ba@collabora.com>
+ <20240502155626.GD15807@pendragon.ideasonboard.com>
+ <ZjO46Uo_tVcRTdA0@kekkonen.localdomain>
+ <20240502160830.GB11443@pendragon.ideasonboard.com>
+ <ZjO-JDBdHXVLbz5H@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 09/26] media: v4l: async: refactor
- v4l2_async_create_ancillary_links
-Content-Language: en-US, nl
-To: Ricardo Ribalda <ribalda@chromium.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
- Martin Tuma <martin.tuma@digiteqautomotive.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hugues Fruchet <hugues.fruchet@foss.st.com>,
- Alain Volmat <alain.volmat@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Chen-Yu Tsai
- <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Sergey Kozlov <serjk@netup.ru>, Abylay Ospan <aospan@netup.ru>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Dmitry Osipenko <digetx@gmail.com>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Sylvain Petinot <sylvain.petinot@foss.st.com>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
-References: <20240419-fix-cocci-v2-0-2119e692309c@chromium.org>
- <20240419-fix-cocci-v2-9-2119e692309c@chromium.org>
- <40b9c015-8ccf-4313-800a-ecae9aa8cc27@xs4all.nl>
- <ZilMu614pUAzEGTa@kekkonen.localdomain>
- <20240424184603.GA6282@pendragon.ideasonboard.com>
- <CANiDSCucvz=dQYDguzBZ-f95ZP84zuhvoKnmEYoJqAs1YnZ3ZA@mail.gmail.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <CANiDSCucvz=dQYDguzBZ-f95ZP84zuhvoKnmEYoJqAs1YnZ3ZA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ZjO-JDBdHXVLbz5H@kekkonen.localdomain>
 
-On 29/04/2024 12:51, Ricardo Ribalda wrote:
-> Hi Hans
+On Thu, May 02, 2024 at 04:24:04PM +0000, Sakari Ailus wrote:
+> On Thu, May 02, 2024 at 07:08:30PM +0300, Laurent Pinchart wrote:
+> > On Thu, May 02, 2024 at 04:01:45PM +0000, Sakari Ailus wrote:
+> > > On Thu, May 02, 2024 at 06:56:26PM +0300, Laurent Pinchart wrote:
+> > > > On Thu, May 02, 2024 at 05:22:20PM +0200, Julien Massot wrote:
+> > > > > Many drivers has
+> > > > >   v4l2_async_nf_unregister(&notifier);
+> > > > >   v4l2_async_nf_cleanup(&notifier);
+> > > > > 
+> > > > > Introduce a helper function to call both functions in one line.
+> > > > 
+> > > > Does this really go in the right direction ? For other objects (video
+> > > > devices, media devices, ...), the unregistration should be done at
+> > > > .remove() time, and the cleanup at .release() time (the operation called
+> > > > when the last reference to the object is released). This is needed to
+> > > > ensure proper lifetime management of the objects, and avoid a
+> > > > use-after-free for objects that can be reached from userspace.
+> > > > 
+> > > > It could be argued that the notifier isn't exposed to userspace, but can
+> > > > we guarantee that no driver will have a need to access the notifier in a
+> > > > code path triggered by a userspace operation ? I think it would be safer
+> > > > to adopt the same split for the nofifier unregistration and cleanup. In
+> > > > my opinion using the same rule across different APIs also make it easier
+> > > > for driver authors and for reviewers to get it right.
+> > > > 
+> > > > As shown by your series, lots of drivers call v4l2_async_nf_cleanup()
+> > > > and .remove() time instead of .release(). That's because most drivers
+> > > > get lifetime management wrong and don't even implement .release().
+> > > > That's something Sakari is addressing with ongoing work. This patch
+> > > > series seems to go in the opposite direction.
+> > > 
+> > > This still avoids the driver authors feeling they need to implement wrapper
+> > > functions for v4l2_async_nf_{unregister,cleanup}. I'd be in favour merging
+> > > this.
+> > > 
+> > > I don't see this getting in the way of adding use counts as the code will
+> > > need to be changed in any case.
+> > 
+> > Fixing the lifetime issues would essentially revert 2/2 and move the
+> > v4l2_async_nf_cleanup() call to .remove(). I don't think providing a
+> > helper that forces the cleanup at .remove() time is a good idea, it
+> > gives a false sense of doing things right to drivers. This is the same
+> > reason why devm_kzalloc() is so harmful, it gave the wrong message, and
+> > created (or participated in) all those lifetime issues.
 > 
-> Your proposal is what I sent for v1:
-> https://lore.kernel.org/linux-media/20240415-fix-cocci-v1-9-477afb23728b@chromium.org/
+> I still prefer having devm_*alloc() functions than having the drivers open
+> coding the same -- with the same result. The frameworks won't enable doing
+> this right at the moment and I don't think drivers (or us!) should be
+> penalised for that.
 
-I decided to go for the v1. I prefer it, and more importantly, Sakari as
-maintainer of this code prefers it as well.
+I don't really see where the penalty is. What's the urgency to switch
+from calling v4l2_async_nf_unregister() and v4l2_async_nf_cleanup() to a
+helper that we know goes in the wrong direction ?
 
+> The driver authors will only change what they do, with
+> these patches or without, when told so. But we don't really have an
+> alternative today.
+
+There's already a .release() callback that can be used, and some drivers
+use it.
+
+> A similar situation exists with clk_unprepare() and clk_disable().
+
+-- 
 Regards,
 
-	Hans
-
-> 
-> I have no strong opinion for any of the two, please feel free to land
-> whatever version you prefer.
-> 
-> 
-> Regards
-> 
-> On Wed, 24 Apr 2024 at 20:46, Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com> wrote:
->>
->> On Wed, Apr 24, 2024 at 06:17:31PM +0000, Sakari Ailus wrote:
->>> On Wed, Apr 24, 2024 at 12:55:20PM +0200, Hans Verkuil wrote:
->>>> On 19/04/2024 11:47, Ricardo Ribalda wrote:
->>>>> Return 0 without checking IS_ERR or PTR_ERR if CONFIG_MEDIA_CONTROLLER
->>>>> is not enabled.
->>>>>
->>>>> This makes cocci happier:
->>>>>
->>>>> drivers/media/v4l2-core/v4l2-async.c:331:23-30: ERROR: PTR_ERR applied after initialization to constant on line 319
->>>>>
->>>>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
->>>>> ---
->>>>>  drivers/media/v4l2-core/v4l2-async.c | 7 +++----
->>>>>  1 file changed, 3 insertions(+), 4 deletions(-)
->>>>>
->>>>> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
->>>>> index 4bb073587817..915a9f3ea93c 100644
->>>>> --- a/drivers/media/v4l2-core/v4l2-async.c
->>>>> +++ b/drivers/media/v4l2-core/v4l2-async.c
->>>>> @@ -316,9 +316,10 @@ v4l2_async_nf_try_all_subdevs(struct v4l2_async_notifier *notifier);
->>>>>  static int v4l2_async_create_ancillary_links(struct v4l2_async_notifier *n,
->>>>>                                        struct v4l2_subdev *sd)
->>>>>  {
->>>>> - struct media_link *link = NULL;
->>>>> + struct media_link *link;
->>>>>
->>>>> -#if IS_ENABLED(CONFIG_MEDIA_CONTROLLER)
->>>>> + if (!IS_ENABLED(CONFIG_MEDIA_CONTROLLER))
->>>>> +         return 0;
->>>>>
->>>>>   if (sd->entity.function != MEDIA_ENT_F_LENS &&
->>>>>       sd->entity.function != MEDIA_ENT_F_FLASH)
->>>>> @@ -326,8 +327,6 @@ static int v4l2_async_create_ancillary_links(struct v4l2_async_notifier *n,
->>>>>
->>>>>   link = media_create_ancillary_link(&n->sd->entity, &sd->entity);
->>>>>
->>>>> -#endif
->>>>> -
->>>>>   return IS_ERR(link) ? PTR_ERR(link) : 0;
->>>>>  }
->>>>
->>>> I think I would prefer:
->>>>
->>>> static int v4l2_async_create_ancillary_links(struct v4l2_async_notifier *n,
->>>>                                          struct v4l2_subdev *sd)
->>>> {
->>>> #if IS_ENABLED(CONFIG_MEDIA_CONTROLLER)
->>>>     struct media_link *link;
->>>>
->>>>     ...
->>>>
->>>>     return IS_ERR(link) ? PTR_ERR(link) : 0;
->>>> #else
->>>>     return 0;
->>>> #endif
->>>> }
->>>>
->>>
->>> Me, too.
->>
->> I actually prefer Ricardo's proposal :-)
->>
->> --
->> Regards,
->>
->> Laurent Pinchart
-> 
-> 
-> 
-
+Laurent Pinchart
