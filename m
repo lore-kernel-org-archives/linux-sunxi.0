@@ -1,88 +1,241 @@
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+Received: from mailout01.t-online.de (mailout01.t-online.de [194.25.134.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB7EE17578;
-	Sat,  4 May 2024 20:44:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 193881BC5C
+	for <linux-sunxi@lists.linux.dev>; Sun,  5 May 2024 13:37:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.25.134.80
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714855460; cv=none; b=o6dR2nd+zfHECC1Oo4RHNxBZG0IOF70TEq6RrxSLF1SU+mKR7mBEdYVNTBpUfcwEdjuP30WRETxU0JQr1cxaX9iQEhJYTCw4WKkt0VMpIPM4poRKWx2NbG5zHxZYHaunykRkFbGTat5gP1XlM/RymP+z5kTqIM8d83X5bh8WEbQ=
+	t=1714916247; cv=none; b=nEuTdjTb3Dw+xMxSize8xlxQhsaOkO74h9SfMlkeOk7Xp9G40dMPGWULt6VEawvSUyA8jqxrRO7BmRF6VMnzzN2ojEPxKKlsgDv4Ry6BN1oU08HJ6GAv7hhg9ghnUGx6IX6QH4QalEdBqpWN9aTuVpjkFfy/yOGhyW8weN3Tm9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714855460; c=relaxed/simple;
-	bh=Woz1MD9/NijvVG8MTLwNijJgEfXM134tNxFmEi6WXeA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uZAxNduux6nKMcpZZ2MESjtLGYoy4pVdrfkZPfIQ0P7OBPfHg1VQuSplFecWFGsZzkG+HGOuT3lJwOzrZ3y9mg0GFgJrPhtiJ/R0vNCwDVnfn5rUkesv2TpqOEZodls9MnJlSX14mp9bfUbZGzsVVqd2OoxHxpFweBtpEWZM1a8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=sVtoP/wK; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="sVtoP/wK"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
-	:Subject; bh=/HLlbzIaJQzB0yvbypNhoOF63v0aCE5E1l/hroSiDok=; b=sVtoP/wK5kIeBu+s
-	eT5gr4UfvPAlaulWIQM+/NA3wCy2dJowoNB7XwCO9FlBG/NVkmY1lLPE3MIG9GcJKmopwUhJgvjUj
-	6huIU24VavxL5Y4eWtuA6kA0qhO5WfbBGK16gmra6/+eNcY/pyWl3DEbmTr8YboYQ6PN8vS7/BVuk
-	bU34GYD+qAhMmdxCfKsHV0hgVBmqITpvto6Smbrc+uAyUMxDLlycfCnqSUx2pcxC1YebmjVfp++DA
-	tYLCzR13BPAVdG4DT/RLmzn00EUqiVjZTGN7UU64otDnuzmYsW3c1I0UaI0XEo5i+WHGPoX3ILQco
-	2cTVcmwMS//TxyjdTA==;
-Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
-	by mx.treblig.org with esmtp (Exim 4.96)
-	(envelope-from <linux@treblig.org>)
-	id 1s3MEn-004jGi-2X;
-	Sat, 04 May 2024 20:44:05 +0000
-From: linux@treblig.org
-To: wens@csie.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org
-Cc: linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	"Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH] soc: sunxi: sram: Remove unused list 'claimed_sram'
-Date: Sat,  4 May 2024 21:44:01 +0100
-Message-ID: <20240504204401.198913-1-linux@treblig.org>
-X-Mailer: git-send-email 2.45.0
+	s=arc-20240116; t=1714916247; c=relaxed/simple;
+	bh=8MWH3jY9drwF3ETc0Bgb/plxlh0m2NIwn+SbPNG0UiQ=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=a/r39LVXBTd9EyR42XzUOtXNBlJvNDKWHN84/Jhlm/7ZNJ6EiZYEOVvoKrZeaQlprAWZa2SaOp9kEqxWJpUUtkPocr6y7EEe6x9RUR8TIfujn7ExTJjElfxQwxOGq+yGx43fCj5BXBdLXnrSgsI7hwVJ0BtKBxtROGQgxWgGrxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=t-online.de; spf=pass smtp.mailfrom=t-online.de; arc=none smtp.client-ip=194.25.134.80
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=t-online.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=t-online.de
+Received: from fwd75.aul.t-online.de (fwd75.aul.t-online.de [10.223.144.101])
+	by mailout01.t-online.de (Postfix) with SMTP id 4613A10240;
+	Sun,  5 May 2024 15:27:15 +0200 (CEST)
+Received: from dino2.dhome ([77.47.123.226]) by fwd75.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1s3bta-06MK8H0; Sun, 5 May 2024 15:27:14 +0200
+Message-ID: <6d872479ea873d25bd1f0d893439c6ceafd11327.camel@t-online.de>
+Subject: Re: [PATCH v3 1/1] drivers/rtc: rtc-sun6i: AutoCal Internal OSC
+ Clock
+From: Alois Fertl <A.Fertl@t-online.de>
+Reply-To: 20240503121304.5fc6add5@donnerap.manchester.arm.com
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: a.zummo@towertech.it, alexandre.belloni@bootlin.com, wens@csie.org, 
+	jernej.skrabec@gmail.com, samuel@sholland.org, linux-rtc@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Ryan Walklin
+	 <ryan@testtoast.com>
+Date: Sun, 05 May 2024 15:27:05 +0200
+In-Reply-To: <20240503121304.5fc6add5@donnerap.manchester.arm.com>
+References: <20240502180736.7330-1-a.fertl@t-online.de>
+	 <20240503121304.5fc6add5@donnerap.manchester.arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-TOI-EXPURGATEID: 150726::1714915634-3F9E2C7B-0934CFAC/0/0 CLEAN NORMAL
+X-TOI-MSGID: 75600d42-4875-4f16-b473-b116d7b38c45
 
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
+On Fri, 2024-05-03 at 12:13 +0100, Andre Przywara wrote:
 
-The list 'claimed_sram' seems unused, as far as I can tell it always
-has been.
-I think the 'list' member of sunxi_sram_data was intended to be
-used when it was on that list.
-Remove them.
+Hi Andre and Ryan, thanks for responding, and sorry.
+Andre's reply was somehow lost and I just found it on the
+archive mirror. So hopefully my reply is correct.
 
-Build tested only.
+And it is my first journey to do a patch.
 
-Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
----
- drivers/soc/sunxi/sunxi_sram.c | 2 --
- 1 file changed, 2 deletions(-)
+> On Thu,=C2=A0 2 May 2024 20:07:36 +0200
+> Alois Fertl <a.fertl@t-online.de> wrote:
+>=20
+> Hi Alois,
+>=20
+> many thanks for taking care and sending a patch! I think this problem
+> is
+> plaguing some people.
+>=20
+> > I have a M98-8K PLUS Magcubic TV-Box based on the Allwinner H618
+> > SOC.
+> > On board is a Sp6330 wifi/bt module that requires a 32kHz clock to
+> > operate correctly. Without this change the clock from the SOC is
+> > ~29kHz and BT module does not start up. The patch enables the
+> > Internal
+> > OSC Clock Auto Calibration of the H616/H618 which than provides the
+> > necessary 32kHz and the BT module initializes successfully.
+> > Add a flag and set it for H6 AND H616. The H618 is the same as H616
+> > regarding rtc.
+>=20
+> (many thanks to Ryan for the head up on this)
+>=20
+> So what tree is this patch based on? It certainly is not mainline, is
+> it?
+I'm running armbian based on linux-kernel-worktree/6.7__sunxi64__arm64=20
+which has one other rtc/rtc-sun6i.c patch applied before.
+ "[PATCH] drv:rtc:sun6i: support RTCs without external LOSCs"
 
-diff --git a/drivers/soc/sunxi/sunxi_sram.c b/drivers/soc/sunxi/sunxi_sram.c
-index 6eb6cf06278e6..71cc377b5e243 100644
---- a/drivers/soc/sunxi/sunxi_sram.c
-+++ b/drivers/soc/sunxi/sunxi_sram.c
-@@ -33,7 +33,6 @@ struct sunxi_sram_data {
- 	u8			offset;
- 	u8			width;
- 	struct sunxi_sram_func	*func;
--	struct list_head	list;
- };
- 
- struct sunxi_sram_desc {
-@@ -103,7 +102,6 @@ static const struct of_device_id sunxi_sram_dt_ids[] = {
- };
- 
- static struct device *sram_dev;
--static LIST_HEAD(claimed_sram);
- static DEFINE_SPINLOCK(sram_lock);
- static void __iomem *base;
- 
--- 
-2.45.0
+> Mainline never supported the H616 RTC clocks via the RTC driver, this
+> was
+> only through the new driver in the clk
+> directory, in drivers/clk/sunxi-ng/ccu-sun6i-rtc.c:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
+/?id=3D8a93720329d4d2
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
+/?id=3Dd91612d7f01aca
+I have found some code in for calibration in the sunxi-ng directory
+that was never called and I doubt that it gives working calibration.
+Should a kernel then use exclusively use the one or the other driver?
 
+>=20
+> Please note that the H6 RTC clocks were intended to be handled via
+> the new
+> driver as well, but this part was reverted:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
+/?id=3D60d9f050da63b
+>=20
+> Please only send patches based on the mainline tree.
+>=20
+> I doesn't look that hard to adjust the patch to mainline, though to
+> cover
+> the H6 is well this would require this code in both drivers. So when
+> we
+> want to address the H6 as well, it might make sense to solve the
+> problem
+> that triggered the revert first, to only have that change only in one
+> file.=20
+Yes, the code would be useful for H6 when no external crystal is
+present.
+
+>=20
+> > Signed-off-by: Alois Fertl <a.fertl@t-online.de>
+> > ---
+> >=20
+> > v1->v2
+> > - add flag and activate for H6 AND H616
+> >=20
+> > v2->v3
+> > - correct findings from review
+> >=20
+> > I was hoping to get some feedback regarding the situation on H6,
+> > where an external 32k crystal can be present.
+> > From what I understand from the H6 manual there should be no
+> > conflict as one can select which souce will drive the output.
+> > Should certainly be tested but I don`t have H6 hardware.
+>=20
+> I think I should have H6 boards both with and without an external
+> crystal
+> oscillator, so can check the situation there, but only next week.
+>=20
+> > =C2=A0drivers/rtc/rtc-sun6i.c | 17 ++++++++++++++++-
+> >=20
+> > =C2=A01 file changed, 16 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
+> > index e0b85a0d5645..20e81ccdef29 100644
+> > --- a/drivers/rtc/rtc-sun6i.c
+> > +++ b/drivers/rtc/rtc-sun6i.c
+> > @@ -42,6 +42,11 @@
+> > =C2=A0
+> > =C2=A0#define SUN6I_LOSC_CLK_PRESCAL=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A00x0008
+> > =C2=A0
+> > +#define SUN6I_LOSC_CLK_AUTO_CAL=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A00x000c
+> > +#define SUN6I_LOSC_CLK_AUTO_CAL_16MS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0BIT(2)
+> > +#define SUN6I_LOSC_CLK_AUTO_CAL_ENABLE=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0BIT(1)
+> > +#define SUN6I_LOSC_CLK_AUTO_CAL_SEL_CAL=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0BIT(0)
+> > +
+> > =C2=A0/* RTC */
+> > =C2=A0#define SUN6I_RTC_YMD=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A00x0010
+> > =C2=A0#define SUN6I_RTC_HMS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A00x0014
+> > @@ -126,7 +131,6 @@
+> > =C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0 registers (R40, H6)
+> > =C2=A0 *=C2=A0=C2=A0 - SYS power domain controls (R40)
+> > =C2=A0 *=C2=A0=C2=A0 - DCXO controls (H6)
+> > - *=C2=A0=C2=A0 - RC oscillator calibration (H6)
+> > =C2=A0 *
+> > =C2=A0 * These functions are not covered by this driver.
+> > =C2=A0 */
+> > @@ -138,6 +142,7 @@ struct sun6i_rtc_clk_data {
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0unsigned int has_losc_e=
+n : 1;
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0unsigned int has_auto_s=
+wt : 1;
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0unsigned int no_ext_los=
+c : 1;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0unsigned int has_auto_cal : =
+1;
+> > =C2=A0};
+> > =C2=A0
+> > =C2=A0#define RTC_LINEAR_DAY=C2=A0BIT(0)
+> > @@ -268,6 +273,14 @@ static void __init sun6i_rtc_clk_init(struct
+> > device_node *node,
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0writel(reg, rtc->base +=
+ SUN6I_LOSC_CTRL);
+> > =C2=A0
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (rtc->data->has_auto_cal)=
+ {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0/* Enable internal OSC clock auto calibration */
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0reg =3D SUN6I_LOSC_CLK_AUTO_CAL_16MS |
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0SUN6I_=
+LOSC_CLK_AUTO_CAL_ENABLE |
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0SUN6I_=
+LOSC_CLK_AUTO_CAL_SEL_CAL;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0writel(reg, rtc->base + SUN6I_LOSC_CLK_AUTO_CAL);
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}
+> > +
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* Yes, I know, this is=
+ ugly. */
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0sun6i_rtc =3D rtc;
+> > =C2=A0
+> > @@ -380,6 +393,7 @@ static const struct sun6i_rtc_clk_data
+> > sun50i_h6_rtc_data =3D {
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.has_out_clk =3D 1,
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.has_losc_en =3D 1,
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.has_auto_swt =3D 1,
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.has_auto_cal =3D 1,
+> > =C2=A0};
+> > =C2=A0
+> > =C2=A0static void __init sun50i_h6_rtc_clk_init(struct device_node
+> > *node)
+> > @@ -395,6 +409,7 @@ static const struct sun6i_rtc_clk_data
+> > sun50i_h616_rtc_data =3D {
+>=20
+> For the records: this whole struct does not exist in mainline.
+>=20
+> Cheers,
+> Andre
+>=20
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.has_prescaler =3D 1,
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.has_out_clk =3D 1,
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.no_ext_losc =3D 1,
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.has_auto_cal =3D 1,
+> > =C2=A0};
+> > =C2=A0
+> > =C2=A0static void __init sun50i_h616_rtc_clk_init(struct device_node
+> > *node)
+>=20
+Cheers,
+Alois
