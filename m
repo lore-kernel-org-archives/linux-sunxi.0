@@ -1,82 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-m127150.qiye.163.com (mail-m127150.qiye.163.com [115.236.127.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C527E13D895;
-	Mon,  6 May 2024 15:29:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A9E63C08D
+	for <linux-sunxi@lists.linux.dev>; Mon,  6 May 2024 15:30:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.236.127.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715009381; cv=none; b=W9pQkNTEyX03i7ZefXcM8lP9h0QDOTz6/LBqKfiO6icERl/XFl/qcwTlEOkh1L/I1XS5qeJsJJExn1tQiAzFI73n5tvOK4BgAP3M7UaUmdHHoIJGNPMEMimSD/nQH1bl0aNeeQgHVXUvfceEzFCnEnF5LHvfYlz+viKSQ7okYEw=
+	t=1715009419; cv=none; b=tdAriPlKyjFkvxMxhxJCR4gdgLluy02mPBZFFPUZsvvFs2jFKdu9yQbmCfz6AFPiPqh6ZI/PnPJUOT8pQNdpc99oB+0Ku/1/9At7heqybVjCIBWDtCCQMW6P0ynt4sJXEGFqPcI4C4/c6zMddRS23KCr1wnsF73wI9zLmDZy40Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715009381; c=relaxed/simple;
-	bh=BBOSqboN379XSm9Iz1r2ZHSSPtDfxe+m253sEHdnvQw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=neIF33RCaXm5JeiVlzEGAv8ylUWxnkMcWTbzCMuIkzyFMk/9ndGOlEglOZ5EFYXdH2Ftm+vxX8EJVmvKCWbgJzbjBUsm6uMeF1y3r3Jf4FXzCKRVay2qq6fo5mcCQJjjIjQSEVAopU6mpW+8st3fj0UQVuYhG4lNJ97AUM/k7qE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QEUf4YmI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1715009419; c=relaxed/simple;
+	bh=pyfAwvjWpp9yO49mvYPG4/3Ctuy4s/rdglAXCFfPT4k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=i+lHt6Gc88LyrNsRFIr0VM4H7LwEKvbkn8EdP7hambMdtRUOuyW4HNiL2ONYLaU4plUs1JO9PReUANykSGIOheBK4wBUB1gYejdhHjK3/Fe84owYszO07R7eVbUU3B/oUGWs9mbExn/bRPTp6l+JtJ6WV4laGUghEZ3hfFRN7iQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=ZrKQo4LL; arc=none smtp.client-ip=115.236.127.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QEUf4YmI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCB08C116B1;
-	Mon,  6 May 2024 15:29:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715009381;
-	bh=BBOSqboN379XSm9Iz1r2ZHSSPtDfxe+m253sEHdnvQw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QEUf4YmIlRaTdvYL/3k1/jMolHMfWrCwLr32yeivE4YqckERa8DT8fPNoNiLTWjnd
-	 p55ERagLDo9l4gArxRG2SvLgaPvZAltgIRlEMWXiQd8bzqOp7G7kpb3QhOV2GBAags
-	 2KeD+TDbslfRCNizvXXzZSv35wp96kOEnNj+T2JdXHmTiYRaVbNey8aeUNA7g2Gbvg
-	 K9a58Tnf6bIIAWO9qR68v8fE6HIoWE8OXySzIqhX24gEYyvqnaU+t7hoDPi726UEw6
-	 hZfk7YnO0ce/GGLPFAjGfEipmN61+c5/Sij/2eU//Z+vMvm+wVKdh0dC+xFNai9BQg
-	 1ZZc+53VS3oiA==
-Date: Tue, 7 May 2024 00:29:34 +0900
-From: Mark Brown <broonie@kernel.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, Lee Jones <lee@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Ryan Walklin <ryan@testtoast.com>,
-	Chris Morgan <macroalpha82@gmail.com>
-Subject: Re: [PATCH v2 0/5] regulator: Fix AXP717 PMIC support
-Message-ID: <Zjj3XugCngk6zD01@finisterre.sirena.org.uk>
-References: <20240418000736.24338-1-andre.przywara@arm.com>
+	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="ZrKQo4LL"
+DKIM-Signature: a=rsa-sha256;
+	b=ZrKQo4LLpXHMy8d4LXYD5iTRkQxizuI2VtgsgE+tJYIizoDN242zSfeuyZB6BxBPQMhQ7sm0BOLRbctDuuDGN2P8iej4bSnj/drKmF3/FNT3RqhqTyIlvpEtD8A/Fe6P9zFf5Mb0Hkg6Vj8aO4luGZv0MwCJTidSzkGU/cgb2Ro=;
+	c=relaxed/relaxed; s=default; d=rock-chips.com; v=1;
+	bh=GJuF3hTrQtUJMZ2uZFlEfERKTqM4rnSOLJVMQPzCloc=;
+	h=date:mime-version:subject:message-id:from;
+Received: from [172.16.12.141] (unknown [58.22.7.114])
+	by smtp.qiye.163.com (Hmail) with ESMTPA id 739F18404C4;
+	Mon,  6 May 2024 16:23:00 +0800 (CST)
+Message-ID: <ed035e25-dd9e-4041-b413-7511544d0aba@rock-chips.com>
+Date: Mon, 6 May 2024 16:22:46 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="WGlIPKQL/xVlV+lm"
-Content-Disposition: inline
-In-Reply-To: <20240418000736.24338-1-andre.przywara@arm.com>
-X-Cookie: lisp, v.:
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v12 27/28] drm/rockchip: inno_hdmi: Switch to HDMI
+ connector
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+References: <20240423-kms-hdmi-connector-state-v12-0-3338e4c0b189@kernel.org>
+ <20240423-kms-hdmi-connector-state-v12-27-3338e4c0b189@kernel.org>
+ <68eba0ec-bf9c-4d76-a362-5304a4cb61d5@rock-chips.com>
+ <20240506-eccentric-wren-of-peace-819aad@houat>
+Content-Language: en-US
+From: Andy Yan <andy.yan@rock-chips.com>
+In-Reply-To: <20240506-eccentric-wren-of-peace-819aad@houat>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQhlNTFZOGhpJGk5ITU1IGUlVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlOQ1VJSVVMVUpKT1lXWRYaDxIVHRRZQVlPS0hVSk1PSU5IVUpLS1VKQk
+	tLWQY+
+X-HM-Tid: 0a8f4cffc4c703a4kunm739f18404c4
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PEk6STo6DDMDFBdDQhojTDg#
+	DkgaCQNVSlVKTEpPQkNITENJS09JVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
+	WUFZTkNVSUlVTFVKSk9ZV1kIAVlBTU1JSzcG
 
+Hi Maxime,
 
---WGlIPKQL/xVlV+lm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On 5/6/24 15:59, Maxime Ripard wrote:
+> Hi Andy,
+> 
+> Thanks a lot for giving it a try
+> 
+> All the issues you raised in your review are fixed.
+> 
+> On Sat, Apr 27, 2024 at 06:44:54PM GMT, Andy Yan wrote:
+>> And after this whole series applied on linux 6.9-rc4, the display on rk3036 kylin is lost, I get
+>> the following error:
+>> [  178.999421] rockchip-drm display-subsystem: [drm:drm_atomic_check_only] checking 87b7fbde
+>> [  178.999471] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CRTC:35:crtc-0] mode changed
+>> [  178.999498] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CRTC:35:crtc-0] enable changed
+>> [  178.999521] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CRTC:35:crtc-0] active changed
+>> [  178.999547] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] Updating routing for [CONNECTOR:37:HDMI-A-1]
+>> [  178.999575] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CONNECTOR:37:HDMI-A-1] using [ENCODER:36:TMDS-36] on [CRTC:35:crtc-0]
+>> [  178.999604] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] Trying with a 8 bpc output
+>> [  178.999636] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] Trying RGB output format
+>> [  178.999730] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] RGB Format, checking the constraints.
+>> [  178.999757] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] RGB output format not supported with 8 bpc
+>> [  178.999783] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] Failed. No Format Supported for that bpc count.
+>> [  178.999810] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CONNECTOR:37:HDMI-A-1] driver check failed
+>> [  178.999836] rockchip-drm display-subsystem: [drm:drm_atomic_check_only] atomic driver check for 87b7fbde failed: -22
+>> [  178.999868] rockchip-drm display-subsystem: [drm:drm_atomic_state_default_clear] Clearing atomic state 87b7fbde
+>> [  178.999898] [drm:drm_mode_object_put] OBJ ID: 37 (4)
+>> [  178.999922] [drm:drm_mode_object_put] OBJ ID: 37 (3)
+>> [  178.999944] [drm:drm_mode_object_put] OBJ ID: 40 (1)
+>> [  178.999971] [drm:drm_mode_object_put] OBJ ID: 39 (2)
+> 
+> Which kind of display are you testing with? The only reason it could do
+> so is if the display claim it doesn't support RGB in its EDID which is
+> contradicting the HDMI spec. Are you using an Analog display by any
+> chance? or the built-in EDIDs through the drm.edid_firmware mechanism?
 
-On Thu, Apr 18, 2024 at 01:07:31AM +0100, Andre Przywara wrote:
-> This is v2 of the fixes to the AXP717 PMIC support series. Lee put the
-> original patches in an immutable branch already, so these here go on top.
+It is because there is something wrong(I still don't know why) with the DDC on my board.
+It always failed to read edid when it first bootup, that means inno_hdmi_connector_get_modes
+will return 0.
 
-Reviewed-by: Mark Brown <broonie@kernel.org>
+and in function
 
---WGlIPKQL/xVlV+lm
-Content-Type: application/pgp-signature; name="signature.asc"
+drm_helper_probe_single_connector_modes:
 
------BEGIN PGP SIGNATURE-----
+         count = drm_helper_probe_get_modes(connector);
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmY4910ACgkQJNaLcl1U
-h9D6QQf/RC+0eK+EQGY5NwAKne9HyCDUIB5h2QjhV0eiUxr15tCPcWKLKMAxXrwg
-63hJ+clOLScdjb18mzjuCuzbQsoe0buF04rNArj5BLMz0aSh4NTnDzLHb0OQ0J6u
-e6wjiAuFyIPJOMBq8vqYHtT1IxqylDnHIRgHiE04ZwClwCR2tIUffGYAB73W/vz8
-e6La/oMzXal5iXqRiNGv4+DEXy6pHLsHZ1B8uzddwWds0SHoNyUI0Y73IVgu3U9C
-eMz3EYenA+zOrVOPDJfdmb05bJtGZrH7NNxvPQGahYlg/qCmFI9YLkjia0udAJ4P
-MYbyrJ9GIyzVEzmZrwdAfiXFNkUddA==
-=oo++
------END PGP SIGNATURE-----
+         if (count == 0 && (connector->status == connector_status_connected ||
+                            connector->status == connector_status_unknown)) {
+                 count = drm_add_modes_noedid(connector, 1024, 768);
 
---WGlIPKQL/xVlV+lm--
+                 /*
+                  * Section 4.2.2.6 (EDID Corruption Detection) of the DP 1.4a
+                  * Link CTS specifies that 640x480 (the official "failsafe"
+                  * mode) needs to be the default if there's no EDID.
+                  */
+                 if (connector->connector_type == DRM_MODE_CONNECTOR_DisplayPort)
+                         drm_set_preferred_mode(connector, 640, 480);
+         }
+drm_add_modes_noedid will not initialize display_info.
+
+> 
+> Maxime
