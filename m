@@ -1,241 +1,114 @@
-Received: from mailout01.t-online.de (mailout01.t-online.de [194.25.134.80])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 193881BC5C
-	for <linux-sunxi@lists.linux.dev>; Sun,  5 May 2024 13:37:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.25.134.80
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DB43140E25;
+	Mon,  6 May 2024 07:49:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714916247; cv=none; b=nEuTdjTb3Dw+xMxSize8xlxQhsaOkO74h9SfMlkeOk7Xp9G40dMPGWULt6VEawvSUyA8jqxrRO7BmRF6VMnzzN2ojEPxKKlsgDv4Ry6BN1oU08HJ6GAv7hhg9ghnUGx6IX6QH4QalEdBqpWN9aTuVpjkFfy/yOGhyW8weN3Tm9o=
+	t=1714981799; cv=none; b=lvC51foFER5bktyXlnSdksLiQKXmVZvEib42bRI7aIqWjsZ3ObHpWE5qbrKgTaWbx6CxAc6kH/TO73OO7B035ASg6Ez93iwxrHWkh6dmmUBahegPkFwxlvRCplXnePD5WJuwGda9d0wIAsZ4+HTqlgzuMlhkFiKElh5GWJU+GAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714916247; c=relaxed/simple;
-	bh=8MWH3jY9drwF3ETc0Bgb/plxlh0m2NIwn+SbPNG0UiQ=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=a/r39LVXBTd9EyR42XzUOtXNBlJvNDKWHN84/Jhlm/7ZNJ6EiZYEOVvoKrZeaQlprAWZa2SaOp9kEqxWJpUUtkPocr6y7EEe6x9RUR8TIfujn7ExTJjElfxQwxOGq+yGx43fCj5BXBdLXnrSgsI7hwVJ0BtKBxtROGQgxWgGrxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=t-online.de; spf=pass smtp.mailfrom=t-online.de; arc=none smtp.client-ip=194.25.134.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=t-online.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=t-online.de
-Received: from fwd75.aul.t-online.de (fwd75.aul.t-online.de [10.223.144.101])
-	by mailout01.t-online.de (Postfix) with SMTP id 4613A10240;
-	Sun,  5 May 2024 15:27:15 +0200 (CEST)
-Received: from dino2.dhome ([77.47.123.226]) by fwd75.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1s3bta-06MK8H0; Sun, 5 May 2024 15:27:14 +0200
-Message-ID: <6d872479ea873d25bd1f0d893439c6ceafd11327.camel@t-online.de>
-Subject: Re: [PATCH v3 1/1] drivers/rtc: rtc-sun6i: AutoCal Internal OSC
- Clock
-From: Alois Fertl <A.Fertl@t-online.de>
-Reply-To: 20240503121304.5fc6add5@donnerap.manchester.arm.com
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: a.zummo@towertech.it, alexandre.belloni@bootlin.com, wens@csie.org, 
-	jernej.skrabec@gmail.com, samuel@sholland.org, linux-rtc@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Ryan Walklin
-	 <ryan@testtoast.com>
-Date: Sun, 05 May 2024 15:27:05 +0200
-In-Reply-To: <20240503121304.5fc6add5@donnerap.manchester.arm.com>
-References: <20240502180736.7330-1-a.fertl@t-online.de>
-	 <20240503121304.5fc6add5@donnerap.manchester.arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	s=arc-20240116; t=1714981799; c=relaxed/simple;
+	bh=PScBbjAnxeZJlVZobb9RkhFjTBeBleYHRdB7+WbwtCg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mP+0V5Nciich5v9G25JJMwZdk+9oDBgYN0ciZAwQf6xlAbUlOsNLvaxGT/Kfzmk8Ncq5XrcrEvYWS9OT/DiUkQ9hPfDOQRfpz/id3byc1vStuCaGw7GKkIpMsUXcBHcMSdkQQEQ8g/nOvJ6RVXFP9m2I2fd6Cwk4yqZBQfX8pXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=daqEwQT7; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="daqEwQT7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2080C116B1;
+	Mon,  6 May 2024 07:49:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714981799;
+	bh=PScBbjAnxeZJlVZobb9RkhFjTBeBleYHRdB7+WbwtCg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=daqEwQT72wzzVhhxaadbP0J7TfhVeGtkoDLVZBhP67FR+IrIX9JHHo5CMTt+aeT2o
+	 5fctJhDPhApWE6WV6FdDfuDqZFLm63Lonzwveroz2A3WUVGRjCWfv1GO6DdiUYCSbs
+	 iWg8thDix9w6nDLLjKVHPRm89YVBA4CgH0uwE1o98twpcLoR4sDWHKbJwpSFoGTtmq
+	 GoO1+LeN1pys+rFLW30DL8rfeo7kPYlTewsrNBRffJy23vjB7xLjIes4dwzyF78zzR
+	 gP65FY8VYbf5uWYIqxCQemcDrv9wvkDIWZa8F0plLIKNXcPQoze93iXeAwJoUTo+m7
+	 u0qAt/aGZx7Og==
+Date: Mon, 6 May 2024 09:49:56 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Andy Yan <andy.yan@rock-chips.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	Sebastian Wick <sebastian.wick@redhat.com>, Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
+	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v12 27/28] drm/rockchip: inno_hdmi: Switch to HDMI
+ connector
+Message-ID: <20240506-elated-cheetah-of-awe-bd10cb@houat>
+References: <20240423-kms-hdmi-connector-state-v12-0-3338e4c0b189@kernel.org>
+ <20240423-kms-hdmi-connector-state-v12-27-3338e4c0b189@kernel.org>
+ <bab90a27-b742-4587-aec6-e4e1fdf2d186@rock-chips.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1714915634-3F9E2C7B-0934CFAC/0/0 CLEAN NORMAL
-X-TOI-MSGID: 75600d42-4875-4f16-b473-b116d7b38c45
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="5r5gd5hzylmqbla5"
+Content-Disposition: inline
+In-Reply-To: <bab90a27-b742-4587-aec6-e4e1fdf2d186@rock-chips.com>
 
-On Fri, 2024-05-03 at 12:13 +0100, Andre Przywara wrote:
 
-Hi Andre and Ryan, thanks for responding, and sorry.
-Andre's reply was somehow lost and I just found it on the
-archive mirror. So hopefully my reply is correct.
+--5r5gd5hzylmqbla5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-And it is my first journey to do a patch.
+Hi,
 
-> On Thu,=C2=A0 2 May 2024 20:07:36 +0200
-> Alois Fertl <a.fertl@t-online.de> wrote:
->=20
-> Hi Alois,
->=20
-> many thanks for taking care and sending a patch! I think this problem
-> is
-> plaguing some people.
->=20
-> > I have a M98-8K PLUS Magcubic TV-Box based on the Allwinner H618
-> > SOC.
-> > On board is a Sp6330 wifi/bt module that requires a 32kHz clock to
-> > operate correctly. Without this change the clock from the SOC is
-> > ~29kHz and BT module does not start up. The patch enables the
-> > Internal
-> > OSC Clock Auto Calibration of the H616/H618 which than provides the
-> > necessary 32kHz and the BT module initializes successfully.
-> > Add a flag and set it for H6 AND H616. The H618 is the same as H616
-> > regarding rtc.
->=20
-> (many thanks to Ryan for the head up on this)
->=20
-> So what tree is this patch based on? It certainly is not mainline, is
-> it?
-I'm running armbian based on linux-kernel-worktree/6.7__sunxi64__arm64=20
-which has one other rtc/rtc-sun6i.c patch applied before.
- "[PATCH] drv:rtc:sun6i: support RTCs without external LOSCs"
-
-> Mainline never supported the H616 RTC clocks via the RTC driver, this
-> was
-> only through the new driver in the clk
-> directory, in drivers/clk/sunxi-ng/ccu-sun6i-rtc.c:
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
-/?id=3D8a93720329d4d2
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
-/?id=3Dd91612d7f01aca
-I have found some code in for calibration in the sunxi-ng directory
-that was never called and I doubt that it gives working calibration.
-Should a kernel then use exclusively use the one or the other driver?
-
->=20
-> Please note that the H6 RTC clocks were intended to be handled via
-> the new
-> driver as well, but this part was reverted:
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
-/?id=3D60d9f050da63b
->=20
-> Please only send patches based on the mainline tree.
->=20
-> I doesn't look that hard to adjust the patch to mainline, though to
-> cover
-> the H6 is well this would require this code in both drivers. So when
-> we
-> want to address the H6 as well, it might make sense to solve the
-> problem
-> that triggered the revert first, to only have that change only in one
-> file.=20
-Yes, the code would be useful for H6 when no external crystal is
-present.
-
->=20
-> > Signed-off-by: Alois Fertl <a.fertl@t-online.de>
+On Sat, Apr 27, 2024 at 06:12:26PM GMT, Andy Yan wrote:
+> On 4/23/24 18:45, Maxime Ripard wrote:
+> > The new HDMI connector infrastructure allows to remove some boilerplate,
+> > especially to generate infoframes. Let's switch to it.
+> >=20
+> > Reviewed-by: Heiko Stuebner <heiko@sntech.de>
+> > Acked-by: Heiko Stuebner <heiko@sntech.de>
+> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > > ---
+> >   drivers/gpu/drm/rockchip/Kconfig     |   1 +
+> >   drivers/gpu/drm/rockchip/inno_hdmi.c | 143 +++++++++++++-------------=
+---------
+> >   2 files changed, 53 insertions(+), 91 deletions(-)
 > >=20
-> > v1->v2
-> > - add flag and activate for H6 AND H616
-> >=20
-> > v2->v3
-> > - correct findings from review
-> >=20
-> > I was hoping to get some feedback regarding the situation on H6,
-> > where an external 32k crystal can be present.
-> > From what I understand from the H6 manual there should be no
-> > conflict as one can select which souce will drive the output.
-> > Should certainly be tested but I don`t have H6 hardware.
+> > diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchi=
+p/Kconfig
+> > index 4c7072e6e34e..e2ec20c2e2eb 100644
+> > --- a/drivers/gpu/drm/rockchip/Kconfig
+> > +++ b/drivers/gpu/drm/rockchip/Kconfig
+> > @@ -72,10 +72,11 @@ config ROCKCHIP_DW_MIPI_DSI
+> >   	  enable MIPI DSI on RK3288 or RK3399 based SoC, you should
+> >   	  select this option.
+> >   config ROCKCHIP_INNO_HDMI
+> >   	bool "Rockchip specific extensions for Innosilicon HDMI"
+> > +	depends on
 >=20
-> I think I should have H6 boards both with and without an external
-> crystal
-> oscillator, so can check the situation there, but only next week.
->=20
-> > =C2=A0drivers/rtc/rtc-sun6i.c | 17 ++++++++++++++++-
-> >=20
-> > =C2=A01 file changed, 16 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
-> > index e0b85a0d5645..20e81ccdef29 100644
-> > --- a/drivers/rtc/rtc-sun6i.c
-> > +++ b/drivers/rtc/rtc-sun6i.c
-> > @@ -42,6 +42,11 @@
-> > =C2=A0
-> > =C2=A0#define SUN6I_LOSC_CLK_PRESCAL=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A00x0008
-> > =C2=A0
-> > +#define SUN6I_LOSC_CLK_AUTO_CAL=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A00x000c
-> > +#define SUN6I_LOSC_CLK_AUTO_CAL_16MS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0BIT(2)
-> > +#define SUN6I_LOSC_CLK_AUTO_CAL_ENABLE=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0BIT(1)
-> > +#define SUN6I_LOSC_CLK_AUTO_CAL_SEL_CAL=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0BIT(0)
-> > +
-> > =C2=A0/* RTC */
-> > =C2=A0#define SUN6I_RTC_YMD=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A00x0010
-> > =C2=A0#define SUN6I_RTC_HMS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A00x0014
-> > @@ -126,7 +131,6 @@
-> > =C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0 registers (R40, H6)
-> > =C2=A0 *=C2=A0=C2=A0 - SYS power domain controls (R40)
-> > =C2=A0 *=C2=A0=C2=A0 - DCXO controls (H6)
-> > - *=C2=A0=C2=A0 - RC oscillator calibration (H6)
-> > =C2=A0 *
-> > =C2=A0 * These functions are not covered by this driver.
-> > =C2=A0 */
-> > @@ -138,6 +142,7 @@ struct sun6i_rtc_clk_data {
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0unsigned int has_losc_e=
-n : 1;
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0unsigned int has_auto_s=
-wt : 1;
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0unsigned int no_ext_los=
-c : 1;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0unsigned int has_auto_cal : =
-1;
-> > =C2=A0};
-> > =C2=A0
-> > =C2=A0#define RTC_LINEAR_DAY=C2=A0BIT(0)
-> > @@ -268,6 +273,14 @@ static void __init sun6i_rtc_clk_init(struct
-> > device_node *node,
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0writel(reg, rtc->base +=
- SUN6I_LOSC_CTRL);
-> > =C2=A0
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (rtc->data->has_auto_cal)=
- {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0/* Enable internal OSC clock auto calibration */
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0reg =3D SUN6I_LOSC_CLK_AUTO_CAL_16MS |
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0SUN6I_=
-LOSC_CLK_AUTO_CAL_ENABLE |
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0SUN6I_=
-LOSC_CLK_AUTO_CAL_SEL_CAL;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0writel(reg, rtc->base + SUN6I_LOSC_CLK_AUTO_CAL);
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}
-> > +
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* Yes, I know, this is=
- ugly. */
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0sun6i_rtc =3D rtc;
-> > =C2=A0
-> > @@ -380,6 +393,7 @@ static const struct sun6i_rtc_clk_data
-> > sun50i_h6_rtc_data =3D {
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.has_out_clk =3D 1,
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.has_losc_en =3D 1,
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.has_auto_swt =3D 1,
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.has_auto_cal =3D 1,
-> > =C2=A0};
-> > =C2=A0
-> > =C2=A0static void __init sun50i_h6_rtc_clk_init(struct device_node
-> > *node)
-> > @@ -395,6 +409,7 @@ static const struct sun6i_rtc_clk_data
-> > sun50i_h616_rtc_data =3D {
->=20
-> For the records: this whole struct does not exist in mainline.
->=20
-> Cheers,
-> Andre
->=20
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.has_prescaler =3D 1,
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.has_out_clk =3D 1,
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.no_ext_losc =3D 1,
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.has_auto_cal =3D 1,
-> > =C2=A0};
-> > =C2=A0
-> > =C2=A0static void __init sun50i_h616_rtc_clk_init(struct device_node
-> > *node)
->=20
-Cheers,
-Alois
+> Is this supposed to be  DRM_DISPLAY_HDMI_STATE_HELPER whith you introduce=
+d in PATCH 04/28?
+> I couldn't find any place where  DRM_HDMI_STATE_HELPER is defined.
+
+Yes, it was a typo indeed. I've fixed it in the next version.
+
+Thanks!
+Maxime
+
+--5r5gd5hzylmqbla5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZjiLowAKCRAnX84Zoj2+
+dhERAX4hDKKQK0zUSiy8s+7HxdEWgMiPtGfXL1zjlOPBVdxa0oBEfrdf0wSgA6ZC
+GvcBlYYBfiq7TVSrJMvpZnnDzUsshI7PPYS7GaVjK5IcPqxFB7jgVDcNihybvsg/
+4zQYJv8UYA==
+=CFE1
+-----END PGP SIGNATURE-----
+
+--5r5gd5hzylmqbla5--
