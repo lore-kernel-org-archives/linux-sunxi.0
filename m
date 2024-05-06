@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A74F13D895;
-	Mon,  6 May 2024 15:26:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC02513D895;
+	Mon,  6 May 2024 15:29:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715009187; cv=none; b=XB90EZP+PZIAV45jbxMoPFS2faG4C89SYODQIJQ7fcH5chfjtVQ/SX/fCBnoXJC8txXqouhZd2/BQwg94DEfIr5c7oEX/ra+pwTYOSGID6EcQohILL0aEVw3SRmXqpiEAUmMydBV+FjtRoTik2vdc6p81UaBk7yLWMomwvTiMj8=
+	t=1715009349; cv=none; b=Tedg4OQTvVQnKV4j5Kj8faOtK7lFSuyVD68sCGzYYMSevYdk5eytplMGjtyLjtQ7JzSKUWFWGuGVkxXEyl9+W/kKfcaDfp8reth+G+6T/ttvuJbGNOH5vC7Zv+nd9s6BYyUHnKDC1B7fISatIvbDj3Jof5Q9FkWR0zMVnk73yFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715009187; c=relaxed/simple;
-	bh=5VS/vf0A/N10rF9eCtOmTnYAP2GPfH1vtX8J3tb+Xsw=;
+	s=arc-20240116; t=1715009349; c=relaxed/simple;
+	bh=7mpLZ7DoaIdwoc0l1wvPItAXaCaxe1gZbugq2m1PBnY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=etSUBQN6YZCIvb811FzuBZc+OC2BU7z6sBxsD/NohzYDhlr/4kC14X2XlhyftpSSSA3uCmaRNWJP2UfEcST5o5eDOrOSKOr99ArEBv8NQoNhnusjuWEpy/mt+Zk1oGq96g9Uz88mPuQfsnE35tPszPqbPYGbAt/DD2Xdt+nHnKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EFi1Grmf; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=soMccG8RuGW+/ojnLoH8CNtRO/thOVmqCdxWP0LE+w6C+TQO09DnBopDvUIpM8yV7Jn3sGW+hjEYI1an4iMcT6voRfSWuAHer7atN4f5k56YspA/O7mqKYwHY47P6l0N/cHT94hgTEsAc7MukRXukXVP4PuDFZDmKfO2Wp8ghDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lfIh/CkW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EFi1Grmf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49601C4AF65;
-	Mon,  6 May 2024 15:26:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lfIh/CkW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC330C116B1;
+	Mon,  6 May 2024 15:29:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715009187;
-	bh=5VS/vf0A/N10rF9eCtOmTnYAP2GPfH1vtX8J3tb+Xsw=;
+	s=k20201202; t=1715009348;
+	bh=7mpLZ7DoaIdwoc0l1wvPItAXaCaxe1gZbugq2m1PBnY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EFi1Grmf2uB45I7MM5mZ1V6xoeHDtc4+Z1w5JZivqY6jFGFFXAeuIrU0G/zKRdlr/
-	 1btkQtKwgJS/qjQc+uuDKeCUAjwNmcfh2ZbyrnVWCqekRMDslGhMibEy62KBEPVwvg
-	 vbd7bFOoD8ZwVLs2CgtYBu9NbF/pmxIZu6GllRIc3Hygyzx6TOs5vNebuivz8y6SIQ
-	 7ypBDokpvXpF90iqIPMHgezlbQoqwJe43zoDqxjQJTU84UPkFOHoZTgvidN276spJd
-	 sUvJX2VibF/XkAxH+8o+195hodpju12n7Pg1B6sqjm5AEZ8Atpunawgm+r4NzEuSaR
-	 MYyYbVt5ejzjA==
-Date: Tue, 7 May 2024 00:26:23 +0900
+	b=lfIh/CkWMiQWvgnUX1DhIQxvWqGWSQVV7J/xu33m8qS8LOm/09C5KFxEbs7YmT9eV
+	 NETEMYBT4fnl/5oNYpOQGV4qYl4wH04ORGi2hxSvEB4Qk+ehIXm5H9R6/bTc4XluMd
+	 ZURfjGTYiuRGMD0B5yyOID4r3UBGdBLg6cW/Iba1bVy33HsmLwlh4QBKQ2iVSknLdy
+	 /keor2zEVOrVS4PUW5PAx3xwtGFacxpi36aUdEMCMmo1hccYbL4B2/xquKJWBSPNTA
+	 +gNR5RCHBpdb2tnSN/VQqOQSzqxYrm1BO61C+Zp4SbKYYpFvqLZENS3DWjwGIqtYwm
+	 +/aqHHHY0LUeg==
+Date: Tue, 7 May 2024 00:29:05 +0900
 From: Mark Brown <broonie@kernel.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, Lee Jones <lee@kernel.org>,
+To: Lee Jones <lee@kernel.org>
+Cc: Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>,
 	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
@@ -39,8 +39,10 @@ Cc: Chen-Yu Tsai <wens@csie.org>, Lee Jones <lee@kernel.org>,
 	Ryan Walklin <ryan@testtoast.com>,
 	Chris Morgan <macroalpha82@gmail.com>
 Subject: Re: [PATCH v2 0/5] regulator: Fix AXP717 PMIC support
-Message-ID: <Zjj2n6t1nj0cd0pB@finisterre.sirena.org.uk>
+Message-ID: <Zjj3QbwdLjygcP1g@finisterre.sirena.org.uk>
 References: <20240418000736.24338-1-andre.przywara@arm.com>
+ <ZidE5UcQ6XSc0YBI@finisterre.sirena.org.uk>
+ <20240502093836.GL5338@google.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -48,46 +50,43 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="+LJHUmfzVTIjCody"
+	protocol="application/pgp-signature"; boundary="mBiHePcirhd8HAPH"
 Content-Disposition: inline
-In-Reply-To: <20240418000736.24338-1-andre.przywara@arm.com>
+In-Reply-To: <20240502093836.GL5338@google.com>
 X-Cookie: lisp, v.:
 
 
---+LJHUmfzVTIjCody
+--mBiHePcirhd8HAPH
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Thu, Apr 18, 2024 at 01:07:31AM +0100, Andre Przywara wrote:
+On Thu, May 02, 2024 at 10:38:36AM +0100, Lee Jones wrote:
 
-> Based on mfd/ib-mfd-regulator-6.10, as detailed below.
+> > Lee, this looks like more of a regulator series than a MFD one (it's got
+> > a couple of small updates to the MFD but it's mainly focused on the
+> > regualtor functionality) so it probably makes sense to merge via the
+> > regulator tree?
 
-Please provide references like this in a form that's directly usable,
-ideally the git URL plus tag format used for git pull requests.  The
-only references lore has to an 'ib-mfd-regulator-6.10' are to this
-thread...
+> I'm fine with it.
 
-> prerequisite-patch-id: 2b5fb10f68e0994071fc4c7dce73db7047c23220
-> prerequisite-patch-id: 5d0735de888d155b2c1cdb814e852a5852a17ec7
-> prerequisite-patch-id: 29c30894b4bf0b9e1e71de065cabbd842505e248
-> prerequisite-patch-id: 0ab87cbf7362b6dc2d577d2264eb9574be47b5f6
+> Please ensure a succinct immutable branch is available in case of future conflicts.
 
-Patch IDs aren't terribly useful for reverse engineering what you're
-talking about here...
+Actually now I look again it's fixes to stuff that's only in your tree
+anyway so it probably makes more sense for it to go via MFD, sorry.
 
---+LJHUmfzVTIjCody
+--mBiHePcirhd8HAPH
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmY49p8ACgkQJNaLcl1U
-h9APywf/YmAkHZOy1LIJQaRkJxvNpt/P8t2G3O9NLT5ct3dXnd4sLu2LbHIaiph1
-TTy+IcH2Ntkgx/IpHLib/PmLc0IiKzxWAaU9UkYkNl5lwhGOBlqyb1rDHKIIosA3
-IY9V0fZ8ziQrERil9kFSwAX7vFgNALA8VuQ7SZkRL34T3gRjENsaAOCOa1UEnWm7
-mIZmBpPiEiaKsNVttowvS5M9CcRSk/VCBIR+3xe2l84pDV/+TbNx1GXQPdhmXFI2
-WqYD4GQE1A0iTl1gTebBu3ldz3fzkZjY9fSEoAeAq+PKW1mQz1P2T/ZrRjca/I/F
-qrgtyqUcaqrU/yjain5EfoLk8zSDvQ==
-=yXQ/
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmY490EACgkQJNaLcl1U
+h9DiKwf/XZJAh/5M/RaUixwiyjLa5in4Pfr0FR0kfjFmn+9xEum8MGPl8+0hyEct
+Y4Q0QnyhhFos9UdsHhXD8tfA1D2GqbQlK8gEUpJMvvt6eXMg4CC3S3i/69A47S9h
+TfsqBdH30O3bN7rqhFvqUxF3Oopvw9Gp7uZnbrQIRSnjLgrsi/rQrHM6+FqGG2qR
+VptdxU3x48sforNN0daagqlym/SsUsiGXU0qPMh1NhwfAUyF1HmA++VuLfpwDhwI
+hqH27Yao/99dAFHHLP1nDCErE5QXiI5rxMAosoajgC/JpOXOwK327OHv+XqzirQt
+3fU39yz2Vm9OYE4byh3wfVjsWXqs6w==
+=Z90i
 -----END PGP SIGNATURE-----
 
---+LJHUmfzVTIjCody--
+--mBiHePcirhd8HAPH--
