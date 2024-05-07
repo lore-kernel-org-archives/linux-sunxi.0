@@ -1,132 +1,124 @@
-Received: from mail-m15571.qiye.163.com (mail-m15571.qiye.163.com [101.71.155.71])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 660525244
-	for <linux-sunxi@lists.linux.dev>; Tue,  7 May 2024 01:33:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3282B54911;
+	Tue,  7 May 2024 04:13:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715045609; cv=none; b=PE8+HWM/DUKTe60fm43BJ52WaKCFg8DG0Qkje7JqlZu2EGnffOTweOhfDFxxZPmw2xZCWCKkbI/fykmGjybNvalyjYWXbt7Uz5FEidsw+oCbqr3DEoyfv5uA4CcuIa4TvVQlKkzaWaNgEQlMO38pRbbpFtroPPXa2zT43eLs4SE=
+	t=1715055231; cv=none; b=KQ30GjwvcEs/KvTy6J1mRfO0Qopilh94EeriZ/cz/zA/v7EenX4iVX3q//8iT5KU81FDFY2frn4is9WYXns/XCKvzbhQMP2x4j/X180xYG3JlH4hy+NxHq40gQ+XN5cgD0MCSrhMa9C6GF7G6t0lLXRdqHDWlTONRW+XObCYseI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715045609; c=relaxed/simple;
-	bh=ik7otHDJmq2Tk97tlY36+mTtqzuQS3rBj0pENGE7aBE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YySQrri2ZqLWTB0fPQhpMUnFByMNxHdysOp8jA4IQVh9N5Y4QLKrEw3LekTKsmeQ15m2juL+Uii5Ly+yP+iKurONYDUFWDsB5exIQdp6S8Ozz+uwbPg1O3CW2GQ7yvWpZw/t/DSEWmeobtLWOQ5ozg6bNDImQ/DteWbMAMrQ0bk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=QD7wbqQE; arc=none smtp.client-ip=101.71.155.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
+	s=arc-20240116; t=1715055231; c=relaxed/simple;
+	bh=DKpFFQJLudXl5q5EDowTbB8AIlbECgKiTc8spqPSV7w=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=W1TCLpjvL6MOuhIwumeXcmrjrURnv74HPrNcofnSFm6XE5brFPIVZutikKPDbwTN47zg8q1OIk1OSqYBTonoHzXIHxzNl2oBQ7LRPLb69VqJtcR4D3x2Q7oBoQuDNSzIry5Q9jC5iNopsutrlHrXBSt824zo85O3u0aG/Pkj6w0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rSllRN4Q; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="QD7wbqQE"
-DKIM-Signature: a=rsa-sha256;
-	b=QD7wbqQEud+fYkWN/Q7FNR38iFCkbtRNXWfbUQA1u9rbZv3g9C98+Wzdl3+GV215VkPYS6py3dmniAu6pIJctsBM81fUogbc5cjAt7i1ME65s2FeYSU/Ufljs3Vjd/rMOc+TwXoH+7cXFdwVG3Q8lZEcWSVgCH7IfjHZ4AFko/c=;
-	c=relaxed/relaxed; s=default; d=rock-chips.com; v=1;
-	bh=HAJvQdLYmyL3qiXfsvwfss35CTvFlv7T9/m66zcsIFU=;
-	h=date:mime-version:subject:message-id:from;
-Received: from [172.16.12.141] (unknown [58.22.7.114])
-	by smtp.qiye.163.com (Hmail) with ESMTPA id B408A8401F9;
-	Tue,  7 May 2024 09:32:16 +0800 (CST)
-Message-ID: <d1f29354-c187-46b9-a167-7a54762ecfa0@rock-chips.com>
-Date: Tue, 7 May 2024 09:32:16 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rSllRN4Q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF888C2BBFC;
+	Tue,  7 May 2024 04:13:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715055230;
+	bh=DKpFFQJLudXl5q5EDowTbB8AIlbECgKiTc8spqPSV7w=;
+	h=From:To:Cc:Subject:Date:From;
+	b=rSllRN4QHUKvRMyoS8yZW0F2AwQZhSttdbSiC9Q22IV+Lm/n2D6IjNBVOp8oyFV+G
+	 b4Azf7LNAeFS553mVgf4vI+9ZBVPLQ5ynoT8jCv/5+CBQgskl5a7OGVDHzc0EEzIof
+	 yWAhwSq+YPNqgD6kvKp5fD12VCCv3Hljlpg8XkSXU46/EnnkpSCrqYyfVQZx3S34tY
+	 LV+QagkNJ47NCBvXoB3MIsjo8mOc/XJwZCFWTNKWBzeWnnvKKoKfhC9wA+HStz9bLZ
+	 JOXz9jbeP9v9/AQ6kEWBVGdwa+mk5YCm90/zIsxgaUg8gHtPsX4mKfCFrzlT6l+IxN
+	 y7q6x1bzMXRKQ==
+Received: by wens.tw (Postfix, from userid 1000)
+	id 3DF815FE3B; Tue,  7 May 2024 12:13:48 +0800 (CST)
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH RESEND v5 0/2] regulator: sun20i: Add Allwinner D1 LDOs driver
+Date: Tue,  7 May 2024 12:13:41 +0800
+Message-Id: <20240507041343.272569-1-wens@kernel.org>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 27/28] drm/rockchip: inno_hdmi: Switch to HDMI
- connector
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
- Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>,
- Sebastian Wick <sebastian.wick@redhat.com>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <20240423-kms-hdmi-connector-state-v12-0-3338e4c0b189@kernel.org>
- <20240423-kms-hdmi-connector-state-v12-27-3338e4c0b189@kernel.org>
- <68eba0ec-bf9c-4d76-a362-5304a4cb61d5@rock-chips.com>
- <20240506-eccentric-wren-of-peace-819aad@houat>
-Content-Language: en-US
-From: Andy Yan <andy.yan@rock-chips.com>
-In-Reply-To: <20240506-eccentric-wren-of-peace-819aad@houat>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGUpDQ1ZPGkJITk1NTB1OSxlVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlOQ1VJSVVMVUpKT1lXWRYaDxIVHRRZQVlPS0hVSk1PSU5IVUpLS1VKQk
-	tLWQY+
-X-HM-Tid: 0a8f50ae181203a4kunmb408a8401f9
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Pxg6GSo6MTMDCBVKDi8yNTQW
-	OC8KFE9VSlVKTEpOS09OTkhDSU9MVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
-	WUFZTkNVSUlVTFVKSk9ZV1kIAVlBTU1JSzcG
+Content-Transfer-Encoding: 8bit
 
-Hi Maxime,
+From: Chen-Yu Tsai <wens@csie.org>
 
-On 5/6/24 15:59, Maxime Ripard wrote:
-> Hi Andy,
-> 
-> Thanks a lot for giving it a try
-> 
-> All the issues you raised in your review are fixed.
-> 
-> On Sat, Apr 27, 2024 at 06:44:54PM GMT, Andy Yan wrote:
->> And after this whole series applied on linux 6.9-rc4, the display on rk3036 kylin is lost, I get
->> the following error:
->> [  178.999421] rockchip-drm display-subsystem: [drm:drm_atomic_check_only] checking 87b7fbde
->> [  178.999471] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CRTC:35:crtc-0] mode changed
->> [  178.999498] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CRTC:35:crtc-0] enable changed
->> [  178.999521] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CRTC:35:crtc-0] active changed
->> [  178.999547] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] Updating routing for [CONNECTOR:37:HDMI-A-1]
->> [  178.999575] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CONNECTOR:37:HDMI-A-1] using [ENCODER:36:TMDS-36] on [CRTC:35:crtc-0]
->> [  178.999604] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] Trying with a 8 bpc output
->> [  178.999636] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] Trying RGB output format
->> [  178.999730] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] RGB Format, checking the constraints.
->> [  178.999757] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] RGB output format not supported with 8 bpc
->> [  178.999783] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] Failed. No Format Supported for that bpc count.
->> [  178.999810] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CONNECTOR:37:HDMI-A-1] driver check failed
->> [  178.999836] rockchip-drm display-subsystem: [drm:drm_atomic_check_only] atomic driver check for 87b7fbde failed: -22
->> [  178.999868] rockchip-drm display-subsystem: [drm:drm_atomic_state_default_clear] Clearing atomic state 87b7fbde
->> [  178.999898] [drm:drm_mode_object_put] OBJ ID: 37 (4)
->> [  178.999922] [drm:drm_mode_object_put] OBJ ID: 37 (3)
->> [  178.999944] [drm:drm_mode_object_put] OBJ ID: 40 (1)
->> [  178.999971] [drm:drm_mode_object_put] OBJ ID: 39 (2)
-> 
-> Which kind of display are you testing with? The only reason it could do
-> so is if the display claim it doesn't support RGB in its EDID which is
-> contradicting the HDMI spec. Are you using an Analog display by any
-> chance? or the built-in EDIDs through the drm.edid_firmware mechanism?
-> 
+Hi,
 
-It is because there is something wrong(I still don't know why) with the DDC on my board.
-It always failed to read edid when it first bootup, that means inno_hdmi_connector_get_modes
-will return 0.
+This is a resend of the Allwinner D1 LDO driver series, separated by
+subsystem. This part contains just the regulator driver bits. The sunxi
+SRAM binding part will be sent out after the merge window due to a
+conflict in next.
 
-and in function
+Original cover letter:
 
-drm_helper_probe_single_connector_modes:
+This series adds the binding and driver for one of the two pairs of LDOs
+inside the Allwinner D1 SoC. I am splitting up the two pairs of LDOs to
+unblock merging the SoC devicetree; the analog LDOs depend on the audio
+codec binding, but they are not required to boot.
 
-         count = drm_helper_probe_get_modes(connector);
+A binding and driver change is required for the SRAM controller, to
+accept the regulators device as its child node.
 
-         if (count == 0 && (connector->status == connector_status_connected ||
-                            connector->status == connector_status_unknown)) {
-                 count = drm_add_modes_noedid(connector, 1024, 768);
+The example for the regulator device binding is in SRAM controller
+binding document, per Rob's request to keep MFD examples in one place.
 
-                 /*
-                  * Section 4.2.2.6 (EDID Corruption Detection) of the DP 1.4a
-                  * Link CTS specifies that 640x480 (the official "failsafe"
-                  * mode) needs to be the default if there's no EDID.
-                  */
-                 if (connector->connector_type == DRM_MODE_CONNECTOR_DisplayPort)
-                         drm_set_preferred_mode(connector, 640, 480);
-         }
-drm_add_modes_noedid will not initialize display_info.
+Because of this, at least the first 3 patches need to be taken together
+through the regulator tree, though it should be fine to merge the whole
+series that way.
 
-> Maxime
+Changes in v5:
+ - Correct the voltage calculation for the non-linearity around 1.6 V.
+
+Changes in v4:
+ - Fix the order of the maintainer/description sections
+ - Replace unevaluatedProperties with "additionalProperties: false"
+ - Drop the analog LDOs until the codec binding is ready
+ - Drop the analog LDOs until the codec binding is ready
+ - Remove unevaluatedProperties from regulators schema reference
+ - Check the compatible string instead of the node name
+
+Changes in v3:
+ - Add "reg" property to bindings
+ - Add "unevaluatedProperties: true" to regulator nodes
+ - Minor changes to regulator node name patterns
+ - Remove system-ldos example (now added in the parent binding)
+ - Adjust control flow in sun20i_regulator_get_regmap() for clarity
+ - Require the regulators node to have a unit address
+ - Reference the regulator schema from the SRAM controller schema
+ - Move the system LDOs example to the SRAM controller schema
+ - Reorder the patches so the example passes validation
+
+Changes in v2:
+ - Remove syscon property from bindings
+ - Update binding examples to fix warnings and provide context
+ - Use decimal numbers for .n_voltages instead of field widths
+ - Get the regmap from the parent device instead of a property/phandle
+
+
+
+Samuel Holland (2):
+  regulator: dt-bindings: Add Allwinner D1 system LDOs
+  regulator: sun20i: Add Allwinner D1 LDOs driver
+
+ .../allwinner,sun20i-d1-system-ldos.yaml      |  37 +++++
+ drivers/regulator/Kconfig                     |   8 +
+ drivers/regulator/Makefile                    |   1 +
+ drivers/regulator/sun20i-regulator.c          | 156 ++++++++++++++++++
+ 4 files changed, 202 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-system-ldos.yaml
+ create mode 100644 drivers/regulator/sun20i-regulator.c
+
+-- 
+2.39.2
+
