@@ -1,86 +1,93 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF3AE168B06
-	for <linux-sunxi@lists.linux.dev>; Tue,  7 May 2024 15:17:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 108138F72;
+	Tue,  7 May 2024 17:03:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715095023; cv=none; b=iNyw4mNwrkPAhXTovpM0/QpNLDOImshI7raHh90/qS/hnfsqXi1kd7tiubAt48f1bY7v6uz+dKXt8OyYNMNnaHURYthtCJtAXHHvI/O+Xm62u9qRqESx42DoxlVW1rXCH8Cge5G1rg5mbWU6Ys3gs+rCELBbhWdkHhzeRfudUxI=
+	t=1715101406; cv=none; b=enNs/rgcs9fhOYbzgaG3skxyzrIyr81XcgUQLFwAR4A/GXBDY/qbFL5BfGsGTZbivSLqrnYhYKox3d0SDtfOTeT9OijPqFdYw+vWaCyWo/kxAiLaMSQt1g+l/28d20RN7xoK/GQvsZ1tGZ468vOUUy+4rg6Mawqz0gVzw0+rYm0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715095023; c=relaxed/simple;
-	bh=zyJu9yBHUsDZEwiqz7xPlI0025aurXNawhHfPRrtkwg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PoWdokkIZThdfSeuRjKiBveF7709T8jbhnlHrJTPYMXrdAdlbO3/41dYxJwUpgq2yXLEa2GS8CKNFzFXCjADcrOAB/Fz77rBJK74M8nXQ+HOf5YcmFNQ2Gog6mEPLp0Zq9iOILOzu6pRVLr6NUpGXBDLSptlET3Ib41PlDbAp5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pZdYdMfZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1715101406; c=relaxed/simple;
+	bh=ArnZiiYUYEC1mlgNlltHqQrIthtsLHuxUJszJP2E6B0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BEm0Q2xKdntd7UM+j+XXET8Zq2/94n5VFyYOCJ4j/9iCdKeSIKyw1HNWukJ3QaWXtk+OpTBHW/5D214VJ+6wqBMJupcMH4ZqTrhOhAAqQG+J6NcF22npOdYjFQ6nkCPQfqY4WOVHPEqL3exhe13lGoSSTILajV5bbZ+kA6F892g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fdK4PMDE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pZdYdMfZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B8DDC4AF66
-	for <linux-sunxi@lists.linux.dev>; Tue,  7 May 2024 15:17:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fdK4PMDE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21011C4AF18;
+	Tue,  7 May 2024 17:03:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715095023;
-	bh=zyJu9yBHUsDZEwiqz7xPlI0025aurXNawhHfPRrtkwg=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=pZdYdMfZiA8TSK6gKH55RQbGK5Oagt5SyYfZL0flIEayMhhFIvLbQBzYQv5c//RWK
-	 BxviT6ItG19vjkwcTRYxnGhRPWTZ9vkFbbOkbPOSHU9XY1RJWh1O/Vfp4pe3Xc5QDQ
-	 U4Eyx5Z+skvIEjg49wYGNGHFz3nZkjc+mOfuUYNKmXdPS+I6Pqu3qUjdCtwhGqFOGH
-	 wBZETCUBut8DPWi+9Du6+Ogo/WbeH6CAoEuC5LVwP98BJ+8uCcNN3UUlREzW64bKcb
-	 PHDTSu1L4IdME+R4kg39WJ+Hlj9yJo3drMSAlZjAoWhqSPptIViDbnbswwOoJJsr8s
-	 0xtD9EZbvuiXg==
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2dac77cdf43so42424661fa.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 07 May 2024 08:17:03 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUD+7g7W39iD7QLbyghQBAsBf4y4csfdWT5KTBFCIhK15hx7ecqh4RVQ8F0CRkg8nHllXQNFHIFNcikfJZBPQPIe9OMzYEhNTD3TO8=
-X-Gm-Message-State: AOJu0YzC7x1FpS+xuyoWc3Qlxjg+HpFTvh1l+D15P35L5vI8fAZDLq8Q
-	vrcF/IbS3SiAz6Kuamtz5yzY6bnLX0s+vNjXXNFyfnmOp6cHR2MUqUKkYtAVzX2Pncu3jqzFWGd
-	GnDXQ1Hom94/7N2jB23sPxGfnHdw=
-X-Google-Smtp-Source: AGHT+IEHukVmyg4VBnBczawNkg5xVFPgcAhPJDAvsYtrkmQdlKZstUvc83S09YCQ/qrduDkmFw5t2m++iSbLEQQBNMY=
-X-Received: by 2002:a2e:a212:0:b0:2df:e2d1:f4b5 with SMTP id
- h18-20020a2ea212000000b002dfe2d1f4b5mr9127593ljm.21.1715095021888; Tue, 07
- May 2024 08:17:01 -0700 (PDT)
+	s=k20201202; t=1715101405;
+	bh=ArnZiiYUYEC1mlgNlltHqQrIthtsLHuxUJszJP2E6B0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fdK4PMDEapvW9NTJXzT+WrquyPt48Xws4KlkNo6FE7oktoOyUznLn8rIfaY6gM5Py
+	 Ai35goUtcDFnF1eqKMnmFSxGY1D73HWtQGjNE8sykSzf0CZi28QTnln4GQgINr0NNn
+	 MVVU89di3/rcQCu3cNK0iN0vLEvN54C17y6RYuIy06eftd4Pl771u4fatHSH/Scdcl
+	 z+F3JNuaby4oqQCcoGC/zcW8bsYatn7vphQQFiGJC9GU7PJN9kjk/4mj1flIUqMZWn
+	 5tX8+QDQSmk0TREMTmvmgCun34E0SCm65hXXDVQIn2W/KQeDcpJRUO4mlFGbAt8v63
+	 FuDt59RvNRyOw==
+Date: Tue, 7 May 2024 18:03:19 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Evan Green <evan@rivosinc.com>,
+	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v6 06/17] riscv: Add vendor extensions to /proc/cpuinfo
+Message-ID: <20240507-divisive-swoop-c2737a2d9a9f@spud>
+References: <20240503-dev-charlie-support_thead_vector_6_9-v6-0-cb7624e65d82@rivosinc.com>
+ <20240503-dev-charlie-support_thead_vector_6_9-v6-6-cb7624e65d82@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240507041343.272569-1-wens@kernel.org> <Zjo-sri2pdGvKhSf@finisterre.sirena.org.uk>
-In-Reply-To: <Zjo-sri2pdGvKhSf@finisterre.sirena.org.uk>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 7 May 2024 23:16:50 +0800
-X-Gmail-Original-Message-ID: <CAGb2v67Avo0X-NRt5AxfsiZOuAAp2MgBxJBn5hu2yN6PjdtDFA@mail.gmail.com>
-Message-ID: <CAGb2v67Avo0X-NRt5AxfsiZOuAAp2MgBxJBn5hu2yN6PjdtDFA@mail.gmail.com>
-Subject: Re: [PATCH RESEND v5 0/2] regulator: sun20i: Add Allwinner D1 LDOs driver
-To: Mark Brown <broonie@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="DjOV1yEKcl4Dfmqk"
+Content-Disposition: inline
+In-Reply-To: <20240503-dev-charlie-support_thead_vector_6_9-v6-6-cb7624e65d82@rivosinc.com>
+
+
+--DjOV1yEKcl4Dfmqk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 7, 2024 at 10:46=E2=80=AFPM Mark Brown <broonie@kernel.org> wro=
-te:
->
-> On Tue, May 07, 2024 at 12:13:41PM +0800, Chen-Yu Tsai wrote:
->
-> > This is a resend of the Allwinner D1 LDO driver series, separated by
-> > subsystem. This part contains just the regulator driver bits. The sunxi
-> > SRAM binding part will be sent out after the merge window due to a
-> > conflict in next.
->
-> ...
->
-> > A binding and driver change is required for the SRAM controller, to
-> > accept the regulators device as its child node.
->
-> This says that the driver depends on the SRAM change which isn't getting
-> merged this time round?
+On Fri, May 03, 2024 at 11:18:21AM -0700, Charlie Jenkins wrote:
+> All of the supported vendor extensions that have been listed in
+> riscv_isa_vendor_ext_list can be exported through /proc/cpuinfo.
+>=20
+> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
 
-The SRAM driver change was already merged. The regulator DT binding doesn't
-depend on the SRAM binding change; it's the other way around: the SRAM
-binding change adds a reference to the new regulator binding.
+This seems fine, thanks for updating this interface :)
 
-Hope that explains things.
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 
-ChenYu
+Cheers,
+Conor.
+
+--DjOV1yEKcl4Dfmqk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZjpe1gAKCRB4tDGHoIJi
+0gm2AQCLHpjv3WhE7hyAxrtcfZiN9zHtIaysFDZBciMppAkHSwD/YTCG+52INlpy
+VoV7MjpQnmLGSVLjs8FDGFXVJUEjfQI=
+=g03H
+-----END PGP SIGNATURE-----
+
+--DjOV1yEKcl4Dfmqk--
