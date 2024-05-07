@@ -1,31 +1,31 @@
-Received: from mail-m127150.qiye.163.com (mail-m127150.qiye.163.com [115.236.127.150])
+Received: from mail-m15571.qiye.163.com (mail-m15571.qiye.163.com [101.71.155.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A9E63C08D
-	for <linux-sunxi@lists.linux.dev>; Mon,  6 May 2024 15:30:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.236.127.150
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 660525244
+	for <linux-sunxi@lists.linux.dev>; Tue,  7 May 2024 01:33:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715009419; cv=none; b=tdAriPlKyjFkvxMxhxJCR4gdgLluy02mPBZFFPUZsvvFs2jFKdu9yQbmCfz6AFPiPqh6ZI/PnPJUOT8pQNdpc99oB+0Ku/1/9At7heqybVjCIBWDtCCQMW6P0ynt4sJXEGFqPcI4C4/c6zMddRS23KCr1wnsF73wI9zLmDZy40Q=
+	t=1715045609; cv=none; b=PE8+HWM/DUKTe60fm43BJ52WaKCFg8DG0Qkje7JqlZu2EGnffOTweOhfDFxxZPmw2xZCWCKkbI/fykmGjybNvalyjYWXbt7Uz5FEidsw+oCbqr3DEoyfv5uA4CcuIa4TvVQlKkzaWaNgEQlMO38pRbbpFtroPPXa2zT43eLs4SE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715009419; c=relaxed/simple;
-	bh=pyfAwvjWpp9yO49mvYPG4/3Ctuy4s/rdglAXCFfPT4k=;
+	s=arc-20240116; t=1715045609; c=relaxed/simple;
+	bh=ik7otHDJmq2Tk97tlY36+mTtqzuQS3rBj0pENGE7aBE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=i+lHt6Gc88LyrNsRFIr0VM4H7LwEKvbkn8EdP7hambMdtRUOuyW4HNiL2ONYLaU4plUs1JO9PReUANykSGIOheBK4wBUB1gYejdhHjK3/Fe84owYszO07R7eVbUU3B/oUGWs9mbExn/bRPTp6l+JtJ6WV4laGUghEZ3hfFRN7iQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=ZrKQo4LL; arc=none smtp.client-ip=115.236.127.150
+	 In-Reply-To:Content-Type; b=YySQrri2ZqLWTB0fPQhpMUnFByMNxHdysOp8jA4IQVh9N5Y4QLKrEw3LekTKsmeQ15m2juL+Uii5Ly+yP+iKurONYDUFWDsB5exIQdp6S8Ozz+uwbPg1O3CW2GQ7yvWpZw/t/DSEWmeobtLWOQ5ozg6bNDImQ/DteWbMAMrQ0bk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=QD7wbqQE; arc=none smtp.client-ip=101.71.155.71
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="ZrKQo4LL"
+	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="QD7wbqQE"
 DKIM-Signature: a=rsa-sha256;
-	b=ZrKQo4LLpXHMy8d4LXYD5iTRkQxizuI2VtgsgE+tJYIizoDN242zSfeuyZB6BxBPQMhQ7sm0BOLRbctDuuDGN2P8iej4bSnj/drKmF3/FNT3RqhqTyIlvpEtD8A/Fe6P9zFf5Mb0Hkg6Vj8aO4luGZv0MwCJTidSzkGU/cgb2Ro=;
+	b=QD7wbqQEud+fYkWN/Q7FNR38iFCkbtRNXWfbUQA1u9rbZv3g9C98+Wzdl3+GV215VkPYS6py3dmniAu6pIJctsBM81fUogbc5cjAt7i1ME65s2FeYSU/Ufljs3Vjd/rMOc+TwXoH+7cXFdwVG3Q8lZEcWSVgCH7IfjHZ4AFko/c=;
 	c=relaxed/relaxed; s=default; d=rock-chips.com; v=1;
-	bh=GJuF3hTrQtUJMZ2uZFlEfERKTqM4rnSOLJVMQPzCloc=;
+	bh=HAJvQdLYmyL3qiXfsvwfss35CTvFlv7T9/m66zcsIFU=;
 	h=date:mime-version:subject:message-id:from;
 Received: from [172.16.12.141] (unknown [58.22.7.114])
-	by smtp.qiye.163.com (Hmail) with ESMTPA id 739F18404C4;
-	Mon,  6 May 2024 16:23:00 +0800 (CST)
-Message-ID: <ed035e25-dd9e-4041-b413-7511544d0aba@rock-chips.com>
-Date: Mon, 6 May 2024 16:22:46 +0800
+	by smtp.qiye.163.com (Hmail) with ESMTPA id B408A8401F9;
+	Tue,  7 May 2024 09:32:16 +0800 (CST)
+Message-ID: <d1f29354-c187-46b9-a167-7a54762ecfa0@rock-chips.com>
+Date: Tue, 7 May 2024 09:32:16 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -59,13 +59,13 @@ In-Reply-To: <20240506-eccentric-wren-of-peace-819aad@houat>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQhlNTFZOGhpJGk5ITU1IGUlVEwETFh
+	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGUpDQ1ZPGkJITk1NTB1OSxlVEwETFh
 	oSFyQUDg9ZV1kYEgtZQVlOQ1VJSVVMVUpKT1lXWRYaDxIVHRRZQVlPS0hVSk1PSU5IVUpLS1VKQk
 	tLWQY+
-X-HM-Tid: 0a8f4cffc4c703a4kunm739f18404c4
+X-HM-Tid: 0a8f50ae181203a4kunmb408a8401f9
 X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PEk6STo6DDMDFBdDQhojTDg#
-	DkgaCQNVSlVKTEpPQkNITENJS09JVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Pxg6GSo6MTMDCBVKDi8yNTQW
+	OC8KFE9VSlVKTEpOS09OTkhDSU9MVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
 	WUFZTkNVSUlVTFVKSk9ZV1kIAVlBTU1JSzcG
 
 Hi Maxime,
@@ -103,6 +103,7 @@ On 5/6/24 15:59, Maxime Ripard wrote:
 > so is if the display claim it doesn't support RGB in its EDID which is
 > contradicting the HDMI spec. Are you using an Analog display by any
 > chance? or the built-in EDIDs through the drm.edid_firmware mechanism?
+> 
 
 It is because there is something wrong(I still don't know why) with the DDC on my board.
 It always failed to read edid when it first bootup, that means inno_hdmi_connector_get_modes
@@ -128,5 +129,4 @@ drm_helper_probe_single_connector_modes:
          }
 drm_add_modes_noedid will not initialize display_info.
 
-> 
 > Maxime
