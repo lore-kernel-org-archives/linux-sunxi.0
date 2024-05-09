@@ -1,115 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C69F6148858;
-	Thu,  9 May 2024 04:50:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CB0814A090
+	for <linux-sunxi@lists.linux.dev>; Thu,  9 May 2024 08:17:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715230252; cv=none; b=XFJpe6suuKrE9OUsbjTs0VjN6m5Jahdsz7QTF5ruBB3Q9u965QNZFbVmR93CfvLonhjVnHOUrr2LaaMhyBf6PWOa5uzqf14EmQ51+TgPSvtyzL9n3VRN8oBhmjJyJL5GEnFolLSMi5tDcPJpMhUfcKVRIj1yg/ZwmOstfG63Zgk=
+	t=1715242658; cv=none; b=Kc5V3FD3Mw5kHEaNsIVt0HVrZ3gHBHuHydDyGTwZ1qeGFPz8l9coaZPacw88F3PbcK963+AlBhL1djXMmjGb52Wej0fxliTj7QuwETOSJ/Omc5F3iW/NkvlymIJMo7DO9ZXry73ywvGnSnIb7f2IXvtHYu518z0kWUEGFieCZbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715230252; c=relaxed/simple;
-	bh=a964IG20g0mcJX+qtDAbnau0BEnxx6FVxxZjHZ7Ne84=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I04Zk8C8Ne0d3qw069yvqX/pBUgqeGPFXG5eQJGZdEi3lIvPo/nz7hSNBLWAhRiKprpsmZTtSrNjj+yPG5o6k2A4jn9yn1MjLhUFwXloJuTY20Dd+ZQD2f3wIEL7YcPchxoiW8f+nu9jCGW3/R7seXEn7dPc8Tp6X/LXfYEoHCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ooWkZOan; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1715242658; c=relaxed/simple;
+	bh=lMaYXea0/pL6iEr0T3fEYaeD0BO/p+aXtvy3hTqRvxI=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XBBNZNa0/6cwH/3//O3MvMVLwm0ag+eQP3+CnyA+/+twXv2oW2MYajN1YYn92mbcewel0luFvvn/+tRA63mdWXcWc0/B2QGrYYD0APPV6dJIaD53DyagocIYpM28a8ZkAjt1k59PjDSIKEPj+/qCdm+e6vSZg98jzpLcpYX0EKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=AZUB6qGS; arc=none smtp.client-ip=68.232.153.233
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ooWkZOan"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCAE6C116B1;
-	Thu,  9 May 2024 04:50:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715230252;
-	bh=a964IG20g0mcJX+qtDAbnau0BEnxx6FVxxZjHZ7Ne84=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ooWkZOan6eU5duQ7F6zmekuSy3fLmut/YQfpbrHptjl2VrtS+Jukly1wPYBDEu13Z
-	 jZK5/R2II0jEHQSTka5/vbweIgbbxRtCUxFd+zJkMDtqh0pBOyEDt3LxazbJWDiPMI
-	 OjFTl5G4fcqLZ1QpMZXCudRoGPvdv4RzWYl/GQrCQtCYr7UZvgv+kryoODiPbI6CTy
-	 JPkRO6hi0CBKYaAzZ0OpIXQnbwxwsWaGobUMpynUOiK2JzaBekCwNHJBgEstyRRuEJ
-	 Wosu/YjoyP3fY4Lqe0BLK14Qoobf+6n+ROJZLDWNqleNHPk2GAfbd0T+M9gKcdA4p6
-	 4QOCckZN1juxw==
-Date: Thu, 9 May 2024 06:50:48 +0200
-From: Mark Brown <broonie@kernel.org>
-To: Chen-Yu Tsai <wens@kernel.org>
-Cc: Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	Andre Przywara <andre.przywara@arm.com>,
-	Chen-Yu Tsai <wens@csie.org>
-Subject: Re: [PATCH RESEND v5 2/2] regulator: sun20i: Add Allwinner D1 LDOs
- driver
-Message-ID: <ZjxWKOoLMNQAmhla@finisterre.sirena.org.uk>
-References: <20240507041343.272569-1-wens@kernel.org>
- <20240507041343.272569-3-wens@kernel.org>
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="AZUB6qGS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1715242656; x=1746778656;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lMaYXea0/pL6iEr0T3fEYaeD0BO/p+aXtvy3hTqRvxI=;
+  b=AZUB6qGSZYcgcW/c8X1Bb+pHRm2EZk+XUjUcPSje9xqkhq0AUDCDRRQB
+   5NrO6KtDRBFcLFqRmDQY+lbzZtQP+VPulxmFsTycoIoJevMxORq0TSKIu
+   Ae6GjwwurjyXFXM0cEDSK0om0GDY1bHO8XbgVmeeJMItj8VP8/OUPxjTx
+   MAdxX0okqu9Bfg2fduW6cDj9hhUzQXL+ikEXE/9VQBjc1rIlpj8a3GDUr
+   FjngvC44BTfDPDyH4CK/72CBf7dFPBmUfpbR2GnNpuRwCMyiwP6qC4pMm
+   pFKyZwt8yozeor6mOehDCAXJXpOhaSB1/BX8EkMMS13fHRMDWaVlZMfJs
+   g==;
+X-CSE-ConnectionGUID: 0mKwrjsVTF+mfP6kb6VBzw==
+X-CSE-MsgGUID: w51U2VCEQquHoJanXOK8gQ==
+X-IronPort-AV: E=Sophos;i="6.08,147,1712646000"; 
+   d="asc'?scan'208";a="26482894"
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 09 May 2024 01:17:34 -0700
+Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 9 May 2024 01:17:24 -0700
+Received: from wendy (10.10.85.11) by chn-vm-ex04.mchp-main.com (10.10.85.152)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35 via Frontend
+ Transport; Thu, 9 May 2024 01:17:20 -0700
+Date: Thu, 9 May 2024 09:17:09 +0100
+From: Conor Dooley <conor.dooley@microchip.com>
+To: Charlie Jenkins <charlie@rivosinc.com>
+CC: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Paul Walmsley
+	<paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
+	<aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>, Conor Dooley
+	<conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+	<jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Evan Green
+	<evan@rivosinc.com>, =?iso-8859-1?Q?Cl=E9ment_L=E9ger?=
+	<cleger@rivosinc.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+	<shuah@kernel.org>, <linux-riscv@lists.infradead.org>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Palmer Dabbelt
+	<palmer@rivosinc.com>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-sunxi@lists.linux.dev>, <linux-doc@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>
+Subject: Re: [PATCH v6 03/17] riscv: vector: Use vlenb from DT
+Message-ID: <20240509-quickly-nibble-01cdb4e541ee@wendy>
+References: <20240503-dev-charlie-support_thead_vector_6_9-v6-0-cb7624e65d82@rivosinc.com>
+ <20240503-dev-charlie-support_thead_vector_6_9-v6-3-cb7624e65d82@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="g1RsFHX7V6ArnC2e"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="ftL9clxrsKa3hb4u"
 Content-Disposition: inline
-In-Reply-To: <20240507041343.272569-3-wens@kernel.org>
-X-Cookie: Sorry.  Nice try.
+In-Reply-To: <20240503-dev-charlie-support_thead_vector_6_9-v6-3-cb7624e65d82@rivosinc.com>
 
-
---g1RsFHX7V6ArnC2e
-Content-Type: text/plain; charset=utf-8
+--ftL9clxrsKa3hb4u
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 07, 2024 at 12:13:43PM +0800, Chen-Yu Tsai wrote:
-> From: Samuel Holland <samuel@sholland.org>
->=20
-> D1 contains two pairs of LDOs, "analog" LDOs and "system" LDOs. They are
-> similar and can share a driver, but only the system LDOs have a DT
-> binding defined so far.
+Hey Charlie,
 
-This doesn't build on at least multi_v5_defconfig, multi_v7_defconfig
-and arm64 defconfig:
+Just me being a pain again...
 
-/build/stage/linux/drivers/regulator/sun20i-regulator.c: In function =E2=80=
-=98sun20i_reg
-ulator_probe=E2=80=99:
-/build/stage/linux/drivers/regulator/sun20i-regulator.c:111:16: error: impl=
-icit=20
-declaration of function =E2=80=98of_device_get_match_data=E2=80=99 [-Werror=
-=3Dimplicit-function-de
-claration]
-  111 |         data =3D of_device_get_match_data(dev);
-      |                ^~~~~~~~~~~~~~~~~~~~~~~~
-/build/stage/linux/drivers/regulator/sun20i-regulator.c:111:14: warning: as=
-signm
-ent to =E2=80=98const struct sun20i_regulator_data *=E2=80=99 from =E2=80=
-=98int=E2=80=99 makes pointer from inte
-ger without a cast [-Wint-conversion]
-  111 |         data =3D of_device_get_match_data(dev);
-      |              ^
-/build/stage/linux/drivers/regulator/sun20i-regulator.c: At top level:
-/build/stage/linux/drivers/regulator/sun20i-regulator.c:136:34: error: arra=
-y typ
-e has incomplete element type =E2=80=98struct of_device_id=E2=80=99
-  136 | static const struct of_device_id sun20i_regulator_of_match[] =3D {
-      |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~
-/build/stage/linux/drivers/regulator/sun20i-regulator.c:136:34: warning: =
-=E2=80=98sun20i
-_regulator_of_match=E2=80=99 defined but not used [-Wunused-variable]
+On Fri, May 03, 2024 at 11:18:18AM -0700, Charlie Jenkins wrote:
+> @@ -671,6 +713,11 @@ void __init riscv_fill_hwcap(void)
+>  			pr_info("Falling back to deprecated \"riscv,isa\"\n");
+>  			riscv_fill_hwcap_from_isa_string(isa2hwcap);
+>  		}
+> +
+> +		if (elf_hwcap & COMPAT_HWCAP_ISA_V && has_riscv_homogeneous_vlenb() < 0) {
+> +			pr_warn("Unsupported heterogeneous vlen detected, vector extension disabled.\n");
+> +			elf_hwcap &= ~COMPAT_HWCAP_ISA_V;
+> +		}
+>  	}
 
---g1RsFHX7V6ArnC2e
+After replying to Andy this morning about doing some dependency checking
+for vector-reliant extensions I realised that we're actually doing this
+check too late to be useful for that case.
+Say for Zvkb we want to check if vector has been enabled before marking
+the extension available, and without Clement's series that re-works the
+riscv_isa_extension_check(), we need to ensure that vector support isn't
+gonna get turned after we've already marked Zvkb as usable. If we could
+move the riscv_has_homogeneous_vlenb() call before probing extensions we
+could then examine the result in riscv_isa_extension_check() for V and
+make sure it doesn't get enabled in the first place, rather than
+clearing it after the fact.
+
+There's a whole load of moving pieces between different series here at
+the moment though, I wish some of it would land so that I could send
+some cleanup patches for what I think is inconsistency on top :) I
+wouldn't mind if this landed as-is, it's still an improvement and the
+user I mention above doesn't actually exist yet.
+
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+
+Cheers,
+Conor.
+
+--ftL9clxrsKa3hb4u
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmY8ViUACgkQJNaLcl1U
-h9DVRwf/W0u/DsfRiOg544BQO14Ruk6H0o+gXYE8qd5+KA124vKjN3tCXj3M5dfX
-wMKDwWXD4MmMHCDdyaQO+ZvlUojvktKtVJTsTmesOXeV6oX1KFgKPd/lVWnI3Hkb
-gSBz3iTePYx0olIQFKi0RWvqn2ykvEfKdGMxFiXexCeCKvx59eVf+Prr35cpNvXr
-QD57BzTpmHkA0X5zMJayU04imi/IwLoTSCfZFWkfdk4WqeEOaV/VwSpdZ0ZEpKe6
-cFsWgmSxIT3SaqPJfHcUAKS9btPLY4pzF2j/4pqS6HUILVLPjULh/0vPiNLF9JOq
-E1OYXyruAQ+pa70o/cnO1OkVRec/8g==
-=f3+H
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZjyGhQAKCRB4tDGHoIJi
+0u56AP95eBVgYwPh58UnZa0lZuyLzeDG6PlD0hXLsOA0eWnxUwEAqvt6X42WuHh8
+3JcdzsXkKeCVaTmE3NYKMOyV9FDU3Q4=
+=JxGW
 -----END PGP SIGNATURE-----
 
---g1RsFHX7V6ArnC2e--
+--ftL9clxrsKa3hb4u--
