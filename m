@@ -1,53 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FFED770E1;
-	Thu,  9 May 2024 22:07:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B520710A0D;
+	Thu,  9 May 2024 23:05:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715292439; cv=none; b=WMtpyYem6+9wgCEs0+FpSNVRsvTn7RJz1qfMWK/kGjqLM10IOylm/yjMlMbp34P28JJIx9t6wiIDZHHWcF8vucQnaUhMeFVhf5hDgHgsoqXYgurwH/5wwvLMQDO5LfF72VhMzo2BLnBSdRfLbxaC8pbB6dOiQv9hBTYHi6/E+EA=
+	t=1715295936; cv=none; b=caSD0Ew5Lh9ymS9/aXmcdFGNrvHMWRkEHn35pBOFZuX0sHpAUAoJHek/Qb4X+epuIZ8fMZ1OJ9bHifmuWy8BPBBjWTRLFD2ijyvMc9Ob4O5gk9tfJZnAJaxMfALBV802N6F1v9ooG5Ad8OIUZKy9UxZy57S0yJhj0L8Y+V5A5KA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715292439; c=relaxed/simple;
-	bh=z03sTgiRqqCI3iZ/uO7QrRfM0hacHjhvfowyj7A51KA=;
-	h=Message-ID:Content-Type:MIME-Version:In-Reply-To:References:
-	 Subject:From:Cc:To:Date; b=EuzNA3n0hUEQbI1y4t0HA5LCvIoEQnCo40qK1JS42H9Muvhk32nX7qnk/ZV4ipxYFotTNimrYzDogE39IjOf/o4XNcmj+uvjQtQQTLIvpjbcdHLU4TGNaVGRQ8gX8qTpcK+BsZbzDo6Iy7kYjOar9IYhL34cn/rKqHDutywG9dE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hjhUH6CD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1715295936; c=relaxed/simple;
+	bh=PV0CNX3AG2s3C6hfW6k3CCdraITVnqHGLjTCvezs5OU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=n4ql0O1XpeS5ia2Gx0aCXtrlyyVCApqIYZQJmJYE9f7ys1TC4cTn6gnp99sWiwU3v7sfPSxbpFe4QMg2jzYepoIUIYWg8cplrbAzI51mRBgBHpzbEnovZgUgG0GpQbEcR6rU0lhBB1e7p3eeRAL2Q1ezxKbEx6mr+sUX3uRGbwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=buDMhSsB; arc=none smtp.client-ip=46.235.229.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hjhUH6CD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A35CCC116B1;
-	Thu,  9 May 2024 22:07:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715292438;
-	bh=z03sTgiRqqCI3iZ/uO7QrRfM0hacHjhvfowyj7A51KA=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=hjhUH6CDQTzSuMxIJqISktliM+4b5RIDJHQ5z4Ii6lJFot+TQeBw/vMo/qxfGavDF
-	 Zfs3JLQEru0PvxDNNvkREEs39TbQCgffJoqYJuSzeEzqFxNK8QVSeQN5zU7QVr40c9
-	 +B3/K6/LGjWPWoQY6eyx5/01mGFYybMDqh2PDZWNc3Hr2/c+43hD4t3cXP2UUFg+5A
-	 UwQBSQ07XNXCKgeenI9cu48MaXaTdecFC/t5aQSxxLR1sR9/UFcSKX3OIwV9jBvhx9
-	 BugJ3+CxyqaJZjuATj4C5noZrIao5btIb44gsH6xb8guHMiEiInXP8IUJfoElTxgR1
-	 T1pslNQ4YH+6w==
-Message-ID: <a12ee2346ef9e00b6fca5dd4fce7de0d.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="buDMhSsB"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
+	:Subject; bh=iew2IIPfv/BtAravNjLR5s/UcvQq4Ks2nxnimvEluNM=; b=buDMhSsBC31Z1LpN
+	RUWC3gW+cb9EHvq1Z6tkTL1aUnwdVNgmAyZXJgsucvXTPrhS8xmxc5sOjYryczTErXaZAVIfEmM1u
+	3dqVqlHAqTVCQXbal6EEMEnZFJ0fDRdg4EjeWKYifokSAk2zxM+M4ou1jxqQz6F8NlGEtML6V916h
+	tlay1trRnNO37ZMWul1WHW5Rrsk4874xWNqSY5UZrOeodpoNe2VcZWLf4bBsOXy7sJd2VURBm5JPk
+	HhRyYmybLL3NlL/Sqct5MnNBZhblA8U0OOtpBkHltETf09sQ/9Z6SdG+XSyeqxJ+5DqnxEhQg4mK5
+	ZdibRmEFulLbqCmpRw==;
+Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
+	by mx.treblig.org with esmtp (Exim 4.96)
+	(envelope-from <linux@treblig.org>)
+	id 1s5CpB-000HBS-2C;
+	Thu, 09 May 2024 23:05:18 +0000
+From: linux@treblig.org
+To: sboyd@kernel.org,
+	emilio@elopez.com.ar,
+	mturquette@baylibre.com,
+	wens@csie.org
+Cc: linux-clk@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	"Dr. David Alan Gilbert" <linux@treblig.org>
+Subject: [PATCH v2] clk: sunxi: Remove unused struct 'gates_data'
+Date: Fri, 10 May 2024 00:05:16 +0100
+Message-ID: <20240509230516.86023-1-linux@treblig.org>
+X-Mailer: git-send-email 2.45.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20240509001452.204929-1-linux@treblig.org>
-References: <20240509001452.204929-1-linux@treblig.org>
-Subject: Re: [PATCH] clk: sunxi: Remove unused struct 'gates_data'
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Dr. David Alan Gilbert <linux@treblig.org>
-To: emilio@elopez.com.ar, linux@treblig.org, mturquette@baylibre.com, wens@csie.org
-Date: Thu, 09 May 2024 15:07:16 -0700
-User-Agent: alot/0.10
+Content-Transfer-Encoding: 8bit
 
-Quoting linux@treblig.org (2024-05-08 17:14:52)
-> From: "Dr. David Alan Gilbert" <linux@treblig.org>
->=20
-> 'gates_data' (and it's associated define) are unused since
-> Commit ee38b2698ae2 ("clk: sunxi: Add a simple gates driver").
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
 
-Lowercase commit please.
+'gates_data' (and it's associated define) are unused since
+commit ee38b2698ae2 ("clk: sunxi: Add a simple gates driver").
+Remove them.
+
+Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+---
+ drivers/clk/sunxi/clk-sunxi.c | 11 -----------
+ 1 file changed, 11 deletions(-)
+
+diff --git a/drivers/clk/sunxi/clk-sunxi.c b/drivers/clk/sunxi/clk-sunxi.c
+index 5fe7049ea693a..4999504f7e60d 100644
+--- a/drivers/clk/sunxi/clk-sunxi.c
++++ b/drivers/clk/sunxi/clk-sunxi.c
+@@ -852,17 +852,6 @@ CLK_OF_DECLARE(sun8i_axi, "allwinner,sun8i-a23-axi-clk",
+ 	       sun8i_axi_clk_setup);
+ 
+ 
+-
+-/*
+- * sunxi_gates_clk_setup() - Setup function for leaf gates on clocks
+- */
+-
+-#define SUNXI_GATES_MAX_SIZE	64
+-
+-struct gates_data {
+-	DECLARE_BITMAP(mask, SUNXI_GATES_MAX_SIZE);
+-};
+-
+ /*
+  * sunxi_divs_clk_setup() helper data
+  */
+-- 
+2.45.0
+
