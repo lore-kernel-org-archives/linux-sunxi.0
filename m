@@ -1,110 +1,117 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA6626AF2
-	for <linux-sunxi@lists.linux.dev>; Thu,  9 May 2024 13:55:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92F6E3BBE3;
+	Thu,  9 May 2024 15:31:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715262932; cv=none; b=lj4naP7Mm5OVuJ15ZTiRc/VieVQ/NrWgTeX64F4BQx2YfGT4EejfR5llAx+rYpJFyMGVcwKQZ96zuB7W3KNrn3A/nGVJwbNSF98NG4xHyEgskuY+M1+gwbDlQVkeq7m1YmKg3PsWuS3LopI5S/xB+EMG+Hl36BxR7XOQTQzMR+A=
+	t=1715268676; cv=none; b=CgFOnfIo+Xiq4KKKVf/zjFVJYo3lHLW96XuZfag6yypV3GTnhv4vFA//pCngYEf3hpmq0CBZC1Nl4B+V6NDc88Nn7ytTu2ayZBGdYpMk17SDRNeVJk6Cesy2WzNOOs7A+WbllOdz8PcrxhBI4k53w9Jyp1ZMMYoGw2Hxtdyvipk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715262932; c=relaxed/simple;
-	bh=Pbof/f9raYmyb5MqYobPUYSaqX0hPFgEJmmhhXn7+X0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YlsOaRJ7G4r2VLOaakkujv2BabJdvpzLhA0jyDBPMIBsWdnXqp+9YUneRpPbTjyfr7FU2l7ZLZfwzQG8O1a/CcK0DAW4yPkm6E74AFYmzvWXGtOp5H8u9e0emDGdPoGAzJKcIdPZcSiQnWRamWlfXmvMn4Hb4pM81u08MeyvSus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FvusXzrp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1715268676; c=relaxed/simple;
+	bh=Mk/kaGfo1nd9dUr4W4lbqu4SomACMK5r/e5cywhFtl8=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=HlcZhiLzSIcaXgqcplZNcjZKXQCPdle3xBv+3w+bkJmUiBXNnVouex3cK9snKlP20Po9ryAAzrfRhyaHr9mz+6GTjf3y93/YF4xWnWZqpey7K6lfdf5ukilBbHT/qRDaQMjdcP20Y86QZjeLnzAuWAT3T/koZNAQoBKLwXrc/ug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ADaZwSgZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FvusXzrp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DC79C32782
-	for <linux-sunxi@lists.linux.dev>; Thu,  9 May 2024 13:55:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ADaZwSgZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14375C116B1;
+	Thu,  9 May 2024 15:31:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715262932;
-	bh=Pbof/f9raYmyb5MqYobPUYSaqX0hPFgEJmmhhXn7+X0=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=FvusXzrpoUpbIRurmDotbS7K6rvaOqa2+nfYfRkHbNbMfnCEPsvbLey4dNkc00KOm
-	 aEigNXz+A+kXpR/8WtjENbu1U6ElkppXXSVPpwsia59KcdYJD6o2C3qotIcusHn9Jm
-	 7kZHO6svdZ9mmdjNhSglTJqpu5sXluW1N5YpOsWzwLrZoJnY+GNpcOagPXMLuqJwVW
-	 gC3gt2GWxCNM1EazJGQ0BxYte0D4Os3japrP7nwU/tDJOtpSP/OjWMUsPJUHOGVbrF
-	 PPP6MRLrsg3MeUL/Phdz50LMzDvnNf6FX5bcDt9YzPs/pZTNsTti5Jfxkiod1byzhx
-	 9dnHH8ZBTc21w==
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2e242b1dfd6so11421491fa.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 09 May 2024 06:55:32 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXyTmwQiX7a/jBAwOPMQF0+XRHi6A0duDGK6/I84PhEdqb6FDEEpkfQZC9uRM7g3Nn632YjfRREU92KpGrJbfstBeEvphF9K4uWdWk=
-X-Gm-Message-State: AOJu0YzkAaDJHK+wLnGJbZi12CnDKCrpQ5BHwaqDrEs6JIHFIJEbVyNU
-	BOxWGreyNcXrBSBlT6zm899glz1BOhspYUpnSZqyRYWrj4RuP6QSjNcS227fhUpFppRh01VTenf
-	IvsCk34MS5+qwYDPi+QAQjK4VWNg=
-X-Google-Smtp-Source: AGHT+IE3IRxdieZZWFIAV2yKut1U/0GAf5n97B1SmEfJ3sNacc7fuXxvGQJsEaDI4WAJQ8++usuBY9y4zk71QcZW0sg=
-X-Received: by 2002:a2e:81c4:0:b0:2df:1f7c:b84 with SMTP id
- 38308e7fff4ca-2e446d83c4dmr36119491fa.6.1715262930588; Thu, 09 May 2024
- 06:55:30 -0700 (PDT)
+	s=k20201202; t=1715268676;
+	bh=Mk/kaGfo1nd9dUr4W4lbqu4SomACMK5r/e5cywhFtl8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ADaZwSgZJu7O+aKWRjHMGcfG9AvFhTn6OAghl0gAx0X3BNJ2bRiqEBawS3yHds1RA
+	 ubwlqC3kioPCC3+bmJkNnBG2CNytIRRM8aCxjhcCAFdsJUxV2GNnujGAPBiGBtWDSt
+	 8XTXp1Yc5J3XXn/hPeUnKp4AJpj0e+Oa6AgE0iBdzjvGxIxyQRB6olbqYI/HrJnuVl
+	 JZdnE5/nSxjOuBpKQ2BCMu/M+HSryBK9NGuRyIRklgB0O3s8YoJFzGKP8fYncPQgvh
+	 txjHINbkPy7x5AyhS6K1qmQ9AszIaJx+2VoUINt/yEFlF89mngXSEfq1Dj1C53Ugvy
+	 mnmS4sYZcRdLw==
+Received: by wens.tw (Postfix, from userid 1000)
+	id AD61C5F9B4; Thu,  9 May 2024 23:31:13 +0800 (CST)
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Samuel Holland <samuel@sholland.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Chen-Yu Tsai <wens@csie.org>
+Subject: [PATCH v6 1/2] regulator: dt-bindings: Add Allwinner D1 system LDOs
+Date: Thu,  9 May 2024 23:31:06 +0800
+Message-Id: <20240509153107.438220-2-wens@kernel.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240509153107.438220-1-wens@kernel.org>
+References: <20240509153107.438220-1-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240507041343.272569-1-wens@kernel.org> <20240507041343.272569-3-wens@kernel.org>
- <ZjxWKOoLMNQAmhla@finisterre.sirena.org.uk>
-In-Reply-To: <ZjxWKOoLMNQAmhla@finisterre.sirena.org.uk>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Thu, 9 May 2024 21:55:19 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66VmizAy-+XWUK3-tYyZFV6qQUdBrxPU72nFPH71tNekw@mail.gmail.com>
-Message-ID: <CAGb2v66VmizAy-+XWUK3-tYyZFV6qQUdBrxPU72nFPH71tNekw@mail.gmail.com>
-Subject: Re: [PATCH RESEND v5 2/2] regulator: sun20i: Add Allwinner D1 LDOs driver
-To: Mark Brown <broonie@kernel.org>
-Cc: Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, Andre Przywara <andre.przywara@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, May 9, 2024 at 12:50=E2=80=AFPM Mark Brown <broonie@kernel.org> wro=
-te:
->
-> On Tue, May 07, 2024 at 12:13:43PM +0800, Chen-Yu Tsai wrote:
-> > From: Samuel Holland <samuel@sholland.org>
-> >
-> > D1 contains two pairs of LDOs, "analog" LDOs and "system" LDOs. They ar=
-e
-> > similar and can share a driver, but only the system LDOs have a DT
-> > binding defined so far.
->
-> This doesn't build on at least multi_v5_defconfig, multi_v7_defconfig
-> and arm64 defconfig:
->
-> /build/stage/linux/drivers/regulator/sun20i-regulator.c: In function =E2=
-=80=98sun20i_reg
-> ulator_probe=E2=80=99:
-> /build/stage/linux/drivers/regulator/sun20i-regulator.c:111:16: error: im=
-plicit
-> declaration of function =E2=80=98of_device_get_match_data=E2=80=99 [-Werr=
-or=3Dimplicit-function-de
-> claration]
->   111 |         data =3D of_device_get_match_data(dev);
->       |                ^~~~~~~~~~~~~~~~~~~~~~~~
-> /build/stage/linux/drivers/regulator/sun20i-regulator.c:111:14: warning: =
-assignm
-> ent to =E2=80=98const struct sun20i_regulator_data *=E2=80=99 from =E2=80=
-=98int=E2=80=99 makes pointer from inte
-> ger without a cast [-Wint-conversion]
->   111 |         data =3D of_device_get_match_data(dev);
->       |              ^
-> /build/stage/linux/drivers/regulator/sun20i-regulator.c: At top level:
-> /build/stage/linux/drivers/regulator/sun20i-regulator.c:136:34: error: ar=
-ray typ
-> e has incomplete element type =E2=80=98struct of_device_id=E2=80=99
->   136 | static const struct of_device_id sun20i_regulator_of_match[] =3D =
-{
->       |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~
-> /build/stage/linux/drivers/regulator/sun20i-regulator.c:136:34: warning: =
-=E2=80=98sun20i
-> _regulator_of_match=E2=80=99 defined but not used [-Wunused-variable]
+From: Samuel Holland <samuel@sholland.org>
 
-Looks like the patch was from when of_device.h still included of.h.
+The Allwinner D1 SoC contains two pairs of in-package LDOs. The pair of
+"system" LDOs is for general purpose use. LDOA generally powers the
+board's 1.8 V rail. LDOB powers the in-package DRAM, where applicable.
 
-I'll send a new version shortly.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+---
+ .../allwinner,sun20i-d1-system-ldos.yaml      | 37 +++++++++++++++++++
+ 1 file changed, 37 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-system-ldos.yaml
 
+diff --git a/Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-system-ldos.yaml b/Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-system-ldos.yaml
+new file mode 100644
+index 000000000000..ec6695c8d2e3
+--- /dev/null
++++ b/Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-system-ldos.yaml
+@@ -0,0 +1,37 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/regulator/allwinner,sun20i-d1-system-ldos.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Allwinner D1 System LDOs
++
++maintainers:
++  - Samuel Holland <samuel@sholland.org>
++
++description:
++  Allwinner D1 contains a pair of general-purpose LDOs which are designed to
++  supply power inside and outside the SoC. They are controlled by a register
++  within the system control MMIO space.
++
++properties:
++  compatible:
++    enum:
++      - allwinner,sun20i-d1-system-ldos
++
++  reg:
++    maxItems: 1
++
++patternProperties:
++  "^ldo[ab]$":
++    type: object
++    $ref: regulator.yaml#
++    unevaluatedProperties: false
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++...
+-- 
+2.39.2
 
-ChenYu
