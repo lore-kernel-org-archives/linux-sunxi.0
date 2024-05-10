@@ -1,151 +1,57 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E45931C69A
-	for <linux-sunxi@lists.linux.dev>; Fri, 10 May 2024 17:42:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD9704D9EA;
+	Fri, 10 May 2024 20:18:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715362939; cv=none; b=O7Fk/UL4m9ljC1T//ATJujUO+/k5zDuHWkiml532++BokYIL+CEIaPF4EQCBKe6B+ciYNFoNBlHtDahKWhDrTX8i2pD3ZdgcC/dr9TECUHN5UEREYZQeMhUkLwsQadNJ5wS2LJfE7n/mHM3JvlJ2TSgNbEr/HjVfRwf8q2QM8lg=
+	t=1715372284; cv=none; b=m0ZZf0JozR8XhFVS6NJLAiZ0ANvqoeihnHF1FxBUbaN5NkUN/HByM5K6tzuerkJGhpK0Yg0RBCGpnSldoWWvGnXfyC8wOPcY/XeVnyK7AJm5h7xVJ1GiEyh7AkNdLnAK49yjWpoe63+zuFKso1RXfJOP2LwYvf9v0G2kTEtGdxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715362939; c=relaxed/simple;
-	bh=6Rt5NSPnzn2NwoYdNUH+A4syqFWse6boHm56KdEPN7A=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QvO8gJDbvmCodJs13gPOgnrA0qE1CqAoosXdkVbur/BfhTfeo9e74Kp/YAaW6GnKdNdV4YHGYmeuvhbJWiQ6GGCydQGlvza58qj+DVGxlHHvXQhxVnMLwfz3htLEEuEqgdtK0BdB79q9fvvfkqcMNGaIRbwbyCHZdR8BhF/QooA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9082711FB;
-	Fri, 10 May 2024 10:42:42 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 831123F6A8;
-	Fri, 10 May 2024 10:42:15 -0700 (PDT)
-Date: Fri, 10 May 2024 18:42:13 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Cc: Yangtao Li <tiny.windzz@gmail.com>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, Chen-Yu Tsai
- <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>, Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] cpufreq: sun50i: replace of_node_put() with
- automatic cleanup handler
-Message-ID: <20240510184213.68f92cab@donnerap.manchester.arm.com>
-In-Reply-To: <20240503-sun50i-cpufreq-nvmem-cleanup-v1-2-0a2352cac46b@gmail.com>
-References: <20240503-sun50i-cpufreq-nvmem-cleanup-v1-0-0a2352cac46b@gmail.com>
-	<20240503-sun50i-cpufreq-nvmem-cleanup-v1-2-0a2352cac46b@gmail.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1715372284; c=relaxed/simple;
+	bh=KPf7sNe64S2Z/jANXPMUCv5hsHsruu3JjDnjvZm92fE=;
+	h=Message-ID:Content-Type:MIME-Version:In-Reply-To:References:
+	 Subject:From:Cc:To:Date; b=Nx+D9oMaJR5KZ4BAvvxbfSqlvoSzKAnfgrnAag+/Xlnwd2BgI6WdvmPmDWvSD8rXQMOLonMd5YN76MC437d4sXK8ys3hRxW9D/jGmIdn6KGv7qUt+bFbeT8hQmaP0W+LNmSoHHx4lpIOJ/YNt9Tld5y97qcxsUYC/r/LTuIUH6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KS+oDt/u; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KS+oDt/u"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48D81C113CC;
+	Fri, 10 May 2024 20:18:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715372283;
+	bh=KPf7sNe64S2Z/jANXPMUCv5hsHsruu3JjDnjvZm92fE=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=KS+oDt/uWR3AkeaUBEz+7UO3hY9/HqG2NO/aCpQsTEORpcRsbY67un7BLUjizfbxs
+	 oGQDkiL8fDDO7msiqWFlaOgdV+tIHiY/hLqIv8UdRe1Yi9uItRWulaGbBoBvUY+HfR
+	 QCJ9VCLZmu1OAQSOPSjWf93b96U8PLqMhJTm+sSyA/+RKwuwOKaESUSMRB+K/AQt61
+	 HFeq8dk/7vpOtEvhudt+LZuVqtkSuygKTYoCzUHwGonkv6XHanOCjGAa4+zutRhrmP
+	 LlADgnRJANp89REzsz6nSTRMNBcn8kVj3PGIwWeDTzzJOLGfFeDs4W5CCJ+Bp116bz
+	 N0x1PRCrDBquQ==
+Message-ID: <c25dd5216b66948e6842326db67a8e83.sboyd@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240509230516.86023-1-linux@treblig.org>
+References: <20240509230516.86023-1-linux@treblig.org>
+Subject: Re: [PATCH v2] clk: sunxi: Remove unused struct 'gates_data'
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Dr. David Alan Gilbert <linux@treblig.org>
+To: emilio@elopez.com.ar, linux@treblig.org, mturquette@baylibre.com, wens@csie.org
+Date: Fri, 10 May 2024 13:18:01 -0700
+User-Agent: alot/0.10
 
-On Fri, 03 May 2024 19:52:33 +0200
-Javier Carrasco <javier.carrasco.cruz@gmail.com> wrote:
-
-Hi,
-
-> Make use of the __free() cleanup handler to automatically free nodes
-> when they get out of scope.
-
-Looks alright, the last function is now particularly neat.
-
-> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-
-I haven't tested the error paths yet, but it certainly boots fine on an
-OrangePi Zero3.
-
-Cheers,
-Andre
-
+Quoting linux@treblig.org (2024-05-09 16:05:16)
+> From: "Dr. David Alan Gilbert" <linux@treblig.org>
+>=20
+> 'gates_data' (and it's associated define) are unused since
+> commit ee38b2698ae2 ("clk: sunxi: Add a simple gates driver").
+> Remove them.
+>=20
+> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 > ---
->  drivers/cpufreq/sun50i-cpufreq-nvmem.c | 25 ++++++++-----------------
->  1 file changed, 8 insertions(+), 17 deletions(-)
-> 
-> diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-> index ef83e4bf2639..eb47c193269c 100644
-> --- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-> +++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-> @@ -131,14 +131,14 @@ static const struct of_device_id cpu_opp_match_list[] = {
->  static bool dt_has_supported_hw(void)
->  {
->  	bool has_opp_supported_hw = false;
-> -	struct device_node *np;
->  	struct device *cpu_dev;
->  
->  	cpu_dev = get_cpu_device(0);
->  	if (!cpu_dev)
->  		return false;
->  
-> -	np = dev_pm_opp_of_get_opp_desc_node(cpu_dev);
-> +	struct device_node *np __free(device_node) =
-> +		dev_pm_opp_of_get_opp_desc_node(cpu_dev);
->  	if (!np)
->  		return false;
->  
-> @@ -149,8 +149,6 @@ static bool dt_has_supported_hw(void)
->  		}
->  	}
->  
-> -	of_node_put(np);
-> -
->  	return has_opp_supported_hw;
->  }
->  
-> @@ -165,7 +163,6 @@ static int sun50i_cpufreq_get_efuse(void)
->  	const struct sunxi_cpufreq_data *opp_data;
->  	struct nvmem_cell *speedbin_nvmem;
->  	const struct of_device_id *match;
-> -	struct device_node *np;
->  	struct device *cpu_dev;
->  	u32 *speedbin;
->  	int ret;
-> @@ -174,19 +171,18 @@ static int sun50i_cpufreq_get_efuse(void)
->  	if (!cpu_dev)
->  		return -ENODEV;
->  
-> -	np = dev_pm_opp_of_get_opp_desc_node(cpu_dev);
-> +	struct device_node *np __free(device_node) =
-> +		dev_pm_opp_of_get_opp_desc_node(cpu_dev);
->  	if (!np)
->  		return -ENOENT;
->  
->  	match = of_match_node(cpu_opp_match_list, np);
-> -	if (!match) {
-> -		of_node_put(np);
-> +	if (!match)
->  		return -ENOENT;
-> -	}
-> +
->  	opp_data = match->data;
->  
->  	speedbin_nvmem = of_nvmem_cell_get(np, NULL);
-> -	of_node_put(np);
->  	if (IS_ERR(speedbin_nvmem))
->  		return dev_err_probe(cpu_dev, PTR_ERR(speedbin_nvmem),
->  				     "Could not get nvmem cell\n");
-> @@ -301,14 +297,9 @@ MODULE_DEVICE_TABLE(of, sun50i_cpufreq_match_list);
->  
->  static const struct of_device_id *sun50i_cpufreq_match_node(void)
->  {
-> -	const struct of_device_id *match;
-> -	struct device_node *np;
-> -
-> -	np = of_find_node_by_path("/");
-> -	match = of_match_node(sun50i_cpufreq_match_list, np);
-> -	of_node_put(np);
-> +	struct device_node *np __free(device_node) = of_find_node_by_path("/");
->  
-> -	return match;
-> +	return of_match_node(sun50i_cpufreq_match_list, np);
->  }
->  
->  /*
-> 
 
+Acked-by: Stephen Boyd <sboyd@kernel.org>
