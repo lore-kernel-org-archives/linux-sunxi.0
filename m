@@ -1,34 +1,59 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3090FC0B;
-	Fri, 10 May 2024 20:50:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A22A613B5A4
+	for <linux-sunxi@lists.linux.dev>; Fri, 10 May 2024 21:25:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715374239; cv=none; b=EYuqq/gBhK/I9vE/aQzMFnWGczuhuHJ5aX5eBju251ph3Bm2lUeRNuQjzyoNJYNq2SbS/Doq3yWUUuJN1pqeek7wQDxdNAkG8J/Q16nI2Bycd/l5QluKI/Qaz+KFOFTQsnth8l4mqtwsfPeDrI1Bfd7E8EZ1eaEUq0kKpx+KPPo=
+	t=1715376333; cv=none; b=cjovGgDLpwj+4L+5SQgzo0cOLwD3FDIwsTg6OzRx0NGxsBQD01OBCcgvI+FETc071WPPyZoNW7RvOOjD1FJCmfaUUmBUIieo4OcS7zFDhwtuqCKcN7GKVBKGseYwMkqavh2XzfdORAimhtuFL6uQTzP0+iR5MSZzydDuhl6jE6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715374239; c=relaxed/simple;
-	bh=+9uY+3QS/KU4LqGvBa9PuWhKX14BfkblrVKzdImHbHE=;
+	s=arc-20240116; t=1715376333; c=relaxed/simple;
+	bh=pKK8FmPjaKeVmC/x9esCm6cF6BXhvjrK1358Io/3/iI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dl7eZNy30el480yxO5o+c2TmjmZXH7FPDDUyJcwCxKmFyabIEMEl3ZLmcE1jrRFC+ONCYCjHT6S14t9MfjJL77k5ecoIeDsxTM1AQAXZ6OvUq5KnxYqD/TPxwtIPs8QEz/aTmTPY+o4IR0/JSN9koVqLDsBm0emssYXPa4dKhzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B2Rz0POx; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=RcUyobIVtkZDpm6hq3d15ApGpFs3hDqRz7hu5BeLh4vunyAQbe/X7gjw/9crDkrVGKSEF2kHi+vmq7b+r+LRPmqn/dy4pOKmPKgD21cmASXLd0wVFcZr7nuj/hdbxQsfiep75EGi/Ju+hKuZJFXJ1/m4OtmT7EKv23CH06NGO90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=FomyBbol; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B2Rz0POx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FF4BC32781;
-	Fri, 10 May 2024 20:50:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715374239;
-	bh=+9uY+3QS/KU4LqGvBa9PuWhKX14BfkblrVKzdImHbHE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=B2Rz0POxy4nvsZ9o7IKxVQPe6AU1Y5raSL2PH5Oq3Rmz9k8KRtPC1aeUKTzmOEOmB
-	 n71lEqdV6eRXzZanUG2D7rEuULiSpRFrDJ9IO9Vz10Bl16Bfwfq85+pXyM6rMFmlI4
-	 +Lhh0FZaryAI5Zv7h6a3CUH7A/zjs8HOEOz89ULFAlJpiSafjizZPyECELU1b07WSD
-	 vywqr+1jWnM0GTV1UaDeTW3gA1enGAqHExtiEYv222nusjRmFleW9jG7We53M7KEdE
-	 jPbZtVtERRLHwRgUbNclnBiRcRtw07M2GPeESJZlrhzrvk3zn1KHFhgmw34EUO6mby
-	 R7ylxUW7WiWbQ==
-Date: Fri, 10 May 2024 21:50:32 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Charlie Jenkins <charlie@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="FomyBbol"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1e4c4fb6af3so15634865ad.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 10 May 2024 14:25:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1715376330; x=1715981130; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=EbHwqyrBSxlaInOgJHXkpBV851gT6eWfUw4RtCMLqkQ=;
+        b=FomyBbolgnDQADOPKNBiGYImv/HC/7N4NB3qnS+n8+Xl6/QhsauDyh3R0tSeRBuQPe
+         uyCAjedtOF5BU4LsOhMzJM2bUe7GZNcE3tbQMnVOh7mzg3ULAtxHnOFxmAid1DNPK4bC
+         yG/rxSqxZuPvZAUiQLjev5WuSQNAq5aFIMdlAKL8vGrSqRYSMeOINd27vMz4InvkkkRL
+         iopKGC/VRxGPYUiX2Qj5yrkNcYKD0wjT6n8vvi9nB2NEYu26zD5A9+4UYYFxRhv/0TSg
+         dbwVbbonotffk5R6qGxAIwik0m8JLLL01qqXuYq3PDgARyKA57z42t/S1bhsFFiADxm7
+         /uYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715376330; x=1715981130;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EbHwqyrBSxlaInOgJHXkpBV851gT6eWfUw4RtCMLqkQ=;
+        b=DRObJewdiMXgg0hYMQGiPbufQWshdGliJk5fTdjPLuuMCDXZJs8IR3TxisR1Kr7Zyj
+         tN53YyH0lU3Fah9ec86yHnnVkxueJLA2X8q1UBZ0wJ8I62ScNyuOYSr4jlPndPw2GzP4
+         4ISraIqBoOfA164SC+Z9OVpeg/vylKglo1l99yJAQzjM935KDBkJ5ITF8bFIVl9h8yBm
+         jfulc1/z8V7GhFmnT6oudoCxExYTd62Z6PlJdG7MntPsjcZSTAzGWy7/qPQivZ7meS7Q
+         RWdEEiblurg7BFj91tUYFFa+zfDiRFv2GHUmQFDy6phhh4utuqWcab8Si0Zh4K7zwLJb
+         TRWw==
+X-Forwarded-Encrypted: i=1; AJvYcCWygn54acEt0fSXN8YbnNReogiRwT+xrEHJt84SiJk4rq0LaxpcUMqXWPgpIF58pl08oxiio6Lq6oyoJKQQ0KaiCEXa8UjW0DwlrsY=
+X-Gm-Message-State: AOJu0YwqrI4GDtwCO/+VWYr5dhgg7GIuvIxwilq8bHMcHDk2Ij7apqGt
+	1Z4DkYRO54KXoW3ytY3nj97cI99riCRoaEhwEYSHkbfluXcRwnlMYmY5sWFOXDY=
+X-Google-Smtp-Source: AGHT+IEW69BEVO8myOChhepwVIMyAvXTkksrs6sLcKMonG9mCSm10McFQyRA5n6lZJBf+YbxIyRNZA==
+X-Received: by 2002:a17:903:2443:b0:1ec:b6e2:da8f with SMTP id d9443c01a7336-1eefa03a440mr105945135ad.12.1715376330278;
+        Fri, 10 May 2024 14:25:30 -0700 (PDT)
+Received: from ghost ([2601:647:5700:6860:629e:3f2:f321:6c])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ef0bf30fddsm36780655ad.136.2024.05.10.14.25.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 May 2024 14:25:29 -0700 (PDT)
+Date: Fri, 10 May 2024 14:25:26 -0700
+From: Charlie Jenkins <charlie@rivosinc.com>
+To: Conor Dooley <conor@kernel.org>
 Cc: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Paul Walmsley <paul.walmsley@sifive.com>,
@@ -46,61 +71,49 @@ Cc: Rob Herring <robh@kernel.org>,
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
 	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
 Subject: Re: [PATCH v6 06/17] riscv: Add vendor extensions to /proc/cpuinfo
-Message-ID: <20240510-childcare-outlook-d18e3cc5ccb3@spud>
+Message-ID: <Zj6QxisrBZSWq7ax@ghost>
 References: <20240503-dev-charlie-support_thead_vector_6_9-v6-0-cb7624e65d82@rivosinc.com>
  <20240503-dev-charlie-support_thead_vector_6_9-v6-6-cb7624e65d82@rivosinc.com>
  <20240507-divisive-swoop-c2737a2d9a9f@spud>
+ <20240510-childcare-outlook-d18e3cc5ccb3@spud>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="BHMvR13gFgTG0XBs"
-Content-Disposition: inline
-In-Reply-To: <20240507-divisive-swoop-c2737a2d9a9f@spud>
-
-
---BHMvR13gFgTG0XBs
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240510-childcare-outlook-d18e3cc5ccb3@spud>
 
-On Tue, May 07, 2024 at 06:03:19PM +0100, Conor Dooley wrote:
-> On Fri, May 03, 2024 at 11:18:21AM -0700, Charlie Jenkins wrote:
-> > All of the supported vendor extensions that have been listed in
-> > riscv_isa_vendor_ext_list can be exported through /proc/cpuinfo.
-> >=20
-> > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
->=20
-> This seems fine, thanks for updating this interface :)
->=20
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+On Fri, May 10, 2024 at 09:50:32PM +0100, Conor Dooley wrote:
+> On Tue, May 07, 2024 at 06:03:19PM +0100, Conor Dooley wrote:
+> > On Fri, May 03, 2024 at 11:18:21AM -0700, Charlie Jenkins wrote:
+> > > All of the supported vendor extensions that have been listed in
+> > > riscv_isa_vendor_ext_list can be exported through /proc/cpuinfo.
+> > > 
+> > > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> > 
+> > This seems fine, thanks for updating this interface :)
+> > 
+> > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> 
+> Hmm, actually the automation on patchwork is complaining a bunch about
+> the series, but I think that's mostly false positives except for this
+> patch. The nommu defconfigs are prob the easiest way to reproduce this:
+>   /build/tmp.QPMRM3oUNu/arch/riscv/kernel/vendor_extensions.c:41:55: error: 'struct riscv_isa_vendor_ext_data_list' has no member named 'vendor_bitmap'
+>   /build/tmp.QPMRM3oUNu/arch/riscv/kernel/vendor_extensions.c:42:60: error: 'struct riscv_isa_vendor_ext_data_list' has no member named 'per_hart_vendor_bitmap'; did you mean 'per_hart_isa_bitmap'?
+>   /build/tmp.QPMRM3oUNu/arch/riscv/kernel/vendor_extensions.c:43:60: error: 'struct riscv_isa_vendor_ext_data_list' has no member named 'bitmap_size'
+> 
+> Cheers,
+> Conor.
 
-Hmm, actually the automation on patchwork is complaining a bunch about
-the series, but I think that's mostly false positives except for this
-patch. The nommu defconfigs are prob the easiest way to reproduce this:
-  /build/tmp.QPMRM3oUNu/arch/riscv/kernel/vendor_extensions.c:41:55: error:=
- 'struct riscv_isa_vendor_ext_data_list' has no member named 'vendor_bitmap'
-  /build/tmp.QPMRM3oUNu/arch/riscv/kernel/vendor_extensions.c:42:60: error:=
- 'struct riscv_isa_vendor_ext_data_list' has no member named 'per_hart_vend=
-or_bitmap'; did you mean 'per_hart_isa_bitmap'?
-  /build/tmp.QPMRM3oUNu/arch/riscv/kernel/vendor_extensions.c:43:60: error:=
- 'struct riscv_isa_vendor_ext_data_list' has no member named 'bitmap_size'
+The false negatives always throw me off. The errors are also offset by
+one patch. This was actually introduced in the following patch "riscv:
+Introduce vendor variants of extension helpers" because I accidentally
+fixed this issue in the patch "riscv: cpufeature: Extract common
+elements from extension checking" instead of the one it was introduced
+in.
 
-Cheers,
-Conor.
+- Charlie
 
---BHMvR13gFgTG0XBs
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZj6ImAAKCRB4tDGHoIJi
-0v5GAQDz/COSUgwYOrRhiE95HyXWBcrE7N78mp8pUkk9m/hrFgEAxmMo1xhXO2iP
-tU7a1ZH2VRD826Ot6whFO6eC88ci1wU=
-=8S+4
------END PGP SIGNATURE-----
-
---BHMvR13gFgTG0XBs--
