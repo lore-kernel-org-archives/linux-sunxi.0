@@ -1,129 +1,93 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBB3081741
-	for <linux-sunxi@lists.linux.dev>; Thu,  9 May 2024 23:44:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 452641527A0;
+	Fri, 10 May 2024 06:22:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715298257; cv=none; b=NQUKizexgrF04vRE3epJHxM3ufvhPD91bbYnG+bUz8dV4zO50RAAOifq5MzeRA1M/xsK3tQnhsBNZe75luVZp5TKpBrlr1fRgHGc5sRdg3D+HqQEycGc0L5Jd4wlIPA3rIwuPCpROUzK3Forr+N8CysBTCmdc6b4ZSYRNg4TBGQ=
+	t=1715322135; cv=none; b=BjkTz4OuXwsqSSDc90SHMYBi29k56pd/BHHs/9vqbYZsH0RUmBSu+Rt7uxAzweY7jNbF6NXMx4Q8+UVq+Ipzfg/tuP71KY5YELoI85dKprgUonv4BV+02S4IY4gJUCTNrEOVtGgWVZUq5xcuqYDLW/y1i6aOY2OqZn+V7PnEVw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715298257; c=relaxed/simple;
-	bh=HVjeqKR62kyiaVcsJq8yjCcxcKxX8HiAhcbp1h7sBFI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=pM5S3bBBwKcVZY+J9jIPbmSm97tX5KuULFKUU+RVN+pI2F5aT3E0hFX7NhB1fAzQug1S8utjvFIgIy73kPHMIxFNZcRsbwQgWPbx0xeTDkRErHNZNgrcEbkAAZQJW1SiTvczmZe5GU5PKjzPe8/Y5LIsZT+lmJ1E1ZDsGfIhwX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3374615A1;
-	Thu,  9 May 2024 16:44:40 -0700 (PDT)
-Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9B11E3F6A8;
-	Thu,  9 May 2024 16:44:13 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jaehoon Chung <jh80.chung@samsung.com>,
-	Jagan Teki <jagan@amarulasolutions.com>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Chris Morgan <macromorgan@hotmail.com>,
-	Ryan Walklin <ryan@testtoast.com>,
-	u-boot@lists.denx.de,
-	linux-sunxi@lists.linux.dev,
-	Tom Rini <trini@konsulko.com>
-Subject: [PATCH 2/2] power: regulator: add AXP717 support
-Date: Fri, 10 May 2024 00:43:19 +0100
-Message-Id: <20240509234319.13104-3-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.35.8
-In-Reply-To: <20240509234319.13104-1-andre.przywara@arm.com>
-References: <20240509234319.13104-1-andre.przywara@arm.com>
+	s=arc-20240116; t=1715322135; c=relaxed/simple;
+	bh=pYP1o6t6GkrqxYlk6IDHhBvD/erXjH2DLF744Fd+CEo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=MaFXwm2ZElvJesbKQ7D7mAfm+TGSwAZ3XZ+kNJiygMPXW//hddwEpOrRcp4p6uLI+Bda7iQoyFWG8MYS31CNfywN3KEgNnf1lXRVY1Owlm5Sq9sTsTY7Edx2H4qRRxacWbK62SxhATXX9yLIsIArrrMRsX9yu54uKWXC/cBmRcw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XxRZxtpz; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XxRZxtpz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66DFDC2BD10;
+	Fri, 10 May 2024 06:22:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715322134;
+	bh=pYP1o6t6GkrqxYlk6IDHhBvD/erXjH2DLF744Fd+CEo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=XxRZxtpzXlCI/UG6cZI2rLMkDiE3eTb4KIa7GVfct3EeJt5f6cXBWEI6lrv0s7fNE
+	 9tKTvycV4C+s2hYUAtAv2XZb5sXi1C0N/Ye1Y0aUatSGqKWdxqLoV7LEScS8KQ3j6m
+	 Pqu0uUT5t5OaxgAdQXWly/uvvUdhAnhZ1iwZFpfhT2SahOpwoeoWD8tNZoVCsLqMx6
+	 ZdtFd1PALkaV2SgRwYHvx8MFXVpzhwxoFZ+0SYhGj93TGQMAUfbVzAGpYRZD4zEaxl
+	 KBVc55WeQD+G4mjzQYR5JpUouB3rX4G2QKTF+X1yfSyuVe0/+0WZzAollhpJMQKQv0
+	 Ul8/2LgT06cHA==
+From: Mark Brown <broonie@kernel.org>
+To: Chen-Yu Tsai <wens@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev
+In-Reply-To: <20240507041343.272569-1-wens@kernel.org>
+References: <20240507041343.272569-1-wens@kernel.org>
+Subject: Re: [PATCH RESEND v5 0/2] regulator: sun20i: Add Allwinner D1 LDOs
+ driver
+Message-Id: <171532213103.2045034.7969122177682821335.b4-ty@kernel.org>
+Date: Fri, 10 May 2024 07:22:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev
 
-The X-Powers AXP717 is a PMIC with four buck converters and a number
-of LDOs, one of which is actually fixed (so not modelled here).
+On Tue, 07 May 2024 12:13:41 +0800, Chen-Yu Tsai wrote:
+> This is a resend of the Allwinner D1 LDO driver series, separated by
+> subsystem. This part contains just the regulator driver bits. The sunxi
+> SRAM binding part will be sent out after the merge window due to a
+> conflict in next.
+> 
+> Original cover letter:
+> 
+> [...]
 
-Add the compatible string and the respective regulator ranges to allow
-drivers to adjust voltages.
+Applied to
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- drivers/power/pmic/axp.c                |  1 +
- drivers/power/regulator/axp_regulator.c | 28 +++++++++++++++++++++++++
- include/axp_pmic.h                      |  1 +
- 3 files changed, 30 insertions(+)
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
 
-diff --git a/drivers/power/pmic/axp.c b/drivers/power/pmic/axp.c
-index fdf9ff66c29..c300fd2bbc2 100644
---- a/drivers/power/pmic/axp.c
-+++ b/drivers/power/pmic/axp.c
-@@ -89,6 +89,7 @@ static const struct udevice_id axp_pmic_ids[] = {
- 	{ .compatible = "x-powers,axp221", .data = AXP221_ID },
- 	{ .compatible = "x-powers,axp223", .data = AXP223_ID },
- 	{ .compatible = "x-powers,axp313a", .data = AXP313_ID },
-+	{ .compatible = "x-powers,axp717", .data = AXP717_ID },
- 	{ .compatible = "x-powers,axp803", .data = AXP803_ID },
- 	{ .compatible = "x-powers,axp806", .data = AXP806_ID },
- 	{ .compatible = "x-powers,axp809", .data = AXP809_ID },
-diff --git a/drivers/power/regulator/axp_regulator.c b/drivers/power/regulator/axp_regulator.c
-index d27e09538e0..75cdbca30f6 100644
---- a/drivers/power/regulator/axp_regulator.c
-+++ b/drivers/power/regulator/axp_regulator.c
-@@ -189,6 +189,33 @@ static const struct axp_regulator_plat axp313_regulators[] = {
- 	{ }
- };
- 
-+/*
-+ * The "dcdc2" regulator has another range, beyond 1.54V up to 3.4V, in
-+ * steps of 100mV. We cannot model this easily, but also don't need that,
-+ * since it's typically only used for lower voltages anyway, so just ignore it.
-+ */
-+static const struct axp_regulator_plat axp717_regulators[] = {
-+	{ "dcdc1", 0x80, BIT(0), 0x83, 0x7f,  500, 1540,  10, 70 },
-+	{ "dcdc2", 0x80, BIT(1), 0x84, 0x7f,  500, 1540,  10, 70 },
-+	{ "dcdc3", 0x80, BIT(2), 0x85, 0x7f,  500, 1840,  10, 70 },
-+	{ "dcdc4", 0x80, BIT(3), 0x86, 0x7f, 1000, 3700, 100, NA },
-+	{ "aldo1", 0x90, BIT(0), 0x93, 0x1f,  500, 3500, 100, NA },
-+	{ "aldo2", 0x90, BIT(1), 0x94, 0x1f,  500, 3500, 100, NA },
-+	{ "aldo3", 0x90, BIT(2), 0x95, 0x1f,  500, 3500, 100, NA },
-+	{ "aldo4", 0x90, BIT(3), 0x96, 0x1f,  500, 3500, 100, NA },
-+	{ "bldo1", 0x90, BIT(4), 0x97, 0x1f,  500, 3500, 100, NA },
-+	{ "bldo2", 0x90, BIT(5), 0x98, 0x1f,  500, 3500, 100, NA },
-+	{ "bldo3", 0x90, BIT(6), 0x99, 0x1f,  500, 3500, 100, NA },
-+	{ "bldo4", 0x90, BIT(7), 0x9a, 0x1f,  500, 3500, 100, NA },
-+	{ "cldo1", 0x91, BIT(0), 0x9b, 0x1f,  500, 3500, 100, NA },
-+	{ "cldo2", 0x91, BIT(1), 0x9c, 0x1f,  500, 3500, 100, NA },
-+	{ "cldo3", 0x91, BIT(2), 0x9d, 0x1f,  500, 3500, 100, NA },
-+	{ "cldo4", 0x91, BIT(3), 0x9e, 0x1f,  500, 3500, 100, NA },
-+	{"cpusldo",0x91, BIT(4), 0x9f, 0x1f,  500, 1400,  50, NA },
-+	{" boost", 0x19, BIT(4), 0x1e, 0xf0, 4550, 5510,  64, NA },
-+	{ }
-+};
-+
- static const struct axp_regulator_plat axp803_regulators[] = {
- 	{ "dcdc1", 0x10, BIT(0), 0x20, 0x1f, 1600, 3400, 100, NA },
- 	{ "dcdc2", 0x10, BIT(1), 0x21, 0x7f,  500, 1300,  10, 70 },
-@@ -291,6 +318,7 @@ static const struct axp_regulator_plat *const axp_regulators[] = {
- 	[AXP221_ID]	= axp22x_regulators,
- 	[AXP223_ID]	= axp22x_regulators,
- 	[AXP313_ID]	= axp313_regulators,
-+	[AXP717_ID]	= axp717_regulators,
- 	[AXP803_ID]	= axp803_regulators,
- 	[AXP806_ID]	= axp806_regulators,
- 	[AXP809_ID]	= axp809_regulators,
-diff --git a/include/axp_pmic.h b/include/axp_pmic.h
-index aabafc8501b..ae62ef0d76d 100644
---- a/include/axp_pmic.h
-+++ b/include/axp_pmic.h
-@@ -33,6 +33,7 @@ enum {
- 	AXP221_ID,
- 	AXP223_ID,
- 	AXP313_ID,
-+	AXP717_ID,
- 	AXP803_ID,
- 	AXP806_ID,
- 	AXP809_ID,
--- 
-2.35.8
+Thanks!
+
+[1/2] regulator: dt-bindings: Add Allwinner D1 system LDOs
+      commit: 622bab1884847fcf3f9bfdf1d534fac3a5fe859f
+[2/2] regulator: sun20i: Add Allwinner D1 LDOs driver
+      commit: 4e70b26c873dfff317039458a6ea66314bbdce99
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
