@@ -1,95 +1,154 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D3FB15E7EE;
-	Fri, 10 May 2024 06:22:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56E92160880
+	for <linux-sunxi@lists.linux.dev>; Fri, 10 May 2024 08:29:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715322138; cv=none; b=hp4PUjExP0W6AtmWIDbU8ENsoKx4MPsqiiq0gHhCQfNd8DqNaXrpiuUBd7OyKyFFIIXPZEs9o/45JYIuhnUWqh/Ay+y2csga2bW9m+C48p3zj7Q82mXyj1SxjNZie3H7XQI73WEF2sB9Yk0NlvL7pMcJyEHc2DLXZnlPyVEx27M=
+	t=1715329789; cv=none; b=PxcQ7kis6qPBCxpAzPaEm2JVqqsORr1JWcCxHHoMZOxGGoe8NNUSTXi6Fvn/raZ9yREaV8NFnJbtkspq7oufu+VRARrUSXkKbBhf3HprtlZzuJ7gfRQ9YTTPoiOI2NTIsq05rHm6KFA66rn3MagdjNjYN8dgG4hesTTe81vSH64=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715322138; c=relaxed/simple;
-	bh=MhaHON/bO8GCljs7kRnbCNrN0owSi5O/47qliYJBJis=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=oseEXYoRuZqXYvu3NclkbEY41+zZAVX2wSPqOqJuDgglqD9dCPZY5oYdgKlypm/JjfHfs0Gnl/ruA23vyx489yO63N1xfIa/bBIGjNtfi1irFCHrww2CQlubjmktW8fdRpN5QWYQ6nbn95W0t53Gwfb7fIoI2Ct5JANQMgnF0ZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EsnZBe5r; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1715329789; c=relaxed/simple;
+	bh=7cev1urkkriXH1Kz2Kjf4vy0a3n4geUSsLoRNQ3CwIw=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=VJBp5ZmCsjR8hYLoMnV7VpS3ZoGOaUeftKCgeYgxfHFdD0aP+yb/TqfMVan9pQyz51ZRvSUdbaDZUY4a3i3ew7gu9H3/scFiRm+5UEpq94k2JYWBu7DlhJP+nWr9i+EF/Yde5sr3u9h3ZDm+B9D5ijSn/7jEaBdt7MOKug2ENhs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--joychakr.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DKgKQVl1; arc=none smtp.client-ip=209.85.219.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--joychakr.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EsnZBe5r"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68A91C113CC;
-	Fri, 10 May 2024 06:22:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715322138;
-	bh=MhaHON/bO8GCljs7kRnbCNrN0owSi5O/47qliYJBJis=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=EsnZBe5r8yPcBe/lhGEy0Y572yxp/XVeiZPBV07PlAqCIeo3CJt+8ovGdg0+x0C7J
-	 L3A2zwqOdCn5A3aUHTzcjME9G97mPuEdc55K17PB+Hl4ZwGHo7RfDM8SSZai5RzleA
-	 ve4VeAnpJaMjuzUGrQOaJVjVb3AZDCHegS3W36xiflt9NM9PQJkiwFnMtX6+d0mX2A
-	 0KlDZ0Z+f3kcJqDceqhw+3y5FvinYkxoCfmrCQc0+lYUyIVTJfoi9LtdpCtLwWkWJQ
-	 eeHc+Zixm7tvvm6QPm5K8AK8+ToQHWpG5/jjy2qMesLX76lIN0q4pZofWisJX8eu3N
-	 eBZd6MKeH4EtQ==
-From: Mark Brown <broonie@kernel.org>
-To: Chen-Yu Tsai <wens@kernel.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev
-In-Reply-To: <20240509153107.438220-1-wens@kernel.org>
-References: <20240509153107.438220-1-wens@kernel.org>
-Subject: Re: [PATCH v6 0/2] regulator: sun20i: Add Allwinner D1 LDOs driver
-Message-Id: <171532213496.2045034.2645456500780291742.b4-ty@kernel.org>
-Date: Fri, 10 May 2024 07:22:14 +0100
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DKgKQVl1"
+Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-deb45f85880so2809223276.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 10 May 2024 01:29:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1715329776; x=1715934576; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=dnr78Drl0hwy8QosBN5FMiEeANWK1Ml2Xi29sDzFrpE=;
+        b=DKgKQVl1h23ScHI9gto1CjMcKqGN2+RSXsqFYIY/EYmH2WuJu/huKgofiZhANETiO3
+         sXw51Gzlg1xR9FlP88E/hp8nrw1SrOeCr3B/hbe/hWG25D3dHEtBi58crUMFXQAVVUYN
+         +IgmUcLknpOAqRH8TKLSuTSid/wQVPNQuIm+OtT+KaYXH6dt9deIYExnYTEUq17UEbUN
+         xOptZgMviUgc/RwTwI6l5e1mqfvLlyJ8qNxdGjvvpUacTJTx3tGP7Vso/pFtjTysegDJ
+         iiXx0hbKnyqu+5A55H+OFq6Fwq0u3oAm912BrMoQvVbW6YfgsXPIhzoMjlZQH38wI4+H
+         viKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715329776; x=1715934576;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dnr78Drl0hwy8QosBN5FMiEeANWK1Ml2Xi29sDzFrpE=;
+        b=scIoRoI9rRd5GutaL+QoCUq9MFjv5F6orEOMI7lDZtQTxayd4laIILc7E7NM+5z0i/
+         /x2Xdsa0Chr2+vRR9FyOUDqAn4dMCVYK9dVFdvJlicfyl3B1TLf2Woj0rUA4VhgYw4Kg
+         ooUzVGI3aZixCROQfwQ7ksZ050Op0wJi02GWF0lrBnqmnmqnhLC1WxkPNK6TArbCB2b4
+         qcGJ6wFoLUDilYnz2eCvm1/LGdxr/XvlTZIrWwyzkXMtzlwhKLQRFXTItex8pQy3xDOq
+         TLxQv10eWlSXD2b0yp+KiksZj2OgSjxbRcBBmEZe7aQ474pplYAtiP8fU+JMID0bNOzm
+         FxUA==
+X-Forwarded-Encrypted: i=1; AJvYcCWPX19OdCVRhU1Qy7L9Jq/8esv7SKBDsWk2vvM538hp/XLohuooWi3q7ZxMrw95HyqKcs1Qv8Jb59voI6oRQIChLk/qO6OBIrultHU=
+X-Gm-Message-State: AOJu0YxLwM6oelA1FJo1d3wg+VNoA0CYIG+6fXCIGhOgOfgQFZ8awFXc
+	YvcypEtZaWPJoVBYUKe+5Cnu8n+URcitWrTwYwkNxQK6SWoPM/+AbCNnkdL6EX+EtsjCbUGQ9oe
+	tuWt3of5Fvg==
+X-Google-Smtp-Source: AGHT+IEiknRtBHdrQ2HgiFa5pD74L/Ye3Nv3Q0grhoikyts9vAUMehW+Dt9fd3K3/ZrjmNUP76nhD8GAX7HaoA==
+X-Received: from joychakr.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:6ea])
+ (user=joychakr job=sendgmr) by 2002:a05:6902:c09:b0:de5:5304:3206 with SMTP
+ id 3f1490d57ef6-dee4f52d715mr180759276.11.1715329776091; Fri, 10 May 2024
+ 01:29:36 -0700 (PDT)
+Date: Fri, 10 May 2024 08:29:28 +0000
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.45.0.118.g7fe29c98d7-goog
+Message-ID: <20240510082929.3792559-1-joychakr@google.com>
+Subject: [PATCH v3 0/1] nvmem: Handle actual amount of data read/written by suppliers
+From: Joy Chakraborty <joychakr@google.com>
+To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	NXP Linux Team <linux-imx@nxp.com>, Vladimir Zapolskiy <vz@mleia.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
+	Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Heiko Stuebner <heiko@sntech.de>, Orson Zhai <orsonzhai@gmail.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Vincent Shih <vincent.sunplus@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Rafal Milecki <rafal@milecki.pl>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Michal Simek <michal.simek@amd.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-amlogic@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
+	manugautam@google.com, Joy Chakraborty <joychakr@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 09 May 2024 23:31:05 +0800, Chen-Yu Tsai wrote:
-> This is v6 of the Allwinner D1 LDO driver series, separated by subsystem.
-> I've picked up this work from Samuel.  This part contains just the
-> regulator driver bits. The sunxi SRAM binding part will be sent out after
-> the merge window due to a conflict in next.
-> 
-> Unlike what the original cover letter mentioned, it is perfectly OK to
-> merge this part separately. The SRAM driver changes were already merged
-> some time ago, and the SRAM bindings depend on the regulator bindings,
-> not the other way around.
-> 
-> [...]
+This Patch series stems from discussions in patchset,
+"[PATCH v2] nvmem: rmem: Fix return value of rmem_read()"
+(https://lore.kernel.org/all/20240206042408.224138-1-joychakr@google.com/).
+Where we come across the fact that currently the nvmem suppliers do not
+actually let the core know how much data has been actually read or written.
+Instead they are expected to return 0 for success and the core assumes that
+the amount of data written is equal to what the core has requested.
 
-Applied to
+On addition this patchset will also add some guards and checks based on the
+count of data returned by the nvmem supplier.
+---
+V3 Changes : Fix return value of reg_read in sunxi_sid.c driver
+---
+V2 Changes : Rebase on for-next.
+---
+V1 Changes : Change read/write callback prototype to ssize_t and
+supplier changes to accomodate the same with core checks and bounds.
+---
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+Joy Chakraborty (1):
+  nvmem: Change return type of reg read/write to ssize_t
 
-Thanks!
+ drivers/nvmem/apple-efuses.c        |  7 +--
+ drivers/nvmem/bcm-ocotp.c           | 12 ++---
+ drivers/nvmem/brcm_nvram.c          | 10 ++--
+ drivers/nvmem/core.c                | 83 +++++++++++++----------------
+ drivers/nvmem/imx-iim.c             |  6 +--
+ drivers/nvmem/imx-ocotp-ele.c       |  4 +-
+ drivers/nvmem/imx-ocotp-scu.c       | 12 ++---
+ drivers/nvmem/imx-ocotp.c           | 10 ++--
+ drivers/nvmem/jz4780-efuse.c        |  7 +--
+ drivers/nvmem/lan9662-otpc.c        | 12 ++---
+ drivers/nvmem/layerscape-sfp.c      | 11 ++--
+ drivers/nvmem/lpc18xx_eeprom.c      | 14 ++---
+ drivers/nvmem/lpc18xx_otp.c         |  6 +--
+ drivers/nvmem/meson-efuse.c         | 22 +++++---
+ drivers/nvmem/meson-mx-efuse.c      |  6 +--
+ drivers/nvmem/microchip-otpc.c      |  6 +--
+ drivers/nvmem/mtk-efuse.c           |  6 +--
+ drivers/nvmem/mxs-ocotp.c           |  7 +--
+ drivers/nvmem/nintendo-otp.c        |  6 +--
+ drivers/nvmem/qcom-spmi-sdam.c      | 12 ++---
+ drivers/nvmem/qfprom.c              | 14 ++---
+ drivers/nvmem/qoriq-efuse.c         |  6 +--
+ drivers/nvmem/rave-sp-eeprom.c      | 18 +++----
+ drivers/nvmem/rmem.c                |  4 +-
+ drivers/nvmem/rockchip-efuse.c      | 19 +++----
+ drivers/nvmem/rockchip-otp.c        | 19 +++----
+ drivers/nvmem/sc27xx-efuse.c        |  3 +-
+ drivers/nvmem/sec-qfprom.c          |  4 +-
+ drivers/nvmem/snvs_lpgpr.c          | 17 +++---
+ drivers/nvmem/sprd-efuse.c          |  8 +--
+ drivers/nvmem/stm32-bsec-optee-ta.c | 12 ++---
+ drivers/nvmem/stm32-bsec-optee-ta.h | 20 +++----
+ drivers/nvmem/stm32-romem.c         | 26 ++++-----
+ drivers/nvmem/sunplus-ocotp.c       |  4 +-
+ drivers/nvmem/sunxi_sid.c           | 18 ++++---
+ drivers/nvmem/u-boot-env.c          |  6 +--
+ drivers/nvmem/uniphier-efuse.c      |  6 +--
+ drivers/nvmem/vf610-ocotp.c         |  7 +--
+ drivers/nvmem/zynqmp_nvmem.c        | 13 ++---
+ include/linux/nvmem-provider.h      |  4 +-
+ 40 files changed, 255 insertions(+), 232 deletions(-)
 
-[1/2] regulator: dt-bindings: Add Allwinner D1 system LDOs
-      commit: 622bab1884847fcf3f9bfdf1d534fac3a5fe859f
-[2/2] regulator: sun20i: Add Allwinner D1 LDOs driver
-      commit: 4e70b26c873dfff317039458a6ea66314bbdce99
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+-- 
+2.45.0.118.g7fe29c98d7-goog
 
