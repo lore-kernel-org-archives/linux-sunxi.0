@@ -1,167 +1,770 @@
-Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.220])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 071141BF37
-	for <linux-sunxi@lists.linux.dev>; Sun, 12 May 2024 08:30:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.50.220
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5A06147C7F
+	for <linux-sunxi@lists.linux.dev>; Mon, 13 May 2024 08:45:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715502644; cv=none; b=M6jbVqbLqEBSJ1vqe3uAcLiuIXtMwwbpqQYAAZ7B6YohNj86dVO7R/E8yGJhCG3ag7EV0D401VcaCsf8oWPzxYcpIeTVzEyGJR+kqNn9BG815J/QVR0FvUSaoOZ7Kpa3dC/nAosY7yMkOjqFDWqjRbB2xmiagUDDmke6lYDjX34=
+	t=1715589934; cv=none; b=mNbDLt0Cy96muGTvJ3j41lUHTpRiKaDUUWCfcHnCUcCFUIWbNhbObzCgBmKqKGRA606x9slkXcFw5sqxau6IWJyqT8jeIakFrQQ8gkzcFkPaQCzK7ZA78LHXGjTyY9nKzzgf/UjQmjQkDup2Bcf0D9c22eSXWNDEGzfTx2CXmGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715502644; c=relaxed/simple;
-	bh=QpOOrNPMH0OuuUNSQ4ayH+9hc73A/isxh8Kz1LIOC/M=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=mnRLpJHJS7anK2TlpKveU81UabF5kKSn57EALuRH81i+FxOLCKBOAx+q9ao5H5D5SbN2RnlFU22PcPEVGYuFw6H1+rTHF1xbZOIOQ9bIxW1zLOyJJZByIZBaiTXZzgaqLkT/q35Dz4nPFFbPAIvYOzj/t0cPt1Oh5bv1B6x1o0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=fail (1024-bit key) header.d=163.com header.i=@163.com header.b=ZIjDaLCE reason="signature verification failed"; arc=none smtp.client-ip=45.254.50.220
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1715589934; c=relaxed/simple;
+	bh=t9B6PGb5qBLbhtEQThWWPBAUkBUONTNLxQ9X0tPf2Co=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mr42DMwdPpxTTFcvZ9BOUb8JqJ+H3VlIkn3kxuSlh+oncCAj2moIglP2aCU3ZWLmORbH6+Z7FLS4sB+vthE7YIUm8jcmqYbYHsZ94tlvmGYsJrO2DvweRcVWbVaOc6mj26/9RwRUe2JDdnHUuGVTt3XAu+7gp+a/QB2TJLYIY58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com; spf=pass smtp.mailfrom=sifive.com; dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b=RATJV8ey; arc=none smtp.client-ip=209.85.128.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sifive.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=163.com header.i=@163.com header.b="ZIjDaLCE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=laQYefkku3gVwt8bMMDsCuBt7YXFxaCqejXoM5vQ4W4=; b=Z
-	IjDaLCEaRuCWq3ETlfqalEf5VujhfSfQvhODF3naoLI/papZfPOAhb1wAS3CAThi
-	Wi1m75Un/rkdoQcN9IUPPE/sIRIWczncmigVlG0JhAVX/66TGvXm5czyNNWV2otW
-	09oO6eykb+hcVJfAFMJuAgW94d1vAvsmeaGkZxq3pI=
-Received: from andyshrk$163.com ( [103.29.142.67] ) by
- ajax-webmail-wmsvr-40-121 (Coremail) ; Sun, 12 May 2024 16:29:47 +0800
- (CST)
-Date: Sun, 12 May 2024 16:29:47 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: "Maxime Ripard" <mripard@kernel.org>
-Cc: "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, 
-	"Thomas Zimmermann" <tzimmermann@suse.de>, 
-	"David Airlie" <airlied@gmail.com>, 
-	"Daniel Vetter" <daniel@ffwll.ch>, 
-	"Jonathan Corbet" <corbet@lwn.net>, 
-	"Sandy Huang" <hjc@rock-chips.com>, 
-	=?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
-	"Chen-Yu Tsai" <wens@csie.org>, 
-	"Jernej Skrabec" <jernej.skrabec@gmail.com>, 
-	"Samuel Holland" <samuel@sholland.org>, 
-	"Andy Yan" <andy.yan@rock-chips.com>, 
-	"Hans Verkuil" <hverkuil@xs4all.nl>, 
-	"Sebastian Wick" <sebastian.wick@redhat.com>, 
-	=?UTF-8?Q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
-	dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re:[PATCH v13 27/28] drm/rockchip: inno_hdmi: Switch to HDMI
- connector
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
- Copyright (c) 2002-2024 www.mailtech.cn 163com
-In-Reply-To: <20240507-kms-hdmi-connector-state-v13-27-8fafc5efe8be@kernel.org>
-References: <20240507-kms-hdmi-connector-state-v13-0-8fafc5efe8be@kernel.org>
- <20240507-kms-hdmi-connector-state-v13-27-8fafc5efe8be@kernel.org>
-X-NTES-SC: AL_Qu2aB/mbvU0j4SKaYukZnEobh+Y5UcK2s/ki2YFXN5k0kiTIwAsfYWZeB3v3zsWCGgGlqQGVcDpD0Pp9R4t8TZkAHubVysdUlb/POX51X+YZ
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="RATJV8ey"
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-620390308e5so36327647b3.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 13 May 2024 01:45:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sifive.com; s=google; t=1715589930; x=1716194730; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HdBEm+7Bzyf8ybTn28Qe65zyFvN0QEjy08+SqQ/NGoI=;
+        b=RATJV8ey0kFG3IZmfTFvGu3b+zE/B7WkOtKAVDMPq4XF2+SEIks6uc1XevMT96SSjw
+         nYbCmS8juPYDTSeXP5iqdSVyT3BFY/awzY79JdJUCW7LmFxwOGjzz491wEhqMHM/c7eH
+         1BKzA9Al9Ak6qBa0xXuVzaqScLr8i5NQOynAwkePJs6WcEdX5j93UnzcFzPnUcx1j5p5
+         5vOy7oPPJdgcv362NMhzbow7ZoLJ37VrqQYmnSwb/7jshC07S1BMJi6TizQfAZE06LCE
+         2m+5ttkVqlGU0jJbQT2/Hkd5tBCxnwHKAtrpNVSWYUbDLde7JNQVZhyBDqhWTR/vQu97
+         yP3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715589930; x=1716194730;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HdBEm+7Bzyf8ybTn28Qe65zyFvN0QEjy08+SqQ/NGoI=;
+        b=qhd2C69R074C/nCo0TyqnVCeV4GAptLI9zYBxVLrAnByTW7/nn++WD528XC5/vYwaZ
+         HNBJXFwoQ6Z/sYd1vaP2amx6YH+ZyGvpBPr3l2flTzy2IhdUFcHOPsYusfI5BrvJQ8sv
+         Wnm63wRpJg0nRZUJdHGk2r7Z4mgxjgqRjlNtDtFqsWMWzu5QiZvh9IeENiQtHfsd4t6c
+         Y1WLj3TH9nNamJhzxl6L0FQS54KWF2XhOte8YWcYlE+84s4Whm0yDrK3IIaz4P5TV9tS
+         dcwW+T1NUteC0mYVLctsjOA8FKjBnUi4tENF3tilk9qTmSb6hbT4f0qEd/nulfIBA9+t
+         Tt6w==
+X-Forwarded-Encrypted: i=1; AJvYcCWfk/3+R88rNxiiOn1HL5Nd90ne8I99T/VTY5h39RtrgLBCKsGQoy28wW5n163dNCaROqtPg6WPp2RpkjDDAtNbsC8dZ+5rnD1grNc=
+X-Gm-Message-State: AOJu0YyfARFvneRa0KeZhjEBa9se+JhL+ZxPRZsfc+bJFyicttIDLH8U
+	9xBiFB7NR9vP0/DRaAM/+9sESjO/nAens15bzLJNwrY4NmjEvZQ84un3Ek4n+mTMA5RW8EHJwIV
+	aNzxrEKMiJoM4bUpR38bUoCsy5o5pDO352JbS5w==
+X-Google-Smtp-Source: AGHT+IFq4Yv+/rwyBZNeMdMYgWJckamTzyfvI81iBuITZN8sw70w3LDbQOBp9vf/LsPHIodtMOAQKBYwqFKSxUjsSu4=
+X-Received: by 2002:a05:690c:6209:b0:61a:e947:550d with SMTP id
+ 00721157ae682-622b013826fmr109570167b3.44.1715589929689; Mon, 13 May 2024
+ 01:45:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <2d3073ce.16e2.18f6bec1d61.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:_____wD338T7fUBmWJopAA--.47081W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbBEBzcXmVOD6eJvQADs6
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+References: <20240503-dev-charlie-support_thead_vector_6_9-v6-0-cb7624e65d82@rivosinc.com>
+ <20240503-dev-charlie-support_thead_vector_6_9-v6-13-cb7624e65d82@rivosinc.com>
+In-Reply-To: <20240503-dev-charlie-support_thead_vector_6_9-v6-13-cb7624e65d82@rivosinc.com>
+From: Andy Chiu <andy.chiu@sifive.com>
+Date: Mon, 13 May 2024 16:45:18 +0800
+Message-ID: <CABgGipUMtgQxYx1mUBojtCSh7kwAco=P_NYuWp=QtLBFSziT_A@mail.gmail.com>
+Subject: Re: [PATCH v6 13/17] riscv: vector: Support xtheadvector save/restore
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Conor Dooley <conor.dooley@microchip.com>, Evan Green <evan@rivosinc.com>, 
+	=?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, linux-riscv@lists.infradead.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Palmer Dabbelt <palmer@rivosinc.com>, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-CkhpIE1heGltZSwKCkF0IDIwMjQtMDUtMDcgMjE6MTc6NDUsICJNYXhpbWUgUmlwYXJkIiA8bXJp
-cGFyZEBrZXJuZWwub3JnPiB3cm90ZToKPlRoZSBuZXcgSERNSSBjb25uZWN0b3IgaW5mcmFzdHJ1
-Y3R1cmUgYWxsb3dzIHRvIHJlbW92ZSBzb21lIGJvaWxlcnBsYXRlLAo+ZXNwZWNpYWxseSB0byBn
-ZW5lcmF0ZSBpbmZvZnJhbWVzLiBMZXQncyBzd2l0Y2ggdG8gaXQuCj4KPlJldmlld2VkLWJ5OiBI
-ZWlrbyBTdHVlYm5lciA8aGVpa29Ac250ZWNoLmRlPgo+QWNrZWQtYnk6IEhlaWtvIFN0dWVibmVy
-IDxoZWlrb0BzbnRlY2guZGU+Cj5TaWduZWQtb2ZmLWJ5OiBNYXhpbWUgUmlwYXJkIDxtcmlwYXJk
-QGtlcm5lbC5vcmc+Cj4tLS0KPiBkcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvS2NvbmZpZyAgICAg
-ICB8ICAgMyArCj4gZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL2lubm9faGRtaS5jICAgfCAxNTMg
-KysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gZHJpdmVycy9ncHUvZHJtL3N1bjRp
-L3N1bjRpX2hkbWlfZW5jLmMgfCAgIDMgKwo+IDMgZmlsZXMgY2hhbmdlZCwgNjEgaW5zZXJ0aW9u
-cygrKSwgOTggZGVsZXRpb25zKC0pCj4KPmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcm9j
-a2NoaXAvS2NvbmZpZyBiL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9LY29uZmlnCj5pbmRleCAx
-YmYzZTI4MjljZDAuLjdkZjg3NWUzODUxNyAxMDA2NDQKPi0tLSBhL2RyaXZlcnMvZ3B1L2RybS9y
-b2NrY2hpcC9LY29uZmlnCj4rKysgYi9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvS2NvbmZpZwo+
-QEAgLTcyLDEwICs3MiwxMyBAQCBjb25maWcgUk9DS0NISVBfRFdfTUlQSV9EU0kKPiAJICBlbmFi
-bGUgTUlQSSBEU0kgb24gUkszMjg4IG9yIFJLMzM5OSBiYXNlZCBTb0MsIHlvdSBzaG91bGQKPiAJ
-ICBzZWxlY3QgdGhpcyBvcHRpb24uCj4gCj4gY29uZmlnIFJPQ0tDSElQX0lOTk9fSERNSQo+IAli
-b29sICJSb2NrY2hpcCBzcGVjaWZpYyBleHRlbnNpb25zIGZvciBJbm5vc2lsaWNvbiBIRE1JIgo+
-KwlzZWxlY3QgRFJNX0RJU1BMQVlfSERNSV9IRUxQRVIKPisJc2VsZWN0IERSTV9ESVNQTEFZX0hE
-TUlfU1RBVEVfSEVMUEVSCj4rCXNlbGVjdCBEUk1fRElTUExBWV9IRUxQRVIKPiAJaGVscAo+IAkg
-IFRoaXMgc2VsZWN0cyBzdXBwb3J0IGZvciBSb2NrY2hpcCBTb0Mgc3BlY2lmaWMgZXh0ZW5zaW9u
-cwo+IAkgIGZvciB0aGUgSW5ub3NpbGljb24gSERNSSBkcml2ZXIuIElmIHlvdSB3YW50IHRvIGVu
-YWJsZQo+IAkgIEhETUkgb24gUkszMDM2IGJhc2VkIFNvQywgeW91IHNob3VsZCBzZWxlY3QgdGhp
-cyBvcHRpb24uCj4gCj5kaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL2lubm9f
-aGRtaS5jIGIvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL2lubm9faGRtaS5jCj5pbmRleCAzZGYy
-Y2ZjZjk5OTguLjUwNjk0MDNjM2I4MCAxMDA2NDQKPi0tLSBhL2RyaXZlcnMvZ3B1L2RybS9yb2Nr
-Y2hpcC9pbm5vX2hkbWkuYwo+KysrIGIvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL2lubm9faGRt
-aS5jCj5AQCAtMjAsMTAgKzIwLDEzIEBACj4gI2luY2x1ZGUgPGRybS9kcm1fZWRpZC5oPgo+ICNp
-bmNsdWRlIDxkcm0vZHJtX29mLmg+Cj4gI2luY2x1ZGUgPGRybS9kcm1fcHJvYmVfaGVscGVyLmg+
-Cj4gI2luY2x1ZGUgPGRybS9kcm1fc2ltcGxlX2ttc19oZWxwZXIuaD4KPiAKPisjaW5jbHVkZSA8
-ZHJtL2Rpc3BsYXkvZHJtX2hkbWlfaGVscGVyLmg+Cj4rI2luY2x1ZGUgPGRybS9kaXNwbGF5L2Ry
-bV9oZG1pX3N0YXRlX2hlbHBlci5oPgo+KwouLi4uLi4KPiAKPiBzdGF0aWMgaW50IGlubm9faGRt
-aV9jb25maWdfdmlkZW9fY3NjKHN0cnVjdCBpbm5vX2hkbWkgKmhkbWkpCj4gewo+IAlzdHJ1Y3Qg
-ZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yID0gJmhkbWktPmNvbm5lY3RvcjsKPiAJc3RydWN0IGRy
-bV9jb25uZWN0b3Jfc3RhdGUgKmNvbm5fc3RhdGUgPSBjb25uZWN0b3ItPnN0YXRlOwo+QEAgLTM1
-OSwxMiArMzIzLDEyIEBAIHN0YXRpYyBpbnQgaW5ub19oZG1pX2NvbmZpZ192aWRlb19jc2Moc3Ry
-dWN0IGlubm9faGRtaSAqaGRtaSkKPiAJdmFsdWUgPSB2X1ZJREVPX0lOUFVUX0JJVFMoVklERU9f
-SU5QVVRfOEJJVFMpIHwKPiAJCXZfVklERU9fT1VUUFVUX0NPTE9SKDApIHwKPiAJCXZfVklERU9f
-SU5QVVRfQ1NQKDApOwo+IAloZG1pX3dyaXRlYihoZG1pLCBIRE1JX1ZJREVPX0NPTlRSTDIsIHZh
-bHVlKTsKPiAKPi0JaWYgKGlubm9fY29ubl9zdGF0ZS0+ZW5jX291dF9mb3JtYXQgPT0gSERNSV9D
-T0xPUlNQQUNFX1JHQikgewo+LQkJaWYgKGlubm9fY29ubl9zdGF0ZS0+cmdiX2xpbWl0ZWRfcmFu
-Z2UpIHsKPisJaWYgKGNvbm5fc3RhdGUtPmhkbWkub3V0cHV0X2Zvcm1hdCA9PSBIRE1JX0NPTE9S
-U1BBQ0VfUkdCKSB7Cj4rCQlpZiAoY29ubl9zdGF0ZS0+aGRtaS5pc19saW1pdGVkX3JhbmdlKSB7
-Cj4gCQkJY3NjX21vZGUgPSBDU0NfUkdCXzBfMjU1X1RPX1JHQl8xNl8yMzVfOEJJVDsKPiAJCQlh
-dXRvX2NzYyA9IEFVVE9fQ1NDX0RJU0FCTEU7Cj4gCQkJYzBfYzJfY2hhbmdlID0gQzBfQzJfQ0hB
-TkdFX0RJU0FCTEU7Cj4gCQkJY3NjX2VuYWJsZSA9IHZfQ1NDX0VOQUJMRTsKPiAKPkBAIC0zNzgs
-MTggKzM0MiwxOCBAQCBzdGF0aWMgaW50IGlubm9faGRtaV9jb25maWdfdmlkZW9fY3NjKHN0cnVj
-dCBpbm5vX2hkbWkgKmhkbWkpCj4gCQkJCSAgdl9WSURFT19DMF9DMl9TV0FQKEMwX0MyX0NIQU5H
-RV9ESVNBQkxFKSk7Cj4gCQkJcmV0dXJuIDA7Cj4gCQl9Cj4gCX0gZWxzZSB7Cj4gCQlpZiAoaW5u
-b19jb25uX3N0YXRlLT5jb2xvcmltZXRyeSA9PSBIRE1JX0NPTE9SSU1FVFJZX0lUVV82MDEpIHsK
-Pi0JCQlpZiAoaW5ub19jb25uX3N0YXRlLT5lbmNfb3V0X2Zvcm1hdCA9PSBIRE1JX0NPTE9SU1BB
-Q0VfWVVWNDQ0KSB7Cj4rCQkJaWYgKGNvbm5fc3RhdGUtPmhkbWkub3V0cHV0X2Zvcm1hdCA9PSBI
-RE1JX0NPTE9SU1BBQ0VfWVVWNDQ0KSB7Cj4gCQkJCWNzY19tb2RlID0gQ1NDX1JHQl8wXzI1NV9U
-T19JVFU2MDFfMTZfMjM1XzhCSVQ7Cj4gCQkJCWF1dG9fY3NjID0gQVVUT19DU0NfRElTQUJMRTsK
-PiAJCQkJYzBfYzJfY2hhbmdlID0gQzBfQzJfQ0hBTkdFX0RJU0FCTEU7Cj4gCQkJCWNzY19lbmFi
-bGUgPSB2X0NTQ19FTkFCTEU7Cj4gCQkJfQo+IAkJfSBlbHNlIHsKPi0JCQlpZiAoaW5ub19jb25u
-X3N0YXRlLT5lbmNfb3V0X2Zvcm1hdCA9PSBIRE1JX0NPTE9SU1BBQ0VfWVVWNDQ0KSB7Cj4rCQkJ
-aWYgKGNvbm5fc3RhdGUtPmhkbWkub3V0cHV0X2Zvcm1hdCA9PSBIRE1JX0NPTE9SU1BBQ0VfWVVW
-NDQ0KSB7Cj4gCQkJCWNzY19tb2RlID0gQ1NDX1JHQl8wXzI1NV9UT19JVFU3MDlfMTZfMjM1XzhC
-SVQ7Cj4gCQkJCWF1dG9fY3NjID0gQVVUT19DU0NfRElTQUJMRTsKPiAJCQkJYzBfYzJfY2hhbmdl
-ID0gQzBfQzJfQ0hBTkdFX0RJU0FCTEU7Cj4gCQkJCWNzY19lbmFibGUgPSB2X0NTQ19FTkFCTEU7
-Cj4gCQkJfQo+QEAgLTQ2MCwxNCArNDI0LDE2IEBAIHN0YXRpYyBpbnQgaW5ub19oZG1pX2NvbmZp
-Z192aWRlb190aW1pbmcoc3RydWN0IGlubm9faGRtaSAqaGRtaSwKPiAKPiAJcmV0dXJuIDA7Cj4g
-fQo+IAo+IHN0YXRpYyBpbnQgaW5ub19oZG1pX3NldHVwKHN0cnVjdCBpbm5vX2hkbWkgKmhkbWks
-Cj4tCQkJICAgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgKm1vZGUpCj4rCQkJICAgc3RydWN0IGRy
-bV9jcnRjX3N0YXRlICpuZXdfY3J0Y19zdGF0ZSwKPisJCQkgICBzdHJ1Y3QgZHJtX2Nvbm5lY3Rv
-cl9zdGF0ZSAqbmV3X2Nvbm5fc3RhdGUpCj4gewo+LQlzdHJ1Y3QgZHJtX2Rpc3BsYXlfaW5mbyAq
-ZGlzcGxheSA9ICZoZG1pLT5jb25uZWN0b3IuZGlzcGxheV9pbmZvOwo+LQl1bnNpZ25lZCBsb25n
-IG1waXhlbGNsb2NrID0gbW9kZS0+Y2xvY2sgKiAxMDAwOwo+KwlzdHJ1Y3QgZHJtX2Nvbm5lY3Rv
-ciAqY29ubmVjdG9yID0gJmhkbWktPmNvbm5lY3RvcjsKPisJc3RydWN0IGRybV9kaXNwbGF5X2lu
-Zm8gKmRpc3BsYXkgPSAmY29ubmVjdG9yLT5kaXNwbGF5X2luZm87Cj4rCXN0cnVjdCBkcm1fZGlz
-cGxheV9tb2RlICptb2RlID0gJm5ld19jcnRjX3N0YXRlLT5hZGp1c3RlZF9tb2RlOwo+IAo+IAkv
-KiBNdXRlIHZpZGVvIGFuZCBhdWRpbyBvdXRwdXQgKi8KPiAJaGRtaV9tb2RiKGhkbWksIEhETUlf
-QVZfTVVURSwgbV9BVURJT19NVVRFIHwgbV9WSURFT19CTEFDSywKPiAJCSAgdl9BVURJT19NVVRF
-KDEpIHwgdl9WSURFT19NVVRFKDEpKTsKPiAKPkBAIC00NzcsMjYgKzQ0MywyNiBAQCBzdGF0aWMg
-aW50IGlubm9faGRtaV9zZXR1cChzdHJ1Y3QgaW5ub19oZG1pICpoZG1pLAo+IAo+IAlpbm5vX2hk
-bWlfY29uZmlnX3ZpZGVvX3RpbWluZyhoZG1pLCBtb2RlKTsKPiAKPiAJaW5ub19oZG1pX2NvbmZp
-Z192aWRlb19jc2MoaGRtaSk7Cj4gCj4tCWlmIChkaXNwbGF5LT5pc19oZG1pKQo+LQkJaW5ub19o
-ZG1pX2NvbmZpZ192aWRlb19hdmkoaGRtaSwgbW9kZSk7Cj4rCWRybV9hdG9taWNfaGVscGVyX2Nv
-bm5lY3Rvcl9oZG1pX3VwZGF0ZV9pbmZvZnJhbWVzKGNvbm5lY3RvciwKPisJCQkJCQkJICAgbmV3
-X2Nvbm5fc3RhdGUtPnN0YXRlKTsKPiAKCm5ld19jb25uX3N0YXRlLT5zdGF0ZSB3aWxsIGJlIHNl
-dCBOVUxMIGluIGRybV9hdG9taWNfaGVscGVyX3N3YXBfc3RhdGUsCnNvIHRoaXMgd2lsbCBjYXVz
-ZSBhIE5VTEwgcG9pbnRlciByZWZlcmVuY2UgcGFuaWMgaGVyZS4KCgo+IAkvKgo+IAkgKiBXaGVu
-IElQIGNvbnRyb2xsZXIgaGF2ZSBjb25maWd1cmVkIHRvIGFuIGFjY3VyYXRlIHZpZGVvCj4gCSAq
-IHRpbWluZywgdGhlbiB0aGUgVE1EUyBjbG9jayBzb3VyY2Ugd291bGQgYmUgc3dpdGNoZWQgdG8K
-PiAJICogRENMS19MQ0RDLCBzbyB3ZSBuZWVkIHRvIGluaXQgdGhlIFRNRFMgcmF0ZSB0byBtb2Rl
-IHBpeGVsCj4gCSAqIGNsb2NrIHJhdGUsIGFuZCByZWNvbmZpZ3VyZSB0aGUgRERDIGNsb2NrLgo+
-IAkgKi8KPi0JaW5ub19oZG1pX2kyY19pbml0KGhkbWksIG1waXhlbGNsb2NrKTsKPisJaW5ub19o
-ZG1pX2kyY19pbml0KGhkbWksIG5ld19jb25uX3N0YXRlLT5oZG1pLnRtZHNfY2hhcl9yYXRlKTsK
-PiAKPiAJLyogVW5tdXRlIHZpZGVvIGFuZCBhdWRpbyBvdXRwdXQgKi8KPiAJaGRtaV9tb2RiKGhk
-bWksIEhETUlfQVZfTVVURSwgbV9BVURJT19NVVRFIHwgbV9WSURFT19CTEFDSywKPiAJCSAgdl9B
-VURJT19NVVRFKDApIHwgdl9WSURFT19NVVRFKDApKTsKPiAKPi0JaW5ub19oZG1pX3Bvd2VyX3Vw
-KGhkbWksIG1waXhlbGNsb2NrKTsKPisJaW5ub19oZG1pX3Bvd2VyX3VwKGhkbWksIG5ld19jb25u
-X3N0YXRlLT5oZG1pLnRtZHNfY2hhcl9yYXRlKTsKPiAKPiAJcmV0dXJuIDA7Cj4gfQo+IAoKPi0t
-IAo+Mi40NS4wCj4KPgo+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KPmxpbnV4LWFybS1rZXJuZWwgbWFpbGluZyBsaXN0Cj5saW51eC1hcm0ta2VybmVsQGxp
-c3RzLmluZnJhZGVhZC5vcmcKPmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlz
-dGluZm8vbGludXgtYXJtLWtlcm5lbAo=
+Hi Charlie,
+
+Sorry, I am late on this. I haven't looked through the entire series
+yet, but here is something that I thought worth bringing up sooner.
+
+On Sat, May 4, 2024 at 2:22=E2=80=AFAM Charlie Jenkins <charlie@rivosinc.co=
+m> wrote:
+>
+> Use alternatives to add support for xtheadvector vector save/restore
+> routines.
+>
+> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> ---
+>  arch/riscv/Kconfig.vendor              |  13 ++
+>  arch/riscv/include/asm/csr.h           |   6 +
+>  arch/riscv/include/asm/switch_to.h     |   2 +-
+>  arch/riscv/include/asm/vector.h        | 247 ++++++++++++++++++++++++++-=
+------
+>  arch/riscv/kernel/cpufeature.c         |   2 +-
+>  arch/riscv/kernel/kernel_mode_vector.c |   8 +-
+>  arch/riscv/kernel/process.c            |   4 +-
+>  arch/riscv/kernel/signal.c             |   6 +-
+>  arch/riscv/kernel/vector.c             |  13 +-
+>  9 files changed, 233 insertions(+), 68 deletions(-)
+>
+> diff --git a/arch/riscv/Kconfig.vendor b/arch/riscv/Kconfig.vendor
+> index aa5a191e659e..edf49f3065ac 100644
+> --- a/arch/riscv/Kconfig.vendor
+> +++ b/arch/riscv/Kconfig.vendor
+> @@ -13,6 +13,19 @@ config RISCV_ISA_VENDOR_EXT_THEAD
+>           extensions. Without this option enabled, T-Head vendor extensio=
+ns will
+>           not be detected at boot and their presence not reported to user=
+space.
+>
+> +         If you don't know what to do here, say Y.
+> +
+> +config RISCV_ISA_XTHEADVECTOR
+> +       bool "xtheadvector extension support"
+> +       depends on RISCV_ISA_VENDOR_EXT_THEAD
+> +       depends on RISCV_ISA_V
+> +       depends on FPU
+> +       default y
+> +       help
+> +         Say N here if you want to disable all xtheadvector related proc=
+edure
+> +         in the kernel. This will disable vector for any T-Head board th=
+at
+> +         contains xtheadvector rather than the standard vector.
+> +
+>           If you don't know what to do here, say Y.
+>  endmenu
+>
+> diff --git a/arch/riscv/include/asm/csr.h b/arch/riscv/include/asm/csr.h
+> index e5a35efd56e0..13657d096e7d 100644
+> --- a/arch/riscv/include/asm/csr.h
+> +++ b/arch/riscv/include/asm/csr.h
+> @@ -30,6 +30,12 @@
+>  #define SR_VS_CLEAN    _AC(0x00000400, UL)
+>  #define SR_VS_DIRTY    _AC(0x00000600, UL)
+>
+> +#define SR_VS_THEAD            _AC(0x01800000, UL) /* xtheadvector Statu=
+s */
+> +#define SR_VS_OFF_THEAD                _AC(0x00000000, UL)
+> +#define SR_VS_INITIAL_THEAD    _AC(0x00800000, UL)
+> +#define SR_VS_CLEAN_THEAD      _AC(0x01000000, UL)
+> +#define SR_VS_DIRTY_THEAD      _AC(0x01800000, UL)
+> +
+>  #define SR_XS          _AC(0x00018000, UL) /* Extension Status */
+>  #define SR_XS_OFF      _AC(0x00000000, UL)
+>  #define SR_XS_INITIAL  _AC(0x00008000, UL)
+> diff --git a/arch/riscv/include/asm/switch_to.h b/arch/riscv/include/asm/=
+switch_to.h
+> index 7efdb0584d47..ada6b5cf2d94 100644
+> --- a/arch/riscv/include/asm/switch_to.h
+> +++ b/arch/riscv/include/asm/switch_to.h
+> @@ -78,7 +78,7 @@ do {                                                  \
+>         struct task_struct *__next =3D (next);            \
+>         if (has_fpu())                                  \
+>                 __switch_to_fpu(__prev, __next);        \
+> -       if (has_vector())                                       \
+> +       if (has_vector() || has_xtheadvector())         \
+>                 __switch_to_vector(__prev, __next);     \
+>         ((last) =3D __switch_to(__prev, __next));         \
+>  } while (0)
+> diff --git a/arch/riscv/include/asm/vector.h b/arch/riscv/include/asm/vec=
+tor.h
+> index 731dcd0ed4de..db851dc81870 100644
+> --- a/arch/riscv/include/asm/vector.h
+> +++ b/arch/riscv/include/asm/vector.h
+> @@ -18,6 +18,27 @@
+>  #include <asm/cpufeature.h>
+>  #include <asm/csr.h>
+>  #include <asm/asm.h>
+> +#include <asm/vendorid_list.h>
+> +#include <asm/vendor_extensions.h>
+> +#include <asm/vendor_extensions/thead.h>
+> +
+> +#define __riscv_v_vstate_or(_val, TYPE) ({                             \
+> +       typeof(_val) _res =3D _val;                                      =
+ \
+> +       if (has_xtheadvector()) \
+> +               _res =3D (_res & ~SR_VS_THEAD) | SR_VS_##TYPE##_THEAD;   =
+ \
+> +       else                                                            \
+> +               _res =3D (_res & ~SR_VS) | SR_VS_##TYPE;                 =
+ \
+> +       _res;                                                           \
+> +})
+> +
+> +#define __riscv_v_vstate_check(_val, TYPE) ({                          \
+> +       bool _res;                                                      \
+> +       if (has_xtheadvector()) \
+> +               _res =3D ((_val) & SR_VS_THEAD) =3D=3D SR_VS_##TYPE##_THE=
+AD;  \
+> +       else                                                            \
+> +               _res =3D ((_val) & SR_VS) =3D=3D SR_VS_##TYPE;           =
+     \
+> +       _res;                                                           \
+> +})
+>
+>  extern unsigned long riscv_v_vsize;
+>  int riscv_v_setup_vsize(void);
+> @@ -40,39 +61,62 @@ static __always_inline bool has_vector(void)
+>         return riscv_has_extension_unlikely(RISCV_ISA_EXT_v);
+>  }
+>
+> +static __always_inline bool has_xtheadvector_no_alternatives(void)
+> +{
+> +       if (IS_ENABLED(CONFIG_RISCV_ISA_XTHEADVECTOR))
+> +               return riscv_isa_vendor_extension_available(THEAD_VENDOR_=
+ID, XTHEADVECTOR);
+> +       else
+> +               return false;
+> +}
+> +
+> +static __always_inline bool has_xtheadvector(void)
+> +{
+> +       if (IS_ENABLED(CONFIG_RISCV_ISA_XTHEADVECTOR))
+> +               return riscv_has_vendor_extension_unlikely(THEAD_VENDOR_I=
+D,
+> +                                                          RISCV_ISA_VEND=
+OR_EXT_XTHEADVECTOR);
+> +       else
+> +               return false;
+> +}
+> +
+>  static inline void __riscv_v_vstate_clean(struct pt_regs *regs)
+>  {
+> -       regs->status =3D (regs->status & ~SR_VS) | SR_VS_CLEAN;
+> +       regs->status =3D __riscv_v_vstate_or(regs->status, CLEAN);
+>  }
+>
+>  static inline void __riscv_v_vstate_dirty(struct pt_regs *regs)
+>  {
+> -       regs->status =3D (regs->status & ~SR_VS) | SR_VS_DIRTY;
+> +       regs->status =3D __riscv_v_vstate_or(regs->status, DIRTY);
+>  }
+>
+>  static inline void riscv_v_vstate_off(struct pt_regs *regs)
+>  {
+> -       regs->status =3D (regs->status & ~SR_VS) | SR_VS_OFF;
+> +       regs->status =3D __riscv_v_vstate_or(regs->status, OFF);
+>  }
+>
+>  static inline void riscv_v_vstate_on(struct pt_regs *regs)
+>  {
+> -       regs->status =3D (regs->status & ~SR_VS) | SR_VS_INITIAL;
+> +       regs->status =3D __riscv_v_vstate_or(regs->status, INITIAL);
+>  }
+>
+>  static inline bool riscv_v_vstate_query(struct pt_regs *regs)
+>  {
+> -       return (regs->status & SR_VS) !=3D 0;
+> +       return !__riscv_v_vstate_check(regs->status, OFF);
+>  }
+>
+>  static __always_inline void riscv_v_enable(void)
+>  {
+> -       csr_set(CSR_SSTATUS, SR_VS);
+> +       if (has_xtheadvector())
+> +               csr_set(CSR_SSTATUS, SR_VS_THEAD);
+> +       else
+> +               csr_set(CSR_SSTATUS, SR_VS);
+>  }
+>
+>  static __always_inline void riscv_v_disable(void)
+>  {
+> -       csr_clear(CSR_SSTATUS, SR_VS);
+> +       if (has_xtheadvector())
+> +               csr_clear(CSR_SSTATUS, SR_VS_THEAD);
+> +       else
+> +               csr_clear(CSR_SSTATUS, SR_VS);
+>  }
+>
+>  static __always_inline void __vstate_csr_save(struct __riscv_v_ext_state=
+ *dest)
+> @@ -81,10 +125,47 @@ static __always_inline void __vstate_csr_save(struct=
+ __riscv_v_ext_state *dest)
+>                 "csrr   %0, " __stringify(CSR_VSTART) "\n\t"
+>                 "csrr   %1, " __stringify(CSR_VTYPE) "\n\t"
+>                 "csrr   %2, " __stringify(CSR_VL) "\n\t"
+> -               "csrr   %3, " __stringify(CSR_VCSR) "\n\t"
+> -               "csrr   %4, " __stringify(CSR_VLENB) "\n\t"
+>                 : "=3Dr" (dest->vstart), "=3Dr" (dest->vtype), "=3Dr" (de=
+st->vl),
+> -                 "=3Dr" (dest->vcsr), "=3Dr" (dest->vlenb) : :);
+> +               "=3Dr" (dest->vcsr) : :);
+> +
+> +       if (has_xtheadvector()) {
+> +               u32 tmp_vcsr;
+> +               bool restore_fpu =3D false;
+> +               unsigned long status =3D csr_read(CSR_SSTATUS);
+> +
+> +               /*
+> +                * CSR_VCSR is defined as
+> +                * [2:1] - vxrm[1:0]
+> +                * [0] - vxsat
+> +                * The earlier vector spec implemented by T-Head uses sep=
+arate
+> +                * registers for the same bit-elements, so just combine t=
+hose
+> +                * into the existing output field.
+> +                *
+> +                * Additionally T-Head cores need FS to be enabled when a=
+ccessing
+> +                * the VXRM and VXSAT CSRs, otherwise ending in illegal i=
+nstructions.
+> +                * Though the cores do not implement the VXRM and VXSAT f=
+ields in the
+> +                * FCSR CSR that vector-0.7.1 specifies.
+> +                */
+> +               if ((status & SR_FS) =3D=3D SR_FS_OFF) {
+> +                       csr_set(CSR_SSTATUS, (status & ~SR_FS) | SR_FS_CL=
+EAN);
+> +                       restore_fpu =3D true;
+> +               }
+> +
+> +               asm volatile (
+> +                       "csrr   %[tmp_vcsr], " __stringify(VCSR_VXRM) "\n=
+\t"
+> +                       "slliw  %[vcsr], %[tmp_vcsr], " __stringify(VCSR_=
+VXRM_SHIFT) "\n\t"
+> +                       "csrr   %[tmp_vcsr], " __stringify(VCSR_VXSAT) "\=
+n\t"
+> +                       "or     %[vcsr], %[vcsr], %[tmp_vcsr]\n\t"
+> +                       : [vcsr] "=3Dr" (dest->vcsr), [tmp_vcsr] "=3D&r" =
+(tmp_vcsr));
+> +
+> +               if (restore_fpu)
+> +                       csr_set(CSR_SSTATUS, status);
+
+vlenb is on ABI and ptrace needs that to recover the width of the
+register. So we should probably save Xtheadvector's vlenb into vstate
+if we meant to maintain ABI compatibility between V and Xtheadvector
+from the kernel.
+
+> +       } else {
+> +               asm volatile (
+> +                       "csrr   %[vcsr], " __stringify(CSR_VCSR) "\n\t"
+> +                       "csrr   %[vlenb], " __stringify(CSR_VLENB) "\n\t"
+> +                       : [vcsr] "=3Dr" (dest->vcsr), [vlenb] "=3Dr" (des=
+t->vlenb));
+> +       }
+>  }
+>
+>  static __always_inline void __vstate_csr_restore(struct __riscv_v_ext_st=
+ate *src)
+> @@ -95,9 +176,37 @@ static __always_inline void __vstate_csr_restore(stru=
+ct __riscv_v_ext_state *src
+>                 "vsetvl  x0, %2, %1\n\t"
+>                 ".option pop\n\t"
+>                 "csrw   " __stringify(CSR_VSTART) ", %0\n\t"
+> -               "csrw   " __stringify(CSR_VCSR) ", %3\n\t"
+> -               : : "r" (src->vstart), "r" (src->vtype), "r" (src->vl),
+> -                   "r" (src->vcsr) :);
+> +               : : "r" (src->vstart), "r" (src->vtype), "r" (src->vl));
+> +
+> +       if (has_xtheadvector()) {
+> +               u32 tmp_vcsr;
+> +               bool restore_fpu =3D false;
+> +               unsigned long status =3D csr_read(CSR_SSTATUS);
+> +
+> +               /*
+> +                * Similar to __vstate_csr_save above, restore values for=
+ the
+> +                * separate VXRM and VXSAT CSRs from the vcsr variable.
+> +                */
+> +               if ((status & SR_FS) =3D=3D SR_FS_OFF) {
+> +                       csr_set(CSR_SSTATUS, (status & ~SR_FS) | SR_FS_CL=
+EAN);
+> +                       restore_fpu =3D true;
+> +               }
+> +
+> +               asm volatile (
+> +                       "srliw  %[tmp_vcsr], %[vcsr], " __stringify(VCSR_=
+VXRM_SHIFT) "\n\t"
+> +                       "andi   %[tmp_vcsr], %[tmp_vcsr], " __stringify(V=
+CSR_VXRM_MASK) "\n\t"
+> +                       "csrw   " __stringify(VCSR_VXRM) ", %[tmp_vcsr]\n=
+\t"
+> +                       "andi   %[tmp_vcsr], %[vcsr], " __stringify(VCSR_=
+VXSAT_MASK) "\n\t"
+> +                       "csrw   " __stringify(VCSR_VXSAT) ", %[tmp_vcsr]\=
+n\t"
+> +                       : [tmp_vcsr] "=3D&r" (tmp_vcsr) : [vcsr] "r" (src=
+->vcsr));
+> +
+> +               if (restore_fpu)
+> +                       csr_set(CSR_SSTATUS, status);
+> +       } else {
+> +               asm volatile (
+> +                       "csrw   " __stringify(CSR_VCSR) ", %[vcsr]\n\t"
+> +                       : : [vcsr] "r" (src->vcsr));
+> +       }
+>  }
+>
+>  static inline void __riscv_v_vstate_save(struct __riscv_v_ext_state *sav=
+e_to,
+> @@ -107,19 +216,33 @@ static inline void __riscv_v_vstate_save(struct __r=
+iscv_v_ext_state *save_to,
+>
+>         riscv_v_enable();
+>         __vstate_csr_save(save_to);
+> -       asm volatile (
+> -               ".option push\n\t"
+> -               ".option arch, +v\n\t"
+> -               "vsetvli        %0, x0, e8, m8, ta, ma\n\t"
+> -               "vse8.v         v0, (%1)\n\t"
+> -               "add            %1, %1, %0\n\t"
+> -               "vse8.v         v8, (%1)\n\t"
+> -               "add            %1, %1, %0\n\t"
+> -               "vse8.v         v16, (%1)\n\t"
+> -               "add            %1, %1, %0\n\t"
+> -               "vse8.v         v24, (%1)\n\t"
+> -               ".option pop\n\t"
+> -               : "=3D&r" (vl) : "r" (datap) : "memory");
+> +       if (has_xtheadvector()) {
+> +               asm volatile (
+> +                       "mv t0, %0\n\t"
+> +                       THEAD_VSETVLI_T4X0E8M8D1
+> +                       THEAD_VSB_V_V0T0
+> +                       "add            t0, t0, t4\n\t"
+> +                       THEAD_VSB_V_V0T0
+> +                       "add            t0, t0, t4\n\t"
+> +                       THEAD_VSB_V_V0T0
+> +                       "add            t0, t0, t4\n\t"
+> +                       THEAD_VSB_V_V0T0
+> +                       : : "r" (datap) : "memory", "t0", "t4");
+> +       } else {
+> +               asm volatile (
+> +                       ".option push\n\t"
+> +                       ".option arch, +v\n\t"
+> +                       "vsetvli        %0, x0, e8, m8, ta, ma\n\t"
+> +                       "vse8.v         v0, (%1)\n\t"
+> +                       "add            %1, %1, %0\n\t"
+> +                       "vse8.v         v8, (%1)\n\t"
+> +                       "add            %1, %1, %0\n\t"
+> +                       "vse8.v         v16, (%1)\n\t"
+> +                       "add            %1, %1, %0\n\t"
+> +                       "vse8.v         v24, (%1)\n\t"
+> +                       ".option pop\n\t"
+> +                       : "=3D&r" (vl) : "r" (datap) : "memory");
+> +       }
+>         riscv_v_disable();
+>  }
+>
+> @@ -129,55 +252,77 @@ static inline void __riscv_v_vstate_restore(struct =
+__riscv_v_ext_state *restore_
+>         unsigned long vl;
+>
+>         riscv_v_enable();
+> -       asm volatile (
+> -               ".option push\n\t"
+> -               ".option arch, +v\n\t"
+> -               "vsetvli        %0, x0, e8, m8, ta, ma\n\t"
+> -               "vle8.v         v0, (%1)\n\t"
+> -               "add            %1, %1, %0\n\t"
+> -               "vle8.v         v8, (%1)\n\t"
+> -               "add            %1, %1, %0\n\t"
+> -               "vle8.v         v16, (%1)\n\t"
+> -               "add            %1, %1, %0\n\t"
+> -               "vle8.v         v24, (%1)\n\t"
+> -               ".option pop\n\t"
+> -               : "=3D&r" (vl) : "r" (datap) : "memory");
+> +       if (has_xtheadvector()) {
+> +               asm volatile (
+> +                       "mv t0, %0\n\t"
+> +                       THEAD_VSETVLI_T4X0E8M8D1
+> +                       THEAD_VLB_V_V0T0
+> +                       "add            t0, t0, t4\n\t"
+> +                       THEAD_VLB_V_V0T0
+> +                       "add            t0, t0, t4\n\t"
+> +                       THEAD_VLB_V_V0T0
+> +                       "add            t0, t0, t4\n\t"
+> +                       THEAD_VLB_V_V0T0
+> +                       : : "r" (datap) : "memory", "t0", "t4");
+> +       } else {
+> +               asm volatile (
+> +                       ".option push\n\t"
+> +                       ".option arch, +v\n\t"
+> +                       "vsetvli        %0, x0, e8, m8, ta, ma\n\t"
+> +                       "vle8.v         v0, (%1)\n\t"
+> +                       "add            %1, %1, %0\n\t"
+> +                       "vle8.v         v8, (%1)\n\t"
+> +                       "add            %1, %1, %0\n\t"
+> +                       "vle8.v         v16, (%1)\n\t"
+> +                       "add            %1, %1, %0\n\t"
+> +                       "vle8.v         v24, (%1)\n\t"
+> +                       ".option pop\n\t"
+> +                       : "=3D&r" (vl) : "r" (datap) : "memory");
+> +       }
+>         __vstate_csr_restore(restore_from);
+>         riscv_v_disable();
+>  }
+>
+>  static inline void __riscv_v_vstate_discard(void)
+>  {
+> -       unsigned long vl, vtype_inval =3D 1UL << (BITS_PER_LONG - 1);
+> +       unsigned long vtype_inval =3D 1UL << (BITS_PER_LONG - 1);
+>
+>         riscv_v_enable();
+> +       if (has_xtheadvector())
+> +               asm volatile (THEAD_VSETVLI_X0X0E8M8D1);
+> +       else
+> +               asm volatile (
+> +                       ".option push\n\t"
+> +                       ".option arch, +v\n\t"
+> +                       "vsetvli        x0, x0, e8, m8, ta, ma\n\t"
+> +                       ".option pop\n\t");
+> +
+>         asm volatile (
+>                 ".option push\n\t"
+>                 ".option arch, +v\n\t"
+> -               "vsetvli        %0, x0, e8, m8, ta, ma\n\t"
+>                 "vmv.v.i        v0, -1\n\t"
+>                 "vmv.v.i        v8, -1\n\t"
+>                 "vmv.v.i        v16, -1\n\t"
+>                 "vmv.v.i        v24, -1\n\t"
+> -               "vsetvl         %0, x0, %1\n\t"
+> +               "vsetvl         x0, x0, %0\n\t"
+>                 ".option pop\n\t"
+> -               : "=3D&r" (vl) : "r" (vtype_inval) : "memory");
+> +               : : "r" (vtype_inval));
+> +
+>         riscv_v_disable();
+>  }
+>
+>  static inline void riscv_v_vstate_discard(struct pt_regs *regs)
+>  {
+> -       if ((regs->status & SR_VS) =3D=3D SR_VS_OFF)
+> -               return;
+> -
+> -       __riscv_v_vstate_discard();
+> -       __riscv_v_vstate_dirty(regs);
+> +       if (riscv_v_vstate_query(regs)) {
+> +               __riscv_v_vstate_discard();
+> +               __riscv_v_vstate_dirty(regs);
+> +       }
+>  }
+>
+>  static inline void riscv_v_vstate_save(struct __riscv_v_ext_state *vstat=
+e,
+>                                        struct pt_regs *regs)
+>  {
+> -       if ((regs->status & SR_VS) =3D=3D SR_VS_DIRTY) {
+> +       if (__riscv_v_vstate_check(regs->status, DIRTY)) {
+>                 __riscv_v_vstate_save(vstate, vstate->datap);
+>                 __riscv_v_vstate_clean(regs);
+>         }
+> @@ -186,7 +331,7 @@ static inline void riscv_v_vstate_save(struct __riscv=
+_v_ext_state *vstate,
+>  static inline void riscv_v_vstate_restore(struct __riscv_v_ext_state *vs=
+tate,
+>                                           struct pt_regs *regs)
+>  {
+> -       if ((regs->status & SR_VS) !=3D SR_VS_OFF) {
+> +       if (riscv_v_vstate_query(regs)) {
+>                 __riscv_v_vstate_restore(vstate, vstate->datap);
+>                 __riscv_v_vstate_clean(regs);
+>         }
+> @@ -195,7 +340,7 @@ static inline void riscv_v_vstate_restore(struct __ri=
+scv_v_ext_state *vstate,
+>  static inline void riscv_v_vstate_set_restore(struct task_struct *task,
+>                                               struct pt_regs *regs)
+>  {
+> -       if ((regs->status & SR_VS) !=3D SR_VS_OFF) {
+> +       if (riscv_v_vstate_query(regs)) {
+>                 set_tsk_thread_flag(task, TIF_RISCV_V_DEFER_RESTORE);
+>                 riscv_v_vstate_on(regs);
+>         }
+> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeatur=
+e.c
+> index 2993318b8ea2..44f0017a98d5 100644
+> --- a/arch/riscv/kernel/cpufeature.c
+> +++ b/arch/riscv/kernel/cpufeature.c
+> @@ -781,7 +781,7 @@ void __init riscv_fill_hwcap(void)
+>                 elf_hwcap &=3D ~COMPAT_HWCAP_ISA_F;
+>         }
+>
+> -       if (elf_hwcap & COMPAT_HWCAP_ISA_V) {
+> +       if (elf_hwcap & COMPAT_HWCAP_ISA_V || has_xtheadvector_no_alterna=
+tives()) {
+>                 riscv_v_setup_vsize();
+>                 /*
+>                  * ISA string in device tree might have 'v' flag, but
+> diff --git a/arch/riscv/kernel/kernel_mode_vector.c b/arch/riscv/kernel/k=
+ernel_mode_vector.c
+> index 6afe80c7f03a..99972a48e86b 100644
+> --- a/arch/riscv/kernel/kernel_mode_vector.c
+> +++ b/arch/riscv/kernel/kernel_mode_vector.c
+> @@ -143,7 +143,7 @@ static int riscv_v_start_kernel_context(bool *is_nest=
+ed)
+>
+>         /* Transfer the ownership of V from user to kernel, then save */
+>         riscv_v_start(RISCV_PREEMPT_V | RISCV_PREEMPT_V_DIRTY);
+> -       if ((task_pt_regs(current)->status & SR_VS) =3D=3D SR_VS_DIRTY) {
+> +       if (__riscv_v_vstate_check(task_pt_regs(current)->status, DIRTY))=
+ {
+>                 uvstate =3D &current->thread.vstate;
+>                 __riscv_v_vstate_save(uvstate, uvstate->datap);
+>         }
+> @@ -160,7 +160,7 @@ asmlinkage void riscv_v_context_nesting_start(struct =
+pt_regs *regs)
+>                 return;
+>
+>         depth =3D riscv_v_ctx_get_depth();
+> -       if (depth =3D=3D 0 && (regs->status & SR_VS) =3D=3D SR_VS_DIRTY)
+> +       if (depth =3D=3D 0 && __riscv_v_vstate_check(regs->status, DIRTY)=
+)
+>                 riscv_preempt_v_set_dirty();
+>
+>         riscv_v_ctx_depth_inc();
+> @@ -208,7 +208,7 @@ void kernel_vector_begin(void)
+>  {
+>         bool nested =3D false;
+>
+> -       if (WARN_ON(!has_vector()))
+> +       if (WARN_ON(!(has_vector() || has_xtheadvector())))
+>                 return;
+>
+>         BUG_ON(!may_use_simd());
+> @@ -236,7 +236,7 @@ EXPORT_SYMBOL_GPL(kernel_vector_begin);
+>   */
+>  void kernel_vector_end(void)
+>  {
+> -       if (WARN_ON(!has_vector()))
+> +       if (WARN_ON(!(has_vector() || has_xtheadvector())))
+>                 return;
+>
+>         riscv_v_disable();
+> diff --git a/arch/riscv/kernel/process.c b/arch/riscv/kernel/process.c
+> index 92922dbd5b5c..eabca86fc3c0 100644
+> --- a/arch/riscv/kernel/process.c
+> +++ b/arch/riscv/kernel/process.c
+> @@ -178,7 +178,7 @@ void flush_thread(void)
+>  void arch_release_task_struct(struct task_struct *tsk)
+>  {
+>         /* Free the vector context of datap. */
+> -       if (has_vector())
+> +       if (has_vector() || has_xtheadvector())
+>                 riscv_v_thread_free(tsk);
+>  }
+>
+> @@ -225,7 +225,7 @@ int copy_thread(struct task_struct *p, const struct k=
+ernel_clone_args *args)
+>                 p->thread.s[0] =3D 0;
+>         }
+>         p->thread.riscv_v_flags =3D 0;
+> -       if (has_vector())
+> +       if (has_vector() || has_xtheadvector())
+>                 riscv_v_thread_alloc(p);
+>         p->thread.ra =3D (unsigned long)ret_from_fork;
+>         p->thread.sp =3D (unsigned long)childregs; /* kernel sp */
+> diff --git a/arch/riscv/kernel/signal.c b/arch/riscv/kernel/signal.c
+> index 501e66debf69..5d3ba8e46807 100644
+> --- a/arch/riscv/kernel/signal.c
+> +++ b/arch/riscv/kernel/signal.c
+> @@ -188,7 +188,7 @@ static long restore_sigcontext(struct pt_regs *regs,
+>
+>                         return 0;
+>                 case RISCV_V_MAGIC:
+> -                       if (!has_vector() || !riscv_v_vstate_query(regs) =
+||
+> +                       if (!(has_vector() || has_xtheadvector()) || !ris=
+cv_v_vstate_query(regs) ||
+>                             size !=3D riscv_v_sc_size)
+>                                 return -EINVAL;
+>
+> @@ -210,7 +210,7 @@ static size_t get_rt_frame_size(bool cal_all)
+>
+>         frame_size =3D sizeof(*frame);
+>
+> -       if (has_vector()) {
+> +       if (has_vector() || has_xtheadvector()) {
+>                 if (cal_all || riscv_v_vstate_query(task_pt_regs(current)=
+))
+>                         total_context_size +=3D riscv_v_sc_size;
+>         }
+> @@ -283,7 +283,7 @@ static long setup_sigcontext(struct rt_sigframe __use=
+r *frame,
+>         if (has_fpu())
+>                 err |=3D save_fp_state(regs, &sc->sc_fpregs);
+>         /* Save the vector state. */
+> -       if (has_vector() && riscv_v_vstate_query(regs))
+> +       if ((has_vector() || has_xtheadvector()) && riscv_v_vstate_query(=
+regs))
+>                 err |=3D save_v_state(regs, (void __user **)&sc_ext_ptr);
+>         /* Write zero to fp-reserved space and check it on restore_sigcon=
+text */
+>         err |=3D __put_user(0, &sc->sc_extdesc.reserved);
+> diff --git a/arch/riscv/kernel/vector.c b/arch/riscv/kernel/vector.c
+> index e04586cdb7f0..c12ea4547da6 100644
+> --- a/arch/riscv/kernel/vector.c
+> +++ b/arch/riscv/kernel/vector.c
+> @@ -63,7 +63,7 @@ int riscv_v_setup_vsize(void)
+>
+>  void __init riscv_v_setup_ctx_cache(void)
+>  {
+> -       if (!has_vector())
+> +       if (!(has_vector() || has_xtheadvector()))
+>                 return;
+>
+>         riscv_v_user_cachep =3D kmem_cache_create_usercopy("riscv_vector_=
+ctx",
+> @@ -184,7 +184,8 @@ bool riscv_v_first_use_handler(struct pt_regs *regs)
+>         u32 insn =3D (u32)regs->badaddr;
+>
+>         /* Do not handle if V is not supported, or disabled */
+> -       if (!(ELF_HWCAP & COMPAT_HWCAP_ISA_V))
+> +       if (!(ELF_HWCAP & COMPAT_HWCAP_ISA_V) &&
+> +           !(has_xtheadvector() && riscv_v_vstate_ctrl_user_allowed()))
+>                 return false;
+>
+>         /* If V has been enabled then it is not the first-use trap */
+> @@ -223,7 +224,7 @@ void riscv_v_vstate_ctrl_init(struct task_struct *tsk=
+)
+>         bool inherit;
+>         int cur, next;
+>
+> -       if (!has_vector())
+> +       if (!(has_vector() || has_xtheadvector()))
+>                 return;
+>
+>         next =3D riscv_v_ctrl_get_next(tsk);
+> @@ -245,7 +246,7 @@ void riscv_v_vstate_ctrl_init(struct task_struct *tsk=
+)
+>
+>  long riscv_v_vstate_ctrl_get_current(void)
+>  {
+> -       if (!has_vector())
+> +       if (!(has_vector() || has_xtheadvector()))
+>                 return -EINVAL;
+>
+>         return current->thread.vstate_ctrl & PR_RISCV_V_VSTATE_CTRL_MASK;
+> @@ -256,7 +257,7 @@ long riscv_v_vstate_ctrl_set_current(unsigned long ar=
+g)
+>         bool inherit;
+>         int cur, next;
+>
+> -       if (!has_vector())
+> +       if (!(has_vector() || has_xtheadvector()))
+>                 return -EINVAL;
+>
+>         if (arg & ~PR_RISCV_V_VSTATE_CTRL_MASK)
+> @@ -306,7 +307,7 @@ static struct ctl_table riscv_v_default_vstate_table[=
+] =3D {
+>
+>  static int __init riscv_v_sysctl_init(void)
+>  {
+> -       if (has_vector())
+> +       if (has_vector() || has_xtheadvector())
+>                 if (!register_sysctl("abi", riscv_v_default_vstate_table)=
+)
+>                         return -EINVAL;
+>         return 0;
+>
+> --
+> 2.44.0
+>
+>
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
+
+Cheers,
+Andy
