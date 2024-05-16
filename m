@@ -1,35 +1,61 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4029C2421A;
-	Thu, 16 May 2024 16:24:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51C831581EA
+	for <linux-sunxi@lists.linux.dev>; Thu, 16 May 2024 20:28:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715876672; cv=none; b=AGQ4QSbJzZNuJUjaI7qO4TDjRiB85Cax7aSh5HXr3l1L55u7LIRY2rWQBZ5Ghc9U8TYfcIGYOqwQhE39Pidq5hDwtDdzjeBI1XpEorIg+ms268c+Arkunr8ShhY4g0UBYz0lfxW1TY9Qz4SDmTpcY5GhcT2rOMK2wcOlOI//qxw=
+	t=1715891331; cv=none; b=ODR58tMT/QsABzInvcl38yoBI2FDyBJqC5xS9qK1972jamK0lpk7jz7NvUmwn2ZWPZfy9L+7wz68RoUgyS4pfNKKGYNkiZckW8VnPhLKyhh6pKOPHg+et7C+6HWbU0bCmF9QtGihZTRPbIyYYOwaLK1zxvBNyLkE0LvhwgbiehA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715876672; c=relaxed/simple;
-	bh=YPQd9Pwq5Y5I0Bij2ansbmtYi61hje5cM4D0fSaH4v0=;
+	s=arc-20240116; t=1715891331; c=relaxed/simple;
+	bh=kC5VynHMsC9YRLX685duYC0SDWhDLE4h76tMsTIxJ7c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=diAcRdWbPrmEFmxVwEK16Ew48amhIX8WXWUAxZuFt85ECVWESz4W3x/kG51PK312Iq6iWL4T5DlpkkZzxd9q2L5zfufUZhDpCXnM3tuAP0VZzSHwLbFCyXgs7xemtQ7KmE+YgpmkhSVGVpo6WF8sZ1iPWJF8pjrp7c4FPiJVV9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ckTBUbeU; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=oIP09SgxeO39C0y1smIRHzzCKgMW9J0YMxUf7SHxDU7BoOBv+3kRqy9/0cV9HdXVyXcs7lM59Zi3oTlDBeCP5eUOjrysFD7BrLTn62c5SBH2NRPHHVqfvKod1nCn134tWr3MWD3Zs4uBXLowWD7H5im93qBkxJ3vdkiDG7gN/mA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=X+hHvtBE; arc=none smtp.client-ip=209.85.215.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ckTBUbeU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F557C113CC;
-	Thu, 16 May 2024 16:24:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715876672;
-	bh=YPQd9Pwq5Y5I0Bij2ansbmtYi61hje5cM4D0fSaH4v0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ckTBUbeU+U4d8pK30I5KoZpbLoTF1F3+e6xfJWjXJ4EJQyFcHH8LKaim31594OV8N
-	 mLeuX/YVDzdBjW8zJiShYpRnbVPc9rQznt1jj3VJ7+lyGmQU9EzEUWQp4cCxD2urfV
-	 vMlxsjpdY4l9sInSsA0QnW2dCTO258v55LpfqzLuFxP4QXecHPkpPW0MG3lFZ6xH4m
-	 UAtqVq37k3D3kP9GRlXGON/IS+3TCIn9S7HqoBAPo44+HK9rT90qyAo6ZIykI2epHX
-	 j6l3mUoL4XBcQpMJOXoE9B88N7CTanz7fRCGviNd7CG7INHguA1X2uMTnfFsvvzL24
-	 dCPsaC40p8iQg==
-Date: Thu, 16 May 2024 17:24:25 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Andy Chiu <andy.chiu@sifive.com>
-Cc: Charlie Jenkins <charlie@rivosinc.com>, Rob Herring <robh@kernel.org>,
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="X+hHvtBE"
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-5ff57410ebbso562077a12.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 16 May 2024 13:28:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1715891329; x=1716496129; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Y4kKN9JX8nIOafaZ0J8qaWRBKY02LqUa/O7jwO2X8Tk=;
+        b=X+hHvtBET4tkQ629wMq6SBuJ8VoYUqRwAS0C9hdLd39edQ8F7QsHgisBA2kvhYu8wS
+         NFIPKlu0avjCs35zbebj3rji2QvQRxKj1w1zcgDJIsqSHNKt82cYClLmR6/gMXNb6wpi
+         PlGIIW0DIPhvx7pDchaDLaXSKRyLfAMfVuWAo572iqGS3kjbzfJjfC+KxxU0NgUdSHJc
+         5a5L+Fl2t1mSnS3hfyT2ffPstH34M0hmf21qYpwuSdRYCiumCU1JW53pouRG9Pn1sCwl
+         3fQ/vFr4kcLRYTWgzgsbmpWUHxFAs3/eBvzzYk5+y7sr3/wYWjhOL0xRGN/2/eritPun
+         Xm+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715891329; x=1716496129;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y4kKN9JX8nIOafaZ0J8qaWRBKY02LqUa/O7jwO2X8Tk=;
+        b=Ym2laKewJjdh/q57ICwLQ0Dj8YcWsDw3EAsD5Ur3JYAKBPDiDuN3Y1aC9ywxhnofUT
+         wFGmKiMeJiR7dfD8twXjBh6jWFoRFonUErfs01lrqJOIJrKTLtntmu0FhcMhrEpHLEDl
+         oSyXlD3VxPfM4+JTS6Si1gmiQsb5mFOwJtklH+Q4dNW+uy9MjttuhRaLADsQyXCGv3kY
+         Bj2dsz7aZ1nLGALlIaAbNs3fQ/8XmmW6OLqDTw8fpTeTv3l3iAaj91GXN9WG6u/bcPhI
+         +THS5sXCN4G+E8H963gwbrMAJ7nGLq4RdqTd0sn6Sij5hM82AJu4W8RIz1kIq4i3S6nC
+         UzSA==
+X-Forwarded-Encrypted: i=1; AJvYcCVd/0md5ZstZE3XtiHl25qnYA8KN6z/sQp0svD+6Ws8hn592Qz7eJOFsUsqrmMl9ikis9DleGayv+VzdoNQTX7mmrxwxzT3BZDkhoA=
+X-Gm-Message-State: AOJu0Yw16UIMRHuuBM69kY1vKHuBz7ObR81/5sAuqyRM5CeGD2/pp0hx
+	XIMuq+5ZoPMpaMrPwSwmgz30NPwyIW17O49gnrZtqdRYxIWSraydxtHBfUqlX3U=
+X-Google-Smtp-Source: AGHT+IHTvY9bDUnWjwEIw7wiu0tFvYg1zAisbkSsd1SW/ziLhl1A+ZDZh7r1nudePVmEtMwYFsaJKg==
+X-Received: by 2002:a17:90a:db54:b0:2b6:3034:4ae9 with SMTP id 98e67ed59e1d1-2b6ccd6bceemr16825092a91.35.1715891329488;
+        Thu, 16 May 2024 13:28:49 -0700 (PDT)
+Received: from ghost ([50.145.13.30])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2b671782dcesm15524206a91.53.2024.05.16.13.28.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 May 2024 13:28:48 -0700 (PDT)
+Date: Thu, 16 May 2024 13:28:45 -0700
+From: Charlie Jenkins <charlie@rivosinc.com>
+To: Conor Dooley <conor@kernel.org>
+Cc: Andy Chiu <andy.chiu@sifive.com>, Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Paul Walmsley <paul.walmsley@sifive.com>,
 	Palmer Dabbelt <palmer@dabbelt.com>,
@@ -46,84 +72,84 @@ Cc: Charlie Jenkins <charlie@rivosinc.com>, Rob Herring <robh@kernel.org>,
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
 	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
 Subject: Re: [PATCH v6 03/17] riscv: vector: Use vlenb from DT
-Message-ID: <20240516-grandkid-monday-86c698ca4aed@spud>
+Message-ID: <ZkZV3yxbxab4W6I4@ghost>
 References: <20240503-dev-charlie-support_thead_vector_6_9-v6-0-cb7624e65d82@rivosinc.com>
  <20240503-dev-charlie-support_thead_vector_6_9-v6-3-cb7624e65d82@rivosinc.com>
  <CABgGipXg68VEGt=oZZSENmbqs4-g3PB=CBobNwgqQjLHfxo+VQ@mail.gmail.com>
+ <20240516-grandkid-monday-86c698ca4aed@spud>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="54mb6NLQMPiDuRTG"
-Content-Disposition: inline
-In-Reply-To: <CABgGipXg68VEGt=oZZSENmbqs4-g3PB=CBobNwgqQjLHfxo+VQ@mail.gmail.com>
-
-
---54mb6NLQMPiDuRTG
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240516-grandkid-monday-86c698ca4aed@spud>
 
-On Thu, May 16, 2024 at 10:00:12PM +0800, Andy Chiu wrote:
-> On Sat, May 4, 2024 at 2:21=E2=80=AFAM Charlie Jenkins <charlie@rivosinc.=
-com> wrote:
+On Thu, May 16, 2024 at 05:24:25PM +0100, Conor Dooley wrote:
+> On Thu, May 16, 2024 at 10:00:12PM +0800, Andy Chiu wrote:
+> > On Sat, May 4, 2024 at 2:21 AM Charlie Jenkins <charlie@rivosinc.com> wrote:
+> 
+> > > +               if (elf_hwcap & COMPAT_HWCAP_ISA_V && has_riscv_homogeneous_vlenb() < 0) {
+> > > +                       pr_warn("Unsupported heterogeneous vlen detected, vector extension disabled.\
+> > > +                       elf_hwcap &= ~COMPAT_HWCAP_ISA_V;
+> > > +               }
+> > 
+> > We only touch COMPAT_HWCAP_ISA_V and the failed case only turns off the
+> > rectified V. So here we have nothing to do with the Xtheadvector.
+> 
+> There's nothing t-head related in the tree at this point, so doing
+> anything with it would cause build issues.
+> 
+> > However, I am still confused because I think Xtheadvector would also
+> > need to call into this check, so as to setup vlenb.
+> 
+> 
+> > Apart from that, it seems like some vendor stating Xtheadvector is
+> > actually vector-0.7.
+> 
+> The T-Head implementation is 0.7.x, but I am not really sure what you
+> mean by this comment.
 
-> > +               if (elf_hwcap & COMPAT_HWCAP_ISA_V && has_riscv_homogen=
-eous_vlenb() < 0) {
-> > +                       pr_warn("Unsupported heterogeneous vlen detecte=
-d, vector extension disabled.\
-> > +                       elf_hwcap &=3D ~COMPAT_HWCAP_ISA_V;
-> > +               }
->=20
-> We only touch COMPAT_HWCAP_ISA_V and the failed case only turns off the
-> rectified V. So here we have nothing to do with the Xtheadvector.
+Andy, the idea of this patch was to be able to support this binding on
+more than just xtheadvector.
 
-There's nothing t-head related in the tree at this point, so doing
-anything with it would cause build issues.
+You are correct though Andy, this is a problem that a later patch in
+this series doesn't disable xtheadvector when vlenb is not homogeneous.
+I am going to wait to send out any more versions until after this merge
+window but I will fix this in the next version. Thank you! 
 
-> However, I am still confused because I think Xtheadvector would also
-> need to call into this check, so as to setup vlenb.
+> 
+> > Please correct me if I speak anything wrong. One
+> > thing I noticed is that Xtheadvector wouldn't trap on reading
+> > th.vlenb but vector-0.7 would. If that is the case, should we require
+> > Xtheadvector to specify `riscv,vlenb` on the device tree?
+> 
+> In the world of Linux, "vector-0.7" isn't a thing. There's only 1.0, and
+> after this patchset, "xtheadvector". My understanding, from discussion
+> on earlier versions of this series the trap is actually accessing
+> th.vlenb register, despite the documentation stating that it is
+> unprivileged:
+> https://github.com/T-head-Semi/thead-extension-spec/blob/master/xtheadvector.adoc
+> I assume Charlie tried it but was trapping, as v1 had a comment:
+> +		 * Although xtheadvector states that th.vlenb exists and
+> +		 * overlaps with the vector 1.0 extension overlaps, an illegal
+> +		 * instruction is raised if read. These systems all currently
+> +		 * have a fixed vector length of 128, so hardcode that value.
+
+On my board with a c906 attempting to read th.vlenb (which is supposed
+to have the same encoding as vlenb) raises an illegal instruction
+exception from S-mode even though the documentation states that it
+shouldn't. Because the documentation states that vlenb is available, I
+haven't made it required for xtheadvector, I am not sure the proper
+solution for that.
+
+- Charlie
+
+> 
+> Cheers,
+> Conor.
 
 
-> Apart from that, it seems like some vendor stating Xtheadvector is
-> actually vector-0.7.
-
-The T-Head implementation is 0.7.x, but I am not really sure what you
-mean by this comment.
-
-> Please correct me if I speak anything wrong. One
-> thing I noticed is that Xtheadvector wouldn't trap on reading
-> th.vlenb but vector-0.7 would. If that is the case, should we require
-> Xtheadvector to specify `riscv,vlenb` on the device tree?
-
-In the world of Linux, "vector-0.7" isn't a thing. There's only 1.0, and
-after this patchset, "xtheadvector". My understanding, from discussion
-on earlier versions of this series the trap is actually accessing
-th.vlenb register, despite the documentation stating that it is
-unprivileged:
-https://github.com/T-head-Semi/thead-extension-spec/blob/master/xtheadvecto=
-r.adoc
-I assume Charlie tried it but was trapping, as v1 had a comment:
-+		 * Although xtheadvector states that th.vlenb exists and
-+		 * overlaps with the vector 1.0 extension overlaps, an illegal
-+		 * instruction is raised if read. These systems all currently
-+		 * have a fixed vector length of 128, so hardcode that value.
-
-Cheers,
-Conor.
-
---54mb6NLQMPiDuRTG
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZkYzOQAKCRB4tDGHoIJi
-0rSDAQDYSejV6VHTrL2jnxNTvkydaJkpuoNoUR0KH7Woyb0A7wEAoRBty/hTiap0
-kvVFRs7XwEEn0QBitKVO7a6zx8YNQA4=
-=DNuY
------END PGP SIGNATURE-----
-
---54mb6NLQMPiDuRTG--
