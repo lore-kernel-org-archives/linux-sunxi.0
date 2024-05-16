@@ -1,55 +1,55 @@
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E026143862
-	for <linux-sunxi@lists.linux.dev>; Thu, 16 May 2024 13:11:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C85E71482EE
+	for <linux-sunxi@lists.linux.dev>; Thu, 16 May 2024 14:00:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715865109; cv=none; b=P8wxbaERh35S0bumukGUXdi8LNoB6T6P84bK23dvfTnmZtELyoYrc0hTrYR1HeeGszXu1wfTq/C7wGTJUHOY1HhWpXpgm8MuUj8+0NVLZZbQ5Bc3DTcxyXJRR2V0gJ9pOzvfDj7IqRnnyqHzfkdNg/cSmablxR9WzIP7DltiZ1k=
+	t=1715868027; cv=none; b=TPQcKMIU3bWy2ai9VGBsjMo6VSrVCuKzM0Q8/X//iClUldVfZEVpDKSpYRgh+VrOxw/LCubt+ZRkbC38jJno5mCv+NsDqAagO0Xn8j0jzl3zWNY11KoHxvs455MvmAfuUzrqHPv7tdUqPAcQ8tvfQNSfpCg497lntOKRdkiHm5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715865109; c=relaxed/simple;
-	bh=Wi6fPWBM2N13lqz1ePjmrOpqRQ8zl8M+Hd0GZZShN44=;
+	s=arc-20240116; t=1715868027; c=relaxed/simple;
+	bh=N0mPA+arP6XJeVtdFeMPRAWdHbtc4Ku64hU43AeRhbA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NxUFQE6t86Nlj8ZPz+OfsVFtXx7V8r+rwFsnYiGiXM45VTnqmCRd1yZ6revqA6ki59yO2nvjMvsEThbG2FreKt5vw4Yk5XO5bTP3Wrtg9CuVird+dvZkwWDwOTDdM6hijm+TjQvROkTl0gcBymeigWlRFyf9DxdRF6GhPNMcXbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com; spf=pass smtp.mailfrom=sifive.com; dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b=Eq3lHSkS; arc=none smtp.client-ip=209.85.128.181
+	 To:Cc:Content-Type; b=GjlWw6BWHifUiF7W/LjlRGGMiCWPxA7GUE8QXr4mWdZytftcKL6ml/sPUcl7a0BSjdMeFZbRraVx3+kc7kAaMcowxJG9wM8gwvF0H75Rgoy80lE0pV5J3wxxjcFwVlB3c2FUsd8gldC8v27Z6plpfy7eIkRL+IhFA/x4UWTqsrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com; spf=pass smtp.mailfrom=sifive.com; dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b=nDqkNbAy; arc=none smtp.client-ip=209.85.128.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sifive.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="Eq3lHSkS"
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-6277a2bb35fso5282547b3.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 16 May 2024 06:11:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="nDqkNbAy"
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-61b2218ab6fso69764867b3.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 16 May 2024 07:00:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google; t=1715865106; x=1716469906; darn=lists.linux.dev;
+        d=sifive.com; s=google; t=1715868024; x=1716472824; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4V904prVi6oQ5IyZz7aDLXAgfOChEzLZtTfRAaiZkwU=;
-        b=Eq3lHSkSWqkTa9peveTMYOv5YlIn/T4WsPzNiH3eR6Ik6wwegq4kYo3gnhLsGTTuZ7
-         TdSINTGEKH1kKdp661oUTQ18EkjsKgIjU+46K2Xmpwjxk8FKj9M0axSU32i0W2Bqx5AC
-         SkMLk57N8Wdy0sqMDksXg16U7DtuWS/gHBNzyu0ERunZyPbfG84G+0FCaxikruf8d1LR
-         7WuROJS6ULKru5PDBQT9IxwOLTOW3KPagjuhx+TY8LCISNx+x42MPZya9uIalBCsbSHs
-         uKOfaymzD+G4eDyFjuAlW1rpRbeYPihSx2kYJjPA1pgP2VlNgukD30aILejGKz10RmOE
-         xNyg==
+        bh=cD8EYomjv0kIIk3OrzTD6Ca/3+CIlst2MLQc78I7jZU=;
+        b=nDqkNbAyF4qPW024KOcHSgdTyUqJ+BDqzBheh3Kj/CFwkE5KZakn49m0K3SiarY7tb
+         lITXsDqftMxJkeY3VcxChpu+iEPaeBU3VtjxFkACA00HE0CKKLJ5vvBKOn+hZp1R+IBV
+         l/yss7mtIkJS1/n2Pdx3wrCjbUeHMhMr4cAftufg3LUbAsCO6HqzPUb9J6pZvDETV58I
+         LJSunQg4cjgsxPMDNyWHRN4K6D92cwBwldcTiNk9R+KopT1t8JCFRU7B+0BCQLrh3cZU
+         DXZ2Pacbh1gwc70KsjfvCO5XWHrs+gCJTsnwX+QnXTQNc43BtnWj7GMdA/J4aDI7I/9i
+         oHsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715865106; x=1716469906;
+        d=1e100.net; s=20230601; t=1715868024; x=1716472824;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=4V904prVi6oQ5IyZz7aDLXAgfOChEzLZtTfRAaiZkwU=;
-        b=Aj9lEG6LUtT7sbqfGYMKR12nyIk2rSzcBN2810bV93iWk9hlK1/ND0kCGHlWCobDOQ
-         D/l1X8YipvKiYYwzK/QYkLauPo80dU8Gu0Z6PUr0X8nCT7H5KYdxxP1mFc/ArrLazvlX
-         /mfOFsHJQZJIabYc2zQwVcpXcY7KkHILZjom8DcLVXSObKiw0WJQ+JaGfvbN57Q8o8Fz
-         nrp0V2qDwgQZ76XgLbuvMo9n/9loNjhhEWx7AzadXA7QaRlmXPNA0BJoX1zzxWyhgNIg
-         H4NnSS1QRw7TjSwC+YS+po/SlzV1aFtaSAhbmuHn0CEEJIgZGFifY5aE9j+qZH7X7L4r
-         AHiQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVsoAPt4Q7Vi0gBynVA+chfhEl+9hCtTsUMNWsoWlGOgmP0/4IxUK7GNJUN+PNno0ttgWaLObpSDDowpVn22CYrPmJdHFq3Oocvi/g=
-X-Gm-Message-State: AOJu0YyRwhinvdN3xvOa6gN6mlLYH7Gq2tHMXewBukUKRwdde1j4Xit5
-	Wjx3d3vuda1HBEMGCBIMettey30riHLkGDQIoX78k4IB+Pm2qzO8Pdb1t34m7KAPJp/WFoSYDdr
-	HI2/wXu01nShRf0laWEASIFQpq2qGOw6zFQNCFA==
-X-Google-Smtp-Source: AGHT+IH5FRDo7BDlg+tWZAgAOlCiAfHazME5mq8JEMAmJ+ns26s+bWNHf5N3/miLQXMAqpV9jaca9Qw0iocuCcuU1Ac=
-X-Received: by 2002:a81:77c2:0:b0:618:9198:1a9b with SMTP id
- 00721157ae682-622af7af307mr115191067b3.3.1715865105680; Thu, 16 May 2024
- 06:11:45 -0700 (PDT)
+        bh=cD8EYomjv0kIIk3OrzTD6Ca/3+CIlst2MLQc78I7jZU=;
+        b=LVyqkVjqWOtNut2Oqxm/BTJcO+RbSl0OdFevINU8CXwrjaY20QCMkidWOSLD/dfjzw
+         pgdhEJ2xcU+RWr/BlZ6jJP1mUso6Z1Kzpf0gnvhvNyAfPVcUbOGZLuDMnCd8D4V7nqoy
+         ujagP5/pe/SXPbLDY4rZ8Z7crq3JIf9D4h73nveFrRJDXvygnjxIp7taCoGkoPziJ3r1
+         xXL4h3YfLMJAaLPNCH+cz2dzsvCF5npbXBa3j4CmOcaUNyQhB1HnTsLgyKBpvZkI2mW/
+         uSondn3Wz+pEh6mxsViKT72KXCDNAtXNsHRHz8f3Sucx7Dgv/EwR+5aie1PZgz35zGyD
+         sqmg==
+X-Forwarded-Encrypted: i=1; AJvYcCWsX3ENGmAhCAgr0SD9CLjiczKmRTVyD1L9L4QLdmhrLT0iEOsQjBIdHjNc7L1Yz+zTUDBBw0M0d/4LHr9aXL0GZCa6UtQH1bGEiQo=
+X-Gm-Message-State: AOJu0YwLl/0p7kU9SeB9yiakRLl6A3LtAiwM8FJIsdvDUiG2toRBKpsZ
+	+x9WT/OBpwKTPRUbbmjIga+0nP9+SvkAEHXsKgIC82ph+7N0zI8ehF04iFEhKBkFzZu9l3Luw6w
+	g8vQqJim0W4nlizQI94Qbc22CdBKhEURJOiQEUg==
+X-Google-Smtp-Source: AGHT+IEiXLNHmQcW5RA/wgj6ioJ1XAjnfrpiTrNjDqI8fGRd+D3gGsZcnD/VKszGvYjANziq7R0rmzEGrccihxPdLyI=
+X-Received: by 2002:a81:480f:0:b0:61a:dfd6:fd6d with SMTP id
+ 00721157ae682-622aff831a4mr186279727b3.25.1715868023507; Thu, 16 May 2024
+ 07:00:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -60,8 +60,8 @@ References: <20240503-dev-charlie-support_thead_vector_6_9-v6-0-cb7624e65d82@riv
  <20240503-dev-charlie-support_thead_vector_6_9-v6-3-cb7624e65d82@rivosinc.com>
 In-Reply-To: <20240503-dev-charlie-support_thead_vector_6_9-v6-3-cb7624e65d82@rivosinc.com>
 From: Andy Chiu <andy.chiu@sifive.com>
-Date: Thu, 16 May 2024 21:11:33 +0800
-Message-ID: <CABgGipUJ1hk_N6Vka2j12o80bxpDbAadJVBHdoLncrQEaBPoaw@mail.gmail.com>
+Date: Thu, 16 May 2024 22:00:12 +0800
+Message-ID: <CABgGipXg68VEGt=oZZSENmbqs4-g3PB=CBobNwgqQjLHfxo+VQ@mail.gmail.com>
 Subject: Re: [PATCH v6 03/17] riscv: vector: Use vlenb from DT
 To: Charlie Jenkins <charlie@rivosinc.com>
 Cc: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
@@ -80,6 +80,9 @@ Cc: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
+Sorry Charlie, I forgot to include the mailing list. Here is the same as
+what I sent in the private message.
+
 On Sat, May 4, 2024 at 2:21=E2=80=AFAM Charlie Jenkins <charlie@rivosinc.co=
 m> wrote:
 >
@@ -87,15 +90,6 @@ m> wrote:
 > vlenb csr.
 >
 > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-
-I agree with Conor that we need a mechanism to turn off v and all
-depending extensions with has_riscv_homogeneous_vlenb(). And that can
-come after this.
-
-Thanks for adding the homogeneous vlen checking!
-
-Reviewed-by: Andy Chiu <andy.chiu@sifive.com>
-
 > ---
 >  arch/riscv/include/asm/cpufeature.h |  2 ++
 >  arch/riscv/kernel/cpufeature.c      | 47 +++++++++++++++++++++++++++++++=
@@ -190,9 +184,22 @@ nused)
 > +               if (elf_hwcap & COMPAT_HWCAP_ISA_V && has_riscv_homogeneo=
 us_vlenb() < 0) {
 > +                       pr_warn("Unsupported heterogeneous vlen detected,=
- vector extension disabled.\n");
-> +                       elf_hwcap &=3D ~COMPAT_HWCAP_ISA_V;
+ vector extension disabled.\> +                       elf_hwcap &=3D ~COMPA=
+T_HWCAP_ISA_V;
 > +               }
+
+We only touch COMPAT_HWCAP_ISA_V and the failed case only turns off the
+rectified V. So here we have nothing to do with the Xtheadvector.
+
+However, I am still confused because I think Xtheadvector would also
+need to call into this check, so as to setup vlenb.
+
+Apart from that, it seems like some vendor stating Xtheadvector is
+actually vector-0.7. Please correct me if I speak anything wrong. One
+thing I noticed is that Xtheadvector wouldn't trap on reading
+th.vlenb but vector-0.7 would. If that is the case, should we require
+Xtheadvector to specify `riscv,vlenb` on the device tree?
+
 >         }
 >
 >         /*
@@ -229,3 +236,6 @@ that
 > linux-riscv mailing list
 > linux-riscv@lists.infradead.org
 > http://lists.infradead.org/mailman/listinfo/linux-riscv
+
+Thanks,
+Andy
