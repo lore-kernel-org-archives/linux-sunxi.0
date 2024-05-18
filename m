@@ -1,154 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02A27139F;
-	Thu, 16 May 2024 20:31:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57A70624;
+	Sat, 18 May 2024 00:15:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715891472; cv=none; b=C4WanZoJVEq0EZ/whcMMb0yHtlZBxzOacfRF1e9eDf2fzwLbfNi+5pmrs9xXsy+Ng8R5DmghgpWkiPeNWrpufNDZv10BHU6QNEl3VlNVUNPKj1Xelv4DPSUDSM3x00mjxtKMIavFHwN7oPTPiMm4N1OaDRzhAd1gRjAqfD5Mwww=
+	t=1715991328; cv=none; b=D2JI/fZbJXJ21kn5OA4E+v3M6q/w+PpRn+bS91cEM+mM5qqmgSGhNyOeEknguATwV7205gtuPbHkHaM4B5fjTFy8MOkmvBTiUpoP4m0JDe6EB4v/fV3bUQUAWQ9BSLg/eMVlksDa/J8WlATONyVzYBhAKeXi8wSwdUSiYtzk740=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715891472; c=relaxed/simple;
-	bh=vOAyXMvMO4/iJmPTXPfyexrttf8zBjbSgvoi5gnjzLA=;
+	s=arc-20240116; t=1715991328; c=relaxed/simple;
+	bh=V07vTx9Pcc4bKqrXhXzLYwwefe5ErfqlqKXqge1UAWA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tNLvogHrO0c2p570qXRzxGXHHuGBINs51B5/j+66FIsxhHVvE5evJwhrafD6i+wMXcN2+KEOqgc04iM+wlFzcBvo+/5HHjz3JCqCnvPz4JRAXU9gtkiWjLzs3sPFpZxvS6cnLdwsBMFyk9MuC1ZJcx4o/9LX2iCg7eDSMT6lQr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dDAWhmUD; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=aFsOzCI+4AIgTOcygdwDBim8txBHF35R/rrWV3m8Xpcxu7T3DCgrIqc31dEozYm83A/vFLXINr43W0XrwRY+YCsW/FwHEsBG8dYeWRYqwCSsVNDfjZJjw82jMn9tPM+0+MC6DPhMvdpg3c2BYRL17s/odv6zqIDBmkFY/mRyD8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=VX6g6cv0; arc=none smtp.client-ip=46.235.229.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dDAWhmUD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5EBAC113CC;
-	Thu, 16 May 2024 20:31:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715891471;
-	bh=vOAyXMvMO4/iJmPTXPfyexrttf8zBjbSgvoi5gnjzLA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dDAWhmUDmLUiJb54Uja30vFjFw9q6NBXP74EOnCuKC8gHyhMuGeRboksCf13pFIJQ
-	 rUG5cbU3P18kx+EqmNzzOa9xJsYGNRBuXzKmlMFge9ZqMr6Wh9rJRQgUfPm5AMqGP0
-	 GRqELF2/2r8X5G7YT1C0WY7xdp7oodx3Z47FIVS4O+uOLNKfohAPMByTt+u7Sz0LWS
-	 WDd62ipGaHqfNN3abosA1QOOV7K+aYDI2KEZs1kaUQTGR9+CbXOZsgapkjBtIeuWri
-	 AN9qyObaZ2Cv/3jMm51bZl3nI90Yvvna1Ko2XgxVzEJqsgvt0JZt/EiSMcYUoo+x0W
-	 qk2FTzTBilR5g==
-Date: Thu, 16 May 2024 21:31:04 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: Andy Chiu <andy.chiu@sifive.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Evan Green <evan@rivosinc.com>,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v6 03/17] riscv: vector: Use vlenb from DT
-Message-ID: <20240516-sleek-wound-f835b3bf23cf@spud>
-References: <20240503-dev-charlie-support_thead_vector_6_9-v6-0-cb7624e65d82@rivosinc.com>
- <20240503-dev-charlie-support_thead_vector_6_9-v6-3-cb7624e65d82@rivosinc.com>
- <CABgGipXg68VEGt=oZZSENmbqs4-g3PB=CBobNwgqQjLHfxo+VQ@mail.gmail.com>
- <20240516-grandkid-monday-86c698ca4aed@spud>
- <ZkZV3yxbxab4W6I4@ghost>
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="VX6g6cv0"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
+	:Subject; bh=w9ULlz4UgsU7z8CnXTOJtHaxQ2rpwelEzKXQ6d+PmNo=; b=VX6g6cv0JsUWVWjs
+	/Ipbl7SXrMyZzwhlBfaMW+tvqUGhYSL+EgyHUn7S7b8euSmKdUdDCHvk+Jit2R2Yd7SUDIoJQ9UCP
+	RtvH8GORRDM8YvoqzjWpvda//TkIpwQFntG5VERb1lJLrPBhEetbhKURObL9EBFDqw4gK4gOlblu5
+	ePEaBDdNGa8c08UIrWjWO0yq/0FDVK7gFxPlhUaFCNSAZKpVVyPASqG0x3u6cKFG9hCdEGhlVGGEP
+	/34MWK4PQp0N4j8hrooaG1c6RoJ4catLTP9fgW5iOshkWeJvt1Erpvar/a+tInlErLZVFFehZaWLm
+	DlPEv31cOLytjluf6Q==;
+Received: from dg by mx.treblig.org with local (Exim 4.96)
+	(envelope-from <dg@treblig.org>)
+	id 1s87jI-001U94-1v;
+	Sat, 18 May 2024 00:15:16 +0000
+Date: Sat, 18 May 2024 00:15:16 +0000
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
+To: wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org
+Cc: linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] soc: sunxi: sram: Remove unused list 'claimed_sram'
+Message-ID: <ZkfzFBpZVaMLH7_f@gallifrey>
+References: <20240504204401.198913-1-linux@treblig.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="HJGHkHICZT5TWk2k"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <ZkZV3yxbxab4W6I4@ghost>
+In-Reply-To: <20240504204401.198913-1-linux@treblig.org>
+X-Chocolate: 70 percent or better cocoa solids preferably
+X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
+X-Uptime: 00:14:40 up 9 days, 11:28,  1 user,  load average: 0.00, 0.00, 0.00
+User-Agent: Mutt/2.2.12 (2023-09-09)
 
+* linux@treblig.org (linux@treblig.org) wrote:
+> From: "Dr. David Alan Gilbert" <linux@treblig.org>
+> 
+> The list 'claimed_sram' seems unused, as far as I can tell it always
+> has been.
+> I think the 'list' member of sunxi_sram_data was intended to be
+> used when it was on that list.
+> Remove them.
+> 
+> Build tested only.
+> 
+> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 
---HJGHkHICZT5TWk2k
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Ping
 
-On Thu, May 16, 2024 at 01:28:45PM -0700, Charlie Jenkins wrote:
-> On Thu, May 16, 2024 at 05:24:25PM +0100, Conor Dooley wrote:
-> > On Thu, May 16, 2024 at 10:00:12PM +0800, Andy Chiu wrote:
-> > > On Sat, May 4, 2024 at 2:21=E2=80=AFAM Charlie Jenkins <charlie@rivos=
-inc.com> wrote:
-> >=20
-> > > > +               if (elf_hwcap & COMPAT_HWCAP_ISA_V && has_riscv_hom=
-ogeneous_vlenb() < 0) {
-> > > > +                       pr_warn("Unsupported heterogeneous vlen det=
-ected, vector extension disabled.\
-> > > > +                       elf_hwcap &=3D ~COMPAT_HWCAP_ISA_V;
-> > > > +               }
-> > >=20
-> > > We only touch COMPAT_HWCAP_ISA_V and the failed case only turns off t=
-he
-> > > rectified V. So here we have nothing to do with the Xtheadvector.
-> >=20
-> > There's nothing t-head related in the tree at this point, so doing
-> > anything with it would cause build issues.
-> >=20
-> > > However, I am still confused because I think Xtheadvector would also
-> > > need to call into this check, so as to setup vlenb.
-> >=20
-> >=20
-> > > Apart from that, it seems like some vendor stating Xtheadvector is
-> > > actually vector-0.7.
-> >=20
-> > The T-Head implementation is 0.7.x, but I am not really sure what you
-> > mean by this comment.
->=20
-> Andy, the idea of this patch was to be able to support this binding on
-> more than just xtheadvector.
->=20
-> You are correct though Andy, this is a problem that a later patch in
-> this series doesn't disable xtheadvector when vlenb is not homogeneous.
-> I am going to wait to send out any more versions until after this merge
-> window but I will fix this in the next version. Thank you!=20
-
-Agreed on all counts :)
-
-> > > Please correct me if I speak anything wrong. One
-> > > thing I noticed is that Xtheadvector wouldn't trap on reading
-> > > th.vlenb but vector-0.7 would. If that is the case, should we require
-> > > Xtheadvector to specify `riscv,vlenb` on the device tree?
-> >=20
-> > In the world of Linux, "vector-0.7" isn't a thing. There's only 1.0, and
-> > after this patchset, "xtheadvector". My understanding, from discussion
-> > on earlier versions of this series the trap is actually accessing
-> > th.vlenb register, despite the documentation stating that it is
-> > unprivileged:
-> > https://github.com/T-head-Semi/thead-extension-spec/blob/master/xtheadv=
-ector.adoc
-> > I assume Charlie tried it but was trapping, as v1 had a comment:
-> > +		 * Although xtheadvector states that th.vlenb exists and
-> > +		 * overlaps with the vector 1.0 extension overlaps, an illegal
-> > +		 * instruction is raised if read. These systems all currently
-> > +		 * have a fixed vector length of 128, so hardcode that value.
->=20
-> On my board with a c906 attempting to read th.vlenb (which is supposed
-> to have the same encoding as vlenb) raises an illegal instruction
-> exception from S-mode even though the documentation states that it
-> shouldn't. Because the documentation states that vlenb is available, I
-> haven't made it required for xtheadvector, I am not sure the proper
-> solution for that.
-
-Would you mind raising an issue on the T-Head extension spec repo about
-this?
-
-Thanks,
-Conor.
-
---HJGHkHICZT5TWk2k
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZkZtCAAKCRB4tDGHoIJi
-0iqUAQDoE9mZU3cwwi2L0msRdNJfiKf3sHdTRqTyprp8fMkE0QEA+E4AIm1pM5DV
-TplcpCK2uFfwFdtBhcs80nkZCt5chgo=
-=Mu0n
------END PGP SIGNATURE-----
-
---HJGHkHICZT5TWk2k--
+> ---
+>  drivers/soc/sunxi/sunxi_sram.c | 2 --
+>  1 file changed, 2 deletions(-)
+> 
+> diff --git a/drivers/soc/sunxi/sunxi_sram.c b/drivers/soc/sunxi/sunxi_sram.c
+> index 6eb6cf06278e6..71cc377b5e243 100644
+> --- a/drivers/soc/sunxi/sunxi_sram.c
+> +++ b/drivers/soc/sunxi/sunxi_sram.c
+> @@ -33,7 +33,6 @@ struct sunxi_sram_data {
+>  	u8			offset;
+>  	u8			width;
+>  	struct sunxi_sram_func	*func;
+> -	struct list_head	list;
+>  };
+>  
+>  struct sunxi_sram_desc {
+> @@ -103,7 +102,6 @@ static const struct of_device_id sunxi_sram_dt_ids[] = {
+>  };
+>  
+>  static struct device *sram_dev;
+> -static LIST_HEAD(claimed_sram);
+>  static DEFINE_SPINLOCK(sram_lock);
+>  static void __iomem *base;
+>  
+> -- 
+> 2.45.0
+> 
+-- 
+ -----Open up your eyes, open up your mind, open up your code -------   
+/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
+\        dave @ treblig.org |                               | In Hex /
+ \ _________________________|_____ http://www.treblig.org   |_______/
