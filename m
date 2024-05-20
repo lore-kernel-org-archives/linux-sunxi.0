@@ -1,176 +1,136 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF9C3E57D
-	for <linux-sunxi@lists.linux.dev>; Mon, 20 May 2024 16:31:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6425A137932
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 May 2024 18:42:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716222677; cv=none; b=jah8C86Dl+l9gl+8bxcWCgt5KXFPVMCPmldk37LH6LnIk8W+FNGMSFHmIxEWoyU2zOnh2+/hvYfo9MlgkWv+FiVwyVfCWG89dbU5i+EufgSFAhByspTv0IVgQpQkmlEaFFhkcIQf8RZ1TIiOPiQvfVFY10zNZq+QBD1ZO0Z0Xmk=
+	t=1716230575; cv=none; b=VX/M0jnfYD5MEUuJNuVad9Ly5DewVx+Lny3zkYHGi2MsuOto4+nHkK4jVTzixif2VV8tSJ0LlYbZ27CShWLEm8mQRr0MmkxD9N8lTLyFlmD8g36SXjOSQPyix3kz9eXbwm9BP95WsY6hdnloqYHzW5JggJKNEuMZ10/nMzJ26VU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716222677; c=relaxed/simple;
-	bh=gR/NW1Cv1ga24OQMPJ4bKmzAi8kk1QABUcj7SZoJqgQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cqOPMzP8EArdsBTTVvwk5BGOeDvSilV3nigjCjrYODzPRzKiuzeHyzXoNP8sO9NG2ZY0JTVkmgDa9D2W3iGmpWSWvIvd5FzGm08szmfP1N+XBSBr9sp2q97BpySr+aPI1LOUlZYEDMe5RCUsZSt9qcwsj6RKQ5PKxfg4BlcOnnY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NW1T51sL; arc=none smtp.client-ip=209.85.167.48
+	s=arc-20240116; t=1716230575; c=relaxed/simple;
+	bh=RAL8/W82ql7maGP9+Gccu8VKK+bvQNcePTIKExMfiSU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ULXv5gOojOo5HR00adDOZ2FM9mrygqQ9htRHIggX9scBX7KyfuAtXP/Mr3eTDvDnKXgAldAY/hqgx+1iYi+EAu+46mFmUUvNOipJkWNa7eMM4CUNxDpjiDSJW1j55bzh+dyb2iBwxDMD3OTp0lpQ+kl5mOGUYjYl4MIGR+xM8Ow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lL4t0qoX; arc=none smtp.client-ip=209.85.167.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NW1T51sL"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-51f45104ef0so3858147e87.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 20 May 2024 09:31:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lL4t0qoX"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-51f174e316eso3698954e87.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 20 May 2024 11:42:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716222674; x=1716827474; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=rCcW9VH2LOI+iC9p+xwamz+SEmIGnUU7jFFABNDc0Sc=;
-        b=NW1T51sL32/nDUCDlWVI7qOS7J5YCXQPobQ9/Azar8UMSwZHbTHSZ7rVv+mzyx8S5N
-         /y4Bec6YUIzi+TPJTcFB+7Us6gyoDlkaOHyaJEQoz2Zx/4pOucA5ksAEmHYvtaSmU0GT
-         ExYU7kNN5XttTGQCt4g8WG63OJe16Wj491eSbU2+CG7t4hcSkGT5cciG2aXL6zqHvhbp
-         w1xiTU0o2b5wY9qjnJqdY/q0fp6n30hUdxfi3EhIlg/YcocwqquaLeofK/6vqnqeOdic
-         W9B6ZbTDud4aQXHA47ZftwuqU1tgiCfWZDyyMGikQR10oWWSIjIlUBIMW7TtRrAXdWZq
-         q/Tg==
+        d=gmail.com; s=20230601; t=1716230571; x=1716835371; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=d2oO4m1fNwQVp4jNZt/1i65mTC9NxrLa2XCOe6bVJYw=;
+        b=lL4t0qoXSGydqMi9DQI9N87y0Uvo1cPdMFsLwMjr2iCxXVbgyOf39sqG7jwFBcPx6t
+         5nCO+BVmyFH9xItUfaBCJf0fQF9eoesMmhZfxeuiviw2HrvB+D0rbx2jqHAFd/tGCSs8
+         qq5MRNtL6amaz4DGtLlCRIgEc/aX7qoabN4znNov4H58s1jeIxaS5D5fs7QrLsgr40jE
+         KJhtdp4+H6ScvlDNkEhtxhQaXBUqCbihNNsugqNOeguPBXpNQjNJrSzyM48cVhqtIg2Y
+         BJC1nlsD+ik2mJsurY024X7BR5crIVT0QzGWkITBAYw3LYtJOForV/KG0wKSnGT34Pz2
+         zhSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716222674; x=1716827474;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1716230571; x=1716835371;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=rCcW9VH2LOI+iC9p+xwamz+SEmIGnUU7jFFABNDc0Sc=;
-        b=I51K3flYghbRsWayRCtKEJQoKvzXEMuUjv/Bin/z9xekuJ8AqNYmg6H5sS7DiQrps2
-         dgd4qzhxq7oXrymPNN0LCfgHMgJ4cxlIZIzUiDMs7yMJxaKw74joMsdipZ9409jRltlY
-         1nzUIDnjg6W12h03hivFYvREkmHSx6jRGv/TTT2pixiVxN0kn0rmJGDmVcSfb++Vk3kg
-         nqRshuSCWzsbhqwfhHnJ9aLT7oErsxzDapVaP+aa9GI5VQF6238lyBG9DW/TNm3RKnrt
-         PGAuLRrZQ9IB+z9S+5wp/dA5iul3t5CVOpG3ZzgDQ4ZIJAb+vwqAJwnZuhHn2N8VtMWQ
-         9/qw==
-X-Forwarded-Encrypted: i=1; AJvYcCUCadAa5Eh70eqOyCuX4HlxeXw/uLX2j+9jPW1jW5I+z3WE2ODfljnvToIwHYXOWpiikUDMjw28aWPVgsgu3v3W/1RyG/QREg7fhqE=
-X-Gm-Message-State: AOJu0YxY0bbyYRVVhWhy4qnRYyuaL+QHQZOVWMyVImu+uXIC2C7SQZXI
-	USLK9rPfET1H8ITCcXQBqEYpaWNK3+FMoXYGypWWJmS33ydNsO6WZMih8Cg7G/M4+vkdlh/4Fqn
-	1VwDBPCmtWwCbNRAQrAlzj5CKgWg=
-X-Google-Smtp-Source: AGHT+IEO3PH/dOQ2T8v5If4sEgtSi2/J0hDU+93uun/AT6WFE/kTIrG1M84hXZb7/jfvQZWZEzNDGdGRZ0R5iWZV7Dw=
-X-Received: by 2002:ac2:5f48:0:b0:51d:abb3:d701 with SMTP id
- 2adb3069b0e04-5220fa7191amr18004811e87.5.1716222673580; Mon, 20 May 2024
- 09:31:13 -0700 (PDT)
+        bh=d2oO4m1fNwQVp4jNZt/1i65mTC9NxrLa2XCOe6bVJYw=;
+        b=i6s8n4PsYw3NizTIjtZyvlEzlU9mulTvfr4AugTAdzvmXRgAyg/uPcY+iSRCttUgj3
+         DITD+4ui62NghDYfiBOSecljJSLvGwXTpJmjbiwlwtRi7AMHkrM6vuTx8qziSPUB3nr0
+         Yx8pB2HCSGmnHdS4yLhpEY/UbD/GW+/yuz57BbOKc43iaroQ+f2s6bnWU04l9pmh3V1Z
+         dm14xhEDoELKmvPBusS5oClhOXNYw5/b/sFUyhN7+CVZDFUSMVa14FvCeH5GInqSCFwy
+         RoZE0XkURomb6ZSf/xR2ZQrXCwOBBD8Tfuk+GPzz23G7wvNjqIpQm3dYXEz+MzGHSdoH
+         BaCg==
+X-Forwarded-Encrypted: i=1; AJvYcCU+AZXrpkwdK1rf+22yxfHt38Wb6ZMtu7spsn8cJTIwmJLQQjvsMmUGDGa5hYfq6tZw1ISaScYz7MCNyiQ5ReEZB8zgMhLa2USS/Fc=
+X-Gm-Message-State: AOJu0YyBXmrUH2gDA3GbDkJOuEzaP7OiSuA2NbNJLYxGWRaZoAC35DaE
+	nMqy13TKXZ1nu99Jz3vBlEuwG8HGtLLT6wCtYezJXNZB5hu6U9s=
+X-Google-Smtp-Source: AGHT+IHowG1lUazF8YIjo3wKGFKSPdaQrkEopgqvVcpbn/3onng5ZcWOPaKYiEgzwOJh0DTC8Q41xw==
+X-Received: by 2002:a05:6512:3494:b0:516:be80:178f with SMTP id 2adb3069b0e04-5220fe7934bmr19194028e87.43.1716230571213;
+        Mon, 20 May 2024 11:42:51 -0700 (PDT)
+Received: from localhost.localdomain ([188.162.49.81])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-521f38d335csm4368967e87.125.2024.05.20.11.42.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 May 2024 11:42:50 -0700 (PDT)
+From: Aleksandr Shubin <privatesub2@gmail.com>
+To: linux-kernel@vger.kernel.org
+Cc: Aleksandr Shubin <privatesub2@gmail.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	John Watts <contact@jookia.org>,
+	Marc Kleine-Budde <mkl@pengutronix.de>,
+	Maksim Kiselev <bigunclemax@gmail.com>,
+	Cheo Fusi <fusibrandon13@gmail.com>,
+	linux-pwm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-riscv@lists.infradead.org
+Subject: [PATCH v9 0/3] Add support for Allwinner PWM on D1/T113s/R329 SoCs
+Date: Mon, 20 May 2024 21:42:18 +0300
+Message-Id: <20240520184227.120956-1-privatesub2@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240515234839.26898-1-andre.przywara@arm.com>
- <CALeDE9OrY-wdpbdOWvqkgYE6YD8SLGCw_Fo1FaBsjQ75LQcqtQ@mail.gmail.com> <20240520151808.1e5fe1e1@donnerap.manchester.arm.com>
-In-Reply-To: <20240520151808.1e5fe1e1@donnerap.manchester.arm.com>
-From: Peter Robinson <pbrobinson@gmail.com>
-Date: Mon, 20 May 2024 17:31:01 +0100
-Message-ID: <CALeDE9PWTfJA48MMgYhZP2RqO1vxPzOrxXg8dziFC7Dp4yzxpA@mail.gmail.com>
-Subject: Re: [PATCH 0/6] power: pmic: sunxi: consolidate AXP SPL drivers
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Tom Rini <trini@konsulko.com>, Jaehoon Chung <jh80.chung@samsung.com>, 
-	Jagan Teki <jagan@amarulasolutions.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Chris Morgan <macromorgan@hotmail.com>, 
-	Ryan Walklin <ryan@testtoast.com>, u-boot@lists.denx.de, linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, 20 May 2024 at 15:18, Andre Przywara <andre.przywara@arm.com> wrote:
->
-> On Mon, 20 May 2024 13:48:41 +0100
-> Peter Robinson <pbrobinson@gmail.com> wrote:
->
-> Hi Peter,
->
-> thanks for having a look!
->
-> > Hi Andre,
-> >
-> > > this is the first series in an attempt to clean up the X-Powers AXP PMIC
-> > > drivers used by the SPL for sunxi boards. So far we have a separate
-> > > driver file for each AXP variant, but the code was largely the same,
-> > > just differing by the regulator ranges.
-> > >
-> > > This adds a new generic driver, which reads the regulator description
-> > > from an array of structs. This is similar to how the DM AXP driver used
-> > > for U-Boot proper works, but is simplified, since we won't need the full
-> > > feature set for the SPL, and we want to keep the code size small.
-> >
-> > Overall seems a reasonable approach, would it make sense to put the
-> > regulator descriptions in a file that could be shared between this and
-> > the DM driver so the information isn't duplicated and hence may
-> > diverge over time with things like copy/paste errors?
->
-> Yes, I thought about it, but it gets nasty:
-> - The SPL should only have the regulator descriptions for the *one*
-> selected AXP chip, whereas the DM driver can afford to describe all
-> regulators and select the right ones via the compatible at runtime. This
-> is to conserve memory for the SPL.
-> - The SPL should only be interested in the DC/DC buck converters, we don't
-> really need any LDOs. Again saves memory.
-> - Each regulator entry for the SPL should be as small as possible, we don't
-> want and need the regulator name, for instance, or the table pointer.
-> Again to save memory.
->
-> Currently the array for the three AXP313 regulators in the SPL is exactly
-> 30 bytes long; in the DM driver, just for the small AXP313: 192 bytes. The
-> difference is even more pronounced for the larger AXPs.
->
-> I am hopeful there might be some macro magic to express this, like:
-> static const struct axp_regulator_plat axp313_regulators[] = {
->    SPL( "dcdc1", 0x10, BIT(0), 0x13, 0x7f,  500, 1540,  10, 70 )
->    SPL( "dcdc2", 0x10, BIT(1), 0x14, 0x7f,  500, 1540,  10, 70 )
->    SPL( "dcdc3", 0x10, BIT(2), 0x15, 0x7f,  500, 1840,  10, 70 )
-> PROPER( "aldo1", 0x10, BIT(3), 0x16, 0x1f,  500, 3500, 100, NA )
-> PROPER( "dldo1", 0x10, BIT(4), 0x17, 0x1f,  500, 3500, 100, NA )
->         {}
-> };
-> But we still need something to avoid the array altogether when another AXP
-> is selected, which might require #ifdefs.
-> So it might be possible, but the devil is probably in the details.
->
-> For now I just wanted to avoid adding more AXP driver files to
-> the drivers/power directory, so I consider this a future optimisation.
 
-That all makes sense, thanks for the great explanation!
+v2:
+ - fix dt-bindings
+ - fix a remark in the driver
 
-> Happy to take patches :-D
->
-> Cheers,
-> Andre
->
-> > Peter
-> >
-> > > To help bisect-ability, and to simplify review, each of the simpler AXP
-> > > drivers covered by this approach is handled in a separate patch.
-> > > We just convert the AXP313, AXP305, AXP717 for now, and on the way add
-> > > support for the AXP707, just because it's now very easy, and we will
-> > > need it soon enough.
-> > > The other AXP SPL drivers are more complex, and support more regulators,
-> > > but my hunch is that we really just need the DC/DC converters in the
-> > > SPL. However I need to prove and test this, so I will convert the other
-> > > AXP chips later.
-> > >
-> > > Please have a look and comment whether the approach in general is a good
-> > > idea.
-> > >
-> > > Cheers,
-> > > Andre
-> > >
-> > > Andre Przywara (6):
-> > >   power: pmic: sunxi: only build AXP drivers for SPL
-> > >   power: pmic: sunxi: introduce generic SPL AXP DC/DC driver
-> > >   power: pmic: sunxi: replace AXP717 SPL driver
-> > >   power: pmic: sunxi: use generic AXP SPL driver for AXP313
-> > >   power: pmic: sunxi: use generic AXP SPL driver for AXP305
-> > >   power: pmic: sunxi: add AXP707 support
-> > >
-> > >  drivers/power/Makefile  |   8 +-
-> > >  drivers/power/axp305.c  |  82 ------------------
-> > >  drivers/power/axp313.c  | 133 -----------------------------
-> > >  drivers/power/axp717.c  |  92 --------------------
-> > >  drivers/power/axp_spl.c | 184 ++++++++++++++++++++++++++++++++++++++++
-> > >  5 files changed, 189 insertions(+), 310 deletions(-)
-> > >  delete mode 100644 drivers/power/axp305.c
-> > >  delete mode 100644 drivers/power/axp313.c
-> > >  delete mode 100644 drivers/power/axp717.c
-> > >  create mode 100644 drivers/power/axp_spl.c
-> > >
-> > > --
-> > > 2.35.8
-> > >
->
+v3:
+ - fix dt-bindings
+ - fix sunxi-d1s-t113.dtsi
+
+v4:
+ - fix a remark in the driver
+
+v5:
+ - dropped unused varibale in the driver
+ - fix dt-bindings
+
+v6:
+ - add apb0 clock
+
+v7:
+ - fix a remark in the driver
+ - add maintainer
+
+v8:
+ - fix compile driver for 6.8-rc
+
+v9:
+ - fix a remark in the driver
+ - fix dt-bindings
+ - rename apb0 -> apb
+
+Aleksandr Shubin (3):
+  dt-bindings: pwm: Add binding for Allwinner D1/T113-S3/R329 PWM
+    controller
+  pwm: Add Allwinner's D1/T113-S3/R329 SoCs PWM support
+  riscv: dts: allwinner: d1: Add pwm node
+
+ .../bindings/pwm/allwinner,sun20i-pwm.yaml    |  84 ++++
+ .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    |  12 +
+ drivers/pwm/Kconfig                           |  10 +
+ drivers/pwm/Makefile                          |   1 +
+ drivers/pwm/pwm-sun20i.c                      | 387 ++++++++++++++++++
+ 5 files changed, 494 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/pwm/allwinner,sun20i-pwm.yaml
+ create mode 100644 drivers/pwm/pwm-sun20i.c
+
+-- 
+2.25.1
+
