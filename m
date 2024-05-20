@@ -1,114 +1,127 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 386CE468E
-	for <linux-sunxi@lists.linux.dev>; Mon, 20 May 2024 09:32:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0AEA51005
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 May 2024 12:48:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716197562; cv=none; b=D1mxh1r6SFglKQjIhrIOLFG+/49iGBkkT1Fi3q8+ZKpFCvzxRuwN+RRbZhH9eAc+Cd0K/FU7eXl51kxZOt8WqROwV1vLTFF3M92fXrlDYu9YieKAvDjhP1dSmlyxrPu698KvBQ9tqrQSFRsOeLtMq7zgyoj+AiyCIU+t2ed8GS4=
+	t=1716209336; cv=none; b=hIb29Izu2qagnE/gmAq+ER6gWObqGCbwhMPOWe6Ud5IttjKoeWWdx5x0k8odh/jnLQJzZ1KJSLNn2mpW4f1YgU8EPe63c4wkDQxAy1Qkq9eLqyFT/umYUEULJVkxLqbQeMEYIDqSC7CBGEzkaOgRe/DXfx1fM4X11k4u7jdgz1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716197562; c=relaxed/simple;
-	bh=6qqAt+q020TEX/srbVeaNcplSl/KDDH8/TynN7XepB4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oKbH8p/UQJF1ApFoQE6U5b6Se1HTfHtEwIgUkyn3lwUcY6orbSYNirnt0imyqJRLuGXtcjoSSEl7LC6g6BDWM6VegKehSCdFp9m7e0yijJV9QmICUe5q2P/rfDr69SjlLK/DtFnu0lEcFGW5zlhc9h3Ud2NklyWBGBWfis4pMCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UhtPd8re; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1716209336; c=relaxed/simple;
+	bh=xGLpQvlkSMguRY3Aiv0Eoi3vrQks8x7hjPr0es+BL7k=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ct1bCduqUmPmuUIEhV59iVxBaY1cLuIhDzYw2CPesPRfFAbmQ/CmsvAid9v2C0wEPNVtiYOB0LwvhyowNbkmGMDX0sgHLcxpzZ8d6XrS2Dav+bXJrSy6pLbFe/LSin8gTVOjAuupyE2dLZAFrdpoPw37eERiLq/7p8dndyFBIEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ku77dtuQ; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UhtPd8re"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-6f6a045d476so29974b3a.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 20 May 2024 02:32:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ku77dtuQ"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-571be483ccaso7216067a12.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 20 May 2024 05:48:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716197560; x=1716802360; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VHjDhF8zKcuH4KaZDrxu/GGnpHyFrMbNt+nqVfo/Ty0=;
-        b=UhtPd8re0tAi89zekYZxsND72GYmjrh1MWq/gng+Om1N1MByfSEgH3P4WHYzcZ/ksJ
-         6mq96ceO2nniU7SOtHDSxh3DUsXKXBmf+jda0D+XbMKLnpM71boJovJ06TAdM7ytRf/A
-         e1hByLbOMcI6Ck274r5PfiUm9sW+mSFLbhZe7Aduk5JTbm6+zHncRVtgcY4I0q7QZf3s
-         JdRe7+kmEPiQZVXkxZsUhY/LRRRPvTehAKiHlxqt114o5qKzfv5lYAIXacHzpKFziZ4y
-         rqRhi3F0WpINPXgMF1hcstQs05VeL+t+msbcSRci7WawH6qqWU6w4iWY2q3kXJYOXUuk
-         lFLw==
+        d=gmail.com; s=20230601; t=1716209333; x=1716814133; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=th3Jw3Ra488MyIDoF+vI7PjhzrI0uWKpJV2cin7BcqI=;
+        b=Ku77dtuQHATetRZAwmgPJO78OLnnkCjn7Z67AybbyMJgV7PCnq0zRWgWNzQlZ+VBiO
+         /316PgWrRmI0t0UAIICQrPexP45Aw1YR5FCIAVp6shUedoZLUBP3Ljcsag6W65rGWw+F
+         AMRnaEkbVP+E33N0Nq98J5rtkmPE9cdDRvF3258EqbjPBZ/46dvx5eqzh2JWz3Vahj6t
+         LdPrj54VHt4XxmBRSJ90OE2Wbr0yC0i5DYvXQmpDbBB0km27AmcfVIUMRHntdHZPCHT2
+         H6TlqX0aeL+XuNrRkUTDn+JZYSwweWqOIPFJFV5wOQURlTP/qjJ2wiQ35t8Wx8HTUZrM
+         4a2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716197560; x=1716802360;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VHjDhF8zKcuH4KaZDrxu/GGnpHyFrMbNt+nqVfo/Ty0=;
-        b=YAiM17ljJjM5QcCkZRvkxOqEHsys+s5RoObAYSxud3oEmKo1n3c9D56V6RwHzkH7FH
-         vSq4VOi8r3H24p+FXRkTBAXXSpNDePMHNAlzMyFSCR7LNk+ab6zDzr8Qw70Rif/VgaO0
-         +qKp4hXNQ5AFph5UEx1Piy2nLG8c9yc5nWWom3IltfgCptyeneGut2dlxOA5T2rEDIXy
-         slmiMZc15uDCyukhj4uWwZN/2pMsCCmxkEN1JGueFFXXxWHAtNGPBBOZy/p4xzbus72b
-         sxMJHyW1b+og2YLtbrINp0w9h2zdTczGLp1vp2r8FVmqoWvkRtgpA8JSu9w9xZkXwTfd
-         bo3A==
-X-Forwarded-Encrypted: i=1; AJvYcCV1iYUB5neqKoYMMZJI/9z+89qACXqM2QkCF0XqF24KIZ7C+vRN2Hfbwl7dzeKp9qTe0NpCqFTMXDf1Ri3MQKCRr2pLu1TvJxpGfww=
-X-Gm-Message-State: AOJu0YyVkVBvX7Otue99XWrDqq6DtjeMgtmi2Mj9qIDSgMyrYYaJ4Mm6
-	RxJjXhV0Z4q8TgtfTN/jYg7k8k/aCOxZGXXb2WQaM/PeD8bD4s2Voq1aqkZnAXw=
-X-Google-Smtp-Source: AGHT+IFa8g+pCvcfTr1oEO5S4AwyMh2Iyy71hR8SjL5gaoTIDdRqmSgGKDGc01l9L6eqB0yM0+XG+g==
-X-Received: by 2002:a05:6a00:3a01:b0:6ed:5f64:2ff4 with SMTP id d2e1a72fcca58-6f4e02af0d1mr31874819b3a.14.1716197560387;
-        Mon, 20 May 2024 02:32:40 -0700 (PDT)
-Received: from localhost ([122.172.82.13])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-65e149dd925sm5500703a12.58.2024.05.20.02.32.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 May 2024 02:32:39 -0700 (PDT)
-Date: Mon, 20 May 2024 15:02:37 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Cc: Yangtao Li <tiny.windzz@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] cpufreq: sun50i: fix memory leak and remove
- of_node_put()
-Message-ID: <20240520093237.fucml6sp2ziygyav@vireshk-i7>
-References: <20240503-sun50i-cpufreq-nvmem-cleanup-v1-0-0a2352cac46b@gmail.com>
+        d=1e100.net; s=20230601; t=1716209333; x=1716814133;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=th3Jw3Ra488MyIDoF+vI7PjhzrI0uWKpJV2cin7BcqI=;
+        b=iSKNDl2tztE5SJZPOYshFGY6cUgR4g2s1weKf9Oa1PzFEdUI2NMhGZ8J77+qYdYYzB
+         kbvfYDdeImd0MDJJT3R5dczlUMDYxsgHOxPdT94Klc9QRQ1lnI9A0b5A5bF6huz4PK3C
+         qktCkNz33ltSWhGAHV8TnbofWMBo9yHm7SZWxFvsgLy36jCMQi7UqkK5ldmZR+0S4Bgk
+         SAm01l+gRfnw9EVRE+hC/CHS5Jy6mfaKaYQbBhCc1YmGW2XQSsmcRt4arIDX3prt22nf
+         naGYC3QdKSdEjMfzOkozyI2lmtq1uzguc2SM/7Cx59YMI2D3iNGJ9SSSbTSqHUTUCUMQ
+         PSZw==
+X-Forwarded-Encrypted: i=1; AJvYcCW9a0CZ9oxQGg8624njip9SAW1eaxdmxMyxSHz+F8iQnQgOcLgFC84kf2catVYNwW3I2igB1XN071si93hOpCRDqHYdJr4gJ/IRpyg=
+X-Gm-Message-State: AOJu0YxoM/RJFPdYm4Q3fhDzecif0bzsUP08mgzCUulAqjOqvzMit45b
+	bWBK711/cOxcivQm14CGpLA/rU78BBnxo9yI/Y1vrHjcfaHD7FU4HRQiysmNNjwu4q68MiSItfV
+	L45IFNL4fBLaRAoRz6iLjv1EoAXs=
+X-Google-Smtp-Source: AGHT+IGookqit6t3fppSJK8FP4uPfxywqdNY4ygqwJ/Pc2p1Mj+uD00mLEB6K2NImPajkoDzpViIsVEpvVM/ehkyenM=
+X-Received: by 2002:a50:f603:0:b0:572:7142:4594 with SMTP id
+ 4fb4d7f45d1cf-5734d6ed7b6mr16823029a12.29.1716209332715; Mon, 20 May 2024
+ 05:48:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240503-sun50i-cpufreq-nvmem-cleanup-v1-0-0a2352cac46b@gmail.com>
+References: <20240515234839.26898-1-andre.przywara@arm.com>
+In-Reply-To: <20240515234839.26898-1-andre.przywara@arm.com>
+From: Peter Robinson <pbrobinson@gmail.com>
+Date: Mon, 20 May 2024 13:48:41 +0100
+Message-ID: <CALeDE9OrY-wdpbdOWvqkgYE6YD8SLGCw_Fo1FaBsjQ75LQcqtQ@mail.gmail.com>
+Subject: Re: [PATCH 0/6] power: pmic: sunxi: consolidate AXP SPL drivers
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Tom Rini <trini@konsulko.com>, Jaehoon Chung <jh80.chung@samsung.com>, 
+	Jagan Teki <jagan@amarulasolutions.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Chris Morgan <macromorgan@hotmail.com>, 
+	Ryan Walklin <ryan@testtoast.com>, u-boot@lists.denx.de, linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On 03-05-24, 19:52, Javier Carrasco wrote:
-> This series fixes a memory leak by means of the _scoped version of the
-> for_each_child_of_node() loop, which was recently introduced with
-> 34af4554fb0c ("of: Introduce for_each_*_child_of_node_scoped() to
-> automate of_node_put() handling").
-> 
-> The new approach is still not widely used, but this might be a good
-> occasion to use it in a driver because it actually fixes a bug, and
-> the loop is rather simple.
-> 
-> The creator of the new macro was added to the discussion in case the
-> new approach is still not mature enough, even for such simple case.
-> 
-> Additionally, the existing uses of of_node_put() have been removed to
-> favour the _free() cleanup handler, which reduces the chances of having
-> any other memory leak because some of_node_put() is missing as well as
-> simplifies the current code.
-> 
-> I don't have the real hardware to test the series, so I "faked" the node
-> in a device tree for an arm64 device (Rockchip) and hacked the driver
-> to get to run dt_has_supported_hw(). The new implementation works as
-> expected, but if someone wants to test it with the proper SoC,
-> additional tests are always welcome. The same applies for the removals
-> of of_node_put().
-> 
-> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-> ---
-> Javier Carrasco (2):
->       cpufreq: sun50i: fix memory leak in dt_has_supported_hw()
->       cpufreq: sun50i: replace of_node_put() with automatic cleanup handler
+Hi Andre,
 
-Applied. Thanks.
+> this is the first series in an attempt to clean up the X-Powers AXP PMIC
+> drivers used by the SPL for sunxi boards. So far we have a separate
+> driver file for each AXP variant, but the code was largely the same,
+> just differing by the regulator ranges.
+>
+> This adds a new generic driver, which reads the regulator description
+> from an array of structs. This is similar to how the DM AXP driver used
+> for U-Boot proper works, but is simplified, since we won't need the full
+> feature set for the SPL, and we want to keep the code size small.
 
--- 
-viresh
+Overall seems a reasonable approach, would it make sense to put the
+regulator descriptions in a file that could be shared between this and
+the DM driver so the information isn't duplicated and hence may
+diverge over time with things like copy/paste errors?
+
+Peter
+
+> To help bisect-ability, and to simplify review, each of the simpler AXP
+> drivers covered by this approach is handled in a separate patch.
+> We just convert the AXP313, AXP305, AXP717 for now, and on the way add
+> support for the AXP707, just because it's now very easy, and we will
+> need it soon enough.
+> The other AXP SPL drivers are more complex, and support more regulators,
+> but my hunch is that we really just need the DC/DC converters in the
+> SPL. However I need to prove and test this, so I will convert the other
+> AXP chips later.
+>
+> Please have a look and comment whether the approach in general is a good
+> idea.
+>
+> Cheers,
+> Andre
+>
+> Andre Przywara (6):
+>   power: pmic: sunxi: only build AXP drivers for SPL
+>   power: pmic: sunxi: introduce generic SPL AXP DC/DC driver
+>   power: pmic: sunxi: replace AXP717 SPL driver
+>   power: pmic: sunxi: use generic AXP SPL driver for AXP313
+>   power: pmic: sunxi: use generic AXP SPL driver for AXP305
+>   power: pmic: sunxi: add AXP707 support
+>
+>  drivers/power/Makefile  |   8 +-
+>  drivers/power/axp305.c  |  82 ------------------
+>  drivers/power/axp313.c  | 133 -----------------------------
+>  drivers/power/axp717.c  |  92 --------------------
+>  drivers/power/axp_spl.c | 184 ++++++++++++++++++++++++++++++++++++++++
+>  5 files changed, 189 insertions(+), 310 deletions(-)
+>  delete mode 100644 drivers/power/axp305.c
+>  delete mode 100644 drivers/power/axp313.c
+>  delete mode 100644 drivers/power/axp717.c
+>  create mode 100644 drivers/power/axp_spl.c
+>
+> --
+> 2.35.8
+>
