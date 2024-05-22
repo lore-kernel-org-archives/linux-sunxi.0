@@ -1,143 +1,132 @@
-Received: from mailout04.t-online.de (mailout04.t-online.de [194.25.134.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5D6F1422A1
-	for <linux-sunxi@lists.linux.dev>; Wed, 22 May 2024 18:38:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.25.134.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED0BA23CB
+	for <linux-sunxi@lists.linux.dev>; Wed, 22 May 2024 18:54:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716403132; cv=none; b=K8eeR1VN55t1m0EWNwFvJBjATVqmFFt2Tm6mmgcdqMjIrfnXDN23Q1c6Lh8vux8ZiwtfyXArCt5gH4KjixQlHU1tItZWUCHidEnFGfhgSxr6V19/7an+PTH40HHjgMwx2bomPvlKI2WzJs0Zoy+5TKbSx7aQC4ZcmF04ILfE9uY=
+	t=1716404067; cv=none; b=ptin7ZN5sMl8hDvoFe84dFJTrrYMB+4PnQwgzkRDKW+TOIRkD2NiL7o1ndglQwT9E2iRo79leMB2kE3gJjqHY4U7ft3Sme7ZTKze06DVmzlvjIl2RMfBWwD7fp/7tzAZcaOjnz6gQJ7IfEYaFWGA0AYBBnyR7+ov4WgarXPutRU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716403132; c=relaxed/simple;
-	bh=GgTdux9gYeqRKqacAiPHtF3+mAjRSMmb0GCGIwvLtfY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=taMaHdibzxWze1h9LOADiNIWm7Oz1ph/ffAcOr/D57E5Rl0GncZusbyJ0xaLY3qPauaaOj9WJ9DIjo3dMEdtwuA/agTHbEw2kAk6twLrCtpawr1imDb+lLa4aT6NVJP3KuZB3Or7gu68ETo3IWdo29aLCYCj2HQWYFlxf1MqV1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=t-online.de; spf=pass smtp.mailfrom=t-online.de; arc=none smtp.client-ip=194.25.134.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=t-online.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=t-online.de
-Received: from fwd85.aul.t-online.de (fwd85.aul.t-online.de [10.223.144.111])
-	by mailout04.t-online.de (Postfix) with SMTP id 8226B84B3;
-	Wed, 22 May 2024 20:29:13 +0200 (CEST)
-Received: from dino2.dhome ([77.47.123.226]) by fwd85.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1s9qi6-0rGXNR0; Wed, 22 May 2024 20:29:10 +0200
-From: Alois Fertl <a.fertl@t-online.de>
-To: a.zummo@towertech.it
-Cc: alexandre.belloni@bootlin.com,
-	wens@csie.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	linux-rtc@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	andre.przywara@arm.com,
-	Alois Fertl <a.fertl@t-online.de>
-Subject: [PATCH v4 1/1] drivers/rtc: rtc-sun6i: AutoCal Internal OSC
-Date: Wed, 22 May 2024 20:28:26 +0200
-Message-Id: <20240522182826.6824-1-a.fertl@t-online.de>
-X-Mailer: git-send-email 2.39.2
+	s=arc-20240116; t=1716404067; c=relaxed/simple;
+	bh=zG6DmFSvOlwxNqFRYCCoNVfO0/oFcnar3wPos47WTUg=;
+	h=Message-ID:Date:From:To:Cc:Subject:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LNWw73OFeXQXwVN6zIGk4IibDcuzuj9Dqe6CXdfY+VE/gYW+K/83bP8/sTAgftV6qEM+yUNeYuh2uVOgwmw8283iTrBfjlLBSAph3Uh8ehcUTjXayb/z/oC93X4uAt5LdbWQJ64PRXvoMOR46w+EChrMrJOYyApm2vZDU+LjeEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jltuwW06; arc=none smtp.client-ip=209.85.160.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jltuwW06"
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-24544cfbc69so2484245fac.3
+        for <linux-sunxi@lists.linux.dev>; Wed, 22 May 2024 11:54:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716404065; x=1717008865; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=tA1Sbti/zXxCiItQT/p43hpVbiyvW9x3fEN/x9VummA=;
+        b=jltuwW06vP8Ay7Put7AvMPm+FImtj0LVRjIshBOIOWhw0UjSYAFRoCrKiaA3nl44Ji
+         gCt5iTV89hV3nC1tS5SU1Gmg+I4aRrH44L3TPMt+1rTbedhCL6moWSYWraExgMtawy+e
+         CJKcrX85JO3Mrfu6eqJTCH1ZrwGw664HFz+24akEI4dWROdQJ5SeLMdtGOZeETGL0TES
+         kFH3n1x/xj7Vs5s1verxT5LtE0TU+UQdx8LurROFH3bD5uP71xehLdDEnlq+6ysoyqAF
+         rp6MGKztWCvpBkKw+Akb60oecLqNtvI5BBP7hw0RZhw8akIynIFDv4T4B0EccI+2Nuqw
+         3TVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716404065; x=1717008865;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tA1Sbti/zXxCiItQT/p43hpVbiyvW9x3fEN/x9VummA=;
+        b=uVcs/Btwv0eQ4WINO7NlBgQKv2PcDlfF/5aBbhIVGrsySJ49jZAal5eyyMZ82XvO36
+         2Ys7nbyaD1TeQwvFTsMFrP1IXdj9PifMJPb77UV2lxZKBB4qjAlTlTAkb/UdKXP6AT2M
+         C0JZi+DR9/KpKssdETZM115zQ1uAulrzuCd5NVeWsUXOFPTHQAmf83Qx5RN6Oh7JDWoT
+         LJM4Cxw5m+llUa6yuK4ecBz3MUtkzJcNQbxDUlrfQQyUfLmJoxJAn4HKhp+k4fnN51BE
+         LaV4fCYIA++egGGZMUJs0i2rsmGTOVX6zv8ELq29pFX5oDtGj2mEEXonX6jbFb23MJEx
+         JhAA==
+X-Forwarded-Encrypted: i=1; AJvYcCXezcVdDp+7o11VR5GsUoM3rGuC1snKGcCUmtxtVMO2dH7CjW3gPV9TLi90LGSud7NvniejgshOw9ZC24EOQasPXNPh51pVe42JYsA=
+X-Gm-Message-State: AOJu0Yy0P5Ry+mCLdYABLL8fdDqRyxloMGapJkd3f8E8n8akWmdMQ5Qx
+	JeM74VI1zv5yUPyF4bkmAFDjz00X5MGL5PYPtFuq1IDtcDN9xZ0J
+X-Google-Smtp-Source: AGHT+IH7JgZdAZmLwabI70Yi9CqaHBGi7W8WOVJdXpnbIcGSDoJHNF9GVVWCI9iFTCJBiWCAtrSgiQ==
+X-Received: by 2002:a05:6871:581e:b0:23c:2cf7:9ff9 with SMTP id 586e51a60fabf-24c68aeeeb5mr3242325fac.7.1716404063187;
+        Wed, 22 May 2024 11:54:23 -0700 (PDT)
+Received: from neuromancer. ([75.28.21.198])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-24c8227e303sm44531fac.30.2024.05.22.11.54.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 May 2024 11:54:22 -0700 (PDT)
+Message-ID: <664e3f5e.050a0220.ae493.07d7@mx.google.com>
+X-Google-Original-Message-ID: <Zk4/Xcjv/KKYwuHu@neuromancer.>
+Date: Wed, 22 May 2024 13:54:21 -0500
+From: Chris Morgan <macroalpha82@gmail.com>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Chen-Yu Tsai <wens@csie.org>, Lee Jones <lee@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Ryan Walklin <ryan@testtoast.com>
+Subject: Re: [PATCH v2 4/5] mfd: axp20x: AXP717: Add support for boost
+ regulator
+References: <20240418000736.24338-1-andre.przywara@arm.com>
+ <20240418000736.24338-5-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TOI-EXPURGATEID: 150726::1716402550-F28FED0F-6FFADA25/0/0 CLEAN NORMAL
-X-TOI-MSGID: 45263082-cff6-49c7-a496-925ce572f1eb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240418000736.24338-5-andre.przywara@arm.com>
 
-I have a M98-8K PLUS Magcubic TV-Box based on the Allwinner H618 SOC.
-On board is a Sp6330 wifi/bt module that requires a 32kHz clock to
-operate correctly. Without this change the clock from the SOC is
-~29kHz and BT module does not start up. The patch enables the Internal
-OSC Clock Auto Calibration of the H616/H618 which than provides the
-necessary 32kHz and the BT module initializes successfully.
-Add a flag and set it for H6.
-Also the code is developed on the H618 board it only modifies the H6 as
-there is no support for H616/H618 in the current code.
+On Thu, Apr 18, 2024 at 01:07:35AM +0100, Andre Przywara wrote:
+> The AXP717 also contains a boost regulator, to provide the 5V USB VBUS
+> rail when running on battery.
+> 
+> Add the registers to the MFD description to be able to use them from the
+> regulator driver.
+> 
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> Reviewed-by: John Watts <contact@jookia.org>
+> ---
+>  drivers/mfd/axp20x.c       | 2 ++
+>  include/linux/mfd/axp20x.h | 2 ++
+>  2 files changed, 4 insertions(+)
+> 
+> diff --git a/drivers/mfd/axp20x.c b/drivers/mfd/axp20x.c
+> index d8ad4e120d379..02513b1eff2e8 100644
+> --- a/drivers/mfd/axp20x.c
+> +++ b/drivers/mfd/axp20x.c
+> @@ -209,6 +209,8 @@ static const struct regmap_access_table axp313a_volatile_table = {
+>  };
+>  
+>  static const struct regmap_range axp717_writeable_ranges[] = {
+> +	regmap_reg_range(AXP717_MODULE_EN_CONTROL, AXP717_MODULE_EN_CONTROL),
+> +	regmap_reg_range(AXP717_BOOST_CONTROL, AXP717_BOOST_CONTROL),
+>  	regmap_reg_range(AXP717_IRQ0_EN, AXP717_IRQ4_EN),
+>  	regmap_reg_range(AXP717_IRQ0_STATE, AXP717_IRQ4_STATE),
+>  	regmap_reg_range(AXP717_DCDC_OUTPUT_CONTROL, AXP717_CPUSLDO_CONTROL),
+> diff --git a/include/linux/mfd/axp20x.h b/include/linux/mfd/axp20x.h
+> index 8c0a33a2e9ce2..4dad54fdf67ee 100644
+> --- a/include/linux/mfd/axp20x.h
+> +++ b/include/linux/mfd/axp20x.h
+> @@ -115,6 +115,8 @@ enum axp20x_variants {
+>  #define AXP313A_IRQ_STATE		0x21
+>  
+>  #define AXP717_ON_INDICATE		0x00
+> +#define AXP717_MODULE_EN_CONTROL	0x19
 
-Signed-off-by: Alois Fertl <a.fertl@t-online.de>
----
+Could we name this register something like "AXP717_MODULE_EN_CONTROL_2"?
+We're going to need register 0x0b later for usb and battery, and that's
+also marked as a control register (control_1 per the datasheet).
 
-v1->v2
-- add flag and activate for H6 AND H616
+Thank you,
+Chris
 
-v2->v3
-- correct findings from review
-
-v3->v4
-- adjust to mainline tree
-
-I have also tried to test this using the new driver in sunxi-ng
-manually injecting the reverted patch
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=60d9f050da63b
-The code in drivers/clk/sunxi-ng/ccu-sun6i-rtc.c is being called and it
-initializes the relevant registers to the same values as the old driver,
-but the change ends up with a system that often hangs during booting and
-only ocasionally reaches the login state (one out of 10).
-The main difference I see adhoc is that the old drivers init is done
-using CLK_OF_DECLARE_DRIVER so initialization is done very early.
-The new driver does the initialisation via probe which is quite some
-time later.
-Can't tell if this is the cause for the problems.
-
----
- drivers/rtc/rtc-sun6i.c | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
-index 8e0c66906..57aa52d3b 100644
---- a/drivers/rtc/rtc-sun6i.c
-+++ b/drivers/rtc/rtc-sun6i.c
-@@ -42,6 +42,11 @@
- 
- #define SUN6I_LOSC_CLK_PRESCAL			0x0008
- 
-+#define SUN6I_LOSC_CLK_AUTO_CAL			0x000c
-+#define SUN6I_LOSC_CLK_AUTO_CAL_16MS		BIT(2)
-+#define SUN6I_LOSC_CLK_AUTO_CAL_ENABLE		BIT(1)
-+#define SUN6I_LOSC_CLK_AUTO_CAL_SEL_CAL		BIT(0)
-+
- /* RTC */
- #define SUN6I_RTC_YMD				0x0010
- #define SUN6I_RTC_HMS				0x0014
-@@ -126,7 +131,6 @@
-  *     registers (R40, H6)
-  *   - SYS power domain controls (R40)
-  *   - DCXO controls (H6)
-- *   - RC oscillator calibration (H6)
-  *
-  * These functions are not covered by this driver.
-  */
-@@ -137,6 +141,7 @@ struct sun6i_rtc_clk_data {
- 	unsigned int has_out_clk : 1;
- 	unsigned int has_losc_en : 1;
- 	unsigned int has_auto_swt : 1;
-+	unsigned int has_auto_cal : 1;
- };
- 
- #define RTC_LINEAR_DAY	BIT(0)
-@@ -267,6 +272,14 @@ static void __init sun6i_rtc_clk_init(struct device_node *node,
- 	}
- 	writel(reg, rtc->base + SUN6I_LOSC_CTRL);
- 
-+	if (rtc->data->has_auto_cal) {
-+		/* Enable internal OSC clock auto calibration */
-+		reg = SUN6I_LOSC_CLK_AUTO_CAL_16MS |
-+			SUN6I_LOSC_CLK_AUTO_CAL_ENABLE |
-+			SUN6I_LOSC_CLK_AUTO_CAL_SEL_CAL;
-+		writel(reg, rtc->base + SUN6I_LOSC_CLK_AUTO_CAL);
-+	}
-+
- 	/* Yes, I know, this is ugly. */
- 	sun6i_rtc = rtc;
- 
-@@ -374,6 +387,7 @@ static const struct sun6i_rtc_clk_data sun50i_h6_rtc_data = {
- 	.has_out_clk = 1,
- 	.has_losc_en = 1,
- 	.has_auto_swt = 1,
-+	.has_auto_cal = 1,
- };
- 
- static void __init sun50i_h6_rtc_clk_init(struct device_node *node)
--- 
-2.39.2
-
+> +#define AXP717_BOOST_CONTROL		0x1e
+>  #define AXP717_IRQ0_EN			0x40
+>  #define AXP717_IRQ1_EN			0x41
+>  #define AXP717_IRQ2_EN			0x42
+> -- 
+> 2.35.8
+> 
