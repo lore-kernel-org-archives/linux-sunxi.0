@@ -1,181 +1,143 @@
-Received: from unicorn.mansr.com (unicorn.mansr.com [81.2.72.234])
+Received: from mailout04.t-online.de (mailout04.t-online.de [194.25.134.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A815F3716D
-	for <linux-sunxi@lists.linux.dev>; Wed, 22 May 2024 18:07:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.2.72.234
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5D6F1422A1
+	for <linux-sunxi@lists.linux.dev>; Wed, 22 May 2024 18:38:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.25.134.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716401251; cv=none; b=qnbKKStsmDUiBFQePex1/6SuP5g2MRnNQGUjoQOXyXi8xMPB/GKLiJx1lh+sUhanLF9yuw9oFnGAM5O3N/YL3+XyI67acU0fI/D1NKt50tdLHiEBSanNxggcPlvxCbWvitIEcAa1uYx/DZ9GAvNvsRRHaXEAX7OA1tO9uvfHHjg=
+	t=1716403132; cv=none; b=K8eeR1VN55t1m0EWNwFvJBjATVqmFFt2Tm6mmgcdqMjIrfnXDN23Q1c6Lh8vux8ZiwtfyXArCt5gH4KjixQlHU1tItZWUCHidEnFGfhgSxr6V19/7an+PTH40HHjgMwx2bomPvlKI2WzJs0Zoy+5TKbSx7aQC4ZcmF04ILfE9uY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716401251; c=relaxed/simple;
-	bh=G9hU1coQ9kOr4H/AHvpr+o+7rcG4xXWzGBk+WHv4sZ4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=kJhcJ12NPUROX7YcTwja3BogvZlyqnECa3ONrjutym6dqRMrxxz11F7w06gu1g5jge19rAjTVNBhvYahlUWPM0566fgjI12jg016n6jquKTeIFLt9einkCyENRCw7y+QLxSi700gdlAnwYS/HUZvWWzHGaOj/TnXj0Mj/lxt1YE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mansr.com; spf=pass smtp.mailfrom=mansr.com; arc=none smtp.client-ip=81.2.72.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mansr.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mansr.com
-Received: from raven.mansr.com (raven.mansr.com [IPv6:2001:8b0:ca0d:1::3])
-	by unicorn.mansr.com (Postfix) with ESMTPS id BDBFD15364;
-	Wed, 22 May 2024 19:07:21 +0100 (BST)
-Received: by raven.mansr.com (Postfix, from userid 51770)
-	id AF78A219FCA; Wed, 22 May 2024 19:07:21 +0100 (BST)
-From: =?iso-8859-1?Q?M=E5ns_Rullg=E5rd?= <mans@mansr.com>
-To: Frank Oltmanns <frank@oltmanns.dev>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Guido
- =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>, Purism Kernel Team
- <kernel@puri.sm>, Ondrej
- Jirman <megi@xff.cz>, Neil Armstrong <neil.armstrong@linaro.org>, Jessica
- Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- stable@vger.kernel.org
-Subject: Re: [PATCH v4 1/5] clk: sunxi-ng: common: Support minimum and
- maximum rate
-In-Reply-To: <c4c1229c-1ed3-4b6e-a53a-e1ace2502ded@oltmanns.dev> (Frank
-	Oltmanns's message of "Wed, 22 May 2024 08:33:01 +0200 (GMT+02:00)")
-References: <20240310-pinephone-pll-fixes-v4-0-46fc80c83637@oltmanns.dev>
-	<20240310-pinephone-pll-fixes-v4-1-46fc80c83637@oltmanns.dev>
-	<yw1xo78z8ez0.fsf@mansr.com>
-	<c4c1229c-1ed3-4b6e-a53a-e1ace2502ded@oltmanns.dev>
-Date: Wed, 22 May 2024 19:07:21 +0100
-Message-ID: <yw1x4jap90va.fsf@mansr.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/29.3 (gnu/linux)
+	s=arc-20240116; t=1716403132; c=relaxed/simple;
+	bh=GgTdux9gYeqRKqacAiPHtF3+mAjRSMmb0GCGIwvLtfY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=taMaHdibzxWze1h9LOADiNIWm7Oz1ph/ffAcOr/D57E5Rl0GncZusbyJ0xaLY3qPauaaOj9WJ9DIjo3dMEdtwuA/agTHbEw2kAk6twLrCtpawr1imDb+lLa4aT6NVJP3KuZB3Or7gu68ETo3IWdo29aLCYCj2HQWYFlxf1MqV1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=t-online.de; spf=pass smtp.mailfrom=t-online.de; arc=none smtp.client-ip=194.25.134.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=t-online.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=t-online.de
+Received: from fwd85.aul.t-online.de (fwd85.aul.t-online.de [10.223.144.111])
+	by mailout04.t-online.de (Postfix) with SMTP id 8226B84B3;
+	Wed, 22 May 2024 20:29:13 +0200 (CEST)
+Received: from dino2.dhome ([77.47.123.226]) by fwd85.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1s9qi6-0rGXNR0; Wed, 22 May 2024 20:29:10 +0200
+From: Alois Fertl <a.fertl@t-online.de>
+To: a.zummo@towertech.it
+Cc: alexandre.belloni@bootlin.com,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	linux-rtc@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	andre.przywara@arm.com,
+	Alois Fertl <a.fertl@t-online.de>
+Subject: [PATCH v4 1/1] drivers/rtc: rtc-sun6i: AutoCal Internal OSC
+Date: Wed, 22 May 2024 20:28:26 +0200
+Message-Id: <20240522182826.6824-1-a.fertl@t-online.de>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
+X-TOI-EXPURGATEID: 150726::1716402550-F28FED0F-6FFADA25/0/0 CLEAN NORMAL
+X-TOI-MSGID: 45263082-cff6-49c7-a496-925ce572f1eb
 
-RnJhbmsgT2x0bWFubnMgPGZyYW5rQG9sdG1hbm5zLmRldj4gd3JpdGVzOg0KDQo+IEhpIE3lbnMs
-DQo+DQo+IDIxLjA1LjIwMjQgMTU6NDM6MTAgTeVucyBSdWxsZ+VyZCA8bWFuc0BtYW5zci5jb20+
-Og0KPg0KPj4gRnJhbmsgT2x0bWFubnMgPGZyYW5rQG9sdG1hbm5zLmRldj4gd3JpdGVzOg0KPj4N
-Cj4+PiBUaGUgQWxsd2lubmVyIFNvQydzIHR5cGljYWxseSBoYXZlIGFuIHVwcGVyIGFuZCBsb3dl
-ciBsaW1pdCBmb3IgdGhlaXINCj4+PiBjbG9ja3MnIHJhdGVzLiBVcCB1bnRpbCBub3csIHN1cHBv
-cnQgZm9yIHRoYXQgaGFzIGJlZW4gaW1wbGVtZW50ZWQNCj4+PiBzZXBhcmF0ZWx5IGZvciBlYWNo
-IGNsb2NrIHR5cGUuDQo+Pj4NCj4+PiBJbXBsZW1lbnQgdGhhdCBmdW5jdGlvbmFsaXR5IGluIHRo
-ZSBzdW54aS1uZydzIGNvbW1vbiBwYXJ0IG1ha2luZyB1c2Ugb2YNCj4+PiB0aGUgQ0NGIHJhdGUg
-bGltaW5nIGNhcGFiaWxpdGllcywgc28gdGhhdCBpdCBpcyBhdmFpbGFibGUgZm9yIGFsbCBjbG9j
-aw0KPj4+IHR5cGVzLg0KPj4+DQo+Pj4gU3VnZ2VzdGVkLWJ5OiBNYXhpbWUgUmlwYXJkIDxtcmlw
-YXJkQGtlcm5lbC5vcmc+DQo+Pj4gU2lnbmVkLW9mZi1ieTogRnJhbmsgT2x0bWFubnMgPGZyYW5r
-QG9sdG1hbm5zLmRldj4NCj4+PiBDYzogc3RhYmxlQHZnZXIua2VybmVsLm9yZw0KPj4+IC0tLQ0K
-Pj4+IGRyaXZlcnMvY2xrL3N1bnhpLW5nL2NjdV9jb21tb24uYyB8IDE5ICsrKysrKysrKysrKysr
-KysrKysNCj4+PiBkcml2ZXJzL2Nsay9zdW54aS1uZy9jY3VfY29tbW9uLmggfKAgMyArKysNCj4+
-PiAyIGZpbGVzIGNoYW5nZWQsIDIyIGluc2VydGlvbnMoKykNCj4+DQo+PiBUaGlzIGp1c3QgbGFu
-ZGVkIGluIDYuNiBzdGFibGUsIGFuZCBpdCBicm9rZSBIRE1JIG91dHB1dCBvbiBhbiBBMjAgYmFz
-ZWQNCj4+IGRldmljZSwgdGhlIGNsb2NrcyBlbmRpbmcgdXAgYWxsIHdyb25nIGFzIHNlZW4gaW4g
-dGhpcyBkaWZmIG9mDQo+PiAvc3lzL2tlcm5lbC9kZWJ1Zy9jbGsvY2xrX3N1bW1hcnk6DQo+Pg0K
-Pj4gQEAgLTcwLDE2ICs3MSwxNCBAQA0KPj4goKCgoKCgoKCgoCBhcGIxLWkyYzCgoKCgoKCgoKCg
-oKCgoKCgoCAwoKCgoKCgIDCgoKCgoKCgIDCgoKCgoKCgIDI0MDAwMDAwoKCgIDANCj4+DQo+PiCg
-oKCgoKCgIHBsbC1ncHWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgIDCgoKCgoKAgMKCgoKCgoKAgMKCg
-oKCgoKAgMTIwMDAwMDAwMKAgMA0KPj4gLaCgoKCgoCBwbGwtdmlkZW8xoKCgoKCgoKCgoKCgoKCg
-oKCgoCAzoKCgoKCgIDOgoKCgoKCgIDGgoKCgoKCgIDE1OTAwMDAwMKCgIDANCj4+ICugoKCgoKAg
-cGxsLXZpZGVvMaCgoKCgoKCgoKCgoKCgoKCgoKAgMqCgoKCgoCAyoKCgoKCgoCAxoKCgoKCgoCAx
-NTkwMDAwMDCgoCAwDQo+PiCgoKCgoKCgoKCgIGhkbWmgoKCgoKCgoKCgoKCgoKCgoKCgoKCgIDGg
-oKCgoKAgMaCgoKCgoKAgMKCgoKCgoKAgMzk3NTAwMDCgoKAgMA0KPj4NCj4+IKCgoKCgoKCgoKAg
-dGNvbjAtY2gxLXNjbGsyoKCgoKCgoKCgoKAgMaCgoKCgoCAxoKCgoKCgoCAxoKCgoKCgoCAzOTc1
-MDAwMKCgoCAwDQo+PiCgoKCgoKCgoKCgoKCgIHRjb24wLWNoMS1zY2xrMaCgoKCgoKCgIDGgoKCg
-oKAgMaCgoKCgoKAgMaCgoKCgoKAgMzk3NTAwMDCgoKAgMA0KPj4NCj4+IC2goKCgoKCgoKAgcGxs
-LXZpZGVvMS0yeKCgoKCgoKCgoKCgoKAgMaCgoKCgoCAxoKCgoKCgoCAwoKCgoKCgoCAzMTgwMDAw
-MDCgoCAwDQo+PiAroKCgoKCgoKCgIHBsbC12aWRlbzEtMnigoKCgoKCgoKCgoKCgIDCgoKCgoKAg
-MKCgoKCgoKAgMKCgoKCgoKAgMzE4MDAwMDAwoKAgMA0KPj4NCj4+IC2goKCgoKCgoKCgoKAgaGRt
-aS10bWRzoKCgoKCgoKCgoKCgoKAgMqCgoKCgoCAyoKCgoKCgoCAwoKCgoKCgoCAzOTc1MDAwMKCg
-oCAwDQo+PiAtoKCgoKCgoKCgoKCgoKCgIGhkbWktZGRjoKCgoKCgoKCgoKCgIDGgoKCgoKAgMaCg
-oKCgoKAgMKCgoKCgoKAgMTk4NzUwMKCgoKAgMA0KPj4goKCgoKCgoCBwbGwtcGVyaXBoLWJhc2Wg
-oKCgoKCgoKCgoKCgoCAyoKCgoKCgIDKgoKCgoKCgIDCgoKCgoKCgIDEyMDAwMDAwMDCgIDANCj4+
-IKCgoKCgoKCgoKAgbWJ1c6CgoKCgoKCgoKCgoKCgoKCgoKCgoKAgMaCgoKCgoCAxoKCgoKCgoCAw
-oKCgoKCgoCAzMDAwMDAwMDCgoCAwDQo+PiCgoKCgoKCgoKCgIHBsbC1wZXJpcGgtc2F0YaCgoKCg
-oKCgoKCgIDCgoKCgoKAgMKCgoKCgoKAgMKCgoKCgoKAgMTAwMDAwMDAwoKAgMA0KPj4gQEAgLTE5
-OSw3ICsxOTgsNyBAQA0KPj4NCj4+IKCgoKCgoKCgoKAgYWNloKCgoKCgoKCgoKCgoKCgoKCgoKCg
-oKAgMKCgoKCgoCAwoKCgoKCgoCAwoKCgoKCgoCAzODQwMDAwMDCgoCAwDQo+PiCgoKCgoKCgoKCg
-IHZloKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgIDCgoKCgoKAgMKCgoKCgoKAgMKCgoKCgoKAgMzg0
-MDAwMDAwoKAgMA0KPj4gLaCgoKCgoCBwbGwtdmlkZW8woKCgoKCgoKCgoKCgoKCgoKCgoCA0oKCg
-oKCgIDSgoKCgoKCgIDKgoKCgoKCgIDI5NzAwMDAwMKCgIDANCj4+ICugoKCgoKAgcGxsLXZpZGVv
-MKCgoKCgoKCgoKCgoKCgoKCgoKAgNaCgoKCgoCA1oKCgoKCgoCAyoKCgoKCgoCAyOTcwMDAwMDCg
-oCAwDQo+PiCgoKCgoKCgoKCgIGhkbWkxoKCgoKCgoKCgoKCgoKCgoKCgoKCgIDCgoKCgoKAgMKCg
-oKCgoKAgMKCgoKCgoKAgMjk3MDAwMDAwoKAgMA0KPj4goKCgoKCgoKCgoCB0Y29uMS1jaDEtc2Ns
-azKgoKCgoKCgoKCgoCAwoKCgoKCgIDCgoKCgoKCgIDCgoKCgoKCgIDI5NzAwMDAwMKCgIDANCj4+
-IKCgoKCgoKCgoKCgoKAgdGNvbjEtY2gxLXNjbGsxoKCgoKCgoKAgMKCgoKCgoCAwoKCgoKCgoCAw
-oKCgoKCgoCAyOTcwMDAwMDCgoCAwDQo+PiBAQCAtMjIyLDggKzIyMSwxMCBAQA0KPj4NCj4+IKCg
-oKCgoKCgoKAgZGUtYmUwoKCgoKCgoKCgoKCgoKCgoKCgoKAgMaCgoKCgoCAxoKCgoKCgoCAxoKCg
-oKCgoCAyOTcwMDAwMDCgoCAwDQo+Pg0KPj4gLaCgoKCgoKCgoCBwbGwtdmlkZW8wLTJ4oKCgoKCg
-oKCgoKCgoCAwoKCgoKCgIDCgoKCgoKCgIDCgoKCgoKCgIDU5NDAwMDAwMKCgIDANCj4+ICugoKCg
-oKCgoKAgcGxsLXZpZGVvMC0yeKCgoKCgoKCgoKCgoKAgMaCgoKCgoCAxoKCgoKCgoCAwoKCgoKCg
-oCA1OTQwMDAwMDCgoCAwDQo+Pg0KPj4gK6CgoKCgoKCgoKCgoCBoZG1pLXRtZHOgoKCgoKCgoKCg
-oKCgoCAyoKCgoKCgIDKgoKCgoKCgIDCgoKCgoKCgIDU5NDAwMDAwMKCgIDANCj4+ICugoKCgoKCg
-oKCgoKCgoKAgaGRtaS1kZGOgoKCgoKCgoKCgoKAgMaCgoKCgoCAxoKCgoKCgoCAwoKCgoKCgoCAy
-OTcwMDAwMKCgoCAwDQo+PiCgoKCgoKCgIHBsbC1hdWRpby1iYXNloKCgoKCgoKCgoKCgoKCgIDCg
-oKCgoKAgMKCgoKCgoKAgMKCgoKCgoKAgMTUwMDAwMKCgoKAgMA0KPj4goKCgoKCgoKCgoCBwbGwt
-YXVkaW8tOHigoKCgoKCgoKCgoKCgoCAwoKCgoKCgIDCgoKCgoKCgIDCgoKCgoKCgIDMwMDAwMDCg
-oKCgIDANCj4+IKCgoKCgoKCgoKCgoKAgaTJzMqCgoKCgoKCgoKCgoKCgoKCgoKAgMKCgoKCgoCAw
-oKCgoKCgoCAwoKCgoKCgoCAzMDAwMDAwoKCgoCAwDQo+Pg0KPj4gUmV2ZXJ0aW5nIHRoaXMgY29t
-bWl0IG1ha2VzIGl0IHdvcmsgYWdhaW4uDQo+DQo+IFRoYW5rIHlvdSBmb3IgeW91ciBkZXRhaWxl
-ZCByZXBvcnQhDQo+DQo+IEkndmUgaGFkIGEgZmlyc3QgbG9vayBhdCBoZG1pLXRtZHMgYW5kIGhk
-bWktZGRjLCBhbmQgbmVpdGhlciBzZWVtcyB0bw0KPiBiZSBjYWxsaW5nIGNjdV9pc19iZXR0ZXJf
-cmF0ZSgpIGluIHRoZWlyIGRldGVybWluZV9yYXRlKCkNCj4gZnVuY3Rpb25zLiBUaGVpciBwYXJl
-bnRzIGhhdmUgdGhlIGV4YWN0IHNhbWUgcmF0ZXMgaW4geW91ciBkaWZmLCBzbywNCj4gbXkgY3Vy
-cmVudCB3b3JraW5nIGFzc3VtcHRpb24gaXMgdGhhdCB0aGV5IGNhbid0IGJlIHRoZSBjYXVzZSBl
-aXRoZXIuDQo+DQo+IEknbGwgaGF2ZSBhIG1vcmUgZGV0YWlsZWQgbG9vayBvdmVyIHRoZSB3ZWVr
-ZW5kLiBVbnRpbCB0aGVuLCBpZiBhbnlvbmUNCj4gaGFzIHNvbWUgaWRlYXMgd2hlcmUgSSBzaG91
-bGQgaGF2ZSBhIGxvb2sgbmV4dCwgcGxlYXNlIHNoYXJlIHlvdXINCj4gdGhvdWdodHMuDQoNCklu
-IGNhc2UgaXQncyByZWxldmFudCwgdGhpcyBzeXN0ZW0gZG9lc24ndCB1c2UgdGhlIEhETUkgRERD
-LCB0aGUNCnBoeXNpY2FsIEREQyBwaW5zIGJlaW5nIGNvbm5lY3RlZCB0byBhIGRpZmZlcmVudCBJ
-MkMgYWRhcHRlciBmb3INCnZhcmlvdXMgcmVhc29ucy4NCg0KRnJvbSB0aGUgY2xrX3N1bW1hcnkg
-ZGlmZiwgSSBzZWUgYSBmZXcgdGhpbmdzOg0KDQoxLiBoZG1pLXRtZHMgaGFzIGNoYW5nZWQgcGFy
-ZW50IGZyb20gcGxsLXZpZGVvMS0yeCB0byBwbGwtdmlkZW8wLTJ4Lg0KMi4gVGhlIHJhdGlvIG9m
-IGhkbWktdG1kcyB0byBpdHMgcGFyZW50IGhhcyBjaGFuZ2VkIGZyb20gMS84IHRvIDEuDQozLiBU
-aGUgcmVzdWx0aW5nIHJhdGUgYmVhcnMgbm8gcmVsYXRpb24gdG8gdGhlIHBpeGVsIGNsb2NrIGZy
-b20gRURJRC4NCg0KSSB0cmllZCBrZXJuZWwgNi45LjEgYXMgd2VsbCwgYW5kIHRoYXQgZG9lc24n
-dCB3b3JrIGVpdGhlci4gIEknbGwga2VlcA0KZGlnZ2luZyBhbmQgdHJ5IHRvIG5hcnJvdyBpdCBk
-b3duLg0KDQo+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvY2xrL3N1bnhpLW5nL2NjdV9jb21tb24u
-YyBiL2RyaXZlcnMvY2xrL3N1bnhpLW5nL2NjdV9jb21tb24uYw0KPj4+IGluZGV4IDhiYWJjZTU1
-MzAyZi4uYWMwMDkxYjRjZTI0IDEwMDY0NA0KPj4+IC0tLSBhL2RyaXZlcnMvY2xrL3N1bnhpLW5n
-L2NjdV9jb21tb24uYw0KPj4+ICsrKyBiL2RyaXZlcnMvY2xrL3N1bnhpLW5nL2NjdV9jb21tb24u
-Yw0KPj4+IEBAIC00NCw2ICs0NCwxNiBAQCBib29sIGNjdV9pc19iZXR0ZXJfcmF0ZShzdHJ1Y3Qg
-Y2N1X2NvbW1vbiAqY29tbW9uLA0KPj4+IKCgoKCgoKCgoKCgIHVuc2lnbmVkIGxvbmcgY3VycmVu
-dF9yYXRlLA0KPj4+IKCgoKCgoKCgoKCgIHVuc2lnbmVkIGxvbmcgYmVzdF9yYXRlKQ0KPj4+IHsN
-Cj4+PiAroKAgdW5zaWduZWQgbG9uZyBtaW5fcmF0ZSwgbWF4X3JhdGU7DQo+Pj4gKw0KPj4+ICug
-oCBjbGtfaHdfZ2V0X3JhdGVfcmFuZ2UoJmNvbW1vbi0+aHcsICZtaW5fcmF0ZSwgJm1heF9yYXRl
-KTsNCj4+PiArDQo+Pj4gK6CgIGlmIChjdXJyZW50X3JhdGUgPiBtYXhfcmF0ZSkNCj4+PiAroKCg
-oKCgIHJldHVybiBmYWxzZTsNCj4+PiArDQo+Pj4gK6CgIGlmIChjdXJyZW50X3JhdGUgPCBtaW5f
-cmF0ZSkNCj4+PiAroKCgoKCgIHJldHVybiBmYWxzZTsNCj4+PiArDQo+Pj4goKCgIGlmIChjb21t
-b24tPmZlYXR1cmVzICYgQ0NVX0ZFQVRVUkVfQ0xPU0VTVF9SQVRFKQ0KPj4+IKCgoKCgoKAgcmV0
-dXJuIGFicyhjdXJyZW50X3JhdGUgLSB0YXJnZXRfcmF0ZSkgPCBhYnMoYmVzdF9yYXRlIC0gdGFy
-Z2V0X3JhdGUpOw0KPj4+DQo+Pj4gQEAgLTEyMiw2ICsxMzIsNyBAQCBzdGF0aWMgaW50IHN1bnhp
-X2NjdV9wcm9iZShzdHJ1Y3Qgc3VueGlfY2N1ICpjY3UsIHN0cnVjdCBkZXZpY2UgKmRldiwNCj4+
-Pg0KPj4+IKCgoCBmb3IgKGkgPSAwOyBpIDwgZGVzYy0+aHdfY2xrcy0+bnVtIDsgaSsrKSB7DQo+
-Pj4goKCgoKCgoCBzdHJ1Y3QgY2xrX2h3ICpodyA9IGRlc2MtPmh3X2Nsa3MtPmh3c1tpXTsNCj4+
-PiAroKCgoKCgIHN0cnVjdCBjY3VfY29tbW9uICpjb21tb24gPSBod190b19jY3VfY29tbW9uKGh3
-KTsNCj4+PiCgoKCgoKCgIGNvbnN0IGNoYXIgKm5hbWU7DQo+Pj4NCj4+PiCgoKCgoKCgIGlmICgh
-aHcpDQo+Pj4gQEAgLTEzNiw2ICsxNDcsMTQgQEAgc3RhdGljIGludCBzdW54aV9jY3VfcHJvYmUo
-c3RydWN0IHN1bnhpX2NjdSAqY2N1LCBzdHJ1Y3QgZGV2aWNlICpkZXYsDQo+Pj4goKCgoKCgoKCg
-oKAgcHJfZXJyKCJDb3VsZG4ndCByZWdpc3RlciBjbG9jayAlZCAtICVzXG4iLCBpLCBuYW1lKTsN
-Cj4+PiCgoKCgoKCgoKCgoCBnb3RvIGVycl9jbGtfdW5yZWc7DQo+Pj4goKCgoKCgoCB9DQo+Pj4g
-Kw0KPj4+ICugoKCgoKAgaWYgKGNvbW1vbi0+bWF4X3JhdGUpDQo+Pj4gK6CgoKCgoKCgoKAgY2xr
-X2h3X3NldF9yYXRlX3JhbmdlKGh3LCBjb21tb24tPm1pbl9yYXRlLA0KPj4+ICugoKCgoKCgoKCg
-oKCgoKCgoKCgoKCgoKAgY29tbW9uLT5tYXhfcmF0ZSk7DQo+Pj4gK6CgoKCgoCBlbHNlDQo+Pj4g
-K6CgoKCgoKCgoKAgV0FSTihjb21tb24tPm1pbl9yYXRlLA0KPj4+ICugoKCgoKCgoKCgoKCgoKAg
-Ik5vIG1heF9yYXRlLCBpZ25vcmluZyBtaW5fcmF0ZSBvZiBjbG9jayAlZCAtICVzXG4iLA0KPj4+
-ICugoKCgoKCgoKCgoKCgoKAgaSwgbmFtZSk7DQo+Pj4goKCgIH0NCj4+Pg0KPj4+IKCgoCByZXQg
-PSBvZl9jbGtfYWRkX2h3X3Byb3ZpZGVyKG5vZGUsIG9mX2Nsa19od19vbmVjZWxsX2dldCwNCj4+
-PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9jbGsvc3VueGktbmcvY2N1X2NvbW1vbi5oIGIvZHJpdmVy
-cy9jbGsvc3VueGktbmcvY2N1X2NvbW1vbi5oDQo+Pj4gaW5kZXggOTQyYTcyYzA5NDM3Li4zMjk3
-MzRmOGNmNDIgMTAwNjQ0DQo+Pj4gLS0tIGEvZHJpdmVycy9jbGsvc3VueGktbmcvY2N1X2NvbW1v
-bi5oDQo+Pj4gKysrIGIvZHJpdmVycy9jbGsvc3VueGktbmcvY2N1X2NvbW1vbi5oDQo+Pj4gQEAg
-LTMxLDYgKzMxLDkgQEAgc3RydWN0IGNjdV9jb21tb24gew0KPj4+IKCgoCB1MTagoKCgIGxvY2tf
-cmVnOw0KPj4+IKCgoCB1MzKgoKCgIHByZWRpdjsNCj4+Pg0KPj4+ICugoCB1bnNpZ25lZCBsb25n
-oKAgbWluX3JhdGU7DQo+Pj4gK6CgIHVuc2lnbmVkIGxvbmegoCBtYXhfcmF0ZTsNCj4+PiArDQo+
-Pj4goKCgIHVuc2lnbmVkIGxvbmegoCBmZWF0dXJlczsNCj4+PiCgoKAgc3BpbmxvY2tfdKAgKmxv
-Y2s7DQo+Pj4goKCgIHN0cnVjdCBjbGtfaHegoCBodzsNCj4+Pg0KPj4+IC0tDQo+Pj4NCj4+PiAy
-LjQ0LjANCj4+Pg0KPj4NCj4+IC0tDQo+PiBN5W5zIFJ1bGxn5XJkDQo+DQoNCi0tIA0KTeVucyBS
-dWxsZ+VyZA0K
+I have a M98-8K PLUS Magcubic TV-Box based on the Allwinner H618 SOC.
+On board is a Sp6330 wifi/bt module that requires a 32kHz clock to
+operate correctly. Without this change the clock from the SOC is
+~29kHz and BT module does not start up. The patch enables the Internal
+OSC Clock Auto Calibration of the H616/H618 which than provides the
+necessary 32kHz and the BT module initializes successfully.
+Add a flag and set it for H6.
+Also the code is developed on the H618 board it only modifies the H6 as
+there is no support for H616/H618 in the current code.
+
+Signed-off-by: Alois Fertl <a.fertl@t-online.de>
+---
+
+v1->v2
+- add flag and activate for H6 AND H616
+
+v2->v3
+- correct findings from review
+
+v3->v4
+- adjust to mainline tree
+
+I have also tried to test this using the new driver in sunxi-ng
+manually injecting the reverted patch
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=60d9f050da63b
+The code in drivers/clk/sunxi-ng/ccu-sun6i-rtc.c is being called and it
+initializes the relevant registers to the same values as the old driver,
+but the change ends up with a system that often hangs during booting and
+only ocasionally reaches the login state (one out of 10).
+The main difference I see adhoc is that the old drivers init is done
+using CLK_OF_DECLARE_DRIVER so initialization is done very early.
+The new driver does the initialisation via probe which is quite some
+time later.
+Can't tell if this is the cause for the problems.
+
+---
+ drivers/rtc/rtc-sun6i.c | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
+index 8e0c66906..57aa52d3b 100644
+--- a/drivers/rtc/rtc-sun6i.c
++++ b/drivers/rtc/rtc-sun6i.c
+@@ -42,6 +42,11 @@
+ 
+ #define SUN6I_LOSC_CLK_PRESCAL			0x0008
+ 
++#define SUN6I_LOSC_CLK_AUTO_CAL			0x000c
++#define SUN6I_LOSC_CLK_AUTO_CAL_16MS		BIT(2)
++#define SUN6I_LOSC_CLK_AUTO_CAL_ENABLE		BIT(1)
++#define SUN6I_LOSC_CLK_AUTO_CAL_SEL_CAL		BIT(0)
++
+ /* RTC */
+ #define SUN6I_RTC_YMD				0x0010
+ #define SUN6I_RTC_HMS				0x0014
+@@ -126,7 +131,6 @@
+  *     registers (R40, H6)
+  *   - SYS power domain controls (R40)
+  *   - DCXO controls (H6)
+- *   - RC oscillator calibration (H6)
+  *
+  * These functions are not covered by this driver.
+  */
+@@ -137,6 +141,7 @@ struct sun6i_rtc_clk_data {
+ 	unsigned int has_out_clk : 1;
+ 	unsigned int has_losc_en : 1;
+ 	unsigned int has_auto_swt : 1;
++	unsigned int has_auto_cal : 1;
+ };
+ 
+ #define RTC_LINEAR_DAY	BIT(0)
+@@ -267,6 +272,14 @@ static void __init sun6i_rtc_clk_init(struct device_node *node,
+ 	}
+ 	writel(reg, rtc->base + SUN6I_LOSC_CTRL);
+ 
++	if (rtc->data->has_auto_cal) {
++		/* Enable internal OSC clock auto calibration */
++		reg = SUN6I_LOSC_CLK_AUTO_CAL_16MS |
++			SUN6I_LOSC_CLK_AUTO_CAL_ENABLE |
++			SUN6I_LOSC_CLK_AUTO_CAL_SEL_CAL;
++		writel(reg, rtc->base + SUN6I_LOSC_CLK_AUTO_CAL);
++	}
++
+ 	/* Yes, I know, this is ugly. */
+ 	sun6i_rtc = rtc;
+ 
+@@ -374,6 +387,7 @@ static const struct sun6i_rtc_clk_data sun50i_h6_rtc_data = {
+ 	.has_out_clk = 1,
+ 	.has_losc_en = 1,
+ 	.has_auto_swt = 1,
++	.has_auto_cal = 1,
+ };
+ 
+ static void __init sun50i_h6_rtc_clk_init(struct device_node *node)
+-- 
+2.39.2
+
