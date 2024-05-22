@@ -1,245 +1,123 @@
-Received: from unicorn.mansr.com (unicorn.mansr.com [81.2.72.234])
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 490347F460
-	for <linux-sunxi@lists.linux.dev>; Tue, 21 May 2024 13:43:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.2.72.234
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716298987; cv=none; b=gq9h7RFSoX2oRD5HiTUEGjwbeyVH5Q8/9q2d8VmdYT1/E4c466CJgnDIQLN7AJEl1O9qR7FrKOZDYvy5wWQ7qO4wAsi7YSnb5sErUGcxKzASCscMviysRKX8pC4+pNCUF0RQwLPW1RXq5Lm3u7I7jIVgRD+F6RP7BLB0LmjhV64=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716298987; c=relaxed/simple;
-	bh=zjB8v+NoVOfwtkTTGvRVzO2+JLMrRbv6D0wkhQKyrv0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=HZ5yTAkpV9YLNdS70a7d097owe4gnu6JCvkIyVVwmIvpsbb1W2bReLw8go+uzZFxJ+UIqeFer+M5a2k7/52h3CS2beFrfk1Hr2KIN0O7TOx6JiOtE6p7cUsWkdRH4Li7qxRP03sRO9ADsmtYyFshsrescWXFDyvlCD9Inxx7CzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mansr.com; spf=pass smtp.mailfrom=mansr.com; arc=none smtp.client-ip=81.2.72.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mansr.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mansr.com
-Received: from raven.mansr.com (raven.mansr.com [IPv6:2001:8b0:ca0d:1::3])
-	by unicorn.mansr.com (Postfix) with ESMTPS id 5E1C915362;
-	Tue, 21 May 2024 14:35:47 +0100 (BST)
-Received: by raven.mansr.com (Postfix, from userid 51770)
-	id 4E7CB219E4D; Tue, 21 May 2024 14:35:47 +0100 (BST)
-From: =?iso-8859-1?Q?M=E5ns_Rullg=E5rd?= <mans@mansr.com>
-To: Frank Oltmanns <frank@oltmanns.dev>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Guido
- =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>, Purism Kernel Team
- <kernel@puri.sm>, Ondrej
- Jirman <megi@xff.cz>, Neil Armstrong <neil.armstrong@linaro.org>, Jessica
- Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- stable@vger.kernel.org
-Subject: Re: [PATCH v4 1/5] clk: sunxi-ng: common: Support minimum and
- maximum rate
-In-Reply-To: <20240310-pinephone-pll-fixes-v4-1-46fc80c83637@oltmanns.dev>
-	(Frank Oltmanns's message of "Sun, 10 Mar 2024 14:21:11 +0100")
-References: <20240310-pinephone-pll-fixes-v4-0-46fc80c83637@oltmanns.dev>
-	<20240310-pinephone-pll-fixes-v4-1-46fc80c83637@oltmanns.dev>
-Date: Tue, 21 May 2024 14:35:47 +0100
-Message-ID: <yw1xo78z8ez0.fsf@mansr.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/29.3 (gnu/linux)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 673B717F3
+	for <linux-sunxi@lists.linux.dev>; Wed, 22 May 2024 00:48:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1716338904; cv=pass; b=kKYsC8TEw2Ao2YXwTLl5HT5m6vRCbv6HCcLKKNaFZE48zHeh+04jb6z+eyLHhNta+uduyQntj5Vn+6A74PLKIT87qEayN5dW2v5JHmx5PJaH1cg46/SO+UKSlBD7jfgJgeY5Tx7VdsKHBAWmhhKiZuP5sU6cJnWG3N1xEfqY+Rc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1716338904; c=relaxed/simple;
+	bh=7dVJE5o5Y50vlv+ZlyLWEjCQ1Rjrwu1Ejbl9Boq49kw=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=UJLFN0oN7jy/EGYhEUsbYoGaycX+RncDU5eKqvdFZ4moKPLy0mie3xkv190n9XzoULw3nmVSkNoJ2Dsnc00xOSpEyJhm3cvUxSc/43/p9MqBs1ix9nrKP3c8C5G7j2dC06SfqqQKxYGbjZgLzR9b0js9yzyBsY/oDiMlR6lp7UI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me; spf=pass smtp.mailfrom=icenowy.me; dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b=DX62oxei; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icenowy.me
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b="DX62oxei"
+ARC-Seal: i=1; a=rsa-sha256; t=1716338895; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=bjyhdEApydfOQZNKvtqtyxJzL+QP7Rbq3gVLTnkjZsM+I0BJp4WZrjZaagpQUjPAlbw15zIbDxInNylo4O1nvg+t7HdFvYgXVq90ZU1R/clT3YlfTBGrT/cq5egpwWLEGxybx0tdBY4mSHFyhIQWvAsB8WrE4q7hDZr+M0ZZtZU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1716338895; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=7dVJE5o5Y50vlv+ZlyLWEjCQ1Rjrwu1Ejbl9Boq49kw=; 
+	b=gFmEqBcNnxnkNzEL5yP0XgFQSdoWHl5hujNTQ4HKecgU5qpPQKhRNhNVMbSXA0oz+1/K+xImy4pifMhkjTDDMAR7Hd6hjBQsOQoDsDACFLqbUxJrhs4v80C3XTgmx5vRq34tRvVunQmv4q7XECzRa3JjR64uqz48bw9yX0IhUOU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=icenowy.me;
+	spf=pass  smtp.mailfrom=uwu@icenowy.me;
+	dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1716338895;
+	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+	bh=7dVJE5o5Y50vlv+ZlyLWEjCQ1Rjrwu1Ejbl9Boq49kw=;
+	b=DX62oxeiLF9kjeNh/2hiVWLvOVvXjq0I78eDC+v9gEeQ6R463XInmJ2wjYL4UxM0
+	23Ojqlz4DPB6w8FSUNf/gaRpiJG+0+YcYNfBwzZtqEzGcniAcHygEeJHzuGH9RiIbdc
+	f1s8I7p4uB4T4H3IKO3bKReSh1XCEVl0V98YKfPCCtBFViuM+N+Tk0JBTu0QPlvVkMZ
+	4QQSHlom50+TDhmIAG+nKXy7URXoXr9d8dvcTeKJqbFjLI+INkTWQRBH+5DM2pjP6j1
+	s4eZDCT5atO4twcNJcNOqvdn9B/bYi4bN3qBawaVp+vvlBVtNd/F+nd/Npd/02lQQnC
+	tfJF5x4+7Q==
+Received: by mx.zohomail.com with SMTPS id 1716338894658976.2921534766582;
+	Tue, 21 May 2024 17:48:14 -0700 (PDT)
+Message-ID: <057b4a5504656bb7455ead39768d9e7167fb724b.camel@icenowy.me>
+Subject: Re: [PATCH 1/2] dt-bindings: arm: sunxi: Correct the descriptions
+ for Pine64 boards
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Dragan Simic <dsimic@manjaro.org>, linux-sunxi@lists.linux.dev
+Cc: wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org, 
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
+	robh+dt@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	linux-kernel@vger.kernel.org, didi.debian@cknow.org, Marek Kraus
+	 <gamiee@pine64.org>
+Date: Wed, 22 May 2024 08:48:09 +0800
+In-Reply-To: <d2943d9f4c99a239f86188eaf45a73972685c255.1713833436.git.dsimic@manjaro.org>
+References: 
+	<d2943d9f4c99a239f86188eaf45a73972685c255.1713833436.git.dsimic@manjaro.org>
+Organization: Anthon Open-Source Community
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.44.4 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-ZohoMailClient: External
+X-ZohoMail-Owner: <057b4a5504656bb7455ead39768d9e7167fb724b.camel@icenowy.me>+zmo_0_uwu@icenowy.me
 
-Frank Oltmanns <frank@oltmanns.dev> writes:
+5ZyoIDIwMjQtMDQtMjPmmJ/mnJ/kuoznmoQgMDM6MDAgKzAyMDDvvIxEcmFnYW4gU2ltaWPlhpnp
+gZPvvJoKPiBDb3JyZWN0IHRoZSBkZXNjcmlwdGlvbnMgb2YgYSBmZXcgUGluZTY0IGJvYXJkcyBh
+bmQgZGV2aWNlcywKPiBhY2NvcmRpbmcKPiB0byB0aGVpciBvZmZpY2lhbCBuYW1lcyB1c2VkIG9u
+IHRoZSBQaW5lNjQgd2lraS7CoCBUaGlzIGVuc3VyZXMKPiBjb25zaXN0ZW5jeQo+IGJldHdlZW4g
+dGhlIG9mZmljaWFsbHkgdXNlZCBuYW1lcyBhbmQgdGhlIG5hbWVzIGluIHRoZSBzb3VyY2UgY29k
+ZS4KPiAKPiBDYzogTWFyZWsgS3JhdXMgPGdhbWllZUBwaW5lNjQub3JnPgo+IFNpZ25lZC1vZmYt
+Ynk6IERyYWdhbiBTaW1pYyA8ZHNpbWljQG1hbmphcm8ub3JnPgo+IC0tLQo+IAo+IE5vdGVzOgo+
+IMKgwqDCoCBUaGlzIGNvbXBsZXRlcyB0aGUgY29ycmVjdGlvbiBvZiB0aGUgZGVzY3JpcHRpb25z
+IG9mIHRoZSBQaW5lNjQKPiBib2FyZHMKPiDCoMKgwqAgYW5kIGRldmljZXMsIHdoaWNoIHdhcyBz
+dGFydGVkIHdpdGggdGhlIFBpbmU2NCBib2FyZHMgYW5kIGRldmljZXMKPiBiYXNlZAo+IMKgwqDC
+oCBvbiBSb2NrY2hpcCBTb0NzLiBbMV0KPiDCoMKgwqAgCj4gwqDCoMKgIFsxXQo+IGh0dHBzOi8v
+bG9yZS5rZXJuZWwub3JnL2xpbnV4LXJvY2tjaGlwL2VjMTI0ZGFiMmIxYTg3NzZhYTM5MTc3ZWNj
+ZTM0YmFiY2EzYTUwZTIuMTcxMzgzMjc5MC5naXQuZHNpbWljQG1hbmphcm8ub3JnLwo+IAo+IMKg
+RG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2FybS9zdW54aS55YW1sIHwgMTIgKysr
+KysrLS0tLS0tCj4gwqAxIGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspLCA2IGRlbGV0aW9u
+cygtKQo+IAo+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3Mv
+YXJtL3N1bnhpLnlhbWwKPiBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9hcm0v
+c3VueGkueWFtbAo+IGluZGV4IDA5ZDgzNWRiNmRiNS4uYjY2ODczYWUyZDcxIDEwMDY0NAo+IC0t
+LSBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9hcm0vc3VueGkueWFtbAo+ICsr
+KyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9hcm0vc3VueGkueWFtbAo+IEBA
+IC03MDksMTcgKzcwOSwxNyBAQCBwcm9wZXJ0aWVzOgo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgIC0g
+Y29uc3Q6IHNvY2hpcCxzMwo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgIC0gY29uc3Q6IGFsbHdpbm5l
+cixzdW44aS12Mwo+IMKgCj4gLcKgwqDCoMKgwqAgLSBkZXNjcmlwdGlvbjogUGluZTY0IFBpbmVI
+NjQgbW9kZWwgQQo+ICvCoMKgwqDCoMKgIC0gZGVzY3JpcHRpb246IFBpbmU2NCBINjQgTW9kZWwg
+QQo+IMKgwqDCoMKgwqDCoMKgwqAgaXRlbXM6Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqAgLSBjb25z
+dDogcGluZTY0LHBpbmUtaDY0Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqAgLSBjb25zdDogYWxsd2lu
+bmVyLHN1bjUwaS1oNgo+IMKgCj4gLcKgwqDCoMKgwqAgLSBkZXNjcmlwdGlvbjogUGluZTY0IFBp
+bmVINjQgbW9kZWwgQgo+ICvCoMKgwqDCoMKgIC0gZGVzY3JpcHRpb246IFBpbmU2NCBINjQgTW9k
+ZWwgQgoKU29ycnkgZm9yIHJlcGx5aW5nIHNvIGxhdGUsIGJ1dCBJIGRvbid0IHRoaW5rIHRoZXJl
+IGlzIGEgUGluZTY0IEg2NApib2FyZC4gVGhlIFBpbmU2NCB3aWtpIGNhbGxzIGl0IFBpbmUgSDY0
+LiBbMV0KClsxXSBodHRwczovL3dpa2kucGluZTY0Lm9yZy93aWtpL1BJTkVfSDY0Cgo+IMKgwqDC
+oMKgwqDCoMKgwqAgaXRlbXM6Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqAgLSBjb25zdDogcGluZTY0
+LHBpbmUtaDY0LW1vZGVsLWIKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoCAtIGNvbnN0OiBhbGx3aW5u
+ZXIsc3VuNTBpLWg2Cj4gwqAKPiAtwqDCoMKgwqDCoCAtIGRlc2NyaXB0aW9uOiBQaW5lNjQgTFRT
+Cj4gK8KgwqDCoMKgwqAgLSBkZXNjcmlwdGlvbjogUGluZTY0IEE2NCBMVFMKPiDCoMKgwqDCoMKg
+wqDCoMKgIGl0ZW1zOgo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgIC0gY29uc3Q6IHBpbmU2NCxwaW5l
+NjQtbHRzCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqAgLSBjb25zdDogYWxsd2lubmVyLHN1bjUwaS1y
+MTgKPiBAQCAtNzQ4LDE3ICs3NDgsMTcgQEAgcHJvcGVydGllczoKPiDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCAtIGNvbnN0OiBwaW5lNjQscGluZXBob25lCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqAgLSBj
+b25zdDogYWxsd2lubmVyLHN1bjUwaS1hNjQKPiDCoAo+IC3CoMKgwqDCoMKgIC0gZGVzY3JpcHRp
+b246IFBpbmU2NCBQaW5lVGFiLCBEZXZlbG9wbWVudCBTYW1wbGUKPiArwqDCoMKgwqDCoCAtIGRl
+c2NyaXB0aW9uOiBQaW5lNjQgUGluZVRhYiBEZXZlbG9wZXIgU2FtcGxlCj4gwqDCoMKgwqDCoMKg
+wqDCoCBpdGVtczoKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoCAtIGNvbnN0OiBwaW5lNjQscGluZXRh
+Ygo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgIC0gY29uc3Q6IGFsbHdpbm5lcixzdW41MGktYTY0Cj4g
+wqAKPiAtwqDCoMKgwqDCoCAtIGRlc2NyaXB0aW9uOiBQaW5lNjQgUGluZVRhYiwgRWFybHkgQWRv
+cHRlcidzIGJhdGNoIChhbmQKPiBtYXliZSBsYXRlciBvbmVzKQo+ICvCoMKgwqDCoMKgIC0gZGVz
+Y3JpcHRpb246IFBpbmU2NCBQaW5lVGFiIEVhcmx5IEFkb3B0ZXIKPiDCoMKgwqDCoMKgwqDCoMKg
+IGl0ZW1zOgo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgIC0gY29uc3Q6IHBpbmU2NCxwaW5ldGFiLWVh
+cmx5LWFkb3B0ZXIKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoCAtIGNvbnN0OiBhbGx3aW5uZXIsc3Vu
+NTBpLWE2NAo+IMKgCj4gLcKgwqDCoMKgwqAgLSBkZXNjcmlwdGlvbjogUGluZTY0IFNvUGluZSBC
+YXNlYm9hcmQKPiArwqDCoMKgwqDCoCAtIGRlc2NyaXB0aW9uOiBQaW5lNjQgU09QaW5lCj4gwqDC
+oMKgwqDCoMKgwqDCoCBpdGVtczoKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoCAtIGNvbnN0OiBwaW5l
+NjQsc29waW5lLWJhc2Vib2FyZAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgIC0gY29uc3Q6IHBpbmU2
+NCxzb3BpbmUKPiAKCg==
 
-> The Allwinner SoC's typically have an upper and lower limit for their
-> clocks' rates. Up until now, support for that has been implemented
-> separately for each clock type.
->
-> Implement that functionality in the sunxi-ng's common part making use of
-> the CCF rate liming capabilities, so that it is available for all clock
-> types.
->
-> Suggested-by: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
-> Cc: stable@vger.kernel.org
-> ---
->  drivers/clk/sunxi-ng/ccu_common.c | 19 +++++++++++++++++++
->  drivers/clk/sunxi-ng/ccu_common.h |  3 +++
->  2 files changed, 22 insertions(+)
-
-This just landed in 6.6 stable, and it broke HDMI output on an A20 based
-device, the clocks ending up all wrong as seen in this diff of
-/sys/kernel/debug/clk/clk_summary:
-
-@@ -70,16 +71,14 @@
-           apb1-i2c0                  0       0        0        24000000   =
- 0=20=20=20
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20
-        pll-gpu                       0       0        0        1200000000 =
- 0=20=20=20
--       pll-video1                    3       3        1        159000000  =
- 0=20=20=20
-+       pll-video1                    2       2        1        159000000  =
- 0=20=20=20
-           hdmi                       1       1        0        39750000   =
- 0=20=20=20
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20
-           tcon0-ch1-sclk2            1       1        1        39750000   =
- 0=20=20=20
-              tcon0-ch1-sclk1         1       1        1        39750000   =
- 0=20=20=20
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20
--          pll-video1-2x              1       1        0        318000000  =
- 0=20=20=20
-+          pll-video1-2x              0       0        0        318000000  =
- 0=20=20=20
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20
--             hdmi-tmds               2       2        0        39750000   =
- 0=20=20=20
--                hdmi-ddc             1       1        0        1987500    =
- 0=20=20=20
-        pll-periph-base               2       2        0        1200000000 =
- 0=20=20=20
-           mbus                       1       1        0        300000000  =
- 0=20=20=20
-           pll-periph-sata            0       0        0        100000000  =
- 0=20=20=20
-@@ -199,7 +198,7 @@
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20
-           ace                        0       0        0        384000000  =
- 0=20=20=20
-           ve                         0       0        0        384000000  =
- 0=20=20=20
--       pll-video0                    4       4        2        297000000  =
- 0=20=20=20
-+       pll-video0                    5       5        2        297000000  =
- 0=20=20=20
-           hdmi1                      0       0        0        297000000  =
- 0=20=20=20
-           tcon1-ch1-sclk2            0       0        0        297000000  =
- 0=20=20=20
-              tcon1-ch1-sclk1         0       0        0        297000000  =
- 0=20=20=20
-@@ -222,8 +221,10 @@
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20
-           de-be0                     1       1        1        297000000  =
- 0=20=20=20
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20
--          pll-video0-2x              0       0        0        594000000  =
- 0=20=20=20
-+          pll-video0-2x              1       1        0        594000000  =
- 0=20=20=20
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20
-+             hdmi-tmds               2       2        0        594000000  =
- 0=20=20=20
-+                hdmi-ddc             1       1        0        29700000   =
- 0=20=20=20
-        pll-audio-base                0       0        0        1500000    =
- 0=20=20=20
-           pll-audio-8x               0       0        0        3000000    =
- 0=20=20=20
-              i2s2                    0       0        0        3000000    =
- 0=20=20=20
-
-Reverting this commit makes it work again.
-
-> diff --git a/drivers/clk/sunxi-ng/ccu_common.c b/drivers/clk/sunxi-ng/ccu=
-_common.c
-> index 8babce55302f..ac0091b4ce24 100644
-> --- a/drivers/clk/sunxi-ng/ccu_common.c
-> +++ b/drivers/clk/sunxi-ng/ccu_common.c
-> @@ -44,6 +44,16 @@ bool ccu_is_better_rate(struct ccu_common *common,
->  			unsigned long current_rate,
->  			unsigned long best_rate)
->  {
-> +	unsigned long min_rate, max_rate;
-> +
-> +	clk_hw_get_rate_range(&common->hw, &min_rate, &max_rate);
-> +
-> +	if (current_rate > max_rate)
-> +		return false;
-> +
-> +	if (current_rate < min_rate)
-> +		return false;
-> +
->  	if (common->features & CCU_FEATURE_CLOSEST_RATE)
->  		return abs(current_rate - target_rate) < abs(best_rate - target_rate);
->
-> @@ -122,6 +132,7 @@ static int sunxi_ccu_probe(struct sunxi_ccu *ccu, str=
-uct device *dev,
->
->  	for (i =3D 0; i < desc->hw_clks->num ; i++) {
->  		struct clk_hw *hw =3D desc->hw_clks->hws[i];
-> +		struct ccu_common *common =3D hw_to_ccu_common(hw);
->  		const char *name;
->
->  		if (!hw)
-> @@ -136,6 +147,14 @@ static int sunxi_ccu_probe(struct sunxi_ccu *ccu, st=
-ruct device *dev,
->  			pr_err("Couldn't register clock %d - %s\n", i, name);
->  			goto err_clk_unreg;
->  		}
-> +
-> +		if (common->max_rate)
-> +			clk_hw_set_rate_range(hw, common->min_rate,
-> +					      common->max_rate);
-> +		else
-> +			WARN(common->min_rate,
-> +			     "No max_rate, ignoring min_rate of clock %d - %s\n",
-> +			     i, name);
->  	}
->
->  	ret =3D of_clk_add_hw_provider(node, of_clk_hw_onecell_get,
-> diff --git a/drivers/clk/sunxi-ng/ccu_common.h b/drivers/clk/sunxi-ng/ccu=
-_common.h
-> index 942a72c09437..329734f8cf42 100644
-> --- a/drivers/clk/sunxi-ng/ccu_common.h
-> +++ b/drivers/clk/sunxi-ng/ccu_common.h
-> @@ -31,6 +31,9 @@ struct ccu_common {
->  	u16		lock_reg;
->  	u32		prediv;
->
-> +	unsigned long	min_rate;
-> +	unsigned long	max_rate;
-> +
->  	unsigned long	features;
->  	spinlock_t	*lock;
->  	struct clk_hw	hw;
->
-> --=20
->
-> 2.44.0
->
-
---=20
-M=E5ns Rullg=E5rd
