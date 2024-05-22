@@ -1,191 +1,181 @@
-Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from unicorn.mansr.com (unicorn.mansr.com [81.2.72.234])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A89148287F
-	for <linux-sunxi@lists.linux.dev>; Wed, 22 May 2024 13:07:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A815F3716D
+	for <linux-sunxi@lists.linux.dev>; Wed, 22 May 2024 18:07:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.2.72.234
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716383228; cv=none; b=V1jtl/2Cc/RAg4NudvIcW87or+IoUSg8h46CRRE/ocYa64MMHXTAw5FAh7hY8fAhqsW8tn3qFn+BVb3Zb6dNICpBWs9sKWPCjaANXxSuIo+fatzmTVGzBCCoT4eeEcFHyLybJ3Xx1thAMQJWZhLjoUdqWBIgpdbIvG5jTr+6ip4=
+	t=1716401251; cv=none; b=qnbKKStsmDUiBFQePex1/6SuP5g2MRnNQGUjoQOXyXi8xMPB/GKLiJx1lh+sUhanLF9yuw9oFnGAM5O3N/YL3+XyI67acU0fI/D1NKt50tdLHiEBSanNxggcPlvxCbWvitIEcAa1uYx/DZ9GAvNvsRRHaXEAX7OA1tO9uvfHHjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716383228; c=relaxed/simple;
-	bh=Jf8mZf3DgAaMtntKI4Uw9rXIc+EGLRwZMsKLOABmmPc=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=CqN/HOdYk6HDqGG4BBdwFy+xDsk6BjNkt4qthobGvpJf40tQoOVC3nhGwZHK3qRmkmK5Iq+M4ekzNHTTK6nciBX3PW1Adra/RBzdA00hCEr6oNowzrGCmHhriQkndRxlIp938TyZ2vVAozBMgopCtesmvpp/ITY7fVzBtKJp840=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=AQYGwp3k; arc=none smtp.client-ip=116.203.91.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="AQYGwp3k"
+	s=arc-20240116; t=1716401251; c=relaxed/simple;
+	bh=G9hU1coQ9kOr4H/AHvpr+o+7rcG4xXWzGBk+WHv4sZ4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=kJhcJ12NPUROX7YcTwja3BogvZlyqnECa3ONrjutym6dqRMrxxz11F7w06gu1g5jge19rAjTVNBhvYahlUWPM0566fgjI12jg016n6jquKTeIFLt9einkCyENRCw7y+QLxSi700gdlAnwYS/HUZvWWzHGaOj/TnXj0Mj/lxt1YE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mansr.com; spf=pass smtp.mailfrom=mansr.com; arc=none smtp.client-ip=81.2.72.234
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mansr.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mansr.com
+Received: from raven.mansr.com (raven.mansr.com [IPv6:2001:8b0:ca0d:1::3])
+	by unicorn.mansr.com (Postfix) with ESMTPS id BDBFD15364;
+	Wed, 22 May 2024 19:07:21 +0100 (BST)
+Received: by raven.mansr.com (Postfix, from userid 51770)
+	id AF78A219FCA; Wed, 22 May 2024 19:07:21 +0100 (BST)
+From: =?iso-8859-1?Q?M=E5ns_Rullg=E5rd?= <mans@mansr.com>
+To: Frank Oltmanns <frank@oltmanns.dev>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Guido
+ =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>, Purism Kernel Team
+ <kernel@puri.sm>, Ondrej
+ Jirman <megi@xff.cz>, Neil Armstrong <neil.armstrong@linaro.org>, Jessica
+ Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
+ Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ stable@vger.kernel.org
+Subject: Re: [PATCH v4 1/5] clk: sunxi-ng: common: Support minimum and
+ maximum rate
+In-Reply-To: <c4c1229c-1ed3-4b6e-a53a-e1ace2502ded@oltmanns.dev> (Frank
+	Oltmanns's message of "Wed, 22 May 2024 08:33:01 +0200 (GMT+02:00)")
+References: <20240310-pinephone-pll-fixes-v4-0-46fc80c83637@oltmanns.dev>
+	<20240310-pinephone-pll-fixes-v4-1-46fc80c83637@oltmanns.dev>
+	<yw1xo78z8ez0.fsf@mansr.com>
+	<c4c1229c-1ed3-4b6e-a53a-e1ace2502ded@oltmanns.dev>
+Date: Wed, 22 May 2024 19:07:21 +0100
+Message-ID: <yw1x4jap90va.fsf@mansr.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/29.3 (gnu/linux)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
-	t=1716383216;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1DKAHeVr2WZo8CYG+lRCuTrC6xOJJVRKKKaiTlSOfro=;
-	b=AQYGwp3kldEn+VkmYCqm7oJKJuOTCUwP47m5XSPPaMNl7Z7HsSVDUBDheAUiAX+9gluhmo
-	lByZtR2r3hSCUf/IZQ6lyK5cJsP/hJf3Gt1ibuotAmnPOBoG2QGAGeJXGB0Zky8d6pIjvF
-	qlR4SCSruE9Kw08DPkq/8HvBOzY5+lB27V+QW6VFmGKQo4UIZhFS8GXsCllqPGVW/s5Kcr
-	eGL78sYfAiP15Wp8vDUqXMeqxSXhbviEpHYxIZ0mLTRzKu2qMcPClh0NmYDNw++d7zdsYf
-	iM+ocJUPnqEto7FCI2ezzKUs4w84OLwFArA/MnNrKhLV4JA4wL2C/bltr1oAMw==
-Date: Wed, 22 May 2024 15:06:49 +0200
-From: Dragan Simic <dsimic@manjaro.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Icenowy Zheng <uwu@icenowy.me>, linux-sunxi@lists.linux.dev,
- wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org,
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- robh+dt@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- linux-kernel@vger.kernel.org, didi.debian@cknow.org, Marek Kraus
- <gamiee@pine64.org>
-Subject: Re: [PATCH 1/2] dt-bindings: arm: sunxi: Correct the descriptions for
- Pine64 boards
-In-Reply-To: <20240522110507.51b12966@donnerap.manchester.arm.com>
-References: <d2943d9f4c99a239f86188eaf45a73972685c255.1713833436.git.dsimic@manjaro.org>
- <057b4a5504656bb7455ead39768d9e7167fb724b.camel@icenowy.me>
- <5635a6e79427e43ef20b690c766267d0@manjaro.org>
- <20240522110507.51b12966@donnerap.manchester.arm.com>
-Message-ID: <90fada7d9a37a5e413b16bc176ec2f8d@manjaro.org>
-X-Sender: dsimic@manjaro.org
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: base64
 
-Hello Andre,
-
-On 2024-05-22 12:05, Andre Przywara wrote:
-> On Wed, 22 May 2024 08:10:21 +0200
-> Dragan Simic <dsimic@manjaro.org> wrote:
->> On 2024-05-22 02:48, Icenowy Zheng wrote:
->> > 在 2024-04-23星期二的 03:00 +0200，Dragan Simic写道：
->> >> Correct the descriptions of a few Pine64 boards and devices,
->> >> according
->> >> to their official names used on the Pine64 wiki.  This ensures
->> >> consistency
->> >> between the officially used names and the names in the source code.
->> >>
->> >> Cc: Marek Kraus <gamiee@pine64.org>
->> >> Signed-off-by: Dragan Simic <dsimic@manjaro.org>
->> >> ---
->> >>
->> >> Notes:
->> >>     This completes the correction of the descriptions of the Pine64
->> >> boards
->> >>     and devices, which was started with the Pine64 boards and devices
->> >> based
->> >>     on Rockchip SoCs. [1]
->> >>    
->> >>     [1]
->> >> https://lore.kernel.org/linux-rockchip/ec124dab2b1a8776aa39177ecce34babca3a50e2.1713832790.git.dsimic@manjaro.org/
->> >>
->> >>  Documentation/devicetree/bindings/arm/sunxi.yaml | 12 ++++++------
->> >>  1 file changed, 6 insertions(+), 6 deletions(-)
->> >>
->> >> diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml
->> >> b/Documentation/devicetree/bindings/arm/sunxi.yaml
->> >> index 09d835db6db5..b66873ae2d71 100644
->> >> --- a/Documentation/devicetree/bindings/arm/sunxi.yaml
->> >> +++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
->> >> @@ -709,17 +709,17 @@ properties:
->> >>            - const: sochip,s3
->> >>            - const: allwinner,sun8i-v3
->> >>  
->> >> -      - description: Pine64 PineH64 model A
->> >> +      - description: Pine64 H64 Model A
->> >>          items:
->> >>            - const: pine64,pine-h64
->> >>            - const: allwinner,sun50i-h6
->> >>  
->> >> -      - description: Pine64 PineH64 model B
->> >> +      - description: Pine64 H64 Model B
->> >
->> > Sorry for replying so late, but I don't think there is a Pine64 H64
->> > board. The Pine64 wiki calls it Pine H64. [1]
->> >
->> > [1] https://wiki.pine64.org/wiki/PINE_H64
->> 
->> Good point, thanks.  Though, this board is really an exception to
->> the naming scheme employed for the Pine64 boards, so perhaps it would
->> actually be better to rename the board in the Pine64 wiki, by adding
->> "64" to "Pine", to ensure consistency.
-> 
-> I am sorry, but I don't think this is how it works. The board is really
-> called "Pine H64", that's printed on the board [1] and everywhere else 
-> [2].
-> That's a choice the manufacturer made, and renaming some Wiki page 
-> won't
-> change that. I understand the engineer's desire to make everything nice 
-> and
-> consistent ;-) , but I am afraid that's not our call. After all this 
-> file
-> is to document the device naming, not to be an example of consistent
-> naming schemes.
-> 
-> [1] https://linux-sunxi.org/images/5/53/Pineh64_top.jpg
-> [2] https://pine64.org/devices/pine_h64_model_a/
-
-Those are all valid concerns.  Though, when it comes to the silkscreened
-labels on PCBs, sometimes they have no connection with the real, 
-official
-board names.  An almost funny example :) is the QuartzPro64 board, also
-from Pine64. [3]
-
-I'll check with Pine64 are there some intentions for unifying the 
-officially
-used board names, and if there aren't, I'll submit the v2 of this series
-with the corrected board names.
-
-[3] 
-https://wiki.pine64.org/images/f/fe/Quartzpro64_whole_board_top_resized.jpeg
-
->> Alas, the Pine64 wiki is currently in read-only mode, due to some
->> recent issues with the underlying hardware that runs it.  Migration to
->> another form of documentation for Pine64 boards is also a possibility,
->> which makes the updates even more complicated.
->> 
->> With all this in mind, I think it would be the best to rename the 
->> board
->> on the Pine64 side, to ensure consistency, and keep this patch as-is.
->> I'll make a mental note to do that on the Pine64 side once the current
->> situation with the Pine64 wiki is resolved.
->> 
->> >>          items:
->> >>            - const: pine64,pine-h64-model-b
->> >>            - const: allwinner,sun50i-h6
->> >>  
->> >> -      - description: Pine64 LTS
->> >> +      - description: Pine64 A64 LTS
->> >>          items:
->> >>            - const: pine64,pine64-lts
->> >>            - const: allwinner,sun50i-r18
->> >> @@ -748,17 +748,17 @@ properties:
->> >>            - const: pine64,pinephone
->> >>            - const: allwinner,sun50i-a64
->> >>  
->> >> -      - description: Pine64 PineTab, Development Sample
->> >> +      - description: Pine64 PineTab Developer Sample
->> >>          items:
->> >>            - const: pine64,pinetab
->> >>            - const: allwinner,sun50i-a64
->> >>  
->> >> -      - description: Pine64 PineTab, Early Adopter's batch (and
->> >> maybe later ones)
->> >> +      - description: Pine64 PineTab Early Adopter
->> >>          items:
->> >>            - const: pine64,pinetab-early-adopter
->> >>            - const: allwinner,sun50i-a64
->> >>  
->> >> -      - description: Pine64 SoPine Baseboard
->> >> +      - description: Pine64 SOPine
->> >>          items:
->> >>            - const: pine64,sopine-baseboard
->> >>            - const: pine64,sopine
->> >>
->> 
+RnJhbmsgT2x0bWFubnMgPGZyYW5rQG9sdG1hbm5zLmRldj4gd3JpdGVzOg0KDQo+IEhpIE3lbnMs
+DQo+DQo+IDIxLjA1LjIwMjQgMTU6NDM6MTAgTeVucyBSdWxsZ+VyZCA8bWFuc0BtYW5zci5jb20+
+Og0KPg0KPj4gRnJhbmsgT2x0bWFubnMgPGZyYW5rQG9sdG1hbm5zLmRldj4gd3JpdGVzOg0KPj4N
+Cj4+PiBUaGUgQWxsd2lubmVyIFNvQydzIHR5cGljYWxseSBoYXZlIGFuIHVwcGVyIGFuZCBsb3dl
+ciBsaW1pdCBmb3IgdGhlaXINCj4+PiBjbG9ja3MnIHJhdGVzLiBVcCB1bnRpbCBub3csIHN1cHBv
+cnQgZm9yIHRoYXQgaGFzIGJlZW4gaW1wbGVtZW50ZWQNCj4+PiBzZXBhcmF0ZWx5IGZvciBlYWNo
+IGNsb2NrIHR5cGUuDQo+Pj4NCj4+PiBJbXBsZW1lbnQgdGhhdCBmdW5jdGlvbmFsaXR5IGluIHRo
+ZSBzdW54aS1uZydzIGNvbW1vbiBwYXJ0IG1ha2luZyB1c2Ugb2YNCj4+PiB0aGUgQ0NGIHJhdGUg
+bGltaW5nIGNhcGFiaWxpdGllcywgc28gdGhhdCBpdCBpcyBhdmFpbGFibGUgZm9yIGFsbCBjbG9j
+aw0KPj4+IHR5cGVzLg0KPj4+DQo+Pj4gU3VnZ2VzdGVkLWJ5OiBNYXhpbWUgUmlwYXJkIDxtcmlw
+YXJkQGtlcm5lbC5vcmc+DQo+Pj4gU2lnbmVkLW9mZi1ieTogRnJhbmsgT2x0bWFubnMgPGZyYW5r
+QG9sdG1hbm5zLmRldj4NCj4+PiBDYzogc3RhYmxlQHZnZXIua2VybmVsLm9yZw0KPj4+IC0tLQ0K
+Pj4+IGRyaXZlcnMvY2xrL3N1bnhpLW5nL2NjdV9jb21tb24uYyB8IDE5ICsrKysrKysrKysrKysr
+KysrKysNCj4+PiBkcml2ZXJzL2Nsay9zdW54aS1uZy9jY3VfY29tbW9uLmggfKAgMyArKysNCj4+
+PiAyIGZpbGVzIGNoYW5nZWQsIDIyIGluc2VydGlvbnMoKykNCj4+DQo+PiBUaGlzIGp1c3QgbGFu
+ZGVkIGluIDYuNiBzdGFibGUsIGFuZCBpdCBicm9rZSBIRE1JIG91dHB1dCBvbiBhbiBBMjAgYmFz
+ZWQNCj4+IGRldmljZSwgdGhlIGNsb2NrcyBlbmRpbmcgdXAgYWxsIHdyb25nIGFzIHNlZW4gaW4g
+dGhpcyBkaWZmIG9mDQo+PiAvc3lzL2tlcm5lbC9kZWJ1Zy9jbGsvY2xrX3N1bW1hcnk6DQo+Pg0K
+Pj4gQEAgLTcwLDE2ICs3MSwxNCBAQA0KPj4goKCgoKCgoKCgoCBhcGIxLWkyYzCgoKCgoKCgoKCg
+oKCgoKCgoCAwoKCgoKCgIDCgoKCgoKCgIDCgoKCgoKCgIDI0MDAwMDAwoKCgIDANCj4+DQo+PiCg
+oKCgoKCgIHBsbC1ncHWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgIDCgoKCgoKAgMKCgoKCgoKAgMKCg
+oKCgoKAgMTIwMDAwMDAwMKAgMA0KPj4gLaCgoKCgoCBwbGwtdmlkZW8xoKCgoKCgoKCgoKCgoKCg
+oKCgoCAzoKCgoKCgIDOgoKCgoKCgIDGgoKCgoKCgIDE1OTAwMDAwMKCgIDANCj4+ICugoKCgoKAg
+cGxsLXZpZGVvMaCgoKCgoKCgoKCgoKCgoKCgoKAgMqCgoKCgoCAyoKCgoKCgoCAxoKCgoKCgoCAx
+NTkwMDAwMDCgoCAwDQo+PiCgoKCgoKCgoKCgIGhkbWmgoKCgoKCgoKCgoKCgoKCgoKCgoKCgIDGg
+oKCgoKAgMaCgoKCgoKAgMKCgoKCgoKAgMzk3NTAwMDCgoKAgMA0KPj4NCj4+IKCgoKCgoKCgoKAg
+dGNvbjAtY2gxLXNjbGsyoKCgoKCgoKCgoKAgMaCgoKCgoCAxoKCgoKCgoCAxoKCgoKCgoCAzOTc1
+MDAwMKCgoCAwDQo+PiCgoKCgoKCgoKCgoKCgIHRjb24wLWNoMS1zY2xrMaCgoKCgoKCgIDGgoKCg
+oKAgMaCgoKCgoKAgMaCgoKCgoKAgMzk3NTAwMDCgoKAgMA0KPj4NCj4+IC2goKCgoKCgoKAgcGxs
+LXZpZGVvMS0yeKCgoKCgoKCgoKCgoKAgMaCgoKCgoCAxoKCgoKCgoCAwoKCgoKCgoCAzMTgwMDAw
+MDCgoCAwDQo+PiAroKCgoKCgoKCgIHBsbC12aWRlbzEtMnigoKCgoKCgoKCgoKCgIDCgoKCgoKAg
+MKCgoKCgoKAgMKCgoKCgoKAgMzE4MDAwMDAwoKAgMA0KPj4NCj4+IC2goKCgoKCgoKCgoKAgaGRt
+aS10bWRzoKCgoKCgoKCgoKCgoKAgMqCgoKCgoCAyoKCgoKCgoCAwoKCgoKCgoCAzOTc1MDAwMKCg
+oCAwDQo+PiAtoKCgoKCgoKCgoKCgoKCgIGhkbWktZGRjoKCgoKCgoKCgoKCgIDGgoKCgoKAgMaCg
+oKCgoKAgMKCgoKCgoKAgMTk4NzUwMKCgoKAgMA0KPj4goKCgoKCgoCBwbGwtcGVyaXBoLWJhc2Wg
+oKCgoKCgoKCgoKCgoCAyoKCgoKCgIDKgoKCgoKCgIDCgoKCgoKCgIDEyMDAwMDAwMDCgIDANCj4+
+IKCgoKCgoKCgoKAgbWJ1c6CgoKCgoKCgoKCgoKCgoKCgoKCgoKAgMaCgoKCgoCAxoKCgoKCgoCAw
+oKCgoKCgoCAzMDAwMDAwMDCgoCAwDQo+PiCgoKCgoKCgoKCgIHBsbC1wZXJpcGgtc2F0YaCgoKCg
+oKCgoKCgIDCgoKCgoKAgMKCgoKCgoKAgMKCgoKCgoKAgMTAwMDAwMDAwoKAgMA0KPj4gQEAgLTE5
+OSw3ICsxOTgsNyBAQA0KPj4NCj4+IKCgoKCgoKCgoKAgYWNloKCgoKCgoKCgoKCgoKCgoKCgoKCg
+oKAgMKCgoKCgoCAwoKCgoKCgoCAwoKCgoKCgoCAzODQwMDAwMDCgoCAwDQo+PiCgoKCgoKCgoKCg
+IHZloKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgIDCgoKCgoKAgMKCgoKCgoKAgMKCgoKCgoKAgMzg0
+MDAwMDAwoKAgMA0KPj4gLaCgoKCgoCBwbGwtdmlkZW8woKCgoKCgoKCgoKCgoKCgoKCgoCA0oKCg
+oKCgIDSgoKCgoKCgIDKgoKCgoKCgIDI5NzAwMDAwMKCgIDANCj4+ICugoKCgoKAgcGxsLXZpZGVv
+MKCgoKCgoKCgoKCgoKCgoKCgoKAgNaCgoKCgoCA1oKCgoKCgoCAyoKCgoKCgoCAyOTcwMDAwMDCg
+oCAwDQo+PiCgoKCgoKCgoKCgIGhkbWkxoKCgoKCgoKCgoKCgoKCgoKCgoKCgIDCgoKCgoKAgMKCg
+oKCgoKAgMKCgoKCgoKAgMjk3MDAwMDAwoKAgMA0KPj4goKCgoKCgoKCgoCB0Y29uMS1jaDEtc2Ns
+azKgoKCgoKCgoKCgoCAwoKCgoKCgIDCgoKCgoKCgIDCgoKCgoKCgIDI5NzAwMDAwMKCgIDANCj4+
+IKCgoKCgoKCgoKCgoKAgdGNvbjEtY2gxLXNjbGsxoKCgoKCgoKAgMKCgoKCgoCAwoKCgoKCgoCAw
+oKCgoKCgoCAyOTcwMDAwMDCgoCAwDQo+PiBAQCAtMjIyLDggKzIyMSwxMCBAQA0KPj4NCj4+IKCg
+oKCgoKCgoKAgZGUtYmUwoKCgoKCgoKCgoKCgoKCgoKCgoKAgMaCgoKCgoCAxoKCgoKCgoCAxoKCg
+oKCgoCAyOTcwMDAwMDCgoCAwDQo+Pg0KPj4gLaCgoKCgoKCgoCBwbGwtdmlkZW8wLTJ4oKCgoKCg
+oKCgoKCgoCAwoKCgoKCgIDCgoKCgoKCgIDCgoKCgoKCgIDU5NDAwMDAwMKCgIDANCj4+ICugoKCg
+oKCgoKAgcGxsLXZpZGVvMC0yeKCgoKCgoKCgoKCgoKAgMaCgoKCgoCAxoKCgoKCgoCAwoKCgoKCg
+oCA1OTQwMDAwMDCgoCAwDQo+Pg0KPj4gK6CgoKCgoKCgoKCgoCBoZG1pLXRtZHOgoKCgoKCgoKCg
+oKCgoCAyoKCgoKCgIDKgoKCgoKCgIDCgoKCgoKCgIDU5NDAwMDAwMKCgIDANCj4+ICugoKCgoKCg
+oKCgoKCgoKAgaGRtaS1kZGOgoKCgoKCgoKCgoKAgMaCgoKCgoCAxoKCgoKCgoCAwoKCgoKCgoCAy
+OTcwMDAwMKCgoCAwDQo+PiCgoKCgoKCgIHBsbC1hdWRpby1iYXNloKCgoKCgoKCgoKCgoKCgIDCg
+oKCgoKAgMKCgoKCgoKAgMKCgoKCgoKAgMTUwMDAwMKCgoKAgMA0KPj4goKCgoKCgoKCgoCBwbGwt
+YXVkaW8tOHigoKCgoKCgoKCgoKCgoCAwoKCgoKCgIDCgoKCgoKCgIDCgoKCgoKCgIDMwMDAwMDCg
+oKCgIDANCj4+IKCgoKCgoKCgoKCgoKAgaTJzMqCgoKCgoKCgoKCgoKCgoKCgoKAgMKCgoKCgoCAw
+oKCgoKCgoCAwoKCgoKCgoCAzMDAwMDAwoKCgoCAwDQo+Pg0KPj4gUmV2ZXJ0aW5nIHRoaXMgY29t
+bWl0IG1ha2VzIGl0IHdvcmsgYWdhaW4uDQo+DQo+IFRoYW5rIHlvdSBmb3IgeW91ciBkZXRhaWxl
+ZCByZXBvcnQhDQo+DQo+IEkndmUgaGFkIGEgZmlyc3QgbG9vayBhdCBoZG1pLXRtZHMgYW5kIGhk
+bWktZGRjLCBhbmQgbmVpdGhlciBzZWVtcyB0bw0KPiBiZSBjYWxsaW5nIGNjdV9pc19iZXR0ZXJf
+cmF0ZSgpIGluIHRoZWlyIGRldGVybWluZV9yYXRlKCkNCj4gZnVuY3Rpb25zLiBUaGVpciBwYXJl
+bnRzIGhhdmUgdGhlIGV4YWN0IHNhbWUgcmF0ZXMgaW4geW91ciBkaWZmLCBzbywNCj4gbXkgY3Vy
+cmVudCB3b3JraW5nIGFzc3VtcHRpb24gaXMgdGhhdCB0aGV5IGNhbid0IGJlIHRoZSBjYXVzZSBl
+aXRoZXIuDQo+DQo+IEknbGwgaGF2ZSBhIG1vcmUgZGV0YWlsZWQgbG9vayBvdmVyIHRoZSB3ZWVr
+ZW5kLiBVbnRpbCB0aGVuLCBpZiBhbnlvbmUNCj4gaGFzIHNvbWUgaWRlYXMgd2hlcmUgSSBzaG91
+bGQgaGF2ZSBhIGxvb2sgbmV4dCwgcGxlYXNlIHNoYXJlIHlvdXINCj4gdGhvdWdodHMuDQoNCklu
+IGNhc2UgaXQncyByZWxldmFudCwgdGhpcyBzeXN0ZW0gZG9lc24ndCB1c2UgdGhlIEhETUkgRERD
+LCB0aGUNCnBoeXNpY2FsIEREQyBwaW5zIGJlaW5nIGNvbm5lY3RlZCB0byBhIGRpZmZlcmVudCBJ
+MkMgYWRhcHRlciBmb3INCnZhcmlvdXMgcmVhc29ucy4NCg0KRnJvbSB0aGUgY2xrX3N1bW1hcnkg
+ZGlmZiwgSSBzZWUgYSBmZXcgdGhpbmdzOg0KDQoxLiBoZG1pLXRtZHMgaGFzIGNoYW5nZWQgcGFy
+ZW50IGZyb20gcGxsLXZpZGVvMS0yeCB0byBwbGwtdmlkZW8wLTJ4Lg0KMi4gVGhlIHJhdGlvIG9m
+IGhkbWktdG1kcyB0byBpdHMgcGFyZW50IGhhcyBjaGFuZ2VkIGZyb20gMS84IHRvIDEuDQozLiBU
+aGUgcmVzdWx0aW5nIHJhdGUgYmVhcnMgbm8gcmVsYXRpb24gdG8gdGhlIHBpeGVsIGNsb2NrIGZy
+b20gRURJRC4NCg0KSSB0cmllZCBrZXJuZWwgNi45LjEgYXMgd2VsbCwgYW5kIHRoYXQgZG9lc24n
+dCB3b3JrIGVpdGhlci4gIEknbGwga2VlcA0KZGlnZ2luZyBhbmQgdHJ5IHRvIG5hcnJvdyBpdCBk
+b3duLg0KDQo+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvY2xrL3N1bnhpLW5nL2NjdV9jb21tb24u
+YyBiL2RyaXZlcnMvY2xrL3N1bnhpLW5nL2NjdV9jb21tb24uYw0KPj4+IGluZGV4IDhiYWJjZTU1
+MzAyZi4uYWMwMDkxYjRjZTI0IDEwMDY0NA0KPj4+IC0tLSBhL2RyaXZlcnMvY2xrL3N1bnhpLW5n
+L2NjdV9jb21tb24uYw0KPj4+ICsrKyBiL2RyaXZlcnMvY2xrL3N1bnhpLW5nL2NjdV9jb21tb24u
+Yw0KPj4+IEBAIC00NCw2ICs0NCwxNiBAQCBib29sIGNjdV9pc19iZXR0ZXJfcmF0ZShzdHJ1Y3Qg
+Y2N1X2NvbW1vbiAqY29tbW9uLA0KPj4+IKCgoKCgoKCgoKCgIHVuc2lnbmVkIGxvbmcgY3VycmVu
+dF9yYXRlLA0KPj4+IKCgoKCgoKCgoKCgIHVuc2lnbmVkIGxvbmcgYmVzdF9yYXRlKQ0KPj4+IHsN
+Cj4+PiAroKAgdW5zaWduZWQgbG9uZyBtaW5fcmF0ZSwgbWF4X3JhdGU7DQo+Pj4gKw0KPj4+ICug
+oCBjbGtfaHdfZ2V0X3JhdGVfcmFuZ2UoJmNvbW1vbi0+aHcsICZtaW5fcmF0ZSwgJm1heF9yYXRl
+KTsNCj4+PiArDQo+Pj4gK6CgIGlmIChjdXJyZW50X3JhdGUgPiBtYXhfcmF0ZSkNCj4+PiAroKCg
+oKCgIHJldHVybiBmYWxzZTsNCj4+PiArDQo+Pj4gK6CgIGlmIChjdXJyZW50X3JhdGUgPCBtaW5f
+cmF0ZSkNCj4+PiAroKCgoKCgIHJldHVybiBmYWxzZTsNCj4+PiArDQo+Pj4goKCgIGlmIChjb21t
+b24tPmZlYXR1cmVzICYgQ0NVX0ZFQVRVUkVfQ0xPU0VTVF9SQVRFKQ0KPj4+IKCgoKCgoKAgcmV0
+dXJuIGFicyhjdXJyZW50X3JhdGUgLSB0YXJnZXRfcmF0ZSkgPCBhYnMoYmVzdF9yYXRlIC0gdGFy
+Z2V0X3JhdGUpOw0KPj4+DQo+Pj4gQEAgLTEyMiw2ICsxMzIsNyBAQCBzdGF0aWMgaW50IHN1bnhp
+X2NjdV9wcm9iZShzdHJ1Y3Qgc3VueGlfY2N1ICpjY3UsIHN0cnVjdCBkZXZpY2UgKmRldiwNCj4+
+Pg0KPj4+IKCgoCBmb3IgKGkgPSAwOyBpIDwgZGVzYy0+aHdfY2xrcy0+bnVtIDsgaSsrKSB7DQo+
+Pj4goKCgoKCgoCBzdHJ1Y3QgY2xrX2h3ICpodyA9IGRlc2MtPmh3X2Nsa3MtPmh3c1tpXTsNCj4+
+PiAroKCgoKCgIHN0cnVjdCBjY3VfY29tbW9uICpjb21tb24gPSBod190b19jY3VfY29tbW9uKGh3
+KTsNCj4+PiCgoKCgoKCgIGNvbnN0IGNoYXIgKm5hbWU7DQo+Pj4NCj4+PiCgoKCgoKCgIGlmICgh
+aHcpDQo+Pj4gQEAgLTEzNiw2ICsxNDcsMTQgQEAgc3RhdGljIGludCBzdW54aV9jY3VfcHJvYmUo
+c3RydWN0IHN1bnhpX2NjdSAqY2N1LCBzdHJ1Y3QgZGV2aWNlICpkZXYsDQo+Pj4goKCgoKCgoKCg
+oKAgcHJfZXJyKCJDb3VsZG4ndCByZWdpc3RlciBjbG9jayAlZCAtICVzXG4iLCBpLCBuYW1lKTsN
+Cj4+PiCgoKCgoKCgoKCgoCBnb3RvIGVycl9jbGtfdW5yZWc7DQo+Pj4goKCgoKCgoCB9DQo+Pj4g
+Kw0KPj4+ICugoKCgoKAgaWYgKGNvbW1vbi0+bWF4X3JhdGUpDQo+Pj4gK6CgoKCgoKCgoKAgY2xr
+X2h3X3NldF9yYXRlX3JhbmdlKGh3LCBjb21tb24tPm1pbl9yYXRlLA0KPj4+ICugoKCgoKCgoKCg
+oKCgoKCgoKCgoKCgoKAgY29tbW9uLT5tYXhfcmF0ZSk7DQo+Pj4gK6CgoKCgoCBlbHNlDQo+Pj4g
+K6CgoKCgoKCgoKAgV0FSTihjb21tb24tPm1pbl9yYXRlLA0KPj4+ICugoKCgoKCgoKCgoKCgoKAg
+Ik5vIG1heF9yYXRlLCBpZ25vcmluZyBtaW5fcmF0ZSBvZiBjbG9jayAlZCAtICVzXG4iLA0KPj4+
+ICugoKCgoKCgoKCgoKCgoKAgaSwgbmFtZSk7DQo+Pj4goKCgIH0NCj4+Pg0KPj4+IKCgoCByZXQg
+PSBvZl9jbGtfYWRkX2h3X3Byb3ZpZGVyKG5vZGUsIG9mX2Nsa19od19vbmVjZWxsX2dldCwNCj4+
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9jbGsvc3VueGktbmcvY2N1X2NvbW1vbi5oIGIvZHJpdmVy
+cy9jbGsvc3VueGktbmcvY2N1X2NvbW1vbi5oDQo+Pj4gaW5kZXggOTQyYTcyYzA5NDM3Li4zMjk3
+MzRmOGNmNDIgMTAwNjQ0DQo+Pj4gLS0tIGEvZHJpdmVycy9jbGsvc3VueGktbmcvY2N1X2NvbW1v
+bi5oDQo+Pj4gKysrIGIvZHJpdmVycy9jbGsvc3VueGktbmcvY2N1X2NvbW1vbi5oDQo+Pj4gQEAg
+LTMxLDYgKzMxLDkgQEAgc3RydWN0IGNjdV9jb21tb24gew0KPj4+IKCgoCB1MTagoKCgIGxvY2tf
+cmVnOw0KPj4+IKCgoCB1MzKgoKCgIHByZWRpdjsNCj4+Pg0KPj4+ICugoCB1bnNpZ25lZCBsb25n
+oKAgbWluX3JhdGU7DQo+Pj4gK6CgIHVuc2lnbmVkIGxvbmegoCBtYXhfcmF0ZTsNCj4+PiArDQo+
+Pj4goKCgIHVuc2lnbmVkIGxvbmegoCBmZWF0dXJlczsNCj4+PiCgoKAgc3BpbmxvY2tfdKAgKmxv
+Y2s7DQo+Pj4goKCgIHN0cnVjdCBjbGtfaHegoCBodzsNCj4+Pg0KPj4+IC0tDQo+Pj4NCj4+PiAy
+LjQ0LjANCj4+Pg0KPj4NCj4+IC0tDQo+PiBN5W5zIFJ1bGxn5XJkDQo+DQoNCi0tIA0KTeVucyBS
+dWxsZ+VyZA0K
