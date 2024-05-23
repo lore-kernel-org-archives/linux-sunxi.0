@@ -1,120 +1,109 @@
-Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5A761C3E
-	for <linux-sunxi@lists.linux.dev>; Thu, 23 May 2024 05:55:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93FA82D05E;
+	Thu, 23 May 2024 06:40:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716443739; cv=none; b=N1Lj9jNR+wWCLO3T9aDlpdbethUjEeJX9rJCdYEbA2bSInWVLDZavWSfpmUDJFs7mTKZFm45ePXCxMbTw9xY4lFTjKXlyGyJaWXQ7TB5oLEFbbiFarzuQt6r9bR0iXd9W7YcUm3uEwmA0mk2eRh8wYaTffbA7hDP5dzz+apXLsA=
+	t=1716446411; cv=none; b=PuFoX4cdO0L8UU3iQrBNHV+AxyS+QsGTXYrOfLn20Z//NW1zNswjJfYJ7fedjygZM+5WB6mtZOBNjIabq7ijT9ZNalKinPsLkH28+UvA8jaZBuar93aBuugtgRzwa4Jm7OqHKgpaKq0LyhFYayanBgCBeDdiAeCS8YJq3ODdAFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716443739; c=relaxed/simple;
-	bh=SxmqM88Y/QvoBAEDVZtTfuZXc6MFXor/37QPRIkhkfo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lQepr3TEs2DCHcX8S09pYZKsYLCURah9riQwIQQYvm601TGOcnaa1yt4j0w4IbVARWU++ScZPxiebtVrrSdeWvzoNf7ra3yPbP1cqIdhJjRRQKFSEQGoEsutlCw0CDdT+HiWYub+kIJHfeTNbTzn9Cb7uPGouEjWcIammjgXUP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org; spf=none smtp.mailfrom=jookia.org; dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b=hytQWbFK; arc=none smtp.client-ip=95.215.58.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=jookia.org
+	s=arc-20240116; t=1716446411; c=relaxed/simple;
+	bh=vLTlRcACJx6QXddfpUkOy5VJFCfm6cvBgs6G/9CFvFA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bAZ2onyNalaS53RaGkicoUhNNmIIDwHVyoQjgEP/pIFWaNwmIIL9a+DU6yBvbAYkYidKwujVjM/MGoSQ/lnBmjRCfdvpqgoMCp2aRHFf5BD/ZFCAifGpRE9K9Xis3xKXq+QIPOVdTW9azOSGoj6p1wniGaCrLpb+tdshphf1udE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QLZIBZSY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b="hytQWbFK"
-X-Envelope-To: kikuchan98@gmail.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
-	t=1716443735;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jY3OZs3TRZ5fmpHwmF6ZDWmp14tMvpciAkxRyO1/MQo=;
-	b=hytQWbFKB3vS3t96pRQn4SK+Ur5QZdeFozP0miOBgRAvWcITv47RA+H3y/L8s41jv2Jvwp
-	2V3mqNq/STuUork+Ia76faXDFhZL4ZPVJp4uVFqRYa0t0qWzpkA9rgFdAB+oeV0c72NYxL
-	PBbUgqJ5mADP46bcP+qBEZ1ZEOAA+KlwrEcGFSrsbgy2FCZJd+5S03xqmAqedwC1PPR2pc
-	H6K1usInzBMeoeP8VMe/OUHo7JdQqZjr1RwS3T5ADMI6Z6G4iS0BOeMVvQ7846Mdwo0MU3
-	rQenItiIfmJmr5/f+6MwV4ChKBt6E+oDXNL7sWK6sv2hGNZn32pWDadZJw9llw==
-X-Envelope-To: privatesub2@gmail.com
-X-Envelope-To: aou@eecs.berkeley.edu
-X-Envelope-To: bigunclemax@gmail.com
-X-Envelope-To: conor+dt@kernel.org
-X-Envelope-To: devicetree@vger.kernel.org
-X-Envelope-To: fusibrandon13@gmail.com
-X-Envelope-To: jernej.skrabec@gmail.com
-X-Envelope-To: krzk+dt@kernel.org
-X-Envelope-To: linux-arm-kernel@lists.infradead.org
-X-Envelope-To: linux-kernel@vger.kernel.org
-X-Envelope-To: linux-pwm@vger.kernel.org
-X-Envelope-To: linux-riscv@lists.infradead.org
-X-Envelope-To: linux-sunxi@lists.linux.dev
-X-Envelope-To: mkl@pengutronix.de
-X-Envelope-To: p.zabel@pengutronix.de
-X-Envelope-To: palmer@dabbelt.com
-X-Envelope-To: paul.walmsley@sifive.com
-X-Envelope-To: robh@kernel.org
-X-Envelope-To: samuel@sholland.org
-X-Envelope-To: ukleinek@kernel.org
-X-Envelope-To: wens@csie.org
-Date: Thu, 23 May 2024 15:54:00 +1000
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: John Watts <contact@jookia.org>
-To: =?utf-8?B?44GN44GP44Gh44KD44KT44GV44KT?= <kikuchan98@gmail.com>
-Cc: privatesub2@gmail.com, aou@eecs.berkeley.edu, bigunclemax@gmail.com,
-	conor+dt@kernel.org, devicetree@vger.kernel.org,
-	fusibrandon13@gmail.com, jernej.skrabec@gmail.com,
-	krzk+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	mkl@pengutronix.de, p.zabel@pengutronix.de, palmer@dabbelt.com,
-	paul.walmsley@sifive.com, robh@kernel.org, samuel@sholland.org,
-	ukleinek@kernel.org, wens@csie.org
-Subject: Re: [PATCH v9 0/3] Add support for Allwinner PWM on D1/T113s/R329
- SoCs
-Message-ID: <Zk7Z-MfdF-YKWeJ6@titan>
-References: <CAG40kxGMu-TSchNezkcC_A97hzPnWU3KxeL-X-hJfPhjr_COyQ@mail.gmail.com>
- <Zk6yK3U9tgxOxcBb@titan>
- <CAG40kxFxE_Oj+9aCzGku0a3KFHpuW8ai=gEkV9M8==5gwmjdEA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QLZIBZSY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F8B4C2BD10;
+	Thu, 23 May 2024 06:40:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716446411;
+	bh=vLTlRcACJx6QXddfpUkOy5VJFCfm6cvBgs6G/9CFvFA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=QLZIBZSYr3wbnI1iZUCtlVTiNHVBrOX3koKzTbot4L3cyN+/MIJzkR+8DqQumTF13
+	 ZlyR1zRjvnl9xsSjACvc1jkHYD0/DSEzNzEHEDUcDN4XiyZlxOtj23yRVcDEkfvAfO
+	 3ftZZQvxGfth/fPk6pzBU/c2a7umTq9Sj2mhlhDc8fN/uruwXTqfqyGrnh+fGXsC7Q
+	 Iwq3mO+p8bg+DIBeqIw1wvhxaWrmx56WTnWJYRF5glEy7XUO/9WmwG2EI7zceLdboS
+	 xcRhTNjC02GBB2YcAloRnrhdnQbb1kRRqJC3hc8rixofQ8WmopkL4R3HcC/uvgaWJ5
+	 bumZDEK1MiL8w==
+Message-ID: <00118436-5b37-4aeb-92fa-030538d411bc@kernel.org>
+Date: Thu, 23 May 2024 08:40:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAG40kxFxE_Oj+9aCzGku0a3KFHpuW8ai=gEkV9M8==5gwmjdEA@mail.gmail.com>
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/4] dt-bindings: mfd: x-powers,axp20x-usb-power-supply:
+ add AXP717
+To: Chris Morgan <macroalpha82@gmail.com>, linux-sunxi@lists.linux.dev
+Cc: devicetree@vger.kernel.org, linux-pm@vger.kernel.org, broonie@kernel.org,
+ lgirdwood@gmail.com, lee@kernel.org, samuel@sholland.org,
+ jernej.skrabec@gmail.com, wens@csie.org, conor+dt@kernel.org,
+ krzk+dt@kernel.org, robh@kernel.org, sre@kernel.org,
+ Chris Morgan <macromorgan@hotmail.com>
+References: <20240522230132.364915-1-macroalpha82@gmail.com>
+ <20240522230132.364915-3-macroalpha82@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240522230132.364915-3-macroalpha82@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, May 23, 2024 at 02:30:32PM +0900, きくちゃんさん wrote:
-> Hello John,
-
-Hello,
-
+On 23/05/2024 01:01, Chris Morgan wrote:
+> From: Chris Morgan <macromorgan@hotmail.com>
 > 
-> Your method is quite impressive and challenging.
+> Add binding for the AXP717 USB power supply.
 > 
-> I think PWM is not only for LCD backlighting, but also for signal generation.
-> For instance, imagine an application software that sends a stream to
-> one PWM channel to synthesize sound by changing its period (plays a
-> square wave).
-> By your method, if the other PWM channel is used for LCD backlighting,
-> it may flicker repeatedly on DIV_M changes.
-> (Or simply both channels for streo sound synthesize, you may hear lots
-> of pop noise)
-> 
-> It means the setting of one channel can affect the other, which users
-> may not anticipate.
+> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> ---
 
-Does Linux guarantee a flicker-free experience with setting up PWM
-channels, or that it doesn't affect other channels?
-How do other drivers handle this situation?
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Maybe out-sourcing the clocking to the device tree and letting people set the
-clock and common divisor in the DT would be a good idea, with the HOSC and a
-common divisor of 1 by default, then error if the value can't be found.
+Best regards,
+Krzysztof
 
-This would work for periods from 41ns up to 687ms by default. Using APB would
-give a better resolution as by default it hangs around 5ns which is nice and
-divisible by 10.
-
-> 
-> Best regards,
-> kikuchan.
-
-John.
