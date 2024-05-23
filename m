@@ -1,109 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93FA82D05E;
-	Thu, 23 May 2024 06:40:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 314E413D240
+	for <linux-sunxi@lists.linux.dev>; Thu, 23 May 2024 09:10:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716446411; cv=none; b=PuFoX4cdO0L8UU3iQrBNHV+AxyS+QsGTXYrOfLn20Z//NW1zNswjJfYJ7fedjygZM+5WB6mtZOBNjIabq7ijT9ZNalKinPsLkH28+UvA8jaZBuar93aBuugtgRzwa4Jm7OqHKgpaKq0LyhFYayanBgCBeDdiAeCS8YJq3ODdAFs=
+	t=1716455416; cv=none; b=YTeIdSCGipHSdTBnvZhCfe8RbK4iSKp5gaFSsxv8P4q8j1YYoibB1oxfl0g2SxaiWhi82Y9K84ZQU4pmNHHgRwT9ypXR7jze6aI9/V7bMyrKG0BuciuDwu1vuHwFZ//Qgy11Fb/SjPFrCsr5soTRiL2ennXfDX2sM0AF0krwLvY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716446411; c=relaxed/simple;
-	bh=vLTlRcACJx6QXddfpUkOy5VJFCfm6cvBgs6G/9CFvFA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bAZ2onyNalaS53RaGkicoUhNNmIIDwHVyoQjgEP/pIFWaNwmIIL9a+DU6yBvbAYkYidKwujVjM/MGoSQ/lnBmjRCfdvpqgoMCp2aRHFf5BD/ZFCAifGpRE9K9Xis3xKXq+QIPOVdTW9azOSGoj6p1wniGaCrLpb+tdshphf1udE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QLZIBZSY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1716455416; c=relaxed/simple;
+	bh=2LLQXSCtOxv6wPX6ulrJ4oQTIol5AljMIJ9YZtpb3U0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RynSZFn7n32v6mC0G0//xioYXVuS79laZ0DY5ggC39Cr0IJWU90XPxmJWWuGBayZ2Tlb210uie761cu5PTSbuA/va3JkVJ+n/pXeXCl5vE5PjU2LjYDCvabmXb9gacGo9AQrrlngzGClLWoBApJmgqU2BtYn5iVFwsb/7XXG1Gg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rjI8+v2R; arc=none smtp.client-ip=209.85.208.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QLZIBZSY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F8B4C2BD10;
-	Thu, 23 May 2024 06:40:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716446411;
-	bh=vLTlRcACJx6QXddfpUkOy5VJFCfm6cvBgs6G/9CFvFA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=QLZIBZSYr3wbnI1iZUCtlVTiNHVBrOX3koKzTbot4L3cyN+/MIJzkR+8DqQumTF13
-	 ZlyR1zRjvnl9xsSjACvc1jkHYD0/DSEzNzEHEDUcDN4XiyZlxOtj23yRVcDEkfvAfO
-	 3ftZZQvxGfth/fPk6pzBU/c2a7umTq9Sj2mhlhDc8fN/uruwXTqfqyGrnh+fGXsC7Q
-	 Iwq3mO+p8bg+DIBeqIw1wvhxaWrmx56WTnWJYRF5glEy7XUO/9WmwG2EI7zceLdboS
-	 xcRhTNjC02GBB2YcAloRnrhdnQbb1kRRqJC3hc8rixofQ8WmopkL4R3HcC/uvgaWJ5
-	 bumZDEK1MiL8w==
-Message-ID: <00118436-5b37-4aeb-92fa-030538d411bc@kernel.org>
-Date: Thu, 23 May 2024 08:40:03 +0200
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rjI8+v2R"
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2e6f51f9de4so82446691fa.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 23 May 2024 02:10:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1716455412; x=1717060212; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=yLbNbEeZZx+Y9UagHOzdXnc5AHkeTqV4LNqc32hMk7o=;
+        b=rjI8+v2RnWz5QwFN8om+Mipi/10B/Ag8iL+LiJbb5SxtzIwDUs2qHneHsKa70fG1Yj
+         olnYkrP6YTh9h0+pJdM1ofpqTXRlkcXTMSaTlrjWLzSqhbmDvoTrHsaW8FVUcZITTBfj
+         iSOSPWSfwk4qbeDWaBhbtfSY/wF43BhqXuv8oduicnOysdMlSEX77uoCfVjWqxAH9071
+         kvyvM7k0WfLDAwQgUyZZqmLY5CkEqhqaIej20wGCbyi/W3Asb+ABT2mSDNWKLP35VRIY
+         ASvjK2AyEWTv/S0CVjsK91VCddLx5EJZgV1p6AoylTYGMzAhmvCOknTgbFSuE4kR7J/h
+         4I8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716455412; x=1717060212;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yLbNbEeZZx+Y9UagHOzdXnc5AHkeTqV4LNqc32hMk7o=;
+        b=COxX5RwkoiT2Q+kfam7Js4LvP6OwNVxjTfd3Ft3HeGFoewoLW2e78TdrYwwcftUsM1
+         v+jH4tXPyhGow852vjViml9sJx9d7x1/vwu9FKeuS2m4+ot4vmdxFtIqTL8FHZObbZJq
+         Ooohbt135neJchmP+p78n3TXs/RA78FZKpZliDeG9fZKx9J0OA74aGQ59SK4ZBNxw7nA
+         bCWorWC+dpytctXCC/haA5l4FJDjwwuFtXItUjn1alzb2w07a2fwhqZyJJK5YZEMmCK1
+         a8xTOrqdOcrYE8NiSJF/paQXgFJ2fAMThPMlmHTRI2Y9jC6Wrqz0zy8z9DMvKI95jY2a
+         41pg==
+X-Forwarded-Encrypted: i=1; AJvYcCWgc7p5Qtg35Lj+dTCifl+5FIg7SI4GvSNH01PX/ptWfCBv1HCRidUxrZWP2xIii+ra3okE7tHpY+12iTl82rvHSqfFL+Nuo+Wql+s=
+X-Gm-Message-State: AOJu0Yy5cqkezDu8lH9wKRVh16beCYo25Iy6A6TUXVq7npXFB2GXlFf+
+	v1/oz0DVCha3I+psKW4DNbrIg7+Sw+DFQ5+vg3l9qc9NvR2evsGDr5ajQ5dCmCA=
+X-Google-Smtp-Source: AGHT+IGdSgWnLFMgir035AHyOCVqS5scq5u8M8DlUryO/CIUdmVczkNrL4TJ+hWCvcPS/dK0wrOj/Q==
+X-Received: by 2002:a05:6512:44b:b0:51e:646d:fe3b with SMTP id 2adb3069b0e04-526c1213db4mr3455906e87.60.1716455412389;
+        Thu, 23 May 2024 02:10:12 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-521f35ad640sm5253516e87.61.2024.05.23.02.10.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 May 2024 02:10:11 -0700 (PDT)
+Date: Thu, 23 May 2024 12:10:10 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Andy Yan <andy.yan@rock-chips.com>, 
+	Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick <sebastian.wick@redhat.com>, 
+	Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, dri-devel@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v14 06/28] drm/tests: Add output bpc tests
+Message-ID: <p6mpuna2ubfpqyfogblvknxadga2uqnm3lsocwol4npwmgw66h@42yt4b5zhk5y>
+References: <20240521-kms-hdmi-connector-state-v14-0-51950db4fedb@kernel.org>
+ <20240521-kms-hdmi-connector-state-v14-6-51950db4fedb@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] dt-bindings: mfd: x-powers,axp20x-usb-power-supply:
- add AXP717
-To: Chris Morgan <macroalpha82@gmail.com>, linux-sunxi@lists.linux.dev
-Cc: devicetree@vger.kernel.org, linux-pm@vger.kernel.org, broonie@kernel.org,
- lgirdwood@gmail.com, lee@kernel.org, samuel@sholland.org,
- jernej.skrabec@gmail.com, wens@csie.org, conor+dt@kernel.org,
- krzk+dt@kernel.org, robh@kernel.org, sre@kernel.org,
- Chris Morgan <macromorgan@hotmail.com>
-References: <20240522230132.364915-1-macroalpha82@gmail.com>
- <20240522230132.364915-3-macroalpha82@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240522230132.364915-3-macroalpha82@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240521-kms-hdmi-connector-state-v14-6-51950db4fedb@kernel.org>
 
-On 23/05/2024 01:01, Chris Morgan wrote:
-> From: Chris Morgan <macromorgan@hotmail.com>
+On Tue, May 21, 2024 at 12:13:39PM +0200, Maxime Ripard wrote:
+> Now that we're tracking the output bpc count in the connector state,
+> let's add a few tests to make sure it works as expected.
 > 
-> Add binding for the AXP717 USB power supply.
-> 
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
+>  drivers/gpu/drm/Kconfig                            |   1 +
+>  drivers/gpu/drm/tests/Makefile                     |   1 +
+>  drivers/gpu/drm/tests/drm_connector_test.c         | 140 +++++++
+>  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 438 +++++++++++++++++++++
+>  drivers/gpu/drm/tests/drm_kunit_edid.h             | 106 +++++
+>  5 files changed, 686 insertions(+)
+> 
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Best regards,
-Krzysztof
-
+-- 
+With best wishes
+Dmitry
