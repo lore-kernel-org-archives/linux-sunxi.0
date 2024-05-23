@@ -1,57 +1,57 @@
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D69913D27F
-	for <linux-sunxi@lists.linux.dev>; Thu, 23 May 2024 09:37:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF8E313AA3C
+	for <linux-sunxi@lists.linux.dev>; Thu, 23 May 2024 09:39:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716457069; cv=none; b=RPzFZYp17wi/+8m1y9U8CugMDhHUXni6XmE1YFx1/03awxGOssA+akpMjbG7coUX2pXHaGl1egT7wqD+yDdBCCAXQvTbZMlccCQkcCWh33CaVkY1hM2MmbQrf3f2TVjNrRMCMRP06UHwRc2+fryZ5gCRWU0Haq5F8N8Bg5WfqmM=
+	t=1716457191; cv=none; b=SLJhGX9AVs4+k3uOrpe2C/DEq1Gbnntny+yQzC0Kss1d8noDEWvVUGscY/nt9dcZICbFdqPzfC/EBzh83yRflREDcdx1tTXtwm8ejeKXB6fxfVAAtWtBliXpl6iR9kxZhjyzmC11SaCudxPVBm93A2vj9ls+5sQvd4DK0WmV32g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716457069; c=relaxed/simple;
-	bh=jPJ6DzLDX2BHRE6KsBDDylqHgEYcMKmyxOvYuUL0H/g=;
+	s=arc-20240116; t=1716457191; c=relaxed/simple;
+	bh=pANZ9BOe7lIjdlZajVdcF6HeMjTV5Ks8Me0Z1rWXSv4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QWgwOAPReK82oMwk+QO5OhKXLSfQ8QjTCxl1zeXBmlVHDVjitaAdIM8wdKaz0kd9dq9Dl6uZ43zR83pYx2OIca3RXn76RExqMvQoxB9/LDM9zarYM1q3lA6+CP1Z57+UpIe0xDkVL+ZPqXsh2/n+Ws4Ko6AP0ps1DKKHNIlamSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KE5X0tCD; arc=none smtp.client-ip=209.85.208.178
+	 Content-Type:Content-Disposition:In-Reply-To; b=CwsyBMIDhV+GwPtjYnh+JUah7YU8y2JRGt7K9is6ckoCNtWkSiWd41Qe7fNek1W1dXEqSwnc4ii2sSs+D2Jo7BQ/By2AnPPesLjiKihwMBfeyhXxT6Zt1TC4Hy8DAtu+exUN2uIPjBsUPdwfZNpY6dvOR9D98LW6tVGMKhwjsUs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YiCh6Ch9; arc=none smtp.client-ip=209.85.167.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KE5X0tCD"
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2e3b1b6e9d1so87541301fa.2
-        for <linux-sunxi@lists.linux.dev>; Thu, 23 May 2024 02:37:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YiCh6Ch9"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5238b7d0494so7938037e87.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 23 May 2024 02:39:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716457066; x=1717061866; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1716457188; x=1717061988; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=SbtplpmpPo1tIVSyyQuZaq4Je2fwXqMCocDbrqYpVcE=;
-        b=KE5X0tCDn7/E91dqC+9H9/CPT+p1LsYOHSEqZDjBBXNHIRGjQIeE8ALlOrjtHN88+O
-         oO+eu6lq8SpBJ2Tx8A88YAtTHhVKrW7SrGjVMJ/g5mflHAlyF3vZAVSLU0ZdYDc/xYO9
-         xcU0HfnBerx8X+ROdFdYjf8/OPJsMWnPGcbLaOYA6prP2oZdjZXMxvEsVkuUS6Zo8DJ6
-         69e0QfCjcR1FVYhAnvPAvYL+lU+g68v09KS5s+wLiWie6L8WriEDvpo7rJI+j6htKaMd
-         ce/KtngCMuzgE5C+Ygo6zThQP9yZR1Ppf7KzfIhAoHKlgTyMvu5R6lY4Xm/JRIAhfQ9J
-         huGw==
+        bh=nZr+4M+DoXpeV8oSkkFyzaRfzRj8DnnoccV995epHpo=;
+        b=YiCh6Ch9PmiE461UF4QgOTZQRIp60JE51SLhxbTeMcXyr/dpQF+aGBs/9DGIhXtscY
+         0YhFhwLFj6ge83SXRZjV7u4AK4kDQy+EGO7x4+QhRLK+39n0v+qGOgwxmJfXdYZjxtY2
+         Do3EU6LVkHVhQdM1bFH2hA69CyGJkrNbmScG2IG+rqRSq4QEGtmOIjF2UNPSStpPNi1A
+         TBTyAuMhl2CFV7zsdqMCD3TP9PbHrDqv8ZklIdES4nrz5I0tSpEFGmpcVJFky+DNwD3z
+         pOQ7skjiLV2B0i37NWEwFAeultvPEv/7UoYnK71XKYNLd01VuFgtYu2yPPgvDJLZg4AK
+         guTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716457066; x=1717061866;
+        d=1e100.net; s=20230601; t=1716457188; x=1717061988;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=SbtplpmpPo1tIVSyyQuZaq4Je2fwXqMCocDbrqYpVcE=;
-        b=cIGAoHgK5/qJhNYJ3ukTdCYe33vvAG+AZGgeGLRi8Y+0TCSjeQgoXuI72ni2R/jFK4
-         TJLdpCyEPOxbDgsxIcuYl4qn2ktZOFMGx3nZXZA1T8SOWley2WxV3clUuL/WOWHu2jDD
-         x+DA3EYBKQ1d2r2qEOr6r3GZh+pG7lWUnD41710nMpQozWq8xDYmxDHevBvHw1wWXX3c
-         Q1Mp2LUvl63QeDWyuvA89/zvqXUKSLP0OVYjOeIozKicto6nGuRkW/zW2+b2hisz8qD5
-         IB3AM6adM+n7FtWLuC8299hgynSRpddnxUP8Vx4UaLNtG39hcSMJGglSxxwgmPSkz/B6
-         sMJw==
-X-Forwarded-Encrypted: i=1; AJvYcCXRoKggwPoSVmDDoB/YUSFVkx5sOazJaKJ61oOtqxozC5hHWVARLXVvllSg7TdCcn7Mf2qkRIuog0RARD7IqxYVIQFNHY1nfPWPuug=
-X-Gm-Message-State: AOJu0YwROndYh2R+r8BDhIkWzIYzBjE8GmYVuJcCaQPaEwKw3c4hrerQ
-	TjER2pdue38qL0pgSoKz5+xTmyviN0H3SawXgu2Zp21ErAVJnhAQFMa8Ke10s44=
-X-Google-Smtp-Source: AGHT+IHqJtv15hUgyIuf/PqlwYbirx+pXbxomvRBOWOOi94YU/Q64qb1oAcP8REV+yec+knrG9zq/Q==
-X-Received: by 2002:a2e:9dc8:0:b0:2e1:18d:5b4f with SMTP id 38308e7fff4ca-2e949540b40mr26515691fa.42.1716457065632;
-        Thu, 23 May 2024 02:37:45 -0700 (PDT)
+        bh=nZr+4M+DoXpeV8oSkkFyzaRfzRj8DnnoccV995epHpo=;
+        b=SoBIj0gmi3tHckHPX/MnVcMRzbgcvMOVVZ4B9Kv0W9ACF8gTbiPjHu52u9bGi4s8Ky
+         I3xHuug2hN8m3uCulqaDNqsTz2bg4shExYZ01UbjEHpac9P6rn4NASvW4ETHbdyDTYa7
+         9Is6ovfJnRnnVGuy0qn4LK005gSkcWSBz53V9v1fiSxsPs4Ywliz0a3vjiodJyIB1NFT
+         e4Ajl7gjww8Z36PxJB89q6VxmOSAQOtveVCCNGNDTw3eZDP33+Te9bx0eY3OAIoN89xl
+         d5xdDUYhjo5jV1aGMxUWsm6s12ujUrYVrbk6MSZ8RB65uccritM/+4xVQKSG9q4wi9dj
+         K5JA==
+X-Forwarded-Encrypted: i=1; AJvYcCVPul0OyLiTYvd422FCqvR0wkNiArF3CjJXedie3bekQofCrEsLbX1n1z2cmSqHMePABbn6ram7LsmBHLY7F1f3nQySbNGgEiE1Fng=
+X-Gm-Message-State: AOJu0YwFHL+BYi6woOqF0cYKMMd8JMnblx6lGjHVmTLYCqiRBpQuwGCo
+	O/WPNRzBAXmg+iAXMvDjsiggLzyKthnyw0gEAHfWdMJGG9Uv7p5KoDDhcnca15A=
+X-Google-Smtp-Source: AGHT+IHZxrSIuUr68retAsDGyT49V7Bjyk+0v3vLZlctFxxYj5K8ZOcu4gphFsf8YhaZBtcNl5CRiw==
+X-Received: by 2002:a19:520a:0:b0:518:eef0:45c0 with SMTP id 2adb3069b0e04-526c0a68dcbmr3895711e87.48.1716457188090;
+        Thu, 23 May 2024 02:39:48 -0700 (PDT)
 Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2e4d0bbcba8sm42053591fa.2.2024.05.23.02.37.44
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-521f39d2c63sm5212392e87.278.2024.05.23.02.39.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 May 2024 02:37:45 -0700 (PDT)
-Date: Thu, 23 May 2024 12:37:43 +0300
+        Thu, 23 May 2024 02:39:47 -0700 (PDT)
+Date: Thu, 23 May 2024 12:39:46 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Maxime Ripard <mripard@kernel.org>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -65,11 +65,11 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
 	Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v14 09/28] drm/display: hdmi: Add HDMI compute clock
- helper
-Message-ID: <vjsv2fn4wdlzkcu6bkssbzv26hjihzrjvzzoynyabuju7sigo6@gnmyc4nqfk22>
+Subject: Re: [PATCH v14 11/28] drm/connector: hdmi: Calculate TMDS character
+ rate
+Message-ID: <2drjirwwj3cwm4saboa5qnhwi7wev5gnilg24u7svz2iw3gtef@jainjgtog3uf>
 References: <20240521-kms-hdmi-connector-state-v14-0-51950db4fedb@kernel.org>
- <20240521-kms-hdmi-connector-state-v14-9-51950db4fedb@kernel.org>
+ <20240521-kms-hdmi-connector-state-v14-11-51950db4fedb@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -78,118 +78,28 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240521-kms-hdmi-connector-state-v14-9-51950db4fedb@kernel.org>
+In-Reply-To: <20240521-kms-hdmi-connector-state-v14-11-51950db4fedb@kernel.org>
 
-On Tue, May 21, 2024 at 12:13:42PM +0200, Maxime Ripard wrote:
-> A lot of HDMI drivers have some variation of the formula to calculate
-> the TMDS character rate from a mode, but few of them actually take all
-> parameters into account.
+On Tue, May 21, 2024 at 12:13:44PM +0200, Maxime Ripard wrote:
+> Most HDMI drivers have some code to calculate the TMDS character rate,
+> usually to adjust an internal clock to match what the mode requires.
 > 
-> Let's create a helper to provide that rate taking all parameters into
-> account.
+> Since the TMDS character rates mostly depends on the resolution, whether
+> we need to repeat pixels or not, the bpc count and the format, we can
+> now derive it from the HDMI connector state that stores all those infos
+> and remove the duplication from drivers.
 > 
 > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
->  drivers/gpu/drm/display/drm_hdmi_helper.c | 57 +++++++++++++++++++++++++++++++
->  include/drm/display/drm_hdmi_helper.h     |  4 +++
->  2 files changed, 61 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/display/drm_hdmi_helper.c b/drivers/gpu/drm/display/drm_hdmi_helper.c
-> index faf5e9efa7d3..679eb3e81393 100644
-> --- a/drivers/gpu/drm/display/drm_hdmi_helper.c
-> +++ b/drivers/gpu/drm/display/drm_hdmi_helper.c
-> @@ -193,5 +193,62 @@ void drm_hdmi_avi_infoframe_content_type(struct hdmi_avi_infoframe *frame,
->  	}
->  
->  	frame->itc = conn_state->content_type != DRM_MODE_CONTENT_TYPE_NO_DATA;
->  }
->  EXPORT_SYMBOL(drm_hdmi_avi_infoframe_content_type);
-> +
-> +/**
-> + * drm_hdmi_compute_mode_clock() - Computes the TMDS Character Rate
-> + * @mode: Display mode to compute the clock for
-> + * @bpc: Bits per character
-> + * @fmt: Output Pixel Format used
-> + *
-> + * Returns the TMDS Character Rate for a given mode, bpc count and output format.
-> + *
-> + * RETURNS:
-> + * The TMDS Character Rate, in Hertz, or 0 on error.
-> + */
-> +unsigned long long
-> +drm_hdmi_compute_mode_clock(const struct drm_display_mode *mode,
-> +			    unsigned int bpc, enum hdmi_colorspace fmt)
-> +{
-> +	unsigned long long clock = mode->clock * 1000ULL;
-> +	unsigned int vic = drm_match_cea_mode(mode);
-> +
-> +	/*
-> +	 * CTA-861-G Spec, section 5.4 - Color Coding and Quantization
-> +	 * mandates that VIC 1 always uses 8 bpc.
-> +	 */
-> +	if (vic == 1 && bpc != 8)
-> +		return 0;
-> +
-> +	if (fmt == HDMI_COLORSPACE_YUV422) {
-> +		/*
-> +		 * HDMI 1.4b Spec, section 6.2.3 - Pixel Encoding Requirements
+>  drivers/gpu/drm/display/drm_hdmi_state_helper.c    | 67 ++++++++++++++++++++++
+>  drivers/gpu/drm/drm_atomic.c                       |  1 +
+>  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c |  3 +
+>  include/drm/drm_connector.h                        |  5 ++
+>  4 files changed, 76 insertions(+)
 
-This is probably 6.2.4, but it doesn't specify that it is 36-bit _only_.
 
-> +		 * specifies that YUV422 is 36-bit only.
-> +		 */
-> +		if (bpc != 12)
-> +			return 0;
-
-6.5.1 allows using less than 12 bits (If fewer than 12 bits are
-used...). So I think it would be more correct to allow less than 12 bpc,
-but we'd still have to use 8 for the matter of the calculating the
-clock.
-
-> +
-> +		/*
-> +		 * HDMI 1.0 Spec, section 6.5 - Pixel Encoding
-> +		 * specifies that YUV422 requires two 12-bits components per
-> +		 * pixel clock, which is equivalent in our calculation to three
-> +		 * 8-bits components
-> +		 */
-> +		bpc = 8;
-> +	}
-> +
-> +	/*
-> +	 * HDMI 2.0 Spec, Section 7.1 - YCbCr 4:2:0 Pixel Encoding
-> +	 * specifies that YUV420 encoding is carried at a TMDS Character Rate
-> +	 * equal to half the pixel clock rate.
-> +	 */
-> +	if (fmt == HDMI_COLORSPACE_YUV420)
-> +		clock = clock / 2;
-> +
-> +	if (mode->flags & DRM_MODE_FLAG_DBLCLK)
-> +		clock = clock * 2;
-> +
-> +	return DIV_ROUND_CLOSEST_ULL(clock * bpc, 8);
-> +}
-> +EXPORT_SYMBOL(drm_hdmi_compute_mode_clock);
-> diff --git a/include/drm/display/drm_hdmi_helper.h b/include/drm/display/drm_hdmi_helper.h
-> index 76d234826e22..57e3b18c15ec 100644
-> --- a/include/drm/display/drm_hdmi_helper.h
-> +++ b/include/drm/display/drm_hdmi_helper.h
-> @@ -22,6 +22,10 @@ drm_hdmi_infoframe_set_hdr_metadata(struct hdmi_drm_infoframe *frame,
->  				    const struct drm_connector_state *conn_state);
->  
->  void drm_hdmi_avi_infoframe_content_type(struct hdmi_avi_infoframe *frame,
->  					 const struct drm_connector_state *conn_state);
->  
-> +unsigned long long
-> +drm_hdmi_compute_mode_clock(const struct drm_display_mode *mode,
-> +			    unsigned int bpc, enum hdmi_colorspace fmt);
-> +
->  #endif
-> 
-> -- 
-> 2.45.0
-> 
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 -- 
 With best wishes
