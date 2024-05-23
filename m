@@ -1,57 +1,57 @@
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 314E413D240
-	for <linux-sunxi@lists.linux.dev>; Thu, 23 May 2024 09:10:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F6F65B5B8
+	for <linux-sunxi@lists.linux.dev>; Thu, 23 May 2024 09:12:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716455416; cv=none; b=YTeIdSCGipHSdTBnvZhCfe8RbK4iSKp5gaFSsxv8P4q8j1YYoibB1oxfl0g2SxaiWhi82Y9K84ZQU4pmNHHgRwT9ypXR7jze6aI9/V7bMyrKG0BuciuDwu1vuHwFZ//Qgy11Fb/SjPFrCsr5soTRiL2ennXfDX2sM0AF0krwLvY=
+	t=1716455559; cv=none; b=jD6TXHj8PPi80cMZW26GxjCOoOmn8OvsPII/RM1d8k99lV18Pqic57s5Sw/xCtpqvaiX0GTxyTxc+Bux/bZBteHNUUMTcn2WraofRVn22hQPVqhjmz+HKnol5iPe4dp3OOkBOAYrE9rEUOxgXKkfkIT9oRNsxnjiUnY98PCL3GA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716455416; c=relaxed/simple;
-	bh=2LLQXSCtOxv6wPX6ulrJ4oQTIol5AljMIJ9YZtpb3U0=;
+	s=arc-20240116; t=1716455559; c=relaxed/simple;
+	bh=ua1ab30hbc2oLjmJi5p/l09P2vR0shXcHuLe8ZoBnaY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RynSZFn7n32v6mC0G0//xioYXVuS79laZ0DY5ggC39Cr0IJWU90XPxmJWWuGBayZ2Tlb210uie761cu5PTSbuA/va3JkVJ+n/pXeXCl5vE5PjU2LjYDCvabmXb9gacGo9AQrrlngzGClLWoBApJmgqU2BtYn5iVFwsb/7XXG1Gg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rjI8+v2R; arc=none smtp.client-ip=209.85.208.175
+	 Content-Type:Content-Disposition:In-Reply-To; b=GN8Ue3ZsMj/IMCUB6LbE6lGKfTxebf56P5CXoGdqRmJhCWC1skGRRWUI/Vk7qVB0bKq1fybuHIFBuVRcnH3btYmPD9g62b8i+p654/3vo/QSO54HbjBM4OveTPIVazYW5ztuBYC/Sbi5+NiqKHsNrDXUirY68YKa9R3tvLoMnuw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Xql5KwGF; arc=none smtp.client-ip=209.85.208.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rjI8+v2R"
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2e6f51f9de4so82446691fa.3
-        for <linux-sunxi@lists.linux.dev>; Thu, 23 May 2024 02:10:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Xql5KwGF"
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2e52181c228so72557981fa.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 23 May 2024 02:12:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716455412; x=1717060212; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1716455554; x=1717060354; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yLbNbEeZZx+Y9UagHOzdXnc5AHkeTqV4LNqc32hMk7o=;
-        b=rjI8+v2RnWz5QwFN8om+Mipi/10B/Ag8iL+LiJbb5SxtzIwDUs2qHneHsKa70fG1Yj
-         olnYkrP6YTh9h0+pJdM1ofpqTXRlkcXTMSaTlrjWLzSqhbmDvoTrHsaW8FVUcZITTBfj
-         iSOSPWSfwk4qbeDWaBhbtfSY/wF43BhqXuv8oduicnOysdMlSEX77uoCfVjWqxAH9071
-         kvyvM7k0WfLDAwQgUyZZqmLY5CkEqhqaIej20wGCbyi/W3Asb+ABT2mSDNWKLP35VRIY
-         ASvjK2AyEWTv/S0CVjsK91VCddLx5EJZgV1p6AoylTYGMzAhmvCOknTgbFSuE4kR7J/h
-         4I8Q==
+        bh=YeQACHVYvjXLcJmL0mtvqm0YtmyCm9cGr2iJkKX/fdc=;
+        b=Xql5KwGFU6VwKyFtfTPytCjLo5/ZRctKiUtVCYPDNpUxLs3JFOXwmVotu3BDMNh/0F
+         3nwY0FhcLDNN9ZVc2Y43UF+AXaPbafbig19FZ8Etq1JPCln9L3Z6GvPaT3X2MFA8WNRy
+         sFQwLNgv9E3pvAEO8p6+NOTqono9ydhEggG7f/56te0itVDJSRRuEbB8JI7NBfJwWsA6
+         DOzGgbqtoxQ7TWJC2FbwlmB7vZtfwRGRihDDmCMgltNT5MZVKfw5rMBNCC1UK0s7B79T
+         pmY1Hu+BUYGMEC9USYE4kDH6Lqmfn2y7tOM0rJD4ehalGmSrK/Uq1AeiafctgXRJHSyx
+         NSRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716455412; x=1717060212;
+        d=1e100.net; s=20230601; t=1716455554; x=1717060354;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yLbNbEeZZx+Y9UagHOzdXnc5AHkeTqV4LNqc32hMk7o=;
-        b=COxX5RwkoiT2Q+kfam7Js4LvP6OwNVxjTfd3Ft3HeGFoewoLW2e78TdrYwwcftUsM1
-         v+jH4tXPyhGow852vjViml9sJx9d7x1/vwu9FKeuS2m4+ot4vmdxFtIqTL8FHZObbZJq
-         Ooohbt135neJchmP+p78n3TXs/RA78FZKpZliDeG9fZKx9J0OA74aGQ59SK4ZBNxw7nA
-         bCWorWC+dpytctXCC/haA5l4FJDjwwuFtXItUjn1alzb2w07a2fwhqZyJJK5YZEMmCK1
-         a8xTOrqdOcrYE8NiSJF/paQXgFJ2fAMThPMlmHTRI2Y9jC6Wrqz0zy8z9DMvKI95jY2a
-         41pg==
-X-Forwarded-Encrypted: i=1; AJvYcCWgc7p5Qtg35Lj+dTCifl+5FIg7SI4GvSNH01PX/ptWfCBv1HCRidUxrZWP2xIii+ra3okE7tHpY+12iTl82rvHSqfFL+Nuo+Wql+s=
-X-Gm-Message-State: AOJu0Yy5cqkezDu8lH9wKRVh16beCYo25Iy6A6TUXVq7npXFB2GXlFf+
-	v1/oz0DVCha3I+psKW4DNbrIg7+Sw+DFQ5+vg3l9qc9NvR2evsGDr5ajQ5dCmCA=
-X-Google-Smtp-Source: AGHT+IGdSgWnLFMgir035AHyOCVqS5scq5u8M8DlUryO/CIUdmVczkNrL4TJ+hWCvcPS/dK0wrOj/Q==
-X-Received: by 2002:a05:6512:44b:b0:51e:646d:fe3b with SMTP id 2adb3069b0e04-526c1213db4mr3455906e87.60.1716455412389;
-        Thu, 23 May 2024 02:10:12 -0700 (PDT)
+        bh=YeQACHVYvjXLcJmL0mtvqm0YtmyCm9cGr2iJkKX/fdc=;
+        b=cdPog+UHzZmZV7/ScRLDa1gpiSZ5eET48ta7wx+0NcEd3IdkOHiFxEKVNSpETGb8RS
+         Z0faCXJQtIHfd3pPxAfxvsF0HQAs1hiefH4siofgLhc2ZEYzIqmU6iERqQLeub6DmKpp
+         Cr2jc5E2mY/pq5miBv5oNKFuZ2VOtjv1r8BjHBHETHqRzgVO9y8lwk+/AdSvV5C1aulU
+         oon1F4tZTrIu2vGsCTYdxA9mFfZQk0tLVowAcZxPt1IcP4u7Lc3As0Nr7o4Z+5wfAbu/
+         T0iYhH+ZjCD3D15CJSyiV2O/ZzIOlB6JeKhJbeEcRM2t/SBp/ECsRcezCP2ICXwkSLPi
+         b1qA==
+X-Forwarded-Encrypted: i=1; AJvYcCWYnyP84G6+5j67EldCS0mkGz9TZsFQkbJKHTuY7vvPEQ5wsa1sK8AJjNQjxRdlUAuWMKSymgx1tpnC9xf8yTWxNNyJoWlsm7RQeKk=
+X-Gm-Message-State: AOJu0YzYEyWW7TH+ALc3cNRVos0+igfleU+Yfw43Zophx4SvXABCv0+/
+	64pX8OIOL0UJIDSSMvL7H7LqHpNGxg7fqhOEnlOkyTnuw46W5UdVm4ai+e7VVEM=
+X-Google-Smtp-Source: AGHT+IFRp9kSkZyOBZ37uKA0zC3RicLR9A71BI+sImuk8bVozEkI6NVn6ruWTcgBILxGVWLUmvKCJg==
+X-Received: by 2002:a2e:8797:0:b0:2da:9ed:9b43 with SMTP id 38308e7fff4ca-2e9494bdbcbmr26440181fa.31.1716455554344;
+        Thu, 23 May 2024 02:12:34 -0700 (PDT)
 Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-521f35ad640sm5253516e87.61.2024.05.23.02.10.11
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2e4d15158c4sm41368191fa.73.2024.05.23.02.12.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 May 2024 02:10:11 -0700 (PDT)
-Date: Thu, 23 May 2024 12:10:10 +0300
+        Thu, 23 May 2024 02:12:33 -0700 (PDT)
+Date: Thu, 23 May 2024 12:12:32 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Maxime Ripard <mripard@kernel.org>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -65,10 +65,11 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
 	Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v14 06/28] drm/tests: Add output bpc tests
-Message-ID: <p6mpuna2ubfpqyfogblvknxadga2uqnm3lsocwol4npwmgw66h@42yt4b5zhk5y>
+Subject: Re: [PATCH v14 07/28] drm/connector: hdmi: Add support for output
+ format
+Message-ID: <dxqf6n2gaksc66rksmdcaky22nz226veex5q6mw4c6npsuobut@m3vuxyai3evm>
 References: <20240521-kms-hdmi-connector-state-v14-0-51950db4fedb@kernel.org>
- <20240521-kms-hdmi-connector-state-v14-6-51950db4fedb@kernel.org>
+ <20240521-kms-hdmi-connector-state-v14-7-51950db4fedb@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -77,21 +78,24 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240521-kms-hdmi-connector-state-v14-6-51950db4fedb@kernel.org>
+In-Reply-To: <20240521-kms-hdmi-connector-state-v14-7-51950db4fedb@kernel.org>
 
-On Tue, May 21, 2024 at 12:13:39PM +0200, Maxime Ripard wrote:
-> Now that we're tracking the output bpc count in the connector state,
-> let's add a few tests to make sure it works as expected.
+On Tue, May 21, 2024 at 12:13:40PM +0200, Maxime Ripard wrote:
+> Just like BPC, we'll add support for automatic selection of the output
+> format for HDMI connectors.
+> 
+> Let's add the needed defaults and fields for now.
 > 
 > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
->  drivers/gpu/drm/Kconfig                            |   1 +
->  drivers/gpu/drm/tests/Makefile                     |   1 +
->  drivers/gpu/drm/tests/drm_connector_test.c         | 140 +++++++
->  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 438 +++++++++++++++++++++
->  drivers/gpu/drm/tests/drm_kunit_edid.h             | 106 +++++
->  5 files changed, 686 insertions(+)
+>  drivers/gpu/drm/display/drm_hdmi_state_helper.c    |  3 ++-
+>  drivers/gpu/drm/drm_atomic.c                       |  2 ++
+>  drivers/gpu/drm/drm_connector.c                    | 31 ++++++++++++++++++++++
+>  drivers/gpu/drm/tests/drm_connector_test.c         |  9 +++++++
+>  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 22 +++++++++++----
+>  include/drm/drm_connector.h                        | 20 ++++++++++++++
+>  6 files changed, 81 insertions(+), 6 deletions(-)
 > 
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
