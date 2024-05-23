@@ -1,150 +1,93 @@
-Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C4F26AF6
-	for <linux-sunxi@lists.linux.dev>; Thu, 23 May 2024 03:17:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2176D28EC
+	for <linux-sunxi@lists.linux.dev>; Thu, 23 May 2024 05:30:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716434238; cv=none; b=ogXaMQ1pDMFLeKTahrjpB1LiBATDNKbZsWUNlvrYJu3VazHj8p5GbgbDTJ2S3jMYmVUG9XXvaYALrIqCPqrecGygxENUOka2RM2e0NwaDjMx46QVFpE+2BVVm/wb9/oy85OdS+h4pq69d+ZXlLUuD+X4ZUBGBiMCPq+YwtOXQNs=
+	t=1716442245; cv=none; b=ATYAGHukPOuzy+U08LxIgEwr6gpnIHNevXoJmm/nejlydYpmSXs5jvKx16OnawkzBLy6aYoBonihO8xLyUfxUrJ4ZYIw+SXpXKjo3tWrQTr17AxOSx8cI8oLXQbdcyA+1XZs4ARkJX2FQjo2c0lqXm3F4xezBs8MYFuMNfrWZoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716434238; c=relaxed/simple;
-	bh=mmip/Fmtcp8q2RqKrZFvswuRwnbSMGnRUk9BvaM36LA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EVkz9NqwdwfreLCNqzJZZu9MH+A49nfpCInU7KZtkbaa4iMavr4bPr44Ffz2S/82JdftM15umy5A8tx1a9+Lc8Nh3dCV+ayFCFpN79qoD6P1v0MmbDGbl+Cs4TwEDDsQybCW0hGzpG9iK7NgTfwlZTBxCv4nTeTnS8Ionun64po=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org; spf=none smtp.mailfrom=jookia.org; dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b=fW+SsOKt; arc=none smtp.client-ip=91.218.175.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=jookia.org
+	s=arc-20240116; t=1716442245; c=relaxed/simple;
+	bh=jeP04vuCdyKqyKQziTj/qCMLaFBjvVxkxdMxPwwYkVA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Bl5FNZkgKACwJeQ/ZwUrNR1Qhi+21ZL5kfDZdm93BKokBDeulCma4K8EbEJsJ06oGg8RT+TneNb+ISZi3NK9TwW87EHw1FgomGhGnDpRwYQUrhAmDmvg/g3iyBYKCxGWv81HyyBW97py6HQh+gd0k/hOvWA4F17GyybeV8urM0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A6Xe/WWv; arc=none smtp.client-ip=209.85.219.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b="fW+SsOKt"
-X-Envelope-To: privatesub2@gmail.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
-	t=1716434233;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GlkXcThfgU+Weh7FowP8bX9amJyy2rYrJoLZLZdXl6E=;
-	b=fW+SsOKt1InGER2nyZUsklau+h6jfkQZ6d5LAt/sqdexUzzua6yvkOvOnSykAiKTc325OD
-	kEdRSQq5hd2cfoB9gzlCtXGBudBH507ioOA6tHjMyHkx+NTw8tlqC1Sy93ZX+C4lmVXxMr
-	0ZsYWliPNAHffDofoyE0ljhFoY19tC627zytcfs/6bKJfgFwm2umSWPeo5RkoqUvv9DBBa
-	SHL+/EcFzSWM/vdtzOit88gEE5yuZItNIBbkeTm2sdzWS4c9Yd9ezVCgwqNGPhfvWKNdk2
-	y3jUKiIhQjshWHNwp28gkaUnzMw6+cBeX3lridRy7+aDOoIxC5Vbp6OCzh62Kg==
-X-Envelope-To: linux-kernel@vger.kernel.org
-X-Envelope-To: fusibrandon13@gmail.com
-X-Envelope-To: ukleinek@kernel.org
-X-Envelope-To: robh@kernel.org
-X-Envelope-To: krzk+dt@kernel.org
-X-Envelope-To: conor+dt@kernel.org
-X-Envelope-To: wens@csie.org
-X-Envelope-To: jernej.skrabec@gmail.com
-X-Envelope-To: samuel@sholland.org
-X-Envelope-To: paul.walmsley@sifive.com
-X-Envelope-To: palmer@dabbelt.com
-X-Envelope-To: aou@eecs.berkeley.edu
-X-Envelope-To: p.zabel@pengutronix.de
-X-Envelope-To: mkl@pengutronix.de
-X-Envelope-To: bigunclemax@gmail.com
-X-Envelope-To: linux-pwm@vger.kernel.org
-X-Envelope-To: devicetree@vger.kernel.org
-X-Envelope-To: linux-arm-kernel@lists.infradead.org
-X-Envelope-To: linux-sunxi@lists.linux.dev
-X-Envelope-To: linux-riscv@lists.infradead.org
-Date: Thu, 23 May 2024 13:16:47 +1000
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: John Watts <contact@jookia.org>
-To: Aleksandr Shubin <privatesub2@gmail.com>
-Cc: linux-kernel@vger.kernel.org,
-	Brandon Cheo Fusi <fusibrandon13@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	Maksim Kiselev <bigunclemax@gmail.com>, linux-pwm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v9 2/3] pwm: Add Allwinner's D1/T113-S3/R329 SoCs PWM
- support
-Message-ID: <Zk61H05-BTVUarFV@titan>
-References: <20240520184227.120956-1-privatesub2@gmail.com>
- <20240520184227.120956-3-privatesub2@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A6Xe/WWv"
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-df4e503983fso1482346276.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 22 May 2024 22:30:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716442243; x=1717047043; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=jeP04vuCdyKqyKQziTj/qCMLaFBjvVxkxdMxPwwYkVA=;
+        b=A6Xe/WWvSx2a/613qEtdoiNS9UcrakPnqqHU2c2T1kQTlPlDAWtWRGbBEIYD7Z5RWe
+         3/ztnkGz8H8MuWYUO80lwNpHUSHk+vd6yb7y8Qgqjc6amUJ8nhcGPe68qXv10l5ZCc6O
+         TvMftNyd+pLR3ZUpDYQpaRWSE2/AuHhRsHBzOEWjEGSnGD0thSr4kL8vFz6wnWwB/+RX
+         aqc+r2eOIDgUYnPU+/xINSKz8UymNxWSfRnD5/ieTomRytIou8vK4t4vxZcn1oQuhNcJ
+         aXbotoRu7pEuA2p9TIhITnTXQhczEdpUtWMrzBafWX6LaTpYAT0MnTo5FzT3ue/wsPiO
+         PsTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716442243; x=1717047043;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jeP04vuCdyKqyKQziTj/qCMLaFBjvVxkxdMxPwwYkVA=;
+        b=QrB+ai0YQaaL0IP9eQksLEKbkYJ3myTtp7mWPDnPlyNzsXOfhbGbLa54FtMHyRub5C
+         na2oM/PaPPV32w+FBt3uJhiK/VGY5fPIQhm7klMhhRFX6Jp0vArpt8WNoh6xUuzsx2j/
+         vbA1EAEId/OoLt2bCPR4LiQTzrySDXvffGqtx/NDxYwep1zzEOOFZSmoaysRGNkWi0Lb
+         BNBWDlz/+CZsEIjVrwD/XkwcCy0WEgOq3WvxDafIHRmUrNtOcIm+bgkEScBEpXK9dGiu
+         9hyuJb+xhoDm5DqFzUMsSINnjc6s7Nz5Hjdp2erhSbAc22yq43QWmjspDNx/euRH4JVs
+         iKDA==
+X-Forwarded-Encrypted: i=1; AJvYcCVV16BRUw30nEOGO9tp4D8g1/SoQgGQ0wwRILLHB5913kdDJ6Yq7WQuCxOsLfLHPqXDN0GhI7fgQ4Ib3+xOaLE8Ajr+o1tnZf84DWA=
+X-Gm-Message-State: AOJu0Yy7WDpDLM6PdUimnStQVMbuAb1aSh7zQfpwzv112A5jYjG/RNyH
+	mvmus1l2Oyj3erTDJRFg3A7YuEguc5vTdVa0g9Y0wybxiT9yvMVvZ3usLHpxWPiXnmSMlbQtU5t
+	h1hJ6QtmxJVi3nmaMwSX2ftyIe2o=
+X-Google-Smtp-Source: AGHT+IFwNmf9mikTsRKBvOMdbJUka1g4+AANDd7/jGjpPbZNh3NDCKIMRlgEx8AomEr4C5opC2T3EcB9FDNaZkHjtF8=
+X-Received: by 2002:a25:a347:0:b0:de5:5510:1d4a with SMTP id
+ 3f1490d57ef6-df4e0be4b93mr3401384276.34.1716442243001; Wed, 22 May 2024
+ 22:30:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240520184227.120956-3-privatesub2@gmail.com>
-X-Migadu-Flow: FLOW_OUT
+References: <CAG40kxGMu-TSchNezkcC_A97hzPnWU3KxeL-X-hJfPhjr_COyQ@mail.gmail.com>
+ <Zk6yK3U9tgxOxcBb@titan>
+In-Reply-To: <Zk6yK3U9tgxOxcBb@titan>
+From: =?UTF-8?B?44GN44GP44Gh44KD44KT44GV44KT?= <kikuchan98@gmail.com>
+Date: Thu, 23 May 2024 14:30:32 +0900
+Message-ID: <CAG40kxFxE_Oj+9aCzGku0a3KFHpuW8ai=gEkV9M8==5gwmjdEA@mail.gmail.com>
+Subject: Re: [PATCH v9 0/3] Add support for Allwinner PWM on D1/T113s/R329 SoCs
+To: John Watts <contact@jookia.org>
+Cc: privatesub2@gmail.com, aou@eecs.berkeley.edu, bigunclemax@gmail.com, 
+	conor+dt@kernel.org, devicetree@vger.kernel.org, fusibrandon13@gmail.com, 
+	jernej.skrabec@gmail.com, krzk+dt@kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-pwm@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, mkl@pengutronix.de, p.zabel@pengutronix.de, 
+	palmer@dabbelt.com, paul.walmsley@sifive.com, robh@kernel.org, 
+	samuel@sholland.org, ukleinek@kernel.org, wens@csie.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+Hello John,
 
-Here's a quick review based on the experience of me writing my own driver.
+Your method is quite impressive and challenging.
 
-On Mon, May 20, 2024 at 09:42:20PM +0300, Aleksandr Shubin wrote:
-> +	act_cycle = FIELD_GET(SUN20I_PWM_PERIOD_ACT_CYCLE, val);
-> +	ent_cycle = FIELD_GET(SUN20I_PWM_PERIOD_ENTIRE_CYCLE, val);
-> +
-> +	/*
-> +	 * The duration of the active phase should not be longer
-> +	 * than the duration of the period
-> +	 */
-> +	if (act_cycle > ent_cycle)
-> +		act_cycle = ent_cycle;
-> +
-> +	/*
-> +	 * We have act_cycle <= ent_cycle <= 0xffff, prescale_k <= 0x100,
-> +	 * div_m <= 8. So the multiplication fits into an u64 without
-> +	 * overflow.
-> +	 */
-> +	tmp = ((u64)(act_cycle) * prescale_k << div_m) * NSEC_PER_SEC;
-> +	state->duty_cycle = DIV_ROUND_UP_ULL(tmp, clk_rate);
-> +	tmp = ((u64)(ent_cycle) * prescale_k << div_m) * NSEC_PER_SEC;
-> +	state->period = DIV_ROUND_UP_ULL(tmp, clk_rate);
+I think PWM is not only for LCD backlighting, but also for signal generation.
+For instance, imagine an application software that sends a stream to
+one PWM channel to synthesize sound by changing its period (plays a
+square wave).
+By your method, if the other PWM channel is used for LCD backlighting,
+it may flicker repeatedly on DIV_M changes.
+(Or simply both channels for streo sound synthesize, you may hear lots
+of pop noise)
 
-Doesn't ent_cycle require a + 1 here?
-Shouldn't act_cycle be > ent_cycle on 0% duty cycles?
+It means the setting of one channel can affect the other, which users
+may not anticipate.
 
-> +			/* if the neighbor channel is enable, check period only */
-> +			use_bus_clk = FIELD_GET(SUN20I_PWM_CLK_CFG_SRC, clk_cfg) != 0;
-> +			val = mul_u64_u64_div_u64(state->period,
-> +						  (use_bus_clk ? bus_rate : hosc_rate),
-> +						  NSEC_PER_SEC);
-
-It would be nice if it reclocked both channels.
-
-> +		/* calculate prescale_k, PWM entire cycle */
-> +		ent_cycle = val >> div_m;
-> +		prescale_k = DIV_ROUND_DOWN_ULL(ent_cycle, 65537);
-> +		if (prescale_k > SUN20I_PWM_CTL_PRESCAL_K_MAX)
-> +			prescale_k = SUN20I_PWM_CTL_PRESCAL_K_MAX;
-> +
-> +		do_div(ent_cycle, prescale_k + 1);
-> +
-> +		/* for N cycles, PPRx.PWM_ENTIRE_CYCLE = (N-1) */
-> +		reg_period = FIELD_PREP(SUN20I_PWM_PERIOD_ENTIRE_CYCLE, ent_cycle - 1);
-> +
-> +		/* set duty cycle */
-> +		val = mul_u64_u64_div_u64(state->duty_cycle,
-> +					  (use_bus_clk ? bus_rate : hosc_rate),
-> +					  NSEC_PER_SEC);
-> +		act_cycle = val >> div_m;
-> +		do_div(act_cycle, prescale_k + 1);
-
-I'm not sure about this code. I don't quite get where the 65537 comes from or
-what's really happening here.
-
-To my understanding you either want to limit PWM_ENTIRE_CYCLE to 0xFFFE so and
-scale PWM_ACTIVE_CYCLE from 0 to 65535 so it can be 0x0 at 100% duty cycles and
-0xFFFF at 0% duty cycles, OR you want to scale it from 0 to 65536 and check if
-the value is 65536, and if it is wrap it around to 0 and flip the polarity.
-
-Thanks,
-John.
+Best regards,
+kikuchan.
