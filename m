@@ -1,57 +1,58 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA71054720
-	for <linux-sunxi@lists.linux.dev>; Thu, 23 May 2024 10:17:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 663BD13D517
+	for <linux-sunxi@lists.linux.dev>; Thu, 23 May 2024 10:23:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716459446; cv=none; b=mCGVW3BMbj1bWXI9z3QUef4u7LuMXoBVUsePImWbgmcrPP0yK+NV0zH7wLM8bz/nZ0iXT3i8lLD0uAqS6eRItEdyLfVLzbIE4Vo03c0dhomMf2wnHjnjJSjkzpziwdZkFaLHCLQMifQA+aMgarL/i1o2YBdq3jYnRO+261oxTtw=
+	t=1716459782; cv=none; b=X+V6xxjRvr3qtSgzZGEZDNmEiyHkf27mVs94YgqzqgUakk8Utn7ONBSjw+cN8D0Qz6Vlw6wXevN/HznLhb60SUxNY6E+dGU4m443P2Ydc/OTtxIvpOGQRdm41DrMKrhNzSxvcUQxYi5zH1swnrKb3iNRporqVpb3WC2tiNSruPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716459446; c=relaxed/simple;
-	bh=VxArPR+4LU1aox0+YmS8YeLfjdTov1uipRKbrBd98BY=;
+	s=arc-20240116; t=1716459782; c=relaxed/simple;
+	bh=4FADG5CtgDgZ0nIGhxXBr21dhRNWj/4o2A+QCOzfNN8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XA39XSnkFmwSW7N3vgufbjpIOhfadFA3SGjJz7cK9iFDDquOBsKVfOQaaBJwJZwHKV3k1zf8HiRgZetQzqgCGoC8DnRWKAKqBkgbHmUULYWcaNQ2wK+mhYN/VvoVGvzdB9UBMxFzXNNhizMSABb7lDKIga6W4JPPW3EzMlm1Pz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aqrfaFR+; arc=none smtp.client-ip=209.85.167.51
+	 Content-Type:Content-Disposition:In-Reply-To; b=uesIBRxDXqSZTwPyx4AnVjvtK9Y2wGAFZ2O2F80+vnSvds7urVROH0jyftPJsiKc4TK2qIAbvmQaydaeOvyIg9CvrgYnBoQv8SVFJ6P6fUotGMO76n5Mv70JauxLh40ArorAJ7uiVNr6zgWOJUnIkVXK32uy3YVef4HN45mM2fA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VBLwylOW; arc=none smtp.client-ip=209.85.208.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aqrfaFR+"
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-52327368e59so8367100e87.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 23 May 2024 03:17:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VBLwylOW"
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2e72b8931caso48493881fa.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 23 May 2024 03:23:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716459443; x=1717064243; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=80bP7y7qA9MMuEwQlAA7CumJ5PPSgBtdUbjEPN31H7U=;
-        b=aqrfaFR+mY9CGJ8f8dFcJNbK9llRbzAqrNYxQ1sqDxQ2utiJBdPcyMk9z/QymzGOls
-         aHrLVpeB9LEutRZf0Md1OOTJbuLSXYNf+hbPV1M4JGybPbAkdbUmzgnIgrHIJEqQIomp
-         XN3zSPw+kilnFtg+7wq7O/qeHxtHQa5GHGFaQUEL1gqjymtDSOlVx5m36xUw/ahMLJMP
-         vwz8cvvR/VQ7v9qfoDckh1yg8D/lefO8i/bnkO/YY/Dmisj1+MQjJMWMuXph67HJFvgg
-         a6ti2nW4ReZvabxSUQAGo95jSefZ7N7EUWmz70mi+4HpjvKec29rXUcGIbNcCbjb/SFI
-         BQGg==
+        d=linaro.org; s=google; t=1716459778; x=1717064578; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=yHQzcgh+wt+86lDxNvmMSEbfCa2z01pUSJ+bgewkqHY=;
+        b=VBLwylOW0IT53py63kwcP0JIkIspquWWtsebQexcbDQLwLKPqzrTuAd0ad7n2S3GL9
+         JUd+myniM5Qd0TG2o29p0mRW+4CqZoKckYZJmvAf/99kkloAdsaTHkvYjB84tDZusy1u
+         1M7Hxd2Fpqt/daSNldtc68k4h8YAypuSwnxeJIupN15WTU7MGlkhzJpynpsDMrhvsu8O
+         dXngAQT0bMoLvVu71h3GITUiMM5XogLMHeTjHo07I584LxHTsshFyO3MWpYO25CbwbBy
+         XPRXzN4QPyz2Lms3ZovwvyYG6fzR9gguUoK0lysqURiICg86Gm/78UlHG1C5Kx76LJ1d
+         Cf+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716459443; x=1717064243;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=80bP7y7qA9MMuEwQlAA7CumJ5PPSgBtdUbjEPN31H7U=;
-        b=TfZ6dnZmKtfIrbal24T5sQJgcnhmLIiB8N45GJZMvflE77MKpUmBfPZB4tqwBeWEuU
-         IozAC1V2d5yQoRv+alWhoHoyZzx/OLGuhhLFU8SBbzV4oI5GwRnsMkZh8hO7fhOrCzik
-         SPo9wy6C7YTrTdiBuY4mAO+J2WK3J5ReMZxyULB0gEzNOpShs/4cPa5vQTdzyiCYTnVl
-         cZK0WXassxtAH6zntTijdxZpUrGlCuuEdnScdNnNaCouDoz9v53OCkrsTvUpOac3Vlpw
-         om7LKq03LPQmDPzp3HpsQB6TVtGiQe4YYQAmtWV8mXMLWJykXmDq9grCo/VORBsBvn6G
-         xNUQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVKl7rUCju7LYPBDATGZ3snl9CjgtjvTT+SDrjKX8ekmEos/s0S0/7gdK631l1CxMma5lAXKJkeycXnkNqM5TSTQ/Ipyr6dSBUuwiY=
-X-Gm-Message-State: AOJu0YwNWfebsKbaALZnYwic8/Dric4Msxn79S7r2yyQA7CBrFb3ArNz
-	8zKo09QxdLJ/vTM2eL6VHLrtKVczjVdt+RG7b/wzffLlYV7irN7pTtLIH0WsCBk=
-X-Google-Smtp-Source: AGHT+IHf7awBjw/9D/TT+Rgq+OAeb8dHAhP0xUpM418Uxoc/FOiPxZ31oJO7H7MbUzlhcOAfgCiNgA==
-X-Received: by 2002:a19:f618:0:b0:523:89b0:b03f with SMTP id 2adb3069b0e04-526bf35ccf2mr2563834e87.28.1716459443132;
-        Thu, 23 May 2024 03:17:23 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1716459778; x=1717064578;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yHQzcgh+wt+86lDxNvmMSEbfCa2z01pUSJ+bgewkqHY=;
+        b=m/3b1q4pgK3BkH9NwygrNWlBS1mhomxwAUzIlHHcA7oHoA84xOte7HaXcuJs7Tk5aJ
+         IgVQFRNpyAa+SHh4OeUGrX3A9z8Tt5Ih9CEdxe2/FBzQxe7REQ4Fgz7jbWkelM6m+fVZ
+         AeBdk9YEW0RDHF2+4lYewO6rc/skRCIWssvUZ5euAjvuteFbEvEsQCzldm2jBS0t15ef
+         Wq3OHn1+T10YB8F4mZd0+833/pZqRm/dBcQbREJqtNnkUlBkruz15eSWKtsNZdJQJ4zc
+         Oj4eAfVOkw+MK1aGB/mkIW4oEPLnysmosa8Z7aAezCozJqnLXO5nkDeAG6NIyf2YOw8d
+         w+6A==
+X-Forwarded-Encrypted: i=1; AJvYcCV4DW+x9REzjhRj3O9c6uLRpKX6Y7tU3hht3b7gWebegSa1+CLxaZdJiqfjC5dlwK6nDemRe67za6DwMJJuRVsrZ7qQfVcM96RnH6k=
+X-Gm-Message-State: AOJu0Yy8ry435m11BfHjePl6pseo9iMzDDM4zBQ7lVruu/wcsHr9bzSo
+	rAPjLGsWzgZD31lsKn8S7vaBop3/qub8GDAmxdrNCyOAKEAID89+uqFYY6tL4Iw=
+X-Google-Smtp-Source: AGHT+IGaIAjJQzrs40kJxNB7OiB13JCw7thzg4cpmesH+f4K6m+C9dDIXqqPiTDnb/PD63DiDWKJ5Q==
+X-Received: by 2002:a05:6512:4cd:b0:51a:cc00:951b with SMTP id 2adb3069b0e04-526c0c544abmr2482181e87.49.1716459778462;
+        Thu, 23 May 2024 03:22:58 -0700 (PDT)
 Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52812cf2e1bsm215911e87.254.2024.05.23.03.17.22
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-521f38d90b2sm5326325e87.242.2024.05.23.03.22.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 May 2024 03:17:22 -0700 (PDT)
-Date: Thu, 23 May 2024 13:17:20 +0300
+        Thu, 23 May 2024 03:22:57 -0700 (PDT)
+Date: Thu, 23 May 2024 13:22:56 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Maxime Ripard <mripard@kernel.org>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -63,35 +64,72 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick <sebastian.wick@redhat.com>, 
 	Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, dri-devel@lists.freedesktop.org, 
 	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v14 16/28] drm/tests: Add HDMI connector bpc and format
- tests
-Message-ID: <7xvmyypalx7letzlyxoootpc2e7io5f2no3pu7jnmh36m4su44@6sewdztpjqfz>
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, Pekka Paalanen <pekka.paalanen@collabora.com>
+Subject: Re: [PATCH v14 17/28] drm/connector: hdmi: Add Broadcast RGB property
+Message-ID: <4n55dbl2h275z5ubebigri4xjtjsvt44w62n656srdgndcav2j@rrq5haucqx5u>
 References: <20240521-kms-hdmi-connector-state-v14-0-51950db4fedb@kernel.org>
- <20240521-kms-hdmi-connector-state-v14-16-51950db4fedb@kernel.org>
+ <20240521-kms-hdmi-connector-state-v14-17-51950db4fedb@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240521-kms-hdmi-connector-state-v14-16-51950db4fedb@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240521-kms-hdmi-connector-state-v14-17-51950db4fedb@kernel.org>
 
-On Tue, May 21, 2024 at 12:13:49PM +0200, Maxime Ripard wrote:
-> The previous patch added the bpc and format an HDMI connector needs to
-> be set up with for a given connector state.
+On Tue, May 21, 2024 at 12:13:50PM +0200, Maxime Ripard wrote:
+> The i915 driver has a property to force the RGB range of an HDMI output.
+> The vc4 driver then implemented the same property with the same
+> semantics. KWin has support for it, and a PR for mutter is also there to
+> support it.
 > 
-> Let's add a few tests to make sure it works as expected.
+> Both drivers implementing the same property with the same semantics,
+> plus the userspace having support for it, is proof enough that it's
+> pretty much a de-facto standard now and we can provide helpers for it.
 > 
+> Let's plumb it into the newly created HDMI connector.
+> 
+> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> Reviewed-by: Sebastian Wick <sebastian.wick@redhat.com>
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
->  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 509 +++++++++++++++++++++
->  drivers/gpu/drm/tests/drm_kunit_edid.h             | 160 +++++++
->  2 files changed, 669 insertions(+)
+>  Documentation/gpu/kms-properties.csv            |  1 -
+>  drivers/gpu/drm/display/drm_hdmi_state_helper.c |  4 +-
+>  drivers/gpu/drm/drm_atomic.c                    |  2 +
+>  drivers/gpu/drm/drm_atomic_uapi.c               |  4 ++
+>  drivers/gpu/drm/drm_connector.c                 | 88 +++++++++++++++++++++++++
+>  include/drm/drm_connector.h                     | 36 ++++++++++
+>  6 files changed, 133 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/gpu/kms-properties.csv b/Documentation/gpu/kms-properties.csv
+> index 0f9590834829..caef14c532d4 100644
+> --- a/Documentation/gpu/kms-properties.csv
+> +++ b/Documentation/gpu/kms-properties.csv
+> @@ -15,11 +15,10 @@ Owner Module/Drivers,Group,Property Name,Type,Property Values,Object attached,De
+>  ,,“saturation”,RANGE,"Min=0, Max=100",Connector,TBD
+>  ,,“hue”,RANGE,"Min=0, Max=100",Connector,TBD
+>  ,Virtual GPU,“suggested X”,RANGE,"Min=0, Max=0xffffffff",Connector,property to suggest an X offset for a connector
+>  ,,“suggested Y”,RANGE,"Min=0, Max=0xffffffff",Connector,property to suggest an Y offset for a connector
+>  ,Optional,"""aspect ratio""",ENUM,"{ ""None"", ""4:3"", ""16:9"" }",Connector,TDB
+> -i915,Generic,"""Broadcast RGB""",ENUM,"{ ""Automatic"", ""Full"", ""Limited 16:235"" }",Connector,"When this property is set to Limited 16:235 and CTM is set, the hardware will be programmed with the result of the multiplication of CTM by the limited range matrix to ensure the pixels normally in the range 0..1.0 are remapped to the range 16/255..235/255."
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Should it still be defined as a generic property?
+
+>  ,,“audio”,ENUM,"{ ""force-dvi"", ""off"", ""auto"", ""on"" }",Connector,TBD
+>  ,SDVO-TV,“mode”,ENUM,"{ ""NTSC_M"", ""NTSC_J"", ""NTSC_443"", ""PAL_B"" } etc.",Connector,TBD
+>  ,,"""left_margin""",RANGE,"Min=0, Max= SDVO dependent",Connector,TBD
+>  ,,"""right_margin""",RANGE,"Min=0, Max= SDVO dependent",Connector,TBD
+>  ,,"""top_margin""",RANGE,"Min=0, Max= SDVO dependent",Connector,TBD
+> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> index 93cb30dba86e..888fe1fe9594 100644
+
+
+[the rest LGTM]
 
 -- 
 With best wishes
