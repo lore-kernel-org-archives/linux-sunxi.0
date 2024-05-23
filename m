@@ -1,315 +1,133 @@
-Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
+Received: from unicorn.mansr.com (unicorn.mansr.com [81.2.72.234])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CB7EAD2C
-	for <linux-sunxi@lists.linux.dev>; Thu, 23 May 2024 17:00:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 176622C694
+	for <linux-sunxi@lists.linux.dev>; Thu, 23 May 2024 18:58:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.2.72.234
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716483662; cv=none; b=as45k4jIGt+ZPqt90ePegmJVVB/Uoce85yrJouoYkuitnd78AE3mvv92uplGLIUYlsoEYMK7Da1GPceiVyiew/OhZffpEYFS7nLIYm82JP1vNW8fzI7ioFI0j8IycrJLuOsvYdPN7N1Kg0hvtWq2fCS/XZH/sEZ1x11Jf1RiiqU=
+	t=1716490690; cv=none; b=gCpi9SJhTjyMGoA9O8LY0SDlYCRvTdkN4Kuz35CAaFKCvBH+pOjER5N9XzAdDoHotjY6AfmmL+hhcim5hNm9POj1aUnzsgO+x4qRuRuK8fUgvuKrjCxKDG/SkgJjfRfk9+AbmOhF6Oo152p8M8XlDAOY7QfUsVfNOym+sJpYrGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716483662; c=relaxed/simple;
-	bh=Fq3QsjNx5B621ZaYULO/+HwsocSsy12Sn1t+W1nGbfk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=B4A+OP4LVJNWLKGQSp0B6RuqLuxDxXrtyg4djVxjveBP8N9zIQQ8npUKda5Pvbre5ydsEkAZRd5048M1HR47rUu5NnkspT9YeO17aezG9+EABk+mUmCUAqD/cBp+9Zbm3NlBPqtovKr64aN2i2BsdQmVUNHz78zSb2DIW0sJ8DQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=TIapE6M4; arc=none smtp.client-ip=91.218.175.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="TIapE6M4"
-X-Envelope-To: mripard@kernel.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1716483657;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ykz7CSuGmpReMbjY7aKYP//JpEBEa/0nSh28NBFDVBU=;
-	b=TIapE6M4VUR7Mt+IBvSqJF4eYiwgBL6E2freRulFfb573/OkGC3cBsleiVjezpU5O/LrP1
-	lRF020YJrwQKFpNZM4J2r08fzzaqgUokU/PkR35D1Lbg9EMnRwmevbPlHxGv4TRzSSQohy
-	zFuraMMuvLnJMAiiys++zLk/KyyzzFk=
-X-Envelope-To: maarten.lankhorst@linux.intel.com
-X-Envelope-To: tzimmermann@suse.de
-X-Envelope-To: airlied@gmail.com
-X-Envelope-To: daniel@ffwll.ch
-X-Envelope-To: corbet@lwn.net
-X-Envelope-To: hjc@rock-chips.com
-X-Envelope-To: heiko@sntech.de
-X-Envelope-To: wens@csie.org
-X-Envelope-To: jernej.skrabec@gmail.com
-X-Envelope-To: samuel@sholland.org
-X-Envelope-To: andy.yan@rock-chips.com
-X-Envelope-To: hverkuil@xs4all.nl
-X-Envelope-To: sebastian.wick@redhat.com
-X-Envelope-To: ville.syrjala@linux.intel.com
-X-Envelope-To: dri-devel@lists.freedesktop.org
-X-Envelope-To: linux-arm-kernel@lists.infradead.org
-X-Envelope-To: linux-doc@vger.kernel.org
-X-Envelope-To: linux-kernel@vger.kernel.org
-X-Envelope-To: linux-media@vger.kernel.org
-X-Envelope-To: linux-rockchip@lists.infradead.org
-X-Envelope-To: linux-sunxi@lists.linux.dev
-X-Envelope-To: dave.stevenson@raspberrypi.com
-Message-ID: <1e47e26f-948b-43d1-8d9f-a15e06e816f6@linux.dev>
-Date: Fri, 24 May 2024 01:00:47 +0800
+	s=arc-20240116; t=1716490690; c=relaxed/simple;
+	bh=QQNdtzoOdLf6SuKfsjdq8VOWrAdYs1aQG2dt+TDRoKM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Ls34WKFO/0TOGc7CjLU+ahs5Si74WilWqfomIzwfg7L8T+sOb/oUvpoI1uZmfTjrGnQDRvqZEySDAlmS86UTESvibwLB/lpGVlaLy9S4bq7otN7j5SiAVWYKd4Aksgj5XtcJSsyyWFn2vGfUPIMFSjV7IL4I5KTJxUP4rURNQjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mansr.com; spf=pass smtp.mailfrom=mansr.com; arc=none smtp.client-ip=81.2.72.234
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mansr.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mansr.com
+Received: from raven.mansr.com (raven.mansr.com [IPv6:2001:8b0:ca0d:1::3])
+	by unicorn.mansr.com (Postfix) with ESMTPS id DA6A515364;
+	Thu, 23 May 2024 19:58:00 +0100 (BST)
+Received: by raven.mansr.com (Postfix, from userid 51770)
+	id CACE3219FCA; Thu, 23 May 2024 19:58:00 +0100 (BST)
+From: =?iso-8859-1?Q?M=E5ns_Rullg=E5rd?= <mans@mansr.com>
+To: Frank Oltmanns <frank@oltmanns.dev>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Guido
+ =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>, Purism Kernel Team
+ <kernel@puri.sm>, Ondrej
+ Jirman <megi@xff.cz>, Neil Armstrong <neil.armstrong@linaro.org>, Jessica
+ Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
+ Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ stable@vger.kernel.org
+Subject: Re: [PATCH v4 1/5] clk: sunxi-ng: common: Support minimum and
+ maximum rate
+In-Reply-To: <yw1x4jap90va.fsf@mansr.com> (=?iso-8859-1?Q?=22M=E5ns_Rullg?=
+ =?iso-8859-1?Q?=E5rd=22's?= message of "Wed,
+	22 May 2024 19:07:21 +0100")
+References: <20240310-pinephone-pll-fixes-v4-0-46fc80c83637@oltmanns.dev>
+	<20240310-pinephone-pll-fixes-v4-1-46fc80c83637@oltmanns.dev>
+	<yw1xo78z8ez0.fsf@mansr.com>
+	<c4c1229c-1ed3-4b6e-a53a-e1ace2502ded@oltmanns.dev>
+	<yw1x4jap90va.fsf@mansr.com>
+Date: Thu, 23 May 2024 19:58:00 +0100
+Message-ID: <yw1xo78w73uv.fsf@mansr.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/29.3 (gnu/linux)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [v14,06/28] drm/tests: Add output bpc tests
-To: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
- Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Andy Yan <andy.yan@rock-chips.com>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>,
- Sebastian Wick <sebastian.wick@redhat.com>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev, Dave Stevenson <dave.stevenson@raspberrypi.com>
-References: <20240521-kms-hdmi-connector-state-v14-6-51950db4fedb@kernel.org>
-Content-Language: en-US, en-AU
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <20240521-kms-hdmi-connector-state-v14-6-51950db4fedb@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Hi, Maxime
+M=E5ns Rullg=E5rd <mans@mansr.com> writes:
 
-
-I love you patch, yet it generates warnning calltrace. Despite it's
-just a warning but it can overwhelm when we run kunit tests. Hence,
-I suggest switch to the drm_atomic_connector_get_property() function.
-
-Logs are pasted as below for easier to ready.
-
-
-  ------------[ cut here ]------------
-  WARNING: CPU: 3 PID: 1264 at drivers/gpu/drm/drm_mode_object.c:354 
-drm_object_property_get_value+0x2c/0x34
-  Modules linked in: drm_connector_test drm_display_helper 
-drm_kunit_helpers kunit rfkill ip_set nf_tables nfnetlink vfat fat uas 
-usb_storage kvm efi_pstore pstore spi_loongson_pci spi_loongson_core 
-fuse efivarfs [last unloaded: drm_connector_test]
-  CPU: 3 PID: 1264 Comm: kunit_try_catch Tainted: G                 N 
-6.9.0+ #443
-  Hardware name: Loongson 
-Loongson-3A6000-HV-7A2000-XA61200/Loongson-3A6000-HV-7A2000-XA61200, 
-BIOS Loongson-UDK2018-V4.0.05636-stable202311 12/
-  pc 9000000003469fec ra ffff80000225afdc tp 900000011fc54000 sp 
-900000011fc57d80
-  a0 900000010aa84658 a1 9000000104432a00 a2 900000011fc57d98 a3 
-900000011fc57d98
-  a4 9000000104432a4c a5 9000000003f14e98 a6 0000000000000008 a7 
-fffffffffffffffe
-  t0 0000000000000010 t1 900000010aa84000 t2 ffffffffffffffff t3 
-ffffffffc0c0c0c0
-  t4 ffffffffc0c0c0c0 t5 0000000000000220 t6 0000000000000001 t7 
-0000000000107203
-  t8 0000000000107303 u0 0000000000000008 s9 90000001000ebe60 s0 
-900000010aa84000
-  s1 90000001470679c8 s2 9000000104432a00 s3 ffff800002284000 s4 
-900000010aa84658
-  s5 900000010aa84618 s6 0000000000001000 s7 0000000000000001 s8 
-0000000000000000
-     ra: ffff80000225afdc drm_test_connector_hdmi_init_bpc_8+0xcc/0x2d0 
-[drm_connector_test]
-    ERA: 9000000003469fec drm_object_property_get_value+0x2c/0x34
-   CRMD: 000000b0 (PLV0 -IE -DA +PG DACF=CC DACM=CC -WE)
-   PRMD: 00000004 (PPLV0 +PIE -PWE)
-   EUEN: 00000000 (-FPE -SXE -ASXE -BTE)
-   ECFG: 00071c1c (LIE=2-4,10-12 VS=7)
-  ESTAT: 000c0000 [BRK] (IS= ECode=12 EsubCode=0)
-   PRID: 0014d000 (Loongson-64bit, Loongson-3A6000-HV)
-  CPU: 3 PID: 1264 Comm: kunit_try_catch Tainted: G                 N 
-6.9.0+ #443
-  Hardware name: Loongson 
-Loongson-3A6000-HV-7A2000-XA61200/Loongson-3A6000-HV-7A2000-XA61200, 
-BIOS Loongson-UDK2018-V4.0.05636-stable202311 12/
-  Stack : 9000000004065000 0000000000000000 9000000002ac339c 
-900000011fc54000
-          900000011fc579f0 900000011fc579f8 0000000000000000 
-900000011fc57b38
-          900000011fc57b30 900000011fc57b30 900000011fc57940 
-0000000000000001
-          0000000000000001 900000011fc579f8 18e7bf3ffb6e59df 
-9000000100328a00
-          0000000000000001 0000000000000003 0000000000000434 
-4c206e6f73676e6f
-          6f4c203a656d616e 00000000000d0ad3 000000000704c000 
-90000001000ebe60
-          0000000000000000 0000000000000000 9000000003ee6ab0 
-9000000004065000
-          0000000000000000 900000010aa84618 0000000000001000 
-0000000000000001
-          0000000000000000 0000000000000000 9000000002ac33b4 
-000055557dd80078
-          00000000000000b0 0000000000000004 0000000000000000 
-0000000000071c1c
-          ...
-  Call Trace:
-  [<9000000002ac33b4>] show_stack+0x5c/0x180
-  [<9000000003b1ed2c>] dump_stack_lvl+0x70/0xa0
-  [<9000000003b01fd8>] __warn+0x84/0xc8
-  [<9000000003ad282c>] report_bug+0x19c/0x204
-  [<9000000003b1fe00>] do_bp+0x264/0x2b4
-  [<0000000000000000>] 0x0
-  [<9000000003469fec>] drm_object_property_get_value+0x2c/0x34
-  [<ffff80000225afdc>] drm_test_connector_hdmi_init_bpc_8+0xcc/0x2d0 
-[drm_connector_test]
-  [<ffff800002214f3c>] kunit_try_run_case+0x7c/0x18c [kunit]
-  [<ffff800002216de8>] kunit_generic_run_threadfn_adapter+0x1c/0x28 [kunit]
-  [<9000000002b06238>] kthread+0x124/0x130
-  [<9000000002ac1248>] ret_from_kernel_thread+0xc/0xa4
-
-  ---[ end trace 0000000000000000 ]---
-  ------------[ cut here ]------------
-
-
-On 5/21/24 18:13, Maxime Ripard wrote:
-> Now that we're tracking the output bpc count in the connector state,
-> let's add a few tests to make sure it works as expected.
-> 
-> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/Kconfig                            |   1 +
->   drivers/gpu/drm/tests/Makefile                     |   1 +
->   drivers/gpu/drm/tests/drm_connector_test.c         | 140 +++++++
->   drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 438 +++++++++++++++++++++
->   drivers/gpu/drm/tests/drm_kunit_edid.h             | 106 +++++
->   5 files changed, 686 insertions(+)
-> 
+> Frank Oltmanns <frank@oltmanns.dev> writes:
+>
+>> Hi M=E5ns,
+>>
+>> 21.05.2024 15:43:10 M=E5ns Rullg=E5rd <mans@mansr.com>:
+>>
+>>> Frank Oltmanns <frank@oltmanns.dev> writes:
+>>>
+>>>> The Allwinner SoC's typically have an upper and lower limit for their
+>>>> clocks' rates. Up until now, support for that has been implemented
+>>>> separately for each clock type.
+>>>>
+>>>> Implement that functionality in the sunxi-ng's common part making use =
+of
+>>>> the CCF rate liming capabilities, so that it is available for all clock
+>>>> types.
+>>>>
+>>>> Suggested-by: Maxime Ripard <mripard@kernel.org>
+>>>> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+>>>> Cc: stable@vger.kernel.org
+>>>> ---
+>>>> drivers/clk/sunxi-ng/ccu_common.c | 19 +++++++++++++++++++
+>>>> drivers/clk/sunxi-ng/ccu_common.h |=A0 3 +++
+>>>> 2 files changed, 22 insertions(+)
+>>>
+>>> This just landed in 6.6 stable, and it broke HDMI output on an A20 based
+>>> device, the clocks ending up all wrong as seen in this diff of
+>>> /sys/kernel/debug/clk/clk_summary:
 
 [...]
 
-> +
-> +/*
-> + * Test that the registration of a connector with a maximum bpc count of
-> + * 8 succeeds, registers the max bpc property, but doesn't register the
-> + * HDR output metadata one.
-> + */
-> +static void drm_test_connector_hdmi_init_bpc_8(struct kunit *test)
-> +{
-> +	struct drm_connector_init_priv *priv = test->priv;
-> +	struct drm_connector *connector = &priv->connector;
-> +	struct drm_property *prop;
-> +	uint64_t val;
-> +	int ret;
-> +
-> +	ret = drmm_connector_hdmi_init(&priv->drm, connector,
-> +				       &dummy_funcs,
-> +				       DRM_MODE_CONNECTOR_HDMIA,
-> +				       &priv->ddc,
-> +				       8);
-> +	KUNIT_EXPECT_EQ(test, ret, 0);
-> +
-> +	prop = connector->max_bpc_property;
-> +	KUNIT_ASSERT_NOT_NULL(test, prop);
-> +	KUNIT_EXPECT_NOT_NULL(test, drm_mode_obj_find_prop_id(&connector->base, prop->base.id));
-> +
-> +	ret = drm_object_property_get_value(&connector->base, prop, &val);
+>>> Reverting this commit makes it work again.
+>>
+>> Thank you for your detailed report!
+>>
+>> I've had a first look at hdmi-tmds and hdmi-ddc, and neither seems to
+>> be calling ccu_is_better_rate() in their determine_rate()
+>> functions. Their parents have the exact same rates in your diff, so,
+>> my current working assumption is that they can't be the cause either.
+>>
+>> I'll have a more detailed look over the weekend. Until then, if anyone
+>> has some ideas where I should have a look next, please share your
+>> thoughts.
+>
+> In case it's relevant, this system doesn't use the HDMI DDC, the
+> physical DDC pins being connected to a different I2C adapter for
+> various reasons.
+>
+> From the clk_summary diff, I see a few things:
+>
+> 1. hdmi-tmds has changed parent from pll-video1-2x to pll-video0-2x.
+> 2. The ratio of hdmi-tmds to its parent has changed from 1/8 to 1.
+> 3. The resulting rate bears no relation to the pixel clock from EDID.
+>
+> I tried kernel 6.9.1 as well, and that doesn't work either.  I'll keep
+> digging and try to narrow it down.
 
+It turns out HDMI output is broken in v6.9 for a different reason.
+However, this commit (b914ec33b391 clk: sunxi-ng: common: Support
+minimum and maximum rate) requires two others as well in order not
+to break things on the A20:
 
-Maybe we should switch to drm_atomic_connector_get_property() instead,
-as the comments of the drm_object_property_get_value() told us that
-atomic drivers should never call this function directly, otherwise it
-will print warnings and call trace.
+cedb7dd193f6 drm/sun4i: hdmi: Convert encoder to atomic
+9ca6bc246035 drm/sun4i: hdmi: Move mode_set into enable
 
-> +	KUNIT_EXPECT_EQ(test, ret, 0);
-> +	KUNIT_EXPECT_EQ(test, val, 8);
-> +
-> +	prop = priv->drm.mode_config.hdr_output_metadata_property;
-> +	KUNIT_ASSERT_NOT_NULL(test, prop);
-> +	KUNIT_EXPECT_NULL(test, drm_mode_obj_find_prop_id(&connector->base, prop->base.id));
-> +}
-> +
-> +/*
-> + * Test that the registration of a connector with a maximum bpc count of
-> + * 10 succeeds and registers the max bpc and HDR output metadata
-> + * properties.
-> + */
-> +static void drm_test_connector_hdmi_init_bpc_10(struct kunit *test)
-> +{
-> +	struct drm_connector_init_priv *priv = test->priv;
-> +	struct drm_connector *connector = &priv->connector;
-> +	struct drm_property *prop;
-> +	uint64_t val;
-> +	int ret;
-> +
-> +	ret = drmm_connector_hdmi_init(&priv->drm, connector,
-> +				       &dummy_funcs,
-> +				       DRM_MODE_CONNECTOR_HDMIA,
-> +				       &priv->ddc,
-> +				       10);
-> +	KUNIT_EXPECT_EQ(test, ret, 0);
-> +
-> +	prop = connector->max_bpc_property;
-> +	KUNIT_ASSERT_NOT_NULL(test, prop);
-> +	KUNIT_EXPECT_NOT_NULL(test, drm_mode_obj_find_prop_id(&connector->base, prop->base.id));
-> +
-> +	ret = drm_object_property_get_value(&connector->base, prop, &val);
+With those two (the second depends on the first) cherry-picked on top of
+v6.6.31, the HDMI output is working again.  Likewise on v6.8.10.
 
-Ditto
-
-> +	KUNIT_EXPECT_EQ(test, ret, 0);
-> +	KUNIT_EXPECT_EQ(test, val, 10);
-> +
-> +	prop = priv->drm.mode_config.hdr_output_metadata_property;
-> +	KUNIT_ASSERT_NOT_NULL(test, prop);
-> +	KUNIT_EXPECT_NOT_NULL(test, drm_mode_obj_find_prop_id(&connector->base, prop->base.id));
-> +}
-> +
-> +/*
-> + * Test that the registration of a connector with a maximum bpc count of
-> + * 12 succeeds and registers the max bpc and HDR output metadata
-> + * properties.
-> + */
-> +static void drm_test_connector_hdmi_init_bpc_12(struct kunit *test)
-> +{
-> +	struct drm_connector_init_priv *priv = test->priv;
-> +	struct drm_connector *connector = &priv->connector;
-> +	struct drm_property *prop;
-> +	uint64_t val;
-> +	int ret;
-> +
-> +	ret = drmm_connector_hdmi_init(&priv->drm, connector,
-> +				       &dummy_funcs,
-> +				       DRM_MODE_CONNECTOR_HDMIA,
-> +				       &priv->ddc,
-> +				       12);
-> +	KUNIT_EXPECT_EQ(test, ret, 0);
-> +
-> +	prop = connector->max_bpc_property;
-> +	KUNIT_ASSERT_NOT_NULL(test, prop);
-> +	KUNIT_EXPECT_NOT_NULL(test, drm_mode_obj_find_prop_id(&connector->base, prop->base.id));
-> +
-> +	ret = drm_object_property_get_value(&connector->base, prop, &val);
-
-ret = drm_atomic_connector_get_property(connector,
-  connector->state, prop, &val);
-
-Note that this function is not exported, but I think you could export it
-just like what you did in the patch 02. Thank you for the amazing works.
-
-> +	KUNIT_EXPECT_EQ(test, ret, 0);
-> +	KUNIT_EXPECT_EQ(test, val, 12);
-> +
-> +	prop = priv->drm.mode_config.hdr_output_metadata_property;
-> +	KUNIT_ASSERT_NOT_NULL(test, prop);
-> +	KUNIT_EXPECT_NOT_NULL(test, drm_mode_obj_find_prop_id(&connector->base, prop->base.id));
-> +}
-> +
-
--- 
-Best regards
-Sui
+--=20
+M=E5ns Rullg=E5rd
