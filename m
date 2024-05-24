@@ -1,95 +1,114 @@
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0F5184DEF
-	for <linux-sunxi@lists.linux.dev>; Fri, 24 May 2024 11:32:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DD10433A4
+	for <linux-sunxi@lists.linux.dev>; Fri, 24 May 2024 12:56:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716550363; cv=none; b=LXjKN0UFzoX+J8TAWbVKeYitF9KZN6SndJ5TorG4kLcIpqbkUuee8Fx2pGzhpr/fdnjphPCrXmknvIqjDR2Mq7Py8hMDzt+aauuju/AcJvWIKdrV49CB+TSQHn6AYJ52eo0xTriBXVrtlXo+1N13Da+3Dc3lg2N/ooR1WlNYdO0=
+	t=1716555394; cv=none; b=o5MBPXLFO7upeC42Z/pd0hNyO80Q7vSVIhhMKSMEhmiy3pz91BuvuJZsR85e1BRjrzwtpX81hgUaOUSVQdLdkE5L2ZcUL/hbCrNm1FjI9E4vU1EHk7blU/HVh/4j9p56LuQikOeZQ4W7DAEAdDbmp8vdOhKcT2FtEMLzV/cKIT0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716550363; c=relaxed/simple;
-	bh=+FdDMqfYCOb2sKqwmEoU3h3Dyjm499FpbBKjwJhpYlE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Sm3RC6c8ex6sye1oJQ3mR0DB68Hpmyc2xlDO40rroiTFvc/vVlj2dxjl/95GaN+4TYLd650g9ZCw1IsssEtgBpBa4qwVwtWrME6F/1AoZ3opcGAswHNVzE6W3jRDpoJ2ZtFbFt7pIxjkZ7TNou9PTPLx1ndemKrUO/6ODu9hq58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I+ojZ5sZ; arc=none smtp.client-ip=209.85.219.176
+	s=arc-20240116; t=1716555394; c=relaxed/simple;
+	bh=4iD27Sim4+e2wzlhpjRuO8FmRH3AJxgJ6ximiXPdbq8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=D+IaOna9cVYNeNADUEtL0w8Cj1Em4Ni+6oRpovP8UkTcB4DUUur+NyPEn++CuNsO9JOvlZrEio80JvzvttomgfYzJK3N1NCTPUTh8Z7LVpakok+7AVVLrLn6MnaMf6GQiRzynGohvtxOJx3+ZezzsV7StrUMUBIsfPnzTi1EaGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=irTdXkkg; arc=none smtp.client-ip=209.85.218.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I+ojZ5sZ"
-Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-df4dce67becso3420366276.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 24 May 2024 04:32:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="irTdXkkg"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a6265d3ccf7so96966366b.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 24 May 2024 05:56:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716550361; x=1717155161; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=+FdDMqfYCOb2sKqwmEoU3h3Dyjm499FpbBKjwJhpYlE=;
-        b=I+ojZ5sZhjkVbO19ynfrq7Y+v5dKihXPxlV3p6WdAldTOlM/eTsqiWievjohdql6fV
-         X3v9FpHOWruirSAu2zHrFYXzNtFAjDAnI6xfIIOKYNSX/FozjELyTuFcKrRv/eh/QCVf
-         72W+If/U6rGAa7jZLHyBHVRqtJsIA6dwPAuD8bHQW8j8R2XqTOFYq+lT3gsJLKqiY/SQ
-         lKv/R4/XCvmt2ECV3IJWti3bKyhbemS4ub7JW7Mcn6Z2gylpU5xGvWuuKIu4FfgKGYtC
-         bnLiqdMdIlfkqpTH8w8pUlVrsLOsZ50iWUhNNHzaWEUjQgEeU4C3qjxmxquqUR6kYIAB
-         e54Q==
+        d=gmail.com; s=20230601; t=1716555391; x=1717160191; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=abVzUJ4nv1X5c9kfchVIBpN3UehgMPQfJIiYqIjebGY=;
+        b=irTdXkkgg4XQ0NnoVCJdnNiYuKXO1WAoGd/9ygwGTmVvHbHIdlxi+q+OE9qOC8PQyz
+         EhGy2T22XAvIDMEShGbgB/LtkC1DXa9b1NNc+IGBS9QC8tqF2jC6A1rQFNecWh2S8qbl
+         2U2G17E7yxTCQlmtN1ocv4BBSPlaHTawX+DVP7MMkD8eddlpvd0AVdNdcgFkKg+JbpKg
+         k1qYoYLXghtZPVVKumQqt0LF85mCctMtngistMEdWxrQGIlzB8v/SPreE0Uvgi/sj95b
+         k674GtlMdSEJxKpHytiMRAfWV1b6UAgJePFXiYimViTDnDYRPp/8Ko2DLCYTOLFXJVci
+         0jHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716550361; x=1717155161;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1716555391; x=1717160191;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+FdDMqfYCOb2sKqwmEoU3h3Dyjm499FpbBKjwJhpYlE=;
-        b=UzFvoO6BVEDJUnrI9u1FD+d3jNmNcHfQzGKP7ZkqhDBfyUNy0pi8XUVnL6j9TaGzDV
-         1MIIHL7ZPP/bTw3LnRok2g60npxi2gNb3SW4yHktfxNfcvh3WNpwr2fU548LzzkMO2SH
-         zMHilyDT47pbWMnhcv54fahi9D+EF5FkkoKmHNl5lECQigjyt4x4HDkb5FfMTwEk8poX
-         51Snz/Pb5tjNK+4F5e4mfp2jG9ZSZQIzddAxHlv1d9GVkBiffxxAh5R145yMmf1psc0W
-         DFy2PtYLn7bAk9EUvb1JyhTJssNn8g7pWKc+f/yxT1/AUylP+QXcKKlx5sh/IiMXS7+K
-         Gzjg==
-X-Forwarded-Encrypted: i=1; AJvYcCVcYFKj8m6nWYFt3HMMRXc03ydxp+uMJmk00xwZ39f8TeS0NznrYMb/OmFl70+Axp/gjtNi9KnVub46tHVDAaTJCq7vwPjANtN69TY=
-X-Gm-Message-State: AOJu0YyteUQLbMusWSiFKAHEc4wU9tvB4ks4FcDlZnEoxMpOcUpKrMbN
-	vqNxUR/RBw2quKiL8pEi93A46UZpyTN4TD3jF973wsOpc2EPnG5R7QS4y699bRabKTakNmU9kxw
-	0OrWGftTqcYwxLNgKQUBh75MgDrQ=
-X-Google-Smtp-Source: AGHT+IEUNT8qpSYVeFnLdK93OupqdGs3ueGj/G+IJ+fEMIu7n+LnUqnYTr2e4NhRpeaNvCqdhdjlRj2DJtbwV9uDHPI=
-X-Received: by 2002:a25:824d:0:b0:de5:5255:ceb5 with SMTP id
- 3f1490d57ef6-df77218a263mr1853899276.3.1716550360799; Fri, 24 May 2024
- 04:32:40 -0700 (PDT)
+        bh=abVzUJ4nv1X5c9kfchVIBpN3UehgMPQfJIiYqIjebGY=;
+        b=El6EmXzdWoJawVD6QhWlv7quwGeNVLb23HUIRGSuZVP1Cyd3m66v4V96XECMA3LLyr
+         N45aHRWW03zBAuLFZYAfX8Sn8OyT22COAoQAYKNTi+Bp2hjVWPGza3avYhg6WXOz1EDG
+         S08l+H2VNyWjnJjxrU51O8ua6thWxjLD1ECzqKyTh9+/NlHe6h5mU0SsKAiRo85jC8sy
+         Sr2V+Q85iZljjf1//ZQyrgavlA53kNLclsrLR8AXXfdh/0nv5d9jsb9x4e8kVhTkiCXz
+         Gr9cg6okMosseGLWR6o/339VESxuDjTu4ZJjMgKfVOQG3W2lmPuivnXFLXvehWKTmmEV
+         eYDg==
+X-Forwarded-Encrypted: i=1; AJvYcCXOp44uTXLnims7sdyKMjVicaOmoogxkBi+/PNf2kH/T0wscwCQ8eDyFaLE9UjHQg9AADvPwm/O/tiyShp8xwdAwFDjswlgpxoz2eU=
+X-Gm-Message-State: AOJu0YyLnlcx82gFVRa7WOC9UPBUO5ZZScl716+nLUJMGvjsYcjgdeqA
+	Y+OEViXItVCKWW7TVzgRgDrQ+otff2uKSINzMUw6nGNIf52xu/3S
+X-Google-Smtp-Source: AGHT+IHAdm3URxyXEPEqKRZPPrqmxvMxskLMKPdy8zLQHfXI81NFq3NKjCdR+jhr+YMpB4aoyggwEQ==
+X-Received: by 2002:a17:906:cb8b:b0:a59:c3d0:550c with SMTP id a640c23a62f3a-a62643e4d86mr124642666b.43.1716555391165;
+        Fri, 24 May 2024 05:56:31 -0700 (PDT)
+Received: from localhost.lan (031011218106.poznan.vectranet.pl. [31.11.218.106])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a626cda7cd3sm127570666b.216.2024.05.24.05.56.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 May 2024 05:56:30 -0700 (PDT)
+From: =?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <zajec5@gmail.com>
+To: Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	=?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>
+Subject: [PATCH] arm64: dts: allwinner: convert NanoPi R1S H5 NVMEM content to layout syntax
+Date: Fri, 24 May 2024 14:56:17 +0200
+Message-Id: <20240524125617.27714-1-zajec5@gmail.com>
+X-Mailer: git-send-email 2.35.3
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAG40kxGMu-TSchNezkcC_A97hzPnWU3KxeL-X-hJfPhjr_COyQ@mail.gmail.com>
- <Zk6yK3U9tgxOxcBb@titan> <CAG40kxFxE_Oj+9aCzGku0a3KFHpuW8ai=gEkV9M8==5gwmjdEA@mail.gmail.com>
- <Zk7Z-MfdF-YKWeJ6@titan>
-In-Reply-To: <Zk7Z-MfdF-YKWeJ6@titan>
-From: =?UTF-8?B?44GN44GP44Gh44KD44KT44GV44KT?= <kikuchan98@gmail.com>
-Date: Fri, 24 May 2024 20:32:29 +0900
-Message-ID: <CAG40kxG0yM0+ge3=zX4S_MQevuNQ5oWAvtmTPXAbHHk2nmSYew@mail.gmail.com>
-Subject: Re: [PATCH v9 0/3] Add support for Allwinner PWM on D1/T113s/R329 SoCs
-To: John Watts <contact@jookia.org>
-Cc: privatesub2@gmail.com, aou@eecs.berkeley.edu, bigunclemax@gmail.com, 
-	conor+dt@kernel.org, devicetree@vger.kernel.org, fusibrandon13@gmail.com, 
-	jernej.skrabec@gmail.com, krzk+dt@kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, mkl@pengutronix.de, p.zabel@pengutronix.de, 
-	palmer@dabbelt.com, paul.walmsley@sifive.com, robh@kernel.org, 
-	samuel@sholland.org, ukleinek@kernel.org, wens@csie.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi John,
+From: Rafał Miłecki <rafal@milecki.pl>
 
-> Does Linux guarantee a flicker-free experience with setting up PWM
-> channels, or that it doesn't affect other channels?
-> How do other drivers handle this situation?
+Use cleaner (and non-deprecated) bindings syntax. See commit
+bd912c991d2e ("dt-bindings: nvmem: layouts: add fixed-layout") for
+details.
 
-I've noticed that drivers/pwm/pwm-fsl-ftm.c and
-drivers/pwm/pwm-microchip-core.c use a similar approach for shared
-resources between PWM channels.
-They simply fail if the settings are not applicable to the hardware,
-much like this driver does. However, I have yet to find a driver that
-aggressively changes another channel that is already running.
+Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
+---
+ .../boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts   | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-Maybe you're right; Linux might not guarantee anything about this.
-I think all we can do is deliver the best experience to users within
-such limitations.
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts
+index 3a7ee44708a2..36e46e40b8f8 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts
+@@ -146,11 +146,15 @@ eeprom@51 {
+ 		reg = <0x51>;
+ 		pagesize = <16>;
+ 		read-only;
+-		#address-cells = <1>;
+-		#size-cells = <1>;
+ 
+-		eth_mac1: mac-address@fa {
+-			reg = <0xfa 0x06>;
++		nvmem-layout {
++			compatible = "fixed-layout";
++			#address-cells = <1>;
++			#size-cells = <1>;
++
++			eth_mac1: mac-address@fa {
++				reg = <0xfa 0x06>;
++			};
+ 		};
+ 	};
+ };
+-- 
+2.35.3
 
-Best regards,
-kikuchan.
