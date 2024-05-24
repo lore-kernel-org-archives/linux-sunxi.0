@@ -1,70 +1,39 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DD10433A4
-	for <linux-sunxi@lists.linux.dev>; Fri, 24 May 2024 12:56:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F29793FE2A
+	for <linux-sunxi@lists.linux.dev>; Fri, 24 May 2024 18:54:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716555394; cv=none; b=o5MBPXLFO7upeC42Z/pd0hNyO80Q7vSVIhhMKSMEhmiy3pz91BuvuJZsR85e1BRjrzwtpX81hgUaOUSVQdLdkE5L2ZcUL/hbCrNm1FjI9E4vU1EHk7blU/HVh/4j9p56LuQikOeZQ4W7DAEAdDbmp8vdOhKcT2FtEMLzV/cKIT0=
+	t=1716576890; cv=none; b=XYUop52dB1K40U/3jZqNbOoua4Uk/WvfmLC7xmp4JUgy9XJ45DlGvjjMmg/OK3AbfmoqmLKx1uD248BgUtMnV0bOg1UhHp9Nk0ll8h+1dujNFSCt8WtY1E9nSDyG2jTGJYUqsa7rOXI+7pNZsNv6Xpm0D8x8Ok8R1idbQdsCq0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716555394; c=relaxed/simple;
-	bh=4iD27Sim4+e2wzlhpjRuO8FmRH3AJxgJ6ximiXPdbq8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=D+IaOna9cVYNeNADUEtL0w8Cj1Em4Ni+6oRpovP8UkTcB4DUUur+NyPEn++CuNsO9JOvlZrEio80JvzvttomgfYzJK3N1NCTPUTh8Z7LVpakok+7AVVLrLn6MnaMf6GQiRzynGohvtxOJx3+ZezzsV7StrUMUBIsfPnzTi1EaGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=irTdXkkg; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="irTdXkkg"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a6265d3ccf7so96966366b.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 24 May 2024 05:56:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716555391; x=1717160191; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=abVzUJ4nv1X5c9kfchVIBpN3UehgMPQfJIiYqIjebGY=;
-        b=irTdXkkgg4XQ0NnoVCJdnNiYuKXO1WAoGd/9ygwGTmVvHbHIdlxi+q+OE9qOC8PQyz
-         EhGy2T22XAvIDMEShGbgB/LtkC1DXa9b1NNc+IGBS9QC8tqF2jC6A1rQFNecWh2S8qbl
-         2U2G17E7yxTCQlmtN1ocv4BBSPlaHTawX+DVP7MMkD8eddlpvd0AVdNdcgFkKg+JbpKg
-         k1qYoYLXghtZPVVKumQqt0LF85mCctMtngistMEdWxrQGIlzB8v/SPreE0Uvgi/sj95b
-         k674GtlMdSEJxKpHytiMRAfWV1b6UAgJePFXiYimViTDnDYRPp/8Ko2DLCYTOLFXJVci
-         0jHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716555391; x=1717160191;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=abVzUJ4nv1X5c9kfchVIBpN3UehgMPQfJIiYqIjebGY=;
-        b=El6EmXzdWoJawVD6QhWlv7quwGeNVLb23HUIRGSuZVP1Cyd3m66v4V96XECMA3LLyr
-         N45aHRWW03zBAuLFZYAfX8Sn8OyT22COAoQAYKNTi+Bp2hjVWPGza3avYhg6WXOz1EDG
-         S08l+H2VNyWjnJjxrU51O8ua6thWxjLD1ECzqKyTh9+/NlHe6h5mU0SsKAiRo85jC8sy
-         Sr2V+Q85iZljjf1//ZQyrgavlA53kNLclsrLR8AXXfdh/0nv5d9jsb9x4e8kVhTkiCXz
-         Gr9cg6okMosseGLWR6o/339VESxuDjTu4ZJjMgKfVOQG3W2lmPuivnXFLXvehWKTmmEV
-         eYDg==
-X-Forwarded-Encrypted: i=1; AJvYcCXOp44uTXLnims7sdyKMjVicaOmoogxkBi+/PNf2kH/T0wscwCQ8eDyFaLE9UjHQg9AADvPwm/O/tiyShp8xwdAwFDjswlgpxoz2eU=
-X-Gm-Message-State: AOJu0YyLnlcx82gFVRa7WOC9UPBUO5ZZScl716+nLUJMGvjsYcjgdeqA
-	Y+OEViXItVCKWW7TVzgRgDrQ+otff2uKSINzMUw6nGNIf52xu/3S
-X-Google-Smtp-Source: AGHT+IHAdm3URxyXEPEqKRZPPrqmxvMxskLMKPdy8zLQHfXI81NFq3NKjCdR+jhr+YMpB4aoyggwEQ==
-X-Received: by 2002:a17:906:cb8b:b0:a59:c3d0:550c with SMTP id a640c23a62f3a-a62643e4d86mr124642666b.43.1716555391165;
-        Fri, 24 May 2024 05:56:31 -0700 (PDT)
-Received: from localhost.lan (031011218106.poznan.vectranet.pl. [31.11.218.106])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a626cda7cd3sm127570666b.216.2024.05.24.05.56.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 May 2024 05:56:30 -0700 (PDT)
-From: =?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <zajec5@gmail.com>
-To: Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	=?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>
-Subject: [PATCH] arm64: dts: allwinner: convert NanoPi R1S H5 NVMEM content to layout syntax
-Date: Fri, 24 May 2024 14:56:17 +0200
-Message-Id: <20240524125617.27714-1-zajec5@gmail.com>
-X-Mailer: git-send-email 2.35.3
+	s=arc-20240116; t=1716576890; c=relaxed/simple;
+	bh=qn6Vkvzj5JGs44Cc6xvsUt9I7gZyNx3518aH165iGSw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=guMBHjOBmdPncW0P27aVEnRCIp0lZchCZHbccNKi89cPAt3DYfT7MvREoNMRDpjvR6LtXnUyJxBWVIYX6FK8arSAPlzVd8pSxnQ91pBKWkiADI2hSFWgff6EFXMrhsn2CzT2vjERGCrEINA2jG5evoghupVmklV6Dxdr46R/mJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3A140339;
+	Fri, 24 May 2024 11:55:11 -0700 (PDT)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A395F3F762;
+	Fri, 24 May 2024 11:54:45 -0700 (PDT)
+Date: Fri, 24 May 2024 19:52:36 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
+Subject: Re: [PATCH] arm64: dts: allwinner: convert NanoPi R1S H5 NVMEM
+ content to layout syntax
+Message-ID: <20240524195236.289b4e8f@minigeek.lan>
+In-Reply-To: <20240524125617.27714-1-zajec5@gmail.com>
+References: <20240524125617.27714-1-zajec5@gmail.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -72,43 +41,58 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-From: Rafał Miłecki <rafal@milecki.pl>
+On Fri, 24 May 2024 14:56:17 +0200
+Rafa=C5=82 Mi=C5=82ecki <zajec5@gmail.com> wrote:
 
-Use cleaner (and non-deprecated) bindings syntax. See commit
-bd912c991d2e ("dt-bindings: nvmem: layouts: add fixed-layout") for
-details.
+Hi Rafa=C5=82,
 
-Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
----
- .../boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts   | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+> From: Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl>
+>=20
+> Use cleaner (and non-deprecated) bindings syntax. See commit
+> bd912c991d2e ("dt-bindings: nvmem: layouts: add fixed-layout") for
+> details.
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts
-index 3a7ee44708a2..36e46e40b8f8 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts
-@@ -146,11 +146,15 @@ eeprom@51 {
- 		reg = <0x51>;
- 		pagesize = <16>;
- 		read-only;
--		#address-cells = <1>;
--		#size-cells = <1>;
- 
--		eth_mac1: mac-address@fa {
--			reg = <0xfa 0x06>;
-+		nvmem-layout {
-+			compatible = "fixed-layout";
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+
-+			eth_mac1: mac-address@fa {
-+				reg = <0xfa 0x06>;
-+			};
- 		};
- 	};
- };
--- 
-2.35.3
+Is there anything that this commit fixes, or is it just "nicer"?
+If I see this correctly, then this commit would break with older
+kernels, or more precisely anything that doesn't support the
+"fixed-layout" compatible string, right?
+For sunxi we try to keep the DTs compatible both ways, so that the
+latest DT (as imported in U-Boot, for instance), can run with both
+older stable and the newest kernels.
+
+Cheers,
+Andre
+
+> Signed-off-by: Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl>
+> ---
+>  .../boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts   | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts b/=
+arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts
+> index 3a7ee44708a2..36e46e40b8f8 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts
+> @@ -146,11 +146,15 @@ eeprom@51 {
+>  		reg =3D <0x51>;
+>  		pagesize =3D <16>;
+>  		read-only;
+> -		#address-cells =3D <1>;
+> -		#size-cells =3D <1>;
+> =20
+> -		eth_mac1: mac-address@fa {
+> -			reg =3D <0xfa 0x06>;
+> +		nvmem-layout {
+> +			compatible =3D "fixed-layout";
+> +			#address-cells =3D <1>;
+> +			#size-cells =3D <1>;
+> +
+> +			eth_mac1: mac-address@fa {
+> +				reg =3D <0xfa 0x06>;
+> +			};
+>  		};
+>  	};
+>  };
 
