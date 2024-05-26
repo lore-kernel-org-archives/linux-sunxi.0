@@ -1,98 +1,146 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F29793FE2A
-	for <linux-sunxi@lists.linux.dev>; Fri, 24 May 2024 18:54:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DE8718B05
+	for <linux-sunxi@lists.linux.dev>; Sun, 26 May 2024 16:40:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716576890; cv=none; b=XYUop52dB1K40U/3jZqNbOoua4Uk/WvfmLC7xmp4JUgy9XJ45DlGvjjMmg/OK3AbfmoqmLKx1uD248BgUtMnV0bOg1UhHp9Nk0ll8h+1dujNFSCt8WtY1E9nSDyG2jTGJYUqsa7rOXI+7pNZsNv6Xpm0D8x8Ok8R1idbQdsCq0I=
+	t=1716741624; cv=none; b=dbuuoXp1SChdbSyoojBzDnNB/7+yrGIPQflLqWoKF5nn+QdMr6R1V+v7SFj6ZIDBOPDc5Lc/JZC4y50nm9Vsn/tnR3/9a+vB4ZBFUP6bl4PALbexCtFBXdYuJHLldjfD8S85riKwm5xN/4E3VhV9zYwvZ3yRCbVxbQ9WZ1IgKh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716576890; c=relaxed/simple;
-	bh=qn6Vkvzj5JGs44Cc6xvsUt9I7gZyNx3518aH165iGSw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=guMBHjOBmdPncW0P27aVEnRCIp0lZchCZHbccNKi89cPAt3DYfT7MvREoNMRDpjvR6LtXnUyJxBWVIYX6FK8arSAPlzVd8pSxnQ91pBKWkiADI2hSFWgff6EFXMrhsn2CzT2vjERGCrEINA2jG5evoghupVmklV6Dxdr46R/mJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3A140339;
-	Fri, 24 May 2024 11:55:11 -0700 (PDT)
-Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A395F3F762;
-	Fri, 24 May 2024 11:54:45 -0700 (PDT)
-Date: Fri, 24 May 2024 19:52:36 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
-Subject: Re: [PATCH] arm64: dts: allwinner: convert NanoPi R1S H5 NVMEM
- content to layout syntax
-Message-ID: <20240524195236.289b4e8f@minigeek.lan>
-In-Reply-To: <20240524125617.27714-1-zajec5@gmail.com>
-References: <20240524125617.27714-1-zajec5@gmail.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	s=arc-20240116; t=1716741624; c=relaxed/simple;
+	bh=yOm6cdxOJDaW3vY/3rDEchTDMZQvn9FaKFIVCGigcZo=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=OtKlCeSq4LYnbiXre8XwbNW98VM+sEO7KO66ObZirfbw0s00wYXdtbyjgobMdxR5n/fFwi9SMIzPE3KGMidKsD0jHiCQezlxm1352TOU39oMimNuijuKmaqP84Dbi0Y3w/IHj4I39JHHZzm5ipIte1QuM5fQwy1m8kMEKuIX9Xc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=meYLVjXQ; arc=none smtp.client-ip=116.203.91.91
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="meYLVjXQ"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
+	t=1716741613;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=j3lZcgRjy9m9i6VrLn+CFxC//39rHct7UpondOikJUI=;
+	b=meYLVjXQ14iHnjjG6vi6dXbEFJAFzMA7Dpk4lIIyPVVPoFpaMHYdL8m6kOW0lWbCeEM9+F
+	lu9ivY3Sl+YlcdpQCiaV7XVlwHdp501iTC97XUQ+ezqRzM9el9N+hc/5Zx6Zds377cFE3M
+	spGVPG4Sfo6QsbtJv56iEovKliySDyLg5LDhFi5Ul18YZj8EpymjWCc4PcgcDg8GgZpFbb
+	vJ2W8n+rTj+C2JELC6Nb1f7hG8jAX9LvZV/PDU21534fV4cIgu0XijTnzjHxhxK8rUjjZs
+	RUNWKOqJKVZWsYOo5qN4c12ptoCjx/g12xbp5reZ60XbMQRy+xWPt0zxA0A5IA==
+Date: Sun, 26 May 2024 18:40:12 +0200
+From: Dragan Simic <dsimic@manjaro.org>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Icenowy Zheng <uwu@icenowy.me>, linux-sunxi@lists.linux.dev,
+ wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ robh+dt@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ linux-kernel@vger.kernel.org, didi.debian@cknow.org, Marek Kraus
+ <gamiee@pine64.org>
+Subject: Re: [PATCH 1/2] dt-bindings: arm: sunxi: Correct the descriptions for
+ Pine64 boards
+In-Reply-To: <90fada7d9a37a5e413b16bc176ec2f8d@manjaro.org>
+References: <d2943d9f4c99a239f86188eaf45a73972685c255.1713833436.git.dsimic@manjaro.org>
+ <057b4a5504656bb7455ead39768d9e7167fb724b.camel@icenowy.me>
+ <5635a6e79427e43ef20b690c766267d0@manjaro.org>
+ <20240522110507.51b12966@donnerap.manchester.arm.com>
+ <90fada7d9a37a5e413b16bc176ec2f8d@manjaro.org>
+Message-ID: <eeb46ba769f6ee9a1972cd104f0de19d@manjaro.org>
+X-Sender: dsimic@manjaro.org
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+Authentication-Results: ORIGINATING;
+	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
 
-On Fri, 24 May 2024 14:56:17 +0200
-Rafa=C5=82 Mi=C5=82ecki <zajec5@gmail.com> wrote:
+Hello Andre and Icenowy,
 
-Hi Rafa=C5=82,
+On 2024-05-22 15:06, Dragan Simic wrote:
+> On 2024-05-22 12:05, Andre Przywara wrote:
+>> On Wed, 22 May 2024 08:10:21 +0200
+>> Dragan Simic <dsimic@manjaro.org> wrote:
+>>> On 2024-05-22 02:48, Icenowy Zheng wrote:
+>>> > 在 2024-04-23星期二的 03:00 +0200，Dragan Simic写道：
+>>> >> Correct the descriptions of a few Pine64 boards and devices,
+>>> >> according
+>>> >> to their official names used on the Pine64 wiki.  This ensures
+>>> >> consistency
+>>> >> between the officially used names and the names in the source code.
+>>> >>
+>>> >> [...]
+>>> >>
+>>> >> -      - description: Pine64 PineH64 model A
+>>> >> +      - description: Pine64 H64 Model A
+>>> >>          items:
+>>> >>            - const: pine64,pine-h64
+>>> >>            - const: allwinner,sun50i-h6
+>>> >>  
+>>> >> -      - description: Pine64 PineH64 model B
+>>> >> +      - description: Pine64 H64 Model B
+>>> >
+>>> > Sorry for replying so late, but I don't think there is a Pine64 H64
+>>> > board. The Pine64 wiki calls it Pine H64. [1]
+>>> >
+>>> > [1] https://wiki.pine64.org/wiki/PINE_H64
+>>> 
+>>> Good point, thanks.  Though, this board is really an exception to
+>>> the naming scheme employed for the Pine64 boards, so perhaps it would
+>>> actually be better to rename the board in the Pine64 wiki, by adding
+>>> "64" to "Pine", to ensure consistency.
+>> 
+>> I am sorry, but I don't think this is how it works. The board is 
+>> really
+>> called "Pine H64", that's printed on the board [1] and everywhere else 
+>> [2].
+>> That's a choice the manufacturer made, and renaming some Wiki page 
+>> won't
+>> change that. I understand the engineer's desire to make everything 
+>> nice and
+>> consistent ;-) , but I am afraid that's not our call. After all this 
+>> file
+>> is to document the device naming, not to be an example of consistent
+>> naming schemes.
+>> 
+>> [1] https://linux-sunxi.org/images/5/53/Pineh64_top.jpg
+>> [2] https://pine64.org/devices/pine_h64_model_a/
+> 
+> Those are all valid concerns.  Though, when it comes to the 
+> silkscreened
+> labels on PCBs, sometimes they have no connection with the real, 
+> official
+> board names.  An almost funny example :) is the QuartzPro64 board, also
+> from Pine64. [3]
+> 
+> I'll check with Pine64 are there some intentions for unifying the 
+> officially
+> used board names, and if there aren't, I'll submit the v2 of this 
+> series
+> with the corrected board names.
+> 
+> [3] 
+> https://wiki.pine64.org/images/f/fe/Quartzpro64_whole_board_top_resized.jpeg
 
-> From: Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl>
->=20
-> Use cleaner (and non-deprecated) bindings syntax. See commit
-> bd912c991d2e ("dt-bindings: nvmem: layouts: add fixed-layout") for
-> details.
+It's been decided that the history should be preserved, so I'll prepare
+and submit the v2 of this series with the original Pine64 board names 
+that
+are currently used officially.
 
-Is there anything that this commit fixes, or is it just "nicer"?
-If I see this correctly, then this commit would break with older
-kernels, or more precisely anything that doesn't support the
-"fixed-layout" compatible string, right?
-For sunxi we try to keep the DTs compatible both ways, so that the
-latest DT (as imported in U-Boot, for instance), can run with both
-older stable and the newest kernels.
-
-Cheers,
-Andre
-
-> Signed-off-by: Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl>
-> ---
->  .../boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts   | 12 ++++++++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
->=20
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts b/=
-arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts
-> index 3a7ee44708a2..36e46e40b8f8 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts
-> @@ -146,11 +146,15 @@ eeprom@51 {
->  		reg =3D <0x51>;
->  		pagesize =3D <16>;
->  		read-only;
-> -		#address-cells =3D <1>;
-> -		#size-cells =3D <1>;
-> =20
-> -		eth_mac1: mac-address@fa {
-> -			reg =3D <0xfa 0x06>;
-> +		nvmem-layout {
-> +			compatible =3D "fixed-layout";
-> +			#address-cells =3D <1>;
-> +			#size-cells =3D <1>;
-> +
-> +			eth_mac1: mac-address@fa {
-> +				reg =3D <0xfa 0x06>;
-> +			};
->  		};
->  	};
->  };
-
+>>> Alas, the Pine64 wiki is currently in read-only mode, due to some
+>>> recent issues with the underlying hardware that runs it.  Migration 
+>>> to
+>>> another form of documentation for Pine64 boards is also a 
+>>> possibility,
+>>> which makes the updates even more complicated.
+>>> 
+>>> With all this in mind, I think it would be the best to rename the 
+>>> board
+>>> on the Pine64 side, to ensure consistency, and keep this patch as-is.
+>>> I'll make a mental note to do that on the Pine64 side once the 
+>>> current
+>>> situation with the Pine64 wiki is resolved.
