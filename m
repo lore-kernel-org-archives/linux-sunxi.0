@@ -1,181 +1,110 @@
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4636515FCF2
-	for <linux-sunxi@lists.linux.dev>; Mon, 27 May 2024 19:00:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F421010A0C
+	for <linux-sunxi@lists.linux.dev>; Mon, 27 May 2024 20:00:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716836450; cv=none; b=SWkt2bDFb/0ICeGR8jlUgacgjFE+tjcTLaUg9OIGfmxvCHm5P4qh4DtzCII7+eL4Tg+3R5yaoW65YxAWg0xYaEQs3+G2coKPTzypNk3+SMCvn2/s2LRkGc8kEjMeFYk0l73e+vmhN2b4cL393xb32rX49Lw6CgBvD1Syk+PWUd0=
+	t=1716840057; cv=none; b=uuDHg5/VN7mc4lYgvN4EcYyGnBbs66ARAOy0XcRMWdo/6iHy03NwY3yopbBuEgFUP5reXABdX5Yw8lton18ctGk9Yw5lAG/FWG3ohCNjFoZOJXszwnPkiuN4F2rzix4T05Ga9taPfoqGiBv7XGIOakYB2dEUHLye19jWuWYIqNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716836450; c=relaxed/simple;
-	bh=QtTJK4e+xezrmSqjZutOBCe4DS0fPdLTmIIG4CLzy38=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hYq4TECypH5+JkG5tQ1z8Wfd3HR7smzcm9IRdCD848GY2rrNuBHP6jxPYIyR4Eooe6eBwg7iM2qAGiyp1P1TCHUVKDSrNxHSodhofkZktKCwdnlUDa5Fcbm2ZGE6m7hbP0sU8SBQQq+C4P+Tjb7rZAl34YTgeUDKulPlsrseHtI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=N8fxNVjj; arc=none smtp.client-ip=209.85.219.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1716840057; c=relaxed/simple;
+	bh=lOvpYZVvGKgOumgFvO0Caz608WOXXV/7AQ6+D9PwIAM=;
+	h=Message-ID:Date:MIME-Version:From:To:CC:Subject:Content-Type; b=dJkdkYX25IINMwvJSqfN8/ZaslzL08Mjwx2DblD/wWCbDgajiPeH79dwxShTYQFujYLeQLOYjYcwc4tj69EDR5Ze1A6bH1HYmZBfpB/tzsBVCHuxtWFaF5dMLeUwKKWsSMQhVEJEKkFHNtx6abwRguhmCo/lz/HdMPc1KlyWINU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=IxNhyMHh; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="N8fxNVjj"
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-df7719583d0so81208276.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 27 May 2024 12:00:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716836448; x=1717441248; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6Ja7vlfEqAriKa+FwY5Dmg/udaegLnmPF1+eRGrrskg=;
-        b=N8fxNVjjbyP6qyiu6Ra2Fu95xT5XLHckf1DhEcuE6zhI648ygaAq3uMDHq+kZ1n9fh
-         EHZzG6fCiZFoK6tGmfmS7SLM7ry+6bkSwc8gcRqD9VK6JHViS1WUazCBHpYZ8d+VkWcJ
-         Ohm+pn5Rsklap+4RXo0/hnbavcjRdKLaLJqKwYOFtLKWhPAx4Way2umhKb6fPNfa0Q6S
-         xM2WiOYSYoddx9X0befDvLwVROmXXUKa6ORPbT/TCVchBRHkT3N536gGzdaOgppx+Sl9
-         QniknicWIdyukItI6R9uzeRaU3NrBfvUuaWxUz6BupTmMtMglErh++zwpRRcv8RxUUlk
-         pwLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716836448; x=1717441248;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6Ja7vlfEqAriKa+FwY5Dmg/udaegLnmPF1+eRGrrskg=;
-        b=hSclc3oGVGRVtvGLz9we52JBjRCaf3A/uOSbIjOIn0kpguqQUB6TV3oIrPeNQWhPXp
-         53NOvcWnGpgdOui5M4gpOti/hhcGxTWTwPn195bzoS/URSVZv5iwrBYoXd9H8knNDUKx
-         iWCH6FfbXvrbiQerCiJZSZ+mkSC+r7rBWZM3211Ql+xaMYMb+3xCh6/61b3Th6LrfnTB
-         +cnH3pJwk48f8RB3aKfEIJylDSIm7kJyCLwDsCyi/GNwq98xsljcCSSZlTAJyVIVqZr3
-         4cnlZxjM/qUOCOzdlFB9oqiJTjh7WvYPyzZXwN3Wjqc9NsS4qqcjVkprZHG0RkmHlrJA
-         I00Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXFJ4nk7GQtrjk1jEVYVfjV4OpX0XHnBUgs7lgqGGEzdTh7MQWOlp0XCYVWXB91jlYLeJVWukhY/cwtMKRSS3lTX3Hw6ApZXDDT490=
-X-Gm-Message-State: AOJu0YyMv+jhDLGX3jHZxGxXmQ+Yeo3WP3F+sMtTD4nMtoqTF0RmpBBO
-	McCu6qVuuz16RXMXQOuvStPdtETPieE9dAQptMgLbLfDYXjfE0UUsNigg/IfJ0T81yZQLoOCIvB
-	HCsjm/owbBoUyF7vMOjuH5AvQ2zNNKrF3fGwNww==
-X-Google-Smtp-Source: AGHT+IFCtPi34MiO9HbMkpVChKlNZ5PYokKGNe1Zkm5+YriPlaD5ppmt2yv+lpMdcC4aRafyvtA23o5zBngE0l9ui5s=
-X-Received: by 2002:a25:86c7:0:b0:df7:94d3:5555 with SMTP id
- 3f1490d57ef6-df794d357fcmr5601696276.41.1716836447989; Mon, 27 May 2024
- 12:00:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="IxNhyMHh"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44RB0kna029218;
+	Mon, 27 May 2024 20:00:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=ePhtNdyNAXNO3LeYT0i3MJ
+	kRRXX6IYL37K6GmVb20AY=; b=IxNhyMHhDSAlI0ZWhoTXghjqoDCvioEmT6F62S
+	LP+7ahxkVz7J5EpfkEgwCfUSaIysoeaf10/upkL7CxXDT3iSGt9qjTVmT4oTW2E1
+	tFLNg+IFbBL4bmTVbE8JPHAYrkeKOc8gx5AOk6NnPTqo0241n6T+BliglOGWbY3i
+	cY3WwkmNtn0/4msYXfQE9IMcbW1pSxTPQ34SOq/52QazB3ca+aANc+GupF5TEuif
+	G38iadcJJKefIcOVg0hRXpRcrEAXluBrQ8KvxqloK6yB38i8+uhcS4N5bgFXU4Ji
+	LuwKPNyPV1RkvwYARFJsAsqk212Ip0e3RI5Jq+G+ECw+cUDA==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yba0qcfyt-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 27 May 2024 20:00:46 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44RK0i8D018273
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 27 May 2024 20:00:44 GMT
+Received: from [10.110.122.222] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 27 May
+ 2024 13:00:44 -0700
+Message-ID: <2662bdb1-2396-49df-a0b1-e4648ce1aed4@quicinc.com>
+Date: Mon, 27 May 2024 13:00:43 -0700
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240521-kms-hdmi-connector-state-v14-0-51950db4fedb@kernel.org>
- <20240521-kms-hdmi-connector-state-v14-17-51950db4fedb@kernel.org>
- <4n55dbl2h275z5ubebigri4xjtjsvt44w62n656srdgndcav2j@rrq5haucqx5u>
- <20240527-adamant-just-spaniel-ebed4e@houat> <a65wtf2hy7ufimkcgo5k2c34ygvtv7erwh567ngsnuaha7qiny@nl6lx67qsjuw>
- <20240527-colorful-orange-bug-bbeefe@houat>
-In-Reply-To: <20240527-colorful-orange-bug-bbeefe@houat>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 27 May 2024 22:00:36 +0300
-Message-ID: <CAA8EJpre5u_tD7VVnHwcjzJEV=9X_0Z+U==+gJGQBz6ie8FzFA@mail.gmail.com>
-Subject: Re: [PATCH v14 17/28] drm/connector: hdmi: Add Broadcast RGB property
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Andy Yan <andy.yan@rock-chips.com>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick <sebastian.wick@redhat.com>, 
-	=?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
-	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Pekka Paalanen <pekka.paalanen@collabora.com>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+To: <linux-sunxi@lists.linux.dev>
+CC: Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd
+	<sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec
+	<jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>
+Subject: Can someone add missing MODULE_DESCRIPTION()s to drivers/clk/sunxi-ng
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: wmY1IRu7DbooORHUiymsHfYmFLtTway1
+X-Proofpoint-ORIG-GUID: wmY1IRu7DbooORHUiymsHfYmFLtTway1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
+ definitions=2024-05-27_05,2024-05-27_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ suspectscore=0 lowpriorityscore=0 impostorscore=0 clxscore=1011 mlxscore=0
+ mlxlogscore=430 malwarescore=0 spamscore=0 adultscore=0 bulkscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2405270164
 
-On Mon, 27 May 2024 at 16:30, Maxime Ripard <mripard@kernel.org> wrote:
->
-> Hi,
->
-> On Mon, May 27, 2024 at 12:43:18PM GMT, Dmitry Baryshkov wrote:
-> > On Mon, May 27, 2024 at 11:02:13AM +0200, Maxime Ripard wrote:
-> > > Hi,
-> > >
-> > > Thanks again for that thorough review :)
-> > >
-> > > On Thu, May 23, 2024 at 01:22:56PM GMT, Dmitry Baryshkov wrote:
-> > > > On Tue, May 21, 2024 at 12:13:50PM +0200, Maxime Ripard wrote:
-> > > > > The i915 driver has a property to force the RGB range of an HDMI =
-output.
-> > > > > The vc4 driver then implemented the same property with the same
-> > > > > semantics. KWin has support for it, and a PR for mutter is also t=
-here to
-> > > > > support it.
-> > > > >
-> > > > > Both drivers implementing the same property with the same semanti=
-cs,
-> > > > > plus the userspace having support for it, is proof enough that it=
-'s
-> > > > > pretty much a de-facto standard now and we can provide helpers fo=
-r it.
-> > > > >
-> > > > > Let's plumb it into the newly created HDMI connector.
-> > > > >
-> > > > > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > > > > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > > > > Reviewed-by: Sebastian Wick <sebastian.wick@redhat.com>
-> > > > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > > > > ---
-> > > > >  Documentation/gpu/kms-properties.csv            |  1 -
-> > > > >  drivers/gpu/drm/display/drm_hdmi_state_helper.c |  4 +-
-> > > > >  drivers/gpu/drm/drm_atomic.c                    |  2 +
-> > > > >  drivers/gpu/drm/drm_atomic_uapi.c               |  4 ++
-> > > > >  drivers/gpu/drm/drm_connector.c                 | 88 +++++++++++=
-++++++++++++++
-> > > > >  include/drm/drm_connector.h                     | 36 ++++++++++
-> > > > >  6 files changed, 133 insertions(+), 2 deletions(-)
-> > > > >
-> > > > > diff --git a/Documentation/gpu/kms-properties.csv b/Documentation=
-/gpu/kms-properties.csv
-> > > > > index 0f9590834829..caef14c532d4 100644
-> > > > > --- a/Documentation/gpu/kms-properties.csv
-> > > > > +++ b/Documentation/gpu/kms-properties.csv
-> > > > > @@ -15,11 +15,10 @@ Owner Module/Drivers,Group,Property Name,Type=
-,Property Values,Object attached,De
-> > > > >  ,,=E2=80=9Csaturation=E2=80=9D,RANGE,"Min=3D0, Max=3D100",Connec=
-tor,TBD
-> > > > >  ,,=E2=80=9Chue=E2=80=9D,RANGE,"Min=3D0, Max=3D100",Connector,TBD
-> > > > >  ,Virtual GPU,=E2=80=9Csuggested X=E2=80=9D,RANGE,"Min=3D0, Max=
-=3D0xffffffff",Connector,property to suggest an X offset for a connector
-> > > > >  ,,=E2=80=9Csuggested Y=E2=80=9D,RANGE,"Min=3D0, Max=3D0xffffffff=
-",Connector,property to suggest an Y offset for a connector
-> > > > >  ,Optional,"""aspect ratio""",ENUM,"{ ""None"", ""4:3"", ""16:9""=
- }",Connector,TDB
-> > > > > -i915,Generic,"""Broadcast RGB""",ENUM,"{ ""Automatic"", ""Full""=
-, ""Limited 16:235"" }",Connector,"When this property is set to Limited 16:=
-235 and CTM is set, the hardware will be programmed with the result of the =
-multiplication of CTM by the limited range matrix to ensure the pixels norm=
-ally in the range 0..1.0 are remapped to the range 16/255..235/255."
-> > > >
-> > > > Should it still be defined as a generic property?
-> > >
-> > > I'm not sure what you mean here, sorry. It's being documented as a
-> > > connector property now, so it's very much still listed as a generic
-> > > property?
-> >
-> > I didn't perform my duty well enough and I didn't check the file for
-> > other instances of the property. Now I indeed see a generic "Broadcast
-> > RGB" property, but to me it looks like having a different set of values=
-:
-> >
-> > ,,"""Broadcast RGB""",ENUM,"{ =E2=80=9Coff=E2=80=9D, =E2=80=9Cauto=E2=
-=80=9D, =E2=80=9Con=E2=80=9D }",Connector,TBD
->
-> That's not really what I meant: that file is deprecated now and it's not
-> where we document the properties anymore. This patch has improved that
-> documentation and moved it to the new place, and removed the deprecated
-> part.
->
-> However, this line shouldn't be there at all. I'll add a patch to remove
-> it.
+'make W=1' causes modpost to warn if a module doesn't have a 
+MODULE_DESCRIPTION(). I've been slowly cleaning up these warnings tree-wide, 
+but there are a large number in drivers/clk/sunxi-ng that I'd prefer that the 
+domain experts fix.
 
-SG
+Can someone drive that cleanup?
 
->
-> Thanks!
-> Maxime
+/jeff
 
-
-
---=20
-With best wishes
-Dmitry
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sunxi-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/suniv-f1c100s-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun20i-d1-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun20i-d1-r-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-a64-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-a100-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-a100-r-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-h6-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-h6-r-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-h616-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun4i-a10-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun6i-a31-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun6i-rtc-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-a23-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-a33-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-a83t-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-h3-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-r40-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-v3s-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-de2-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-r-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-de-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-usb-ccu.o
