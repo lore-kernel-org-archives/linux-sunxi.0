@@ -1,146 +1,297 @@
 Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DE8718B05
-	for <linux-sunxi@lists.linux.dev>; Sun, 26 May 2024 16:40:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2F284A03
+	for <linux-sunxi@lists.linux.dev>; Mon, 27 May 2024 00:08:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716741624; cv=none; b=dbuuoXp1SChdbSyoojBzDnNB/7+yrGIPQflLqWoKF5nn+QdMr6R1V+v7SFj6ZIDBOPDc5Lc/JZC4y50nm9Vsn/tnR3/9a+vB4ZBFUP6bl4PALbexCtFBXdYuJHLldjfD8S85riKwm5xN/4E3VhV9zYwvZ3yRCbVxbQ9WZ1IgKh4=
+	t=1716768511; cv=none; b=t2E7iDgL/JXkpOvsJKYy5xZQtgxcazG3yt0Nxf+ZftN3WcUenWYWPvLMtoEuoexlglrnvtZQRMfacSxC44KM3TJi8wAEBOj2hjXPHaO1EfLUADJQi1Zf7H9t3DfDBt0OyMzxLqn3Yspm3PbU002kpBTEWPaf+Csjqh4f5OXFQoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716741624; c=relaxed/simple;
-	bh=yOm6cdxOJDaW3vY/3rDEchTDMZQvn9FaKFIVCGigcZo=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=OtKlCeSq4LYnbiXre8XwbNW98VM+sEO7KO66ObZirfbw0s00wYXdtbyjgobMdxR5n/fFwi9SMIzPE3KGMidKsD0jHiCQezlxm1352TOU39oMimNuijuKmaqP84Dbi0Y3w/IHj4I39JHHZzm5ipIte1QuM5fQwy1m8kMEKuIX9Xc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=meYLVjXQ; arc=none smtp.client-ip=116.203.91.91
+	s=arc-20240116; t=1716768511; c=relaxed/simple;
+	bh=GnuAX0nDr0CKzPeHsMUQAbm8VYw3un4r2a9LUG+ssPo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=nmJ7ey8l6u5h63V7hEy8j0DQGeGCr4ofAf0t5qW1Gs0FJBKwmW55fk8Y7PhpsqPw4yOgm/SBEeuejxM+s3oZRmb/q4Pao9U1opN3VAvyBrbMwqAUog5H99H86Kb7b8etezEaYtGqe6gS51lO7n2heDKfeV3jPxQRbJxW6CgTBZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=OO0Xun4T; arc=none smtp.client-ip=116.203.91.91
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="meYLVjXQ"
+	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="OO0Xun4T"
+From: Dragan Simic <dsimic@manjaro.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
+	t=1716768506;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=mGV1bJ7uirDC6E+UW16NvOjsfXec5LdTaeXF3VVLlOo=;
+	b=OO0Xun4TpC1VlHyojkP/5DPL48+z7xVCiE1skzSjSH4K4zO2qqZJ1Me1rgCe6rgXaLThxb
+	CvlKCqJpv6lFajh+ZqAtHnOCWIROHSMQEwRsVfKpYzGSvDwYYU1z5Yq2qzy8MpySqkLLGi
+	znK+1/dJd5fSj8cisV/3mgTgkFKp2iYzeYwt6+2vRJkIq4Lx6z9Fg0B6KXDEgLM8fslMhN
+	8yXvxVCHeimUQ8hPBIOv+Ifm+ftW1faqhT9y6tTCz6byQao1R2oCBoyKUACXPU1vDX3Kvx
+	VTtidY6OPBVcRuIPkJ6gdLWNsDNL3inSr1whN+Wb1KDxVzzCR8L+aRu0OMp3pw==
+To: linux-sunxi@lists.linux.dev
+Cc: wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	robh+dt@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	linux-kernel@vger.kernel.org,
+	robh@kernel.org,
+	uwu@icenowy.me,
+	andre.przywara@arm.com,
+	didi.debian@cknow.org
+Subject: [PATCH v2 0/2] Correct the model names and descriptions for Pine64 boards
+Date: Mon, 27 May 2024 02:08:16 +0200
+Message-Id: <cover.1716768092.git.dsimic@manjaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
-	t=1716741613;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=j3lZcgRjy9m9i6VrLn+CFxC//39rHct7UpondOikJUI=;
-	b=meYLVjXQ14iHnjjG6vi6dXbEFJAFzMA7Dpk4lIIyPVVPoFpaMHYdL8m6kOW0lWbCeEM9+F
-	lu9ivY3Sl+YlcdpQCiaV7XVlwHdp501iTC97XUQ+ezqRzM9el9N+hc/5Zx6Zds377cFE3M
-	spGVPG4Sfo6QsbtJv56iEovKliySDyLg5LDhFi5Ul18YZj8EpymjWCc4PcgcDg8GgZpFbb
-	vJ2W8n+rTj+C2JELC6Nb1f7hG8jAX9LvZV/PDU21534fV4cIgu0XijTnzjHxhxK8rUjjZs
-	RUNWKOqJKVZWsYOo5qN4c12ptoCjx/g12xbp5reZ60XbMQRy+xWPt0zxA0A5IA==
-Date: Sun, 26 May 2024 18:40:12 +0200
-From: Dragan Simic <dsimic@manjaro.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Icenowy Zheng <uwu@icenowy.me>, linux-sunxi@lists.linux.dev,
- wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org,
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- robh+dt@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- linux-kernel@vger.kernel.org, didi.debian@cknow.org, Marek Kraus
- <gamiee@pine64.org>
-Subject: Re: [PATCH 1/2] dt-bindings: arm: sunxi: Correct the descriptions for
- Pine64 boards
-In-Reply-To: <90fada7d9a37a5e413b16bc176ec2f8d@manjaro.org>
-References: <d2943d9f4c99a239f86188eaf45a73972685c255.1713833436.git.dsimic@manjaro.org>
- <057b4a5504656bb7455ead39768d9e7167fb724b.camel@icenowy.me>
- <5635a6e79427e43ef20b690c766267d0@manjaro.org>
- <20240522110507.51b12966@donnerap.manchester.arm.com>
- <90fada7d9a37a5e413b16bc176ec2f8d@manjaro.org>
-Message-ID: <eeb46ba769f6ee9a1972cd104f0de19d@manjaro.org>
-X-Sender: dsimic@manjaro.org
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
 Content-Transfer-Encoding: 8bit
 Authentication-Results: ORIGINATING;
 	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
 
-Hello Andre and Icenowy,
+This series corrects and, in a couple of cases, additionally simplifies
+a bit the model names and the descriptions of a few Pine64 boards and
+devices based on Allwinner SoCs, according to their official names used
+in the Pine64 wiki and on the official Pine64 website. [1][2][3]
 
-On 2024-05-22 15:06, Dragan Simic wrote:
-> On 2024-05-22 12:05, Andre Przywara wrote:
->> On Wed, 22 May 2024 08:10:21 +0200
->> Dragan Simic <dsimic@manjaro.org> wrote:
->>> On 2024-05-22 02:48, Icenowy Zheng wrote:
->>> > 在 2024-04-23星期二的 03:00 +0200，Dragan Simic写道：
->>> >> Correct the descriptions of a few Pine64 boards and devices,
->>> >> according
->>> >> to their official names used on the Pine64 wiki.  This ensures
->>> >> consistency
->>> >> between the officially used names and the names in the source code.
->>> >>
->>> >> [...]
->>> >>
->>> >> -      - description: Pine64 PineH64 model A
->>> >> +      - description: Pine64 H64 Model A
->>> >>          items:
->>> >>            - const: pine64,pine-h64
->>> >>            - const: allwinner,sun50i-h6
->>> >>  
->>> >> -      - description: Pine64 PineH64 model B
->>> >> +      - description: Pine64 H64 Model B
->>> >
->>> > Sorry for replying so late, but I don't think there is a Pine64 H64
->>> > board. The Pine64 wiki calls it Pine H64. [1]
->>> >
->>> > [1] https://wiki.pine64.org/wiki/PINE_H64
->>> 
->>> Good point, thanks.  Though, this board is really an exception to
->>> the naming scheme employed for the Pine64 boards, so perhaps it would
->>> actually be better to rename the board in the Pine64 wiki, by adding
->>> "64" to "Pine", to ensure consistency.
->> 
->> I am sorry, but I don't think this is how it works. The board is 
->> really
->> called "Pine H64", that's printed on the board [1] and everywhere else 
->> [2].
->> That's a choice the manufacturer made, and renaming some Wiki page 
->> won't
->> change that. I understand the engineer's desire to make everything 
->> nice and
->> consistent ;-) , but I am afraid that's not our call. After all this 
->> file
->> is to document the device naming, not to be an example of consistent
->> naming schemes.
->> 
->> [1] https://linux-sunxi.org/images/5/53/Pineh64_top.jpg
->> [2] https://pine64.org/devices/pine_h64_model_a/
-> 
-> Those are all valid concerns.  Though, when it comes to the 
-> silkscreened
-> labels on PCBs, sometimes they have no connection with the real, 
-> official
-> board names.  An almost funny example :) is the QuartzPro64 board, also
-> from Pine64. [3]
-> 
-> I'll check with Pine64 are there some intentions for unifying the 
-> officially
-> used board names, and if there aren't, I'll submit the v2 of this 
-> series
-> with the corrected board names.
-> 
-> [3] 
-> https://wiki.pine64.org/images/f/fe/Quartzpro64_whole_board_top_resized.jpeg
+These corrections ensure consistency between the officially used Pine64
+board names and the names and descriptions in the source code.  These
+changes complete the correction of the model names and descriptions of
+the Pine64 boards and devices, which was started earlier with the Pine64
+boards and devices based on Rockchip SoCs. [4][5]
 
-It's been decided that the history should be preserved, so I'll prepare
-and submit the v2 of this series with the original Pine64 board names 
-that
-are currently used officially.
+Changes to the model names may cause certain issues if some scripts misuse
+/proc/device-tree/model to detect the board they're executed on.  Though,
+the right way to detect a board is to use /proc/device-tree/compatible
+instead, because its contents is part of the ABI.  Such scripts, if they
+actually exist in the field, should be improved to use the right way to
+detect the board model.
 
->>> Alas, the Pine64 wiki is currently in read-only mode, due to some
->>> recent issues with the underlying hardware that runs it.  Migration 
->>> to
->>> another form of documentation for Pine64 boards is also a 
->>> possibility,
->>> which makes the updates even more complicated.
->>> 
->>> With all this in mind, I think it would be the best to rename the 
->>> board
->>> on the Pine64 side, to ensure consistency, and keep this patch as-is.
->>> I'll make a mental note to do that on the Pine64 side once the 
->>> current
->>> situation with the Pine64 wiki is resolved.
+Link to v1: https://lore.kernel.org/linux-sunxi/d2943d9f4c99a239f86188eaf45a73972685c255.1713833436.git.dsimic@manjaro.org/T/#u
+
+Changes in v2:
+  - Introduced this cover letter, partially by absorbing the notes from
+    the original versions of the individual patches
+  - Collected a couple of tags, which should still apply after the v2
+    changes described in the following bullet point
+  - As pointed out by Icenowy [6] and Andre, [7] historical and factual
+    accuracy trumps the naming consistency; after checking with Pine64,
+    it was concluded not to perform any retroactive naming cleanups, but
+    to preserve the history, so the v2 switches to the historically and
+    factually accurate board names, and introduces a few additional naming
+    corrections, for completeness
+  - Adjusted the patch descriptions according to the v2 changes
+
+[1] https://wiki.pine64.org/wiki/PINE_A64
+[2] https://wiki.pine64.org/wiki/PINE_H64
+[3] https://pine64.org/devices/
+[4] https://lore.kernel.org/linux-rockchip/ec124dab2b1a8776aa39177ecce34babca3a50e2.1713832790.git.dsimic@manjaro.org/
+[5] https://lore.kernel.org/linux-rockchip/06ce014a1dedff11a785fe523056b3b8ffdf21ee.1713832790.git.dsimic@manjaro.org/
+[6] https://lore.kernel.org/linux-sunxi/057b4a5504656bb7455ead39768d9e7167fb724b.camel@icenowy.me/
+[7] https://lore.kernel.org/linux-sunxi/20240522110507.51b12966@donnerap.manchester.arm.com/
+
+Dragan Simic (2):
+  dt-bindings: arm: sunxi: Correct the descriptions for Pine64 boards
+  arm64: dts: allwinner: Correct the model names for Pine64 boards
+
+ Documentation/devicetree/bindings/arm/sunxi.yaml | 16 ++++++++--------
+ .../boot/dts/allwinner/sun50i-a64-pine64-lts.dts |  2 +-
+ .../dts/allwinner/sun50i-a64-pine64-plus.dts     |  2 +-
+ .../boot/dts/allwinner/sun50i-a64-pine64.dts     |  2 +-
+ .../boot/dts/allwinner/sun50i-a64-pinebook.dts   |  2 +-
+ .../sun50i-a64-pinetab-early-adopter.dts         |  2 +-
+ .../boot/dts/allwinner/sun50i-a64-pinetab.dts    |  2 +-
+ .../allwinner/sun50i-a64-sopine-baseboard.dts    |  2 +-
+ .../dts/allwinner/sun50i-h6-pine-h64-model-b.dts |  2 +-
+ .../boot/dts/allwinner/sun50i-h6-pine-h64.dts    |  2 +-
+ 10 files changed, 17 insertions(+), 17 deletions(-)
+
+Range-diff against v1:
+1:  8deaf9d7d1b7 ! 1:  84cd1c708637 dt-bindings: arm: sunxi: Correct the descriptions for Pine64 boards
+    @@ Commit message
+         dt-bindings: arm: sunxi: Correct the descriptions for Pine64 boards
+     
+         Correct the descriptions of a few Pine64 boards and devices, according
+    -    to their official names used on the Pine64 wiki.  This ensures consistency
+    -    between the officially used names and the names in the source code.
+    +    to their official names used in the Pine64 wiki and on the official Pine64
+    +    website. [1][2][3]  This ensures consistency between the officially used
+    +    names and the names in the source code.
+     
+    +    [1] https://wiki.pine64.org/wiki/PINE_A64
+    +    [2] https://wiki.pine64.org/wiki/PINE_H64
+    +    [3] https://pine64.org/devices/
+    +
+    +    Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+         Cc: Marek Kraus <gamiee@pine64.org>
+         Signed-off-by: Dragan Simic <dsimic@manjaro.org>
+     
+    -
+    - ## Notes ##
+    -    This completes the correction of the descriptions of the Pine64 boards
+    -    and devices, which was started with the Pine64 boards and devices based
+    -    on Rockchip SoCs. [1]
+    -
+    -    [1] https://lore.kernel.org/linux-rockchip/ec124dab2b1a8776aa39177ecce34babca3a50e2.1713832790.git.dsimic@manjaro.org/
+    -
+      ## Documentation/devicetree/bindings/arm/sunxi.yaml ##
+     @@ Documentation/devicetree/bindings/arm/sunxi.yaml: properties:
+    +           - const: olimex,a64-teres-i
+    +           - const: allwinner,sun50i-a64
+    + 
+    +-      - description: Pine64
+    ++      - description: Pine64 PINE A64
+    +         items:
+    +           - const: pine64,pine64
+    +           - const: allwinner,sun50i-a64
+    + 
+    +-      - description: Pine64+
+    ++      - description: Pine64 PINE A64+
+    +         items:
+    +           - const: pine64,pine64-plus
+    +           - const: allwinner,sun50i-a64
+    + 
+    +       - description: Pine64 PineCube
+    +         items:
+    +           - const: pine64,pinecube
+                - const: sochip,s3
+                - const: allwinner,sun8i-v3
+      
+     -      - description: Pine64 PineH64 model A
+    -+      - description: Pine64 H64 Model A
+    ++      - description: Pine64 PINE H64 Model A
+              items:
+                - const: pine64,pine-h64
+                - const: allwinner,sun50i-h6
+      
+     -      - description: Pine64 PineH64 model B
+    -+      - description: Pine64 H64 Model B
+    ++      - description: Pine64 PINE H64 Model B
+              items:
+                - const: pine64,pine-h64-model-b
+                - const: allwinner,sun50i-h6
+      
+     -      - description: Pine64 LTS
+    -+      - description: Pine64 A64 LTS
+    ++      - description: Pine64 PINE A64 LTS
+              items:
+                - const: pine64,pine64-lts
+                - const: allwinner,sun50i-r18
+    @@ Documentation/devicetree/bindings/arm/sunxi.yaml: properties:
+                - const: allwinner,sun50i-a64
+      
+     -      - description: Pine64 SoPine Baseboard
+    -+      - description: Pine64 SOPine
+    ++      - description: Pine64 SOPINE
+              items:
+                - const: pine64,sopine-baseboard
+                - const: pine64,sopine
+2:  fe5c35b78bef ! 2:  4a988518e0db arm64: dts: allwinner: Correct the model names for Pine64 boards
+    @@ Commit message
+         arm64: dts: allwinner: Correct the model names for Pine64 boards
+     
+         Correct the model names of a few Pine64 boards and devices, according
+    -    to their official names used on the Pine64 wiki.  This ensures consistency
+    -    between the officially used names and the names in the source code.
+    +    to their official names used in the Pine64 wiki and on the official Pine64
+    +    website. [1][2][3]  This ensures consistency between the officially used
+    +    names and the names in the source code.
+     
+    +    [1] https://wiki.pine64.org/wiki/PINE_A64
+    +    [2] https://wiki.pine64.org/wiki/PINE_H64
+    +    [3] https://pine64.org/devices/
+    +
+    +    Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+         Cc: Marek Kraus <gamiee@pine64.org>
+         Signed-off-by: Dragan Simic <dsimic@manjaro.org>
+     
+    -
+    - ## Notes ##
+    -    This completes the correction of the model names of the Pine64 boards
+    -    and devices, which was started with the Pine64 boards and devices based
+    -    on Rockchip SoCs. [1]
+    -
+    -    These improvements may cause certain issues if some scripts misuse
+    -    /proc/device-tree/model to detect the board they're executed on.  Though,
+    -    the right way to detect a board is to use /proc/device-tree/compatible
+    -    instead, because its contents is part of the ABI.  Such scripts, if they
+    -    actually exist in the field, should be improved to use the right way to
+    -    detect the board model.
+    -
+    -    [1] https://lore.kernel.org/linux-rockchip/06ce014a1dedff11a785fe523056b3b8ffdf21ee.1713832790.git.dsimic@manjaro.org/
+    -
+      ## arch/arm64/boot/dts/allwinner/sun50i-a64-pine64-lts.dts ##
+     @@
+      #include "sun50i-a64-sopine-baseboard.dts"
+      
+      / {
+     -	model = "Pine64 LTS";
+    -+	model = "Pine64 A64 LTS";
+    ++	model = "Pine64 PINE A64 LTS";
+      	compatible = "pine64,pine64-lts", "allwinner,sun50i-r18",
+      		     "allwinner,sun50i-a64";
+      
+     
+    + ## arch/arm64/boot/dts/allwinner/sun50i-a64-pine64-plus.dts ##
+    +@@
+    + #include "sun50i-a64-pine64.dts"
+    + 
+    + / {
+    +-	model = "Pine64+";
+    ++	model = "Pine64 PINE A64+";
+    + 	compatible = "pine64,pine64-plus", "allwinner,sun50i-a64";
+    + 
+    + 	/* TODO: Camera, touchscreen, etc. */
+    +
+    + ## arch/arm64/boot/dts/allwinner/sun50i-a64-pine64.dts ##
+    +@@
+    + #include <dt-bindings/gpio/gpio.h>
+    + 
+    + / {
+    +-	model = "Pine64";
+    ++	model = "Pine64 PINE A64";
+    + 	compatible = "pine64,pine64", "allwinner,sun50i-a64";
+    + 
+    + 	aliases {
+    +
+      ## arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts ##
+     @@
+      #include <dt-bindings/pwm/pwm.h>
+    @@ arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dts
+      
+      / {
+     -	model = "SoPine with baseboard";
+    -+	model = "Pine64 SOPine on Baseboard carrier board";
+    ++	model = "Pine64 SOPINE on Baseboard carrier board";
+      	compatible = "pine64,sopine-baseboard", "pine64,sopine",
+      		     "allwinner,sun50i-a64";
+      
+     
+      ## arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64-model-b.dts ##
+     @@
+      /delete-node/ &reg_gmac_3v3;
+      
+      / {
+     -	model = "Pine H64 model B";
+    -+	model = "Pine64 H64 Model B";
+    ++	model = "Pine64 PINE H64 Model B";
+      	compatible = "pine64,pine-h64-model-b", "allwinner,sun50i-h6";
+      
+      	wifi_pwrseq: pwrseq {
+     
+      ## arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts ##
+     @@
+      #include <dt-bindings/gpio/gpio.h>
+      
+      / {
+     -	model = "Pine H64 model A";
+    -+	model = "Pine64 H64 Model A";
+    ++	model = "Pine64 PINE H64 Model A";
+      	compatible = "pine64,pine-h64", "allwinner,sun50i-h6";
+      
+      	aliases {
