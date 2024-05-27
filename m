@@ -1,60 +1,34 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55A4913A414
-	for <linux-sunxi@lists.linux.dev>; Mon, 27 May 2024 09:43:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E05415ECFE;
+	Mon, 27 May 2024 13:30:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716803004; cv=none; b=kMoH/FxxuWkPzpltlWJFlU6lmKYSxpTuoORqP17C4DDnWYd3POrs2VtOdnHfCrWjiFYuGhc0Y59rYW3FythXJ5vRyM+ZgemZBMxDcCTx86u09Cu91/+TVBZ2/no57fL0V/pvkM/7LXKx0vYxyx3xsB7hjNT3bR2c3NDz0VSAUDg=
+	t=1716816623; cv=none; b=bLM3jKfs9+IzvMcj41KzNa3KVq+oG/WqMki8EWUUMXOJ3EOz/kyORnedJZcc2RQwIdZDCcPxRbmFbmf9jHvaMuYpl0BbjcIBDd3BgZn4iNTz8+81hwE409oiEQf1rmP90U4ZDgNEzu3Q4ROW2sISWUUMJpzQhCtlFMYlhv3cEpw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716803004; c=relaxed/simple;
-	bh=r9nbaoFqgRjLYGHhUWKMyFC5NnKZ/LrtLxXc77Y9tNk=;
+	s=arc-20240116; t=1716816623; c=relaxed/simple;
+	bh=TF/G2ffwfrBRISpD7K1d5EZ9ItCYMb2x92oWHu7T4AM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RMz27YZRZ4Vfyv1WRrlatufZN2l1CEdDFT8mJJCOZP//kpqx35zI5txr6MtgAobBIQjQ8yWSBOQyh5GoEtlc1ViXrwRAdlVFXRxJKYmDEScIZhtXh9QfiNCTLpg9VkwuZ62E5HMjCH+plsYIZEAVwuZoXZRBpUUE34PZDpBMSp4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jk1z3nBs; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=lQJxiEOy+vK8GxzS+YiFkGkebOzg+lS3X3/BnddotmX8ZTenYUgxfc7ACJdC+Mhl70WF1xbkhmzwMele4fzZTaOi6sEktbhjXJsxUgFybPaUclkVUbjQXFJ5ky0kzcs0lQBpdJ8OAyQlcWU17LVIwdlL3CdDHbjVegF14BuTX2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F2glDx+3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jk1z3nBs"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-51fcb7dc722so4864634e87.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 27 May 2024 02:43:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716803000; x=1717407800; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=0N7iqS/jW6psWnJVJQjJRax8oZv8fa2R262LhPDLB+4=;
-        b=jk1z3nBsX9UQX/3jRncgqjcPMrMkeAaZr0XrIEuXR0I/xoIcvXF1zj+DjKGClghZtm
-         T/Qt1CzhSpBxXTftPgvruWN8VTh6djM5MPcK5x2LHVxd3rQ0awHk/SwEeNxvA6eFu2j2
-         WX1ENvfc8N8HbUp1fGnA1Otwe2nv5b/Imkv/zbTl3gcTcGOspsd40BY2ZEs/Su2Sy3l4
-         6gCA/UumtRSVmg1M/+QAo76wIVKu6bg2KjqXfyws9hFuNXqdOWCUEppedI2WFcLFOFTs
-         aHDiE1D7uejQbsz3ov3NURcrD3wYjZ+sqvAKRX/KIU45pZnd+6pZ0HvNVyteNXGKLa5J
-         nZyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716803000; x=1717407800;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0N7iqS/jW6psWnJVJQjJRax8oZv8fa2R262LhPDLB+4=;
-        b=Gjy8zqr/7jq+lod/FsivdFt0mJAAU8lC4kTUzf2AOJ5DlJyGVhLGnYI6jCPcWFENae
-         ObtaEZ3iiOoJid4JGueLJG+SDrfoUrIET9/YmP8vWiNLhzcTsDpisGa6E4hduXidbfAw
-         tXTkW8gh+NPqGbtyh7Hyi6cSV5de8OkxNM2xIKoN0UwcGOl7L5am4ibBjz3CeaYaOh42
-         a4s03ADtqoWowi/7yrJc7AJNir3wmrB/7qvhPu+ffSiVsE7sLb/1J3kXKwpqrVAL2AyL
-         O/NnuBe+YdtQ1+Jl6pNim3t5Cwe8ufinB55RAcw8v5ZK8KyoaHL0CkYfwb0jfoVE9gtI
-         TkEA==
-X-Forwarded-Encrypted: i=1; AJvYcCVgueoThfJ4RX+dKNTRKVQxN+19wWhgtre9JPfmXjkuaxxMTilcPqSMTc7aC9u9wVYUDAstwUqA1JSDfRky5KWTzdyfBCogxjnh5AU=
-X-Gm-Message-State: AOJu0Yyhyo92crYwqZSHgGSDzKUYD0mTAZBTDiS0rXLqEWo/dq5JB6hu
-	MX2DPUK6aa7IW5DLah5woh1hzzgKC6+C2aP21YHLFRqkPPOjACT3nFD9tFxJNzQ=
-X-Google-Smtp-Source: AGHT+IEiQ8C9Lceia0g8JujCBp7raFBHsn1Pi+Zhb5Y4D5nikSTHmLnkevBZXNf8N4rIWwJyGf6zsw==
-X-Received: by 2002:a05:6512:3145:b0:520:ed4e:2206 with SMTP id 2adb3069b0e04-527ef9d9483mr3265363e87.17.1716803000505;
-        Mon, 27 May 2024 02:43:20 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-529a7fb982esm230632e87.265.2024.05.27.02.43.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 May 2024 02:43:20 -0700 (PDT)
-Date: Mon, 27 May 2024 12:43:18 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Maxime Ripard <mripard@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F2glDx+3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48CB1C4AF07;
+	Mon, 27 May 2024 13:30:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716816622;
+	bh=TF/G2ffwfrBRISpD7K1d5EZ9ItCYMb2x92oWHu7T4AM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=F2glDx+39JvZ8wnXQ32eLjUP4/ijfHmYOPAR3IWCS52WYonp3adypyoHL43pOKEIw
+	 pua5H9IocB1EWiS+PP8277F61bmkw/7YM6Zq/yAJnDph5evoOKVrSMVPEEC8kfF0Lc
+	 eCinKxXlFityRJ45ODnWMC4rgTnkq1De/XcY6nde07CDm+9iFxYSe1hibktpnIBBA8
+	 u5g/nqZzec8VeOsqqIqlj+ggMKD4mFYlVtfUDdcqlReD4FRfkGlNeMTtcWH0MUdHrL
+	 DzfbRjC7mgqW3t9+cKg/mO/eRsTT+seji5fjvNsd1TkEPIKzMzkKVXvTv2v83M68us
+	 +LBBBDXRC+udA==
+Date: Mon, 27 May 2024 15:30:19 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
 	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
 	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
@@ -67,77 +41,123 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
 	Dave Stevenson <dave.stevenson@raspberrypi.com>, Pekka Paalanen <pekka.paalanen@collabora.com>
 Subject: Re: [PATCH v14 17/28] drm/connector: hdmi: Add Broadcast RGB property
-Message-ID: <a65wtf2hy7ufimkcgo5k2c34ygvtv7erwh567ngsnuaha7qiny@nl6lx67qsjuw>
+Message-ID: <20240527-colorful-orange-bug-bbeefe@houat>
 References: <20240521-kms-hdmi-connector-state-v14-0-51950db4fedb@kernel.org>
  <20240521-kms-hdmi-connector-state-v14-17-51950db4fedb@kernel.org>
  <4n55dbl2h275z5ubebigri4xjtjsvt44w62n656srdgndcav2j@rrq5haucqx5u>
  <20240527-adamant-just-spaniel-ebed4e@houat>
+ <a65wtf2hy7ufimkcgo5k2c34ygvtv7erwh567ngsnuaha7qiny@nl6lx67qsjuw>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="rh4txa2gphc5y7co"
+Content-Disposition: inline
+In-Reply-To: <a65wtf2hy7ufimkcgo5k2c34ygvtv7erwh567ngsnuaha7qiny@nl6lx67qsjuw>
+
+
+--rh4txa2gphc5y7co
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240527-adamant-just-spaniel-ebed4e@houat>
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 27, 2024 at 11:02:13AM +0200, Maxime Ripard wrote:
-> Hi,
-> 
-> Thanks again for that thorough review :)
-> 
-> On Thu, May 23, 2024 at 01:22:56PM GMT, Dmitry Baryshkov wrote:
-> > On Tue, May 21, 2024 at 12:13:50PM +0200, Maxime Ripard wrote:
-> > > The i915 driver has a property to force the RGB range of an HDMI output.
-> > > The vc4 driver then implemented the same property with the same
-> > > semantics. KWin has support for it, and a PR for mutter is also there to
-> > > support it.
-> > > 
-> > > Both drivers implementing the same property with the same semantics,
-> > > plus the userspace having support for it, is proof enough that it's
-> > > pretty much a de-facto standard now and we can provide helpers for it.
-> > > 
-> > > Let's plumb it into the newly created HDMI connector.
-> > > 
-> > > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > > Reviewed-by: Sebastian Wick <sebastian.wick@redhat.com>
-> > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > > ---
-> > >  Documentation/gpu/kms-properties.csv            |  1 -
-> > >  drivers/gpu/drm/display/drm_hdmi_state_helper.c |  4 +-
-> > >  drivers/gpu/drm/drm_atomic.c                    |  2 +
-> > >  drivers/gpu/drm/drm_atomic_uapi.c               |  4 ++
-> > >  drivers/gpu/drm/drm_connector.c                 | 88 +++++++++++++++++++++++++
-> > >  include/drm/drm_connector.h                     | 36 ++++++++++
-> > >  6 files changed, 133 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/Documentation/gpu/kms-properties.csv b/Documentation/gpu/kms-properties.csv
-> > > index 0f9590834829..caef14c532d4 100644
-> > > --- a/Documentation/gpu/kms-properties.csv
-> > > +++ b/Documentation/gpu/kms-properties.csv
-> > > @@ -15,11 +15,10 @@ Owner Module/Drivers,Group,Property Name,Type,Property Values,Object attached,De
-> > >  ,,“saturation”,RANGE,"Min=0, Max=100",Connector,TBD
-> > >  ,,“hue”,RANGE,"Min=0, Max=100",Connector,TBD
-> > >  ,Virtual GPU,“suggested X”,RANGE,"Min=0, Max=0xffffffff",Connector,property to suggest an X offset for a connector
-> > >  ,,“suggested Y”,RANGE,"Min=0, Max=0xffffffff",Connector,property to suggest an Y offset for a connector
-> > >  ,Optional,"""aspect ratio""",ENUM,"{ ""None"", ""4:3"", ""16:9"" }",Connector,TDB
-> > > -i915,Generic,"""Broadcast RGB""",ENUM,"{ ""Automatic"", ""Full"", ""Limited 16:235"" }",Connector,"When this property is set to Limited 16:235 and CTM is set, the hardware will be programmed with the result of the multiplication of CTM by the limited range matrix to ensure the pixels normally in the range 0..1.0 are remapped to the range 16/255..235/255."
-> > 
-> > Should it still be defined as a generic property?
-> 
-> I'm not sure what you mean here, sorry. It's being documented as a
-> connector property now, so it's very much still listed as a generic
-> property?
+Hi,
 
-I didn't perform my duty well enough and I didn't check the file for
-other instances of the property. Now I indeed see a generic "Broadcast
-RGB" property, but to me it looks like having a different set of values:
+On Mon, May 27, 2024 at 12:43:18PM GMT, Dmitry Baryshkov wrote:
+> On Mon, May 27, 2024 at 11:02:13AM +0200, Maxime Ripard wrote:
+> > Hi,
+> >=20
+> > Thanks again for that thorough review :)
+> >=20
+> > On Thu, May 23, 2024 at 01:22:56PM GMT, Dmitry Baryshkov wrote:
+> > > On Tue, May 21, 2024 at 12:13:50PM +0200, Maxime Ripard wrote:
+> > > > The i915 driver has a property to force the RGB range of an HDMI ou=
+tput.
+> > > > The vc4 driver then implemented the same property with the same
+> > > > semantics. KWin has support for it, and a PR for mutter is also the=
+re to
+> > > > support it.
+> > > >=20
+> > > > Both drivers implementing the same property with the same semantics,
+> > > > plus the userspace having support for it, is proof enough that it's
+> > > > pretty much a de-facto standard now and we can provide helpers for =
+it.
+> > > >=20
+> > > > Let's plumb it into the newly created HDMI connector.
+> > > >=20
+> > > > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > > > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > > > Reviewed-by: Sebastian Wick <sebastian.wick@redhat.com>
+> > > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > > > ---
+> > > >  Documentation/gpu/kms-properties.csv            |  1 -
+> > > >  drivers/gpu/drm/display/drm_hdmi_state_helper.c |  4 +-
+> > > >  drivers/gpu/drm/drm_atomic.c                    |  2 +
+> > > >  drivers/gpu/drm/drm_atomic_uapi.c               |  4 ++
+> > > >  drivers/gpu/drm/drm_connector.c                 | 88 +++++++++++++=
+++++++++++++
+> > > >  include/drm/drm_connector.h                     | 36 ++++++++++
+> > > >  6 files changed, 133 insertions(+), 2 deletions(-)
+> > > >=20
+> > > > diff --git a/Documentation/gpu/kms-properties.csv b/Documentation/g=
+pu/kms-properties.csv
+> > > > index 0f9590834829..caef14c532d4 100644
+> > > > --- a/Documentation/gpu/kms-properties.csv
+> > > > +++ b/Documentation/gpu/kms-properties.csv
+> > > > @@ -15,11 +15,10 @@ Owner Module/Drivers,Group,Property Name,Type,P=
+roperty Values,Object attached,De
+> > > >  ,,=E2=80=9Csaturation=E2=80=9D,RANGE,"Min=3D0, Max=3D100",Connecto=
+r,TBD
+> > > >  ,,=E2=80=9Chue=E2=80=9D,RANGE,"Min=3D0, Max=3D100",Connector,TBD
+> > > >  ,Virtual GPU,=E2=80=9Csuggested X=E2=80=9D,RANGE,"Min=3D0, Max=3D0=
+xffffffff",Connector,property to suggest an X offset for a connector
+> > > >  ,,=E2=80=9Csuggested Y=E2=80=9D,RANGE,"Min=3D0, Max=3D0xffffffff",=
+Connector,property to suggest an Y offset for a connector
+> > > >  ,Optional,"""aspect ratio""",ENUM,"{ ""None"", ""4:3"", ""16:9"" }=
+",Connector,TDB
+> > > > -i915,Generic,"""Broadcast RGB""",ENUM,"{ ""Automatic"", ""Full"", =
+""Limited 16:235"" }",Connector,"When this property is set to Limited 16:23=
+5 and CTM is set, the hardware will be programmed with the result of the mu=
+ltiplication of CTM by the limited range matrix to ensure the pixels normal=
+ly in the range 0..1.0 are remapped to the range 16/255..235/255."
+> > >=20
+> > > Should it still be defined as a generic property?
+> >=20
+> > I'm not sure what you mean here, sorry. It's being documented as a
+> > connector property now, so it's very much still listed as a generic
+> > property?
+>=20
+> I didn't perform my duty well enough and I didn't check the file for
+> other instances of the property. Now I indeed see a generic "Broadcast
+> RGB" property, but to me it looks like having a different set of values:
+>=20
+> ,,"""Broadcast RGB""",ENUM,"{ =E2=80=9Coff=E2=80=9D, =E2=80=9Cauto=E2=80=
+=9D, =E2=80=9Con=E2=80=9D }",Connector,TBD
 
-,,"""Broadcast RGB""",ENUM,"{ “off”, “auto”, “on” }",Connector,TBD
+That's not really what I meant: that file is deprecated now and it's not
+where we document the properties anymore. This patch has improved that
+documentation and moved it to the new place, and removed the deprecated
+part.
 
--- 
-With best wishes
-Dmitry
+However, this line shouldn't be there at all. I'll add a patch to remove
+it.
+
+Thanks!
+Maxime
+
+--rh4txa2gphc5y7co
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZlSK6wAKCRAnX84Zoj2+
+duG9AYDdUpGu5aVO7zw3zFdz1kudBfe8bhW4zbk7Rqh2F38nbF9k6OHwGoXKxcQe
+BoqzGpYBf2GmKLiAj1MKfeIjRVsuVzqIgaw1sWlPvBOTPP+4TYXBl/H+8CBtp9KB
+EgfYt9ctqg==
+=NOy6
+-----END PGP SIGNATURE-----
+
+--rh4txa2gphc5y7co--
