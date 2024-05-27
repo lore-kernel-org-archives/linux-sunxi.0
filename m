@@ -1,137 +1,151 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43B121A2C35;
-	Mon, 27 May 2024 09:02:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1441D433C8
+	for <linux-sunxi@lists.linux.dev>; Mon, 27 May 2024 09:10:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716800537; cv=none; b=AFnNrIlAWRYd6C2XWAEU86VTnnBmgUlk6pwyJjyqWAoyxVjBwVuVt5X01lszfQ42OKSfaeP/j4jI6Mdi+fVAqeuNiGxLUNtMmxrPN4hIAjAg95WA+RdxyPw8bMMlBXsVGsSr11JJaez7w4q7jM1EiyxaxJUkoAIW9BipUxuy/CI=
+	t=1716801059; cv=none; b=NgE4ljJYHGypLvtKRBu5rsD+lqfvKK0Uj1GXtKjnPE06teDhGY6CsfG5WL5flwoCmZHrAmtJrU2aMQm43i1MPUvRyR7VFz0bxvxLAramJkvVlQ0EvOZVIACx2ps+NQtvL8oxmDa2zZJxns0W/geeQ+xDovU8tBDPF8sSFDfUeGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716800537; c=relaxed/simple;
-	bh=uYAFBgtM5vXI9g7/LeVQ+pczQ1yooR+keQpxvhcuA8k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IZdjyuWLoq6ME7fBeVZyjbZ2iamWHglfoZ91kYg8aftspZaf3qB2ZrFM2LvuKihQ/xANSsLSHgQUBbMIAD2id36ig8jjtdhrDAVeARwK4OiDvXGatlHL091CPcN4TfFwmiLJrka8PEfIl7XY6mHgYB8+b7bGE9MIyEywyU6Q0NM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TRMPiNiI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1716801059; c=relaxed/simple;
+	bh=TxO63w8D2p8noAFp5GouE3gvIZzsMALJAEUvuR2DPU8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AKSt/yWdh81oOBbjssYycnXv8lMR+GDkLfpemYMyw0VPKXm559mQUq9yJbyqs+Ef39Uvt1IFe4ZJivAyaYGPhy44NJLlQcSB4TAczwPDp0hN573MGfVJIv6mWA2otsbxiDhgoFCbgNxkHwt8uoTct8SQOcCCx9qYfQARWegigR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=bZDRywtz; arc=none smtp.client-ip=209.85.208.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TRMPiNiI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A944C2BBFC;
-	Mon, 27 May 2024 09:02:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716800536;
-	bh=uYAFBgtM5vXI9g7/LeVQ+pczQ1yooR+keQpxvhcuA8k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TRMPiNiIHap5cUpLkC3niSfLnS5r5ay/7/AKD7dAXmxw4VtzFUte71pZ8s4wYxN6C
-	 5N7gB4+obnBGFvTNNxSuXzK/U5TbAzL9ZplGMilaZr1KdblJ6LczlqxIQ8GuuBy7nc
-	 9i1Xee/2KLe/dEp3NpfRWXYMXpQGjWGZRqeXwpsjJf83/GO2GxAql5Y4nbHCV2YGjz
-	 rYh02qQutduLCSqGeaeXpUEYU9uSWnlHpo/iwn2FqW2k+BzSyYmty//oZ6FRorGIBN
-	 +xcOBIRc0ZuQyvFii3U1AO5zNKn47fmXCnneBR7Hq+ycIaKg4tSKiWLgwSvWA5gvkB
-	 +hbDCAwtJxCnQ==
-Date: Mon, 27 May 2024 11:02:13 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
-	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Andy Yan <andy.yan@rock-chips.com>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick <sebastian.wick@redhat.com>, 
-	Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, Pekka Paalanen <pekka.paalanen@collabora.com>
-Subject: Re: [PATCH v14 17/28] drm/connector: hdmi: Add Broadcast RGB property
-Message-ID: <20240527-adamant-just-spaniel-ebed4e@houat>
-References: <20240521-kms-hdmi-connector-state-v14-0-51950db4fedb@kernel.org>
- <20240521-kms-hdmi-connector-state-v14-17-51950db4fedb@kernel.org>
- <4n55dbl2h275z5ubebigri4xjtjsvt44w62n656srdgndcav2j@rrq5haucqx5u>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="bZDRywtz"
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2e3efa18e6aso49469581fa.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 27 May 2024 02:10:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1716801055; x=1717405855; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=LQAdgIOQukEfXwjNGbipvur9+Z8l8KEKtuZqCxNPM88=;
+        b=bZDRywtzoxACllxMKF/BdrJPrtcP8g/G2nRp1cPl3hEGR3I9zg2uhgNYttX9NgLPcb
+         UbyYbYHpd3VJoPjKzT3ZusuLdwDz+PTsF85d3D/H4kQIW3ja9CVxT3f+2upiXWJxMolR
+         hUW0xSCJPtHXTZfNhnqZOx0+6csIFnPzu9tLFUAki9gJmr8WLLnUgeO4wPhQyjlTFUuv
+         IKlJhzIUq9koWRGhgmqtjLfn8/qK+v+iPg6e1BPitEGo0icRJODjm7J9rqXl8rJSltsq
+         tLYMSLB+AGPHbP844UTdaeQDeiS8R9EnQs+I4jD1KdDHH5J7ZT8WIDAMuXFi0xFcl/PB
+         OYig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716801055; x=1717405855;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=LQAdgIOQukEfXwjNGbipvur9+Z8l8KEKtuZqCxNPM88=;
+        b=WcHKNI4jA1l1KMj1/8hJ3WCpRHvTIHrTZXaBfIyxopakNVNtrERlwshkJiILaRBIae
+         7rQV3ZuFcgU/byIyPUG9kCk1UnRV5WWTiYaCp7If+B02Tl/gV67pOAi/6jU24ssJCBSP
+         i2+eRkWlLf3AnOEJPASBYgUZiNOQ5U1GrOh+HzbSqefYVoVA1Gxtt0ISVJziG5eToUcZ
+         iFs7pf6lIYIRswQLzcmOHFfc6+OOVifiJo6y4rWoTBIAwtkcn2QZIdvjm/io60eTVAWb
+         ivWoaxBgRlq+albrYYJAypuRt4zg+M6ny7hKeF8wIqQw9vqY0SCxF+Mm/2Mz1ConNmDE
+         u+Tg==
+X-Forwarded-Encrypted: i=1; AJvYcCWLwNegoU4wfbj+A6U3cHIpktbOUsjtwcwMOvCA4myOChK5D9TPYmVYh/f4UiWQp6x+5qKkHyYAVUmebQfM7zbtH0FlfTTH4hLE2+8=
+X-Gm-Message-State: AOJu0Ywxvt+u/ocrJsntaeMSbE5XKyE9Slr67ykiysWqBajSnkYqkCGw
+	O+UcvN/NFAFF5IekP6pO99+yGoJRSLr5k+BgQozp6GMPs4Otve+z41WFQUI9FlU8zC/PuuE9dnZ
+	OHcY=
+X-Google-Smtp-Source: AGHT+IE/XwhKrN+XuZVHuMIdiI6Yz8L2JavsRfmxvWtsUhZZt2NJ/SSG65g2ImH0JWmyID54LGpqBA==
+X-Received: by 2002:a50:c314:0:b0:579:d23a:1990 with SMTP id 4fb4d7f45d1cf-579d23a1b41mr2344508a12.11.1716801035026;
+        Mon, 27 May 2024 02:10:35 -0700 (PDT)
+Received: from ?IPV6:2001:a61:139b:bf01:e8eb:4d8f:8770:df82? ([2001:a61:139b:bf01:e8eb:4d8f:8770:df82])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-579d0b02625sm1538415a12.9.2024.05.27.02.10.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 May 2024 02:10:34 -0700 (PDT)
+Message-ID: <a2b06a40-4689-4fa9-90bb-9d34311d4221@suse.com>
+Date: Mon, 27 May 2024 11:10:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="wqcwbvnihqwt2l7e"
-Content-Disposition: inline
-In-Reply-To: <4n55dbl2h275z5ubebigri4xjtjsvt44w62n656srdgndcav2j@rrq5haucqx5u>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/4] power: supply: axp20x_usb_power: Add support for
+ AXP717
+To: Chris Morgan <macroalpha82@gmail.com>, linux-sunxi@lists.linux.dev
+Cc: devicetree@vger.kernel.org, linux-pm@vger.kernel.org, broonie@kernel.org,
+ lgirdwood@gmail.com, lee@kernel.org, samuel@sholland.org,
+ jernej.skrabec@gmail.com, wens@csie.org, conor+dt@kernel.org,
+ krzk+dt@kernel.org, robh@kernel.org, sre@kernel.org,
+ Chris Morgan <macromorgan@hotmail.com>
+References: <20240522230132.364915-1-macroalpha82@gmail.com>
+ <20240522230132.364915-4-macroalpha82@gmail.com>
+Content-Language: en-US
+From: Oliver Neukum <oneukum@suse.com>
+In-Reply-To: <20240522230132.364915-4-macroalpha82@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
---wqcwbvnihqwt2l7e
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On 23.05.24 01:01, Chris Morgan wrote:
+> From: Chris Morgan <macromorgan@hotmail.com>
+> 
+> Add support for the AXP717. It does USB BC 1.2 detection similar to the
+> AXP813, however it is otherwise very different from previous AXP
+> devices.
+> 
+> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> ---
 
-Thanks again for that thorough review :)
+> +static int axp717_usb_init(struct axp20x_usb_power *power)
+> +{
+> +	int ret;
+> +
+> +	ret = regmap_update_bits(power->regmap, AXP717_ADC_CH_EN_CONTROL,
+> +				 AXP717_ADC_EN_VSYS_VOLT |
+> +				 AXP717_ADC_EN_VBUS_VOLT,
+> +				 AXP717_ADC_EN_VSYS_VOLT |
+> +				 AXP717_ADC_EN_VBUS_VOLT);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return 0;
 
-On Thu, May 23, 2024 at 01:22:56PM GMT, Dmitry Baryshkov wrote:
-> On Tue, May 21, 2024 at 12:13:50PM +0200, Maxime Ripard wrote:
-> > The i915 driver has a property to force the RGB range of an HDMI output.
-> > The vc4 driver then implemented the same property with the same
-> > semantics. KWin has support for it, and a PR for mutter is also there to
-> > support it.
-> >=20
-> > Both drivers implementing the same property with the same semantics,
-> > plus the userspace having support for it, is proof enough that it's
-> > pretty much a de-facto standard now and we can provide helpers for it.
-> >=20
-> > Let's plumb it into the newly created HDMI connector.
-> >=20
-> > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > Reviewed-by: Sebastian Wick <sebastian.wick@redhat.com>
-> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > ---
-> >  Documentation/gpu/kms-properties.csv            |  1 -
-> >  drivers/gpu/drm/display/drm_hdmi_state_helper.c |  4 +-
-> >  drivers/gpu/drm/drm_atomic.c                    |  2 +
-> >  drivers/gpu/drm/drm_atomic_uapi.c               |  4 ++
-> >  drivers/gpu/drm/drm_connector.c                 | 88 +++++++++++++++++=
-++++++++
-> >  include/drm/drm_connector.h                     | 36 ++++++++++
-> >  6 files changed, 133 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/Documentation/gpu/kms-properties.csv b/Documentation/gpu/k=
-ms-properties.csv
-> > index 0f9590834829..caef14c532d4 100644
-> > --- a/Documentation/gpu/kms-properties.csv
-> > +++ b/Documentation/gpu/kms-properties.csv
-> > @@ -15,11 +15,10 @@ Owner Module/Drivers,Group,Property Name,Type,Prope=
-rty Values,Object attached,De
-> >  ,,=E2=80=9Csaturation=E2=80=9D,RANGE,"Min=3D0, Max=3D100",Connector,TBD
-> >  ,,=E2=80=9Chue=E2=80=9D,RANGE,"Min=3D0, Max=3D100",Connector,TBD
-> >  ,Virtual GPU,=E2=80=9Csuggested X=E2=80=9D,RANGE,"Min=3D0, Max=3D0xfff=
-fffff",Connector,property to suggest an X offset for a connector
-> >  ,,=E2=80=9Csuggested Y=E2=80=9D,RANGE,"Min=3D0, Max=3D0xffffffff",Conn=
-ector,property to suggest an Y offset for a connector
-> >  ,Optional,"""aspect ratio""",ENUM,"{ ""None"", ""4:3"", ""16:9"" }",Co=
-nnector,TDB
-> > -i915,Generic,"""Broadcast RGB""",ENUM,"{ ""Automatic"", ""Full"", ""Li=
-mited 16:235"" }",Connector,"When this property is set to Limited 16:235 an=
-d CTM is set, the hardware will be programmed with the result of the multip=
-lication of CTM by the limited range matrix to ensure the pixels normally i=
-n the range 0..1.0 are remapped to the range 16/255..235/255."
->=20
-> Should it still be defined as a generic property?
+This is a bit silly.
 
-I'm not sure what you mean here, sorry. It's being documented as a
-connector property now, so it's very much still listed as a generic
-property?
+> +}
+> +
+>   static int axp20x_usb_power_set_voltage_min(struct axp20x_usb_power *power,
+>   					    int intval)
+>   {
+> @@ -307,6 +417,20 @@ static int axp20x_usb_power_set_voltage_min(struct axp20x_usb_power *power,
+>   	return -EINVAL;
+>   }
+>   
+> +static int axp717_usb_power_set_voltage_min(struct axp20x_usb_power *power,
+> +					    int intval)
+> +{
+> +	int val;
+> +
+> +	if (intval < 3880000 || intval > 5080000)
 
-Maxime
+Do you really want raw numbers here?
 
---wqcwbvnihqwt2l7e
-Content-Type: application/pgp-signature; name="signature.asc"
+[..]
+> +static int axp717_usb_power_set_property(struct power_supply *psy,
+> +					 enum power_supply_property psp,
+> +					 const union power_supply_propval *val)
+> +{
+> +	struct axp20x_usb_power *power = power_supply_get_drvdata(psy);
+> +
+> +	switch (psp) {
+> +	case POWER_SUPPLY_PROP_INPUT_CURRENT_LIMIT:
+> +		return axp717_usb_power_set_input_current_limit(power, val->intval);
+> +
+> +	case POWER_SUPPLY_PROP_VOLTAGE_MIN:
+> +		return axp717_usb_power_set_voltage_min(power, val->intval);
+> +
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	return -EINVAL;
 
------BEGIN PGP SIGNATURE-----
+This is also a bit silly.
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZlRMEAAKCRAnX84Zoj2+
-dhGAAYDS1llqP+ICZyWXx+g6L1EiXrG7OIB0z7t7KF3yJW5Y1zN4+dIvVNhFS6LU
-gAXKTp4BgKUepq65FIlFjrRN3gyXTVxmbiIMJd5mPgjySS4scgX65VNBO5cc0Qvt
-qThCHUrQ2A==
-=K55A
------END PGP SIGNATURE-----
+	Regards
+		Oliver
 
---wqcwbvnihqwt2l7e--
