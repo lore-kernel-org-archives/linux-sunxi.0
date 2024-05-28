@@ -1,120 +1,123 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 879A016DEC7
-	for <linux-sunxi@lists.linux.dev>; Tue, 28 May 2024 16:06:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39AEF32C60;
+	Tue, 28 May 2024 16:07:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716912411; cv=none; b=UaxpKNMcbJVpnOJFA5+78VofflRPsywvHKQBk50aWQlh6H6jUPdhsAAPyBIGwOg5NuLodnBiJs2KdIDaC/c17jiB8sSpSGNz5yRQwYZTzplRCnZMLyTiI0A4fqIUf95wUNrAoNaFcRIgoXmKqLGveer3z5eSu2tA3GCqFzIuNDg=
+	t=1716912448; cv=none; b=qGHjQd6UYYtLNwayCxbt/809U0VdDao5iBh+kVQ2CsTKU0imIx9YMF57vm+MXVAjn+0AdjeqiDubO2IrhuQqftrdOmUgDQBLRcmG4TP+SH/73vuxbABgzWqFG2v/53dg0xGAjPbNGbX2uZZpae/hknSkGyBM2QCwNsYd+oqw8FY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716912411; c=relaxed/simple;
-	bh=Zpd8VaZ4kpve3RgfgE7Y6EHE5OBche0E0cu/WMORRHk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LWurVj4mGH17DtF/bIeLQBtXwxkSRSlYhNvbDXiXSsRhB9SSWKBFeLPD1Uw8cEBse3dYTETQZXNApvPojM5n/Q2d3XGDd0z7olZc6k3AiF41yB50l0Y+RCp+RyzS8/6PvkyJge7PveLOR92yMQte9V52vSFDu3o5Ut/fk+L+Po0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2e78fe9fc2bso13803551fa.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 28 May 2024 09:06:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716912407; x=1717517207;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=FiWUEGRw3sA0Rlo7cpstCK8d71HbP2QWoWmJdKUJYOs=;
-        b=riXbk/ju2nmWTCgYlQHlTYuvzN07lq5z5FSkNzGgM1ogOcO5308n4pLZVwyHFvSa0F
-         jqHoIH1TsdCvpgKKqr+98jFE6oC5zgRxlDNiz+6nUkBJUTUV7UIP7zDfo5iGQuqe1RKU
-         H4xUkGphu1vZxAXF57WDOLNVbCdYU8R2ZgyQa83tIkZfsBW76zX59IJ2DVE/QbzLMCMq
-         Aaq+QsrptWlB2dSXxz2akwqz2O9Cxms36xsmyN1JgIxvg9TchCMGYWvneDI6ybArKmy7
-         Qkdvn0yEjoC/qyCpZgn4wctS8CVRBi7XYHjQz9qW4rZB3MzlDw7SH7q7nrldBcGi6rRm
-         vqhA==
-X-Forwarded-Encrypted: i=1; AJvYcCW/tWubFDg1eV93KZPZ6TjI3tgxEO9CE3Hqo+yf1ne1DC8WCP6bfjk++cWktg71h/Yv1Ry/+ZFWb0MtQItptLq63HDWk5JLv+nqOxw=
-X-Gm-Message-State: AOJu0YxJl93PTCZNBcO1Km5JkWcMwLR5tF0LWh+MXHZkZG5iiL5cX+0v
-	zHn8dHjYxbksgh83ljZaqYqJh+zHaSb9uILID3QKoJFEBjuPsSF6fbVd5MhB
-X-Google-Smtp-Source: AGHT+IGXdd9rfO+7SXAmRs0emsOidRmuopbokAVsperMcWPbIqKdlSkiAyqTf1DJg+V6xaLvMd6VuQ==
-X-Received: by 2002:a2e:bc08:0:b0:2e9:570e:1cf with SMTP id 38308e7fff4ca-2e95b3089d9mr95852651fa.52.1716912407138;
-        Tue, 28 May 2024 09:06:47 -0700 (PDT)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com. [209.85.208.180])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2e95bcc4929sm22758691fa.18.2024.05.28.09.06.46
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 May 2024 09:06:46 -0700 (PDT)
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2e724bc46c4so10446351fa.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 28 May 2024 09:06:46 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWLSYe+Ar9VHufhMoUGl+d817j5FWosvGwp5mTiHbLpczKnJXSnIQnC/LwCId27jViQcgNytAJ0aUb8LLI4Ekj7qN/XETIG0M9MEIw=
-X-Received: by 2002:a2e:2e0d:0:b0:2e9:5966:790a with SMTP id
- 38308e7fff4ca-2e95b1cc478mr74542041fa.15.1716912406795; Tue, 28 May 2024
- 09:06:46 -0700 (PDT)
+	s=arc-20240116; t=1716912448; c=relaxed/simple;
+	bh=T049GCHKV7lJ9edpcjZl/SJH96Qnt0snWMhqxpAWVb0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fEaWhd8h5rbHh7oSqlYHuwNdCJ1APvHEXt8AnF5rb51KE5I/S1bomKBy+VS8MmpMtAa0zKSUIvtJCTPnKAFfjCsppGfix9BifqrefNI91EE6k0qg8qyauGsibJwWrbiggbWZbQ6sx4WjmE6uvO64f/zrJ3Vt8Z14KhRjallXL04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EIqPBOtW; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EIqPBOtW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A9D2C3277B;
+	Tue, 28 May 2024 16:07:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716912447;
+	bh=T049GCHKV7lJ9edpcjZl/SJH96Qnt0snWMhqxpAWVb0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=EIqPBOtWCLPLQxpLbIiN5n3BBNqb6iQad1UMHYSLRy13VMGZkwlG+C8OEecPKb4LQ
+	 xhpf8RMhmDYBHzIB92fNfoAc/myKE5EDS+eV0qbHZyCTaLXNU4INcxoRN3fMjep8Hs
+	 6A66pigdKfOycPE9lWbbbEm2XStUeLBZdIMkYl1+Y8laWJFLou1z+Qz9S9J/QlXT7y
+	 wvju8BCNt8n9g+kB0uYBTQQgaZJT+2sniOpuJxH++/Stqh6DzuzFWIHARNHIWLpPSz
+	 BqvEpN4UUtMb59t6hoGMmThU6ySAZly6cvpWbP3TQSMs9wbo3sULSP8LtZnF3T0ZnX
+	 dDBwiwNUQULEg==
+Message-ID: <8f9d62c1-12f5-4d52-a511-602281857dbe@kernel.org>
+Date: Tue, 28 May 2024 18:07:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <6a772756c2c677dbdaaab4a2c71a358d8e4b27e9.1714304058.git.dsimic@manjaro.org>
- <49abb93000078c692c48c0a65ff677893909361a.1714304071.git.dsimic@manjaro.org>
- <171691117471.681554.6744393893618279840.b4-ty@csie.org> <CAGb2v64ETOtHxQf1D9n+c9bGivsRTC=O8swDru+2cX2UT=o0qw@mail.gmail.com>
- <803a939c62b3ac4ced7ac49f18efd723@manjaro.org>
-In-Reply-To: <803a939c62b3ac4ced7ac49f18efd723@manjaro.org>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Wed, 29 May 2024 00:06:34 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66vFh4twtsT_ZojGe14k_kvAm8Y9AHBRikDLp626u8iOg@mail.gmail.com>
-Message-ID: <CAGb2v66vFh4twtsT_ZojGe14k_kvAm8Y9AHBRikDLp626u8iOg@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: allwinner: Add cache information to the SoC
- dtsi for H6
-To: Dragan Simic <dsimic@manjaro.org>
-Cc: jernej.skrabec@gmail.com, samuel@sholland.org, 
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] clk: sunxi-ng: h616: Add clock/reset for GPADC
+To: wens@csie.org, Chris Morgan <macroalpha82@gmail.com>
+Cc: linux-sunxi@lists.linux.dev, linux-clk@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-iio@vger.kernel.org,
+ p.zabel@pengutronix.de, sboyd@kernel.org, mturquette@baylibre.com,
+ samuel@sholland.org, jernej.skrabec@gmail.com, conor+dt@kernel.org,
+ krzk+dt@kernel.org, robh@kernel.org, Chris Morgan <macromorgan@hotmail.com>
+References: <20240417170423.20640-1-macroalpha82@gmail.com>
+ <20240417170423.20640-2-macroalpha82@gmail.com>
+ <CAGb2v67rqiCA=fwk9USr4-xh3uRGxQ-p_f+--Ui5vVBnb10QQA@mail.gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <CAGb2v67rqiCA=fwk9USr4-xh3uRGxQ-p_f+--Ui5vVBnb10QQA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, May 29, 2024 at 12:02=E2=80=AFAM Dragan Simic <dsimic@manjaro.org> =
-wrote:
->
-> Hello Chen-Yu,
->
-> On 2024-05-28 17:56, Chen-Yu Tsai wrote:
-> > On Tue, May 28, 2024 at 11:46=E2=80=AFPM Chen-Yu Tsai <wens@csie.org> w=
-rote:
-> >>
-> >> On Sun, 28 Apr 2024 13:40:36 +0200, Dragan Simic wrote:
-> >> > Add missing cache information to the Allwinner H6 SoC dtsi, to allow
-> >> > the userspace, which includes lscpu(1) that uses the virtual files p=
-rovided
-> >> > by the kernel under the /sys/devices/system/cpu directory, to displa=
-y the
-> >> > proper H6 cache information.
-> >> >
-> >> > Adding the cache information to the H6 SoC dtsi also makes the follo=
-wing
-> >> > warning message in the kernel log go away:
-> >> >
-> >> > [...]
-> >>
-> >> Applied to sunxi/dt-for-6.11 in sunxi/linux.git, thanks!
-> >>
-> >> [1/1] arm64: dts: allwinner: Add cache information to the SoC dtsi for
-> >> H6
-> >>       https://git.kernel.org/sunxi/linux/c/c8240e4b0fd2
-> >
-> > OK, that's weird. Somehow b4 thought this patch was v2 of the A64 patch
-> > [1].
-> > Looks like they are threaded together because this patch has
-> > "In-Reply-To".
-> >
-> > Please avoid it in the future.
->
-> I'm sorry for that.  I noticed that back when I sent the patches to the
-> mailing list, but didn't want to make some noise about that.  The root
-> cause was some missing configuration for "git send-email", which
-> resulted
-> in adding troublesome threading-related headers to the messages for the
-> individual .patch files that in fact were correctly created by running
-> "git format-patch".
->
-> Do I need to resend the patches?
+On 28/05/2024 18:02, Chen-Yu Tsai wrote:
+> On Thu, Apr 18, 2024 at 1:04 AM Chris Morgan <macroalpha82@gmail.com> wrote:
+>>
+>> From: Chris Morgan <macromorgan@hotmail.com>
+>>
+>> Add the GPADC required clock and reset which is used for the onboard
+>> GPADC.
+>>
+>> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+>> ---
+>>  drivers/clk/sunxi-ng/ccu-sun50i-h616.c      | 5 +++++
+>>  drivers/clk/sunxi-ng/ccu-sun50i-h616.h      | 2 +-
+> 
+> 
+>>  include/dt-bindings/clock/sun50i-h616-ccu.h | 1 +
+>>  include/dt-bindings/reset/sun50i-h616-ccu.h | 1 +
+> 
+> These need an Ack from the DT binding maintainers. And it's better to
+> split these into a separate patch.
 
-No. I figured it out.
+I am surprised that they were combined... So usual comment: Please split
+the bindings, because we do not want bindings to be in the same commit
+as driver.
+
+Best regards,
+Krzysztof
+
