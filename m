@@ -1,93 +1,93 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67AF0172BBC
-	for <linux-sunxi@lists.linux.dev>; Tue, 28 May 2024 16:18:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 901BB73445
+	for <linux-sunxi@lists.linux.dev>; Tue, 28 May 2024 16:18:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716913092; cv=none; b=IKfDzv5wmECrJE/Xk+M2bdgi8BwImTvUr6a6XmLy+3PAtCrvGUq/ZYmN3ryRykBI8dWB3y4uq+bf67INZAljTVZh71vbO8nPsq1dI+rWASSUFGgpQrUGgWNAgmBdKTNbVZ0WaK269KJdJOIsTJgT0ZkiyUmwxpnAfXAnuKMvzZg=
+	t=1716913133; cv=none; b=nscwIo9xJ22aV5XVAYkYRumMfRHKAxc+tgdW1dCfHCF8oJJD7i0XYaLFV1Zq9t2dQmlxkKHXpmzuDAyxcDPrqLkWEVxgxriJpjD12UF2I1GJKtg0klfKxKP4dPee92X4pMjnIZlay2gNhbTHBtvecyFwzLshKKlb0dSvAxi1gT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716913092; c=relaxed/simple;
-	bh=qI/O/I/DKZxbnPe7MGquyE2ged/XjP50eQvro7VPpYU=;
+	s=arc-20240116; t=1716913133; c=relaxed/simple;
+	bh=enOrTZpM2tWnXRPoFrirpkMmSsCchYgFfxbqdlmuU+s=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UX/YpHVCHPzfFazz2+La7f4clZubEoyITeTKt3KkblXlY1s1g8ho1t4vwmh0rhrHLzT5yizvy9B7tXnY1BamiymRtI+461D/8km5lhbFgzP+1h6JX+L3vvwf+Oh8cytGZu26vMIryBIYWoPn55iyo79fkS4Xyb2PgNbQjgBnUNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.50
+	 To:Cc:Content-Type; b=PNBysKiiV6u8/lZpCOu9si+mBF/k0HZsofNKrkRiREQ9no8GU9w9uMbWSJ+pxNzqAx/Eqrwq/vRklMN0p31/DWHn0VfMngibUBRgQplzQg4Dqq7xlFcWYNQqBWn2QvU6Bw/0v4DhA93yJUiUlSvZJkmQSB6zg7IKMxm1vEnkemY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-529c05a8982so342375e87.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 28 May 2024 09:18:10 -0700 (PDT)
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5238fe0cfc9so946004e87.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 28 May 2024 09:18:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716913087; x=1717517887;
+        d=1e100.net; s=20230601; t=1716913129; x=1717517929;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :reply-to:in-reply-to:references:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=c+cf9wMPn9ILQsVI8cmlxBX9GAhWkPtp3uNOSYd5ZQQ=;
-        b=q3DcDBJDuKw5rPpMD7m9++djdubJeV3yaWJjUDFfgRKkHPeZjJOoMKQMknZsLTi4oc
-         iwRag02htiWrQ5Mi7UX6YAtaZ8npA+6eP+O85zXVx4QD3HKV9/J2H+74zVwF3oJ/PN1B
-         1OZo+ZcPa+7JsmbhuKRdE+nliIxA7JoqnWnCqUEV0kzMFQuuW5sDdhITrUHmc39gAfSp
-         XJ/6o+4c4nVRmPky5yP0cmincgXk+saiznwT/qWVYxSxtlhmY5cYWvI36+3q/OFH6abT
-         6UzAp6p1TCgHPmz6V9pJdAVBbmqmAzHIBzzpB3TeHY4oeInTwf3E8FCIoTWWO01J3kiE
-         MMEQ==
-X-Gm-Message-State: AOJu0Yze9NAesMWoFuMN8z2srZuq6APsoGMPBttoa5kB+Y5mVgK2dtgw
-	0Eal9JMX2YukhTmllRB9yrAOV+paIEgE9fLbtLcfEpwNOdiLaUq0ZqAiMI+L
-X-Google-Smtp-Source: AGHT+IEkcVdoUEQVeUtvAbKxRZ1qPMg5DJXWqNUe2beBhlSeJ1tLLQ1i/VRjelBkRLEPDej3w9KoBQ==
-X-Received: by 2002:a19:381a:0:b0:51d:5e78:17fa with SMTP id 2adb3069b0e04-529644ec060mr7115049e87.4.1716913086975;
-        Tue, 28 May 2024 09:18:06 -0700 (PDT)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com. [209.85.208.181])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-529a6f3f1bbsm721577e87.273.2024.05.28.09.18.06
+        bh=rMrFie2mcYvWZ6BzC21LwkJeB7ab8c2qzeDd+G7m6R0=;
+        b=jaBuPmQ32KYj2mMeAdJ65jR7XneRdN+jr3uMuHcZ/r5QEJrUGoo+/jywA8qP0I8u2Z
+         cnE/BMCxdbngnJHq8tBS6yhTwtyCl86YNxFys/G7PveEJ/xAQK5UG+UTSJeT+TRpS72v
+         nXc2/yiLDEMLKhv10/3Brsgyx7hMWb8A5nbeNlS7nR8AdYV4+nUcnue4fvzKafavEh/P
+         HO5lmErbX43/gKP5PEo3ket1EkbwmkWs/qZYnl88MmTNrWnj4PEpzY+votBrde0tJK2z
+         IXU6gU1eaPB56hKOFZ0N2FP++uBzynwpInlFMxcOg4wSmQKkjKpjBdZb92tx5VWXES9z
+         QMvQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUF7X9srr7KYH/cwWgzfxG3Il8EYemG8NwDt+bs8VTg6zM+Mc7jzMVqcvP99AYiA3fmzFMZ+hcacMSlSLU2gt5afqQfz/jgfdzz6bc=
+X-Gm-Message-State: AOJu0Yx7w65bnZHFxujVRS4BuJBoHtsLUoD2IsytNS5po6uMhJrAFm4m
+	DtBJAFSSNNVTS1NcOtI1Fv7xHVAXfhZHN9DEjLTza1YuPu8uZGTIfTr+uH9C
+X-Google-Smtp-Source: AGHT+IGypEsWDoEJZOVJJczfHxMbeg9lGPLsNdNdxbiVK7Nzdm5wRmM5cgVgdN2mk5DFkBJn2Wxd4g==
+X-Received: by 2002:a05:6512:4026:b0:529:be9f:df04 with SMTP id 2adb3069b0e04-529be9fdfcamr623160e87.29.1716913128677;
+        Tue, 28 May 2024 09:18:48 -0700 (PDT)
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com. [209.85.208.179])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52970c330b7sm1000631e87.194.2024.05.28.09.18.48
         for <linux-sunxi@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 May 2024 09:18:06 -0700 (PDT)
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2e974857588so10905551fa.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 28 May 2024 09:18:06 -0700 (PDT)
-X-Received: by 2002:a2e:9e45:0:b0:2e1:f38c:bd63 with SMTP id
- 38308e7fff4ca-2e95b096cc7mr68621711fa.15.1716913086334; Tue, 28 May 2024
- 09:18:06 -0700 (PDT)
+        Tue, 28 May 2024 09:18:48 -0700 (PDT)
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2e3efa18e6aso10740191fa.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 28 May 2024 09:18:48 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCW1yjeN9zv5s5BrG3c2Q+ZNjGO6XltjdN2HTQYF2ayC2neb5KdKqtk7Tn5CqbdCObkkcLpV28ORRAkUvpk+tmOVr/h9xaQgSQUmjFY=
+X-Received: by 2002:a2e:9611:0:b0:2dd:44b:d63d with SMTP id
+ 38308e7fff4ca-2e951b82c05mr52618121fa.12.1716913128368; Tue, 28 May 2024
+ 09:18:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <6a772756c2c677dbdaaab4a2c71a358d8e4b27e9.1714304058.git.dsimic@manjaro.org>
- <49abb93000078c692c48c0a65ff677893909361a.1714304071.git.dsimic@manjaro.org> <171691117471.681554.6744393893618279840.b4-ty@csie.org>
-In-Reply-To: <171691117471.681554.6744393893618279840.b4-ty@csie.org>
+References: <20240426092924.15489-1-jamcgregor@protonmail.com> <171691092979.680152.13758975851829859883.b4-ty@csie.org>
+In-Reply-To: <171691092979.680152.13758975851829859883.b4-ty@csie.org>
 Reply-To: wens@csie.org
 From: Chen-Yu Tsai <wens@csie.org>
-Date: Wed, 29 May 2024 00:17:53 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65+A2QUN6TWrKiOcgbTenYT7h=S3Ee1xEUN0e6vQCbgFg@mail.gmail.com>
-Message-ID: <CAGb2v65+A2QUN6TWrKiOcgbTenYT7h=S3Ee1xEUN0e6vQCbgFg@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: allwinner: Add cache information to the SoC
- dtsi for H6
-To: linux-sunxi@lists.linux.dev, Dragan Simic <dsimic@manjaro.org>
-Cc: jernej.skrabec@gmail.com, samuel@sholland.org, 
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	linux-kernel@vger.kernel.org
+Date: Wed, 29 May 2024 00:18:35 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64L1XsXt2nW_jFXGaV-NVeOHdE4+LXCFdOyAYuhwpdzOQ@mail.gmail.com>
+Message-ID: <CAGb2v64L1XsXt2nW_jFXGaV-NVeOHdE4+LXCFdOyAYuhwpdzOQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] arm64: dts: allwinner: H616: Add LRADC
+To: Samuel Holland <samuel@sholland.org>, James McGregor <jamcgregor@protonmail.com>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	Conor Dooley <conor+dt@kernel.org>, Andre Przywara <andre.przywara@arm.com>, 
+	Hans de Goede <hdegoede@redhat.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 28, 2024 at 11:46=E2=80=AFPM Chen-Yu Tsai <wens@csie.org> wrote=
+On Tue, May 28, 2024 at 11:42=E2=80=AFPM Chen-Yu Tsai <wens@csie.org> wrote=
 :
 >
-> On Sun, 28 Apr 2024 13:40:36 +0200, Dragan Simic wrote:
-> > Add missing cache information to the Allwinner H6 SoC dtsi, to allow
-> > the userspace, which includes lscpu(1) that uses the virtual files prov=
-ided
-> > by the kernel under the /sys/devices/system/cpu directory, to display t=
-he
-> > proper H6 cache information.
+> On Fri, 26 Apr 2024 09:29:37 +0000, James McGregor wrote:
+> > Version 2 moves the LRADC DT node to the right place. It was out of
+> > order before.
 > >
-> > Adding the cache information to the H6 SoC dtsi also makes the followin=
-g
-> > warning message in the kernel log go away:
+> > The Allwinner H616 series of SoCs have a low-rate ADC (LRADC) with
+> > 6-bit resolution and one input channel. They're compatible with the
+> > existing drivers, so it only needs to be enabled in the DT.
 > >
 > > [...]
 >
 > Applied to sunxi/dt-for-6.11 in sunxi/linux.git, thanks!
 >
-> [1/1] arm64: dts: allwinner: Add cache information to the SoC dtsi for H6
->       https://git.kernel.org/sunxi/linux/c/c8240e4b0fd2
+> [1/2] dt-bindings: input: sun4i-lradc-keys: Add H616 compatible
+>       https://git.kernel.org/sunxi/linux/c/3086803a1f43
+> [2/2] ARM: dts: sun50i: Add LRADC node
+>       https://git.kernel.org/sunxi/linux/c/7adc2d68f4a6
 
 I had to do a quick rebase as the branch start point was incorrect. The
 commit hashes will have changed. Rest assured that the patch is indeed
