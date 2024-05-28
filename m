@@ -1,117 +1,77 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03DBF171651
-	for <linux-sunxi@lists.linux.dev>; Tue, 28 May 2024 14:30:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF81079F6
+	for <linux-sunxi@lists.linux.dev>; Tue, 28 May 2024 14:53:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716906606; cv=none; b=GL3lrDIKpH074/VmFLCoB8XdJ5ADN+fIlQvrN/429T8DJ7oPJ0nbiBVliW7J7AtaXH8hnw5nsWVCYp93rd5jquSocBcBWvXVdathAvxbQvxid2cY+/3VeE9BFQahvx5GU2bwy1EJz2tmz9rapDXE0V6pFa8YL4OO87ZoohFPtz4=
+	t=1716908032; cv=none; b=cBsVt9xPRraLhAd1IaoeFLADIxT1v6mZ96Cbozy0FbQ3bNXUEj1+zafQWqh5W302OXihlaoordtcFUEw2lUvYfRVX4h6E0393RsVPD22REls69yF4IxjN+dOf90SGXI+sH+5NJOWEpVg+4FM+fCVyIrbQV0xe654iXPDC+5dDAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716906606; c=relaxed/simple;
-	bh=ZcXigMLGteqUlwYAgiaFCIQuj78vdKhQxQ8JQxQnEgU=;
+	s=arc-20240116; t=1716908032; c=relaxed/simple;
+	bh=9tGw+z1Zt5Dci5FRSALUEpOqfWgv86nBetO910mLjvU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KElryz7OlBFB1jdTAborzYs1acYgb9XDRj4F8mJFy75BQO7RQ7LZFRcfb7L5guoeeybTpuC+RrHkd/BSso/kCcrdXY3n+4zMikWbS8b+clyNGTDzwg/PGgHKwu0zuUVl2WYBoZW8maFpPUx249eKdEKjKk5j1eRXjunNefrd7YA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-523b20e2615so1050476e87.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 28 May 2024 07:30:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716906601; x=1717511401;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XO/EBR7u7D1rXQA6hPAoXV3Vx8lB0mrJvpff18AScB4=;
-        b=jxNU/QffJxUU61i7TnOOlRVDTW+U3XydBCBInjemJLtyUwp5PeFBp01zpt0CXDiqcs
-         5zXQm5KN42bsmVOz+1sIgJcahnPWf33Y6kB9wuOgXgGvW3HCNW9lTwrq1pnI80eR2o5b
-         hotWMQRnhd9jQJ/9tsL/BmKGbPd6/bMYulq1uyz4WIlOOxmp9Fssubnt8eSETcUwN+TU
-         Rlkwx24xLEtnT5EzYdtDGkruKS/JoI47IvjTAyhQKpwp9QI3BYw3Lo09raL7lHqiDIhI
-         FRon2OzwX54lbBbPuDvbqChM087PACtzidb/0e0SkkakHmPIl5PoN8yLMDtn4nAh4L4e
-         ZU5g==
-X-Forwarded-Encrypted: i=1; AJvYcCXjEfk/+ocqgcRGySnmm+DDixCotziLxmGgFn1VnsUalNlNFvXWLu5UbFEYa03y394mcnL5L/kf9qx8rDFz5+KRIoQCjbXJ7QEelCs=
-X-Gm-Message-State: AOJu0YwbRqjxN6lq3NyhiMh73o49BFlD80/DHWnEJyCWYBcpdwH2wmLy
-	1ewdQg06qZtSeqnvLSgCsUKheK93E13T0ZWzgE/vN5gaFeBoeIcGNMaxhDhE
-X-Google-Smtp-Source: AGHT+IFc9pHApgPqMqaO7/83RxjvhWZbu7dsZ9yQwRAIHXM0qpNlS1qapSD3pM7/vg/cZoVF7myyGQ==
-X-Received: by 2002:a05:6512:1388:b0:51a:c8bb:fcf7 with SMTP id 2adb3069b0e04-5296410a55dmr9520423e87.3.1716906601076;
-        Tue, 28 May 2024 07:30:01 -0700 (PDT)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com. [209.85.208.174])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-529711fa3fasm982714e87.243.2024.05.28.07.30.00
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 May 2024 07:30:00 -0700 (PDT)
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2e95a75a90eso8884181fa.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 28 May 2024 07:30:00 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWuDM8JqfMvcfdtm3kBSiQs+ALxrgjqlKxq5QLvabvxH7F1tNX8VVtXyA5ucY3OMARqdVgX75DHw1ugiC47J4PQFfvsJVKxkznQDco=
-X-Received: by 2002:a2e:2a45:0:b0:2e9:820b:c38d with SMTP id
- 38308e7fff4ca-2e9820bc6ffmr23998981fa.36.1716906600500; Tue, 28 May 2024
- 07:30:00 -0700 (PDT)
+	 To:Cc:Content-Type; b=Yd+WFlJjopLqyC3C0nM9XIQ706UiSnX1stCfLHgjLW5AZqCuuJ/7MngCUsA/txv+CjzPznliXNVnyRqA0RpETDnjlriEV5PgaOfQ6M5p/vTuwnIUK54H4UtLuqbSDVR3WgLG9F0QKwTdpfw08qV4PE5y3KETL3zpTb94Re+l6ks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gf+IV5LD; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gf+IV5LD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7995CC32786
+	for <linux-sunxi@lists.linux.dev>; Tue, 28 May 2024 14:53:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716908031;
+	bh=9tGw+z1Zt5Dci5FRSALUEpOqfWgv86nBetO910mLjvU=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+	b=gf+IV5LD7jTB5tubulPlcwPKubADIuDPDTpWOTfSXJ8x5c8Xgpix+coMXOOXqQeoV
+	 SKQY5jkQPbrxEyuviJodsu4BCl1Dg4/Crw3htlEJy86ULMdyvWzyTx3R40F308dGti
+	 0W7QXEB69RSGev9gkeMBWUGDHQk2qcXbMFbuSfVs+X9rHFGMNO0VdTwLGApCqwYBsY
+	 Ta5lndnWRYJos28faUxwmW/TuLEXuB9fjaLq9aDpB9NUX5vXRZM4fcd3JyutLI7ws5
+	 fU9beNEtIs85eqTxkfCswEEF0I4NZgPdpQFcZMJYCct7BwyiRaW0zvjayBv3v6bQW9
+	 cvS+ST/s896cA==
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2e3efa18e6aso9671951fa.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 28 May 2024 07:53:51 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCX4qjR79trIOHxcLdf88IPYc/7iYjtWMsfaDLqRTwuwwPfOsqfASUq9w2WOPfb0qJdhnChB11OMQ6npT9tfI+zxKXwLSMCXqYTYx3c=
+X-Gm-Message-State: AOJu0Yz30GBxvxmJHOBitvTUeizYTc3vkIy25Ls+FSiy6JbSRfE1C807
+	skddDN+vmBQJ0o6Hirb9vC6A3FjqEqfTrKTwq1dhZthFCnQ0J5Wc4Xv+h7315CjUfw1XD8YIpny
+	rnshRqWJK52lD59BQzBDGCnMBlic=
+X-Google-Smtp-Source: AGHT+IEnx7oAnjMfteweZNgs7bWo602GXd4T0sMM9osN0evP8EiXUCzQXspQkkA1F44fHz0B0TS72cLfqYWCsUEJwGM=
+X-Received: by 2002:a2e:a23c:0:b0:2e2:6f90:8b84 with SMTP id
+ 38308e7fff4ca-2e951bfba2amr50998461fa.17.1716908029869; Tue, 28 May 2024
+ 07:53:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240515234852.26929-1-andre.przywara@arm.com>
-In-Reply-To: <20240515234852.26929-1-andre.przywara@arm.com>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Tue, 28 May 2024 22:29:48 +0800
-X-Gmail-Original-Message-ID: <CAGb2v67cbMwK-FCTBHsHNw1ng1SFiNtG-+Sbjpwi=Bin9iJp4g@mail.gmail.com>
-Message-ID: <CAGb2v67cbMwK-FCTBHsHNw1ng1SFiNtG-+Sbjpwi=Bin9iJp4g@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: allwinner: Fix PMIC interrupt number
+References: <20240509231316.11391-1-andre.przywara@arm.com>
+In-Reply-To: <20240509231316.11391-1-andre.przywara@arm.com>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Tue, 28 May 2024 22:53:37 +0800
+X-Gmail-Original-Message-ID: <CAGb2v67sxBao35Y1GrPB=Nbny1UrpDKk9ZEa5pXWnQVJ3L3gpg@mail.gmail.com>
+Message-ID: <CAGb2v67sxBao35Y1GrPB=Nbny1UrpDKk9ZEa5pXWnQVJ3L3gpg@mail.gmail.com>
+Subject: Re: [PATCH] sunxi: spl: h616: fix booting from high MMC offset
 To: Andre Przywara <andre.przywara@arm.com>
-Cc: Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Samuel Holland <samuel@sholland.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev
+Cc: Jagan Teki <jagan@amarulasolutions.com>, u-boot@lists.denx.de, 
+	linux-sunxi@lists.linux.dev, Chris Morgan <macromorgan@hotmail.com>, 
+	Ryan Walklin <ryan@testtoast.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 16, 2024 at 7:50=E2=80=AFAM Andre Przywara <andre.przywara@arm.=
+On Fri, May 10, 2024 at 7:13=E2=80=AFAM Andre Przywara <andre.przywara@arm.=
 com> wrote:
 >
-> The "r_intc" interrupt controller on the A64 uses a mapping scheme, so
-> the first (and only) NMI interrupt #0 appears as interrupt number 32
-> (cf. the top comment in drivers/irqchip/irq-sun6i-r.c).
+> The BootROM in the Allwinner H616 tries to load the initial boot code
+> from sector 16 (8KB) of an SD card or eMMC device, but also looks at
+> sector 512 (256KB). This helps with GPT formatted cards.
+> A "high" boot offset is also used on previous SoCs, but it's sector 256
+> (128KB) there instead.
 >
-> Fix that number in the interrupts property to properly forward PMIC
-> interrupts to the CPU.
+> Extend the existing offset calculation code to consider the different
+> sector offset when running on an H616 SoC. This allows to load U-Boot
+> on any H616 device when the SPL is not located at 8KB.
 >
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> Fixes: 4d39a8eb07eb ("arm64: dts: allwinner: Add Jide Remix Mini PC suppo=
-rt")
+
+Make sense.
 
 Reviewed-by: Chen-Yu Tsai <wens@csie.org>
-
-> ---
-> Hi,
->
-> I didn't notice this before because I changed the interrupts property in
-> the U-Boot copy of the DT, to comply with the old binding, where it is
-> actually IRQ 0, and then used that DTB.
->
-> Cheers,
-> Andre
->
->  arch/arm64/boot/dts/allwinner/sun50i-h64-remix-mini-pc.dts | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h64-remix-mini-pc.dts b=
-/arch/arm64/boot/dts/allwinner/sun50i-h64-remix-mini-pc.dts
-> index b6e3c169797f0..0dba413963776 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h64-remix-mini-pc.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h64-remix-mini-pc.dts
-> @@ -191,7 +191,7 @@ axp803: pmic@3a3 {
->                 compatible =3D "x-powers,axp803";
->                 reg =3D <0x3a3>;
->                 interrupt-parent =3D <&r_intc>;
-> -               interrupts =3D <GIC_SPI 0 IRQ_TYPE_LEVEL_LOW>;
-> +               interrupts =3D <GIC_SPI 32 IRQ_TYPE_LEVEL_LOW>;
->                 x-powers,drive-vbus-en;
->
->                 vin1-supply =3D <&reg_vcc5v>;
-> --
-> 2.35.8
->
->
