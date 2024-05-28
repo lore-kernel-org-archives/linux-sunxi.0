@@ -1,21 +1,21 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10E26171E54;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AD34172799;
 	Tue, 28 May 2024 16:10:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716912655; cv=none; b=UzPcFX/ztC4XfJ6+eqIhuErmpdd5T5NV57eedOn/xZvwNz0y8qSEGFbqWuK3u+LkUGSlVVIj/dY9bOpnCBe8SmXdzQN8Xg8RtoBKmbm7QHk7BPRyzBxNjyNlrFByH+5u29QNvw5u+HEpUcF+5dr4Hilkk7ywE8ZI0fsjjt9OYQ8=
+	t=1716912655; cv=none; b=JO4JQRhNSZpRUWl7GECudL6WIYOMH2+l21DNJ9WiJST4+ToqIEIQaOMcJGuWUC7AOR8POnFZP/O0qUHZrs3VJjNw+CxWlPIdPJ0FTiG/TMoeFXXrNadnu8csQ37ZBvWeaabZF0tFgEhowf6BRS9+pA2d2BB+U1azta8H3ZyJMNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1716912655; c=relaxed/simple;
-	bh=SPJ47waA3PIag5E3wvPEGhYlMD7tp9s3JnOOJ9UDRjk=;
+	bh=Wj27vs35yiz7mps8QsyWtYCw+qknu3r3k2iuRblbpeA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=F3/Y/Wz3LRJxaQIeNTcDGGs0c45EbsMDrjt82KRDJnsNHEQ6jRzZJnCPs12Hbc2ADD2Ek6V3gRhhSSyJd0SsAXDoh1Vgr3C93FJQ7oNGCIgRj6VQSU2RyDBHmsqhRrCKXCq1gLUlr1slCHFYcSGafxbGWBzz0KppwBIufEC0XRA=
+	 MIME-Version:Content-Type; b=okM/RvXHNCZkU69oMFqaxrWYxL7lQPJiNd0TLmnVO6d+6oTTidXpjek8Nf8ubiz4mj/gJ48SN5ZAeyMjnnEE/LPi7JzpF6srMvvcWsFv9yvV/Sz8hyUyA7Es9DSxs1j1/SOJDjB7Z/mUjdXuwtI3kNeI4xFMy/PA4libNwMRA5M=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C73D0C32789;
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B91D3C32782;
 	Tue, 28 May 2024 16:10:54 +0000 (UTC)
 Received: from wens.tw (localhost [127.0.0.1])
-	by wens.tw (Postfix) with ESMTP id 79F625FD47;
+	by wens.tw (Postfix) with ESMTP id 6D2855FB64;
 	Wed, 29 May 2024 00:10:52 +0800 (CST)
 From: Chen-Yu Tsai <wens@csie.org>
 To: linux-sunxi@lists.linux.dev, Dragan Simic <dsimic@manjaro.org>
@@ -23,11 +23,12 @@ Cc: jernej.skrabec@gmail.com, samuel@sholland.org,
  linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
  robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
  linux-kernel@vger.kernel.org
-In-Reply-To: <6a772756c2c677dbdaaab4a2c71a358d8e4b27e9.1714304058.git.dsimic@manjaro.org>
+In-Reply-To: <49abb93000078c692c48c0a65ff677893909361a.1714304071.git.dsimic@manjaro.org>
 References: <6a772756c2c677dbdaaab4a2c71a358d8e4b27e9.1714304058.git.dsimic@manjaro.org>
+ <49abb93000078c692c48c0a65ff677893909361a.1714304071.git.dsimic@manjaro.org>
 Subject: Re: [PATCH] arm64: dts: allwinner: Add cache information to the
- SoC dtsi for A64
-Message-Id: <171691265249.683236.17741143131124450716.b4-ty@csie.org>
+ SoC dtsi for H6
+Message-Id: <171691265244.683236.4063919073033888103.b4-ty@csie.org>
 Date: Wed, 29 May 2024 00:10:52 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -39,21 +40,21 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.13.0
 
-On Sun, 28 Apr 2024 13:40:35 +0200, Dragan Simic wrote:
-> Add missing cache information to the Allwinner A64 SoC dtsi, to allow
+On Sun, 28 Apr 2024 13:40:36 +0200, Dragan Simic wrote:
+> Add missing cache information to the Allwinner H6 SoC dtsi, to allow
 > the userspace, which includes lscpu(1) that uses the virtual files provided
 > by the kernel under the /sys/devices/system/cpu directory, to display the
-> proper A64 cache information.
+> proper H6 cache information.
 > 
-> While there, use a more self-descriptive label for the L2 cache node, which
-> also makes it more consistent with other SoC dtsi files.
+> Adding the cache information to the H6 SoC dtsi also makes the following
+> warning message in the kernel log go away:
 > 
 > [...]
 
 Applied to sunxi/dt-for-6.11 in sunxi/linux.git, thanks!
 
-[1/1] arm64: dts: allwinner: Add cache information to the SoC dtsi for A64
-      https://git.kernel.org/sunxi/linux/c/950c51e8ebb4
+[1/1] arm64: dts: allwinner: Add cache information to the SoC dtsi for H6
+      https://git.kernel.org/sunxi/linux/c/c8240e4b0fd2
 
 Best regards,
 -- 
