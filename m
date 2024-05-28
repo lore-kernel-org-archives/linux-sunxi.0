@@ -1,105 +1,176 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FEBD17083D
-	for <linux-sunxi@lists.linux.dev>; Tue, 28 May 2024 15:56:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99CC316C688
+	for <linux-sunxi@lists.linux.dev>; Tue, 28 May 2024 16:02:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716911808; cv=none; b=EpWFSQYRAGkUGvFyBICurIaDIYJiiKTZEqQP/0G0EEC4ORbz/jcG4MJC8MrDc0YBN+T0VY86qJ7REEsVmzIEXK73NZtwtl9yJ99Hy1lexp02TpTMz900HMJSwxtNXvnc5VAsuNFEn/xDBz1NCuvM/Z0kvBiVpjkE/eJdlA5FOM4=
+	t=1716912147; cv=none; b=jXkw5lN2Ge71LGPbZXc4zm7R7V8rZRqTGnZrHAPRe8Q7JQtzysaLTEKGOc5FN/GnCfQ585wMm/BuFtUAeFvtCnL5JO+hoGD6eFdNjzGBZyIKJ0cLXlxPU5oNueT551roYFSjLtH/6CL/AAy/f7SIKQZxy2HikqdbhwI4XLjQ/Yc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716911808; c=relaxed/simple;
-	bh=ysSgJke61ofzGTOSWNXuddZUCwyuvR4kJz+M8yt9lHE=;
+	s=arc-20240116; t=1716912147; c=relaxed/simple;
+	bh=PVuj5rFCliF+u/3zJ7QQt1qiJY877vkoKGoL5TRFv4U=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nYp/V0d/Sb3pgv07Y7laBFLvRlA13XhJY+AyRkHR4WRLCPyCn2L9y7RkAYi/RNlR3wETY7f6Euypf0iC/lcD5qLmBEqBzTaLXQlIZiqs8Fex0ZaGUuisRnw9mQSkKBYP+5yXqaFYHEralQGmlTczCiJv4tKtQfrR8SrHpBqHHps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.52
+	 To:Cc:Content-Type; b=frQyB1I+cQTVaaZarTOUSEFK3nfUZ8wve2RWZTafWCC5yl6Ml8toKre6t+TCPIJ05Qbj4S0OarfqIckz0DGKkEMz6rJa5C1BM+wVdJ9+g/dPUVR4iMIx4ainfTsDsv/2K7sNZdovldT57TSAk9qO5kmlGVUpA0KgTTSo/CviCMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-523b20e2615so1180454e87.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 28 May 2024 08:56:46 -0700 (PDT)
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2e724bc46c4so10388831fa.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 28 May 2024 09:02:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716911804; x=1717516604;
+        d=1e100.net; s=20230601; t=1716912141; x=1717516941;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :reply-to:in-reply-to:references:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=UvZxaJF28iL5uKpQcCM7Mk+grk1BxPMDMrXsVUajEUM=;
-        b=c3Cvhd5hBm9a7iAd8/DgpVLI2qC+FJOwECXjBl0HPOBXb7MD5ejVIkCOM6THVdYNth
-         sb2D1+eqMB0jXEfPbwKa77XLGCZjU7y/vo5ubmRf/OfPP1jUpe77Dn9GiCddaxwXbdfn
-         wJzT2gXV/JOkT8XEVKlU94YUoJDQYgkEE8eVUONH0O3o4d+qQAQ0X75+RLvjA0EltngQ
-         GHfu0niJ+GhF7MMF1NoHs/4NQGJQB9ruomQl2+zHiU3rwlg2f/TCFra5CpmDsp6leHcr
-         BG8wV19t/LSWhcT5I/Eoqx4B6nv0xkWBB5QsnvWybur2t66zU+NKWiyiU3fTDZEjwoXM
-         pIwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW0f6mlhEDRh0tzCeEkX6KbzQwQjMJLmswHn5SaS5bJnYrM4pKZb/X5/yyQNf+kJX+X8Ahc3+6n77oigUt5yJ78Qjme/RSblW3H0wk=
-X-Gm-Message-State: AOJu0YyK3pWjU8/YsP6nhmSeEDUFIpKMIHYZSu/B1qTh2DbymH/fCR3j
-	NjDmUTWZzd+QBaH1pFozZ1Scj15TxdPZB4dOV/2flat8bEhX7vbPuC21vsF0
-X-Google-Smtp-Source: AGHT+IHNk+TRtCNkRK4ENVxyCVJ0rZdd/aViMcVJL7kk9l2oWft74CN8wX4pKFjzhK4I38lqci1A3A==
-X-Received: by 2002:a05:6512:68b:b0:520:7a44:3f30 with SMTP id 2adb3069b0e04-529645e342amr8903745e87.16.1716911804452;
-        Tue, 28 May 2024 08:56:44 -0700 (PDT)
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com. [209.85.208.175])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-529715e712asm997163e87.295.2024.05.28.08.56.43
+        bh=rW1DfIrslvUajUL20RbbzHp2H1UTzX7uBVMdLPKtXew=;
+        b=PfPTjnZY0r1Mddg+vJ7rS0AjRDnw9MLDsy5sZDvKIQdbvDJnU5qOdEP4e7lBlUuXBO
+         9GI/lBzYfNNQ7I3lfC/MVc3owQXj0H+HjleDvaXYN9c4sJ2gkyRYqSyfQ3IqWJaRzA3l
+         EfdBBGB0JnQ0TzZDQ2Co7hOn61q3gZa3IVFev9xC2FAd/ocNCLBWFfugIhc8DRtysyUm
+         6w55hbDD9AUnIN50LjOK/Y+1PHPrQL8Hy8pW+UN6BohENVjRmzCt6edFvfRZLHZSywVz
+         W+8ECdiYgvSWPp+BvNZtiK6M5Srq/BjO3tw4dbeq6tkehBrcffaO4k2QdnTi8jBQvboF
+         I8Ag==
+X-Gm-Message-State: AOJu0YztOjDGxNlOyifX2qP4Cyu9gi9+sL5K9EOF1sNCDXrwB/XzV9/8
+	hYlWvLRQqTMh11gBXHX6k+l0GtiUz4rrSi73ajM3WtHWWeOZU6tXZ2QQgqaF
+X-Google-Smtp-Source: AGHT+IEyhaLmICRg5thFLdmvey9TmLI6umcBwYSd9ZFrz2lyBsKp8FwMHW2eUPFVuzhilC0WUcjvyA==
+X-Received: by 2002:a05:6512:3246:b0:523:963b:3a1a with SMTP id 2adb3069b0e04-52964ea972bmr7336425e87.17.1716912141405;
+        Tue, 28 May 2024 09:02:21 -0700 (PDT)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com. [209.85.208.182])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52970c33178sm980418e87.211.2024.05.28.09.02.21
         for <linux-sunxi@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 May 2024 08:56:44 -0700 (PDT)
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2e95a1f9c53so12716081fa.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 28 May 2024 08:56:43 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUWCbKz6Onuz1aWvMi42DIDktpt8lq/35z7yHeGApP8FOCgM6Ckvv9d4Kk0h4UO62GUdhIEnP/JX4DAEwOlaU4D+vTk9mMOmFZ4IP8=
-X-Received: by 2002:a2e:90d9:0:b0:2df:c2b:8c84 with SMTP id
- 38308e7fff4ca-2e95b09452fmr76184881fa.1.1716911803445; Tue, 28 May 2024
- 08:56:43 -0700 (PDT)
+        Tue, 28 May 2024 09:02:21 -0700 (PDT)
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2e78fe9fc2bso13726861fa.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 28 May 2024 09:02:21 -0700 (PDT)
+X-Received: by 2002:a05:651c:234:b0:2e9:8471:f88e with SMTP id
+ 38308e7fff4ca-2e98471fd3cmr25105761fa.19.1716912140547; Tue, 28 May 2024
+ 09:02:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <6a772756c2c677dbdaaab4a2c71a358d8e4b27e9.1714304058.git.dsimic@manjaro.org>
- <49abb93000078c692c48c0a65ff677893909361a.1714304071.git.dsimic@manjaro.org> <171691117471.681554.6744393893618279840.b4-ty@csie.org>
-In-Reply-To: <171691117471.681554.6744393893618279840.b4-ty@csie.org>
+References: <20240417170423.20640-1-macroalpha82@gmail.com> <20240417170423.20640-2-macroalpha82@gmail.com>
+In-Reply-To: <20240417170423.20640-2-macroalpha82@gmail.com>
 Reply-To: wens@csie.org
 From: Chen-Yu Tsai <wens@csie.org>
-Date: Tue, 28 May 2024 23:56:31 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64ETOtHxQf1D9n+c9bGivsRTC=O8swDru+2cX2UT=o0qw@mail.gmail.com>
-Message-ID: <CAGb2v64ETOtHxQf1D9n+c9bGivsRTC=O8swDru+2cX2UT=o0qw@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: allwinner: Add cache information to the SoC
- dtsi for H6
-To: Dragan Simic <dsimic@manjaro.org>
-Cc: jernej.skrabec@gmail.com, samuel@sholland.org, 
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+Date: Wed, 29 May 2024 00:02:07 +0800
+X-Gmail-Original-Message-ID: <CAGb2v67rqiCA=fwk9USr4-xh3uRGxQ-p_f+--Ui5vVBnb10QQA@mail.gmail.com>
+Message-ID: <CAGb2v67rqiCA=fwk9USr4-xh3uRGxQ-p_f+--Ui5vVBnb10QQA@mail.gmail.com>
+Subject: Re: [PATCH 1/3] clk: sunxi-ng: h616: Add clock/reset for GPADC
+To: Chris Morgan <macroalpha82@gmail.com>
+Cc: linux-sunxi@lists.linux.dev, linux-clk@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-iio@vger.kernel.org, p.zabel@pengutronix.de, 
+	sboyd@kernel.org, mturquette@baylibre.com, samuel@sholland.org, 
+	jernej.skrabec@gmail.com, conor+dt@kernel.org, krzk+dt@kernel.org, 
+	robh@kernel.org, Chris Morgan <macromorgan@hotmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 28, 2024 at 11:46=E2=80=AFPM Chen-Yu Tsai <wens@csie.org> wrote=
-:
+On Thu, Apr 18, 2024 at 1:04=E2=80=AFAM Chris Morgan <macroalpha82@gmail.co=
+m> wrote:
 >
-> On Sun, 28 Apr 2024 13:40:36 +0200, Dragan Simic wrote:
-> > Add missing cache information to the Allwinner H6 SoC dtsi, to allow
-> > the userspace, which includes lscpu(1) that uses the virtual files prov=
-ided
-> > by the kernel under the /sys/devices/system/cpu directory, to display t=
-he
-> > proper H6 cache information.
-> >
-> > Adding the cache information to the H6 SoC dtsi also makes the followin=
-g
-> > warning message in the kernel log go away:
-> >
-> > [...]
+> From: Chris Morgan <macromorgan@hotmail.com>
 >
-> Applied to sunxi/dt-for-6.11 in sunxi/linux.git, thanks!
+> Add the GPADC required clock and reset which is used for the onboard
+> GPADC.
 >
-> [1/1] arm64: dts: allwinner: Add cache information to the SoC dtsi for H6
->       https://git.kernel.org/sunxi/linux/c/c8240e4b0fd2
-
-OK, that's weird. Somehow b4 thought this patch was v2 of the A64 patch [1]=
-.
-Looks like they are threaded together because this patch has "In-Reply-To".
-
-Please avoid it in the future.
+> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> ---
+>  drivers/clk/sunxi-ng/ccu-sun50i-h616.c      | 5 +++++
+>  drivers/clk/sunxi-ng/ccu-sun50i-h616.h      | 2 +-
 
 
-Thanks
+>  include/dt-bindings/clock/sun50i-h616-ccu.h | 1 +
+>  include/dt-bindings/reset/sun50i-h616-ccu.h | 1 +
+
+These need an Ack from the DT binding maintainers. And it's better to
+split these into a separate patch.
+
 ChenYu
 
-[1] https://lore.kernel.org/linux-sunxi/6a772756c2c677dbdaaab4a2c71a358d8e4=
-b27e9.1714304058.git.dsimic@manjaro.org/
+>  4 files changed, 8 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c b/drivers/clk/sunxi-n=
+g/ccu-sun50i-h616.c
+> index 21e918582aa5..3646be2b88ab 100644
+> --- a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+> +++ b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+> @@ -489,6 +489,8 @@ static SUNXI_CCU_MP_WITH_MUX_GATE(ts_clk, "ts", ts_pa=
+rents, 0x9b0,
+>
+>  static SUNXI_CCU_GATE(bus_ts_clk, "bus-ts", "ahb3", 0x9bc, BIT(0), 0);
+>
+> +static SUNXI_CCU_GATE(bus_gpadc_clk, "bus-gpadc", "apb1", 0x9ec, BIT(0),=
+ 0);
+> +
+>  static SUNXI_CCU_GATE(bus_ths_clk, "bus-ths", "apb1", 0x9fc, BIT(0), 0);
+>
+>  static const char * const audio_parents[] =3D { "pll-audio-1x", "pll-aud=
+io-2x",
+> @@ -807,6 +809,7 @@ static struct ccu_common *sun50i_h616_ccu_clks[] =3D =
+{
+>         &bus_emac1_clk.common,
+>         &ts_clk.common,
+>         &bus_ts_clk.common,
+> +       &bus_gpadc_clk.common,
+>         &bus_ths_clk.common,
+>         &spdif_clk.common,
+>         &bus_spdif_clk.common,
+> @@ -940,6 +943,7 @@ static struct clk_hw_onecell_data sun50i_h616_hw_clks=
+ =3D {
+>                 [CLK_BUS_EMAC1]         =3D &bus_emac1_clk.common.hw,
+>                 [CLK_TS]                =3D &ts_clk.common.hw,
+>                 [CLK_BUS_TS]            =3D &bus_ts_clk.common.hw,
+> +               [CLK_BUS_GPADC]         =3D &bus_gpadc_clk.common.hw,
+>                 [CLK_BUS_THS]           =3D &bus_ths_clk.common.hw,
+>                 [CLK_SPDIF]             =3D &spdif_clk.common.hw,
+>                 [CLK_BUS_SPDIF]         =3D &bus_spdif_clk.common.hw,
+> @@ -1021,6 +1025,7 @@ static struct ccu_reset_map sun50i_h616_ccu_resets[=
+] =3D {
+>         [RST_BUS_EMAC0]         =3D { 0x97c, BIT(16) },
+>         [RST_BUS_EMAC1]         =3D { 0x97c, BIT(17) },
+>         [RST_BUS_TS]            =3D { 0x9bc, BIT(16) },
+> +       [RST_BUS_GPADC]         =3D { 0x9ec, BIT(16) },
+>         [RST_BUS_THS]           =3D { 0x9fc, BIT(16) },
+>         [RST_BUS_SPDIF]         =3D { 0xa2c, BIT(16) },
+>         [RST_BUS_DMIC]          =3D { 0xa4c, BIT(16) },
+> diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h616.h b/drivers/clk/sunxi-n=
+g/ccu-sun50i-h616.h
+> index fdd2f4d5103f..a75803b49f6a 100644
+> --- a/drivers/clk/sunxi-ng/ccu-sun50i-h616.h
+> +++ b/drivers/clk/sunxi-ng/ccu-sun50i-h616.h
+> @@ -51,6 +51,6 @@
+>
+>  #define CLK_BUS_DRAM           56
+>
+> -#define CLK_NUMBER             (CLK_PLL_SYSTEM_32K + 1)
+> +#define CLK_NUMBER             (CLK_BUS_GPADC + 1)
+>
+>  #endif /* _CCU_SUN50I_H616_H_ */
+> diff --git a/include/dt-bindings/clock/sun50i-h616-ccu.h b/include/dt-bin=
+dings/clock/sun50i-h616-ccu.h
+> index 6f8f01e67628..ebb146ab7f8c 100644
+> --- a/include/dt-bindings/clock/sun50i-h616-ccu.h
+> +++ b/include/dt-bindings/clock/sun50i-h616-ccu.h
+> @@ -112,5 +112,6 @@
+>  #define CLK_HDCP               126
+>  #define CLK_BUS_HDCP           127
+>  #define CLK_PLL_SYSTEM_32K     128
+> +#define CLK_BUS_GPADC          129
+>
+>  #endif /* _DT_BINDINGS_CLK_SUN50I_H616_H_ */
+> diff --git a/include/dt-bindings/reset/sun50i-h616-ccu.h b/include/dt-bin=
+dings/reset/sun50i-h616-ccu.h
+> index 1bd8bb0a11be..ed177c04afdd 100644
+> --- a/include/dt-bindings/reset/sun50i-h616-ccu.h
+> +++ b/include/dt-bindings/reset/sun50i-h616-ccu.h
+> @@ -66,5 +66,6 @@
+>  #define RST_BUS_TVE0           57
+>  #define RST_BUS_HDCP           58
+>  #define RST_BUS_KEYADC         59
+> +#define RST_BUS_GPADC          60
+>
+>  #endif /* _DT_BINDINGS_RESET_SUN50I_H616_H_ */
+> --
+> 2.34.1
+>
