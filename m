@@ -1,66 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B749871B4C;
-	Tue, 28 May 2024 08:35:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35BBF1DFDE;
+	Tue, 28 May 2024 14:15:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716885301; cv=none; b=A/NC3phcN4D6Zye9KjPVbvTWaIzMSSzH4W0WkcUfDdy5416dfbIcukd3O8e4J067HOniOgouIuCWznTZaNTAkypapQYhi1cbsSMdLpqfhy/Z4WFzvfFNRyOVjV7Zly49N29vWnm7YSO0efrLpqtMDuf4tvTCLdykDXCrfrYiGsU=
+	t=1716905759; cv=none; b=B54nVOuaogkdj5cwxlv7Lha6uIe/0pxHmTSlqgbmgh5SgyMtwCOEs76WfWEBDLB75A5MZAih8Yb8waec24W2HBhx5JXOuO+0Qk9S8M+NvuaHwcClZYiOUB4lBu4CylQTPc6W6m52cn+y27NdT/1cjFgdtaqXLWMR4OBO/c7mKKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716885301; c=relaxed/simple;
-	bh=mjrj8Y6U0achW4zr5kCGXAf0WM06rRFoOQ1fH5Q2jWg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=g4eQT9GARpCjQX4LibUUR/7h//+NnHgiHU0dtti+SQMvKM0yteYzkyBh4j57grrdBJfSA3wDyDvdQP6O48MnvPkZn7dR1WjmBhT6EwJ3xwOTdfK7/eqgeSPbxDtX6E5mv+wVSYk6JSIhauV7gRmjzFbrzTrnhkKejTMhIvO9s/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dxEuWFtV; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dxEuWFtV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBF87C3277B;
-	Tue, 28 May 2024 08:35:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716885301;
-	bh=mjrj8Y6U0achW4zr5kCGXAf0WM06rRFoOQ1fH5Q2jWg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dxEuWFtVj51/nmDcan82+Q/GlF29zGoAkcdnUKo6RKHYMkoiPRuZemCy52R+Dplz+
-	 jnJxH28JcQmW+EcyZHFlMIKBcAUM9kmC+RBSNtin/dzPRP283vFQZGgV2akVs6/xOJ
-	 /jtj4FIPOKrRXse/dnEKIq5DfrPO9sSF8kUBgOAfAt2PtrVuV2+g2Dy9lTIXFn5DK4
-	 hzSH4bDeMYEKlRUjVemI8Y+q3/ZgV7teBVWe0WMW6FhatR2cQkHW/5S5RZkM/fwtvj
-	 T6rx4zqTa+uo9gCxeAgkDz686lmdMHM/sNxRFS9zOBcGOdK/yXIq9DR/4uneXrj/be
-	 IkI9FPpC0i+yQ==
-From: Maxime Ripard <mripard@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sandy Huang <hjc@rock-chips.com>,
-	=?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Maxime Ripard <mripard@kernel.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>,
-	Sebastian Wick <sebastian.wick@redhat.com>,
-	=?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Sui Jingfeng <sui.jingfeng@linux.dev>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Pekka Paalanen <pekka.paalanen@collabora.com>,
-	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
-	Andy Yan <andyshrk@163.com>
-Subject: Re: [PATCH v15 00/29] drm/connector: Create HDMI Connector infrastructure
-Date: Tue, 28 May 2024 10:34:55 +0200
-Message-ID: <171688520803.1994316.11229514011452981600.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.45.0
-In-Reply-To: <20240527-kms-hdmi-connector-state-v15-0-c5af16c3aae2@kernel.org>
-References: <20240527-kms-hdmi-connector-state-v15-0-c5af16c3aae2@kernel.org>
+	s=arc-20240116; t=1716905759; c=relaxed/simple;
+	bh=P5yaoAfhAk5156sygC60MevnZaLe4ZhsL2vVAQ+dubE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=fjWxDTZ55VabkLULCnS9sFD3fGRLJVh7OJMPF7/j3/SYh0Bq/iFWCGo1Pp6nJ/6GRGEV0UnYD4ShtjfwzbJVItQ95IjbmApEcIRA0URdunqv4oEtJsRiZ4/H9lyp/OiRo1p9/5hlYp0tR4Vb+XtrW36OpwSXI378X4fzqfU5O+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B518C3277B;
+	Tue, 28 May 2024 14:15:58 +0000 (UTC)
+Received: from wens.tw (localhost [127.0.0.1])
+	by wens.tw (Postfix) with ESMTP id F2B735FA42;
+	Tue, 28 May 2024 22:15:55 +0800 (CST)
+From: Chen-Yu Tsai <wens@csie.org>
+To: jernej.skrabec@gmail.com, samuel@sholland.org, linux@treblig.org
+Cc: linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20240504204401.198913-1-linux@treblig.org>
+References: <20240504204401.198913-1-linux@treblig.org>
+Subject: Re: [PATCH] soc: sunxi: sram: Remove unused list 'claimed_sram'
+Message-Id: <171690575596.639729.8852630034460661485.b4-ty@csie.org>
+Date: Tue, 28 May 2024 22:15:55 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -68,21 +33,26 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
-On Mon, 27 May 2024 15:57:49 +0200, Maxime Ripard wrote:
-> Here's a series that creates some extra infrastructure specifically
-> targeted at HDMI controllers.
+On Sat, 04 May 2024 21:44:01 +0100, linux@treblig.org wrote:
+> The list 'claimed_sram' seems unused, as far as I can tell it always
+> has been.
+> I think the 'list' member of sunxi_sram_data was intended to be
+> used when it was on that list.
+> Remove them.
 > 
-> The idea behind this series came from a recent discussion on IRC during
-> which we discussed infoframes generation of i915 vs everything else.
-> 
-> Infoframes generation code still requires some decent boilerplate, with
-> each driver doing some variation of it.
+> Build tested only.
 > 
 > [...]
 
-Applied to misc/kernel.git (drm-misc-next).
+Applied to sunxi/drivers-for-6.11 in sunxi/linux.git, thanks!
 
-Thanks!
-Maxime
+[1/1] soc: sunxi: sram: Remove unused list 'claimed_sram'
+      https://git.kernel.org/sunxi/linux/c/a40cf069ac61
+
+Best regards,
+-- 
+Chen-Yu Tsai <wens@csie.org>
+
