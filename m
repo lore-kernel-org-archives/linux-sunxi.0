@@ -1,38 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A29E216C456;
-	Tue, 28 May 2024 15:42:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0D3216F274;
+	Tue, 28 May 2024 15:46:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716910932; cv=none; b=IMHSxStX6L4rSq0H94WFMsTWf1RywlsPc+DV5Fz39m75uOtF6DaNyGtFXyXu3ekU5Fns09YKwOP9NyHTkQ+ABzMR7OuRfQlLfkKsn1mVkSSxyQCw4JS2B5lFAttseM+acB5tAIRB2FBMlJD0iFl5hZX/nIODSsV97zC9x4Nui6Q=
+	t=1716911177; cv=none; b=HtLrvG38icxkvPC6+Ih/PEL/CIvoupdFxCAz7Jhi9yjJg5qiJFK/36mQtzND9uOMMj+Xo3b2E8KYgf2uLmMUQ4kZxa+cmGGT8+7abQaODjMEu8U/rL1mjiHZBuL5cO8DJkHNaD0z5bQAieo1SpbcGTCmMrTER1oL0oOVwT0+bY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716910932; c=relaxed/simple;
-	bh=bfpy5G4RtMHHpcTdRExNjKl9hXkG8+T/fn5rO7ns+Q8=;
+	s=arc-20240116; t=1716911177; c=relaxed/simple;
+	bh=Wj27vs35yiz7mps8QsyWtYCw+qknu3r3k2iuRblbpeA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=hXvTcN41/H4E3N+f9k0CXKgeLDz1Rh7N0GnKFwmMYKAl9d3UynebPre3bheDBdreVp+2w5xQDubHgujmW1/hZFIpQSBN4QgQxOOuWEHVSi4e4Uy8Ctl+sRiThS8tCZuk8EGyLUNHR99mBVy4PC9zBtvMCC8MJVc+CJMikPhN8Lo=
+	 MIME-Version:Content-Type; b=qj+cqunYyx4mSRDpsmNGqZKnkm1VdBZADncoolyQGpo08nm+rnwtM4syVppIMX9j4jW41jeHytl+JN75kCiDZOvFDdG6F7/ikVVNREZ/uDIyFt2qioqtyjwBbgTNDll8FxbcswZOuVjqdiwX5WkQCn1DVtS73JofcKebd4yA+RY=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F38CC32786;
-	Tue, 28 May 2024 15:42:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F3FEC3277B;
+	Tue, 28 May 2024 15:46:17 +0000 (UTC)
 Received: from wens.tw (localhost [127.0.0.1])
-	by wens.tw (Postfix) with ESMTP id C77175FA0C;
-	Tue, 28 May 2024 23:42:09 +0800 (CST)
+	by wens.tw (Postfix) with ESMTP id B353C5FA0C;
+	Tue, 28 May 2024 23:46:14 +0800 (CST)
 From: Chen-Yu Tsai <wens@csie.org>
-To: Hans de Goede <hdegoede@redhat.com>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Andre Przywara <andre.przywara@arm.com>, 
- James McGregor <jamcgregor@protonmail.com>
-Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-In-Reply-To: <20240426092924.15489-1-jamcgregor@protonmail.com>
-References: <20240426092924.15489-1-jamcgregor@protonmail.com>
-Subject: Re: [PATCH v2 0/2] arm64: dts: allwinner: H616: Add LRADC
-Message-Id: <171691092979.680152.13758975851829859883.b4-ty@csie.org>
-Date: Tue, 28 May 2024 23:42:09 +0800
+To: linux-sunxi@lists.linux.dev, Dragan Simic <dsimic@manjaro.org>
+Cc: jernej.skrabec@gmail.com, samuel@sholland.org, 
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <49abb93000078c692c48c0a65ff677893909361a.1714304071.git.dsimic@manjaro.org>
+References: <6a772756c2c677dbdaaab4a2c71a358d8e4b27e9.1714304058.git.dsimic@manjaro.org>
+ <49abb93000078c692c48c0a65ff677893909361a.1714304071.git.dsimic@manjaro.org>
+Subject: Re: [PATCH] arm64: dts: allwinner: Add cache information to the
+ SoC dtsi for H6
+Message-Id: <171691117471.681554.6744393893618279840.b4-ty@csie.org>
+Date: Tue, 28 May 2024 23:46:14 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -43,22 +40,21 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.13.0
 
-On Fri, 26 Apr 2024 09:29:37 +0000, James McGregor wrote:
-> Version 2 moves the LRADC DT node to the right place. It was out of
-> order before.
+On Sun, 28 Apr 2024 13:40:36 +0200, Dragan Simic wrote:
+> Add missing cache information to the Allwinner H6 SoC dtsi, to allow
+> the userspace, which includes lscpu(1) that uses the virtual files provided
+> by the kernel under the /sys/devices/system/cpu directory, to display the
+> proper H6 cache information.
 > 
-> The Allwinner H616 series of SoCs have a low-rate ADC (LRADC) with
-> 6-bit resolution and one input channel. They're compatible with the
-> existing drivers, so it only needs to be enabled in the DT.
+> Adding the cache information to the H6 SoC dtsi also makes the following
+> warning message in the kernel log go away:
 > 
 > [...]
 
 Applied to sunxi/dt-for-6.11 in sunxi/linux.git, thanks!
 
-[1/2] dt-bindings: input: sun4i-lradc-keys: Add H616 compatible
-      https://git.kernel.org/sunxi/linux/c/3086803a1f43
-[2/2] ARM: dts: sun50i: Add LRADC node
-      https://git.kernel.org/sunxi/linux/c/7adc2d68f4a6
+[1/1] arm64: dts: allwinner: Add cache information to the SoC dtsi for H6
+      https://git.kernel.org/sunxi/linux/c/c8240e4b0fd2
 
 Best regards,
 -- 
