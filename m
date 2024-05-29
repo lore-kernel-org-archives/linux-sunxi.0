@@ -1,93 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF4811386AC;
-	Wed, 29 May 2024 14:14:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7693156C4D
+	for <linux-sunxi@lists.linux.dev>; Wed, 29 May 2024 14:19:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716992056; cv=none; b=iEvKFvDAHeoXOA5M6AsnFGelaG3v5LFMJgAqOUDwws/d38L2rMezA3mOvmKDqQAZA2vl8rh10RFLT7Bo21DDto6R1gZDiOPb7QL5cIe3/E4Qlg6kqSGV3r2gyQ6h0LxZo4uFpKu2Y4mLXjcGbOcZjumlxw7vxmfA/7lABmv4PXg=
+	t=1716992398; cv=none; b=Ot9jrAaYTIe5vtyx3jiYh8a6Mjs3zpdoGct2/pSjuYIhFckoekGdXB7ldXCTb4iYHVBwS7ucJYx9mr97e4PzVnnDYYyetB8lPqQURZGdDsZpz6hpk0WdYlRYIJEnp7J6vgcj5G0oLvihBhgwWuQJKqkTo5UPIfVTsvGLsFE5cYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716992056; c=relaxed/simple;
-	bh=sQQTv1UdIETncPR4XwxlpnukQ24r3phSG1REaxgX8cI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZSKwu8JzsbMzmebuSGvV/ic5BfThJ3+cKRXF3ZQlfZ2hYCwOhUkdVlk82pl3rQA2FeiuyvJV7lA/GqF29z+Fyxj4CVHYOq8MQ+24L5e0eUuJebrixD/vAMAumPPAso9Zfo3Mqotqvbh/1BVsdnWjVkiT/6kN7icy95BwUu7isDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tClvJ4KF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1716992398; c=relaxed/simple;
+	bh=/idmh+yvnaSR4zr7lwwZqADvCmrc14Xu+3n/mNDAxNU=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 Mime-Version:Content-Type; b=sz6gylTIsMUVwW8BfVTa91LL+QfuZAjPyKDCgY9c8sxvRCD2Q/X+bjiv+JPM+mV8e9bjrEChf7/jIAhUYbM3rGmP7YaLjEpOTUqj/Pk7wu80x+7cPSGMUCuqGvice6CcZX5JytWmcctutokkiMzUifNn+aG+tVgYMQRn26TfNNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WhNH3qE3; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tClvJ4KF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81C11C113CC;
-	Wed, 29 May 2024 14:14:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716992055;
-	bh=sQQTv1UdIETncPR4XwxlpnukQ24r3phSG1REaxgX8cI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tClvJ4KFAgZyfcnnPLxwx/VXQvnE96HeyUgYETGNm8Hh9jJaFo5Ir6dKCgEzOqWBc
-	 usRQbHZwffy2z0AKVdgNaOG52eWUBT8V+JzeCUZSfJopSRaOfSletg5Bl5QFjIfEpi
-	 ulAIc0KP09SNriSK0jiAK4EAwoQUh0V6VgAvkYqeUMAhn6h+AYHXW9aNfA02t01IGN
-	 ZTznG0WVUIWmfve5kxfjd6sGIvaUCojIUm1393wTMx1DUwEVmthaKutBs0lDiHKWjC
-	 S0c5AB4y2MVijk/hm6eK/SoueIU3rIVls0m9W+grAkePTxy5IIxStHbpo1N/uL3F7t
-	 PqIF9MopHh9cw==
-Date: Wed, 29 May 2024 15:14:09 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Matteo Martelli <matteomartelli3@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Marcus Cooper <codekipper@gmail.com>,
-	=?iso-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>,
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WhNH3qE3"
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-52a6ef5e731so1363289e87.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 29 May 2024 07:19:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716992395; x=1717597195; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Tq+U7SgBQTVMSMlIy3UdyJxbPASA6waFh60Q4P8YQkA=;
+        b=WhNH3qE336/qwm5ZDpTgHz3FWbqEGZyMXLF5bcjF1pb7VcfhkGAhNf9ICwZ1MzkdOO
+         WZQ4p2gdYceL8hOtAdPeMlmwEG3EKqecjdDLZsQnssz8HxUHKufDOnTglveZwin5fLzb
+         jWHa0R+JoxxQtx45z8ImWdC/BNE6169iV24jNYUPjkD458meRLrko7v4Ogq0oHuwSCXt
+         hRQqJ2Tfpste55OywLfS0efL2qfJO0VdirSwoXT1xg162bCC56dwsXy/8mzjDo3Faxrl
+         5jgUJ1TZblZxr3LH4EVYIIIkFD6WZPKQjw3c10L/g2Y05YfubwFmTFsDb8gmyZ/SYViE
+         Npig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716992395; x=1717597195;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Tq+U7SgBQTVMSMlIy3UdyJxbPASA6waFh60Q4P8YQkA=;
+        b=EAG7K94D12md2Smnxq0TLPWoqMSyqyltY/0zCg83vt+U7JAavliVNGBXr5BM2E+7dd
+         CG4cHIDJQ2jo+26413Sz1pSCJJ6WebB+1Zg6E+itqPui/LF4iWkWhtQX4c6Ij1RBXtfC
+         Trv+5+WVL9JL10qJxnMmoYLY+PTFsV3EPpWaX9wYbYyDuRpFDldHkfuimr3CSec+mlXK
+         1rvH2fveYxOsnRSAFoK9f2OssCJttWDBMPzbclvNLA/IujSXDIuj+DJO71+itTnby2LL
+         y2Vs1K4UWoP7fIUhtt2CTmQMgVdzki7fxKA3wfbbFRw2NXQGjCFMBhU44bcmnHJOuXdG
+         jCrg==
+X-Forwarded-Encrypted: i=1; AJvYcCVhpJlYCrXwnagHiWAxmL1UQ8gl5S2NfDx+L/5zPuR+kn2CJ8yWUNIZIZNdxt8+1H5nHeha4HROP7aHHLvPzN4Jsja2/PVFp8zFZS4=
+X-Gm-Message-State: AOJu0YwiJTmYNElKLKOxTQo350J19jvcoZyQ3CSqOSQ9gyH5jpYpPogY
+	hA276jrG+b5Bumy5t+4f7/EKewR/7pBi7WhHJkClGORMZGp+XZSw
+X-Google-Smtp-Source: AGHT+IEBaR/9ZV/mnHVsdgn/YHZs8SuvACBliDuxAG8jTdpQo11v0iyEkLahEvTKgb1TwDgy1y4KxA==
+X-Received: by 2002:ac2:44a6:0:b0:51d:d78:4952 with SMTP id 2adb3069b0e04-529666db627mr8232383e87.65.1716992394518;
+        Wed, 29 May 2024 07:19:54 -0700 (PDT)
+Received: from localhost (host-95-246-50-43.retail.telecomitalia.it. [95.246.50.43])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6286457089sm629483866b.64.2024.05.29.07.19.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 May 2024 07:19:54 -0700 (PDT)
+Date: Wed, 29 May 2024 16:19:53 +0200
+From: Matteo Martelli <matteomartelli3@gmail.com>
+To: Mark Brown <broonie@kernel.org>, 
+ Matteo Martelli <matteomartelli3@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Maxime Ripard <mripard@kernel.org>, 
+ Marcus Cooper <codekipper@gmail.com>, 
+ =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>, 
+ linux-sound@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org
+Message-ID: <665739895996a_26e4f3704a@njaxe.notmuch>
+In-Reply-To: <a003dac1-de47-4a15-8959-25f7d5f1c129@sirena.org.uk>
+References: <20240529140658.180966-2-matteomartelli3@gmail.com>
+ <a003dac1-de47-4a15-8959-25f7d5f1c129@sirena.org.uk>
 Subject: Re: [PATCH 0/1] ASoC: sunxi: sun4i-i2s: fix LRCLK polarity in i2s
  mode
-Message-ID: <a003dac1-de47-4a15-8959-25f7d5f1c129@sirena.org.uk>
-References: <20240529140658.180966-2-matteomartelli3@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="T4metVCkfwi6doRH"
-Content-Disposition: inline
-In-Reply-To: <20240529140658.180966-2-matteomartelli3@gmail.com>
-X-Cookie: Everybody gets free BORSCHT!
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 7bit
 
+Mark Brown wrote:
+> On Wed, May 29, 2024 at 04:00:14PM +0200, Matteo Martelli wrote:
+> 
+> > I found an issue on the sunxi i2s controller driver while doing some
+> > tests with a Pine64 A64 host board and an external codec (ES8311).
+> > The A64 i2s controller is compatible with the sun8i-h3-i2s driver.
+> > The LRCLK was being inverted when the bus was operated in i2s mode:
+> > normally should be left channel on low LRCLK and right channel on high
+> > LRCLK, but it was the opposite instead.
+> 
+> Please don't send cover letters for single patches, if there is anything
+> that needs saying put it in the changelog of the patch or after the ---
+> if it's administrative stuff.  This reduces mail volume and ensures that 
+> any important information is recorded in the changelog rather than being
+> lost. 
 
---T4metVCkfwi6doRH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, May 29, 2024 at 04:00:14PM +0200, Matteo Martelli wrote:
-
-> I found an issue on the sunxi i2s controller driver while doing some
-> tests with a Pine64 A64 host board and an external codec (ES8311).
-> The A64 i2s controller is compatible with the sun8i-h3-i2s driver.
-> The LRCLK was being inverted when the bus was operated in i2s mode:
-> normally should be left channel on low LRCLK and right channel on high
-> LRCLK, but it was the opposite instead.
-
-Please don't send cover letters for single patches, if there is anything
-that needs saying put it in the changelog of the patch or after the ---
-if it's administrative stuff.  This reduces mail volume and ensures that=20
-any important information is recorded in the changelog rather than being
-lost.=20
-
---T4metVCkfwi6doRH
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZXODAACgkQJNaLcl1U
-h9BYYwf/dVAfFCi8d2kgQybs/8m9Ts2tBb33JWq8cltUEKSQ/pglU8Vl7uXxfoqT
-FeXJ1oOYvH3mncBVKj2sZ/ZNifdojVFMAVwUDEerx31c2En8BbpSgXTOhOc4AJ4v
-ESnplOG/o1TpiWVPSl/f1ZG0YGSnA93fEqftugTHr2yhXniQfqrnEvCzuXWpcE1v
-xjsDD6P1VrG8Y0KaM2L4Y1YDontNLWNBU0wi0E64XaZjzxEW1gqi+nIIYWLnN13a
-6v1IQy62jmdqfbMpszQNRG1qsryyJaoiShua3dSNEC639JZ1s7UqlFG9uq/PfcG/
-DQf3Xf5NkDBj8ha2q5+nqna/4y4VqA==
-=7A7B
------END PGP SIGNATURE-----
-
---T4metVCkfwi6doRH--
+All right, sorry for that. Should I resend this patch without cover letter?
