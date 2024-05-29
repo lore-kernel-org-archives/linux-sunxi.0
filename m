@@ -1,103 +1,110 @@
-Received: from fhigh8-smtp.messagingengine.com (fhigh8-smtp.messagingengine.com [103.168.172.159])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4798C42045
-	for <linux-sunxi@lists.linux.dev>; Wed, 29 May 2024 02:47:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 776D0137776
+	for <linux-sunxi@lists.linux.dev>; Wed, 29 May 2024 14:10:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716950872; cv=none; b=uEWET95In/XxqNTuqwT9VPI3WrTpNrOKHNkyUwL2hTx00yl9I65VQgRlrTXzk18Uq4odzTv5EsJgPCTuEMeGgw6nUQy2YAEov52b8sbK+eVmGMwLgA8ZJ2NzR5gFVpqSbk/m9+8TvpBPouwzHGtu1tAf1H1LRJQkqXbKWaZq7Wk=
+	t=1716991838; cv=none; b=NLE546ukl+nbubNELWjgF1M75NkPp+lexZ5KDuI0Bc9pnEPvaGsKGLNrKDvw5d0uqVU8uA/gq9GbyqIC7Pn2DmxiJJChuM0+8YPXOX/Jyfnk7mY/zj03Uxr8w9BUlK3VtSq6y/IcnGJqXcElJ0YSIftyIeUOKN/o9FPwu0SmS/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716950872; c=relaxed/simple;
-	bh=BvBDPauIC1DYkzBNK1wKsa/FTIBZeyAC9LV4tlQkQ+4=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=TZxwWU7AWtbQztV2rYwY4qZWkGKVj6zGQuHl20uSd72uXwALF6HEIzFNdd1K0ztswSH7LWJt09RndZiJ8jPwTT6WCYiUbYqmuxMRvEDVkrK7bprDOK/slvtfmOMMuF5jTDVy74HF2UBCmDmaLZOepvb/iZ1Fgid0HVzQ2dZWTLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=nPnzWxFF; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=TET9+Ue6; arc=none smtp.client-ip=103.168.172.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=testtoast.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
+	s=arc-20240116; t=1716991838; c=relaxed/simple;
+	bh=xGxCwNAa3h6hUSat+wLsUt/LFxDta4PN8t++ItIHRgA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=grL2jqmsoBCOIs9RzFWWdCuHUTk9/nsfJl7gwf4UKrRlaEZKIpZOAmnMOo0f5RFWkCO2vlts7oB0KPzeSjXHEBp8UbohWwL5fsn3k9jo8fodQV7yzExVfgLfYMgHFLUDJSOWzYIPeNQCGKv40/BwWuPf26cBkTvnOYnIdI6fYzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UZYsk8eg; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="nPnzWxFF";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="TET9+Ue6"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfhigh.nyi.internal (Postfix) with ESMTP id 430E811400E1;
-	Tue, 28 May 2024 22:47:49 -0400 (EDT)
-Received: from imap47 ([10.202.2.97])
-  by compute5.internal (MEProxy); Tue, 28 May 2024 22:47:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm1; t=1716950869; x=
-	1717037269; bh=BvBDPauIC1DYkzBNK1wKsa/FTIBZeyAC9LV4tlQkQ+4=; b=n
-	PnzWxFFsOYYFpviKOvCSRMSzhokRr7xXLNf7jxo7tDlOXStYG0GsaiPmbQpBj14X
-	GBgt2XxnFEuyQJVfOFetQUS6hWur8fRHsT37R/EhAl15HU6aKV/YVB7U1SV+6Nkm
-	tOPBGaRRwC9sazVZL7bu86VyRVGMBhy3j1c/5fFiaO9UY8YHRSftXkogcynVz82j
-	OMKQYrxM5nHDW0hnik5i4dWLh8zzna3zBXrUtXXwOUaKUIGD6oFruyukhVO8kwld
-	cUaEolmVgpia1Wo2Krr2DyvvpUd+CepAFijNp7Dnr6N3tOcQOMiAE4aOu+LkA590
-	7pwKhslRT6cNs9tb0AJcw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1716950869; x=1717037269; bh=BvBDPauIC1DYkzBNK1wKsa/FTIBZ
-	eyAC9LV4tlQkQ+4=; b=TET9+Ue6JY2LdlHIlacDrkKQcP4B23ZS3nA2NoMrUnND
-	+9r1uukYqafRU+DIoLKsdihf62O3ISA5hePLXNLBy4bB2ULXu09eOhgib7smRUyG
-	YSoAgXvUx4vj68RC4URGv0VGCs/rLXvPwzpbT6Axa0yDzCpN663mAbxu0moaMppa
-	bH8ZOxD3B6mtJ9kFLwTmc3LcsSBylIAnxUjHZScnvqMdnpF0Cd0zJXacUiV/M+Lm
-	ZkTM4Z8TphCnN73ViKd5B1q8g6kO1xTqSJkLD1Wow5jG6jybj+MTA7o4VH0cH0r+
-	hHYrqYMAXThmMtzl5pIkB04HI4HbG8Oe9ZJ/oDTtxA==
-X-ME-Sender: <xms:VJdWZiVMawFH1FZFSF8pSw77D1EFYgLrrZkmt_XmFo3qKUT30uJydQ>
-    <xme:VJdWZunFKpFmQ0xso5U_556C7hTC9PXzcmNfAAh76Z72h9fptWqqb2kxQyNBVH7Je
-    bR_fRGXu_XHOjMnCQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdejledgiedvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftfih
-    rghnucghrghlkhhlihhnfdcuoehrhigrnhesthgvshhtthhorghsthdrtghomheqnecugg
-    ftrfgrthhtvghrnhephedvveeigedujeeufeegffehhfffveduhfeijefgtdffteelgfet
-    ueevieduieejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homheprhihrghnsehtvghsthhtohgrshhtrdgtohhm
-X-ME-Proxy: <xmx:VJdWZmbyMbUFZc-Tezk_WzLuCQU70SpM3LlhbiCUZIEhzWAvfMYA0w>
-    <xmx:VJdWZpVF9zSQtIxl05-MxzvSkgqlQ-lPkOeW1bHrLSzVRAdSA95Wkg>
-    <xmx:VJdWZslCbE1lTq-7mSbU_ZsoOa2j006Ms23y6hoLm1nNbMmOKGnBhg>
-    <xmx:VJdWZuehS5uyDqFDNnCpi-SzjGzplB6slwEeDxKLF-DVfgFp_r4TkA>
-    <xmx:VZdWZtC01HEiE2XQ0dljeyOtCY2YqCmpozWyP1FQsRLYZobN-XmS4q9Y>
-Feedback-ID: idc0145fc:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id D1DEFA60078; Tue, 28 May 2024 22:47:48 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-491-g033e30d24-fm-20240520.001-g033e30d2
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UZYsk8eg"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a59cc765c29so147759566b.3
+        for <linux-sunxi@lists.linux.dev>; Wed, 29 May 2024 07:10:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716991835; x=1717596635; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=seHfK1T0CIDoh74FZ9rFB1MYhs/7Ky7lSWNsiaH4Ato=;
+        b=UZYsk8eg9iT46PY0p3U4VpPF4y2nI9mEsJZsn2GAlHg3lMDuuFuUuoyRUoWTijzWuN
+         2dIp2TYXaNzBpXI/Jlfs1CBcMhCzgD59p9A9tlo/VERIv24T8h02XcmBe3ATdTfbUHQ1
+         q7SChdXgpBv1Wocm1y3nxL/ITbTryl2bV5T9+P/S5ixErsRMcIHgh+3FRI2SBaU4ZnKG
+         DiMI3ESn16DEDye/5lTWfh5SQMBjG7ETBLOQD79WopNMZyrNMtpzGh5bEOX2AXuwA+md
+         3T74CxgOofwASpHaXfrjB+XiFR0djBFQY90gZv4b9/cTOr7xndDBPBR2HYK2wltCVrBX
+         vJKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716991835; x=1717596635;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=seHfK1T0CIDoh74FZ9rFB1MYhs/7Ky7lSWNsiaH4Ato=;
+        b=HcFZ2D4sTYllwl8KDrwjRI8zeek7h3wQDdW7l2d1PBTYNNrxMS8ihxKGm0ypXIG5JY
+         yzxtdhqoDMccdYfObJG2suk+0QiOAye7PluBLjuQt1ta1jlJl78P3QjEtLLl6IPA4sC2
+         ejnSc3HMoaAKPyo2DOGTC2jM1ceIXeJPr/Ot6Tkw8kU8Sr1Sm+bVVoRmND17x7+7rA4h
+         H3GD2a5HTpnq1Sqzzi24Vf8xlelomIo8Lw/uBnfhWaHOIQoFhSG8sSwnq+LrMAcJDF8P
+         Ib6hU8sKVA09bOk08dlpFqmL10YsihoEpbRAuFT039F9XyMAuL+uD/R8dBOZAV51oRAS
+         Amyg==
+X-Forwarded-Encrypted: i=1; AJvYcCWmxayUGK225c042UBtAMDP+6ShukYJzj91Nc+Vy9Y2KJtu3LMZNmGb+NKJ4A7NB1jEk+mpYkDySlebJmsgHJD008OuqJFgrR3anPA=
+X-Gm-Message-State: AOJu0YwqjXxZFHANvgWkHuoro+TXBiFSEZLuJYN8E7miDZMjI0YB28dX
+	7IOnNm2YogqlE3ZSvOeHHAP24QehuejnUprzWdWij4qwZOgubre1
+X-Google-Smtp-Source: AGHT+IER8t7cuMdH3WgXBrJavuAe0qg/yrQsSI5WtFPMXA+CURNazRJm23qelZOFl3U7mrYlhQ6UcQ==
+X-Received: by 2002:a17:907:6d22:b0:a62:9699:5125 with SMTP id a640c23a62f3a-a6296995222mr1042831266b.14.1716991834383;
+        Wed, 29 May 2024 07:10:34 -0700 (PDT)
+Received: from localhost (host-95-246-50-43.retail.telecomitalia.it. [95.246.50.43])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6357bf05f6sm130830066b.206.2024.05.29.07.10.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 May 2024 07:10:34 -0700 (PDT)
+From: Matteo Martelli <matteomartelli3@gmail.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Marcus Cooper <codekipper@gmail.com>,
+	=?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
+Cc: Matteo Martelli <matteomartelli3@gmail.com>,
+	linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/1] ASoC: sunxi: sun4i-i2s: fix LRCLK polarity in i2s mode
+Date: Wed, 29 May 2024 16:00:14 +0200
+Message-ID: <20240529140658.180966-2-matteomartelli3@gmail.com>
+X-Mailer: git-send-email 2.45.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <e71e336b-a621-4c11-93b5-2485fe24bbaa@app.fastmail.com>
-In-Reply-To: <20240509231316.11391-1-andre.przywara@arm.com>
-References: <20240509231316.11391-1-andre.przywara@arm.com>
-Date: Wed, 29 May 2024 14:47:28 +1200
-From: "Ryan Walklin" <ryan@testtoast.com>
-To: "Andre Przywara" <andre.przywara@arm.com>,
- "Jagan Teki" <jagan@amarulasolutions.com>
-Cc: u-boot@lists.denx.de, linux-sunxi@lists.linux.dev,
- "Chris Morgan" <macromorgan@hotmail.com>
-Subject: Re: [PATCH] sunxi: spl: h616: fix booting from high MMC offset
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+
+I found an issue on the sunxi i2s controller driver while doing some
+tests with a Pine64 A64 host board and an external codec (ES8311).
+The A64 i2s controller is compatible with the sun8i-h3-i2s driver.
+The LRCLK was being inverted when the bus was operated in i2s mode:
+normally should be left channel on low LRCLK and right channel on high
+LRCLK, but it was the opposite instead.
+I noticed this issue due to the playback being addressed on the wrong
+codec channel, then confirmed by analyzing the clock signal with a logic
+analyzer.
+
+Note that this fix applies for all the i2s controllers compatible with
+sun8i-h3-i2s and sun50i-h6-i2s, but I could test it only for the A64.
+
+The issue had likely been introduced in commit dd657eae8164 ("ASoC:
+sun4i-i2s: Fix the LRCK polarity") due to a misinterpreted bit in the H3
+or H6 User Manual. I suppose that the i2s mode had not been tested at
+that time. Can this be confirmed? Otherwise there is something else
+going on and this patch should not be applied as is.
+
+Matteo Martelli (1):
+  ASoC: sunxi: sun4i-i2s: fix LRCLK polarity in i2s mode
+
+ sound/soc/sunxi/sun4i-i2s.c | 143 ++++++++++++++++++------------------
+ 1 file changed, 73 insertions(+), 70 deletions(-)
 
 
+base-commit: 47d09270d7776e46858a161f94b735640b2fb056
+-- 
+2.45.1
 
-On Fri, 10 May 2024, at 11:13 AM, Andre Przywara wrote:
-
-> Extend the existing offset calculation code to consider the different
-> sector offset when running on an H616 SoC. This allows to load U-Boot
-> on any H616 device when the SPL is not located at 8KB.
-
-Thanks Andre,
-
-Confirmed with an H700-based board and u-boot at the 512-sector/256KB offset.
-
-Tested-by: Ryan Walklin <ryan@testtoast.com>
-
-Regards,
-
-Ryan
