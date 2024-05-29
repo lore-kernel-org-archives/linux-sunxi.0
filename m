@@ -1,61 +1,85 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A61C156C72;
-	Wed, 29 May 2024 14:20:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 122ED157A7D;
+	Wed, 29 May 2024 14:23:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716992457; cv=none; b=oS+wnpj1iohpBmjpHuFIoHaHI3RvK7GVilHjMR7rmaUnXzVebS3X9qEGahS6xw+PEn8QaSyAEG6Mh1PTcMQsQIN3fRAJTQ2Si0vhz9/YeI9FfdA83oVGSfmvBUGC820fJAegzDdyAW7nKcM0Y1nHY9JNTgIDvaqS3h7rL+Nh688=
+	t=1716992593; cv=none; b=Bco76btzh/ZmuMgnCxFOBRzQa2ymIqf+PqaOQEh7X/WiGhzMvkBJlWotfZel1rmI//K7AbYrOqL4Ikojqj6WuW1B6OdeA3KUl5lDgW9yDWmBO6vZWxPw+Rb05QbtY3Kg8yR1cL9cgKaqV0ZoZeZHNrRpkrXclXK3I0vhQeEBsh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716992457; c=relaxed/simple;
-	bh=gEZgJfnpDKcVX7a8rQNX8w/y5okGLoeiey+wtjf7wZw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=DK/bTSl//riwhGQVzhWZHU7Gnzut0Cu5QU0Lz5BNrYBZMxLQhNoY+ntMYnGjKkxgFN84c2Ln2VNnIDsVy/ZbSTmSRncuXTEbEWZwV0ClcXedxoXAuGogUUuabfqYra8tZryCxnNFEpJEAoC9iaAEVKh2kdO2H9LL8f1m8R14PJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F32B9C113CC;
-	Wed, 29 May 2024 14:20:56 +0000 (UTC)
-Received: from wens.tw (localhost [127.0.0.1])
-	by wens.tw (Postfix) with ESMTP id E57CD5FA0C;
-	Wed, 29 May 2024 22:20:54 +0800 (CST)
-From: Chen-Yu Tsai <wens@csie.org>
-To: linux-sunxi@lists.linux.dev, Dragan Simic <dsimic@manjaro.org>
-Cc: jernej.skrabec@gmail.com, samuel@sholland.org, 
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
- robh+dt@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
- linux-kernel@vger.kernel.org, Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <e4b9cc3e3d366a571e552c31dafa5de847bc1c12.1716914537.git.dsimic@manjaro.org>
-References: <e4b9cc3e3d366a571e552c31dafa5de847bc1c12.1716914537.git.dsimic@manjaro.org>
-Subject: Re: [PATCH v2] arm64: dts: allwinner: Add cache information to the
- SoC dtsi for H616
-Message-Id: <171699245491.691617.1726179876185446565.b4-ty@csie.org>
-Date: Wed, 29 May 2024 22:20:54 +0800
+	s=arc-20240116; t=1716992593; c=relaxed/simple;
+	bh=bhCG4kplqmrZggYyow0NngpMzA6V+smGjmtFA4lsZrY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iofI8FvuaiQ+KcBpGGYFbBMBmeoN8dS2+nkscXn3FuTRTrWKLvAvFriYnLWlOa7tLwVCDzQEqlBZQCocISI4XgkzW8p6sXAc25lmh+YhF2hKmKjU4b+3HyF+wqH6FreOzNJpYi8noK4JJodlj45t7xBZ1ccL2FwmBrm6PyhcHaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pAT4Mtv8; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pAT4Mtv8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00E66C113CC;
+	Wed, 29 May 2024 14:23:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716992592;
+	bh=bhCG4kplqmrZggYyow0NngpMzA6V+smGjmtFA4lsZrY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pAT4Mtv8GPIvyCcYfK1Aalw8Cb/DS3AIFrZzn1djhuXr8tqy97h50w2f+Yi9ecorg
+	 FHLDesY7g+kk782SCHj6dMYBMxFOMlRHYIs6PB/MXH66FKZOEQzyHni48Wjomaku4O
+	 OAhyK9KBHbFleyVnYGWVfeKSatYucXF+PraPUSVaAtaQE1IzfZvkZ9rJjcQoXDCbiK
+	 MmBwzNlyMtkpdfJN94S3XjI/sAzwKYRh+y6Y3YMWbVsWrW0AUsuQggO8Ebl0wq5r22
+	 WsWbW5Yai37XptWeqB/wuNhNTlSipZF+eAH9b2Ap8Cv5veDihpfK6w+mkZOREx4FdC
+	 ZuWwFwnIUyDCw==
+Date: Wed, 29 May 2024 15:23:07 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Matteo Martelli <matteomartelli3@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Marcus Cooper <codekipper@gmail.com>,
+	=?iso-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>,
+	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/1] ASoC: sunxi: sun4i-i2s: fix LRCLK polarity in i2s
+ mode
+Message-ID: <d02e981b-da33-45c4-9d9e-f47a890e0e79@sirena.org.uk>
+References: <20240529140658.180966-2-matteomartelli3@gmail.com>
+ <a003dac1-de47-4a15-8959-25f7d5f1c129@sirena.org.uk>
+ <665739895996a_26e4f3704a@njaxe.notmuch>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Q0vjnQJ659h0qWMK"
+Content-Disposition: inline
+In-Reply-To: <665739895996a_26e4f3704a@njaxe.notmuch>
+X-Cookie: Everybody gets free BORSCHT!
 
-On Tue, 28 May 2024 18:45:16 +0200, Dragan Simic wrote:
-> Add missing cache information to the Allwinner H616 SoC dtsi, to allow
-> the userspace, which includes lscpu(1) that uses the virtual files provided
-> by the kernel under the /sys/devices/system/cpu directory, to display the
-> proper H616 cache information.
-> 
-> Adding the cache information to the H616 SoC dtsi also makes the following
-> warning message in the kernel log go away:
-> 
-> [...]
 
-Applied to sunxi/dt-for-6.11 in sunxi/linux.git, thanks!
+--Q0vjnQJ659h0qWMK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-[1/1] arm64: dts: allwinner: Add cache information to the SoC dtsi for H616
-      https://git.kernel.org/sunxi/linux/c/d4ec229eaeb8
+On Wed, May 29, 2024 at 04:19:53PM +0200, Matteo Martelli wrote:
 
-Best regards,
--- 
-Chen-Yu Tsai <wens@csie.org>
+> All right, sorry for that. Should I resend this patch without cover letter?
 
+No.
+
+--Q0vjnQJ659h0qWMK
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZXOkoACgkQJNaLcl1U
+h9AGhgf8Db0kv+/TVscfXv8n4MsdBaq44VCh1YU+cMMdVJoaaDIvm5/0mIXc1it7
+kHp+1xm35g38cgoFTP8VTcHdeBpb7BNtSCDAkSodtnHrI/fUvxbjnbFue3EEAN2+
+Ni+tJ3X/j2EuXIBuLdj6bacgJ5WajhmEHIeHjFudYSSJr9ZBM9mTS8pzVrbiqOkK
+pXr+ckX+pgH55DZVyQaiREWUN+ajiRJdbZyOtzgxYntJQI4sI2KbjihclEJ+0BYj
+Rq5DAvwlhGRevlPih81PsoB+Z88E5VYQExJrNpEQKaEc6xZshI1N8v/qwm0/OImM
+wu7ZWqoof/PEuEx3TEGdjzzbRsIVIQ==
+=CFCV
+-----END PGP SIGNATURE-----
+
+--Q0vjnQJ659h0qWMK--
