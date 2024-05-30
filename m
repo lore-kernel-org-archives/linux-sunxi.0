@@ -1,163 +1,82 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 695FE187546
-	for <linux-sunxi@lists.linux.dev>; Thu, 30 May 2024 17:10:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 597E1183092;
+	Thu, 30 May 2024 23:39:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717089030; cv=none; b=VF+sp+dzvufuvTVtkpudIMeHZXL1r78EP6eEdJVpDTHxu2+/7flW52WV5d67h0GoWWmg/ZidM4co3q0tHJVj98fns+Foq2DggDu/gh/k20HnyRupyZ1dMciq2VOW+YB6koF4fdIgcOnEObbthRBxMW67GmvOz5RcrfHeLV+E1zI=
+	t=1717112371; cv=none; b=DiGF01Zp6cvSU3uuIwsg4EHWgSbKgHqpAqqQfOZxfwm2GTrrEK64DJGqmNqCrRDDDvMiQCBOW73pacQN7EEAzHSfQFwRRkmAwWlkbAgjjgiR/URBOQsJqu1b0+K5fmuQBQcSHtF7Z5CY/EwxevzxSBEux98ANQXlgfD2gGHMw9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717089030; c=relaxed/simple;
-	bh=0Hx1kCDf4CrTRIi/fOADLuEHpwsUT9fMTzXzqZC5WgQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MgLQw6NpkJ+V7iFbWegR9kdHJHsjp+WHLBiPpwJ3r503uE5asgRm1Hl1FLx26/2FNbv8/nSsf3jOdsZ5BCpM4xCVJXWG1Eelw032cxbwdOvqgMXuqr+nD/Y6hxEnYrwVhHfsHrgvwyN3/6R+CAGyqPXspHgSywg0+qFdOIz2t/8=
+	s=arc-20240116; t=1717112371; c=relaxed/simple;
+	bh=VMsNX1mhPvrPZQpCqnYyif1nx3CoOqsfjQ6TBJjfMk0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=hlBbV2OtwI0O5jEniMTzDnTRM4eoTKY0LWxrBe+aZp69OhqXS7nvzG12WujshXncdX11FbQ42Jatr7l4/BVBse75fBB7HxwkkB3pG8DuUTzIMYhYVGGmL9dOSIq4B6Qgjxx3on+zGRDVsnw7xFESyTS4Y85u4Dfm/zGGxEYs+ns=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BF5AA339;
-	Thu, 30 May 2024 10:10:51 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 358163F792;
-	Thu, 30 May 2024 10:10:26 -0700 (PDT)
-Date: Thu, 30 May 2024 18:10:22 +0100
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AD0011476;
+	Thu, 30 May 2024 16:39:51 -0700 (PDT)
+Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5AF0E3F792;
+	Thu, 30 May 2024 16:39:25 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
-To: Alois Fertl <a.fertl@t-online.de>
-Cc: a.zummo@towertech.it, alexandre.belloni@bootlin.com, wens@csie.org,
- jernej.skrabec@gmail.com, samuel@sholland.org, linux-rtc@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/1] drivers/rtc: rtc-sun6i: AutoCal Internal OSC
-Message-ID: <20240530181022.6fbc5a7d@donnerap.manchester.arm.com>
-In-Reply-To: <20240522182826.6824-1-a.fertl@t-online.de>
-References: <20240522182826.6824-1-a.fertl@t-online.de>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+To: Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>
+Cc: Chris Morgan <macromorgan@hotmail.com>,
+	Ryan Walklin <ryan@testtoast.com>,
+	iommu@lists.linux.dev,
+	devicetree@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH 0/5] iommu: sun50i: Add Allwinner H616 support
+Date: Fri, 31 May 2024 00:37:55 +0100
+Message-Id: <20240530233800.27705-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.35.8
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Wed, 22 May 2024 20:28:26 +0200
-Alois Fertl <a.fertl@t-online.de> wrote:
+The Allwinner H616 contains an IOMMU almost compatible to the one used
+in the H6. The differing default reset value of the bypass register
+makes the two technically incompatible, so use a new DT compatible
+string to be on the safe side.
+The required driver changes can be applied to both variants, so the driver
+is ignorant of the differences between the two for now.
 
-> I have a M98-8K PLUS Magcubic TV-Box based on the Allwinner H618 SOC.
-> On board is a Sp6330 wifi/bt module that requires a 32kHz clock to
-> operate correctly. Without this change the clock from the SOC is
-> ~29kHz and BT module does not start up. The patch enables the Internal
-> OSC Clock Auto Calibration of the H616/H618 which than provides the
-> necessary 32kHz and the BT module initializes successfully.
-> Add a flag and set it for H6.
-> Also the code is developed on the H618 board it only modifies the H6 as
-> there is no support for H616/H618 in the current code.
+Change the driver to cope with the new variant in patch 1/5 and 2/5,
+then apply the required devicetree and binding changes in the remaining
+patches.
 
-I am a bit confused: so this patch doesn't fix your problem then, because
-the code you touch is not used on the H616/H618?
-Actually I would have expected your patch to only change
-drivers/clk/sunxi-ng/ccu-sun6i-rtc.c, since that's the only RTC clock
-driver relevant for the H616.
-
-> Signed-off-by: Alois Fertl <a.fertl@t-online.de>
-> ---
-> 
-> v1->v2
-> - add flag and activate for H6 AND H616
-> 
-> v2->v3
-> - correct findings from review
-> 
-> v3->v4
-> - adjust to mainline tree
-> 
-> I have also tried to test this using the new driver in sunxi-ng
-> manually injecting the reverted patch
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=60d9f050da63b
-
-So this was done on a H6 device? Because out of the box rtc-sun6i.c is
-used on the H6 only, and ccu-sun6i-rtc.c is only used on the H616.
-
-Maybe I am missing something here ...
-
-> The code in drivers/clk/sunxi-ng/ccu-sun6i-rtc.c is being called and it
-> initializes the relevant registers to the same values as the old driver,
-> but the change ends up with a system that often hangs during booting and
-> only ocasionally reaches the login state (one out of 10).
-> The main difference I see adhoc is that the old drivers init is done
-> using CLK_OF_DECLARE_DRIVER so initialization is done very early.
-> The new driver does the initialisation via probe which is quite some
-> time later.
-> Can't tell if this is the cause for the problems.
-
-That sounds odd, can you post your changes somewhere?
-
-Generally, without a proper problem and without further testing, I would
-not like to touch the H6 RTC code needlessly.
-For the H616 we have a concrete problem at hand, that justifies a change,
-also it's the proper driver for new devices, so that's where the change
-should happen.
+I could just verify that the driver probes and allocates the page table
+from below 4 GB, but haven't tested the actual IOMMU operation, with a
+device. I would be grateful if someone could test this in full swing.
 
 Cheers,
-Andre
+Andre.
 
-> 
-> ---
->  drivers/rtc/rtc-sun6i.c | 16 +++++++++++++++-
->  1 file changed, 15 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
-> index 8e0c66906..57aa52d3b 100644
-> --- a/drivers/rtc/rtc-sun6i.c
-> +++ b/drivers/rtc/rtc-sun6i.c
-> @@ -42,6 +42,11 @@
->  
->  #define SUN6I_LOSC_CLK_PRESCAL			0x0008
->  
-> +#define SUN6I_LOSC_CLK_AUTO_CAL			0x000c
-> +#define SUN6I_LOSC_CLK_AUTO_CAL_16MS		BIT(2)
-> +#define SUN6I_LOSC_CLK_AUTO_CAL_ENABLE		BIT(1)
-> +#define SUN6I_LOSC_CLK_AUTO_CAL_SEL_CAL		BIT(0)
-> +
->  /* RTC */
->  #define SUN6I_RTC_YMD				0x0010
->  #define SUN6I_RTC_HMS				0x0014
-> @@ -126,7 +131,6 @@
->   *     registers (R40, H6)
->   *   - SYS power domain controls (R40)
->   *   - DCXO controls (H6)
-> - *   - RC oscillator calibration (H6)
->   *
->   * These functions are not covered by this driver.
->   */
-> @@ -137,6 +141,7 @@ struct sun6i_rtc_clk_data {
->  	unsigned int has_out_clk : 1;
->  	unsigned int has_losc_en : 1;
->  	unsigned int has_auto_swt : 1;
-> +	unsigned int has_auto_cal : 1;
->  };
->  
->  #define RTC_LINEAR_DAY	BIT(0)
-> @@ -267,6 +272,14 @@ static void __init sun6i_rtc_clk_init(struct device_node *node,
->  	}
->  	writel(reg, rtc->base + SUN6I_LOSC_CTRL);
->  
-> +	if (rtc->data->has_auto_cal) {
-> +		/* Enable internal OSC clock auto calibration */
-> +		reg = SUN6I_LOSC_CLK_AUTO_CAL_16MS |
-> +			SUN6I_LOSC_CLK_AUTO_CAL_ENABLE |
-> +			SUN6I_LOSC_CLK_AUTO_CAL_SEL_CAL;
-> +		writel(reg, rtc->base + SUN6I_LOSC_CLK_AUTO_CAL);
-> +	}
-> +
->  	/* Yes, I know, this is ugly. */
->  	sun6i_rtc = rtc;
->  
-> @@ -374,6 +387,7 @@ static const struct sun6i_rtc_clk_data sun50i_h6_rtc_data = {
->  	.has_out_clk = 1,
->  	.has_losc_en = 1,
->  	.has_auto_swt = 1,
-> +	.has_auto_cal = 1,
->  };
->  
->  static void __init sun50i_h6_rtc_clk_init(struct device_node *node)
+Andre Przywara (4):
+  iommu: sun50i: allocate page tables from below 4 GiB
+  dt-bindings: iommu: add new compatible strings
+  iommu: sun50i: Add H616 compatible string
+  arm64: dts: allwinner: h616: add IOMMU node
+
+Jernej Skrabec (1):
+  iommu: sun50i: clear bypass register
+
+ .../bindings/iommu/allwinner,sun50i-h6-iommu.yaml        | 7 ++++++-
+ arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi           | 9 +++++++++
+ drivers/iommu/sun50i-iommu.c                             | 7 +++++--
+ 3 files changed, 20 insertions(+), 3 deletions(-)
+
+-- 
+2.35.8
 
