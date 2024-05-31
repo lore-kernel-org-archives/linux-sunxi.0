@@ -1,144 +1,111 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9258D18645;
-	Fri, 31 May 2024 11:00:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89CD716E867
+	for <linux-sunxi@lists.linux.dev>; Fri, 31 May 2024 14:12:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717153226; cv=none; b=tElgPIR66e/ETuD+pvysJWsOf/nsVf44vnVhkmhYEadM94Y4GwQMMrk+LVTxH1oXesNrLFwG8JxePy2+QmBdhBmLf6Fh93AdwuCmN5gT4/DQ7wFVPzusy46PI5e1HblHmlO/RQMs4hu2aPP1aEneFawlzTzD/yc+E2nsbdsK2uc=
+	t=1717164735; cv=none; b=oQkkqW3DkO3EJNwTWXO5J/ZeFR78uMI0mbVI0Unqm4SvCyhQW8Pd679tcgTI1t/oeYPGvMy56RKPaBhseWNyrnpAGZtrevFRd7r9YeAXo6DlhwJ7vCTGpiP8ABG9aki8Hf6hnI5yQ7TLNMHBXbRZf5JwEng7o3taBfjTrNi2ONc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717153226; c=relaxed/simple;
-	bh=VVIA86U9f8HFRni8vCep8eKQmRd5Kj819/BFYRPQxU0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MIerQOs6JqRaiPzdJ2FQhHSDphsAnXudsMYqXfdYEccVk1edG4J0ABMstJtWcpEZ1vHymiitAr7oV80yV6bxAMYEbdn2I833jOG3Iq8RgGQAMVlpPFxwyDQyyyFbhenjlD+Tqcl6//LBuR1beHG0ydouo6cjc0EGQkd2gRY5Tos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 271591424;
-	Fri, 31 May 2024 04:00:48 -0700 (PDT)
-Received: from [10.57.67.251] (unknown [10.57.67.251])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 90D5E3F792;
-	Fri, 31 May 2024 04:00:21 -0700 (PDT)
-Message-ID: <2bdd8966-5f25-4f2c-9aa9-7bd523b19edc@arm.com>
-Date: Fri, 31 May 2024 12:00:20 +0100
+	s=arc-20240116; t=1717164735; c=relaxed/simple;
+	bh=XLqZFjlEoqxOyPl9bFUh7Jqa2hmuAmBz32zTzjZrBpo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZyYEaKIYWaXc8LnJ6aiNKx4oWLHfyX6T/CGxqMXV44dajr67AkXsie3+qQzAwNYQC0xHxEeQQou+uJp7tDxT/cMlRDvzGb1y3Dd+5FOsCbNjhIV2RaGI3RubGNvxs6Q7oERM9rF81SVYbt7CaVGIaJ/yLLrABf3zPS1spGAB5A4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jIslLO2T; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jIslLO2T"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-70249c5fb36so544092b3a.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 31 May 2024 07:12:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1717164734; x=1717769534; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ykvp/0wm2JKYn1VhbfeNlnxDMxT2k1KfiM797oH+i0A=;
+        b=jIslLO2TgPfJV2BL8Ug1Xw3FNP8ep/EBBGnYNheXGeTEY0/suwFfqmkYvxOnajTc6Z
+         hmXAsmNv7ckg+C8wpFIqr2xXVEJW+uIhrljTZ0U0L5Tp/PeXBmtUEPITtLpK30OUlICD
+         2WePl+xEVqdPs33qFIYuOhXauSEVkaQm2jKfcyF4J4bTEk6mbAMT3Ay4aZ/Yal6lVZEo
+         pEH26GTMWSa6nN9YDHquBF1fSiLqSJEHgZzlHJgm2/meXGaBHgSvnGBXScARMTVD1KLJ
+         +oi3A8VTXrJcO+47/IWkugnWswjhn0BA7OAF3LSTQCY4ckIBP8BA55MAreiouceiBsdA
+         mKcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717164734; x=1717769534;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ykvp/0wm2JKYn1VhbfeNlnxDMxT2k1KfiM797oH+i0A=;
+        b=PVDeweguT3Hxjl30j8UhxMFnsmJaqwH4Rd+XSIYK1PI6kvq73hxPSBWYi62bBOuXlC
+         mNTjNFooezIduwoeB9bTg+4AT19fbNjM/Bs01quLQ4AkHJKqPh8/BWL/Xe24TeWFWgo5
+         C6lE5FMwGjsCn5k7gnFeyoohKI9CeEoW3ZGI6+D3T2LmLlzJQ1mqBGnvcqSsVazPfTeu
+         IqKusvjf4fsAUfVD9SLb8f/8EdWRo9KNw87YRsYdDl9KokjtE4Bn/0k0dCPoVPgsePSJ
+         qGNM5iws83UaDzpvT4dwvRLIQzSv+CoSGe8byU2kgSPF0QzOEtRktbtAKoPlx+B5v4s0
+         XRXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUMQ9lRDkG8ryMgZbRkR8JojBIYuO7aLH8ROZrgpU7SfgtBsRXWUXxytK8OHolNC7ILDOyrusBdhAZt0Rbn0XkK19O2jTdMcEvnQlE=
+X-Gm-Message-State: AOJu0YxyQnsFRVudRkmufU+dcQ0VowVg0Kx1868A81oTVkwoGgQblC5q
+	I10CItAxXlgxRYDtCzJllwvYcoBxo+vEpiahlVJuYhboc0ht6vQh
+X-Google-Smtp-Source: AGHT+IF9QK1BGyLlONfFHI2NZ/q0q6TlP168YBjy8Girmb88VacbO8e/f7OnxTM2vSORBcmJgAyihA==
+X-Received: by 2002:a05:6a00:1785:b0:6ea:f05d:d2ec with SMTP id d2e1a72fcca58-702477c2abamr2233447b3a.2.1717164733748;
+        Fri, 31 May 2024 07:12:13 -0700 (PDT)
+Received: from noel.flets-west.jp ([2405:6586:4480:a10:167:9818:d778:5c14])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70242b057besm1418103b3a.162.2024.05.31.07.12.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 31 May 2024 07:12:13 -0700 (PDT)
+From: Hironori KIKUCHI <kikuchan98@gmail.com>
+To: linux-kernel@vger.kernel.org
+Cc: Hironori KIKUCHI <kikuchan98@gmail.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Aleksandr Shubin <privatesub2@gmail.com>,
+	Cheo Fusi <fusibrandon13@gmail.com>,
+	linux-pwm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH 0/5] Add support for Allwinner H616 PWM
+Date: Fri, 31 May 2024 23:11:32 +0900
+Message-ID: <20240531141152.327592-1-kikuchan98@gmail.com>
+X-Mailer: git-send-email 2.45.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/5] iommu: sun50i: allocate page tables from below 4 GiB
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Rob Herring <robh@kernel.org>,
- Chris Morgan <macromorgan@hotmail.com>, Ryan Walklin <ryan@testtoast.com>,
- iommu@lists.linux.dev, devicetree@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-References: <20240530233800.27705-1-andre.przywara@arm.com>
- <20240530233800.27705-3-andre.przywara@arm.com>
- <ecdc4d9f-a7b4-45e1-a870-e97cf4922539@arm.com>
- <20240531110241.6b26d072@donnerap.manchester.arm.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20240531110241.6b26d072@donnerap.manchester.arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 2024-05-31 11:02 am, Andre Przywara wrote:
-> On Fri, 31 May 2024 09:37:02 +0100
-> Robin Murphy <robin.murphy@arm.com> wrote:
-> 
-> Hi Robin,
-> 
->> On 2024-05-31 12:37 am, Andre Przywara wrote:
->>> The Allwinner IOMMU is a strict 32-bit device, with the page table root
->>> pointer as well as both level's page tables and also the target addresses
->>> all required to be below 4GB.
->>> The Allwinner H6 SoC only supports 32-bit worth of physical addresses
->>> anyway, so this isn't a problem so far, but the H616 and later SoCs extend
->>> the PA space beyond 32 bit to accommodate more DRAM.
->>> To make sure we stay within the 32-bit PA range required by the IOMMU,
->>> force the memory for the page tables to come from below 4GB. by using
->>> allocations with the DMA32 flag.
->>
->> Uh-oh... what about the output addresses in sun50i_mk_pte()? Limiting
->> its own accesses is OK, but if the IOMMU isn't capable of *mapping* any
->> valid PA for its clients, we can't easily support that.
-> 
-> Right, that's indeed a problem. I was hoping that the DMA32 address limit
-> would somehow be enforced by the IOMMU master devices, so they would never
-> issue addresses above 4GB to the IOMMU in the first place.
-> Would this work if all those devices use a 32-bit DMA mask? Some of those
-> devices might have that limit anyways, but those video devices are not
-> my expertise, so I don't know much details.
+Add support for the Allwinner H616 PWM, building on top of Aleksandr's
+Allwinner D1 PWM driver v9.
 
-It's fine to have a 32-bit *input* to the IOMMU - that only affects the 
-IOVA allocation, wherein iommu-dma already considers both the IOMMU 
-domain geometry and the client device's DMA mask to ensure it gives back 
-a usable DMA address. Indeed, plumbing 32-bit devices into a system with 
-a >32-bit PA space is one of the common reasons to have an IOMMU, but it 
-assumes that IOMMU translations are capable of targeting the entire 
-larger PA range.
+Additionally, the 4th and 5th patches implement the proposed method
+for delegating the clock source and DIV_M selection to the Device Tree.
+While it works well without these patches with the original behavior,
+applying them enables fine-grained control of PWM resolution and
+prevents non-deterministic behavior dependent on the enabling order.
 
-> IIUC, atm the incoming PA would be masked down to 32-bit, I guess we should have a
-> WARN_ONCE() there when this happens?
-> The 32-bit limit would only affect boards with exactly 4GB of DRAM (the
-> DRAM controller limit), and it only affects the last GB then, so using
-> DMA32 wouldn't be a terrible limitation, I think.
+I have only been able to test on H700 (H616 variant) using an
+oscilloscope. I would greatly appreciate it if someone could test
+this patch series on the D1 or other models.
 
-The problem is when a client driver does, say, a dma_map_single() of 
-some kmalloced buffer which it doesn't control, and which already 
-happens to be at a >32-bit PA; iommu-dma can't make that work for you. 
-At best we'd hope the iommu_map() returns an error and terminally fails 
-the whole DMA mapping operation, at worst the IOMMU driver silently 
-truncates the PA, maps the wrong memory, and all hell breaks loose :(
+Regards,
+kikuchan.
 
-Thanks,
-Robin.
+Hironori KIKUCHI (5):
+  pwm: sun20i: Use devm_pwmchip_alloc() helper
+  pwm: sun20i: Add support for Allwinner H616 PWM
+  dt-bindings: pwm: sun20i: Add compatible string for Allwinner H616 PWM
+  pwm: sun20i: Delegating the clock source and DIV_M to the Device Tree
+  dt-bindings: pwm: sun20i: Add options to select a clock source and
+    DIV_M
 
-> TBH, I picked this up from Jernej, so have to refer to him for further
-> details.
-> 
-> Cheers,
-> Andre
-> 
-> P.S. I agree that a 32-bit only IOMMU sounds somewhat stup^Wweird, but
-> that's what we have. Maybe we would use it just for the VE only then, where
-> it's really helpful to provide the illusion of large physically contiguous
-> buffers.
-> 
->> Thanks,
->> Robin.
->>
->>> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
->>> ---
->>>    drivers/iommu/sun50i-iommu.c | 5 +++--
->>>    1 file changed, 3 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/iommu/sun50i-iommu.c b/drivers/iommu/sun50i-iommu.c
->>> index dd3f07384624c..c3244db5ac02f 100644
->>> --- a/drivers/iommu/sun50i-iommu.c
->>> +++ b/drivers/iommu/sun50i-iommu.c
->>> @@ -682,7 +682,8 @@ sun50i_iommu_domain_alloc_paging(struct device *dev)
->>>    	if (!sun50i_domain)
->>>    		return NULL;
->>>    
->>> -	sun50i_domain->dt = iommu_alloc_pages(GFP_KERNEL, get_order(DT_SIZE));
->>> +	sun50i_domain->dt = iommu_alloc_pages(GFP_KERNEL | GFP_DMA32,
->>> +					      get_order(DT_SIZE));
->>>    	if (!sun50i_domain->dt)
->>>    		goto err_free_domain;
->>>    
->>> @@ -997,7 +998,7 @@ static int sun50i_iommu_probe(struct platform_device *pdev)
->>>    
->>>    	iommu->pt_pool = kmem_cache_create(dev_name(&pdev->dev),
->>>    					   PT_SIZE, PT_SIZE,
->>> -					   SLAB_HWCACHE_ALIGN,
->>> +					   SLAB_HWCACHE_ALIGN | SLAB_CACHE_DMA32,
->>>    					   NULL);
->>>    	if (!iommu->pt_pool)
->>>    		return -ENOMEM;
-> 
+ .../bindings/pwm/allwinner,sun20i-pwm.yaml    |  20 ++
+ drivers/pwm/pwm-sun20i.c                      | 326 ++++++++++--------
+ 2 files changed, 201 insertions(+), 145 deletions(-)
+
+-- 
+2.45.1
+
