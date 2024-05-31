@@ -1,125 +1,144 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67FF3156241
-	for <linux-sunxi@lists.linux.dev>; Fri, 31 May 2024 10:49:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9258D18645;
+	Fri, 31 May 2024 11:00:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717152571; cv=none; b=S2/kWIG2OzZnIT36K3NJyGf2aQ0C2/BEzo5E8+uxHmm1wL676gwMqPWmaNuxqqK2O/StQM+Wt4v3XObFc+AtkTTNT4fMtveVxKIjH9CbYf0X0C0gcHmvCpUMX2q5OhVnABTDRd05qUH+l/4Rvw+Vq98BKrnl9LHN4y6qbWYNRwk=
+	t=1717153226; cv=none; b=tElgPIR66e/ETuD+pvysJWsOf/nsVf44vnVhkmhYEadM94Y4GwQMMrk+LVTxH1oXesNrLFwG8JxePy2+QmBdhBmLf6Fh93AdwuCmN5gT4/DQ7wFVPzusy46PI5e1HblHmlO/RQMs4hu2aPP1aEneFawlzTzD/yc+E2nsbdsK2uc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717152571; c=relaxed/simple;
-	bh=pblZuT61VCx5vsKlZZtH1uamW5g6Zzz2eXnPbUTy4hg=;
-	h=Date:From:To:Cc:Message-ID:Subject:Mime-Version:Content-Type; b=bCbhJFTHEAGioxGZzM0Y8O4ETXVAad/7krbhFx9XnXj3T0taTdxRptu60YbAEwg/3SDZJxHjGCyOYz6UQxHBmymCw31qvBpQ4ctyn/3tOkeTgT7I0cu4AjMYV0fm9MTEb6GVFtAWhbOikHipn1444ekrL5LEUzSnukIRm2bIEPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=He52/ypQ; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="He52/ypQ"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-52b0d25b54eso2780145e87.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 31 May 2024 03:49:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717152569; x=1717757369; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:subject:message-id:cc:to
-         :from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tRfMYuc2oZrIFwHAbgozaR/RAHSemeaE5sWTQ1UXSXk=;
-        b=He52/ypQXTYl16hPHJ79GJnnFUcQVE7JV2JskvNIZC8ixMg6YzunCu3jVv6mfmnSi+
-         751CBpOiObatk1f7cNkNmd/9T9IdJWvcLQwQCr2zEPH/3yAYGtuAyabu/bRRS4GBQd+A
-         x8srIi43WgVa/df0Dqa/LTLv0M2evs7MX7Nlclh4i0cbG65+tsHZARERx9zrknK+GCdT
-         Ier/5lnAacBs/dVzdGztkmrAPboVOe3tuw7hokv7hs9yu+y0k9KVhDTVEVMiDJkJ8oCi
-         PRtXW8oJNadL6fHrdZA7cDRrApMXD93JVEUMl5iZPH80U9rJH9IP268d0TsT0i1Pm9Wc
-         4dow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717152569; x=1717757369;
-        h=content-transfer-encoding:mime-version:subject:message-id:cc:to
-         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tRfMYuc2oZrIFwHAbgozaR/RAHSemeaE5sWTQ1UXSXk=;
-        b=aUX2Jk68ufHmJcGxKR/y+qXXBqm05fIlmbTjkrg4OkH9nOItx28eYaH3lOBMzg/Z9J
-         2mWINXKA79AlfJu7J/O84l1BYotO34mTvXp5/Uhp0b0BOPXUzsu67mn4M0/Q0vuYojrd
-         ibt1mPc6GwcgLN+MvnEbxR6/DxVslFlZylNRK6KysUR9wRysSS6C9Fk06AHic//NDoCR
-         yU6LfzW1dCe+utHIdw9crQsppdHC5QN8xMuvk2l+EtNJ7poEMT6x+Qx/mxZJa8d/NsbS
-         69QwxYwvoqUTA48uSLQj5JvwbRPJnhb10StsN2B0qmJFxDndo6RNHJBw1cwCgDZ0Y7ku
-         gkog==
-X-Forwarded-Encrypted: i=1; AJvYcCVK22TgFRcrzMTXa/jcd3nNcrfDDdf6ApOas4l9818eZiD7Y/ndaGDwAccQQXAinDegUtGdhtnvYW3AOWztIvhmDJO8b4eC604cNgo=
-X-Gm-Message-State: AOJu0YyP7prvQu4fDfjPVwaPzELKHyO3MnmJ5PHgfvcLTo6JPwOlhHlX
-	m8TUdunUfPuYg5NuPa8ErN972d2lM2OKVGzaXiMhmyrchLP3aqRV
-X-Google-Smtp-Source: AGHT+IH93ydQNYGhnusbE4nE+VVAoM3R8/l5TcLUYmIfPgPd/wizUfk0JMXCv81VEGeZWU1NyPKOdQ==
-X-Received: by 2002:ac2:48aa:0:b0:523:af1f:89d9 with SMTP id 2adb3069b0e04-52b896afe18mr1248601e87.58.1717152567964;
-        Fri, 31 May 2024 03:49:27 -0700 (PDT)
-Received: from localhost (host-95-246-50-43.retail.telecomitalia.it. [95.246.50.43])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a67e2f5494dsm74207766b.0.2024.05.31.03.49.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 May 2024 03:49:27 -0700 (PDT)
-Date: Fri, 31 May 2024 12:49:25 +0200
-From: Matteo Martelli <matteomartelli3@gmail.com>
-To: Maxime Ripard <mripard@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org, 
- linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org
-Message-ID: <6659ab35e4545_ad3bd3707a@njaxe.notmuch>
-Subject: ASoC: sunxi: sun4i-i2s: swapped channels from second capture
+	s=arc-20240116; t=1717153226; c=relaxed/simple;
+	bh=VVIA86U9f8HFRni8vCep8eKQmRd5Kj819/BFYRPQxU0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MIerQOs6JqRaiPzdJ2FQhHSDphsAnXudsMYqXfdYEccVk1edG4J0ABMstJtWcpEZ1vHymiitAr7oV80yV6bxAMYEbdn2I833jOG3Iq8RgGQAMVlpPFxwyDQyyyFbhenjlD+Tqcl6//LBuR1beHG0ydouo6cjc0EGQkd2gRY5Tos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 271591424;
+	Fri, 31 May 2024 04:00:48 -0700 (PDT)
+Received: from [10.57.67.251] (unknown [10.57.67.251])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 90D5E3F792;
+	Fri, 31 May 2024 04:00:21 -0700 (PDT)
+Message-ID: <2bdd8966-5f25-4f2c-9aa9-7bd523b19edc@arm.com>
+Date: Fri, 31 May 2024 12:00:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/5] iommu: sun50i: allocate page tables from below 4 GiB
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+ Chris Morgan <macromorgan@hotmail.com>, Ryan Walklin <ryan@testtoast.com>,
+ iommu@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+References: <20240530233800.27705-1-andre.przywara@arm.com>
+ <20240530233800.27705-3-andre.przywara@arm.com>
+ <ecdc4d9f-a7b4-45e1-a870-e97cf4922539@arm.com>
+ <20240531110241.6b26d072@donnerap.manchester.arm.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20240531110241.6b26d072@donnerap.manchester.arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hello everyone,
-I am experiencing an issue with the Pine64 A64 i2s controller, which is
-compatible with sun8i-h3-i2s. The Pine64 board is paired with an external codec
-(ES8311), which can capture from a mono MIC. MIC data can be sent to both
-channels or to only one selected channel. During the first capture everything
-works fine, but since the second capture the channels are swapped: e.g. if MIC
-data should be recorded on the left channel, it is recorded on the right
-channel.
+On 2024-05-31 11:02 am, Andre Przywara wrote:
+> On Fri, 31 May 2024 09:37:02 +0100
+> Robin Murphy <robin.murphy@arm.com> wrote:
+> 
+> Hi Robin,
+> 
+>> On 2024-05-31 12:37 am, Andre Przywara wrote:
+>>> The Allwinner IOMMU is a strict 32-bit device, with the page table root
+>>> pointer as well as both level's page tables and also the target addresses
+>>> all required to be below 4GB.
+>>> The Allwinner H6 SoC only supports 32-bit worth of physical addresses
+>>> anyway, so this isn't a problem so far, but the H616 and later SoCs extend
+>>> the PA space beyond 32 bit to accommodate more DRAM.
+>>> To make sure we stay within the 32-bit PA range required by the IOMMU,
+>>> force the memory for the page tables to come from below 4GB. by using
+>>> allocations with the DMA32 flag.
+>>
+>> Uh-oh... what about the output addresses in sun50i_mk_pte()? Limiting
+>> its own accesses is OK, but if the IOMMU isn't capable of *mapping* any
+>> valid PA for its clients, we can't easily support that.
+> 
+> Right, that's indeed a problem. I was hoping that the DMA32 address limit
+> would somehow be enforced by the IOMMU master devices, so they would never
+> issue addresses above 4GB to the IOMMU in the first place.
+> Would this work if all those devices use a 32-bit DMA mask? Some of those
+> devices might have that limit anyways, but those video devices are not
+> my expertise, so I don't know much details.
 
-It seems it has nothing to do with the LRCLK which looks correct under the
-logic state analyzer, also consider that playback does not show this issue.
+It's fine to have a 32-bit *input* to the IOMMU - that only affects the 
+IOVA allocation, wherein iommu-dma already considers both the IOMMU 
+domain geometry and the client device's DMA mask to ensure it gives back 
+a usable DMA address. Indeed, plumbing 32-bit devices into a system with 
+a >32-bit PA space is one of the common reasons to have an IOMMU, but it 
+assumes that IOMMU translations are capable of targeting the entire 
+larger PA range.
 
-It looks like the issue is due the RX FIFO: even after flushing the RX FIFO,
-the first read sample is the last sample from previous capture. This likely
-causes the channel swapping: the first read sample from the RX FIFO is
-attributed to the left channel but it's an old sample, then the second read
-sample from the RX FIFO which is the actual first sample from left channel gets
-attributed to the right channel, and so on.
+> IIUC, atm the incoming PA would be masked down to 32-bit, I guess we should have a
+> WARN_ONCE() there when this happens?
+> The 32-bit limit would only affect boards with exactly 4GB of DRAM (the
+> DRAM controller limit), and it only affects the last GB then, so using
+> DMA32 wouldn't be a terrible limitation, I think.
 
-By adding an additional sample read operation after the RX FIFO flush the
-channels get no longer swapped:
----
-diff --git a/sound/soc/sunxi/sun4i-i2s.c b/sound/soc/sunxi/sun4i-i2s.c
-index 5f8d979585b6..a720daff3be9 100644
---- a/sound/soc/sunxi/sun4i-i2s.c
-+++ b/sound/soc/sunxi/sun4i-i2s.c
-@@ -961,10 +961,15 @@ static void sun4i_i2s_start_capture(struct sun4i_i2s *i2s)
-        /* Flush RX FIFO */
-        regmap_update_bits(i2s->regmap, SUN4I_I2S_FIFO_CTRL_REG,
-                           SUN4I_I2S_FIFO_CTRL_FLUSH_RX,
-                           SUN4I_I2S_FIFO_CTRL_FLUSH_RX);
+The problem is when a client driver does, say, a dma_map_single() of 
+some kmalloced buffer which it doesn't control, and which already 
+happens to be at a >32-bit PA; iommu-dma can't make that work for you. 
+At best we'd hope the iommu_map() returns an error and terminally fails 
+the whole DMA mapping operation, at worst the IOMMU driver silently 
+truncates the PA, maps the wrong memory, and all hell breaks loose :(
 
-+       /* XXX: Additional dummy read otherwise first read is the last from
-+        * previous capture, despite flush of the RX FIFO */
-+       unsigned int sample;
-+       regmap_read(i2s->regmap, SUN4I_I2S_FIFO_RX_REG, &sample);
-+
-        /* Clear RX counter */
-        regmap_write(i2s->regmap, SUN4I_I2S_RX_CNT_REG, 0);
+Thanks,
+Robin.
 
-        /* Enable RX Block */
-        regmap_update_bits(i2s->regmap, SUN4I_I2S_CTRL_REG,
----
-
-I haven't found any reason for this in the User Manual and by debugging the
-registers they look as expected, but maybe I am missing something.
-Can this issue be reproduced by anyone else?
-
-Running on linux asoc/for-next branch, commit:
-47d09270d777 ("Merge remote-tracking branch 'asoc/for-6.9' into asoc-linus")
-
-Best regards,
-Matteo Martelli
+> TBH, I picked this up from Jernej, so have to refer to him for further
+> details.
+> 
+> Cheers,
+> Andre
+> 
+> P.S. I agree that a 32-bit only IOMMU sounds somewhat stup^Wweird, but
+> that's what we have. Maybe we would use it just for the VE only then, where
+> it's really helpful to provide the illusion of large physically contiguous
+> buffers.
+> 
+>> Thanks,
+>> Robin.
+>>
+>>> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+>>> ---
+>>>    drivers/iommu/sun50i-iommu.c | 5 +++--
+>>>    1 file changed, 3 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/iommu/sun50i-iommu.c b/drivers/iommu/sun50i-iommu.c
+>>> index dd3f07384624c..c3244db5ac02f 100644
+>>> --- a/drivers/iommu/sun50i-iommu.c
+>>> +++ b/drivers/iommu/sun50i-iommu.c
+>>> @@ -682,7 +682,8 @@ sun50i_iommu_domain_alloc_paging(struct device *dev)
+>>>    	if (!sun50i_domain)
+>>>    		return NULL;
+>>>    
+>>> -	sun50i_domain->dt = iommu_alloc_pages(GFP_KERNEL, get_order(DT_SIZE));
+>>> +	sun50i_domain->dt = iommu_alloc_pages(GFP_KERNEL | GFP_DMA32,
+>>> +					      get_order(DT_SIZE));
+>>>    	if (!sun50i_domain->dt)
+>>>    		goto err_free_domain;
+>>>    
+>>> @@ -997,7 +998,7 @@ static int sun50i_iommu_probe(struct platform_device *pdev)
+>>>    
+>>>    	iommu->pt_pool = kmem_cache_create(dev_name(&pdev->dev),
+>>>    					   PT_SIZE, PT_SIZE,
+>>> -					   SLAB_HWCACHE_ALIGN,
+>>> +					   SLAB_HWCACHE_ALIGN | SLAB_CACHE_DMA32,
+>>>    					   NULL);
+>>>    	if (!iommu->pt_pool)
+>>>    		return -ENOMEM;
+> 
