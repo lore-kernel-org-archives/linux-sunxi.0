@@ -1,35 +1,44 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A43374297
-	for <linux-sunxi@lists.linux.dev>; Sun,  2 Jun 2024 20:16:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFCB5394
+	for <linux-sunxi@lists.linux.dev>; Mon,  3 Jun 2024 00:10:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717359387; cv=none; b=L2DQBX7TCNcAyyVbQGoGnCqQlmHfzwZvvFJDq6vb8w/1EjI2pWANjlkdHSzWIYDM51dAfOrhgkOiLe/kmMbKPr2lg8EBBooNJ+gv5PAAsu/1Ir8mkcI/JpvbA3QXuC+9fwhrgxVGfxcjsN52Sxa1W71n/FzlUuu4G8czNfSsrGc=
+	t=1717373432; cv=none; b=YQZxLwL/kPlYr3ElbQK1yfd4t6Y/4C/3xaxZmCghZDdQDBAhwgVlQP10cTEIIjVLNAGbGkKJFOSzP4VMX9bT3TdHPlfkp7DVHOc/O54EybF6suRCc8/NH55w3t5dv5fPRw3hjGEuwmTL+z2BExhltu7sK5lbX/99D6qiA41rJrM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717359387; c=relaxed/simple;
-	bh=Q98W32FFwdI1cAgJFPClVn7dyNiWNwmPQZQrnQtZNLw=;
+	s=arc-20240116; t=1717373432; c=relaxed/simple;
+	bh=07ynrVUW3Z/uc5Y7/yQ+UyVpLSvpRWi/UkrMoSVmo70=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eoKPnHmxGxd1+bn039NTAC/BvszAp7DxNdDbcgxinN4xRyPXmHktb0EVALDl09U7F+NGnQ2dUmwcpxRRTPrSTN3ytPjbDzJafRQpGBuPISSVmPSSdm7YYQcC39NSuuykXT6imIG1y0tUTDYzdz7i9hdKsWhHv/5wTGB7c9/vGmk=
+	 MIME-Version:Content-Type; b=hANEGgtZQCtO1PHQe7/Uef0TdkYPegAm4WRAPQfFhFmZ3LvSWALE9hBcCIBv0eoXQiSCJoWHgXz5Av9PV9hRnyaOlEkUJ7mIbTDzNBGZKLzPKfrcd2TiuLQs40c2tkGV69HTpbDbbR2uqtBlPj9g2S5X5t8p6BFOCKfbLKfxfvc=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9F687113E;
-	Sun,  2 Jun 2024 13:16:48 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5284A113E;
+	Sun,  2 Jun 2024 17:10:52 -0700 (PDT)
 Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E4BAF3F792;
-	Sun,  2 Jun 2024 13:16:22 -0700 (PDT)
-Date: Sun, 2 Jun 2024 21:15:09 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E10BA3F792;
+	Sun,  2 Jun 2024 17:10:25 -0700 (PDT)
+Date: Mon, 3 Jun 2024 01:09:12 +0100
 From: Andre Przywara <andre.przywara@arm.com>
-To: "harry.yu185" <harry.yu185@gmail.com>
-Cc: corbet@lwn.net, catalin.marinas@arm.com, will@kernel.org,
- tglx@linutronix.de, maz@kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi <linux-sunxi@lists.linux.dev>
-Subject: Re: [PATCH] irqchip/gic-v3: Add Allwinner sunxi001 erratum
- workaround
-Message-ID: <20240602211509.67df243e@minigeek.lan>
-In-Reply-To: <20240602071058.6405-1-harry.yu185@gmail.com>
-References: <20240602071058.6405-1-harry.yu185@gmail.com>
+To: Hironori KIKUCHI <kikuchan98@gmail.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, linux-kernel@vger.kernel.org, Uwe
+ =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <ukleinek@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Aleksandr
+ Shubin <privatesub2@gmail.com>, Cheo Fusi <fusibrandon13@gmail.com>,
+ linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 5/5] dt-bindings: pwm: sun20i: Add options to select a
+ clock source and DIV_M
+Message-ID: <20240603010912.44b99988@minigeek.lan>
+In-Reply-To: <CAG40kxHKdC=uwyWzsBo1LTAXARDQGs0N4TBdD5nE1zhos48cbg@mail.gmail.com>
+References: <20240531141152.327592-1-kikuchan98@gmail.com>
+	<20240531141152.327592-6-kikuchan98@gmail.com>
+	<851280ad-ac0e-47d1-99e2-4f3b5ea29f2f@kernel.org>
+	<CAG40kxEbMQc-ni0HDVR7rtj48aFu-jz8sYUAO+fdmZSmXWrizw@mail.gmail.com>
+	<da382d43-fa82-44c0-9630-086f59e6efa2@kernel.org>
+	<CAG40kxHKdC=uwyWzsBo1LTAXARDQGs0N4TBdD5nE1zhos48cbg@mail.gmail.com>
 Organization: Arm Ltd.
 X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
@@ -41,135 +50,200 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Sun,  2 Jun 2024 15:10:58 +0800
-"harry.yu185" <harry.yu185@gmail.com> wrote:
+On Sun, 2 Jun 2024 15:15:13 +0900
+Hironori KIKUCHI <kikuchan98@gmail.com> wrote:
 
-Hi,
+Hi Kikuchan,
 
-(please make sure to CC: the linux-sunxi mailing list on Allwinner
-related patches)
-
-I do hope that this whole patch is unnecessary, as Marc pointed out, but
-just for the records some comments for future reference, since this
-patch seems either premature or out of place.
-
-> Allwinner A523 GIC600 integration does not support the
-> sharability feature. So assigned Erratum ID #sunxi001 for this
-> issue.
+> Hi Krzysztof,
 > 
-> That the 0x0201643b ID is not Allwinner specific and thus
-> there is an extra of_machine_is_compatible() check.
+> > On 31/05/2024 19:57, Hironori KIKUCHI wrote:  
+> > > Hello,
+> > >  
+> > >>> This patch adds new options to select a clock source and DIV_M register
+> > >>> value for each coupled PWM channels.  
+> > >>
+> > >> Please do not use "This commit/patch/change", but imperative mood. See
+> > >> longer explanation here:
+> > >> https://elixir.bootlin.com/linux/v5.17.1/source/Documentation/process/submitting-patches.rst#L95
+> > >>
+> > >> Bindings are before their users. This should not be last patch, because
+> > >> this implies there is no user.  
+> > >
+> > > I'm sorry, I'll fix them.
+> > >  
+> > >> This applies to all variants? Or the one you add? Confused...  
+> > >
+> > > Apologies for confusing you. This applies to all variants.
+> > >  
+> > >>  
+> > >>>
+> > >>> Signed-off-by: Hironori KIKUCHI <kikuchan98@gmail.com>
+> > >>> ---
+> > >>>  .../bindings/pwm/allwinner,sun20i-pwm.yaml    | 19 +++++++++++++++++++
+> > >>>  1 file changed, 19 insertions(+)
+> > >>>
+> > >>> diff --git a/Documentation/devicetree/bindings/pwm/allwinner,sun20i-pwm.yaml b/Documentation/devicetree/bindings/pwm/allwinner,sun20i-pwm.yaml
+> > >>> index b9b6d7e7c87..436a1d344ab 100644
+> > >>> --- a/Documentation/devicetree/bindings/pwm/allwinner,sun20i-pwm.yaml
+> > >>> +++ b/Documentation/devicetree/bindings/pwm/allwinner,sun20i-pwm.yaml
+> > >>> @@ -45,6 +45,25 @@ properties:
+> > >>>      description: The number of PWM channels configured for this instance
+> > >>>      enum: [6, 9]
+> > >>>
+> > >>> +  allwinner,pwm-pair-clock-sources:
+> > >>> +    description: The clock source names for each PWM pair
+> > >>> +    items:
+> > >>> +      enum: [hosc, apb]
+> > >>> +    minItems: 1
+> > >>> +    maxItems: 8  
+> > >>
+> > >> Missing type... and add 8 of such items to your example to make it complete.  
+> > >
+> > > Thank you. I'll fix it.
+> > >  
+> > >>  
+> > >>> +
+> > >>> +  allwinner,pwm-pair-clock-prescales:
+> > >>> +    description: The prescale (DIV_M register) values for each PWM pair
+> > >>> +    $ref: /schemas/types.yaml#/definitions/uint32-matrix
+> > >>> +    items:
+> > >>> +      items:
+> > >>> +        minimum: 0
+> > >>> +        maximum: 8
+> > >>> +      minItems: 1
+> > >>> +      maxItems: 1
+> > >>> +    minItems: 1
+> > >>> +    maxItems: 8  
+> > >>
+> > >> This does not look like matrix but array.  
+> > >
+> > > I wanted to specify values like this:
+> > >
+> > >     allwinner,pwm-pair-clock-prescales = <0>, <1>, <3>;
+> > >     allwinner,pwm-pair-clock-sources = "hosc", "apb", "hosc":
+> > >
+> > > These should correspond to each PWM pair.
+> > > This way, I thought we might be able to visually understand the relationship
+> > > between prescalers and sources, like clock-names and clocks.
+> > >
+> > > Is this notation uncommon, perhaps?  
+> >
+> > It's still an array.  
 > 
-> Note, because more than one soc may have this problem, the 'sunxi'
-> name is used instead of a fixed soc name like A523.
+> Oh I understood and clear. Thank you.
 > 
-> Signed-off-by: harry.yu185 <harry.yu185@gmail.com>
-> ---
->  Documentation/arch/arm64/silicon-errata.rst |  2 ++
->  arch/arm64/Kconfig                          | 10 ++++++++++
->  drivers/irqchip/irq-gic-v3-its.c            | 21 +++++++++++++++++++++
->  3 files changed, 33 insertions(+)
+> > >> Why clock DIV cannot be deduced from typical PWM attributes + clock
+> > >> frequency?  
+> > >
+> > > This SoC's PWM system has one shared prescaler and clock source for each pair
+> > > of PWM channels. I should have noted this earlier, sorry.
+> > >
+> > > Actually, the original v9 patch automatically deduced the DIV value
+> > > from the frequency.
+> > > However, because the two channels share a single prescaler, once one channel is
+> > > enabled, it affects and restricts the DIV value for the other channel
+> > > in the pair.
+> > > This introduces a problem of determining which channel should set the shared DIV
+> > > value. The original behavior was that the first channel enabled would win.  
+> >
+> > There's nothing bad in this.
+> >  
+> > >
+> > > Instead, this patch try to resolve the issue by specifying these
+> > > values for each PWM
+> > > pairs deterministically.
+> > > That's why it requires the new options.  
+> >
+> > This does not solve that wrong divider can be programmed for second
+> > channel in each pair.
+> >  
 > 
-> diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
-> index eb8af8032c31..351dd6094a6c 100644
-> --- a/Documentation/arch/arm64/silicon-errata.rst
-> +++ b/Documentation/arch/arm64/silicon-errata.rst
-> @@ -242,6 +242,8 @@ stable kernels.
->  +----------------+-----------------+-----------------+-----------------------------+
->  | Rockchip       | RK3588          | #3588001        | ROCKCHIP_ERRATUM_3588001    |
->  +----------------+-----------------+-----------------+-----------------------------+
-> +| Allwinner      | SUN55IW3        | #sunxi001       | ALLWINNER_ERRATUM_SUNXI001  |
+> Let me illustrate the connection of a paired PWM channels to be sure.
+> 
+> .    +------+                   +--------------+  +------+
+> .    + HOSC +--+             +--+ prescale_k 0 +--+ PWM0 |
+> .    +------+  |  +-------+  |  +--------------+  +------+
+> .              +--+ DIV_M +--+
+> .    +------+  |  +-------+  |  +--------------+  +------+
+> .    + APBx +--+             +--+ prescale_k 1 +--+ PWM1 |
+> .    +------+                   +--------------+  +------+
+> .          CLK_SRC
+> 
+> The PWM0 and PWM1 share DIV_M and CLK_SRC for them, and (not
+> illustrated) PWM2 and PWM3 share another DIV_M and another CLK_SRC for
+> them, and so on.
+> The DIV_M ranges from 0 to 8 and is used as a 1 / 2^DIV_M prescaler,
+> prescale_k ranges from 0 to 255 and is used as a 1 / (prescale_k + 1)
+> prescaler.
+> 
+> In the original v9 patch, enabling PWM0 determines CLK_SRC and
+> calculates DIV_M from the period that is going to be set.
+> Once the CLK_SRC and DIV_M are fixed, they cannot be changed until
+> both channels are disabled, unless PWM0 is the only enabled channel.
+> 
+> Looks good so far, but there is a pitfall.
+> 
+> Selecting CLK_SRC and DIV_M means it defines the PWM resolution of the
+> period and duty cycle for the pair of the PWM channels.
+> In other words, the resolution is determined by the (most likely the
+> very first) period, which can be arbitrary.
 
-"sun55iw3" is a CPU die identifier only used in Allwinner's BSP
-kernels, mainline uses a different naming scheme.
+So I understand the problem, but I don't think expressing this in the
+devicetree is the right solution. It seems like a tempting pragmatical
+approach, but it sounds like the wrong way: this is not a hardware
+*description* of any kind, but rather a way to describe a certain user
+intention or a configuration. So this looks like a rather embedded
+approach to me, where you have a certain fixed register setup in mind,
+and want to somehow force this to the hardware.
+Another problem with this approach is that it doesn't really cover the
+sysfs interface, which is very dynamic by nature.
 
-Also the erratum name looks odd, at the very least I'd expect it to
-read "ALLWINNER_ERRATUM_00001" or something. But there is already some
-Allwinner timer erratum, which we boldly gave ID 1 (short of an
-official erratum number from Allwinner), so using the same number again
-will surely lead to confusion.
+I have some questions / ideas, and would love to hear some feedback on
+them:
+- If some PWM channels are "linked", I don't think there is much we can
+  do about it: it's a hardware limitation. The details of that is
+  already "encoded" in the compatible string, I'd say, so there is no
+  need for further description in the devicetree. Any PWM user on those
+  boards would probably need to know about the shortcomings, and either
+  use different channels for wildly different PWM setups, or accept
+  that there are actually only three freely programmable PWM channels.
+- Does the PWM subsystem already have a way to model linked channels?
+  Maybe that problem is solved already elsewhere?
+- Previous Allwinner PWM IP was restricted to use the 24 MHz
+  oscillator only, and people seem to have survived with that. Can we
+  not just restrict ourselves to one clock source for those linked
+  channels? I would assume that the PWM frequency is less important
+  than the duty cycle? 
+- Can't we just return an error if some conflicting setup requests are
+  made? At the expense of this seeming somewhat random to the user,
+  because it depends on the order of requests? But people could then
+  react on the returned error value?
 
-> ++----------------+-----------------+-----------------+-----------------------------+
->  +----------------+-----------------+-----------------+-----------------------------+
->  | Fujitsu        | A64FX           | E#010001        | FUJITSU_ERRATUM_010001      |
->  +----------------+-----------------+-----------------+-----------------------------+
-> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> index 5d91259ee7b5..5a71227d119a 100644
-> --- a/arch/arm64/Kconfig
-> +++ b/arch/arm64/Kconfig
-> @@ -1279,6 +1279,16 @@ config ROCKCHIP_ERRATUM_3588001
->  
->  	  If unsure, say Y.
->  
-> +config ALLWINNER_ERRATUM_SUNXI001
-> +	bool "Allwinner sunxi001: GIC600 can not support shareability attributes"
-> +	default y
-
-"default ARCH_SUNXI" would be better suited here, I think.
-
-> +	help
-> +	  The Allwinner GIC600 SoC integration does not support ACE/ACE-lite.
-> +	  This means, that its sharability feature may not be used, even though it
-> +	  is supported by the IP itself.
-> +
-> +	  If unsure, say Y.
-> +
->  config SOCIONEXT_SYNQUACER_PREITS
->  	bool "Socionext Synquacer: Workaround for GICv3 pre-ITS"
->  	default y
-> diff --git a/drivers/irqchip/irq-gic-v3-its.c b/drivers/irqchip/irq-gic-v3-its.c
-> index 40ebf1726393..d93348947353 100644
-> --- a/drivers/irqchip/irq-gic-v3-its.c
-> +++ b/drivers/irqchip/irq-gic-v3-its.c
-> @@ -4775,6 +4775,19 @@ static bool __maybe_unused its_enable_rk3588001(void *data)
->  	return true;
->  }
->  
-> +static bool __maybe_unused its_enable_sunxi001(void *data)
-> +{
-> +	struct its_node *its = data;
-> +
-> +	if (!of_machine_is_compatible("arm,sun55iw3p1"))
-
-You cannot reference a compatible name here that is not documented in
-the bindings. Which brings us to the elephant in the room: there is no
-upstream support for this SoC (family) yet. I have some
-work-in-progress series [1], but it's far from finished, mostly blocked
-by the lack of hackable hardware (hopefully fixed soon).
-
-So what kernel is this patch supposed to be applied against? You would
-need at least a pinctrl and clock driver for even basic operation, none
-of that I have seen posted.
+In general, I wonder what the real use cases are, maybe it's not a
+problem in real life? Do you have a concrete issue at hand, or is this
+just thinking about all potential use cases - which is honourable, but
+maybe a bit over the top here?
 
 Cheers,
 Andre
 
-[1] https://github.com/apritzel/linux/commits/a523-EARLY/
-
-> +		return false;
-> +
-> +	its->flags |= ITS_FLAGS_FORCE_NON_SHAREABLE;
-> +	gic_rdists->flags |= RDIST_FLAGS_FORCE_NON_SHAREABLE;
-> +
-> +	return true;
-> +}
-> +
->  static bool its_set_non_coherent(void *data)
->  {
->  	struct its_node *its = data;
-> @@ -4836,6 +4849,14 @@ static const struct gic_quirk its_quirks[] = {
->  		.mask   = 0xffffffff,
->  		.init   = its_enable_rk3588001,
->  	},
-> +#endif
-> +#ifdef CONFIG_ALLWINNER_ERRATUM_SUNXI001
-> +	{
-> +		.desc   = "ITS: Allwinner erratum sunxi001",
-> +		.iidr   = 0x0201643b,
-> +		.mask   = 0xffffffff,
-> +		.init   = its_enable_sunxi001,
-> +	},
->  #endif
->  	{
->  		.desc   = "ITS: non-coherent attribute",
+> Consider an application that uses PWM channels to generate a square
+> wave in stereo.
+> The very first musical note played defines the entire resolution for
+> the subsequent notes.
+> The music quality depends on the first note.
+> 
+> The problem is, there is NO way to fixate the resolution to be used.
+> 
+> The proposed method provides a simple way to deterministically fixate
+> the resolution.
+> (ofcourse, prescale_k is still calculated by period to be set)
+> 
+> > Best regards,
+> > Krzysztof  
+> 
+> Best regards,
+> kikuchan.
+> 
 
