@@ -1,55 +1,95 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 788E1D524;
-	Tue,  4 Jun 2024 13:51:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D47E144303;
+	Tue,  4 Jun 2024 15:42:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717509111; cv=none; b=ZKNW+MZYTX4AO6hVLE/kM3/jJW04awwQdMGpNDPspaGvTED/oMpRrdhHM/5viEObTcgwzYTTOsawe4L1Pd/y+9wbuD02YYQoLPnqbccGkQPZHXU2gZwy8pYEb59ZsY/WyIHK4EXpYHrTlTDKWKEVeFZmMJ/ZXqS50vZCYOsEzP0=
+	t=1717515749; cv=none; b=sgxijqImJpsq58BnlGfeI7umX9GhDlv0TsaTe7tmam+80MsbI+2P8vdslokI1iHXEVJk7vwROpDkMmRnjOKwYu330e4GwsRIvo/RP/CCr9o33MmoOOe/oZbgwBpiRlXAYMxB26cclPtIlZCc6Wa3yEriCNBKxAlnh46wyKzdj0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717509111; c=relaxed/simple;
-	bh=NGNZStY9z34gKXgirOBwNG2wP449Jje7ZVoODUEKi5o=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=SD+OTbjvtJrNyNsqpGEd0NStsSCLCjB8zMnvHg1SZc7g3lgzZuBDUicMgjRlA4o4rL4g7bQWJ5znQH5iN6CTo4BJlfHC+PCMqX3VskNYcXrHJoI271UgBChRL65khW1kB2jhzplu3uIsTeMx/13fr/10slEmB7bkXv4rin0+Ndc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA932C32786;
-	Tue,  4 Jun 2024 13:51:50 +0000 (UTC)
-Received: from wens.tw (localhost [127.0.0.1])
-	by wens.tw (Postfix) with ESMTP id E2BB25FC52;
-	Tue,  4 Jun 2024 21:51:48 +0800 (CST)
-From: Chen-Yu Tsai <wens@csie.org>
-To: sboyd@kernel.org, emilio@elopez.com.ar, mturquette@baylibre.com, 
- linux@treblig.org
-Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20240509230516.86023-1-linux@treblig.org>
-References: <20240509230516.86023-1-linux@treblig.org>
-Subject: Re: [PATCH v2] clk: sunxi: Remove unused struct 'gates_data'
-Message-Id: <171750910892.791538.4542936800198127206.b4-ty@csie.org>
-Date: Tue, 04 Jun 2024 21:51:48 +0800
+	s=arc-20240116; t=1717515749; c=relaxed/simple;
+	bh=gvxpfHQ65oWsKW/gpsh/uvOZGyM//B6SX2D/4rQ0Nsc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NlwVQTTYvgoIMsEYPvFrQvG9MxB8eOpDjkoHlIqxiJrK9K1lHQOtwj9UxrJSEhtGfJQuFsxFvy7Jc2NGZR9WCVY6Wrf2iW0tzErYhsutb6tmHUX8rKh/DQERthyFJDZrz92SLZ2vlP+rvtn6KlpE9T+yIzYaIH4z//L4aw4NckI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=1p0RL9O1; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="1p0RL9O1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AB18C2BBFC;
+	Tue,  4 Jun 2024 15:42:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1717515749;
+	bh=gvxpfHQ65oWsKW/gpsh/uvOZGyM//B6SX2D/4rQ0Nsc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=1p0RL9O1txeF88r7BI4R3mZCPecX9o5eCeU291B62J/7N4Hkguvf1lfLd3cqQUs8P
+	 4Y1/0W4FQ0ElqLZ7UU0nmattnWlXk/Z10eyZip8sZHsKgLIIU/ogQGQB9n7FHaJ/iv
+	 fP0oOcb6nC636FrLvgUA+RegIdHHg80BK9dpAXYI=
+Date: Tue, 4 Jun 2024 17:38:24 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Joy Chakraborty <joychakr@google.com>
+Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Heiko Stuebner <heiko@sntech.de>, Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Vincent Shih <vincent.sunplus@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Rafal Milecki <rafal@milecki.pl>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Michal Simek <michal.simek@amd.com>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev, manugautam@google.com
+Subject: Re: [PATCH v3 1/1] nvmem: Change return type of reg read/write to
+ ssize_t
+Message-ID: <2024060445-amaze-sitter-88da@gregkh>
+References: <20240510082929.3792559-1-joychakr@google.com>
+ <20240510082929.3792559-2-joychakr@google.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240510082929.3792559-2-joychakr@google.com>
 
-On Fri, 10 May 2024 00:05:16 +0100, linux@treblig.org wrote:
-> 'gates_data' (and it's associated define) are unused since
-> commit ee38b2698ae2 ("clk: sunxi: Add a simple gates driver").
-> Remove them.
+On Fri, May 10, 2024 at 08:29:29AM +0000, Joy Chakraborty wrote:
+> Change return type of reg_read() and reg_write() callback to ssize_t for
+> nvmem suppliers to return number of bytes read/written to the nvmem core.
 > 
+> Currently nvmem core assumes the amount of data read/written is equal
+> to what it has requested from the supplier, this return code facilitates
+> better error handling in the nvmem core.
 > 
+> Signed-off-by: Joy Chakraborty <joychakr@google.com>
 
-Applied to sunxi/clk-for-6.11 in sunxi/linux.git, thanks!
+I thought this would be two patches, one to change the return type, and
+the second to change the logic involved here (making it easier to notice
+the logic changes.)  But it seems ok to me:
 
-[1/1] clk: sunxi: Remove unused struct 'gates_data'
-      https://git.kernel.org/sunxi/linux/c/95fd34a8595c
-
-Best regards,
--- 
-Chen-Yu Tsai <wens@csie.org>
-
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
