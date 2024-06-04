@@ -1,196 +1,121 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C7051386B9;
-	Tue,  4 Jun 2024 01:38:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D5822AD04
+	for <linux-sunxi@lists.linux.dev>; Tue,  4 Jun 2024 02:51:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717465101; cv=none; b=JvxZkDxHuCb221SvNWLsy7LDyq2/cJhXDesH2TSL0d2EBGAGTmpgf7GkkY58zFmT8ooLBuWWmy/Ax9fz7gI8HfwXBO56ArDiOPAA78FS++EA8yBQ0kjF6nsxCwga3ymGWHxf5nILIHC0n0Dq0CtvSmMi88DvZ4Os2bOPE+1x1l8=
+	t=1717469485; cv=none; b=EBcQcVrdqDxOA9woir1LTfXUB2ExAifEMXOeNDtorvCN4q+/z1Otq5f0eENvj9HmYSGLDFkPoMEx44Zk3dY6WLDB8I4KaiQDqk0bfgmqJJ5xJTk4uB+VkW8mjqrLGznRtfbu2SP7TtKAkZpC5gKGA8k8eJWPs8EBv0WiTIzwVNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717465101; c=relaxed/simple;
-	bh=AJSz8KJObMMDxhywmduW5EuoLxLL09BUaUxOa9QUubw=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=W76wPOqJhcfdB6bDI384qYWr5It8IGNtsF7P3ZiEf2do4DteNys1XNAEj5j60+v6mm0u/CGqeb0nwGs+414yqQsMpnESMXIbwZneeb0x7Kbi/vtHxEGiYG4HQPZLqgd0UOu3U5f8c5+SFb6zgHHWbikoW93g8IYO0vRmjfGZQu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.252])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4VtY6M5szWzwRV0;
-	Tue,  4 Jun 2024 09:34:19 +0800 (CST)
-Received: from kwepemm600013.china.huawei.com (unknown [7.193.23.68])
-	by mail.maildlp.com (Postfix) with ESMTPS id 7C016180069;
-	Tue,  4 Jun 2024 09:38:14 +0800 (CST)
-Received: from [10.174.178.46] (10.174.178.46) by
- kwepemm600013.china.huawei.com (7.193.23.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Tue, 4 Jun 2024 09:38:02 +0800
-Subject: Re: [PATCH v1 1/1] treewide: Align match_string() with
- sysfs_match_string()
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, "Rafael J. Wysocki"
-	<rafael.j.wysocki@intel.com>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, Corey Minyard <minyard@acm.org>, Allen Pais
-	<apais@linux.microsoft.com>, Sebastian Reichel
-	<sebastian.reichel@collabora.com>, Perry Yuan <perry.yuan@amd.com>, Giovanni
- Cabiddu <giovanni.cabiddu@intel.com>, Herbert Xu
-	<herbert@gondor.apana.org.au>, Nuno Sa <nuno.sa@analog.com>, Guenter Roeck
-	<linux@roeck-us.net>, Randy Dunlap <rdunlap@infradead.org>, Andi Shyti
-	<andi.shyti@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>, Lee Jones
-	<lee@kernel.org>, Samuel Holland <samuel@sholland.org>, Elad Nachman
-	<enachman@marvell.com>, Arseniy Krasnov <AVKrasnov@sberdevices.ru>, Johannes
- Berg <johannes.berg@intel.com>, Gregory Greenman
-	<gregory.greenman@intel.com>, Benjamin Berg <benjamin.berg@intel.com>, Bjorn
- Helgaas <bhelgaas@google.com>, Robert Richter <rrichter@amd.com>, Vinod Koul
-	<vkoul@kernel.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>, Linus Walleij
-	<linus.walleij@linaro.org>, Hans de Goede <hdegoede@redhat.com>,
-	=?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>, Nikita
- Kravets <teackot@gmail.com>, Jiri Slaby <jirislaby@kernel.org>, Srinivas
- Pandruvada <srinivas.pandruvada@linux.intel.com>, Stanley Chang
-	<stanley_chang@realtek.com>, Heikki Krogerus
-	<heikki.krogerus@linux.intel.com>, Abdel Alkuor <abdelalkuor@geotab.com>,
-	Kent Overstreet <kent.overstreet@linux.dev>, Eric Biggers
-	<ebiggers@google.com>, Kees Cook <keescook@chromium.org>, Ingo Molnar
-	<mingo@kernel.org>, "Steven Rostedt (Google)" <rostedt@goodmis.org>, Daniel
- Bristot de Oliveira <bristot@kernel.org>, Andrew Morton
-	<akpm@linux-foundation.org>, Hugh Dickins <hughd@google.com>, Abel Wu
-	<wuyun.abel@bytedance.com>, John Johansen <john.johansen@canonical.com>, Mimi
- Zohar <zohar@linux.ibm.com>, Stefan Berger <stefanb@linux.ibm.com>, Roberto
- Sassu <roberto.sassu@huawei.com>, Eric Snowberg <eric.snowberg@oracle.com>,
-	Takashi Iwai <tiwai@suse.de>, Takashi Sakamoto <o-takashi@sakamocchi.jp>,
-	Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, Mark Brown
-	<broonie@kernel.org>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	<linuxppc-dev@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
-	<keyrings@vger.kernel.org>, <linux-crypto@vger.kernel.org>,
-	<linux-acpi@vger.kernel.org>, <linux-ide@vger.kernel.org>,
-	<openipmi-developer@lists.sourceforge.net>, <linux-clk@vger.kernel.org>,
-	<linux-rpi-kernel@lists.infradead.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-rockchip@lists.infradead.org>,
-	<linux-tegra@vger.kernel.org>, <linux-pm@vger.kernel.org>,
-	<qat-linux@intel.com>, <dri-devel@lists.freedesktop.org>,
-	<intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
-	<nouveau@lists.freedesktop.org>, <linux-hwmon@vger.kernel.org>,
-	<linux-i2c@vger.kernel.org>, <linux-leds@vger.kernel.org>,
-	<linux-sunxi@lists.linux.dev>, <linux-omap@vger.kernel.org>,
-	<linux-mmc@vger.kernel.org>, <linux-mtd@lists.infradead.org>,
-	<netdev@vger.kernel.org>, <linux-wireless@vger.kernel.org>,
-	<linux-pci@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
-	<linux-phy@lists.infradead.org>, <linux-gpio@vger.kernel.org>,
-	<platform-driver-x86@vger.kernel.org>, <linux-staging@lists.linux.dev>,
-	<linux-usb@vger.kernel.org>, <linux-fbdev@vger.kernel.org>,
-	<linux-bcachefs@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
-	<cgroups@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
-	<linux-mm@kvack.org>, <apparmor@lists.ubuntu.com>,
-	<linux-security-module@vger.kernel.org>, <linux-integrity@vger.kernel.org>,
-	<alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>
-CC: Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin
-	<npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, "Naveen
- N. Rao" <naveen.n.rao@linux.ibm.com>, Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
-	<dave.hansen@linux.intel.com>, <x86@kernel.org>, "H. Peter Anvin"
-	<hpa@zytor.com>, David Howells <dhowells@redhat.com>, "David S. Miller"
-	<davem@davemloft.net>, "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown
-	<lenb@kernel.org>, Sergey Shtylyov <s.shtylyov@omp.ru>, Damien Le Moal
-	<dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, Daniel Scally
-	<djrscally@gmail.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, Michael
- Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Florian
- Fainelli <florian.fainelli@broadcom.com>, Ray Jui <rjui@broadcom.com>, Scott
- Branden <sbranden@broadcom.com>, Broadcom internal kernel review list
-	<bcm-kernel-feedback-list@broadcom.com>, Heiko Stuebner <heiko@sntech.de>,
-	Peter De Schrijver <pdeschrijver@nvidia.com>, Prashant Gaikwad
-	<pgaikwad@nvidia.com>, Thierry Reding <thierry.reding@gmail.com>, Jonathan
- Hunter <jonathanh@nvidia.com>, Huang Rui <ray.huang@amd.com>, "Gautham R.
- Shenoy" <gautham.shenoy@amd.com>, Mario Limonciello
-	<mario.limonciello@amd.com>, Viresh Kumar <viresh.kumar@linaro.org>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
-	<mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
-	<airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Jani Nikula
-	<jani.nikula@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, Joonas
- Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin
-	<tursulin@ursulin.net>, Karol Herbst <kherbst@redhat.com>, Lyude Paul
-	<lyude@redhat.com>, Danilo Krummrich <dakr@redhat.com>, Jean Delvare
-	<jdelvare@suse.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Pavel Machek <pavel@ucw.cz>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
-	<jernej.skrabec@gmail.com>, Tony Lindgren <tony@atomide.com>, Adrian Hunter
-	<adrian.hunter@intel.com>, Hu Ziji <huziji@marvell.com>, Ulf Hansson
-	<ulf.hansson@linaro.org>, Miquel Raynal <miquel.raynal@bootlin.com>, Richard
- Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, Potnuri
- Bharat Teja <bharat@chelsio.com>, Eric Dumazet <edumazet@google.com>, Jakub
- Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Miri Korenblit
-	<miriam.rachel.korenblit@intel.com>, Kalle Valo <kvalo@kernel.org>, Mahesh J
- Salgaonkar <mahesh@linux.ibm.com>, Oliver O'Halloran <oohall@gmail.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>, Matthias Brugger
-	<matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, JC Kuo <jckuo@nvidia.com>, Andrew
- Lunn <andrew@lunn.ch>, Gregory Clement <gregory.clement@bootlin.com>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Sebastian Reichel
-	<sre@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui
-	<rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, Thinh Nguyen
-	<Thinh.Nguyen@synopsys.com>, Helge Deller <deller@gmx.de>, Brian Foster
-	<bfoster@redhat.com>, Tejun Heo <tj@kernel.org>, Zefan Li
-	<lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>, Peter
- Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, Vincent
- Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann
-	<dietmar.eggemann@arm.com>, Ben Segall <bsegall@google.com>, Mel Gorman
-	<mgorman@suse.de>, Daniel Bristot de Oliveira <bristot@redhat.com>, Valentin
- Schneider <vschneid@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Jason Baron
-	<jbaron@akamai.com>, Jim Cromie <jim.cromie@gmail.com>, Paul Moore
-	<paul@paul-moore.com>, James Morris <jmorris@namei.org>, "Serge E. Hallyn"
-	<serge@hallyn.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, Clemens
- Ladisch <clemens@ladisch.de>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
-	<tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>, Linus Torvalds
-	<torvalds@linux-foundation.org>
-References: <20240603211538.289765-1-andriy.shevchenko@linux.intel.com>
-From: Zhihao Cheng <chengzhihao1@huawei.com>
-Message-ID: <a6cff4d3-821a-3723-b261-3699053b5a51@huawei.com>
-Date: Tue, 4 Jun 2024 09:37:50 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+	s=arc-20240116; t=1717469485; c=relaxed/simple;
+	bh=N4CGRykcSuy8sR3NV3b+z8Uf6TIo+M6im/0peiKKlac=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:CC:References:
+	 In-Reply-To:Content-Type; b=e0BfA3rMwRKTR7qYztUCQmAQM6jeImeqRmquXJBPFs3ooekpOO6pPQ3q01guCH1B8j6Ds6On3clLYzS6H+MLYknzzWPCTuMbF7GxiIMo/zLYXDtznpjrSURZIM9qOKJ2R5xXr8cdoB/Q4yrkby2hqKcYKRj/7JXiGz3LXbrWO2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Lb25+Zuk; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Lb25+Zuk"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4542b0jD009078;
+	Tue, 4 Jun 2024 02:51:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	G5C+706ERu4s7YE/qCqYJJqXxfAsgaus4topjHwlFcA=; b=Lb25+ZukmjCmQJxC
+	JgI78yllcB0C2rtqVbLIK9t2jLjkHld6uu6QAg6NYh0WjbG5+7J5FJ1sTKikWfwi
+	UrXiWvIsWpTuyc14d46eFTkDnztGsSTnuWqgnVGSsHWQ988yfT3tCyjT7PEt4yr8
+	zERp6E9/hY1SkFviVpO8ZammtrpyxmQK7/eyWaROWSU+U/YRes0w3B947oOq530X
+	4JG5ohTi3CdAr32SGD1aI4L+vzLy2CVa7mLLUROr4i+jjwac6vBn8yCcxBBSXlKj
+	djBb4tUoLfse9/kajAF7r1Gm1tVh5krOlR08LnoII5/+rt/CsrKAPrkbWDKnc1XG
+	coxL5g==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yfw7dnhpu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 04 Jun 2024 02:51:14 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 4542pDCD021127
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 4 Jun 2024 02:51:13 GMT
+Received: from [10.48.241.139] (10.49.16.6) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 3 Jun 2024
+ 19:51:13 -0700
+Message-ID: <9d9de724-2a2b-4bff-a6cb-259fe99b676b@quicinc.com>
+Date: Mon, 3 Jun 2024 19:51:12 -0700
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20240603211538.289765-1-andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset="gbk"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- kwepemm600013.china.huawei.com (7.193.23.68)
+User-Agent: Mozilla Thunderbird
+Subject: Re: Can someone add missing MODULE_DESCRIPTION()s to
+ drivers/clk/sunxi-ng
+Content-Language: en-US
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+To: <linux-sunxi@lists.linux.dev>
+CC: Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd
+	<sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec
+	<jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>
+References: <2662bdb1-2396-49df-a0b1-e4648ce1aed4@quicinc.com>
+In-Reply-To: <2662bdb1-2396-49df-a0b1-e4648ce1aed4@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: EVceUz9bKAWM3k-MExAUBFxYhMmycWHS
+X-Proofpoint-GUID: EVceUz9bKAWM3k-MExAUBFxYhMmycWHS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
+ definitions=2024-06-03_17,2024-05-30_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ mlxlogscore=556 impostorscore=0 malwarescore=0 phishscore=0 adultscore=0
+ clxscore=1015 bulkscore=0 priorityscore=1501 lowpriorityscore=0
+ spamscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2406040022
 
-ÔÚ 2024/6/2 23:57, Andy Shevchenko Ð´µÀ:
-> Make two APIs look similar. Hence convert match_string() to be
-> a 2-argument macro. In order to avoid unneeded churn, convert
-> all users as well. There is no functional change intended.
+On 5/27/2024 1:00 PM, Jeff Johnson wrote:
+> 'make W=1' causes modpost to warn if a module doesn't have a 
+> MODULE_DESCRIPTION(). I've been slowly cleaning up these warnings tree-wide, 
+> but there are a large number in drivers/clk/sunxi-ng that I'd prefer that the 
+> domain experts fix.
 > 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
-> 
-> Compile tested with `make allyesconfig` and `make allmodconfig`
-> on x86_64, arm, aarch64, powerpc64 (8 builds total).
-> 
+> Can someone drive that cleanup?
 
-[...]
-> diff --git a/fs/ubifs/auth.c b/fs/ubifs/auth.c
-> index a4a0158f712d..fc0da18bfa65 100644
-> --- a/fs/ubifs/auth.c
-> +++ b/fs/ubifs/auth.c
-> @@ -264,13 +264,13 @@ int ubifs_init_authentication(struct ubifs_info *c)
->   		return -EINVAL;
->   	}
->   
-> -	c->auth_hash_algo = match_string(hash_algo_name, HASH_ALGO__LAST,
-> -					 c->auth_hash_name);
-> -	if ((int)c->auth_hash_algo < 0) {
-> +	err = __match_string(hash_algo_name, HASH_ALGO__LAST, c->auth_hash_name);
-> +	if (err < 0) {
->   		ubifs_err(c, "Unknown hash algo %s specified",
->   			  c->auth_hash_name);
-> -		return -EINVAL;
-> +		return err;
->   	}
-> +	c->auth_hash_algo = err;
->   
->   	snprintf(hmac_name, CRYPTO_MAX_ALG_NAME, "hmac(%s)",
->   		 c->auth_hash_name);
+Since there was no response, and since these are the last instances in
+drivers/clk, I'll clean them.
 
-Reviewed-by: Zhihao Cheng <chengzhihao1@huawei.com>  # fs/ubifs
+> 
+> /jeff
+> 
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sunxi-ccu.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/suniv-f1c100s-ccu.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun20i-d1-ccu.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun20i-d1-r-ccu.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-a64-ccu.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-a100-ccu.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-a100-r-ccu.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-h6-ccu.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-h6-r-ccu.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-h616-ccu.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun4i-a10-ccu.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun6i-a31-ccu.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun6i-rtc-ccu.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-a23-ccu.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-a33-ccu.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-a83t-ccu.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-h3-ccu.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-r40-ccu.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-v3s-ccu.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-de2-ccu.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-r-ccu.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-ccu.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-de-ccu.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-usb-ccu.o
+
