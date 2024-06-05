@@ -1,64 +1,67 @@
-Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
+Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4FE3195392
-	for <linux-sunxi@lists.linux.dev>; Wed,  5 Jun 2024 18:00:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B023B13CF82
+	for <linux-sunxi@lists.linux.dev>; Wed,  5 Jun 2024 18:00:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717610403; cv=none; b=d0bXth+OkyxG9cSXK0Vzoic5ibzG3zGrkNIq9Nd6ynm8iY37w2AZoXG9g5SYQvDpbCwl1kzxIVjUChBUdBkFOIeutrQt7jw54h5nnOWDPxmWERytaFaGKD5F1gpLebSTJvSZZbr7Ys86rU6eD92odqeVvdG8XinFOsvWf6DNShk=
+	t=1717610407; cv=none; b=a+clFgJ+5pONmqqOeIS5+fil1feuxlytllLvycFgrN3WKy0zgR7DpSznmadXzlq6+6z2647GTBZcRFYejgFvRpaZQVux3B7k3cDS1QjbAZNc2R/hTJ2/ubKPIIdkC/x/o0pqG+f00HzSiwgRcDIZPGo7F0UVRYFa+SPq5PyGMhY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717610403; c=relaxed/simple;
-	bh=BxoABlKvJef+pUpKvjxVkdFoF53gAB3xVu8cHZaGBrk=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=cjqV0xlYzJz0shcHaG4wB/mj046CBbbO7Sei/RPk+xRvHoY91gXNkbz/Q5HRGyuk6d33102uiKL+lvHDhNOqKKE3nl/KIDnK6nR/SQKetggYl3k2JYrwF7XfOPGercNGfpwSIDI/sZmPVDM7LAp9+Fzeul0xoYVwTiThi1znrtw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--joychakr.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=LjZtbqe7; arc=none smtp.client-ip=209.85.128.202
+	s=arc-20240116; t=1717610407; c=relaxed/simple;
+	bh=ipr39Oe7qflzshs+uqKeD5dsLOI2DywzVbGtmwc3XF4=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=JUQPpxuQry8lRgbAkyZixMS8fgvYyLblUROg8WF7W1ezKR05sw12CQEKslUgthtKTQ2GW/qRIl/kF6ndpBPPAVdyH9txNcsZ0T5Tr4xTb2DDDEo8VfJx+cSxW/PdC7FuN7UQhMb6zApQnTEkZclcq8ovIY6+7lMfQBA3WHpvPFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--joychakr.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=hCxw2R6F; arc=none smtp.client-ip=209.85.219.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--joychakr.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="LjZtbqe7"
-Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-62a089511f9so15297987b3.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 05 Jun 2024 11:00:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hCxw2R6F"
+Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-df7a6530373so127536276.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 05 Jun 2024 11:00:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1717610401; x=1718215201; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=w5RPl7PD7LMs1k1njsQ/RXiUssQb7CTl+XBmOvI3R5A=;
-        b=LjZtbqe7Mbu7hsag8TTaSLmfUgsd0P5tcog+0k8DymVSjQTaWlGyyqQL9biPJF2R6Z
-         MDI/d6AMyH44io8jKhdKHPzmrNi8Wr8AS+ZRIc3hthACL9cbqswrNZKbfGxOFmkBDRhL
-         Z3KXz3l/da1lA3RF2pS5gViZ3Gmy/WsE40kaYwwUPj5P8JGrkPJAKY1r9M5QNPwwtqYT
-         8xU/007IDjBSnDG5MQnO0bUkyHjPlOyAmE4gaXV/n4bC8hudhoMAI8K2ADiL3gCDTeYC
-         uSrMv6TbjESQiqprd8Z7gfhX9xcutMBBgVAksBG25Tv9/kg5Uf54lgs4Rd0ikEPMaF8Q
-         9Tcg==
+        d=google.com; s=20230601; t=1717610405; x=1718215205; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=nEr10taYCu3WGRiwn+CGqfggqJNbp7A+We0V3ygommI=;
+        b=hCxw2R6FxizcfkItxB44DQddshKQTRpEACLXB78H7DqdH61MBh/xB+tsNSPm7HqZ8P
+         3UjQlUmjW1lF1sDVZx4IqRZ8lalSxm3JFtA6yqFf9AqCRJZHLzhuqnGmypa4sr+MiR7l
+         Ebo2nYM3hsPIBZCi7RTUi4pe7lAKj8CJnDMOmyKJTbV84HtPDH37vPESI874OpuLk8Ch
+         ihg7sIsY/zRcTUKh3v/AyvJD5iELUs7bpAC41P7IiJIXZL4oOUt2gREyxbZLQ8EIGFq1
+         oc8nfTBoEjH1clLevCDYSYAPpfN/ViHI3Kgb8Cqjcwjf3YO0Bxn97jRPhaQw7jvxT1bW
+         3ZHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717610401; x=1718215201;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=w5RPl7PD7LMs1k1njsQ/RXiUssQb7CTl+XBmOvI3R5A=;
-        b=D7879jrzPfra08yVgUODK07K5C09puVQFTsZwklXv/P7ML273m12ktincrPszEnHkb
-         GXQZX+AgXnCauic+2nhVOIwXbmnsGHwZPKdZYBC5o0IoLlAM9OtbH2ekWlA6ndx3s/d6
-         Czdtii0zo8O+PT4fjpsBmuuCidb5ktawepe2hJ+yNNhb2jQQv+ZVXCivk6/PJQfJuhWa
-         y400DxGmNi4NrbJJ/qOcM028f9VskmQlGWDS4OxmmaXU8JmqTRGwmH071L0Uxur0MwN6
-         /ByMrEXpkH+V2mD2bArp9tPV45VIprlxRsZHIIcDhM31QEkCTuh66pdAHh13qpkg97IU
-         CrvQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW47SGCap0U5NUglYUMzNFLYlUK6DAf9OmWOJdErfMEE6vf4CPN9K+W+WWyT2Lu6/tQRIc5gMhcMwmSuxWS7dE2ngEIp8cFVdqXM0o=
-X-Gm-Message-State: AOJu0YygwYylArbxirMo5Ioy9rq0WKOsFR/0rUkopk7IdnneuJxevZZO
-	MO6cR6y1B6ymBVKLFkcAVCeXFiE+2FGklx1iczVxvntHtiEzRyUvCV5aukDrllVP161YvpgYK1a
-	IbxX5HpEQKw==
-X-Google-Smtp-Source: AGHT+IE3beT3+LJiyuyeey70O4vTmt9cNoEU8h7bwGC3fodiNqs+98CXh8Kyq/MReppn/4vWIwzPR7Cf0wAFHw==
+        d=1e100.net; s=20230601; t=1717610405; x=1718215205;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nEr10taYCu3WGRiwn+CGqfggqJNbp7A+We0V3ygommI=;
+        b=K8zjyvNfwcx84C8ePNkDmzJp1813ePNXxIo38JwaqGhqnqlccTojpLzPPTkCS4pOCQ
+         fUdaIjmu67tZuR+9Ls80ZrmExislMBL+FIB9lrIVbeRz2aUovodyosixjByMy0kiANnZ
+         vEAGtzfN3gyDaznIq0XDzLyN1FgYEuENa+W+H9j25hojrO0UrseyOMH96wzNR+arG0S7
+         q5sCG1q7u8mM0ZXyLe5NzfoOvYVivPBF+wPlEJYHM2cOmMzJtgmPw7qcJi1Ge87JFEMK
+         kwHuEJnd937i4/Sw8blf8sGPGRgPbgZ1eXQkWXnxjKw3aMytj0EuWG6ZJB8lj2zC+DAd
+         4qHA==
+X-Forwarded-Encrypted: i=1; AJvYcCXmT8BFwROvb8hyUyMSrcBEwazuD82IhPLXTqxqOZ6zoHawkb1aPiAyKKxiRCGIdX4JlyZ+4ZezSmXz0rozrlNlJ9jXkhTvbeYHGkI=
+X-Gm-Message-State: AOJu0Ywkpu4HjNIPdx71FZ6MJhmv436/mM71cQ8UUNemU8/Is3LhlKy6
+	I9gXbi9bqfXD+SRv9QTRyS+5bsGA4RaiCkDP9WDdIdsuYhIMJLfcrA9LnxueKwu0+gM4BSuRX6h
+	yNU5vRTWvDg==
+X-Google-Smtp-Source: AGHT+IEFfd1XOUpmBlCQ8OC96XaGHvsQJFoGDWo7KSg31aa/FmwG5qSwwUZMqSajPkXkOc1t6VuaS9UByNrZ0g==
 X-Received: from joychakr.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:6ea])
- (user=joychakr job=sendgmr) by 2002:a05:6902:987:b0:dfa:7552:e09e with SMTP
- id 3f1490d57ef6-dfade7e34cbmr71646276.0.1717610400689; Wed, 05 Jun 2024
- 11:00:00 -0700 (PDT)
-Date: Wed,  5 Jun 2024 17:59:44 +0000
+ (user=joychakr job=sendgmr) by 2002:a25:dfd5:0:b0:df4:eb0b:8fd with SMTP id
+ 3f1490d57ef6-dfade9e0f4dmr76066276.2.1717610404805; Wed, 05 Jun 2024 11:00:04
+ -0700 (PDT)
+Date: Wed,  5 Jun 2024 17:59:45 +0000
+In-Reply-To: <20240605175953.2613260-1-joychakr@google.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
+References: <20240605175953.2613260-1-joychakr@google.com>
 X-Mailer: git-send-email 2.45.1.467.gbab1589fc0-goog
-Message-ID: <20240605175953.2613260-1-joychakr@google.com>
-Subject: [PATCH v1 00/17] nvmem: Handle change of return type in
- reg_read/write() definition
+Message-ID: <20240605175953.2613260-2-joychakr@google.com>
+Subject: [PATCH v1 01/17] hwmon: pmbus: adm1266: Change nvmem reg_read/write
+ return type
 From: Joy Chakraborty <joychakr@google.com>
 To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -77,85 +80,35 @@ Cc: linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
 	Joy Chakraborty <joychakr@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-This patch series facilitates compilation post the change in definition
-of nvmem_reg_read_t and nvmem_reg_write_t callback in
-https://lore.kernel.org/all/171751721565.70889.16944298203785853489.b4-ty@linaro.org/
+Change nvmem read/write function definition return type to ssize_t.
 
-Currently the nvmem core change is picked on
-https://git.kernel.org/pub/scm/linux/kernel/git/srini/nvmem.git/log/?h=for-next
-
+Signed-off-by: Joy Chakraborty <joychakr@google.com>
 ---
-V1 Changes : Change read/write return type to ssize_t and handle
-relevant logic changes
----
+ drivers/hwmon/pmbus/adm1266.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Joy Chakraborty (17):
-  hwmon: pmbus: adm1266: Change nvmem reg_read/write return type
-  media: i2c: ov2740: Change nvmem reg_read/write return type
-  media: i2c: video-i2c: Change nvmem reg_read/write return type
-  iio: pressure: bmp280: Change nvmem reg_read/write return type
-  misc: ds1682: Change nvmem reg_read/write return type
-  misc: eeprom: at24: Change nvmem reg_read/write return type
-  misc: eeprom: at25: Change nvmem reg_read/write return type
-  misc: eeprom: 93xx46: Change nvmem reg_read/write return type
-  misc: mchp_pci1xxxx: Change nvmem reg_read/write return type
-  mtd: core: Change nvmem reg_read/write return type
-  mtd: ubi: nvmem: Change nvmem reg_read/write return type
-  soc: atmel: sfr: Change nvmem reg_read/write return type
-  w1: slaves: w1_ds250x: Change nvmem reg_read/write return type
-  thunderbolt: switch: Change nvmem reg_read/write return type
-  thunderbolt: retimer: Change nvmem reg_read/write return type
-  soc: tegra: fuse: Change nvmem reg_read/write return type
-  rtc: Change nvmem reg_read/write return type
-
- drivers/hwmon/pmbus/adm1266.c                 |  4 +-
- drivers/iio/pressure/bmp280-core.c            | 14 ++++---
- drivers/media/i2c/ov2740.c                    |  6 +--
- drivers/media/i2c/video-i2c.c                 |  9 +++--
- drivers/misc/ds1682.c                         | 16 +++-----
- drivers/misc/eeprom/at24.c                    | 10 +++--
- drivers/misc/eeprom/at25.c                    | 11 +++---
- drivers/misc/eeprom/eeprom_93xx46.c           | 12 +++---
- .../misc/mchp_pci1xxxx/mchp_pci1xxxx_otpe2p.c | 16 ++++----
- drivers/mtd/mtdcore.c                         | 18 ++++-----
- drivers/mtd/ubi/nvmem.c                       |  6 +--
- drivers/rtc/rtc-abx80x.c                      | 15 +++----
- drivers/rtc/rtc-cmos.c                        |  8 ++--
- drivers/rtc/rtc-ds1305.c                      | 18 ++++++---
- drivers/rtc/rtc-ds1307.c                      | 22 +++++++----
- drivers/rtc/rtc-ds1343.c                      | 18 ++++++---
- drivers/rtc/rtc-ds1511.c                      | 12 +++---
- drivers/rtc/rtc-ds1553.c                      | 14 ++++---
- drivers/rtc/rtc-ds1685.c                      | 14 ++++---
- drivers/rtc/rtc-ds1742.c                      | 14 ++++---
- drivers/rtc/rtc-ds3232.c                      | 22 +++++++----
- drivers/rtc/rtc-isl12026.c                    | 12 +++---
- drivers/rtc/rtc-isl1208.c                     |  8 ++--
- drivers/rtc/rtc-m48t59.c                      | 12 +++---
- drivers/rtc/rtc-m48t86.c                      | 12 +++---
- drivers/rtc/rtc-max31335.c                    | 18 ++++++---
- drivers/rtc/rtc-meson.c                       | 18 ++++++---
- drivers/rtc/rtc-omap.c                        | 12 +++---
- drivers/rtc/rtc-pcf2127.c                     | 20 ++++++----
- drivers/rtc/rtc-pcf85063.c                    | 20 +++++++---
- drivers/rtc/rtc-pcf85363.c                    | 39 ++++++++++++-------
- drivers/rtc/rtc-rp5c01.c                      | 14 ++++---
- drivers/rtc/rtc-rv3028.c                      | 32 +++++++++------
- drivers/rtc/rtc-rv3029c2.c                    | 20 +++++++---
- drivers/rtc/rtc-rv3032.c                      | 24 ++++++++----
- drivers/rtc/rtc-rv8803.c                      | 16 +++++---
- drivers/rtc/rtc-rx8581.c                      | 39 ++++++++++++-------
- drivers/rtc/rtc-stk17ta8.c                    | 14 ++++---
- drivers/rtc/rtc-sun6i.c                       |  8 ++--
- drivers/rtc/rtc-ti-k3.c                       | 16 +++++---
- drivers/rtc/rtc-twl.c                         | 20 +++++++---
- drivers/soc/atmel/sfr.c                       | 11 ++++--
- drivers/soc/tegra/fuse/fuse-tegra.c           |  6 +--
- drivers/thunderbolt/retimer.c                 |  8 ++--
- drivers/thunderbolt/switch.c                  |  8 ++--
- drivers/w1/slaves/w1_ds250x.c                 |  4 +-
- 46 files changed, 408 insertions(+), 282 deletions(-)
-
+diff --git a/drivers/hwmon/pmbus/adm1266.c b/drivers/hwmon/pmbus/adm1266.c
+index 2c4d94cc8729..7eaab5a7b04c 100644
+--- a/drivers/hwmon/pmbus/adm1266.c
++++ b/drivers/hwmon/pmbus/adm1266.c
+@@ -375,7 +375,7 @@ static int adm1266_nvmem_read_blackbox(struct adm1266_data *data, u8 *read_buff)
+ 	return 0;
+ }
+ 
+-static int adm1266_nvmem_read(void *priv, unsigned int offset, void *val, size_t bytes)
++static ssize_t adm1266_nvmem_read(void *priv, unsigned int offset, void *val, size_t bytes)
+ {
+ 	struct adm1266_data *data = priv;
+ 	int ret;
+@@ -395,7 +395,7 @@ static int adm1266_nvmem_read(void *priv, unsigned int offset, void *val, size_t
+ 
+ 	memcpy(val, data->dev_mem + offset, bytes);
+ 
+-	return 0;
++	return bytes;
+ }
+ 
+ static int adm1266_config_nvmem(struct adm1266_data *data)
 -- 
 2.45.1.467.gbab1589fc0-goog
 
