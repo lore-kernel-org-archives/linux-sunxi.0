@@ -1,55 +1,55 @@
 Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D17514EC40
-	for <linux-sunxi@lists.linux.dev>; Wed,  5 Jun 2024 18:02:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 443AF14F119
+	for <linux-sunxi@lists.linux.dev>; Wed,  5 Jun 2024 18:02:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717610576; cv=none; b=YEoaIBsk2/sqhfzRGYwx1Pvj2d1wNAoj+TPS1mbsP3NLhqOxW5ELu1Zkf9EhETgw2kmuyglRb6HN1PDhT/UVACLrNo9ZdfSZbcvEILP+w2fmBEGs+MNTmKnLmNWMimEmQOTY+4OWTBjHH2aBI/a9n87U3sDbp4IJ4cIFz1IczYY=
+	t=1717610579; cv=none; b=g/NuZvNjWIX/I8vcIgJAnJkj6G2Q8bXctZTSIg+p5tUVbjdSmF05uDX/zUR8zPBQz5yOVEcjpx/BC16HIIKYIlNpzJh76s0sx6VJqWmoa7kSNJokwEkZ1OVHcHhCSexYRyik1PKKNUg15vrVMfglckurlGokju3nN/g5gvm0iTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717610576; c=relaxed/simple;
-	bh=3NTGVyytdVyzcHP8txKlFB9YPPGxIJEVxCzu2cUQr1M=;
+	s=arc-20240116; t=1717610579; c=relaxed/simple;
+	bh=F7v/jReeX3F7roR5IktBU242vDNjjn7EqsY7CVC37N0=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=Dag2uR8H+wdjd0vwMIkPD0rqYnhw+abwUeh1s+0/uFnnyIYN6cd/n36NLEJxI812JobDJodPJZETsdPCxd6AB7kfYAmKA2DZCSx0EytbvrZM1jocAO5uyWZ9yl9xN03CYrmNaOmkJKYMJfcDv8017y2h7RrklKPyW5W+hKLT1vM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--joychakr.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XPvNKDl0; arc=none smtp.client-ip=209.85.128.202
+	 To:Cc:Content-Type; b=emfXyFEZp9+fqtVFk2HX3BVvHDztw72sS5uDHGW3ZOlZJbjJwU91thr0bsM44WkY4EQoovBTXWLlEmoC9n7kkJUNqMXiuenXmm8AgDzynDh1bqbxzkPkixBSbJpQDsizgKc0UPuSc+/P6mkTip2Kkwc5zYv3j4YDfHd2+SSMqO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--joychakr.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=oH0sBBpN; arc=none smtp.client-ip=209.85.128.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--joychakr.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XPvNKDl0"
-Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-627eb3fb46cso320847b3.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 05 Jun 2024 11:02:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="oH0sBBpN"
+Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-62a50486746so240737b3.3
+        for <linux-sunxi@lists.linux.dev>; Wed, 05 Jun 2024 11:02:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1717610573; x=1718215373; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1717610577; x=1718215377; darn=lists.linux.dev;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qDI8h7ZoQYy75CqD6I2McYIto2hpIA5emU6fq1I3LPI=;
-        b=XPvNKDl0wpIZcbC3m1xCsH1bUQ4fdImvY3au6wOJ892aQEL1P3ZTjPAA9vLMtwl7To
-         Ex0pt6+9vLeTYxqrkVTI7VIYTS5ZXUgRLQHSIyffR5ckQQtzNGzWYfPzQfdJckGuEy8I
-         ZnLk4DfDltR9MaxxGpHFQxsK2opH7FX7Vzhf0UOykprsLgy8KE7BGVMq1LsPDOQ+JYlr
-         B2kEXnvPIrCAAWAyUx19hQe7ymAyvTk+K62Vw531lIvCFdHFjPUknymwKild6qL2T25P
-         b0OysD9DvnjQg1vccanQMHHPvSJUJVaGeNYkVeFAG0juKfAX9E5NAqqf9C6DKL5k62cf
-         m7oQ==
+        bh=gIyLXo+tPpGJoYrLFVnPX7LJcwSjEvXHtDXEdVowSIA=;
+        b=oH0sBBpNIln0tmm/giN9XA+/tCwR68A+/S4ZSITbz4wStwz50y44qETc1PE8epvXkn
+         b8R2RUlQhM835DQl5eFXn2gN+bnmB5VmoCLQZY2wD5UQ7+YEwDmn8Oy+iHXz44uEfi9v
+         r1oAiw4ShD+NrXkQEu3/g111XEOhp7JC5xZW28Rvs7d3tZpvgVe/hv5Y8lIAp0Nw5AIP
+         k8NAFPhtql4x6pB3316NZbFdPUI6xSeXcVr5oHQrtsuoME6UYJsnYbru+PG5Yz5TCSos
+         eeMxppm7ZSMLUHrhkJt6bPnhNtzd9zWIhlMIJf68ULUgiA3KucysN+sUI0tQ8ajptgk8
+         hRvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717610573; x=1718215373;
+        d=1e100.net; s=20230601; t=1717610577; x=1718215377;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qDI8h7ZoQYy75CqD6I2McYIto2hpIA5emU6fq1I3LPI=;
-        b=MPKb//Kmehi0UxybeXKpQlvZ3ea0fz2vRNEtSCmKbivFSGiqfPA43GGEK9xhkzmDL1
-         GS+VAM8CZ3tG5tvardkS1YmKOcCKAPf/4rysPmVRw79TNfOCjrITIKp4pDvBDpG4gRU6
-         R7NP+boIkue/2gOasTMwXMsg9Xadn1qGVnxS/b/RKufmHtx+XtuJW4C5NJe6NOQy+Z9u
-         /tgqWlru1XyJbEdZv8KEm3yFpe3CcQYBl1VGYiTk+k+xEYHFeO+nzM/qKdA6eHnvS53g
-         iQGXIssSd9fX22PAv05PVW0TgKmtubLUsfb88CZqN8yGVe6CBjsIUOR45QF/EYm906dH
-         cW+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXdtX34mCWQaPss8Tmd/qNZTSCWQdwEtDuddwWz8CE7E/ryS+CQFlNY8GrMXGYKhDQRR4X66dMWSd5e5PuYi0cB56yST8mS4nkW/pE=
-X-Gm-Message-State: AOJu0Yw3epOziKvbVqrlCmdpyacdP65nFDb6rG5JguDbeM+1hTNkl8qx
-	/gY8jgX+leqt57sTK0PIZvhQNsVnONyQPCGP2jKvlHv6vEDrgHR4mUrDjsviAVkux2iy8UyDsiQ
-	ldSeuGZMvwg==
-X-Google-Smtp-Source: AGHT+IHsHtY+bAgPNOkcmVi64EeRKQimO371NMHALyHppPPqEXYX97pSerbED4x3JFp6tor3148MLJe9OAqS8w==
+        bh=gIyLXo+tPpGJoYrLFVnPX7LJcwSjEvXHtDXEdVowSIA=;
+        b=I9utxnB5HemOcXrAJi0vGrktJGG+fLCPyG6TTcjL1HM8c1P4ivT8aSUI9HMh3/GVD1
+         6WxI+7VItKwAHqD1iaFpm1HG4oOw8P9uTfMD159HTIUuA5K5hBTe27SRW1Rw4AsWXHP2
+         HHM9EzIFSUGt7qhKhkaJbgeXZt48UwNy4oLlp/fbrvYUWuRQwo5lDJb2s+CTV9IAzI4S
+         KhgasMYqfzHrI10jfzryA9AC9w1Tn9Nb+P4OhycfZVuB5sReeX3Cg54ZXFsn/xCSWXgL
+         FUPV7JABZmnvTm6RR9JncYXMv0rYi0gvPtIas8/cGCxDzr8D39cZ4VEV7/liNdn/whEt
+         znVg==
+X-Forwarded-Encrypted: i=1; AJvYcCWDmfCgpkTu8E8tPNg3XuXxBmNZU9CDcjDZtOy7oTjkpmtsnu1zR9aLIdorSg9+vTnKLKCrx0sEtI7B+rSFwv9B2FReFPxPgLByEfc=
+X-Gm-Message-State: AOJu0Yy29w+GtsipLDutR0xKIMpTbxzLJ92k2zK1DbFSQrVfHfAl+8jj
+	Q3iRqOv9f0t+1X/boc2EkVyhVrv12UBjCEBoc59+6/8UUVnhvKq9PYED/iXYkfsAgZ70cGbw1e6
+	LSRa0st/1kg==
+X-Google-Smtp-Source: AGHT+IHG2azfatKIs/LKs8bXyfwjNeJAhdZhoJHXxOf8ZfbWIWN9yiXy7wSmGDJ/xHP8XZ6qdqs5ZKpzypDE7g==
 X-Received: from joychakr.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:6ea])
- (user=joychakr job=sendgmr) by 2002:a05:690c:39c:b0:627:96bd:b2b with SMTP id
- 00721157ae682-62cbb596fc6mr8780427b3.6.1717610573043; Wed, 05 Jun 2024
- 11:02:53 -0700 (PDT)
-Date: Wed,  5 Jun 2024 18:02:33 +0000
+ (user=joychakr job=sendgmr) by 2002:a05:690c:887:b0:62c:35fd:678b with SMTP
+ id 00721157ae682-62cbb5ab5a2mr4622397b3.8.1717610577229; Wed, 05 Jun 2024
+ 11:02:57 -0700 (PDT)
+Date: Wed,  5 Jun 2024 18:02:34 +0000
 In-Reply-To: <20240605180238.2617808-1-joychakr@google.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -59,8 +59,9 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20240605180238.2617808-1-joychakr@google.com>
 X-Mailer: git-send-email 2.45.1.467.gbab1589fc0-goog
-Message-ID: <20240605180238.2617808-3-joychakr@google.com>
-Subject: [PATCH v1 12/17] soc: atmel: sfr: Change nvmem reg_read/write return type
+Message-ID: <20240605180238.2617808-4-joychakr@google.com>
+Subject: [PATCH v1 13/17] w1: slaves: w1_ds250x: Change nvmem reg_read/write
+ return type
 From: Joy Chakraborty <joychakr@google.com>
 To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -83,34 +84,31 @@ Change nvmem read/write function definition return type to ssize_t.
 
 Signed-off-by: Joy Chakraborty <joychakr@google.com>
 ---
- drivers/soc/atmel/sfr.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ drivers/w1/slaves/w1_ds250x.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/soc/atmel/sfr.c b/drivers/soc/atmel/sfr.c
-index cc94ca1b494c..c1c8e59cf6fc 100644
---- a/drivers/soc/atmel/sfr.c
-+++ b/drivers/soc/atmel/sfr.c
-@@ -20,13 +20,16 @@ struct atmel_sfr_priv {
- 	struct regmap			*regmap;
- };
- 
--static int atmel_sfr_read(void *context, unsigned int offset,
--			  void *buf, size_t bytes)
-+static ssize_t atmel_sfr_read(void *context, unsigned int offset,
-+			      void *buf, size_t bytes)
- {
- 	struct atmel_sfr_priv *priv = context;
-+	int ret;
-+
-+	ret = regmap_bulk_read(priv->regmap, SFR_SN0 + offset,
-+			       buf, bytes / 4);
- 
--	return regmap_bulk_read(priv->regmap, SFR_SN0 + offset,
--				buf, bytes / 4);
-+	return ret < 0 ? ret : bytes;
+diff --git a/drivers/w1/slaves/w1_ds250x.c b/drivers/w1/slaves/w1_ds250x.c
+index cb426f7dd23d..369de01cd84b 100644
+--- a/drivers/w1/slaves/w1_ds250x.c
++++ b/drivers/w1/slaves/w1_ds250x.c
+@@ -137,7 +137,7 @@ static int w1_ds2505_read_page(struct w1_slave *sl, int pageno)
+ 	return ret;
  }
  
- static struct nvmem_config atmel_sfr_nvmem_config = {
+-static int w1_nvmem_read(void *priv, unsigned int off, void *buf, size_t count)
++static ssize_t w1_nvmem_read(void *priv, unsigned int off, void *buf, size_t count)
+ {
+ 	struct w1_slave *sl = priv;
+ 	struct w1_eprom_data *data = sl->family_data;
+@@ -159,7 +159,7 @@ static int w1_nvmem_read(void *priv, unsigned int off, void *buf, size_t count)
+ 	} while (i < OFF2PG(off + count));
+ 
+ 	memcpy(buf, &data->eprom[off], count);
+-	return 0;
++	return count;
+ }
+ 
+ static int w1_eprom_add_slave(struct w1_slave *sl)
 -- 
 2.45.1.467.gbab1589fc0-goog
 
