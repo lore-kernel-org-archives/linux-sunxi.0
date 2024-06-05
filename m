@@ -1,54 +1,54 @@
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
+Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E5B7433A6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BC692770E
 	for <linux-sunxi@lists.linux.dev>; Wed,  5 Jun 2024 17:20:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717608057; cv=none; b=la220REEWjM8g4xJiUOslzH5A3hPhNs4zrcWWdLczBOVs5nbxYFw3F+2IOOoJo2q+AbgMSIYtV9kD3NGBDnM4GIvARLWzSn0hGKXc12sc5SZK/VH6CITI/LNhsh6V0uREaONpzbHYGcGAp3qS4kHtLKS81VSYIzi75qtdTswoMA=
+	t=1717608058; cv=none; b=EyK3Jki8dLfjG+Tcwj9Lp+pjFC1c2ACjkG0DbEkL0j6dEmHHKfgrDeZm+0z2cCoSy3obOfObJGaZvELFVqcxSGFTWRJTvZ0/6hZDTeg0hs+/SuxsILPenW9W0QPxsdu7tnK26jd023hr0hEU8D2Lpa47XCBllQzfmZBem++tekQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717608057; c=relaxed/simple;
-	bh=cBU3yekOXtlhNWdWpyG2xf0kFZVmOK5W2mTTLEsUAFk=;
+	s=arc-20240116; t=1717608058; c=relaxed/simple;
+	bh=lcvuYe7GeCU9jXQJtaC1ntbheOmI8WkJcC1aR3hKv2U=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=VxVvclttY1CUBZpmdZj8PCuJv4rn6aPpBnvc0yWVs+egBRGJYhaBFEG0RkEKz5FLdC8u8gNVv2lhemthMJmgFGjzMH+VkqP2+JnvvVL4FmNRRk75e8ITpGR8z2vmY1FPjyI24/A8E7G2cD+A9vTQjKVwgCxPPv1Qy0vzXxHA9B0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nkEXwVGS; arc=none smtp.client-ip=209.85.161.52
+	 MIME-Version; b=kTepLfs6QF8mN5x7opZLYZS7FTFvbC0k1ywUzGtOwqoJFjwwLTXMMmhZfiNesc21ajRSxeWsRnZT3430iMiCMEFn/xQLpNZIuONU1brXkuaBaKlwk+cQWp19bzKF3MW373qOP7JSuK99tNTUzcXWjbeR5bbhhde/Jyf5bwwe1ss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YOZ7yJSA; arc=none smtp.client-ip=209.85.161.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nkEXwVGS"
-Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-5ba33b08550so2321196eaf.2
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YOZ7yJSA"
+Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-5ba6dd7b976so145004eaf.1
         for <linux-sunxi@lists.linux.dev>; Wed, 05 Jun 2024 10:20:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717608055; x=1718212855; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1717608056; x=1718212856; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=iycGYFzd3F+df0p/qsCILVl1cIBvCeHnsWMgOkKCQP4=;
-        b=nkEXwVGSktYOomjGBPMGlj/NXHzKz22q9/8GUwym6y8a/WwKHFO7MLFeCJxNnkytAT
-         I3y7j27khO2MjpU2oqTfOwLUP44uawoOxM6Hz5yZOKFf85z8AZe/WLFBzRwIllk5hdc4
-         qQW8u78PfUK8bsaK2yh7GxXY/NuYudzfkpu2p6jpQ5FsN58amXe7AuY+jcvyqDcVylwN
-         +Z0Y2MPEaqTyepgqM6pk4V0XjKZ8VgbDGRB97fRO1k049c7JyI02ONBlTpl4dnOKzRX0
-         FbXvg+/ZW20ZCt9d3elj7F9uUx1Fs1DZ2K6h8YcurLDGotAFXsZeeCi4mTKQz7tUJmSL
-         BGDg==
+        bh=P/z8afaos4QN1j31mCC9NKqTF3Z6R6V7O2t8IBODAYE=;
+        b=YOZ7yJSA75nYYI8OUjh1j/QTaTe2ZnPgZKf1/L1abTZBbfkBu+1pip4nw61lJAA2U8
+         8RhbuhIm55WWK1EeeDAIRfLKJagqwKvUlCvUNcvURmgf+PGARVWS8sf2BSUOuD/GxE1i
+         gBFds4oF3ocV6dwGnIIaC9Xhr7QLrZ03ID/7g9XDnczgGnqo59IOjMTHy8jOv+bXyBWV
+         h32R4nK0ADRpQfwgK86F+uDk34X9vQnrpq8dlcuyS2XxmYiYnsMjO1fGxDj3m+xmvirM
+         zy2cBUspRZ8tmfPgw79Cv8IUMNsde/9U9WjEK+Ru96yF71WuVy5ozDzqK954/E6P3h9T
+         X5kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717608055; x=1718212855;
+        d=1e100.net; s=20230601; t=1717608056; x=1718212856;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=iycGYFzd3F+df0p/qsCILVl1cIBvCeHnsWMgOkKCQP4=;
-        b=qnYY1Tzgwoi+OKHHRdXCukV2mSSrxDEvo5cdQsA5JVfFYLzayCyTuGk13Cu/HSO5tu
-         KrCMiNvqj/J/Wj7UsfcUHu8R+zvYbXLdWtdM54Z7QmeEVNyBQM0w8qwpB+H+gJaqkUuR
-         wp2sCVgr2gS6u4SBbqUx3D9AV3bLBGbP30Iktxf6IsYwWS/3o8qg0Uq2UvA/VoL02HC1
-         qokH/ohJNVy6RD8kw6h+IcSCy/s4503OA4ThtmNp41I6fNwdLH6i/vHolWKlM2VMKU+C
-         v+xa5OrwaWRd3t800XQBfWFUDS1kP/9kWF0mnUKyQD1/gdqT9YVl38A2fp8wwegaugvj
-         vLpA==
-X-Gm-Message-State: AOJu0Yw9LQTSAVYpLS/XzGnWJ4/kRdDt81CgqfF+4HD0bqmgky8U2Tqv
-	VSTQvDBE3FFwSeuTgWxtcK5pTlw6E+voC/+/i6pOHYmER4W9D5tIehik3w==
-X-Google-Smtp-Source: AGHT+IGLosO08ZXKoA1XuLlmpddoc2V3y6CwKOw/IuAQwj1zCJCa9l6+oWIoh8BDD8IE8Pbo6tjJnQ==
-X-Received: by 2002:a05:6820:62a:b0:5b9:f351:3f8b with SMTP id 006d021491bc7-5ba78d42decmr3790153eaf.0.1717608055299;
+        bh=P/z8afaos4QN1j31mCC9NKqTF3Z6R6V7O2t8IBODAYE=;
+        b=gg2oCjEd67SpRoFp8OrLS60o9bIp7UCLCcFLuCFUml4UZhC793AuuzDnuj429wRskk
+         Xl4wmb/ykPNzKWSln682oZ0cuZCF1ckg887/z1ZsBx4YSUZl2lBW9m8COkUIgahNZqoe
+         OKNV4jqonrgseqF97YIunP3nUbLlYCdoprdOKu8CZMAd+BIhmVyY+DCjQMxri/DHXa5I
+         MfX1Z88RUfMez0g7Iqf8ECS8QN1d7HexgWjgnBdin8XwRK5CNiWkZaykcBhAdhOZUP6V
+         +vz365LpFygxvKXOxLar6sm7Z0Cu7pP383s2zo6oq3cdMzJYKVsVPB+MihpBx/XMi56Z
+         90cw==
+X-Gm-Message-State: AOJu0Yz9avVdaop0ege+mgSogtskmISJqyt6d02HmWr6Z9xfj01TaWZ1
+	TAnbNyJjtHTrcLIMKlY8IcJLVond5J6yeedEXLp/gwgrsU16lCBHyMMnDw==
+X-Google-Smtp-Source: AGHT+IF8/BaMC9Cy37HnJE/gDWoJIWn5VGKga5nBgLv3JuPdyTdrRaAwARV/IAT6vrD6FGx0R/k9Gg==
+X-Received: by 2002:a05:6820:22a0:b0:5b9:8d0a:1568 with SMTP id 006d021491bc7-5ba78f2e102mr3789488eaf.2.1717608055898;
         Wed, 05 Jun 2024 10:20:55 -0700 (PDT)
 Received: from localhost.localdomain ([75.28.21.198])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5ba72cb44f4sm586124eaf.40.2024.06.05.10.20.54
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5ba72cb44f4sm586124eaf.40.2024.06.05.10.20.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 05 Jun 2024 10:20:55 -0700 (PDT)
 From: Chris Morgan <macroalpha82@gmail.com>
@@ -66,9 +66,9 @@ Cc: linux-clk@vger.kernel.org,
 	krzk+dt@kernel.org,
 	robh@kernel.org,
 	Chris Morgan <macromorgan@hotmail.com>
-Subject: [PATCH V2 1/4] dt-bindings: clock: sun50i-h616-ccu: Add GPADC clocks
-Date: Wed,  5 Jun 2024 12:20:46 -0500
-Message-Id: <20240605172049.231108-2-macroalpha82@gmail.com>
+Subject: [PATCH V2 2/4] clk: sunxi-ng: h616: Add clock/reset for GPADC
+Date: Wed,  5 Jun 2024 12:20:47 -0500
+Message-Id: <20240605172049.231108-3-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240605172049.231108-1-macroalpha82@gmail.com>
 References: <20240605172049.231108-1-macroalpha82@gmail.com>
@@ -82,36 +82,64 @@ Content-Transfer-Encoding: 8bit
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-Add the required clock bindings for the GPADC.
+Add the GPADC required clock and reset which is used for the onboard
+GPADC.
 
 Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 ---
- include/dt-bindings/clock/sun50i-h616-ccu.h | 1 +
- include/dt-bindings/reset/sun50i-h616-ccu.h | 1 +
- 2 files changed, 2 insertions(+)
+ drivers/clk/sunxi-ng/ccu-sun50i-h616.c | 5 +++++
+ drivers/clk/sunxi-ng/ccu-sun50i-h616.h | 2 +-
+ 2 files changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/include/dt-bindings/clock/sun50i-h616-ccu.h b/include/dt-bindings/clock/sun50i-h616-ccu.h
-index 6f8f01e67628..ebb146ab7f8c 100644
---- a/include/dt-bindings/clock/sun50i-h616-ccu.h
-+++ b/include/dt-bindings/clock/sun50i-h616-ccu.h
-@@ -112,5 +112,6 @@
- #define CLK_HDCP		126
- #define CLK_BUS_HDCP		127
- #define CLK_PLL_SYSTEM_32K	128
-+#define CLK_BUS_GPADC		129
+diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+index 45aae1ae5178..64f476c46f5b 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
++++ b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+@@ -489,6 +489,8 @@ static SUNXI_CCU_MP_WITH_MUX_GATE(ts_clk, "ts", ts_parents, 0x9b0,
  
- #endif /* _DT_BINDINGS_CLK_SUN50I_H616_H_ */
-diff --git a/include/dt-bindings/reset/sun50i-h616-ccu.h b/include/dt-bindings/reset/sun50i-h616-ccu.h
-index 1bd8bb0a11be..ed177c04afdd 100644
---- a/include/dt-bindings/reset/sun50i-h616-ccu.h
-+++ b/include/dt-bindings/reset/sun50i-h616-ccu.h
-@@ -66,5 +66,6 @@
- #define RST_BUS_TVE0		57
- #define RST_BUS_HDCP		58
- #define RST_BUS_KEYADC		59
-+#define RST_BUS_GPADC		60
+ static SUNXI_CCU_GATE(bus_ts_clk, "bus-ts", "ahb3", 0x9bc, BIT(0), 0);
  
- #endif /* _DT_BINDINGS_RESET_SUN50I_H616_H_ */
++static SUNXI_CCU_GATE(bus_gpadc_clk, "bus-gpadc", "apb1", 0x9ec, BIT(0), 0);
++
+ static SUNXI_CCU_GATE(bus_ths_clk, "bus-ths", "apb1", 0x9fc, BIT(0), 0);
+ 
+ static const char * const audio_parents[] = { "pll-audio-1x", "pll-audio-2x",
+@@ -807,6 +809,7 @@ static struct ccu_common *sun50i_h616_ccu_clks[] = {
+ 	&bus_emac1_clk.common,
+ 	&ts_clk.common,
+ 	&bus_ts_clk.common,
++	&bus_gpadc_clk.common,
+ 	&bus_ths_clk.common,
+ 	&spdif_clk.common,
+ 	&bus_spdif_clk.common,
+@@ -940,6 +943,7 @@ static struct clk_hw_onecell_data sun50i_h616_hw_clks = {
+ 		[CLK_BUS_EMAC1]		= &bus_emac1_clk.common.hw,
+ 		[CLK_TS]		= &ts_clk.common.hw,
+ 		[CLK_BUS_TS]		= &bus_ts_clk.common.hw,
++		[CLK_BUS_GPADC]		= &bus_gpadc_clk.common.hw,
+ 		[CLK_BUS_THS]		= &bus_ths_clk.common.hw,
+ 		[CLK_SPDIF]		= &spdif_clk.common.hw,
+ 		[CLK_BUS_SPDIF]		= &bus_spdif_clk.common.hw,
+@@ -1021,6 +1025,7 @@ static struct ccu_reset_map sun50i_h616_ccu_resets[] = {
+ 	[RST_BUS_EMAC0]		= { 0x97c, BIT(16) },
+ 	[RST_BUS_EMAC1]		= { 0x97c, BIT(17) },
+ 	[RST_BUS_TS]		= { 0x9bc, BIT(16) },
++	[RST_BUS_GPADC]		= { 0x9ec, BIT(16) },
+ 	[RST_BUS_THS]		= { 0x9fc, BIT(16) },
+ 	[RST_BUS_SPDIF]		= { 0xa2c, BIT(16) },
+ 	[RST_BUS_DMIC]		= { 0xa4c, BIT(16) },
+diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h616.h b/drivers/clk/sunxi-ng/ccu-sun50i-h616.h
+index fdd2f4d5103f..a75803b49f6a 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun50i-h616.h
++++ b/drivers/clk/sunxi-ng/ccu-sun50i-h616.h
+@@ -51,6 +51,6 @@
+ 
+ #define CLK_BUS_DRAM		56
+ 
+-#define CLK_NUMBER		(CLK_PLL_SYSTEM_32K + 1)
++#define CLK_NUMBER		(CLK_BUS_GPADC + 1)
+ 
+ #endif /* _CCU_SUN50I_H616_H_ */
 -- 
 2.34.1
 
