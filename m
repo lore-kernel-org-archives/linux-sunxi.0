@@ -1,98 +1,96 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BD633D6D
-	for <linux-sunxi@lists.linux.dev>; Wed,  5 Jun 2024 18:12:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0186DF43
+	for <linux-sunxi@lists.linux.dev>; Wed,  5 Jun 2024 18:53:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717611131; cv=none; b=USZoWY+LG5z2dfqmCrbN9U4VdG9AP2KGCnqOAw0VuFKsNyfj5zeJoNj6bphO6vA+amLYKeU4NaQbgceaLEUCMjEqAEmW/mByqPzTbWuZBOH6EArBAlb6lK5+KK5iUTa6MeWsFzXBydTuaVoPFhlbD4FM0GAt3LrFuD9fIUDQai4=
+	t=1717613626; cv=none; b=ouriAAYnlRgfhqFQRSC5yPV6IkLQS6SGCV74P06bM1vNzv3Y67jqWnTAfbOeAoRcqth3xgczV+laD4vQjVrij+UkzZW5Ut+aOK930lCfsd8/jlpGFoTC3WI26H7pH2R9KsUHy6vd1B5k6g9QBCF52S5EYNqQPoGqOg8uqeKycjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717611131; c=relaxed/simple;
-	bh=z9OkqguqeJwlzfT4o/NLntU6DYYfOLDylgpwXRTP5l0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OIkpRrJ/2HmtntEBahgRSOGW6hpN8jb69xEerOU4PyPsAQue3yw5hKRLKyG1eC2QDqCOBl96jWjyIQ6uwfmsGhy0exVl8vCdYiQ7AVcIwyMJnsCyeZHjH26baaXX5y1UJc7UI9DgC164TrbNOU3PASFFULCevugwQ4XN1242W8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HtNzmf+P; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1717613626; c=relaxed/simple;
+	bh=Q1HUZVz4p1ozI3U704h2eey+eiXul/YK515+3JzrWjE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JFgCXJ4xc/m9DSRTlhUHvUodvk7fE9wZTpSCRxf/71cAyYDFMV1mXbJCqnk6pACsY1fkAKNGqOWNiCOj2+EAcJoT2k1ou12lgvxX3LcoR8q1o6kxOqa7NClXc0ffSvniLY+WnPdVpXLqAgr1hv0krvgT38LRH8bOHOMJfJGM2p8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vb2JQTMZ; arc=none smtp.client-ip=209.85.167.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HtNzmf+P"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-421396e3918so2076055e9.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 05 Jun 2024 11:12:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vb2JQTMZ"
+Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-3d206a85082so59519b6e.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 05 Jun 2024 11:53:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1717611128; x=1718215928; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=z9OkqguqeJwlzfT4o/NLntU6DYYfOLDylgpwXRTP5l0=;
-        b=HtNzmf+PT8In6MmWqjnJqp0XpRncRzGOy0Bm5HpddQSucsxmu3Q7u2pnJ4UH37l6Oc
-         /7hzZ5P4Aw/3wzNDYAotOWeUnGYwM8XsN5ij0c4K10orHsqDm6P+b9TpWGaE0QDx+jky
-         Jhy2tY/4OSKSUtDYFeLcTuIHu4jGdft6KVZjarWuPFIxVVDa7FOxRfkHNMSV0nLxO2Ch
-         Ub46SjyCqaCinTiG5zbYAkE0H3HxoUV/439M6EypY5Xl+h0J8DApaF9XXM7BipJzy5+8
-         a2jJFYhXqP6X5ue2L8tyJ62s94bjdeW4ORKyT7iMk3zk2nja2DYlG0Hvetk7uB2dpE3I
-         fHNQ==
+        d=gmail.com; s=20230601; t=1717613624; x=1718218424; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rkYuIXr6MTp+AP4kp9JC4PD2ibEBFF8+Uy7EKgtY1A0=;
+        b=Vb2JQTMZl9Wd2PC6zrWNOIwIIBPW+bCKYyHRFA1GRuyS4nsINxlKzjtodLWC6n8iO+
+         FVYYlMVG5q53AewQpv5fcRq09tOMUX4Q7HfNYSPLxZJsJllwLKr4hoWPAIKK2F2f5Oco
+         krqkx5mgXrLVBnrzlYTMdDeP32ZNUo5k1fRDDbeeOy/+Mh/UwTNqctr0qnGwwI224evg
+         CrCpQOkgd4ar0ymcwAFIC0kZi68M9ZRqMQIkXptLos8m5NXUti/cmU+VMJdNmNmQwGxX
+         NXM8N0bvdX44MXQoVceh2Md+KSfkqzHgEJfKUgeZGpxEsMCSBOMIVepySjNeemG7h7lE
+         xoZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717611128; x=1718215928;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=z9OkqguqeJwlzfT4o/NLntU6DYYfOLDylgpwXRTP5l0=;
-        b=d+8FB18svZtvuBlg+1I98SHuyv2hwHsL+9toXv3LZupaUWZAPUuUdfTa0C/eBE1H/T
-         M891Q11dKOzxoSRhQjrucZJDIGGwXxHScdf9+23400fIn9UYbjLi7wE0wdnb7JptC9x9
-         E0mqeXceCr/Bkmdpr+OO0d05jXL4K2rhTTNwPzA2Z/tabFXCzZMrb5B5BYlYKSiNn8Y/
-         i/z/DK0NVMO3oH46s8YpcSDKG3z65tM8Gn7wlOOj3YX0eAqjM/rer4kFDlV7l9sHJnBv
-         5V7NLdIqsJAAcNZQ8faJk5dB4ZmAMwbpenL7Xxd/MPJpxFSvBJdlVcLv5RZp9VHdeYou
-         ebzw==
-X-Forwarded-Encrypted: i=1; AJvYcCVJPjUzwj+roFuYSrnnM+UFoDcwqZ+mEF+zVhbxmWf/3eky6T8UWAs/2ORKJ8cOJ5MG3MHaIYCUtMboFhu++Eal6gSf97RfgBSxJpo=
-X-Gm-Message-State: AOJu0YwQcZfiJcXdGgOx6iU0lHv5v/qQwPvT71GlYH5Zw8qKgCgaGTa5
-	DALzVY08dWEzAFf2FATx8xIuJ4DUTA1A/WyYCWhPwlXQGnBly7uBhkzPIhRxevY=
-X-Google-Smtp-Source: AGHT+IEvaA8Q5QYjqCVUDlFHwF6aq9tSqiBZFVHoOS8pIX0aZ0OJo7FFt2ruymdqoNfkRUE1c/CDUw==
-X-Received: by 2002:a05:600c:4e92:b0:421:29cd:5c95 with SMTP id 5b1f17b1804b1-421562ccd31mr34249765e9.10.1717611128459;
-        Wed, 05 Jun 2024 11:12:08 -0700 (PDT)
-Received: from [192.168.1.195] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-35dd04d9c68sm15224191f8f.56.2024.06.05.11.12.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Jun 2024 11:12:07 -0700 (PDT)
-Message-ID: <d7cfe53e-533a-4c39-b4d8-cdbee3617294@linaro.org>
-Date: Wed, 5 Jun 2024 19:12:06 +0100
+        d=1e100.net; s=20230601; t=1717613624; x=1718218424;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rkYuIXr6MTp+AP4kp9JC4PD2ibEBFF8+Uy7EKgtY1A0=;
+        b=TE6lapGHekF35OYFXvh0a9TFef8gmVw2pTvhfCbbGZ1y7nYA98znmn2OzyxrDkNww7
+         7Ioi42azbZoOl9a92jnVReCsXp+R28L97fbzXxLG8hItZgBRH53wOhPZ7revaror7aM1
+         idPVo5Txoz56B43JU7kXbtAyaeLqBpyyG/SHXqsjswVM7OgfLoYCcvoIh7Ofo9DBj0Pr
+         6IDgXp40hV0Nm3SLQ8UWgFyWJ+PFaVpzMmcca82uAB9UVqz79kiZ4sJp6Ip5KDJPTBoi
+         fWQ7guj/W6grIJ6hHmZNTRPCx2zvODvFUeQowssdLnlV2iIqfJr+/T1TjIgtODFilNdY
+         Z7bA==
+X-Gm-Message-State: AOJu0Yx1LJY75U9bi0DhSdhYAbmV7/BaR6klUcgUd4zDbx9IA2W3anNA
+	PXprdOmOWIajRDglNdl//ibO4+rbXNbqdZtELs1ugJ8eFApziXErpTv5uw==
+X-Google-Smtp-Source: AGHT+IGSoTI1pK54RCYlafymqJqjf77YgnYNdsMjkPx9ZztVUKuCkDSn2LaPF667npg1ks2E2P3h/w==
+X-Received: by 2002:a05:6808:146:b0:3c8:6551:8125 with SMTP id 5614622812f47-3d20425aeb0mr3121843b6e.6.1717613623904;
+        Wed, 05 Jun 2024 11:53:43 -0700 (PDT)
+Received: from localhost.localdomain ([75.28.21.198])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-3d20a7a37a1sm29684b6e.4.2024.06.05.11.53.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Jun 2024 11:53:43 -0700 (PDT)
+From: Chris Morgan <macroalpha82@gmail.com>
+To: linux-sunxi@lists.linux.dev
+Cc: devicetree@vger.kernel.org,
+	mripard@kernel.org,
+	ryan@testtoast.com,
+	andre.przywara@arm.com,
+	samuel@sholland.org,
+	jernej.skrabec@gmail.com,
+	wens@csie.org,
+	conor+dt@kernel.org,
+	krzk+dt@kernel.org,
+	robh@kernel.org,
+	Chris Morgan <macromorgan@hotmail.com>
+Subject: [PATCH 0/2] Add Anbernic RG35XX-SP
+Date: Wed,  5 Jun 2024 13:53:37 -0500
+Message-Id: <20240605185339.266833-1-macroalpha82@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 00/17] nvmem: Handle change of return type in
- reg_read/write() definition
-To: Joy Chakraborty <joychakr@google.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Lars-Peter Clausen <lars@metafoo.de>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Bingbu Cao <bingbu.cao@intel.com>, Zhihao Cheng <chengzhihao1@huawei.com>,
- Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Cc: linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-iio@vger.kernel.org, linux-media@vger.kernel.org,
- linux-i2c@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-mtd@lists.infradead.org, linux-rtc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
- linux-usb@vger.kernel.org, manugautam@google.com
-References: <20240605175953.2613260-1-joychakr@google.com>
-Content-Language: en-US
-From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-In-Reply-To: <20240605175953.2613260-1-joychakr@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+From: Chris Morgan <macromorgan@hotmail.com>
 
+Add support for the Anbernic RG35XX-SP handheld gaming device. The
+Anbernic RG35XX-SP is a clamshell device, but hardware wise is very
+similar to the RG35XX-Plus. The RG35XX-SP has a lid-switch and an
+external RTC that necessitate a distinct device tree.
 
-On 05/06/2024 18:59, Joy Chakraborty wrote:
-> Currently the nvmem core change is picked on
-> https://git.kernel.org/pub/scm/linux/kernel/git/srini/nvmem.git/log/?h=for-next
-This patch is reverted due to next build failures.
+Chris Morgan (2):
+  dt-bindings: arm: sunxi: Add Anbernic RG35XXSP
+  arm64: dts: allwinner: h700: Add Anbernic RG35XX-SP
 
-Please resend the series with this included.
+ .../devicetree/bindings/arm/sunxi.yaml        |  24 ++-
+ arch/arm64/boot/dts/allwinner/Makefile        |   3 +-
+ .../sun50i-h700-anbernic-rg35xx-sp.dts        | 145 ++++++++++++++++++
+ 3 files changed, 156 insertions(+), 16 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dts
 
+-- 
+2.34.1
 
---srini
