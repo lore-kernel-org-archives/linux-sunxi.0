@@ -1,118 +1,167 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C92813C673
-	for <linux-sunxi@lists.linux.dev>; Thu,  6 Jun 2024 10:26:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F32F9181315
+	for <linux-sunxi@lists.linux.dev>; Thu,  6 Jun 2024 10:32:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717669581; cv=none; b=Vc4FCIZxs0bRbTzROLCxZCRWyOMHeY1Tzo9IfmxBDaLJGdcS4CCGAcfNJ/toLM/bbgMmB/3mc0gySHWaBoVjwwH7y1sTcNvNDBJIrtncH+pfvPqtQW6fqyRknG+sueiH+FNQXO8JV4YIjdW7LwAfKwd4mY6Ek1So7sG0j4WS458=
+	t=1717669926; cv=none; b=FulDqwlNtcHV7Nqe0hmInJiRTeSgX8iH21r/gJ/ng/E/R4+1h5gXHxsYQj7bMy6zWqhkrN+P3QGjSYgYMYkzdO+1vDEGZCRNgv4H/SdSJwlQ6PermCdYpPBBW0N+OHE3oaQN1xYGyrDdCp/1AA5fk19ITs+g6w4d2X7YtmgKMoo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717669581; c=relaxed/simple;
-	bh=uDdSWwYBy5JU37O/gYesEmJUvgLXFflV6WII5qKE310=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=n1/pGA1EYucMlcEfevxFA6SB3lcVGBmlaAY3T554AkoH14BFew0RQlx+gQVL/6Oxj/TcciKKYWN7IAfqxlAo1owJxdJPetw/Ghi1V+orW3QZSXw0EhDCQFwvovw1SQ90XoCY53fketswl2hRE6uVwSxXYErsCv+csvLf1Hwqx0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E86A42F4;
-	Thu,  6 Jun 2024 03:26:42 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EDC073F64C;
-	Thu,  6 Jun 2024 03:26:16 -0700 (PDT)
-Date: Thu, 6 Jun 2024 11:26:14 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Chris Morgan <macroalpha82@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- mripard@kernel.org, ryan@testtoast.com, samuel@sholland.org,
- jernej.skrabec@gmail.com, wens@csie.org, conor+dt@kernel.org,
- krzk+dt@kernel.org, robh@kernel.org, Chris Morgan <macromorgan@hotmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: arm: sunxi: Add Anbernic RG35XXSP
-Message-ID: <20240606112614.5380b2d1@donnerap.manchester.arm.com>
-In-Reply-To: <20240605185339.266833-2-macroalpha82@gmail.com>
-References: <20240605185339.266833-1-macroalpha82@gmail.com>
-	<20240605185339.266833-2-macroalpha82@gmail.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1717669926; c=relaxed/simple;
+	bh=n0hrzdYnBksW+DamHG6BupTO1J0YAJybs/VDL2sugrE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uov7lggP/0YGwIvBHiIfFjDEWi42ZJFL98ws2FeWrQZ3w3tfNv89+MeZOz3y9h2K5LMhzXe3UrgwGo9wiXVadHDl+1YmIbSMA8nRwc6R15o7kz8dzcLMPoMAPrsH1h/yDpT8p7tjgeou0RIeXelIBRWV/jnEf0iLIAfAbOSPVns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=2L8cZvBm; arc=none smtp.client-ip=209.85.208.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="2L8cZvBm"
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2eaad2c673fso10432291fa.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 06 Jun 2024 03:32:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1717669923; x=1718274723; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2yOK4FlQCW+JMOCwnWP72jJymCtr5dD6IgIpna60BCY=;
+        b=2L8cZvBmZljrV3X/q/UqZHlgMrtPv/6O+nKwQr7q8753wKIHTmfhzec4D39Qenajvf
+         vLdJYUS9M+KjElvinz/BzhOPk4COqR0z4DVc4VwXvkuWl1TLIk086a8c98OEILgUcS6F
+         6yOXjUTuVFfkC3D2hATZkqV7qw50jnhoiKyd2itxWTffroYPpzj7VCO+7GDsorxG4u+8
+         l5PIYn+stnPnVAznY36hu0OTlCsbFNe/VkJhuNcw39NouD9LlYcWHtINXDfFFqXe7FEc
+         e44G31iJvLm1l0CKXz+qrsow6BCVJ+dlHPYNHaQ4IqY965tK7G4y1kGuEc4ognw82hi3
+         z+Cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717669923; x=1718274723;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2yOK4FlQCW+JMOCwnWP72jJymCtr5dD6IgIpna60BCY=;
+        b=J6ofTT7z7aa/5IlcpBimnAxRKwY8KJlCx5U1Ad5PDDbjJDLzBHwC7yl4ezFGvS9GHJ
+         bIg8jM/JL7z6HulKTPl5sukm3NtgwTHFv7nH4S4nGWTznUSQELvwTD/7m8K9patPe9Zj
+         djw212BvytKEzPH22qKW0bvFLc0tNpTcguz32ls9Ki7GjXQWra5649xALex6j2gpvZf8
+         OAntgTJbER7U8ycpPssBAiaTh6e1YtOm2dyz7G6VXGLQ7cXr0U4Jgic0qivapshop95N
+         tmBc57yWduBWURo1MuIQpTTKL94sDTJuIsklwXpI/YMTnqnJdp80rWaWf/a6+WhcKaQL
+         F2jg==
+X-Forwarded-Encrypted: i=1; AJvYcCXDZ5nao9L0GH9omZQFQCxUNYwQeuqJIMq8oUsuik2GEmd6YnBAqDZuK6CcUDwMvftbJskWeJ4v8QCP4N7Lvjiw8YwIegK68pKpf6k=
+X-Gm-Message-State: AOJu0YzU4U0P5eKKdDIn5b5H9gPFxOmpSJ9UKGTpa6CLwgtsBVV9c7PB
+	VtFyVyjGFWoUComjYsLtYkpG4OlONlhIORSaWmLONx4KNHO1wSnAb9GylH/hfnWOLLBL4xgljnT
+	+jC3Pldv1LXeLNBsTB5yqD1bs4Fv+yRDHzgdL
+X-Google-Smtp-Source: AGHT+IHb92CvWzY0UMLIO3bnYXJ9lrbqmbf5jFApgNniI36TJ0LubnwynaglXsT5ps/3HCuaPh8FvkYR0EYkfnbTRiI=
+X-Received: by 2002:a2e:9643:0:b0:2e1:9c57:195a with SMTP id
+ 38308e7fff4ca-2eac7a5fd4dmr33302121fa.32.1717669922881; Thu, 06 Jun 2024
+ 03:32:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20240605175953.2613260-1-joychakr@google.com> <20240605175953.2613260-8-joychakr@google.com>
+ <f98a1d8f-e936-4798-8447-c642e8fe11d5@moroto.mountain> <CAOSNQF0Qj2CnRDWAGM8Y1wyEdgWP04RDJx1TKO-Ge4nUH=qxoQ@mail.gmail.com>
+ <2b979aa4-3a63-4010-9670-294ce7624e18@moroto.mountain>
+In-Reply-To: <2b979aa4-3a63-4010-9670-294ce7624e18@moroto.mountain>
+From: Joy Chakraborty <joychakr@google.com>
+Date: Thu, 6 Jun 2024 16:01:42 +0530
+Message-ID: <CAOSNQF02nUPZ=8re=uyruhxReQSjPoc8L-9yTnWMe4EfJ0-huA@mail.gmail.com>
+Subject: Re: [PATCH v1 07/17] misc: eeprom: at25: Change nvmem reg_read/write
+ return type
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Bingbu Cao <bingbu.cao@intel.com>, Zhihao Cheng <chengzhihao1@huawei.com>, 
+	Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, linux-hwmon@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-i2c@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-mtd@lists.infradead.org, 
+	linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-amlogic@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org, manugautam@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed,  5 Jun 2024 13:53:38 -0500
-Chris Morgan <macroalpha82@gmail.com> wrote:
+On Thu, Jun 6, 2024 at 3:41=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro.=
+org> wrote:
+>
+> On Thu, Jun 06, 2024 at 03:12:03PM +0530, Joy Chakraborty wrote:
+> > > These functions are used internally and exported to the user through
+> > > sysfs via bin_attr_nvmem_read/write().  For internal users partial re=
+ads
+> > > should be treated as failure.  What are we supposed to do with a part=
+ial
+> > > read?  I don't think anyone has asked for partial reads to be support=
+ed
+> > > from sysfs either except Greg was wondering about it while reading th=
+e
+> > > code.
+> > >
+> > > Currently, a lot of drivers return -EINVAL for partial read/writes bu=
+t
+> > > some return success.  It is a bit messy.  But this patchset doesn't
+> > > really improve anything.  In at24_read() we check if it's going to be=
+ a
+> > > partial read and return -EINVAL.  Below we report a partial read as a
+> > > full read.  It's just a more complicated way of doing exactly what we
+> > > were doing before.
+> >
+> > Currently what drivers return is up to their interpretation of int
+> > return type, there are a few drivers which also return the number of
+> > bytes written/read already like
+> > drivers/misc/mchp_pci1xxxx/mchp_pci1xxxx_otpe2p.c .
+>
+> Returning non-zero is a bug.  It won't break bin_attr_nvmem_read/write()
+> but it will break other places like nvmem_access_with_keepouts(),
+> __nvmem_cell_read() and nvmem_cell_prepare_write_buffer() where all
+> non-zero returns from nvmem_reg_read() are treated as an error.
+>
 
-Hi,
+Yes, I will resend the patch to fix that.
 
-> From: Chris Morgan <macromorgan@hotmail.com>
-> 
-> Add the Anbernic RG35XXSP variant device and consolidate the Anbernic
-> H700 devices.
-> 
-> The Anbernic RG35XXSP is almost identical to the RG35XX-Plus, but in a
-> clamshell form-factor.
-> 
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> ---
->  .../devicetree/bindings/arm/sunxi.yaml        | 24 +++++++------------
->  1 file changed, 9 insertions(+), 15 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
-> index c2a158b75e49..1ae77e5edf9a 100644
-> --- a/Documentation/devicetree/bindings/arm/sunxi.yaml
-> +++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
-> @@ -51,25 +51,19 @@ properties:
->            - const: allwinner,parrot
->            - const: allwinner,sun8i-a33
->  
-> -      - description: Anbernic RG-Nano
-> -        items:
-> -          - const: anbernic,rg-nano
-> -          - const: allwinner,sun8i-v3s
-> -
-> -      - description: Anbernic RG35XX (2024)
-> -        items:
-> -          - const: anbernic,rg35xx-2024
-> -          - const: allwinner,sun50i-h700
-> -
-> -      - description: Anbernic RG35XX Plus
-> +      - description: Anbernic H700 Handheld Gaming Console
+> > The objective of the patch was to handle partial reads and errors at
+> > the nvmem core and instead of leaving it up to each nvmem provider by
+> > providing a better return value to nvmem providers.
+> >
+> > Regarding drivers/misc/eeprom/at25.c which you pointed below, that is
+> > a problem in my code change. I missed that count was modified later on
+> > and should initialize bytes_written to the new value of count, will
+> > fix that when I come up with the new patch.
+> >
+> > I agree that it does not improve anything for a lot of nvmem providers
+> > for example the ones which call into other reg_map_read/write apis
+> > which do not return the number of bytes read/written but it does help
+> > us do better error handling at the nvmem core layer for nvmem
+> > providers who can return the valid number of bytes read/written.
+>
+> If we're going to support partial writes, then it needs to be done all
+> the way.  We need to audit functions like at24_read() and remove the
+> -EINVAL lines.
+>
+>    440          if (off + count > at24->byte_len)
+>    441                  return -EINVAL;
+>
+> It should be:
+>
+>         if (off + count > at24->byte_len)
+>                 count =3D at24->byte_len - off;
+>
+> Some drivers handle writing zero bytes as -EINVAL and some return 0.
+> Those changes could be done before we change the API.
+>
 
-So that's certainly an interesting optimisation, but so far we were using
-one entry per device, it seems.
-I am not entirely sure what the purpose of this file is, exactly: just to
-document the compatible names, to reserve them and avoid clashes in the
-future? Or also to put some official names to each device? That seems to
-somewhat overlap with the root node's model property in the respective
-device .dts, though.
+Sure, we can do it in a phased manner like you suggested in another
+reply by creating new pointers and slowly moving each driver to the
+new pointer and then deprecating the old one.
 
-It would be good to clarify this, and establish how to group those devices.
-I mean technically we could for instance put *all* H6 devices into one
-entry, using the same scheme as below.
-Not sure that's desired, though.
+> You updated nvmem_access_with_keepouts() to handle negative returns but
+> not zero returns so it could lead to a forever loop.
+>
 
-Cheers,
-Andre
+Yes, that is a possible case. Will rework it.
 
->          items:
-> -          - const: anbernic,rg35xx-plus
-> +          - enum:
-> +              - anbernic,rg35xx-2024
-> +              - anbernic,rg35xx-h
-> +              - anbernic,rg35xx-plus
-> +              - anbernic,rg35xx-sp
->            - const: allwinner,sun50i-h700
->  
-> -      - description: Anbernic RG35XX H
-> +      - description: Anbernic RG-Nano
->          items:
-> -          - const: anbernic,rg35xx-h
-> -          - const: allwinner,sun50i-h700
-> +          - const: anbernic,rg-nano
-> +          - const: allwinner,sun8i-v3s
->  
->        - description: Amarula A64 Relic
->          items:
-
+> regards,
+> dan carpenter
+>
+Thanks
+Joy
