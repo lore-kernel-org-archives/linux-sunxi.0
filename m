@@ -1,71 +1,72 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A813413EFF3
-	for <linux-sunxi@lists.linux.dev>; Thu,  6 Jun 2024 09:24:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39FCF153597
+	for <linux-sunxi@lists.linux.dev>; Thu,  6 Jun 2024 09:42:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717665869; cv=none; b=OymDU4AhJ0P0vZzgbU5AP0a0TMFcxk/Vqe7usqQFrZndv8ihUyg4GVu+SJSwW3nX1Nt1EzvEimWY3G3PBez08nqtSjlEsZKVkTQNkW8jt+VxGUa+FGyII2+z0ZjqMx73SQ9xokUChQmqEFDRzJq6uzLbTDiFZcVvTcsRM31SC7k=
+	t=1717666947; cv=none; b=cWaB1RRW1W7J2JvJRDarLtxv4m4YMX2pMDnFduLLu8l2ZbDNLuW041c0TwDYswIdoIVmNrRw+0XqFvNq5n9fM/M+PWrgIe/Vqt+sBVKQdUzk9393FpqcrfSFc6zulcmabMiO+aqErkliPpoWrfC8ABDEMUUVSnnqF9JS2goSjvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717665869; c=relaxed/simple;
-	bh=udXsNUhcnZ8ynFTNJ+VRVp6bj42T4g0XRqCcuRb5JXc=;
+	s=arc-20240116; t=1717666947; c=relaxed/simple;
+	bh=Z+b7d3fhc4m4+HH35+El67g/rcBghxOw/7N/brUEw2o=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=X2XRT2PfoO8KJsh2VWVzPQIjtUTxynFwtkA0cJ0OcpyKitP0xz4hHwZ/o4lOiM/unCOKof+girYoqdgHmztkCHQDRoB0EFMKQ8douGJF0JGzsA5WaJWowSRWMIv+kr7fB0N4vyErv55LX3LS7pEVRQ21VjSiT0xFYCjHat9sYp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=zGCZkyxo; arc=none smtp.client-ip=209.85.216.43
+	 To:Cc:Content-Type; b=j7IWmwdrcTfeL9BFed2FHUYLZdPk/sBLcpLar5gxJL2lBOO7WIZ27R8DuUYXM5/hmeQztwT9qfl5nJ+XstyMa/FKi9wGcek/tAbfpdiEwsT8+G33sa/FKi4NCy1j7CMPLJF+QBNcUAU+zZCXwx4Rxh/IGvPHQ9mNWRUixll9fIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=f3imXJDt; arc=none smtp.client-ip=209.85.215.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="zGCZkyxo"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-2c29c487a94so397251a91.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 06 Jun 2024 02:24:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="f3imXJDt"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-681ad26f4a5so399121a12.2
+        for <linux-sunxi@lists.linux.dev>; Thu, 06 Jun 2024 02:42:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1717665866; x=1718270666; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1717666944; x=1718271744; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=oCgaL8o9gTqW3R6MkCs66+V6tGdqOhyMZityYxhrOKQ=;
-        b=zGCZkyxoVSmXr7VCixce3emZzjiPTlVcIgja7vqRTLwE2KyMNCLmvI1UX+TFZFN/61
-         upT50DRPltTJrv8vr++lLDYOkEHTPs2EqBbdsRFosn3qTphkuLmB5HeRMPyltE2osHs4
-         gjFwTOXhPYsflTOn5sNaykCCCOQoOx2dxePg3moZbjcE1PzRWEZHutTQ3JxMfJU7nTil
-         bRKa25xM0pxT+VDYQPeNItguSleKjsDpkp1X4EGS2rNavRyPSIkKK8YDoEC9zA1yMRGo
-         Ys58ymIrnUWur/cLiT8QroEp1UCNh3zGoC790Km2smDf1XS1bq2zqt33KXf1JUUXqOxP
-         gFoA==
+        bh=pZxkAQ+JG8hv+VfYtFPLswW4j/3rOvFhx5X0N2PU448=;
+        b=f3imXJDthRjThdIbTWr5Fxb4FoKe+zvY4JwghtQxu7H28Xhf2wZDq514XnI2dH0Bbf
+         Vy7nXVc+1ZMygcZfkK5+8W9MPIwrLkZ41QGlkLWvM64BP3+bn0/MzDVunHy/UH1ZjfQD
+         TC+t5oVvRMzFR1Z9Hp6BT3XaKXDQFrLgRq90IfcQlVtSXlApEMB2KVDn9rCv/2h0tdiS
+         egcbRw73tP3rns2wfdq6Vd2ijsOj8MN0ayyzC+SVS8eajC2r1CBRJLv7TmzF3nm94ZYK
+         GKnofqDwux2jqR/IKha/QAsq2O0g3ZIayqWRXvcK898XnqjCNGnewCyksIjknYGBxWd2
+         Qskw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717665866; x=1718270666;
+        d=1e100.net; s=20230601; t=1717666944; x=1718271744;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=oCgaL8o9gTqW3R6MkCs66+V6tGdqOhyMZityYxhrOKQ=;
-        b=q23k0pmgLirVUE4Nn5W17+7r3AYRckwyFzWDCiMP8EyNlPbGvRchd4RoiLWHCX4QRk
-         IBW6UvGvr2N+cK2yJXOjz7BJgSYAnmoVtw/FmPT31EkJO+ZxWXQfb5dk/aCltc5Ql7h6
-         dSXEFfTxnh+OyUfC3ae6BhM80XJYSuntmawV6LcCykZMvCHBqTTcQs1Q+pHLI2Yz3e+G
-         8RJVxf2F++8pUvCAW5dbCPUa6klEx1f/UlbdtC4uq9/CDmM909TA7nzywKiShVIb/w/k
-         sE1Zwhm5o0DaebxEjtrPOgUyYCtluk4dzNw6EDOEsrvOdnKqIm6Z0J0VRlRDD2feMpWM
-         MQVA==
-X-Forwarded-Encrypted: i=1; AJvYcCV0eQAeJNcppkGXXwv2t4sNn4kyhxCWe+iMx7+sWDhHr0e5nR5it5bnBKllcz84b1usDAbcfV6UAyIv8sncMf/G2kTKXYipMROQeZk=
-X-Gm-Message-State: AOJu0YxSudRi1MmY5c5n7Cq4e8tNZkHfh1rPQV7cNeTo6l5NcS98jcZr
-	vN5Iidsal7bpds/atmZWXbGVfbk8G7jkc+Tn7NFmsz+byt1pF4Zt1gw7TmuZE4hM5pTjIDuZ6T5
-	ubq7dwZ32pU8rEJXbqRtkEqn/bCtt/t6+MRdC
-X-Google-Smtp-Source: AGHT+IFO27fLQ60otnz+VPqegLb1l+ah/BSl+EBtF4Q1892OcY0hAdcmXoAoiATlOwzJL3jUrPraipj4bPnP8gdWMEU=
-X-Received: by 2002:a17:90b:4ad0:b0:2c1:ad46:7133 with SMTP id
- 98e67ed59e1d1-2c27dafd1d8mr5026032a91.8.1717665865426; Thu, 06 Jun 2024
- 02:24:25 -0700 (PDT)
+        bh=pZxkAQ+JG8hv+VfYtFPLswW4j/3rOvFhx5X0N2PU448=;
+        b=oe144PKvcwVGlUtbRwHEBMD0ZsjBA0ybSIoplT4iURMOIgnHOrpzGMpvdAITfTsLWh
+         pdpQg4mjoXwvyPiXJcc3WrRJ3YOYky6K49pfGeYz7UJGbzJVef7UviMpOg4mk3p7dbkg
+         GF0RYX9raTy1zc482HkgVdFUq6uHIRlgUpJa86Q7HQoqVoR7S0tnr7zSdHSHcVsQhQPG
+         EvCr4C62l4BYA+/2GayS1bZzAj/E3/wqgMMlCB6W4AY92ONX/RjPr39F/MlKF3UqMI3n
+         ZtnaqaKajbPBCqrmBYQaG2u7sU6JnAp2ClhZugSVZov2AwD+7LUqYHRWoDCOCZ6kmfKP
+         XCkQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVaKrAPoinWVCmxNqhU8jCLe1rwnwBpeK1BkZR3DGUkOu/CgkWcvXjOz0QcPukYBXvarxDJiHPn+NdYqhvXY324FyREwSRTazgufDw=
+X-Gm-Message-State: AOJu0YzZDXw6rUtMjLvO0MsLZQh7bPaBfxCnL1LC55/IkgHLMTIAWrLA
+	XLp9HPdtjJsmoKG43ySigIcd6DtUBLEHZd6a5QuGvSMhHTKybbhLx+grye9ElKByKeJRA74KUuS
+	Uw0zgn4SAoQkElDQ5TdiofHl8annB5c6IG131
+X-Google-Smtp-Source: AGHT+IEWwVSwT6aqEkrDe0tLMBSTWElwotQtqstSRStzjfIU8jhDcLm33ZWeSi7tWYVCsMsV4ghgN5gJvMEjynSIzaM=
+X-Received: by 2002:a05:6a20:daa4:b0:1a7:aabc:24ae with SMTP id
+ adf61e73a8af0-1b2b6ed7966mr5928466637.18.1717666944034; Thu, 06 Jun 2024
+ 02:42:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240605175953.2613260-1-joychakr@google.com> <20240605175953.2613260-6-joychakr@google.com>
- <20a9ea0b-74d0-47b2-8dc0-2b5e7d070d38@roeck-us.net>
-In-Reply-To: <20a9ea0b-74d0-47b2-8dc0-2b5e7d070d38@roeck-us.net>
+References: <20240605175953.2613260-1-joychakr@google.com> <20240605175953.2613260-8-joychakr@google.com>
+ <f98a1d8f-e936-4798-8447-c642e8fe11d5@moroto.mountain>
+In-Reply-To: <f98a1d8f-e936-4798-8447-c642e8fe11d5@moroto.mountain>
 From: Joy Chakraborty <joychakr@google.com>
-Date: Thu, 6 Jun 2024 14:54:09 +0530
-Message-ID: <CAOSNQF3Kes3MHWf3FMCCfNOCvymSZV8RS+UMM_oKjhBQzQz8Bg@mail.gmail.com>
-Subject: Re: [PATCH v1 05/17] misc: ds1682: Change nvmem reg_read/write return type
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+Date: Thu, 6 Jun 2024 15:12:03 +0530
+Message-ID: <CAOSNQF0Qj2CnRDWAGM8Y1wyEdgWP04RDJx1TKO-Ge4nUH=qxoQ@mail.gmail.com>
+Subject: Re: [PATCH v1 07/17] misc: eeprom: at25: Change nvmem reg_read/write
+ return type
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
 	Lars-Peter Clausen <lars@metafoo.de>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	Bingbu Cao <bingbu.cao@intel.com>, Zhihao Cheng <chengzhihao1@huawei.com>, 
@@ -80,66 +81,126 @@ Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 6, 2024 at 2:48=E2=80=AFAM Guenter Roeck <linux@roeck-us.net> w=
-rote:
+On Thu, Jun 6, 2024 at 2:11=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro.=
+org> wrote:
 >
-> On 6/5/24 10:59, Joy Chakraborty wrote:
-> > Change nvmem read/write function definition return type to ssize_t.
+> On Wed, Jun 05, 2024 at 05:59:51PM +0000, Joy Chakraborty wrote:
+> > @@ -195,10 +195,11 @@ static struct attribute *sernum_attrs[] =3D {
+> >  };
+> >  ATTRIBUTE_GROUPS(sernum);
 > >
-> > Signed-off-by: Joy Chakraborty <joychakr@google.com>
-> > ---
-> >   drivers/misc/ds1682.c | 16 ++++++----------
-> >   1 file changed, 6 insertions(+), 10 deletions(-)
+> > -static int at25_ee_write(void *priv, unsigned int off, void *val, size=
+_t count)
+> > +static ssize_t at25_ee_write(void *priv, unsigned int off, void *val, =
+size_t count)
+> >  {
+> >       struct at25_data *at25 =3D priv;
+> >       size_t maxsz =3D spi_max_transfer_size(at25->spi);
+> > +     size_t bytes_written =3D count;
+> >       const char *buf =3D val;
+> >       int                     status =3D 0;
+> >       unsigned                buf_size;
+> > @@ -313,7 +314,7 @@ static int at25_ee_write(void *priv, unsigned int o=
+ff, void *val, size_t count)
+> >       mutex_unlock(&at25->lock);
 > >
-> > diff --git a/drivers/misc/ds1682.c b/drivers/misc/ds1682.c
-> > index 5f8dcd0e3848..953341666ddb 100644
-> > --- a/drivers/misc/ds1682.c
-> > +++ b/drivers/misc/ds1682.c
-> > @@ -198,26 +198,22 @@ static const struct bin_attribute ds1682_eeprom_a=
-ttr =3D {
-> >       .write =3D ds1682_eeprom_write,
-> >   };
-> >
-> > -static int ds1682_nvmem_read(void *priv, unsigned int offset, void *va=
-l,
-> > -                          size_t bytes)
-> > +static ssize_t ds1682_nvmem_read(void *priv, unsigned int offset, void=
- *val,
-> > +                              size_t bytes)
-> >   {
-> >       struct i2c_client *client =3D priv;
-> > -     int ret;
-> >
-> > -     ret =3D i2c_smbus_read_i2c_block_data(client, DS1682_REG_EEPROM +=
- offset,
-> > +     return i2c_smbus_read_i2c_block_data(client, DS1682_REG_EEPROM + =
-offset,
-> >                                           bytes, val);
-> > -     return ret < 0 ? ret : 0;
-> >   }
-> >
-> > -static int ds1682_nvmem_write(void *priv, unsigned int offset, void *v=
-al,
-> > -                           size_t bytes)
-> > +static ssize_t ds1682_nvmem_write(void *priv, unsigned int offset, voi=
-d *val,
-> > +                               size_t bytes)
-> >   {
-> >       struct i2c_client *client =3D priv;
-> > -     int ret;
-> >
-> > -     ret =3D i2c_smbus_write_i2c_block_data(client, DS1682_REG_EEPROM =
-+ offset,
-> > +     return i2c_smbus_write_i2c_block_data(client, DS1682_REG_EEPROM +=
- offset,
-> >                                            bytes, val);
+> >       kfree(bounce);
+> > -     return status;
+> > +     return status < 0 ? status : bytes_written;
+> >  }
 >
-> i2c_smbus_write_i2c_block_data() does not return the number of bytes writ=
-ten.
-> It returns either 0 or an error code.
+> So the original bug was that rmem_read() is returning positive values
+> on success instead of zero[1].  That started a discussion about partial
+> reads which resulted in changing the API to support partial reads[2].
+> That patchset broke the build.  This patchset is trying to fix the
+> build breakage.
 >
-Ack, I see only i2c_smbus_read_i2c_block_data()  returns the number of
-bytes read . Will fix it next revision.
+> [1] https://lore.kernel.org/all/20240206042408.224138-1-joychakr@google.c=
+om/
+> [2] https://lore.kernel.org/all/20240510082929.3792559-2-joychakr@google.=
+com/
+>
+> The bug in rmem_read() is still not fixed.  That needs to be fixed as
+> a stand alone patch.  We can discuss re-writing the API separately.
+>
 
-> Guenter
+True, fixing the return type would fix that as well is what I thought
+but maybe yes we need to fix that separately as well.
+
+> These functions are used internally and exported to the user through
+> sysfs via bin_attr_nvmem_read/write().  For internal users partial reads
+> should be treated as failure.  What are we supposed to do with a partial
+> read?  I don't think anyone has asked for partial reads to be supported
+> from sysfs either except Greg was wondering about it while reading the
+> code.
 >
+> Currently, a lot of drivers return -EINVAL for partial read/writes but
+> some return success.  It is a bit messy.  But this patchset doesn't
+> really improve anything.  In at24_read() we check if it's going to be a
+> partial read and return -EINVAL.  Below we report a partial read as a
+> full read.  It's just a more complicated way of doing exactly what we
+> were doing before.
+
+Currently what drivers return is up to their interpretation of int
+return type, there are a few drivers which also return the number of
+bytes written/read already like
+drivers/misc/mchp_pci1xxxx/mchp_pci1xxxx_otpe2p.c .
+The objective of the patch was to handle partial reads and errors at
+the nvmem core and instead of leaving it up to each nvmem provider by
+providing a better return value to nvmem providers.
+
+Regarding drivers/misc/eeprom/at25.c which you pointed below, that is
+a problem in my code change. I missed that count was modified later on
+and should initialize bytes_written to the new value of count, will
+fix that when I come up with the new patch.
+
+I agree that it does not improve anything for a lot of nvmem providers
+for example the ones which call into other reg_map_read/write apis
+which do not return the number of bytes read/written but it does help
+us do better error handling at the nvmem core layer for nvmem
+providers who can return the valid number of bytes read/written.
+
+Please let me know if you have any other suggestions on how to handle
+this better.
+
+Thanks
+Joy
+
+>
+> drivers/misc/eeprom/at25.c
+>    198  static int at25_ee_write(void *priv, unsigned int off, void *val,=
+ size_t count)
+>    199  {
+>    200          struct at25_data *at25 =3D priv;
+>    201          size_t maxsz =3D spi_max_transfer_size(at25->spi);
+> New:            size_t bytes_written =3D count;
+>                        ^^^^^^^^^^^^^^^^^^^^^
+> This is not the number of bytes written.
+>
+>    202          const char *buf =3D val;
+>    203          int                     status =3D 0;
+>    204          unsigned                buf_size;
+>    205          u8                      *bounce;
+>    206
+>    207          if (unlikely(off >=3D at25->chip.byte_len))
+>    208                  return -EFBIG;
+>    209          if ((off + count) > at25->chip.byte_len)
+>    210                  count =3D at25->chip.byte_len - off;
+>                         ^^^^^
+> This is.
+>
+>    211          if (unlikely(!count))
+>    212                  return -EINVAL;
+>    213
+>    214          /* Temp buffer starts with command and address */
+>    215          buf_size =3D at25->chip.page_size;
+>    216          if (buf_size > io_limit)
+>    217                  buf_size =3D io_limit;
+>    218          bounce =3D kmalloc(buf_size + at25->addrlen + 1, GFP_KERN=
+EL);
+>    219          if (!bounce)
+>    220                  return -ENOMEM;
+>    221
+>
+> regards,
+> dan carpenter
