@@ -1,69 +1,68 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6A9913C821
-	for <linux-sunxi@lists.linux.dev>; Thu,  6 Jun 2024 09:23:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A813413EFF3
+	for <linux-sunxi@lists.linux.dev>; Thu,  6 Jun 2024 09:24:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717665788; cv=none; b=dCLXPrxN0OO8G6Mg6alqXl9WG+Syae1moJcp/iKReSFjl0KkJm1q+SGk6bYk9JTrxzbr5J4DxtFjBpUGeJTknq4ZBMgxU0F368pJfgcOlStffXEGp2gwpicFtBdZ4T31t9YeTtsbzS1zuKsBJk+VO196DgnkI5xfYJPu1+VZDSk=
+	t=1717665869; cv=none; b=OymDU4AhJ0P0vZzgbU5AP0a0TMFcxk/Vqe7usqQFrZndv8ihUyg4GVu+SJSwW3nX1Nt1EzvEimWY3G3PBez08nqtSjlEsZKVkTQNkW8jt+VxGUa+FGyII2+z0ZjqMx73SQ9xokUChQmqEFDRzJq6uzLbTDiFZcVvTcsRM31SC7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717665788; c=relaxed/simple;
-	bh=SEZNCNy3TlFdmEoQ2GZ2Aljta1PfdelqlRlbOXhQfSk=;
+	s=arc-20240116; t=1717665869; c=relaxed/simple;
+	bh=udXsNUhcnZ8ynFTNJ+VRVp6bj42T4g0XRqCcuRb5JXc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OEDtvEvQF1I+ZoAJdhmMazk+ELnOFRwQDWCcsqr9yHItSNes+wcWmOFkHfNple9mgl+YRiRl3Emssvd229Tpt8LrGMp7LVmjkiX4wXAPKViUaRw/EHosFZWQipDSqehA4x86dZONaYe8e0uaQzVEwHaLsBt2Ks1rXOVxp17hrxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=KRKCOrUj; arc=none smtp.client-ip=209.85.218.44
+	 To:Cc:Content-Type; b=X2XRT2PfoO8KJsh2VWVzPQIjtUTxynFwtkA0cJ0OcpyKitP0xz4hHwZ/o4lOiM/unCOKof+girYoqdgHmztkCHQDRoB0EFMKQ8douGJF0JGzsA5WaJWowSRWMIv+kr7fB0N4vyErv55LX3LS7pEVRQ21VjSiT0xFYCjHat9sYp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=zGCZkyxo; arc=none smtp.client-ip=209.85.216.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KRKCOrUj"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a6267778b3aso58472366b.3
-        for <linux-sunxi@lists.linux.dev>; Thu, 06 Jun 2024 02:23:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="zGCZkyxo"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-2c29c487a94so397251a91.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 06 Jun 2024 02:24:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1717665785; x=1718270585; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1717665866; x=1718270666; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Xdo3ldNDeMyIM6Kx3VweI5RQmky1PUGTcMckmPYOvUE=;
-        b=KRKCOrUj5sQMAB8xW+tnkR6t+++S4MCeQlbuzZ5BkxQ39vu2Jz9rkuo7++XHKOvFCQ
-         GzdJ7MBnWD5z+PQjBFGa9gnJTsqrh6oPImZwMZAk0XOp/i/te3GSMQk297F2LCWGdjEF
-         rnyBQS5Iv+OYkbMvBVOkBCmwGCD0BjPVOKRQC5CtASdEnvZJ2geO8klqycMsCw/qky/I
-         ooOFar3nvDmSBD9eLp/4LJqU5GIxJSgtemLTaf3lizlS5ayiJPsWeKZs13auzJftieWq
-         s0TzKQPdKkPMkj+gt5UvDpUUvYohg/m+9paBXb1x8VyEw2PScl8YnWdUSM80rOgK3/eA
-         6SOw==
+        bh=oCgaL8o9gTqW3R6MkCs66+V6tGdqOhyMZityYxhrOKQ=;
+        b=zGCZkyxoVSmXr7VCixce3emZzjiPTlVcIgja7vqRTLwE2KyMNCLmvI1UX+TFZFN/61
+         upT50DRPltTJrv8vr++lLDYOkEHTPs2EqBbdsRFosn3qTphkuLmB5HeRMPyltE2osHs4
+         gjFwTOXhPYsflTOn5sNaykCCCOQoOx2dxePg3moZbjcE1PzRWEZHutTQ3JxMfJU7nTil
+         bRKa25xM0pxT+VDYQPeNItguSleKjsDpkp1X4EGS2rNavRyPSIkKK8YDoEC9zA1yMRGo
+         Ys58ymIrnUWur/cLiT8QroEp1UCNh3zGoC790Km2smDf1XS1bq2zqt33KXf1JUUXqOxP
+         gFoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717665785; x=1718270585;
+        d=1e100.net; s=20230601; t=1717665866; x=1718270666;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Xdo3ldNDeMyIM6Kx3VweI5RQmky1PUGTcMckmPYOvUE=;
-        b=WC4nNmCxZkOMA+VwUSMTgHXeCC/WjP/tkjpesmces5VlONIsc7mjFoyuf8EpG1SgH5
-         TnAv/fOB1wk9H8KFiaxoFdGS0hpaoNHbpMnok+esEDoUTrgAUB/etoUtOuLbPYq1Y/Il
-         sMRg55fletPcvw6ygfIjP+3RJcFEAbW9M4U9Ex5eTKFaDIs4rt3WxVdbDsr2J3e7VGRl
-         4KvFyi1Jac9vsMmrDiuSpCEzMyTlv52vSWDHcmxMQ1iVA0i2iZJL0hiZZpND2oZPAeOJ
-         eAw1OkZYIvsnJ+sPS6FSXKI+zBlY0J2/PPlR9EsjpqJGf4jie+hxPaNaFpuJIbaSWKXd
-         urrQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVKEkERMGsXVcG6hkq9sL5f6a8t43SvSyn81tigpR3LWVFeTldL40HmSSt3N5bR9laDIWycp0/0ljra3qeeQVZD7lv1r0h9hyIawoE=
-X-Gm-Message-State: AOJu0Yyx457RwrklKzRFa8CamMS8N2/3G91hd441lIO3ogjhea8uZuI4
-	+AxlBv2verKtHt5XeDL7yNuWQM3bdxhiZTG27knb315tBKbzkFrxX5Lm7Ph00IjQq+uGStwNoHE
-	Hgx2cD9snrODY1bk1ltO7HPdcUaIWZYSVD7Jj
-X-Google-Smtp-Source: AGHT+IEbpprl6blPk8T2xU2kaYzhaNrmYq2+TvX42xRzC/TSvUdDQXwO9kRI4X6UmxZu4UT9hOygjZqZt2phPUhxZ0w=
-X-Received: by 2002:a17:906:4694:b0:a5a:2d30:b8c1 with SMTP id
- a640c23a62f3a-a699f680d76mr317202766b.14.1717665784784; Thu, 06 Jun 2024
- 02:23:04 -0700 (PDT)
+        bh=oCgaL8o9gTqW3R6MkCs66+V6tGdqOhyMZityYxhrOKQ=;
+        b=q23k0pmgLirVUE4Nn5W17+7r3AYRckwyFzWDCiMP8EyNlPbGvRchd4RoiLWHCX4QRk
+         IBW6UvGvr2N+cK2yJXOjz7BJgSYAnmoVtw/FmPT31EkJO+ZxWXQfb5dk/aCltc5Ql7h6
+         dSXEFfTxnh+OyUfC3ae6BhM80XJYSuntmawV6LcCykZMvCHBqTTcQs1Q+pHLI2Yz3e+G
+         8RJVxf2F++8pUvCAW5dbCPUa6klEx1f/UlbdtC4uq9/CDmM909TA7nzywKiShVIb/w/k
+         sE1Zwhm5o0DaebxEjtrPOgUyYCtluk4dzNw6EDOEsrvOdnKqIm6Z0J0VRlRDD2feMpWM
+         MQVA==
+X-Forwarded-Encrypted: i=1; AJvYcCV0eQAeJNcppkGXXwv2t4sNn4kyhxCWe+iMx7+sWDhHr0e5nR5it5bnBKllcz84b1usDAbcfV6UAyIv8sncMf/G2kTKXYipMROQeZk=
+X-Gm-Message-State: AOJu0YxSudRi1MmY5c5n7Cq4e8tNZkHfh1rPQV7cNeTo6l5NcS98jcZr
+	vN5Iidsal7bpds/atmZWXbGVfbk8G7jkc+Tn7NFmsz+byt1pF4Zt1gw7TmuZE4hM5pTjIDuZ6T5
+	ubq7dwZ32pU8rEJXbqRtkEqn/bCtt/t6+MRdC
+X-Google-Smtp-Source: AGHT+IFO27fLQ60otnz+VPqegLb1l+ah/BSl+EBtF4Q1892OcY0hAdcmXoAoiATlOwzJL3jUrPraipj4bPnP8gdWMEU=
+X-Received: by 2002:a17:90b:4ad0:b0:2c1:ad46:7133 with SMTP id
+ 98e67ed59e1d1-2c27dafd1d8mr5026032a91.8.1717665865426; Thu, 06 Jun 2024
+ 02:24:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240605175953.2613260-1-joychakr@google.com> <20240605175953.2613260-2-joychakr@google.com>
- <b2ccaf40-fe04-490f-a625-4c502c038627@roeck-us.net>
-In-Reply-To: <b2ccaf40-fe04-490f-a625-4c502c038627@roeck-us.net>
+References: <20240605175953.2613260-1-joychakr@google.com> <20240605175953.2613260-6-joychakr@google.com>
+ <20a9ea0b-74d0-47b2-8dc0-2b5e7d070d38@roeck-us.net>
+In-Reply-To: <20a9ea0b-74d0-47b2-8dc0-2b5e7d070d38@roeck-us.net>
 From: Joy Chakraborty <joychakr@google.com>
-Date: Thu, 6 Jun 2024 14:52:51 +0530
-Message-ID: <CAOSNQF3bw4+-SPEVf9wwsrt0L-6VNK0NWuDKW6AhX701+OKjsg@mail.gmail.com>
-Subject: Re: [PATCH v1 01/17] hwmon: pmbus: adm1266: Change nvmem
- reg_read/write return type
+Date: Thu, 6 Jun 2024 14:54:09 +0530
+Message-ID: <CAOSNQF3Kes3MHWf3FMCCfNOCvymSZV8RS+UMM_oKjhBQzQz8Bg@mail.gmail.com>
+Subject: Re: [PATCH v1 05/17] misc: ds1682: Change nvmem reg_read/write return type
 To: Guenter Roeck <linux@roeck-us.net>
 Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -81,7 +80,7 @@ Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 6, 2024 at 2:59=E2=80=AFAM Guenter Roeck <linux@roeck-us.net> w=
+On Thu, Jun 6, 2024 at 2:48=E2=80=AFAM Guenter Roeck <linux@roeck-us.net> w=
 rote:
 >
 > On 6/5/24 10:59, Joy Chakraborty wrote:
@@ -89,52 +88,58 @@ rote:
 > >
 > > Signed-off-by: Joy Chakraborty <joychakr@google.com>
 > > ---
-> >   drivers/hwmon/pmbus/adm1266.c | 4 ++--
-> >   1 file changed, 2 insertions(+), 2 deletions(-)
+> >   drivers/misc/ds1682.c | 16 ++++++----------
+> >   1 file changed, 6 insertions(+), 10 deletions(-)
 > >
-> > diff --git a/drivers/hwmon/pmbus/adm1266.c b/drivers/hwmon/pmbus/adm126=
-6.c
-> > index 2c4d94cc8729..7eaab5a7b04c 100644
-> > --- a/drivers/hwmon/pmbus/adm1266.c
-> > +++ b/drivers/hwmon/pmbus/adm1266.c
-> > @@ -375,7 +375,7 @@ static int adm1266_nvmem_read_blackbox(struct adm12=
-66_data *data, u8 *read_buff)
-> >       return 0;
-> >   }
+> > diff --git a/drivers/misc/ds1682.c b/drivers/misc/ds1682.c
+> > index 5f8dcd0e3848..953341666ddb 100644
+> > --- a/drivers/misc/ds1682.c
+> > +++ b/drivers/misc/ds1682.c
+> > @@ -198,26 +198,22 @@ static const struct bin_attribute ds1682_eeprom_a=
+ttr =3D {
+> >       .write =3D ds1682_eeprom_write,
+> >   };
 > >
-> > -static int adm1266_nvmem_read(void *priv, unsigned int offset, void *v=
-al, size_t bytes)
-> > +static ssize_t adm1266_nvmem_read(void *priv, unsigned int offset, voi=
-d *val, size_t bytes)
+> > -static int ds1682_nvmem_read(void *priv, unsigned int offset, void *va=
+l,
+> > -                          size_t bytes)
+> > +static ssize_t ds1682_nvmem_read(void *priv, unsigned int offset, void=
+ *val,
+> > +                              size_t bytes)
 > >   {
-> >       struct adm1266_data *data =3D priv;
-> >       int ret;
-> > @@ -395,7 +395,7 @@ static int adm1266_nvmem_read(void *priv, unsigned =
-int offset, void *val, size_t
+> >       struct i2c_client *client =3D priv;
+> > -     int ret;
 > >
-> >       memcpy(val, data->dev_mem + offset, bytes);
-> >
-> > -     return 0;
-> > +     return bytes;
+> > -     ret =3D i2c_smbus_read_i2c_block_data(client, DS1682_REG_EEPROM +=
+ offset,
+> > +     return i2c_smbus_read_i2c_block_data(client, DS1682_REG_EEPROM + =
+offset,
+> >                                           bytes, val);
+> > -     return ret < 0 ? ret : 0;
 > >   }
 > >
-> >   static int adm1266_config_nvmem(struct adm1266_data *data)
+> > -static int ds1682_nvmem_write(void *priv, unsigned int offset, void *v=
+al,
+> > -                           size_t bytes)
+> > +static ssize_t ds1682_nvmem_write(void *priv, unsigned int offset, voi=
+d *val,
+> > +                               size_t bytes)
+> >   {
+> >       struct i2c_client *client =3D priv;
+> > -     int ret;
+> >
+> > -     ret =3D i2c_smbus_write_i2c_block_data(client, DS1682_REG_EEPROM =
++ offset,
+> > +     return i2c_smbus_write_i2c_block_data(client, DS1682_REG_EEPROM +=
+ offset,
+> >                                            bytes, val);
 >
-> The series doesn't explain what a driver is supposed to do if it
-> only transfers part of the data but not all of it due to an error,
-> or because the request exceeded the size of the media.
+> i2c_smbus_write_i2c_block_data() does not return the number of bytes writ=
+ten.
+> It returns either 0 or an error code.
 >
-This patch series is actually a follow up on
-https://lore.kernel.org/all/20240206042408.224138-1-joychakr@google.com/
-which has now been reverted . I shall try to collate it and send it
-again with a better explanation.
+Ack, I see only i2c_smbus_read_i2c_block_data()  returns the number of
+bytes read . Will fix it next revision.
 
-> For example, this driver still returns an error code if it successfully
-> transferred some data but not all of it, or if more data was requested
-> than is available.
->
-> I didn't check other drivers, but I would assume that many of them
-> have the same or a similar problem.
->
 > Guenter
 >
