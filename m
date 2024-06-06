@@ -1,216 +1,374 @@
-Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazolkn19013006.outbound.protection.outlook.com [52.103.13.6])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EC1919884A
-	for <linux-sunxi@lists.linux.dev>; Thu,  6 Jun 2024 17:09:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.13.6
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717693774; cv=fail; b=BNvx24WNHxCjbz3E1ycHIFluRh1kk7nT5/PYyd77hkKPyhGF+RhGP0z1X7kUNc09RFfPppFeVSJL+CSxY7a8KEKK3XUHyMwvbK9bb/cTUd4QIdX+bszVveLMf2PmNKu/BrOksmg6YroyU/TmIA5ID+4yiPf2eZ+TbTI6xL1V8P0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717693774; c=relaxed/simple;
-	bh=jDDQbJnDX+4NMQ42yOQ+OBtk915lrAFwdrkGBORLufc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=qrtmmiXcSfAifhVtyeQE/FlweifcYrJ66g7idThFEXnR6dowdQI8x9rjcbHF9GaYj5jpzn0Z0C7Mkke8PFA33o2ruxs2Vo0jKYx7p/k8E8xsB6E6Oox9tjgMzY8BFGblhEb4DeT+WhllZlk1uQrdBip3T7PSwvsX/L/exFXBwaI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com; spf=pass smtp.mailfrom=hotmail.com; dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b=YFPKmv1o; arc=fail smtp.client-ip=52.103.13.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hotmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b="YFPKmv1o"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Papyuxqq7NuNjdNNDLii7o7pwBVWbgdBSlATLZhr5cJQR1I5iG2imk7Ozrp3nY98PnES3G+KJVovBJJM8EfdszZHBIeiWPtDB4lMwL/eULsP8v+iAqoslD5aRuOpZvlsYYsdDG7SK4ROkcxRsY6OwtLh4TLBXaQ6QIIB8fpyryCAJBN5diJopBWQe8a4sMZQqePpVCgMMa9j7Q7IJMiUU8Wz4atdh0rrkb4AniDHWdBMBSBnu9rkJuZAfaOFUuOMMaU5w/VmQhw/Gnwh9C+8nwLB+ebMC8nu/pimccafOwYomouCpkoyeJxJsaZomH2lEl2VMt5JxcHatWqqD82rfg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=L89J51+7vsqTuOcMkN4gO+JGSK2xVevAvwvaRgcUj7Q=;
- b=OFoXnNGGCpRKynCTFPe5+TSg8jRb1ImzAlX19KE0ttyLvo6pqwLuq/7iva6oUs/Hr7SOnIyvTGSr5o1EFcpAwwNwAvtQqLxp0kesh7dOuXheZQqoD57OHXRN2jgvwypVSWLysm+Uep15gc1AUoqCv0MLs5wFWCQnRrofYLnmtU+gHCZFNvB0MKqUKNaJKKc/kc2tba9oxLLeTVfT9jf2q2QjIUSXAnTYoeDmRMYGoXllIw78t6ro1Fo51qpveFNpsizsl3RwVgjgJ0NAE5Cg35e1egYImXjhETqZ6tbOpqaBLdP6efjGp9XF2VNILustAoBLcYbNsnP6yWMg/4Cc5Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=L89J51+7vsqTuOcMkN4gO+JGSK2xVevAvwvaRgcUj7Q=;
- b=YFPKmv1oFcdNmXboC+j2OStlwp3G3dVUovwy0xVpsotaV45ee/uaGAyIvFDZVjvBSBA5O1mT0RKJaxiG4MzdWawgis3aIZhwYLLEG2rPA6qX+HpHFqfNc6v94m3scvMqlZo2I2L3C1In4xYrjI5U2Yp7Anumdkc5PrpWmPNLUb2eyX9lJgLPOFsjP6+h/Fyjv2oE8GAjcEFezywNYzDZVc+Igumu1gGji1C03Svhwpg9nyz0BdOfLvJ1mE5SXJk9nCgd9+QwEl03/sjaEDAMBqshumR4UAO+b2F2YJP+aSoT+X4VmLAll5FHDZ9foSUBmTQUB4OQGGRVNIhIZzIhEQ==
-Received: from DM4PR05MB9229.namprd05.prod.outlook.com (2603:10b6:8:88::20) by
- IA1PR05MB10150.namprd05.prod.outlook.com (2603:10b6:208:3da::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.8; Thu, 6 Jun
- 2024 17:09:26 +0000
-Received: from DM4PR05MB9229.namprd05.prod.outlook.com
- ([fe80::d720:e9e5:929:c7ff]) by DM4PR05MB9229.namprd05.prod.outlook.com
- ([fe80::d720:e9e5:929:c7ff%4]) with mapi id 15.20.7656.005; Thu, 6 Jun 2024
- 17:09:26 +0000
-Date: Thu, 6 Jun 2024 12:09:24 -0500
-From: Chris Morgan <macromorgan@hotmail.com>
-To: Oliver Neukum <oneukum@suse.com>
-Cc: Chris Morgan <macroalpha82@gmail.com>, linux-sunxi@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
-	broonie@kernel.org, lgirdwood@gmail.com, lee@kernel.org,
-	samuel@sholland.org, jernej.skrabec@gmail.com, wens@csie.org,
-	conor+dt@kernel.org, krzk+dt@kernel.org, robh@kernel.org,
-	sre@kernel.org
-Subject: Re: [PATCH 3/4] power: supply: axp20x_usb_power: Add support for
- AXP717
-Message-ID:
- <DM4PR05MB922969669BAC030FC2283063A5FA2@DM4PR05MB9229.namprd05.prod.outlook.com>
-References: <20240522230132.364915-1-macroalpha82@gmail.com>
- <20240522230132.364915-4-macroalpha82@gmail.com>
- <a2b06a40-4689-4fa9-90bb-9d34311d4221@suse.com>
- <ZldINkZO11XuiJAP@wintermute.localhost.fail>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZldINkZO11XuiJAP@wintermute.localhost.fail>
-X-TMN: [rZHwOqLfS1y9MZWk+PuHkeMh9a6xzYkw]
-X-ClientProxiedBy: SA9PR03CA0025.namprd03.prod.outlook.com
- (2603:10b6:806:20::30) To DM4PR05MB9229.namprd05.prod.outlook.com
- (2603:10b6:8:88::20)
-X-Microsoft-Original-Message-ID: <ZmHtRHEJS2b7CfCP@wintermute.localhost.fail>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EF541990CE
+	for <linux-sunxi@lists.linux.dev>; Thu,  6 Jun 2024 17:28:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1717694938; cv=none; b=pk5HGoF1cjLwUHrAD1sKpRiFY87nMv5LKDHhepkHKsnc3X0FlhOSuaMIKXClIfecfkSjAOEOOeHr0/uncWud5M5RsOeEBxZepoyMhZLpbrqannAjbDaTQRAKsLYq5fH6ad9hZYKn4t6em1nElbN5sUQ7nfzRH8Cx0KaUPA/Vh1Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1717694938; c=relaxed/simple;
+	bh=JNak2+njFem8PE62GoSC3QHk+AwtR9bWjoX4scDPfz0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=I3l5yqm9v2ctvS1rsSJOa2LqTLodaUFo7nyAPXbw8UjSp69Lnc9HRn1Tgoefee3wM58jnjklGgkHOGjna352DWe6VGHRDYp5lGZHfQFqQs03+mHmtFr2PsJd8fZKznqEX8Kqm3ZO7uUt/bZN2P9ibBdzqYFax+qaADvT1KRMZs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E8F552F4;
+	Thu,  6 Jun 2024 10:29:16 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CA1F43F792;
+	Thu,  6 Jun 2024 10:28:50 -0700 (PDT)
+Date: Thu, 6 Jun 2024 18:28:48 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Chris Morgan <macromorgan@hotmail.com>
+Cc: Chen-Yu Tsai <wens@csie.org>, Chris Morgan <macroalpha82@gmail.com>,
+ linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+ mripard@kernel.org, ryan@testtoast.com, samuel@sholland.org,
+ jernej.skrabec@gmail.com, conor+dt@kernel.org, krzk+dt@kernel.org,
+ robh@kernel.org
+Subject: Re: [PATCH 2/2] arm64: dts: allwinner: h700: Add Anbernic RG35XX-SP
+Message-ID: <20240606182848.59e8d3a5@donnerap.manchester.arm.com>
+In-Reply-To: <DM4PR05MB922995CB8DE2589E025E486FA5FA2@DM4PR05MB9229.namprd05.prod.outlook.com>
+References: <20240605185339.266833-1-macroalpha82@gmail.com>
+	<20240605185339.266833-3-macroalpha82@gmail.com>
+	<20240606105159.33a2b917@donnerap.manchester.arm.com>
+	<CAGb2v64uCCZSc0aY-gtcMNAhJAqDhb5=sPBJC=q0+nKwMO3f+A@mail.gmail.com>
+	<20240606133515.223b9c73@donnerap.manchester.arm.com>
+	<DM4PR05MB922995CB8DE2589E025E486FA5FA2@DM4PR05MB9229.namprd05.prod.outlook.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR05MB9229:EE_|IA1PR05MB10150:EE_
-X-MS-Office365-Filtering-Correlation-Id: f3c07136-822d-41c3-0dfb-08dc864b6b19
-X-Microsoft-Antispam: BCL:0;ARA:14566002|461199019|440099019|3412199016;
-X-Microsoft-Antispam-Message-Info:
-	9QWhUNx9lcbRkzaQdJwjHMycbPr35nGbNT1pnZPm9eAMBvsD1itTUcOOgPBK1adZRkEnJUih/1RydB4RUj0fPtdOw7m88IzE1c/aCOFOgRema0qVpizZf5NCaTjuHf3ZG056223ACPVCDHYRtvJYembQhPUgxhHlmCfogJRxCItfGnMPLLUmyxbTmxRsOBI193ahzWBSpNoIWVaMoXdLnqg4YVJeL452Xa7wdXUu2z/yo30mOu+g+JcFmrXtUS5dJj7DngBnT5OO2RM8iuO8n/Nc7dwLKTFT5PcP/FplfbVcC+t1iX+vbUbyBrmyph4GaRT5CqgFr90NFlJmLozlV9Do8HVxKC78c2yv+MN7hsPEKhskkiEOi32o6aIGOw/YS6992np+uXjrfZq2PaZ0/z25UxiLe3xOp9Vp+N5HMYoIZmUHAJkME+CYVjD0p7ItFp/n/Ua4ZJ8GIjT5yyJefYmxDI1gHCmozyTOPKfzsYbWNTxV7xiaLMUPAJiQ4sm1daYGXRN6TlDXIvCfms1Qd0KgVHP6eEPbwMlKuywMXqtA9gCF+f3Ih2FyBn/GlX78
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?ZKDVUOGVpL9amMVDB/rua0+r2uiHDz4bHG64dBYb37DFszPTgQ6ALdVAb24v?=
- =?us-ascii?Q?ZASCqsAv1D0LCy5LKtxGleY+hDJ4nasvGOKX+Bj6w5YNVi0Fv3lGF03BpWAh?=
- =?us-ascii?Q?XZTGLGg/4dclaW6FIszfuNe/RIGpTtZZzi7lrG+VKb1GjSQj8Y61n32mAazt?=
- =?us-ascii?Q?IjC9OBHuhzmFWPG7AwIyDHsG7j/YIEax0zKl+Ywmm/eySd7LofRH3awhQzzn?=
- =?us-ascii?Q?F28hY5HuqiiezcEtU+z6xg+YGGigGlTN0HPetd7Uzvl53xno8ka6yPxu9GuT?=
- =?us-ascii?Q?B0svp3Wu0kWMNSg7/kRE22aS+4Lj5FWVKmHQs6e4m+mCRdr/PtSVoD3Gllp/?=
- =?us-ascii?Q?NbhTstXpMiGuGXp7NHbnyumYOnKxR/OKKiUKVaazaa310pJ/2tpc7lAZ6s1P?=
- =?us-ascii?Q?HNugvsLDKEzmPJUcKrbh79ATUsUvFpnbnHXIt3Q+g3TQHemsH1vtcoHnZw9N?=
- =?us-ascii?Q?7fVUqinuat3PrP6RugotSGm0qxus8YYIz96JrDo487O5nkhWVuqSXQvFFozF?=
- =?us-ascii?Q?53zTfi29H4n94b6Z/Frpoxl+nEBjpzwTGht264bKNziptIQDcgKetpLb7nWG?=
- =?us-ascii?Q?2PG+3AL6E10YeduCg0hO1Jv9S3U+xtKyNpR5J7UoPgtRKKWwIJFIEgemCe1p?=
- =?us-ascii?Q?N7DUFUQBNBpUXycyhYla/4SUJA1Irv9zl2VqjqYHd34mGrvdYGiG+lcqdfCv?=
- =?us-ascii?Q?KDjt1PHXLDjftXVulIkAhVHAZgQC3wvLiYueoSsM2EZI6NZBdtwMoW/b3Q6s?=
- =?us-ascii?Q?O6tZmEu3jlVKDD+7PYvJeSsGIj/UrnoRm7MyWV0Y3Ki7YBLo42jHsdqW4JDK?=
- =?us-ascii?Q?aHzZMatDYlwTIdrZcanayxEc4H5Dsf+IySz6RpPyYWUl/px4ieJx0JKxHuKc?=
- =?us-ascii?Q?rRGinMhR3kJmBkH1v8HjOPVb++4Y2KlIVamKhIT6sfH7vr0bFp4wodScP64d?=
- =?us-ascii?Q?eXGQYhSMYMHGHWDCgNVc/cooCp77JmGkQMZBR+yvs3fLjmpnVzABWU6Am21A?=
- =?us-ascii?Q?rbQXfWoDYXF0yrtv9AHaz07KfE7nl3Am4J+++MW0qNeM8V7LHpTClJO04y5v?=
- =?us-ascii?Q?ETEh6bAEyArCcFDpCI7jinPCHuBlWFNMoB0QyD4ZkrtR+CC8XivR4ekUTpb1?=
- =?us-ascii?Q?kxotDtzX7WyR0o87A4JP41PHT7Bj5ZAgHPlDNMIfZR68NSzJ0/e7SwnhAVPu?=
- =?us-ascii?Q?9C4osegUyO6ttugnpqF2dtxFtSSLZkG+KHw+/FjQGY+OR4yXEvLvktd4ZuE?=
- =?us-ascii?Q?=3D?=
-X-OriginatorOrg: sct-15-20-4823-7-msonline-outlook-84f76.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: f3c07136-822d-41c3-0dfb-08dc864b6b19
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR05MB9229.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jun 2024 17:09:26.0285
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR05MB10150
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 29, 2024 at 10:22:33AM -0500, Chris Morgan wrote:
-> On Mon, May 27, 2024 at 11:10:32AM +0200, Oliver Neukum wrote:
-> > 
-> > 
-> > On 23.05.24 01:01, Chris Morgan wrote:
-> > > From: Chris Morgan <macromorgan@hotmail.com>
-> > > 
-> > > Add support for the AXP717. It does USB BC 1.2 detection similar to the
-> > > AXP813, however it is otherwise very different from previous AXP
-> > > devices.
-> > > 
-> > > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> > > ---
-> > 
-> > > +static int axp717_usb_init(struct axp20x_usb_power *power)
-> > > +{
-> > > +	int ret;
-> > > +
-> > > +	ret = regmap_update_bits(power->regmap, AXP717_ADC_CH_EN_CONTROL,
-> > > +				 AXP717_ADC_EN_VSYS_VOLT |
-> > > +				 AXP717_ADC_EN_VBUS_VOLT,
-> > > +				 AXP717_ADC_EN_VSYS_VOLT |
-> > > +				 AXP717_ADC_EN_VBUS_VOLT);
-> > > +	if (ret)
-> > > +		return ret;
-> > > +
-> > > +	return 0;
-> > 
-> > This is a bit silly.
-> 
-> Agreed, I'll fix.
-> 
-> > 
-> > > +}
-> > > +
-> > >   static int axp20x_usb_power_set_voltage_min(struct axp20x_usb_power *power,
-> > >   					    int intval)
-> > >   {
-> > > @@ -307,6 +417,20 @@ static int axp20x_usb_power_set_voltage_min(struct axp20x_usb_power *power,
-> > >   	return -EINVAL;
-> > >   }
-> > > +static int axp717_usb_power_set_voltage_min(struct axp20x_usb_power *power,
-> > > +					    int intval)
-> > > +{
-> > > +	int val;
-> > > +
-> > > +	if (intval < 3880000 || intval > 5080000)
-> > 
-> > Do you really want raw numbers here?
-> > 
-> 
-> Raw numbers are used throughout the driver, but it probably makes
-> sense to document *why* these numbers are here and what they mean, so
-> I'll do that.
-> 
-> > [..]
-> > > +static int axp717_usb_power_set_property(struct power_supply *psy,
-> > > +					 enum power_supply_property psp,
-> > > +					 const union power_supply_propval *val)
-> > > +{
-> > > +	struct axp20x_usb_power *power = power_supply_get_drvdata(psy);
-> > > +
-> > > +	switch (psp) {
-> > > +	case POWER_SUPPLY_PROP_INPUT_CURRENT_LIMIT:
-> > > +		return axp717_usb_power_set_input_current_limit(power, val->intval);
-> > > +
-> > > +	case POWER_SUPPLY_PROP_VOLTAGE_MIN:
-> > > +		return axp717_usb_power_set_voltage_min(power, val->intval);
-> > > +
-> > > +	default:
-> > > +		return -EINVAL;
-> > > +	}
-> > > +
-> > > +	return -EINVAL;
-> > 
-> > This is also a bit silly.
-> 
-> That's how it's done above, but I might as well just remove the default
-> statement so it returns -EINVAL if neither of the other two conditions
-> aren't true.
-> 
-> > 
-> > 	Regards
-> > 		Oliver
-> > 
-> 
-> I'll resubmit with the changes mentioned above.
+On Thu, 6 Jun 2024 12:06:54 -0500
+Chris Morgan <macromorgan@hotmail.com> wrote:
 
-I'm going to go back to the drawing board with this, so for now I'm
-withdrawing this patch series. Basically moving on to the next logical
-step of working with the battery it became obvious I should have done
-this using an ADC controller just like the existing axp usb and battery
-drivers. So I'll start with that and then resubmit a redone version of
-this once I have the ADC code in place.
+Hi,
 
-Thank you,
-Chris.
+> On Thu, Jun 06, 2024 at 01:35:15PM +0100, Andre Przywara wrote:
+> > On Thu, 6 Jun 2024 19:58:07 +0800
+> > Chen-Yu Tsai <wens@csie.org> wrote:
+> >=20
+> > Hi Chen-Yu,
+> >  =20
+> > > On Thu, Jun 6, 2024 at 5:52=E2=80=AFPM Andre Przywara <andre.przywara=
+@arm.com> wrote: =20
+> > > >
+> > > > On Wed,  5 Jun 2024 13:53:39 -0500
+> > > > Chris Morgan <macroalpha82@gmail.com> wrote:
+> > > >   =20
+> > > > > From: Chris Morgan <macromorgan@hotmail.com>
+> > > > >
+> > > > > The Anbernic RG35XXSP is almost identical to the RG35XX-Plus, but=
+ in a
+> > > > > clamshell form-factor. The key differences between the SP and the=
+ Plus
+> > > > > is a lid switch and an RTC on the same i2c bus as the PMIC.
+> > > > >
+> > > > > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> > > > > ---
+> > > > >  arch/arm64/boot/dts/allwinner/Makefile        |   3 +-
+> > > > >  .../sun50i-h700-anbernic-rg35xx-sp.dts        | 145 ++++++++++++=
+++++++
+> > > > >  2 files changed, 147 insertions(+), 1 deletion(-)
+> > > > >  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h700-anb=
+ernic-rg35xx-sp.dts
+> > > > >
+> > > > > diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/=
+boot/dts/allwinner/Makefile
+> > > > > index 0db7b60b49a1..00bed412ee31 100644
+> > > > > --- a/arch/arm64/boot/dts/allwinner/Makefile
+> > > > > +++ b/arch/arm64/boot/dts/allwinner/Makefile
+> > > > > @@ -49,5 +49,6 @@ dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h618-orang=
+epi-zero2w.dtb
+> > > > >  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h618-orangepi-zero3.dtb
+> > > > >  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h618-transpeed-8k618-t.dtb
+> > > > >  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h700-anbernic-rg35xx-2024.d=
+tb
+> > > > > -dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h700-anbernic-rg35xx-plus.d=
+tb
+> > > > >  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h700-anbernic-rg35xx-h.dtb
+> > > > > +dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h700-anbernic-rg35xx-plus.d=
+tb
+> > > > > +dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h700-anbernic-rg35xx-sp.dtb
+> > > > > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-r=
+g35xx-sp.dts b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp=
+.dts
+> > > > > new file mode 100644
+> > > > > index 000000000000..a1d16b65ef5d
+> > > > > --- /dev/null
+> > > > > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-s=
+p.dts
+> > > > > @@ -0,0 +1,145 @@
+> > > > > +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > > > +/*
+> > > > > + * Copyright (C) 2024 Ryan Walklin <ryan@testtoast.com>.
+> > > > > + * Copyright (C) 2024 Chris Morgan <macroalpha82@gmail.com>.
+> > > > > + */
+> > > > > +
+> > > > > +#include <dt-bindings/input/gpio-keys.h>
+> > > > > +#include "sun50i-h700-anbernic-rg35xx-plus.dts"
+> > > > > +
+> > > > > +/ {
+> > > > > +     model =3D "Anbernic RG35XX SP";
+> > > > > +     compatible =3D "anbernic,rg35xx-sp", "allwinner,sun50i-h700=
+";
+> > > > > +
+> > > > > +     gpio-keys-lid {
+> > > > > +             compatible =3D "gpio-keys";
+> > > > > +
+> > > > > +             lid-switch {
+> > > > > +                     label =3D "Lid Switch";
+> > > > > +                     gpios =3D <&pio 4 7 GPIO_ACTIVE_LOW>; /* PE=
+7 */
+> > > > > +                     linux,can-disable;
+> > > > > +                     linux,code =3D <SW_LID>;
+> > > > > +                     linux,input-type =3D <EV_SW>;
+> > > > > +                     wakeup-event-action =3D <EV_ACT_DEASSERTED>;
+> > > > > +                     wakeup-source;
+> > > > > +             };
+> > > > > +     };
+> > > > > +};
+> > > > > +
+> > > > > +/delete-node/ &r_rsb;   =20
+> > > >
+> > > > I don't think deleting the *RSB* node is right here, if at all, I'd=
+ expect
+> > > > status=3D"disabled", and then maybe deleting the axp717 node within?
+> > > > Or maybe factor the AXP node out into a separate file, and include =
+it from
+> > > > the -2024.dts and from this one?   =20
+> > >=20
+> > > Doesn't quite work because the unit address is different. =20
+> >=20
+> > Ah, right, good point. It's a bit annoying because the node name itself=
+ is
+> > mostly irrelevant, but I see that this wouldn't pass validation.
+> >  =20
+> > > > Or move every board to I2C?   =20
+> > >=20
+> > > Doesn't this depend on the bootloader also running in RSB mode? My me=
+mory
+> > > is a bit foggy on this, but IIRC we did a conversion on some other bo=
+ards
+> > > before? =20
+> >=20
+> > In the SPL we use I2C only, mostly because we have an SPL capable I2C
+> > driver already.
+> > In U-Boot proper we use whatever the DT says, that should work like in =
+the
+> > kernel.
+> > In TF-A we used to have one hardcoded transport per SoC, and that happe=
+ns
+> > to be RSB everywhere at the moment, but I have a patch series [1] to
+> > determine this dynamically, via the DT. As it stands, that chooses the
+> > transport by looking at the PMIC (I2C for the AXP313, RSB for the AXP717
+> > or AXP305), but I think it's fairly easy to check for the status proper=
+ty
+> > of both RSB and I2C, or look at the parent node of the AXP node to find
+> > the transport protocol to use.
+> > I will sketch something up.
+> >=20
+> > Chris has plans to auto-detect the exact Anbernic model in U-Boot, and
+> > switch to the right DT then automatically. IIUC I2C devices play a role=
+ in
+> > this, so switching to I2C for all Anbernic models would make this more
+> > viable.
+> > It just leaves a bit of a bitter taste that we now model the DT after t=
+his
+> > particular requirement, and not after what the hardware looks like. =20
+>=20
+> I honestly would rather simply have the Linux tree use i2c for all
+> devices, to be honest. For at least the Anbernic RG35XXSP device
+> as well as a device I haven't started yet (the RG28XX) there is an
+> external rtc on the same i2c bus as the PMIC at 0x51. This device
+> does not appear to be present on the other devices.
+>=20
+> I'm thinking that with U-Boot I can use a single bootloader and load
+> one of five device trees based on what happens when I check for this
+> RTC at 0x51, when I attempt to communicate with mmc1 (wifi), and when
+> I check GPIO PE11. I don't need to actually use the wifi in U-Boot,
+> just find out if it's there.
+>=20
+> This means basically:
+>=20
+> GPIO PE11 - RG35XX-H
+> RTC present, wifi present - RG35XX-SP
+> RTC present, wifi missing - RG28XX
+> RTC missing, wifi missing - RG35XX-2024
+> RTC missing, wifi present - RG35XX-Plus
+>=20
+> Regardless of this though, I will find a way to manage no matter what
+> we decide here. But for the RG35XX-SP and RG28XX (not yet submitted) I
+> want to run the PMIC off i2c so I can use the external RTC too.
 
-> 
-> Thank you,
-> Chris
+Yes, if you have I2C devices connected to those pins, then we *need* to
+use I2C for the PMIC. We have the same situation for the Pine H64 board,
+check sun50i-h6-pine-h64.dts.
+That's why the idea to switch the others, too.
+
+Cheers,
+Andre
+
+> >=20
+> > [1] https://review.trustedfirmware.org/q/topic:%22h616_pmics%22
+> >  =20
+> > > > What do people think about this?   =20
+> > >=20
+> > > "disabled" in RSB node and deleting the axp717 node is probably the r=
+ight
+> > > thing to do.
+> > >=20
+> > >  =20
+> > > > Cheers,
+> > > > Andre
+> > > >   =20
+> > > > > +
+> > > > > +&r_i2c {
+> > > > > +     pinctrl-0 =3D <&r_i2c_pins>;
+> > > > > +     pinctrl-names =3D "default";
+> > > > > +     status =3D "okay";
+> > > > > +
+> > > > > +     axp717: pmic@34 {
+> > > > > +             compatible =3D "x-powers,axp717";
+> > > > > +             reg =3D <0x34>;
+> > > > > +             interrupt-controller;
+> > > > > +             #interrupt-cells =3D <1>;
+> > > > > +             interrupt-parent =3D <&nmi_intc>;
+> > > > > +             interrupts =3D <0 IRQ_TYPE_LEVEL_LOW>;
+> > > > > +
+> > > > > +             vin1-supply =3D <&reg_vcc5v>;
+> > > > > +             vin2-supply =3D <&reg_vcc5v>;
+> > > > > +             vin3-supply =3D <&reg_vcc5v>;
+> > > > > +             vin4-supply =3D <&reg_vcc5v>;
+> > > > > +
+> > > > > +             regulators {
+> > > > > +                     reg_dcdc1: dcdc1 {
+> > > > > +                             regulator-always-on;
+> > > > > +                             regulator-min-microvolt =3D <900000=
+>;
+> > > > > +                             regulator-max-microvolt =3D <110000=
+0>;
+> > > > > +                             regulator-name =3D "vdd-cpu";
+> > > > > +                     };
+> > > > > +
+> > > > > +                     reg_dcdc2: dcdc2 {
+> > > > > +                             regulator-always-on;
+> > > > > +                             regulator-min-microvolt =3D <940000=
+>;
+> > > > > +                             regulator-max-microvolt =3D <940000=
+>;
+> > > > > +                             regulator-name =3D "vdd-gpu-sys";
+> > > > > +                     };
+> > > > > +
+> > > > > +                     reg_dcdc3: dcdc3 {
+> > > > > +                             regulator-always-on;
+> > > > > +                             regulator-min-microvolt =3D <110000=
+0>;
+> > > > > +                             regulator-max-microvolt =3D <110000=
+0>;
+> > > > > +                             regulator-name =3D "vdd-dram";
+> > > > > +                     };
+> > > > > +
+> > > > > +                     reg_aldo1: aldo1 {
+> > > > > +                             /* 1.8v - unused */
+> > > > > +                     };   =20
+> > >=20
+> > > You can drop all the unused ones, unless you plan to include *this*
+> > > file from another one and use those nodes/labels.
+> > >=20
+> > > ChenYu
+> > >  =20
+> > > > > +
+> > > > > +                     reg_aldo2: aldo2 {
+> > > > > +                             /* 1.8v - unused */
+> > > > > +                     };
+> > > > > +
+> > > > > +                     reg_aldo3: aldo3 {
+> > > > > +                             /* 1.8v - unused */
+> > > > > +                     };
+> > > > > +
+> > > > > +                     reg_aldo4: aldo4 {
+> > > > > +                             regulator-min-microvolt =3D <180000=
+0>;
+> > > > > +                             regulator-max-microvolt =3D <180000=
+0>;
+> > > > > +                             regulator-name =3D "vcc-pg";
+> > > > > +                     };
+> > > > > +
+> > > > > +                     reg_bldo1: bldo1 {
+> > > > > +                             /* 1.8v - unused */
+> > > > > +                     };
+> > > > > +
+> > > > > +                     reg_bldo2: bldo2 {
+> > > > > +                             regulator-always-on;
+> > > > > +                             regulator-min-microvolt =3D <180000=
+0>;
+> > > > > +                             regulator-max-microvolt =3D <180000=
+0>;
+> > > > > +                             regulator-name =3D "vcc-pll";
+> > > > > +                     };
+> > > > > +
+> > > > > +                     reg_bldo3: bldo3 {
+> > > > > +                             /* 2.8v - unused */
+> > > > > +                     };
+> > > > > +
+> > > > > +                     reg_bldo4: bldo4 {
+> > > > > +                             /* 1.2v - unused */
+> > > > > +                     };
+> > > > > +
+> > > > > +                     reg_cldo1: cldo1 {
+> > > > > +                             /* 3.3v - audio codec - not yet imp=
+lemented */
+> > > > > +                     };
+> > > > > +
+> > > > > +                     reg_cldo2: cldo2 {
+> > > > > +                             /* 3.3v - unused */
+> > > > > +                     };
+> > > > > +
+> > > > > +                     reg_cldo3: cldo3 {
+> > > > > +                             regulator-always-on;
+> > > > > +                             regulator-min-microvolt =3D <330000=
+0>;
+> > > > > +                             regulator-max-microvolt =3D <330000=
+0>;
+> > > > > +                             regulator-name =3D "vcc-io";
+> > > > > +                     };
+> > > > > +
+> > > > > +                     reg_cldo4: cldo4 {
+> > > > > +                             regulator-min-microvolt =3D <330000=
+0>;
+> > > > > +                             regulator-max-microvolt =3D <330000=
+0>;
+> > > > > +                             regulator-name =3D "vcc-wifi";
+> > > > > +                     };
+> > > > > +
+> > > > > +                     reg_boost: boost {
+> > > > > +                             regulator-min-microvolt =3D <500000=
+0>;
+> > > > > +                             regulator-max-microvolt =3D <520000=
+0>;
+> > > > > +                             regulator-name =3D "boost";
+> > > > > +                     };
+> > > > > +
+> > > > > +                     reg_cpusldo: cpusldo {
+> > > > > +                             /* unused */
+> > > > > +                     };
+> > > > > +             };
+> > > > > +     };
+> > > > > +
+> > > > > +     rtc_ext: rtc@51 {
+> > > > > +             compatible =3D "nxp,pcf8563";
+> > > > > +             reg =3D <0x51>;
+> > > > > +     };
+> > > > > +};   =20
+> > > >
+> > > >   =20
+> >  =20
+
