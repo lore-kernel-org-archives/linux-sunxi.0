@@ -1,61 +1,61 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05A9B13AD38
-	for <linux-sunxi@lists.linux.dev>; Thu,  6 Jun 2024 07:42:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A51EA13C821
+	for <linux-sunxi@lists.linux.dev>; Thu,  6 Jun 2024 08:41:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717659764; cv=none; b=IQI3Tw34F391Th7Y8YciPPWd9sCfySx4scSjixchOO6nN58qQMzelUp7gnkanciBe5PTH2+kKsY9AZbeWvuZia/SDM3Dw/s3ryupj8RFBJOL41rfghkVHLs5Bb83I9GsXR/kOsE+tYCLOsirtkNPMQxKr4w/abWCrmD4PYhJ5UM=
+	t=1717663314; cv=none; b=EXfHsf2cWNymZq+5tywtTIfiBaVDTFILdT1pyHmOK1fSOC5QXGS4qbz8GaPq63F0lpQ8Mj+0JfS4HtutvvOMx3Gz7cAgsqxnP4uPHzPEwQ7H4YGBT5X+lsd21lk2IQc2Ulyu1O7GOYJiGZUe2/BgY9OpRleBKyOM2fMFmdr8vuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717659764; c=relaxed/simple;
-	bh=7OaWmqVFqUj8UiBMIFYvyTDVYpCRKRaVDuAaqAod2/I=;
+	s=arc-20240116; t=1717663314; c=relaxed/simple;
+	bh=Tnid5tfB5kBNwDescW1YCizAMVKFdBOYhN6ibNA8jrc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r4EfKDHV0Ya++hO6Y8vo5nzM9cOFhIyXXi9CbO0uzyv0LaNXHvOHZw1a6Mn/jXYbvkWR6TRaTvhb81xcC2mCqXGbIGDT4JKx46BYWwAOdMlnyYPJUZzXQhTttVNyv+H2bSo+PIvD6y1AKlJzrWvrsyZA1UY9XI391feusIngltw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CcB0p3Q0; arc=none smtp.client-ip=209.85.218.46
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xjfi+QgM5c0SVVeZCwcEKc04PMAZ6S1WER3IHCxkG2khPv6NVRS9ULuZEp5UkrfmZx+1wpIqTDvv5UAXlxozdaQVwPFd+QWabWdADAPJVp71B13Zx6rjYPfFg+PKc4b6u2T5/y/02wR66uq2YLm0hQYr1IyFrFflHXnOVeDNZ38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SwqWe7Cz; arc=none smtp.client-ip=209.85.208.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CcB0p3Q0"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a691bbb7031so86778266b.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 06 Jun 2024 00:42:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SwqWe7Cz"
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2ea903cd11bso9064401fa.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 06 Jun 2024 01:41:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1717659760; x=1718264560; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1717663311; x=1718268111; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7hn7A2vtREo0E7HfSwjkC9hqptsOSWf7nUvmnuVDMQY=;
-        b=CcB0p3Q0xis6ePdraJepTp3ggDp+Wbu0vmGwH9hdwxBx8E2Q7LAd2KA9W/sVCIkYe2
-         EOaZJjL3U6DGe20Quq5FXvWWtpnWPO7mbF9kdH4rtsglIPdMnG1rML7xjIwtvx9O3yWR
-         Ag0SUTJRv2smVW5XEd5cpMf9yq/IhsYTIonNR/13421juS5B7E0ErkvxPe7l68JfloF8
-         itQP1++NB9LkcMs6nh24zKCNwM29LIgwQxdt+byUfv0l5P7q9tNKU3lFdvFoJdEQyKev
-         km2puJoaMAmYfXZ8lYq1Z5uTAYuEcko5CFnAOuZwNIZFS8SoBKbi7nCQyHgBwYPxwItp
-         0QUw==
+        bh=lboqGDLkSlZiXGaj/uzeRuz104hFq0ngZ+Ud/fj/+Ag=;
+        b=SwqWe7CzziDutafWTbL2aSGTUaQ2cldMIsO91dx9VSftJ43Un2GY5ElmK142/Woszr
+         taUnmeomTX7CkifhDK7+MwliWTjwTTaSoBwyVaNVyXUh3J1ASuJrCAzD5qJzofZD9l11
+         1oiBcc9Fpnzzzv4GfG/10DpBmrq9cV3ScYAskd/7CdA/h5K8/qQp9nS63PNOleagSzp5
+         37XjZvES5Pzu7zYhYkTTxhZbUVeTqGXZHAo2yASSEYFx2sl4fMOHuW9gjeMdRZ8LRkAl
+         qvsfLD+qDzfK+iVa/9QTCm/TrRBcVdWpO1sJklfGdb0E6fSsUzSWszJpIokwtJUbB6NY
+         0BAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717659760; x=1718264560;
+        d=1e100.net; s=20230601; t=1717663311; x=1718268111;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7hn7A2vtREo0E7HfSwjkC9hqptsOSWf7nUvmnuVDMQY=;
-        b=dIhTR9r6kzNGJI0T5XEDT8QkmfKJhLV5jV2CmmTOK4iCKjjIMj9FN9lUpkoD/fB9ue
-         Upa4xLR6pl+RLorsyeQF6GxWtg9iNqzY1IqpQ6YsTUFMUZ7MsZVJynxeJc9Mq8mdVuTF
-         X6SLMDds5TnT/rypLjEC1UQ9+bUy4/9GW5xad/Wp2zN5OnjqzmNVX2BUf9Bytq/qa59D
-         x6ZRyQZvVTb9cQfRHcfCMIwlZ6yNSYxYP3jR7JgCaK+eJQFvp1xfOZrzGJFliOMuS6B3
-         0/xZeFyW0tWPTKqlkRiwpaOzR4rojsiu2is/bypNjG521wzPBo/pCJUuWB2+ZHyjOfxS
-         e9Gg==
-X-Forwarded-Encrypted: i=1; AJvYcCWAMknnlj6DKv3uV0zj3S8CatPpnj+fNOOyn4mlo/77j8Qg5Uta3bCLXnNIZ4NudVzftrwB8sHucDSWRBS/tR5yE6xoLLw1zeADnKY=
-X-Gm-Message-State: AOJu0YzZOO51sSqbuJruuqUIYCfLQHCjcozuqWNsoswJN5iAs34l57KF
-	pQEKB1yF2v413Oaq595ireUV+l/FMTeNgASjoLimUyHv/Y5MtDmoUkyZbRqE2do=
-X-Google-Smtp-Source: AGHT+IG9fb84ekx6f8HaBtotI1FnubBAZuTJ3dgM/XdsdCeyuhCLEIFdUbolQkfIb3FKjJXzmIhddQ==
-X-Received: by 2002:a17:907:900e:b0:a68:fe79:9499 with SMTP id a640c23a62f3a-a699f88b67cmr343464966b.40.1717659760015;
-        Thu, 06 Jun 2024 00:42:40 -0700 (PDT)
+        bh=lboqGDLkSlZiXGaj/uzeRuz104hFq0ngZ+Ud/fj/+Ag=;
+        b=EUodn20ngDsNFubIg/tWUfkCbaTAvy6prOPr/obLykWGMmslFEBINpaJVf/TbUVe6J
+         oQ7vL6AMsAE3VO1F5l1cB5nkvKSm9yXEbHGaBDIMMYJOxZI+0B6efjQvzEnbTpj7uNgM
+         bCkr+qDncqMsd6OiObyDff1y25ALJUU2SIFLu9JJ1TYA2k9TyKRfk9OZWgSYO6IdL0PV
+         Piz9014YkGfIwrQRS1skW0vnYnEa9fY+RA7v28njd3wqpl6h/MGJ9eHBZVZ8yKjUsjwk
+         dkBOa9oLTUvQ7ycXerZ7TdRiWIDzrYGdPqEi0/FOx6mn6CCbz/4cr8plRw3uTbo5T3k8
+         wk2A==
+X-Forwarded-Encrypted: i=1; AJvYcCXjkAZv/6859PbJP7JNpbr6K9m1cc4isGdXTRTfTi2qHgB6skKLOghtSw6WbjBp/02a62gCZnu9C2qu+w0njKlsLFLVm72dyi7Pj4g=
+X-Gm-Message-State: AOJu0YxryazjvSL1JEQdUgLmOumMV4UMOkTDDBcJM7YOVqoS/UNzXctD
+	P0XbsMtiJh1TlLfGFV9lMvL9oSJOwHYJzFY57ZllrM6wJzgjzYfzvr2MfmPg9yY=
+X-Google-Smtp-Source: AGHT+IEzdn9+piYZ1x5EsTOIWqi/J/85mLEB4Nr/4e4HHjN18eVZC+5BHKwFvsEHZndySpOVd4em4g==
+X-Received: by 2002:a2e:8550:0:b0:2e6:d1fb:4470 with SMTP id 38308e7fff4ca-2eac7a832dbmr34173771fa.42.1717663310478;
+        Thu, 06 Jun 2024 01:41:50 -0700 (PDT)
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6c806ebc43sm57149266b.141.2024.06.06.00.42.39
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57aadf9d8ddsm715207a12.1.2024.06.06.01.41.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Jun 2024 00:42:39 -0700 (PDT)
-Date: Thu, 6 Jun 2024 10:42:35 +0300
+        Thu, 06 Jun 2024 01:41:50 -0700 (PDT)
+Date: Thu, 6 Jun 2024 11:41:45 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Joy Chakraborty <joychakr@google.com>
+To: Joy Chakraborty <joychakr@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
 	Lars-Peter Clausen <lars@metafoo.de>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -71,11 +71,11 @@ Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
 	linux-amlogic@lists.infradead.org, linux-sunxi@lists.linux.dev,
 	linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
 	manugautam@google.com
-Subject: Re: [PATCH v1 01/17] hwmon: pmbus: adm1266: Change nvmem
- reg_read/write return type
-Message-ID: <08ff07f4-034d-4342-89da-d83044871ab1@moroto.mountain>
+Subject: Re: [PATCH v1 07/17] misc: eeprom: at25: Change nvmem reg_read/write
+ return type
+Message-ID: <f98a1d8f-e936-4798-8447-c642e8fe11d5@moroto.mountain>
 References: <20240605175953.2613260-1-joychakr@google.com>
- <20240605175953.2613260-2-joychakr@google.com>
+ <20240605175953.2613260-8-joychakr@google.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -84,42 +84,88 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240605175953.2613260-2-joychakr@google.com>
+In-Reply-To: <20240605175953.2613260-8-joychakr@google.com>
 
-On Wed, Jun 05, 2024 at 05:59:45PM +0000, Joy Chakraborty wrote:
-> Change nvmem read/write function definition return type to ssize_t.
-> 
-> Signed-off-by: Joy Chakraborty <joychakr@google.com>
-> ---
->  drivers/hwmon/pmbus/adm1266.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/hwmon/pmbus/adm1266.c b/drivers/hwmon/pmbus/adm1266.c
-> index 2c4d94cc8729..7eaab5a7b04c 100644
-> --- a/drivers/hwmon/pmbus/adm1266.c
-> +++ b/drivers/hwmon/pmbus/adm1266.c
-> @@ -375,7 +375,7 @@ static int adm1266_nvmem_read_blackbox(struct adm1266_data *data, u8 *read_buff)
->  	return 0;
->  }
+On Wed, Jun 05, 2024 at 05:59:51PM +0000, Joy Chakraborty wrote:
+> @@ -195,10 +195,11 @@ static struct attribute *sernum_attrs[] = {
+>  };
+>  ATTRIBUTE_GROUPS(sernum);
 >  
-> -static int adm1266_nvmem_read(void *priv, unsigned int offset, void *val, size_t bytes)
-> +static ssize_t adm1266_nvmem_read(void *priv, unsigned int offset, void *val, size_t bytes)
+> -static int at25_ee_write(void *priv, unsigned int off, void *val, size_t count)
+> +static ssize_t at25_ee_write(void *priv, unsigned int off, void *val, size_t count)
 >  {
->  	struct adm1266_data *data = priv;
->  	int ret;
-> @@ -395,7 +395,7 @@ static int adm1266_nvmem_read(void *priv, unsigned int offset, void *val, size_t
+>  	struct at25_data *at25 = priv;
+>  	size_t maxsz = spi_max_transfer_size(at25->spi);
+> +	size_t bytes_written = count;
+>  	const char *buf = val;
+>  	int			status = 0;
+>  	unsigned		buf_size;
+> @@ -313,7 +314,7 @@ static int at25_ee_write(void *priv, unsigned int off, void *val, size_t count)
+>  	mutex_unlock(&at25->lock);
 >  
->  	memcpy(val, data->dev_mem + offset, bytes);
->  
-> -	return 0;
-> +	return bytes;
+>  	kfree(bounce);
+> -	return status;
+> +	return status < 0 ? status : bytes_written;
 >  }
 
-This breaks the build so it's not allowed.  The way to do it is to:
-1) add a new pointer which takes a ssize_t
-2) convert everything to the new pointer
-3) Rename the new pointer to the old name
+So the original bug was that rmem_read() is returning positive values
+on success instead of zero[1].  That started a discussion about partial
+reads which resulted in changing the API to support partial reads[2].
+That patchset broke the build.  This patchset is trying to fix the
+build breakage.
+
+[1] https://lore.kernel.org/all/20240206042408.224138-1-joychakr@google.com/
+[2] https://lore.kernel.org/all/20240510082929.3792559-2-joychakr@google.com/
+
+The bug in rmem_read() is still not fixed.  That needs to be fixed as
+a stand alone patch.  We can discuss re-writing the API separately.
+
+These functions are used internally and exported to the user through
+sysfs via bin_attr_nvmem_read/write().  For internal users partial reads
+should be treated as failure.  What are we supposed to do with a partial
+read?  I don't think anyone has asked for partial reads to be supported
+from sysfs either except Greg was wondering about it while reading the
+code.
+
+Currently, a lot of drivers return -EINVAL for partial read/writes but
+some return success.  It is a bit messy.  But this patchset doesn't
+really improve anything.  In at24_read() we check if it's going to be a
+partial read and return -EINVAL.  Below we report a partial read as a
+full read.  It's just a more complicated way of doing exactly what we
+were doing before.
+
+drivers/misc/eeprom/at25.c
+   198  static int at25_ee_write(void *priv, unsigned int off, void *val, size_t count)
+   199  {
+   200          struct at25_data *at25 = priv;
+   201          size_t maxsz = spi_max_transfer_size(at25->spi);
+New:            size_t bytes_written = count;
+                       ^^^^^^^^^^^^^^^^^^^^^
+This is not the number of bytes written.
+
+   202          const char *buf = val;
+   203          int                     status = 0;
+   204          unsigned                buf_size;
+   205          u8                      *bounce;
+   206  
+   207          if (unlikely(off >= at25->chip.byte_len))
+   208                  return -EFBIG;
+   209          if ((off + count) > at25->chip.byte_len)
+   210                  count = at25->chip.byte_len - off;
+                        ^^^^^
+This is.
+
+   211          if (unlikely(!count))
+   212                  return -EINVAL;
+   213  
+   214          /* Temp buffer starts with command and address */
+   215          buf_size = at25->chip.page_size;
+   216          if (buf_size > io_limit)
+   217                  buf_size = io_limit;
+   218          bounce = kmalloc(buf_size + at25->addrlen + 1, GFP_KERNEL);
+   219          if (!bounce)
+   220                  return -ENOMEM;
+   221  
 
 regards,
 dan carpenter
-
