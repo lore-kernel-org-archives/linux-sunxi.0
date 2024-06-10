@@ -1,136 +1,132 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 729A014B963
-	for <linux-sunxi@lists.linux.dev>; Mon, 10 Jun 2024 17:49:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC7A4147C86
+	for <linux-sunxi@lists.linux.dev>; Mon, 10 Jun 2024 17:51:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718041786; cv=none; b=FCdgsktx/jC4Yhl55QyBp0Zv2kuQXPWMWvGfCJUWlACCmqxL06rLWHSir5kYBaHGljHxc3Ie4RTMvtIHi/fJ51F7yT8/DGQrM/muWE8o62crtlaYj+dMJteLbXfBwIb2usqWSLHS94Wc3m+eqOldUFL0sEXEx44PPdMNzH36V04=
+	t=1718041889; cv=none; b=b2VfE4LKBnyBrGFzu+PZf675khR5f6CWNFNaznhWclSGpVtaw2aBxEsG8vpC9Z1O8+mLWFO/g3GLhcr3lPuQ3vwyPgCysChknhBFTAu7TDqcMNLJPn1EfrOfG5DXqj3ing9yadgXQhNAodiFpLm4SEhquMVvVV5x0PSYju+Uxok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718041786; c=relaxed/simple;
-	bh=kaN+OH8u0mjuLsUgDZzqsqHcd5qKUZnSBirUfTBy/rs=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=mIGAkmXApEgkayHTJd7txMfq7TgJfp4J6jsmBVsfS6i5VsYw4pVa36hy2PnJgQXBsmrAG9/vP/y2S5oBf23VZUFmyHzbnPMcRgULH0LHNy31V4ND6HpLom70f5nTtOyXO/1JqtRe09x8P7zk/HBcXAqhb7wfP8wstVCKFxHcecQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jrtc27.com; spf=pass smtp.mailfrom=jrtc27.com; dkim=pass (2048-bit key) header.d=jrtc27.com header.i=@jrtc27.com header.b=nLcDp1JL; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jrtc27.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jrtc27.com
+	s=arc-20240116; t=1718041889; c=relaxed/simple;
+	bh=FneSkAV3jCsGNrND9Mj7IMRiPZCTqIkhyvxDpV4xx9U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=clw+62PXF6n93AjoyTFS//heIqaK+vpFD2uJ9IBC6xkSV4CoQey3PuE7ytIfHIGi3+K2rZ1nxSg0e0EKQ1fNj5x4Ju+WgPRTgM673y5MiQZDHQxXcw8v0+QGgzxPrHpcVUIDt1cyKHebDfbmDypa2xuUx6h8hULmmpZUKwvoBd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=lAlmWt23; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jrtc27.com header.i=@jrtc27.com header.b="nLcDp1JL"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-42121d27861so41308195e9.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 10 Jun 2024 10:49:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="lAlmWt23"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1f64ecb1766so36507285ad.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 10 Jun 2024 10:51:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jrtc27.com; s=gmail.jrtc27.user; t=1718041783; x=1718646583; darn=lists.linux.dev;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2Zyb+ujtIGgfui3VzqiGKyVsxQvcv7H95kxqnj+CmxU=;
-        b=nLcDp1JLsp8+cWupLFojQBIu3SV+okrurfXXY7jAm3qSRVbGn8gAwSpruUQA3RapRH
-         /so5G3ruj0uaUdJulvUe5mGWgNSCi3lW4LIviw2Rx+cPKaSlNS98f2G2b4IZIWO+NoJt
-         69xeK9fQi56cDysnrSCu97GDDZYD8Hbk8Ws6QeQaJXw7oft4AJWE8PjZmzl73etvFRny
-         QwtmMPIDatBZ8KCQ124WZtE4G9i5J/AYNMFoqWPnzqsSZu1qzcfBOS3KBP8uwTX6sjj5
-         wMkRooMlSBhNZu0BLohgezgz0lOco9Y8thSMNztvkpi/7+bh15NCeE0vfuQ86z9d/UPP
-         ohXQ==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1718041886; x=1718646686; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=XqAidOJkzifwbi0aDp05YiJHEtIMzMs4UmIa/z6sCUY=;
+        b=lAlmWt23t9mh4L62JxfCfE0KzD/f/vG82cAPrHNRi1MCXMi+TB7XmWkrZWA0B08fo+
+         mZ1arY08VJhc/ZNu4QQdpijDIxElA0LH6wIXUFQgTqfW0XD+n45b9qNkl9AxgX/pJOrV
+         oos9XzEMEB2viUF2+PZ5riu5ju8tHUE4SADkcOxuoSGf4rwnOBFd3CAU9ZjeovNqjOEz
+         uyG5xiq918IllmBTgvsbfw9y1Ay+QHaC+6u25Qv8cAK72slSMZpMxyj3RujCbIXtSRBz
+         E0qk+RW7NloU2HbYE9rSYPppHbKWqNUxlb1DjZbxplCftE2uXe/e1+C2i6giTlabeTW4
+         Jdlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718041783; x=1718646583;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2Zyb+ujtIGgfui3VzqiGKyVsxQvcv7H95kxqnj+CmxU=;
-        b=M7EJiUMBdfgp2x7knldyn3w01+ILcpIoTy6dy/getgIsK6PwPxWlySWP7GJYaOtRpc
-         9QZP9mCIGBDrJb9nKMZFYwH80QEXjbw4+Tnc8SCD3W6qXCsLXpekgjo4NeYN+UJ/uVuu
-         OkNtyeaBhk4ssKJLGlU1ZMvZKQO7iQ4BArcfcKQh2yqWaiIUgEt6Ya6ZLVg0afCv8u/1
-         Pfqb5knpK69Ppkv5qL5TbUqLcJ2x+NwBg1LeICPGlsc5HpMKJmsa/JOdFTBzjXnAHVzs
-         9KRgsXMC6H5/oyOuAAsJogu8z5kR9DSlqNQy5QrQT/si9oCHZeYfszh9QPXGmO7tnTc4
-         /UeQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUc+psQgBT/T/ORUQ3pxtsI5fSJsWJLqWYmfqBZl1NPIHt06CWb6DHq9uGdhxHCoTQibB4S5Ellg66OdV/mo+1yIf/j8u8TNQEZsSA=
-X-Gm-Message-State: AOJu0Yw8VHGLD7w5XPbIgpSjLrfAoSid7JbaVeaMoHZ69JfSDEx7PTSh
-	t34veLuU9KnnHxADB3WsGfW0+nGpBnlqkf0C1kCC09v1OquXODjOJg7PIJMVnnY=
-X-Google-Smtp-Source: AGHT+IGOL4J84jhPB6MOYY7C/yQXa66itQV4TEzYbITX4tGHe/3k2ra5FCnezqsLOntd6VEWEWr5PA==
-X-Received: by 2002:a05:600c:1ca3:b0:421:6b79:8900 with SMTP id 5b1f17b1804b1-4216b798c9cmr55824915e9.41.1718041782597;
-        Mon, 10 Jun 2024 10:49:42 -0700 (PDT)
-Received: from smtpclient.apple ([131.111.5.201])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4215c19e97dsm149074925e9.5.2024.06.10.10.49.41
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 10 Jun 2024 10:49:42 -0700 (PDT)
-Content-Type: text/plain;
-	charset=us-ascii
+        d=1e100.net; s=20230601; t=1718041886; x=1718646686;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XqAidOJkzifwbi0aDp05YiJHEtIMzMs4UmIa/z6sCUY=;
+        b=MIFVEom6hll9zExEePMtOFUuf9WJtrAc33F3kKEhWc58J6ZBt6fftHtTQ5Fza4W0VV
+         O2dV+LsWvI7VuqXrypEeXf1PpDrq97wKE1HWPmRzENDUlU+fkBX3yZWnRg6yO610lHHV
+         EsBCbpXRednfM8cA4Neckx7Z7ezh3p403IqZBO7nOHhjzrFnKyN+6UFKFLBB4NAEEaV4
+         lhLIzFHRGh2yHHvlDCuHyoUMR0oP3klHVIFM4BsaL2ycXaG63JzAejHVF/4kB73x+vdc
+         VrDnG8DwbfjWWnWTk5JP1h116MkyCVKt0f4y5cnBvEWxPT3vnj8wxp2f9Ecof70BsvRg
+         2EBw==
+X-Forwarded-Encrypted: i=1; AJvYcCVX+C7AVPjWRPwtBkXXwvMiggrgo0H0XGshYCAqJSbKoBU8AaJC0HA5dKwiWHz56bJj8QNoYrIPxZUhwtYgwDFe+DxxVNriOVQ6tXo=
+X-Gm-Message-State: AOJu0YxLXC4dusPqoZ7hj2A+ryXzKJI9wPOhrLSfw8ttJB/nuRnXNU+E
+	5MVTKKXYvAMvngLZLnF7Kmvf921JqQng/WWUD51ynbbbz7y9At4uH6Wf6mTg1f0=
+X-Google-Smtp-Source: AGHT+IGI7ZtC5yMFeVhgobcpC4ELjQ0rXq8graZvm2aNnJqlgdJJt9Tf50Z+1bVL5t64KhWiB1DChw==
+X-Received: by 2002:a17:902:cf04:b0:1f6:f5bc:51c5 with SMTP id d9443c01a7336-1f6f5bc5391mr72332595ad.47.1718041886043;
+        Mon, 10 Jun 2024 10:51:26 -0700 (PDT)
+Received: from ghost ([2601:647:5700:6860:129d:83bc:830b:8292])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f70eeaedf7sm27441255ad.84.2024.06.10.10.51.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Jun 2024 10:51:25 -0700 (PDT)
+Date: Mon, 10 Jun 2024 10:51:23 -0700
+From: Charlie Jenkins <charlie@rivosinc.com>
+To: Jessica Clarke <jrtc27@jrtc27.com>
+Cc: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Guo Ren <guoren@kernel.org>, Evan Green <evan@rivosinc.com>,
+	Andy Chiu <andy.chiu@sifive.com>,
+	linux-riscv <linux-riscv@lists.infradead.org>,
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>, linux-sunxi@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 03/13] riscv: dts: allwinner: Add xtheadvector to the
+ D1/D1s devicetree
+Message-ID: <Zmc9G2syeLF2rBZM@ghost>
+References: <20240609-xtheadvector-v1-0-3fe591d7f109@rivosinc.com>
+ <20240609-xtheadvector-v1-3-3fe591d7f109@rivosinc.com>
+ <FD6771F5-5739-469A-9C0B-952AAC62AB68@jrtc27.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.500.171.1.1\))
-Subject: Re: [PATCH 03/13] riscv: dts: allwinner: Add xtheadvector to the
- D1/D1s devicetree
-From: Jessica Clarke <jrtc27@jrtc27.com>
-In-Reply-To: <20240609-xtheadvector-v1-3-3fe591d7f109@rivosinc.com>
-Date: Mon, 10 Jun 2024 18:49:30 +0100
-Cc: Conor Dooley <conor@kernel.org>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>,
- Jisheng Zhang <jszhang@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <shuah@kernel.org>,
- Guo Ren <guoren@kernel.org>,
- Evan Green <evan@rivosinc.com>,
- Andy Chiu <andy.chiu@sifive.com>,
- linux-riscv <linux-riscv@lists.infradead.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- linux-sunxi@lists.linux.dev,
- linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <FD6771F5-5739-469A-9C0B-952AAC62AB68@jrtc27.com>
-References: <20240609-xtheadvector-v1-0-3fe591d7f109@rivosinc.com>
- <20240609-xtheadvector-v1-3-3fe591d7f109@rivosinc.com>
-To: Charlie Jenkins <charlie@rivosinc.com>
-X-Mailer: Apple Mail (2.3774.500.171.1.1)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <FD6771F5-5739-469A-9C0B-952AAC62AB68@jrtc27.com>
 
-On 10 Jun 2024, at 05:45, Charlie Jenkins <charlie@rivosinc.com> wrote:
->=20
-> The D1/D1s SoCs support xtheadvector so it can be included in the
-> devicetree. Also include vlenb for the cpu.
->=20
-> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> ---
-> arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi | 3 ++-
-> 1 file changed, 2 insertions(+), 1 deletion(-)
->=20
-> diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi =
-b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
-> index 64c3c2e6cbe0..50c9f4ec8a7f 100644
-> --- a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
-> +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
-> @@ -27,7 +27,8 @@ cpu0: cpu@0 {
-> riscv,isa =3D "rv64imafdc";
-> riscv,isa-base =3D "rv64i";
-> riscv,isa-extensions =3D "i", "m", "a", "f", "d", "c", "zicntr", =
-"zicsr",
-> -       "zifencei", "zihpm";
-> +       "zifencei", "zihpm", "xtheadvector";
-> + riscv,vlenb =3D <128>;
+On Mon, Jun 10, 2024 at 06:49:30PM +0100, Jessica Clarke wrote:
+> On 10 Jun 2024, at 05:45, Charlie Jenkins <charlie@rivosinc.com> wrote:
+> > 
+> > The D1/D1s SoCs support xtheadvector so it can be included in the
+> > devicetree. Also include vlenb for the cpu.
+> > 
+> > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> > ---
+> > arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi | 3 ++-
+> > 1 file changed, 2 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> > index 64c3c2e6cbe0..50c9f4ec8a7f 100644
+> > --- a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> > +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> > @@ -27,7 +27,8 @@ cpu0: cpu@0 {
+> > riscv,isa = "rv64imafdc";
+> > riscv,isa-base = "rv64i";
+> > riscv,isa-extensions = "i", "m", "a", "f", "d", "c", "zicntr", "zicsr",
+> > -       "zifencei", "zihpm";
+> > +       "zifencei", "zihpm", "xtheadvector";
+> > + riscv,vlenb = <128>;
+> 
+> thread,vlenb
 
-thread,vlenb
+Oh right, thank you!
 
-Jess
+- Charlie
 
-> #cooling-cells =3D <2>;
->=20
-> cpu0_intc: interrupt-controller {
->=20
-> --=20
-> 2.44.0
->=20
->=20
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
-
+> 
+> Jess
+> 
+> > #cooling-cells = <2>;
+> > 
+> > cpu0_intc: interrupt-controller {
+> > 
+> > -- 
+> > 2.44.0
+> > 
+> > 
+> > _______________________________________________
+> > linux-riscv mailing list
+> > linux-riscv@lists.infradead.org
+> > http://lists.infradead.org/mailman/listinfo/linux-riscv
+> 
