@@ -1,123 +1,198 @@
-Received: from fhigh4-smtp.messagingengine.com (fhigh4-smtp.messagingengine.com [103.168.172.155])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAE57BE4F
-	for <linux-sunxi@lists.linux.dev>; Sun,  9 Jun 2024 03:24:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B89D61C20
+	for <linux-sunxi@lists.linux.dev>; Mon, 10 Jun 2024 04:45:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717903467; cv=none; b=Fkbad9lm61JvYQa49foNk/qeJGT3vasAU+PbD1p68qUvTyDA87Ljz8HSMDyiE0Ac4K0/F43YsZnEdA24oIByyXcyr+tTAnri2gneKUKaTWbKp5SlWzBAFQSgnKRijnxXJptfuig5ufdz3UY8txDS2yEJ1hVMARv4D9gvIqk4hHE=
+	t=1717994737; cv=none; b=jWJWLawPtVLEJY1e7Eggdez2myOXWYhXzQC2vTlw+2OSC/Ku7RQfhPXcFBpmHbnwEBEV/ErJzLTgRwZb7ykGo0XB9dLq0JNcJ6cnN4ed9pbAEf7RUgD1SPHWFp8N57IS9HVi9Zn0X/W/P3XmBGY6TvOeFqBEx5aO3NGHZsP5lMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717903467; c=relaxed/simple;
-	bh=nnBF7siKGaRQDQ6aerGHINxyaNRt/yxBE7c3TRJUhFM=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=SacqCEIckAr2L9onPJwOLtW0WZL2TF5HrqOjG8Vg6UykuoG/HSlXW5WCDPTa2zyyMNnfInkzbawgg9+wqDG0LRwKbqqAgfePIfrP7oK0O1MHN9QOhjp21WghJC4eVETgvOQz0XdijhgQB/WCUzJMD0WsSCmr2rj88dUmandPId0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=BKk+ta52; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=MSJPQ9QI; arc=none smtp.client-ip=103.168.172.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
+	s=arc-20240116; t=1717994737; c=relaxed/simple;
+	bh=vkSpLdTOCKmV5IhZYXnWR8/RElz7fkjEtj2s36qYkjY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=M9p/N59U7O6xUDpKtfiXkJZV/itAwwG38WQsMTz62CqNnc6i5bVoLsxSGfQS4zJgWo98DskndZ/5CFta93CaMFt8q+1sJKri4kq6N8Rb+9l3vsMHQ0TDvaqAXnYg1U/SqfAyiNkGdClHe30M1b+GCrh9wHKWKxFWYQYljlA49i8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=PdNzWRk5; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="BKk+ta52";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="MSJPQ9QI"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfhigh.nyi.internal (Postfix) with ESMTP id 0988C11400D1;
-	Sat,  8 Jun 2024 23:24:25 -0400 (EDT)
-Received: from imap47 ([10.202.2.97])
-  by compute5.internal (MEProxy); Sat, 08 Jun 2024 23:24:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm1; t=1717903465; x=
-	1717989865; bh=nnBF7siKGaRQDQ6aerGHINxyaNRt/yxBE7c3TRJUhFM=; b=B
-	Kk+ta5222eQf5DPK6prPs526sbG4F9QQTCVQBti/nP9PviQFHjz0INVPa0xfYyxT
-	TmEOXDj5cHbBEm2L+vF9nOmJKmmrAgnTE4NV+I4Xbms5JkY8AQA9ilpdNBJ5ZEMd
-	F7y/b2e+FkqP5wA1cYgbETAlVtM5rZTsSBoR8XGVaYKRD2twTSLJeH0ilDHFM+qF
-	LivXdyG4G6SB5kpU6EPPj8k2OmE7ln8pxG9mPngc/TFeMuD6Pm/4x75jpIHxC2Jl
-	zlrP1z1gHnJzEfz3c4mk0E9o7v6SrfO6IUaseWy/VC3Xwc1JuJea56IeQtWRA8oM
-	2kBobGhIxLeyuglX9bhgw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1717903465; x=1717989865; bh=nnBF7siKGaRQDQ6aerGHINxyaNRt
-	/yxBE7c3TRJUhFM=; b=MSJPQ9QIlr4ygV7QNPN/Si+UtkH4CfcjUk6xsLe1iWPM
-	24+i3srzRiBYYATw0pStvQQEILTBd++Fdr4AbTO9HwG8R9/Imx/KwjL/Bq1DHnp1
-	CKBht0eNMs3U/55FO06Ne8mAchgaJ/Cs1+rF6jS/OycoAiS37FyzixCqR+JjI2V1
-	xhlXwWJrTteNT5kDVB4eB342Bxjvt3UBlJWPD+3PsNLDm815PhDbZc7q6wpiciVm
-	X8nhibMHKRpzPWGbSX0qaDE1NDXlxXGVWu/lECR+CXRJMjV3jy/A4Knt9j3ZBADl
-	EtscSd9EbDjnf9dlwF4eKaTXeljae5DVSAgW2MGpog==
-X-ME-Sender: <xms:aCBlZtzq4Iej0v4z0pQjzmzACck0ZpOueps8_w-52nD-H8dlWsztjw>
-    <xme:aCBlZtTDi4Cx9A8tvsGOaBgxc0DRC1IZj2fewqtW_0LLx7tBBbC0WEMcR17mAoNAE
-    HxI-yRcp3Uw84TSew>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfedthedgieejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftfih
-    rghnucghrghlkhhlihhnfdcuoehrhigrnhesthgvshhtthhorghsthdrtghomheqnecugg
-    ftrfgrthhtvghrnhephedvveeigedujeeufeegffehhfffveduhfeijefgtdffteelgfet
-    ueevieduieejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homheprhihrghnsehtvghsthhtohgrshhtrdgtohhm
-X-ME-Proxy: <xmx:aCBlZnUxQ6Q07T376-AdZt-Uig0J_aza8YikRTZJvMoc1VdcJgtdDg>
-    <xmx:aCBlZviYyqHmD7U2d-9mB8KUiHza5XZPWhqhxuSUb-SG25-EnwE4qA>
-    <xmx:aCBlZvC1lTmxvNjqAm9661U-860GiTz7yShZUw-kxMNHRQvhPvkbNw>
-    <xmx:aCBlZoKzWmCsCEHPSYV5pu-pZ4cOlqGoP2Df6ms-iKUtIg7ZAG-ODg>
-    <xmx:aCBlZuAgU3Vzt00mK_NWRLSxA907WXH6k4uFtXtTpebV7EOg6K5EatSb>
-Feedback-ID: idc0145fc:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id A6403A60078; Sat,  8 Jun 2024 23:24:24 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-497-g97f96844c-fm-20240526.001-g97f96844
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="PdNzWRk5"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1f6dfc17006so15631455ad.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 09 Jun 2024 21:45:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1717994735; x=1718599535; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dN55AJF0PHuFpfwbQ/DJHVULjunoR3y3+KEw1Zkzgt0=;
+        b=PdNzWRk5Exq4TEG5VN3fm5rQaSwWr610zgHi2wFglT6U4JJm8weAoGkywcocrtT9VX
+         W0w66AdjzXcAA6Do1TpD1RsmCgDk0+OAAreWLinE+pcDdWWkKCnKtfnSPM1NdhJ774FC
+         DY0SPEAojxzI2Iw5UaoBLdSNkQDHePcX4gb3OC3ehZRyYbhvuRalqLHbOF70FYvMTXAl
+         2tVmQFKedyZxgJk3BXvLDezooQo+gcLOQxkS4IPvyRrIdHB/Qdt2Ijq1+XzRvVkdxJY8
+         73TkMak6TPMu6Tsb5Pn1EFwaiZo9VGqpLGozUwLTgL3WCKVFGLzpuPjMUJ1TLBDKRjmD
+         +i8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717994735; x=1718599535;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dN55AJF0PHuFpfwbQ/DJHVULjunoR3y3+KEw1Zkzgt0=;
+        b=Y4qhvJBvjvRtaN0mnwzAoe9sR33bUxeNfM9A/09sUQxfhmICFHpE7+M9A9LeDRtbu7
+         n/JQTy1juY9bMyVcoXUpv3uk3U1L6uKZSYMj/KjRX1v4oQ87fInQEhk80a0e5YAjGR+M
+         eOZ8CXI8YQrvN6nySSewH8Bu/rlW/3D7+/f4/8gHKXPdhGjN/sTwKG9utcvSEjDC+R1b
+         dBH12E09k/3arUNWLRku7kjmPUFIpzOf8qV7Z/GkgMDDFjLS5TR85QmcTlXOZPPXsK7A
+         HO6NvAhvcpvRaw61zCmlmfkQR39aJKVXf8mPPxagb6Mfn9r6Ry/ktjW+kl93uTXeGE4C
+         2x1A==
+X-Forwarded-Encrypted: i=1; AJvYcCVMW9H9YL+PbSkIUJP8xMljSIB7buqyvmuWJEsTRwnywvqh7Vyg6yMjSedZJGcHWCG77x5Bt8grMqSDuQEmSnwuhPKSApI3y9XqUjU=
+X-Gm-Message-State: AOJu0YzOCqlbdW9UBukgRHICg6I3feLedofk2gGcKsswXvh7bMam7dGW
+	QRgz4te1fr5gk8e702wpzV2uGnVcvTehp9ytwV9JBU4YnQKZiX1J3eQg0NNObMA=
+X-Google-Smtp-Source: AGHT+IG9ZML7kOKf0moW7WjG6bvAFzHf7/IU/wowJpUgrFMvTbXgWuSVm5Gfggt/Rs9gPxYhtiFXlQ==
+X-Received: by 2002:a17:902:e811:b0:1f7:1821:77ad with SMTP id d9443c01a7336-1f718217cbemr8801395ad.14.1717994735007;
+        Sun, 09 Jun 2024 21:45:35 -0700 (PDT)
+Received: from charlie.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6bd76ce8asm73124095ad.77.2024.06.09.21.45.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 09 Jun 2024 21:45:34 -0700 (PDT)
+From: Charlie Jenkins <charlie@rivosinc.com>
+Subject: [PATCH 00/13] riscv: Add support for xtheadvector
+Date: Sun, 09 Jun 2024 21:45:05 -0700
+Message-Id: <20240609-xtheadvector-v1-0-3fe591d7f109@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <11376802-7c04-4779-9dac-f41301a64b60@app.fastmail.com>
-In-Reply-To: <20240607153250.51906e89@donnerap.manchester.arm.com>
-References: <20240607110227.49848-1-ryan@testtoast.com>
- <20240607110227.49848-8-ryan@testtoast.com>
- <20240607153250.51906e89@donnerap.manchester.arm.com>
-Date: Sun, 09 Jun 2024 15:24:03 +1200
-From: "Ryan Walklin" <ryan@testtoast.com>
-To: "Andre Przywara" <andre.przywara@arm.com>
-Cc: "Maxime Ripard" <mripard@kernel.org>, "Chen-Yu Tsai" <wens@csie.org>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Thomas Zimmermann" <tzimmermann@suse.de>,
- "David Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>,
- "Samuel Holland" <samuel@sholland.org>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>,
- "Michael Turquette" <mturquette@baylibre.com>,
- "Stephen Boyd" <sboyd@kernel.org>, "Chris Morgan" <macroalpha82@gmail.com>,
- "John Watts" <contact@jookia.org>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- devicetree@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: Re: [PATCH RFC 7/8] drm/sun4i: de3: Implement AFBC support
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANGEZmYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDU2MD3YqSjNTElLLU5JL8Il0LY+MU4xRD8yQTI2MloJaCotS0zAqwcdG
+ xtbUAHd9+x14AAAA=
+To: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Paul Walmsley <paul.walmsley@sifive.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <shuah@kernel.org>, Guo Ren <guoren@kernel.org>, 
+ Evan Green <evan@rivosinc.com>, Andy Chiu <andy.chiu@sifive.com>
+Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ Charlie Jenkins <charlie@rivosinc.com>, 
+ Conor Dooley <conor.dooley@microchip.com>, Heiko Stuebner <heiko@sntech.de>, 
+ Heiko Stuebner <heiko@sntech.de>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1717994732; l=5669;
+ i=charlie@rivosinc.com; s=20231120; h=from:subject:message-id;
+ bh=vkSpLdTOCKmV5IhZYXnWR8/RElz7fkjEtj2s36qYkjY=;
+ b=F8iBE/qU+gWHTYOUzgJ49eC5lJBiserczetPXroe2jYge4JeZOhpyar3pRnFA6RzDVYnQPUxO
+ 91UulT4jaLZCLDyQtCbwIv10SEdkoX15vesDG1F1IZMrDbhIKYXPJyh
+X-Developer-Key: i=charlie@rivosinc.com; a=ed25519;
+ pk=t4RSWpMV1q5lf/NWIeR9z58bcje60/dbtxxmoSfBEcs=
 
-On Sat, 8 Jun 2024, at 2:32 AM, Andre Przywara wrote:
+xtheadvector is a custom extension that is based upon riscv vector
+version 0.7.1 [1]. All of the vector routines have been modified to
+support this alternative vector version based upon whether xtheadvector
+was determined to be supported at boot.
 
->> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+vlenb is not supported on the existing xtheadvector hardware, so a
+devicetree property thead,vlenb is added to provide the vlenb to Linux.
 
-> This signature suggests that it's indeed Jernej's patch, so it should
-> have his authorship, as in the other patches, indicated by a line starting
-> with "From:" before the commit message.
+There is a new hwprobe key RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0 that is
+used to request which thead vendor extensions are supported on the
+current platform. This allows future vendors to allocate hwprobe keys
+for their vendor.
 
-Thanks Andre, no this is Jernej's work, I have simply minimally refactored to as cleanly as possible just support the DE33 with this set, and added the device-tree binding docs. My mistake in my git client pulling in his patches, will correct authorship for v2.
+Support for xtheadvector is also added to the vector kselftests.
 
-> "Co-developed-by:" is only used if the patch really has two authors, both
-> having contributed significantly to the patch.
-> If you merely post a patch from someone else, then it just needs your
-> Signed-off-by, as you correctly do below.
->
-> That applies to the other patches as well.
+Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
 
-Thanks, noted. Will correct in v2.
+[1] https://github.com/T-head-Semi/thead-extension-spec/blob/95358cb2cca9489361c61d335e03d3134b14133f/xtheadvector.adoc
 
-> Cheers,
-> Andre
+---
+This series is a continuation of a different series that was fragmented
+into two other series in an attempt to get part of it merged in the 6.10
+merge window. The split-off series did not get merged due to a NAK on
+the series that added the generic riscv,vlenb devicetree entry. This
+series has converted riscv,vlenb to thead,vlenb to remedy this issue.
 
-Regards,
+The original series is titled "riscv: Support vendor extensions and
+xtheadvector" [3].
 
-Ryan
+The series titled "riscv: Extend cpufeature.c to detect vendor
+extensions" is still under development and this series is based on that
+series! [4]
+
+I have tested this with an Allwinner Nezha board. I ran into issues
+booting the board after 6.9-rc1 so I applied these patches to 6.8. There
+are a couple of minor merge conflicts that do arrise when doing that, so
+please let me know if you have been able to boot this board with a 6.9
+kernel. I used SkiffOS [1] to manage building the image, but upgraded
+the U-Boot version to Samuel Holland's more up-to-date version [2] and
+changed out the device tree used by U-Boot with the device trees that
+are present in upstream linux and this series. Thank you Samuel for all
+of the work you did to make this task possible.
+
+[1] https://github.com/skiffos/SkiffOS/tree/master/configs/allwinner/nezha
+[2] https://github.com/smaeul/u-boot/commit/2e89b706f5c956a70c989cd31665f1429e9a0b48
+[3] https://lore.kernel.org/all/20240503-dev-charlie-support_thead_vector_6_9-v6-0-cb7624e65d82@rivosinc.com/
+[4] https://lore.kernel.org/linux-riscv/20240609-support_vendor_extensions-v2-0-9a43f1fdcbb9@rivosinc.com/
+
+---
+Charlie Jenkins (12):
+      dt-bindings: riscv: Add xtheadvector ISA extension description
+      dt-bindings: thead: add a vlen register length property
+      riscv: dts: allwinner: Add xtheadvector to the D1/D1s devicetree
+      riscv: Add thead and xtheadvector as a vendor extension
+      riscv: vector: Use vlenb from DT for thead
+      riscv: csr: Add CSR encodings for VCSR_VXRM/VCSR_VXSAT
+      riscv: Add xtheadvector instruction definitions
+      riscv: vector: Support xtheadvector save/restore
+      riscv: hwprobe: Add thead vendor extension probing
+      riscv: hwprobe: Document thead vendor extensions and xtheadvector extension
+      selftests: riscv: Fix vector tests
+      selftests: riscv: Support xtheadvector in vector tests
+
+Heiko Stuebner (1):
+      RISC-V: define the elements of the VCSR vector CSR
+
+ Documentation/arch/riscv/hwprobe.rst               |  10 +
+ .../devicetree/bindings/riscv/extensions.yaml      |  10 +
+ Documentation/devicetree/bindings/riscv/thead.yaml |   7 +
+ arch/riscv/Kconfig.vendor                          |  26 ++
+ arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi      |   3 +-
+ arch/riscv/include/asm/cpufeature.h                |   2 +
+ arch/riscv/include/asm/csr.h                       |  13 +
+ arch/riscv/include/asm/hwprobe.h                   |   4 +-
+ arch/riscv/include/asm/switch_to.h                 |   2 +-
+ arch/riscv/include/asm/vector.h                    | 249 +++++++++++++----
+ arch/riscv/include/asm/vendor_extensions/thead.h   |  42 +++
+ .../include/asm/vendor_extensions/thead_hwprobe.h  |  18 ++
+ .../include/asm/vendor_extensions/vendor_hwprobe.h |  37 +++
+ arch/riscv/include/uapi/asm/hwprobe.h              |   3 +-
+ arch/riscv/include/uapi/asm/vendor/thead.h         |   3 +
+ arch/riscv/kernel/cpufeature.c                     |  51 +++-
+ arch/riscv/kernel/kernel_mode_vector.c             |   8 +-
+ arch/riscv/kernel/process.c                        |   4 +-
+ arch/riscv/kernel/signal.c                         |   6 +-
+ arch/riscv/kernel/sys_hwprobe.c                    |   5 +
+ arch/riscv/kernel/vector.c                         |  25 +-
+ arch/riscv/kernel/vendor_extensions.c              |  10 +
+ arch/riscv/kernel/vendor_extensions/Makefile       |   2 +
+ arch/riscv/kernel/vendor_extensions/thead.c        |  18 ++
+ .../riscv/kernel/vendor_extensions/thead_hwprobe.c |  19 ++
+ tools/testing/selftests/riscv/vector/.gitignore    |   3 +-
+ tools/testing/selftests/riscv/vector/Makefile      |  17 +-
+ .../selftests/riscv/vector/v_exec_initval_nolibc.c |  93 +++++++
+ tools/testing/selftests/riscv/vector/v_helpers.c   |  67 +++++
+ tools/testing/selftests/riscv/vector/v_helpers.h   |   7 +
+ tools/testing/selftests/riscv/vector/v_initval.c   |  22 ++
+ .../selftests/riscv/vector/v_initval_nolibc.c      |  68 -----
+ .../selftests/riscv/vector/vstate_exec_nolibc.c    |  20 +-
+ .../testing/selftests/riscv/vector/vstate_prctl.c  | 295 ++++++++++++---------
+ 34 files changed, 898 insertions(+), 271 deletions(-)
+---
+base-commit: 11cc01d4d2af304b7288251aad7e03315db8dffc
+change-id: 20240530-xtheadvector-833d3d17b423
+-- 
+- Charlie
+
