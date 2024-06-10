@@ -1,69 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBBF07CF18;
-	Mon, 10 Jun 2024 10:46:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BD7280617
+	for <linux-sunxi@lists.linux.dev>; Mon, 10 Jun 2024 12:48:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718016373; cv=none; b=qe3nKFRurZ9BzsKBdPUJdJh/GHaEw5pmmlbHvdZDzbm68PQJdY9Uif+e2HGBjcbql52aWEdyUUIPm88pXZZEaPGn9K8vYEbSDn2CUSeIS2YyFzrK9faQzW7jDpQ1zVWUdtdkBiMwXlKQJoE0Is/tRpmYHV7nvc9aDnysmn9G5VI=
+	t=1718023688; cv=none; b=moptNn465pTrOcGvOSBWzAjzAXBAW6DZU7jLAUXbQmZCMxQN+UFdauFW7srnt5MWYX1Vf5R5lKOvg3Q8htjqaTmbus3vw3Y1UOLdMnA6aiThkPj16AVql0J1ey/yHKgsYXu9ub3vsYNThTkuHEOOVRYNFyv9e5BdJ0PZb1ZXAhk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718016373; c=relaxed/simple;
-	bh=OZzw3rDNyqrxI631FqQQD5pS7djLOOM/VvVOVFyL/VY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=KHwkExVYnjQgtpEpyeWfWvKCbPfztuREjS2tHCmABxOuC1On2Nd9z63TuAxRxGnEg0OVYad69VaYkfxpiHUq8Y8akv4lMxwdLrJRWjvfFXwH0RsBAAZ5ldZgQxN+t+3Lpn0sg89HIkojuTTZ4RzOM6XjMF0ehwD+4UzCj5hvsWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XDevtlI6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718023688; c=relaxed/simple;
+	bh=+ecHLff7v1OpVQFUWVfCE9rGpM2sM5huV/0sdhzdtVw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ETAmx7ieawo+8Ir+EtRP3IN0ApHVnpZWEvaIv9iOWwn4a0aH65hV3qlZ3czyFTPZeDZdt5XH8ek6LFjLnqoPRbixkmFnD8Nx4IZ9FH5KdvM/gt5mwsmg419hQr7It2Ca0aybaTYjEGLQ8KPA1i1/sjHfE5df+s1F29XqZ0BKNPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=i0ShZLRm; arc=none smtp.client-ip=195.181.215.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XDevtlI6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B652C4AF1D;
-	Mon, 10 Jun 2024 10:46:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718016373;
-	bh=OZzw3rDNyqrxI631FqQQD5pS7djLOOM/VvVOVFyL/VY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=XDevtlI6JD74OBfchpbh+8zzEKDrgzN9aoAfVnpqzS9XW4Psx3ne4gakQBAhBDcLl
-	 qDDg/CmpTz980hYogxSjYRHzITXgrMAiGG7bGEfy0vlOVh5ni8pHxqJMLRWedstj++
-	 c1dnlHsQpQUa3vYwP1cf6vIzGSbZk5xXw5uhykbF1zOjnDvHL7xnNvWhX4PWkQbjhM
-	 6IGt9yyctZnfAU8aC2CvGYZ/vC7qoswO6vM4n/0wB95h/zU4XvIaa7j5/zcOujRaeq
-	 nIVOD95yXUvWoFn2Tf9E1yDaO9HOaMft3aNaFmXyLa0+WaPe1l+L8ZXQf8Wbt/Hu7k
-	 EP/Y+Xe3+firA==
-From: Maxime Ripard <mripard@kernel.org>
-To: linux-kernel@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- =?utf-8?q?Ond=C5=99ej_Jirman?= <megi@xff.cz>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev
-In-Reply-To: <20240224150604.3855534-1-megi@xff.cz>
+	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="i0ShZLRm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
+	t=1718023677; bh=+ecHLff7v1OpVQFUWVfCE9rGpM2sM5huV/0sdhzdtVw=;
+	h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
+	b=i0ShZLRmqI9v9z2T54xJpJpCVR+0XfKrrmbHrBWPfwLyQxzaIrE/THGBNslgtTeVn
+	 fdNvdGMyM+gc8hFllcAVpaeu2i6jeLH9ZbnJMvoyIVF+iwCcuT9n5o83hGo6Rb0U4y
+	 M9V0DFz/BmnF+wVU9CuUE/WWSuwG1QzV2kvUCCjc=
+Date: Mon, 10 Jun 2024 14:47:57 +0200
+From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 0/3] Move blender setup from individual planes to crtc
+ commit in sun4i-drm
+Message-ID: <55gzdgev6oq5mqc5rdybncn4yc3jahqrfqbldkfftyn2s25o3k@kysjowztftde>
+Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, 
+	Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev
+X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
+ <https://xff.cz/key.txt>
 References: <20240224150604.3855534-1-megi@xff.cz>
-Subject: Re: [PATCH v2 0/3] Move blender setup from individual planes to
- crtc commit in sun4i-drm
-Message-Id: <171801637114.423417.15912541590264684056.b4-ty@kernel.org>
-Date: Mon, 10 Jun 2024 12:46:11 +0200
+ <171801637114.423417.15912541590264684056.b4-ty@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.13.0
+In-Reply-To: <171801637114.423417.15912541590264684056.b4-ty@kernel.org>
 
-On Sat, 24 Feb 2024 16:05:57 +0100, Ondřej Jirman wrote:
-> From: Ondrej Jirman <megi@xff.cz>
+On Mon, Jun 10, 2024 at 12:46:11PM GMT, Maxime Ripard wrote:
+> On Sat, 24 Feb 2024 16:05:57 +0100, Ondřej Jirman wrote:
+> > From: Ondrej Jirman <megi@xff.cz>
+> > 
+> > This series refactors blender setup from individual planes to a common
+> > place where it can be performed at once and is easier to reason about.
+> > 
+> > In the process this fixes a few bugs that allowed blender pipes to be
+> > disabled while corresponding DRM planes were requested to be enabled.
+> > 
+> > [...]
 > 
-> This series refactors blender setup from individual planes to a common
-> place where it can be performed at once and is easier to reason about.
+> Applied to misc/kernel.git (drm-misc-next).
+
+Thank you. :)
+
+Kind regards,
+	o.
+
+> Thanks!
+> Maxime
 > 
-> In the process this fixes a few bugs that allowed blender pipes to be
-> disabled while corresponding DRM planes were requested to be enabled.
-> 
-> [...]
-
-Applied to misc/kernel.git (drm-misc-next).
-
-Thanks!
-Maxime
-
