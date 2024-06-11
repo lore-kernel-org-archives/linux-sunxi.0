@@ -1,129 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAB6117CA0C
-	for <linux-sunxi@lists.linux.dev>; Tue, 11 Jun 2024 12:06:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58FC1383B2
+	for <linux-sunxi@lists.linux.dev>; Tue, 11 Jun 2024 15:59:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718107608; cv=none; b=t11j3Xp/MslrMosrEnAr+Z5Rw+ApaxK7f3NmjOIyHtJ3Gi1A9nOVG5zAfpUZlLCxP07MFS0ZkBcDGe0YduLUiPOvig+LdklU2jMCs49fT7LtONQabMIYYzIW8fJOV1D2veBLBLb1iQqYBRW4eTyjP9X2dGgHjdlVGsT8UXXxd4s=
+	t=1718121557; cv=none; b=aXXUhtHvM3FeMzVvXi+9+qo4sntQBIr0F6qHH3QoQtgH4uC2NOZTFjhiLiuHF2FPrCSWg1WimGXTREDODs7Y8RXRuHJO+DDLfW1d+bJ8BZ8sSoALiaZWu/IvwfUKw2SIjf4oqrJHc6tgZxNIa+j1QOxn3xCkYLf2fL+6zPf9nZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718107608; c=relaxed/simple;
-	bh=izbQACBXKg7/xAfr+T6NfWco5xbmu+bfnAsIHYpOdVw=;
+	s=arc-20240116; t=1718121557; c=relaxed/simple;
+	bh=HsSfwE4c9FKwzt2D18mve0ctqok3simx/c6Sk4d9mD8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iRH+V9CO0MF6s1QgUf9BzcOyx0gUv/7i4gtViyYRB1pJ3kDdpaHSbG/i1d+yeWE7O54UT98HnMkmVnzJMIQVzA4JiPU6pitqfSiasT2gq5/XTLT7V9NLa0/zx3LNHTXjt53LtOYj09/g59qQaKGE7HHITb0BZ7HpeuDdheuc+Ho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DeJj4q5+; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=jyAhTqivANgWULg/+ihxQe+98tW7x1DBQ+XTxS4G6b3HEQQc3tets2G20ZTGjbbdxjmXmNBE3C7yknhX3SaJ9sALzfQgUBPzV4QQ27vOJtOsnfSu6eIur0LgStRhQXCayu6k1HFZYAtF2CEe9OuGhhVucnIRuY4p0vVD8cRvEa4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=CYNb1Y06; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DeJj4q5+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D14DC4AF60
-	for <linux-sunxi@lists.linux.dev>; Tue, 11 Jun 2024 12:06:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718107608;
-	bh=izbQACBXKg7/xAfr+T6NfWco5xbmu+bfnAsIHYpOdVw=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=DeJj4q5++zj+R3KhmhuzK4d1y38/q9RlXNvB80U8sWohX93yRvAYBbRWeNJI+hEkm
-	 k+6zKhoYuXFyb07P2kL/gMmg/FK9/y7H81SPPXOQI54Ebtv+gaujOBYPQ2BRaVYtr9
-	 4lnDhr8IOcynWAd4LHkUKBtKY+YHivapA0KcI4qKSTAzc4SDzmPp4RqbTJTVrp/i06
-	 yeFezpNqoJVDv03VNIjOBZEqJZ7lwd6ZgUNgF0gsfzovWKsFQcHGsAyw1jhVsfafjZ
-	 Lbe7woGXDn9ZOOtxQ1qkBeigUZLfV/hyl1O4hYcRLn41/8zOCV4apxu/JPqpRIYjBJ
-	 hgZeTXX2xJnaA==
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a6ef8e62935so116108266b.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 11 Jun 2024 05:06:48 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUyTCCNinZaX2xHQjMqahQax8DNh85rS4VvwEnxYz7RJFKC0kodxabgXNj4wNxkrGMliLjgSEOf2M+w808QJQgRwT7bOjkhXIxTV0s=
-X-Gm-Message-State: AOJu0YxQXldtA2EksLeP/dcq0WNtEW/Abxko/ADsD09QuPvnnbP+EpqW
-	aTK5ELZa95GwbG52JVvwKyUMQFdVsirXzOQpv46WFflZnIZW8SpmAsEqwyprsAGrIAFCtMF/1US
-	tIrLrFvVnLg6m00q76sNGVlYVYYo=
-X-Google-Smtp-Source: AGHT+IFFPTTll7ACEEwwlIU5pUww8R0bMpeHE5EPA9sRicSO1H8r8Hj10JvtLT4RCL9oaDh0AQArdk5Tw1koxKQr8oM=
-X-Received: by 2002:a17:906:b810:b0:a6f:1f66:8335 with SMTP id
- a640c23a62f3a-a6f1f66841fmr408155266b.4.1718107606517; Tue, 11 Jun 2024
- 05:06:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="CYNb1Y06"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a6f0c3d0792so155281566b.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 11 Jun 2024 08:59:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1718121554; x=1718726354; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7KeeLnew4Dr2lt2iWiQJB+NWU2kaX728eR1Y/pdt+oA=;
+        b=CYNb1Y06bu0bfXDhNok6bOey9V+zaNRGKzNRNCsIlAUdlZTNz6k3AhHm4O6pe/lEUw
+         wwQGU96ctW4YObBUkScW8w5P5F5TwkWOlXa5BYZc8R30idQYAvjIRGjjlZL74OasApRN
+         I7SasazSkI8/4YK0ShXKXjx1AnOIEqG21Pce1txk6hP99AVUCmyS8+piCstK9rbi8Ucj
+         4Qp5SRZABhDUtmO+iWbYoT6GDHN+DeX8vFbMQ1n+8VD03tXgyB33P8zb8ZrDI9oChrXe
+         gj4OLuPmzGStl7bdAcaq3tSD9Mb4rq0AI4rFIR9j7+XEbJUVlTuNwW09IU9NaQXTJdGt
+         +kiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718121554; x=1718726354;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7KeeLnew4Dr2lt2iWiQJB+NWU2kaX728eR1Y/pdt+oA=;
+        b=fSRLSAQEBxhuXsa4zamti77n19HfZWpakIKEAQcv7p9MkA9kdBV3R/i2OLiHgtDfks
+         ugcgo1WwPejjGixKNHgbilN7i3w2IDcvhBXGIJ/NKgS37FNpTOuqOm1n7Nopwp8AGZzy
+         wW9MstSJsb2OS/VUnb75IrfSz+BSZSyQNJZw+MaVU/OFlo/zspKMUewEXDqHbpt4BRUw
+         Ei8o8Z40wJrYXnHtu7/59JuEa3QTqRyv4jPJCnTVY4cCYP06szZAKmAeVcVXCgZPefA5
+         FnCkml/5/m/x4OqhU/T9chzLrk96BK2C8YCL5Y3e8AWFZHv9TvWPX0OHxfmERezIxEGW
+         SIPw==
+X-Forwarded-Encrypted: i=1; AJvYcCV4dZtK69kb8juGYIOb6MLTPqg8IEoVheW1lab+kUFOlEwzU6Aru01cjW4CvRsDwwOY4ksLkFErByalJ/NEYlwZpFEL0c/bL2LlyUQ=
+X-Gm-Message-State: AOJu0Yy1rtDLBoogkGCV2xwRJgiQ2Gvv8c6w5J8k3dOMdHDT2wUqcDS5
+	bPb9Bo+IcXW2KmDt1NfBoRC77ArwnYx5kqL0n4B3ouux+qOkVhbPUqcrvpcMoeJnfNgB+5qogyT
+	tQSIpL6QIwXFgWvgaKwxp459IrtCqEcXIS6rOig==
+X-Google-Smtp-Source: AGHT+IFtN4cYhXjGsiGLi9dtTvtTxex9wzVTtZ32q9gZra1QREy0esNjyQa0xfTpDsvoF9kv8aqdxu0J/DY1HdrDZBE=
+X-Received: by 2002:a17:906:2811:b0:a6e:f7bc:dcab with SMTP id
+ a640c23a62f3a-a6ef7bcdd76mr607353666b.65.1718121553604; Tue, 11 Jun 2024
+ 08:59:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240609-xtheadvector-v1-0-3fe591d7f109@rivosinc.com> <20240609-xtheadvector-v1-1-3fe591d7f109@rivosinc.com>
-In-Reply-To: <20240609-xtheadvector-v1-1-3fe591d7f109@rivosinc.com>
-From: Guo Ren <guoren@kernel.org>
-Date: Tue, 11 Jun 2024 20:06:34 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTTVu4ZQt+gK7pVYEDVG23Sic=jswkVvX4To=VAD0TMzxw@mail.gmail.com>
-Message-ID: <CAJF2gTTVu4ZQt+gK7pVYEDVG23Sic=jswkVvX4To=VAD0TMzxw@mail.gmail.com>
-Subject: Re: [PATCH 01/13] dt-bindings: riscv: Add xtheadvector ISA extension description
+References: <20240610-xtheadvector-v2-0-97a48613ad64@rivosinc.com> <20240610-xtheadvector-v2-11-97a48613ad64@rivosinc.com>
+In-Reply-To: <20240610-xtheadvector-v2-11-97a48613ad64@rivosinc.com>
+From: Evan Green <evan@rivosinc.com>
+Date: Tue, 11 Jun 2024 08:58:37 -0700
+Message-ID: <CALs-Hsu2jFAfr7H9UfLd9VHEZvpfF7Q6Chxko3XbBZBCU94eSw@mail.gmail.com>
+Subject: Re: [PATCH v2 11/13] riscv: hwprobe: Document thead vendor extensions
+ and xtheadvector extension
 To: Charlie Jenkins <charlie@rivosinc.com>
 Cc: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
 	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
 	Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
 	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, Evan Green <evan@rivosinc.com>, 
-	Andy Chiu <andy.chiu@sifive.com>, linux-riscv@lists.infradead.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, Guo Ren <guoren@kernel.org>, 
+	Andy Chiu <andy.chiu@sifive.com>, Jessica Clarke <jrtc27@jrtc27.com>, 
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	Andrew Jones <ajones@ventanamicro.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 10, 2024 at 12:45=E2=80=AFPM Charlie Jenkins <charlie@rivosinc.=
-com> wrote:
+On Mon, Jun 10, 2024 at 3:57=E2=80=AFPM Charlie Jenkins <charlie@rivosinc.c=
+om> wrote:
 >
-> The xtheadvector ISA extension is described on the T-Head extension spec
-> Github page [1] at commit 95358cb2cca9.
->
-> Link: https://github.com/T-head-Semi/thead-extension-spec/blob/95358cb2cc=
-a9489361c61d335e03d3134b14133f/xtheadvector.adoc [1]
+> Document support for thead vendor extensions using the key
+> RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0 and xtheadvector extension using
+> the key RISCV_HWPROBE_VENDOR_EXT_XTHEADVECTOR.
 >
 > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> Reviewed-by: Evan Green <evan@rivosinc.com>
 > ---
->  Documentation/devicetree/bindings/riscv/extensions.yaml | 10 ++++++++++
+>  Documentation/arch/riscv/hwprobe.rst | 10 ++++++++++
 >  1 file changed, 10 insertions(+)
 >
-> diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Do=
-cumentation/devicetree/bindings/riscv/extensions.yaml
-> index 468c646247aa..99d2a9e8c52d 100644
-> --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
-> +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
-> @@ -477,6 +477,10 @@ properties:
->              latency, as ratified in commit 56ed795 ("Update
->              riscv-crypto-spec-vector.adoc") of riscv-crypto.
+> diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/ri=
+scv/hwprobe.rst
+> index 204cd4433af5..9c0ef8c57228 100644
+> --- a/Documentation/arch/riscv/hwprobe.rst
+> +++ b/Documentation/arch/riscv/hwprobe.rst
+> @@ -214,3 +214,13 @@ The following keys are defined:
 >
-> +        # vendor extensions, each extension sorted alphanumerically unde=
-r the
-> +        # vendor they belong to. Vendors are sorted alphanumerically as =
-well.
+>  * :c:macro:`RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE`: An unsigned int which
+>    represents the size of the Zicboz block in bytes.
 > +
-> +        # Andes
->          - const: xandespmu
->            description:
->              The Andes Technology performance monitor extension for count=
-er overflow
-> @@ -484,5 +488,11 @@ properties:
->              Registers in the AX45MP datasheet.
->              https://www.andestech.com/wp-content/uploads/AX45MP-1C-Rev.-=
-5.0.0-Datasheet.pdf
->
-> +        # T-HEAD
-> +        - const: xtheadvector
-> +          description:
-> +            The T-HEAD specific 0.7.1 vector implementation as written i=
-n
-> +            https://github.com/T-head-Semi/thead-extension-spec/blob/953=
-58cb2cca9489361c61d335e03d3134b14133f/xtheadvector.adoc.
-URL changed
-https://github.com/XUANTIE-RV/thead-extension-spec/blob/95358cb2cca9489361c=
-61d335e03d3134b14133f/xtheadvector.adoc
+> +* :c:macro:`RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0`: A bitmask containing =
+the
 
-Others, LGTM.
-
-> +
->  additionalProperties: true
->  ...
->
-> --
-> 2.44.0
->
-
-
---=20
-Best Regards
- Guo Ren
+Our recent snafoo with CPUPERF_0 popped into my memory
+when reading this. Does this work properly with the WHICH_CPUS flag?
+Specifically, we need hwprobe_key_is_bitmask() to return true for this
+key since it's a bitmask.
