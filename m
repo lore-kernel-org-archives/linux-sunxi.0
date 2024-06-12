@@ -1,120 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C8F517DE39;
-	Wed, 12 Jun 2024 14:42:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83169181BBA
+	for <linux-sunxi@lists.linux.dev>; Wed, 12 Jun 2024 15:07:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718203343; cv=none; b=h9VO6yE/+1WBxxt93qyqrxivW4PWsSMhs4UuvTz9NO+Gj8tF96x6R0hJ5vpVQBRHmdC1E/XUv7FIbWnba1DCrBoqNgRymxlQ4jmC7+UQYOejMlTwp844AaIKLPS+vwf3MgkbuVmsVGGs7LhxcxpceiJWc6NyL9nBCsx6BKGOmzw=
+	t=1718204872; cv=none; b=D6bHSAltoMMv5oCnnXr97CHL0iyYDDW0iJTLZsoWD/OrckHfRZ6gGExbo/88GSkmjMsNGBNH/3EkpB2K74nPIycqYvgQ/aaQRS7fg8UEb5+Z9ww/6LKufaCPBa6JQr10PXrY02YlNFyYNvnbzCBqor7F+5nCqtJTzVUs9wLF7Sk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718203343; c=relaxed/simple;
-	bh=fIyHMCmdFag/kreazotdgSfqaaLxX6azOoYs64Naiq8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MOCClNEcMmdRt/QfDpMLRzu9xCiEhXxdZL2OM4eeWxTH5/5Ua9zZY+EuStHr9RSq/mdRSf6y0R1PYx7Bq5wCBJRD67itJEwR23NCGluA+LLAPL9Sbm2gDhoqx4p/8vZZuG58A6vR1YuoxwXFaGbINMbOKYDfcs+Oiwnts/aL+uI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=2r7wGhyb; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="2r7wGhyb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C34FC116B1;
-	Wed, 12 Jun 2024 14:42:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1718203342;
-	bh=fIyHMCmdFag/kreazotdgSfqaaLxX6azOoYs64Naiq8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=2r7wGhybYveJ0OLks02tsdo8uWtqpEFFUrtDCrsXCKYC1H7xvfiNjkI9VxsQ345hk
-	 TJKFXsJYUE9xA7aEoZdI9C2Va7O2R3Yd0hrKq8OC0ZkL3c5HWp82SMRze2saG2/DHQ
-	 icYL9JmNEzpNy+dkQ2CDZOVDP7TwVbPDBXqoCCAs=
-Date: Wed, 12 Jun 2024 16:42:20 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Linux regressions mailing list <regressions@lists.linux.dev>
-Cc: =?iso-8859-1?Q?M=E5ns_Rullg=E5rd?= <mans@mansr.com>,
-	Frank Oltmanns <frank@oltmanns.dev>, stable@vger.kernel.org,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
-	Purism Kernel Team <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Jessica Zhang <quic_jesszhan@quicinc.com>,
-	Sam Ravnborg <sam@ravnborg.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-clk@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v4 1/5] clk: sunxi-ng: common: Support minimum and
- maximum rate
-Message-ID: <2024061208-trapping-diminish-fda6@gregkh>
-References: <20240310-pinephone-pll-fixes-v4-0-46fc80c83637@oltmanns.dev>
- <20240310-pinephone-pll-fixes-v4-1-46fc80c83637@oltmanns.dev>
- <yw1xo78z8ez0.fsf@mansr.com>
- <c4c1229c-1ed3-4b6e-a53a-e1ace2502ded@oltmanns.dev>
- <yw1x4jap90va.fsf@mansr.com>
- <yw1xo78w73uv.fsf@mansr.com>
- <8be80682-067a-4685-9830-cfed0287e617@leemhuis.info>
+	s=arc-20240116; t=1718204872; c=relaxed/simple;
+	bh=rL+EF5Q6byjjdVzupCcKEnVCSO3NlsLUiqtz55TMyhg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kLlZC0Xcmkjz4rmf8Q9hLvXnVDj1cmQlmEO8g+E6pUbLG0TntU/Lkoa8hWUolpbsKrpy2it9cv51TJ2zBGX5tgjzRpFpGAijwdx0Y+0Gi7ZIneJzzmVi+QALuoJnh1gHXMLAJLNjSYjiNqcr1xkuGbtBkT4eDE5dBxem1VgStmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 892411042;
+	Wed, 12 Jun 2024 08:08:14 -0700 (PDT)
+Received: from [10.1.29.46] (e110479.arm.com [10.1.29.46])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1DECC3F73B;
+	Wed, 12 Jun 2024 08:07:47 -0700 (PDT)
+Message-ID: <56aef347-7582-497e-be02-d82eda7b3528@arm.com>
+Date: Wed, 12 Jun 2024 16:07:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8be80682-067a-4685-9830-cfed0287e617@leemhuis.info>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/5] mfd: axp20x: AXP717: Fix missing IRQ status
+ registers range
+To: Lee Jones <lee@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Ryan Walklin <ryan@testtoast.com>,
+ Chris Morgan <macroalpha82@gmail.com>
+References: <20240418000736.24338-1-andre.przywara@arm.com>
+ <20240418000736.24338-2-andre.przywara@arm.com>
+ <20240502093907.GM5338@google.com>
+Content-Language: en-US
+From: Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <20240502093907.GM5338@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jun 12, 2024 at 03:28:01PM +0200, Linux regression tracking (Thorsten Leemhuis) wrote:
-> On 23.05.24 20:58, Måns Rullgård wrote:
-> > Måns Rullgård <mans@mansr.com> writes:
-> >> Frank Oltmanns <frank@oltmanns.dev> writes:
-> >>> 21.05.2024 15:43:10 Måns Rullgård <mans@mansr.com>:
-> >>>> Frank Oltmanns <frank@oltmanns.dev> writes:
-> >>>>
-> >>>>> The Allwinner SoC's typically have an upper and lower limit for their
-> >>>>> clocks' rates. Up until now, support for that has been implemented
-> >>>>> separately for each clock type.
-> >>>>>
-> >>>>> Implement that functionality in the sunxi-ng's common part making use of
-> >>>>> the CCF rate liming capabilities, so that it is available for all clock
-> >>>>> types.
-> >>>>>
-> >>>>> Suggested-by: Maxime Ripard <mripard@kernel.org>
-> >>>>> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
-> >>>>> Cc: stable@vger.kernel.org
-> >>>>> ---
-> >>>>> drivers/clk/sunxi-ng/ccu_common.c | 19 +++++++++++++++++++
-> >>>>> drivers/clk/sunxi-ng/ccu_common.h |  3 +++
-> >>>>> 2 files changed, 22 insertions(+)
-> >>>>
-> >>>> This just landed in 6.6 stable, and it broke HDMI output on an A20 based
-> >>>> device, the clocks ending up all wrong as seen in this diff of
-> >>>> /sys/kernel/debug/clk/clk_summary:
-> > [...]
-> > 
-> >>>> Reverting this commit makes it work again.
-> >>> Thank you for your detailed report!
-> > [...]
-> > It turns out HDMI output is broken in v6.9 for a different reason.
-> > However, this commit (b914ec33b391 clk: sunxi-ng: common: Support
-> > minimum and maximum rate) requires two others as well in order not
-> > to break things on the A20:
-> > 
-> > cedb7dd193f6 drm/sun4i: hdmi: Convert encoder to atomic
-> > 9ca6bc246035 drm/sun4i: hdmi: Move mode_set into enable
-> > 
-> > With those two (the second depends on the first) cherry-picked on top of
-> > v6.6.31, the HDMI output is working again.  Likewise on v6.8.10.
+Hi Lee,
+
+On 02/05/2024 10:39, Lee Jones wrote:
+> On Thu, 18 Apr 2024, Andre Przywara wrote:
 > 
-> They from what I can see are not yet in 6.6.y or on their way there (6.8
-> is EOL now). Did anyone ask Greg to pick this up? If not: Månsm could
-> you maybe do that? CCing him on a reply and asking is likely enough if
-> both changes apply cleanly.
+>> While we list the "IRQ status *and acknowledge*" registers as volatile,
+>> they are missing from the writable range array, so acknowledging any
+>> interrupts was met with an -EIO error.
+>>
+>> Add the five registers that hold those bits to the writable array.
+>>
+>> Fixes: b5bfc8ab2484 ("mfd: axp20x: Add support for AXP717 PMIC")
+>> Reported-by: Chris Morgan <macromorgan@hotmail.com>
+>> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+>> ---
+>>   drivers/mfd/axp20x.c | 1 +
+>>   1 file changed, 1 insertion(+)
+> 
+> Acked-by: Lee Jones <lee@kernel.org>
 
-Both now queued up, thanks.
+Can you please take just this patch as a fix for 6.10? This fixes the 
+power key operation.
+This applies cleanly on top of v6.10-rc3, so there is no need for any 
+extra immutable branch or coordination with regulator.
+(The same is true independently for patch 2/5, on the regulator side).
 
-greg k-h
+Cheers,
+Andre
+
+> 
+>> diff --git a/drivers/mfd/axp20x.c b/drivers/mfd/axp20x.c
+>> index 48ce6ea693cea..d8ad4e120d379 100644
+>> --- a/drivers/mfd/axp20x.c
+>> +++ b/drivers/mfd/axp20x.c
+>> @@ -210,6 +210,7 @@ static const struct regmap_access_table axp313a_volatile_table = {
+>>   
+>>   static const struct regmap_range axp717_writeable_ranges[] = {
+>>   	regmap_reg_range(AXP717_IRQ0_EN, AXP717_IRQ4_EN),
+>> +	regmap_reg_range(AXP717_IRQ0_STATE, AXP717_IRQ4_STATE),
+>>   	regmap_reg_range(AXP717_DCDC_OUTPUT_CONTROL, AXP717_CPUSLDO_CONTROL),
+>>   };
+>>   
+>> -- 
+>> 2.35.8
+>>
+> 
