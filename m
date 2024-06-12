@@ -1,95 +1,92 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83169181BBA
-	for <linux-sunxi@lists.linux.dev>; Wed, 12 Jun 2024 15:07:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14EE317F504;
+	Wed, 12 Jun 2024 15:25:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718204872; cv=none; b=D6bHSAltoMMv5oCnnXr97CHL0iyYDDW0iJTLZsoWD/OrckHfRZ6gGExbo/88GSkmjMsNGBNH/3EkpB2K74nPIycqYvgQ/aaQRS7fg8UEb5+Z9ww/6LKufaCPBa6JQr10PXrY02YlNFyYNvnbzCBqor7F+5nCqtJTzVUs9wLF7Sk=
+	t=1718205916; cv=none; b=g6kwX07iL5cEnmQeNEClJuIaqntpyQp7B+Y0ubWRJ5wlZXbJ4vu17RnGh0Sb8g9nfeb0aNKaU0mvg3y6SHsyp1Fq7SrhUgwyS1iWfc+nxhKzrZ67PcHwWIxuiaeIObV+gcP6TqNtBOn/kVWd/cckfR91/9KpQWB7p4Mhyd7hA2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718204872; c=relaxed/simple;
-	bh=rL+EF5Q6byjjdVzupCcKEnVCSO3NlsLUiqtz55TMyhg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kLlZC0Xcmkjz4rmf8Q9hLvXnVDj1cmQlmEO8g+E6pUbLG0TntU/Lkoa8hWUolpbsKrpy2it9cv51TJ2zBGX5tgjzRpFpGAijwdx0Y+0Gi7ZIneJzzmVi+QALuoJnh1gHXMLAJLNjSYjiNqcr1xkuGbtBkT4eDE5dBxem1VgStmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 892411042;
-	Wed, 12 Jun 2024 08:08:14 -0700 (PDT)
-Received: from [10.1.29.46] (e110479.arm.com [10.1.29.46])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1DECC3F73B;
-	Wed, 12 Jun 2024 08:07:47 -0700 (PDT)
-Message-ID: <56aef347-7582-497e-be02-d82eda7b3528@arm.com>
-Date: Wed, 12 Jun 2024 16:07:45 +0100
+	s=arc-20240116; t=1718205916; c=relaxed/simple;
+	bh=ZUjo3FL1LCdGSIPPmkJ/6gP5dCY2FOu4qlSrdDKhcos=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rJX5lTnZfpDKaK1YaPRStuagR8HkZnKzbv1xAVsnqFCKtORNv+vSaKsb3aTCjnzR/n7le5E5mKivLwCT0EFu3ff8UV/nJY6IuVOyVeRBBnYQrmzo2WJvRKIm/qvuZ/va/fa83f/ArbUVgBuQ2s4ZKZeadbQSaPbhakZstTLxT9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G0Y1Yd3s; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G0Y1Yd3s"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1C0AC116B1;
+	Wed, 12 Jun 2024 15:25:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718205915;
+	bh=ZUjo3FL1LCdGSIPPmkJ/6gP5dCY2FOu4qlSrdDKhcos=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=G0Y1Yd3s3I2J3XTgOcsz/umRnlQZUS9QKRpUVqKHBt2++uCccgow+ooF11DFcyx4E
+	 1bWdq68DZRo4cvCLQoT7ythsvGCCr4ZBfC9YGljBQ6lEWfRyXqeVK/Nwqj9wApm45Q
+	 1mDyNoMdzfF5iYEYKuWlDGJJNUypKc/tIh9Q6uavij5I6uXlhgWvqvSSY2X2qcFj5i
+	 IwgOenALmO5MX6/ncRQU6yKv+KXa/AX6uWAXLwRRucOrYB3WiVhQa62ccpfwksM/p3
+	 Oodx1ZGfAaU5B7/Tgd4xbZOZm2oST/IYIeqV8KRpbruuT5pqI6xnkWXD85enaiAmDO
+	 hkrOY9CqWA9lg==
+Date: Wed, 12 Jun 2024 16:25:10 +0100
+From: Lee Jones <lee@kernel.org>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Chen-Yu Tsai <wens@csie.org>, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Ryan Walklin <ryan@testtoast.com>,
+	Chris Morgan <macroalpha82@gmail.com>
+Subject: Re: [PATCH v2 1/5] mfd: axp20x: AXP717: Fix missing IRQ status
+ registers range
+Message-ID: <20240612152510.GE1504919@google.com>
+References: <20240418000736.24338-1-andre.przywara@arm.com>
+ <20240418000736.24338-2-andre.przywara@arm.com>
+ <20240502093907.GM5338@google.com>
+ <56aef347-7582-497e-be02-d82eda7b3528@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/5] mfd: axp20x: AXP717: Fix missing IRQ status
- registers range
-To: Lee Jones <lee@kernel.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Ryan Walklin <ryan@testtoast.com>,
- Chris Morgan <macroalpha82@gmail.com>
-References: <20240418000736.24338-1-andre.przywara@arm.com>
- <20240418000736.24338-2-andre.przywara@arm.com>
- <20240502093907.GM5338@google.com>
-Content-Language: en-US
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <20240502093907.GM5338@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <56aef347-7582-497e-be02-d82eda7b3528@arm.com>
 
-Hi Lee,
+On Wed, 12 Jun 2024, Andre Przywara wrote:
 
-On 02/05/2024 10:39, Lee Jones wrote:
-> On Thu, 18 Apr 2024, Andre Przywara wrote:
+> Hi Lee,
 > 
->> While we list the "IRQ status *and acknowledge*" registers as volatile,
->> they are missing from the writable range array, so acknowledging any
->> interrupts was met with an -EIO error.
->>
->> Add the five registers that hold those bits to the writable array.
->>
->> Fixes: b5bfc8ab2484 ("mfd: axp20x: Add support for AXP717 PMIC")
->> Reported-by: Chris Morgan <macromorgan@hotmail.com>
->> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
->> ---
->>   drivers/mfd/axp20x.c | 1 +
->>   1 file changed, 1 insertion(+)
+> On 02/05/2024 10:39, Lee Jones wrote:
+> > On Thu, 18 Apr 2024, Andre Przywara wrote:
+> > 
+> > > While we list the "IRQ status *and acknowledge*" registers as volatile,
+> > > they are missing from the writable range array, so acknowledging any
+> > > interrupts was met with an -EIO error.
+> > > 
+> > > Add the five registers that hold those bits to the writable array.
+> > > 
+> > > Fixes: b5bfc8ab2484 ("mfd: axp20x: Add support for AXP717 PMIC")
+> > > Reported-by: Chris Morgan <macromorgan@hotmail.com>
+> > > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > > ---
+> > >   drivers/mfd/axp20x.c | 1 +
+> > >   1 file changed, 1 insertion(+)
+> > 
+> > Acked-by: Lee Jones <lee@kernel.org>
 > 
-> Acked-by: Lee Jones <lee@kernel.org>
+> Can you please take just this patch as a fix for 6.10? This fixes the power
+> key operation.
+> This applies cleanly on top of v6.10-rc3, so there is no need for any extra
+> immutable branch or coordination with regulator.
+> (The same is true independently for patch 2/5, on the regulator side).
 
-Can you please take just this patch as a fix for 6.10? This fixes the 
-power key operation.
-This applies cleanly on top of v6.10-rc3, so there is no need for any 
-extra immutable branch or coordination with regulator.
-(The same is true independently for patch 2/5, on the regulator side).
+What does the Fixes: commit break?
 
-Cheers,
-Andre
+Or is it the case that it never worked properly?
 
-> 
->> diff --git a/drivers/mfd/axp20x.c b/drivers/mfd/axp20x.c
->> index 48ce6ea693cea..d8ad4e120d379 100644
->> --- a/drivers/mfd/axp20x.c
->> +++ b/drivers/mfd/axp20x.c
->> @@ -210,6 +210,7 @@ static const struct regmap_access_table axp313a_volatile_table = {
->>   
->>   static const struct regmap_range axp717_writeable_ranges[] = {
->>   	regmap_reg_range(AXP717_IRQ0_EN, AXP717_IRQ4_EN),
->> +	regmap_reg_range(AXP717_IRQ0_STATE, AXP717_IRQ4_STATE),
->>   	regmap_reg_range(AXP717_DCDC_OUTPUT_CONTROL, AXP717_CPUSLDO_CONTROL),
->>   };
->>   
->> -- 
->> 2.35.8
->>
-> 
+-- 
+Lee Jones [李琼斯]
