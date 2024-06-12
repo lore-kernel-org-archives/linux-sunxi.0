@@ -1,37 +1,25 @@
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F06F176ACD;
-	Wed, 12 Jun 2024 13:28:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4612E17E46B
+	for <linux-sunxi@lists.linux.dev>; Wed, 12 Jun 2024 14:40:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718198891; cv=none; b=G24kteH+x8PDpV25AgyPW6k7cISilaLiIZZKPJ4Pq6YVxTiSyQrYEDfD2HSdlKRM7wqgzF5eXxTsz70NNcnZArB+E70EG34sEb++As4NgzvwVMmYo1NmD4py/KbYFbrJW6Pn/bKnhgt1fT4l3HL0dFO+AEB3SVafVitnWzmgER8=
+	t=1718203257; cv=none; b=d0Ig2/oUboJaUxQLnX5wY3CFA05tUmS7FwBJ827wPz6uTqsjwnLTq1W1OIEtEgOeGZKpl9Q8oxspwLA9ZqTIA/2noe8DnMWXC162ckeHTqadsljvbkWg0mcuUMn62ksM0QPWJ5QKYPsnKPuv7dNeo4a1VcuhgTdH8X7jbh3hFOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718198891; c=relaxed/simple;
-	bh=gB2qcYBlp6AUro7UgWKhRGLkwMDMrcuWA2Fwl19jD0g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=foD9B34QctGK4HKP09URoEkVKYLlLosG6eNoThMxH2dFRZNasHG85V90oV6xJ+NyzaS4aeDyv95dDvh66PZym462hL8Eq1Mqzd2X6DcYMr3Lfjy+CnP5XhJ4oNnbDwatWuzfN/+GcFv0R+7uq2XmX3v6WUUPVTcNYKF7+z8Hwhc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=YYyHDS22; arc=none smtp.client-ip=80.237.130.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="YYyHDS22"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:Reply-To:MIME-Version:Date:
-	Message-ID:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:
-	Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
-	In-Reply-To:References; bh=mLhQQIGQlskOYaBcJkFs0QBTdU7FLcK/wqX92dmx0i0=;
-	t=1718198889; x=1718630889; b=YYyHDS22kNlzhzFoeSSrFmLqpiE95Hxy+6P95jU51fj5/5s
-	JUy3JAy04H54tQZc/WMQ69VkZS3dVFQRaL/pSMlInnZ1axPSX59ROFB9jNsmCYWp7D6JJffyMCjyD
-	hVoX4v6My++nMziS/VwpFFY0RVJ9t2+5wUsFnBaKxc2X7RsP8owhzSt/32XdNe3DGqrxgGj33LpHO
-	SsAmysDR1SxmMvw8Eps1zrK85FVeTysjsIQLuKhlcUTNmv42hn9D82vtLtxUxhIurDweEPVP2mZ9h
-	BmHBjuiW7muq3SWlKisx5nJkFSYuN6XxqEskuEhXRk61NISl/PI4WRxx/+MKQUKQ==;
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1sHO1C-0007Ep-V0; Wed, 12 Jun 2024 15:28:03 +0200
-Message-ID: <8be80682-067a-4685-9830-cfed0287e617@leemhuis.info>
-Date: Wed, 12 Jun 2024 15:28:01 +0200
+	s=arc-20240116; t=1718203257; c=relaxed/simple;
+	bh=LUiu7PHuCd17OsUpd5Mn2HbzQBhX7B6ZhtroeOKvBcM=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=FBK0mtmlQd3frcVPA6KN8kICsWrPuqvlsiGJVw/nNQy+Vu/PBHCuU6wNADOgo4F0KusLTxDYk77EZtZgZXwE1jdD3/0mL117UJ1tPc0RvJ2Vz7e/weH27O+mWbPvxEpMVvWWT5UhUVXy8rTezgBZtDdr+i4Q+Fi6sSdoTJgOpU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 305431042;
+	Wed, 12 Jun 2024 07:41:20 -0700 (PDT)
+Received: from [10.1.29.46] (e110479.arm.com [10.1.29.46])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F3BB93F64C;
+	Wed, 12 Jun 2024 07:40:52 -0700 (PDT)
+Message-ID: <f685b49a-36b1-46c9-a0a3-734bca8bd968@arm.com>
+Date: Wed, 12 Jun 2024 15:40:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -39,94 +27,134 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-Subject: Re: [PATCH v4 1/5] clk: sunxi-ng: common: Support minimum and maximum
- rate
-To: =?UTF-8?B?TcOlbnMgUnVsbGfDpXJk?= <mans@mansr.com>,
- Frank Oltmanns <frank@oltmanns.dev>, stable@vger.kernel.org
-Cc: Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, =?UTF-8?Q?Guido_G=C3=BCnther?=
- <agx@sigxcpu.org>, Purism Kernel Team <kernel@puri.sm>,
- Ondrej Jirman <megi@xff.cz>, Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
+Subject: Re: [PATCH v2 2/5] regulator: axp20x: AXP717: fix LDO supply rails
+ and off-by-ones
+From: Andre Przywara <andre.przywara@arm.com>
+To: Chen-Yu Tsai <wens@csie.org>, Lee Jones <lee@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org,
- Linux kernel regressions list <regressions@lists.linux.dev>
-References: <20240310-pinephone-pll-fixes-v4-0-46fc80c83637@oltmanns.dev>
- <20240310-pinephone-pll-fixes-v4-1-46fc80c83637@oltmanns.dev>
- <yw1xo78z8ez0.fsf@mansr.com>
- <c4c1229c-1ed3-4b6e-a53a-e1ace2502ded@oltmanns.dev>
- <yw1x4jap90va.fsf@mansr.com> <yw1xo78w73uv.fsf@mansr.com>
-From: "Linux regression tracking (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-Content-Language: en-US, de-DE
-In-Reply-To: <yw1xo78w73uv.fsf@mansr.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1718198889;f7fcbcb9;
-X-HE-SMSGID: 1sHO1C-0007Ep-V0
+ Conor Dooley <conor+dt@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Ryan Walklin <ryan@testtoast.com>,
+ Chris Morgan <macroalpha82@gmail.com>
+References: <20240418000736.24338-1-andre.przywara@arm.com>
+ <20240418000736.24338-3-andre.przywara@arm.com>
+Content-Language: en-US
+In-Reply-To: <20240418000736.24338-3-andre.przywara@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 23.05.24 20:58, Måns Rullgård wrote:
-> Måns Rullgård <mans@mansr.com> writes:
->> Frank Oltmanns <frank@oltmanns.dev> writes:
->>> 21.05.2024 15:43:10 Måns Rullgård <mans@mansr.com>:
->>>> Frank Oltmanns <frank@oltmanns.dev> writes:
->>>>
->>>>> The Allwinner SoC's typically have an upper and lower limit for their
->>>>> clocks' rates. Up until now, support for that has been implemented
->>>>> separately for each clock type.
->>>>>
->>>>> Implement that functionality in the sunxi-ng's common part making use of
->>>>> the CCF rate liming capabilities, so that it is available for all clock
->>>>> types.
->>>>>
->>>>> Suggested-by: Maxime Ripard <mripard@kernel.org>
->>>>> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
->>>>> Cc: stable@vger.kernel.org
->>>>> ---
->>>>> drivers/clk/sunxi-ng/ccu_common.c | 19 +++++++++++++++++++
->>>>> drivers/clk/sunxi-ng/ccu_common.h |  3 +++
->>>>> 2 files changed, 22 insertions(+)
->>>>
->>>> This just landed in 6.6 stable, and it broke HDMI output on an A20 based
->>>> device, the clocks ending up all wrong as seen in this diff of
->>>> /sys/kernel/debug/clk/clk_summary:
-> [...]
+Hi Broonie,
+
+On 18/04/2024 01:07, Andre Przywara wrote:
+> The X-Powers AXP717 PMIC has separate input supply pins for each group
+> of LDOs, so they are not all using the same DCDC1 input, as described
+> currently.
 > 
->>>> Reverting this commit makes it work again.
->>> Thank you for your detailed report!
-> [...]
-> It turns out HDMI output is broken in v6.9 for a different reason.
-> However, this commit (b914ec33b391 clk: sunxi-ng: common: Support
-> minimum and maximum rate) requires two others as well in order not
-> to break things on the A20:
+> Replace the "supply" member of each LDO description with the respective
+> group supply name, so that the supply dependencies can be correctly
+> described in the devicetree.
 > 
-> cedb7dd193f6 drm/sun4i: hdmi: Convert encoder to atomic
-> 9ca6bc246035 drm/sun4i: hdmi: Move mode_set into enable
+> Also fix two off-by-ones in the regulator macros, after some double
+> checking the numbers against the datasheet. This uncovered a bug in the
+> datasheet: add a comment to document this.
 > 
-> With those two (the second depends on the first) cherry-picked on top of
-> v6.6.31, the HDMI output is working again.  Likewise on v6.8.10.
+> Fixes: d2ac3df75c3a ("regulator: axp20x: add support for the AXP717")
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
-They from what I can see are not yet in 6.6.y or on their way there (6.8
-is EOL now). Did anyone ask Greg to pick this up? If not: Månsm could
-you maybe do that? CCing him on a reply and asking is likely enough if
-both changes apply cleanly.
+Can you please take (at least) this one patch as a fix for 6.10? Applies 
+cleanly on top of v6.10-rc3. The changes are not super-critical, but 
+worth fixing nevertheless.
 
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
+Thanks,
+Andre
 
-#regzbot introduced: 547263745e15a0
-#regzbot fix: drm/sun4i: hdmi: Move mode_set into enable
-#regzbot poke
+> ---
+>   drivers/regulator/axp20x-regulator.c | 33 ++++++++++++++++------------
+>   1 file changed, 19 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/regulator/axp20x-regulator.c b/drivers/regulator/axp20x-regulator.c
+> index 34fcdd82b2eaa..f3c447ecdc3bf 100644
+> --- a/drivers/regulator/axp20x-regulator.c
+> +++ b/drivers/regulator/axp20x-regulator.c
+> @@ -140,7 +140,7 @@
+>   
+>   #define AXP717_DCDC1_NUM_VOLTAGES	88
+>   #define AXP717_DCDC2_NUM_VOLTAGES	107
+> -#define AXP717_DCDC3_NUM_VOLTAGES	104
+> +#define AXP717_DCDC3_NUM_VOLTAGES	103
+>   #define AXP717_DCDC_V_OUT_MASK		GENMASK(6, 0)
+>   #define AXP717_LDO_V_OUT_MASK		GENMASK(4, 0)
+>   
+> @@ -763,10 +763,15 @@ static const struct linear_range axp717_dcdc1_ranges[] = {
+>   	REGULATOR_LINEAR_RANGE(1220000, 71, 87, 20000),
+>   };
+>   
+> +/*
+> + * The manual says that the last voltage is 3.4V, encoded as 0b1101011 (107),
+> + * but every other method proves that this is wrong, so it's really 106 that
+> + * programs the final 3.4V.
+> + */
+>   static const struct linear_range axp717_dcdc2_ranges[] = {
+>   	REGULATOR_LINEAR_RANGE(500000,   0,  70,  10000),
+>   	REGULATOR_LINEAR_RANGE(1220000, 71,  87,  20000),
+> -	REGULATOR_LINEAR_RANGE(1600000, 88, 107, 100000),
+> +	REGULATOR_LINEAR_RANGE(1600000, 88, 106, 100000),
+>   };
+>   
+>   static const struct linear_range axp717_dcdc3_ranges[] = {
+> @@ -790,40 +795,40 @@ static const struct regulator_desc axp717_regulators[] = {
+>   	AXP_DESC(AXP717, DCDC4, "dcdc4", "vin4", 1000, 3700, 100,
+>   		 AXP717_DCDC4_CONTROL, AXP717_DCDC_V_OUT_MASK,
+>   		 AXP717_DCDC_OUTPUT_CONTROL, BIT(3)),
+> -	AXP_DESC(AXP717, ALDO1, "aldo1", "vin1", 500, 3500, 100,
+> +	AXP_DESC(AXP717, ALDO1, "aldo1", "aldoin", 500, 3500, 100,
+>   		 AXP717_ALDO1_CONTROL, AXP717_LDO_V_OUT_MASK,
+>   		 AXP717_LDO0_OUTPUT_CONTROL, BIT(0)),
+> -	AXP_DESC(AXP717, ALDO2, "aldo2", "vin1", 500, 3500, 100,
+> +	AXP_DESC(AXP717, ALDO2, "aldo2", "aldoin", 500, 3500, 100,
+>   		 AXP717_ALDO2_CONTROL, AXP717_LDO_V_OUT_MASK,
+>   		 AXP717_LDO0_OUTPUT_CONTROL, BIT(1)),
+> -	AXP_DESC(AXP717, ALDO3, "aldo3", "vin1", 500, 3500, 100,
+> +	AXP_DESC(AXP717, ALDO3, "aldo3", "aldoin", 500, 3500, 100,
+>   		 AXP717_ALDO3_CONTROL, AXP717_LDO_V_OUT_MASK,
+>   		 AXP717_LDO0_OUTPUT_CONTROL, BIT(2)),
+> -	AXP_DESC(AXP717, ALDO4, "aldo4", "vin1", 500, 3500, 100,
+> +	AXP_DESC(AXP717, ALDO4, "aldo4", "aldoin", 500, 3500, 100,
+>   		 AXP717_ALDO4_CONTROL, AXP717_LDO_V_OUT_MASK,
+>   		 AXP717_LDO0_OUTPUT_CONTROL, BIT(3)),
+> -	AXP_DESC(AXP717, BLDO1, "bldo1", "vin1", 500, 3500, 100,
+> +	AXP_DESC(AXP717, BLDO1, "bldo1", "bldoin", 500, 3500, 100,
+>   		 AXP717_BLDO1_CONTROL, AXP717_LDO_V_OUT_MASK,
+>   		 AXP717_LDO0_OUTPUT_CONTROL, BIT(4)),
+> -	AXP_DESC(AXP717, BLDO2, "bldo2", "vin1", 500, 3500, 100,
+> +	AXP_DESC(AXP717, BLDO2, "bldo2", "bldoin", 500, 3500, 100,
+>   		 AXP717_BLDO2_CONTROL, AXP717_LDO_V_OUT_MASK,
+>   		 AXP717_LDO0_OUTPUT_CONTROL, BIT(5)),
+> -	AXP_DESC(AXP717, BLDO3, "bldo3", "vin1", 500, 3500, 100,
+> +	AXP_DESC(AXP717, BLDO3, "bldo3", "bldoin", 500, 3500, 100,
+>   		 AXP717_BLDO3_CONTROL, AXP717_LDO_V_OUT_MASK,
+>   		 AXP717_LDO0_OUTPUT_CONTROL, BIT(6)),
+> -	AXP_DESC(AXP717, BLDO4, "bldo4", "vin1", 500, 3500, 100,
+> +	AXP_DESC(AXP717, BLDO4, "bldo4", "bldoin", 500, 3500, 100,
+>   		 AXP717_BLDO4_CONTROL, AXP717_LDO_V_OUT_MASK,
+>   		 AXP717_LDO0_OUTPUT_CONTROL, BIT(7)),
+> -	AXP_DESC(AXP717, CLDO1, "cldo1", "vin1", 500, 3500, 100,
+> +	AXP_DESC(AXP717, CLDO1, "cldo1", "cldoin", 500, 3500, 100,
+>   		 AXP717_CLDO1_CONTROL, AXP717_LDO_V_OUT_MASK,
+>   		 AXP717_LDO1_OUTPUT_CONTROL, BIT(0)),
+> -	AXP_DESC(AXP717, CLDO2, "cldo2", "vin1", 500, 3500, 100,
+> +	AXP_DESC(AXP717, CLDO2, "cldo2", "cldoin", 500, 3500, 100,
+>   		 AXP717_CLDO2_CONTROL, AXP717_LDO_V_OUT_MASK,
+>   		 AXP717_LDO1_OUTPUT_CONTROL, BIT(1)),
+> -	AXP_DESC(AXP717, CLDO3, "cldo3", "vin1", 500, 3500, 100,
+> +	AXP_DESC(AXP717, CLDO3, "cldo3", "cldoin", 500, 3500, 100,
+>   		 AXP717_CLDO3_CONTROL, AXP717_LDO_V_OUT_MASK,
+>   		 AXP717_LDO1_OUTPUT_CONTROL, BIT(2)),
+> -	AXP_DESC(AXP717, CLDO4, "cldo4", "vin1", 500, 3500, 100,
+> +	AXP_DESC(AXP717, CLDO4, "cldo4", "cldoin", 500, 3500, 100,
+>   		 AXP717_CLDO4_CONTROL, AXP717_LDO_V_OUT_MASK,
+>   		 AXP717_LDO1_OUTPUT_CONTROL, BIT(3)),
+>   	AXP_DESC(AXP717, CPUSLDO, "cpusldo", "vin1", 500, 1400, 50,
