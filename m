@@ -1,87 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95B0A145A12;
-	Thu, 13 Jun 2024 14:41:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0066814F9E4
+	for <linux-sunxi@lists.linux.dev>; Thu, 13 Jun 2024 23:32:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718289662; cv=none; b=ZSCdmdNN2JxfzP+hDDZ4PDqd1BVFFEV9wgTJpR03fn5FSe7LFrvm5eVlOtHdbgrG4c3IGAmZULDVG3WNasg57mO3eZTb+Ga4+EWfTweQjKZ4/3sFW56+vYx4OU5VmfgPV9hFOx3WRClLMcK7uEhlQFg9PkwdaRbEUEizedc+I8o=
+	t=1718321558; cv=none; b=AdxZos+H/ZjsGM3f9KpJSSCzEoOgnyX0mayY15TY4LBbdUvRTIgl4lUXJDX2JVGZq4Q6NYTJc51tsWtEYWWaW7Njpv5ORKkBS4Smm+IIscmDsjvMIEZCHGCffolWIghUsKgs+1chuK/KCPId2PIiXByIgHfCrv8IuD5HyK+WsiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718289662; c=relaxed/simple;
-	bh=QudiikszfuUSRm1JTVmyxQn35gCQ8PIjI8z2PL0Fa5g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Oqxjyt5aOGXf4Nkf22zYxjIEjPlSgCzDF+OzAldg6Vq3nBlpqn5cNrahzXmc58RnT+rdqqOrlC0NpfLLmZLJ599cTj89JNHwkz/NkysH5LcmHN6jlSQND5BKm4SdYMq+zDZXT6i5Sdy6lYIEuzcPMdkjY7yG+VJoaleb9EXBzNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JvNk+DeK; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JvNk+DeK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1BFEC2BBFC;
-	Thu, 13 Jun 2024 14:40:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718289662;
-	bh=QudiikszfuUSRm1JTVmyxQn35gCQ8PIjI8z2PL0Fa5g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JvNk+DeKUwohEXf2HcghJVK2ISwGC59Kg2oUR4L6l2e34a/gOul8aSiTPUqfoAgFW
-	 f8apKbdebeXia2nTHIAgeqQldDjToUDPysl5NEr0d3VTNCcFu5mp0A5rFo8Gn/GoaM
-	 nVDG9tRVhcn8fn//ryWad9iYqNZBwJpRtSL1udNk7ii0tMocXltDecJXku6yaoS1Cg
-	 /Bl7HfJENXroP0zuSjzEBE7iYKPVCMmUI7srqojPT05SiDrGRz7Pn7uMYQwlRPOZbx
-	 vIp0TDf9Vw3Z8NpEzrjqKNGmq9Dsv7J3UBRT/atm9bPaE1QJTljvaYy9yrlYLTDrF0
-	 6Dka+8PRkVCdQ==
-Date: Thu, 13 Jun 2024 15:40:55 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Guo Ren <guoren@kernel.org>, Evan Green <evan@rivosinc.com>,
-	Andy Chiu <andy.chiu@sifive.com>,
-	Jessica Clarke <jrtc27@jrtc27.com>, linux-riscv@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v2 04/13] riscv: Add thead and xtheadvector as a vendor
- extension
-Message-ID: <20240613-cofounder-curator-81e53a35dcbc@spud>
-References: <20240610-xtheadvector-v2-0-97a48613ad64@rivosinc.com>
- <20240610-xtheadvector-v2-4-97a48613ad64@rivosinc.com>
+	s=arc-20240116; t=1718321558; c=relaxed/simple;
+	bh=VDxgFdcnwFPYlYn2nkDfi2MuEKRJ2YBeZsy+PPP1ND8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=gNv9YQGJUOmaOkUyyg5pn0ECBqKjTd0ql4ZxHLTVVK6hZk4HOIvirivI+eMJW99pe2isKHRK2dHd0GUHGe8VAejIUQIr+nDG8SGk00SA+ItZrIiLZ03x24ymtKf/9B5AhLd+OZOawOcwYAQb2wnat3+YH+emtkGqBTiMuuQKpFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 951A1FEC;
+	Thu, 13 Jun 2024 16:32:58 -0700 (PDT)
+Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C4C783F64C;
+	Thu, 13 Jun 2024 16:32:32 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Lee Jones <lee@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	Chris Morgan <macroalpha82@gmail.com>,
+	Ryan Walklin <ryan@testtoast.com>,
+	Philippe Simons <simons.philippe@gmail.com>
+Subject: [PATCH v3] mfd: axp20x: AXP717: Fix missing IRQ status registers range
+Date: Fri, 14 Jun 2024 00:31:04 +0100
+Message-Id: <20240613233104.17529-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.39.4
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="aZez57M5EwwC5uBl"
-Content-Disposition: inline
-In-Reply-To: <20240610-xtheadvector-v2-4-97a48613ad64@rivosinc.com>
+Content-Transfer-Encoding: 8bit
 
+While we list the "IRQ status *and acknowledge*" registers as volatile
+in the MFD description, they are missing from the writable range array,
+so acknowledging any interrupts was met with an -EIO error.
+This error propagates up, leading to the whole AXP717 driver failing to
+probe, which is fatal to most systems using this PMIC, since most
+peripherals refer one of the PMIC voltage rails.
+This wasn't noticed on the initial submission, since the interrupt was
+completely missing at this point, but the DTs now merged describe the
+interrupt, creating the problem.
 
---aZez57M5EwwC5uBl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Add the five registers that hold those bits to the writable array.
 
-On Mon, Jun 10, 2024 at 03:56:41PM -0700, Charlie Jenkins wrote:
-> Add support to the kernel for THead vendor extensions with the target of
-> the new extension xtheadvector.
->=20
-> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+This fixes the boot on the Anbernic systems using the AXP717 PMIC.
 
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+Fixes: b5bfc8ab2484 ("mfd: axp20x: Add support for AXP717 PMIC")
+Reported-by: Chris Morgan <macromorgan@hotmail.com>
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+---
+Hi,
 
---aZez57M5EwwC5uBl
-Content-Type: application/pgp-signature; name="signature.asc"
+the patch itself is unchanged from v2 sent in April, but the commit
+message was updated to give rationale for the Fixes: tag.
+Please take this as a fix into v6.10.
 
------BEGIN PGP SIGNATURE-----
+Thanks,
+Andre
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZmsE9wAKCRB4tDGHoIJi
-0sX3AQCV0JAgjlWHnjFIW32EH6kLNRxnf0K4C7KXnfzG3XGQOQEAp2wE6MnRyV//
-+GtJNdRRVkKDTjAnuHMpsdBXy6n+kQQ=
-=VC5A
------END PGP SIGNATURE-----
+ drivers/mfd/axp20x.c | 1 +
+ 1 file changed, 1 insertion(+)
 
---aZez57M5EwwC5uBl--
+diff --git a/drivers/mfd/axp20x.c b/drivers/mfd/axp20x.c
+index f2c0f144c0fc3..dacd3c96c9f57 100644
+--- a/drivers/mfd/axp20x.c
++++ b/drivers/mfd/axp20x.c
+@@ -210,6 +210,7 @@ static const struct regmap_access_table axp313a_volatile_table = {
+ 
+ static const struct regmap_range axp717_writeable_ranges[] = {
+ 	regmap_reg_range(AXP717_IRQ0_EN, AXP717_IRQ4_EN),
++	regmap_reg_range(AXP717_IRQ0_STATE, AXP717_IRQ4_STATE),
+ 	regmap_reg_range(AXP717_DCDC_OUTPUT_CONTROL, AXP717_CPUSLDO_CONTROL),
+ };
+ 
+-- 
+2.39.4
+
