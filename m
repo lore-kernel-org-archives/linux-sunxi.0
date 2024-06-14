@@ -1,88 +1,96 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 952737318A;
-	Fri, 14 Jun 2024 08:12:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B48D918C33A;
+	Fri, 14 Jun 2024 09:24:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718352751; cv=none; b=UMzu/uYE7gMPxe915XFlX80a9x/9/jh1R6l0GmnUGBku/vgx45SRN8lz2b/S1mQUjDQp0eIAmXm254RlG4V/RHoqXxgLjqCFFINffAlkeSwGxKh1OSyKUmBH/bEbbBoCtzeY0V+c+QVGvKccWMUE9p8uoSN5RqM7tYUNFT75m3w=
+	t=1718357099; cv=none; b=JR52a9FIy2Sv46gZk25eaAeCPRCaQ8IW0+3Wy7O+CWwI93HnX3ZS1dXWp1go4dLvt8jjaG/N0tqJNBSsYmEX1yBUe+7c68j7xR095IBYlRUEXIQtHbVW06crHjiddEaN5uYRQ6S+YNc1qf8Og/Rd3erC0tRKvx9yBxwn4hrEmGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718352751; c=relaxed/simple;
-	bh=tX718joJyIE6B+wV6r1BSs0uMJZFD+gOUjigSrolFiY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BLaNDi59IWMbbGCFiR3V3aGZXSzH431ISS8AHyW8XAG8Z4qRo2RlNDdi3HCA4nIyDKRhJnYP+ZUFcPqJFzbU8j8GAjB213Hnhu6APA+Z9VRqCMdqPDK7GqITsAqui2hmgDUicoKw8AQIu1TBaFsuapBbau444iaO4bmispgQ6cM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q3fsTfIv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718357099; c=relaxed/simple;
+	bh=O5kc28lbH4t01HLT1wS8PwFPEcZXeuB0ELq0NAIyPjs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=ZUYY+5BvgDd7WLwl+Axzhw2oJZHA6oD0w3fA9m9h/SQWFbmR1TLSiZNUT1f6/lenHkXwoeQId9CwrElno2dcVbt00GKxi2w9A5nX+ygN+4VW7PCGrkyAn6d43zqDCUQOoIxZmncXBnJBlIHNvDyF/GEfMJ9PwS7ghIlGVvRhrwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iCWTZwRc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q3fsTfIv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B34CC2BD10;
-	Fri, 14 Jun 2024 08:12:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iCWTZwRc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7030CC2BD10;
+	Fri, 14 Jun 2024 09:24:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718352750;
-	bh=tX718joJyIE6B+wV6r1BSs0uMJZFD+gOUjigSrolFiY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=q3fsTfIvzWfbjqgMWimZHz75wRji/1p+IJN4Uta/5jtv3SIeuWh2de3Ff4Y+MAC0T
-	 NBMI+3DPozioudUgj0jlSWM+nPk7alc/rELse2FejAns9ESLW4u4OQE4JAgvxPalcm
-	 cfxwqnpt1ehFW+O+aRZra8342KQZ/J/c74Z2r5sv98qTgcC+uq1uypK+TKNbegUrVO
-	 Z6aQKhQfgFXzbrLaEljBoOH7SuPv2mIwmSo7ZslgOlbzucv97viCU9PrcykJUpqhq9
-	 +b9P99z8ZmrNY3pGqkNld8EnhTh13xB1kxOjLU1ZGCErelU076sgl5UdhpxhSJa12F
-	 WQhSAZhHeqMiw==
-Date: Fri, 14 Jun 2024 09:12:24 +0100
-From: Lee Jones <lee@kernel.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Ryan Walklin <ryan@testtoast.com>,
-	Chris Morgan <macroalpha82@gmail.com>
-Subject: Re: [PATCH v2 2/5] regulator: axp20x: AXP717: fix LDO supply rails
- and off-by-ones
-Message-ID: <20240614081224.GD2561462@google.com>
+	s=k20201202; t=1718357099;
+	bh=O5kc28lbH4t01HLT1wS8PwFPEcZXeuB0ELq0NAIyPjs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=iCWTZwRcvVCSP21qA/FLhovAdDIulSJl1VwUJPi9ls2quluhGRv7RFqc8UdqZeGRn
+	 DSE/krIOndKxKSEfiATpH4wdS2VGUNrE5Y8Fp8yfiUeorqjGe9CZCbzgxY/U0JRl3Q
+	 /bYPa7k+WT/L/fF/Oddq/H+UeJWSSw8pNZpIYsW9kwOYtngGdSrfpMSrhFtWHZq3il
+	 xXUTRinbRpnLzXAhSRlJ5DSK2uojz3DwIO4LQumLmn1i65MQRfDRbjh1uZ+oN5ag5i
+	 aQzHlUUzkgUtm/g0DGHWJDBSubvWxIJb5CQi5FYm9QkS3/6sTFMJn+JgAeJfr23KGh
+	 W3CtpUP2/DKiA==
+From: Mark Brown <broonie@kernel.org>
+To: Chen-Yu Tsai <wens@csie.org>, Lee Jones <lee@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Andre Przywara <andre.przywara@arm.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-sunxi@lists.linux.dev, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Ryan Walklin <ryan@testtoast.com>, 
+ Chris Morgan <macroalpha82@gmail.com>
+In-Reply-To: <20240418000736.24338-1-andre.przywara@arm.com>
 References: <20240418000736.24338-1-andre.przywara@arm.com>
- <20240418000736.24338-3-andre.przywara@arm.com>
- <f685b49a-36b1-46c9-a0a3-734bca8bd968@arm.com>
+Subject: Re: (subset) [PATCH v2 0/5] regulator: Fix AXP717 PMIC support
+Message-Id: <171835709508.262359.11220442613835711253.b4-ty@kernel.org>
+Date: Fri, 14 Jun 2024 10:24:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f685b49a-36b1-46c9-a0a3-734bca8bd968@arm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev-0bd45
 
-On Wed, 12 Jun 2024, Andre Przywara wrote:
-
-> Hi Broonie,
+On Thu, 18 Apr 2024 01:07:31 +0100, Andre Przywara wrote:
+> This is v2 of the fixes to the AXP717 PMIC support series. Lee put the
+> original patches in an immutable branch already, so these here go on top.
+> Patch 1 is new in v2, and adds the IRQ status and acknowledge registers
+> to the writable range. Thanks to Chris for pointing this out.
+> Patch 2 contains fixes to the regulator descriptions: the LDOs had the
+> wrong supply source, and two numbers were wrong. The datasheet describes
+> the voltage ranges and register values differently from what our macros
+> expect, in a way that literally begs for off-by-ones, so here you go.
+> Also there is an actual wrong number in the datasheet, add a comment to
+> document this.
+> I don't know if that's still feasible, but those two patches would be a
+> good candidate to squash into the patches that they fix.
 > 
-> On 18/04/2024 01:07, Andre Przywara wrote:
-> > The X-Powers AXP717 PMIC has separate input supply pins for each group
-> > of LDOs, so they are not all using the same DCDC1 input, as described
-> > currently.
-> > 
-> > Replace the "supply" member of each LDO description with the respective
-> > group supply name, so that the supply dependencies can be correctly
-> > described in the devicetree.
-> > 
-> > Also fix two off-by-ones in the regulator macros, after some double
-> > checking the numbers against the datasheet. This uncovered a bug in the
-> > datasheet: add a comment to document this.
-> > 
-> > Fixes: d2ac3df75c3a ("regulator: axp20x: add support for the AXP717")
-> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> 
-> Can you please take (at least) this one patch as a fix for 6.10? Applies
-> cleanly on top of v6.10-rc3. The changes are not super-critical, but worth
-> fixing nevertheless.
+> [...]
 
-FWIW, I have no idea what's going on with this set now.
+Applied to
 
-Once all of the necessary patches have been expedited, please gather
-together what's left and I'll take them via MFD.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
 
--- 
-Lee Jones [李琼斯]
+Thanks!
+
+[2/5] regulator: axp20x: AXP717: fix LDO supply rails and off-by-ones
+      commit: 0057222c45140830a7bf55e92fb67f84a2814f67
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
