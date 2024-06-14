@@ -1,71 +1,88 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2F8F149011;
-	Fri, 14 Jun 2024 07:43:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 952737318A;
+	Fri, 14 Jun 2024 08:12:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718351024; cv=none; b=hvuQ58MZyi9MMPjISERcepEETDLueT3iKu4iMqGtelao10VY1NO5IHNJRyDo/xF+KvEgbS9SXS1ql9AUi/xwmvgfL28MfNxrmKqei0GEWoezjxU+Qz+zJcUWDd3d2mO9YKQP2FZtt33Gq3NDaUnDpfVZpAoBM7w++U1g1TL/rnM=
+	t=1718352751; cv=none; b=UMzu/uYE7gMPxe915XFlX80a9x/9/jh1R6l0GmnUGBku/vgx45SRN8lz2b/S1mQUjDQp0eIAmXm254RlG4V/RHoqXxgLjqCFFINffAlkeSwGxKh1OSyKUmBH/bEbbBoCtzeY0V+c+QVGvKccWMUE9p8uoSN5RqM7tYUNFT75m3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718351024; c=relaxed/simple;
-	bh=oTDBUdRDD6OthFIBZDrKQucTLqx4aJOFf70vJFKFyYY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=IbkMAKitgkKTYyBm7mXFPvj9HUlNobS1HZ5IH/VQafU1DsGTSBukS8oJvscdKXAnzjIVn5rm8BjHWX9noycF5iTG8yt0GpF6kMNqEUrxfdBG+N/Y4tyUkEbbqYSZ4f8VSX2P6kA3g7PU9Z23gSn9Wuppigtjuz+FC0STkxwIWOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=upBlsidc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718352751; c=relaxed/simple;
+	bh=tX718joJyIE6B+wV6r1BSs0uMJZFD+gOUjigSrolFiY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BLaNDi59IWMbbGCFiR3V3aGZXSzH431ISS8AHyW8XAG8Z4qRo2RlNDdi3HCA4nIyDKRhJnYP+ZUFcPqJFzbU8j8GAjB213Hnhu6APA+Z9VRqCMdqPDK7GqITsAqui2hmgDUicoKw8AQIu1TBaFsuapBbau444iaO4bmispgQ6cM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q3fsTfIv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="upBlsidc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6911C2BD10;
-	Fri, 14 Jun 2024 07:43:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q3fsTfIv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B34CC2BD10;
+	Fri, 14 Jun 2024 08:12:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718351024;
-	bh=oTDBUdRDD6OthFIBZDrKQucTLqx4aJOFf70vJFKFyYY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=upBlsidcuX68KCzaMBbA2j/WbpiukE8WH4uksFtFXFvH0Uy5NLdOWPnVmMSYA7Mdc
-	 V5IU1LZgaAnv2CvJyJU03AxuK9E44B7NYC4+6El7mGLlb/wUgXyWCn1ZWhBEkRGcPj
-	 rYjrK0ACTaWhoMfVUQa2CmvBTxnzigWJtJmv3u8Jz0REs+lF/E7WrRdrVwhsUodhYt
-	 lyAL3lgMun6vxeMJjRWDI3NElHiPVZUFsJcdFgymIV1fcXjDUj6ejV3rpxgjKgEieV
-	 zqrImSJRV/8eGUnWtowVW+7JfCQ7u+gDTzbCiWsLXGYsUkN2yk2q5Hu3dORbim/1qq
-	 h6Wzrq4g0s3ew==
+	s=k20201202; t=1718352750;
+	bh=tX718joJyIE6B+wV6r1BSs0uMJZFD+gOUjigSrolFiY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=q3fsTfIvzWfbjqgMWimZHz75wRji/1p+IJN4Uta/5jtv3SIeuWh2de3Ff4Y+MAC0T
+	 NBMI+3DPozioudUgj0jlSWM+nPk7alc/rELse2FejAns9ESLW4u4OQE4JAgvxPalcm
+	 cfxwqnpt1ehFW+O+aRZra8342KQZ/J/c74Z2r5sv98qTgcC+uq1uypK+TKNbegUrVO
+	 Z6aQKhQfgFXzbrLaEljBoOH7SuPv2mIwmSo7ZslgOlbzucv97viCU9PrcykJUpqhq9
+	 +b9P99z8ZmrNY3pGqkNld8EnhTh13xB1kxOjLU1ZGCErelU076sgl5UdhpxhSJa12F
+	 WQhSAZhHeqMiw==
+Date: Fri, 14 Jun 2024 09:12:24 +0100
 From: Lee Jones <lee@kernel.org>
-To: Chen-Yu Tsai <wens@csie.org>, Andre Przywara <andre.przywara@arm.com>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org, 
- linux-sunxi@lists.linux.dev, Chris Morgan <macroalpha82@gmail.com>, 
- Ryan Walklin <ryan@testtoast.com>, 
- Philippe Simons <simons.philippe@gmail.com>
-In-Reply-To: <20240613233104.17529-1-andre.przywara@arm.com>
-References: <20240613233104.17529-1-andre.przywara@arm.com>
-Subject: Re: (subset) [PATCH v3] mfd: axp20x: AXP717: Fix missing IRQ
- status registers range
-Message-Id: <171835102238.2975804.6897127880257764523.b4-ty@kernel.org>
-Date: Fri, 14 Jun 2024 08:43:42 +0100
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Chen-Yu Tsai <wens@csie.org>, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Ryan Walklin <ryan@testtoast.com>,
+	Chris Morgan <macroalpha82@gmail.com>
+Subject: Re: [PATCH v2 2/5] regulator: axp20x: AXP717: fix LDO supply rails
+ and off-by-ones
+Message-ID: <20240614081224.GD2561462@google.com>
+References: <20240418000736.24338-1-andre.przywara@arm.com>
+ <20240418000736.24338-3-andre.przywara@arm.com>
+ <f685b49a-36b1-46c9-a0a3-734bca8bd968@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.13.0
+In-Reply-To: <f685b49a-36b1-46c9-a0a3-734bca8bd968@arm.com>
 
-On Fri, 14 Jun 2024 00:31:04 +0100, Andre Przywara wrote:
-> While we list the "IRQ status *and acknowledge*" registers as volatile
-> in the MFD description, they are missing from the writable range array,
-> so acknowledging any interrupts was met with an -EIO error.
-> This error propagates up, leading to the whole AXP717 driver failing to
-> probe, which is fatal to most systems using this PMIC, since most
-> peripherals refer one of the PMIC voltage rails.
-> This wasn't noticed on the initial submission, since the interrupt was
-> completely missing at this point, but the DTs now merged describe the
-> interrupt, creating the problem.
+On Wed, 12 Jun 2024, Andre Przywara wrote:
+
+> Hi Broonie,
 > 
-> [...]
+> On 18/04/2024 01:07, Andre Przywara wrote:
+> > The X-Powers AXP717 PMIC has separate input supply pins for each group
+> > of LDOs, so they are not all using the same DCDC1 input, as described
+> > currently.
+> > 
+> > Replace the "supply" member of each LDO description with the respective
+> > group supply name, so that the supply dependencies can be correctly
+> > described in the devicetree.
+> > 
+> > Also fix two off-by-ones in the regulator macros, after some double
+> > checking the numbers against the datasheet. This uncovered a bug in the
+> > datasheet: add a comment to document this.
+> > 
+> > Fixes: d2ac3df75c3a ("regulator: axp20x: add support for the AXP717")
+> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> 
+> Can you please take (at least) this one patch as a fix for 6.10? Applies
+> cleanly on top of v6.10-rc3. The changes are not super-critical, but worth
+> fixing nevertheless.
 
-Applied, thanks!
+FWIW, I have no idea what's going on with this set now.
 
-[1/1] mfd: axp20x: AXP717: Fix missing IRQ status registers range
-      commit: 569c5136baf12c3b8dd137ac356f2a7ceb38bdb5
+Once all of the necessary patches have been expedited, please gather
+together what's left and I'll take them via MFD.
 
---
+-- 
 Lee Jones [李琼斯]
-
