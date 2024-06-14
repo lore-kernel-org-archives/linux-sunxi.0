@@ -1,70 +1,64 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3945181B84
-	for <linux-sunxi@lists.linux.dev>; Fri, 14 Jun 2024 16:43:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8E4717BCC;
+	Fri, 14 Jun 2024 17:11:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718383423; cv=none; b=i5IFb1b05wSCpSawKyrD246OTvhgeAXtHNSfbbtNBKF+LBtcaXr189tSusboHhNiVj3KU8B4jBixF1vErpX5KiVF9v/xKT2cVLyZSqG1HrOhxr3RuF3OiVf8uppIn+Hfo5aUlBMCNSwgTZd5TDrkTpcYcFMyXPDFaHjw4yGvmm4=
+	t=1718385072; cv=none; b=GK5vF+vH6GyIumTWTLDgkrInjEdhNTtwxTqf2OLsKv6eMAzw/ehe2dGjdAVmmpWSkcsDUY+gT8j1eVU21zVbCmTx499ZX84Ch1uNdHjHY28aBWghdro0hx5OWZvxPLpIsEdgXhbXbZ8nYua3D8XkcgH+Jj+L+jywOSkRc6DpjVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718383423; c=relaxed/simple;
-	bh=d5Lvv7h5cpXDk6W/gnDRiwt19RfIXWkkQRdmPaInaso=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=uTVPf6AY2YAu3+6QSvs5CWFyp5rz+Y+hvqEFJjQ+oKpQYtLuEB8ihXHXhIL+qXUNCx3+3Zyd2IiqqcVaoU4CYjCxF9JpuhRZk3nc4JPSYk2i7aicIONF7qZAeo8gyzJyYPfGfwh0vm1uFtzwxJvAtvKMBg4a51a7qUhzN+6r/9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lEiTVzTB; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1718385072; c=relaxed/simple;
+	bh=awixWxSVolly/G4sfdq76SERrN6zQfn9KBvueL0sexg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BC/yiISbP+Nd5XZ77bT0o+EgvuVxnTck/oxhvZbIrGvQ0eNFBLsWL2aeBnwIL+4v6y4uXcVs3YsJ1mjywI6bPVP4cmsRPbu54AU0l95N5a/+agv4nXJDjvcIBluL1WN+DzVuXUIfJwmlFHxMXea1PzjCfSr0RTV4NAK43kxIdts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SPMSaFf1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lEiTVzTB"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-57cbc66a0a6so2258700a12.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 14 Jun 2024 09:43:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718383420; x=1718988220; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=d5Lvv7h5cpXDk6W/gnDRiwt19RfIXWkkQRdmPaInaso=;
-        b=lEiTVzTB54fsFehv1TL7m0+Mxisz2rF2y7a5RC3LptzMSoxJyKQsK8FoBPwPQYTJoB
-         jNG70HpqKW0XTP15qImoyqkTFM6NqScdOflvZE5jhOO0kD9+YtQ0A87pOlFHBAddCdF0
-         oOBFLczIa+kl5KDuSbjw83Q/GcyPOBzyLvCdtY11r0QQuYN7XY/bi7nukQBFIp5C/4vi
-         Gj6ZwEd7O7CuN3nMboBiw+Wfyd48xLn6JKrnWHi9inV73onM8oevNSP95EcQVXqMZ8Hk
-         KVhXKfVfdszZyMWjZ1TBk5PFz/orUnp1OicB+sLOAganbDapZMG0JMfUfYl7upC/u/SI
-         cIJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718383420; x=1718988220;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=d5Lvv7h5cpXDk6W/gnDRiwt19RfIXWkkQRdmPaInaso=;
-        b=tsv9eN+lLnc31+dw1WAXu0jGN2I5jlfNEwrXuNj+ynxIhfo0GSS8xGIECDgqL+M4ZB
-         F2DVdFsu8FUQCwv/tk+iq4qcfmcDj9koZGbgPR/bc3G4bmptjiy6cMpNeVbYxNEgCajH
-         nSdjFw7paOwKn64hUw0IxC43DEccfm4zQi98dOpZlUlM6p5VV4JrqA1QwetukIWa0+xg
-         9xcoe9BrRuAx81FjjAU3CjIZRN6tFHdYthVbgDQiTNXgAtzgG7FVhrzixaddYMp9LAac
-         WhZkTpYhhfRQelPtTSB6x4VXBnwaU1pNSkAYVQkeLDaDlcM8D6GlCQRQS5q7RejHiHfV
-         PrCA==
-X-Forwarded-Encrypted: i=1; AJvYcCWpbSydvc8BPjoj6KyTin4D3wDtcaohH6CibWfEHjhIa28UCTsPN8kDzP2h0cPcsIJawf31qQHB0LVUVdJurU62IRbpDmVqyoKrz+A=
-X-Gm-Message-State: AOJu0YywCs/NwqKxI/hY6DhtwPCgvb8FxEpxXWz3dvvi/TDv3JD1sH0p
-	yn6FInDosiFsZzB24wXXc9TnHB1oY8u47veOALIX+bOwp6ybPgROOwYzhFUzw3nd6t7ZKvg3vlN
-	mlzfcYel8Y9tntLUAsoQsBXTNG34=
-X-Google-Smtp-Source: AGHT+IGPpkBq28XKJpDdjBk3xqnrBsnQijyAHpYp9bTM7Iv02IbJso4b9IqplKPZDYWKOLAW0VgpylUqyEQ3H7NBal8=
-X-Received: by 2002:a05:6402:516:b0:57c:5c50:2ef9 with SMTP id
- 4fb4d7f45d1cf-57cb4b9965fmr3884615a12.3.1718383420051; Fri, 14 Jun 2024
- 09:43:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SPMSaFf1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1743C32786;
+	Fri, 14 Jun 2024 17:11:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718385072;
+	bh=awixWxSVolly/G4sfdq76SERrN6zQfn9KBvueL0sexg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SPMSaFf1NA7USL06HtjJujv3wlLcTT1Z2LcYSULbG+mXA4xcmg9JUvgNmLaR6p03c
+	 KsVDREL9DhbuclNBh2yNUTy9qGFL8ahKeVsCRHksIBdolVlqxk6j1ItUoZJSkdKYE8
+	 b/q6hEbfLnHP+5NEWkhw6zRDUFxAJtMOxTBkocMQ22z8AaNscY0Su2Zma8FgxyZroq
+	 Q7KqOU6WTBybytIe5QqJ8yggyM5+ZoEOUgp6fk4vTYgQoRPGW96WOKJm//j8t9rWKq
+	 mukoB/DMpJgIPSQrnifFi+WGteQpYJhRR6+SQeFLBJg/ZKnw743rik5f9hNO2NdmeJ
+	 W+LTRw4xBnhwQ==
+Date: Fri, 14 Jun 2024 18:11:07 +0100
+From: Lee Jones <lee@kernel.org>
+To: Philippe Simons <simons.philippe@gmail.com>
+Cc: andre.przywara@arm.com, jernej.skrabec@gmail.com,
+	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	macroalpha82@gmail.com, ryan@testtoast.com, wens@csie.org
+Subject: Re: (subset) [PATCH v3] mfd: axp20x: AXP717: Fix missing IRQ status
+ registers range
+Message-ID: <20240614171107.GL3029315@google.com>
+References: <CADomA48VNZiDPVKrUTq6h8SMBO-GA5HUGXXRRA9jAQnPKyESJg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Philippe Simons <simons.philippe@gmail.com>
-Date: Fri, 14 Jun 2024 18:43:28 +0200
-Message-ID: <CADomA48VNZiDPVKrUTq6h8SMBO-GA5HUGXXRRA9jAQnPKyESJg@mail.gmail.com>
-Subject: Re: (subset) [PATCH v3] mfd: axp20x: AXP717: Fix missing IRQ status
- registers range
-To: lee@kernel.org
-Cc: andre.przywara@arm.com, jernej.skrabec@gmail.com, 
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	macroalpha82@gmail.com, ryan@testtoast.com, 
-	Philippe Simons <simons.philippe@gmail.com>, wens@csie.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CADomA48VNZiDPVKrUTq6h8SMBO-GA5HUGXXRRA9jAQnPKyESJg@mail.gmail.com>
 
-Tested on my RG35XX-H, v6.10rc3 boots with the patch applied
+On Fri, 14 Jun 2024, Philippe Simons wrote:
 
-Tested-by: Philippe Simons <simons.philippe@gmail.com>
+> Tested on my RG35XX-H, v6.10rc3 boots with the patch applied
+> 
+> Tested-by: Philippe Simons <simons.philippe@gmail.com>
+
+It looks like the way you replied to this mail failed to attach itself
+to the original thread, so I have no idea what this tag applies to.
+
+However this point may be moot since, by the look of the subject line,
+you're attempting to apply tags to patches which have already been
+committed.
+
+-- 
+Lee Jones [李琼斯]
