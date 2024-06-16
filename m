@@ -1,116 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C70611C2A5;
-	Sun, 16 Jun 2024 18:49:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9478133C0
+	for <linux-sunxi@lists.linux.dev>; Sun, 16 Jun 2024 22:08:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718563791; cv=none; b=olkF2yzwmXB3xJNfFSM0Ox0kVNY/KxIlsSPQOk3uYnwkR9vHaEO0kZnS+CdjUwvyoMEGqTq+caDdIpMC9LVQrFa4vnJVGMx8/JUwZw/WUbGoXQKUh/XCtt/jbB5QKM5/3nhSShp7m7cvi/s/tcSaTHWHADl3VWuwp3fFwMhoXaM=
+	t=1718575740; cv=none; b=tjj+Acp6ZNP38e205s+hIGReb10ZvAjVSzhdOtdwJU9TbX7fCK7E2CBLpN868GjordGBtvMUwQdGqFrMdfpu8/gYEy97AxllvgacJMrZzc8CWEwk9/CX13SZsLrJGk4wK+O+NfZVIHvfpqzd6p+orgXIdw6chxIy+C1lljel4yg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718563791; c=relaxed/simple;
-	bh=osjHdpENVIPZkE6xIPy2V4BuG0sO5GBaRhifuE5x2O0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=goSxK1S8naC00aieWRlZwOH3S1DIehCsvMjhg6hQSLDYN4DS0PmeNgec6H1vrB0Giie6DqL2fR22bhm7+4pNEIOUzt04ZvmwkAeoGEv4nu1KoZ+IopU8Ndii0Hk/h2/KE1cjS/9he4BfdHhjKpKeUaqO5J0jS16JmqfZB0UTHEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=coDx3fTC; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="coDx3fTC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DF56C2BBFC;
-	Sun, 16 Jun 2024 18:49:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718563790;
-	bh=osjHdpENVIPZkE6xIPy2V4BuG0sO5GBaRhifuE5x2O0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=coDx3fTCDyHCwcx4phLEdKPE4EnO0+r5shya/UDwFe1tr2yNK3DD5+11me8gnjfCo
-	 gcgxjn1nhU11+GPNDlr70AY4FsCrONmAuiz2j8aTXJdQbIHEw7/IF/cnHnan8oigXy
-	 tvq9Y/l6Ls0ceOSLpTlOmbdCRh68+btlPNA2k4EMVCSGTLrHAurqhFLet/O9WE3ewA
-	 ULmnLzGKFayh2LHgHDLw2ANYsfHGD5rv6QbpyeYy91sjm5K5YywxT3CpwHu0T8N3EE
-	 FB5mtdDSfIDYwlg1L/vpD0Dt4nRhV1TbTtB3DeC2Xgpm2Z/P2OyDdyPM5d7b0emAHE
-	 c6dz3vR4/Ppkg==
-Date: Sun, 16 Jun 2024 19:49:38 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Guillaume La Roque <glaroque@baylibre.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Vasily Khoruzhick <anarsoul@gmail.com>,
+	s=arc-20240116; t=1718575740; c=relaxed/simple;
+	bh=4nK3G50GZNBc3GWNKlRfE5YDnFHwrSnJovyilk+yNig=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=g7LxiCdQGHgpCqAK8w99B6ToMdRsMFKjeMU17ECPFkXY4WWf8ALRf7kQgoM8stpVzKM7i/EBWMop2WNYFC8dIZjrezQvo3483BbDzteu+j0VJVAXAL0kybiLU1cKXRiv9/Xzyu4gjMKsIHjZV45DTnpqm0VqKKYs+8Gsu/LKmHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BAD53DA7;
+	Sun, 16 Jun 2024 15:09:16 -0700 (PDT)
+Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4E2523F73B;
+	Sun, 16 Jun 2024 15:08:50 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Corentin Labbe <clabbe.montjoie@gmail.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S . Miller" <davem@davemloft.net>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Anson Huang <Anson.Huang@nxp.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Amit Kucheria <amitk@kernel.org>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Pascal Paillet <p.paillet@foss.st.com>, Keerthy <j-keerthy@ti.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	zhanghongchen <zhanghongchen@loongson.cn>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-pm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, imx@lists.linux.dev,
-	linux-tegra@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 00/22] dt-bindings: thermal: few cleanups
-Message-ID: <20240616-immovably-washboard-5eff43888e6f@spud>
-References: <20240614-dt-bindings-thermal-allof-v1-0-30b25a6ae24e@linaro.org>
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: linux-crypto@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	devicetree@vger.kernel.org
+Subject: [PATCH 0/4] crypto: sun8i-ce: add Allwinner H616 support
+Date: Sun, 16 Jun 2024 23:07:15 +0100
+Message-Id: <20240616220719.26641-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.39.4
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="kOA5/bYAEVq+jUn/"
-Content-Disposition: inline
-In-Reply-To: <20240614-dt-bindings-thermal-allof-v1-0-30b25a6ae24e@linaro.org>
+Content-Transfer-Encoding: 8bit
 
+This series adds support for the crypto engine in the Allwinner H616
+SoC. The IP and its capabilities are very similar to the H6, with the
+major difference of the DMA engine supporting 34 bit wide addresses.
+This is achieved by just shifting every address by 2 bits in the DMA
+descriptors; Allwinner calls this "word addresses".
+Patch 2/4 adds support for this by wrapping every address access in a
+function that does the shift as needed. Patch 1/4 adds the new
+compatible string to the binding, patch 3/4 adds that string to the
+driver and enables the address shift for it. The final patch 4/4 adds
+the DT node to the SoC .dtsi. Since this is an internal peripheral,
+it's always enabled.
 
---kOA5/bYAEVq+jUn/
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Corentin's cryptotest passed for me, though I haven't checked how fast
+it is and if it really brings an advantage performance-wise, but maybe
+people find it useful to offload that from the CPU cores.
+One immediate advantage is the availability of the TRNG device, which
+helps to feed the kernel's entropy pool much faster - typically before
+we reach userland. Without the driver this sometimes takes minutes, and
+delays workloads that rely on the entropy pool.
 
-On Fri, Jun 14, 2024 at 11:45:59AM +0200, Krzysztof Kozlowski wrote:
->=20
-> Few cleanups witout practical impact, except maybe the Amlogic schema
-> (bringing required cells).
+Please have a look and comment!
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Cheers,
+Andre
 
---kOA5/bYAEVq+jUn/
-Content-Type: application/pgp-signature; name="signature.asc"
+Andre Przywara (4):
+  dt-bindings: crypto: sun8i-ce: Add compatible for H616
+  crypto: sun8i-ce - wrap accesses to descriptor address fields
+  crypto: sun8i-ce - add Allwinner H616 support
+  arm64: dts: allwinner: h616: add crypto engine node
 
------BEGIN PGP SIGNATURE-----
+ .../bindings/crypto/allwinner,sun8i-ce.yaml   |  2 ++
+ .../arm64/boot/dts/allwinner/sun50i-h616.dtsi | 10 +++++++
+ .../allwinner/sun8i-ce/sun8i-ce-cipher.c      |  8 ++---
+ .../crypto/allwinner/sun8i-ce/sun8i-ce-core.c | 29 ++++++++++++++++++-
+ .../crypto/allwinner/sun8i-ce/sun8i-ce-hash.c |  6 ++--
+ .../crypto/allwinner/sun8i-ce/sun8i-ce-prng.c |  6 ++--
+ .../crypto/allwinner/sun8i-ce/sun8i-ce-trng.c |  2 +-
+ drivers/crypto/allwinner/sun8i-ce/sun8i-ce.h  | 10 +++++++
+ 8 files changed, 61 insertions(+), 12 deletions(-)
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZm8zwgAKCRB4tDGHoIJi
-0ttlAQCXZrCE/f+fR0kZEWAkq+YZfRQhwyqkNPYsIPr3O9xqAAD+NmeiOYPzL4/8
-zTg9dNEipYzGNeR396Pg5r09PcUJDQM=
-=AUoM
------END PGP SIGNATURE-----
+-- 
+2.39.4
 
---kOA5/bYAEVq+jUn/--
