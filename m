@@ -1,107 +1,205 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67B68219F6;
-	Tue, 18 Jun 2024 06:41:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3D95146D49;
+	Tue, 18 Jun 2024 07:39:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718692916; cv=none; b=TKW/soyLaTQb+YZ08zHgHuSUTbCdY3BLFdrQA3PGDQJanWTyehNRwVCB7RO2UI32fyUm4FSiLQY54dhzlh4zjb1duFR+4i2JniaNOJ2rlPI8Rf+sr2JRjpcjIVnVOSnnUK02vLgNTH9bH8SH8mT1sh2q+cvB8oUNV4A8N5Alpbs=
+	t=1718696384; cv=none; b=XM/xH2Zc504cKzf+8HZxvLek38jKq0safOBd1ObyreCcYXfzy2ETRZ9PdtFGhn0V8BODbpqGeSd4NvdowWxcr9cfXuWpVDNjPtVDY5zmrNAzjinKKPNRsTFrM3DpPfDMZXiIDu9pp2s40kjKywLQVsetq+eZjBsvZY4Q/GdspbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718692916; c=relaxed/simple;
-	bh=fORBXY4rt20nRkmJvDmkj9LeAp2C5Z9Pt75NRddyEWY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kNQzBmx/zEccRqcmmkDHpvV7oSbSY/1cJasnQ9k+OZf8QOYOCodTUwotI89b2t3RyYw6HW2ETQjy+lb0SZVWkqzZSAOidI5OmCmqAxhC1GyKFBVOT9mHHSnj3hUsk8si5AyMtEjyjnqWsTwY630dvavoyGnb23IaIkDmGLflFf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iahL1CXW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718696384; c=relaxed/simple;
+	bh=OjKlfNpd7OTHedF4ooTljpuB/fy48tL79BH5283OL2c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gdXbdH23/1ayow/Ra5gUPmGCk3SPh+y/ew+rjPmUsfbQFJMA5QHfFmv2nWIn6k2MRohjcV25BcfpxOPk6J/Lcs2dCkgjBBm+RiAWiadNfIgkEFTS1ZZOrdqrZ4aOudapxVzNKA3ZLlU0l7p9HtCGwjEdls+1A5uyUgclXYPMcNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LAulVbrO; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iahL1CXW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 789DAC4AF1D;
-	Tue, 18 Jun 2024 06:41:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718692916;
-	bh=fORBXY4rt20nRkmJvDmkj9LeAp2C5Z9Pt75NRddyEWY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=iahL1CXWqr8Q79CvCrx80RxqywRXcTwLi4tnzUmKCx1GBK30ioqniw5+c9ZB0Jrt6
-	 hZy3zXxZ8zio7gRjxFuHu817C7Mdpy2RIH9U5wsj5zzM8BdFCpLh52Vfsi9Ydx+W8d
-	 D2ncLiGl18Zai4IjZ3hLMFTIF1UdBWtbb/LTK8jUZ0IIP6ktdNHhkdukOz7syMeM1Z
-	 WwCS4JHlJvZE4r4RyQYqVJufP3znGHJbPbl3YZMzwJv9YtRIIpjX0iqwdGf5pM6R4o
-	 5raEyYAnZyN62BGa1XQvzF+iDwmLr8EgnW0PdGAG5cSKQ+3dE45RKxX2Ql9Cf2iaZe
-	 Cxpo3eI6T05uQ==
-Message-ID: <66630521-1d9d-440e-b3ec-bae8fe48920d@kernel.org>
-Date: Tue, 18 Jun 2024 08:41:49 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LAulVbrO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718696383; x=1750232383;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OjKlfNpd7OTHedF4ooTljpuB/fy48tL79BH5283OL2c=;
+  b=LAulVbrOjdfYS2fk4hIsGQOY2QNFumUYSL5QsQ0tCDO3MPCxOVoTOBFU
+   T+63+X02Jf0TOjcbfu7zSADriPpxty3209Nz9JzUOhpkKze6ye4uWYtta
+   GlxjknogH9gM4h2VrLxON4MJRfQ66vOZuTYYWWM1g3UgqknIMX8yq4aIl
+   BE8953DY2/0kLJLZp5fNJB3maGO8jOeC/Zm0792tQn4pIzBQurQS7vd4J
+   vx27f1lOJN2tSPmnBMLAxQO/Mg7zwAIZJxJUmLJCvGHCBGgdwGSVFGbIP
+   6WjmGijsGXbMZ2zg67ihShJQun4HjP4o7xYPNNBn4lLUdZndLRFnw/fBQ
+   Q==;
+X-CSE-ConnectionGUID: LvMjl9xaTBCqPIbBXjCMOw==
+X-CSE-MsgGUID: YNgG20ONRAWzrN4bgv+qkg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11106"; a="33026730"
+X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; 
+   d="scan'208";a="33026730"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 00:39:42 -0700
+X-CSE-ConnectionGUID: ZH26BE4mRAesZDWo1QDSVg==
+X-CSE-MsgGUID: dOhvDB2lRZezr651awkCQQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; 
+   d="scan'208";a="45998161"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 18 Jun 2024 00:39:38 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sJTRI-0005JJ-1Z;
+	Tue, 18 Jun 2024 07:39:36 +0000
+Date: Tue, 18 Jun 2024 15:39:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andre Przywara <andre.przywara@arm.com>,
+	Corentin Labbe <clabbe.montjoie@gmail.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S . Miller" <davem@davemloft.net>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-crypto@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH 2/4] crypto: sun8i-ce - wrap accesses to descriptor
+ address fields
+Message-ID: <202406181436.RZPPffYb-lkp@intel.com>
+References: <20240616220719.26641-3-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/8] dt-bindings: iio: adc: Add AXP717 compatible
-To: Chris Morgan <macroalpha82@gmail.com>, linux-sunxi@lists.linux.dev
-Cc: linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-iio@vger.kernel.org, broonie@kernel.org, lee@kernel.org,
- samuel@sholland.org, jernej.skrabec@gmail.com, sre@kernel.org,
- wens@csie.org, conor+dt@kernel.org, krzk+dt@kernel.org, robh@kernel.org,
- lars@metafoo.de, Chris Morgan <macromorgan@hotmail.com>
-References: <20240617220535.359021-1-macroalpha82@gmail.com>
- <20240617220535.359021-2-macroalpha82@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240617220535.359021-2-macroalpha82@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240616220719.26641-3-andre.przywara@arm.com>
 
-On 18/06/2024 00:05, Chris Morgan wrote:
-> From: Chris Morgan <macromorgan@hotmail.com>
-> 
-> Add compatible binding for the axp717.
-> 
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+Hi Andre,
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+kernel test robot noticed the following build warnings:
 
-Best regards,
-Krzysztof
+[auto build test WARNING on sunxi/sunxi/for-next]
+[also build test WARNING on herbert-cryptodev-2.6/master herbert-crypto-2.6/master linus/master v6.10-rc4 next-20240617]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Andre-Przywara/dt-bindings-crypto-sun8i-ce-Add-compatible-for-H616/20240617-061144
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
+patch link:    https://lore.kernel.org/r/20240616220719.26641-3-andre.przywara%40arm.com
+patch subject: [PATCH 2/4] crypto: sun8i-ce - wrap accesses to descriptor address fields
+config: loongarch-randconfig-r111-20240618 (https://download.01.org/0day-ci/archive/20240618/202406181436.RZPPffYb-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240618/202406181436.RZPPffYb-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406181436.RZPPffYb-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c:175:34: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __le32 @@
+   drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c:175:34: sparse:     expected unsigned int [usertype] value
+   drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c:175:34: sparse:     got restricted __le32
+
+vim +175 drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c
+
+   167	
+   168		mutex_lock(&ce->mlock);
+   169	
+   170		v = readl(ce->base + CE_ICR);
+   171		v |= 1 << flow;
+   172		writel(v, ce->base + CE_ICR);
+   173	
+   174		reinit_completion(&ce->chanlist[flow].complete);
+ > 175		writel(sun8i_ce_desc_addr(ce, ce->chanlist[flow].t_phy),
+   176		       ce->base + CE_TDQ);
+   177	
+   178		ce->chanlist[flow].status = 0;
+   179		/* Be sure all data is written before enabling the task */
+   180		wmb();
+   181	
+   182		/* Only H6 needs to write a part of t_common_ctl along with "1", but since it is ignored
+   183		 * on older SoCs, we have no reason to complicate things.
+   184		 */
+   185		v = 1 | ((le32_to_cpu(ce->chanlist[flow].tl->t_common_ctl) & 0x7F) << 8);
+   186		writel(v, ce->base + CE_TLR);
+   187		mutex_unlock(&ce->mlock);
+   188	
+   189		wait_for_completion_interruptible_timeout(&ce->chanlist[flow].complete,
+   190				msecs_to_jiffies(ce->chanlist[flow].timeout));
+   191	
+   192		if (ce->chanlist[flow].status == 0) {
+   193			dev_err(ce->dev, "DMA timeout for %s (tm=%d) on flow %d\n", name,
+   194				ce->chanlist[flow].timeout, flow);
+   195			err = -EFAULT;
+   196		}
+   197		/* No need to lock for this read, the channel is locked so
+   198		 * nothing could modify the error value for this channel
+   199		 */
+   200		v = readl(ce->base + CE_ESR);
+   201		switch (ce->variant->esr) {
+   202		case ESR_H3:
+   203			/* Sadly, the error bit is not per flow */
+   204			if (v) {
+   205				dev_err(ce->dev, "CE ERROR: %x for flow %x\n", v, flow);
+   206				err = -EFAULT;
+   207				print_hex_dump(KERN_INFO, "TASK: ", DUMP_PREFIX_NONE, 16, 4,
+   208					       cet, sizeof(struct ce_task), false);
+   209			}
+   210			if (v & CE_ERR_ALGO_NOTSUP)
+   211				dev_err(ce->dev, "CE ERROR: algorithm not supported\n");
+   212			if (v & CE_ERR_DATALEN)
+   213				dev_err(ce->dev, "CE ERROR: data length error\n");
+   214			if (v & CE_ERR_KEYSRAM)
+   215				dev_err(ce->dev, "CE ERROR: keysram access error for AES\n");
+   216			break;
+   217		case ESR_A64:
+   218		case ESR_D1:
+   219		case ESR_H5:
+   220		case ESR_R40:
+   221			v >>= (flow * 4);
+   222			v &= 0xF;
+   223			if (v) {
+   224				dev_err(ce->dev, "CE ERROR: %x for flow %x\n", v, flow);
+   225				err = -EFAULT;
+   226				print_hex_dump(KERN_INFO, "TASK: ", DUMP_PREFIX_NONE, 16, 4,
+   227					       cet, sizeof(struct ce_task), false);
+   228			}
+   229			if (v & CE_ERR_ALGO_NOTSUP)
+   230				dev_err(ce->dev, "CE ERROR: algorithm not supported\n");
+   231			if (v & CE_ERR_DATALEN)
+   232				dev_err(ce->dev, "CE ERROR: data length error\n");
+   233			if (v & CE_ERR_KEYSRAM)
+   234				dev_err(ce->dev, "CE ERROR: keysram access error for AES\n");
+   235			break;
+   236		case ESR_H6:
+   237			v >>= (flow * 8);
+   238			v &= 0xFF;
+   239			if (v) {
+   240				dev_err(ce->dev, "CE ERROR: %x for flow %x\n", v, flow);
+   241				err = -EFAULT;
+   242				print_hex_dump(KERN_INFO, "TASK: ", DUMP_PREFIX_NONE, 16, 4,
+   243					       cet, sizeof(struct ce_task), false);
+   244			}
+   245			if (v & CE_ERR_ALGO_NOTSUP)
+   246				dev_err(ce->dev, "CE ERROR: algorithm not supported\n");
+   247			if (v & CE_ERR_DATALEN)
+   248				dev_err(ce->dev, "CE ERROR: data length error\n");
+   249			if (v & CE_ERR_KEYSRAM)
+   250				dev_err(ce->dev, "CE ERROR: keysram access error for AES\n");
+   251			if (v & CE_ERR_ADDR_INVALID)
+   252				dev_err(ce->dev, "CE ERROR: address invalid\n");
+   253			if (v & CE_ERR_KEYLADDER)
+   254				dev_err(ce->dev, "CE ERROR: key ladder configuration error\n");
+   255			break;
+   256		}
+   257	
+   258		return err;
+   259	}
+   260	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
