@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3D95146D49;
-	Tue, 18 Jun 2024 07:39:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E3CC131E38;
+	Tue, 18 Jun 2024 13:39:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718696384; cv=none; b=XM/xH2Zc504cKzf+8HZxvLek38jKq0safOBd1ObyreCcYXfzy2ETRZ9PdtFGhn0V8BODbpqGeSd4NvdowWxcr9cfXuWpVDNjPtVDY5zmrNAzjinKKPNRsTFrM3DpPfDMZXiIDu9pp2s40kjKywLQVsetq+eZjBsvZY4Q/GdspbE=
+	t=1718717955; cv=none; b=QYk5Xm1ba1mM5MI8J2kF1XdAv+aX8S5lEfwl9lIfZq8PnUb1egR86slsemP2NcM0KXpOTLwtLJ96XPuuWh9siDl6+8F3O3emWawYRf1E+yEZ0sQ8fFvaehDZtrtAzS+F+Axu5Bt4KHnqKDidmFcJw8lx12v8H6kWVpciZTUGYEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718696384; c=relaxed/simple;
-	bh=OjKlfNpd7OTHedF4ooTljpuB/fy48tL79BH5283OL2c=;
+	s=arc-20240116; t=1718717955; c=relaxed/simple;
+	bh=iAfRy8gkHYKnalZbae1lHo5/Dx4Sx6rI8FqrdYS6OF8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gdXbdH23/1ayow/Ra5gUPmGCk3SPh+y/ew+rjPmUsfbQFJMA5QHfFmv2nWIn6k2MRohjcV25BcfpxOPk6J/Lcs2dCkgjBBm+RiAWiadNfIgkEFTS1ZZOrdqrZ4aOudapxVzNKA3ZLlU0l7p9HtCGwjEdls+1A5uyUgclXYPMcNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LAulVbrO; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=j0uS4lgNkt/ZuO4W4v5AagfhqkDTt363V3f3XGdiE7xn+EJNaazeg1ubItMkovCvzY0jB4HgTT34F+Hc1bU0mMANnae7tKNcb4ytWvZDFgEHI+OpcSR/WB1o5MeFT1NRylyv/RUU8+1az671LUcNZ4HIdXeJKLYbv4DaQUv5zwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PDzdwsew; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LAulVbrO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PDzdwsew"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718696383; x=1750232383;
+  t=1718717954; x=1750253954;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=OjKlfNpd7OTHedF4ooTljpuB/fy48tL79BH5283OL2c=;
-  b=LAulVbrOjdfYS2fk4hIsGQOY2QNFumUYSL5QsQ0tCDO3MPCxOVoTOBFU
-   T+63+X02Jf0TOjcbfu7zSADriPpxty3209Nz9JzUOhpkKze6ye4uWYtta
-   GlxjknogH9gM4h2VrLxON4MJRfQ66vOZuTYYWWM1g3UgqknIMX8yq4aIl
-   BE8953DY2/0kLJLZp5fNJB3maGO8jOeC/Zm0792tQn4pIzBQurQS7vd4J
-   vx27f1lOJN2tSPmnBMLAxQO/Mg7zwAIZJxJUmLJCvGHCBGgdwGSVFGbIP
-   6WjmGijsGXbMZ2zg67ihShJQun4HjP4o7xYPNNBn4lLUdZndLRFnw/fBQ
-   Q==;
-X-CSE-ConnectionGUID: LvMjl9xaTBCqPIbBXjCMOw==
-X-CSE-MsgGUID: YNgG20ONRAWzrN4bgv+qkg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11106"; a="33026730"
+  bh=iAfRy8gkHYKnalZbae1lHo5/Dx4Sx6rI8FqrdYS6OF8=;
+  b=PDzdwsewue07fR43kpqd7So1QBtIcdwwGgjE+PT/+fnfc5+x6IPjnjKU
+   tMkC9/NOWWsZbJ9op7hRwvPQ3AjVJSohBOos/OiuhEKK01T5FZL9cXcyh
+   UHjen4eBAQCZgXKXvM4xBoY4Eq8HzRRGVff/5N6PkwYqjCph0t0Tyro2u
+   Nq7YZ1roRtQkovxp4eMYFFBR3sBd+xrcxO4EGbjgZKU6iGrGeJPdarT8S
+   K/txLXMot++svJ54SaQH2OAq9EKhvyB3/fja0Jp7at2Oy41zKzF3tq+Rg
+   JOjPSCRCHS49fBGgCzo42pjcNFH2pB7M5cLaN0I1Yamj79Re5ns0vHhaF
+   w==;
+X-CSE-ConnectionGUID: B2ArV0hYT++mQw7gr35hYQ==
+X-CSE-MsgGUID: mfGN98maSMSfuj+mKZyykA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="15307209"
 X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; 
-   d="scan'208";a="33026730"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 00:39:42 -0700
-X-CSE-ConnectionGUID: ZH26BE4mRAesZDWo1QDSVg==
-X-CSE-MsgGUID: dOhvDB2lRZezr651awkCQQ==
+   d="scan'208";a="15307209"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 06:39:13 -0700
+X-CSE-ConnectionGUID: lgsvN0plTlGnaOetNYulWw==
+X-CSE-MsgGUID: ovIT9vj4SKOSTSKkvw7Z9w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; 
-   d="scan'208";a="45998161"
+   d="scan'208";a="72306808"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 18 Jun 2024 00:39:38 -0700
+  by orviesa002.jf.intel.com with ESMTP; 18 Jun 2024 06:38:54 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sJTRI-0005JJ-1Z;
-	Tue, 18 Jun 2024 07:39:36 +0000
-Date: Tue, 18 Jun 2024 15:39:21 +0800
+	id 1sJZ2x-0005Yb-2h;
+	Tue, 18 Jun 2024 13:38:51 +0000
+Date: Tue, 18 Jun 2024 21:38:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: Andre Przywara <andre.przywara@arm.com>,
 	Corentin Labbe <clabbe.montjoie@gmail.com>,
@@ -63,7 +63,7 @@ Cc: oe-kbuild-all@lists.linux.dev, linux-crypto@vger.kernel.org,
 	devicetree@vger.kernel.org
 Subject: Re: [PATCH 2/4] crypto: sun8i-ce - wrap accesses to descriptor
  address fields
-Message-ID: <202406181436.RZPPffYb-lkp@intel.com>
+Message-ID: <202406182149.eAIruF9N-lkp@intel.com>
 References: <20240616220719.26641-3-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -89,18 +89,18 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Andre-Przywara/dt-binding
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
 patch link:    https://lore.kernel.org/r/20240616220719.26641-3-andre.przywara%40arm.com
 patch subject: [PATCH 2/4] crypto: sun8i-ce - wrap accesses to descriptor address fields
-config: loongarch-randconfig-r111-20240618 (https://download.01.org/0day-ci/archive/20240618/202406181436.RZPPffYb-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240618/202406181436.RZPPffYb-lkp@intel.com/reproduce)
+config: mips-randconfig-r121-20240618 (https://download.01.org/0day-ci/archive/20240618/202406182149.eAIruF9N-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 78ee473784e5ef6f0b19ce4cb111fb6e4d23c6b2)
+reproduce: (https://download.01.org/0day-ci/archive/20240618/202406182149.eAIruF9N-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406181436.RZPPffYb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406182149.eAIruF9N-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c:175:34: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __le32 @@
-   drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c:175:34: sparse:     expected unsigned int [usertype] value
+>> drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c:175:34: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le32 @@
+   drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c:175:34: sparse:     expected unsigned int [usertype] val
    drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c:175:34: sparse:     got restricted __le32
 
 vim +175 drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c
