@@ -1,95 +1,136 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2284B368
-	for <linux-sunxi@lists.linux.dev>; Wed, 19 Jun 2024 00:02:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C890101CA
+	for <linux-sunxi@lists.linux.dev>; Wed, 19 Jun 2024 01:24:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718755347; cv=none; b=YF5qCk18nO1k2tun1YWfP/9Ml1W2phHJOQdFWlAkUkaHKlbRXePcVH/qGkMRnkFemfpztdO9tI2fA9ybaQMpRwwKAPxDLFxjHyF01SmUqPjp3J4VH4Sx/KLk/Ve+LnViueeZby9gFeBGeoL0gIZbzTpWUfstpzQqGbFyMKMnmN4=
+	t=1718760263; cv=none; b=WtGn1hSZnCHlQdHhXxLfo/2aawiOHSAb3qJQikzSeaVWDXt1XjQRIz0J7ZJktdFodNL9ElsFXxHKA/mVVJrfvUZuX5vyERBjPuDjwR37j7xcRxIy8+rB/l1KLTYcGDVeiLY5sj68v9Hcz74gIrg77Q17m+1y7e5axRJIRLXjpkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718755347; c=relaxed/simple;
-	bh=R+6FaQSR6Nnrm2BWGpVhIViug0n83gw/N5/k6HFesZc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=V+YmwPTI+aFY27/BslPpBT4Qr76S+pDFluniM1RKZcRJMeoNcjsgMlSiRu1DUMuIcVGu3WMXApr+v+++7P1D1XvipmPdgfJ3CJk94mCX37J4XhD3YlVINAGVKq7/+E/4YeTbmFovKKskuOFM6MybqU5KOgTWBncJTKjGeq/ViX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5C3C1DA7;
-	Tue, 18 Jun 2024 17:02:49 -0700 (PDT)
-Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7CD543F64C;
-	Tue, 18 Jun 2024 17:02:22 -0700 (PDT)
-Date: Wed, 19 Jun 2024 01:00:51 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Ryan Walklin <ryan@testtoast.com>
-Cc: Yangtao Li <tiny.windzz@gmail.com>, "Rafael J . Wysocki"
- <rafael@kernel.org>, Viresh Kumar <vireshk@kernel.org>, Chen-Yu Tsai
- <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>, linux-pm@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, Chris
- Morgan <macroalpha82@gmail.com>, Sudeep Holla <sudeep.holla@arm.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Nishanth Menon <nm@ti.com>, Stephen Boyd
- <sboyd@kernel.org>, Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH 3/3] arm64: dts: allwinner: rg35xx: Enable DVFS CPU
- frequency scaling
-Message-ID: <20240619010051.1bd9f00f@minigeek.lan>
-In-Reply-To: <20240607092140.33112-4-ryan@testtoast.com>
-References: <20240607092140.33112-1-ryan@testtoast.com>
-	<20240607092140.33112-4-ryan@testtoast.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	s=arc-20240116; t=1718760263; c=relaxed/simple;
+	bh=pdc/rvLQeLwwvqUbHBBgY9uhgpm81i4HF9/kBIZdaiY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=roeuYscJZjfiaOOKhj2x5LYB+pUnj3AmDT4+9+5XNVFni8B2BCbtkWPDwNrbCLt7G8WBQcusVlubDYxgoP5u4UdzD5YbDBLbR4e5j+va3MCBC5gBUsEg78chI7C4HhkXEc5h1uqSFqYjqLVG8v2dgTXj9wFbyIQvLQpT7EWugG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=T82++PlW; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="T82++PlW"
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 257DF289;
+	Wed, 19 Jun 2024 03:24:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1718760241;
+	bh=pdc/rvLQeLwwvqUbHBBgY9uhgpm81i4HF9/kBIZdaiY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=T82++PlWOMiGRIeqK1WukRWc1XBnl/qVcQ6N5RUJ+r1q1bT+nN8JYI4JAbCj5HB+T
+	 CzOYrBs/TJKMDt1es2Akq6n4+FoFwvSiYoITi/Ue1ZKJ9/rcaE9y0xn97Mw0yD1OLc
+	 eMyC5usX716cC8zLfI+SQ2Dd9hb44lqaOtR8yAtI=
+From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To: linux-media@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	Eugen Hristev <eugen.hristev@collabora.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Sakari Ailus <sakari.ailus@iki.fi>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH 0/8] media: v4l2: Improve media link validation
+Date: Wed, 19 Jun 2024 04:23:48 +0300
+Message-ID: <20240619012356.22685-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.44.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Fri,  7 Jun 2024 21:20:35 +1200
-Ryan Walklin <ryan@testtoast.com> wrote:
+Hello,
 
-> The Anbernic RG35XX device variants (-2024, -H, -Plus and -SP) are the
-> only currently known devices to have an Allwinner H700 SoC. The closely
-> related RG28XX also has the H700 but a mainline DT for this device has
-> not yet been submitted.
-> 
-> Include the H616 CPU OPP table in the base device DTS, and increase the
-> DCDC1 regulator (vdd-cpu) upper voltage range to 1.16V, allowing the
-> CPU to reach 1.5GHz.
-> 
-> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+This patch series improves the link validation helpers to make it easier
+for drivers to validate all links in a pipeline.
 
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+The vast majority of drivers use the v4l2_subdev_link_validate()
+function as their .link_validate() handler for subdevs. This correctly
+validates subdev-to-subdev links. For links between subdevs and video
+capture devices, a few drivers implement the .link_validate() operation
+of their video devices, while others implement manual validation in
+their .streamon() handler, or don't implement validation at all. Links
+between video output devices are in an even worse state, as the link
+validation logic at pipeline start time does not call the
+.link_validate() operation on the source side of a link, leaving manual
+validation in .streamon() the only option. Adding insult to injury,
+v4l2_subdev_link_validate() prints a warning when the link's source is
+not a subdev, which forces drivers to implement a manual subdev link
+validation handler for subdevs connected to output video nodes.
 
-Cheers,
-Andre
+It turns out that v4l2_subdev_link_validate() is even used in the
+.link_validate() implementation of video devices by two drivers. This is
+clearly wrong, and is addressed by patches 1/8 to 3/8. Note that patch
+3/8 should ideally implement real validation of the link between the
+subdev and video capture device, but that requires understanding of the
+driver's logic as well as testing, so I have left it out as an exercise
+for the driver's maintainer. The patch doesn't introduce any regression.
 
-> ---
->  .../boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts   | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
-> index ee30584b6ad70..afb49e65859f9 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
-> @@ -6,7 +6,7 @@
->  /dts-v1/;
->  
->  #include "sun50i-h616.dtsi"
-> -
-> +#include "sun50i-h616-cpu-opp.dtsi"
->  #include <dt-bindings/gpio/gpio.h>
->  #include <dt-bindings/input/linux-event-codes.h>
->  #include <dt-bindings/interrupt-controller/arm-gic.h>
-> @@ -221,7 +221,7 @@ regulators {
->  			reg_dcdc1: dcdc1 {
->  				regulator-always-on;
->  				regulator-min-microvolt = <900000>;
-> -				regulator-max-microvolt = <1100000>;
-> +				regulator-max-microvolt = <1160000>;
->  				regulator-name = "vdd-cpu";
->  			};
->  
+Patch 4/8 then starts refactoring the v4l2_subdev_link_validate() to
+separate the current warning in two categories, with a WARN_ON() for an
+issue that indicates a clear driver bug (and does not occur in any
+driver in mainline at the moment), and keeping the pr_warn_once() for
+other issues that are present in multiple drivers.
+
+Patch 5/8 continues with expanding v4l2_subdev_link_validate() to better
+support links from video output devices to subdevs, delegating the
+validation to the video output device's .link_validate() operation. This
+allows using v4l2_subdev_link_validate() for all subdevs in a driver,
+regardless of whether they are connected to other subdevs, video capture
+devices or video output devices, and implementing all the link
+validation for video devices in their .link_validate() operation.
+
+Patches 6/8 to 8/8 then address the v4l2_subdev_link_validate() warning
+for the vsp1 driver. Patch 6/8 adds a message to diagnose link
+validation errors better, which was handy during development and
+debugging of this series. Patch 7/8 then silences the warning. This is
+unfortunately done with a workaround, as the ideal implementation,
+moving all validation for video devices to their .link_validate()
+operation as showcased in patch 8/8, breaks operation of the vsp1 unit
+test suite. While that is fixable, it indicates that other userspace
+applications may also break as a result.
+
+To my great sadness, I had to mark patch 8/8 as [DNI]. This does not
+make the v4l2_subdev_link_validate() improvements in patch 5/8
+pointless, as they are useful for new drivers, as well as drivers that
+don't include multiple video devices in a pipeline.
+
+Laurent Pinchart (8):
+  media: microchip-isc: Drop v4l2_subdev_link_validate() for video
+    devices
+  media: sun4i_csi: Implement link validate for sun4i_csi subdev
+  media: sun4i_csi: Don't use v4l2_subdev_link_validate() for video
+    device
+  media: v4l2-subdev: Refactor warnings in v4l2_subdev_link_validate()
+  media: v4l2-subdev: Support hybrid links in
+    v4l2_subdev_link_validate()
+  media: renesas: vsp1: Print debug message to diagnose validation
+    failure
+  media: renesas: vsp1: Implement .link_validate() for video devices
+  [DNI] media: renesas: vsp1: Validate all links through
+    .link_validate()
+
+ .../platform/microchip/microchip-isc-base.c   | 19 +---
+ .../media/platform/renesas/vsp1/vsp1_video.c  | 98 ++++++++++---------
+ .../platform/sunxi/sun4i-csi/sun4i_csi.c      | 12 +++
+ drivers/media/v4l2-core/v4l2-subdev.c         | 50 ++++++++--
+ include/media/v4l2-subdev.h                   |  6 ++
+ 5 files changed, 115 insertions(+), 70 deletions(-)
+
+
+base-commit: 91798162245991e26949ef62851719bb2177a9c2
+-- 
+Regards,
+
+Laurent Pinchart
 
