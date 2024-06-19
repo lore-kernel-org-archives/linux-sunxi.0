@@ -1,24 +1,24 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C768F37B
-	for <linux-sunxi@lists.linux.dev>; Wed, 19 Jun 2024 00:02:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2284B368
+	for <linux-sunxi@lists.linux.dev>; Wed, 19 Jun 2024 00:02:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718755331; cv=none; b=ai9/THQ9fTuUnd7D6VpotDXzAMOStnVrWsLdMvIQ+cXoqq9X2lk3iMsac+S0dzSDQgKr2ckoz/cC7nsDecl35y1f8te6OmBGzwlD0QDWEnrUIyFq+D/sqgpdqTc56M6GBJpNtpoKQ//NV4yRd2KuXerOXTMQOfTHLGHPtX1Wb4w=
+	t=1718755347; cv=none; b=YF5qCk18nO1k2tun1YWfP/9Ml1W2phHJOQdFWlAkUkaHKlbRXePcVH/qGkMRnkFemfpztdO9tI2fA9ybaQMpRwwKAPxDLFxjHyF01SmUqPjp3J4VH4Sx/KLk/Ve+LnViueeZby9gFeBGeoL0gIZbzTpWUfstpzQqGbFyMKMnmN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718755331; c=relaxed/simple;
-	bh=6YKY3m19PlLAmaWZ0MeAFrWFPzXada0HTVkzCKkS3sM=;
+	s=arc-20240116; t=1718755347; c=relaxed/simple;
+	bh=R+6FaQSR6Nnrm2BWGpVhIViug0n83gw/N5/k6HFesZc=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=li04tZTYbjwRW9T8T3KgHcWbEmYlW2oFuFHWQVi+uxe0WV1hsWtDwOSN5brv/mRA02jPXmPJB1ekC5J8w/VVgZUPdMYlbGfTIwy4QdsnACsHbEaRhVxHkp2hgIP7wBbCs68AUhMZquOgAYzCiiMkCNCDaPkZMnW0xFQZSPKToR4=
+	 MIME-Version:Content-Type; b=V+YmwPTI+aFY27/BslPpBT4Qr76S+pDFluniM1RKZcRJMeoNcjsgMlSiRu1DUMuIcVGu3WMXApr+v+++7P1D1XvipmPdgfJ3CJk94mCX37J4XhD3YlVINAGVKq7/+E/4YeTbmFovKKskuOFM6MybqU5KOgTWBncJTKjGeq/ViX8=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D545CDA7;
-	Tue, 18 Jun 2024 17:02:33 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5C3C1DA7;
+	Tue, 18 Jun 2024 17:02:49 -0700 (PDT)
 Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0FD333F64C;
-	Tue, 18 Jun 2024 17:02:06 -0700 (PDT)
-Date: Wed, 19 Jun 2024 01:00:35 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7CD543F64C;
+	Tue, 18 Jun 2024 17:02:22 -0700 (PDT)
+Date: Wed, 19 Jun 2024 01:00:51 +0100
 From: Andre Przywara <andre.przywara@arm.com>
 To: Ryan Walklin <ryan@testtoast.com>
 Cc: Yangtao Li <tiny.windzz@gmail.com>, "Rafael J . Wysocki"
@@ -30,12 +30,12 @@ Cc: Yangtao Li <tiny.windzz@gmail.com>, "Rafael J . Wysocki"
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
  <conor+dt@kernel.org>, Nishanth Menon <nm@ti.com>, Stephen Boyd
  <sboyd@kernel.org>, Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH 2/3] arm64: dts: allwinner: h616: add additional CPU
- OPPs for the H700
-Message-ID: <20240619010035.7aa1bd04@minigeek.lan>
-In-Reply-To: <20240607092140.33112-3-ryan@testtoast.com>
+Subject: Re: [PATCH 3/3] arm64: dts: allwinner: rg35xx: Enable DVFS CPU
+ frequency scaling
+Message-ID: <20240619010051.1bd9f00f@minigeek.lan>
+In-Reply-To: <20240607092140.33112-4-ryan@testtoast.com>
 References: <20240607092140.33112-1-ryan@testtoast.com>
-	<20240607092140.33112-3-ryan@testtoast.com>
+	<20240607092140.33112-4-ryan@testtoast.com>
 Organization: Arm Ltd.
 X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
@@ -47,22 +47,18 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Fri,  7 Jun 2024 21:20:34 +1200
+On Fri,  7 Jun 2024 21:20:35 +1200
 Ryan Walklin <ryan@testtoast.com> wrote:
 
-Hi,
-
-> The H700 now shows stable operation with the 1.008, 1.032 and 1.512 GHz
-> DVFS operating points. The 1.5GHz OPP requires a VDD-CPU of 1.16V,
-> obtained from the vendor BSP. This voltage is slightly above the
-> recommended operating voltage for the H616 (H700 datasheet not publicly
-> available) but well within the absolute maximum of 1.3V.
+> The Anbernic RG35XX device variants (-2024, -H, -Plus and -SP) are the
+> only currently known devices to have an Allwinner H700 SoC. The closely
+> related RG28XX also has the H700 but a mainline DT for this device has
+> not yet been submitted.
 > 
-> Add the additional 1.032 GHz operating point to the H616 CPU-OPP table,
-> and enable the 1.008 and 1.512 points for the H700.
-
-This matches the values I had in the previous version of this patch:
- 
+> Include the H616 CPU OPP table in the base device DTS, and increase the
+> DCDC1 regulator (vdd-cpu) upper voltage range to 1.16V, allowing the
+> CPU to reach 1.5GHz.
+> 
 > Signed-off-by: Ryan Walklin <ryan@testtoast.com>
 
 Reviewed-by: Andre Przywara <andre.przywara@arm.com>
@@ -71,88 +67,29 @@ Cheers,
 Andre
 
 > ---
->  .../dts/allwinner/sun50i-h616-cpu-opp.dtsi    | 25 +++++++++++++------
->  1 file changed, 18 insertions(+), 7 deletions(-)
+>  .../boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts   | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-cpu-opp.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616-cpu-opp.dtsi
-> index aca22a7f0191c..dd10aaf472b66 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h616-cpu-opp.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-cpu-opp.dtsi
-> @@ -11,7 +11,7 @@ opp-480000000 {
->  			opp-hz = /bits/ 64 <480000000>;
->  			opp-microvolt = <900000>;
->  			clock-latency-ns = <244144>; /* 8 32k periods */
-> -			opp-supported-hw = <0x1f>;
-> +			opp-supported-hw = <0x3f>;
->  		};
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
+> index ee30584b6ad70..afb49e65859f9 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
+> @@ -6,7 +6,7 @@
+>  /dts-v1/;
 >  
->  		opp-600000000 {
-> @@ -25,7 +25,7 @@ opp-720000000 {
->  			opp-hz = /bits/ 64 <720000000>;
->  			opp-microvolt = <900000>;
->  			clock-latency-ns = <244144>; /* 8 32k periods */
-> -			opp-supported-hw = <0x0d>;
-> +			opp-supported-hw = <0x2d>;
->  		};
+>  #include "sun50i-h616.dtsi"
+> -
+> +#include "sun50i-h616-cpu-opp.dtsi"
+>  #include <dt-bindings/gpio/gpio.h>
+>  #include <dt-bindings/input/linux-event-codes.h>
+>  #include <dt-bindings/interrupt-controller/arm-gic.h>
+> @@ -221,7 +221,7 @@ regulators {
+>  			reg_dcdc1: dcdc1 {
+>  				regulator-always-on;
+>  				regulator-min-microvolt = <900000>;
+> -				regulator-max-microvolt = <1100000>;
+> +				regulator-max-microvolt = <1160000>;
+>  				regulator-name = "vdd-cpu";
+>  			};
 >  
->  		opp-792000000 {
-> @@ -50,8 +50,16 @@ opp-1008000000 {
->  			opp-microvolt-speed2 = <950000>;
->  			opp-microvolt-speed3 = <950000>;
->  			opp-microvolt-speed4 = <1020000>;
-> +			opp-microvolt-speed5 = <900000>;
->  			clock-latency-ns = <244144>; /* 8 32k periods */
-> -			opp-supported-hw = <0x1f>;
-> +			opp-supported-hw = <0x3f>;
-> +		};
-> +
-> +		opp-1032000000 {
-> +			opp-hz = /bits/ 64 <1032000000>;
-> +			opp-microvolt = <900000>;
-> +			clock-latency-ns = <244144>; /* 8 32k periods */
-> +			opp-supported-hw = <0x20>;
->  		};
->  
->  		opp-1104000000 {
-> @@ -59,8 +67,9 @@ opp-1104000000 {
->  			opp-microvolt-speed0 = <1000000>;
->  			opp-microvolt-speed2 = <1000000>;
->  			opp-microvolt-speed3 = <1000000>;
-> +			opp-microvolt-speed5 = <950000>;
->  			clock-latency-ns = <244144>; /* 8 32k periods */
-> -			opp-supported-hw = <0x0d>;
-> +			opp-supported-hw = <0x2d>;
->  		};
->  
->  		opp-1200000000 {
-> @@ -70,8 +79,9 @@ opp-1200000000 {
->  			opp-microvolt-speed2 = <1050000>;
->  			opp-microvolt-speed3 = <1050000>;
->  			opp-microvolt-speed4 = <1100000>;
-> +			opp-microvolt-speed5 = <1020000>;
->  			clock-latency-ns = <244144>; /* 8 32k periods */
-> -			opp-supported-hw = <0x1f>;
-> +			opp-supported-hw = <0x3f>;
->  		};
->  
->  		opp-1320000000 {
-> @@ -85,15 +95,16 @@ opp-1416000000 {
->  			opp-hz = /bits/ 64 <1416000000>;
->  			opp-microvolt = <1100000>;
->  			clock-latency-ns = <244144>; /* 8 32k periods */
-> -			opp-supported-hw = <0x0d>;
-> +			opp-supported-hw = <0x2d>;
->  		};
->  
->  		opp-1512000000 {
->  			opp-hz = /bits/ 64 <1512000000>;
->  			opp-microvolt-speed1 = <1100000>;
->  			opp-microvolt-speed3 = <1100000>;
-> +			opp-microvolt-speed5 = <1160000>;
->  			clock-latency-ns = <244144>; /* 8 32k periods */
-> -			opp-supported-hw = <0x0a>;
-> +			opp-supported-hw = <0x2a>;
->  		};
->  	};
->  };
 
