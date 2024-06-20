@@ -1,114 +1,112 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 945381A4F2B
-	for <linux-sunxi@lists.linux.dev>; Thu, 20 Jun 2024 10:07:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8CEE1AAE25;
+	Thu, 20 Jun 2024 10:17:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718878039; cv=none; b=YE7B3wakEu2FXegYyK6+MZOnHpMPmfDfK1kvS3T3xBYVlp0As+RUu8KY71ptv0PDDWFRx26OyQKDEdGkCpz7tHB+jFmH2eHffdZgObG9c5wd046z00DLXdevXiYZLbGl85nHeqdI85f8nTGgFm6eb2Ji9LSwS6MjJVKZQ7/EgBg=
+	t=1718878631; cv=none; b=XtZgmBdiJRSmE1ZnRBLvng0PK0XaEoG+ARIpuE97SUfVJYrPLM2ieZiMWdrJkfC+o0kxj8jrmIH6gefh9DODJN34Lg1zdLeY5udD5Kboh1gkzKr1bvjeDueVoiK9BqPNeVpNEIetCOcT5EIREQQeQafOZL7vOOo5ohcXOdqg/jg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718878039; c=relaxed/simple;
-	bh=gtlJye50+OfffKjggbOEmtKNH45g/zjK6ZfJA8b8AdM=;
+	s=arc-20240116; t=1718878631; c=relaxed/simple;
+	bh=I852Ejxeh6UBMbuDlX5f1x21bZJ26MMuC54Ks2Ixqy0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=idkg2FS17LyFOGOBr7Dl/i6hHZ7hwR1WC7I4vt0LFVmSPqohGpxzUv0le7qsLIHchhV/loGFYjJ4vaTotDjAP0y46jJoiImRzNEx5z8B6bte5mQJrCW34uTrqLW0Z6a5AdUrkrl8YT6DP3MF6SLMS0W0vKkrcIk/hxve4SISeMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.49
+	 To:Cc:Content-Type; b=CGyeG8ARMVv/KUWOVFCkvWJR+A+dfPp/gkNi7hPyQEhzwPTuNc4Kz3pArkNME+pD0xu7IRS0fffCg8/9+7neXC1CfswL96kiMpfO8rCh2rs21xHrSiZ2pfwUuirCVtFy7U38S1z0et4ZHA5Py6fzw4H6tPp0cpncZJDLfDOJBaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.166.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-52bc035a7ccso732313e87.2
-        for <linux-sunxi@lists.linux.dev>; Thu, 20 Jun 2024 03:07:17 -0700 (PDT)
+Received: by mail-io1-f41.google.com with SMTP id ca18e2360f4ac-7ebe019b9cdso23051939f.0;
+        Thu, 20 Jun 2024 03:17:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718878031; x=1719482831;
+        d=1e100.net; s=20230601; t=1718878625; x=1719483425;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :reply-to:in-reply-to:references:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Ir1hVcg7ykDi/DMYCtyM630+t+MR02LhBXB13vEhoEE=;
-        b=L8Y3+gTN1QDu+ZwC3d3hfzDEN6dL0Ae1+Cl7rrSr+eZSylm2Cp3t+aDsvUBBms8Ajd
-         +gQd2ZjVNlTf4umyxhT4ZqzmQd1JMMWBC8iKF2P+xKjrfvp7Z7bBep351vLJQecF0wiy
-         vdqdedmbtsotBwMokB0VNRCG1S2XuStfh/9fTI/TxmhNfZ1t0vQO+22c+ytWA42QvRbb
-         8ub1maRYaX2icd5xcfekCrp4/nlhGazAnL24G4h9BgLvw2zrjmwLOjeNRyP9/lKVWtIr
-         os8B0O2dL79TH3IZ5XY08sNgnNicG2wUIHvmc8XnSQ6jHIi0VgDRAnXNUhheQZX9KRX8
-         sASQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUVzV1vPUz6Kv70sK1MvwZztf+SQ1Cmq5d0fYwwlm9LdiSQQyIz8WcUteTso92h6nZqX5URe3wWS/e+3sMpniyBTnA0ofZQQi2nG4E=
-X-Gm-Message-State: AOJu0YzpLzPQziyZUgLHjmZRwmUicRqwL3D1PpwZDdfN/u9Ir8M2ZW2V
-	7Co8vPrFkXE6FC0FHB0iLJZ7l0imnEsVBZsFnG9/iNEEoAD4trb4crjKtIeP
-X-Google-Smtp-Source: AGHT+IFvfqvTE21y7Krr2ac67lfUk1xf8GCI/O0tiQAxAboWavXd9VTINnDkuRuuX+KyN25lCfjtAA==
-X-Received: by 2002:a05:6512:3b28:b0:52c:999b:52f9 with SMTP id 2adb3069b0e04-52ccaaa8d32mr3408079e87.57.1718878030505;
-        Thu, 20 Jun 2024 03:07:10 -0700 (PDT)
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com. [209.85.208.171])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52ca2826269sm1986522e87.61.2024.06.20.03.07.08
-        for <linux-sunxi@lists.linux.dev>
+        bh=8Ii5+G2KJSVTDisMBcuARMzoZC7l2YVn4JwkkJV90oQ=;
+        b=egUsW0TxBpREF8O944TB2+dxDbHkzPb1wofN+MJC3UIg+tE29SxI/pbYrn75ypGpWv
+         APvr/UEUl91TaysEaAPzJH/QFMlz555wh6vUHino+qr2mg7IOuhZNsog81mF4zx7QOcC
+         8jTIsuwg7KtaPhOtkli7yDu5VE/HkJkB2vlFrVy3JbpDAwBhsjVfwndOWMcp4SZv2efH
+         VErXbL6pmyKCJupUv/QiE++KVfzpmJbCE7PPT0xDYf4kHxELr97rWRoeqnHWVIBTSMNb
+         9rlGaVbGlL8YvIrm/+wMFq48NCaLcA5NWvYwmOBoOAoVRpdUVK+bNPjCP7D+GBj49RbS
+         nlFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXvuWfguIkU45+vxVNczw0Az9rmFCTl4ROLJjFJpMhj9pMNjRkx2t8RWzzTdsPMD7JlutFJL9rzTkK2pICVn2/WshYhUPfm4U/l0jbEB0xwS7Ec0rOziN721wiKn31rrEHnqA==
+X-Gm-Message-State: AOJu0Yxz1SL7j4D0ogWXaKBrxvvFs57v7wfb6niULb6CMbEFWBnrmoP+
+	mItn4RmdlxFL3D2mcCIey7LObdgIguHLa/70x1FydTsZjNqr7901h/PmKxaRlkBnxw==
+X-Google-Smtp-Source: AGHT+IHvg3jK/b7b7r9mjXrG7N2BceVFYYUJqgc+2ls4R+81Oi1Bk+pcyalpJb24urlqUT/vmH0nuw==
+X-Received: by 2002:a05:6602:1347:b0:7eb:2c80:5329 with SMTP id ca18e2360f4ac-7f13edde6e4mr577442639f.7.1718878625255;
+        Thu, 20 Jun 2024 03:17:05 -0700 (PDT)
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com. [209.85.166.47])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4b958ee4441sm4175953173.59.2024.06.20.03.17.04
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Jun 2024 03:07:09 -0700 (PDT)
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2ec1620a956so7274911fa.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 20 Jun 2024 03:07:08 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWOYIZyOTNfNyzusFYRWFt2ZvQfCUu9ooo/FW/+9Q3dBzoWl/iSgZfyxOuA4/8ggFz+4k4goAXpAzSToELMMSjGW5iGBTy3UbmVu/s=
-X-Received: by 2002:a05:651c:90:b0:2eb:f8d1:87d9 with SMTP id
- 38308e7fff4ca-2ec3cecca82mr30693691fa.31.1718878028507; Thu, 20 Jun 2024
- 03:07:08 -0700 (PDT)
+        Thu, 20 Jun 2024 03:17:04 -0700 (PDT)
+Received: by mail-io1-f47.google.com with SMTP id ca18e2360f4ac-7ebdb5d9915so22570439f.1;
+        Thu, 20 Jun 2024 03:17:04 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCW9v7AiZIAr/CtnqxwkY5rsYP0UqtB+aCL8slcULGReKY8i8nERCRYTZ2Fs3tWymg9q8YtiPpJVT8mte+tK2dVJP6kkEPPpsEQnne5cZh4PuzdSaMIwDFe2vwSorU4ZP+fb9w==
+X-Received: by 2002:a05:6602:1347:b0:7eb:2c80:5329 with SMTP id
+ ca18e2360f4ac-7f13edde6e4mr577440439f.7.1718878624678; Thu, 20 Jun 2024
+ 03:17:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240619-xtheadvector-v3-0-bff39eb9668e@rivosinc.com> <20240619-xtheadvector-v3-3-bff39eb9668e@rivosinc.com>
-In-Reply-To: <20240619-xtheadvector-v3-3-bff39eb9668e@rivosinc.com>
+References: <20240616224056.29159-1-andre.przywara@arm.com> <20240616224056.29159-2-andre.przywara@arm.com>
+In-Reply-To: <20240616224056.29159-2-andre.przywara@arm.com>
 Reply-To: wens@csie.org
 From: Chen-Yu Tsai <wens@csie.org>
-Date: Thu, 20 Jun 2024 18:06:56 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64ZuLhnZn4G_Zbqqosh46Fh57WtXCcCFkwMA2phtLzq1g@mail.gmail.com>
-Message-ID: <CAGb2v64ZuLhnZn4G_Zbqqosh46Fh57WtXCcCFkwMA2phtLzq1g@mail.gmail.com>
-Subject: Re: [PATCH v3 03/13] riscv: dts: allwinner: Add xtheadvector to the
- D1/D1s devicetree
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Jisheng Zhang <jszhang@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
-	Guo Ren <guoren@kernel.org>, Evan Green <evan@rivosinc.com>, Andy Chiu <andy.chiu@sifive.com>, 
-	Jessica Clarke <jrtc27@jrtc27.com>, linux-riscv@lists.infradead.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>
+Date: Thu, 20 Jun 2024 18:16:49 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66-a+BOB-V5Q+YOS3M=QTZ7VMG73N0yFtRo6p-xh=muTg@mail.gmail.com>
+Message-ID: <CAGb2v66-a+BOB-V5Q+YOS3M=QTZ7VMG73N0yFtRo6p-xh=muTg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] iommu: sun50i: clear bypass register
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Chris Morgan <macromorgan@hotmail.com>, Ryan Walklin <ryan@testtoast.com>, 
+	Philippe Simons <simons.philippe@gmail.com>, iommu@lists.linux.dev, 
+	devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 20, 2024 at 7:57=E2=80=AFAM Charlie Jenkins <charlie@rivosinc.c=
-om> wrote:
+On Mon, Jun 17, 2024 at 6:42=E2=80=AFAM Andre Przywara <andre.przywara@arm.=
+com> wrote:
 >
-> The D1/D1s SoCs support xtheadvector so it can be included in the
-> devicetree. Also include vlenb for the cpu.
+> From: Jernej Skrabec <jernej.skrabec@gmail.com>
 >
-> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> The Allwinner H6 IOMMU has a bypass register, which allows to circumvent
+> the page tables for each possible master. The reset value for this
+> register is 0, which disables the bypass.
+> The Allwinner H616 IOMMU resets this register to 0x7f, which activates
+> the bypass for all masters, which is not what we want.
+>
+> Always clear this register to 0, to enforce the usage of page tables,
+> and make this driver compatible with the H616 in this respect.
+>
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
-Acked-by: Chen-Yu Tsai <wens@csie.org>
-
-If the RISC-V maintainers want to take the whole series.
+Reviewed-by: Chen-Yu Tsai <wens@csie.org>
 
 > ---
->  arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  drivers/iommu/sun50i-iommu.c | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi b/arch/riscv/b=
-oot/dts/allwinner/sun20i-d1s.dtsi
-> index 64c3c2e6cbe0..6367112e614a 100644
-> --- a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
-> +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
-> @@ -27,7 +27,8 @@ cpu0: cpu@0 {
->                         riscv,isa =3D "rv64imafdc";
->                         riscv,isa-base =3D "rv64i";
->                         riscv,isa-extensions =3D "i", "m", "a", "f", "d",=
- "c", "zicntr", "zicsr",
-> -                                              "zifencei", "zihpm";
-> +                                              "zifencei", "zihpm", "xthe=
-advector";
-> +                       thead,vlenb =3D <128>;
->                         #cooling-cells =3D <2>;
->
->                         cpu0_intc: interrupt-controller {
->
+> diff --git a/drivers/iommu/sun50i-iommu.c b/drivers/iommu/sun50i-iommu.c
+> index c519b991749d7..dd3f07384624c 100644
+> --- a/drivers/iommu/sun50i-iommu.c
+> +++ b/drivers/iommu/sun50i-iommu.c
+> @@ -452,6 +452,7 @@ static int sun50i_iommu_enable(struct sun50i_iommu *i=
+ommu)
+>                     IOMMU_TLB_PREFETCH_MASTER_ENABLE(3) |
+>                     IOMMU_TLB_PREFETCH_MASTER_ENABLE(4) |
+>                     IOMMU_TLB_PREFETCH_MASTER_ENABLE(5));
+> +       iommu_write(iommu, IOMMU_BYPASS_REG, 0);
+>         iommu_write(iommu, IOMMU_INT_ENABLE_REG, IOMMU_INT_MASK);
+>         iommu_write(iommu, IOMMU_DM_AUT_CTRL_REG(SUN50I_IOMMU_ACI_NONE),
+>                     IOMMU_DM_AUT_CTRL_RD_UNAVAIL(SUN50I_IOMMU_ACI_NONE, 0=
+) |
 > --
-> 2.34.1
+> 2.39.4
 >
