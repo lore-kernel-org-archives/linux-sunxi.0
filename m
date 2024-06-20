@@ -1,116 +1,114 @@
-Received: from fout5-smtp.messagingengine.com (fout5-smtp.messagingengine.com [103.168.172.148])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55B822594;
-	Thu, 20 Jun 2024 09:45:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 945381A4F2B
+	for <linux-sunxi@lists.linux.dev>; Thu, 20 Jun 2024 10:07:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718876739; cv=none; b=EEBQr9f8wrZcvUVby4f9f9p9bDuys7uuoC8wCffiDfgW+PGQPvl2kbLcmoWIhBi1dYocy8/kc2lfy7OJr7MKxAVOujQDKcKP3+0GYYzUZeWQiY/cAR7wJ4n2/pmKBxthuqoDNi1YFCCtl0Bp836TauJeUVr+DWTguZ6u2gNaj3Y=
+	t=1718878039; cv=none; b=YE7B3wakEu2FXegYyK6+MZOnHpMPmfDfK1kvS3T3xBYVlp0As+RUu8KY71ptv0PDDWFRx26OyQKDEdGkCpz7tHB+jFmH2eHffdZgObG9c5wd046z00DLXdevXiYZLbGl85nHeqdI85f8nTGgFm6eb2Ji9LSwS6MjJVKZQ7/EgBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718876739; c=relaxed/simple;
-	bh=CUc1gDLpC345RTrFQKC24CcXBEu62C/dxC9CC6Wpmgk=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=PDqNJKiTHLIBnZ3zyyTIROpXCqxfk+KfQKL62hKn2dHMV3yZXLQgsmpn/XLlFTyfY5JWpFLq95ZaGjwxI8hP3nY3BlIo2HRE9LV4I6VBjgG/ZT7fvUIYFL2uEOQHs0q3BKr8RrSd+g+GzQdm2IwtBhU+5/Jn0Ovg1AuRmS0A7xE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=SW8BwNrm; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=vk7XYibv; arc=none smtp.client-ip=103.168.172.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="SW8BwNrm";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="vk7XYibv"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfout.nyi.internal (Postfix) with ESMTP id 67F821380591;
-	Thu, 20 Jun 2024 05:45:35 -0400 (EDT)
-Received: from imap47 ([10.202.2.97])
-  by compute5.internal (MEProxy); Thu, 20 Jun 2024 05:45:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm2; t=1718876735; x=
-	1718963135; bh=mUhzbzChIylmEGH0/MJ86mZWNAZXM70UzMOFDHyCHRc=; b=S
-	W8BwNrmyAlxh4M3o6vqcHtvwHb7YD6FXoF6KLuL145oJnEk+e1LUhWovpxMtoM3f
-	rvR1bwJFansf7WeY/xDfqcqUS945fdQxrJsoDI38NkQY38NSqVluhrDDQcbdooEt
-	mJUGLgKyrqKY+Pjq6loRQ+oACSPCCV+ma4wEzEvyIzqFL/yKgVXsbHX4SvRF+bZH
-	GmYj6NVanpdeoUyk10PWGys9EZDrNyt459/F0RYRtHJcgiEf4rWVu9xBX6K85B8a
-	Dxb8gyrSj+BVtbYsFIzNWB32VhckRDF64tqvm5aWTlQ6VmOVvQAg+D42FB/S4ZUE
-	U7MfMI9Nbv3nRFmlaKlbQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1718876735; x=1718963135; bh=mUhzbzChIylmEGH0/MJ86mZWNAZX
-	M70UzMOFDHyCHRc=; b=vk7XYibvZm+OT/nXT86A2p7eXQ/lHr4lqzbw6oC+bvng
-	89JObMGFy6Ja9U3r4ibObK7uz72p0NrvNubBH0BuQO29eU6uyBBYmE01/7TXKVpm
-	nAg03shghZLHCB7lL/5wSnTUCD6w5nQFifSJhkfFrmtMWFiqYMnuRry1R44nd7UY
-	bl09EpdGddkdgbVGD7+ckrBntNX+hXyhmCYecUP9M52Nt+80DqlkoRB7qVRZXdXT
-	MVj9NFU6MNDnzoLvakiaZw+hHd324omBxARZDBYfEgEgc5ueQyoq/pxjnsHXNNuY
-	OAtETQdBigz4CIeatsPhUL25L9xP+gVKDXuNoV/6/g==
-X-ME-Sender: <xms:PvpzZpauLmSOstUAwPog9nIXc1bPeIsbPswpUfeeP76F2AbIlYM-Rg>
-    <xme:PvpzZgY2-eZT7fs3JFoSjIYDywFOfeLfYV0bOXBbPEnHBfFUv_wFWojwgTXulfuQ9
-    Ugv8q3fWgIsBkkDXg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfeefvddgvddtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftfih
-    rghnucghrghlkhhlihhnfdcuoehrhigrnhesthgvshhtthhorghsthdrtghomheqnecugg
-    ftrfgrthhtvghrnhephedvveeigedujeeufeegffehhfffveduhfeijefgtdffteelgfet
-    ueevieduieejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homheprhihrghnsehtvghsthhtohgrshhtrdgtohhm
-X-ME-Proxy: <xmx:PvpzZr-8jTf_9URxOSVlD4LczVtsMPba6DBeplMNB30Bd8EdtrE92A>
-    <xmx:PvpzZnpj5OXFj_0GW--D1B3VYJTwhkzRANZzBg0TSDMHPRzCHtSy7g>
-    <xmx:PvpzZkq7WdD5v8hyCf_o7bCKwq9mgxeJcXY8WuCy8iuPFJny7RPfow>
-    <xmx:PvpzZtTWl6mKCyJ75JAQDIWg3fpYNT132IU-la1FYIW6INJwn2bKvA>
-    <xmx:P_pzZgaQkX4ibclyEAGzEJJ_nbtEbxDWi4rteQ4yE_6zICkSMfPqN2aF>
-Feedback-ID: idc0145fc:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id A5567A60079; Thu, 20 Jun 2024 05:45:34 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-522-ga39cca1d5-fm-20240610.002-ga39cca1d
+	s=arc-20240116; t=1718878039; c=relaxed/simple;
+	bh=gtlJye50+OfffKjggbOEmtKNH45g/zjK6ZfJA8b8AdM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=idkg2FS17LyFOGOBr7Dl/i6hHZ7hwR1WC7I4vt0LFVmSPqohGpxzUv0le7qsLIHchhV/loGFYjJ4vaTotDjAP0y46jJoiImRzNEx5z8B6bte5mQJrCW34uTrqLW0Z6a5AdUrkrl8YT6DP3MF6SLMS0W0vKkrcIk/hxve4SISeMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-52bc035a7ccso732313e87.2
+        for <linux-sunxi@lists.linux.dev>; Thu, 20 Jun 2024 03:07:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718878031; x=1719482831;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Ir1hVcg7ykDi/DMYCtyM630+t+MR02LhBXB13vEhoEE=;
+        b=L8Y3+gTN1QDu+ZwC3d3hfzDEN6dL0Ae1+Cl7rrSr+eZSylm2Cp3t+aDsvUBBms8Ajd
+         +gQd2ZjVNlTf4umyxhT4ZqzmQd1JMMWBC8iKF2P+xKjrfvp7Z7bBep351vLJQecF0wiy
+         vdqdedmbtsotBwMokB0VNRCG1S2XuStfh/9fTI/TxmhNfZ1t0vQO+22c+ytWA42QvRbb
+         8ub1maRYaX2icd5xcfekCrp4/nlhGazAnL24G4h9BgLvw2zrjmwLOjeNRyP9/lKVWtIr
+         os8B0O2dL79TH3IZ5XY08sNgnNicG2wUIHvmc8XnSQ6jHIi0VgDRAnXNUhheQZX9KRX8
+         sASQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUVzV1vPUz6Kv70sK1MvwZztf+SQ1Cmq5d0fYwwlm9LdiSQQyIz8WcUteTso92h6nZqX5URe3wWS/e+3sMpniyBTnA0ofZQQi2nG4E=
+X-Gm-Message-State: AOJu0YzpLzPQziyZUgLHjmZRwmUicRqwL3D1PpwZDdfN/u9Ir8M2ZW2V
+	7Co8vPrFkXE6FC0FHB0iLJZ7l0imnEsVBZsFnG9/iNEEoAD4trb4crjKtIeP
+X-Google-Smtp-Source: AGHT+IFvfqvTE21y7Krr2ac67lfUk1xf8GCI/O0tiQAxAboWavXd9VTINnDkuRuuX+KyN25lCfjtAA==
+X-Received: by 2002:a05:6512:3b28:b0:52c:999b:52f9 with SMTP id 2adb3069b0e04-52ccaaa8d32mr3408079e87.57.1718878030505;
+        Thu, 20 Jun 2024 03:07:10 -0700 (PDT)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com. [209.85.208.171])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52ca2826269sm1986522e87.61.2024.06.20.03.07.08
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Jun 2024 03:07:09 -0700 (PDT)
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2ec1620a956so7274911fa.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 20 Jun 2024 03:07:08 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWOYIZyOTNfNyzusFYRWFt2ZvQfCUu9ooo/FW/+9Q3dBzoWl/iSgZfyxOuA4/8ggFz+4k4goAXpAzSToELMMSjGW5iGBTy3UbmVu/s=
+X-Received: by 2002:a05:651c:90:b0:2eb:f8d1:87d9 with SMTP id
+ 38308e7fff4ca-2ec3cecca82mr30693691fa.31.1718878028507; Thu, 20 Jun 2024
+ 03:07:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <d02c238c-766b-4463-96a9-dd6373b173bb@app.fastmail.com>
-In-Reply-To: <20240616224056.29159-6-andre.przywara@arm.com>
-References: <20240616224056.29159-1-andre.przywara@arm.com>
- <20240616224056.29159-6-andre.przywara@arm.com>
-Date: Thu, 20 Jun 2024 21:45:13 +1200
-From: "Ryan Walklin" <ryan@testtoast.com>
-To: "Andre Przywara" <andre.przywara@arm.com>,
- "Joerg Roedel" <joro@8bytes.org>, "Will Deacon" <will@kernel.org>,
- "Robin Murphy" <robin.murphy@arm.com>, "Chen-Yu Tsai" <wens@csie.org>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>,
- "Samuel Holland" <samuel@sholland.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>, "Rob Herring" <robh@kernel.org>
-Cc: "Chris Morgan" <macromorgan@hotmail.com>,
- "Philippe Simons" <simons.philippe@gmail.com>, iommu@lists.linux.dev,
- devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 5/5] arm64: dts: allwinner: h616: add IOMMU node
-Content-Type: text/plain
+References: <20240619-xtheadvector-v3-0-bff39eb9668e@rivosinc.com> <20240619-xtheadvector-v3-3-bff39eb9668e@rivosinc.com>
+In-Reply-To: <20240619-xtheadvector-v3-3-bff39eb9668e@rivosinc.com>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Thu, 20 Jun 2024 18:06:56 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64ZuLhnZn4G_Zbqqosh46Fh57WtXCcCFkwMA2phtLzq1g@mail.gmail.com>
+Message-ID: <CAGb2v64ZuLhnZn4G_Zbqqosh46Fh57WtXCcCFkwMA2phtLzq1g@mail.gmail.com>
+Subject: Re: [PATCH v3 03/13] riscv: dts: allwinner: Add xtheadvector to the
+ D1/D1s devicetree
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Jisheng Zhang <jszhang@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
+	Guo Ren <guoren@kernel.org>, Evan Green <evan@rivosinc.com>, Andy Chiu <andy.chiu@sifive.com>, 
+	Jessica Clarke <jrtc27@jrtc27.com>, linux-riscv@lists.infradead.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Andre,
-
-On Mon, 17 Jun 2024, at 10:40 AM, Andre Przywara wrote:
-> The Allwinner H616 contains a scatter-gather IOMMU connected to some
-> video related devices. It's almost compatible to the one used in the H6,
-> though with minor incompatibilities.
+On Thu, Jun 20, 2024 at 7:57=E2=80=AFAM Charlie Jenkins <charlie@rivosinc.c=
+om> wrote:
 >
-> Add the DT node describing its resources, so that devices like the video
-> or display engine can connect to it.
+> The D1/D1s SoCs support xtheadvector so it can be included in the
+> devicetree. Also include vlenb for the cpu.
+>
+> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 
-Thanks, tested working with the display engine on an Allwinner H700 device (Anbernic RG35XX Plus).
+Acked-by: Chen-Yu Tsai <wens@csie.org>
 
-[    0.038060] iommu: Default domain type: Translated
-[    0.038080] iommu: DMA domain TLB invalidation policy: strict mode
-...
-[    0.175075] sun8i-mixer 1100000.mixer: Adding to iommu group 0
+If the RISC-V maintainers want to take the whole series.
 
-Tested-by: Ryan Walklin <ryan@testtoast.com>
-
-Regards,
-
-Ryan
+> ---
+>  arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi b/arch/riscv/b=
+oot/dts/allwinner/sun20i-d1s.dtsi
+> index 64c3c2e6cbe0..6367112e614a 100644
+> --- a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> @@ -27,7 +27,8 @@ cpu0: cpu@0 {
+>                         riscv,isa =3D "rv64imafdc";
+>                         riscv,isa-base =3D "rv64i";
+>                         riscv,isa-extensions =3D "i", "m", "a", "f", "d",=
+ "c", "zicntr", "zicsr",
+> -                                              "zifencei", "zihpm";
+> +                                              "zifencei", "zihpm", "xthe=
+advector";
+> +                       thead,vlenb =3D <128>;
+>                         #cooling-cells =3D <2>;
+>
+>                         cpu0_intc: interrupt-controller {
+>
+> --
+> 2.34.1
+>
