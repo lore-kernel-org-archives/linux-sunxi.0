@@ -1,87 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout5-smtp.messagingengine.com (fout5-smtp.messagingengine.com [103.168.172.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27B891A00D5;
-	Thu, 20 Jun 2024 09:27:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55B822594;
+	Thu, 20 Jun 2024 09:45:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718875678; cv=none; b=iNrpTvVZD6jjQvlw7Q5TbuPkTvevo0yGkPXpnvCpbff2BXD6y6g4OlHCh5n4RviQnp0KJQSIQeNqnck9QITyxmFjeHAi9uoUg/Q/lRDEfLKzHKIjA3eehfH6ANF7lu50aO5xm6keJ9YB3KnAXLPxsleyDzSca5WZzfWiBxhnN+A=
+	t=1718876739; cv=none; b=EEBQr9f8wrZcvUVby4f9f9p9bDuys7uuoC8wCffiDfgW+PGQPvl2kbLcmoWIhBi1dYocy8/kc2lfy7OJr7MKxAVOujQDKcKP3+0GYYzUZeWQiY/cAR7wJ4n2/pmKBxthuqoDNi1YFCCtl0Bp836TauJeUVr+DWTguZ6u2gNaj3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718875678; c=relaxed/simple;
-	bh=gLGoNiZ1NnwdYdGmQeEAfKPcxmeNXMgy1V7sgUYNc1w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VLFfYGKK1pZxBqkTWM9XvnwmpP4fojXMr5R81GNcoAyNyvPyFL21Gw7NfxkiyIH/QOuFiu1LnfjmTFKVhg2qtB1LH9o/nqse57/9QKvQhvpVB+n6q84CACo2H5zhbUWCJIl8HAhmDQaf8JPoNVTYfvWBojiihBEWuLBPTnSVie0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gWxd0eGN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718876739; c=relaxed/simple;
+	bh=CUc1gDLpC345RTrFQKC24CcXBEu62C/dxC9CC6Wpmgk=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=PDqNJKiTHLIBnZ3zyyTIROpXCqxfk+KfQKL62hKn2dHMV3yZXLQgsmpn/XLlFTyfY5JWpFLq95ZaGjwxI8hP3nY3BlIo2HRE9LV4I6VBjgG/ZT7fvUIYFL2uEOQHs0q3BKr8RrSd+g+GzQdm2IwtBhU+5/Jn0Ovg1AuRmS0A7xE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=SW8BwNrm; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=vk7XYibv; arc=none smtp.client-ip=103.168.172.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gWxd0eGN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E669C2BD10;
-	Thu, 20 Jun 2024 09:27:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718875677;
-	bh=gLGoNiZ1NnwdYdGmQeEAfKPcxmeNXMgy1V7sgUYNc1w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gWxd0eGNkh621/xvmrPwfD2uLXwGsyMnGM9CzJV+L41kqwgMXj+Yx/z8KC9URR5AX
-	 ZGEN7bDj3OgQf1TgKu8kcnxi7nD4T4l8LTmZsXlRMQhU58sA+784j8QVLQjUR+UqGK
-	 RzgrNCfpmpcF6un6PXc35vdC12y4P9RnnwTOnVIJiyxiV2bGNjzL0tZPzQNrQ4cY2j
-	 bVxTTUh4yvrDS6o0nYDawYzsbKbNPDvSaHO+OVRT5iVMFJ0lvEDvBRriZJySqodMdi
-	 FFnv5zCpNmuff6wbaYbTiNvQnXP19oIdT2pvcBsAostx8Gah2R9CTIyvj72338N/g9
-	 +fag7uTLNLlvg==
-Date: Thu, 20 Jun 2024 10:27:53 +0100
-From: Lee Jones <lee@kernel.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	Chris Morgan <macroalpha82@gmail.com>,
-	Ryan Walklin <ryan@testtoast.com>,
-	Philippe Simons <simons.philippe@gmail.com>
-Subject: Re: [PATCH v3] mfd: axp20x: AXP717: Fix missing IRQ status registers
- range
-Message-ID: <20240620092753.GG3029315@google.com>
-References: <20240613233104.17529-1-andre.przywara@arm.com>
+	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="SW8BwNrm";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="vk7XYibv"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfout.nyi.internal (Postfix) with ESMTP id 67F821380591;
+	Thu, 20 Jun 2024 05:45:35 -0400 (EDT)
+Received: from imap47 ([10.202.2.97])
+  by compute5.internal (MEProxy); Thu, 20 Jun 2024 05:45:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm2; t=1718876735; x=
+	1718963135; bh=mUhzbzChIylmEGH0/MJ86mZWNAZXM70UzMOFDHyCHRc=; b=S
+	W8BwNrmyAlxh4M3o6vqcHtvwHb7YD6FXoF6KLuL145oJnEk+e1LUhWovpxMtoM3f
+	rvR1bwJFansf7WeY/xDfqcqUS945fdQxrJsoDI38NkQY38NSqVluhrDDQcbdooEt
+	mJUGLgKyrqKY+Pjq6loRQ+oACSPCCV+ma4wEzEvyIzqFL/yKgVXsbHX4SvRF+bZH
+	GmYj6NVanpdeoUyk10PWGys9EZDrNyt459/F0RYRtHJcgiEf4rWVu9xBX6K85B8a
+	Dxb8gyrSj+BVtbYsFIzNWB32VhckRDF64tqvm5aWTlQ6VmOVvQAg+D42FB/S4ZUE
+	U7MfMI9Nbv3nRFmlaKlbQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1718876735; x=1718963135; bh=mUhzbzChIylmEGH0/MJ86mZWNAZX
+	M70UzMOFDHyCHRc=; b=vk7XYibvZm+OT/nXT86A2p7eXQ/lHr4lqzbw6oC+bvng
+	89JObMGFy6Ja9U3r4ibObK7uz72p0NrvNubBH0BuQO29eU6uyBBYmE01/7TXKVpm
+	nAg03shghZLHCB7lL/5wSnTUCD6w5nQFifSJhkfFrmtMWFiqYMnuRry1R44nd7UY
+	bl09EpdGddkdgbVGD7+ckrBntNX+hXyhmCYecUP9M52Nt+80DqlkoRB7qVRZXdXT
+	MVj9NFU6MNDnzoLvakiaZw+hHd324omBxARZDBYfEgEgc5ueQyoq/pxjnsHXNNuY
+	OAtETQdBigz4CIeatsPhUL25L9xP+gVKDXuNoV/6/g==
+X-ME-Sender: <xms:PvpzZpauLmSOstUAwPog9nIXc1bPeIsbPswpUfeeP76F2AbIlYM-Rg>
+    <xme:PvpzZgY2-eZT7fs3JFoSjIYDywFOfeLfYV0bOXBbPEnHBfFUv_wFWojwgTXulfuQ9
+    Ugv8q3fWgIsBkkDXg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfeefvddgvddtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftfih
+    rghnucghrghlkhhlihhnfdcuoehrhigrnhesthgvshhtthhorghsthdrtghomheqnecugg
+    ftrfgrthhtvghrnhephedvveeigedujeeufeegffehhfffveduhfeijefgtdffteelgfet
+    ueevieduieejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homheprhihrghnsehtvghsthhtohgrshhtrdgtohhm
+X-ME-Proxy: <xmx:PvpzZr-8jTf_9URxOSVlD4LczVtsMPba6DBeplMNB30Bd8EdtrE92A>
+    <xmx:PvpzZnpj5OXFj_0GW--D1B3VYJTwhkzRANZzBg0TSDMHPRzCHtSy7g>
+    <xmx:PvpzZkq7WdD5v8hyCf_o7bCKwq9mgxeJcXY8WuCy8iuPFJny7RPfow>
+    <xmx:PvpzZtTWl6mKCyJ75JAQDIWg3fpYNT132IU-la1FYIW6INJwn2bKvA>
+    <xmx:P_pzZgaQkX4ibclyEAGzEJJ_nbtEbxDWi4rteQ4yE_6zICkSMfPqN2aF>
+Feedback-ID: idc0145fc:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id A5567A60079; Thu, 20 Jun 2024 05:45:34 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-522-ga39cca1d5-fm-20240610.002-ga39cca1d
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240613233104.17529-1-andre.przywara@arm.com>
+Message-Id: <d02c238c-766b-4463-96a9-dd6373b173bb@app.fastmail.com>
+In-Reply-To: <20240616224056.29159-6-andre.przywara@arm.com>
+References: <20240616224056.29159-1-andre.przywara@arm.com>
+ <20240616224056.29159-6-andre.przywara@arm.com>
+Date: Thu, 20 Jun 2024 21:45:13 +1200
+From: "Ryan Walklin" <ryan@testtoast.com>
+To: "Andre Przywara" <andre.przywara@arm.com>,
+ "Joerg Roedel" <joro@8bytes.org>, "Will Deacon" <will@kernel.org>,
+ "Robin Murphy" <robin.murphy@arm.com>, "Chen-Yu Tsai" <wens@csie.org>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+ "Samuel Holland" <samuel@sholland.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>, "Rob Herring" <robh@kernel.org>
+Cc: "Chris Morgan" <macromorgan@hotmail.com>,
+ "Philippe Simons" <simons.philippe@gmail.com>, iommu@lists.linux.dev,
+ devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 5/5] arm64: dts: allwinner: h616: add IOMMU node
+Content-Type: text/plain
 
-On Fri, 14 Jun 2024, Andre Przywara wrote:
+Hi Andre,
 
-> While we list the "IRQ status *and acknowledge*" registers as volatile
-> in the MFD description, they are missing from the writable range array,
-> so acknowledging any interrupts was met with an -EIO error.
-> This error propagates up, leading to the whole AXP717 driver failing to
-> probe, which is fatal to most systems using this PMIC, since most
-> peripherals refer one of the PMIC voltage rails.
-> This wasn't noticed on the initial submission, since the interrupt was
-> completely missing at this point, but the DTs now merged describe the
-> interrupt, creating the problem.
-> 
-> Add the five registers that hold those bits to the writable array.
-> 
-> This fixes the boot on the Anbernic systems using the AXP717 PMIC.
-> 
-> Fixes: b5bfc8ab2484 ("mfd: axp20x: Add support for AXP717 PMIC")
-> Reported-by: Chris Morgan <macromorgan@hotmail.com>
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
-> Hi,
-> 
-> the patch itself is unchanged from v2 sent in April, but the commit
-> message was updated to give rationale for the Fixes: tag.
-> Please take this as a fix into v6.10.
-> 
-> Thanks,
-> Andre
-> 
->  drivers/mfd/axp20x.c | 1 +
->  1 file changed, 1 insertion(+)
+On Mon, 17 Jun 2024, at 10:40 AM, Andre Przywara wrote:
+> The Allwinner H616 contains a scatter-gather IOMMU connected to some
+> video related devices. It's almost compatible to the one used in the H6,
+> though with minor incompatibilities.
+>
+> Add the DT node describing its resources, so that devices like the video
+> or display engine can connect to it.
 
-Submitted to Linus today.
+Thanks, tested working with the display engine on an Allwinner H700 device (Anbernic RG35XX Plus).
 
--- 
-Lee Jones [李琼斯]
+[    0.038060] iommu: Default domain type: Translated
+[    0.038080] iommu: DMA domain TLB invalidation policy: strict mode
+...
+[    0.175075] sun8i-mixer 1100000.mixer: Adding to iommu group 0
+
+Tested-by: Ryan Walklin <ryan@testtoast.com>
+
+Regards,
+
+Ryan
