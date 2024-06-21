@@ -1,141 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96EE91B3F11;
-	Thu, 20 Jun 2024 17:26:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A68AD2135A
+	for <linux-sunxi@lists.linux.dev>; Fri, 21 Jun 2024 14:37:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718904365; cv=none; b=SJ7ckFfJqOIZrSganmi2+tZnOcAVC5vwHIuIC7D+WURfaAKOeAuKYKlCuC7vg0VnuuTNgnVtDL1MnltOvJn018fAN9ihd0GW9k/2Cqbo0GqTXFAmZ1xELzyjijbd3z13+acOUnfLtZsCUbqugxqHx9H/yu6ivQ0+5N53+LfkLgI=
+	t=1718980660; cv=none; b=oWbk47ucACWYOl/xFRagoxDF5fkvaPKHPQ1Vf357WAZ464mUr2s5rtkAkJXs/0GXrST5t8gMTXTcTFE9nZ/G+ahwsZNYjv16T7JueT6Tv2RjJo7epkRM3IUHS1gz4gIy/NwzfsH6FVOw6VmpTsWdO0tdo6EPXioTajWbNtTV53w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718904365; c=relaxed/simple;
-	bh=/R9ChJDF9sqWGPt6Eu8s/uknHOOVvufDfRsy7wCwPUc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QyLa01sD5F0MVAbTQyLUjsJ1ITJrlz9FtE6/jjFtzOgo8Cts9HDFCk2MTXMyLHTkBlyBPoaG1T2+v5lHEzIgTVFTi8EQULjWTO7q+7qQS6x8TabmW1Z8sMc5wHZ/rrt5LlLm8CbEpmyi0BVQyLw7yG5M66pTTdpEKyiBU8N7aQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UhaQSAL5; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UhaQSAL5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F6A1C4AF09;
-	Thu, 20 Jun 2024 17:26:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718904365;
-	bh=/R9ChJDF9sqWGPt6Eu8s/uknHOOVvufDfRsy7wCwPUc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UhaQSAL5s0wKyT6zkq/C9Df7HWSxsDSwe1JgssP5EFJ9k0QCX+Rt4GDnsQfC5urjc
-	 J6+eTfSV8OJOx5KmmTostZzvwhBcuuFpd9ddFDSoDnZ59wWkoyvT14FDAfhovbVcBf
-	 Z6DRHnSTIdnE6/hSRDi2bPTdgxre4v6+bzrhX6j4rf0FYoTjDh/euFCgRcs+GfSVga
-	 GvHDFw85qSDWpMIjtIs9Dc1lMPbjCscKFBg1pEyJpVLDfm6DT7wrJNOFVQ/bpuqYJA
-	 cYca+V9BBG8cZ5Fi3P0NpiGYzPp+SEYCRFNKPQ5cZ2QlCs+8WEArxQOti27UU2FgYn
-	 1vaEE/Y7gvWww==
-Date: Thu, 20 Jun 2024 18:25:59 +0100
-From: Lee Jones <lee@kernel.org>
-To: Chris Morgan <macroalpha82@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, linux-pm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-iio@vger.kernel.org,
-	broonie@kernel.org, samuel@sholland.org, jernej.skrabec@gmail.com,
-	sre@kernel.org, wens@csie.org, conor+dt@kernel.org,
-	krzk+dt@kernel.org, robh@kernel.org, lars@metafoo.de,
-	Chris Morgan <macromorgan@hotmail.com>
-Subject: Re: [PATCH 4/8] mfd: axp20x: Add ADC, BAT, and USB cells for AXP717
-Message-ID: <20240620172559.GZ3029315@google.com>
-References: <20240617220535.359021-1-macroalpha82@gmail.com>
- <20240617220535.359021-5-macroalpha82@gmail.com>
+	s=arc-20240116; t=1718980660; c=relaxed/simple;
+	bh=ejMsu1bb2eGEnL9goJV3n78NDDkQX2G7CVwsyRVBo4k=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=S/1ZWw34ikFPVWcOn622OP0GlDYkBPTwWqGZ4WPxua5TL1vipzKigdmiywH1lhlfn3ft58uMvH/jiTru5Rws87JOhPlJ5VL2fElyUp4bQAe2Cw9fyoS7enD+uSv8lPD4fNTy00jJJ0YuaWqoFxYSXSfrpQzVa3LPvuYM/aJDjIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-52c82101407so3607617e87.3
+        for <linux-sunxi@lists.linux.dev>; Fri, 21 Jun 2024 07:37:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718980655; x=1719585455;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ejMsu1bb2eGEnL9goJV3n78NDDkQX2G7CVwsyRVBo4k=;
+        b=Ef4aeBM3lMh0njrS+ndG4Rke/l16TsiAy57tfBJmbB1yAXXlPjxtR2Y97UZsBWDL10
+         Xgd2UQAnQ1qJyCWGy1tOAfFdZq4rOr2Pv1DHbe+K6yWdFw5AhW8BeY7nG4XX07aVBTtu
+         96pXLpJeJ+6THSFbK/iHdH//gbcBOaDtgbrL7C2vYea9KeMLd4dT37EduuqeKFfu4zmS
+         TWuyJS2/C2VVT1HahalGzOIF00NasmezqrM9H+spYMBWfU3N0lDeD3ugvP68xm1KNgYj
+         GulZKnm/hEnCvsiY7rSMJCJ9PkZMpiap0YAmAVeLh+8NdicemDHig727rwOGZwyECDis
+         sXeA==
+X-Forwarded-Encrypted: i=1; AJvYcCV/QtMpz0B+l+WRlu8D9Vs/dwPTneAuyrHDmz9Fv7dvCmS0cmQ4i1QtJ8jfzbWDw0eC+gEJIKub311xEwEhMUUFcvDYnlDxeRVSaNw=
+X-Gm-Message-State: AOJu0YzSh+n48OVGAJEK+ae6Fwq0IxKGzJu+FSVlxYVX7p4fnPkfCaVm
+	qdfkH+lezI7lIQ8mPQrm+7JHE0va8nqKV/yrIKAqdQOF0wt8l3t/z9+vxPlk
+X-Google-Smtp-Source: AGHT+IGyiIcyJgpW4SapRKEmG6pzq+4qbEQrf+fEuphN5FCBb6ikLgibBv6b7Ud+p1eRpCPXrzfJPw==
+X-Received: by 2002:ac2:5e37:0:b0:52b:bf92:bcd with SMTP id 2adb3069b0e04-52ccaa328efmr5778827e87.22.1718980654446;
+        Fri, 21 Jun 2024 07:37:34 -0700 (PDT)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com. [209.85.208.180])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52cd64496eesm216453e87.253.2024.06.21.07.37.34
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 21 Jun 2024 07:37:34 -0700 (PDT)
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2ec17eb4493so29680221fa.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 21 Jun 2024 07:37:34 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXbQGQMKcKmD9fF0ph2tdZmY9wwxgIs8azxlyc2+AiTHtnT13hatW8/7CuluJInb5yMshSDV2Mls77inwkFyjX1peCZyoATX6FHtAQ=
+X-Received: by 2002:a05:651c:1a0b:b0:2ec:4093:ec7 with SMTP id
+ 38308e7fff4ca-2ec40931047mr73651401fa.30.1718980654160; Fri, 21 Jun 2024
+ 07:37:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240617220535.359021-5-macroalpha82@gmail.com>
+References: <20240616220719.26641-1-andre.przywara@arm.com> <20240616220719.26641-2-andre.przywara@arm.com>
+In-Reply-To: <20240616220719.26641-2-andre.przywara@arm.com>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Fri, 21 Jun 2024 22:37:21 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66t88ER-D71hrJ6pqybjHiYrHE8gnHHxpX11sa5H_F7bA@mail.gmail.com>
+Message-ID: <CAGb2v66t88ER-D71hrJ6pqybjHiYrHE8gnHHxpX11sa5H_F7bA@mail.gmail.com>
+Subject: Re: [PATCH 1/4] dt-bindings: crypto: sun8i-ce: Add compatible for H616
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Corentin Labbe <clabbe.montjoie@gmail.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	"David S . Miller" <davem@davemloft.net>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-crypto@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 17 Jun 2024, Chris Morgan wrote:
+On Mon, Jun 17, 2024 at 6:08=E2=80=AFAM Andre Przywara <andre.przywara@arm.=
+com> wrote:
+>
+> The Allwinner H616 has a crypto engine very similar to the one in the
+> H6, although all addresses in the DMA descriptors are shifted by 2 bits,
+> to accommodate for the larger physical address space. That makes it
+> incompatible to the H6 variant, and thus requires a new compatible
+> string. Clock wise it relies on the internal oscillator for the TRNG,
+> so needs all four possible clocks specified.
+>
+> Add the compatible string to the list of recognised names, and add the
+> H616 to list of devices requiring all four clocks.
+>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
-> From: Chris Morgan <macromorgan@hotmail.com>
-> 
-> Add support for the AXP717 PMIC to utilize the ADC (for reading
-> voltage, current, and temperature information from the PMIC) as well
-> as the USB charger and battery.
-> 
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> ---
->  drivers/mfd/axp20x.c                 | 30 +++++++++++++++++++++++++---
->  drivers/regulator/axp20x-regulator.c |  2 +-
->  include/linux/mfd/axp20x.h           | 26 +++++++++++++++++++++++-
->  3 files changed, 53 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/mfd/axp20x.c b/drivers/mfd/axp20x.c
-> index 609e7e149681..07db4a11acbc 100644
-> --- a/drivers/mfd/axp20x.c
-> +++ b/drivers/mfd/axp20x.c
-> @@ -209,15 +209,23 @@ static const struct regmap_access_table axp313a_volatile_table = {
->  };
->  
->  static const struct regmap_range axp717_writeable_ranges[] = {
-> -	regmap_reg_range(AXP717_MODULE_EN_CONTROL, AXP717_MODULE_EN_CONTROL),
-> -	regmap_reg_range(AXP717_BOOST_CONTROL, AXP717_BOOST_CONTROL),
-> +	regmap_reg_range(AXP717_PMU_FAULT, AXP717_MODULE_EN_CONTROL_1),
-> +	regmap_reg_range(AXP717_MIN_SYS_V_CONTROL, AXP717_BOOST_CONTROL),
-> +	regmap_reg_range(AXP717_VSYS_V_POWEROFF, AXP717_VSYS_V_POWEROFF),
->  	regmap_reg_range(AXP717_IRQ0_EN, AXP717_IRQ4_EN),
->  	regmap_reg_range(AXP717_IRQ0_STATE, AXP717_IRQ4_STATE),
-> +	regmap_reg_range(AXP717_ICC_CHG_SET, AXP717_CV_CHG_SET),
->  	regmap_reg_range(AXP717_DCDC_OUTPUT_CONTROL, AXP717_CPUSLDO_CONTROL),
-> +	regmap_reg_range(AXP717_ADC_CH_EN_CONTROL, AXP717_ADC_CH_EN_CONTROL),
-> +	regmap_reg_range(AXP717_ADC_DATA_SEL, AXP717_ADC_DATA_SEL),
->  };
->  
->  static const struct regmap_range axp717_volatile_ranges[] = {
-> +	regmap_reg_range(AXP717_ON_INDICATE, AXP717_PMU_FAULT),
->  	regmap_reg_range(AXP717_IRQ0_STATE, AXP717_IRQ4_STATE),
-> +	regmap_reg_range(AXP717_BATT_PERCENT_DATA, AXP717_BATT_PERCENT_DATA),
-> +	regmap_reg_range(AXP717_BATT_V_H, AXP717_BATT_CHRG_I_L),
-> +	regmap_reg_range(AXP717_ADC_DATA_H, AXP717_ADC_DATA_L),
->  };
->  
->  static const struct regmap_access_table axp717_writeable_table = {
-> @@ -310,6 +318,11 @@ static const struct resource axp22x_usb_power_supply_resources[] = {
->  	DEFINE_RES_IRQ_NAMED(AXP22X_IRQ_VBUS_REMOVAL, "VBUS_REMOVAL"),
->  };
->  
-> +static const struct resource axp717_usb_power_supply_resources[] = {
-> +	DEFINE_RES_IRQ_NAMED(AXP717_IRQ_VBUS_PLUGIN, "VBUS_PLUGIN"),
-> +	DEFINE_RES_IRQ_NAMED(AXP717_IRQ_VBUS_REMOVAL, "VBUS_REMOVAL"),
-> +};
-> +
->  /* AXP803 and AXP813/AXP818 share the same interrupts */
->  static const struct resource axp803_usb_power_supply_resources[] = {
->  	DEFINE_RES_IRQ_NAMED(AXP803_IRQ_VBUS_PLUGIN, "VBUS_PLUGIN"),
-> @@ -424,7 +437,7 @@ static const struct regmap_config axp717_regmap_config = {
->  	.val_bits = 8,
->  	.wr_table = &axp717_writeable_table,
->  	.volatile_table = &axp717_volatile_table,
-> -	.max_register = AXP717_CPUSLDO_CONTROL,
-> +	.max_register = AXP717_ADC_DATA_L,
->  	.cache_type = REGCACHE_MAPLE,
->  };
->  
-> @@ -1026,6 +1039,17 @@ static struct mfd_cell axp313a_cells[] = {
->  static struct mfd_cell axp717_cells[] = {
->  	MFD_CELL_NAME("axp20x-regulator"),
->  	MFD_CELL_RES("axp20x-pek", axp717_pek_resources),
-> +	{
-> +		.name		= "axp717-adc",
-> +		.of_compatible	= "x-powers,axp717-adc",
-> +	},
-> +	MFD_CELL_OF("axp20x-usb-power-supply",
-> +		    axp717_usb_power_supply_resources, NULL, 0, 0,
-> +		    "x-powers,axp717-usb-power-supply"),
-> +	{
-> +		.name		= "axp20x-battery-power-supply",
-> +		.of_compatible	= "x-powers,axp717-battery-power-supply",
-> +	},
->  };
-
-Please refrain from mixing and matching:
-
-MFD_CELL_OF() for both.
-
--- 
-Lee Jones [李琼斯]
+Acked-by: Chen-Yu Tsai <wens@csie.org>
