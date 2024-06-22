@@ -1,113 +1,128 @@
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE2D51DDC5
-	for <linux-sunxi@lists.linux.dev>; Sat, 22 Jun 2024 16:44:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719074680; cv=pass; b=qSBjlqr2DiUnj85IAydxRct/RORB5EhzREi5Jd1tGukD5eKj4Cyf7giXVk1c7Ya3Owm6qeHHMKEZW9eQ0jcRXRSJ0QWHSk4YFBalnzYEmYckgvVnG43av0otNa2hWIUSECThbmm774sq6nSdKidUxlEvxoA6fSSY3PQutrqNnvs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719074680; c=relaxed/simple;
-	bh=jvTYbNUocEWWP1kdMsN/c0oMZeK+6Snvd4ua4ffwxc8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZObKoeBsXhG5mm0a+4ECHqlBsPmVAQJYDaUTupvzR+V0cs5t8grFJDdPQekFh4QmTxWx5F6nro85/0Thj9EYIbY5wiIzzGAz2OBKTEx7u2DCeAlXlQMYT3dTaffI3p1Km9mQFmuH9gZb+AbZhmHdxp9X39TsSMSp2C0V48tKWNc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=srSdeYSS; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=N90iPIhE; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06B558F68
+	for <linux-sunxi@lists.linux.dev>; Sat, 22 Jun 2024 16:47:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1719074826; cv=none; b=ZrMb0y5TkSlgVfxed6uwZVoX1qFXzB643lpSElgF+yo0dE4BUqoG/1RqW8bP8De0DPric2rwsy8N5uIWT7wIV6UuhUyJtULl4/BnLSH//64f6m7zHcFOPW0FSQQGTAX5UcZZvi9XRsmqJ6Trr5Vi2xULaBc+EV6nX/Gq3CvNdhQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1719074826; c=relaxed/simple;
+	bh=6o2GVijMyt7bzrd339rAvtddzKF1tfqFnbIInrY5XWM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QVWY1GhM+SNK6Ps6HfKkFYpSwv6iPgJWUbxifC2mUuOgiek/P9dQB805ktzDIzr1ykq8gM/0vCSwEG3hhtH73nkMbs6BZBW02b06BGL3M8tgfGFdHNgHIhpE3h+PvJoZmBC5eNc7e9ctUkCsAcQef371odChp1yjYBXa3KiFlko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hnq7EXRv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="srSdeYSS";
-	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="N90iPIhE"
-Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPS id 4W60SF5G8Fz49dcf
-	for <linux-sunxi@lists.linux.dev>; Sat, 22 Jun 2024 19:44:29 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1719074669;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HJw6IIQYlkcwg74atqklAkQ53x7zp+FAHhIjGmyRxCk=;
-	b=srSdeYSS47kPsSmdFZfrxoJLC1XxOE67Zb28jXpO/DIJrn9NCyAVpwHsg0yqv0PW4k3pBm
-	yB/knUVW/3F3iqnmsCGJ+bQE8R6S89hDyPwpthlCNIqWG7Em4lJp/gynVXQg7iEs9AjKKp
-	soF1z1qqBsElGHZXhZ8efB0RDAILrVkwwCPPETBDyZ/X75Db7WbOE6mF6iKCK5EKOSjcal
-	HlhlDwsw2OUFlZlAToVW/imWvS4Jpxaewo6+kBDQR4q7ndKLOEhPS7PkvHkDN/5EwInv28
-	EmZwKflw2gKr58h6P5b2SveJlC027VxKzXczRuo/FrDm+f14t93fmnj+G6cDsw==
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by meesny.iki.fi (Postfix) with ESMTPSA id 4W60S25kdGzyQm;
-	Sat, 22 Jun 2024 19:44:18 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-	t=1719074661;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HJw6IIQYlkcwg74atqklAkQ53x7zp+FAHhIjGmyRxCk=;
-	b=N90iPIhESxeG/UEeghuV/h3Gj4RUB28Q8mH8YSrZ1Woxgl51fQ7czvB0fJcV6kE192fz+O
-	b9zWoSwv0RtF8CM7kf3taQ58GilR59lzZGm00fi+2rohlnHqrb6k254MNWNFcxUR69YPGb
-	OBk2S54wCWX9rLtFCIJG56pCEzSAzyE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=meesny; t=1719074661;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HJw6IIQYlkcwg74atqklAkQ53x7zp+FAHhIjGmyRxCk=;
-	b=ZcBWO58ma5Y1x7XusxXgM70Owy/8c/qyLNTaUUi+j/y3XnqStbbBAHOFRjYytS7cx4Os/z
-	40FvLlhtwXhlmzHRL6d7/rW3l93EwAgnYYOnxDuFWAnZtyZhokbJ63F2ZypVq1YnQRUahB
-	JqDJUsVvkqmlQ1W6KaavnYztIdTKF1c=
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1719074661; a=rsa-sha256; cv=none;
-	b=M9Do9fNj0r+3QmIqo1I6uSBc4toginfDokXPwx9EqhKGaY1eowHsQdoC6hCNvHOb+A7t4O
-	oHvWFBi4sp1qcYN9mlz9/7H5uTUQR+X5IHOfWYRwxHfz4rPxKUub7wYtmAq7XCTtG7rjbS
-	b6HXIeqpfcpUiTPnXyF7WX7B/fo9ZWA=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id AB371634C93;
-	Sat, 22 Jun 2024 19:44:15 +0300 (EEST)
-Date: Sat, 22 Jun 2024 16:44:15 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	Eugen Hristev <eugen.hristev@collabora.com>,
-	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH 2/8] media: sun4i_csi: Implement link validate for
- sun4i_csi subdev
-Message-ID: <Znb_X42wK_UoMUNR@valkosipuli.retiisi.eu>
-References: <20240619012356.22685-1-laurent.pinchart+renesas@ideasonboard.com>
- <20240619012356.22685-3-laurent.pinchart+renesas@ideasonboard.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hnq7EXRv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 928C8C4AF0C
+	for <linux-sunxi@lists.linux.dev>; Sat, 22 Jun 2024 16:47:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719074825;
+	bh=6o2GVijMyt7bzrd339rAvtddzKF1tfqFnbIInrY5XWM=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+	b=Hnq7EXRvXUPSsTl4kBGSMV/cQJNg78YaDNqsvhOGHotuWf4bOCbVQvw1lpzOCSX3Q
+	 QWey/irz5/nv4U6uE/oehiel+gM/LLQqjAeUVZOEf3kTUtWGn0ONtC+/EVtU7Pv5kU
+	 PQmlFi/8gB+XdhGBQObFp5jaTTUTGAMcF7dvJlqt0XMVTdAWcymTdCciFFFtVRdnvy
+	 S3lS2PnGcQhLwMenISPDXcRoF9xGOKpzng9/NW8KNw8VugRUksKe2GRe8tYi0EWJpC
+	 n0UYv2Yzd10lMW5YhYYPRYZx1BnB82PWWCAKB/Y5NdGzboLBTc8Hv9SwNAzWxJa7tf
+	 0SK7qY5JOhC6A==
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2ec50d4e47bso13621391fa.2
+        for <linux-sunxi@lists.linux.dev>; Sat, 22 Jun 2024 09:47:05 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWT4RzZyfk3BeNSZT1dmjHHEeMsb6IElUWkoHn14BkQekPA4DdKzXJEaHqnAFqTp/NyexEoOsauFelqVAB988If6LfBlg88vgYFchU=
+X-Gm-Message-State: AOJu0YyVcxhGAMdqGtK5SY0u0w76m5XQB2JsB6JujFeuBvMAIEgxCPzh
+	GRhhFVwWHJUOU9Hxe4jzKIh1tZ27QdwTVCNp5wVsI6GWeYGkWO6t6iogElQb5tSgJZi7YrRm4BB
+	3iYZHz66pblL1iqLuoyuIJ7lihA4=
+X-Google-Smtp-Source: AGHT+IH5/klRobrk8C8Tx8r4xEV1zy70cWikSV0uysow8O2/V58aKkLa/zaQhuBPPi8FPf4Cxx6rkddcvaqELWY/X38=
+X-Received: by 2002:a2e:9902:0:b0:2ec:5736:e8f1 with SMTP id
+ 38308e7fff4ca-2ec5b2e9046mr1607861fa.46.1719074823759; Sat, 22 Jun 2024
+ 09:47:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240619012356.22685-3-laurent.pinchart+renesas@ideasonboard.com>
+References: <20240622150731.1105901-1-wens@kernel.org> <20240622150731.1105901-2-wens@kernel.org>
+ <171907415897.1042829.2907756455868106157.robh@kernel.org>
+In-Reply-To: <171907415897.1042829.2907756455868106157.robh@kernel.org>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Sun, 23 Jun 2024 00:46:53 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66MptRCWnSyJ6B1g=E9rHh0MUac1kPw56rTO6So9_Qqow@mail.gmail.com>
+Message-ID: <CAGb2v66MptRCWnSyJ6B1g=E9rHh0MUac1kPw56rTO6So9_Qqow@mail.gmail.com>
+Subject: Re: [PATCH 1/3] dt-bindings: sram: sunxi-sram: Add regulators child
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Paul Walmsley <paul.walmsley@sifive.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Albert Ou <aou@eecs.berkeley.edu>, linux-sunxi@lists.linux.dev, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, linux-riscv@lists.infradead.org, 
+	Palmer Dabbelt <palmer@dabbelt.com>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Laurent,
+Hi,
 
-On Wed, Jun 19, 2024 at 04:23:50AM +0300, Laurent Pinchart wrote:
-> The sun4i_csi driver doesn't implement link validation for the subdev it
-> registers, leaving the link between the subdev and its source
-> unvalidated. Fix it, using the v4l2_subdev_link_validate() helper.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+On Sun, Jun 23, 2024 at 12:36=E2=80=AFAM Rob Herring (Arm) <robh@kernel.org=
+> wrote:
+>
+>
+> On Sat, 22 Jun 2024 23:07:29 +0800, Chen-Yu Tsai wrote:
+> > From: Samuel Holland <samuel@sholland.org>
+> >
+> > Some sunxi SoCs have in-package regulators controlled by a register in
+> > the system control MMIO block. Allow a child node for this regulator
+> > device in addition to SRAM child nodes.
+> >
+> > Signed-off-by: Samuel Holland <samuel@sholland.org>
+> > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+> > ---
+> >  .../allwinner,sun4i-a10-system-control.yaml   | 28 +++++++++++++++++++
+> >  1 file changed, 28 insertions(+)
+> >
+>
+> My bot found errors running 'make dt_binding_check' on your patch:
+>
+> yamllint warnings/errors:
+>
+> dtschema/dtc warnings/errors:
+> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/s=
+ram/allwinner,sun4i-a10-system-control.example.dtb: syscon@3000000: regulat=
+ors@3000150: False schema does not allow {'compatible': ['allwinner,sun20i-=
+d1-system-ldos'], 'reg': [[50331984, 4]], 'ldoa': {'regulator-min-microvolt=
+': [[1800000]], 'regulator-max-microvolt': [[1800000]]}, 'ldob': {'regulato=
+r-name': ['vcc-dram'], 'regulator-min-microvolt': [[1500000]], 'regulator-m=
+ax-microvolt': [[1500000]]}}
+>         from schema $id: http://devicetree.org/schemas/sram/allwinner,sun=
+4i-a10-system-control.yaml#
+> Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control=
+.example.dtb: /example-1/syscon@3000000/regulators@3000150: failed to match=
+ any schema with compatible: ['allwinner,sun20i-d1-system-ldos']
 
-This looks like a bugfix. Shouldn't this be backported?
+I'm not seeing this error locally. The binding in question for
+'allwinner,sun20i-d1-system-ldos' was merged in v6.10-rc1 in commit
+622bab188484 ("regulator: dt-bindings: Add Allwinner D1 system LDOs").
 
--- 
-Sakari Ailus
+
+ChenYu
+
+> doc reference errors (make refcheckdocs):
+>
+> See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/202406=
+22150731.1105901-2-wens@kernel.org
+>
+> The base for the series is generally the latest rc1. A different dependen=
+cy
+> should be noted in *this* patch.
+>
+> If you already ran 'make dt_binding_check' and didn't see the above
+> error(s), then make sure 'yamllint' is installed and dt-schema is up to
+> date:
+>
+> pip3 install dtschema --upgrade
+>
+> Please check and re-submit after running the above command yourself. Note
+> that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+> your schema. However, it must be unset to test all examples with your sch=
+ema.
+>
