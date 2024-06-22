@@ -1,116 +1,69 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37FFA16F298;
-	Sat, 22 Jun 2024 15:07:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF3CCB660;
+	Sat, 22 Jun 2024 15:17:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719068855; cv=none; b=f4fktF3LSR5FL/n1/A4xbL+UnMi1xMX4YWLAKWFhhFqebJZs27cxa5XORAbB9ixUdO1g2NQEZs5kBySv42EG6fd2Eou1ljTWVmS7wDr29x5zflCeTLrioIzgiA2UyzQqyVMEshYqkOb3bDz/8zdeNyLsKGkGK89AA553mJ4SQTc=
+	t=1719069437; cv=none; b=iU8oty+6Ltp+QRUP98s4EDK7FyAXcN0V3ZjK8ynJWhiZ+UjLDjvipiRCNHTBr7TuS93J/ivyX/z89FRzLQ74i1ssk9+ka/KpYPgf6MZc8x3QeMvBN1jTsb7iN8MuivzTlftYw/kQz321SuqXAqDLGVZ2+1TYlpiWjrVOvI/3FMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719068855; c=relaxed/simple;
-	bh=IkrAfY68bFi4o7WHsDeoec80a79Xpih8gQk2O74LGVQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=AS5i0jufrCC8m3GP/QpaLsnenQTOpA8QvU6/XyOuwlJFFqZ3Dh+p77IYaTVMmX3sM0c0ApsulL409WEksCaFdnoBKAH6dGbSK7ep5JCal92I0YpqS/yxHwwCB1zH4WLfNZTrZ0PUALd8K7SiATtLQoppL2yL8lfLzB+4Cj0iJ2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d13D9Fyj; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d13D9Fyj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C67ADC4AF0A;
-	Sat, 22 Jun 2024 15:07:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719068854;
-	bh=IkrAfY68bFi4o7WHsDeoec80a79Xpih8gQk2O74LGVQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=d13D9FyjAlFWXRdMgr71ZKD1qPOw+wJTwoX7hVGFBBoiAjJ1STpWSbehVKbnj9Zxt
-	 o0+2Ta9E1ngJpPDNlVDg2cSgRNp2tMncWQX8l5r/q7SAQRhlNBcKfbpjPgjS+iYVy5
-	 8PXDJQ07Uqb8VTecB+CNOjMtTnIeiPSNtDY3qTtCgFDjn9uTl3ca31H16l956UEJT7
-	 57wj8MXzl3rhmTgYllDOUTriq2lDaAe+lByy085XEHrHcgLr0jsB166JjMTi4FtQRT
-	 CR2zam6ADrcnmUG0bjckvePbNAELQ2YC2+kkoznM+8x1Drb1e3uMgKR8G8kKaKcf1P
-	 SqF7Gk3eFx9zQ==
-Received: by wens.tw (Postfix, from userid 1000)
-	id A31E15F725; Sat, 22 Jun 2024 23:07:32 +0800 (CST)
-From: Chen-Yu Tsai <wens@kernel.org>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>
-Cc: devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Chen-Yu Tsai <wens@csie.org>
-Subject: [PATCH 1/3] dt-bindings: sram: sunxi-sram: Add regulators child
-Date: Sat, 22 Jun 2024 23:07:29 +0800
-Message-Id: <20240622150731.1105901-2-wens@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240622150731.1105901-1-wens@kernel.org>
-References: <20240622150731.1105901-1-wens@kernel.org>
+	s=arc-20240116; t=1719069437; c=relaxed/simple;
+	bh=rQ2/eH9yPvzW/PqT36AV4Sp0N9jPlNuuaT6FzvB26I8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=LGFebF2kUboIv3zWetw2hVr2WfO901Ds+T4D029RtwsBdO64NsSAUPFInRawQB3P93431Wmex0/9eH3jknzVVAu8/H+kQ7nK1+exXGNaKZlRA6JVkwElwcKGtLUHahwAtjxDSJ63a4Mct+HRXMjctEb0H1W8NUTrBwm51rcyKgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10428C3277B;
+	Sat, 22 Jun 2024 15:17:17 +0000 (UTC)
+Received: from wens.tw (localhost [127.0.0.1])
+	by wens.tw (Postfix) with ESMTP id 08D2C5F725;
+	Sat, 22 Jun 2024 23:17:15 +0800 (CST)
+From: Chen-Yu Tsai <wens@csie.org>
+To: Yangtao Li <tiny.windzz@gmail.com>, 
+ "Rafael J . Wysocki" <rafael@kernel.org>, Viresh Kumar <vireshk@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Andre Przywara <andre.przywara@arm.com>, Ryan Walklin <ryan@testtoast.com>
+Cc: linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, Chris Morgan <macroalpha82@gmail.com>, 
+ Sudeep Holla <sudeep.holla@arm.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Nishanth Menon <nm@ti.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh+dt@kernel.org>
+In-Reply-To: <20240607092140.33112-1-ryan@testtoast.com>
+References: <20240607092140.33112-1-ryan@testtoast.com>
+Subject: Re: (subset) [PATCH 0/3] cpufreq: sun50i: add Allwinner H700 speed
+ bin and additional OPPs
+Message-Id: <171906943501.1109052.11689701111557656569.b4-ty@csie.org>
+Date: Sat, 22 Jun 2024 23:17:15 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
-From: Samuel Holland <samuel@sholland.org>
+On Fri, 07 Jun 2024 21:20:32 +1200, Ryan Walklin wrote:
+> Support for the Allwinner H618, H618 and H700 was added to the sun50i cpufreq-nvmem driver recently [1] however at the time some operating points supported by the H700 and in use in vendor BSPs were found to be unstable during testing, so the H700 speed bin was not included in the mainline driver.
+> 
+> Retesting with kernel 6.10rc2 (which carries subsequent fixes for the driver) shows stable operation with these additional OPPs.
+> 
+> This patchset adds the H700 speedbin index, enables the additional operating points for the H700 in the H616 OPP table, and enables DVFS support for the Anbernic REG35XX handheld devices, which are the only mainline-supported devices currently using the H700.
+> 
+> Regards,
+> 
+> [...]
 
-Some sunxi SoCs have in-package regulators controlled by a register in
-the system control MMIO block. Allow a child node for this regulator
-device in addition to SRAM child nodes.
+Applied to sunxi/dt-for-6.11 in sunxi/linux.git, thanks!
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Signed-off-by: Chen-Yu Tsai <wens@csie.org>
----
- .../allwinner,sun4i-a10-system-control.yaml   | 28 +++++++++++++++++++
- 1 file changed, 28 insertions(+)
+[2/3] arm64: dts: allwinner: h616: add additional CPU OPPs for the H700
+      https://git.kernel.org/sunxi/linux/c/b05f15d0fc15
+[3/3] arm64: dts: allwinner: rg35xx: Enable DVFS CPU frequency scaling
+      https://git.kernel.org/sunxi/linux/c/e1e61fe3452d
 
-diff --git a/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml b/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml
-index cf07b8f787a6..d9322704f358 100644
---- a/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml
-+++ b/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml
-@@ -56,6 +56,9 @@ properties:
-   ranges: true
- 
- patternProperties:
-+  "^regulators@[0-9a-f]+$":
-+    $ref: /schemas/regulator/allwinner,sun20i-d1-system-ldos.yaml#
-+
-   "^sram@[a-f0-9]+":
-     $ref: /schemas/sram/sram.yaml#
-     unevaluatedProperties: false
-@@ -130,3 +133,28 @@ examples:
-         };
-       };
-     };
-+
-+  - |
-+    syscon@3000000 {
-+      compatible = "allwinner,sun20i-d1-system-control";
-+      reg = <0x3000000 0x1000>;
-+      ranges;
-+      #address-cells = <1>;
-+      #size-cells = <1>;
-+
-+      regulators@3000150 {
-+        compatible = "allwinner,sun20i-d1-system-ldos";
-+        reg = <0x3000150 0x4>;
-+
-+        reg_ldoa: ldoa {
-+          regulator-min-microvolt = <1800000>;
-+          regulator-max-microvolt = <1800000>;
-+        };
-+
-+        reg_ldob: ldob {
-+          regulator-name = "vcc-dram";
-+          regulator-min-microvolt = <1500000>;
-+          regulator-max-microvolt = <1500000>;
-+        };
-+      };
-+    };
+Best regards,
 -- 
-2.39.2
+Chen-Yu Tsai <wens@csie.org>
 
