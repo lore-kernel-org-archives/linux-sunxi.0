@@ -1,65 +1,65 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 973DE14C5A4
-	for <linux-sunxi@lists.linux.dev>; Sat, 22 Jun 2024 15:03:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CDB21DFD9
+	for <linux-sunxi@lists.linux.dev>; Sat, 22 Jun 2024 15:04:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719068628; cv=none; b=elTtnHLQq7ZlaXZeZPCVJTEoU7Im1mbZcvDAGAWIpD3y4tIiS8f798acXyqktiGWiqyETbIWmA5q6c1cA4owZlmgvwoVWDw2sd8WHCDVuFnEsi/XhWruk06tkxzsDZRIqA/dyWvPYgKgfcUummQLow9e9F7LZo93UbjUhtbLTDo=
+	t=1719068660; cv=none; b=tiX0TG2h+mHIM/XhAhj3duzwmslRiqQru/qBQZVSZRHgtJHWlF2h44XLHT2+s1tgc2j2G3HAVXARNeLQ9hMYpDHGjZcp3uDltX3I8SaWfyPEA6hsoDrtd9r8g6sXixD0w6aggKrG9Fd4B8DTvnz4S15nG2G3JoQ6kr6u9xiwK8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719068628; c=relaxed/simple;
-	bh=cjKMZmz1+T3iNBF6JIejoovikIM6tTkLPyR5PvQ3o/c=;
+	s=arc-20240116; t=1719068660; c=relaxed/simple;
+	bh=ts5T2EDHmcIaK5YoLHa0pe3FEjBdsuNcFPIc1cPFHr8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=F/nnqhhvoKp+3/hPtf2IO8gJAcdMzlFW0JDdSfnHmJpjJBwcwQRXa5+vDLZWroVkadnA0xAWihXxjd1vB+fb1VrHnl3fLyrSrsNazno+wxcaZ6Z389BEDXR/NDnvv94FYoFl+BhRvRKTZshUPO9WohUjZBWC7kdmTsIJrNFV4b0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.43
+	 To:Cc:Content-Type; b=pbKSg5t7DMLpx8NF40EfPfPlXfGCEXmvSeHVlxa6aPf+MNfJhM5w69c+3HVUaPTOT6eNKY4iws6zxUXclVwltY+8ZAOw4iZ7Bh5GP1l55A7NREjncW4EkHtD0y9YE+KHPrhvsSKEB/5CjHMUsbaz2HF7YxHGZ9uEJkjAqL4+JOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-52cdebf9f53so380572e87.2
-        for <linux-sunxi@lists.linux.dev>; Sat, 22 Jun 2024 08:03:45 -0700 (PDT)
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-52cdbc20faeso1404952e87.1
+        for <linux-sunxi@lists.linux.dev>; Sat, 22 Jun 2024 08:04:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719068623; x=1719673423;
+        d=1e100.net; s=20230601; t=1719068655; x=1719673455;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :reply-to:in-reply-to:references:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=VNuj2fx5FjpZLP3qt6F+gtN+RXIt6q+vnIfAmNUtpEE=;
-        b=PNjulbbIstHm+SxKjm5ySOJvHyMnJdsh+sOYkH/q25wcqzd+YMLuR1Yl53di5IqiyL
-         7ZrbxKRFv891GMqRz++EHtCrlenQ0ySq5cweq5/x/PvzXp91DSdn6+scegy7EOawZjvF
-         NQAvmDgnOLGgYdhTHnu2c0R3DDkC68vIogRAICsvsQl8Rm1Hvrg4R6HTzjdJpr5MVS9I
-         02raaJ4vgjC+4CFXKQODZbNAOgYbhbALj1h96dDBxHBNQ+MV9kR1xo9AUuZBkgZSMC1m
-         5pVrSzjpzENpRfOXRs25sRfsl1hrE/GblnOQF7n3ZacwUM/wT5xzqNyk8bWDxwPAFa0y
-         HolQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUdIb0rw/ach+IICRMRqfXntMR614fUqo9gkJBbilbW2dM+Rea9iPjKRuCiCmnhJLRguPQCujGbyzvSv5lHh4XptNfFbpNEe6z3rG8=
-X-Gm-Message-State: AOJu0YwjO0pP77iq+YLZ5VC5PiV6UutNDOhINGWI55aAq38c1aA1wxpp
-	e+iWJC7LaoxAGf5+Buf9G6cqPO1FdvBkOqsHODSTF9d/s5n/ng/9ZNWEJQqr
-X-Google-Smtp-Source: AGHT+IFYg/V7ck5Zle75k7fYZttPmYoxJcYMiZ705WjlN5UH2eT54LFdDZLEhSOB92/fahhyCTeU3g==
-X-Received: by 2002:ac2:597b:0:b0:52c:b329:f7eb with SMTP id 2adb3069b0e04-52ce063d6b0mr366388e87.12.1719068622793;
-        Sat, 22 Jun 2024 08:03:42 -0700 (PDT)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com. [209.85.208.181])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52cd63b4790sm508192e87.30.2024.06.22.08.03.41
+        bh=w3pQI0IJb3XskaJTRAaXxNB3TiCh4pJLT1XJMeA9sFQ=;
+        b=o5mW4UNLsK9BLIBkfmYzk1C1DwyykAyZ5XW/w+NOfcBnM9VzkfM/Ed9yoXynxldRdv
+         j+I9thYtpKCqxNPU3J19fIxkaY52lsNZp1wGhx7TPP5DkN0Sf+oYJJqbz3do0JRp7agc
+         OhUczw4CT1qhKiNn8nzyzaCKE2vWvPAbPVwbjTsxle1cCWgwShPjveHbiuGvs8yBa6TY
+         ptjZzD7bmZN0Pz2TFVBeQy4crG3hkX3t4+2v15oKwR1g5TMi+/lM/WvCEZxMHqFhPjJB
+         5H4Lr5wiEGIzNqz5WQcL0gs7LWmoG77AiOvU6xMn0Hm7OIYT0fVoocJSD9Im8TdbmsQF
+         4fZA==
+X-Forwarded-Encrypted: i=1; AJvYcCXiX5I0LJUpk9M4tOqEno+mw8BAfO0QFMaz+DQh0hEtLC4FwzGueOq4ZDoIYzvUw7nTxhxuelKZ7P4X9RZu+ywkeBXixOBOp+NoUwA=
+X-Gm-Message-State: AOJu0YwgfIzr8Ocevzzdx0J/549VQg5Uc4gjonhVmfcgFPh9zO9VAIJ/
+	D0tuOWsYNG0R9GlbnKp/CrU/eUQnZzfcymx2aZNcBkyifSydek5TLCZOFGpe
+X-Google-Smtp-Source: AGHT+IGcYjPlJndUzSLyS77sYMnTdCSURTKXadVUzPDiauBjuPRIFJcLbod2YHdxANo8uyk0onqMVw==
+X-Received: by 2002:ac2:58fa:0:b0:52c:d7d1:7398 with SMTP id 2adb3069b0e04-52ce1834ef3mr33982e87.28.1719068654929;
+        Sat, 22 Jun 2024 08:04:14 -0700 (PDT)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com. [209.85.208.169])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52cd6431f83sm509756e87.216.2024.06.22.08.04.14
         for <linux-sunxi@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 22 Jun 2024 08:03:42 -0700 (PDT)
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2ec0f3b9cfeso31831191fa.0
-        for <linux-sunxi@lists.linux.dev>; Sat, 22 Jun 2024 08:03:41 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV+CxkuJFD36Ns8tCLq4oEaDr0uaU+tnEn10wwpHHI8ty29mWNYnkIyadR+AwNyxC8RMwTWvRDJsiM2icNSBlZLjmwGcTZRciRxb1k=
-X-Received: by 2002:a2e:7d11:0:b0:2ec:f68:51e0 with SMTP id
- 38308e7fff4ca-2ec59526da8mr3595311fa.44.1719068621641; Sat, 22 Jun 2024
- 08:03:41 -0700 (PDT)
+        Sat, 22 Jun 2024 08:04:14 -0700 (PDT)
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2ec52fbb50cso8854501fa.2
+        for <linux-sunxi@lists.linux.dev>; Sat, 22 Jun 2024 08:04:14 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWwxbDLh6CzE0AHNEg/fDRe2krvBij/O+BxaAv/+PHigpBtct6UkEXtLWtrzTNfqkiRu/G2nZnCUgEn7WMLBRkFrhf1G8sdm3ONqXM=
+X-Received: by 2002:a2e:321a:0:b0:2eb:f472:e7d3 with SMTP id
+ 38308e7fff4ca-2ec5b2840fdmr605451fa.6.1719068654651; Sat, 22 Jun 2024
+ 08:04:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240619012356.22685-1-laurent.pinchart+renesas@ideasonboard.com> <20240619012356.22685-3-laurent.pinchart+renesas@ideasonboard.com>
-In-Reply-To: <20240619012356.22685-3-laurent.pinchart+renesas@ideasonboard.com>
+References: <20240619012356.22685-1-laurent.pinchart+renesas@ideasonboard.com> <20240619012356.22685-4-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20240619012356.22685-4-laurent.pinchart+renesas@ideasonboard.com>
 Reply-To: wens@csie.org
 From: Chen-Yu Tsai <wens@csie.org>
-Date: Sat, 22 Jun 2024 23:03:32 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66TeWWE+F9KXG+8_9e7rDcq2zjm6ugFiUT_bYVOTM6P-A@mail.gmail.com>
-Message-ID: <CAGb2v66TeWWE+F9KXG+8_9e7rDcq2zjm6ugFiUT_bYVOTM6P-A@mail.gmail.com>
-Subject: Re: [PATCH 2/8] media: sun4i_csi: Implement link validate for
- sun4i_csi subdev
+Date: Sat, 22 Jun 2024 23:04:05 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65wK7+F8zfkk7vpSri5o8T7XKtJGxe6ftUA5_a43W3jGw@mail.gmail.com>
+Message-ID: <CAGb2v65wK7+F8zfkk7vpSri5o8T7XKtJGxe6ftUA5_a43W3jGw@mail.gmail.com>
+Subject: Re: [PATCH 3/8] media: sun4i_csi: Don't use v4l2_subdev_link_validate()
+ for video device
 To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
 	linux-sunxi@lists.linux.dev, Eugen Hristev <eugen.hristev@collabora.com>, 
@@ -73,9 +73,16 @@ Content-Transfer-Encoding: quoted-printable
 On Wed, Jun 19, 2024 at 9:24=E2=80=AFAM Laurent Pinchart
 <laurent.pinchart+renesas@ideasonboard.com> wrote:
 >
-> The sun4i_csi driver doesn't implement link validation for the subdev it
-> registers, leaving the link between the subdev and its source
-> unvalidated. Fix it, using the v4l2_subdev_link_validate() helper.
+> The v4l2_subdev_link_validate() function is a helper designed to
+> validate links whose sink is a subdev. When called on a link whose sink
+> is a video device, it only prints a warning and returns. Its usage in
+> the sun4i_csi driver is wrong, leaving the link from the sub4i_csi
+> subdev to the capture video device unvalidated.
+>
+> Planned improvements to the v4l2_subdev_link_validate() function will
+> turn the warning into an error, breaking the sun4i_csi driver. As an
+> interim measure, move the warning to the sun4i_csi driver in a custom
+> validation handler, and drop the call to the helper.
 >
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.co=
 m>
@@ -83,37 +90,33 @@ m>
 Acked-by: Chen-Yu Tsai <wens@csie.org>
 
 > ---
->  drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c | 5 +++++
->  1 file changed, 5 insertions(+)
+>  drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
 >
 > diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c b/drivers=
 /media/platform/sunxi/sun4i-csi/sun4i_csi.c
-> index 097a3a08ef7d..dbb26c7b2f8d 100644
+> index dbb26c7b2f8d..d07e980aba61 100644
 > --- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
 > +++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
-> @@ -39,6 +39,10 @@ static const struct media_entity_operations sun4i_csi_=
-video_entity_ops =3D {
->         .link_validate =3D v4l2_subdev_link_validate,
+> @@ -35,8 +35,15 @@ struct sun4i_csi_traits {
+>         bool has_isp;
 >  };
 >
-> +static const struct media_entity_operations sun4i_csi_subdev_entity_ops =
-=3D {
-> +       .link_validate =3D v4l2_subdev_link_validate,
-> +};
+> +static int sun4i_csi_video_link_validate(struct media_link *link)
+> +{
+> +       dev_warn_once(link->graph_obj.mdev->dev,
+> +                     "Driver bug: link validation not implemented\n");
+> +       return 0;
+> +}
 > +
->  static int sun4i_csi_notify_bound(struct v4l2_async_notifier *notifier,
->                                   struct v4l2_subdev *subdev,
->                                   struct v4l2_async_connection *asd)
-> @@ -214,6 +218,7 @@ static int sun4i_csi_probe(struct platform_device *pd=
-ev)
->         subdev->internal_ops =3D &sun4i_csi_subdev_internal_ops;
->         subdev->flags =3D V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_HAS=
-_EVENTS;
->         subdev->entity.function =3D MEDIA_ENT_F_VID_IF_BRIDGE;
-> +       subdev->entity.ops =3D &sun4i_csi_subdev_entity_ops;
->         subdev->owner =3D THIS_MODULE;
->         snprintf(subdev->name, sizeof(subdev->name), "sun4i-csi-0");
->         v4l2_set_subdevdata(subdev, csi);
+>  static const struct media_entity_operations sun4i_csi_video_entity_ops =
+=3D {
+> -       .link_validate =3D v4l2_subdev_link_validate,
+> +       .link_validate =3D sun4i_csi_video_link_validate,
+>  };
+>
+>  static const struct media_entity_operations sun4i_csi_subdev_entity_ops =
+=3D {
 > --
 > Regards,
 >
