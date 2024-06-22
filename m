@@ -1,33 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37F73154BE7;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37FB4155CBD;
 	Sat, 22 Jun 2024 15:07:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719068855; cv=none; b=BWP5B3mwt0/SomAJ/lEgnBOUS6V/BwMDNmbUADP/F47iIZpJn4/6iMSo8csQm0JIdCIgOkNNpcZtMeq4GPhOz3+wtFDn63BP+8URbf6iqkdkqnNH/xLxfBj11fxJTlOcseQMaF6K7Bh8LSsvmHvTW9Nw35AXvPQ8MY0pBXX0y5I=
+	t=1719068855; cv=none; b=KkscBOiKj5+O2kIjuASq8BY/FG0K4En8MEPJLL27TenT/411pTFl/7+OsFHES9UmQz/1QoqC5320jyLQ3X80AT7MHKEAFyRTemOaIBUsiYJL9HxTzupo4MYpUsYr3yVpKJ2MKsDrkiOxYdMwRbhhypXL9zSa8q2PxBo+hEszlrk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1719068855; c=relaxed/simple;
-	bh=FkLEANghdY0F2D5oAhPpzR3TSX+luZAk5onCsfRlqBA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Ht+O8dkRBNXOqriuxJIpqxkP7VtNy0Ncy2SFWXYX50eOFNJQD//DGUcYGPQ5t3xe+BVl5U63Ht18wgLe1smZX1iWZwWkThl7gJJk00prOvm11MIV/Iu7N7m2pQgyEU4B13sh+V3jdmibYU7xs7atPAGIhSkN5aDXozEU/Kwq3fQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KAHAxa3c; arc=none smtp.client-ip=10.30.226.201
+	bh=FWOQ6uEddi1Oy8wHfoQsKuHKsTCcCzZHsfD/pnViTac=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=mwSljYrFQOcdmGgB4uw6q3SzDEWQlttP1QnXby9a7F/cSr6sVgh9f+page28I5fpCdYeGEx/2Rc8avRqEoWQPrdDPmI7LYZIAdwW3aA6fssHn0O6rJHOCwKhvFHhoG+cVs1oCPN9YRaiYCqRaTz7jZhMQfRIxifAdqfNnETxIXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TS0DvQam; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KAHAxa3c"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C450CC4AF09;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TS0DvQam"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEA65C3277B;
 	Sat, 22 Jun 2024 15:07:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1719068854;
-	bh=FkLEANghdY0F2D5oAhPpzR3TSX+luZAk5onCsfRlqBA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KAHAxa3cyqn+is4Ur9RvX89VJ5N24VnFsJ4lM9RIBxdR1c4OlWYUt1ck7wimyjFqL
-	 cyrwM32ibLLYu/jbT8anZF4vdW4lfswSeZ7d2OtdIY4u0lCGpp+Yz9jdLjs5rc4Ae5
-	 QnAclpNZkg2OX1ZPgJywYRMp/FWeFUgpKkil/1+WUnqCGsgl8Q4R57f/Tks29rnFJ1
-	 0ZhsbNVUg24Wduhlzl99PP4GStWBUTQhAoou674xYgb9aMGYS1WTEZuz8o9mcQJ8Qa
-	 WyUwG/f4SE7zdyEmzXqXOLE4f5hnmFJjZ3a0PY0CnoH6m+iCxAE/tq+xZZ4NOrdl9a
-	 k4uvOWV3hmaXw==
+	bh=FWOQ6uEddi1Oy8wHfoQsKuHKsTCcCzZHsfD/pnViTac=;
+	h=From:To:Cc:Subject:Date:From;
+	b=TS0DvQamfYX/dVr7XVqUP1xp2TZ7oUbIjoyz1KkXX5zA3GTrNPy3MjJJAC0A+Pcsy
+	 2Ar3B+E2rQ2/PPirQA9SLDc44epwaN5CP0OQTMk/p5LP4toltVBnn4qM6u6M2gJbRL
+	 2mrWfewcBFV9frySlAwT1iZM03K53ujSdMkGAALtVprN5SY4vZ99pp61wGb/SyoqKJ
+	 qdfCN4RGE3nXZpgrXHghPE2AOmBNOrhRw/84E+Act8DJsODy8PqXzkAJdyI4bo8tjO
+	 SqOr5vry5S0Ei9iHK4qRyKbmTtc1h/G4Ue7D8c2ctBCtv4MJqK9oWq5UqgOcTzBdKB
+	 u/SkcRY1Xc+Qw==
 Received: by wens.tw (Postfix, from userid 1000)
-	id AFE9B60341; Sat, 22 Jun 2024 23:07:32 +0800 (CST)
+	id 9A9065FFA4; Sat, 22 Jun 2024 23:07:32 +0800 (CST)
 From: Chen-Yu Tsai <wens@kernel.org>
 To: Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
@@ -40,12 +39,10 @@ Cc: Chen-Yu Tsai <wens@csie.org>,
 	linux-sunxi@lists.linux.dev,
 	linux-riscv@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/3] riscv: dts: allwinner: d1s-t113: Add system LDOs
-Date: Sat, 22 Jun 2024 23:07:30 +0800
-Message-Id: <20240622150731.1105901-3-wens@kernel.org>
+Subject: [PATCH 0/3] riscv: allwinner: ClockworkPi and DevTerm devicetrees
+Date: Sat, 22 Jun 2024 23:07:28 +0800
+Message-Id: <20240622150731.1105901-1-wens@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240622150731.1105901-1-wens@kernel.org>
-References: <20240622150731.1105901-1-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -56,41 +53,47 @@ Content-Transfer-Encoding: 8bit
 
 From: Chen-Yu Tsai <wens@csie.org>
 
-Now that the bindings for the system LDOs have been merged, the nodes
-for the system LDOs can be added. These are used on the ClockworkPi.
+Hi folks,
 
-This was originally part of Samuel's D1 device tree series [1], but was
-dropped in v5 as the regulator bindings weren't merged at the time.
+Here are a couple patches that were originally sent by Samuel, but later
+dropped due to the system LDO regulator bindings not getting merged. The
+regulator bindings were recently resent and landed [1], so now is the time
+to get the rest of the stragglers in.
 
-[1] https://lore.kernel.org/linux-sunxi/20221231233851.24923-1-samuel@sholland.org/
+Patch 1 and 3 were originally part of Samuel's D1 device tree submission [2].
 
-Signed-off-by: Chen-Yu Tsai <wens@csie.org>
----
- arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+Patch 2 was part of the system LDO series [3].
 
-diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-index 5a9d7f5a75b4..e4175adb028d 100644
---- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-+++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-@@ -396,6 +396,17 @@ syscon: syscon@3000000 {
- 			ranges;
- 			#address-cells = <1>;
- 			#size-cells = <1>;
-+
-+			regulators@3000150 {
-+				compatible = "allwinner,sun20i-d1-system-ldos";
-+				reg = <0x3000150 0x4>;
-+
-+				reg_ldoa: ldoa {
-+				};
-+
-+				reg_ldob: ldob {
-+				};
-+			};
- 		};
- 
- 		dma: dma-controller@3002000 {
+These have been rebased onto v6.10-rc1 and have been compile tested
+only.
+
+I plan to land these in the coming week for 6.11.
+
+
+Regards
+ChenYu
+
+
+[1] https://lore.kernel.org/linux-sunxi/171532213496.2045034.2645456500780291742.b4-ty@kernel.org/
+[2] https://lore.kernel.org/linux-sunxi/20221231233851.24923-1-samuel@sholland.org/
+[3] https://lore.kernel.org/linux-sunxi/20221208084127.17443-1-samuel@sholland.org/
+
+Chen-Yu Tsai (1):
+  riscv: dts: allwinner: d1s-t113: Add system LDOs
+
+Samuel Holland (2):
+  dt-bindings: sram: sunxi-sram: Add regulators child
+  riscv: dts: allwinner: Add ClockworkPi and DevTerm devicetrees
+
+ .../allwinner,sun4i-a10-system-control.yaml   |  28 ++
+ arch/riscv/boot/dts/allwinner/Makefile        |   2 +
+ .../allwinner/sun20i-d1-clockworkpi-v3.14.dts | 252 ++++++++++++++++++
+ .../dts/allwinner/sun20i-d1-devterm-v3.14.dts |  36 +++
+ .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    |  11 +
+ 5 files changed, 329 insertions(+)
+ create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-clockworkpi-v3.14.dts
+ create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-devterm-v3.14.dts
+
 -- 
 2.39.2
 
