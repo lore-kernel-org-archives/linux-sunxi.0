@@ -1,128 +1,148 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06B558F68
-	for <linux-sunxi@lists.linux.dev>; Sat, 22 Jun 2024 16:47:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719074826; cv=none; b=ZrMb0y5TkSlgVfxed6uwZVoX1qFXzB643lpSElgF+yo0dE4BUqoG/1RqW8bP8De0DPric2rwsy8N5uIWT7wIV6UuhUyJtULl4/BnLSH//64f6m7zHcFOPW0FSQQGTAX5UcZZvi9XRsmqJ6Trr5Vi2xULaBc+EV6nX/Gq3CvNdhQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719074826; c=relaxed/simple;
-	bh=6o2GVijMyt7bzrd339rAvtddzKF1tfqFnbIInrY5XWM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QVWY1GhM+SNK6Ps6HfKkFYpSwv6iPgJWUbxifC2mUuOgiek/P9dQB805ktzDIzr1ykq8gM/0vCSwEG3hhtH73nkMbs6BZBW02b06BGL3M8tgfGFdHNgHIhpE3h+PvJoZmBC5eNc7e9ctUkCsAcQef371odChp1yjYBXa3KiFlko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hnq7EXRv; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC14FC2D6
+	for <linux-sunxi@lists.linux.dev>; Sat, 22 Jun 2024 16:47:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1719074859; cv=pass; b=oCkYw42FLwwkbMaztIiA50/UHksQ2bPuB0Vs34KnquslMpT+qJVOnl7wX2cz7sShBBMdmzG6BPjGokLiCSpiVW2w/hhzH6iClAsZvkuxp9RtmxUlPgrazBWtrRxIAl16fj1gvnIuHVeu3fKCgTaXVxJ55xukvjsaXAFoim/VliI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1719074859; c=relaxed/simple;
+	bh=j4FT13T3zrdSrzx3vsBMF2frCNHV9masxl6ek/pcNFk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=F1GWdQjRMpmgWiFrgCWnQJtHrFF8hjip+S3vsJYpSrMe5S2zoRtsUUqrGEywb0BTveamOd/ki/4lMllCt2Flj7h0H7G2HsK9qvhzGRKszRlm1+Wk7yb7vB+0FRcEJYIK1J/ZoS3xosQtMJM/46ooXhIzNZHcAxDYJveidw0mcYg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=Q0XmDJfn; arc=pass smtp.client-ip=185.185.170.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hnq7EXRv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 928C8C4AF0C
-	for <linux-sunxi@lists.linux.dev>; Sat, 22 Jun 2024 16:47:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719074825;
-	bh=6o2GVijMyt7bzrd339rAvtddzKF1tfqFnbIInrY5XWM=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=Hnq7EXRvXUPSsTl4kBGSMV/cQJNg78YaDNqsvhOGHotuWf4bOCbVQvw1lpzOCSX3Q
-	 QWey/irz5/nv4U6uE/oehiel+gM/LLQqjAeUVZOEf3kTUtWGn0ONtC+/EVtU7Pv5kU
-	 PQmlFi/8gB+XdhGBQObFp5jaTTUTGAMcF7dvJlqt0XMVTdAWcymTdCciFFFtVRdnvy
-	 S3lS2PnGcQhLwMenISPDXcRoF9xGOKpzng9/NW8KNw8VugRUksKe2GRe8tYi0EWJpC
-	 n0UYv2Yzd10lMW5YhYYPRYZx1BnB82PWWCAKB/Y5NdGzboLBTc8Hv9SwNAzWxJa7tf
-	 0SK7qY5JOhC6A==
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2ec50d4e47bso13621391fa.2
-        for <linux-sunxi@lists.linux.dev>; Sat, 22 Jun 2024 09:47:05 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWT4RzZyfk3BeNSZT1dmjHHEeMsb6IElUWkoHn14BkQekPA4DdKzXJEaHqnAFqTp/NyexEoOsauFelqVAB988If6LfBlg88vgYFchU=
-X-Gm-Message-State: AOJu0YyVcxhGAMdqGtK5SY0u0w76m5XQB2JsB6JujFeuBvMAIEgxCPzh
-	GRhhFVwWHJUOU9Hxe4jzKIh1tZ27QdwTVCNp5wVsI6GWeYGkWO6t6iogElQb5tSgJZi7YrRm4BB
-	3iYZHz66pblL1iqLuoyuIJ7lihA4=
-X-Google-Smtp-Source: AGHT+IH5/klRobrk8C8Tx8r4xEV1zy70cWikSV0uysow8O2/V58aKkLa/zaQhuBPPi8FPf4Cxx6rkddcvaqELWY/X38=
-X-Received: by 2002:a2e:9902:0:b0:2ec:5736:e8f1 with SMTP id
- 38308e7fff4ca-2ec5b2e9046mr1607861fa.46.1719074823759; Sat, 22 Jun 2024
- 09:47:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="Q0XmDJfn"
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4W60Wp1bRFz49QhT;
+	Sat, 22 Jun 2024 19:47:34 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1719074854;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KtY3MCLf5pNxADYjBpQpzMi8fGwEWgS1XE+bkxux7QY=;
+	b=Q0XmDJfnXoC8D0TKLHyFFJaOagp/eOypqY9cVoQWVOCFgenIioUIR8gnaS2A6aR80eGBN3
+	QLwNM25Hpck3EAVyhPrOmTTtG53jVaesbdHbTEzKp9KqbzTo20XR58Kq8Jvc52V3W/SjZa
+	ME4xEOUIrLpKq8hagaMWnHCATxe0Bd80G+AGxpRCZ3jFzPoNnL0777016beS5acxw8IEvN
+	2QI/fGs1Zq9cNbjSkrdhlaUDm0UFRxs7Cor853FzbbITNLytoihuvuJ55/wqx66Oym0H0X
+	k+0E36ETJqVP2uANhBduZ1BnSgipaNbQkNbXWHhkvGQY/5sffGDtRjJtcK8O0Q==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1719074854; a=rsa-sha256;
+	cv=none;
+	b=LkltzSYW8k6HdFVKFTzAru7qFQtZ3v10TdAXz+fx8HqjsQUbcwe4AhpV13KrVyRD/rXh8V
+	BRnar4wGidq6x9F0LaxE2x79gaG5F1pwParN5Xr1NQuZ58bqagcePMmYxgJYdctPb1x3u2
+	GfHIpfs9F2iZMrvVWHJdJPj9KVASzA7RE50KD+mY1GutBWuAdeLLAyUv2btnEFsfYW59t1
+	7relf3tMD+nuQqcPGFKT9N/JEaZTxb45N00bOATPOxEoYpkaPvfrHBf4OjvfsE7ViCPWti
+	X7s2arOjRl6d+S+IxINmvtOmSVc5kkhKUO6m6aQiCf/hSmH1KXPV4wGGffqRdA==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1719074854;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KtY3MCLf5pNxADYjBpQpzMi8fGwEWgS1XE+bkxux7QY=;
+	b=TroOFEahvi+/X/8aA/A5pBuW+vG1EEg2Yr+8S5dJ4hJ0PzuXwEDPggKMr1QVri7DwlTBWE
+	40i4JvCVwg/8/FwITCvStmjUR7izHh0Wehz2tP86lG5M0DthZNY6OAREpkRMhhQnLp795J
+	G6biACkDZqRRu4Yd++qyf6ehxKbO29p4TazIMzoe1RZyVYXiklHo3B+Gy4U5+UIEteDiyV
+	1njpz+W7KW8AiOCvDYXxjw8rEkF0JhxiJ6Dj5/S6HowGDj8MC+6tVxXe6guAYyy8x9J1VB
+	zBqeWQ3/8pPJ/D/gT8QFOUrJMcTZeXo3xFzQi4SlTrNu/VdvMKj36Sk4UvAJBQ==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 8EA66634C93;
+	Sat, 22 Jun 2024 19:47:33 +0300 (EEST)
+Date: Sat, 22 Jun 2024 16:47:33 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	Eugen Hristev <eugen.hristev@collabora.com>,
+	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: Re: [PATCH 4/8] media: v4l2-subdev: Refactor warnings in
+ v4l2_subdev_link_validate()
+Message-ID: <ZncAJRoydaWoxGRj@valkosipuli.retiisi.eu>
+References: <20240619012356.22685-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20240619012356.22685-5-laurent.pinchart+renesas@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240622150731.1105901-1-wens@kernel.org> <20240622150731.1105901-2-wens@kernel.org>
- <171907415897.1042829.2907756455868106157.robh@kernel.org>
-In-Reply-To: <171907415897.1042829.2907756455868106157.robh@kernel.org>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Sun, 23 Jun 2024 00:46:53 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66MptRCWnSyJ6B1g=E9rHh0MUac1kPw56rTO6So9_Qqow@mail.gmail.com>
-Message-ID: <CAGb2v66MptRCWnSyJ6B1g=E9rHh0MUac1kPw56rTO6So9_Qqow@mail.gmail.com>
-Subject: Re: [PATCH 1/3] dt-bindings: sram: sunxi-sram: Add regulators child
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Paul Walmsley <paul.walmsley@sifive.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Albert Ou <aou@eecs.berkeley.edu>, linux-sunxi@lists.linux.dev, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, linux-riscv@lists.infradead.org, 
-	Palmer Dabbelt <palmer@dabbelt.com>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240619012356.22685-5-laurent.pinchart+renesas@ideasonboard.com>
 
-Hi,
+Hi Laurent,
 
-On Sun, Jun 23, 2024 at 12:36=E2=80=AFAM Rob Herring (Arm) <robh@kernel.org=
-> wrote:
->
->
-> On Sat, 22 Jun 2024 23:07:29 +0800, Chen-Yu Tsai wrote:
-> > From: Samuel Holland <samuel@sholland.org>
-> >
-> > Some sunxi SoCs have in-package regulators controlled by a register in
-> > the system control MMIO block. Allow a child node for this regulator
-> > device in addition to SRAM child nodes.
-> >
-> > Signed-off-by: Samuel Holland <samuel@sholland.org>
-> > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> > Signed-off-by: Chen-Yu Tsai <wens@csie.org>
-> > ---
-> >  .../allwinner,sun4i-a10-system-control.yaml   | 28 +++++++++++++++++++
-> >  1 file changed, 28 insertions(+)
-> >
->
-> My bot found errors running 'make dt_binding_check' on your patch:
->
-> yamllint warnings/errors:
->
-> dtschema/dtc warnings/errors:
-> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/s=
-ram/allwinner,sun4i-a10-system-control.example.dtb: syscon@3000000: regulat=
-ors@3000150: False schema does not allow {'compatible': ['allwinner,sun20i-=
-d1-system-ldos'], 'reg': [[50331984, 4]], 'ldoa': {'regulator-min-microvolt=
-': [[1800000]], 'regulator-max-microvolt': [[1800000]]}, 'ldob': {'regulato=
-r-name': ['vcc-dram'], 'regulator-min-microvolt': [[1500000]], 'regulator-m=
-ax-microvolt': [[1500000]]}}
->         from schema $id: http://devicetree.org/schemas/sram/allwinner,sun=
-4i-a10-system-control.yaml#
-> Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control=
-.example.dtb: /example-1/syscon@3000000/regulators@3000150: failed to match=
- any schema with compatible: ['allwinner,sun20i-d1-system-ldos']
+Thanks for the patch.
 
-I'm not seeing this error locally. The binding in question for
-'allwinner,sun20i-d1-system-ldos' was merged in v6.10-rc1 in commit
-622bab188484 ("regulator: dt-bindings: Add Allwinner D1 system LDOs").
+On Wed, Jun 19, 2024 at 04:23:52AM +0300, Laurent Pinchart wrote:
+> The v4l2_subdev_link_validate() function prints a one-time warning if it
+> gets called on a link whose source or sink is not a subdev. As links get
+> validated in the context of their sink, a call to the helper when the
+> link's sink is not a subdev indicates that the driver has set its
+> .link_validate() handler to v4l2_subdev_link_validate() on a non-subdev
+> entity, which is a clear driver bug. On the other hand, the link's
+> source not being a subdev indicates that the helper is used for a subdev
+> connected to a video output device, which is a lesser issue, if only
+> because this is currently common practice.
+> 
+> There are no drivers left in the kernel that use
+> v4l2_subdev_link_validate() in a context where it may get called on a
+> non-subdev sink. Replace the pr_warn_once() with a WARN_ON() in this
+> case to make sure that new offenders won't be introduced.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+>  drivers/media/v4l2-core/v4l2-subdev.c | 14 +++++++++-----
+>  1 file changed, 9 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index 4f71199bf592..2d5e39c79620 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -1451,11 +1451,15 @@ int v4l2_subdev_link_validate(struct media_link *link)
+>  	bool states_locked;
+>  	int ret;
+>  
+> -	if (!is_media_entity_v4l2_subdev(link->sink->entity) ||
+> -	    !is_media_entity_v4l2_subdev(link->source->entity)) {
+> -		pr_warn_once("%s of link '%s':%u->'%s':%u is not a V4L2 sub-device, driver bug!\n",
+> -			     !is_media_entity_v4l2_subdev(link->sink->entity) ?
+> -			     "sink" : "source",
+> +	/*
+> +	 * Links are validated in the context of the sink entity. Usage of this
+> +	 * helper on a sink that is not a subdev is a clear driver bug.
+> +	 */
+> +	if (WARN_ON(!is_media_entity_v4l2_subdev(link->sink->entity)))
+> +		return -EINVAL;
 
+WARN*() is nowadays deprecated. Could you continue to use pr_warn_once()
+for this (or dev_warn_one())?
 
-ChenYu
+> +
+> +	if (!is_media_entity_v4l2_subdev(link->source->entity)) {
+> +		pr_warn_once("source of link '%s':%u->'%s':%u is not a V4L2 sub-device, driver bug!\n",
+>  			     link->source->entity->name, link->source->index,
+>  			     link->sink->entity->name, link->sink->index);
+>  		return 0;
 
-> doc reference errors (make refcheckdocs):
->
-> See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/202406=
-22150731.1105901-2-wens@kernel.org
->
-> The base for the series is generally the latest rc1. A different dependen=
-cy
-> should be noted in *this* patch.
->
-> If you already ran 'make dt_binding_check' and didn't see the above
-> error(s), then make sure 'yamllint' is installed and dt-schema is up to
-> date:
->
-> pip3 install dtschema --upgrade
->
-> Please check and re-submit after running the above command yourself. Note
-> that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-> your schema. However, it must be unset to test all examples with your sch=
-ema.
->
+-- 
+Kind regards,
+
+Sakari Ailus
