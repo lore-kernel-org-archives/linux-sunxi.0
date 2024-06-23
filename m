@@ -1,123 +1,154 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A67FC181B95;
-	Sun, 23 Jun 2024 14:28:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42D6F8F5B;
+	Sun, 23 Jun 2024 16:30:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719152931; cv=none; b=EVO3cnVw0EIDZNz9jgRaa2aVkFHSroc39mT/pa7aNf+gUV6P8ZkkqR53jb3sCvi9thYoCB00P1gmF1Nb9GopWLT8SYBYUL7f2AgRjyiKj67YeOpaC6uGTFBQTfk3iEBkuZYlyGmCwfmDs27LsGQzMpJtbxeAnW5DhBm9X4YpFLQ=
+	t=1719160226; cv=none; b=pKefvf2Ias5lf+3fPed3bdkGVFUA8DuzLRmx0jolMwewo1fvaIMoypKdTz92z/nFrM91PyJQ3BOxc6OMv/IT8ptcEQgaQCuFY+NdSBXF/IflyvzKsIumSOU1CFCCwGtC2kAjyHM6xIOEQ75N1SdZ+Vtzw+Lva0L8qNwYEqsbAGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719152931; c=relaxed/simple;
-	bh=Sulj6itbUy1+3flZsGKJFwDIPDo/5t5fG9SM8cDRLXA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qNgRfmTktEpbcNIPkAK96g1lX2XQkEPFPLnxkDv534VTbRRjKE4v1IG2+R8VNpLNm+jt5Ix1Z9NeCHCHCoRgbjaku7UiQWqfeJ4RPdThPIqP9nOxroJsd13HATtyXxyLi8y9PTJWuTwYqhEqix0BMf9RJOEcM0D+a8zghVtHTzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V4LBuvU2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719160226; c=relaxed/simple;
+	bh=GpYFGPdZts7O9qMXftegdL5qHYUq/82DkYhv80PMtCE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=u+x7SlCMFOdUbqW0k6M/1KEHmYlKQ7cv9b8QDBdT8xT1uUIBgl9+waqEfezKQtzEEnfesfdyMdDvP5fvbE2uDktLX0xeTNCbHFhIxsuNvCBuksmEUtHMjigCGU8Nza8xuaxHklzNamPBpVSQ0PnZO1ADqvDQp4VtZS4bf+E/H/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JL2TyUEo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V4LBuvU2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A24DC4AF09;
-	Sun, 23 Jun 2024 14:28:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JL2TyUEo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A465CC2BD10;
+	Sun, 23 Jun 2024 16:30:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719152931;
-	bh=Sulj6itbUy1+3flZsGKJFwDIPDo/5t5fG9SM8cDRLXA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=V4LBuvU2L8KFoo9rqzupRNRGujfrxnLr4CjlR4b7fHmg49dDe5pg0ynnt8uDzSQaD
-	 84ybbtcn6R7eCva+jUY4s32uA+l1412H5s2PG4BokSAmlD8vgVdT4mNe2JD55rKlOO
-	 2I9ILbaIlmssDlHdBMQmX00o+1O3usgpfVyLK0cF0UHCUGQy22xUW+l+TGVLIJTYY6
-	 1vwJ/JiiQqb1D+qedznhfSKHC9wSgW+RAaLPoAVjFPscmaLjkRaHAO2HCnqZEn62k2
-	 I5VMCAT7tq+gewbvy8KaxVZY4vdx0bElZ91E1iJZj5uuuqTYvm0UgCnbFpole4qQIG
-	 TC8a8iB9aoqsw==
-Date: Sun, 23 Jun 2024 15:28:46 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Chen-Yu Tsai <wens@kernel.org>
-Cc: "Rob Herring (Arm)" <robh@kernel.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Albert Ou <aou@eecs.berkeley.edu>, linux-sunxi@lists.linux.dev,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	linux-riscv@lists.infradead.org,
-	Palmer Dabbelt <palmer@dabbelt.com>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] dt-bindings: sram: sunxi-sram: Add regulators child
-Message-ID: <20240623-whoops-campsite-f395e64aa054@spud>
-References: <20240622150731.1105901-1-wens@kernel.org>
- <20240622150731.1105901-2-wens@kernel.org>
- <171907415897.1042829.2907756455868106157.robh@kernel.org>
- <CAGb2v66MptRCWnSyJ6B1g=E9rHh0MUac1kPw56rTO6So9_Qqow@mail.gmail.com>
+	s=k20201202; t=1719160225;
+	bh=GpYFGPdZts7O9qMXftegdL5qHYUq/82DkYhv80PMtCE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=JL2TyUEoe125u3uwLbWL8FlcI+B/7LRJvn7jAWrFzQmlMFUzQ9ns8nlvV+pX7o5SF
+	 SBAVpblUx7oAOxOQAm+qUloArQCUjIkzANmInr6L0zSrqrWPkP/Pku3rmAVz3mij89
+	 g97ENTSdYZB6+KOcc9Q8x6nKq60ASR2IQGKR2nsaiMCPDDApyOJBeyugnd9shCC/yr
+	 MRy6l41ZrLKEYV0LPYprmZ6QljJMbafgT/ZP/JKvSCuQ2HKJs1nfQ/h2CAIwuyQj4P
+	 4EXSLEnnJZqR4mNgAXu/EeE5Mw+gJjfrjSt2PrErsCwzlECgO3F476eGpbn7N7r5Yo
+	 AFtfZXHC3IB3w==
+Date: Sun, 23 Jun 2024 17:30:15 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Chris Morgan <macroalpha82@gmail.com>
+Cc: linux-sunxi@lists.linux.dev, linux-pm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-iio@vger.kernel.org, broonie@kernel.org,
+ lee@kernel.org, samuel@sholland.org, jernej.skrabec@gmail.com,
+ sre@kernel.org, wens@csie.org, conor+dt@kernel.org, krzk+dt@kernel.org,
+ robh@kernel.org, lars@metafoo.de, Chris Morgan <macromorgan@hotmail.com>
+Subject: Re: [PATCH 5/8] iio: adc: axp20x_adc: add support for AXP717 ADC
+Message-ID: <20240623173015.555584b6@jic23-huawei>
+In-Reply-To: <20240617220535.359021-6-macroalpha82@gmail.com>
+References: <20240617220535.359021-1-macroalpha82@gmail.com>
+	<20240617220535.359021-6-macroalpha82@gmail.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="PYdSiDCKQjnV17er"
-Content-Disposition: inline
-In-Reply-To: <CAGb2v66MptRCWnSyJ6B1g=E9rHh0MUac1kPw56rTO6So9_Qqow@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Mon, 17 Jun 2024 17:05:32 -0500
+Chris Morgan <macroalpha82@gmail.com> wrote:
 
---PYdSiDCKQjnV17er
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> From: Chris Morgan <macromorgan@hotmail.com>
+> 
+> Add support for the AXP717 ADC. The AXP717 differs from other ADCs
+> in this series by utilizing a 14 bit ADC for all channels (a full 16
+> bits with the first 2 digits reserved). It also differs by lacking a
+> battery discharge current channel.
+> 
+> Note that while the current charge channel itself is included in this
+> driver for the AXP717 and listed in the datasheet, no scale or offset
+> was given for this channel. For now no scale or offset is provided in
+> this driver.
+> 
+> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+Hi Chris
 
-On Sun, Jun 23, 2024 at 12:46:53AM +0800, Chen-Yu Tsai wrote:
-> Hi,
->=20
-> On Sun, Jun 23, 2024 at 12:36=E2=80=AFAM Rob Herring (Arm) <robh@kernel.o=
-rg> wrote:
-> >
-> >
-> > On Sat, 22 Jun 2024 23:07:29 +0800, Chen-Yu Tsai wrote:
-> > > From: Samuel Holland <samuel@sholland.org>
-> > >
-> > > Some sunxi SoCs have in-package regulators controlled by a register in
-> > > the system control MMIO block. Allow a child node for this regulator
-> > > device in addition to SRAM child nodes.
-> > >
-> > > Signed-off-by: Samuel Holland <samuel@sholland.org>
-> > > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> > > Signed-off-by: Chen-Yu Tsai <wens@csie.org>
-> > > ---
-> > >  .../allwinner,sun4i-a10-system-control.yaml   | 28 +++++++++++++++++=
-++
-> > >  1 file changed, 28 insertions(+)
-> > >
-> >
-> > My bot found errors running 'make dt_binding_check' on your patch:
-> >
-> > yamllint warnings/errors:
-> >
-> > dtschema/dtc warnings/errors:
-> > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings=
-/sram/allwinner,sun4i-a10-system-control.example.dtb: syscon@3000000: regul=
-ators@3000150: False schema does not allow {'compatible': ['allwinner,sun20=
-i-d1-system-ldos'], 'reg': [[50331984, 4]], 'ldoa': {'regulator-min-microvo=
-lt': [[1800000]], 'regulator-max-microvolt': [[1800000]]}, 'ldob': {'regula=
-tor-name': ['vcc-dram'], 'regulator-min-microvolt': [[1500000]], 'regulator=
--max-microvolt': [[1500000]]}}
-> >         from schema $id: http://devicetree.org/schemas/sram/allwinner,s=
-un4i-a10-system-control.yaml#
-> > Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-contr=
-ol.example.dtb: /example-1/syscon@3000000/regulators@3000150: failed to mat=
-ch any schema with compatible: ['allwinner,sun20i-d1-system-ldos']
->=20
-> I'm not seeing this error locally. The binding in question for
-> 'allwinner,sun20i-d1-system-ldos' was merged in v6.10-rc1 in commit
-> 622bab188484 ("regulator: dt-bindings: Add Allwinner D1 system LDOs").
+A few minor comments inline,
 
-I only tried on top of linux-next from a few days ago, but it didn't
-reproduce for me there. I think you're okay.
+Thanks,
 
---PYdSiDCKQjnV17er
-Content-Type: application/pgp-signature; name="signature.asc"
+Jonathan
 
------BEGIN PGP SIGNATURE-----
+> ---
+>  drivers/iio/adc/axp20x_adc.c | 167 +++++++++++++++++++++++++++++++++--
+>  1 file changed, 160 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/iio/adc/axp20x_adc.c b/drivers/iio/adc/axp20x_adc.c
+> index d6c51b0f48e3..f35ba2c11e1b 100644
+> --- a/drivers/iio/adc/axp20x_adc.c
+> +++ b/drivers/iio/adc/axp20x_adc.c
+> @@ -5,6 +5,7 @@
+>   *	Quentin Schulz <quentin.schulz@free-electrons.com>
+>   */
+>  
+> +#include <asm/unaligned.h>
+>  #include <linux/bitfield.h>
+>  #include <linux/completion.h>
+>  #include <linux/interrupt.h>
+> @@ -27,6 +28,8 @@
+>  
+>  #define AXP22X_ADC_EN1_MASK			(GENMASK(7, 5) | BIT(0))
+>  
+> +#define AXP717_ADC_EN1_MASK			GENMASK(5, 0)
+> +
+>  #define AXP20X_GPIO10_IN_RANGE_GPIO0		BIT(0)
+>  #define AXP20X_GPIO10_IN_RANGE_GPIO1		BIT(1)
+>  
+> @@ -35,6 +38,11 @@
+>  
+>  #define AXP22X_ADC_RATE_HZ(x)			((ilog2((x) / 100) << 6) & AXP20X_ADC_RATE_MASK)
+>  
+> +#define AXP717_ADC_DATA_TS			0x00
+> +#define AXP717_ADC_DATA_TEMP			0x01
+> +
+> +#define AXP717_ADC_DATA_MASK			0x3fff
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZngxHgAKCRB4tDGHoIJi
-0sQfAQD96o8owCYguj4oHa7KmlpJsdqfVpD8THbceykVdkgOCQEAvFs1R5+NCrZj
-g40NpcmkL+upFSNv5M1M1F/4aKz+kw0=
-=9opE
------END PGP SIGNATURE-----
+GENMASK()
 
---PYdSiDCKQjnV17er--
+> +static int axp717_adc_raw(struct iio_dev *indio_dev,
+> +			  struct iio_chan_spec const *chan, int *val)
+> +{
+> +	struct axp20x_adc_iio *info = iio_priv(indio_dev);
+> +	u8 bulk_reg[2];
+> +	int ret;
+> +
+> +	/*
+> +	 * A generic "ADC data" channel is used for TS, tdie, vmid,
+> +	 * and vbackup. This channel must both first be enabled and
+> +	 * also selected before it can be read.
+> +	 */
+> +	switch (chan->channel) {
+> +	case AXP717_TS_IN:
+> +		regmap_write(info->regmap, AXP717_ADC_DATA_SEL,
+> +			     AXP717_ADC_DATA_TS);
+> +		break;
+> +	case AXP717_DIE_TEMP_V:
+> +		regmap_write(info->regmap, AXP717_ADC_DATA_SEL,
+> +			     AXP717_ADC_DATA_TEMP);
+> +		break;
+> +
+> +	default:
+> +		break;
+> +	}
+> +
+> +	/*
+> +	 * All channels are 14 bits, with the first 2 bits on the high
+> +	 * register reserved and the remaining bits as the ADC value.
+> +	 */
+> +	ret = regmap_bulk_read(info->regmap, chan->address, bulk_reg, 2);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	*val = get_unaligned_be16(bulk_reg) & AXP717_ADC_DATA_MASK;
+
+FIELD_GET() preferred as then I don't have to check if DATA_MASK includes
+the 0th bit.
+
+> +	return IIO_VAL_INT;
+> +}
+> +
+
