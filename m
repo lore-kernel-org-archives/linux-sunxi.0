@@ -1,152 +1,123 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC11E4084E
-	for <linux-sunxi@lists.linux.dev>; Sun, 23 Jun 2024 08:51:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A67FC181B95;
+	Sun, 23 Jun 2024 14:28:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719132704; cv=none; b=mvz0xDbAzUtwpMW2jjtQFQFkoYB0bjRXJhBeZwfH49w9bgRmWiLOjFWp0v69Azd0yON+EPRqBxVEc3w7Aa2gSjs3PSVEqNvLIa6zq+axxGQrltO5scsg7mQIz3IbjxKwZtkJIpl/WvWe54aNMNAoo3MeZF0dbnj5ac5yk6U1KXY=
+	t=1719152931; cv=none; b=EVO3cnVw0EIDZNz9jgRaa2aVkFHSroc39mT/pa7aNf+gUV6P8ZkkqR53jb3sCvi9thYoCB00P1gmF1Nb9GopWLT8SYBYUL7f2AgRjyiKj67YeOpaC6uGTFBQTfk3iEBkuZYlyGmCwfmDs27LsGQzMpJtbxeAnW5DhBm9X4YpFLQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719132704; c=relaxed/simple;
-	bh=/MbTc5IrzQ+vqZwxbntKS8rLbbH4xOE6FLZfVgj6O04=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=gxy2+eh0p7oEjPT63tWhGWpRRgxHYaWHkMvXHavkZ56W1+tufuQhogXrZJLzzesoSbsAjmNd8vuIvWErKsqfZsypwajGMZAaAtwySqT+vICcUREAaDUDgYkyhenQiNb1qdVqv8XM2/RSNO2XJKI6NMmecyMpUgxTpMNGISjDpc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev; spf=pass smtp.mailfrom=oltmanns.dev; dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b=1/6wsBso; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oltmanns.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oltmanns.dev
+	s=arc-20240116; t=1719152931; c=relaxed/simple;
+	bh=Sulj6itbUy1+3flZsGKJFwDIPDo/5t5fG9SM8cDRLXA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qNgRfmTktEpbcNIPkAK96g1lX2XQkEPFPLnxkDv534VTbRRjKE4v1IG2+R8VNpLNm+jt5Ix1Z9NeCHCHCoRgbjaku7UiQWqfeJ4RPdThPIqP9nOxroJsd13HATtyXxyLi8y9PTJWuTwYqhEqix0BMf9RJOEcM0D+a8zghVtHTzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V4LBuvU2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oltmanns.dev header.i=@oltmanns.dev header.b="1/6wsBso"
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4W6Pp3012bz9sdT;
-	Sun, 23 Jun 2024 10:46:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1719132379;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=wt2mGoI760pT5VMOq6V2aEAJ75svBaYqL2cmxLmHat0=;
-	b=1/6wsBsoXw9MhiP3LTPhgn32X0RW4xqZ9NqZokA5hIumFYs2RdRWYfn4JrHiYJtWbynzba
-	BPjY4Doiovu9UYj5FP3y9PmNRsY5fhj47WWxxd16cV3zUpTF5fIMgUSGKonigbTUVNp6m6
-	flrYpSdFVk5lIwiDBwrdp4KWREIxqvfzbaTlyF7orI0CAZqIwM4LLlF8vYuZ77O3xZKGc6
-	aCbkekiPPpJNOfOHjhUAUOoImcWyit5LJ/RABgAahjppnSsd8bJVP2EqVA3QWX8zGVIrhK
-	7pA7RpuD7XCfoAoE58FpswNWhr2iHH7cgpzHd9vFl0THchWOwQIMQ89AP0Rqcw==
-From: Frank Oltmanns <frank@oltmanns.dev>
-Date: Sun, 23 Jun 2024 10:45:58 +0200
-Subject: [PATCH] clk: sunxi-ng: common: Don't call hw_to_ccu_common on hw
- without common
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V4LBuvU2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A24DC4AF09;
+	Sun, 23 Jun 2024 14:28:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719152931;
+	bh=Sulj6itbUy1+3flZsGKJFwDIPDo/5t5fG9SM8cDRLXA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=V4LBuvU2L8KFoo9rqzupRNRGujfrxnLr4CjlR4b7fHmg49dDe5pg0ynnt8uDzSQaD
+	 84ybbtcn6R7eCva+jUY4s32uA+l1412H5s2PG4BokSAmlD8vgVdT4mNe2JD55rKlOO
+	 2I9ILbaIlmssDlHdBMQmX00o+1O3usgpfVyLK0cF0UHCUGQy22xUW+l+TGVLIJTYY6
+	 1vwJ/JiiQqb1D+qedznhfSKHC9wSgW+RAaLPoAVjFPscmaLjkRaHAO2HCnqZEn62k2
+	 I5VMCAT7tq+gewbvy8KaxVZY4vdx0bElZ91E1iJZj5uuuqTYvm0UgCnbFpole4qQIG
+	 TC8a8iB9aoqsw==
+Date: Sun, 23 Jun 2024 15:28:46 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Chen-Yu Tsai <wens@kernel.org>
+Cc: "Rob Herring (Arm)" <robh@kernel.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Albert Ou <aou@eecs.berkeley.edu>, linux-sunxi@lists.linux.dev,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	linux-riscv@lists.infradead.org,
+	Palmer Dabbelt <palmer@dabbelt.com>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: sram: sunxi-sram: Add regulators child
+Message-ID: <20240623-whoops-campsite-f395e64aa054@spud>
+References: <20240622150731.1105901-1-wens@kernel.org>
+ <20240622150731.1105901-2-wens@kernel.org>
+ <171907415897.1042829.2907756455868106157.robh@kernel.org>
+ <CAGb2v66MptRCWnSyJ6B1g=E9rHh0MUac1kPw56rTO6So9_Qqow@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240623-sunxi-ng_fix_common_probe-v1-1-7c97e32824a1@oltmanns.dev>
-X-B4-Tracking: v=1; b=H4sIAMXgd2YC/x2MWwqAIBAArxL7nWD2MLpKhJSttR+toRRCdPekz
- 4GZeSBiIIwwFA8EvCmS5wxVWYDdZ95Q0JoZlFSN7JQS8eJEgjfjKBnrj8OzOYNfULSd1rbGptf
- OQu7PgNn53+P0vh9hoB8SawAAAA==
-To: Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>
-Cc: =?utf-8?q?M=C3=A5ns_Rullg=C3=A5rd?= <mans@mansr.com>, 
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- "Robert J. Pafford" <pafford.9@buckeyemail.osu.edu>, stable@vger.kernel.org, 
- Frank Oltmanns <frank@oltmanns.dev>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2817; i=frank@oltmanns.dev;
- h=from:subject:message-id; bh=/MbTc5IrzQ+vqZwxbntKS8rLbbH4xOE6FLZfVgj6O04=;
- b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBmd+DXrOE3LcA6aYi57bl6p32pUr0kuFo+nsrWf
- /LS/2jw7RmJAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZnfg1wAKCRCaaaIIlErT
- x0GVC/4vLLhNxs05792lSZo5ox+4SDMVmuSHieQ5Me/oS7yC6CJMsBXkm8fFJSJk1YtNkC7QQve
- 2ykhrFUbI7IrbBwDrNQFaLFjDJt2YlsSDvpY2AQQyiJa4jx2g59N6gpjV3hgSveyijb3vb+DcA7
- kOgB/Zddcp56czKp4TXsHa0nSQ+2DwQn4Cpe8Ss6cwJxWrKgzWN8duGS38t7NV5i8MiInW/ELmB
- lo4kvF5oAAPW75eCP2DY9P3mcdnPZWDBTmFvhkL0S44HuhL/mUAwtlUdDfF9hleI/m3TIyn7y8b
- 9USZYyJmsKGLuYf88CoCnIM+R4npW1DwWESH5lN3JS9d03lz0Md/r0YCTJOZx/6651cYaqGwVJY
- lM4i4GtcKV7o6La5+Sb9EGzffxE+HRnXLeeoi3eSrIbAIFdPHCFlAnv0XWHF0CIMGW7BY9h4nlo
- rdgetJ1y4ZZlBhdcQnzMOXjTuyBr4KGWPDj+7yNqwtmdDux43bQl90/vQ113xxsIhFkcw=
-X-Developer-Key: i=frank@oltmanns.dev; a=openpgp;
- fpr=02FD257B7F90E6B9A5444F969A69A208944AD3C7
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="PYdSiDCKQjnV17er"
+Content-Disposition: inline
+In-Reply-To: <CAGb2v66MptRCWnSyJ6B1g=E9rHh0MUac1kPw56rTO6So9_Qqow@mail.gmail.com>
 
-In order to set the rate range of a hw sunxi_ccu_probe calls
-hw_to_ccu_common() assuming all entries in desc->ccu_clks are contained
-in a ccu_common struct. This assumption is incorrect and, in
-consequence, causes invalid pointer de-references.
 
-Remove the faulty call. Instead, add one more loop that iterates over
-the ccu_clks and sets the rate range, if required.
+--PYdSiDCKQjnV17er
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: b914ec33b391 ("clk: sunxi-ng: common: Support minimum and maximum rate")
-Reported-by: Robert J. Pafford <pafford.9@buckeyemail.osu.edu>
-Closes: https://lore.kernel.org/lkml/DM6PR01MB58047C810DDD5D0AE397CADFF7C22@DM6PR01MB5804.prod.exchangelabs.com/
-Cc: stable@vger.kernel.org
-Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
----
-Robert, could you please test if this fixes the issue you reported.
+On Sun, Jun 23, 2024 at 12:46:53AM +0800, Chen-Yu Tsai wrote:
+> Hi,
+>=20
+> On Sun, Jun 23, 2024 at 12:36=E2=80=AFAM Rob Herring (Arm) <robh@kernel.o=
+rg> wrote:
+> >
+> >
+> > On Sat, 22 Jun 2024 23:07:29 +0800, Chen-Yu Tsai wrote:
+> > > From: Samuel Holland <samuel@sholland.org>
+> > >
+> > > Some sunxi SoCs have in-package regulators controlled by a register in
+> > > the system control MMIO block. Allow a child node for this regulator
+> > > device in addition to SRAM child nodes.
+> > >
+> > > Signed-off-by: Samuel Holland <samuel@sholland.org>
+> > > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > > Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+> > > ---
+> > >  .../allwinner,sun4i-a10-system-control.yaml   | 28 +++++++++++++++++=
+++
+> > >  1 file changed, 28 insertions(+)
+> > >
+> >
+> > My bot found errors running 'make dt_binding_check' on your patch:
+> >
+> > yamllint warnings/errors:
+> >
+> > dtschema/dtc warnings/errors:
+> > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings=
+/sram/allwinner,sun4i-a10-system-control.example.dtb: syscon@3000000: regul=
+ators@3000150: False schema does not allow {'compatible': ['allwinner,sun20=
+i-d1-system-ldos'], 'reg': [[50331984, 4]], 'ldoa': {'regulator-min-microvo=
+lt': [[1800000]], 'regulator-max-microvolt': [[1800000]]}, 'ldob': {'regula=
+tor-name': ['vcc-dram'], 'regulator-min-microvolt': [[1500000]], 'regulator=
+-max-microvolt': [[1500000]]}}
+> >         from schema $id: http://devicetree.org/schemas/sram/allwinner,s=
+un4i-a10-system-control.yaml#
+> > Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-contr=
+ol.example.dtb: /example-1/syscon@3000000/regulators@3000150: failed to mat=
+ch any schema with compatible: ['allwinner,sun20i-d1-system-ldos']
+>=20
+> I'm not seeing this error locally. The binding in question for
+> 'allwinner,sun20i-d1-system-ldos' was merged in v6.10-rc1 in commit
+> 622bab188484 ("regulator: dt-bindings: Add Allwinner D1 system LDOs").
 
-I'm CC'ing Måns here, because he observed some strange behavior [1] with
-the original patch. Is it possible for you to look into if this patch
-fixes your issue without the need for the following (seemingly
-unrelated) patches:
-      cedb7dd193f6 "drm/sun4i: hdmi: Convert encoder to atomic"
-      9ca6bc246035 "drm/sun4i: hdmi: Move mode_set into enable"
+I only tried on top of linux-next from a few days ago, but it didn't
+reproduce for me there. I think you're okay.
 
-Thanks,
-  Frank
+--PYdSiDCKQjnV17er
+Content-Type: application/pgp-signature; name="signature.asc"
 
-[1]: https://lore.kernel.org/lkml/yw1xo78z8ez0.fsf@mansr.com/
----
- drivers/clk/sunxi-ng/ccu_common.c | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+-----BEGIN PGP SIGNATURE-----
 
-diff --git a/drivers/clk/sunxi-ng/ccu_common.c b/drivers/clk/sunxi-ng/ccu_common.c
-index ac0091b4ce24..be375ce0149c 100644
---- a/drivers/clk/sunxi-ng/ccu_common.c
-+++ b/drivers/clk/sunxi-ng/ccu_common.c
-@@ -132,7 +132,6 @@ static int sunxi_ccu_probe(struct sunxi_ccu *ccu, struct device *dev,
- 
- 	for (i = 0; i < desc->hw_clks->num ; i++) {
- 		struct clk_hw *hw = desc->hw_clks->hws[i];
--		struct ccu_common *common = hw_to_ccu_common(hw);
- 		const char *name;
- 
- 		if (!hw)
-@@ -147,14 +146,21 @@ static int sunxi_ccu_probe(struct sunxi_ccu *ccu, struct device *dev,
- 			pr_err("Couldn't register clock %d - %s\n", i, name);
- 			goto err_clk_unreg;
- 		}
-+	}
-+
-+	for (i = 0; i < desc->num_ccu_clks; i++) {
-+		struct ccu_common *cclk = desc->ccu_clks[i];
-+
-+		if (!cclk)
-+			continue;
- 
--		if (common->max_rate)
--			clk_hw_set_rate_range(hw, common->min_rate,
--					      common->max_rate);
-+		if (cclk->max_rate)
-+			clk_hw_set_rate_range(&cclk->hw, cclk->min_rate,
-+					      cclk->max_rate);
- 		else
--			WARN(common->min_rate,
-+			WARN(cclk->min_rate,
- 			     "No max_rate, ignoring min_rate of clock %d - %s\n",
--			     i, name);
-+			     i, clk_hw_get_name(&cclk->hw));
- 	}
- 
- 	ret = of_clk_add_hw_provider(node, of_clk_hw_onecell_get,
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZngxHgAKCRB4tDGHoIJi
+0sQfAQD96o8owCYguj4oHa7KmlpJsdqfVpD8THbceykVdkgOCQEAvFs1R5+NCrZj
+g40NpcmkL+upFSNv5M1M1F/4aKz+kw0=
+=9opE
+-----END PGP SIGNATURE-----
 
----
-base-commit: 2607133196c35f31892ee199ce7ffa717bea4ad1
-change-id: 20240622-sunxi-ng_fix_common_probe-5677c3e487fc
-
-Best regards,
--- 
-Frank Oltmanns <frank@oltmanns.dev>
-
+--PYdSiDCKQjnV17er--
