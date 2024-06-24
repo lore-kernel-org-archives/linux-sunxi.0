@@ -1,154 +1,177 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42D6F8F5B;
-	Sun, 23 Jun 2024 16:30:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E857376;
+	Mon, 24 Jun 2024 04:10:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719160226; cv=none; b=pKefvf2Ias5lf+3fPed3bdkGVFUA8DuzLRmx0jolMwewo1fvaIMoypKdTz92z/nFrM91PyJQ3BOxc6OMv/IT8ptcEQgaQCuFY+NdSBXF/IflyvzKsIumSOU1CFCCwGtC2kAjyHM6xIOEQ75N1SdZ+Vtzw+Lva0L8qNwYEqsbAGk=
+	t=1719202208; cv=none; b=MMkRQQtVSTW2d7XkJH7hJv9MhS5KGombphoxqnrw9WV/nysPwTPMUCKlsMUE+anURLnfMRDQqAkucU4ltua//qR3b9lFqathdZbm+NEJsG9TZMHRKEcJ4G/UiE0Bu/0eBQ7W/NTXLMHftH18lMFSzuXSPSGAGl8122J34zAFpqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719160226; c=relaxed/simple;
-	bh=GpYFGPdZts7O9qMXftegdL5qHYUq/82DkYhv80PMtCE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=u+x7SlCMFOdUbqW0k6M/1KEHmYlKQ7cv9b8QDBdT8xT1uUIBgl9+waqEfezKQtzEEnfesfdyMdDvP5fvbE2uDktLX0xeTNCbHFhIxsuNvCBuksmEUtHMjigCGU8Nza8xuaxHklzNamPBpVSQ0PnZO1ADqvDQp4VtZS4bf+E/H/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JL2TyUEo; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719202208; c=relaxed/simple;
+	bh=f8MsT2ydR8FVWHQfUu9aV03i/fvtgmg81rTBmx7wZtI=;
+	h=From:To:Cc:In-Reply-To:Subject:Date:Message-ID:MIME-Version:
+	 Content-Type:References; b=BDbg8UXsQuKwnl38pr1dFyyykIA5bUdgqaZXlEo0KrJmyXo5ziesZV0DQmwcNIDyNEyNH8rjo5N1ooStaOofS/MrKwDF2muXZyY4N48S8ql97UdkndUr64B6f8KpUiPj2Js6KxUXLJoqJyqxDi4hutiNiCXj6D3nVnWy0xEoIFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=KrD5HtQJ; arc=none smtp.client-ip=203.254.224.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JL2TyUEo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A465CC2BD10;
-	Sun, 23 Jun 2024 16:30:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719160225;
-	bh=GpYFGPdZts7O9qMXftegdL5qHYUq/82DkYhv80PMtCE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=JL2TyUEoe125u3uwLbWL8FlcI+B/7LRJvn7jAWrFzQmlMFUzQ9ns8nlvV+pX7o5SF
-	 SBAVpblUx7oAOxOQAm+qUloArQCUjIkzANmInr6L0zSrqrWPkP/Pku3rmAVz3mij89
-	 g97ENTSdYZB6+KOcc9Q8x6nKq60ASR2IQGKR2nsaiMCPDDApyOJBeyugnd9shCC/yr
-	 MRy6l41ZrLKEYV0LPYprmZ6QljJMbafgT/ZP/JKvSCuQ2HKJs1nfQ/h2CAIwuyQj4P
-	 4EXSLEnnJZqR4mNgAXu/EeE5Mw+gJjfrjSt2PrErsCwzlECgO3F476eGpbn7N7r5Yo
-	 AFtfZXHC3IB3w==
-Date: Sun, 23 Jun 2024 17:30:15 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Chris Morgan <macroalpha82@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, linux-pm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-iio@vger.kernel.org, broonie@kernel.org,
- lee@kernel.org, samuel@sholland.org, jernej.skrabec@gmail.com,
- sre@kernel.org, wens@csie.org, conor+dt@kernel.org, krzk+dt@kernel.org,
- robh@kernel.org, lars@metafoo.de, Chris Morgan <macromorgan@hotmail.com>
-Subject: Re: [PATCH 5/8] iio: adc: axp20x_adc: add support for AXP717 ADC
-Message-ID: <20240623173015.555584b6@jic23-huawei>
-In-Reply-To: <20240617220535.359021-6-macroalpha82@gmail.com>
-References: <20240617220535.359021-1-macroalpha82@gmail.com>
-	<20240617220535.359021-6-macroalpha82@gmail.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="KrD5HtQJ"
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20240624041002epoutp017f05577018b2eadddc8b8cb81ec3826f~b1Ut0SVjH1592015920epoutp01L;
+	Mon, 24 Jun 2024 04:10:02 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20240624041002epoutp017f05577018b2eadddc8b8cb81ec3826f~b1Ut0SVjH1592015920epoutp01L
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1719202202;
+	bh=f8MsT2ydR8FVWHQfUu9aV03i/fvtgmg81rTBmx7wZtI=;
+	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
+	b=KrD5HtQJlXwla8TJO98EzEGmbC6U6iFckhBxukcjB1yovmR3lz02KUcrhstmuFHwP
+	 HlU6mB/4SedvqN4YiOBGO9STneKReT3yuKLSGYAj6kOz4v/+HseOzds5BjWWMSF78Z
+	 UX56cYaK573oQ0K1epKtk2kmiCwRbV6WxQq+ulZM=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+	20240624041002epcas5p32f5ba38ddb47660961e77f59341cfae1~b1Utit_tu2048920489epcas5p3C;
+	Mon, 24 Jun 2024 04:10:02 +0000 (GMT)
+Received: from epcpadp3 (unknown [182.195.40.17]) by epsnrtp1.localdomain
+	(Postfix) with ESMTP id 4W6vcp3M22z4x9Q8; Mon, 24 Jun 2024 04:10:02 +0000
+	(GMT)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20240624040636epcas5p37dc56f380e9e84e273a040775a8e6f6a~b1RtorJGk1881818818epcas5p3e;
+	Mon, 24 Jun 2024 04:06:36 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20240624040636epsmtrp207b25ba1110f1c95c77dc40514d58f15~b1Rtmp5HY1015110151epsmtrp2s;
+	Mon, 24 Jun 2024 04:06:36 +0000 (GMT)
+X-AuditID: b6c32a29-72dff700000074f4-8b-6678f0cc0a0d
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	76.5B.29940.CC0F8766; Mon, 24 Jun 2024 13:06:36 +0900 (KST)
+Received: from INBRO002756 (unknown [107.122.12.5]) by epsmtip2.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20240624040628epsmtip2a5b53ed83b9eac43f0d7a7bd0cd4bb48~b1RlznvHY0728807288epsmtip2H;
+	Mon, 24 Jun 2024 04:06:27 +0000 (GMT)
+From: "Alim Akhtar" <alim.akhtar@samsung.com>
+To: "'Krzysztof Kozlowski'" <krzk@kernel.org>, "'Krzysztof Kozlowski'"
+	<krzysztof.kozlowski@linaro.org>, "'Daniel Lezcano'"
+	<daniel.lezcano@linaro.org>, "'Zhang Rui'" <rui.zhang@intel.com>, "'Lukasz
+ Luba'" <lukasz.luba@arm.com>, "'Rob Herring'" <robh@kernel.org>, "'Conor
+ Dooley'" <conor+dt@kernel.org>, "'Guillaume La Roque'"
+	<glaroque@baylibre.com>, "'Krzysztof Kozlowski'" <krzk+dt@kernel.org>,
+	"'Vasily Khoruzhick'" <anarsoul@gmail.com>, "'Chen-Yu Tsai'"
+	<wens@csie.org>, "'Jernej Skrabec'" <jernej.skrabec@gmail.com>, "'Samuel
+ Holland'" <samuel@sholland.org>, "'Shawn	Guo'" <shawnguo@kernel.org>,
+	"'Sascha Hauer'" <s.hauer@pengutronix.de>, "'Pengutronix Kernel Team'"
+	<kernel@pengutronix.de>, "'Fabio Estevam'" <festevam@gmail.com>, "'Anson
+ Huang'" <Anson.Huang@nxp.com>, "'Thierry Reding'"
+	<thierry.reding@gmail.com>, "'Jonathan Hunter'" <jonathanh@nvidia.com>,
+	"'Dmitry Baryshkov'" <dmitry.baryshkov@linaro.org>, "'Amit Kucheria'"
+	<amitk@kernel.org>, =?utf-8?Q?'Niklas_S=C3=B6derlund'?=
+	<niklas.soderlund@ragnatech.se>, "'Heiko Stuebner'" <heiko@sntech.de>,
+	"'Biju	Das'" <biju.das.jz@bp.renesas.com>, "'Orson Zhai'"
+	<orsonzhai@gmail.com>, "'Baolin Wang'" <baolin.wang@linux.alibaba.com>,
+	"'Chunyan Zhang'" <zhang.lyra@gmail.com>, "'Alexandre Torgue'"
+	<alexandre.torgue@foss.st.com>, "'Pascal Paillet'" <p.paillet@foss.st.com>,
+	"'Keerthy'" <j-keerthy@ti.com>, "'Broadcom internal kernel review list'"
+	<bcm-kernel-feedback-list@broadcom.com>, "'Florian Fainelli'"
+	<florian.fainelli@broadcom.com>, "'Scott Branden'" <sbranden@broadcom.com>,
+	"'zhanghongchen'" <zhanghongchen@loongson.cn>, "'Matthias Brugger'"
+	<matthias.bgg@gmail.com>, "'AngeloGioacchino Del Regno'"
+	<angelogioacchino.delregno@collabora.com>, "'Bjorn Andersson'"
+	<andersson@kernel.org>, "'Geert Uytterhoeven'" <geert+renesas@glider.be>
+Cc: <linux-pm@vger.kernel.org>, <linux-samsung-soc@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>, <linux-amlogic@lists.infradead.org>,
+	<linux-sunxi@lists.linux.dev>, <imx@lists.linux.dev>,
+	<linux-tegra@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+	<linux-renesas-soc@vger.kernel.org>, <linux-rockchip@lists.infradead.org>,
+	<linux-stm32@st-md-mailman.stormreply.com>, "'Florian Fainelli'"
+	<f.fainelli@gmail.com>, <linux-rpi-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>, <cpgs@samsung.com>
+In-Reply-To: <003b73f2-3b5d-40b7-a87c-2fc937e81bcd@kernel.org>
+Subject: RE: [PATCH 01/22] dt-bindings: thermal: samsung,exynos: specify
+ cells
+Date: Mon, 24 Jun 2024 09:36:22 +0530
+Message-ID: <1296674576.21719202202469.JavaMail.epsvc@epcpadp3>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQGhCdcVAXQc0tvKk5x9QOKQ/J0WewGh/L0BAiWHCW4CgfI42AIboMv/sgabD1A=
+Content-Language: en-us
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0xbZRjH956ennPogp4VYs8gKiHRZBdgBGKeKcNLNj3ROJfMfcHorFAY
+	chn2DIYzbqyAWjZGOybQMsrVcSsTWi6lBYblsjEHTFEYcpFroYMBAYKWIZXSaPj2ey7/3/N+
+	eCmesITwoCJjz0mkseJob0KA17d5v+jzYCkx/FDH4LNgs2YhaMtPhNROC4L674Lg13IGGlSh
+	YG/uRFCV3oGDxrCGgba5BwOreR9oVp6H/PYePih7bQSsL7STMP77B3C7fpQHebnXERRm5hFg
+	n5jjg2o0lYD7DTIMZvJvI0hRF+FQ8X0jDlb1KAG9vdUkNM/VkVCQuxt0k/1byjvdJPQZbxLQ
+	l/wLgpX0dgR11gUMlsfsPFAObQVyelswSOuf4sONFiMB8lU1AYWyFBJkKQFwN+saH7KXchG0
+	TmfiYG8ykDA1fo2Afxp0OMxMyAlYqJxCMFsrAptRg4PN3ItB6ZiRhLX+Bt4bwGo1WsQuPkol
+	2fLZXJJV/9lNsIaREsRWT1Ty2emMOpJVdvuwjeoRki1usmKsrkJOsMP9TQTbOH6Y1ZdcYmf1
+	KsRelhVhJzxCBEFhkujIBInUL/hTwRmT5QmKqxUk6tqMvCRUTaUhF4qhA5lK/RNeGhJQQtqE
+	mHm7CTkHnsxAjYJ0shtTvjmzzULaghj1Pc7BBO3DGIq/IRxhd3rwGaZqoZR0FDz6Mc7oF8r4
+	Tu1djHk0YSUcERc6mCmxTG6fcKOPM5orU3gaoiicfolZVQU42q70YcYuv086eQ/TpXKsuGxJ
+	DzDTg9P/863COZ7zdV6MbfoW38HuW0rt5lXCuSNirB3tpAK5qXeo1DtU6h0q9Y5IAcIr0F5J
+	HBcTEcP5x/nHSs77cuIYLj42wjf0bIwObX/k/fsMqKFiydeMMAqZEUPxvN1dsy8lhAtdw8Rf
+	XpBIz56WxkdLODPypHBvkatoNj1MSEeIz0miJJI4ifS/KUa5eCRhhfrqbzfHZJHK+RPvkMNe
+	wW5rFxbPH4rZbdwbWfNKl19iYk5UskvJRenAg67VWvnf1Mb73Py8ebm5aS5izTPjdLop2e94
+	q+jzEI61jNBfLRZ2vveR5cdTTzUvrAQykw8DPhw6om/N/ixHsaFYjzYkiF696nXAqPXfCBJM
+	Hc2JbN38GAqUjZ9wsoGTip9VnjfeDfpCZdHuEq5nHFQ8N+y7p9Z0rLKsh91Aj9d6fug72vKb
+	PmXm7eXc6rd08ofxYlNelPGPLCT3R389HbkXUiT9etfJ8s6q0KGiU6a66wgrO/Lam6Uv+17J
+	Lr6zXpC0cvCy9WamsOb1Y+HKn2xpXPzQmCjwojfOnRH77+dJOfG/2JYK7DcEAAA=
+X-CMS-MailID: 20240624040636epcas5p37dc56f380e9e84e273a040775a8e6f6a
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+X-CPGSPASS: Y
+X-Hop-Count: 3
+X-CMS-RootMailID: 20240614094638epcas5p115d52130f45e130652b6f1d946358d19
+References: <20240614-dt-bindings-thermal-allof-v1-0-30b25a6ae24e@linaro.org>
+	<CGME20240614094638epcas5p115d52130f45e130652b6f1d946358d19@epcas5p1.samsung.com>
+	<20240614-dt-bindings-thermal-allof-v1-1-30b25a6ae24e@linaro.org>
+	<1891546521.01718433481489.JavaMail.epsvc@epcpadp4>
+	<003b73f2-3b5d-40b7-a87c-2fc937e81bcd@kernel.org>
 
-On Mon, 17 Jun 2024 17:05:32 -0500
-Chris Morgan <macroalpha82@gmail.com> wrote:
 
-> From: Chris Morgan <macromorgan@hotmail.com>
-> 
-> Add support for the AXP717 ADC. The AXP717 differs from other ADCs
-> in this series by utilizing a 14 bit ADC for all channels (a full 16
-> bits with the first 2 digits reserved). It also differs by lacking a
-> battery discharge current channel.
-> 
-> Note that while the current charge channel itself is included in this
-> driver for the AXP717 and listed in the datasheet, no scale or offset
-> was given for this channel. For now no scale or offset is provided in
-> this driver.
-> 
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-Hi Chris
 
-A few minor comments inline,
+> -----Original Message-----
+> From: Krzysztof Kozlowski <krzk@kernel.org>
+> Sent: Saturday, June 15, 2024 3:09 PM
+> To: Alim Akhtar <alim.akhtar@samsung.com>; 'Krzysztof Kozlowski'
+> <krzysztof.kozlowski@linaro.org>; 'Daniel Lezcano'
+[snip]
+> On 14/06/2024 16:29, Alim Akhtar wrote:
+> > Hi Krzysztof,
+> >
+> >> -----Original Message-----
+> >> From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> >> Sent: Friday, June 14, 2024 3:16 PM
+> >> To: Daniel Lezcano <daniel.lezcano@linaro.org
+> > .stormreply.com;
+> >> Subject: [PATCH 01/22] dt-bindings: thermal: samsung,exynos: specify
+> >> cells
+> >>
+> >> All Samsung Exynos SoCs Thermal Management Units have only one
+> >> sensor, so make '#thermal-sensor-cells' fixed at 0.
+> >>
+> > This is not entirely true, there are SoCs which have multiple temp sens=
+ors.
+> > It is true that currently only one sensor support is added though.
+>=20
+> All supported by mainline. Others do not exist now :)
+>=20
+> >
+> > So we can leave this as is or you suggest to make it to support only
+> > one sensor (to match the current DT support), and later (in near
+> > future) change it again to match what HW actually support?
+>=20
+> Yes, different devices can have different value (and bindings).
+Ok, this is fine for now.
 
-Thanks,
+> Best regards,
+> Krzysztof
 
-Jonathan
 
-> ---
->  drivers/iio/adc/axp20x_adc.c | 167 +++++++++++++++++++++++++++++++++--
->  1 file changed, 160 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/iio/adc/axp20x_adc.c b/drivers/iio/adc/axp20x_adc.c
-> index d6c51b0f48e3..f35ba2c11e1b 100644
-> --- a/drivers/iio/adc/axp20x_adc.c
-> +++ b/drivers/iio/adc/axp20x_adc.c
-> @@ -5,6 +5,7 @@
->   *	Quentin Schulz <quentin.schulz@free-electrons.com>
->   */
->  
-> +#include <asm/unaligned.h>
->  #include <linux/bitfield.h>
->  #include <linux/completion.h>
->  #include <linux/interrupt.h>
-> @@ -27,6 +28,8 @@
->  
->  #define AXP22X_ADC_EN1_MASK			(GENMASK(7, 5) | BIT(0))
->  
-> +#define AXP717_ADC_EN1_MASK			GENMASK(5, 0)
-> +
->  #define AXP20X_GPIO10_IN_RANGE_GPIO0		BIT(0)
->  #define AXP20X_GPIO10_IN_RANGE_GPIO1		BIT(1)
->  
-> @@ -35,6 +38,11 @@
->  
->  #define AXP22X_ADC_RATE_HZ(x)			((ilog2((x) / 100) << 6) & AXP20X_ADC_RATE_MASK)
->  
-> +#define AXP717_ADC_DATA_TS			0x00
-> +#define AXP717_ADC_DATA_TEMP			0x01
-> +
-> +#define AXP717_ADC_DATA_MASK			0x3fff
-
-GENMASK()
-
-> +static int axp717_adc_raw(struct iio_dev *indio_dev,
-> +			  struct iio_chan_spec const *chan, int *val)
-> +{
-> +	struct axp20x_adc_iio *info = iio_priv(indio_dev);
-> +	u8 bulk_reg[2];
-> +	int ret;
-> +
-> +	/*
-> +	 * A generic "ADC data" channel is used for TS, tdie, vmid,
-> +	 * and vbackup. This channel must both first be enabled and
-> +	 * also selected before it can be read.
-> +	 */
-> +	switch (chan->channel) {
-> +	case AXP717_TS_IN:
-> +		regmap_write(info->regmap, AXP717_ADC_DATA_SEL,
-> +			     AXP717_ADC_DATA_TS);
-> +		break;
-> +	case AXP717_DIE_TEMP_V:
-> +		regmap_write(info->regmap, AXP717_ADC_DATA_SEL,
-> +			     AXP717_ADC_DATA_TEMP);
-> +		break;
-> +
-> +	default:
-> +		break;
-> +	}
-> +
-> +	/*
-> +	 * All channels are 14 bits, with the first 2 bits on the high
-> +	 * register reserved and the remaining bits as the ADC value.
-> +	 */
-> +	ret = regmap_bulk_read(info->regmap, chan->address, bulk_reg, 2);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	*val = get_unaligned_be16(bulk_reg) & AXP717_ADC_DATA_MASK;
-
-FIELD_GET() preferred as then I don't have to check if DATA_MASK includes
-the 0th bit.
-
-> +	return IIO_VAL_INT;
-> +}
-> +
 
