@@ -1,116 +1,71 @@
-Received: from fout2-smtp.messagingengine.com (fout2-smtp.messagingengine.com [103.168.172.145])
+Received: from out162-62-57-210.mail.qq.com (out162-62-57-210.mail.qq.com [162.62.57.210])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83F3F14005
-	for <linux-sunxi@lists.linux.dev>; Tue, 25 Jun 2024 01:25:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E82314658B
+	for <linux-sunxi@lists.linux.dev>; Tue, 25 Jun 2024 07:37:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.210
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719278706; cv=none; b=sGmCxcBinDbbojWD+umIryZ8EwV35rATDqt2ZtqfG4uqGd74BVsCCQwyL6N7cttMwZr7xoeUkDBc96v3frDNmk4dq10lS8Rx/7igkPwIaWc0it/bHOXjZTzL8DuCPIBq4aBpF2L+MayknsnyzYsJSU0uPpFZ7swcuadkwoQx+M0=
+	t=1719301030; cv=none; b=R+IBYH3EADP40AafIRzd5xt4yj8AAwS2YGKsIHh86z6bkp2IR7kZAt4LvGo7jthStigQZd9DxuI4vRnoy61b8QRhq9hhHLSk1vs21TGQorCl9UXv9ni5QJbSrm9wQZLI3RbMd/nvfUNTVhZVDJT6l+sDe6obXQ73kGdnwqWakbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719278706; c=relaxed/simple;
-	bh=5orHIJ1SgWfhKjLRyW3vpA7KVnKZbE5sZL2J4Z32NeA=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=qBZX7tHDG1GoLXBWUvz4Z6Y3kJCT/xN93eVCjHFr3G3HWim8roKZ4NGY7R8Ii/k4FP2JSdtSviraFl3euuxhAl4VLQFY/NdQOWyCkveNvA17GT1TXNeZ6Y7jp3JDxe0R+NkEt4ZJYotpK2mKhUGnyiwhYfaJ0YQe6WhiWLnkEi0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=intoOqXT; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=e4Rh51ts; arc=none smtp.client-ip=103.168.172.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
+	s=arc-20240116; t=1719301030; c=relaxed/simple;
+	bh=blHGl7YrLZrp0runine851Pzqlb9ZjFxG0Vn9AY/Hpg=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=o2kVu+1BhKUsKfeCHTPblDbN4O+SuzpV3sV+AqVgwDQeMAGSlKKaYu8qGW7V+kBpRDkMHxAi1sxwFQsDN2GTd8Qvml4zNtOSy5+oo5+DyCqfUJs94SNUPggFKCvLgkUg+uqXOiSPhrFZVQehTcB+EGNf9PUwMxVA7QBT/POPY/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=Sjras/TT; arc=none smtp.client-ip=162.62.57.210
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="intoOqXT";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="e4Rh51ts"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfout.nyi.internal (Postfix) with ESMTP id B1E731380475;
-	Mon, 24 Jun 2024 21:25:04 -0400 (EDT)
-Received: from imap47 ([10.202.2.97])
-  by compute5.internal (MEProxy); Mon, 24 Jun 2024 21:25:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm2; t=1719278704; x=
-	1719365104; bh=5orHIJ1SgWfhKjLRyW3vpA7KVnKZbE5sZL2J4Z32NeA=; b=i
-	ntoOqXTp+K4StbK406BblHOcB5cWU/7zLQ3FKEREHOPcflB3Bdsc7+nqltZm8YL4
-	bUaRakQnfrLtGyGGem2zHpzZ3Xy3gX/YgG9cOlL4v5672B+oCjIOFdCyuM3XfQZ7
-	vgF8pIqUBxVlmbNf8N/VYGnaOa8i4wOUSoesBYyoutGM9U+5dHKbA0VThgY7cMU6
-	U2tLYM8/jdi4pzhranA6VejNQthmOr/e9xRevizZAEzzg3hsJVouz86EdG2WPKyS
-	5Ndg604gHSBdfNpW5D5UBZnqQ5wgsh66nPX+aEWGl/7rd6QthsHIiS1KaDrrbvCI
-	Ct7f2aAuE1O9Tjt25M68Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1719278704; x=1719365104; bh=5orHIJ1SgWfhKjLRyW3vpA7KVnKZ
-	bE5sZL2J4Z32NeA=; b=e4Rh51tsSXgHlB53C850AkKLSbTlCgUZhRpPRMs4HXsY
-	uKXY2sbYD/d9FspeyDrKMSHxIkEYXLbcNrLQEbjSWQO/q8z4Y3O2HjLLmdQ6PBtA
-	sYJIlEGM0xaJZRGoSI7CJT0JmqE5zMq/JAvgebKp9zUt0BAWohf+GgXN3m2RJQyy
-	6pWmHy1Pq+SDGrz9lVdUCP4RBIi2m+XA19uHMg3ADUboetmb2QZjGPgV7ZpaBBeT
-	07d7aRwcaZBkkYu5HQUgHSRFXN/rBFmlpmgtOA2bD9g5l1J1pvg7XshgTuMUfk74
-	MsfUjYuRoxWK9O2UD9PG7j6DcW6JGGgUfqa5PERdsw==
-X-ME-Sender: <xms:cBx6ZiVT6Z6-TgOgxaHF2C_TvHJ45rBibe5tyL5lnGxVCJ0J83nAHw>
-    <xme:cBx6ZunAHU6ee8d-_oRtt1GQONWTZZiDl3GLukHJH4vCsoO9ni00CI76bLARBgKAA
-    UFtob1-WLZ_HBj7mw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfeegvddggeekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftfih
-    rghnucghrghlkhhlihhnfdcuoehrhigrnhesthgvshhtthhorghsthdrtghomheqnecugg
-    ftrfgrthhtvghrnhephedvveeigedujeeufeegffehhfffveduhfeijefgtdffteelgfet
-    ueevieduieejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homheprhihrghnsehtvghsthhtohgrshhtrdgtohhm
-X-ME-Proxy: <xmx:cBx6ZmbRKNoMEBUOVdVPAEoval1ptFcLPPYh3eJP5pe0n2rng0QTwA>
-    <xmx:cBx6ZpU4blIlzZ0bB6CPxZxoGH7JC6tdv5rX2qa8fxIKL8I4DX2DEw>
-    <xmx:cBx6Zsm5Y7uEHfj2Vf6p-JGzBSePhMI4fzG3XJs98kFLHMTmm-zovg>
-    <xmx:cBx6ZudMk3Y4VR65Wykw9chHuxZ0vWU536IQomsoKLufB_4CqUW9Lg>
-    <xmx:cBx6ZkEYnAZ8pyP-_AIDAMH5NZCsmgF38_TrWAna5O210PffNefjOU3I>
-Feedback-ID: idc0145fc:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 1EF4EA6007B; Mon, 24 Jun 2024 21:25:04 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-538-g1508afaa2-fm-20240616.001-g1508afaa
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="Sjras/TT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1719301008; bh=blHGl7YrLZrp0runine851Pzqlb9ZjFxG0Vn9AY/Hpg=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To;
+	b=Sjras/TTidKALzyf1fynFV3OJJ23G+E8GMacj/N8D8RVTs43DXI3yjjeHuhdgsCt2
+	 S3yzuyuZ/99St38mJ5lF/aC3nPBJW3RDZ/FnR1mM6HvldJfC06dxiGPblQpO0FxhYw
+	 /RAmQFQnlYNUl4MjhSw7CFLEf1gRyJ2hIMrjHPyI=
+Received: from [172.19.0.1] ([1.202.45.181])
+	by newxmesmtplogicsvrszb9-0.qq.com (NewEsmtp) with SMTP
+	id 7A1AD09D; Tue, 25 Jun 2024 15:30:33 +0800
+X-QQ-mid: xmsmtpt1719300633tccg7adpq
+Message-ID: <tencent_EA937A49A986C9F72ED02576DBA758E75205@qq.com>
+X-QQ-XMAILINFO: MBhxx2BUoWsxWKrEKH2Cp6EqNrnlbYYZ8u4kucMHho5VXlOOOhAisT20p7+sY4
+	 dES31lHMNzvKruM9ByNhSr01aSoHRx4nhNCnQ7pSUMhoZjjFzqVaZCO01J4LBS3JWtysBgR/IQdC
+	 aptkyAn1JhB988eave2svvgeW0BRkwefgGLXiXINiPxnq02lmFjh2sGbMmt8OBVR5c5zm/OAVLmA
+	 Tf6dnQC/Myc1kNWMVcAHUj8UgLa1FROrGVDTv/HW9kWdGn1SBApOoAZ3uagOojqnR0GGBaBjOI/t
+	 srHpFYRO9vlkM+3ye7oJBPkGO9TJ2/61eUdcpeUd6BPMd7AbCcvzDB2onE+tuy2elo8SYdGH+A5P
+	 22SvOBTsXlJ1KKzWLTTSow/Fyg/xujVMKGIfX4ZM2d2UURuZmAHbmZPiUbkVdTaf4Y+Aw5C7Ghkt
+	 8RJCyb7nEpVKQpo7zBUX3askB1w4LghzLfCYsFiebcg48jaxmeyPsRKwjoX0eFiRNWpX3nNOkSSk
+	 hWzmH9osxuKBQQOAT9unaMRt0CcAG5/vwhw/PlRBCEPLfKRAkQnm1sw6lhx73YE3TLTDHZ0WNNkg
+	 1VGD3tKDCyY/LEgmkox6psvuNq8ZVEd4fgI4UuCjE2uLJuvGMmDCaOGuGTPdxrAXFaWqo3/nPLDo
+	 ryCpKCWBL0a+Q2VcfWfsdXjG8B7b3Z3712uABCV82T9MWKwBngye5mHylwTn7tBcelDAnz/dqSY+
+	 8vLrBtsBUmhkMrpcxr5UWza4Ju5OUZKAy4SqsMPBa21Ufbp7XmkyEiJxb36NS1/IFXQ09gavXj5p
+	 Oo4pv/M3SxCTXRUYSrVWyfdI3eDYlT/bLPbLKhVCZiuKNRAvrb9BSHCqrIMwzUwj0mGhXls8E+Dw
+	 bgU+hawWCtq88alyPE1ecUhXPy3n3UcdXpwvfoxnIw74BKFt4c5b86nTcyvhej8mRvS8ciXi+UZT
+	 c22f6BCr4=
+X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
+X-OQ-MSGID: <0a751065-d90e-492b-aa5a-435ab621304f@qq.com>
+Date: Tue, 25 Jun 2024 15:30:32 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <a65fb610-8958-474e-a07b-7b3ef8d61c65@app.fastmail.com>
-In-Reply-To: <20240625013725.4c5a3e7c@minigeek.lan>
-References: <20240620113150.83466-1-ryan@testtoast.com>
- <20240620113150.83466-19-ryan@testtoast.com>
- <20240625013725.4c5a3e7c@minigeek.lan>
-Date: Tue, 25 Jun 2024 13:24:41 +1200
-From: "Ryan Walklin" <ryan@testtoast.com>
-To: "Andre Przywara" <andre.przywara@arm.com>
-Cc: "Maxime Ripard" <mripard@kernel.org>, "Chen-Yu Tsai" <wens@csie.org>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Thomas Zimmermann" <tzimmermann@suse.de>,
- "David Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>,
- "Samuel Holland" <samuel@sholland.org>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>,
- "Michael Turquette" <mturquette@baylibre.com>,
- "Stephen Boyd" <sboyd@kernel.org>, "Chris Morgan" <macroalpha82@gmail.com>,
- "John Watts" <contact@jookia.org>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- devicetree@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: Re: [PATCH 18/23] dt-bindings: allwinner: add H616 DE33 bus, clock and display
- bindings
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+From: plusls <plusls@qq.com>
+Subject: Re: [PATCH] ARM: dts: sunxi: H3/H5: Add phys property to USB HCI0
+To: andre.przywara@arm.com
+Cc: devicetree@vger.kernel.org, jernej.skrabec@gmail.com,
+ krzysztof.kozlowski+dt@linaro.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, robh+dt@kernel.org, samuel@sholland.org,
+ uwu@icenowy.me, wens@csie.org
+References: <20221110005507.19464-1-andre.przywara@arm.com>
+In-Reply-To: <20221110005507.19464-1-andre.przywara@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi,
+I use Armbian in my orangepi one board, and I use the usb gadget to simulate keyboard and mouse.
 
-On Tue, 25 Jun 2024, at 12:37 PM, Andre Przywara wrote:
+It works on Armbian_23.11.1, but it break in Armbian_24.5.1.
 
-> That doesn't look right, that would allow:
-> - h6-de
-> - h616-de33
-> - a64-de2
->
-> which is not what we want, right? It's more:
-> - h6-de, a64-de2
-> - h616-de, a64-de2
-> - a64-de2
+After some time, I found out that it is cause by linux kernel commit: b13d48408e9f0aa80f3d9f93960aa49bd0da7af8, when I remove the "phys" property, the usb gadget works again.
 
-Ah right, have got my head round how the fallback works now, thanks!
-
-Ryan
