@@ -1,85 +1,236 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29D7D1A2573
-	for <linux-sunxi@lists.linux.dev>; Mon, 24 Jun 2024 23:23:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61BB78F48
+	for <linux-sunxi@lists.linux.dev>; Tue, 25 Jun 2024 00:29:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719271386; cv=none; b=ZBQ7UH5+Pb4iaw33GOYlbijxcaBckzSZWpFaUGm5HFEER6Sn3vrXnlIfEL8ORzlup6nrQJRb4l6kFuugQC9jOkqwB0k8EbehcjjmFScPslRg9fLa0y2c2Ji2a6ZMYxd5sXrqKrEpr7xr65fdlhtQTPF8rN0Cyct1arDhpzaK9Ho=
+	t=1719275372; cv=none; b=g25FjJY5cjgHhzvn5f7b+m3c8Z96Bb6OS1fNUbB+vfa6FMfg2WE9WlnGHG8MBZ9Pf2yHVpOJXKBN5wpzvFMJSEYu+8tAiiOKVBpI5O8TLV4FlQ9DG1YOg3/JoVCpjJRrMRoM+DkXisiZCdccTZeP8MZQDsg4XK0ObiR1DT4ifwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719271386; c=relaxed/simple;
-	bh=KvmbdydXpOos6pQj7PzGDoZI5wEE4oJZr9Q2b/564JQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=gupMK45ntUXGFSlWju8WgkU4yFGSRZP7dUB0EDKh15XFj8bWHdtRat3K7pn2foZ1ou12FmdvScHN8ks/SNl0z732xE4dttG/2JYXoNGsQJ1qsjX9fHywqhmAWg5tONPxLBCVRCVcHNQoN3zv7qHky2ziTYA9NaO6hgIZYaYtPvk=
+	s=arc-20240116; t=1719275372; c=relaxed/simple;
+	bh=1lkK1eSJH8YEwiH1rXj6tpqkEIhAMYbyX+ng9kqMoy0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EmdTwI/oOnjXEjVIYrwNpUjR5LPja0VT/b9fJCSne1BDusGLcmv7KJaY5iE80Pwx8U4iE6Ys7pBz6K5Upt7NrBRve3Pfnulk9lGtY3gU7hEido+MMsWjyCNTTJwpc9X+AV0XB23mBsAnQcOQS3DCBOSH95VJ1SraXwsT2aUfZ9M=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 687B7DA7;
-	Mon, 24 Jun 2024 16:23:29 -0700 (PDT)
-Received: from localhost.localdomain (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8797A3F766;
-	Mon, 24 Jun 2024 16:23:02 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 526AF339;
+	Mon, 24 Jun 2024 17:29:53 -0700 (PDT)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D6DA03F6A8;
+	Mon, 24 Jun 2024 17:29:25 -0700 (PDT)
+Date: Tue, 25 Jun 2024 01:27:43 +0100
 From: Andre Przywara <andre.przywara@arm.com>
-To: Corentin Labbe <clabbe.montjoie@gmail.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S . Miller" <davem@davemloft.net>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: Ryan Walklin <ryan@testtoast.com>,
-	Philippe Simons <simons.philippe@gmail.com>,
-	linux-crypto@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	devicetree@vger.kernel.org
-Subject: [PATCH v2 4/4] arm64: dts: allwinner: h616: add crypto engine node
-Date: Tue, 25 Jun 2024 00:21:10 +0100
-Message-Id: <20240624232110.9817-5-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.39.4
-In-Reply-To: <20240624232110.9817-1-andre.przywara@arm.com>
-References: <20240624232110.9817-1-andre.przywara@arm.com>
+To: Ryan Walklin <ryan@testtoast.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
+ Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Michael
+ Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Chris
+ Morgan <macroalpha82@gmail.com>, John Watts <contact@jookia.org>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-clk@vger.kernel.org
+Subject: Re: [PATCH 01/23] drm: sun4i: de2/de3: Change CSC argument
+Message-ID: <20240625012743.058e9ece@minigeek.lan>
+In-Reply-To: <20240620113150.83466-2-ryan@testtoast.com>
+References: <20240620113150.83466-1-ryan@testtoast.com>
+	<20240620113150.83466-2-ryan@testtoast.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The Allwinner H616 SoC contains a crypto engine very similar to the H6
-version, but with all base addresses in the DMA descriptors shifted by
-two bits. This requires a new compatible string.
-Also the H616 CE relies on the internal osciallator for the TRNG
-operation, so we need to reference this clock.
+On Thu, 20 Jun 2024 23:29:39 +1200
+Ryan Walklin <ryan@testtoast.com> wrote:
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Hi,
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-index 921d5f61d8d6a..187663d45ed72 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-@@ -113,6 +113,16 @@ soc {
- 		#size-cells = <1>;
- 		ranges = <0x0 0x0 0x0 0x40000000>;
- 
-+		crypto: crypto@1904000 {
-+			compatible = "allwinner,sun50i-h616-crypto";
-+			reg = <0x01904000 0x1000>;
-+			interrupts = <GIC_SPI 91 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_CE>, <&ccu CLK_CE>,
-+				 <&ccu CLK_MBUS_CE>, <&rtc CLK_IOSC>;
-+			clock-names = "bus", "mod", "ram", "trng";
-+			resets = <&ccu RST_BUS_CE>;
-+		};
-+
- 		syscon: syscon@3000000 {
- 			compatible = "allwinner,sun50i-h616-system-control";
- 			reg = <0x03000000 0x1000>;
--- 
-2.39.4
+> From: Jernej Skrabec <jernej.skrabec@gmail.com>
+> 
+> Currently, CSC module takes care only for converting YUV to RGB.
+> However, DE3 is more suited to work in YUV color space. Change CSC mode
+> argument to format type to be more neutral. New argument only tells
+> layer format type and doesn't imply output type.
+> 
+> This commit doesn't make any functional change.
+
+I can confirm that this is indeed just renaming, preparing for the
+intention change (from conversion mode to input type). 
+
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+
+cheers,
+Andre
+
+> ---
+>  drivers/gpu/drm/sun4i/sun8i_csc.c      | 22 +++++++++++-----------
+>  drivers/gpu/drm/sun4i/sun8i_csc.h      | 10 +++++-----
+>  drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 16 ++++++++--------
+>  3 files changed, 24 insertions(+), 24 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_csc.c b/drivers/gpu/drm/sun4i/sun8i_csc.c
+> index 58480d8e4f704..6ebd1c3aa3ab5 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_csc.c
+> +++ b/drivers/gpu/drm/sun4i/sun8i_csc.c
+> @@ -108,7 +108,7 @@ static const u32 yuv2rgb_de3[2][3][12] = {
+>  };
+>  
+>  static void sun8i_csc_set_coefficients(struct regmap *map, u32 base,
+> -				       enum sun8i_csc_mode mode,
+> +				       enum format_type fmt_type,
+>  				       enum drm_color_encoding encoding,
+>  				       enum drm_color_range range)
+>  {
+> @@ -118,12 +118,12 @@ static void sun8i_csc_set_coefficients(struct regmap *map, u32 base,
+>  
+>  	table = yuv2rgb[range][encoding];
+>  
+> -	switch (mode) {
+> -	case SUN8I_CSC_MODE_YUV2RGB:
+> +	switch (fmt_type) {
+> +	case FORMAT_TYPE_YUV:
+>  		base_reg = SUN8I_CSC_COEFF(base, 0);
+>  		regmap_bulk_write(map, base_reg, table, 12);
+>  		break;
+> -	case SUN8I_CSC_MODE_YVU2RGB:
+> +	case FORMAT_TYPE_YVU:
+>  		for (i = 0; i < 12; i++) {
+>  			if ((i & 3) == 1)
+>  				base_reg = SUN8I_CSC_COEFF(base, i + 1);
+> @@ -141,7 +141,7 @@ static void sun8i_csc_set_coefficients(struct regmap *map, u32 base,
+>  }
+>  
+>  static void sun8i_de3_ccsc_set_coefficients(struct regmap *map, int layer,
+> -					    enum sun8i_csc_mode mode,
+> +					    enum format_type fmt_type,
+>  					    enum drm_color_encoding encoding,
+>  					    enum drm_color_range range)
+>  {
+> @@ -151,12 +151,12 @@ static void sun8i_de3_ccsc_set_coefficients(struct regmap *map, int layer,
+>  
+>  	table = yuv2rgb_de3[range][encoding];
+>  
+> -	switch (mode) {
+> -	case SUN8I_CSC_MODE_YUV2RGB:
+> +	switch (fmt_type) {
+> +	case FORMAT_TYPE_YUV:
+>  		addr = SUN50I_MIXER_BLEND_CSC_COEFF(DE3_BLD_BASE, layer, 0);
+>  		regmap_bulk_write(map, addr, table, 12);
+>  		break;
+> -	case SUN8I_CSC_MODE_YVU2RGB:
+> +	case FORMAT_TYPE_YVU:
+>  		for (i = 0; i < 12; i++) {
+>  			if ((i & 3) == 1)
+>  				addr = SUN50I_MIXER_BLEND_CSC_COEFF(DE3_BLD_BASE,
+> @@ -206,7 +206,7 @@ static void sun8i_de3_ccsc_enable(struct regmap *map, int layer, bool enable)
+>  }
+>  
+>  void sun8i_csc_set_ccsc_coefficients(struct sun8i_mixer *mixer, int layer,
+> -				     enum sun8i_csc_mode mode,
+> +				     enum format_type fmt_type,
+>  				     enum drm_color_encoding encoding,
+>  				     enum drm_color_range range)
+>  {
+> @@ -214,14 +214,14 @@ void sun8i_csc_set_ccsc_coefficients(struct sun8i_mixer *mixer, int layer,
+>  
+>  	if (mixer->cfg->is_de3) {
+>  		sun8i_de3_ccsc_set_coefficients(mixer->engine.regs, layer,
+> -						mode, encoding, range);
+> +						fmt_type, encoding, range);
+>  		return;
+>  	}
+>  
+>  	base = ccsc_base[mixer->cfg->ccsc][layer];
+>  
+>  	sun8i_csc_set_coefficients(mixer->engine.regs, base,
+> -				   mode, encoding, range);
+> +				   fmt_type, encoding, range);
+>  }
+>  
+>  void sun8i_csc_enable_ccsc(struct sun8i_mixer *mixer, int layer, bool enable)
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_csc.h b/drivers/gpu/drm/sun4i/sun8i_csc.h
+> index 828b86fd0cabb..7322770f39f03 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_csc.h
+> +++ b/drivers/gpu/drm/sun4i/sun8i_csc.h
+> @@ -22,14 +22,14 @@ struct sun8i_mixer;
+>  
+>  #define SUN8I_CSC_CTRL_EN		BIT(0)
+>  
+> -enum sun8i_csc_mode {
+> -	SUN8I_CSC_MODE_OFF,
+> -	SUN8I_CSC_MODE_YUV2RGB,
+> -	SUN8I_CSC_MODE_YVU2RGB,
+> +enum format_type {
+> +	FORMAT_TYPE_RGB,
+> +	FORMAT_TYPE_YUV,
+> +	FORMAT_TYPE_YVU,
+>  };
+>  
+>  void sun8i_csc_set_ccsc_coefficients(struct sun8i_mixer *mixer, int layer,
+> -				     enum sun8i_csc_mode mode,
+> +				     enum format_type fmt_type,
+>  				     enum drm_color_encoding encoding,
+>  				     enum drm_color_range range);
+>  void sun8i_csc_enable_ccsc(struct sun8i_mixer *mixer, int layer, bool enable);
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+> index f9c0a56d3a148..76e2d3ec0a78c 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+> +++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+> @@ -242,19 +242,19 @@ static int sun8i_vi_layer_update_coord(struct sun8i_mixer *mixer, int channel,
+>  	return 0;
+>  }
+>  
+> -static u32 sun8i_vi_layer_get_csc_mode(const struct drm_format_info *format)
+> +static u32 sun8i_vi_layer_get_format_type(const struct drm_format_info *format)
+>  {
+>  	if (!format->is_yuv)
+> -		return SUN8I_CSC_MODE_OFF;
+> +		return FORMAT_TYPE_RGB;
+>  
+>  	switch (format->format) {
+>  	case DRM_FORMAT_YVU411:
+>  	case DRM_FORMAT_YVU420:
+>  	case DRM_FORMAT_YVU422:
+>  	case DRM_FORMAT_YVU444:
+> -		return SUN8I_CSC_MODE_YVU2RGB;
+> +		return FORMAT_TYPE_YVU;
+>  	default:
+> -		return SUN8I_CSC_MODE_YUV2RGB;
+> +		return FORMAT_TYPE_YUV;
+>  	}
+>  }
+>  
+> @@ -262,7 +262,7 @@ static int sun8i_vi_layer_update_formats(struct sun8i_mixer *mixer, int channel,
+>  					 int overlay, struct drm_plane *plane)
+>  {
+>  	struct drm_plane_state *state = plane->state;
+> -	u32 val, ch_base, csc_mode, hw_fmt;
+> +	u32 val, ch_base, fmt_type, hw_fmt;
+>  	const struct drm_format_info *fmt;
+>  	int ret;
+>  
+> @@ -280,9 +280,9 @@ static int sun8i_vi_layer_update_formats(struct sun8i_mixer *mixer, int channel,
+>  			   SUN8I_MIXER_CHAN_VI_LAYER_ATTR(ch_base, overlay),
+>  			   SUN8I_MIXER_CHAN_VI_LAYER_ATTR_FBFMT_MASK, val);
+>  
+> -	csc_mode = sun8i_vi_layer_get_csc_mode(fmt);
+> -	if (csc_mode != SUN8I_CSC_MODE_OFF) {
+> -		sun8i_csc_set_ccsc_coefficients(mixer, channel, csc_mode,
+> +	fmt_type = sun8i_vi_layer_get_format_type(fmt);
+> +	if (fmt_type != FORMAT_TYPE_RGB) {
+> +		sun8i_csc_set_ccsc_coefficients(mixer, channel, fmt_type,
+>  						state->color_encoding,
+>  						state->color_range);
+>  		sun8i_csc_enable_ccsc(mixer, channel, true);
 
