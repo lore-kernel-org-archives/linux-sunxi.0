@@ -1,66 +1,125 @@
-Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D986F14D452;
-	Tue, 25 Jun 2024 12:13:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719317601; cv=none; b=F2j4GVPR++qngNqCS8bkxfexPIoaFUynRdUctewq9m099nqOKTGOzw4X6hF+0EIJ/ag4G9ytPGW9Avie4YovW/74jeNLJfkVsKHOHEk9DOFn6Uu4OM5zlpbrNbPNWPEkH9IJGcvPCovCF6ub0yOYpnG+YGqWGLsLLhTfM8gUg7g=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719317601; c=relaxed/simple;
-	bh=rwwaCkbojUUBIL2Bhzi9mHZ58AJL4vjRYVsvvoAUIL8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kpchatqq6obzntTVJOwD1VcKxJxqT0Z35a2oIin9s3plQ+GWCTu9nMq2l2vL6M/JDgumQhR1M0xNjmMdnJUOn4xUU/7+KCp+IsO7flEKhXD5W7s7BxYuB1sNtr2a+Nq+N7bhJXPbEffh7mEnehS67cYWbGRJ3Z8IU4jABkFXCms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=xrwqItSk; arc=none smtp.client-ip=85.214.250.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="xrwqItSk"
-Received: from 8bytes.org (p200300f6af01e500c6341f51fa179db0.dip0.t-ipconnect.de [IPv6:2003:f6:af01:e500:c634:1f51:fa17:9db0])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id A62701C8629;
-	Tue, 25 Jun 2024 14:03:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-	s=default; t=1719317005;
-	bh=rwwaCkbojUUBIL2Bhzi9mHZ58AJL4vjRYVsvvoAUIL8=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34A89149013
+	for <linux-sunxi@lists.linux.dev>; Tue, 25 Jun 2024 14:03:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1719324192; cv=none; b=QhALBOZ73Be5Q2uqHKWGqCykRdswgUuxmwtLM2yGLKR6kozYdPoZB1jWSx9+XQ9a1uRx7p/u1IRepLpiuzRVQvBmJoD3BBY1iF3oelzrJmFpwJSwUUem2PnOmgD58Uu9SMPGIZYKPWEsQOGSmm8pYIz1jzvfNw8TsmqvkW99rYU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1719324192; c=relaxed/simple;
+	bh=V37rgaDjZ1ezglb3IQFrAF0GhRw76BLbLiVDqcYjFbw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VBnI0JN26OdLLbE88u5QtZXephNfGgS72giSSyMAvMchcQThjgtahUgj1onP2rIjRRb//jZLJF02pW/9w8Bm+K1SZr2OEq4G9ojsJN024OA7T92n3EayDxiX0CkWf5M2vlbWhIJiPwqq9CkdfexaE1z+TsXfNTjJf5YvV1fROyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=gdlmujqM; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="gdlmujqM"
+Received: from pendragon.ideasonboard.com (unknown [193.209.96.36])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 58408C62;
+	Tue, 25 Jun 2024 16:02:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1719324166;
+	bh=V37rgaDjZ1ezglb3IQFrAF0GhRw76BLbLiVDqcYjFbw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=xrwqItSknzqGvT3hLlhTmW3emfK2fJ6jRBfhLvjtUP8kVdAwdVEMAyLjK33Xjp6z9
-	 CznaOmFm4vS56uJGzAgmj43+d/3SDj0gAYoEtIzmLK1XaVAo0wNzZmpJDUtZ9o+mCO
-	 8fYP7cL3hC/24H6eYy/jzRIicv8q0xgx8EIE+PylSsR9dzPtadY5VzfsOwgCWUEVUz
-	 KSV0BYhM6fcYHpyUw6/CoTrDiiYBFXInVyJhJ/TrwlyxPcrkzugiyXjILqWQh/e/Da
-	 PkL844/IqULAqG849J6uWMD/rdREz2J3yW8eHAuam22uqWmdHZT8v8ODGrbYMRlnEw
-	 n8ChZ8wsL9iOw==
-Date: Tue, 25 Jun 2024 14:03:24 +0200
-From: Joerg Roedel <joro@8bytes.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Rob Herring <robh@kernel.org>,
-	Chris Morgan <macromorgan@hotmail.com>,
-	Ryan Walklin <ryan@testtoast.com>,
-	Philippe Simons <simons.philippe@gmail.com>, iommu@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 0/5] iommu: sun50i: Add Allwinner H616 support
-Message-ID: <ZnqyDLMzND_qJiOl@8bytes.org>
-References: <20240616224056.29159-1-andre.przywara@arm.com>
+	b=gdlmujqMN/D9EoYfUwffHVy69EpMvcCo3kiWYNJgZN1xjlyH+lBKXqLQ/CMDGh4Zl
+	 AAoAqG6K7DxwDD4PwxF21mVdL7Z8jGvp5fdeoT56ZeCJZOMkzuX9BNpYCtCzDgLAgE
+	 LibnCYH7W3rAQJOGhiu81njEVXnDpuxgiGpRVThM=
+Date: Tue, 25 Jun 2024 17:02:47 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	Eugen Hristev <eugen.hristev@collabora.com>,
+	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: Re: [PATCH 4/8] media: v4l2-subdev: Refactor warnings in
+ v4l2_subdev_link_validate()
+Message-ID: <20240625140247.GC30459@pendragon.ideasonboard.com>
+References: <20240619012356.22685-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20240619012356.22685-5-laurent.pinchart+renesas@ideasonboard.com>
+ <ZncAJRoydaWoxGRj@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240616224056.29159-1-andre.przywara@arm.com>
+In-Reply-To: <ZncAJRoydaWoxGRj@valkosipuli.retiisi.eu>
 
-On Sun, Jun 16, 2024 at 11:40:51PM +0100, Andre Przywara wrote:
->  .../bindings/iommu/allwinner,sun50i-h6-iommu.yaml |  7 ++++++-
->  arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi    |  9 +++++++++
->  drivers/iommu/sun50i-iommu.c                      | 15 +++++++++++++--
->  3 files changed, 28 insertions(+), 3 deletions(-)
+On Sat, Jun 22, 2024 at 04:47:33PM +0000, Sakari Ailus wrote:
+> Hi Laurent,
+> 
+> Thanks for the patch.
+> 
+> On Wed, Jun 19, 2024 at 04:23:52AM +0300, Laurent Pinchart wrote:
+> > The v4l2_subdev_link_validate() function prints a one-time warning if it
+> > gets called on a link whose source or sink is not a subdev. As links get
+> > validated in the context of their sink, a call to the helper when the
+> > link's sink is not a subdev indicates that the driver has set its
+> > .link_validate() handler to v4l2_subdev_link_validate() on a non-subdev
+> > entity, which is a clear driver bug. On the other hand, the link's
+> > source not being a subdev indicates that the helper is used for a subdev
+> > connected to a video output device, which is a lesser issue, if only
+> > because this is currently common practice.
+> > 
+> > There are no drivers left in the kernel that use
+> > v4l2_subdev_link_validate() in a context where it may get called on a
+> > non-subdev sink. Replace the pr_warn_once() with a WARN_ON() in this
+> > case to make sure that new offenders won't be introduced.
+> > 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > ---
+> >  drivers/media/v4l2-core/v4l2-subdev.c | 14 +++++++++-----
+> >  1 file changed, 9 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> > index 4f71199bf592..2d5e39c79620 100644
+> > --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> > @@ -1451,11 +1451,15 @@ int v4l2_subdev_link_validate(struct media_link *link)
+> >  	bool states_locked;
+> >  	int ret;
+> >  
+> > -	if (!is_media_entity_v4l2_subdev(link->sink->entity) ||
+> > -	    !is_media_entity_v4l2_subdev(link->source->entity)) {
+> > -		pr_warn_once("%s of link '%s':%u->'%s':%u is not a V4L2 sub-device, driver bug!\n",
+> > -			     !is_media_entity_v4l2_subdev(link->sink->entity) ?
+> > -			     "sink" : "source",
+> > +	/*
+> > +	 * Links are validated in the context of the sink entity. Usage of this
+> > +	 * helper on a sink that is not a subdev is a clear driver bug.
+> > +	 */
+> > +	if (WARN_ON(!is_media_entity_v4l2_subdev(link->sink->entity)))
+> > +		return -EINVAL;
+> 
+> WARN*() is nowadays deprecated.
 
-Applied, thanks.
+Why so ? I've followed a recent discussion where some people pointed out
+they disliked WARN*() due to panic-on-warn, but I didn't see any
+conclusion there that deprecated WARN*().
+
+> Could you continue to use pr_warn_once()
+> for this (or dev_warn_one())?
+
+I think a WARN_ON() is the right option here. A failure indicates a
+clear driver bug, we should be as loud as possible to make sure it gets
+noticed during development.
+
+> > +
+> > +	if (!is_media_entity_v4l2_subdev(link->source->entity)) {
+> > +		pr_warn_once("source of link '%s':%u->'%s':%u is not a V4L2 sub-device, driver bug!\n",
+> >  			     link->source->entity->name, link->source->index,
+> >  			     link->sink->entity->name, link->sink->index);
+> >  		return 0;
+
+-- 
+Regards,
+
+Laurent Pinchart
