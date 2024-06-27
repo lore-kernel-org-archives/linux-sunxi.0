@@ -1,90 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60E7D1E877;
-	Thu, 27 Jun 2024 14:02:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B02319A28A
+	for <linux-sunxi@lists.linux.dev>; Thu, 27 Jun 2024 17:51:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719496959; cv=none; b=ciVaMIh35Vh/Yqed2Wn8C2KJ/X4IBa+QBjpyB5bpbzejhtjdVebmKcmUC92yZH4qU1RiMOVdF7QGGur69yIVmPfm+FlFaA0moIRl6tww8jZSguYeSWP1onhdW1tfoGm4QrCVlJBgzdgSKjk8M4lNTrX67hEMZw8Cznl35LXVpMU=
+	t=1719510684; cv=none; b=EHu3cexOaCcc+1Y3tgsMrBU+lia1lQA6v736yMEOl+XOMNYpwNvxcYVFwEICR6jxGc+OQ8xNErVqgjawetxRHQ46rLvk0G5Fk8tpR8Dy/q0FdQXpO5F/RVANnB1BSMEUVAUxaspb0CqiMMmh3unS4ov3WqJUHnPqaFUr61mvO30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719496959; c=relaxed/simple;
-	bh=NlfmYxXweTu4GycRr5v1NpDz0wE5/WmiEEwdYxjqKyE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TusmO8m0MwBsgeIEYXYe60tCKIeHUdw8i1FDc8JkyfiolSIqBeA2mPk1JAPTZ+UbwsL8rSPbVBXg1XtNa4QLzk4YigDfh0Ju+E9TC6XuiIGQw6bkLZrb1JrkOiZcBDdBQATwMWzLKCLPX6ks1rnZTSUHoArcchi6jOiXNJfSXDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JgA9pFmC; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JgA9pFmC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C16A0C2BBFC;
-	Thu, 27 Jun 2024 14:02:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719496958;
-	bh=NlfmYxXweTu4GycRr5v1NpDz0wE5/WmiEEwdYxjqKyE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=JgA9pFmCzNcPyiCzHwyhgl7NadroOg386k75KRZcJPEBs3PRMBYa6Y/q7oJdFlnbP
-	 3jWJTseVKfvI0odYX/IqqaqrWGaGs7O9ztzA2735AZKSw5XoTaJzXOnP6o0cHZ+3lN
-	 O9eMp02B7xqd742eSNQd1bBqPavaGbHs+YEW7FqRT+DZERPv3ELlmMCMPV7Mxflxsl
-	 spzAXxT2WG7KeoxK/zo/NwYLFDScSuijtkrCCJY+ZDmlZOBMIyvrHKHY8Uz6OBrOMJ
-	 6aVQD7Zrh/81IJsYxvfaobmv0s6K23mf2FXWpKBZ7M2XuY/Zp0Xmm3cX5OC2Tk5Q2k
-	 F/uwRN7UlPx+w==
-Received: by wens.tw (Postfix, from userid 1000)
-	id D27F05FB64; Thu, 27 Jun 2024 22:02:36 +0800 (CST)
-From: Chen-Yu Tsai <wens@kernel.org>
-To: Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Andre Przywara <andre.przywara@arm.com>
-Cc: Chen-Yu Tsai <wens@csie.org>,
-	Chris Morgan <macromorgan@hotmail.com>,
-	Ryan Walklin <ryan@testtoast.com>,
-	Philippe Simons <simons.philippe@gmail.com>,
-	iommu@lists.linux.dev,
-	devicetree@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: (subset) [PATCH v2 0/5] iommu: sun50i: Add Allwinner H616 support
-Date: Thu, 27 Jun 2024 22:02:32 +0800
-Message-Id: <171949688960.1165598.14192419848748890768.b4-ty@csie.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240616224056.29159-1-andre.przywara@arm.com>
-References: <20240616224056.29159-1-andre.przywara@arm.com>
+	s=arc-20240116; t=1719510684; c=relaxed/simple;
+	bh=EdawJHuOqiQcN1Jc5GTtGiguPFhxdTyTM6kSrMQxQWI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mtRsuqVR3zv8L7gM046ESKUdH6d7JDRZriYuoRnOYLX+6wDqL+lj7FsVi0nhX1Ae8LBwSOooW1/IiMI/f4hYxAQHDQP6hWyoZGsVzB9QIUq2wdmmaIaGR6c7krUG5jHX0vnTrAG+mXXE66GEMtJmp83YxOWmGa9bDQC0nmYoBHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-52ccc40e72eso6153640e87.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 27 Jun 2024 10:51:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719510679; x=1720115479;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=EdawJHuOqiQcN1Jc5GTtGiguPFhxdTyTM6kSrMQxQWI=;
+        b=kPyLIKaKp/sADKtlWKVeM8hXxW9Xfc1XZ1k3PQ2M+5yx8SuHNowstdlrOy8cF8zpiF
+         as87zTZm2TMIFPv3iEYsCA+vviWUnlbY9mipQedc0/OyID5COlTTUkCChhPBnXa1sUiX
+         Qz4j5o1LDTBtLf6RD1jUk4npa2fFq+1azWfT3ESsjAUrbgNuEXpcySbBtL3fEMilBJ2/
+         /QWOSTRjadi+FUq8IdhGZYhddnQLY2LFobLqFSTX+Jhvkllu/kY+Eq+Rez5spzd/kMAw
+         6fXojSD52HQScliXfszJ/1ol2HIg4+AAY4I1wyttF5pmJFzoKkUYysyL6ok8cXMf/HLU
+         cxpQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXXYK1eylQHkXBef6IKwzQoaRirf/SIUr+D4JgCgfkox5KNLv9NZq01qUXXGA7J5LYgM5svbxev8qR0tb87OoVLLkZ0jOn84Ot1f0Y=
+X-Gm-Message-State: AOJu0YyKfp4gCT9ehskIHbvZlKNcYLHF40LnLeL7IiiTx3dgmut/9D7X
+	tyIfRlicq423UaSk1Zb85DwvkAVc09FAcjAk0+ehHO36fqntUT0zHukvEOAZ
+X-Google-Smtp-Source: AGHT+IH0YS3MCSCKD6CzpYu8eTigs7OC/UQQyAHwWecuXzfmznJiwLTA0lqUuvUv4FOVPaHEhWML9w==
+X-Received: by 2002:a05:6512:1cb:b0:52c:dd59:6784 with SMTP id 2adb3069b0e04-52ce183c00bmr11674887e87.40.1719510679054;
+        Thu, 27 Jun 2024 10:51:19 -0700 (PDT)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com. [209.85.208.177])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52e7ab31676sm3695e87.243.2024.06.27.10.51.18
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Jun 2024 10:51:18 -0700 (PDT)
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2ebe0a81dc8so109771511fa.2
+        for <linux-sunxi@lists.linux.dev>; Thu, 27 Jun 2024 10:51:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCV+OkKTyaDlJJYdla5BsqIzpAC6xDe7hX5xDUnl+PknSW3u1xxxIVQD5HrPzI48cyvQ5nKe3196rT84H8dvqiz5OB0B/rmC5oXGHmY=
+X-Received: by 2002:a2e:904b:0:b0:2ec:2993:4363 with SMTP id
+ 38308e7fff4ca-2ec5b31a31bmr99240051fa.25.1719510678740; Thu, 27 Jun 2024
+ 10:51:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
+References: <20240624232110.9817-1-andre.przywara@arm.com> <20240624232110.9817-3-andre.przywara@arm.com>
+In-Reply-To: <20240624232110.9817-3-andre.przywara@arm.com>
+Reply-To: wens@csie.org
 From: Chen-Yu Tsai <wens@csie.org>
+Date: Fri, 28 Jun 2024 01:51:06 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64mzJAKwupzmVnggw30z7ZqquDDL3Fu9gTYpED3aJXEdQ@mail.gmail.com>
+Message-ID: <CAGb2v64mzJAKwupzmVnggw30z7ZqquDDL3Fu9gTYpED3aJXEdQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] crypto: sun8i-ce - wrap accesses to descriptor
+ address fields
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Corentin Labbe <clabbe.montjoie@gmail.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	"David S . Miller" <davem@davemloft.net>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Ryan Walklin <ryan@testtoast.com>, Philippe Simons <simons.philippe@gmail.com>, 
+	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, 16 Jun 2024 23:40:51 +0100, Andre Przywara wrote:
-> Version two of this series adds a check that no physical address larger
-> than 4GB makes it into the PTEs: the map_pages() function returns an
-> error and prints a warning into dmesg to give users a clue why this
-> failed. I haven't tested whether this really happens, or whether the
-> 32-bit DMA mask of the master devices already prevents this. In the
-> worst case this might fail on devices with 4GB of DRAM, but would always
-> work on smaller devices, which are arguably under bigger pressure to
-> find contiguous PA ranges. Changelog below.
-> ===========================================
-> 
-> [...]
+On Tue, Jun 25, 2024 at 7:23=E2=80=AFAM Andre Przywara <andre.przywara@arm.=
+com> wrote:
+>
+> The Allwinner H616 (and later) SoCs support more than 32 bits worth of
+> physical addresses. To accommodate the larger address space, the CE task
+> descriptor fields holding addresses are now encoded as "word addresses",
+> so take the actual address divided by four.
+> This is true for the fields within the descriptor, but also for the
+> descriptor base address, in the CE_TDA register.
+>
+> Wrap all accesses to those fields in a function, which will do the
+> required division if needed. For now this in unused, so there should be
+> no change in behaviour.
+>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
-Applied to sunxi/dt-for-6.11 in sunxi/linux.git, thanks!
-
-[5/5] arm64: dts: allwinner: h616: add IOMMU node
-      https://git.kernel.org/sunxi/linux/c/0c85e2e377c3
-
-FTR, I moved the IOMMU device node after the GIC node so the nodes are
-properly ordered.
-
-
-Best regards,
--- 
-Chen-Yu Tsai <wens@csie.org>
+Reviewed-by: Chen-Yu Tsai <wens@csie.org>
