@@ -1,178 +1,113 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13EA446453
-	for <linux-sunxi@lists.linux.dev>; Fri, 28 Jun 2024 07:08:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B44F152530
+	for <linux-sunxi@lists.linux.dev>; Fri, 28 Jun 2024 09:40:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719558501; cv=none; b=b7EV7DCxLlpGr+1lw6v/xgFYZWHf+2gWEBtVN2CJ0D9DUszBWewP4iYZ288y+8I8VCm/DLgxADMkNldcnA01b8mfONFYZwY9gpeaIm9OPpXF00Q3egc4y1xtArHOGCkcWJ++qkwNYC8ld3uvf9RWBgB/EduVP1J3JvgQR1R8lUQ=
+	t=1719567609; cv=none; b=Wx2zrC6fGasg/X3O/MJQ7ahDdMu5uF4UnyXH8H/nQX8A0FMfQFEKt6n3qNOQxD4ZJKjWjwTms/GDqIhBL2rZrXZzkyO4th+XU4rGxxjYeDtrk8m6Q2ny4cfbob5gCYxViJiA7nXljmdYjSOOfSFohknA3jzqnlbrnC7ovLIXRFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719558501; c=relaxed/simple;
-	bh=IW4BvU+WtkslLV6DlrajbdSUd/DH91yJLMPSAG8b9zg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aDATsMcMfxHOqsX8QlB5A3vjExX8V++1UkGhypNNXo3l6XyD6xhZIfwVEpvWfHRpIxrq68tNXdl7XNlY/C+cNC4U6EgrW2jST8/dEgp+mRtO7Vt8smplAQk7Xoq3G4xMwiFppIS6kqXqkm+YEFBXd1gtfkXJhR4sZkkTAE39FxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-52cdfb69724so318052e87.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 28 Jun 2024 00:08:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719558496; x=1720163296;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Zo3VHVTl7gNC6GGZIm3/Sa7uX+11Aj0WDxqixq9tZw0=;
-        b=p+0uvCANjnJm5Od9pakogafuJVZkS+ZCcyv672mRxI6DuQFcluPvJOPc4rGQ0n+JnI
-         StTZH5R/TIQUHJcbXYpSDxIZwuDsWUOesAQedxiXCV58j4s3iz5rByf6lAtazh+EpaB+
-         zbTMm92U4aqReoSCR5N2VgNEmhXnm0ERnuW2p0kYnGuVKLrRl6k3Mh5Q1Ht/lKMNmNKb
-         9NpRAmVjfvfgeqJpGM3hgdGmnfI43uDGx2XVwY5CsulYD/6D1+kWfz+U9O1QAcx3P8F+
-         e2ol6Bg12pYd0I77ubjAhfYgFOaEcglAqtjsXqV3nKiJKOWa/JWQgLVdoN9/8J0A4M3g
-         iK8A==
-X-Forwarded-Encrypted: i=1; AJvYcCUEZHjFkonY7bJR+obFSeTy/TDrerH9/XKLBpGhYdB5HHN0XRmo08eoyfHF28fGghwf/3VudZAaW9yBCtufnD+M+xtiiQwbQh0pZLU=
-X-Gm-Message-State: AOJu0Yx1JfP7wLJ9Ih+c7sPOfWSB+eE/Iq7XpHSlIB+lHSrrRiV4SFl0
-	gWxiL+UmKmH5Caa/DN6bbDLIWOC7h69rb6aCTIdNz9I1+/0AFCrKxq2XlCDmzBo=
-X-Google-Smtp-Source: AGHT+IFguRyqbBEMt8fVkt53ET1YiNjawS5P3nqqSyUaGtQhzc+CF8K+Us0G1ZFplBIM9MtgcPe/8A==
-X-Received: by 2002:a05:6512:2394:b0:52c:d84c:1182 with SMTP id 2adb3069b0e04-52ce1862c12mr11626790e87.64.1719558495996;
-        Fri, 28 Jun 2024 00:08:15 -0700 (PDT)
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com. [209.85.208.171])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52e7ab0bad6sm185177e87.6.2024.06.28.00.08.14
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Jun 2024 00:08:14 -0700 (PDT)
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2ee4ae13aabso2338061fa.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 28 Jun 2024 00:08:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWfPAy+OGMsJ5FqI97ml3Bhb4VCvwfWbACe1sLU+2nhvl+crRH5TOTC4fL2NEM5XY3VzuJaVbovQ8g/F1ffiYcUYmyJxzmTa8pPZPc=
-X-Received: by 2002:a05:651c:1991:b0:2ec:5bb2:c230 with SMTP id
- 38308e7fff4ca-2ec5bb2c26bmr125219161fa.12.1719558494097; Fri, 28 Jun 2024
- 00:08:14 -0700 (PDT)
+	s=arc-20240116; t=1719567609; c=relaxed/simple;
+	bh=vwWYuw8MReSjhj/uWrhsSw093dCcYZAc3JIqgm9h7vs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=j+uRkXIk257XTTpvqBqbxG7dKabuS0Ku8qUWG8YISt79gSO8s7SM06Rgrjhy/BIdoPHT6vSQ8SohCgXnKJPT2t69+2ZIcJjhSRGNjjd0dyns6RlrN5PjmhZk65vdPJ1NeUkQqxVZ8gKhEK7fMQX+v7zukHorgdjNuCqlarjiry0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D8EEB106F;
+	Fri, 28 Jun 2024 02:30:38 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F0FEF3F6A8;
+	Fri, 28 Jun 2024 02:30:11 -0700 (PDT)
+Date: Fri, 28 Jun 2024 10:30:07 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Chen-Yu Tsai <wens@csie.org>
+Cc: Corentin Labbe <clabbe.montjoie@gmail.com>, Herbert Xu
+ <herbert@gondor.apana.org.au>, "David S . Miller" <davem@davemloft.net>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+ <samuel@sholland.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Ryan Walklin
+ <ryan@testtoast.com>, Philippe Simons <simons.philippe@gmail.com>,
+ linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 4/4] arm64: dts: allwinner: h616: add crypto engine
+ node
+Message-ID: <20240628103007.6ea3685c@donnerap.manchester.arm.com>
+In-Reply-To: <CAGb2v67qo7qgf2uzBAUf9-C9NHrHG47mLc579NRkTO7qLDtV7Q@mail.gmail.com>
+References: <20240624232110.9817-1-andre.przywara@arm.com>
+	<20240624232110.9817-5-andre.przywara@arm.com>
+	<CAGb2v67qo7qgf2uzBAUf9-C9NHrHG47mLc579NRkTO7qLDtV7Q@mail.gmail.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240628061929.89273-2-u.kleine-koenig@baylibre.com>
-In-Reply-To: <20240628061929.89273-2-u.kleine-koenig@baylibre.com>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Fri, 28 Jun 2024 15:08:02 +0800
-X-Gmail-Original-Message-ID: <CAGb2v67m7y2E1Kq8PM9AFYZvBas_kW4k_ihpY42nBTOqZqWJmQ@mail.gmail.com>
-Message-ID: <CAGb2v67m7y2E1Kq8PM9AFYZvBas_kW4k_ihpY42nBTOqZqWJmQ@mail.gmail.com>
-Subject: Re: [PATCH] PM / devfreq: sun8i-a33-mbus: Make use of devm_ functions
- for clks
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: MyungJoo Ham <myungjoo.ham@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
-	Chanwoo Choi <cw00.choi@samsung.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, linux-pm@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 28, 2024 at 2:19=E2=80=AFPM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@baylibre.com> wrote:
->
-> Using devm_clk_get_enabled() and devm_clk_rate_exclusive_get() allows to
-> simplify the error paths in .probe() and the remove callback.
->
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com>
+On Fri, 28 Jun 2024 01:54:00 +0800
+Chen-Yu Tsai <wens@csie.org> wrote:
 
-Reviewed-by: Chen-Yu Tsai <wens@csie.org>
+Hi Chen-Yu,
 
-> ---
->  drivers/devfreq/sun8i-a33-mbus.c | 38 +++++++++-----------------------
->  1 file changed, 10 insertions(+), 28 deletions(-)
->
-> diff --git a/drivers/devfreq/sun8i-a33-mbus.c b/drivers/devfreq/sun8i-a33=
--mbus.c
-> index bcf654f4ff96..4c179d7ddf0b 100644
-> --- a/drivers/devfreq/sun8i-a33-mbus.c
-> +++ b/drivers/devfreq/sun8i-a33-mbus.c
-> @@ -360,7 +360,7 @@ static int sun8i_a33_mbus_probe(struct platform_devic=
-e *pdev)
->         if (IS_ERR(priv->reg_mbus))
->                 return PTR_ERR(priv->reg_mbus);
->
-> -       priv->clk_bus =3D devm_clk_get(dev, "bus");
-> +       priv->clk_bus =3D devm_clk_get_enabled(dev, "bus");
->         if (IS_ERR(priv->clk_bus))
->                 return dev_err_probe(dev, PTR_ERR(priv->clk_bus),
->                                      "failed to get bus clock\n");
-> @@ -375,24 +375,17 @@ static int sun8i_a33_mbus_probe(struct platform_dev=
-ice *pdev)
->                 return dev_err_probe(dev, PTR_ERR(priv->clk_mbus),
->                                      "failed to get mbus clock\n");
->
-> -       ret =3D clk_prepare_enable(priv->clk_bus);
-> +       /* Lock the DRAM clock rate to keep priv->nominal_bw in sync. */
-> +       ret =3D devm_clk_rate_exclusive_get(dev, priv->clk_dram);
->         if (ret)
->                 return dev_err_probe(dev, ret,
-> -                                    "failed to enable bus clock\n");
-> -
-> -       /* Lock the DRAM clock rate to keep priv->nominal_bw in sync. */
-> -       ret =3D clk_rate_exclusive_get(priv->clk_dram);
-> -       if (ret) {
-> -               err =3D "failed to lock dram clock rate\n";
-> -               goto err_disable_bus;
-> -       }
-> +                                    "failed to lock dram clock rate\n");
->
->         /* Lock the MBUS clock rate to keep MBUS_TMR_PERIOD in sync. */
-> -       ret =3D clk_rate_exclusive_get(priv->clk_mbus);
-> -       if (ret) {
-> -               err =3D "failed to lock mbus clock rate\n";
-> -               goto err_unlock_dram;
-> -       }
-> +       ret =3D devm_clk_rate_exclusive_get(dev, priv->clk_mbus);
-> +       if (ret)
-> +               return dev_err_probe(dev, ret,
-> +                                    "failed to lock mbus clock rate\n");
->
->         priv->gov_data.upthreshold      =3D 10;
->         priv->gov_data.downdifferential =3D  5;
-> @@ -405,10 +398,8 @@ static int sun8i_a33_mbus_probe(struct platform_devi=
-ce *pdev)
->         priv->profile.max_state         =3D max_state;
->
->         ret =3D devm_pm_opp_set_clkname(dev, "dram");
-> -       if (ret) {
-> -               err =3D "failed to add OPP table\n";
-> -               goto err_unlock_mbus;
-> -       }
-> +       if (ret)
-> +               return dev_err_probe(dev, ret, "failed to add OPP table\n=
-");
->
->         base_freq =3D clk_get_rate(clk_get_parent(priv->clk_dram));
->         for (i =3D 0; i < max_state; ++i) {
-> @@ -448,12 +439,6 @@ static int sun8i_a33_mbus_probe(struct platform_devi=
-ce *pdev)
->
->  err_remove_opps:
->         dev_pm_opp_remove_all_dynamic(dev);
-> -err_unlock_mbus:
-> -       clk_rate_exclusive_put(priv->clk_mbus);
-> -err_unlock_dram:
-> -       clk_rate_exclusive_put(priv->clk_dram);
-> -err_disable_bus:
-> -       clk_disable_unprepare(priv->clk_bus);
->
->         return dev_err_probe(dev, ret, err);
->  }
-> @@ -472,9 +457,6 @@ static void sun8i_a33_mbus_remove(struct platform_dev=
-ice *pdev)
->                 dev_warn(dev, "failed to restore DRAM frequency: %d\n", r=
-et);
->
->         dev_pm_opp_remove_all_dynamic(dev);
-> -       clk_rate_exclusive_put(priv->clk_mbus);
-> -       clk_rate_exclusive_put(priv->clk_dram);
-> -       clk_disable_unprepare(priv->clk_bus);
->  }
->
->  static const struct sun8i_a33_mbus_variant sun50i_a64_mbus =3D {
->
-> base-commit: 642a16ca7994a50d7de85715996a8ce171a5bdfb
-> --
-> 2.43.0
->
+> On Tue, Jun 25, 2024 at 7:23=E2=80=AFAM Andre Przywara <andre.przywara@ar=
+m.com> wrote:
+> >
+> > The Allwinner H616 SoC contains a crypto engine very similar to the H6
+> > version, but with all base addresses in the DMA descriptors shifted by
+> > two bits. This requires a new compatible string.
+> > Also the H616 CE relies on the internal osciallator for the TRNG
+> > operation, so we need to reference this clock.
+> >
+> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > ---
+> >  arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi | 10 ++++++++++
+> >  1 file changed, 10 insertions(+)
+> >
+> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm6=
+4/boot/dts/allwinner/sun50i-h616.dtsi
+> > index 921d5f61d8d6a..187663d45ed72 100644
+> > --- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+> > @@ -113,6 +113,16 @@ soc {
+> >                 #size-cells =3D <1>;
+> >                 ranges =3D <0x0 0x0 0x0 0x40000000>;
+> >
+> > +               crypto: crypto@1904000 {
+> > +                       compatible =3D "allwinner,sun50i-h616-crypto";
+> > +                       reg =3D <0x01904000 0x1000>; =20
+>=20
+> The address range only goes up to 0x019047ff. The other half is the
+> secure crypto engine. The other bits look correct.
+
+You are right, the manual restricts CE_NS to 0x019047ff, and we certainly
+use much less registers than that anyway. So good catch!
+
+> I can fix this up when applying, assuming the driver parts get merged
+> in the next few days.
+
+Many thanks, I'd be very grateful if you could fix this up!
+
+Cheers,
+Andre
+
+>=20
+> Chenyu
+>=20
+> > +                       interrupts =3D <GIC_SPI 91 IRQ_TYPE_LEVEL_HIGH>;
+> > +                       clocks =3D <&ccu CLK_BUS_CE>, <&ccu CLK_CE>,
+> > +                                <&ccu CLK_MBUS_CE>, <&rtc CLK_IOSC>;
+> > +                       clock-names =3D "bus", "mod", "ram", "trng";
+> > +                       resets =3D <&ccu RST_BUS_CE>;
+> > +               };
+> > +
+> >                 syscon: syscon@3000000 {
+> >                         compatible =3D "allwinner,sun50i-h616-system-co=
+ntrol";
+> >                         reg =3D <0x03000000 0x1000>;
+> > --
+> > 2.39.4
+> > =20
+
