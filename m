@@ -1,115 +1,123 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2C7C1C8FC5
-	for <linux-sunxi@lists.linux.dev>; Fri, 28 Jun 2024 16:07:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 243B351C4A
+	for <linux-sunxi@lists.linux.dev>; Fri, 28 Jun 2024 18:53:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719590838; cv=none; b=g1rRk2NMpddJNqxf0V7aAw2IFj9hSr0W65YXG7jFlHbYzBkTqgr6Z+rTw4WwauujNnidxjIgWCu/N5MSB2x4mu1Ntyzp1jsQuWSQ/Rgfcmr75WtGz6uNyijnihSXc+79mTn2+aAgKpP907gynoNVypp1jpjQuRQLdYGa4D75u88=
+	t=1719600802; cv=none; b=lqLvwO+b7/EVkt1MKgJqOW3zxo/JjDVfyi3H+wdqFZOi5jAv2ufq1R4zyHidivBV3R79iUrQHY2lWlMVOtLDlBBmJZW6Lb46A8HkJE0mRCBKmY0GEoW2e+xJlGMFwsnigc2jTLvfMUzHYGfM4zsoCh0MkUyVEbonFbkq9fTX0rc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719590838; c=relaxed/simple;
-	bh=hfX+qJVjjcAcXiAhQztZ3+zVRGnspWsdg4Of5y5zZtg=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 Mime-Version:Content-Type; b=axIoGUDIJxvi6GiZN9RDzxoRhUvw7SpvPlUzA3TKbB6JdG9ixofFJ+P2jAZLHYU5UfaUUTd1sfsnGIuNFCGuvx3vJc6Rjczb811qvHEo5Js0fgoaxcsEX8u61h6F/rOhAnBVKbeERpu6Mv6xWuk/zEL2cmycuFrv6a1crDP9Cfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mvwmbhTl; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1719600802; c=relaxed/simple;
+	bh=3p90Zo34Va7EB+3tQPrwwyuFwkq4klv/EZHxixPeugg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=N7TwUsYlkJ5PUBmUCNTuL6G+7GBFyCVh/KQxahyiLF+N4DV6rWxnQjMiy7vgmRO6irNeo9ERlsmm1ioM9EJKcO+GVShCMMyJH15hzvS12l1cHsV2c+7S36f5Vjyqsf4N+S7Mz2Y2RmeIl6HQEoMDAI+mfPMTIGTocD8m9gD8dgs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org; spf=pass smtp.mailfrom=jookia.org; dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b=gPiB1B86; arc=none smtp.client-ip=91.218.175.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jookia.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mvwmbhTl"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-52cdf9f934fso779846e87.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 28 Jun 2024 09:07:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719590835; x=1720195635; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8BLuQHw7XUYh7A6NXygwXg3SOfMQ/2DhzNHBqiquzFk=;
-        b=mvwmbhTlSugEYsoUe9ugnfVCji6rBZdBhZ938VgTz1tlTAndJSv/m39BdokBKgHIHN
-         wnRRZnT/3JAxeZpP69OrY+q5QwwOJk+jbQQWzUs+l1+UvzTuVbrG8A/n00jOiJ8w4XLk
-         7rxK0v5xR4AbbZFpARIAcKVnYgGp1TvqBFCapUH2qdnbPZmE/uRzbMLRv7uOzL78+k8W
-         j875uToqgieG8UMcu09vASreLeW5mLg+YmutjuZTnF0lxFksrBWBzxmJI9ZobYt+O4IY
-         kFShMrd79N9bCNOUbpT92nK8nBXnbnd6BFAZhslHno9RBRU42RNw7Alw2EcQQ1X95ivp
-         MoLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719590835; x=1720195635;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=8BLuQHw7XUYh7A6NXygwXg3SOfMQ/2DhzNHBqiquzFk=;
-        b=j7sE9G67umjIZzIWCueXh2hQ/Pb4LZP5kf8qXGSZ5GVPiNmTjjYk9vdDsve+aI4m4j
-         +S1o352WVcKbEXMG7nzbuUG11WR62pE1so6o4htE7tEk0HNNpaMCOvisxz5oxNQXOkoR
-         p8omndxfBBXQT2tSkCY9dgwdfLVekLQUoDSfJ0jVbRQfu3fcQ/yxxE0Qc3NTdHHJsnA8
-         wUEd4bCwW1wIsROJ8gV5fB4MBhNj7RUEybb7eQ0pPTV29hQD8M1xp4IiRnHzXQxcqN3s
-         Z92HT+XVwmuUQUZcVP49vV9RgLkNpaS5vhkPIrtK86fZZOmnZXxAOK3kXAiGFZIPNpen
-         WTZg==
-X-Forwarded-Encrypted: i=1; AJvYcCW7vvayGhmp7aj7vl36WegojdI5ZFlO0CjV8+btuNlLDL6l/RoxCzORPUSAyGey4+iDM1SGL86bc5bLlNEUvNiGaxloeYN1H/DYypc=
-X-Gm-Message-State: AOJu0Yw8uSNj4GR4uWhqDJQST7vdG4c7KJa+WvdxMTHWjNq3UHD27p5r
-	dVjShpCzLdZ86MXPpg0M9BaaimZGqrtrRITiX5VARNVXVIXZ68o3vjnzcAgP
-X-Google-Smtp-Source: AGHT+IGKtZ27jyLm/4hObT+qQKvkXECnsn/l8exN8++MKWIkS87HhKNrOpgNjyAfe/Lwii2sJwIqVw==
-X-Received: by 2002:a05:6512:3105:b0:52b:b327:9c1c with SMTP id 2adb3069b0e04-52ce068042emr10387590e87.62.1719590834351;
-        Fri, 28 Jun 2024 09:07:14 -0700 (PDT)
-Received: from localhost (host-95-246-50-43.retail.telecomitalia.it. [95.246.50.43])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4256b097c2asm42256035e9.38.2024.06.28.09.07.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Jun 2024 09:07:13 -0700 (PDT)
-Date: Fri, 28 Jun 2024 18:07:12 +0200
-From: Matteo Martelli <matteomartelli3@gmail.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Maxime Ripard <mripard@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Marcus Cooper <codekipper@gmail.com>, 
- =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>, 
- linux-sound@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org
-Message-ID: <667edfb08cbf3_eca1e370ea@njaxe.notmuch>
-In-Reply-To: <d614f04e-3609-48e3-bd30-9e57c69cd94d@sirena.org.uk>
-References: <20240529140658.180966-2-matteomartelli3@gmail.com>
- <20240529140658.180966-3-matteomartelli3@gmail.com>
- <20240606-savvy-wallaby-of-champagne-d4a50e@houat>
- <6662bf1b61bbc_2f51737023@njaxe.notmuch>
- <d614f04e-3609-48e3-bd30-9e57c69cd94d@sirena.org.uk>
-Subject: Re: [PATCH 1/1] ASoC: sunxi: sun4i-i2s: fix LRCLK polarity in i2s
- mode
+	dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b="gPiB1B86"
+X-Envelope-To: linux-sunxi@lists.linux.dev
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
+	t=1719600790;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=ol5vZWmzYCAtuPZvkV2jmiAnvzmCMXUkEioC5JggsN8=;
+	b=gPiB1B86mnE70dlWle33ELiZCWlxK3uL2NGuS12wTJoFk7DW0qoHRufvn35raPdcC/ENqk
+	LmdRP691WwONfx8wP5voen+IpJ2/Shes1KRp4fgZ7KPwi54GhJWvtcr+5C/KxQqPbVg6/3
+	Bz5NwyO2tK7cNeZy+c4hHcTxkHniTncvX+LPMtS2/SaaLGxIB1/SaWmL4NVJgJnJ1Bf6uR
+	5V1DTFASS2eJ5KmXvAedPdJNuY+QGx2W/Wo9sqsuGRVqboK2rNeHdZUQEBes/KoIP01t8T
+	L0dP3ZUHcUEcjQsoqfrIWcpPkS2smu5X4g9GigCbZ7V7KUSMai8RH3DWAvc8qg==
+X-Envelope-To: andre.przywara@arm.com
+X-Envelope-To: jakobl.gm.g@gmail.com
+X-Envelope-To: kirby.nankivell@gmail.com
+X-Envelope-To: contact@paulk.fr
+X-Envelope-To: mripard@kernel.org
+X-Envelope-To: wens@csie.org
+X-Envelope-To: jernej.skrabec@gmail.com
+X-Envelope-To: maarten.lankhorst@linux.intel.com
+X-Envelope-To: tzimmermann@suse.de
+X-Envelope-To: airlied@gmail.com
+X-Envelope-To: daniel@ffwll.ch
+X-Envelope-To: samuel@sholland.org
+X-Envelope-To: dri-devel@lists.freedesktop.org
+X-Envelope-To: linux-arm-kernel@lists.infradead.org
+X-Envelope-To: linux-kernel@vger.kernel.org
+Date: Sat, 29 Jun 2024 04:52:06 +1000
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: John Watts <contact@jookia.org>
+To: linux-sunxi@lists.linux.dev
+Cc: andre.przywara@arm.com, Jakob L <jakobl.gm.g@gmail.com>,
+	"K. James" <kirby.nankivell@gmail.com>,
+	Paul Kocialkowski <contact@paulk.fr>,
+	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Samuel Holland <samuel@sholland.org>,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: T113 TCON Top tinting troubleshooting
+Message-ID: <Zn8GVkpwXwhaUFno@titan>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Migadu-Flow: FLOW_OUT
 
-Mark Brown wrote:
-> On Fri, Jun 07, 2024 at 10:04:43AM +0200, Matteo Martelli wrote:
-> > Maxime Ripard wrote:
-> > > > -	/*
-> > > > -	 * DAI clock polarity
-> > > > -	 *
-> > > > -	 * The setup for LRCK contradicts the datasheet, but under a
-> > > > -	 * scope it's clear that the LRCK polarity is reversed
-> > > > -	 * compared to the expected polarity on the bus.
-> > > > -	 */
-> > > 
-> > > I think we should keep that comment somewhere.
-> > 
-> > I think that keeping that comment would be very misleading since the LRCLK
-> > setup would not contradict the datasheet anymore [1][2].
-> > 
-> > Also, do you recall any details about the mentioned scope test setup? Was i2s
-> > mode tested in that occasion? It would help clarify the situation.
-> > 
-> > Could anyone verify this patch against H3/H6 SoCs?
-> 
-> Any news on any of this?
+Hello,
 
-Not on my side, unfortunately I cannot test the fix against H3/H6 SoCs.
+On the T113 (and most likely the D1) sometimes the RGB LCD output has strange
+artifacts such as:
 
-Matteo Martelli
+- A blue tint
+- A mostly opaque green tint
+- A red tint
+- A pink tint
+
+The actual tint seems to differ between boards or chips, and has some
+probability of showing up that can range from 50% to 90%.
+
+After a week or so of troubleshooting I've managed to figure out what's
+happening here, and I'm not too sure how to fix it.
+
+It appears that the TCON Top on this chip can't mux both mixers to a shared
+output. The R40 (and H6?) allows this and prioritizes the DE0 when muxing, but
+on the T113 it seems to cause graphical artifacts. Disabling DE1 in the
+device tree can help but doesn't solve the problem entirely.
+
+Here's a change that tests this behaviour, it sets DE1 to output to TVE0. DE0
+then outputs to LCD0 as usual. I would appreciate if anyone with this issue can
+test the above workaround on their boards.
+There was a previous discussion here:
+https://groups.google.com/g/linux-sunxi/c/HxDBpY5HbbQ/m/mX2O2OYlCwAJ
+
+---8<--- CUT HERE ---8<---
+
+--- a/drivers/gpu/drm/sun4i/sun8i_tcon_top.c
++++ b/drivers/gpu/drm/sun4i/sun8i_tcon_top.c
+@@ -179,7 +179,7 @@ static int sun8i_tcon_top_bind(struct device *dev, struct device *master,
+ 	 * At least on H6, some registers have some bits set by default
+ 	 * which may cause issues. Clear them here.
+ 	 */
+-	writel(0, regs + TCON_TOP_PORT_SEL_REG);
++	writel(0x20, regs + TCON_TOP_PORT_SEL_REG);
+ 	writel(0, regs + TCON_TOP_GATE_SRC_REG);
+ 
+ 	/*
+
+---8<--- CUT HERE ---8<---
+
+The sunxi display code works around this issue by ensuring DE0 and DE1 never
+map to the same output: If you have DE0 set to TVE0 and DE1 set to LCD0,
+then tell it to set DE0 to LCD0, it will silently swap TVE0 on to DE1. 
+
+I'm probably going to send a patch that copies this behaviour as it
+should just work, but I'd be interested to see if there's anything I'm
+missing.
+
+John.
