@@ -1,121 +1,171 @@
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5871E13F441
-	for <linux-sunxi@lists.linux.dev>; Thu, 27 Jun 2024 17:54:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAFC34CE04
+	for <linux-sunxi@lists.linux.dev>; Fri, 28 Jun 2024 06:19:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719510861; cv=none; b=gzkj/aa/axqbTwdw5KqpQo2t9QPOGIII2la6da+6+8WTJOPXYes7Pd7uSVp33EhA2DS/wFpASGWmRVCysxJ1EpUNsc0peZvuLxo/nuYIyVp4C8a5bm8ZGJAyzOugzENgsA3AOyi4gTKrt4ILTmk+tCMH0XnKXD+9nr/QETjY6U0=
+	t=1719555597; cv=none; b=NcvF04csXrBDQQ+LIH6PeGJ93iKPfG3SD/ibAdd/9fUhCz4oGIWeNBoR4fsBFS8llBMCYsb4Tribgzrp6Ld9ImomVLppgO2pB7mFSj7W2/FluqMTYv8UCCnru3UxgKfDlszMwCIg469kuQzPOrGg/f0uoHX6/mD0oSOOkWj5qZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719510861; c=relaxed/simple;
-	bh=kWAsnel3A5mFApn7lpqazOCEOcFEQnU+u987bPBxcBs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OnlbQayknp5I0+C5emLdWeUdoKPG10IlQzmR8I0FFQXU68dOQ7Ixw4Y3P19ULwBhKNZKboBwMeerAObfhHtM3JxfSft7hwh5NTf6BqLuVwYnR/qEmrFzMHCyGkIlNBx2CXwB9YQTNaXcurS6Ia4jS6xUMa83Y4mspEB7bOCPFes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.166.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-io1-f50.google.com with SMTP id ca18e2360f4ac-7f3d3f1294dso77709139f.2
-        for <linux-sunxi@lists.linux.dev>; Thu, 27 Jun 2024 10:54:20 -0700 (PDT)
+	s=arc-20240116; t=1719555597; c=relaxed/simple;
+	bh=MuQ95BaMaeZwU8yA90MkErGZw2uB+AK7NPDyeRPhKOY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=e6T1gn9gEXzlMQdeNOrTGDrAwK2a4KntFbHSI40LoHWb2KmBeon+3MiNbgzvAbhBhisbJ2hhNDjnL0Qc7L8wyYucw459B5Cfkr51pDHNVR+Rv6FcWWUge55flMh9bk7GJ442bz/5Enfb5Jp7fmChDjaaexfFyM/HlJRQj4dGEMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=oCML9wJu; arc=none smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="oCML9wJu"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a6fe61793e2so10510366b.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 27 Jun 2024 23:19:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1719555592; x=1720160392; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bWv0w8vAo8GiD/pB2lZc+Ffji376dYRZbqdwsEaIfbQ=;
+        b=oCML9wJuCX5l8dC8r2/DCR0KzMTn+rkBaElz7heoQDCaipZ2Wh42OjSNWqKw/Q81z8
+         L0xEBGWeoZ2P0BrmZTKf9vMNiRI4zslUyFsuQ1xjYMglMRx4BYzvZtb2rs3ULiU/iVHV
+         ALpVWM5DqErI5NYt0FMIN3CyeFEUKybJMmjfpePa/EV1SqpG5t1eyXbWwHHDDGtY+hFM
+         xN0x8CdBANGTOfv3glf9VKDzF4IlwoqcDvTdOj6H3nfCiQrS/IKTaa7VGxxv0hP6b9hv
+         O59IsgL4tX+RBgaDhBq6eKrg79CqFQ0osUWg/JXyIO1e+AagmGV8JZJopnS59dx7fxyU
+         z1Ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719510855; x=1720115655;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tUDjh8HPRo//13YfMMh5tGFz16cFbmNK3MEKPkttN6E=;
-        b=RcWnNXY7psAsRhTtIz0JJbm1eRUnY/kHNBX7y6V0fOqWkGZwNOAIdDCony2b4RyIXd
-         CXh67F/Pyqrz9ck+fBhuLxE3CR9EmEVfvm5KMvuchYb342pmaasnjxb8OYT4ONzSYWzM
-         sbMiRht4T6QSae/dtEaKImQ5qztKnoJ0GAJ50yY2rCfiThSDWFWdU3P+IIHgsvsd3Kx3
-         F8bAz6fcFKaeszXWQ0W/r5sjq7pbXz7xxaabYA6+flCL2EqhWl5FOAaItsxJgVZtPvAs
-         5j0coBOsJm209JqhmSrHei7WM/QmpJrhoS691/lN3mQDLepsOCxi1T0p5H+3qczh7+Z5
-         4fkA==
-X-Forwarded-Encrypted: i=1; AJvYcCVi2SdALKN4qR0FXGkO2OMem7cEEWFbp8831wuOgO47TL6fCZXki84CXqeY/GPHKOHBszK0AvGcWdI7/Y7oLYPwgywsgIyH7kIK7jU=
-X-Gm-Message-State: AOJu0YxLP2O5ZmQ7LLKjOopTIJhCwXoB4exmSqpxnR2oSSkXjAdolRSf
-	FoMxmgBhxPhi2pn1t+7vNNqMZCnmcND2VB3UqroD4x4zeNRGEzsHELGVJVE3Oks=
-X-Google-Smtp-Source: AGHT+IHFWV3U9faIB4Vht8Ofby0dt+co8hNIGZiOHnQUZqSRt4rCrs7RHxlxyfqiOflS0Chz1IffVQ==
-X-Received: by 2002:a05:6602:2c04:b0:7f3:d714:53d8 with SMTP id ca18e2360f4ac-7f3d7145682mr516939339f.14.1719510855091;
-        Thu, 27 Jun 2024 10:54:15 -0700 (PDT)
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com. [209.85.166.48])
-        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-7f61ce9d5b6sm2208339f.12.2024.06.27.10.54.14
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Jun 2024 10:54:14 -0700 (PDT)
-Received: by mail-io1-f48.google.com with SMTP id ca18e2360f4ac-7f3cd2c0a79so92682539f.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 27 Jun 2024 10:54:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV9C06I5jgpbmasZbHjh8Za4DXywdIL1KvKDWcX0szNB0uym6MsMoCT8aUq9hFPWBFuSzuHcZ3FFRaFkjb1DwX7AtGnqaUL5yDB9iU=
-X-Received: by 2002:a05:6602:6d8c:b0:7eb:c7ff:26e6 with SMTP id
- ca18e2360f4ac-7f3a75b3440mr1645762339f.15.1719510854318; Thu, 27 Jun 2024
- 10:54:14 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1719555592; x=1720160392;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bWv0w8vAo8GiD/pB2lZc+Ffji376dYRZbqdwsEaIfbQ=;
+        b=ROPIU3UvmDho1E7fojCojC5VHpp2sSFuA+gaoHr2M1ajbxMqjl0jyKby/7pgyGLDDq
+         FBbM7GrWsevuSeQLo2jc3Ffjdqu1aN54Rgdd5htXQhgs71WPk5njtFmgB83wZh//J2yz
+         x0dsmiOni1xX+9KxJ5HAowtHvKC7CqHkCIo501A2grDP22bfJ/u9ultz5dd2rGyDULph
+         /58rbGsdiqPpem21nHLzYyYN/oXgorBPR+cdTV2kWzwzKcQiqLq84msq3yC+HvLADua6
+         TgmlR4l0mD2W61B3WSgvw6j2dIwY2ir3zJ6k4DL0bvuzUfVbxqm1JES0pSPjBPY6bPxv
+         BDaA==
+X-Forwarded-Encrypted: i=1; AJvYcCXu9/VZ+PwgPGxtvYM9xHB5KbxKVt3gYsxTtBGC/QFQw+iCB9Z8R0WGWBnQw1hqlC3yPhBdBVx0z6wipkkzHLqUON9cfYUf9hKSdNM=
+X-Gm-Message-State: AOJu0YyBK8wDXDJdi/lzO3LEpeT4WoLmtrorexH0RMuRj0i2IyrrA8BF
+	+kJBZv8ifC/EE33hlrR1xtAqzzXrLWCK/7kEHhGztHosdlpkpJiOOrJBJtg2XiA=
+X-Google-Smtp-Source: AGHT+IHiCX799TPgCKQWgWwES345tt3l93lXFbbCZ3msBgpK/jOavx2uIDkrJ8d5HKBZTDTTLFzd6g==
+X-Received: by 2002:a05:6402:4305:b0:582:1a24:76d5 with SMTP id 4fb4d7f45d1cf-5821a2478bcmr10314387a12.35.1719555591823;
+        Thu, 27 Jun 2024 23:19:51 -0700 (PDT)
+Received: from localhost ([2a02:8071:b783:6940:2d35:3c3:59a:94a4])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a72aaf62058sm44679866b.56.2024.06.27.23.19.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Jun 2024 23:19:51 -0700 (PDT)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: MyungJoo Ham <myungjoo.ham@samsung.com>,
+	Kyungmin Park <kyungmin.park@samsung.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>
+Cc: Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-pm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH] PM / devfreq: sun8i-a33-mbus: Make use of devm_ functions for clks
+Date: Fri, 28 Jun 2024 08:19:28 +0200
+Message-ID: <20240628061929.89273-2-u.kleine-koenig@baylibre.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240624232110.9817-1-andre.przywara@arm.com> <20240624232110.9817-5-andre.przywara@arm.com>
-In-Reply-To: <20240624232110.9817-5-andre.przywara@arm.com>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Fri, 28 Jun 2024 01:54:00 +0800
-X-Gmail-Original-Message-ID: <CAGb2v67qo7qgf2uzBAUf9-C9NHrHG47mLc579NRkTO7qLDtV7Q@mail.gmail.com>
-Message-ID: <CAGb2v67qo7qgf2uzBAUf9-C9NHrHG47mLc579NRkTO7qLDtV7Q@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] arm64: dts: allwinner: h616: add crypto engine node
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Corentin Labbe <clabbe.montjoie@gmail.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	"David S . Miller" <davem@davemloft.net>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Ryan Walklin <ryan@testtoast.com>, Philippe Simons <simons.philippe@gmail.com>, 
-	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3340; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=MuQ95BaMaeZwU8yA90MkErGZw2uB+AK7NPDyeRPhKOY=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBmflXxJBwsIWEFjBvCky8FpNk4ksgkkVuXrEY6w Sy/6dNUy32JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZn5V8QAKCRCPgPtYfRL+ TggBCACHNpfkOq7N2mcNIsiVfnEg4f+B/KE7bjdhsk1mpFcA1jnEzgqhzr93uh4gsLh768Ysnn5 00pbCMbD3QLnZ8uEr4+JtcygyF4iHJ0em7JDRmEzFggPlzZ3iXkqoQ6oCeLzJGl29ZLBq4b7qOA rakWuk/xvXbS8jafWJi0GlR0aY7BeWLr5w4+/puRUIxs7RydEWLtD3yviBKLbg2aNxUBAMhcDAX lVDCL9wwmkSAmha7epVzmEjZkxnnChD+C09xXnRrgvT3Z77YemyoyCGyhcg4rFGtY4C5UYv4DpS YHC49jFWvpKFfgyjKsvbN11/v7dxreXuvNgBRsCVq6BO1OZ2
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jun 25, 2024 at 7:23=E2=80=AFAM Andre Przywara <andre.przywara@arm.=
-com> wrote:
->
-> The Allwinner H616 SoC contains a crypto engine very similar to the H6
-> version, but with all base addresses in the DMA descriptors shifted by
-> two bits. This requires a new compatible string.
-> Also the H616 CE relies on the internal osciallator for the TRNG
-> operation, so we need to reference this clock.
->
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi | 10 ++++++++++
->  1 file changed, 10 insertions(+)
->
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/=
-boot/dts/allwinner/sun50i-h616.dtsi
-> index 921d5f61d8d6a..187663d45ed72 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> @@ -113,6 +113,16 @@ soc {
->                 #size-cells =3D <1>;
->                 ranges =3D <0x0 0x0 0x0 0x40000000>;
->
-> +               crypto: crypto@1904000 {
-> +                       compatible =3D "allwinner,sun50i-h616-crypto";
-> +                       reg =3D <0x01904000 0x1000>;
+Using devm_clk_get_enabled() and devm_clk_rate_exclusive_get() allows to
+simplify the error paths in .probe() and the remove callback.
 
-The address range only goes up to 0x019047ff. The other half is the
-secure crypto engine. The other bits look correct.
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+---
+ drivers/devfreq/sun8i-a33-mbus.c | 38 +++++++++-----------------------
+ 1 file changed, 10 insertions(+), 28 deletions(-)
 
-I can fix this up when applying, assuming the driver parts get merged
-in the next few days.
+diff --git a/drivers/devfreq/sun8i-a33-mbus.c b/drivers/devfreq/sun8i-a33-mbus.c
+index bcf654f4ff96..4c179d7ddf0b 100644
+--- a/drivers/devfreq/sun8i-a33-mbus.c
++++ b/drivers/devfreq/sun8i-a33-mbus.c
+@@ -360,7 +360,7 @@ static int sun8i_a33_mbus_probe(struct platform_device *pdev)
+ 	if (IS_ERR(priv->reg_mbus))
+ 		return PTR_ERR(priv->reg_mbus);
+ 
+-	priv->clk_bus = devm_clk_get(dev, "bus");
++	priv->clk_bus = devm_clk_get_enabled(dev, "bus");
+ 	if (IS_ERR(priv->clk_bus))
+ 		return dev_err_probe(dev, PTR_ERR(priv->clk_bus),
+ 				     "failed to get bus clock\n");
+@@ -375,24 +375,17 @@ static int sun8i_a33_mbus_probe(struct platform_device *pdev)
+ 		return dev_err_probe(dev, PTR_ERR(priv->clk_mbus),
+ 				     "failed to get mbus clock\n");
+ 
+-	ret = clk_prepare_enable(priv->clk_bus);
++	/* Lock the DRAM clock rate to keep priv->nominal_bw in sync. */
++	ret = devm_clk_rate_exclusive_get(dev, priv->clk_dram);
+ 	if (ret)
+ 		return dev_err_probe(dev, ret,
+-				     "failed to enable bus clock\n");
+-
+-	/* Lock the DRAM clock rate to keep priv->nominal_bw in sync. */
+-	ret = clk_rate_exclusive_get(priv->clk_dram);
+-	if (ret) {
+-		err = "failed to lock dram clock rate\n";
+-		goto err_disable_bus;
+-	}
++				     "failed to lock dram clock rate\n");
+ 
+ 	/* Lock the MBUS clock rate to keep MBUS_TMR_PERIOD in sync. */
+-	ret = clk_rate_exclusive_get(priv->clk_mbus);
+-	if (ret) {
+-		err = "failed to lock mbus clock rate\n";
+-		goto err_unlock_dram;
+-	}
++	ret = devm_clk_rate_exclusive_get(dev, priv->clk_mbus);
++	if (ret)
++		return dev_err_probe(dev, ret,
++				     "failed to lock mbus clock rate\n");
+ 
+ 	priv->gov_data.upthreshold	= 10;
+ 	priv->gov_data.downdifferential	=  5;
+@@ -405,10 +398,8 @@ static int sun8i_a33_mbus_probe(struct platform_device *pdev)
+ 	priv->profile.max_state		= max_state;
+ 
+ 	ret = devm_pm_opp_set_clkname(dev, "dram");
+-	if (ret) {
+-		err = "failed to add OPP table\n";
+-		goto err_unlock_mbus;
+-	}
++	if (ret)
++		return dev_err_probe(dev, ret, "failed to add OPP table\n");
+ 
+ 	base_freq = clk_get_rate(clk_get_parent(priv->clk_dram));
+ 	for (i = 0; i < max_state; ++i) {
+@@ -448,12 +439,6 @@ static int sun8i_a33_mbus_probe(struct platform_device *pdev)
+ 
+ err_remove_opps:
+ 	dev_pm_opp_remove_all_dynamic(dev);
+-err_unlock_mbus:
+-	clk_rate_exclusive_put(priv->clk_mbus);
+-err_unlock_dram:
+-	clk_rate_exclusive_put(priv->clk_dram);
+-err_disable_bus:
+-	clk_disable_unprepare(priv->clk_bus);
+ 
+ 	return dev_err_probe(dev, ret, err);
+ }
+@@ -472,9 +457,6 @@ static void sun8i_a33_mbus_remove(struct platform_device *pdev)
+ 		dev_warn(dev, "failed to restore DRAM frequency: %d\n", ret);
+ 
+ 	dev_pm_opp_remove_all_dynamic(dev);
+-	clk_rate_exclusive_put(priv->clk_mbus);
+-	clk_rate_exclusive_put(priv->clk_dram);
+-	clk_disable_unprepare(priv->clk_bus);
+ }
+ 
+ static const struct sun8i_a33_mbus_variant sun50i_a64_mbus = {
 
-Chenyu
+base-commit: 642a16ca7994a50d7de85715996a8ce171a5bdfb
+-- 
+2.43.0
 
-> +                       interrupts =3D <GIC_SPI 91 IRQ_TYPE_LEVEL_HIGH>;
-> +                       clocks =3D <&ccu CLK_BUS_CE>, <&ccu CLK_CE>,
-> +                                <&ccu CLK_MBUS_CE>, <&rtc CLK_IOSC>;
-> +                       clock-names =3D "bus", "mod", "ram", "trng";
-> +                       resets =3D <&ccu RST_BUS_CE>;
-> +               };
-> +
->                 syscon: syscon@3000000 {
->                         compatible =3D "allwinner,sun50i-h616-system-cont=
-rol";
->                         reg =3D <0x03000000 0x1000>;
-> --
-> 2.39.4
->
