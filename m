@@ -1,113 +1,115 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B44F152530
-	for <linux-sunxi@lists.linux.dev>; Fri, 28 Jun 2024 09:40:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2C7C1C8FC5
+	for <linux-sunxi@lists.linux.dev>; Fri, 28 Jun 2024 16:07:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719567609; cv=none; b=Wx2zrC6fGasg/X3O/MJQ7ahDdMu5uF4UnyXH8H/nQX8A0FMfQFEKt6n3qNOQxD4ZJKjWjwTms/GDqIhBL2rZrXZzkyO4th+XU4rGxxjYeDtrk8m6Q2ny4cfbob5gCYxViJiA7nXljmdYjSOOfSFohknA3jzqnlbrnC7ovLIXRFk=
+	t=1719590838; cv=none; b=g1rRk2NMpddJNqxf0V7aAw2IFj9hSr0W65YXG7jFlHbYzBkTqgr6Z+rTw4WwauujNnidxjIgWCu/N5MSB2x4mu1Ntyzp1jsQuWSQ/Rgfcmr75WtGz6uNyijnihSXc+79mTn2+aAgKpP907gynoNVypp1jpjQuRQLdYGa4D75u88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719567609; c=relaxed/simple;
-	bh=vwWYuw8MReSjhj/uWrhsSw093dCcYZAc3JIqgm9h7vs=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=j+uRkXIk257XTTpvqBqbxG7dKabuS0Ku8qUWG8YISt79gSO8s7SM06Rgrjhy/BIdoPHT6vSQ8SohCgXnKJPT2t69+2ZIcJjhSRGNjjd0dyns6RlrN5PjmhZk65vdPJ1NeUkQqxVZ8gKhEK7fMQX+v7zukHorgdjNuCqlarjiry0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D8EEB106F;
-	Fri, 28 Jun 2024 02:30:38 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F0FEF3F6A8;
-	Fri, 28 Jun 2024 02:30:11 -0700 (PDT)
-Date: Fri, 28 Jun 2024 10:30:07 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Chen-Yu Tsai <wens@csie.org>
-Cc: Corentin Labbe <clabbe.montjoie@gmail.com>, Herbert Xu
- <herbert@gondor.apana.org.au>, "David S . Miller" <davem@davemloft.net>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Ryan Walklin
- <ryan@testtoast.com>, Philippe Simons <simons.philippe@gmail.com>,
- linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 4/4] arm64: dts: allwinner: h616: add crypto engine
- node
-Message-ID: <20240628103007.6ea3685c@donnerap.manchester.arm.com>
-In-Reply-To: <CAGb2v67qo7qgf2uzBAUf9-C9NHrHG47mLc579NRkTO7qLDtV7Q@mail.gmail.com>
-References: <20240624232110.9817-1-andre.przywara@arm.com>
-	<20240624232110.9817-5-andre.przywara@arm.com>
-	<CAGb2v67qo7qgf2uzBAUf9-C9NHrHG47mLc579NRkTO7qLDtV7Q@mail.gmail.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1719590838; c=relaxed/simple;
+	bh=hfX+qJVjjcAcXiAhQztZ3+zVRGnspWsdg4Of5y5zZtg=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 Mime-Version:Content-Type; b=axIoGUDIJxvi6GiZN9RDzxoRhUvw7SpvPlUzA3TKbB6JdG9ixofFJ+P2jAZLHYU5UfaUUTd1sfsnGIuNFCGuvx3vJc6Rjczb811qvHEo5Js0fgoaxcsEX8u61h6F/rOhAnBVKbeERpu6Mv6xWuk/zEL2cmycuFrv6a1crDP9Cfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mvwmbhTl; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mvwmbhTl"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-52cdf9f934fso779846e87.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 28 Jun 2024 09:07:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719590835; x=1720195635; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8BLuQHw7XUYh7A6NXygwXg3SOfMQ/2DhzNHBqiquzFk=;
+        b=mvwmbhTlSugEYsoUe9ugnfVCji6rBZdBhZ938VgTz1tlTAndJSv/m39BdokBKgHIHN
+         wnRRZnT/3JAxeZpP69OrY+q5QwwOJk+jbQQWzUs+l1+UvzTuVbrG8A/n00jOiJ8w4XLk
+         7rxK0v5xR4AbbZFpARIAcKVnYgGp1TvqBFCapUH2qdnbPZmE/uRzbMLRv7uOzL78+k8W
+         j875uToqgieG8UMcu09vASreLeW5mLg+YmutjuZTnF0lxFksrBWBzxmJI9ZobYt+O4IY
+         kFShMrd79N9bCNOUbpT92nK8nBXnbnd6BFAZhslHno9RBRU42RNw7Alw2EcQQ1X95ivp
+         MoLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719590835; x=1720195635;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=8BLuQHw7XUYh7A6NXygwXg3SOfMQ/2DhzNHBqiquzFk=;
+        b=j7sE9G67umjIZzIWCueXh2hQ/Pb4LZP5kf8qXGSZ5GVPiNmTjjYk9vdDsve+aI4m4j
+         +S1o352WVcKbEXMG7nzbuUG11WR62pE1so6o4htE7tEk0HNNpaMCOvisxz5oxNQXOkoR
+         p8omndxfBBXQT2tSkCY9dgwdfLVekLQUoDSfJ0jVbRQfu3fcQ/yxxE0Qc3NTdHHJsnA8
+         wUEd4bCwW1wIsROJ8gV5fB4MBhNj7RUEybb7eQ0pPTV29hQD8M1xp4IiRnHzXQxcqN3s
+         Z92HT+XVwmuUQUZcVP49vV9RgLkNpaS5vhkPIrtK86fZZOmnZXxAOK3kXAiGFZIPNpen
+         WTZg==
+X-Forwarded-Encrypted: i=1; AJvYcCW7vvayGhmp7aj7vl36WegojdI5ZFlO0CjV8+btuNlLDL6l/RoxCzORPUSAyGey4+iDM1SGL86bc5bLlNEUvNiGaxloeYN1H/DYypc=
+X-Gm-Message-State: AOJu0Yw8uSNj4GR4uWhqDJQST7vdG4c7KJa+WvdxMTHWjNq3UHD27p5r
+	dVjShpCzLdZ86MXPpg0M9BaaimZGqrtrRITiX5VARNVXVIXZ68o3vjnzcAgP
+X-Google-Smtp-Source: AGHT+IGKtZ27jyLm/4hObT+qQKvkXECnsn/l8exN8++MKWIkS87HhKNrOpgNjyAfe/Lwii2sJwIqVw==
+X-Received: by 2002:a05:6512:3105:b0:52b:b327:9c1c with SMTP id 2adb3069b0e04-52ce068042emr10387590e87.62.1719590834351;
+        Fri, 28 Jun 2024 09:07:14 -0700 (PDT)
+Received: from localhost (host-95-246-50-43.retail.telecomitalia.it. [95.246.50.43])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4256b097c2asm42256035e9.38.2024.06.28.09.07.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Jun 2024 09:07:13 -0700 (PDT)
+Date: Fri, 28 Jun 2024 18:07:12 +0200
+From: Matteo Martelli <matteomartelli3@gmail.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Maxime Ripard <mripard@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Marcus Cooper <codekipper@gmail.com>, 
+ =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>, 
+ linux-sound@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org
+Message-ID: <667edfb08cbf3_eca1e370ea@njaxe.notmuch>
+In-Reply-To: <d614f04e-3609-48e3-bd30-9e57c69cd94d@sirena.org.uk>
+References: <20240529140658.180966-2-matteomartelli3@gmail.com>
+ <20240529140658.180966-3-matteomartelli3@gmail.com>
+ <20240606-savvy-wallaby-of-champagne-d4a50e@houat>
+ <6662bf1b61bbc_2f51737023@njaxe.notmuch>
+ <d614f04e-3609-48e3-bd30-9e57c69cd94d@sirena.org.uk>
+Subject: Re: [PATCH 1/1] ASoC: sunxi: sun4i-i2s: fix LRCLK polarity in i2s
+ mode
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, 28 Jun 2024 01:54:00 +0800
-Chen-Yu Tsai <wens@csie.org> wrote:
+Mark Brown wrote:
+> On Fri, Jun 07, 2024 at 10:04:43AM +0200, Matteo Martelli wrote:
+> > Maxime Ripard wrote:
+> > > > -	/*
+> > > > -	 * DAI clock polarity
+> > > > -	 *
+> > > > -	 * The setup for LRCK contradicts the datasheet, but under a
+> > > > -	 * scope it's clear that the LRCK polarity is reversed
+> > > > -	 * compared to the expected polarity on the bus.
+> > > > -	 */
+> > > 
+> > > I think we should keep that comment somewhere.
+> > 
+> > I think that keeping that comment would be very misleading since the LRCLK
+> > setup would not contradict the datasheet anymore [1][2].
+> > 
+> > Also, do you recall any details about the mentioned scope test setup? Was i2s
+> > mode tested in that occasion? It would help clarify the situation.
+> > 
+> > Could anyone verify this patch against H3/H6 SoCs?
+> 
+> Any news on any of this?
 
-Hi Chen-Yu,
+Not on my side, unfortunately I cannot test the fix against H3/H6 SoCs.
 
-> On Tue, Jun 25, 2024 at 7:23=E2=80=AFAM Andre Przywara <andre.przywara@ar=
-m.com> wrote:
-> >
-> > The Allwinner H616 SoC contains a crypto engine very similar to the H6
-> > version, but with all base addresses in the DMA descriptors shifted by
-> > two bits. This requires a new compatible string.
-> > Also the H616 CE relies on the internal osciallator for the TRNG
-> > operation, so we need to reference this clock.
-> >
-> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > ---
-> >  arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi | 10 ++++++++++
-> >  1 file changed, 10 insertions(+)
-> >
-> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm6=
-4/boot/dts/allwinner/sun50i-h616.dtsi
-> > index 921d5f61d8d6a..187663d45ed72 100644
-> > --- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> > @@ -113,6 +113,16 @@ soc {
-> >                 #size-cells =3D <1>;
-> >                 ranges =3D <0x0 0x0 0x0 0x40000000>;
-> >
-> > +               crypto: crypto@1904000 {
-> > +                       compatible =3D "allwinner,sun50i-h616-crypto";
-> > +                       reg =3D <0x01904000 0x1000>; =20
->=20
-> The address range only goes up to 0x019047ff. The other half is the
-> secure crypto engine. The other bits look correct.
-
-You are right, the manual restricts CE_NS to 0x019047ff, and we certainly
-use much less registers than that anyway. So good catch!
-
-> I can fix this up when applying, assuming the driver parts get merged
-> in the next few days.
-
-Many thanks, I'd be very grateful if you could fix this up!
-
-Cheers,
-Andre
-
->=20
-> Chenyu
->=20
-> > +                       interrupts =3D <GIC_SPI 91 IRQ_TYPE_LEVEL_HIGH>;
-> > +                       clocks =3D <&ccu CLK_BUS_CE>, <&ccu CLK_CE>,
-> > +                                <&ccu CLK_MBUS_CE>, <&rtc CLK_IOSC>;
-> > +                       clock-names =3D "bus", "mod", "ram", "trng";
-> > +                       resets =3D <&ccu RST_BUS_CE>;
-> > +               };
-> > +
-> >                 syscon: syscon@3000000 {
-> >                         compatible =3D "allwinner,sun50i-h616-system-co=
-ntrol";
-> >                         reg =3D <0x03000000 0x1000>;
-> > --
-> > 2.39.4
-> > =20
-
+Matteo Martelli
