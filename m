@@ -1,40 +1,54 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4126E1527A5;
-	Sun, 30 Jun 2024 15:09:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C792282F1;
+	Sun, 30 Jun 2024 15:34:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719760177; cv=none; b=DtiCI8Ltltns8j+O4Gdh8J2ucddej1E7kLnvN2lMVu5/DVQH60+jOYfMIB2xZ+tKTIkDmfMQ4N/D5CVJJG/oB66QtGPnZ+xxTL/jnO3UuBGphnYp+HGjf2t8IBMWUVDx6VrSObkFYKJM3VRnKjGh8PxnMoLyFPZ7wvnlf3h+hIE=
+	t=1719761646; cv=none; b=MRj/EOB1XPsKsrk9O9Rd9om8mEw01PihpQzraOfk1MYoDrHrlMbrAM0yAVrAF61um6GNOicYm9r/JShO0RQntvcRU6zuFGtJ+G6+cBR0+J0FNRubE9GavlYzsxpNLu3V4LySJLXNeqLZCIvcXHLEBUQ6t2RJH2dh512d8PqcgTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719760177; c=relaxed/simple;
-	bh=xbFID+3ErU08rjSuOkfRzCMODIEU1e5ZIdOh0iUKZ48=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Q+nDRriuzPrz9pR+Xx5Tp9gJz+qjVcBurT84ggYwPCw2WBlYI+P1IhewZ8/wZBZPsG2IhBbugkMdrMqNxY8OXzjPV+A4WFU4PFn24ovet5uys9Sd0ED4/ad8Cpt+VHrFIulnCWmuRac5FxUemgojxSK4Aiz20Pba9sZ2vczvRJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1C6CC32786;
-	Sun, 30 Jun 2024 15:09:36 +0000 (UTC)
-Received: from wens.tw (localhost [127.0.0.1])
-	by wens.tw (Postfix) with ESMTP id 6D2055FADF;
-	Sun, 30 Jun 2024 23:09:34 +0800 (CST)
-From: Chen-Yu Tsai <wens@csie.org>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev, 
- Samuel Holland <samuel@sholland.org>
-Cc: devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, 
- Jisheng Zhang <jszhang@kernel.org>, linux-riscv@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, 
- Andre Przywara <andre.przywara@arm.com>, 
- Palmer Dabbelt <palmer@dabbelt.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor@kernel.org>, linux-kernel@vger.kernel.org, 
- Heiko Stuebner <heiko@sntech.de>, Palmer Dabbelt <palmer@rivosinc.com>
-In-Reply-To: <20221231233851.24923-11-samuel@sholland.org>
-References: <20221231233851.24923-1-samuel@sholland.org>
- <20221231233851.24923-11-samuel@sholland.org>
-Subject: Re: (subset) [PATCH v4 10/12] riscv: dts: allwinner: Add
- ClockworkPi and DevTerm devicetrees
-Message-Id: <171976017441.1183261.11626776990169196800.b4-ty@csie.org>
-Date: Sun, 30 Jun 2024 23:09:34 +0800
+	s=arc-20240116; t=1719761646; c=relaxed/simple;
+	bh=oBsDaIgWwOPsN5NcDJk1MTGtGIh9YzY81gZmoTW+7Vg=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Bh+j8JOGxXoenUlwVcBOBqrtMZYqzYRnkarx95uEOfIk8gRJTJBFR/cB/6qjrOKxRujyqUwuUTzZXQJbozT/MTXYghHuFxo7hzXFHVM9bLEegRiW/r/em0D+Pz3tptR6oieFM3pUohqf8d+4X21w7VWA05s3hKAvxBDYfuiPMuo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fc7zUtxh; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fc7zUtxh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62F8EC2BD10;
+	Sun, 30 Jun 2024 15:34:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719761645;
+	bh=oBsDaIgWwOPsN5NcDJk1MTGtGIh9YzY81gZmoTW+7Vg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Fc7zUtxhDWhgTkv4LQ29OHLe2IiluCwDUiWsZj2GETG+towrxRViQgzgjTuWsPozG
+	 kRdD9A9a63BkxcSMjqUA9UV8+5S6oPqO1Aj7umyUgMuSYxLJPv67BixCDpWvVpuhaS
+	 sNT/a+7/Em3FM89w1RU0k9DQ2aB6dvUIj+ZBa1AC+dSbP0WAGZgjeQr4wRF82iVNIj
+	 7YeR1cYPzf4+nzSMthbtVEjXpnjkRCmQJwK/PrALsN09FA4IE/MGXmZfoXZJHsHA4j
+	 Aiv9JBtUWJa5h/iAou+T8cEu2ymT6JXb6b/gFt/PfD/fjcVpmr+ehXXV8hTDlrKu8X
+	 tFzix+OVM05Xw==
+Received: by wens.tw (Postfix, from userid 1000)
+	id 58B8C5FD47; Sun, 30 Jun 2024 23:34:03 +0800 (CST)
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Frank Oltmanns <frank@oltmanns.dev>
+Cc: Chen-Yu Tsai <wens@csie.org>,
+	=?UTF-8?q?M=C3=A5ns=20Rullg=C3=A5rd?= <mans@mansr.com>,
+	linux-clk@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	"Robert J. Pafford" <pafford.9@buckeyemail.osu.edu>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] clk: sunxi-ng: common: Don't call hw_to_ccu_common on hw without common
+Date: Sun, 30 Jun 2024 23:34:02 +0800
+Message-Id: <171976163761.1183893.10044135406471629615.b4-ty@csie.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240623-sunxi-ng_fix_common_probe-v1-1-7c97e32824a1@oltmanns.dev>
+References: <20240623-sunxi-ng_fix_common_probe-v1-1-7c97e32824a1@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -42,27 +56,26 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
+Content-Transfer-Encoding: 8bit
 
-On Sat, 31 Dec 2022 17:38:49 -0600, Samuel Holland wrote:
-> Clockwork Tech manufactures several SoMs for their RasPi CM3-compatible
-> "ClockworkPi" mainboard. Their R-01 SoM features the Allwinner D1 SoC.
-> The R-01 contains only the CPU, DRAM, and always-on voltage regulation;
-> it does not merit a separate devicetree.
+From: Chen-Yu Tsai <wens@csie.org>
+
+On Sun, 23 Jun 2024 10:45:58 +0200, Frank Oltmanns wrote:
+> In order to set the rate range of a hw sunxi_ccu_probe calls
+> hw_to_ccu_common() assuming all entries in desc->ccu_clks are contained
+> in a ccu_common struct. This assumption is incorrect and, in
+> consequence, causes invalid pointer de-references.
 > 
-> The ClockworkPi mainboard features analog audio, a MIPI-DSI panel, USB
-> host and peripheral ports, an Ampak AP6256 WiFi/Bluetooth module, and an
-> X-Powers AXP228 PMIC for managing a Li-ion battery.
+> Remove the faulty call. Instead, add one more loop that iterates over
+> the ccu_clks and sets the rate range, if required.
 > 
 > [...]
 
-Applied to sunxi/dt-for-6.11 in sunxi/linux.git, thanks!
+Applied to clk-fixes-for-6.10 in git@github.com:linux-sunxi/linux-sunxi.git, thanks!
 
-[10/12] riscv: dts: allwinner: Add ClockworkPi and DevTerm devicetrees
-        https://git.kernel.org/sunxi/linux/c/0ce1d34678e5
+[1/1] clk: sunxi-ng: common: Don't call hw_to_ccu_common on hw without common
+      commit: ea977d742507e534d9fe4f4d74256f6b7f589338
 
 Best regards,
 -- 
 Chen-Yu Tsai <wens@csie.org>
-
