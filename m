@@ -1,109 +1,80 @@
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9A7380BFF
-	for <linux-sunxi@lists.linux.dev>; Sat, 29 Jun 2024 21:01:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02A01135A65;
+	Sun, 30 Jun 2024 15:06:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719694871; cv=none; b=BUV4xHY1RQnlQ1pWTElEHLrW6xFnRuepm82j3f2luCdr13bH17FZUw7HQIBDoF0T5koyNXQHn2x+a79v43vVqYCiCyS9apoH/OuSjhamiK04v0/785OE4zIPavh0W66dfA6ku9rsePayPHCuviFbxSH5lv4R6XpOfyUvIkZI/wk=
+	t=1719759991; cv=none; b=pQu+c5E6OEghvWaPovxe+3Jlo3Dm+3spe0SzqS0O5vqDss2CDGM3ML1GQZtpSxcb2wJyslAASz8tUiQY9B1RX15qSIUllrxV/AX6t/eMgexiBTYINOBiJDLwas7kspt8P07XyFY3ijvCgSs41y6R4aKVrlTn9PL94ESm5x+1E9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719694871; c=relaxed/simple;
-	bh=NmOMsgH81sLLVaD3iXVYeOXSCz6bGuO0v2dOyrzUmu8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bwKlQ/n494K5Yp9sknAj4E+K2ltGjjKQ4a+/CZfuKNqwDmpqMcuqNtrFrPA13k7wd0aR4DZv+5YeOT2nbtju4xjL4laU/32TWVSOPLPjER/KwBrLMPih0tmqaLHPB5+fnTpWJbeOGvQJvIsAUOqSwP7nVEnmhZvRcm+6v5KZ4MY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org; spf=pass smtp.mailfrom=jookia.org; dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b=d1/BenLK; arc=none smtp.client-ip=91.218.175.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jookia.org
+	s=arc-20240116; t=1719759991; c=relaxed/simple;
+	bh=c+JK2VSNQ31PnD2iQNuRuQbry+DoqeD124arYuJ+Juw=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JLAtXktxY/K/E5CjQHA64WZJ8dK35xxaTYpliK2FzXLHabX+eP49DOS+WJgGTR4r4qZOBI41ZxWPpDk7Xo8aZZXezoMLHYoXBOdiynNOrEWM9mpvfbecKnrYpV6CKu/64FEZTBWV6xASvytSI/cSsVc7Md2SZVXEFPVhquQEchI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bEV6mBHY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b="d1/BenLK"
-X-Envelope-To: kirby.nankivell@gmail.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
-	t=1719694866;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EGXkI7vXLSu2IKu/iP17W57e+TDQ8N+uwrxnq3TxCJU=;
-	b=d1/BenLKPRzjiJiyeEHxyM0gomWGKTbS9g+P7TGiymu9gL0Gp8hSY51/N/+Y8B3fopYQBf
-	bfZ158ZDjsp2V4weY9yPgJNIEhD+iqoalvc5iUAkwo25AsTiKr5uywOLg+hZrjUEzmOSx1
-	4AMp0hb3vb2aI3l44VcEQ2Hai8oF6bDRwC8wwvmbPPaMrgF6gpsOmwcTxAmGbOSbqmDY0f
-	Vo1DdHh7QTRTCnRGZTYB9Q1zWmJc7TRi9jagkN+uVCSeGnM6kHCmy+AHiwaHPTTfFtto8e
-	j4Wh8SY2RaXUmoeb5auYdNQkpHFy3Hadt6AO9tGvQs6Eg7D5OagzHnuudaa7XQ==
-X-Envelope-To: jakobl.gm.g@gmail.com
-X-Envelope-To: linux-sunxi@lists.linux.dev
-X-Envelope-To: andre.przywara@arm.com
-X-Envelope-To: contact@paulk.fr
-X-Envelope-To: mripard@kernel.org
-X-Envelope-To: wens@csie.org
-X-Envelope-To: jernej.skrabec@gmail.com
-X-Envelope-To: maarten.lankhorst@linux.intel.com
-X-Envelope-To: tzimmermann@suse.de
-X-Envelope-To: airlied@gmail.com
-X-Envelope-To: daniel@ffwll.ch
-X-Envelope-To: samuel@sholland.org
-X-Envelope-To: dri-devel@lists.freedesktop.org
-X-Envelope-To: linux-arm-kernel@lists.infradead.org
-X-Envelope-To: linux-kernel@vger.kernel.org
-Date: Sun, 30 Jun 2024 06:58:17 +1000
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: John Watts <contact@jookia.org>
-To: Kirby Nankivell <kirby.nankivell@gmail.com>
-Cc: Jakob L <jakobl.gm.g@gmail.com>, linux-sunxi@lists.linux.dev,
-	andre.przywara@arm.com, Paul Kocialkowski <contact@paulk.fr>,
-	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bEV6mBHY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70A87C2BD10;
+	Sun, 30 Jun 2024 15:06:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719759990;
+	bh=c+JK2VSNQ31PnD2iQNuRuQbry+DoqeD124arYuJ+Juw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=bEV6mBHYlCdS2EsLB3+1Z+jegmRJYISn1E6aJWP8DJf7/ZDu7B9YbhsWuL4L04Tki
+	 rDIus2kqQ9Vzk6hQASgX42OhzRpJIa/jkeF3GPzgwTVdVrWtFuMXKCCITnd89CetSz
+	 bx8lLyu32y9LigNdM5B71TKlRPHfGEKpwJDDqIf5ofQ06fprpfoQUtdLnusKwOkLR4
+	 T99F4w6aSaZl6oXo3CVPuMbmouJvyDoFpYZPRCE78XL/W4KcURso2ThVuP9TsupsV6
+	 T0XhcUN6IC8azj9sFxEhrjg4H0FdeUrKDZySdOOeX3L708xEwYCARQpOVaPCKGALel
+	 t7JWg5vj6ugXA==
+Received: by wens.tw (Postfix, from userid 1000)
+	id B90A05FD47; Sun, 30 Jun 2024 23:06:27 +0800 (CST)
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: T113 TCON Top tinting troubleshooting
-Message-ID: <ZoB1ac1bEI8aH-Yp@titan>
-References: <Zn8GVkpwXwhaUFno@titan>
- <CALP2yXcUrCdzyqQx7RQUup3QjfbH4VnMVCPFVXNmmd08GJkKMQ@mail.gmail.com>
- <CAMBcuYNG6n1_yc0-5MSFoh2xCfh3-tHG7VcQq5vY65RKSq39RA@mail.gmail.com>
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Chen-Yu Tsai <wens@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: (subset) [PATCH 0/3] riscv: allwinner: ClockworkPi and DevTerm devicetrees
+Date: Sun, 30 Jun 2024 23:06:15 +0800
+Message-Id: <171975990845.1182816.12708794418763846620.b4-ty@csie.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240622150731.1105901-1-wens@kernel.org>
+References: <20240622150731.1105901-1-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMBcuYNG6n1_yc0-5MSFoh2xCfh3-tHG7VcQq5vY65RKSq39RA@mail.gmail.com>
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Hi,
+From: Chen-Yu Tsai <wens@csie.org>
 
-On Sat, Jun 29, 2024 at 12:14:39PM +1000, Kirby Nankivell wrote:
-> Tested this on a MangoPI-MQ-R with a RGB lcd and can confirm that this fix
-> removes the green tint I experienced.
+On Sat, 22 Jun 2024 23:07:28 +0800, Chen-Yu Tsai wrote:
+> From: Chen-Yu Tsai <wens@csie.org>
 > 
-> Disabling the mixer1 in DTS entirely also works.
+> Hi folks,
 > 
-> I suspect on the basis that the Mixer/TCON-TOP topology is identical to the
-> R40 but does not seem to experience this issue, that is a
-> silicon errata specific to the T113/D1s as far as we currently know.
+> Here are a couple patches that were originally sent by Samuel, but later
+> dropped due to the system LDO regulator bindings not getting merged. The
+> regulator bindings were recently resent and landed [1], so now is the time
+> to get the rest of the stragglers in.
 > 
-> However, there is no functional reason from a drm perspective to require
-> more than one mixer tied to one output via tcon-top - unless someone has a
-> good argument here?
-> 
-> in my opinion:
-> 1) implement this as a quirk on the t113 and fix mixer0 > rgb/dsi and
-> mixer1 > tv0
-> 2) make this a global default for the sun8i tcon top driver where only one
-> mixer is initialised against an output (which would also impact the R40)
+> [...]
 
-The only reason I caught this issue was because I implemented LCD output in
-U-Boot and saw it looked a little better- I thought the tint was the backlight.
-Had you not contacted me and had it not affected the person I'm doing
-work for I would not have bothered looking in to this.
-It's entirely possible that the other supported devices have this issue,
-or that future ones will and nobody will notice.
+Applied to sunxi/drivers-for-6.11 in sunxi/linux.git, thanks!
 
-Going with a preventative approach here by fixing it for all potential devices
-and relying on the behaviour the sunxi code assumes rather than the datasheet
-says seems like the best approach to me.
+[1/3] dt-bindings: sram: sunxi-sram: Add regulators child
+      https://git.kernel.org/sunxi/linux/c/3a6fb9025cdf
 
-John.
+Best regards,
+-- 
+Chen-Yu Tsai <wens@csie.org>
