@@ -1,181 +1,108 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AA0D16CD1E;
-	Mon,  1 Jul 2024 16:31:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F59E2A1D3;
+	Mon,  1 Jul 2024 17:40:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719851468; cv=none; b=QuihPWW1Oy0TnAvXr9rpz8weKlBHpptILsrPFoCq2Ayt88Tt547pWoGkjDhnNRsmkCM5L1om6pBQ30431cMqm7ORqnWgULGSER7UAEcyZpVpAwqf1DYTPctZi53IRGpfa09BM9bI7aWmBIyI+z9sEW9wBK3xIEcndG5Q4fj2KOQ=
+	t=1719855630; cv=none; b=HljV2hyXzzlagTEEx4ymHgyq1hGWCkuewOBlssNUbPbgXfAc3Z5RKpMjuMUca0KfCn90bgOg3I+LJjwWZ+SZSDOR9olAGTVrFGDpyDQUJcmpqHXo0Pb1vg+NP2Gy8cxqx+NzgbAzCoKmxRmGcoyfHBHHMbPSJE8ETv33XMCWF/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719851468; c=relaxed/simple;
-	bh=3+N9mukdDXyzFCGLQCqPnIa6llv8dipDxdiIJdfI2BM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KzlSOUdp+qNaEdXVXIkrAo9vM8+jbMF2MzEDQxwViZS6MXqrHQckO6UrftH2QV3gmNyjwzkwcJtc9rYcQAI8npJcvZqsyTtODlAiOcszSKFrxZdrJE5e3u9QvJNAwVt2WdB0HpaDgIl/mvRr92LqmLOt3puBxN6zMt+jqzj3SoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H4F+tGQB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719855630; c=relaxed/simple;
+	bh=E5f6qHZVxjrXFAD48QF0CGUhGy9Va81Pd+F+wrb6l34=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ToRp2AZWB+DFpgJ0sbBtGszNbcp9/Sm9psvORq/Hwd7fnZODAD5mdhZkP7iKwFBdoiiD1yBIoghktnUafvUAee1N/va75pmlUmEyf2ujrSvDllH3eDVwADd+2MUg/mJH+o/OFIqs+jn5qfjEEVSyd2g3Xyy/6ARhRxf6OXPNO3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nu+EreWM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H4F+tGQB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C198C116B1;
-	Mon,  1 Jul 2024 16:31:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nu+EreWM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB3D3C116B1;
+	Mon,  1 Jul 2024 17:40:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719851467;
-	bh=3+N9mukdDXyzFCGLQCqPnIa6llv8dipDxdiIJdfI2BM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=H4F+tGQB8Hcw87QnKmezQg520Gcp5L4jM+vlgj/UvG/nEhKg/o+U8avYMj889kQ8g
-	 KIg7e1oHvlgRbaS0lVEGaX9Dpcz62o8QoQUDwCx2FMMYNUGNk2F2Tq9mvcLntsK7nb
-	 L1h+t+YpXW+ATKfe9HihuqDHd0V1dYx8Bjb1Ts6ySXWD40NBsiWcQrrkbWjtHMmfjt
-	 ON1nAkADPcHpVd8atehi1jgeZRXwizYT/9NejhyxvEpEF85JaxML+n6m0C/V0Mapwp
-	 NQoMb123Zw2J4sno25BdiU2/gmzOht3CR7t0U44mQEqALZpCB30da2WDJ7T4qkEij6
-	 SKBaTMmQ3lbhQ==
-Date: Mon, 1 Jul 2024 17:31:01 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Samuel Holland <samuel.holland@sifive.com>
-Cc: Charlie Jenkins <charlie@rivosinc.com>, linux-riscv@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Guo Ren <guoren@kernel.org>, Evan Green <evan@rivosinc.com>,
-	Andy Chiu <andy.chiu@sifive.com>,
-	Jessica Clarke <jrtc27@jrtc27.com>, peterlin@andestech.com
-Subject: Re: [PATCH v3 03/13] riscv: dts: allwinner: Add xtheadvector to the
- D1/D1s devicetree
-Message-ID: <20240701-pyromania-spinster-709a6c8cc460@spud>
-References: <20240619-xtheadvector-v3-0-bff39eb9668e@rivosinc.com>
- <20240619-xtheadvector-v3-3-bff39eb9668e@rivosinc.com>
- <0cc13581-5cc4-4a25-a943-7a896f42da4c@sifive.com>
- <20240701-prancing-outpost-3cbce791c554@spud>
- <7ab7d629-6993-4cad-b5b7-62bddfc74a49@sifive.com>
+	s=k20201202; t=1719855629;
+	bh=E5f6qHZVxjrXFAD48QF0CGUhGy9Va81Pd+F+wrb6l34=;
+	h=Date:From:To:Cc:Subject:From;
+	b=nu+EreWM9O4lKeWsKkp2Lcqr0vGnzV7aD/1YAtlUn2zDqrCJaywNGO5icEnxRP2sq
+	 sfoPZIh2tcTMgTJUhkMRi0w2/AYVPC8BthMfyXpDNIyUM13fZI0zNcjBpy/4zIbJTs
+	 gxSLzpxbIGWvlm21DN5xuj/oOGlsosRVlFgcup8yUj59m8cVktUCq+MFB/n8YSbhPk
+	 wAWPEMAMQIS/7a4BeTsupq0ZHmtACd7xsUsmDdSPmFx/7+6pMegR+HlW68IALnjN/t
+	 ldsgzh9lqjbaNI6Ri2ILUdM16SIzy2FuZQ0h9tRHE4GMxh4b2llZaoC7+slswwBXCS
+	 jxaa3CXqRx5DA==
+Received: by wens.tw (Postfix, from userid 1000)
+	id 9495B5FADF; Tue,  2 Jul 2024 01:40:27 +0800 (CST)
+Date: Tue, 2 Jul 2024 01:40:27 +0800
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Stephen Boyd <sboyd@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej@kernel.org>,
+	Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev,
+	linux-clk@vger.kernel.org
+Subject: [GIT PULL] Allwinner clock fixes for 6.10
+Message-ID: <ZoLqC7gTDxEkNPsE@wens.tw>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="MRFAVKKck9xRQIr9"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="yuP47/a85TH1IIqh"
 Content-Disposition: inline
-In-Reply-To: <7ab7d629-6993-4cad-b5b7-62bddfc74a49@sifive.com>
 
 
---MRFAVKKck9xRQIr9
+--yuP47/a85TH1IIqh
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 01, 2024 at 11:11:55AM -0500, Samuel Holland wrote:
-> Hi Conor, Charlie,
->=20
-> On 2024-07-01 11:07 AM, Conor Dooley wrote:
-> > On Mon, Jul 01, 2024 at 10:27:01AM -0500, Samuel Holland wrote:
-> >> On 2024-06-19 6:57 PM, Charlie Jenkins wrote:
-> >>> The D1/D1s SoCs support xtheadvector so it can be included in the
-> >>> devicetree. Also include vlenb for the cpu.
-> >>>
-> >>> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> >>> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> >>> ---
-> >>>  arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi | 3 ++-
-> >>
-> >> The other C906/C910/C920-based SoCs need devicetree updates as well, a=
-lthough
-> >> they don't necessarily need to be part of this series:
-> >>
-> >>  - sophgo/cv18xx.dtsi
-> >>  - sophgo/sg2042-cpus.dtsi
-> >>  - thead/th1520.dtsi
-> >=20
-> > Yeah, I think I pointed that out before with the same "escape hatch" of
-> > it not needing to be in the same series.
-> >=20
-> >>
-> >>>  1 file changed, 2 insertions(+), 1 deletion(-)
-> >>>
-> >>> diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi b/arch/ris=
-cv/boot/dts/allwinner/sun20i-d1s.dtsi
-> >>> index 64c3c2e6cbe0..6367112e614a 100644
-> >>> --- a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
-> >>> +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
-> >>> @@ -27,7 +27,8 @@ cpu0: cpu@0 {
-> >>>  			riscv,isa =3D "rv64imafdc";
-> >>
-> >> The ISA string should be updated to keep it in sync with riscv,isa-ext=
-ensions.
-> >=20
-> > This probably looks like this cos I said that the kernel shouldn't parse
-> > vendor extensions from "riscv,isa". My rationale was that we have
-> > basically no control of what a vendor extension means in riscv,isa so=
-=20
-> > we shouldn't parse them from it (so marginally worse than standard
-> > extensions, where it means what the spec says except when it doesn't).
-> >=20
-> > Given how we implement the parsing, it also meant we weren't implying
-> > meanings for vendor extensions ACPI-land, where we also can't ensure the
-> > meanings or that they remain stable. That change is in a different
-> > series:
-> > https://patchwork.kernel.org/project/linux-riscv/patch/20240609-support=
-_vendor_extensions-v2-1-9a43f1fdcbb9@rivosinc.com/
-> >=20
-> > Although now that I think about it, this might break xandespmu... I
-> > dunno if the Andes guys switched over to using the new property outside
-> > of the single dts in the kernel tree using their SoC. We could
-> > potentially special-case that extension if they haven't - but my
-> > position on this mostly is that if you want to use vendor extensions you
-> > should not be using riscv,isa (even if the regex doesn't complain if you
-> > add them). I'd like to leave the code in the other patch as-is if we can
-> > help it.
-> >=20
-> > I added Yu Chien Peter Lin here, maybe they can let us know what they're
-> > doing.
->=20
-> OK, that makes sense to me. Then please ignore my original comment.
+Hi Stephen,
 
-Should the xandespmu thing be an issue, I'd suggest we just do something
-like the following, in place of the new switch arm added by Charlie:
+We have (hopefully) just one fix for the 6.10 cycle.
 
-diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
-index ec4bff7a827c..bb99b4055ec2 100644
---- a/arch/riscv/kernel/cpufeature.c
-+++ b/arch/riscv/kernel/cpufeature.c
-@@ -628,6 +628,17 @@ static void __init riscv_parse_isa_string(const char *=
-isa, unsigned long *bitmap
- 		if (unlikely(ext_err))
- 			continue;
-=20
-+		if (*ext =3D=3D 'x' && acpi_disabled) {
-+			/*
-+			 * xandespmu predates this "rule", so special case it for
-+			 * hysterical raisins
-+			 */
-+			if (strncasecmp(ext, "xandespmu", ext_end - ext)) {
-+				pr_warn_once("Vendor extensions are ignored in riscv,isa. Use riscv,is=
-a-extensions instead.");
-+				break;
-+			}
-+		}
-+
- 		match_isa_ext(ext, ext_end, bitmap);
- 	}
- }
+Please pull.
 
 
---MRFAVKKck9xRQIr9
+Thanks
+ChenYu
+
+The following changes since commit 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0:
+
+  Linux 6.10-rc1 (2024-05-26 15:20:12 -0700)
+
+are available in the Git repository at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-clk-fixes-for-6.10
+
+for you to fetch changes up to ea977d742507e534d9fe4f4d74256f6b7f589338:
+
+  clk: sunxi-ng: common: Don't call hw_to_ccu_common on hw without common (2024-06-30 23:12:44 +0800)
+
+----------------------------------------------------------------
+Allwinner SoC clk fixes for 6.10
+
+- Fix min/max rate clamping that caused a regression back in 6.9
+
+----------------------------------------------------------------
+Frank Oltmanns (1):
+      clk: sunxi-ng: common: Don't call hw_to_ccu_common on hw without common
+
+ drivers/clk/sunxi-ng/ccu_common.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
+
+--yuP47/a85TH1IIqh
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZoLZxAAKCRB4tDGHoIJi
-0vx9AP9TcSJwtzFrkZkNIG3vs0nSWuu1I+CFqCZfZtrYfWH8RQEAxGeKP2P/oodO
-cyCHRd/9NqDoz5j8eiXpnwlmjUtaKAk=
-=AA89
+iQIzBAABCgAdFiEE2nN1m/hhnkhOWjtHOJpUIZwPJDAFAmaC6gYACgkQOJpUIZwP
+JDDNDA//cpQNm16JnmmttGesxB4FBQR8mDBHQwVPRoVMVoGHSEY7KKZCwFhGPnkN
+AvrAl6RkvD2Mf1VNinQmJC3jnH9YYwQjF3euhRKEX1R4suypnHIpWcFYlj67Qvbj
+BVGdEFv4v4YG7haMLzh+miO88gjmHT2tgMQ74xmNTgmDqM1csRGKA0Tp7HcZZR67
+FUBX9/dK6kFiBhXEuDRLsKjV8NkpXI0xxEcgWqzBouxdcI9BaFHawkb8foG6dM59
+/mgBlC2bxPBxSneh4NjMJ4iVO+LdwA4oxdjvSb9qUkUB9/ZVsGg/2Xkhv0QPM/TS
+bqIDvoW8jdMviA4Qhhoj0EK6+nD892TDUN42fr34slTRp0ct4umaCLOFcjJTlIVi
+wdkmO4bLz28i22kBWDxoFgt2V/+IN8sjXXB+ZFGU86PvohPT/TMtlsafTA7hnroC
+CJw7MONfvNbO9+dIWzSOIgA+SNI7SIoCeaB1Ng/4LOFA/mmP+2zqKatu4fyJJ+Rx
+XdM3Dit9DXeaoqdZ5d5N8Tg/rPWDDjPgQA6ZtPqGY7T9hHEpsDA2zql4jAqiPYy7
+tficBTqWi+1rj8QMXFaF7Pw/7Ar7pXrHBhDZKejAnStTTrl2A3p30Zjaj9FEZbvo
+JvByB5Y2S9L8mMhL5B6aBi9kWc1mwFZPw+T9RFj2CusF2Naxja4=
+=hoz3
 -----END PGP SIGNATURE-----
 
---MRFAVKKck9xRQIr9--
+--yuP47/a85TH1IIqh--
