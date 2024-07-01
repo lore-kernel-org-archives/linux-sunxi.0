@@ -1,121 +1,148 @@
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35F4216D327
-	for <linux-sunxi@lists.linux.dev>; Mon,  1 Jul 2024 15:49:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A9151EB2A;
+	Mon,  1 Jul 2024 16:07:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719848968; cv=none; b=Dr7CisUfgol+erny5sCbHNubcLShCpiPmcLTkOxxgdJ1/Sxl9ldQC5DOinrug0JtNl1Mtn0YYYhypqiMlNbgHBO83pXyguEhknYV7T3lZS7Us3W4IRBzZo+/oooh38BsfpiTxgFzjptP0ztPdBG9X1cxFCYsXOBqX/5V+5rP6OQ=
+	t=1719850052; cv=none; b=YPk/+cqorzs7t5de7bGSxLCu6WAFE7KfK0xwfQ5e/0rrHpimkCJWl2181vYn3PNT//41S9FDcsDt9dQpQKQEsbw+3ly9JOWKVoU+k/uXYeHLE+Acwd8ZiuwKyblFyeATi2iVpOrCuZmxooP1mDydcvbezJ+tRNchgLWtOu9UZOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719848968; c=relaxed/simple;
-	bh=7wpTDCYkfM0h9G8p58hcJdgXA+PbS7WdaAYXL72gy+A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Hu9yjz2xKbB1CGbMDAD2G9txIpiH7bUYOoO6IdoshZuqGoMTtiijbuR5ySNabLg93TL2GmBXZPLjLCqg0Bogxlk/u9cLRiXvhHwLNb3nlEfEcYS/C0eZW3E848lV1nepHlnvfGiczlCdAd5c/Ygz9MM9iE8y66TOhd6rcX0Eeoo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com; spf=pass smtp.mailfrom=sifive.com; dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b=EoD+1Ina; arc=none smtp.client-ip=209.85.128.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sifive.com
+	s=arc-20240116; t=1719850052; c=relaxed/simple;
+	bh=QmDYLMDzbFAVik/DkbW1mPXPNZZJPZCYP+cxE0Noy/E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WLfqKyluoLqGV4241lpPQ9PMRP5E5iYKeOB3X1Ik9j7DR8rfVEnsEGxK4ZFcsr0hTm40CPFX1pWzI8aYAUVeyDRVJ8VsjK+zNilJijZIWAoUu3M6cDxL+w7QQjRhmEBCM9ZSK5KGXzpiTFQKcVPipxizVDMaCqLdAJjVx0tjkXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uXK3nvxm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="EoD+1Ina"
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-6325b04c275so31901057b3.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 01 Jul 2024 08:49:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google; t=1719848965; x=1720453765; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=umkqtCJW3Dg9JtpfzIAAg1v5vJehmts33cJFqn8dvR8=;
-        b=EoD+1InaQsDyzbxzPjdQQykHk/w8HYYpJ7AN8me1F+LgRO2vhC+CUYmr2j+C+qPjZ+
-         KVpyCDDzrd0JG1oJ/JmxHqPbFglhV1agek46y90H8xJUzF4BJz+2eG81XrqwguWr6pyV
-         qyZVCpz7IMNsvWIq7N7VA9sMMW+JkRsg5VEpTp9uVOgbUeOhvoyJ1bn3I3csHE0asdK/
-         iMSXgxHqJ5eLTBdspoUv5VWOEuHx/aF/5aHwBuHo6pg5NZKEaiAVuYEL34w+CT40xEIn
-         k+2Q1O4svxVyHPv3SHiQGGgQdt0wPM+XE+ZUUt0/u1MrmpcBGMpYA/q/+/GzuVf6TFRA
-         dxAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719848965; x=1720453765;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=umkqtCJW3Dg9JtpfzIAAg1v5vJehmts33cJFqn8dvR8=;
-        b=g3FlcVNwD7FwqnFj7TY4qLXKMrShh6QpiQf55IaeoiOQQ4YhsUdga75Pl6YrI0RFDA
-         LQsLnZpVw+1Mr8vZkcVxcvsi8HIQXSD3YL2RqvzZAW6OKgzQNQi8ULhtQYreruiQkuhM
-         aiR4LBP8xFT6gCZnpxXEoJR/Rs9CdJp7/I7ziPBTBIC+z9jzZT6ntwPGDwPnh6KoqLdJ
-         5yqWagykngP21yMVIRf1YaFz6wUYkg9vzF71BFW3zEDGky02fEmGNR7tfnSWCAhNchWz
-         yL8LmsCzw5aE715M+1ZXeHLu5b6qo8TmMp9X8tUD/uIdILwUSuhjfcioi8M3OxSpFOaH
-         opsA==
-X-Forwarded-Encrypted: i=1; AJvYcCW3ogC1N6sWqZ6acHRXgOiIeXsl/VJMXC46Rb9j5pa/Xjg4GI83A4s7u7GYRQ7ikeVcMDq2DssCLfnOfep0WVBB4wRqWATuai76rpU=
-X-Gm-Message-State: AOJu0YyVpmIB/RDinB9YpdOLVQTOJJ0dZfBBLYZLoA4zC9dCtCkdsK5W
-	nMITBh09B0OD71fl7vqcVcPjYkTxJiDpzHuWWAdkWDzvQKL+p5jBAlKA/wZtecY=
-X-Google-Smtp-Source: AGHT+IGu9I2wc2U8NTdlZqwI73pTcvt2JvT2wJhK92JWQZzopvjsvNausRGAk2vO9Al2yPEEKQkmTw==
-X-Received: by 2002:a05:690c:710:b0:64b:8e82:1f9 with SMTP id 00721157ae682-64c7123bf4amr65310827b3.18.1719848965244;
-        Mon, 01 Jul 2024 08:49:25 -0700 (PDT)
-Received: from [100.64.0.1] ([147.124.94.167])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-64a9c405c9csm14034647b3.128.2024.07.01.08.49.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Jul 2024 08:49:24 -0700 (PDT)
-Message-ID: <54232f3e-4fea-4996-a90b-6de51e1c51e0@sifive.com>
-Date: Mon, 1 Jul 2024 10:49:23 -0500
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uXK3nvxm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 741AAC116B1;
+	Mon,  1 Jul 2024 16:07:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719850050;
+	bh=QmDYLMDzbFAVik/DkbW1mPXPNZZJPZCYP+cxE0Noy/E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uXK3nvxmKjdsvXXxrtAWaSHnZkAUlaUuJBPDy40HGmKXOTYz9qvAPCJ/VWkKuXzeC
+	 9BK4oHFzZm7/Iv3j7kqGx0hxYpqDFXLLi0Kc71J2emXTqu+ldPODcayLA7sI6t8Wys
+	 t27pi7dbWc11aw0WhjACbSc85SAa0kOKjo676X82j+pPaju7yudbTHQabykdScnMhW
+	 stGPYShnDpxTDnTs9/jSJtnlVZm9x899zHEPNhoiox8yfQudEwc05S++FtV+fVaf9W
+	 P+wYvJY+KEXuHltHCHrAA2srbDje5YHXtLXj/6FkqBgIKMRlBujmZ9YeuNBu1K8TAa
+	 vJx2aVCLZ4YDw==
+Date: Mon, 1 Jul 2024 17:07:23 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Samuel Holland <samuel.holland@sifive.com>
+Cc: Charlie Jenkins <charlie@rivosinc.com>, linux-riscv@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Guo Ren <guoren@kernel.org>, Evan Green <evan@rivosinc.com>,
+	Andy Chiu <andy.chiu@sifive.com>,
+	Jessica Clarke <jrtc27@jrtc27.com>, peterlin@andestech.com
+Subject: Re: [PATCH v3 03/13] riscv: dts: allwinner: Add xtheadvector to the
+ D1/D1s devicetree
+Message-ID: <20240701-prancing-outpost-3cbce791c554@spud>
+References: <20240619-xtheadvector-v3-0-bff39eb9668e@rivosinc.com>
+ <20240619-xtheadvector-v3-3-bff39eb9668e@rivosinc.com>
+ <0cc13581-5cc4-4a25-a943-7a896f42da4c@sifive.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 07/13] riscv: csr: Add CSR encodings for
- VCSR_VXRM/VCSR_VXSAT
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Heiko Stuebner <heiko@sntech.de>, Conor Dooley <conor@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <shuah@kernel.org>, Guo Ren <guoren@kernel.org>,
- Evan Green <evan@rivosinc.com>, Andy Chiu <andy.chiu@sifive.com>,
- Jessica Clarke <jrtc27@jrtc27.com>
-References: <20240619-xtheadvector-v3-0-bff39eb9668e@rivosinc.com>
- <20240619-xtheadvector-v3-7-bff39eb9668e@rivosinc.com>
-Content-Language: en-US
-From: Samuel Holland <samuel.holland@sifive.com>
-In-Reply-To: <20240619-xtheadvector-v3-7-bff39eb9668e@rivosinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="2wEs3Y52yP3HfYxY"
+Content-Disposition: inline
+In-Reply-To: <0cc13581-5cc4-4a25-a943-7a896f42da4c@sifive.com>
 
-Hi Charlie,
 
-On 2024-06-19 6:57 PM, Charlie Jenkins wrote:
-> The VXRM vector csr for xtheadvector has an encoding of 0xa and VXSAT
-> has an encoding of 0x9.
-> 
-> Co-developed-by: Heiko Stuebner <heiko@sntech.de>
-> Signed-off-by: Heiko Stuebner <heiko@sntech.de>
-> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> ---
->  arch/riscv/include/asm/csr.h | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/arch/riscv/include/asm/csr.h b/arch/riscv/include/asm/csr.h
-> index 18e178d83401..9086639a3dde 100644
-> --- a/arch/riscv/include/asm/csr.h
-> +++ b/arch/riscv/include/asm/csr.h
-> @@ -220,6 +220,8 @@
->  #define VCSR_VXRM_MASK			3
->  #define VCSR_VXRM_SHIFT			1
->  #define VCSR_VXSAT_MASK			1
-> +#define VCSR_VXSAT			0x9
-> +#define VCSR_VXRM			0xa
+--2wEs3Y52yP3HfYxY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-These are normal CSR indexes, so the prefix should be just "CSR_".
+On Mon, Jul 01, 2024 at 10:27:01AM -0500, Samuel Holland wrote:
+> Hi Charlie,
+>=20
+> On 2024-06-19 6:57 PM, Charlie Jenkins wrote:
+> > The D1/D1s SoCs support xtheadvector so it can be included in the
+> > devicetree. Also include vlenb for the cpu.
+> >=20
+> > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> > ---
+> >  arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi | 3 ++-
+>=20
+> The other C906/C910/C920-based SoCs need devicetree updates as well, alth=
+ough
+> they don't necessarily need to be part of this series:
+>=20
+>  - sophgo/cv18xx.dtsi
+>  - sophgo/sg2042-cpus.dtsi
+>  - thead/th1520.dtsi
 
-Regards,
-Samuel
+Yeah, I think I pointed that out before with the same "escape hatch" of
+it not needing to be in the same series.
 
->  
->  /* symbolic CSR names: */
->  #define CSR_CYCLE		0xc00
-> 
+>=20
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi b/arch/riscv=
+/boot/dts/allwinner/sun20i-d1s.dtsi
+> > index 64c3c2e6cbe0..6367112e614a 100644
+> > --- a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> > +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> > @@ -27,7 +27,8 @@ cpu0: cpu@0 {
+> >  			riscv,isa =3D "rv64imafdc";
+>=20
+> The ISA string should be updated to keep it in sync with riscv,isa-extens=
+ions.
 
+This probably looks like this cos I said that the kernel shouldn't parse
+vendor extensions from "riscv,isa". My rationale was that we have
+basically no control of what a vendor extension means in riscv,isa so=20
+we shouldn't parse them from it (so marginally worse than standard
+extensions, where it means what the spec says except when it doesn't).
+
+Given how we implement the parsing, it also meant we weren't implying
+meanings for vendor extensions ACPI-land, where we also can't ensure the
+meanings or that they remain stable. That change is in a different
+series:
+https://patchwork.kernel.org/project/linux-riscv/patch/20240609-support_ven=
+dor_extensions-v2-1-9a43f1fdcbb9@rivosinc.com/
+
+Although now that I think about it, this might break xandespmu... I
+dunno if the Andes guys switched over to using the new property outside
+of the single dts in the kernel tree using their SoC. We could
+potentially special-case that extension if they haven't - but my
+position on this mostly is that if you want to use vendor extensions you
+should not be using riscv,isa (even if the regex doesn't complain if you
+add them). I'd like to leave the code in the other patch as-is if we can
+help it.
+
+I added Yu Chien Peter Lin here, maybe they can let us know what they're
+doing.
+
+Thanks,
+Conor.
+
+--2wEs3Y52yP3HfYxY
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZoLUOwAKCRB4tDGHoIJi
+0rw0AQCnXybJz50BMTgjwNiigJMGvS3LXS+gpH8vsiDf6bY5nQEA8gffrOCUKPqX
+QYl/5hn3gmXORavNMM6uYbvMldYgpA8=
+=cmG6
+-----END PGP SIGNATURE-----
+
+--2wEs3Y52yP3HfYxY--
