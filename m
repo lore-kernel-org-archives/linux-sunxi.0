@@ -1,47 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFE011B47AC;
-	Tue,  2 Jul 2024 13:42:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B3BF1DFFC
+	for <linux-sunxi@lists.linux.dev>; Tue,  2 Jul 2024 15:12:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719927743; cv=none; b=Qu4UZgEIr1l8zoMgpAz7Yn+JbQQOb6XGOBzsTi/LaZA1zb18A6xByGmwaDNcjal/ShLVLG9TwdxaX0rUQc+ziigttEYFmkFgSPl9XsBykO+9mvALxsU67F/Gn2Mw44AUnVlifC8gHkHxUkR9gvd4Dj2bffR3fMvqcZC84gpUhjk=
+	t=1719933161; cv=none; b=LlOFkX7sZ6AEwK2116/ShUOhKPnsP6fP0aAa0NHFbaV0Ei2zp9uEVC0BQvUZu2qhHDqCQz30Ber6Nn8oJ8r+MkkiT0Oy6BCy5gP0N0XRJdPkiF1Iq41q2tjrBq8fgqbtxCrDrQDz2qBmCvVcRSMzyDbbBXF/zHKRdxDn9WFcE2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719927743; c=relaxed/simple;
-	bh=viWMyuSLPQcT8QQfWmFKUsU7APOiO0XeiC0Q+5KtxT4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dYh6UTVHxdexVdQh5O7qAkz2/0XrfgEE4ZxHufOhlhqYGa58OkzkaqjZOFMudaMQ7GV3/NzDoFKhA23Y+i+7FtdwIh3NCa7u3MwlzqCaCwpM5xsQ8RKq/ms+L2JSQ6Nve88bZFByFkkEaGHWG43bI3nI+8CJu+42FJl3vv07wJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W/IjLzG6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719933161; c=relaxed/simple;
+	bh=k33hXVwdB7QXNGJCLyWJnvbK+AxHsjUjmrFo9r3aq78=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=aVii3ppDy+NkfTr+FbZCRMVQchMnqoIlnNGy76N5NHIBKwFMPOUtLyxVw4d5ziMIj1U97P7OkeFuMqkuws64CAvrnFrIifqRZuWuhIl/WEzYARFRAhPHhctT+sfckh6aU5inhRSAJuHfeQCaLQ83HsQlSu91+qAxg5voOf5sjuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PbhH1w4z; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W/IjLzG6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 162A0C116B1;
-	Tue,  2 Jul 2024 13:42:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PbhH1w4z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD83BC116B1;
+	Tue,  2 Jul 2024 15:12:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719927742;
-	bh=viWMyuSLPQcT8QQfWmFKUsU7APOiO0XeiC0Q+5KtxT4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=W/IjLzG68TM7rttv/YSFDQ9jMMSBPjODnfFodJoeJ5QyC4HQ6T3fjQnPpmdMwgFVJ
-	 eZT8d2HZY4+j7w7knSNvIgOCH3a5IySSXvxW0AXQx1cXkD1imNArNtL23XjsXVgi/+
-	 sSPShsEL/2h1Q8NRhqNFYrg1AvDQJVCWUhDNfJMX+EixW+zr97l+NGIoXXZnjK0pMq
-	 +qxgC4UE3uNSY3XTkR24D+PUHigiyKt98Jxja9aeD8njc7B0IsEkhsZMXg2usEhLze
-	 vuHzs/177SP+CKODtMQQaYtXdR+yJSGJTTcR6TtUWq93kCUNLZQEXLNB6wHqzLg+hg
-	 rx1eF23fe7tHA==
-Date: Tue, 2 Jul 2024 15:42:18 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Matteo Martelli <matteomartelli3@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Marcus Cooper <codekipper@gmail.com>, =?utf-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>, 
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/1] ASoC: sunxi: sun4i-i2s: fix LRCLK polarity in i2s
- mode
-Message-ID: <20240702-copperhead-of-unusual-intensity-7f43a8@houat>
-References: <20240529140658.180966-2-matteomartelli3@gmail.com>
- <20240529140658.180966-3-matteomartelli3@gmail.com>
- <20240606-savvy-wallaby-of-champagne-d4a50e@houat>
- <6662bf1b61bbc_2f51737023@njaxe.notmuch>
+	s=k20201202; t=1719933161;
+	bh=k33hXVwdB7QXNGJCLyWJnvbK+AxHsjUjmrFo9r3aq78=;
+	h=Date:From:List-Id:To:Cc:Subject:From;
+	b=PbhH1w4zL/WVKpjh2bFC6P0+BOnwpzuD15yFmyp2T8rpfbKcl79yAfMpJnZ2V/ATv
+	 zZFXlNjmVADOzuTG7Vr7cZDRTbd5JZfuwntvIddt8L/3ujSeqa0z4/hU9Eot4rJd3K
+	 /vzy5FbRW+TbQ55WkIPV2fcAD8lzXyof0bpPf7x263wFUnxCOwgbKw+m0G1GYB3B3B
+	 TD0wKoy2tDz/phCg3dlLc+NdJt+mwm1/k2YnIInubaeLc0Wi1X910+nFxXgFObprik
+	 L65CIA2wZCur18+8vq/1bvoNHz8zfwDT27v8vsqyRvFN2/QvFKh+s5KeWtAa06AltT
+	 PpTk/vVOEaInA==
+Received: by wens.tw (Postfix, from userid 1000)
+	id 4CBE95F852; Tue,  2 Jul 2024 23:12:38 +0800 (CST)
+Date: Tue, 2 Jul 2024 23:12:38 +0800
+From: Chen-Yu Tsai <wens@kernel.org>
+To: soc@kernel.org
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej@kernel.org>,
+	Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: [GIT PULL 1/3] Allwinner SoC fixes for 6.10
+Message-ID: <ZoQY5k21RQLOrBQ3@wens.tw>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -49,55 +43,65 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6xqnwajdqjhkbqhg"
+	protocol="application/pgp-signature"; boundary="uUc39WAOFAsMCQ3s"
 Content-Disposition: inline
-In-Reply-To: <6662bf1b61bbc_2f51737023@njaxe.notmuch>
 
 
---6xqnwajdqjhkbqhg
+--uUc39WAOFAsMCQ3s
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Hi SoC maintainers,
 
-On Fri, Jun 07, 2024 at 10:04:43AM GMT, Matteo Martelli wrote:
-> Maxime Ripard wrote:
-> > > -	/*
-> > > -	 * DAI clock polarity
-> > > -	 *
-> > > -	 * The setup for LRCK contradicts the datasheet, but under a
-> > > -	 * scope it's clear that the LRCK polarity is reversed
-> > > -	 * compared to the expected polarity on the bus.
-> > > -	 */
-> >=20
-> > I think we should keep that comment somewhere.
->=20
-> I think that keeping that comment would be very misleading since the LRCLK
-> setup would not contradict the datasheet anymore [1][2].
->
-> Also, do you recall any details about the mentioned scope test setup? Was=
- i2s
-> mode tested in that occasion? It would help clarify the situation.
+We have one fix for 6.10. Please pull.
 
-I can't remember if I tested i2s, I think I did though. But most of the
-work was done on either TDM or DSP modes, and I remember very clearly
-that the LRCK polarity was inverted compared to what Allwinner documents.
 
-So the doc was, at best, misleading for these formats and we should keep
-the comments.
+Thanks
+ChenYu
 
-Maxime
 
---6xqnwajdqjhkbqhg
+The following changes since commit 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0:
+
+  Linux 6.10-rc1 (2024-05-26 15:20:12 -0700)
+
+are available in the Git repository at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-fixes-for-6.10
+
+for you to fetch changes up to 5b36166e599b5c1332a1147271d2130cece4bb24:
+
+  arm64: dts: allwinner: Fix PMIC interrupt number (2024-05-28 22:31:31 +0800)
+
+----------------------------------------------------------------
+Allwinner fixes for 6.10
+
+- Fix PMIC interrupt number for Remix Mini PC
+
+----------------------------------------------------------------
+Andre Przywara (1):
+      arm64: dts: allwinner: Fix PMIC interrupt number
+
+ arch/arm64/boot/dts/allwinner/sun50i-h64-remix-mini-pc.dts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--uUc39WAOFAsMCQ3s
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZoQDugAKCRDj7w1vZxhR
-xVvRAPwJR6VO4KkT6NwzPIFmZLjnVJpctsukmqnb9lXstjDJGAEA1SlfjzCl4zUa
-deqV6VITIqV5aIAAfkYTA5gnQ9iasAI=
-=K/Rr
+iQIzBAABCgAdFiEE2nN1m/hhnkhOWjtHOJpUIZwPJDAFAmaEGOQACgkQOJpUIZwP
+JDDqQA/8DVRj9WjoienDaTA90zQKfI2jSGfKvbh608Q0KJgbLPaLUf/7+S8wGcfU
+hmbiDaVPxiah4CXDfn7xxzfeyc4KgRXSo81pPQdul8sT6ngAMEDtMgEau/nN0T9w
+WrLpohRuhFc1E1MbDXoIJN/v3A0YLDobUWXjRla9JFzNql/g7Z+uK+cO127JjQkd
+9/75CN85Yv5a2u2UsIbc88cRrNAn5yS0MgPOgSUJpJH9jOS5bFtpxSbaj1Prs5nV
+eRXTDQOuX6yda9Xv0Fd8FOt7gJTItVONr5tvjPJOlgeN2IJGuAJ9AtMH+JGWqJUN
+yvUyvlgilqgmrnyGyZ2Vu5czuMQ9gNXVNGA7nO0sDRi/xapl6OLshAawrGknQxCp
+kZDGoPIkz96yUAdzFte5j0z8J6MJmyxJvIsDsiSl8qdAXZfMqbraKY5jnkp3B3cK
+pzn6QNRTUZMtu6G8lVoW+H77XvWM72YChNJqIDRdC8dTx6KYtEPNs9fotKH2pQNN
+mvMABat4/j11e3LcuhsWkw3yNBdLqS8oaSUhOrf4Ct//VYHOGzm7zDnjE0caJbGY
+/Kcq2MVF7prl8ec7+vEiBXPXaCDRyCaZQG3jS93t0o5hscw3jnMQ8D6mN1xlusZi
+kI/5xcuLBEfnpkwgB0q/9uoeqwmraYvhUJXrEFye1/S0GK6naOk=
+=EgnH
 -----END PGP SIGNATURE-----
 
---6xqnwajdqjhkbqhg--
+--uUc39WAOFAsMCQ3s--
