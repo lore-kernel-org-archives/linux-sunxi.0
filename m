@@ -1,137 +1,201 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 717FA1BBBDD
-	for <linux-sunxi@lists.linux.dev>; Tue,  2 Jul 2024 15:17:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7AAD1AD9E7
+	for <linux-sunxi@lists.linux.dev>; Tue,  2 Jul 2024 15:21:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719933441; cv=none; b=Ga1INSoYB42hzfbU/Do3xjiPuz8jMJt1ack02MHEvOLcUX6OnLS5jD0uAByRkeKpik3jmCUE6R9RtUWojI9d5VLcYqjxDBu0IXaEG0tcP9k8KQOTAs+VdBdVnui4J570Gdz4rum4Qf75DSyM4TcJoapZzcGpHnvtjBX/pEvfht8=
+	t=1719933686; cv=none; b=Xjdf9cjKqIbNbGJeKcuhnv39salOlWIAHL4Qfio0CWTdh5O3HQUBRTR+C4sLzNwsC9i8e9mjJrGh1nTL3MFe1TAezja/FSm2Icm0QkXJFiSP5bSHLS7hKuoILDUMLlUYV7B4NUDCFD8JNgkitmfFIG1iJV/LUVEACVNJDAlmeWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719933441; c=relaxed/simple;
-	bh=OH+FK15Szq9dfSrBQy16ayM0LYVw6SUGzokx5M9tzy8=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 Mime-Version:Content-Type; b=tftu+s+ejywW+gFLJMfI0Te3I/4cCoQIBz9G6hcVF4ep5hH3TUI2I9HhoJiRs3MEZjntYWP6TQ5HVBwsU1rA2Wlsw8uCQ6CTKx860pAKfPcEVxwThh6ssv61xyq5yF0Awv67p/f3mb8O3WgjWMN3bnfZk3zQCf/KjeKYMH9b6QI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z/38YCB+; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1719933686; c=relaxed/simple;
+	bh=4Fi+t1hnknC6MAcud7j4Xp/6+RBHlyGiIsKdAkBOi/Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=u+RISKEv+U595FJwo9WGI1va5YfSSCfaJRfq0W7ffnuYkcZcQOeTAwg/gdjSRrfjVBrWfDwD8W6U0SxXFAKYuML1ZtKZcNIFvi6iF5FOOVXxOGTW/WujUBvScx4Jz8SbCIwxGmMuY/GybBsDX7vBWa3RVbOjuxvrs1Fo2seOFKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NGDSzd79; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z/38YCB+"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-424ad289912so30641195e9.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 02 Jul 2024 08:17:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719933438; x=1720538238; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=t7xByIbV2umIoygttU7Su2ntwwqoRDPa8Pnvxm3eHlc=;
-        b=Z/38YCB+bpghHhuem1zrt4u4ekBMFV3VZ5Uwi8agBWl+C0q+GmrBdw1UcrMJaNM9r7
-         fpsXPPh0zqa0xZhqUCx7kYBdAZfXLbnis5EtZNtSeNlk62h3095fUiQ9U17fTzXocZdW
-         dI2F5myFxWDzyJCZnmvEL5P61bJavE3J9g5Knr6je4MVXNTAhm7E9UfpP4cJ9FFUF4yj
-         fVUggJX4jkVRMKIgCwdXBeogHvYpys4xSdMKXwd+c/Xy6Em5SAg9E/KZmylcJgoIhrwq
-         VcFHns1OUmEJGYj52GxW+Ffe9dgwubvpskBMiaiHohqKHE+9hEc+sQuvKy6oNUaiWAok
-         Y0Zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719933438; x=1720538238;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=t7xByIbV2umIoygttU7Su2ntwwqoRDPa8Pnvxm3eHlc=;
-        b=vfXKJ00mIklPLX+v7E8aJKNqYo+Soxw0sC2FIoVtxilpUM8yYsuoKoVzsZsv3pywIP
-         VVl44Uy6sSCaSfKjlzealAyTFKW+bMeu+bwmHiHmtJHipd7ISZjkg7Hw1HnfIfHNLtT7
-         U1n4s9Dhx96KX+YuTmUXI6EXnbINKzAWXH/j3GTTwbbaXhLWe0fgvKaMkAOQ8muaOu8y
-         ayixJsHnf684cMChg9cai1/cCH26DpgKzD3bIPonzherrjx8orRhRv+V1g0VWYWFNyNs
-         l2EFLOlTsqYbMJb71ohw5qZBg4SMOy+/TUN9t0a+MIqw085aJK5Cl5KbfToqtQ71dOqg
-         aDVA==
-X-Forwarded-Encrypted: i=1; AJvYcCV0TQV4xZxYxoTPA4PmwLRiVRT4vW+xd1FwWyMe8O4em7OFSJHwyASWSuigIzjB86MqH80ntv0MRoscEd8nXSN0i3uwUvEFgrA+AwQ=
-X-Gm-Message-State: AOJu0YziPd6KmD0KveMClpCF+7OO6wAn1AvD990I2fL6ukCGJPcu5FDx
-	e8HY4QWyLO91uUt3x1tQaWFGH6IkIQNnXkqR/UD04CiRGQDtioeu
-X-Google-Smtp-Source: AGHT+IGX4cMz2AKxR9UquQ5Q7gBmz158IKH0vcsGbbVsGmFToi6f21HaHfYS04B91Tgb0Y7+kQ1CNw==
-X-Received: by 2002:a05:600c:3b09:b0:424:7bcf:2486 with SMTP id 5b1f17b1804b1-4257a00aadamr54017895e9.4.1719933437469;
-        Tue, 02 Jul 2024 08:17:17 -0700 (PDT)
-Received: from localhost (host-95-246-50-43.retail.telecomitalia.it. [95.246.50.43])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4256b068e54sm205410225e9.25.2024.07.02.08.17.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jul 2024 08:17:17 -0700 (PDT)
-Date: Tue, 02 Jul 2024 17:17:15 +0200
-From: Matteo Martelli <matteomartelli3@gmail.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Marcus Cooper <codekipper@gmail.com>, 
- =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>, 
- linux-sound@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org
-Message-ID: <668419fb8ef9f_2a76d370f1@njaxe.notmuch>
-In-Reply-To: <20240702-copperhead-of-unusual-intensity-7f43a8@houat>
-References: <20240529140658.180966-2-matteomartelli3@gmail.com>
- <20240529140658.180966-3-matteomartelli3@gmail.com>
- <20240606-savvy-wallaby-of-champagne-d4a50e@houat>
- <6662bf1b61bbc_2f51737023@njaxe.notmuch>
- <20240702-copperhead-of-unusual-intensity-7f43a8@houat>
-Subject: Re: [PATCH 1/1] ASoC: sunxi: sun4i-i2s: fix LRCLK polarity in i2s
- mode
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NGDSzd79"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62B6DC2BD10;
+	Tue,  2 Jul 2024 15:21:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719933685;
+	bh=4Fi+t1hnknC6MAcud7j4Xp/6+RBHlyGiIsKdAkBOi/Y=;
+	h=Date:From:List-Id:To:Cc:Subject:From;
+	b=NGDSzd79bP31L3+BMOk83S9D5OkGxAhCc500Lr8m9pV0mUccRD4hhntAiJ6qQjGdR
+	 CppRtUoa4dWLi3yXHvQN0/v2R+8+vpJb2I0W28FFn1Wzl+f2vUTUxrxrVYpJDKPX/u
+	 sDBytKOiClPitGS+oHOrHuV80JJK8cyWaAhskV52UzDDCgqMTEkrCi9+WN0UD7rgXR
+	 149wNsS5fBu5XH2kabCNLLIWcFwB4jczYfDSwh/lj+gwMof/Jwcl/2kP0YSIfyBjUc
+	 zqTtHX1V0qmTpVgCmLfwevKMEVY3hZkmagScY7WPsOSbJhX+alpRuaJDC+hNIiydMw
+	 HKGisgOxV+7iQ==
+Received: by wens.tw (Postfix, from userid 1000)
+	id BDB495F852; Tue,  2 Jul 2024 23:21:22 +0800 (CST)
+Date: Tue, 2 Jul 2024 23:21:22 +0800
+From: Chen-Yu Tsai <wens@kernel.org>
+To: soc@kernel.org
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej@kernel.org>,
+	Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: [GIT PULL 3/3] Allwinner SoC device tree changes for 6.11
+Message-ID: <ZoQa8r1N8yi7FlPV@wens.tw>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="zC3t8RTKVMd8uPGl"
+Content-Disposition: inline
 
-Maxime Ripard wrote:
-> Hi,
-> 
-> On Fri, Jun 07, 2024 at 10:04:43AM GMT, Matteo Martelli wrote:
-> > Maxime Ripard wrote:
-> > > > -	/*
-> > > > -	 * DAI clock polarity
-> > > > -	 *
-> > > > -	 * The setup for LRCK contradicts the datasheet, but under a
-> > > > -	 * scope it's clear that the LRCK polarity is reversed
-> > > > -	 * compared to the expected polarity on the bus.
-> > > > -	 */
-> > > 
-> > > I think we should keep that comment somewhere.
-> > 
-> > I think that keeping that comment would be very misleading since the LRCLK
-> > setup would not contradict the datasheet anymore [1][2].
-> >
-> > Also, do you recall any details about the mentioned scope test setup? Was i2s
-> > mode tested in that occasion? It would help clarify the situation.
-> 
-> I can't remember if I tested i2s, I think I did though. But most of the
-> work was done on either TDM or DSP modes, and I remember very clearly
-> that the LRCK polarity was inverted compared to what Allwinner documents.
-> 
-> So the doc was, at best, misleading for these formats and we should keep
-> the comments.
-> 
-> Maxime
 
-Thanks for the reply Maxime, would you be able to point out the Allwinner
-document part that is (or was) misleading? The current datasheets (see links
-[1][2]) look correct, the current driver setup for TDM and DSP modes respects
-those datasheets and it's not "reversed compared to the expected polarity on
-the bus" as the comment states. Also I didn't find any related errata in their
-changelog. Could it be possible that during those mentioned tests you were
-still referring to the datasheets of other SoCs like A10 for instance? Or maybe
-that the misleading information was in another document rather than the main
-datasheets? If that's the case, would you still think that the comment should be
-kept as it is?
+--zC3t8RTKVMd8uPGl
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[1]: https://linux-sunxi.org/images/4/4b/Allwinner_H3_Datasheet_V1.2.pdf
-section 8.6.7.2
-[2]: https://linux-sunxi.org/images/4/46/Allwinner_H6_V200_User_Manual_V1.1.pdf
-section 7.2.5.2
+Hi SoC maintainers,
 
-Thanks,
-Matteo
+Here's the last pull request for this cycle. As the tag mentions, there
+is one commit that is shared with the clk changes. Also, ARM64 and
+RISC-V changes are combined in one branch / tag. We don't have a lot of
+the latter, but please let me know if you prefer otherwise.
+
+
+The Allwinner SoCs have a bunch of changes including
+
+- cache information for all the ARM64 SoCs
+- more peripherals for H616
+- CPU DVFS on some H700 boards
+- name and model fixups for Pine64 boards
+- system LDOs (embedded in the SoC) for D1s/T11s SoC
+- New boards: ClockworkPi and DevTerm
+
+Please pull.
+
+
+Thanks
+ChenYu
+
+
+
+The following changes since commit 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0:
+
+  Linux 6.10-rc1 (2024-05-26 15:20:12 -0700)
+
+are available in the Git repository at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunx=
+i-dt-for-6.11
+
+for you to fetch changes up to 0ce1d34678e5d214746ee4887f9f7714c39e331f:
+
+  riscv: dts: allwinner: Add ClockworkPi and DevTerm devicetrees (2024-06-3=
+0 23:06:52 +0800)
+
+----------------------------------------------------------------
+Allwinner SoC device tree changes for 6.11
+
+This includes a commit shared with the clk tree. This commit adds clock
+and reset indices to the device tree binding, and thus is needed for
+both the device tree and driver changes.
+
+ARM64 device tree and binding-only changes
+- Add LRADC (low resolution ADC for resistor network based keys) for H616 S=
+oC
+- Add cache information for A64, H6, and H616 SoCs
+- Correct model names and descriptions for Pine64 boards
+- Add GPADC (general purpose ADC) for H616 SoC
+- Add ADC joysticks based on GPADC for anbernic-rg35xx-h board
+- Add additional CPU OPPs for the H700 on top of existing H616 ones
+- Enable DVFS for rg35xx boards
+- Add IOMMU for H616 SoC
+
+RISC-V device tree changes
+- Add system LDOs to D1s/T113 SoC
+- Add ClockworkPi and DevTerm device trees
+
+----------------------------------------------------------------
+Andre Przywara (1):
+      arm64: dts: allwinner: h616: add IOMMU node
+
+Chen-Yu Tsai (2):
+      Merge branch 'sunxi/shared-clk-ids-for-6.11' into sunxi/dt-for-6.11
+      riscv: dts: allwinner: d1s-t113: Add system LDOs
+
+Chris Morgan (3):
+      dt-bindings: clock: sun50i-h616-ccu: Add GPADC clocks
+      arm64: dts: allwinner: h616: Add GPADC device node
+      arm64: dts: allwinner: anbernic-rg35xx-h: Add ADC joysticks
+
+Dragan Simic (5):
+      arm64: dts: allwinner: Add cache information to the SoC dtsi for H6
+      dt-bindings: arm: sunxi: Correct the descriptions for Pine64 boards
+      arm64: dts: allwinner: Correct the model names for Pine64 boards
+      arm64: dts: allwinner: Add cache information to the SoC dtsi for A64
+      arm64: dts: allwinner: Add cache information to the SoC dtsi for H616
+
+James McGregor (2):
+      dt-bindings: input: sun4i-lradc-keys: Add H616 compatible
+      ARM: dts: sun50i: Add LRADC node
+
+Pavel L=F6bl (1):
+      ARM: dts: sunxi: remove duplicated entries in makefile
+
+Ryan Walklin (2):
+      arm64: dts: allwinner: h616: add additional CPU OPPs for the H700
+      arm64: dts: allwinner: rg35xx: Enable DVFS CPU frequency scaling
+
+Samuel Holland (1):
+      riscv: dts: allwinner: Add ClockworkPi and DevTerm devicetrees
+
+ Documentation/devicetree/bindings/arm/sunxi.yaml   |  16 +-
+ .../input/allwinner,sun4i-a10-lradc-keys.yaml      |   4 +-
+ arch/arm/boot/dts/allwinner/Makefile               |  62 -----
+ .../boot/dts/allwinner/sun50i-a64-pine64-lts.dts   |   2 +-
+ .../boot/dts/allwinner/sun50i-a64-pine64-plus.dts  |   2 +-
+ .../arm64/boot/dts/allwinner/sun50i-a64-pine64.dts |   2 +-
+ .../boot/dts/allwinner/sun50i-a64-pinebook.dts     |   2 +-
+ .../allwinner/sun50i-a64-pinetab-early-adopter.dts |   2 +-
+ .../boot/dts/allwinner/sun50i-a64-pinetab.dts      |   2 +-
+ .../dts/allwinner/sun50i-a64-sopine-baseboard.dts  |   2 +-
+ arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi      |  37 ++-
+ .../dts/allwinner/sun50i-h6-pine-h64-model-b.dts   |   2 +-
+ .../boot/dts/allwinner/sun50i-h6-pine-h64.dts      |   2 +-
+ arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi       |  37 +++
+ .../boot/dts/allwinner/sun50i-h616-cpu-opp.dtsi    |  25 +-
+ arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi     |  67 ++++++
+ .../allwinner/sun50i-h700-anbernic-rg35xx-2024.dts |   4 +-
+ .../allwinner/sun50i-h700-anbernic-rg35xx-h.dts    |  79 +++++++
+ arch/riscv/boot/dts/allwinner/Makefile             |   2 +
+ .../dts/allwinner/sun20i-d1-clockworkpi-v3.14.dts  | 252 +++++++++++++++++=
+++++
+ .../boot/dts/allwinner/sun20i-d1-devterm-v3.14.dts |  36 +++
+ arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi  |  11 +
+ include/dt-bindings/clock/sun50i-h616-ccu.h        |   1 +
+ include/dt-bindings/reset/sun50i-h616-ccu.h        |   1 +
+ 24 files changed, 558 insertions(+), 94 deletions(-)
+ create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-clockworkpi-v3.=
+14.dts
+ create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-devterm-v3.14.d=
+ts
+
+--zC3t8RTKVMd8uPGl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE2nN1m/hhnkhOWjtHOJpUIZwPJDAFAmaEGvIACgkQOJpUIZwP
+JDBGRhAA5xRw7IkiXsPzlH0c/VBOyVlObRESvauWCjDT9rzjI5lkgNWKb9Dq9i2j
+fgrMxosBXFF9dlMfoW5v9630zHORUdZHZW3D+RnOJoUek2cBJXKmOUsNQOjdOesb
+DazeEb8+e+QHXcSveMJiVtFQvM6iwTloj6vU8+DaoD0Z4NUgGTaYIgzFhIDyH6AY
+6SlPAVMgX3UrnAv9shT/CEEJQ1HoqE6CAIWBrRvlrALLfVLHQQjyNQkrojQpbfVn
+psbeokolc95lv5PJ2lsT/pAk1Mgj6/MqwzVuImGelMfIhJ8hmvFwXnt0aAKtcdap
+PchoDjCjeIpAfQI1TVqeFAlYH51W4ORv0ChaLG6qI37U6Qu5eiewzrATGa6X5NsQ
+G3Kj9lR+ib16Ub1i5aTW5q19xxz/w44TnbSkJFJTZa8OvLKUlPmR75eXXa78DMIT
+XBmM8gwb8ibyd3hN377mO/TQgAhP+T0KT4WA0jYbBdF31qq4sEkkqOpClCrxWaIi
+ySm8SmF0PEiLktmbzMYvnUV3kCV10+vkkJfjmOMYmO7rLf5kDN3Oj1zN0ysV2Sy1
+YWPAYYgyM8FXcedIHCtpOXblKcgvlMOs4+QN0+2sXo+LJdjDncxliwkJgeOJ0yQY
+RPnBKw8UoIOxtLkzd6D5JKbvcPN2FEqnI58eNj1APHltptZoo/g=
+=wKUw
+-----END PGP SIGNATURE-----
+
+--zC3t8RTKVMd8uPGl--
