@@ -1,202 +1,103 @@
-Received: from Atcsqr.andestech.com (60-248-80-70.hinet-ip.hinet.net [60.248.80.70])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 924D912CD8B
-	for <linux-sunxi@lists.linux.dev>; Tue,  2 Jul 2024 10:19:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.248.80.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFE011B47AC;
+	Tue,  2 Jul 2024 13:42:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719915565; cv=none; b=H+Jf8l6p04zalfRSX+bJok46jvCHchaoBiRSd3H8cXR7D27buQm8nQaMbqwhQxngPhFpTAiRKELKj9s4tjcWV0/dHFmSX8cO53mHhgQhnNMCIHxoUPSdld4QxWCopNtStB74RM8kEjcqCbWovVV2RNsucxsKa/EF8LlKAmzjU5E=
+	t=1719927743; cv=none; b=Qu4UZgEIr1l8zoMgpAz7Yn+JbQQOb6XGOBzsTi/LaZA1zb18A6xByGmwaDNcjal/ShLVLG9TwdxaX0rUQc+ziigttEYFmkFgSPl9XsBykO+9mvALxsU67F/Gn2Mw44AUnVlifC8gHkHxUkR9gvd4Dj2bffR3fMvqcZC84gpUhjk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719915565; c=relaxed/simple;
-	bh=0ajCnf3SAOP6eQuHMw4tQTjVDmgvoTdZApQsPOmIy/8=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ewXPDbfkpIwjVR6Zvcer2yLhnrI0UG89s/3ptivPbW5E2mG6z0+JkAEVubJBzZauCeLx6fcYHkTL1dZzR/1Gn/ewDiAOn/P42xtg6Ga/EuULH6N5WVKYoi+IqF75aZoFa9svSviDjry37Arz1TIBL/AWWoOmM+gP1K5TFzh0wC4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=andestech.com; spf=pass smtp.mailfrom=andestech.com; arc=none smtp.client-ip=60.248.80.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=andestech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=andestech.com
-Received: from Atcsqr.andestech.com (localhost [127.0.0.2] (may be forged))
-	by Atcsqr.andestech.com with ESMTP id 4629lQL2053695
-	for <linux-sunxi@lists.linux.dev>; Tue, 2 Jul 2024 17:47:26 +0800 (+08)
-	(envelope-from peterlin@andestech.com)
-Received: from mail.andestech.com (ATCPCS34.andestech.com [10.0.1.134])
-	by Atcsqr.andestech.com with ESMTPS id 4629kkj0053530
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=OK);
-	Tue, 2 Jul 2024 17:46:46 +0800 (+08)
-	(envelope-from peterlin@andestech.com)
-Received: from APC323 (10.0.12.98) by ATCPCS34.andestech.com (10.0.1.134) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 2 Jul
- 2024 17:46:46 +0800
-Date: Tue, 2 Jul 2024 17:46:42 +0800
-From: Yu-Chien Peter Lin <peterlin@andestech.com>
-To: Conor Dooley <conor@kernel.org>
-CC: Samuel Holland <samuel.holland@sifive.com>,
-        Charlie Jenkins
-	<charlie@rivosinc.com>,
-        <linux-riscv@lists.infradead.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-sunxi@lists.linux.dev>,
-        <linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        "Paul Walmsley" <paul.walmsley@sifive.com>,
-        Palmer Dabbelt
-	<palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>, Jisheng Zhang
-	<jszhang@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec
-	<jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Jonathan
- Corbet <corbet@lwn.net>, "Shuah Khan" <shuah@kernel.org>,
-        Guo Ren
-	<guoren@kernel.org>, Evan Green <evan@rivosinc.com>,
-        Andy Chiu
-	<andy.chiu@sifive.com>, Jessica Clarke <jrtc27@jrtc27.com>,
-        <tim609@andestech.com>, <dminus@andestech.com>,
-        <ycliang@andestech.com>
-Subject: Re: [PATCH v3 03/13] riscv: dts: allwinner: Add xtheadvector to the
- D1/D1s devicetree
-Message-ID: <ZoPMEaq8wKzXhFuA@APC323>
-References: <20240619-xtheadvector-v3-0-bff39eb9668e@rivosinc.com>
- <20240619-xtheadvector-v3-3-bff39eb9668e@rivosinc.com>
- <0cc13581-5cc4-4a25-a943-7a896f42da4c@sifive.com>
- <20240701-prancing-outpost-3cbce791c554@spud>
- <7ab7d629-6993-4cad-b5b7-62bddfc74a49@sifive.com>
- <20240701-pyromania-spinster-709a6c8cc460@spud>
+	s=arc-20240116; t=1719927743; c=relaxed/simple;
+	bh=viWMyuSLPQcT8QQfWmFKUsU7APOiO0XeiC0Q+5KtxT4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dYh6UTVHxdexVdQh5O7qAkz2/0XrfgEE4ZxHufOhlhqYGa58OkzkaqjZOFMudaMQ7GV3/NzDoFKhA23Y+i+7FtdwIh3NCa7u3MwlzqCaCwpM5xsQ8RKq/ms+L2JSQ6Nve88bZFByFkkEaGHWG43bI3nI+8CJu+42FJl3vv07wJY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W/IjLzG6; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W/IjLzG6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 162A0C116B1;
+	Tue,  2 Jul 2024 13:42:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719927742;
+	bh=viWMyuSLPQcT8QQfWmFKUsU7APOiO0XeiC0Q+5KtxT4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=W/IjLzG68TM7rttv/YSFDQ9jMMSBPjODnfFodJoeJ5QyC4HQ6T3fjQnPpmdMwgFVJ
+	 eZT8d2HZY4+j7w7knSNvIgOCH3a5IySSXvxW0AXQx1cXkD1imNArNtL23XjsXVgi/+
+	 sSPShsEL/2h1Q8NRhqNFYrg1AvDQJVCWUhDNfJMX+EixW+zr97l+NGIoXXZnjK0pMq
+	 +qxgC4UE3uNSY3XTkR24D+PUHigiyKt98Jxja9aeD8njc7B0IsEkhsZMXg2usEhLze
+	 vuHzs/177SP+CKODtMQQaYtXdR+yJSGJTTcR6TtUWq93kCUNLZQEXLNB6wHqzLg+hg
+	 rx1eF23fe7tHA==
+Date: Tue, 2 Jul 2024 15:42:18 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Matteo Martelli <matteomartelli3@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Marcus Cooper <codekipper@gmail.com>, =?utf-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>, 
+	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/1] ASoC: sunxi: sun4i-i2s: fix LRCLK polarity in i2s
+ mode
+Message-ID: <20240702-copperhead-of-unusual-intensity-7f43a8@houat>
+References: <20240529140658.180966-2-matteomartelli3@gmail.com>
+ <20240529140658.180966-3-matteomartelli3@gmail.com>
+ <20240606-savvy-wallaby-of-champagne-d4a50e@houat>
+ <6662bf1b61bbc_2f51737023@njaxe.notmuch>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6xqnwajdqjhkbqhg"
 Content-Disposition: inline
-In-Reply-To: <20240701-pyromania-spinster-709a6c8cc460@spud>
-User-Agent: Mutt/2.2.12 (2023-09-09)
-X-ClientProxiedBy: ATCPCS33.andestech.com (10.0.1.100) To
- ATCPCS34.andestech.com (10.0.1.134)
-X-DNSRBL: 
-X-SPAM-SOURCE-CHECK: pass
-X-MAIL:Atcsqr.andestech.com 4629lQL2053695
+In-Reply-To: <6662bf1b61bbc_2f51737023@njaxe.notmuch>
 
-Hi Conor,
 
-On Mon, Jul 01, 2024 at 05:31:01PM +0100, Conor Dooley wrote:
-> [EXTERNAL MAIL]
+--6xqnwajdqjhkbqhg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Date: Mon, 1 Jul 2024 17:31:01 +0100
-> From: Conor Dooley <conor@kernel.org>
-> To: Samuel Holland <samuel.holland@sifive.com>
-> Cc: Charlie Jenkins <charlie@rivosinc.com>,
->  linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
->  linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
->  linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, Conor Dooley
->  <conor.dooley@microchip.com>, Rob Herring <robh@kernel.org>, Krzysztof
->  Kozlowski <krzk+dt@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>,
->  Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
->  Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
->  Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
->  Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, Guo Ren
->  <guoren@kernel.org>, Evan Green <evan@rivosinc.com>, Andy Chiu
->  <andy.chiu@sifive.com>, Jessica Clarke <jrtc27@jrtc27.com>,
->  peterlin@andestech.com
-> Subject: Re: [PATCH v3 03/13] riscv: dts: allwinner: Add xtheadvector to
->  the D1/D1s devicetree
-> 
-> On Mon, Jul 01, 2024 at 11:11:55AM -0500, Samuel Holland wrote:
-> > Hi Conor, Charlie,
-> > 
-> > On 2024-07-01 11:07 AM, Conor Dooley wrote:
-> > > On Mon, Jul 01, 2024 at 10:27:01AM -0500, Samuel Holland wrote:
-> > >> On 2024-06-19 6:57 PM, Charlie Jenkins wrote:
-> > >>> The D1/D1s SoCs support xtheadvector so it can be included in the
-> > >>> devicetree. Also include vlenb for the cpu.
-> > >>>
-> > >>> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> > >>> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> > >>> ---
-> > >>>  arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi | 3 ++-
-> > >>
-> > >> The other C906/C910/C920-based SoCs need devicetree updates as well, although
-> > >> they don't necessarily need to be part of this series:
-> > >>
-> > >>  - sophgo/cv18xx.dtsi
-> > >>  - sophgo/sg2042-cpus.dtsi
-> > >>  - thead/th1520.dtsi
-> > > 
-> > > Yeah, I think I pointed that out before with the same "escape hatch" of
-> > > it not needing to be in the same series.
-> > > 
-> > >>
-> > >>>  1 file changed, 2 insertions(+), 1 deletion(-)
-> > >>>
-> > >>> diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
-> > >>> index 64c3c2e6cbe0..6367112e614a 100644
-> > >>> --- a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
-> > >>> +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
-> > >>> @@ -27,7 +27,8 @@ cpu0: cpu@0 {
-> > >>>  			riscv,isa = "rv64imafdc";
-> > >>
-> > >> The ISA string should be updated to keep it in sync with riscv,isa-extensions.
-> > > 
-> > > This probably looks like this cos I said that the kernel shouldn't parse
-> > > vendor extensions from "riscv,isa". My rationale was that we have
-> > > basically no control of what a vendor extension means in riscv,isa so 
-> > > we shouldn't parse them from it (so marginally worse than standard
-> > > extensions, where it means what the spec says except when it doesn't).
-> > > 
-> > > Given how we implement the parsing, it also meant we weren't implying
-> > > meanings for vendor extensions ACPI-land, where we also can't ensure the
-> > > meanings or that they remain stable. That change is in a different
-> > > series:
-> > > https://patchwork.kernel.org/project/linux-riscv/patch/20240609-support_vendor_extensions-v2-1-9a43f1fdcbb9@rivosinc.com/
-> > > 
-> > > Although now that I think about it, this might break xandespmu... I
-> > > dunno if the Andes guys switched over to using the new property outside
-> > > of the single dts in the kernel tree using their SoC. We could
-> > > potentially special-case that extension if they haven't - but my
-> > > position on this mostly is that if you want to use vendor extensions you
-> > > should not be using riscv,isa (even if the regex doesn't complain if you
-> > > add them). I'd like to leave the code in the other patch as-is if we can
-> > > help it.
-> > > 
-> > > I added Yu Chien Peter Lin here, maybe they can let us know what they're
-> > > doing.
-> > 
-> > OK, that makes sense to me. Then please ignore my original comment.
-> 
-> Should the xandespmu thing be an issue, I'd suggest we just do something
-> like the following, in place of the new switch arm added by Charlie:
-> 
-> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
-> index ec4bff7a827c..bb99b4055ec2 100644
-> --- a/arch/riscv/kernel/cpufeature.c
-> +++ b/arch/riscv/kernel/cpufeature.c
-> @@ -628,6 +628,17 @@ static void __init riscv_parse_isa_string(const char *isa, unsigned long *bitmap
->  		if (unlikely(ext_err))
->  			continue;
->  
-> +		if (*ext == 'x' && acpi_disabled) {
-> +			/*
-> +			 * xandespmu predates this "rule", so special case it for
-> +			 * hysterical raisins
-> +			 */
-> +			if (strncasecmp(ext, "xandespmu", ext_end - ext)) {
-> +				pr_warn_once("Vendor extensions are ignored in riscv,isa. Use riscv,isa-extensions instead.");
-> +				break;
-> +			}
-> +		}
-> +
->  		match_isa_ext(ext, ext_end, bitmap);
->  	}
->  }
-> 
+Hi,
 
-Thanks for the hands-up!
-We don't use the deprecated riscv,isa to specify xandespmu, so no
-need to address this special case.
+On Fri, Jun 07, 2024 at 10:04:43AM GMT, Matteo Martelli wrote:
+> Maxime Ripard wrote:
+> > > -	/*
+> > > -	 * DAI clock polarity
+> > > -	 *
+> > > -	 * The setup for LRCK contradicts the datasheet, but under a
+> > > -	 * scope it's clear that the LRCK polarity is reversed
+> > > -	 * compared to the expected polarity on the bus.
+> > > -	 */
+> >=20
+> > I think we should keep that comment somewhere.
+>=20
+> I think that keeping that comment would be very misleading since the LRCLK
+> setup would not contradict the datasheet anymore [1][2].
+>
+> Also, do you recall any details about the mentioned scope test setup? Was=
+ i2s
+> mode tested in that occasion? It would help clarify the situation.
 
-Regards,
-Peter Lin
+I can't remember if I tested i2s, I think I did though. But most of the
+work was done on either TDM or DSP modes, and I remember very clearly
+that the LRCK polarity was inverted compared to what Allwinner documents.
+
+So the doc was, at best, misleading for these formats and we should keep
+the comments.
+
+Maxime
+
+--6xqnwajdqjhkbqhg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZoQDugAKCRDj7w1vZxhR
+xVvRAPwJR6VO4KkT6NwzPIFmZLjnVJpctsukmqnb9lXstjDJGAEA1SlfjzCl4zUa
+deqV6VITIqV5aIAAfkYTA5gnQ9iasAI=
+=K/Rr
+-----END PGP SIGNATURE-----
+
+--6xqnwajdqjhkbqhg--
