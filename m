@@ -1,61 +1,61 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9651919B3C9
-	for <linux-sunxi@lists.linux.dev>; Wed,  3 Jul 2024 10:54:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 212EC19B3CA
+	for <linux-sunxi@lists.linux.dev>; Wed,  3 Jul 2024 10:54:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720004086; cv=none; b=GWSDM1wcksilylUg68FRew2ar5Vl3deb7+6NKMB9EkLKiSNnlYmeQlZGYoEJm9RsQ7HgoseT6x08cNc0s3zKCDZB8DXHlwUGxjinIvj289rty/Cgc3WUCnYbmu8VUP9zCBxgjBzY37YTXkjx7ydB1k364YjXPk3NDoVvcUxUF60=
+	t=1720004092; cv=none; b=aUfsbHvz/i5Malymm2aD2mcDfHz4vIHSUAdyAERZ4LF1LUQ0dzwNXPc3DiwrAp6Ce4cby9uTo7m3AxcwQlSmNoBPHlU46EgcaTmBtI8woR9fSeQUNQ/YVXjK3farm8Ny/oucooXvU3pBcxyyiGO4pXEe1b1l6gdgyQMjUqfm2ow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720004086; c=relaxed/simple;
-	bh=g07N+fsOcKlLhBzIfDUzB1qIS8l7vaHl89+jnh0XN64=;
+	s=arc-20240116; t=1720004092; c=relaxed/simple;
+	bh=V5EJvXwdV+R0mDeAgAA0N9jGKaFbWm7c40FfMFoUbzQ=;
 	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=McXPcUJ8HtxNy5libyKHZZJxNBee9/h0UqbuAwOX7sLwf6BAyWerJAJyX5ofC4oys0rnT6tqjiwD4iAPebhtdqa33pP5C7lz1KddSe9MDynJ0eYA0627UCw91jvWIDQUhvIb1VVQr26A1n9pGJ703c1RX477U8WyjaRh1n9+tMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Xo1WBmgz; arc=none smtp.client-ip=209.85.128.53
+	 In-Reply-To:Content-Type; b=M9X862p8L3QbpE16RshuXxcEiUpNuNTAe7wZOXgBlA8cVCFmAblPIUYO/0+A54WEUqEqRbgDr0I5RT4NxaO3K/aR1Wcv8jnOv5gwlI/gnTCQlsDeIoN3rREVSO/h9q7a/7xQS5nTXe9b7N2OuptMULxAmPVMSQ24iRAolyRHnNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LovNVZ3D; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Xo1WBmgz"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-42578fe58a6so28709345e9.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 03 Jul 2024 03:54:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LovNVZ3D"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-367975543a8so106111f8f.3
+        for <linux-sunxi@lists.linux.dev>; Wed, 03 Jul 2024 03:54:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1720004082; x=1720608882; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1720004088; x=1720608888; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:references:cc:to:subject:reply-to:from:user-agent
          :mime-version:date:message-id:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GWMhS2jZ7Cr+0wlcIq6ka4uSw+tn1NfMqOVxdM3qgSc=;
-        b=Xo1WBmgzfQNI8HEhJmO+SKNgOFTlPCuOaPZ9pIZ1O1m0YgYMaeLJ4+3OlC7wNXrh49
-         3ffX4rS/L9iOEQJhM/bYhTNc+ZXrPo5GGvxW3EtWoaE54d8KVrfmZ+Q2khM4WSTsCevi
-         k9Mo1mTQmfulmn+maSELGMMzQWtI71gKVMaKgoAX1KqEHsoDM1YZvhl4KtJCxaNTOPGX
-         tR1CQwXM3GVPOPARE2hd/6sQsFhADPuVqZfKfpXJyn+aV9817Ch/gz+3ykOgISjd+SVY
-         YcS4bAyN0NkVftOujsnBkIjPQIZKxMHZxWkwTFnXi2Hzh0pujMK5eSKrhEgkJGVKtDdB
-         mdIg==
+        bh=o+k9XFol8r5KGsoCLeIMiq2xKkkPY/+JBFOCWGLwrwI=;
+        b=LovNVZ3D8Biqjs9RJ+BH+dgTCvl0KIZMjr+n33jhISN+AjtmAS92UnpvKPnbXmi1cI
+         6n0BXzaO4glj0L2v7MhmU0PxcgyMqbZQLah2PjxNXmggb+avA4IqxRBb1VATu1dQIOSr
+         dZjEBRqMXf69fkJ1P68O3xgP+09EHhDcAqdzKSqdfDz8u5THfxfM8GRQHi0ys0w5AE3/
+         1OzslyRIgDLVMHda+Ld947GSvxAX4pJyxODYkzSb8G5zJcuGnJav4dtbhAqdN9g7bsBt
+         9QTJFL9fv0UXcb6lhzp895Pzj6JKaikrkTc4c5owSfJQ7BksX1Q74hA4Tusv/Xx/D/WW
+         SwEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720004082; x=1720608882;
+        d=1e100.net; s=20230601; t=1720004088; x=1720608888;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:references:cc:to:subject:reply-to:from:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=GWMhS2jZ7Cr+0wlcIq6ka4uSw+tn1NfMqOVxdM3qgSc=;
-        b=KEa0gzyqVAY4JTBWB1JSXVWxPkvnV6AWIPUwcBxZnFm6FY8xlBMq4U/dIlEFmASx23
-         pj7o27hoLgZcuSOIUBK+lFDdz65D044IJ/i7Zk5U9bpHJAl0vNprzHN3rsaQ3dfX5Mrd
-         t7Myjz7Tv5E2H2b9y6HgVrRQUTfG5nXGnfYcMpLNpZrylQTwHYgIp+ERWiXNYVz5L621
-         6kuiqKs4Rko5ZTjhCJcCie4cyQzB6fY6NVB4Th5os1zYszW433+4f5Xud8FzYbPI4evx
-         Uy4eLejAQgfH0BSnsd06kEU9P5QmR8qc+XcHNJm0C8zm59tFY7BiW4Cp5Nuzi8ZxfjlO
-         U/Qg==
-X-Forwarded-Encrypted: i=1; AJvYcCVjOp9Ly6FEoFU88KwHCxO+0wCRarUXtHY6g20NCPoZR2+gF3mC4t0BFTgpok4fYpm1hVf7XcF2XZrBwuWbdLqpvTRmccuEggQWpfE=
-X-Gm-Message-State: AOJu0Yy+/vrcgw8MHRNVfS4Jt8PARlkrQdon6eeQdFuGc2lxiBROLe8Y
-	BN2wMQ6agbd1Iy/b3KA393qiPqrd7owUwpB1iKZ5JgQ1D+BwnIVuARBVBwVImzc=
-X-Google-Smtp-Source: AGHT+IHvbb0wvGbQxH7+T+GjtMUK2Sua5D7SFSvTYWQ0SgpCDBRQnTPQUma4ToIWD2jG969jX0Nhog==
-X-Received: by 2002:a05:600c:12c6:b0:424:ada1:6d9 with SMTP id 5b1f17b1804b1-4257a088e18mr95532735e9.34.1720004081826;
-        Wed, 03 Jul 2024 03:54:41 -0700 (PDT)
+        bh=o+k9XFol8r5KGsoCLeIMiq2xKkkPY/+JBFOCWGLwrwI=;
+        b=KiezJnn4LybDUMIswm4N8JD6maGTbQUVBL5bQk0/XdJDLnWA2ni7ZUK9Dc6Ua5UROh
+         Tp10AnyoMakce6jLGMvczEqtUsUUFzVkiORAG2rgwSl19Wg62UW8qrJB1INe3tzF/uf6
+         cUwNzwGPDwnutdDXKh/dlnZ6ahsqa9ZqWvt4aZ+arTI4c+uSwKsepyF+f8KYYD564Qih
+         bW6+X5KyqqbNxPMcP2Rin+n0D/GC0i7dREuo5bOMxge5Cuu5jZn2/RXRbLH4rbD19smS
+         ETHiSpuO4Xnj+Lr2dM3BPDVmFOry2Y77frGesGT8TKgKzmxFMKWL7fT8GRl+rg5PCrsg
+         v0UQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWvyo86WD6XIhFFzd3Hj+Ll5ISE3VwXTHkLBGHz4PX0+xunBU+p4qQYi9jVozsFTxS4LQ1tg42wtOS0I1lpOr5DZoQAZK0xMaS5c1Y=
+X-Gm-Message-State: AOJu0Yyg+SSKPbj7R4KEtbg1i/MZ7GFLa7mW5qi0WoZ470ZEBefnD5Vn
+	Na+pknDME+qog9napkuFqyas2DqVHhPjeLO1W7mHR8qnx+qMMuoiDY1lSlEzp28=
+X-Google-Smtp-Source: AGHT+IGkhxLtD/eSLOamFQYV8oE1yN01ZRLKSVM5lCohT4/wrTW1GQiO0WQkwPXdH0yP4tb4re4TBw==
+X-Received: by 2002:a5d:630f:0:b0:367:418c:a90d with SMTP id ffacd0b85a97d-3677571c205mr7031507f8f.51.1720004088419;
+        Wed, 03 Jul 2024 03:54:48 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:982:cbb0:ef03:73b5:7503:ee71? ([2a01:e0a:982:cbb0:ef03:73b5:7503:ee71])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3675a0fbbfesm15660302f8f.66.2024.07.03.03.54.40
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3675a0fbbfesm15660302f8f.66.2024.07.03.03.54.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Jul 2024 03:54:41 -0700 (PDT)
-Message-ID: <5ebb2631-5782-4064-95fd-fd6deca013ee@linaro.org>
-Date: Wed, 3 Jul 2024 12:54:40 +0200
+        Wed, 03 Jul 2024 03:54:48 -0700 (PDT)
+Message-ID: <26650b6a-c8e0-4884-99f6-5140f6eee15b@linaro.org>
+Date: Wed, 3 Jul 2024 12:54:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -65,8 +65,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
 Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH 03/10] clk: meson: c3: peripherals: Constify struct
- regmap_config
+Subject: Re: [PATCH 04/10] clk: meson: c3: pll: Constify struct regmap_config
 To: Javier Carrasco <javier.carrasco.cruz@gmail.com>,
  Jerome Brunet <jbrunet@baylibre.com>,
  Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
@@ -79,7 +78,7 @@ Cc: linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, linux-sunxi@lists.linux.dev
 References: <20240703-clk-const-regmap-v1-0-7d15a0671d6f@gmail.com>
- <20240703-clk-const-regmap-v1-3-7d15a0671d6f@gmail.com>
+ <20240703-clk-const-regmap-v1-4-7d15a0671d6f@gmail.com>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -106,7 +105,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20240703-clk-const-regmap-v1-3-7d15a0671d6f@gmail.com>
+In-Reply-To: <20240703-clk-const-regmap-v1-4-7d15a0671d6f@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
@@ -116,15 +115,15 @@ On 03/07/2024 11:50, Javier Carrasco wrote:
 > 
 > Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 > ---
->   drivers/clk/meson/c3-peripherals.c | 2 +-
+>   drivers/clk/meson/c3-pll.c | 2 +-
 >   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/clk/meson/c3-peripherals.c b/drivers/clk/meson/c3-peripherals.c
-> index 56b33d23c317..cfa573262bf1 100644
-> --- a/drivers/clk/meson/c3-peripherals.c
-> +++ b/drivers/clk/meson/c3-peripherals.c
-> @@ -2296,7 +2296,7 @@ static struct clk_regmap *const c3_periphs_clk_regmaps[] = {
->   	&vapb,
+> diff --git a/drivers/clk/meson/c3-pll.c b/drivers/clk/meson/c3-pll.c
+> index 6d5271c61d14..f09f4f7b46fe 100644
+> --- a/drivers/clk/meson/c3-pll.c
+> +++ b/drivers/clk/meson/c3-pll.c
+> @@ -678,7 +678,7 @@ static struct clk_regmap *const c3_pll_clk_regmaps[] = {
+>   	&mclk1,
 >   };
 >   
 > -static struct regmap_config clkc_regmap_config = {
