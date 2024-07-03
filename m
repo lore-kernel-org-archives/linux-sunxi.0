@@ -1,85 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB0D74964E;
-	Wed,  3 Jul 2024 23:02:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F9BD17B42D
+	for <linux-sunxi@lists.linux.dev>; Wed,  3 Jul 2024 23:41:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720047737; cv=none; b=j9GblyqmqkSKR0Y8vAVRM0vC/axNNC920wh5yf9Mg3y58J7QyG56zmZL2o6VpW6/Pwc0mPp5pTOQE8SR4XF6AhVJaNe6f6jJSs9STINmZNdwVMN9HWIoX+dMoKHXWQW3MGgqY1ZG+vOwG54vHDM0MDSCalqZzjNqEAcORP64EI0=
+	t=1720050121; cv=none; b=XGi1rr/jNcsWsqloxJ4N1+ckHqV5KVSLeeQLE2ljOOeSxm72vvGOgcYfVsNKJbhbCRJzEaI/k3mFyAV+BN2tlwnIEoDDUndZAwT8eYTNuYLshjOMptfjjqR8yEl0IOwtCPPZ2yjEMup+GLfDT2CcENdDM6xmxsRuwdBe09HOGoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720047737; c=relaxed/simple;
-	bh=323AARVAbsuqgisnRvoVpG6coTMv5pU6DvWTb8N8kDs=;
-	h=Message-ID:Content-Type:MIME-Version:In-Reply-To:References:
-	 Subject:From:Cc:To:Date; b=KH1pt8dIIEGbmgDnt6CnrwIqAVcyZKE/Uc3q87aHYNsxW7wkwteFpeQsrbys2TOa539BhLo8qQevRaMKybUZNgxedaI/JVYUJzpWex8ijrjn3BdUqUD8b8MQjSm+3QsLA1HLE4TnojqFKWRttLgutbs9bdREifhsDsLBYaW2ReA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SyW7zLRQ; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SyW7zLRQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39878C2BD10;
-	Wed,  3 Jul 2024 23:02:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720047737;
-	bh=323AARVAbsuqgisnRvoVpG6coTMv5pU6DvWTb8N8kDs=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=SyW7zLRQqEUsF3R7njKMze0tJN6sYAo2v3HfdCpIhTKysCzrL4GfENdHiWwE8dNMD
-	 wpI9kxWE9iFgKz74LTQQv7D4FaqQHsi9XbIOP6/SvmzrJxbL6ScbaC/cFT8AZIXFzq
-	 NRAaN3muBi4sVDM30qmdX4gdNcMH5MQQ9vo4a5XuvmGq6b5vQAjLjn0FAimCWjbvER
-	 69/S9sZvWykTB6EsjfwWTB68SXYyXxQa8iBLQe1hNNiKRudLeYZ157U2Ln+nG6G3cH
-	 u8JU5G5yo196FznjoasDSsIaYmzbKEag9ARgW7RhGWQFr6QGxcpMizQw2I6aQDobfL
-	 9HI9Mp+N/ewyA==
-Message-ID: <dc00b9daafe6a88ffaaaf4aace29e136.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1720050121; c=relaxed/simple;
+	bh=VklzZ+icKKewoRjn3gR+P4dKzE2Y6XIhFB+S0kU0fEw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=AcecvAnu5hN2QC9BjAgcSgK/7q37MkfH3BV9p0jAhTMrvxgEDHBvjVtxt/hHS8/M0Aic46vd08y1yQZ4SdzX6p7E4LTcDwhm+1HQ0yuQNhlj/v5PJeQ0MPX90MMZ+jq1MrQbIhNIk69qUypwVqlK/4qCjCgEILsKDbnVG0IJQhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 87A93367;
+	Wed,  3 Jul 2024 16:42:22 -0700 (PDT)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DF1363F762;
+	Wed,  3 Jul 2024 16:41:55 -0700 (PDT)
+Date: Thu, 4 Jul 2024 00:39:55 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: samuel@sholland.org, jernej.skrabec@gmail.com, wens@csie.org
+Cc: Chris Morgan <macroalpha82@gmail.com>, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, mripard@kernel.org, ryan@testtoast.com,
+ conor+dt@kernel.org, krzk+dt@kernel.org, robh@kernel.org, Chris Morgan
+ <macromorgan@hotmail.com>
+Subject: Re: [PATCH V2 2/4] arm64: dts: allwinner: h616: Add r_i2c pinctrl
+ nodes
+Message-ID: <20240704003955.3d9db0ba@minigeek.lan>
+In-Reply-To: <20240703141439.1807b865@donnerap.manchester.arm.com>
+References: <20240702193414.57461-1-macroalpha82@gmail.com>
+	<20240702193414.57461-3-macroalpha82@gmail.com>
+	<20240703141439.1807b865@donnerap.manchester.arm.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20240703105454.41254-20-ryan@testtoast.com>
-References: <20240703105454.41254-1-ryan@testtoast.com> <20240703105454.41254-20-ryan@testtoast.com>
-Subject: Re: [PATCH v2 19/23] clk: sunxi-ng: ccu: add Display Engine 3.3 (DE33) support
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: Andre Przywara <andre.przywara@arm.com>, Chris Morgan <macroalpha82@gmail.com>, John Watts <contact@jookia.org>, dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, linux-clk@vger.kernel.org, Ryan Walklin <ryan@testtoast.com>
-To: Chen-Yu Tsai <wens@csie.org>, Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, Michael Turquette <mturquette@baylibre.com>, Rob Herring <robh@kernel.org>, Ryan Walklin <ryan@testtoast.com>, Samuel Holland <samuel@sholland.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Date: Wed, 03 Jul 2024 16:02:15 -0700
-User-Agent: alot/0.10
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Quoting Ryan Walklin (2024-07-03 03:51:09)
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-de2.c b/drivers/clk/sunxi-ng/=
-ccu-sun8i-de2.c
-> index b0b8dba239aec..36b9eadb80bb5 100644
-> --- a/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
-> +++ b/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
-> @@ -7,6 +7,7 @@
->  #include <linux/clk-provider.h>
->  #include <linux/module.h>
->  #include <linux/of.h>
-> +#include <linux/of_address.h>
+On Wed, 3 Jul 2024 14:14:39 +0100
+Andre Przywara <andre.przywara@arm.com> wrote:
 
-What is this include for?
+> On Tue,  2 Jul 2024 14:34:12 -0500
+> Chris Morgan <macroalpha82@gmail.com> wrote:
+> 
+> > From: Chris Morgan <macromorgan@hotmail.com>
+> > 
+> > Add pinctrl nodes for the r_i2c node. Without the pinmux defined the
+> > r_i2c bus may fail to work, possibly if the bootloader uses rsb mode
+> > for the PMIC.  
+> 
+> Yes, those are the only pins available, checked against the manual.
 
->  #include <linux/platform_device.h>
->  #include <linux/reset.h>
-> =20
-> @@ -290,6 +301,16 @@ static int sunxi_de2_clk_probe(struct platform_devic=
-e *pdev)
->                         "Couldn't deassert reset control: %d\n", ret);
->                 goto err_disable_mod_clk;
->         }
-> +=20
-> +       /*
-> +        * The DE33 requires these additional (unknown) registers set
-> +        * during initialisation.
-> +        */
-> +       if (of_device_is_compatible(pdev->dev.of_node,
-> +                                   "allwinner,sun50i-h616-de33-clk")) {
-> +               writel(0, reg + 0x24);
-> +               writel(0x0000A980, reg + 0x28);
+Looking closer, this is actually a proper bug: none of the five H616
+devices using R_I2C set the pinmux (not even in the board .dts files),
+so nothing sets this up in the kernel. We are just lucky that U-Boot's
+SPL programs the pinmux, and nothing changes it afterwards.
+So this should be taken as a fix ASAP, potentially with:
 
-Lowercase hex please. Did the downstream driver have names for these
-register offsets by way of some sort of #define?
+Fixes: 0d17c8651188 ("arm64: dts: allwinner: Add Allwinner H616 .dtsi file")
 
-> +       }
-> =20
->         ret =3D devm_sunxi_ccu_probe(&pdev->dev, reg, ccu_desc);
->         if (ret)
+(though I am a bit doubtful about the useful of DT backports in general)
+
+Cheers,
+Andre
+
+
+> 
+> > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>  
+> 
+> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+> 
+> Cheers,
+> Andre
+> 
+> > ---
+> >  arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi | 2 ++
+> >  1 file changed, 2 insertions(+)
+> > 
+> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+> > index 921d5f61d8d6..e31945c3895e 100644
+> > --- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+> > @@ -837,6 +837,8 @@ r_i2c: i2c@7081400 {
+> >  			dmas = <&dma 48>, <&dma 48>;
+> >  			dma-names = "rx", "tx";
+> >  			resets = <&r_ccu RST_R_APB2_I2C>;
+> > +			pinctrl-names = "default";
+> > +			pinctrl-0 = <&r_i2c_pins>;
+> >  			status = "disabled";
+> >  			#address-cells = <1>;
+> >  			#size-cells = <0>;  
+> 
+> 
+
