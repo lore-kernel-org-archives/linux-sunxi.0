@@ -1,61 +1,61 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 212EC19B3CA
-	for <linux-sunxi@lists.linux.dev>; Wed,  3 Jul 2024 10:54:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC05F19CCF3
+	for <linux-sunxi@lists.linux.dev>; Wed,  3 Jul 2024 10:54:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720004092; cv=none; b=aUfsbHvz/i5Malymm2aD2mcDfHz4vIHSUAdyAERZ4LF1LUQ0dzwNXPc3DiwrAp6Ce4cby9uTo7m3AxcwQlSmNoBPHlU46EgcaTmBtI8woR9fSeQUNQ/YVXjK3farm8Ny/oucooXvU3pBcxyyiGO4pXEe1b1l6gdgyQMjUqfm2ow=
+	t=1720004098; cv=none; b=S0JXfZJQ+8y5fog94YCGysdq91vjSdF6O87y8DhxbqN1Fzm48mYDNAe9Li7e3YbJiOgH+2+jKjM9WwmXnCLKWolOEpoyuEnXScO+UkaBhgFT/VXmzL9TsljDtwE30kh02c0jB0cW9RbgwEImH9tyctPOTCMUdD6LxVh4D8qnnqk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720004092; c=relaxed/simple;
-	bh=V5EJvXwdV+R0mDeAgAA0N9jGKaFbWm7c40FfMFoUbzQ=;
+	s=arc-20240116; t=1720004098; c=relaxed/simple;
+	bh=5CBZcY+hsCqjA7yd6DOVO1gJncK5nNvs1mJLn3kWbjo=;
 	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=M9X862p8L3QbpE16RshuXxcEiUpNuNTAe7wZOXgBlA8cVCFmAblPIUYO/0+A54WEUqEqRbgDr0I5RT4NxaO3K/aR1Wcv8jnOv5gwlI/gnTCQlsDeIoN3rREVSO/h9q7a/7xQS5nTXe9b7N2OuptMULxAmPVMSQ24iRAolyRHnNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LovNVZ3D; arc=none smtp.client-ip=209.85.221.41
+	 In-Reply-To:Content-Type; b=g49DrdZbqRlwlhUI/1+jM11h+tCZOG8g08apQOvMa+Hs10jv0lIdJveI938VJe0OULy1zLFXNQf/x3b2FUQyNRbSjJCm5XrNim3iKYlgwvhHnBl0He3ZYcNWP7Gd5qm/k+ZykVoReM1/ijtyyj9D+WthaTB94chuUDP0h8KVPYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KR5ogGoN; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LovNVZ3D"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-367975543a8so106111f8f.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 03 Jul 2024 03:54:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KR5ogGoN"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3678f36f154so577315f8f.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 03 Jul 2024 03:54:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1720004088; x=1720608888; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1720004094; x=1720608894; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:references:cc:to:subject:reply-to:from:user-agent
          :mime-version:date:message-id:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=o+k9XFol8r5KGsoCLeIMiq2xKkkPY/+JBFOCWGLwrwI=;
-        b=LovNVZ3D8Biqjs9RJ+BH+dgTCvl0KIZMjr+n33jhISN+AjtmAS92UnpvKPnbXmi1cI
-         6n0BXzaO4glj0L2v7MhmU0PxcgyMqbZQLah2PjxNXmggb+avA4IqxRBb1VATu1dQIOSr
-         dZjEBRqMXf69fkJ1P68O3xgP+09EHhDcAqdzKSqdfDz8u5THfxfM8GRQHi0ys0w5AE3/
-         1OzslyRIgDLVMHda+Ld947GSvxAX4pJyxODYkzSb8G5zJcuGnJav4dtbhAqdN9g7bsBt
-         9QTJFL9fv0UXcb6lhzp895Pzj6JKaikrkTc4c5owSfJQ7BksX1Q74hA4Tusv/Xx/D/WW
-         SwEg==
+        bh=q2qm0K3jIFzcKInhy4SvJXxy1XVZ9MwLxLzY8rfv6AI=;
+        b=KR5ogGoNoJiT9zVUIHVp+YFEcBY3mmnWawt2Wcuwv1SZAAX7D2qZrr+uRPfn4sJHr9
+         FhXvGt6b034Cl6x1ZLYLeW33LEhUN5LsH1tOis0HVTOGngEM7MfxgT8J8vFjjOjzPpFX
+         vIhUxH9T+iW4+OyaGj26jZx6FYPtD5596ocb/pzWY2KYpp8ttuoCp4WubFMpkyoEciPJ
+         fIrMTqZduQrIJsnBNmb4moFO6O/iZMaMiBL/Hp/fVNu8YeTTjhJ5jJFX4ise9qXYxFyk
+         p8iuG3nfqPTme0XQLQBIjIffnLuuk5ZHHDmSSKibs4U2hA9P6ttS/8wju1Is8FAzobLX
+         iDaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720004088; x=1720608888;
+        d=1e100.net; s=20230601; t=1720004094; x=1720608894;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:references:cc:to:subject:reply-to:from:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=o+k9XFol8r5KGsoCLeIMiq2xKkkPY/+JBFOCWGLwrwI=;
-        b=KiezJnn4LybDUMIswm4N8JD6maGTbQUVBL5bQk0/XdJDLnWA2ni7ZUK9Dc6Ua5UROh
-         Tp10AnyoMakce6jLGMvczEqtUsUUFzVkiORAG2rgwSl19Wg62UW8qrJB1INe3tzF/uf6
-         cUwNzwGPDwnutdDXKh/dlnZ6ahsqa9ZqWvt4aZ+arTI4c+uSwKsepyF+f8KYYD564Qih
-         bW6+X5KyqqbNxPMcP2Rin+n0D/GC0i7dREuo5bOMxge5Cuu5jZn2/RXRbLH4rbD19smS
-         ETHiSpuO4Xnj+Lr2dM3BPDVmFOry2Y77frGesGT8TKgKzmxFMKWL7fT8GRl+rg5PCrsg
-         v0UQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWvyo86WD6XIhFFzd3Hj+Ll5ISE3VwXTHkLBGHz4PX0+xunBU+p4qQYi9jVozsFTxS4LQ1tg42wtOS0I1lpOr5DZoQAZK0xMaS5c1Y=
-X-Gm-Message-State: AOJu0Yyg+SSKPbj7R4KEtbg1i/MZ7GFLa7mW5qi0WoZ470ZEBefnD5Vn
-	Na+pknDME+qog9napkuFqyas2DqVHhPjeLO1W7mHR8qnx+qMMuoiDY1lSlEzp28=
-X-Google-Smtp-Source: AGHT+IGkhxLtD/eSLOamFQYV8oE1yN01ZRLKSVM5lCohT4/wrTW1GQiO0WQkwPXdH0yP4tb4re4TBw==
-X-Received: by 2002:a5d:630f:0:b0:367:418c:a90d with SMTP id ffacd0b85a97d-3677571c205mr7031507f8f.51.1720004088419;
-        Wed, 03 Jul 2024 03:54:48 -0700 (PDT)
+        bh=q2qm0K3jIFzcKInhy4SvJXxy1XVZ9MwLxLzY8rfv6AI=;
+        b=HomyY3GvpfEOvedvYtmhzGaGYj7Bwiy8vTO9QvwiARkLuFwvOkHZRlsZs7Uqm3rH+5
+         wrdFB8PuMAM9BdZwXSc6NJI/qYt9vt2dOrYlZFbaJK9rrsVoz32E2FXNvjJWwBcvsCmE
+         J2pPZX5s9P5izzLlpqIlVR1yHuS8IeMD0mDgtDUtrQaZeR+CALAjD9F8OW6+exZWBJOu
+         WOZKH+U9C8bsPDuIGrQgVNqcmzyhotr4brtcIuxhVRxeeDBjCLvrjKo9dqMAF1weqlLr
+         A7YPgUdTFTV5WZ2T5mm0QoLyQNtPaOxg6vCfno27eO9VOr+MkxdSp/Ykb/Ktkl7WvM1H
+         5hmQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWRitp4cJSXAIrVMffNZydSNaq7J+M9BXEu4HRheP0aOzQf0eEOjz076zy1cTN6HKd/UaJgXAHCoz/dlVPgbTrYxzeCDz8piE0emAE=
+X-Gm-Message-State: AOJu0Ywpoo3RCnavliQCXDI6dYc3Nox6kEApsNvaPMADHrXrdJ2Rx0QS
+	Yv1ROUyjrom3JViOuhBT+oyQtUpNQQERQGpz5yjcQJO1xS+Zq++YkUz1UHozcoQ=
+X-Google-Smtp-Source: AGHT+IFxj8jlEQLBpSqKhooeLWCX1htSQQ5imS6gMVsLRfICOATTre1xSXqKt543E2h6n9McHYRATQ==
+X-Received: by 2002:a5d:4529:0:b0:362:1b7e:8e66 with SMTP id ffacd0b85a97d-36775730f03mr6861561f8f.71.1720004094166;
+        Wed, 03 Jul 2024 03:54:54 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:982:cbb0:ef03:73b5:7503:ee71? ([2a01:e0a:982:cbb0:ef03:73b5:7503:ee71])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3675a0fbbfesm15660302f8f.66.2024.07.03.03.54.46
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3675a0fbbfesm15660302f8f.66.2024.07.03.03.54.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Jul 2024 03:54:48 -0700 (PDT)
-Message-ID: <26650b6a-c8e0-4884-99f6-5140f6eee15b@linaro.org>
-Date: Wed, 3 Jul 2024 12:54:46 +0200
+        Wed, 03 Jul 2024 03:54:53 -0700 (PDT)
+Message-ID: <40c995a4-ca34-47a8-b8d7-587c781527c1@linaro.org>
+Date: Wed, 3 Jul 2024 12:54:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -65,7 +65,8 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
 Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH 04/10] clk: meson: c3: pll: Constify struct regmap_config
+Subject: Re: [PATCH 05/10] clk: meson: s4: peripherals: Constify struct
+ regmap_config
 To: Javier Carrasco <javier.carrasco.cruz@gmail.com>,
  Jerome Brunet <jbrunet@baylibre.com>,
  Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
@@ -78,7 +79,7 @@ Cc: linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, linux-sunxi@lists.linux.dev
 References: <20240703-clk-const-regmap-v1-0-7d15a0671d6f@gmail.com>
- <20240703-clk-const-regmap-v1-4-7d15a0671d6f@gmail.com>
+ <20240703-clk-const-regmap-v1-5-7d15a0671d6f@gmail.com>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -105,7 +106,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20240703-clk-const-regmap-v1-4-7d15a0671d6f@gmail.com>
+In-Reply-To: <20240703-clk-const-regmap-v1-5-7d15a0671d6f@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
@@ -115,15 +116,15 @@ On 03/07/2024 11:50, Javier Carrasco wrote:
 > 
 > Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 > ---
->   drivers/clk/meson/c3-pll.c | 2 +-
+>   drivers/clk/meson/s4-peripherals.c | 2 +-
 >   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/clk/meson/c3-pll.c b/drivers/clk/meson/c3-pll.c
-> index 6d5271c61d14..f09f4f7b46fe 100644
-> --- a/drivers/clk/meson/c3-pll.c
-> +++ b/drivers/clk/meson/c3-pll.c
-> @@ -678,7 +678,7 @@ static struct clk_regmap *const c3_pll_clk_regmaps[] = {
->   	&mclk1,
+> diff --git a/drivers/clk/meson/s4-peripherals.c b/drivers/clk/meson/s4-peripherals.c
+> index 130c50554290..ba1d531fce4f 100644
+> --- a/drivers/clk/meson/s4-peripherals.c
+> +++ b/drivers/clk/meson/s4-peripherals.c
+> @@ -3747,7 +3747,7 @@ static struct clk_regmap *const s4_periphs_clk_regmaps[] = {
+>   	&s4_adc_extclk_in_gate,
 >   };
 >   
 > -static struct regmap_config clkc_regmap_config = {
