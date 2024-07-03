@@ -1,136 +1,180 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh3-smtp.messagingengine.com (fhigh3-smtp.messagingengine.com [103.168.172.154])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58917184131
-	for <linux-sunxi@lists.linux.dev>; Wed,  3 Jul 2024 10:55:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC8CB1849CD
+	for <linux-sunxi@lists.linux.dev>; Wed,  3 Jul 2024 10:55:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720004103; cv=none; b=RBthVN077qOA8ydN8pOZtcdJB46t6VgQCLKrm2dS8/8yQwCDxgnGjyCHN95uLaKJ+G+GrevAE9XPRsxWrMWSZg46Wt2mEqaNBkf9o2nM+hyTfmf2LJ+lBnqrh1xEd0Anq13iXM8QG5VU7Xt/RDfr1BHHGZqy4lEzLzXNYvV2SZI=
+	t=1720004117; cv=none; b=frGTeuqg2uFqtXOkfHT5/YS8Ku1dHvNSPHmCtaNcTFYsnK1oEn2XDc2+3ldTh2IqRCBIalJehwTkPHhBN5NRVmZnjD1nVQv1TRbmwA54uHIzJrziJoT/efpTkpd9OR5QoEHOChVUQEuvKTRysxc0gvAOxuplSd40sLuXIAFx/PA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720004103; c=relaxed/simple;
-	bh=PRyBF8w2mM4L9v+3ex4yKSzEav1jn/K4HcGMXSK9asA=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=QRQ/vG5Ix+7zfR65RKACDt99Inzc2WKdfUjY6DP2BAwlAe60xyE5f9I449333qJcb5KWCXjZZd2HsbpBBGQSJ+F5waT67N0im5UBfzPVTrGe8zuPv47reSBwTJRMptq1u8O0GeAc0B5E+YTusJJdWBqZYK9LaS0vzNDdNoCVcMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=N4+1+nDX; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1720004117; c=relaxed/simple;
+	bh=F1suG1ipHrJUf4eS+/Lq3dMO4C2hVzcUUnE2H+8tGfA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kksAoh+iZfFM129PZu6l+ZR2fhQTNDUWx6+VShMrwL3tFS10pYcgs/xYGikYv40TQvnNNrwOXvITnzwNUHsTgVMTqiIzOkCsS9VQwoBZMnfHRZ5t6gvL47VuPp6aNcLN41CzmdyHJoJtWjc1lAYykGzxuc4d7fxfDhZNGTpI7GM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=4LCoQwh5; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=GdqhEEZr; arc=none smtp.client-ip=103.168.172.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="N4+1+nDX"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4256aee6e4dso37961105e9.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 03 Jul 2024 03:55:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1720004100; x=1720608900; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=39lfOtZEVbcBoFS5FGsq6qRJkxvsQmXq431HRSu2z/o=;
-        b=N4+1+nDXkyc54rOkksfle+1hvNZRyfO/2Xl5pVss60bGEJuEhCzL3uL9nmqJi+Q1RI
-         M4q97zcp1AfwrDcz6JvWmJDx97ngCMboQpTu06llDNtzBYQK3WZHTd8/MoimfzZfVYUm
-         NWPda1Y+s9ZEmREP7RvkX98R1+7unuODxmVJ23SEZYZ0/BMkGlFcIXzq7mP37HF2POXg
-         FVpInXnTc9/Wf5his8TC5rQsZntujJ82vYHIpq9pQCL/zLvchjbsSr6VujTe26lqHOH0
-         /TljMTXaWoBIxs0ArCSb+Et6CSsISY7ny9411xfpoeh+IuwQ62TL5SEzbMDGPePIeVYW
-         H6+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720004100; x=1720608900;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=39lfOtZEVbcBoFS5FGsq6qRJkxvsQmXq431HRSu2z/o=;
-        b=C4c+thUvkwY5vjF4vZtGaQ0XMCEK1FqN7LnxZT/rjS6In4nvfiktAlnXM4//ZAQP5Y
-         6ac4k2G7HKZyl3ZoTGwBsD+d8KNVXGBvZW+pjCz3qzo4Ff9qYBvNOwl7sYNmanLCt//A
-         Kb1WbJSKtaWEF+eVRawgi941nnVwFHoYqd3Ah03sXlTydZokbUJUJMaXzRFt7pzCKRS6
-         g16RDMlB0qy/kfkS810jwgatCUwOS8Pgd/RyhhYHQofi2zAeFF03l3kMkquLtwWy3mbW
-         Sse00fUivZl5nGI6NS7TxgiiED/Wr8Li0qpwXywoBpFKARfEzhAaYkZAYe4yEnuOEKLL
-         yMiQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVt0STQ2faTZtwqpTuT3z5iT5imT+2LJphq75Ey+NfeJJpaelA8HflkUkrDem3ys/j/zhvB1AyjSb2tvsuHlqtE3rQmsMhJZVqgUao=
-X-Gm-Message-State: AOJu0YziQWtfcJsIHroOcL+wheXghYq55yMgq9pQkKWhnsXiefz1SFrX
-	R2cmkGIq+9myqCM/y3Fv2zwPpxVfUkm8hztmcg7xQLnyekT/ZVgbIZEJJ3tWSk8=
-X-Google-Smtp-Source: AGHT+IEcN08kGTuo+p8lg5Oe+R73RxZm6SDE437gKhrh99xNbgW0DEafkie8T38BqJTZPAXiHtGA0g==
-X-Received: by 2002:a05:6000:156c:b0:367:4dfe:3e8d with SMTP id ffacd0b85a97d-36775699ed0mr7406301f8f.13.1720004099586;
-        Wed, 03 Jul 2024 03:54:59 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:ef03:73b5:7503:ee71? ([2a01:e0a:982:cbb0:ef03:73b5:7503:ee71])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3675a0fbbfesm15660302f8f.66.2024.07.03.03.54.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Jul 2024 03:54:59 -0700 (PDT)
-Message-ID: <7227a1ff-8383-4250-8336-79e058efc583@linaro.org>
-Date: Wed, 3 Jul 2024 12:54:58 +0200
+	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="4LCoQwh5";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="GdqhEEZr"
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id F26BA1140376;
+	Wed,  3 Jul 2024 06:55:14 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Wed, 03 Jul 2024 06:55:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
+	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
+	:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to; s=fm2; t=1720004114; x=1720090514; bh=vs62ryDaMf
+	6gufs3103lhRbx+iKi8lU5Gpy0zOHMQBg=; b=4LCoQwh5fKFXSKcx9Q9u1XjFwV
+	WNQ7Gyi1J6mwyoTbE5O4H5TH5eN9sajIV7TUNm336t3reKUDRH/Dn3ibaQny52Jv
+	b5bDFTio8m7M66KSf3Tp3zedWQVkFG9O1MsWObqv0CAZTpulOVt3Aa7ko2qjeD4G
+	H6NdBpgByCUV1OH8FpPyrBZa1IDoHpeqqBUVoLR6FjmM4PMWjdEGD/eYojgR6UpP
+	Lbtf2mj7kpxzOmF7YjA9De9KNb9wvRqywcOBP12im4tCCf12sCX4RSBTlL92O8xb
+	DjieSrFh6bw5yJDO+8Gt1l2DY9e7qKixac2moyqHk/Ev+gqwAEdogK2iMlUw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1720004114; x=1720090514; bh=vs62ryDaMf6gufs3103lhRbx+iKi
+	8lU5Gpy0zOHMQBg=; b=GdqhEEZrlVq5wrREmg6PF2+7JUsibUzz2vO+rD+rfNTC
+	A4iVWbLBWlDLCdvE1Y+BaRQ2NJTCwk262X1fyV8xWfS20eo7j8fH/GmpGF2ULims
+	DrPOHgP+zuR89LTb3RSyjeDctgn7Kf1yg8K3souYW7xdq6EdxebXXncs9WUur3L6
+	kWj+dOGJcdt470/ByIETuTv42aRyNjULnbJwqcZ4miPHErSxuNg24OfoMZpWmAmZ
+	gF8nN/ioKjXdLo3nnJRrbu7qRNTq340GRvfiyoK2Cyi01tJzFFmg49Ds8ntM9VPY
+	9fkqYZTL5xXA3yrbGqjELcZsUbvB+Fqr6DLpWU9OJA==
+X-ME-Sender: <xms:Ei6FZlTPLJzih3tweTMfEwFyc7S6LdcXDqdek1yn9w4ujzuEQCxJ7w>
+    <xme:Ei6FZuzavwJSUfYDxX0aLZmENqX56VJetC4ltBdyoQl6w4JQA6duknxhMK0sJmtSR
+    SnL8brRAo62MPgzrg>
+X-ME-Received: <xmr:Ei6FZq2WUPvOFtrSY0pBcm_CZRbbd2IbXPA5lmcoyjv7qihhcjirUt4rIwSqBRy6bANKQTQwgzsLq9M_IzH0Jqo73bt5sd250ngvwxOt3RHw9UY4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudejgdefgecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefthigrnhcuhggr
+    lhhklhhinhcuoehrhigrnhesthgvshhtthhorghsthdrtghomheqnecuggftrfgrthhtvg
+    hrnhepuddvueduueegtdeuffetveevgeehhedvhfefudduveekgffgfedtheegtefhhfff
+    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprhihrg
+    hnsehtvghsthhtohgrshhtrdgtohhm
+X-ME-Proxy: <xmx:Ei6FZtABD5vhZhse_bocN7k3NlOQJ_q8L9fh8Ps3ZIBXLBbvtAVmeQ>
+    <xmx:Ei6FZuhpCMmG1AHZOC2COEvRrqarMP6XjbX_POY_tDaLA-bHpZWz_A>
+    <xmx:Ei6FZhokgnozwKfYf1K0ihB4nCRWGXMOrd1-tEB1WCR3r5JdW5mLZg>
+    <xmx:Ei6FZphMblzfcNWXsDtHGRhCyv7etjtL9zEWhIXlHx06w8zj9TxoDQ>
+    <xmx:Ei6FZpQjgPdTxhLZA-A30oZ2asQke32lipyzofAgRtVtQ72WF2tnZxoJ>
+Feedback-ID: idc0145fc:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 3 Jul 2024 06:55:08 -0400 (EDT)
+From: Ryan Walklin <ryan@testtoast.com>
+To: Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>
+Cc: Andre Przywara <andre.przywara@arm.com>,
+	Chris Morgan <macroalpha82@gmail.com>,
+	John Watts <contact@jookia.org>,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	devicetree@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	Ryan Walklin <ryan@testtoast.com>
+Subject: [PATCH v2 00/23] drm: sun4i: add Display Engine 3.3 (DE33) support
+Date: Wed,  3 Jul 2024 22:50:50 +1200
+Message-ID: <20240703105454.41254-1-ryan@testtoast.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH 06/10] clk: meson: s4: pll: Constify struct regmap_config
-To: Javier Carrasco <javier.carrasco.cruz@gmail.com>,
- Jerome Brunet <jbrunet@baylibre.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Kevin Hilman <khilman@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Vladimir Zapolskiy <vz@mleia.com>, Bjorn Andersson <andersson@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Michal Simek <michal.simek@amd.com>
-Cc: linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-sunxi@lists.linux.dev
-References: <20240703-clk-const-regmap-v1-0-7d15a0671d6f@gmail.com>
- <20240703-clk-const-regmap-v1-6-7d15a0671d6f@gmail.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20240703-clk-const-regmap-v1-6-7d15a0671d6f@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 03/07/2024 11:50, Javier Carrasco wrote:
-> `clkc_regmap_config` is not modified and can be declared as const to
->   move its data to a read-only section.
-> 
-> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-> ---
->   drivers/clk/meson/s4-pll.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/clk/meson/s4-pll.c b/drivers/clk/meson/s4-pll.c
-> index c2afade24f9f..27c10fc499be 100644
-> --- a/drivers/clk/meson/s4-pll.c
-> +++ b/drivers/clk/meson/s4-pll.c
-> @@ -799,7 +799,7 @@ static const struct reg_sequence s4_init_regs[] = {
->   	{ .reg = ANACTRL_MPLL_CTRL0,	.def = 0x00000543 },
->   };
->   
-> -static struct regmap_config clkc_regmap_config = {
-> +static const struct regmap_config clkc_regmap_config = {
->   	.reg_bits       = 32,
->   	.val_bits       = 32,
->   	.reg_stride     = 4,
-> 
+Hi,
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+V2 of this patch series adding support for the Allwinner DE33 display engine variant. No functional changes from V1, fixes and review from previous V1 added, and correction to DT bindings.
+
+Original blurb below:
+
+There is existing mainline support for the DE2 and DE3 AllWinner display pipeline IP blocks, used in the A64 and H6 among others, however the H700 (as well as the H616/H618 and the T507 automotive SoC) have a newer version of the Display Engine (v3.3/DE33) which adds additional high-resolution support as well as YUV colour formats and AFBC compression support.
+
+This patch set adds DE33 support, following up from the previous RFC [1], with significant rework to break down the previous relatively complex set into more logical steps, detailed below.
+
+1. Refactor the existing DE2/DE3 code in readiness to support YUV colour formats in the DE3 engine (patches 1-4).
+2. Add YUV420 colour format support in the DE3 driver (patches 5-12).
+3. Replace the is_de3 mixer flag with an enum to support multiple DE versions (patch 13).
+4. Refactor the mixer, vi_scaler and some register code to merge common init code and more easily support multiple DE versions (patches 14-16).
+5. Add Arm Frame Buffer Compression (AFBC) compressed buffer support to the DE3 driver. This is currently only supported for VI layers (for HW-decoded video output) but is well integrated into these changes and a subsequent patchset to enable the Video Engine is planned. (patch 17).
+6. Add DT bindings for the DE33 engine. (patch 18).
+7. Extend the DE2/3 driver for the DE33, comprising clock, mixer, vi_scaler, fmt and csc module support (patches 19-23).
+
+Further patchsets are planned to support HDMI and the LCD timing controller present in these SoCs.
+
+Regards,
+
+Ryan
+
+Jernej Skrabec (20):
+  drm: sun4i: de2/de3: Change CSC argument
+  drm: sun4i: de2/de3: Merge CSC functions into one
+  drm: sun4i: de2/de3: call csc setup also for UI layer
+  drm: sun4i: de2: Initialize layer fields earlier
+  drm: sun4i: de3: Add YUV formatter module
+  drm: sun4i: de3: add format enumeration function to engine
+  drm: sun4i: de3: add formatter flag to mixer config
+  drm: sun4i: de3: add YUV support to the DE3 mixer
+  drm: sun4i: de3: pass engine reference to ccsc setup function
+  drm: sun4i: de3: add YUV support to the color space correction module
+  drm: sun4i: de3: add YUV support to the TCON
+  drm: sun4i: support YUV formats in VI scaler
+  drm: sun4i: de2/de3: add mixer version enum
+  drm: sun4i: vi_scaler refactor vi_scaler enablement
+  drm: sun4i: de2/de3: make blender register references generic
+  drm: sun4i: de3: Implement AFBC support
+  drm: sun4i: de33: mixer: add Display Engine 3.3 (DE33) support
+  drm: sun4i: de33: vi_scaler: add Display Engine 3.3 (DE33) support
+  drm: sun4i: de33: fmt: add Display Engine 3.3 (DE33) support
+  drm: sun4i: de33: csc: add Display Engine 3.3 (DE33) support
+
+Ryan Walklin (3):
+  drm: sun4i: de2/de3: refactor mixer initialisation
+  dt-bindings: allwinner: add H616 DE33 bus, clock and display bindings
+  clk: sunxi-ng: ccu: add Display Engine 3.3 (DE33) support
+
+ .../bus/allwinner,sun50i-a64-de2.yaml         |   4 +-
+ .../clock/allwinner,sun8i-a83t-de2-clk.yaml   |   1 +
+ .../allwinner,sun8i-a83t-de2-mixer.yaml       |   1 +
+ drivers/clk/sunxi-ng/ccu-sun8i-de2.c          |  25 ++
+ drivers/gpu/drm/sun4i/Makefile                |   3 +-
+ drivers/gpu/drm/sun4i/sun4i_tcon.c            |  26 +-
+ drivers/gpu/drm/sun4i/sun50i_afbc.c           | 250 +++++++++++++
+ drivers/gpu/drm/sun4i/sun50i_afbc.h           |  87 +++++
+ drivers/gpu/drm/sun4i/sun50i_fmt.c            |  99 +++++
+ drivers/gpu/drm/sun4i/sun50i_fmt.h            |  33 ++
+ drivers/gpu/drm/sun4i/sun8i_csc.c             | 341 +++++++++++++++---
+ drivers/gpu/drm/sun4i/sun8i_csc.h             |  20 +-
+ drivers/gpu/drm/sun4i/sun8i_mixer.c           | 226 +++++++++---
+ drivers/gpu/drm/sun4i/sun8i_mixer.h           |  31 +-
+ drivers/gpu/drm/sun4i/sun8i_ui_layer.c        |  49 ++-
+ drivers/gpu/drm/sun4i/sun8i_ui_scaler.c       |   2 +-
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.c        | 141 +++++---
+ drivers/gpu/drm/sun4i/sun8i_vi_scaler.c       | 115 ++++--
+ drivers/gpu/drm/sun4i/sun8i_vi_scaler.h       |   2 +-
+ drivers/gpu/drm/sun4i/sunxi_engine.h          |  34 ++
+ 20 files changed, 1280 insertions(+), 210 deletions(-)
+ create mode 100644 drivers/gpu/drm/sun4i/sun50i_afbc.c
+ create mode 100644 drivers/gpu/drm/sun4i/sun50i_afbc.h
+ create mode 100644 drivers/gpu/drm/sun4i/sun50i_fmt.c
+ create mode 100644 drivers/gpu/drm/sun4i/sun50i_fmt.h
+
+-- 
+2.45.2
+
