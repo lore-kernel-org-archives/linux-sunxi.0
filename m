@@ -1,112 +1,188 @@
-Received: from fout2-smtp.messagingengine.com (fout2-smtp.messagingengine.com [103.168.172.145])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 496571459F3
-	for <linux-sunxi@lists.linux.dev>; Fri,  5 Jul 2024 08:43:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 313901442F0
+	for <linux-sunxi@lists.linux.dev>; Fri,  5 Jul 2024 09:51:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720168988; cv=none; b=W5KOTkUrHWHAFSPouKTjQda9sKXWBewPxq1Ay3HA6tiLxd6hxWemLWPPuFQp51iv6r+RJJtbumlP/EWJZfODSwFATLxRADQNWS3/jp2v61nKwQbsoEt9G92d/esPrBir6u0jhCjkaXpCMmRaNHaaxM8ve+NWDNsJqmrdMFZ0Jx4=
+	t=1720173118; cv=none; b=iBxrGAxG1+RwRhsIoDKmZziMGLqKrEtdg65LjLP0BgmsB8ASMWZIp9W7TWIGhGLFc7n+lIDXJqRYVbP/RHcCPj6N45mEhYi27TJFR9U+jcPw6oOYVTnLT09kDoiYWCjX9V1PL0x5qgZONmDS6ifO/16cwYjtOLUp75NYkUt1MhQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720168988; c=relaxed/simple;
-	bh=IltzSQ/5X4Ajsi1LSF7L+gqy/2Zwm5dKRi9xBtY40KI=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=cm258UNtnQ02esgJd97oILF9vFUbEgEcnX+L5ImOl9KP7iwsfqBU8U/LD1dWh2lqwSMDXWCpmta1LdOIjEjhdc7J2VEgG45LTQoQhhMsKBYtkVKz20JQUrP8HhtFLDIv0vAZzTi8V9gA+Uq0UL4xyQA2Fec+sLxzHbHGX9OFMZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=3tdvylt0; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=cjslrqmf; arc=none smtp.client-ip=103.168.172.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
+	s=arc-20240116; t=1720173118; c=relaxed/simple;
+	bh=e0XnXkSS2UbFWN0Enj/RykHQGyKigRvVK0Ae2vPy69Q=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=HdCPqPW9DYsCnSDqbVoeF3Oda3vlMVprUB8Tu5WthzHYjvQerpj9MSg0lVVX1/rDqj8UQIgrfgelJ1pbtWFZFskXSxjWgm025CEONQL1zGijRCtUf2sxRxbu8rHyr66pEOqaJCUkQaAyHqGbUMLWZPAs86AGZJHoj8Y29Apz+AA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PDv1goar; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="3tdvylt0";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="cjslrqmf"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfout.nyi.internal (Postfix) with ESMTP id 797B41380461;
-	Fri,  5 Jul 2024 04:43:06 -0400 (EDT)
-Received: from imap47 ([10.202.2.97])
-  by compute5.internal (MEProxy); Fri, 05 Jul 2024 04:43:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm2; t=1720168986; x=
-	1720255386; bh=RKV00q6lSm2tO3hKipSYrp0qt46JHSY9gtuafqcyWeU=; b=3
-	tdvylt0coff7sn2DlN4UnLxawJqN2MlPBuSCUyGfqfxe80aB0xe8fcyVPFO8hVUp
-	LoJAEKyl9UnAVzekwbwRVdYFEphSegZDZjzh9wMO38Kl0wqE0In10xBCY5C68RAE
-	Ktp5Emsj3ldxPSvcNadLD20MePj/Be1zIbxp3zDiIGaGVuqSPCdQIoBer/pWRylJ
-	rW3R2n4btdvnvMEfG4oXmln5CmRfsA9C/YtT1kwnjYy2gIOvZuACjHoZlhG6UXy2
-	HLl+vHjoSSMqtMLjdrzgPo5IVorqpIgpmjLIUzVfb7pHBw+qsn65zBWgfFINZrkS
-	tyuAEN+BKW5KALVciqQrg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1720168986; x=1720255386; bh=RKV00q6lSm2tO3hKipSYrp0qt46J
-	HSY9gtuafqcyWeU=; b=cjslrqmfXdY6hETVXHDgnL6HyNqrQrS4icGId5yd5SjI
-	5eVLk8VWoRf8KWC6GiGWLacTNiqlO8IEaSbEvV+LhVEGeyLqNqRX+vBGHcmQvcvv
-	9/Bc2YkR87FZSnxLaozSkBvSrZZ6IcG6OWD5RAvtfMBeTKg8dXxf/dPCFF9LH5Ej
-	1Z8l9nT/gv4mO5pirRMTIIE0gwVNhc1HphGad5rQ7/e6hftXhceBprD22hXByOxS
-	BCySGXA6NkyKZDZMCKAGIgHotH0+Uywz2xpOoCW+IjCbE9MUFmeN7WvzYPQJbWYV
-	N4hDA+T7tog9dbPv4R/3kM4opBT4FRd8vy7m0+hL/A==
-X-ME-Sender: <xms:GbKHZvInD--y0myNt-IrD8_EkS7ozWVgW8pcig0wCQi4iWXWvR9sQA>
-    <xme:GbKHZjKKZV468F9xn8tYoKUPEQSL-YPA2DYi96vHFn3XyUdXeC-V2rcwQZNfZXmp9
-    kB9hTW4eZlKf4Yfbg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvddugddtjecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdfthigr
-    nhcuhggrlhhklhhinhdfuceorhihrghnsehtvghsthhtohgrshhtrdgtohhmqeenucggtf
-    frrghtthgvrhhnpeehvdevieegudejueefgeffhefhffevudfhieejgfdtffetlefgteeu
-    veeiudeijeenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpehrhigrnhesthgvshhtthhorghsthdrtghomh
-X-ME-Proxy: <xmx:GrKHZnsb3SR0FV3e5O0EfNseDorhA4j9fx3Fs1WRTFUKPg3mRXWPGw>
-    <xmx:GrKHZoahHJ1QufOL2rOPmRdGHSOn7XDVihL-obblfxaS-xxegeUflw>
-    <xmx:GrKHZmbuGvblbSyv0FTLI0T_ZtsANEKpkB_7INRG6Mtr0PWTJotNMw>
-    <xmx:GrKHZsDBlbZDJ2W7zDiKVLCmEMuHoQTRpQXPBAMlYJWhRMQYd1ppoA>
-    <xmx:GrKHZox9r7c7mE_WnPAxJGejGc7XKXbISUeI6_0qi6grBwI24iE-8MT_>
-Feedback-ID: idc0145fc:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id E1469A60078; Fri,  5 Jul 2024 04:43:05 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-566-g3812ddbbc-fm-20240627.001-g3812ddbb
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PDv1goar"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-367a3d1a378so640786f8f.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 05 Jul 2024 02:51:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1720173115; x=1720777915; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kJu1vmWUxTKY4ACFv7SXUQFPNZpjog7M5wGF280T4yg=;
+        b=PDv1goaraS0n0P1F3SqkkBCrnEOlk7gpStROznm8hQJRZaOWoS9gy3mcqwMDYh020k
+         /ZVHKGIzwPX3DHcKlDHwRyvQw/IeLs2zs79wMGhNFDZt8WJXY+YoRnNWkYubHcuROHmC
+         KG0liIcgourqHKp1B66DO67vlHlkY92VuD1iP+fF/sJxJ0AKiQ26YfA+CfJuUGuSm/NM
+         XEhVMu4gRsvh/BvBuHm86PG4r7DxQ5SLvSsInjXHNYK28O/usvHBaib6riKf5/4r+pjU
+         1X6PXwgtsyU5mEb0glHljlqFKt9NnfA5mG6Gxpq9dMgz0UuMtYqGu8TdNg02OjeOgR24
+         PWeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720173115; x=1720777915;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kJu1vmWUxTKY4ACFv7SXUQFPNZpjog7M5wGF280T4yg=;
+        b=OtvvhcwTGWD49UIip2s4JDMOYo7fLKeKsWLvWfPhsR6zeA2DhCVXEhgTW/25LBc3M0
+         FNRTIt5ZzbtAYoFoDIivEdNqvnx2c3HFar1gNuP7D0B5iOTmhFNSWOpwNeYEKoCv4Xba
+         /2ybRKrv3I4eStvjUwuFjixppZGjzldfut0yr9eEsLLV6Dh3NleFFAYgr0+e/j8sIQTX
+         EchuDSbjS+PLTU1trD8S8vZ8uqMTbuRm2hXVFT/PqhPkPp3/6WLcmPAO20QweU6A0rDY
+         NMoabgcTieLmI2HXowdSCHKPLxFRS0s4sWKZqo97MaopA6odQO8yFCruaCx0p2VInUk9
+         +evw==
+X-Forwarded-Encrypted: i=1; AJvYcCU/N5GC78fqlTs7/+5+xYk4MB/xGIyl3+wP8k/NOBmOsCoIZNCmZI1Bzedv7syG/owIExnTSRNLzcKj6gYsVwgPaD/pUhiH20BmE+0=
+X-Gm-Message-State: AOJu0YyYvrgMbAzSpEcDdZl5R89zvw/XhXIxjijpXIqifzspc2xVX+tf
+	/bBYVpxPztnPIqFcdBu5myPlYp0DbqY3V1n4pgx92VH5if3wXL8hdPNMGb+yR9E=
+X-Google-Smtp-Source: AGHT+IH8V0hkcfYPUlBscK7rDTKJum3Y/kp1D4wfK5gH6s/Rm3xSZgQUyKRbc81OqnK8GjQSgcWNiw==
+X-Received: by 2002:a5d:62c4:0:b0:367:957d:b46d with SMTP id ffacd0b85a97d-3679dd71ef8mr3422417f8f.66.1720173114610;
+        Fri, 05 Jul 2024 02:51:54 -0700 (PDT)
+Received: from [127.0.1.1] ([178.197.219.137])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4264a1d1650sm55528995e9.2.2024.07.05.02.51.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Jul 2024 02:51:53 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH RESEND 00/22] dt-bindings: thermal: few cleanups
+Date: Fri, 05 Jul 2024 11:51:19 +0200
+Message-Id: <20240705-dt-bindings-thermal-allof-v1-0-554061b52fbc@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <cd8652aa-2272-4f07-ac65-e414e83925e6@app.fastmail.com>
-In-Reply-To: <20240703-concerned-geranium-dd89f3f82375@spud>
-References: <20240703105454.41254-1-ryan@testtoast.com>
- <20240703105454.41254-19-ryan@testtoast.com>
- <20240703-concerned-geranium-dd89f3f82375@spud>
-Date: Fri, 05 Jul 2024 20:42:45 +1200
-From: "Ryan Walklin" <ryan@testtoast.com>
-To: "Conor Dooley" <conor@kernel.org>
-Cc: "Maxime Ripard" <mripard@kernel.org>, "Chen-Yu Tsai" <wens@csie.org>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Thomas Zimmermann" <tzimmermann@suse.de>,
- "David Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>,
- "Samuel Holland" <samuel@sholland.org>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>,
- "Michael Turquette" <mturquette@baylibre.com>,
- "Stephen Boyd" <sboyd@kernel.org>, "Andre Przywara" <andre.przywara@arm.com>,
- "Chris Morgan" <macroalpha82@gmail.com>, "John Watts" <contact@jookia.org>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- linux-clk@vger.kernel.org
-Subject: Re: [PATCH v2 18/23] dt-bindings: allwinner: add H616 DE33 bus, clock and
- display bindings
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABjCh2YC/42NwQ6CMBBEf4Xs2TVtLRw8eZCrBz0aDgUW2KS2Z
+ kuIhvDvNnyBxzeTebNCImFKcC5WEFo4cQwZ9KGAbnJhJOQ+MxhlrKq0xX7GlkPPYUw4TyQv59F
+ 5Hwe0SnelokrTYCDv30IDf3b3E+71o75docn5xGmO8t0vF723f9gXjQpPqjWlqxwZSxfPwUk8R
+ hmh2bbtB1q92lvLAAAA
+To: Daniel Lezcano <daniel.lezcano@linaro.org>, 
+ Zhang Rui <rui.zhang@intel.com>, Rob Herring <robh@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Guillaume La Roque <glaroque@baylibre.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Fabio Estevam <festevam@gmail.com>
+Cc: linux-pm@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, imx@lists.linux.dev, 
+ linux-tegra@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+ linux-stm32@st-md-mailman.stormreply.com, 
+ Florian Fainelli <f.fainelli@gmail.com>, 
+ linux-rpi-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ Conor Dooley <conor.dooley@microchip.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Vasily Khoruzhick <anarsoul@gmail.com>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Amit Kucheria <amitk@kernel.org>, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+ Heiko Stuebner <heiko@sntech.de>, Biju Das <biju.das.jz@bp.renesas.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3987;
+ i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
+ bh=e0XnXkSS2UbFWN0Enj/RykHQGyKigRvVK0Ae2vPy69Q=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmh8IhQOLA3YgiesM3X3PsNvQ88/UNWP+TTpAnV
+ HPEl13fLgmJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZofCIQAKCRDBN2bmhouD
+ 16lHEACAIqQ6rJ+IssE7c+6Byc/DFWCacf2uYgdbCx9SEJkdhTd2FBmqtuIGorS7GWv7sQjWxUw
+ s0tkl2uvy1SLpEwSsjDX8jifZyU9Isz2koX+MPKaBiaM/l+shANrL9Ub8nkbK2VdKHVoqlBJ1jx
+ CRViJ5HwLCQ+xul2EKAI8qfZdiBhLCvCWXiWyqNVOzGla8SXM2b07zV+Akza3BDZPfw42QEbgVE
+ ZCAP2eYkIe0ZJiHNJ6PwjIb94/46R44k0NevaC/FRcinUnaHRNaKcUJ+fkPQ5XZjFH9sg8TCkxV
+ vRMnI7NYrYrvYIOgRBa2T0QfbAP2dnxqo1gMdxQy0kJowh61zrLfLKAbYNJvlRh/r0AYziRZHrc
+ U8k2+NDtbOPfp0vKsIvEtEC3qnpVHB8LTlfPNK+cpvv8uj0wWe+H0kJ/DCxIhbCjYZk/63YOAl8
+ P4xRXaf/fFVZy+HxPYFCNrvf4MYBSg2XOhwvfprdm8AZXX3yR3YyZGVJ3UoGlbYvSkJDxTmP3Ii
+ J1lsr1ay4TULQcqQNg3uiC5RLHxzMo/USu2p/M0FBbi2TJ/OlJynDRAO8z0Ox8Ggk1eiruF+q83
+ 92qWVFjKIhRWyHIkXpUcZhNw7GNERqxdsj6jrNJBa1nRCBdhobA/n7B8PPeqcsgzie6AEOHo9Ji
+ h+HUlL/i4jtZxAA==
+X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
+ fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
-On Thu, 4 Jul 2024, at 3:28 AM, Conor Dooley wrote:
->> Add display engine bus, clock and mixer bindings for the DE33.
->> 
->> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
->
-> Probably this should be 3 patches given 3 subsystems, but the content is
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
->
-> Cheers,
-> Conor.
->
-Thanks Conor, will separate for v3 but ack noted.
+Hi,
+
+Resending (with added tags) because patchset was still not applied.
+Daniel, can you pick it up?
+
+Few cleanups witout practical impact, except maybe the Amlogic schema
+(bringing required cells).
+
+Link to v1: https://lore.kernel.org/r/20240614-dt-bindings-thermal-allof-v1-0-30b25a6ae24e@linaro.org
+
+Best regards,
+Krzysztof
+
+---
+Krzysztof Kozlowski (22):
+      dt-bindings: thermal: samsung,exynos: specify cells
+      dt-bindings: thermal: amlogic: reference thermal-sensor schema
+      dt-bindings: thermal: allwinner,sun8i-a83t-ths: reference thermal-sensor schema
+      dt-bindings: thermal: brcm,avs-ro: reference thermal-sensor schema
+      dt-bindings: thermal: generic-adc: reference thermal-sensor schema
+      dt-bindings: thermal: imx8mm: reference thermal-sensor schema
+      dt-bindings: thermal: nvidia,tegra186-bpmp: reference thermal-sensor schema
+      dt-bindings: thermal: nvidia,tegra30-tsensor: reference thermal-sensor schema
+      dt-bindings: thermal: qcom-spmi-adc-tm-hc: reference thermal-sensor schema
+      dt-bindings: thermal: qcom-spmi-adc-tm5: reference thermal-sensor schema
+      dt-bindings: thermal: qcom-tsens: reference thermal-sensor schema
+      dt-bindings: thermal: qoriq: reference thermal-sensor schema
+      dt-bindings: thermal: rcar-gen3: reference thermal-sensor schema
+      dt-bindings: thermal: rockchip: reference thermal-sensor schema
+      dt-bindings: thermal: rzg2l: reference thermal-sensor schema
+      dt-bindings: thermal: socionext,uniphier: reference thermal-sensor schema
+      dt-bindings: thermal: sprd: reference thermal-sensor schema
+      dt-bindings: thermal: st,stm32: reference thermal-sensor schema
+      dt-bindings: thermal: ti,am654: reference thermal-sensor schema
+      dt-bindings: thermal: ti,j72xx: reference thermal-sensor schema
+      dt-bindings: thermal: simplify few bindings
+      dt-bindings: thermal: cleanup examples indentation
+
+ .../bindings/thermal/allwinner,sun8i-a83t-ths.yaml |  6 +-
+ .../bindings/thermal/amlogic,thermal.yaml          | 22 ++---
+ .../bindings/thermal/brcm,avs-ro-thermal.yaml      | 22 ++---
+ .../devicetree/bindings/thermal/brcm,avs-tmon.yaml | 17 ++--
+ .../bindings/thermal/brcm,bcm2835-thermal.yaml     |  1 -
+ .../bindings/thermal/fsl,scu-thermal.yaml          |  1 -
+ .../bindings/thermal/generic-adc-thermal.yaml      |  5 +-
+ .../bindings/thermal/imx8mm-thermal.yaml           |  5 +-
+ .../bindings/thermal/loongson,ls2k-thermal.yaml    |  1 -
+ .../bindings/thermal/mediatek,lvts-thermal.yaml    |  1 -
+ .../bindings/thermal/nvidia,tegra124-soctherm.yaml |  1 -
+ .../thermal/nvidia,tegra186-bpmp-thermal.yaml      | 12 +--
+ .../bindings/thermal/nvidia,tegra30-tsensor.yaml   |  9 +-
+ .../bindings/thermal/qcom,spmi-temp-alarm.yaml     |  1 -
+ .../bindings/thermal/qcom-spmi-adc-tm-hc.yaml      |  8 +-
+ .../bindings/thermal/qcom-spmi-adc-tm5.yaml        |  8 +-
+ .../devicetree/bindings/thermal/qcom-tsens.yaml    | 96 ++++++++++------------
+ .../devicetree/bindings/thermal/qoriq-thermal.yaml |  5 +-
+ .../bindings/thermal/rcar-gen3-thermal.yaml        | 69 ++++++++--------
+ .../devicetree/bindings/thermal/rcar-thermal.yaml  | 60 +++++++-------
+ .../bindings/thermal/rockchip-thermal.yaml         |  5 +-
+ .../devicetree/bindings/thermal/rzg2l-thermal.yaml | 41 ++++-----
+ .../bindings/thermal/samsung,exynos-thermal.yaml   |  3 +-
+ .../thermal/socionext,uniphier-thermal.yaml        |  5 +-
+ .../devicetree/bindings/thermal/sprd-thermal.yaml  | 47 +++++------
+ .../bindings/thermal/st,stm32-thermal.yaml         |  5 +-
+ .../bindings/thermal/ti,am654-thermal.yaml         | 15 ++--
+ .../bindings/thermal/ti,j72xx-thermal.yaml         |  5 +-
+ 28 files changed, 230 insertions(+), 246 deletions(-)
+---
+base-commit: 0b58e108042b0ed28a71cd7edf5175999955b233
+change-id: 20240614-dt-bindings-thermal-allof-401c50e61ef2
+
+Best regards,
+-- 
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
