@@ -1,78 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ED8B13AA38;
-	Sat,  6 Jul 2024 22:01:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57E52A95B
+	for <linux-sunxi@lists.linux.dev>; Sat,  6 Jul 2024 22:52:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720303297; cv=none; b=DANMn4OSeWT3eWz0EejmgOPnCuzr8RsDPMadPzRi/StfnUG22PsKZ8+rlbRYjgtAKhyAamN4ul1B7CTcBjzu1Pmnwm1eB7u9tPcyMbW0zJcFVRO1tQRn/1u/P6r89cM66jutzlA7SkD3midR+8Mickguzzt9NePIsgdyvSvRSqI=
+	t=1720306363; cv=none; b=ly5Ws/UPprOUt/iKFWuyqfXt2FFdHhRQlGybPZQW4Y0gAYuxe44lLlfEbYZ1a/T/yFVKgzs/V/Qlgosx3+LLAEbgL4MII3JDg3Mt3Bi17mgEBQ5zQ/uubS5bvULbdGeTfpSBjxTjy0b07fo5RQHFxAWrlM5Lueiy+Cfn/m4SQgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720303297; c=relaxed/simple;
-	bh=Qwpc4/efpTqL70IGr9qUPpIjMx5Mgbkh4y5LCEEJGt0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jEt2RxOGH2zvaasi0dyv6DA7pHoUvGmMkWz9rka7Yi8WClSGFby7FVHc2ABTWPrt5lmYl9eVZVCVaaiW/MF24qfmLEwCWHQ9oMCRwW9/WEXiDOFGSvDE9PfyXyakBZioemOIHPDv07WUC8iZ0wYllya5LsOsR9GOh33Lmgr2Vts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bRlaiKQS; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bRlaiKQS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84D1EC4AF10;
-	Sat,  6 Jul 2024 22:01:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720303296;
-	bh=Qwpc4/efpTqL70IGr9qUPpIjMx5Mgbkh4y5LCEEJGt0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=bRlaiKQS45IlxvihYw/6qmTpqQTSOqxEoGMh2Cr7vlR7QTZ4OetSEYlWVNBURLgRb
-	 7gMBFtupFoXogiImboTUhZfeylf8VEteXyzfg/aXrxYRzpdkXsl7SH6oPviNQpvIor
-	 s2AQvC8DB1MV+tKdEKqfXf10MSkftXtsfg0x69XxJmgyTocq1N/ZjrQY3tahtYmWz8
-	 yF+3wDPq5VmSu9YAStl7XTEU9fHI6YZl2pD0u2orf7Fom/3hd/m5Vh/hM7jsQc0kUG
-	 op+1Uw+HWivnDyGqOy/MbBL9oSmPFIXmWFSkXgFd4elpn9IPd+bTm6FGelbYDmYRwj
-	 0+iUIFzHafcWQ==
-From: Bjorn Andersson <andersson@kernel.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Cc: linux-amlogic@lists.infradead.org,
-	linux-clk@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: Re: (subset) [PATCH 00/10] clk: constify struct regmap_config
-Date: Sat,  6 Jul 2024 17:01:19 -0500
-Message-ID: <172030328802.28909.4573550234450892418.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240703-clk-const-regmap-v1-0-7d15a0671d6f@gmail.com>
-References: <20240703-clk-const-regmap-v1-0-7d15a0671d6f@gmail.com>
+	s=arc-20240116; t=1720306363; c=relaxed/simple;
+	bh=ZK90u5RYphGiY8mFBPfe6XQyxZbvTFXAPWCE9dNGt4k=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ABrpPuoy4ELRqYxR8UWPCqfNIcCVcHqz5gFX/d6NEtZMOKv3ICzCBFlJV0IWOKZ+vvHb9pEtunH3FJzPWPW3GEYIZFwt3PpcjLFTN7v9/4JMfsh1XaxWFju5OfsGE9wUqpxSEu9l07G9wcUwJKZFxOrUDgJkonAEjbi7Z7IGkys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A667BDA7;
+	Sat,  6 Jul 2024 15:53:05 -0700 (PDT)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 82D2F3F762;
+	Sat,  6 Jul 2024 15:52:39 -0700 (PDT)
+Date: Sat, 6 Jul 2024 23:50:41 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] soc: sunxi: sram: Constify struct regmap_config
+Message-ID: <20240706235041.1c5181b8@minigeek.lan>
+In-Reply-To: <20240705-sunxi-sram-const-regmap_config-v1-1-1b997cd65d0f@gmail.com>
+References: <20240705-sunxi-sram-const-regmap_config-v1-1-1b997cd65d0f@gmail.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Fri, 05 Jul 2024 12:52:27 +0200
+Javier Carrasco <javier.carrasco.cruz@gmail.com> wrote:
 
-On Wed, 03 Jul 2024 11:50:13 +0200, Javier Carrasco wrote:
-> This series adds the const modifier to the remaining regmap_config
-> structs within the clk subsystem that are effectively used as const
-> (i.e., only read after their declaration), but kept ad writtable data.
+> `sunxi_sram_regmap_config` is not modified and can be declared as const
+> to move its data to a read-only section.
 > 
+> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+
+Cheers,
+Andre
+
+> ---
+>  drivers/soc/sunxi/sunxi_sram.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
+> diff --git a/drivers/soc/sunxi/sunxi_sram.c b/drivers/soc/sunxi/sunxi_sram.c
+> index 71cc377b5e24..2781a091a6a6 100644
+> --- a/drivers/soc/sunxi/sunxi_sram.c
+> +++ b/drivers/soc/sunxi/sunxi_sram.c
+> @@ -344,7 +344,7 @@ static void sunxi_sram_unlock(void *_lock)
+>  	spin_unlock(lock);
+>  }
+>  
+> -static struct regmap_config sunxi_sram_regmap_config = {
+> +static const struct regmap_config sunxi_sram_regmap_config = {
+>  	.reg_bits       = 32,
+>  	.val_bits       = 32,
+>  	.reg_stride     = 4,
+> 
+> ---
+> base-commit: 0b58e108042b0ed28a71cd7edf5175999955b233
+> change-id: 20240705-sunxi-sram-const-regmap_config-d05d1bb0583c
+> 
+> Best regards,
 
-Applied, thanks!
-
-[08/10] clk: qcom: lpasscc-sc8280xp: Constify struct regmap_config
-        commit: bd2d330ee608f16a0b93ea753b75c98a1898bdd0
-
-Best regards,
--- 
-Bjorn Andersson <andersson@kernel.org>
