@@ -1,106 +1,59 @@
-Received: from norbury.hmeau.com (abb.hmeau.com [144.6.53.87])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 214EF33DF;
-	Sat,  6 Jul 2024 01:30:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.6.53.87
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AA72134A9;
+	Sat,  6 Jul 2024 04:48:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720229453; cv=none; b=Lm0151uUODG1Fg+8RKMQgt3wket5bL4d1LuQRN4+zhgtDB+4nJ0DZH/q9cBL30jOPoZX6kDqw2foenSDRvUetG2AoiSX1lf1TglQnMwiA8jgM3pAXTlt39Hi15SxH4+It2PQvhQaEvPQCs0CzTeFVDcptAay1wfz0IZrJiouki0=
+	t=1720241327; cv=none; b=rfVyV/gNOLNNyZ9hQzYtqMjQKMs/SAFUMeVQWYFiaAYrdyXA3PAIlJYPQRowmjGAkJ7eRfBYvphmJVi1YOSux8wgP37vymgZHAGMy42rR1RVIQPt+eBLPFmGiTca6KnULN2oh6cdzPCo/wDzmzn2i7/ipma+EAOsGaFsoxC3wmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720229453; c=relaxed/simple;
-	bh=Eij4TIBMvKRm+0hBbw/dPnWyF+2k31vb8n451hmoMVE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d5C+HUueo8IHkLrcty4/ria4tYWjyBhXx+uPtWAo7XLWPdoIBGwjBAvHU+8LQPfkGPN0USvi7qc8xR4CC+dIYfqFy8r2FequLxelCXl6d8/qhPjm1AQUJGB4hrlP8YA9vcW95v3/V7n7Wgwrpidx+DrjRR6lPINJP2mthh2yiN0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; arc=none smtp.client-ip=144.6.53.87
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
-Received: from gwarestrin.arnor.me.apana.org.au ([192.168.103.7])
-	by norbury.hmeau.com with smtp (Exim 4.96 #2 (Debian))
-	id 1sPtbs-006h1Y-2e;
-	Sat, 06 Jul 2024 10:49:05 +1000
-Received: by gwarestrin.arnor.me.apana.org.au (sSMTP sendmail emulation); Sat, 06 Jul 2024 10:48:51 +1000
-Date: Sat, 6 Jul 2024 10:48:51 +1000
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Corentin Labbe <clabbe.montjoie@gmail.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Ryan Walklin <ryan@testtoast.com>,
-	Philippe Simons <simons.philippe@gmail.com>,
-	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 0/4] crypto: sun8i-ce: add Allwinner H616 support
-Message-ID: <ZoiUc5TEk64hseK7@gondor.apana.org.au>
-References: <20240624232110.9817-1-andre.przywara@arm.com>
+	s=arc-20240116; t=1720241327; c=relaxed/simple;
+	bh=13EXoUAPq38Cmaa3H/MBeovfbKWJYnIG97tCkbnyKZs=;
+	h=Message-ID:Content-Type:MIME-Version:In-Reply-To:References:
+	 Subject:From:Cc:To:Date; b=QVHlZIeyXIzIMU/5FgYOWl/+xvZvBbRnAxxiOEU7EcEM6CfQRIO3/RrAO4ws1VhCPQsZtNP8uxEMOdujHdJlIs42wbBDftkLOy+tfw7qULQL12wrfCJnVQAxPYJ2fUpEJBXC8nsfDyXSSRT6QJ4kNZgQWy5qCVRu3uiZdHbp6Jo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lESmbGVD; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lESmbGVD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBF37C2BD10;
+	Sat,  6 Jul 2024 04:48:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720241327;
+	bh=13EXoUAPq38Cmaa3H/MBeovfbKWJYnIG97tCkbnyKZs=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=lESmbGVDMqXRU6rKjwgbcYKIlx2y+C9Lxjl6cPb+GfjTdeGkvYFj38pXSAt79OHIj
+	 t7xSxAM9n6sbwsv1x+L9u2JzvI1hyLmWuXUhhb2hYIVeIZzZpWCaR2t4aEMqSEBfsT
+	 1slxt7TOuTEDjWzOkaV22IEsPqWFNC14+F29hjN7YZV/dKu4KVL2f8g09uTiSs4oaT
+	 rfhEyi4al9FLz3h7iIkJGdjkupatGAyr39OiSvzCLy2I/RIh5osMkXEkUF0q0lNYnv
+	 Et6wf2LXZ2l4pHZY/kc/l3lErNf/xTXAZVVIxmcgulemnALe3nKHG8dxtYnuYur9lz
+	 P4wjBQSSuS10g==
+Message-ID: <0986ea357075df5779f4b9cd90e298cb.sboyd@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240624232110.9817-1-andre.przywara@arm.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <e041466e-cfdc-46db-ae83-dcc04ed1af42@app.fastmail.com>
+References: <20240703105454.41254-1-ryan@testtoast.com> <20240703105454.41254-20-ryan@testtoast.com> <dc00b9daafe6a88ffaaaf4aace29e136.sboyd@kernel.org> <e041466e-cfdc-46db-ae83-dcc04ed1af42@app.fastmail.com>
+Subject: Re: [PATCH v2 19/23] clk: sunxi-ng: ccu: add Display Engine 3.3 (DE33) support
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: Andre Przywara <andre.przywara@arm.com>, Chris Morgan <macroalpha82@gmail.com>, John Watts <contact@jookia.org>, dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, linux-clk@vger.kernel.org
+To: Chen-Yu Tsai <wens@csie.org>, Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, Michael Turquette <mturquette@baylibre.com>, Rob Herring <robh@kernel.org>, Ryan Walklin <ryan@testtoast.com>, Samuel Holland <samuel@sholland.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Date: Fri, 05 Jul 2024 21:48:44 -0700
+User-Agent: alot/0.10
 
-On Tue, Jun 25, 2024 at 12:21:06AM +0100, Andre Przywara wrote:
-> This is an update to the H616 crypto engine support, with the sparse
-> warning fixed and the accrued tags added.
-> ========================
-> 
-> This series adds support for the crypto engine in the Allwinner H616
-> SoC. The IP and its capabilities are very similar to the H6, with the
-> major difference of the DMA engine supporting 34 bit wide addresses.
-> This is achieved by just shifting every address by 2 bits in the DMA
-> descriptors; Allwinner calls this "word addresses".
-> Patch 2/4 adds support for this by wrapping every address access in a
-> function that does the shift as needed. Patch 1/4 adds the new
-> compatible string to the binding, patch 3/4 adds that string to the
-> driver and enables the address shift for it. The final patch 4/4 adds
-> the DT node to the SoC .dtsi. Since this is an internal peripheral,
-> it's always enabled.
-> 
-> Corentin's cryptotest passed for me, though I haven't checked how fast
-> it is and if it really brings an advantage performance-wise, but maybe
-> people find it useful to offload that from the CPU cores.
-> One immediate advantage is the availability of the TRNG device, which
-> helps to feed the kernel's entropy pool much faster - typically before
-> we reach userland. Without the driver this sometimes takes minutes, and
-> delays workloads that rely on the entropy pool.
-> 
-> Please have a look and comment!
-> 
-> Cheers,
-> Andre
-> 
-> Changelog v1 ... v2:
-> - fix sparse warning by treating writel() call differently (2/4)
-> - add Acks, R-b and Tested-by: tags
-> 
-> Andre Przywara (4):
->   dt-bindings: crypto: sun8i-ce: Add compatible for H616
->   crypto: sun8i-ce - wrap accesses to descriptor address fields
->   crypto: sun8i-ce - add Allwinner H616 support
->   arm64: dts: allwinner: h616: add crypto engine node
-> 
->  .../bindings/crypto/allwinner,sun8i-ce.yaml   |  2 ++
->  .../arm64/boot/dts/allwinner/sun50i-h616.dtsi | 10 +++++++
->  .../allwinner/sun8i-ce/sun8i-ce-cipher.c      |  8 +++---
->  .../crypto/allwinner/sun8i-ce/sun8i-ce-core.c | 28 ++++++++++++++++++-
->  .../crypto/allwinner/sun8i-ce/sun8i-ce-hash.c |  6 ++--
->  .../crypto/allwinner/sun8i-ce/sun8i-ce-prng.c |  6 ++--
->  .../crypto/allwinner/sun8i-ce/sun8i-ce-trng.c |  2 +-
->  drivers/crypto/allwinner/sun8i-ce/sun8i-ce.h  | 15 ++++++++++
->  8 files changed, 65 insertions(+), 12 deletions(-)
-> 
-> -- 
-> 2.39.4
+Quoting Ryan Walklin (2024-07-05 01:39:15)
+> Hi Stephen, thanks for reviewing.
+>=20
+> On Thu, 4 Jul 2024, at 11:02 AM, Stephen Boyd wrote:
+> > Quoting Ryan Walklin (2024-07-03 03:51:09)
+> >> +#include <linux/of_address.h>
+> >
+> > What is this include for?
+> >
+> for writel, however have confirmed this should instead be #include <asm/i=
+o.h>, will correct for v3.
 
-Patches 1-3 applied.  Thanks.
--- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+Include linux/io.h then.
