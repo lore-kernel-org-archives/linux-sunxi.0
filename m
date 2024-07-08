@@ -1,78 +1,163 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57E52A95B
-	for <linux-sunxi@lists.linux.dev>; Sat,  6 Jul 2024 22:52:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A924436AEC
+	for <linux-sunxi@lists.linux.dev>; Mon,  8 Jul 2024 07:45:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720306363; cv=none; b=ly5Ws/UPprOUt/iKFWuyqfXt2FFdHhRQlGybPZQW4Y0gAYuxe44lLlfEbYZ1a/T/yFVKgzs/V/Qlgosx3+LLAEbgL4MII3JDg3Mt3Bi17mgEBQ5zQ/uubS5bvULbdGeTfpSBjxTjy0b07fo5RQHFxAWrlM5Lueiy+Cfn/m4SQgQ=
+	t=1720424750; cv=none; b=NyJalKfcD1FnWsk5bjl0VdwZS+J53/pavLDWdyrwGDxPxYBLiWQ9WWeTaetAWIbNbEApskRFlc2vRT3aWEIPTkAMgB5qclge3r2W6QzAI95/YYSqWCUlHM7ZL2F+a6CZR1f+yDBhttQii3qDJi2L6AHUKFw3sVvH6yJE7IzLbZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720306363; c=relaxed/simple;
-	bh=ZK90u5RYphGiY8mFBPfe6XQyxZbvTFXAPWCE9dNGt4k=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ABrpPuoy4ELRqYxR8UWPCqfNIcCVcHqz5gFX/d6NEtZMOKv3ICzCBFlJV0IWOKZ+vvHb9pEtunH3FJzPWPW3GEYIZFwt3PpcjLFTN7v9/4JMfsh1XaxWFju5OfsGE9wUqpxSEu9l07G9wcUwJKZFxOrUDgJkonAEjbi7Z7IGkys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A667BDA7;
-	Sat,  6 Jul 2024 15:53:05 -0700 (PDT)
-Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 82D2F3F762;
-	Sat,  6 Jul 2024 15:52:39 -0700 (PDT)
-Date: Sat, 6 Jul 2024 23:50:41 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] soc: sunxi: sram: Constify struct regmap_config
-Message-ID: <20240706235041.1c5181b8@minigeek.lan>
-In-Reply-To: <20240705-sunxi-sram-const-regmap_config-v1-1-1b997cd65d0f@gmail.com>
-References: <20240705-sunxi-sram-const-regmap_config-v1-1-1b997cd65d0f@gmail.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	s=arc-20240116; t=1720424750; c=relaxed/simple;
+	bh=Ctg0u/mGa+VwyDSlNuzK+P613udK8Frsp14C56Ebnqw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MyoFKImpPMGN9sOnaJ8QVsZej0C6uOujQmNd6mYfLuIcZcFzEAyefJAQdrUqXzs28ZM0V4pr/iF0nHPtakwg6hsuXJooE90kNjNAmpeReUPOtsbgYjwY34V0iqh3PW0XjizHa/1KLpn7J7RPzwHUi5/LFTq+wi26IV0FDK6pvNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=gh9N9Uw0; arc=none smtp.client-ip=95.215.58.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="gh9N9Uw0"
+X-Envelope-To: luca.ceresoli@bootlin.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1720424745;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6r0t4bqCeyTcKMQipHqJ13XIJ0M/NNLgBRa8TFFkq0k=;
+	b=gh9N9Uw0u8C6T2INQwENuJbySC4x56TU/bCYId7J19tXTNv2leS8YvS59ZHGfqV5iEcc2W
+	giRbXLJT0kVM9blL6cZF0eI0W/NaGwdLwsoCYd+qWtWL+ssOTOGgYIaHoZkEp8DXV+BDKD
+	QBEscHkTSbtdZ0QzmCUfJBvJe1gdrAw=
+X-Envelope-To: ojeda@kernel.org
+X-Envelope-To: robh@kernel.org
+X-Envelope-To: saravanak@google.com
+X-Envelope-To: nathan@kernel.org
+X-Envelope-To: mturquette@baylibre.com
+X-Envelope-To: sboyd@kernel.org
+X-Envelope-To: tony@atomide.com
+X-Envelope-To: andersson@kernel.org
+X-Envelope-To: emilio@elopez.com.ar
+X-Envelope-To: wens@csie.org
+X-Envelope-To: jernej.skrabec@gmail.com
+X-Envelope-To: samuel@sholland.org
+X-Envelope-To: krzk@kernel.org
+X-Envelope-To: daniel.lezcano@linaro.org
+X-Envelope-To: tglx@linutronix.de
+X-Envelope-To: florian.fainelli@broadcom.com
+X-Envelope-To: bcm-kernel-feedback-list@broadcom.com
+X-Envelope-To: linus.walleij@linaro.org
+X-Envelope-To: brgl@bgdev.pl
+X-Envelope-To: jic23@kernel.org
+X-Envelope-To: lee@kernel.org
+X-Envelope-To: shawnguo@kernel.org
+X-Envelope-To: kernel@pengutronix.de
+X-Envelope-To: ukleinek@kernel.org
+X-Envelope-To: gregkh@linuxfoundation.org
+X-Envelope-To: jirislaby@kernel.org
+X-Envelope-To: lgirdwood@gmail.com
+X-Envelope-To: broonie@kernel.org
+X-Envelope-To: nicolas.ferre@microchip.com
+X-Envelope-To: mpe@ellerman.id.au
+X-Envelope-To: npiggin@gmail.com
+X-Envelope-To: christophe.leroy@csgroup.eu
+X-Envelope-To: naveen.n.rao@linux.ibm.com
+X-Envelope-To: dlemoal@kernel.org
+X-Envelope-To: peng.fan@oss.nxp.com
+X-Envelope-To: thomas.petazzoni@bootlin.com
+X-Envelope-To: linux-kernel@vger.kernel.org
+X-Envelope-To: devicetree@vger.kernel.org
+X-Envelope-To: llvm@lists.linux.dev
+X-Envelope-To: linux-clk@vger.kernel.org
+X-Envelope-To: linux-omap@vger.kernel.org
+X-Envelope-To: linux-arm-msm@vger.kernel.org
+X-Envelope-To: linux-arm-kernel@lists.infradead.org
+X-Envelope-To: linux-sunxi@lists.linux.dev
+X-Envelope-To: linux-samsung-soc@vger.kernel.org
+X-Envelope-To: linux-gpio@vger.kernel.org
+X-Envelope-To: linux-iio@vger.kernel.org
+X-Envelope-To: linux-pwm@vger.kernel.org
+X-Envelope-To: linux-serial@vger.kernel.org
+X-Envelope-To: linux-usb@vger.kernel.org
+X-Envelope-To: patches@opensource.cirrus.com
+X-Envelope-To: linux-sound@vger.kernel.org
+X-Envelope-To: linuxppc-dev@lists.ozlabs.org
+X-Envelope-To: linux-riscv@lists.infradead.org
+Date: Mon, 8 Jul 2024 09:45:39 +0200
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Richard Leitner <richard.leitner@linux.dev>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Saravana Kannan <saravanak@google.com>, Nathan Chancellor <nathan@kernel.org>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Tony Lindgren <tony@atomide.com>, Bjorn Andersson <andersson@kernel.org>, 
+	Emilio =?utf-8?B?TMOzcGV6?= <emilio@elopez.com.ar>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Jonathan Cameron <jic23@kernel.org>, Lee Jones <lee@kernel.org>, 
+	Shawn Guo <shawnguo@kernel.org>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jiri Slaby <jirislaby@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, 
+	Damien Le Moal <dlemoal@kernel.org>, "Peng Fan (OSS)" <peng.fan@oss.nxp.com>, 
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	llvm@lists.linux.dev, linux-clk@vger.kernel.org, linux-omap@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-samsung-soc@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-iio@vger.kernel.org, linux-pwm@vger.kernel.org, linux-serial@vger.kernel.org, 
+	linux-usb@vger.kernel.org, patches@opensource.cirrus.com, linux-sound@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH 15/20] usb: usb251xb: convert to
+ of_property_for_each_u32_new()
+Message-ID: <34bbebxag4neccfkb4isi4bx5uvi2dk446bqqmfmtru4vwbehk@hp7vufvfyon4>
+References: <20240703-of_property_for_each_u32-v1-0-42c1fc0b82aa@bootlin.com>
+ <20240703-of_property_for_each_u32-v1-15-42c1fc0b82aa@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240703-of_property_for_each_u32-v1-15-42c1fc0b82aa@bootlin.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Fri, 05 Jul 2024 12:52:27 +0200
-Javier Carrasco <javier.carrasco.cruz@gmail.com> wrote:
+Hi Luca,
 
-> `sunxi_sram_regmap_config` is not modified and can be declared as const
-> to move its data to a read-only section.
+On Wed, Jul 03, 2024 at 12:36:59PM GMT, Luca Ceresoli wrote:
+> Simplify code using of_property_for_each_u32_new() as the two additional
+> parameters in of_property_for_each_u32() are not used here.
 > 
-> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+please feel free to add:
 
-Cheers,
-Andre
+Acked-by: Richard Leitner <richard.leitner@linux.dev>
 
 > ---
->  drivers/soc/sunxi/sunxi_sram.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/usb/misc/usb251xb.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
 > 
-> diff --git a/drivers/soc/sunxi/sunxi_sram.c b/drivers/soc/sunxi/sunxi_sram.c
-> index 71cc377b5e24..2781a091a6a6 100644
-> --- a/drivers/soc/sunxi/sunxi_sram.c
-> +++ b/drivers/soc/sunxi/sunxi_sram.c
-> @@ -344,7 +344,7 @@ static void sunxi_sram_unlock(void *_lock)
->  	spin_unlock(lock);
->  }
+> diff --git a/drivers/usb/misc/usb251xb.c b/drivers/usb/misc/usb251xb.c
+> index 7da404f55a6d..490004dbb9d8 100644
+> --- a/drivers/usb/misc/usb251xb.c
+> +++ b/drivers/usb/misc/usb251xb.c
+> @@ -382,11 +382,9 @@ static void usb251xb_get_ports_field(struct usb251xb *hub,
+>  				    bool ds_only, u8 *fld)
+>  {
+>  	struct device *dev = hub->dev;
+> -	struct property *prop;
+> -	const __be32 *p;
+>  	u32 port;
 >  
-> -static struct regmap_config sunxi_sram_regmap_config = {
-> +static const struct regmap_config sunxi_sram_regmap_config = {
->  	.reg_bits       = 32,
->  	.val_bits       = 32,
->  	.reg_stride     = 4,
+> -	of_property_for_each_u32(dev->of_node, prop_name, prop, p, port) {
+> +	of_property_for_each_u32_new(dev->of_node, prop_name, port) {
+>  		if ((port >= ds_only ? 1 : 0) && (port <= port_cnt))
+>  			*fld |= BIT(port);
+>  		else
 > 
-> ---
-> base-commit: 0b58e108042b0ed28a71cd7edf5175999955b233
-> change-id: 20240705-sunxi-sram-const-regmap_config-d05d1bb0583c
-> 
-> Best regards,
+> -- 
+> 2.34.1
 
