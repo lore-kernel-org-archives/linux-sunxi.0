@@ -1,40 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEE6A194C88;
-	Wed, 10 Jul 2024 18:12:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4154B1B809;
+	Wed, 10 Jul 2024 18:13:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720635170; cv=none; b=POP1hyrX3UeHQHewLji8ZffMf6gormPxRW+D4mZ3+TZApz5UJ8EAxvXAtCX0/62HvQws8bl6AA1f4FeIqat1q37guD0GmGnaYf8XCMJHJ/RakMvJt0EdN9zNYJHJGz2VA9RMetqRJ+RJElphHW/EaGeikHShyAIN4BR7h2PAxQ4=
+	t=1720635208; cv=none; b=sycdgxm+x7sgAnUl/Qtr9XfTE6Z8GlLQo0i0y5A3Ydbvz92HGo7NmvHySz6h3lZl66sKoxxYD/8DmfcOmh1vRgiX3bEcyIoBF7D6389Iw7O0t40k+nyi+5cgbJ+vLHHpaYPydEnY0+EK5ntPKvk1eUcOa79w3j/4RlOryq9hy70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720635170; c=relaxed/simple;
-	bh=DTB/owbaLdVNB4YxmcTgE8wy8iO9uCeP3XquloUK1Iw=;
+	s=arc-20240116; t=1720635208; c=relaxed/simple;
+	bh=r8MZ2mO5ZhB1xcOAOyl/cyqu2EEiFm1ftLjX5VNomVM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=AreCfSJQ8N/znWMmmGvP60FqzregU8M1HE2GLr/fxWgdcEzXfm0UDnMKlbP3ShKBkUmHLhbm2mUZvdRd3becc5IwyxJey5ZRQEub0MPj0htqg9moozzxH0TUzht8Y9uQqtoSHt3m/C8Di6tJrpuQ6KT+/vdXryBBU5olPN+VXXE=
+	 MIME-Version:Content-Type; b=XV2fIPPd/xvaAuUsgRxZY2EM/5gx6uojiRaZrsbooghOd0+LLVIPEfxfp7lcfLnJ2Bb2HmO0al4nHBuuDi/9BMvNsZzgJBSZXcn+34YxdrGZ7ZtBlLz6NroinkzZURddH4zj8LZgRbAnb5Q1jKtiYMOJfohULH2SKXIzmw3lLU4=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BDA9C32781;
-	Wed, 10 Jul 2024 18:12:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C2EBC32781;
+	Wed, 10 Jul 2024 18:13:28 +0000 (UTC)
 Received: from wens.tw (localhost [127.0.0.1])
-	by wens.tw (Postfix) with ESMTP id 081105F7C0;
-	Thu, 11 Jul 2024 02:12:48 +0800 (CST)
+	by wens.tw (Postfix) with ESMTP id 7C2F05F7C0;
+	Thu, 11 Jul 2024 02:13:25 +0800 (CST)
 From: Chen-Yu Tsai <wens@csie.org>
-To: Corentin Labbe <clabbe.montjoie@gmail.com>, 
- Herbert Xu <herbert@gondor.apana.org.au>, 
- "David S . Miller" <davem@davemloft.net>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Andre Przywara <andre.przywara@arm.com>
-Cc: Ryan Walklin <ryan@testtoast.com>, 
- Philippe Simons <simons.philippe@gmail.com>, linux-crypto@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- devicetree@vger.kernel.org
-In-Reply-To: <20240624232110.9817-1-andre.przywara@arm.com>
-References: <20240624232110.9817-1-andre.przywara@arm.com>
-Subject: Re: (subset) [PATCH v2 0/4] crypto: sun8i-ce: add Allwinner H616
- support
-Message-Id: <172063516802.1318387.15865465528678150093.b4-ty@csie.org>
-Date: Thu, 11 Jul 2024 02:12:48 +0800
+To: Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20240705-sunxi-sram-const-regmap_config-v1-1-1b997cd65d0f@gmail.com>
+References: <20240705-sunxi-sram-const-regmap_config-v1-1-1b997cd65d0f@gmail.com>
+Subject: Re: [PATCH] soc: sunxi: sram: Constify struct regmap_config
+Message-Id: <172063520550.1318605.17511364428184350182.b4-ty@csie.org>
+Date: Thu, 11 Jul 2024 02:13:25 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,29 +38,16 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.13.0
 
-On Tue, 25 Jun 2024 00:21:06 +0100, Andre Przywara wrote:
-> This is an update to the H616 crypto engine support, with the sparse
-> warning fixed and the accrued tags added.
-> ========================
+On Fri, 05 Jul 2024 12:52:27 +0200, Javier Carrasco wrote:
+> `sunxi_sram_regmap_config` is not modified and can be declared as const
+> to move its data to a read-only section.
 > 
-> This series adds support for the crypto engine in the Allwinner H616
-> SoC. The IP and its capabilities are very similar to the H6, with the
-> major difference of the DMA engine supporting 34 bit wide addresses.
-> This is achieved by just shifting every address by 2 bits in the DMA
-> descriptors; Allwinner calls this "word addresses".
-> Patch 2/4 adds support for this by wrapping every address access in a
-> function that does the shift as needed. Patch 1/4 adds the new
-> compatible string to the binding, patch 3/4 adds that string to the
-> driver and enables the address shift for it. The final patch 4/4 adds
-> the DT node to the SoC .dtsi. Since this is an internal peripheral,
-> it's always enabled.
 > 
-> [...]
 
-Applied to sunxi/dt-for-6.11 in sunxi/linux.git, thanks!
+Applied to sunxi/drivers-for-6.11 in sunxi/linux.git, thanks!
 
-[4/4] arm64: dts: allwinner: h616: add crypto engine node
-      https://git.kernel.org/sunxi/linux/c/6ed9a85f1c44
+[1/1] soc: sunxi: sram: Constify struct regmap_config
+      https://git.kernel.org/sunxi/linux/c/9bc1e34a7b0c
 
 Best regards,
 -- 
