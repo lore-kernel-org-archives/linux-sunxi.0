@@ -1,56 +1,56 @@
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 451E1153BDE
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1012815534D
 	for <linux-sunxi@lists.linux.dev>; Wed, 10 Jul 2024 23:19:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720653586; cv=none; b=EnXC/xBhzHFnMWwJvjaqCwgDnfghVBW7Z8j3jgi5fvI8Rgt2tmLvWajUWxq+5pXpgenmiQSPy2SYL6A8cjmNmA42Ac+H6uMbLprHZ57fGftMuFudl4H6PoTmI1jmfnaHooabh7jrzvsILIsnCSqBmZ+NNbJyPq8ILak7Yuihrn4=
+	t=1720653587; cv=none; b=q9ttwCbbz1yAVPnujlzhCfBxKxYaDNg/LY9LN9Xi81c2l7/xCu3K19oEwgCKb6jsuTl05GpIXM3RqK0FeWE65E0MDLmQKlh2ZZd1FgIkXYR0FIDePP9ObaVtaHo151bsIfNUL2nPVoTHetD8fL9jig5T/VgArLe4I0QRk6L+vMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720653586; c=relaxed/simple;
-	bh=oEZGVSpKAL9LQyHy179I5iFvzv2SL9qCVoa5cIYUU6Y=;
+	s=arc-20240116; t=1720653587; c=relaxed/simple;
+	bh=iQfsNDwxQuKmM1LvRmrJ5KrF/yqZ29FfGhovA+NFxD4=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ZPcG6j8fPLbvX4x/qB6NYB9eM4gKlmzXYbGwDKimbd6a98QIm7/nvXjVuYT/DDYzvzZ6CZG7vdDr2TkcHqfIYeYps564+7g6fMUdneyMmJK0Vb7ph75toeXn3j6abt6CwTOalGtdCaE2VKx/jyYGSNyfd7FK8FRUKZATVUaekAM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kQuqT0x9; arc=none smtp.client-ip=209.85.210.48
+	 MIME-Version; b=YNmqA3SuiHVf8QLipaiaX+iMPBVeGv9Iu8tac+kJYr9GmchmyNS6IXUUou1qGOkU2kmRxp1LHmOCS4BVUJgBwWgudapf4SZK5KIoe7rX2/nTf1bsgCuYmLNRzH13kwFNLovdQQyCvenS4OwFxN0QrciK6bNhQ/HilbOwY0RXEN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZcCYjnuY; arc=none smtp.client-ip=209.85.210.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kQuqT0x9"
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-70388567d24so135874a34.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZcCYjnuY"
+Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-70361745053so150092a34.0
         for <linux-sunxi@lists.linux.dev>; Wed, 10 Jul 2024 16:19:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720653584; x=1721258384; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1720653585; x=1721258385; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+tCloSSGf2ls5vVphG1Qx4UWE9Y/t0QcbBLIGFUGZYQ=;
-        b=kQuqT0x9uYAYHdkauL6hfZuyoV8npTu38boFeuyhN3Focg5Ymxyyho+XjkqfaOYItB
-         XqJQEwr/8L317uiGZRYsut4VPjPMFmUBU6Z9Bd6qeaZq8G7Q7yaPizsQop+F/szm+TXB
-         47oIRVEpOUOqqTNXebyaxzrTRNPpOnKY2sJ5V6vOppfQVWO/BN4wl3Kpn9eTVc/V6iY7
-         GXXbeHQQRP7V6SpSPpc2hk+M1UvLR+qCNj+Fozs+WSy8vrhwpvvMN2Mtw4mgUyl+ZdrW
-         oA0XB4fljmbdsktqru8MZped4uvVgf8cnvWeWNIIQvayJlZN/G2o1cPVkXRWMlURX3Kb
-         60Ow==
+        bh=iIkm02pH4tYGv9UK3P4L+KwMHHNwtAihXpO73Co81yw=;
+        b=ZcCYjnuYNk3wSh/7qJVflBlnQpcGsNrreppsWCNf9x3jceTVVS2pXNTHXxPUeUDoe5
+         5/QqbiVJo8gFVgsSHR7cLk2G853f6HfGA/weVXEIakJ3wQwLeybLj9za1+JCNJMQVYO/
+         00kd6NcyQ1lN0eRpsYqe3/D9D7WfR4BeTnPfc6Hnl1DHpMSPOBB/WHXyf/AW8q7EgwgG
+         MEcE0C6g4xxa/5Rzj3L2oijGw0zOsvNinpnMa9U9yQ6Yvbf18xc1cn0l0WfNAXkC1lqY
+         ZLGgHwu9HVHpLBabvw4X0PKriSjDtxZxw35MpIc7A+f2sdja9+0NX6aEswhaExk6h4KX
+         tzow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720653584; x=1721258384;
+        d=1e100.net; s=20230601; t=1720653585; x=1721258385;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+tCloSSGf2ls5vVphG1Qx4UWE9Y/t0QcbBLIGFUGZYQ=;
-        b=RNr+GJ+5R5IGty1J8OwJBse+DvekNkQbS4N4a0CmmlkW+N2+E5EZdTPRcZJFP4IjsA
-         hz5ZyZ9tY5CRgC0Bg+IjJMUWb7ZkjDAc0bNoUAHrd4rYixfHWlfczF0asYGglgZq9u9j
-         yM732cqK7T74KjS0WwDXCq1F+zEQoMDg9hjtr01gLSXhh0iYiFOis4oloxQnwqHSk6DO
-         cp3vTrd+e2KFCae1vay2e/rSEYGZvDW7TuRFB8mb6cnFPpra3x1zaD/YXOvODmaB2gzM
-         w1SBZPVn3U1ODtgQtEqd+qPFdH6BeEjou9UgyGa8tQZF+C0ZdihdyAQdRZG8SSRHeQ3W
-         1mdQ==
-X-Gm-Message-State: AOJu0YxU/t5Y9j4ysSa1lcIMtKjhBYxJAGhvBdS++zxPw17JtfTmq7+e
-	i2/lUJO/H6vqlLLJYm+tKNcClt66ndoJ3KDiLksr7OAaEihvBnfrx/KZcQ==
-X-Google-Smtp-Source: AGHT+IFYxw6VoIwFGGtKRJcW5v01T7CcTW+LMSmlydp5CzuJSogizqt/Ee+DvP9E6cclPQQdVyX1JA==
-X-Received: by 2002:a05:6830:3498:b0:703:6d21:5dfa with SMTP id 46e09a7af769-70375b411bdmr8117969a34.32.1720653584148;
+        bh=iIkm02pH4tYGv9UK3P4L+KwMHHNwtAihXpO73Co81yw=;
+        b=v69KtS6Lfh4GSXeNmC91klX3itXYv1c/sI9fRNf3+5WJontCNxxg7Acm/mb3L/pP+K
+         s1nVOLxPJWL/MVxXjZwJTzfSE9qIVJQpSuvCYMsH0bLrAL4quUHWricd5oyDvZTlVZye
+         xC41BR0w3fKd8dcdWVDhXQXT8y34rcKpPVr6RxZwefksO7g7ZBVp6rXJB7wfuJJc54pT
+         pyEhvBvsY10Z2SNl8EWQoTeGm3SGDTjyFQ5k5NBEM53B6IeLYDH48zIDT12qZkcqk6jS
+         AnXJMOkPOiXvUDoI+LRcTg79p/vIEkH9SqUkWx9/+nqDI3m1jl4ofrVR6TfduGQGo1EZ
+         aWXA==
+X-Gm-Message-State: AOJu0YxnB2jI0hlGoM0qDgduKYnzbnfNQ7Mftkz9xzM6hUKgRS+LOcsQ
+	ki4uYKmFmd6cC9ob3zt6o8Km0kXrtjFR4+r+70KhtffP6/vd3cMNtDvosA==
+X-Google-Smtp-Source: AGHT+IF3x5wUTNgVSORkAmMogpfaZhEuPDMl15HKaYLsS+U9CvYuQLfK/vjMohNlgE9vsofi97w/zw==
+X-Received: by 2002:a05:6830:1d4f:b0:704:1569:58be with SMTP id 46e09a7af769-7076d4d7fefmr432032a34.16.1720653584854;
         Wed, 10 Jul 2024 16:19:44 -0700 (PDT)
 Received: from localhost.localdomain ([2600:1700:fb0:1bcf::54])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-70374fcbf30sm1040207a34.65.2024.07.10.16.19.43
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-70374fcbf30sm1040207a34.65.2024.07.10.16.19.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jul 2024 16:19:43 -0700 (PDT)
+        Wed, 10 Jul 2024 16:19:44 -0700 (PDT)
 From: Chris Morgan <macroalpha82@gmail.com>
 To: linux-sunxi@lists.linux.dev
 Cc: devicetree@vger.kernel.org,
@@ -64,9 +64,9 @@ Cc: devicetree@vger.kernel.org,
 	krzk+dt@kernel.org,
 	robh@kernel.org,
 	Chris Morgan <macromorgan@hotmail.com>
-Subject: [PATCH V3 3/4] arm64: dts: allwinner: h616: Change RG35XX Series from r_rsb to r_i2c
-Date: Wed, 10 Jul 2024 18:17:17 -0500
-Message-Id: <20240710231718.106894-4-macroalpha82@gmail.com>
+Subject: [PATCH V3 4/4] arm64: dts: allwinner: h700: Add Anbernic RG35XX-SP
+Date: Wed, 10 Jul 2024 18:17:18 -0500
+Message-Id: <20240710231718.106894-5-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240710231718.106894-1-macroalpha82@gmail.com>
 References: <20240710231718.106894-1-macroalpha82@gmail.com>
@@ -80,36 +80,69 @@ Content-Transfer-Encoding: 8bit
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-Change the Anbernic RG35XX series to use the r_i2c bus for the PMIC
-instead of the r_rsb bus. This is to keep the device tree consistent
-as there are at least 3 devices (the RG35XX-SP, RG28XX, and RG40XX-H)
-that have an external RTC on the r_i2c bus.
+The Anbernic RG35XXSP is almost identical to the RG35XX-Plus, but in a
+clamshell form-factor. The key differences between the SP and the Plus
+is a lid switch and an RTC on the same i2c bus as the PMIC.
 
 Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 ---
- .../boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ arch/arm64/boot/dts/allwinner/Makefile        |  3 +-
+ .../sun50i-h700-anbernic-rg35xx-sp.dts        | 34 +++++++++++++++++++
+ 2 files changed, 36 insertions(+), 1 deletion(-)
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dts
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
-index ee30584b6ad7..e2bbd22bd80a 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
-@@ -201,12 +201,12 @@ &pio {
- 	vcc-pi-supply = <&reg_cldo3>;
- };
- 
--&r_rsb {
+diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
+index 0db7b60b49a1..00bed412ee31 100644
+--- a/arch/arm64/boot/dts/allwinner/Makefile
++++ b/arch/arm64/boot/dts/allwinner/Makefile
+@@ -49,5 +49,6 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero2w.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero3.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-transpeed-8k618-t.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-2024.dtb
+-dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-plus.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-h.dtb
++dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-plus.dtb
++dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-sp.dtb
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dts b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dts
+new file mode 100644
+index 000000000000..0cf16dc903cd
+--- /dev/null
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dts
+@@ -0,0 +1,34 @@
++// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++/*
++ * Copyright (C) 2024 Ryan Walklin <ryan@testtoast.com>.
++ * Copyright (C) 2024 Chris Morgan <macroalpha82@gmail.com>.
++ */
++
++#include <dt-bindings/input/gpio-keys.h>
++#include "sun50i-h700-anbernic-rg35xx-plus.dts"
++
++/ {
++	model = "Anbernic RG35XX SP";
++	compatible = "anbernic,rg35xx-sp", "allwinner,sun50i-h700";
++
++	gpio-keys-lid {
++		compatible = "gpio-keys";
++
++		lid-switch {
++			label = "Lid Switch";
++			gpios = <&pio 4 7 GPIO_ACTIVE_LOW>; /* PE7 */
++			linux,can-disable;
++			linux,code = <SW_LID>;
++			linux,input-type = <EV_SW>;
++			wakeup-event-action = <EV_ACT_DEASSERTED>;
++			wakeup-source;
++		};
++	};
++};
++
 +&r_i2c {
- 	status = "okay";
- 
--	axp717: pmic@3a3 {
-+	axp717: pmic@34 {
- 		compatible = "x-powers,axp717";
--		reg = <0x3a3>;
-+		reg = <0x34>;
- 		interrupt-controller;
- 		#interrupt-cells = <1>;
- 		interrupt-parent = <&nmi_intc>;
++	rtc_ext: rtc@51 {
++		compatible = "nxp,pcf8563";
++		reg = <0x51>;
++	};
++};
 -- 
 2.34.1
 
