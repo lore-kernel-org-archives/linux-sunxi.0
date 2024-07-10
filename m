@@ -1,294 +1,245 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EB312A1C6
-	for <linux-sunxi@lists.linux.dev>; Tue,  9 Jul 2024 00:44:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2AE181AB6
+	for <linux-sunxi@lists.linux.dev>; Wed, 10 Jul 2024 07:11:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720485858; cv=none; b=gBG9ZsiYpsEk4tDRrrTw6czY9jjRm3mMr2vD9BHbOwl/RKdABTM5nCR9wWh1OrjY3Aj9iacxVe3aLoi3phKutdLXlyXcdMkm8ALyoFuMkh+mb8wJQ0eQ2x6t0M9IcviJFx1FgukKdPLw6A9tchZIQVZqW5++C5qN6q7W8Vz55bs=
+	t=1720595501; cv=none; b=FWGs3nfNjYd+hLl6HEmHKzFk6DcSj22GdCFzCq2ABI18pz/I1PBLnc2BQRqB5HQDiBx0eojSLKivUanYiBdlKf8bKxKDRn0BudcWQSg6jYFKVsT7SvmVAu0mLA50s8mrmlQereH+44VY/f5tPlzXijUDRxWdCHxsYsTZINirR04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720485858; c=relaxed/simple;
-	bh=mkMDPYFbxx1FptqvwTRdJB2ALENlrVB4g6QrIyguxpM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BuZSgAuPHToCiy718mpN3zFnBEYMADkzzGp70HgLldifocHKwPBjxh66+sc572vw5N+iTzUcBzV3sG1XUdNWYwGWAO8GLQTCgoVCNelXkAjjJ26rt0VLSWg1aMT8fd1C+u1GuQAcomZmTIF/VBVxAiaLgyaqtuNPhJOQT7gJF3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B0C061007;
-	Mon,  8 Jul 2024 17:44:39 -0700 (PDT)
-Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F14C53F762;
-	Mon,  8 Jul 2024 17:44:11 -0700 (PDT)
-Date: Tue, 9 Jul 2024 01:42:10 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Ryan Walklin <ryan@testtoast.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
- Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Michael
- Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Chris
- Morgan <macroalpha82@gmail.com>, John Watts <contact@jookia.org>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- linux-clk@vger.kernel.org
-Subject: Re: [PATCH v2 02/23] drm: sun4i: de2/de3: Merge CSC functions into
- one
-Message-ID: <20240709014210.45ce6054@minigeek.lan>
-In-Reply-To: <20240703105454.41254-3-ryan@testtoast.com>
-References: <20240703105454.41254-1-ryan@testtoast.com>
-	<20240703105454.41254-3-ryan@testtoast.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	s=arc-20240116; t=1720595501; c=relaxed/simple;
+	bh=yRGnsgGlGwr5grPehw5y2cKQYkE2B7D3quzhosQ5QRE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=C5g/OJzu4k9wGn4ppx6RKUiLCioGB45Aorhhbpy/8ZoJfqOtGA/zSQikHUaJXFRqjU6nMCXz/hUI56uFYOllaOxtLsZ+Bj+OUWg+h6Jm2qt1yaixEJKToNVStwa8fKdLvrpGxaZtFSaTTKf9lrljoip0L2zFUuknx4b/Qv113NE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HTmO8E+F; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HTmO8E+F"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78065C4AF13
+	for <linux-sunxi@lists.linux.dev>; Wed, 10 Jul 2024 07:11:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720595500;
+	bh=yRGnsgGlGwr5grPehw5y2cKQYkE2B7D3quzhosQ5QRE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=HTmO8E+F8eose52/VnA/B0vmpjX9ymccYf6jHURxa/cwWqbcKY1pwUBErJriDAWxL
+	 ccuTwsM8pBwWhlEU1jsC9Lno19lIKOuuO8ckSAzbmSsCDbWLDLjHp5dvGp0T08pyw2
+	 CSihJe+CRobM4xiHozvntm+D9urrj1SXB33cE2PCNkAqMh0kBI8mKm8FJtKP8+i7eh
+	 DyR76B1Llvo5yz1tr55Rq02lmpLR32C+tIkGMQh7fliPvQ2/NwMsHOD9kNAsggJvQM
+	 g19lhnGDGyiVX5GQ53AR4vpKVCZ2X6pr36iiSR+OqDV6974ETZqew55iwT5lhI4OmC
+	 ftY/AO2RszF5Q==
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a77d9217e6fso520978466b.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 10 Jul 2024 00:11:40 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUKtNfeygj8zK3rHqlgSL6C/Ck4pEBfV3ABcV7eg6cpHSQIVHfkK0uYp8s3UNsXrdvIf63eOU88TwK4i0p6T3yqIp5zj9btuoky3r8=
+X-Gm-Message-State: AOJu0YwN4QaQby49y4Lr34AA9sEH7dtUIphcMrEsOOLVI53FbUi+4OD8
+	/2cAxWLdcmtqXgOp5YQBl0B6CXlgLLy2XZ1x5i/XG2pNjs/xUtpj0awbGn+aELB7TQJT0kb8zjr
+	001WNOUWclCNQmpWLYHSvQ3E/9AQ=
+X-Google-Smtp-Source: AGHT+IFW/4IhCaqk+cMkQ0EHa+zFblHpkhI9EPOEKdDUo/9mDGAR8HGdktmPIDk+sr/xPlO+uLv+eef+gW+ddkeQnWc=
+X-Received: by 2002:a17:907:20f1:b0:a75:25ff:550d with SMTP id
+ a640c23a62f3a-a780b6b361cmr259682466b.26.1720595498854; Wed, 10 Jul 2024
+ 00:11:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20240619-xtheadvector-v3-0-bff39eb9668e@rivosinc.com> <20240619-xtheadvector-v3-5-bff39eb9668e@rivosinc.com>
+In-Reply-To: <20240619-xtheadvector-v3-5-bff39eb9668e@rivosinc.com>
+From: Guo Ren <guoren@kernel.org>
+Date: Wed, 10 Jul 2024 15:11:27 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTQdjDouYTC9+kq-TdXhQch50p121yq8mTwXsGd6g_TSVA@mail.gmail.com>
+Message-ID: <CAJF2gTQdjDouYTC9+kq-TdXhQch50p121yq8mTwXsGd6g_TSVA@mail.gmail.com>
+Subject: Re: [PATCH v3 05/13] riscv: vector: Use vlenb from DT for thead
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, Evan Green <evan@rivosinc.com>, 
+	Andy Chiu <andy.chiu@sifive.com>, Jessica Clarke <jrtc27@jrtc27.com>, 
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed,  3 Jul 2024 22:50:52 +1200
-Ryan Walklin <ryan@testtoast.com> wrote:
-
-Hi,
-
-> From: Jernej Skrabec <jernej.skrabec@gmail.com>
-> 
-> Merging both function into one lets this one decide on it's own if CSC
-> should be enabled or not.
-
-"both functions" is not very specific or telling, and left me a bit
-clueless, so can we maybe use:
-
-"At the moment the colour space conversion is handled by two functions:
-one to setup the conversion parameters, and another one to enable the
-conversion. Merging both into one gives more flexibility for upcoming
-extensions to support whole YUV pipelines, in the DE33."
-
-Maybe someone knows the real killer reason why this is required, this
-could then be added here.
-
-> Currently heuristics for that is pretty simple
-> - enable it for YUV formats and disable for RGB. However, DE3 can have
-> whole pipeline in RGB or YUV format. YUV pipeline will be supported in
-> later commits.
-
-The actual patch looks like a valid transformation to me, so with an
-amended commit message:
-
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
-
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-
-Cheers,
-Andre
-
+On Thu, Jun 20, 2024 at 7:57=E2=80=AFAM Charlie Jenkins <charlie@rivosinc.c=
+om> wrote:
+>
+> If thead,vlenb is provided in the device tree, prefer that over reading
+> the vlenb csr.
+>
+> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
 > ---
->  drivers/gpu/drm/sun4i/sun8i_csc.c      | 89 ++++++++++----------------
->  drivers/gpu/drm/sun4i/sun8i_csc.h      |  9 ++-
->  drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 11 +---
->  3 files changed, 40 insertions(+), 69 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_csc.c b/drivers/gpu/drm/sun4i/sun8i_csc.c
-> index 6ebd1c3aa3ab5..0dcbc0866ae82 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_csc.c
-> +++ b/drivers/gpu/drm/sun4i/sun8i_csc.c
-> @@ -107,23 +107,28 @@ static const u32 yuv2rgb_de3[2][3][12] = {
->  	},
->  };
->  
-> -static void sun8i_csc_set_coefficients(struct regmap *map, u32 base,
-> -				       enum format_type fmt_type,
-> -				       enum drm_color_encoding encoding,
-> -				       enum drm_color_range range)
-> +static void sun8i_csc_setup(struct regmap *map, u32 base,
-> +			    enum format_type fmt_type,
-> +			    enum drm_color_encoding encoding,
-> +			    enum drm_color_range range)
->  {
-> +	u32 base_reg, val;
->  	const u32 *table;
-> -	u32 base_reg;
->  	int i;
->  
->  	table = yuv2rgb[range][encoding];
->  
->  	switch (fmt_type) {
-> +	case FORMAT_TYPE_RGB:
-> +		val = 0;
-> +		break;
->  	case FORMAT_TYPE_YUV:
-> +		val = SUN8I_CSC_CTRL_EN;
->  		base_reg = SUN8I_CSC_COEFF(base, 0);
->  		regmap_bulk_write(map, base_reg, table, 12);
->  		break;
->  	case FORMAT_TYPE_YVU:
-> +		val = SUN8I_CSC_CTRL_EN;
->  		for (i = 0; i < 12; i++) {
->  			if ((i & 3) == 1)
->  				base_reg = SUN8I_CSC_COEFF(base, i + 1);
-> @@ -135,28 +140,37 @@ static void sun8i_csc_set_coefficients(struct regmap *map, u32 base,
->  		}
->  		break;
->  	default:
-> +		val = 0;
->  		DRM_WARN("Wrong CSC mode specified.\n");
->  		return;
->  	}
+>  arch/riscv/Kconfig.vendor           | 13 ++++++++++
+>  arch/riscv/include/asm/cpufeature.h |  2 ++
+>  arch/riscv/kernel/cpufeature.c      | 48 +++++++++++++++++++++++++++++++=
+++++++
+>  arch/riscv/kernel/vector.c          | 12 +++++++++-
+>  4 files changed, 74 insertions(+), 1 deletion(-)
+>
+> diff --git a/arch/riscv/Kconfig.vendor b/arch/riscv/Kconfig.vendor
+> index 9897442bd44f..b096548fe0ff 100644
+> --- a/arch/riscv/Kconfig.vendor
+> +++ b/arch/riscv/Kconfig.vendor
+> @@ -26,6 +26,19 @@ config RISCV_ISA_VENDOR_EXT_THEAD
+>           extensions. Without this option enabled, T-Head vendor extensio=
+ns will
+>           not be detected at boot and their presence not reported to user=
+space.
+>
+> +         If you don't know what to do here, say Y.
 > +
-> +	regmap_write(map, SUN8I_CSC_CTRL(base), val);
+> +config RISCV_ISA_XTHEADVECTOR
+> +       bool "xtheadvector extension support"
+> +       depends on RISCV_ISA_VENDOR_EXT_THEAD
+> +       depends on RISCV_ISA_V
+> +       depends on FPU
+> +       default y
+> +       help
+> +         Say N here if you want to disable all xtheadvector related proc=
+edures
+> +         in the kernel. This will disable vector for any T-Head board th=
+at
+> +         contains xtheadvector rather than the standard vector.
+> +
+>           If you don't know what to do here, say Y.
+>  endmenu
+>
+> diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm=
+/cpufeature.h
+> index b029ca72cebc..e0a3164c7a06 100644
+> --- a/arch/riscv/include/asm/cpufeature.h
+> +++ b/arch/riscv/include/asm/cpufeature.h
+> @@ -31,6 +31,8 @@ DECLARE_PER_CPU(struct riscv_cpuinfo, riscv_cpuinfo);
+>  /* Per-cpu ISA extensions. */
+>  extern struct riscv_isainfo hart_isa[NR_CPUS];
+>
+> +extern u32 thead_vlenb_of;
+> +
+>  void riscv_user_isa_enable(void);
+>
+>  #define _RISCV_ISA_EXT_DATA(_name, _id, _subset_exts, _subset_exts_size)=
+ {     \
+> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeatur=
+e.c
+> index 2107c59575dd..077be4ab1f9a 100644
+> --- a/arch/riscv/kernel/cpufeature.c
+> +++ b/arch/riscv/kernel/cpufeature.c
+> @@ -37,6 +37,8 @@ static DECLARE_BITMAP(riscv_isa, RISCV_ISA_EXT_MAX) __r=
+ead_mostly;
+>  /* Per-cpu ISA extensions. */
+>  struct riscv_isainfo hart_isa[NR_CPUS];
+>
+> +u32 thead_vlenb_of;
+> +
+>  /**
+>   * riscv_isa_extension_base() - Get base extension word
+>   *
+> @@ -625,6 +627,46 @@ static void __init riscv_fill_vendor_ext_list(int cp=
+u)
+>         }
 >  }
->  
-> -static void sun8i_de3_ccsc_set_coefficients(struct regmap *map, int layer,
-> -					    enum format_type fmt_type,
-> -					    enum drm_color_encoding encoding,
-> -					    enum drm_color_range range)
-> +static void sun8i_de3_ccsc_setup(struct regmap *map, int layer,
-> +				 enum format_type fmt_type,
-> +				 enum drm_color_encoding encoding,
-> +				 enum drm_color_range range)
+>
+> +static int has_thead_homogeneous_vlenb(void)
+> +{
+> +       int cpu;
+> +       u32 prev_vlenb =3D 0;
+> +       u32 vlenb;
+> +
+> +       /* Ignore thead,vlenb property if xtheavector is not enabled in t=
+he kernel */
+> +       if (!IS_ENABLED(CONFIG_RISCV_ISA_XTHEADVECTOR))
+> +               return 0;
+> +
+> +       for_each_possible_cpu(cpu) {
+> +               struct device_node *cpu_node;
+> +
+> +               cpu_node =3D of_cpu_device_node_get(cpu);
+> +               if (!cpu_node) {
+> +                       pr_warn("Unable to find cpu node\n");
+> +                       return -ENOENT;
+> +               }
+> +
+> +               if (of_property_read_u32(cpu_node, "thead,vlenb", &vlenb)=
+) {
+> +                       of_node_put(cpu_node);
+> +
+> +                       if (prev_vlenb)
+> +                               return -ENOENT;
+> +                       continue;
+> +               }
+> +
+> +               if (prev_vlenb && vlenb !=3D prev_vlenb) {
+> +                       of_node_put(cpu_node);
+> +                       return -ENOENT;
+> +               }
+> +
+> +               prev_vlenb =3D vlenb;
+> +               of_node_put(cpu_node);
+> +       }
+> +
+> +       thead_vlenb_of =3D vlenb;
+> +       return 0;
+> +}
+> +
+>  static int __init riscv_fill_hwcap_from_ext_list(unsigned long *isa2hwca=
+p)
 >  {
-> +	u32 addr, val, mask;
->  	const u32 *table;
-> -	u32 addr;
->  	int i;
->  
-> +	mask = SUN50I_MIXER_BLEND_CSC_CTL_EN(layer);
->  	table = yuv2rgb_de3[range][encoding];
->  
->  	switch (fmt_type) {
-> +	case FORMAT_TYPE_RGB:
-> +		val = 0;
-> +		break;
->  	case FORMAT_TYPE_YUV:
-> +		val = mask;
->  		addr = SUN50I_MIXER_BLEND_CSC_COEFF(DE3_BLD_BASE, layer, 0);
->  		regmap_bulk_write(map, addr, table, 12);
->  		break;
->  	case FORMAT_TYPE_YVU:
-> +		val = mask;
->  		for (i = 0; i < 12; i++) {
->  			if ((i & 3) == 1)
->  				addr = SUN50I_MIXER_BLEND_CSC_COEFF(DE3_BLD_BASE,
-> @@ -173,67 +187,30 @@ static void sun8i_de3_ccsc_set_coefficients(struct regmap *map, int layer,
->  		}
->  		break;
->  	default:
-> +		val = 0;
->  		DRM_WARN("Wrong CSC mode specified.\n");
->  		return;
->  	}
-> -}
-> -
-> -static void sun8i_csc_enable(struct regmap *map, u32 base, bool enable)
-> -{
-> -	u32 val;
-> -
-> -	if (enable)
-> -		val = SUN8I_CSC_CTRL_EN;
-> -	else
-> -		val = 0;
-> -
-> -	regmap_update_bits(map, SUN8I_CSC_CTRL(base), SUN8I_CSC_CTRL_EN, val);
-> -}
-> -
-> -static void sun8i_de3_ccsc_enable(struct regmap *map, int layer, bool enable)
-> -{
-> -	u32 val, mask;
-> -
-> -	mask = SUN50I_MIXER_BLEND_CSC_CTL_EN(layer);
-> -
-> -	if (enable)
-> -		val = mask;
-> -	else
-> -		val = 0;
->  
->  	regmap_update_bits(map, SUN50I_MIXER_BLEND_CSC_CTL(DE3_BLD_BASE),
->  			   mask, val);
->  }
->  
-> -void sun8i_csc_set_ccsc_coefficients(struct sun8i_mixer *mixer, int layer,
-> -				     enum format_type fmt_type,
-> -				     enum drm_color_encoding encoding,
-> -				     enum drm_color_range range)
-> -{
-> -	u32 base;
-> -
-> -	if (mixer->cfg->is_de3) {
-> -		sun8i_de3_ccsc_set_coefficients(mixer->engine.regs, layer,
-> -						fmt_type, encoding, range);
-> -		return;
-> -	}
-> -
-> -	base = ccsc_base[mixer->cfg->ccsc][layer];
-> -
-> -	sun8i_csc_set_coefficients(mixer->engine.regs, base,
-> -				   fmt_type, encoding, range);
-> -}
-> -
-> -void sun8i_csc_enable_ccsc(struct sun8i_mixer *mixer, int layer, bool enable)
-> +void sun8i_csc_set_ccsc(struct sun8i_mixer *mixer, int layer,
-> +			enum format_type fmt_type,
-> +			enum drm_color_encoding encoding,
-> +			enum drm_color_range range)
->  {
->  	u32 base;
->  
->  	if (mixer->cfg->is_de3) {
-> -		sun8i_de3_ccsc_enable(mixer->engine.regs, layer, enable);
-> +		sun8i_de3_ccsc_setup(mixer->engine.regs, layer,
-> +				     fmt_type, encoding, range);
->  		return;
->  	}
->  
->  	base = ccsc_base[mixer->cfg->ccsc][layer];
->  
-> -	sun8i_csc_enable(mixer->engine.regs, base, enable);
-> +	sun8i_csc_setup(mixer->engine.regs, base,
-> +			fmt_type, encoding, range);
->  }
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_csc.h b/drivers/gpu/drm/sun4i/sun8i_csc.h
-> index 7322770f39f03..b7546e06e315c 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_csc.h
-> +++ b/drivers/gpu/drm/sun4i/sun8i_csc.h
-> @@ -28,10 +28,9 @@ enum format_type {
->  	FORMAT_TYPE_YVU,
->  };
->  
-> -void sun8i_csc_set_ccsc_coefficients(struct sun8i_mixer *mixer, int layer,
-> -				     enum format_type fmt_type,
-> -				     enum drm_color_encoding encoding,
-> -				     enum drm_color_range range);
-> -void sun8i_csc_enable_ccsc(struct sun8i_mixer *mixer, int layer, bool enable);
-> +void sun8i_csc_set_ccsc(struct sun8i_mixer *mixer, int layer,
-> +			enum format_type fmt_type,
-> +			enum drm_color_encoding encoding,
-> +			enum drm_color_range range);
->  
->  #endif
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-> index 76e2d3ec0a78c..6ee3790a2a812 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-> +++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-> @@ -281,14 +281,9 @@ static int sun8i_vi_layer_update_formats(struct sun8i_mixer *mixer, int channel,
->  			   SUN8I_MIXER_CHAN_VI_LAYER_ATTR_FBFMT_MASK, val);
->  
->  	fmt_type = sun8i_vi_layer_get_format_type(fmt);
-> -	if (fmt_type != FORMAT_TYPE_RGB) {
-> -		sun8i_csc_set_ccsc_coefficients(mixer, channel, fmt_type,
-> -						state->color_encoding,
-> -						state->color_range);
-> -		sun8i_csc_enable_ccsc(mixer, channel, true);
-> -	} else {
-> -		sun8i_csc_enable_ccsc(mixer, channel, false);
-> -	}
-> +	sun8i_csc_set_ccsc(mixer, channel, fmt_type,
-> +			   state->color_encoding,
-> +			   state->color_range);
->  
->  	if (!fmt->is_yuv)
->  		val = SUN8I_MIXER_CHAN_VI_LAYER_ATTR_RGB_MODE;
+>         unsigned int cpu;
+> @@ -689,6 +731,12 @@ static int __init riscv_fill_hwcap_from_ext_list(uns=
+igned long *isa2hwcap)
+>                 riscv_fill_vendor_ext_list(cpu);
+>         }
+>
+> +       if (riscv_isa_vendor_extension_available(THEAD_VENDOR_ID, XTHEADV=
+ECTOR) &&
+> +           has_thead_homogeneous_vlenb() < 0) {
+> +               pr_warn("Unsupported heterogeneous vlenb detected, vector=
+ extension disabled.\n");
+> +               elf_hwcap &=3D ~COMPAT_HWCAP_ISA_V;
+> +       }
+> +
+XTHEADVECTOR is 0.7.1 for old XuanTie processors; we only have
+homogeneous vlenb=3D128 chips.
 
+So:
+
+Acked-by: Guo Ren <guoren@kernel.org>
+
+>         if (bitmap_empty(riscv_isa, RISCV_ISA_EXT_MAX))
+>                 return -ENOENT;
+>
+> diff --git a/arch/riscv/kernel/vector.c b/arch/riscv/kernel/vector.c
+> index 6727d1d3b8f2..3ba2f2432483 100644
+> --- a/arch/riscv/kernel/vector.c
+> +++ b/arch/riscv/kernel/vector.c
+> @@ -33,7 +33,17 @@ int riscv_v_setup_vsize(void)
+>  {
+>         unsigned long this_vsize;
+>
+> -       /* There are 32 vector registers with vlenb length. */
+> +       /*
+> +        * There are 32 vector registers with vlenb length.
+> +        *
+> +        * If the thead,vlenb property was provided by the firmware, use =
+that
+> +        * instead of probing the CSRs.
+> +        */
+> +       if (thead_vlenb_of) {
+> +               this_vsize =3D thead_vlenb_of * 32;
+> +               return 0;
+> +       }
+> +
+>         riscv_v_enable();
+>         this_vsize =3D csr_read(CSR_VLENB) * 32;
+>         riscv_v_disable();
+>
+> --
+> 2.34.1
+>
+
+
+--=20
+Best Regards
+ Guo Ren
