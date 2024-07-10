@@ -1,100 +1,124 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 554361922CE
-	for <linux-sunxi@lists.linux.dev>; Wed, 10 Jul 2024 12:41:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2E49194A5E
+	for <linux-sunxi@lists.linux.dev>; Wed, 10 Jul 2024 16:53:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720615266; cv=none; b=QWxTLvEJjupg9jLbSCE++9tQoB4CaAvKtsWsvltbbH6mZaFjKnANu2MxRYfE9uVazIASBSJ7OrVadW+MdUkhppafxQSiQbA+rHLRLbRsZgqJH0xHBSZ/Aa8CizEljyEJsWjkeU0cCt8mVFuO80N+27XBMjfWD/9ulcipVL6yPVI=
+	t=1720630426; cv=none; b=QxbBJSB0NDjWJNgLY51bLo/pa3WaMBSVIIIdP4L8IPWak4nLir8b9jTXP+zKreGP5sutyPObNp/VRu8Xil0TL4JGr97DOrfoj10Vk4614dBZv9RNsBr6akJp6YTlWWowQEyCYoREP6EdYlHOmDNygDK5B4PGYOQFFPtZH+sYdPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720615266; c=relaxed/simple;
-	bh=Ool8JEcomupLYFCAVUceeyirLvgRl1G6dqSHkrYH0y8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Vpm8aaQARCWo7eDKT+nGlc6dnEgoPwp5/y1z5fp1mi+2gRbwu7Vgqhd4Cht/XgzE8r1dFGSgiF83k2X8LKf9+1lTi7DbEyn5ui7AIvA6VLRAkl6lCr54ElXoc459TS+U30LYSju/ae+O2YsOa00uR5BYa20n/121p75nukkgtd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=pyfNhhVk; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="pyfNhhVk"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-426526d30aaso35442585e9.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 10 Jul 2024 05:41:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1720615263; x=1721220063; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MQLVDFNoFuKRZg7eJdxMfqN4N8nKsyXTgSDfnf3uLGM=;
-        b=pyfNhhVkh6xyORA0yVdF4eaOAADeSM8VAjFt7H+Ob5ZQpqc/PsFqTLw0Uc3C6E9wHu
-         1fN6wzW0v5Dvwh0xcALCTd0onylB5UZIda1BNNZ1+VWYzmcmXDi4Q/EHi3Fm6gW/Z9p3
-         MzMSl2douGE6VK8yRqIgdiNQaOOAvfOipMWgOl93BAuiv1TVkIpJIRV01UwcRcI3AL0G
-         YuCFoUpc4Kej9SGv2P5HtrfYQpcXVn68WBrY+k4Oy+q1P+0YCJcVycdwly3dGnffw7Kq
-         1hReS/IrfhIzualekSxOMDaAioMMRyb2wEjiREfDH2y9uB0W9X1raZyEYbY43YIgK2f4
-         rnbA==
+	s=arc-20240116; t=1720630426; c=relaxed/simple;
+	bh=yXIFSh5lnPGvTePfPUmjGwXfH2aiY6Jdg/YeOXwdkyo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=agH0cd/ytoDrqTJyYcNxmkOlP7yXDU1aU+geEfoPDEsxKhzx/EPRLgU0aN6j5VhwNm8s0gZ/cVvm3hWcEWfc9k6KX37IM33heYtcB/Z3Kax+b2smEcL9Wrk/XzehphEcWMUIKtVYtMi/Tk03bSFDESLcaSlCTlIi0jHoGNxKt5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2ee9505cd37so55699351fa.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 10 Jul 2024 09:53:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720615263; x=1721220063;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MQLVDFNoFuKRZg7eJdxMfqN4N8nKsyXTgSDfnf3uLGM=;
-        b=WBvn+XPgJwVV7v2dkRGJ3HkRn4mezC1ou1JaT6z162lw468c9e9oW52oIiYvDKycj9
-         NR6VyeccvHshJorTO8mNk361bYX3KYjNIJWHEIDULJ+sD7cLYBNuUlG2vsSrZ8EJtd76
-         0w9SV1tNy/alLCvjd2NXNUTLERt8BvF7B/ot9PfNmlTIJ79Ap6fVFnFodGiTPF3aIqEF
-         OE3TdZ5j/48J4sIIRDRWbleWvMStauyTzB7K1S4i4OOLn8HpyH0NCdPbf6Z8RFfltJSB
-         eJx7ursr5xGVMEMqVKSPc4mT9faMyn8reEUPOPc1gwnwJmnDCoGPIqfkdSmgmWYPvEZR
-         WXpA==
-X-Forwarded-Encrypted: i=1; AJvYcCXsFRCZgS7J1ZN9w8+V9b74pVAnuGeesGNk2hTxDjzBjvbWvmob8mNUqIq1FLZpTJE/7+ICThl99AlUS6Z73Wn4N+dxN1yq/LNJ6vU=
-X-Gm-Message-State: AOJu0YwKZnBPtWxXCw1zFCFOQki1UfadqDgBXGYzqa7Z1KosC6/z89IU
-	WCPAUSxdPPoaYG+6IjRbvbd+NAth/8Hc0bmTebJ6Nms4aTJEyGdOh+uKHOZwZ/k=
-X-Google-Smtp-Source: AGHT+IGT5ilXJSn/KNzsrB9+RCqhsbkJiqU3dqpEBIzoFB+Fcmer/Kih8Fhroy2GBRX27ac1gAp6gw==
-X-Received: by 2002:a05:600c:6c51:b0:426:51e8:5192 with SMTP id 5b1f17b1804b1-426709fac0bmr30666695e9.41.1720615262749;
-        Wed, 10 Jul 2024 05:41:02 -0700 (PDT)
-Received: from toaster.baylibre.com ([2a01:e0a:3c5:5fb1:f3cc:df72:f495:3b49])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-367cde890f6sm5214025f8f.53.2024.07.10.05.41.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jul 2024 05:41:02 -0700 (PDT)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Kevin Hilman <khilman@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Vladimir Zapolskiy <vz@mleia.com>, Bjorn Andersson <andersson@kernel.org>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Michal Simek <michal.simek@amd.com>, 
- Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Cc: linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, linux-sunxi@lists.linux.dev
-In-Reply-To: <20240703-clk-const-regmap-v1-0-7d15a0671d6f@gmail.com>
-References: <20240703-clk-const-regmap-v1-0-7d15a0671d6f@gmail.com>
-Subject: Re: (subset) [PATCH 00/10] clk: constify struct regmap_config
-Message-Id: <172061526145.2117005.2499091095196670705.b4-ty@baylibre.com>
-Date: Wed, 10 Jul 2024 14:41:01 +0200
+        d=1e100.net; s=20230601; t=1720630420; x=1721235220;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XpiULvgBKLSjZABIaTgqmq90IKC/N4ETs7/rDViqHSU=;
+        b=Hka1k1E3zc3/RZp5a0Z7EcoU0o9fFwB+uZgAaR8Iclle+cH1206Q9R6VfU90NosZOJ
+         T9fkpAqcSKAu/vWx8t2JqbtDBMY54KDC2KLar34giQvzDC+m+XyyN/BwBFWatsTxuL+6
+         cEbGxGSJdtawvIM9pCHlhy+6a02jX2rzblw7rDA9SiJFF5Ou7pjf1V4AFD5nN/pQDv0W
+         PbSeJX1F+FIVRVRfDoLT6/ambKFbLntCH0bkRKleR86JFT69qScx+yNc7nOzKX3uPdrl
+         yy04sB4DCiR6mMSKjp8i7wPN+rLc5O4PBuaxRnvnYRClxBNz59IqZvd9rE3ENqlkm8ym
+         Vn/w==
+X-Forwarded-Encrypted: i=1; AJvYcCVvnN72Lgzjc+czRzPiY2y5dHtL/ACEFMkVGackaYA7CGbDbSXNssWbV3Hc52Vq7qqY+8j4ARaDmW1yKeVVg09VlSUq+kWu+4Clnrg=
+X-Gm-Message-State: AOJu0Yw6/RT8CTVJQez6PxDCI5VjCGCSKa76blwaXKl4Gen9d4QZM+ht
+	pqjFpP5t3pCUd4yg6NfHUTeUmNt5TN6dgSY2smujXzCe5r5B0xEAUbmLiAzJcyI=
+X-Google-Smtp-Source: AGHT+IE8XtxMbPMXwkPfzKfmHB77cL10PsWBh4cyJ0p5PimHLvXnec4vUAPWkGpp3HH5VcsGKB/uKA==
+X-Received: by 2002:a2e:6e0e:0:b0:2ee:8eb6:ff62 with SMTP id 38308e7fff4ca-2eeb30ba10amr42238211fa.8.1720630419710;
+        Wed, 10 Jul 2024 09:53:39 -0700 (PDT)
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com. [209.85.208.173])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2eeb3421ca1sm5570381fa.29.2024.07.10.09.53.38
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Jul 2024 09:53:39 -0700 (PDT)
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2eabd22d3f4so65461111fa.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 10 Jul 2024 09:53:38 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXKwiWQHjJGrYpGAhXccoqZ+D18zfwvl8tNpUH1Zjgf3T05DD9hPpz3PRL+2Nr+O/jLJ8pq8Vrke3U3K5v0px6epSxqjp6J+zV2Vbs=
+X-Received: by 2002:a2e:9016:0:b0:2ee:7a3e:4721 with SMTP id
+ 38308e7fff4ca-2eeb318a3b2mr39735341fa.39.1720630418140; Wed, 10 Jul 2024
+ 09:53:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.0
+References: <20240703-clk-const-regmap-v1-0-7d15a0671d6f@gmail.com>
+ <20240703-clk-const-regmap-v1-9-7d15a0671d6f@gmail.com> <20240703121750.0dc2eb3a@donnerap.manchester.arm.com>
+In-Reply-To: <20240703121750.0dc2eb3a@donnerap.manchester.arm.com>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Thu, 11 Jul 2024 00:53:25 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66ox-vu2T=CnBkV70k5E=aVBGm6Sg4pcK5kYB+t9uSvxA@mail.gmail.com>
+Message-ID: <CAGb2v66ox-vu2T=CnBkV70k5E=aVBGm6Sg4pcK5kYB+t9uSvxA@mail.gmail.com>
+Subject: Re: [PATCH 09/10] clk: sunxi-ng r40: Constify struct regmap_config
+To: Stephen Boyd <sboyd@kernel.org>
+Cc: Andre Przywara <andre.przywara@arm.com>, 
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Jerome Brunet <jbrunet@baylibre.com>, Michael Turquette <mturquette@baylibre.com>, 
+	Kevin Hilman <khilman@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Vladimir Zapolskiy <vz@mleia.com>, 
+	Bjorn Andersson <andersson@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Michal Simek <michal.simek@amd.com>, 
+	linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Applied to clk-meson (clk-meson-next), thanks!
+On Wed, Jul 3, 2024 at 7:19=E2=80=AFPM Andre Przywara <andre.przywara@arm.c=
+om> wrote:
+>
+> On Wed, 03 Jul 2024 11:50:22 +0200
+> Javier Carrasco <javier.carrasco.cruz@gmail.com> wrote:
+>
+> > `sun8i_r40_ccu_regmap_config` is not modified and can be declared as
+> > const to move its data to a read-only section.
+> >
+> > Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+>
+> Looks alright, we indeed don't change it, and the only user takes a const
+> pointer. Also the compiler seems happy.
+>
+> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 
-[01/10] clk: meson: a1: peripherals: Constify struct regmap_config
-        https://github.com/BayLibre/clk-meson/commit/4a7665b885b6
-[02/10] clk: meson: a1: pll: Constify struct regmap_config
-        https://github.com/BayLibre/clk-meson/commit/5c6ffe3537d5
-[03/10] clk: meson: c3: peripherals: Constify struct regmap_config
-        https://github.com/BayLibre/clk-meson/commit/af3e4505e6bc
-[04/10] clk: meson: c3: pll: Constify struct regmap_config
-        https://github.com/BayLibre/clk-meson/commit/11c7c1b94059
-[05/10] clk: meson: s4: peripherals: Constify struct regmap_config
-        https://github.com/BayLibre/clk-meson/commit/02cc1df92d75
-[06/10] clk: meson: s4: pll: Constify struct regmap_config
-        https://github.com/BayLibre/clk-meson/commit/3d0e8b6edd6b
+Acked-by: Chen-Yu Tsai <wens@csie.org>
 
-Best regards,
---
-Jerome
+Stephen, can you merge this one directly? It doesn't look like we'll
+have any more stuff to send for this cycle.
 
+ChenYu
+
+
+> Cheers,
+> Andre
+>
+> > ---
+> >  drivers/clk/sunxi-ng/ccu-sun8i-r40.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-r40.c b/drivers/clk/sunxi-n=
+g/ccu-sun8i-r40.c
+> > index 984ad3f76b18..2f51ceab8016 100644
+> > --- a/drivers/clk/sunxi-ng/ccu-sun8i-r40.c
+> > +++ b/drivers/clk/sunxi-ng/ccu-sun8i-r40.c
+> > @@ -1292,7 +1292,7 @@ static bool sun8i_r40_ccu_regmap_accessible_reg(s=
+truct device *dev,
+> >       return false;
+> >  }
+> >
+> > -static struct regmap_config sun8i_r40_ccu_regmap_config =3D {
+> > +static const struct regmap_config sun8i_r40_ccu_regmap_config =3D {
+> >       .reg_bits       =3D 32,
+> >       .val_bits       =3D 32,
+> >       .reg_stride     =3D 4,
+> >
+>
