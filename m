@@ -1,115 +1,75 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70BCE195B14
-	for <linux-sunxi@lists.linux.dev>; Wed, 10 Jul 2024 18:12:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEE6A194C88;
+	Wed, 10 Jul 2024 18:12:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720635122; cv=none; b=s5fsS1gp7z4se4KSQCN8neiJGBJas/YrpGP1MLMbOZlmm6kilKUNQsAEY5GirFH04ilfs3wZtkTlTq6p5V/H+mPd7IIMO+Skf8x0J++JSYnYJyhdw62xRGafS5XvojKRSLbtDW273o740Jlft5eY8AReHFAcEvAVugSa6G33qgQ=
+	t=1720635170; cv=none; b=POP1hyrX3UeHQHewLji8ZffMf6gormPxRW+D4mZ3+TZApz5UJ8EAxvXAtCX0/62HvQws8bl6AA1f4FeIqat1q37guD0GmGnaYf8XCMJHJ/RakMvJt0EdN9zNYJHJGz2VA9RMetqRJ+RJElphHW/EaGeikHShyAIN4BR7h2PAxQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720635122; c=relaxed/simple;
-	bh=JBuQ1VPXGZZENZRSB9356SdJRQn/hLnlVz/uEX6AbCs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hoijQLIlLHhufBBLgsvR1+8ZwQhARTgIHE5GdaPnI1vUOW4niINVf3eI2wap7BZVK4+Gnz8iiwZW8qh0iN82qiIl2i+EQP3wqIwnTJ3Co7xoQ/Nnb6uBQxMUGTTN5cEu/MbHSX59Aho/o6DmGuizIVss49FiSUsuRWyhahkxFyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SErqavPn; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SErqavPn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6914C32781;
-	Wed, 10 Jul 2024 18:12:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720635122;
-	bh=JBuQ1VPXGZZENZRSB9356SdJRQn/hLnlVz/uEX6AbCs=;
-	h=Date:From:List-Id:To:Cc:Subject:From;
-	b=SErqavPnPXDemBHwnvxs08tZ9G3Ra9qkHrD/yAJB657Y2+ieiRpH08PSKzAdPgiLD
-	 3SDumKwn/S7cZUlDxdqSmteufHt1VOMcdHydhHtbpLQOECGxdxqHZzC55OpWt/By2K
-	 ZjQWzxOkYFFlOHcUDFRUFV5BEmPPoWFQ0SIzl4xqa4YPYgSvAJ1uoxhq2o5AZXoq2y
-	 WN3sKPaWkHT2MAXRUv8JFc2Cp9nLNJAlOBw0+gRqeAGuNp8G8ID1nomXaosrDjI5xq
-	 zCu5phb0TCumbl34cWJ5YZfU+X2r6IIaR+s0y9ip6XD7Ay1aw6mVB7iQxL/elVykxi
-	 r3lrizxrthuXA==
-Received: by wens.tw (Postfix, from userid 1000)
-	id 626245F7C0; Thu, 11 Jul 2024 02:11:59 +0800 (CST)
-Date: Thu, 11 Jul 2024 02:11:59 +0800
-From: Chen-Yu Tsai <wens@kernel.org>
-To: soc@kernel.org
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej@kernel.org>,
-	Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: [GIT PULL] Allwinner SoC device tree changes for 6.11 part 2
-Message-ID: <Zo7O73Afx7lZcBRi@wens.tw>
+	s=arc-20240116; t=1720635170; c=relaxed/simple;
+	bh=DTB/owbaLdVNB4YxmcTgE8wy8iO9uCeP3XquloUK1Iw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=AreCfSJQ8N/znWMmmGvP60FqzregU8M1HE2GLr/fxWgdcEzXfm0UDnMKlbP3ShKBkUmHLhbm2mUZvdRd3becc5IwyxJey5ZRQEub0MPj0htqg9moozzxH0TUzht8Y9uQqtoSHt3m/C8Di6tJrpuQ6KT+/vdXryBBU5olPN+VXXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BDA9C32781;
+	Wed, 10 Jul 2024 18:12:50 +0000 (UTC)
+Received: from wens.tw (localhost [127.0.0.1])
+	by wens.tw (Postfix) with ESMTP id 081105F7C0;
+	Thu, 11 Jul 2024 02:12:48 +0800 (CST)
+From: Chen-Yu Tsai <wens@csie.org>
+To: Corentin Labbe <clabbe.montjoie@gmail.com>, 
+ Herbert Xu <herbert@gondor.apana.org.au>, 
+ "David S . Miller" <davem@davemloft.net>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Andre Przywara <andre.przywara@arm.com>
+Cc: Ryan Walklin <ryan@testtoast.com>, 
+ Philippe Simons <simons.philippe@gmail.com>, linux-crypto@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ devicetree@vger.kernel.org
+In-Reply-To: <20240624232110.9817-1-andre.przywara@arm.com>
+References: <20240624232110.9817-1-andre.przywara@arm.com>
+Subject: Re: (subset) [PATCH v2 0/4] crypto: sun8i-ce: add Allwinner H616
+ support
+Message-Id: <172063516802.1318387.15865465528678150093.b4-ty@csie.org>
+Date: Thu, 11 Jul 2024 02:12:48 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="wQyIwK0W5D+2KsxB"
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
+On Tue, 25 Jun 2024 00:21:06 +0100, Andre Przywara wrote:
+> This is an update to the H616 crypto engine support, with the sparse
+> warning fixed and the accrued tags added.
+> ========================
+> 
+> This series adds support for the crypto engine in the Allwinner H616
+> SoC. The IP and its capabilities are very similar to the H6, with the
+> major difference of the DMA engine supporting 34 bit wide addresses.
+> This is achieved by just shifting every address by 2 bits in the DMA
+> descriptors; Allwinner calls this "word addresses".
+> Patch 2/4 adds support for this by wrapping every address access in a
+> function that does the shift as needed. Patch 1/4 adds the new
+> compatible string to the binding, patch 3/4 adds that string to the
+> driver and enables the address shift for it. The final patch 4/4 adds
+> the DT node to the SoC .dtsi. Since this is an internal peripheral,
+> it's always enabled.
+> 
+> [...]
 
---wQyIwK0W5D+2KsxB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to sunxi/dt-for-6.11 in sunxi/linux.git, thanks!
 
-Hi Arnd,
+[4/4] arm64: dts: allwinner: h616: add crypto engine node
+      https://git.kernel.org/sunxi/linux/c/6ed9a85f1c44
 
-Here's a late DT commit for 6.11. The driver parts of the H616 crypto
-engine series was only merged last week, so I only got to it today.
+Best regards,
+-- 
+Chen-Yu Tsai <wens@csie.org>
 
-The whole series has been tested by multiple people including me, so
-I don't expect any issues. And it's just enabling a new IP block.
-
-Please pull.
-
-
-Thanks
-ChenYu
-
-
-The following changes since commit 0ce1d34678e5d214746ee4887f9f7714c39e331f:
-
-  riscv: dts: allwinner: Add ClockworkPi and DevTerm devicetrees (2024-06-30 23:06:52 +0800)
-
-are available in the Git repository at:
-
-  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-dt-for-6.11-2
-
-for you to fetch changes up to 6ed9a85f1c44d7049cf2d488bfe71252ce467dc2:
-
-  arm64: dts: allwinner: h616: add crypto engine node (2024-07-11 00:43:10 +0800)
-
-----------------------------------------------------------------
-Allwinner SoC device tree changes for 6.11 part 2
-
-One additional peripheral enabled for the H616.
-
-- H616 crypto engine added
-
-----------------------------------------------------------------
-Andre Przywara (1):
-      arm64: dts: allwinner: h616: add crypto engine node
-
- arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
---wQyIwK0W5D+2KsxB
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE2nN1m/hhnkhOWjtHOJpUIZwPJDAFAmaOzu0ACgkQOJpUIZwP
-JDB1VhAA2yGX5i/k7c8ILEK4kC8iBX90FCsa57tzVA95myZ82Lef1rMMdlKJ2Z4k
-EFXHJ2U6AQAs4owxdofqccARLUSXKzl00ezz8p0ZkHf/CVU3qh5GMdu/dN4mLfEJ
-oq/4sJ5U9sjf+BwwkGdxs8EvpCV4He8aomO8HkoL95i1sqt48R9goNPBxBirB3Vb
-IKaR4LNLZ3D2RM8bVdoBynM3ICsH8oWwJcZ1x0WWrUom3KONndcr/qV0Zgmlxj38
-guAgztzliyjAiENx0x0kB9RD3eLi8uT3HFrqbXpuipFCGWYS+Rr9X2xZ4Nhpn3X+
-mMupSmTLI2sfSG51Gzlm87aZDFQlQ2QHQmXu4KdLqGqlRUau4otyrf242OswXDP2
-KlkgPkhNvRjBGxnLWgKc3LG02TVNp6NryUIWXWvE4UnAxyu1y04zheZ3n6d27+8B
-FuNBi//vfz7gDbruVu/czqrnd5qaRA+DsXmpHniskcuW8k2dH194rzf/x5VwQJmm
-KSOwaSsWtLxfG+0Etk756WsVDSLEU34IZmjWtSsrDsOXHFYw+YbJ6a1aNWOUCqoQ
-oOa89k3aZp1GwCPMMNUIf9r3OT/oCuEnScNd+gvZvBi1D018dvaY4xI5E+0II1XU
-IyJtmuN3W771VM2fyj41AhSaGGIC+BEyLu/eYDiqAfdoype1/mY=
-=XYbq
------END PGP SIGNATURE-----
-
---wQyIwK0W5D+2KsxB--
