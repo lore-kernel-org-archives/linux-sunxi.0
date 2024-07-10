@@ -1,124 +1,115 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2E49194A5E
-	for <linux-sunxi@lists.linux.dev>; Wed, 10 Jul 2024 16:53:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70BCE195B14
+	for <linux-sunxi@lists.linux.dev>; Wed, 10 Jul 2024 18:12:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720630426; cv=none; b=QxbBJSB0NDjWJNgLY51bLo/pa3WaMBSVIIIdP4L8IPWak4nLir8b9jTXP+zKreGP5sutyPObNp/VRu8Xil0TL4JGr97DOrfoj10Vk4614dBZv9RNsBr6akJp6YTlWWowQEyCYoREP6EdYlHOmDNygDK5B4PGYOQFFPtZH+sYdPo=
+	t=1720635122; cv=none; b=s5fsS1gp7z4se4KSQCN8neiJGBJas/YrpGP1MLMbOZlmm6kilKUNQsAEY5GirFH04ilfs3wZtkTlTq6p5V/H+mPd7IIMO+Skf8x0J++JSYnYJyhdw62xRGafS5XvojKRSLbtDW273o740Jlft5eY8AReHFAcEvAVugSa6G33qgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720630426; c=relaxed/simple;
-	bh=yXIFSh5lnPGvTePfPUmjGwXfH2aiY6Jdg/YeOXwdkyo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=agH0cd/ytoDrqTJyYcNxmkOlP7yXDU1aU+geEfoPDEsxKhzx/EPRLgU0aN6j5VhwNm8s0gZ/cVvm3hWcEWfc9k6KX37IM33heYtcB/Z3Kax+b2smEcL9Wrk/XzehphEcWMUIKtVYtMi/Tk03bSFDESLcaSlCTlIi0jHoGNxKt5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2ee9505cd37so55699351fa.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 10 Jul 2024 09:53:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720630420; x=1721235220;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XpiULvgBKLSjZABIaTgqmq90IKC/N4ETs7/rDViqHSU=;
-        b=Hka1k1E3zc3/RZp5a0Z7EcoU0o9fFwB+uZgAaR8Iclle+cH1206Q9R6VfU90NosZOJ
-         T9fkpAqcSKAu/vWx8t2JqbtDBMY54KDC2KLar34giQvzDC+m+XyyN/BwBFWatsTxuL+6
-         cEbGxGSJdtawvIM9pCHlhy+6a02jX2rzblw7rDA9SiJFF5Ou7pjf1V4AFD5nN/pQDv0W
-         PbSeJX1F+FIVRVRfDoLT6/ambKFbLntCH0bkRKleR86JFT69qScx+yNc7nOzKX3uPdrl
-         yy04sB4DCiR6mMSKjp8i7wPN+rLc5O4PBuaxRnvnYRClxBNz59IqZvd9rE3ENqlkm8ym
-         Vn/w==
-X-Forwarded-Encrypted: i=1; AJvYcCVvnN72Lgzjc+czRzPiY2y5dHtL/ACEFMkVGackaYA7CGbDbSXNssWbV3Hc52Vq7qqY+8j4ARaDmW1yKeVVg09VlSUq+kWu+4Clnrg=
-X-Gm-Message-State: AOJu0Yw6/RT8CTVJQez6PxDCI5VjCGCSKa76blwaXKl4Gen9d4QZM+ht
-	pqjFpP5t3pCUd4yg6NfHUTeUmNt5TN6dgSY2smujXzCe5r5B0xEAUbmLiAzJcyI=
-X-Google-Smtp-Source: AGHT+IE8XtxMbPMXwkPfzKfmHB77cL10PsWBh4cyJ0p5PimHLvXnec4vUAPWkGpp3HH5VcsGKB/uKA==
-X-Received: by 2002:a2e:6e0e:0:b0:2ee:8eb6:ff62 with SMTP id 38308e7fff4ca-2eeb30ba10amr42238211fa.8.1720630419710;
-        Wed, 10 Jul 2024 09:53:39 -0700 (PDT)
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com. [209.85.208.173])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2eeb3421ca1sm5570381fa.29.2024.07.10.09.53.38
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Jul 2024 09:53:39 -0700 (PDT)
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2eabd22d3f4so65461111fa.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 10 Jul 2024 09:53:38 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXKwiWQHjJGrYpGAhXccoqZ+D18zfwvl8tNpUH1Zjgf3T05DD9hPpz3PRL+2Nr+O/jLJ8pq8Vrke3U3K5v0px6epSxqjp6J+zV2Vbs=
-X-Received: by 2002:a2e:9016:0:b0:2ee:7a3e:4721 with SMTP id
- 38308e7fff4ca-2eeb318a3b2mr39735341fa.39.1720630418140; Wed, 10 Jul 2024
- 09:53:38 -0700 (PDT)
+	s=arc-20240116; t=1720635122; c=relaxed/simple;
+	bh=JBuQ1VPXGZZENZRSB9356SdJRQn/hLnlVz/uEX6AbCs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hoijQLIlLHhufBBLgsvR1+8ZwQhARTgIHE5GdaPnI1vUOW4niINVf3eI2wap7BZVK4+Gnz8iiwZW8qh0iN82qiIl2i+EQP3wqIwnTJ3Co7xoQ/Nnb6uBQxMUGTTN5cEu/MbHSX59Aho/o6DmGuizIVss49FiSUsuRWyhahkxFyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SErqavPn; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SErqavPn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6914C32781;
+	Wed, 10 Jul 2024 18:12:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720635122;
+	bh=JBuQ1VPXGZZENZRSB9356SdJRQn/hLnlVz/uEX6AbCs=;
+	h=Date:From:List-Id:To:Cc:Subject:From;
+	b=SErqavPnPXDemBHwnvxs08tZ9G3Ra9qkHrD/yAJB657Y2+ieiRpH08PSKzAdPgiLD
+	 3SDumKwn/S7cZUlDxdqSmteufHt1VOMcdHydhHtbpLQOECGxdxqHZzC55OpWt/By2K
+	 ZjQWzxOkYFFlOHcUDFRUFV5BEmPPoWFQ0SIzl4xqa4YPYgSvAJ1uoxhq2o5AZXoq2y
+	 WN3sKPaWkHT2MAXRUv8JFc2Cp9nLNJAlOBw0+gRqeAGuNp8G8ID1nomXaosrDjI5xq
+	 zCu5phb0TCumbl34cWJ5YZfU+X2r6IIaR+s0y9ip6XD7Ay1aw6mVB7iQxL/elVykxi
+	 r3lrizxrthuXA==
+Received: by wens.tw (Postfix, from userid 1000)
+	id 626245F7C0; Thu, 11 Jul 2024 02:11:59 +0800 (CST)
+Date: Thu, 11 Jul 2024 02:11:59 +0800
+From: Chen-Yu Tsai <wens@kernel.org>
+To: soc@kernel.org
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej@kernel.org>,
+	Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: [GIT PULL] Allwinner SoC device tree changes for 6.11 part 2
+Message-ID: <Zo7O73Afx7lZcBRi@wens.tw>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240703-clk-const-regmap-v1-0-7d15a0671d6f@gmail.com>
- <20240703-clk-const-regmap-v1-9-7d15a0671d6f@gmail.com> <20240703121750.0dc2eb3a@donnerap.manchester.arm.com>
-In-Reply-To: <20240703121750.0dc2eb3a@donnerap.manchester.arm.com>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Thu, 11 Jul 2024 00:53:25 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66ox-vu2T=CnBkV70k5E=aVBGm6Sg4pcK5kYB+t9uSvxA@mail.gmail.com>
-Message-ID: <CAGb2v66ox-vu2T=CnBkV70k5E=aVBGm6Sg4pcK5kYB+t9uSvxA@mail.gmail.com>
-Subject: Re: [PATCH 09/10] clk: sunxi-ng r40: Constify struct regmap_config
-To: Stephen Boyd <sboyd@kernel.org>
-Cc: Andre Przywara <andre.przywara@arm.com>, 
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Jerome Brunet <jbrunet@baylibre.com>, Michael Turquette <mturquette@baylibre.com>, 
-	Kevin Hilman <khilman@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Vladimir Zapolskiy <vz@mleia.com>, 
-	Bjorn Andersson <andersson@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Michal Simek <michal.simek@amd.com>, 
-	linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="wQyIwK0W5D+2KsxB"
+Content-Disposition: inline
 
-On Wed, Jul 3, 2024 at 7:19=E2=80=AFPM Andre Przywara <andre.przywara@arm.c=
-om> wrote:
->
-> On Wed, 03 Jul 2024 11:50:22 +0200
-> Javier Carrasco <javier.carrasco.cruz@gmail.com> wrote:
->
-> > `sun8i_r40_ccu_regmap_config` is not modified and can be declared as
-> > const to move its data to a read-only section.
-> >
-> > Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
->
-> Looks alright, we indeed don't change it, and the only user takes a const
-> pointer. Also the compiler seems happy.
->
-> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 
-Acked-by: Chen-Yu Tsai <wens@csie.org>
+--wQyIwK0W5D+2KsxB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Stephen, can you merge this one directly? It doesn't look like we'll
-have any more stuff to send for this cycle.
+Hi Arnd,
 
+Here's a late DT commit for 6.11. The driver parts of the H616 crypto
+engine series was only merged last week, so I only got to it today.
+
+The whole series has been tested by multiple people including me, so
+I don't expect any issues. And it's just enabling a new IP block.
+
+Please pull.
+
+
+Thanks
 ChenYu
 
 
-> Cheers,
-> Andre
->
-> > ---
-> >  drivers/clk/sunxi-ng/ccu-sun8i-r40.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-r40.c b/drivers/clk/sunxi-n=
-g/ccu-sun8i-r40.c
-> > index 984ad3f76b18..2f51ceab8016 100644
-> > --- a/drivers/clk/sunxi-ng/ccu-sun8i-r40.c
-> > +++ b/drivers/clk/sunxi-ng/ccu-sun8i-r40.c
-> > @@ -1292,7 +1292,7 @@ static bool sun8i_r40_ccu_regmap_accessible_reg(s=
-truct device *dev,
-> >       return false;
-> >  }
-> >
-> > -static struct regmap_config sun8i_r40_ccu_regmap_config =3D {
-> > +static const struct regmap_config sun8i_r40_ccu_regmap_config =3D {
-> >       .reg_bits       =3D 32,
-> >       .val_bits       =3D 32,
-> >       .reg_stride     =3D 4,
-> >
->
+The following changes since commit 0ce1d34678e5d214746ee4887f9f7714c39e331f:
+
+  riscv: dts: allwinner: Add ClockworkPi and DevTerm devicetrees (2024-06-30 23:06:52 +0800)
+
+are available in the Git repository at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-dt-for-6.11-2
+
+for you to fetch changes up to 6ed9a85f1c44d7049cf2d488bfe71252ce467dc2:
+
+  arm64: dts: allwinner: h616: add crypto engine node (2024-07-11 00:43:10 +0800)
+
+----------------------------------------------------------------
+Allwinner SoC device tree changes for 6.11 part 2
+
+One additional peripheral enabled for the H616.
+
+- H616 crypto engine added
+
+----------------------------------------------------------------
+Andre Przywara (1):
+      arm64: dts: allwinner: h616: add crypto engine node
+
+ arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+--wQyIwK0W5D+2KsxB
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE2nN1m/hhnkhOWjtHOJpUIZwPJDAFAmaOzu0ACgkQOJpUIZwP
+JDB1VhAA2yGX5i/k7c8ILEK4kC8iBX90FCsa57tzVA95myZ82Lef1rMMdlKJ2Z4k
+EFXHJ2U6AQAs4owxdofqccARLUSXKzl00ezz8p0ZkHf/CVU3qh5GMdu/dN4mLfEJ
+oq/4sJ5U9sjf+BwwkGdxs8EvpCV4He8aomO8HkoL95i1sqt48R9goNPBxBirB3Vb
+IKaR4LNLZ3D2RM8bVdoBynM3ICsH8oWwJcZ1x0WWrUom3KONndcr/qV0Zgmlxj38
+guAgztzliyjAiENx0x0kB9RD3eLi8uT3HFrqbXpuipFCGWYS+Rr9X2xZ4Nhpn3X+
+mMupSmTLI2sfSG51Gzlm87aZDFQlQ2QHQmXu4KdLqGqlRUau4otyrf242OswXDP2
+KlkgPkhNvRjBGxnLWgKc3LG02TVNp6NryUIWXWvE4UnAxyu1y04zheZ3n6d27+8B
+FuNBi//vfz7gDbruVu/czqrnd5qaRA+DsXmpHniskcuW8k2dH194rzf/x5VwQJmm
+KSOwaSsWtLxfG+0Etk756WsVDSLEU34IZmjWtSsrDsOXHFYw+YbJ6a1aNWOUCqoQ
+oOa89k3aZp1GwCPMMNUIf9r3OT/oCuEnScNd+gvZvBi1D018dvaY4xI5E+0II1XU
+IyJtmuN3W771VM2fyj41AhSaGGIC+BEyLu/eYDiqAfdoype1/mY=
+=XYbq
+-----END PGP SIGNATURE-----
+
+--wQyIwK0W5D+2KsxB--
