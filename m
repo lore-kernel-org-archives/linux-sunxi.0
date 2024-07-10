@@ -1,148 +1,211 @@
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1012815534D
-	for <linux-sunxi@lists.linux.dev>; Wed, 10 Jul 2024 23:19:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8E5714F9F9
+	for <linux-sunxi@lists.linux.dev>; Wed, 10 Jul 2024 23:20:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720653587; cv=none; b=q9ttwCbbz1yAVPnujlzhCfBxKxYaDNg/LY9LN9Xi81c2l7/xCu3K19oEwgCKb6jsuTl05GpIXM3RqK0FeWE65E0MDLmQKlh2ZZd1FgIkXYR0FIDePP9ObaVtaHo151bsIfNUL2nPVoTHetD8fL9jig5T/VgArLe4I0QRk6L+vMg=
+	t=1720653606; cv=none; b=igMirI1qPxIj8ZiYN8WUdGsmIZ8uUxwLMCcIFT9/52fzKnShgSsHUMeR+Z1PZS6vQYDdh+gNl9E40Ac8+QrQ/f7dllhgMXYovW2IXc1W33O9De2qq6LswiIcte2b3cPPINrTOMLAEK3DQM8KPVdFfXCNnAeb2o5VwUl2IJk1LUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720653587; c=relaxed/simple;
-	bh=iQfsNDwxQuKmM1LvRmrJ5KrF/yqZ29FfGhovA+NFxD4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=YNmqA3SuiHVf8QLipaiaX+iMPBVeGv9Iu8tac+kJYr9GmchmyNS6IXUUou1qGOkU2kmRxp1LHmOCS4BVUJgBwWgudapf4SZK5KIoe7rX2/nTf1bsgCuYmLNRzH13kwFNLovdQQyCvenS4OwFxN0QrciK6bNhQ/HilbOwY0RXEN0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZcCYjnuY; arc=none smtp.client-ip=209.85.210.47
+	s=arc-20240116; t=1720653606; c=relaxed/simple;
+	bh=njpMNHPXM5PRGf19XwiCT4tWSlYguMhkpFwfg2Xq8hg=;
+	h=Message-ID:Date:From:To:Cc:Subject:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u7yYL0awXXweGtd1ocI1cagWCl/X6bEK2UHh17u5BcWj31iTTTs/4XgAOxGTabPqYji9cJOFa0J3theyT/v8hPnKwWTiTnsZBOi6Qq0/8+QLX4agEtZcoLvEpZRu0DrWw+pF28P+Rjcj45l73JfHinZKxVL7hgRHSm7gusv9sjA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YkolcEcT; arc=none smtp.client-ip=209.85.161.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZcCYjnuY"
-Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-70361745053so150092a34.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 10 Jul 2024 16:19:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YkolcEcT"
+Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-5c6661bca43so161764eaf.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 10 Jul 2024 16:20:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720653585; x=1721258385; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iIkm02pH4tYGv9UK3P4L+KwMHHNwtAihXpO73Co81yw=;
-        b=ZcCYjnuYNk3wSh/7qJVflBlnQpcGsNrreppsWCNf9x3jceTVVS2pXNTHXxPUeUDoe5
-         5/QqbiVJo8gFVgsSHR7cLk2G853f6HfGA/weVXEIakJ3wQwLeybLj9za1+JCNJMQVYO/
-         00kd6NcyQ1lN0eRpsYqe3/D9D7WfR4BeTnPfc6Hnl1DHpMSPOBB/WHXyf/AW8q7EgwgG
-         MEcE0C6g4xxa/5Rzj3L2oijGw0zOsvNinpnMa9U9yQ6Yvbf18xc1cn0l0WfNAXkC1lqY
-         ZLGgHwu9HVHpLBabvw4X0PKriSjDtxZxw35MpIc7A+f2sdja9+0NX6aEswhaExk6h4KX
-         tzow==
+        d=gmail.com; s=20230601; t=1720653604; x=1721258404; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=2ijvrZzT8cXYcsNPx5TsQl01OrZPhHfu5BtRdUxd3g4=;
+        b=YkolcEcTNrVTwxZNb5p6854knqhE+ISDr0PcelV6PMikAANreSK+HtothEXLYliGP6
+         6XqEkyyzpx0DdhgwNTbXnsE/DPuCWcSciFAItqR5rJZCeFvnugkwaGRcpSgbaFAiKkEH
+         CypyJRoi/TtFZreyUrWtdx3/D9LcPzRL2Fo2aiHkFGBowypxL9joev5N7sei3StuhD0s
+         mpzjveeeh4+ogqtDDjyBNCngtzEEbpxH/6E56rpQdvPl5a/k2dw/+FadNPfXOqIZm+2P
+         L04mVKVQPEgITATb7tgl8mKBgGXDo8CWBmFOpSlaTJVw+ZE2l/ZFsmXfmap3/H4eSnSe
+         JL5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720653585; x=1721258385;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iIkm02pH4tYGv9UK3P4L+KwMHHNwtAihXpO73Co81yw=;
-        b=v69KtS6Lfh4GSXeNmC91klX3itXYv1c/sI9fRNf3+5WJontCNxxg7Acm/mb3L/pP+K
-         s1nVOLxPJWL/MVxXjZwJTzfSE9qIVJQpSuvCYMsH0bLrAL4quUHWricd5oyDvZTlVZye
-         xC41BR0w3fKd8dcdWVDhXQXT8y34rcKpPVr6RxZwefksO7g7ZBVp6rXJB7wfuJJc54pT
-         pyEhvBvsY10Z2SNl8EWQoTeGm3SGDTjyFQ5k5NBEM53B6IeLYDH48zIDT12qZkcqk6jS
-         AnXJMOkPOiXvUDoI+LRcTg79p/vIEkH9SqUkWx9/+nqDI3m1jl4ofrVR6TfduGQGo1EZ
-         aWXA==
-X-Gm-Message-State: AOJu0YxnB2jI0hlGoM0qDgduKYnzbnfNQ7Mftkz9xzM6hUKgRS+LOcsQ
-	ki4uYKmFmd6cC9ob3zt6o8Km0kXrtjFR4+r+70KhtffP6/vd3cMNtDvosA==
-X-Google-Smtp-Source: AGHT+IF3x5wUTNgVSORkAmMogpfaZhEuPDMl15HKaYLsS+U9CvYuQLfK/vjMohNlgE9vsofi97w/zw==
-X-Received: by 2002:a05:6830:1d4f:b0:704:1569:58be with SMTP id 46e09a7af769-7076d4d7fefmr432032a34.16.1720653584854;
-        Wed, 10 Jul 2024 16:19:44 -0700 (PDT)
-Received: from localhost.localdomain ([2600:1700:fb0:1bcf::54])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-70374fcbf30sm1040207a34.65.2024.07.10.16.19.44
+        d=1e100.net; s=20230601; t=1720653604; x=1721258404;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2ijvrZzT8cXYcsNPx5TsQl01OrZPhHfu5BtRdUxd3g4=;
+        b=t6ZcqAXqoTTzg4+s8x4eS7FRyCfVrCxDFfsl9p+hTJwSWzHy81UtkZOsz7vgqyOS7v
+         4vwPrO4Y22tum+XNalDybTvcVh4LYf3tznAe6u22FWPB+LOGxGc9+ZS57znibDaCmO/w
+         T06z66v4Ek6dVfp8vqIQfKwaodlrL/43sWvLckH7frXDON21Xlkmq9Awps+Q2fYp4fMB
+         UDAhxAUbh0PYqVVWLEAXe5T5Mgqm8rsxqNFsJciYXkJZo704BdYL1rSLlC6JwgdXRhpt
+         1IIxRTJaWKIQFXmEowV3NPJ4dikGoRfBWItbTZJ81JCyZy3baNNY1QHTN0a8EgEqDkCc
+         I1OA==
+X-Forwarded-Encrypted: i=1; AJvYcCUK/NWEXqyVOqbKANfGkvbfoBgnp3D56nmDqwrBS4UXidtwfMuyFnpaq4MIGMP3gLQ7qtQymWecvMo6F4BZtqMsODVo5FHDojpGEMw=
+X-Gm-Message-State: AOJu0Yzvq6FVjtHeJNgNTPDBQOuYdORCEG3dJjWYNKJEhrxTsz/Lf3x3
+	AYvHNhQBb63/fQ1SyzZJeMJzngbmOeMbdTevNysE80lc5JWPuRKy
+X-Google-Smtp-Source: AGHT+IEsXH3XgrHGbwJkkM6k3DOOaXXD1NsFsNspC9Ye1PRP/hleEj0cnB7VqQAQ2J1glmqhxv305w==
+X-Received: by 2002:a4a:4e04:0:b0:5c4:396e:438c with SMTP id 006d021491bc7-5c68dfaf8b9mr6269073eaf.0.1720653602935;
+        Wed, 10 Jul 2024 16:20:02 -0700 (PDT)
+Received: from neuromancer. ([2600:1700:fb0:1bcf:4def:7e53:67cc:4ec0])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5c7ad96b6ebsm477658eaf.4.2024.07.10.16.20.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jul 2024 16:19:44 -0700 (PDT)
+        Wed, 10 Jul 2024 16:20:02 -0700 (PDT)
+Message-ID: <668f1722.4a0a0220.666c8.2819@mx.google.com>
+X-Google-Original-Message-ID: <Zo8XIXIeC/MmI+pN@neuromancer.>
+Date: Wed, 10 Jul 2024 18:20:01 -0500
 From: Chris Morgan <macroalpha82@gmail.com>
-To: linux-sunxi@lists.linux.dev
-Cc: devicetree@vger.kernel.org,
-	mripard@kernel.org,
-	ryan@testtoast.com,
-	andre.przywara@arm.com,
-	samuel@sholland.org,
-	jernej.skrabec@gmail.com,
-	wens@csie.org,
-	conor+dt@kernel.org,
-	krzk+dt@kernel.org,
-	robh@kernel.org,
-	Chris Morgan <macromorgan@hotmail.com>
-Subject: [PATCH V3 4/4] arm64: dts: allwinner: h700: Add Anbernic RG35XX-SP
-Date: Wed, 10 Jul 2024 18:17:18 -0500
-Message-Id: <20240710231718.106894-5-macroalpha82@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240710231718.106894-1-macroalpha82@gmail.com>
-References: <20240710231718.106894-1-macroalpha82@gmail.com>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Tom Rini <trini@konsulko.com>, Jaehoon Chung <jh80.chung@samsung.com>,
+	Jagan Teki <jagan@amarulasolutions.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Chris Morgan <macromorgan@hotmail.com>,
+	Ryan Walklin <ryan@testtoast.com>, u-boot@lists.denx.de,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 3/6] power: pmic: sunxi: replace AXP717 SPL driver
+References: <20240515234839.26898-1-andre.przywara@arm.com>
+ <20240515234839.26898-4-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240515234839.26898-4-andre.przywara@arm.com>
 
-From: Chris Morgan <macromorgan@hotmail.com>
+On Thu, May 16, 2024 at 12:48:36AM +0100, Andre Przywara wrote:
+> We now have a generic AXP SPL driver implementation, that already covers
+> the DC/DC converters of the AXP717 PMIC.
+> 
+> Remove the old, dedicated driver and switch to the new generic driver.
+> This should not introduce any change in behaviour.
+> 
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  drivers/power/Makefile |  2 +-
+>  drivers/power/axp717.c | 92 ------------------------------------------
+>  2 files changed, 1 insertion(+), 93 deletions(-)
+>  delete mode 100644 drivers/power/axp717.c
+> 
+> diff --git a/drivers/power/Makefile b/drivers/power/Makefile
+> index 9d1f4c65262..6df23a81c29 100644
+> --- a/drivers/power/Makefile
+> +++ b/drivers/power/Makefile
+> @@ -14,7 +14,7 @@ obj-$(CONFIG_AXP209_POWER)	+= axp209.o
+>  obj-$(CONFIG_AXP221_POWER)	+= axp221.o
+>  obj-$(CONFIG_AXP305_POWER)	+= axp305.o
+>  obj-$(CONFIG_AXP313_POWER)	+= axp313.o
+> -obj-$(CONFIG_AXP717_POWER)	+= axp717.o
+> +obj-$(CONFIG_AXP717_POWER)	+= axp_spl.o
+>  obj-$(CONFIG_AXP809_POWER)	+= axp809.o
+>  obj-$(CONFIG_AXP818_POWER)	+= axp818.o
+>  endif
+> diff --git a/drivers/power/axp717.c b/drivers/power/axp717.c
+> deleted file mode 100644
+> index 7c77c09ea8f..00000000000
+> --- a/drivers/power/axp717.c
+> +++ /dev/null
+> @@ -1,92 +0,0 @@
+> -// SPDX-License-Identifier: GPL-2.0+
+> -/*
+> - * AXP717 SPL driver
+> - * (C) Copyright 2024 Arm Ltd.
+> - */
+> -
+> -#include <common.h>
+> -#include <command.h>
+> -#include <errno.h>
+> -#include <asm/arch/pmic_bus.h>
+> -#include <axp_pmic.h>
+> -
+> -enum axp717_reg {
+> -	AXP717_CHIP_VERSION = 0x3,
+> -	AXP717_SHUTDOWN = 0x27,
+> -	AXP717_OUTPUT_CTRL1 = 0x80,
+> -	AXP717_DCDC1_VOLTAGE = 0x83,
+> -};
+> -
+> -#define AXP717_CHIP_VERSION_MASK	0xc8
+> -#define AXP717_DCDC_1220MV_OFFSET	71
+> -#define AXP717_POWEROFF			(1U << 0)
+> -#define DCDC_DVM_ENABLE			(1U << 7)
+> -
+> -static u8 axp_mvolt_to_cfg(int mvolt, int min, int max, int div)
+> -{
+> -	if (mvolt < min)
+> -		mvolt = min;
+> -	else if (mvolt > max)
+> -		mvolt = max;
+> -
+> -	return (mvolt - min) / div;
+> -}
+> -
+> -static int axp_set_dcdc(int dcdc_num, unsigned int mvolt)
+> -{
+> -	int ret;
+> -	u8 cfg = DCDC_DVM_ENABLE;
+> -
+> -	if (dcdc_num < 1 || dcdc_num > 3)
+> -		return -EINVAL;
+> -
+> -	if (mvolt >= 1220)
+> -		cfg |= AXP717_DCDC_1220MV_OFFSET +
+> -			axp_mvolt_to_cfg(mvolt, 1220,
+> -					 dcdc_num == 3 ? 1840 : 1540, 20);
+> -	else
+> -		cfg |= axp_mvolt_to_cfg(mvolt, 500, 1200, 10);
+> -
+> -	if (mvolt == 0)
+> -		return pmic_bus_clrbits(AXP717_OUTPUT_CTRL1,
+> -					1U << (dcdc_num -1));
+> -
+> -	ret = pmic_bus_write(AXP717_DCDC1_VOLTAGE + dcdc_num - 1, cfg);
+> -	if (ret)
+> -		return ret;
+> -
+> -	return pmic_bus_setbits(AXP717_OUTPUT_CTRL1, 1U << (dcdc_num - 1));
+> -}
+> -
+> -int axp_set_dcdc1(unsigned int mvolt)
+> -{
+> -	return axp_set_dcdc(1, mvolt);
+> -}
+> -
+> -int axp_set_dcdc2(unsigned int mvolt)
+> -{
+> -	return axp_set_dcdc(2, mvolt);
+> -}
+> -
+> -int axp_set_dcdc3(unsigned int mvolt)
+> -{
+> -	return axp_set_dcdc(3, mvolt);
+> -}
+> -
+> -int axp_init(void)
+> -{
+> -	return pmic_bus_init();
+> -}
+> -
+> -#if !CONFIG_IS_ENABLED(ARM_PSCI_FW) && !IS_ENABLED(CONFIG_SYSRESET_CMD_POWEROFF)
+> -int do_poweroff(struct cmd_tbl *cmdtp, int flag, int argc, char *const argv[])
+> -{
+> -	pmic_bus_setbits(AXP717_SHUTDOWN, AXP717_POWEROFF);
+> -
+> -	/* infinite loop during shutdown */
+> -	while (1) {}
+> -
+> -	/* not reached */
+> -	return 0;
+> -}
+> -#endif
+> -- 
+> 2.35.8
+> 
 
-The Anbernic RG35XXSP is almost identical to the RG35XX-Plus, but in a
-clamshell form-factor. The key differences between the SP and the Plus
-is a lid switch and an RTC on the same i2c bus as the PMIC.
+I've been using this for the past week or so on my RG35XX-H for which
+I've been testing some code and it has worked well for me.
 
-Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
----
- arch/arm64/boot/dts/allwinner/Makefile        |  3 +-
- .../sun50i-h700-anbernic-rg35xx-sp.dts        | 34 +++++++++++++++++++
- 2 files changed, 36 insertions(+), 1 deletion(-)
- create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dts
-
-diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
-index 0db7b60b49a1..00bed412ee31 100644
---- a/arch/arm64/boot/dts/allwinner/Makefile
-+++ b/arch/arm64/boot/dts/allwinner/Makefile
-@@ -49,5 +49,6 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero2w.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero3.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-transpeed-8k618-t.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-2024.dtb
--dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-plus.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-h.dtb
-+dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-plus.dtb
-+dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-sp.dtb
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dts b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dts
-new file mode 100644
-index 000000000000..0cf16dc903cd
---- /dev/null
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dts
-@@ -0,0 +1,34 @@
-+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+/*
-+ * Copyright (C) 2024 Ryan Walklin <ryan@testtoast.com>.
-+ * Copyright (C) 2024 Chris Morgan <macroalpha82@gmail.com>.
-+ */
-+
-+#include <dt-bindings/input/gpio-keys.h>
-+#include "sun50i-h700-anbernic-rg35xx-plus.dts"
-+
-+/ {
-+	model = "Anbernic RG35XX SP";
-+	compatible = "anbernic,rg35xx-sp", "allwinner,sun50i-h700";
-+
-+	gpio-keys-lid {
-+		compatible = "gpio-keys";
-+
-+		lid-switch {
-+			label = "Lid Switch";
-+			gpios = <&pio 4 7 GPIO_ACTIVE_LOW>; /* PE7 */
-+			linux,can-disable;
-+			linux,code = <SW_LID>;
-+			linux,input-type = <EV_SW>;
-+			wakeup-event-action = <EV_ACT_DEASSERTED>;
-+			wakeup-source;
-+		};
-+	};
-+};
-+
-+&r_i2c {
-+	rtc_ext: rtc@51 {
-+		compatible = "nxp,pcf8563";
-+		reg = <0x51>;
-+	};
-+};
--- 
-2.34.1
-
+Tested-by: Chris Morgan <macromorgan@hotmail.com>
