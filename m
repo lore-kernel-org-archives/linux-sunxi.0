@@ -1,121 +1,61 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61230152533
-	for <linux-sunxi@lists.linux.dev>; Thu, 11 Jul 2024 10:10:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE95B158848;
+	Thu, 11 Jul 2024 10:26:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720692656; cv=none; b=a3rsCYASzSOn7+aB5XyxKHx0vtzSQxVLSqDNVPVc4mK7EmF7EKX+wiTapMCDukCDjBPWmtCBVNIlUkHECScQ10Ir14CcETTfZu2NNbt3iRp4xHIpTEveuUuXhvUSnD3S73t+d26WmdIf6St1gXkwfNY6qMrtKfP0y1ZrugNAuYE=
+	t=1720693612; cv=none; b=Nxy4Sm+Y7uzJ825YqX/qlvu/1n+foOv6c9ZO93fv44EgWyiVp8YnqslzAc1prxswuZ6XPBiZ6MRure4GNlehmmeZ994JmLal5X7fE6hnmfyp7G3bnzvoKI3rfGhU2XyyLLRoc6e6p/L+/96YCQqaK6KTX3OWdGXmLG2LqKc7THY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720692656; c=relaxed/simple;
-	bh=RKoqHfGigndorqIK0+wPq33CUvtidQBPotJNDsI3/1c=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Er4jM+P7u1Imxrqz+WA7dtlc+lPMM2imV3uOrQVffM8aSRZiqoZyn77250CToAnO3H2D5dQOruhTdD4b5pIbO1fka6C3+gW/yil1gdLz4cytnZ1Dq6ADaNkrLkfTrqzb2bpJwd70k4KrOTFqBINl+WXFKIG7z/4HzGZ4eXXO6Fo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 10BDE1007;
-	Thu, 11 Jul 2024 03:11:20 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 494843F766;
-	Thu, 11 Jul 2024 03:10:53 -0700 (PDT)
-Date: Thu, 11 Jul 2024 11:10:50 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Chris Morgan <macroalpha82@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- mripard@kernel.org, ryan@testtoast.com, samuel@sholland.org,
- jernej.skrabec@gmail.com, wens@csie.org, conor+dt@kernel.org,
- krzk+dt@kernel.org, robh@kernel.org, Chris Morgan <macromorgan@hotmail.com>
-Subject: Re: [PATCH V3 4/4] arm64: dts: allwinner: h700: Add Anbernic
- RG35XX-SP
-Message-ID: <20240711111050.68f324b1@donnerap.manchester.arm.com>
-In-Reply-To: <20240710231718.106894-5-macroalpha82@gmail.com>
-References: <20240710231718.106894-1-macroalpha82@gmail.com>
-	<20240710231718.106894-5-macroalpha82@gmail.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1720693612; c=relaxed/simple;
+	bh=wlAKga00AmflDbni8pz8GB7yjejPf0h5De8U+naCjYc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bdtnF/rIbTfFMBIKgqcdBBgvcTeVyA/XY+uoXeBzVNOZaaoYQ/BgECf5wJ02Pk98tNkJB2Cey7DeJKqNiUENB5fD8mb3jmypXOprN9H7+X5TlzXmZaBuGenn5pJt8/0GfPOyKOOzBdmHdT9VtZjWYjneLRiBGhluO9S+xnipTmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HcB+PVKm; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HcB+PVKm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A31E7C116B1;
+	Thu, 11 Jul 2024 10:26:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720693612;
+	bh=wlAKga00AmflDbni8pz8GB7yjejPf0h5De8U+naCjYc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HcB+PVKmUaP/JyX9dauDHiTxRmfCrQPpDx+bgE4NCI2BJWckUmU7MWegiDOEY+axl
+	 rtwNWrso0ng9BqTu2wi1mhF6MyizO3hleyyzIZu3H5UIXGn1osl72ZIPKKF7xyedDG
+	 gYYwvZdGGBaWWBHNRg2H6+lkgjHyFSBzJQyJDRS//hB99O6nhnjQDLo/BkShC9Zmea
+	 ANI5rB2zaECBEqJ9iNnAvAmuNxTVvXyxihM+TuG23sIu1eptZK8QLs1jVyLSssWRb+
+	 Qrqb1YnstktnFS7r/hSK1YQ433TiuKC3KdyZysTfGSdYtA1MlsEZ4GESBNPgoeGRpb
+	 en3EbmLcW4LGQ==
+Date: Thu, 11 Jul 2024 12:26:48 +0200
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-i2c@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 48/60] i2c: sun6i-p2wi: reword according to newest
+ specification
+Message-ID: <hheateu4yyhbbft4jlw3aivlmf6nxs6gry3en7vcekvfjavnib@orxdxz2ufwys>
+References: <20240706112116.24543-1-wsa+renesas@sang-engineering.com>
+ <20240706112116.24543-49-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240706112116.24543-49-wsa+renesas@sang-engineering.com>
 
-On Wed, 10 Jul 2024 18:17:18 -0500
-Chris Morgan <macroalpha82@gmail.com> wrote:
+Hi Wolfram,
 
-Hi,
-
-> From: Chris Morgan <macromorgan@hotmail.com>
+On Sat, Jul 06, 2024 at 01:20:48PM GMT, Wolfram Sang wrote:
+> Change the wording of this driver wrt. the newest I2C v7 and SMBus 3.2
+> specifications and replace "master/slave" with more appropriate terms.
 > 
-> The Anbernic RG35XXSP is almost identical to the RG35XX-Plus, but in a
-> clamshell form-factor. The key differences between the SP and the Plus
-> is a lid switch and an RTC on the same i2c bus as the PMIC.
-> 
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+Reviewed-by: Andi Shyti <andi.shyti@kernel.org>
 
-Cheers,
-Andre
-
-> ---
->  arch/arm64/boot/dts/allwinner/Makefile        |  3 +-
->  .../sun50i-h700-anbernic-rg35xx-sp.dts        | 34 +++++++++++++++++++
->  2 files changed, 36 insertions(+), 1 deletion(-)
->  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dts
-> 
-> diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
-> index 0db7b60b49a1..00bed412ee31 100644
-> --- a/arch/arm64/boot/dts/allwinner/Makefile
-> +++ b/arch/arm64/boot/dts/allwinner/Makefile
-> @@ -49,5 +49,6 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero2w.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero3.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-transpeed-8k618-t.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-2024.dtb
-> -dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-plus.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-h.dtb
-> +dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-plus.dtb
-> +dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-sp.dtb
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dts b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dts
-> new file mode 100644
-> index 000000000000..0cf16dc903cd
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dts
-> @@ -0,0 +1,34 @@
-> +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +/*
-> + * Copyright (C) 2024 Ryan Walklin <ryan@testtoast.com>.
-> + * Copyright (C) 2024 Chris Morgan <macroalpha82@gmail.com>.
-> + */
-> +
-> +#include <dt-bindings/input/gpio-keys.h>
-> +#include "sun50i-h700-anbernic-rg35xx-plus.dts"
-> +
-> +/ {
-> +	model = "Anbernic RG35XX SP";
-> +	compatible = "anbernic,rg35xx-sp", "allwinner,sun50i-h700";
-> +
-> +	gpio-keys-lid {
-> +		compatible = "gpio-keys";
-> +
-> +		lid-switch {
-> +			label = "Lid Switch";
-> +			gpios = <&pio 4 7 GPIO_ACTIVE_LOW>; /* PE7 */
-> +			linux,can-disable;
-> +			linux,code = <SW_LID>;
-> +			linux,input-type = <EV_SW>;
-> +			wakeup-event-action = <EV_ACT_DEASSERTED>;
-> +			wakeup-source;
-> +		};
-> +	};
-> +};
-> +
-> +&r_i2c {
-> +	rtc_ext: rtc@51 {
-> +		compatible = "nxp,pcf8563";
-> +		reg = <0x51>;
-> +	};
-> +};
-
+Thanks,
+Andi
