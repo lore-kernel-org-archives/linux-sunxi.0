@@ -1,142 +1,203 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76DC2167271
-	for <linux-sunxi@lists.linux.dev>; Thu, 11 Jul 2024 14:44:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DECDA158D96
+	for <linux-sunxi@lists.linux.dev>; Thu, 11 Jul 2024 14:45:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720709071; cv=none; b=QyppieElC6AJDd9EkdU+vFbzFyi70RrjiZmq7mrXPba3jL2UPHXunFMCcTFIsp3FGyU7j2LAIBOlQqrcetuiBDh/NjPLMne6YcirsX3fGr+XxzcArg/rj4MDSnR5j3ri8Xj3mmh2i8+bGQFDcIK/idIox5y5wa4Ih/raSoO7k2U=
+	t=1720709127; cv=none; b=kgfGbDivtW2oV6womgeYdwK/olhXk9FuCoFJwrc6M33BWw+tWKciNazQ599N98W2autbSGM4vfZ+KvdOMZ+iTM0HS39zvST9aN+JOPx3AZxa1NiJc6vL3EJjoHvHkBBFHkZ+2x1gsvpxttVafOfVTZ5K0JGrZvifr1x1cY14QZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720709071; c=relaxed/simple;
-	bh=e5TcSYq9SmOCbUefKhxL8wUuPTaj8MsKosGv97sT8oU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DdWsa++6mJQOlDNSGi8g+4Eowm0if039s+5HIjHas0ESm7VpSxzWU/X8MoATRJfiqhbCRn7Azu/RIPVuFjxvEqJKKswkwdB/eplOk67wgRHa4j5/sXvI7ZC3YKicommNT+uxhTCwUJFCz5OHGmJBkB2FfnchBnmzjF5CTYs5emg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1DB831007;
-	Thu, 11 Jul 2024 07:44:54 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5530F3F766;
-	Thu, 11 Jul 2024 07:44:27 -0700 (PDT)
-Date: Thu, 11 Jul 2024 15:44:24 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Chris Morgan <macroalpha82@gmail.com>, linux-sunxi@lists.linux.dev,
- ryan@testtoast.com, jernej.skrabec@gmail.com, samuel@sholland.org,
- wens@csie.org, krzk+dt@kernel.org, Chris Morgan <macromorgan@hotmail.com>,
- conor+dt@kernel.org, mripard@kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH V3 0/4] Add Anbernic RG35XX-SP
-Message-ID: <20240711154424.32e86cee@donnerap.manchester.arm.com>
-In-Reply-To: <172070684741.2129319.15850493754001416062.robh@kernel.org>
-References: <20240710231718.106894-1-macroalpha82@gmail.com>
-	<172070684741.2129319.15850493754001416062.robh@kernel.org>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1720709127; c=relaxed/simple;
+	bh=X/Vus3odAr0nVoUkxLttzX7Pk94wValiSx+VwO4R69w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YyNKsiiM3oCBZuFZxJrRsqBWPQvKz0adiFXQH54Ig3TEfgdr2K43bNPGRIL1k4sS7HndLZ72nKqj1+CamVp/76uDpXGPLqINO57yEQ/WwrQyOR7k6m1XxJLIjVdBzl5+Oq56bnePk9+PYRVnMSuN3GgclKpE+YFPEc0qPc+0sFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=AuPvm2HY; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="AuPvm2HY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=X/Vu
+	s3odAr0nVoUkxLttzX7Pk94wValiSx+VwO4R69w=; b=AuPvm2HYrBBxPCRmojQD
+	7CRnGb08OzEAMIGsRtGo1cADF0LX2II9QCJrZUl8IaFo/ZZrZu7J+SrEBWtj60Pv
+	1FkcrDPS/qIZnwEyGkXZcTAvUt2AcDbXPu9bRoCsRQVJ3yq7hI4gN1/pRnYBoxmm
+	LrVreSCYG9WfR6AIcwartOTLwI8fldcBkiqrbY/9wh/UHI5zzHySLqznxmN0E27e
+	CL+TVhOO2A9S47NlInzK62SsP9b7IiXAGum0KbJErYmlY66z9pmjZt/lJ/IEYVUY
+	0s8pI4FRRnO0k8J6sY5OSdOg4ouZH//OI4WOka5wh84Dzu3nFqTCzDfn3u4TXjEA
+	qA==
+Received: (qmail 877093 invoked from network); 11 Jul 2024 16:45:16 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 11 Jul 2024 16:45:16 +0200
+X-UD-Smtp-Session: l3s3148p1@33mez/kc+ORehhtW
+Date: Thu, 11 Jul 2024 16:45:15 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Andi Shyti <andi.shyti@kernel.org>
+Cc: linux-i2c@vger.kernel.org, Ajay Gupta <ajayg@nvidia.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
+	Andrew Lunn <andrew@lunn.ch>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	asahi@lists.linux.dev, Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Baruch Siach <baruch@tkos.co.il>,
+	Bence =?utf-8?B?Q3PDs2vDoXM=?= <bence98@sch.bme.hu>,
+	Benson Leung <bleung@chromium.org>,
+	Binbin Zhou <zhoubinbin@loongson.cn>, Chen-Yu Tsai <wens@csie.org>,
+	Chris Brandt <chris.brandt@renesas.com>,
+	Chris Packham <chris.packham@alliedtelesis.co.nz>,
+	chrome-platform@lists.linux.dev,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Conghui Chen <conghui.chen@intel.com>,
+	Eddie James <eajames@linux.ibm.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Gregory CLEMENT <gregory.clement@bootlin.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Hans de Goede <hdegoede@redhat.com>, Hans Hu <hanshu@zhaoxin.com>,
+	Hector Martin <marcan@marcan.st>, Heiko Stuebner <heiko@sntech.de>,
+	Jean Delvare <jdelvare@suse.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jochen Friedrich <jochen@scram.de>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Kamal Dasu <kamal.dasu@broadcom.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	linux-actions@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-mips@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-renesas-soc@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Michael Shych <michaelsh@nvidia.com>, openbmc@lists.ozlabs.org,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Peter Korsgaard <peter@korsgaard.com>,
+	Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>,
+	Ray Jui <rjui@broadcom.com>, Robert Richter <rric@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Scott Branden <sbranden@broadcom.com>, Stefan Roese <sr@denx.de>,
+	Sven Peter <sven@svenpeter.dev>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Thor Thayer <thor.thayer@linux.intel.com>,
+	Till Harbaum <till@harbaum.org>,
+	Vadim Pasternak <vadimp@nvidia.com>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	virtualization@lists.linux.dev, Vladimir Zapolskiy <vz@mleia.com>,
+	Yicong Yang <yangyicong@hisilicon.com>
+Subject: Re: [PATCH v2 00/60] i2c: reword first drivers according to newest
+ specification
+Message-ID: <Zo_v-xk3Hh_88sNa@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Andi Shyti <andi.shyti@kernel.org>, linux-i2c@vger.kernel.org,
+	Ajay Gupta <ajayg@nvidia.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
+	Andrew Lunn <andrew@lunn.ch>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	asahi@lists.linux.dev, Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Baruch Siach <baruch@tkos.co.il>,
+	Bence =?utf-8?B?Q3PDs2vDoXM=?= <bence98@sch.bme.hu>,
+	Benson Leung <bleung@chromium.org>,
+	Binbin Zhou <zhoubinbin@loongson.cn>, Chen-Yu Tsai <wens@csie.org>,
+	Chris Brandt <chris.brandt@renesas.com>,
+	Chris Packham <chris.packham@alliedtelesis.co.nz>,
+	chrome-platform@lists.linux.dev,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Conghui Chen <conghui.chen@intel.com>,
+	Eddie James <eajames@linux.ibm.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Gregory CLEMENT <gregory.clement@bootlin.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Hans de Goede <hdegoede@redhat.com>, Hans Hu <hanshu@zhaoxin.com>,
+	Hector Martin <marcan@marcan.st>, Heiko Stuebner <heiko@sntech.de>,
+	Jean Delvare <jdelvare@suse.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jochen Friedrich <jochen@scram.de>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Kamal Dasu <kamal.dasu@broadcom.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	linux-actions@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-mips@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-renesas-soc@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Michael Shych <michaelsh@nvidia.com>, openbmc@lists.ozlabs.org,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Peter Korsgaard <peter@korsgaard.com>,
+	Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>,
+	Ray Jui <rjui@broadcom.com>, Robert Richter <rric@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Scott Branden <sbranden@broadcom.com>, Stefan Roese <sr@denx.de>,
+	Sven Peter <sven@svenpeter.dev>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Thor Thayer <thor.thayer@linux.intel.com>,
+	Till Harbaum <till@harbaum.org>,
+	Vadim Pasternak <vadimp@nvidia.com>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	virtualization@lists.linux.dev, Vladimir Zapolskiy <vz@mleia.com>,
+	Yicong Yang <yangyicong@hisilicon.com>
+References: <20240706112116.24543-1-wsa+renesas@sang-engineering.com>
+ <nbi3fngfcipt35gzguk2mh4zzh3vy5a5gsk7dti5smm2iimytl@drm7p2iqsinp>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Vk6JWgUmE7mz+Biu"
+Content-Disposition: inline
+In-Reply-To: <nbi3fngfcipt35gzguk2mh4zzh3vy5a5gsk7dti5smm2iimytl@drm7p2iqsinp>
 
-On Thu, 11 Jul 2024 08:20:24 -0600
-"Rob Herring (Arm)" <robh@kernel.org> wrote:
 
-Hi,
+--Vk6JWgUmE7mz+Biu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> On Wed, 10 Jul 2024 18:17:14 -0500, Chris Morgan wrote:
-> > From: Chris Morgan <macromorgan@hotmail.com>
-> > 
-> > Add support for the Anbernic RG35XX-SP handheld gaming device. The
-> > Anbernic RG35XX-SP is a clamshell device, but hardware wise is very
-> > similar to the RG35XX-Plus. The RG35XX-SP has a lid-switch and an
-> > external RTC that necessitate a distinct device tree.
-> > 
-> > Please note that this series may have a soft pre-requisite on the patch
-> > series here [1].
-> > 
-> > [1] https://lore.kernel.org/linux-sunxi/20240418000736.24338-1-andre.przywara@arm.com/
-> > 
-> > Changes from V2:
-> >  - Corrected commit message for device tree bindings.
-> >  - Added a fixes tag to i2c pinmux additions in sun50i-h616.dtsi file
-> >    based on recommendation from Andre Przywara.
-> > 
-> > Changes from V1:
-> >  - Switched all RG35XX devices from the r_rsb bus to the r_i2c bus for
-> >    the PMIC to keep it consistent.
-> >  - Added missing pinctrl nodes in sun50i-h616.dtsi file for the r_i2c
-> >    bus.
-> >  - Modified devicetree documentation to keep definition of the RG35XX
-> >    series consistent with other Allwinner devices.
-> > 
-> > Chris Morgan (4):
-> >   dt-bindings: arm: sunxi: Add Anbernic RG35XXSP
-> >   arm64: dts: allwinner: h616: Add r_i2c pinctrl nodes
-> >   arm64: dts: allwinner: h616: Change RG35XX Series from r_rsb to r_i2c
-> >   arm64: dts: allwinner: h700: Add Anbernic RG35XX-SP
-> > 
-> >  .../devicetree/bindings/arm/sunxi.yaml        |  9 +++--
-> >  arch/arm64/boot/dts/allwinner/Makefile        |  3 +-
-> >  .../arm64/boot/dts/allwinner/sun50i-h616.dtsi |  2 ++
-> >  .../sun50i-h700-anbernic-rg35xx-2024.dts      |  6 ++--
-> >  .../sun50i-h700-anbernic-rg35xx-sp.dts        | 34 +++++++++++++++++++
-> >  5 files changed, 48 insertions(+), 6 deletions(-)
-> >  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dts
-> > 
-> > --
-> > 2.34.1
-> > 
-> > 
-> >   
-> 
-> 
-> My bot found new DTB warnings on the .dts files added or changed in this
-> series.
 
-That is a problem of an existing .dts files in the tree, namely
-sun50i-h700-anbernic-rg35xx-2024.dts. It describes the "boost" regulator,
-but the three patches adding that didn't make it in this time.
-So how do we deal with that? 
-This small binding patch would solve this particular problem:
-https://lore.kernel.org/linux-sunxi/20240418000736.24338-4-andre.przywara@arm.com/
-It has an ACK from Lee and Krzysztof, but I guess it's too late now for
-6.10? Do we just ignore it for now and push it as a fix after -rc1?
+> Thanks for this big work, at the end it turned out quite nice and
+> I'm happy of the outcome!
 
-Cheers,
-Andre
+Me too. And thanks for the enormous review work!
 
-> Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-> are fixed by another series. Ultimately, it is up to the platform
-> maintainer whether these warnings are acceptable or not. No need to reply
-> unless the platform maintainer has comments.
-> 
-> If you already ran DT checks and didn't see these error(s), then
-> make sure dt-schema is up to date:
-> 
->   pip3 install dtschema --upgrade
-> 
-> 
-> New warnings running 'make CHECK_DTBS=y
-> allwinner/sun50i-h700-anbernic-rg35xx-2024.dtb
-> allwinner/sun50i-h700-anbernic-rg35xx-sp.dtb' for
-> 20240710231718.106894-1-macroalpha82@gmail.com:
-> 
-> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dtb:
-> pmic@34: regulators: 'boost' does not match any of the regexes:
-> '^(([a-f])?ldo[0-9]|dcdc[0-7a-e]|ldo(_|-)io(0|1)|(dc1)?sw|rtc(_|-)ldo|cpusldo|drivevbus|dc5ldo)$',
-> 'pinctrl-[0-9]+' from schema $id:
-> http://devicetree.org/schemas/mfd/x-powers,axp152.yaml#
-> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dtb:
-> pmic@34: regulators: 'boost' does not match any of the regexes:
-> '^(([a-f])?ldo[0-9]|dcdc[0-7a-e]|ldo(_|-)io(0|1)|(dc1)?sw|rtc(_|-)ldo|cpusldo|drivevbus|dc5ldo)$',
-> 'pinctrl-[0-9]+' from schema $id:
-> http://devicetree.org/schemas/mfd/x-powers,axp152.yaml#
-> 
-> 
-> 
-> 
-> 
 
+--Vk6JWgUmE7mz+Biu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmaP7/sACgkQFA3kzBSg
+Kbbq3A/9FNY+7cgd8CU9HNabmoXmMSCsOVflmaDNapeEn/iIYZUiBBFhDcYnJczI
+T429i2bK95+lup88Nhn9fzXQ4hoPFa2TuPkQ5n3M7A9hjFnAOxLmTd91uO98BfVm
+8IYBr6EIu/AfX/+D6Rj1Ro1VpSwK4laze5p9WGyNjp6QIzJ+KqmRh+vf9Shg1urk
+9gNjTClxMD1OjQ60X0Vr4XmDONnsK8guT/Zkkk1gtDRDC8P92Jw17/3vtuBQnwP6
+S1NAFaqvdLbLKuRBsK7KwJ6oJ4sH5jq2LCiJk87GHsXnQBerXSR3AFORTQWjvEBF
+6qz8rHh0/GrQklzbs/VgVlqV3NygU4D2T18NZMyLxaJAGPmDPGeL5YvcweblR0TL
+yMMuXmSq7ACO+aTJgqIqt2Wx1PS4cbvSmaHUnG52eGrX28o1PgjIW5y0xGu9G5FU
+Funcvt0JlI2HtC1FI2FGDsCW77U3mh3U5N5NEo7y24XPebmTVhGifj2kWp/WkA3F
+UPgJdkXF0gUzDxQj3Febmvmeh3m58s+Io+3LWBncCK2eRgL4YyEaKpEegQfA43Rl
+PJGODikSLI1gh/8qN/WE44DGio65TYItOJrPX3b8VwOQLCgKgwz0y+a37vy2Jd7W
+X/LXLwb8txlca1gF88Bg07eWwR/jwNoHp4c/k2C80iwHtJ12Kcg=
+=ribe
+-----END PGP SIGNATURE-----
+
+--Vk6JWgUmE7mz+Biu--
