@@ -1,261 +1,121 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4B6F15EFB8;
-	Thu, 11 Jul 2024 13:16:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39E661662FA;
+	Thu, 11 Jul 2024 14:20:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720703805; cv=none; b=I+NNbqhDth08z89HrzJ4X6JJQUfj8eXIZZg/RukhRJIgJUwHY78xxrZxJADm9e2olk7zcNop3+r6tYOGiHxRzOPGPbUV4CoAuRjO5OTlGeoi9OoZKHkRM9X4CKMpp1L9whrNT14rsYj52BPUt4OMXEpbon3t3/2NY+gmHqo+apg=
+	t=1720707627; cv=none; b=XNc/vzsgNsxIcTzPOQC35Sj9DvZOWHmrwXWc6Qf7A1xSv8KYCXiG5KKkB+pSb1nJRyY6qYKchnayT6llu88p7790HO6cmF3M44gfV8iZbNqb0BTJsb+pUbRDXlzXbkyXYiud5SWJYQAv6zVg+fnRpmsRn3slq/iibWFRlTybBTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720703805; c=relaxed/simple;
-	bh=r4dU6vqYjav3VvaXX3Sjsxc+xsxGdgu1+j2zgdtBir0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WJa5EmFW7FfxjZDQ0owg66GiXK8Q0Z49ZQTBz4vGbDLyilX7H6EoG7RnouTomFaF7KGabZZt8QJLLTbO5x/ggfHYDW4KHZMKQ1qri4+FFN945p1P59IN2WEwOWstZtbJIsnzv+7jcTOUeC+8vEA1NpvTdPzADWKy07qDZxSlqC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p6+2Cwc3; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720707627; c=relaxed/simple;
+	bh=Rslb4hqj97b8vWaPd5sPG+jb+GupF9VBuAZiJ+DdSCw=;
+	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
+	 Message-Id:Subject; b=YcAYj/iLjzuWwkwiiwu6f4qnSSD8yT7urRPIxO8bZC2Cmm987kwgqhvGD4i27m76QgT/GJnyw9BdOuS+KVNLvhhFIvxEy9zdt0QrFEmOZz0JUIvi+YW3Puy03K1o3BG7rpMT1hDf0PmttK3D4Ma5PkopK3E/LlgkfZxl1+U7H7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bi0UHooI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p6+2Cwc3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DEA8C4AF07;
-	Thu, 11 Jul 2024 13:16:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bi0UHooI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C84DC116B1;
+	Thu, 11 Jul 2024 14:20:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720703804;
-	bh=r4dU6vqYjav3VvaXX3Sjsxc+xsxGdgu1+j2zgdtBir0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=p6+2Cwc3E4O2uSx+DH2Km80jUBJZO8J64ERrKxq9KkUeFczRflG9OflmEO510OaXv
-	 45jt2cHUGxBY/BUC0Z9hW6R8nyC6DamtRdsZkHJARIg7E3kp7GzysSngCujqlP3VWR
-	 TPqx6sTZQOFskGr1UzbUnP1+s/mtIHMsYSvjvwH86bewjS89AL3t0A4IeTK4ozMmE9
-	 VfQlqnSZYJdUae8LIwJEfllYADu4Q5SdM6BISkS88tS/ThyaimP+0SKo9mM2mVW7a1
-	 WrZ7yUkx93n0H/pTz8Qc0943VkrKQagoUfasatX2jprIFXJOAYW6pqWFKD3Q2FcVk5
-	 vMsq9BOw/f7RA==
-Date: Thu, 11 Jul 2024 15:16:40 +0200
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-i2c@vger.kernel.org, Ajay Gupta <ajayg@nvidia.com>, 
-	Alain Volmat <alain.volmat@foss.st.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>, Andrew Lunn <andrew@lunn.ch>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, asahi@lists.linux.dev, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	Baruch Siach <baruch@tkos.co.il>, Bence =?utf-8?B?Q3PDs2vDoXM=?= <bence98@sch.bme.hu>, 
-	Benson Leung <bleung@chromium.org>, Binbin Zhou <zhoubinbin@loongson.cn>, 
-	Chen-Yu Tsai <wens@csie.org>, Chris Brandt <chris.brandt@renesas.com>, 
-	Chris Packham <chris.packham@alliedtelesis.co.nz>, chrome-platform@lists.linux.dev, 
-	Chunyan Zhang <zhang.lyra@gmail.com>, Conghui Chen <conghui.chen@intel.com>, 
-	Eddie James <eajames@linux.ibm.com>, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, Gregory CLEMENT <gregory.clement@bootlin.com>, 
-	Guenter Roeck <linux@roeck-us.net>, Hans de Goede <hdegoede@redhat.com>, 
-	Hans Hu <hanshu@zhaoxin.com>, Hector Martin <marcan@marcan.st>, 
-	Heiko Stuebner <heiko@sntech.de>, Jean Delvare <jdelvare@suse.com>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Jochen Friedrich <jochen@scram.de>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Kamal Dasu <kamal.dasu@broadcom.com>, 
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, linux-actions@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-rpi-kernel@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Michael Shych <michaelsh@nvidia.com>, openbmc@lists.ozlabs.org, 
-	Orson Zhai <orsonzhai@gmail.com>, Patrice Chotard <patrice.chotard@foss.st.com>, 
-	Paul Cercueil <paul@crapouillou.net>, Peter Korsgaard <peter@korsgaard.com>, 
-	Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>, Ray Jui <rjui@broadcom.com>, Robert Richter <rric@kernel.org>, 
-	Samuel Holland <samuel@sholland.org>, Scott Branden <sbranden@broadcom.com>, Stefan Roese <sr@denx.de>, 
-	Sven Peter <sven@svenpeter.dev>, Thierry Reding <thierry.reding@gmail.com>, 
-	Thor Thayer <thor.thayer@linux.intel.com>, Till Harbaum <till@harbaum.org>, 
-	Vadim Pasternak <vadimp@nvidia.com>, Viresh Kumar <viresh.kumar@linaro.org>, 
-	virtualization@lists.linux.dev, Vladimir Zapolskiy <vz@mleia.com>, 
-	Yicong Yang <yangyicong@hisilicon.com>
-Subject: Re: [PATCH v2 00/60] i2c: reword first drivers according to newest
- specification
-Message-ID: <nbi3fngfcipt35gzguk2mh4zzh3vy5a5gsk7dti5smm2iimytl@drm7p2iqsinp>
-References: <20240706112116.24543-1-wsa+renesas@sang-engineering.com>
+	s=k20201202; t=1720707625;
+	bh=Rslb4hqj97b8vWaPd5sPG+jb+GupF9VBuAZiJ+DdSCw=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=Bi0UHooILd6FYyGt+RBGuA80AOnkyi/zzvvbFLYhloZ2ftd1+BhnNQ6Q7MOZRcESp
+	 RieqgJfsfkKvmxPQA0eSjKwMpwbv3zCLtxEGlrK1OaPJhRbCMkKiFKdfhtF9cx6cH8
+	 S5GIbZhhp27VEuWZHt0J1xbhThgY2aAsYSThtROCZwlXSBJsYp7XkFZGui6XG0uRJY
+	 WNPCcMIaCJ7e/h3h7kK01C7E+5jOJGXNqtxKjTZkqutaVJFwBqeYWAkYySXeglzj8n
+	 7gxHXDKJ5xDPKTgBsl4oTh1YVINSvrLbVktErPFRU4bDrYdAtf7ZPFfLkZq5gvbuZO
+	 tPDNH82nIuHxg==
+Date: Thu, 11 Jul 2024 08:20:24 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240706112116.24543-1-wsa+renesas@sang-engineering.com>
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Chris Morgan <macroalpha82@gmail.com>
+Cc: andre.przywara@arm.com, linux-sunxi@lists.linux.dev, ryan@testtoast.com, 
+ jernej.skrabec@gmail.com, samuel@sholland.org, wens@csie.org, 
+ krzk+dt@kernel.org, Chris Morgan <macromorgan@hotmail.com>, 
+ conor+dt@kernel.org, mripard@kernel.org, devicetree@vger.kernel.org
+In-Reply-To: <20240710231718.106894-1-macroalpha82@gmail.com>
+References: <20240710231718.106894-1-macroalpha82@gmail.com>
+Message-Id: <172070684741.2129319.15850493754001416062.robh@kernel.org>
+Subject: Re: [PATCH V3 0/4] Add Anbernic RG35XX-SP
 
-Hi Wolfram,
 
-pushed in i2c/i2c-host.
+On Wed, 10 Jul 2024 18:17:14 -0500, Chris Morgan wrote:
+> From: Chris Morgan <macromorgan@hotmail.com>
+> 
+> Add support for the Anbernic RG35XX-SP handheld gaming device. The
+> Anbernic RG35XX-SP is a clamshell device, but hardware wise is very
+> similar to the RG35XX-Plus. The RG35XX-SP has a lid-switch and an
+> external RTC that necessitate a distinct device tree.
+> 
+> Please note that this series may have a soft pre-requisite on the patch
+> series here [1].
+> 
+> [1] https://lore.kernel.org/linux-sunxi/20240418000736.24338-1-andre.przywara@arm.com/
+> 
+> Changes from V2:
+>  - Corrected commit message for device tree bindings.
+>  - Added a fixes tag to i2c pinmux additions in sun50i-h616.dtsi file
+>    based on recommendation from Andre Przywara.
+> 
+> Changes from V1:
+>  - Switched all RG35XX devices from the r_rsb bus to the r_i2c bus for
+>    the PMIC to keep it consistent.
+>  - Added missing pinctrl nodes in sun50i-h616.dtsi file for the r_i2c
+>    bus.
+>  - Modified devicetree documentation to keep definition of the RG35XX
+>    series consistent with other Allwinner devices.
+> 
+> Chris Morgan (4):
+>   dt-bindings: arm: sunxi: Add Anbernic RG35XXSP
+>   arm64: dts: allwinner: h616: Add r_i2c pinctrl nodes
+>   arm64: dts: allwinner: h616: Change RG35XX Series from r_rsb to r_i2c
+>   arm64: dts: allwinner: h700: Add Anbernic RG35XX-SP
+> 
+>  .../devicetree/bindings/arm/sunxi.yaml        |  9 +++--
+>  arch/arm64/boot/dts/allwinner/Makefile        |  3 +-
+>  .../arm64/boot/dts/allwinner/sun50i-h616.dtsi |  2 ++
+>  .../sun50i-h700-anbernic-rg35xx-2024.dts      |  6 ++--
+>  .../sun50i-h700-anbernic-rg35xx-sp.dts        | 34 +++++++++++++++++++
+>  5 files changed, 48 insertions(+), 6 deletions(-)
+>  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dts
+> 
+> --
+> 2.34.1
+> 
+> 
+> 
 
-Thanks for this big work, at the end it turned out quite nice and
-I'm happy of the outcome!
 
-Thanks
-Andi
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
 
-On Sat, Jul 06, 2024 at 01:20:00PM GMT, Wolfram Sang wrote:
-> Start changing the wording of the I2C main header wrt. the newest I2C
-> v7 and SMBus 3.2 specifications and replace "master/slave" with more
-> appropriate terms. This first step renames the members of struct
-> i2c_algorithm. Once all in-tree users are converted, the anonymous union
-> will go away again. All this work will also pave the way for finally
-> seperating the monolithic header into more fine-grained headers like
-> "i2c/clients.h" etc. So, this is not a simple renaming-excercise but
-> also a chance to update the I2C core to recent Linux standards.
-> 
-> Changes since v1:
-> 
-> * changed wording according to the terminology we agreed on and defined
->   upstream. That means consistent use of "controller/target", and no
->   more "host/client". I added "local/remote target" where necessary.
-> * added tags which I kept despite some changes in wording. The approach
->   and code changes (if necessary) did not change.
-> * rebased to Andi's for-next branch
-> * this series only contains patches which convert the drivers fully. If
->   all goes well, no more updates for them are needed. The previous
->   series converted all users of "master_xfer". But to avoid tons of
->   incremental patches to one driver, I will incrementally improve i2c.h
->   and see which drivers can be fully converted step-by-step.
-> * do not mention I3C specs in commit messages, not really relevant here
-> 
-> Please note that I am not super strict with the 80 char limit. And, as
-> agreed, I did not convert occasions where old terminology is used in
-> register names or bits etc. or in function names outside of the I2C
-> realm.
-> 
-> The outcome is that before this series 115 drivers use old terminology,
-> after this only 54. Hooray.
-> 
-> And a comment to all janitors: Do not convert I2C drivers outside of
-> drivers/i2c yet. Let us first gain experience here and present the
-> well-tested results of what we figured out to other maintainers then.
-> This ensures they have to deal with way less patch revisions.
-> 
-> Thanks and happy hacking!
-> 
-> 
-> Wolfram Sang (60):
->   i2c: reword i2c_algorithm according to newest specification
->   i2c: ali15x3: reword according to newest specification
->   i2c: altera: reword according to newest specification
->   i2c: au1550: reword according to newest specification
->   i2c: bcm-kona: reword according to newest specification
->   i2c: bcm2835: reword according to newest specification
->   i2c: brcmstb: reword according to newest specification
->   i2c: cht-wc: reword according to newest specification
->   i2c: cp2615: reword according to newest specification
->   i2c: cros-ec-tunnel: reword according to newest specification
->   i2c: davinci: reword according to newest specification
->   i2c: digicolor: reword according to newest specification
->   i2c: diolan-u2c: reword according to newest specification
->   i2c: dln2: reword according to newest specification
->   i2c: fsi: reword according to newest specification
->   i2c: gpio: reword according to newest specification
->   i2c: highlander: reword according to newest specification
->   i2c: hisi: reword according to newest specification
->   i2c: hix5hd2: reword according to newest specification
->   i2c: i801: reword according to newest specification
->   i2c: ibm_iic: reword according to newest specification
->   i2c: iop3xx: reword according to newest specification
->   i2c: isch: reword according to newest specification
->   i2c: jz4780: reword according to newest specification
->   i2c: kempld: reword according to newest specification
->   i2c: ljca: reword according to newest specification
->   i2c: lpc2k: reword according to newest specification
->   i2c: ls2x: reword according to newest specification
->   i2c: mlxcpld: reword according to newest specification
->   i2c: mpc: reword according to newest specification
->   i2c: mt7621: reword according to newest specification
->   i2c: mv64xxx: reword according to newest specification
->   i2c: ocores: reword according to newest specification
->   i2c: octeon: reword according to newest specification
->   i2c: opal: reword according to newest specification
->   i2c: owl: reword according to newest specification
->   i2c: pasemi: reword according to newest specification
->   i2c: piix4: reword according to newest specification
->   i2c: powermac: reword according to newest specification
->   i2c: pxa-pci: reword according to newest specification
->   i2c: riic: reword according to newest specification
->   i2c: rk3x: reword according to newest specification
->   i2c: robotfuzz-osif: reword according to newest specification
->   i2c: rzv2m: reword according to newest specification
->   i2c: sis5595: reword according to newest specification
->   i2c: sprd: reword according to newest specification
->   i2c: stm32f4: reword according to newest specification
->   i2c: sun6i-p2wi: reword according to newest specification
->   i2c: taos-evm: reword according to newest specification
->   i2c: tegra-bpmp: reword according to newest specification
->   i2c: thunderx-pcidrv: reword according to newest specification
->   i2c: tiny-usb: reword according to newest specification
->   i2c: uniphier-f: reword according to newest specification
->   i2c: uniphier: reword according to newest specification
->   i2c: viperboard: reword according to newest specification
->   i2c: viai2c: reword according to newest specification
->   i2c: nvidia-gpu: reword according to newest specification
->   i2c: virtio: reword according to newest specification
->   i2c: cpm: reword according to newest specification
->   i2c: st: reword according to newest specification
-> 
->  drivers/i2c/busses/i2c-ali15x3.c         |  2 +-
->  drivers/i2c/busses/i2c-altera.c          |  4 +-
->  drivers/i2c/busses/i2c-au1550.c          | 15 +++----
->  drivers/i2c/busses/i2c-bcm-kona.c        | 13 +++---
->  drivers/i2c/busses/i2c-bcm2835.c         | 10 ++---
->  drivers/i2c/busses/i2c-brcmstb.c         | 11 +++--
->  drivers/i2c/busses/i2c-cht-wc.c          |  8 ++--
->  drivers/i2c/busses/i2c-cp2615.c          |  8 ++--
->  drivers/i2c/busses/i2c-cpm.c             |  4 +-
->  drivers/i2c/busses/i2c-cros-ec-tunnel.c  |  4 +-
->  drivers/i2c/busses/i2c-davinci.c         | 17 ++++---
->  drivers/i2c/busses/i2c-digicolor.c       |  6 +--
->  drivers/i2c/busses/i2c-diolan-u2c.c      |  2 +-
->  drivers/i2c/busses/i2c-dln2.c            |  4 +-
->  drivers/i2c/busses/i2c-fsi.c             | 56 ++++++++++++------------
->  drivers/i2c/busses/i2c-gpio.c            |  8 ++--
->  drivers/i2c/busses/i2c-highlander.c      |  2 +-
->  drivers/i2c/busses/i2c-hisi.c            |  8 ++--
->  drivers/i2c/busses/i2c-hix5hd2.c         |  6 +--
->  drivers/i2c/busses/i2c-i801.c            | 12 ++---
->  drivers/i2c/busses/i2c-ibm_iic.c         | 27 +++++-------
->  drivers/i2c/busses/i2c-iop3xx.c          | 15 +++----
->  drivers/i2c/busses/i2c-isch.c            |  2 +-
->  drivers/i2c/busses/i2c-jz4780.c          |  4 +-
->  drivers/i2c/busses/i2c-kempld.c          |  4 +-
->  drivers/i2c/busses/i2c-ljca.c            | 20 ++++-----
->  drivers/i2c/busses/i2c-lpc2k.c           | 10 ++---
->  drivers/i2c/busses/i2c-ls2x.c            | 11 +++--
->  drivers/i2c/busses/i2c-mlxcpld.c         | 14 +++---
->  drivers/i2c/busses/i2c-mpc.c             |  4 +-
->  drivers/i2c/busses/i2c-mt7621.c          | 26 +++++------
->  drivers/i2c/busses/i2c-mv64xxx.c         | 12 ++---
->  drivers/i2c/busses/i2c-nvidia-gpu.c      |  7 ++-
->  drivers/i2c/busses/i2c-ocores.c          |  8 ++--
->  drivers/i2c/busses/i2c-octeon-core.c     |  6 +--
->  drivers/i2c/busses/i2c-octeon-core.h     |  4 +-
->  drivers/i2c/busses/i2c-octeon-platdrv.c  |  2 +-
->  drivers/i2c/busses/i2c-opal.c            | 10 ++---
->  drivers/i2c/busses/i2c-owl.c             | 12 ++---
->  drivers/i2c/busses/i2c-pasemi-core.c     |  6 +--
->  drivers/i2c/busses/i2c-piix4.c           |  2 +-
->  drivers/i2c/busses/i2c-powermac.c        | 14 +++---
->  drivers/i2c/busses/i2c-pxa-pci.c         |  2 +-
->  drivers/i2c/busses/i2c-riic.c            |  8 ++--
->  drivers/i2c/busses/i2c-rk3x.c            | 20 ++++-----
->  drivers/i2c/busses/i2c-robotfuzz-osif.c  |  4 +-
->  drivers/i2c/busses/i2c-rzv2m.c           | 12 ++---
->  drivers/i2c/busses/i2c-sis5595.c         |  2 +-
->  drivers/i2c/busses/i2c-sprd.c            | 16 +++----
->  drivers/i2c/busses/i2c-st.c              |  8 ++--
->  drivers/i2c/busses/i2c-stm32f4.c         |  8 ++--
->  drivers/i2c/busses/i2c-sun6i-p2wi.c      | 20 ++++-----
->  drivers/i2c/busses/i2c-taos-evm.c        |  2 +-
->  drivers/i2c/busses/i2c-tegra-bpmp.c      |  4 +-
->  drivers/i2c/busses/i2c-thunderx-pcidrv.c |  2 +-
->  drivers/i2c/busses/i2c-tiny-usb.c        |  6 +--
->  drivers/i2c/busses/i2c-uniphier-f.c      | 26 +++++------
->  drivers/i2c/busses/i2c-uniphier.c        | 15 +++----
->  drivers/i2c/busses/i2c-viai2c-common.c   |  2 +-
->  drivers/i2c/busses/i2c-viai2c-wmt.c      |  8 ++--
->  drivers/i2c/busses/i2c-viai2c-zhaoxin.c  | 12 ++---
->  drivers/i2c/busses/i2c-viperboard.c      | 10 ++---
->  drivers/i2c/busses/i2c-virtio.c          |  2 +-
->  include/linux/i2c.h                      | 24 +++++++---
->  64 files changed, 313 insertions(+), 320 deletions(-)
-> 
-> -- 
-> 2.43.0
-> 
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
+
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
+
+  pip3 install dtschema --upgrade
+
+
+New warnings running 'make CHECK_DTBS=y allwinner/sun50i-h700-anbernic-rg35xx-2024.dtb allwinner/sun50i-h700-anbernic-rg35xx-sp.dtb' for 20240710231718.106894-1-macroalpha82@gmail.com:
+
+arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dtb: pmic@34: regulators: 'boost' does not match any of the regexes: '^(([a-f])?ldo[0-9]|dcdc[0-7a-e]|ldo(_|-)io(0|1)|(dc1)?sw|rtc(_|-)ldo|cpusldo|drivevbus|dc5ldo)$', 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/mfd/x-powers,axp152.yaml#
+arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dtb: pmic@34: regulators: 'boost' does not match any of the regexes: '^(([a-f])?ldo[0-9]|dcdc[0-7a-e]|ldo(_|-)io(0|1)|(dc1)?sw|rtc(_|-)ldo|cpusldo|drivevbus|dc5ldo)$', 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/mfd/x-powers,axp152.yaml#
+
+
+
+
+
