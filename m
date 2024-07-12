@@ -1,23 +1,23 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA71F176AD7
-	for <linux-sunxi@lists.linux.dev>; Fri, 12 Jul 2024 16:54:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D4D7176FAB
+	for <linux-sunxi@lists.linux.dev>; Fri, 12 Jul 2024 16:54:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720803243; cv=none; b=FXuxELIGssol21TsiudVXduGUnAIZerFa3C2eGoJz6+q62JbHik7OkOJsRjvZmy2K2I2eo3XSjAZoAuzZmG3pEVFGHpvPu84Eg+eol8Gf3dx1ytHbklROh/nPqFRLvBIiO3qpNCV43pgdwnKNBaTW5AL4jdHZK4g79dq0IKsi+Q=
+	t=1720803244; cv=none; b=VV5++YVbYGfcLqgoA/qOMFrRXpMPOJrtBMpiX4C9P3YZYHRD0qhWWlh/ourx8yVQkzEh+VJ+P6O9LC3tSBI6QTZEHCnzHmes1/sMHYbXGmsJS2FnlJ2ToluKfDkLpnmr3BoRFFAgxZI2NEW6JPgA6vmrTKPC2KvdJ8gryimgOCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720803243; c=relaxed/simple;
-	bh=kPLUtONbTvILbOj8hwgWTVdIh920DTFtT7pEg1MBpkc=;
+	s=arc-20240116; t=1720803244; c=relaxed/simple;
+	bh=1POpTf9meOwGPyD52oN3/0YdARxmYD7wW7clMvtXhS0=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=MKw9Lba7dM+OHQqASO47P2fZ7gU+A5xSWpHuI6aVw/hxtdxhmJhjTPPHZCV8II6+SeEZo3khmgM+zaT9Zh7bc1UJeTpkpY62e6an6jLoKHh8Lv7kg5H3e18WRi/56MFpo4t7y+zZ3UTMIdjV3WIb8x6mct1sBggMb6VUrLok+P0=
+	 MIME-Version; b=ZBwwMgvMnFufwnp5pPI4mxKG0d2mkd1OSrvu3mNZ6IwbufOas9VsAA3OR+2UVw5kfX7yBRkxjaGxKI6XKGIGR3HsmW69c0xi1BTYad0kzcNyYc2gmxsD+6Mtabbcax6mVhWTbI30KZ1NFFIvK+N6wJ8w802zkYb7065w8Vzv410=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1D0A61042;
-	Fri, 12 Jul 2024 09:54:25 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C63261477;
+	Fri, 12 Jul 2024 09:54:26 -0700 (PDT)
 Received: from donnerap.arm.com (donnerap.manchester.arm.com [10.32.101.20])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6D14E3F766;
-	Fri, 12 Jul 2024 09:53:58 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 21E983F766;
+	Fri, 12 Jul 2024 09:54:00 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Tom Rini <trini@konsulko.com>,
 	Jaehoon Chung <jh80.chung@samsung.com>
@@ -29,9 +29,9 @@ Cc: Jagan Teki <jagan@amarulasolutions.com>,
 	Philippe Simons <simons.philippe@gmail.com>,
 	u-boot@lists.denx.de,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH v2 1/6] power: regulator: add AXP717 support
-Date: Fri, 12 Jul 2024 17:53:47 +0100
-Message-Id: <20240712165352.3767166-2-andre.przywara@arm.com>
+Subject: [PATCH v2 2/6] power: pmic: sunxi: only build AXP drivers for SPL
+Date: Fri, 12 Jul 2024 17:53:48 +0100
+Message-Id: <20240712165352.3767166-3-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240712165352.3767166-1-andre.przywara@arm.com>
 References: <20240712165352.3767166-1-andre.przywara@arm.com>
@@ -43,90 +43,36 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The X-Powers AXP717 is a PMIC with four buck converters and a number
-of LDOs, one of which is actually fixed (so not modelled here).
-
-Add the compatible string and the respective regulator ranges to allow
-drivers to adjust voltages.
+The axp<xxx>.c drivers are only used for the SPL, for U-Boot proper we
+have a separate, DM compliant driver.
+Mask the build instructions with CONFIG_SPL_BUILD, to avoid them being
+build for U-Boot proper as well.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-Reviewed-by: Ryan Walklin <ryan@testtoast.com>
 ---
- drivers/power/pmic/axp.c                |  1 +
- drivers/power/regulator/axp_regulator.c | 28 +++++++++++++++++++++++++
- include/axp_pmic.h                      |  1 +
- 3 files changed, 30 insertions(+)
+ drivers/power/Makefile | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/power/pmic/axp.c b/drivers/power/pmic/axp.c
-index 0e1e45fba74..521a39dd566 100644
---- a/drivers/power/pmic/axp.c
-+++ b/drivers/power/pmic/axp.c
-@@ -88,6 +88,7 @@ static const struct udevice_id axp_pmic_ids[] = {
- 	{ .compatible = "x-powers,axp221", .data = AXP221_ID },
- 	{ .compatible = "x-powers,axp223", .data = AXP223_ID },
- 	{ .compatible = "x-powers,axp313a", .data = AXP313_ID },
-+	{ .compatible = "x-powers,axp717", .data = AXP717_ID },
- 	{ .compatible = "x-powers,axp803", .data = AXP803_ID },
- 	{ .compatible = "x-powers,axp806", .data = AXP806_ID },
- 	{ .compatible = "x-powers,axp809", .data = AXP809_ID },
-diff --git a/drivers/power/regulator/axp_regulator.c b/drivers/power/regulator/axp_regulator.c
-index d27e09538e0..75cdbca30f6 100644
---- a/drivers/power/regulator/axp_regulator.c
-+++ b/drivers/power/regulator/axp_regulator.c
-@@ -189,6 +189,33 @@ static const struct axp_regulator_plat axp313_regulators[] = {
- 	{ }
- };
+diff --git a/drivers/power/Makefile b/drivers/power/Makefile
+index c7ee4595fc8..0f39459dec4 100644
+--- a/drivers/power/Makefile
++++ b/drivers/power/Makefile
+@@ -8,6 +8,7 @@ obj-$(CONFIG_$(SPL_TPL_)POWER_DOMAIN) += domain/
+ obj-y += pmic/
+ obj-y += regulator/
  
-+/*
-+ * The "dcdc2" regulator has another range, beyond 1.54V up to 3.4V, in
-+ * steps of 100mV. We cannot model this easily, but also don't need that,
-+ * since it's typically only used for lower voltages anyway, so just ignore it.
-+ */
-+static const struct axp_regulator_plat axp717_regulators[] = {
-+	{ "dcdc1", 0x80, BIT(0), 0x83, 0x7f,  500, 1540,  10, 70 },
-+	{ "dcdc2", 0x80, BIT(1), 0x84, 0x7f,  500, 1540,  10, 70 },
-+	{ "dcdc3", 0x80, BIT(2), 0x85, 0x7f,  500, 1840,  10, 70 },
-+	{ "dcdc4", 0x80, BIT(3), 0x86, 0x7f, 1000, 3700, 100, NA },
-+	{ "aldo1", 0x90, BIT(0), 0x93, 0x1f,  500, 3500, 100, NA },
-+	{ "aldo2", 0x90, BIT(1), 0x94, 0x1f,  500, 3500, 100, NA },
-+	{ "aldo3", 0x90, BIT(2), 0x95, 0x1f,  500, 3500, 100, NA },
-+	{ "aldo4", 0x90, BIT(3), 0x96, 0x1f,  500, 3500, 100, NA },
-+	{ "bldo1", 0x90, BIT(4), 0x97, 0x1f,  500, 3500, 100, NA },
-+	{ "bldo2", 0x90, BIT(5), 0x98, 0x1f,  500, 3500, 100, NA },
-+	{ "bldo3", 0x90, BIT(6), 0x99, 0x1f,  500, 3500, 100, NA },
-+	{ "bldo4", 0x90, BIT(7), 0x9a, 0x1f,  500, 3500, 100, NA },
-+	{ "cldo1", 0x91, BIT(0), 0x9b, 0x1f,  500, 3500, 100, NA },
-+	{ "cldo2", 0x91, BIT(1), 0x9c, 0x1f,  500, 3500, 100, NA },
-+	{ "cldo3", 0x91, BIT(2), 0x9d, 0x1f,  500, 3500, 100, NA },
-+	{ "cldo4", 0x91, BIT(3), 0x9e, 0x1f,  500, 3500, 100, NA },
-+	{"cpusldo",0x91, BIT(4), 0x9f, 0x1f,  500, 1400,  50, NA },
-+	{" boost", 0x19, BIT(4), 0x1e, 0xf0, 4550, 5510,  64, NA },
-+	{ }
-+};
-+
- static const struct axp_regulator_plat axp803_regulators[] = {
- 	{ "dcdc1", 0x10, BIT(0), 0x20, 0x1f, 1600, 3400, 100, NA },
- 	{ "dcdc2", 0x10, BIT(1), 0x21, 0x7f,  500, 1300,  10, 70 },
-@@ -291,6 +318,7 @@ static const struct axp_regulator_plat *const axp_regulators[] = {
- 	[AXP221_ID]	= axp22x_regulators,
- 	[AXP223_ID]	= axp22x_regulators,
- 	[AXP313_ID]	= axp313_regulators,
-+	[AXP717_ID]	= axp717_regulators,
- 	[AXP803_ID]	= axp803_regulators,
- 	[AXP806_ID]	= axp806_regulators,
- 	[AXP809_ID]	= axp809_regulators,
-diff --git a/include/axp_pmic.h b/include/axp_pmic.h
-index aabafc8501b..ae62ef0d76d 100644
---- a/include/axp_pmic.h
-+++ b/include/axp_pmic.h
-@@ -33,6 +33,7 @@ enum {
- 	AXP221_ID,
- 	AXP223_ID,
- 	AXP313_ID,
-+	AXP717_ID,
- 	AXP803_ID,
- 	AXP806_ID,
- 	AXP809_ID,
++ifdef CONFIG_SPL_BUILD
+ obj-$(CONFIG_AXP152_POWER)	+= axp152.o
+ obj-$(CONFIG_AXP209_POWER)	+= axp209.o
+ obj-$(CONFIG_AXP221_POWER)	+= axp221.o
+@@ -15,6 +16,7 @@ obj-$(CONFIG_AXP305_POWER)	+= axp305.o
+ obj-$(CONFIG_AXP313_POWER)	+= axp313.o
+ obj-$(CONFIG_AXP809_POWER)	+= axp809.o
+ obj-$(CONFIG_AXP818_POWER)	+= axp818.o
++endif
+ obj-$(CONFIG_EXYNOS_TMU)	+= exynos-tmu.o
+ obj-$(CONFIG_SY8106A_POWER)	+= sy8106a.o
+ obj-$(CONFIG_TPS6586X_POWER)	+= tps6586x.o
 -- 
 2.25.1
 
