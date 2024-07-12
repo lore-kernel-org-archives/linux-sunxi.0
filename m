@@ -1,203 +1,110 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DECDA158D96
-	for <linux-sunxi@lists.linux.dev>; Thu, 11 Jul 2024 14:45:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A05117625F
+	for <linux-sunxi@lists.linux.dev>; Fri, 12 Jul 2024 16:53:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720709127; cv=none; b=kgfGbDivtW2oV6womgeYdwK/olhXk9FuCoFJwrc6M33BWw+tWKciNazQ599N98W2autbSGM4vfZ+KvdOMZ+iTM0HS39zvST9aN+JOPx3AZxa1NiJc6vL3EJjoHvHkBBFHkZ+2x1gsvpxttVafOfVTZ5K0JGrZvifr1x1cY14QZg=
+	t=1720803241; cv=none; b=JI8Atp5dDp9fEy6x0/wmBzGC97OoFA18Z190ygYFkxhQ1Ratorc/BIAkEfW2hyHe1003ydSw4vKgeAUVpWbjq838FBZpMr1P0p3zcs9wQIZIeUGlcUqbLuvhtvZnGwqKMUSw/Tashdyvvv39RLdn0k5aFJ5U4SJTIkCb8n9untg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720709127; c=relaxed/simple;
-	bh=X/Vus3odAr0nVoUkxLttzX7Pk94wValiSx+VwO4R69w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YyNKsiiM3oCBZuFZxJrRsqBWPQvKz0adiFXQH54Ig3TEfgdr2K43bNPGRIL1k4sS7HndLZ72nKqj1+CamVp/76uDpXGPLqINO57yEQ/WwrQyOR7k6m1XxJLIjVdBzl5+Oq56bnePk9+PYRVnMSuN3GgclKpE+YFPEc0qPc+0sFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=AuPvm2HY; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="AuPvm2HY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=X/Vu
-	s3odAr0nVoUkxLttzX7Pk94wValiSx+VwO4R69w=; b=AuPvm2HYrBBxPCRmojQD
-	7CRnGb08OzEAMIGsRtGo1cADF0LX2II9QCJrZUl8IaFo/ZZrZu7J+SrEBWtj60Pv
-	1FkcrDPS/qIZnwEyGkXZcTAvUt2AcDbXPu9bRoCsRQVJ3yq7hI4gN1/pRnYBoxmm
-	LrVreSCYG9WfR6AIcwartOTLwI8fldcBkiqrbY/9wh/UHI5zzHySLqznxmN0E27e
-	CL+TVhOO2A9S47NlInzK62SsP9b7IiXAGum0KbJErYmlY66z9pmjZt/lJ/IEYVUY
-	0s8pI4FRRnO0k8J6sY5OSdOg4ouZH//OI4WOka5wh84Dzu3nFqTCzDfn3u4TXjEA
-	qA==
-Received: (qmail 877093 invoked from network); 11 Jul 2024 16:45:16 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 11 Jul 2024 16:45:16 +0200
-X-UD-Smtp-Session: l3s3148p1@33mez/kc+ORehhtW
-Date: Thu, 11 Jul 2024 16:45:15 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Andi Shyti <andi.shyti@kernel.org>
-Cc: linux-i2c@vger.kernel.org, Ajay Gupta <ajayg@nvidia.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
-	Andrew Lunn <andrew@lunn.ch>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	asahi@lists.linux.dev, Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Baruch Siach <baruch@tkos.co.il>,
-	Bence =?utf-8?B?Q3PDs2vDoXM=?= <bence98@sch.bme.hu>,
-	Benson Leung <bleung@chromium.org>,
-	Binbin Zhou <zhoubinbin@loongson.cn>, Chen-Yu Tsai <wens@csie.org>,
-	Chris Brandt <chris.brandt@renesas.com>,
-	Chris Packham <chris.packham@alliedtelesis.co.nz>,
-	chrome-platform@lists.linux.dev,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Conghui Chen <conghui.chen@intel.com>,
-	Eddie James <eajames@linux.ibm.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Gregory CLEMENT <gregory.clement@bootlin.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Hans de Goede <hdegoede@redhat.com>, Hans Hu <hanshu@zhaoxin.com>,
-	Hector Martin <marcan@marcan.st>, Heiko Stuebner <heiko@sntech.de>,
-	Jean Delvare <jdelvare@suse.com>,
+	s=arc-20240116; t=1720803241; c=relaxed/simple;
+	bh=YHRCJTVPsihKnjnceWhYVQRzV9MAYGwuzDa7YYleXM8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=YWcnWQtD6v5Mxa8zxXcX+jy4WYlpzQmn52P1CX78lzAL7xogI78a2//jibroiSph4re8QYTX4rVndvlrDWh2fh+ttHyFZ1pV6hlsWtwWTSDXnpaKmCaiUImA44bU+nlVOthpLj01dEl0vbUjck7DHAoz6Hf8Z4PBZ95To3+VnII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6BF2E1007;
+	Fri, 12 Jul 2024 09:54:23 -0700 (PDT)
+Received: from donnerap.arm.com (donnerap.manchester.arm.com [10.32.101.20])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B7A3F3F766;
+	Fri, 12 Jul 2024 09:53:56 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Tom Rini <trini@konsulko.com>,
+	Jaehoon Chung <jh80.chung@samsung.com>
+Cc: Jagan Teki <jagan@amarulasolutions.com>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jochen Friedrich <jochen@scram.de>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Kamal Dasu <kamal.dasu@broadcom.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	linux-actions@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, linux-mips@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-renesas-soc@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Michael Shych <michaelsh@nvidia.com>, openbmc@lists.ozlabs.org,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Patrice Chotard <patrice.chotard@foss.st.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Peter Korsgaard <peter@korsgaard.com>,
-	Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>,
-	Ray Jui <rjui@broadcom.com>, Robert Richter <rric@kernel.org>,
 	Samuel Holland <samuel@sholland.org>,
-	Scott Branden <sbranden@broadcom.com>, Stefan Roese <sr@denx.de>,
-	Sven Peter <sven@svenpeter.dev>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Thor Thayer <thor.thayer@linux.intel.com>,
-	Till Harbaum <till@harbaum.org>,
-	Vadim Pasternak <vadimp@nvidia.com>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	virtualization@lists.linux.dev, Vladimir Zapolskiy <vz@mleia.com>,
-	Yicong Yang <yangyicong@hisilicon.com>
-Subject: Re: [PATCH v2 00/60] i2c: reword first drivers according to newest
- specification
-Message-ID: <Zo_v-xk3Hh_88sNa@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Andi Shyti <andi.shyti@kernel.org>, linux-i2c@vger.kernel.org,
-	Ajay Gupta <ajayg@nvidia.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
-	Andrew Lunn <andrew@lunn.ch>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	asahi@lists.linux.dev, Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Baruch Siach <baruch@tkos.co.il>,
-	Bence =?utf-8?B?Q3PDs2vDoXM=?= <bence98@sch.bme.hu>,
-	Benson Leung <bleung@chromium.org>,
-	Binbin Zhou <zhoubinbin@loongson.cn>, Chen-Yu Tsai <wens@csie.org>,
-	Chris Brandt <chris.brandt@renesas.com>,
-	Chris Packham <chris.packham@alliedtelesis.co.nz>,
-	chrome-platform@lists.linux.dev,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Conghui Chen <conghui.chen@intel.com>,
-	Eddie James <eajames@linux.ibm.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Gregory CLEMENT <gregory.clement@bootlin.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Hans de Goede <hdegoede@redhat.com>, Hans Hu <hanshu@zhaoxin.com>,
-	Hector Martin <marcan@marcan.st>, Heiko Stuebner <heiko@sntech.de>,
-	Jean Delvare <jdelvare@suse.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jochen Friedrich <jochen@scram.de>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Kamal Dasu <kamal.dasu@broadcom.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	linux-actions@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, linux-mips@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-renesas-soc@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Michael Shych <michaelsh@nvidia.com>, openbmc@lists.ozlabs.org,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Patrice Chotard <patrice.chotard@foss.st.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Peter Korsgaard <peter@korsgaard.com>,
-	Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>,
-	Ray Jui <rjui@broadcom.com>, Robert Richter <rric@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Scott Branden <sbranden@broadcom.com>, Stefan Roese <sr@denx.de>,
-	Sven Peter <sven@svenpeter.dev>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Thor Thayer <thor.thayer@linux.intel.com>,
-	Till Harbaum <till@harbaum.org>,
-	Vadim Pasternak <vadimp@nvidia.com>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	virtualization@lists.linux.dev, Vladimir Zapolskiy <vz@mleia.com>,
-	Yicong Yang <yangyicong@hisilicon.com>
-References: <20240706112116.24543-1-wsa+renesas@sang-engineering.com>
- <nbi3fngfcipt35gzguk2mh4zzh3vy5a5gsk7dti5smm2iimytl@drm7p2iqsinp>
+	Chris Morgan <macromorgan@hotmail.com>,
+	Ryan Walklin <ryan@testtoast.com>,
+	Philippe Simons <simons.philippe@gmail.com>,
+	u-boot@lists.denx.de,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH v2 0/6] power: pmic: sunxi: consolidate AXP SPL drivers
+Date: Fri, 12 Jul 2024 17:53:46 +0100
+Message-Id: <20240712165352.3767166-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Vk6JWgUmE7mz+Biu"
-Content-Disposition: inline
-In-Reply-To: <nbi3fngfcipt35gzguk2mh4zzh3vy5a5gsk7dti5smm2iimytl@drm7p2iqsinp>
+Content-Transfer-Encoding: 8bit
 
+Hi,
 
---Vk6JWgUmE7mz+Biu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+v2 of this series merges the AXP717 support patches in, as they didn't
+make it into the tree yet. As there is little point in creating a
+separate AXP717 SPL driver file, just to delete it again two patches
+later, this series skips the separate file altogether. I put in the
+related AXP717 U-Boot proper driver here. The code itself is mostly
+unchanged from v1, it's just a rebase and re-arrangement of the patches.
 
+=========================
+This is the first series in an attempt to clean up the X-Powers AXP PMIC
+drivers used by the SPL for sunxi boards. So far we have a separate
+driver file for each AXP variant, but the code was largely the same,
+just differing by the regulator ranges.
 
-> Thanks for this big work, at the end it turned out quite nice and
-> I'm happy of the outcome!
+This adds a new generic driver, which reads the regulator description
+from an array of structs. This is similar to how the DM AXP driver used
+for U-Boot proper works, but is simplified, since we won't need the full
+feature set for the SPL, and we want to keep the code size small.
 
-Me too. And thanks for the enormous review work!
+To help bisect-ability, and to simplify review, each of the simpler AXP
+drivers covered by this approach is handled in a separate patch.
 
+We just add the AXP717 support first, then convert over the AXP313 and
+AXP305.
+The other AXP SPL drivers are more complex, and support more regulators,
+but my hunch is that we really just need the DC/DC converters in the
+SPL. However I need to prove and test this, so I will convert the other
+AXP chips later.
 
---Vk6JWgUmE7mz+Biu
-Content-Type: application/pgp-signature; name="signature.asc"
+Please have a look and comment whether the approach in general is a good
+idea.
 
------BEGIN PGP SIGNATURE-----
+Cheers,
+Andre
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmaP7/sACgkQFA3kzBSg
-Kbbq3A/9FNY+7cgd8CU9HNabmoXmMSCsOVflmaDNapeEn/iIYZUiBBFhDcYnJczI
-T429i2bK95+lup88Nhn9fzXQ4hoPFa2TuPkQ5n3M7A9hjFnAOxLmTd91uO98BfVm
-8IYBr6EIu/AfX/+D6Rj1Ro1VpSwK4laze5p9WGyNjp6QIzJ+KqmRh+vf9Shg1urk
-9gNjTClxMD1OjQ60X0Vr4XmDONnsK8guT/Zkkk1gtDRDC8P92Jw17/3vtuBQnwP6
-S1NAFaqvdLbLKuRBsK7KwJ6oJ4sH5jq2LCiJk87GHsXnQBerXSR3AFORTQWjvEBF
-6qz8rHh0/GrQklzbs/VgVlqV3NygU4D2T18NZMyLxaJAGPmDPGeL5YvcweblR0TL
-yMMuXmSq7ACO+aTJgqIqt2Wx1PS4cbvSmaHUnG52eGrX28o1PgjIW5y0xGu9G5FU
-Funcvt0JlI2HtC1FI2FGDsCW77U3mh3U5N5NEo7y24XPebmTVhGifj2kWp/WkA3F
-UPgJdkXF0gUzDxQj3Febmvmeh3m58s+Io+3LWBncCK2eRgL4YyEaKpEegQfA43Rl
-PJGODikSLI1gh/8qN/WE44DGio65TYItOJrPX3b8VwOQLCgKgwz0y+a37vy2Jd7W
-X/LXLwb8txlca1gF88Bg07eWwR/jwNoHp4c/k2C80iwHtJ12Kcg=
-=ribe
------END PGP SIGNATURE-----
+Changelog v1 .. v2:
+- rebase against latest master
+- merge originally separate AXP717 SPL driver into patch 4/6
+- include AXP717 U-Boot proper support patch
+- drop AXP707 support for now
 
---Vk6JWgUmE7mz+Biu--
+Andre Przywara (6):
+  power: regulator: add AXP717 support
+  power: pmic: sunxi: only build AXP drivers for SPL
+  power: pmic: sunxi: introduce generic SPL AXP DC/DC driver
+  power: pmic: sunxi: add AXP717 SPL support
+  power: pmic: sunxi: use generic AXP SPL driver for AXP313
+  power: pmic: sunxi: use generic AXP SPL driver for AXP305
+
+ arch/arm/mach-sunxi/pmic_bus.c          |   3 +
+ board/sunxi/board.c                     |   2 +-
+ drivers/power/Kconfig                   |  17 ++-
+ drivers/power/Makefile                  |   7 +-
+ drivers/power/axp305.c                  |  82 -----------
+ drivers/power/axp313.c                  | 133 ------------------
+ drivers/power/axp_spl.c                 | 173 ++++++++++++++++++++++++
+ drivers/power/pmic/axp.c                |   1 +
+ drivers/power/regulator/axp_regulator.c |  28 ++++
+ include/axp_pmic.h                      |   1 +
+ 10 files changed, 225 insertions(+), 222 deletions(-)
+ delete mode 100644 drivers/power/axp305.c
+ delete mode 100644 drivers/power/axp313.c
+ create mode 100644 drivers/power/axp_spl.c
+
+-- 
+2.25.1
+
