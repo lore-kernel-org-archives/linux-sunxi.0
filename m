@@ -1,23 +1,23 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D4D7176FAB
-	for <linux-sunxi@lists.linux.dev>; Fri, 12 Jul 2024 16:54:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5B45176AA5
+	for <linux-sunxi@lists.linux.dev>; Fri, 12 Jul 2024 16:54:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720803244; cv=none; b=VV5++YVbYGfcLqgoA/qOMFrRXpMPOJrtBMpiX4C9P3YZYHRD0qhWWlh/ourx8yVQkzEh+VJ+P6O9LC3tSBI6QTZEHCnzHmes1/sMHYbXGmsJS2FnlJ2ToluKfDkLpnmr3BoRFFAgxZI2NEW6JPgA6vmrTKPC2KvdJ8gryimgOCs=
+	t=1720803245; cv=none; b=YAxF4SIzEDpLuMT10VF+QwoyDdYepU0Vdhvy5skRQ35DFinjVbFMXwz9ehV32xXlAfHw1K4MbYPZOzEUcM2GJFDgktmgoxC9pVmdoUm/AUmjwxfnwszDFGZfNB5r4iaVY+WYVD9XqJM3P4mWQZ6LmXF8q66yoGUPnsW2f1ZXKo4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720803244; c=relaxed/simple;
-	bh=1POpTf9meOwGPyD52oN3/0YdARxmYD7wW7clMvtXhS0=;
+	s=arc-20240116; t=1720803245; c=relaxed/simple;
+	bh=Em1gpGv0mQeIWC52XeKfzXQ4aJLX7ixwhMG3izNlo3I=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ZBwwMgvMnFufwnp5pPI4mxKG0d2mkd1OSrvu3mNZ6IwbufOas9VsAA3OR+2UVw5kfX7yBRkxjaGxKI6XKGIGR3HsmW69c0xi1BTYad0kzcNyYc2gmxsD+6Mtabbcax6mVhWTbI30KZ1NFFIvK+N6wJ8w802zkYb7065w8Vzv410=
+	 MIME-Version; b=CUWMhmMoG5WjpR6KLhEF95Xjjlv3FvRtN++jPsMlefbO/Nzz+ZLHW/nKdR3vw3oitgkgruTrUnk/vCbQJ3hsTgOq5chaBVxM60APQgwOqArG4BqN/EFr3ERP0R/8Pqjq3MVcflFK2kb1+d4h0AUectJUVU6175IqgeqvZNlYHhQ=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C63261477;
-	Fri, 12 Jul 2024 09:54:26 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7C3BD1007;
+	Fri, 12 Jul 2024 09:54:28 -0700 (PDT)
 Received: from donnerap.arm.com (donnerap.manchester.arm.com [10.32.101.20])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 21E983F766;
-	Fri, 12 Jul 2024 09:54:00 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CB08C3F766;
+	Fri, 12 Jul 2024 09:54:01 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Tom Rini <trini@konsulko.com>,
 	Jaehoon Chung <jh80.chung@samsung.com>
@@ -29,9 +29,9 @@ Cc: Jagan Teki <jagan@amarulasolutions.com>,
 	Philippe Simons <simons.philippe@gmail.com>,
 	u-boot@lists.denx.de,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH v2 2/6] power: pmic: sunxi: only build AXP drivers for SPL
-Date: Fri, 12 Jul 2024 17:53:48 +0100
-Message-Id: <20240712165352.3767166-3-andre.przywara@arm.com>
+Subject: [PATCH v2 3/6] power: pmic: sunxi: introduce generic SPL AXP DC/DC driver
+Date: Fri, 12 Jul 2024 17:53:49 +0100
+Message-Id: <20240712165352.3767166-4-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240712165352.3767166-1-andre.przywara@arm.com>
 References: <20240712165352.3767166-1-andre.przywara@arm.com>
@@ -43,36 +43,186 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The axp<xxx>.c drivers are only used for the SPL, for U-Boot proper we
-have a separate, DM compliant driver.
-Mask the build instructions with CONFIG_SPL_BUILD, to avoid them being
-build for U-Boot proper as well.
+So far we had a separate driver file for each AXP PMIC chip that we need
+to support in the SPL. The code in there was largely similar, but
+differed in many details.
+
+Based on the idea of the DM AXP driver, introduce a data structure to
+describe each regulator in a compact way. This is a simplified version
+of the struct used in the DM driver, as we don't need to support the full
+voltage range and not every regulator in the SPL.
+For now we only support the DC/DC buck converters, since that's what we
+need the SPL to configure, mostly. Also we get rid of the regulator name,
+and hardcode the regulator number by its position in the array (first is
+DCDC1, second is DCDC2, etc). We also drop support for the value table,
+we ideally won't need that for the subset of regulators required.
+At the end each regulator is described by a 10 bytes struct, so we avoid
+blowing up the SPL footprint, but still can use generic code.
+
+Each chip is supposed to be described separately, and protected by
+ifdef's, to only build in the regulators needed for a particular board.
+We also describe the bits to help identifying the AXP chip, and the
+shutdown details in that section.
+
+Add a generic driver, that exports axp_set_dcdc<x>() functions to set up
+the buck converters. For now this just contains the bits for the (new)
+AXP717, but it's not wired up anywhere yet.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- drivers/power/Makefile | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/power/axp_spl.c | 143 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 143 insertions(+)
+ create mode 100644 drivers/power/axp_spl.c
 
-diff --git a/drivers/power/Makefile b/drivers/power/Makefile
-index c7ee4595fc8..0f39459dec4 100644
---- a/drivers/power/Makefile
-+++ b/drivers/power/Makefile
-@@ -8,6 +8,7 @@ obj-$(CONFIG_$(SPL_TPL_)POWER_DOMAIN) += domain/
- obj-y += pmic/
- obj-y += regulator/
- 
-+ifdef CONFIG_SPL_BUILD
- obj-$(CONFIG_AXP152_POWER)	+= axp152.o
- obj-$(CONFIG_AXP209_POWER)	+= axp209.o
- obj-$(CONFIG_AXP221_POWER)	+= axp221.o
-@@ -15,6 +16,7 @@ obj-$(CONFIG_AXP305_POWER)	+= axp305.o
- obj-$(CONFIG_AXP313_POWER)	+= axp313.o
- obj-$(CONFIG_AXP809_POWER)	+= axp809.o
- obj-$(CONFIG_AXP818_POWER)	+= axp818.o
-+endif
- obj-$(CONFIG_EXYNOS_TMU)	+= exynos-tmu.o
- obj-$(CONFIG_SY8106A_POWER)	+= sy8106a.o
- obj-$(CONFIG_TPS6586X_POWER)	+= tps6586x.o
+diff --git a/drivers/power/axp_spl.c b/drivers/power/axp_spl.c
+new file mode 100644
+index 00000000000..0382d91cb4c
+--- /dev/null
++++ b/drivers/power/axp_spl.c
+@@ -0,0 +1,143 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * AXP PMIC SPL driver
++ * (C) Copyright 2024 Arm Ltd.
++ */
++
++#include <errno.h>
++#include <linux/types.h>
++#include <asm/arch/pmic_bus.h>
++#include <axp_pmic.h>
++
++struct axp_reg_desc_spl {
++	u8	enable_reg;
++	u8	enable_mask;
++	u8	volt_reg;
++	u8	volt_mask;
++	u16	min_mV;
++	u16	max_mV;
++	u8	step_mV;
++	u8	split;
++};
++
++#define NA 0xff
++
++#if defined(CONFIG_AXP717_POWER)				/* AXP717 */
++
++static const struct axp_reg_desc_spl axp_spl_dcdc_regulators[] = {
++	{ 0x80, BIT(0), 0x83, 0x7f,  500, 1540,  10, 70 },
++	{ 0x80, BIT(1), 0x84, 0x7f,  500, 1540,  10, 70 },
++	{ 0x80, BIT(2), 0x85, 0x7f,  500, 1840,  10, 70 },
++};
++
++#define AXP_CHIP_VERSION	0x0
++#define AXP_CHIP_VERSION_MASK	0x0
++#define AXP_CHIP_ID		0x0
++#define AXP_SHUTDOWN_REG	0x27
++#define AXP_SHUTDOWN_MASK	BIT(0)
++
++#else
++
++	#error "Please define the regulator registers in axp_spl_regulators[]."
++
++#endif
++
++static u8 axp_mvolt_to_cfg(int mvolt, const struct axp_reg_desc_spl *reg)
++{
++	if (mvolt < reg->min_mV)
++		mvolt = reg->min_mV;
++	else if (mvolt > reg->max_mV)
++		mvolt = reg->max_mV;
++
++	mvolt -= reg->min_mV;
++
++	/* voltage in the first range ? */
++	if (mvolt <= reg->split * reg->step_mV)
++		return mvolt / reg->step_mV;
++
++	mvolt -= reg->split * reg->step_mV;
++
++	return reg->split + mvolt / (reg->step_mV * 2);
++}
++
++static int axp_set_dcdc(int dcdc_num, unsigned int mvolt)
++{
++	const struct axp_reg_desc_spl *reg;
++	int ret;
++
++	if (dcdc_num < 1 || dcdc_num > ARRAY_SIZE(axp_spl_dcdc_regulators))
++		return -EINVAL;
++
++	reg = &axp_spl_dcdc_regulators[dcdc_num - 1];
++
++	if (mvolt == 0)
++		return pmic_bus_clrbits(reg->enable_reg, reg->enable_mask);
++
++	ret = pmic_bus_write(reg->volt_reg, axp_mvolt_to_cfg(mvolt, reg));
++	if (ret)
++		return ret;
++
++	return pmic_bus_setbits(reg->enable_reg, reg->enable_mask);
++}
++
++int axp_set_dcdc1(unsigned int mvolt)
++{
++	return axp_set_dcdc(1, mvolt);
++}
++
++int axp_set_dcdc2(unsigned int mvolt)
++{
++	return axp_set_dcdc(2, mvolt);
++}
++
++int axp_set_dcdc3(unsigned int mvolt)
++{
++	return axp_set_dcdc(3, mvolt);
++}
++
++int axp_set_dcdc4(unsigned int mvolt)
++{
++	return axp_set_dcdc(4, mvolt);
++}
++
++int axp_set_dcdc5(unsigned int mvolt)
++{
++	return axp_set_dcdc(5, mvolt);
++}
++
++int axp_init(void)
++{
++	int ret = pmic_bus_init();
++
++	if (ret)
++		return ret;
++
++	if (AXP_CHIP_VERSION_MASK) {
++		u8 axp_chip_id;
++
++		ret = pmic_bus_read(AXP_CHIP_VERSION, &axp_chip_id);
++		if (ret)
++			return ret;
++
++		if ((axp_chip_id & AXP_CHIP_VERSION_MASK) != AXP_CHIP_ID) {
++			debug("unknown PMIC: 0x%x\n", axp_chip_id);
++			return -EINVAL;
++		}
++	}
++
++	return 0;
++}
++
++#if !CONFIG_IS_ENABLED(ARM_PSCI_FW) && !IS_ENABLED(CONFIG_SYSRESET_CMD_POWEROFF)
++int do_poweroff(struct cmd_tbl *cmdtp, int flag, int argc, char *const argv[])
++{
++	pmic_bus_setbits(AXP_SHUTDOWN_REG, AXP_SHUTDOWN_MASK);
++
++	/* infinite loop during shutdown */
++	while (1)
++		;
++
++	/* not reached */
++	return 0;
++}
++#endif
 -- 
 2.25.1
 
